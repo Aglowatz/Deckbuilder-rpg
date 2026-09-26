@@ -83,7 +83,7 @@ func start() -> void:
 	active = first_player
 	for player: PlayerState in players:
 		RngUtil.shuffle(player.library, rng)
-	_emit(GameEvent.Type.GAME_STARTED, first_player)
+	emit_event(GameEvent.Type.GAME_STARTED, first_player)
 	for player: PlayerState in players:
 		_deal_opening_hand(player)
 	stage = Stage.MULLIGAN
@@ -98,9 +98,9 @@ func _deal_opening_hand(player: PlayerState) -> void:
 	)
 	for card: CardInstance in hand:
 		player.hand.append(card)
-		_emit(GameEvent.Type.CARD_DRAWN, player.index, card.uid, 0, 1, player.hand.size(), "opening")
+		emit_event(GameEvent.Type.CARD_DRAWN, player.index, card.uid, 0, 1, player.hand.size(), "opening")
 	if options.hand_smoother:
-		_emit(GameEvent.Type.HAND_SMOOTHED, player.index, 0, 0, HandSmoother.count_lands(hand))
+		emit_event(GameEvent.Type.HAND_SMOOTHED, player.index, 0, 0, HandSmoother.count_lands(hand))
 
 
 ## Takes the one free mulligan: hand is shuffled back and the same number of cards drawn.
@@ -114,7 +114,7 @@ func mulligan(player_index: int) -> bool:
 	for card: CardInstance in player.hand:
 		player.library.append(card)
 	player.hand.clear()
-	_emit(GameEvent.Type.MULLIGAN_TAKEN, player_index)
+	emit_event(GameEvent.Type.MULLIGAN_TAKEN, player_index)
 	_deal_opening_hand(player)
 	_mulligan_done[player_index] = true
 	_try_begin_playing()
@@ -124,7 +124,7 @@ func mulligan(player_index: int) -> bool:
 func keep_hand(player_index: int) -> bool:
 	if stage != Stage.MULLIGAN or awaiting_player() != player_index:
 		return false
-	_emit(GameEvent.Type.HAND_KEPT, player_index)
+	emit_event(GameEvent.Type.HAND_KEPT, player_index)
 	_mulligan_done[player_index] = true
 	_try_begin_playing()
 	return true
@@ -244,7 +244,7 @@ func play_land(player_index: int, uid: int) -> bool:
 	player.lands.append(card)
 	card.tapped = false
 	player.lands_played += 1
-	_emit(GameEvent.Type.LAND_PLAYED, player_index, uid, 0, 1, player.lands.size())
+	emit_event(GameEvent.Type.LAND_PLAYED, player_index, uid, 0, 1, player.lands.size())
 	return true
 
 
@@ -281,19 +281,19 @@ func cast(player_index: int, uid: int, target: int = 0, tap_uids: Array[int] = [
 	if not _pay(player_index, generic_cost_for(player_index, card.data), card.data.colored_pips, tap_uids, uid):
 		return false
 	player.hand.erase(card)
-	_emit(GameEvent.Type.CARD_CAST, player_index, uid, chosen, card.data.mana_value())
+	emit_event(GameEvent.Type.CARD_CAST, player_index, uid, chosen, card.data.mana_value())
 	match card.data.type:
 		CardEnums.CardType.CREATURE, CardEnums.CardType.ARTIFACT:
 			_enter_battlefield(card, chosen, true)
 		CardEnums.CardType.SPELL:
-			_fire_traps(1 - player_index, CardEnums.Trigger.TRAP_OPPONENT_SPELL, uid)
+			fire_traps(1 - player_index, CardEnums.Trigger.TRAP_OPPONENT_SPELL, uid)
 			if not is_over():
-				_fire_trigger(card, CardEnums.Trigger.ON_ENTER, 0, chosen)
+				fire_trigger(card, CardEnums.Trigger.ON_ENTER, 0, chosen)
 			_send_to_graveyard(card)
 		CardEnums.CardType.TRAP:
 			card.face_down = true
 			player.traps.append(card)
-			_emit(GameEvent.Type.TRAP_SET, player_index, uid, 0, 0, player.traps.size())
+			emit_event(GameEvent.Type.TRAP_SET, player_index, uid, 0, 0, player.traps.size())
 	check_state()
 	return true
 
@@ -314,7 +314,7 @@ func _pay(player_index: int, generic: int, pips: Array[Affinity.Type], tap_uids:
 			return false
 	for land: CardInstance in to_tap:
 		land.tapped = true
-		_emit(GameEvent.Type.MANA_SPENT, player_index, land.uid, for_uid, 1, int(land.data.color))
+		emit_event(GameEvent.Type.MANA_SPENT, player_index, land.uid, for_uid, 1, int(land.data.color))
 	return true
 
 
@@ -339,11 +339,11 @@ func _enter_battlefield(card: CardInstance, chosen: int, cast_from_hand: bool) -
 	card.summoning_sick = true
 	card.tapped = false
 	card.damage = 0
-	_emit(GameEvent.Type.PERMANENT_ENTERED, card.owner, card.uid, 0, 0, player.battlefield.size())
+	emit_event(GameEvent.Type.PERMANENT_ENTERED, card.owner, card.uid, 0, 0, player.battlefield.size())
 	if cast_from_hand and card.data.is_creature():
-		_fire_traps(1 - card.owner, CardEnums.Trigger.TRAP_OPPONENT_CREATURE, card.uid)
+		fire_traps(1 - card.owner, CardEnums.Trigger.TRAP_OPPONENT_CREATURE, card.uid)
 	if not is_over() and player.find_battlefield(card.uid) != null:
-		_fire_trigger(card, CardEnums.Trigger.ON_ENTER, 0, chosen)
+		fire_trigger(card, CardEnums.Trigger.ON_ENTER, 0, chosen)
 
 
 func _send_to_graveyard(card: CardInstance) -> void:
@@ -373,7 +373,7 @@ func _begin_turn() -> void:
 		card.tapped = false
 		card.summoning_sick = false
 		card.activated_this_turn = false
-	_emit(GameEvent.Type.TURN_STARTED, active, 0, 0, turn)
+	emit_event(GameEvent.Type.TURN_STARTED, active, 0, 0, turn)
 	# The first player skips their first draw.
 	if turn > 1:
 		draw_cards(active, 1 + maxi(0, player.modifiers.sum(Modifier.Kind.EXTRA_DRAWS)))
@@ -387,7 +387,7 @@ func _begin_turn() -> void:
 
 func _set_phase(new_phase: Phase) -> void:
 	phase = new_phase
-	_emit(GameEvent.Type.PHASE_CHANGED, active, 0, 0, int(new_phase))
+	emit_event(GameEvent.Type.PHASE_CHANGED, active, 0, 0, int(new_phase))
 
 
 ## Moves to the next phase (or, in combat, declares no attackers / no blockers).
@@ -416,11 +416,41 @@ func _enter_combat() -> void:
 	_fire_start_of_combat(active)
 
 
-## Placeholder until Milestone 3: combat is skipped.
+## Passing in combat = declaring no attackers (attacker's turn) or no blockers (defender's).
 func _pass_in_combat() -> bool:
+	if combat_step == CombatStep.DECLARE_ATTACKERS:
+		return declare_attackers([] as Array[int])
+	if combat_step == CombatStep.DECLARE_BLOCKERS:
+		return declare_blockers({})
+	return false
+
+
+## Attacking player declares attackers. `guard_targets` maps attacker uid -> Guard uid.
+func declare_attackers(uids: Array[int], guard_targets: Dictionary = {}) -> bool:
+	return CombatResolver.declare_attackers(self, uids, guard_targets)
+
+
+## Defending player assigns blockers: attacker uid -> blocker uid. Damage resolves right after.
+func declare_blockers(assignment: Dictionary) -> bool:
+	return CombatResolver.declare_blockers(self, assignment)
+
+
+func possible_attackers(player_index: int) -> Array[CardInstance]:
+	return CombatResolver.possible_attackers(self, player_index)
+
+
+func possible_blockers(player_index: int) -> Array[CardInstance]:
+	return CombatResolver.possible_blockers(self, player_index)
+
+
+## Ends combat: clears combat bookkeeping and moves to Main 2.
+func finish_combat() -> void:
+	attackers.clear()
+	attack_targets.clear()
+	blocks.clear()
+	blocked_attackers.clear()
 	combat_step = CombatStep.NONE
 	_set_phase(Phase.MAIN2)
-	return true
 
 
 func _end_phase() -> void:
@@ -433,7 +463,7 @@ func _end_phase() -> void:
 			var had_damage: int = card.damage
 			card.clear_end_of_turn()
 			if had_damage > 0:
-				_emit(GameEvent.Type.DAMAGE_CLEARED, player.index, card.uid, 0, had_damage)
+				emit_event(GameEvent.Type.DAMAGE_CLEARED, player.index, card.uid, 0, had_damage)
 	var excess: int = players[active].hand.size() - players[active].max_hand_size
 	if excess > 0:
 		pending_discard = excess
@@ -479,12 +509,12 @@ func draw_cards(player_index: int, count: int) -> void:
 		if player.library.is_empty():
 			# Drawing from an empty deck loses the game.
 			player.lost = true
-			_emit(GameEvent.Type.PLAYER_LOST, player_index, 0, 0, 0, 0, "deck_out")
+			emit_event(GameEvent.Type.PLAYER_LOST, player_index, 0, 0, 0, 0, "deck_out")
 			check_state()
 			return
 		var card: CardInstance = player.library.pop_back()
 		player.hand.append(card)
-		_emit(GameEvent.Type.CARD_DRAWN, player_index, card.uid, 0, 1, player.hand.size())
+		emit_event(GameEvent.Type.CARD_DRAWN, player_index, card.uid, 0, 1, player.hand.size())
 
 
 func discard_card(player_index: int, card: CardInstance) -> void:
@@ -493,7 +523,7 @@ func discard_card(player_index: int, card: CardInstance) -> void:
 		return
 	player.hand.erase(card)
 	player.graveyard.append(card)
-	_emit(GameEvent.Type.CARD_DISCARDED, player_index, card.uid)
+	emit_event(GameEvent.Type.CARD_DISCARDED, player_index, card.uid)
 
 
 func mill_cards(player_index: int, count: int) -> void:
@@ -503,7 +533,7 @@ func mill_cards(player_index: int, count: int) -> void:
 			return
 		var card: CardInstance = player.library.pop_back()
 		player.graveyard.append(card)
-		_emit(GameEvent.Type.CARD_MILLED, player_index, card.uid, 0, 1, player.library.size())
+		emit_event(GameEvent.Type.CARD_MILLED, player_index, card.uid, 0, 1, player.library.size())
 
 
 ## Raises life, never above max life (a higher starting life is left alone).
@@ -515,7 +545,7 @@ func gain_life(player_index: int, amount: int) -> void:
 	var delta: int = new_life - player.life
 	if delta > 0:
 		player.life = new_life
-		_emit(GameEvent.Type.LIFE_CHANGED, player_index, 0, 0, delta, new_life)
+		emit_event(GameEvent.Type.LIFE_CHANGED, player_index, 0, 0, delta, new_life)
 
 
 ## Life loss that is not damage (no lifesteal, no damage triggers).
@@ -524,7 +554,7 @@ func lose_life(player_index: int, amount: int) -> void:
 		return
 	var player: PlayerState = players[player_index]
 	player.life -= amount
-	_emit(GameEvent.Type.LIFE_CHANGED, player_index, 0, 0, -amount, player.life)
+	emit_event(GameEvent.Type.LIFE_CHANGED, player_index, 0, 0, -amount, player.life)
 
 
 ## Damage to a player. Returns the damage dealt.
@@ -533,10 +563,10 @@ func deal_damage_to_player(source_uid: int, player_index: int, amount: int) -> i
 		return 0
 	var player: PlayerState = players[player_index]
 	player.life -= amount
-	_emit(GameEvent.Type.DAMAGE_DEALT, player_index, source_uid, Targets.player(player_index), amount, player.life)
-	_emit(GameEvent.Type.LIFE_CHANGED, player_index, 0, 0, -amount, player.life)
+	emit_event(GameEvent.Type.DAMAGE_DEALT, player_index, source_uid, Targets.player(player_index), amount, player.life)
+	emit_event(GameEvent.Type.LIFE_CHANGED, player_index, 0, 0, -amount, player.life)
 	_apply_lifesteal(source_uid, amount)
-	_fire_traps(player_index, CardEnums.Trigger.TRAP_PLAYER_DAMAGED, source_uid)
+	fire_traps(player_index, CardEnums.Trigger.TRAP_PLAYER_DAMAGED, source_uid)
 	return amount
 
 
@@ -547,9 +577,9 @@ func deal_damage_to_creature(source_uid: int, target: CardInstance, amount: int)
 	if players[target.owner].find_battlefield(target.uid) == null:
 		return 0
 	target.damage += amount
-	_emit(GameEvent.Type.DAMAGE_DEALT, target.owner, source_uid, target.uid, amount, target.damage)
+	emit_event(GameEvent.Type.DAMAGE_DEALT, target.owner, source_uid, target.uid, amount, target.damage)
 	_apply_lifesteal(source_uid, amount)
-	_fire_trigger(target, CardEnums.Trigger.ON_DAMAGE_TAKEN, source_uid, 0)
+	fire_trigger(target, CardEnums.Trigger.ON_DAMAGE_TAKEN, source_uid, 0)
 	return amount
 
 
@@ -568,9 +598,9 @@ func kill_creature(card: CardInstance) -> void:
 		return
 	player.battlefield.erase(card)
 	_clear_combat_refs(card.uid)
-	_emit(GameEvent.Type.CREATURE_DIED, card.owner, card.uid)
+	emit_event(GameEvent.Type.CREATURE_DIED, card.owner, card.uid)
 	# Death triggers use the card as it was; reset only after they resolve.
-	_fire_trigger(card, CardEnums.Trigger.ON_DEATH, 0, 0)
+	fire_trigger(card, CardEnums.Trigger.ON_DEATH, 0, 0)
 	_send_to_graveyard(card)
 
 
@@ -615,7 +645,7 @@ func _resolve_losses() -> void:
 	if losers.is_empty():
 		return
 	for loser: int in losers:
-		_emit(GameEvent.Type.PLAYER_LOST, loser, 0, 0, 0, players[loser].life, "life" if not players[loser].lost else "deck_out")
+		emit_event(GameEvent.Type.PLAYER_LOST, loser, 0, 0, 0, players[loser].life, "life" if not players[loser].lost else "deck_out")
 	if losers.size() == 2:
 		_end_game(-1, true)
 	else:
@@ -626,7 +656,7 @@ func _end_game(winning_player: int, drawn: bool) -> void:
 	stage = Stage.OVER
 	winner = winning_player
 	is_draw = drawn
-	_emit(GameEvent.Type.GAME_OVER, winning_player, 0, 0, turn, 0, "draw" if drawn else "win")
+	emit_event(GameEvent.Type.GAME_OVER, winning_player, 0, 0, turn, 0, "draw" if drawn else "win")
 
 
 # --------------------------------------------------------------------------------------
@@ -635,12 +665,12 @@ func _end_game(winning_player: int, drawn: bool) -> void:
 
 
 ## Fires a card's effects for `trigger` (Milestone 4).
-func _fire_trigger(_card: CardInstance, _trigger: CardEnums.Trigger, _trigger_uid: int, _chosen: int) -> void:
+func fire_trigger(_card: CardInstance, _trigger: CardEnums.Trigger, _trigger_uid: int, _chosen: int) -> void:
 	pass
 
 
 ## Fires `trigger` on all of `owner_index`'s set traps (Milestone 4).
-func _fire_traps(_owner_index: int, _trigger: CardEnums.Trigger, _trigger_uid: int) -> void:
+func fire_traps(_owner_index: int, _trigger: CardEnums.Trigger, _trigger_uid: int) -> void:
 	pass
 
 
@@ -679,6 +709,9 @@ func legal_actions() -> Array[GameAction]:
 			result.append(discard)
 		return result
 	result.append(GameAction.pass_phase(who))
+	if phase == Phase.COMBAT:
+		result.append_array(_combat_actions(who))
+		return result
 	if not in_main_phase():
 		return result
 	var seen: Dictionary = {}
@@ -706,6 +739,35 @@ func legal_actions() -> Array[GameAction]:
 	return result
 
 
+## Representative combat declarations: all attackers, each attacker alone; each single block.
+## (Richer combinations are built by the AI from possible_attackers()/possible_blockers().)
+func _combat_actions(player_index: int) -> Array[GameAction]:
+	var result: Array[GameAction] = []
+	if combat_step == CombatStep.DECLARE_ATTACKERS:
+		var available: Array[CardInstance] = possible_attackers(player_index)
+		if available.is_empty():
+			return result
+		var all_action: GameAction = GameAction.make(GameAction.Type.DECLARE_ATTACKERS, player_index)
+		for card: CardInstance in available:
+			all_action.uids.append(card.uid)
+			var single: GameAction = GameAction.make(GameAction.Type.DECLARE_ATTACKERS, player_index)
+			single.uids.append(card.uid)
+			if available.size() > 1:
+				result.append(single)
+		result.append(all_action)
+	elif combat_step == CombatStep.DECLARE_BLOCKERS:
+		for attacker_uid: int in attackers:
+			var attacker: CardInstance = find_permanent(attacker_uid)
+			if attacker == null:
+				continue
+			for blocker: CardInstance in possible_blockers(player_index):
+				if CombatResolver.can_block(attacker, blocker):
+					var block: GameAction = GameAction.make(GameAction.Type.DECLARE_BLOCKERS, player_index)
+					block.blocks[attacker_uid] = blocker.uid
+					result.append(block)
+	return result
+
+
 ## Activated-ability actions (Milestone 4).
 func _activation_actions(_player_index: int) -> Array[GameAction]:
 	var none: Array[GameAction] = []
@@ -720,6 +782,10 @@ func apply_action(action: GameAction) -> bool:
 			return play_land(action.player, action.card_uid)
 		GameAction.Type.CAST:
 			return cast(action.player, action.card_uid, action.target)
+		GameAction.Type.DECLARE_ATTACKERS:
+			return action.player == awaiting_player() and declare_attackers(action.uids, action.attack_targets)
+		GameAction.Type.DECLARE_BLOCKERS:
+			return action.player == awaiting_player() and declare_blockers(action.blocks)
 		GameAction.Type.DISCARD:
 			return discard_for_hand_size(action.player, action.uids)
 		GameAction.Type.MULLIGAN:
@@ -796,7 +862,7 @@ func create_instance(data: CardData, owner_index: int) -> CardInstance:
 	return card
 
 
-func _emit(
+func emit_event(
 	type: GameEvent.Type,
 	player_index: int = -1,
 	card_uid: int = 0,

@@ -42,3 +42,21 @@ abilities (M4), start-of-combat modifier effects (M5).
 Tests: 57 total (44 new in `tests/core/game/test_game_loop.gd`).
 
 Known issues: none.
+
+## Milestone 3: Combat - done
+
+Built (`core/game/combat_resolver.gd`, wired into `GameState`):
+- Declare attackers (summoning sickness, Haste, Defender, tapped checks), attackers tap.
+- Defender assigns at most one blocker per attacker (and one attacker per blocker); tapped
+  creatures cannot block; Flying needs Flying/Reach to block.
+- Damage: first-strike step then regular step; deaths resolved between steps; unblocked damage
+  hits the player; damage clears at end of turn (M2).
+- Combat keywords were implemented here because the damage rules need them: Trample, First
+  Strike, Lifesteal (capped at max life), Guard (attackers must attack a Guard creature).
+- Passing in combat = no attackers / no blockers, so `advance_phase()` alone can drive a turn.
+- `possible_attackers`, `possible_blockers`, representative combat `legal_actions()`.
+
+Tests: 92 total (35 new in `tests/core/game/test_combat.gd`).
+
+Known issues: none. Interpretation choices (Guard, attackers tapping, one attacker per blocker)
+are in `docs/design/open_questions.md`.
