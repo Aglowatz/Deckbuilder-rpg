@@ -14,6 +14,12 @@ Godot 4.7.2, Forward+ renderer, single-player deckbuilder RPG.
 - Prefer `enum`s and typed `Resource` classes over stringly-typed data (magic strings for
   card ids, effect types, etc.).
 
+## Game Rules
+
+`docs/design/combat_rules.md` is the source of truth for game rules (resources, turn
+structure, combat, win/lose, player stats, deck limits, mulligan). Implement `core/` against
+it, and update that doc first if a rule needs to change.
+
 ## Architecture: rules vs. presentation
 
 Card game rules logic must stay separate from presentation. This is the most important
