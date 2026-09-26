@@ -103,3 +103,21 @@ Built:
 Tests: 162 total (21 new in `tests/core/dungeon/test_modifiers_and_decks.gd`).
 
 Known issues: none.
+
+## Milestone 6: Challenge encounters - done
+
+Built (`core/dungeon/`):
+- `ChallengeData` (Resource, storable as .tres) with 6 kinds: first-creature power, top-N land count,
+  top-N type count, top-N total cost, sacrifice a card, pay life.
+- `ChallengeOutcome`: lose life, heal, lose a card, gain boon (any `ModifierSource`), gain a card
+  from a pool.
+- `ChallengeResolver` reveals from the run's current deck with a seeded RNG, decides success and
+  applies outcomes to the `DungeonRun`; returns a `ChallengeResult` (revealed cards, what was
+  lost/gained, life changes) for the UI.
+- `ChallengeExamples`: six example challenges (Test of Might, The Hollow Well, Scholar's Riddle,
+  The Weighing Scale, Altar of Sacrifice, The Toll Keeper). They are written to
+  `data/encounters/challenges/*.tres` by the content generator in milestone 8.
+
+Tests: 182 total (20 new in `tests/core/dungeon/test_challenges.gd`).
+
+Known issues: none.
