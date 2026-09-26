@@ -685,9 +685,13 @@ func _fire_turn_triggers(player_index: int, trigger: CardEnums.Trigger) -> void:
 	check_state()
 
 
-## Fires start-of-combat modifier effects (Milestone 5).
-func _fire_start_of_combat(_player_index: int) -> void:
-	pass
+## Fires the active player's START_OF_COMBAT_EFFECT modifiers (equipment, items, zones...).
+func _fire_start_of_combat(player_index: int) -> void:
+	for effect: EffectData in players[player_index].modifiers.effects_of(Modifier.Kind.START_OF_COMBAT_EFFECT):
+		if is_over():
+			return
+		EffectResolver.resolve(self, effect, EffectContext.make(0, player_index))
+	check_state()
 
 
 func can_activate(player_index: int, uid: int, effect_index: int) -> bool:

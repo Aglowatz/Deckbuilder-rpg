@@ -84,3 +84,22 @@ Built (`core/game/effect_resolver.gd`, `effect_context.gd`, wired into `GameStat
 Tests: 141 total (49 new: `test_effects.gd`, `test_traps.gd`).
 
 Known issues: none.
+
+## Milestone 5: Modifier system - done
+
+Built:
+- `ModifierPipeline` (`core/data/`): one entry point that merges equipment, items, zone effects,
+  dungeon rules and boons into a `ModifierSet` (player side and enemy side).
+- Engine hooks, all reading the same `ModifierSet`: max life, starting life, max hand size,
+  opening hand size, cost change by color, power/toughness change by color, extra draws,
+  max deck colors, and start-of-combat effects (new in this milestone; fires the owner's
+  `START_OF_COMBAT_EFFECT` modifiers when their combat phase begins).
+- `DeckValidator` (`core/dungeon/`): 45 minimum, 3 copies (basic lands exempt), 2 colors, 4 once
+  `postgame_unlocked` (plus `MAX_DECK_COLORS` modifiers, capped at 4), optional ownership check.
+- `DungeonRun` (`core/dungeon/`): full heal on entering, life carries between encounters, heal and
+  life loss, active dungeon modifiers/boons, cards lost/gained for the dungeon only, builds each
+  encounter's `GameState`, records the result (a loss or 0 life fails the run).
+
+Tests: 162 total (21 new in `tests/core/dungeon/test_modifiers_and_decks.gd`).
+
+Known issues: none.
