@@ -121,3 +121,22 @@ Built (`core/dungeon/`):
 Tests: 182 total (20 new in `tests/core/dungeon/test_challenges.gd`).
 
 Known issues: none.
+
+## Milestone 7: AI opponent - done
+
+Built (`core/ai/`):
+- `AIPersonality` (Resource): weights for own life, enemy life, own/enemy board, hand, mana
+  development, exposure to counter-attack, plus attack/block bias. Presets: balanced,
+  aggressive, defensive (the .tres versions are generated in milestone 8).
+- `AIPlayer`: `choose_action(state)` answers whatever decision the game is waiting on: mulligan,
+  discard to hand size, land choice (colors the hand needs), main-phase casts/activations,
+  attackers, blockers. Main-phase and combat choices clone the state (`GameState.clone`), apply
+  each candidate and score the result with `evaluate()`. Attack candidates are evaluated
+  together with the opponent's best block reply; block candidates include value blocks, chump
+  blocks when facing lethal, and full enumeration for small combats.
+- Opponent traps are hidden from the AI's clones.
+
+Tests: 208 total (26 new in `tests/core/ai/test_ai_player.gd`), including complete AI-vs-AI
+games with zero illegal actions and seed determinism.
+
+Known issues: none yet; balance is measured in milestone 8.
