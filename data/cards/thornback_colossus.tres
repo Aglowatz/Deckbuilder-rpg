@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_eul1b"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_gvdag"]
+
+[resource]
+script = ExtResource("2_gvdag")
+id = "thornback_colossus"
+display_name = "Thornback Colossus"
+color = 3
+generic_cost = 4
+colored_pips = Array[int]([3, 3])
+power = 7
+toughness = 7
+keywords = Array[int]([4])
+rules_text = "Trample"
+rarity = 2

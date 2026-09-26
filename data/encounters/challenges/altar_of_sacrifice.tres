@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="ChallengeData" format=3]
+
+[ext_resource type="Script" path="res://core/dungeon/challenge_outcome.gd" id="1_q14cx"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_5ikbi"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="3_5nw0i"]
+[ext_resource type="Script" path="res://core/data/modifier_source.gd" id="4_sghiy"]
+[ext_resource type="Script" path="res://core/dungeon/challenge_data.gd" id="5_5iu7a"]
+
+[sub_resource type="Resource" id="Resource_o18gk"]
+script = ExtResource("1_q14cx")
+kind = 3
+description = "The sacrificed card is lost."
+
+[sub_resource type="Resource" id="Resource_qsig6"]
+script = ExtResource("3_5nw0i")
+value = 3
+
+[sub_resource type="Resource" id="Resource_2c3rt"]
+script = ExtResource("4_sghiy")
+source_name = "Altar's Favor"
+source_kind = 4
+modifiers = Array[ExtResource("3_5nw0i")]([SubResource("Resource_qsig6")])
+
+[sub_resource type="Resource" id="Resource_7dl8t"]
+script = ExtResource("1_q14cx")
+kind = 4
+boon = SubResource("Resource_2c3rt")
+description = "Gain +3 max life for the dungeon."
+
+[resource]
+script = ExtResource("5_5iu7a")
+id = "altar_of_sacrifice"
+display_name = "Altar of Sacrifice"
+description = "Give up one card from your deck and the altar will strengthen you."
+kind = 4
+on_success = Array[ExtResource("1_q14cx")]([SubResource("Resource_o18gk"), SubResource("Resource_7dl8t")])

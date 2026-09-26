@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_sm8cj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_uc35k"]
+
+[sub_resource type="Resource" id="Resource_l0krk"]
+script = ExtResource("1_sm8cj")
+target = 5
+op = 5
+amount = -2
+amount2 = -2
+
+[resource]
+script = ExtResource("2_uc35k")
+id = "rusty_curse"
+display_name = "Rusty Curse"
+type = 2
+generic_cost = 2
+toughness = 0
+rules_text = "Target enemy creature gets -2/-2."
+effects = Array[ExtResource("1_sm8cj")]([SubResource("Resource_l0krk")])

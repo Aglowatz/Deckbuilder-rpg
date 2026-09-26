@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_45is7"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_obbsk"]
+
+[resource]
+script = ExtResource("2_obbsk")
+id = "sea_warden"
+display_name = "Sea Warden"
+color = 2
+generic_cost = 4
+colored_pips = Array[int]([2])
+power = 3
+toughness = 5
+keywords = Array[int]([0])
+rules_text = "Flying"
+rarity = 2

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_x23t8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_nj2ne"]
+
+[resource]
+script = ExtResource("2_nj2ne")
+id = "mossback_bear"
+display_name = "Mossback Bear"
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+power = 3
+toughness = 3

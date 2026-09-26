@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AIPersonality" format=3]
+
+[ext_resource type="Script" path="res://core/ai/ai_personality.gd" id="1_nttny"]
+
+[resource]
+script = ExtResource("1_nttny")
+personality_name = "Defensive"
+life_weight = 1.4
+enemy_life_weight = 0.7
+board_weight = 1.2
+enemy_board_weight = 1.2
+hand_weight = 0.8
+threat_weight = 1.2
+attack_bias = -0.75
+block_bias = 1.0

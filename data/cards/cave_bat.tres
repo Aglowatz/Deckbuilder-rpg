@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_sb8kt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_eccdp"]
+
+[resource]
+script = ExtResource("2_eccdp")
+id = "cave_bat"
+display_name = "Cave Bat"
+generic_cost = 2
+power = 1
+toughness = 2
+keywords = Array[int]([0])
+rules_text = "Flying"

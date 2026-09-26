@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_x2kyg"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ujemv"]
+
+[sub_resource type="Resource" id="Resource_enqs2"]
+script = ExtResource("1_x2kyg")
+trigger = 2
+op = 5
+amount = 1
+duration = 1
+
+[resource]
+script = ExtResource("2_ujemv")
+id = "raider"
+display_name = "Raider"
+color = 1
+generic_cost = 2
+colored_pips = Array[int]([1])
+power = 3
+toughness = 2
+rules_text = "Whenever this attacks, it gets +1/+0 until end of turn."
+effects = Array[ExtResource("1_x2kyg")]([SubResource("Resource_enqs2")])

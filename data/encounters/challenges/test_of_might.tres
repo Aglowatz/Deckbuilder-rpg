@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="ChallengeData" format=3]
+
+[ext_resource type="Script" path="res://core/dungeon/challenge_outcome.gd" id="1_yyc1f"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_mtqqa"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="3_vxgbs"]
+[ext_resource type="Script" path="res://core/data/modifier_source.gd" id="4_co12l"]
+[ext_resource type="Script" path="res://core/dungeon/challenge_data.gd" id="5_4bfw8"]
+
+[sub_resource type="Resource" id="Resource_ccoph"]
+script = ExtResource("1_yyc1f")
+kind = 1
+amount = 3
+description = "Lose 3 life."
+
+[sub_resource type="Resource" id="Resource_o2hb3"]
+script = ExtResource("3_vxgbs")
+value = 2
+
+[sub_resource type="Resource" id="Resource_xfo5c"]
+script = ExtResource("4_co12l")
+source_name = "Blessing of Might"
+source_kind = 4
+modifiers = Array[ExtResource("3_vxgbs")]([SubResource("Resource_o2hb3")])
+
+[sub_resource type="Resource" id="Resource_srojg"]
+script = ExtResource("1_yyc1f")
+kind = 4
+boon = SubResource("Resource_xfo5c")
+description = "Gain +2 max life for the dungeon."
+
+[resource]
+script = ExtResource("5_4bfw8")
+id = "test_of_might"
+display_name = "Test of Might"
+description = "The statue demands proof of strength. Its gaze finds your first creature: is it mighty enough?"
+threshold = 3
+on_success = Array[ExtResource("1_yyc1f")]([SubResource("Resource_srojg")])
+on_failure = Array[ExtResource("1_yyc1f")]([SubResource("Resource_ccoph")])

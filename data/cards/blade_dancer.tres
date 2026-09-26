@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_s1jka"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_jtvrj"]
+
+[resource]
+script = ExtResource("2_jtvrj")
+id = "blade_dancer"
+display_name = "Blade Dancer"
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+power = 2
+keywords = Array[int]([5])
+rules_text = "First Strike"

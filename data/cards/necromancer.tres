@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_dmeem"]
+[ext_resource type="Resource" path="res://data/cards/token_spirit.tres" id="2_54fnu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_0586u"]
+
+[sub_resource type="Resource" id="Resource_4k5fu"]
+script = ExtResource("1_dmeem")
+target = 1
+op = 6
+amount = 2
+token = ExtResource("2_54fnu")
+
+[resource]
+script = ExtResource("3_0586u")
+id = "necromancer"
+display_name = "Necromancer"
+color = 4
+generic_cost = 3
+colored_pips = Array[int]([4])
+power = 2
+toughness = 3
+rules_text = "When this enters, create two 1/1 Spirits."
+effects = Array[ExtResource("1_dmeem")]([SubResource("Resource_4k5fu")])
+rarity = 2

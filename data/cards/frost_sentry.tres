@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qwp70"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_iu87b"]
+
+[resource]
+script = ExtResource("2_iu87b")
+id = "frost_sentry"
+display_name = "Frost Sentry"
+color = 2
+generic_cost = 1
+colored_pips = Array[int]([2])
+power = 1
+toughness = 4
+keywords = Array[int]([1, 3])
+rules_text = "Defender, Reach"

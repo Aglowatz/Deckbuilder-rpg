@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_j13bv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ylk3p"]
+
+[resource]
+script = ExtResource("2_ylk3p")
+id = "stag_warden"
+display_name = "Stag Warden"
+color = 3
+generic_cost = 3
+colored_pips = Array[int]([3])
+power = 3
+toughness = 4
+keywords = Array[int]([7])
+rules_text = "Guard"
+rarity = 1

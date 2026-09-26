@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Deck" format=3]
+
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="1_j67dv"]
+[ext_resource type="Resource" path="res://data/cards/land_affinity_d.tres" id="2_0ayrt"]
+[ext_resource type="Resource" path="res://data/cards/land_affinity_a.tres" id="3_vdqib"]
+[ext_resource type="Resource" path="res://data/cards/bone_servant.tres" id="4_1l556"]
+[ext_resource type="Resource" path="res://data/cards/grave_tender.tres" id="5_gkp8p"]
+[ext_resource type="Resource" path="res://data/cards/martyr.tres" id="6_3fa2c"]
+[ext_resource type="Resource" path="res://data/cards/bloodthirst_wolf.tres" id="7_0cjks"]
+[ext_resource type="Resource" path="res://data/cards/soul_drain.tres" id="8_ru08f"]
+[ext_resource type="Resource" path="res://data/cards/dark_bargain.tres" id="9_frpop"]
+[ext_resource type="Resource" path="res://data/cards/necromancer.tres" id="10_5eutd"]
+[ext_resource type="Resource" path="res://data/cards/ember_imp.tres" id="11_y2i3n"]
+[ext_resource type="Resource" path="res://data/cards/blade_dancer.tres" id="12_gfglv"]
+[ext_resource type="Resource" path="res://data/cards/raider.tres" id="13_5n25j"]
+[ext_resource type="Resource" path="res://data/cards/blazing_charger.tres" id="14_56yia"]
+[ext_resource type="Resource" path="res://data/cards/firebolt.tres" id="15_0ulvc"]
+[ext_resource type="Resource" path="res://data/cards/flame_burst.tres" id="16_3j35j"]
+[ext_resource type="Resource" path="res://data/cards/scorching_ward.tres" id="17_fnak2"]
+[ext_resource type="Resource" path="res://data/cards/warcry.tres" id="18_2lujh"]
+[ext_resource type="Resource" path="res://data/cards/sellsword.tres" id="19_288ex"]
+[ext_resource type="Script" path="res://core/data/deck.gd" id="20_6fdco"]
+
+[resource]
+script = ExtResource("20_6fdco")
+deck_name = "Grave & Ember"
+cards = Array[ExtResource("1_j67dv")]([ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("4_1l556"), ExtResource("4_1l556"), ExtResource("5_gkp8p"), ExtResource("5_gkp8p"), ExtResource("6_3fa2c"), ExtResource("6_3fa2c"), ExtResource("7_0cjks"), ExtResource("7_0cjks"), ExtResource("7_0cjks"), ExtResource("8_ru08f"), ExtResource("8_ru08f"), ExtResource("9_frpop"), ExtResource("9_frpop"), ExtResource("10_5eutd"), ExtResource("11_y2i3n"), ExtResource("11_y2i3n"), ExtResource("12_gfglv"), ExtResource("12_gfglv"), ExtResource("13_5n25j"), ExtResource("13_5n25j"), ExtResource("14_56yia"), ExtResource("15_0ulvc"), ExtResource("15_0ulvc"), ExtResource("16_3j35j"), ExtResource("16_3j35j"), ExtResource("17_fnak2"), ExtResource("18_2lujh"), ExtResource("19_288ex")])

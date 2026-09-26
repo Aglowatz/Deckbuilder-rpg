@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="ChallengeData" format=3]
+
+[ext_resource type="Script" path="res://core/dungeon/challenge_outcome.gd" id="1_keg1i"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xb66m"]
+[ext_resource type="Resource" path="res://data/cards/merchant.tres" id="3_xxnfr"]
+[ext_resource type="Resource" path="res://data/cards/ironclad.tres" id="4_ypi84"]
+[ext_resource type="Resource" path="res://data/cards/supply_cache.tres" id="5_n20us"]
+[ext_resource type="Resource" path="res://data/cards/pitfall.tres" id="6_fmlpg"]
+[ext_resource type="Script" path="res://core/dungeon/challenge_data.gd" id="7_2g6db"]
+
+[sub_resource type="Resource" id="Resource_pkk5g"]
+script = ExtResource("1_keg1i")
+kind = 1
+amount = 4
+description = "Lose 4 life."
+
+[sub_resource type="Resource" id="Resource_sun4m"]
+script = ExtResource("1_keg1i")
+kind = 5
+card_pool = Array[ExtResource("2_xb66m")]([ExtResource("3_xxnfr"), ExtResource("4_ypi84"), ExtResource("5_n20us"), ExtResource("6_fmlpg")])
+description = "Gain a card for the dungeon."
+
+[resource]
+script = ExtResource("7_2g6db")
+id = "toll_keeper"
+display_name = "The Toll Keeper"
+description = "Pay in blood and pass with a prize; refuse and walk on with nothing."
+kind = 5
+threshold = 4
+on_success = Array[ExtResource("1_keg1i")]([SubResource("Resource_pkk5g"), SubResource("Resource_sun4m")])

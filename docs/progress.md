@@ -140,3 +140,93 @@ Tests: 208 total (26 new in `tests/core/ai/test_ai_player.gd`), including comple
 games with zero illegal actions and seed determinism.
 
 Known issues: none yet; balance is measured in milestone 8.
+
+## Milestone 8: Content + simulation harness - done
+
+Built:
+- **Content** (`core/data/content_definitions.gd`, written out by `tools/generate_content.gd`):
+  40 placeholder cards - 10 Neutral, 8 Affinity A (aggressive: haste, first strike, burn, a
+  combat trick, a damage trap), 8 Affinity B (control: draw, removal, bounce, fliers/reach/
+  defender, a "destroy their new creature" trap), 7 Affinity C (big bodies, trample, guard,
+  growth, life gain), 7 Affinity D (sacrifice/value: death triggers, tokens, drain, lifesteal).
+  Plus a Spirit token and 5 basic lands (one per color and a Neutral one). Every keyword, every
+  trap trigger family and every effect operation the content needs is used somewhere.
+- **Files**: 60 `.tres` resources - `data/cards/` (46), `data/decks/` (5), `data/encounters/
+  challenges/` (6, the milestone-6 examples), `data/ai/` (3 personalities).
+- **5 sample decks** (45 cards each: 28 spells + 17 lands, all legal under `DeckValidator`):
+  Ember & Tide (A/B), Tide & Root (B/C), Root & Grave (C/D), Grave & Ember (D/A), Wanderer's
+  Pack (neutral starter).
+- **Simulation harness** (`core/sim/`): `SimulationRunner` (AI vs AI, alternating first player),
+  `MatchupStats`, `BalanceReport`, `ContentLibrary` (loads the `.tres` content).
+  `tools/run_simulation.gd` runs the round robin and writes `docs/balance_report.md`.
+- **Balance report**: 10 matchups x 100 games = 1,000 games in about 45 seconds; 0 illegal AI
+  actions. After one tuning pass all decks sit at 44-55% (see `docs/balance_report.md` for the
+  matrix, most/least-played cards and analysis).
+
+Tests: 227 total (19 new in `tests/core/sim/`): content shape, every card castable and resolving,
+every trap firing, deck legality and color coverage, `.tres` files match the code definitions,
+simulation determinism, aggregation math and report sections.
+
+Known issues: see the final summary below.
+
+## How to run things
+
+```
+tools/run_tests.sh                                   # refresh class cache + run all GUT tests
+Godot --headless --path . -s res://tools/generate_content.gd     # rewrite data/*.tres from code
+Godot --headless --path . -s res://tools/run_simulation.gd -- --games=100 --notes=res://docs/balance_notes.md
+```
+
+After adding a new `class_name` script, run `Godot --headless --path . --import` once (the test
+script does this) so Godot's class cache knows about it. Re-run `generate_content.gd` after editing
+`ContentDefinitions`; `test_saved_files_match_the_code_definitions` fails if the `.tres` are stale.
+
+---
+
+# Final summary
+
+All eight milestones are complete and pushed. **227 tests, all passing** (about 7 seconds).
+
+What exists (`core/`, 42 scripts, about 4,200 lines, no Nodes, no scenes):
+- `core/data/` - card/effect/deck/profile/modifier resources, `CardBuilder`, `ContentDefinitions`.
+- `core/game/` - `GameState` (turn structure, mana, mulligan, hand smoother, win/loss, event log,
+  actions, cloning), `CombatResolver`, `EffectResolver`, traps, keywords.
+- `core/dungeon/` - `DeckValidator`, `DungeonRun`, challenge data/resolver and 6 examples.
+- `core/ai/` - `AIPlayer` (one-step look-ahead on cloned state) and `AIPersonality`.
+- `core/sim/` - simulation runner, stats, balance report, content loader.
+
+Things worth knowing:
+- Rules gaps in the spec were filled by judgement and logged in `docs/design/open_questions.md`
+  (38 entries). The UI can animate purely from `GameState.events` / the `event_emitted` signal and
+  act through `GameState.legal_actions()` / `apply_action()`.
+- `project.godot`: I enabled the `untyped_declaration` GDScript warning (CLAUDE.md asks for
+  static-typing warnings). The file also shows a section reorder Godot made on its own.
+- AI limits: it is a greedy one-step look-ahead. It does not plan multi-turn sequences and
+  under-uses sacrifice synergies (Dark Bargain) and situational removal, which depresses the
+  sacrifice deck's numbers. Not a rules problem.
+- Nothing was run in a real scene or with real art; there is no UI code.
+
+## Open questions for you
+
+Highest impact first; the full list with reasoning is in `docs/design/open_questions.md`.
+
+1. **Guard (Q2).** "Enemies must attack this if able" only makes sense if attackers can target
+   something other than the player. I made Guard mean: while the defender has a Guard creature,
+   every attacker must attack a Guard creature (damage lands on it). Is that what you meant?
+2. **Attackers tap (Q1).** Attacking taps creatures until their controller's next turn (so they
+   cannot block on the opponent's turn). There is no Vigilance. Keep?
+3. **One blocker can block only one attacker (Q3)** - confirm.
+4. **Sample decks (Q32).** "One per color pair" is 6 decks for 4 colors but you asked for 5. I built
+   the 4 ring pairs (A/B, B/C, C/D, D/A) + the neutral starter. Want A/C and B/D too?
+5. **Neutral basic land (Q34).** I added a colorless basic land so the neutral starter has no
+   color. Keep, or give the starter a real color?
+6. **Hand smoother default (Q18).** On by default, and reused by the free mulligan. Should it be
+   off by default and unlocked/toggled in settings?
+7. **Discard rules (Q7, Q8).** End-of-turn discard to hand size is the player's choice; discard
+   *effects* discard random cards. Should discard effects let the victim choose?
+8. **Trap rules (Q35).** No limit on set traps, and traps can fire during the opponent's combat
+   damage as well as declaration. Do you want a cap (for example 3)?
+9. **Balance targets (Q36).** What win-rate band do you want per deck (I used 35-65% per matchup)
+   and should the neutral starter be intentionally weaker than the paired decks?
+10. **Life rules (Q11, Q21).** Life gain is capped at max life; a max-life boon during a dungeon
+    also heals by the same amount. Confirm or change.

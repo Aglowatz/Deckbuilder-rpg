@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="ChallengeData" format=3]
+
+[ext_resource type="Script" path="res://core/dungeon/challenge_outcome.gd" id="1_roeef"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_8be01"]
+[ext_resource type="Script" path="res://core/dungeon/challenge_data.gd" id="3_nf7dg"]
+
+[sub_resource type="Resource" id="Resource_rfjp8"]
+script = ExtResource("1_roeef")
+kind = 3
+description = "Lose a card for the dungeon."
+
+[sub_resource type="Resource" id="Resource_os6ox"]
+script = ExtResource("1_roeef")
+kind = 2
+amount = 4
+description = "Heal 4 life."
+
+[resource]
+script = ExtResource("3_nf7dg")
+id = "hollow_well"
+display_name = "The Hollow Well"
+description = "Five cards fall into the well. If enough of them are lands, it answers with water."
+kind = 1
+reveal_count = 5
+threshold = 2
+on_success = Array[ExtResource("1_roeef")]([SubResource("Resource_os6ox")])
+on_failure = Array[ExtResource("1_roeef")]([SubResource("Resource_rfjp8")])

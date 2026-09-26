@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_8n3xv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ljk3q"]
+
+[sub_resource type="Resource" id="Resource_7w34b"]
+script = ExtResource("1_8n3xv")
+target = 2
+amount = 3
+
+[sub_resource type="Resource" id="Resource_fxik4"]
+script = ExtResource("1_8n3xv")
+target = 1
+op = 9
+amount = 3
+
+[resource]
+script = ExtResource("2_ljk3q")
+id = "soul_drain"
+display_name = "Soul Drain"
+type = 2
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4])
+toughness = 0
+rules_text = "Deal 3 damage to the opponent and gain 3 life."
+effects = Array[ExtResource("1_8n3xv")]([SubResource("Resource_7w34b"), SubResource("Resource_fxik4")])
+rarity = 1

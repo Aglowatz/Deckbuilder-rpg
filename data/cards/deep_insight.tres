@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_6nnof"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3xpcj"]
+
+[sub_resource type="Resource" id="Resource_j736u"]
+script = ExtResource("1_6nnof")
+target = 1
+op = 2
+amount = 2
+
+[resource]
+script = ExtResource("2_3xpcj")
+id = "deep_insight"
+display_name = "Deep Insight"
+type = 2
+color = 2
+generic_cost = 1
+colored_pips = Array[int]([2])
+toughness = 0
+rules_text = "Draw two cards."
+effects = Array[ExtResource("1_6nnof")]([SubResource("Resource_j736u")])

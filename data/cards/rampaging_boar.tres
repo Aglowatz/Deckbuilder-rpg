@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_fd3f4"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_1b3ua"]
+
+[resource]
+script = ExtResource("2_1b3ua")
+id = "rampaging_boar"
+display_name = "Rampaging Boar"
+color = 3
+generic_cost = 3
+colored_pips = Array[int]([3])
+power = 4
+toughness = 3
+keywords = Array[int]([4])
+rules_text = "Trample"

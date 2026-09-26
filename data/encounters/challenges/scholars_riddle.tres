@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ChallengeData" format=3]
+
+[ext_resource type="Script" path="res://core/dungeon/challenge_outcome.gd" id="1_aitjd"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_h62mq"]
+[ext_resource type="Resource" path="res://data/cards/merchant.tres" id="3_15l2j"]
+[ext_resource type="Resource" path="res://data/cards/ironclad.tres" id="4_sct4o"]
+[ext_resource type="Resource" path="res://data/cards/supply_cache.tres" id="5_w8d7i"]
+[ext_resource type="Resource" path="res://data/cards/pitfall.tres" id="6_wgdeq"]
+[ext_resource type="Script" path="res://core/dungeon/challenge_data.gd" id="7_f86kh"]
+
+[sub_resource type="Resource" id="Resource_5eyf7"]
+script = ExtResource("1_aitjd")
+kind = 1
+amount = 2
+description = "Lose 2 life."
+
+[sub_resource type="Resource" id="Resource_igwxv"]
+script = ExtResource("1_aitjd")
+kind = 5
+card_pool = Array[ExtResource("2_h62mq")]([ExtResource("3_15l2j"), ExtResource("4_sct4o"), ExtResource("5_w8d7i"), ExtResource("6_wgdeq")])
+description = "Gain a card for the dungeon."
+
+[resource]
+script = ExtResource("7_f86kh")
+id = "scholars_riddle"
+display_name = "Scholar's Riddle"
+description = "The scholar will reward anyone who shows a spell among four drawn cards."
+kind = 2
+reveal_count = 4
+threshold = 1
+on_success = Array[ExtResource("1_aitjd")]([SubResource("Resource_igwxv")])
+on_failure = Array[ExtResource("1_aitjd")]([SubResource("Resource_5eyf7")])
