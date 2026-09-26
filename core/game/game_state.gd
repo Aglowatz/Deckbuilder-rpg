@@ -38,7 +38,10 @@ var blocked_attackers: Dictionary = {}
 var _next_uid: int = 1
 var _next_sequence: int = 0
 var _mulligan_done: Array[bool] = [false, false]
-var _trigger_depth: int = 0
+## Nesting level of effect triggers (loop guard) and a counter that postpones state-based
+## checks while simultaneous damage is being applied.
+var trigger_depth: int = 0
+var defer_state_checks: int = 0
 
 
 func _init(game_options: GameOptions = null) -> void:
@@ -327,10 +330,8 @@ func _primary_target_effect(data: CardData) -> EffectData:
 
 
 ## Legal chosen targets (Targets refs) for an effect controlled by `controller`.
-## Filled in by Milestone 4 (effect system).
-func legal_targets(_controller: int, _effect: EffectData, _source_uid: int) -> Array[int]:
-	var none: Array[int] = []
-	return none
+func legal_targets(controller: int, effect: EffectData, _source_uid: int) -> Array[int]:
+	return EffectResolver.legal_targets(self, controller, effect)
 
 
 func _enter_battlefield(card: CardInstance, chosen: int, cast_from_hand: bool) -> void:
@@ -660,28 +661,90 @@ func _end_game(winning_player: int, drawn: bool) -> void:
 
 
 # --------------------------------------------------------------------------------------
-# Hooks implemented by later milestones
+# Effects, triggers, traps and activated abilities
 # --------------------------------------------------------------------------------------
 
 
-## Fires a card's effects for `trigger` (Milestone 4).
-func fire_trigger(_card: CardInstance, _trigger: CardEnums.Trigger, _trigger_uid: int, _chosen: int) -> void:
-	pass
+## Fires a card's effects for `trigger`.
+func fire_trigger(card: CardInstance, trigger: CardEnums.Trigger, trigger_uid: int, chosen: int) -> void:
+	EffectResolver.fire(self, card, trigger, trigger_uid, chosen)
 
 
-## Fires `trigger` on all of `owner_index`'s set traps (Milestone 4).
-func fire_traps(_owner_index: int, _trigger: CardEnums.Trigger, _trigger_uid: int) -> void:
-	pass
+## Fires `trigger` on all of `owner_index`'s set traps.
+func fire_traps(owner_index: int, trigger: CardEnums.Trigger, trigger_uid: int) -> void:
+	EffectResolver.fire_traps(self, owner_index, trigger, trigger_uid)
 
 
-## Fires START_OF_TURN / END_OF_TURN for a player's permanents (Milestone 4).
-func _fire_turn_triggers(_player_index: int, _trigger: CardEnums.Trigger) -> void:
-	pass
+## Fires START_OF_TURN / END_OF_TURN for a player's permanents.
+func _fire_turn_triggers(player_index: int, trigger: CardEnums.Trigger) -> void:
+	for card: CardInstance in players[player_index].battlefield.duplicate():
+		if is_over():
+			return
+		if players[player_index].find_battlefield(card.uid) != null:
+			fire_trigger(card, trigger, 0, 0)
+	check_state()
 
 
 ## Fires start-of-combat modifier effects (Milestone 5).
 func _fire_start_of_combat(_player_index: int) -> void:
 	pass
+
+
+func can_activate(player_index: int, uid: int, effect_index: int) -> bool:
+	if not in_main_phase() or player_index != active:
+		return false
+	var player: PlayerState = players[player_index]
+	var card: CardInstance = player.find_battlefield(uid)
+	if card == null or card.activated_this_turn:
+		return false
+	if effect_index < 0 or effect_index >= card.data.effects.size():
+		return false
+	var effect: EffectData = card.data.effects[effect_index]
+	if effect.trigger != CardEnums.Trigger.ACTIVATED:
+		return false
+	if not Mana.can_pay(player.untapped_lands(), effect.activation_cost, [] as Array[Affinity.Type]):
+		return false
+	if effect.needs_chosen_target():
+		return not legal_targets(player_index, effect, uid).is_empty()
+	return true
+
+
+## Uses an ACTIVATED effect: pays its generic cost, once per turn per permanent.
+func activate(player_index: int, uid: int, effect_index: int, target: int = 0) -> bool:
+	if not can_activate(player_index, uid, effect_index):
+		return false
+	var card: CardInstance = players[player_index].find_battlefield(uid)
+	var effect: EffectData = card.data.effects[effect_index]
+	if effect.needs_chosen_target() and target != 0 and not legal_targets(player_index, effect, uid).has(target):
+		return false
+	if not _pay(player_index, effect.activation_cost, [] as Array[Affinity.Type], [] as Array[int], uid):
+		return false
+	card.activated_this_turn = true
+	emit_event(GameEvent.Type.ABILITY_ACTIVATED, player_index, uid, target, effect_index)
+	EffectResolver.resolve(self, effect, EffectContext.make(uid, player_index, 0, target))
+	check_state()
+	return true
+
+
+func create_token(player_index: int, data: CardData) -> CardInstance:
+	var token: CardInstance = create_instance(data, player_index)
+	emit_event(GameEvent.Type.TOKEN_CREATED, player_index, token.uid)
+	_enter_battlefield(token, 0, false)
+	return token
+
+
+## Bounces a permanent to its owner's hand (tokens simply vanish).
+func return_to_hand(card: CardInstance) -> void:
+	var player: PlayerState = players[card.owner]
+	if player.find_battlefield(card.uid) == null:
+		return
+	player.battlefield.erase(card)
+	_clear_combat_refs(card.uid)
+	card.reset()
+	if card.data.is_token:
+		return
+	player.hand.append(card)
+	emit_event(GameEvent.Type.CARD_RETURNED_TO_HAND, card.owner, card.uid)
 
 
 # --------------------------------------------------------------------------------------
@@ -768,10 +831,19 @@ func _combat_actions(player_index: int) -> Array[GameAction]:
 	return result
 
 
-## Activated-ability actions (Milestone 4).
-func _activation_actions(_player_index: int) -> Array[GameAction]:
-	var none: Array[GameAction] = []
-	return none
+func _activation_actions(player_index: int) -> Array[GameAction]:
+	var result: Array[GameAction] = []
+	for card: CardInstance in players[player_index].battlefield:
+		for index: int in range(card.data.effects.size()):
+			if not can_activate(player_index, card.uid, index):
+				continue
+			var effect: EffectData = card.data.effects[index]
+			if effect.needs_chosen_target():
+				for target: int in legal_targets(player_index, effect, card.uid):
+					result.append(GameAction.activate(player_index, card.uid, index, target))
+			else:
+				result.append(GameAction.activate(player_index, card.uid, index))
+	return result
 
 
 func apply_action(action: GameAction) -> bool:
@@ -782,6 +854,8 @@ func apply_action(action: GameAction) -> bool:
 			return play_land(action.player, action.card_uid)
 		GameAction.Type.CAST:
 			return cast(action.player, action.card_uid, action.target)
+		GameAction.Type.ACTIVATE:
+			return activate(action.player, action.card_uid, action.effect_index, action.target)
 		GameAction.Type.DECLARE_ATTACKERS:
 			return action.player == awaiting_player() and declare_attackers(action.uids, action.attack_targets)
 		GameAction.Type.DECLARE_BLOCKERS:

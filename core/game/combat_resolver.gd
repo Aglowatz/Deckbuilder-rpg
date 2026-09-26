@@ -174,10 +174,13 @@ static func _damage_step(state: GameState, first_strike_step: bool) -> void:
 					plan.append(_entry(attacker.uid, attacked, power))
 		if blocker != null and _deals_damage_now(blocker, first_strike_step):
 			plan.append(_entry(blocker.uid, attacker.uid, state.get_power(blocker)))
+	# Damage is simultaneous: postpone deaths until every hit in this step has landed.
+	state.defer_state_checks += 1
 	for entry: Dictionary in plan:
 		if state.is_over():
-			return
+			break
 		_apply_damage(state, int(entry["source"]), int(entry["target"]), int(entry["amount"]))
+	state.defer_state_checks -= 1
 
 
 static func _entry(source_uid: int, target_ref: int, amount: int) -> Dictionary:

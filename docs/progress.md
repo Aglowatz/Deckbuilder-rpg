@@ -60,3 +60,27 @@ Tests: 92 total (35 new in `tests/core/game/test_combat.gd`).
 
 Known issues: none. Interpretation choices (Guard, attackers tapping, one attacker per blocker)
 are in `docs/design/open_questions.md`.
+
+## Milestone 4: Effects and keywords - done
+
+Built (`core/game/effect_resolver.gd`, `effect_context.gd`, wired into `GameState`):
+- Data-driven effects (`EffectData`): triggers ON_ENTER (also spell resolution), ON_DEATH,
+  ON_ATTACK, ON_BLOCK, START_OF_TURN, END_OF_TURN, ON_DAMAGE_TAKEN, ACTIVATED.
+- Targeting: self, controller, opponent, triggering card, chosen creature (any/enemy/ally),
+  chosen player, all creatures (any/enemy/ally), all players, all attackers, random creature
+  (any/enemy/ally). Spells/creatures take the target chosen at cast; triggers auto-target.
+  A chosen target that died before resolution fizzles.
+- Operations: deal damage, heal, draw, discard, destroy, buff/debuff (temporary or permanent),
+  summon token, return to hand, mill, gain/lose life, grant keyword (temporary or permanent).
+- Keywords, all covered by tests: Flying, Reach, Haste, Defender, Trample, First Strike,
+  Lifesteal, Guard (combat behaviour was added in M3).
+- Traps: set face-down on your own main phase, trigger automatically on the opponent attacking,
+  casting a creature, casting a spell, or on damage to their controller. No priority/stack.
+  Each trap fires once and goes to the graveyard.
+- Activated abilities (generic mana cost, once per turn), included in `legal_actions()`.
+- Safety: trigger recursion is cut off at depth 12; simultaneous combat damage is applied before
+  deaths are checked.
+
+Tests: 141 total (49 new: `test_effects.gd`, `test_traps.gd`).
+
+Known issues: none.
