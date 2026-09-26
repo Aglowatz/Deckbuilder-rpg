@@ -43,6 +43,20 @@ Rule of thumb: `core/` should be testable and runnable with no scene tree and no
 If a test for game logic needs a running scene to pass, that's a sign logic leaked into
 presentation.
 
+## Asset Policy
+
+- **Approved sources:** Kenney, KayKit, Quaternius, game-icons.net, Google Fonts. Anything
+  else (including OpenGameArt/Freesound) requires asking the user first.
+- **Licenses:** CC0 preferred. CC BY allowed with attribution. Never use NC
+  (non-commercial), ND, or unclear licenses.
+- **Style lock:** the world uses a single low-poly family. Before adding a new pack, view its
+  preview images and confirm it matches existing assets; if unsure, ask the user.
+- **Workflow:** download packs into `_asset_library/<pack>/` (git-ignored). Copy only files
+  actually used into `assets/`, keeping the pack's folder name and license file.
+- **Credits:** every pack used needs a `CREDITS.md` entry: name, author, source URL,
+  license, date.
+- **Always tell the user when a new pack has been added.**
+
 ## Testing
 
 - Tests use the [GUT](https://github.com/bitwes/Gut) addon (`addons/gut/`), test scripts live
