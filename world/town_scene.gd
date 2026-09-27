@@ -61,6 +61,9 @@ func _ready() -> void:
 		_teleport(str(_screenshot_args["at"]))
 	if _screenshot_args.has("open"):
 		_screenshot_open.call_deferred(str(_screenshot_args["open"]))
+	if Session.town_notice != "":
+		hud.toast(Session.town_notice, UIStyle.GOLD)
+		Session.town_notice = ""
 	Session.save_game()
 
 

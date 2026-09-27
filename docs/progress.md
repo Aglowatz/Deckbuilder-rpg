@@ -309,3 +309,13 @@ new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tool
   to remove, deck list with counts, live validation of the deck rules, save, fill lands, reset, unsaved
   changes prompt. `VendorScreen`: all cards with prices (`CardPricing`, tested), gold, buy confirmation.
 - Tests: 257.
+
+## Demo milestone 6: Intro dungeon "Trial of the Hollow" - done
+
+- Node map (`DungeonMapScreen`, `MapNodeButton`, `MapPaths`) over a 3D diorama: Cave Mouth -> Scavenger's Den
+  (tutorial battle) -> Hollow Well (deck challenge) -> Mossy Gallery (battle) -> Whispering Shrine (heal 8) ->
+  Heart of the Hollow (boss). Life bar carries between nodes (Hollow's Blessing = +10 max life, so 20).
+- `ChallengeScreen` (core `ChallengeResolver`), `ShrineScreen`, `RewardsScreen` (gold + choose 1 of 3 cards via
+  `RewardGenerator`, tested), trial-complete screen granting the 5 attunement cards once (`CampaignStart`).
+- Losing (or retreating) returns to town with a notice; the collection is untouched.
+- Session flow: `begin_trial`, `make_dungeon_battle`, `complete_battle`, `apply_rewards`, `complete_trial`.

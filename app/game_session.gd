@@ -234,15 +234,6 @@ func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: i
 	return context
 
 
-## Routes the campaign after a dungeon battle (implemented with the dungeon flow).
-func complete_battle(context: BattleContext) -> void:
-	pending_battle = null
-	if context.won:
-		SceneManager.go_to_town()
-	else:
-		SceneManager.go_to_town()
-
-
 # ---- Dungeon flow -----------------------------------------------------------------------
 
 
@@ -251,3 +242,100 @@ func begin_trial() -> void:
 	dungeon_map = TrialOfTheHollow.build_map()
 	run = DungeonRun.enter(profile, deck, [TrialOfTheHollow.blessing()] as Array[ModifierSource])
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+
+
+## Set when the player is carried out of the dungeon or finishes it; the town shows it once.
+var town_notice: String = ""
+var pending_reward: RewardOffer
+## True after the boss fell: the rewards screen then runs the trial-complete step.
+var trial_finished: bool = false
+
+const ENEMY_ICONS: Dictionary = {
+	"Cave Scavenger": "lorc/bat-wing",
+	"Hollow Stalker": "lorc/wolf-head",
+	"Hollow Warden": "delapouite/skull-staff",
+}
+
+
+func in_dungeon() -> bool:
+	return run != null and dungeon_map != null
+
+
+## Builds the duel for a battle or boss node. Life carries over from the run.
+func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
+	var options: GameOptions = GameOptions.new()
+	options.first_player = 0 if node.tutorial else -1
+	options.rng_seed = rng.randi() % 1000000 + 1
+	var enemy: PlayerSetup = TrialOfTheHollow.enemy_setup(content, node)
+	var game: GameState = run.start_encounter(enemy, null, options)
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(TrialOfTheHollow.personality(content, node.ai_name))
+	context.enemy_name = node.enemy_name
+	context.enemy_icon = str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
+	context.node_id = node.id
+	context.tutorial = node.tutorial
+	context.is_boss = node.kind == DungeonMap.Kind.BOSS
+	context.gold_reward = node.gold_reward
+	context.card_choices = node.card_choices
+	return context
+
+
+func start_battle(context: BattleContext) -> void:
+	pending_battle = context
+	SceneManager.change_scene("res://scenes/battle.tscn")
+
+
+## Called by the battle screen when the player leaves the result panel.
+func complete_battle(context: BattleContext) -> void:
+	pending_battle = null
+	if not in_dungeon():
+		SceneManager.go_to_town()
+		return
+	run.finish_encounter(context.game)
+	if not context.won or run.failed:
+		abandon_run("You were carried out of the Hollow. Your collection is safe.")
+		return
+	dungeon_map.complete(context.node_id)
+	var offer: RewardOffer = RewardOffer.new()
+	offer.gold = context.gold_reward
+	offer.is_boss = context.is_boss
+	offer.enemy_name = context.enemy_name
+	offer.cards = RewardGenerator.card_choices(content, profile, rng, context.card_choices, context.is_boss)
+	pending_reward = offer
+	trial_finished = context.is_boss
+	SceneManager.change_scene("res://scenes/rewards.tscn")
+
+
+## Applies the rewards the player chose. Returns true when the dungeon continues (the caller
+## then goes back to the map); false after the boss, when the trial-complete step follows.
+func apply_rewards() -> bool:
+	if pending_reward != null:
+		add_gold(pending_reward.gold)
+		if pending_reward.taken != null:
+			add_cards([pending_reward.taken] as Array[CardData])
+	pending_reward = null
+	save_game()
+	return not trial_finished
+
+
+## The intro dungeon is cleared: the Wellspring attunes the player (once) and we go home.
+func complete_trial() -> Array[CardData]:
+	var granted: Array[CardData] = CampaignStart.complete_intro_dungeon(profile, content)
+	set_flag(&"trial_cleared")
+	trial_finished = false
+	run = null
+	dungeon_map = null
+	EventBus.collection_changed.emit()
+	save_game()
+	return granted
+
+
+func abandon_run(notice: String = "") -> void:
+	run = null
+	dungeon_map = null
+	trial_finished = false
+	pending_reward = null
+	town_notice = notice
+	save_game()
+	SceneManager.go_to_town()
