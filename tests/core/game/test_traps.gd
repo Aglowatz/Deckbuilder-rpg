@@ -155,3 +155,16 @@ func test_ai_clone_can_hide_traps() -> void:
 	hidden.advance_phase()
 	hidden.declare_attackers([attacker.uid] as Array[int])
 	assert_eq(hidden.players[1].battlefield.size(), 1, "clone with hidden trap: attacker lives")
+
+
+func test_at_most_three_traps_can_be_set() -> void:
+	var game: GameState = GameFactory.blank_game()
+	GameFactory.add_lands(game, 0, 6)
+	var cards: Array[CardInstance] = []
+	for i: int in range(4):
+		cards.append(GameFactory.add_to_hand(game, 0, _trap(Trig.TRAP_OPPONENT_ATTACKS, Tgt.TRIGGERING_CARD, Op.DESTROY)))
+	for i: int in range(3):
+		assert_true(game.cast(0, cards[i].uid), "trap %d can be set" % i)
+	assert_false(game.can_cast(0, cards[3].uid), "a fourth trap cannot be set")
+	assert_false(game.cast(0, cards[3].uid))
+	assert_eq(game.players[0].traps.size(), GameState.MAX_TRAPS)

@@ -774,3 +774,14 @@ func screenshot_ready() -> bool:
 	if _flag("wait_result"):
 		return mode == Mode.OVER and _result_panel != null
 	return true
+
+
+## Lets an AI play the human seat (tests, screenshots) and wakes the loop if it is waiting.
+func set_bot(bot: AIPlayer, until_turn: int = 100000) -> void:
+	human_bot = bot
+	bot_until_turn = until_turn
+	if _mulligan_panel != null:
+		_mulligan_panel.queue_free()
+		_mulligan_panel = null
+	if not busy and mode != Mode.OVER:
+		_drive()

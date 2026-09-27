@@ -11,6 +11,8 @@ enum Stage { SETUP, MULLIGAN, PLAYING, OVER }
 enum CombatStep { NONE, DECLARE_ATTACKERS, DECLARE_BLOCKERS }
 
 const LAND_DROPS_PER_TURN: int = 1
+## Face-down traps one player may have set at a time.
+const MAX_TRAPS: int = 3
 
 var options: GameOptions
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -257,6 +259,8 @@ func can_cast(player_index: int, uid: int) -> bool:
 	var player: PlayerState = players[player_index]
 	var card: CardInstance = player.find_hand(uid)
 	if card == null or card.data.is_land():
+		return false
+	if card.data.type == CardEnums.CardType.TRAP and player.traps.size() >= MAX_TRAPS:
 		return false
 	if not Mana.can_pay(player.untapped_lands(), generic_cost_for(player_index, card.data), card.data.colored_pips):
 		return false

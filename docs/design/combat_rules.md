@@ -37,6 +37,7 @@ Start (untap, draw; the first player skips their first draw) → Main 1 → Comb
 
 - No instants, no stack, no priority.
 - Traps are set face-down on your turn and trigger automatically when their condition is met.
+- A player may have at most **3** traps set at a time (a fourth cannot be cast until one has sprung).
 
 ## Win / Lose
 

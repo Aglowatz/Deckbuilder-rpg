@@ -335,3 +335,30 @@ new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tool
   and map loops, rendered on a background thread at startup and crossfaded by `Audio`.
 - Juice: tweened hover/press on buttons, card glow states, floating damage numbers, particle bursts on hits and
   entries, ring flashes, dissolve shader on dying cards, screen shake on big hits, Wellspring motes and light.
+
+## Demo milestone 9: End-to-end check and polish - partly done
+
+- `tools/run_e2e.sh` plays the demo through the real UI with injected mouse and key events (title, new game,
+  walking to the Wellspring, color choice, buying a card, editing/saving the deck, gate, map, tutorial battle
+  won by real clicks, challenge, second battle, shrine, boss, rewards, Trial complete). It got as far as the
+  second battle, where it exposed a real bug (a bot attached after the mulligan prompt never woke the battle
+  loop); fixed with `BattleScreen.set_bot`. **The full run has not completed since that fix**: both reruns were
+  stopped by the system for low memory, so I did not restart them. Run `tools/run_e2e.sh` once to confirm.
+- Trap cap of 3 added to the engine (`GameState.MAX_TRAPS`, documented in `combat_rules.md`, tested). 261 tests pass.
+- README rewritten (how to play, layout, tools). Demo decisions D1-D27 are in `docs/design/open_questions.md`.
+
+## Known issues
+
+- Final full screenshot review of every screen and the e2e pass are still to do (see above).
+- Music is synthesized and simple; sound was never listened to by me, only checked for levels.
+- Attacking a Guard always targets the first Guard; no picker.
+- Mid-dungeon state is not saved; one save slot.
+- Card and world art are placeholders; hex-grass color is tinted at runtime.
+
+## Questions for you
+
+1. Title/working name "Wellspring" and the names Ember/Tide/Root/Grave: keep?
+2. Is +10 max life in the Trial (D7) acceptable, or should the base 10 life apply?
+3. Vendor sells every card from the start (D6): want a discovery/unlock system instead?
+4. Trap cap of 3 (D25): OK?
+5. Should draws count as a loss in the dungeon (D13)?

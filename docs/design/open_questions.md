@@ -64,3 +64,37 @@ New questions from this round:
 | 39 | How many cards are in the attunement reward and are they copies? | Five different cards, one copy each, per color (lists in `ContentDefinitions.attunement_rewards()`). | "5 cards"; a deck needs 45, so players must find more elsewhere. |
 | 40 | Which lands does the starter deck use before a color is chosen (the template deck in `data/decks/`)? | The template file uses Affinity A lands only as a placeholder for simulation; the real starter deck is always built with `CampaignStart.starter_deck(content, color)`. | Neutral spells cost generic mana, so the land color does not change how the starter plays. |
 | 41 | Should the attuned cards be added to the current deck automatically? | No: they go into the collection (`owned_cards`); the player edits the deck. | Deck building is meant to be the player's experimentation. |
+
+## Demo (presentation layer) decisions
+
+Made autonomously while building the playable demo. Each is easy to change; the "Where" column says how.
+
+| # | Question | Chosen | Where |
+|---|----------|--------|-------|
+| D1 | Game title | Working title **Wellspring** (from the lore: four Wellsprings, the Wanderer). | `TitleScreen.GAME_TITLE` |
+| D2 | Player-facing names for Affinity A-D | **Ember, Tide, Root, Grave** (matching the sample deck names). UI only; `core/` keeps "Affinity A-D" so ids and tests are untouched. | `UIStyle.AFFINITY_NAMES` |
+| D3 | Affinity colors | A red-orange, B blue, C green, D purple, Neutral tan. Frames, land icons, pips and mana orbs are tinted from one table. | `UIStyle.AFFINITY_COLORS` |
+| D4 | What is "pick intro deck"? | The Wellspring choice: pick a color; the starter deck is the 28 neutral spells plus 17 basic lands of that color (per `starting_deck_and_affinity.md`). | `WellspringChoice` |
+| D5 | Starting gold and economy | 120 gold at the start; battle rewards 40 / 60 / 120 gold; card prices = rarity base (15/35/80/160) + 5 per mana. The vendor stops selling a card once you own 3 (a deck can only use 3). | `Session.STARTING_GOLD`, `CardPricing` |
+| D6 | Vendor stock | Every collectible card is for sale (there is no discovery system yet), so players can pick a second color early. | `VendorScreen` |
+| D7 | Dungeon survivability | The Trial applies a dungeon rule "Hollow's Blessing": +10 max life (20 in the dungeon). With 10 life, three duels in a row were too punishing for a first experience. | `TrialOfTheHollow.blessing()` |
+| D8 | Enemy decks in the Trial | Small hand-made decks (32-40 cards) of placeholder cards, not the balanced sample decks, so the tutorial fight is easy: Cave Scavenger (8 life, defensive AI), Hollow Stalker (10 life, balanced AI), Hollow Warden boss (14 life, aggressive AI). | `TrialOfTheHollow.enemy_recipe` |
+| D9 | Map shape | Linear: Cave Mouth, Battle (tutorial), Challenge, Battle, Shrine, Boss. `DungeonMap` supports branches; the demo uses none. | `TrialOfTheHollow.build_map` |
+| D10 | Challenge used | The Hollow Well (top 5 cards: 2+ lands heals 4, else lose a card for the dungeon). | `TrialOfTheHollow.CHALLENGE_ID` |
+| D11 | Shrine | Heals 8 life (capped at max life). | `DungeonMap.MapNode.heal_amount` |
+| D12 | Rewards | After each battle: gold plus a choice of 1 of 3 cards (weighted toward your color and neutral, commons preferred; boss shifts toward uncommon/rare) added to the collection permanently. Boss also grants the 5 attunement cards once. | `RewardGenerator` |
+| D13 | Losing a duel or retreating | Back to town, run discarded, collection kept, no gold penalty. A draw counts as a loss. | `Session.abandon_run` |
+| D14 | Who goes first | The tutorial battle: the player. Other dungeon duels: random (seeded by the run RNG). | `Session.make_dungeon_battle` |
+| D15 | Ending the turn | "To Combat" / "Attack" / "End Turn" walk the phases; a separate "End Turn" button fast-forwards (skips the attack). Attack and block steps with no possible attackers/blockers are skipped automatically. | `BattleScreen._auto_pass_if_pointless` |
+| D16 | Attacking a Guard | The UI uses the engine default (the first Guard creature) and says so in the prompt; there is no picker when there are several Guards. | `BattleScreen` |
+| D17 | Targeting creatures with a chosen-target ETB | Cast the card, then choose the target (Esc/right-click cancels the whole cast). | `BattleScreen._try_play` |
+| D18 | Mulligan | Shown as a panel over the table before turn 1; the AI decides its own. | `BattleScreen._show_mulligan` |
+| D19 | Art | Cards use game-icons.net silhouettes on gradient art (placeholder, per the brief); the town and map use KayKit hex pieces; the arena backdrop reuses them at dusk. No custom art. | `CardIcons`, `TownBuilder` |
+| D20 | Music | Generated in code (chord pads, plucks, bass, drums, wind and birds), because Kenney has no music packs and other sources are not approved. It is simple; replacing it with composed tracks later only touches `MusicSynth`/`Audio`. | `MusicSynth` |
+| D21 | Save model | JSON, saved in town and after purchases/deck edits/dungeon results. Mid-dungeon state is not saved (quitting mid-run returns to town). Only one save slot. | `SaveSystem`, `Session` |
+| D22 | Camera/controls in town | Fixed angled camera, WASD/arrows, E to interact, no mouse-walking. Collisions are circle obstacles on walkable hex cells (no physics engine). | `TownPlayer`, `TownBuilder.is_walkable` |
+| D23 | Tutorial | Only the first battle; steps appear as the moment arises and can be skipped. It is disabled once finished or skipped (`tutorial_done`). | `TutorialLayer` |
+| D24 | Discard effects (was Q7/Q8) | Kept random for the victim (no choice UI). | unchanged |
+| D25 | Trap cap (was Q35) | **Cap of 3 set traps per player**, enforced in the engine and documented in `combat_rules.md`. | `GameState.MAX_TRAPS` |
+| D26 | Balance band (was Q36) | Keep 35-65% per matchup; the neutral starter should stay a bit weaker than the paired decks (currently ~50%, acceptable for a demo). | unchanged |
+| D27 | Life gain cap / max-life boons (was Q11, Q21) | Kept: healing caps at max life; a max-life boon also raises current life. | unchanged |

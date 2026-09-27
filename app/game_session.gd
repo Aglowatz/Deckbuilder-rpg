@@ -7,6 +7,8 @@ const DECK_NAME: String = "Wanderer's Deck"
 
 ## Set to false by tools and tests so they never touch the player's real save file.
 var save_enabled: bool = true
+## Where the campaign is saved (tests use their own file).
+var save_path: String = SaveSystem.PATH
 
 var content: ContentSet
 var profile: PlayerProfile
@@ -31,7 +33,7 @@ func _ready() -> void:
 
 
 func has_save() -> bool:
-	return SaveSystem.exists()
+	return SaveSystem.exists(save_path)
 
 
 ## Starts a fresh campaign. The profile is created when the Wellspring is chosen.
@@ -191,13 +193,13 @@ func from_dict(data: Dictionary) -> bool:
 func save_game() -> void:
 	if not save_enabled or profile == null:
 		return
-	SaveSystem.write(to_dict())
+	SaveSystem.write(to_dict(), save_path)
 
 
 ## Loads the saved campaign. Returns false when there is none (a game started before the
 ## Wellspring choice has no profile and is not saved).
 func load_game() -> bool:
-	var data: Dictionary = SaveSystem.read()
+	var data: Dictionary = SaveSystem.read(save_path)
 	if data.is_empty():
 		return false
 	return from_dict(data)
