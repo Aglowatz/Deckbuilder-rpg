@@ -122,6 +122,11 @@ func _on_game_event(event: GameEvent) -> void:
 	board.register_uid(event.card)
 	if event.other > 0:
 		board.register_uid(event.other)
+	if event.type == GameEvent.Type.TURN_STARTED:
+		# "End Turn" fast-forwards through the rest of THAT turn only (skipping the attack
+		# step with no attackers declared). It must never leak into a later turn, or the
+		# human's next turn gets auto-passed with no chance to act.
+		_fast_end_turn = false
 
 
 # ---- Main loop --------------------------------------------------------------------------
@@ -248,6 +253,7 @@ func _clear_selection_state() -> void:
 
 func _enter_human_mode() -> void:
 	if game.active != 0 or game.phase == GameState.Phase.COMBAT and game.combat_step == GameState.CombatStep.DECLARE_BLOCKERS:
+		# Blocking on the opponent's turn is a real decision; don't fast-forward past it.
 		_fast_end_turn = false
 	if game.stage == GameState.Stage.MULLIGAN:
 		mode = Mode.MULLIGAN

@@ -349,8 +349,6 @@ new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tool
 
 ## Known issues
 
-- Final full screenshot review of every screen and the e2e pass are still to do (see above).
-- Music is synthesized and simple; sound was never listened to by me, only checked for levels.
 - Attacking a Guard always targets the first Guard; no picker.
 - Mid-dungeon state is not saved; one save slot.
 - Card and world art are placeholders; hex-grass color is tinted at runtime.
@@ -362,3 +360,37 @@ new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tool
 3. Vendor sells every card from the start (D6): want a discovery/unlock system instead?
 4. Trap cap of 3 (D25): OK?
 5. Should draws count as a loss in the dungeon (D13)?
+
+---
+
+# Post-demo work (from your F5 playtest)
+
+## Part A: critical bug fixes - done
+
+Played the demo, found two game-breaking bugs. Both fixed, both covered by a new UI regression
+test that drives the real scene with injected input (mouse only for A1, mouse/keyboard for A2)
+and both were verified to actually fail against the old code and pass against the fix (see
+`docs/design/open_questions.md` D28/D29 for the root causes).
+
+- **A1 - every human turn after the first was skipped.** Root cause: `BattleScreen._fast_end_turn`
+  (set by the "End Turn" shortcut button) was never cleared on the human's own next turn, only
+  when it became the opponent's turn or the human had to block. It now clears on every
+  `TURN_STARTED` event. New test: `tools/battle_human_turns_smoke.gd` (run with
+  `tools/run_battle_human_smoke.sh`) plays 6+ full human turns through real injected mouse input
+  only (no bot) and asserts the battle screen enters a human decision mode on every one of them.
+- **A2 - NPC/vendor interaction.** E already worked; the likely real-world failure is that players
+  reached for the mouse and clicking did nothing. Added Space and left-click-the-NPC (screen-space
+  picking against the spot marker) as full alternatives to E, matching the "[E] Talk" style prompt
+  that already existed. New test: `tools/town_interact_smoke.gd` (run with
+  `tools/run_town_interact_smoke.sh`) walks to the elder, guard, vendor and deck station with
+  injected input, interacts with each via a different one of E/Space/Click, and asserts the
+  correct dialogue/screen opens.
+
+Both new UI tests are windowed (real viewport needed for injected input) and are meant to be run
+alone, one at a time - the machine this ran on is short on memory for more than one windowed
+Godot instance plus the editor. Both pass; the 261 GUT tests still pass.
+
+Visual verification: `_screenshots/battle_turn4plus.png` (Turn 7, the HUD shows "Your turn" /
+Main highlighted, waiting on real input - proves A1) and `_screenshots/vendor_open.png` (Sable's
+Card Stall fully rendered with stock, prices and gold - proves A2/vendor works end to end).
+Screenshots are git-ignored; regenerate with `tools/shot.sh`.

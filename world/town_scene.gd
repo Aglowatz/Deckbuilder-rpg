@@ -246,20 +246,24 @@ func _update_nearest() -> void:
 		hud.show_prompt("[E]  %s" % _prompt_text(_near))
 
 
+## True for spots that are people to talk to, as opposed to objects/gates.
+const NPC_SPOT_IDS: Array[String] = ["elder", "guard", "vendor"]
+
+## How close (in screen pixels) a click has to land to a spot's marker to count as
+## "clicking the NPC", since the fixed camera has no 3D picking set up.
+const CLICK_PICK_RADIUS: float = 90.0
+
+
 func _prompt_text(spot: Spot) -> String:
+	if spot.id in NPC_SPOT_IDS:
+		return "Talk"
 	match spot.id:
 		"well":
 			return "Approach the Wellspring" if not Session.flag(&"wellspring_chosen") else "Touch the Wellspring"
-		"vendor":
-			return "Trade with the Card Vendor"
 		"deck":
 			return "Open the Deck Station"
 		"gate":
 			return "Enter the Trial of the Hollow"
-		"elder":
-			return "Talk to Elder Maren"
-		"guard":
-			return "Talk to Gatekeeper Brannoch"
 	return spot.title
 
 
@@ -269,6 +273,23 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"interact"):
 		get_viewport().set_input_as_handled()
 		_interact(_near)
+		return
+	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
+		if (event as InputEventKey).keycode == KEY_SPACE:
+			get_viewport().set_input_as_handled()
+			_interact(_near)
+			return
+	if event is InputEventMouseButton:
+		var click: InputEventMouseButton = event as InputEventMouseButton
+		if click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+			if _screen_pos_of(_near).distance_to(click.position) <= CLICK_PICK_RADIUS:
+				get_viewport().set_input_as_handled()
+				_interact(_near)
+
+
+## Where `spot`'s marker currently projects to on screen, for click picking.
+func _screen_pos_of(spot: Spot) -> Vector2:
+	return _camera.unproject_position(spot.marker.position)
 
 
 # ---- Interactions -----------------------------------------------------------------------
