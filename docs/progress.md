@@ -358,7 +358,8 @@ new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tool
 1. Title/working name "Wellspring" and the names Ember/Tide/Root/Grave: keep?
 2. ~~Is +10 max life in the Trial (D7) acceptable, or should the base 10 life apply?~~ **Answered
    by Part C: base 10 life, no blessing (D32).**
-3. Vendor sells every card from the start (D6): want a discovery/unlock system instead?
+3. ~~Vendor sells every card from the start (D6): want a discovery/unlock system instead?~~
+   **Answered by Part E: yes, built (D37).**
 4. Trap cap of 3 (D25): OK?
 5. Should draws count as a loss in the dungeon (D13)?
 
@@ -525,3 +526,64 @@ KayKit/CC0 family already in use - the only 3D chest prop in any approved pack; 
 Screenshots: `_screenshots/town_overview.png` (unchanged core, confirming no regressions),
 `town_codex.png`, `town_vault.png`, `town_chest.png` - no clipping or performance issues found.
 The full e2e pass (title through vendor purchase and deck save) still passes end to end.
+
+---
+
+# Final pass
+
+## Full end-to-end run
+
+`tools/run_e2e.sh` plays the whole new flow with injected mouse and keyboard input - title,
+starting area (wake-up dialogue, walk to the cave, confirm), the tutorial dungeon (all three
+battles, the challenge, the shrine, the boss, retrying through the starting area on a loss exactly
+like a human would see), the starting-deck choice, town, buying a card, editing and saving the
+deck, and a save/load check - and **passes clean, start to finish**. This is the first time in the
+project's history that it has completed; see D28-D36 for the six real bugs (two from the original
+Parts A/B request, four more found while getting this run to finish) that were blocking it. It
+takes about 2 minutes now (down from timing out) because the tutorial dungeon is winnable in one
+or two attempts instead of three-plus.
+
+`tools/run_battle_human_turns_smoke.gd` and `tools/town_interact_smoke.gd` (the two regression
+tests written for Part A) both still pass after every later change, including the town expansion.
+
+## Screenshot review
+
+Every new/changed screen was screenshotted and looked at, not just exercised programmatically:
+battle at turn 7 (A1), the vendor and its dialogue (A2/D30), the starting area awake and at the
+cave mouth, the starting-deck choice (all four decks), the gated vendor stock ("???" teasers), the
+Codex, and the three new town landmarks (Hall of Records, sealed vault + lever, hidden chest).
+Two real problems were caught and fixed this way, not by any automated check: `DialogueBox`'s
+panel never actually rendering (D30), and the starting-deck tiles' card-preview row overflowing
+into its neighbors (fixed by resizing, see the Part B section above). Nothing else looked off;
+the expanded town holds up from a distance and up close, and framerate was not a concern at this
+asset budget (all reused, low-poly KayKit pieces).
+
+## What's next / not done
+
+Deliberately out of scope for this pass (flag for later if you want them):
+- The hidden vendor's stock, the vault's reward and the chest's reward are all placeholder
+  values/cards, not tuned for balance.
+- No UI yet surfaces `player_level` or `completed_quests` (Condition supports them; nothing
+  drives them yet - see D37).
+- The Harbor Quarter's "open plots" are intentionally empty (per the brief) - nothing to fix.
+- Locked vendor stock is computed once when the screen opens; crossing a gold-spent threshold
+  mid-visit will not reveal new stock until the vendor is reopened.
+
+## Questions for you (consolidated)
+
+Everything below is either new from this pass or still open from before (superseded items are
+struck through above, in the original "Questions for you" list).
+
+1. Title/working name **"Wellspring"** and the affinity names Ember/Tide/Root/Grave: keep?
+2. Trap cap of 3 (D25), balance band 35-65% (D26), and discard effects staying random (D24): all
+   still just my defaults from the first pass - OK, or change any of them?
+3. Should draws count as a loss **outside** dungeons too (practice battles), or only in dungeons
+   as implemented (D36)?
+4. The starting-deck choice (Part B) permanently commits the player to one of the four
+   two-color decks as their identity. Is that the right weight, or should it feel more provisional
+   (easy to reverse early on)?
+5. The three Part D/E secrets (chest, vault+lever, hidden vendor) are placeholders "to prove the
+   system" - do you want real rewards/balance for them, or should they stay as a template for you
+   to fill in later?
+6. Is a ~2.4x town (not the literal "about 3x" asked for) acceptable, given the reasoning in D38,
+   or would you like it pushed further?
