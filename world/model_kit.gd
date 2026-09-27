@@ -1,0 +1,84 @@
+class_name ModelKit
+extends RefCounted
+## Loads and places the KayKit models used by the 3D scenes.
+
+const HEX: String = "res://assets/KayKit-Medieval-Hexagon-Pack-1.0/"
+const CHARACTERS: String = "res://assets/KayKit-Character-Pack-Adventures-1.0/Characters/"
+
+static var _cache: Dictionary = {}
+
+
+static func scene(path: String) -> PackedScene:
+	if not _cache.has(path):
+		_cache[path] = load(path) as PackedScene
+	return _cache[path] as PackedScene
+
+
+static func hex_model(folder: String, model: String) -> Node3D:
+	var packed: PackedScene = scene("%s%s/%s.gltf" % [HEX, folder, model])
+	if packed == null:
+		push_warning("ModelKit: missing %s/%s" % [folder, model])
+		return Node3D.new()
+	return packed.instantiate() as Node3D
+
+
+static func tile(model: String) -> Node3D:
+	var node: Node3D = hex_model("tiles/base", model)
+	if model == "hex_grass":
+		tint(node, Color(0.72, 1.0, 0.62))
+	return node
+
+
+static func building(model: String) -> Node3D:
+	return hex_model("buildings/blue", "building_%s_blue" % model)
+
+
+static func neutral(model: String) -> Node3D:
+	return hex_model("buildings/neutral", model)
+
+
+static func nature(model: String) -> Node3D:
+	return hex_model("decoration/nature", model)
+
+
+static func prop(model: String) -> Node3D:
+	return hex_model("decoration/props", model)
+
+
+static func character(model: String) -> Node3D:
+	var packed: PackedScene = scene("%s%s.glb" % [CHARACTERS, model])
+	return packed.instantiate() as Node3D
+
+
+## Finds the AnimationPlayer inside an imported character and makes idle/walk loop.
+static func animation_player(root: Node) -> AnimationPlayer:
+	var found: Array[Node] = root.find_children("*", "AnimationPlayer", true, false)
+	if found.is_empty():
+		return null
+	var player: AnimationPlayer = found[0] as AnimationPlayer
+	for anim_name: StringName in player.get_animation_list():
+		var animation: Animation = player.get_animation(anim_name)
+		var lower: String = String(anim_name).to_lower()
+		if lower.contains("idle") or lower.contains("walking") or lower.contains("running") or lower.contains("cheer") or lower.contains("spellcasting") or lower.contains("blocking"):
+			animation.loop_mode = Animation.LOOP_LINEAR
+	return player
+
+
+static func place(root: Node3D, node: Node3D, position: Vector3, yaw_degrees: float = 0.0, uniform_scale: float = 1.0) -> Node3D:
+	root.add_child(node)
+	node.position = position
+	node.rotation_degrees.y = yaw_degrees
+	node.scale = Vector3.ONE * uniform_scale
+	return node
+
+
+## Multiplies the albedo of every mesh under `node` by `tint` (used to grade the tile textures).
+static func tint(node: Node, color: Color) -> void:
+	for child: Node in node.find_children("*", "MeshInstance3D", true, false):
+		var mesh_instance: MeshInstance3D = child as MeshInstance3D
+		for surface: int in range(mesh_instance.mesh.get_surface_count()):
+			var material: Material = mesh_instance.get_active_material(surface)
+			if material is StandardMaterial3D:
+				var copy: StandardMaterial3D = (material as StandardMaterial3D).duplicate() as StandardMaterial3D
+				copy.albedo_color = copy.albedo_color * color
+				mesh_instance.set_surface_override_material(surface, copy)

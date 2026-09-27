@@ -258,3 +258,22 @@ Tests: **241 total, all passing.**
 Still open (unchanged, lower priority): discard-effect choice (Q7/Q8), trap cap (Q35), balance
 band and whether the starter should be intentionally weaker (Q36), life-gain cap and max-life
 boon healing (Q11, Q21).
+
+---
+
+# Playable demo (presentation layer)
+
+Work log for the demo built on top of the finished engine. `core/` stays pure logic; everything
+new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tools/shot.sh <scene> <name>`
+(writes `_screenshots/<name>.png`, git-ignored).
+
+## Demo milestone 1: Game shell - done
+
+- Autoloads: `EventBus`, `Settings` (volumes + fullscreen, `user://settings.cfg`), `Audio` (sound
+  catalog + music crossfade), `Session` (content, profile, gold, deck, flags, dungeon run; JSON
+  save/load via `SaveSystem`), `SceneManager` (fade transitions + Escape pause menu).
+- Custom UI look (`UIStyle` theme: no default Godot widgets), Cinzel + Alegreya Sans fonts, `FancyButton`.
+- Title screen over an orbiting 3D view of the town (KayKit hex pieces): New Game / Continue /
+  Settings / Quit; settings panel; pause menu.
+- Core additions: `DungeonMap`, `TrialOfTheHollow` (map, enemy decks, blessing) with tests (248 total).
+- Working title for the game: **Wellspring** (see open_questions.md).

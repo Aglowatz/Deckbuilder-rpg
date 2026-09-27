@@ -4,3 +4,6 @@
 
 # Downloaded asset packs (only used files are copied into assets/)
 /_asset_library/
+
+# Screenshot self-review output
+/_screenshots/
