@@ -97,7 +97,7 @@ func start() -> void:
 
 func _deal_opening_hand(player: PlayerState) -> void:
 	var hand: Array[CardInstance] = HandSmoother.draw_opening_hand(
-		player.library, player.opening_hand_size, player.deck_land_ratio, options.hand_smoother, rng
+		player.library, player.opening_hand_size, player.deck_land_ratio, options.hand_smoother, rng, options.smoother_tolerance
 	)
 	for card: CardInstance in hand:
 		player.hand.append(card)

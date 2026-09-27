@@ -15,6 +15,10 @@ const DEFAULT_MAX_HAND_SIZE: int = 10
 @export var owned_cards: Array[CardData] = []
 ## Raises the deck color limit from 2 to 4.
 @export var postgame_unlocked: bool = false
+## The land color the player chose at the start (NEUTRAL = not chosen yet).
+@export var primary_affinity: Affinity.Type = Affinity.Type.NEUTRAL
+## Set once the intro dungeon is cleared and the attunement reward has been granted.
+@export var intro_dungeon_cleared: bool = false
 @export var equipment: Array[ModifierSource] = []
 @export var items: Array[ModifierSource] = []
 

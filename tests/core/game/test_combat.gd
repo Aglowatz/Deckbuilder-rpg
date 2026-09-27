@@ -416,3 +416,50 @@ func test_opponent_cannot_act_during_attackers_step() -> void:
 	assert_false(game.apply_action(GameAction.pass_phase(1)))
 	var block: GameAction = GameAction.make(GameAction.Type.DECLARE_BLOCKERS, 1)
 	assert_false(game.apply_action(block))
+
+
+# ---- Vigilance ---------------------------------------------------------------------
+
+
+func test_vigilance_attacker_does_not_tap_and_can_block_next_turn() -> void:
+	var vig: Array[CardEnums.Keyword] = [KW.VIGILANCE]
+	var ctx: Dictionary = _setup(_vanilla(2, 2, vig))
+	var game: GameState = ctx["game"]
+	var attacker: CardInstance = ctx["attacker"]
+	assert_true(_attack(game, attacker))
+	assert_false(attacker.tapped, "vigilance: attacking does not tap")
+	game.declare_blockers({})
+	assert_eq(game.players[1].life, 8)
+	assert_true(game.possible_blockers(0).has(attacker), "still available to block on the opponent's turn")
+
+
+func test_non_vigilance_attacker_still_taps() -> void:
+	var ctx: Dictionary = _setup(_vanilla(2, 2))
+	_attack(ctx["game"], ctx["attacker"])
+	assert_true(ctx["attacker"].tapped)
+
+
+func test_vigilance_creature_can_attack_every_turn() -> void:
+	var vig: Array[CardEnums.Keyword] = [KW.VIGILANCE]
+	var ctx: Dictionary = _setup(_vanilla(1, 1, vig))
+	var game: GameState = ctx["game"]
+	_attack(game, ctx["attacker"])
+	game.declare_blockers({})
+	GameFactory.pass_turn(game)
+	GameFactory.pass_turn(game)
+	game.advance_phase()
+	assert_true(_attack(game, ctx["attacker"]))
+
+
+func test_vigilance_can_be_granted_by_an_effect() -> void:
+	var game: GameState = GameFactory.blank_game()
+	var creature: CardInstance = GameFactory.add_to_battlefield(game, 0, _vanilla(1, 1))
+	var grant: EffectData = CardBuilder.effect(CardEnums.Trigger.ON_ENTER, CardEnums.TargetKind.CHOSEN_CREATURE_ALLY, CardEnums.EffectOp.GRANT_KEYWORD, 0, 0, CardEnums.Duration.END_OF_TURN)
+	grant.keyword = KW.VIGILANCE
+	var spell: CardData = CardBuilder.spell("vig", "Vig", Affinity.Type.A, 0, [] as Array[Affinity.Type])
+	CardBuilder.with_effect(spell, grant)
+	var hand: CardInstance = GameFactory.add_to_hand(game, 0, spell)
+	game.cast(0, hand.uid, creature.uid)
+	game.advance_phase()
+	_attack(game, creature)
+	assert_false(creature.tapped)

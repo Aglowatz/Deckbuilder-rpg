@@ -7,12 +7,12 @@ chosen and why so it can be revisited. Newest entries are at the bottom of each 
 
 | # | Question | Chosen | Why |
 |---|----------|--------|-----|
-| 1 | Do attackers tap when attacking? | Yes. Attacking creatures tap and untap at the start of their controller's next turn, so they cannot block on the opponent's turn. | Gives attacking a real defensive cost; there is no Vigilance keyword to offset it. |
-| 2 | What does **Guard** ("enemies must attack this if able") mean when attackers normally hit the player? | While a defender controls any Guard creature, every attacker must attack a Guard creature instead of the player. Unblocked damage lands on that Guard creature. Guards can still be blocked-for/blocked normally. | Smallest change that makes the keyword literal and meaningful without adding a general "attack a creature" system. |
-| 3 | Can one blocker block several attackers? | No. Each blocker blocks at most one attacker; each attacker has at most one blocker. | Matches "at most one blocker per attacker" and the simplest reading of the combat rules. |
+| 1 | Do attackers tap when attacking? | Yes. Attacking creatures tap and untap at the start of their controller's next turn, so they cannot block on the opponent's turn. | Gives attacking a real defensive cost; there is no Vigilance keyword to offset it. **Confirmed/updated in the design review below.** |
+| 2 | What does **Guard** ("enemies must attack this if able") mean when attackers normally hit the player? | While a defender controls any Guard creature, every attacker must attack a Guard creature instead of the player. Unblocked damage lands on that Guard creature. Guards can still be blocked-for/blocked normally. | Smallest change that makes the keyword literal and meaningful without adding a general "attack a creature" system. **Confirmed/updated in the design review below.** |
+| 3 | Can one blocker block several attackers? | No. Each blocker blocks at most one attacker; each attacker has at most one blocker. | Matches "at most one blocker per attacker" and the simplest reading of the combat rules. **Confirmed/updated in the design review below.** |
 | 4 | Blocking restrictions | Tapped creatures cannot block. Flying attackers can only be blocked by Flying or Reach. Summoning-sick creatures may block. | Standard for the genre. |
 | 5 | Which lands does auto-payment tap? | Colored pips are paid by matching lands first; generic cost is paid by Neutral lands first, then from the color the player has the most untapped lands of. The caller may pass explicit lands to tap. | Keeps mana flexible for later casts without a manual payment UI. |
-| 6 | Neutral lands? | A land with color NEUTRAL produces colorless mana that only pays generic costs. Not used by content yet. | Free to support, useful for later. |
+| 6 | Neutral lands? | A land with color NEUTRAL produces colorless mana that only pays generic costs. Not used by content yet. | Free to support, useful for later. **Superseded: the neutral land was scrapped (design review below).** |
 | 7 | Hand size overflow | Cards are drawn even when over the max hand size; at end of turn the player must discard down to their max. | Standard; keeps draw effects from being wasted mid-turn. |
 | 8 | Discard effects | The affected player discards random cards from hand. | No decision step needed inside effect resolution. |
 | 9 | Chosen targets for non-spell triggers | Triggered effects that name a chosen target are auto-targeted by the engine (best enemy for harmful effects, best ally for beneficial ones). Spells and creature ETBs take the target chosen at cast time. | There is no priority/stack, so no place to prompt mid-turn. |
@@ -24,7 +24,7 @@ chosen and why so it can be revisited. Newest entries are at the bottom of each 
 | 15 | Both players reach 0 life at once | The game is a draw. | Only fair result. |
 | 16 | Turn limit | Games not decided after `turn_limit` turns (default 100 total turns) end as a draw. | Prevents infinite stalls in AI simulation. |
 | 17 | Who moves first | Player 0 by default; `GameOptions.first_player = -1` picks randomly. The first player skips the draw on turn 1. | Matches combat_rules.md; option keeps simulation fair. |
-| 18 | Hand smoother default | On by default (2 candidate hands, keep the one whose land count is closest to deck ratio x hand size; ties keep the first). Mulligan re-uses the smoother. | Written as a player-facing option; default on because it is the intended experience. |
+| 18 | Hand smoother default | On by default (2 candidate hands, keep the one whose land count is closest to deck ratio x hand size; ties keep the first). Mulligan re-uses the smoother. | Written as a player-facing option; default on because it is the intended experience. **Confirmed/updated in the design review below.** |
 | 19 | Free mulligan | One per player: shuffle the hand back and draw the same number of cards. | "One free mulligan" - no card penalty. |
 | 20 | Whose combat starts trigger START_OF_COMBAT_EFFECT modifiers? | Only the modifier owner's own combat phase. | "Start-of-combat" reads as the owner's turn structure; effects that should hit every combat can be given to both players. |
 | 21 | Max-life boons mid-dungeon | A boon/source that raises max life also raises current life by the same amount. | Standard roguelike behaviour; otherwise a "+max life" reward would feel empty. |
@@ -38,10 +38,29 @@ chosen and why so it can be revisited. Newest entries are at the bottom of each 
 | 29 | Does the AI see hidden information? | It sees everything except the opponent's face-down traps, which are removed from its look-ahead clones (so it walks into them like a human would). It does read the opponent's board and hand size; it never uses the opponent's hand contents to decide (there are no instants, so hands cannot matter to a one-step look-ahead). | Fair-feeling opponent without needing an information-set model. |
 | 30 | AI search depth | One step: each candidate action is applied to a clone and the resulting position scored. Attacks also simulate the opponent's best blocking reply (chosen with the same one-step look-ahead). | Matches the milestone spec; keeps simulation of thousands of games fast. |
 | 31 | AI targets for its own spells | Chosen by the same look-ahead (each (spell, target) pair is scored), not by the engine's auto-target heuristic. | Better play for free. |
-| 32 | "5 sample decks (one per color pair + one neutral starter)": 4 colors make 6 pairs, not 4 | Built the 4 ring pairs (A/B, B/C, C/D, D/A) plus the neutral starter = 5 decks, so every color is in exactly two decks. A/C and B/D are not built. | The explicit count of 5 wins; the ring keeps color coverage even. Adding the two missing pairs is easy (a recipe each in `ContentDefinitions.deck_recipes()`). |
+| 32 | "5 sample decks (one per color pair + one neutral starter)": 4 colors make 6 pairs, not 4 | Built the 4 ring pairs (A/B, B/C, C/D, D/A) plus the neutral starter = 5 decks, so every color is in exactly two decks. A/C and B/D are not built. | The explicit count of 5 wins; the ring keeps color coverage even. Adding the two missing pairs is easy (a recipe each in `ContentDefinitions.deck_recipes()`). **Confirmed/updated in the design review below.** |
 | 33 | "40 placeholder cards: 10 Neutral and ~8 per color" | Exactly 40: 10 Neutral + 8 (A) + 8 (B) + 7 (C) + 7 (D). Plus 5 basic lands and 1 token (Spirit), which are not counted as cards. | Matches the total; the per-color split is the "~8". |
-| 34 | Neutral starter deck needs lands | Added a Neutral basic land (colorless mana, pays generic costs only). Decks use 17 lands / 28 spells. | Lets the starter be genuinely colorless. Easy to swap for a real color if you would rather. |
+| 34 | Neutral starter deck needs lands | Added a Neutral basic land (colorless mana, pays generic costs only). Decks use 17 lands / 28 spells. | Lets the starter be genuinely colorless. Easy to swap for a real color if you would rather. **Superseded: the neutral land was scrapped (design review below).** |
 | 35 | Trap limits | No cap on set traps; each fires once then goes to the graveyard; several traps can fire on the same event. | No rule given; a cap can be added in `GameState.cast()`. |
 | 36 | Balance pass | One tuning round after the first round-robin (see `docs/balance_report.md`); all decks 44-55%, one matchup (Grave & Ember vs Wanderer's Pack) at 32/68. Stopped tuning there. | 100 games/matchup is +/-10 points of noise; the AI does not yet understand sacrifice synergies, so deeper tuning should wait. |
 | 37 | Simulation turn limit | 60 total turns, then a draw (2 of 1000 games hit it). | Avoids endless stalls in bulk simulation. |
 | 38 | Where do effect scripts and resource classes live? | `core/data/` (resource classes: cards, effects, modifiers, decks, profile), `core/game/` (rules), `core/dungeon/`, `core/ai/`, `core/sim/`; generated `.tres` in `data/`. | `data/` holds only .tres per CLAUDE.md; script classes live with the rules. |
+
+## Designer review (answers to the first round of questions)
+
+| Topic | Decision | Implemented as |
+|-------|----------|----------------|
+| Guard (Q2) | Confirmed: attackers must attack a Guard creature while the defender has one. | unchanged |
+| Attackers tap (Q1) | Keep tapping, and add a **Vigilance** keyword: attacking does not tap. | `CardEnums.Keyword.VIGILANCE`; Ironclad carries it; can be granted by effects. |
+| One blocker blocks one attacker (Q3) | Confirmed. | unchanged |
+| Sample decks (Q32) | Do not build A/C and B/D. The player starts with the neutral deck only and builds other decks themselves; the four pair decks are opponent/reference decks. | `CampaignStart`; pair decks are never in the player's collection (test `test_no_sample_pair_deck_is_given_to_the_player`). |
+| Neutral land (Q6, Q34) | Scrap it. The player picks a primary color; the starter deck is neutral cards plus basic lands of that color; after the intro dungeon they get 5 cards of that color. Must make sense thematically and in the story. | `PlayerProfile.primary_affinity` / `intro_dungeon_cleared`, `CampaignStart`, `ContentDefinitions.attunement_rewards()`, `docs/design/starting_deck_and_affinity.md`. The engine still tolerates a NEUTRAL-colored land (harmless), but no content uses it. |
+| Hand smoother (Q18) | Default on, but not too good. | Gentler smoother: only swaps a first hand more than 1 land from the deck's land ratio (`GameOptions.smoother_tolerance = 1.0`). Tests show it beats no smoother but is weaker than always comparing two hands. |
+
+New questions from this round:
+
+| # | Question | Chosen | Why |
+|---|----------|--------|-----|
+| 39 | How many cards are in the attunement reward and are they copies? | Five different cards, one copy each, per color (lists in `ContentDefinitions.attunement_rewards()`). | "5 cards"; a deck needs 45, so players must find more elsewhere. |
+| 40 | Which lands does the starter deck use before a color is chosen (the template deck in `data/decks/`)? | The template file uses Affinity A lands only as a placeholder for simulation; the real starter deck is always built with `CampaignStart.starter_deck(content, color)`. | Neutral spells cost generic mana, so the land color does not change how the starter plays. |
+| 41 | Should the attuned cards be added to the current deck automatically? | No: they go into the collection (`owned_cards`); the player edits the deck. | Deck building is meant to be the player's experimentation. |

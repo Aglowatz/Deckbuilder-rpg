@@ -551,3 +551,63 @@ func test_clone_can_hide_traps() -> void:
 	assert_eq(game.clone().players[1].traps.size(), 1)
 	assert_eq(game.clone(true, 1).players[1].traps.size(), 0)
 	assert_eq(game.clone(true, 1).players[0].traps.size(), 0)
+
+
+func test_default_smoother_only_rescues_clearly_bad_hands() -> void:
+	var opts: GameOptions = GameOptions.new()
+	assert_eq(opts.smoother_tolerance, 1.0, "gentle by default")
+	var deck: Deck = GameFactory.make_deck(null, 17, 45)
+	var ratio: float = 17.0 / 45.0
+	var plain: float = 0.0
+	var gentle: float = 0.0
+	var strong: float = 0.0
+	var bad_plain: int = 0
+	var bad_gentle: int = 0
+	var bad_strong: int = 0
+	for seed_value: int in range(1, 401):
+		var lands_plain: int = _hand_lands(deck, ratio, false, 0.0, seed_value)
+		var lands_gentle: int = _hand_lands(deck, ratio, true, 1.0, seed_value)
+		var lands_strong: int = _hand_lands(deck, ratio, true, 0.0, seed_value)
+		var target: float = ratio * 7.0
+		plain += absf(float(lands_plain) - target)
+		gentle += absf(float(lands_gentle) - target)
+		strong += absf(float(lands_strong) - target)
+		bad_plain += 1 if absf(float(lands_plain) - target) > 2.0 else 0
+		bad_gentle += 1 if absf(float(lands_gentle) - target) > 2.0 else 0
+		bad_strong += 1 if absf(float(lands_strong) - target) > 2.0 else 0
+	assert_lt(gentle, plain, "the gentle smoother still helps")
+	assert_gt(gentle, strong, "but is weaker than always comparing two hands")
+	assert_lt(bad_gentle, bad_plain, "fewer floods/screws")
+	assert_gt(bad_gentle, bad_strong - 1, "it does not eliminate them")
+
+
+func _hand_lands(deck: Deck, ratio: float, smoother: bool, tolerance: float, seed_value: int) -> int:
+	var game: GameState = GameState.new()
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = seed_value
+	var library: Array[CardInstance] = []
+	for data: CardData in deck.cards:
+		library.append(game.create_instance(data, 0))
+	return HandSmoother.count_lands(HandSmoother.draw_opening_hand(library, 7, ratio, smoother, rng, tolerance))
+
+
+func test_smoother_leaves_a_reasonable_first_hand_alone() -> void:
+	var game: GameState = GameState.new()
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 5
+	var library: Array[CardInstance] = []
+	for i: int in range(20):
+		library.append(game.create_instance(GameFactory.land(), 0))
+	for i: int in range(25):
+		library.append(game.create_instance(GameFactory.vanilla(1, 1), 0))
+	var before: RandomNumberGenerator = RandomNumberGenerator.new()
+	before.seed = 5
+	var reference: Array[CardInstance] = library.duplicate()
+	RngUtil.shuffle(reference, before)
+	var expected_first_lands: int = 0
+	for i: int in range(reference.size() - 7, reference.size()):
+		if reference[i].data.is_land():
+			expected_first_lands += 1
+	var target: float = 20.0 / 45.0 * 7.0
+	var hand: Array[CardInstance] = HandSmoother.draw_opening_hand(library, 7, 20.0 / 45.0, true, rng, 99.0)
+	assert_eq(HandSmoother.count_lands(hand), expected_first_lands, "huge tolerance = never swap (target %.1f)" % target)

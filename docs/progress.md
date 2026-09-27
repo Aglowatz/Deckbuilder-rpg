@@ -230,3 +230,31 @@ Highest impact first; the full list with reasoning is in `docs/design/open_quest
    and should the neutral starter be intentionally weaker than the paired decks?
 10. **Life rules (Q11, Q21).** Life gain is capped at max life; a max-life boon during a dungeon
     also heals by the same amount. Confirm or change.
+
+---
+
+# Follow-up: design review changes
+
+Applied after the first round of answers (details in `docs/design/open_questions.md`, "Designer review").
+
+- **Vigilance** keyword added (attacking does not tap). Ironclad now has it; effects can grant it.
+  Combat tests: 4 new.
+- **Guard, one-blocker-per-attacker**: confirmed, unchanged.
+- **Neutral land removed** from content (4 basic lands, one per color). The sample-deck template
+  "Wanderer's Pack" now carries Affinity A lands as a placeholder for simulation only.
+- **Campaign start** (`core/dungeon/campaign_start.gd`): the player owns only the 28 neutral
+  starter spells, picks a primary color that sets their basic lands, and receives 5 cards of that
+  color once after the intro dungeon. Pair decks are never given to the player. Story framing in
+  `docs/design/starting_deck_and_affinity.md` (placeholder lore: a Wellspring recognises the
+  Wanderer after the Trial of the Hollow). 8 new tests in `tests/core/dungeon/test_campaign_start.gd`.
+- **Hand smoother** is on by default but gentler: it only swaps a hand more than 1 land away from
+  the deck's land ratio (`GameOptions.smoother_tolerance`). Test asserts it helps, but less than
+  always comparing two hands.
+- **Balance re-run** with all of the above: decks at 42-57%, starter at 50%; report and notes
+  updated. `docs/design/combat_rules.md` updated (vigilance, guard, blocking, gentler smoother).
+
+Tests: **241 total, all passing.**
+
+Still open (unchanged, lower priority): discard-effect choice (Q7/Q8), trap cap (Q35), balance
+band and whether the starter should be intentionally weaker (Q36), life-gain cap and max-life
+boon healing (Q11, Q21).

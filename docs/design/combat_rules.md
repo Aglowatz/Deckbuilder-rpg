@@ -9,7 +9,9 @@ disagree, this file wins (or is deliberately updated first).
   single enum (e.g. `Affinity`) so they can be renamed in one place later.
 - A deck may use at most **2** land/color types in the main campaign. The flag
   `postgame_unlocked` raises this limit to **4**.
-- **Neutral** cards cost generic mana and fit any deck.
+- **Neutral** cards cost generic mana and fit any deck. There is no neutral land.
+- The player starts with the neutral starter deck only, using basic lands of a chosen primary
+  color; see `docs/design/starting_deck_and_affinity.md`.
 
 ## Turn Structure
 
@@ -24,6 +26,12 @@ Start (untap, draw; the first player skips their first draw) → Main 1 → Comb
 1. The attacker declares attackers.
 2. The defender assigns at most one blocker per attacker.
 3. Unblocked damage hits the player.
+
+- Attacking creatures tap and stay tapped until their controller's next untap, so they cannot
+  block on the opponent's turn. **Vigilance** creatures do not tap when attacking.
+- Each blocker blocks at most one attacker.
+- **Guard**: while a defender controls a Guard creature, every attacker must attack a Guard creature
+  instead of the player (unblocked damage lands on that Guard creature).
 
 ## No Interaction Windows
 
@@ -59,8 +67,11 @@ Modifiers from equipment, items, and zones apply on top of the profile values.
 
 ## Opening Hand: Hand Smoother (option)
 
-When enabled, drawing the opening hand generates **2 candidate hands** and keeps the one
-whose land count is closest to the deck's land ratio (land count ÷ deck size × hand size).
+When enabled (the default), the opening hand is drawn normally. If its land count is **more than
+1 land away** from the deck's land ratio (land count ÷ deck size × hand size), a second candidate
+hand is generated and the one closer to that target is kept. The tolerance
+(`GameOptions.smoother_tolerance`, default 1) is deliberately gentle: the smoother rescues
+floods and screws but does not make every hand ideal.
 
 ## Mulligan
 

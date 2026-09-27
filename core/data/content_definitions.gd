@@ -97,7 +97,7 @@ static func build_tokens() -> Dictionary:
 
 static func build_lands() -> Dictionary:
 	var lands: Dictionary = {}
-	for color: Affinity.Type in [N, A, B, C, D]:
+	for color: Affinity.Type in Affinity.colored_types():
 		var land: CardData = CardBuilder.land(color)
 		land.rules_text = "Tap: add one %s mana." % Affinity.display_name(color)
 		lands[int(color)] = land
@@ -121,10 +121,10 @@ static func build_cards(tokens: Dictionary) -> Dictionary:
 static func _add_neutral(cards: Dictionary) -> void:
 	_add(cards, _fin(_creature("sellsword", "Sellsword", N, 2, [], 2, 2), R.COMMON, "", "Coin first, questions never."))
 	_add(cards, _fin(_creature("cave_bat", "Cave Bat", N, 2, [], 1, 2, [K.FLYING]), R.COMMON, "Flying"))
-	_add(cards, _fin(_creature("stone_sentinel", "Stone Sentinel", N, 3, [], 3, 4, [K.GUARD]), R.COMMON, "Guard"))
+	_add(cards, _fin(_creature("stone_sentinel", "Stone Sentinel", N, 3, [], 2, 4, [K.GUARD]), R.COMMON, "Guard"))
 	_add(cards, _fin(_with(_creature("field_medic", "Field Medic", N, 3, [], 2, 2), _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 3)), R.COMMON, "When this enters, gain 3 life."))
 	_add(cards, _fin(_with(_creature("merchant", "Traveling Merchant", N, 3, [], 2, 2), _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 1)), R.UNCOMMON, "When this enters, draw a card."))
-	_add(cards, _fin(_creature("ironclad", "Ironclad", N, 4, [], 4, 4), R.COMMON))
+	_add(cards, _fin(_creature("ironclad", "Ironclad", N, 4, [], 3, 4, [K.VIGILANCE]), R.COMMON, "Vigilance"))
 	_add(cards, _fin(_with(CardBuilder.artifact("healing_idol", "Healing Idol", N, 2, _pips([])), _fx(T.START_OF_TURN, G.CONTROLLER, O.GAIN_LIFE, 1)), R.UNCOMMON, "At the start of your turn, gain 1 life."))
 	_add(cards, _fin(_with(_spell("rusty_curse", "Rusty Curse", N, 2, []), _fx(T.ON_ENTER, G.CHOSEN_CREATURE_ENEMY, O.BUFF, -2, -2)), R.COMMON, "Target enemy creature gets -2/-2."))
 	_add(cards, _fin(_with(_trap("pitfall", "Pitfall", N, 2, []), _fx(T.TRAP_OPPONENT_ATTACKS, G.TRIGGERING_CARD, O.DESTROY)), R.UNCOMMON, "Trap: when the opponent attacks, destroy their strongest attacker."))
@@ -179,6 +179,16 @@ static func _add_affinity_d(cards: Dictionary, spirit: CardData) -> void:
 	_add(cards, _fin(_with(_creature("necromancer", "Necromancer", D, 3, [D], 2, 3), summon_two), R.RARE, "When this enters, create two 1/1 Spirits."))
 
 
+## The five cards the Wellspring grants (one copy each) after the intro dungeon, by chosen color.
+static func attunement_rewards() -> Dictionary:
+	return {
+		A: ["ember_imp", "blade_dancer", "raider", "firebolt", "flame_burst"],
+		B: ["frost_sentry", "sage", "recall", "deep_insight", "dissolve"],
+		C: ["mossback_bear", "rampaging_boar", "stag_warden", "growth", "rejuvenate"],
+		D: ["bone_servant", "grave_tender", "martyr", "bloodthirst_wolf", "soul_drain"],
+	}
+
+
 static func reward_pool(cards: Dictionary) -> Array[CardData]:
 	var pool: Array[CardData] = []
 	for id: String in ["merchant", "ironclad", "supply_cache", "pitfall"]:
@@ -215,7 +225,7 @@ static func deck_recipes() -> Array[Dictionary]:
 			"name": "Root & Grave",
 			"lands": {C: 9, D: 8},
 			"spells": {
-				"mossback_bear": 3, "rampaging_boar": 3, "stag_warden": 1, "ancient_treant": 2,
+				"mossback_bear": 3, "rampaging_boar": 3, "stag_warden": 2, "ancient_treant": 1,
 				"thornback_colossus": 1, "growth": 2, "rejuvenate": 1, "bone_servant": 2,
 				"grave_tender": 2, "martyr": 2, "bloodthirst_wolf": 2, "soul_drain": 1,
 				"dark_bargain": 1, "necromancer": 1, "field_medic": 2, "healing_idol": 2,
@@ -232,7 +242,7 @@ static func deck_recipes() -> Array[Dictionary]:
 		},
 		{
 			"name": "Wanderer's Pack",
-			"lands": {N: 17},
+			"lands": {A: 17},
 			"spells": {
 				"sellsword": 3, "cave_bat": 3, "stone_sentinel": 3, "field_medic": 3, "merchant": 3,
 				"ironclad": 3, "healing_idol": 2, "rusty_curse": 3, "pitfall": 2, "supply_cache": 3,

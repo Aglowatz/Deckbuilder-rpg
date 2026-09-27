@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="Deck" format=3]
 
 [ext_resource type="Script" path="res://core/data/card_data.gd" id="1_6d2uv"]
-[ext_resource type="Resource" path="res://data/cards/land_neutral.tres" id="2_8n3tc"]
+[ext_resource type="Resource" path="res://data/cards/land_affinity_a.tres" id="2_8n3tc"]
 [ext_resource type="Resource" path="res://data/cards/sellsword.tres" id="3_43001"]
 [ext_resource type="Resource" path="res://data/cards/cave_bat.tres" id="4_ntshu"]
 [ext_resource type="Resource" path="res://data/cards/stone_sentinel.tres" id="5_cct18"]

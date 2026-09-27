@@ -30,8 +30,8 @@ func test_forty_placeholder_cards_split_by_color() -> void:
 
 
 func test_basic_lands_for_every_color_and_a_token() -> void:
-	assert_eq(_content.lands.size(), 5)
-	for color: Affinity.Type in Affinity.Type.values():
+	assert_eq(_content.lands.size(), 4, "one basic land per color, no neutral land")
+	for color: Affinity.Type in Affinity.colored_types():
 		var land: CardData = _content.lands[int(color)]
 		assert_true(land.is_land())
 		assert_true(land.is_basic)
@@ -131,13 +131,12 @@ func test_five_sample_decks_are_legal() -> void:
 
 func test_deck_color_coverage() -> void:
 	var appearances: Dictionary = {}
-	var colorless_decks: int = 0
 	for deck: Deck in _content.decks:
-		if deck.colors().is_empty():
-			colorless_decks += 1
+		if deck.deck_name == CampaignStart.STARTER_DECK_NAME:
+			continue
+		assert_eq(deck.colors().size(), 2, deck.deck_name)
 		for color: Affinity.Type in deck.colors():
 			appearances[color] = int(appearances.get(color, 0)) + 1
-	assert_eq(colorless_decks, 1, "one neutral starter deck")
 	for color: Affinity.Type in Affinity.colored_types():
 		assert_eq(appearances[color], 2, "every color is in two of the pair decks")
 
@@ -148,10 +147,13 @@ func test_decks_only_use_cards_from_the_library() -> void:
 			assert_true(card.is_land() or _content.cards.has(card.id), "%s: unknown card %s" % [deck.deck_name, card.id])
 
 
-func test_neutral_starter_uses_no_colored_cards() -> void:
+func test_neutral_starter_spells_are_all_neutral() -> void:
 	var starter: Deck = _content.deck("Wanderer's Pack")
 	assert_not_null(starter)
-	assert_eq(starter.colors().size(), 0)
+	for card: CardData in starter.cards:
+		if not card.is_land():
+			assert_eq(card.color, Affinity.Type.NEUTRAL, card.id)
+	assert_eq(starter.colors().size(), 1, "only its lands carry a color")
 
 
 # ---- Every card actually works in a game -----------------------------------------------

@@ -1,8 +1,10 @@
 class_name HandSmoother
 extends RefCounted
-## Opening-hand selection. Draws `hand_size` cards from a shuffled library; with the smoother
-## on, two candidate hands are generated and the one whose land count is closest to
-## `land_ratio * hand_size` is kept (ties keep the first candidate).
+## Opening-hand selection. Draws `hand_size` cards from a shuffled library. With the smoother on,
+## a second candidate hand is drawn only when the first one's land count is more than `tolerance`
+## away from `land_ratio * hand_size`; the candidate closer to that target is kept (ties keep the
+## first). A tolerance of 0 always compares two hands; the default game setting is deliberately
+## gentle so the smoother rescues floods and screws without making every hand ideal.
 
 
 ## Removes `hand_size` cards from `library` (top = end) and returns them as the hand.
@@ -13,15 +15,17 @@ static func draw_opening_hand(
 	land_ratio: float,
 	smoother: bool,
 	rng: RandomNumberGenerator,
+	tolerance: float = 0.0,
 ) -> Array[CardInstance]:
 	var count: int = mini(hand_size, library.size())
+	var target: float = land_ratio * float(count)
 	RngUtil.shuffle(library, rng)
 	var hand: Array[CardInstance] = _top(library, count)
-	if smoother:
+	if smoother and absf(float(count_lands(hand)) - target) > tolerance:
 		var first: Array[CardInstance] = hand
 		RngUtil.shuffle(library, rng)
 		var second: Array[CardInstance] = _top(library, count)
-		hand = pick_closest(first, second, land_ratio * float(count))
+		hand = pick_closest(first, second, target)
 	for card: CardInstance in hand:
 		library.erase(card)
 	RngUtil.shuffle(library, rng)

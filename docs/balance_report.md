@@ -8,11 +8,11 @@ Games not finished within the turn limit are draws.
 
 | Deck | Games | Win rate |
 |------|------:|---------:|
-| Ember & Tide | 400 | 55% |
-| Tide & Root | 400 | 54% |
-| Wanderer's Pack | 400 | 52% |
-| Root & Grave | 400 | 45% |
-| Grave & Ember | 400 | 44% |
+| Ember & Tide | 400 | 57% |
+| Tide & Root | 400 | 55% |
+| Wanderer's Pack | 400 | 50% |
+| Grave & Ember | 400 | 47% |
+| Root & Grave | 400 | 42% |
 
 Average game length: **15.4 turns** (both players' turns) over 1000 games.
 
@@ -20,84 +20,83 @@ Average game length: **15.4 turns** (both players' turns) over 1000 games.
 
 | | Ember & Tide | Grave & Ember | Root & Grave | Tide & Root | Wanderer's Pack |
 |---|---:|---:|---:|---:|---:|
-| **Ember & Tide** | - | 52% | 63% | 55% | 51% |
-| **Grave & Ember** | 48% | - | 45% | 51% | 32% |
-| **Root & Grave** | 37% | 55% | - | 41% | 45% |
-| **Tide & Root** | 45% | 49% | 59% | - | 63% |
-| **Wanderer's Pack** | 49% | 68% | 55% | 38% | - |
+| **Ember & Tide** | - | 59% | 58% | 58% | 53% |
+| **Grave & Ember** | 41% | - | 56% | 51% | 40% |
+| **Root & Grave** | 42% | 44% | - | 39% | 41% |
+| **Tide & Root** | 42% | 49% | 61% | - | 68% |
+| **Wanderer's Pack** | 47% | 60% | 59% | 32% | - |
 
 ## Matchups
 
 | Deck A | Deck B | Games | A wins | B wins | Draws | Avg turns | First player wins |
 |--------|--------|------:|-------:|-------:|------:|----------:|------------------:|
-| Ember & Tide | Grave & Ember | 100 | 52 | 48 | 0 | 12.5 | 40% |
-| Ember & Tide | Root & Grave | 100 | 63 | 37 | 0 | 12.7 | 49% |
-| Ember & Tide | Tide & Root | 100 | 55 | 45 | 0 | 13.3 | 55% |
-| Ember & Tide | Wanderer's Pack | 100 | 51 | 49 | 0 | 15.7 | 43% |
-| Grave & Ember | Root & Grave | 100 | 44 | 55 | 1 | 14.9 | 46% |
-| Grave & Ember | Tide & Root | 100 | 51 | 49 | 0 | 14.4 | 51% |
-| Grave & Ember | Wanderer's Pack | 100 | 32 | 68 | 0 | 16.5 | 50% |
-| Root & Grave | Tide & Root | 100 | 41 | 59 | 0 | 15.6 | 57% |
-| Root & Grave | Wanderer's Pack | 100 | 45 | 55 | 0 | 18.2 | 57% |
-| Tide & Root | Wanderer's Pack | 100 | 62 | 37 | 1 | 20.3 | 46% |
+| Ember & Tide | Grave & Ember | 100 | 59 | 41 | 0 | 12.3 | 51% |
+| Ember & Tide | Root & Grave | 100 | 58 | 42 | 0 | 12.5 | 52% |
+| Ember & Tide | Tide & Root | 100 | 58 | 42 | 0 | 13.0 | 54% |
+| Ember & Tide | Wanderer's Pack | 100 | 53 | 47 | 0 | 16.2 | 53% |
+| Grave & Ember | Root & Grave | 100 | 56 | 44 | 0 | 14.2 | 50% |
+| Grave & Ember | Tide & Root | 100 | 51 | 49 | 0 | 14.2 | 47% |
+| Grave & Ember | Wanderer's Pack | 100 | 40 | 60 | 0 | 17.5 | 46% |
+| Root & Grave | Tide & Root | 100 | 39 | 61 | 0 | 16.1 | 51% |
+| Root & Grave | Wanderer's Pack | 100 | 41 | 59 | 0 | 18.6 | 51% |
+| Tide & Root | Wanderer's Pack | 100 | 68 | 32 | 0 | 19.7 | 46% |
 
 ## Most-played cards
 
 Average casts per game (spells only; lands excluded), top 8 per deck.
 
-- **Ember & Tide**: blade_dancer (0.79), sellsword (0.76), ember_imp (0.69), whispering_shade (0.48), firebolt (0.46), flame_burst (0.45), cave_bat (0.44), raider (0.41)
-  - least played: firebolt (0.15 per copy), supply_cache (0.18 per copy), dissolve (0.18 per copy)
-- **Grave & Ember**: bloodthirst_wolf (0.78), ember_imp (0.50), martyr (0.47), blade_dancer (0.47), bone_servant (0.47), soul_drain (0.46), flame_burst (0.44), raider (0.42)
-  - least played: dark_bargain (0.08 per copy), firebolt (0.16 per copy), blazing_charger (0.19 per copy)
-- **Root & Grave**: mossback_bear (0.77), rampaging_boar (0.61), martyr (0.53), healing_idol (0.51), bone_servant (0.47), field_medic (0.45), bloodthirst_wolf (0.43), grave_tender (0.41)
-  - least played: thornback_colossus (0.07 per copy), dark_bargain (0.07 per copy), ancient_treant (0.11 per copy)
-- **Tide & Root**: mossback_bear (0.81), rampaging_boar (0.70), rusty_curse (0.52), whispering_shade (0.51), sage (0.46), deep_insight (0.45), merchant (0.45), stag_warden (0.45)
-  - least played: dissolve (0.18 per copy), sea_warden (0.20 per copy), ancient_treant (0.21 per copy)
-- **Wanderer's Pack**: cave_bat (1.01), sellsword (1.00), field_medic (0.98), ironclad (0.93), stone_sentinel (0.92), merchant (0.89), rusty_curse (0.82), supply_cache (0.75)
-  - least played: supply_cache (0.25 per copy), rusty_curse (0.27 per copy), healing_idol (0.28 per copy)
+- **Ember & Tide**: blade_dancer (0.78), ember_imp (0.74), sellsword (0.68), firebolt (0.50), flame_burst (0.48), cave_bat (0.47), whispering_shade (0.46), blazing_charger (0.39)
+  - least played: firebolt (0.17 per copy), supply_cache (0.17 per copy), raider (0.18 per copy)
+- **Grave & Ember**: bloodthirst_wolf (0.70), martyr (0.52), bone_servant (0.49), flame_burst (0.48), soul_drain (0.48), ember_imp (0.44), raider (0.41), blade_dancer (0.41)
+  - least played: dark_bargain (0.10 per copy), firebolt (0.17 per copy), warcry (0.18 per copy)
+- **Root & Grave**: mossback_bear (0.66), rampaging_boar (0.60), martyr (0.50), healing_idol (0.47), bone_servant (0.47), field_medic (0.44), bloodthirst_wolf (0.42), grave_tender (0.41)
+  - least played: thornback_colossus (0.07 per copy), dark_bargain (0.09 per copy), ancient_treant (0.13 per copy)
+- **Tide & Root**: mossback_bear (0.75), rampaging_boar (0.70), whispering_shade (0.54), rusty_curse (0.51), deep_insight (0.45), sage (0.45), stag_warden (0.43), merchant (0.41)
+  - least played: sea_warden (0.17 per copy), ancient_treant (0.18 per copy), snare (0.19 per copy)
+- **Wanderer's Pack**: cave_bat (1.00), sellsword (0.98), field_medic (0.95), merchant (0.94), stone_sentinel (0.94), ironclad (0.91), rusty_curse (0.85), supply_cache (0.73)
+  - least played: supply_cache (0.24 per copy), rusty_curse (0.28 per copy), healing_idol (0.29 per copy)
 
 ## Flagged matchups
 
 Matchups outside 35%-65% (either side):
 
-- Grave & Ember vs Wanderer's Pack: 32% / 68%
+- Tide & Root vs Wanderer's Pack: 68% / 32%
 
-Drawn / unfinished games: 2. Illegal AI actions: 0.
+Drawn / unfinished games: 0. Illegal AI actions: 0.
 
 ## Analysis
 
 These notes are hand-written and are appended to the generated tables above by
 `--notes=res://docs/balance_notes.md`.
 
-**Overall.** After one tuning pass all five decks land between 44% and 55% overall. The first
-player wins 40-57% of decided games per matchup (within noise at 100 games), so going first is not a meaningful
-advantage. Games last about 15 turns (both players' turns combined), i.e. roughly 7-8 turns each.
-With 100 games per matchup the 95% confidence interval on a single win rate is about +/-10
-points, so only gaps larger than that (for example Grave & Ember vs Wanderer's Pack at 32%) are
-worth acting on.
+**Overall.** All five decks land between 42% and 57% overall. The first player wins 46-54% of
+decided games per matchup, so going first is not a meaningful advantage (this includes the gentle
+hand smoother). Games last about 15 turns (both players' turns combined), roughly 7-8 turns each.
+With 100 games per matchup the 95% confidence interval on a single win rate is about +/-10 points,
+so only large gaps (for example Tide & Root vs Wanderer's Pack at 68/32) are worth acting on.
+The player starts with the neutral Wanderer's Pack only; the four pair decks are opponent /
+"discoverable" decks, so the starter sitting at 50% is intentional (roughly even with them).
 
-**Tuning pass applied to the first run.** (Before: 61% / 56% / 47% / 45% / 43%.)
-- Tide & Root (was strongest, with a 72% and a 66% matchup): 3 Dissolve -> 2, 2 Frost Sentry -> 1,
-  +1 Whispering Shade, +1 Rampaging Boar.
-- Grave & Ember (was weakest): fewer Martyr/Bone Servant, +1 Bloodthirst Wolf, +1 Raider,
-  +1 Blazing Charger, +1 Warcry, -2 Sellsword; Martyr now drains 3.
-- Wanderer's Pack (neutral starter): Ironclad 3/4 -> 4/4, Stone Sentinel 2/4 -> 3/4 Guard.
-- Frost Sentry became 1/4 Defender + Reach so every keyword appears on at least one card.
+**Tuning applied so far.** (First run: 61% / 56% / 47% / 45% / 43%.)
+- Tide & Root: 3 Dissolve -> 2, 2 Frost Sentry -> 1, +1 Whispering Shade, +1 Rampaging Boar.
+- Grave & Ember: fewer Martyr/Bone Servant, +1 Bloodthirst Wolf, +1 Raider, +1 Blazing Charger,
+  +1 Warcry, -2 Sellsword; Martyr now drains 3.
+- Root & Grave: 1 Ancient Treant -> Stag Warden (fewer double-pip cards).
+- Wanderer's Pack: Ironclad 3/4 Vigilance (new keyword). Earlier buffs to Stone Sentinel were
+  reverted once the starter reached 56%.
+- Frost Sentry became 1/4 Defender + Reach; Ironclad carries Vigilance, so all 9 keywords appear.
+- Hand smoother made gentler (see combat_rules.md): it only swaps a hand that is more than one
+  land away from the deck's land ratio.
 
 **Known weak spots.**
-- Grave & Ember is still the weakest deck (44%) and loses badly to the neutral starter (32%): the
-  starter's 3/4 Guard and 4/4 wall out its 1- and 2-power creatures. Its identity (sacrifice /
-  value) depends on cards the AI hardly uses: Dark Bargain is cast about 0.08 times per copy per
-  game, because the one-step evaluation sees "destroy my own creature" as a loss and does not
-  value the death triggers it sets off. This is an AI limitation, not necessarily a card problem;
-  a human would likely get more out of the deck.
-- Removal (Firebolt, Dissolve) is cast less often than its power suggests (about 0.15-0.2 per
-  copy). It needs a legal target and the AI only fires it when it improves the evaluation.
-- Thornback Colossus (6 mana) and Ancient Treant (5 mana, two C pips) are rarely cast in Root &
-  Grave (0.07 and 0.11 per copy): with 9 C lands in 45 cards the double pip is hard to meet.
-  Consider a smaller pip requirement or more lands in that deck.
+- Root & Grave is the weakest (42%): its double-pip cards are rarely cast (Thornback Colossus 0.07,
+  Ancient Treant 0.13 per copy) with 9 C lands in 45 cards.
+- Grave & Ember's sacrifice identity relies on cards the AI hardly uses (Dark Bargain about 0.1
+  casts per copy per game): its one-step evaluation counts "destroy my own creature" as a loss and
+  does not value the death triggers. An AI limitation, not necessarily a card problem.
+- Removal (Firebolt, Dissolve) is cast less than its power suggests (about 0.15-0.2 per copy);
+  the AI needs a legal target and a clear evaluation gain.
 
-**Suggested next steps.** Teach the AI about sacrifice synergies (value of death triggers in
-`evaluate`), then re-run; consider the 4 heavier cards above; rerun with more games (500+) before
-making further balance changes.
+**Suggested next steps.** Teach the AI about sacrifice synergies, look at the double-pip cards,
+and re-run with 500+ games per matchup before making further changes.
 

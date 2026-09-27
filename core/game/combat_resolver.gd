@@ -75,7 +75,8 @@ static func declare_attackers(state: GameState, uids: Array[int], guard_targets:
 		return true
 
 	for card: CardInstance in chosen:
-		card.tapped = true
+		if not card.has_keyword(CardEnums.Keyword.VIGILANCE):
+			card.tapped = true
 		state.attackers.append(card.uid)
 		var target_ref: int = Targets.player(defender)
 		if targets.has(card.uid):

@@ -15,6 +15,8 @@ enum Keyword {
 	FIRST_STRIKE,
 	LIFESTEAL,
 	GUARD,
+	## Attacking does not tap this creature.
+	VIGILANCE,
 }
 
 ## When an effect fires. For spells, ON_ENTER fires when the spell resolves.
