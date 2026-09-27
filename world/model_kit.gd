@@ -4,6 +4,7 @@ extends RefCounted
 
 const HEX: String = "res://assets/KayKit-Medieval-Hexagon-Pack-1.0/"
 const CHARACTERS: String = "res://assets/KayKit-Character-Pack-Adventures-1.0/Characters/"
+const DUNGEON_PROPS: String = "res://assets/KayKit-Dungeon-Remastered-1.0/props/"
 
 static var _cache: Dictionary = {}
 
@@ -43,6 +44,14 @@ static func nature(model: String) -> Node3D:
 
 static func prop(model: String) -> Node3D:
 	return hex_model("decoration/props", model)
+
+
+static func dungeon_prop(model: String) -> Node3D:
+	var packed: PackedScene = scene("%s%s.glb" % [DUNGEON_PROPS, model])
+	if packed == null:
+		push_warning("ModelKit: missing dungeon prop %s" % model)
+		return Node3D.new()
+	return packed.instantiate() as Node3D
 
 
 static func character(model: String) -> Node3D:

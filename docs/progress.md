@@ -476,3 +476,52 @@ start to finish, for the first time.
   `test_a_drawn_encounter_also_fails_the_run`.
 
 269 GUT tests pass.
+
+## Part E: discovery / unlock system - done
+
+- **`Condition`** (`core/data/condition.gd`, pure `core/`, no `Session` dependency): flag set,
+  dungeon cleared, card owned (copy count), secret found, gold spent (lifetime), player level,
+  quest completed, plus `ALL_OF`/`ANY_OF`. Evaluated against `UnlockState`, a plain-data snapshot
+  (`Session.unlock_state()` builds one); a null condition always passes. `Condition.teaser()`
+  gives a spoiler-free "why it's locked" line.
+- **Vendors**: `VendorData`/`VendorStockEntry` attach a `Condition` to each card. The town vendor
+  now uses `VendorData.graduated()`: neutral cards and the player's own two colors unlock once
+  the home dungeon is cleared; other colors unlock progressively behind lifetime gold spent
+  (`Session.gold_spent_total`), rarity-scaled - stock genuinely starts small and grows. A locked
+  card shows as a card-back with "???" in place of its price (`VendorScreen`).
+- **Card discovery**: `Session.seen_cards` (owned, bought, or actually played/faced in battle -
+  `BattleScreen` records this from real game events) backs a new Codex screen
+  (`ui/town/codex_screen.gd`, reachable at the new Hall of Records): every card in the game in a
+  grid, unseen ones shown as a card-back silhouette, with a "Discovered X / Y" counter.
+- **Save/load**: `gold_spent_total`, `cleared_dungeons`, `seen_cards`, `found_secrets`,
+  `player_level`, `completed_quests` all round-trip through `Session.to_dict()`/`from_dict()`.
+- Tests: `tests/core/data/test_condition.gd` (15) and `test_vendor_data.gd` (4) cover the
+  `core/` logic; the Codex/vendor UI wiring is presentation and was checked by screenshot
+  (`_screenshots/town_codex_open.png`, `vendor_gated2.png`) and the full e2e pass.
+
+284 GUT tests pass (see docs/design/open_questions.md D37).
+
+## Part D: town expansion - done
+
+Extended `TownBuilder.MAP` from 7x9 to 10x15 (~2.4x by cell count; see D38 for why not exactly
+3x) with two new districts, reached from the original town core: the **Harbor Quarter** (east,
+across a one-bridge canal near the market) holds the Hall of Records (Codex) and the hidden
+vendor's stall, plus open undeveloped plots for future vendors/quests; the **Secluded Grove**
+(south of the spawn row) holds the three placeholder secrets, all built on Part E's Condition
+system rather than special-cased:
+
+1. **A hidden chest** behind trees - grants gold, `Session.discover_secret("harbor_chest")`.
+2. **A locked gate** (a sealed vault) - stays sealed until a nearby, easy-to-miss lever sets a
+   flag; the vault checks `Condition.flag(...)` against `Session.unlock_state()`, not a raw
+   `if` on the flag, so it genuinely exercises the reusable system.
+3. **A hidden vendor** - its NPC and interact spot are only ever constructed
+   (`_build_actors`/`_build_spots`) once `Session.found_secret("harbor_chest")` is true, so it is
+   not just locked, it is not *there* until the chest is found. Sells a small, always-open stock
+   of rare/mythic cards.
+
+One new asset added: `assets/KayKit-Dungeon-Remastered-1.0/props/chest_gold.glb` (same
+KayKit/CC0 family already in use - the only 3D chest prop in any approved pack; see `CREDITS.md`).
+
+Screenshots: `_screenshots/town_overview.png` (unchanged core, confirming no regressions),
+`town_codex.png`, `town_vault.png`, `town_chest.png` - no clipping or performance issues found.
+The full e2e pass (title through vendor purchase and deck save) still passes end to end.

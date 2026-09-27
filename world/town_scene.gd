@@ -17,6 +17,17 @@ class Spot:
 
 
 const CAMERA_OFFSET: Vector3 = Vector3(0.0, 8.4, 7.0)
+## Three placeholder secrets proving the Condition system (docs/design/open_questions.md D38):
+## a hidden chest, a locked vault that opens once its lever is pulled, and a hidden vendor who
+## only appears once the chest has been found.
+const HIDDEN_CHEST_SECRET: String = "harbor_chest"
+const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
+const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
+## True for spots that are people to talk to, as opposed to objects/gates.
+const NPC_SPOT_IDS: Array[String] = ["elder", "guard", "vendor", "hidden_vendor"]
+## How close (in screen pixels) a click has to land to a spot's marker to count as
+## "clicking the NPC", since the fixed camera has no 3D picking set up.
+const CLICK_PICK_RADIUS: float = 90.0
 
 var town: TownBuilder = TownBuilder.new()
 var player: TownPlayer
@@ -88,6 +99,8 @@ func _build_actors() -> void:
 	_add_npc("vendor", "Rogue_Hooded", town.anchors["npc_market"] as Vector3, 200.0)
 	_add_npc("elder", "Mage", town.anchors["npc_well"] as Vector3, 250.0)
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
+	if Session.found_secret(HIDDEN_VENDOR_SECRET):
+		_add_npc("hidden_vendor", "Rogue_Hooded", town.anchors["hidden_vendor"] as Vector3, 100.0)
 	# The Wellspring glows: a light and rising motes.
 	var well: Vector3 = (town.anchors["well"] as Vector3) + Vector3(0, 0, -0.9)
 	_well_light = OmniLight3D.new()
@@ -139,6 +152,12 @@ func _build_spots() -> void:
 	_add_spot("gate", "Trial of the Hollow", town.anchors["gate"] as Vector3, 1.7)
 	_add_spot("elder", "Elder Maren", town.anchors["npc_well"] as Vector3, 1.4)
 	_add_spot("guard", "Gatekeeper Brannoch", town.anchors["npc_gate"] as Vector3, 1.4)
+	_add_spot("codex", "Hall of Records", town.anchors["codex"] as Vector3, 1.6)
+	_add_spot("chest", "A Hidden Chest", town.anchors["chest"] as Vector3, 1.3)
+	_add_spot("lever", "An Old Lever", town.anchors["lever"] as Vector3, 1.2)
+	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
+	if Session.found_secret(HIDDEN_VENDOR_SECRET):
+		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
 
 
 func _add_spot(id: String, title: String, position: Vector3, radius: float) -> void:
@@ -160,7 +179,7 @@ func _add_spot(id: String, title: String, position: Vector3, radius: float) -> v
 	mesh.material = material
 	marker.mesh = mesh
 	marker.rotation_degrees.x = 180.0
-	marker.position = position + Vector3(0, 1.9 if id in ["elder", "guard", "vendor"] else 2.5, 0)
+	marker.position = position + Vector3(0, 1.9 if id in NPC_SPOT_IDS else 2.5, 0)
 	add_child(marker)
 	spot.marker = marker
 	var plate: Label3D = Label3D.new()
@@ -214,7 +233,7 @@ func _process(delta: float) -> void:
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.rotation_degrees = Vector3(-atan2(CAMERA_OFFSET.y, CAMERA_OFFSET.z) * 180.0 / PI, 0.0, 0.0)
 	for spot: Spot in spots:
-		var base_y: float = 1.9 if spot.id in ["elder", "guard", "vendor"] else 2.5
+		var base_y: float = 1.9 if spot.id in NPC_SPOT_IDS else 2.5
 		spot.marker.position.y = base_y + sin(_time * 2.4 + spot.position.x) * 0.08
 		spot.marker.rotation_degrees.y += 60.0 * delta
 		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
@@ -248,13 +267,6 @@ func _update_nearest() -> void:
 		hud.show_prompt("[E]  %s" % _prompt_text(_near))
 
 
-## True for spots that are people to talk to, as opposed to objects/gates.
-const NPC_SPOT_IDS: Array[String] = ["elder", "guard", "vendor"]
-
-## How close (in screen pixels) a click has to land to a spot's marker to count as
-## "clicking the NPC", since the fixed camera has no 3D picking set up.
-const CLICK_PICK_RADIUS: float = 90.0
-
 
 func _prompt_text(spot: Spot) -> String:
 	if spot.id in NPC_SPOT_IDS:
@@ -266,6 +278,14 @@ func _prompt_text(spot: Spot) -> String:
 			return "Open the Deck Station"
 		"gate":
 			return "Enter the Trial of the Hollow"
+		"codex":
+			return "Browse the Codex"
+		"chest":
+			return "Open the chest"
+		"lever":
+			return "Pull the lever"
+		"vault":
+			return "Open the vault" if Session.flag(VAULT_LEVER_FLAG) else "Try the sealed door"
 	return spot.title
 
 
@@ -312,6 +332,16 @@ func _interact(spot: Spot) -> void:
 			_talk_npc("elder", "Elder Maren", _elder_lines())
 		"guard":
 			_talk_npc("guard", "Gatekeeper Brannoch", _guard_lines())
+		"codex":
+			_open_codex()
+		"chest":
+			_open_chest()
+		"lever":
+			_pull_lever()
+		"vault":
+			_open_vault()
+		"hidden_vendor":
+			_talk_hidden_vendor()
 
 
 func _face_npc(id: String) -> void:
@@ -410,6 +440,90 @@ func _open_deck_station() -> void:
 	EventBus.tutorial_event.emit(&"deck_station_opened")
 
 
+func _open_codex() -> void:
+	var screen: CodexScreen = CodexScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
+## The vault's unlock condition - built with the reusable Condition system (core/data/
+## condition.gd) like a vendor's stock or an NPC line would be, not a raw flag check.
+func _vault_condition() -> Condition:
+	return Condition.flag(VAULT_LEVER_FLAG)
+
+
+func _open_chest() -> void:
+	player.face(town.anchors["chest"] as Vector3)
+	if Session.found_secret(HIDDEN_CHEST_SECRET):
+		hud.toast("The chest is empty now.", UIStyle.MUTED)
+		return
+	Session.discover_secret(HIDDEN_CHEST_SECRET)
+	Session.add_gold(60)
+	Audio.sfx(&"coins")
+	Audio.sfx(&"ui_confirm")
+	hud.set_gold(Session.gold)
+	hud.toast("A hidden chest! +60 gold.", UIStyle.GOLD)
+	# Rebuilding the spots/actors would be needed to show the hidden vendor right now; simplest
+	# and honest: it appears the next time the player enters town, once the secret is saved.
+	Session.save_game()
+
+
+func _pull_lever() -> void:
+	if Session.flag(VAULT_LEVER_FLAG):
+		hud.toast("The lever will not budge any further.", UIStyle.MUTED)
+		return
+	Session.set_flag(VAULT_LEVER_FLAG)
+	Audio.sfx(&"door")
+	hud.toast("Something deep in the vault unlocks.", UIStyle.GOLD)
+	Session.save_game()
+
+
+func _open_vault() -> void:
+	player.face(town.anchors["vault"] as Vector3)
+	if not Condition.met(_vault_condition(), Session.unlock_state()):
+		hud.toast("Sealed. Somewhere nearby, an old lever might help.", Color("ffcf70"))
+		Audio.sfx(&"ui_error")
+		return
+	if Session.flag(&"vault_opened"):
+		hud.toast("The vault stands open and empty.", UIStyle.MUTED)
+		return
+	Session.set_flag(&"vault_opened")
+	var reward: CardData = Session.content.card("thornback_colossus")
+	if reward != null:
+		Session.add_cards([reward] as Array[CardData])
+	Audio.sfx(&"card_draw")
+	Audio.sfx(&"ui_confirm")
+	hud.toast("The vault opens. %s joins your collection." % (reward.display_name if reward != null else "A card"), UIStyle.GOLD)
+	Session.save_game()
+
+
+func _talk_hidden_vendor() -> void:
+	_face_npc("hidden_vendor")
+	var lines: Array[String] = ["You found the chest, so I suppose you've earned a look. Rare goods, quiet prices."] as Array[String]
+	dialogue.start("A Secret Dealer", lines)
+	dialogue.finished.connect(_open_hidden_vendor, CONNECT_ONE_SHOT)
+
+
+func _open_hidden_vendor() -> void:
+	var screen: VendorScreen = VendorScreen.new()
+	screen.stock = _hidden_vendor_stock()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
+## A small, always-unlocked stock of rare/mythic cards - distinct from Sable's stall, and only
+## reachable at all once the hidden vendor's spot exists (Session.found_secret gate in
+## _build_spots/_build_actors).
+func _hidden_vendor_stock() -> VendorData:
+	var data: VendorData = VendorData.new()
+	data.vendor_name = "Secret Dealer"
+	for id: Variant in Session.content.cards.keys():
+		var card: CardData = Session.content.card(str(id))
+		if card.rarity == CardEnums.Rarity.RARE or card.rarity == CardEnums.Rarity.MYTHIC:
+			data.add(card.id)
+	return data
+
+
 func _open_vendor() -> void:
 	if not Session.has_profile():
 		return
@@ -487,3 +601,5 @@ func _screenshot_open(what: String) -> void:
 			_talk_npc("elder", "Elder Maren", _elder_lines())
 		"gate":
 			_use_gate()
+		"codex":
+			_open_codex()

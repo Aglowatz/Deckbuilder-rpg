@@ -1,11 +1,13 @@
 class_name VendorScreen
 extends OverlayScreen
-## The card vendor: every card for sale with its price, your gold, and a confirmation before
-## each purchase.
+## The card vendor: stock is data-driven (`VendorData`/`Condition` - see docs/design/
+## open_questions.md D37): each card has its own unlock condition, so the stall starts small and
+## grows with progress. A locked card shows as a "???" teaser instead of its real art.
 
 const CARD_SCALE: float = 0.68
 const COLUMNS: int = 8
 
+var stock: VendorData
 var _filter: CardFilterBar
 var _grid: GridContainer
 var _gold_label: Label
@@ -13,6 +15,7 @@ var _preview: HoverPreview
 var _toast: Label
 var _tiles: Array[Control] = []
 var _cards: Dictionary = {}
+var _locked: Dictionary = {}
 var _price_labels: Dictionary = {}
 var _owned_labels: Dictionary = {}
 
@@ -23,6 +26,8 @@ func _init() -> void:
 
 
 func _build() -> void:
+	if stock == null:
+		stock = VendorData.graduated(Session.content, Session.deck.colors(), Condition.dungeon_cleared(TrialOfTheHollow.DUNGEON_NAME))
 	var coin: TextureRect = CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(38, 38))
 	header_extra.add_child(coin)
 	_gold_label = UIKit.label("", &"", 34, UIStyle.GOLD)
@@ -42,16 +47,21 @@ func _build() -> void:
 	_grid.add_theme_constant_override("h_separation", 12)
 	_grid.add_theme_constant_override("v_separation", 14)
 	scroll.add_child(_grid)
-	var stock: Array[CardData] = []
-	for card: Variant in Session.content.cards.values():
-		stock.append(card as CardData)
-	stock.sort_custom(func(a: CardData, b: CardData) -> bool:
-		if CardPricing.price(a) != CardPricing.price(b):
-			return CardPricing.price(a) < CardPricing.price(b)
-		return a.display_name < b.display_name)
-	for card: CardData in stock:
+	var state: UnlockState = Session.unlock_state()
+	var entries: Array[VendorStockEntry] = stock.entries.duplicate()
+	entries.sort_custom(func(a: VendorStockEntry, b: VendorStockEntry) -> bool:
+		var card_a: CardData = Session.content.card(a.card_id)
+		var card_b: CardData = Session.content.card(b.card_id)
+		if CardPricing.price(card_a) != CardPricing.price(card_b):
+			return CardPricing.price(card_a) < CardPricing.price(card_b)
+		return card_a.display_name < card_b.display_name)
+	for entry: VendorStockEntry in entries:
+		var card: CardData = Session.content.card(entry.card_id)
+		if card == null:
+			continue
 		_cards[card.id] = card
-		_grid.add_child(_make_tile(card))
+		_locked[card.id] = not Condition.met(entry.unlock, state)
+		_grid.add_child(_make_tile(card, bool(_locked[card.id]), stock.teaser_for(card.id)))
 	_toast = UIKit.label("", &"", 28, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_toast.add_theme_font_override("font", UIStyle.font_bold())
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
@@ -62,26 +72,30 @@ func _build() -> void:
 	_toast.z_index = 250
 	add_child(_toast)
 	_refresh()
-	TipPanel.show_once(self, &"tip_vendor", "Buying cards", "Hover a card to zoom it, click it to buy. Gold comes from winning fights in the dungeon. A deck can only use [b]3 copies[/b] of a card, so the vendor stops selling after that.", Vector2(560, 900))
+	TipPanel.show_once(self, &"tip_vendor", "Buying cards", "Hover a card to zoom it, click it to buy. Gold comes from winning fights in the dungeon. A deck can only use [b]3 copies[/b] of a card, so the vendor stops selling after that. Cards marked [b]???[/b] unlock as you play.", Vector2(560, 900))
 
 
-func _make_tile(card: CardData) -> Control:
+func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
 	var holder: Control = Control.new()
 	holder.custom_minimum_size = CardView.SIZE * CARD_SCALE + Vector2(0, 42)
 	holder.set_meta("card_id", card.id)
-	var view: CardView = CardView.create(card, CardView.Mode.FULL)
+	var view: CardView = CardView.create(card, CardView.Mode.BACK if locked else CardView.Mode.FULL)
 	holder.add_child(view)
 	CardView.fit(view, CARD_SCALE)
-	view.gui_event.connect(func(_v: CardView, event: InputEvent) -> void:
-		var click: InputEventMouseButton = event as InputEventMouseButton
-		if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
-			_ask_to_buy(card))
+	if locked:
+		view.modulate = Color(0.55, 0.55, 0.62)
+	else:
+		view.gui_event.connect(func(_v: CardView, event: InputEvent) -> void:
+			var click: InputEventMouseButton = event as InputEventMouseButton
+			if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+				_ask_to_buy(card))
 	view.hovered.connect(func(_v: CardView) -> void:
-		_preview.show_for(holder, card)
+		if not locked:
+			_preview.show_for(holder, card)
 		Audio.sfx(&"card_hover", -14.0))
 	view.unhovered.connect(func(_v: CardView) -> void: _preview.hide_preview())
-	var price: Label = UIKit.label("", &"", 24, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
-	price.add_theme_font_override("font", UIStyle.font_title())
+	var price: Label = UIKit.label("", &"", 24 if not locked else 15, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	price.add_theme_font_override("font", UIStyle.font_title() if not locked else UIStyle.font_body())
 	price.add_theme_stylebox_override("normal", UIStyle.box(Color(0.05, 0.03, 0.09, 0.95), UIStyle.GOLD_DIM, 2, 14))
 	price.position = Vector2(4, CardView.SIZE.y * CARD_SCALE + 6.0)
 	price.size = Vector2(104, 32)
@@ -96,8 +110,12 @@ func _make_tile(card: CardData) -> Control:
 	owned.size = Vector2(CardView.SIZE.x * CARD_SCALE - 116.0, 28)
 	owned.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	owned.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if locked:
+		owned.text = ""
 	holder.add_child(owned)
 	_owned_labels[card.id] = owned
+	if locked:
+		holder.set_meta("teaser", teaser)
 	_tiles.append(holder)
 	return holder
 
@@ -111,10 +129,14 @@ func _refresh() -> void:
 	_gold_label.text = str(Session.gold)
 	for id: Variant in _cards.keys():
 		var card: CardData = _cards[id] as CardData
+		var price_label: Label = _price_labels[id] as Label
+		if bool(_locked.get(id, false)):
+			price_label.text = "???"
+			price_label.add_theme_color_override("font_color", UIStyle.MUTED)
+			continue
 		var owned: int = Session.owned_count(card.id)
 		var for_sale: bool = CardPricing.is_for_sale(card, owned)
 		var price: int = CardPricing.price(card)
-		var price_label: Label = _price_labels[id] as Label
 		price_label.text = str(price) if for_sale else "Max"
 		var affordable: bool = Session.gold >= price
 		price_label.add_theme_color_override("font_color", UIStyle.GOLD if affordable and for_sale else (Color("e06a5a") if for_sale else UIStyle.MUTED))
@@ -122,6 +144,10 @@ func _refresh() -> void:
 
 
 func _ask_to_buy(card: CardData) -> void:
+	if bool(_locked.get(card.id, false)):
+		Audio.sfx(&"ui_error", -4.0)
+		_say(str(stock.teaser_for(card.id)), Color("ffcf70"))
+		return
 	var owned: int = Session.owned_count(card.id)
 	if not CardPricing.is_for_sale(card, owned):
 		Audio.sfx(&"ui_error", -4.0)

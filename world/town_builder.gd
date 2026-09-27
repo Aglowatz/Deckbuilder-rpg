@@ -5,15 +5,22 @@ extends WalkableArea
 ## Used by the title backdrop (just visuals) and by the playable town scene.
 
 ## '.' water, '#' grass, 'T' grass with trees, 'M' mountain (blocked), 'R' rocks,
-## K market, D deck station, W wellspring, G dungeon gate, H/h houses, S spawn, F windmill, C church.
+## K market, D deck station, W wellspring, G dungeon gate, H/h houses, S spawn, F windmill,
+## C church, Y hall of records (codex), Z hidden vendor, X sealed vault (locked-gate secret).
+## Three districts: the original town core (cols 0-8), the Harbor Quarter to the east (a canal
+## with one bridge at row 3, near the market), and the Secluded Grove to the south (rows 7-9,
+## reached the same way as the original spawn row) - see docs/design/open_questions.md D38.
 const MAP: Array[String] = [
-	"..MMTTM..",
-	"..T#G#TT.",
-	".T#H#hF#.",
-	".#K##D#T.",
-	".T##W##R.",
-	"..#C###T.",
-	"..R#S#T..",
+	"..MMTTM..MMTTMM",
+	"..T#G#TT.TT##RT",
+	".T#H#hF#.T#Y#T#",
+	".#K##D#T#T####T",
+	".T##W##R.T##Z#T",
+	"..#C###T.T####T",
+	"..R#S#T..T##T##",
+	"..TT###TT##T...",
+	"..T#####X###T..",
+	"..MTTT#T#TTTM..",
 ]
 
 const OBSTACLE_TREE: float = 0.32
@@ -50,7 +57,7 @@ func cell_center(col: int, row: int) -> Vector3:
 
 func _build_water() -> void:
 	for row: int in range(-5, MAP.size() + 5):
-		for col: int in range(-6, 16):
+		for col: int in range(-6, 22):
 			var inside: bool = row >= 0 and row < MAP.size() and col >= 0 and col < MAP[0].length() and MAP[row][col] != "."
 			if inside:
 				continue
@@ -109,6 +116,18 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 		"C":
 			walkable[Vector2i(col, row)] = true
 			_building("church", center, 0.0, 1.2, 0.85)
+		"Y":
+			walkable[Vector2i(col, row)] = true
+			_building("tower_A", center, 0.0, 1.3, 0.85)
+			anchors["codex"] = center + Vector3(0, 0, 1.05)
+		"Z":
+			walkable[Vector2i(col, row)] = true
+			_building("blacksmith", center, 0.0, 1.25, 0.9)
+			anchors["hidden_vendor"] = center + Vector3(0, 0, 1.05)
+		"X":
+			walkable[Vector2i(col, row)] = true
+			_building("castle", center, 0.0, 1.1, 1.15)
+			anchors["vault"] = center + Vector3(0, 0, 1.3)
 		"S":
 			walkable[Vector2i(col, row)] = true
 			anchors["spawn"] = center
@@ -129,12 +148,12 @@ func _scatter(center: Vector3, min_radius: float, max_radius: float) -> Vector3:
 
 func _build_far_scenery() -> void:
 	# A mountain range behind the island, hills at the sides, drifting clouds overhead.
-	for col: int in range(-2, 14):
+	for col: int in range(-2, 20):
 		var far: Vector3 = HexGrid.cell_to_world(col, -4)
 		ModelKit.place(root, ModelKit.tile("hex_grass"), far)
 		var mountain: String = ["mountain_A_grass_trees", "mountain_B_grass_trees", "mountain_C_grass_trees"][_rng.randi() % 3]
 		ModelKit.place(root, ModelKit.nature(mountain), far, float(_rng.randi_range(0, 5)) * 60.0, 1.4)
-	for cell: Vector2i in [Vector2i(-2, 1), Vector2i(-2, 4), Vector2i(11, 2), Vector2i(11, 5), Vector2i(12, 0)]:
+	for cell: Vector2i in [Vector2i(-2, 1), Vector2i(-2, 4), Vector2i(17, 2), Vector2i(17, 5), Vector2i(18, 0)]:
 		var pos: Vector3 = HexGrid.cell_to_world(cell.x, cell.y)
 		ModelKit.place(root, ModelKit.tile("hex_grass"), pos)
 		ModelKit.place(root, ModelKit.nature(["hills_A_trees", "hills_B_trees"][_rng.randi() % 2]), pos, float(_rng.randi_range(0, 5)) * 60.0)
@@ -161,6 +180,14 @@ func _build_props() -> void:
 	anchors["npc_well"] = (anchors.get("well", Vector3.ZERO) as Vector3) + Vector3(1.5, 0, 0.6)
 	anchors["npc_gate"] = gate + Vector3(-2.0, 0, 0.9)
 	anchors["npc_market"] = market + Vector3(0.1, 0, 0.55)
+	# Secluded Grove secrets: a chest tucked behind trees, and the old lever that seals the vault.
+	var chest_pos: Vector3 = cell_center(11, 7) + Vector3(-0.3, 0, 0.4)
+	ModelKit.place(root, ModelKit.dungeon_prop("chest_gold"), chest_pos, 40.0, 0.9)
+	anchors["chest"] = chest_pos + Vector3(0.5, 0, 0.5)
+	var lever_pos: Vector3 = (anchors.get("vault", Vector3.ZERO) as Vector3) + Vector3(1.4, 0, -0.6)
+	ModelKit.place(root, ModelKit.prop("ladder"), lever_pos, 90.0, 1.0)
+	obstacles.append(Vector3(lever_pos.x, lever_pos.z, 0.2))
+	anchors["lever"] = lever_pos + Vector3(0.4, 0, 0.2)
 
 
 func _prop(model: String, position: Vector3, yaw: float, model_scale: float, radius: float) -> void:

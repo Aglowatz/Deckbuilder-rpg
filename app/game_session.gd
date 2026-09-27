@@ -19,6 +19,20 @@ var run: DungeonRun
 var dungeon_map: DungeonMap
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
+## Everything a Condition (core/data/condition.gd) can check, beyond flags: see unlock_state().
+## Lifetime gold spent (never decreases, unlike `gold`) - used by Condition.GOLD_SPENT.
+var gold_spent_total: int = 0
+## Dungeon names fully cleared - used by Condition.DUNGEON_CLEARED.
+var cleared_dungeons: Array[String] = []
+## card id -> true for every card owned, bought or faced in battle - the Codex (core/dungeon/
+## card_codex.gd) shows these normally and everything else as a silhouette.
+var seen_cards: Dictionary = {}
+## Secret ids found (chests, hidden vendors...) - used by Condition.SECRET_FOUND.
+var found_secrets: Array[String] = []
+## Not driven by any mechanic yet; exists so Condition.PLAYER_LEVEL is usable by future content.
+var player_level: int = 0
+var completed_quests: Array[String] = []
+
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -45,6 +59,12 @@ func new_game() -> void:
 	flags = {}
 	run = null
 	dungeon_map = null
+	gold_spent_total = 0
+	cleared_dungeons = []
+	seen_cards = {}
+	found_secrets = []
+	player_level = 0
+	completed_quests = []
 	rng.randomize()
 
 
@@ -56,6 +76,7 @@ func ensure_game(color: Affinity.Type = Affinity.Type.A) -> void:
 		new_game()
 		profile = PlayerProfile.new()
 		profile.owned_cards = CampaignStart.starter_spells(content)
+		cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)
 		choose_starting_deck(color)
 
 
@@ -75,6 +96,7 @@ func spend_gold(amount: int) -> bool:
 	if amount > gold:
 		return false
 	gold -= amount
+	gold_spent_total += amount
 	EventBus.gold_changed.emit(gold)
 	return true
 
@@ -106,6 +128,43 @@ func owned_count(id: String) -> int:
 		if card.id == id:
 			count += 1
 	return count
+
+
+## Marks a card seen for the Codex (owned/bought already imply this; call for cards faced in
+## battle - see BattleScreen._on_game_event).
+func record_seen(id: String) -> void:
+	if not seen_cards.has(id):
+		seen_cards[id] = true
+		EventBus.collection_changed.emit()
+
+
+func has_seen(id: String) -> bool:
+	return owned_count(id) > 0 or bool(seen_cards.get(id, false))
+
+
+func found_secret(id: String) -> bool:
+	return found_secrets.has(id)
+
+
+func discover_secret(id: String) -> void:
+	if not found_secrets.has(id):
+		found_secrets.append(id)
+		save_game()
+
+
+## A plain-data snapshot for Condition.met() - see core/data/unlock_state.gd.
+func unlock_state() -> UnlockState:
+	var state: UnlockState = UnlockState.new()
+	state.flags = flags
+	state.cleared_dungeons = cleared_dungeons
+	state.found_secrets = found_secrets
+	state.gold_spent = gold_spent_total
+	state.player_level = player_level
+	state.completed_quests = completed_quests
+	if profile != null:
+		for card: CardData in profile.owned_cards:
+			state.owned_cards[card.id] = int(state.owned_cards.get(card.id, 0)) + 1
+	return state
 
 
 func add_cards(cards: Array[CardData]) -> void:
@@ -147,6 +206,12 @@ func to_dict() -> Dictionary:
 		"owned": owned,
 		"deck": deck_ids,
 		"flags": flags,
+		"gold_spent_total": gold_spent_total,
+		"cleared_dungeons": cleared_dungeons,
+		"seen_cards": seen_cards.keys(),
+		"found_secrets": found_secrets,
+		"player_level": player_level,
+		"completed_quests": completed_quests,
 	}
 
 
@@ -175,6 +240,14 @@ func from_dict(data: Dictionary) -> bool:
 	flags = (data.get("flags", {}) as Dictionary).duplicate()
 	run = null
 	dungeon_map = null
+	gold_spent_total = int(data.get("gold_spent_total", 0))
+	cleared_dungeons.assign(data.get("cleared_dungeons", []) as Array)
+	seen_cards = {}
+	for id: Variant in data.get("seen_cards", []) as Array:
+		seen_cards[str(id)] = true
+	found_secrets.assign(data.get("found_secrets", []) as Array)
+	player_level = int(data.get("player_level", 0))
+	completed_quests.assign(data.get("completed_quests", []) as Array)
 	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
 		rebuild_starter_deck()
 	return true
@@ -353,6 +426,8 @@ func complete_trial() -> void:
 	trial_finished = false
 	run = null
 	dungeon_map = null
+	if not cleared_dungeons.has(TrialOfTheHollow.DUNGEON_NAME):
+		cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)
 	save_game()
 
 

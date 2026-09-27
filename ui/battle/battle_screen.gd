@@ -118,6 +118,11 @@ func _build_scene() -> void:
 	add_child(_toast_label)
 
 
+const _SEEN_EVENT_TYPES: Array[GameEvent.Type] = [
+	GameEvent.Type.CARD_CAST, GameEvent.Type.PERMANENT_ENTERED, GameEvent.Type.TRAP_SET,
+]
+
+
 func _on_game_event(event: GameEvent) -> void:
 	board.register_uid(event.card)
 	if event.other > 0:
@@ -127,6 +132,14 @@ func _on_game_event(event: GameEvent) -> void:
 		# step with no attackers declared). It must never leak into a later turn, or the
 		# human's next turn gets auto-passed with no chance to act.
 		_fast_end_turn = false
+	# Codex: any card either side actually plays face-up is "seen" from here on. A trap is only
+	# recorded for its own controller while it is still face-down (TRAP_SET) - the opponent
+	# should not learn a hidden trap's identity from the Codex before it actually springs.
+	if event.card > 0 and event.type in _SEEN_EVENT_TYPES:
+		if event.type != GameEvent.Type.TRAP_SET or event.player == 0:
+			var card: CardInstance = game.find_card(event.card)
+			if card != null:
+				Session.record_seen(card.data.id)
 
 
 # ---- Main loop --------------------------------------------------------------------------

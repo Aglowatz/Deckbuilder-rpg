@@ -27,6 +27,12 @@ For each asset:
   - Source: https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0
   - License: CC0 (license file in the folder)
   - Notes: used for the player character and town NPCs. Added 2026-09-26.
+- **assets/KayKit-Dungeon-Remastered-1.0/props/chest_gold.glb** - a treasure chest prop, same
+  low-poly family as the other KayKit packs already in use
+  - Author: Kay Lousberg (KayKit)
+  - Source: https://github.com/KayKit-Game-Assets/KayKit-Dungeon-Remastered-1.0 (also https://kaylousberg.itch.io)
+  - License: CC0 (license file in the folder)
+  - Notes: only this one prop was copied, for the town's hidden-nook secret. Added 2026-09-27.
 
 - **assets/icons/game-icons/** - game-icons.net silhouettes used as placeholder card art and UI glyphs
   - Authors: Lorc, Delapouite, Sbed, Skoll, Carl Olsen, Cathelineau (each icon sits in its author folder)
