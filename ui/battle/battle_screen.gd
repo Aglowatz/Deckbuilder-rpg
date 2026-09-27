@@ -10,6 +10,10 @@ enum Mode { WAITING, MAIN, TARGETING, ATTACK, BLOCK, DISCARD, MULLIGAN, OVER }
 
 const DRAG_START_DISTANCE: float = 16.0
 const PLAY_LINE_Y: float = 720.0
+## Modes where the primary button is "the end-step button for the current phase" - Space
+## triggers it in exactly these (targeting/discard/mulligan are different decisions, not a
+## phase/step advance).
+const _SPACE_ADVANCE_MODES: Array[Mode] = [Mode.MAIN, Mode.ATTACK, Mode.BLOCK]
 
 var context: BattleContext
 var game: GameState
@@ -103,6 +107,7 @@ func _build_scene() -> void:
 	board.card_input.connect(_on_card_input)
 	hud.primary_pressed.connect(_on_primary)
 	hud.end_turn_pressed.connect(_on_end_turn)
+	hud.attack_all_pressed.connect(_on_attack_all)
 	_overlay_layer = Control.new()
 	UIKit.full_rect(_overlay_layer)
 	_overlay_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -355,9 +360,12 @@ func _refresh_ui() -> void:
 			primary = "..."
 			primary_enabled = false
 	board.set_glows(glows)
+	if primary_enabled and _SPACE_ADVANCE_MODES.has(mode):
+		primary += "  [Space]"
 	hud.primary_button.text = primary
 	hud.primary_button.disabled = not primary_enabled
 	hud.end_turn_button.visible = end_visible
+	hud.attack_all_button.visible = mode == Mode.ATTACK
 	hud.set_prompt(prompt)
 	_update_arrows()
 
@@ -486,6 +494,11 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if key != null and key.pressed and not key.echo and key.keycode == KEY_SPACE:
+		if not busy and _SPACE_ADVANCE_MODES.has(mode) and not hud.primary_button.disabled:
+			_on_primary()
+		return
 	var motion: InputEventMouseMotion = event as InputEventMouseMotion
 	if motion != null and _press_uid != 0 and mode == Mode.MAIN and not _dragging:
 		if (get_global_mouse_position() - _press_pos).length() > DRAG_START_DISTANCE:
@@ -623,6 +636,21 @@ func _finish_targeting(ref: int) -> void:
 # ---- Combat selection -------------------------------------------------------------------
 
 
+## Selects every creature able to attack (the player can still deselect before confirming).
+func _on_attack_all() -> void:
+	if busy or mode != Mode.ATTACK:
+		return
+	for card: CardInstance in game.possible_attackers(0):
+		if not _selected_attackers.has(card.uid):
+			_selected_attackers.append(card.uid)
+			board.attacking[card.uid] = true
+	Audio.sfx(&"card_hover")
+	board.layout()
+	_refresh_ui()
+	if tutorial != null:
+		tutorial.on_attackers_changed(_selected_attackers.size())
+
+
 func _toggle_attacker(uid: int) -> void:
 	var available: Array[CardInstance] = game.possible_attackers(0)
 	if PlayerState.find_in(available, uid) == null:
@@ -743,6 +771,7 @@ func _show_result() -> void:
 	if tutorial != null:
 		tutorial.queue_free()
 		tutorial = null
+	await board.clear_board()
 	var center: CenterContainer = CenterContainer.new()
 	UIKit.full_rect(center)
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE

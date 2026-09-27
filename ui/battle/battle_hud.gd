@@ -6,12 +6,14 @@ extends Control
 
 signal primary_pressed
 signal end_turn_pressed
+signal attack_all_pressed
 
 const PHASE_NAMES: Array[String] = ["Start", "Main", "Combat", "Main 2", "End"]
 
 var game: GameState
 var primary_button: FancyButton
 var end_turn_button: FancyButton
+var attack_all_button: FancyButton
 var _portraits: Array[Portrait] = []
 var _phase_pills: Array[Label] = []
 var _turn_label: Label
@@ -64,7 +66,7 @@ func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
 func _build_side_panel() -> void:
 	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
 	panel.position = Vector2(1640, 250)
-	panel.size = Vector2(250, 540)
+	panel.size = Vector2(250, 500)
 	add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(8)
 	panel.add_child(column)
@@ -104,6 +106,12 @@ func _build_side_panel() -> void:
 
 
 func _build_buttons() -> void:
+	attack_all_button = FancyButton.make("Select All Attackers", &"GhostButton", Vector2(250, 50))
+	attack_all_button.position = Vector2(1640, 768)
+	attack_all_button.size = Vector2(250, 50)
+	attack_all_button.visible = false
+	attack_all_button.pressed.connect(func() -> void: attack_all_pressed.emit())
+	add_child(attack_all_button)
 	primary_button = FancyButton.make("Combat", &"PrimaryButton", Vector2(250, 66))
 	primary_button.position = Vector2(1640, 904)
 	primary_button.size = Vector2(250, 66)

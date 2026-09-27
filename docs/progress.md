@@ -587,3 +587,43 @@ struck through above, in the original "Questions for you" list).
    to fill in later?
 6. Is a ~2.4x town (not the literal "about 3x" asked for) acceptable, given the reasoning in D38,
    or would you like it pushed further?
+
+---
+
+# Second follow-up brief (new Part A-G, September 2026)
+
+A new work order reuses the letters A-G for a different, larger set of parts (battle UX, card
+rarities, a new starting flow, tutorial balance, player progression 1-30, the deck color rule,
+zone portals). To avoid confusion with the Part A-G already completed above, every section below
+is titled "New Part <letter>" and cross-references the old one by name where relevant.
+
+## New Part A: battle UX - done
+
+- **Space advances the current phase/step**: wired to fire whatever the primary button
+  (`BattleHud.primary_button`) would do - it already *is* "the end-step button for the current
+  phase" in every mode that advances a turn (Main/Attack/Block) - and only in those three modes.
+  The button's own label shows the hint ("...  [Space]"), same convention as the existing
+  "[E]  Talk" prompts. See D39.
+- **"Select All Attackers" button** (the brief's "Attack with all", renamed - see D40) appears
+  only during declare-attackers, selects every creature `game.possible_attackers(0)` reports, and
+  the player can still click one of the selected creatures to deselect it before confirming
+  (unchanged existing behaviour - confirming is still the primary button or Space).
+- **Board clears before the result panel**: `BattleBoard.clear_board()` dissolves every remaining
+  card (same shader as a creature dying) after the victory/defeat banner and tutorial teardown,
+  strictly before the result panel is built. See D41.
+- **New human-input UI test**: `tools/battle_space_attackall_smoke.gd` (run with
+  `tools/run_battle_space_attackall_smoke.sh`) plays a real battle through injected mouse clicks
+  for card plays and the Space key for every phase/step advance (never the primary/"End Turn"
+  buttons directly), clicks "Select All Attackers" and asserts the selection matches
+  `possible_attackers(0)` exactly, deselects one attacker and confirms it was removed, then
+  confirms the reduced attack with Space. Passes, and the existing
+  `battle_human_turns_smoke`/`town_interact_smoke` regression tests still pass unchanged.
+
+284 GUT tests still pass (no `core/` changes - this part is presentation only).
+
+## New Part B: card rarities - in progress
+## New Part C: new starting flow and starter deck - not started
+## New Part D: tutorial opponent balance - not started
+## New Part E: player progression (levels 1-30) - not started
+## New Part F: deck color rule - not started
+## New Part G: zone portals - not started

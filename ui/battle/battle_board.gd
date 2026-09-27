@@ -347,6 +347,28 @@ func _sync_zone(cards: Array[CardInstance], owner_index: int, zone: Zone, alive:
 			set_zone(card.uid, zone)
 
 
+## Dissolves every card still on the table (hand, battlefield, lands, traps) away. Used when a
+## battle ends, so the result/reward panel never overlaps a frozen board. Fire-and-forget per
+## card (matches `_on_died`'s pattern); the caller awaits a fixed settle time.
+func clear_board() -> void:
+	var uids: Array[int] = order.duplicate()
+	for uid: int in uids:
+		var view: CardView = views.get(uid) as CardView
+		if view == null:
+			continue
+		views.erase(uid)
+		zones.erase(uid)
+		order.erase(uid)
+		var color: Color = UIStyle.affinity_color(view.data.color) if view.data != null else Color.WHITE
+		fx.dissolve(view, color, 0.4)
+	hover_uid = 0
+	drag_uid = 0
+	attacking.clear()
+	blockers.clear()
+	if not uids.is_empty():
+		await _wait(0.55)
+
+
 func _flush_center_instant() -> void:
 	for uid: int in views.keys():
 		if zones.get(uid) == Zone.CENTER:
