@@ -28,11 +28,27 @@ func _init() -> void:
 	close_text = "Close (Esc)"
 
 
+## Overridable so the same screen can edit the dungeon run's current deck instead of the town
+## deck (see DungeonDeckbuilderScreen) with the same validation rules either way.
+func _source_deck() -> Deck:
+	return Session.deck
+
+
+func _active_modifiers() -> ModifierSet:
+	return null
+
+
+func _write_back(edited: Deck) -> void:
+	Session.deck = edited
+	Session.deck.deck_name = Session.DECK_NAME
+	Session.save_game()
+
+
 func _build() -> void:
 	var lands: Array[CardData] = []
 	for color: Affinity.Type in Affinity.colored_types():
 		lands.append(Session.content.lands[int(color)] as CardData)
-	editor = DeckEditor.from(Session.profile, Session.deck, lands)
+	editor = DeckEditor.from(Session.profile, _source_deck(), lands, _active_modifiers())
 	_preview = HoverPreview.new()
 	add_child(_preview)
 	var split: HBoxContainer = UIKit.hbox(22)
@@ -65,7 +81,8 @@ func _build() -> void:
 	_toast.z_index = 250
 	add_child(_toast)
 	_refresh()
-	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]45+ cards[/b], at most [b]3 copies[/b] of a card and [b]2 colors[/b]. Lands power your spells: [b]Fill Lands[/b] tops up to 45.", Vector2(300, 900))
+	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]3 copies[/b] of a card and [b]2 colors[/b]. Lands power your spells: [b]Fill Lands[/b] tops up to %d." % [min_size, min_size], Vector2(300, 900))
 
 
 func _build_deck_panel() -> Control:
@@ -94,7 +111,7 @@ func _build_deck_panel() -> Control:
 	_save_button.pressed.connect(_save)
 	buttons.add_child(_save_button)
 	var fill: FancyButton = FancyButton.make("Fill Lands", &"", Vector2(150, 54))
-	fill.tooltip_text = "Adds basic lands of your deck's colors until the deck has 45 cards."
+	fill.tooltip_text = "Adds basic lands of your deck's colors until the deck reaches the minimum size."
 	fill.pressed.connect(_autofill)
 	buttons.add_child(fill)
 	var reset: FancyButton = FancyButton.make("Reset", &"", Vector2(120, 54))
@@ -231,8 +248,8 @@ func _rebuild_rules() -> void:
 	var color_names: Array[String] = []
 	for color: Affinity.Type in colors:
 		color_names.append(UIStyle.affinity_name(color))
-	var limit: int = DeckValidator.max_colors(Session.profile)
-	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS), "At least %d cards (you have %d)" % [DeckValidator.MIN_DECK_SIZE, editor.deck.size()])
+	var limit: int = DeckValidator.max_colors(Session.profile, _active_modifiers())
+	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS), "At least %d cards (you have %d)" % [DeckValidator.min_deck_size(_active_modifiers()), editor.deck.size()])
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "At most %d copies of any card (basic lands are free)" % DeckValidator.MAX_COPIES)
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COLORS), "At most %d colors (%s)" % [limit, ", ".join(color_names) if not color_names.is_empty() else "none yet"])
 	if DeckValidator.has_problem(issues, DeckValidator.Problem.NOT_OWNED):
@@ -326,15 +343,13 @@ func _autofill() -> void:
 
 func _reset() -> void:
 	var lands: Array[CardData] = editor.lands
-	editor = DeckEditor.from(Session.profile, Session.deck, lands)
+	editor = DeckEditor.from(Session.profile, _source_deck(), lands, _active_modifiers())
 	_dirty = false
 	_refresh()
 
 
 func _save() -> void:
-	Session.deck = editor.deck
-	Session.deck.deck_name = Session.DECK_NAME
-	Session.save_game()
+	_write_back(editor.deck)
 	_dirty = false
 	Audio.sfx(&"ui_confirm")
 	if editor.is_valid():

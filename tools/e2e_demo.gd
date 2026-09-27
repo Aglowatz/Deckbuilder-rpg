@@ -1,11 +1,11 @@
 class_name E2EDemo
 extends Node
-## Plays the whole demo through the real UI: title -> new game -> starting area (wake up, walk to
-## the cave mouth) -> dungeon map -> tutorial battle -> challenge -> battle -> shrine -> boss ->
-## rewards -> choose a starting deck -> town (buy a card, edit and save the deck). Mouse clicks
-## and key presses are injected with UiDriver; battles use BattlePilot clicks for the tutorial
-## battle and the AI for the rest. Failed duels send the player back to the starting area to
-## retry, same as a human would see.
+## Plays the whole demo through the real UI: title -> new game -> starting area (wake up, choose
+## an element) -> dungeon map (tries the in-dungeon deck builder once) -> tutorial battle ->
+## challenge -> battle -> shrine -> boss -> rewards (on-element picks grow the deck to 45) -> town
+## (buy a card, edit and save the deck). Mouse clicks and key presses are injected with UiDriver;
+## battles use BattlePilot clicks for the tutorial battle and the AI for the rest. Failed duels
+## send the player back to the starting area to retry, same as a human would see.
 
 const SAVE_PATH: String = "user://e2e_save.json"
 const TIME_LIMIT_SECONDS: float = 900.0
@@ -128,10 +128,14 @@ func _starting_area(scene: StartingAreaScene) -> void:
 		await driver.tap_key(KEY_E)
 		await driver.seconds(0.4)
 		return
+	var choice: ElementChoiceScreen = _find_element_choice(scene)
+	if choice != null:
+		await _choose_element(choice)
+		return
 	if scene._locked:
 		if driver.find_button("Enter") != null:
 			await driver.click_button("Enter")
-			await driver.seconds(1.5)
+			await driver.seconds(1.0)
 		else:
 			await driver.frames(10)
 		return
@@ -140,6 +144,28 @@ func _starting_area(scene: StartingAreaScene) -> void:
 	await driver.frames(4)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
+
+
+func _find_element_choice(scene: StartingAreaScene) -> ElementChoiceScreen:
+	for child: Node in scene._overlay_layer.get_children():
+		if child is ElementChoiceScreen:
+			return child as ElementChoiceScreen
+	return null
+
+
+## Part C: the element choice happens before the dungeon even starts. Always picks Ember (A) -
+## every later Ember-specific check in this driver depends on that.
+func _choose_element(choice: ElementChoiceScreen) -> void:
+	_check(choice._confirm.disabled, "the element choice needs a pick before confirming")
+	var tile: Button = choice._tiles[Affinity.Type.A] as Button
+	await driver.click(driver.center_of_control(tile))
+	_check(choice.selected == Affinity.Type.A, "clicking the Ember tile selects it")
+	await driver.click_button("Begin")
+	await driver.seconds(1.0)
+	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.A, "choosing an element sets the primary affinity")
+	_check(Session.deck.size() == TrialOfTheHollow.STARTER_DECK_SIZE, "the starter deck is %d cards" % TrialOfTheHollow.STARTER_DECK_SIZE)
+	_check(not Session.deck_is_valid(), "the starter deck is short of the plain 45-card minimum")
+	_check(Session.in_dungeon(), "choosing an element enters the tutorial dungeon")
 
 
 func _walk_to_gate(scene: StartingAreaScene) -> void:
@@ -199,6 +225,24 @@ func _walk_to(scene: TownScene, id: String, must_walk: bool = false) -> void:
 		await driver.frames(3)
 
 
+## Scrolls `control`'s nearest ScrollContainer ancestor so it is actually on screen before a click
+## lands on it - a grid of every card in the game (vendor stock, the deck station's collection)
+## does not all fit in one screen, and a click computed from an off-screen control's position
+## lands wherever that coordinate falls (or nowhere), not on the control itself.
+func _scroll_into_view(control: Control) -> void:
+	var scroller: ScrollContainer = null
+	var node: Node = control.get_parent()
+	while node != null:
+		if node is ScrollContainer:
+			scroller = node as ScrollContainer
+			break
+		node = node.get_parent()
+	if scroller == null:
+		return
+	scroller.scroll_vertical = maxi(0, roundi(control.position.y - 40.0))
+	await driver.frames(3)
+
+
 func _hold(key: Key, down: bool) -> void:
 	if bool(_held_keys.get(key, false)) != down:
 		_held_keys[key] = down
@@ -240,19 +284,21 @@ func _town(scene: TownScene) -> void:
 	_did["finished"] = true
 
 
-## Right after the boss: choose a starting deck. The screen is a child overlay of RewardsScreen,
-## not a separate scene, so this is called from `_rewards()`.
-func _choose_starting_deck(choice: StartingDeckChoiceScreen) -> void:
-	_check(choice._confirm.disabled, "the starting-deck choice needs a pick before confirming")
-	var tile: Button = choice._tiles[Affinity.Type.A] as Button
-	await driver.click(driver.center_of_control(tile))
-	_check(choice.selected == Affinity.Type.A, "clicking the Ember tile selects it")
-	await driver.click_button("Choose")
-	await driver.seconds(0.8)
-	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.A, "choosing a deck sets the primary affinity")
-	_check(Session.deck.size() == 45, "the starting deck has 45 cards")
-	_check(Session.deck_is_valid(), "the starting deck is legal")
-	_check(Session.flag(&"trial_cleared"), "choosing a deck unlocks the town")
+## Part C: the player only ever owns 3 of their own element's cards (the tutorial reward picks) -
+## every other card of that element is unowned but already unlocked (VendorData.graduated: a
+## player's own color needs only the trial-cleared gate, no gold-spent threshold), so it is always
+## for sale. A different color (e.g. the old "recall") would now be gold-gated and might not be.
+var _shop_card_id: String = ""
+
+
+func _first_unowned_own_color_card() -> CardData:
+	var ids: Array = Session.content.cards.keys()
+	ids.sort()
+	for id: Variant in ids:
+		var candidate: CardData = Session.content.card(str(id))
+		if candidate.color == Session.profile.primary_affinity and Session.owned_count(candidate.id) == 0:
+			return candidate
+	return null
 
 
 func _shop(vendor: VendorScreen) -> void:
@@ -260,13 +306,14 @@ func _shop(vendor: VendorScreen) -> void:
 	if tip != null:
 		await driver.click(driver.button_center(tip))
 		await driver.seconds(0.3)
-	# Not a card in the chosen Ember starting deck (or the neutral tutorial deck), so it starts
-	# unowned and the vendor will actually offer it.
-	var card: CardData = Session.content.card("recall")
+	var card: CardData = _first_unowned_own_color_card()
+	_check(card != null, "there is an unowned card of the player's own element to buy")
+	_shop_card_id = card.id
 	var before_gold: int = Session.gold
 	var before_owned: int = Session.owned_count(card.id)
 	for tile: Control in vendor._tiles:
 		if str(tile.get_meta("card_id")) == card.id:
+			await _scroll_into_view(tile)
 			await driver.click(driver.center_of_control(tile.get_child(0) as Control))
 	await driver.seconds(0.4)
 	_check(driver.find_button("Buy") != null, "buying asks for confirmation")
@@ -283,12 +330,13 @@ func _edit_deck(screen: DeckbuilderScreen) -> void:
 	if tip != null:
 		await driver.click(driver.button_center(tip))
 		await driver.seconds(0.3)
-	var card: CardData = Session.content.card("recall")
+	var card: CardData = Session.content.card(_shop_card_id)
 	var tile: Control = null
 	for candidate: Node in screen._grid.get_children():
 		if str(candidate.get_meta("card_id")) == card.id:
 			tile = candidate as Control
 	_check(tile != null, "the deck station lists the bought card")
+	await _scroll_into_view(tile)
 	var view_center: Vector2 = driver.center_of_control(tile.get_child(0) as Control)
 	await driver.click(view_center)
 	_check(screen.editor.count(card) == 1, "clicking a card adds it to the deck")
@@ -334,6 +382,10 @@ func _map(scene: DungeonMapScreen) -> void:
 	var tip: Button = driver.find_button("Got it")
 	if tip != null:
 		await driver.click(driver.button_center(tip))
+	if not _did.has("dungeon_deck"):
+		_did["dungeon_deck"] = true
+		await _try_dungeon_deck_builder(scene)
+		return
 	var available: Array[DungeonMap.MapNode] = scene.map.available()
 	if available.is_empty():
 		await driver.frames(10)
@@ -342,6 +394,28 @@ func _map(scene: DungeonMapScreen) -> void:
 	_note("map: entering %s (life %d)" % [available[0].title, Session.run.life])
 	await driver.click(driver.center_of_control(button))
 	await driver.seconds(1.0)
+
+
+## Part C: a Deck button on the dungeon map opens the same Deck Station, editing the run's
+## current (still 42-card, size-waived) deck. Opened once, checked, closed without changing it.
+func _try_dungeon_deck_builder(scene: DungeonMapScreen) -> void:
+	await driver.click_button("Deck")
+	await driver.seconds(0.6)
+	var screen: DungeonDeckbuilderScreen = null
+	for child: Node in scene.get_children():
+		if child is DungeonDeckbuilderScreen:
+			screen = child as DungeonDeckbuilderScreen
+	_check(screen != null, "the dungeon map's Deck button opens the in-dungeon deck builder")
+	if screen == null:
+		return
+	_check(screen.editor.deck.size() == Session.run.current_deck().size(), "it edits the run's current deck")
+	_check(screen.editor.is_valid(), "the size-waived starter deck is valid in the in-dungeon builder")
+	var tip: Button = driver.find_button("Got it")
+	if tip != null:
+		await driver.click(driver.button_center(tip))
+		await driver.seconds(0.3)
+	await driver.click_button("Close")
+	await driver.seconds(0.5)
 
 
 # ---- Battle ----------------------------------------------------------------------------
@@ -387,28 +461,25 @@ func _battle(screen: BattleScreen) -> void:
 
 
 func _rewards(scene: RewardsScreen) -> void:
-	for child: Node in scene.get_children():
-		if child is StartingDeckChoiceScreen:
-			await _choose_starting_deck(child as StartingDeckChoiceScreen)
-			return
-	var choose_deck: Button = driver.find_button("Choose your deck")
-	if choose_deck != null:
-		await driver.seconds(1.0)
-		await driver.click(driver.button_center(choose_deck))
-		await driver.seconds(0.5)
-		return
-	var back: Button = driver.find_button("Return to town")
-	if back != null:
-		await driver.seconds(1.8)
-		await driver.click(driver.button_center(back))
+	var enter_town: Button = driver.find_button("Enter town")
+	if enter_town != null:
+		_check(Session.flag(&"trial_cleared"), "the trial is marked cleared once the boss falls")
+		_check(Session.profile.intro_dungeon_cleared, "the intro dungeon is marked cleared")
+		_check(Session.deck.size() == 45, "the deck grew to 45 cards via the 3 on-element reward picks")
+		_check(Session.deck_is_valid(), "the finished starter deck is a legal, plain (unwaived) deck")
+		await driver.seconds(1.5)
+		await driver.click(driver.button_center(enter_town))
 		await driver.seconds(1.0)
 		return
 	if not scene._cards.is_empty() and scene._selected < 0:
 		var gold_before: int = Session.gold
+		var deck_before: int = Session.run.current_deck().size() if Session.run != null else -1
 		await driver.click(driver.center_of_control(scene._cards[0]))
 		await driver.seconds(0.3)
 		_check(scene._take_button != null and not scene._take_button.disabled, "choosing a reward card enables Take")
 		var offered: CardData = scene._offer.cards[0]
+		if not Session.profile.intro_dungeon_cleared:
+			_check(offered.color == Session.profile.primary_affinity, "the tutorial's first clear only offers %s cards" % Affinity.display_name(Session.profile.primary_affinity))
 		var owned_before: int = Session.owned_count(offered.id)
 		var reward_gold: int = scene._offer.gold
 		var take: Button = driver.find_button("Take")
@@ -416,6 +487,8 @@ func _rewards(scene: RewardsScreen) -> void:
 		await driver.seconds(1.5)
 		_check(Session.gold == gold_before + reward_gold, "victory pays %d gold" % reward_gold)
 		_check(Session.owned_count(offered.id) == owned_before + 1, "the chosen reward card joins the collection")
+		if deck_before >= 0 and Session.run != null:
+			_check(Session.run.current_deck().size() == deck_before + 1, "the reward card also joins the run's current deck right away")
 		return
 	await driver.click_button("Continue")
 	await driver.seconds(1.0)

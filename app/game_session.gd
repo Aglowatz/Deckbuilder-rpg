@@ -74,10 +74,17 @@ func new_game() -> void:
 func ensure_game(color: Affinity.Type = Affinity.Type.A) -> void:
 	if profile == null:
 		new_game()
-		profile = PlayerProfile.new()
-		profile.owned_cards = CampaignStart.starter_spells(content)
+		profile = CampaignStart.new_profile(content, color)
+		# Stand in for the 3 tutorial reward picks (Part C), so the fast-forwarded state is a
+		# real, legal 45-card deck exactly like finishing the trial for real would leave it.
+		var picks: Array[CardData] = ElementChoice.offer_for(content, color).sample_cards.duplicate()
+		profile.owned_cards.append_array(picks)
+		profile.intro_dungeon_cleared = true
+		deck = CampaignStart.starter_deck(content, color)
+		deck.cards.append_array(picks)
+		deck.deck_name = DECK_NAME
 		cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)
-		choose_starting_deck(color)
+		set_flag(&"trial_cleared")
 
 
 func has_profile() -> bool:
@@ -182,9 +189,15 @@ func deck_is_valid() -> bool:
 	return profile != null and deck_issues().is_empty()
 
 
-## Picks a legal starter-based deck automatically (used when the saved deck is not legal).
+## Picks a legal starter-based deck automatically (used when the saved deck is missing/corrupt,
+## e.g. an old save). CampaignStart.starter_deck is only 42 cards (Part C, meant to be topped up
+## by tutorial rewards); pad it with a few more basic lands of the same color so this fallback is
+## always a legal 45+ card deck outside the dungeon, where there is no size waiver.
 func rebuild_starter_deck() -> void:
 	deck = CampaignStart.starter_deck(content, profile.primary_affinity)
+	var land: CardData = content.lands[int(profile.primary_affinity)] as CardData
+	while deck.size() < DeckValidator.MIN_DECK_SIZE:
+		deck.cards.append(land)
 	deck.deck_name = DECK_NAME
 
 
@@ -218,8 +231,8 @@ func to_dict() -> Dictionary:
 func from_dict(data: Dictionary) -> bool:
 	if not data.has("primary"):
 		return false
-	# NEUTRAL here means a save from mid-intro-trial, before a starting deck was chosen; the
-	# profile still exists (gold/collection earned so far) even though there is no color yet.
+	# The element is chosen before the profile is even created now (Part C), so a saved profile
+	# always has a real color; NEUTRAL would only appear from a very old save predating that.
 	var color: Affinity.Type = int(data["primary"]) as Affinity.Type
 	var loaded: PlayerProfile = PlayerProfile.new()
 	loaded.primary_affinity = color
@@ -304,44 +317,27 @@ func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: i
 
 ## Enters the Trial of the Hollow with the current deck (the player is fully healed). Used to
 ## replay it from town once it has already been cleared; the very first run is
-## `begin_intro_trial()` instead.
+## `begin_intro_trial(color)` instead.
 func begin_trial() -> void:
 	dungeon_map = TrialOfTheHollow.build_map()
 	run = DungeonRun.enter(profile, deck, [] as Array[ModifierSource])
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 
 
-## Enters the Trial of the Hollow for the very first time, from the starting area, before the
-## player has a real deck: a fixed neutral tutorial deck (`CampaignStart.STARTER_DECK_NAME`).
-## Clearing it and choosing a starting deck (`choose_starting_deck`) is what unlocks the town.
-func begin_intro_trial() -> void:
+## Enters the Trial of the Hollow for the very first time, from the starting area, right after
+## the player has chosen their element (`ElementChoiceScreen`, Part C): a fresh profile owning
+## only the 23 neutral starter spells, and a 42-card starter deck (those spells plus 19 basic
+## lands of `color`) - short of the normal 45-card minimum until the 3 tutorial reward picks fill
+## it out (`deck_size_waiver()`). Retrying after an abandoned first attempt reuses the same
+## profile/color (still no real deck exists until this trial is actually cleared).
+func begin_intro_trial(color: Affinity.Type) -> void:
 	if profile == null:
-		profile = PlayerProfile.new()
-		profile.owned_cards = CampaignStart.starter_spells(content)
+		profile = CampaignStart.new_profile(content, color)
 	dungeon_map = TrialOfTheHollow.build_map()
-	var tutorial_deck: Deck = content.deck(CampaignStart.STARTER_DECK_NAME)
-	run = DungeonRun.enter(profile, tutorial_deck, [] as Array[ModifierSource])
-	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
-
-
-## The starting-deck choice at the end of the intro trial: sets the primary affinity, hands the
-## player the whole chosen deck (so it is legal immediately) and unlocks the town. False for an
-## invalid color or if the intro trial has not produced a profile yet.
-func choose_starting_deck(color: Affinity.Type) -> bool:
-	if profile == null or not CampaignStart.is_valid_choice(color):
-		return false
-	var chosen: Deck = StartingDecks.deck_for(content, color)
-	if chosen == null:
-		return false
-	profile.primary_affinity = color
-	profile.owned_cards.append_array(chosen.cards)
-	profile.intro_dungeon_cleared = true
-	deck = chosen
+	deck = CampaignStart.starter_deck(content, profile.primary_affinity)
 	deck.deck_name = DECK_NAME
-	set_flag(&"trial_cleared")
-	EventBus.collection_changed.emit()
-	save_game()
-	return true
+	run = DungeonRun.enter(profile, deck, [TrialOfTheHollow.deck_size_waiver()] as Array[ModifierSource])
+	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 
 
 ## Set when the player is carried out of the dungeon or finishes it; the town shows it once.
@@ -401,33 +397,51 @@ func complete_battle(context: BattleContext) -> void:
 	offer.gold = context.gold_reward
 	offer.is_boss = context.is_boss
 	offer.enemy_name = context.enemy_name
-	offer.cards = RewardGenerator.card_choices(content, profile, rng, context.card_choices, context.is_boss)
+	# Part C: the player's first time through the trial only ever offers cards of their own
+	# chosen element, so the only on-color cards they own by the end are the 3 they picked here.
+	# A later replay (intro_dungeon_cleared already true) is a normal dungeon with normal variety.
+	if not profile.intro_dungeon_cleared:
+		offer.cards = RewardGenerator.card_choices_for_color(content, profile.primary_affinity, rng, context.card_choices, context.is_boss)
+	else:
+		offer.cards = RewardGenerator.card_choices(content, profile, rng, context.card_choices, context.is_boss)
 	pending_reward = offer
 	trial_finished = context.is_boss
 	SceneManager.change_scene("res://scenes/rewards.tscn")
 
 
-## Applies the rewards the player chose. Returns true when the dungeon continues (the caller
-## then goes back to the map); false after the boss, when the trial-complete step follows.
+## Applies the rewards the player chose. The card (if any) joins the collection AND the current
+## run's deck (`DungeonRun.gain_card`), so it is usable in the very next encounter, not just after
+## the dungeon. Returns true when the dungeon continues (the caller then goes back to the map);
+## false after the boss, when the trial-complete step follows.
 func apply_rewards() -> bool:
 	if pending_reward != null:
 		add_gold(pending_reward.gold)
 		if pending_reward.taken != null:
 			add_cards([pending_reward.taken] as Array[CardData])
+			if run != null:
+				run.gain_card(pending_reward.taken)
 	pending_reward = null
 	save_game()
 	return not trial_finished
 
 
-## Clears the run's dungeon bookkeeping once the boss falls. On the very first clear, the
-## starting-deck choice screen (`choose_starting_deck`) is what actually unlocks the town; on a
-## replay `trial_cleared` is already set and there is nothing left to unlock.
+## Clears the run's dungeon bookkeeping once the boss falls. On the very first clear (Part C),
+## this is what actually unlocks the town: the run's current deck (42-card starter + the 3
+## on-element reward picks = 45, a real legal deck) becomes the player's real deck, and
+## `intro_dungeon_cleared`/`trial_cleared` are set - there is no separate deck-choice step any
+## more. On a replay, both are already set and there is nothing left to unlock.
 func complete_trial() -> void:
 	trial_finished = false
+	if run != null:
+		deck = run.current_deck()
+		deck.deck_name = DECK_NAME
+	profile.intro_dungeon_cleared = true
+	set_flag(&"trial_cleared")
 	run = null
 	dungeon_map = null
 	if not cleared_dungeons.has(TrialOfTheHollow.DUNGEON_NAME):
 		cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)
+	EventBus.collection_changed.emit()
 	save_game()
 
 

@@ -119,6 +119,8 @@ static func build_cards(tokens: Dictionary) -> Dictionary:
 
 
 static func _add_neutral(cards: Dictionary) -> void:
+	_add(cards, _fin(_creature("apprentice_blade", "Apprentice Blade", N, 1, [], 1, 2), R.COMMON, "", "Everyone starts somewhere."))
+	_add(cards, _fin(_creature("scrappy_recruit", "Scrappy Recruit", N, 1, [], 2, 1), R.COMMON, "", "Braver than trained."))
 	_add(cards, _fin(_creature("sellsword", "Sellsword", N, 2, [], 2, 2), R.COMMON, "", "Coin first, questions never."))
 	_add(cards, _fin(_creature("cave_bat", "Cave Bat", N, 2, [], 1, 2, [K.FLYING]), R.COMMON, "Flying"))
 	_add(cards, _fin(_creature("stone_sentinel", "Stone Sentinel", N, 3, [], 2, 4, [K.GUARD]), R.COMMON, "Guard"))
@@ -231,11 +233,17 @@ static func deck_recipes() -> Array[Dictionary]:
 			},
 		},
 		{
+			# The tutorial-dungeon starter template (docs/design/starting_deck_and_affinity.md):
+			# 19 lands + 23 neutral spells = 42 cards, NOT the normal 45-card minimum - the
+			# `TrialOfTheHollow` MIN_DECK_SIZE waiver covers the gap until the 3 tutorial reward
+			# picks fill it back out. Its land color here (A) is irrelevant: CampaignStart.
+			# starter_deck() replaces every land with the player's actually-chosen color.
 			"name": "Wanderer's Pack",
-			"lands": {A: 17},
+			"lands": {A: 19},
 			"spells": {
-				"sellsword": 3, "cave_bat": 3, "stone_sentinel": 3, "field_medic": 3, "merchant": 3,
-				"ironclad": 3, "healing_idol": 2, "rusty_curse": 3, "pitfall": 2, "supply_cache": 3,
+				"apprentice_blade": 3, "scrappy_recruit": 3, "sellsword": 2, "cave_bat": 2,
+				"stone_sentinel": 2, "field_medic": 2, "merchant": 2, "ironclad": 1,
+				"healing_idol": 1, "rusty_curse": 2, "pitfall": 1, "supply_cache": 2,
 			},
 		},
 	]

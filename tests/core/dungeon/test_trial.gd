@@ -71,6 +71,15 @@ func test_enemy_decks_resolve_all_cards() -> void:
 		assert_true(deck.land_count() >= 12, "%s has lands" % enemy)
 
 
+func test_deck_size_waiver_matches_the_starter_deck() -> void:
+	var mods: ModifierSet = ModifierSet.new()
+	mods.add_source(TrialOfTheHollow.deck_size_waiver())
+	assert_eq(DeckValidator.min_deck_size(mods), TrialOfTheHollow.STARTER_DECK_SIZE)
+	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.B)
+	assert_eq(deck.size(), TrialOfTheHollow.STARTER_DECK_SIZE)
+	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new(), mods))
+
+
 func test_no_dungeon_wide_blessing_run_uses_plain_base_life() -> void:
 	var profile: PlayerProfile = CampaignStart.new_profile(content, Affinity.Type.A)
 	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.A)

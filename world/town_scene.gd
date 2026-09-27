@@ -2,8 +2,8 @@ class_name TownScene
 extends Node3D
 ## The walkable starter town: a follow camera, the hero, two NPCs and the interactable spots
 ## (Wellspring, card vendor, deck station, dungeon gate). Only reached after the player has
-## cleared the tutorial dungeon and chosen a starting deck (`StartingAreaScene`,
-## `StartingDeckChoiceScreen`) - `Session.profile`/`Session.deck` are always set by then.
+## chosen their element and cleared the tutorial dungeon (`StartingAreaScene`,
+## `ElementChoiceScreen`) - `Session.profile`/`Session.deck` are always set by then.
 
 class Spot:
 	extends RefCounted
@@ -392,9 +392,9 @@ func _talk_vendor() -> void:
 	dialogue.finished.connect(_open_vendor, CONNECT_ONE_SHOT)
 
 
-## The Wellspring choice used to happen here; the player now picks their deck right after the
-## tutorial dungeon instead (`StartingDeckChoiceScreen`), so the well is a lore/flavor spot: it
-## always recognizes the color the player already carries. See docs/design/open_questions.md D30.
+## The Wellspring choice used to happen here; the player now picks their element in the starting
+## area instead (`ElementChoiceScreen`, Part C), so the well is a lore/flavor spot: it always
+## recognizes the color the player already carries. See docs/design/open_questions.md D30.
 func _use_well() -> void:
 	var color: Affinity.Type = Session.profile.primary_affinity
 	hud.toast("The %s spring hums. It knows you." % UIStyle.affinity_name(color), UIStyle.affinity_color(color).lightened(0.3))

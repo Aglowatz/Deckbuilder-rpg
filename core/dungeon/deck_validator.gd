@@ -1,7 +1,8 @@
 class_name DeckValidator
 extends RefCounted
-## Deck construction rules: at least 45 cards, at most 3 copies of a card (basic lands exempt),
-## at most 2 land/color types (4 once postgame_unlocked; MAX_DECK_COLORS modifiers add more).
+## Deck construction rules: at least 45 cards (MIN_DECK_SIZE modifiers can lower this, e.g. the
+## tutorial dungeon's starter-deck waiver), at most 3 copies of a card (basic lands exempt), at
+## most 2 land/color types (4 once postgame_unlocked; MAX_DECK_COLORS modifiers add more).
 
 const MIN_DECK_SIZE: int = 45
 const MAX_COPIES: int = 3
@@ -26,6 +27,15 @@ static func max_colors(profile: PlayerProfile, modifiers: ModifierSet = null) ->
 	return clampi(limit, 1, Affinity.colored_types().size())
 
 
+## The minimum legal deck size, lowered by any MIN_DECK_SIZE modifiers (e.g. the tutorial
+## dungeon's starter-deck waiver). Never below 1.
+static func min_deck_size(modifiers: ModifierSet = null) -> int:
+	var size: int = MIN_DECK_SIZE
+	if modifiers != null:
+		size += modifiers.sum(Modifier.Kind.MIN_DECK_SIZE)
+	return maxi(1, size)
+
+
 ## Returns every rule the deck breaks (empty = legal). With `check_ownership`, the deck may not
 ## contain more copies of a card than the profile owns (basic lands are always available).
 static func validate(
@@ -35,8 +45,9 @@ static func validate(
 	check_ownership: bool = false,
 ) -> Array[Issue]:
 	var issues: Array[Issue] = []
-	if deck.size() < MIN_DECK_SIZE:
-		issues.append(_issue(Problem.TOO_FEW_CARDS, "", "Deck has %d cards; minimum is %d." % [deck.size(), MIN_DECK_SIZE]))
+	var min_size: int = min_deck_size(modifiers)
+	if deck.size() < min_size:
+		issues.append(_issue(Problem.TOO_FEW_CARDS, "", "Deck has %d cards; minimum is %d." % [deck.size(), min_size]))
 	var counts: Dictionary = deck.copy_counts()
 	var basics: Dictionary = {}
 	for card: CardData in deck.cards:

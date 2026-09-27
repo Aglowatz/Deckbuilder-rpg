@@ -184,6 +184,24 @@ func test_max_colors_modifier_raises_the_limit() -> void:
 	assert_eq(DeckValidator.max_colors(profile, mods), 4, "never more than the four real types")
 
 
+func test_min_deck_size_modifier_lowers_the_minimum() -> void:
+	var deck: Deck = _legal_deck([Affinity.Type.A] as Array[Affinity.Type])
+	for i: int in range(5):
+		deck.cards.pop_back()
+	assert_eq(deck.size(), 40)
+	assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, PlayerProfile.new()), DeckValidator.Problem.TOO_FEW_CARDS))
+	var mods: ModifierSet = ModifierSet.new()
+	mods.add(CardBuilder.modifier(Modifier.Kind.MIN_DECK_SIZE, -5))
+	assert_eq(DeckValidator.min_deck_size(mods), 40)
+	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new(), mods))
+
+
+func test_min_deck_size_never_goes_below_one() -> void:
+	var mods: ModifierSet = ModifierSet.new()
+	mods.add(CardBuilder.modifier(Modifier.Kind.MIN_DECK_SIZE, -1000))
+	assert_eq(DeckValidator.min_deck_size(mods), 1)
+
+
 func test_ownership_check() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	var deck: Deck = _legal_deck([Affinity.Type.A] as Array[Affinity.Type])

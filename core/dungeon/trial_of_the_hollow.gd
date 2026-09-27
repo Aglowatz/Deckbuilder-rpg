@@ -10,6 +10,23 @@ const CHALLENGE_ID: String = "hollow_well"
 ## uses the player's plain base life (10) and is balanced to be winnable on that alone - see
 ## docs/balance_report.md for the simulated win rate.
 
+const STARTER_DECK_SIZE: int = 42
+
+
+## Waives the normal 45-card minimum down to the starter deck's actual size (Part C), so the
+## 42-card starter is legal to play/save with (e.g. in the in-dungeon deck builder) for the whole
+## trial, until the 3 reward picks bring it back up to 45 on their own.
+static func deck_size_waiver() -> ModifierSource:
+	var source: ModifierSource = ModifierSource.new()
+	source.source_name = "Tutorial starter deck"
+	source.source_kind = ModifierSource.SourceKind.DUNGEON
+	var modifier: Modifier = Modifier.new()
+	modifier.kind = Modifier.Kind.MIN_DECK_SIZE
+	modifier.value = STARTER_DECK_SIZE - DeckValidator.MIN_DECK_SIZE
+	modifier.label = "Starter deck is not full size yet"
+	source.modifiers = [modifier] as Array[Modifier]
+	return source
+
 
 static func build_map() -> DungeonMap:
 	var map: DungeonMap = DungeonMap.new()

@@ -180,6 +180,11 @@ func _build_hud() -> void:
 	retreat.position = Vector2(60, 960)
 	retreat.pressed.connect(_ask_retreat)
 	add_child(retreat)
+	var deck_button: FancyButton = FancyButton.make("Deck", &"", Vector2(160, 56))
+	deck_button.position = Vector2(60, 894)
+	deck_button.tooltip_text = "Edit your deck without leaving the dungeon (same rules as town)."
+	deck_button.pressed.connect(_open_deck_builder)
+	add_child(deck_button)
 
 
 func _refresh_life() -> void:
@@ -256,6 +261,21 @@ func _on_modal_finished(node_id: int) -> void:
 		Session.abandon_run("You were carried out of the Hollow. Your collection is safe.")
 		return
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn", 0.25)
+
+
+## Part C: a deck builder reachable from inside the dungeon, same validation rules as town (see
+## DungeonDeckbuilderScreen) - it edits the run's current deck, not a map node, so it does not
+## flow through `_open_modal`/`_on_modal_finished` (no node to complete afterward).
+func _open_deck_builder() -> void:
+	if _busy or _modal != null:
+		return
+	Audio.sfx(&"ui_select")
+	var screen: DungeonDeckbuilderScreen = DungeonDeckbuilderScreen.new()
+	_modal = screen
+	screen.z_index = 100
+	add_child(screen)
+	screen.tree_exited.connect(func() -> void: _modal = null)
+	screen.closed.connect(screen.queue_free)
 
 
 func _ask_retreat() -> void:

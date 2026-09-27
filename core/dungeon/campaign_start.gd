@@ -1,9 +1,11 @@
 class_name CampaignStart
 extends RefCounted
-## The start of a new campaign: `starter_deck`/`starter_spells`/`new_profile` build the fixed
-## neutral deck the player is given for the tutorial dungeon (the Trial of the Hollow), before
-## they have chosen anything. What happens after the tutorial - picking a real starting deck -
-## is `StartingDecks` / `Session.choose_starting_deck`.
+## The start of a new campaign (Part C): the player picks their element BEFORE the tutorial
+## dungeon, in the starting area (`ElementChoiceScreen`). `new_profile`/`starter_deck` then build
+## the 42-card starter - 23 colorless spells + 19 basic lands of the chosen element - the player
+## carries into the Trial of the Hollow. It is short of the normal 45-card minimum on purpose
+## (`TrialOfTheHollow.deck_size_waiver()`); the 3 tutorial reward picks (one on-element card per
+## battle) bring it up to a real, legal 45-card deck by the time the player reaches town.
 ## See docs/design/starting_deck_and_affinity.md for the story framing.
 
 const STARTER_DECK_NAME: String = "Wanderer's Pack"
@@ -25,8 +27,8 @@ static func starter_spells(content: ContentSet) -> Array[CardData]:
 	return spells
 
 
-## A neutral-spells-plus-one-color deck. No longer used for the real starting choice (see
-## `StartingDecks`), but kept as a lightweight profile/deck pair for tests and tools.
+## The real starter deck (Part C): the 23 neutral spells plus 19 basic lands of `primary`. 42
+## cards - short of the 45 minimum until the tutorial reward picks fill it out.
 static func starter_deck(content: ContentSet, primary: Affinity.Type) -> Deck:
 	var deck: Deck = Deck.new()
 	deck.deck_name = STARTER_DECK_NAME

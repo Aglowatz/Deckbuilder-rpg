@@ -6,15 +6,19 @@ extends RefCounted
 var profile: PlayerProfile
 var deck: Deck
 var lands: Array[CardData] = []
+## Active modifiers (e.g. a dungeon's MIN_DECK_SIZE waiver or a MAX_DECK_COLORS boon). Null means
+## "no adjustments" - the plain town rules.
+var modifiers: ModifierSet
 
 
-static func from(player_profile: PlayerProfile, source: Deck, basic_lands: Array[CardData]) -> DeckEditor:
+static func from(player_profile: PlayerProfile, source: Deck, basic_lands: Array[CardData], active_modifiers: ModifierSet = null) -> DeckEditor:
 	var editor: DeckEditor = DeckEditor.new()
 	editor.profile = player_profile
 	editor.deck = Deck.new()
 	editor.deck.deck_name = source.deck_name
 	editor.deck.cards = source.cards.duplicate()
 	editor.lands = basic_lands
+	editor.modifiers = active_modifiers
 	return editor
 
 
@@ -42,8 +46,8 @@ func why_not_add(card: CardData) -> String:
 		if count(card) >= owned(card):
 			return "You do not own another copy."
 	if card.color != Affinity.Type.NEUTRAL and not deck.colors().has(card.color):
-		if deck.colors().size() >= DeckValidator.max_colors(profile):
-			return "A deck may use only %d colors." % DeckValidator.max_colors(profile)
+		if deck.colors().size() >= DeckValidator.max_colors(profile, modifiers):
+			return "A deck may use only %d colors." % DeckValidator.max_colors(profile, modifiers)
 	return ""
 
 
@@ -69,7 +73,7 @@ func remove(card: CardData) -> bool:
 
 
 func issues() -> Array[DeckValidator.Issue]:
-	return DeckValidator.validate(deck, profile, null, true)
+	return DeckValidator.validate(deck, profile, modifiers, true)
 
 
 func is_valid() -> bool:
@@ -90,7 +94,8 @@ func autofill_lands() -> int:
 		return 0
 	var added: int = 0
 	var turn: int = 0
-	while deck.size() < DeckValidator.MIN_DECK_SIZE and added < 60:
+	var target_size: int = DeckValidator.min_deck_size(modifiers)
+	while deck.size() < target_size and added < 60:
 		# Add to whichever color currently has the fewest lands.
 		var best: CardData = candidates[0]
 		for land: CardData in candidates:

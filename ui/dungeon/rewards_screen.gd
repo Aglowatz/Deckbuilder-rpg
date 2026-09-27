@@ -1,6 +1,8 @@
 class_name RewardsScreen
 extends Control
-## After a victory: gold, a choice of one card, and (after the boss) the Wellspring's attunement.
+## After a victory: gold and a choice of one card (Part C: on the trial's first clear, the choice
+## is restricted to the player's own element - see Session.complete_battle). After the boss,
+## Session.complete_trial() runs and this shows the "Trial Complete" step.
 
 var _offer: RewardOffer
 var _panel: PanelContainer
@@ -126,58 +128,28 @@ func _confirm() -> void:
 		SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 		return
 	Session.complete_trial()
+	_show_trial_complete(first_clear)
+
+
+## Part C: the boss reward is what actually completes the trial now - there is no separate
+## deck-choice step (the starter deck already grew to 45 cards via the 3 on-element reward
+## picks). First clear unlocks the town; a replay is just a recap.
+func _show_trial_complete(first_clear: bool) -> void:
+	for child: Node in _column.get_children():
+		child.queue_free()
+	Audio.sfx(&"victory")
+	_column.add_child(UIKit.label("Trial Complete", &"TitleLabel", 64, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	var body_text: String = "The Hollow is quiet again. You gather what it offered and head back to town."
 	if first_clear:
-		_show_starting_deck_choice()
-	else:
-		_show_trial_complete()
-
-
-## First clear only: the Hollow is done, but there is no deck or town yet - pick one now.
-func _show_starting_deck_choice() -> void:
-	for child: Node in _column.get_children():
-		child.queue_free()
-	Audio.sfx(&"victory")
-	_column.add_child(UIKit.label("Trial Complete", &"TitleLabel", 64, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var text: Label = UIKit.label("The Hollow is cleared. Somewhere beyond it, a road leads to a town - but first, choose the deck you will carry there.", &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		body_text = "The Hollow is cleared, and your deck is whole. Somewhere beyond it, the road to town is finally open."
+		Session.town_notice = "The %s deck is yours. The road to town is open." % UIStyle.affinity_name(Session.profile.primary_affinity)
+	var text: Label = UIKit.label(body_text, &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.custom_minimum_size = Vector2(1100, 0)
 	_column.add_child(text)
-	var next: FancyButton = FancyButton.make("Choose your deck", &"PrimaryButton", Vector2(300, 62))
-	next.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	next.pressed.connect(_open_deck_choice)
-	_column.add_child(next)
-	UIKit.pop_in(_panel)
-
-
-func _open_deck_choice() -> void:
-	# The overlay covers the screen visually, but its own "Choose <deck>" confirm button also
-	# reads "Choose" - hide this button/panel so nothing underneath is left clickable (or found
-	# by a text search) while the choice is open.
-	_panel.visible = false
-	var choice: StartingDeckChoiceScreen = StartingDeckChoiceScreen.new()
-	add_child(choice)
-	choice.chosen.connect(func(color: Affinity.Type) -> void:
-		Session.choose_starting_deck(color)
-		Audio.sfx(&"heal")
-		Audio.sfx(&"ui_confirm")
-		Session.town_notice = "The %s deck is yours. The road to town is open." % UIStyle.affinity_name(color)
-		SceneManager.go_to_town())
-
-
-## A replay of the trial (already cleared once): a short recap, then back to town.
-func _show_trial_complete() -> void:
-	for child: Node in _column.get_children():
-		child.queue_free()
-	Audio.sfx(&"victory")
-	_column.add_child(UIKit.label("Trial Complete", &"TitleLabel", 64, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var text: Label = UIKit.label("The Hollow is quiet again. You gather what it offered and head back to town.", &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
-	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	text.custom_minimum_size = Vector2(1100, 0)
-	_column.add_child(text)
-	var home: FancyButton = FancyButton.make("Return to town", &"PrimaryButton", Vector2(300, 62))
+	var home: FancyButton = FancyButton.make("Enter town", &"PrimaryButton", Vector2(300, 62))
 	home.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	home.pressed.connect(func() -> void:
-		Session.town_notice = ""
 		SceneManager.go_to_town())
 	_column.add_child(home)
 	UIKit.pop_in(_panel)

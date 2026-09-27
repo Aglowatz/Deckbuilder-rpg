@@ -28,6 +28,34 @@ static func card_choices(
 			weight *= 2.0
 		pool.append(card)
 		weights.append(weight)
+	return _weighted_pick(pool, weights, rng, count)
+
+
+## The tutorial dungeon's reward pick (Part C): strictly `color`'s own cards, never neutral or
+## another color, so the only on-element cards the player ends the trial with are the ones picked
+## here. Still rarity-weighted the same way as `card_choices`.
+static func card_choices_for_color(
+	content: ContentSet,
+	color: Affinity.Type,
+	rng: RandomNumberGenerator,
+	count: int = 3,
+	boss: bool = false,
+) -> Array[CardData]:
+	var pool: Array[CardData] = []
+	var weights: Array[float] = []
+	var table: Array[float] = BOSS_RARITY_WEIGHTS if boss else RARITY_WEIGHTS
+	var ids: Array = content.cards.keys()
+	ids.sort()
+	for id: Variant in ids:
+		var card: CardData = content.cards[id] as CardData
+		if card.color != color:
+			continue
+		pool.append(card)
+		weights.append(table[int(card.rarity)])
+	return _weighted_pick(pool, weights, rng, count)
+
+
+static func _weighted_pick(pool: Array[CardData], weights: Array[float], rng: RandomNumberGenerator, count: int) -> Array[CardData]:
 	var chosen: Array[CardData] = []
 	while chosen.size() < count and not pool.is_empty():
 		var total: float = 0.0

@@ -60,8 +60,19 @@ Modifiers from equipment, items, and zones apply on top of the profile values.
 
 ## Deck Construction
 
-- Minimum **45** cards.
+- Minimum **45** cards, adjustable by `Modifier.Kind.MIN_DECK_SIZE` (e.g. the tutorial dungeon's
+  starter-deck waiver - see "Starting deck" below).
 - Maximum **3** copies of any card (basic lands are exempt).
+
+## Starting deck (Part C)
+
+A new campaign's starter deck is **42 cards**: 23 colorless (neutral) non-land cards + 19 basic
+lands of the player's chosen element - short of the normal 45-card minimum. A `MIN_DECK_SIZE`
+modifier waives the minimum down to 42 for the whole tutorial dungeon only
+(`TrialOfTheHollow.deck_size_waiver()`); the 3 tutorial reward picks (one per battle, restricted to
+the player's own element on this first clear) bring the deck up to a real 45 cards by the time the
+dungeon is cleared, at which point the waiver no longer applies. See
+`docs/design/starting_deck_and_affinity.md` for the full flow.
 
 ## Rarity
 

@@ -24,6 +24,9 @@ enum Kind {
 	MAX_TRAPS,
 	## `effect` resolves for the owner when their combat phase begins.
 	START_OF_COMBAT_EFFECT,
+	## value = flat change to the minimum legal deck size (may be negative). Used to waive the
+	## normal minimum while a starter deck is still being filled out (e.g. the tutorial dungeon).
+	MIN_DECK_SIZE,
 }
 
 ## `color` value meaning "matches every card".

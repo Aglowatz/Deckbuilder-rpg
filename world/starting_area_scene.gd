@@ -1,8 +1,9 @@
 class_name StartingAreaScene
 extends Node3D
 ## Where a new campaign begins: the hero wakes up alone in a small forest clearing, talks to
-## themselves, and the only way forward is the cave mouth into the Trial of the Hollow. No town
-## access from here - see docs/design/starting_deck_and_affinity.md for the framing.
+## themselves, and the only way forward is the cave mouth into the Trial of the Hollow. Entering
+## it for the first time asks which element (`ElementChoiceScreen`, Part C) before the dungeon
+## actually starts. No town access from here - see docs/design/starting_deck_and_affinity.md.
 
 const STORY_PATH: String = "res://data/story/intro_story.tres"
 const CAMERA_OFFSET: Vector3 = Vector3(0.0, 8.4, 7.0)
@@ -149,10 +150,23 @@ func _enter_gate() -> void:
 		"Enter", "Not yet",
 	)
 	_locked = true
-	dialog.confirmed.connect(func() -> void:
-		Audio.sfx(&"door")
-		Session.begin_intro_trial())
+	dialog.confirmed.connect(_confirm_enter)
 	dialog.cancelled.connect(func() -> void: _locked = false)
+
+
+## Part C: the element is chosen once, before the very first attempt. A retry after an abandoned
+## run (the profile already exists) skips straight back into the dungeon with that same element.
+func _confirm_enter() -> void:
+	Audio.sfx(&"door")
+	if Session.has_profile():
+		Session.begin_intro_trial(Session.profile.primary_affinity)
+		return
+	var choice: ElementChoiceScreen = ElementChoiceScreen.new()
+	_overlay_layer.add_child(choice)
+	choice.chosen.connect(func(color: Affinity.Type) -> void:
+		Audio.sfx(&"ui_confirm")
+		choice.queue_free()
+		Session.begin_intro_trial(color))
 
 
 # ---- Screenshot helpers -----------------------------------------------------------------

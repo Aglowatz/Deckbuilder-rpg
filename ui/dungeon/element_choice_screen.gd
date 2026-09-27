@@ -1,25 +1,27 @@
-class_name StartingDeckChoiceScreen
+class_name ElementChoiceScreen
 extends Control
-## Shown once, right after the tutorial dungeon is cleared: pick one of the four starting decks
-## (`StartingDecks`), each shown with its identity, playstyle and a few key cards. Whichever is
-## chosen becomes the player's deck immediately - every card in it joins the collection, so it
-## is legal to play from the first turn in town. See docs/design/starting_deck_and_affinity.md.
+## Shown in the starting area, right before the tutorial dungeon (Part C): pick the element the
+## Wanderer carries into the Trial of the Hollow. Each tile shows the element's identity,
+## playstyle and a few representative cards. The choice becomes `PlayerProfile.primary_affinity`
+## and decides the starter deck's basic land color (`CampaignStart.starter_deck`); the neutral
+## cards in the starter are the same regardless of which element is picked.
 
 signal chosen(color: Affinity.Type)
 
 var selected: Affinity.Type = Affinity.Type.NEUTRAL
 var _tiles: Dictionary = {}
 var _confirm: FancyButton
-var _offers: Array[StartingDecks.Offer] = []
+var _offers: Array[ElementChoice.Offer] = []
 
 
 func _ready() -> void:
 	UIKit.full_rect(self)
 	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.02, 0.02, 0.06, 0.82)
+	shade.color = Color(0.02, 0.02, 0.06, 0.88)
 	UIKit.full_rect(shade)
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(shade)
+	add_child(UIKit.gradient_background())
 	var center: CenterContainer = CenterContainer.new()
 	UIKit.full_rect(center)
 	add_child(center)
@@ -27,31 +29,31 @@ func _ready() -> void:
 	center.add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(16)
 	panel.add_child(column)
-	column.add_child(UIKit.label("Choose your deck", &"TitleLabel", 50, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var intro: Label = UIKit.label("The Hollow is cleared. Pick the deck that will carry you from here - every card shown joins your collection the moment you choose it.", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	column.add_child(UIKit.label("Choose your element", &"TitleLabel", 50, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	var intro: Label = UIKit.label("Before the Hollow, one of the four Wellsprings will answer you. It shapes the cards you draw to it as you explore - your kit otherwise starts the same either way.", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	intro.custom_minimum_size = Vector2(1200, 0)
 	column.add_child(intro)
 	var row: HBoxContainer = UIKit.hbox(18)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_child(row)
-	_offers = StartingDecks.offers(Session.content)
-	for offer: StartingDecks.Offer in _offers:
+	_offers = ElementChoice.offers(Session.content)
+	for offer: ElementChoice.Offer in _offers:
 		row.add_child(_make_tile(offer))
 	var buttons: HBoxContainer = UIKit.hbox(16)
 	buttons.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_child(buttons)
-	_confirm = FancyButton.make("Choose this deck", &"PrimaryButton", Vector2(280, 60))
+	_confirm = FancyButton.make("Begin", &"PrimaryButton", Vector2(280, 60))
 	_confirm.disabled = true
 	_confirm.pressed.connect(_on_confirm)
 	buttons.add_child(_confirm)
 	UIKit.pop_in(panel)
 
 
-func _make_tile(offer: StartingDecks.Offer) -> Control:
+func _make_tile(offer: ElementChoice.Offer) -> Control:
 	var tint: Color = UIStyle.affinity_color(offer.affinity)
 	var tile: Button = Button.new()
-	tile.custom_minimum_size = Vector2(300, 460)
+	tile.custom_minimum_size = Vector2(300, 440)
 	tile.focus_mode = Control.FOCUS_NONE
 	tile.add_theme_stylebox_override("normal", UIStyle.box(tint.darkened(0.7), tint.darkened(0.2), 3, 16, 8))
 	tile.add_theme_stylebox_override("hover", UIStyle.box(tint.darkened(0.55), tint.lightened(0.2), 4, 16, 14))
@@ -64,8 +66,7 @@ func _make_tile(offer: StartingDecks.Offer) -> Control:
 	inner.alignment = BoxContainer.ALIGNMENT_CENTER
 	inner.add_theme_constant_override("margin_top", 14)
 	tile.add_child(inner)
-	inner.add_child(UIKit.label(offer.deck_name, &"HeadingLabel", 26, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	inner.add_child(UIKit.label(UIStyle.affinity_name(offer.affinity), &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	inner.add_child(UIKit.label(UIStyle.affinity_name(offer.affinity), &"HeadingLabel", 28, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	var identity: Label = UIKit.label(offer.identity, &"", 17, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	identity.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	identity.custom_minimum_size = Vector2(260, 70)
@@ -74,7 +75,7 @@ func _make_tile(offer: StartingDecks.Offer) -> Control:
 	cards_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	cards_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	inner.add_child(cards_row)
-	for card: CardData in offer.key_cards:
+	for card: CardData in offer.sample_cards:
 		cards_row.add_child(CardView.wrapped(card, 0.28))
 	var playstyle: Label = UIKit.label(offer.playstyle, &"MutedLabel", 16, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	playstyle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -93,7 +94,7 @@ func _select(color: Affinity.Type) -> void:
 		var is_selected: bool = int(key) == int(color)
 		tile.add_theme_stylebox_override("normal", UIStyle.box(tint.darkened(0.45 if is_selected else 0.7), UIStyle.PARCHMENT if is_selected else tint.darkened(0.2), 5 if is_selected else 3, 16, 16 if is_selected else 8))
 	_confirm.disabled = false
-	_confirm.text = "Choose %s" % UIStyle.affinity_name(color)
+	_confirm.text = "Begin as %s" % UIStyle.affinity_name(color)
 
 
 func _on_confirm() -> void:

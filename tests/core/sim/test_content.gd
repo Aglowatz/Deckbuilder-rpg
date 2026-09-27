@@ -21,8 +21,10 @@ func _count_color(color: Affinity.Type) -> int:
 
 
 func test_forty_placeholder_cards_split_by_color() -> void:
-	assert_eq(_content.cards.size(), 40)
-	assert_eq(_count_color(Affinity.Type.NEUTRAL), 10)
+	# 42 (Part C added 2 neutral 1-cost creatures to the starter template - see
+	# docs/design/starting_deck_and_affinity.md).
+	assert_eq(_content.cards.size(), 42)
+	assert_eq(_count_color(Affinity.Type.NEUTRAL), 12)
 	assert_eq(_count_color(Affinity.Type.A), 8)
 	assert_eq(_count_color(Affinity.Type.B), 8)
 	assert_eq(_count_color(Affinity.Type.C), 7)
@@ -121,6 +123,10 @@ func test_five_sample_decks_are_legal() -> void:
 	assert_eq(_content.decks.size(), 5)
 	var profile: PlayerProfile = PlayerProfile.new()
 	for deck: Deck in _content.decks:
+		if deck.deck_name == CampaignStart.STARTER_DECK_NAME:
+			# Deliberately short of the minimum (Part C): a template topped up by tutorial
+			# rewards, not a directly-playable deck - see test_neutral_starter_spells_are_all_neutral.
+			continue
 		assert_eq(deck.size(), 45, deck.deck_name)
 		assert_eq(deck.land_count(), 17, deck.deck_name)
 		var issues: Array[DeckValidator.Issue] = DeckValidator.validate(deck, profile)
@@ -150,10 +156,17 @@ func test_decks_only_use_cards_from_the_library() -> void:
 func test_neutral_starter_spells_are_all_neutral() -> void:
 	var starter: Deck = _content.deck("Wanderer's Pack")
 	assert_not_null(starter)
+	assert_eq(starter.size(), 42, "23 neutral spells + 19 lands - short of 45 on purpose (Part C)")
+	assert_eq(starter.land_count(), 19)
 	for card: CardData in starter.cards:
 		if not card.is_land():
 			assert_eq(card.color, Affinity.Type.NEUTRAL, card.id)
 	assert_eq(starter.colors().size(), 1, "only its lands carry a color")
+	var one_cost_creatures: int = 0
+	for card: CardData in starter.cards:
+		if card.is_creature() and card.mana_value() == 1:
+			one_cost_creatures += 1
+	assert_gt(one_cost_creatures, 0, "the starter template needs several 1-cost creatures")
 
 
 # ---- Every card actually works in a game -----------------------------------------------

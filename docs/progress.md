@@ -641,7 +641,57 @@ is titled "New Part <letter>" and cross-references the old one by name where rel
 
 284 GUT tests still pass (no test exercised rarity names directly, so none needed changes).
 
-## New Part C: new starting flow and starter deck - not started
+## New Part C: new starting flow and starter deck - done
+
+Reworked the starting flow again (this is the third version - see `docs/design/
+starting_deck_and_affinity.md` "History" and D44): the player now picks their **element** in the
+starting area, before the tutorial dungeon even starts, and carries a single-element starter deck
+through it that grows into a full legal deck by the end - not a fixed neutral deck followed by a
+two-color deck choice afterward (that whole step is removed).
+
+- **`ElementChoiceScreen`** (`core/dungeon/element_choice.gd` + `ui/dungeon/
+  element_choice_screen.gd`): shown from `StartingAreaScene` when confirming "Enter" for the very
+  first time (no profile yet). Four tiles, one per element, each with its identity, playstyle and
+  3 representative cards (reused almost verbatim from the removed `StartingDecks` pair-deck text,
+  reframed per single color - D44). A retry after an abandoned first attempt skips this and reuses
+  the already-chosen element. Replaces `StartingDecks`/`StartingDeckChoiceScreen`, deleted outright.
+- **Starter deck**: 23 colorless non-land cards + 19 basic lands of the chosen element = 42 cards
+  (`CampaignStart.starter_deck`/`starter_spells`), including two new 1-cost neutral creatures
+  (`apprentice_blade`, `scrappy_recruit`, 3 copies each - D48) so turn 1 always has something to
+  do. Short of the normal 45-card minimum on purpose.
+- **The 45-card minimum is waived only in the tutorial dungeon**, via a new `Modifier.Kind.
+  MIN_DECK_SIZE` and `DeckValidator.min_deck_size(modifiers)` (a modifier, not a hack - D45).
+  `DeckEditor`/`DeckbuilderScreen` now thread a `ModifierSet` through everywhere they previously
+  used the plain constant, which also fixes a pre-existing gap where the deck station never
+  respected dungeon/equipment `MAX_DECK_COLORS` boons either.
+- **Tutorial rewards**: after each of the 3 reward-granting fights (2 battles + boss), the pick is
+  restricted to the player's own element only on this first-ever clear
+  (`RewardGenerator.card_choices_for_color`, `Session.complete_battle` - D47); a later replay of
+  the trial offers normal full-variety rewards. Each pick joins the run's deck immediately
+  (`DungeonRun.gain_card`), not just the permanent collection, so by the boss the deck is a real,
+  legal 45 cards - the only on-element cards the player leaves the dungeon owning are those 3.
+- **Clearing the trial** (`Session.complete_trial`) is what unlocks the town now: the run's
+  finished 45-card deck becomes `Session.deck`, `intro_dungeon_cleared`/`trial_cleared` are set.
+  `RewardsScreen` collapsed its old two-branch ending (first-clear deck choice vs. replay recap)
+  into one "Trial Complete -> Enter town" step with slightly different flavor text.
+- **A deck builder inside the dungeon**: a "Deck" button on the dungeon map screen opens
+  `DungeonDeckbuilderScreen`, a ~20-line subclass of the town's `DeckbuilderScreen` that edits
+  `DungeonRun.current_deck()`/`run.modifiers()` instead of `Session.deck`, saving by replacing
+  `run.base_deck` (D46) - same validation rules as town (including the waiver while it applies).
+
+**Full end-to-end verification**: `tools/run_e2e.sh` was rewritten for the new flow (title ->
+element choice -> tutorial dungeon, trying the in-dungeon deck builder once -> 3 battles with
+on-element reward picks verified card-by-card -> trial complete -> town, buying a card and editing
+the deck) and **passes clean**, including a real loss-and-retry (the first attempt this run
+happened to lose battle 1, retried with the same element, as a human would). One real bug was
+found and fixed getting there: vendor/deck-station grid clicks silently missed any card scrolled
+out of view (D49, test tooling only, not a product bug).
+
+289 GUT tests pass (new coverage for `MIN_DECK_SIZE`, `DeckEditor` with/without the waiver,
+`card_choices_for_color`, and `test_element_choice.gd` replacing `test_starting_decks.gd`).
+`docs/design/combat_rules.md` gained a "Starting deck" section; `docs/design/
+starting_deck_and_affinity.md` was rewritten for the new flow.
+
 ## New Part D: tutorial opponent balance - not started
 ## New Part E: player progression (levels 1-30) - not started
 ## New Part F: deck color rule - not started
