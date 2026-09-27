@@ -70,3 +70,7 @@ func go_to_title() -> void:
 
 func go_to_town() -> void:
 	change_scene("res://scenes/town.tscn")
+
+
+func go_to_start_area() -> void:
+	change_scene("res://scenes/starting_area.tscn")

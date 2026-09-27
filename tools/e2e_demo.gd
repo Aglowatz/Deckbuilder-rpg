@@ -1,21 +1,20 @@
 class_name E2EDemo
 extends Node
-## Plays the whole demo through the real UI: title -> new game -> town (walk to the Wellspring,
-## choose a color, buy a card, edit and save the deck) -> gate -> dungeon map -> tutorial battle
-## -> challenge -> battle -> shrine -> boss -> rewards -> Trial complete -> town. Mouse clicks
+## Plays the whole demo through the real UI: title -> new game -> starting area (wake up, walk to
+## the cave mouth) -> dungeon map -> tutorial battle -> challenge -> battle -> shrine -> boss ->
+## rewards -> choose a starting deck -> town (buy a card, edit and save the deck). Mouse clicks
 ## and key presses are injected with UiDriver; battles use BattlePilot clicks for the tutorial
-## battle and the AI for the rest. Failed duels send the player home and the flow retries.
+## battle and the AI for the rest. Failed duels send the player back to the starting area to
+## retry, same as a human would see.
 
 const SAVE_PATH: String = "user://e2e_save.json"
 const TIME_LIMIT_SECONDS: float = 900.0
-const MAX_TRIAL_ATTEMPTS: int = 6
 
 var driver: UiDriver
 var failures: PackedStringArray = []
 var trace: PackedStringArray = []
 var _started_ms: int = 0
 var _did: Dictionary = {}
-var _trial_attempts: int = 0
 var _battles: int = 0
 var _held_keys: Dictionary = {}
 var _stall: int = 0
@@ -39,6 +38,10 @@ func _note(message: String) -> void:
 func run() -> void:
 	_started_ms = Time.get_ticks_msec()
 	Session.save_path = SAVE_PATH
+	# The launcher passes --no-save (so nothing here can ever touch the real player's save),
+	# which disables Session.save_game() entirely - but this run needs real saves to happen, to
+	# its own safe path above, so it can verify save/load. Re-enable now that the path is safe.
+	Session.save_enabled = true
 	SaveSystem.delete(SAVE_PATH)
 	Session.rng.seed = 12345
 	driver = UiDriver.new(get_tree())
@@ -59,6 +62,8 @@ func run() -> void:
 			await driver.seconds(0.6)
 		if scene is TitleScreen:
 			await _title(scene as TitleScreen)
+		elif scene is StartingAreaScene:
+			await _starting_area(scene as StartingAreaScene)
 		elif scene is TownScene:
 			await _town(scene as TownScene)
 		elif scene is DungeonMapScreen:
@@ -94,7 +99,7 @@ func _progress_key() -> String:
 func _report() -> void:
 	var seconds: float = float(Time.get_ticks_msec() - _started_ms) / 1000.0
 	if failures.is_empty():
-		print("E2E PASSED in %.0fs (%d trial attempts, %d battles)" % [seconds, _trial_attempts, _battles])
+		print("E2E PASSED in %.0fs (%d battles)" % [seconds, _battles])
 	else:
 		print("E2E FAILED: %d problem(s)" % failures.size())
 		for line: String in trace:
@@ -113,6 +118,51 @@ func _title(_screen: TitleScreen) -> void:
 	_check(driver.find_button("Settings") != null, "title has a Settings button")
 	await driver.click_button("New Game")
 	await driver.seconds(1.0)
+
+
+# ---- Starting area -----------------------------------------------------------------------
+
+
+func _starting_area(scene: StartingAreaScene) -> void:
+	if scene.dialogue.active:
+		await driver.tap_key(KEY_E)
+		await driver.seconds(0.4)
+		return
+	if scene._locked:
+		if driver.find_button("Enter") != null:
+			await driver.click_button("Enter")
+			await driver.seconds(1.5)
+		else:
+			await driver.frames(10)
+		return
+	_check(Session.flag(&"awakened"), "the wake-up dialogue played")
+	await _walk_to_gate(scene)
+	await driver.frames(4)
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.5)
+
+
+func _walk_to_gate(scene: StartingAreaScene) -> void:
+	var gate: Vector3 = scene.area.anchors.get("gate", Vector3.ZERO) as Vector3
+	var elapsed: float = 0.0
+	while elapsed < 9.0:
+		var offset: Vector3 = gate - scene.player.position
+		offset.y = 0.0
+		if offset.length() < StartingAreaScene.INTERACT_RADIUS * 0.55:
+			break
+		await _hold(KEY_W, offset.z < -0.35)
+		await _hold(KEY_S, offset.z > 0.35)
+		await _hold(KEY_A, offset.x < -0.35)
+		await _hold(KEY_D, offset.x > 0.35)
+		await driver.frames(2)
+		elapsed += 2.0 / 60.0
+	for key: Key in [KEY_W, KEY_A, KEY_S, KEY_D]:
+		await _hold(key, false)
+	var reached: bool = Vector2(scene.player.position.x - gate.x, scene.player.position.z - gate.z).length() < StartingAreaScene.INTERACT_RADIUS
+	_check(reached, "the hero can walk to the cave mouth with the keyboard")
+	if not reached:
+		scene.player.position = gate + Vector3(0, 0, 0.4)
+		await driver.frames(3)
 
 
 # ---- Town ------------------------------------------------------------------------------
@@ -165,9 +215,6 @@ func _interact(scene: TownScene, id: String, walk: bool = false) -> void:
 func _town(scene: TownScene) -> void:
 	# Overlays first.
 	var overlay: Control = scene._overlay
-	if overlay is WellspringChoice:
-		await _choose_wellspring(overlay as WellspringChoice)
-		return
 	if overlay is VendorScreen:
 		await _shop(overlay as VendorScreen)
 		return
@@ -178,25 +225,8 @@ func _town(scene: TownScene) -> void:
 		await driver.tap_key(KEY_E)
 		await driver.seconds(0.4)
 		return
-	if driver.find_button("Enter") != null and scene._locked:
-		await driver.click_button("Enter")
-		await driver.seconds(1.5)
-		return
 	if scene._locked:
 		await driver.frames(10)
-		return
-	if Session.flag(&"trial_cleared"):
-		_final_checks(scene)
-		_did["finished"] = true
-		return
-	if not Session.flag(&"wellspring_chosen"):
-		_check(scene.hud._objective.text.contains("Wellspring"), "the first objective points at the Wellspring")
-		_check(Session.gold == Session.STARTING_GOLD, "the game starts with %d gold" % Session.STARTING_GOLD)
-		if not _did.has("elder"):
-			_did["elder"] = true
-			await _interact(scene, "elder")
-			return
-		await _interact(scene, "well", true)
 		return
 	if not _did.has("vendor"):
 		_did["vendor"] = true
@@ -206,35 +236,33 @@ func _town(scene: TownScene) -> void:
 		_did["deck"] = true
 		await _interact(scene, "deck")
 		return
-	_trial_attempts += 1
-	_note("entering the trial (attempt %d)" % _trial_attempts)
-	if _trial_attempts > MAX_TRIAL_ATTEMPTS:
-		_check(false, "the trial was cleared within %d attempts" % MAX_TRIAL_ATTEMPTS)
-		_did["finished"] = true
-		return
-	_check(Session.deck_is_valid(), "the deck is legal before entering the dungeon")
-	await _interact(scene, "guard")
-	while scene.dialogue.active:
-		await driver.tap_key(KEY_E)
-		await driver.seconds(0.3)
-	await _interact(scene, "gate")
+	_final_checks(scene)
+	_did["finished"] = true
 
 
-func _choose_wellspring(choice: WellspringChoice) -> void:
-	_check(choice._confirm.disabled, "the Wellspring needs a choice before confirming")
+## Right after the boss: choose a starting deck. The screen is a child overlay of RewardsScreen,
+## not a separate scene, so this is called from `_rewards()`.
+func _choose_starting_deck(choice: StartingDeckChoiceScreen) -> void:
+	_check(choice._confirm.disabled, "the starting-deck choice needs a pick before confirming")
 	var tile: Button = choice._tiles[Affinity.Type.A] as Button
 	await driver.click(driver.center_of_control(tile))
 	_check(choice.selected == Affinity.Type.A, "clicking the Ember tile selects it")
-	await driver.click_button("Answer the call")
+	await driver.click_button("Choose")
 	await driver.seconds(0.8)
-	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.A, "the Wellspring sets the primary affinity")
-	_check(Session.deck.size() == 45, "the starter deck has 45 cards")
-	_check(Session.deck_is_valid(), "the starter deck is legal")
-	_check(Session.owned_count("sellsword") == 3, "the collection holds the neutral starter cards")
+	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.A, "choosing a deck sets the primary affinity")
+	_check(Session.deck.size() == 45, "the starting deck has 45 cards")
+	_check(Session.deck_is_valid(), "the starting deck is legal")
+	_check(Session.flag(&"trial_cleared"), "choosing a deck unlocks the town")
 
 
 func _shop(vendor: VendorScreen) -> void:
-	var card: CardData = Session.content.card("ember_imp")
+	var tip: Button = driver.find_button("Got it")
+	if tip != null:
+		await driver.click(driver.button_center(tip))
+		await driver.seconds(0.3)
+	# Not a card in the chosen Ember starting deck (or the neutral tutorial deck), so it starts
+	# unowned and the vendor will actually offer it.
+	var card: CardData = Session.content.card("recall")
 	var before_gold: int = Session.gold
 	var before_owned: int = Session.owned_count(card.id)
 	for tile: Control in vendor._tiles:
@@ -251,7 +279,11 @@ func _shop(vendor: VendorScreen) -> void:
 
 
 func _edit_deck(screen: DeckbuilderScreen) -> void:
-	var card: CardData = Session.content.card("ember_imp")
+	var tip: Button = driver.find_button("Got it")
+	if tip != null:
+		await driver.click(driver.button_center(tip))
+		await driver.seconds(0.3)
+	var card: CardData = Session.content.card("recall")
 	var tile: Control = null
 	for candidate: Node in screen._grid.get_children():
 		if str(candidate.get_meta("card_id")) == card.id:
@@ -355,13 +387,19 @@ func _battle(screen: BattleScreen) -> void:
 
 
 func _rewards(scene: RewardsScreen) -> void:
+	for child: Node in scene.get_children():
+		if child is StartingDeckChoiceScreen:
+			await _choose_starting_deck(child as StartingDeckChoiceScreen)
+			return
+	var choose_deck: Button = driver.find_button("Choose your deck")
+	if choose_deck != null:
+		await driver.seconds(1.0)
+		await driver.click(driver.button_center(choose_deck))
+		await driver.seconds(0.5)
+		return
 	var back: Button = driver.find_button("Return to town")
 	if back != null:
 		await driver.seconds(1.8)
-		var owned_before: int = 0
-		for card: CardData in Session.profile.owned_cards:
-			owned_before += 1
-		_check(Session.profile.intro_dungeon_cleared, "clearing the trial attunes the player")
 		await driver.click(driver.button_center(back))
 		await driver.seconds(1.0)
 		return
@@ -387,9 +425,7 @@ func _rewards(scene: RewardsScreen) -> void:
 
 
 func _final_checks(scene: TownScene) -> void:
-	var granted: Array[CardData] = CampaignStart.attunement_cards(Session.content, Session.profile.primary_affinity)
-	for card: CardData in granted:
-		_check(Session.owned_count(card.id) >= 1, "attunement card %s is owned" % card.display_name)
+	_check(Session.deck_is_valid(), "the chosen starting deck is legal and fully owned in town")
 	_check(Session.profile.intro_dungeon_cleared, "the intro dungeon is marked cleared")
 	_check(Session.gold > Session.STARTING_GOLD - 30, "gold was earned in the dungeon")
 	_check(not Session.in_dungeon(), "no dungeon run is active back in town")
@@ -397,6 +433,5 @@ func _final_checks(scene: TownScene) -> void:
 	var saved: Dictionary = SaveSystem.read(SAVE_PATH)
 	_check(int(saved.get("gold", -1)) == Session.gold, "the save holds the current gold")
 	_check(bool((saved.get("flags", {}) as Dictionary).get("trial_cleared", false)), "the save remembers the cleared trial")
-	var fresh: Node = Node.new()
-	fresh.free()
+	_check(bool((saved.get("flags", {}) as Dictionary).get("awakened", false)), "the save remembers the wake-up scene was played")
 	_check(scene.hud._objective.text.contains("cleared"), "the town objective reflects the cleared trial")

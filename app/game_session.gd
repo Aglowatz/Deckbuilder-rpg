@@ -48,25 +48,15 @@ func new_game() -> void:
 	rng.randomize()
 
 
-## The Wellspring choice: sets the primary affinity, the owned cards and the starter deck.
-func choose_affinity(color: Affinity.Type) -> bool:
-	var new_profile: PlayerProfile = CampaignStart.new_profile(content, color)
-	if new_profile == null:
-		return false
-	profile = new_profile
-	deck = CampaignStart.starter_deck(content, color)
-	deck.deck_name = DECK_NAME
-	set_flag(&"wellspring_chosen")
-	EventBus.collection_changed.emit()
-	save_game()
-	return true
-
-
-## Makes sure a playable game exists (used when a scene is launched directly for testing).
+## Makes sure a complete, post-tutorial game exists (used when a scene - town, the vendor, the
+## deck station... - is launched directly for testing/screenshots, skipping the starting area
+## and the tutorial dungeon).
 func ensure_game(color: Affinity.Type = Affinity.Type.A) -> void:
 	if profile == null:
 		new_game()
-		choose_affinity(color)
+		profile = PlayerProfile.new()
+		profile.owned_cards = CampaignStart.starter_spells(content)
+		choose_starting_deck(color)
 
 
 func has_profile() -> bool:
@@ -163,11 +153,11 @@ func to_dict() -> Dictionary:
 func from_dict(data: Dictionary) -> bool:
 	if not data.has("primary"):
 		return false
+	# NEUTRAL here means a save from mid-intro-trial, before a starting deck was chosen; the
+	# profile still exists (gold/collection earned so far) even though there is no color yet.
 	var color: Affinity.Type = int(data["primary"]) as Affinity.Type
-	var loaded: PlayerProfile = CampaignStart.new_profile(content, color)
-	if loaded == null:
-		return false
-	loaded.owned_cards.clear()
+	var loaded: PlayerProfile = PlayerProfile.new()
+	loaded.primary_affinity = color
 	for id: Variant in data.get("owned", []) as Array:
 		var card: CardData = card_by_id(str(id))
 		if card != null:
@@ -185,7 +175,7 @@ func from_dict(data: Dictionary) -> bool:
 	flags = (data.get("flags", {}) as Dictionary).duplicate()
 	run = null
 	dungeon_map = null
-	if deck.size() == 0:
+	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
 		rebuild_starter_deck()
 	return true
 
@@ -196,8 +186,8 @@ func save_game() -> void:
 	SaveSystem.write(to_dict(), save_path)
 
 
-## Loads the saved campaign. Returns false when there is none (a game started before the
-## Wellspring choice has no profile and is not saved).
+## Loads the saved campaign. Returns false when there is none (a game that has not yet reached
+## the starting area's cave mouth has no profile and is not saved).
 func load_game() -> bool:
 	var data: Dictionary = SaveSystem.read(save_path)
 	if data.is_empty():
@@ -239,11 +229,46 @@ func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: i
 # ---- Dungeon flow -----------------------------------------------------------------------
 
 
-## Enters the Trial of the Hollow with the current deck (the player is fully healed).
+## Enters the Trial of the Hollow with the current deck (the player is fully healed). Used to
+## replay it from town once it has already been cleared; the very first run is
+## `begin_intro_trial()` instead.
 func begin_trial() -> void:
 	dungeon_map = TrialOfTheHollow.build_map()
-	run = DungeonRun.enter(profile, deck, [TrialOfTheHollow.blessing()] as Array[ModifierSource])
+	run = DungeonRun.enter(profile, deck, [] as Array[ModifierSource])
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+
+
+## Enters the Trial of the Hollow for the very first time, from the starting area, before the
+## player has a real deck: a fixed neutral tutorial deck (`CampaignStart.STARTER_DECK_NAME`).
+## Clearing it and choosing a starting deck (`choose_starting_deck`) is what unlocks the town.
+func begin_intro_trial() -> void:
+	if profile == null:
+		profile = PlayerProfile.new()
+		profile.owned_cards = CampaignStart.starter_spells(content)
+	dungeon_map = TrialOfTheHollow.build_map()
+	var tutorial_deck: Deck = content.deck(CampaignStart.STARTER_DECK_NAME)
+	run = DungeonRun.enter(profile, tutorial_deck, [] as Array[ModifierSource])
+	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+
+
+## The starting-deck choice at the end of the intro trial: sets the primary affinity, hands the
+## player the whole chosen deck (so it is legal immediately) and unlocks the town. False for an
+## invalid color or if the intro trial has not produced a profile yet.
+func choose_starting_deck(color: Affinity.Type) -> bool:
+	if profile == null or not CampaignStart.is_valid_choice(color):
+		return false
+	var chosen: Deck = StartingDecks.deck_for(content, color)
+	if chosen == null:
+		return false
+	profile.primary_affinity = color
+	profile.owned_cards.append_array(chosen.cards)
+	profile.intro_dungeon_cleared = true
+	deck = chosen
+	deck.deck_name = DECK_NAME
+	set_flag(&"trial_cleared")
+	EventBus.collection_changed.emit()
+	save_game()
+	return true
 
 
 ## Set when the player is carried out of the dungeon or finishes it; the town shows it once.
@@ -321,16 +346,14 @@ func apply_rewards() -> bool:
 	return not trial_finished
 
 
-## The intro dungeon is cleared: the Wellspring attunes the player (once) and we go home.
-func complete_trial() -> Array[CardData]:
-	var granted: Array[CardData] = CampaignStart.complete_intro_dungeon(profile, content)
-	set_flag(&"trial_cleared")
+## Clears the run's dungeon bookkeeping once the boss falls. On the very first clear, the
+## starting-deck choice screen (`choose_starting_deck`) is what actually unlocks the town; on a
+## replay `trial_cleared` is already set and there is nothing left to unlock.
+func complete_trial() -> void:
 	trial_finished = false
 	run = null
 	dungeon_map = null
-	EventBus.collection_changed.emit()
 	save_game()
-	return granted
 
 
 func abandon_run(notice: String = "") -> void:
@@ -340,4 +363,9 @@ func abandon_run(notice: String = "") -> void:
 	pending_reward = null
 	town_notice = notice
 	save_game()
-	SceneManager.go_to_town()
+	if flag(&"trial_cleared"):
+		SceneManager.go_to_town()
+	else:
+		# The town has not unlocked yet - a loss in the intro trial sends the player back to
+		# the starting area to try again, not to a town they have not reached.
+		SceneManager.go_to_start_area()

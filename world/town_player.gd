@@ -6,7 +6,7 @@ extends Node3D
 const SPEED: float = 3.4
 const MODEL_SCALE: float = 0.34
 
-var town: TownBuilder
+var town: WalkableArea
 var input_enabled: bool = true
 var model: Node3D
 var _animation: AnimationPlayer
@@ -17,7 +17,7 @@ var _velocity: Vector3 = Vector3.ZERO
 var move_yaw: float = 0.0
 
 
-func setup(town_builder: TownBuilder, model_name: String, start: Vector3) -> void:
+func setup(town_builder: WalkableArea, model_name: String, start: Vector3) -> void:
 	town = town_builder
 	position = start
 	model = ModelKit.character(model_name)

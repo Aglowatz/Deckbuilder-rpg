@@ -20,7 +20,8 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	visible = false
 	_panel = UIKit.panel()
-	_panel.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
+	# Plain top-left anchoring (the Control default): a preset anchor combined with a manually
+	# set position/size fights the anchor's own offset math and pushes the panel off-screen.
 	_panel.custom_minimum_size = Vector2(1100, 190)
 	_panel.position = Vector2(410, 800)
 	_panel.size = Vector2(1100, 190)

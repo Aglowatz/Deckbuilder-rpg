@@ -52,3 +52,20 @@ static func defensive() -> AIPersonality:
 	p.attack_bias = -0.75
 	p.block_bias = 1.0
 	return p
+
+
+## A deliberately weak, forgiving opponent for tutorial encounters: rarely attacks, is very
+## cautious about trades, and undervalues actually hurting the player. Still a real, legal AI
+## (never passes when it has a clearly good play) - just an easy one.
+static func passive() -> AIPersonality:
+	var p: AIPersonality = AIPersonality.new()
+	p.personality_name = "Passive"
+	p.life_weight = 1.0
+	p.enemy_life_weight = 0.35
+	p.board_weight = 0.8
+	p.enemy_board_weight = 0.5
+	p.hand_weight = 0.6
+	p.threat_weight = 1.6
+	p.attack_bias = -1.3
+	p.block_bias = 0.3
+	return p

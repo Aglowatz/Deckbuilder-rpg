@@ -356,7 +356,8 @@ new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tool
 ## Questions for you
 
 1. Title/working name "Wellspring" and the names Ember/Tide/Root/Grave: keep?
-2. Is +10 max life in the Trial (D7) acceptable, or should the base 10 life apply?
+2. ~~Is +10 max life in the Trial (D7) acceptable, or should the base 10 life apply?~~ **Answered
+   by Part C: base 10 life, no blessing (D32).**
 3. Vendor sells every card from the start (D6): want a discovery/unlock system instead?
 4. Trap cap of 3 (D25): OK?
 5. Should draws count as a loss in the dungeon (D13)?
@@ -381,10 +382,14 @@ and both were verified to actually fail against the old code and pass against th
 - **A2 - NPC/vendor interaction.** E already worked; the likely real-world failure is that players
   reached for the mouse and clicking did nothing. Added Space and left-click-the-NPC (screen-space
   picking against the spot marker) as full alternatives to E, matching the "[E] Talk" style prompt
-  that already existed. New test: `tools/town_interact_smoke.gd` (run with
-  `tools/run_town_interact_smoke.sh`) walks to the elder, guard, vendor and deck station with
-  injected input, interacts with each via a different one of E/Space/Click, and asserts the
-  correct dialogue/screen opens.
+  that already existed. **Update (found while building Part B): the actual root cause was probably
+  deeper than the input method - `DialogueBox`'s panel never rendered on screen at all** (an anchor
+  preset fighting a manual position; see D30). E's `_check`/state were always correct, so the
+  dialogue silently never appeared - which looks exactly like "nothing happens." Fixed alongside.
+  New test: `tools/town_interact_smoke.gd` (run with `tools/run_town_interact_smoke.sh`) walks to
+  the elder, guard, vendor and deck station with injected input, interacts with each via a
+  different one of E/Space/Click, asserts the correct dialogue/screen opens, and asserts the
+  dialogue panel's rect actually lands on screen.
 
 Both new UI tests are windowed (real viewport needed for injected input) and are meant to be run
 alone, one at a time - the machine this ran on is short on memory for more than one windowed
@@ -394,3 +399,80 @@ Visual verification: `_screenshots/battle_turn4plus.png` (Turn 7, the HUD shows 
 Main highlighted, waiting on real input - proves A1) and `_screenshots/vendor_open.png` (Sable's
 Card Stall fully rendered with stock, prices and gold - proves A2/vendor works end to end).
 Screenshots are git-ignored; regenerate with `tools/shot.sh`.
+
+## Part B: new starting flow - done
+
+New campaign start, replacing the town Wellspring color pick (see `docs/design/
+starting_deck_and_affinity.md` for the full flow and `open_questions.md` D31 for why).
+
+- **Starting area** (`world/starting_area_scene.gd`, `scenes/starting_area.tscn`): a small,
+  enclosed forest clearing built from the same KayKit hex pieces as town (`StartingAreaBuilder`;
+  `TownBuilder`/`StartingAreaBuilder` now share a `WalkableArea` base so `TownPlayer` works in
+  both). The hero wakes up and talks to themselves (`data/story/intro_story.tres`, the one file to
+  edit to rewrite the opening - `StoryText` resource). The only interactable is the cave mouth
+  (E/Space/Click, same as town), which leads straight into the Trial of the Hollow with a fixed
+  neutral tutorial deck (`Session.begin_intro_trial`). No town access from here.
+- **Starting-deck choice** (`StartingDeckChoiceScreen`, right after the boss reward): one deck per
+  affinity (`StartingDecks`), each shown with its identity, playstyle and three key cards, built
+  from the existing balanced two-color sample decks. Choosing one (`Session.choose_starting_deck`)
+  hands over every card in it (legal to play immediately) and unlocks the town
+  (`trial_cleared` flag). Losing before choosing sends the player back to the starting area, not a
+  town they have not unlocked (`Session.abandon_run`).
+- **Wellspring repurposed**: no longer a choice screen: it always "recognizes" the color the
+  player already carries (flavor toast + light burst). `Session.choose_affinity` and
+  `WellspringChoice` were removed. The old 5-card "attunement reward" is gone too, since owning
+  the whole starting deck already does that job.
+- `tools/e2e_demo.gd` rewritten for the new flow end to end (title -> starting area -> tutorial
+  dungeon -> deck choice -> town), and passes.
+- **Two more real bugs found and fixed while building this** (same pattern as A2 - state was
+  right, nothing rendered/registered):
+  - `CardView.wrapped()` silently ate clicks meant for anything behind it (e.g. a clickable tile),
+    because `CardView._ready()` unconditionally resets `mouse_filter` to STOP *after* `wrapped()`
+    tried to set it to IGNORE. Fixed with `set_deferred()` (D33).
+  - The starting-deck choice tiles' card-preview row was wider than the tile at first pass,
+    overlapping neighboring tiles - fixed by sizing the tiles and card scale to actually fit.
+
+266 GUT tests pass (5 new `test_starting_decks.gd` + `test_campaign_start.gd` trimmed of the
+removed attunement tests). Screenshots: `_screenshots/starting_area_awaken.png` (wake-up line),
+`_screenshots/starting_area_check3.png` (the clearing), `_screenshots/deck_choice_screen.png`
+(all four decks, no overlap).
+
+## Part C: tutorial balance - done
+
+- Removed `TrialOfTheHollow.blessing()` (+10 max life); the tutorial run now uses the player's
+  plain base life (10), everywhere (the intro run and town replays alike).
+- Added a new forgiving `AIPersonality.passive()` and gave it to all three tutorial encounters
+  (Cave Scavenger, Hollow Stalker, Hollow Warden), lowered their life (5/4/5) and thinned/land-
+  heavied their decks so a beginner's deck can beat them reliably.
+- The Whispering Shrine (the node right before the boss) is now a full heal (`heal_amount = 999`;
+  `DungeonRun.heal()` already caps at max life).
+- New simulator (`core/sim/dungeon_simulation.gd`, pure `core/` logic, tested): plays a whole AI-
+  vs-AI dungeon run through `DungeonRun`/`ChallengeResolver` exactly like a real playthrough, no
+  UI. `tools/run_dungeon_simulation.gd` runs many and updates `docs/balance_report.md`.
+- **Result: 500 runs, 90.0% won** (target 85%) with the fixed neutral tutorial deck, AI-controlled,
+  life carried between nodes. See `docs/balance_report.md` for the loss breakdown by node.
+
+266 GUT tests still pass (6 new in `test_starting_decks.gd`... already counted above; plus 2 new
+in `test_trial.gd`, 2 removed/replaced there for the dropped blessing).
+
+**Two more real bugs found (and fixed) while finishing the end-to-end pass through Parts B/C**
+(the first time this flow ever ran to completion): the deck-choice overlay's own confirm button
+was unreachable (a stale identically-labelled button underneath it always won a text search -
+D34), and the e2e run's own save verification could never pass because `--no-save` silently beat
+the safe custom save path it also sets (D35). Both fixed; `tools/run_e2e.sh` now passes clean,
+start to finish, for the first time.
+
+## Part F: rules - done
+
+- **Trap cap is now a modifier**, not a hardcoded limit: `PlayerState.max_traps` (base 3 +
+  `Modifier.Kind.MAX_TRAPS`), computed once in `GameState.add_player()` exactly like
+  `max_hand_size`. Dungeons/equipment/a future final dungeon can raise it by adding a modifier
+  source - no engine change needed. New tests in `test_modifiers_and_decks.gd` and
+  `test_traps.gd`.
+- **Deck-out is a loss**: already true (`GameState.draw_cards`), already tested
+  (`test_drawing_from_empty_library_loses`) - confirmed, no change needed.
+- **A drawn dungeon encounter is a loss**: already true (`DungeonRun.finish_encounter` only counts
+  `winner == 0` as a win), but untested until now - added
+  `test_a_drawn_encounter_also_fails_the_run`.
+
+269 GUT tests pass.

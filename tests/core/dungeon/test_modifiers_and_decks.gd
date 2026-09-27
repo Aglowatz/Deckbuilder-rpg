@@ -60,6 +60,19 @@ func test_every_source_kind_flows_through_one_pipeline() -> void:
 	assert_eq(game.players[0].max_hand_size, 11)
 
 
+func test_max_traps_modifier_raises_the_trap_cap() -> void:
+	var dungeon: ModifierSource = _source("Warded Hollow", ModifierSource.SourceKind.DUNGEON, [CardBuilder.modifier(Modifier.Kind.MAX_TRAPS, 2)] as Array[Modifier])
+	var mods: ModifierSet = ModifierPipeline.build(PlayerProfile.new(), null, [dungeon] as Array[ModifierSource])
+	var setup: PlayerSetup = PlayerSetup.new()
+	setup.deck = GameFactory.make_deck()
+	setup.modifiers = mods
+	var game: GameState = GameState.new()
+	game.add_player(setup)
+	game.add_player(PlayerSetup.create(GameFactory.make_deck()))
+	assert_eq(game.players[0].max_traps, GameState.MAX_TRAPS + 2)
+	assert_eq(game.players[1].max_traps, GameState.MAX_TRAPS, "unaffected player keeps the base cap")
+
+
 func test_enemy_pipeline_uses_zone_and_enemy_sources() -> void:
 	var zone: ModifierSource = _source("Lava", ModifierSource.SourceKind.ZONE, [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1)] as Array[Modifier])
 	var mods: ModifierSet = ModifierPipeline.build_for_enemy([] as Array[ModifierSource], zone)
@@ -242,6 +255,21 @@ func test_losing_an_encounter_or_all_life_fails_the_run() -> void:
 	game.check_state()
 	run.finish_encounter(game)
 	assert_true(run.failed)
+	assert_true(run.is_over())
+
+
+## A drawn encounter (both players hit 0 at once, or the turn limit) is not a win, so it fails
+## the run - same as an outright loss.
+func test_a_drawn_encounter_also_fails_the_run() -> void:
+	var run: DungeonRun = _run()
+	var game: GameState = run.start_encounter(_enemy())
+	game.players[0].life = 0
+	game.players[1].life = 0
+	game.check_state()
+	assert_true(game.is_draw)
+	assert_eq(game.winner, -1)
+	run.finish_encounter(game)
+	assert_true(run.failed, "a draw is not a win, so the run fails")
 	assert_true(run.is_over())
 	var run2: DungeonRun = _run()
 	run2.lose_life(99)

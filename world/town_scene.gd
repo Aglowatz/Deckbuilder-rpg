@@ -1,7 +1,9 @@
 class_name TownScene
 extends Node3D
 ## The walkable starter town: a follow camera, the hero, two NPCs and the interactable spots
-## (Wellspring, card vendor, deck station, dungeon gate).
+## (Wellspring, card vendor, deck station, dungeon gate). Only reached after the player has
+## cleared the tutorial dungeon and chosen a starting deck (`StartingAreaScene`,
+## `StartingDeckChoiceScreen`) - `Session.profile`/`Session.deck` are always set by then.
 
 class Spot:
 	extends RefCounted
@@ -259,7 +261,7 @@ func _prompt_text(spot: Spot) -> String:
 		return "Talk"
 	match spot.id:
 		"well":
-			return "Approach the Wellspring" if not Session.flag(&"wellspring_chosen") else "Touch the Wellspring"
+			return "Touch the Wellspring"
 		"deck":
 			return "Open the Deck Station"
 		"gate":
@@ -327,37 +329,20 @@ func _talk_npc(id: String, speaker: String, lines: Array[String]) -> void:
 
 
 func _elder_lines() -> Array[String]:
-	if not Session.flag(&"wellspring_chosen"):
+	if not Session.flag(&"elder_greeted"):
+		Session.set_flag(&"elder_greeted")
 		return [
-			"Ah, a Wanderer. You have the look of someone who hears it too.",
-			"Four Wellsprings hum beneath the world. One of them has been calling to you since the road.",
-			"Kneel at the well in the middle of town and answer. Then take the north road to the Trial of the Hollow.",
-		] as Array[String]
-	if not Session.profile.intro_dungeon_cleared:
-		return [
-			"The spring has taken to you. I can feel it from here.",
-			"Go north, through the gate. The Hollow is only a shallow cave, but it will test the deck you carry.",
-			"If it goes badly, come back and rebuild. The Deck Station is by the tavern.",
+			"You made it out of the Hollow, and with a deck to your name. Not everyone does.",
+			"This town is yours to explore now. The spring in the square still hums, if you ever want to listen to it.",
+			"Buy cards from Sable, refine your deck at the station by the tavern, and the gate stays open if you want to test yourself again.",
 		] as Array[String]
 	return [
-		"The spring recognizes you now. Five techniques, given freely.",
-		"There are other springs and other Wanderers. But that is a story for another day.",
-		"Until then: buy cards, build a better deck, and try the Trial again if you miss the gold.",
+		"The spring recognizes you now. There are other springs and other Wanderers, but that is a story for another day.",
+		"Buy cards, build a better deck, and try the Trial again if you miss the gold.",
 	] as Array[String]
 
 
 func _guard_lines() -> Array[String]:
-	if not Session.flag(&"wellspring_chosen"):
-		return [
-			"Halt. The Hollow is no place for someone the springs have not marked.",
-			"Talk to Elder Maren by the well. Then come back and I will open the gate.",
-		] as Array[String]
-	if not Session.profile.intro_dungeon_cleared:
-		return [
-			"Two guardians, a well that asks questions, a shrine to rest at, and something big at the bottom.",
-			"Life carries from fight to fight, so use the shrine wisely. Your deck needs at least 45 cards, at most two colors.",
-			"Good luck, Wanderer. The gate is open.",
-		] as Array[String]
 	return [
 		"You came back from the Hollow. Not many do on the first try.",
 		"The gate stays open. The scavengers restock, and they pay well.",
@@ -377,27 +362,14 @@ func _talk_vendor() -> void:
 	dialogue.finished.connect(_open_vendor, CONNECT_ONE_SHOT)
 
 
+## The Wellspring choice used to happen here; the player now picks their deck right after the
+## tutorial dungeon instead (`StartingDeckChoiceScreen`), so the well is a lore/flavor spot: it
+## always recognizes the color the player already carries. See docs/design/open_questions.md D30.
 func _use_well() -> void:
-	if not Session.flag(&"wellspring_chosen"):
-		var choice: WellspringChoice = WellspringChoice.new()
-		_open_overlay(choice)
-		choice.chosen.connect(_on_wellspring_chosen.bind(choice))
-		choice.closed.connect(_close_overlay)
-		return
 	var color: Affinity.Type = Session.profile.primary_affinity
 	hud.toast("The %s spring hums. It knows you." % UIStyle.affinity_name(color), UIStyle.affinity_color(color).lightened(0.3))
-	_well_burst(color)
-
-
-func _on_wellspring_chosen(color: Affinity.Type, _choice: WellspringChoice) -> void:
-	Session.choose_affinity(color)
-	_close_overlay()
-	Audio.sfx(&"heal")
 	Audio.sfx(&"ui_confirm")
 	_well_burst(color)
-	hud.toast("You answered the %s spring. Your starter deck is ready." % UIStyle.affinity_name(color), UIStyle.affinity_color(color).lightened(0.3))
-	_refresh_objective()
-	EventBus.tutorial_event.emit(&"wellspring_chosen")
 
 
 func _well_burst(color: Affinity.Type) -> void:
@@ -431,9 +403,6 @@ func _well_burst(color: Affinity.Type) -> void:
 
 
 func _open_deck_station() -> void:
-	if not Session.has_profile():
-		dialogue.start("Deck Station", ["Your deck is empty. Visit the Wellspring first to receive a starter deck."] as Array[String])
-		return
 	Session.set_flag(&"deck_station_seen")
 	var screen: DeckbuilderScreen = DeckbuilderScreen.new()
 	_open_overlay(screen)
@@ -452,9 +421,6 @@ func _open_vendor() -> void:
 
 func _use_gate() -> void:
 	_face_npc("guard")
-	if not Session.has_profile():
-		dialogue.start("Sealed Gate", ["The gate will not open. Something in the town's Wellspring calls to you first."] as Array[String])
-		return
 	if not Session.deck_is_valid():
 		var problems: Array[DeckValidator.Issue] = Session.deck_issues()
 		var message: String = problems[0].message if not problems.is_empty() else "Your deck is not legal."
@@ -496,12 +462,7 @@ func _close_overlay() -> void:
 
 
 func _refresh_objective() -> void:
-	if not Session.flag(&"wellspring_chosen"):
-		hud.set_objective("Walk to the [b]Wellspring[/b] in the middle of town and answer its call.")
-	elif not Session.profile.intro_dungeon_cleared:
-		hud.set_objective("Enter the [b]Trial of the Hollow[/b] through the gate in the north.\n[color=#a89bb5]Tip: check your deck at the Deck Station first.[/color]")
-	else:
-		hud.set_objective("The Trial is cleared. Buy cards, refine your deck at the Deck Station, and replay the Trial for gold.")
+	hud.set_objective("The Trial is cleared. Buy cards, refine your deck at the Deck Station, and replay the Trial for gold.")
 
 
 # ---- Screenshot helpers -----------------------------------------------------------------

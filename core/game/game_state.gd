@@ -11,7 +11,8 @@ enum Stage { SETUP, MULLIGAN, PLAYING, OVER }
 enum CombatStep { NONE, DECLARE_ATTACKERS, DECLARE_BLOCKERS }
 
 const LAND_DROPS_PER_TURN: int = 1
-## Face-down traps one player may have set at a time.
+## Base face-down traps one player may have set at a time, before Modifier.Kind.MAX_TRAPS
+## (dungeon rules, equipment...) - see PlayerState.max_traps, set once in add_player().
 const MAX_TRAPS: int = 3
 
 var options: GameOptions
@@ -69,6 +70,7 @@ func add_player(setup: PlayerSetup) -> PlayerState:
 		player.life = maxi(1, player.max_life + mods.sum(Modifier.Kind.STARTING_LIFE))
 	player.max_hand_size = maxi(1, profile.base_max_hand_size() + mods.sum(Modifier.Kind.MAX_HAND_SIZE))
 	player.opening_hand_size = maxi(1, profile.base_opening_hand() + mods.sum(Modifier.Kind.OPENING_HAND_SIZE))
+	player.max_traps = maxi(0, MAX_TRAPS + mods.sum(Modifier.Kind.MAX_TRAPS))
 	for data: CardData in setup.deck.cards:
 		player.library.append(create_instance(data, player.index))
 	if setup.deck.size() > 0:
@@ -260,7 +262,7 @@ func can_cast(player_index: int, uid: int) -> bool:
 	var card: CardInstance = player.find_hand(uid)
 	if card == null or card.data.is_land():
 		return false
-	if card.data.type == CardEnums.CardType.TRAP and player.traps.size() >= MAX_TRAPS:
+	if card.data.type == CardEnums.CardType.TRAP and player.traps.size() >= player.max_traps:
 		return false
 	if not Mana.can_pay(player.untapped_lands(), generic_cost_for(player_index, card.data), card.data.colored_pips):
 		return false

@@ -1,5 +1,5 @@
 class_name TownBuilder
-extends RefCounted
+extends WalkableArea
 ## Builds the starter town island from KayKit hex pieces and describes where things are:
 ## which cells can be walked on, where the obstacles are and where the interactable spots sit.
 ## Used by the title backdrop (just visuals) and by the playable town scene.

@@ -87,7 +87,12 @@ func _menu_button(text: String, variation: StringName, callback: Callable) -> Fa
 func _on_continue() -> void:
 	if Session.load_game():
 		Audio.sfx(&"ui_confirm")
-		SceneManager.go_to_town()
+		# Mid-dungeon state is not saved, so a save from before the intro trial was cleared
+		# resumes at the starting area (with whatever gold/cards were earned so far), not town.
+		if Session.flag(&"trial_cleared"):
+			SceneManager.go_to_town()
+		else:
+			SceneManager.go_to_start_area()
 	else:
 		Audio.sfx(&"ui_error")
 
@@ -102,7 +107,7 @@ func _on_new_game() -> void:
 func _start_new_game() -> void:
 	Session.new_game()
 	Audio.sfx(&"ui_confirm")
-	SceneManager.go_to_town()
+	SceneManager.go_to_start_area()
 
 
 func _confirm_overwrite() -> void:

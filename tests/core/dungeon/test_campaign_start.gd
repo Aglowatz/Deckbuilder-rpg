@@ -37,41 +37,6 @@ func test_new_profile_owns_only_the_neutral_starter_cards() -> void:
 	assert_true(DeckValidator.is_valid(deck, profile, null, true), "the starter deck is buildable from the collection")
 
 
-func test_intro_dungeon_grants_five_cards_of_the_chosen_color_once() -> void:
-	for color: Affinity.Type in Affinity.colored_types():
-		var profile: PlayerProfile = CampaignStart.new_profile(_content, color)
-		var granted: Array[CardData] = CampaignStart.complete_intro_dungeon(profile, _content)
-		assert_eq(granted.size(), 5, Affinity.display_name(color))
-		var seen: Dictionary = {}
-		for card: CardData in granted:
-			assert_eq(card.color, color)
-			seen[card.id] = true
-		assert_eq(seen.size(), 5, "five different cards")
-		assert_eq(profile.owned_cards.size(), 33)
-		assert_true(profile.intro_dungeon_cleared)
-		assert_eq(CampaignStart.complete_intro_dungeon(profile, _content).size(), 0, "only granted once")
-		assert_eq(profile.owned_cards.size(), 33)
-
-
-func test_reward_requires_a_chosen_color() -> void:
-	var profile: PlayerProfile = PlayerProfile.new()
-	assert_eq(CampaignStart.complete_intro_dungeon(profile, _content).size(), 0)
-	assert_false(profile.intro_dungeon_cleared)
-
-
-func test_player_can_build_a_two_color_deck_from_starter_plus_reward() -> void:
-	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.A)
-	CampaignStart.complete_intro_dungeon(profile, _content)
-	var deck: Deck = CampaignStart.starter_deck(_content, Affinity.Type.A)
-	# Swap five neutral spells for the five attuned cards.
-	var swapped: int = 0
-	for i: int in range(deck.cards.size()):
-		if swapped < 5 and not deck.cards[i].is_land():
-			deck.cards[i] = CampaignStart.attunement_cards(_content, Affinity.Type.A)[swapped]
-			swapped += 1
-	assert_true(DeckValidator.is_valid(deck, profile, null, true))
-
-
 func test_no_sample_pair_deck_is_given_to_the_player() -> void:
 	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.B)
 	var ember: Deck = _content.deck("Ember & Tide")

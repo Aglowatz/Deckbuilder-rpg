@@ -30,7 +30,7 @@ func _ready() -> void:
 	if not Session.in_dungeon():
 		Session.ensure_game()
 		Session.dungeon_map = TrialOfTheHollow.build_map()
-		Session.run = DungeonRun.enter(Session.profile, Session.deck, [TrialOfTheHollow.blessing()] as Array[ModifierSource])
+		Session.run = DungeonRun.enter(Session.profile, Session.deck, [] as Array[ModifierSource])
 		var progress: int = int(_screenshot_args.get("progress", 0))
 		for step: int in range(progress):
 			Session.dungeon_map.complete(Session.dungeon_map.available()[0].id)

@@ -1,9 +1,9 @@
 class_name CampaignStart
 extends RefCounted
-## The start of a new campaign. The player begins with the neutral starter deck only. Their
-## chosen primary color decides which basic lands they channel mana through; after the intro
-## dungeon the Wellspring of that color attunes them and grants five cards of that color.
-## Other decks (including the sample pair decks) are for the player to discover and build.
+## The start of a new campaign: `starter_deck`/`starter_spells`/`new_profile` build the fixed
+## neutral deck the player is given for the tutorial dungeon (the Trial of the Hollow), before
+## they have chosen anything. What happens after the tutorial - picking a real starting deck -
+## is `StartingDecks` / `Session.choose_starting_deck`.
 ## See docs/design/starting_deck_and_affinity.md for the story framing.
 
 const STARTER_DECK_NAME: String = "Wanderer's Pack"
@@ -25,7 +25,8 @@ static func starter_spells(content: ContentSet) -> Array[CardData]:
 	return spells
 
 
-## The starting deck: the neutral spells plus basic lands of the chosen color.
+## A neutral-spells-plus-one-color deck. No longer used for the real starting choice (see
+## `StartingDecks`), but kept as a lightweight profile/deck pair for tests and tools.
 static func starter_deck(content: ContentSet, primary: Affinity.Type) -> Deck:
 	var deck: Deck = Deck.new()
 	deck.deck_name = STARTER_DECK_NAME
@@ -48,25 +49,3 @@ static func new_profile(content: ContentSet, primary: Affinity.Type) -> PlayerPr
 	profile.owned_cards = starter_spells(content)
 	return profile
 
-
-## The five reward cards for a color (one copy each).
-static func attunement_cards(content: ContentSet, primary: Affinity.Type) -> Array[CardData]:
-	var cards: Array[CardData] = []
-	var ids: Array = ContentDefinitions.attunement_rewards().get(primary, [])
-	for id: Variant in ids:
-		var card: CardData = content.card(str(id))
-		if card != null:
-			cards.append(card)
-	return cards
-
-
-## Grants the attunement reward once, when the intro dungeon is cleared. Returns the granted
-## cards (empty if already granted or no color was chosen).
-static func complete_intro_dungeon(profile: PlayerProfile, content: ContentSet) -> Array[CardData]:
-	var granted: Array[CardData] = []
-	if profile.intro_dungeon_cleared or not is_valid_choice(profile.primary_affinity):
-		return granted
-	granted = attunement_cards(content, profile.primary_affinity)
-	profile.owned_cards.append_array(granted)
-	profile.intro_dungeon_cleared = true
-	return granted

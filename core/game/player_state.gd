@@ -8,6 +8,7 @@ var life: int = 0
 var max_life: int = 0
 var max_hand_size: int = 10
 var opening_hand_size: int = 5
+var max_traps: int = GameState.MAX_TRAPS
 var modifiers: ModifierSet = ModifierSet.new()
 ## land count / deck size, fixed at deck construction (used by the hand smoother).
 var deck_land_ratio: float = 0.0
@@ -74,6 +75,7 @@ func clone(deep_library: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.max_life = max_life
 	copy.max_hand_size = max_hand_size
 	copy.opening_hand_size = opening_hand_size
+	copy.max_traps = max_traps
 	copy.modifiers = modifiers
 	copy.deck_land_ratio = deck_land_ratio
 	copy.lands_played = lands_played

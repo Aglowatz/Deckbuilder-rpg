@@ -32,7 +32,7 @@ static func build() -> ContentSet:
 	content.cards = build_cards(content.tokens)
 	content.decks = build_decks(content)
 	content.challenges = ChallengeExamples.all(reward_pool(content.cards))
-	content.personalities = [AIPersonality.balanced(), AIPersonality.aggressive(), AIPersonality.defensive()] as Array[AIPersonality]
+	content.personalities = [AIPersonality.balanced(), AIPersonality.aggressive(), AIPersonality.defensive(), AIPersonality.passive()] as Array[AIPersonality]
 	return content
 
 
@@ -177,16 +177,6 @@ static func _add_affinity_d(cards: Dictionary, spirit: CardData) -> void:
 	var summon_two: EffectData = _fx(T.ON_ENTER, G.CONTROLLER, O.SUMMON_TOKEN, 2)
 	summon_two.token = spirit
 	_add(cards, _fin(_with(_creature("necromancer", "Necromancer", D, 3, [D], 2, 3), summon_two), R.RARE, "When this enters, create two 1/1 Spirits."))
-
-
-## The five cards the Wellspring grants (one copy each) after the intro dungeon, by chosen color.
-static func attunement_rewards() -> Dictionary:
-	return {
-		A: ["ember_imp", "blade_dancer", "raider", "firebolt", "flame_burst"],
-		B: ["frost_sentry", "sage", "recall", "deep_insight", "dissolve"],
-		C: ["mossback_bear", "rampaging_boar", "stag_warden", "growth", "rejuvenate"],
-		D: ["bone_servant", "grave_tender", "martyr", "bloodthirst_wolf", "soul_drain"],
-	}
 
 
 static func reward_pool(cards: Dictionary) -> Array[CardData]:

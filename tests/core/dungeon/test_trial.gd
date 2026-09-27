@@ -19,6 +19,30 @@ func test_map_shape_and_order() -> void:
 	assert_true(map.node(1).tutorial, "first battle is the tutorial")
 
 
+func test_tutorial_encounters_use_a_forgiving_ai_and_low_life() -> void:
+	var map: DungeonMap = TrialOfTheHollow.build_map()
+	for node: DungeonMap.MapNode in map.nodes:
+		if node.kind == DungeonMap.Kind.BATTLE or node.kind == DungeonMap.Kind.BOSS:
+			assert_eq(node.ai_name, "Passive", "%s should be forgiving" % node.title)
+			assert_lt(node.enemy_life, PlayerProfile.START_MAX_LIFE, "%s should have low life" % node.title)
+
+
+func test_shrine_before_the_boss_is_a_full_heal() -> void:
+	var map: DungeonMap = TrialOfTheHollow.build_map()
+	var shrine: DungeonMap.MapNode = null
+	var boss: DungeonMap.MapNode = null
+	for node: DungeonMap.MapNode in map.nodes:
+		if node.kind == DungeonMap.Kind.SHRINE:
+			shrine = node
+		elif node.kind == DungeonMap.Kind.BOSS:
+			boss = node
+	assert_true(shrine.next.has(boss.id), "the shrine leads straight into the boss")
+	var run: DungeonRun = DungeonRun.enter(PlayerProfile.new(), Deck.new(), [] as Array[ModifierSource])
+	run.lose_life(run.max_life() - 1)
+	run.heal(shrine.heal_amount)
+	assert_eq(run.life, run.max_life(), "the shrine heals all the way to max life")
+
+
 func test_only_connected_nodes_are_available() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
 	assert_eq(map.available().size(), 1)
@@ -47,18 +71,19 @@ func test_enemy_decks_resolve_all_cards() -> void:
 		assert_true(deck.land_count() >= 12, "%s has lands" % enemy)
 
 
-func test_blessing_raises_run_life() -> void:
+func test_no_dungeon_wide_blessing_run_uses_plain_base_life() -> void:
 	var profile: PlayerProfile = CampaignStart.new_profile(content, Affinity.Type.A)
 	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.A)
-	var run: DungeonRun = DungeonRun.enter(profile, deck, [TrialOfTheHollow.blessing()] as Array[ModifierSource])
-	assert_eq(run.life, 20)
-	assert_eq(run.max_life(), 20)
+	var run: DungeonRun = DungeonRun.enter(profile, deck, [] as Array[ModifierSource])
+	assert_eq(run.life, PlayerProfile.START_MAX_LIFE)
+	assert_eq(run.max_life(), PlayerProfile.START_MAX_LIFE)
 
 
 func test_enemy_setup_uses_node_life() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
 	var setup: PlayerSetup = TrialOfTheHollow.enemy_setup(content, map.node(1))
-	assert_eq(setup.starting_life, 8)
+	assert_eq(setup.starting_life, map.node(1).enemy_life)
+	assert_lt(setup.starting_life, PlayerProfile.START_MAX_LIFE, "the tutorial's first enemy should be easier than the player")
 
 
 func test_save_round_trip() -> void:

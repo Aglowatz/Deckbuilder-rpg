@@ -4,17 +4,11 @@ extends RefCounted
 ## a healing shrine and a boss. Enemy decks are small hand-made lists of placeholder cards.
 
 const DUNGEON_NAME: String = "Trial of the Hollow"
-const BLESSING_LIFE: int = 10
 const CHALLENGE_ID: String = "hollow_well"
 
-
-## The dungeon-wide rule: the Hollow's blessing raises max life so a run can survive three duels.
-static func blessing() -> ModifierSource:
-	return CardBuilder.modifier_source(
-		"Hollow's Blessing",
-		ModifierSource.SourceKind.DUNGEON,
-		[CardBuilder.modifier(Modifier.Kind.MAX_LIFE, BLESSING_LIFE)] as Array[Modifier],
-	)
+## No dungeon-wide life blessing any more (docs/design/open_questions.md D32): the tutorial run
+## uses the player's plain base life (10) and is balanced to be winnable on that alone - see
+## docs/balance_report.md for the simulated win rate.
 
 
 static func build_map() -> DungeonMap:
@@ -23,8 +17,8 @@ static func build_map() -> DungeonMap:
 	var start: DungeonMap.MapNode = _node(map, DungeonMap.Kind.START, "Cave Mouth", "The trial begins.", Vector2(0.09, 0.68))
 	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger guards the first chamber.", Vector2(0.27, 0.38))
 	first.enemy_name = "Cave Scavenger"
-	first.enemy_life = 8
-	first.ai_name = "Defensive"
+	first.enemy_life = 5
+	first.ai_name = "Passive"
 	first.gold_reward = 40
 	first.card_choices = 3
 	first.tutorial = true
@@ -32,16 +26,18 @@ static func build_map() -> DungeonMap:
 	challenge.challenge_id = CHALLENGE_ID
 	var second: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Mossy Gallery", "Something with claws prowls between the roots.", Vector2(0.63, 0.36))
 	second.enemy_name = "Hollow Stalker"
-	second.enemy_life = 10
-	second.ai_name = "Balanced"
+	second.enemy_life = 4
+	second.ai_name = "Passive"
 	second.gold_reward = 60
 	second.card_choices = 3
 	var shrine: DungeonMap.MapNode = _node(map, DungeonMap.Kind.SHRINE, "Whispering Shrine", "A quiet place to rest before the last chamber.", Vector2(0.78, 0.68))
-	shrine.heal_amount = 8
+	# Full heal: the node right before the boss (docs/design/open_questions.md D32). A plain
+	# large number is enough - DungeonRun.heal() already caps at max life.
+	shrine.heal_amount = 999
 	var boss: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BOSS, "Heart of the Hollow", "The spring's guardian wakes.", Vector2(0.92, 0.34))
 	boss.enemy_name = "Hollow Warden"
-	boss.enemy_life = 14
-	boss.ai_name = "Aggressive"
+	boss.enemy_life = 5
+	boss.ai_name = "Passive"
 	boss.gold_reward = 120
 	boss.card_choices = 3
 	map.connect_nodes(start.id, first.id)
@@ -63,23 +59,25 @@ static func _node(map: DungeonMap, kind: DungeonMap.Kind, title: String, blurb: 
 
 ## Enemy deck recipes: card id (or "land:<A|B|C|D>") -> copies.
 static func enemy_recipe(enemy_name: String) -> Dictionary:
+	# Tutorial-weak: thinner on threats and heavier on lands than a normal deck would be, so a
+	# beginner's deck can beat them reliably (docs/balance_report.md tracks the win rate).
 	match enemy_name:
 		"Cave Scavenger":
 			return {
-				"land:A": 12, "sellsword": 4, "cave_bat": 3, "stone_sentinel": 2, "ember_imp": 3,
-				"raider": 2, "firebolt": 2, "field_medic": 2, "supply_cache": 2, "rusty_curse": 2,
+				"land:A": 14, "sellsword": 4, "cave_bat": 3, "stone_sentinel": 2, "ember_imp": 2,
+				"raider": 1, "firebolt": 1, "field_medic": 2, "supply_cache": 2, "rusty_curse": 1,
 			}
 		"Hollow Stalker":
 			return {
-				"land:C": 9, "land:B": 4, "sellsword": 3, "cave_bat": 2, "ironclad": 2, "mossback_bear": 3,
-				"rampaging_boar": 2, "stag_warden": 2, "growth": 2, "frost_sentry": 2, "rusty_curse": 2,
+				"land:C": 11, "land:B": 6, "sellsword": 3, "cave_bat": 2, "ironclad": 1, "mossback_bear": 1,
+				"rampaging_boar": 1, "stag_warden": 1, "frost_sentry": 1, "rusty_curse": 1,
 				"supply_cache": 2, "merchant": 1,
 			}
 		"Hollow Warden":
 			return {
-				"land:D": 9, "land:C": 7, "bone_servant": 3, "grave_tender": 2, "martyr": 2, "bloodthirst_wolf": 3,
-				"soul_drain": 2, "necromancer": 1, "ironclad": 2, "stone_sentinel": 2, "mossback_bear": 2,
-				"rampaging_boar": 2, "dark_bargain": 1, "field_medic": 2,
+				"land:D": 11, "land:C": 9, "bone_servant": 1, "grave_tender": 1, "martyr": 1, "bloodthirst_wolf": 1,
+				"soul_drain": 1, "necromancer": 1, "ironclad": 1, "stone_sentinel": 1, "mossback_bear": 1,
+				"rampaging_boar": 1, "field_medic": 1,
 			}
 	return {}
 

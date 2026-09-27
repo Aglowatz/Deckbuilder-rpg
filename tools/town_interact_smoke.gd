@@ -22,9 +22,10 @@ func _ready() -> void:
 func _run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	# The Wellspring color choice is a separate flow (covered elsewhere / being reworked in
-	# Part B); bypass it here so this test stays focused on NPC/vendor/station interaction.
-	Session.choose_affinity(Affinity.Type.A)
+	# Town is only reached after the starting area + tutorial dungeon + deck choice; bypass all
+	# of that here (covered by tools/e2e_demo.gd) so this test stays focused on NPC/vendor/
+	# station interaction.
+	Session.ensure_game()
 	var packed: PackedScene = load("res://scenes/town.tscn") as PackedScene
 	scene = packed.instantiate() as TownScene
 	get_tree().root.add_child(scene)
@@ -86,6 +87,15 @@ func _hold(key: Key, down: bool) -> void:
 		await driver.key(key, down)
 
 
+## Regression check for a real bug: DialogueBox's panel could be active/visible=true while its
+## rect sat far outside the 1920x1080 canvas (a stale anchor preset fighting a manual position),
+## so it never actually appeared on screen even though the state was otherwise correct.
+func _check_dialogue_on_screen(context: String) -> void:
+	var rect: Rect2 = scene.dialogue._panel.get_global_rect()
+	var canvas: Rect2 = Rect2(0, 0, 1920, 1080)
+	_check(canvas.intersects(rect), "%s: the dialogue panel is actually on screen (got %s)" % [context, rect])
+
+
 func _dismiss_dialogue() -> void:
 	var guard: int = 0
 	while scene.dialogue.active and guard < 20:
@@ -104,6 +114,7 @@ func _check_prompt_and_talk(id: String, speaker_name: String, key: Key) -> void:
 	await driver.seconds(0.3)
 	_check(scene.dialogue.active, "interacting with %s (key %d) opens dialogue" % [id, key])
 	_check(scene.dialogue._speaker.text == speaker_name, "the dialogue speaker for %s is %s" % [id, speaker_name])
+	_check_dialogue_on_screen(id)
 	await _dismiss_dialogue()
 
 
@@ -115,6 +126,7 @@ func _check_vendor_by_click() -> void:
 	await driver.seconds(0.3)
 	_check(scene.dialogue.active, "left-clicking the vendor in range opens dialogue")
 	_check(scene.dialogue._speaker.text == "Sable the Trader", "the vendor dialogue is from Sable the Trader")
+	_check_dialogue_on_screen("vendor")
 	await _dismiss_dialogue()
 	await driver.seconds(0.3)
 	_check(scene._overlay is VendorScreen, "the vendor dialogue leads into the Vendor screen")

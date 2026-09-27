@@ -51,6 +51,12 @@ static func wrapped(card: CardData, card_scale: float, card_mode: Mode = Mode.FU
 	holder.custom_minimum_size = SIZE * card_scale
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var view: CardView = create(card, card_mode)
+	# This is a static display, not an interactive card (see callers): without this, the view
+	# itself still defaults to stopping mouse input, silently eating clicks meant for whatever
+	# it sits on top of (e.g. a clickable tile behind it). Deferred because CardView's own
+	# _ready() (which runs once it actually enters the tree, after this call returns) sets
+	# mouse_filter to STOP unconditionally, undoing a plain assignment made here.
+	view.set_deferred(&"mouse_filter", Control.MOUSE_FILTER_IGNORE)
 	holder.add_child(view)
 	fit(view, card_scale)
 	return holder

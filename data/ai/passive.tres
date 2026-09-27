@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AIPersonality" format=3]
+
+[ext_resource type="Script" path="res://core/ai/ai_personality.gd" id="1_o7qib"]
+
+[resource]
+script = ExtResource("1_o7qib")
+personality_name = "Passive"
+enemy_life_weight = 0.35
+board_weight = 0.8
+enemy_board_weight = 0.5
+threat_weight = 1.6
+attack_bias = -1.3
+block_bias = 0.3

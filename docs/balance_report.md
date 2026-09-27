@@ -100,3 +100,18 @@ The player starts with the neutral Wanderer's Pack only; the four pair decks are
 **Suggested next steps.** Teach the AI about sacrifice synergies, look at the double-pip cards,
 and re-run with 500+ games per matchup before making further changes.
 
+
+
+<!-- TUTORIAL_BALANCE_START -->
+## Tutorial dungeon (Trial of the Hollow) balance
+
+Simulated with the AI (balanced personality) playing the fixed neutral tutorial deck
+through the whole dungeon (both battles, the challenge, the shrine and the boss), life
+carried between nodes, no dungeon-wide blessing - exactly what a human player gets.
+
+- **500 runs, 90.0% won** (target: at least 85%).
+- Losses by node:
+  - Mossy Gallery: 23
+  - Scavenger's Den: 7
+  - Heart of the Hollow: 20
+<!-- TUTORIAL_BALANCE_END -->

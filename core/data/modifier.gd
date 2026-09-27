@@ -20,6 +20,8 @@ enum Kind {
 	MAX_DECK_COLORS,
 	## value = extra cards drawn in each draw step.
 	EXTRA_DRAWS,
+	## value = flat change to how many face-down traps may be set at once.
+	MAX_TRAPS,
 	## `effect` resolves for the owner when their combat phase begins.
 	START_OF_COMBAT_EFFECT,
 }

@@ -168,3 +168,15 @@ func test_at_most_three_traps_can_be_set() -> void:
 	assert_false(game.can_cast(0, cards[3].uid), "a fourth trap cannot be set")
 	assert_false(game.cast(0, cards[3].uid))
 	assert_eq(game.players[0].traps.size(), GameState.MAX_TRAPS)
+
+
+func test_max_traps_is_a_modifiable_stat_not_a_hardcoded_limit() -> void:
+	var game: GameState = GameFactory.blank_game()
+	GameFactory.add_lands(game, 0, 8)
+	game.players[0].max_traps = GameState.MAX_TRAPS + 1
+	var cards: Array[CardInstance] = []
+	for i: int in range(4):
+		cards.append(GameFactory.add_to_hand(game, 0, _trap(Trig.TRAP_OPPONENT_ATTACKS, Tgt.TRIGGERING_CARD, Op.DESTROY)))
+	for i: int in range(4):
+		assert_true(game.cast(0, cards[i].uid), "trap %d can be set with a raised cap" % i)
+	assert_eq(game.players[0].traps.size(), GameState.MAX_TRAPS + 1)
