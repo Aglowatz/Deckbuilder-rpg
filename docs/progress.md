@@ -277,3 +277,16 @@ new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tool
   Settings / Quit; settings panel; pause menu.
 - Core additions: `DungeonMap`, `TrialOfTheHollow` (map, enemy decks, blessing) with tests (248 total).
 - Working title for the game: **Wellspring** (see open_questions.md).
+
+## Demo milestones 2 + 3: Battle screen and card visuals - done
+
+- `CardView` (`ui/card/`): frame tinted per affinity, cost pips, name, type line, rules text with bold gold
+  keywords, power/toughness plaque, rarity gem, game-icons.net silhouettes on gradient art. Three looks:
+  FULL (hand/zoom), COMPACT (battlefield) and BACK. Glow states (playable/selected/target/attack/block).
+- Battle screen (`ui/battle/`): `BattleScreen` (input state machine + AI turn loop), `BattleBoard`
+  (card views, layout, event animations), `BattleHud`, `BattleFX`. Driven only by the engine's event
+  log: draws, plays, attack lunges, blockers, damage numbers, dissolves, screen shake on big hits,
+  mulligan and result panels, keyword tooltips + zoom preview on hover, drag or click to play, target
+  arrows for spells, attackers/blockers by clicking. 3D arena backdrop.
+- Test tooling: `tools/shot.sh` (screenshots), `tools/ui_driver.gd` + `tools/battle_smoke.tscn` play a whole
+  battle through real injected mouse events (click and drag).

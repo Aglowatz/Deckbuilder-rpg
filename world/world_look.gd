@@ -13,6 +13,11 @@ static func environment(mood: StringName = &"day") -> WorldEnvironment:
 			sky_material.sky_horizon_color = Color("5a3550")
 			sky_material.ground_horizon_color = Color("4a2c48")
 			sky_material.ground_bottom_color = Color("1a1024")
+		&"dusk":
+			sky_material.sky_top_color = Color("241a44")
+			sky_material.sky_horizon_color = Color("7a4a5a")
+			sky_material.ground_horizon_color = Color("5a3a52")
+			sky_material.ground_bottom_color = Color("1c1230")
 		_:
 			sky_material.sky_top_color = Color("4d7fc4")
 			sky_material.sky_horizon_color = Color("f3c58f")
@@ -25,7 +30,7 @@ static func environment(mood: StringName = &"day") -> WorldEnvironment:
 	env.background_mode = Environment.BG_SKY
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	env.ambient_light_energy = 0.75 if mood == &"day" else 0.6
+	env.ambient_light_energy = 0.75 if mood == &"day" else 0.4
 	env.tonemap_mode = Environment.TONE_MAPPER_ACES
 	env.tonemap_exposure = 0.9
 	env.glow_enabled = true
@@ -51,7 +56,7 @@ static func environment(mood: StringName = &"day") -> WorldEnvironment:
 static func sun(mood: StringName = &"day") -> DirectionalLight3D:
 	var light: DirectionalLight3D = DirectionalLight3D.new()
 	light.light_color = Color("fff0dc") if mood == &"day" else Color("c8a0ff")
-	light.light_energy = 0.95 if mood == &"day" else 0.9
+	light.light_energy = 0.95 if mood == &"day" else 0.7
 	light.rotation_degrees = Vector3(-38, -32, 0)
 	light.shadow_enabled = true
 	light.directional_shadow_max_distance = 60.0

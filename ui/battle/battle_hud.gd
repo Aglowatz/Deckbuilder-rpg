@@ -1,0 +1,391 @@
+class_name BattleHud
+extends Control
+## Everything around the card table: player portraits with life and mana orbs, the turn and
+## phase tracker, deck/graveyard counters, the prompt line, the action buttons, the card zoom
+## preview with keyword tooltips, and the "your turn" banner.
+
+signal primary_pressed
+signal end_turn_pressed
+
+const PHASE_NAMES: Array[String] = ["Start", "Main", "Combat", "Main 2", "End"]
+
+var game: GameState
+var primary_button: FancyButton
+var end_turn_button: FancyButton
+var _portraits: Array[Portrait] = []
+var _phase_pills: Array[Label] = []
+var _turn_label: Label
+var _turn_sub: Label
+var _prompt: RichTextLabel
+var _prompt_panel: PanelContainer
+var _counts: Array[Label] = []
+var _preview_root: Control
+var _preview_card: CardView
+var _tooltip: PanelContainer
+var _tooltip_box: VBoxContainer
+var _banner: Label
+var _phase_index: int = 0
+
+
+func setup(game_state: GameState, enemy_name: String, enemy_icon: String) -> void:
+	game = game_state
+	UIKit.full_rect(self)
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_build_portraits(enemy_name, enemy_icon)
+	_build_side_panel()
+	_build_buttons()
+	_build_preview()
+	_build_banner()
+	refresh_all()
+
+
+# ---- Construction -----------------------------------------------------------------------
+
+
+func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
+	var player_panel: Portrait = Portrait.new()
+	player_panel.title = "You"
+	player_panel.icon_key = "lorc/pointy-hat"
+	player_panel.accent = UIStyle.GOLD
+	player_panel.position = Vector2(24, 884)
+	add_child(player_panel)
+	var enemy_panel: Portrait = Portrait.new()
+	enemy_panel.title = enemy_name
+	enemy_panel.icon_key = enemy_icon
+	enemy_panel.accent = Color("d9534f")
+	enemy_panel.position = Vector2(24, 20)
+	add_child(enemy_panel)
+	_portraits = [player_panel, enemy_panel]
+	for index: int in range(2):
+		_portraits[index].max_life = game.players[index].max_life
+		_portraits[index].life = game.players[index].life
+
+
+func _build_side_panel() -> void:
+	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	panel.position = Vector2(1640, 250)
+	panel.size = Vector2(250, 540)
+	add_child(panel)
+	var column: VBoxContainer = UIKit.vbox(8)
+	panel.add_child(column)
+	_turn_label = UIKit.label("Turn 1", &"HeadingLabel", 30, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	column.add_child(_turn_label)
+	_turn_sub = UIKit.label("", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	column.add_child(_turn_sub)
+	for phase_name: String in PHASE_NAMES:
+		var pill: Label = UIKit.label(phase_name, &"", 21, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+		pill.custom_minimum_size = Vector2(0, 34)
+		pill.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		pill.add_theme_stylebox_override("normal", UIStyle.box(Color(1, 1, 1, 0.04), Color(0, 0, 0, 0), 0, 8))
+		column.add_child(pill)
+		_phase_pills.append(pill)
+	column.add_child(UIKit.spacer(4))
+	_prompt_panel = UIKit.panel()
+	_prompt_panel.add_theme_stylebox_override("panel", UIStyle.box(Color(0.0, 0.0, 0.0, 0.35), Color(UIStyle.GOLD, 0.35), 1, 10))
+	_prompt_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	column.add_child(_prompt_panel)
+	_prompt = UIKit.rich("", 20, false)
+	_prompt.fit_content = false
+	_prompt.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_prompt.custom_minimum_size = Vector2(0, 150)
+	_prompt_panel.add_child(_prompt)
+	# Deck / graveyard counters.
+	for index: int in range(2):
+		var counter: PanelContainer = UIKit.panel(&"DarkPanel")
+		counter.size = Vector2(250, 60)
+		counter.position = Vector2(1640, 20) if index == 1 else Vector2(1640, 826)
+		add_child(counter)
+		var row: HBoxContainer = UIKit.hbox(8)
+		row.alignment = BoxContainer.ALIGNMENT_CENTER
+		counter.add_child(row)
+		var label: Label = UIKit.label("Deck 0   Grave 0", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		row.add_child(label)
+		_counts.append(label)
+
+
+func _build_buttons() -> void:
+	primary_button = FancyButton.make("Combat", &"PrimaryButton", Vector2(250, 66))
+	primary_button.position = Vector2(1640, 904)
+	primary_button.size = Vector2(250, 66)
+	primary_button.pressed.connect(func() -> void: primary_pressed.emit())
+	add_child(primary_button)
+	end_turn_button = FancyButton.make("End Turn", &"", Vector2(250, 56))
+	end_turn_button.position = Vector2(1640, 982)
+	end_turn_button.size = Vector2(250, 56)
+	end_turn_button.pressed.connect(func() -> void: end_turn_pressed.emit())
+	add_child(end_turn_button)
+
+
+func _build_preview() -> void:
+	_preview_root = Control.new()
+	_preview_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_preview_root.visible = false
+	add_child(_preview_root)
+	_tooltip = UIKit.panel(&"DarkPanel")
+	_tooltip.position = Vector2(22, 640)
+	_tooltip.custom_minimum_size = Vector2(302, 0)
+	_tooltip.size = Vector2(302, 10)
+	_tooltip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_preview_root.add_child(_tooltip)
+	_tooltip_box = UIKit.vbox(6)
+	_tooltip.add_child(_tooltip_box)
+
+
+func _build_banner() -> void:
+	_banner = UIKit.label("", &"TitleLabel", 92, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	_banner.set_anchors_preset(Control.PRESET_CENTER)
+	_banner.custom_minimum_size = Vector2(1200, 120)
+	_banner.position = Vector2(385, 440)
+	_banner.size = Vector2(1200, 120)
+	_banner.modulate.a = 0.0
+	_banner.z_index = 400
+	add_child(_banner)
+
+
+# ---- Updates ----------------------------------------------------------------------------
+
+
+func refresh_all() -> void:
+	for index: int in range(2):
+		var player: PlayerState = game.players[index]
+		_portraits[index].set_life(player.life, false)
+		_portraits[index].set_lands(player.lands)
+		_counts[index].text = "Deck %d    Grave %d" % [player.library.size(), player.graveyard.size()]
+	_turn_label.text = "Turn %d" % maxi(game.turn, 1)
+	_set_phase(int(game.phase) if game.stage == GameState.Stage.PLAYING else -1)
+	_turn_sub.text = ""
+	if game.stage == GameState.Stage.PLAYING:
+		_turn_sub.text = "Your turn" if game.active == 0 else "Enemy turn"
+
+
+func set_portrait_targets(player_ok: bool, enemy_ok: bool) -> void:
+	_portraits[0].set_targetable(player_ok)
+	_portraits[1].set_targetable(enemy_ok)
+
+
+func portrait_rect(player_index: int) -> Rect2:
+	return Rect2(_portraits[player_index].position, _portraits[player_index].size)
+
+
+func refresh_lands() -> void:
+	for index: int in range(2):
+		_portraits[index].set_lands(game.players[index].lands)
+
+
+func portrait_center(player_index: int) -> Vector2:
+	return _portraits[player_index].position + _portraits[player_index].size * 0.5
+
+
+func on_event(event: GameEvent) -> void:
+	match event.type:
+		GameEvent.Type.LIFE_CHANGED:
+			_portraits[event.player].set_life(event.value, true)
+		GameEvent.Type.TURN_STARTED:
+			_turn_label.text = "Turn %d" % event.value
+			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy turn"
+			show_banner("Your Turn" if event.player == 0 else "Enemy Turn", UIStyle.GOLD if event.player == 0 else Color("e06a5a"))
+		GameEvent.Type.PHASE_CHANGED:
+			_set_phase(event.value)
+		GameEvent.Type.MANA_SPENT, GameEvent.Type.LAND_PLAYED:
+			refresh_lands()
+		GameEvent.Type.CARD_DRAWN, GameEvent.Type.CARD_DISCARDED, GameEvent.Type.CREATURE_DIED, GameEvent.Type.CARD_MILLED:
+			for index: int in range(2):
+				var player: PlayerState = game.players[index]
+				_counts[index].text = "Deck %d    Grave %d" % [player.library.size(), player.graveyard.size()]
+
+
+func _set_phase(index: int) -> void:
+	_phase_index = index
+	for i: int in range(_phase_pills.size()):
+		var pill: Label = _phase_pills[i]
+		var active: bool = i == index
+		pill.add_theme_color_override("font_color", UIStyle.INK if active else UIStyle.MUTED)
+		pill.add_theme_stylebox_override("normal", UIStyle.box(UIStyle.GOLD if active else Color(1, 1, 1, 0.04), Color(0, 0, 0, 0), 0, 8))
+
+
+func set_prompt(text: String) -> void:
+	_prompt.text = text
+
+
+func show_banner(text: String, color: Color) -> void:
+	_banner.text = text.to_upper()
+	_banner.add_theme_color_override("font_color", color)
+	_banner.pivot_offset = _banner.size * 0.5
+	_banner.scale = Vector2(0.7, 0.7)
+	var tween: Tween = create_tween()
+	tween.tween_property(_banner, "modulate:a", 1.0, 0.15)
+	tween.parallel().tween_property(_banner, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_interval(0.5)
+	tween.tween_property(_banner, "modulate:a", 0.0, 0.3)
+
+
+func set_life_display(player_index: int, life: int, max_life: int) -> void:
+	_portraits[player_index].max_life = max_life
+	_portraits[player_index].set_life(life, false)
+
+
+# ---- Card preview -----------------------------------------------------------------------
+
+
+func show_preview(view: CardView) -> void:
+	if view == null or view.data == null or bool(view.get_meta("hidden", false)) or view.mode == CardView.Mode.BACK:
+		hide_preview()
+		return
+	if _preview_card != null:
+		_preview_card.queue_free()
+	_preview_card = CardView.create(view.data, CardView.Mode.FULL)
+	_preview_card.position = Vector2(22, 200)
+	_preview_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_preview_root.add_child(_preview_card)
+	var card: CardInstance = game.find_card(view.instance_uid)
+	if card != null:
+		_preview_card.apply_instance(card, game)
+	_preview_root.visible = true
+	for child: Node in _tooltip_box.get_children():
+		child.queue_free()
+	var entries: Array[Array] = KeywordInfo.entries_for(view.data)
+	if card != null and card.summoning_sick and card.data.is_creature() and game.players[card.owner].battlefield.has(card):
+		entries.append(["Summoning sickness", str(KeywordInfo.GLOSSARY["Summoning sickness"])])
+	_tooltip.visible = not entries.is_empty()
+	for entry: Array in entries:
+		var title: Label = UIKit.label(str(entry[0]), &"", 22, UIStyle.GOLD)
+		title.add_theme_font_override("font", UIStyle.font_bold())
+		_tooltip_box.add_child(title)
+		var body: Label = UIKit.label(str(entry[1]), &"", 19, UIStyle.PARCHMENT)
+		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		body.custom_minimum_size = Vector2(270, 0)
+		_tooltip_box.add_child(body)
+	_tooltip.size = Vector2(302, 10)
+	_tooltip.position = Vector2(22, 632)
+
+
+func hide_preview() -> void:
+	_preview_root.visible = false
+
+
+# ---- Portrait ---------------------------------------------------------------------------
+
+
+class Portrait:
+	extends PanelContainer
+	var title: String = ""
+	var icon_key: String = "lorc/imp"
+	var accent: Color = UIStyle.GOLD
+	var life: int = 10
+	var max_life: int = 10
+	var _life_label: Label
+	var _bar: ProgressBar
+	var _orbs: OrbRow
+	var _shown_life: float = 10.0
+	var _tween: Tween
+
+	func _ready() -> void:
+		custom_minimum_size = Vector2(300, 172)
+		size = Vector2(300, 172)
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_theme_stylebox_override("panel", _frame(accent.darkened(0.2), 3, 12))
+		var row: HBoxContainer = UIKit.hbox(12)
+		add_child(row)
+		var avatar: PanelContainer = PanelContainer.new()
+		avatar.custom_minimum_size = Vector2(84, 84)
+		avatar.add_theme_stylebox_override("panel", UIStyle.box(accent.darkened(0.6), accent, 3, 42))
+		avatar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		var glyph: TextureRect = CardIcons.glyph(load(CardIcons.BASE + icon_key + ".svg") as Texture2D, Color("fdf3dc"), Vector2(60, 60))
+		glyph.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		avatar.add_child(glyph)
+		row.add_child(avatar)
+		var column: VBoxContainer = UIKit.vbox(2)
+		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(column)
+		column.add_child(UIKit.label(title, &"HeadingLabel", 22))
+		var life_row: HBoxContainer = UIKit.hbox(6)
+		var heart: HeartIcon = HeartIcon.new()
+		heart.custom_minimum_size = Vector2(34, 34)
+		heart.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		life_row.add_child(heart)
+		_life_label = UIKit.label(str(life), &"", 40, UIStyle.PARCHMENT)
+		_life_label.add_theme_font_override("font", UIStyle.font_title())
+		life_row.add_child(_life_label)
+		column.add_child(life_row)
+		_bar = ProgressBar.new()
+		_bar.custom_minimum_size = Vector2(0, 14)
+		_bar.show_percentage = false
+		_bar.max_value = max_life
+		_bar.value = life
+		column.add_child(_bar)
+		_orbs = OrbRow.new()
+		_orbs.custom_minimum_size = Vector2(0, 26)
+		column.add_child(_orbs)
+		_shown_life = float(life)
+		_apply_life(_shown_life)
+
+	func _frame(border: Color, width: int, shadow: int) -> StyleBoxFlat:
+		var style: StyleBoxFlat = UIStyle.box(Color(0.06, 0.04, 0.1, 0.9), border, width, 16, shadow)
+		style.set_content_margin_all(14)
+		return style
+
+	func set_targetable(active: bool) -> void:
+		var color: Color = Color("ff5a5a") if active else accent.darkened(0.2)
+		add_theme_stylebox_override("panel", _frame(color, 5 if active else 3, 18 if active else 12))
+
+	func set_life(value: int, animate: bool) -> void:
+		life = value
+		if _life_label == null:
+			return
+		_bar.max_value = max_life
+		if not animate:
+			_apply_life(float(value))
+			return
+		if _tween != null and _tween.is_valid():
+			_tween.kill()
+		_tween = create_tween()
+		_tween.tween_method(_apply_life, _shown_life, float(value), 0.5)
+
+	func _apply_life(value: float) -> void:
+		_shown_life = value
+		_life_label.text = str(roundi(value))
+		_bar.value = value
+		var ratio: float = value / maxf(float(max_life), 1.0)
+		var fill: StyleBoxFlat = UIStyle.box(Color("6fbf73") if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.LIFE_RED), Color(0, 0, 0, 0), 0, 8)
+		_bar.add_theme_stylebox_override("fill", fill)
+
+	func set_lands(lands: Array[CardInstance]) -> void:
+		if _orbs != null:
+			_orbs.lands = lands.duplicate()
+			_orbs.queue_redraw()
+
+
+class HeartIcon:
+	extends Control
+
+	func _draw() -> void:
+		var points: PackedVector2Array = PackedVector2Array()
+		for step: int in range(40):
+			var a: float = TAU * float(step) / 40.0
+			var x: float = 16.0 * pow(sin(a), 3.0)
+			var y: float = -(13.0 * cos(a) - 5.0 * cos(2.0 * a) - 2.0 * cos(3.0 * a) - cos(4.0 * a))
+			points.append(Vector2(17.0 + x, 16.0 + y) * 0.98)
+		draw_colored_polygon(points, UIStyle.LIFE_RED.darkened(0.35))
+		var inner: PackedVector2Array = PackedVector2Array()
+		for point: Vector2 in points:
+			inner.append((point - Vector2(17, 16)) * 0.82 + Vector2(17, 16))
+		draw_colored_polygon(inner, UIStyle.LIFE_RED)
+		draw_circle(Vector2(10.0, 9.0), 3.0, Color(1, 1, 1, 0.45))
+
+
+class OrbRow:
+	extends Control
+	var lands: Array[CardInstance] = []
+
+	func _draw() -> void:
+		var x: float = 11.0
+		for land: CardInstance in lands:
+			var color: Color = UIStyle.affinity_color(land.data.color)
+			if land.tapped:
+				draw_arc(Vector2(x, 13.0), 8.0, 0.0, TAU, 20, color.darkened(0.3), 2.5, true)
+			else:
+				draw_circle(Vector2(x, 13.0), 10.0, color.darkened(0.5))
+				draw_circle(Vector2(x, 13.0), 8.0, color)
+				draw_circle(Vector2(x - 2.5, 10.0), 2.6, Color(1, 1, 1, 0.5))
+			x += 22.0

@@ -202,3 +202,43 @@ func load_game() -> bool:
 	if data.is_empty():
 		return false
 	return from_dict(data)
+
+
+# ---- Battles ----------------------------------------------------------------------------
+
+## The battle the battle scene should run next (set before changing to res://scenes/battle.tscn).
+var pending_battle: BattleContext
+
+
+## A standalone match against a dungeon enemy (used by screenshots and for testing).
+func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: int = 0) -> BattleContext:
+	ensure_game()
+	var map: DungeonMap = TrialOfTheHollow.build_map()
+	var node: DungeonMap.MapNode = null
+	for candidate: DungeonMap.MapNode in map.nodes:
+		if candidate.enemy_name == enemy_name:
+			node = candidate
+	if node == null:
+		node = map.node(1)
+	var options: GameOptions = GameOptions.new()
+	options.first_player = first_player
+	var game: GameState = GameState.new(options)
+	var player: PlayerSetup = PlayerSetup.create(deck, profile, [] as Array[ModifierSource], "You")
+	game.add_player(player)
+	game.add_player(TrialOfTheHollow.enemy_setup(content, node))
+	game.start()
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(TrialOfTheHollow.personality(content, node.ai_name))
+	context.enemy_name = node.enemy_name
+	context.practice = true
+	return context
+
+
+## Routes the campaign after a dungeon battle (implemented with the dungeon flow).
+func complete_battle(context: BattleContext) -> void:
+	pending_battle = null
+	if context.won:
+		SceneManager.go_to_town()
+	else:
+		SceneManager.go_to_town()
