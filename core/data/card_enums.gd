@@ -4,7 +4,9 @@ extends RefCounted
 
 enum CardType { LAND, CREATURE, SPELL, TRAP, ARTIFACT }
 
-enum Rarity { COMMON, UNCOMMON, RARE, MYTHIC }
+## Exactly four tiers - see docs/design/combat_rules.md "Rarity". Values are stored by ordinal
+## in every saved .tres card, so the order must never change (only append would be safe).
+enum Rarity { COMMON, UNCOMMON, EPIC, LEGENDARY }
 
 enum Keyword {
 	FLYING,

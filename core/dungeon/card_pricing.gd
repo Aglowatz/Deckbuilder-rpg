@@ -6,8 +6,8 @@ extends RefCounted
 const BASE_BY_RARITY: Dictionary = {
 	CardEnums.Rarity.COMMON: 15,
 	CardEnums.Rarity.UNCOMMON: 35,
-	CardEnums.Rarity.RARE: 80,
-	CardEnums.Rarity.MYTHIC: 160,
+	CardEnums.Rarity.EPIC: 80,
+	CardEnums.Rarity.LEGENDARY: 160,
 }
 const PER_MANA: int = 5
 const MAX_OWNED_FOR_SALE: int = 3

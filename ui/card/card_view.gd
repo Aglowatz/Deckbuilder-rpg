@@ -14,8 +14,10 @@ enum Mode { FULL, COMPACT, BACK }
 enum Glow { NONE, PLAYABLE, SELECTED, TARGET, ATTACK, BLOCK }
 
 const SIZE: Vector2 = Vector2(300, 420)
-const RARITY_COLORS: Array[Color] = [Color("c9c2b4"), Color("5fd6a4"), Color("f2c14e"), Color("ff6a4a")]
-const RARITY_NAMES: Array[String] = ["Common", "Uncommon", "Rare", "Mythic"]
+## Common, Uncommon, Epic, Legendary - see docs/design/combat_rules.md "Rarity". Colors AND gem
+## shapes are distinct per tier (Gem below), so rarity reads at a glance even color-blind.
+const RARITY_COLORS: Array[Color] = [Color("c9c2b4"), Color("5fd6a4"), Color("b48cf2"), Color("ff9c3a")]
+const RARITY_NAMES: Array[String] = ["Common", "Uncommon", "Epic", "Legendary"]
 const PARCHMENT_BG: Color = Color("eadfc4")
 const PARCHMENT_TEXT: Color = Color("2b2233")
 
@@ -241,6 +243,7 @@ func _build_type_line() -> void:
 	add_child(rarity)
 	var gem: Gem = Gem.new()
 	gem.color = RARITY_COLORS[int(data.rarity)]
+	gem.rarity = int(data.rarity)
 	gem.position = Vector2(288 - 10 - 20, 247)
 	gem.size = Vector2(20, 20)
 	gem.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -475,21 +478,55 @@ class PipRow:
 			draw_string(font, center + Vector2(-text_size.x * 0.5, 7.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color("1b1424"))
 
 
+## Draws a shape that is distinct per rarity tier, not just a different color: a plain circle
+## for Common, the original diamond for Uncommon, a hexagon for Epic and a four-point sparkle for
+## Legendary (increasingly elaborate, so "how special is this card" reads at a glance).
 class Gem:
 	extends Control
 	var color: Color = Color.WHITE
+	var rarity: int = 0
 
 	func _draw() -> void:
 		var c: Vector2 = size * 0.5
-		var points: PackedVector2Array = PackedVector2Array([
-			c + Vector2(0, -9), c + Vector2(8, 0), c + Vector2(0, 9), c + Vector2(-8, 0),
+		match rarity:
+			CardEnums.Rarity.COMMON:
+				draw_circle(c, 9.0, color.darkened(0.35))
+				draw_circle(c, 6.5, color)
+				draw_circle(c + Vector2(-2.0, -2.2), 1.8, color.lightened(0.5))
+			CardEnums.Rarity.UNCOMMON:
+				draw_colored_polygon(_diamond(c, 8.0), color.darkened(0.35))
+				draw_colored_polygon(_diamond(c, 5.0), color)
+				draw_colored_polygon(PackedVector2Array([c + Vector2(0, -6), c + Vector2(5, 0), c + Vector2(0, -1)]), color.lightened(0.4))
+			CardEnums.Rarity.EPIC:
+				draw_colored_polygon(_regular_polygon(c, 9.5, 6), color.darkened(0.35))
+				draw_colored_polygon(_regular_polygon(c, 6.5, 6), color)
+				draw_colored_polygon(PackedVector2Array([c + Vector2(-1, -6), c + Vector2(4, -3), c + Vector2(-1, 0)]), color.lightened(0.45))
+			CardEnums.Rarity.LEGENDARY:
+				draw_colored_polygon(_sparkle(c, 10.0, 4.0), color.darkened(0.3))
+				draw_colored_polygon(_sparkle(c, 7.0, 2.6), color)
+				draw_circle(c, 1.6, color.lightened(0.6))
+
+	static func _diamond(center: Vector2, radius: float) -> PackedVector2Array:
+		return PackedVector2Array([
+			center + Vector2(0, -radius), center + Vector2(radius, 0),
+			center + Vector2(0, radius), center + Vector2(-radius, 0),
 		])
-		draw_colored_polygon(points, color.darkened(0.35))
-		var inner: PackedVector2Array = PackedVector2Array([
-			c + Vector2(0, -6), c + Vector2(5, 0), c + Vector2(0, 6), c + Vector2(-5, 0),
-		])
-		draw_colored_polygon(inner, color)
-		draw_colored_polygon(PackedVector2Array([c + Vector2(0, -6), c + Vector2(5, 0), c + Vector2(0, -1)]), color.lightened(0.4))
+
+	static func _regular_polygon(center: Vector2, radius: float, sides: int) -> PackedVector2Array:
+		var points: PackedVector2Array = PackedVector2Array()
+		for i: int in range(sides):
+			var a: float = deg_to_rad(-90.0 + 360.0 * float(i) / float(sides))
+			points.append(center + Vector2(cos(a), sin(a)) * radius)
+		return points
+
+	## A classic four-point sparkle: alternating outer/inner radius over 8 vertices.
+	static func _sparkle(center: Vector2, outer: float, inner: float) -> PackedVector2Array:
+		var points: PackedVector2Array = PackedVector2Array()
+		for i: int in range(8):
+			var a: float = deg_to_rad(-90.0 + 45.0 * float(i))
+			var r: float = outer if i % 2 == 0 else inner
+			points.append(center + Vector2(cos(a), sin(a)) * r)
+		return points
 
 
 ## Switches between the FULL, COMPACT and BACK looks and rebuilds the visuals.

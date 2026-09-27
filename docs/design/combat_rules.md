@@ -63,6 +63,15 @@ Modifiers from equipment, items, and zones apply on top of the profile values.
 - Minimum **45** cards.
 - Maximum **3** copies of any card (basic lands are exempt).
 
+## Rarity
+
+Exactly four tiers, in ascending order: **Common, Uncommon, Epic, Legendary**
+(`CardEnums.Rarity`). Rarity drives vendor pricing (`CardPricing`), the vendor's graduated
+unlock thresholds (`VendorData.graduated`), reward-choice weighting (`RewardGenerator`, rarer
+cards appear less often except the boss's table, which skews rarer) and the card frame's rarity
+gem color/shape (`CardView.Gem` - a plain circle, diamond, hexagon and four-point sparkle,
+respectively, so the tier reads even without the color).
+
 ## Dungeons
 
 - Life carries over between encounters within a dungeon.

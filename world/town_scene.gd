@@ -499,7 +499,7 @@ func _open_vault() -> void:
 
 func _talk_hidden_vendor() -> void:
 	_face_npc("hidden_vendor")
-	var lines: Array[String] = ["You found the chest, so I suppose you've earned a look. Rare goods, quiet prices."] as Array[String]
+	var lines: Array[String] = ["You found the chest, so I suppose you've earned a look. Epic and Legendary goods, quiet prices."] as Array[String]
 	dialogue.start("A Secret Dealer", lines)
 	dialogue.finished.connect(_open_hidden_vendor, CONNECT_ONE_SHOT)
 
@@ -519,7 +519,7 @@ func _hidden_vendor_stock() -> VendorData:
 	data.vendor_name = "Secret Dealer"
 	for id: Variant in Session.content.cards.keys():
 		var card: CardData = Session.content.card(str(id))
-		if card.rarity == CardEnums.Rarity.RARE or card.rarity == CardEnums.Rarity.MYTHIC:
+		if card.rarity == CardEnums.Rarity.EPIC or card.rarity == CardEnums.Rarity.LEGENDARY:
 			data.add(card.id)
 	return data
 

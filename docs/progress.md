@@ -621,7 +621,26 @@ is titled "New Part <letter>" and cross-references the old one by name where rel
 
 284 GUT tests still pass (no `core/` changes - this part is presentation only).
 
-## New Part B: card rarities - in progress
+## New Part B: card rarities - done
+
+- `CardEnums.Rarity` renamed in place to the four required tiers, **Common, Uncommon, Epic,
+  Legendary** - the old `RARE`/`MYTHIC` sat at the same ordinals, so every saved `.tres` card
+  needed no migration (see D42).
+- `CardPricing`, `RewardGenerator`'s weight tables, `VendorData.graduated`'s spend thresholds and
+  the hidden-vendor stock filter (`world/town_scene.gd`) all already indexed by rarity ordinal, so
+  pricing and reward generation needed no logic changes, only the renamed constant references.
+- `CardView`'s rarity gem is now a genuinely distinct **shape** per tier, not just a color: a
+  circle (Common), the original diamond (Uncommon), a hexagon (Epic) and a four-point sparkle
+  (Legendary) - see D43. New "Rarity" section added to `docs/design/combat_rules.md` as the
+  source of truth.
+- Verified by screenshot (`_screenshots/rarity_gems_check.png`, `rarity_epic_check.png`, both
+  git-ignored): existing Common/Uncommon cards still render correctly, and the renamed Epic tier
+  (Necromancer) shows its new purple hexagon gem and "Epic" label. No card is Legendary yet in the
+  placeholder content, so the sparkle shape has not been seen on a real card (only reviewed as
+  code).
+
+284 GUT tests still pass (no test exercised rarity names directly, so none needed changes).
+
 ## New Part C: new starting flow and starter deck - not started
 ## New Part D: tutorial opponent balance - not started
 ## New Part E: player progression (levels 1-30) - not started

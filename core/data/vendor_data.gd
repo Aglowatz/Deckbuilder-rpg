@@ -50,9 +50,9 @@ func is_open(state: UnlockState) -> bool:
 
 
 ## Every card in a full deck's non-land, non-token cards, priced/gated by rarity: common cards
-## unlock once `gate` (usually the vendor's home dungeon being cleared) is met; uncommon/rare/
-## mythic unlock progressively further behind lifetime gold spent, so the stall visibly grows as
-## the player plays. Neutral cards and the player's own colors (their starting deck is always
+## unlock once `gate` (usually the vendor's home dungeon being cleared) is met; uncommon/epic/
+## legendary unlock progressively further behind lifetime gold spent, so the stall visibly grows
+## as the player plays. Neutral cards and the player's own colors (their starting deck is always
 ## two colors) are always available once `gate` is met.
 static func graduated(content: ContentSet, own_colors: Array[Affinity.Type], gate: Condition) -> VendorData:
 	var data: VendorData = VendorData.new()

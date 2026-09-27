@@ -150,7 +150,7 @@ static func _add_affinity_b(cards: Dictionary) -> void:
 	_add(cards, _fin(_with(_spell("recall", "Recall", B, 0, [B]), _fx(T.ON_ENTER, G.CHOSEN_CREATURE_ANY, O.RETURN_TO_HAND)), R.COMMON, "Return target creature to its owner's hand."))
 	_add(cards, _fin(_with(_spell("deep_insight", "Deep Insight", B, 1, [B]), _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 2)), R.COMMON, "Draw two cards."))
 	_add(cards, _fin(_with(_trap("snare", "Snare", B, 1, [B]), _fx(T.TRAP_OPPONENT_CREATURE, G.TRIGGERING_CARD, O.DESTROY)), R.UNCOMMON, "Trap: when the opponent casts a creature, destroy it."))
-	_add(cards, _fin(_creature("sea_warden", "Sea Warden", B, 4, [B], 3, 5, [K.FLYING]), R.RARE, "Flying"))
+	_add(cards, _fin(_creature("sea_warden", "Sea Warden", B, 4, [B], 3, 5, [K.FLYING]), R.EPIC, "Flying"))
 
 
 static func _add_affinity_c(cards: Dictionary) -> void:
@@ -158,7 +158,7 @@ static func _add_affinity_c(cards: Dictionary) -> void:
 	_add(cards, _fin(_creature("rampaging_boar", "Rampaging Boar", C, 3, [C], 4, 3, [K.TRAMPLE]), R.COMMON, "Trample"))
 	_add(cards, _fin(_creature("stag_warden", "Stag Warden", C, 3, [C], 3, 4, [K.GUARD]), R.UNCOMMON, "Guard"))
 	_add(cards, _fin(_creature("ancient_treant", "Ancient Treant", C, 3, [C, C], 5, 5), R.UNCOMMON))
-	_add(cards, _fin(_creature("thornback_colossus", "Thornback Colossus", C, 4, [C, C], 7, 7, [K.TRAMPLE]), R.RARE, "Trample"))
+	_add(cards, _fin(_creature("thornback_colossus", "Thornback Colossus", C, 4, [C, C], 7, 7, [K.TRAMPLE]), R.EPIC, "Trample"))
 	_add(cards, _fin(_with(_spell("growth", "Growth", C, 1, [C]), _fx(T.ON_ENTER, G.CHOSEN_CREATURE_ALLY, O.BUFF, 2, 2)), R.COMMON, "Target ally creature gets +2/+2 permanently."))
 	_add(cards, _fin(_with(_spell("rejuvenate", "Rejuvenate", C, 1, [C]), _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 4)), R.COMMON, "Gain 4 life."))
 
@@ -176,7 +176,7 @@ static func _add_affinity_d(cards: Dictionary, spirit: CardData) -> void:
 	_add(cards, _fin(_with(bargain, _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 2)), R.UNCOMMON, "Destroy target ally creature. Draw two cards."))
 	var summon_two: EffectData = _fx(T.ON_ENTER, G.CONTROLLER, O.SUMMON_TOKEN, 2)
 	summon_two.token = spirit
-	_add(cards, _fin(_with(_creature("necromancer", "Necromancer", D, 3, [D], 2, 3), summon_two), R.RARE, "When this enters, create two 1/1 Spirits."))
+	_add(cards, _fin(_with(_creature("necromancer", "Necromancer", D, 3, [D], 2, 3), summon_two), R.EPIC, "When this enters, create two 1/1 Spirits."))
 
 
 static func reward_pool(cards: Dictionary) -> Array[CardData]:
