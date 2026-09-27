@@ -27,7 +27,7 @@ func _run() -> void:
 	Session.ensure_game()
 	var packed: PackedScene = load("res://scenes/battle.tscn") as PackedScene
 	screen = packed.instantiate() as BattleScreen
-	screen.screenshot_prepare({"enemy": str(args.get("enemy", "Cave Scavenger")), "no_tutorial": "true"})
+	screen.screenshot_prepare({"enemy": str(args.get("enemy", "Cave Scavenger")), "no_tutorial": "false" if args.has("tutorial") else "true", "force_tutorial": "true" if args.has("tutorial") else "false"})
 	get_tree().root.add_child(screen)
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)

@@ -319,3 +319,19 @@ new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tool
   `RewardGenerator`, tested), trial-complete screen granting the 5 attunement cards once (`CampaignStart`).
 - Losing (or retreating) returns to town with a notice; the collection is untouched.
 - Session flow: `begin_trial`, `make_dungeon_battle`, `complete_battle`, `apply_rewards`, `complete_trial`.
+
+## Demo milestone 7: Tutorial layer - done
+
+- `TutorialLayer` guides the first battle (Scavenger's Den): opening hand/mulligan, land drop, casting, keywords,
+  traps, ending the turn, attacking, blocking. A bubble with a pulsing highlight points at the thing to click and
+  advances when the player does it. Skippable ("Skip tutorial"), remembered in the save (`tutorial_done`).
+- `TipPanel`: one-time tips on the first visit to the vendor, the deck station and the dungeon map.
+
+## Demo milestone 8: Audio and juice - done
+
+- Sound effects for card draw/play/discard, land, attack, hits (light/heavy), death, spells, traps, heal, turn bell,
+  coins, footsteps, doors, dialogue ticks and every button (hover + press): Kenney CC0 packs, `AudioCatalog`.
+- Music is original and generated in code (`MusicSynth`): title, town (with wind and birds as ambience), battle
+  and map loops, rendered on a background thread at startup and crossfaded by `Audio`.
+- Juice: tweened hover/press on buttons, card glow states, floating damage numbers, particle bursts on hits and
+  entries, ring flashes, dissolve shader on dying cards, screen shake on big hits, Wellspring motes and light.

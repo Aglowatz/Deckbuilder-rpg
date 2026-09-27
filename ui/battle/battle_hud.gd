@@ -184,6 +184,7 @@ func on_event(event: GameEvent) -> void:
 			_turn_label.text = "Turn %d" % event.value
 			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy turn"
 			show_banner("Your Turn" if event.player == 0 else "Enemy Turn", UIStyle.GOLD if event.player == 0 else Color("e06a5a"))
+			Audio.sfx(&"turn_start", -10.0)
 		GameEvent.Type.PHASE_CHANGED:
 			_set_phase(event.value)
 		GameEvent.Type.MANA_SPENT, GameEvent.Type.LAND_PLAYED:

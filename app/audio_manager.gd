@@ -13,6 +13,8 @@ var _music_active: AudioStreamPlayer
 var _music_name: StringName = &""
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _last_played: Dictionary = {}
+var _wanted_music: StringName = &""
+var _music_fade: float = 1.2
 
 
 func _ready() -> void:
@@ -23,6 +25,8 @@ func _ready() -> void:
 		player.bus = Settings.BUS_SFX
 		add_child(player)
 		_pool.append(player)
+	if DisplayServer.get_name() != "headless":
+		MusicSynth.warm_up()
 	_music_a = _make_music_player()
 	_music_b = _make_music_player()
 	_music_active = _music_a
@@ -71,26 +75,45 @@ func _stream_for(sound: StringName) -> AudioStream:
 	return stream
 
 
-## Crossfades to a music track (see MusicSynth.TRACKS). Empty name stops the music.
+## Crossfades to a music track (see MusicSynth.TRACKS). Empty name stops the music. Tracks are
+## rendered on a background thread at startup, so the request is retried until one is ready.
 func play_music(track: StringName, fade: float = 1.2) -> void:
-	if track == _music_name:
-		return
-	_music_name = track
+	_wanted_music = track
+	_music_fade = fade
+	_try_start_music()
+
+
+func _exit_tree() -> void:
+	MusicSynth.finish()
+
+
+func _process(_delta: float) -> void:
+	if _wanted_music != _music_name:
+		_try_start_music()
+
+
+func _try_start_music() -> void:
 	if DisplayServer.get_name() == "headless":
+		_music_name = _wanted_music
+		return
+	var track: StringName = _wanted_music
+	if track == _music_name:
 		return
 	var previous: AudioStreamPlayer = _music_active
 	if track == &"":
-		_fade(previous, -80.0, fade, true)
+		_music_name = track
+		_fade(previous, -80.0, _music_fade, true)
 		return
 	var stream: AudioStream = MusicSynth.track(track)
 	if stream == null:
 		return
+	_music_name = track
 	_music_active = _music_b if previous == _music_a else _music_a
 	_music_active.stream = stream
 	_music_active.volume_db = -80.0
 	_music_active.play()
-	_fade(_music_active, -6.0, fade, false)
-	_fade(previous, -80.0, fade, true)
+	_fade(_music_active, -6.0, _music_fade, false)
+	_fade(previous, -80.0, _music_fade, true)
 
 
 func _fade(player: AudioStreamPlayer, target_db: float, duration: float, stop_after: bool) -> void:

@@ -65,6 +65,7 @@ func _build() -> void:
 	_toast.z_index = 250
 	add_child(_toast)
 	_refresh()
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]45+ cards[/b], at most [b]3 copies[/b] of a card and [b]2 colors[/b]. Lands power your spells: [b]Fill Lands[/b] tops up to 45.", Vector2(300, 900))
 
 
 func _build_deck_panel() -> Control:

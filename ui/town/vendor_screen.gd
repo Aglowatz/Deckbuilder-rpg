@@ -62,9 +62,7 @@ func _build() -> void:
 	_toast.z_index = 250
 	add_child(_toast)
 	_refresh()
-	if Session.flag(&"vendor_tip_done") == false:
-		Session.set_flag(&"vendor_tip_done")
-		EventBus.tutorial_event.emit(&"vendor_first_visit")
+	TipPanel.show_once(self, &"tip_vendor", "Buying cards", "Hover a card to zoom it, click it to buy. Gold comes from winning fights in the dungeon. A deck can only use [b]3 copies[/b] of a card, so the vendor stops selling after that.", Vector2(560, 900))
 
 
 func _make_tile(card: CardData) -> Control:

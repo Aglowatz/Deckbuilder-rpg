@@ -67,7 +67,9 @@ func _ready() -> void:
 		bot_until_turn = bot_turns
 	if _flag("fast"):
 		board.speed = 8.0
-	if context.tutorial and not _flag("no_tutorial"):
+	if _flag("force_tutorial"):
+		context.tutorial = true
+	if context.tutorial and not _flag("no_tutorial") and (not Session.flag(&"tutorial_done") or _flag("force_tutorial")):
 		tutorial = TutorialLayer.new()
 		add_child(tutorial)
 		tutorial.setup(self)
