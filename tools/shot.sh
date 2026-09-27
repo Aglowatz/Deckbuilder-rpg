@@ -7,6 +7,7 @@ CONSOLE="/c/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe"
 cd "$(dirname "$0")/.."
 cache=".godot/global_script_class_cache.cfg"
 if [ ! -f "$cache" ] || [ -n "$(find app core ui world scenes tools assets -newer "$cache" \( -name '*.gd' -o -name '*.gltf' -o -name '*.glb' -o -name '*.svg' -o -name '*.ogg' -o -name '*.ttf' \) 2>/dev/null | head -1)" ]; then
+	"$CONSOLE" --headless --path . -s res://tools/build_theme.gd >/dev/null 2>&1
 	"$CONSOLE" --headless --path . --import >/dev/null 2>&1
 	touch "$cache"
 fi

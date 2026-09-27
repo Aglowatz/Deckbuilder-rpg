@@ -52,8 +52,15 @@ static func wrapped(card: CardData, card_scale: float, card_mode: Mode = Mode.FU
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var view: CardView = create(card, card_mode)
 	holder.add_child(view)
-	view.scale = Vector2.ONE * card_scale
+	fit(view, card_scale)
 	return holder
+
+
+## Scales a card that sits at the top-left of a holder so its visible rect starts at (0, 0)
+## (cards scale around their centre).
+static func fit(view: CardView, card_scale: float) -> void:
+	view.scale = Vector2.ONE * card_scale
+	view.position = -SIZE * (1.0 - card_scale) * 0.5
 
 
 func _ready() -> void:

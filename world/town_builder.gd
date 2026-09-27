@@ -160,7 +160,7 @@ func _build_props() -> void:
 	_prop("target", cell_center(6, 5) + Vector3(0.2, 0, 0.0), 200.0, 1.1, 0.35)
 	anchors["npc_well"] = (anchors.get("well", Vector3.ZERO) as Vector3) + Vector3(1.5, 0, 0.6)
 	anchors["npc_gate"] = gate + Vector3(-2.0, 0, 0.9)
-	anchors["npc_market"] = market + Vector3(1.9, 0, 0.7)
+	anchors["npc_market"] = market + Vector3(0.1, 0, 0.55)
 
 
 func _prop(model: String, position: Vector3, yaw: float, model_scale: float, radius: float) -> void:

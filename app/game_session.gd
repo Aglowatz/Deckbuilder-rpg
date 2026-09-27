@@ -22,7 +22,6 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	rng.randomize()
 	content = ContentLibrary.load_all()
-	get_tree().root.theme = UIStyle.theme()
 	for arg: String in OS.get_cmdline_user_args():
 		if arg == "--no-save":
 			save_enabled = false
@@ -242,3 +241,13 @@ func complete_battle(context: BattleContext) -> void:
 		SceneManager.go_to_town()
 	else:
 		SceneManager.go_to_town()
+
+
+# ---- Dungeon flow -----------------------------------------------------------------------
+
+
+## Enters the Trial of the Hollow with the current deck (the player is fully healed).
+func begin_trial() -> void:
+	dungeon_map = TrialOfTheHollow.build_map()
+	run = DungeonRun.enter(profile, deck, [TrialOfTheHollow.blessing()] as Array[ModifierSource])
+	SceneManager.change_scene("res://scenes/dungeon_map.tscn")

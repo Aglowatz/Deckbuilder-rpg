@@ -290,3 +290,22 @@ new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tool
   arrows for spells, attackers/blockers by clicking. 3D arena backdrop.
 - Test tooling: `tools/shot.sh` (screenshots), `tools/ui_driver.gd` + `tools/battle_smoke.tscn` play a whole
   battle through real injected mouse events (click and drag).
+
+## Demo milestone 4: Starter town - done
+
+- `TownBuilder` (`world/`): a hex island built from the KayKit Medieval Hexagon pack (market, tavern = deck
+  station, well = Wellspring, mine = dungeon gate, church, houses, windmill, mountains, water, clouds).
+  `HexGrid` maps world positions to cells; walkability = walkable cells minus circular obstacles.
+- `TownScene`: KayKit Knight with idle/walk animations, WASD movement with sliding collisions, footstep
+  sounds, fixed-angle follow camera, warm sun + sky + ACES tonemapping + glow + SSAO, glowing Wellspring
+  with motes, floating name plates and markers, objective tracker, gold display, dialogue box, two NPCs
+  (Elder Maren, Gatekeeper Brannoch) plus the vendor (Sable), Wellspring color choice, gate confirm.
+- Theme baked into `ui/game_theme.tres` (`tools/build_theme.gd`) so CanvasLayer UI is styled too.
+
+## Demo milestone 5: Deckbuilder and vendor UI - done
+
+- `DeckEditor` (core, tested): add/remove rules (owned copies, 3 copies, 2 colors), auto-fill lands.
+- `DeckbuilderScreen`: collection grid with affinity/type/cost filters, click to add / right-click or `-`
+  to remove, deck list with counts, live validation of the deck rules, save, fill lands, reset, unsaved
+  changes prompt. `VendorScreen`: all cards with prices (`CardPricing`, tested), gold, buy confirmation.
+- Tests: 257.

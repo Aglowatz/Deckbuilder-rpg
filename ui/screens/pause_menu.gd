@@ -10,10 +10,8 @@ var _settings: SettingsPanel
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	visible = false
-	_root = Control.new()
-	UIKit.full_rect(_root)
+	_root = UIKit.layer_host(self)
 	_root.mouse_filter = Control.MOUSE_FILTER_STOP
-	add_child(_root)
 	var dim: ColorRect = ColorRect.new()
 	dim.color = Color(0.02, 0.01, 0.04, 0.72)
 	UIKit.full_rect(dim)

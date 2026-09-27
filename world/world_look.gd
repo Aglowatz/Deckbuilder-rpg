@@ -30,11 +30,11 @@ static func environment(mood: StringName = &"day") -> WorldEnvironment:
 	env.background_mode = Environment.BG_SKY
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
-	env.ambient_light_energy = 0.75 if mood == &"day" else 0.4
+	env.ambient_light_energy = 0.55 if mood == &"day" else 0.4
 	env.tonemap_mode = Environment.TONE_MAPPER_ACES
-	env.tonemap_exposure = 0.9
+	env.tonemap_exposure = 0.85
 	env.glow_enabled = true
-	env.glow_intensity = 0.5
+	env.glow_intensity = 0.3
 	env.glow_strength = 0.85
 	env.glow_bloom = 0.08
 	env.glow_hdr_threshold = 1.0

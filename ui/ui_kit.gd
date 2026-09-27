@@ -78,7 +78,7 @@ static func panel(variation: StringName = &"") -> PanelContainer:
 
 
 static func full_rect(node: Control) -> void:
-	node.set_anchors_preset(Control.PRESET_FULL_RECT)
+	node.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 
 static func vignette(strength: float = 0.75) -> ColorRect:
@@ -112,3 +112,15 @@ static func pop_in(node: Control, delay: float = 0.0) -> void:
 	node.modulate.a = 0.0
 	var tween: Tween = node.create_tween().set_parallel(true)
 	tween.tween_property(node, "modulate:a", 1.0, 0.3).set_delay(delay)
+
+
+## CanvasLayers are not Controls, so anchors under them do not resolve. This returns a Control
+## the size of the design viewport (1920x1080) to hold a layer's UI.
+static func layer_host(layer: CanvasLayer) -> Control:
+	var host: Control = Control.new()
+	host.position = Vector2.ZERO
+	host.size = Vector2(1920, 1080)
+	host.custom_minimum_size = Vector2(1920, 1080)
+	host.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(host)
+	return host

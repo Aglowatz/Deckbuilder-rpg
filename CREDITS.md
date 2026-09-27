@@ -28,6 +28,12 @@ For each asset:
   - License: CC0 (license file in the folder)
   - Notes: used for the player character and town NPCs. Added 2026-09-26.
 
+- **assets/icons/game-icons/** - game-icons.net silhouettes used as placeholder card art and UI glyphs
+  - Authors: Lorc, Delapouite, Sbed, Skoll, Carl Olsen, Cathelineau (each icon sits in its author folder)
+  - Source: https://game-icons.net (repository https://github.com/game-icons/icons)
+  - License: CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/); license.txt kept in the folder
+  - Notes: "Icons made by Lorc, Delapouite, Sbed, Skoll, Carl Olsen and Cathelineau from game-icons.net". Rendered white-on-transparent by a shader; no other modification. Added 2026-09-26.
+
 ## Audio
 
 All sound effects are from Kenney (https://kenney.nl), license CC0 (each pack folder keeps its License.txt). Added 2026-09-26.
