@@ -34,8 +34,8 @@ static func build_map() -> DungeonMap:
 	var start: DungeonMap.MapNode = _node(map, DungeonMap.Kind.START, "Cave Mouth", "The trial begins.", Vector2(0.09, 0.68))
 	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger guards the first chamber.", Vector2(0.27, 0.38))
 	first.enemy_name = "Cave Scavenger"
-	first.enemy_life = 5
-	first.ai_name = "Passive"
+	first.enemy_life = 3
+	first.ai_name = "Aggressive (tutorial)"
 	first.gold_reward = 40
 	first.card_choices = 3
 	first.tutorial = true
@@ -43,8 +43,8 @@ static func build_map() -> DungeonMap:
 	challenge.challenge_id = CHALLENGE_ID
 	var second: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Mossy Gallery", "Something with claws prowls between the roots.", Vector2(0.63, 0.36))
 	second.enemy_name = "Hollow Stalker"
-	second.enemy_life = 4
-	second.ai_name = "Passive"
+	second.enemy_life = 3
+	second.ai_name = "Aggressive (tutorial)"
 	second.gold_reward = 60
 	second.card_choices = 3
 	var shrine: DungeonMap.MapNode = _node(map, DungeonMap.Kind.SHRINE, "Whispering Shrine", "A quiet place to rest before the last chamber.", Vector2(0.78, 0.68))
@@ -53,8 +53,8 @@ static func build_map() -> DungeonMap:
 	shrine.heal_amount = 999
 	var boss: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BOSS, "Heart of the Hollow", "The spring's guardian wakes.", Vector2(0.92, 0.34))
 	boss.enemy_name = "Hollow Warden"
-	boss.enemy_life = 5
-	boss.ai_name = "Passive"
+	boss.enemy_life = 3
+	boss.ai_name = "Balanced"
 	boss.gold_reward = 120
 	boss.card_choices = 3
 	map.connect_nodes(start.id, first.id)
@@ -76,25 +76,26 @@ static func _node(map: DungeonMap, kind: DungeonMap.Kind, title: String, blurb: 
 
 ## Enemy deck recipes: card id (or "land:<A|B|C|D>") -> copies.
 static func enemy_recipe(enemy_name: String) -> Dictionary:
-	# Tutorial-weak: thinner on threats and heavier on lands than a normal deck would be, so a
-	# beginner's deck can beat them reliably (docs/balance_report.md tracks the win rate).
+	# Tutorial-weak (Part D): the two non-boss opponents use only low-stat vanilla creatures
+	# (including 1-cost ones, same as the player's own starter) - no removal spells, no card-draw,
+	# nothing that generates card advantage - and are thinner on threats/heavier on lands than a
+	# normal deck, so a beginner's deck can beat them reliably (docs/balance_report.md tracks the
+	# win rate). The boss is allowed real removal/value (soul_drain, necromancer) and a bigger
+	# body or two - stronger, but still tuned to keep the whole dungeon's win rate above target.
 	match enemy_name:
 		"Cave Scavenger":
 			return {
-				"land:A": 14, "sellsword": 4, "cave_bat": 3, "stone_sentinel": 2, "ember_imp": 2,
-				"raider": 1, "firebolt": 1, "field_medic": 2, "supply_cache": 2, "rusty_curse": 1,
+				"land:A": 17, "apprentice_blade": 1, "sellsword": 3, "cave_bat": 3, "stone_sentinel": 2,
 			}
 		"Hollow Stalker":
 			return {
-				"land:C": 11, "land:B": 6, "sellsword": 3, "cave_bat": 2, "ironclad": 1, "mossback_bear": 1,
-				"rampaging_boar": 1, "stag_warden": 1, "frost_sentry": 1, "rusty_curse": 1,
-				"supply_cache": 2, "merchant": 1,
+				"land:C": 11, "land:B": 8, "apprentice_blade": 1, "sellsword": 2, "cave_bat": 2,
+				"mossback_bear": 2, "frost_sentry": 1,
 			}
 		"Hollow Warden":
 			return {
-				"land:D": 11, "land:C": 9, "bone_servant": 1, "grave_tender": 1, "martyr": 1, "bloodthirst_wolf": 1,
-				"soul_drain": 1, "necromancer": 1, "ironclad": 1, "stone_sentinel": 1, "mossback_bear": 1,
-				"rampaging_boar": 1, "field_medic": 1,
+				"land:D": 12, "land:C": 10, "bone_servant": 1, "grave_tender": 1,
+				"bloodthirst_wolf": 1, "necromancer": 1, "mossback_bear": 1, "rampaging_boar": 1,
 			}
 	return {}
 

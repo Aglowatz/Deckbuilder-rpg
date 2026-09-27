@@ -58,7 +58,7 @@ func test_saved_files_match_the_code_definitions() -> void:
 		assert_eq(saved.effects.size(), defined.effects.size())
 	assert_eq(_content.decks.size(), _defined.decks.size())
 	assert_eq(_content.challenges.size(), 6)
-	assert_eq(_content.personalities.size(), 4)
+	assert_eq(_content.personalities.size(), 5)
 
 
 func test_every_card_is_well_formed() -> void:

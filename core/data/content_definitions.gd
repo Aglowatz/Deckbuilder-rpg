@@ -32,7 +32,7 @@ static func build() -> ContentSet:
 	content.cards = build_cards(content.tokens)
 	content.decks = build_decks(content)
 	content.challenges = ChallengeExamples.all(reward_pool(content.cards))
-	content.personalities = [AIPersonality.balanced(), AIPersonality.aggressive(), AIPersonality.defensive(), AIPersonality.passive()] as Array[AIPersonality]
+	content.personalities = [AIPersonality.balanced(), AIPersonality.aggressive(), AIPersonality.defensive(), AIPersonality.passive(), AIPersonality.aggressive_dumb()] as Array[AIPersonality]
 	return content
 
 

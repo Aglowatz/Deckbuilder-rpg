@@ -195,6 +195,20 @@ func test_attack_bias_changes_willingness_to_attack() -> void:
 	assert_eq(_ai(reckless).choose_action(bad_game).type, GameAction.Type.DECLARE_ATTACKERS, "reckless AI suicides")
 
 
+## Part D: the tutorial's non-boss opponent must actually attack - a fully "Passive" AI never did
+## (docs/design/open_questions.md D50), which made the player's own traps like Pitfall untestable.
+## An even trade is exactly the kind of attack "Passive" (very cautious, attack_bias -1.3) refuses
+## but a real opponent would take; "Aggressive (tutorial)" (attack_bias 2.0, threat_weight ~0)
+## takes it.
+func test_aggressive_dumb_attacks_an_even_trade_that_passive_refuses() -> void:
+	var game: GameState = _combat_game()
+	GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(3, 3))
+	GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(3, 3))
+	game.advance_phase()
+	assert_eq(_ai(AIPersonality.aggressive_dumb()).choose_action(game).type, GameAction.Type.DECLARE_ATTACKERS, "attacks into an even trade")
+	assert_eq(_ai(AIPersonality.passive()).choose_action(game).type, GameAction.Type.PASS, "the old passive personality refuses the same attack")
+
+
 func test_ai_respects_guard() -> void:
 	var guard: Array[CardEnums.Keyword] = [CardEnums.Keyword.GUARD]
 	var game: GameState = _combat_game()

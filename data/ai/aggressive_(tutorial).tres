@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AIPersonality" format=3]
+
+[ext_resource type="Script" path="res://core/ai/ai_personality.gd" id="1_cbi6h"]
+
+[resource]
+script = ExtResource("1_cbi6h")
+personality_name = "Aggressive (tutorial)"
+board_weight = 0.7
+enemy_board_weight = 0.4
+hand_weight = 0.4
+threat_weight = 0.05
+attack_bias = 1.5
+block_bias = -0.3

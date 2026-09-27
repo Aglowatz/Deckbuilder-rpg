@@ -19,12 +19,47 @@ func test_map_shape_and_order() -> void:
 	assert_true(map.node(1).tutorial, "first battle is the tutorial")
 
 
-func test_tutorial_encounters_use_a_forgiving_ai_and_low_life() -> void:
+func test_tutorial_encounters_have_low_life() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
 	for node: DungeonMap.MapNode in map.nodes:
 		if node.kind == DungeonMap.Kind.BATTLE or node.kind == DungeonMap.Kind.BOSS:
-			assert_eq(node.ai_name, "Passive", "%s should be forgiving" % node.title)
 			assert_lt(node.enemy_life, PlayerProfile.START_MAX_LIFE, "%s should have low life" % node.title)
+
+
+## Part D: non-boss opponents attack (an eager "aggressive but dumb" AI, not the old "Passive"
+## that never attacked and made traps untestable); the boss uses a real (smarter) AI and can be a
+## bit stronger, but still forgiving overall (see the simulation win-rate check below).
+func test_non_boss_opponents_use_the_aggressive_dumb_ai_the_boss_does_not() -> void:
+	var map: DungeonMap = TrialOfTheHollow.build_map()
+	for node: DungeonMap.MapNode in map.nodes:
+		if node.kind == DungeonMap.Kind.BATTLE:
+			assert_eq(node.ai_name, "Aggressive (tutorial)", "%s should attack readily" % node.title)
+		elif node.kind == DungeonMap.Kind.BOSS:
+			assert_ne(node.ai_name, "Aggressive (tutorial)", "the boss should play smarter than the tutorial mooks")
+
+
+## Part D: the two non-boss decks are vanilla-only - no removal, no card-draw/advantage - and
+## include 1-cost creatures, same idea as the player's own starter.
+func test_non_boss_decks_are_weak_and_vanilla_with_1_cost_creatures() -> void:
+	var removal_or_draw_ops: Array[CardEnums.EffectOp] = [
+		CardEnums.EffectOp.DESTROY, CardEnums.EffectOp.DRAW, CardEnums.EffectOp.DISCARD,
+		CardEnums.EffectOp.RETURN_TO_HAND, CardEnums.EffectOp.MILL,
+	]
+	for enemy_name: String in ["Cave Scavenger", "Hollow Stalker"]:
+		var deck: Deck = TrialOfTheHollow.enemy_deck(content, enemy_name)
+		var one_cost_creatures: int = 0
+		var seen: Dictionary = {}
+		for card: CardData in deck.cards:
+			if card.is_land() or seen.has(card.id):
+				continue
+			seen[card.id] = true
+			for effect: EffectData in card.effects:
+				assert_false(removal_or_draw_ops.has(effect.op), "%s: %s has removal/card-draw (%s)" % [enemy_name, card.id, effect.op])
+			if card.is_creature():
+				assert_lt(card.power + card.toughness, 8, "%s: %s should be a low-stat creature" % [enemy_name, card.id])
+				if card.mana_value() == 1:
+					one_cost_creatures += 1
+		assert_gt(one_cost_creatures, 0, "%s should include 1-cost creatures" % enemy_name)
 
 
 func test_shrine_before_the_boss_is_a_full_heal() -> void:

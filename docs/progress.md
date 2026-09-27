@@ -692,7 +692,37 @@ out of view (D49, test tooling only, not a product bug).
 `docs/design/combat_rules.md` gained a "Starting deck" section; `docs/design/
 starting_deck_and_affinity.md` was rewritten for the new flow.
 
-## New Part D: tutorial opponent balance - not started
+## New Part D: tutorial opponent balance - done
+
+- **Non-boss opponents are now genuinely weak and vanilla**: Cave Scavenger and Hollow Stalker's
+  decks only use low-stat vanilla creatures (including a 1-cost one, `apprentice_blade`), no
+  removal, no card draw - `field_medic`'s +3 life turned out to be disproportionately strong at
+  this life scale and was cut. Both decks are also much more land-heavy now (65-70%) so the AI
+  frequently has nothing to deploy.
+- **The tutorial AI actually attacks**: a new `AIPersonality.aggressive_dumb()` ("Aggressive
+  (tutorial)") - eager to attack, barely weighs counter-attack risk - replaces the old `passive()`
+  (never attacked, kept as a general-purpose easy personality for later use) on both non-boss
+  encounters. Since opponent traps are already hidden from the AI's clones, an eager-but-blind
+  attacker walks into the player's traps (Pitfall etc.) exactly like a real opponent would.
+- **The boss is a real step up but still fair**: `balanced()` personality (smarter than the
+  tutorial mooks, not the full min-maxing `aggressive()`), a few real effects (a death trigger,
+  token generation from `necromancer`) instead of all-vanilla, life dropped to 3 to keep the whole
+  dungeon's win rate on target.
+- **Simulation harness extended** (`core/sim/dungeon_simulation.gd`): now simulates each element's
+  real 42-card starter deck (not the old fixed neutral template) with the 3 on-element reward
+  picks added along the way exactly like a real playthrough (`reward_color` param, `DungeonRun.
+  gain_card`), and counts real enemy attack declarations (`RunResult.enemy_attacks`) to confirm
+  Part D's fix. `tools/run_dungeon_simulation.gd` now runs all four elements and writes a
+  per-element table to `docs/balance_report.md`.
+- **Result: 500 runs per element (2000 total), 85.2-91.0% per element (target 85%), 88.3%
+  overall, 9,472 real enemy attacks recorded** - see `docs/balance_report.md`. Getting from the
+  initial ~38% (once the AI actually started attacking) back above target took life cuts, deck
+  thinning and toning the boss's AI/deck down together - see D51 for the full tuning story.
+
+295 GUT tests pass (new: `test_dungeon_simulation.gd`; extended `test_trial.gd` and
+`test_ai_player.gd` for the new personality/decks). The general (non-tutorial) balance report was
+also regenerated since the two new neutral cards and the Wanderer's Pack template's new 42-card
+size changed it slightly (noted inline in `balance_report.md`).
 ## New Part E: player progression (levels 1-30) - not started
 ## New Part F: deck color rule - not started
 ## New Part G: zone portals - not started
