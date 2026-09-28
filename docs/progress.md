@@ -801,4 +801,32 @@ Confirmed both halves the brief asks for:
 
 316 GUT tests pass (1 new).
 
-## New Part G: zone portals - not started
+## New Part G: zone portals - done
+
+5 placeholder portals in town (one per element, one for the final area), each leading to a small
+reusable "coming soon" scene - no real zones built, exactly as scoped.
+
+- **`ZonePortals`** (`world/zone_portals.gd`): the one source of truth for the 5 identities - id,
+  display name ("Ember Reaches" ... "The Final Depths"), and tint, reusing the same
+  `UIStyle.affinity_color`/`affinity_name` palette as everything else (card frames, land icons).
+- **In town**: `TownBuilder._build_zone_portals()` places a `tower_A` building, tinted per zone
+  (the same `ModelKit.tint` trick already used for grass tiles - no new art needed), in the Harbor
+  Quarter's previously-empty open plots (D38 called these out as unused). Each is a normal
+  interactable `Spot` ("[E] Enter"), wired through `TownScene._use_zone_portal` ->
+  `Session.enter_zone_portal(id)`.
+- **The reusable template**: `ZonePlaceholderBuilder` + `ZonePlaceholderScene`
+  (`scenes/zone_placeholder.tscn`) - a tiny enclosed clearing (mirrors `StartingAreaBuilder`'s
+  shape/scale), a sign reading "`<Zone name>` / - coming soon -" tinted to match, and a portal
+  straight back to town (E/Space/Click, same convention as everywhere else). One script, one
+  scene: which of the 5 zones it represents comes entirely from `Session.pending_zone_id`, so a
+  real zone replaces this outright later rather than extending it.
+- **A real bug found by screenshot review**: the placeholder clearing's ground first rendered a
+  muddy brown instead of green - `ModelKit.tile("hex_grass")` already applies its own tint
+  internally, and re-tinting on top of that with the zone's color multiplied the two together.
+  Fixed by leaving the ground alone and tinting only the portal structure (D61).
+- **e2e**: `tools/e2e_demo.gd` now walks to the Ember portal, enters it, confirms it is really the
+  Ember placeholder (`scene.info.id == "ember"`), and walks back out to town, as part of the full
+  run.
+
+316 GUT tests pass (no `core/` changes - this part is presentation only, per the brief). See D60
+for the tinting/placement choices and D61 for the bug.

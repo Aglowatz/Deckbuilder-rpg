@@ -501,6 +501,17 @@ func start_battle(context: BattleContext) -> void:
 	SceneManager.change_scene("res://scenes/battle.tscn")
 
 
+# ---- Zone portals (Part G) ---------------------------------------------------------------
+
+## Which placeholder zone (`ZonePortals.Info.id`) the placeholder scene should show.
+var pending_zone_id: String = ""
+
+
+func enter_zone_portal(zone_id: String) -> void:
+	pending_zone_id = zone_id
+	SceneManager.change_scene("res://scenes/zone_placeholder.tscn")
+
+
 ## Called by the battle screen when the player leaves the result panel.
 func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
@@ -556,6 +567,14 @@ func complete_trial() -> void:
 	if run != null:
 		deck = run.current_deck()
 		deck.deck_name = DECK_NAME
+		# Safety net: the Hollow Well challenge can cost a card (D51/D62) - normally the 3
+		# reward picks land exactly on 45, but if the challenge went badly the player would
+		# otherwise walk into town one card short of a legal deck. A basic land of their own
+		# color always keeps it legal without changing the "3 on-element picks" story.
+		if deck.size() < DeckValidator.MIN_DECK_SIZE:
+			var land: CardData = content.lands[int(profile.primary_affinity)] as CardData
+			while deck.size() < DeckValidator.MIN_DECK_SIZE:
+				deck.cards.append(land)
 	profile.intro_dungeon_cleared = true
 	set_flag(&"trial_cleared")
 	run = null

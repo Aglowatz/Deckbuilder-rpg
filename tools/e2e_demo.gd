@@ -72,6 +72,8 @@ func run() -> void:
 			await _battle(scene as BattleScreen)
 		elif scene is RewardsScreen:
 			await _rewards(scene as RewardsScreen)
+		elif scene is ZonePlaceholderScene:
+			await _zone_placeholder(scene as ZonePlaceholderScene)
 		else:
 			await driver.frames(10)
 		var key: String = _progress_key()
@@ -280,8 +282,42 @@ func _town(scene: TownScene) -> void:
 		_did["deck"] = true
 		await _interact(scene, "deck")
 		return
+	if not _did.has("portal"):
+		_did["portal"] = true
+		await _interact(scene, "portal_ember")
+		return
 	_final_checks(scene)
 	_did["finished"] = true
+
+
+## Part G: a placeholder zone portal - walk in, check the sign/tint, walk back out.
+func _zone_placeholder(scene: ZonePlaceholderScene) -> void:
+	_check(scene.info != null and scene.info.id == "ember", "the Ember portal leads to the Ember placeholder zone")
+	await _walk_to_portal(scene)
+	await driver.frames(4)
+	await driver.tap_key(KEY_E)
+	await driver.seconds(1.0)
+
+
+func _walk_to_portal(scene: ZonePlaceholderScene) -> void:
+	var portal: Vector3 = scene.area.anchors.get("portal", Vector3.ZERO) as Vector3
+	var elapsed: float = 0.0
+	while elapsed < 6.0:
+		var offset: Vector3 = portal - scene.player.position
+		offset.y = 0.0
+		if offset.length() < ZonePlaceholderScene.INTERACT_RADIUS * 0.55:
+			break
+		await _hold(KEY_W, offset.z < -0.35)
+		await _hold(KEY_S, offset.z > 0.35)
+		await _hold(KEY_A, offset.x < -0.35)
+		await _hold(KEY_D, offset.x > 0.35)
+		await driver.frames(2)
+		elapsed += 2.0 / 60.0
+	for key: Key in [KEY_W, KEY_A, KEY_S, KEY_D]:
+		await _hold(key, false)
+	if Vector2(scene.player.position.x - portal.x, scene.player.position.z - portal.z).length() >= ZonePlaceholderScene.INTERACT_RADIUS:
+		scene.player.position = portal + Vector3(0, 0, 0.4)
+		await driver.frames(3)
 
 
 ## Part C: the player only ever owns 3 of their own element's cards (the tutorial reward picks) -
@@ -475,7 +511,7 @@ func _rewards(scene: RewardsScreen) -> void:
 	if enter_town != null:
 		_check(Session.flag(&"trial_cleared"), "the trial is marked cleared once the boss falls")
 		_check(Session.profile.intro_dungeon_cleared, "the intro dungeon is marked cleared")
-		_check(Session.deck.size() == 45, "the deck grew to 45 cards via the 3 on-element reward picks")
+		_check(Session.deck.size() == 45, "the deck grew to 45 cards via the 3 on-element reward picks (or was padded to exactly 45 if the Hollow Well cost one, D62)")
 		_check(Session.deck_is_valid(), "the finished starter deck is a legal, plain (unwaived) deck")
 		await driver.seconds(1.5)
 		await driver.click(driver.button_center(enter_town))

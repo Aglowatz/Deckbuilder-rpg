@@ -49,6 +49,7 @@ func build(parent: Node3D, decorate_far: bool = true) -> void:
 	if decorate_far:
 		_build_far_scenery()
 	_build_props()
+	_build_zone_portals()
 
 
 func cell_center(col: int, row: int) -> Vector3:
@@ -188,6 +189,27 @@ func _build_props() -> void:
 	ModelKit.place(root, ModelKit.prop("ladder"), lever_pos, 90.0, 1.0)
 	obstacles.append(Vector3(lever_pos.x, lever_pos.z, 0.2))
 	anchors["lever"] = lever_pos + Vector3(0.4, 0, 0.2)
+
+
+## Part G: 5 placeholder portals in the Harbor Quarter's open plots (a `tower_A` shape, tinted
+## per-element like the hex grass tiles are, so each is visually distinct without new art) - one
+## per element plus the final area. Each leads to `ZonePlaceholderScene`, a reusable "coming soon"
+## template (`Session.enter_zone_portal`); no real zone is built here.
+const PORTAL_CELLS: Dictionary = {
+	"ember": Vector2i(10, 3), "tide": Vector2i(13, 3), "root": Vector2i(10, 6),
+	"grave": Vector2i(13, 5), "final": Vector2i(10, 2),
+}
+
+
+func _build_zone_portals() -> void:
+	for info: ZonePortals.Info in ZonePortals.all():
+		var cell: Vector2i = PORTAL_CELLS.get(info.id, Vector2i.ZERO) as Vector2i
+		var center: Vector3 = cell_center(cell.x, cell.y)
+		var portal: Node3D = ModelKit.building("tower_A")
+		ModelKit.tint(portal, info.tint)
+		ModelKit.place(root, portal, center, 0.0, 1.05)
+		obstacles.append(Vector3(center.x, center.z, 0.85))
+		anchors["portal_%s" % info.id] = center + Vector3(0, 0, 1.0)
 
 
 func _prop(model: String, position: Vector3, yaw: float, model_scale: float, radius: float) -> void:

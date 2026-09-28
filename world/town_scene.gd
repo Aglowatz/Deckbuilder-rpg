@@ -158,6 +158,10 @@ func _build_spots() -> void:
 	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
 	if Session.found_secret(HIDDEN_VENDOR_SECRET):
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
+	# Part G: 5 placeholder zone portals (one per element, one for the final area) - see
+	# ZonePortals/ZonePlaceholderScene. Real zones are not built this pass.
+	for info: ZonePortals.Info in ZonePortals.all():
+		_add_spot("portal_%s" % info.id, "%s (coming soon)" % info.display_name, town.anchors["portal_%s" % info.id] as Vector3, 1.6)
 
 
 func _add_spot(id: String, title: String, position: Vector3, radius: float) -> void:
@@ -287,6 +291,8 @@ func _prompt_text(spot: Spot) -> String:
 			return "Pull the lever"
 		"vault":
 			return "Open the vault" if Session.flag(VAULT_LEVER_FLAG) else "Try the sealed door"
+	if spot.id.begins_with("portal_"):
+		return "Enter"
 	return spot.title
 
 
@@ -348,6 +354,9 @@ func _interact(spot: Spot) -> void:
 			_open_vault()
 		"hidden_vendor":
 			_talk_hidden_vendor()
+		_:
+			if spot.id.begins_with("portal_"):
+				_use_zone_portal(spot.id.trim_prefix("portal_"))
 
 
 func _face_npc(id: String) -> void:
@@ -545,6 +554,17 @@ func _open_vendor() -> void:
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 	EventBus.tutorial_event.emit(&"vendor_opened")
+
+
+## Part G: a placeholder zone portal. Loads the reusable "coming soon" template
+## (ZonePlaceholderScene) - no real zone exists yet for any of the 5.
+func _use_zone_portal(zone_id: String) -> void:
+	var info: ZonePortals.Info = ZonePortals.find(zone_id)
+	if info == null:
+		return
+	player.face(town.anchors["portal_%s" % zone_id] as Vector3)
+	Audio.sfx(&"door")
+	Session.enter_zone_portal(zone_id)
 
 
 func _use_gate() -> void:
