@@ -22,11 +22,13 @@ For each asset:
   - Source: https://github.com/KayKit-Game-Assets/KayKit-Medieval-Hexagon-Pack-1.0 (also https://kaylousberg.itch.io)
   - License: CC0 (license file in the folder)
   - Notes: only the files actually used were copied; the albedo of the grass tile is tinted at runtime. Added 2026-09-26.
-- **assets/KayKit-Character-Pack-Adventures-1.0/** - Character Pack: Adventurers (Knight, Mage, Rogue_Hooded, Barbarian with animations)
+- **assets/KayKit-Character-Pack-Adventures-1.0/** - Character Pack: Adventurers (Knight, Mage, Rogue_Hooded, Barbarian, Rogue with animations)
   - Author: Kay Lousberg (KayKit)
   - Source: https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0
   - License: CC0 (license file in the folder)
-  - Notes: used for the player character and town NPCs. Added 2026-09-26.
+  - Notes: used for the player character and town NPCs (including the 4 corrupted NPCs, Part E,
+    tinted per element - no new pack, just one more file from this one: Rogue.glb). Added
+    2026-09-26, Rogue.glb added 2026-09-28.
 - **assets/KayKit-Dungeon-Remastered-1.0/props/chest_gold.glb** - a treasure chest prop, same
   low-poly family as the other KayKit packs already in use
   - Author: Kay Lousberg (KayKit)

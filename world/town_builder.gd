@@ -225,6 +225,13 @@ func _build_props() -> void:
 	anchors["npc_well"] = (anchors.get("well", Vector3.ZERO) as Vector3) + Vector3(1.5, 0, 0.6)
 	anchors["npc_gate"] = gate + Vector3(-2.0, 0, 0.9)
 	anchors["npc_market"] = market + Vector3(0.1, 0, 0.55)
+	# New brief, Part E: 4 corrupted NPCs, one per element district, close enough to their own
+	# district's edge gate to read as "belongs to that zone" without blocking the district's main
+	# path. Visual corruption (tint + particle effect) is TownScene's job, not the builder's.
+	anchors["npc_ember"] = cell_center(5, 10) + Vector3(0.3, 0, 0.4)
+	anchors["npc_tide"] = cell_center(16, 3) + Vector3(-0.3, 0, 0.4)
+	anchors["npc_root"] = cell_center(-3, 2) + Vector3(0.3, 0, -0.3)
+	anchors["npc_grave"] = cell_center(-3, 11) + Vector3(0.3, 0, 0.3)
 	# Secluded Grove secrets: a chest tucked behind trees, and the old lever that seals the vault.
 	var chest_pos: Vector3 = cell_center(11, 7) + Vector3(-0.3, 0, 0.4)
 	ModelKit.place(root, ModelKit.dungeon_prop("chest_gold"), chest_pos, 40.0, 0.9)

@@ -7,6 +7,9 @@ extends RefCounted
 var driver: UiDriver
 var screen: BattleScreen
 var dragged_once: bool = false
+## Cards that turned out to have no legal target this turn (cleared at End Turn) - avoids
+## re-picking the same uncastable card forever once its only target(s) are gone.
+var _skip_this_turn: Array[int] = []
 
 
 func _init(ui_driver: UiDriver, battle: BattleScreen) -> void:
@@ -55,11 +58,17 @@ func act() -> void:
 				await driver.click(_view_center(card.uid))
 			await driver.click_button("Discard")
 		BattleScreen.Mode.TARGETING:
-			var target: int = screen._target_options[0]
-			if target > 0:
-				await driver.click(_view_center(target))
+			if screen._target_options.is_empty():
+				# No legal target for whatever is pending (e.g. cast on an empty board) - back out
+				# rather than indexing an empty array, and don't pick this card again this turn.
+				_skip_this_turn.append(screen._target_source)
+				await driver.click_button("Cancel")
 			else:
-				await driver.click(screen.hud.portrait_rect(Targets.player_index(target)).get_center())
+				var target: int = screen._target_options[0]
+				if target > 0:
+					await driver.click(_view_center(target))
+				else:
+					await driver.click(screen.hud.portrait_rect(Targets.player_index(target)).get_center())
 
 
 func _act_main(game: GameState) -> void:
@@ -70,7 +79,7 @@ func _act_main(game: GameState) -> void:
 			return
 	var best: CardInstance = null
 	for card: CardInstance in player.hand:
-		if not card.data.is_land() and game.can_cast(0, card.uid):
+		if not card.data.is_land() and game.can_cast(0, card.uid) and not _skip_this_turn.has(card.uid):
 			if best == null or card.data.mana_value() > best.data.mana_value():
 				best = card
 	if best != null:
@@ -80,6 +89,7 @@ func _act_main(game: GameState) -> void:
 		else:
 			await driver.click(_view_center(best.uid))
 		return
+	_skip_this_turn.clear()
 	var next: Button = driver.find_button("To Combat")
 	if next == null:
 		next = driver.find_button("End Turn")

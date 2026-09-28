@@ -794,8 +794,10 @@ func _show_result() -> void:
 	if game.is_draw:
 		detail = "Neither side could finish the game."
 	column.add_child(UIKit.label(detail, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
-	if not won and not context.practice:
+	if not won and not context.practice and context.town_npc_id.is_empty():
 		column.add_child(UIKit.label("You are carried out of the dungeon. Your collection is safe.", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	elif not won and not context.town_npc_id.is_empty():
+		column.add_child(UIKit.label("You can challenge them again anytime.", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	var button: FancyButton = FancyButton.make("Continue", &"PrimaryButton", Vector2(240, 60))
 	button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	button.pressed.connect(_continue)

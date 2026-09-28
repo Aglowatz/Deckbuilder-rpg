@@ -1049,3 +1049,40 @@ whoever revisits it: `docs/design/open_questions.md` D67.
 Tests: 317 core tests unchanged (no core/ change - Session.add_item is new but is a thin,
 directly-tested-by-usage wrapper matching the existing add_cards/add_gold pattern); the extended
 town interact smoke test (real windowed input) passes.
+
+## Part E: 4 corrupted NPC encounters - done
+
+4 corrupted NPCs, one per element zone, placed around town (not clustered) and visually distinct:
+a darkened-yet-legible element tint plus a slow, element-colored particle drift, on one of the
+KayKit Adventurers models (a 5th, `Rogue`, was added - see D70). Talking plays a short
+placeholder line (corrupted, hinting at their zone - `data/story/intro_story.tres`,
+`StoryText.npc_intro_lines` etc., not hardcoded in a scene script), then starts a real duel using
+the player's actual current deck/profile against the NPC's own mono-color deck (only that
+element's cards, no neutral) at 15 life. Winning shows a calmer "freed" line and a first-time
+reward (60 XP/130 gold, reusing `EncounterRewards`' existing Elite tier, plus one item); it also
+unlocks that element's zone entrance (Part C's `"<id>_zone_unlocked"` flag - the contract D66
+promised is now fulfilled, so all 5 entrances work end to end). Losing shows a short line; either
+way, the NPC can always be challenged again (D68) - only the first win ever pays out.
+
+**Balance**: verified by simulation, not by feel. `tools/run_corrupted_npc_simulation.gd` plays a
+"typical level-3 player deck" (the 42-card starter plus 3 on-element picks, level-3 stats) of
+each of the 4 starting elements against each corrupted NPC, 800 games per NPC, and
+writes/updates the "Corrupted NPCs" section of `docs/balance_report.md`. All 4 land in the
+55-70% target band (61.9-67.0% overall); tuning notes (what actually moved the needle, and what
+didn't) are in D71. This took real iteration - the first hand-tuned decks were badly off-target
+(33.6-48.3% player win rate, i.e. the NPCs were too strong) and needed several simulate-adjust
+cycles per NPC, not a single guess.
+
+Verified end to end with real injected input, not just unit tests: `tests/core/dungeon/
+test_corrupted_npcs.gd` (deck legality/mono-color, 15 life, AI/reward resolution - GUT, no scene
+needed) plus a new `tools/corrupted_npc_smoke.gd` (`tools/run_corrupted_npc_smoke.sh`) that walks
+to Torvin (Ember), talks, confirms a real battle starts with the right opponent, plays the full
+duel out for real with `BattlePilot` (a genuine, uncertain outcome - not scripted to win), and
+confirms the town-side result (dialogue, reward, zone-unlock) matches whatever actually happened.
+Fixed a real latent bug in the shared `BattlePilot` test tool while writing this (it indexed
+`_target_options[0]` assuming a spell always has at least one legal target, which crashed against
+a card with none available - now backs out via Cancel and skips that card for the rest of the
+turn instead of retrying it forever).
+
+Tests: 324 total (7 new); the new corrupted-NPC smoke test and the extended town interact smoke
+test (real windowed input) both pass.

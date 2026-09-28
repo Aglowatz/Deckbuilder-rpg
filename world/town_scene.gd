@@ -17,6 +17,8 @@ class Spot:
 
 
 const CAMERA_OFFSET: Vector3 = Vector3(0.0, 8.4, 7.0)
+## New brief, Part E: corrupted-NPC dialogue lines live here, not hardcoded in this script.
+const STORY_PATH: String = "res://data/story/intro_story.tres"
 ## Three placeholder secrets proving the Condition system (docs/design/open_questions.md D38):
 ## a hidden chest, a locked vault that opens once its lever is pulled, and a hidden vendor who
 ## only appears once the chest has been found.
@@ -24,7 +26,10 @@ const HIDDEN_CHEST_SECRET: String = "harbor_chest"
 const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
 const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## True for spots that are people to talk to, as opposed to objects/gates.
-const NPC_SPOT_IDS: Array[String] = ["elder", "guard", "vendor", "hidden_vendor"]
+const NPC_SPOT_IDS: Array[String] = [
+	"elder", "guard", "vendor", "hidden_vendor",
+	"npc_ember", "npc_tide", "npc_root", "npc_grave",
+]
 ## How close (in screen pixels) a click has to land to a spot's marker to count as
 ## "clicking the NPC", since the fixed camera has no 3D picking set up.
 const CLICK_PICK_RADIUS: float = 90.0
@@ -93,6 +98,7 @@ func _ready() -> void:
 	if Session.town_notice != "":
 		hud.toast(Session.town_notice, UIStyle.GOLD)
 		Session.town_notice = ""
+	_show_npc_result.call_deferred()
 	Session.save_game()
 
 
@@ -126,6 +132,10 @@ func _build_actors() -> void:
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
 	if Session.found_secret(HIDDEN_VENDOR_SECRET):
 		_add_npc("hidden_vendor", "Rogue_Hooded", town.anchors["hidden_vendor"] as Vector3, 100.0)
+	# New brief, Part E: the 4 corrupted NPCs stay in town, and stay challengeable, even after
+	# being freed (D68) - only their dialogue changes on later visits, not their presence/look.
+	for npc_id: String in CorruptedNpcs.IDS:
+		_add_corrupted_npc(npc_id)
 	# The Wellspring glows: a light and rising motes.
 	var well: Vector3 = (town.anchors["well"] as Vector3) + Vector3(0, 0, -0.9)
 	_well_light = OmniLight3D.new()
@@ -159,8 +169,10 @@ func _build_actors() -> void:
 	add_child(_well_particles)
 
 
-func _add_npc(id: String, model_name: String, position: Vector3, yaw: float) -> void:
+func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tint: Color = Color.WHITE) -> void:
 	var npc: Node3D = ModelKit.character(model_name)
+	if tint != Color.WHITE:
+		ModelKit.tint(npc, tint)
 	ModelKit.place(self, npc, position, yaw, TownPlayer.MODEL_SCALE)
 	var animation: AnimationPlayer = ModelKit.animation_player(npc)
 	if animation != null and animation.has_animation("Idle"):
@@ -168,6 +180,47 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float) -> 
 		animation.seek(randf() * 1.5)
 	_npcs[id] = npc
 	town.obstacles.append(Vector3(position.x, position.z, 0.3))
+
+
+## New brief, Part E: the 4 corrupted NPCs - a dark, element-tinted character plus a slow,
+## element-colored particle drift (corruption made visible), distinct from the Wellspring's
+## bright rising motes.
+const CORRUPTED_NPC_MODELS: Dictionary = {
+	"ember": "Barbarian", "tide": "Mage", "root": "Rogue", "grave": "Rogue_Hooded",
+}
+
+
+func _add_corrupted_npc(id: String) -> void:
+	var position: Vector3 = town.anchors["npc_%s" % id] as Vector3
+	# A plain multiply-tint reads as "muddy" over these characters' own brown/tan textures at
+	# normal brightness, so this leans bright+saturated rather than dark - it needs to win against
+	# the base texture, not just shade it (confirmed by eye, not guessed - see D69).
+	var tint: Color = UIStyle.affinity_color(CorruptedNpcs.element(id)).lightened(0.25) * 1.4
+	_add_npc("npc_%s" % id, str(CORRUPTED_NPC_MODELS.get(id, "Rogue")), position, randf() * 360.0, tint)
+	var particles: CPUParticles3D = CPUParticles3D.new()
+	particles.position = position + Vector3(0, 0.9, 0)
+	particles.amount = 14
+	particles.lifetime = 2.2
+	particles.direction = Vector3.UP
+	particles.spread = 40.0
+	particles.initial_velocity_min = 0.2
+	particles.initial_velocity_max = 0.5
+	particles.gravity = Vector3(0, 0.15, 0)
+	particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	particles.emission_sphere_radius = 0.4
+	var mote: SphereMesh = SphereMesh.new()
+	mote.radius = 0.03
+	mote.height = 0.06
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	var glow: Color = UIStyle.affinity_color(CorruptedNpcs.element(id))
+	material.albedo_color = glow
+	material.emission_enabled = true
+	material.emission = glow
+	material.emission_energy_multiplier = 2.2
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mote.material = material
+	particles.mesh = mote
+	add_child(particles)
 
 
 func _build_spots() -> void:
@@ -183,6 +236,9 @@ func _build_spots() -> void:
 	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
 	if Session.found_secret(HIDDEN_VENDOR_SECRET):
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
+	# New brief, Part E: the 4 corrupted NPCs.
+	for npc_id: String in CorruptedNpcs.IDS:
+		_add_spot("npc_%s" % npc_id, CorruptedNpcs.display_name(npc_id), town.anchors["npc_%s" % npc_id] as Vector3, 1.5)
 	# Part G: 5 placeholder zone portals (one per element, one for the final area), now at the
 	# edges of the (bigger) map - see ZonePortals/ZonePlaceholderScene. Real zones are not built
 	# this pass. New brief, Part C/E: the 4 element entrances start locked (see
@@ -191,10 +247,10 @@ func _build_spots() -> void:
 		_add_spot("portal_%s" % info.id, "%s (coming soon)" % info.display_name, town.anchors["portal_%s" % info.id] as Vector3, 1.6)
 
 
-## New brief, Part E sets this flag on defeating the matching corrupted NPC; the final entrance
-## has no NPC and is never locked.
+## New brief, Part E sets this flag (via CorruptedNpcs.unlock_flag, the single source of truth)
+## on defeating the matching corrupted NPC; the final entrance has no NPC and is never locked.
 static func _portal_unlock_flag(zone_id: String) -> StringName:
-	return StringName("%s_zone_unlocked" % zone_id)
+	return CorruptedNpcs.unlock_flag(zone_id)
 
 
 func _portal_is_locked(zone_id: String) -> bool:
@@ -459,6 +515,8 @@ func _interact(spot: Spot) -> void:
 		_:
 			if spot.id.begins_with("portal_"):
 				_use_zone_portal(spot.id.trim_prefix("portal_"))
+			elif spot.id.begins_with("npc_") and spot.id.trim_prefix("npc_") in CorruptedNpcs.IDS:
+				_talk_corrupted_npc(spot.id.trim_prefix("npc_"))
 
 
 func _face_npc(id: String) -> void:
@@ -473,6 +531,47 @@ func _talk_npc(id: String, speaker: String, lines: Array[String]) -> void:
 	_face_npc(id)
 	dialogue.start(speaker, lines)
 	EventBus.tutorial_event.emit(StringName("talked_" + id))
+
+
+## New brief, Part E: shown once, right after returning from a corrupted-NPC battle - the
+## post-fight dialogue (freed/calmer on a win, short on a loss - see docs/design/open_questions.md
+## D68) and, on a first win only, a reward toast. Session.pending_npc_result is {} otherwise (town
+## reached any other way), so this is a no-op almost all the time.
+func _show_npc_result() -> void:
+	if Session.pending_npc_result.is_empty():
+		return
+	var result: Dictionary = Session.pending_npc_result
+	Session.pending_npc_result = {}
+	var id: String = str(result.get("id", ""))
+	if not (id in CorruptedNpcs.IDS):
+		return
+	var won: bool = bool(result.get("won", false))
+	var story: StoryText = load(STORY_PATH) as StoryText
+	var lines: Array[String] = [] as Array[String]
+	if story != null:
+		lines = story.npc_victory_lines(id) if won else story.npc_defeat_lines(id)
+	_face_npc("npc_%s" % id)
+	dialogue.start(CorruptedNpcs.display_name(id), lines)
+	if bool(result.get("first_win", false)):
+		var reward_text: String = "+%d gold, +%d XP" % [CorruptedNpcs.reward_gold(), CorruptedNpcs.reward_xp()]
+		var item_name: String = str(result.get("item_name", ""))
+		if not item_name.is_empty():
+			reward_text += ", %s" % item_name
+		dialogue.finished.connect(func() -> void: hud.toast(reward_text, UIStyle.GOLD), CONNECT_ONE_SHOT)
+
+
+## New brief, Part E: talking to a corrupted NPC always plays a short line (corrupted/hinting at
+## their zone before they're freed, calmer/still hinting after) and then starts the fight - win or
+## lose, they can always be challenged again (D68); only a first win pays out.
+func _talk_corrupted_npc(id: String) -> void:
+	_face_npc("npc_%s" % id)
+	var story: StoryText = load(STORY_PATH) as StoryText
+	var defeated: bool = Session.flag(CorruptedNpcs.unlock_flag(id))
+	var lines: Array[String] = [] as Array[String]
+	if story != null:
+		lines = story.npc_victory_lines(id) if defeated else story.npc_intro_lines(id)
+	dialogue.start(CorruptedNpcs.display_name(id), lines)
+	dialogue.finished.connect(func() -> void: Session.challenge_corrupted_npc(id), CONNECT_ONE_SHOT)
 
 
 func _elder_lines() -> Array[String]:
@@ -808,12 +907,12 @@ func _refresh_objective() -> void:
 func _teleport(spot_id: String) -> void:
 	for spot: Spot in spots:
 		if spot.id == spot_id:
-			player.position = spot.position + Vector3(0.0, 0.0, 0.5)
+			player.position = spot.position + Vector3(0.0, 0.0, 1.8)
 			_camera.position = player.position + CAMERA_OFFSET
 			return
 	# Hidden chests (Part D) have no Spot - a dev-only screenshot convenience, not a gameplay path.
 	if town.anchors.has(spot_id):
-		player.position = (town.anchors[spot_id] as Vector3) + Vector3(0.0, 0.0, 0.5)
+		player.position = (town.anchors[spot_id] as Vector3) + Vector3(0.0, 0.0, 1.8)
 		_camera.position = player.position + CAMERA_OFFSET
 
 

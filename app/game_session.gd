@@ -509,6 +509,60 @@ func start_battle(context: BattleContext) -> void:
 	SceneManager.change_scene("res://scenes/battle.tscn")
 
 
+# ---- Corrupted NPCs (new brief, Part E) --------------------------------------------------
+
+## Set by _complete_npc_challenge, read once by TownScene._ready() to show the right post-fight
+## dialogue (and, on a first win, the reward toast), then cleared. {} when there is nothing to
+## show (e.g. town was reached some other way).
+var pending_npc_result: Dictionary = {}
+
+
+## A duel against one of the 4 corrupted NPCs, using the player's real current deck/profile (not
+## a "typical" reference deck - that only exists for balance simulation, see
+## core/dungeon/corrupted_npcs.gd). Full life, like a fresh duel - not carried over from anywhere.
+func make_npc_challenge_battle(id: String) -> BattleContext:
+	ensure_game()
+	var options: GameOptions = GameOptions.new()
+	options.first_player = -1
+	options.rng_seed = rng.randi() % 1000000 + 1
+	var game: GameState = GameState.new(options)
+	game.add_player(PlayerSetup.create(deck, profile, [] as Array[ModifierSource], "You"))
+	game.add_player(CorruptedNpcs.enemy_setup(content, id))
+	game.start()
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(CorruptedNpcs.personality(content, id))
+	context.enemy_name = CorruptedNpcs.display_name(id)
+	context.town_npc_id = id
+	return context
+
+
+func challenge_corrupted_npc(id: String) -> void:
+	start_battle(make_npc_challenge_battle(id))
+
+
+## Winning the first time grants a one-time reward (gold, XP, an item) and unlocks that element's
+## zone entrance (D66's contract). Rematches (win or lose) are always allowed but never pay out
+## again - see docs/design/open_questions.md D68 for why repeatable-but-unrewarded was chosen
+## over "they no longer fight".
+func _complete_npc_challenge(context: BattleContext) -> void:
+	var id: String = context.town_npc_id
+	var already_defeated: bool = flag(CorruptedNpcs.unlock_flag(id))
+	var first_win: bool = context.won and not already_defeated
+	pending_npc_result = {"id": id, "won": context.won, "first_win": first_win}
+	if first_win:
+		set_flag(CorruptedNpcs.unlock_flag(id))
+		add_gold(CorruptedNpcs.reward_gold())
+		var gained: Array[LevelData] = add_xp(CorruptedNpcs.reward_xp())
+		pending_npc_result["levels_gained"] = gained
+		var item: ItemData = CorruptedNpcs.reward_item(content, id)
+		if item != null:
+			add_item(item)
+			pending_npc_result["item_name"] = item.display_name
+	save_game()
+	SceneManager.go_to_town()
+
+
 # ---- Zone portals (Part G) ---------------------------------------------------------------
 
 ## Which placeholder zone (`ZonePortals.Info.id`) the placeholder scene should show.
@@ -523,6 +577,9 @@ func enter_zone_portal(zone_id: String) -> void:
 ## Called by the battle screen when the player leaves the result panel.
 func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
+	if not context.town_npc_id.is_empty():
+		_complete_npc_challenge(context)
+		return
 	if not in_dungeon():
 		SceneManager.go_to_town()
 		return
