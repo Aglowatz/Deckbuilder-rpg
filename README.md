@@ -22,23 +22,33 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
    Ember, Tide, Root, Grave), each shown with its identity, playstyle and key cards. Every card in
    the deck you pick joins your collection immediately, and the road to town opens.
 6. **Town** (same controls: **WASD**/arrows to move, **E**/**Space**/click to interact, **Esc** for
-   the pause menu) is about 2.4x its original size, in three districts:
+   the pause menu, **B** to open the deck builder from anywhere, **C** for the character screen)
+   is about 3x the size of its original core, in several districts:
    - **The original core**: **Elder Maren** and **Gatekeeper Brannoch** (story/advice), the
      **Wellspring** (now a flavor spot - it already recognizes your color), **Sable the Trader**
      (buy cards with gold - stock starts small and grows as you spend and explore, with locked
-     cards shown as "???"), the **Deck Station** (browse your collection with filters, build and
-     save decks - a legal deck has at least 45 cards, at most 3 copies of a card and at most 2
-     colors), and the **dungeon gate** (north) to replay the Trial for gold.
+     cards shown as "???"), the **Deck Station** (a flavorful way to reach the deck builder - the
+     **B** hotkey/HUD button open the exact same screen from anywhere in town), and the
+     **dungeon gate** (north) to replay the Trial for gold.
    - **The Harbor Quarter** (east, across the canal bridge near the market): the **Hall of
      Records** (the Codex - every card in the game, cards you have not yet owned, bought or faced
-     in battle show as a silhouette) and open plots left for future vendors.
+     in battle show as a silhouette) and **Wick's Supplies** (buy consumable items with gold, then
+     equip up to your item-slot limit from the Character screen to carry them into a fight).
    - **The Secluded Grove** (south of the spawn point): three placeholder secrets - a hidden chest
      behind the trees, a sealed vault and the easy-to-miss lever that opens it, and a hidden vendor
      who only appears once you have found the chest.
+   - **West Woods, Harbor Dock, North Uplands, Ember Flats and Grave Hollow**: 5 new outer
+     districts, each with a corrupted NPC to find and fight (a mono-color deck, 15 life - defeat
+     them for a one-time reward and to unlock that element's entrance) and a hidden chest tucked
+     away with no marker of any kind - the standard interact prompt only shows up within about
+     1.5m. Each district ends at an edge entrance to a zone (placeholder "coming soon" areas for
+     now); the 4 element entrances stay sealed behind a translucent barrier until their corrupted
+     NPC falls, the final entrance is open from the start.
 7. **Battles**: click a card to play it (or drag it onto the table). Cards glow gold when playable. Targeted
    spells show an arrow: click the target, right-click to cancel. In combat click your creatures to attack,
    then press **Attack**; when blocking, click your blocker, then the attacker. Hover any card to zoom it and
-   read its keywords. **End Turn** fast-forwards to the opponent.
+   read its keywords. Equipped items show on a bar next to your portrait - click one to use it on your turn
+   (targeting, if it needs one, works the same way spells do). **End Turn** fast-forwards to the opponent.
 
 Everything is keyboard/mouse. Settings (volumes, fullscreen) are on the title screen and in the pause menu.
 Saves live in `user://save.json` (Continue on the title screen); the game saves in town and after each
@@ -55,7 +65,7 @@ at the starting area, not town (gold/cards earned so far are kept).
 | `ui/` | Presentation: theme, cards, battle screen, town menus, dungeon screens, tutorial. |
 | `world/` | 3D scenes: hex town builder, player, town scene, backdrops, lighting. |
 | `scenes/` | The top-level `.tscn` scenes (title, starting area, town, battle, dungeon map, rewards). |
-| `tests/` | GUT tests for `core/` (280+). |
+| `tests/` | GUT tests for `core/` (330+). |
 | `tools/` | Screenshot tool, UI driver, smoke and end-to-end tests, dungeon balance simulator, asset/theme/content scripts. |
 | `docs/` | `design/combat_rules.md` (rules source of truth), open questions, progress log, balance report. |
 

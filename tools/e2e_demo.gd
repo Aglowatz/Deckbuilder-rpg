@@ -4,10 +4,14 @@ extends Node
 ## an element) -> dungeon map (tries the in-dungeon deck builder once) -> tutorial battle ->
 ## challenge -> battle -> shrine -> boss (forcing a multi-level jump on the first win, walking
 ## through the level-up recap -> equipment choice -> card offer chain) -> rewards (on-element
-## picks grow the deck to 45) -> town (buy a card, edit and save the deck, open the character
-## screen, visit a zone portal and back). Mouse clicks and key presses are injected with UiDriver;
-## battles use BattlePilot clicks for the tutorial battle and the AI for the rest. Failed duels
-## send the player back to the starting area to retry, same as a human would see.
+## picks grow the deck to 45) -> town (buy a card, edit and save the deck, open a hidden chest,
+## buy and equip an item from Wick, challenge a corrupted NPC and use the equipped item mid-duel -
+## a real loss here is retried, not scripted to win, D71 - then the now-unlocked zone entrance,
+## reopen the deck builder with the B hotkey). Mouse clicks and key presses are injected with
+## UiDriver; battles use BattlePilot clicks for the tutorial battle and the corrupted-NPC fight,
+## the AI for the rest. Failed tutorial duels send the player back to the starting area to retry,
+## same as a human would see; a lost corrupted-NPC duel just returns to town and is retried there
+## (D68 - they can always be challenged again).
 
 const SAVE_PATH: String = "user://e2e_save.json"
 const TIME_LIMIT_SECONDS: float = 900.0
@@ -260,6 +264,29 @@ func _interact(scene: TownScene, id: String, walk: bool = false) -> void:
 	await driver.seconds(0.5)
 
 
+## New brief, Part D: hidden chests have no Spot (see tools/zone_entrances_smoke.gd's own copy of
+## this same walker for hidden chests, which have no Spot either).
+func _walk_to_position(scene: TownScene, target: Vector3, radius: float) -> void:
+	var elapsed: float = 0.0
+	while elapsed < 9.0:
+		var offset: Vector3 = target - scene.player.position
+		offset.y = 0.0
+		if offset.length() < radius * 0.55:
+			break
+		await _hold(KEY_W, offset.z < -0.35)
+		await _hold(KEY_S, offset.z > 0.35)
+		await _hold(KEY_A, offset.x < -0.35)
+		await _hold(KEY_D, offset.x > 0.35)
+		await driver.frames(2)
+		elapsed += 2.0 / 60.0
+	for key: Key in [KEY_W, KEY_A, KEY_S, KEY_D]:
+		await _hold(key, false)
+	var reached: bool = Vector2(scene.player.position.x - target.x, scene.player.position.z - target.z).length() < radius
+	if not reached:
+		scene.player.position = target + Vector3(0, 0, 0.4)
+		await driver.frames(3)
+
+
 func _town(scene: TownScene) -> void:
 	# Overlays first.
 	var overlay: Control = scene._overlay
@@ -267,10 +294,23 @@ func _town(scene: TownScene) -> void:
 		await _shop(overlay as VendorScreen)
 		return
 	if overlay is DeckbuilderScreen:
-		await _edit_deck(overlay as DeckbuilderScreen)
+		# The full add/remove/validate/save exercise (_edit_deck) already ran once, at the deck
+		# station; reopening it later via the B hotkey (FINAL) just needs to prove the hotkey
+		# itself works, not repeat that whole test against the same card a second time. Gated on
+		# "deck_edited" (set at the END of _edit_deck), not "deck" (set BEFORE the station is even
+		# walked to, to guard the step itself starting only once) - checking "deck" here would
+		# always see it already true and skip _edit_deck entirely.
+		if _did.has("deck_edited"):
+			await _check_deck_builder_reopened(overlay as DeckbuilderScreen)
+		else:
+			await _edit_deck(overlay as DeckbuilderScreen)
+			_did["deck_edited"] = true
 		return
 	if overlay is CharacterScreen:
 		await _check_character_screen(overlay as CharacterScreen)
+		return
+	if overlay is ItemVendorScreen:
+		await _shop_item(overlay as ItemVendorScreen)
 		return
 	if scene.dialogue.active:
 		await driver.tap_key(KEY_E)
@@ -283,18 +323,49 @@ func _town(scene: TownScene) -> void:
 		_did["vendor"] = true
 		await _interact(scene, "vendor")
 		return
+	# New brief, FINAL: town exploration -> open one hidden chest (Part D).
+	if not _did.has("chest"):
+		_did["chest"] = true
+		await _open_a_hidden_chest(scene)
+		return
 	if not _did.has("deck"):
 		_did["deck"] = true
 		await _interact(scene, "deck")
+		return
+	# New brief, FINAL: buy an item from Wick (Part F).
+	if not _did.has("item_vendor"):
+		_did["item_vendor"] = true
+		await _interact(scene, "item_vendor")
 		return
 	if not _did.has("character"):
 		_did["character"] = true
 		await driver.tap_key(KEY_C)
 		await driver.seconds(0.6)
 		return
-	if not _did.has("portal"):
-		_did["portal"] = true
+	# New brief, FINAL: equip the bought item (Part F), then challenge and defeat a corrupted NPC
+	# (Part E) while actually using that item mid-duel, then walk into their now-unlocked zone
+	# entrance (Part C) and back, then reopen the deck builder with the B hotkey (Part B).
+	if not _did.has("equip_item"):
+		_did["equip_item"] = true
+		await driver.tap_key(KEY_C)
+		await driver.seconds(0.6)
+		return
+	# Balance (D71) targets ~55-70% for a level-3 reference deck, not a guaranteed win - a real
+	# loss is a legitimate outcome, not a bug, and D68 says they can always be challenged again.
+	# Retry (a few times, not forever) instead of treating one loss as fatal to the whole run.
+	if scene._portal_is_locked("ember") and int(_did.get("npc_attempts", 0)) < 3:
+		_did["npc_attempts"] = int(_did.get("npc_attempts", 0)) + 1
+		await _interact(scene, "npc_ember")
+		return
+	if not _did.has("zone_portal"):
+		_did["zone_portal"] = true
+		_check(not scene._portal_is_locked("ember"), "defeating the corrupted NPC unlocked the Ember entrance (%d attempt(s))" % int(_did.get("npc_attempts", 0)))
 		await _interact(scene, "portal_ember")
+		return
+	if not _did.has("deck_hotkey"):
+		_did["deck_hotkey"] = true
+		await driver.tap_key(KEY_B)
+		await driver.seconds(0.6)
 		return
 	_final_checks(scene)
 	_did["finished"] = true
@@ -335,6 +406,7 @@ func _walk_to_portal(scene: ZonePlaceholderScene) -> void:
 ## player's own color needs only the trial-cleared gate, no gold-spent threshold), so it is always
 ## for sale. A different color (e.g. the old "recall") would now be gold-gated and might not be.
 var _shop_card_id: String = ""
+var _bought_item_id: String = ""
 
 
 func _first_unowned_own_color_card() -> CardData:
@@ -345,6 +417,55 @@ func _first_unowned_own_color_card() -> CardData:
 		if candidate.color == Session.profile.primary_affinity and Session.owned_count(candidate.id) == 0:
 			return candidate
 	return null
+
+
+## New brief, FINAL: the B hotkey (Part B) reopens the same deck builder screen from anywhere in
+## town, not just the deck station - just confirms it opens and the bought card is still there.
+func _check_deck_builder_reopened(screen: DeckbuilderScreen) -> void:
+	var card: CardData = Session.content.card(_shop_card_id)
+	_check(screen.editor.count(card) >= 1, "the B hotkey opens the same deck, still holding the earlier purchase")
+	await driver.seconds(0.5)
+	await driver.click_button("Close")
+	await driver.seconds(0.4)
+
+
+## New brief, Part D: opens one hidden chest - no Spot/marker, so this walks to a raw anchor
+## position directly (see town_scene.gd HIDDEN_CHEST_RADIUS) rather than using a Spot id.
+func _open_a_hidden_chest(scene: TownScene) -> void:
+	var chest_id: String = "west_woods"
+	var anchor: Vector3 = scene.town.anchors.get("hidden_chest_%s" % chest_id, Vector3.ZERO) as Vector3
+	await _walk_to_position(scene, anchor, TownScene.HIDDEN_CHEST_RADIUS)
+	await driver.frames(4)
+	_check(not Session.found_secret("hidden_chest_%s" % chest_id), "the hidden chest has not been found yet")
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.6)
+	_check(Session.found_secret("hidden_chest_%s" % chest_id), "opening it marks the secret found")
+
+
+## New brief, Part F: buys the first available item from Wick, so there is something to equip.
+func _shop_item(vendor: ItemVendorScreen) -> void:
+	var tip: Button = driver.find_button("Got it")
+	if tip != null:
+		await driver.click(driver.button_center(tip))
+		await driver.seconds(0.3)
+	var item: ItemData = Session.content.item("healing_draught")
+	_bought_item_id = item.id
+	var before_gold: int = Session.gold
+	var tile: Control = null
+	for candidate: Node in vendor.find_children("*", "Control", true, false):
+		if candidate.has_meta("item_id") and str(candidate.get_meta("item_id")) == item.id:
+			tile = candidate as Control
+	_check(tile != null, "Wick's stock includes a starter item")
+	if tile != null:
+		await driver.click(driver.center_of_control(tile))
+	await driver.seconds(0.4)
+	_check(driver.find_button("Buy") != null, "buying an item asks for confirmation")
+	await driver.click_button("Buy")
+	await driver.seconds(0.4)
+	_check(Session.profile.owns_item(item), "the bought item joins the inventory")
+	_check(Session.gold < before_gold, "the price is paid in gold")
+	await driver.click_button("Leave")
+	await driver.seconds(0.4)
 
 
 func _shop(vendor: VendorScreen) -> void:
@@ -467,15 +588,49 @@ func _try_dungeon_deck_builder(scene: DungeonMapScreen) -> void:
 # ---- Battle ----------------------------------------------------------------------------
 
 
+## New brief, Part F: clicks the first usable equipped item on the item bar, and a legal target
+## for it if it needs one. Returns false (try again next MAIN-phase tick) if nothing is usable
+## right now (e.g. the only equipped item needs a target and none exists yet).
+func _try_use_item_in_battle(screen: BattleScreen) -> bool:
+	var item: ItemData = null
+	var index: int = -1
+	for i: int in range(Session.profile.equipped_item_ids.size()):
+		var candidate: ItemData = Session.content.item(Session.profile.equipped_item_ids[i])
+		if candidate != null and screen.game.can_use_item(0, candidate):
+			item = candidate
+			index = i
+			break
+	if item == null or index < 0 or index >= screen.item_bar.get_child_count():
+		return false
+	var slot: Control = screen.item_bar.get_child(index) as Control
+	await driver.click(driver.center_of_control(slot))
+	await driver.seconds(0.3)
+	if screen.mode == BattleScreen.Mode.TARGETING:
+		var options: Array[int] = screen._target_options
+		if options.is_empty():
+			return false
+		var ref: int = options[0]
+		if Targets.is_player(ref):
+			await driver.click(screen.hud.portrait_rect(Targets.player_index(ref)).get_center())
+		else:
+			await driver.click(driver.center_of_control(screen.board.view_for(ref)))
+		await driver.seconds(0.3)
+	return true
+
+
 func _battle(screen: BattleScreen) -> void:
 	_battles += 1
-	var use_clicks: bool = _battles == 1
+	# New brief, FINAL: the corrupted-NPC fight (Part E) always uses real clicks, whichever battle
+	# number it lands on, so the equipped item (Part F) can actually be clicked mid-duel.
+	var is_corrupted_npc: bool = not screen.context.town_npc_id.is_empty()
+	var use_clicks: bool = _battles == 1 or is_corrupted_npc
 	screen.board.speed = 8.0
 	var pilot: BattlePilot = BattlePilot.new(driver, screen)
 	if not use_clicks:
 		screen.set_bot(AIPlayer.new(AIPersonality.balanced()))
 	if screen.tutorial != null and use_clicks:
 		_check(true, "the tutorial layer is active in the first battle")
+	var used_item: bool = not is_corrupted_npc
 	var stalled: int = 0
 	var events_seen: int = 0
 	while true:
@@ -483,6 +638,9 @@ func _battle(screen: BattleScreen) -> void:
 			break
 		if screen.busy or screen.mode == BattleScreen.Mode.WAITING or not use_clicks:
 			await driver.frames(6)
+		elif not used_item and screen.mode == BattleScreen.Mode.MAIN and screen.item_bar != null:
+			used_item = await _try_use_item_in_battle(screen)
+			await driver.frames(3)
 		else:
 			await pilot.act()
 			await driver.frames(3)
@@ -496,6 +654,10 @@ func _battle(screen: BattleScreen) -> void:
 			return
 		if float(Time.get_ticks_msec() - _started_ms) / 1000.0 > TIME_LIMIT_SECONDS:
 			return
+	if is_corrupted_npc:
+		# A loss here is retried (see _town's npc_attempts loop, D71) rather than failed outright,
+		# but using the item is expected every attempt regardless of outcome.
+		_check(used_item, "an equipped item was actually used during the corrupted-NPC duel")
 	var won: bool = screen.game.winner == 0
 	_note("battle %d vs %s: %s in %d turns (life %d)" % [_battles, screen.context.enemy_name, "won" if won else "lost", screen.game.turn, screen.game.players[0].life])
 	# Part E: force the first win's XP high enough to cross an equipment-choice level (5) and a
@@ -555,6 +717,16 @@ func _rewards(scene: RewardsScreen) -> void:
 func _check_character_screen(screen: CharacterScreen) -> void:
 	_check(screen.visible, "the C hotkey opens the character screen")
 	_check(Session.profile.level >= 7, "the character screen reflects the level gained earlier")
+	# New brief, FINAL: the second visit (after buying from Wick) equips the item so it can
+	# actually be used in the corrupted-NPC fight right after this.
+	if _did.has("equip_item") and not _bought_item_id.is_empty():
+		var item: ItemData = Session.content.item(_bought_item_id)
+		var equip_button: Button = driver.find_button("Equip")
+		_check(equip_button != null, "the bought item shows an Equip button")
+		if equip_button != null:
+			await driver.click(driver.button_center(equip_button))
+			await driver.seconds(0.3)
+		_check(Session.profile.is_item_equipped(item), "the item is actually equipped")
 	await driver.seconds(0.8)
 	await driver.click_button("Close")
 	await driver.seconds(0.5)

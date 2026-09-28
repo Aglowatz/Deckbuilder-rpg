@@ -1149,3 +1149,85 @@ Equip/Unequip buttons was not written separately - `battle_item_smoke.gd` alread
 equipped item is genuinely usable in a real battle end to end, which is the capability that
 actually mattered to verify; the Character screen code itself mirrors the existing, already-shipped
 equipment-slot UI pattern exactly.
+
+## FINAL: full e2e flow, screenshots, polish - done
+
+Extended `tools/e2e_demo.gd` (rather than writing a separate one-off script) to cover the whole
+requested chain, in order, through the real UI with real injected input: town exploration (open
+one hidden chest, Part D) -> buy an item from Wick (Part F) -> equip it from the Character screen
+-> challenge a corrupted NPC and use the equipped item mid-duel (Part E) -> win -> the zone
+entrance unlocks (Part C) -> enter the zone and return -> reopen the deck builder with the **B**
+hotkey (Part B). This is on top of everything the demo already did (title -> new game -> starting
+area -> tutorial dungeon -> town: buy a card, edit/save the deck, character screen, a zone
+portal).
+
+**Result: `E2E PASSED in 248s (5 battles)`.** Notably, the corrupted-NPC fight (Torvin, Ember) was
+genuinely played out, not scripted to win: the first attempt was **lost** (life 0, a real,
+expected outcome - D71's balance target is ~55-70%, not 100%), so the run retried automatically
+(town-side, D68's "always challengeable again" design) and won the second attempt. This is exactly
+the resilience the design was supposed to have, seen for real rather than assumed.
+
+Three real bugs were found and fixed getting this pass to run clean, all in test tooling, not the
+product (each is also noted at its own Part's `Session.use_equipped_item`/`BattlePilot`/etc. -
+this is the consolidated list):
+- **A stale `_did` flag in `e2e_demo.gd`**: the flag marking "the deck station step has started"
+  was being read to also mean "the full deck-edit test already ran", but it gets set *before* the
+  station is even walked to - so the deckbuilder's first-ever open always looked like a re-open,
+  and the full add/remove/validate/save exercise never actually ran. Split into two flags (one for
+  "step started", one for "edit test finished").
+- **The same overlay-detection ordering mistake I'd already made once this session** (D67-adjacent,
+  not a new pattern): the new `ItemVendorScreen` check was added *after* the generic
+  `scene._locked` early-return, so opening Wick's shop got stuck forever (the demo's own stall
+  detector eventually caught it, but nothing inside it could ever run). Moved it up next to the
+  other overlay checks, matching `VendorScreen`/`DeckbuilderScreen`/`CharacterScreen`.
+- **`BattlePilot`'s empty-target crash** (already logged under Part E) surfaced again here in a
+  new way and confirmed the fix holds under a second, independent real playthrough.
+
+**Screenshots**: reviewed every new screen and the town from multiple viewpoints (spawn, and at
+each of the 5 edge entrances, all 5 hidden-chest alcoves, all 4 corrupted NPCs, Wick's stall and
+shop screen, and the battle item bar with 3 equipped items). No new visual problems found this
+pass beyond what Parts C-F already caught and fixed at the time (D67, D69). Screenshots are
+git-ignored; regenerate with `tools/shot.sh` (see each part's own section above for the exact
+scene/args) or `tools/run_e2e.sh` for the full flow.
+
+### Questions for you
+
+This brief covered six parts end to end (Guard fix, deck builder anywhere, a ~3x town with 5
+edge entrances, 5 hidden chests, 4 corrupted NPC bosses with simulated balance, and a full
+item/vendor system) - a lot of judgment calls were made along the way with no exact spec given.
+The full list, with reasoning, is `docs/design/open_questions.md` D63-D75; the ones most worth
+your attention:
+
+1. **Guard's fix** (D63) is a straightforward bug fix (tapped Guard creatures no longer force
+   attacks) - nothing to decide, just flagging that it changes observed behavior if you'd gotten
+   used to the old (incorrect) rule.
+2. **The deck station stays, purely as flavor** (D64) now that the deck builder opens from
+   anywhere via **B** or the HUD button. Remove it entirely instead, once its novelty wears off?
+3. **Town layout and edge-entrance placement** (D65, D66): 5 new districts (West Woods, Harbor
+   Dock, North Uplands, Ember Flats, Grave Hollow), each with one entrance, thematically matched
+   by terrain (forest/water/flats/hollow) rather than any specific lore. Real names/lore for these
+   (to replace "West Woods" etc. and the still-placeholder "Ember Reaches"/"Tide Reaches"/etc.
+   entrance names, D60 from the previous brief) whenever you want them.
+4. **One hidden chest had to be relocated off a real, unexplained rendering bug** in the original
+   town core (D67) - not root-caused, worth a fresh look if anyone revisits that area. Full
+   details + the workaround in D67 and `docs/design/secrets.md`.
+5. **Corrupted NPCs stay challengeable forever, but only the first win pays out** (D68) - matches
+   how the Trial of the Hollow's own gate already works (replayable, no repeat rewards past the
+   first clear). Prefer they stop fighting entirely after one loss/win, or gate rematches behind
+   something?
+6. **Balance numbers** (D71, `docs/balance_report.md`): all 4 corrupted NPCs land in the 55-70%
+   player-win-rate band against a simulated "typical level-3 deck," though Root's toughest
+   matchup runs a few points hot (73%) and could use one more small nerf if you want it tighter.
+   Real player skill (not just deck power) will move these in both directions either way.
+7. **Reward numbers weren't specified anywhere** in the brief, so gold/XP amounts (D70, reused
+   the existing Elite-tier table) and item prices (D75, 25-55 gold, stock unlocking at levels 1/3/6)
+   are both my best guess at reasonable pacing, not tuned against any target you gave me.
+8. **The 10 new items' effects** (D74) were chosen from the engine's *existing* effect vocabulary
+   rather than the brief's own examples verbatim (no "+1 mana this turn" or "shield" mechanic
+   exists in the engine yet, and building either from scratch felt like more new-mechanic risk
+   than this pass should take on unasked) - "Ward Sigil" (grant Guard for a turn) stands in for
+   "temporary shield." Worth building either of those two for real next time, or is the
+   grant-Guard substitute good enough?
+9. Everything still open from the previous two briefs (title/element names, the town secrets' real
+   rewards vs. placeholder gold/items, XP/level pacing, equipment/item flavor) remains open too -
+   nothing in this pass answered those either.
