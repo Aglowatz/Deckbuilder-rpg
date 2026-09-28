@@ -973,3 +973,47 @@ cleanly - all pass.
 
 Tests: 317 core tests unchanged (no core/ change in this part); the town interact smoke test
 (real windowed input) passes with the 4 new checks added.
+
+## Part C: town expansion (~3x area) + 5 map-edge zone entrances - done
+
+The town is now ~3x its previous land area (353 vs 118 non-water/mountain cells - the previous
+brief's D38 pass was ~2.4x the original; this pass is ~3x *that*) via 5 new districts around the
+unchanged original core: **North Uplands** (a mountain-pass overlook, leads to the Final
+entrance), **West Woods** (winding forest, Root entrance), **Harbor Dock** (the existing Harbor
+Quarter's canal continuing out to sea, Tide entrance), **Ember Flats** (open ground south of the
+Secluded Grove, Ember entrance), and **Grave Hollow** (a misty southwest corner, Grave entrance).
+Full layout/legend is documented in `world/town_builder.gd`'s header comment (D65); this project
+doesn't keep a separate town-design doc, so the code comment + `open_questions.md` are the source
+of truth for the layout, matching how the previous brief's town work (D38, D60) was recorded too.
+
+The 5 tower portals from the previous brief (interior Harbor Quarter plots, D60) are now real
+edge entrances, one per district, each a clearly-tinted gate at the true edge of the map (D66).
+The 4 element entrances start **locked** - a translucent tinted barrier, a "Sealed" prompt, and a
+toast instead of loading the zone - until their corrupted NPC is defeated (Part E sets the
+`"<id>_zone_unlocked"` flag on victory; the lock check itself is already live and waiting for it).
+The Final entrance has no NPC and is open from the start. Walking into an unlocked entrance still
+loads `ZonePlaceholderScene` exactly as before (D60); coming back now returns the player to that
+same entrance instead of the default spawn point (this didn't exist before - the brief asked for
+it explicitly).
+
+Verified with real injected input, not just code review or the generation rule: extended
+`tools/town_interact_smoke.gd` (all of the town's existing spots are still reachable on the
+bigger map) and wrote a new dedicated test, `tools/zone_entrances_smoke.gd` (run via
+`tools/zone_entrances_launcher.tscn` / `tools/run_zone_entrances_smoke.sh`, through the real
+SceneManager scene changes since this test needs the actual town<->zone transition) - walks to
+all 5 entrances, confirms the 4 element ones are sealed and the Final one is open, confirms
+entering Final actually changes the scene and coming back lands within 2m of that same entrance,
+then simulates an NPC defeat (`Session.set_flag`) and confirms only that one entrance unlocks on
+the next town load and that it too actually changes the scene. All 21 checks pass.
+
+Also fixed two latent scale bugs while touching this code: `_build_water`'s padding skirt and
+`_build_far_scenery`'s mountain/hill/cloud placement were both hardcoded to the old map's exact
+size; both now derive from `MAP`'s actual dimensions instead (D65).
+
+Screenshots taken and reviewed by eye at spawn and all 5 gates (`tools/shot.sh res://scenes/town.tscn <name> --at=portal_<id>`) - each entrance is visually distinct (element tint), reads
+clearly, and the barrier/prompt looks right; no clipping or performance issues noticed. Screenshots
+are git-ignored; regenerate with the command above.
+
+Tests: 317 core tests unchanged (no core/ change in this part - this is presentation/world
+layout); both the extended town interact smoke test and the new zone entrances smoke test
+(real windowed input) pass.

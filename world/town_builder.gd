@@ -7,20 +7,48 @@ extends WalkableArea
 ## '.' water, '#' grass, 'T' grass with trees, 'M' mountain (blocked), 'R' rocks,
 ## K market, D deck station, W wellspring, G dungeon gate, H/h houses, S spawn, F windmill,
 ## C church, Y hall of records (codex), Z hidden vendor, X sealed vault (locked-gate secret).
-## Three districts: the original town core (cols 0-8), the Harbor Quarter to the east (a canal
-## with one bridge at row 3, near the market), and the Secluded Grove to the south (rows 7-9,
-## reached the same way as the original spawn row) - see docs/design/open_questions.md D38.
+## New brief, Part C: the original town (rows 0-9, cols 0-14 below - unchanged except opening 3
+## cells of col 0 so the West Woods can reach it) is now the center of a ~3x-area island with 5
+## districts around it, one per zone entrance (Part E's corrupted NPCs lock/unlock these; see
+## `docs/design/open_questions.md` D65):
+##   - **North Uplands** (rows -5..-1): a mountain-pass overlook leading to the Final entrance
+##     (gold, open from the start) at the true north edge.
+##   - **West Woods** (cols -6..-1, rows 0-9): winding forest leading to the Root entrance at the
+##     west edge.
+##   - **Harbor Dock** (cols 15-20, rows 0-9): the Harbor Quarter's canal continuing out to the
+##     Tide entrance at the east edge.
+##   - **Ember Flats** (rows 10-14): open ground south of the Secluded Grove leading to the Ember
+##     entrance at the south edge.
+##   - **Grave Hollow** (the southwest corner: rows 10-12, cols -6..-1): a misty pocket off the
+##     Ember Flats leading to the Grave entrance at the west edge.
+## `ROW_OFFSET`/`COL_OFFSET` convert a string's own (row, col) index into world-space coordinates,
+## so the original 10x15 core keeps exactly the same world coordinates (and thus the same
+## anchors/spawn/every other unchanged reference) it always had - it is simply no longer the
+## outer edge of the map.
+const ROW_OFFSET: int = 5
+const COL_OFFSET: int = 6
+
 const MAP: Array[String] = [
-	"..MMTTM..MMTTMM",
-	"..T#G#TT.TT##RT",
-	".T#H#hF#.T#Y#T#",
-	".#K##D#T#T####T",
-	".T##W##R.T##Z#T",
-	"..#C###T.T####T",
-	"..R#S#T..T##T##",
-	"..TT###TT##T...",
-	"..T#####X###T..",
-	"..MTTT#T#TTTM..",
+	"......R.#T##TM##.#MR#......",
+	"......###M#T##M#R.M##......",
+	"......M##R######T#TR#......",
+	"......##TM#T.##.###.#......",
+	"......###.###.##TT##R......",
+	"#.#T....MMTTM..MMTTMMR##T#T",
+	"#R#MT#..T#G#TT.TT##RT#MRM.#",
+	"##.####T#H#hF#.T#Y#T##T###R",
+	"RR######K##D#T#T####T#####T",
+	"#######T##W##R.T##Z#T######",
+	"R##TTT..#C###T.T####T##.#.#",
+	"RTT#T#..R#S#T..T##T######T#",
+	"#T##T#..TT###TT##T....#TTMM",
+	"T#T#R#..T#####X###T..RTTT#.",
+	"M#####..MTTT#T#TTTM..#MM#.#",
+	"#.##T###T#TT##MM##T#T......",
+	"################.###M......",
+	"T#T#.TT#T######T..##T......",
+	".......#T###.#T#####T......",
+	"......TM###M##R.##T#.......",
 ]
 
 const OBSTACLE_TREE: float = 0.32
@@ -45,7 +73,7 @@ func build(parent: Node3D, decorate_far: bool = true) -> void:
 	for row: int in range(MAP.size()):
 		var line: String = MAP[row]
 		for col: int in range(line.length()):
-			_build_cell(col, row, line[col])
+			_build_cell(col - COL_OFFSET, row - ROW_OFFSET, line[col])
 	if decorate_far:
 		_build_far_scenery()
 	_build_props()
@@ -56,10 +84,17 @@ func cell_center(col: int, row: int) -> Vector3:
 	return HexGrid.cell_to_world(col, row)
 
 
+## `pad` cells of open water surround the island past its actual (map-size-derived) edges, so
+## this keeps working regardless of how big MAP is instead of a hand-tuned bounding box.
+const WATER_PAD: int = 5
+
+
 func _build_water() -> void:
-	for row: int in range(-5, MAP.size() + 5):
-		for col: int in range(-6, 22):
-			var inside: bool = row >= 0 and row < MAP.size() and col >= 0 and col < MAP[0].length() and MAP[row][col] != "."
+	for row: int in range(-ROW_OFFSET - WATER_PAD, MAP.size() - ROW_OFFSET + WATER_PAD):
+		for col: int in range(-COL_OFFSET - WATER_PAD, MAP[0].length() - COL_OFFSET + WATER_PAD):
+			var map_row: int = row + ROW_OFFSET
+			var map_col: int = col + COL_OFFSET
+			var inside: bool = map_row >= 0 and map_row < MAP.size() and map_col >= 0 and map_col < MAP[0].length() and MAP[map_row][map_col] != "."
 			if inside:
 				continue
 			var water: Node3D = ModelKit.tile("hex_water")
@@ -148,19 +183,28 @@ func _scatter(center: Vector3, min_radius: float, max_radius: float) -> Vector3:
 
 
 func _build_far_scenery() -> void:
-	# A mountain range behind the island, hills at the sides, drifting clouds overhead.
-	for col: int in range(-2, 20):
-		var far: Vector3 = HexGrid.cell_to_world(col, -4)
+	# A mountain range behind the island, hills at the sides, drifting clouds overhead - pushed
+	# out past the real (now ~3x bigger) island edges rather than a fixed old-map-sized box.
+	var west_edge: int = -COL_OFFSET
+	var east_edge: int = MAP[0].length() - COL_OFFSET
+	var north_edge: int = -ROW_OFFSET
+	var far_row: int = north_edge - 2
+	for col: int in range(west_edge - 2, east_edge + 3):
+		var far: Vector3 = HexGrid.cell_to_world(col, far_row)
 		ModelKit.place(root, ModelKit.tile("hex_grass"), far)
 		var mountain: String = ["mountain_A_grass_trees", "mountain_B_grass_trees", "mountain_C_grass_trees"][_rng.randi() % 3]
 		ModelKit.place(root, ModelKit.nature(mountain), far, float(_rng.randi_range(0, 5)) * 60.0, 1.4)
-	for cell: Vector2i in [Vector2i(-2, 1), Vector2i(-2, 4), Vector2i(17, 2), Vector2i(17, 5), Vector2i(18, 0)]:
+	var hill_cells: Array[Vector2i] = [
+		Vector2i(west_edge - 2, 1), Vector2i(west_edge - 2, 6), Vector2i(west_edge - 2, 11),
+		Vector2i(east_edge + 2, 2), Vector2i(east_edge + 2, 7), Vector2i(east_edge + 2, 0),
+	]
+	for cell: Vector2i in hill_cells:
 		var pos: Vector3 = HexGrid.cell_to_world(cell.x, cell.y)
 		ModelKit.place(root, ModelKit.tile("hex_grass"), pos)
 		ModelKit.place(root, ModelKit.nature(["hills_A_trees", "hills_B_trees"][_rng.randi() % 2]), pos, float(_rng.randi_range(0, 5)) * 60.0)
-	for i: int in range(6):
+	for i: int in range(9):
 		var cloud: Node3D = ModelKit.nature("cloud_big" if i % 2 == 0 else "cloud_small")
-		ModelKit.place(root, cloud, Vector3(_rng.randf_range(-6, 22), _rng.randf_range(7, 10), _rng.randf_range(-14, 8)), 0.0, 2.2)
+		ModelKit.place(root, cloud, Vector3(_rng.randf_range(west_edge - 5, east_edge + 7), _rng.randf_range(7, 10), _rng.randf_range(far_row - 5, 8)), 0.0, 2.2)
 
 
 func _build_props() -> void:
@@ -191,13 +235,16 @@ func _build_props() -> void:
 	anchors["lever"] = lever_pos + Vector3(0.4, 0, 0.2)
 
 
-## Part G: 5 placeholder portals in the Harbor Quarter's open plots (a `tower_A` shape, tinted
-## per-element like the hex grass tiles are, so each is visually distinct without new art) - one
-## per element plus the final area. Each leads to `ZonePlaceholderScene`, a reusable "coming soon"
-## template (`Session.enter_zone_portal`); no real zone is built here.
+## New brief, Part C: 5 entrances at the true edges of the map (a `tower_A` shape, tinted per-
+## element like the hex grass tiles are, so each is visually distinct without new art) - one per
+## element plus the final area, each a clearly readable gate at the edge of its own district
+## (see the MAP legend above). Each leads to `ZonePlaceholderScene`, a reusable "coming soon"
+## template (`Session.enter_zone_portal`); no real zone is built here. Locking (element entrances
+## start locked until their corrupted NPC is defeated, Part E) is presentation state that lives in
+## `TownScene`, not here - `TownBuilder` only places the structure and its anchor.
 const PORTAL_CELLS: Dictionary = {
-	"ember": Vector2i(10, 3), "tide": Vector2i(13, 3), "root": Vector2i(10, 6),
-	"grave": Vector2i(13, 5), "final": Vector2i(10, 2),
+	"final": Vector2i(4, -5), "root": Vector2i(-6, 4), "tide": Vector2i(20, 4),
+	"ember": Vector2i(7, 14), "grave": Vector2i(-6, 11),
 }
 
 
@@ -209,7 +256,26 @@ func _build_zone_portals() -> void:
 		ModelKit.tint(portal, info.tint)
 		ModelKit.place(root, portal, center, 0.0, 1.05)
 		obstacles.append(Vector3(center.x, center.z, 0.85))
-		anchors["portal_%s" % info.id] = center + Vector3(0, 0, 1.0)
+		anchors["portal_%s" % info.id] = center + _portal_approach_offset(info.id)
+
+
+## The interact anchor sits on the walkable, map-facing side of each edge gate (not a fixed
+## direction) so the prompt/click target is always on the side the player actually approaches
+## from.
+func _portal_approach_offset(zone_id: String) -> Vector3:
+	match zone_id:
+		"final":
+			return Vector3(0, 0, 1.0) # north edge - approach from the south
+		"root":
+			return Vector3(1.0, 0, 0) # west edge - approach from the east
+		"tide":
+			return Vector3(-1.0, 0, 0) # east edge - approach from the west
+		"ember":
+			return Vector3(0, 0, -1.0) # south edge - approach from the north
+		"grave":
+			return Vector3(1.0, 0, 0) # southwest corner - approach from the east
+		_:
+			return Vector3(0, 0, 1.0)
 
 
 func _prop(model: String, position: Vector3, yaw: float, model_scale: float, radius: float) -> void:

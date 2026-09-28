@@ -66,6 +66,7 @@ func _ready() -> void:
 	town.build(self)
 	_build_actors()
 	_build_spots()
+	_build_portal_barriers()
 	_build_camera()
 	_build_ui()
 	_refresh_objective()
@@ -92,7 +93,16 @@ func _ensure_input_actions() -> void:
 
 
 func _build_actors() -> void:
+	# New brief, Part C: coming back from a zone entrance returns the player to that same
+	# entrance, not the default spawn point (see docs/design/open_questions.md D65).
 	var spawn: Vector3 = town.anchors["spawn"] as Vector3 + Vector3(0, 0, -0.4)
+	if not Session.pending_zone_id.is_empty():
+		var portal_key: String = "portal_%s" % Session.pending_zone_id
+		if town.anchors.has(portal_key):
+			# The anchor already sits on the walkable, map-facing side of the gate
+			# (see TownBuilder._portal_approach_offset) - safe to spawn on directly.
+			spawn = town.anchors[portal_key] as Vector3
+		Session.pending_zone_id = ""
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(town, "Knight", spawn)
@@ -158,10 +168,46 @@ func _build_spots() -> void:
 	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
 	if Session.found_secret(HIDDEN_VENDOR_SECRET):
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
-	# Part G: 5 placeholder zone portals (one per element, one for the final area) - see
-	# ZonePortals/ZonePlaceholderScene. Real zones are not built this pass.
+	# Part G: 5 placeholder zone portals (one per element, one for the final area), now at the
+	# edges of the (bigger) map - see ZonePortals/ZonePlaceholderScene. Real zones are not built
+	# this pass. New brief, Part C/E: the 4 element entrances start locked (see
+	# _portal_is_locked); the final entrance is always open.
 	for info: ZonePortals.Info in ZonePortals.all():
 		_add_spot("portal_%s" % info.id, "%s (coming soon)" % info.display_name, town.anchors["portal_%s" % info.id] as Vector3, 1.6)
+
+
+## New brief, Part E sets this flag on defeating the matching corrupted NPC; the final entrance
+## has no NPC and is never locked.
+static func _portal_unlock_flag(zone_id: String) -> StringName:
+	return StringName("%s_zone_unlocked" % zone_id)
+
+
+func _portal_is_locked(zone_id: String) -> bool:
+	return zone_id != ZonePortals.FINAL_ID and not Session.flag(_portal_unlock_flag(zone_id))
+
+
+## A translucent, element-tinted barrier in front of each still-locked entrance - built once from
+## a flag snapshot at scene load (unlocking always happens in a different scene, via a battle, so
+## it never needs to change live mid-visit).
+func _build_portal_barriers() -> void:
+	for info: ZonePortals.Info in ZonePortals.all():
+		if not _portal_is_locked(info.id):
+			continue
+		var anchor: Vector3 = town.anchors.get("portal_%s" % info.id, Vector3.ZERO) as Vector3
+		var barrier: MeshInstance3D = MeshInstance3D.new()
+		var mesh: BoxMesh = BoxMesh.new()
+		mesh.size = Vector3(1.7, 1.9, 0.1)
+		barrier.mesh = mesh
+		barrier.position = anchor + Vector3(0, 0.95, 0)
+		var material: StandardMaterial3D = StandardMaterial3D.new()
+		material.albedo_color = Color(info.tint.r, info.tint.g, info.tint.b, 0.32)
+		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		material.emission_enabled = true
+		material.emission = info.tint
+		material.emission_energy_multiplier = 0.9
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		barrier.material_override = material
+		add_child(barrier)
 
 
 func _add_spot(id: String, title: String, position: Vector3, radius: float) -> void:
@@ -293,7 +339,8 @@ func _prompt_text(spot: Spot) -> String:
 		"vault":
 			return "Open the vault" if Session.flag(VAULT_LEVER_FLAG) else "Try the sealed door"
 	if spot.id.begins_with("portal_"):
-		return "Enter"
+		var zone_id: String = spot.id.trim_prefix("portal_")
+		return "Sealed - the corrupted guardian must fall first" if _portal_is_locked(zone_id) else "Enter"
 	return spot.title
 
 
@@ -574,12 +621,17 @@ func _open_vendor() -> void:
 
 
 ## Part G: a placeholder zone portal. Loads the reusable "coming soon" template
-## (ZonePlaceholderScene) - no real zone exists yet for any of the 5.
+## (ZonePlaceholderScene) - no real zone exists yet for any of the 5. New brief, Part C/E: a
+## locked element entrance shows a barrier message instead of loading the zone.
 func _use_zone_portal(zone_id: String) -> void:
 	var info: ZonePortals.Info = ZonePortals.find(zone_id)
 	if info == null:
 		return
 	player.face(town.anchors["portal_%s" % zone_id] as Vector3)
+	if _portal_is_locked(zone_id):
+		hud.toast("The %s entrance is sealed. Defeat their corrupted guardian to open it." % info.display_name, info.tint.lightened(0.35))
+		Audio.sfx(&"ui_error")
+		return
 	Audio.sfx(&"door")
 	Session.enter_zone_portal(zone_id)
 
