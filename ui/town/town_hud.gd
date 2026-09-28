@@ -3,6 +3,7 @@ extends Control
 ## The town's overlay: objective, gold, "press E" prompt, toast messages and control hints.
 
 signal character_pressed
+signal deck_pressed
 
 var _objective: RichTextLabel
 var _gold: Label
@@ -38,6 +39,10 @@ func _ready() -> void:
 	character_button.position = Vector2(1650, 100)
 	character_button.pressed.connect(func() -> void: character_pressed.emit())
 	add_child(character_button)
+	var deck_button: FancyButton = FancyButton.make("Deck (B)", &"", Vector2(180, 52))
+	deck_button.position = Vector2(1650, 170)
+	deck_button.pressed.connect(func() -> void: deck_pressed.emit())
+	add_child(deck_button)
 	_prompt_panel = UIKit.panel()
 	_prompt_panel.position = Vector2(700, 900)
 	_prompt_panel.visible = false
@@ -52,7 +57,7 @@ func _ready() -> void:
 	_toast.size = Vector2(1000, 44)
 	_toast.modulate.a = 0.0
 	add_child(_toast)
-	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      C: character      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      C: character      B: deck      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
 	hints.position = Vector2(1200, 1030)
 	hints.size = Vector2(700, 30)
 	add_child(hints)

@@ -943,7 +943,33 @@ in-game keyword tooltip (`ui/card/keyword_info.gd`) to state the untapped requir
 
 Tests: 318 total (1 new), all passing.
 
-This section will grow with Parts B-F as they land; this brief is large (town expansion, 4 new
+This section will grow with Parts C-F as they land; this brief is large (town expansion, 4 new
 NPC boss encounters with balance simulation, 5 hidden chests, a full item/vendor system) and is
 being worked part by part per your instructions, with a test/doc/commit/push after each part
 rather than one giant commit at the end.
+
+## Part B: deck builder anywhere - done
+
+The deck builder (`DeckbuilderScreen`) now opens with a `B` hotkey and a HUD button from every
+out-of-battle scene, not just by walking to the town's Deck Station:
+
+- **Town**: global `B` hotkey (alongside the existing `C`/Character shortcut) and a new "Deck
+  (B)" HUD button (`TownHud.deck_pressed`). The Deck Station itself is kept as flavor (D64) - it
+  now opens the same shared code path instead of being the only way in.
+- **Starting area**: `B` hotkey + button, shown only once `Session.deck != null` (a returning
+  profile after an abandoned run) - a brand-new arrival has no deck yet to edit.
+- **Zone placeholders**: `B` hotkey + a "Deck (B)" button next to the "return to town" prompt.
+- **Dungeon map**: added a `B` hotkey next to the pre-existing "Deck" button (D-series from the
+  previous brief already put a deck button here, editing the run's current deck via
+  `DungeonDeckbuilderScreen` - same validation rules as town, just a different source deck).
+
+No dependence on the deck station needed removing from `core/`/`data/` - `DeckEditor` and
+`DeckValidator` were already scene-agnostic; this part was purely about reachability (D64).
+
+Verified with real injected input, not just code review: extended
+`tools/town_interact_smoke.gd` (`tools/run_town_interact_smoke.sh`) with checks that pressing
+`B` away from the station, and clicking the new HUD button, both open the deckbuilder and close
+cleanly - all pass.
+
+Tests: 317 core tests unchanged (no core/ change in this part); the town interact smoke test
+(real windowed input) passes with the 4 new checks added.

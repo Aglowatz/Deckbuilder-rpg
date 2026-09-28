@@ -36,8 +36,9 @@ func _run() -> void:
 	await _check_prompt_and_talk("guard", "Gatekeeper Brannoch", KEY_SPACE)
 	await _check_vendor_by_click()
 	await _check_deck_station()
+	await _check_deck_builder_anywhere()
 
-	_finish(_failures.is_empty(), "checked elder (E), guard (Space), vendor (click), deck station (E)")
+	_finish(_failures.is_empty(), "checked elder (E), guard (Space), vendor (click), deck station (E), deck builder anywhere (B hotkey + HUD button)")
 
 
 # ---- Helpers ----------------------------------------------------------------------------
@@ -146,6 +147,28 @@ func _check_deck_station() -> void:
 		await driver.click_button("Close")
 		await driver.seconds(0.3)
 	_check(scene._overlay == null, "closing the Deck Station returns to the town")
+
+
+## New brief, Part B: the deck builder must be reachable from anywhere in town, not just by
+## walking to the deck station - away from any spot via the B hotkey, and via the HUD button.
+func _check_deck_builder_anywhere() -> void:
+	scene.player.position = Vector3(0.0, 0.0, 0.0)
+	await driver.frames(3)
+	await driver.tap_key(KEY_B)
+	await driver.seconds(0.3)
+	_check(scene._overlay is DeckbuilderScreen, "pressing B away from the deck station opens the deckbuilder")
+	if scene._overlay is DeckbuilderScreen:
+		await driver.click_button("Close")
+		await driver.seconds(0.3)
+	_check(scene._overlay == null, "closing it returns to town")
+
+	await driver.click_button("Deck (B)")
+	await driver.seconds(0.3)
+	_check(scene._overlay is DeckbuilderScreen, "clicking the HUD Deck button opens the deckbuilder")
+	if scene._overlay is DeckbuilderScreen:
+		await driver.click_button("Close")
+		await driver.seconds(0.3)
+	_check(scene._overlay == null, "closing it returns to town")
 
 
 func _check(condition: bool, message: String) -> void:

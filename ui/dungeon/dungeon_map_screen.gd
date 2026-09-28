@@ -180,7 +180,7 @@ func _build_hud() -> void:
 	retreat.position = Vector2(60, 960)
 	retreat.pressed.connect(_ask_retreat)
 	add_child(retreat)
-	var deck_button: FancyButton = FancyButton.make("Deck", &"", Vector2(160, 56))
+	var deck_button: FancyButton = FancyButton.make("Deck (B)", &"", Vector2(160, 56))
 	deck_button.position = Vector2(60, 894)
 	deck_button.tooltip_text = "Edit your deck without leaving the dungeon (same rules as town)."
 	deck_button.pressed.connect(_open_deck_builder)
@@ -261,6 +261,13 @@ func _on_modal_finished(node_id: int) -> void:
 		Session.abandon_run("You were carried out of the Hollow. Your collection is safe.")
 		return
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn", 0.25)
+
+
+## New brief, Part B: a B hotkey alongside the existing Deck button, matching town/zones.
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_B:
+		get_viewport().set_input_as_handled()
+		_open_deck_builder()
 
 
 ## Part C: a deck builder reachable from inside the dungeon, same validation rules as town (see

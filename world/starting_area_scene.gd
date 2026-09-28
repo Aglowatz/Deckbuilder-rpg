@@ -81,6 +81,13 @@ func _build_ui() -> void:
 	hints.position = Vector2(1200, 1030)
 	hints.size = Vector2(700, 30)
 	host.add_child(hints)
+	# New brief, Part B: only shown once a deck actually exists (a returning profile - see
+	# docs/design/open_questions.md D64); a brand-new arrival has nothing to edit yet.
+	if Session.deck != null:
+		var deck_button: FancyButton = FancyButton.make("Deck (B)", &"", Vector2(180, 52))
+		deck_button.position = Vector2(1650, 28)
+		deck_button.pressed.connect(_open_deck_builder)
+		host.add_child(deck_button)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)
@@ -123,6 +130,13 @@ func _update_near_gate() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# New brief, Part B: the deck builder hotkey works here too, once a deck actually exists to
+	# edit (a returning profile after an abandoned run - a brand-new arrival has no deck yet,
+	# see docs/design/open_questions.md D64).
+	if not _locked and not dialogue.active and Session.deck != null and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_B:
+		get_viewport().set_input_as_handled()
+		_open_deck_builder()
+		return
 	if _locked or dialogue.active or not _near_gate:
 		return
 	if event.is_action_pressed(&"interact"):
@@ -156,6 +170,17 @@ func _enter_gate() -> void:
 
 ## Part C: the element is chosen once, before the very first attempt. A retry after an abandoned
 ## run (the profile already exists) skips straight back into the dungeon with that same element.
+func _open_deck_builder() -> void:
+	Audio.sfx(&"ui_open")
+	_locked = true
+	var screen: DeckbuilderScreen = DeckbuilderScreen.new()
+	_overlay_layer.add_child(screen)
+	screen.closed.connect(func() -> void:
+		screen.queue_free()
+		_locked = false
+		Audio.sfx(&"ui_close", -4.0))
+
+
 func _confirm_enter() -> void:
 	Audio.sfx(&"door")
 	if Session.has_profile():

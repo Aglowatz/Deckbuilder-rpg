@@ -87,10 +87,15 @@ func _build_ui() -> void:
 	host.add_child(_prompt_panel)
 	_prompt_label = UIKit.label("", &"", 30, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_prompt_panel.add_child(_prompt_label)
-	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: return to town      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
-	hints.position = Vector2(1150, 1030)
-	hints.size = Vector2(750, 30)
+	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: return to town      B: deck      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	hints.position = Vector2(1100, 1030)
+	hints.size = Vector2(800, 30)
 	host.add_child(hints)
+	# New brief, Part B: the deck builder is reachable here too, not just in town/dungeon map.
+	var deck_button: FancyButton = FancyButton.make("Deck (B)", &"", Vector2(180, 52))
+	deck_button.position = Vector2(1650, 100)
+	deck_button.pressed.connect(_open_deck_builder)
+	host.add_child(deck_button)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)
@@ -126,6 +131,10 @@ func _update_near_portal() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not _locked and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_B:
+		get_viewport().set_input_as_handled()
+		_open_deck_builder()
+		return
 	if _locked or not _near_portal:
 		return
 	if event.is_action_pressed(&"interact"):
@@ -148,6 +157,19 @@ func _unhandled_input(event: InputEvent) -> void:
 func _return_to_town() -> void:
 	Audio.sfx(&"door")
 	SceneManager.go_to_town()
+
+
+func _open_deck_builder() -> void:
+	if _locked:
+		return
+	Audio.sfx(&"ui_open")
+	_locked = true
+	var screen: DeckbuilderScreen = DeckbuilderScreen.new()
+	_overlay_layer.add_child(screen)
+	screen.closed.connect(func() -> void:
+		screen.queue_free()
+		_locked = false
+		Audio.sfx(&"ui_close", -4.0))
 
 
 func screenshot_ready() -> bool:

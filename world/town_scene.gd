@@ -221,6 +221,7 @@ func _build_ui() -> void:
 	hud = TownHud.new()
 	host.add_child(hud)
 	hud.character_pressed.connect(_open_character_screen)
+	hud.deck_pressed.connect(_open_deck_builder_anywhere)
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
@@ -297,11 +298,17 @@ func _prompt_text(spot: Spot) -> String:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	# The character screen (Part E) is a global shortcut, not tied to a nearby spot.
-	if not _locked and not dialogue.active and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_C:
-		get_viewport().set_input_as_handled()
-		_open_character_screen()
-		return
+	# The character screen (Part E) and the deck builder (new brief, Part B) are global
+	# shortcuts, not tied to a nearby spot - usable anywhere in town, not just at the station.
+	if not _locked and not dialogue.active and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
+		if (event as InputEventKey).keycode == KEY_C:
+			get_viewport().set_input_as_handled()
+			_open_character_screen()
+			return
+		if (event as InputEventKey).keycode == KEY_B:
+			get_viewport().set_input_as_handled()
+			_open_deck_builder_anywhere()
+			return
 	if _locked or dialogue.active or _near == null:
 		return
 	if event.is_action_pressed(&"interact"):
@@ -449,10 +456,20 @@ func _well_burst(color: Affinity.Type) -> void:
 
 func _open_deck_station() -> void:
 	Session.set_flag(&"deck_station_seen")
+	_open_deck_builder_anywhere()
+	EventBus.tutorial_event.emit(&"deck_station_opened")
+
+
+## New brief, Part B: the deck builder is reachable anywhere in town via a hotkey (B) or the HUD
+## button, not only by walking to the deck station spot. It is the same `DeckbuilderScreen` with
+## the same validation rules either way (D64) - the station now just gives a flavorful, in-world
+## way to reach the exact same screen instead of being the only way in.
+func _open_deck_builder_anywhere() -> void:
+	if _locked or dialogue.active:
+		return
 	var screen: DeckbuilderScreen = DeckbuilderScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
-	EventBus.tutorial_event.emit(&"deck_station_opened")
 
 
 ## Part E: level, XP, stats, item and equipment slots. Hotkey C (global, see _unhandled_input) or
