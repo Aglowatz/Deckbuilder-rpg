@@ -82,7 +82,7 @@ func _build() -> void:
 	add_child(_toast)
 	_refresh()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
-	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]3 copies[/b] of a card and [b]2 colors[/b]. Lands power your spells: [b]Fill Lands[/b] tops up to %d." % [min_size, min_size], Vector2(300, 900))
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]2 colors[/b], and a rarity-based copy limit that grows as you level up. Lands power your spells: [b]Fill Lands[/b] tops up to %d." % [min_size, min_size], Vector2(300, 900))
 
 
 func _build_deck_panel() -> Control:
@@ -250,10 +250,18 @@ func _rebuild_rules() -> void:
 		color_names.append(UIStyle.affinity_name(color))
 	var limit: int = DeckValidator.max_colors(Session.profile, _active_modifiers())
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS), "At least %d cards (you have %d)" % [DeckValidator.min_deck_size(_active_modifiers()), editor.deck.size()])
-	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "At most %d copies of any card (basic lands are free)" % DeckValidator.MAX_COPIES)
+	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "Copy limits (basic lands are free): %s" % _copy_limits_text())
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COLORS), "At most %d colors (%s)" % [limit, ", ".join(color_names) if not color_names.is_empty() else "none yet"])
 	if DeckValidator.has_problem(issues, DeckValidator.Problem.NOT_OWNED):
 		_rule_row(false, "You use cards you do not own")
+
+
+## Copy limits by rarity, level-dependent (Part E): "Common 3, Uncommon 3, Epic 2, Legendary 1".
+func _copy_limits_text() -> String:
+	var parts: PackedStringArray = []
+	for rarity: CardEnums.Rarity in [CardEnums.Rarity.COMMON, CardEnums.Rarity.UNCOMMON, CardEnums.Rarity.EPIC, CardEnums.Rarity.LEGENDARY]:
+		parts.append("%s %d" % [CardEnums.Rarity.keys()[int(rarity)].capitalize(), Session.profile.max_copies_for(rarity)])
+	return ", ".join(parts)
 
 
 func _rule_row(ok: bool, text: String) -> void:

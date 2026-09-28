@@ -58,11 +58,20 @@ Stats come from a `PlayerProfile` resource, never hardcoded.
 
 Modifiers from equipment, items, and zones apply on top of the profile values.
 
+## Progression (Part E)
+
+Life, opening hand size, item slots, equipment slot unlocks and deck copy limits all advance with
+the player's level (1-30), not fixed values - see `docs/design/progression.md` for the full,
+generated level-by-level table and `core/data/progression_table.gd` for the source of truth. Every
+encounter grants XP and gold scaled by `DungeonMap.Difficulty` (`EncounterRewards`).
+
 ## Deck Construction
 
 - Minimum **45** cards, adjustable by `Modifier.Kind.MIN_DECK_SIZE` (e.g. the tutorial dungeon's
   starter-deck waiver - see "Starting deck" below).
-- Maximum **3** copies of any card (basic lands are exempt).
+- Maximum copies of a card by **rarity and player level** (basic lands are exempt) - Common
+  3-4, Uncommon 3-4, Epic 2-4, Legendary 1-4, all reaching 4 well before max level. See
+  "Progression" above and `docs/design/progression.md` for the exact level each cap increases.
 
 ## Starting deck (Part C)
 

@@ -36,7 +36,8 @@ static func build_map() -> DungeonMap:
 	first.enemy_name = "Cave Scavenger"
 	first.enemy_life = 3
 	first.ai_name = "Aggressive (tutorial)"
-	first.gold_reward = 40
+	first.difficulty = DungeonMap.Difficulty.TUTORIAL
+	first.gold_reward = EncounterRewards.gold_for(first.difficulty)
 	first.card_choices = 3
 	first.tutorial = true
 	var challenge: DungeonMap.MapNode = _node(map, DungeonMap.Kind.CHALLENGE, "The Hollow Well", "Five cards fall into the well. Will it answer?", Vector2(0.46, 0.68))
@@ -45,7 +46,8 @@ static func build_map() -> DungeonMap:
 	second.enemy_name = "Hollow Stalker"
 	second.enemy_life = 3
 	second.ai_name = "Aggressive (tutorial)"
-	second.gold_reward = 60
+	second.difficulty = DungeonMap.Difficulty.TUTORIAL
+	second.gold_reward = EncounterRewards.gold_for(second.difficulty)
 	second.card_choices = 3
 	var shrine: DungeonMap.MapNode = _node(map, DungeonMap.Kind.SHRINE, "Whispering Shrine", "A quiet place to rest before the last chamber.", Vector2(0.78, 0.68))
 	# Full heal: the node right before the boss (docs/design/open_questions.md D32). A plain
@@ -55,7 +57,8 @@ static func build_map() -> DungeonMap:
 	boss.enemy_name = "Hollow Warden"
 	boss.enemy_life = 3
 	boss.ai_name = "Balanced"
-	boss.gold_reward = 120
+	boss.difficulty = DungeonMap.Difficulty.BOSS
+	boss.gold_reward = EncounterRewards.gold_for(boss.difficulty)
 	boss.card_choices = 3
 	map.connect_nodes(start.id, first.id)
 	map.connect_nodes(first.id, challenge.id)

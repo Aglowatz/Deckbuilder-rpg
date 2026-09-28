@@ -29,9 +29,14 @@ var cleared_dungeons: Array[String] = []
 var seen_cards: Dictionary = {}
 ## Secret ids found (chests, hidden vendors...) - used by Condition.SECRET_FOUND.
 var found_secrets: Array[String] = []
-## Not driven by any mechanic yet; exists so Condition.PLAYER_LEVEL is usable by future content.
-var player_level: int = 0
 var completed_quests: Array[String] = []
+
+## Part E: how many equipment-slot choices (levels 5/10/15/20/25) are waiting to be made. A
+## counter, not a flag, so a single large XP grant that crosses more than one such level never
+## silently loses a choice. The character screen/level-up screen show a choice while this is > 0.
+var pending_equipment_choices: int = 0
+## Part E: "choose 1 of 3 cards" level rewards waiting to be resolved, in the order granted.
+var pending_level_card_offers: Array[RewardOffer] = []
 
 
 func _ready() -> void:
@@ -63,8 +68,9 @@ func new_game() -> void:
 	cleared_dungeons = []
 	seen_cards = {}
 	found_secrets = []
-	player_level = 0
 	completed_quests = []
+	pending_equipment_choices = 0
+	pending_level_card_offers = []
 	rng.randomize()
 
 
@@ -166,7 +172,7 @@ func unlock_state() -> UnlockState:
 	state.cleared_dungeons = cleared_dungeons
 	state.found_secrets = found_secrets
 	state.gold_spent = gold_spent_total
-	state.player_level = player_level
+	state.player_level = profile.level if profile != null else 0
 	state.completed_quests = completed_quests
 	if profile != null:
 		for card: CardData in profile.owned_cards:
@@ -179,6 +185,85 @@ func add_cards(cards: Array[CardData]) -> void:
 		return
 	profile.owned_cards.append_array(cards)
 	EventBus.collection_changed.emit()
+
+
+# ---- Progression (Part E) ----------------------------------------------------------------
+
+
+## Awards XP and applies every level gained (in order), including each level's reward. Returns
+## the LevelData for every level gained (empty if the player did not level up).
+func add_xp(amount: int) -> Array[LevelData]:
+	if profile == null or amount <= 0:
+		return []
+	var old_level: int = profile.level
+	profile.xp += amount
+	var new_level: int = ProgressionTable.level_for_xp(profile.xp)
+	var gained: Array[LevelData] = []
+	for level: int in range(old_level + 1, new_level + 1):
+		var row: LevelData = ProgressionTable.row(level)
+		profile.apply_level(row)
+		_apply_level_rewards(row)
+		gained.append(row)
+	if not gained.is_empty():
+		EventBus.collection_changed.emit()
+		save_game()
+	return gained
+
+
+func _apply_level_rewards(row: LevelData) -> void:
+	if row.reward_gold > 0:
+		add_gold(row.reward_gold)
+	if row.equipment_choice:
+		pending_equipment_choices += 1
+	if row.reward_card_choice:
+		var offer: RewardOffer = RewardOffer.new()
+		offer.cards = RewardGenerator.card_choices(content, profile, rng, 3, false)
+		pending_level_card_offers.append(offer)
+
+
+## Equips an owned piece, unequipping whatever was in that slot. Saves on success.
+func equip_item(item: EquipmentData) -> bool:
+	if profile == null or not profile.equip(item):
+		return false
+	save_game()
+	return true
+
+
+func unequip_slot(slot: EquipmentData.Slot) -> void:
+	if profile == null or profile.unequip(slot) == null:
+		return
+	save_game()
+
+
+## Part E: resolves one of the level-5/10/15/20/25 equipment-slot choices.
+func choose_equipment_slot(slot: EquipmentData.Slot) -> bool:
+	if profile == null or pending_equipment_choices <= 0 or not profile.unlock_equipment_slot(slot):
+		return false
+	pending_equipment_choices -= 1
+	save_game()
+	return true
+
+
+## Resolves the oldest pending "choose 1 of 3 cards" level reward. Returns the card added, or
+## null. `index` < 0 skips the pick (still consumes the offer).
+func resolve_level_card_offer(index: int) -> CardData:
+	if pending_level_card_offers.is_empty():
+		return null
+	var offer: RewardOffer = pending_level_card_offers.pop_front()
+	if index < 0 or index >= offer.cards.size():
+		return null
+	var chosen: CardData = offer.cards[index]
+	add_cards([chosen] as Array[CardData])
+	save_game()
+	return chosen
+
+
+## Uses one charge of an owned item against the current dungeon run (if any).
+func use_item(item: ItemData) -> bool:
+	if profile == null or not profile.use_item(item, run):
+		return false
+	save_game()
+	return true
 
 
 func deck_issues() -> Array[DeckValidator.Issue]:
@@ -211,6 +296,15 @@ func to_dict() -> Dictionary:
 	var deck_ids: Array[String] = []
 	for card: CardData in deck.cards:
 		deck_ids.append(card.id)
+	var owned_equipment_ids: Array[String] = []
+	for piece: EquipmentData in profile.owned_equipment:
+		owned_equipment_ids.append(piece.id)
+	var equipped_ids: Array[String] = []
+	for piece: ModifierSource in profile.equipment:
+		equipped_ids.append((piece as EquipmentData).id)
+	var item_saves: Array[Dictionary] = []
+	for owned_item: ItemData in profile.owned_items:
+		item_saves.append({"id": owned_item.id, "uses_left": profile.item_uses_left(owned_item)})
 	return {
 		"gold": gold,
 		"primary": int(profile.primary_affinity),
@@ -223,8 +317,14 @@ func to_dict() -> Dictionary:
 		"cleared_dungeons": cleared_dungeons,
 		"seen_cards": seen_cards.keys(),
 		"found_secrets": found_secrets,
-		"player_level": player_level,
 		"completed_quests": completed_quests,
+		"level": profile.level,
+		"xp": profile.xp,
+		"equipment_slots": profile.equipment_slots,
+		"owned_equipment": owned_equipment_ids,
+		"equipped": equipped_ids,
+		"owned_items": item_saves,
+		"pending_equipment_choices": pending_equipment_choices,
 	}
 
 
@@ -242,6 +342,24 @@ func from_dict(data: Dictionary) -> bool:
 			loaded.owned_cards.append(card)
 	loaded.intro_dungeon_cleared = bool(data.get("intro_cleared", false))
 	loaded.postgame_unlocked = bool(data.get("postgame", false))
+	loaded.level = int(data.get("level", 1))
+	loaded.xp = int(data.get("xp", 0))
+	for slot: Variant in data.get("equipment_slots", []) as Array:
+		loaded.equipment_slots.append(int(slot) as EquipmentData.Slot)
+	for id: Variant in data.get("owned_equipment", []) as Array:
+		var piece: EquipmentData = content.equipment_piece(str(id))
+		if piece != null:
+			loaded.owned_equipment.append(piece)
+	for id: Variant in data.get("equipped", []) as Array:
+		var piece: EquipmentData = content.equipment_piece(str(id))
+		if piece != null:
+			loaded.equipment.append(piece)
+	for entry: Variant in data.get("owned_items", []) as Array:
+		var entry_dict: Dictionary = entry as Dictionary
+		var owned_item: ItemData = content.item(str(entry_dict.get("id", "")))
+		if owned_item != null:
+			loaded.owned_items.append(owned_item)
+			loaded.item_uses_remaining[owned_item.id] = int(entry_dict.get("uses_left", owned_item.uses))
 	profile = loaded
 	deck = Deck.new()
 	deck.deck_name = DECK_NAME
@@ -259,8 +377,8 @@ func from_dict(data: Dictionary) -> bool:
 	for id: Variant in data.get("seen_cards", []) as Array:
 		seen_cards[str(id)] = true
 	found_secrets.assign(data.get("found_secrets", []) as Array)
-	player_level = int(data.get("player_level", 0))
 	completed_quests.assign(data.get("completed_quests", []) as Array)
+	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
 	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
 		rebuild_starter_deck()
 	return true
@@ -373,6 +491,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	context.tutorial = node.tutorial
 	context.is_boss = node.kind == DungeonMap.Kind.BOSS
 	context.gold_reward = node.gold_reward
+	context.xp_reward = EncounterRewards.xp_for(node.difficulty)
 	context.card_choices = node.card_choices
 	return context
 
@@ -395,8 +514,10 @@ func complete_battle(context: BattleContext) -> void:
 	dungeon_map.complete(context.node_id)
 	var offer: RewardOffer = RewardOffer.new()
 	offer.gold = context.gold_reward
+	offer.xp = context.xp_reward
 	offer.is_boss = context.is_boss
 	offer.enemy_name = context.enemy_name
+	offer.levels_gained = add_xp(context.xp_reward)
 	# Part C: the player's first time through the trial only ever offers cards of their own
 	# chosen element, so the only on-color cards they own by the end are the 3 they picked here.
 	# A later replay (intro_dungeon_cleared already true) is a normal dungeon with normal variety.

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_nqjmu"]
+[ext_resource type="Script" path="res://core/data/item_data.gd" id="2_0i51g"]
+
+[sub_resource type="Resource" id="Resource_n32ws"]
+script = ExtResource("1_nqjmu")
+op = 9
+amount = 2
+
+[resource]
+script = ExtResource("2_0i51g")
+id = "vitality_charm"
+display_name = "Vitality Charm"
+description = "A small, steady comfort."
+uses = 2
+effect = SubResource("Resource_n32ws")

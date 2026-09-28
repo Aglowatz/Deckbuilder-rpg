@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_x03vj"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="2_m841g"]
+
+[sub_resource type="Resource" id="Resource_8s6ra"]
+script = ExtResource("1_x03vj")
+kind = 3
+value = 1
+
+[resource]
+script = ExtResource("2_m841g")
+id = "quick_boots"
+slot = 3
+description = "Light feet, faster starts. One more card in your opening hand."
+source_name = "Quick Boots"
+modifiers = Array[ExtResource("1_x03vj")]([SubResource("Resource_8s6ra")])

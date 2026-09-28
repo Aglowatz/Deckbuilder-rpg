@@ -63,6 +63,8 @@ func _build_rewards() -> void:
 	count.tween_interval(0.4)
 	count.tween_method(func(value: float) -> void: gold_label.text = "+%d gold" % roundi(value), 0.0, float(_offer.gold), 0.8)
 	count.tween_callback(func() -> void: Audio.sfx(&"coins"))
+	if _offer.xp > 0:
+		_column.add_child(UIKit.label("+%d XP" % _offer.xp, &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
 	if _offer.cards.is_empty():
 		_add_buttons()
 		return
@@ -124,6 +126,18 @@ func _confirm() -> void:
 	var was_boss: bool = _offer.is_boss
 	var first_clear: bool = not Session.flag(&"trial_cleared")
 	var continues: bool = Session.apply_rewards()
+	if not _offer.levels_gained.is_empty():
+		var screen: LevelUpScreen = LevelUpScreen.new()
+		screen.setup(_offer.levels_gained)
+		add_child(screen)
+		screen.finished.connect(func() -> void:
+			screen.queue_free()
+			_after_rewards(continues, was_boss, first_clear))
+		return
+	_after_rewards(continues, was_boss, first_clear)
+
+
+func _after_rewards(continues: bool, was_boss: bool, first_clear: bool) -> void:
 	if continues or not was_boss:
 		SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 		return

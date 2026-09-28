@@ -52,3 +52,17 @@ func test_graduated_stock_starts_small_and_grows_with_progress() -> void:
 	var late_stock: Array[String] = vendor.available_card_ids(opened)
 	assert_gt(late_stock.size(), early_stock.size(), "spending more gold unlocks more stock")
 	assert_eq(late_stock.size(), content.cards.size(), "everything is unlocked eventually")
+
+
+## Part E: reaching enough player level opens a rarity tier just as well as gold spent - either
+## path unlocks it, so a "vendor unlock" level reward is a real mechanic.
+func test_graduated_stock_also_unlocks_by_player_level() -> void:
+	var gate: Condition = Condition.dungeon_cleared("Trial of the Hollow")
+	var vendor: VendorData = VendorData.graduated(content, [Affinity.Type.A] as Array[Affinity.Type], gate)
+	var state: UnlockState = UnlockState.new()
+	state.cleared_dungeons.append("Trial of the Hollow")
+	var no_level: Array[String] = vendor.available_card_ids(state)
+	state.player_level = 21
+	var high_level: Array[String] = vendor.available_card_ids(state)
+	assert_gt(high_level.size(), no_level.size(), "leveling up unlocks more stock with no gold spent")
+	assert_eq(high_level.size(), content.cards.size(), "level 21 alone unlocks everything")

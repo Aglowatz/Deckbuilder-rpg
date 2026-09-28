@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_kkl5q"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="2_wrcd4"]
+
+[sub_resource type="Resource" id="Resource_1yvl1"]
+script = ExtResource("1_kkl5q")
+value = 3
+
+[resource]
+script = ExtResource("2_wrcd4")
+id = "padded_vest"
+slot = 2
+description = "Thick enough to matter, light enough to forget you're wearing it. +3 max life."
+source_name = "Padded Vest"
+modifiers = Array[ExtResource("1_kkl5q")]([SubResource("Resource_1yvl1")])

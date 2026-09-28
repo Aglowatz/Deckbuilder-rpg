@@ -13,5 +13,6 @@ var tutorial: bool = false
 var is_boss: bool = false
 var practice: bool = false
 var gold_reward: int = 0
+var xp_reward: int = 0
 var card_choices: int = 0
 var won: bool = false

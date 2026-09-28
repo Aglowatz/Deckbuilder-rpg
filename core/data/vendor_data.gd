@@ -51,9 +51,11 @@ func is_open(state: UnlockState) -> bool:
 
 ## Every card in a full deck's non-land, non-token cards, priced/gated by rarity: common cards
 ## unlock once `gate` (usually the vendor's home dungeon being cleared) is met; uncommon/epic/
-## legendary unlock progressively further behind lifetime gold spent, so the stall visibly grows
-## as the player plays. Neutral cards and the player's own colors (their starting deck is always
-## two colors) are always available once `gate` is met.
+## legendary unlock progressively further behind lifetime gold spent OR player level (Part E: a
+## "vendor unlock" level reward is real, not just flavor - either path opens the tier, whichever
+## the player reaches first), so the stall visibly grows as the player plays or levels up. Neutral
+## cards and the player's own colors (their starting deck is always two colors) are always
+## available once `gate` is met.
 static func graduated(content: ContentSet, own_colors: Array[Affinity.Type], gate: Condition) -> VendorData:
 	var data: VendorData = VendorData.new()
 	var ids: Array = content.cards.keys()
@@ -64,5 +66,7 @@ static func graduated(content: ContentSet, own_colors: Array[Affinity.Type], gat
 			data.add(card.id, gate)
 			continue
 		var spend_threshold: int = [80, 180, 320, 500][int(card.rarity)]
-		data.add(card.id, Condition.all_of([gate, Condition.gold_spent(spend_threshold)] as Array[Condition]))
+		var level_threshold: int = [3, 9, 15, 21][int(card.rarity)]
+		var progress: Condition = Condition.any_of([Condition.gold_spent(spend_threshold), Condition.player_level(level_threshold)] as Array[Condition])
+		data.add(card.id, Condition.all_of([gate, progress] as Array[Condition]))
 	return data

@@ -7,6 +7,8 @@ const CARD_DIR: String = "res://data/cards/"
 const DECK_DIR: String = "res://data/decks/"
 const CHALLENGE_DIR: String = "res://data/encounters/challenges/"
 const AI_DIR: String = "res://data/ai/"
+const EQUIPMENT_DIR: String = "res://data/equipment/"
+const ITEM_DIR: String = "res://data/items/"
 
 
 func _init() -> void:
@@ -25,6 +27,10 @@ func _init() -> void:
 		saved += _save(challenge, CHALLENGE_DIR + challenge.id + ".tres")
 	for personality: AIPersonality in content.personalities:
 		saved += _save(personality, AI_DIR + _slug(personality.personality_name) + ".tres")
+	for piece: Variant in content.equipment.values():
+		saved += _save(piece as EquipmentData, EQUIPMENT_DIR + (piece as EquipmentData).id + ".tres")
+	for consumable: Variant in content.items.values():
+		saved += _save(consumable as ItemData, ITEM_DIR + (consumable as ItemData).id + ".tres")
 	print("Generated %d resource files." % saved)
 	quit(0)
 

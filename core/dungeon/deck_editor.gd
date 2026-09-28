@@ -41,8 +41,9 @@ func why_not_add(card: CardData) -> String:
 	if card.is_token:
 		return "Tokens cannot be put in a deck."
 	if not card.is_basic:
-		if count(card) >= DeckValidator.MAX_COPIES:
-			return "A deck holds at most %d copies of a card." % DeckValidator.MAX_COPIES
+		var limit: int = profile.max_copies_for(card.rarity)
+		if count(card) >= limit:
+			return "A deck holds at most %d copies of a %s card." % [limit, CardEnums.Rarity.keys()[int(card.rarity)].capitalize()]
 		if count(card) >= owned(card):
 			return "You do not own another copy."
 	if card.color != Affinity.Type.NEUTRAL and not deck.colors().has(card.color):

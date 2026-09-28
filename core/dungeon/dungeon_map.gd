@@ -5,6 +5,11 @@ extends RefCounted
 
 enum Kind { START, BATTLE, CHALLENGE, SHRINE, BOSS }
 
+## Part E: how much XP/gold an encounter is worth (`EncounterRewards`). Tutorial < Normal <
+## Elite < Boss. Only Tutorial and Boss are used by any dungeon that actually exists yet (the
+## Trial of the Hollow); Normal/Elite are here so future dungeons have somewhere to plug in.
+enum Difficulty { TUTORIAL, NORMAL, ELITE, BOSS }
+
 
 class MapNode:
 	extends RefCounted
@@ -19,6 +24,7 @@ class MapNode:
 	var enemy_name: String = ""
 	var enemy_life: int = -1
 	var ai_name: String = "Balanced"
+	var difficulty: Difficulty = Difficulty.NORMAL
 	var gold_reward: int = 0
 	var card_choices: int = 0
 	## The first battle is guided by the tutorial layer.

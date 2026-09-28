@@ -216,6 +216,7 @@ func _build_ui() -> void:
 	host.add_child(vignette)
 	hud = TownHud.new()
 	host.add_child(hud)
+	hud.character_pressed.connect(_open_character_screen)
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
@@ -290,6 +291,11 @@ func _prompt_text(spot: Spot) -> String:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	# The character screen (Part E) is a global shortcut, not tied to a nearby spot.
+	if not _locked and not dialogue.active and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_C:
+		get_viewport().set_input_as_handled()
+		_open_character_screen()
+		return
 	if _locked or dialogue.active or _near == null:
 		return
 	if event.is_action_pressed(&"interact"):
@@ -438,6 +444,14 @@ func _open_deck_station() -> void:
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 	EventBus.tutorial_event.emit(&"deck_station_opened")
+
+
+## Part E: level, XP, stats, item and equipment slots. Hotkey C (global, see _unhandled_input) or
+## the HUD button; also reachable from the rewards screen right after leveling up.
+func _open_character_screen() -> void:
+	var screen: CharacterScreen = CharacterScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
 
 
 func _open_codex() -> void:
@@ -603,3 +617,5 @@ func _screenshot_open(what: String) -> void:
 			_use_gate()
 		"codex":
 			_open_codex()
+		"character":
+			_open_character_screen()

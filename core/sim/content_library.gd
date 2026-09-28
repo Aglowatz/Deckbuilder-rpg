@@ -6,6 +6,8 @@ const CARD_DIR: String = "res://data/cards/"
 const DECK_DIR: String = "res://data/decks/"
 const CHALLENGE_DIR: String = "res://data/encounters/challenges/"
 const AI_DIR: String = "res://data/ai/"
+const EQUIPMENT_DIR: String = "res://data/equipment/"
+const ITEM_DIR: String = "res://data/items/"
 
 
 static func load_all() -> ContentSet:
@@ -32,6 +34,14 @@ static func load_all() -> ContentSet:
 		var personality: AIPersonality = load(path) as AIPersonality
 		if personality != null:
 			content.personalities.append(personality)
+	for path: String in _tres_files(EQUIPMENT_DIR):
+		var piece: EquipmentData = load(path) as EquipmentData
+		if piece != null:
+			content.equipment[piece.id] = piece
+	for path: String in _tres_files(ITEM_DIR):
+		var consumable: ItemData = load(path) as ItemData
+		if consumable != null:
+			content.items[consumable.id] = consumable
 	return content
 
 

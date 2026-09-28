@@ -11,6 +11,9 @@ var lands: Dictionary = {}
 var decks: Array[Deck] = []
 var challenges: Array[ChallengeData] = []
 var personalities: Array[AIPersonality] = []
+## Part E: id -> EquipmentData / ItemData for the 5 placeholder equipment pieces and 3 items.
+var equipment: Dictionary = {}
+var items: Dictionary = {}
 
 
 func card(id: String) -> CardData:
@@ -19,6 +22,14 @@ func card(id: String) -> CardData:
 	if tokens.has(id):
 		return tokens[id] as CardData
 	return null
+
+
+func equipment_piece(id: String) -> EquipmentData:
+	return equipment.get(id) as EquipmentData
+
+
+func item(id: String) -> ItemData:
+	return items.get(id) as ItemData
 
 
 func deck(deck_name: String) -> Deck:

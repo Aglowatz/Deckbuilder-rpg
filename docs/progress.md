@@ -723,6 +723,64 @@ starting_deck_and_affinity.md` was rewritten for the new flow.
 `test_ai_player.gd` for the new personality/decks). The general (non-tutorial) balance report was
 also regenerated since the two new neutral cards and the Wanderer's Pack template's new 42-card
 size changed it slightly (noted inline in `balance_report.md`).
-## New Part E: player progression (levels 1-30) - not started
+## New Part E: player progression (levels 1-30) - done
+
+The biggest single part of this brief: 30 levels, XP/gold from every encounter, life/hand/item
+slot growth, chosen equipment-slot unlocks, level-dependent deck copy limits, and a placeholder
+equipment/item framework, all built on the existing Modifier pipeline.
+
+- **`ProgressionTable`** (`core/data/progression_table.gd`, one function, `build()`, is the whole
+  source of truth): 30 `LevelData` rows, each an absolute snapshot (not a delta) of max life,
+  opening hand size, item slots, copy limits by rarity, whether an equipment choice happens, and
+  (if nothing else lands that level) a filler reward. Verified in code, not just by design, that
+  every level 1-30 grants something (`test_every_level_up_grants_something`). Full table written
+  to `docs/design/progression.md` by `tools/generate_progression_doc.gd`. Milestone level choices
+  (which level bumps which stat) are judgment calls - see D53.
+- **XP**: `EncounterRewards` (Tutorial/Normal/Elite/Boss = 15/30/60/120, gold similarly scaled) -
+  `DungeonMap.MapNode` gained a `difficulty` field, `Session.make_dungeon_battle`/`complete_battle`
+  award XP the same way gold already was. Curve reasoning and its "no real length to calibrate
+  against" caveat: D52.
+- **Life 10->25, hand 5->8, item slots 1->4**: `PlayerProfile.apply_level(row)` applies one level's
+  absolute stats - never inferred automatically from `level` alone, so tests/tools that set
+  `max_life`/`opening_hand_size` directly for scenario setup are untouched (only whatever calls
+  `apply_level` - i.e. real XP gain - changes them for real play).
+- **Equipment slots, chosen**: `EquipmentSlotChoiceScreen` offers only the not-yet-unlocked slots;
+  `Session.pending_equipment_choices` is a counter (not a flag) so a big XP jump crossing more than
+  one choice-level never silently loses one (D54).
+- **Deck copy limits by rarity and level**: `PlayerProfile.max_copies_for(rarity)`, read by both
+  `DeckValidator.validate` (replacing the flat `MAX_COPIES=3`) and `DeckEditor.why_not_add` - the
+  deck station's rules panel now shows a live per-rarity breakdown instead of one flat number.
+- **Equipment/item framework**: `EquipmentData extends ModifierSource` (slot + Modifiers - drops
+  straight into `PlayerProfile.equipment`/the pipeline, D57) and `ItemData` (uses + one
+  `EffectData`, resolved between fights by `ItemUseResolver` against the current `DungeonRun` -
+  D55, only `GAIN_LIFE`/`LOSE_LIFE` are supported outside a duel, a documented scope limit). 5
+  placeholder equipment pieces (one per slot) and 3 placeholder items - `Session.equip_item`/
+  `unequip_slot`/`use_item` wrap the profile methods and save.
+- **A real mechanical use for the "vendor unlock" level reward**: `VendorData.graduated`'s
+  off-color unlock is now `gold_spent OR player_level` (either path opens a rarity tier) - D56.
+- **UI**: `CharacterScreen` (town, hotkey **C** or a HUD button - level/XP bar/stats/item slots/
+  equipment slots, locked ones shown locked, equip/unequip/use right there) and `LevelUpScreen`
+  (shown from the rewards screen right after a battle levels the player up - recaps every level
+  gained, then walks through any pending equipment choices and card-reward picks one at a time
+  before letting the dungeon flow continue). All three new screens (Character, Level Up, Equipment
+  Slot Choice) were screenshotted in every state (locked/unlocked/equipped/multi-level) and render
+  correctly - screenshots are git-ignored, verified with disposable debug scenes then deleted.
+- **A real bug found and fixed via the e2e driver**: `tools/e2e_demo.gd` now forces one battle's
+  XP high enough to cross both an equipment-choice level and a card-choice level in one jump, then
+  clicks all the way through it (not just the simple single-level case) - this caught
+  `LevelUpScreen` leaking its resolved equipment-choice overlay instead of freeing it before
+  showing the next step, which would have left it clickable underneath forever on a real multi-
+  choice level-up. Fixed (D58); the full e2e run now passes clean start to finish with this path
+  genuinely exercised, not just left to natural XP pacing.
+- **Save/load**: level, xp, equipment_slots, owned/equipped equipment, owned items + uses
+  remaining, and pending equipment choices all round-trip through `Session.to_dict`/`from_dict`.
+  `Session.player_level` (a placeholder field from D37, never driven by anything) is retired in
+  favor of `profile.level`, which is now the real thing driving `Condition.PLAYER_LEVEL`.
+
+315 GUT tests pass (19 new: `test_progression.gd` covers the table, leveling, copy limits,
+equip/unequip and item use end to end; `test_vendor_data.gd` gained a level-unlock case).
+`docs/design/combat_rules.md` gained a "Progression" section and its copy-limit line was updated.
+
+## New Part F: deck color rule - not started
 ## New Part F: deck color rule - not started
 ## New Part G: zone portals - not started

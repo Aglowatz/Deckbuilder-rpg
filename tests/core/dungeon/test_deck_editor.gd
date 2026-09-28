@@ -31,7 +31,7 @@ func test_starter_deck_is_not_valid_without_the_waiver() -> void:
 
 func test_cannot_add_more_than_owned_or_three_copies() -> void:
 	var scout: CardData = content.card("apprentice_blade")
-	assert_eq(editor.why_not_add(scout), "A deck holds at most 3 copies of a card.")
+	assert_eq(editor.why_not_add(scout), "A deck holds at most 3 copies of a Common card.")
 	profile.owned_cards.append(scout)
 	assert_ne(editor.why_not_add(scout), "")
 
