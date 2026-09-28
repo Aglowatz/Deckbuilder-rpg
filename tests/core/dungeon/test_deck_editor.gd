@@ -47,6 +47,19 @@ func test_third_color_is_refused() -> void:
 	assert_ne(editor.why_not_add(content.card("mossback_bear")), "", "third color is refused")
 
 
+## Part F: the deck builder's own gate (DeckEditor.why_not_add), not just DeckValidator directly,
+## must also read the flag - confirming the whole chain (engine + deck builder) is tied to it.
+func test_third_color_allowed_after_postgame_unlocked() -> void:
+	profile.owned_cards.append(content.card("frost_sentry"))
+	profile.owned_cards.append(content.card("mossback_bear"))
+	assert_true(editor.add(content.card("frost_sentry")), "2nd color is fine")
+	assert_ne(editor.why_not_add(content.card("mossback_bear")), "", "a 3rd color is refused before postgame")
+	profile.postgame_unlocked = true
+	assert_eq(editor.why_not_add(content.card("mossback_bear")), "", "postgame_unlocked lets the deck builder allow a 3rd color too")
+	assert_true(editor.add(content.card("mossback_bear")))
+	assert_eq(editor.deck.colors().size(), 3)
+
+
 func test_remove_and_size_rules() -> void:
 	assert_true(editor.remove(content.card("cave_bat")))
 	assert_false(editor.is_valid(), "41 cards is below the minimum, waiver included")

@@ -781,6 +781,24 @@ equipment/item framework, all built on the existing Modifier pipeline.
 equip/unequip and item use end to end; `test_vendor_data.gd` gained a level-unlock case).
 `docs/design/combat_rules.md` gained a "Progression" section and its copy-limit line was updated.
 
-## New Part F: deck color rule - not started
-## New Part F: deck color rule - not started
+## New Part F: deck color rule - done (confirmation)
+
+The rule ("at most 2 colors + neutral normally, all 4 once `postgame_unlocked`") already existed
+from milestone 5, before this brief, and was already tested on the engine side
+(`DeckValidator.max_colors`/`validate`, `test_color_limit_is_two_until_postgame_then_four`).
+Confirmed both halves the brief asks for:
+
+- **Engine**: `DeckValidator.max_colors(profile, modifiers)` reads `profile.postgame_unlocked`
+  directly (2 colors normally, 4 once true; `MAX_DECK_COLORS` modifiers can add further on top).
+- **Deck builder**: `DeckEditor.why_not_add` calls the same `DeckValidator.max_colors` - this half
+  had no dedicated test before, so `test_third_color_allowed_after_postgame_unlocked` was added to
+  close that gap explicitly (not just the engine's own validator).
+- **Tied to the flag**: yes, both read `profile.postgame_unlocked` and nothing else. Nothing in the
+  current game sets it to true yet, since there is no final-boss encounter to tie it to (only the
+  tutorial dungeon's boss, which is not "the final boss" - Part G deliberately does not build real
+  endgame zones this pass) - see D59. This is a note for future zone/final-boss work, not a gap in
+  this part.
+
+316 GUT tests pass (1 new).
+
 ## New Part G: zone portals - not started
