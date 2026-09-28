@@ -5,6 +5,7 @@
 
 [sub_resource type="Resource" id="Resource_n32ws"]
 script = ExtResource("1_nqjmu")
+target = 1
 op = 9
 amount = 2
 

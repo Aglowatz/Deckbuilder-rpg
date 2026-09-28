@@ -307,6 +307,32 @@ func cast(player_index: int, uid: int, target: int = 0, tap_uids: Array[int] = [
 	return true
 
 
+## New brief, Part F: whether `item` could be used right now by `player_index` (their own main
+## phase, and a legal target if its effect needs one - the same rule spells follow). Items are
+## equipped gear, not cards - no mana cost, no hand/battlefield involvement, so this sits beside
+## can_cast/cast rather than going through the CAST GameAction.
+func can_use_item(player_index: int, item: ItemData) -> bool:
+	if item == null or item.effect == null or not in_main_phase() or player_index != active:
+		return false
+	if item.effect.needs_chosen_target():
+		return not legal_targets(player_index, item.effect, 0).is_empty()
+	return true
+
+
+## Resolves an equipped item's effect against the live duel. `target` is a Targets ref, required
+## only when the effect needs a chosen target. Does not touch PlayerProfile/inventory bookkeeping
+## (which uses/charges are spent) - that is Session's job, once this returns true; see
+## app/game_session.gd `use_equipped_item`.
+func use_item(player_index: int, item: ItemData, target: int = 0) -> bool:
+	if not can_use_item(player_index, item):
+		return false
+	if item.effect.needs_chosen_target() and not legal_targets(player_index, item.effect, 0).has(target):
+		return false
+	EffectResolver.resolve(self, item.effect, EffectContext.make(0, player_index, 0, target))
+	check_state()
+	return true
+
+
 func _pay(player_index: int, generic: int, pips: Array[Affinity.Type], tap_uids: Array[int], for_uid: int) -> bool:
 	var player: PlayerState = players[player_index]
 	var to_tap: Array[CardInstance] = []

@@ -5,6 +5,7 @@
 
 [sub_resource type="Resource" id="Resource_00fgg"]
 script = ExtResource("1_ifakk")
+target = 1
 op = 9
 amount = 3
 

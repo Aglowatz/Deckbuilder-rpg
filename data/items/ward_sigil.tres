@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ug1m4"]
+[ext_resource type="Script" path="res://core/data/item_data.gd" id="2_3k25h"]
+
+[sub_resource type="Resource" id="Resource_bjqk8"]
+script = ExtResource("1_ug1m4")
+target = 6
+op = 11
+duration = 1
+keyword = 7
+
+[resource]
+script = ExtResource("2_3k25h")
+id = "ward_sigil"
+display_name = "Ward Sigil"
+description = "Give a creature Guard until end of turn."
+uses = 2
+effect = SubResource("Resource_bjqk8")

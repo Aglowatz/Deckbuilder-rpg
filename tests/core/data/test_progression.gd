@@ -132,13 +132,14 @@ func test_deck_validator_reads_copy_limits_from_the_profile_level() -> void:
 # ---- Equipment ----------------------------------------------------------------------------
 
 
-func test_progression_content_has_five_equipment_one_per_slot_and_three_items() -> void:
+func test_progression_content_has_five_equipment_one_per_slot_and_thirteen_items() -> void:
 	assert_eq(content.equipment.size(), 5)
 	var slots: Dictionary = {}
 	for piece: Variant in content.equipment.values():
 		slots[(piece as EquipmentData).slot] = true
 	assert_eq(slots.size(), 5, "one piece per slot")
-	assert_eq(content.items.size(), 3)
+	# New brief, Part F: 3 original placeholders + 10 new basic consumables.
+	assert_eq(content.items.size(), 13)
 	for consumable: Variant in content.items.values():
 		assert_gt((consumable as ItemData).uses, 0)
 		assert_not_null((consumable as ItemData).effect)
@@ -237,3 +238,43 @@ func test_use_item_fails_for_an_unowned_item_or_an_unsupported_effect() -> void:
 	profile.owned_items.append(weird)
 	assert_false(profile.use_item(weird, run), "DRAW is not a supported outside-battle op")
 	assert_true(profile.owns_item(weird), "an unsupported use does not consume the charge")
+
+
+# ---- Equipping items (new brief, Part F) -----------------------------------------------------
+
+
+func test_equip_is_limited_by_item_slots() -> void:
+	var profile: PlayerProfile = PlayerProfile.new()
+	profile.item_slots = 1
+	var draught: ItemData = content.item("healing_draught")
+	var tonic: ItemData = content.item("reckless_tonic")
+	profile.owned_items.append(draught)
+	profile.owned_items.append(tonic)
+	assert_true(profile.equip_item_id(draught))
+	assert_false(profile.equip_item_id(tonic), "only 1 item slot at level 1")
+	profile.item_slots = 2
+	assert_true(profile.equip_item_id(tonic), "a second slot frees up room")
+	assert_eq(profile.equipped_item_ids, ["healing_draught", "reckless_tonic"])
+
+
+func test_cannot_equip_an_unowned_item_or_equip_twice() -> void:
+	var profile: PlayerProfile = PlayerProfile.new()
+	profile.item_slots = 4
+	var draught: ItemData = content.item("healing_draught")
+	assert_false(profile.equip_item_id(draught), "not owned")
+	profile.owned_items.append(draught)
+	assert_true(profile.equip_item_id(draught))
+	assert_false(profile.equip_item_id(draught), "already equipped")
+
+
+func test_using_up_the_last_charge_also_unequips_it() -> void:
+	var profile: PlayerProfile = PlayerProfile.new()
+	profile.item_slots = 1
+	var tonic: ItemData = content.item("reckless_tonic")
+	profile.owned_items.append(tonic)
+	profile.item_uses_remaining[tonic.id] = tonic.uses
+	profile.equip_item_id(tonic)
+	profile.spend_item_charge(tonic)
+	assert_false(profile.owns_item(tonic))
+	assert_false(profile.is_item_equipped(tonic), "gone from inventory, so no longer equipped either")
+	assert_eq(profile.equipped_item_ids.size(), 0)

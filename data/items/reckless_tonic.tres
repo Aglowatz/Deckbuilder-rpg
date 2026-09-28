@@ -5,6 +5,7 @@
 
 [sub_resource type="Resource" id="Resource_njwcd"]
 script = ExtResource("1_ecdfy")
+target = 1
 op = 9
 amount = 6
 

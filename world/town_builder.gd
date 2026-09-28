@@ -225,6 +225,11 @@ func _build_props() -> void:
 	anchors["npc_well"] = (anchors.get("well", Vector3.ZERO) as Vector3) + Vector3(1.5, 0, 0.6)
 	anchors["npc_gate"] = gate + Vector3(-2.0, 0, 0.9)
 	anchors["npc_market"] = market + Vector3(0.1, 0, 0.55)
+	# New brief, Part F: the item vendor's stall (Wick), a short walk from the card vendor.
+	var item_vendor_center: Vector3 = cell_center(10, 5)
+	_building("barracks", item_vendor_center, -20.0, 1.2, 0.85)
+	anchors["item_vendor"] = item_vendor_center + Vector3(0, 0, 1.05)
+	anchors["npc_item_vendor"] = item_vendor_center + Vector3(1.0, 0, 0.6)
 	# New brief, Part E: 4 corrupted NPCs, one per element district, close enough to their own
 	# district's edge gate to read as "belongs to that zone" without blocking the district's main
 	# path. Visual corruption (tint + particle effect) is TownScene's job, not the builder's.

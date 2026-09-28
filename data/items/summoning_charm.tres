@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_rk1ey"]
+[ext_resource type="Resource" path="res://data/cards/token_spirit.tres" id="2_vgltb"]
+[ext_resource type="Script" path="res://core/data/item_data.gd" id="3_bkafn"]
+
+[sub_resource type="Resource" id="Resource_541tm"]
+script = ExtResource("1_rk1ey")
+target = 1
+op = 6
+amount = 1
+token = ExtResource("2_vgltb")
+
+[resource]
+script = ExtResource("3_bkafn")
+id = "summoning_charm"
+display_name = "Summoning Charm"
+description = "Summon a 1/1 Spirit token."
+effect = SubResource("Resource_541tm")

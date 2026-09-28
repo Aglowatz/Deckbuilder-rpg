@@ -1086,3 +1086,66 @@ turn instead of retrying it forever).
 
 Tests: 324 total (7 new); the new corrupted-NPC smoke test and the extended town interact smoke
 test (real windowed input) both pass.
+
+## Part F: items and item vendor - done
+
+**In-battle item use is genuinely new** (Part E's `ItemUseResolver` explicitly only supported
+using an item between fights - see its own header comment). Turned out not to need new engine
+machinery: `GameState.can_use_item`/`use_item` sit next to `can_cast`/`cast` and resolve an
+item's `EffectData` through the same `EffectResolver` cards already use (D72) - not wired into
+`GameAction`, since only the human player ever uses items. Items reuse the full targeting flow
+cards already have (`Mode.TARGETING`) when their effect needs a chosen target.
+
+**Equip vs. inventory**: `PlayerProfile.equipped_item_ids` (new) is capped at `item_slots`
+(1-4 via progression); `owned_items` (existing) is uncapped - "any number of items" means
+uncapped *uses*, not uncapped duplicate stacks (D73): buying/being granted an already-owned item
+tops up its shared charge count instead of adding a confusing second entry. Character screen:
+each owned item now shows Equip/Unequip alongside the existing "Use" button (still works
+out-of-battle/on the map, unchanged).
+
+**10 basic items**, each one existing, already-tested `EffectOp` (D74 - no new engine mechanics
+invented for "+1 mana"/​"shield"; "Ward Sigil" = grant Guard for a turn, the closest existing
+thing to a temporary shield): Healing Salve (heal 4), Field Bandage (mend a creature),
+Scroll of Insight (draw), Firebrand Charm (2 damage to a creature), Sharpening Stone (+2/+2 a
+turn), Binding Chains (bounce a creature), Silence Powder (opponent discards), Grave Dust
+(opponent mills 3), Summoning Charm (a 1/1 Spirit token), Ward Sigil (Guard a turn) - plus the 3
+Part D/E placeholders, 13 total. Each has its own game-icons.net icon (5 new files copied in,
+one already-approved/credited pack - see CREDITS.md) and a one-line description.
+
+**The item vendor** (Wick, in town, a short walk from Sable's card stall): a new
+`ItemVendorData`/`ItemVendorEntry` pair (D75, the item equivalent of the card vendor's
+`VendorData`/`VendorStockEntry` - kept separate rather than generalizing a `card_id`-keyed class
+to cover two content types) with the same "???" teaser pattern for locked stock, price, and
+owned/uses-left. Stock grows with level: 4 items always available, 4 more at level 3, 5 more at
+level 6.
+
+**Battle UI**: a new `ItemBar` next to the player's own portrait shows equipped items (icon +
+uses-left badge, greyed out when unusable); clicking one uses it immediately, or enters
+targeting first if it needs a target.
+
+Verified with real injected input, not just unit tests:
+- `tests/core/game/test_items.gd` (new): `can_use_item`/`use_item` respect turn/phase, apply
+  every op correctly, reject illegal/missing targets, and - a real content-driven check, not just
+  hand-built fixtures - every one of the 13 real items in the content set actually resolves
+  without crashing on a normal board.
+- `tests/core/data/test_progression.gd`: equip/unequip respects the slot cap, rejects
+  unowned/already-equipped items, and unequips automatically once the last charge is spent.
+- `tools/battle_item_smoke.gd` (new): equips two items, plays a real practice battle through the
+  mulligan into the player's main phase, clicks the item bar for an untargeted item (Scroll of
+  Insight - draw a card, spends a charge) and a targeted one (Firebrand Charm - enters targeting,
+  clicking the enemy creature actually deals the damage). This pass found a *test* bug of its
+  own, not a product bug: the item smoke test's first attempt didn't handle the mulligan step, so
+  it clicked before the game was ready; fixed by waiting for/clicking through mulligan like every
+  other real-input test does.
+- `tools/town_interact_smoke.gd` (extended): talking to Wick, opening the shop, buying an item
+  with real gold, and confirming it lands in the inventory.
+
+Tests: 335 total (8 new: 7 `test_items.gd` + the `test_progression.gd` additions land in the
+existing file); `tools/battle_item_smoke.gd` and the extended town interact smoke test (both real
+windowed input) pass.
+
+One scope note: a dedicated screenshot/UI-only smoke test for the Character screen's new
+Equip/Unequip buttons was not written separately - `battle_item_smoke.gd` already proves an
+equipped item is genuinely usable in a real battle end to end, which is the capability that
+actually mattered to verify; the Character screen code itself mirrors the existing, already-shipped
+equipment-slot UI pattern exactly.

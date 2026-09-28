@@ -187,12 +187,43 @@ func add_cards(cards: Array[CardData]) -> void:
 	EventBus.collection_changed.emit()
 
 
-## New brief, Part D: grants one consumable item (chests, and later the item vendor in Part F).
+## New brief, Part D: grants one consumable item (chests, and the item vendor in Part F). Owning
+## an item id at all means one inventory entry with a shared uses-remaining count (see
+## PlayerProfile.item_uses_remaining, keyed by id) - granting an already-owned item tops up its
+## uses instead of appending a second, indistinguishable entry.
 func add_item(item: ItemData) -> void:
 	if profile == null or item == null:
 		return
-	profile.owned_items.append(item)
+	if profile.owns_item(item):
+		profile.item_uses_remaining[item.id] = profile.item_uses_left(item) + item.uses
+	else:
+		profile.owned_items.append(item)
+		profile.item_uses_remaining[item.id] = item.uses
 	EventBus.collection_changed.emit()
+
+
+## New brief, Part F: uses an equipped item mid-duel (the battle screen's item bar). Applies the
+## effect against the live duel (GameState.use_item), then spends the charge in the profile -
+## kept as two steps, not one, so a rejected use (wrong phase, no legal target) never spends a
+## charge.
+func use_equipped_item(game: GameState, player_index: int, item: ItemData, target: int = 0) -> bool:
+	if profile == null or not profile.is_item_equipped(item):
+		return false
+	if not game.use_item(player_index, item, target):
+		return false
+	profile.spend_item_charge(item)
+	save_game()
+	return true
+
+
+## New brief, Part F: buys one unit of `item` from a vendor (spends gold, grants the item via
+## add_item's top-up-or-add logic above).
+func buy_item(item: ItemData, price: int) -> bool:
+	if item == null or not spend_gold(price):
+		return false
+	add_item(item)
+	save_game()
+	return true
 
 
 # ---- Progression (Part E) ----------------------------------------------------------------
@@ -332,6 +363,7 @@ func to_dict() -> Dictionary:
 		"owned_equipment": owned_equipment_ids,
 		"equipped": equipped_ids,
 		"owned_items": item_saves,
+		"equipped_items": profile.equipped_item_ids,
 		"pending_equipment_choices": pending_equipment_choices,
 	}
 
@@ -368,6 +400,8 @@ func from_dict(data: Dictionary) -> bool:
 		if owned_item != null:
 			loaded.owned_items.append(owned_item)
 			loaded.item_uses_remaining[owned_item.id] = int(entry_dict.get("uses_left", owned_item.uses))
+	for id: Variant in data.get("equipped_items", []) as Array:
+		loaded.equipped_item_ids.append(str(id))
 	profile = loaded
 	deck = Deck.new()
 	deck.deck_name = DECK_NAME

@@ -53,6 +53,23 @@ const BY_ID: Dictionary = {
 	"land_affinity_d": "lorc/skull-crossed-bones",
 }
 
+## New brief, Part F: item icons, looked up by item id (same game-icons.net silhouette style).
+const BY_ITEM_ID: Dictionary = {
+	"healing_draught": "delapouite/health-potion",
+	"vitality_charm": "delapouite/healing",
+	"reckless_tonic": "lorc/potion-ball",
+	"healing_salve": "delapouite/health-potion",
+	"field_bandage": "delapouite/hand-bandage",
+	"scroll_of_insight": "lorc/scroll-unfurled",
+	"firebrand_charm": "lorc/fire-punch",
+	"sharpening_stone": "lorc/muscle-up",
+	"binding_chains": "lorc/manacles",
+	"silence_powder": "lorc/powder",
+	"grave_dust": "delapouite/graveyard",
+	"summoning_charm": "lorc/magic-portal",
+	"ward_sigil": "delapouite/temporary-shield",
+}
+
 const UI_ICONS: Dictionary = {
 	"life": "lorc/heart-inside",
 	"attack": "lorc/crossed-swords",
@@ -77,6 +94,13 @@ static func for_card(card: CardData) -> Texture2D:
 	var key: String = str(BY_ID.get(card.id, ""))
 	if key == "":
 		key = "lorc/magic-swirl"
+	return _load(key)
+
+
+static func for_item(item: ItemData) -> Texture2D:
+	var key: String = str(BY_ITEM_ID.get(item.id, ""))
+	if key == "":
+		key = "delapouite/health-potion"
 	return _load(key)
 
 

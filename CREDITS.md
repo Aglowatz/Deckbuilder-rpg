@@ -36,7 +36,8 @@ For each asset:
   - License: CC0 (license file in the folder)
   - Notes: only this one prop was copied, for the town's hidden-nook secret. Added 2026-09-27.
 
-- **assets/icons/game-icons/** - game-icons.net silhouettes used as placeholder card art and UI glyphs
+- **assets/icons/game-icons/** - game-icons.net silhouettes used as placeholder card art, item
+  icons (Part F) and UI glyphs
   - Authors: Lorc, Delapouite, Sbed, Skoll, Carl Olsen, Cathelineau (each icon sits in its author folder)
   - Source: https://game-icons.net (repository https://github.com/game-icons/icons)
   - License: CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/); license.txt kept in the folder

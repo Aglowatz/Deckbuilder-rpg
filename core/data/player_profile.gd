@@ -37,6 +37,10 @@ const DEFAULT_MAX_HAND_SIZE: int = 10
 @export var owned_items: Array[ItemData] = []
 ## item id -> uses remaining. Missing entry = full uses (item.uses).
 @export var item_uses_remaining: Dictionary = {}
+## New brief, Part F: which owned items are equipped for battle (item ids, at most `item_slots`
+## long) - the whole inventory (`owned_items`) has no cap, but only equipped items are usable in
+## a duel (GameState.use_item). Use equip_item_id/unequip_item_id, not direct mutation.
+@export var equipped_item_ids: Array[String] = []
 
 
 ## Base stats clamped to their allowed ranges (before modifiers).
@@ -134,9 +138,38 @@ func use_item(item: ItemData, run: DungeonRun) -> bool:
 		return false
 	if not ItemUseResolver.apply(item, run):
 		return false
+	spend_item_charge(item)
+	return true
+
+
+## New brief, Part F: whether `item` is currently equipped (usable in a duel).
+func is_item_equipped(item: ItemData) -> bool:
+	return item != null and equipped_item_ids.has(item.id)
+
+
+## Equips `item` into a free slot (up to `item_slots`, see progression). False if not owned,
+## already equipped, or every slot is full.
+func equip_item_id(item: ItemData) -> bool:
+	if item == null or not owns_item(item) or is_item_equipped(item) or equipped_item_ids.size() >= item_slots:
+		return false
+	equipped_item_ids.append(item.id)
+	return true
+
+
+func unequip_item_id(item: ItemData) -> void:
+	if item != null:
+		equipped_item_ids.erase(item.id)
+
+
+## Spends one charge of an owned item without applying its effect - the caller already applied
+## it (e.g. an in-battle use, GameState.use_item). Removes (and unequips) the item once its uses
+## run out. Shared by use_item() above and the in-battle path (Session.use_equipped_item).
+func spend_item_charge(item: ItemData) -> void:
+	if item == null:
+		return
 	var remaining: int = item_uses_left(item) - 1
 	item_uses_remaining[item.id] = remaining
 	if remaining <= 0:
 		owned_items.erase(item)
 		item_uses_remaining.erase(item.id)
-	return true
+		unequip_item_id(item)

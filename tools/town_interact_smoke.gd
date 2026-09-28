@@ -38,8 +38,9 @@ func _run() -> void:
 	await _check_deck_station()
 	await _check_deck_builder_anywhere()
 	await _check_hidden_chests()
+	await _check_item_vendor()
 
-	_finish(_failures.is_empty(), "checked elder (E), guard (Space), vendor (click), deck station (E), deck builder anywhere (B hotkey + HUD button), 2 hidden chests (Part D)")
+	_finish(_failures.is_empty(), "checked elder (E), guard (Space), vendor (click), deck station (E), deck builder anywhere (B hotkey + HUD button), 2 hidden chests (Part D), item vendor (Part F)")
 
 
 # ---- Helpers ----------------------------------------------------------------------------
@@ -142,6 +143,44 @@ func _check_vendor_by_click() -> void:
 		await driver.click_button("Leave")
 		await driver.seconds(0.3)
 	_check(scene._overlay == null, "closing the Vendor screen returns to the town")
+
+
+## New brief, Part F: the item vendor - talk, buy an owned-later-topped-up item with real gold,
+## and confirm it actually lands in the inventory.
+func _check_item_vendor() -> void:
+	await _walk_to("item_vendor")
+	await driver.frames(3)
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.3)
+	_check(scene.dialogue.active, "interacting with the item vendor opens dialogue")
+	_check(scene.dialogue._speaker.text == "Wick", "the item vendor dialogue is from Wick")
+	await _dismiss_dialogue()
+	await driver.seconds(0.3)
+	_check(scene._overlay is ItemVendorScreen, "the item vendor dialogue leads into the Item Vendor screen")
+	if scene._overlay is ItemVendorScreen:
+		var vendor_screen: ItemVendorScreen = scene._overlay as ItemVendorScreen
+		var item: ItemData = Session.content.item("healing_draught")
+		var gold_before: int = Session.gold
+		_check(not Session.profile.owns_item(item), "a fresh profile does not already own it")
+		var tile: Control = _find_item_tile(vendor_screen, item.id)
+		_check(tile != null, "the item's tile is on screen")
+		if tile != null:
+			await driver.click(driver.center_of_control(tile))
+		await driver.seconds(0.2)
+		await driver.click_button("Buy")
+		await driver.seconds(0.3)
+		_check(Session.gold < gold_before, "buying an item spends gold")
+		_check(Session.profile.owns_item(item), "the bought item is actually in the inventory")
+		await driver.click_button("Leave")
+		await driver.seconds(0.3)
+	_check(scene._overlay == null, "closing the Item Vendor screen returns to town")
+
+
+func _find_item_tile(vendor_screen: ItemVendorScreen, item_id: String) -> Control:
+	for tile: Node in vendor_screen.find_children("*", "Control", true, false):
+		if tile.has_meta("item_id") and str(tile.get_meta("item_id")) == item_id:
+			return tile as Control
+	return null
 
 
 func _check_deck_station() -> void:

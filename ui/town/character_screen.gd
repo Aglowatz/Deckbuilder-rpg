@@ -8,6 +8,7 @@ var _xp_label: Label
 var _stats_box: VBoxContainer
 var _equipment_box: VBoxContainer
 var _items_box: VBoxContainer
+var _items_note: Label
 var _toast: Label
 
 
@@ -69,10 +70,12 @@ func _build_items_panel() -> Control:
 	var column: VBoxContainer = UIKit.vbox(8)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Items", &"HeadingLabel", 28))
-	var note: Label = UIKit.label("Items are used during a dungeon run.", &"MutedLabel", 18)
-	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	note.custom_minimum_size = Vector2(360, 0)
-	column.add_child(note)
+	# New brief, Part F: equip up to your item-slot limit to carry items into a fight (the item
+	# bar, usable on your turn); the "Use" button below still works between fights/on the map.
+	_items_note = UIKit.label("", &"MutedLabel", 18)
+	_items_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_items_note.custom_minimum_size = Vector2(360, 0)
+	column.add_child(_items_note)
 	_items_box = UIKit.vbox(6)
 	column.add_child(_items_box)
 	return panel
@@ -169,19 +172,38 @@ func _refresh_items() -> void:
 	for child: Node in _items_box.get_children():
 		child.queue_free()
 	var profile: PlayerProfile = Session.profile
+	_items_note.text = "Equipped %d / %d. Equipped items are usable on your turn in battle; \"Use\" also works between fights/on the map." % [profile.equipped_item_ids.size(), profile.item_slots]
 	if profile.owned_items.is_empty():
-		_items_box.add_child(UIKit.label("No items yet.", &"MutedLabel", 18))
+		_items_box.add_child(UIKit.label("No items yet - Wick's Supplies in town sells some.", &"MutedLabel", 18))
 		return
 	for owned_item: ItemData in profile.owned_items:
 		var row: HBoxContainer = UIKit.hbox(8)
-		var name_label: Label = UIKit.label("%s (%d left)" % [owned_item.display_name, profile.item_uses_left(owned_item)], &"", 18, UIStyle.PARCHMENT)
+		var equipped: bool = profile.is_item_equipped(owned_item)
+		var name_label: Label = UIKit.label("%s (%d left)%s" % [owned_item.display_name, profile.item_uses_left(owned_item), " [equipped]" if equipped else ""], &"", 18, UIStyle.GOOD if equipped else UIStyle.PARCHMENT)
 		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(name_label)
+		var equip_button: FancyButton = _small_button("Unequip" if equipped else "Equip", func() -> void: _toggle_equip(owned_item))
+		equip_button.disabled = not equipped and profile.equipped_item_ids.size() >= profile.item_slots
+		row.add_child(equip_button)
 		var usable: bool = Session.in_dungeon() and ItemUseResolver.can_apply(owned_item)
 		var use_button: FancyButton = _small_button("Use", func() -> void: _use(owned_item))
 		use_button.disabled = not usable
 		row.add_child(use_button)
 		_items_box.add_child(row)
+
+
+func _toggle_equip(owned_item: ItemData) -> void:
+	var profile: PlayerProfile = Session.profile
+	if profile.is_item_equipped(owned_item):
+		profile.unequip_item_id(owned_item)
+		Audio.sfx(&"ui_tick")
+	elif profile.equip_item_id(owned_item):
+		Audio.sfx(&"ui_confirm")
+	else:
+		_say("All %d item slots are full." % profile.item_slots, Color("ff8a85"))
+		return
+	Session.save_game()
+	_refresh()
 
 
 func _small_button(text: String, callback: Callable) -> FancyButton:

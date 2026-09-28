@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ue7qw"]
+[ext_resource type="Script" path="res://core/data/item_data.gd" id="2_t0k50"]
+
+[sub_resource type="Resource" id="Resource_ujt7c"]
+script = ExtResource("1_ue7qw")
+target = 5
+op = 7
+
+[resource]
+script = ExtResource("2_t0k50")
+id = "binding_chains"
+display_name = "Binding Chains"
+description = "Return an enemy creature to its owner's hand."
+effect = SubResource("Resource_ujt7c")

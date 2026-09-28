@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_m04qs"]
+[ext_resource type="Script" path="res://core/data/item_data.gd" id="2_7d10d"]
+
+[sub_resource type="Resource" id="Resource_28hxo"]
+script = ExtResource("1_m04qs")
+target = 5
+amount = 2
+
+[resource]
+script = ExtResource("2_7d10d")
+id = "firebrand_charm"
+display_name = "Firebrand Charm"
+description = "Deal 2 damage to an enemy creature."
+uses = 2
+effect = SubResource("Resource_28hxo")

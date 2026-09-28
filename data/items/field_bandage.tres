@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_o03do"]
+[ext_resource type="Script" path="res://core/data/item_data.gd" id="2_unv7v"]
+
+[sub_resource type="Resource" id="Resource_fxti3"]
+script = ExtResource("1_o03do")
+target = 6
+op = 1
+amount = 3
+
+[resource]
+script = ExtResource("2_unv7v")
+id = "field_bandage"
+display_name = "Field Bandage"
+description = "Mend 3 damage from one of your creatures."
+uses = 3
+effect = SubResource("Resource_fxti3")

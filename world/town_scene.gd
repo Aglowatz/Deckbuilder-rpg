@@ -27,7 +27,7 @@ const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
 const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
-	"elder", "guard", "vendor", "hidden_vendor",
+	"elder", "guard", "vendor", "hidden_vendor", "item_vendor",
 	"npc_ember", "npc_tide", "npc_root", "npc_grave",
 ]
 ## How close (in screen pixels) a click has to land to a spot's marker to count as
@@ -132,6 +132,8 @@ func _build_actors() -> void:
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
 	if Session.found_secret(HIDDEN_VENDOR_SECRET):
 		_add_npc("hidden_vendor", "Rogue_Hooded", town.anchors["hidden_vendor"] as Vector3, 100.0)
+	# New brief, Part F: the item vendor.
+	_add_npc("item_vendor", "Mage", town.anchors["npc_item_vendor"] as Vector3, -110.0)
 	# New brief, Part E: the 4 corrupted NPCs stay in town, and stay challengeable, even after
 	# being freed (D68) - only their dialogue changes on later visits, not their presence/look.
 	for npc_id: String in CorruptedNpcs.IDS:
@@ -236,6 +238,8 @@ func _build_spots() -> void:
 	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
 	if Session.found_secret(HIDDEN_VENDOR_SECRET):
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
+	# New brief, Part F: the item vendor.
+	_add_spot("item_vendor", "Wick's Supplies", town.anchors["npc_item_vendor"] as Vector3, 1.5)
 	# New brief, Part E: the 4 corrupted NPCs.
 	for npc_id: String in CorruptedNpcs.IDS:
 		_add_spot("npc_%s" % npc_id, CorruptedNpcs.display_name(npc_id), town.anchors["npc_%s" % npc_id] as Vector3, 1.5)
@@ -512,6 +516,8 @@ func _interact(spot: Spot) -> void:
 			_open_vault()
 		"hidden_vendor":
 			_talk_hidden_vendor()
+		"item_vendor":
+			_talk_item_vendor()
 		_:
 			if spot.id.begins_with("portal_"):
 				_use_zone_portal(spot.id.trim_prefix("portal_"))
@@ -839,6 +845,28 @@ func _open_vendor() -> void:
 	EventBus.tutorial_event.emit(&"vendor_opened")
 
 
+## New brief, Part F: the item vendor.
+func _talk_item_vendor() -> void:
+	_face_npc("item_vendor")
+	var lines: Array[String] = ["Potions, charms, one good tonic if you're feeling reckless. Equip what you buy from your Character screen to carry it into a fight."] as Array[String]
+	if not Session.flag(&"item_vendor_seen"):
+		Session.set_flag(&"item_vendor_seen")
+		lines = [
+			"You look like you could use some supplies. Wick, at your service.",
+			"Everything here is a one-time use in a fight - equip what you buy from the Character screen, then use it on your turn.",
+		] as Array[String]
+	dialogue.start("Wick", lines)
+	dialogue.finished.connect(_open_item_vendor, CONNECT_ONE_SHOT)
+
+
+func _open_item_vendor() -> void:
+	if not Session.has_profile():
+		return
+	var screen: ItemVendorScreen = ItemVendorScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
 ## Part G: a placeholder zone portal. Loads the reusable "coming soon" template
 ## (ZonePlaceholderScene) - no real zone exists yet for any of the 5. New brief, Part C/E: a
 ## locked element entrance shows a barrier message instead of loading the zone.
@@ -924,6 +952,8 @@ func _screenshot_open(what: String) -> void:
 			_open_deck_station()
 		"vendor":
 			_open_vendor()
+		"item_vendor":
+			_open_item_vendor()
 		"dialogue":
 			_talk_npc("elder", "Elder Maren", _elder_lines())
 		"gate":

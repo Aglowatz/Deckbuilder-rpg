@@ -42,6 +42,10 @@ var _target_source: int = 0
 var _target_options: Array[int] = []
 var _target_action: GameAction.Type = GameAction.Type.CAST
 var _target_ability: int = 0
+## New brief, Part F: set instead of _target_action/_target_ability while targeting an equipped
+## item's effect (items are not cards - no GameAction involved).
+var _pending_item: ItemData = null
+var item_bar: ItemBar
 var _selected_attackers: Array[int] = []
 var _block_assign: Dictionary = {}
 var _block_pick: int = 0
@@ -108,6 +112,13 @@ func _build_scene() -> void:
 	hud.primary_pressed.connect(_on_primary)
 	hud.end_turn_pressed.connect(_on_end_turn)
 	hud.attack_all_pressed.connect(_on_attack_all)
+	# New brief, Part F: the equipped-items row, next to the player's own portrait.
+	if Session.profile != null and Session.profile.item_slots > 0:
+		item_bar = ItemBar.new()
+		item_bar.position = Vector2(24, 700)
+		_board_root.add_child(item_bar)
+		item_bar.setup(game, Session.profile)
+		item_bar.item_pressed.connect(_on_item_pressed)
 	_overlay_layer = Control.new()
 	UIKit.full_rect(_overlay_layer)
 	_overlay_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -158,6 +169,8 @@ func _drive() -> void:
 		await _play_new_events()
 		board.sync_state()
 		hud.refresh_all()
+		if item_bar != null:
+			item_bar.refresh()
 		if game.is_over():
 			busy = false
 			await _show_result()
@@ -580,6 +593,41 @@ func _try_activate(uid: int) -> void:
 	_submit(GameAction.activate(0, uid, index))
 
 
+## New brief, Part F: using an equipped item from the item bar. Items are not cards - no mana, no
+## hand/battlefield involvement - but they reuse the exact same TARGETING flow when their effect
+## needs a chosen target (_pending_item, checked first in _finish_targeting).
+func _on_item_pressed(item: ItemData) -> void:
+	if busy or mode == Mode.TARGETING:
+		return
+	if not game.can_use_item(0, item):
+		_reject(_why_not_usable(item))
+		return
+	if item.effect.needs_chosen_target():
+		var options: Array[int] = game.legal_targets(0, item.effect, 0)
+		if options.is_empty():
+			_reject("There is no legal target")
+			return
+		_pending_item = item
+		_begin_targeting(0, options, GameAction.Type.CAST, 0)
+		return
+	_use_item(item, 0)
+
+
+func _use_item(item: ItemData, target: int) -> void:
+	if not Session.use_equipped_item(game, 0, item, target):
+		_reject("Cannot use that right now")
+		return
+	Audio.sfx(&"ui_confirm")
+	_clear_selection_state()
+	_drive()
+
+
+func _why_not_usable(item: ItemData) -> String:
+	if not game.in_main_phase() or game.active != 0:
+		return "You can only use items in your main phase"
+	return "There is no legal target"
+
+
 func _reject(message: String) -> void:
 	Audio.sfx(&"ui_error")
 	_toast(message)
@@ -611,6 +659,7 @@ func _begin_targeting(source: int, options: Array[int], action_type: GameAction.
 func _cancel_targeting() -> void:
 	if mode != Mode.TARGETING:
 		return
+	_pending_item = null
 	_clear_selection_state()
 	mode = Mode.MAIN
 	_refresh_ui()
@@ -624,6 +673,11 @@ func _click_portrait_target(pos: Vector2) -> void:
 
 
 func _finish_targeting(ref: int) -> void:
+	if _pending_item != null:
+		var item: ItemData = _pending_item
+		_pending_item = null
+		_use_item(item, ref)
+		return
 	var source: int = _target_source
 	var action_type: GameAction.Type = _target_action
 	var ability: int = _target_ability
