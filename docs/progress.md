@@ -830,3 +830,102 @@ reusable "coming soon" scene - no real zones built, exactly as scoped.
 
 316 GUT tests pass (no `core/` changes - this part is presentation only, per the brief). See D60
 for the tinting/placement choices and D61 for the bug.
+
+---
+
+# Final pass (second follow-up brief)
+
+## Full end-to-end run
+
+`tools/e2e_demo.gd` was extended to cover the whole new brief in one run: title -> new game ->
+starting area (wake up) -> **choose an element** (`ElementChoiceScreen`) -> tutorial dungeon,
+trying the **in-dungeon deck builder** once -> 3 tutorial battles (won or lost-and-retried, same as
+a human would see) with **on-element reward picks growing the deck to 45** -> the first win forced
+to a large XP grant so the **multi-level level-up chain** (recap -> equipment-slot choice -> a
+level's own card-reward pick) is actually walked through by real clicks, not just left to natural
+pacing -> trial complete -> town (buy a card, edit and save the deck, open the **character
+screen** via the C hotkey, visit **a zone portal** and back). `tools/run_e2e.sh` passes clean,
+start to finish, repeatably.
+
+Two real, previously-undetected bugs were found and fixed getting this full run to pass (beyond
+the ones already logged part-by-part):
+- **D58**: `LevelUpScreen` leaked its resolved equipment-choice overlay instead of freeing it
+  before showing the next step - invisible with only a single-level jump (the common case), only
+  surfaced once the e2e driver forced and clicked through a real multi-choice level-up.
+- **D62**: the tutorial's finished deck could leave the dungeon one card short of legal (44, not
+  45) if the Hollow Well challenge cost a card on the very first run - a real gameplay edge case,
+  not just a test artifact. `Session.complete_trial` now pads with a basic land if short, so the
+  player always leaves the tutorial with a legal deck.
+
+Also cleaned up while stabilizing the run: overlapping/leftover Godot processes from launching
+background e2e runs too close together were corrupting the shared log file, which briefly looked
+like a hang/failure but was a test-running artifact, not a product bug (see the run instructions
+in `tools/run_e2e.sh` - only one windowed instance at a time).
+
+## Screenshot review
+
+Every new or changed screen was screenshotted and looked at, not just exercised programmatically:
+the rarity gem shapes on real cards (Part B), the element choice screen (Part C), the town Deck
+Station and the in-dungeon Deck Station showing the new per-rarity copy limits (Part E), the
+Character screen in both the freshly-started and leveled/equipped/item-carrying states, the
+Level-Up recap and Equipment-Slot-Choice screens, the 5 tinted zone portals in town, and the
+zone-placeholder clearing itself (Parts E/G). Screenshots are git-ignored; regenerate with
+`tools/shot.sh` (see each part's section above for the exact scene/args used).
+
+Two real bugs were caught this way, not by any automated check:
+- **D61**: the zone-placeholder clearing's ground rendered a muddy brown instead of green from
+  double-tinting (`ModelKit.tile` already tints `hex_grass` internally; re-tinting on top of that
+  multiplied the two colors together). Fixed by tinting only the portal structure.
+- The rarity gem shapes (Part B) were confirmed correct on a real Epic card (Necromancer's new
+  hexagon) via the card gallery; no card in the placeholder content is Legendary yet, so the
+  four-point sparkle shape is reviewed as code/logic only, not seen on a real card.
+
+Battle screen changes (Space-to-advance, Select All Attackers, D39-D41) were verified by dedicated
+real-input UI tests instead of a screenshot (`tools/battle_space_attackall_smoke.gd`) - stronger
+evidence for interactive correctness than a static image of a button would be, consistent with how
+this project already tests presentation-layer behavior (see CLAUDE.md; there are no GUT tests
+under `ui/`).
+
+## What's next / not done
+
+Deliberately out of scope for this pass, flagged for later:
+
+- **Parts D/E/F's postgame hooks have no content to attach to yet**: `postgame_unlocked` (Part F)
+  and the Normal/Elite `EncounterRewards` tiers (Part E) are fully built and tested but nothing
+  sets/reaches them, since there is no real final boss or a Normal/Elite dungeon - Part G
+  deliberately did not build real zones either. All the plumbing is ready for whoever builds that
+  content next.
+- **Items are usable only between fights**, not as a live in-duel action (D55) - a deliberate,
+  documented scope limit ("prove equip/unequip and use work"), not an oversight.
+- **The level-up milestone schedule** (which exact level bumps which stat, D53), **the XP curve**
+  (D52), **copy-limit level thresholds**, and **the vendor's level-unlock thresholds** (D56) are
+  all judgment calls with no exact numbers given in the brief - see `docs/design/progression.md`
+  for the full table to review.
+- **The 5 zone portals' placement** (Harbor Quarter open plots) and **their shared visual**
+  (a tinted `tower_A`, not bespoke art) are placeholders by design (D60) - real zones can look
+  however they need to; only the `Session.pending_zone_id` hookup needs to survive.
+- **Tutorial balance** (Part D) is tuned to a moderate margin above the 85% target (85.2-91.0% per
+  element) with 500 simulated runs each - real player skill will vary this in both directions.
+
+## Questions for you (new brief)
+
+1. **Element identities and starter deck shape**: the 42-card starter (23 neutral + 19 lands) and
+   the 3 on-element tutorial rewards are new since the last brief - does committing the player to
+   one element this early (before even seeing the town) feel right, or should it be revisitable
+   sooner than "buy/build a second color once you reach town"?
+2. **XP/level pacing** (D52, D53): no campaign length was given to calibrate against, so the curve
+   and the milestone schedule in `docs/design/progression.md` are both my best guess. Do the
+   numbers feel right, or would you like a specific pass tuning them against a real target (e.g.
+   "20 hours to level 20")?
+3. **Equipment/item flavor**: the 5 equipment pieces and 3 items are placeholders proving the
+   framework (a flat stat bonus each, `GAIN_LIFE`-only items) - do you want real, distinct
+   equipment/item designs next, or is the framework itself the deliverable for now?
+4. **Tutorial AI personality name** ("Aggressive (tutorial)", D50) and the **boss's tuned-down
+   deck/AI** (D51, `balanced()` instead of the real `aggressive()`) - both are internal/placeholder
+   naming and balance choices; happy to revisit either.
+5. **Zone portal names** ("Ember Reaches", "The Final Depths", D60) are placeholder lore like
+   everything else named so far (Wellspring, Wanderer, Ember/Tide/Root/Grave) - keep, or would you
+   like the real names now so the portals/signs don't need relabeling later?
+6. Everything still open from the previous brief's final pass (title/element names, trap cap,
+   balance band, the town secrets' real rewards, the ~2.4x town size) remains open too - nothing
+   in this pass answered those.

@@ -291,3 +291,5 @@ func _open_from_screenshot(what: String) -> void:
 			_open_modal(ChallengeScreen.new(), 2)
 		"shrine":
 			_open_modal(ShrineScreen.new(), 4)
+		"deck":
+			_open_deck_builder()

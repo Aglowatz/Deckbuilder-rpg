@@ -2,8 +2,10 @@ class_name E2EDemo
 extends Node
 ## Plays the whole demo through the real UI: title -> new game -> starting area (wake up, choose
 ## an element) -> dungeon map (tries the in-dungeon deck builder once) -> tutorial battle ->
-## challenge -> battle -> shrine -> boss -> rewards (on-element picks grow the deck to 45) -> town
-## (buy a card, edit and save the deck). Mouse clicks and key presses are injected with UiDriver;
+## challenge -> battle -> shrine -> boss (forcing a multi-level jump on the first win, walking
+## through the level-up recap -> equipment choice -> card offer chain) -> rewards (on-element
+## picks grow the deck to 45) -> town (buy a card, edit and save the deck, open the character
+## screen, visit a zone portal and back). Mouse clicks and key presses are injected with UiDriver;
 ## battles use BattlePilot clicks for the tutorial battle and the AI for the rest. Failed duels
 ## send the player back to the starting area to retry, same as a human would see.
 
@@ -267,6 +269,9 @@ func _town(scene: TownScene) -> void:
 	if overlay is DeckbuilderScreen:
 		await _edit_deck(overlay as DeckbuilderScreen)
 		return
+	if overlay is CharacterScreen:
+		await _check_character_screen(overlay as CharacterScreen)
+		return
 	if scene.dialogue.active:
 		await driver.tap_key(KEY_E)
 		await driver.seconds(0.4)
@@ -281,6 +286,11 @@ func _town(scene: TownScene) -> void:
 	if not _did.has("deck"):
 		_did["deck"] = true
 		await _interact(scene, "deck")
+		return
+	if not _did.has("character"):
+		_did["character"] = true
+		await driver.tap_key(KEY_C)
+		await driver.seconds(0.6)
 		return
 	if not _did.has("portal"):
 		_did["portal"] = true
@@ -538,6 +548,16 @@ func _rewards(scene: RewardsScreen) -> void:
 		return
 	await driver.click_button("Continue")
 	await driver.seconds(1.0)
+
+
+## Part E (character screen): opened via the C hotkey (not a town spot) - check it shows the
+## real profile state, then close it.
+func _check_character_screen(screen: CharacterScreen) -> void:
+	_check(screen.visible, "the C hotkey opens the character screen")
+	_check(Session.profile.level >= 7, "the character screen reflects the level gained earlier")
+	await driver.seconds(0.8)
+	await driver.click_button("Close")
+	await driver.seconds(0.5)
 
 
 ## Part E: walks the level-up recap -> equipment choice -> card offer chain, whichever step is
