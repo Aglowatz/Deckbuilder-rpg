@@ -339,6 +339,18 @@ func test_attack_target_without_guard_is_rejected() -> void:
 	assert_false(ctx["game"].declare_attackers([ctx["attacker"].uid] as Array[int], {ctx["attacker"].uid: ctx["blocker"].uid}))
 
 
+func test_tapped_guard_does_not_force_attacks() -> void:
+	var guard: Array[CardEnums.Keyword] = [KW.GUARD]
+	var game: GameState = GameFactory.blank_game()
+	var attacker: CardInstance = GameFactory.add_to_battlefield(game, 0, _vanilla(2, 2))
+	var guard_card: CardInstance = GameFactory.add_to_battlefield(game, 1, _vanilla(0, 5, guard))
+	guard_card.tapped = true
+	game.advance_phase()
+	assert_true(CombatResolver.guard_creatures(game, 1).is_empty(), "tapped Guard is not a Guard for attack-forcing purposes")
+	assert_true(game.declare_attackers([attacker.uid] as Array[int]), "attacker may go past a tapped Guard")
+	assert_false(game.attack_targets.has(attacker.uid), "no forced target when the only Guard is tapped")
+
+
 func test_guard_can_still_block_and_trample_excess_lands_on_guard() -> void:
 	var guard: Array[CardEnums.Keyword] = [KW.GUARD]
 	var tr: Array[CardEnums.Keyword] = [KW.TRAMPLE]

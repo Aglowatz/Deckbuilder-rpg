@@ -30,8 +30,10 @@ Start (untap, draw; the first player skips their first draw) → Main 1 → Comb
 - Attacking creatures tap and stay tapped until their controller's next untap, so they cannot
   block on the opponent's turn. **Vigilance** creatures do not tap when attacking.
 - Each blocker blocks at most one attacker.
-- **Guard**: while a defender controls a Guard creature, every attacker must attack a Guard creature
-  instead of the player (unblocked damage lands on that Guard creature).
+- **Guard**: while a defender controls an UNTAPPED Guard creature, every attacker must attack a
+  Guard creature instead of the player (unblocked damage lands on that Guard creature). A tapped
+  Guard creature does not force attacks — attackers may go past it at the player or at other
+  legal targets as normal.
 
 ## No Interaction Windows
 

@@ -18,11 +18,12 @@ static func _can_attack(card: CardInstance) -> bool:
 	return not card.summoning_sick or card.has_keyword(CardEnums.Keyword.HASTE)
 
 
-## Creatures with Guard: while the defender controls any, attackers must attack one of them.
+## Creatures with Guard: while the defender controls any UNTAPPED Guard creature, attackers
+## must attack one of them. A tapped Guard creature does not force attacks.
 static func guard_creatures(state: GameState, defender_index: int) -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
 	for card: CardInstance in state.players[defender_index].creatures():
-		if card.has_keyword(CardEnums.Keyword.GUARD):
+		if card.has_keyword(CardEnums.Keyword.GUARD) and not card.tapped:
 			result.append(card)
 	return result
 

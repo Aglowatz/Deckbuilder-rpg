@@ -10,7 +10,7 @@ const KEYWORD_TEXT: Dictionary = {
 	CardEnums.Keyword.TRAMPLE: ["Trample", "Excess combat damage carries over to the player when blocked."],
 	CardEnums.Keyword.FIRST_STRIKE: ["First Strike", "Deals combat damage before creatures without it."],
 	CardEnums.Keyword.LIFESTEAL: ["Lifesteal", "Damage dealt by this creature also heals its controller."],
-	CardEnums.Keyword.GUARD: ["Guard", "While you control a Guard creature, enemy attackers must attack a Guard creature."],
+	CardEnums.Keyword.GUARD: ["Guard", "While you control an untapped Guard creature, enemy attackers must attack a Guard creature. A tapped Guard does not force attacks."],
 	CardEnums.Keyword.VIGILANCE: ["Vigilance", "Attacking does not tap this creature."],
 }
 

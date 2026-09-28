@@ -929,3 +929,21 @@ Deliberately out of scope for this pass, flagged for later:
 6. Everything still open from the previous brief's final pass (title/element names, trap cap,
    balance band, the town secrets' real rewards, the ~2.4x town size) remains open too - nothing
    in this pass answered those.
+
+## New brief (working autonomously, Parts A-F + final): Part A - Guard rules fix - done
+
+Fixed a real rules bug (D63): `CombatResolver.guard_creatures()` counted tapped Guard creatures
+as still forcing attacks. Only untapped Guard creatures force attacks now. One function
+(`guard_creatures`) is the single source of truth for the rules engine, `declare_attackers()`,
+the AI (goes through `declare_attackers()` too), and the battle UI's Guard prompt/arrow
+(`battle_screen.gd` already reads through the same function) - fixing it there was enough, no
+separate AI or UI change needed. Added a regression test
+(`test_tapped_guard_does_not_force_attacks`) and updated `docs/design/combat_rules.md` and the
+in-game keyword tooltip (`ui/card/keyword_info.gd`) to state the untapped requirement explicitly.
+
+Tests: 318 total (1 new), all passing.
+
+This section will grow with Parts B-F as they land; this brief is large (town expansion, 4 new
+NPC boss encounters with balance simulation, 5 hidden chests, a full item/vendor system) and is
+being worked part by part per your instructions, with a test/doc/commit/push after each part
+rather than one giant commit at the end.
