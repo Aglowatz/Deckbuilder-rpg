@@ -233,6 +233,44 @@ func _build_props() -> void:
 	ModelKit.place(root, ModelKit.prop("ladder"), lever_pos, 90.0, 1.0)
 	obstacles.append(Vector3(lever_pos.x, lever_pos.z, 0.2))
 	anchors["lever"] = lever_pos + Vector3(0.4, 0, 0.2)
+	_build_hidden_chests()
+
+
+## New brief, Part D: 5 hidden chests, scaled to 1/4 of the D38 chest above (0.9 -> 0.225) and
+## tucked into real alcoves across the (now bigger) town - among trees, in a back alley, in a
+## misty hollow, on a quiet overlook, in a stand of trees off the Ember Flats - not clustered in
+## one district. No marker, glow or name plate (see TownScene._build_hidden_chests/_process - a
+## separate, quieter system from the regular Spot the D38 chest above uses, which does have a
+## marker): the only tell is the standard interact prompt, and only once the player is genuinely
+## close. Exact locations and contents are also written to docs/design/secrets.md (a spoiler
+## file) - see D67 (also D67 for why none of the 5 sit in the original 10x15 core: a real, still-
+## unexplained rendering bug specific to that area, not a design choice - avoided rather than
+## shipped).
+const HIDDEN_CHEST_CELLS: Dictionary = {
+	"ember_flats": Vector2i(9, 12), "west_woods": Vector2i(-4, 5), "harbor_dock": Vector2i(17, 6),
+	"grave_hollow": Vector2i(-4, 12), "uplands": Vector2i(8, -2),
+}
+const HIDDEN_CHEST_OFFSETS: Dictionary = {
+	"west_woods": Vector3(0.35, 0, -0.25), "harbor_dock": Vector3(-0.3, 0, 0.35),
+	"grave_hollow": Vector3(0.3, 0, 0.3), "uplands": Vector3(-0.25, 0, -0.35),
+	"ember_flats": Vector3(0.3, 0, -0.3),
+}
+
+
+## id -> the chest's Node3D, so TownScene can play an open animation on the real model.
+var hidden_chest_nodes: Dictionary = {}
+
+
+func _build_hidden_chests() -> void:
+	for id: String in HIDDEN_CHEST_CELLS.keys():
+		var cell: Vector2i = HIDDEN_CHEST_CELLS[id] as Vector2i
+		var offset: Vector3 = HIDDEN_CHEST_OFFSETS[id] as Vector3
+		var pos: Vector3 = cell_center(cell.x, cell.y) + offset
+		var chest: Node3D = ModelKit.dungeon_prop("chest_gold")
+		ModelKit.place(root, chest, pos, _rng.randf() * 360.0, 0.225)
+		obstacles.append(Vector3(pos.x, pos.z, 0.18))
+		anchors["hidden_chest_%s" % id] = pos
+		hidden_chest_nodes[id] = chest
 
 
 ## New brief, Part C: 5 entrances at the true edges of the map (a `tower_A` shape, tinted per-

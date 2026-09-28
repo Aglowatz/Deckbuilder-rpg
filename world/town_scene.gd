@@ -29,6 +29,20 @@ const NPC_SPOT_IDS: Array[String] = ["elder", "guard", "vendor", "hidden_vendor"
 ## "clicking the NPC", since the fixed camera has no 3D picking set up.
 const CLICK_PICK_RADIUS: float = 90.0
 
+## New brief, Part D: 5 hidden chests (see TownBuilder.HIDDEN_CHEST_CELLS for where) - unlike
+## the regular Spot system above, these have no marker/plate/click-picking at all, and a much
+## tighter radius, so they cannot be found except by actually walking up close. See
+## docs/design/secrets.md for the spoiler (locations + contents) - keep both in sync.
+const HIDDEN_CHEST_RADIUS: float = 1.5
+## id -> {gold, item, card}; "" / 0 means that reward type is not part of this chest.
+const HIDDEN_CHEST_REWARDS: Dictionary = {
+	"west_woods": {"gold": 45, "item": "", "card": ""},
+	"harbor_dock": {"gold": 30, "item": "healing_draught", "card": ""},
+	"grave_hollow": {"gold": 0, "item": "reckless_tonic", "card": "stag_warden"},
+	"uplands": {"gold": 50, "item": "", "card": "stone_sentinel"},
+	"ember_flats": {"gold": 0, "item": "vitality_charm", "card": ""},
+}
+
 var town: TownBuilder = TownBuilder.new()
 var player: TownPlayer
 var spots: Array[Spot] = []
@@ -44,6 +58,7 @@ var _well_light: OmniLight3D
 var _well_particles: CPUParticles3D
 var _screenshot_args: Dictionary = {}
 var _locked: bool = false
+var _hidden_chest_near: String = ""
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -294,6 +309,7 @@ func _process(delta: float) -> void:
 		spot.plate.visible = spot.plate.modulate.a > 0.02
 	_well_light.light_energy = 1.4 + sin(_time * 1.7) * 0.35
 	_update_nearest()
+	_update_hidden_chest_prompt()
 	player.input_enabled = not _locked and not dialogue.active
 
 
@@ -317,6 +333,33 @@ func _update_nearest() -> void:
 		hud.hide_prompt()
 	else:
 		hud.show_prompt("[E]  %s" % _prompt_text(_near))
+
+
+## New brief, Part D: hidden chests have no marker to draw the player's eye from a distance - the
+## interact prompt is the ONLY tell, and only within HIDDEN_CHEST_RADIUS (~1.5m).
+func _update_hidden_chest_prompt() -> void:
+	if _locked or dialogue.active:
+		_hidden_chest_near = ""
+		return
+	var found: String = ""
+	for id: String in TownBuilder.HIDDEN_CHEST_CELLS.keys():
+		if Session.found_secret(_hidden_chest_secret(id)):
+			continue
+		var anchor: Vector3 = town.anchors.get("hidden_chest_%s" % id, Vector3.ZERO) as Vector3
+		var distance: float = Vector2(player.position.x - anchor.x, player.position.z - anchor.z).length()
+		if distance <= HIDDEN_CHEST_RADIUS:
+			found = id
+			break
+	if found != _hidden_chest_near:
+		_hidden_chest_near = found
+		if found != "":
+			Audio.sfx(&"ui_tick", -10.0)
+	if found != "":
+		hud.show_prompt("[E]  Open the chest")
+
+
+static func _hidden_chest_secret(id: String) -> String:
+	return "hidden_chest_%s" % id
 
 
 
@@ -355,6 +398,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		if (event as InputEventKey).keycode == KEY_B:
 			get_viewport().set_input_as_handled()
 			_open_deck_builder_anywhere()
+			return
+	if not _locked and not dialogue.active and _hidden_chest_near != "":
+		if event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE):
+			get_viewport().set_input_as_handled()
+			_open_hidden_chest(_hidden_chest_near)
 			return
 	if _locked or dialogue.active or _near == null:
 		return
@@ -555,6 +603,78 @@ func _open_chest() -> void:
 	Session.save_game()
 
 
+## New brief, Part D: one of the 5 hidden chests. One-time (Session.found_secret, like the D38
+## chest above) - contents mix gold/item/card per HIDDEN_CHEST_REWARDS. Locations and contents
+## are also written to docs/design/secrets.md; keep both in sync if either changes.
+func _open_hidden_chest(id: String) -> void:
+	var anchor: Vector3 = town.anchors.get("hidden_chest_%s" % id, Vector3.ZERO) as Vector3
+	player.face(anchor)
+	if Session.found_secret(_hidden_chest_secret(id)):
+		return
+	Session.discover_secret(_hidden_chest_secret(id))
+	var reward: Dictionary = HIDDEN_CHEST_REWARDS.get(id, {}) as Dictionary
+	var gold: int = int(reward.get("gold", 0))
+	var item_id: String = str(reward.get("item", ""))
+	var card_id: String = str(reward.get("card", ""))
+	var lines: PackedStringArray = []
+	if gold > 0:
+		Session.add_gold(gold)
+		hud.set_gold(Session.gold)
+		lines.append("+%d gold" % gold)
+	if not item_id.is_empty():
+		var item: ItemData = Session.content.item(item_id)
+		if item != null:
+			Session.add_item(item)
+			lines.append(item.display_name)
+	if not card_id.is_empty():
+		var card: CardData = Session.card_by_id(card_id)
+		if card != null:
+			Session.add_cards([card])
+			lines.append(card.display_name)
+	_animate_chest_open(id)
+	hud.toast("A hidden chest! %s" % ", ".join(lines), UIStyle.GOLD)
+	Session.save_game()
+
+
+## A small bounce + a golden burst (reusing the Wellspring's particle-burst pattern) and a latch-
+## then-coins sound, since the chest model has no separate lid to hinge open.
+func _animate_chest_open(id: String) -> void:
+	Audio.sfx(&"chest_open")
+	var chest: Node3D = town.hidden_chest_nodes.get(id) as Node3D
+	if chest != null:
+		var tween: Tween = create_tween()
+		tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tween.tween_property(chest, "scale", chest.scale * 1.35, 0.18)
+		tween.tween_property(chest, "scale", chest.scale, 0.22)
+	var anchor: Vector3 = town.anchors.get("hidden_chest_%s" % id, Vector3.ZERO) as Vector3
+	var burst: CPUParticles3D = CPUParticles3D.new()
+	burst.position = anchor + Vector3(0, 0.3, 0)
+	burst.amount = 34
+	burst.one_shot = true
+	burst.explosiveness = 0.95
+	burst.lifetime = 1.1
+	burst.direction = Vector3.UP
+	burst.spread = 50.0
+	burst.initial_velocity_min = 1.2
+	burst.initial_velocity_max = 2.6
+	burst.gravity = Vector3(0, -2.4, 0)
+	var mesh: SphereMesh = SphereMesh.new()
+	mesh.radius = 0.045
+	mesh.height = 0.09
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.albedo_color = UIStyle.GOLD
+	material.emission_enabled = true
+	material.emission = UIStyle.GOLD
+	material.emission_energy_multiplier = 3.0
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	mesh.material = material
+	burst.mesh = mesh
+	add_child(burst)
+	burst.emitting = true
+	Audio.sfx(&"coins", 0.0, 0.05)
+	get_tree().create_timer(2.0).timeout.connect(burst.queue_free)
+
+
 func _pull_lever() -> void:
 	if Session.flag(VAULT_LEVER_FLAG):
 		hud.toast("The lever will not budge any further.", UIStyle.MUTED)
@@ -690,6 +810,11 @@ func _teleport(spot_id: String) -> void:
 		if spot.id == spot_id:
 			player.position = spot.position + Vector3(0.0, 0.0, 0.5)
 			_camera.position = player.position + CAMERA_OFFSET
+			return
+	# Hidden chests (Part D) have no Spot - a dev-only screenshot convenience, not a gameplay path.
+	if town.anchors.has(spot_id):
+		player.position = (town.anchors[spot_id] as Vector3) + Vector3(0.0, 0.0, 0.5)
+		_camera.position = player.position + CAMERA_OFFSET
 
 
 func _screenshot_open(what: String) -> void:

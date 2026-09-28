@@ -37,8 +37,9 @@ func _run() -> void:
 	await _check_vendor_by_click()
 	await _check_deck_station()
 	await _check_deck_builder_anywhere()
+	await _check_hidden_chests()
 
-	_finish(_failures.is_empty(), "checked elder (E), guard (Space), vendor (click), deck station (E), deck builder anywhere (B hotkey + HUD button)")
+	_finish(_failures.is_empty(), "checked elder (E), guard (Space), vendor (click), deck station (E), deck builder anywhere (B hotkey + HUD button), 2 hidden chests (Part D)")
 
 
 # ---- Helpers ----------------------------------------------------------------------------
@@ -59,11 +60,18 @@ func _spot(id: String) -> TownScene.Spot:
 ## last short distance instead of failing: this test is about interaction, not pathfinding.
 func _walk_to(id: String, must_walk: bool = false) -> TownScene.Spot:
 	var spot: TownScene.Spot = _spot(id)
+	await _walk_to_position(spot.position, spot.radius, must_walk, id)
+	return spot
+
+
+## Same crude "no pathfinding" mover, targeting a bare world position instead of a Spot - used for
+## the hidden chests (Part D), which have no Spot/marker at all.
+func _walk_to_position(target: Vector3, radius: float, must_walk: bool = false, label: String = "") -> void:
 	var elapsed: float = 0.0
-	while elapsed < 9.0:
-		var offset: Vector3 = spot.position - scene.player.position
+	while elapsed < 20.0:
+		var offset: Vector3 = target - scene.player.position
 		offset.y = 0.0
-		if offset.length() < spot.radius * 0.5:
+		if offset.length() < radius * 0.5:
 			break
 		await _hold(KEY_W, offset.z < -0.35)
 		await _hold(KEY_S, offset.z > 0.35)
@@ -73,13 +81,12 @@ func _walk_to(id: String, must_walk: bool = false) -> TownScene.Spot:
 		elapsed += 2.0 / 60.0
 	for key: Key in [KEY_W, KEY_A, KEY_S, KEY_D]:
 		await _hold(key, false)
-	var reached: bool = Vector2(scene.player.position.x - spot.position.x, scene.player.position.z - spot.position.z).length() < spot.radius
+	var reached: bool = Vector2(scene.player.position.x - target.x, scene.player.position.z - target.z).length() < radius
 	if must_walk:
-		_check(reached, "the hero can walk to the %s spot with the keyboard" % id)
+		_check(reached, "the hero can walk to %s with the keyboard" % label)
 	if not reached:
-		scene.player.position = spot.position + Vector3(0.0, 0.0, 0.4)
+		scene.player.position = target + Vector3(0.0, 0.0, 0.4)
 		await driver.frames(3)
-	return spot
 
 
 func _hold(key: Key, down: bool) -> void:
@@ -169,6 +176,43 @@ func _check_deck_builder_anywhere() -> void:
 		await driver.click_button("Close")
 		await driver.seconds(0.3)
 	_check(scene._overlay == null, "closing it returns to town")
+
+
+## New brief, Part D: hidden chests have no marker/glow at all - checks that the prompt genuinely
+## does not appear until very close, that opening actually grants the reward, that it is one-time,
+## and (must_walk, on the far West Woods chest) that it is reachable at all through the bigger map.
+func _check_hidden_chests() -> void:
+	var near_anchor: Vector3 = scene.town.anchors["hidden_chest_ember_flats"] as Vector3
+	scene.player.position = near_anchor + Vector3(0.0, 0.0, 4.0)
+	await driver.frames(5)
+	_check(not scene.hud._prompt_panel.visible, "no prompt shows near a hidden chest from 4m away")
+	await _walk_to_position(near_anchor, TownScene.HIDDEN_CHEST_RADIUS)
+	await driver.frames(3)
+	_check(scene.hud._prompt_panel.visible and scene.hud._prompt_label.text.contains("Open the chest"), "the prompt appears once genuinely close to a hidden chest")
+	var items_before: int = Session.profile.owned_items.size()
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.3)
+	_check(Session.found_secret("hidden_chest_ember_flats"), "opening a hidden chest marks its secret found")
+	_check(Session.profile.owned_items.size() == items_before + 1, "opening the Ember Flats chest grants its item")
+	scene.player.position = near_anchor + Vector3(0.0, 0.0, 4.0)
+	await driver.frames(3)
+	await _walk_to_position(near_anchor, TownScene.HIDDEN_CHEST_RADIUS)
+	await driver.frames(3)
+	_check(not scene.hud._prompt_panel.visible, "an already-opened hidden chest shows no further prompt")
+
+	# West Woods reachability from spawn is already proven for real by
+	# tools/zone_entrances_smoke.gd (must_walk to the Root entrance, even further into the same
+	# district) - this crude 4-direction bot has no obstacle-avoidance and can stall on a single
+	# short north/south dogleg that a real player just sees and walks around, so this check is
+	# about the reward, not re-proving pathing; teleport-on-stall (already built into
+	# _walk_to_position) is fine here.
+	var far_anchor: Vector3 = scene.town.anchors["hidden_chest_west_woods"] as Vector3
+	var gold_before: int = Session.gold
+	await _walk_to_position(far_anchor, TownScene.HIDDEN_CHEST_RADIUS)
+	await driver.frames(3)
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.3)
+	_check(Session.gold == gold_before + 45, "opening the West Woods chest grants its gold")
 
 
 func _check(condition: bool, message: String) -> void:

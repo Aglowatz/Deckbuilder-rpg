@@ -1017,3 +1017,35 @@ are git-ignored; regenerate with the command above.
 Tests: 317 core tests unchanged (no core/ change in this part - this is presentation/world
 layout); both the extended town interact smoke test and the new zone entrances smoke test
 (real windowed input) pass.
+
+## Part D: 5 hidden chests - done
+
+5 chests, no arrows/name plates/markers/glow/objective hints at all - the only tell is the
+standard interact prompt, shown only within `HIDDEN_CHEST_RADIUS` (1.5m). Each is the same
+`chest_gold` prop as the existing D38 chest, but at 1/4 scale (0.225 vs 0.9). One per new Part C
+district: West Woods (45 gold), Harbor Dock (30 gold + Healing Draught), Grave Hollow (Reckless
+Tonic + Stag Warden card), North Uplands (50 gold + Stone Sentinel card), Ember Flats (Vitality
+Charm). Each is one-time via the existing `Session.found_secret`/`discover_secret` system (same
+mechanism the D38 chest/vault already use). Opening one plays a small bounce animation, a golden
+particle burst, and a latch-then-coins sound (`&"chest_open"`, a new catalog entry reusing
+`metalLatch.ogg`, then `&"coins"`) since the chest model has no separate lid to hinge open.
+Exact locations and contents are written to `docs/design/secrets.md` (a new spoiler file, kept in
+sync with the code).
+
+Verified with real injected input: extended `tools/town_interact_smoke.gd` with checks that no
+prompt shows from 4m away, the prompt appears within 1.5m, opening actually grants the reward,
+opening a second time (after walking away and back) shows nothing further, and (a separate,
+far-away chest) the reward-granting logic works after a real walk through the bigger map. All
+pass.
+
+One real, unresolved bug found and worked around, not swept under the rug (D67): two different
+positions for a 5th chest in the *original* town core both reproducibly screenshotted as a blank
+frame, while every other position (including other existing spots in that same core) rendered
+fine. Camera state logged at capture time looked numerically ordinary, so this was not
+root-caused in the time available - the chest was relocated to Ember Flats (a location already
+proven to render correctly) rather than ship something unverified. Full writeup and a flag for
+whoever revisits it: `docs/design/open_questions.md` D67.
+
+Tests: 317 core tests unchanged (no core/ change - Session.add_item is new but is a thin,
+directly-tested-by-usage wrapper matching the existing add_cards/add_gold pattern); the extended
+town interact smoke test (real windowed input) passes.

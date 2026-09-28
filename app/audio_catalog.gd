@@ -40,6 +40,7 @@ static func sounds() -> Dictionary:
 		&"trap": [RPG + "metalLatch.ogg"],
 		&"turn_start": [IMPACT + "impactBell_heavy_000.ogg"],
 		&"coins": [RPG + "handleCoins.ogg", RPG + "handleCoins2.ogg"],
+			&"chest_open": [RPG + "metalLatch.ogg"],
 		&"footstep": [
 			IMPACT + "footstep_grass_000.ogg", IMPACT + "footstep_grass_001.ogg",
 			IMPACT + "footstep_grass_002.ogg", IMPACT + "footstep_grass_003.ogg",
