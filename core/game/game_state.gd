@@ -458,6 +458,9 @@ func _begin_turn() -> void:
 	_fire_start_of_turn_effects(active)
 	if is_over():
 		return
+	_fire_scripted_summons(active)
+	if is_over():
+		return
 	_set_phase(Phase.MAIN1)
 
 
@@ -776,6 +779,24 @@ func _fire_start_of_turn_effects(player_index: int) -> void:
 		if is_over():
 			return
 		EffectResolver.resolve(self, effect, EffectContext.make(0, player_index))
+	check_state()
+
+
+## New brief, Part F: fires the active player's SCRIPTED_ESCALATING_SUMMON modifiers - a reusable
+## scripted-encounter rule (the Graveyard boss, and any future boss that reuses it). Each
+## activation summons the next stage in that modifier's `tokens` (capped at the last once past
+## the end, so the escalation never runs out), tracked per-player via `scripted_summon_count`
+## since a player could in principle have more than one such source.
+func _fire_scripted_summons(player_index: int) -> void:
+	var player: PlayerState = players[player_index]
+	for modifier: Modifier in player.modifiers.modifiers:
+		if modifier.kind != Modifier.Kind.SCRIPTED_ESCALATING_SUMMON or modifier.tokens.is_empty():
+			continue
+		if is_over():
+			return
+		var stage: int = mini(player.scripted_summon_count, modifier.tokens.size() - 1)
+		create_token(player_index, modifier.tokens[stage])
+		player.scripted_summon_count += 1
 	check_state()
 
 

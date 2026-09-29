@@ -41,7 +41,7 @@ func _run() -> void:
 	await _check_item_vendor()
 	await _check_equipment_vendor()
 
-	_finish(_failures.is_empty(), "checked elder (E), guard (Space), vendor (click), deck station (E), deck builder anywhere (B hotkey + HUD button), 2 hidden chests (Part D), item vendor (Part F), equipment vendor (fourth brief, Part C)")
+	_finish(_failures.is_empty(), "checked elder (E), guard (Space), vendor (click), deck station (E), deck builder anywhere (B hotkey + HUD button), 2 hidden chests (Part D) + 1 equipment chest (fourth brief, Part E), item vendor (Part F), equipment vendor (fourth brief, Part C)")
 
 
 # ---- Helpers ----------------------------------------------------------------------------
@@ -299,6 +299,17 @@ func _check_hidden_chests() -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
 	_check(Session.gold == gold_before + 45, "opening the West Woods chest grants its gold")
+
+	# Fourth brief, Part E: the 2 new equipment chests.
+	var equipment_anchor: Vector3 = scene.town.anchors["hidden_chest_uplands_ridge"] as Vector3
+	var piece: EquipmentData = Session.content.equipment_piece("travelers_boots")
+	_check(not Session.profile.owned_equipment.has(piece), "the Traveler's Boots chest's piece is not already owned")
+	await _walk_to_position(equipment_anchor, TownScene.HIDDEN_CHEST_RADIUS)
+	await driver.frames(3)
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.3)
+	_check(Session.found_secret("hidden_chest_uplands_ridge"), "opening the Uplands Ridge chest marks its secret found")
+	_check(Session.profile.owned_equipment.has(piece), "opening the Uplands Ridge chest grants its equipment")
 
 
 func _check(condition: bool, message: String) -> void:

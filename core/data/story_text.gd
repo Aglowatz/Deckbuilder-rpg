@@ -87,6 +87,24 @@ extends Resource
 	"There's a bear that comes around some nights. We've reached an understanding: it doesn't ask about the beets, and I don't ask why it's there.",
 ]
 
+## Fourth brief, Part F: The Restless Cairn - the ominous object that starts the Graveyard's
+## scripted battle. Placeholder dialogue, shown before the fight (every time) and after (once per
+## outcome) - see world/town_scene.gd `_talk_graveyard`/`_show_graveyard_result`.
+@export var graveyard_intro_lines: Array[String] = [
+	"The stones here were stacked by hands that stopped moving a long time ago.",
+	"Something under the cairn is still keeping count of its turns.",
+	"Touch it, and it will not stop counting until one of you does.",
+]
+@export var graveyard_victory_lines: Array[String] = [
+	"The counting stops. For now.",
+	"Whatever was keeping time down there has nothing left to spend it on.",
+	"The stones are just stones again. Take what it was guarding.",
+]
+@export var graveyard_defeat_lines: Array[String] = [
+	"It is still counting.",
+	"Come back when you have more turns to spare than it does.",
+]
+
 
 func npc_intro_lines(id: String) -> Array[String]:
 	match id:

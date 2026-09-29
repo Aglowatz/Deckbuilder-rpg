@@ -39,13 +39,17 @@ const CLICK_PICK_RADIUS: float = 90.0
 ## tighter radius, so they cannot be found except by actually walking up close. See
 ## docs/design/secrets.md for the spoiler (locations + contents) - keep both in sync.
 const HIDDEN_CHEST_RADIUS: float = 1.5
-## id -> {gold, item, card}; "" / 0 means that reward type is not part of this chest.
+## id -> {gold, item, card, equipment}; "" / 0 means that reward type is not part of this chest.
+## Fourth brief, Part E: added "equipment" (an equipment id) - the 2 new chests each hold one
+## basic piece.
 const HIDDEN_CHEST_REWARDS: Dictionary = {
 	"west_woods": {"gold": 45, "item": "", "card": ""},
 	"harbor_dock": {"gold": 30, "item": "healing_draught", "card": ""},
 	"grave_hollow": {"gold": 0, "item": "reckless_tonic", "card": "stag_warden"},
 	"uplands": {"gold": 50, "item": "", "card": "stone_sentinel"},
 	"ember_flats": {"gold": 0, "item": "vitality_charm", "card": ""},
+	"uplands_ridge": {"gold": 0, "item": "", "card": "", "equipment": "travelers_boots"},
+	"harbor_dock_back": {"gold": 0, "item": "", "card": "", "equipment": "solid_plate"},
 }
 
 var town: TownBuilder = TownBuilder.new()
@@ -99,6 +103,7 @@ func _ready() -> void:
 		hud.toast(Session.town_notice, UIStyle.GOLD)
 		Session.town_notice = ""
 	_show_npc_result.call_deferred()
+	_show_graveyard_result.call_deferred()
 	Session.save_game()
 
 
@@ -170,6 +175,7 @@ func _build_actors() -> void:
 	mote.material = mote_material
 	_well_particles.mesh = mote
 	add_child(_well_particles)
+	_build_graveyard_mist()
 
 
 func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tint: Color = Color.WHITE) -> void:
@@ -226,6 +232,36 @@ func _add_corrupted_npc(id: String) -> void:
 	add_child(particles)
 
 
+## Fourth brief, Part F: ground-hugging grey mist over the Graveyard - the same slow-particle-
+## drift technique as the corrupted NPCs' visible corruption (D69), just low, wide, grey and
+## horizontal instead of rising and element-colored. As close as this scene's single
+## WorldEnvironment can get to "darker lighting" confined to one small area without a full
+## per-zone environment switch (out of scope here) - see docs/design/open_questions.md.
+func _build_graveyard_mist() -> void:
+	var center: Vector3 = (town.anchors.get("graveyard_cairn", Vector3.ZERO) as Vector3) + Vector3(0, -0.65, 0)
+	var particles: CPUParticles3D = CPUParticles3D.new()
+	particles.position = center
+	particles.amount = 22
+	particles.lifetime = 4.5
+	particles.direction = Vector3(1, 0, 0)
+	particles.spread = 180.0
+	particles.initial_velocity_min = 0.08
+	particles.initial_velocity_max = 0.22
+	particles.gravity = Vector3.ZERO
+	particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+	particles.emission_box_extents = Vector3(1.6, 0.15, 1.6)
+	var wisp: SphereMesh = SphereMesh.new()
+	wisp.radius = 0.35
+	wisp.height = 0.15
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.albedo_color = Color(0.72, 0.74, 0.78, 0.22)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	wisp.material = material
+	particles.mesh = wisp
+	add_child(particles)
+
+
 func _build_spots() -> void:
 	_add_spot("well", "Wellspring", town.anchors["well"] as Vector3, 1.7)
 	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, 1.5)
@@ -237,6 +273,10 @@ func _build_spots() -> void:
 	_add_spot("chest", "A Hidden Chest", town.anchors["chest"] as Vector3, 1.3)
 	_add_spot("lever", "An Old Lever", town.anchors["lever"] as Vector3, 1.2)
 	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
+	# Fourth brief, Part F: The Restless Cairn - the Graveyard's scripted-battle trigger. Unlike
+	# the hidden chests, this one DOES get the normal marker/name-plate treatment (a Spot) - it's
+	# meant to be found, not stumbled on; the challenge is the fight, not finding it.
+	_add_spot("graveyard_cairn", "The Restless Cairn", town.anchors["graveyard_cairn"] as Vector3, 1.6)
 	if Session.found_secret(HIDDEN_VENDOR_SECRET):
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
 	# New brief, Part F: the item vendor.
@@ -450,6 +490,8 @@ func _prompt_text(spot: Spot) -> String:
 			return "Pray at the Dev Shrine (+1 level)"
 		"vault":
 			return "Open the vault" if Session.flag(VAULT_LEVER_FLAG) else "Try the sealed door"
+		"graveyard_cairn":
+			return "Disturb the cairn"
 	if spot.id.begins_with("portal_"):
 		var zone_id: String = spot.id.trim_prefix("portal_")
 		return "Sealed - the corrupted guardian must fall first" if _portal_is_locked(zone_id) else "Enter"
@@ -531,6 +573,8 @@ func _interact(spot: Spot) -> void:
 			_talk_item_vendor()
 		"equipment_vendor":
 			_talk_equipment_vendor()
+		"graveyard_cairn":
+			_talk_graveyard()
 		_:
 			if spot.id.begins_with("portal_"):
 				_use_zone_portal(spot.id.trim_prefix("portal_"))
@@ -599,6 +643,44 @@ func _talk_corrupted_npc(id: String) -> void:
 		lines = story.npc_victory_lines(id) if defeated else story.npc_intro_lines(id)
 	dialogue.start(CorruptedNpcs.display_name(id), lines)
 	dialogue.finished.connect(func() -> void: Session.challenge_corrupted_npc(id), CONNECT_ONE_SHOT)
+
+
+## Fourth brief, Part F: The Restless Cairn - talking to it always plays a short line ("placeholder
+## dialogue before"), then starts the scripted battle. Win or lose, it can always be challenged
+## again (same repeatable-but-unrewarded-past-the-first-win choice as the corrupted NPCs, D68);
+## only a first win pays out.
+func _talk_graveyard() -> void:
+	var story: StoryText = load(STORY_PATH) as StoryText
+	var lines: Array[String] = story.graveyard_intro_lines if story != null else [] as Array[String]
+	dialogue.start("The Restless Cairn", lines)
+	dialogue.finished.connect(func() -> void: Session.challenge_graveyard_boss(), CONNECT_ONE_SHOT)
+
+
+## Shown once, right after returning from a Graveyard battle ("placeholder dialogue... after") -
+## mirrors _show_npc_result exactly, including the reward toast/level-up popup on a first win.
+func _show_graveyard_result() -> void:
+	if Session.pending_graveyard_result.is_empty():
+		return
+	var result: Dictionary = Session.pending_graveyard_result
+	Session.pending_graveyard_result = {}
+	var won: bool = bool(result.get("won", false))
+	var story: StoryText = load(STORY_PATH) as StoryText
+	var lines: Array[String] = [] as Array[String]
+	if story != null:
+		lines = story.graveyard_victory_lines if won else story.graveyard_defeat_lines
+	dialogue.start("The Restless Cairn", lines)
+	if bool(result.get("first_win", false)):
+		var reward_text: String = "+%d gold, +%d XP" % [GraveyardBoss.REWARD_GOLD, GraveyardBoss.REWARD_XP]
+		var equipment_name: String = str(result.get("equipment_name", ""))
+		if not equipment_name.is_empty():
+			reward_text += ", %s" % equipment_name
+		var levels_gained: Array[LevelData] = []
+		for level_data: Variant in (result.get("levels_gained", []) as Array):
+			levels_gained.append(level_data as LevelData)
+		dialogue.finished.connect(func() -> void:
+			hud.toast(reward_text, UIStyle.GOLD)
+			if not levels_gained.is_empty():
+				_show_level_up(levels_gained), CONNECT_ONE_SHOT)
 
 
 func _elder_lines() -> Array[String]:
@@ -753,9 +835,10 @@ func _open_chest() -> void:
 	Session.save_game()
 
 
-## New brief, Part D: one of the 5 hidden chests. One-time (Session.found_secret, like the D38
-## chest above) - contents mix gold/item/card per HIDDEN_CHEST_REWARDS. Locations and contents
-## are also written to docs/design/secrets.md; keep both in sync if either changes.
+## New brief, Part D (5 chests) / fourth brief, Part E (2 more, equipment this time): one of the
+## 7 hidden chests. One-time (Session.found_secret, like the D38 chest above) - contents mix
+## gold/item/card/equipment per HIDDEN_CHEST_REWARDS. Locations and contents are also written to
+## docs/design/secrets.md; keep both in sync if either changes.
 func _open_hidden_chest(id: String) -> void:
 	var anchor: Vector3 = town.anchors.get("hidden_chest_%s" % id, Vector3.ZERO) as Vector3
 	player.face(anchor)
@@ -766,6 +849,7 @@ func _open_hidden_chest(id: String) -> void:
 	var gold: int = int(reward.get("gold", 0))
 	var item_id: String = str(reward.get("item", ""))
 	var card_id: String = str(reward.get("card", ""))
+	var equipment_id: String = str(reward.get("equipment", ""))
 	var lines: PackedStringArray = []
 	if gold > 0:
 		Session.add_gold(gold)
@@ -781,6 +865,10 @@ func _open_hidden_chest(id: String) -> void:
 		if card != null:
 			Session.add_cards([card])
 			lines.append(card.display_name)
+	if not equipment_id.is_empty():
+		var piece: EquipmentData = Session.content.equipment_piece(equipment_id)
+		if piece != null and Session.grant_equipment(piece):
+			lines.append(piece.source_name)
 	_animate_chest_open(id)
 	hud.toast("A hidden chest! %s" % ", ".join(lines), UIStyle.GOLD)
 	Session.save_game()

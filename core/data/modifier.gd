@@ -56,6 +56,13 @@ enum Kind {
 	## .ALL_ATTACKERS), right after traps, whenever an opponent declares attackers against the
 	## owner - regardless of whether those attackers are blocked or connect.
 	RETALIATE_ON_ATTACK,
+	## New brief, Part F: a reusable scripted-encounter rule ("at the start of each of the
+	## opponent's turns, summon an increasingly powerful creature") - `tokens` is the ordered
+	## escalation (stage 0 first, then 1, 2, ...); once past the last stage, every further
+	## activation re-summons the last (strongest) one, so the escalation never actually stops.
+	## Fires once per the owner's turn, right alongside START_OF_TURN_EFFECT - see
+	## `PlayerState.scripted_summon_count` and `GameState._fire_scripted_summons`.
+	SCRIPTED_ESCALATING_SUMMON,
 }
 
 ## `color` value meaning "matches every card".
@@ -68,6 +75,8 @@ const ANY_COLOR: int = -1
 @export var color: int = ANY_COLOR
 @export var effect: EffectData
 @export var label: String = ""
+## New brief, Part F: SCRIPTED_ESCALATING_SUMMON's ordered token stages.
+@export var tokens: Array[CardData] = []
 
 
 func matches_color(card_color: Affinity.Type) -> bool:

@@ -1652,3 +1652,73 @@ corrupted-NPC win. Fixed, along with a second real bug the same run surfaced: an
 that compared spent gold against the undiscounted card price (would have started failing for a
 real player the first time they actually earned a discount). `E2E PASSED in 218s (4 battles)`
 afterward. See D95.
+
+## New brief, Part E: 2 more hidden equipment chests - done
+
+Same rules as the existing 5 hidden chests: 1/4-scale prop, no markers of any kind, `[E] Open the
+chest` prompt only within `HIDDEN_CHEST_RADIUS` (~1.5m), one-time. `uplands_ridge` (world (11,
+-3), North Uplands) holds **Traveler's Boots**; `harbor_dock_back` (world (16, 2), Harbor Dock)
+holds **Solid Plate** - both basic equipment, never advanced (a hidden find should feel like a
+head start, not a shortcut past the level-10 vendor unlock). Both districts already have one
+proven-safe chest each (D67); the new ones sit at a cell well clear of every other anchor there.
+
+Added the 4th `HIDDEN_CHEST_REWARDS` key ("equipment") and `Session.grant_equipment()`. Verified
+with a real windowed run: extended `tools/town_interact_smoke.gd` with a genuine
+walk/no-prompt-from-4m/prompt-up-close/open/confirm-owned sequence - passes. That same run
+surfaced that the smoke test's own 300s timeout no longer fit the script (grown across Parts
+C/D/E); bumped to 540s. `docs/design/secrets.md` updated. See D96.
+
+## New brief, Part F: The Graveyard - done
+
+An extremely hard scripted encounter in a new atmospheric pocket of Grave Hollow. **The Restless
+Cairn** (an ominous object, not an NPC - two stacked, dark-tinted rocks) starts a duel against
+**The Restless Dead**, who summons an increasingly powerful creature at the start of every one of
+their own turns: 1/1, 2/2, 3/3 Guard, 3/4 Trample, 4/4 Flying, capping at 4/5 Flying (every
+activation past that re-summons the cap - the escalation never actually stops).
+
+Built as a genuinely reusable engine rule, not hardcoded to this one fight: a new
+`Modifier.Kind.SCRIPTED_ESCALATING_SUMMON` (`tokens: Array[CardData]`, the ordered stages) fired
+from a new `GameState._fire_scripted_summons`, tracked per-player via `PlayerState
+.scripted_summon_count` - any future scripted boss can attach its own stages the same way.
+
+**Atmosphere**: dead trees (the hexagon pack's own bare `tree_single_A_cut`) and grave markers
+(plain rocks, tinted grey - neither approved pack has a dedicated tombstone/coffin model) plus a
+dense, slow, low grey mist (the corrupted NPCs' particle-drift technique from D69, repurposed).
+"Darker lighting" could not be a true per-zone effect (the town is one scene, one
+`WorldEnvironment`) without risking the rest of the already-tuned town - the mist carries the mood
+instead; see D97 for the honest tradeoff.
+
+**Balance, verified by real simulation** (`tools/run_graveyard_balance_simulation.gd`,
+`docs/balance_report.md`): a level-25 "solid" on-color deck with no gear wins **0% of 800 games**
+(comfortably under the 10% target - genuinely nearly impossible); the same deck/level with the
+full 5-piece advanced-equipment loadout wins **58.3%** (target: 40-60%). Needed real tuning to get
+there - the first pass (18 life, stages up to 6/6 Flying+Trample) only reached 15.1% with full
+gear; cut to 12 life and softened stages landed both targets. Isolating each piece alone: **Hover
+Boots matters most by far** (55% alone - flying past the fight's one Guard stage to race down 12
+life is the single strongest answer); Flamethrower is a modest help (+4%); the other three show 0%
+alone here but still contribute to the full loadout's combined result.
+
+**Reward**: gold (220), XP (150), and Thorned Loincloth as the "something notable" - not the
+original placeholder pick, swapped in because it both fits thematically (punishes an attacking
+horde by hurting every attacker) and gives a real, earlier way to get a piece otherwise locked
+behind level 10 or 280 gold. Repeatable but unrewarded past the first win, same choice as the
+corrupted NPCs (D68) and for the same reason.
+
+Town wiring mirrors the corrupted NPCs' shape exactly: talk (placeholder dialogue in `StoryText`,
+before every fight) -> battle -> talk again (placeholder dialogue after, win or lose) -> reward
+toast + level-up popup on a first win. `docs/design/open_questions.md` D97 has the full design
+log. 388 GUT tests pass (10 new: `tests/core/game/test_scripted_encounters.gd`,
+`tests/core/dungeon/test_graveyard_boss.gd`).
+
+**Verified with a real windowed run** (`tools/graveyard_smoke.gd`/`run_graveyard_smoke.sh`,
+mirroring `corrupted_npc_smoke.gd` exactly): walks to the cairn, confirms the prompt and dialogue,
+confirms the real battle starts with the right opponent/life, plays the whole duel out for real
+with `BattlePilot` (a real, uncertain outcome, not scripted) - confirmed the escalating summon
+actually fires mid-battle, the duel finishes, and (on the loss this particular run produced,
+consistent with the 0%-no-gear simulation result) no reward is granted and the cairn can be
+challenged again. Two real bugs found and fixed along the way: the crude WASD test bot couldn't
+reach the cairn because the graveyard's own decoration (grave-marker rocks, a dead tree) blocked
+its south approach corridor - moved all of it to the north/east/west sides, clear of the interact
+anchor; and the cairn's prompt had no case in `_prompt_text()` at all (fell through to the spot's
+plain title) - added a real one, "Disturb the cairn". A full `tools/e2e_demo.gd` run afterward
+(`E2E PASSED in 256s`) confirmed nothing else in town regressed.

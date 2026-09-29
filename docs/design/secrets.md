@@ -38,6 +38,24 @@ Total: 125 gold, 3 items, 2 cards, one per new district (not all clustered in on
 cards (`stag_warden`, `stone_sentinel`) are Common/Uncommon on purpose - a hidden chest is a nice
 find, not a power spike.
 
+## Fourth brief, Part E: 2 more hidden chests (equipment)
+
+Same rules as the 5 above exactly - no markers, `[E] Open the chest` only within
+`TownScene.HIDDEN_CHEST_RADIUS`, one-time. Placed in two of the five districts that already have
+a proven-safe chest (D67 - avoiding the original core's unexplained rendering bug there), at a
+cell well clear of every other anchor in that district, rather than risking an unverified new
+spot. Each holds one **basic** equipment piece (never advanced - a hidden find should feel like a
+nice head start, not a shortcut past the level-10 vendor unlock):
+
+| id | Where | How it's tucked | Contents |
+|----|-------|------------------|----------|
+| `uplands_ridge` | North Uplands, world (11, -3) | A quiet grass shelf above the main overlook path, north of the district's existing chest | **Traveler's Boots** (equipment, Boots) |
+| `harbor_dock_back` | Harbor Dock, world (16, 2) | Tucked in a stand of trees at the district's inland edge, a row over from the dock's main chest | **Solid Plate** (equipment, Armor) |
+
+Verified with a real windowed run (`tools/town_interact_smoke.gd`, extended alongside Part C's
+equipment-vendor coverage): walks to `uplands_ridge`, confirms no prompt from 4m, confirms the
+prompt appears up close, opens it and confirms `owned_equipment` actually gains the piece.
+
 **Why none of the 5 sit in the original core** (D67): the first draft put one behind a house near
 the market/gate cluster (world (1, 2), then (2, 1) after a first relocation attempt). Both
 positions reproducibly screenshotted as a blank sky-colored frame with only a small, correctly-

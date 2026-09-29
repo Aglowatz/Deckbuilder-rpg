@@ -30,6 +30,9 @@ var has_taken_first_turn: bool = false
 ## -1 = unlimited), reset/computed alongside max_hand_size etc.
 var non_land_casts_this_turn: int = 0
 var non_land_cast_cap: int = -1
+## New brief, Part F: how many SCRIPTED_ESCALATING_SUMMON activations this player has had this
+## duel - selects which stage (capped at the last) the next one summons.
+var scripted_summon_count: int = 0
 
 
 static func find_in(zone: Array[CardInstance], uid: int) -> CardInstance:
@@ -90,6 +93,7 @@ func clone(deep_library: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.has_taken_first_turn = has_taken_first_turn
 	copy.non_land_casts_this_turn = non_land_casts_this_turn
 	copy.non_land_cast_cap = non_land_cast_cap
+	copy.scripted_summon_count = scripted_summon_count
 	if deep_library:
 		copy.library = _clone_zone(library)
 	else:

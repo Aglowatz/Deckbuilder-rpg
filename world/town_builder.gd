@@ -252,6 +252,7 @@ func _build_props() -> void:
 	anchors["lever"] = lever_pos + Vector3(0.4, 0, 0.2)
 	_build_hidden_chests()
 	_build_dev_shrine()
+	_build_graveyard()
 
 
 ## New brief (third), Part E: a debug-only "Dev Shrine" at the very bottom (south) edge of the
@@ -269,6 +270,58 @@ func _build_dev_shrine() -> void:
 	anchors["dev_shrine"] = pos + Vector3(0, 0, -1.05)
 
 
+## Fourth brief, Part F: the Graveyard - a small, atmospheric pocket carved into Grave Hollow
+## (fog, dead trees, makeshift grave markers, same asset family - no dedicated tombstone/coffin
+## model exists in either approved pack, see docs/design/open_questions.md), built around The
+## Restless Cairn (the "ominous object" that starts the scripted battle). Placed in the
+## already-proven-safe Grave Hollow district (D67), at cells clear of the district's existing
+## chest/NPC/portal anchors. Fog is TownScene's job (a particle effect), not the builder's - same
+## split as the corrupted NPCs' corruption particles.
+const GRAVEYARD_CENTER_CELL: Vector2i = Vector2i(-3, 10)
+
+
+func _build_graveyard() -> void:
+	var center: Vector3 = cell_center(GRAVEYARD_CENTER_CELL.x, GRAVEYARD_CENTER_CELL.y)
+	var cairn: Node3D = Node3D.new()
+	cairn.name = "RestlessCairn"
+	var base: Node3D = ModelKit.nature("rock_single_E")
+	ModelKit.tint(base, Color(0.35, 0.35, 0.38))
+	cairn.add_child(base)
+	var top: Node3D = ModelKit.nature("rock_single_D")
+	ModelKit.tint(top, Color(0.3, 0.3, 0.33))
+	top.position = Vector3(0.05, 0.35, -0.05)
+	top.scale = Vector3.ONE * 0.7
+	cairn.add_child(top)
+	ModelKit.place(root, cairn, center, _rng.randf() * 360.0, 1.15)
+	obstacles.append(Vector3(center.x, center.z, 0.45))
+	anchors["graveyard_cairn"] = center + Vector3(0.0, 0, 1.1)
+	# Grave markers: no dedicated tombstone model exists in either approved pack, so plain rocks
+	# stand in for them (an honest reuse, same spirit as the equipment vendor's blacksmith
+	# building or Wendell Cobb's Knight model) - tinted a flatter grey so they read as worked
+	# stone rather than wayside boulders.
+	# Kept inside roughly one cell's own footprint (HexGrid.WIDTH is 2.0, ROW_SPACING ~1.73), and
+	# entirely on the north/east/west sides (z <= -0.3, or |z| small with large |x|) - the south
+	# corridor (positive z, small |x|) leading to the interact anchor above must stay clear, or
+	## the approach (real player or the crude WASD test bot) gets blocked.
+	var marker_offsets: Array[Vector3] = [
+		Vector3(-0.9, 0, -0.3), Vector3(0.9, 0, -0.3), Vector3(-0.6, 0, -0.95),
+		Vector3(0.6, 0, -0.95), Vector3(0.0, 0, -1.25),
+	]
+	var marker_models: Array[String] = ["rock_single_A", "rock_single_B", "rock_single_C"]
+	for offset: Vector3 in marker_offsets:
+		var marker: Node3D = ModelKit.nature(marker_models[_rng.randi() % marker_models.size()])
+		ModelKit.tint(marker, Color(0.5, 0.5, 0.52))
+		var pos: Vector3 = center + offset
+		ModelKit.place(root, marker, pos, _rng.randf() * 360.0, 0.9)
+		obstacles.append(Vector3(pos.x, pos.z, 0.3))
+	# Dead trees: the pack's own bare/leafless "_cut" tree variant, no new asset needed - kept to
+	# the east/west sides, clear of the south approach corridor.
+	for offset: Vector3 in [Vector3(-1.15, 0, 0.05), Vector3(1.15, 0, 0.05)]:
+		var pos: Vector3 = center + offset
+		ModelKit.place(root, ModelKit.nature("tree_single_A_cut"), pos, _rng.randf() * 360.0, 1.2)
+		obstacles.append(Vector3(pos.x, pos.z, 0.35))
+
+
 ## New brief, Part D: 5 hidden chests, scaled to 1/4 of the D38 chest above (0.9 -> 0.225) and
 ## tucked into real alcoves across the (now bigger) town - among trees, in a back alley, in a
 ## misty hollow, on a quiet overlook, in a stand of trees off the Ember Flats - not clustered in
@@ -279,14 +332,19 @@ func _build_dev_shrine() -> void:
 ## file) - see D67 (also D67 for why none of the 5 sit in the original 10x15 core: a real, still-
 ## unexplained rendering bug specific to that area, not a design choice - avoided rather than
 ## shipped).
+## Fourth brief, Part E: 2 more hidden chests (equipment this time - see docs/design/secrets.md),
+## same rules as the 5 above - one more in an already-proven-safe district (D67) rather than a
+## new one, at a cell well clear of every existing anchor/chest in that district.
 const HIDDEN_CHEST_CELLS: Dictionary = {
 	"ember_flats": Vector2i(9, 12), "west_woods": Vector2i(-4, 5), "harbor_dock": Vector2i(17, 6),
 	"grave_hollow": Vector2i(-4, 12), "uplands": Vector2i(8, -2),
+	"uplands_ridge": Vector2i(11, -3), "harbor_dock_back": Vector2i(16, 2),
 }
 const HIDDEN_CHEST_OFFSETS: Dictionary = {
 	"west_woods": Vector3(0.35, 0, -0.25), "harbor_dock": Vector3(-0.3, 0, 0.35),
 	"grave_hollow": Vector3(0.3, 0, 0.3), "uplands": Vector3(-0.25, 0, -0.35),
 	"ember_flats": Vector3(0.3, 0, -0.3),
+	"uplands_ridge": Vector3(0.3, 0, 0.25), "harbor_dock_back": Vector3(-0.25, 0, 0.3),
 }
 
 

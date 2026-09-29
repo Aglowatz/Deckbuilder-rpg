@@ -323,6 +323,17 @@ func buy_equipment(piece: EquipmentData, price: int) -> bool:
 	return true
 
 
+## New brief, Part E: grants one piece of equipment for free (a hidden chest). Same "already
+## owned means no-op" rule as buy_equipment, just without the gold cost, and no save_game() of
+## its own - matching add_cards/add_item, callers that grant several rewards at once save once.
+func grant_equipment(piece: EquipmentData) -> bool:
+	if profile == null or piece == null or profile.owned_equipment.has(piece):
+		return false
+	profile.owned_equipment.append(piece)
+	EventBus.collection_changed.emit()
+	return true
+
+
 ## Equips an owned piece, unequipping whatever was in that slot. Saves on success.
 func equip_item(item: EquipmentData) -> bool:
 	if profile == null or not profile.equip(item):
@@ -648,6 +659,58 @@ func _complete_npc_challenge(context: BattleContext) -> void:
 	SceneManager.go_to_town()
 
 
+# ---- The Graveyard (fourth brief, Part F) -------------------------------------------------
+
+## Set by _complete_graveyard_challenge, read once by TownScene._ready() to show the right
+## post-fight dialogue (and, on a first win, the reward toast), then cleared. {} when there is
+## nothing to show. Mirrors pending_npc_result above.
+var pending_graveyard_result: Dictionary = {}
+
+
+## The Graveyard's scripted battle, using the player's real current deck/profile (not a
+## reference deck) at full life - a real, standalone fight, not carried over from a dungeon run.
+func make_graveyard_battle() -> BattleContext:
+	ensure_game()
+	var options: GameOptions = GameOptions.new()
+	options.first_player = -1
+	options.rng_seed = rng.randi() % 1000000 + 1
+	var game: GameState = GameState.new(options)
+	game.add_player(PlayerSetup.create(deck, profile, [] as Array[ModifierSource], "You"))
+	game.add_player(GraveyardBoss.enemy_setup(content))
+	game.start()
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(GraveyardBoss.personality(content))
+	context.enemy_name = GraveyardBoss.DISPLAY_NAME
+	context.is_boss = true
+	context.is_graveyard_boss = true
+	return context
+
+
+func challenge_graveyard_boss() -> void:
+	start_battle(make_graveyard_battle())
+
+
+## Winning the first time grants a one-time reward (gold, XP, a piece of equipment no vendor
+## sells yet) - see GraveyardBoss.REWARD_*. Losing (or a rematch after already winning) pays
+## nothing, but the fight can always be tried again - same "repeatable but unrewarded past the
+## first win" choice as the corrupted NPCs (D68), for the same reason.
+func _complete_graveyard_challenge(context: BattleContext) -> void:
+	var already_won: bool = flag(&"graveyard_boss_defeated")
+	var first_win: bool = context.won and not already_won
+	pending_graveyard_result = {"won": context.won, "first_win": first_win}
+	if first_win:
+		set_flag(&"graveyard_boss_defeated")
+		add_gold(GraveyardBoss.REWARD_GOLD)
+		var gained: Array[LevelData] = add_xp(GraveyardBoss.REWARD_XP)
+		pending_graveyard_result["levels_gained"] = gained
+		var piece: EquipmentData = GraveyardBoss.reward_equipment(content)
+		if piece != null and grant_equipment(piece):
+			pending_graveyard_result["equipment_name"] = piece.source_name
+	save_game()
+	SceneManager.go_to_town()
+
+
 # ---- Zone portals (Part G) ---------------------------------------------------------------
 
 ## Which placeholder zone (`ZonePortals.Info.id`) the placeholder scene should show.
@@ -664,6 +727,9 @@ func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
 	if not context.town_npc_id.is_empty():
 		_complete_npc_challenge(context)
+		return
+	if context.is_graveyard_boss:
+		_complete_graveyard_challenge(context)
 		return
 	if not in_dungeon():
 		SceneManager.go_to_town()
