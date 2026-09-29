@@ -85,6 +85,25 @@ const UI_ICONS: Dictionary = {
 	"skull": "lorc/skull-crack",
 	"coins": "delapouite/coins-pile",
 	"heal": "delapouite/healing",
+	# New brief, Part A: level-up popup bonus-row icons.
+	"hand": "lorc/poker-hand",
+	"item_slot": "delapouite/backpack",
+	"copies": "delapouite/up-card",
+	"card_choice": "faithtoken/card-pick",
+	"vendor": "delapouite/shop",
+	"equipment_unlock": "lorc/unlocking",
+	"level_badge": "delapouite/star-medal",
+	"lock": "lorc/padlock",
+}
+
+## New brief, Part A/C: equipment piece icons, looked up by equipment id (same silhouette style
+## as BY_ITEM_ID). One entry per placeholder equipment piece (`data/equipment/*.tres`).
+const BY_EQUIPMENT_ID: Dictionary = {
+	"scavengers_helm": "caro-asercion/warlord-helmet",
+	"worn_blade": "delapouite/ancient-sword",
+	"padded_vest": "lorc/leather-vest",
+	"quick_boots": "delapouite/chelsea-boot",
+	"minor_relic": "lorc/gem-pendant",
 }
 
 static var _cache: Dictionary = {}
@@ -101,6 +120,13 @@ static func for_item(item: ItemData) -> Texture2D:
 	var key: String = str(BY_ITEM_ID.get(item.id, ""))
 	if key == "":
 		key = "delapouite/health-potion"
+	return _load(key)
+
+
+static func for_equipment(equipment: EquipmentData) -> Texture2D:
+	var key: String = str(BY_EQUIPMENT_ID.get(equipment.id, ""))
+	if key == "":
+		key = "lorc/gem-pendant"
 	return _load(key)
 
 

@@ -48,6 +48,9 @@ static func sounds() -> Dictionary:
 		&"door": [RPG + "doorOpen_1.ogg"],
 		&"book": [RPG + "bookFlip1.ogg", RPG + "bookFlip2.ogg"],
 		&"victory": [JINGLE + "Steel jingles/jingles_STEEL00.ogg"],
+		# New brief, Part A: a distinct fanfare for the level-up popup (not the battle-win jingle,
+		# since a level-up can happen with no battle at all - e.g. the dev shrine).
+		&"level_up": [JINGLE + "8-Bit jingles/jingles_NES03.ogg"],
 		&"defeat": [JINGLE + "Hit jingles/jingles_HIT03.ogg"],
 		&"dialogue": [IFACE + "tick_002.ogg"],
 	}

@@ -1,10 +1,16 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://e4mjif0yh625"]
 
-[ext_resource type="Script" path="res://ui/screens/title_screen.gd" id="1"]
+[ext_resource type="Script" uid="uid://8354u5dd52e4" path="res://ui/screens/title_screen.gd" id="1"]
 
-[node name="Title" type="Control"]
+[node name="Title" type="Control" unique_id=1543204340]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 27.0
+offset_top = -165.0
+offset_right = 27.0
+offset_bottom = -165.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1")

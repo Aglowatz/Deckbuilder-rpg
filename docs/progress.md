@@ -1231,3 +1231,47 @@ your attention:
 9. Everything still open from the previous two briefs (title/element names, the town secrets' real
    rewards vs. placeholder gold/items, XP/level pacing, equipment/item flavor) remains open too -
    nothing in this pass answered those either.
+
+---
+
+# Third follow-up brief (level-up polish, item/equipment UI, a secret tunnel and a dev shrine,
+September 2026)
+
+A new work order, again reusing the letters A-E (a third time - see the "New Part A-G" header
+above for why the previous brief is disambiguated the way it is). To keep all three straight,
+every section below is titled "Newest Part <letter>" and cross-references the earlier "Part
+<letter>"/"New Part <letter>" sections by name where relevant. Worked through in order; GUT tests
+run and docs/commit/push after each part, per your instructions.
+
+## Newest Part A: level-up popup - done
+
+`LevelUpScreen` (Part E of the first brief) already existed as a plain combined recap listing
+every level gained in one panel; this part makes it the celebratory popup the brief asks for.
+
+- **One popup per level, in sequence**, not a combined list: `LevelUpScreen._show_level_popup()`
+  shows a single level's badge, "You are now level N", and every bonus *that level* grants, each
+  with an icon; "Continue" advances to the next level (or on to the existing pending equipment-
+  choice/card-offer steps once every level has had its turn) - see D77 for why this didn't need a
+  new `LevelData` field.
+- **Every bonus gets an icon**: life (heart), opening hand size (a new `lorc/poker-hand` icon),
+  item slots (`delapouite/backpack`), deck copy limits (`delapouite/up-card`), an equipment-slot
+  choice (`lorc/unlocking`), gold (existing coins icon), a card-choice reward
+  (`faithtoken/card-pick`), and a vendor-stock unlock (`delapouite/shop`) - all game-icons.net,
+  the project's existing approved source, copied into `assets/icons/game-icons/` alongside the
+  ones already in use (CREDITS.md updated with the two new author names, Caro Asercion and
+  Faithtoken).
+- **Animated entrance + particles + sound**: the popup now scales in with a back-ease bounce (not
+  just the existing plain fade every other screen uses) and bursts gold `CPUParticles2D` behind
+  it, and a new `level_up` sound plays - a different 8-bit Kenney jingle than the existing
+  "victory" battle-win jingle, since a level-up can happen with no battle at all (see D78).
+- **Same popup for level-ups from any source**: `RewardsScreen` (dungeon battles) already used
+  `LevelUpScreen` unchanged; `TownScene` now shows it too, after a corrupted NPC's first win if
+  that win crossed a level (`Session.pending_npc_result["levels_gained"]` was already being
+  recorded but never surfaced in the UI - `TownScene._show_level_up`), and the new dev shrine
+  (Newest Part E, below) reuses the exact same screen/method.
+- Verified by screenshot with a disposable preview scene (`scenes/dev/_tmp_level_up_preview.*`,
+  built, screenshotted, then deleted - not committed): a single-level popup renders correctly with
+  its icon, badge, "(1 of 2 levels gained)" counter and Continue button.
+
+335 GUT tests still pass (no `core/` logic changed - this part is presentation-only, like New
+Part A of the previous brief).

@@ -563,7 +563,15 @@ func _show_npc_result() -> void:
 		var item_name: String = str(result.get("item_name", ""))
 		if not item_name.is_empty():
 			reward_text += ", %s" % item_name
-		dialogue.finished.connect(func() -> void: hud.toast(reward_text, UIStyle.GOLD), CONNECT_ONE_SHOT)
+		var levels_gained: Array[LevelData] = []
+		for level_data: Variant in (result.get("levels_gained", []) as Array):
+			levels_gained.append(level_data as LevelData)
+		# New brief, Part A: same level-up popup regardless of source - a corrupted NPC's first
+		# win can grant levels just like a dungeon battle can.
+		dialogue.finished.connect(func() -> void:
+			hud.toast(reward_text, UIStyle.GOLD)
+			if not levels_gained.is_empty():
+				_show_level_up(levels_gained), CONNECT_ONE_SHOT)
 
 
 ## New brief, Part E: talking to a corrupted NPC always plays a short line (corrupted/hinting at
@@ -678,6 +686,15 @@ func _open_character_screen() -> void:
 	var screen: CharacterScreen = CharacterScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
+
+
+## New brief, Part A: the same level-up popup used after a dungeon battle, reused here for
+## level-ups from any other source (a corrupted NPC's first win, the dev shrine).
+func _show_level_up(gained: Array[LevelData]) -> void:
+	var screen: LevelUpScreen = LevelUpScreen.new()
+	screen.setup(gained)
+	_open_overlay(screen)
+	screen.finished.connect(_close_overlay)
 
 
 func _open_codex() -> void:
