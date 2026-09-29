@@ -46,6 +46,34 @@ func stat_bonus(card_color: Affinity.Type) -> Vector2i:
 	return bonus
 
 
+## Whether any modifier of `kind` is present at all (for presence-only flags like ALWAYS_FIRST,
+## CANNOT_BLOCK, REVEAL_OPPONENT_HAND - the value, if any, doesn't matter).
+func has(kind: Modifier.Kind) -> bool:
+	for modifier: Modifier in modifiers:
+		if modifier.kind == kind:
+			return true
+	return false
+
+
+## Smallest `value` among modifiers of `kind`, or -1 (meaning "unlimited"/absent) if none exist.
+## Used for caps multiple sources could tighten (e.g. Big Brain Beret's one-non-land-card cap).
+func cap(kind: Modifier.Kind) -> int:
+	var result: int = -1
+	for modifier: Modifier in modifiers:
+		if modifier.kind == kind:
+			result = modifier.value if result < 0 else mini(result, modifier.value)
+	return result
+
+
+## Keywords granted to every matching creature the owner controls (GRANT_KEYWORD_TO_CREATURES).
+func keyword_grants(kind: Modifier.Kind, card_color: Affinity.Type) -> Array[CardEnums.Keyword]:
+	var result: Array[CardEnums.Keyword] = []
+	for modifier: Modifier in modifiers:
+		if modifier.kind == kind and modifier.matches_color(card_color):
+			result.append(modifier.value as CardEnums.Keyword)
+	return result
+
+
 func effects_of(kind: Modifier.Kind) -> Array[EffectData]:
 	var result: Array[EffectData] = []
 	for modifier: Modifier in modifiers:

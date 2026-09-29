@@ -1,19 +1,28 @@
 class_name ProgressionContent
 extends RefCounted
-## Placeholder equipment and items (Part E) proving the equip/unequip/use framework works end to
-## end. Written to .tres by tools/generate_content.gd like the rest of the placeholder content;
-## real gear replaces these later.
+## Equipment (New brief, Part B - 10 real pieces, 2 per slot, replacing the original 5
+## placeholders) and items. Written to .tres by tools/generate_content.gd.
 
 const K := Modifier.Kind
+const KW := CardEnums.Keyword
 
 
+## New brief, Part B: 10 pieces, 2 per slot - a "basic" (tier 1) piece stocked at the equipment
+## vendor from the start, and an "advanced" (tier 2) piece locked behind a level-up reward (see
+## docs/design/progression.md). Every effect goes through the Modifier pipeline; new Modifier.Kind
+## values added for this brief are documented in core/data/modifier.gd.
 static func equipment() -> Dictionary:
 	var result: Dictionary = {}
-	_add(result, _piece("scavengers_helm", "Scavenger's Helm", EquipmentData.Slot.HELM, "A dented helm that still turns a blade. Sharpens focus: one more card in your opening hand.", [_mod(K.MAX_HAND_SIZE, 1)]))
-	_add(result, _piece("worn_blade", "Worn Blade", EquipmentData.Slot.WEAPON, "Notched from use, never from failure. Your creatures hit a little harder.", [_mod(K.STAT_CHANGE, 1, Modifier.ANY_COLOR, 0)]))
-	_add(result, _piece("padded_vest", "Padded Vest", EquipmentData.Slot.ARMOR, "Thick enough to matter, light enough to forget you're wearing it. +3 max life.", [_mod(K.MAX_LIFE, 3)]))
-	_add(result, _piece("quick_boots", "Quick Boots", EquipmentData.Slot.BOOTS, "Light feet, faster starts. One more card in your opening hand.", [_mod(K.OPENING_HAND_SIZE, 1)]))
-	_add(result, _piece("minor_relic", "Minor Relic", EquipmentData.Slot.RELIC, "A shard of something older than the Hollow. Your spells cost a little less.", [_mod(K.COST_CHANGE, -1, Modifier.ANY_COLOR)]))
+	_add(result, _piece("wicked_dagger", "Wicked Dagger", EquipmentData.Slot.WEAPON, "A blade with a reputation it didn't earn honestly. Your creatures get +1 power.", [_mod(K.STAT_CHANGE, 1, Modifier.ANY_COLOR, 0)]))
+	_add(result, _piece("flamethrower", "Flamethrower", EquipmentData.Slot.WEAPON, "Alchemist's fire in a backpack tank. At the start of your turn, deal 1 damage to each opposing creature.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ENEMY_CREATURES))], true))
+	_add(result, _piece("extra_pocket", "Extra Pocket", EquipmentData.Slot.RELIC, "Sewn in where no one thinks to look. Max hand size +1.", [_mod(K.MAX_HAND_SIZE, 1)]))
+	_add(result, _piece("cheaters_dice", "Cheater's Dice", EquipmentData.Slot.RELIC, "They only ever land the way you need them to. You always go first, but your opening hand is 1 card smaller.", [_mod(K.ALWAYS_FIRST, 1), _mod(K.OPENING_HAND_SIZE, -1)], true))
+	_add(result, _piece("travelers_boots", "Traveler's Boots", EquipmentData.Slot.BOOTS, "Worn thin by roads longer than this one. Draw an extra card at the start of your first turn.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1)]))
+	_add(result, _piece("hover_boots", "Hover Boots", EquipmentData.Slot.BOOTS, "A finger's width of clearance, always. Your creatures have Flying but cannot block.", [_mod(K.GRANT_KEYWORD_TO_CREATURES, int(KW.FLYING), Modifier.ANY_COLOR, 0), _mod(K.CANNOT_BLOCK, 1)], true))
+	_add(result, _piece("solid_plate", "Solid Plate", EquipmentData.Slot.ARMOR, "Unglamorous, unyielding. Your creatures get +1 toughness.", [_mod(K.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)]))
+	_add(result, _piece("thorned_loincloth", "Thorned Loincloth", EquipmentData.Slot.ARMOR, "Nobody enjoys being the one who has to remove this from a corpse. Max life -5; whenever an enemy creature attacks you, it takes 1 damage.", [_mod(K.MAX_LIFE, -5), _mod_effect(K.RETALIATE_ON_ATTACK, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ATTACKERS))], true))
+	_add(result, _piece("xray_goggles", "X-Ray Goggles", EquipmentData.Slot.HELM, "Everything looks the same underneath. The opponent's hand is revealed to you - it doesn't see through a face-down trap, though.", [_mod(K.REVEAL_OPPONENT_HAND, 1)]))
+	_add(result, _piece("big_brain_beret", "Big Brain Beret", EquipmentData.Slot.HELM, "It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-land card per turn.", [_mod(K.EXTRA_DRAWS, 1), _mod(K.MAX_NON_LAND_CASTS_PER_TURN, 1)], true))
 	return result
 
 
@@ -47,7 +56,7 @@ static func items(tokens: Dictionary = {}) -> Dictionary:
 	return result
 
 
-static func _piece(id: String, title: String, slot: EquipmentData.Slot, description: String, modifiers: Array[Modifier]) -> EquipmentData:
+static func _piece(id: String, title: String, slot: EquipmentData.Slot, description: String, modifiers: Array[Modifier], advanced: bool = false) -> EquipmentData:
 	var piece: EquipmentData = EquipmentData.new()
 	piece.id = id
 	piece.source_name = title
@@ -55,6 +64,7 @@ static func _piece(id: String, title: String, slot: EquipmentData.Slot, descript
 	piece.slot = slot
 	piece.description = description
 	piece.modifiers = modifiers
+	piece.advanced = advanced
 	return piece
 
 
@@ -65,6 +75,22 @@ static func _mod(kind: Modifier.Kind, value: int, color: int = Modifier.ANY_COLO
 	modifier.value2 = value2
 	modifier.color = color
 	return modifier
+
+
+## A modifier whose payload is a full EffectData (START_OF_TURN_EFFECT, RETALIATE_ON_ATTACK, ...).
+static func _mod_effect(kind: Modifier.Kind, effect_data: EffectData) -> Modifier:
+	var modifier: Modifier = Modifier.new()
+	modifier.kind = kind
+	modifier.effect = effect_data
+	return modifier
+
+
+static func _effect(op: CardEnums.EffectOp, amount: int, target: CardEnums.TargetKind) -> EffectData:
+	var effect: EffectData = EffectData.new()
+	effect.op = op
+	effect.amount = amount
+	effect.target = target
+	return effect
 
 
 static func _add(result: Dictionary, piece: EquipmentData) -> void:

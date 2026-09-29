@@ -31,14 +31,15 @@ static func guard_creatures(state: GameState, defender_index: int) -> Array[Card
 static func possible_blockers(state: GameState, defender_index: int) -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
 	for card: CardInstance in state.players[defender_index].creatures():
-		if not card.tapped:
+		if not card.tapped and not card.cannot_block:
 			result.append(card)
 	return result
 
 
-## Flying attackers can only be blocked by Flying or Reach creatures.
+## Flying attackers can only be blocked by Flying or Reach creatures. New brief, Part B: a
+## creature whose controller's equipment forbids blocking (e.g. Hover Boots) can never block.
 static func can_block(attacker: CardInstance, blocker: CardInstance) -> bool:
-	if blocker.tapped or not blocker.data.is_creature():
+	if blocker.tapped or not blocker.data.is_creature() or blocker.cannot_block:
 		return false
 	if attacker.has_keyword(CardEnums.Keyword.FLYING):
 		return blocker.has_keyword(CardEnums.Keyword.FLYING) or blocker.has_keyword(CardEnums.Keyword.REACH)
@@ -89,6 +90,8 @@ static func declare_attackers(state: GameState, uids: Array[int], guard_targets:
 			state.fire_trigger(card, CardEnums.Trigger.ON_ATTACK, 0, 0)
 	if not state.is_over():
 		state.fire_traps(defender, CardEnums.Trigger.TRAP_OPPONENT_ATTACKS, _strongest(state, chosen))
+	if not state.is_over():
+		state.fire_retaliation(defender)
 	state.check_state()
 	if state.is_over():
 		return true

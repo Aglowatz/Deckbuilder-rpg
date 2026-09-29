@@ -96,14 +96,20 @@ const UI_ICONS: Dictionary = {
 	"lock": "lorc/padlock",
 }
 
-## New brief, Part A/C: equipment piece icons, looked up by equipment id (same silhouette style
-## as BY_ITEM_ID). One entry per placeholder equipment piece (`data/equipment/*.tres`).
+## New brief, Part B: equipment piece icons, looked up by equipment id (same silhouette style as
+## BY_ITEM_ID). One entry per equipment piece (`data/equipment/*.tres`) - 2 per slot (basic/
+## advanced), replacing the original 5 placeholders.
 const BY_EQUIPMENT_ID: Dictionary = {
-	"scavengers_helm": "caro-asercion/warlord-helmet",
-	"worn_blade": "delapouite/ancient-sword",
-	"padded_vest": "lorc/leather-vest",
-	"quick_boots": "delapouite/chelsea-boot",
-	"minor_relic": "lorc/gem-pendant",
+	"wicked_dagger": "lorc/broad-dagger",
+	"flamethrower": "delapouite/flamethrower",
+	"extra_pocket": "lorc/shiny-purse",
+	"cheaters_dice": "delapouite/dice-six-faces-six",
+	"travelers_boots": "delapouite/cowboy-boot",
+	"hover_boots": "lorc/feathered-wing",
+	"solid_plate": "lorc/breastplate",
+	"thorned_loincloth": "lorc/spiked-armor",
+	"xray_goggles": "delapouite/steampunk-goggles",
+	"big_brain_beret": "lorc/brainstorm",
 }
 
 static var _cache: Dictionary = {}

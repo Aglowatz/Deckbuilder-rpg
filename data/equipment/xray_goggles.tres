@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_m2ayu"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="2_hdo26"]
+
+[sub_resource type="Resource" id="Resource_i8ifl"]
+script = ExtResource("1_m2ayu")
+kind = 17
+value = 1
+
+[resource]
+script = ExtResource("2_hdo26")
+id = "xray_goggles"
+slot = 0
+description = "Everything looks the same underneath. The opponent's hand is revealed to you - it doesn't see through a face-down trap, though."
+source_name = "X-Ray Goggles"
+modifiers = Array[ExtResource("1_m2ayu")]([SubResource("Resource_i8ifl")])

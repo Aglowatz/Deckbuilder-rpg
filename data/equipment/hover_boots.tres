@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_6v0ot"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="2_jfinh"]
+
+[sub_resource type="Resource" id="Resource_wi0wx"]
+script = ExtResource("1_6v0ot")
+kind = 14
+
+[sub_resource type="Resource" id="Resource_nioth"]
+script = ExtResource("1_6v0ot")
+kind = 15
+value = 1
+
+[resource]
+script = ExtResource("2_jfinh")
+id = "hover_boots"
+slot = 3
+description = "A finger's width of clearance, always. Your creatures have Flying but cannot block."
+advanced = true
+source_name = "Hover Boots"
+modifiers = Array[ExtResource("1_6v0ot")]([SubResource("Resource_wi0wx"), SubResource("Resource_nioth")])

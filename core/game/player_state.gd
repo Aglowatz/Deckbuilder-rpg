@@ -24,6 +24,12 @@ var lands_played: int = 0
 var mulligan_used: bool = false
 ## Set when the player must lose (deck-out); resolved with life checks.
 var lost: bool = false
+## New brief, Part B: whether this player has begun their first turn yet (FIRST_TURN_EXTRA_DRAW).
+var has_taken_first_turn: bool = false
+## New brief, Part B: non-land cards cast so far this turn, and the cap (MAX_NON_LAND_CASTS_PER_TURN;
+## -1 = unlimited), reset/computed alongside max_hand_size etc.
+var non_land_casts_this_turn: int = 0
+var non_land_cast_cap: int = -1
 
 
 static func find_in(zone: Array[CardInstance], uid: int) -> CardInstance:
@@ -81,6 +87,9 @@ func clone(deep_library: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.lands_played = lands_played
 	copy.mulligan_used = mulligan_used
 	copy.lost = lost
+	copy.has_taken_first_turn = has_taken_first_turn
+	copy.non_land_casts_this_turn = non_land_casts_this_turn
+	copy.non_land_cast_cap = non_land_cast_cap
 	if deep_library:
 		copy.library = _clone_zone(library)
 	else:

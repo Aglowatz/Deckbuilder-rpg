@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cakncroc8a2sm"
-path="res://.godot/imported/warlord-helmet.svg-42139ba64a1f5d82fa01fb5ecfd7251b.ctex"
+uid="uid://dr8uebrj1g4ft"
+path="res://.godot/imported/flamethrower.svg-83611a96a57441bca0a7eeaa546a0a71.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/icons/game-icons/caro-asercion/warlord-helmet.svg"
-dest_files=["res://.godot/imported/warlord-helmet.svg-42139ba64a1f5d82fa01fb5ecfd7251b.ctex"]
+source_file="res://assets/icons/game-icons/delapouite/flamethrower.svg"
+dest_files=["res://.godot/imported/flamethrower.svg-83611a96a57441bca0a7eeaa546a0a71.ctex"]
 
 [params]
 

@@ -71,6 +71,7 @@ func add_player(setup: PlayerSetup) -> PlayerState:
 	player.max_hand_size = maxi(1, profile.base_max_hand_size() + mods.sum(Modifier.Kind.MAX_HAND_SIZE))
 	player.opening_hand_size = maxi(1, profile.base_opening_hand() + mods.sum(Modifier.Kind.OPENING_HAND_SIZE))
 	player.max_traps = maxi(0, MAX_TRAPS + mods.sum(Modifier.Kind.MAX_TRAPS))
+	player.non_land_cast_cap = mods.cap(Modifier.Kind.MAX_NON_LAND_CASTS_PER_TURN)
 	for data: CardData in setup.deck.cards:
 		player.library.append(create_instance(data, player.index))
 	if setup.deck.size() > 0:
@@ -86,7 +87,7 @@ func start() -> void:
 		rng.seed = options.rng_seed
 	else:
 		rng.randomize()
-	first_player = options.first_player if options.first_player >= 0 else rng.randi_range(0, 1)
+	first_player = options.first_player if options.first_player >= 0 else _pick_first_player()
 	active = first_player
 	for player: PlayerState in players:
 		RngUtil.shuffle(player.library, rng)
@@ -97,6 +98,19 @@ func start() -> void:
 	if not options.free_mulligan:
 		_mulligan_done = [true, true]
 		_begin_playing()
+
+
+## New brief, Part B: ALWAYS_FIRST (e.g. Cheater's Dice) picks the first player instead of the
+## normal coin flip. If both players somehow have it, falls back to the coin flip - see
+## docs/design/open_questions.md D92.
+func _pick_first_player() -> int:
+	var p0_always_first: bool = players[0].modifiers.has(Modifier.Kind.ALWAYS_FIRST)
+	var p1_always_first: bool = players[1].modifiers.has(Modifier.Kind.ALWAYS_FIRST)
+	if p0_always_first and not p1_always_first:
+		return 0
+	if p1_always_first and not p0_always_first:
+		return 1
+	return rng.randi_range(0, 1)
 
 
 func _deal_opening_hand(player: PlayerState) -> void:
@@ -262,6 +276,8 @@ func can_cast(player_index: int, uid: int) -> bool:
 	var card: CardInstance = player.find_hand(uid)
 	if card == null or card.data.is_land():
 		return false
+	if player.non_land_cast_cap >= 0 and player.non_land_casts_this_turn >= player.non_land_cast_cap:
+		return false
 	if card.data.type == CardEnums.CardType.TRAP and player.traps.size() >= player.max_traps:
 		return false
 	if not Mana.can_pay(player.untapped_lands(), generic_cost_for(player_index, card.data), card.data.colored_pips):
@@ -290,6 +306,7 @@ func cast(player_index: int, uid: int, target: int = 0, tap_uids: Array[int] = [
 	if not _pay(player_index, generic_cost_for(player_index, card.data), card.data.colored_pips, tap_uids, uid):
 		return false
 	player.hand.erase(card)
+	player.non_land_casts_this_turn += 1
 	emit_event(GameEvent.Type.CARD_CAST, player_index, uid, chosen, card.data.mana_value())
 	match card.data.type:
 		CardEnums.CardType.CREATURE, CardEnums.CardType.ARTIFACT:
@@ -372,11 +389,24 @@ func _enter_battlefield(card: CardInstance, chosen: int, cast_from_hand: bool) -
 	card.summoning_sick = true
 	card.tapped = false
 	card.damage = 0
+	if card.data.is_creature():
+		_apply_static_equipment_grants(card, player)
 	emit_event(GameEvent.Type.PERMANENT_ENTERED, card.owner, card.uid, 0, 0, player.battlefield.size())
 	if cast_from_hand and card.data.is_creature():
 		fire_traps(1 - card.owner, CardEnums.Trigger.TRAP_OPPONENT_CREATURE, card.uid)
 	if not is_over() and player.find_battlefield(card.uid) != null:
 		fire_trigger(card, CardEnums.Trigger.ON_ENTER, 0, chosen)
+
+
+## New brief, Part B: applies the controller's GRANT_KEYWORD_TO_CREATURES/CANNOT_BLOCK equipment
+## modifiers (e.g. Hover Boots) once, when a creature enters the battlefield. Equipment doesn't
+## change mid-duel, so this never needs to be recomputed afterwards.
+func _apply_static_equipment_grants(card: CardInstance, player: PlayerState) -> void:
+	for keyword: CardEnums.Keyword in player.modifiers.keyword_grants(Modifier.Kind.GRANT_KEYWORD_TO_CREATURES, card.data.color):
+		if not card.granted_keywords.has(keyword):
+			card.granted_keywords.append(keyword)
+	if player.modifiers.has(Modifier.Kind.CANNOT_BLOCK):
+		card.cannot_block = true
 
 
 func _send_to_graveyard(card: CardInstance) -> void:
@@ -400,6 +430,7 @@ func _begin_turn() -> void:
 	pending_discard = 0
 	var player: PlayerState = players[active]
 	player.lands_played = 0
+	player.non_land_casts_this_turn = 0
 	for land: CardInstance in player.lands:
 		land.tapped = false
 	for card: CardInstance in player.battlefield:
@@ -407,12 +438,24 @@ func _begin_turn() -> void:
 		card.summoning_sick = false
 		card.activated_this_turn = false
 	emit_event(GameEvent.Type.TURN_STARTED, active, 0, 0, turn)
-	# The first player skips their first draw.
+	# New brief, Part B: FIRST_TURN_EXTRA_DRAW (e.g. Traveler's Boots) applies once, on a player's
+	# own first turn - including the game's very first turn, which otherwise draws 0 (the first
+	# player skips their first draw).
+	var is_players_first_turn: bool = not player.has_taken_first_turn
+	player.has_taken_first_turn = true
+	var draws: int = 0
 	if turn > 1:
-		draw_cards(active, 1 + maxi(0, player.modifiers.sum(Modifier.Kind.EXTRA_DRAWS)))
+		draws += 1 + maxi(0, player.modifiers.sum(Modifier.Kind.EXTRA_DRAWS))
+	if is_players_first_turn:
+		draws += maxi(0, player.modifiers.sum(Modifier.Kind.FIRST_TURN_EXTRA_DRAW))
+	if draws > 0:
+		draw_cards(active, draws)
 	if is_over():
 		return
 	_fire_turn_triggers(active, CardEnums.Trigger.START_OF_TURN)
+	if is_over():
+		return
+	_fire_start_of_turn_effects(active)
 	if is_over():
 		return
 	_set_phase(Phase.MAIN1)
@@ -723,6 +766,28 @@ func _fire_start_of_combat(player_index: int) -> void:
 		if is_over():
 			return
 		EffectResolver.resolve(self, effect, EffectContext.make(0, player_index))
+	check_state()
+
+
+## New brief, Part B: fires the active player's START_OF_TURN_EFFECT modifiers (e.g. Flamethrower)
+## - equipment equivalent of _fire_start_of_combat, but for the whole turn.
+func _fire_start_of_turn_effects(player_index: int) -> void:
+	for effect: EffectData in players[player_index].modifiers.effects_of(Modifier.Kind.START_OF_TURN_EFFECT):
+		if is_over():
+			return
+		EffectResolver.resolve(self, effect, EffectContext.make(0, player_index))
+	check_state()
+
+
+## New brief, Part B: fires the defender's RETALIATE_ON_ATTACK modifiers (e.g. Thorned Loincloth)
+## against every declared attacker, regardless of whether they end up blocked. Public (not
+## prefixed like the turn/combat helpers above) because it's called from CombatResolver, not
+## from within GameState itself - same as `fire_traps`/`fire_trigger`.
+func fire_retaliation(defender_index: int) -> void:
+	for effect: EffectData in players[defender_index].modifiers.effects_of(Modifier.Kind.RETALIATE_ON_ATTACK):
+		if is_over():
+			return
+		EffectResolver.resolve(self, effect, EffectContext.make(0, defender_index))
 	check_state()
 
 

@@ -1523,3 +1523,53 @@ call in `ai_player.gd` and its existing coverage (`test_ai_clone_can_hide_traps`
 `test_clone_can_hide_traps`) - no code change needed there, already correct.
 
 349 GUT tests pass (3 new).
+
+## New brief, Part B: equipment overhaul - done
+
+Replaced the 5 placeholder equipment pieces with the 10 named in the brief - a "basic" (tier 1)
+and an "advanced" (tier 2) piece per slot. Every effect goes through the existing Modifier
+pipeline; 8 new `Modifier.Kind` values were added where the engine didn't already have the hook
+(see `core/data/modifier.gd` and D92 for the full list and reasoning):
+
+- **Wicked Dagger** / **Solid Plate**: +1 power / +1 toughness to your creatures - the existing
+  STAT_CHANGE mechanism, no engine change needed.
+- **Flamethrower**: a new START_OF_TURN_EFFECT hook (mirrors the existing
+  START_OF_COMBAT_EFFECT), deals 1 damage to each opposing creature at the start of your turn.
+- **Extra Pocket**: +1 max hand size - existing MAX_HAND_SIZE.
+- **Cheater's Dice**: a new ALWAYS_FIRST flag (wins the real match's coin-flip path, falls back to
+  the coin flip if both players somehow have it) + OPENING_HAND_SIZE -1.
+- **Traveler's Boots**: a new FIRST_TURN_EXTRA_DRAW, layered into `_begin_turn()`'s existing
+  "turn 1 skips the draw" case so it still grants its card even when the normal first-turn draw
+  is 0.
+- **Hover Boots**: a new GRANT_KEYWORD_TO_CREATURES (grants Flying, applied once when a creature
+  enters the battlefield) + a new CANNOT_BLOCK restriction (consulted by
+  `possible_blockers`/`can_block`).
+- **Thorned Loincloth**: MAX_LIFE -5 (existing) + a new RETALIATE_ON_ATTACK, fired from
+  `CombatResolver.declare_attackers` right after trap-firing against every declared attacker,
+  reusing the ALL_ATTACKERS targeting traps already use.
+- **X-Ray Goggles**: a new REVEAL_OPPONENT_HAND, checked only by `BattleBoard._is_hidden()` for
+  the HAND zone - TRAPS stays unconditionally hidden regardless, in one place, so no effect
+  (including this one) can ever reveal a set trap.
+- **Big Brain Beret**: EXTRA_DRAWS +1 (existing) + a new MAX_NON_LAND_CASTS_PER_TURN cap (a new
+  `ModifierSet.cap()` helper - smallest value among matching modifiers, since stacking caps
+  should tighten, not add), enforced in the same `can_cast()` both the human and the AI's
+  `legal_actions()` already call - the AI automatically respects it (and every other new
+  restriction/grant above) for whichever side ends up with the gear, with no AI-specific code.
+
+Each piece has a distinct game-icons.net icon (`ui/card/card_icons.gd`'s `BY_EQUIPMENT_ID`), a
+name, a description doubling as flavor + effect text (matching the project's existing
+one-field convention for cards/items), and its price will live on the Part C equipment vendor's
+stock entries (not on `EquipmentData` itself - same pattern as the item vendor, D75). Tooltips
+already work everywhere equipment appears, since the character screen reads the shared, generic
+`EquipmentData.tooltip_text()`.
+
+Regenerated `data/equipment/*.tres` via `tools/generate_content.gd`; the 5 old placeholder files
+are gone (nothing outside tests referenced them - equipment had no acquisition path at all before
+this brief's Part C vendor). Updated `docs/design/progression.md`'s equipment table and
+`tests/core/data/test_progression.gd`'s counts/fixtures.
+
+**New tests**: `tests/core/game/test_equipment_modifiers.gd` (14 cases, one per new mechanic plus
+edge cases like the cap resetting next turn and the coin-flip fallback) and
+`tests/test_battle_board_reveal_hand.gd` (4 cases, X-Ray Goggles never reveals a trap).
+
+367 GUT tests pass (18 new).

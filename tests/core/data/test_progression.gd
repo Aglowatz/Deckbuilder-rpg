@@ -132,12 +132,20 @@ func test_deck_validator_reads_copy_limits_from_the_profile_level() -> void:
 # ---- Equipment ----------------------------------------------------------------------------
 
 
-func test_progression_content_has_five_equipment_one_per_slot_and_thirteen_items() -> void:
-	assert_eq(content.equipment.size(), 5)
-	var slots: Dictionary = {}
+func test_progression_content_has_ten_equipment_two_per_slot_and_thirteen_items() -> void:
+	# New brief, Part B: 10 real pieces (a basic and an advanced one per slot), replacing the
+	# original 5 placeholders.
+	assert_eq(content.equipment.size(), 10)
+	var basic_by_slot: Dictionary = {}
+	var advanced_by_slot: Dictionary = {}
 	for piece: Variant in content.equipment.values():
-		slots[(piece as EquipmentData).slot] = true
-	assert_eq(slots.size(), 5, "one piece per slot")
+		var gear: EquipmentData = piece as EquipmentData
+		if gear.advanced:
+			advanced_by_slot[gear.slot] = true
+		else:
+			basic_by_slot[gear.slot] = true
+	assert_eq(basic_by_slot.size(), 5, "one basic piece per slot")
+	assert_eq(advanced_by_slot.size(), 5, "one advanced piece per slot")
 	# New brief, Part F: 3 original placeholders + 10 new basic consumables.
 	assert_eq(content.items.size(), 13)
 	for consumable: Variant in content.items.values():
@@ -148,7 +156,7 @@ func test_progression_content_has_five_equipment_one_per_slot_and_thirteen_items
 ## New brief (third), Part C: the shared equipment tooltip (character screen) is just name +
 ## description - equipment has no target, unlike an item's effect.
 func test_equipment_tooltip_text_includes_name_and_description() -> void:
-	var helm: EquipmentData = content.equipment_piece("scavengers_helm")
+	var helm: EquipmentData = content.equipment_piece("xray_goggles")
 	var text: String = helm.tooltip_text()
 	assert_true(text.contains(helm.source_name))
 	assert_true(text.contains(helm.description))
@@ -156,7 +164,7 @@ func test_equipment_tooltip_text_includes_name_and_description() -> void:
 
 func test_cannot_equip_into_a_locked_slot() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
-	var helm: EquipmentData = content.equipment_piece("scavengers_helm")
+	var helm: EquipmentData = content.equipment_piece("xray_goggles")
 	profile.owned_equipment.append(helm)
 	assert_false(profile.equip(helm), "the Helm slot is not unlocked yet")
 	profile.unlock_equipment_slot(EquipmentData.Slot.HELM)
@@ -184,10 +192,10 @@ func test_equipping_a_second_piece_in_the_same_slot_replaces_the_first() -> void
 func test_unequip_returns_it_to_owned_and_removes_its_modifiers() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	profile.unlock_equipment_slot(EquipmentData.Slot.ARMOR)
-	var vest: EquipmentData = content.equipment_piece("padded_vest")
+	var vest: EquipmentData = content.equipment_piece("thorned_loincloth")
 	profile.owned_equipment.append(vest)
 	profile.equip(vest)
-	assert_eq(profile.gear_modifiers().sum(Modifier.Kind.MAX_LIFE), 3)
+	assert_eq(profile.gear_modifiers().sum(Modifier.Kind.MAX_LIFE), -5)
 	var removed: EquipmentData = profile.unequip(EquipmentData.Slot.ARMOR)
 	assert_eq(removed, vest)
 	assert_null(profile.equipped_in(EquipmentData.Slot.ARMOR))
@@ -198,14 +206,14 @@ func test_unequip_returns_it_to_owned_and_removes_its_modifiers() -> void:
 func test_equipped_gear_flows_through_the_pipeline_into_a_real_game() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	profile.unlock_equipment_slot(EquipmentData.Slot.ARMOR)
-	var vest: EquipmentData = content.equipment_piece("padded_vest")
+	var vest: EquipmentData = content.equipment_piece("thorned_loincloth")
 	profile.owned_equipment.append(vest)
 	profile.equip(vest)
 	var setup: PlayerSetup = PlayerSetup.create(GameFactory.make_deck(), profile)
 	var game: GameState = GameState.new()
 	game.add_player(setup)
 	game.add_player(PlayerSetup.create(GameFactory.make_deck()))
-	assert_eq(game.players[0].max_life, 13)
+	assert_eq(game.players[0].max_life, 5, "10 base - 5 from Thorned Loincloth")
 
 
 # ---- Items ----------------------------------------------------------------------------------

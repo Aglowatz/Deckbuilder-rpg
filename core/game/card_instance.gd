@@ -18,6 +18,9 @@ var temp_power: int = 0
 var temp_toughness: int = 0
 var granted_keywords: Array[CardEnums.Keyword] = []
 var temp_keywords: Array[CardEnums.Keyword] = []
+## New brief, Part B: set once on entering the battlefield if the controller's equipment grants
+## it (e.g. Hover Boots) - this creature can never be declared as a blocker.
+var cannot_block: bool = false
 
 
 func has_keyword(keyword: CardEnums.Keyword) -> bool:
@@ -41,6 +44,7 @@ func reset() -> void:
 	temp_toughness = 0
 	granted_keywords.clear()
 	temp_keywords.clear()
+	cannot_block = false
 
 
 func clear_end_of_turn() -> void:
@@ -66,4 +70,5 @@ func clone() -> CardInstance:
 	copy.temp_toughness = temp_toughness
 	copy.granted_keywords = granted_keywords.duplicate()
 	copy.temp_keywords = temp_keywords.duplicate()
+	copy.cannot_block = cannot_block
 	return copy

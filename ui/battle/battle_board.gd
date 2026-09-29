@@ -107,7 +107,7 @@ func ensure_view(uid: int, zone: Zone, owner_index: int, from: Vector2 = Vector2
 	var data: CardData = card_data.get(uid) as CardData
 	if data == null:
 		return null
-	var hidden: bool = owner_index != human and (zone == Zone.HAND or zone == Zone.TRAPS)
+	var hidden: bool = _is_hidden(owner_index, zone)
 	var view: CardView = CardView.create(data, CardView.Mode.BACK if hidden else _mode_for(zone))
 	view.instance_uid = uid
 	view.set_meta("owner", owner_index)
@@ -124,6 +124,19 @@ func ensure_view(uid: int, zone: Zone, owner_index: int, from: Vector2 = Vector2
 	view.position = origin - CardView.SIZE * 0.5
 	view.modulate.a = 0.0
 	return view
+
+
+## New brief, Part B: X-Ray Goggles (Modifier.Kind.REVEAL_OPPONENT_HAND) reveals the opponent's
+## hand to the human - but never a set trap, whatever equipment either side has. TRAPS always
+## stays hidden here regardless of any modifier; only HAND is ever affected.
+func _is_hidden(owner_index: int, zone: Zone) -> bool:
+	if owner_index == human:
+		return false
+	if zone == Zone.TRAPS:
+		return true
+	if zone == Zone.HAND:
+		return not game.players[human].modifiers.has(Modifier.Kind.REVEAL_OPPONENT_HAND)
+	return false
 
 
 func _mode_for(zone: Zone) -> CardView.Mode:
@@ -156,7 +169,7 @@ func set_zone(uid: int, zone: Zone) -> void:
 	zones[uid] = zone
 	order.erase(uid)
 	order.append(uid)
-	var hidden: bool = int(view.get_meta("owner", 0)) != human and (zone == Zone.HAND or zone == Zone.TRAPS)
+	var hidden: bool = _is_hidden(int(view.get_meta("owner", 0)), zone)
 	view.set_meta("hidden", hidden)
 	view.set_mode(CardView.Mode.BACK if hidden else _mode_for(zone))
 	_refresh_view(uid)

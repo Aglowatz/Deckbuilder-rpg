@@ -14,6 +14,9 @@ const SLOT_NAMES: Dictionary = {
 @export var id: String = ""
 @export var slot: Slot = Slot.RELIC
 @export var description: String = ""
+## New brief, Part B: false = tier 1 ("basic", stocked at the equipment vendor from the start),
+## true = tier 2 ("advanced", locked behind a level-up reward - see docs/design/progression.md).
+@export var advanced: bool = false
 
 
 static func slot_name(value: Slot) -> String:

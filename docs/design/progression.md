@@ -50,20 +50,39 @@ generate_progression_doc.gd` - edit the table, not this file, then regenerate.
 | 29 | 9300 | 24 | 8 | 3 | 4 | 4 | 4 | 4 | Choose 1 of 3 cards to add to your collection. |
 | 30 | 10100 | 25 | 8 | 4 | 4 | 4 | 4 | 4 | +1 starting life (25). +1 item slot (4). |
 
-## Equipment and items (placeholders)
+## Equipment (New brief, Part B)
 
 Built on the existing Modifier pipeline: `EquipmentData` (slot + Modifiers, IS a
-`ModifierSource`) and `ItemData` (limited `uses` + one `EffectData`, resolved outside a
-duel by `ItemUseResolver` - see docs/design/open_questions.md for why). Five equipment
-pieces and three items prove equip/unequip/use work end to end:
+`ModifierSource`) - see `core/data/modifier.gd` for every Modifier.Kind this brief added
+(START_OF_TURN_EFFECT, ALWAYS_FIRST, FIRST_TURN_EXTRA_DRAW, GRANT_KEYWORD_TO_CREATURES,
+CANNOT_BLOCK, MAX_NON_LAND_CASTS_PER_TURN, REVEAL_OPPONENT_HAND, RETALIATE_ON_ATTACK) and
+`tests/core/game/test_equipment_modifiers.gd` for their engine coverage. 10 real pieces
+replace the original 5 placeholders - one "basic" (tier 1, at the equipment vendor from the
+start) and one "advanced" (tier 2, locked behind a level-up reward, see the table above and
+`EquipmentData.advanced`) per slot:
 
-| Slot | Piece | Effect |
-|---|---|---|
-| Helm | Scavenger's Helm | A dented helm that still turns a blade. Sharpens focus: one more card in your opening hand. |
-| Weapon | Worn Blade | Notched from use, never from failure. Your creatures hit a little harder. |
-| Armor | Padded Vest | Thick enough to matter, light enough to forget you're wearing it. +3 max life. |
-| Boots | Quick Boots | Light feet, faster starts. One more card in your opening hand. |
-| Relic | Minor Relic | A shard of something older than the Hollow. Your spells cost a little less. |
+| Slot | Tier | Piece | Effect |
+|---|---|---|---|
+| Weapon | Basic | Wicked Dagger | A blade with a reputation it didn't earn honestly. Your creatures get +1 power. |
+| Weapon | Advanced | Flamethrower | Alchemist's fire in a backpack tank. At the start of your turn, deal 1 damage to each opposing creature. |
+| Relic | Basic | Extra Pocket | Sewn in where no one thinks to look. Max hand size +1. |
+| Relic | Advanced | Cheater's Dice | They only ever land the way you need them to. You always go first, but your opening hand is 1 card smaller. |
+| Boots | Basic | Traveler's Boots | Worn thin by roads longer than this one. Draw an extra card at the start of your first turn. |
+| Boots | Advanced | Hover Boots | A finger's width of clearance, always. Your creatures have Flying but cannot block. |
+| Armor | Basic | Solid Plate | Unglamorous, unyielding. Your creatures get +1 toughness. |
+| Armor | Advanced | Thorned Loincloth | Nobody enjoys being the one who has to remove this from a corpse. Max life -5; whenever an enemy creature attacks you, it takes 1 damage. |
+| Helm | Basic | X-Ray Goggles | Everything looks the same underneath. The opponent's hand is revealed to you - never a set trap. |
+| Helm | Advanced | Big Brain Beret | It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-land card per turn. |
+
+Prices live on the (Part C) equipment vendor's stock entries, not on `EquipmentData` itself -
+same pattern as items (`ItemVendorEntry`, D75) rather than duplicating economy data onto the
+content resource.
+
+## Items (placeholders)
+
+`ItemData` (limited `uses` + one `EffectData`, resolved outside a duel by `ItemUseResolver` -
+see docs/design/open_questions.md for why). Three items prove equip/use work end to end (10
+more consumables were added in the third brief's Part F, see `docs/progress.md`):
 
 | Item | Uses | Effect |
 |---|---:|---|
