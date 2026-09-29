@@ -110,10 +110,14 @@ func _bonuses_for(row: LevelData) -> Array[Bonus]:
 			bonuses.append(_bonus("copies", "%s deck copy limit +1 (now %d)." % [CardEnums.Rarity.keys()[int(rarity)].capitalize(), int(row.copy_limits[rarity])]))
 	if row.equipment_choice:
 		bonuses.append(_bonus("equipment_unlock", "Choose an equipment slot to unlock."))
+	if row.reward_equipment_vendor_unlock:
+		bonuses.append(_bonus("equipment_unlock", "Unlocks the advanced equipment at the equipment vendor."))
+	if row.reward_item_vendor_advanced_unlock:
+		bonuses.append(_bonus("vendor", "Unlocks the second half of the item vendor's stock."))
 	if row.reward_gold > 0:
 		bonuses.append(_bonus("coins", "+%d gold." % row.reward_gold))
-	if row.reward_card_choice:
-		bonuses.append(_bonus("card_choice", "Choose 1 of 3 cards to add to your collection."))
+	if row.reward_vendor_discount_percent > 0:
+		bonuses.append(_bonus("vendor", "Permanent vendor discount +%d%%." % row.reward_vendor_discount_percent))
 	if not row.reward_vendor_unlock.is_empty():
 		bonuses.append(_bonus("vendor", "Unlocks %s at the vendor." % row.reward_vendor_unlock))
 	if bonuses.is_empty():
@@ -167,17 +171,15 @@ func _next_level() -> void:
 		_advance()
 
 
-## Resolves pending equipment choices, then pending card offers, one at a time; finishes once
-## both are empty.
+## Resolves pending equipment choices one at a time; finishes once there are none left. New
+## brief, Part D: this used to also walk through pending "choose 1 of 3 cards" level rewards,
+## removed along with that whole mechanic.
 func _advance() -> void:
 	if _child_screen != null:
 		_child_screen.queue_free()
 		_child_screen = null
 	if Session.pending_equipment_choices > 0:
 		_show_equipment_choice()
-		return
-	if not Session.pending_level_card_offers.is_empty():
-		_show_card_offer(Session.pending_level_card_offers[0])
 		return
 	finished.emit()
 
@@ -194,30 +196,3 @@ func _show_equipment_choice() -> void:
 	add_child(choice)
 
 
-func _show_card_offer(offer: RewardOffer) -> void:
-	for child: Node in _column.get_children():
-		child.queue_free()
-	_column.add_child(UIKit.label("A level reward: choose a card", &"HeadingLabel", 30, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var row: HBoxContainer = UIKit.hbox(20)
-	row.alignment = BoxContainer.ALIGNMENT_CENTER
-	_column.add_child(row)
-	for index: int in range(offer.cards.size()):
-		var holder: Control = Control.new()
-		holder.custom_minimum_size = CardView.SIZE * 0.75
-		var view: CardView = CardView.create(offer.cards[index], CardView.Mode.FULL)
-		holder.add_child(view)
-		CardView.fit(view, 0.75)
-		view.gui_event.connect(func(_v: CardView, event: InputEvent) -> void:
-			var click: InputEventMouseButton = event as InputEventMouseButton
-			if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
-				Audio.sfx(&"ui_select")
-				Session.resolve_level_card_offer(index)
-				Audio.sfx(&"card_draw")
-				_advance())
-		row.add_child(holder)
-	var skip: FancyButton = FancyButton.make("Skip", &"", Vector2(180, 54))
-	skip.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	skip.pressed.connect(func() -> void:
-		Session.resolve_level_card_offer(-1)
-		_advance())
-	_column.add_child(skip)

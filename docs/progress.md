@@ -1605,3 +1605,50 @@ Both pass; the existing smoke test's other checks (elder, guard, vendor, deck st
 chests, item vendor) still pass unchanged.
 
 372 GUT tests pass (5 new: `test_equipment_vendor_data.gd`).
+
+## New brief, Part D: level-up rewards rework - done
+
+Random card-choice level rewards are gone entirely - not just stopped, actually removed
+(`LevelData.reward_card_choice`, `Session.pending_level_card_offers`/`resolve_level_card_offer`,
+`LevelUpScreen._show_card_offer`, and the matching `tools/e2e_demo.gd` step all deleted). Every
+level still grants something: real stat/slot/limit increases, an equipment-slot choice, gold, a
+new permanent vendor discount, or a vendor-stock unlock.
+
+- **`PlayerProfile.vendor_discount_percent`** (a real, working reward, not just a number a screen
+  shows): `Session.effective_price()` is now the one place every vendor screen (cards, items,
+  equipment) reads a price through, so the discount actually lowers what's charged everywhere,
+  not only its own shop. Granted +10% at levels 7, 19 and 29 (replacing the old card-choice
+  filler slot in the 3-way rotation), stacking to +30% by max level.
+- **Level 10** unlocks the equipment vendor's 5 advanced pieces (right alongside that level's own
+  equipment-slot choice - "around when the player has 1-2 equipment slots"). **Level 6** unlocks
+  the item vendor's advanced half (reusing its own former "late tier" threshold, D75). Neither
+  needs any runtime flag-setting: both vendors already gate their advanced stock on
+  `Condition.player_level(...)`, read live against the profile. The two new `LevelData` booleans
+  exist purely so the level-up popup announces the unlock explicitly.
+- Rebuilt `ItemVendorScreen.default_stock()` from 3 tiers (always/level-3/level-6) down to a clean
+  basic/advanced split matching the equipment vendor's own shape; also folded `reckless_tonic`
+  (one of the 3 pre-Part-F originals, oddly gated behind the old level-6 tier) back into "always
+  for sale" with the other 2 originals.
+- `tools/generate_progression_doc.gd` now only regenerates the levels-1-30 table and its intro
+  bullets - everything from the first `## Equipment` heading onward (the hand-written prose added
+  in Parts B/C) is read back from the existing file and kept untouched, rather than being
+  overwritten with the tool's own stale placeholder text. `docs/design/progression.md` regenerated
+  and reviewed.
+
+See D94 for the full set of decisions. **New tests**: `tests/test_level_up_rewards.gd` (4 cases,
+driven through the real `Session`, not just `ProgressionTable` in isolation - proves leveling up
+never grants a card, both vendor unlocks actually work through the live `Condition` path, and the
+discount actually reduces `Session.effective_price()`) plus 3 new cases in
+`tests/core/data/test_progression.gd` (the two unlock levels land exactly once each;
+`PlayerProfile.discounted_price()`).
+
+378 GUT tests pass (6 new).
+
+**Verified end to end for real**: a full run of `tools/e2e_demo.gd` (the whole tutorial dungeon
+through a corrupted-NPC fight) surfaced a real, pre-existing driver gap - `_town()` never handled
+a `LevelUpScreen` shown directly on `TownScene` (only the dungeon-`RewardsScreen` case was
+handled), which this brief's own level-10 reward made noticeably more likely to hit right after a
+corrupted-NPC win. Fixed, along with a second real bug the same run surfaced: an e2e assertion
+that compared spent gold against the undiscounted card price (would have started failing for a
+real player the first time they actually earned a discount). `E2E PASSED in 218s (4 battles)`
+afterward. See D95.

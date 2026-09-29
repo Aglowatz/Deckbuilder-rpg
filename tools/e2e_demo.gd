@@ -290,6 +290,13 @@ func _walk_to_position(scene: TownScene, target: Vector3, radius: float) -> void
 func _town(scene: TownScene) -> void:
 	# Overlays first.
 	var overlay: Control = scene._overlay
+	# New brief, Part D e2e fix: a level gained outside a dungeon (a corrupted NPC's win, the dev
+	# shrine) shows the same LevelUpScreen directly on TownScene itself (town_scene.gd
+	# _show_level_up), not through RewardsScreen - this was missing here entirely, so any such
+	# level-up (plausible right after defeating a corrupted NPC) stalled the whole driver forever.
+	if overlay is LevelUpScreen:
+		await _handle_level_up(overlay as LevelUpScreen)
+		return
 	if overlay is VendorScreen:
 		await _shop(overlay as VendorScreen)
 		return
@@ -487,7 +494,7 @@ func _shop(vendor: VendorScreen) -> void:
 	await driver.click_button("Buy")
 	await driver.seconds(0.4)
 	_check(Session.owned_count(card.id) == before_owned + 1, "the purchased card joins the collection")
-	_check(Session.gold == before_gold - CardPricing.price(card), "the price is paid in gold")
+	_check(Session.gold == before_gold - Session.effective_price(CardPricing.price(card)), "the price is paid in gold")
 	await driver.click_button("Leave")
 	await driver.seconds(0.4)
 
@@ -661,8 +668,9 @@ func _battle(screen: BattleScreen) -> void:
 	var won: bool = screen.game.winner == 0
 	_note("battle %d vs %s: %s in %d turns (life %d)" % [_battles, screen.context.enemy_name, "won" if won else "lost", screen.game.turn, screen.game.players[0].life])
 	# Part E: force the first win's XP high enough to cross an equipment-choice level (5) and a
-	# card-choice level (7) in one jump, so the multi-level LevelUpScreen chain (recap ->
-	# equipment choice -> card offer) is exercised for real, not just left to natural pacing.
+	# vendor-discount filler level (7, New brief Part D - was a card-choice level before that
+	# reward was removed entirely) in one jump, so the multi-level LevelUpScreen chain (recap ->
+	# equipment choice) is exercised for real, not just left to natural pacing.
 	if won and not _did.has("boosted_xp"):
 		_did["boosted_xp"] = true
 		screen.context.xp_reward = ProgressionTable.xp_to_reach(7) + 20
@@ -742,11 +750,6 @@ func _handle_level_up(level_up: LevelUpScreen) -> void:
 	if choice != null:
 		await _handle_equipment_choice(choice)
 		return
-	# Scoped to level_up's own subtree: RewardsScreen's earlier "Skip card"/"Continue" buttons are
-	# still alive underneath (just visually covered), so an unscoped search would false-match them.
-	if driver.find_button("Skip", level_up) != null:
-		await _handle_level_card_offer(level_up)
-		return
 	# Otherwise: the multi-level recap list.
 	_check(not level_up.levels_gained.is_empty(), "the level-up screen lists at least one level gained")
 	var level_before: int = Session.profile.level - level_up.levels_gained.size()
@@ -766,28 +769,6 @@ func _handle_equipment_choice(choice: EquipmentSlotChoiceScreen) -> void:
 	await driver.seconds(0.8)
 	_check(Session.profile.equipment_slots.size() == slots_before + 1, "choosing a slot unlocks it")
 	_check(Session.pending_equipment_choices == pending_before - 1, "the pending equipment choice is consumed")
-
-
-func _handle_level_card_offer(level_up: LevelUpScreen) -> void:
-	var owned_before: int = Session.profile.owned_cards.size()
-	var offers_before: int = Session.pending_level_card_offers.size()
-	await _click_first_card_tile(level_up)
-	await driver.seconds(0.8)
-	_check(Session.profile.owned_cards.size() == owned_before + 1, "the level reward card joins the collection")
-	_check(Session.pending_level_card_offers.size() == offers_before - 1, "the pending card offer is consumed")
-
-
-## Searches only inside `root` (not the whole tree) - RewardsScreen's own earlier card row is
-## still alive underneath the LevelUpScreen overlay, just visually covered, and would otherwise
-## be found first.
-func _click_first_card_tile(root: Node) -> void:
-	var card_view: CardView = null
-	for node: Node in root.find_children("*", "CardView", true, false):
-		if node.is_visible_in_tree():
-			card_view = node as CardView
-			break
-	if card_view != null:
-		await driver.click(driver.center_of_control(card_view))
 
 
 # ---- Final assertions ------------------------------------------------------------------

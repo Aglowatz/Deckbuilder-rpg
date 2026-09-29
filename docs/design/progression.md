@@ -15,7 +15,8 @@ generate_progression_doc.gd` - edit the table, not this file, then regenerate.
 - **Deck copy limits by rarity**: Common/Uncommon start at 3, Epic at 2, Legendary at
   1; each increases gradually until every rarity allows **4 copies**.
 - Every level grants something: a real stat/slot/limit increase, an equipment choice,
-  or (when none of those land) gold, a card choice, or a vendor-stock unlock.
+  a vendor unlock/discount, or gold - New brief, Part D removed random card-choice
+  level rewards entirely.
 
 | Level | XP to reach | Life | Hand | Items | Common | Uncommon | Epic | Legendary | Grants |
 |---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
@@ -24,20 +25,20 @@ generate_progression_doc.gd` - edit the table, not this file, then regenerate.
 | 3 | 90 | 11 | 5 | 1 | 3 | 3 | 2 | 1 | +65 gold. |
 | 4 | 180 | 12 | 5 | 1 | 3 | 3 | 2 | 1 | +1 starting life (12). |
 | 5 | 300 | 12 | 5 | 1 | 3 | 3 | 2 | 1 | Choose an equipment slot to unlock. |
-| 6 | 450 | 13 | 5 | 1 | 4 | 3 | 2 | 1 | +1 starting life (13). Common deck copy limit +1 (4). |
-| 7 | 630 | 13 | 5 | 1 | 4 | 3 | 2 | 1 | Choose 1 of 3 cards to add to your collection. |
+| 6 | 450 | 13 | 5 | 1 | 4 | 3 | 2 | 1 | +1 starting life (13). Common deck copy limit +1 (4). Unlocks the second half of the item vendor's stock. |
+| 7 | 630 | 13 | 5 | 1 | 4 | 3 | 2 | 1 | Permanent vendor discount +10%. |
 | 8 | 840 | 14 | 6 | 1 | 4 | 3 | 2 | 1 | +1 starting life (14). Opening hand size +1 (6). |
 | 9 | 1080 | 14 | 6 | 1 | 4 | 3 | 2 | 1 | Unlocks a small batch of rarer cards at the vendor. |
-| 10 | 1350 | 15 | 6 | 2 | 4 | 3 | 2 | 1 | +1 starting life (15). +1 item slot (2). Choose an equipment slot to unlock. |
+| 10 | 1350 | 15 | 6 | 2 | 4 | 3 | 2 | 1 | +1 starting life (15). +1 item slot (2). Choose an equipment slot to unlock. Unlocks the advanced equipment at the equipment vendor. |
 | 11 | 1650 | 15 | 6 | 2 | 4 | 4 | 2 | 1 | Uncommon deck copy limit +1 (4). |
 | 12 | 1980 | 16 | 6 | 2 | 4 | 4 | 2 | 1 | +1 starting life (16). |
-| 13 | 2340 | 16 | 6 | 2 | 4 | 4 | 2 | 1 | Choose 1 of 3 cards to add to your collection. |
+| 13 | 2340 | 16 | 6 | 2 | 4 | 4 | 2 | 1 | +115 gold. |
 | 14 | 2730 | 17 | 6 | 2 | 4 | 4 | 3 | 1 | +1 starting life (17). Epic deck copy limit +1 (3). |
 | 15 | 3150 | 17 | 6 | 2 | 4 | 4 | 3 | 1 | Choose an equipment slot to unlock. |
 | 16 | 3600 | 18 | 7 | 2 | 4 | 4 | 3 | 1 | +1 starting life (18). Opening hand size +1 (7). |
 | 17 | 4080 | 18 | 7 | 2 | 4 | 4 | 3 | 2 | Legendary deck copy limit +1 (2). |
 | 18 | 4590 | 19 | 7 | 2 | 4 | 4 | 3 | 2 | +1 starting life (19). |
-| 19 | 5130 | 19 | 7 | 2 | 4 | 4 | 3 | 2 | +145 gold. |
+| 19 | 5130 | 19 | 7 | 2 | 4 | 4 | 3 | 2 | Permanent vendor discount +10%. |
 | 20 | 5700 | 20 | 7 | 3 | 4 | 4 | 3 | 2 | +1 starting life (20). +1 item slot (3). Choose an equipment slot to unlock. |
 | 21 | 5780 | 20 | 7 | 3 | 4 | 4 | 4 | 2 | Epic deck copy limit +1 (4). |
 | 22 | 5940 | 21 | 7 | 3 | 4 | 4 | 4 | 2 | +1 starting life (21). |
@@ -47,8 +48,21 @@ generate_progression_doc.gd` - edit the table, not this file, then regenerate.
 | 26 | 7380 | 23 | 8 | 3 | 4 | 4 | 4 | 3 | +1 starting life (23). |
 | 27 | 7940 | 23 | 8 | 3 | 4 | 4 | 4 | 3 | +185 gold. |
 | 28 | 8580 | 24 | 8 | 3 | 4 | 4 | 4 | 4 | +1 starting life (24). Legendary deck copy limit +1 (4). |
-| 29 | 9300 | 24 | 8 | 3 | 4 | 4 | 4 | 4 | Choose 1 of 3 cards to add to your collection. |
+| 29 | 9300 | 24 | 8 | 3 | 4 | 4 | 4 | 4 | Permanent vendor discount +10%. |
 | 30 | 10100 | 25 | 8 | 4 | 4 | 4 | 4 | 4 | +1 starting life (25). +1 item slot (4). |
+
+## Level-up rewards (New brief, Part D)
+
+Random card-choice level rewards were removed entirely - every level now grants only
+real stat/slot/limit increases, an equipment-slot choice, gold, a permanent vendor
+discount, or a vendor-stock unlock (see `PlayerProfile.vendor_discount_percent`/
+`Session.effective_price()` - the discount actually reduces what every vendor charges,
+not just what it displays). Two specific one-time unlocks, chosen to land "around when
+the player has 1-2 equipment slots": level 10 unlocks the equipment vendor's 5 advanced
+pieces (right alongside that level's own equipment-slot choice); level 6 unlocks the item
+vendor's second (advanced) half. Both are plain `Condition.player_level(...)` checks read
+live against the profile - no flag to set, no save-data migration. The level-up popup
+announces every reward explicitly (`LevelUpScreen._bonuses_for`).
 
 ## Equipment (New brief, Part B)
 

@@ -136,7 +136,7 @@ func _refresh() -> void:
 			continue
 		var owned: int = Session.owned_count(card.id)
 		var for_sale: bool = CardPricing.is_for_sale(card, owned)
-		var price: int = CardPricing.price(card)
+		var price: int = Session.effective_price(CardPricing.price(card))
 		price_label.text = str(price) if for_sale else "Max"
 		var affordable: bool = Session.gold >= price
 		price_label.add_theme_color_override("font_color", UIStyle.GOLD if affordable and for_sale else (Color("e06a5a") if for_sale else UIStyle.MUTED))
@@ -153,7 +153,7 @@ func _ask_to_buy(card: CardData) -> void:
 		Audio.sfx(&"ui_error", -4.0)
 		_say("You already own the %d copies a deck can use." % CardPricing.MAX_OWNED_FOR_SALE, Color("ffcf70"))
 		return
-	var price: int = CardPricing.price(card)
+	var price: int = Session.effective_price(CardPricing.price(card))
 	if Session.gold < price:
 		Audio.sfx(&"ui_error", -4.0)
 		_say("Not enough gold: %s costs %d." % [card.display_name, price], Color("ff8a85"))
@@ -167,7 +167,7 @@ func _ask_to_buy(card: CardData) -> void:
 
 
 func _buy(card: CardData) -> void:
-	var price: int = CardPricing.price(card)
+	var price: int = Session.effective_price(CardPricing.price(card))
 	if not Session.spend_gold(price):
 		return
 	Session.add_cards([card] as Array[CardData])

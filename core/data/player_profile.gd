@@ -41,6 +41,18 @@ const DEFAULT_MAX_HAND_SIZE: int = 10
 ## long) - the whole inventory (`owned_items`) has no cap, but only equipped items are usable in
 ## a duel (GameState.use_item). Use equip_item_id/unequip_item_id, not direct mutation.
 @export var equipped_item_ids: Array[String] = []
+## New brief, Part D: a permanent level-up reward (replacing removed card-choice fillers) - a
+## flat percentage off every vendor's listed price (cards, items, equipment alike). Stacks
+## additively across however many such levels are gained (see ProgressionTable).
+@export var vendor_discount_percent: int = 0
+
+
+## The price actually charged/shown after `vendor_discount_percent`, never below 1 for a
+## positive base price.
+func discounted_price(base_price: int) -> int:
+	if base_price <= 0:
+		return base_price
+	return maxi(1, base_price - (base_price * vendor_discount_percent) / 100)
 
 
 ## Base stats clamped to their allowed ranges (before modifiers).

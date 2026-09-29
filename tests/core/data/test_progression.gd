@@ -64,6 +64,23 @@ func test_equipment_choice_offered_at_5_10_15_20_25_only() -> void:
 	assert_eq(choice_levels, [5, 10, 15, 20, 25])
 
 
+## New brief, Part D: the two specific level-up rewards - advanced equipment at the equipment
+## vendor, and the second half of the item vendor's stock - each unlock exactly once, at their
+## own level, and the popup can announce them (LevelUpScreen._bonuses_for reads these same
+## fields).
+func test_vendor_unlock_rewards_land_at_their_own_levels_only() -> void:
+	var rows: Array[LevelData] = ProgressionTable.build()
+	var equipment_unlock_levels: Array[int] = []
+	var item_unlock_levels: Array[int] = []
+	for row: LevelData in rows:
+		if row.reward_equipment_vendor_unlock:
+			equipment_unlock_levels.append(row.level)
+		if row.reward_item_vendor_advanced_unlock:
+			item_unlock_levels.append(row.level)
+	assert_eq(equipment_unlock_levels, [ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL])
+	assert_eq(item_unlock_levels, [ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL])
+
+
 func test_every_level_up_grants_something() -> void:
 	var rows: Array[LevelData] = ProgressionTable.build()
 	for row: LevelData in rows:
@@ -76,7 +93,7 @@ func test_every_level_up_grants_something() -> void:
 			or row.item_slots > previous.item_slots or row.equipment_choice
 			or row.copy_limits.hash() != previous.copy_limits.hash()
 		)
-		var has_filler: bool = row.reward_gold > 0 or row.reward_card_choice or not row.reward_vendor_unlock.is_empty()
+		var has_filler: bool = row.reward_gold > 0 or row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty()
 		assert_true(has_real_gain or has_filler, "level %d grants nothing" % row.level)
 
 
@@ -109,6 +126,20 @@ func test_apply_level_updates_absolute_stats() -> void:
 	assert_eq(profile.opening_hand_size, ProgressionTable.row(10).opening_hand_size)
 	assert_eq(profile.item_slots, ProgressionTable.row(10).item_slots)
 	assert_eq(profile.base_max_life(), ProgressionTable.row(10).max_life)
+
+
+## New brief, Part D: PlayerProfile.discounted_price() - the pure-core half of the vendor-discount
+## reward (Session.effective_price() is the thin app-layer wrapper around this).
+func test_discounted_price_applies_the_percentage_and_never_drops_below_one() -> void:
+	var profile: PlayerProfile = PlayerProfile.new()
+	assert_eq(profile.discounted_price(100), 100, "no discount by default")
+	profile.vendor_discount_percent = 10
+	assert_eq(profile.discounted_price(100), 90)
+	profile.vendor_discount_percent = 30
+	assert_eq(profile.discounted_price(100), 70)
+	profile.vendor_discount_percent = 99
+	assert_eq(profile.discounted_price(1), 1, "never rounds down to 0 for a positive price")
+	assert_eq(profile.discounted_price(0), 0)
 
 
 func test_max_copies_for_reads_the_profiles_level() -> void:

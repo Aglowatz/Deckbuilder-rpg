@@ -35,8 +35,6 @@ var completed_quests: Array[String] = []
 ## counter, not a flag, so a single large XP grant that crosses more than one such level never
 ## silently loses a choice. The character screen/level-up screen show a choice while this is > 0.
 var pending_equipment_choices: int = 0
-## Part E: "choose 1 of 3 cards" level rewards waiting to be resolved, in the order granted.
-var pending_level_card_offers: Array[RewardOffer] = []
 
 
 func _ready() -> void:
@@ -70,7 +68,6 @@ func new_game() -> void:
 	found_secrets = []
 	completed_quests = []
 	pending_equipment_choices = 0
-	pending_level_card_offers = []
 	rng.randomize()
 
 
@@ -132,6 +129,13 @@ func has_profile() -> bool:
 func add_gold(amount: int) -> void:
 	gold = maxi(0, gold + amount)
 	EventBus.gold_changed.emit(gold)
+
+
+## New brief, Part D: the price actually shown/charged after the profile's vendor_discount_percent
+## reward(s) - the one place every vendor screen (cards, items, equipment) should read a price
+## through, so a discount can never apply in some shops and not others.
+func effective_price(base_price: int) -> int:
+	return profile.discounted_price(base_price) if profile != null else base_price
 
 
 func spend_gold(amount: int) -> bool:
@@ -296,10 +300,13 @@ func _apply_level_rewards(row: LevelData) -> void:
 		add_gold(row.reward_gold)
 	if row.equipment_choice:
 		pending_equipment_choices += 1
-	if row.reward_card_choice:
-		var offer: RewardOffer = RewardOffer.new()
-		offer.cards = RewardGenerator.card_choices(content, profile, rng, 3, false)
-		pending_level_card_offers.append(offer)
+	if row.reward_vendor_discount_percent > 0:
+		profile.vendor_discount_percent += row.reward_vendor_discount_percent
+	# row.reward_equipment_vendor_unlock / reward_item_vendor_advanced_unlock need no action here:
+	# EquipmentVendorScreen/ItemVendorScreen already gate their advanced stock on
+	# Condition.player_level(...) read live against the profile, which apply_level() (above, in
+	# add_xp) already updated before this runs. These two fields exist purely so the level-up
+	# popup can announce the unlock (LevelUpScreen._bonuses_for).
 
 
 ## New brief, Part C: buys one piece of equipment from the equipment vendor. Unlike items,
@@ -337,20 +344,6 @@ func choose_equipment_slot(slot: EquipmentData.Slot) -> bool:
 	pending_equipment_choices -= 1
 	save_game()
 	return true
-
-
-## Resolves the oldest pending "choose 1 of 3 cards" level reward. Returns the card added, or
-## null. `index` < 0 skips the pick (still consumes the offer).
-func resolve_level_card_offer(index: int) -> CardData:
-	if pending_level_card_offers.is_empty():
-		return null
-	var offer: RewardOffer = pending_level_card_offers.pop_front()
-	if index < 0 or index >= offer.cards.size():
-		return null
-	var chosen: CardData = offer.cards[index]
-	add_cards([chosen] as Array[CardData])
-	save_game()
-	return chosen
 
 
 ## Uses one charge of an owned item against the current dungeon run (if any).
@@ -421,6 +414,7 @@ func to_dict() -> Dictionary:
 		"owned_items": item_saves,
 		"equipped_items": profile.equipped_item_ids,
 		"pending_equipment_choices": pending_equipment_choices,
+		"vendor_discount_percent": profile.vendor_discount_percent,
 	}
 
 
@@ -458,6 +452,7 @@ func from_dict(data: Dictionary) -> bool:
 			loaded.item_uses_remaining[owned_item.id] = int(entry_dict.get("uses_left", owned_item.uses))
 	for id: Variant in data.get("equipped_items", []) as Array:
 		loaded.equipped_item_ids.append(str(id))
+	loaded.vendor_discount_percent = int(data.get("vendor_discount_percent", 0))
 	profile = loaded
 	deck = Deck.new()
 	deck.deck_name = DECK_NAME

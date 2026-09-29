@@ -49,7 +49,7 @@ func _build() -> void:
 			continue
 		_items[item.id] = item
 		_locked[item.id] = not Condition.met(entry.unlock, state)
-		_grid.add_child(_make_tile(item, entry.price, bool(_locked[item.id]), stock.teaser_for(item.id)))
+		_grid.add_child(_make_tile(item, Session.effective_price(entry.price), bool(_locked[item.id]), stock.teaser_for(item.id)))
 	_toast = UIKit.label("", &"", 28, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_toast.add_theme_font_override("font", UIStyle.font_bold())
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
@@ -112,7 +112,7 @@ func _refresh() -> void:
 			price_label.text = "???"
 			price_label.add_theme_color_override("font_color", UIStyle.MUTED)
 			continue
-		var price: int = stock.price_for(item.id)
+		var price: int = Session.effective_price(stock.price_for(item.id))
 		price_label.text = "%d gold" % price
 		price_label.add_theme_color_override("font_color", UIStyle.GOLD if Session.gold >= price else Color("e06a5a"))
 		var owned_count: int = Session.profile.item_uses_left(item) if Session.profile.owns_item(item) else 0
@@ -149,24 +149,28 @@ func _say(text: String, color: Color = UIStyle.PARCHMENT) -> void:
 	tween.tween_property(_toast, "modulate:a", 0.0, 0.4)
 
 
-## The one item vendor in the game (Wick, in town): stock grows with player level, same
-## progression shape as the card vendor's graduated stock (D37) but simpler (no rarity tiers).
+## The one item vendor in the game (Wick, in town). New brief, Part D: simplified from 3 level
+## tiers down to 2 - basic (always for sale: the 3 original items plus 5 of the 10 Part F
+## consumables) and advanced (the other 5 of the 10, locked behind the same level-up reward
+## ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL announces), mirroring the equipment
+## vendor's own basic/advanced shape. Also folds `reckless_tonic` (one of the 3 originals) back
+## into "always for sale", where the other 2 originals already were - it had oddly been gated
+## behind the old level-6 tier even though it predates the whole tiered system.
 static func default_stock() -> ItemVendorData:
 	var data: ItemVendorData = ItemVendorData.new()
 	var always: Condition = null
-	var mid: Condition = Condition.player_level(3)
-	var late: Condition = Condition.player_level(6)
+	var advanced: Condition = Condition.player_level(ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL)
 	data.add("healing_draught", 40, always)
 	data.add("vitality_charm", 25, always)
+	data.add("reckless_tonic", 30, always)
+	data.add("healing_salve", 50, always)
 	data.add("field_bandage", 35, always)
 	data.add("scroll_of_insight", 45, always)
-	data.add("healing_salve", 50, mid)
-	data.add("firebrand_charm", 45, mid)
-	data.add("sharpening_stone", 40, mid)
-	data.add("silence_powder", 35, mid)
-	data.add("reckless_tonic", 30, late)
-	data.add("binding_chains", 55, late)
-	data.add("grave_dust", 30, late)
-	data.add("summoning_charm", 40, late)
-	data.add("ward_sigil", 35, late)
+	data.add("firebrand_charm", 45, always)
+	data.add("sharpening_stone", 40, always)
+	data.add("binding_chains", 55, advanced)
+	data.add("silence_powder", 35, advanced)
+	data.add("grave_dust", 30, advanced)
+	data.add("summoning_charm", 40, advanced)
+	data.add("ward_sigil", 35, advanced)
 	return data

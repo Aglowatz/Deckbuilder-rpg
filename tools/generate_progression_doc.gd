@@ -1,9 +1,17 @@
 extends SceneTree
-## Writes docs/design/progression.md from ProgressionTable.build() (the one source of truth for
-## Part E's level table). Run after changing anything in core/data/progression_table.gd:
+## Writes the levels-1-30 table (and its intro bullets) in docs/design/progression.md from
+## ProgressionTable.build() (the one source of truth for Part E's level table). Run after
+## changing anything in core/data/progression_table.gd:
 ##   Godot --headless --path . -s res://tools/generate_progression_doc.gd
+##
+## New brief, Part D: only regenerates everything ABOVE the first "## Equipment" heading -
+## everything from there on (equipment/items tables, pricing notes, etc.) is hand-maintained
+## prose now (it grew real narrative content in Parts B/C this tool can't usefully author) and is
+## read back from the existing file untouched. If that heading is ever renamed, update
+## SPLIT_HEADING below to match.
 
 const DOC_PATH: String = "res://docs/design/progression.md"
+const SPLIT_HEADING: String = "## Equipment"
 
 
 func _initialize() -> void:
@@ -26,7 +34,8 @@ func _initialize() -> void:
 	lines.append("- **Deck copy limits by rarity**: Common/Uncommon start at 3, Epic at 2, Legendary at")
 	lines.append("  1; each increases gradually until every rarity allows **4 copies**.")
 	lines.append("- Every level grants something: a real stat/slot/limit increase, an equipment choice,")
-	lines.append("  or (when none of those land) gold, a card choice, or a vendor-stock unlock.")
+	lines.append("  a vendor unlock/discount, or gold - New brief, Part D removed random card-choice")
+	lines.append("  level rewards entirely.")
 	lines.append("")
 	lines.append("| Level | XP to reach | Life | Hand | Items | Common | Uncommon | Epic | Legendary | Grants |")
 	lines.append("|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
@@ -38,33 +47,31 @@ func _initialize() -> void:
 			row.summary,
 		])
 	lines.append("")
-	lines.append("## Equipment and items (placeholders)")
+	lines.append("## Level-up rewards (New brief, Part D)")
 	lines.append("")
-	lines.append("Built on the existing Modifier pipeline: `EquipmentData` (slot + Modifiers, IS a")
-	lines.append("`ModifierSource`) and `ItemData` (limited `uses` + one `EffectData`, resolved outside a")
-	lines.append("duel by `ItemUseResolver` - see docs/design/open_questions.md for why). Five equipment")
-	lines.append("pieces and three items prove equip/unequip/use work end to end:")
+	lines.append("Random card-choice level rewards were removed entirely - every level now grants only")
+	lines.append("real stat/slot/limit increases, an equipment-slot choice, gold, a permanent vendor")
+	lines.append("discount, or a vendor-stock unlock (see `PlayerProfile.vendor_discount_percent`/")
+	lines.append("`Session.effective_price()` - the discount actually reduces what every vendor charges,")
+	lines.append("not just what it displays). Two specific one-time unlocks, chosen to land \"around when")
+	lines.append("the player has 1-2 equipment slots\": level %d unlocks the equipment vendor's 5 advanced" % ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL)
+	lines.append("pieces (right alongside that level's own equipment-slot choice); level %d unlocks the item" % ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL)
+	lines.append("vendor's second (advanced) half. Both are plain `Condition.player_level(...)` checks read")
+	lines.append("live against the profile - no flag to set, no save-data migration. The level-up popup")
+	lines.append("announces every reward explicitly (`LevelUpScreen._bonuses_for`).")
 	lines.append("")
-	lines.append("| Slot | Piece | Effect |")
-	lines.append("|---|---|---|")
-	var content: ContentSet = ContentLibrary.load_all()
-	var pieces: Array[EquipmentData] = []
-	for id: Variant in content.equipment.keys():
-		pieces.append(content.equipment_piece(str(id)))
-	pieces.sort_custom(func(a: EquipmentData, b: EquipmentData) -> bool: return int(a.slot) < int(b.slot))
-	for piece: EquipmentData in pieces:
-		lines.append("| %s | %s | %s |" % [EquipmentData.slot_name(piece.slot), piece.source_name, piece.description])
-	lines.append("")
-	lines.append("| Item | Uses | Effect |")
-	lines.append("|---|---:|---|")
-	var item_ids: Array = content.items.keys()
-	item_ids.sort()
-	for id: Variant in item_ids:
-		var consumable: ItemData = content.item(str(id))
-		lines.append("| %s | %d | %s |" % [consumable.display_name, consumable.uses, consumable.description])
 	var path: String = ProjectSettings.globalize_path(DOC_PATH)
+	var existing: String = ""
+	if FileAccess.file_exists(path):
+		existing = FileAccess.get_file_as_string(path)
+	var split_at: int = existing.find(SPLIT_HEADING)
+	if split_at < 0:
+		push_error("generate_progression_doc: %s heading not found in %s - hand-maintained section left untouched instead of being silently deleted; add the heading back (or update SPLIT_HEADING) before regenerating." % [SPLIT_HEADING, DOC_PATH])
+		quit(1)
+		return
+	var kept_tail: String = existing.substr(split_at)
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
-	file.store_string("\n".join(lines) + "\n")
+	file.store_string("\n".join(lines) + "\n" + kept_tail)
 	file.close()
-	print("Wrote %s" % DOC_PATH)
+	print("Wrote %s (kept the hand-maintained section from %s onward)" % [DOC_PATH, SPLIT_HEADING])
 	quit(0)

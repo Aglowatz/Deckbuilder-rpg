@@ -50,7 +50,7 @@ func _build() -> void:
 			continue
 		_pieces[piece.id] = piece
 		_locked[piece.id] = not Condition.met(entry.unlock, state)
-		_grid.add_child(_make_tile(piece, entry.price, bool(_locked[piece.id]), stock.teaser_for(piece.id)))
+		_grid.add_child(_make_tile(piece, Session.effective_price(entry.price), bool(_locked[piece.id]), stock.teaser_for(piece.id)))
 	_toast = UIKit.label("", &"", 28, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_toast.add_theme_font_override("font", UIStyle.font_bold())
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
@@ -129,7 +129,7 @@ func _refresh() -> void:
 			price_label.text = "???"
 			price_label.add_theme_color_override("font_color", UIStyle.MUTED)
 			continue
-		var price: int = stock.price_for(piece.id)
+		var price: int = Session.effective_price(stock.price_for(piece.id))
 		price_label.text = "%d gold" % price
 		var owned: bool = Session.profile.owned_equipment.has(piece)
 		price_label.add_theme_color_override("font_color", UIStyle.MUTED if owned else (UIStyle.GOLD if Session.gold >= price else Color("e06a5a")))

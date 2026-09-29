@@ -29,6 +29,15 @@ const STARTING_COPY_LIMITS: Dictionary = {
 const HAND_SIZE_LEVELS: Array[int] = [8, 16, 24]
 ## Item slots increase at these levels (1 -> 4 over 3 steps).
 const ITEM_SLOT_LEVELS: Array[int] = [10, 20, 30]
+## New brief, Part D: two one-time level-up rewards, each layered on top of that level's other
+## gains (not filler). Level 10 already grants an equipment-slot choice (EQUIPMENT_CHOICE_LEVELS)
+## - "around when the player has 1-2 equipment slots" per the brief, since level 5 grants the
+## first slot. Level 6 reuses the item vendor's own former "late tier" threshold (D75).
+const EQUIPMENT_VENDOR_UNLOCK_LEVEL: int = 10
+const ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL: int = 6
+## New brief, Part D: a permanent vendor-discount filler reward, replacing the removed random
+## card-choice filler (see LevelData.reward_vendor_discount_percent).
+const FILLER_DISCOUNT_PERCENT: int = 10
 
 
 static func build() -> Array[LevelData]:
@@ -46,6 +55,8 @@ static func build() -> Array[LevelData]:
 			copy_limits[rarity] = int(copy_limits[rarity]) + 1
 		row.copy_limits = copy_limits.duplicate()
 		row.equipment_choice = EQUIPMENT_CHOICE_LEVELS.has(level)
+		row.reward_equipment_vendor_unlock = level == EQUIPMENT_VENDOR_UNLOCK_LEVEL
+		row.reward_item_vendor_advanced_unlock = level == ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL
 		rows.append(row)
 	_fill_summaries_and_fallback_rewards(rows)
 	return rows
@@ -93,8 +104,11 @@ static func row(level: int) -> LevelData:
 
 
 ## Fills `summary` for every row and, for a level that would otherwise grant nothing new,
-## assigns a small filler reward (Part E: "something must happen at every level up") - gold and
-## a card choice alternate, with one vendor-unlock milestone for flavor.
+## assigns a small filler reward (Part E: "something must happen at every level up") - gold, a
+## permanent vendor discount and a rarer-stock vendor unlock rotate (New brief, Part D: random
+## card-choice rewards were removed from this rotation entirely). Levels
+## EQUIPMENT_VENDOR_UNLOCK_LEVEL/ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL get an extra, non-filler note
+## on top of whatever else they already grant.
 static func _fill_summaries_and_fallback_rewards(rows: Array[LevelData]) -> void:
 	var filler_count: int = 0
 	for i: int in range(rows.size()):
@@ -115,15 +129,20 @@ static func _fill_summaries_and_fallback_rewards(rows: Array[LevelData]) -> void
 					notes.append("%s deck copy limit +1 (%d)." % [CardEnums.Rarity.keys()[int(rarity)].capitalize(), int(current.copy_limits[rarity])])
 			if current.equipment_choice:
 				notes.append("Choose an equipment slot to unlock.")
+			if current.reward_equipment_vendor_unlock:
+				notes.append("Unlocks the advanced equipment at the equipment vendor.")
+			if current.reward_item_vendor_advanced_unlock:
+				notes.append("Unlocks the second half of the item vendor's stock.")
 		if notes.is_empty() and i > 0:
 			filler_count += 1
-			if filler_count % 3 == 0:
-				current.reward_vendor_unlock = "Sable's rare stock"
-				notes.append("Unlocks a small batch of rarer cards at the vendor.")
-			elif filler_count % 2 == 0:
-				current.reward_card_choice = true
-				notes.append("Choose 1 of 3 cards to add to your collection.")
-			else:
-				current.reward_gold = 50 + current.level * 5
-				notes.append("+%d gold." % current.reward_gold)
+			match filler_count % 3:
+				0:
+					current.reward_vendor_unlock = "Sable's rare stock"
+					notes.append("Unlocks a small batch of rarer cards at the vendor.")
+				2:
+					current.reward_vendor_discount_percent = FILLER_DISCOUNT_PERCENT
+					notes.append("Permanent vendor discount +%d%%." % FILLER_DISCOUNT_PERCENT)
+				_:
+					current.reward_gold = 50 + current.level * 5
+					notes.append("+%d gold." % current.reward_gold)
 		current.summary = " ".join(notes) if not notes.is_empty() else "Starting stats."
