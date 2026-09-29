@@ -18,3 +18,9 @@ const SLOT_NAMES: Dictionary = {
 
 static func slot_name(value: Slot) -> String:
 	return str(SLOT_NAMES.get(value, "Unknown"))
+
+
+## New brief, Part B/C: the one shared hover tooltip text for an equipped piece - name and full
+## effect - used identically by the character screen (and anywhere else that shows equipment).
+func tooltip_text() -> String:
+	return "%s\n%s" % [source_name, description]

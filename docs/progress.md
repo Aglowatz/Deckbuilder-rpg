@@ -1295,3 +1295,37 @@ Part A of the previous brief).
 
 337 GUT tests pass (2 new: `ItemData.tooltip_text()` includes the name/description/target-
 requirement line, and says "No target needed" for a self/auto-targeting effect).
+
+## Newest Part C: character screen equipment as a silhouette layout - done
+
+`CharacterScreen`'s equipment panel was a plain text-row list; it's now 5 square slots placed over
+a humanoid outline, per the brief.
+
+- **A procedural silhouette** (`_build_silhouette`), not a found icon: no game-icons.net
+  "character"/"person" icon actually reaches head-to-foot (both are bust/torso-only, checked by
+  opening their raw SVGs - D81), so the outline is 6 soft rounded-rect panels (head, torso, two
+  arms, two legs) positioned to line up exactly with the 5 slots on top of them.
+- **Slot placement**: Helm at the head, Armor over the chest/torso, Weapon at the end of one arm,
+  Relic at the end of the other (hand/hip), Boots between the legs at the feet.
+- **Locked slots**: dimmed, a padlock icon, disabled (unclickable), with a tooltip explaining the
+  real rule - equipment slots unlock at levels 5/10/15/20/25, one at a time, player's choice, so
+  there's no single fixed "unlocks at level N" per slot to state (D82).
+- **Unlocked slots**: an empty frame (gold-dim border, click to equip) or the equipped piece's icon
+  (new `CardIcons.for_equipment()`/`BY_EQUIPMENT_ID`, one icon per placeholder piece) with a gold
+  border, and a hover tooltip (`EquipmentData.tooltip_text()`, the equipment equivalent of Part B's
+  `ItemData.tooltip_text()` - name + full effect, no targeting line since equipment doesn't target).
+- **Clicking an unlocked slot** opens a small picker overlay: every owned piece for that slot (icon,
+  name, description, an Equip button, "[equipped]" marked), an Unequip button if one is already
+  equipped, and Cancel; Esc closes the picker without closing the whole character screen.
+- **A real Godot bug found and fixed while building this**: `Button.flat = true` silently
+  suppressed every slot's normal-state frame except the locked one (which happens to use the
+  separate "disabled" style) - flat buttons only draw their stylebox on hover/press/disabled, not
+  at rest. Fixed by not setting `flat` on these buttons at all, matching the one other place in the
+  project with the same need (D83).
+- Verified by screenshot with a disposable preview scene (built, screenshotted, deleted): one
+  equipped slot (gold border + icon), one empty unlocked slot, three locked slots (padlocks) laid
+  out clearly on the silhouette, and the equipment picker popup showing an owned Worn Blade with
+  its description and an Equip button.
+
+338 GUT tests pass (1 new: `EquipmentData.tooltip_text()` includes the piece's name and
+description).

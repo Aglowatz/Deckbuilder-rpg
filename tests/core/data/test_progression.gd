@@ -145,6 +145,15 @@ func test_progression_content_has_five_equipment_one_per_slot_and_thirteen_items
 		assert_not_null((consumable as ItemData).effect)
 
 
+## New brief (third), Part C: the shared equipment tooltip (character screen) is just name +
+## description - equipment has no target, unlike an item's effect.
+func test_equipment_tooltip_text_includes_name_and_description() -> void:
+	var helm: EquipmentData = content.equipment_piece("scavengers_helm")
+	var text: String = helm.tooltip_text()
+	assert_true(text.contains(helm.source_name))
+	assert_true(text.contains(helm.description))
+
+
 func test_cannot_equip_into_a_locked_slot() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	var helm: EquipmentData = content.equipment_piece("scavengers_helm")
