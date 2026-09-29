@@ -408,9 +408,14 @@ func present(event: GameEvent) -> void:
 	register_uid(event.card)
 	if event.other > 0:
 		register_uid(event.other)
+	# Bug fix (Part A): TRAP_SET must NOT flush the center - it always follows the CARD_CAST for
+	# the very same card and only re-homes that same view into the trap row (see _on_trap_set,
+	# which already clears _center_uid itself once it does). Flushing here used to dissolve the
+	# trap's view out of existence before _on_trap_set could move it, so a set trap never actually
+	# appeared in the trap row at all - it just vanished after the cast animation.
 	var flush_types: Array[GameEvent.Type] = [
 		GameEvent.Type.CARD_CAST, GameEvent.Type.LAND_PLAYED, GameEvent.Type.TURN_STARTED,
-		GameEvent.Type.ATTACKERS_DECLARED, GameEvent.Type.PHASE_CHANGED, GameEvent.Type.TRAP_SET,
+		GameEvent.Type.ATTACKERS_DECLARED, GameEvent.Type.PHASE_CHANGED,
 	]
 	if flush_types.has(event.type):
 		await flush_center()
@@ -536,6 +541,17 @@ func _on_land_played(event: GameEvent) -> void:
 func _on_cast(event: GameEvent) -> void:
 	if not views.has(event.card):
 		ensure_view(event.card, Zone.HAND, event.player, Vector2(CENTER_X, ENEMY_HAND_Y), SCALE_ENEMY_HAND)
+	var data: CardData = card_data.get(event.card) as CardData
+	# Bug fix (Part A): setting a trap is still a CARD_CAST event before the TRAP_SET event that
+	# actually moves it into the (hidden) trap row. An opponent's trap must never hit the
+	# face-up center reveal in between - it goes straight from a hidden hand card to a hidden
+	# trap slot. The player's own traps are unaffected: casting them is meant to be visible to
+	# the player who is setting them.
+	if data != null and data.type == CardEnums.CardType.TRAP and event.player != human:
+		layout()
+		Audio.sfx(&"card_play")
+		await _wait(0.2)
+		return
 	_reveal(event.card)
 	var view: CardView = view_for(event.card)
 	if view == null:

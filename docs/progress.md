@@ -1481,3 +1481,45 @@ programmatically. The end-to-end driver ran clean start to finish on its second 
    current design)?
 5. Everything still open from the previous two briefs (title/element names, the town secrets' real
    rewards, XP/level pacing, equipment/item flavor, balance bands) remains open too.
+
+## Fourth brief: equipment overhaul, vendor, level-up rework, hidden chests, the Graveyard
+
+Working through this brief part by part (A-F), committing and pushing after each, per the brief's
+own instructions. Design choices logged in `docs/design/open_questions.md` as they're made (D91+).
+
+## New brief, Part A: trap-visibility bug - done
+
+Confirmed the bug and found its actual shape: `core/`'s rules engine already hid trap identity
+correctly (AI look-ahead already clones with `keep_traps = false` for the opponent's traps, the
+Codex already refuses to record a face-down trap for its non-controller - both already tested).
+The real bug lived entirely in presentation, in `BattleBoard`, and turned out to be two distinct
+bugs once a real UI-level test was written (this project's first - `ui/` has never had GUT
+coverage before, by convention, since presentation bugs have historically surfaced through the
+windowed smoke-test drivers instead):
+
+1. **The actual reported bug**: `_on_cast` unconditionally revealed *any* just-cast card face-up
+   in the table's center for ~0.55s, with no ownership check - including a trap, the instant it's
+   set. An opponent's trap flashed face-up, readable, every single time it was set, before the
+   very next event (`TRAP_SET`) flipped it back down. Fixed: `_on_cast` now skips the center
+   reveal entirely (audio cue only, no visual) for a trap owned by the non-human player.
+2. **A second bug found while fixing the first**: `TRAP_SET` was also listed in `present()`'s
+   `flush_types`, which flushes (dissolves and destroys) whatever card is currently centered
+   before handling the next event - but for a trap, the card centered by the preceding `CARD_CAST`
+   *is* the trap itself, and `_on_trap_set` expects to re-home that same view into the trap row,
+   not receive a blank slate. Once bug 1 alone was fixed, this would have meant every trap
+   (including the player's own) stopped flashing face-up but also stopped appearing in the trap
+   row at all - it just vanished after the cast animation. Fixed by removing `TRAP_SET` from
+   `flush_types`; `_on_trap_set` already clears `_center_uid` and retargets the same view itself.
+
+Verified: opponent traps stay `CardView.Mode.BACK` through both `CARD_CAST` and `TRAP_SET`, flip to
+`Mode.FULL` (with the existing flash/shake reveal) only on `TRAP_TRIGGERED`; the player's own traps
+are unaffected (still shown face-up to their own owner, still end up correctly placed in the trap
+row). See D91.
+
+**New UI test**: `tests/test_battle_board_trap_visibility.gd` (3 cases) - the project's first GUT
+test that instantiates `BattleBoard` directly rather than staying in `core/`. Confirmed the AI
+cannot see the player's traps by reading the existing, already-tested `state.clone(false, 1 - who)`
+call in `ai_player.gd` and its existing coverage (`test_ai_clone_can_hide_traps`,
+`test_clone_can_hide_traps`) - no code change needed there, already correct.
+
+349 GUT tests pass (3 new).
