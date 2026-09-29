@@ -39,8 +39,9 @@ func _run() -> void:
 	await _check_deck_builder_anywhere()
 	await _check_hidden_chests()
 	await _check_item_vendor()
+	await _check_equipment_vendor()
 
-	_finish(_failures.is_empty(), "checked elder (E), guard (Space), vendor (click), deck station (E), deck builder anywhere (B hotkey + HUD button), 2 hidden chests (Part D), item vendor (Part F)")
+	_finish(_failures.is_empty(), "checked elder (E), guard (Space), vendor (click), deck station (E), deck builder anywhere (B hotkey + HUD button), 2 hidden chests (Part D), item vendor (Part F), equipment vendor (fourth brief, Part C)")
 
 
 # ---- Helpers ----------------------------------------------------------------------------
@@ -180,6 +181,52 @@ func _find_item_tile(vendor_screen: ItemVendorScreen, item_id: String) -> Contro
 	for tile: Node in vendor_screen.find_children("*", "Control", true, false):
 		if tile.has_meta("item_id") and str(tile.get_meta("item_id")) == item_id:
 			return tile as Control
+	return null
+
+
+## Fourth brief, Part C: the equipment vendor (Wendell Cobb) - talk, buy a basic (always-for-sale)
+## piece with real gold, confirm it lands in owned_equipment, and confirm an advanced piece is
+## still locked (shows no buy button/tile-with-meta) before the level-10 reward.
+func _check_equipment_vendor() -> void:
+	await _walk_to("equipment_vendor")
+	await driver.frames(3)
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.3)
+	_check(scene.dialogue.active, "interacting with the equipment vendor opens dialogue")
+	_check(scene.dialogue._speaker.text == "Wendell Cobb", "the equipment vendor dialogue is from Wendell Cobb")
+	await _dismiss_dialogue()
+	await driver.seconds(0.3)
+	_check(scene._overlay is EquipmentVendorScreen, "the equipment vendor dialogue leads into the Equipment Vendor screen")
+	if scene._overlay is EquipmentVendorScreen:
+		var vendor_screen: EquipmentVendorScreen = scene._overlay as EquipmentVendorScreen
+		var piece: EquipmentData = Session.content.equipment_piece("wicked_dagger")
+		var gold_before: int = Session.gold
+		_check(not Session.profile.owned_equipment.has(piece), "a fresh profile does not already own it")
+		var tile: Control = _find_equipment_tile(vendor_screen, piece.id)
+		_check(tile != null, "the basic piece's tile is on screen")
+		var locked_tile: Control = _find_equipment_tile(vendor_screen, "flamethrower")
+		_check(locked_tile == null, "an advanced piece has no buyable tile before level 10")
+		if tile != null:
+			await driver.click(driver.center_of_control(tile))
+		await driver.seconds(0.2)
+		await driver.click_button("Buy")
+		await driver.seconds(0.3)
+		_check(Session.gold < gold_before, "buying equipment spends gold")
+		_check(Session.profile.owned_equipment.has(piece), "the bought piece is actually owned")
+		await driver.click_button("Leave")
+		await driver.seconds(0.3)
+	_check(scene._overlay == null, "closing the Equipment Vendor screen returns to town")
+
+
+## Only a for-sale (buyable) tile carries a Button child - a locked "???" tile has none, so
+## clicking one is never mistaken for a purchase.
+func _find_equipment_tile(vendor_screen: EquipmentVendorScreen, equipment_id: String) -> Control:
+	for tile: Node in vendor_screen.find_children("*", "Control", true, false):
+		if tile.has_meta("equipment_id") and str(tile.get_meta("equipment_id")) == equipment_id:
+			for child: Node in tile.get_children():
+				if child is Button:
+					return tile as Control
+			return null
 	return null
 
 

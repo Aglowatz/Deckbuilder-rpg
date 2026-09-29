@@ -302,6 +302,20 @@ func _apply_level_rewards(row: LevelData) -> void:
 		pending_level_card_offers.append(offer)
 
 
+## New brief, Part C: buys one piece of equipment from the equipment vendor. Unlike items,
+## equipment isn't consumable - buying a piece already owned is refused rather than doing
+## anything (there is nothing sensible to "top up").
+func buy_equipment(piece: EquipmentData, price: int) -> bool:
+	if profile == null or piece == null or profile.owned_equipment.has(piece):
+		return false
+	if not spend_gold(price):
+		return false
+	profile.owned_equipment.append(piece)
+	EventBus.collection_changed.emit()
+	save_game()
+	return true
+
+
 ## Equips an owned piece, unequipping whatever was in that slot. Saves on success.
 func equip_item(item: EquipmentData) -> bool:
 	if profile == null or not profile.equip(item):

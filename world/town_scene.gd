@@ -27,7 +27,7 @@ const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
 const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
-	"elder", "guard", "vendor", "hidden_vendor", "item_vendor",
+	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor",
 	"npc_ember", "npc_tide", "npc_root", "npc_grave",
 ]
 ## How close (in screen pixels) a click has to land to a spot's marker to count as
@@ -134,6 +134,7 @@ func _build_actors() -> void:
 		_add_npc("hidden_vendor", "Rogue_Hooded", town.anchors["hidden_vendor"] as Vector3, 100.0)
 	# New brief, Part F: the item vendor.
 	_add_npc("item_vendor", "Mage", town.anchors["npc_item_vendor"] as Vector3, -110.0)
+	_add_npc("equipment_vendor", "Knight", town.anchors["npc_equipment_vendor"] as Vector3, -70.0)
 	# New brief, Part E: the 4 corrupted NPCs stay in town, and stay challengeable, even after
 	# being freed (D68) - only their dialogue changes on later visits, not their presence/look.
 	for npc_id: String in CorruptedNpcs.IDS:
@@ -240,6 +241,8 @@ func _build_spots() -> void:
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
 	# New brief, Part F: the item vendor.
 	_add_spot("item_vendor", "Wick's Supplies", town.anchors["npc_item_vendor"] as Vector3, 1.5)
+	# Fourth brief, Part C: the equipment vendor.
+	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, 1.5)
 	# New brief (third), Part E: the debug-only Dev Shrine - only constructed at all (so only ever
 	# present as an anchor here) when DevTools.shrine_enabled() said yes at builder time.
 	if town.anchors.has("dev_shrine"):
@@ -526,6 +529,8 @@ func _interact(spot: Spot) -> void:
 			_talk_hidden_vendor()
 		"item_vendor":
 			_talk_item_vendor()
+		"equipment_vendor":
+			_talk_equipment_vendor()
 		_:
 			if spot.id.begins_with("portal_"):
 				_use_zone_portal(spot.id.trim_prefix("portal_"))
@@ -907,6 +912,28 @@ func _open_item_vendor() -> void:
 	screen.closed.connect(_close_overlay)
 
 
+## Fourth brief, Part C: the equipment vendor (Wendell Cobb, "Assistant to the Regional
+## Merchant"). Dialogue lives in the story data file (StoryText), not hardcoded here, matching
+## the brief's own instruction rather than this scene's older (inline) convention for Sable/Wick.
+func _talk_equipment_vendor() -> void:
+	_face_npc("equipment_vendor")
+	var story: StoryText = load(STORY_PATH) as StoryText
+	var lines: Array[String] = story.equipment_vendor_return_lines
+	if not Session.flag(&"equipment_vendor_seen"):
+		Session.set_flag(&"equipment_vendor_seen")
+		lines = story.equipment_vendor_intro_lines
+	dialogue.start("Wendell Cobb", lines)
+	dialogue.finished.connect(_open_equipment_vendor, CONNECT_ONE_SHOT)
+
+
+func _open_equipment_vendor() -> void:
+	if not Session.has_profile():
+		return
+	var screen: EquipmentVendorScreen = EquipmentVendorScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
 ## Part G: a placeholder zone portal. Loads the reusable "coming soon" template
 ## (ZonePlaceholderScene) - no real zone exists yet for any of the 5. New brief, Part C/E: a
 ## locked element entrance shows a barrier message instead of loading the zone.
@@ -994,6 +1021,8 @@ func _screenshot_open(what: String) -> void:
 			_open_vendor()
 		"item_vendor":
 			_open_item_vendor()
+		"equipment_vendor":
+			_open_equipment_vendor()
 		"dialogue":
 			_talk_npc("elder", "Elder Maren", _elder_lines())
 		"gate":

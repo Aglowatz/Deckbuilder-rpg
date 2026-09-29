@@ -1573,3 +1573,35 @@ edge cases like the cap resetting next turn and the coin-flip fallback) and
 `tests/test_battle_board_reveal_hand.gd` (4 cases, X-Ray Goggles never reveals a trap).
 
 367 GUT tests pass (18 new).
+
+## New brief, Part C: equipment vendor - done
+
+A new town NPC, **Wendell Cobb**, "Assistant to the Regional Merchant" - an original character
+(rule-obsessed, beet-farming, security-protocol-minded, proud of an employee-of-the-month case
+file of one), standing at a new `blacksmith`-shaped stall a short walk south of the item vendor.
+His dialogue lives in `StoryText` (`data/story/intro_story.tres`), per the brief's own
+instruction - actually a small improvement over this project's existing Sable/Wick precedent,
+whose lines are still hardcoded in `town_scene.gd`.
+
+Shop UI (`EquipmentVendorScreen`) mirrors the item vendor's screen exactly: a grid of tiles, each
+showing the piece's slot, icon, name, description, and price; a locked (not-yet-unlocked)
+advanced piece shows as a spoiler-free "???" teaser with no buy button. Every tile's tooltip is
+the shared `EquipmentData.tooltip_text()` plus a comparison line naming whatever is currently
+equipped in that same slot (built at the UI layer only - no engine change needed).
+
+Stock (`EquipmentVendorScreen.default_stock()`): the 5 basic pieces are for sale from the start;
+the 5 advanced pieces are locked behind `Condition.player_level(10)` - the same level Part D's
+level-up popup will announce this unlock at (chosen so it lands right after the level-10
+equipment-slot choice, "around when the player has 1-2 equipment slots"). New
+`EquipmentVendorEntry`/`EquipmentVendorData` classes mirror `ItemVendorEntry`/`ItemVendorData`
+(Part F, D75) exactly. `Session.buy_equipment()` spends gold and adds the piece to
+`owned_equipment` (refusing a piece already owned, since equipment isn't consumable). See D93 for
+the full set of design decisions (name/model/building/location/pricing).
+
+**Verified two ways**: `tests/core/data/test_equipment_vendor_data.gd` (6 cases, core data logic)
+and a real windowed run - extended `tools/town_interact_smoke.gd` with a genuine talk -> buy ->
+confirm-owned flow, plus confirming the locked advanced tile has no buy button before level 10.
+Both pass; the existing smoke test's other checks (elder, guard, vendor, deck station, hidden
+chests, item vendor) still pass unchanged.
+
+372 GUT tests pass (5 new: `test_equipment_vendor_data.gd`).

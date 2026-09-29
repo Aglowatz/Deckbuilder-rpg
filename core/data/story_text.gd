@@ -72,6 +72,21 @@ extends Resource
 	"Return whenever you're ready to lose again.",
 ]
 
+## Fourth brief, Part C: Wendell Cobb, "Assistant to the Regional Merchant" - the equipment
+## vendor. An original character, not a reference to any real show - the brief asked for the
+## flavor (rule-obsessed, beet-farming, security-protocol-minded office life), not the specifics.
+@export var equipment_vendor_intro_lines: Array[String] = [
+	"Halt. ...Or don't. I'm not a gate, I'm a merchant's assistant. But you were going to stop anyway - I could see it in your gait. Security Protocol One: assess the gait.",
+	"Wendell Cobb. Assistant to the Regional Merchant. Not the Regional Merchant. Assistant TO. Say it with me. No? Fine. It matters to me.",
+	"Everything on this rack is inventoried, oiled, and accounted for under Security Protocol Seven, which I will not explain, because it is need-to-know and you do not need to know.",
+	"I keep the rest under the counter. Do not reach for the drawer. The drawer is not for you. The drawer has never been for anyone.",
+]
+@export var equipment_vendor_return_lines: Array[String] = [
+	"Back again. Good - returning customers are the backbone of a healthy economy, and of my personal employee-of-the-month case file.",
+	"The beets are coming in early this year. I'm choosing to see that as a sign.",
+	"There's a bear that comes around some nights. We've reached an understanding: it doesn't ask about the beets, and I don't ask why it's there.",
+]
+
 
 func npc_intro_lines(id: String) -> Array[String]:
 	match id:
