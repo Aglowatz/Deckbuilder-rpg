@@ -1722,3 +1722,110 @@ its south approach corridor - moved all of it to the north/east/west sides, clea
 anchor; and the cairn's prompt had no case in `_prompt_text()` at all (fell through to the spot's
 plain title) - added a real one, "Disturb the cairn". A full `tools/e2e_demo.gd` run afterward
 (`E2E PASSED in 256s`) confirmed nothing else in town regressed.
+
+## FINAL: whole-brief end-to-end verification - done
+
+`tools/fourth_brief_final_smoke.gd` (launched via `tools/fourth_brief_final_launcher.tscn`/
+`tools/run_fourth_brief_final_smoke.sh`, the same driver-survives-scene-changes pattern every
+other windowed smoke test in this project uses) plays exactly the flow the brief asked for, with
+injected human-style input, start to finish in one run: buy a basic equipment piece from the
+equipment vendor -> dev-shrine to level 5, choosing the Weapon slot -> equip it on the character
+screen -> verify its effect in a real (practice) battle -> dev-shrine on to level 10, choosing
+Armor -> confirm the equipment vendor's advanced stock actually unlocked -> open a hidden
+equipment chest -> attempt the Graveyard. **Ran clean twice** (all checks passed both times,
+including after a tuning fix - see below), capturing 9 screenshots (all git-ignored, described
+below since they can't be linked here) plus one extra standalone screenshot taken separately to
+double-check the Graveyard's outdoor look:
+
+1. `final2_01_equipment_vendor_basic_purchase.png` - Wendell Cobb's stock: all 5 basic pieces for
+   sale (icon, name, description, price), the 5 advanced pieces still "???", a "Bought Wicked
+   Dagger" toast.
+2. `final2_02_shrine_level5_popup.png` - the Level Up popup at level 5, "Choose an equipment slot
+   to unlock."
+3. `final2_03_character_screen_equipped_weapon.png` - the Weapon slot showing Wicked Dagger
+   equipped (gold highlight), every other slot still padlocked.
+4. `final2_04_battle_wicked_dagger_buff.png` - a real practice battle with a player creature
+   actually reading +1 power on the table (verified numerically too: `GameState.get_power()`
+   matched base+1 exactly, not just a screenshot guess).
+5. `final2_06_shrine_level10_popup.png` - the level-10 popup, now also announcing "Unlocks the
+   advanced equipment at the equipment vendor."
+6. `final2_07_equipment_vendor_advanced_unlocked.png` - the same vendor, now showing all 10
+   pieces for real (Flamethrower, Cheater's Dice, Hover Boots, Thorned Loincloth, Big Brain Beret
+   all buyable) - and every price is visibly ~10% lower than screenshot 1, incidentally also
+   confirming Part D's vendor-discount reward landed along the way.
+7. `final2_08_hidden_equipment_chest_opened.png` - the golden particle burst + "A hidden chest!
+   Traveler's Boots" toast at `uplands_ridge`.
+8. `final2_09a_graveyard_area_outdoors.png` / a follow-up standalone shot - The Restless Cairn's
+   nameplate and surroundings from the town camera.
+9. `final2_09_graveyard_battle_escalating_summon.png` - the Graveyard duel, The Restless Dead's
+   first summon (Restless Bone, 1/1) on the table.
+
+**One real polish pass, driven by what the screenshots actually showed** (not guessed): the
+Graveyard's cairn read as a fairly bright, plain yellowish rock pile at a real in-game distance,
+not "ominous" - the first tint pass (0.35, 0.35, 0.38) was too light to win against the rock
+model's own warm base texture (the same class of problem D69 hit in the opposite direction).
+Darkened substantially (0.12, 0.11, 0.13 / 0.09, 0.08, 0.1); re-screenshotted and confirmed it
+now reads as dark stone. The area's other atmosphere (grave-marker rocks, one dead tree) is
+present and functions, but is genuinely subtle at the default approach-camera distance and
+angle - flagged below rather than chased indefinitely.
+
+**Opponent traps staying hidden**: not re-derived in this human-input run - none of the decks
+involved (the player's tutorial starter, the corrupted NPCs, the Graveyard boss) reliably draw a
+Trap-type card in a short battle, so there was nothing to observe live. This is covered instead
+by Part A's own dedicated, already-passing automated tests
+(`tests/test_battle_board_trap_visibility.gd`, 3 cases: an opponent's trap never shows face-up
+through `CARD_CAST`/`TRAP_SET`, the player's own trap stays visible to them, a trap reveals only
+once it actually triggers) plus the AI's existing, already-tested `clone(..., keep_traps=false)`
+look-ahead (confirmed by reading in Part A, D91) - stated here honestly rather than faked.
+
+**Final regression pass**: the full GUT suite (388 tests), `tools/run_town_interact_smoke.sh`, and
+a full `tools/e2e_demo.gd` run were all re-run clean after every change in this brief, most
+recently right before this FINAL pass.
+
+### Summary of the whole fourth brief
+
+- **Part A**: fixed the real bug behind "the player can see opponent traps" (a brief center-reveal
+  flash on `CARD_CAST`, plus a second bug the fix uncovered: `TRAP_SET` was destroying the trap's
+  own view before it could move into the trap row). Confirmed the AI already couldn't see the
+  player's traps either (no change needed there).
+- **Part B**: replaced the 5 placeholder equipment pieces with the 10 named in the brief, adding 8
+  new generic `Modifier.Kind` engine hooks along the way (none hardcoded to one piece).
+- **Part C**: Wendell Cobb, "Assistant to the Regional Merchant" - an original character - and his
+  equipment shop, with a compare-to-equipped tooltip and a basic/advanced stock split.
+- **Part D**: random card-choice level rewards removed entirely, replaced by a real, working
+  vendor-discount reward; the equipment vendor's advanced stock and the item vendor's advanced
+  half each unlock at their own specific level, announced explicitly by the level-up popup.
+- **Part E**: 2 more hidden chests, equipment this time, same no-marker/tight-radius rules as the
+  original 5.
+- **Part F**: The Graveyard - a reusable `SCRIPTED_ESCALATING_SUMMON` engine mechanic (any future
+  boss can reuse it), balanced by real simulation to 0% (no gear) / 58.3% (full advanced loadout)
+  against the brief's under-10%/40-60% targets, with "which gear matters most" (Hover Boots, by a
+  wide margin) recorded in `docs/balance_report.md`.
+
+388 GUT tests pass overall for this brief (~55 new since its start, across `core/`, a handful of
+`ui/`-instantiating tests where a real bug justified it, and app-layer Session tests). Every part
+outside the pure engine was verified with a real, windowed, human-input-driven run, not just
+exercised programmatically - `tools/town_interact_smoke.gd`, `tools/graveyard_smoke.gd`,
+`tools/fourth_brief_final_smoke.gd`, and `tools/e2e_demo.gd` all pass clean as of this write-up.
+
+### Questions for you
+
+1. **The Graveyard's atmosphere is present but subtle** at the normal approach distance/camera
+   angle (dark cairn, a few grave-marker rocks, one dead tree, ground mist) - happy with that as a
+   small, functional pocket, or want a second pass specifically on making it read as more
+   obviously "graveyard" from the angle a player will actually see it at (would need a few more
+   screenshot-iterate cycles, not a quick tweak)?
+2. **Wendell Cobb's name/title/dialogue** ("Assistant to the Regional Merchant", the beets/bear/
+   security-protocol lines) are placeholder wording I picked from the brief's own described
+   flavor - want it adjusted, or is it fine as placeholder content nobody but you has seen yet?
+3. **The Graveyard's reward** (220 gold, 150 XP, Thorned Loincloth) and **the two new hidden
+   chests' contents** (Traveler's Boots, Solid Plate) are my own picks, logged with reasoning in
+   `docs/design/open_questions.md` D96-D97 - confirm these are fine, or would you rather swap any
+   of them for different pieces?
+4. **The vendor-discount level reward** (+10% at levels 7/19/29, stacking to +30%) replaced the
+   removed card-choice filler - confirm the numbers feel right, since nothing in the brief
+   specified an exact percentage.
+5. Everything still open from the previous three briefs (title/element names, town secrets' real
+   rewards beyond what's been assigned so far, XP/level pacing, remaining flavor placeholders)
+   remains open too - see the "Questions for you" sections earlier in this file for the full
+   running list.

@@ -284,11 +284,16 @@ func _build_graveyard() -> void:
 	var center: Vector3 = cell_center(GRAVEYARD_CENTER_CELL.x, GRAVEYARD_CENTER_CELL.y)
 	var cairn: Node3D = Node3D.new()
 	cairn.name = "RestlessCairn"
+	# First tint pass (0.35, 0.35, 0.38) still read as a plain yellowish rock at a real distance,
+	# not "dark, ominous stone" - screenshotted before deciding, not guessed (same discipline as
+	# D61/D69). Multiplicative tint can't shift the model's own warm hue, only darken it, so this
+	# leans much darker to actually win against the base texture, closer in spirit to D69's
+	# "lightened+boosted" fix for the opposite problem (there, too pale; here, too bright).
 	var base: Node3D = ModelKit.nature("rock_single_E")
-	ModelKit.tint(base, Color(0.35, 0.35, 0.38))
+	ModelKit.tint(base, Color(0.12, 0.11, 0.13))
 	cairn.add_child(base)
 	var top: Node3D = ModelKit.nature("rock_single_D")
-	ModelKit.tint(top, Color(0.3, 0.3, 0.33))
+	ModelKit.tint(top, Color(0.09, 0.08, 0.1))
 	top.position = Vector3(0.05, 0.35, -0.05)
 	top.scale = Vector3.ONE * 0.7
 	cairn.add_child(top)
