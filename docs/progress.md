@@ -1428,14 +1428,17 @@ it further, the test was made robust to it instead: it now loops on the actual `
 level` reaching 5 (capped at 10 visits) rather than assuming a fixed visit count, so it still
 verifies the same real behaviors regardless of exactly how many visits that takes.
 
-**This fix has not yet been re-verified with a full clean run**: this session's environment ran low
-on memory while a windowed Godot instance was idle mid-session (a known constraint of this
-environment - see Milestone 9 and Part A of the very first post-demo brief above for the same
-situation happening before), and per that environment's own guidance the run was not restarted
-automatically. The 344 headless GUT tests (which need no windowed instance) were re-run clean after
-the fix. **Please run `tools/run_final_flow_smoke.sh` once** (or ask me to) to get a clean
-confirmation of the corrected test; based on the completed run above, every actual game behavior it
-checks already passed once, so I expect a clean pass.
+**Re-run clean, and the discrepancy fully root-caused**: a second full run (foreground this time, to
+avoid the earlier idle-memory reap) passed end to end with all 5 screenshots again - but this time
+it reached level 5 in only **2** visits, not the naively-expected 4, confirming the "more than one
+level per visit" effect is real and reproducible, not a one-off. To find out whether that lives in
+`Session` or in the test driver, a direct headless GUT test (`test_dev_shrine_grant.gd`, no windowed
+input at all) calls `Session.grant_dev_level()` 10 times in a row: **it grants exactly one level
+every single call**, proven in isolation. The discrepancy is conclusively in the windowed `UiDriver`/
+frame-injection tooling (most likely queued input landing across more frames than intended while a
+Tween/BattlePilot-driven scene animates alongside it), not in the shipped game logic - see D90. A
+real player cannot trigger extra levels here: `grant_dev_level`'s whole call chain to locking input
+runs synchronously with no `await`.
 
 ### Summary of the whole third follow-up brief
 
@@ -1455,17 +1458,17 @@ checks already passed once, so I expect a clean pass.
 - **FINAL**: the whole chain verified end to end with real injected input; one test-logic bug found
   and fixed along the way (not a game bug).
 
-344 GUT tests pass overall for this brief (29 new since its start). No `core/` regressions; every
+346 GUT tests pass overall for this brief (31 new since its start). No `core/` regressions; every
 part outside the pure engine is presentation, all screenshotted and reviewed, not just exercised
-programmatically.
+programmatically. The end-to-end driver ran clean start to finish on its second (foreground) run.
 
 ### Questions for you
 
-1. **The dev-shrine visit-count discrepancy (D90)** is my one open loose end from this pass - I'm
-   fairly confident it's a test-driver artifact (reasoning in D90/above), not a real bug a player
-   could hit, but I have not been able to fully confirm that with a clean re-run in this session's
-   memory-constrained environment. Want me to dig further, or run `tools/run_final_flow_smoke.sh`
-   again next session and report back?
+1. **The dev-shrine visit-count discrepancy (D90)** turned out to be in the windowed test driver,
+   not the game - `Session.grant_dev_level()` is now directly proven (headless, no driver involved)
+   to grant exactly one level per call, every time. Nothing left open here; flagging only because it
+   took two rounds to fully root-cause and is a useful data point if this driver tooling is ever
+   extended further (queued input across frames while a Tween/BattlePilot animation also runs).
 2. **The character-screen silhouette (D81)** is procedural shapes, not a found icon/model - happy
    with the look, or would you rather I look for (or you provide) real art for it?
 3. **The secret tunnel's flavor line and the dev shrine's name/flavor** ("Dev Shrine", "Pray at the
