@@ -1356,3 +1356,38 @@ A hidden tunnel in the starting area's bottom-left corner, found only by explori
 
 341 GUT tests pass (5 new: `CampaignStart.random_element_cards` distinctness/on-element/
 determinism, `TrialOfTheHollow.total_tutorial_rewards` sums only battle/boss nodes).
+
+## Newest Part E: dev level-up shrine - done
+
+A debug-only "Dev Shrine" at the town's south edge (Ember Flats row): each interaction grants
+exactly one level, through the same real level-up flow (popup, rewards, equipment choices) a
+battle's XP would trigger.
+
+- **`DevTools.shrine_enabled()`** (`app/dev_tools.gd`) is the one gate: `OS.is_debug_build()` OR an
+  explicit `deckbuilder/dev_shrine_enabled` project-setting override. It takes the debug flag as a
+  defaultable parameter rather than calling `OS.is_debug_build()` internally, so a test can
+  exercise the "release build" branch directly (D88 - GUT itself always runs in a debug binary and
+  could otherwise never observe that branch at all).
+- **Gated at the builder level, not just the interaction**: `TownBuilder._build_dev_shrine()`
+  checks the gate before building anything at all - in an exported release build (assuming the
+  setting isn't overridden), the shrine has no 3D model, no anchor, no `Spot`; it does not exist,
+  not just "cannot be reached." `TownScene` only adds its `Spot` if the anchor exists.
+- **`Session.grant_dev_level()`**: hands `add_xp` exactly the XP needed to cross one more level
+  threshold (no more, no less), so it always grants precisely one level, up to
+  `ProgressionTable.MAX_LEVEL` (30) - praying at the shrine while already at 30 shows a toast
+  instead. Reuses `TownScene._show_level_up` (Part A) for the popup itself, so the dev shrine's
+  level-ups look and sound identical to a real battle's.
+- A real (small) bug found and fixed while screenshotting this: the shrine sits at the map's true
+  south edge with open water beyond it, so its interact anchor had to approach from the *north*
+  (the walkable side) - the first version put the hero in the water.
+- **Test verifying the gate**: `tests/test_dev_tools.gd` (3 cases: debug always shows it, release
+  hides it by default, the explicit project-setting override re-enables it even in a release
+  build).
+- Verified by screenshot with a disposable preview scene (built, screenshotted, deleted): the
+  shrine tower with its name plate and "[E] Pray at the Dev Shrine (+1 level)" prompt, and the
+  resulting Level Up popup (level 1 -> 2, +1 starting life) firing from the shrine exactly like a
+  battle's would. The existing `tools/town_interact_smoke.gd` regression test (unrelated to this
+  part, but touches the same `_build_spots`/`_interact`/`_prompt_text` functions this part edited)
+  was re-run to confirm no regression.
+
+344 GUT tests pass (3 new: `test_dev_tools.gd`).

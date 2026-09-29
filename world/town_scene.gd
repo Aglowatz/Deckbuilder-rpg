@@ -240,6 +240,10 @@ func _build_spots() -> void:
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
 	# New brief, Part F: the item vendor.
 	_add_spot("item_vendor", "Wick's Supplies", town.anchors["npc_item_vendor"] as Vector3, 1.5)
+	# New brief (third), Part E: the debug-only Dev Shrine - only constructed at all (so only ever
+	# present as an anchor here) when DevTools.shrine_enabled() said yes at builder time.
+	if town.anchors.has("dev_shrine"):
+		_add_spot("dev_shrine", "Dev Shrine", town.anchors["dev_shrine"] as Vector3, 1.6)
 	# New brief, Part E: the 4 corrupted NPCs.
 	for npc_id: String in CorruptedNpcs.IDS:
 		_add_spot("npc_%s" % npc_id, CorruptedNpcs.display_name(npc_id), town.anchors["npc_%s" % npc_id] as Vector3, 1.5)
@@ -439,6 +443,8 @@ func _prompt_text(spot: Spot) -> String:
 			return "Open the chest"
 		"lever":
 			return "Pull the lever"
+		"dev_shrine":
+			return "Pray at the Dev Shrine (+1 level)"
 		"vault":
 			return "Open the vault" if Session.flag(VAULT_LEVER_FLAG) else "Try the sealed door"
 	if spot.id.begins_with("portal_"):
@@ -512,6 +518,8 @@ func _interact(spot: Spot) -> void:
 			_open_chest()
 		"lever":
 			_pull_lever()
+		"dev_shrine":
+			_use_dev_shrine()
 		"vault":
 			_open_vault()
 		"hidden_vendor":
@@ -695,6 +703,21 @@ func _show_level_up(gained: Array[LevelData]) -> void:
 	screen.setup(gained)
 	_open_overlay(screen)
 	screen.finished.connect(_close_overlay)
+
+
+## New brief (third), Part E: debug-only - each interaction grants exactly one level (up to
+## ProgressionTable.MAX_LEVEL), through the same LevelUpScreen/rewards/equipment-choice flow a
+## real battle's XP would trigger. Defensively re-checks DevTools.shrine_enabled() even though the
+## spot only exists at all when the builder already made that same check, in case anything ever
+## calls this directly.
+func _use_dev_shrine() -> void:
+	if not DevTools.shrine_enabled():
+		return
+	var gained: Array[LevelData] = Session.grant_dev_level()
+	if gained.is_empty():
+		hud.toast("Already at max level (%d)." % ProgressionTable.MAX_LEVEL, UIStyle.MUTED)
+		return
+	_show_level_up(gained)
 
 
 func _open_codex() -> void:

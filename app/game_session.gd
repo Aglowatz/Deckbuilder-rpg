@@ -278,6 +278,19 @@ func add_xp(amount: int) -> Array[LevelData]:
 	return gained
 
 
+## New brief (third), Part E: the town's Dev Shrine - each interaction grants exactly one level
+## (up to MAX_LEVEL), running the real level-up flow (LevelUpScreen, rewards, equipment choices)
+## exactly like a real battle's XP would - by handing `add_xp` exactly the XP needed to cross one
+## more level threshold, no more, no less. Returns the granted LevelData in an array (empty if
+## already at max level, matching `add_xp`'s own "empty means nothing happened" convention) - see
+## DevTools.shrine_enabled() for whether the shrine exists at all.
+func grant_dev_level() -> Array[LevelData]:
+	if profile == null or profile.level >= ProgressionTable.MAX_LEVEL:
+		return []
+	var needed: int = ProgressionTable.xp_to_reach(profile.level + 1) - profile.xp
+	return add_xp(maxi(needed, 1))
+
+
 func _apply_level_rewards(row: LevelData) -> void:
 	if row.reward_gold > 0:
 		add_gold(row.reward_gold)

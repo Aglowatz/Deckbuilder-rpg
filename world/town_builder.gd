@@ -246,6 +246,22 @@ func _build_props() -> void:
 	obstacles.append(Vector3(lever_pos.x, lever_pos.z, 0.2))
 	anchors["lever"] = lever_pos + Vector3(0.4, 0, 0.2)
 	_build_hidden_chests()
+	_build_dev_shrine()
+
+
+## New brief (third), Part E: a debug-only "Dev Shrine" at the very bottom (south) edge of the
+## town map, Ember Flats row - each interaction grants one level via the real level-up flow.
+## Gated by DevTools.shrine_enabled() here, at the builder level, so it does not exist as a 3D
+## object at all (not just an unreachable interaction) once DevTools says no - see D88 for why
+## that matters for an exported release build specifically.
+func _build_dev_shrine() -> void:
+	if not DevTools.shrine_enabled():
+		return
+	var pos: Vector3 = cell_center(10, 14)
+	_building("tower_B", pos, 0.0, 1.1, 0.85)
+	# Row 14 is the map's southmost data row (open water beyond it) - approach from the north,
+	# the walkable side, not south like most buildings default to.
+	anchors["dev_shrine"] = pos + Vector3(0, 0, -1.05)
 
 
 ## New brief, Part D: 5 hidden chests, scaled to 1/4 of the D38 chest above (0.9 -> 0.225) and
