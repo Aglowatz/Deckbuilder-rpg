@@ -82,6 +82,22 @@ func test_every_real_item_resolves_without_crashing() -> void:
 		assert_true(game.use_item(0, item, target), "%s should resolve" % item.id)
 
 
+## New brief, Part B: the shared tooltip text (item bar/character screen/item vendor) always
+## includes the name, the description and an explicit targeting requirement line.
+func test_tooltip_text_includes_name_description_and_target_requirement() -> void:
+	var targeted: ItemData = _item(CardEnums.EffectOp.DEAL_DAMAGE, CardEnums.TargetKind.CHOSEN_CREATURE_ENEMY, 3)
+	targeted.description = "Deal 3 damage to an enemy creature."
+	var text: String = targeted.tooltip_text()
+	assert_true(text.contains("Test Item"))
+	assert_true(text.contains("Deal 3 damage to an enemy creature."))
+	assert_true(text.contains("Requires a target: an enemy creature."))
+
+
+func test_tooltip_text_says_no_target_needed_for_a_self_effect() -> void:
+	var untargeted: ItemData = _item(CardEnums.EffectOp.GAIN_LIFE, CardEnums.TargetKind.CONTROLLER, 4)
+	assert_true(untargeted.tooltip_text().contains("No target needed."))
+
+
 func test_buff_a_creature_for_the_turn() -> void:
 	var game: GameState = GameFactory.blank_game()
 	var creature: CardInstance = GameFactory.add_to_battlefield(game, 0, CardBuilder.creature("mine", "Mine", Affinity.Type.A, 1, [], 2, 2))

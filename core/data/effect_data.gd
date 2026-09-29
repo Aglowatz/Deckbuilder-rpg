@@ -27,3 +27,20 @@ func needs_chosen_target() -> bool:
 		or target == CardEnums.TargetKind.CHOSEN_CREATURE_ALLY
 		or target == CardEnums.TargetKind.CHOSEN_PLAYER
 	)
+
+
+## New brief, Part B: a plain-language targeting requirement for tooltips (item bar, character
+## screen, item vendor). Only the target kinds an item can actually carry need real wording; any
+## other kind falls back to "No target needed" rather than guessing at unused cases.
+func target_requirement_text() -> String:
+	match target:
+		CardEnums.TargetKind.CHOSEN_CREATURE_ANY:
+			return "Requires a target: any creature."
+		CardEnums.TargetKind.CHOSEN_CREATURE_ENEMY:
+			return "Requires a target: an enemy creature."
+		CardEnums.TargetKind.CHOSEN_CREATURE_ALLY:
+			return "Requires a target: one of your creatures."
+		CardEnums.TargetKind.CHOSEN_PLAYER:
+			return "Requires a target: a player."
+		_:
+			return "No target needed."

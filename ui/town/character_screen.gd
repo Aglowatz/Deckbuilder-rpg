@@ -181,6 +181,9 @@ func _refresh_items() -> void:
 		var equipped: bool = profile.is_item_equipped(owned_item)
 		var name_label: Label = UIKit.label("%s (%d left)%s" % [owned_item.display_name, profile.item_uses_left(owned_item), " [equipped]" if equipped else ""], &"", 18, UIStyle.GOOD if equipped else UIStyle.PARCHMENT)
 		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		name_label.mouse_filter = Control.MOUSE_FILTER_STOP
+		# New brief, Part B: same tooltip text as the battle item bar and the item vendor.
+		name_label.tooltip_text = owned_item.tooltip_text()
 		row.add_child(name_label)
 		var equip_button: FancyButton = _small_button("Unequip" if equipped else "Equip", func() -> void: _toggle_equip(owned_item))
 		equip_button.disabled = not equipped and profile.equipped_item_ids.size() >= profile.item_slots

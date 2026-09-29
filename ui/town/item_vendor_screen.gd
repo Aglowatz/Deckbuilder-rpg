@@ -67,6 +67,9 @@ func _make_tile(item: ItemData, price: int, locked: bool, teaser: String) -> Con
 	var holder: PanelContainer = UIKit.panel(&"DarkPanel")
 	holder.custom_minimum_size = TILE_SIZE
 	holder.set_meta("item_id", item.id)
+	# New brief, Part B: same hover tooltip (name, full effect, targeting requirement) as the
+	# battle item bar and the character screen - a locked item keeps its spoiler-free teaser.
+	holder.tooltip_text = teaser if locked else item.tooltip_text()
 	var column: VBoxContainer = UIKit.vbox(6)
 	holder.add_child(column)
 	var icon_row: CenterContainer = CenterContainer.new()

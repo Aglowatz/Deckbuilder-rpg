@@ -1275,3 +1275,23 @@ every level gained in one panel; this part makes it the celebratory popup the br
 
 335 GUT tests still pass (no `core/` logic changed - this part is presentation-only, like New
 Part A of the previous brief).
+
+## Newest Part B: bigger, clearer battle item slots + shared tooltips - done
+
+- **`ItemBar` slots are noticeably bigger** (64px -> 88px) with a real frame (`UIStyle.box`, the
+  same bordered-panel look used elsewhere) instead of the old plain `DarkPanel` background.
+- **Readable empty-slot state**: an empty slot now shows a dim backpack-icon silhouette
+  (`item_slot` in `CardIcons.UI_ICONS`) inside a muted frame, instead of just a faded blank square.
+- **A highlight when usable**: a usable item's slot gets a gold border and a slow looping alpha
+  pulse (restarted only when usability actually changes, not every HUD refresh - D80); an
+  equipped-but-not-usable item stays dimmed with a muted border, same as before.
+- **Shared hover tooltips**: `ItemData.tooltip_text()` (name, full effect, and a new explicit
+  targeting-requirement line from `EffectData.target_requirement_text()` - D79) is now the one
+  source the battle item bar, the character screen's item rows, and the item vendor's tiles all
+  read - a locked vendor item keeps its spoiler-free teaser instead.
+- Verified by screenshot with a disposable preview scene (built, screenshotted, deleted): one
+  usable (gold, glowing) slot, one equipped-but-unusable (dimmed) slot and one empty slot (dim
+  backpack icon) all render as intended side by side.
+
+337 GUT tests pass (2 new: `ItemData.tooltip_text()` includes the name/description/target-
+requirement line, and says "No target needed" for a self/auto-targeting effect).
