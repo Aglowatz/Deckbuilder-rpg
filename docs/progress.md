@@ -1329,3 +1329,30 @@ a humanoid outline, per the brief.
 
 338 GUT tests pass (1 new: `EquipmentData.tooltip_text()` includes the piece's name and
 description).
+
+## Newest Part D: secret tunnel (skip tutorial) - done
+
+A hidden tunnel in the starting area's bottom-left corner, found only by exploring (see
+`docs/design/secrets.md` for the full spoiler writeup).
+
+- **`StartingAreaBuilder.MAP`** carves the corner cell (row 3, col 0, previously part of the
+  treeline wall) into a walkable, tree-camouflaged cell (`'H'`) - no marker/glow, matching the
+  town's existing hidden-chest secrets exactly (D86: no tunnel asset exists in any approved pack,
+  and the brief asks for no markers anyway, so plain scattered trees are the whole disguise).
+- **Using it** (`StartingAreaScene._enter_tunnel`): a short flavor dialogue line, then the same
+  `ElementChoiceScreen` the real cave-mouth gate uses. Choosing an element
+  (`Session.skip_tutorial_via_secret_tunnel`) grants the 42-card starter deck plus **3 random**
+  on-element cards (`CampaignStart.random_element_cards` - genuinely random, unlike the fixed
+  sample cards `Session.ensure_game` uses for screenshots, D84) for a real legal 45-card deck, the
+  tutorial's own total XP/gold (`TrialOfTheHollow.total_tutorial_rewards()` - 150 XP, 280 gold,
+  read from the actual node data rather than hardcoded, D85), and the same tutorial-complete flags
+  a real clear leaves - straight to town, no dungeon in between.
+- **Human-input e2e test**: `tools/starting_area_tunnel_smoke.gd` (run via
+  `tools/run_starting_area_tunnel_smoke.sh`), using the same launcher-driver pattern as
+  `tools/e2e_demo.gd` so the driver survives the real starting-area -> town scene change (D87) -
+  walks to the tunnel with injected WASD, interacts, dismisses the dialogue, picks an element
+  through the real screen, and asserts the deck/XP/gold/flags/secret all land correctly and town
+  actually loads. **Ran once and passes clean** (all 15 checks).
+
+341 GUT tests pass (5 new: `CampaignStart.random_element_cards` distinctness/on-element/
+determinism, `TrialOfTheHollow.total_tutorial_rewards` sums only battle/boss nodes).

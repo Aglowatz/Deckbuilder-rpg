@@ -130,6 +130,14 @@ func test_enemy_setup_uses_node_life() -> void:
 	assert_lt(setup.starting_life, PlayerProfile.START_MAX_LIFE, "the tutorial's first enemy should be easier than the player")
 
 
+## New brief (third), Part D: the secret tunnel skip grants exactly what the tutorial's own 2
+## battles + boss would have paid (the challenge/shrine nodes pay neither).
+func test_total_tutorial_rewards_sums_only_battle_and_boss_nodes() -> void:
+	var totals: Dictionary = TrialOfTheHollow.total_tutorial_rewards()
+	assert_eq(int(totals["xp"]), EncounterRewards.xp_for(DungeonMap.Difficulty.TUTORIAL) * 2 + EncounterRewards.xp_for(DungeonMap.Difficulty.BOSS))
+	assert_eq(int(totals["gold"]), EncounterRewards.gold_for(DungeonMap.Difficulty.TUTORIAL) * 2 + EncounterRewards.gold_for(DungeonMap.Difficulty.BOSS))
+
+
 func test_save_round_trip() -> void:
 	var path: String = "user://test_save.json"
 	assert_true(SaveSystem.write({"gold": 42, "owned": ["a", "b"]}, path))

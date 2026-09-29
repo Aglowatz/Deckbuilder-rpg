@@ -10,6 +10,9 @@ const CAMERA_OFFSET: Vector3 = Vector3(0.0, 8.4, 7.0)
 const INTERACT_RADIUS: float = 1.7
 ## How close (in screen pixels) a click has to land to the gate's marker to count as clicking it.
 const CLICK_PICK_RADIUS: float = 90.0
+## New brief (third), Part D: the hidden tunnel's interact radius - tight, like the town's hidden
+## chests, since the only tell it exists at all is this prompt appearing once genuinely close.
+const TUNNEL_RADIUS: float = 1.5
 
 var area: StartingAreaBuilder = StartingAreaBuilder.new()
 var player: TownPlayer
@@ -20,6 +23,7 @@ var _prompt_panel: PanelContainer
 var _prompt_label: Label
 var _gate_marker: Node3D
 var _near_gate: bool = false
+var _near_tunnel: bool = false
 var _locked: bool = false
 var _screenshot_args: Dictionary = {}
 
@@ -105,28 +109,42 @@ func _process(delta: float) -> void:
 	var target: Vector3 = player.position + CAMERA_OFFSET
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.rotation_degrees = Vector3(-atan2(CAMERA_OFFSET.y, CAMERA_OFFSET.z) * 180.0 / PI, 0.0, 0.0)
-	_update_near_gate()
+	_update_prompt()
 	player.input_enabled = not _locked and not dialogue.active
 
 
-func _update_near_gate() -> void:
+## Both the cave gate and (on a brand-new profile only) the hidden tunnel share the one prompt
+## panel - the gate wins if both were ever in range at once, which never happens in practice given
+## how far apart they are.
+func _update_prompt() -> void:
 	if _locked or dialogue.active:
 		_prompt_panel.visible = false
 		_near_gate = false
+		_near_tunnel = false
 		return
 	var gate: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
-	var distance: float = Vector2(player.position.x - gate.x, player.position.z - gate.z).length()
-	var was_near: bool = _near_gate
-	_near_gate = distance <= INTERACT_RADIUS
-	if _near_gate and not was_near:
+	var gate_distance: float = Vector2(player.position.x - gate.x, player.position.z - gate.z).length()
+	var was_near_gate: bool = _near_gate
+	_near_gate = gate_distance <= INTERACT_RADIUS
+	var near_tunnel_now: bool = false
+	if Session.profile == null and area.anchors.has("tunnel"):
+		var tunnel: Vector3 = area.anchors["tunnel"] as Vector3
+		var tunnel_distance: float = Vector2(player.position.x - tunnel.x, player.position.z - tunnel.z).length()
+		near_tunnel_now = tunnel_distance <= TUNNEL_RADIUS
+	var was_near_tunnel: bool = _near_tunnel
+	_near_tunnel = near_tunnel_now
+	if (_near_gate and not was_near_gate) or (_near_tunnel and not was_near_tunnel):
 		Audio.sfx(&"ui_tick", -10.0)
 	if _near_gate:
 		_prompt_label.text = "[E]  Enter the cave"
-		_prompt_panel.visible = true
-		_prompt_panel.reset_size()
-		_prompt_panel.position.x = (1920.0 - _prompt_panel.size.x) * 0.5
+	elif _near_tunnel:
+		_prompt_label.text = "[E]  Slip through the tunnel"
 	else:
 		_prompt_panel.visible = false
+		return
+	_prompt_panel.visible = true
+	_prompt_panel.reset_size()
+	_prompt_panel.position.x = (1920.0 - _prompt_panel.size.x) * 0.5
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -137,7 +155,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_open_deck_builder()
 		return
-	if _locked or dialogue.active or not _near_gate:
+	if _locked or dialogue.active:
+		return
+	# New brief (third), Part D: the hidden tunnel - E/Space only, like the town's hidden chests
+	# (no marker to click on).
+	if _near_tunnel and not _near_gate:
+		if event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE):
+			get_viewport().set_input_as_handled()
+			_enter_tunnel()
+		return
+	if not _near_gate:
 		return
 	if event.is_action_pressed(&"interact"):
 		get_viewport().set_input_as_handled()
@@ -166,6 +193,24 @@ func _enter_gate() -> void:
 	_locked = true
 	dialog.confirmed.connect(_confirm_enter)
 	dialog.cancelled.connect(func() -> void: _locked = false)
+
+
+## New brief (third), Part D: the hidden tunnel - a short flavor line so it feels intentional (not
+## a shortcut nobody wrote for), then the same element choice as the real gate, then straight to
+## town: a legal 45-card deck, the tutorial's own total XP/gold, and the tutorial-complete flags
+## (`Session.skip_tutorial_via_secret_tunnel`), no dungeon in between.
+func _enter_tunnel() -> void:
+	Audio.sfx(&"ui_select")
+	_locked = true
+	dialogue.start("", ["A narrow gap in the old treeline - easy to miss, easy enough to slip through, if you're not afraid of a shortcut."])
+	dialogue.finished.connect(func() -> void:
+		var choice: ElementChoiceScreen = ElementChoiceScreen.new()
+		_overlay_layer.add_child(choice)
+		choice.chosen.connect(func(color: Affinity.Type) -> void:
+			Audio.sfx(&"ui_confirm")
+			choice.queue_free()
+			Session.skip_tutorial_via_secret_tunnel(color)
+			SceneManager.go_to_town()), CONNECT_ONE_SHOT)
 
 
 ## Part C: the element is chosen once, before the very first attempt. A retry after an abandoned

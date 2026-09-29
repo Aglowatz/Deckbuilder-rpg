@@ -47,3 +47,34 @@ Camera position/rotation logged at capture time were numerically normal and matc
 example closely, so the cause was not root-caused in the time available; the chest was moved to
 Ember Flats (a location already proven to render correctly) rather than ship something
 unverified. Worth a fresh look if anyone ever revisits this area.
+
+## Third follow-up brief, Newest Part D: the starting-area hidden tunnel
+
+A hidden tunnel in the **starting area** (not town) - the tiny enclosed clearing the game opens
+in, before any element/deck choice exists. `StartingAreaBuilder.MAP`'s bottom-left corner cell
+(row 3, col 0 - the corner nearest the spawn row, carved out of what would otherwise be treeline
+wall) is walkable and camouflaged by scattered trees exactly like the map's other wooded cells; the
+only tell is the standard `[E] Slip through the tunnel` prompt, and only within
+`StartingAreaScene.TUNNEL_RADIUS` (1.5m, same tightness as the town's hidden chests). No arrow,
+glow, name plate or map icon of any kind.
+
+**Using it** (`Session.skip_tutorial_via_secret_tunnel`, only reachable before a profile exists -
+a first-ever visit): plays one short flavor dialogue line, then the same `ElementChoiceScreen` the
+real cave-mouth gate uses. Choosing an element grants:
+- The 42-card starter deck (`CampaignStart.starter_deck`) plus **3 random** (not curated) cards of
+  that element (`CampaignStart.random_element_cards`) - a real, legal 45-card deck, same as a real
+  tutorial clear leaves the player with, just reached a different way.
+- The same total XP and gold the tutorial's 2 battles + boss would pay out
+  (`TrialOfTheHollow.total_tutorial_rewards()` - the challenge/shrine nodes pay neither): 150 XP,
+  280 gold, though the actual gold gained can be a little higher if that XP happens to cross a
+  level with its own gold reward (exactly what a real tutorial run gaining the same XP the same
+  way would also do - not specific to the skip).
+- `intro_dungeon_cleared`, `cleared_dungeons`, and the `trial_cleared` flag - the same
+  tutorial-complete state a real clear leaves, so town opens normally.
+- One-time, tracked like any other secret: `Session.found_secret("starting_area_tunnel")`.
+
+The player goes straight to town - no dungeon in between. Human-input e2e coverage:
+`tools/starting_area_tunnel_smoke.gd` (run via `tools/run_starting_area_tunnel_smoke.sh`) walks to
+the tunnel with injected WASD, interacts, dismisses the dialogue, picks an element through the real
+`ElementChoiceScreen`, and asserts the deck/XP/gold/flags/secret all land correctly and the scene
+actually transitions to town.

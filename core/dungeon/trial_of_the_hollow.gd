@@ -68,6 +68,20 @@ static func build_map() -> DungeonMap:
 	return map
 
 
+## New brief (third), Part D: the total XP/gold the whole tutorial dungeon pays out (its 2
+## battles + the boss - the challenge and shrine nodes pay neither), so the secret tunnel skip can
+## grant "the same XP and gold the tutorial would have given" without duplicating these numbers.
+static func total_tutorial_rewards() -> Dictionary:
+	var map: DungeonMap = build_map()
+	var xp: int = 0
+	var gold: int = 0
+	for map_node: DungeonMap.MapNode in map.nodes:
+		if map_node.kind == DungeonMap.Kind.BATTLE or map_node.kind == DungeonMap.Kind.BOSS:
+			xp += EncounterRewards.xp_for(map_node.difficulty)
+			gold += map_node.gold_reward
+	return {"xp": xp, "gold": gold}
+
+
 static func _node(map: DungeonMap, kind: DungeonMap.Kind, title: String, blurb: String, position: Vector2) -> DungeonMap.MapNode:
 	var map_node: DungeonMap.MapNode = DungeonMap.MapNode.new()
 	map_node.kind = kind

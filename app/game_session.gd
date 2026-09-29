@@ -93,6 +93,35 @@ func ensure_game(color: Affinity.Type = Affinity.Type.A) -> void:
 		set_flag(&"trial_cleared")
 
 
+## New brief (third), Part D: the hidden tunnel in the starting area's bottom-left corner - the
+## player still picks their element (the same `ElementChoiceScreen`), then gets a real, legal
+## 45-card deck (the 42-card starter + 3 *random* on-element cards, `CampaignStart.
+## random_element_cards` - unlike the normal tutorial's 3 curated reward picks), the same total
+## XP/gold the tutorial's battles/boss would have paid (`TrialOfTheHollow.
+## total_tutorial_rewards`), and the same tutorial-complete flags a real clear leaves, so the town
+## opens normally. Only usable before a profile exists (a first-ever run), like the tunnel itself.
+const SECRET_TUNNEL_ID: String = "starting_area_tunnel"
+
+
+func skip_tutorial_via_secret_tunnel(color: Affinity.Type) -> void:
+	if profile != null:
+		return
+	profile = CampaignStart.new_profile(content, color)
+	var picks: Array[CardData] = CampaignStart.random_element_cards(content, color, 3, rng)
+	profile.owned_cards.append_array(picks)
+	profile.intro_dungeon_cleared = true
+	deck = CampaignStart.starter_deck(content, color)
+	deck.cards.append_array(picks)
+	deck.deck_name = DECK_NAME
+	cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)
+	set_flag(&"trial_cleared")
+	discover_secret(SECRET_TUNNEL_ID)
+	var totals: Dictionary = TrialOfTheHollow.total_tutorial_rewards()
+	add_gold(int(totals.get("gold", 0)))
+	add_xp(int(totals.get("xp", 0)))
+	save_game()
+
+
 func has_profile() -> bool:
 	return profile != null
 

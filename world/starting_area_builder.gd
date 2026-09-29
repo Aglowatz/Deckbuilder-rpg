@@ -8,11 +8,14 @@ extends WalkableArea
 ## are too large to sit right next to the camera, so the wall is trees, not a mountain model),
 ## 'T' grass with trees (walkable), '#' grass, 'G' cave mouth (the way into the Trial of the
 ## Hollow), 'S' spawn (where the hero wakes up).
+## New brief (third), Part D: 'H' is a hidden tunnel, tucked into the bottom-left corner of the
+## treeline where a normal 'M' would be - no marker/glow, just a standard interact prompt once the
+## player is genuinely close (see `docs/design/secrets.md`).
 const MAP: Array[String] = [
 	"MMMMM",
 	"M#G#M",
 	"M#T#M",
-	"M#S#M",
+	"H#S#M",
 	"MMMMM",
 ]
 
@@ -60,6 +63,16 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 			ModelKit.place(root, ModelKit.building("mine"), center, 0.0, 1.35)
 			obstacles.append(Vector3(center.x, center.z, 1.0))
 			anchors["gate"] = center + Vector3(0, 0, 1.1)
+		"H":
+			# Hidden tunnel: walkable and camouflaged by trees like 'T', but with no distinct
+			# model of its own - matching the town's hidden chests, where only the interact prompt
+			# (and only up close) gives a secret away, never a marker or glow.
+			for i: int in range(3):
+				var offset: Vector3 = _scatter(center, 0.3, 0.8)
+				var tree: String = ["tree_single_A", "tree_single_B"][_rng.randi() % 2]
+				ModelKit.place(root, ModelKit.nature(tree), offset, _rng.randf() * 360.0, _rng.randf_range(1.1, 1.5))
+				obstacles.append(Vector3(offset.x, offset.z, OBSTACLE_TREE * 1.3))
+			anchors["tunnel"] = center
 		"S":
 			anchors["spawn"] = center
 

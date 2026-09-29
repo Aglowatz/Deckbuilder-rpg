@@ -50,6 +50,32 @@ func test_no_sample_pair_deck_is_given_to_the_player() -> void:
 	assert_false(DeckValidator.is_valid(ember, profile, null, true), "pair decks must be built by the player")
 
 
+## New brief (third), Part D: the secret tunnel skip's 3 random on-element cards - distinct,
+## actually of that element, deterministic for a given seed.
+func test_random_element_cards_are_distinct_and_on_element() -> void:
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 42
+	var picks: Array[CardData] = CampaignStart.random_element_cards(_content, Affinity.Type.A, 3, rng)
+	assert_eq(picks.size(), 3)
+	var seen_ids: Dictionary = {}
+	for card: CardData in picks:
+		assert_eq(card.color, Affinity.Type.A)
+		assert_false(card.is_land())
+		assert_false(seen_ids.has(card.id), "no duplicate picks")
+		seen_ids[card.id] = true
+
+
+func test_random_element_cards_same_seed_same_picks() -> void:
+	var rng_a: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng_a.seed = 7
+	var rng_b: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng_b.seed = 7
+	var picks_a: Array[CardData] = CampaignStart.random_element_cards(_content, Affinity.Type.C, 3, rng_a)
+	var picks_b: Array[CardData] = CampaignStart.random_element_cards(_content, Affinity.Type.C, 3, rng_b)
+	for i: int in range(3):
+		assert_eq(picks_a[i].id, picks_b[i].id)
+
+
 func test_profile_choice_survives_tres() -> void:
 	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.D)
 	var path: String = "user://test_profile.tres"

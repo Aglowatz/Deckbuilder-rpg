@@ -51,3 +51,20 @@ static func new_profile(content: ContentSet, primary: Affinity.Type) -> PlayerPr
 	profile.owned_cards = starter_spells(content)
 	return profile
 
+
+## New brief (third), Part D: the secret tunnel skip grants 3 *random* on-element cards (unlike
+## the normal tutorial's 3 curated reward picks, or `ElementChoice`'s fixed sample cards) - the
+## same 45-card-legal shape the real tutorial reward picks would leave the starter deck in, just
+## reached a different way. Non-land, `color`-affinity cards only; fewer than `count` exist for no
+## element in the current content (8/8/7/7), but this stays correct if that ever changes.
+static func random_element_cards(content: ContentSet, color: Affinity.Type, count: int, rng: RandomNumberGenerator) -> Array[CardData]:
+	var pool: Array[CardData] = []
+	for card: CardData in content.cards.values():
+		if card.color == color and not card.is_land():
+			pool.append(card)
+	RngUtil.shuffle(pool, rng)
+	var result: Array[CardData] = []
+	for i: int in range(mini(count, pool.size())):
+		result.append(pool[i])
+	return result
+
