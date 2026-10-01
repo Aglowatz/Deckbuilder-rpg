@@ -12,7 +12,7 @@ amount = 2
 [resource]
 script = ExtResource("2_yfkvi")
 id = "hr_reaper"
-display_name = "Reaper of Human Resources"
+display_name = "HR Reaper"
 color = 4
 generic_cost = 3
 colored_pips = Array[int]([4, 4])

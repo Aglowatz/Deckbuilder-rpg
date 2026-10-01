@@ -1856,3 +1856,23 @@ area keep their names (see open_questions E1). Tests: 392 (4 new, `tests/test_ne
 - **Enemies (Part D)**: `ZoneEnemy` (patrol / chase in range / give up past leash). Shambling Middle Manager + Zombie Intern are slow (< player speed) and start a Necrocrat-deck battle; defeated ones stay gone until re-entry. Speedy Ghost Courier is fast, deals 2 damage with knockback + 1.6 s invulnerability, never starts a battle. Red flash, shake, floating "-2" and HUD life bar update.
 - **Mini dungeon core (Part E)** is wired too (see below).
 - Tests: 420 (`tests/core/zone/`). Screenshots: `_screenshots/brief5/c_*.png`.
+
+## Part E: mini dungeon - done
+
+"Sub-Basement 3: Quarterly Reviews" (Elevator Bank, 3rd elevator). `core/zone/mini_dungeon.gd`: 3 battles in a straight line on the existing node-map screens (Kickoff Facilitator -> Budget Reviewer -> The Quarterly Reviewer), no shrine. The run starts at the **zone's current life**, nothing heals between meetings, the life left returns to the zone, losing wakes you at the hub for the fee. First clear grants the unique **The Deceased CEO** card (Legendary, one-time via `dna_mini_dungeon_cleared`); repeat clears still pay gold/XP. Tests: `tests/core/zone/test_mini_dungeon.gd`.
+
+## Part F: puzzle encounter - done
+
+**Pneumatic Soul Routing** (Mail Room terminal): a toggling-junction tube network (7 junctions, 8 departments, 8 stamped capsules). Every junction flips after a capsule passes, so you must work out the one starting setup (of 128) that delivers all 8 souls to their stamped departments. Click junctions, Send (animated), Reset, Hint. Verified: every setup visits each bin once and **exactly one** setup solves it (`tests/core/zone/test_tube_puzzle.gd`). Reward (one-time): **Soul Courier's Lanyard** (Relic: +1 card on your first turn, max hand +1), made with the Modifier system (`ProgressionContent.zone_equipment`, stored in `data/equipment/zone/`).
+
+## Part G: quiz master - done
+
+**Lethe, Compliance Examiner** (Cubicle Farm B corner office). 4 questions, answers shuffled each attempt; every correct answer is findable on a sign/memo/NPC line (tested by text search; sources noted in `ZoneStoryText.quiz_questions`). Rewards scale 0-4 correct (0 / 10g / 25g+10xp / 50g+25xp / 100g+60xp+Healing Draught). **Retry limit chosen: none, but rewards only pay for improving your best score** (logged in open_questions E4).
+
+## Part H: matching game - done
+
+**Skylar, Last Employee of the Month** (Filing maze NW "Rec Room" corner): an original character full of millennial nods (dial-up greeting, top 8, video-store late fee, virtual pet that keeps dying, flip-phone texting, burned mix CDs, away messages) - no brand names. 4x4 memory game, 8 pairs, 14-move limit, stars by moves (<=10 / <=12 / else), rewards by stars paid only for beating your best, plus a one-time first-win bonus (50g + Scroll of Insight). Tests in `tests/core/zone/test_minigames.gd`.
+
+## Part I: secrets and interactables - done
+
+8 hidden stashes (rules as the town's; list in `docs/design/secrets.md`) + 4 interactables with real effects: coffee machine (random good/bad), time clock (+2 max life per visit), haunted printer (40g -> random Necrocrat card or jam), suggestion box (one-time 25g + card).

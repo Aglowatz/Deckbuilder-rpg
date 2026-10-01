@@ -197,6 +197,9 @@ func _build_spots() -> void:
 	_add_spot("suggestion", "Suggestion Box", builder.anchor("suggestion"), 1.3, "Drop in a suggestion")
 	_add_spot("mini_dungeon", "Sub-Basement 3", builder.anchor("mini_dungeon"), 1.5, "Take the elevator to Quarterly Reviews")
 	_add_spot("main_dungeon", "Under Renovation", builder.anchor("main_dungeon"), 1.7, "Try the door")
+	_add_spot("puzzle", "Soul Routing Terminal", builder.anchor("puzzle"), 1.7, "Route the souls (puzzle)")
+	_add_spot("quiz", "Lethe, Compliance Examiner", builder.anchor("quiz") + Vector3(0.9, 0, 0), 1.6, "Talk", true)
+	_add_spot("matching", "Skylar, Last Employee of the Month", builder.anchor("matching") + Vector3(0.0, 0, 0.9), 1.6, "Talk", true)
 
 
 func _build_enemies() -> void:
@@ -287,6 +290,14 @@ func _process(delta: float) -> void:
 		_light_timer = 0.25
 		_assign_lights()
 	var world_active: bool = not _locked and not dialogue.active and not _fainting
+	if world_active and not Session.pending_level_ups.is_empty():
+		var gained: Array[LevelData] = Session.pending_level_ups.duplicate()
+		Session.pending_level_ups.clear()
+		var screen: LevelUpScreen = LevelUpScreen.new()
+		screen.setup(gained)
+		_open_overlay(screen)
+		screen.finished.connect(_close_overlay)
+		world_active = false
 	player.input_enabled = world_active
 	player.model.visible = _invulnerable <= 0.0 or int(_time * 14.0) % 2 == 0
 	for enemy: ZoneEnemy in enemies:
@@ -493,8 +504,42 @@ func _interact(spot: Spot) -> void:
 
 
 ## Hook for spots added by later parts (mini dungeon, puzzle, quiz, matching, printer...).
-func _interact_extra(_spot: Spot) -> void:
-	pass
+func _interact_extra(spot: Spot) -> void:
+	match spot.id:
+		"puzzle":
+			_open_puzzle()
+		"quiz":
+			_face_npc("quiz")
+			_say("Lethe", story.get_lines("npc.quiz.return" if Session.flag(&"dna_met_quiz") else "npc.quiz.intro"), _open_quiz)
+			Session.set_flag(&"dna_met_quiz")
+		"matching":
+			_face_npc("matching")
+			_say("Skylar", _greeting("matching"), _open_matching)
+
+
+func _open_puzzle() -> void:
+	player.face(builder.anchor("puzzle"))
+	var screen: TubePuzzleScreen = TubePuzzleScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+	screen.solved.connect(func() -> void:
+		Session.set_flag(DnaZone.FLAG_PUZZLE_SOLVED)
+		var piece: EquipmentData = Session.content.equipment_piece("courier_lanyard")
+		if piece != null and Session.grant_equipment(piece):
+			hud.toast("Puzzle solved! %s joins your gear." % piece.source_name, UIStyle.GOLD)
+		Session.save_game())
+
+
+func _open_quiz() -> void:
+	var screen: QuizScreen = QuizScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
+func _open_matching() -> void:
+	var screen: MatchGameScreen = MatchGameScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
 
 
 func _face_npc(id: String) -> void:
@@ -866,6 +911,12 @@ func _screenshot_open(what: String) -> void:
 			_open_vendor()
 		"quests":
 			_open_quest_log()
+		"puzzle":
+			_open_puzzle()
+		"quiz":
+			_open_quiz()
+		"matching":
+			_open_matching()
 		"dialogue":
 			_talk_quest_npc("dolores", DnaZone.NPC_DOLORES, "Dolores")
 		_:

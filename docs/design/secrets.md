@@ -96,3 +96,27 @@ The player goes straight to town - no dungeon in between. Human-input e2e covera
 the tunnel with injected WASD, interacts, dismisses the dialogue, picks an element through the real
 `ElementChoiceScreen`, and asserts the deck/XP/gold/flags/secret all land correctly and the scene
 actually transitions to town.
+
+## Brief 5, Part I: the D.N.A. zone's hidden stashes (8) and interactables
+
+Same rules as the town's chests: a `chest_gold` prop at 1/4 scale (0.225), **no markers, no plate, no glow** - the only tell is the `[E] Open the chest` prompt, shown only within `DnaScene.HIDDEN_CHEST_RADIUS` (1.5 m). One-time, saved as `Session.found_secret("dna_<id>")`. Each also bumps the `dna_chests_opened` counter (Compliance Audit quest). Rewards: `DnaScene.CHEST_REWARDS`; positions: `DnaLayout` (`chests`).
+
+| id | Where | Contents |
+|----|-------|----------|
+| `chest_farm_a` | Cubicle Farm A, the far north-east corner behind the last row of cubicles | 35 gold |
+| `chest_farm_b` | Cubicle Farm B, the far north-west corner | Healing Salve |
+| `chest_maze_0` | Filing Department maze, the north-most dead end | 50 gold |
+| `chest_maze_1` | Filing Department maze, the south-most dead end | Scroll of Insight + Overdue Intern (card) |
+| `chest_maze_2` | Filing Department maze, a middle dead end | 25 gold + Firebrand Charm |
+| `chest_records_0` | Records Basement, south-east corner | 60 gold |
+| `chest_records_1` | Records Basement, north-west corner (behind the first shelving rows) | Vitality Charm + Cubicle Zombie (card) |
+| `chest_exec` | Executive Floor, the north-west corner by the boardroom wall | 80 gold + Healing Draught |
+
+(The maze is generated from a fixed seed, so the three maze chests are always in the same dead ends.)
+
+### Interactables (real effects; `world/dna/dna_interactables.gd`)
+- **Breakroom coffee machine** (5 gold): random - 30% heal 2, 15% heal 4, 20% bad cup (-1 life, never kills), 15% a coin back (+15 gold), 20% empty cup. Counts toward Mandatory Onboarding.
+- **Time clock** (breakroom wall): "punch in" once per visit for +2 max life (and +2 life) until you leave. Counts toward Mandatory Onboarding.
+- **Haunted printer** (Cubicle Farm B, far west): 40 gold prints a random Necrocrat vendor card; 20% of the time it jams and keeps your money.
+- **Suggestion box** (breakroom, by the lobby door): the first suggestion pays 25 gold and an Overdue Intern card; afterwards it is empty (`dna_suggestion_box` secret).
+- **Puzzle terminal** (Mail Room): see progress.md Part F. **Quiz** (Cubicle Farm B corner office) and **Rec Room matching game** (Filing maze NW corner): see Parts G/H.

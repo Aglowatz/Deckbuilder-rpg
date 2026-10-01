@@ -131,6 +131,9 @@ const PATH: String = "res://data/story/dna_story.tres"
 		"I owe the video store a fine. Eleven dollars for a movie I returned in 2001. They're still mad. They're also closed.",
 		"Wanna play? Flip two cards, match the pair. I burned the cards myself. A mix CD with forty minutes of the same song. It's fine.",
 	],
+	# Names of the 8 matching pairs, in the order of MatchGame.ICONS.
+	"match.pairs": ["Dial-Up Modem", "Top 8 Friends", "Late Fee Receipt", "Virtual Pet (Deceased)", "Flip Phone Text", "Burned Mix CD", "Away Message", "Mix Tape"],
+	"match.intro": ["Flip two cards at a time. Find all 8 pairs in 14 moves or fewer. Fewer moves, better stars."],
 	"npc.matching.return": [
 		"My virtual pet died again. That's seven times this week. It's okay. I'll hatch another one. I always do.",
 		"Flip-phone texting, nine taps for one letter, and I still sent you a good message. Anyway: wanna play?",
@@ -145,6 +148,9 @@ const PATH: String = "res://data/story/dna_story.tres"
 	],
 	"puzzle.solved": ["Every soul lands in the right department. The tubes cough politely and drop a small, heavy parcel in the tray."],
 	"puzzle.already": ["The tubes hum contentedly. Nothing left to route."],
+	"puzzle.bins": ["Harvest", "Accounts Payable", "Reaping", "Limbo", "Complaints", "Records", "Haunting", "Pest Control"],
+	"puzzle.souls": ["Mr. Hargrove", "Dame Odalys", "Little Timmy B.", "A Very Tired Clerk", "The Mayor (acting)", "Gertrude, 3rd Floor", "Sir Reginald Pent", "Unknown (Please Hold)"],
+	"puzzle.hint": ["Every junction flips after a capsule passes. The first capsule only cares about the three junctions on its own path - set those first, then work out the next."],
 	# ---- Interactables --------------------------------------------------------------------------
 	"fx.coffee_good": ["The coffee machine gurgles and produces something almost drinkable. +life."],
 	"fx.coffee_great": ["Perfect brew! The machine seems proud of itself. Full recovery of... something."],

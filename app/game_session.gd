@@ -980,6 +980,12 @@ func enter_mini_dungeon() -> void:
 ## Leaves the mini dungeon back to the zone. The life left goes back to the zone; clearing it the
 ## first time grants the unique card. `failed` (0 life) wakes the player at the hub with the fee.
 func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
+	resolve_mini_dungeon(cleared, failed)
+	SceneManager.change_scene(DNA_SCENE)
+
+
+## The state changes of leaving the mini dungeon (no scene change, so tests can run it).
+func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	var result: Dictionary = {"kind": "mini", "cleared": cleared, "failed": failed}
 	if zone_run != null and run != null:
 		zone_run.life = run.life
@@ -1000,7 +1006,7 @@ func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
 		result["woke_at_hub"] = true
 	pending_zone_result = result
 	save_game()
-	SceneManager.change_scene(DNA_SCENE)
+	return result
 
 
 # ---- Zone portals (Part G) ---------------------------------------------------------------

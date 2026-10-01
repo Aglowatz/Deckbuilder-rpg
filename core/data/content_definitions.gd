@@ -200,7 +200,7 @@ static func build_zone_cards(tokens: Dictionary) -> Dictionary:
 	var benefits: CardData = _with(_spell("death_benefits", "File for Death Benefits", D, 1, [D]), _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 4))
 	_add(cards, _fin(_with(benefits, _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 1)), R.COMMON, "Gain 4 life. Draw a card.", "Form 27-B, in triplicate. Processing time: eternity."))
 	_add(cards, _fin(_with(_trap("take_a_number", "Take a Number", D, 1, [D]), _fx(T.TRAP_OPPONENT_ATTACKS, G.ALL_ATTACKERS, O.DEAL_DAMAGE, 3)), R.UNCOMMON, "Trap: when the opponent attacks, deal 3 damage to each attacker.", "Now serving: nobody. Ever."))
-	var hr: CardData = _creature("hr_reaper", "Reaper of Human Resources", D, 3, [D, D], 5, 4, [K.LIFESTEAL])
+	var hr: CardData = _creature("hr_reaper", "HR Reaper", D, 3, [D, D], 5, 4, [K.LIFESTEAL])
 	_add(cards, _fin(_with(hr, _fx(T.ON_ENTER, G.OPPONENT, O.LOSE_LIFE, 2)), R.EPIC, "Lifesteal. When this enters, the opponent loses 2 life.", "We're letting you go. Literally."))
 	var ceo: CardData = _creature("deceased_ceo", "The Deceased CEO", D, 4, [D, D], 6, 6, [K.FLYING])
 	var summon_two: EffectData = _fx(T.ON_ENTER, G.CONTROLLER, O.SUMMON_TOKEN, 2)
