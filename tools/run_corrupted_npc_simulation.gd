@@ -33,7 +33,7 @@ func _init() -> void:
 	lines.append("starting elements, %d games each (%d per NPC), balanced AI for the player side, the NPC's own" % [games * colors.size() * CorruptedNpcs.IDS.size(), games * colors.size()])
 	lines.append("personality for its side. Target band: **55-70% player win rate**.")
 	lines.append("")
-	lines.append("| Corrupted NPC | vs Ember player | vs Tide player | vs Root player | vs Grave player | Overall | In target band? |")
+	lines.append("| Corrupted NPC | vs Ember player | vs Tide player | vs Root player | vs Necrocrat player | Overall | In target band? |")
 	lines.append("|---|---:|---:|---:|---:|---:|:---:|")
 	var started: int = Time.get_ticks_msec()
 	for npc_id: String in CorruptedNpcs.IDS:

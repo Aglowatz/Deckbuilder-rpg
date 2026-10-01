@@ -23,5 +23,5 @@
 
 [resource]
 script = ExtResource("20_6fdco")
-deck_name = "Grave & Ember"
+deck_name = "Necrocrat & Ember"
 cards = Array[ExtResource("1_j67dv")]([ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("2_0ayrt"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("3_vdqib"), ExtResource("4_1l556"), ExtResource("4_1l556"), ExtResource("5_gkp8p"), ExtResource("5_gkp8p"), ExtResource("6_3fa2c"), ExtResource("6_3fa2c"), ExtResource("7_0cjks"), ExtResource("7_0cjks"), ExtResource("7_0cjks"), ExtResource("8_ru08f"), ExtResource("8_ru08f"), ExtResource("9_frpop"), ExtResource("9_frpop"), ExtResource("10_5eutd"), ExtResource("11_y2i3n"), ExtResource("11_y2i3n"), ExtResource("12_gfglv"), ExtResource("12_gfglv"), ExtResource("13_5n25j"), ExtResource("13_5n25j"), ExtResource("14_56yia"), ExtResource("15_0ulvc"), ExtResource("15_0ulvc"), ExtResource("16_3j35j"), ExtResource("16_3j35j"), ExtResource("17_fnak2"), ExtResource("18_2lujh"), ExtResource("19_288ex")])

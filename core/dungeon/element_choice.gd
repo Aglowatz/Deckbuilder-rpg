@@ -36,7 +36,7 @@ const RECIPES: Array[Dictionary] = [
 	},
 	{
 		"affinity": Affinity.Type.D,
-		"identity": "Grave trades: sacrifice, death triggers and drain effects that turn losses into value.",
+		"identity": "Necrocrat trades: sacrifice, death triggers and drain effects that turn losses into value.",
 		"playstyle": "Grind through exchanges; every creature that dies is doing you a favor.",
 		"sample_card_ids": ["bloodthirst_wolf", "necromancer", "soul_drain"],
 	},

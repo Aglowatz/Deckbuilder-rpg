@@ -19,7 +19,7 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
    tutorial. Losing sends you back to the starting area to try again, not to a town you have not
    reached yet.
 5. **Choosing a starting deck**: right after the boss, pick one of four decks (one per color -
-   Ember, Tide, Root, Grave), each shown with its identity, playstyle and key cards. Every card in
+   Ember, Tide, Root, Necrocrat), each shown with its identity, playstyle and key cards. Every card in
    the deck you pick joins your collection immediately, and the road to town opens.
 6. **Town** (same controls: **WASD**/arrows to move, **E**/**Space**/click to interact, **Esc** for
    the pause menu, **B** to open the deck builder from anywhere, **C** for the character screen)

@@ -1829,3 +1829,11 @@ exercised programmatically - `tools/town_interact_smoke.gd`, `tools/graveyard_sm
    rewards beyond what's been assigned so far, XP/level pacing, remaining flavor placeholders)
    remains open too - see the "Questions for you" sections earlier in this file for the full
    running list.
+
+# Brief 5: the Necrocrat zone (D.N.A.)
+
+## Part A: rename Grave -> Necrocrat - done
+
+Player-facing affinity, zone/NPC ids (`necrocrat`), flag `necrocrat_zone_unlocked` (old saves are migrated), the
+"Necrocrat Tender" card, both mixed decks, corrupted-NPC dialogue and docs. Battle "Grave" pile and the Graveyard
+area keep their names (see open_questions E1). Tests: 392 (4 new, `tests/test_necrocrat_rename.gd`).

@@ -241,7 +241,7 @@ func _build_props() -> void:
 	anchors["npc_ember"] = cell_center(5, 10) + Vector3(0.3, 0, 0.4)
 	anchors["npc_tide"] = cell_center(16, 3) + Vector3(-0.3, 0, 0.4)
 	anchors["npc_root"] = cell_center(-3, 2) + Vector3(0.3, 0, -0.3)
-	anchors["npc_grave"] = cell_center(-3, 11) + Vector3(0.3, 0, 0.3)
+	anchors["npc_necrocrat"] = cell_center(-3, 11) + Vector3(0.3, 0, 0.3)
 	# Secluded Grove secrets: a chest tucked behind trees, and the old lever that seals the vault.
 	var chest_pos: Vector3 = cell_center(11, 7) + Vector3(-0.3, 0, 0.4)
 	ModelKit.place(root, ModelKit.dungeon_prop("chest_gold"), chest_pos, 40.0, 0.9)
@@ -378,7 +378,7 @@ func _build_hidden_chests() -> void:
 ## `TownScene`, not here - `TownBuilder` only places the structure and its anchor.
 const PORTAL_CELLS: Dictionary = {
 	"final": Vector2i(4, -5), "root": Vector2i(-6, 4), "tide": Vector2i(20, 4),
-	"ember": Vector2i(7, 14), "grave": Vector2i(-6, 11),
+	"ember": Vector2i(7, 14), "necrocrat": Vector2i(-6, 11),
 }
 
 
@@ -406,7 +406,7 @@ func _portal_approach_offset(zone_id: String) -> Vector3:
 			return Vector3(-1.0, 0, 0) # east edge - approach from the west
 		"ember":
 			return Vector3(0, 0, -1.0) # south edge - approach from the north
-		"grave":
+		"necrocrat":
 			return Vector3(1.0, 0, 0) # southwest corner - approach from the east
 		_:
 			return Vector3(0, 0, 1.0)

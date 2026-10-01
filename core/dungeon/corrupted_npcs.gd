@@ -5,26 +5,26 @@ extends RefCounted
 ## battle flow; dialogue text itself lives in `data/story/corrupted_npcs_story.tres`
 ## (`CorruptedNpcStory`), not here, per the brief ("keep all dialogue in the story data file").
 ##
-## Ids match `ZonePortals` ids (ember/tide/root/grave) - defeating one sets that same zone's
+## Ids match `ZonePortals` ids (ember/tide/root/necrocrat) - defeating one sets that same zone's
 ## unlock flag (`TownScene._portal_unlock_flag`), per the Part C contract (D66).
 
-const IDS: Array[String] = ["ember", "tide", "root", "grave"]
+const IDS: Array[String] = ["ember", "tide", "root", "necrocrat"]
 const STARTING_LIFE: int = 15
 
 const DISPLAY_NAMES: Dictionary = {
 	"ember": "Torvin the Ember-Touched", "tide": "Maris the Tide-Drowned",
-	"root": "Old Thistlebark", "grave": "Corwyn the Grave-Bound",
+	"root": "Old Thistlebark", "necrocrat": "Corwyn the Filed-Away",
 }
 ## Which AIPersonality (by name, see core/ai/ai_personality.gd) plays each - matched to their
-## element identity (aggressive Ember, defensive Tide, patient/growing Root, opportunistic Grave).
+## element identity (aggressive Ember, defensive Tide, patient/growing Root, opportunistic Necrocrat).
 const AI_NAMES: Dictionary = {
-	"ember": "Aggressive", "tide": "Defensive", "root": "Passive", "grave": "Balanced",
+	"ember": "Aggressive", "tide": "Defensive", "root": "Passive", "necrocrat": "Balanced",
 }
 ## Reward item per NPC (Part D/F's small item pool) - thematically matched. Only 3 items exist
-## before Part F; Grave reuses Tide's (a real item pool arrives in Part F).
+## before Part F; Necrocrat reuses Tide's (a real item pool arrives in Part F).
 const REWARD_ITEMS: Dictionary = {
 	"ember": "reckless_tonic", "tide": "healing_draught", "root": "vitality_charm",
-	"grave": "healing_draught",
+	"necrocrat": "healing_draught",
 }
 
 
@@ -42,7 +42,7 @@ static func element(id: String) -> Affinity.Type:
 			return Affinity.Type.B
 		"root":
 			return Affinity.Type.C
-		"grave":
+		"necrocrat":
 			return Affinity.Type.D
 	return Affinity.Type.NEUTRAL
 
@@ -70,7 +70,7 @@ static func recipe(id: String) -> Dictionary:
 				"land:C": 17, "mossback_bear": 2, "rampaging_boar": 1, "stag_warden": 2,
 				"thornback_colossus": 1, "growth": 1, "rejuvenate": 1,
 			}
-		"grave":
+		"necrocrat":
 			return {
 				"land:D": 16, "bone_servant": 2, "martyr": 2, "grave_tender": 2,
 				"bloodthirst_wolf": 2, "necromancer": 2, "soul_drain": 1, "dark_bargain": 1,

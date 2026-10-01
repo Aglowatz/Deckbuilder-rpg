@@ -15,7 +15,7 @@ token = ExtResource("2_wn0xp")
 [resource]
 script = ExtResource("3_48mvr")
 id = "grave_tender"
-display_name = "Grave Tender"
+display_name = "Necrocrat Tender"
 color = 4
 generic_cost = 2
 colored_pips = Array[int]([4])

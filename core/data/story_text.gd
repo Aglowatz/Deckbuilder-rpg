@@ -59,16 +59,16 @@ extends Resource
 	"It will wait for you to grow stronger.",
 ]
 
-@export var grave_npc_intro_lines: Array[String] = [
+@export var necrocrat_npc_intro_lines: Array[String] = [
 	"I buried them all, you know. Every last one, with my own two hands.",
-	"Now the grave has buried something in me instead. Come closer. It wants to meet you.",
+	"Afterlife Services and Labor filed me under Pending and I have been Pending ever since. Come closer. It wants to meet you.",
 ]
-@export var grave_npc_victory_lines: Array[String] = [
+@export var necrocrat_npc_victory_lines: Array[String] = [
 	"...I can hear my own thoughts again.",
-	"Whatever's down in the Grave, it isn't finished with the dead. Go carefully. Or don't go at all.",
+	"Whatever is down in the D.N.A., it is not finished with the dead, and HR will not intervene. Go carefully. Or file a form.",
 ]
-@export var grave_npc_defeat_lines: Array[String] = [
-	"Not yet, then. The grave keeps no schedule.",
+@export var necrocrat_npc_defeat_lines: Array[String] = [
+	"Not yet, then. The Necrocrats keep no schedule.",
 	"Return whenever you're ready to lose again.",
 ]
 
@@ -114,8 +114,8 @@ func npc_intro_lines(id: String) -> Array[String]:
 			return tide_npc_intro_lines
 		"root":
 			return root_npc_intro_lines
-		"grave":
-			return grave_npc_intro_lines
+		"necrocrat":
+			return necrocrat_npc_intro_lines
 	return []
 
 
@@ -127,8 +127,8 @@ func npc_victory_lines(id: String) -> Array[String]:
 			return tide_npc_victory_lines
 		"root":
 			return root_npc_victory_lines
-		"grave":
-			return grave_npc_victory_lines
+		"necrocrat":
+			return necrocrat_npc_victory_lines
 	return []
 
 
@@ -140,6 +140,6 @@ func npc_defeat_lines(id: String) -> Array[String]:
 			return tide_npc_defeat_lines
 		"root":
 			return root_npc_defeat_lines
-		"grave":
-			return grave_npc_defeat_lines
+		"necrocrat":
+			return necrocrat_npc_defeat_lines
 	return []

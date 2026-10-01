@@ -473,6 +473,9 @@ func from_dict(data: Dictionary) -> bool:
 			deck.cards.append(card)
 	gold = int(data.get("gold", 0))
 	flags = (data.get("flags", {}) as Dictionary).duplicate()
+	# Part A rename (Grave -> Necrocrat): old saves used the "grave" zone id.
+	if flags.has("grave_zone_unlocked") and not flags.has("necrocrat_zone_unlocked"):
+		flags["necrocrat_zone_unlocked"] = flags["grave_zone_unlocked"]
 	run = null
 	dungeon_map = null
 	gold_spent_total = int(data.get("gold_spent_total", 0))

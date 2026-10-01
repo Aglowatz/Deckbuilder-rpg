@@ -171,7 +171,7 @@ static func _add_affinity_d(cards: Dictionary, spirit: CardData) -> void:
 	_add(cards, _fin(_with(_creature("bone_servant", "Bone Servant", D, 1, [D], 2, 1), _fx(T.ON_DEATH, G.CONTROLLER, O.DRAW, 1)), R.COMMON, "When this dies, draw a card."))
 	var summon_one: EffectData = _fx(T.ON_DEATH, G.CONTROLLER, O.SUMMON_TOKEN, 1)
 	summon_one.token = spirit
-	_add(cards, _fin(_with(_creature("grave_tender", "Grave Tender", D, 2, [D], 2, 2), summon_one), R.COMMON, "When this dies, create a 1/1 Spirit."))
+	_add(cards, _fin(_with(_creature("grave_tender", "Necrocrat Tender", D, 2, [D], 2, 2), summon_one), R.COMMON, "When this dies, create a 1/1 Spirit."))
 	_add(cards, _fin(_with(_creature("martyr", "Martyr", D, 0, [D], 1, 1), _fx(T.ON_DEATH, G.OPPONENT, O.LOSE_LIFE, 3)), R.COMMON, "When this dies, the opponent loses 3 life."))
 	var drain: CardData = _with(_spell("soul_drain", "Soul Drain", D, 2, [D]), _fx(T.ON_ENTER, G.OPPONENT, O.DEAL_DAMAGE, 3))
 	_add(cards, _fin(_with(drain, _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 3)), R.UNCOMMON, "Deal 3 damage to the opponent and gain 3 life."))
@@ -216,7 +216,7 @@ static func deck_recipes() -> Array[Dictionary]:
 			},
 		},
 		{
-			"name": "Root & Grave",
+			"name": "Root & Necrocrat",
 			"lands": {C: 9, D: 8},
 			"spells": {
 				"mossback_bear": 3, "rampaging_boar": 3, "stag_warden": 2, "ancient_treant": 1,
@@ -226,7 +226,7 @@ static func deck_recipes() -> Array[Dictionary]:
 			},
 		},
 		{
-			"name": "Grave & Ember",
+			"name": "Necrocrat & Ember",
 			"lands": {D: 9, A: 8},
 			"spells": {
 				"bone_servant": 2, "grave_tender": 2, "martyr": 2, "bloodthirst_wolf": 3, "soul_drain": 2,

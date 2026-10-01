@@ -28,13 +28,13 @@ const AFFINITY_NAMES: Dictionary = {
 	Affinity.Type.A: "Ember",
 	Affinity.Type.B: "Tide",
 	Affinity.Type.C: "Root",
-	Affinity.Type.D: "Grave",
+	Affinity.Type.D: "Necrocrat",
 }
 const AFFINITY_BLURBS: Dictionary = {
 	Affinity.Type.A: "Aggressive. Haste, first strike, burn.",
 	Affinity.Type.B: "Control. Draw, removal, fliers.",
 	Affinity.Type.C: "Big bodies. Trample, guard, growth.",
-	Affinity.Type.D: "Sacrifice and value. Tokens, drain.",
+	Affinity.Type.D: "Sacrifice and value. Tokens, drain. Afterlife Services and Labor.",
 }
 
 static var _theme: Theme
