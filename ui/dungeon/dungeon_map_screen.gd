@@ -53,7 +53,7 @@ func _ready() -> void:
 		_open_from_screenshot.call_deferred(str(_screenshot_args["open"]))
 	EventBus.tutorial_event.emit(&"map_entered")
 	if _screenshot_args.is_empty() or _screenshot_args.has("tip"):
-		TipPanel.show_once(self, &"tip_map", "The dungeon map", "Glowing nodes are your next steps. [b]Life carries from fight to fight[/b], so save the shrine for when you need it. Lose a duel and you are carried back to town with your collection intact.", Vector2(560, 140))
+		TipPanel.show_once(self, &"tip_map", "The dungeon map", ("Glowing nodes are your next steps. [b]Life carries from fight to fight[/b] and nothing heals in between - this is the zone's life. Lose a duel and you wake at the hub (for a paperwork fee)." if Session.mini_active else "Glowing nodes are your next steps. [b]Life carries from fight to fight[/b], so save the shrine for when you need it. Lose a duel and you are carried back to town with your collection intact."), Vector2(560, 140))
 
 
 func _build_board() -> void:

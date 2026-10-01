@@ -681,11 +681,11 @@ func _enemies() -> void:
 	_enemy("manager", Vector2i(10, 32), 4.0)
 	_enemy("manager", Vector2i(26, 41), 4.0)
 	_enemy("intern", Vector2i(18, 37), 4.0)
-	_enemy("courier", Vector2i(8, 28), 5.0)
+	_enemy("courier", Vector2i(8, 31), 5.0)
 	_enemy("manager", Vector2i(70, 32), 4.0)
 	_enemy("intern", Vector2i(62, 37), 4.0)
 	_enemy("intern", Vector2i(80, 41), 4.0)
-	_enemy("courier", Vector2i(75, 28), 5.0)
+	_enemy("courier", Vector2i(75, 31), 5.0)
 	# Records basement and the filing maze: tougher company deeper in.
 	_enemy("manager", Vector2i(68, 18), 3.0)
 	_enemy("intern", Vector2i(82, 18), 3.0)

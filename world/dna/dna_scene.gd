@@ -892,6 +892,17 @@ func _on_quest_notice(text: String, is_new: bool) -> void:
 
 func _teleport(anchor_name: String) -> void:
 	var pos: Vector3 = Vector3.ZERO
+	if anchor_name == "courier":
+		for enemy: ZoneEnemy in enemies:
+			if enemy.info.id == DnaEnemies.COURIER:
+				player.position = enemy.position + Vector3(3.0, 0, 0.0)
+				_camera.position = player.position + CAMERA_OFFSET
+				_spawn_grace = 0.3
+				for other: ZoneEnemy in enemies.duplicate():
+					if other != enemy:
+						enemies.erase(other)
+						other.queue_free()
+				return
 	if builder.layout.anchors.has(anchor_name):
 		pos = builder.anchor(anchor_name)
 	elif builder.layout.chests.has(anchor_name):

@@ -518,10 +518,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			_open_deck_builder_anywhere()
 			return
-			if (event as InputEventKey).keycode == KEY_J:
-				get_viewport().set_input_as_handled()
-				_open_quest_log()
-				return
+		if (event as InputEventKey).keycode == KEY_J:
+			get_viewport().set_input_as_handled()
+			_open_quest_log()
+			return
 	if not _locked and not dialogue.active and _hidden_chest_near != "":
 		if event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE):
 			get_viewport().set_input_as_handled()

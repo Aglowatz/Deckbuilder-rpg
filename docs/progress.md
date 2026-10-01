@@ -1876,3 +1876,29 @@ area keep their names (see open_questions E1). Tests: 392 (4 new, `tests/test_ne
 ## Part I: secrets and interactables - done
 
 8 hidden stashes (rules as the town's; list in `docs/design/secrets.md`) + 4 interactables with real effects: coffee machine (random good/bad), time clock (+2 max life per visit), haunted printer (40g -> random Necrocrat card or jam), suggestion box (one-time 25g + card).
+
+## FINAL: whole-brief end-to-end verification - done
+
+`tools/fifth_brief_final_smoke.gd` (`tools/run_fifth_brief_final_smoke.sh`, windowed, real injected input) plays the whole flow and **passes** (all checks ok): town quests appear in the tracker -> J opens/closes the Quest Log -> talk to the card vendor (Meet the Merchants 0 -> 1) -> walk into the D.N.A. gate -> tour every area (screenshots) -> the Speedy Ghost Courier hits for exactly 2 (HUD life updates, flash, invulnerability) -> touching a Zombie Intern starts a real Necrocrat battle at the persisted zone life, played out with `BattlePilot` -> life after the battle is what was left (or a loss wakes at the hub with a logged fee) -> heal on the Breakroom Couch -> Pip offers the Audit quest and sells a Necrocrat card (bought through the real confirm dialog) -> quiz master (4/4, paid out) -> Skylar's matching game (first-win bonus) -> pneumatic puzzle (a wrong attempt, Reset, then the real solution; Soul Courier's Lanyard granted) -> hidden stash opens -> mini dungeon (3 real battles). 40 screenshots in `_screenshots/brief5/` (git-ignored).
+
+Real bugs the run found and fixed: the J hotkey in town was unreachable (nesting error); enemies "saw" through cubicle partitions and got stuck (line of sight now checks props); courier spawns sat inside cubicles. Test-only shortcuts, stated in the file: the Necrocrat gate flag is set directly, long walks teleport the last stretch when the crude mover hits a wall, the player is placed near an enemy so it notices them, and other enemies are silenced for the courier step. The mini dungeon's clear-and-reward path is unit-tested (the pilot lost its battles this run).
+
+## Summary of brief 5
+
+All parts A-I plus FINAL are done. 439 GUT tests pass (up from 388). Balance was out of scope: every number (cards, enemy decks, rewards, fees) is a placeholder.
+
+### New asset packs added (all logged in CREDITS.md)
+- **Kenney Furniture Kit** 2.0 - CC0 - office furniture, kitchen, lounge (~85 models used)
+- **Kenney Graveyard Kit** 5.0 - CC0 - animated zombie/skeleton/ghost characters, coffins, crypt, urns
+- **KayKit Halloween Bits** 1.0 - CC0 - decorated coffin, skull candle, candles
+- **game-icons.net** extra icons (Delapouite, Lorc, Caro Asercion, Darkzaitzev) - CC BY 3.0 - Necrocrat card art and the matching minigame
+- Downloaded but not used (still only in `_asset_library/`): KayKit Furniture Bits, KayKit Restaurant Bits. Nothing needed from itch.io, so `docs/assets_wanted.md` was not created.
+
+### Questions for you
+1. **Paperwork fee** is 15 gold (capped at what you have). Too small/large? Should it scale with level?
+2. **Retries**: quiz and matching game retry forever but only pay for beating your best. Prefer a hard daily/visit limit?
+3. **Enemy decks** reuse the player's loop (3-ish rarity cards); the zone's first slow enemy was a loss for the autopilot - fine as a placeholder?
+4. **Main dungeon** door is only a locked sign ("Under renovation, please hold") on the Executive Floor, as asked - no design.
+5. **Zone entrance gate**: the D.N.A. opens after beating Corwyn (as the old Grave gate did). Do you want it open from the start, or gated by "Clear the Paths" progress?
+6. **Sound**: ambient is a synthesized hum/drone track (`dna`) - no new audio files. Want real recorded ambience later?
+7. The `Condition.COUNTER` kind and `ContentSet.zone_cards/zone_equipment` are new general mechanisms; OK to reuse them for the other three element zones?

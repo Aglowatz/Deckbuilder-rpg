@@ -522,6 +522,22 @@ func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
 	return true
 
 
+func _hits_obstacle(pos: Vector3, radius: float) -> bool:
+	var key: Vector2i = _bucket_key(pos.x, pos.z)
+	for dz: int in range(-1, 2):
+		for dx: int in range(-1, 2):
+			var list: Variant = _buckets.get(key + Vector2i(dx, dz))
+			if list == null:
+				continue
+			for obstacle: Vector3 in (list as Array):
+				var ox: float = pos.x - obstacle.x
+				var oz: float = pos.z - obstacle.y
+				var reach: float = obstacle.z + radius
+				if ox * ox + oz * oz < reach * reach:
+					return true
+	return false
+
+
 ## True when the straight line between two points crosses only walkable cells (enemy sight).
 func has_line_of_sight(a: Vector3, b: Vector3) -> bool:
 	var steps: int = maxi(1, int(a.distance_to(b) / 0.5))
@@ -529,5 +545,7 @@ func has_line_of_sight(a: Vector3, b: Vector3) -> bool:
 		var point: Vector3 = a.lerp(b, float(i) / float(steps))
 		var cell: Vector2i = DnaLayout.world_to_cell(point)
 		if not layout.is_floor(cell.x, cell.y):
+			return false
+		if _hits_obstacle(point, 0.12):
 			return false
 	return true
