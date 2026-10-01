@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="ZoneStoryText" format=3]
+
+[ext_resource type="Script" path="res://core/data/zone_story_text.gd" id="1_dna"]
+
+[resource]
+script = ExtResource("1_dna")

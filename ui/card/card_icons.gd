@@ -47,6 +47,16 @@ const BY_ID: Dictionary = {
 	"dark_bargain": "lorc/broken-skull",
 	"necromancer": "delapouite/skull-staff",
 	"token_spirit": "lorc/ghost-ally",
+	"cubicle_zombie": "delapouite/shambling-zombie",
+	"overdue_intern": "darkzaitzev/running-ninja",
+	"middle_manager": "delapouite/tie",
+	"soul_auditor": "delapouite/warlock-eye",
+	"performance_review": "lorc/scroll-unfurled",
+	"mandatory_fun_day": "delapouite/party-popper",
+	"death_benefits": "delapouite/full-folder",
+	"take_a_number": "delapouite/ticket",
+	"hr_reaper": "delapouite/plague-doctor-profile",
+	"deceased_ceo": "delapouite/imperial-crown",
 	"land_affinity_a": "carl-olsen/flame",
 	"land_affinity_b": "lorc/drop",
 	"land_affinity_c": "lorc/leaf-swirl",
@@ -110,6 +120,7 @@ const BY_EQUIPMENT_ID: Dictionary = {
 	"thorned_loincloth": "lorc/spiked-armor",
 	"xray_goggles": "delapouite/steampunk-goggles",
 	"big_brain_beret": "lorc/brainstorm",
+	"courier_lanyard": "delapouite/key-card",
 }
 
 static var _cache: Dictionary = {}

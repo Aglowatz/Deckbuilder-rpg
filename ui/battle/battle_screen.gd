@@ -848,7 +848,10 @@ func _show_result() -> void:
 	if game.is_draw:
 		detail = "Neither side could finish the game."
 	column.add_child(UIKit.label(detail, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
-	if not won and not context.practice and context.town_npc_id.is_empty():
+	if context.zone_battle:
+		var zone_note: String = "Your life stays as it is - there is no healing after a battle in the zone. Heal at the hub." if won else "Declared Deceased. You will wake at the hub (and owe a small paperwork fee)."
+		column.add_child(UIKit.label(zone_note, &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	elif not won and not context.practice and context.town_npc_id.is_empty():
 		column.add_child(UIKit.label("You are carried out of the dungeon. Your collection is safe.", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	elif not won and not context.town_npc_id.is_empty():
 		column.add_child(UIKit.label("You can challenge them again anytime.", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))

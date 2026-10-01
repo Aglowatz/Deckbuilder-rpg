@@ -22,3 +22,8 @@ var gold_reward: int = 0
 var xp_reward: int = 0
 var card_choices: int = 0
 var won: bool = false
+## Brief 5: set for a duel against a roaming zone enemy (see Session.make_zone_battle/
+## _complete_zone_battle) - the id is a DnaEnemies id plus which spawn it was.
+var zone_battle: bool = false
+var zone_enemy_id: String = ""
+var zone_enemy_type: String = ""

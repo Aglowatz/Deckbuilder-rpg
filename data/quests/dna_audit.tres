@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_kceu4"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_nvsvd"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_frncu"]
+
+[sub_resource type="Resource" id="Resource_t71po"]
+script = ExtResource("2_nvsvd")
+key = "dna_quiz_done"
+
+[sub_resource type="Resource" id="Resource_c1hbr"]
+script = ExtResource("1_kceu4")
+text = "Take the Compliance quiz"
+condition = SubResource("Resource_t71po")
+
+[sub_resource type="Resource" id="Resource_cektk"]
+script = ExtResource("2_nvsvd")
+kind = 9
+key = "dna_chests_opened"
+
+[sub_resource type="Resource" id="Resource_nks5a"]
+script = ExtResource("1_kceu4")
+text = "Find a hidden stash"
+condition = SubResource("Resource_cektk")
+
+[resource]
+script = ExtResource("3_frncu")
+id = "dna_audit"
+title = "Compliance Audit"
+summary = "Pip needs a fresh pair of hands for the audit: pass the Compliance quiz and find a hidden stash somewhere in the filing mazes."
+giver_npc = "Pip"
+turn_in_npc = "Pip"
+order = 130
+objectives = Array[ExtResource("1_kceu4")]([SubResource("Resource_c1hbr"), SubResource("Resource_nks5a")])
+reward_gold = 80
+reward_xp = 70
+reward_card_ids = Array[String](["death_benefits"])

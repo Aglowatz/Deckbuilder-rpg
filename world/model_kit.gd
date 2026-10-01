@@ -54,6 +54,15 @@ static func dungeon_prop(model: String) -> Node3D:
 	return packed.instantiate() as Node3D
 
 
+const ZONE_CHARACTERS: String = "res://assets/kenney-graveyard-kit/models/"
+
+
+## Brief 5: an animated Kenney Graveyard Kit character (the D.N.A.'s undead staff).
+static func zone_character(model: String) -> Node3D:
+	var packed: PackedScene = scene("%s%s.glb" % [ZONE_CHARACTERS, model])
+	return packed.instantiate() as Node3D
+
+
 static func character(model: String) -> Node3D:
 	var packed: PackedScene = scene("%s%s.glb" % [CHARACTERS, model])
 	return packed.instantiate() as Node3D

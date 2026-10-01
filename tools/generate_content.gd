@@ -9,6 +9,8 @@ const CHALLENGE_DIR: String = "res://data/encounters/challenges/"
 const AI_DIR: String = "res://data/ai/"
 const EQUIPMENT_DIR: String = "res://data/equipment/"
 const ITEM_DIR: String = "res://data/items/"
+const ZONE_CARD_DIR: String = "res://data/cards/zone/"
+const ZONE_EQUIPMENT_DIR: String = "res://data/equipment/zone/"
 
 
 func _init() -> void:
@@ -21,6 +23,10 @@ func _init() -> void:
 		saved += _save(land, CARD_DIR + land.id + ".tres")
 	for card: CardData in content.cards.values():
 		saved += _save(card, CARD_DIR + card.id + ".tres")
+	for zone_card: CardData in content.zone_cards.values():
+		saved += _save(zone_card, ZONE_CARD_DIR + zone_card.id + ".tres")
+	for zone_piece: Variant in content.zone_equipment.values():
+		saved += _save(zone_piece as EquipmentData, ZONE_EQUIPMENT_DIR + (zone_piece as EquipmentData).id + ".tres")
 	for deck: Deck in content.decks:
 		saved += _save(deck, DECK_DIR + _slug(deck.deck_name) + ".tres")
 	for challenge: ChallengeData in content.challenges:

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_61mnr"]
+[ext_resource type="Resource" path="res://data/cards/token_spirit.tres" id="2_ht1x6"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_3jpb5"]
+
+[sub_resource type="Resource" id="Resource_u61hx"]
+script = ExtResource("1_61mnr")
+target = 1
+op = 6
+amount = 2
+token = ExtResource("2_ht1x6")
+
+[resource]
+script = ExtResource("3_3jpb5")
+id = "deceased_ceo"
+display_name = "The Deceased CEO"
+color = 4
+generic_cost = 4
+colored_pips = Array[int]([4, 4])
+power = 6
+toughness = 6
+keywords = Array[int]([0])
+rules_text = "Flying. When this enters, create two 1/1 Spirits."
+effects = Array[ExtResource("1_61mnr")]([SubResource("Resource_u61hx")])
+rarity = 3
+flavor_text = "Unique reward of the mini dungeon. Still takes credit for everything."

@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_foex6"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_kkqmt"]
+
+[sub_resource type="Resource" id="Resource_e8ooj"]
+script = ExtResource("1_foex6")
+target = 5
+op = 4
+
+[sub_resource type="Resource" id="Resource_a7b4u"]
+script = ExtResource("1_foex6")
+target = 1
+op = 10
+amount = 2
+
+[resource]
+script = ExtResource("2_kkqmt")
+id = "performance_review"
+display_name = "Performance Review"
+type = 2
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4])
+toughness = 0
+rules_text = "Destroy target enemy creature. You lose 2 life."
+effects = Array[ExtResource("1_foex6")]([SubResource("Resource_e8ooj"), SubResource("Resource_a7b4u")])
+rarity = 1
+flavor_text = "Does not meet expectations. Or exist."

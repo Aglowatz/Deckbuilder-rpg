@@ -1847,3 +1847,12 @@ area keep their names (see open_questions E1). Tests: 392 (4 new, `tests/test_ne
 - Starter quests auto-given on first town entry: "Meet the Merchants" (3 vendors, 50g/40xp), "Clear the Paths" (4 corrupted NPCs, 150g/120xp). Saved/loaded in `to_dict/from_dict` (old saves load).
 - Quest-giver dialogue goes in `StoryText.quest_dialogue` (`<quest id>.offer/.active/.ready/.done`).
 - Tests: 402 (10 new in `tests/core/quests/test_quests.gd`). Screenshots: `_screenshots/brief5/b_town_tracker.png`, `b_quest_log.png`.
+
+## Part C + D: the D.N.A. zone and its enemies - done
+
+- **Zone**: `world/dna/` (`DnaLayout` floor plan as testable data, `DnaBuilder` chunked/MultiMesh build + collision, `DnaScene` gameplay, `DnaMaterials`/`DnaLook` shared cold-green look, fog, flickering tube lights with a pooled-light system, 8 procedural ambient/hum music track `dna`). ~3x the town's area (tested). Rooms: Lobby + Breakroom (safe hub), Cubicle Farms A/B, Mail Room, Filing maze, Elevator Bank, Records Basement, Executive Floor, locked main-dungeon door ("Under renovation, please hold").
+- **Hub**: healing couch, Pip's Requisitions vendor (9 new placeholder Necrocrat cards, `data/cards/zone/`), Dolores/Barnaby/Pip + 3 zone quests, elevator back to town, coffee machine + time clock (+ printer, suggestion box - Part I).
+- **Zone life rules** (`core/zone/zone_run.gd`, docs/design/zones.md): persistent life, no post-battle heal, heal via hub/items/town, 0 life = wake at hub for a 15g "paperwork fee" (logged in `Session.zone_log` and on screen).
+- **Enemies (Part D)**: `ZoneEnemy` (patrol / chase in range / give up past leash). Shambling Middle Manager + Zombie Intern are slow (< player speed) and start a Necrocrat-deck battle; defeated ones stay gone until re-entry. Speedy Ghost Courier is fast, deals 2 damage with knockback + 1.6 s invulnerability, never starts a battle. Red flash, shake, floating "-2" and HUD life bar update.
+- **Mini dungeon core (Part E)** is wired too (see below).
+- Tests: 420 (`tests/core/zone/`). Screenshots: `_screenshots/brief5/c_*.png`.

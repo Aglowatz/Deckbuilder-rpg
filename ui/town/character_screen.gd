@@ -355,7 +355,7 @@ func _refresh_items() -> void:
 		var equip_button: FancyButton = _small_button("Unequip" if equipped else "Equip", func() -> void: _toggle_equip(owned_item))
 		equip_button.disabled = not equipped and profile.equipped_item_ids.size() >= profile.item_slots
 		row.add_child(equip_button)
-		var usable: bool = Session.in_dungeon() and ItemUseResolver.can_apply(owned_item)
+		var usable: bool = Session.life_run() != null and ItemUseResolver.can_apply(owned_item)
 		var use_button: FancyButton = _small_button("Use", func() -> void: _use(owned_item))
 		use_button.disabled = not usable
 		row.add_child(use_button)

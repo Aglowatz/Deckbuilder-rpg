@@ -73,3 +73,26 @@ Town, battle and title music are generated in code by `app/music_synth.gd` (orig
   - Author: Butch Wesley (bitwes)
   - Source: https://github.com/bitwes/Gut
   - License: MIT
+
+## Brief 5: the D.N.A. zone (added 2026-10-01)
+
+- **assets/kenney-furniture-kit/** - Furniture Kit 2.0 (desks, chairs, monitors, cabinets, kitchen, lounge, plants)
+  - Author: Kenney (www.kenney.nl)
+  - Source: https://kenney.nl/assets/furniture-kit
+  - License: CC0 (license file in the folder)
+  - Notes: only the ~85 models actually used were copied; colours are graded at runtime (`DnaMaterials`) to the zone's cold-green palette.
+- **assets/kenney-graveyard-kit/** - Graveyard Kit 5.0 (animated zombie/skeleton/ghost characters, coffins, crypts, urns, lanterns)
+  - Author: Kenney (www.kenney.nl)
+  - Source: https://kenney.nl/assets/graveyard-kit
+  - License: CC0 (license file in the folder)
+  - Notes: the three roaming enemy designs use its animated characters (tinted); coffins/urns/crypt dress the Records Basement.
+- **assets/KayKit-Halloween-Bits-1.0/** - Halloween Bits 1.0 (decorated coffin, skull candle, candles)
+  - Author: Kay Lousberg (KayKit)
+  - Source: https://github.com/KayKit-Game-Assets/KayKit-Halloween-Bits-1.0 (also https://kaylousberg.itch.io)
+  - License: CC0 (license file in the folder)
+  - Notes: only the files used were copied.
+- **assets/icons/game-icons/** - extra game-icons.net silhouettes (zombie, tie, ticket, party popper, folder, phone, VHS, cassette, disc, friends, egg, joystick...) for the Necrocrat cards and the matching minigame
+  - Author: Delapouite, Lorc, Caro Asercion, Darkzaitzev (game-icons.net)
+  - Source: https://game-icons.net
+  - License: CC BY 3.0 (license.txt in the folder)
+  - Notes: attribution required: icons by Delapouite, Lorc, Caro Asercion and Darkzaitzev via game-icons.net.

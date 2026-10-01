@@ -14,6 +14,10 @@ var personalities: Array[AIPersonality] = []
 ## Part E: id -> EquipmentData / ItemData for the 5 placeholder equipment pieces and 3 items.
 var equipment: Dictionary = {}
 var items: Dictionary = {}
+## Zone-exclusive collectible cards (the D.N.A. vendor, mini dungeon, printer). Kept apart from `cards`
+## so they never leak into random rewards, the general card vendor or the balance simulations.
+var zone_cards: Dictionary = {}
+var zone_equipment: Dictionary = {}
 
 
 func card(id: String) -> CardData:
@@ -21,10 +25,14 @@ func card(id: String) -> CardData:
 		return cards[id] as CardData
 	if tokens.has(id):
 		return tokens[id] as CardData
+	if zone_cards.has(id):
+		return zone_cards[id] as CardData
 	return null
 
 
 func equipment_piece(id: String) -> EquipmentData:
+	if zone_equipment.has(id):
+		return zone_equipment[id] as EquipmentData
 	return equipment.get(id) as EquipmentData
 
 

@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_stn2q"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_3bpuo"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_6bwpe"]
+
+[sub_resource type="Resource" id="Resource_4wncg"]
+script = ExtResource("2_3bpuo")
+kind = 9
+key = "dna_punched_in"
+
+[sub_resource type="Resource" id="Resource_qjrdl"]
+script = ExtResource("1_stn2q")
+text = "Punch in at the time clock"
+condition = SubResource("Resource_4wncg")
+
+[sub_resource type="Resource" id="Resource_vpwxy"]
+script = ExtResource("2_3bpuo")
+kind = 9
+key = "dna_coffee_brewed"
+
+[sub_resource type="Resource" id="Resource_l6nel"]
+script = ExtResource("1_stn2q")
+text = "Pour a cup at the coffee machine"
+condition = SubResource("Resource_vpwxy")
+
+[resource]
+script = ExtResource("3_6bwpe")
+id = "dna_onboarding"
+title = "Mandatory Onboarding"
+summary = "Barnaby says all new hires must punch in at the time clock and pour a cup at the breakroom coffee machine. HR will know if you skip it."
+giver_npc = "Barnaby"
+turn_in_npc = "Barnaby"
+order = 120
+objectives = Array[ExtResource("1_stn2q")]([SubResource("Resource_qjrdl"), SubResource("Resource_l6nel")])
+reward_gold = 40
+reward_xp = 30
+reward_item_ids = Array[String](["healing_salve"])

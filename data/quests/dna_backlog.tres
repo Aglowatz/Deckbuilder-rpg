@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_5vsas"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_rqrmo"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_plyu4"]
+
+[sub_resource type="Resource" id="Resource_6wosd"]
+script = ExtResource("2_rqrmo")
+kind = 9
+key = "zone_enemies_defeated"
+amount = 3
+
+[sub_resource type="Resource" id="Resource_fq71y"]
+script = ExtResource("1_5vsas")
+text = "Defeat roaming staff"
+condition = SubResource("Resource_6wosd")
+
+[resource]
+script = ExtResource("3_plyu4")
+id = "dna_backlog"
+title = "Clear the Backlog"
+summary = "Dolores' backlog has gone feral and is wandering the floors. Process three roaming staff members (win their duels)."
+giver_npc = "Dolores"
+turn_in_npc = "Dolores"
+order = 110
+objectives = Array[ExtResource("1_5vsas")]([SubResource("Resource_fq71y")])
+reward_gold = 60
+reward_xp = 60
+reward_item_ids = Array[String](["healing_draught"])

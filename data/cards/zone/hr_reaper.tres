@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_sy7hk"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_yfkvi"]
+
+[sub_resource type="Resource" id="Resource_piuk6"]
+script = ExtResource("1_sy7hk")
+target = 2
+op = 10
+amount = 2
+
+[resource]
+script = ExtResource("2_yfkvi")
+id = "hr_reaper"
+display_name = "Reaper of Human Resources"
+color = 4
+generic_cost = 3
+colored_pips = Array[int]([4, 4])
+power = 5
+toughness = 4
+keywords = Array[int]([6])
+rules_text = "Lifesteal. When this enters, the opponent loses 2 life."
+effects = Array[ExtResource("1_sy7hk")]([SubResource("Resource_piuk6")])
+rarity = 2
+flavor_text = "We're letting you go. Literally."

@@ -13,6 +13,8 @@ const TRACKS: Dictionary = {
 	&"town": {"bpm": 96, "root": 60, "prog": [[0, false], [7, false], [9, true], [5, false]], "pad": 0.35, "arp": 0.3, "bass": 0.3, "drums": 0.0, "bell": 0.0, "wind": 0.45},
 	&"battle": {"bpm": 132, "root": 50, "prog": [[0, true], [-4, false], [3, false], [-2, false]], "pad": 0.3, "arp": 0.32, "bass": 0.45, "drums": 0.55, "bell": 0.0, "wind": 0.0},
 	&"map": {"bpm": 58, "root": 52, "prog": [[0, true], [-5, false], [-2, true], [-7, false]], "pad": 0.55, "arp": 0.16, "bass": 0.3, "drums": 0.0, "bell": 0.3, "wind": 0.15},
+	## Brief 5: the D.N.A. - a dissonant minor drone with a mains-hum layer and flickering-tube crackle.
+	&"dna": {"bpm": 50, "root": 45, "prog": [[0, true], [1, true], [-2, false], [-1, true]], "pad": 0.55, "arp": 0.0, "bass": 0.22, "drums": 0.0, "bell": 0.32, "wind": 0.12, "hum": 0.5},
 }
 
 static var _cache: Dictionary = {}
@@ -117,6 +119,8 @@ static func render(name: StringName) -> AudioStreamWAV:
 					_hat(buffer, when, float(config["drums"]) * 0.35, rng)
 				if step == 4 or step == 12 % 8 and step == 4:
 					_hat(buffer, when + bar / 16.0, float(config["drums"]) * 0.25, rng)
+	if float(config.get("hum", 0.0)) > 0.0:
+		_hum(buffer, float(config["hum"]), rng)
 	if float(config["wind"]) > 0.0:
 		_wind(buffer, float(config["wind"]), rng)
 		if name == &"town":
@@ -187,6 +191,28 @@ static func _wind(buffer: PackedFloat32Array, volume: float, rng: RandomNumberGe
 		# Two slow swells whose periods divide the loop length keep the seam clean.
 		var swell: float = 0.55 + 0.45 * sin(TAU * t * (2.0 / (float(count) / float(RATE))))
 		buffer[i] += low2 * 5.0 * swell * volume * 0.5
+
+
+## Office ambience: a 100/200/300 Hz fluorescent hum (whole cycles per loop so the seam is clean) with
+## a slow swell and short crackle bursts - the flickering tubes.
+static func _hum(buffer: PackedFloat32Array, volume: float, rng: RandomNumberGenerator) -> void:
+	var count: int = buffer.size()
+	var seconds: float = float(count) / float(RATE)
+	for i: int in range(count):
+		var t: float = float(i) / float(RATE)
+		var swell: float = 0.8 + 0.2 * sin(TAU * t * (3.0 / seconds))
+		var tone: float = sin(TAU * 100.0 * t) * 0.5 + sin(TAU * 200.0 * t) * 0.25 + sin(TAU * 300.0 * t) * 0.12
+		buffer[i] += tone * swell * volume * 0.07
+	for burst: int in range(16):
+		var start: int = rng.randi_range(0, count - RATE / 4)
+		var length: int = rng.randi_range(RATE / 40, RATE / 12)
+		var last: float = 0.0
+		for i: int in range(length):
+			var noise: float = rng.randf_range(-1.0, 1.0)
+			var high: float = noise - last
+			last = noise
+			var env: float = exp(-float(i) / float(length) * 5.0)
+			_add(buffer, start + i, high * env * volume * 0.09)
 
 
 static func _birds(buffer: PackedFloat32Array, rng: RandomNumberGenerator, total: int) -> void:

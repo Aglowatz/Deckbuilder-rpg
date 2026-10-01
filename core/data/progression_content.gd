@@ -26,6 +26,14 @@ static func equipment() -> Dictionary:
 	return result
 
 
+## Brief 5: equipment that only the D.N.A. zone hands out (kept out of `equipment`, which the town
+## equipment vendor and its tests treat as the 10 vendor pieces).
+static func zone_equipment() -> Dictionary:
+	var result: Dictionary = {}
+	_add(result, _piece("courier_lanyard", "Soul Courier's Lanyard", EquipmentData.Slot.RELIC, "Everything is routed exactly where you need it. Draw an extra card on your first turn, and max hand size +1.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1), _mod(K.MAX_HAND_SIZE, 1)], true))
+	return result
+
+
 const G := CardEnums.TargetKind
 const D := CardEnums.Duration
 const K2 := CardEnums.Keyword

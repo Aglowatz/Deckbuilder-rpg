@@ -76,6 +76,8 @@ func new_game() -> void:
 	found_secrets = []
 	quest_log.reset()
 	counters = {}
+	zone_log = []
+	zone_run = null
 	pending_level_ups = []
 	pending_equipment_choices = 0
 	rng.randomize()
@@ -373,7 +375,7 @@ func choose_equipment_slot(slot: EquipmentData.Slot) -> bool:
 
 ## Uses one charge of an owned item against the current dungeon run (if any).
 func use_item(item: ItemData) -> bool:
-	if profile == null or not profile.use_item(item, run):
+	if profile == null or not profile.use_item(item, life_run()):
 		return false
 	save_game()
 	return true
@@ -433,6 +435,7 @@ func to_dict() -> Dictionary:
 		"completed_quests": completed_quests,
 		"quests": quest_log.to_dict(),
 		"counters": counters,
+		"zone_log": zone_log,
 		"level": profile.level,
 		"xp": profile.xp,
 		"equipment_slots": profile.equipment_slots,
@@ -502,6 +505,8 @@ func from_dict(data: Dictionary) -> bool:
 	found_secrets.assign(data.get("found_secrets", []) as Array)
 	quest_log.from_dict(data.get("quests", {"completed": data.get("completed_quests", [])}) as Dictionary)
 	counters = (data.get("counters", {}) as Dictionary).duplicate()
+	zone_log.assign(data.get("zone_log", []) as Array)
+	zone_run = null
 	pending_level_ups = []
 	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
 	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
@@ -549,7 +554,7 @@ func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: i
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(TrialOfTheHollow.personality(content, node.ai_name))
+	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if mini_active else TrialOfTheHollow.personality(content, node.ai_name))
 	context.enemy_name = node.enemy_name
 	context.practice = true
 	return context
@@ -605,11 +610,11 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var options: GameOptions = GameOptions.new()
 	options.first_player = 0 if node.tutorial else -1
 	options.rng_seed = rng.randi() % 1000000 + 1
-	var enemy: PlayerSetup = TrialOfTheHollow.enemy_setup(content, node)
+	var enemy: PlayerSetup = MiniDungeon.enemy_setup(content, node) if mini_active else TrialOfTheHollow.enemy_setup(content, node)
 	var game: GameState = run.start_encounter(enemy, null, options)
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(TrialOfTheHollow.personality(content, node.ai_name))
+	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if mini_active else TrialOfTheHollow.personality(content, node.ai_name))
 	context.enemy_name = node.enemy_name
 	context.enemy_icon = str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
 	context.node_id = node.id
@@ -838,6 +843,166 @@ func quests_ready_for(npc_name: String) -> Array[QuestData]:
 	return result
 
 
+# ---- Zones (brief 5: the D.N.A.) ----------------------------------------------------------
+
+const DNA_SCENE: String = "res://scenes/dna_zone.tscn"
+const ZONE_LOG_LIMIT: int = 40
+
+## The current zone visit (null in town). Holds the life that persists across the whole visit.
+var zone_run: ZoneRun
+## Set when the zone scene (re)loads after a battle/minigame, read once by it: {} when nothing.
+var pending_zone_result: Dictionary = {}
+## Every paperwork fee ever charged ("log it") - newest last, saved with the campaign.
+var zone_log: Array[String] = []
+
+
+func in_zone() -> bool:
+	return zone_run != null
+
+
+## The run that item use and healing apply to: the dungeon run, else the zone visit's life.
+func life_run() -> DungeonRun:
+	if in_dungeon():
+		return run
+	return zone_run.run if zone_run != null else null
+
+
+## Entering from town: a brand-new visit, always at full life (town heals fully).
+func enter_dna() -> void:
+	zone_run = ZoneRun.enter(DnaZone.ID, profile, deck)
+	pending_zone_result = {}
+	SceneManager.change_scene(DNA_SCENE)
+
+
+## Walking back out to town. Town is a full heal, so the visit simply ends.
+func leave_zone() -> void:
+	zone_run = null
+	pending_zone_result = {}
+	SceneManager.go_to_town()
+
+
+func log_paperwork_fee(line: String) -> void:
+	zone_log.append(line)
+	while zone_log.size() > ZONE_LOG_LIMIT:
+		zone_log.remove_at(0)
+
+
+## Carried to the hub at 0 life: full life again, pay the paperwork fee, log it. Returns the fee.
+func zone_wake_at_hub(cause: String) -> int:
+	if zone_run == null:
+		return 0
+	var fee: int = zone_run.wake_at_hub(gold, cause)
+	if fee > 0:
+		spend_gold(fee)
+	log_paperwork_fee("Paperwork fee %d gold - %s" % [fee, cause])
+	counters["paperwork_fees_paid"] = int(counters.get("paperwork_fees_paid", 0)) + fee
+	zone_run.has_return_position = false
+	save_game()
+	return fee
+
+
+## A duel against a roaming zone enemy: the player's real deck at the zone's persistent life.
+func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleContext:
+	ensure_game()
+	var data: DnaEnemies.Info = DnaEnemies.info(enemy_type)
+	var options: GameOptions = GameOptions.new()
+	options.first_player = -1
+	options.rng_seed = rng.randi() % 1000000 + 1
+	var game: GameState = GameState.new(options)
+	var buffs: Array[ModifierSource] = []
+	if zone_run != null:
+		buffs = zone_run.run.dungeon_sources
+	var player: PlayerSetup = PlayerSetup.create(deck, profile, buffs, "You")
+	if zone_run != null:
+		player.starting_life = zone_run.life
+	game.add_player(player)
+	game.add_player(DnaEnemies.enemy_setup(content, enemy_type))
+	game.start()
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(DnaEnemies.personality(content, enemy_type))
+	context.enemy_name = data.display_name
+	context.zone_battle = true
+	context.zone_enemy_id = enemy_instance_id
+	context.zone_enemy_type = enemy_type
+	context.gold_reward = data.gold_reward
+	context.xp_reward = data.xp_reward
+	return context
+
+
+func start_zone_battle(enemy_type: String, enemy_instance_id: String) -> void:
+	start_battle(make_zone_battle(enemy_type, enemy_instance_id))
+
+
+## After a zone duel: life carries over (no post-battle heal). A win removes that enemy for the rest
+## of the visit and pays a small reward; a loss (0 life) wakes the player at the hub, minus the fee.
+func _complete_zone_battle(context: BattleContext) -> void:
+	var result: Dictionary = {"kind": "battle", "won": context.won, "enemy": context.enemy_name}
+	if zone_run == null:
+		zone_run = ZoneRun.enter(DnaZone.ID, profile, deck)
+	zone_run.finish_battle(context.game)
+	if context.won:
+		zone_run.mark_defeated(context.zone_enemy_id)
+		add_gold(context.gold_reward)
+		result["gold"] = context.gold_reward
+		result["levels_gained"] = add_xp(context.xp_reward)
+		result["xp"] = context.xp_reward
+		bump_counter("zone_enemies_defeated")
+	if zone_run.is_down() or not context.won:
+		var fee: int = zone_wake_at_hub("beaten by a %s" % context.enemy_name)
+		result["woke_at_hub"] = true
+		result["fee"] = fee
+	pending_zone_result = result
+	save_game()
+	SceneManager.change_scene(DNA_SCENE)
+
+
+# ---- Mini dungeon (brief 5, Part E) -------------------------------------------------------
+
+## True while a run on `MiniDungeon`'s map is going (so the shared dungeon screens know to return
+## to the zone instead of town).
+var mini_active: bool = false
+
+
+## From the zone's elevator: a run that starts at the zone's current life (no healing).
+func enter_mini_dungeon() -> void:
+	if zone_run == null:
+		return
+	dungeon_map = MiniDungeon.build_map()
+	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
+	run.life = clampi(zone_run.life, 1, run.max_life())
+	mini_active = true
+	trial_finished = false
+	pending_reward = null
+	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+
+
+## Leaves the mini dungeon back to the zone. The life left goes back to the zone; clearing it the
+## first time grants the unique card. `failed` (0 life) wakes the player at the hub with the fee.
+func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
+	var result: Dictionary = {"kind": "mini", "cleared": cleared, "failed": failed}
+	if zone_run != null and run != null:
+		zone_run.life = run.life
+	if cleared and not flag(DnaZone.FLAG_MINI_DUNGEON_CLEARED):
+		set_flag(DnaZone.FLAG_MINI_DUNGEON_CLEARED)
+		var card: CardData = card_by_id(MiniDungeon.REWARD_CARD_ID)
+		if card != null:
+			add_cards([card] as Array[CardData])
+			result["card"] = card.display_name
+		result["first_clear"] = true
+	run = null
+	dungeon_map = null
+	mini_active = false
+	trial_finished = false
+	pending_reward = null
+	if zone_run != null and (failed or zone_run.is_down()):
+		result["fee"] = zone_wake_at_hub("sent home from Quarterly Reviews")
+		result["woke_at_hub"] = true
+	pending_zone_result = result
+	save_game()
+	SceneManager.change_scene(DNA_SCENE)
+
+
 # ---- Zone portals (Part G) ---------------------------------------------------------------
 
 ## Which placeholder zone (`ZonePortals.Info.id`) the placeholder scene should show.
@@ -854,6 +1019,9 @@ func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
 	if not context.town_npc_id.is_empty():
 		_complete_npc_challenge(context)
+		return
+	if context.zone_battle:
+		_complete_zone_battle(context)
 		return
 	if context.is_graveyard_boss:
 		_complete_graveyard_challenge(context)
@@ -929,6 +1097,9 @@ func complete_trial() -> void:
 
 
 func abandon_run(notice: String = "") -> void:
+	if mini_active:
+		finish_mini_dungeon(false, run != null and (run.failed or run.life <= 0))
+		return
 	run = null
 	dungeon_map = null
 	trial_finished = false

@@ -22,6 +22,8 @@ static func all() -> Array[Info]:
 		info.id = UIStyle.affinity_name(color).to_lower()
 		info.display_name = "%s Reaches" % UIStyle.affinity_name(color)
 		info.tint = UIStyle.affinity_color(color)
+		if info.id == DnaZone.ID:
+			info.display_name = DnaZone.DISPLAY_NAME
 		result.append(info)
 	var final_info: Info = Info.new()
 	final_info.id = FINAL_ID

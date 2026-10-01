@@ -8,6 +8,8 @@ const CHALLENGE_DIR: String = "res://data/encounters/challenges/"
 const AI_DIR: String = "res://data/ai/"
 const EQUIPMENT_DIR: String = "res://data/equipment/"
 const ITEM_DIR: String = "res://data/items/"
+const ZONE_CARD_DIR: String = "res://data/cards/zone/"
+const ZONE_EQUIPMENT_DIR: String = "res://data/equipment/zone/"
 
 
 static func load_all() -> ContentSet:
@@ -22,6 +24,14 @@ static func load_all() -> ContentSet:
 			content.lands[int(card.color)] = card
 		else:
 			content.cards[card.id] = card
+	for path: String in _tres_files(ZONE_CARD_DIR):
+		var zone_card: CardData = load(path) as CardData
+		if zone_card != null:
+			content.zone_cards[zone_card.id] = zone_card
+	for path: String in _tres_files(ZONE_EQUIPMENT_DIR):
+		var zone_piece: EquipmentData = load(path) as EquipmentData
+		if zone_piece != null:
+			content.zone_equipment[zone_piece.id] = zone_piece
 	for path: String in _tres_files(DECK_DIR):
 		var deck: Deck = load(path) as Deck
 		if deck != null:

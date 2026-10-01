@@ -200,8 +200,8 @@ func _refresh_life() -> void:
 
 func _show_default_info() -> void:
 	if map.is_complete():
-		_info_title.text = "The Hollow is quiet"
-		_info_body.text = "Every chamber is cleared."
+		_info_title.text = "%s is quiet" % map.dungeon_name
+		_info_body.text = "Every room is cleared."
 		return
 	_info_title.text = "Choose your path"
 	_info_body.text = "Glowing nodes are next. [color=#a89bb5]Hover a node to see what waits there.[/color]"
@@ -258,7 +258,7 @@ func _on_modal_finished(node_id: int) -> void:
 	map.complete(node_id)
 	Session.save_game()
 	if run.failed:
-		Session.abandon_run("You were carried out of the Hollow. Your collection is safe.")
+		Session.abandon_run("You were carried out of %s. Your collection is safe." % map.dungeon_name)
 		return
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn", 0.25)
 
@@ -288,8 +288,8 @@ func _open_deck_builder() -> void:
 func _ask_retreat() -> void:
 	if _busy or _modal != null:
 		return
-	var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Retreat from the Hollow?", "You leave the dungeon and lose this run's progress. Cards you already took are kept.", "Retreat", "Stay", true)
-	dialog.confirmed.connect(func() -> void: Session.abandon_run("You retreated from the Hollow."))
+	var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Retreat from %s?" % map.dungeon_name, "You leave the dungeon and lose this run's progress. Cards you already took are kept.", "Retreat", "Stay", true)
+	dialog.confirmed.connect(func() -> void: Session.abandon_run("You retreated from %s." % map.dungeon_name))
 
 
 func _open_from_screenshot(what: String) -> void:

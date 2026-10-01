@@ -30,6 +30,8 @@ static func build() -> ContentSet:
 	content.tokens = build_tokens()
 	content.lands = build_lands()
 	content.cards = build_cards(content.tokens)
+	content.zone_cards = build_zone_cards(content.tokens)
+	content.zone_equipment = ProgressionContent.zone_equipment()
 	content.decks = build_decks(content)
 	content.challenges = ChallengeExamples.all(reward_pool(content.cards))
 	content.personalities = [AIPersonality.balanced(), AIPersonality.aggressive(), AIPersonality.defensive(), AIPersonality.passive(), AIPersonality.aggressive_dumb()] as Array[AIPersonality]
@@ -181,6 +183,30 @@ static func _add_affinity_d(cards: Dictionary, spirit: CardData) -> void:
 	var summon_two: EffectData = _fx(T.ON_ENTER, G.CONTROLLER, O.SUMMON_TOKEN, 2)
 	summon_two.token = spirit
 	_add(cards, _fin(_with(_creature("necromancer", "Necromancer", D, 3, [D], 2, 3), summon_two), R.EPIC, "When this enters, create two 1/1 Spirits."))
+
+
+## Brief 5: the D.N.A. zone's Necrocrat cards (Afterlife Services and Labor). 9 sold by the zone vendor
+## (`ZoneCards.VENDOR_IDS`), 1 unique mini-dungeon reward. Placeholder numbers - real cards come later.
+static func build_zone_cards(tokens: Dictionary) -> Dictionary:
+	var cards: Dictionary = {}
+	var spirit: CardData = tokens["token_spirit"]
+	_add(cards, _fin(_with(_creature("cubicle_zombie", "Cubicle Zombie", D, 1, [D], 2, 2), _fx(T.ON_DEATH, G.CONTROLLER, O.GAIN_LIFE, 2)), R.COMMON, "When this dies, gain 2 life.", "Has not left his desk since 1987."))
+	_add(cards, _fin(_with(_creature("overdue_intern", "Overdue Intern", D, 0, [D], 1, 1, [K.HASTE]), _fx(T.ON_DEATH, G.CONTROLLER, O.DRAW, 1)), R.COMMON, "Haste. When this dies, draw a card.", "Unpaid, undead, unbothered."))
+	_add(cards, _fin(_with(_creature("middle_manager", "Middle Manager", D, 3, [D], 3, 3, [K.GUARD]), _fx(T.ON_ENTER, G.ALL_ALLY_CREATURES, O.BUFF, 1, 0, CardEnums.Duration.END_OF_TURN)), R.UNCOMMON, "Guard. When this enters, your creatures get +1/+0 until end of turn.", "Let's circle back. Forever."))
+	_add(cards, _fin(_with(_creature("soul_auditor", "Soul Auditor", D, 2, [D], 2, 3, [K.FLYING]), _fx(T.ON_ENTER, G.OPPONENT, O.DISCARD, 1)), R.UNCOMMON, "Flying. When this enters, the opponent discards a card.", "Your soul is missing a signature."))
+	var review: CardData = _with(_spell("performance_review", "Performance Review", D, 2, [D]), _fx(T.ON_ENTER, G.CHOSEN_CREATURE_ENEMY, O.DESTROY))
+	_add(cards, _fin(_with(review, _fx(T.ON_ENTER, G.CONTROLLER, O.LOSE_LIFE, 2)), R.UNCOMMON, "Destroy target enemy creature. You lose 2 life.", "Does not meet expectations. Or exist."))
+	_add(cards, _fin(_with(_spell("mandatory_fun_day", "Mandatory Fun Day", D, 1, [D]), _fx(T.ON_ENTER, G.ALL_CREATURES, O.BUFF, -1, -1)), R.UNCOMMON, "Each creature gets -1/-1 permanently.", "Attendance is compulsory. So is the cake."))
+	var benefits: CardData = _with(_spell("death_benefits", "File for Death Benefits", D, 1, [D]), _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 4))
+	_add(cards, _fin(_with(benefits, _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 1)), R.COMMON, "Gain 4 life. Draw a card.", "Form 27-B, in triplicate. Processing time: eternity."))
+	_add(cards, _fin(_with(_trap("take_a_number", "Take a Number", D, 1, [D]), _fx(T.TRAP_OPPONENT_ATTACKS, G.ALL_ATTACKERS, O.DEAL_DAMAGE, 3)), R.UNCOMMON, "Trap: when the opponent attacks, deal 3 damage to each attacker.", "Now serving: nobody. Ever."))
+	var hr: CardData = _creature("hr_reaper", "Reaper of Human Resources", D, 3, [D, D], 5, 4, [K.LIFESTEAL])
+	_add(cards, _fin(_with(hr, _fx(T.ON_ENTER, G.OPPONENT, O.LOSE_LIFE, 2)), R.EPIC, "Lifesteal. When this enters, the opponent loses 2 life.", "We're letting you go. Literally."))
+	var ceo: CardData = _creature("deceased_ceo", "The Deceased CEO", D, 4, [D, D], 6, 6, [K.FLYING])
+	var summon_two: EffectData = _fx(T.ON_ENTER, G.CONTROLLER, O.SUMMON_TOKEN, 2)
+	summon_two.token = spirit
+	_add(cards, _fin(_with(ceo, summon_two), R.LEGENDARY, "Flying. When this enters, create two 1/1 Spirits.", "Unique reward of the mini dungeon. Still takes credit for everything."))
+	return cards
 
 
 static func reward_pool(cards: Dictionary) -> Array[CardData]:

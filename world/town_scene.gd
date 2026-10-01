@@ -297,7 +297,7 @@ func _build_spots() -> void:
 	# this pass. New brief, Part C/E: the 4 element entrances start locked (see
 	# _portal_is_locked); the final entrance is always open.
 	for info: ZonePortals.Info in ZonePortals.all():
-		_add_spot("portal_%s" % info.id, "%s (coming soon)" % info.display_name, town.anchors["portal_%s" % info.id] as Vector3, 1.6)
+		_add_spot("portal_%s" % info.id, info.display_name if info.id == DnaZone.ID else "%s (coming soon)" % info.display_name, town.anchors["portal_%s" % info.id] as Vector3, 1.6)
 
 
 ## New brief, Part E sets this flag (via CorruptedNpcs.unlock_flag, the single source of truth)
@@ -1059,6 +1059,9 @@ func _use_zone_portal(zone_id: String) -> void:
 		Audio.sfx(&"ui_error")
 		return
 	Audio.sfx(&"door")
+	if zone_id == DnaZone.ID:
+		Session.enter_dna()
+		return
 	Session.enter_zone_portal(zone_id)
 
 

@@ -138,6 +138,9 @@ func _confirm() -> void:
 
 
 func _after_rewards(continues: bool, was_boss: bool, first_clear: bool) -> void:
+	if Session.mini_active and was_boss and not continues:
+		Session.finish_mini_dungeon(true)
+		return
 	if continues or not was_boss:
 		SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 		return

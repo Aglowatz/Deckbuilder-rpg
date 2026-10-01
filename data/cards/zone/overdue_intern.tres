@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_jxt74"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_yp2hu"]
+
+[sub_resource type="Resource" id="Resource_b14gb"]
+script = ExtResource("1_jxt74")
+trigger = 1
+target = 1
+op = 2
+amount = 1
+
+[resource]
+script = ExtResource("2_yp2hu")
+id = "overdue_intern"
+display_name = "Overdue Intern"
+color = 4
+colored_pips = Array[int]([4])
+power = 1
+keywords = Array[int]([2])
+rules_text = "Haste. When this dies, draw a card."
+effects = Array[ExtResource("1_jxt74")]([SubResource("Resource_b14gb")])
+flavor_text = "Unpaid, undead, unbothered."
