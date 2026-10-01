@@ -95,6 +95,8 @@ func _ready() -> void:
 	_build_ui()
 	_refresh_objective()
 	EventBus.tutorial_event.emit(&"town_entered")
+	# Part B: the two starter quests are given the first time the player is in town.
+	Session.offer_auto_quests()
 	if _screenshot_args.has("at"):
 		_teleport(str(_screenshot_args["at"]))
 	if _screenshot_args.has("open"):
@@ -390,6 +392,8 @@ func _build_ui() -> void:
 	host.add_child(hud)
 	hud.character_pressed.connect(_open_character_screen)
 	hud.deck_pressed.connect(_open_deck_builder_anywhere)
+	hud.quests_pressed.connect(_open_quest_log)
+	EventBus.quest_notice.connect(_on_quest_notice)
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
@@ -418,6 +422,10 @@ func _process(delta: float) -> void:
 	_update_nearest()
 	_update_hidden_chest_prompt()
 	player.input_enabled = not _locked and not dialogue.active
+	if not _locked and not dialogue.active and not Session.pending_level_ups.is_empty():
+		var gained: Array[LevelData] = Session.pending_level_ups.duplicate()
+		Session.pending_level_ups.clear()
+		_show_level_up(gained)
 
 
 func _update_nearest() -> void:
@@ -510,6 +518,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			_open_deck_builder_anywhere()
 			return
+			if (event as InputEventKey).keycode == KEY_J:
+				get_viewport().set_input_as_handled()
+				_open_quest_log()
+				return
 	if not _locked and not dialogue.active and _hidden_chest_near != "":
 		if event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE):
 			get_viewport().set_input_as_handled()
@@ -773,6 +785,18 @@ func _open_deck_builder_anywhere() -> void:
 	var screen: DeckbuilderScreen = DeckbuilderScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
+
+
+func _open_quest_log() -> void:
+	if _locked or dialogue.active:
+		return
+	var screen: QuestLogScreen = QuestLogScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
+func _on_quest_notice(text: String, is_new: bool) -> void:
+	hud.queue_toast(text, UIStyle.GOLD if is_new else UIStyle.GOOD)
 
 
 ## Part E: level, XP, stats, item and equipment slots. Hotkey C (global, see _unhandled_input) or
@@ -1119,3 +1143,5 @@ func _screenshot_open(what: String) -> void:
 			_open_codex()
 		"character":
 			_open_character_screen()
+		"quests":
+			_open_quest_log()

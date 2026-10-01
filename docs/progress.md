@@ -1837,3 +1837,13 @@ exercised programmatically - `tools/town_interact_smoke.gd`, `tools/graveyard_sm
 Player-facing affinity, zone/NPC ids (`necrocrat`), flag `necrocrat_zone_unlocked` (old saves are migrated), the
 "Necrocrat Tender" card, both mixed decks, corrupted-NPC dialogue and docs. Battle "Grave" pile and the Graveyard
 area keep their names (see open_questions E1). Tests: 392 (4 new, `tests/test_necrocrat_rename.gd`).
+
+## Part B: quest system + tracker - done
+
+- `core/quests/`: `QuestData`/`QuestObjective` resources (saved to `data/quests/*.tres`, authored in `QuestDefinitions`, written by `tools/generate_quests.gd`), `QuestLog` (active/completed + counter baselines), `QuestCatalog`.
+- Objectives are `Condition`s. New `Condition.Kind.COUNTER` (+ `Session.counters`, `Session.bump_counter`) gives "2/3" style objectives that count from acceptance.
+- Rewards: gold, XP (level-ups queue in `Session.pending_level_ups`, shown by the scene), items, cards, equipment, unlock flags. Optional NPC `giver_npc` / `turn_in_npc` (hand-in waits for the NPC).
+- HUD: collapsible `QuestTracker` under the objective panel (town HUD); Quest Log screen on **J** / "Quests (J)" button with Active/Completed tabs.
+- Starter quests auto-given on first town entry: "Meet the Merchants" (3 vendors, 50g/40xp), "Clear the Paths" (4 corrupted NPCs, 150g/120xp). Saved/loaded in `to_dict/from_dict` (old saves load).
+- Quest-giver dialogue goes in `StoryText.quest_dialogue` (`<quest id>.offer/.active/.ready/.done`).
+- Tests: 402 (10 new in `tests/core/quests/test_quests.gd`). Screenshots: `_screenshots/brief5/b_town_tracker.png`, `b_quest_log.png`.

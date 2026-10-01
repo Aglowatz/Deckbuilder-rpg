@@ -4,6 +4,7 @@ extends Control
 
 signal character_pressed
 signal deck_pressed
+signal quests_pressed
 
 var _objective: RichTextLabel
 var _gold: Label
@@ -16,10 +17,14 @@ var _toast_tween: Tween
 func _ready() -> void:
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var left_column: VBoxContainer = UIKit.vbox(10)
+	left_column.position = Vector2(30, 28)
+	left_column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(left_column)
 	var objective_panel: PanelContainer = UIKit.panel(&"DarkPanel")
-	objective_panel.position = Vector2(30, 28)
 	objective_panel.custom_minimum_size = Vector2(430, 0)
-	add_child(objective_panel)
+	left_column.add_child(objective_panel)
+	left_column.add_child(QuestTracker.new())
 	var column: VBoxContainer = UIKit.vbox(4)
 	objective_panel.add_child(column)
 	column.add_child(UIKit.label("Objective", &"HeadingLabel", 22))
@@ -43,6 +48,10 @@ func _ready() -> void:
 	deck_button.position = Vector2(1650, 170)
 	deck_button.pressed.connect(func() -> void: deck_pressed.emit())
 	add_child(deck_button)
+	var quests_button: FancyButton = FancyButton.make("Quests (J)", &"", Vector2(180, 52))
+	quests_button.position = Vector2(1650, 240)
+	quests_button.pressed.connect(func() -> void: quests_pressed.emit())
+	add_child(quests_button)
 	_prompt_panel = UIKit.panel()
 	_prompt_panel.position = Vector2(700, 900)
 	_prompt_panel.visible = false
@@ -57,7 +66,7 @@ func _ready() -> void:
 	_toast.size = Vector2(1000, 44)
 	_toast.modulate.a = 0.0
 	add_child(_toast)
-	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      C: character      B: deck      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      C: character      B: deck      J: quests      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
 	hints.position = Vector2(1200, 1030)
 	hints.size = Vector2(700, 30)
 	add_child(hints)
@@ -82,6 +91,23 @@ func show_prompt(text: String) -> void:
 
 func hide_prompt() -> void:
 	_prompt_panel.visible = false
+
+
+var _queue: Array = []
+var _queue_timer: float = 0.0
+
+
+## Toasts that must each be readable (several quest notices at once) - shown one after another.
+func queue_toast(message: String, color: Color = UIStyle.PARCHMENT) -> void:
+	_queue.append([message, color])
+
+
+func _process(delta: float) -> void:
+	_queue_timer -= delta
+	if _queue_timer <= 0.0 and not _queue.is_empty():
+		var entry: Array = _queue.pop_front()
+		toast(str(entry[0]), entry[1] as Color)
+		_queue_timer = 2.4
 
 
 func toast(message: String, color: Color = UIStyle.PARCHMENT) -> void:

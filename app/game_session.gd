@@ -29,7 +29,15 @@ var cleared_dungeons: Array[String] = []
 var seen_cards: Dictionary = {}
 ## Secret ids found (chests, hidden vendors...) - used by Condition.SECRET_FOUND.
 var found_secrets: Array[String] = []
-var completed_quests: Array[String] = []
+## Part B: quest state (active/completed + counter baselines) and named progress counters
+## (zone enemies beaten, minigames won...) that Condition.COUNTER reads.
+var quest_log: QuestLog = QuestLog.new()
+var counters: Dictionary = {}
+## Level-ups earned outside a battle (quest rewards...) that the current scene still has to show.
+var pending_level_ups: Array[LevelData] = []
+var completed_quests: Array[String]:
+	get:
+		return quest_log.completed
 
 ## Part E: how many equipment-slot choices (levels 5/10/15/20/25) are waiting to be made. A
 ## counter, not a flag, so a single large XP grant that crosses more than one such level never
@@ -66,7 +74,9 @@ func new_game() -> void:
 	cleared_dungeons = []
 	seen_cards = {}
 	found_secrets = []
-	completed_quests = []
+	quest_log.reset()
+	counters = {}
+	pending_level_ups = []
 	pending_equipment_choices = 0
 	rng.randomize()
 
@@ -153,6 +163,7 @@ func flag(name: StringName) -> bool:
 
 func set_flag(name: StringName, value: bool = true) -> void:
 	flags[str(name)] = value
+	refresh_quests()
 
 
 ## Any card (spell, token or basic land) by its id.
@@ -195,6 +206,7 @@ func found_secret(id: String) -> bool:
 func discover_secret(id: String) -> void:
 	if not found_secrets.has(id):
 		found_secrets.append(id)
+		refresh_quests()
 		save_game()
 
 
@@ -207,6 +219,7 @@ func unlock_state() -> UnlockState:
 	state.gold_spent = gold_spent_total
 	state.player_level = profile.level if profile != null else 0
 	state.completed_quests = completed_quests
+	state.counters = counters
 	if profile != null:
 		for card: CardData in profile.owned_cards:
 			state.owned_cards[card.id] = int(state.owned_cards.get(card.id, 0)) + 1
@@ -218,6 +231,7 @@ func add_cards(cards: Array[CardData]) -> void:
 		return
 	profile.owned_cards.append_array(cards)
 	EventBus.collection_changed.emit()
+	refresh_quests()
 
 
 ## New brief, Part D: grants one consumable item (chests, and the item vendor in Part F). Owning
@@ -417,6 +431,8 @@ func to_dict() -> Dictionary:
 		"seen_cards": seen_cards.keys(),
 		"found_secrets": found_secrets,
 		"completed_quests": completed_quests,
+		"quests": quest_log.to_dict(),
+		"counters": counters,
 		"level": profile.level,
 		"xp": profile.xp,
 		"equipment_slots": profile.equipment_slots,
@@ -484,7 +500,9 @@ func from_dict(data: Dictionary) -> bool:
 	for id: Variant in data.get("seen_cards", []) as Array:
 		seen_cards[str(id)] = true
 	found_secrets.assign(data.get("found_secrets", []) as Array)
-	completed_quests.assign(data.get("completed_quests", []) as Array)
+	quest_log.from_dict(data.get("quests", {"completed": data.get("completed_quests", [])}) as Dictionary)
+	counters = (data.get("counters", {}) as Dictionary).duplicate()
+	pending_level_ups = []
 	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
 	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
 		rebuild_starter_deck()
@@ -712,6 +730,112 @@ func _complete_graveyard_challenge(context: BattleContext) -> void:
 			pending_graveyard_result["equipment_name"] = piece.source_name
 	save_game()
 	SceneManager.go_to_town()
+
+
+# ---- Quests (brief 5, Part B) -------------------------------------------------------------
+
+var _refreshing_quests: bool = false
+
+
+## Adds `amount` to a named progress counter (Condition.COUNTER) and re-checks active quests.
+func bump_counter(key: String, amount: int = 1) -> void:
+	counters[key] = int(counters.get(key, 0)) + amount
+	refresh_quests()
+
+
+func counter(key: String) -> int:
+	return int(counters.get(key, 0))
+
+
+## Starts a quest if it exists, is not active/completed and its prerequisite is met.
+func start_quest(quest_id: String) -> bool:
+	var quest: QuestData = QuestCatalog.find(quest_id)
+	if quest == null or not quest_log.start(quest, unlock_state()):
+		return false
+	EventBus.quest_notice.emit("New quest: %s" % quest.title, true)
+	EventBus.quest_changed.emit()
+	save_game()
+	refresh_quests()
+	return true
+
+
+## Starts every auto-given quest whose prerequisite is met (town entry calls this).
+func offer_auto_quests() -> void:
+	if profile == null:
+		return
+	for quest: QuestData in QuestCatalog.all():
+		if quest.auto_give:
+			start_quest(quest.id)
+
+
+## Completes any active quest whose objectives are all met and that needs no turn-in, and tells
+## the HUD to redraw. Cheap; called whenever a flag, secret, counter, card or XP value changes.
+func refresh_quests() -> void:
+	if _refreshing_quests or profile == null:
+		return
+	_refreshing_quests = true
+	var state: UnlockState = unlock_state()
+	for quest_id: String in quest_log.auto_completable(QuestCatalog.all(), state):
+		complete_quest(quest_id)
+	_refreshing_quests = false
+	EventBus.quest_changed.emit()
+
+
+## Completes an active quest and pays its rewards. Returns false if it was not active.
+func complete_quest(quest_id: String) -> bool:
+	var quest: QuestData = QuestCatalog.find(quest_id)
+	if quest == null or not quest_log.complete(quest_id):
+		return false
+	if quest.reward_gold > 0:
+		add_gold(quest.reward_gold)
+	for item_id: String in quest.reward_item_ids:
+		add_item(content.item(item_id))
+	var cards: Array[CardData] = []
+	for card_id: String in quest.reward_card_ids:
+		var card: CardData = card_by_id(card_id)
+		if card != null:
+			cards.append(card)
+	if not cards.is_empty():
+		add_cards(cards)
+	for equipment_id: String in quest.reward_equipment_ids:
+		grant_equipment(content.equipment_piece(equipment_id))
+	for flag_name: String in quest.reward_unlock_flags:
+		flags[flag_name] = true
+	if quest.reward_xp > 0:
+		pending_level_ups.append_array(add_xp(quest.reward_xp))
+	var rewards: String = quest.reward_summary()
+	var suffix: String = ("  (" + rewards + ")") if not rewards.is_empty() else ""
+	EventBus.quest_notice.emit("Quest complete: %s%s" % [quest.title, suffix], false)
+	EventBus.quest_changed.emit()
+	save_game()
+	return true
+
+
+## Turn-in at an NPC: completes the quest if it is ready. Returns true on success.
+func turn_in_quest(quest_id: String) -> bool:
+	var quest: QuestData = QuestCatalog.find(quest_id)
+	if quest == null or not quest_log.is_ready_to_turn_in(quest, unlock_state()):
+		return false
+	return complete_quest(quest_id)
+
+
+## Quests this NPC (display name) can currently offer, and quests ready to be handed in to them.
+func quests_offered_by(npc_name: String) -> Array[QuestData]:
+	var result: Array[QuestData] = []
+	var state: UnlockState = unlock_state()
+	for quest: QuestData in QuestCatalog.all():
+		if quest.giver_npc == npc_name and quest_log.can_start(quest, state):
+			result.append(quest)
+	return result
+
+
+func quests_ready_for(npc_name: String) -> Array[QuestData]:
+	var result: Array[QuestData] = []
+	var state: UnlockState = unlock_state()
+	for quest: QuestData in QuestCatalog.all():
+		if quest.turn_in_npc == npc_name and quest_log.is_ready_to_turn_in(quest, state):
+			result.append(quest)
+	return result
 
 
 # ---- Zone portals (Part G) ---------------------------------------------------------------

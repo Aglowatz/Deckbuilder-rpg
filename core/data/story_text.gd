@@ -106,6 +106,19 @@ extends Resource
 ]
 
 
+## Part B: what quest givers say. Keys are "<quest id>.offer" (shown when the quest is offered),
+## ".active" (reminder while it is running), ".ready" (objectives done, handing in) and ".done"
+## (after it was completed). Each value is an Array of lines. Add a quest, add its keys here.
+@export var quest_dialogue: Dictionary = {}
+
+
+func quest_lines(key: String) -> Array[String]:
+	var lines: Array[String] = []
+	for line: Variant in (quest_dialogue.get(key, []) as Array):
+		lines.append(str(line))
+	return lines
+
+
 func npc_intro_lines(id: String) -> Array[String]:
 	match id:
 		"ember":

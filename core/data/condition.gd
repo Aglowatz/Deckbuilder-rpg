@@ -25,6 +25,9 @@ enum Kind {
 	ALL_OF,
 	## True when at least one entry in `sub_conditions` is met.
 	ANY_OF,
+	## key = a Session counter name (enemies defeated, minigames won...); amount = the minimum value.
+	## Appended last on purpose: Kind is saved as an int in vendor .tres files.
+	COUNTER,
 }
 
 @export var kind: Kind = Kind.FLAG_SET
@@ -63,6 +66,10 @@ static func player_level(level: int) -> Condition:
 
 static func quest_completed(quest_id: String) -> Condition:
 	return _make(Kind.QUEST_COMPLETED, quest_id)
+
+
+static func counter(counter_name: String, at_least: int = 1) -> Condition:
+	return _make(Kind.COUNTER, counter_name, at_least)
 
 
 static func all_of(conditions: Array[Condition]) -> Condition:
@@ -107,6 +114,8 @@ static func met(condition: Condition, state: UnlockState) -> bool:
 			return state.player_level >= condition.amount
 		Kind.QUEST_COMPLETED:
 			return state.completed_quests.has(condition.key)
+		Kind.COUNTER:
+			return int(state.counters.get(condition.key, 0)) >= condition.amount
 		Kind.ALL_OF:
 			for sub: Condition in condition.sub_conditions:
 				if not met(sub, state):
@@ -139,6 +148,8 @@ static func teaser(condition: Condition) -> String:
 			return "Reach level %d to unlock." % condition.amount
 		Kind.QUEST_COMPLETED:
 			return "Complete %s to unlock." % condition.key
+		Kind.COUNTER:
+			return "Keep going (%d needed)." % condition.amount
 		Kind.ALL_OF, Kind.ANY_OF:
 			return "Locked."
 	return "Locked."

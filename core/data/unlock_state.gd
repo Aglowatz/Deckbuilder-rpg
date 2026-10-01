@@ -15,3 +15,5 @@ var found_secrets: Array[String] = []
 var gold_spent: int = 0
 var player_level: int = 0
 var completed_quests: Array[String] = []
+## Named progress counters (Session.counters), for Condition.COUNTER.
+var counters: Dictionary = {}
