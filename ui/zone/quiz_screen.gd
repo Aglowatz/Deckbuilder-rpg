@@ -91,7 +91,8 @@ func _finish() -> void:
 		parts.append("+%d XP" % int(reward["xp"]))
 	if not str(reward["item"]).is_empty():
 		parts.append(Session.content.item(str(reward["item"])).display_name)
-	var reward_text: String = ", ".join(parts) if not parts.is_empty() else "\n".join(_story.get_lines("quiz.nothing_new")) if correct > 0 else "No reward."
+	var reward_text: String = ", ".join(parts) if not parts.is_empty() else "
+".join(_story.get_lines("quiz.not_passed"))
 	_column.add_child(UIKit.label(reward_text, &"", 30, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER))
 	var row: HBoxContainer = UIKit.hbox(16)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER

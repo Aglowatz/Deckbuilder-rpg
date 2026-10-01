@@ -1,31 +1,26 @@
 class_name QuizRules
 extends RefCounted
 ## Part G: the Quiz Master's rules. Four multiple-choice questions about the Necrocrats (Afterlife
-## Services and Labor); the questions and reward tiers are data in `ZoneStoryText`. The quiz can be
-## retried as often as the player likes (limit chosen: none), but rewards only ever pay for
-## IMPROVING on your best score - so a retry can raise your payout, never farm it. The Session
-## counter `dna_quiz_best` stores the best score paid so far (-1 = never taken).
+## Services and Labor); questions and rewards are data in `ZoneStoryText`. Retries are unlimited.
+## Rewards (designer decision): the FIRST time you pass (>= PASS_SCORE correct) pays the large
+## reward for that score (`quiz_rewards`); afterwards EVERY finished attempt pays the small flat
+## `quiz_repeat_reward`. Failing before you have ever passed pays nothing.
 
-const BEST_COUNTER: String = "dna_quiz_best"
+const PASS_SCORE: int = 3
+const PASSED_FLAG: StringName = &"dna_quiz_passed"
 
 
-## The payout for scoring `correct` when `best_paid` was already paid (-1 = nothing yet): only the
-## difference between the tiers, and the item only when it is newly reached.
-static func payout(story: ZoneStoryText, correct: int, best_paid: int) -> Dictionary:
+## The payout for finishing a quiz with `correct` answers right, given whether it was passed before.
+static func payout(story: ZoneStoryText, correct: int, passed_before: bool) -> Dictionary:
+	var nothing: Dictionary = {"gold": 0, "xp": 0, "item": "", "first_pass": false}
+	if passed_before:
+		var repeat: Dictionary = story.quiz_repeat_reward
+		return {"gold": int(repeat.get("gold", 0)), "xp": int(repeat.get("xp", 0)), "item": "", "first_pass": false}
+	if correct < PASS_SCORE:
+		return nothing
 	var top: int = story.quiz_rewards.size() - 1
-	var score: int = clampi(correct, 0, top)
-	if score <= best_paid:
-		return {"gold": 0, "xp": 0, "item": ""}
-	var now: Dictionary = story.quiz_rewards[score] as Dictionary
-	var before: Dictionary = story.quiz_rewards[best_paid] as Dictionary if best_paid >= 0 else {"gold": 0, "xp": 0, "item": ""}
-	var item: String = str(now.get("item", ""))
-	if item == str(before.get("item", "")):
-		item = ""
-	return {
-		"gold": int(now.get("gold", 0)) - int(before.get("gold", 0)),
-		"xp": int(now.get("xp", 0)) - int(before.get("xp", 0)),
-		"item": item,
-	}
+	var tier: Dictionary = story.quiz_rewards[clampi(correct, 0, top)] as Dictionary
+	return {"gold": int(tier.get("gold", 0)), "xp": int(tier.get("xp", 0)), "item": str(tier.get("item", "")), "first_pass": true}
 
 
 ## How many of `answers` (chosen answer index per question) are right.
@@ -37,13 +32,13 @@ static func score(story: ZoneStoryText, answers: Array[int]) -> int:
 	return correct
 
 
-## Applies a finished quiz to the Session: pays the improvement, records the best, sets the
-## "took the quiz" flag (the audit quest's objective). Returns the payout dictionary.
+## Applies a finished quiz to the Session: pays, records the first pass, sets the "took the quiz"
+## flag (the audit quest's objective). Returns the payout dictionary.
 static func apply(story: ZoneStoryText, correct: int) -> Dictionary:
-	var best: int = int(Session.counters.get(BEST_COUNTER, -1))
-	var reward: Dictionary = payout(story, correct, best)
-	if correct > best:
-		Session.counters[BEST_COUNTER] = correct
+	var passed_before: bool = Session.flag(PASSED_FLAG)
+	var reward: Dictionary = payout(story, correct, passed_before)
+	if bool(reward["first_pass"]):
+		Session.set_flag(PASSED_FLAG)
 	if int(reward["gold"]) > 0:
 		Session.add_gold(int(reward["gold"]))
 	var item_id: String = str(reward["item"])

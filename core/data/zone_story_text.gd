@@ -122,7 +122,8 @@ const PATH: String = "res://data/story/dna_story.tres"
 	"quiz.result.2": ["Two. Half-credit. Half-credit is the highest honor of the Necrocrats."],
 	"quiz.result.3": ["Three! One shy of perfect. Perfect would make me suspicious. Take your reward."],
 	"quiz.result.4": ["FOUR. Flawless. You are now Certified Deceased, Class A. The reward is real; the title is imaginary."],
-	"quiz.nothing_new": ["You've already earned that much from me. Do better than your best, or the Department sees no reason to pay you twice."],
+	"quiz.repeat": ["Re-certified again. The Department pays a small processing fee for the paperwork."],
+	"quiz.not_passed": ["Not a pass. Study the signs and come back; there is no limit on attempts."],
 	# ---- Matching minigame NPC ------------------------------------------------------------------
 	"npc.matching.intro": [
 		"*krrrshhh... beep-boop-BEEEEEE-krrrrrshhh...* Sorry. That's my greeting. It's how I say hello. It takes forty seconds. Dial-up, baby.",
@@ -195,7 +196,10 @@ const PATH: String = "res://data/story/dna_story.tres"
 	},
 ]
 
-## Reward tiers by correct answers (0-4): gold, XP, and an item id ("" = none). Placeholder numbers.
+## LARGE first-pass reward tiers by correct answers (0-4; only 3 and 4 can be a first pass): gold, XP, and an item id ("" = none). Placeholder numbers.
+## Small flat reward for every finished attempt after the first pass.
+@export var quiz_repeat_reward: Dictionary = {"gold": 10, "xp": 5}
+
 @export var quiz_rewards: Array[Dictionary] = [
 	{"gold": 0, "xp": 0, "item": ""},
 	{"gold": 10, "xp": 0, "item": ""},

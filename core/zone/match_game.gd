@@ -3,8 +3,9 @@ extends RefCounted
 ## Part H: the matching (memory) card game. 16 cards = 8 nostalgic pairs, flip two at a time. Each
 ## pair of flips is one MOVE; the player has MAX_MOVES moves to find every pair. Stars by moves
 ## used: <= 10 -> 3 stars, <= 12 -> 2, otherwise 1 (still a win). Running out of moves is a loss.
-## Rewards pay only for beating your best star rating, plus a one-time bonus for the first win
-## (see `Rewards`). Pure rules - `MatchGameScreen` is only the table.
+## Rewards (designer decision): the FIRST win pays a large reward (double the star reward plus a
+## one-time bonus); every later win pays a small flat REPEAT_REWARD. Losses pay nothing; retries are
+## unlimited. Pure rules - `MatchGameScreen` is only the table.
 
 const PAIRS: int = 8
 const MAX_MOVES: int = 14
@@ -16,7 +17,6 @@ const ICONS: Array[String] = [
 	"delapouite/alien-egg", "delapouite/vibrating-smartphone", "delapouite/compact-disc",
 	"delapouite/chat-bubble", "delapouite/audio-cassette",
 ]
-const BEST_COUNTER: String = "dna_match_best_stars"
 
 ## Reward by stars: gold, xp. The first-ever win also pays FIRST_WIN_BONUS.
 const STAR_REWARDS: Array[Dictionary] = [
@@ -26,6 +26,8 @@ const STAR_REWARDS: Array[Dictionary] = [
 	{"gold": 80, "xp": 35},
 ]
 const FIRST_WIN_BONUS: Dictionary = {"gold": 50, "item": "scroll_of_insight"}
+## Small flat reward for every win after the first.
+const REPEAT_REWARD: Dictionary = {"gold": 10, "xp": 5}
 
 ## Icon index (0..PAIRS-1) of each of the 16 slots.
 var cards: Array[int] = []
@@ -106,24 +108,20 @@ func stars() -> int:
 	return 1
 
 
-## Pays the improvement over `best_stars` (0 = never won) plus the first-win bonus, and records the
-## result. Returns {gold, xp, item, first_win, stars}.
+## Pays the large first-win reward or the small repeat reward, and records the result. Returns {gold, xp, item, first_win, stars}.
 static func apply_result(stars_earned: int) -> Dictionary:
-	var best: int = int(Session.counters.get(BEST_COUNTER, 0))
 	var result: Dictionary = {"gold": 0, "xp": 0, "item": "", "first_win": false, "stars": stars_earned}
 	if stars_earned <= 0:
 		return result
-	if stars_earned > best:
-		var now: Dictionary = STAR_REWARDS[stars_earned]
-		var before: Dictionary = STAR_REWARDS[best]
-		result["gold"] = int(now["gold"]) - int(before["gold"])
-		result["xp"] = int(now["xp"]) - int(before["xp"])
-		Session.counters[BEST_COUNTER] = stars_earned
 	if not Session.flag(DnaZone.FLAG_MATCH_FIRST):
 		Session.set_flag(DnaZone.FLAG_MATCH_FIRST)
 		result["first_win"] = true
-		result["gold"] = int(result["gold"]) + int(FIRST_WIN_BONUS["gold"])
+		result["gold"] = int(STAR_REWARDS[stars_earned]["gold"]) * 2 + int(FIRST_WIN_BONUS["gold"])
+		result["xp"] = int(STAR_REWARDS[stars_earned]["xp"]) * 2
 		result["item"] = str(FIRST_WIN_BONUS["item"])
+	else:
+		result["gold"] = int(REPEAT_REWARD["gold"])
+		result["xp"] = int(REPEAT_REWARD["xp"])
 	if int(result["gold"]) > 0:
 		Session.add_gold(int(result["gold"]))
 	if int(result["xp"]) > 0:

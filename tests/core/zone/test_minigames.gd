@@ -29,28 +29,25 @@ func test_every_quiz_answer_is_discoverable_in_the_zone_text() -> void:
 		assert_true(haystack.contains(needle), "answer '%s' appears in the zone's signs/memos/dialogue" % needle)
 
 
-func test_quiz_rewards_scale_with_correct_answers() -> void:
-	var last_gold: int = -1
-	for correct: int in range(5):
-		var reward: Dictionary = QuizRules.payout(story, correct, -1)
-		assert_gte(int(reward["gold"]), last_gold, "gold never drops as the score rises")
-		last_gold = int(reward["gold"])
-	assert_eq(int(QuizRules.payout(story, 0, -1)["gold"]), 0)
-	assert_gt(int(QuizRules.payout(story, 4, -1)["gold"]), int(QuizRules.payout(story, 2, -1)["gold"]))
+func test_quiz_first_pass_reward_scales_and_failing_pays_nothing() -> void:
+	assert_eq(int(QuizRules.payout(story, 2, false)["gold"]), 0, "below the pass mark pays nothing")
+	assert_gt(int(QuizRules.payout(story, 4, false)["gold"]), int(QuizRules.payout(story, 3, false)["gold"]), "a better first pass pays more")
 
 
-func test_quiz_retry_only_pays_the_improvement() -> void:
-	var gold_start: int = Session.gold
+func test_quiz_first_pass_pays_large_then_every_attempt_pays_small() -> void:
+	var start: int = Session.gold
 	QuizRules.apply(story, 2)
-	var after_two: int = Session.gold
-	assert_gt(after_two, gold_start)
-	QuizRules.apply(story, 2)
-	assert_eq(Session.gold, after_two, "same score again pays nothing")
-	QuizRules.apply(story, 1)
-	assert_eq(Session.gold, after_two, "a worse retry pays nothing")
+	assert_eq(Session.gold, start, "failing before the first pass pays nothing")
 	QuizRules.apply(story, 4)
-	var total_for_four: int = int(story.quiz_rewards[4]["gold"])
-	assert_eq(Session.gold - gold_start, total_for_four, "improving pays exactly the difference to the top tier")
+	var large: int = int(story.quiz_rewards[4]["gold"])
+	assert_eq(Session.gold - start, large, "first pass pays the large reward")
+	var after_large: int = Session.gold
+	QuizRules.apply(story, 1)
+	var small: int = int(story.quiz_repeat_reward["gold"])
+	assert_eq(Session.gold - after_large, small, "any later completion pays the small reward")
+	assert_lt(small, large)
+	QuizRules.apply(story, 4)
+	assert_eq(Session.gold - after_large, small * 2, "and again, forever")
 	assert_true(Session.flag(DnaZone.FLAG_QUIZ_DONE))
 
 
@@ -111,15 +108,17 @@ func test_match_game_loses_when_moves_run_out() -> void:
 	assert_eq(game.flip(a), "ignored")
 
 
-func test_match_rewards_pay_improvement_and_first_win_bonus_once() -> void:
-	var gold_start: int = Session.gold
+func test_match_first_win_is_large_then_every_win_is_small() -> void:
+	var start: int = Session.gold
 	var first: Dictionary = MatchGame.apply_result(1)
 	assert_true(bool(first["first_win"]))
-	var expected_first: int = int(MatchGame.STAR_REWARDS[1]["gold"]) + int(MatchGame.FIRST_WIN_BONUS["gold"])
-	assert_eq(Session.gold - gold_start, expected_first)
+	var expected_first: int = int(MatchGame.STAR_REWARDS[1]["gold"]) * 2 + int(MatchGame.FIRST_WIN_BONUS["gold"])
+	assert_eq(Session.gold - start, expected_first)
+	var after_first: int = Session.gold
 	var again: Dictionary = MatchGame.apply_result(1)
 	assert_false(bool(again["first_win"]))
-	assert_eq(int(again["gold"]), 0, "no payout without beating your best")
-	var better: Dictionary = MatchGame.apply_result(3)
-	assert_eq(int(better["gold"]), int(MatchGame.STAR_REWARDS[3]["gold"]) - int(MatchGame.STAR_REWARDS[1]["gold"]))
-	assert_eq(int(MatchGame.apply_result(0)["gold"]), 0)
+	assert_eq(int(again["gold"]), int(MatchGame.REPEAT_REWARD["gold"]), "any later win pays the small reward")
+	assert_lt(int(again["gold"]), expected_first)
+	MatchGame.apply_result(3)
+	assert_eq(Session.gold - after_first, int(MatchGame.REPEAT_REWARD["gold"]) * 2)
+	assert_eq(int(MatchGame.apply_result(0)["gold"]), 0, "a loss pays nothing")
