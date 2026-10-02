@@ -1974,3 +1974,33 @@ Built on the shared zone framework as a `ZoneDef` (`BuffetZone`) + `BuffetLayout
 - **Content**: Walk-In Freezer mini dungeon (3 battles, one-time unique **Colossus of the Endless Buffet**), **Mystery Stew** recipe logic puzzle (unique solution of 360, one-time **Head Chef's Ladle**), quiz master Lady Brioche (4 questions on the Gourmands), **Order Up!** assembly minigame by the original Chef Turbo Tartine (90s/2000s cooking-show, celebrity-chef-feud and kids'-meal-toy nods; rewards by stars, one-time first-clear bonus), **8 hidden chests** (docs/design/secrets.md), taste-test station / oven / soup fountain / fortune cookies / Old Meatloaf interactables, main dungeon placeholder "Kitchen Closed for Health Inspection". Food puns, "Yes, chef!", golems with opinions about seasoning, signs and menus throughout.
 - **Tests**: `tests/core/zone/test_buffet.gd` (48 tests: layout, reachability on the real map incl. gates/pads/rafts, rafts/susan/soup, gates, def/hub, enemies, content, story keys, quiz answers findable, interactables, recipe puzzle uniqueness, Order Up! rules and rewards). **542 GUT tests pass** (incl. compile-every-script).
 - New asset packs: **Kenney Food Kit** (CC0) and **KayKit Restaurant Bits** (CC0) - logged in CREDITS.md. Nothing for itch.io.
+
+## FINAL: whole-brief end-to-end verification - done
+
+Run by `tools/run_seventh_brief_final_smoke.sh` (windowed, real injected input; screenshots in `_screenshots/brief5/`, `brief6/` and `brief7/`):
+
+1. **The Endless Buffet** (`tools/seventh_brief_final_smoke.gd`, passes, 87 screenshots): town Path of the Gourmand (labelled correctly) -> the zone; minimap starts with the hub revealed, the quiz master is not on the map until explored, quest-giver "!" markers, M full map -> pick up saffron (once per visit) -> **jelly bounce pad** up to Butter Butte (mid-air and landing shots, mesa chest with prompt only, honey, pad back down) -> **lazy susan** carries you round its pillar and you step off on the north bank -> **crouton raft**: step off mid-river into the soup once (exactly -1 zone life, respawn on dry ground, logged), then ride it properly across -> **golem gate**: Brisket refuses without saffron, takes it and steps aside (stays open after the scene reloads), walk through -> **slow-enemy battle** (persisted life, loss wakes at the hub and logs the dish duty fee) -> **fast-enemy hit** (exactly 2, HUD, invulnerability) -> fountain heal, oven bakes a pie from honey + basil + ghost pepper, fortune cookie hint, taste test -> hub heal, Dolcetta's vendor and buying a card, hand in *Bake Me a Pie* -> quiz (4/4) -> **Order Up!** (a deliberate tossed plate, then every ticket) -> **Mystery Stew** (a wrong stew, then the real solution; ladle granted) -> hidden chest -> **Walk-In Freezer** mini dungeon (real battles).
+2. **The D.N.A.** regression (`fifth_brief_final_smoke`): passes end to end.
+3. **The Gainlands** regression (`sixth_brief_final_smoke`): passes (one earlier run had a flaky sprite-hit check, where the sprite never reached the player in time; it passed on re-run and nothing in the Gainlands changed).
+
+Real bugs the run found and fixed: Kenney Food Kit textures were missing (white food) until the `Textures` folder was copied and the models re-imported; broccoli at "tree" scale hid the player from the camera (scaled down); the first gate golem left a 0.36 m squeezable strip beside it (blocker radius 2.2 now, covered by a test); a pad overlapped a hub cabinet and a mesa and a few props overlapped enemy homes (moved); quest counters count from acceptance, so a pie baked before accepting *Bake Me a Pie* does not count (by design; the e2e bakes after accepting). Test-only shortcuts, stated in the file: the Gourmand gate flag is set directly; the quest and battle gates are opened with flags and the player is placed at the foot of a pad; long walks teleport the last stretch when the crude mover gets stuck; the player is placed near an enemy so it notices them.
+
+## Summary of brief 7
+
+All parts A, B and FINAL are done; **542 GUT tests pass** (up from 494; incl. compile-every-script). Balance was out of scope: every number is a placeholder.
+
+### New asset packs added (all logged in CREDITS.md)
+- **Kenney Food Kit** 2.0 - CC0 - the giant food (43 models actually used out of 200 downloaded)
+- **KayKit Restaurant Bits** 1.0 - CC0 - kitchen counters, stoves, oven, pots, studio backdrop (already downloaded earlier, first used now)
+- No itch.io-only pack was needed; `docs/assets_wanted.md` lists nice-to-haves (rigged food golems, recorded audio, a rounded sign font).
+
+### Questions for you
+1. **Gates**: the three golem gates lock whole districts (incl. the mini dungeon and the puzzle). Too much gating for a first visit, or good?
+2. **Falling in the soup** costs 1 life like the Gainlands' fall; the player can *wade* in rather than being blocked. OK?
+3. **Ingredient stock** persists across visits but each pickup respawns only per visit (so the oven/golem/gate can be re-fed). Prefer one-time pickups?
+4. **Quest counters** start at acceptance, so work done before accepting does not count (bit me in the e2e). Should quests also credit earlier progress?
+5. **Old saves**: `tide_*` ids are not migrated (like the ember ones). Add a one-line migration?
+6. **Audio**: the zone's music and the boing/splash/ding are synthesized. Want recorded CC0 sounds?
+7. **Chef Turbo Tartine / Chef Savannah Souffle / the Turbo Tots** are original pastiche characters; any jokes you want toned down or more of?
+8. **Art**: golems are assembled from Food Kit pieces and primitives (no animation beyond a waddle/roll). Want me to hunt for rigged monsters?
+9. **Balance** untouched as instructed (enemy decks, rewards, fees, timers are placeholders).

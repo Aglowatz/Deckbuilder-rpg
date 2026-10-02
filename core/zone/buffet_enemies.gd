@@ -36,7 +36,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.gold_reward = 30
 			made.xp_reward = 40
 			made.model = "buffet:loaf"
-			made.model_scale = 1.1
+			made.model_scale = 1.35
 		JELLY:
 			made.display_name = "Gelatin Sentinel"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
@@ -53,7 +53,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.gold_reward = 35
 			made.xp_reward = 45
 			made.model = "buffet:jelly"
-			made.model_scale = 1.1
+			made.model_scale = 1.35
 		MEATBALL:
 			made.display_name = "Runaway Meatball"
 			made.kind = ZoneEnemyInfo.Kind.DAMAGE

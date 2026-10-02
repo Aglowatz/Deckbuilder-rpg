@@ -172,4 +172,4 @@ func _draw_pot() -> void:
 	for index: int in range(order.size()):
 		var bubble: Vector2 = centre + Vector2(-100.0 + 66.0 * float(index), -18.0 + sin(_time * 3.0 + float(index)) * 6.0)
 		_pot.draw_circle(bubble, 20.0, [Color("f08a3a"), Color("e8e0c8"), Color("9a7a50"), Color("d64b4b"), Color("5aa040"), Color("e8a030")][order[index] % 6])
-	_pot.draw_string(UIStyle.font_bold(), Vector2(20, 100), "Ingredients in the pot: %d / %d" % [order.size(), RecipePuzzle.SLOTS], HORIZONTAL_ALIGNMENT_LEFT, -1, 22, UIStyle.PARCHMENT)
+	_pot.draw_string(UIStyle.font_bold(), Vector2(20, 34), "Ingredients in the pot: %d / %d" % [order.size(), RecipePuzzle.SLOTS], HORIZONTAL_ALIGNMENT_LEFT, -1, 22, UIStyle.PARCHMENT)

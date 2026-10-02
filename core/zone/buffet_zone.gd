@@ -106,11 +106,11 @@ static func build_def() -> ZoneDef:
 	def.quest_npc_names = [NPC_ODALYS, NPC_TARRAGON, NPC_DOLCETTA]
 	def.mini = _mini_def()
 	def.npcs = [
-		{"id": "odalys", "model": "Knight", "anchor": "odalys", "yaw": 0.0, "tint": Color(1.25, 1.15, 1.05), "scale": 1.25, "hat": "tall"},
-		{"id": "tarragon", "model": "Rogue_Hooded", "anchor": "tarragon", "yaw": 90.0, "tint": Color(0.85, 1.2, 0.8), "scale": 1.05, "hat": "short"},
-		{"id": "dolcetta", "model": "Mage", "anchor": "dolcetta", "yaw": 200.0, "tint": Color(1.3, 0.85, 1.0), "scale": 1.1, "hat": "pastry"},
-		{"id": "quiz", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(1.25, 1.1, 0.8), "scale": 1.1, "hat": "scholar"},
-		{"id": "minigame", "model": "Barbarian", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.4, 0.75, 0.55), "scale": 1.3, "hat": "tall"},
+		{"id": "odalys", "model": "Knight", "anchor": "odalys", "yaw": 0.0, "tint": Color(1.25, 1.15, 1.05), "scale": 1.7, "hat": "tall"},
+		{"id": "tarragon", "model": "Rogue_Hooded", "anchor": "tarragon", "yaw": 90.0, "tint": Color(0.85, 1.2, 0.8), "scale": 1.45, "hat": "short"},
+		{"id": "dolcetta", "model": "Mage", "anchor": "dolcetta", "yaw": 200.0, "tint": Color(1.3, 0.85, 1.0), "scale": 1.5, "hat": "pastry"},
+		{"id": "quiz", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(1.25, 1.1, 0.8), "scale": 1.5, "hat": "scholar"},
+		{"id": "minigame", "model": "Barbarian", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.4, 0.75, 0.55), "scale": 1.7, "hat": "tall"},
 	]
 	def.spots = [
 		_spot("odalys", "Head Chef Odalys, Keeper of the Grand Pantry", "odalys", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "odalys", "npc_name": NPC_ODALYS, "speaker": "Head Chef Odalys"}),
