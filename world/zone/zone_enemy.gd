@@ -9,11 +9,11 @@ signal touched(enemy: ZoneEnemy)
 
 enum State { PATROL, CHASE, RETURN }
 
-var info: DnaEnemies.Info
+var info: ZoneEnemyInfo
 var instance_id: String = ""
 var home: Vector3 = Vector3.ZERO
 var patrol_radius: float = 3.0
-var area: DnaBuilder
+var area: ZoneMap
 var player: Node3D
 var state: State = State.PATROL
 ## The scene sets this false while dialogue/menus are open so enemies freeze with the world.
@@ -33,7 +33,7 @@ var _alert: Label3D
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
-func setup(enemy_info: DnaEnemies.Info, id: String, home_pos: Vector3, patrol: float, walk_area: DnaBuilder, target_player: Node3D) -> void:
+func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: float, walk_area: ZoneMap, target_player: Node3D, grade: Callable = Callable()) -> void:
 	info = enemy_info
 	instance_id = id
 	home = home_pos
@@ -46,9 +46,10 @@ func setup(enemy_info: DnaEnemies.Info, id: String, home_pos: Vector3, patrol: f
 	add_child(_model)
 	_model.scale = Vector3.ONE * info.model_scale
 	ModelKit.tint(_model, info.tint)
-	DnaMaterials.grade_node(_model, 0.4)
+	if grade.is_valid():
+		grade.call(_model)
 	_add_accessories()
-	if info.kind == DnaEnemies.Kind.DAMAGE:
+	if info.ghostly:
 		_make_ghostly()
 	_animation = ModelKit.animation_player(_model)
 	if _animation != null:
@@ -82,23 +83,16 @@ func _make_ghostly() -> void:
 				copy.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 				copy.albedo_color.a = 0.72
 				copy.emission_enabled = true
-				copy.emission = Color(0.4, 0.9, 1.0)
+				copy.emission = info.ghost_glow
 				copy.emission_energy_multiplier = 0.5
 				mesh_instance.set_surface_override_material(surface, copy)
 
 
-## Little themed props so the three designs read at a glance: a tie and clipboard, a lanyard and
+## Little themed props (`ZoneEnemyInfo.accessories`) so each design reads at a glance: a tie and clipboard, a lanyard and
 ## coffee cup, a letter. Plain primitives (the same trick the town's corrupted NPCs use).
 func _add_accessories() -> void:
-	match info.id:
-		DnaEnemies.MANAGER:
-			_accessory(Vector3(0.05, 0.32, 0.17), Vector3(0.07, 0.3, 0.02), Color(0.75, 0.1, 0.1))
-			_accessory(Vector3(0.28, 0.3, 0.12), Vector3(0.22, 0.28, 0.03), Color(0.85, 0.82, 0.7))
-		DnaEnemies.INTERN:
-			_accessory(Vector3(0.0, 0.32, 0.15), Vector3(0.06, 0.28, 0.02), Color(0.9, 0.6, 0.1))
-			_accessory(Vector3(-0.28, 0.28, 0.1), Vector3(0.1, 0.13, 0.1), Color(0.95, 0.95, 0.9))
-		DnaEnemies.COURIER:
-			_accessory(Vector3(0.3, 0.28, 0.12), Vector3(0.24, 0.16, 0.03), Color(1.0, 0.95, 0.7))
+	for entry: Dictionary in info.accessories:
+		_accessory(entry["offset"] as Vector3, entry["size"] as Vector3, entry["color"] as Color)
 
 
 func _accessory(offset: Vector3, size: Vector3, color: Color) -> void:
@@ -123,8 +117,9 @@ func _play(animation_name: StringName) -> void:
 func _process(delta: float) -> void:
 	_time += delta
 	cooldown = maxf(0.0, cooldown - delta)
-	if info.id == DnaEnemies.COURIER:
+	if info.hover:
 		_model.position.y = 0.22 + sin(_time * 3.2) * 0.06
+	position.y = area.height_at(position)
 	if not active or player == null:
 		_play(&"idle")
 		return

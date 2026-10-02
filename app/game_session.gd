@@ -610,7 +610,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var options: GameOptions = GameOptions.new()
 	options.first_player = 0 if node.tutorial else -1
 	options.rng_seed = rng.randi() % 1000000 + 1
-	var enemy: PlayerSetup = MiniDungeon.enemy_setup(content, node) if mini_active else TrialOfTheHollow.enemy_setup(content, node)
+	var enemy: PlayerSetup = MiniDungeon.enemy_setup(content, node, zone_def().id) if mini_active else TrialOfTheHollow.enemy_setup(content, node)
 	var game: GameState = run.start_encounter(enemy, null, options)
 	var context: BattleContext = BattleContext.new()
 	context.game = game
@@ -845,7 +845,7 @@ func quests_ready_for(npc_name: String) -> Array[QuestData]:
 
 # ---- Zones (brief 5: the D.N.A.) ----------------------------------------------------------
 
-const DNA_SCENE: String = "res://scenes/dna_zone.tscn"
+const DNA_SCENE: String = "res://scenes/dna_zone.tscn"  # kept for older callers; the zone scene comes from ZoneDef.scene_path
 const ZONE_LOG_LIMIT: int = 40
 
 ## The current zone visit (null in town). Holds the life that persists across the whole visit.
@@ -869,9 +869,19 @@ func life_run() -> DungeonRun:
 
 ## Entering from town: a brand-new visit, always at full life (town heals fully).
 func enter_dna() -> void:
-	zone_run = ZoneRun.enter(DnaZone.ID, profile, deck)
+	enter_zone(DnaZone.ID)
+
+
+## Entering any zone (`ZoneDefs`) from town: a brand-new visit, always at full life.
+func enter_zone(zone_id: String) -> void:
+	zone_run = ZoneRun.enter(zone_id, profile, deck)
 	pending_zone_result = {}
-	SceneManager.change_scene(DNA_SCENE)
+	SceneManager.change_scene(ZoneDefs.get_def(zone_id).scene_path)
+
+
+## The def of the zone the player is visiting (the D.N.A. when not in a zone).
+func zone_def() -> ZoneDef:
+	return ZoneDefs.current()
 
 
 ## Walking back out to town. Town is a full heal, so the visit simply ends.
@@ -894,7 +904,7 @@ func zone_wake_at_hub(cause: String) -> int:
 	var fee: int = zone_run.wake_at_hub(gold, cause)
 	if fee > 0:
 		spend_gold(fee)
-	log_paperwork_fee("Paperwork fee %d gold - %s" % [fee, cause])
+	log_paperwork_fee("%s %d gold - %s" % [zone_def().fee_label, fee, cause])
 	counters["paperwork_fees_paid"] = int(counters.get("paperwork_fees_paid", 0)) + fee
 	zone_run.has_return_position = false
 	save_game()
@@ -904,7 +914,8 @@ func zone_wake_at_hub(cause: String) -> int:
 ## A duel against a roaming zone enemy: the player's real deck at the zone's persistent life.
 func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleContext:
 	ensure_game()
-	var data: DnaEnemies.Info = DnaEnemies.info(enemy_type)
+	var zone_id: String = zone_def().id
+	var data: ZoneEnemyInfo = ZoneEnemies.info(zone_id, enemy_type)
 	var options: GameOptions = GameOptions.new()
 	options.first_player = -1
 	options.rng_seed = rng.randi() % 1000000 + 1
@@ -916,11 +927,11 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	if zone_run != null:
 		player.starting_life = zone_run.life
 	game.add_player(player)
-	game.add_player(DnaEnemies.enemy_setup(content, enemy_type))
+	game.add_player(ZoneEnemies.enemy_setup(content, zone_id, enemy_type))
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
-	context.ai = AIPlayer.new(DnaEnemies.personality(content, enemy_type))
+	context.ai = AIPlayer.new(ZoneEnemies.personality(content, zone_id, enemy_type))
 	context.enemy_name = data.display_name
 	context.zone_battle = true
 	context.zone_enemy_id = enemy_instance_id
@@ -954,7 +965,7 @@ func _complete_zone_battle(context: BattleContext) -> void:
 		result["fee"] = fee
 	pending_zone_result = result
 	save_game()
-	SceneManager.change_scene(DNA_SCENE)
+	SceneManager.change_scene(zone_def().scene_path)
 
 
 # ---- Mini dungeon (brief 5, Part E) -------------------------------------------------------
@@ -968,7 +979,7 @@ var mini_active: bool = false
 func enter_mini_dungeon() -> void:
 	if zone_run == null:
 		return
-	dungeon_map = MiniDungeon.build_map()
+	dungeon_map = MiniDungeon.build_map(zone_run.zone_id)
 	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
 	run.life = clampi(zone_run.life, 1, run.max_life())
 	mini_active = true
@@ -981,7 +992,7 @@ func enter_mini_dungeon() -> void:
 ## first time grants the unique card. `failed` (0 life) wakes the player at the hub with the fee.
 func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
 	resolve_mini_dungeon(cleared, failed)
-	SceneManager.change_scene(DNA_SCENE)
+	SceneManager.change_scene(zone_def().scene_path)
 
 
 ## The state changes of leaving the mini dungeon (no scene change, so tests can run it).
@@ -989,9 +1000,10 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	var result: Dictionary = {"kind": "mini", "cleared": cleared, "failed": failed}
 	if zone_run != null and run != null:
 		zone_run.life = run.life
-	if cleared and not flag(DnaZone.FLAG_MINI_DUNGEON_CLEARED):
-		set_flag(DnaZone.FLAG_MINI_DUNGEON_CLEARED)
-		var card: CardData = card_by_id(MiniDungeon.REWARD_CARD_ID)
+	var def: ZoneDef = zone_def()
+	if cleared and not flag(def.flag_mini_cleared):
+		set_flag(def.flag_mini_cleared)
+		var card: CardData = card_by_id(def.mini.reward_card_id)
 		if card != null:
 			add_cards([card] as Array[CardData])
 			result["card"] = card.display_name
@@ -1002,7 +1014,7 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	trial_finished = false
 	pending_reward = null
 	if zone_run != null and (failed or zone_run.is_down()):
-		result["fee"] = zone_wake_at_hub("sent home from Quarterly Reviews")
+		result["fee"] = zone_wake_at_hub("sent home from %s" % zone_def().mini.dungeon_name)
 		result["woke_at_hub"] = true
 	pending_zone_result = result
 	save_game()

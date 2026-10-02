@@ -8,3 +8,8 @@ extends RefCounted
 ## True when a character may stand at `pos` (on a walkable cell and clear of obstacles).
 func is_walkable(_pos: Vector3, _body_radius: float = 0.22) -> bool:
 	return false
+
+
+## Height of the ground at `pos` (hills, floating islands). Flat areas stay at 0.
+func height_at(_pos: Vector3) -> float:
+	return 0.0

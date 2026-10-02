@@ -165,6 +165,13 @@ const PATH: String = "res://data/story/dna_story.tres"
 	"fx.suggestion_empty": ["The suggestion box is empty now. The committee has read your suggestion. It wasn't implemented."],
 	"fx.chest": ["A hidden stash!"],
 	"hud.objective": ["The D.N.A.: the Lobby and Breakroom are safe. Life does not come back after battles - rest on the Breakroom Couch, or ride up to town."],
+	"ui.mini.body": ["Three meetings in a row. Your life carries from one to the next and nothing heals in between. Win all three for a unique Necrocrat card."],
+	"ui.mini.body_cleared": ["You have already earned the unique card here. You can still sit through the meetings for gold and XP. Life carries over; nothing heals in between."],
+	"ui.mini.button": ["Go down"],
+	"ui.exit.title": ["Ride up to town?"],
+	"ui.exit.body": ["Leaving the D.N.A. ends this visit. Town heals you fully; defeated staff will be back next time."],
+	"fx.main_dungeon": ["UNDER RENOVATION. Please hold."],
+	"fx.heal_already": ["You are already as rested as the dead get."],
 }
 
 ## Four multiple-choice questions. Each: "q", "a" (4 answers), "correct" (index into "a"), "where"
@@ -227,6 +234,22 @@ func text(key: String) -> String:
 
 
 static var _shared: ZoneStoryText
+static var _by_zone: Dictionary = {}
+
+
+## The story file of a zone (`ZoneDef.story_path`), cached; falls back to the D.N.A.'s.
+static func for_zone(zone_id: String) -> ZoneStoryText:
+	if zone_id == DnaZone.ID:
+		return shared()
+	if not _by_zone.has(zone_id):
+		var loaded: ZoneStoryText = load(ZoneDefs.get_def(zone_id).story_path) as ZoneStoryText
+		_by_zone[zone_id] = loaded if loaded != null else ZoneStoryText.new()
+	return _by_zone[zone_id] as ZoneStoryText
+
+
+## The story of the zone the player is in right now (the D.N.A.'s when not in one - tests).
+static func current() -> ZoneStoryText:
+	return for_zone(ZoneDefs.current().id)
 
 
 ## The shared instance loaded from the .tres (falls back to the script defaults).

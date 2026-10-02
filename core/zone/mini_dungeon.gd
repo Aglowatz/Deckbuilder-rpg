@@ -1,35 +1,40 @@
 class_name MiniDungeon
 extends RefCounted
-## Part E: the D.N.A.'s mini dungeon, "Sub-Basement 3: Quarterly Reviews" - three battles in a row
-## on the existing node-map system, then a unique Necrocrat card (one time only, see
-## `DnaZone.FLAG_MINI_DUNGEON_CLEARED`). It follows the zone's life rules: the run starts at the
-## zone's current life, nothing heals between meetings (no shrine node on purpose), and the life left
-## at the end goes back to the zone. Losing wakes you at the hub (paperwork fee). Placeholder decks.
+## A zone's mini dungeon: three battles in a row on the existing node-map system, then a unique
+## card (one time only, flag in the zone's `ZoneDef`). It follows the zone's life rules: the run
+## starts at the zone's current life, nothing heals between fights (no shrine node on purpose), and
+## the life left at the end goes back to the zone. Losing wakes you at the hub (fee). Placeholder
+## decks. The battles are data in the zone's `ZoneDef.mini` (D.N.A.: Quarterly Reviews).
 
-const DUNGEON_NAME: String = "Sub-Basement 3: Quarterly Reviews"
 const BATTLE_COUNT: int = 3
+## The D.N.A.'s reward (kept for the existing tests/docs); other zones read `ZoneDef.mini.reward_card_id`.
 const REWARD_CARD_ID: String = "deceased_ceo"
+const DUNGEON_NAME: String = "Sub-Basement 3: Quarterly Reviews"
 
 
-static func build_map() -> DungeonMap:
+static func build_map(zone_id: String = DnaZone.ID) -> DungeonMap:
+	var mini: ZoneDef.MiniDef = ZoneDefs.get_def(zone_id).mini
 	var map: DungeonMap = DungeonMap.new()
-	map.dungeon_name = DUNGEON_NAME
-	var start: DungeonMap.MapNode = _node(map, DungeonMap.Kind.START, "Landing", "The elevator doors open on a conference room. Nobody has been invited. Everybody is here.", Vector2(0.09, 0.6))
-	var first: DungeonMap.MapNode = _battle(map, "Meeting 1: Kickoff Sync", "A meeting that could have been a memo. The memo is also here.", Vector2(0.33, 0.35), "Kickoff Facilitator", 12, "Balanced", DungeonMap.Difficulty.NORMAL)
-	var second: DungeonMap.MapNode = _battle(map, "Meeting 2: Budget Review", "Every line item is a soul. Every soul is over budget.", Vector2(0.58, 0.68), "Budget Reviewer", 14, "Defensive", DungeonMap.Difficulty.NORMAL)
-	var third: DungeonMap.MapNode = _battle(map, "Meeting 3: Quarterly Review", "Your performance this quarter has been: deceased.", Vector2(0.84, 0.36), "The Quarterly Reviewer", 18, "Aggressive", DungeonMap.Difficulty.ELITE)
-	third.kind = DungeonMap.Kind.BOSS
-	map.connect_nodes(start.id, first.id)
-	map.connect_nodes(first.id, second.id)
-	map.connect_nodes(second.id, third.id)
+	map.dungeon_name = mini.dungeon_name
+	var xs: Array[float] = [0.33, 0.58, 0.84]
+	var ys: Array[float] = [0.35, 0.68, 0.36]
+	var previous: DungeonMap.MapNode = _node(map, DungeonMap.Kind.START, mini.start_title, mini.start_blurb, Vector2(0.09, 0.6))
+	for index: int in range(mini.battles.size()):
+		var battle: ZoneDef.MiniBattle = mini.battles[index]
+		var difficulty: DungeonMap.Difficulty = DungeonMap.Difficulty.ELITE if battle.elite else DungeonMap.Difficulty.NORMAL
+		var node: DungeonMap.MapNode = _battle(map, battle, Vector2(xs[index % xs.size()], ys[index % ys.size()]), difficulty)
+		if battle.elite:
+			node.kind = DungeonMap.Kind.BOSS
+		map.connect_nodes(previous.id, node.id)
+		previous = node
 	return map
 
 
-static func _battle(map: DungeonMap, title: String, blurb: String, position: Vector2, enemy: String, life: int, ai: String, difficulty: DungeonMap.Difficulty) -> DungeonMap.MapNode:
-	var node: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, title, blurb, position)
-	node.enemy_name = enemy
-	node.enemy_life = life
-	node.ai_name = ai
+static func _battle(map: DungeonMap, battle: ZoneDef.MiniBattle, position: Vector2, difficulty: DungeonMap.Difficulty) -> DungeonMap.MapNode:
+	var node: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, battle.title, battle.blurb, position)
+	node.enemy_name = battle.enemy
+	node.enemy_life = battle.life
+	node.ai_name = battle.ai_name
 	node.difficulty = difficulty
 	node.gold_reward = EncounterRewards.gold_for(difficulty) / 2
 	node.card_choices = 0
@@ -45,19 +50,12 @@ static func _node(map: DungeonMap, kind: DungeonMap.Kind, title: String, blurb: 
 	return map.add_node(node)
 
 
-static func enemy_recipe(enemy_name: String) -> Dictionary:
-	match enemy_name:
-		"Kickoff Facilitator":
-			return {"land:D": 15, "cubicle_zombie": 4, "overdue_intern": 3, "middle_manager": 2, "death_benefits": 1}
-		"Budget Reviewer":
-			return {"land:D": 15, "soul_auditor": 3, "performance_review": 2, "cubicle_zombie": 3, "take_a_number": 2, "middle_manager": 1}
-		"The Quarterly Reviewer":
-			return {"land:D": 16, "hr_reaper": 2, "middle_manager": 3, "soul_auditor": 2, "mandatory_fun_day": 1, "performance_review": 2, "death_benefits": 1}
-	return {}
+static func enemy_recipe(enemy_name: String, zone_id: String = DnaZone.ID) -> Dictionary:
+	return ZoneDefs.get_def(zone_id).mini.recipe_for(enemy_name)
 
 
-static func enemy_setup(content: ContentSet, map_node: DungeonMap.MapNode) -> PlayerSetup:
-	var deck: Deck = ZoneDecks.from_recipe(content, map_node.enemy_name, enemy_recipe(map_node.enemy_name))
+static func enemy_setup(content: ContentSet, map_node: DungeonMap.MapNode, zone_id: String = DnaZone.ID) -> PlayerSetup:
+	var deck: Deck = ZoneDecks.from_recipe(content, map_node.enemy_name, enemy_recipe(map_node.enemy_name, zone_id))
 	var setup: PlayerSetup = PlayerSetup.create(deck, null, [] as Array[ModifierSource], map_node.enemy_name)
 	setup.starting_life = map_node.enemy_life
 	setup.profile = PlayerProfile.new()

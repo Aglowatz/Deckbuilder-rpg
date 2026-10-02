@@ -31,7 +31,7 @@ func test_hidden_chests_are_reachable_and_numerous() -> void:
 	for id: String in layout.chests.keys():
 		var cell: Vector2i = DnaLayout.world_to_cell(layout.chests[id] as Vector3)
 		assert_true(reach.has(cell), "%s reachable" % id)
-		assert_true(DnaScene.CHEST_REWARDS.has(id), "%s has a reward" % id)
+		assert_true(DnaZone.CHEST_REWARDS.has(id), "%s has a reward" % id)
 
 
 func test_enemy_homes_are_reachable_and_all_three_types_exist() -> void:

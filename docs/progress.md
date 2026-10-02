@@ -1908,3 +1908,7 @@ All parts A-I plus FINAL are done. 439 GUT tests pass (up from 388). Balance was
 ## Part A: Ember -> Beefcake - done
 
 Renamed everywhere (enum display name, cards, decks, quests, UI, dialogue, ids, docs). The town zone exit is the **Beefcake Path**; Torvin is now "Torvin the Over-Pumped" with gym-flavoured lines. New tests: `tests/test_beefcake_rename.gd` and `tests/test_compile_all_scripts.gd` (loads every script). 443 tests pass. Logged as F1/F2 in open_questions.md.
+
+## Part B: shared zone framework - done
+
+`ZoneScene` (world/zone/) now holds everything reusable from the D.N.A.: hub spots, quest NPCs, vendor, heal spot, exit, mini dungeon prompt, main dungeon placeholder, quiz/minigame/puzzle launchers, hidden chests, roaming enemies, zone life rules + respawn, overlays and HUD. A zone is a `ZoneDef` (core/zone/zone_def.gd), a `ZoneMap` and a story file; `DnaScene` is now a thin subclass (look, flickering lights, 4 office interactables). `Session` has `enter_zone(id)` and reads the scene, flags, mini dungeon, fee and enemy tables from the def. See docs/design/zones.md. Tests: 443 pass (incl. compile-every-script). The D.N.A. e2e (`tools/run_fifth_brief_final_smoke.sh`) still passes end to end (quiz, matching, puzzle, chest, mini dungeon, battles, hub heal, courier hit).

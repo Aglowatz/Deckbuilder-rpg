@@ -6,6 +6,7 @@ extends RefCounted
 ## reward for that score (`quiz_rewards`); afterwards EVERY finished attempt pays the small flat
 ## `quiz_repeat_reward`. Failing before you have ever passed pays nothing.
 
+## The D.N.A.'s flag (kept for tests); other zones use `ZoneDef.flag_quiz_passed`.
 const PASS_SCORE: int = 3
 const PASSED_FLAG: StringName = &"dna_quiz_passed"
 
@@ -35,10 +36,10 @@ static func score(story: ZoneStoryText, answers: Array[int]) -> int:
 ## Applies a finished quiz to the Session: pays, records the first pass, sets the "took the quiz"
 ## flag (the audit quest's objective). Returns the payout dictionary.
 static func apply(story: ZoneStoryText, correct: int) -> Dictionary:
-	var passed_before: bool = Session.flag(PASSED_FLAG)
+	var passed_before: bool = Session.flag(ZoneDefs.current().flag_quiz_passed)
 	var reward: Dictionary = payout(story, correct, passed_before)
 	if bool(reward["first_pass"]):
-		Session.set_flag(PASSED_FLAG)
+		Session.set_flag(ZoneDefs.current().flag_quiz_passed)
 	if int(reward["gold"]) > 0:
 		Session.add_gold(int(reward["gold"]))
 	var item_id: String = str(reward["item"])
@@ -46,7 +47,7 @@ static func apply(story: ZoneStoryText, correct: int) -> Dictionary:
 		Session.add_item(Session.content.item(item_id))
 	if int(reward["xp"]) > 0:
 		Session.pending_level_ups.append_array(Session.add_xp(int(reward["xp"])))
-	Session.set_flag(DnaZone.FLAG_QUIZ_DONE)
+	Session.set_flag(ZoneDefs.current().flag_quiz_done)
 	Session.refresh_quests()
 	Session.save_game()
 	return reward

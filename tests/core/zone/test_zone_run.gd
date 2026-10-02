@@ -79,7 +79,7 @@ func test_slow_enemies_are_slower_than_the_player_and_courier_is_faster() -> voi
 	assert_gt(DnaEnemies.info(DnaEnemies.COURIER).chase_speed, TownPlayer.SPEED)
 	assert_lt(DnaEnemies.info(DnaEnemies.MANAGER).chase_speed, TownPlayer.SPEED)
 	assert_eq(DnaEnemies.COURIER_DAMAGE, 2)
-	assert_eq(DnaEnemies.info(DnaEnemies.COURIER).kind, DnaEnemies.Kind.DAMAGE)
+	assert_eq(DnaEnemies.info(DnaEnemies.COURIER).kind, ZoneEnemyInfo.Kind.DAMAGE)
 
 
 func test_enemy_decks_are_legal_necrocrat_decks() -> void:

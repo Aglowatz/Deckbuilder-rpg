@@ -32,8 +32,8 @@ func _init() -> void:
 
 
 func _build() -> void:
-	_story = ZoneStoryText.shared()
-	_already_solved = Session.flag(DnaZone.FLAG_PUZZLE_SOLVED)
+	_story = ZoneStoryText.current()
+	_already_solved = Session.flag(ZoneDefs.current().flag_puzzle_solved)
 	puzzle.reset(_start_states)
 	var intro: Label = UIKit.label("\n".join(_story.get_lines("puzzle.intro")), &"MutedLabel", 20)
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

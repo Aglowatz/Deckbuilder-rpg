@@ -70,10 +70,11 @@ func fully_heal() -> int:
 func wake_at_hub(gold_available: int, cause: String = "") -> int:
 	run.life = run.max_life()
 	run.failed = false
-	var fee: int = mini(PAPERWORK_FEE, maxi(gold_available, 0))
+	var def: ZoneDef = ZoneDefs.get_def(zone_id)
+	var fee: int = mini(def.fee, maxi(gold_available, 0))
 	fees_paid += fee
 	var reason: String = cause if not cause.is_empty() else "declared Deceased (again)"
-	fee_log.append("Paperwork fee %d gold - %s" % [fee, reason])
+	fee_log.append("%s %d gold - %s" % [def.fee_label, fee, reason])
 	return fee
 
 

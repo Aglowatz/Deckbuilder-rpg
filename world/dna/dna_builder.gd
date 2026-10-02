@@ -1,5 +1,5 @@
 class_name DnaBuilder
-extends WalkableArea
+extends ZoneMap
 ## Turns a `DnaLayout` into the D.N.A.'s 3D world and answers walkability queries.
 ##
 ## Performance design (the zone is ~3x the town):
@@ -62,6 +62,34 @@ func cell_center(cx: int, cz: int) -> Vector3:
 
 func anchor(name: String) -> Vector3:
 	return layout.anchors.get(name, Vector3.ZERO) as Vector3
+
+
+func has_anchor(name: String) -> bool:
+	return layout.anchors.has(name)
+
+
+func chest_positions() -> Dictionary:
+	return layout.chests
+
+
+func enemy_spawns() -> Array[Dictionary]:
+	return layout.enemy_spawns
+
+
+func area_at(pos: Vector3) -> Array[String]:
+	var room: DnaLayout.Room = layout.room_at(pos)
+	if room == null:
+		return [] as Array[String]
+	return [room.id, room.title] as Array[String]
+
+
+func is_floor_at(pos: Vector3) -> bool:
+	var cell: Vector2i = DnaLayout.world_to_cell(pos)
+	return layout.is_floor(cell.x, cell.y)
+
+
+func map_bounds() -> Rect2:
+	return Rect2(0.0, 0.0, float(DnaLayout.W), float(DnaLayout.H))
 
 
 # ---- Chunks ----------------------------------------------------------------------------------
@@ -458,8 +486,6 @@ func _build_tube_network() -> void:
 		travel.tween_property(capsule, "position", b, 2.0 + _rng.randf() * 2.0).from(a)
 		travel.tween_interval(0.5 + _rng.randf())
 
-
-var chest_nodes: Dictionary = {}
 
 
 func _build_chests() -> void:

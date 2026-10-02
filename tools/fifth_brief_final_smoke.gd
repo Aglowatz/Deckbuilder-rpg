@@ -247,7 +247,7 @@ func _heal_at_the_hub(zone: DnaScene) -> void:
 
 func _buy_a_necrocrat_card(zone: DnaScene) -> void:
 	await _clear_popups(zone)
-	var spot: DnaScene.Spot = _spot(zone, "pip")
+	var spot: ZoneSpot = _spot(zone, "pip")
 	await _walk_to(zone, zone.builder.anchor("pip") + Vector3(0, 0, -0.6), spot.radius)
 	await driver.frames(3)
 	await driver.tap_key(KEY_E)
@@ -276,7 +276,7 @@ func _buy_a_necrocrat_card(zone: DnaScene) -> void:
 
 func _quiz_master(zone: DnaScene) -> void:
 	await _clear_popups(zone)
-	var spot: DnaScene.Spot = _spot(zone, "quiz")
+	var spot: ZoneSpot = _spot(zone, "quiz")
 	var gold_before: int = Session.gold
 	await _walk_to(zone, spot.position, spot.radius)
 	await driver.frames(3)
@@ -308,7 +308,7 @@ func _quiz_master(zone: DnaScene) -> void:
 
 func _matching_game(zone: DnaScene) -> void:
 	await _clear_popups(zone)
-	var spot: DnaScene.Spot = _spot(zone, "matching")
+	var spot: ZoneSpot = _spot(zone, "matching")
 	await _walk_to(zone, spot.position, spot.radius)
 	await driver.frames(3)
 	await driver.tap_key(KEY_E)
@@ -351,7 +351,7 @@ func _matching_game(zone: DnaScene) -> void:
 
 func _puzzle(zone: DnaScene) -> void:
 	await _clear_popups(zone)
-	var spot: DnaScene.Spot = _spot(zone, "puzzle")
+	var spot: ZoneSpot = _spot(zone, "puzzle")
 	await _walk_to(zone, spot.position, spot.radius)
 	await driver.frames(3)
 	await driver.tap_key(KEY_E)
@@ -405,7 +405,7 @@ func _open_a_chest(zone: DnaScene) -> void:
 
 func _mini_dungeon(zone: DnaScene) -> DnaScene:
 	await _clear_popups(zone)
-	var spot: DnaScene.Spot = _spot(zone, "mini_dungeon")
+	var spot: ZoneSpot = _spot(zone, "mini_dungeon")
 	zone._spawn_grace = 20.0
 	zone._invulnerable = 20.0
 	zone.player.position = zone.builder.anchor("bank_center")
@@ -518,8 +518,8 @@ func _wait_scene_either() -> Node:
 	return null
 
 
-func _spot(zone: DnaScene, id: String) -> DnaScene.Spot:
-	for spot: DnaScene.Spot in zone.spots:
+func _spot(zone: DnaScene, id: String) -> ZoneSpot:
+	for spot: ZoneSpot in zone.spots:
 		if spot.id == id:
 			return spot
 	_fail("no such spot: %s" % id)

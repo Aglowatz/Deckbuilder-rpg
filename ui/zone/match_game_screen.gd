@@ -23,7 +23,7 @@ func _init() -> void:
 
 
 func _build() -> void:
-	_story = ZoneStoryText.shared()
+	_story = ZoneStoryText.current()
 	var center: CenterContainer = CenterContainer.new()
 	center.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(center)

@@ -113,8 +113,8 @@ static func apply_result(stars_earned: int) -> Dictionary:
 	var result: Dictionary = {"gold": 0, "xp": 0, "item": "", "first_win": false, "stars": stars_earned}
 	if stars_earned <= 0:
 		return result
-	if not Session.flag(DnaZone.FLAG_MATCH_FIRST):
-		Session.set_flag(DnaZone.FLAG_MATCH_FIRST)
+	if not Session.flag(ZoneDefs.current().flag_minigame_first):
+		Session.set_flag(ZoneDefs.current().flag_minigame_first)
 		result["first_win"] = true
 		result["gold"] = int(STAR_REWARDS[stars_earned]["gold"]) * 2 + int(FIRST_WIN_BONUS["gold"])
 		result["xp"] = int(STAR_REWARDS[stars_earned]["xp"]) * 2

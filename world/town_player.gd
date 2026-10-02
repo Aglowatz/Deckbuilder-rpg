@@ -15,6 +15,8 @@ var _step_timer: float = 0.0
 var _velocity: Vector3 = Vector3.ZERO
 ## Camera yaw the movement keys are relative to (the town camera never rotates).
 var move_yaw: float = 0.0
+## While true (thrown, falling, fading) the scene drives the position, including its height.
+var airborne: bool = false
 
 
 func setup(town_builder: WalkableArea, model_name: String, start: Vector3) -> void:
@@ -44,6 +46,10 @@ func _process(delta: float) -> void:
 		_velocity = Vector3.ZERO
 		_play(&"Idle")
 		_step_timer = 0.0
+	if not airborne:
+		var ground: float = town.height_at(position)
+		if absf(position.y - ground) > 0.001:
+			position.y = lerpf(position.y, ground, 1.0 - exp(-16.0 * delta))
 
 
 func _read_input() -> Vector2:

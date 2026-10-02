@@ -19,7 +19,7 @@ func _init() -> void:
 
 
 func _build() -> void:
-	_story = ZoneStoryText.shared()
+	_story = ZoneStoryText.current()
 	_rng.randomize()
 	_column = UIKit.vbox(18)
 	_column.custom_minimum_size = Vector2(1300, 0)
