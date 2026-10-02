@@ -19,6 +19,9 @@ var move_yaw: float = 0.0
 var airborne: bool = false
 ## When set, the hero plays this animation and ignores input (running in the hamster wheel).
 var forced_animation: StringName = &""
+## Brief 8: 1.0 on foot; a mount makes it faster. `moving` is true while a movement key is held this frame.
+var speed_multiplier: float = 1.0
+var moving: bool = false
 
 
 func setup(town_builder: WalkableArea, model_name: String, start: Vector3) -> void:
@@ -38,7 +41,8 @@ func _process(delta: float) -> void:
 	var direction: Vector2 = _read_input() if input_enabled else Vector2.ZERO
 	if direction != Vector2.ZERO:
 		var world_dir: Vector3 = Vector3(direction.x, 0.0, direction.y).rotated(Vector3.UP, move_yaw).normalized()
-		_velocity = world_dir * SPEED
+		_velocity = world_dir * SPEED * speed_multiplier
+		moving = true
 		_move(_velocity * delta)
 		var target_yaw: float = atan2(world_dir.x, world_dir.z)
 		model.rotation.y = lerp_angle(model.rotation.y, target_yaw, 1.0 - exp(-14.0 * delta))
@@ -49,6 +53,7 @@ func _process(delta: float) -> void:
 			Audio.sfx(&"footstep", -12.0, 0.12)
 	else:
 		_velocity = Vector3.ZERO
+		moving = false
 		_play(&"Idle")
 		_step_timer = 0.0
 	if not airborne:

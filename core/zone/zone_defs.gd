@@ -6,7 +6,7 @@ static var _cache: Dictionary = {}
 
 
 static func ids() -> Array[String]:
-	return [DnaZone.ID, GainlandsZone.ID, BuffetZone.ID]
+	return [DnaZone.ID, GainlandsZone.ID, BuffetZone.ID, HeapZone.ID]
 
 
 static func has_def(zone_id: String) -> bool:
@@ -18,6 +18,8 @@ static func get_def(zone_id: String) -> ZoneDef:
 		match zone_id:
 			GainlandsZone.ID:
 				_cache[zone_id] = GainlandsZone.build_def()
+			HeapZone.ID:
+				_cache[zone_id] = HeapZone.build_def()
 			BuffetZone.ID:
 				_cache[zone_id] = BuffetZone.build_def()
 			_:

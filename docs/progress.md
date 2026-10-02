@@ -2016,3 +2016,15 @@ All parts A, B and FINAL are done; **542 GUT tests pass** (up from 494; incl. co
 ## Part A: Root -> Refusemancer - done
 
 Renamed everywhere: enum display name, decks (`Gourmand & Refusemancer`, `Refusemancer & Necrocrat`, files renamed), the corrupted NPC id `refusemancer` (**Old Thistlebark the Over-Composted**, dialogue now about compost and the heap), the flag `refusemancer_zone_unlocked`, town anchors, docs, README. The town exit is **Path of the Refusemancer**. Lore: Refusemancers are druids responsible for waste removal and agriculture; they summon animals that eat the kingdom's garbage and turn it into fertilizer, and use magic to help crops grow. Tests: `tests/test_refusemancer_rename.gd`; 545 pass. Logged as J1.
+
+## Part B: the Verdant Heap (Refusemancer zone) - done
+
+Built on the shared zone framework as a `ZoneDef` (`HeapZone`) + `HeapLayout`/`HeapBuilder` + `data/story/refusemancer_story.tres` + a thin `HeapScene`. Full spec in docs/design/zones.md ("The Verdant Heap").
+
+- **World**: a patchwork farmland/junkyard with two junk mountains, a recycling stream, compost pits, a scree field, scrap barns and windmills, rusted wrecks turned into planters, a druid grove inside a ring of old appliances and a county fair; golden-hour lighting, fireflies, synthesized `heap` music; minimap and fog work (new POI kinds for stables and growing spots).
+- **Hub "The Compost Grange"**: Harvest Meal (heal), Hob's Swap Shed (10 placeholder Refusemancer cards), Druid Marigold / Farmer Hob / Wren Muckfoot, 3 zone quests, a stable, shrine, compost bin and trough. Same zone life rules (**20 gold mucking-out fee**, logged).
+- **Traversal**: druid / Magic-Bean **vine bridges and beanstalk ladders**, **rideable boar and goat** (x1.8 speed, crosses the scree, charges through junk barricades, Q dismounts), **trash-chute slides**, **falling into the stream or a compost pit** = respawn at the last safe spot for 1 zone life (logged).
+- **Enemies**: Mossy Trash Golem, Possessed Scarecrow Druid (slow, Refusemancer-deck battles), Junk Gull Flock (fast, 2 damage + knockback).
+- **Content**: Landfill Depths mini dungeon (3 battles, unique **Mother of the Heap**), **Seed Shrine** garden puzzle (one-time **Seed Satchel**), quiz master Elder Fennel, **Sort It Out!** sorting minigame by the original Blue-Ribbon Bev Pettigrew, **8 hidden chests**, compost bin / crop plots / druid shrine / animal trough / escaped animals, main dungeon placeholder "Closed for Composting". Humor throughout.
+- **Tests**: `tests/core/zone/test_heap.gd` (45 tests: layout, reachability on the real map incl. bridges / beanstalks / mount / barricade, chutes, hazards, growth rules, def, enemies, content, story keys, quiz, interactables, garden puzzle, sort game). **590 GUT tests pass** (incl. compile-every-script).
+- New asset packs: **Kenney Nature Kit, Survival Kit, Car Kit, Cube Pets** (CC0) - logged in CREDITS.md. Nothing for itch.io.

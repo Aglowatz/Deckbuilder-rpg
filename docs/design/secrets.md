@@ -165,3 +165,25 @@ one-time per chest, secret id `buf_<chest id>`. Rewards live in `BuffetZone.CHES
 Verified in `tests/core/zone/test_buffet.gd` (rewards defined for every chest, >= 6 chests, >= 3 on mesas, none
 inside an interact spot, reachability with the right crossings/pads/gates) and the windowed e2e
 (`tools/seventh_brief_final_smoke.gd`).
+
+## Brief 8: the Verdant Heap - 8 hidden chests
+
+Same rules as every zone: a `chest_gold` prop at 1/4 scale (0.225), **no marker, no plate, no minimap icon**
+(never on any map), the only tell is `[E] Open the chest` within `ZoneScene.HIDDEN_CHEST_RADIUS` (~1.5 m); one-time per
+chest, secret id `heap_<chest id>`. Rewards live in `HeapZone.CHEST_REWARDS`, positions in `HeapLayout._chests()`;
+keep all three in sync.
+
+| id | Where (world x, z) | How it's tucked | Contents |
+|----|--------------------|-----------------|----------|
+| `chest_fridge` | County fair grounds, (73.6, 72.4) | Next to a rusted fridge in the south-east corner | 40 gold |
+| `chest_compost` | The Patchwork Fields, (7.5, 72.5) | Beside a compost heap in the far south-west corner | 25 gold + **Healing Salve** |
+| `chest_peak_a` | **Mount Scrapmore** summit (beanstalk), (84, 54.4) | On top of the junk mountain, near the chute | **Recycle Bin** (card) |
+| `chest_hay` | The North Bank, (68, 37) | Behind a haybale, east of the second stable | 30 gold + **Scroll of Insight** |
+| `chest_log` | Rust Peak yards, (26, 7) | Inside a hollow log against the back edge | 60 gold + **Healing Draught** |
+| `chest_peak_b` | **Rust Peak** summit (beanstalk), (12.5, 14) | On top, west of the Seed Shrine | 20 gold + **Moss Titan** (card, Epic) |
+| `chest_car` | The Landfill Rim (behind the barricade), (60.5, 22) | By a rusted car husk turned planter | 90 gold + **Firebrand Charm** |
+| `chest_barn` | The Scree Fields (mount only), (88, 21) | Beside the scrap barn | 50 gold + **Vitality Charm** |
+
+Verified in `tests/core/zone/test_heap.gd` (rewards defined for every chest, >= 6 chests, >= 2 on summits, none inside an
+interact spot, reachability with the right bridges / beanstalks / mount / barricade) and the windowed e2e
+(`tools/eighth_brief_final_smoke.gd`).

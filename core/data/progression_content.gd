@@ -33,6 +33,8 @@ static func zone_equipment() -> Dictionary:
 	_add(result, _piece("courier_lanyard", "Soul Courier's Lanyard", EquipmentData.Slot.RELIC, "Everything is routed exactly where you need it. Draw an extra card on your first turn, and max hand size +1.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1), _mod(K.MAX_HAND_SIZE, 1)], true))
 	_add(result, _piece("swole_belt", "Gainsmith's Lifting Belt", EquipmentData.Slot.ARMOR, "Brace the core, brace the deck. Max life +3 and your creatures get +1 toughness.", [_mod(K.MAX_LIFE, 3), _mod(K.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)], true))
 	_add(result, _piece("head_chef_ladle", "Head Chef's Ladle", EquipmentData.Slot.WEAPON, "Heavy, battered and trusted by a hundred golems. At the start of your turn, gain 1 life.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.GAIN_LIFE, 1, CardEnums.TargetKind.CONTROLLER))], true))
+	_add(result, _piece("seed_satchel", "Refusemancer Seed Satchel", EquipmentData.Slot.RELIC, "Every pocket holds something that wants to grow. At the start of your turn, your creatures get +0/+1 permanently.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect_ab(CardEnums.EffectOp.BUFF, 0, 1, CardEnums.TargetKind.ALL_ALLY_CREATURES))], true))
+	_add(result, _piece("compost_boots", "Compost Boots", EquipmentData.Slot.BOOTS, "Squelch, squelch, grow. Draw an extra card on your first turn.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1)], true))
 	return result
 
 
@@ -101,6 +103,12 @@ static func _effect(op: CardEnums.EffectOp, amount: int, target: CardEnums.Targe
 	effect.op = op
 	effect.amount = amount
 	effect.target = target
+	return effect
+
+
+static func _effect_ab(op: CardEnums.EffectOp, amount: int, amount2: int, target: CardEnums.TargetKind) -> EffectData:
+	var effect: EffectData = _effect(op, amount, target)
+	effect.amount2 = amount2
 	return effect
 
 

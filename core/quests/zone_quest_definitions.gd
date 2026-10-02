@@ -10,7 +10,7 @@ const AUDIT: String = "dna_audit"
 
 
 static func build_all() -> Array[QuestData]:
-	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend()] as Array[QuestData]
+	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend(), _heap_herd(), _heap_fert(), _heap_dam()] as Array[QuestData]
 
 
 static func _backlog() -> QuestData:
@@ -163,4 +163,52 @@ static func _buf_mend() -> QuestData:
 	quest.reward_gold = 80
 	quest.reward_xp = 70
 	quest.reward_card_ids = ["food_fight"] as Array[String]
+	return quest
+
+
+# ---- The Verdant Heap (brief 8): three hub quests ---------------------------------------------
+
+
+static func _heap_herd() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = HeapZone.QUEST_HERD
+	quest.order = 410
+	quest.title = "Round Up the Herd"
+	quest.summary = "Three of Wren Muckfoot's garbage-eating animals have wandered off into the fields. Shoo each one back towards the pen."
+	quest.giver_npc = HeapZone.NPC_WREN
+	quest.turn_in_npc = HeapZone.NPC_WREN
+	quest.objectives = [QuestObjective.make("Shoo escaped animals back to the pen", Condition.counter(HeapZone.COUNTER_HERDED, 3))] as Array[QuestObjective]
+	quest.reward_gold = 60
+	quest.reward_xp = 50
+	quest.reward_card_ids = ["scrap_goat"] as Array[String]
+	return quest
+
+
+static func _heap_fert() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = HeapZone.QUEST_FERT
+	quest.order = 420
+	quest.title = "Fertilizer Run"
+	quest.summary = "Farmer Hob is out of fertilizer and the crops are sulking. Gather three sacks from around the Verdant Heap."
+	quest.giver_npc = HeapZone.NPC_HOB
+	quest.turn_in_npc = HeapZone.NPC_HOB
+	quest.objectives = [QuestObjective.make("Gather sacks of fertilizer", Condition.counter(HeapZone.COUNTER_FERTILIZER, 3))] as Array[QuestObjective]
+	quest.reward_gold = 70
+	quest.reward_xp = 60
+	quest.reward_card_ids = ["harvest_moon"] as Array[String]
+	return quest
+
+
+static func _heap_dam() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = HeapZone.QUEST_DAM
+	quest.order = 430
+	quest.title = "Unblock the Stream"
+	quest.summary = "Somebody has dumped a junk dam across the recycling stream. Druid Marigold needs a charging mount to smash it, and she will reward you with a fine pair of compost boots."
+	quest.giver_npc = HeapZone.NPC_MARIGOLD
+	quest.turn_in_npc = HeapZone.NPC_MARIGOLD
+	quest.objectives = [QuestObjective.make("Smash the junk dam on a charging mount", Condition.flag("heap_smashed_dam"))] as Array[QuestObjective]
+	quest.reward_gold = 80
+	quest.reward_xp = 70
+	quest.reward_equipment_ids = ["compost_boots"] as Array[String]
 	return quest

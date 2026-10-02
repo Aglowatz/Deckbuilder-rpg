@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_y8gla"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_n64v0"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_6ocrl"]
+
+[sub_resource type="Resource" id="Resource_qopwo"]
+script = ExtResource("2_n64v0")
+key = "heap_smashed_dam"
+
+[sub_resource type="Resource" id="Resource_ecyfg"]
+script = ExtResource("1_y8gla")
+text = "Smash the junk dam on a charging mount"
+condition = SubResource("Resource_qopwo")
+
+[resource]
+script = ExtResource("3_6ocrl")
+id = "heap_dam"
+title = "Unblock the Stream"
+summary = "Somebody has dumped a junk dam across the recycling stream. Druid Marigold needs a charging mount to smash it, and she will reward you with a fine pair of compost boots."
+giver_npc = "Druid Marigold"
+turn_in_npc = "Druid Marigold"
+order = 430
+objectives = Array[ExtResource("1_y8gla")]([SubResource("Resource_ecyfg")])
+reward_gold = 80
+reward_xp = 70
+reward_equipment_ids = Array[String](["compost_boots"])

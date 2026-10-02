@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_jy0rh"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_dvs36"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_uuhx2"]
+
+[sub_resource type="Resource" id="Resource_lbj8f"]
+script = ExtResource("1_jy0rh")
+kind = 13
+value = 1
+
+[resource]
+script = ExtResource("3_uuhx2")
+id = "compost_boots"
+slot = 3
+description = "Squelch, squelch, grow. Draw an extra card on your first turn."
+advanced = true
+source_name = "Compost Boots"
+modifiers = Array[ExtResource("1_jy0rh")]([SubResource("Resource_lbj8f")])

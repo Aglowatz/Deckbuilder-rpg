@@ -19,6 +19,8 @@ const TRACKS: Dictionary = {
 	&"gainlands": {"bpm": 112, "root": 62, "prog": [[0, false], [5, false], [7, false], [5, false]], "pad": 0.3, "arp": 0.38, "bass": 0.4, "drums": 0.32, "bell": 0.15, "wind": 0.5},
 	## Brief 7: the Endless Buffet - a swinging, sunny major progression with plucky bells and a light shuffle.
 	&"buffet": {"bpm": 104, "root": 60, "prog": [[0, false], [9, true], [5, false], [7, false]], "pad": 0.28, "arp": 0.42, "bass": 0.4, "drums": 0.3, "bell": 0.35, "wind": 0.0},
+	## Brief 8: the Verdant Heap - a warm, folky major progression with plucks, light shuffle, wind and birds.
+	&"heap": {"bpm": 92, "root": 57, "prog": [[0, false], [5, false], [9, true], [7, false]], "pad": 0.3, "arp": 0.4, "bass": 0.34, "drums": 0.18, "bell": 0.28, "wind": 0.4},
 }
 
 static var _cache: Dictionary = {}
@@ -127,7 +129,7 @@ static func render(name: StringName) -> AudioStreamWAV:
 		_hum(buffer, float(config["hum"]), rng)
 	if float(config["wind"]) > 0.0:
 		_wind(buffer, float(config["wind"]), rng)
-		if name == &"town" or name == &"gainlands":
+		if name == &"town" or name == &"gainlands" or name == &"heap":
 			_birds(buffer, rng, total)
 	return _to_stream(buffer)
 

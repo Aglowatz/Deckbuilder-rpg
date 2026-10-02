@@ -208,6 +208,7 @@ static func build_zone_cards(tokens: Dictionary) -> Dictionary:
 	_add(cards, _fin(_with(ceo, summon_two), R.LEGENDARY, "Flying. When this enters, create two 1/1 Spirits.", "Unique reward of the mini dungeon. Still takes credit for everything."))
 	_add_gainlands_cards(cards)
 	_add_buffet_cards(cards)
+	HeapContent.add_cards(cards)
 	return cards
 
 

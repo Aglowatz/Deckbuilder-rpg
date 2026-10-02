@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ibg1v"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_wv8dg"]
+
+[sub_resource type="Resource" id="Resource_rlnr3"]
+script = ExtResource("1_ibg1v")
+target = 1
+op = 2
+amount = 2
+
+[sub_resource type="Resource" id="Resource_k1hfa"]
+script = ExtResource("1_ibg1v")
+target = 1
+op = 10
+amount = 1
+
+[resource]
+script = ExtResource("2_wv8dg")
+id = "recycle_bin"
+display_name = "Recycle Bin"
+type = 2
+color = 3
+generic_cost = 1
+colored_pips = Array[int]([3])
+toughness = 0
+rules_text = "Draw two cards. You lose 1 life."
+effects = Array[ExtResource("1_ibg1v")]([SubResource("Resource_rlnr3"), SubResource("Resource_k1hfa")])
+rarity = 1
+flavor_text = "Blue bin: bottles. Green bin: leaves. Gold bin: you, apparently."

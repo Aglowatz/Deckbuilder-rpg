@@ -21,6 +21,8 @@ enum Kind {
 	BOUNCE_PAD,
 	FERRY,
 	GATE,
+	STABLE,
+	GROWTH,
 }
 
 var kind: Kind = Kind.VENDOR
@@ -77,6 +79,10 @@ static func kind_name(poi_kind: Kind) -> String:
 			return "Raft / rotating platform"
 		Kind.GATE:
 			return "Golem gate"
+		Kind.STABLE:
+			return "Stable (mounts)"
+		Kind.GROWTH:
+			return "Growing spot"
 	return "?"
 
 
@@ -114,6 +120,10 @@ static func kind_glyph(poi_kind: Kind) -> String:
 			return "R"
 		Kind.GATE:
 			return "#"
+		Kind.STABLE:
+			return "S"
+		Kind.GROWTH:
+			return "V"
 	return "?"
 
 
@@ -147,4 +157,8 @@ static func kind_color(poi_kind: Kind) -> Color:
 			return Color("f0a050")
 		Kind.GATE:
 			return Color("c8a070")
+		Kind.STABLE:
+			return Color("c89a5a")
+		Kind.GROWTH:
+			return Color("6fd05a")
 	return Color.WHITE

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_s3xnl"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_61pmm"]
+
+[sub_resource type="Resource" id="Resource_t0s0l"]
+script = ExtResource("1_s3xnl")
+trigger = 1
+target = 1
+op = 2
+amount = 1
+
+[resource]
+script = ExtResource("2_61pmm")
+id = "tin_can_raccoon"
+display_name = "Tin Can Raccoon"
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+power = 2
+toughness = 3
+rules_text = "When this dies, draw a card."
+effects = Array[ExtResource("1_s3xnl")]([SubResource("Resource_t0s0l")])
+flavor_text = "One person's trash is another raccoon's entire personality."

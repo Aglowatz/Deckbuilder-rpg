@@ -119,3 +119,15 @@ No new third-party asset packs were needed. The Gainlands reuses packs that are 
   - License: CC0 (license file in the folder)
   - Downloaded earlier into `_asset_library/`; first used here (2026-10-02) for the Grand Pantry and the Dinner in a Dash set.
 - The jelly pads, crouton rafts, lazy susan, layer-cake buildings, golem gates, signs, the Gravy River and the table rim are original procedural geometry (`world/buffet/`). The `buffet` music track and the "boing" / "splash" / "ding" sound effects are generated in code (`app/music_synth.gd`); no recorded audio was added.
+
+## Brief 8: the Verdant Heap (added 2026-10-02)
+
+- **assets/kenney-nature-kit/** - Nature Kit 2.1 (trees, bushes, crops, flowers, rocks, logs, mushrooms, fences)
+  - Author: Kenney (www.kenney.nl) - Source: https://kenney.nl/assets/nature-kit - License: CC0 (license file in the folder)
+- **assets/kenney-survival-kit/** - Survival Kit (barrels, buckets, crates, metal panels, workbench, tool props)
+  - Author: Kenney (www.kenney.nl) - Source: https://kenney.nl/assets/survival-kit - License: CC0 (license file in the folder)
+- **assets/kenney-car-kit/** - Car Kit (sedans, vans, trucks, tractors, tyres and debris, used as rusted wrecks and junk)
+  - Author: Kenney (www.kenney.nl) - Source: https://kenney.nl/assets/car-kit - License: CC0 (license file in the folder)
+- **assets/kenney-cube-pets/** - Cube Pets 1.0 (animated animals: boar, deer as goat, pig, cat as raccoon)
+  - Author: Kenney (www.kenney.nl) - Source: https://kenney.nl/assets/cube-pets - License: CC0 (license file in the folder)
+- All downloaded 2026-10-02; only the models actually used were kept in `assets/`. The scrap barns, windmills, junk piles, compost heaps, vine bridges, beanstalks, trash chutes, shrine, fair stage and the three enemy models are original procedural geometry (`world/heap/`); the `heap` music track is generated in code (`app/music_synth.gd`).

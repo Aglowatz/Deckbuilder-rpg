@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_4t68v"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_g5m6x"]
+
+[sub_resource type="Resource" id="Resource_o1kgy"]
+script = ExtResource("1_4t68v")
+target = 1
+op = 9
+amount = 5
+
+[sub_resource type="Resource" id="Resource_deoih"]
+script = ExtResource("1_4t68v")
+target = 1
+op = 2
+amount = 1
+
+[resource]
+script = ExtResource("2_g5m6x")
+id = "harvest_moon"
+display_name = "Harvest Moon"
+type = 2
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+toughness = 0
+rules_text = "Gain 5 life. Draw a card."
+effects = Array[ExtResource("1_4t68v")]([SubResource("Resource_o1kgy"), SubResource("Resource_deoih")])
+flavor_text = "The crops come in under a golden light. So do the raccoons."

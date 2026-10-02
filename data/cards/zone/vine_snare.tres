@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_7yfuj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ey8nl"]
+
+[sub_resource type="Resource" id="Resource_xkjtw"]
+script = ExtResource("1_7yfuj")
+target = 5
+amount = 3
+
+[resource]
+script = ExtResource("2_ey8nl")
+id = "vine_snare"
+display_name = "Vine Snare"
+type = 2
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+toughness = 0
+rules_text = "Deal 3 damage to target enemy creature."
+effects = Array[ExtResource("1_7yfuj")]([SubResource("Resource_xkjtw")])
+rarity = 1
+flavor_text = "The vines are not malicious. They are just very, very enthusiastic."

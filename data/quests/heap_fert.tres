@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_ymswb"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_eg6i1"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_7m4hh"]
+
+[sub_resource type="Resource" id="Resource_oscyq"]
+script = ExtResource("2_eg6i1")
+kind = 9
+key = "heap_fertilizer_gathered"
+amount = 3
+
+[sub_resource type="Resource" id="Resource_ocdwe"]
+script = ExtResource("1_ymswb")
+text = "Gather sacks of fertilizer"
+condition = SubResource("Resource_oscyq")
+
+[resource]
+script = ExtResource("3_7m4hh")
+id = "heap_fert"
+title = "Fertilizer Run"
+summary = "Farmer Hob is out of fertilizer and the crops are sulking. Gather three sacks from around the Verdant Heap."
+giver_npc = "Farmer Hob"
+turn_in_npc = "Farmer Hob"
+order = 420
+objectives = Array[ExtResource("1_ymswb")]([SubResource("Resource_ocdwe")])
+reward_gold = 70
+reward_xp = 60
+reward_card_ids = Array[String](["harvest_moon"])

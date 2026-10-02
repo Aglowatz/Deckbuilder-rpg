@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_rn64o"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_sraia"]
+
+[resource]
+script = ExtResource("2_sraia")
+id = "dung_beetle"
+display_name = "Giant Dung Beetle"
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+power = 2
+toughness = 4
+keywords = Array[int]([7])
+rules_text = "Guard"
+flavor_text = "Rolls the whole kingdom's problems into one ball. Happily."
