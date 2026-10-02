@@ -1,28 +1,29 @@
 [gd_resource type="Resource" script_class="EquipmentData" format=3]
 
-[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_a4clm"]
-[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_mhcq0"]
-[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_4erk6"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_mhcq0"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_4erk6"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="3_0deof"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_l872m"]
 
-[sub_resource type="Resource" id="Resource_0deof"]
-script = ExtResource("1_a4clm")
+[sub_resource type="Resource" id="Resource_ppgpy"]
+script = ExtResource("1_mhcq0")
 value = -5
 
-[sub_resource type="Resource" id="Resource_l872m"]
-script = ExtResource("2_mhcq0")
+[sub_resource type="Resource" id="Resource_2k4we"]
+script = ExtResource("3_0deof")
 target = 12
 amount = 1
 
-[sub_resource type="Resource" id="Resource_ppgpy"]
-script = ExtResource("1_a4clm")
+[sub_resource type="Resource" id="Resource_t0dpi"]
+script = ExtResource("1_mhcq0")
 kind = 18
-effect = SubResource("Resource_l872m")
+effect = SubResource("Resource_2k4we")
 
 [resource]
-script = ExtResource("3_4erk6")
+script = ExtResource("4_l872m")
 id = "thorned_loincloth"
 slot = 2
 description = "Nobody enjoys being the one who has to remove this from a corpse. Max life -5; whenever an enemy creature attacks you, it takes 1 damage."
 advanced = true
 source_name = "Thorned Loincloth"
-modifiers = Array[ExtResource("1_a4clm")]([SubResource("Resource_0deof"), SubResource("Resource_ppgpy")])
+modifiers = Array[ExtResource("1_mhcq0")]([SubResource("Resource_ppgpy"), SubResource("Resource_t0dpi")])

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_276bi"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ywgfg"]
+
+[sub_resource type="Resource" id="Resource_vs8h3"]
+script = ExtResource("1_276bi")
+target = 10
+op = 5
+amount = 2
+duration = 1
+
+[sub_resource type="Resource" id="Resource_akgp2"]
+script = ExtResource("1_276bi")
+target = 1
+op = 2
+amount = 1
+
+[resource]
+script = ExtResource("2_ywgfg")
+id = "flex_off"
+display_name = "Flex-Off"
+type = 2
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+toughness = 0
+rules_text = "Your creatures get +2/+0 until end of turn. Draw a card."
+effects = Array[ExtResource("1_276bi")]([SubResource("Resource_vs8h3"), SubResource("Resource_akgp2")])
+rarity = 1
+flavor_text = "Judged by the mirror, and the mirror approves."

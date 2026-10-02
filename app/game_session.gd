@@ -917,6 +917,11 @@ func leave_zone() -> void:
 	SceneManager.go_to_town()
 
 
+## Anything worth logging in a zone (falls, fees...): newest last, saved with the campaign.
+func log_zone_event(line: String) -> void:
+	log_paperwork_fee(line)
+
+
 func log_paperwork_fee(line: String) -> void:
 	zone_log.append(line)
 	while zone_log.size() > ZONE_LOG_LIMIT:
@@ -974,6 +979,12 @@ func start_zone_battle(enemy_type: String, enemy_instance_id: String) -> void:
 ## After a zone duel: life carries over (no post-battle heal). A win removes that enemy for the rest
 ## of the visit and pays a small reward; a loss (0 life) wakes the player at the hub, minus the fee.
 func _complete_zone_battle(context: BattleContext) -> void:
+	resolve_zone_battle(context)
+	SceneManager.change_scene(zone_def().scene_path)
+
+
+## The state changes of a finished zone duel (no scene change, so tests can run it).
+func resolve_zone_battle(context: BattleContext) -> Dictionary:
 	var result: Dictionary = {"kind": "battle", "won": context.won, "enemy": context.enemy_name}
 	if zone_run == null:
 		zone_run = ZoneRun.enter(DnaZone.ID, profile, deck)
@@ -985,13 +996,15 @@ func _complete_zone_battle(context: BattleContext) -> void:
 		result["levels_gained"] = add_xp(context.xp_reward)
 		result["xp"] = context.xp_reward
 		bump_counter("zone_enemies_defeated")
+		if zone_def().counter_enemies != "zone_enemies_defeated":
+			bump_counter(zone_def().counter_enemies)
 	if zone_run.is_down() or not context.won:
 		var fee: int = zone_wake_at_hub("beaten by a %s" % context.enemy_name)
 		result["woke_at_hub"] = true
 		result["fee"] = fee
 	pending_zone_result = result
 	save_game()
-	SceneManager.change_scene(zone_def().scene_path)
+	return result
 
 
 # ---- Mini dungeon (brief 5, Part E) -------------------------------------------------------

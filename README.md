@@ -44,6 +44,12 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
      1.5m. Each district ends at an edge entrance to a zone (placeholder "coming soon" areas for
      now); the 4 element entrances stay sealed behind a translucent barrier until their corrupted
      NPC falls, the final entrance is open from the start.
+   - **Zones**: the Necrocrat entrance leads into **The D.N.A.** (an office complex), the Beefcake Path into
+     **The Gainlands** (a bright open land of mills, giant hamster wheels and outdoor boulder gyms, with
+     floating islands you reach by being *thrown* by a Beefcake or through a *portal* one tears open by hand).
+     Both share one zone framework: a hub, zone life (no healing after battles), roaming enemies, a mini
+     dungeon, a puzzle, a quiz, a minigame, hidden chests and a locked main-dungeon door. Press **M** in any
+     walkable area for the map; a minimap with fog of war (toggle in Settings) fills in as you explore.
 7. **Battles**: click a card to play it (or drag it onto the table). Cards glow gold when playable. Targeted
    spells show an arrow: click the target, right-click to cancel. In combat click your creatures to attack,
    then press **Attack**; when blocking, click your blocker, then the attacker. Hover any card to zoom it and

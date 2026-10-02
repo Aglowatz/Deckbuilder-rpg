@@ -17,6 +17,8 @@ var _velocity: Vector3 = Vector3.ZERO
 var move_yaw: float = 0.0
 ## While true (thrown, falling, fading) the scene drives the position, including its height.
 var airborne: bool = false
+## When set, the hero plays this animation and ignores input (running in the hamster wheel).
+var forced_animation: StringName = &""
 
 
 func setup(town_builder: WalkableArea, model_name: String, start: Vector3) -> void:
@@ -30,6 +32,9 @@ func setup(town_builder: WalkableArea, model_name: String, start: Vector3) -> vo
 
 
 func _process(delta: float) -> void:
+	if forced_animation != &"":
+		_play(forced_animation)
+		return
 	var direction: Vector2 = _read_input() if input_enabled else Vector2.ZERO
 	if direction != Vector2.ZERO:
 		var world_dir: Vector3 = Vector3(direction.x, 0.0, direction.y).rotated(Vector3.UP, move_yaw).normalized()

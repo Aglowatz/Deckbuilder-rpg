@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_61ajv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_e2rds"]
+
+[sub_resource type="Resource" id="Resource_fsj0p"]
+script = ExtResource("1_61ajv")
+trigger = 2
+op = 5
+amount = 1
+duration = 1
+
+[resource]
+script = ExtResource("2_e2rds")
+id = "gym_rat"
+display_name = "Gym Rat"
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+power = 2
+toughness = 2
+rules_text = "Whenever this attacks, it gets +1/+0 until end of turn."
+effects = Array[ExtResource("1_61ajv")]([SubResource("Resource_fsj0p")])
+flavor_text = "Lives here. Pays rent in reps."

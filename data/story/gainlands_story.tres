@@ -1,0 +1,206 @@
+[gd_resource type="Resource" script_class="ZoneStoryText" format=3]
+
+[ext_resource type="Script" path="res://core/data/zone_story_text.gd" id="1_gain"]
+
+[resource]
+script = ExtResource("1_gain")
+lines = {
+"hud.objective": ["The Gainlands: the Swole Station is safe. Life does not come back after battles - soak in the Cooldown Hot Tub, or walk back down the Beefcake Path."],
+"ui.mini.body": ["Three sets in a row. Your life carries from one set to the next and nothing heals in between. Finish all three for a unique Beefcake card."],
+"ui.mini.body_cleared": ["You already took the unique card from here. You can still lift for gold and XP. Life carries over; nothing heals in between."],
+"ui.mini.button": ["Chalk up"],
+"ui.exit.title": ["Walk back down the Beefcake Path?"],
+"ui.exit.body": ["Leaving the Gainlands ends this visit. Town heals you fully; the roaming brutes, golems and sprites will be back next time."],
+"fx.main_dungeon": ["CLOSED FOR LEG DAY. Back after squats."],
+"fx.heal_couch": ["You sink into the Cooldown Hot Tub. It smells of eucalyptus and old gym socks. Life restored."],
+"fx.heal_already": ["You are already as recovered as a Beefcake gets. Go lift something."],
+"fx.hit": ["ZAP! A sprite hits you right in the quads. (-2 life)"],
+"fx.wake": ["You wake up in the hot tub at the Swole Station. Coach Brenda is holding a clipboard and a tiny towel.", "\"Passed out mid-rep. Happens to the best of us. The tab is on you.\""],
+"fx.chest": ["A hidden stash! Nobody spotted that one."],
+"fx.thrown": ["COURTESY CHUCK!"],
+"fx.landed": ["Nailed the landing. Mostly, the ground nailed you."],
+"fx.portal": ["RRRRRIIIIIP! A portal, torn open by hand."],
+"fx.fall": ["You fell off the island! You respawn at your last safe spot. (-1 life)"],
+"fx.fall_log": ["Fell off %s - respawned at the last safe spot, 1 damage to zone life."],
+"fx.locked": ["Not yet."],
+"travel.throw.ask": ["Courtesy Chuck: free, fast, and only mildly terrifying. Ready to be thrown to %s?"],
+"travel.portal.ask": ["Portal service: torn open by hand, no refunds. Step through to %s?"],
+"travel.dest.arrive_pec": ["Pec Perch"],
+"travel.dest.arrive_delt": ["Delt Deck"],
+"travel.dest.land_west": ["the far west meadow"],
+"travel.dest.land_east": ["the far east meadow"],
+"travel.dest.land_pec": ["the Meadow Road"],
+"travel.dest.arrive_calf": ["Calf Cove"],
+"travel.dest.land_delt": ["the Ridge Road"],
+"travel.dest.arrive_glute": ["Glute Garden"],
+"travel.dest.land_glute": ["the east wheel yard"],
+"travel.dest.land_calf": ["the west meadow"],
+"travel.thrower_pec.intro": ["Brock cracks every knuckle he owns. \"Pec Perch? Great view. Terrible landing. Hold still, this only hurts the first time.\""],
+"travel.thrower_pec.locked": ["Brock is out of stock on locks. This one is always open."],
+"travel.ripper_delt.intro": ["Rita flexes both hands like she is about to open a jar. \"Delt Deck is a wild ride. I rip the portal, you walk in. No tools, no spells. Just lats.\""],
+"travel.ripper_delt.locked": ["Rita shakes her head. \"No juice, no rip. The ripping needs power and the grid is dry. Somebody run that big hamster wheel up the hill, then come back.\""],
+"travel.thrower_east.intro": ["Tobias hefts you like a sack of oats. \"Cross-country, west meadow. It's a long way. I'll give it everything. Not you, I'll give it to the wind.\""],
+"travel.thrower_east.locked": ["Tobias squints at you. \"Cross-country is for Gainers only. Show me a Gym Rat card and I'll chuck you clear across the map. Tiny Tony sells them.\""],
+"travel.thrower_west.intro": ["Wanda is already warming up. \"East meadow? Easy. Say 'courtesy' for me. Louder. COURTESY!\""],
+"travel.thrower_west.locked": ["Wanda is always ready."],
+"travel.thrower_pec_back.intro": ["Bonnie waves a foam finger. \"Heading down? Right. Bend your knees on the way. I mean all your knees.\""],
+"travel.thrower_pec_back.locked": ["Bonnie is always ready."],
+"travel.ripper_calf.intro": ["Rhonda rolls her shoulders. \"Calf Cove. Nobody's been in months. Brenda's orders. I'll tear it open. Mind the edges, they're sharp. Like my sense of humor.\""],
+"travel.ripper_calf.locked": ["Rhonda crosses her arms. \"Calf Cove's closed to anybody who hasn't earned Coach Brenda's trust. Finish her 'Spot Me!' quest and I'll rip it open for you.\""],
+"travel.ripper_delt_back.intro": ["Ripley is already shaking out her hands. \"Back down to the Ridge? Sure. Portals are like abs: they only open if you try.\""],
+"travel.ripper_delt_back.locked": ["Ripley is always ready."],
+"travel.thrower_glute.intro": ["Dmitri cracks his neck. \"Glute Garden is a long throw. Very long. I will need you to be aerodynamic. Try not to think about it.\""],
+"travel.thrower_glute.locked": ["Dmitri shakes his head slowly. \"Long-haul throws are only for Beefcakes who have proven they can handle the wilds. Beat two roaming enemies, then come see me.\""],
+"travel.thrower_glute_back.intro": ["Greta checks her watch. \"Down to the east wheel yard? Say 'ready' on three. One. Two. Actually, I'm already throwing.\""],
+"travel.thrower_glute_back.locked": ["Greta is always ready."],
+"travel.ripper_calf_back.intro": ["Raelynn tears a seam in the air with a grunt. \"Home? Home is always an option. Mind the gap, it bites.\""],
+"travel.ripper_calf_back.locked": ["Raelynn is always ready."],
+"sign.hub_main": ["THE SWOLE STATION", "Hub of the Gainlands. Heal here. Brag here. Do NOT skip leg day here."],
+"sign.hub_power": ["POWERED BY BEEFCAKES", "Every light in the Gainlands runs on giant mills and colossal hamster wheels.", "100% muscle. 0% coal."],
+"sign.exit": ["THE BEEFCAKE PATH", "(Town. Stairs sold separately.)"],
+"sign.heal_tub": ["COOLDOWN HOT TUB", "Soak. Stretch. Do not drink the water. (Gus drank the water.)"],
+"sign.protein_stand": ["PROTEIN SHAKE STAND", "10 gold. Flavor: surprise.", "Results may vary. Results may also vary your stomach."],
+"sign.flex_mirror": ["FLEX MIRROR", "Check your form. Check your friend's form. Check the mirror's form."],
+"sign.vendor": ["TINY TONY'S PROTEIN & PASTEBOARD", "Protein, powder and cards. Mostly cards. The protein is optional."],
+"sign.mills": ["MILL MEADOW", "These giant mills grind everything: grain, tension, deadlines.", "Pushed by hand, by Beefcakes, since forever."],
+"sign.quiz": ["THE LECTURE LOG", "Professor Quad teaches: 4 questions on Beefcake knowledge. Bring your own notes. Notes are on the signs."],
+"sign.studio": ["STUDIO 3 AM", "Now taping: 'Pump It Up Past Midnight!'", "Wear your legwarmers. We know you own legwarmers."],
+"sign.puzzle": ["POWER GRID CONTROL PANEL", "Six hamster wheels, three machines. Each wheel feeds two machines (or naps).", "Only five wheels may run at once. They get tired."],
+"sign.wheel": ["COLOSSAL HAMSTER WHEEL", "Run it to power the grid. No actual hamsters. Hamsters are on break."],
+"sign.gym": ["THE BOULDER GYM", "Equipment: boulders, logs, more boulders.", "Please re-rack your boulders."],
+"sign.spot_me": ["SPOTTER WANTED", "Gary is under there. Gary has been under there since lunch."],
+"sign.thrower_rule": ["COURTESY CHUCKS", "FREE.", "Spotter mandatory. Landing not guaranteed. Dignity sold separately."],
+"sign.ripper_rule": ["PORTALS: TORN, NOT CAST", "Bare hands only. No spells, no tools.", "Warranty void if stretched."],
+"sign.thrower_east": ["CROSS-COUNTRY CHUCKS", "East to west. A courtesy chuck, the long way. Gym Rat card required for the long way."],
+"sign.thrower_west": ["CROSS-COUNTRY CHUCKS", "West to east. A courtesy chuck, the long way. Free. Aim is a rumor."],
+"sign.mini_dungeon": ["THE IRON CAVERN", "Three sets. Mandatory. Bring chalk.", "(Chalk sold at Tiny Tony's. Chalk is a lie.)"],
+"sign.main_dungeon": ["CLOSED FOR LEG DAY", "Back after squats.", "No Beefcake skips leg day. Ever."],
+"sign.leg_day_note": ["NOTE FROM MANAGEMENT", "The gate will reopen when the Titan finishes his squats.", "He has been on rep 4,000,000 since spring."],
+"sign.energy_poster": ["GOT ENERGY?", "Ask a Beefcake. They have loads."],
+"sign.beefcake_poster": ["BEEFCAKES: BUILT DIFFERENT", "Energy, by wheel and mill.", "Transportation, by throw and portal."],
+"sign.pec_perch": ["PEC PERCH", "Population: one mirror. Please mind the edge."],
+"sign.delt_deck": ["DELT DECK", "Mind the edge. Delts are not wings."],
+"sign.glute_garden": ["GLUTE GARDEN", "Bend at the knees. Always bend at the knees."],
+"sign.calf_cove": ["CALF COVE", "Quiet. Remote. Excellent calves."],
+"sign.edge_warning": ["CAUTION: EDGE", "There is no railing. There is no spotter. There is only gravity."],
+"sign.hamster_fact": ["FUN FACT", "A hamster does not know it is the engine of a civilization.", "The Beefcakes know. They bring snacks."],
+"enemy.brute": ["Flexing at nobody in particular. Has been since breakfast."],
+"enemy.golem": ["A tub of protein powder that learned to walk. Rattles."],
+"enemy.sprite": ["Pure pre-workout. Zero chill. Vibrates through walls."],
+"npc.brenda.intro": [
+"Welcome to the Gainlands! I'm Coach Brenda, Head Spotter of the Swole Station. If you fall, I catch you. If you quit, I do not.",
+"We're Beefcakes. We make the energy: mills, giant hamster wheels, the lot. And we move folks around, too. Throw them, rip portals for them. It's a service.",
+"Rule one: never lift alone. Rule two: never skip leg day. Rule three: there is no rule three, the other two are plenty."
+],
+"npc.brenda.return": ["Back for more? Good. The only bad rep is the one you didn't spot."],
+"npc.gus.intro": [
+"Gus. Foreman of the wheels. I keep the grid humming and the hamsters, uh, the *volunteers* happy.",
+"The big wheel up the hill powers half the place. If it's not turning, we're not lifting. Wouldn't that be a shame.",
+"Pre-workout hasn't hit me yet. I'll let you know when it does. You'll hear it."
+],
+"npc.gus.return": ["Is the grid humming? It should be humming. If it's quiet, someone's skipping reps."],
+"npc.tony.intro": [
+"I'm Tiny Tony. Yes, I know. Everything's relative. Protein, powder, pasteboard. Cards, basically. Strong ones.",
+"I sell what the Beefcakes lift, wear and wave around at the mirror. Nobody leaves lighter. Pockets, maybe."
+],
+"npc.tony.return": ["Shop's open. The protein is always fresh. The jokes are always a day old."],
+"npc.quiz.intro": [
+"Aha, a student! Professor Quad, Beefcake scholar, lecturer on my log. I have written seventeen books. Fifteen are about biceps.",
+"Four questions on the Beefcakes, their energy and their transport. Every answer is on a sign, a poster or a Beefcake's mouth, somewhere in the Gainlands.",
+"Answer well and you'll earn gold and glory. Answer poorly and you'll earn a mild, scholarly sigh."
+],
+"npc.quiz.return": ["Back to improve your score? Splendid. That is the Beefcake way. Same weight, more reps."],
+"quiz.result.0": ["Zero. Impressive, in a stubborn way. Nothing for you. The signs are patient. I am less so."],
+"quiz.result.1": ["One. A muscle twitch of knowledge. Take this pat on the back. It's a small one."],
+"quiz.result.2": ["Two. Half-credit! In the Gainlands, half a rep still counts. Just not for much."],
+"quiz.result.3": ["Three! One shy of a clean sweep. Take your reward and flex responsibly."],
+"quiz.result.4": ["FOUR! A perfect set! You may now call yourself a Certified Gainer, Class A. The reward is real. The certificate is imaginary."],
+"quiz.repeat": ["Another lap! The Gainlands pay a small processing fee for repeat attendance."],
+"quiz.not_passed": ["Not a pass. Walk the Gainlands, read the signs, and come back. There is no limit on attempts."],
+"npc.minigame.intro": [
+"*cue synthesizer* Welcome, welcome, WELCOME to PUMP IT UP PAST MIDNIGHT! I'm your host, Jazzy Jules, and it is 3 A.M. somewhere, which is where I live!",
+"You've seen the late-night tapes! 'Feel the burn!' 'Five-minute abs!' 'But wait, there's MORE!' My assistant is a legwarmer. My producer is also a legwarmer.",
+"Today's show: REP COUNTER! Eight reps, one beat. You hit the beat, I give you a shiny medallion of pure encouragement. Operators are standing by. Operators have been standing by since 1989.",
+"Three easy payments of gold? No! Free! It's free! Rewards for performance, and a one-time bonus on your very first set. And one, and two..."
+],
+"npc.minigame.return": [
+"Back again! My fans! Both of you! Hear that? That's the sound of Spandex, applauding.",
+"Remember: the beat is your friend. The beat does not judge. The beat is judging, but quietly."
+],
+"reps.intro": ["Eight reps. Watch the ring: press SPACE (or click) the moment it closes on the bar. Perfect, Good, OK or Miss. The beat speeds up. Fewer misses, more stars."],
+"reps.shouts": ["And ONE!", "And TWO!", "Feel the burn!", "Squeeze it!", "Don't stop now!", "Almost there!", "One more!", "FINISH IT!"],
+"reps.win": ["THAT'S the way! You look incredible. The camera loves you. The camera also loves legwarmers."],
+"reps.first": ["Your first set on the show! Here's your Pump Medallion: a bonus, free, no obligation. Operators are still standing by."],
+"reps.lose": ["Not quite a set, champ. That's fine. Take a breath. Rehydrate. Try again - the beat is not going anywhere."],
+"npc.gary.intro": [
+"Mmmph! Oh good, a spotter! Gary. I'm under this barbell. I've been under this barbell since lunch.",
+"I loaded it with one more plate than my confidence. It's fine. It's FINE. Could you give it a little push?"
+],
+"npc.gary.return": ["Spotter! You're a hero. I'm going to lift this barbell for the very first time. Just not today."],
+"fx.spot_done": ["You grab the bar and heave. Gary slides out, gasping.", "\"You're a hero! Take this. I borrowed it from the gym. It's not mine. It's yours now.\""],
+"fx.spot_again": ["Gary is under a different barbell. It is a lighter barbell. His confidence is also lighter."],
+"fx.wheel_run": ["You jump into the Colossal Hamster Wheel and run. And run. The grid hums, the lights across the Gainlands brighten, and somewhere a portal ripper rolls up her sleeves."],
+"fx.wheel_again": ["The wheel is already spinning happily. Let it coast. You deserve a snack."],
+"fx.shake_good": ["A banana-berry shake. Smooth, sweet, suspiciously good for you. +life."],
+"fx.shake_great": ["A legendary chocolate-peanut-butter shake! Your muscles remember a childhood summer. Big recovery!"],
+"fx.shake_bad": ["Chalky. Lumpy. Tastes like drywall. You drink it anyway. -1 life."],
+"fx.shake_gold": ["The cup has a coin at the bottom. The shake was just a front. +gold."],
+"fx.shake_empty": ["An empty cup. Somebody drank your protein. It was the stand. It is always the stand."],
+"fx.shake_broke": ["The stand wants 10 gold. You are as broke as a rested hamster."],
+"fx.flex_1": ["You flex. The mirror flexes back. You both nod. +1 life."],
+"fx.flex_2": ["You hit a double biceps. The mirror gasps. You gasp. +1 life."],
+"fx.flex_3": ["You hit the most-muscular pose. The mirror applauds. +1 life."],
+"fx.flex_limit": ["Your pump has peaked. The mirror needs a moment. Come back after your next visit."],
+"fx.flex_full": ["You flex, the mirror flexes back, nothing to heal. Looking great regardless."],
+"quest.gain_power.offer": [
+"Hey, you! Fresh legs! The Swole Station's lights are flickering and the grid is dry. Somebody needs to run the Colossal Hamster Wheel up the hill.",
+"Also: drink something. A protein shake from Tony's stand, or the grid's low on morale. Run the wheel, drink a shake. Easy gains."
+],
+"quest.gain_power.active": ["The wheel up on the hill, and a shake from Tony's stand. Easy gains. Tell me when you're done."],
+"quest.gain_power.ready": ["The lights are back on! The grid is HUMMING. You've earned this. Don't let the hamsters hear you call them 'volunteers'."],
+"quest.gain_power.done": ["The grid's running smooth. Gus would hug you, but Gus is allergic to humility."],
+"quest.gain_spot_me.offer": [
+"Rule one: nobody lifts alone. Gary is under a barbell again. Spot him. And check your form at a Flex Mirror, it's good for the soul.",
+"Do it right and I'll have Rhonda rip you a portal to Calf Cove. Nobody's been there for months. The calves are unreal."
+],
+"quest.gain_spot_me.active": ["Gary, the barbell. And a Flex Mirror, the hub's or Pec Perch's. Spot first, flex second, brag third."],
+"quest.gain_spot_me.ready": ["You spotted Gary AND checked your form? Beautiful. Here's a Pre-Workout Jitters, on the house. Calf Cove is open for you now. Tell Rhonda I said hi."],
+"quest.gain_spot_me.done": ["Calf Cove is yours. Mind the edge. Always mind the edge."],
+"quest.gain_lanes.offer": [
+"Brutes, golems and sprites keep intercepting my protein shipments. Three of them need a stern talking-to, via duel.",
+"Beat three roaming enemies out in the Gainlands. I'll pay you in cards. Strong cards. Heavy cards."
+],
+"quest.gain_lanes.active": ["Three roaming enemies, remember. The brutes flex. The golems rattle. The sprites buzz. Pick your poison."],
+"quest.gain_lanes.ready": ["Three down! The deliveries are back on schedule. Here's a Leg Day for your trouble. Do not skip it."],
+"quest.gain_lanes.done": ["The lanes are clear. For about an hour. Then they will fill up again. But what an hour."],
+"wheel.intro": [
+"A control panel hums beside the wheels: six hamster wheels, three machines (the Lift, the Gate and the Mill), a switch for every wheel.",
+"Each wheel is piped to TWO of the machines; its switch sends the power to one of them, or leaves it napping. Every machine needs its exact wattage. Only five wheels may run at once."
+],
+"wheel.solved": ["Every machine hums at exactly the right wattage. The lift hums. The gate hums. The mill hums. Somewhere, a hamster sighs in relief. A small, heavy parcel drops into the tray."],
+"wheel.already": ["The grid purrs. Nothing left to route."],
+"wheel.hint": ["Start from the machine with the fewest options. The Mill needs 9, and only the wheels piped to it can supply it. Work out which wheel MUST feed the Gate."],
+"wheel.machines": ["The Lift", "The Gate", "The Mill"],
+"wheel.wheel_names": ["Hammy", "Gerald", "Princess Nibbles", "Sir Squeaks", "Biscuit", "The Colonel"]
+}
+quiz_questions = Array[Dictionary]([{
+"a": ["Giant mills and colossal hamster wheels", "Solar panels the size of a bench", "One extremely motivated battery", "Coal, mostly, and spite"],
+"correct": 0,
+"q": "What do the Beefcakes use to keep the lights on across the Gainlands?",
+"where": "sign.hub_power at the Swole Station; sign.mills; sign.energy_poster; sign.beefcake_poster"
+}, {
+"a": ["A cursed zipper", "Bare hands only", "A strongly worded letter", "A very sharp spreadsheet"],
+"correct": 1,
+"q": "How does a Beefcake Portal Ripper open a portal?",
+"where": "sign.ripper_rule beside Rita (Ridge Road); sign.beefcake_poster; Rita's intro line"
+}, {
+"a": ["A Gentle Lob", "A Sky Hug", "A Courtesy Chuck", "A Rental Yeet"],
+"correct": 2,
+"q": "What do Beefcakes call a free trip through the air from one of their throwers?",
+"where": "sign.thrower_rule beside Brock (Meadow Road); sign.thrower_east / sign.thrower_west; fx.thrown"
+}, {
+"a": ["Arm Day", "Rest Day", "Cheat Day", "Leg Day"],
+"correct": 3,
+"q": "Which day must no Beefcake ever skip?",
+"where": "sign.main_dungeon (the gate on Leg Day Ridge); Brenda's intro line; sign.leg_day_note"
+}])

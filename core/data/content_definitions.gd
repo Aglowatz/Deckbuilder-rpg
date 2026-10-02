@@ -206,6 +206,7 @@ static func build_zone_cards(tokens: Dictionary) -> Dictionary:
 	var summon_two: EffectData = _fx(T.ON_ENTER, G.CONTROLLER, O.SUMMON_TOKEN, 2)
 	summon_two.token = spirit
 	_add(cards, _fin(_with(ceo, summon_two), R.LEGENDARY, "Flying. When this enters, create two 1/1 Spirits.", "Unique reward of the mini dungeon. Still takes credit for everything."))
+	_add_gainlands_cards(cards)
 	return cards
 
 
@@ -292,3 +293,22 @@ static func build_decks(content: ContentSet) -> Array[Deck]:
 				deck.cards.append(content.cards[str(id)] as CardData)
 		decks.append(deck)
 	return decks
+
+
+## Brief 6: the Gainlands' Beefcake cards. 10 sold by Tiny Tony (`ZoneCards.GAINLANDS_VENDOR_IDS`), plus
+## "max_rep" (a chest/enemy card) and the mini dungeon's unique "iron_titan". Placeholder numbers.
+static func _add_gainlands_cards(cards: Dictionary) -> void:
+	_add(cards, _fin(_with(_creature("gym_rat", "Gym Rat", A, 1, [A], 2, 2), _fx(T.ON_ATTACK, G.SELF, O.BUFF, 1, 0, CardEnums.Duration.END_OF_TURN)), R.COMMON, "Whenever this attacks, it gets +1/+0 until end of turn.", "Lives here. Pays rent in reps."))
+	_add(cards, _fin(_creature("protein_golem", "Protein Shake Golem", A, 3, [A], 3, 5, [K.GUARD]), R.UNCOMMON, "Guard", "Chalky, lumpy and deeply supportive."))
+	_add(cards, _fin(_creature("pump_chaser", "Pump Chaser", A, 2, [A], 3, 2, [K.HASTE]), R.UNCOMMON, "Haste", "Always one set away from the pump."))
+	_add(cards, _fin(_creature("wheel_runner", "Wheel Runner", A, 1, [A], 2, 1, [K.HASTE, K.FIRST_STRIKE]), R.COMMON, "Haste, First Strike", "Goes nowhere. Very fast."))
+	_add(cards, _fin(_with(_creature("mill_hand", "Mill Hand", A, 2, [A], 2, 3), _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 2)), R.COMMON, "When this enters, gain 2 life.", "Pushes the mill. Pushes his luck."))
+	_add(cards, _fin(_with(_creature("courtesy_chucker", "Courtesy Chucker", A, 3, [A], 3, 3), _fx(T.ON_ENTER, G.OPPONENT, O.DEAL_DAMAGE, 2)), R.UNCOMMON, "When this enters, deal 2 damage to the opponent.", "Free throws. Spotter mandatory."))
+	var flex: CardData = _with(_spell("flex_off", "Flex-Off", A, 1, [A]), _fx(T.ON_ENTER, G.ALL_ALLY_CREATURES, O.BUFF, 2, 0, CardEnums.Duration.END_OF_TURN))
+	_add(cards, _fin(_with(flex, _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 1)), R.UNCOMMON, "Your creatures get +2/+0 until end of turn. Draw a card.", "Judged by the mirror, and the mirror approves."))
+	_add(cards, _fin(_with(_spell("leg_day", "Leg Day", A, 2, [A]), _fx(T.ON_ENTER, G.CHOSEN_CREATURE_ENEMY, O.DEAL_DAMAGE, 4)), R.UNCOMMON, "Deal 4 damage to target enemy creature.", "No skipping. Not even for you."))
+	_add(cards, _fin(_with(_spell("cheat_day", "Cheat Day", A, 1, [A]), _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 5)), R.COMMON, "Gain 5 life.", "Calories do not count on Sundays."))
+	_add(cards, _fin(_with(_spell("pre_workout", "Pre-Workout Jitters", A, 0, [A]), _fx(T.ON_ENTER, G.CHOSEN_CREATURE_ALLY, O.BUFF, 2, 2)), R.COMMON, "Target ally creature gets +2/+2 permanently.", "Heart: racing. Eyes: also racing."))
+	_add(cards, _fin(_creature("max_rep", "Max Rep", A, 4, [A, A], 5, 4, [K.TRAMPLE]), R.EPIC, "Trample", "One more. Always one more."))
+	var titan: CardData = _creature("iron_titan", "The Iron Titan", A, 4, [A, A], 7, 6, [K.TRAMPLE])
+	_add(cards, _fin(_with(titan, _fx(T.ON_ENTER, G.ALL_ALLY_CREATURES, O.BUFF, 1, 1)), R.LEGENDARY, "Trample. When this enters, your creatures get +1/+1 permanently.", "Unique reward of the Iron Cavern. Has never once skipped leg day."))

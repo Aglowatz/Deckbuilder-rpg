@@ -120,3 +120,25 @@ Same rules as the town's chests: a `chest_gold` prop at 1/4 scale (0.225), **no 
 - **Haunted printer** (Cubicle Farm B, far west): 40 gold prints a random Necrocrat vendor card; 20% of the time it jams and keeps your money.
 - **Suggestion box** (breakroom, by the lobby door): the first suggestion pays 25 gold and an Overdue Intern card; afterwards it is empty (`dna_suggestion_box` secret).
 - **Puzzle terminal** (Mail Room): see progress.md Part F. **Quiz** (Cubicle Farm B corner office) and **Rec Room matching game** (Filing maze NW corner): see Parts G/H.
+
+## Brief 6: the Gainlands - 7 hidden chests
+
+Same rules as the town's and the D.N.A.'s: a `chest_gold` prop at 1/4 scale (0.225), **no marker, no plate,
+no minimap icon** (never on any map), the only tell is `[E] Open the chest` within
+`ZoneScene.HIDDEN_CHEST_RADIUS` (~1.5 m); one-time per chest, secret id `gain_<chest id>`. If a chest and an
+NPC spot are both in reach, whichever is closer to the player wins the E key. Rewards live in
+`GainlandsZone.CHEST_REWARDS`, positions in `GainlandsLayout._chests()`; keep all three in sync.
+
+| id | Where (world x, z) | How it's tucked | Contents |
+|----|--------------------|-----------------|----------|
+| `chest_ground_0` | Mill Meadow, (18, 36) | Behind the west mills, off the quiz master's path | 40 gold |
+| `chest_ground_1` | The Boulder Gym, (78, 64) | Behind the boulder gym equipment, south-east | 20 gold + **Healing Salve** |
+| `chest_ground_2` | Leg Day Ridge, (58, 22) | In the trees north-east of the Closed-for-Leg-Day gate | **Wheel Runner** (card) |
+| `chest_pec` | **Pec Perch** (floating island), (7.8, 13) | On the island's west rim, away from the thrower and the ripper | 60 gold + **Scroll of Insight** |
+| `chest_delt` | **Delt Deck** (floating island), (95, 7) | At the island's far east end - mind the edge | **Max Rep** (card, Epic) |
+| `chest_glute` | **Glute Garden** (floating island), (114, 54) | East end of the island (only reachable by the locked long-haul throw) | 90 gold + **Healing Draught** |
+| `chest_calf` | **Calf Cove** (floating island), (-10, 58) | West end of the island (only reachable by Pec Perch's locked portal) | 50 gold + **Vitality Charm** + **Cheat Day** (card) |
+
+Verified in `tests/core/zone/test_gainlands.gd` (rewards defined for every chest, >= 6 chests, >= 2 on islands,
+reachable on foot / by travel) and the windowed e2e (`tools/sixth_brief_final_smoke.gd`: one island chest and one
+ground chest opened with real input, prompt only up close).

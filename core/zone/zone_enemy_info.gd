@@ -37,3 +37,7 @@ var ghost_glow: Color = Color(0.4, 0.9, 1.0)
 var accessories: Array[Dictionary] = []
 ## Short flavour line shown in the codex/toasts (story text key is `enemy.<id>`).
 var species: String = ""
+## Animation names of the model (KayKit characters use "Idle" / "Walking_A" / "Running_A").
+var anim_idle: StringName = &"idle"
+var anim_walk: StringName = &"walk"
+var anim_run: StringName = &"sprint"

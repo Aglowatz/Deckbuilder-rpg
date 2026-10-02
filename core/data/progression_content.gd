@@ -31,6 +31,7 @@ static func equipment() -> Dictionary:
 static func zone_equipment() -> Dictionary:
 	var result: Dictionary = {}
 	_add(result, _piece("courier_lanyard", "Soul Courier's Lanyard", EquipmentData.Slot.RELIC, "Everything is routed exactly where you need it. Draw an extra card on your first turn, and max hand size +1.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1), _mod(K.MAX_HAND_SIZE, 1)], true))
+	_add(result, _piece("swole_belt", "Gainsmith's Lifting Belt", EquipmentData.Slot.ARMOR, "Brace the core, brace the deck. Max life +3 and your creatures get +1 toughness.", [_mod(K.MAX_LIFE, 3), _mod(K.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)], true))
 	return result
 
 

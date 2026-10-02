@@ -165,10 +165,12 @@ func _build_npcs() -> void:
 		var npc: Node3D = ModelKit.character(str(entry["model"]))
 		ModelKit.tint(npc, entry["tint"] as Color)
 		pos.y = builder.height_at(pos)
-		ModelKit.place(self, npc, pos, float(entry["yaw"]), TownPlayer.MODEL_SCALE)
+		ModelKit.place(self, npc, pos, float(entry["yaw"]), TownPlayer.MODEL_SCALE * float(entry.get("scale", 1.0)))
 		var animation: AnimationPlayer = ModelKit.animation_player(npc)
-		if animation != null and animation.has_animation("Idle"):
-			animation.play("Idle")
+		var anim_name: String = str(entry.get("anim", "Idle"))
+		if animation != null and animation.has_animation(anim_name):
+			animation.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
+			animation.play(anim_name)
 			animation.seek(randf() * 1.5)
 		_npcs[str(entry["id"])] = npc
 		builder.add_blocker(pos, 0.3)
@@ -382,6 +384,14 @@ func _update_chest_prompt() -> void:
 		hud.show_prompt("[E]  Open the chest")
 
 
+## True when the hidden chest in reach is closer to the player than `spot` (so E opens the chest).
+func _chest_closer_than(spot: ZoneSpot) -> bool:
+	var chest: Vector3 = builder.chest_positions().get(_chest_near, Vector3.ZERO) as Vector3
+	var to_chest: float = Vector2(player.position.x - chest.x, player.position.z - chest.z).length()
+	var to_spot: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
+	return to_chest <= to_spot
+
+
 func _chest_secret(id: String) -> String:
 	return "%s%s" % [def.secret_prefix, id]
 
@@ -433,13 +443,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	var interact: bool = event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE)
 	if interact:
+		if not _chest_near.is_empty() and (_near == null or _chest_closer_than(_near)):
+			get_viewport().set_input_as_handled()
+			_open_chest(_chest_near)
+			return
 		if _near != null:
 			get_viewport().set_input_as_handled()
 			_interact(_near)
-			return
-		if not _chest_near.is_empty():
-			get_viewport().set_input_as_handled()
-			_open_chest(_chest_near)
 			return
 	if event is InputEventMouseButton and _near != null:
 		var click: InputEventMouseButton = event as InputEventMouseButton

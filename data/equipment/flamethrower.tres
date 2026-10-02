@@ -1,24 +1,25 @@
 [gd_resource type="Resource" script_class="EquipmentData" format=3]
 
-[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_wa36x"]
-[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_h537i"]
-[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_cfney"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_h537i"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_cfney"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_sfagy"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_i2jd7"]
 
-[sub_resource type="Resource" id="Resource_sfagy"]
-script = ExtResource("2_h537i")
+[sub_resource type="Resource" id="Resource_kmbtb"]
+script = ExtResource("2_cfney")
 target = 9
 amount = 1
 
-[sub_resource type="Resource" id="Resource_i2jd7"]
-script = ExtResource("1_wa36x")
+[sub_resource type="Resource" id="Resource_u2sjr"]
+script = ExtResource("1_h537i")
 kind = 11
-effect = SubResource("Resource_sfagy")
+effect = SubResource("Resource_kmbtb")
 
 [resource]
-script = ExtResource("3_cfney")
+script = ExtResource("4_i2jd7")
 id = "flamethrower"
 slot = 1
 description = "Alchemist's fire in a backpack tank. At the start of your turn, deal 1 damage to each opposing creature."
 advanced = true
 source_name = "Flamethrower"
-modifiers = Array[ExtResource("1_wa36x")]([SubResource("Resource_i2jd7")])
+modifiers = Array[ExtResource("1_h537i")]([SubResource("Resource_u2sjr")])

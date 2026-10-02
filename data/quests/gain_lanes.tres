@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_x0ere"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_ju1n3"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_d5xga"]
+
+[sub_resource type="Resource" id="Resource_iaesc"]
+script = ExtResource("2_ju1n3")
+kind = 9
+key = "gain_enemies_defeated"
+amount = 3
+
+[sub_resource type="Resource" id="Resource_b07rn"]
+script = ExtResource("1_x0ere")
+text = "Defeat roaming Gainlands enemies"
+condition = SubResource("Resource_iaesc")
+
+[resource]
+script = ExtResource("3_d5xga")
+id = "gain_lanes"
+title = "Clear the Lanes"
+summary = "Tiny Tony's protein deliveries keep getting intercepted by roaming brutes, golems and sprites. Beat three of them."
+giver_npc = "Tiny Tony"
+turn_in_npc = "Tiny Tony"
+order = 230
+objectives = Array[ExtResource("1_x0ere")]([SubResource("Resource_b07rn")])
+reward_gold = 80
+reward_xp = 70
+reward_card_ids = Array[String](["leg_day"])

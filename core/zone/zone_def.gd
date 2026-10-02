@@ -52,6 +52,8 @@ var flag_mini_cleared: StringName = &""
 var flag_minigame_first: StringName = &""
 var flag_met_prefix: String = ""
 var counter_chests: String = ""
+## Counter bumped for every roaming enemy beaten (quests read it).
+var counter_enemies: String = "zone_enemies_defeated"
 ## Prefix of the secret ids of this zone's hidden chests (`<prefix><chest id>`).
 var secret_prefix: String = ""
 ## Hidden chest rewards: id -> {gold, item, card, equipment}. Keep docs/design/secrets.md in sync.

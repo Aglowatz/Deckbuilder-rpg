@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_k2nak"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_af26e"]
+
+[sub_resource type="Resource" id="Resource_pmq0r"]
+script = ExtResource("1_k2nak")
+target = 1
+op = 9
+amount = 5
+
+[resource]
+script = ExtResource("2_af26e")
+id = "cheat_day"
+display_name = "Cheat Day"
+type = 2
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+toughness = 0
+rules_text = "Gain 5 life."
+effects = Array[ExtResource("1_k2nak")]([SubResource("Resource_pmq0r")])
+flavor_text = "Calories do not count on Sundays."

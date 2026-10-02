@@ -15,6 +15,8 @@ const TRACKS: Dictionary = {
 	&"map": {"bpm": 58, "root": 52, "prog": [[0, true], [-5, false], [-2, true], [-7, false]], "pad": 0.55, "arp": 0.16, "bass": 0.3, "drums": 0.0, "bell": 0.3, "wind": 0.15},
 	## Brief 5: the D.N.A. - a dissonant minor drone with a mains-hum layer and flickering-tube crackle.
 	&"dna": {"bpm": 50, "root": 45, "prog": [[0, true], [1, true], [-2, false], [-1, true]], "pad": 0.55, "arp": 0.0, "bass": 0.22, "drums": 0.0, "bell": 0.32, "wind": 0.12, "hum": 0.5},
+	## Brief 6: the Gainlands - bright major, pumping bass, light percussion, wind and birds.
+	&"gainlands": {"bpm": 112, "root": 62, "prog": [[0, false], [5, false], [7, false], [5, false]], "pad": 0.3, "arp": 0.38, "bass": 0.4, "drums": 0.32, "bell": 0.15, "wind": 0.5},
 }
 
 static var _cache: Dictionary = {}
@@ -123,7 +125,7 @@ static func render(name: StringName) -> AudioStreamWAV:
 		_hum(buffer, float(config["hum"]), rng)
 	if float(config["wind"]) > 0.0:
 		_wind(buffer, float(config["wind"]), rng)
-		if name == &"town":
+		if name == &"town" or name == &"gainlands":
 			_birds(buffer, rng, total)
 	return _to_stream(buffer)
 

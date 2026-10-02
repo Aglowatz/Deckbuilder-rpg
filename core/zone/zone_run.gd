@@ -24,6 +24,8 @@ var fee_log: Array[String] = []
 var fees_paid: int = 0
 ## The time clock's once-per-visit buff.
 var punched_in: bool = false
+## Per-visit counters for zone interactables (flexes at the mirror, buffs taken...): key -> count.
+var visit_counts: Dictionary = {}
 
 
 static func enter(zone: String, profile: PlayerProfile, deck: Deck) -> ZoneRun:
@@ -86,6 +88,15 @@ func finish_battle(game: GameState) -> void:
 ## Adds a visit-long buff (a ModifierSource); max-life buffs raise current life too.
 func add_buff(source: ModifierSource) -> void:
 	run.add_dungeon_source(source)
+
+
+func visit_count(key: String) -> int:
+	return int(visit_counts.get(key, 0))
+
+
+func bump_visit(key: String) -> int:
+	visit_counts[key] = visit_count(key) + 1
+	return visit_count(key)
 
 
 func mark_defeated(enemy_id: String) -> void:

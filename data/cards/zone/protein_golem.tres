@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ftm0o"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_n120s"]
+
+[resource]
+script = ExtResource("2_n120s")
+id = "protein_golem"
+display_name = "Protein Shake Golem"
+color = 1
+generic_cost = 3
+colored_pips = Array[int]([1])
+power = 3
+toughness = 5
+keywords = Array[int]([7])
+rules_text = "Guard"
+rarity = 1
+flavor_text = "Chalky, lumpy and deeply supportive."

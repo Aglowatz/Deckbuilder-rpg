@@ -1,23 +1,24 @@
 [gd_resource type="Resource" script_class="EquipmentData" format=3]
 
-[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_7bxv4"]
-[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="2_wn6ih"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_wn6ih"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_u5wpq"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_bmn3u"]
 
-[sub_resource type="Resource" id="Resource_u5wpq"]
-script = ExtResource("1_7bxv4")
+[sub_resource type="Resource" id="Resource_vl85j"]
+script = ExtResource("1_wn6ih")
 kind = 7
 value = 1
 
-[sub_resource type="Resource" id="Resource_bmn3u"]
-script = ExtResource("1_7bxv4")
+[sub_resource type="Resource" id="Resource_nwviy"]
+script = ExtResource("1_wn6ih")
 kind = 16
 value = 1
 
 [resource]
-script = ExtResource("2_wn6ih")
+script = ExtResource("3_bmn3u")
 id = "big_brain_beret"
 slot = 0
 description = "It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-land card per turn."
 advanced = true
 source_name = "Big Brain Beret"
-modifiers = Array[ExtResource("1_7bxv4")]([SubResource("Resource_u5wpq"), SubResource("Resource_bmn3u")])
+modifiers = Array[ExtResource("1_wn6ih")]([SubResource("Resource_vl85j"), SubResource("Resource_nwviy")])

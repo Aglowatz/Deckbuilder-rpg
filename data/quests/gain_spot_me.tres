@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_qy6rh"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_6pi23"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_u2qs0"]
+
+[sub_resource type="Resource" id="Resource_g43i1"]
+script = ExtResource("2_6pi23")
+key = "gain_spotted_gary"
+
+[sub_resource type="Resource" id="Resource_nog1j"]
+script = ExtResource("1_qy6rh")
+text = "Spot Gary"
+condition = SubResource("Resource_g43i1")
+
+[sub_resource type="Resource" id="Resource_xgo14"]
+script = ExtResource("2_6pi23")
+kind = 9
+key = "gain_flexes"
+
+[sub_resource type="Resource" id="Resource_u2td0"]
+script = ExtResource("1_qy6rh")
+text = "Flex at a Flex Mirror"
+condition = SubResource("Resource_xgo14")
+
+[resource]
+script = ExtResource("3_u2qs0")
+id = "gain_spot_me"
+title = "Spot Me!"
+summary = "Coach Brenda's rule: nobody lifts alone. Spot Gary (he is under a barbell again) and check your form at a Flex Mirror."
+giver_npc = "Coach Brenda"
+turn_in_npc = "Coach Brenda"
+order = 220
+objectives = Array[ExtResource("1_qy6rh")]([SubResource("Resource_nog1j"), SubResource("Resource_u2td0")])
+reward_gold = 70
+reward_xp = 60
+reward_card_ids = Array[String](["pre_workout"])

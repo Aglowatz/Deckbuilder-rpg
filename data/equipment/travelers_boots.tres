@@ -1,17 +1,18 @@
 [gd_resource type="Resource" script_class="EquipmentData" format=3]
 
-[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_aacqw"]
-[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="2_7qftd"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_7qftd"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ery0g"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_uadt8"]
 
-[sub_resource type="Resource" id="Resource_ery0g"]
-script = ExtResource("1_aacqw")
+[sub_resource type="Resource" id="Resource_0nddu"]
+script = ExtResource("1_7qftd")
 kind = 13
 value = 1
 
 [resource]
-script = ExtResource("2_7qftd")
+script = ExtResource("3_uadt8")
 id = "travelers_boots"
 slot = 3
 description = "Worn thin by roads longer than this one. Draw an extra card at the start of your first turn."
 source_name = "Traveler's Boots"
-modifiers = Array[ExtResource("1_aacqw")]([SubResource("Resource_ery0g")])
+modifiers = Array[ExtResource("1_7qftd")]([SubResource("Resource_0nddu")])

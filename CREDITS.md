@@ -96,3 +96,12 @@ Town, battle and title music are generated in code by `app/music_synth.gd` (orig
   - Source: https://game-icons.net
   - License: CC BY 3.0 (license.txt in the folder)
   - Notes: attribution required: icons by Delapouite, Lorc, Caro Asercion and Darkzaitzev via game-icons.net.
+
+## Brief 6: the Gainlands (added 2026-10-02)
+
+No new third-party asset packs were needed. The Gainlands reuses packs that are already credited above:
+- **KayKit Medieval Hexagon Pack** (CC0): windmills (spinning sails), the tavern (Swole Station), mountains, trees, rocks, clouds.
+- **KayKit Character Pack: Adventurers** (CC0): the Beefcake NPCs, throwers, portal rippers and the Flexing Brute (Barbarian, with its Throw / Interact / Running / Lie animations), Mage, Rogue.
+- **KayKit Dungeon Remastered** (CC0): the hidden chest prop.
+- Everything else (hamster wheels, boulder-and-log gym equipment, the hot tub, stalls, stage, arch, Leg Day gate, energy pipes, floating islands, terrain, the Golem and Sprite enemy models) is original procedural geometry built in code from primitives (`world/gainlands/`), and the `gainlands` music track is generated in code by `app/music_synth.gd`.
+- game-icons.net (CC BY 3.0, credited above): no new icons were added for the Gainlands cards (they fall back to the generic card art).

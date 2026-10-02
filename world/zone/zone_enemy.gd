@@ -42,10 +42,11 @@ func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: flo
 	player = target_player
 	position = home_pos
 	_rng.seed = hash(id)
-	_model = ModelKit.zone_character(info.model)
+	_model = _make_model()
 	add_child(_model)
 	_model.scale = Vector3.ONE * info.model_scale
-	ModelKit.tint(_model, info.tint)
+	if info.tint != Color.WHITE:
+		ModelKit.tint(_model, info.tint)
 	if grade.is_valid():
 		grade.call(_model)
 	_add_accessories()
@@ -57,7 +58,7 @@ func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: flo
 			var lower: String = String(anim_name).to_lower()
 			if lower == "idle" or lower == "walk" or lower == "sprint":
 				_animation.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
-	_play(&"idle")
+	_play(info.anim_idle)
 	_alert = Label3D.new()
 	_alert.text = "!"
 	_alert.font = UIStyle.font_title()
@@ -71,6 +72,16 @@ func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: flo
 	_alert.visible = false
 	add_child(_alert)
 	_pick_patrol_target()
+
+
+## The enemy's model: "proc:<name>" is a procedural Gainlands model, "kaykit:<name>" an animated KayKit
+## character, anything else a Kenney Graveyard Kit character.
+func _make_model() -> Node3D:
+	if info.model.begins_with("proc:"):
+		return GainlandsMobs.build(info.model)
+	if info.model.begins_with("kaykit:"):
+		return ModelKit.character(info.model.trim_prefix("kaykit:"))
+	return ModelKit.zone_character(info.model)
 
 
 func _make_ghostly() -> void:
@@ -121,7 +132,7 @@ func _process(delta: float) -> void:
 		_model.position.y = 0.22 + sin(_time * 3.2) * 0.06
 	position.y = area.height_at(position)
 	if not active or player == null:
-		_play(&"idle")
+		_play(info.anim_idle)
 		return
 	var to_player: Vector3 = player.position - position
 	to_player.y = 0.0
@@ -159,9 +170,19 @@ func _process(delta: float) -> void:
 				_wait = 1.0
 	_alert.visible = state == State.CHASE
 	if moved:
-		_play(&"sprint" if state == State.CHASE and _animation != null and _animation.has_animation(&"sprint") else &"walk")
+		_play(info.anim_run if state == State.CHASE and _animation != null and _animation.has_animation(info.anim_run) else info.anim_walk)
 	else:
-		_play(&"idle")
+		_play(info.anim_idle)
+	if _animation == null:
+		_waddle(moved)
+
+
+## Procedural models have no animation player: wobble while moving.
+func _waddle(moving: bool) -> void:
+	var target_roll: float = sin(_time * 9.0) * 0.12 if moving else 0.0
+	_model.rotation.z = lerpf(_model.rotation.z, target_roll, 0.25)
+	if not info.hover:
+		_model.position.y = absf(sin(_time * 9.0)) * 0.07 if moving else 0.0
 
 
 func _set_state(next: State) -> void:

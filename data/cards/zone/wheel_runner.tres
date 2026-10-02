@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qqj5v"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_hhy51"]
+
+[resource]
+script = ExtResource("2_hhy51")
+id = "wheel_runner"
+display_name = "Wheel Runner"
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+power = 2
+keywords = Array[int]([2, 5])
+rules_text = "Haste, First Strike"
+flavor_text = "Goes nowhere. Very fast."

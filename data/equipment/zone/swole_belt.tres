@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_nm655"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_t47k5"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_e2kfk"]
+
+[sub_resource type="Resource" id="Resource_1ur6s"]
+script = ExtResource("1_nm655")
+value = 3
+
+[sub_resource type="Resource" id="Resource_6yjfg"]
+script = ExtResource("1_nm655")
+kind = 5
+value2 = 1
+
+[resource]
+script = ExtResource("3_e2kfk")
+id = "swole_belt"
+slot = 2
+description = "Brace the core, brace the deck. Max life +3 and your creatures get +1 toughness."
+advanced = true
+source_name = "Gainsmith's Lifting Belt"
+modifiers = Array[ExtResource("1_nm655")]([SubResource("Resource_1ur6s"), SubResource("Resource_6yjfg")])

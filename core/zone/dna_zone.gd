@@ -53,6 +53,7 @@ static func build_def() -> ZoneDef:
 	def.flag_minigame_first = FLAG_MATCH_FIRST
 	def.flag_met_prefix = "dna"
 	def.counter_chests = COUNTER_CHESTS
+	def.counter_enemies = "zone_enemies_defeated"
 	def.secret_prefix = "dna_"
 	def.chest_rewards = CHEST_REWARDS
 	def.vendor_ids = ZoneCards.VENDOR_IDS

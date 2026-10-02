@@ -10,7 +10,7 @@ const AUDIT: String = "dna_audit"
 
 
 static func build_all() -> Array[QuestData]:
-	return [_backlog(), _onboarding(), _audit()] as Array[QuestData]
+	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes()] as Array[QuestData]
 
 
 static func _backlog() -> QuestData:
@@ -61,4 +61,58 @@ static func _audit() -> QuestData:
 	quest.reward_gold = 80
 	quest.reward_xp = 70
 	quest.reward_card_ids = ["death_benefits"] as Array[String]
+	return quest
+
+
+# ---- The Gainlands (brief 6): three hub quests -----------------------------------------------
+
+
+static func _gain_power() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = GainlandsZone.QUEST_POWER
+	quest.order = 210
+	quest.title = "Juice the Station"
+	quest.summary = "The Swole Station's lights are flickering. Foreman Gus needs somebody to run the Colossal Hamster Wheel and, frankly, drink something."
+	quest.giver_npc = GainlandsZone.NPC_GUS
+	quest.turn_in_npc = GainlandsZone.NPC_GUS
+	quest.objectives = [
+		QuestObjective.make("Run the Colossal Hamster Wheel", Condition.flag(str(GainlandsZone.FLAG_WHEEL_POWERED))),
+		QuestObjective.make("Buy a protein shake", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1)),
+	] as Array[QuestObjective]
+	quest.reward_gold = 50
+	quest.reward_xp = 40
+	quest.reward_item_ids = ["healing_salve"] as Array[String]
+	return quest
+
+
+static func _gain_spot_me() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = GainlandsZone.QUEST_SPOT_ME
+	quest.order = 220
+	quest.title = "Spot Me!"
+	quest.summary = "Coach Brenda's rule: nobody lifts alone. Spot Gary (he is under a barbell again) and check your form at a Flex Mirror."
+	quest.giver_npc = GainlandsZone.NPC_BRENDA
+	quest.turn_in_npc = GainlandsZone.NPC_BRENDA
+	quest.objectives = [
+		QuestObjective.make("Spot Gary", Condition.flag(str(GainlandsZone.FLAG_SPOTTED))),
+		QuestObjective.make("Flex at a Flex Mirror", Condition.counter(GainlandsZone.COUNTER_FLEXES, 1)),
+	] as Array[QuestObjective]
+	quest.reward_gold = 70
+	quest.reward_xp = 60
+	quest.reward_card_ids = ["pre_workout"] as Array[String]
+	return quest
+
+
+static func _gain_lanes() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = GainlandsZone.QUEST_LANES
+	quest.order = 230
+	quest.title = "Clear the Lanes"
+	quest.summary = "Tiny Tony's protein deliveries keep getting intercepted by roaming brutes, golems and sprites. Beat three of them."
+	quest.giver_npc = GainlandsZone.NPC_TONY
+	quest.turn_in_npc = GainlandsZone.NPC_TONY
+	quest.objectives = [QuestObjective.make("Defeat roaming Gainlands enemies", Condition.counter(GainlandsZone.COUNTER_ENEMIES, 3))] as Array[QuestObjective]
+	quest.reward_gold = 80
+	quest.reward_xp = 70
+	quest.reward_card_ids = ["leg_day"] as Array[String]
 	return quest

@@ -1,24 +1,24 @@
 [gd_resource type="Resource" script_class="Deck" format=3]
 
-[ext_resource type="Script" path="res://core/data/card_data.gd" id="1_q7db1"]
-[ext_resource type="Resource" path="res://data/cards/land_affinity_a.tres" id="2_kaqir"]
-[ext_resource type="Resource" path="res://data/cards/land_affinity_b.tres" id="3_8lusu"]
-[ext_resource type="Resource" path="res://data/cards/beefcake_imp.tres" id="4_peu10"]
-[ext_resource type="Resource" path="res://data/cards/blade_dancer.tres" id="5_yj70w"]
-[ext_resource type="Resource" path="res://data/cards/raider.tres" id="6_gfbx6"]
-[ext_resource type="Resource" path="res://data/cards/blazing_charger.tres" id="7_pwhf7"]
-[ext_resource type="Resource" path="res://data/cards/firebolt.tres" id="8_65llr"]
-[ext_resource type="Resource" path="res://data/cards/flame_burst.tres" id="9_nd224"]
-[ext_resource type="Resource" path="res://data/cards/warcry.tres" id="10_aqu3y"]
-[ext_resource type="Resource" path="res://data/cards/whispering_shade.tres" id="11_6c1eo"]
-[ext_resource type="Resource" path="res://data/cards/dissolve.tres" id="12_77env"]
-[ext_resource type="Resource" path="res://data/cards/snare.tres" id="13_bkbd0"]
-[ext_resource type="Resource" path="res://data/cards/sellsword.tres" id="14_8ti3e"]
-[ext_resource type="Resource" path="res://data/cards/cave_bat.tres" id="15_c2ka8"]
-[ext_resource type="Resource" path="res://data/cards/supply_cache.tres" id="16_mlwfw"]
-[ext_resource type="Script" path="res://core/data/deck.gd" id="17_q00kj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="1_bdn2q"]
+[ext_resource type="Resource" path="res://data/cards/land_affinity_a.tres" id="2_bvow3"]
+[ext_resource type="Resource" path="res://data/cards/land_affinity_b.tres" id="3_5jjxp"]
+[ext_resource type="Resource" path="res://data/cards/beefcake_imp.tres" id="4_q3g0l"]
+[ext_resource type="Resource" path="res://data/cards/blade_dancer.tres" id="5_3k8gu"]
+[ext_resource type="Resource" path="res://data/cards/raider.tres" id="6_c8fbf"]
+[ext_resource type="Resource" path="res://data/cards/blazing_charger.tres" id="7_vwau5"]
+[ext_resource type="Resource" path="res://data/cards/firebolt.tres" id="8_3iasg"]
+[ext_resource type="Resource" path="res://data/cards/flame_burst.tres" id="9_vrd53"]
+[ext_resource type="Resource" path="res://data/cards/warcry.tres" id="10_8ujo4"]
+[ext_resource type="Resource" path="res://data/cards/whispering_shade.tres" id="11_hcwuc"]
+[ext_resource type="Resource" path="res://data/cards/dissolve.tres" id="12_4qai2"]
+[ext_resource type="Resource" path="res://data/cards/snare.tres" id="13_l6sck"]
+[ext_resource type="Resource" path="res://data/cards/sellsword.tres" id="14_5kls6"]
+[ext_resource type="Resource" path="res://data/cards/cave_bat.tres" id="15_g0tsi"]
+[ext_resource type="Resource" path="res://data/cards/supply_cache.tres" id="16_0jolp"]
+[ext_resource type="Script" path="res://core/data/deck.gd" id="17_o1fp6"]
 
 [resource]
-script = ExtResource("17_q00kj")
+script = ExtResource("17_o1fp6")
 deck_name = "Beefcake & Tide"
-cards = Array[ExtResource("1_q7db1")]([ExtResource("2_kaqir"), ExtResource("2_kaqir"), ExtResource("2_kaqir"), ExtResource("2_kaqir"), ExtResource("2_kaqir"), ExtResource("2_kaqir"), ExtResource("2_kaqir"), ExtResource("2_kaqir"), ExtResource("2_kaqir"), ExtResource("3_8lusu"), ExtResource("3_8lusu"), ExtResource("3_8lusu"), ExtResource("3_8lusu"), ExtResource("3_8lusu"), ExtResource("3_8lusu"), ExtResource("3_8lusu"), ExtResource("3_8lusu"), ExtResource("4_peu10"), ExtResource("4_peu10"), ExtResource("4_peu10"), ExtResource("5_yj70w"), ExtResource("5_yj70w"), ExtResource("5_yj70w"), ExtResource("6_gfbx6"), ExtResource("6_gfbx6"), ExtResource("7_pwhf7"), ExtResource("7_pwhf7"), ExtResource("8_65llr"), ExtResource("8_65llr"), ExtResource("8_65llr"), ExtResource("9_nd224"), ExtResource("9_nd224"), ExtResource("10_aqu3y"), ExtResource("11_6c1eo"), ExtResource("11_6c1eo"), ExtResource("12_77env"), ExtResource("12_77env"), ExtResource("13_bkbd0"), ExtResource("14_8ti3e"), ExtResource("14_8ti3e"), ExtResource("14_8ti3e"), ExtResource("15_c2ka8"), ExtResource("15_c2ka8"), ExtResource("16_mlwfw"), ExtResource("16_mlwfw")])
+cards = Array[ExtResource("1_bdn2q")]([ExtResource("2_bvow3"), ExtResource("2_bvow3"), ExtResource("2_bvow3"), ExtResource("2_bvow3"), ExtResource("2_bvow3"), ExtResource("2_bvow3"), ExtResource("2_bvow3"), ExtResource("2_bvow3"), ExtResource("2_bvow3"), ExtResource("3_5jjxp"), ExtResource("3_5jjxp"), ExtResource("3_5jjxp"), ExtResource("3_5jjxp"), ExtResource("3_5jjxp"), ExtResource("3_5jjxp"), ExtResource("3_5jjxp"), ExtResource("3_5jjxp"), ExtResource("4_q3g0l"), ExtResource("4_q3g0l"), ExtResource("4_q3g0l"), ExtResource("5_3k8gu"), ExtResource("5_3k8gu"), ExtResource("5_3k8gu"), ExtResource("6_c8fbf"), ExtResource("6_c8fbf"), ExtResource("7_vwau5"), ExtResource("7_vwau5"), ExtResource("8_3iasg"), ExtResource("8_3iasg"), ExtResource("8_3iasg"), ExtResource("9_vrd53"), ExtResource("9_vrd53"), ExtResource("10_8ujo4"), ExtResource("11_hcwuc"), ExtResource("11_hcwuc"), ExtResource("12_4qai2"), ExtResource("12_4qai2"), ExtResource("13_l6sck"), ExtResource("14_5kls6"), ExtResource("14_5kls6"), ExtResource("14_5kls6"), ExtResource("15_g0tsi"), ExtResource("15_g0tsi"), ExtResource("16_0jolp"), ExtResource("16_0jolp")])

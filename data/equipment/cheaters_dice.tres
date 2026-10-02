@@ -1,22 +1,23 @@
 [gd_resource type="Resource" script_class="EquipmentData" format=3]
 
-[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_2bqxc"]
-[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="2_4ij37"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_4ij37"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_tmtx8"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_b8cqj"]
 
-[sub_resource type="Resource" id="Resource_tmtx8"]
-script = ExtResource("1_2bqxc")
+[sub_resource type="Resource" id="Resource_4yt2o"]
+script = ExtResource("1_4ij37")
 kind = 12
 value = 1
 
-[sub_resource type="Resource" id="Resource_b8cqj"]
-script = ExtResource("1_2bqxc")
+[sub_resource type="Resource" id="Resource_dagse"]
+script = ExtResource("1_4ij37")
 kind = 3
 value = -1
 
 [resource]
-script = ExtResource("2_4ij37")
+script = ExtResource("3_b8cqj")
 id = "cheaters_dice"
 description = "They only ever land the way you need them to. You always go first, but your opening hand is 1 card smaller."
 advanced = true
 source_name = "Cheater's Dice"
-modifiers = Array[ExtResource("1_2bqxc")]([SubResource("Resource_tmtx8"), SubResource("Resource_b8cqj")])
+modifiers = Array[ExtResource("1_4ij37")]([SubResource("Resource_4yt2o"), SubResource("Resource_dagse")])

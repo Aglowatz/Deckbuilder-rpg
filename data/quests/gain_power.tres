@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_1p82h"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_w0ini"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_lr6pp"]
+
+[sub_resource type="Resource" id="Resource_d8b8p"]
+script = ExtResource("2_w0ini")
+key = "gain_wheel_powered"
+
+[sub_resource type="Resource" id="Resource_hhw8t"]
+script = ExtResource("1_1p82h")
+text = "Run the Colossal Hamster Wheel"
+condition = SubResource("Resource_d8b8p")
+
+[sub_resource type="Resource" id="Resource_54pb3"]
+script = ExtResource("2_w0ini")
+kind = 9
+key = "gain_shakes_bought"
+
+[sub_resource type="Resource" id="Resource_4db7x"]
+script = ExtResource("1_1p82h")
+text = "Buy a protein shake"
+condition = SubResource("Resource_54pb3")
+
+[resource]
+script = ExtResource("3_lr6pp")
+id = "gain_power"
+title = "Juice the Station"
+summary = "The Swole Station's lights are flickering. Foreman Gus needs somebody to run the Colossal Hamster Wheel and, frankly, drink something."
+giver_npc = "Foreman Gus"
+turn_in_npc = "Foreman Gus"
+order = 210
+objectives = Array[ExtResource("1_1p82h")]([SubResource("Resource_hhw8t"), SubResource("Resource_4db7x")])
+reward_gold = 50
+reward_xp = 40
+reward_item_ids = Array[String](["healing_salve"])

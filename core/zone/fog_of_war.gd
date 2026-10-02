@@ -6,7 +6,7 @@ extends RefCounted
 
 const CELL: float = 1.0
 ## How far around the player the world is revealed, in metres.
-const REVEAL_RADIUS: float = 7.0
+const REVEAL_RADIUS: float = 9.0
 
 var origin: Vector2 = Vector2.ZERO
 var width: int = 0
