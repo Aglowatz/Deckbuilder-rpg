@@ -30,7 +30,7 @@ const RECIPES: Array[Dictionary] = [
 	},
 	{
 		"affinity": Affinity.Type.C,
-		"identity": "Root grows: big, sturdy creatures and life gain that outlast anything thrown at them.",
+		"identity": "Refusemancer grows: big, sturdy creatures and life gain that outlast anything thrown at them.",
 		"playstyle": "Stabilize behind tough bodies, then close it out with size.",
 		"sample_card_ids": ["ancient_treant", "mossback_bear", "growth"],
 	},

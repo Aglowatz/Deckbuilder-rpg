@@ -234,7 +234,7 @@ static func deck_recipes() -> Array[Dictionary]:
 			},
 		},
 		{
-			"name": "Gourmand & Root",
+			"name": "Gourmand & Refusemancer",
 			"lands": {B: 8, C: 9},
 			"spells": {
 				"frost_sentry": 1, "sage": 2, "whispering_shade": 2, "dissolve": 2, "recall": 1,
@@ -244,7 +244,7 @@ static func deck_recipes() -> Array[Dictionary]:
 			},
 		},
 		{
-			"name": "Root & Necrocrat",
+			"name": "Refusemancer & Necrocrat",
 			"lands": {C: 9, D: 8},
 			"spells": {
 				"mossback_bear": 3, "rampaging_boar": 3, "stag_warden": 2, "ancient_treant": 1,

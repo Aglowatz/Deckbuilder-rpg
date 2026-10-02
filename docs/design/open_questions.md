@@ -72,7 +72,7 @@ Made autonomously while building the playable demo. Each is easy to change; the 
 | # | Question | Chosen | Where |
 |---|----------|--------|-------|
 | D1 | Game title | Working title **Wellspring** (from the lore: four Wellsprings, the Wanderer). | `TitleScreen.GAME_TITLE` |
-| D2 | Player-facing names for Affinity A-D | **Beefcake, Gourmand, Root, Grave** (matching the sample deck names). UI only; `core/` keeps "Affinity A-D" so ids and tests are untouched. | `UIStyle.AFFINITY_NAMES` |
+| D2 | Player-facing names for Affinity A-D | **Beefcake, Gourmand, Refusemancer, Grave** (matching the sample deck names). UI only; `core/` keeps "Affinity A-D" so ids and tests are untouched. | `UIStyle.AFFINITY_NAMES` |
 | D3 | Affinity colors | A red-orange, B blue, C green, D purple, Neutral tan. Frames, land icons, pips and mana orbs are tinted from one table. | `UIStyle.AFFINITY_COLORS` |
 | D4 | What is "pick intro deck"? | The Wellspring choice: pick a color; the starter deck is the 28 neutral spells plus 17 basic lands of that color (per `starting_deck_and_affinity.md`). | `WellspringChoice` |
 | D5 | Starting gold and economy | 120 gold at the start; battle rewards 40 / 60 / 120 gold; card prices = rarity base (15/35/80/160) + 5 per mana. The vendor stops selling a card once you own 3 (a deck can only use 3). | `Session.STARTING_GOLD`, `CardPricing` |
@@ -216,3 +216,9 @@ Made autonomously while building the playable demo. Each is easy to change; the 
 | H8 | Assets for the Buffet | **Kenney Food Kit** (CC0, 200 models: the broccoli forest, cakes, cheese wheels, pancakes, cutlery, pots, lollipop-adjacent candy, pickups, golem parts) and **KayKit Restaurant Bits** (CC0: counters, stoves, fridges, oven, pots, the studio backdrop) added; the style matches the KayKit characters already in the project. Procedural geometry fills the rest (jelly pads, rafts, susan, layer cakes, golems, gates). Synthesized sounds for "boing", "splash" and the service "ding" and a synthesized `buffet` music track (no new audio files). Nothing needed from itch.io. | `world/buffet/`, `app/music_synth.gd`, CREDITS.md |
 | H9 | New `ZoneEnemy` hooks | `ZoneMap.is_enemy_walkable()` (default = the player's walkability) and a `"roller"` meta on a model makes the enemy spin it instead of waddling (the meatball). Both are general, other zones are unchanged. | `world/zone/zone_map.gd`, `zone_enemy.gd` |
 | H10 | New map POI kinds | `BOUNCE_PAD`, `FERRY` (rafts + susan) and `GATE` were appended to `MapPoi.Kind` (whitelist; still no chest/secret kind). | `core/zone/map_poi.gd` |
+
+## Brief 8 (Refusemancer / the Verdant Heap / zone equipment)
+
+| # | Question | Decision | Where |
+|---|---|---|---|
+| J1 | How far the Root -> Refusemancer rename goes | Everywhere incl. internal ids (`refusemancer`, `refusemancer_zone_unlocked`, `npc_refusemancer`, `portal_refusemancer`, deck file names). Old `root_*` saves not migrated (same as before). "Path of the Refusemancer" is an override in `ZonePortals`. | `world/zone_portals.gd`, `core/dungeon/corrupted_npcs.gd`, `core/data/story_text.gd` |

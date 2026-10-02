@@ -5,25 +5,25 @@ extends RefCounted
 ## battle flow; dialogue text itself lives in `data/story/corrupted_npcs_story.tres`
 ## (`CorruptedNpcStory`), not here, per the brief ("keep all dialogue in the story data file").
 ##
-## Ids match `ZonePortals` ids (beefcake/gourmand/root/necrocrat) - defeating one sets that same zone's
+## Ids match `ZonePortals` ids (beefcake/gourmand/refusemancer/necrocrat) - defeating one sets that same zone's
 ## unlock flag (`TownScene._portal_unlock_flag`), per the Part C contract (D66).
 
-const IDS: Array[String] = ["beefcake", "gourmand", "root", "necrocrat"]
+const IDS: Array[String] = ["beefcake", "gourmand", "refusemancer", "necrocrat"]
 const STARTING_LIFE: int = 15
 
 const DISPLAY_NAMES: Dictionary = {
 	"beefcake": "Torvin the Over-Pumped", "gourmand": "Maris the Over-Seasoned",
-	"root": "Old Thistlebark", "necrocrat": "Corwyn the Filed-Away",
+	"refusemancer": "Old Thistlebark the Over-Composted", "necrocrat": "Corwyn the Filed-Away",
 }
 ## Which AIPersonality (by name, see core/ai/ai_personality.gd) plays each - matched to their
-## element identity (aggressive Beefcake, defensive Gourmand, patient/growing Root, opportunistic Necrocrat).
+## element identity (aggressive Beefcake, defensive Gourmand, patient/growing Refusemancer, opportunistic Necrocrat).
 const AI_NAMES: Dictionary = {
-	"beefcake": "Aggressive", "gourmand": "Defensive", "root": "Passive", "necrocrat": "Balanced",
+	"beefcake": "Aggressive", "gourmand": "Defensive", "refusemancer": "Passive", "necrocrat": "Balanced",
 }
 ## Reward item per NPC (Part D/F's small item pool) - thematically matched. Only 3 items exist
 ## before Part F; Necrocrat reuses Gourmand's (a real item pool arrives in Part F).
 const REWARD_ITEMS: Dictionary = {
-	"beefcake": "reckless_tonic", "gourmand": "healing_draught", "root": "vitality_charm",
+	"beefcake": "reckless_tonic", "gourmand": "healing_draught", "refusemancer": "vitality_charm",
 	"necrocrat": "healing_draught",
 }
 
@@ -40,7 +40,7 @@ static func element(id: String) -> Affinity.Type:
 			return Affinity.Type.A
 		"gourmand":
 			return Affinity.Type.B
-		"root":
+		"refusemancer":
 			return Affinity.Type.C
 		"necrocrat":
 			return Affinity.Type.D
@@ -65,7 +65,7 @@ static func recipe(id: String) -> Dictionary:
 				"land:B": 16, "frost_sentry": 3, "sage": 2, "whispering_shade": 2,
 				"sea_warden": 1, "deep_insight": 1, "dissolve": 2, "snare": 1,
 			}
-		"root":
+		"refusemancer":
 			return {
 				"land:C": 17, "mossback_bear": 2, "rampaging_boar": 1, "stag_warden": 2,
 				"thornback_colossus": 1, "growth": 1, "rejuvenate": 1,

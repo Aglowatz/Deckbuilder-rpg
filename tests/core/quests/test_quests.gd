@@ -50,7 +50,7 @@ func test_merchants_quest_progresses_per_vendor_and_completes_with_rewards() -> 
 
 func test_clear_the_paths_needs_all_four() -> void:
 	Session.offer_auto_quests()
-	for npc_id: String in ["beefcake", "gourmand", "root"]:
+	for npc_id: String in ["beefcake", "gourmand", "refusemancer"]:
 		Session.set_flag(CorruptedNpcs.unlock_flag(npc_id))
 	assert_true(Session.quest_log.is_active(QuestDefinitions.PATHS))
 	Session.set_flag(CorruptedNpcs.unlock_flag("necrocrat"))

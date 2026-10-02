@@ -287,7 +287,7 @@ func _check_hidden_chests() -> void:
 	_check(not scene.hud._prompt_panel.visible, "an already-opened hidden chest shows no further prompt")
 
 	# West Woods reachability from spawn is already proven for real by
-	# tools/zone_entrances_smoke.gd (must_walk to the Root entrance, even further into the same
+	# tools/zone_entrances_smoke.gd (must_walk to the Refusemancer entrance, even further into the same
 	# district) - this crude 4-direction bot has no obstacle-avoidance and can stall on a single
 	# short north/south dogleg that a real player just sees and walks around, so this check is
 	# about the reward, not re-proving pathing; teleport-on-stall (already built into

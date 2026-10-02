@@ -12,7 +12,7 @@ extends Node
 ##   Godot --path . res://tools/zone_entrances_launcher.tscn
 ## Exit code 0 = every check passed; 1 = a check failed.
 
-const LOCKED_IDS: Array[String] = ["beefcake", "gourmand", "root", "necrocrat"]
+const LOCKED_IDS: Array[String] = ["beefcake", "gourmand", "refusemancer", "necrocrat"]
 const STALL_LIMIT: float = 20.0
 
 var driver: UiDriver
@@ -76,20 +76,20 @@ func _check_unlocking_root() -> void:
 	# Simulate Part E's "defeat the corrupted NPC" outcome directly, then reload town like a real
 	# return from battle would - the barrier is a load-time snapshot (see town_scene.gd
 	# _build_portal_barriers), so this is the real path an unlock actually takes.
-	Session.set_flag(&"root_zone_unlocked")
+	Session.set_flag(&"refusemancer_zone_unlocked")
 	get_tree().change_scene_to_file("res://scenes/town.tscn")
 	var town: TownScene = await _wait_for_town()
-	await _walk_to(town, "portal_root")
+	await _walk_to(town, "portal_refusemancer")
 	await driver.frames(3)
-	_check(town.hud._prompt_label.text.contains("Enter") and not town.hud._prompt_label.text.contains("Sealed"), "the Root entrance opens once its unlock flag is set")
+	_check(town.hud._prompt_label.text.contains("Enter") and not town.hud._prompt_label.text.contains("Sealed"), "the Refusemancer entrance opens once its unlock flag is set")
 	await _walk_to(town, "portal_beefcake")
 	await driver.frames(3)
 	_check(town.hud._prompt_label.text.contains("Sealed"), "other entrances stay locked after unlocking just one")
-	await _walk_to(town, "portal_root")
+	await _walk_to(town, "portal_refusemancer")
 	await driver.frames(3)
 	await driver.tap_key(KEY_E)
 	var zone: ZonePlaceholderScene = await _wait_for_zone()
-	_check(zone != null and zone.info.id == "root", "the now-unlocked Root entrance actually changes the scene to the Root zone")
+	_check(zone != null and zone.info.id == "refusemancer", "the now-unlocked Refusemancer entrance actually changes the scene to the Refusemancer zone")
 
 
 # ---- Helpers --------------------------------------------------------------------------------

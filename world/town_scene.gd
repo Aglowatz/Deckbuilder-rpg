@@ -28,7 +28,7 @@ const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
 	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor",
-	"npc_beefcake", "npc_gourmand", "npc_root", "npc_necrocrat",
+	"npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat",
 ]
 ## How close (in screen pixels) a click has to land to a spot's marker to count as
 ## "clicking the NPC", since the fixed camera has no 3D picking set up.
@@ -198,7 +198,7 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 ## element-colored particle drift (corruption made visible), distinct from the Wellspring's
 ## bright rising motes.
 const CORRUPTED_NPC_MODELS: Dictionary = {
-	"beefcake": "Barbarian", "gourmand": "Mage", "root": "Rogue", "necrocrat": "Rogue_Hooded",
+	"beefcake": "Barbarian", "gourmand": "Mage", "refusemancer": "Rogue", "necrocrat": "Rogue_Hooded",
 }
 
 

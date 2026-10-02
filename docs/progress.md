@@ -2010,3 +2010,9 @@ All parts A, B and FINAL are done; **542 GUT tests pass** (up from 494; incl. co
 2. 1 life per soup dunk (and wading in): keep.
 3. Quests only count work done after you accept them: keep (no retroactive credit).
 4. No migration of old `tide_*` saves.
+
+# Brief 8 (October 2026): Refusemancer rename, the Verdant Heap, new equipment for every zone
+
+## Part A: Root -> Refusemancer - done
+
+Renamed everywhere: enum display name, decks (`Gourmand & Refusemancer`, `Refusemancer & Necrocrat`, files renamed), the corrupted NPC id `refusemancer` (**Old Thistlebark the Over-Composted**, dialogue now about compost and the heap), the flag `refusemancer_zone_unlocked`, town anchors, docs, README. The town exit is **Path of the Refusemancer**. Lore: Refusemancers are druids responsible for waste removal and agriculture; they summon animals that eat the kingdom's garbage and turn it into fertilizer, and use magic to help crops grow. Tests: `tests/test_refusemancer_rename.gd`; 545 pass. Logged as J1.

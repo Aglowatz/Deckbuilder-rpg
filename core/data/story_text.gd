@@ -46,17 +46,17 @@ extends Resource
 	"Try again when you have learned to cook.",
 ]
 
-@export var root_npc_intro_lines: Array[String] = [
-	"The roots took hold of me long before I noticed. I stopped fighting it.",
-	"Now the grove speaks through my mouth, and it says: LEAVE.",
+@export var refusemancer_npc_intro_lines: Array[String] = [
+	"The compost took hold of me long before I noticed. I stopped fighting it.",
+	"Now the heap speaks through my mouth, and it says: NOTHING GOES TO WASTE. LEAVE.",
 ]
-@export var root_npc_victory_lines: Array[String] = [
-	"The roots have loosened their grip. My apologies for the grove's rudeness.",
-	"Something took root down in Root that shouldn't have. Watch your step, if you go looking.",
+@export var refusemancer_npc_victory_lines: Array[String] = [
+	"The compost has loosened its grip. My apologies for the heap's rudeness.",
+	"Something took root down in the Verdant Heap that shouldn't have. Watch your step, if you go looking.",
 ]
-@export var root_npc_defeat_lines: Array[String] = [
-	"The grove is patient.",
-	"It will wait for you to grow stronger.",
+@export var refusemancer_npc_defeat_lines: Array[String] = [
+	"The heap is patient. It has all the time in the world, and so does the garbage.",
+	"Come back when you can turn something rotten into something useful.",
 ]
 
 @export var necrocrat_npc_intro_lines: Array[String] = [
@@ -125,8 +125,8 @@ func npc_intro_lines(id: String) -> Array[String]:
 			return beefcake_npc_intro_lines
 		"gourmand":
 			return gourmand_npc_intro_lines
-		"root":
-			return root_npc_intro_lines
+		"refusemancer":
+			return refusemancer_npc_intro_lines
 		"necrocrat":
 			return necrocrat_npc_intro_lines
 	return []
@@ -138,8 +138,8 @@ func npc_victory_lines(id: String) -> Array[String]:
 			return beefcake_npc_victory_lines
 		"gourmand":
 			return gourmand_npc_victory_lines
-		"root":
-			return root_npc_victory_lines
+		"refusemancer":
+			return refusemancer_npc_victory_lines
 		"necrocrat":
 			return necrocrat_npc_victory_lines
 	return []
@@ -151,8 +151,8 @@ func npc_defeat_lines(id: String) -> Array[String]:
 			return beefcake_npc_defeat_lines
 		"gourmand":
 			return gourmand_npc_defeat_lines
-		"root":
-			return root_npc_defeat_lines
+		"refusemancer":
+			return refusemancer_npc_defeat_lines
 		"necrocrat":
 			return necrocrat_npc_defeat_lines
 	return []

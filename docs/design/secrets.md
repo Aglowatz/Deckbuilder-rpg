@@ -28,7 +28,7 @@ coordinates are hex (col, row) as `HexGrid.cell_to_world` takes them - see
 
 | id | Where | How it's tucked | Contents |
 |----|-------|------------------|----------|
-| `west_woods` | West Woods, world (-4, 5) | Among a small stand of trees, off the main path through the woods, roughly level with the Root gate | 45 gold |
+| `west_woods` | West Woods, world (-4, 5) | Among a small stand of trees, off the main path through the woods, roughly level with the Refusemancer gate | 45 gold |
 | `harbor_dock` | Harbor Dock, world (17, 6) | In a back-alley pocket between the dock's crates and buildings, south of the main Gourmand-gate corridor | 30 gold + **Healing Draught** (item) |
 | `grave_hollow` | Grave Hollow (the southwest corner), world (-4, 12) | In a misty, tree-ringed hollow off the causeway to the Grave gate | **Reckless Tonic** (item) + **Stag Warden** (card, Uncommon Guard) |
 | `uplands` | North Uplands, world (8, -2) | On the overlook meadow, tucked onto a small grassy islet between two ponds, just off the path up to the Final gate | 50 gold + **Stone Sentinel** (card, Common Guard) |

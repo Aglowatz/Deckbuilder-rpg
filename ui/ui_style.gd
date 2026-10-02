@@ -27,7 +27,7 @@ const AFFINITY_NAMES: Dictionary = {
 	Affinity.Type.NEUTRAL: "Neutral",
 	Affinity.Type.A: "Beefcake",
 	Affinity.Type.B: "Gourmand",
-	Affinity.Type.C: "Root",
+	Affinity.Type.C: "Refusemancer",
 	Affinity.Type.D: "Necrocrat",
 }
 const AFFINITY_BLURBS: Dictionary = {

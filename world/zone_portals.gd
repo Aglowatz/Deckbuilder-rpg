@@ -21,6 +21,8 @@ static func all() -> Array[Info]:
 		var info: Info = Info.new()
 		info.id = UIStyle.affinity_name(color).to_lower()
 		info.display_name = "%s Path" % UIStyle.affinity_name(color)
+		if info.id == "refusemancer":
+			info.display_name = "Path of the Refusemancer"
 		if info.id == "gourmand":
 			info.display_name = "Path of the Gourmand"
 		info.tint = UIStyle.affinity_color(color)

@@ -23,5 +23,5 @@
 
 [resource]
 script = ExtResource("20_vp4kn")
-deck_name = "Gourmand & Root"
+deck_name = "Gourmand & Refusemancer"
 cards = Array[ExtResource("1_n6d60")]([ExtResource("2_mvo7k"), ExtResource("2_mvo7k"), ExtResource("2_mvo7k"), ExtResource("2_mvo7k"), ExtResource("2_mvo7k"), ExtResource("2_mvo7k"), ExtResource("2_mvo7k"), ExtResource("2_mvo7k"), ExtResource("3_div4b"), ExtResource("3_div4b"), ExtResource("3_div4b"), ExtResource("3_div4b"), ExtResource("3_div4b"), ExtResource("3_div4b"), ExtResource("3_div4b"), ExtResource("3_div4b"), ExtResource("3_div4b"), ExtResource("4_krsd2"), ExtResource("5_da7lg"), ExtResource("5_da7lg"), ExtResource("6_vf0ol"), ExtResource("6_vf0ol"), ExtResource("7_hrtde"), ExtResource("7_hrtde"), ExtResource("8_f0jkk"), ExtResource("9_6njew"), ExtResource("9_6njew"), ExtResource("10_o7ss8"), ExtResource("11_hcytw"), ExtResource("12_13nqx"), ExtResource("12_13nqx"), ExtResource("12_13nqx"), ExtResource("13_tm6vh"), ExtResource("13_tm6vh"), ExtResource("13_tm6vh"), ExtResource("14_xv2ut"), ExtResource("14_xv2ut"), ExtResource("15_m3pnj"), ExtResource("15_m3pnj"), ExtResource("16_a8df8"), ExtResource("17_f7ock"), ExtResource("18_t67n7"), ExtResource("18_t67n7"), ExtResource("19_aoroy"), ExtResource("19_aoroy")])
