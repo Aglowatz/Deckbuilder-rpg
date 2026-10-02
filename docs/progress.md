@@ -2004,3 +2004,9 @@ All parts A, B and FINAL are done; **542 GUT tests pass** (up from 494; incl. co
 7. **Chef Turbo Tartine / Chef Savannah Souffle / the Turbo Tots** are original pastiche characters; any jokes you want toned down or more of?
 8. **Art**: golems are assembled from Food Kit pieces and primitives (no animation beyond a waddle/roll). Want me to hunt for rigged monsters?
 9. **Balance** untouched as instructed (enemy decks, rewards, fees, timers are placeholders).
+
+### Answers to the brief 7 questions (from the user)
+1. Gating of whole districts behind golem gates: fine as is.
+2. 1 life per soup dunk (and wading in): keep.
+3. Quests only count work done after you accept them: keep (no retroactive credit).
+4. No migration of old `tide_*` saves.
