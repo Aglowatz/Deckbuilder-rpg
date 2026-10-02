@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_l8hnx"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_cbpr2"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_j35no"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_26atd"]
+
+[sub_resource type="Resource" id="Resource_fh6g7"]
+script = ExtResource("2_cbpr2")
+target = 1
+op = 9
+amount = 1
+
+[sub_resource type="Resource" id="Resource_jli1q"]
+script = ExtResource("1_l8hnx")
+kind = 11
+effect = SubResource("Resource_fh6g7")
+
+[resource]
+script = ExtResource("4_26atd")
+id = "head_chef_ladle"
+slot = 1
+description = "Heavy, battered and trusted by a hundred golems. At the start of your turn, gain 1 life."
+advanced = true
+source_name = "Head Chef's Ladle"
+modifiers = Array[ExtResource("1_l8hnx")]([SubResource("Resource_jli1q")])

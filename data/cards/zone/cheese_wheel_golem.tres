@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_44s0m"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_7kf30"]
+
+[sub_resource type="Resource" id="Resource_6d081"]
+script = ExtResource("1_44s0m")
+target = 1
+op = 9
+amount = 3
+
+[resource]
+script = ExtResource("2_7kf30")
+id = "cheese_wheel_golem"
+display_name = "Cheese Wheel Golem"
+color = 2
+generic_cost = 4
+colored_pips = Array[int]([2, 2])
+power = 4
+toughness = 6
+keywords = Array[int]([7])
+rules_text = "Guard. When this enters, gain 3 life."
+effects = Array[ExtResource("1_44s0m")]([SubResource("Resource_6d081")])
+rarity = 2
+flavor_text = "Rolls downhill at any sign of a cracker."

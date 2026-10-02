@@ -17,6 +17,8 @@ const TRACKS: Dictionary = {
 	&"dna": {"bpm": 50, "root": 45, "prog": [[0, true], [1, true], [-2, false], [-1, true]], "pad": 0.55, "arp": 0.0, "bass": 0.22, "drums": 0.0, "bell": 0.32, "wind": 0.12, "hum": 0.5},
 	## Brief 6: the Gainlands - bright major, pumping bass, light percussion, wind and birds.
 	&"gainlands": {"bpm": 112, "root": 62, "prog": [[0, false], [5, false], [7, false], [5, false]], "pad": 0.3, "arp": 0.38, "bass": 0.4, "drums": 0.32, "bell": 0.15, "wind": 0.5},
+	## Brief 7: the Endless Buffet - a swinging, sunny major progression with plucky bells and a light shuffle.
+	&"buffet": {"bpm": 104, "root": 60, "prog": [[0, false], [9, true], [5, false], [7, false]], "pad": 0.28, "arp": 0.42, "bass": 0.4, "drums": 0.3, "bell": 0.35, "wind": 0.0},
 }
 
 static var _cache: Dictionary = {}
@@ -254,3 +256,75 @@ static func _to_stream(buffer: PackedFloat32Array) -> AudioStreamWAV:
 	stream.loop_begin = 0
 	stream.loop_end = buffer.size()
 	return stream
+
+
+# ---- Short synthesized sound effects (brief 7): sounds that no sample pack covers ------------------------
+
+static var _sfx_cache: Dictionary = {}
+
+
+## A short synthesized effect by name ("boing", "splash", "ding"), or null for an unknown name. Cached.
+static func sfx_stream(sound: StringName) -> AudioStreamWAV:
+	if _sfx_cache.has(sound):
+		return _sfx_cache[sound] as AudioStreamWAV
+	var buffer: PackedFloat32Array = PackedFloat32Array()
+	match sound:
+		&"boing":
+			buffer = _render_boing()
+		&"splash":
+			buffer = _render_splash()
+		&"ding":
+			buffer = _render_ding()
+		_:
+			return null
+	var stream: AudioStreamWAV = _to_stream(buffer)
+	stream.loop_mode = AudioStreamWAV.LOOP_DISABLED
+	_sfx_cache[sound] = stream
+	return stream
+
+
+## A springy "boing": a sine that sweeps up and wobbles while it decays.
+static func _render_boing() -> PackedFloat32Array:
+	var length: int = int(0.55 * float(RATE))
+	var buffer: PackedFloat32Array = PackedFloat32Array()
+	buffer.resize(length)
+	var phase: float = 0.0
+	for i: int in range(length):
+		var t: float = float(i) / float(RATE)
+		var freq: float = 150.0 + 420.0 * (1.0 - exp(-t * 7.0)) + 40.0 * sin(TAU * 14.0 * t)
+		phase += TAU * freq / float(RATE)
+		var env: float = exp(-t * 5.5) * minf(t * 220.0, 1.0)
+		buffer[i] = (sin(phase) * 0.8 + sin(phase * 2.0) * 0.25) * env * 0.6
+	return buffer
+
+
+## A wet splash: low-passed noise with a quick bubbling sweep.
+static func _render_splash() -> PackedFloat32Array:
+	var length: int = int(0.7 * float(RATE))
+	var buffer: PackedFloat32Array = PackedFloat32Array()
+	buffer.resize(length)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 77
+	var low: float = 0.0
+	var phase: float = 0.0
+	for i: int in range(length):
+		var t: float = float(i) / float(RATE)
+		low += 0.22 * (rng.randf_range(-1.0, 1.0) - low)
+		var env: float = exp(-t * 6.0)
+		var bubble_freq: float = 300.0 + 700.0 * fposmod(t * 9.0, 1.0)
+		phase += TAU * bubble_freq / float(RATE)
+		buffer[i] = (low * 1.4 + sin(phase) * 0.12 * exp(-t * 4.0)) * env * 0.7
+	return buffer
+
+
+## A diner service bell: bright metallic partials with a long ring.
+static func _render_ding() -> PackedFloat32Array:
+	var length: int = int(1.1 * float(RATE))
+	var buffer: PackedFloat32Array = PackedFloat32Array()
+	buffer.resize(length)
+	for i: int in range(length):
+		var t: float = float(i) / float(RATE)
+		var env: float = exp(-t * 4.2)
+		var tone: float = sin(TAU * 1568.0 * t) + 0.6 * sin(TAU * 2349.0 * t) + 0.35 * sin(TAU * 3136.0 * t) + 0.2 * sin(TAU * 4186.0 * t)
+		buffer[i] = tone * env * 0.22
+	return buffer

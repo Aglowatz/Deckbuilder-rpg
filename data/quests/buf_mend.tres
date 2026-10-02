@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_7um0t"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_fsqpa"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_11pxs"]
+
+[sub_resource type="Resource" id="Resource_7yvyh"]
+script = ExtResource("2_fsqpa")
+key = "buf_golem_mended"
+
+[sub_resource type="Resource" id="Resource_iw07r"]
+script = ExtResource("1_7um0t")
+text = "Repair Old Meatloaf"
+condition = SubResource("Resource_7yvyh")
+
+[resource]
+script = ExtResource("3_11pxs")
+id = "buf_mend"
+title = "Mend the Meatloaf"
+summary = "Old Meatloaf, the Grand Pantry's oldest golem, has stopped working. Head Chef Odalys needs him repaired: sea salt and a black truffle should do it."
+giver_npc = "Head Chef Odalys"
+turn_in_npc = "Head Chef Odalys"
+order = 330
+objectives = Array[ExtResource("1_7um0t")]([SubResource("Resource_iw07r")])
+reward_gold = 80
+reward_xp = 70
+reward_card_ids = Array[String](["food_fight"])

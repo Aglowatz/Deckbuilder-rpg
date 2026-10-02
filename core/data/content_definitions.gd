@@ -207,6 +207,7 @@ static func build_zone_cards(tokens: Dictionary) -> Dictionary:
 	summon_two.token = spirit
 	_add(cards, _fin(_with(ceo, summon_two), R.LEGENDARY, "Flying. When this enters, create two 1/1 Spirits.", "Unique reward of the mini dungeon. Still takes credit for everything."))
 	_add_gainlands_cards(cards)
+	_add_buffet_cards(cards)
 	return cards
 
 
@@ -312,3 +313,27 @@ static func _add_gainlands_cards(cards: Dictionary) -> void:
 	_add(cards, _fin(_creature("max_rep", "Max Rep", A, 4, [A, A], 5, 4, [K.TRAMPLE]), R.EPIC, "Trample", "One more. Always one more."))
 	var titan: CardData = _creature("iron_titan", "The Iron Titan", A, 4, [A, A], 7, 6, [K.TRAMPLE])
 	_add(cards, _fin(_with(titan, _fx(T.ON_ENTER, G.ALL_ALLY_CREATURES, O.BUFF, 1, 1)), R.LEGENDARY, "Trample. When this enters, your creatures get +1/+1 permanently.", "Unique reward of the Iron Cavern. Has never once skipped leg day."))
+
+
+## Brief 7: the Endless Buffet's Gourmand cards. 10 sold by Dolcetta Crumb (`ZoneCards.BUFFET_VENDOR_IDS`), plus
+## "tasting_menu" and "cheese_wheel_golem" (chest cards) and the Walk-In Freezer's unique "buffet_colossus".
+## Gourmand = bounce, card draw and food-golem defenders. Placeholder numbers.
+static func _add_buffet_cards(cards: Dictionary) -> void:
+	_add(cards, _fin(_creature("breadstick_sentry", "Breadstick Sentry", B, 1, [B], 1, 3, [K.GUARD]), R.COMMON, "Guard", "Stands firm. Gets dunked."))
+	_add(cards, _fin(_with(_creature("gravy_courier", "Gravy Boat Courier", B, 2, [B], 2, 2), _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 1)), R.UNCOMMON, "When this enters, draw a card.", "Hot, brown and always running late."))
+	_add(cards, _fin(_creature("meatloaf_golem", "Meatloaf Golem", B, 3, [B], 3, 5, [K.GUARD]), R.UNCOMMON, "Guard", "Has strong opinions about seasoning."))
+	_add(cards, _fin(_with(_creature("gelatin_sentinel", "Gelatin Sentinel", B, 2, [B], 1, 4, [K.GUARD]), _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 2)), R.COMMON, "Guard. When this enters, gain 2 life.", "Wobbles when threatened. Sets when cornered."))
+	var soup: CardData = _with(_spell("soup_of_the_day", "Soup of the Day", B, 1, [B]), _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 3))
+	_add(cards, _fin(_with(soup, _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 1)), R.COMMON, "Gain 3 life. Draw a card.", "Ask the chef what it is. The chef does not know."))
+	_add(cards, _fin(_with(_spell("sous_assist", "Sous-Chef's Assist", B, 2, [B]), _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 2)), R.COMMON, "Draw two cards.", "Yes, Chef! Right away, Chef! Which one is the whisk, Chef?"))
+	var fight: CardData = _with(_spell("food_fight", "Food Fight", B, 2, [B]), _fx(T.ON_ENTER, G.CHOSEN_CREATURE_ENEMY, O.RETURN_TO_HAND))
+	_add(cards, _fin(_with(fight, _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 1)), R.UNCOMMON, "Return target enemy creature to its owner's hand. Draw a card.", "It started with a single pea."))
+	_add(cards, _fin(_creature("runaway_meatball", "Runaway Meatball", B, 2, [B], 3, 1, [K.HASTE]), R.UNCOMMON, "Haste", "Rolls first. Apologizes never."))
+	_add(cards, _fin(_with(_creature("souffle_sprite", "Souffle Sprite", B, 3, [B], 2, 2, [K.FLYING]), _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 1)), R.UNCOMMON, "Flying. When this enters, draw a card.", "Do not open the oven door. Do not even look at it."))
+	var guard: CardData = _with(_trap("sneeze_guard", "Sneeze Guard", B, 1, [B]), _fx(T.TRAP_OPPONENT_ATTACKS, G.ALL_ATTACKERS, O.DEAL_DAMAGE, 2))
+	_add(cards, _fin(_with(guard, _fx(T.TRAP_OPPONENT_ATTACKS, G.CONTROLLER, O.GAIN_LIFE, 2)), R.UNCOMMON, "Trap: when the opponent attacks, deal 2 damage to each attacker and gain 2 life.", "Protects the food. Mostly from you."))
+	var menu: CardData = _with(_spell("tasting_menu", "Tasting Menu", B, 2, [B]), _fx(T.ON_ENTER, G.CONTROLLER, O.DRAW, 3))
+	_add(cards, _fin(_with(menu, _fx(T.ON_ENTER, G.CONTROLLER, O.LOSE_LIFE, 2)), R.UNCOMMON, "Draw three cards. You lose 2 life.", "Seventeen courses. Each one is a single bean."))
+	_add(cards, _fin(_with(_creature("cheese_wheel_golem", "Cheese Wheel Golem", B, 4, [B, B], 4, 6, [K.GUARD]), _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 3)), R.EPIC, "Guard. When this enters, gain 3 life.", "Rolls downhill at any sign of a cracker."))
+	var colossus: CardData = _creature("buffet_colossus", "Colossus of the Endless Buffet", B, 5, [B, B], 6, 6, [K.GUARD])
+	_add(cards, _fin(_with(_with(colossus, _fx(T.ON_ENTER, G.ALL_ALLY_CREATURES, O.BUFF, 1, 1)), _fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 4)), R.LEGENDARY, "Guard. When this enters, your creatures get +1/+1 permanently and you gain 4 life.", "Unique reward of the Walk-In Freezer. Seconds? Thirds? It is the Endless Buffet."))

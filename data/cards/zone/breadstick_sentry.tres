@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_a10sh"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ferpw"]
+
+[resource]
+script = ExtResource("2_ferpw")
+id = "breadstick_sentry"
+display_name = "Breadstick Sentry"
+color = 2
+generic_cost = 1
+colored_pips = Array[int]([2])
+power = 1
+toughness = 3
+keywords = Array[int]([7])
+rules_text = "Guard"
+flavor_text = "Stands firm. Gets dunked."

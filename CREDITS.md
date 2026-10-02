@@ -105,3 +105,17 @@ No new third-party asset packs were needed. The Gainlands reuses packs that are 
 - **KayKit Dungeon Remastered** (CC0): the hidden chest prop.
 - Everything else (hamster wheels, boulder-and-log gym equipment, the hot tub, stalls, stage, arch, Leg Day gate, energy pipes, floating islands, terrain, the Golem and Sprite enemy models) is original procedural geometry built in code from primitives (`world/gainlands/`), and the `gainlands` music track is generated in code by `app/music_synth.gd`.
 - game-icons.net (CC BY 3.0, credited above): no new icons were added for the Gainlands cards (they fall back to the generic card art).
+
+## Brief 7: the Endless Buffet (added 2026-10-02)
+
+- **assets/kenney-food-kit/** - Food Kit 2.0 (200 CC0 3D food models: broccoli, cauliflower, cakes, cheese, pancakes, cutlery, pots, pie, donuts, sausages, pickups...)
+  - Author: Kenney (www.kenney.nl)
+  - Source: https://kenney.nl/assets/food-kit
+  - License: CC0 (license file in the folder)
+  - Downloaded 2026-10-02. Used at 2-13x scale as the giant food of the Endless Buffet; golems are assembled from its pieces.
+- **assets/KayKit-Restaurant-Bits-1.0/** - Restaurant Bits 1.0 (kitchen counters, stoves, fridges, oven, pots, tables, studio wall, food props)
+  - Author: Kay Lousberg (KayKit)
+  - Source: https://github.com/KayKit-Game-Assets/KayKit-Restaurant-Bits-1.0 (also https://kaylousberg.itch.io)
+  - License: CC0 (license file in the folder)
+  - Downloaded earlier into `_asset_library/`; first used here (2026-10-02) for the Grand Pantry and the Dinner in a Dash set.
+- The jelly pads, crouton rafts, lazy susan, layer-cake buildings, golem gates, signs, the Gravy River and the table rim are original procedural geometry (`world/buffet/`). The `buffet` music track and the "boing" / "splash" / "ding" sound effects are generated in code (`app/music_synth.gd`); no recorded audio was added.

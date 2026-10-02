@@ -32,6 +32,7 @@ static func zone_equipment() -> Dictionary:
 	var result: Dictionary = {}
 	_add(result, _piece("courier_lanyard", "Soul Courier's Lanyard", EquipmentData.Slot.RELIC, "Everything is routed exactly where you need it. Draw an extra card on your first turn, and max hand size +1.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1), _mod(K.MAX_HAND_SIZE, 1)], true))
 	_add(result, _piece("swole_belt", "Gainsmith's Lifting Belt", EquipmentData.Slot.ARMOR, "Brace the core, brace the deck. Max life +3 and your creatures get +1 toughness.", [_mod(K.MAX_LIFE, 3), _mod(K.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)], true))
+	_add(result, _piece("head_chef_ladle", "Head Chef's Ladle", EquipmentData.Slot.WEAPON, "Heavy, battered and trusted by a hundred golems. At the start of your turn, gain 1 life.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.GAIN_LIFE, 1, CardEnums.TargetKind.CONTROLLER))], true))
 	return result
 
 
@@ -62,6 +63,7 @@ static func items(tokens: Dictionary = {}) -> Dictionary:
 		spirit = CardBuilder.token("token_spirit", "Spirit", 1, 1)
 	_add_item(result, "summoning_charm", "Summoning Charm", "Summon a 1/1 Spirit token.", 1, CardEnums.EffectOp.SUMMON_TOKEN, 1, 0, D.PERMANENT, G.CONTROLLER, null, spirit)
 	_add_item(result, "ward_sigil", "Ward Sigil", "Give a creature Guard until end of turn.", 2, CardEnums.EffectOp.GRANT_KEYWORD, 0, 0, D.END_OF_TURN, G.CHOSEN_CREATURE_ALLY, K2.GUARD)
+	_add_item(result, "hearty_pie", "Hearty Pot Pie", "Baked at the Grand Pantry oven. Heal 6 life.", 1, CardEnums.EffectOp.GAIN_LIFE, 6, 0, D.PERMANENT, G.CONTROLLER)
 	return result
 
 

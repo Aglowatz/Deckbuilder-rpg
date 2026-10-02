@@ -50,3 +50,9 @@ func update_visibility(_focus: Vector3) -> void:
 ## The [id, title] of the named area at `pos` for the zone banner, or [] outside any.
 func area_at(_pos: Vector3) -> Array[String]:
 	return []
+
+
+## Where roaming enemies may walk. Defaults to the player's walkability; a zone with hazards the player may
+## step into (soup rivers, island rims) narrows this so enemies never fall in.
+func is_enemy_walkable(pos: Vector3, body_radius: float = 0.25) -> bool:
+	return is_walkable(pos, body_radius)

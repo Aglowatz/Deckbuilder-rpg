@@ -47,6 +47,9 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
    - **Zones**: the Necrocrat entrance leads into **The D.N.A.** (an office complex), the Beefcake Path into
      **The Gainlands** (a bright open land of mills, giant hamster wheels and outdoor boulder gyms, with
      floating islands you reach by being *thrown* by a Beefcake or through a *portal* one tears open by hand).
+     The Gourmand entrance (the Path of the Gourmand) leads into **The Endless Buffet**, a whimsical land made of
+     giant food: a gravy river crossed on crouton rafts and a rotating lazy susan, jelly bounce pads up to pancake
+     and cheese mesas, and golem gate guardians that only let you pass for an ingredient, a quest or a card battle.
      Both share one zone framework: a hub, zone life (no healing after battles), roaming enemies, a mini
      dungeon, a puzzle, a quiz, a minigame, hidden chests and a locked main-dungeon door. Press **M** in any
      walkable area for the map; a minimap with fog of war (toggle in Settings) fills in as you explore.

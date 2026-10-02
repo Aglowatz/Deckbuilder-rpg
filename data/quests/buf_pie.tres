@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_6cle3"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_sohtt"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_qlk5y"]
+
+[sub_resource type="Resource" id="Resource_gsfd1"]
+script = ExtResource("2_sohtt")
+kind = 9
+key = "buf_baked"
+
+[sub_resource type="Resource" id="Resource_rok60"]
+script = ExtResource("1_6cle3")
+text = "Bake a Hearty Pot Pie in the Grand Oven"
+condition = SubResource("Resource_gsfd1")
+
+[resource]
+script = ExtResource("3_qlk5y")
+id = "buf_pie"
+title = "Bake Me a Pie"
+summary = "Dolcetta Crumb wants a Hearty Pot Pie, baked fresh in the Grand Oven from honey, basil and a ghost pepper, and delivered to her counter."
+giver_npc = "Dolcetta Crumb"
+turn_in_npc = "Dolcetta Crumb"
+order = 320
+objectives = Array[ExtResource("1_6cle3")]([SubResource("Resource_rok60")])
+reward_gold = 70
+reward_xp = 60
+reward_card_ids = Array[String](["sous_assist"])

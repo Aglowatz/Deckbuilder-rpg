@@ -10,7 +10,7 @@ const AUDIT: String = "dna_audit"
 
 
 static func build_all() -> Array[QuestData]:
-	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes()] as Array[QuestData]
+	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend()] as Array[QuestData]
 
 
 static func _backlog() -> QuestData:
@@ -115,4 +115,52 @@ static func _gain_lanes() -> QuestData:
 	quest.reward_gold = 80
 	quest.reward_xp = 70
 	quest.reward_card_ids = ["leg_day"] as Array[String]
+	return quest
+
+
+# ---- The Endless Buffet (brief 7): three hub quests ------------------------------------------
+
+
+static func _buf_pantry() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = BuffetZone.QUEST_PANTRY
+	quest.order = 310
+	quest.title = "Pantry Run"
+	quest.summary = "The Grand Pantry is out of everything that matters. Sous-Chef Tarragon needs three ingredients gathered from around the Endless Buffet."
+	quest.giver_npc = BuffetZone.NPC_TARRAGON
+	quest.turn_in_npc = BuffetZone.NPC_TARRAGON
+	quest.objectives = [QuestObjective.make("Gather ingredients around the zone", Condition.counter(BuffetZone.COUNTER_GATHERED, 3))] as Array[QuestObjective]
+	quest.reward_gold = 60
+	quest.reward_xp = 50
+	quest.reward_card_ids = ["soup_of_the_day"] as Array[String]
+	return quest
+
+
+static func _buf_pie() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = BuffetZone.QUEST_PIE
+	quest.order = 320
+	quest.title = "Bake Me a Pie"
+	quest.summary = "Dolcetta Crumb wants a Hearty Pot Pie, baked fresh in the Grand Oven from honey, basil and a ghost pepper, and delivered to her counter."
+	quest.giver_npc = BuffetZone.NPC_DOLCETTA
+	quest.turn_in_npc = BuffetZone.NPC_DOLCETTA
+	quest.objectives = [QuestObjective.make("Bake a Hearty Pot Pie in the Grand Oven", Condition.counter(BuffetZone.COUNTER_BAKED, 1))] as Array[QuestObjective]
+	quest.reward_gold = 70
+	quest.reward_xp = 60
+	quest.reward_card_ids = ["sous_assist"] as Array[String]
+	return quest
+
+
+static func _buf_mend() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = BuffetZone.QUEST_MEND
+	quest.order = 330
+	quest.title = "Mend the Meatloaf"
+	quest.summary = "Old Meatloaf, the Grand Pantry's oldest golem, has stopped working. Head Chef Odalys needs him repaired: sea salt and a black truffle should do it."
+	quest.giver_npc = BuffetZone.NPC_ODALYS
+	quest.turn_in_npc = BuffetZone.NPC_ODALYS
+	quest.objectives = [QuestObjective.make("Repair Old Meatloaf", Condition.flag(str(BuffetZone.FLAG_MENDED)))] as Array[QuestObjective]
+	quest.reward_gold = 80
+	quest.reward_xp = 70
+	quest.reward_card_ids = ["food_fight"] as Array[String]
 	return quest

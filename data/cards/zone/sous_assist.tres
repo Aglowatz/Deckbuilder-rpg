@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_b8aa5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_osyqn"]
+
+[sub_resource type="Resource" id="Resource_1836c"]
+script = ExtResource("1_b8aa5")
+target = 1
+op = 2
+amount = 2
+
+[resource]
+script = ExtResource("2_osyqn")
+id = "sous_assist"
+display_name = "Sous-Chef's Assist"
+type = 2
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+toughness = 0
+rules_text = "Draw two cards."
+effects = Array[ExtResource("1_b8aa5")]([SubResource("Resource_1836c")])
+flavor_text = "Yes, Chef! Right away, Chef! Which one is the whisk, Chef?"

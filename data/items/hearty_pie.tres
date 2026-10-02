@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_p1dk0"]
+[ext_resource type="Script" path="res://core/data/item_data.gd" id="2_fnlu7"]
+
+[sub_resource type="Resource" id="Resource_kk7wy"]
+script = ExtResource("1_p1dk0")
+target = 1
+op = 9
+amount = 6
+
+[resource]
+script = ExtResource("2_fnlu7")
+id = "hearty_pie"
+display_name = "Hearty Pot Pie"
+description = "Baked at the Grand Pantry oven. Heal 6 life."
+effect = SubResource("Resource_kk7wy")

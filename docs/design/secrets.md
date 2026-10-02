@@ -142,3 +142,26 @@ NPC spot are both in reach, whichever is closer to the player wins the E key. Re
 Verified in `tests/core/zone/test_gainlands.gd` (rewards defined for every chest, >= 6 chests, >= 2 on islands,
 reachable on foot / by travel) and the windowed e2e (`tools/sixth_brief_final_smoke.gd`: one island chest and one
 ground chest opened with real input, prompt only up close).
+
+## Brief 7: the Endless Buffet - 8 hidden chests
+
+Same rules as every zone: a `chest_gold` prop at 1/4 scale (0.225), **no marker, no plate, no minimap icon**
+(never on any map), the only tell is `[E] Open the chest` within `ZoneScene.HIDDEN_CHEST_RADIUS` (~1.5 m);
+one-time per chest, secret id `buf_<chest id>`. Rewards live in `BuffetZone.CHEST_REWARDS`, positions in
+`BuffetLayout._chests()`; keep all three in sync. The Fortune Cookie Dispenser's hints (`fortune.hints` in
+`data/story/gourmand_story.tres`) point at them in the same order as this table.
+
+| id | Where (world x, z) | How it's tucked | Contents |
+|----|--------------------|-----------------|----------|
+| `chest_loaf` | Broccoli Forest, (11.5, 68.5) | In front of a hollowed-out loaf of bread, in the far south-west corner | 40 gold |
+| `chest_butte` | **Butter Butte** (mesa, needs the jelly pad), (66, 52.8) | On the mesa top, behind the butter pat, next to the honey | 20 gold + **Healing Salve** |
+| `chest_candy` | Candy Field, (73.5, 71.5) | Beside a giant candy jar in the south-east corner | **Tasting Menu** (card) |
+| `chest_salt` | The Salt Flats, (27.5, 52) | Hidden between two giant salt and pepper shakers by the river bank | 30 gold + **Scroll of Insight** |
+| `chest_cheddar` | **Cheddar Overlook** (mesa, behind Brisket's gate + a pad), (11.5, 12) | On top of the cheese mesa | 20 gold + **Cheese Wheel Golem** (card, Epic) |
+| `chest_wheel` | Cheddar Cliffs (behind Brisket's gate), (29, 8.4) | Behind a giant wheel of cheese, against the table's back edge | 60 gold + **Healing Draught** |
+| `chest_pancake` | **Pancake Summit** (mesa, behind Colonel Casserole's gate + a pad), (87, 17) | On the pancake mesa top, east of the stew pot | 50 gold + **Vitality Charm** |
+| `chest_cake` | Layer-Cake Town (behind Sir Loin's gate), (60.5, 22) | Between two layer-cake buildings | 90 gold + **Firebrand Charm** |
+
+Verified in `tests/core/zone/test_buffet.gd` (rewards defined for every chest, >= 6 chests, >= 3 on mesas, none
+inside an interact spot, reachability with the right crossings/pads/gates) and the windowed e2e
+(`tools/seventh_brief_final_smoke.gd`).

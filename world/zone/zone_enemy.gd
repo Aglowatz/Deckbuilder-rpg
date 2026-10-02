@@ -77,6 +77,8 @@ func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: flo
 ## The enemy's model: "proc:<name>" is a procedural Gainlands model, "kaykit:<name>" an animated KayKit
 ## character, anything else a Kenney Graveyard Kit character.
 func _make_model() -> Node3D:
+	if info.model.begins_with("buffet:"):
+		return BuffetMobs.build(info.model)
 	if info.model.begins_with("proc:"):
 		return GainlandsMobs.build(info.model)
 	if info.model.begins_with("kaykit:"):
@@ -179,6 +181,11 @@ func _process(delta: float) -> void:
 
 ## Procedural models have no animation player: wobble while moving.
 func _waddle(moving: bool) -> void:
+	if _model.has_meta("roller"):
+		# Rolling things (the Runaway Meatball) spin their body instead of waddling.
+		if moving:
+			(_model.get_meta("roller") as Node3D).rotation.x += (14.0 if state == State.CHASE else 6.0) * get_process_delta_time()
+		return
 	var target_roll: float = sin(_time * 9.0) * 0.12 if moving else 0.0
 	_model.rotation.z = lerpf(_model.rotation.z, target_roll, 0.25)
 	if not info.hover:
@@ -198,7 +205,7 @@ func _pick_patrol_target() -> void:
 		var angle: float = _rng.randf() * TAU
 		var radius: float = _rng.randf_range(0.5, patrol_radius)
 		var candidate: Vector3 = home + Vector3(cos(angle), 0.0, sin(angle)) * radius
-		if area.is_walkable(candidate, 0.25) and area.has_line_of_sight(position, candidate):
+		if area.is_enemy_walkable(candidate, 0.25) and area.has_line_of_sight(position, candidate):
 			_target = candidate
 			return
 	_target = home
@@ -213,11 +220,11 @@ func _walk_toward(goal: Vector3, speed: float, delta: float) -> bool:
 	direction = direction.normalized()
 	var step: Vector3 = direction * speed * delta
 	var before: Vector3 = position
-	if area.is_walkable(position + step, 0.25):
+	if area.is_enemy_walkable(position + step, 0.25):
 		position += step
-	elif area.is_walkable(position + Vector3(step.x, 0.0, 0.0), 0.25):
+	elif area.is_enemy_walkable(position + Vector3(step.x, 0.0, 0.0), 0.25):
 		position.x += step.x
-	elif area.is_walkable(position + Vector3(0.0, 0.0, step.z), 0.25):
+	elif area.is_enemy_walkable(position + Vector3(0.0, 0.0, step.z), 0.25):
 		position.z += step.z
 	var moved: bool = position.distance_to(before) > speed * delta * 0.3
 	if moved:
@@ -236,5 +243,5 @@ func retreat_from(point: Vector3, seconds: float) -> void:
 	away.y = 0.0
 	if away.length() > 0.01:
 		var candidate: Vector3 = position + away.normalized() * 1.2
-		if area.is_walkable(candidate, 0.25):
+		if area.is_enemy_walkable(candidate, 0.25):
 			position = candidate

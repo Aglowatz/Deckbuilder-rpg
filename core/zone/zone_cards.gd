@@ -19,3 +19,12 @@ const GAINLANDS_VENDOR_IDS: Array[String] = [
 ]
 ## The Gainlands mini dungeon's one-time unique reward.
 const GAINLANDS_MINI_REWARD_ID: String = "iron_titan"
+
+## The Endless Buffet's Gourmand cards (defined in ContentDefinitions.build_zone_cards). Sold by Dolcetta
+## Crumb at the Grand Pantry; "tasting_menu" and "cheese_wheel_golem" are chest cards.
+const BUFFET_VENDOR_IDS: Array[String] = [
+	"breadstick_sentry", "gravy_courier", "meatloaf_golem", "gelatin_sentinel", "soup_of_the_day",
+	"sous_assist", "food_fight", "runaway_meatball", "souffle_sprite", "sneeze_guard",
+]
+## The Walk-In Freezer's one-time unique reward.
+const BUFFET_MINI_REWARD_ID: String = "buffet_colossus"

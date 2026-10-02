@@ -64,7 +64,7 @@ func sfx(sound: StringName, volume_db: float = 0.0, pitch_jitter: float = 0.05) 
 func _stream_for(sound: StringName) -> AudioStream:
 	var options: Array = _catalog.get(sound, [])
 	if options.is_empty():
-		return null
+		return MusicSynth.sfx_stream(sound)
 	var path: String = str(options[_rng.randi() % options.size()])
 	if _cache.has(path):
 		return _cache[path] as AudioStream

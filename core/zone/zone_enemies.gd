@@ -16,6 +16,8 @@ static func info(zone_id: String, enemy_id: String) -> ZoneEnemyInfo:
 	match zone_id:
 		GainlandsZone.ID:
 			return GainlandsEnemies.info(enemy_id)
+		BuffetZone.ID:
+			return BuffetEnemies.info(enemy_id)
 	return DnaEnemies.info(enemy_id)
 
 
