@@ -5,8 +5,8 @@
 
 [resource]
 script = ExtResource("2_qt2jg")
-id = "ember_imp"
-display_name = "Ember Imp"
+id = "beefcake_imp"
+display_name = "Beefcake Imp"
 color = 1
 colored_pips = Array[int]([1])
 power = 2

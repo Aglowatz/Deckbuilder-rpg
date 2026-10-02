@@ -19,7 +19,7 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
    tutorial. Losing sends you back to the starting area to try again, not to a town you have not
    reached yet.
 5. **Choosing a starting deck**: right after the boss, pick one of four decks (one per color -
-   Ember, Tide, Root, Necrocrat), each shown with its identity, playstyle and key cards. Every card in
+   Beefcake, Tide, Root, Necrocrat), each shown with its identity, playstyle and key cards. Every card in
    the deck you pick joins your collection immediately, and the road to town opens.
 6. **Town** (same controls: **WASD**/arrows to move, **E**/**Space**/click to interact, **Esc** for
    the pause menu, **B** to open the deck builder from anywhere, **C** for the character screen)
@@ -37,7 +37,7 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
    - **The Secluded Grove** (south of the spawn point): three placeholder secrets - a hidden chest
      behind the trees, a sealed vault and the easy-to-miss lever that opens it, and a hidden vendor
      who only appears once you have found the chest.
-   - **West Woods, Harbor Dock, North Uplands, Ember Flats and Grave Hollow**: 5 new outer
+   - **West Woods, Harbor Dock, North Uplands, Beefcake Flats and Grave Hollow**: 5 new outer
      districts, each with a corrupted NPC to find and fight (a mono-color deck, 15 life - defeat
      them for a one-time reward and to unlock that element's entrance) and a hidden chest tucked
      away with no marker of any kind - the standard interact prompt only shows up within about

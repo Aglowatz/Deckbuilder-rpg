@@ -138,7 +138,7 @@ static func _add_neutral(cards: Dictionary) -> void:
 
 
 static func _add_affinity_a(cards: Dictionary) -> void:
-	_add(cards, _fin(_creature("ember_imp", "Ember Imp", A, 0, [A], 2, 1, [K.HASTE]), R.COMMON, "Haste"))
+	_add(cards, _fin(_creature("beefcake_imp", "Beefcake Imp", A, 0, [A], 2, 1, [K.HASTE]), R.COMMON, "Haste"))
 	_add(cards, _fin(_creature("blade_dancer", "Blade Dancer", A, 1, [A], 2, 1, [K.FIRST_STRIKE]), R.COMMON, "First Strike"))
 	_add(cards, _fin(_with(_creature("raider", "Raider", A, 2, [A], 3, 2), _fx(T.ON_ATTACK, G.SELF, O.BUFF, 1, 0, CardEnums.Duration.END_OF_TURN)), R.COMMON, "Whenever this attacks, it gets +1/+0 until end of turn."))
 	_add(cards, _fin(_creature("blazing_charger", "Blazing Charger", A, 3, [A], 4, 3, [K.HASTE]), R.UNCOMMON, "Haste"))
@@ -223,10 +223,10 @@ static func reward_pool(cards: Dictionary) -> Array[CardData]:
 static func deck_recipes() -> Array[Dictionary]:
 	return [
 		{
-			"name": "Ember & Tide",
+			"name": "Beefcake & Tide",
 			"lands": {A: 9, B: 8},
 			"spells": {
-				"ember_imp": 3, "blade_dancer": 3, "raider": 2, "blazing_charger": 2, "firebolt": 3,
+				"beefcake_imp": 3, "blade_dancer": 3, "raider": 2, "blazing_charger": 2, "firebolt": 3,
 				"flame_burst": 2, "warcry": 1, "whispering_shade": 2, "dissolve": 2, "snare": 1,
 				"sellsword": 3, "cave_bat": 2, "supply_cache": 2,
 			},
@@ -252,11 +252,11 @@ static func deck_recipes() -> Array[Dictionary]:
 			},
 		},
 		{
-			"name": "Necrocrat & Ember",
+			"name": "Necrocrat & Beefcake",
 			"lands": {D: 9, A: 8},
 			"spells": {
 				"bone_servant": 2, "grave_tender": 2, "martyr": 2, "bloodthirst_wolf": 3, "soul_drain": 2,
-				"dark_bargain": 2, "necromancer": 1, "ember_imp": 2, "blade_dancer": 2, "raider": 2, "blazing_charger": 1,
+				"dark_bargain": 2, "necromancer": 1, "beefcake_imp": 2, "blade_dancer": 2, "raider": 2, "blazing_charger": 1,
 				"firebolt": 2, "flame_burst": 2, "scorching_ward": 1, "warcry": 1, "sellsword": 1,
 			},
 		},

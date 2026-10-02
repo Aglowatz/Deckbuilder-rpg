@@ -161,13 +161,13 @@ func _find_element_choice(scene: StartingAreaScene) -> ElementChoiceScreen:
 	return null
 
 
-## Part C: the element choice happens before the dungeon even starts. Always picks Ember (A) -
-## every later Ember-specific check in this driver depends on that.
+## Part C: the element choice happens before the dungeon even starts. Always picks Beefcake (A) -
+## every later Beefcake-specific check in this driver depends on that.
 func _choose_element(choice: ElementChoiceScreen) -> void:
 	_check(choice._confirm.disabled, "the element choice needs a pick before confirming")
 	var tile: Button = choice._tiles[Affinity.Type.A] as Button
 	await driver.click(driver.center_of_control(tile))
-	_check(choice.selected == Affinity.Type.A, "clicking the Ember tile selects it")
+	_check(choice.selected == Affinity.Type.A, "clicking the Beefcake tile selects it")
 	await driver.click_button("Begin")
 	await driver.seconds(1.0)
 	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.A, "choosing an element sets the primary affinity")
@@ -360,14 +360,14 @@ func _town(scene: TownScene) -> void:
 	# Balance (D71) targets ~55-70% for a level-3 reference deck, not a guaranteed win - a real
 	# loss is a legitimate outcome, not a bug, and D68 says they can always be challenged again.
 	# Retry (a few times, not forever) instead of treating one loss as fatal to the whole run.
-	if scene._portal_is_locked("ember") and int(_did.get("npc_attempts", 0)) < 3:
+	if scene._portal_is_locked("beefcake") and int(_did.get("npc_attempts", 0)) < 3:
 		_did["npc_attempts"] = int(_did.get("npc_attempts", 0)) + 1
-		await _interact(scene, "npc_ember")
+		await _interact(scene, "npc_beefcake")
 		return
 	if not _did.has("zone_portal"):
 		_did["zone_portal"] = true
-		_check(not scene._portal_is_locked("ember"), "defeating the corrupted NPC unlocked the Ember entrance (%d attempt(s))" % int(_did.get("npc_attempts", 0)))
-		await _interact(scene, "portal_ember")
+		_check(not scene._portal_is_locked("beefcake"), "defeating the corrupted NPC unlocked the Beefcake entrance (%d attempt(s))" % int(_did.get("npc_attempts", 0)))
+		await _interact(scene, "portal_beefcake")
 		return
 	if not _did.has("deck_hotkey"):
 		_did["deck_hotkey"] = true
@@ -380,7 +380,7 @@ func _town(scene: TownScene) -> void:
 
 ## Part G: a placeholder zone portal - walk in, check the sign/tint, walk back out.
 func _zone_placeholder(scene: ZonePlaceholderScene) -> void:
-	_check(scene.info != null and scene.info.id == "ember", "the Ember portal leads to the Ember placeholder zone")
+	_check(scene.info != null and scene.info.id == "beefcake", "the Beefcake portal leads to the Beefcake placeholder zone")
 	await _walk_to_portal(scene)
 	await driver.frames(4)
 	await driver.tap_key(KEY_E)

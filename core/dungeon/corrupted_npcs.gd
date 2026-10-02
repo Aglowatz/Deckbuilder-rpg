@@ -5,25 +5,25 @@ extends RefCounted
 ## battle flow; dialogue text itself lives in `data/story/corrupted_npcs_story.tres`
 ## (`CorruptedNpcStory`), not here, per the brief ("keep all dialogue in the story data file").
 ##
-## Ids match `ZonePortals` ids (ember/tide/root/necrocrat) - defeating one sets that same zone's
+## Ids match `ZonePortals` ids (beefcake/tide/root/necrocrat) - defeating one sets that same zone's
 ## unlock flag (`TownScene._portal_unlock_flag`), per the Part C contract (D66).
 
-const IDS: Array[String] = ["ember", "tide", "root", "necrocrat"]
+const IDS: Array[String] = ["beefcake", "tide", "root", "necrocrat"]
 const STARTING_LIFE: int = 15
 
 const DISPLAY_NAMES: Dictionary = {
-	"ember": "Torvin the Ember-Touched", "tide": "Maris the Tide-Drowned",
+	"beefcake": "Torvin the Over-Pumped", "tide": "Maris the Tide-Drowned",
 	"root": "Old Thistlebark", "necrocrat": "Corwyn the Filed-Away",
 }
 ## Which AIPersonality (by name, see core/ai/ai_personality.gd) plays each - matched to their
-## element identity (aggressive Ember, defensive Tide, patient/growing Root, opportunistic Necrocrat).
+## element identity (aggressive Beefcake, defensive Tide, patient/growing Root, opportunistic Necrocrat).
 const AI_NAMES: Dictionary = {
-	"ember": "Aggressive", "tide": "Defensive", "root": "Passive", "necrocrat": "Balanced",
+	"beefcake": "Aggressive", "tide": "Defensive", "root": "Passive", "necrocrat": "Balanced",
 }
 ## Reward item per NPC (Part D/F's small item pool) - thematically matched. Only 3 items exist
 ## before Part F; Necrocrat reuses Tide's (a real item pool arrives in Part F).
 const REWARD_ITEMS: Dictionary = {
-	"ember": "reckless_tonic", "tide": "healing_draught", "root": "vitality_charm",
+	"beefcake": "reckless_tonic", "tide": "healing_draught", "root": "vitality_charm",
 	"necrocrat": "healing_draught",
 }
 
@@ -36,7 +36,7 @@ static func unlock_flag(id: String) -> StringName:
 
 static func element(id: String) -> Affinity.Type:
 	match id:
-		"ember":
+		"beefcake":
 			return Affinity.Type.A
 		"tide":
 			return Affinity.Type.B
@@ -55,9 +55,9 @@ static func display_name(id: String) -> String:
 ## docs/balance_report.md for how these were tuned against a typical level-3 player deck.
 static func recipe(id: String) -> Dictionary:
 	match id:
-		"ember":
+		"beefcake":
 			return {
-				"land:A": 16, "ember_imp": 2, "blade_dancer": 2, "raider": 2,
+				"land:A": 16, "beefcake_imp": 2, "blade_dancer": 2, "raider": 2,
 				"blazing_charger": 1, "firebolt": 2, "flame_burst": 1, "warcry": 1,
 			}
 		"tide":

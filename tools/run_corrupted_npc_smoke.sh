@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# New brief, Part E: regression test for one corrupted-NPC challenge - talks to Torvin (Ember),
+# New brief, Part E: regression test for one corrupted-NPC challenge - talks to Torvin (Beefcake),
 # checks the real battle starts with the right opponent, plays it out for real with BattlePilot,
 # and checks the town-side result (dialogue, reward/unlock) matches what actually happened.
 # Run alone (windowed, real viewport + real SceneManager scene changes needed).

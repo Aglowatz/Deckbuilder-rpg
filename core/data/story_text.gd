@@ -18,19 +18,19 @@ extends Resource
 ## happened in their zone), after a win (freed/calmer, hinting at their zone), after a loss
 ## (short - they can be challenged again). Kept here, not hardcoded in town_scene.gd, so they can
 ## be rewritten without touching code.
-@export var ember_npc_intro_lines: Array[String] = [
-	"The fire... it doesn't go out anymore. It's UNDER my skin now.",
-	"Ember Reaches burned itself into me, and it won't let go.",
-	"Stand still and let it OUT of me!",
+@export var beefcake_npc_intro_lines: Array[String] = [
+	"The wheel... it never stops turning. It's UNDER my skin now. Pre-workout every hour!",
+	"The Beefcake Path built me, and I can't stop lifting.",
+	"Stand still and let me spot you - INTO THE NEXT ZIP CODE!",
 ]
-@export var ember_npc_victory_lines: Array[String] = [
+@export var beefcake_npc_victory_lines: Array[String] = [
 	"...it's quiet. First time in - I don't know how long. Thank you.",
-	"The Reaches did something to the fire there. Turned it wrong.",
+	"The Gainlands did something to the wheels there. Turned them wrong. Nobody skips leg day anymore - they can't stop.",
 	"Be careful, if you ever go.",
 ]
-@export var ember_npc_defeat_lines: Array[String] = [
-	"Ha! The fire's still mine.",
-	"Come back when you're hotter-blooded.",
+@export var beefcake_npc_defeat_lines: Array[String] = [
+	"Ha! The pump's still mine.",
+	"Come back when you can actually lift, shrimp.",
 ]
 
 @export var tide_npc_intro_lines: Array[String] = [
@@ -121,8 +121,8 @@ func quest_lines(key: String) -> Array[String]:
 
 func npc_intro_lines(id: String) -> Array[String]:
 	match id:
-		"ember":
-			return ember_npc_intro_lines
+		"beefcake":
+			return beefcake_npc_intro_lines
 		"tide":
 			return tide_npc_intro_lines
 		"root":
@@ -134,8 +134,8 @@ func npc_intro_lines(id: String) -> Array[String]:
 
 func npc_victory_lines(id: String) -> Array[String]:
 	match id:
-		"ember":
-			return ember_npc_victory_lines
+		"beefcake":
+			return beefcake_npc_victory_lines
 		"tide":
 			return tide_npc_victory_lines
 		"root":
@@ -147,8 +147,8 @@ func npc_victory_lines(id: String) -> Array[String]:
 
 func npc_defeat_lines(id: String) -> Array[String]:
 	match id:
-		"ember":
-			return ember_npc_defeat_lines
+		"beefcake":
+			return beefcake_npc_defeat_lines
 		"tide":
 			return tide_npc_defeat_lines
 		"root":

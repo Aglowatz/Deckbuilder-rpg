@@ -46,8 +46,8 @@ func test_new_profile_owns_only_the_neutral_starter_cards() -> void:
 
 func test_no_sample_pair_deck_is_given_to_the_player() -> void:
 	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.B)
-	var ember: Deck = _content.deck("Ember & Tide")
-	assert_false(DeckValidator.is_valid(ember, profile, null, true), "pair decks must be built by the player")
+	var beefcake: Deck = _content.deck("Beefcake & Tide")
+	assert_false(DeckValidator.is_valid(beefcake, profile, null, true), "pair decks must be built by the player")
 
 
 ## New brief (third), Part D: the secret tunnel skip's 3 random on-element cards - distinct,

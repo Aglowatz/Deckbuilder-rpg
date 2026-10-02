@@ -1,7 +1,7 @@
 class_name CorruptedNpcSmoke
 extends Node
 ## New brief, Part E: a human-input e2e regression test for one corrupted-NPC encounter - talks
-## to Torvin (Ember), checks the pre-fight dialogue and that it actually starts a real battle
+## to Torvin (Beefcake), checks the pre-fight dialogue and that it actually starts a real battle
 ## with the right opponent (name, life, town_npc_id), plays the duel out for real with
 ## BattlePilot (a real, uncertain outcome - not scripted), then checks the town-side result
 ## (post-fight dialogue matches what actually happened, and only a win actually pays out/unlocks).
@@ -24,13 +24,13 @@ func run() -> void:
 	await driver.frames(10)
 
 	var town: TownScene = await _wait_for_town()
-	await _walk_to(town, "npc_ember", true)
+	await _walk_to(town, "npc_beefcake", true)
 	await driver.frames(3)
 	_check(town.hud._prompt_label.text.contains("Talk"), "the prompt near a corrupted NPC reads Talk")
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
 	_check(town.dialogue.active, "talking to a corrupted NPC opens dialogue")
-	_check(town.dialogue._speaker.text == "Torvin the Ember-Touched", "the dialogue speaker is the corrupted NPC")
+	_check(town.dialogue._speaker.text == "Torvin the Over-Pumped", "the dialogue speaker is the corrupted NPC")
 	var guard: int = 0
 	while town.dialogue.active and guard < 20:
 		guard += 1
@@ -42,8 +42,8 @@ func run() -> void:
 	if battle == null:
 		_finish(false, "no battle started")
 		return
-	_check(battle.context.town_npc_id == "ember", "the battle context is tagged as the ember challenge")
-	_check(battle.context.enemy_name == "Torvin the Ember-Touched", "the battle opponent is the corrupted NPC")
+	_check(battle.context.town_npc_id == "beefcake", "the battle context is tagged as the beefcake challenge")
+	_check(battle.context.enemy_name == "Torvin the Over-Pumped", "the battle opponent is the corrupted NPC")
 	_check(battle.game.players[1].life == CorruptedNpcs.STARTING_LIFE, "the corrupted NPC starts at 15 life")
 
 	var pilot: BattlePilot = BattlePilot.new(driver, battle)
@@ -77,11 +77,11 @@ func run() -> void:
 	await driver.frames(5)
 	_check(back.dialogue.active, "a post-fight line plays on return")
 	if won:
-		_check(back.dialogue._speaker.text == "Torvin the Ember-Touched", "the win dialogue is from the NPC")
-		_check(Session.flag(CorruptedNpcs.unlock_flag("ember")), "a win unlocks the Ember zone entrance")
+		_check(back.dialogue._speaker.text == "Torvin the Over-Pumped", "the win dialogue is from the NPC")
+		_check(Session.flag(CorruptedNpcs.unlock_flag("beefcake")), "a win unlocks the Beefcake zone entrance")
 		_check(Session.gold > gold_before, "a first win actually pays out gold")
 	else:
-		_check(not Session.flag(CorruptedNpcs.unlock_flag("ember")), "a loss does not unlock the zone entrance")
+		_check(not Session.flag(CorruptedNpcs.unlock_flag("beefcake")), "a loss does not unlock the zone entrance")
 		_check(Session.gold == gold_before, "a loss pays out nothing")
 	guard = 0
 	while back.dialogue.active and guard < 20:
@@ -89,7 +89,7 @@ func run() -> void:
 		await driver.tap_key(KEY_E)
 		await driver.seconds(0.15)
 	await driver.frames(3)
-	await _walk_to(back, "npc_ember")
+	await _walk_to(back, "npc_beefcake")
 	await driver.frames(3)
 	_check(back.hud._prompt_label.text.contains("Talk"), "the corrupted NPC can always be talked to again, win or lose")
 

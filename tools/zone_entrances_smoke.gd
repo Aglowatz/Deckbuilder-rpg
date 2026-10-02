@@ -12,7 +12,7 @@ extends Node
 ##   Godot --path . res://tools/zone_entrances_launcher.tscn
 ## Exit code 0 = every check passed; 1 = a check failed.
 
-const LOCKED_IDS: Array[String] = ["ember", "tide", "root", "necrocrat"]
+const LOCKED_IDS: Array[String] = ["beefcake", "tide", "root", "necrocrat"]
 const STALL_LIMIT: float = 20.0
 
 var driver: UiDriver
@@ -82,7 +82,7 @@ func _check_unlocking_root() -> void:
 	await _walk_to(town, "portal_root")
 	await driver.frames(3)
 	_check(town.hud._prompt_label.text.contains("Enter") and not town.hud._prompt_label.text.contains("Sealed"), "the Root entrance opens once its unlock flag is set")
-	await _walk_to(town, "portal_ember")
+	await _walk_to(town, "portal_beefcake")
 	await driver.frames(3)
 	_check(town.hud._prompt_label.text.contains("Sealed"), "other entrances stay locked after unlocking just one")
 	await _walk_to(town, "portal_root")

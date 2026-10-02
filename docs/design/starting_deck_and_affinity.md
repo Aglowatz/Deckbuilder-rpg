@@ -87,14 +87,14 @@ they arrive.
 
 | Element | Identity | Playstyle |
 |---------|----------|-----------|
-| A | Ember burns fast: haste, burn spells and aggressive bodies that punish a slow start. | Race to deal damage before the table settles. Strike first, strike often. |
+| A | Beefcake hits hard and fast: haste, power spells and huge aggressive bodies that punish a slow start. | Race to deal damage before the table settles. Strike first, strike often. |
 | B | Tide answers: bounce, card draw and defenders that buy time to out-think the opponent. | Control the pace, see more cards than they do, win the long game. |
 | C | Root grows: big, sturdy creatures and life gain that outlast anything thrown at them. | Stabilize behind tough bodies, then close it out with size. |
 | D | Necrocrat trades: sacrifice, death triggers and drain effects that turn losses into value. | Grind through exchanges; every creature that dies is doing you a favor. |
 
 See `core/dungeon/element_choice.gd` for the full text and sample cards shown on the choice
 screen, and `tests/core/dungeon/test_element_choice.gd` for the coverage. The two-color sample
-decks (Ember & Tide, Tide & Root, Root & Grave, Grave & Ember) still exist in
+decks (Beefcake & Tide, Tide & Root, Root & Grave, Grave & Beefcake) still exist in
 `ContentDefinitions.deck_recipes()`, but only for the AI balance simulation now - they are not
 offered to the player anywhere.
 

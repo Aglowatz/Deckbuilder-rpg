@@ -10,19 +10,19 @@ func before_all() -> void:
 func test_add_and_availability() -> void:
 	var vendor: VendorData = VendorData.new()
 	vendor.add("sellsword")
-	vendor.add("ember_imp", Condition.flag("bought_ember"))
+	vendor.add("beefcake_imp", Condition.flag("bought_beefcake"))
 	var state: UnlockState = UnlockState.new()
 	assert_eq(vendor.available_card_ids(state), ["sellsword"] as Array[String])
-	assert_eq(vendor.locked_card_ids(state), ["ember_imp"] as Array[String])
-	state.flags["bought_ember"] = true
+	assert_eq(vendor.locked_card_ids(state), ["beefcake_imp"] as Array[String])
+	state.flags["bought_beefcake"] = true
 	assert_eq(vendor.available_card_ids(state).size(), 2)
 	assert_true(vendor.locked_card_ids(state).is_empty())
 
 
 func test_teaser_for_locked_and_unknown_cards() -> void:
 	var vendor: VendorData = VendorData.new()
-	vendor.add("ember_imp", Condition.gold_spent(100))
-	assert_eq(vendor.teaser_for("ember_imp"), "Spend 100 gold in total to unlock.")
+	vendor.add("beefcake_imp", Condition.gold_spent(100))
+	assert_eq(vendor.teaser_for("beefcake_imp"), "Spend 100 gold in total to unlock.")
 	assert_eq(vendor.teaser_for("not_in_stock"), "")
 
 

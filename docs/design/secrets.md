@@ -32,7 +32,7 @@ coordinates are hex (col, row) as `HexGrid.cell_to_world` takes them - see
 | `harbor_dock` | Harbor Dock, world (17, 6) | In a back-alley pocket between the dock's crates and buildings, south of the main Tide-gate corridor | 30 gold + **Healing Draught** (item) |
 | `grave_hollow` | Grave Hollow (the southwest corner), world (-4, 12) | In a misty, tree-ringed hollow off the causeway to the Grave gate | **Reckless Tonic** (item) + **Stag Warden** (card, Uncommon Guard) |
 | `uplands` | North Uplands, world (8, -2) | On the overlook meadow, tucked onto a small grassy islet between two ponds, just off the path up to the Final gate | 50 gold + **Stone Sentinel** (card, Common Guard) |
-| `ember_flats` | Ember Flats, world (9, 12) | In a small stand of trees off the causeway down to the Ember gate, east of the vault's row | **Vitality Charm** (item) |
+| `beefcake_flats` | Beefcake Flats, world (9, 12) | In a small stand of trees off the causeway down to the Beefcake gate, east of the vault's row | **Vitality Charm** (item) |
 
 Total: 125 gold, 3 items, 2 cards, one per new district (not all clustered in one place). Both
 cards (`stag_warden`, `stone_sentinel`) are Common/Uncommon on purpose - a hidden chest is a nice
@@ -63,7 +63,7 @@ placed fragment of geometry in one corner - while every other position in town, 
 spots in that same original core (e.g. the Codex, the gate itself), screenshotted correctly.
 Camera position/rotation logged at capture time were numerically normal and matched a working
 example closely, so the cause was not root-caused in the time available; the chest was moved to
-Ember Flats (a location already proven to render correctly) rather than ship something
+Beefcake Flats (a location already proven to render correctly) rather than ship something
 unverified. Worth a fresh look if anyone ever revisits this area.
 
 ## Third follow-up brief, Newest Part D: the starting-area hidden tunnel

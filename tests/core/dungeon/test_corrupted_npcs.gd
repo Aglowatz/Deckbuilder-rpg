@@ -51,7 +51,7 @@ func test_reward_item_resolves_to_a_real_item() -> void:
 
 
 func test_unlock_flag_matches_the_zone_id_convention() -> void:
-	assert_eq(CorruptedNpcs.unlock_flag("ember"), StringName("ember_zone_unlocked"))
+	assert_eq(CorruptedNpcs.unlock_flag("beefcake"), StringName("beefcake_zone_unlocked"))
 
 
 func test_reference_player_decks_are_45_cards_and_reasonably_on_color() -> void:

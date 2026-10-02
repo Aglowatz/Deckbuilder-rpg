@@ -279,7 +279,7 @@ func _check_hidden_chests() -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
 	_check(Session.found_secret("hidden_chest_ember_flats"), "opening a hidden chest marks its secret found")
-	_check(Session.profile.owned_items.size() == items_before + 1, "opening the Ember Flats chest grants its item")
+	_check(Session.profile.owned_items.size() == items_before + 1, "opening the Beefcake Flats chest grants its item")
 	scene.player.position = near_anchor + Vector3(0.0, 0.0, 4.0)
 	await driver.frames(3)
 	await _walk_to_position(near_anchor, TownScene.HIDDEN_CHEST_RADIUS)

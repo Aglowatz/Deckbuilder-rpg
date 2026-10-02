@@ -17,10 +17,10 @@ extends WalkableArea
 ##     west edge.
 ##   - **Harbor Dock** (cols 15-20, rows 0-9): the Harbor Quarter's canal continuing out to the
 ##     Tide entrance at the east edge.
-##   - **Ember Flats** (rows 10-14): open ground south of the Secluded Grove leading to the Ember
+##   - **Beefcake Flats** (rows 10-14): open ground south of the Secluded Grove leading to the Beefcake
 ##     entrance at the south edge.
 ##   - **Grave Hollow** (the southwest corner: rows 10-12, cols -6..-1): a misty pocket off the
-##     Ember Flats leading to the Grave entrance at the west edge.
+##     Beefcake Flats leading to the Grave entrance at the west edge.
 ## `ROW_OFFSET`/`COL_OFFSET` convert a string's own (row, col) index into world-space coordinates,
 ## so the original 10x15 core keeps exactly the same world coordinates (and thus the same
 ## anchors/spawn/every other unchanged reference) it always had - it is simply no longer the
@@ -238,7 +238,7 @@ func _build_props() -> void:
 	# New brief, Part E: 4 corrupted NPCs, one per element district, close enough to their own
 	# district's edge gate to read as "belongs to that zone" without blocking the district's main
 	# path. Visual corruption (tint + particle effect) is TownScene's job, not the builder's.
-	anchors["npc_ember"] = cell_center(5, 10) + Vector3(0.3, 0, 0.4)
+	anchors["npc_beefcake"] = cell_center(5, 10) + Vector3(0.3, 0, 0.4)
 	anchors["npc_tide"] = cell_center(16, 3) + Vector3(-0.3, 0, 0.4)
 	anchors["npc_root"] = cell_center(-3, 2) + Vector3(0.3, 0, -0.3)
 	anchors["npc_necrocrat"] = cell_center(-3, 11) + Vector3(0.3, 0, 0.3)
@@ -256,7 +256,7 @@ func _build_props() -> void:
 
 
 ## New brief (third), Part E: a debug-only "Dev Shrine" at the very bottom (south) edge of the
-## town map, Ember Flats row - each interaction grants one level via the real level-up flow.
+## town map, Beefcake Flats row - each interaction grants one level via the real level-up flow.
 ## Gated by DevTools.shrine_enabled() here, at the builder level, so it does not exist as a 3D
 ## object at all (not just an unreachable interaction) once DevTools says no - see D88 for why
 ## that matters for an exported release build specifically.
@@ -329,7 +329,7 @@ func _build_graveyard() -> void:
 
 ## New brief, Part D: 5 hidden chests, scaled to 1/4 of the D38 chest above (0.9 -> 0.225) and
 ## tucked into real alcoves across the (now bigger) town - among trees, in a back alley, in a
-## misty hollow, on a quiet overlook, in a stand of trees off the Ember Flats - not clustered in
+## misty hollow, on a quiet overlook, in a stand of trees off the Beefcake Flats - not clustered in
 ## one district. No marker, glow or name plate (see TownScene._build_hidden_chests/_process - a
 ## separate, quieter system from the regular Spot the D38 chest above uses, which does have a
 ## marker): the only tell is the standard interact prompt, and only once the player is genuinely
@@ -341,14 +341,14 @@ func _build_graveyard() -> void:
 ## same rules as the 5 above - one more in an already-proven-safe district (D67) rather than a
 ## new one, at a cell well clear of every existing anchor/chest in that district.
 const HIDDEN_CHEST_CELLS: Dictionary = {
-	"ember_flats": Vector2i(9, 12), "west_woods": Vector2i(-4, 5), "harbor_dock": Vector2i(17, 6),
+	"beefcake_flats": Vector2i(9, 12), "west_woods": Vector2i(-4, 5), "harbor_dock": Vector2i(17, 6),
 	"grave_hollow": Vector2i(-4, 12), "uplands": Vector2i(8, -2),
 	"uplands_ridge": Vector2i(11, -3), "harbor_dock_back": Vector2i(16, 2),
 }
 const HIDDEN_CHEST_OFFSETS: Dictionary = {
 	"west_woods": Vector3(0.35, 0, -0.25), "harbor_dock": Vector3(-0.3, 0, 0.35),
 	"grave_hollow": Vector3(0.3, 0, 0.3), "uplands": Vector3(-0.25, 0, -0.35),
-	"ember_flats": Vector3(0.3, 0, -0.3),
+	"beefcake_flats": Vector3(0.3, 0, -0.3),
 	"uplands_ridge": Vector3(0.3, 0, 0.25), "harbor_dock_back": Vector3(-0.25, 0, 0.3),
 }
 
@@ -378,7 +378,7 @@ func _build_hidden_chests() -> void:
 ## `TownScene`, not here - `TownBuilder` only places the structure and its anchor.
 const PORTAL_CELLS: Dictionary = {
 	"final": Vector2i(4, -5), "root": Vector2i(-6, 4), "tide": Vector2i(20, 4),
-	"ember": Vector2i(7, 14), "necrocrat": Vector2i(-6, 11),
+	"beefcake": Vector2i(7, 14), "necrocrat": Vector2i(-6, 11),
 }
 
 
@@ -404,7 +404,7 @@ func _portal_approach_offset(zone_id: String) -> Vector3:
 			return Vector3(1.0, 0, 0) # west edge - approach from the east
 		"tide":
 			return Vector3(-1.0, 0, 0) # east edge - approach from the west
-		"ember":
+		"beefcake":
 			return Vector3(0, 0, -1.0) # south edge - approach from the north
 		"necrocrat":
 			return Vector3(1.0, 0, 0) # southwest corner - approach from the east

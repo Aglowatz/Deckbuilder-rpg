@@ -28,7 +28,7 @@ const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
 	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor",
-	"npc_ember", "npc_tide", "npc_root", "npc_necrocrat",
+	"npc_beefcake", "npc_tide", "npc_root", "npc_necrocrat",
 ]
 ## How close (in screen pixels) a click has to land to a spot's marker to count as
 ## "clicking the NPC", since the fixed camera has no 3D picking set up.
@@ -47,7 +47,7 @@ const HIDDEN_CHEST_REWARDS: Dictionary = {
 	"harbor_dock": {"gold": 30, "item": "healing_draught", "card": ""},
 	"grave_hollow": {"gold": 0, "item": "reckless_tonic", "card": "stag_warden"},
 	"uplands": {"gold": 50, "item": "", "card": "stone_sentinel"},
-	"ember_flats": {"gold": 0, "item": "vitality_charm", "card": ""},
+	"beefcake_flats": {"gold": 0, "item": "vitality_charm", "card": ""},
 	"uplands_ridge": {"gold": 0, "item": "", "card": "", "equipment": "travelers_boots"},
 	"harbor_dock_back": {"gold": 0, "item": "", "card": "", "equipment": "solid_plate"},
 }
@@ -197,7 +197,7 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 ## element-colored particle drift (corruption made visible), distinct from the Wellspring's
 ## bright rising motes.
 const CORRUPTED_NPC_MODELS: Dictionary = {
-	"ember": "Barbarian", "tide": "Mage", "root": "Rogue", "necrocrat": "Rogue_Hooded",
+	"beefcake": "Barbarian", "tide": "Mage", "root": "Rogue", "necrocrat": "Rogue_Hooded",
 }
 
 

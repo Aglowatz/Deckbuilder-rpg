@@ -12,7 +12,7 @@ var node_id: int = -1
 var tutorial: bool = false
 var is_boss: bool = false
 var practice: bool = false
-## New brief, Part E: set for a corrupted-NPC town challenge ("ember"/"tide"/"root"/"necrocrat"),
+## New brief, Part E: set for a corrupted-NPC town challenge ("beefcake"/"tide"/"root"/"necrocrat"),
 ## empty otherwise. See Session.make_npc_challenge_battle/_complete_npc_challenge.
 var town_npc_id: String = ""
 ## Fourth brief, Part F: set for the Graveyard's scripted battle (The Restless Cairn). See

@@ -154,7 +154,7 @@ Built:
 - **Files**: 60 `.tres` resources - `data/cards/` (46), `data/decks/` (5), `data/encounters/
   challenges/` (6, the milestone-6 examples), `data/ai/` (3 personalities).
 - **5 sample decks** (45 cards each: 28 spells + 17 lands, all legal under `DeckValidator`):
-  Ember & Tide (A/B), Tide & Root (B/C), Root & Grave (C/D), Grave & Ember (D/A), Wanderer's
+  Beefcake & Tide (A/B), Tide & Root (B/C), Root & Grave (C/D), Grave & Beefcake (D/A), Wanderer's
   Pack (neutral starter).
 - **Simulation harness** (`core/sim/`): `SimulationRunner` (AI vs AI, alternating first player),
   `MatchupStats`, `BalanceReport`, `ContentLibrary` (loads the `.tres` content).
@@ -355,7 +355,7 @@ new is presentation (`app/`, `ui/`, `world/`, `scenes/`). Screenshot tool: `tool
 
 ## Questions for you
 
-1. Title/working name "Wellspring" and the names Ember/Tide/Root/Grave: keep?
+1. Title/working name "Wellspring" and the names Beefcake/Tide/Root/Grave: keep?
 2. ~~Is +10 max life in the Trial (D7) acceptable, or should the base 10 life apply?~~ **Answered
    by Part C: base 10 life, no blessing (D32).**
 3. ~~Vendor sells every card from the start (D6): want a discovery/unlock system instead?~~
@@ -574,7 +574,7 @@ Deliberately out of scope for this pass (flag for later if you want them):
 Everything below is either new from this pass or still open from before (superseded items are
 struck through above, in the original "Questions for you" list).
 
-1. Title/working name **"Wellspring"** and the affinity names Ember/Tide/Root/Grave: keep?
+1. Title/working name **"Wellspring"** and the affinity names Beefcake/Tide/Root/Grave: keep?
 2. Trap cap of 3 (D25), balance band 35-65% (D26), and discard effects staying random (D24): all
    still just my defaults from the first pass - OK, or change any of them?
 3. Should draws count as a loss **outside** dungeons too (practice battles), or only in dungeons
@@ -807,7 +807,7 @@ Confirmed both halves the brief asks for:
 reusable "coming soon" scene - no real zones built, exactly as scoped.
 
 - **`ZonePortals`** (`world/zone_portals.gd`): the one source of truth for the 5 identities - id,
-  display name ("Ember Reaches" ... "The Final Depths"), and tint, reusing the same
+  display name ("Beefcake Reaches" ... "The Final Depths"), and tint, reusing the same
   `UIStyle.affinity_color`/`affinity_name` palette as everything else (card frames, land icons).
 - **In town**: `TownBuilder._build_zone_portals()` places a `tower_A` building, tinted per zone
   (the same `ModelKit.tint` trick already used for grass tiles - no new art needed), in the Harbor
@@ -824,8 +824,8 @@ reusable "coming soon" scene - no real zones built, exactly as scoped.
   muddy brown instead of green - `ModelKit.tile("hex_grass")` already applies its own tint
   internally, and re-tinting on top of that with the zone's color multiplied the two together.
   Fixed by leaving the ground alone and tinting only the portal structure (D61).
-- **e2e**: `tools/e2e_demo.gd` now walks to the Ember portal, enters it, confirms it is really the
-  Ember placeholder (`scene.info.id == "ember"`), and walks back out to town, as part of the full
+- **e2e**: `tools/e2e_demo.gd` now walks to the Beefcake portal, enters it, confirms it is really the
+  Beefcake placeholder (`scene.info.id == "beefcake"`), and walks back out to town, as part of the full
   run.
 
 316 GUT tests pass (no `core/` changes - this part is presentation only, per the brief). See D60
@@ -923,8 +923,8 @@ Deliberately out of scope for this pass, flagged for later:
 4. **Tutorial AI personality name** ("Aggressive (tutorial)", D50) and the **boss's tuned-down
    deck/AI** (D51, `balanced()` instead of the real `aggressive()`) - both are internal/placeholder
    naming and balance choices; happy to revisit either.
-5. **Zone portal names** ("Ember Reaches", "The Final Depths", D60) are placeholder lore like
-   everything else named so far (Wellspring, Wanderer, Ember/Tide/Root/Grave) - keep, or would you
+5. **Zone portal names** ("Beefcake Reaches", "The Final Depths", D60) are placeholder lore like
+   everything else named so far (Wellspring, Wanderer, Beefcake/Tide/Root/Grave) - keep, or would you
    like the real names now so the portals/signs don't need relabeling later?
 6. Everything still open from the previous brief's final pass (title/element names, trap cap,
    balance band, the town secrets' real rewards, the ~2.4x town size) remains open too - nothing
@@ -980,8 +980,8 @@ The town is now ~3x its previous land area (353 vs 118 non-water/mountain cells 
 brief's D38 pass was ~2.4x the original; this pass is ~3x *that*) via 5 new districts around the
 unchanged original core: **North Uplands** (a mountain-pass overlook, leads to the Final
 entrance), **West Woods** (winding forest, Root entrance), **Harbor Dock** (the existing Harbor
-Quarter's canal continuing out to sea, Tide entrance), **Ember Flats** (open ground south of the
-Secluded Grove, Ember entrance), and **Grave Hollow** (a misty southwest corner, Grave entrance).
+Quarter's canal continuing out to sea, Tide entrance), **Beefcake Flats** (open ground south of the
+Secluded Grove, Beefcake entrance), and **Grave Hollow** (a misty southwest corner, Grave entrance).
 Full layout/legend is documented in `world/town_builder.gd`'s header comment (D65); this project
 doesn't keep a separate town-design doc, so the code comment + `open_questions.md` are the source
 of truth for the layout, matching how the previous brief's town work (D38, D60) was recorded too.
@@ -1024,7 +1024,7 @@ layout); both the extended town interact smoke test and the new zone entrances s
 standard interact prompt, shown only within `HIDDEN_CHEST_RADIUS` (1.5m). Each is the same
 `chest_gold` prop as the existing D38 chest, but at 1/4 scale (0.225 vs 0.9). One per new Part C
 district: West Woods (45 gold), Harbor Dock (30 gold + Healing Draught), Grave Hollow (Reckless
-Tonic + Stag Warden card), North Uplands (50 gold + Stone Sentinel card), Ember Flats (Vitality
+Tonic + Stag Warden card), North Uplands (50 gold + Stone Sentinel card), Beefcake Flats (Vitality
 Charm). Each is one-time via the existing `Session.found_secret`/`discover_secret` system (same
 mechanism the D38 chest/vault already use). Opening one plays a small bounce animation, a golden
 particle burst, and a latch-then-coins sound (`&"chest_open"`, a new catalog entry reusing
@@ -1042,7 +1042,7 @@ One real, unresolved bug found and worked around, not swept under the rug (D67):
 positions for a 5th chest in the *original* town core both reproducibly screenshotted as a blank
 frame, while every other position (including other existing spots in that same core) rendered
 fine. Camera state logged at capture time looked numerically ordinary, so this was not
-root-caused in the time available - the chest was relocated to Ember Flats (a location already
+root-caused in the time available - the chest was relocated to Beefcake Flats (a location already
 proven to render correctly) rather than ship something unverified. Full writeup and a flag for
 whoever revisits it: `docs/design/open_questions.md` D67.
 
@@ -1076,7 +1076,7 @@ cycles per NPC, not a single guess.
 Verified end to end with real injected input, not just unit tests: `tests/core/dungeon/
 test_corrupted_npcs.gd` (deck legality/mono-color, 15 life, AI/reward resolution - GUT, no scene
 needed) plus a new `tools/corrupted_npc_smoke.gd` (`tools/run_corrupted_npc_smoke.sh`) that walks
-to Torvin (Ember), talks, confirms a real battle starts with the right opponent, plays the full
+to Torvin (Beefcake), talks, confirms a real battle starts with the right opponent, plays the full
 duel out for real with `BattlePilot` (a genuine, uncertain outcome - not scripted to win), and
 confirms the town-side result (dialogue, reward, zone-unlock) matches whatever actually happened.
 Fixed a real latent bug in the shared `BattlePilot` test tool while writing this (it indexed
@@ -1161,7 +1161,7 @@ hotkey (Part B). This is on top of everything the demo already did (title -> new
 area -> tutorial dungeon -> town: buy a card, edit/save the deck, character screen, a zone
 portal).
 
-**Result: `E2E PASSED in 248s (5 battles)`.** Notably, the corrupted-NPC fight (Torvin, Ember) was
+**Result: `E2E PASSED in 248s (5 battles)`.** Notably, the corrupted-NPC fight (Torvin, Beefcake) was
 genuinely played out, not scripted to win: the first attempt was **lost** (life 0, a real,
 expected outcome - D71's balance target is ~55-70%, not 100%), so the run retried automatically
 (town-side, D68's "always challengeable again" design) and won the second attempt. This is exactly
@@ -1204,9 +1204,9 @@ your attention:
 2. **The deck station stays, purely as flavor** (D64) now that the deck builder opens from
    anywhere via **B** or the HUD button. Remove it entirely instead, once its novelty wears off?
 3. **Town layout and edge-entrance placement** (D65, D66): 5 new districts (West Woods, Harbor
-   Dock, North Uplands, Ember Flats, Grave Hollow), each with one entrance, thematically matched
+   Dock, North Uplands, Beefcake Flats, Grave Hollow), each with one entrance, thematically matched
    by terrain (forest/water/flats/hollow) rather than any specific lore. Real names/lore for these
-   (to replace "West Woods" etc. and the still-placeholder "Ember Reaches"/"Tide Reaches"/etc.
+   (to replace "West Woods" etc. and the still-placeholder "Beefcake Reaches"/"Tide Reaches"/etc.
    entrance names, D60 from the previous brief) whenever you want them.
 4. **One hidden chest had to be relocated off a real, unexplained rendering bug** in the original
    town core (D67) - not root-caused, worth a fresh look if anyone revisits that area. Full
@@ -1359,7 +1359,7 @@ determinism, `TrialOfTheHollow.total_tutorial_rewards` sums only battle/boss nod
 
 ## Newest Part E: dev level-up shrine - done
 
-A debug-only "Dev Shrine" at the town's south edge (Ember Flats row): each interaction grants
+A debug-only "Dev Shrine" at the town's south edge (Beefcake Flats row): each interaction grants
 exactly one level, through the same real level-up flow (popup, rewards, equipment choices) a
 battle's XP would trigger.
 
@@ -1902,3 +1902,9 @@ All parts A-I plus FINAL are done. 439 GUT tests pass (up from 388). Balance was
 5. **Zone entrance gate**: the D.N.A. opens after beating Corwyn (as the old Grave gate did). Do you want it open from the start, or gated by "Clear the Paths" progress?
 6. **Sound**: ambient is a synthesized hum/drone track (`dna`) - no new audio files. Want real recorded ambience later?
 7. The `Condition.COUNTER` kind and `ContentSet.zone_cards/zone_equipment` are new general mechanisms; OK to reuse them for the other three element zones?
+
+# Brief 6 (October 2026): rename, zone framework, minimap, the Gainlands
+
+## Part A: Ember -> Beefcake - done
+
+Renamed everywhere (enum display name, cards, decks, quests, UI, dialogue, ids, docs). The town zone exit is the **Beefcake Path**; Torvin is now "Torvin the Over-Pumped" with gym-flavoured lines. New tests: `tests/test_beefcake_rename.gd` and `tests/test_compile_all_scripts.gd` (loads every script). 443 tests pass. Logged as F1/F2 in open_questions.md.

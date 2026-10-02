@@ -154,7 +154,7 @@ func _fight_and_win_corrupted_npc(town: TownScene, item: ItemData) -> TownScene:
 	var current_town: TownScene = town
 	while not won and attempts < 6:
 		attempts += 1
-		await _walk_to(current_town, "npc_ember")
+		await _walk_to(current_town, "npc_beefcake")
 		await driver.frames(3)
 		await driver.tap_key(KEY_E)
 		await driver.seconds(0.3)

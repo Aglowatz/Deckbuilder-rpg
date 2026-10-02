@@ -18,9 +18,9 @@ class Offer:
 const RECIPES: Array[Dictionary] = [
 	{
 		"affinity": Affinity.Type.A,
-		"identity": "Ember burns fast: haste, burn spells and aggressive bodies that punish a slow start.",
+		"identity": "Beefcake hits hard and fast: haste, power spells and huge aggressive bodies that punish a slow start.",
 		"playstyle": "Race to deal damage before the table settles. Strike first, strike often.",
-		"sample_card_ids": ["ember_imp", "blazing_charger", "firebolt"],
+		"sample_card_ids": ["beefcake_imp", "blazing_charger", "firebolt"],
 	},
 	{
 		"affinity": Affinity.Type.B,

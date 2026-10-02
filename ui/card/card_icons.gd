@@ -16,7 +16,7 @@ const BY_ID: Dictionary = {
 	"rusty_curse": "lorc/cursed-star",
 	"pitfall": "sbed/spikes-full",
 	"supply_cache": "skoll/open-treasure-chest",
-	"ember_imp": "lorc/imp",
+	"beefcake_imp": "lorc/imp",
 	"blade_dancer": "lorc/sword-spin",
 	"raider": "delapouite/viking-head",
 	"blazing_charger": "delapouite/charging-bull",

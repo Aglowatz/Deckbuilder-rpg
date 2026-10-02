@@ -20,7 +20,7 @@ static func all() -> Array[Info]:
 	for color: Affinity.Type in Affinity.colored_types():
 		var info: Info = Info.new()
 		info.id = UIStyle.affinity_name(color).to_lower()
-		info.display_name = "%s Reaches" % UIStyle.affinity_name(color)
+		info.display_name = "%s Path" % UIStyle.affinity_name(color)
 		info.tint = UIStyle.affinity_color(color)
 		if info.id == DnaZone.ID:
 			info.display_name = DnaZone.DISPLAY_NAME

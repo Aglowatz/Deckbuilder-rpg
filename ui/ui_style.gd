@@ -25,7 +25,7 @@ const AFFINITY_COLORS: Dictionary = {
 ## Thematic names for the placeholder affinities (UI only; core keeps "Affinity A-D").
 const AFFINITY_NAMES: Dictionary = {
 	Affinity.Type.NEUTRAL: "Neutral",
-	Affinity.Type.A: "Ember",
+	Affinity.Type.A: "Beefcake",
 	Affinity.Type.B: "Tide",
 	Affinity.Type.C: "Root",
 	Affinity.Type.D: "Necrocrat",
