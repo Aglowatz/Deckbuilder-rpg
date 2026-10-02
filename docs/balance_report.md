@@ -13,8 +13,8 @@ rather than only raw power level.
 
 | Deck | Games | Win rate |
 |------|------:|---------:|
-| Beefcake & Tide | 400 | 59% |
-| Tide & Root | 400 | 53% |
+| Beefcake & Gourmand | 400 | 59% |
+| Gourmand & Root | 400 | 53% |
 | Grave & Beefcake | 400 | 51% |
 | Root & Grave | 400 | 45% |
 | Wanderer's Pack | 400 | 42% |
@@ -23,40 +23,40 @@ Average game length: **14.8 turns** (both players' turns) over 1000 games.
 
 ## Win-rate matrix (row deck vs column deck)
 
-| | Beefcake & Tide | Grave & Beefcake | Root & Grave | Tide & Root | Wanderer's Pack |
+| | Beefcake & Gourmand | Grave & Beefcake | Root & Grave | Gourmand & Root | Wanderer's Pack |
 |---|---:|---:|---:|---:|---:|
-| **Beefcake & Tide** | - | 59% | 58% | 58% | 61% |
+| **Beefcake & Gourmand** | - | 59% | 58% | 58% | 61% |
 | **Grave & Beefcake** | 41% | - | 56% | 51% | 56% |
 | **Root & Grave** | 42% | 44% | - | 39% | 55% |
-| **Tide & Root** | 42% | 49% | 61% | - | 59% |
+| **Gourmand & Root** | 42% | 49% | 61% | - | 59% |
 | **Wanderer's Pack** | 39% | 44% | 45% | 41% | - |
 
 ## Matchups
 
 | Deck A | Deck B | Games | A wins | B wins | Draws | Avg turns | First player wins |
 |--------|--------|------:|-------:|-------:|------:|----------:|------------------:|
-| Beefcake & Tide | Grave & Beefcake | 100 | 59 | 41 | 0 | 12.3 | 51% |
-| Beefcake & Tide | Root & Grave | 100 | 58 | 42 | 0 | 12.5 | 52% |
-| Beefcake & Tide | Tide & Root | 100 | 58 | 42 | 0 | 13.0 | 54% |
-| Beefcake & Tide | Wanderer's Pack | 100 | 61 | 39 | 0 | 16.6 | 47% |
+| Beefcake & Gourmand | Grave & Beefcake | 100 | 59 | 41 | 0 | 12.3 | 51% |
+| Beefcake & Gourmand | Root & Grave | 100 | 58 | 42 | 0 | 12.5 | 52% |
+| Beefcake & Gourmand | Gourmand & Root | 100 | 58 | 42 | 0 | 13.0 | 54% |
+| Beefcake & Gourmand | Wanderer's Pack | 100 | 61 | 39 | 0 | 16.6 | 47% |
 | Grave & Beefcake | Root & Grave | 100 | 56 | 44 | 0 | 14.2 | 50% |
-| Grave & Beefcake | Tide & Root | 100 | 51 | 49 | 0 | 14.2 | 47% |
+| Grave & Beefcake | Gourmand & Root | 100 | 51 | 49 | 0 | 14.2 | 47% |
 | Grave & Beefcake | Wanderer's Pack | 100 | 56 | 44 | 0 | 17.5 | 56% |
-| Root & Grave | Tide & Root | 100 | 39 | 61 | 0 | 16.1 | 51% |
+| Root & Grave | Gourmand & Root | 100 | 39 | 61 | 0 | 16.1 | 51% |
 | Root & Grave | Wanderer's Pack | 100 | 55 | 45 | 0 | 16.0 | 39% |
-| Tide & Root | Wanderer's Pack | 100 | 59 | 41 | 0 | 15.4 | 47% |
+| Gourmand & Root | Wanderer's Pack | 100 | 59 | 41 | 0 | 15.4 | 47% |
 
 ## Most-played cards
 
 Average casts per game (spells only; lands excluded), top 8 per deck.
 
-- **Beefcake & Tide**: blade_dancer (0.79), sellsword (0.70), beefcake_imp (0.69), firebolt (0.53), cave_bat (0.51), flame_burst (0.48), whispering_shade (0.46), blazing_charger (0.38)
+- **Beefcake & Gourmand**: blade_dancer (0.79), sellsword (0.70), beefcake_imp (0.69), firebolt (0.53), cave_bat (0.51), flame_burst (0.48), whispering_shade (0.46), blazing_charger (0.38)
   - least played: supply_cache (0.16 per copy), firebolt (0.18 per copy), raider (0.19 per copy)
 - **Grave & Beefcake**: bloodthirst_wolf (0.72), bone_servant (0.51), soul_drain (0.49), martyr (0.48), flame_burst (0.46), blade_dancer (0.45), beefcake_imp (0.42), raider (0.41)
   - least played: dark_bargain (0.08 per copy), firebolt (0.18 per copy), warcry (0.19 per copy)
 - **Root & Grave**: mossback_bear (0.61), rampaging_boar (0.55), bone_servant (0.49), martyr (0.47), healing_idol (0.46), field_medic (0.44), bloodthirst_wolf (0.43), grave_tender (0.40)
   - least played: thornback_colossus (0.09 per copy), dark_bargain (0.11 per copy), ancient_treant (0.13 per copy)
-- **Tide & Root**: mossback_bear (0.65), rampaging_boar (0.64), whispering_shade (0.48), rusty_curse (0.46), deep_insight (0.41), sage (0.41), stag_warden (0.40), merchant (0.36)
+- **Gourmand & Root**: mossback_bear (0.65), rampaging_boar (0.64), whispering_shade (0.48), rusty_curse (0.46), deep_insight (0.41), sage (0.41), stag_warden (0.40), merchant (0.36)
   - least played: sea_warden (0.15 per copy), ancient_treant (0.16 per copy), dissolve (0.18 per copy)
 - **Wanderer's Pack**: scrappy_recruit (1.05), apprentice_blade (0.94), cave_bat (0.72), sellsword (0.68), field_medic (0.67), rusty_curse (0.63), stone_sentinel (0.63), merchant (0.61)
   - least played: supply_cache (0.26 per copy), ironclad (0.29 per copy), pitfall (0.29 per copy)
@@ -103,10 +103,10 @@ plus 3 on-element picks, level-3 stats: 11 life, 5-card hand) of each of the 4 p
 starting elements, 3200 games each (800 per NPC), balanced AI for the player side, the NPC's own
 personality for its side. Target band: **55-70% player win rate**.
 
-| Corrupted NPC | vs Beefcake player | vs Tide player | vs Root player | vs Grave player | Overall | In target band? |
+| Corrupted NPC | vs Beefcake player | vs Gourmand player | vs Root player | vs Grave player | Overall | In target band? |
 |---|---:|---:|---:|---:|---:|:---:|
 | Torvin the Over-Pumped (beefcake) | 64.5% | 65.0% | 69.0% | 64.0% | **65.6%** | yes |
-| Maris the Tide-Drowned (tide) | 61.0% | 63.5% | 63.5% | 59.5% | **61.9%** | yes |
+| Maris the Over-Seasoned (tide) | 61.0% | 63.5% | 63.5% | 59.5% | **61.9%** | yes |
 | Old Thistlebark (root) | 67.5% | 69.5% | 73.0% | 58.0% | **67.0%** | yes |
 | Corwyn the Grave-Bound (grave) | 61.5% | 60.5% | 64.5% | 63.5% | **62.5%** | yes |
 

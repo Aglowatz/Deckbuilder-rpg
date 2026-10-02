@@ -224,7 +224,7 @@ static func reward_pool(cards: Dictionary) -> Array[CardData]:
 static func deck_recipes() -> Array[Dictionary]:
 	return [
 		{
-			"name": "Beefcake & Tide",
+			"name": "Beefcake & Gourmand",
 			"lands": {A: 9, B: 8},
 			"spells": {
 				"beefcake_imp": 3, "blade_dancer": 3, "raider": 2, "blazing_charger": 2, "firebolt": 3,
@@ -233,7 +233,7 @@ static func deck_recipes() -> Array[Dictionary]:
 			},
 		},
 		{
-			"name": "Tide & Root",
+			"name": "Gourmand & Root",
 			"lands": {B: 8, C: 9},
 			"spells": {
 				"frost_sentry": 1, "sage": 2, "whispering_shade": 2, "dissolve": 2, "recall": 1,

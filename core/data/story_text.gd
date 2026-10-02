@@ -33,17 +33,17 @@ extends Resource
 	"Come back when you can actually lift, shrimp.",
 ]
 
-@export var tide_npc_intro_lines: Array[String] = [
-	"Down... down where the tide never turns back. I hear it still, singing under my ribs.",
-	"You want to go there? You'll have to get through me first, little one.",
+@export var gourmand_npc_intro_lines: Array[String] = [
+	"Too many tasting menus... the stove never turns off in my head. I hear the timers still, ticking under my ribs.",
+	"You want to go to the Buffet? You will have to get through me first, little one.",
 ]
-@export var tide_npc_victory_lines: Array[String] = [
-	"The tide let go. I can breathe again.",
-	"There is something down in the Tide, deeper than water should go. It doesn't want visitors.",
+@export var gourmand_npc_victory_lines: Array[String] = [
+	"The simmer let go. I can breathe again.",
+	"There is a Kitchen beyond the Buffet that failed its health inspection, and its golems still follow orders. It does not want visitors.",
 ]
-@export var tide_npc_defeat_lines: Array[String] = [
-	"The tide takes the weak first.",
-	"Try again when you've learned to swim.",
+@export var gourmand_npc_defeat_lines: Array[String] = [
+	"Under-seasoned. Next!",
+	"Try again when you have learned to cook.",
 ]
 
 @export var root_npc_intro_lines: Array[String] = [
@@ -123,8 +123,8 @@ func npc_intro_lines(id: String) -> Array[String]:
 	match id:
 		"beefcake":
 			return beefcake_npc_intro_lines
-		"tide":
-			return tide_npc_intro_lines
+		"gourmand":
+			return gourmand_npc_intro_lines
 		"root":
 			return root_npc_intro_lines
 		"necrocrat":
@@ -136,8 +136,8 @@ func npc_victory_lines(id: String) -> Array[String]:
 	match id:
 		"beefcake":
 			return beefcake_npc_victory_lines
-		"tide":
-			return tide_npc_victory_lines
+		"gourmand":
+			return gourmand_npc_victory_lines
 		"root":
 			return root_npc_victory_lines
 		"necrocrat":
@@ -149,8 +149,8 @@ func npc_defeat_lines(id: String) -> Array[String]:
 	match id:
 		"beefcake":
 			return beefcake_npc_defeat_lines
-		"tide":
-			return tide_npc_defeat_lines
+		"gourmand":
+			return gourmand_npc_defeat_lines
 		"root":
 			return root_npc_defeat_lines
 		"necrocrat":

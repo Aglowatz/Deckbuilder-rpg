@@ -1956,3 +1956,9 @@ All parts A-D plus FINAL are done; **491 GUT tests pass** (443 -> 491; incl. a c
 8. **Art**: the Gainlands is cohesive but procedural; want me to pull a CC0 nature pack (Kenney Nature Kit / KayKit Forest) for richer trees and rocks?
 9. **Beefcake Path vs "The Gainlands"** naming: the town exit is "Beefcake Path", the zone banner says "The Gainlands". OK?
 10. The **fee is 20 gold** here vs 15 in the D.N.A. (per-zone `ZoneDef.fee`) - should fees scale with level?
+
+# Brief 7 (October 2026): Gourmand rename, the Endless Buffet
+
+## Part A: Tide -> Gourmand - done
+
+Renamed everywhere: enum display name (`UIStyle` affinity B), decks (`Beefcake & Gourmand`, `Gourmand & Root`, files `beefcake_gourmand.tres`, `gourmand_root.tres`), the corrupted NPC id `gourmand` (now **Maris the Over-Seasoned**, with kitchen-flavoured dialogue in `story_text.gd`), the flag `gourmand_zone_unlocked`, town anchors, docs and README. The town exit is **Path of the Gourmand**. Lore: the Gourmands are magical chefs who feed the kingdom and protect it with food golems. Tests: `tests/test_gourmand_rename.gd`; 497 pass. Logged as H1 in open_questions.md.

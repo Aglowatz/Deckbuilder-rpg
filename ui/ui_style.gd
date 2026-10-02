@@ -26,7 +26,7 @@ const AFFINITY_COLORS: Dictionary = {
 const AFFINITY_NAMES: Dictionary = {
 	Affinity.Type.NEUTRAL: "Neutral",
 	Affinity.Type.A: "Beefcake",
-	Affinity.Type.B: "Tide",
+	Affinity.Type.B: "Gourmand",
 	Affinity.Type.C: "Root",
 	Affinity.Type.D: "Necrocrat",
 }

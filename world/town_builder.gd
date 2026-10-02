@@ -16,7 +16,7 @@ extends WalkableArea
 ##   - **West Woods** (cols -6..-1, rows 0-9): winding forest leading to the Root entrance at the
 ##     west edge.
 ##   - **Harbor Dock** (cols 15-20, rows 0-9): the Harbor Quarter's canal continuing out to the
-##     Tide entrance at the east edge.
+##     Gourmand entrance at the east edge.
 ##   - **Beefcake Flats** (rows 10-14): open ground south of the Secluded Grove leading to the Beefcake
 ##     entrance at the south edge.
 ##   - **Grave Hollow** (the southwest corner: rows 10-12, cols -6..-1): a misty pocket off the
@@ -239,7 +239,7 @@ func _build_props() -> void:
 	# district's edge gate to read as "belongs to that zone" without blocking the district's main
 	# path. Visual corruption (tint + particle effect) is TownScene's job, not the builder's.
 	anchors["npc_beefcake"] = cell_center(5, 10) + Vector3(0.3, 0, 0.4)
-	anchors["npc_tide"] = cell_center(16, 3) + Vector3(-0.3, 0, 0.4)
+	anchors["npc_gourmand"] = cell_center(16, 3) + Vector3(-0.3, 0, 0.4)
 	anchors["npc_root"] = cell_center(-3, 2) + Vector3(0.3, 0, -0.3)
 	anchors["npc_necrocrat"] = cell_center(-3, 11) + Vector3(0.3, 0, 0.3)
 	# Secluded Grove secrets: a chest tucked behind trees, and the old lever that seals the vault.
@@ -377,7 +377,7 @@ func _build_hidden_chests() -> void:
 ## start locked until their corrupted NPC is defeated, Part E) is presentation state that lives in
 ## `TownScene`, not here - `TownBuilder` only places the structure and its anchor.
 const PORTAL_CELLS: Dictionary = {
-	"final": Vector2i(4, -5), "root": Vector2i(-6, 4), "tide": Vector2i(20, 4),
+	"final": Vector2i(4, -5), "root": Vector2i(-6, 4), "gourmand": Vector2i(20, 4),
 	"beefcake": Vector2i(7, 14), "necrocrat": Vector2i(-6, 11),
 }
 
@@ -402,7 +402,7 @@ func _portal_approach_offset(zone_id: String) -> Vector3:
 			return Vector3(0, 0, 1.0) # north edge - approach from the south
 		"root":
 			return Vector3(1.0, 0, 0) # west edge - approach from the east
-		"tide":
+		"gourmand":
 			return Vector3(-1.0, 0, 0) # east edge - approach from the west
 		"beefcake":
 			return Vector3(0, 0, -1.0) # south edge - approach from the north

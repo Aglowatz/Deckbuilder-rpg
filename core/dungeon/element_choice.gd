@@ -24,7 +24,7 @@ const RECIPES: Array[Dictionary] = [
 	},
 	{
 		"affinity": Affinity.Type.B,
-		"identity": "Tide answers: bounce, card draw and defenders that buy time to out-think the opponent.",
+		"identity": "Gourmand answers: bounce, card draw and food-golem defenders that buy time while you out-cook the opponent.",
 		"playstyle": "Control the pace, see more cards than they do, win the long game.",
 		"sample_card_ids": ["deep_insight", "frost_sentry", "recall"],
 	},

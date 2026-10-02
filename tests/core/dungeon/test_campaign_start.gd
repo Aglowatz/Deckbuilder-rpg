@@ -46,7 +46,7 @@ func test_new_profile_owns_only_the_neutral_starter_cards() -> void:
 
 func test_no_sample_pair_deck_is_given_to_the_player() -> void:
 	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.B)
-	var beefcake: Deck = _content.deck("Beefcake & Tide")
+	var beefcake: Deck = _content.deck("Beefcake & Gourmand")
 	assert_false(DeckValidator.is_valid(beefcake, profile, null, true), "pair decks must be built by the player")
 
 

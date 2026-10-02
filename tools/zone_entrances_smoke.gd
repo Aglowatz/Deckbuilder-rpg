@@ -12,7 +12,7 @@ extends Node
 ##   Godot --path . res://tools/zone_entrances_launcher.tscn
 ## Exit code 0 = every check passed; 1 = a check failed.
 
-const LOCKED_IDS: Array[String] = ["beefcake", "tide", "root", "necrocrat"]
+const LOCKED_IDS: Array[String] = ["beefcake", "gourmand", "root", "necrocrat"]
 const STALL_LIMIT: float = 20.0
 
 var driver: UiDriver
