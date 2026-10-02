@@ -1916,3 +1916,43 @@ Renamed everywhere (enum display name, cards, decks, quests, UI, dialogue, ids, 
 ## Part C: minimap with fog of war - done
 
 HUD minimap (north-up, facing arrow) in the starting area, town, placeholder zones, D.N.A. and every framework zone, plus a full-screen map on **M** (legend, POI icons, "!" badge on quest givers with a quest). Fog of war reveals a 9 m disc around the player, saved per area in the campaign. POIs appear only on revealed ground; secrets (hidden chests, the town's lever/vault/dealer, the starting-area tunnel) can never be on the map (explicit whitelists + a POI enum with no secret kind). Settings has a "Show minimap" toggle. Tests: `tests/core/zone/test_fog_and_map.gd` (454 tests pass). Design in docs/design/minimap.md. Screenshots: `_screenshots/c_*`.
+
+## Part D: the Gainlands (Beefcake zone) - done
+
+Built on the shared framework as a `ZoneDef` + `GainlandsLayout`/`GainlandsBuilder` map + `data/story/gainlands_story.tres` + a thin `GainlandsScene`. See docs/design/zones.md ("The Gainlands") for the full spec.
+
+- **World**: a big, bright, rolling main land (~4,700 m2) with giant spinning windmills, colossal hamster wheels, outdoor gym equipment made of boulders and logs, copper energy pipes with travelling energy pulses, a stage, signs and posters everywhere, sunny vibrant lighting, wind-blown leaves, a `gainlands` music track with wind and birds, and **4 floating islands** (Pec Perch, Delt Deck, Glute Garden, Calf Cove) above a sea of clouds.
+- **Hub "The Swole Station"**: Cooldown Hot Tub (heal), Tiny Tony's Protein & Pasteboard (10 placeholder advanced Beefcake cards), Coach Brenda, Foreman Gus, Tiny Tony, 3 zone quests (*Juice the Station*, *Spot Me!*, *Clear the Lanes*), the Beefcake Path arch back to town. Same zone life rules (no healing after battles; heal at the tub/items/cards/town; 0 life = wake at the hub minus a **20 gold protein tab**, logged).
+- **Travel**: **throwers** grab you and hurl you in an arc (camera pulls out and follows, tumble, landing dust / impact ring / shake), **portal rippers** tear open a portal (ring, swirl, sparks, sound). 10 travel points; locks on a quest, defeated enemies, a flag (the wheel) and an owned card; Calf Cove and Glute Garden are reachable only through other islands; every island has an always-open way back. **Falling** off an island respawns you at the last safe spot for **1 zone life**, logged.
+- **Enemies**: Flexing Brute and Protein Shake Golem (slow, start Beefcake-deck battles), Sprinting Energy Sprite (fast, 2 damage + knockback, never starts a battle).
+- **Content**: Iron Cavern mini dungeon (3 battles, one-time unique **The Iron Titan**), **Power Routing** puzzle (6 wheels / 3 machines, exactly 1 of 729 solutions, one-time **Gainsmith's Lifting Belt**), quiz master Professor Quad (4 Beefcake energy/transport questions, answers on signs), **Rep Counter** timing minigame by the original character **Jazzy Jules** (late-night-infomercial / aerobics nods; rewards by stars, one-time first-clear bonus), **7 hidden chests** (3 on the ground, 4 on islands; docs/design/secrets.md), interactables (hamster wheel powers the grid and unlocks the Delt Deck portal, protein shake stand, flex mirrors, "spot me" Gary), main dungeon placeholder "Closed for Leg Day". Gym-bro humor throughout: signs ("Do NOT skip leg day here"), NPC lines, item/card flavor, travel dialogue.
+- Tests: `tests/core/zone/test_gainlands.gd` (37 tests: layout, reachability on the real map, islands/rim/fall, travel network and locks, def, enemies, content, story keys, quiz answers findable, interactables, puzzle uniqueness, Rep Counter rules and rewards). **491 tests pass.**
+- New asset packs: **none** (existing KayKit packs + procedural geometry, see CREDITS.md and open_questions G9). `docs/assets_wanted.md` was not needed.
+
+## FINAL: whole-brief end-to-end verification - done
+
+Run by `tools/run_sixth_brief_final_smoke.sh` (windowed, real injected input, screenshots in `_screenshots/brief5/` and `_screenshots/brief6/`):
+
+1. **The D.N.A. after the refactor** (`tools/fifth_brief_final_smoke.gd`): passes end to end (quests -> vendor -> D.N.A. -> courier hit -> slow-enemy battle -> hub heal -> buy card -> quiz -> matching -> puzzle -> chest -> mini dungeon), 52 checks.
+2. **The Gainlands** (`tools/sixth_brief_final_smoke.gd`): town minimap and full map -> Beefcake Path -> the Gainlands; the minimap reveals as you walk and POIs appear (quiz master not on the map until explored; quest giver "!" markers; the map never shows a chest) -> run the hamster wheel -> get **thrown** to Pec Perch (mid-air and landing shots), open the island chest -> thrown back -> **portal** to Delt Deck (unlocked by the wheel) -> **walk off the edge** (respawn at the last safe spot, -1 zone life, logged) -> portal home -> slow golem battle (life carries) -> sprite hit (-2, flash, invulnerability) -> hub hot-tub heal, Tony's vendor, buy a card -> quiz (4/4) -> Rep Counter (timed presses, one deliberate miss) -> power puzzle (a wrong setup, reset, the right one; belt granted) -> ground chest -> Iron Cavern -> fog saved per zone. 69 screenshots.
+
+Real bugs the run found and fixed: an island chest sat next to a portal ripper so E talked to her instead of opening the chest (chests now win when they are closer, and the chest moved); a hamster-wheel stand hid the hero while running; a floating cloud wiped out the ground view; terrain vertex colors were washed out (sRGB flag); signs and props were too big for the fixed camera; the exit arch sat between camera and hero; hub POIs were too sparse at spawn (reveal radius 7 -> 9 m). Test-only shortcuts, stated in the files: the Beefcake gate flag is set directly, long walks teleport the last stretch when the crude mover hits a prop, the player is placed near an enemy (clear of props) so it notices them, and the Rep Counter presses are timed from the screen's own clock.
+
+## Summary of brief 6
+
+All parts A-D plus FINAL are done; **491 GUT tests pass** (443 -> 491; incl. a compile-every-script test). Balance was out of scope: every number is a placeholder.
+
+### New asset packs added
+**None.** The Gainlands reuses the KayKit Medieval Hexagon, KayKit Adventurers (Barbarian with Throw/Interact/Running animations) and KayKit Dungeon packs already in the project, plus original procedural geometry and generated music. Nothing from itch.io was needed (no `docs/assets_wanted.md`).
+
+### Questions for you
+1. **Islands outside the main footprint** (G1): they float beyond the plateau's edges (NW, NE, E, W) rather than above the middle, so the fixed camera never looks through one and the 2D map/fog stay unambiguous. Fine, or do you want one hovering over the middle (needs a fade-out island or a camera tilt)?
+2. **Falling** (G2): last safe spot + 1 life + a log line, with a 0.9 m "step past the rim" margin and no railings. Too punishing? Add a warning rope on one island?
+3. **Travel locks** (G3): wheel run, a quest, two defeated enemies and an owned card (Gym Rat) lock four points; there is no "item owned" Condition kind, so a card stands in for an item. Want a real ITEM_OWNED kind?
+4. **Power puzzle** (G4) and **Rep Counter** (G5): difficulty and reward model OK? Retries are unlimited like the D.N.A.'s.
+5. **Old fire-named Beefcake cards** (Firebolt, Flame Burst, Blazing Charger, Scorching Ward...) kept their names; only "Ember Imp" became "Beefcake Imp". Want a gym-pun rename pass (Protein Bolt, Pump Burst...)?
+6. **Old saves**: ember ids (`ember_zone_unlocked`, `ember_flats`...) are not migrated to the beefcake ids (F1). Add a one-line migration like the Grave one?
+7. **Minimap** (F5-F7): north-up, 9 m reveal radius with no line-of-sight, town NPCs shown as "Interactable" because the town's starter quests have no giver. OK, or rotating map / LOS-limited reveal?
+8. **Art**: the Gainlands is cohesive but procedural; want me to pull a CC0 nature pack (Kenney Nature Kit / KayKit Forest) for richer trees and rocks?
+9. **Beefcake Path vs "The Gainlands"** naming: the town exit is "Beefcake Path", the zone banner says "The Gainlands". OK?
+10. The **fee is 20 gold** here vs 15 in the D.N.A. (per-zone `ZoneDef.fee`) - should fees scale with level?

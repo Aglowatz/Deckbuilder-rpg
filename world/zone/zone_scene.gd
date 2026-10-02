@@ -904,6 +904,15 @@ func _teleport(anchor_name: String) -> void:
 						enemies.erase(other)
 						other.queue_free()
 				return
+	if anchor_name.begins_with("enemy:"):
+		for enemy: ZoneEnemy in enemies:
+			if enemy.info.id == anchor_name.trim_prefix("enemy:"):
+				player.position = enemy.position + Vector3(2.6, 0, 1.2)
+				player.position.y = builder.height_at(player.position)
+				_camera.position = player.position + camera_offset
+				_spawn_grace = 30.0
+				return
+		return
 	if builder.has_anchor(anchor_name):
 		pos = builder.anchor(anchor_name)
 	elif builder.chest_positions().has(anchor_name):

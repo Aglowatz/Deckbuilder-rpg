@@ -173,6 +173,8 @@ func _draw_set() -> void:
 	if _state == "countdown":
 		var number: int = int(ceilf(-_clock))
 		_canvas.draw_string(UIStyle.font_title(), centre + Vector2(-26, 24), str(maxi(number, 1)), HORIZONTAL_ALIGNMENT_LEFT, -1, 90, UIStyle.GOLD)
+	if _state == "playing" and not _shout.is_empty():
+		_canvas.draw_string(UIStyle.font_title(), Vector2(centre.x - 500.0, 120.0), _shout, HORIZONTAL_ALIGNMENT_CENTER, 1000, 60, Color(1.0, 0.55, 0.85))
 	if _flash_time > 0.0:
 		_canvas.draw_string(UIStyle.font_title(), centre + Vector2(-150, -190), _flash_text, HORIZONTAL_ALIGNMENT_CENTER, 300, 64, _flash_color)
 	# Rep tracker: eight dots coloured by rating.

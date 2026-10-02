@@ -60,7 +60,7 @@ static func sun() -> DirectionalLight3D:
 ## Streaks of wind drifting across the view (parent it to the camera): a cheap, always-on ambience.
 static func wind_streaks() -> CPUParticles3D:
 	var streaks: CPUParticles3D = CPUParticles3D.new()
-	streaks.amount = 26
+	streaks.amount = 14
 	streaks.lifetime = 2.6
 	streaks.preprocess = 2.6
 	streaks.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX

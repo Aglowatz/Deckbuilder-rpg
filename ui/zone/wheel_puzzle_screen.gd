@@ -139,7 +139,7 @@ func _draw_grid() -> void:
 		var fraction: float = clampf(float(have) / float(maxi(target, 1)), 0.0, 1.5) / 1.5
 		_canvas.draw_rect(Rect2(origin + Vector2(-134, 32), Vector2(268.0 * fraction, 10)), color, true)
 	var tired: Color = Color("ff8a85") if running > WheelPuzzle.MAX_RUNNING else UIStyle.PARCHMENT
-	_canvas.draw_string(UIStyle.font_bold(), Vector2(MACHINE_X - 150.0, 600.0), "Wheels running: %d / %d" % [running, WheelPuzzle.MAX_RUNNING], HORIZONTAL_ALIGNMENT_LEFT, -1, 26, tired)
+	_canvas.draw_string(UIStyle.font_bold(), Vector2(WHEEL_X, 690.0), "Wheels running: %d / %d   (the hamsters tire after %d)" % [running, WheelPuzzle.MAX_RUNNING, WheelPuzzle.MAX_RUNNING], HORIZONTAL_ALIGNMENT_LEFT, -1, 26, tired)
 
 
 func _engage() -> void:

@@ -35,7 +35,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.xp_reward = 40
 			made.model = "kaykit:Barbarian"
 			made.tint = Color(1.0, 0.72, 0.5)
-			made.model_scale = 0.52
+			made.model_scale = 0.62
 			made.anim_idle = &"Idle"
 			made.anim_walk = &"Walking_A"
 			made.anim_run = &"Running_A"
@@ -61,7 +61,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.xp_reward = 45
 			made.model = "proc:golem"
 			made.tint = Color.WHITE
-			made.model_scale = 1.0
+			made.model_scale = 1.2
 		SPRITE:
 			made.display_name = "Sprinting Energy Sprite"
 			made.kind = ZoneEnemyInfo.Kind.DAMAGE
@@ -73,7 +73,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.touch_range = 0.6
 			made.model = "proc:sprite"
 			made.tint = Color.WHITE
-			made.model_scale = 1.0
+			made.model_scale = 1.35
 			made.hover = true
 	return made
 

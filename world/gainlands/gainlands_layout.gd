@@ -401,7 +401,7 @@ func _signs() -> void:
 	_sign("sign.puzzle", 76.0, 46.5, 180.0)
 	_sign("sign.wheel", 83.0, 44.0, 180.0)
 	_sign("sign.gym", 70.0, 65.5, 180.0)
-	_sign("sign.spot_me", 72.5, 66.0, 180.0)
+	_sign("sign.spot_me", 75.5, 66.8, 180.0)
 	_sign("sign.thrower_rule", 34.6, 28.0, 150.0)
 	_sign("sign.ripper_rule", 66.8, 28.0, 200.0)
 	_sign("sign.thrower_east", 90.4, 47.8, 200.0)

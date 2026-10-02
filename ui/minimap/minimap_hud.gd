@@ -24,6 +24,8 @@ var _player: TownPlayer
 var _poi_source: Callable
 var _reveal_timer: float = 0.0
 var _poi_timer: float = 0.0
+## Metres across the window: the whole area for tiny ones (the starting clearing), `VIEW_SPAN` otherwise.
+var _view_span: float = VIEW_SPAN
 
 
 func setup(zone_or_area_id: String, map: WalkableArea, hero: TownPlayer, poi_source: Callable = Callable()) -> void:
@@ -32,6 +34,8 @@ func setup(zone_or_area_id: String, map: WalkableArea, hero: TownPlayer, poi_sou
 	_player = hero
 	_poi_source = poi_source
 	fog = Session.fog_for(area_id, map.map_bounds())
+	var extent: Vector2 = map.map_bounds().size
+	_view_span = clampf(maxf(extent.x, extent.y) + 6.0, 24.0, VIEW_SPAN)
 	raster = MapRaster.build(map, fog)
 	raster.apply_reveal(fog.reveal(Vector2(hero.position.x, hero.position.z)))
 	_refresh_pois()
@@ -77,11 +81,11 @@ func _process(delta: float) -> void:
 func _draw() -> void:
 	if raster == null or _player == null:
 		return
-	var scale_px: float = SIZE.x / VIEW_SPAN
+	var scale_px: float = SIZE.x / _view_span
 	var centre_xz: Vector2 = Vector2(_player.position.x, _player.position.z)
 	draw_rect(Rect2(Vector2.ZERO, SIZE), Color(0.04, 0.05, 0.08, 0.82))
 	var centre_px: Vector2 = raster.to_pixel(centre_xz)
-	var half: Vector2 = Vector2(VIEW_SPAN, VIEW_SPAN) * 0.5
+	var half: Vector2 = Vector2(_view_span, _view_span) * 0.5
 	draw_texture_rect_region(raster.texture, Rect2(Vector2.ZERO, SIZE), Rect2(centre_px - half, half * 2.0))
 	for poi: MapPoi in MapView.visible_pois(pois, fog):
 		var offset: Vector2 = (Vector2(poi.pos.x, poi.pos.z) - centre_xz) * scale_px
