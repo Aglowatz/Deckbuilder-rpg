@@ -5,10 +5,15 @@ const PATH: String = "user://settings.cfg"
 const BUS_MUSIC: StringName = &"Music"
 const BUS_SFX: StringName = &"SFX"
 
+## Emitted when the minimap setting changes (a live HUD hides or shows its minimap at once).
+signal minimap_toggled(visible_now: bool)
+
 var master_volume: float = 0.8
 var music_volume: float = 0.6
 var sfx_volume: float = 0.8
 var fullscreen: bool = false
+## Whether the HUD minimap is drawn (the M full map always works).
+var show_minimap: bool = true
 
 
 func _ready() -> void:
@@ -56,6 +61,7 @@ func save_settings() -> void:
 	config.set_value("audio", "music", music_volume)
 	config.set_value("audio", "sfx", sfx_volume)
 	config.set_value("video", "fullscreen", fullscreen)
+	config.set_value("video", "minimap", show_minimap)
 	config.save(PATH)
 
 
@@ -67,3 +73,4 @@ func load_settings() -> void:
 	music_volume = float(config.get_value("audio", "music", music_volume))
 	sfx_volume = float(config.get_value("audio", "sfx", sfx_volume))
 	fullscreen = bool(config.get_value("video", "fullscreen", fullscreen))
+	show_minimap = bool(config.get_value("video", "minimap", show_minimap))

@@ -55,6 +55,7 @@ const HIDDEN_CHEST_REWARDS: Dictionary = {
 var town: TownBuilder = TownBuilder.new()
 var player: TownPlayer
 var spots: Array[Spot] = []
+var minimap: MinimapHud
 var hud: TownHud
 var dialogue: DialogueBox
 var _camera: Camera3D
@@ -396,6 +397,10 @@ func _build_ui() -> void:
 	EventBus.quest_notice.connect(_on_quest_notice)
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
+	minimap = MinimapHud.new()
+	host.add_child(minimap)
+	minimap.setup("town", town, player, _collect_pois)
+	minimap.full_map_requested.connect(_open_full_map)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)
@@ -521,6 +526,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if (event as InputEventKey).keycode == KEY_J:
 			get_viewport().set_input_as_handled()
 			_open_quest_log()
+			return
+		if (event as InputEventKey).keycode == KEY_M:
+			get_viewport().set_input_as_handled()
+			_open_full_map()
 			return
 	if not _locked and not dialogue.active and _hidden_chest_near != "":
 		if event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE):
@@ -1088,6 +1097,37 @@ func _use_gate() -> void:
 # ---- Overlays ---------------------------------------------------------------------------
 
 
+## Minimap points of interest (brief 6, Part C): an explicit whitelist by spot id. The hidden chest,
+## lever, vault, secret dealer and dev shrine are deliberately NOT listed - secrets never show.
+const POI_KINDS: Dictionary = {
+	"well": MapPoi.Kind.HEAL, "vendor": MapPoi.Kind.VENDOR, "item_vendor": MapPoi.Kind.VENDOR,
+	"equipment_vendor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.INTERACTABLE, "codex": MapPoi.Kind.INTERACTABLE,
+	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON,
+	"graveyard_cairn": MapPoi.Kind.CHALLENGE,
+}
+
+
+func _collect_pois() -> Array[MapPoi]:
+	var result: Array[MapPoi] = []
+	for spot: Spot in spots:
+		if POI_KINDS.has(spot.id):
+			result.append(MapPoi.make(POI_KINDS[spot.id] as MapPoi.Kind, spot.position, spot.title))
+		elif spot.id.begins_with("npc_") and spot.id.trim_prefix("npc_") in CorruptedNpcs.IDS:
+			result.append(MapPoi.make(MapPoi.Kind.CHALLENGE, spot.position, spot.title))
+		elif spot.id.begins_with("portal_"):
+			result.append(MapPoi.make(MapPoi.Kind.EXIT, spot.position, spot.title, false, _portal_is_locked(spot.id.trim_prefix("portal_"))))
+	return result
+
+
+func _open_full_map() -> void:
+	if _locked or dialogue.active:
+		return
+	var screen: FullMapScreen = FullMapScreen.new()
+	screen.setup("town", town, player, _collect_pois(), "Town")
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
 func _open_overlay(screen: Control) -> void:
 	_close_overlay()
 	_locked = true
@@ -1148,3 +1188,5 @@ func _screenshot_open(what: String) -> void:
 			_open_character_screen()
 		"quests":
 			_open_quest_log()
+		"map":
+			_open_full_map()

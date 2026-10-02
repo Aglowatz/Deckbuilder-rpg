@@ -77,6 +77,8 @@ func new_game() -> void:
 	quest_log.reset()
 	counters = {}
 	zone_log = []
+	map_fog = {}
+	_fog_live = {}
 	zone_run = null
 	pending_level_ups = []
 	pending_equipment_choices = 0
@@ -436,6 +438,7 @@ func to_dict() -> Dictionary:
 		"quests": quest_log.to_dict(),
 		"counters": counters,
 		"zone_log": zone_log,
+		"map_fog": _fog_to_dict(),
 		"level": profile.level,
 		"xp": profile.xp,
 		"equipment_slots": profile.equipment_slots,
@@ -506,6 +509,8 @@ func from_dict(data: Dictionary) -> bool:
 	quest_log.from_dict(data.get("quests", {"completed": data.get("completed_quests", [])}) as Dictionary)
 	counters = (data.get("counters", {}) as Dictionary).duplicate()
 	zone_log.assign(data.get("zone_log", []) as Array)
+	map_fog = (data.get("map_fog", {}) as Dictionary).duplicate(true)
+	_fog_live = {}
 	zone_run = null
 	pending_level_ups = []
 	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
@@ -841,6 +846,27 @@ func quests_ready_for(npc_name: String) -> Array[QuestData]:
 		if quest.turn_in_npc == npc_name and quest_log.is_ready_to_turn_in(quest, state):
 			result.append(quest)
 	return result
+
+
+# ---- Map fog of war (brief 6, Part C) ----------------------------------------------------
+
+## Saved fog per area id (zone ids, plus "town" and "start"): `FogOfWar.to_dict()` each.
+var map_fog: Dictionary = {}
+## The live `FogOfWar` objects of areas visited this session (written back into `map_fog` on save).
+var _fog_live: Dictionary = {}
+
+
+## The fog of war of an area, restored from the save the first time it is asked for.
+func fog_for(area_id: String, bounds: Rect2) -> FogOfWar:
+	if not _fog_live.has(area_id):
+		_fog_live[area_id] = FogOfWar.from_dict(map_fog.get(area_id, {}) as Dictionary, bounds)
+	return _fog_live[area_id] as FogOfWar
+
+
+func _fog_to_dict() -> Dictionary:
+	for area_id: Variant in _fog_live.keys():
+		map_fog[str(area_id)] = (_fog_live[area_id] as FogOfWar).to_dict()
+	return map_fog
 
 
 # ---- Zones (brief 5: the D.N.A.) ----------------------------------------------------------

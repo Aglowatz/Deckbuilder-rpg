@@ -33,3 +33,16 @@ static func world_to_cell(pos: Vector3) -> Vector2i:
 	var row: int = int(rr)
 	var col: int = int(rq) + (row - (row & 1)) / 2
 	return Vector2i(col, row)
+
+
+## World-space xz bounds (with a one-tile margin) of a set of cells (`Array` of `Vector2i`).
+static func bounds_of(cells: Array) -> Rect2:
+	if cells.is_empty():
+		return Rect2()
+	var low: Vector2 = Vector2(1e9, 1e9)
+	var high: Vector2 = Vector2(-1e9, -1e9)
+	for cell: Variant in cells:
+		var pos: Vector3 = cell_to_world((cell as Vector2i).x, (cell as Vector2i).y)
+		low = Vector2(minf(low.x, pos.x), minf(low.y, pos.z))
+		high = Vector2(maxf(high.x, pos.x), maxf(high.y, pos.z))
+	return Rect2(low - Vector2(WIDTH, WIDTH), high - low + Vector2(WIDTH, WIDTH) * 2.0)

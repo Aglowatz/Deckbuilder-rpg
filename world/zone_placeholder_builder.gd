@@ -87,3 +87,11 @@ func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
 		if dx * dx + dz * dz < reach * reach:
 			return false
 	return true
+
+
+func is_floor_at(pos: Vector3) -> bool:
+	return walkable.has(HexGrid.world_to_cell(pos))
+
+
+func map_bounds() -> Rect2:
+	return HexGrid.bounds_of(walkable.keys())

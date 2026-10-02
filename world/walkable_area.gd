@@ -13,3 +13,13 @@ func is_walkable(_pos: Vector3, _body_radius: float = 0.22) -> bool:
 ## Height of the ground at `pos` (hills, floating islands). Flat areas stay at 0.
 func height_at(_pos: Vector3) -> float:
 	return 0.0
+
+
+## True when there is ground (of any kind, ignoring props and NPCs) at `pos` - the minimap draws it.
+func is_floor_at(_pos: Vector3) -> bool:
+	return false
+
+
+## World-space xz rectangle covering everything walkable (the minimap's extent).
+func map_bounds() -> Rect2:
+	return Rect2()

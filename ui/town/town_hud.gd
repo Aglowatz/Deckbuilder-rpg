@@ -66,9 +66,9 @@ func _ready() -> void:
 	_toast.size = Vector2(1000, 44)
 	_toast.modulate.a = 0.0
 	add_child(_toast)
-	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      C: character      B: deck      J: quests      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
-	hints.position = Vector2(1200, 1030)
-	hints.size = Vector2(700, 30)
+	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      C: character      B: deck      J: quests      M: map      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	hints.position = Vector2(960, 1030)
+	hints.size = Vector2(940, 30)
 	add_child(hints)
 	EventBus.gold_changed.connect(set_gold)
 	set_gold(Session.gold)

@@ -21,6 +21,7 @@ var _portal_marker: Node3D
 var _near_portal: bool = false
 var _locked: bool = false
 var _screenshot_args: Dictionary = {}
+var minimap: MinimapHud
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -100,6 +101,27 @@ func _build_ui() -> void:
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)
 	_overlay_layer = UIKit.layer_host(overlay_canvas)
+	minimap = MinimapHud.new()
+	host.add_child(minimap)
+	minimap.setup("zone_" + info.id, area, player, _collect_pois)
+	minimap.full_map_requested.connect(_open_full_map)
+
+
+## Minimap points of interest: the portal back to town.
+func _collect_pois() -> Array[MapPoi]:
+	return [MapPoi.make(MapPoi.Kind.EXIT, area.anchors.get("portal", Vector3.ZERO) as Vector3, "Portal to town")] as Array[MapPoi]
+
+
+func _open_full_map() -> void:
+	if _locked:
+		return
+	_locked = true
+	var screen: FullMapScreen = FullMapScreen.new()
+	screen.setup("zone_" + info.id, area, player, _collect_pois(), info.display_name)
+	_overlay_layer.add_child(screen)
+	screen.closed.connect(func() -> void:
+		screen.queue_free()
+		_locked = false)
 
 
 func _process(delta: float) -> void:
@@ -131,6 +153,10 @@ func _update_near_portal() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not _locked and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_M:
+		get_viewport().set_input_as_handled()
+		_open_full_map()
+		return
 	if not _locked and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_B:
 		get_viewport().set_input_as_handled()
 		_open_deck_builder()

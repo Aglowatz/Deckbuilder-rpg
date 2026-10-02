@@ -50,13 +50,3 @@ func update_visibility(_focus: Vector3) -> void:
 ## The [id, title] of the named area at `pos` for the zone banner, or [] outside any.
 func area_at(_pos: Vector3) -> Array[String]:
 	return []
-
-
-## True when there is ground (of any kind, ignoring props and NPCs) at `pos` - the minimap draws it.
-func is_floor_at(_pos: Vector3) -> bool:
-	return false
-
-
-## World-space xz rectangle covering everything walkable (the minimap's extent).
-func map_bounds() -> Rect2:
-	return Rect2()

@@ -26,6 +26,7 @@ var _near_gate: bool = false
 var _near_tunnel: bool = false
 var _locked: bool = false
 var _screenshot_args: Dictionary = {}
+var minimap: MinimapHud
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -96,6 +97,27 @@ func _build_ui() -> void:
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)
 	_overlay_layer = UIKit.layer_host(overlay_canvas)
+	minimap = MinimapHud.new()
+	host.add_child(minimap)
+	minimap.setup("start", area, player, _collect_pois)
+	minimap.full_map_requested.connect(_open_full_map)
+
+
+## Minimap points of interest: the cave gate only. The hidden tunnel is a secret and never shown.
+func _collect_pois() -> Array[MapPoi]:
+	return [MapPoi.make(MapPoi.Kind.DUNGEON, area.anchors.get("gate", Vector3.ZERO) as Vector3, "Cave gate")] as Array[MapPoi]
+
+
+func _open_full_map() -> void:
+	if _locked or dialogue.active:
+		return
+	_locked = true
+	var screen: FullMapScreen = FullMapScreen.new()
+	screen.setup("start", area, player, _collect_pois(), "The Awakening")
+	_overlay_layer.add_child(screen)
+	screen.closed.connect(func() -> void:
+		screen.queue_free()
+		_locked = false)
 
 
 func _play_awakening() -> void:
@@ -151,6 +173,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	# New brief, Part B: the deck builder hotkey works here too, once a deck actually exists to
 	# edit (a returning profile after an abandoned run - a brand-new arrival has no deck yet,
 	# see docs/design/open_questions.md D64).
+	if not _locked and not dialogue.active and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_M:
+		get_viewport().set_input_as_handled()
+		_open_full_map()
+		return
 	if not _locked and not dialogue.active and Session.deck != null and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_B:
 		get_viewport().set_input_as_handled()
 		_open_deck_builder()

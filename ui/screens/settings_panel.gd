@@ -18,6 +18,11 @@ func _ready() -> void:
 	fullscreen.button_pressed = Settings.fullscreen
 	fullscreen.toggled.connect(_on_fullscreen)
 	column.add_child(fullscreen)
+	var minimap: CheckButton = CheckButton.new()
+	minimap.text = "Show minimap"
+	minimap.button_pressed = Settings.show_minimap
+	minimap.toggled.connect(_on_minimap)
+	column.add_child(minimap)
 	var back: FancyButton = FancyButton.make("Back", &"PrimaryButton", Vector2(200, 52))
 	back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	back.pressed.connect(_on_back)
@@ -61,6 +66,13 @@ func _on_fullscreen(pressed: bool) -> void:
 	Audio.sfx(&"ui_toggle")
 	Settings.fullscreen = pressed
 	Settings.apply()
+
+
+func _on_minimap(pressed: bool) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.show_minimap = pressed
+	Settings.apply()
+	Settings.minimap_toggled.emit(pressed)
 
 
 func _on_back() -> void:
