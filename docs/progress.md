@@ -2061,3 +2061,14 @@ Notes: the pilot is crude, so a battle can be lost (the flow handles both outcom
 - **D.N.A. flow: NOT confirmed green.** Its last full run failed only the "mini dungeon run ended and returned to the zone" check; I stopped a diagnostic re-run (it logs `mini end state`) on request, so the cause is unknown. Earlier D.N.A. runs also showed flaky courier-hit and shuffled-quiz checks, which I patched in `tools/fifth_brief_final_smoke.gd` (retry placement, order-independent answers) without a confirming run. The D.N.A. zone code was not changed in brief 8; the failures are in the smoke script's timing, not known game bugs.
 - The mini-dungeon clear path remains covered by unit tests only; the e2e pilot often loses those battles.
 - GUT: 598 tests passed after Part C; no code changed since besides smoke scripts, so they were not re-run.
+
+# Brief 9 (October 2026): infrastructure, the new story, zone effects, the four final dungeons, essence, the Alchemist, the Arena
+
+Story source of truth: `docs/design/story_source.md`; organized in `docs/design/story_bible.md`. Balance is out of scope. Placeholder names are logged as M5 in `docs/design/open_questions.md`.
+
+## Part A: infrastructure, Path energy, copy limits - done
+
+- land -> **infrastructure**, mana -> **Path energy**, tap/untap -> **activate/ready**, tapped creatures -> **exhausted** (M1, M2), across engine, cards, UI, tutorial, tooltips, tests and docs. `Mana` is now `PathEnergy`.
+- Copy limit is **4 for every non-infrastructure card at every level**; infrastructure is unlimited. Rarity copy limits and the 7 level-ups that raised them are gone; those levels now grant gold / vendor discounts / max hand size +1 / a vendor unlock (M3); `docs/design/progression.md` regenerated.
+- **Save format version** (M4): old saves are reset gracefully with a title-screen message.
+- Engine, deck builder, validator, AI and tests updated; 607 GUT tests pass.
