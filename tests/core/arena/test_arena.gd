@@ -20,7 +20,10 @@ func _game_with_gear(piece: EquipmentData, starting_life: int = -1) -> GameState
 	options.rng_seed = 5
 	options.free_mulligan = false
 	var profile: PlayerProfile = PlayerProfile.new()
-	var setup: PlayerSetup = PlayerSetup.create(GameFactory.make_deck(), profile, [piece] as Array[ModifierSource] if piece != null else [] as Array[ModifierSource], "Gladiator")
+	var gear: Array[ModifierSource] = []
+	if piece != null:
+		gear.append(piece)
+	var setup: PlayerSetup = PlayerSetup.create(GameFactory.make_deck(), profile, gear, "Gladiator")
 	if starting_life > 0:
 		setup.starting_life = starting_life
 	var game: GameState = GameState.new(options)
@@ -142,6 +145,8 @@ func test_lethal_lunch_has_a_win_this_turn_solution() -> void:
 	var attackers: Array[int] = [_creature(game, 0, "raider").uid, _creature(game, 0, "beefcake_imp").uid]
 	assert_true(game.advance_phase(), "to combat")
 	assert_true(game.declare_attackers(attackers))
+	if not game.is_over():
+		game.declare_blockers({})
 	assert_true(game.is_over())
 	assert_eq(game.winner, 0)
 	assert_true(ArenaDefs.find("arena_lethal_lunch").player_won(game))
@@ -167,6 +172,8 @@ func test_zero_to_hero_solution_clears_both_blockers_then_pumps() -> void:
 	assert_true(game.advance_phase())
 	var attackers: Array[int] = [_creature(game, 0, "raider").uid, _creature(game, 0, "blade_dancer").uid, _creature(game, 0, "beefcake_imp").uid]
 	assert_true(game.declare_attackers(attackers))
+	if not game.is_over():
+		game.declare_blockers({})
 	assert_true(game.is_over())
 	assert_true(ArenaDefs.find("arena_zero_to_hero").player_won(game))
 

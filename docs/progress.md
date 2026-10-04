@@ -2111,7 +2111,6 @@ Story source of truth: `docs/design/story_source.md`; organized in `docs/design/
 - **24 dual-Path cards** (4 for each of the 6 pairs, `MultipathContent`): both-Path costs, counted as both Paths for the deck limit, deck builder/validator/AI/zone-effect support, new card-frame visuals (double border, two-color name bar and art, two gems) - docs in `docs/design/essence_and_alchemy.md`.
 - Tests: `tests/core/data/test_essence_alchemy.gd` (27); 686 GUT tests pass. Screenshots `_screenshots/f_*.png`.
 
-## Part G: the Arena - IN PROGRESS (usage limit reached; uncommitted-until-now, UNTESTED)
+## Part G: the Arena - done
 
-Written but NOT yet run through GUT: `core/arena/*` (8 encounters in 3 tiers, puzzle presets, `ArenaScenario`), 4 new modifier hooks + `NO_CREATURE_CASTS`, 4 arena equipment pieces, `Session` arena API, `ArenaScreen`, the colosseum (`world/arena_building.gd`), town gate dressing, battle banner, story text, and `tests/core/arena/test_arena.gd` (never executed). Screenshots of the building and screen looked right.
-Next steps: run `bash tools/run_tests.sh`, fix any failures in the new arena tests, regenerate content (`tools/generate_content.gd`), then the FINAL e2e flows and the summary with questions.
+See `docs/design/arena.md`. 714 GUT tests pass. Screenshots `_screenshots/g_*.png`. The FINAL e2e flows (human-style input) and zone-flow regression runs have NOT been run yet.

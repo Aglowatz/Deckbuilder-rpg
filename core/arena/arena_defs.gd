@@ -82,8 +82,8 @@ static func _build() -> Array[ArenaEncounter]:
 	}
 	line.reward = {"equipment": "champions_laurels", "gold": 150, "xp": 80}
 	list.append(line)
-	var spells: ArenaEncounter = _battle("arena_spells_only", 2, "Cardboard Colossus", 12, "Balanced", {A: 16, "sellsword": 4, "stone_sentinel": 2, "apprentice_blade": 3, "scrappy_recruit": 3, "cave_bat": 2})
-	spells.player_recipe = {A: 9, B: 8, "flame_burst": 4, "firebolt": 3, "deep_insight": 3, "dissolve": 3, "rusty_curse": 3, "supply_cache": 3, "recall": 2}
+	var spells: ArenaEncounter = _battle("arena_spells_only", 2, "Cardboard Colossus", 8, "Passive", {A: 16, "sellsword": 4, "stone_sentinel": 2, "apprentice_blade": 3, "scrappy_recruit": 3, "cave_bat": 2})
+	spells.player_recipe = {A: 9, B: 8, "flame_burst": 6, "firebolt": 3, "deep_insight": 3, "dissolve": 3, "rusty_curse": 3, "supply_cache": 3, "recall": 2}
 	var no_creatures: Modifier = Modifier.new()
 	no_creatures.kind = Modifier.Kind.NO_CREATURE_CASTS
 	no_creatures.label = "No creature casts"
