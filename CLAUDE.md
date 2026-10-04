@@ -69,3 +69,7 @@ presentation.
 
 - `core/` rules logic should be the primary thing under test — it's the part that doesn't
   need a scene tree to exercise.
+
+## E2E testing budget
+
+E2E testing budget: during proof-of-concept work, run the full e2e flow only for the area changed in the current task, in the foreground, at most twice. Re-run other zones' flows only if shared code they depend on changed, and cap total e2e time at about 15 minutes per task. Unit tests (GUT) still run after every part.

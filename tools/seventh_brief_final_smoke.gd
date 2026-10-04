@@ -850,6 +850,16 @@ func _mini_dungeon(zone: BuffetScene) -> BuffetScene:
 			await driver.seconds(0.6)
 			if get_tree().current_scene is BuffetScene:
 				break
+	var settle: int = 0
+	while Session.mini_active and settle < 200:
+		settle += 1
+		await driver.frames(5)
+		if get_tree().current_scene is BattleScreen:
+			await _play_battle(get_tree().current_scene as BattleScreen)
+			await driver.click_button("Continue")
+		elif driver.find_button("Continue", get_tree().current_scene) != null:
+			await driver.click_button("Continue")
+			await driver.seconds(0.4)
 	zone = await _wait_for(BuffetScene) as BuffetScene
 	await driver.seconds(1.0)
 	if zone != null:

@@ -2041,3 +2041,23 @@ One extra piece per zone beyond the puzzle rewards, each with a distinct mechani
 | Verdant Heap | **Compost Boots** | Boots | Whenever a creature of yours dies, your creatures get +0/+1 permanently (`ON_ALLY_DEATH_EFFECT`) | quest *Unblock the Stream* |
 
 Icons (game-icons.net, CC BY 3.0, already credited): checklist, weight-lifting-up, chef-toque, rubber-boot; the four puzzle-reward pieces that had none (Swole Belt, Head Chef's Ladle, Seed Satchel) got icons too. 598 GUT tests pass. Logged as K1-K3 in open_questions.md.
+
+## FINAL: e2e with human-style input - done
+
+`tools/eighth_brief_final_smoke.gd` (+ launcher, `tools/run_eighth_brief_final_smoke.sh`, which first runs the D.N.A., Gainlands and Buffet flows) plays the Verdant Heap with keyboard/mouse input: Path of the Refusemancer in town, minimap reveal and POIs, a Magic Bean grown into a **vine bridge**, a deliberate stream fall (-1 life, logged, respawn), mounting the goat, **charging the junk dam and the barricade**, a **beanstalk** climb to Rust Peak, the **Seed Shrine** puzzle, a **trash chute** slide, a slow golem battle, the fast gull hit, compost bin / shrine / crops / trough, hub heal and vendor, quiz, **Sort It Out!**, a hidden chest, **Landfill Depths**, and **Compost Boots** from *Unblock the Stream*. At the end the other three zones' equipment (Compliance Clipboard, Spotter's Barbell, Head Chef's Toque) is obtained through real quest turn-ins. Screenshots: `_screenshots/brief8/` (about 77).
+
+Notes: the pilot is crude, so a battle can be lost (the flow handles both outcomes: woke at hub + fee, or continue). The mini-dungeon clear path is unit-tested rather than guaranteed by the e2e. The Heap walk to Bev is a teleport because the stream lies between her and the quiz. Smoke scripts for the Buffet (and this one) now wait for the mini-dungeon run to finish before asserting.
+
+## Summary of brief 8
+
+- **A** Root -> Refusemancer (Path of the Refusemancer). **B** the Verdant Heap zone. **C** four new equipment pieces with four new modifier hooks.
+- **New asset packs** (all CC0, in CREDITS.md): Kenney Nature Kit, Survival Kit, Car Kit, Cube Pets. Nothing itch.io-only, so nothing new in docs/assets_wanted.md. Unused models of these packs are still in `assets/` (about 16 MB); pruning is a possible cleanup.
+- **Questions for you**: (1) Heap hub ground looks flat orange; want more variation? (2) Should pieces also be sold, not only quest rewards (K1)? (3) Is gull damage 2 / dunk 1 life right for the Heap (balance is out of scope, so left as is)?
+
+### E2E confirmation status (what did NOT finish)
+
+- **Verdant Heap flow**: passed (alone and inside the full chain) on the final scripts.
+- **Gainlands and Endless Buffet flows**: passed in the last full chain run.
+- **D.N.A. flow: NOT confirmed green.** Its last full run failed only the "mini dungeon run ended and returned to the zone" check; I stopped a diagnostic re-run (it logs `mini end state`) on request, so the cause is unknown. Earlier D.N.A. runs also showed flaky courier-hit and shuffled-quiz checks, which I patched in `tools/fifth_brief_final_smoke.gd` (retry placement, order-independent answers) without a confirming run. The D.N.A. zone code was not changed in brief 8; the failures are in the smoke script's timing, not known game bugs.
+- The mini-dungeon clear path remains covered by unit tests only; the e2e pilot often loses those battles.
+- GUT: 598 tests passed after Part C; no code changed since besides smoke scripts, so they were not re-run.

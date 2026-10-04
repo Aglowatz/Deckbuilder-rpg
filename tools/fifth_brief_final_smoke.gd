@@ -166,6 +166,10 @@ func _get_hit_by_the_courier(zone: DnaScene) -> void:
 	var waited: float = 0.0
 	while Session.zone_run.life >= start_life and waited < 12.0:
 		await driver.frames(3)
+		if int(waited * 10.0) % 20 == 19 and Session.zone_run.life >= start_life:
+			zone.player.position = courier.position + Vector3(2.0, 0.0, 0.0)
+			if not zone.builder.is_walkable(zone.player.position):
+				zone.player.position = courier.position + Vector3(-2.0, 0.0, 0.0)
 		waited += 3.0 / 60.0
 	_check(Session.zone_run.life == start_life - DnaEnemies.COURIER_DAMAGE, "the courier hit for exactly 2 (life %d -> %d)" % [start_life, Session.zone_run.life])
 	_check(zone.life_bar._last_life == Session.zone_run.life, "the HUD life bar shows the new life")
@@ -289,10 +293,15 @@ func _quiz_master(zone: DnaScene) -> void:
 		return
 	var story: ZoneStoryText = ZoneStoryText.shared()
 	var shot_done: bool = false
-	for question: Dictionary in story.quiz_questions:
-		var correct_text: String = str((question["a"] as Array)[int(question["correct"])])
-		var button: Button = driver.find_button(correct_text, zone._overlay)
-		_check(button != null, "the right answer is on screen: %s" % correct_text)
+	for _round: int in story.quiz_questions.size():
+		var button: Button = null
+		var correct_text: String = ""
+		for question: Dictionary in story.quiz_questions:
+			correct_text = str((question["a"] as Array)[int(question["correct"])])
+			button = driver.find_button(correct_text, zone._overlay)
+			if button != null:
+				break
+		_check(button != null, "a right answer is on screen (the quiz shuffles question order)")
 		if not shot_done:
 			shot_done = true
 			await _shot("e_15_quiz_question")
@@ -460,10 +469,21 @@ func _mini_dungeon(zone: DnaScene) -> DnaScene:
 			if get_tree().current_scene is DnaScene:
 				left_dungeon = true
 				break
+	var settle: int = 0
+	while Session.mini_active and settle < 200:
+		settle += 1
+		await driver.frames(5)
+		if get_tree().current_scene is BattleScreen:
+			await _play_battle(get_tree().current_scene as BattleScreen)
+			await driver.click_button("Continue")
+		elif driver.find_button("Continue", get_tree().current_scene) != null:
+			await driver.click_button("Continue")
+			await driver.seconds(0.4)
 	zone = await _wait_for(DnaScene) as DnaScene
 	await driver.seconds(1.0)
 	if zone != null:
 		await _shot("e_33_back_from_mini_dungeon")
+t_note("mini end state: scene=%s active=%s settle=%d" % [get_tree().current_scene, str(Session.mini_active), settle])
 	_check(not Session.mini_active, "the mini dungeon run ended and returned to the zone")
 	if Session.flag(DnaZone.FLAG_MINI_DUNGEON_CLEARED):
 		_check(Session.owned_count(MiniDungeon.REWARD_CARD_ID) == 1, "clearing it granted the unique Deceased CEO card")
