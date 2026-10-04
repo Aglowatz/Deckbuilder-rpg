@@ -255,3 +255,10 @@ All placeholder names are listed so you can rename them later.
 | M11 | Essence numbers and what extras become | Essence: Common 1 / Uncommon 2 / Epic 4 / Legendary 8. **Neutral** extras become gold (15/30/60/120) since neutral cards have no Path. A dual-Path extra splits its essence between both Paths. Vendor purchases beyond 4 also convert (the player is not blocked from buying a fifth copy, but the toast says what happened). | `core/data/essence.gd` |
 | M12 | Alchemist recipe numbers | Needs 10 essence of each of two Paths; costs ALL essence of both + 100 gold; weights Common 8 / Uncommon 6 / Epic 3 / Legendary 1 at the minimum, shifting toward rarer cards by one point per 10 essence beyond the two minimums. Pure placeholders (balance is out of scope). | `core/data/alchemy.gd` |
 | M13 | Dual-Path cards are not in the Codex or vendors | They are crafting-only; they never appear in random rewards, vendor stock or the balance simulations (own `ContentSet.multipath_cards` bucket and `data/cards/multipath/` directory). | `core/data/content_set.gd` |
+
+## Answers from the user (after Brief 9)
+
+- **Placeholder names:** keep them for now (Concordia, Malvane the Usurper, Concord Crossing, The Grand Clashatorium, Marshal Vesna Tuskmore, Crucible & Co./Zinnia Vex, False Aurelio, Commander Gristle, Registrar of Final Approvals, Archdruid Fernwick Loam). They will probably change later, so keep them in story data only.
+- **The big bad (Malvane):** appears in person ONLY in the final zone (the postgame tri-Path hook). Until then he is only named or referenced (signs, memos, dialogue), never shown or speaking. Currently true: every existing mention is a reference.
+- **Arena equipment:** unique, not sellable. No sell path for equipment may be added; if a sell feature is built, arena gear must be excluded.
+- **Balance:** no balance pass yet. All cards will be replaced by custom-made ones, so current cards, decks and numbers stay placeholders.

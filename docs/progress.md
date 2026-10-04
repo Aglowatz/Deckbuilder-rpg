@@ -2141,3 +2141,6 @@ boss the Registrar of Final Approvals; the Refusemancer Archdruid Fernwick Loam.
 Questions for you: (1) Keep these names, or give me yours? (2) Should the big bad appear in person before the final zone, or
 stay offstage? (3) Should arena first-clear equipment be sellable? (4) Do you want a balance pass next (all numbers are
 placeholders)? See also open_questions.md M1-M13.
+
+### Decisions on the Brief 9 questions
+Names kept (to be changed later); Malvane appears in person only in the final zone; arena equipment is unique and not sellable; no balance pass (cards will be replaced by custom ones). Details in `docs/design/open_questions.md`.
