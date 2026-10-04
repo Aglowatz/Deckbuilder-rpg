@@ -446,10 +446,9 @@ func test_hub_has_a_heal_spot_a_vendor_chefs_and_quests() -> void:
 		assert_true(gives, "%s gives a quest" % name)
 
 
-func test_main_dungeon_is_a_locked_placeholder() -> void:
-	assert_true(story.text("fx.main_dungeon").contains("HEALTH INSPECTION"))
-	assert_true(story.text("sign.main_dungeon").contains("HEALTH INSPECTION"))
-	assert_true(story.text("prop.kitchen").contains("CLOSED"))
+func test_main_dungeon_signs_name_the_test_kitchen() -> void:
+	assert_true(story.text("fx.main_dungeon").contains("Test Kitchen"))
+	assert_true(story.text("sign.main_dungeon").contains("TEST KITCHEN"))
 	assert_true(def.spot_def("main_dungeon")["kind"] == "main_dungeon")
 
 

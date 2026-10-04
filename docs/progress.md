@@ -2072,3 +2072,14 @@ Story source of truth: `docs/design/story_source.md`; organized in `docs/design/
 - Copy limit is **4 for every non-infrastructure card at every level**; infrastructure is unlimited. Rarity copy limits and the 7 level-ups that raised them are gone; those levels now grant gold / vendor discounts / max hand size +1 / a vendor unlock (M3); `docs/design/progression.md` regenerated.
 - **Save format version** (M4): old saves are reset gracefully with a title-screen message.
 - Engine, deck builder, validator, AI and tests updated; 607 GUT tests pass.
+
+## Part B: story and renames - done
+
+- `docs/design/story_bible.md` written from `story_source.md` (kingdom history, the big bad, each faction's corruption, each zone's state, each dungeon, each leader, zone effects, the Arena and the Alchemist). `zones.md`, `combat_rules.md`, `progression.md` updated; the rest follows as the systems land.
+- **Verdant Heap -> The Verdant Dump** everywhere (text, docs, card name "Mother of the Dump"); internal ids (`heap_*` files, `HeapZone`, flags) are unchanged, like earlier renames.
+- Placeholder names (M5): kingdom **Concordia**, big bad **Malvane the Usurper**, main town **Concord Crossing**, Arena **The Grand Clashatorium**, Alchemist **Zinnia Vex / Crucible & Co.**, rulers: False Aurelio, Commander Gristle, the Registrar of Final Approvals, Archdruid Fernwick Loam.
+- **Dialogue rewrite**: every zone story file (hub NPCs, quests, signs, enemy blurbs, the quiz/minigame NPCs, new regime/Rot/authorization/Special Sauce signs), the four corrupted path envoys, the elder / guard / vendors, the starting area and the Trial of the Hollow now fit the new story. Each zone has `<key>.freed` variants for its key signs and hub NPCs (used once the zone is completed). Quiz answers are still findable.
+- All story text now lives in data files: the D.N.A.'s text moved out of the script into `data/story/dna_story.tres`; `StoryText` is empty of defaults and `data/story/intro_story.tres` holds the awakening lines, corrupted envoys, vendors and town/arena/alchemist/zone-complete text (`texts` dictionary, `StoryText.get_lines`). Town and starting-area scenes read from it instead of hardcoding.
+- The town HUD shows **Concord Crossing - N of 4 zones free**.
+- Zone completion API (`ZoneCompletion`, `Session.complete_zone/is_zone_completed/completed_zone_count`, `EventBus.zone_completed`) is in place (Part D builds on it).
+- Tests: `tests/test_story_rewrite.gd`; 613 GUT tests pass.

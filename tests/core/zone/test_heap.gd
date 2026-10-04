@@ -425,10 +425,9 @@ func test_hub_has_a_heal_spot_a_vendor_npcs_and_quests() -> void:
 	assert_eq(QuestCatalog.find(HeapZone.QUEST_DAM).reward_equipment_ids, ["compost_boots"] as Array[String], "Unblock the Stream pays the Compost Boots")
 
 
-func test_main_dungeon_is_a_locked_placeholder() -> void:
-	assert_true(story.text("fx.main_dungeon").contains("COMPOSTING"))
-	assert_true(story.text("sign.main_dungeon").contains("COMPOSTING"))
-	assert_true(story.text("prop.composting").contains("COMPOSTING"))
+func test_main_dungeon_signs_name_the_rotheart() -> void:
+	assert_true(story.text("fx.main_dungeon").contains("Rotheart"))
+	assert_true(story.text("sign.main_dungeon").contains("ROTHEART"))
 	assert_eq(def.spot_def("main_dungeon")["kind"], "main_dungeon")
 
 

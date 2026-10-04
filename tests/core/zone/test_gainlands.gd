@@ -295,9 +295,10 @@ func test_hub_has_a_heal_spot_vendor_npcs_and_quests() -> void:
 	assert_between(zone_quests, 2, 3)
 
 
-func test_main_dungeon_is_a_locked_placeholder() -> void:
-	assert_true(story.text("sign.main_dungeon").to_lower().contains("closed for leg day"))
-	assert_true(story.text("fx.main_dungeon").to_lower().contains("leg day"))
+func test_main_dungeon_signs_name_the_house_of_gains() -> void:
+	assert_true(story.text("sign.main_dungeon").contains("HOUSE OF GAINS"))
+	assert_true(story.text("fx.main_dungeon").contains("House of Gains"))
+	assert_true(story.text("sign.main_dungeon").to_lower().contains("leg day"), "the quiz answer is still on the sign")
 
 
 func test_zone_life_rules_use_the_gainlands_fee() -> void:
