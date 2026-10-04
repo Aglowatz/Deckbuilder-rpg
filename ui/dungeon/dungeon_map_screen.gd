@@ -312,12 +312,12 @@ func _run_steps(steps: Array[Callable], then: Callable) -> void:
 	first.call(func() -> void: _run_steps(rest, then))
 
 
-func _show_story(lines: Array[String], done: Callable) -> void:
+func _show_story(done: Callable, lines: Array[String]) -> void:
 	_dialogue.start("", lines)
 	_dialogue.finished.connect(done, CONNECT_ONE_SHOT)
 
 
-func _show_cutscene(scene_id: String, done: Callable) -> void:
+func _show_cutscene(done: Callable, scene_id: String) -> void:
 	var scene: CutsceneScreen = CutsceneScreen.make(scene_id)
 	add_child(scene)
 	scene.finished.connect(done, CONNECT_ONE_SHOT)
@@ -331,7 +331,7 @@ func _play_pending_after_story() -> void:
 	if node.story_after.is_empty() or Session.dungeon_story_seen.has(node.id) or not map.is_cleared(node.id):
 		return
 	Session.dungeon_story_seen.append(node.id)
-	_show_story(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_after), func() -> void: pass)
+	_show_story(func() -> void: pass, ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_after))
 
 
 ## Part E: the zone effects, the boons earned in this dungeon and the current section under the title.
