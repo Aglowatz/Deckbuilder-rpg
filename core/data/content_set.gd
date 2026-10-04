@@ -18,6 +18,8 @@ var items: Dictionary = {}
 ## so they never leak into random rewards, the general card vendor or the balance simulations.
 var zone_cards: Dictionary = {}
 var zone_equipment: Dictionary = {}
+## Brief 9, Part F: the 24 dual-Path cards, crafted at the Alchemist (never sold or found as rewards).
+var multipath_cards: Dictionary = {}
 
 
 func card(id: String) -> CardData:
@@ -27,6 +29,8 @@ func card(id: String) -> CardData:
 		return tokens[id] as CardData
 	if zone_cards.has(id):
 		return zone_cards[id] as CardData
+	if multipath_cards.has(id):
+		return multipath_cards[id] as CardData
 	return null
 
 

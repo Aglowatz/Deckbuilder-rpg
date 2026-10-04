@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_yqeya"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_x18py"]
+
+[resource]
+script = ExtResource("2_x18py")
+id = "hulking_mulch_beast"
+display_name = "Hulking Mulch Beast"
+color = 1
+color2 = 3
+generic_cost = 3
+colored_pips = Array[int]([1, 3])
+power = 6
+toughness = 6
+keywords = Array[int]([2, 4])
+rules_text = "Haste, Trample"
+rarity = 2
+flavor_text = "It arrived at the gym exactly when it wanted to."

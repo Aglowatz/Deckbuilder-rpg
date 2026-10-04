@@ -2103,3 +2103,10 @@ Story source of truth: `docs/design/story_source.md`; organized in `docs/design/
 - New shared node kinds: **ELITE, EVENT, TREASURE** (+ `DungeonEvent`/`EventResolver`, `EventScreen`, `TreasureScreen`), story dialogue at key nodes and before/after each boss, cutscenes for the **Test Kitchen reveal**, the **rescue** and the **Heartlift flex** ("he throws off his outer clothing... true strength comes from the heart and the mind") and the Rotheart **sever**, a per-dungeon **diorama** (`DungeonBackdrop`), zone effects and boons in the map HUD, each boss drops a unique Legendary card plus gold and XP, and beating it **completes the zone** (Part D).
 - Zone life rules apply (the run starts at the zone's life; a loss wakes you at the hub; the fee is charged).
 - Tests: `tests/core/dungeon/test_main_dungeons.gd` (branching structure, decks, story text, events, rescue boon, completion). 659 GUT tests pass. Screenshots `_screenshots/e_*.png`.
+
+## Part F: essence, the Alchemist and multi-Path cards - done
+
+- **Essence** (`Essence`, `Session.add_cards`): the 5th+ copy of a card converts into Path essence (more for higher rarity); neutral extras become gold (M11); a global `ToastLayer` shows the notification anywhere; essence totals are on the Character screen and in the Alchemist UI; saved with the campaign.
+- **The Alchemist** (Crucible & Co., Zinnia Vex): a building in Concord Crossing, shuttered with a hint until 2 zones are completed, then open with a glowing cauldron. `AlchemistScreen`: pick two Paths with enough essence, see the four possible cards and their odds, trade ALL essence of both + gold for a random dual-Path card with a brewing animation. Postgame tri-Path hook (`Alchemy.tri_path_unlocked`), no tri-Path cards yet.
+- **24 dual-Path cards** (4 for each of the 6 pairs, `MultipathContent`): both-Path costs, counted as both Paths for the deck limit, deck builder/validator/AI/zone-effect support, new card-frame visuals (double border, two-color name bar and art, two gems) - docs in `docs/design/essence_and_alchemy.md`.
+- Tests: `tests/core/data/test_essence_alchemy.gd` (27); 686 GUT tests pass. Screenshots `_screenshots/f_*.png`.

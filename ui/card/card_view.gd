@@ -25,6 +25,9 @@ var data: CardData
 var instance_uid: int = 0
 var mode: Mode = Mode.FULL
 var accent: Color = Color.WHITE
+## Brief 9, Part F: a multi-Path card's second Path color (Color.WHITE and `dual` false for a normal card).
+var accent2: Color = Color.WHITE
+var dual: bool = false
 
 var _frame: Panel
 var _glow: Control
@@ -78,6 +81,8 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	if data != null:
 		accent = UIStyle.affinity_color(data.color)
+		dual = data.is_multipath()
+		accent2 = UIStyle.affinity_color(data.color2) if dual else accent
 	_build()
 	mouse_entered.connect(func() -> void: hovered.emit(self))
 	mouse_exited.connect(func() -> void: unhovered.emit(self))
@@ -97,6 +102,8 @@ func _build() -> void:
 	_base_toughness = data.toughness
 	_frame = _panel(Rect2(Vector2.ZERO, SIZE), UIStyle.box(Color("1c1526"), accent.darkened(0.15), 6, 20, 10))
 	add_child(_frame)
+	if dual:
+		add_child(_panel(Rect2(Vector2(3, 3), SIZE - Vector2(6, 6)), UIStyle.box(Color(0, 0, 0, 0), accent2.darkened(0.1), 4, 17)))
 	_build_name_bar()
 	_build_art()
 	if mode == Mode.FULL:
@@ -143,6 +150,22 @@ func _build_name_bar() -> void:
 	var height: float = 46.0 if mode == Mode.FULL else 64.0
 	var bar: Panel = _panel(Rect2(12, 12, 276, height), UIStyle.box(accent.darkened(0.5), accent.lightened(0.1), 2, 9))
 	add_child(bar)
+	if dual:
+		bar.clip_contents = true
+		var blend: GradientTexture2D = GradientTexture2D.new()
+		var ramp: Gradient = Gradient.new()
+		ramp.set_color(0, accent.darkened(0.5))
+		ramp.set_color(1, accent2.darkened(0.5))
+		blend.gradient = ramp
+		blend.fill_from = Vector2(0.0, 0.5)
+		blend.fill_to = Vector2(1.0, 0.5)
+		var fill: TextureRect = TextureRect.new()
+		fill.texture = blend
+		fill.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		fill.position = Vector2(2, 2)
+		fill.size = Vector2(272, height - 4)
+		fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		bar.add_child(fill)
 	_name_label = Label.new()
 	_name_label.text = _display_name()
 	_name_label.position = Vector2(22, 12)
@@ -188,6 +211,10 @@ func _fit_name(label: Label, max_size: int) -> void:
 	if mode == Mode.COMPACT:
 		while chosen > 17 and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, chosen).x > available * 1.9:
 			chosen -= 1
+	# A name that still does not fit on one line (long multi-Path card names) wraps onto two smaller lines.
+	if mode == Mode.FULL and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, chosen).x > available:
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		chosen = 17
 	label.add_theme_font_size_override("font_size", chosen)
 
 
@@ -201,6 +228,9 @@ func _build_art() -> void:
 	var material: ShaderMaterial = ShaderMaterial.new()
 	material.shader = load("res://ui/shaders/card_art.gdshader") as Shader
 	material.set_shader_parameter("top", accent.lightened(0.05))
+	if dual:
+		material.set_shader_parameter("bottom", accent2.darkened(0.45))
+		material.set_shader_parameter("glow", accent2.lightened(0.5))
 	material.set_shader_parameter("bottom", accent.darkened(0.7))
 	material.set_shader_parameter("glow", accent.lightened(0.5))
 	art.material = material
@@ -216,6 +246,12 @@ func _build_art() -> void:
 	icon.size = Vector2(icon_size, icon_size)
 	add_child(icon)
 	add_child(_panel(Rect2(12, top, 276, height), UIStyle.box(Color(0, 0, 0, 0), accent.lightened(0.2), 3, 4)))
+	if dual:
+		# Two Path gems in the art's corner: both Paths of this card at a glance.
+		for index: int in range(2):
+			var gem_color: Color = accent if index == 0 else accent2
+			var dot: Panel = _panel(Rect2(22 + index * 26, top + 10, 22, 22), UIStyle.box(gem_color, Color("fdf3dc"), 2, 11, 4))
+			add_child(dot)
 
 
 func _build_type_line() -> void:
@@ -227,7 +263,7 @@ func _build_type_line() -> void:
 	label.size = Vector2(220, 30)
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.add_theme_font_override("font", UIStyle.font_bold())
-	label.add_theme_font_size_override("font_size", 19)
+	label.add_theme_font_size_override("font_size", 16 if dual else 19)
 	label.add_theme_color_override("font_color", UIStyle.PARCHMENT)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(label)
@@ -263,6 +299,8 @@ func _type_text() -> String:
 			kind = "Artifact"
 	if data.is_token:
 		kind = "Token " + kind
+	if data.is_multipath():
+		return "%s + %s  -  %s" % [UIStyle.affinity_name(data.color), UIStyle.affinity_name(data.color2), kind]
 	return "%s  -  %s" % [UIStyle.affinity_name(data.color), kind]
 
 

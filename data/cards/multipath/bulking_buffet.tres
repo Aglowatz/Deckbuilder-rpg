@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_fyedi"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_1svbf"]
+
+[sub_resource type="Resource" id="Resource_v2aa8"]
+script = ExtResource("1_fyedi")
+target = 1
+op = 9
+amount = 5
+
+[resource]
+script = ExtResource("2_1svbf")
+id = "bulking_buffet"
+display_name = "The Bulking Buffet"
+color = 1
+color2 = 2
+generic_cost = 3
+colored_pips = Array[int]([1, 2])
+power = 5
+toughness = 5
+keywords = Array[int]([4])
+rules_text = "Trample. When this enters, gain 5 life."
+effects = Array[ExtResource("1_fyedi")]([SubResource("Resource_v2aa8")])
+rarity = 2
+flavor_text = "All you can lift."

@@ -83,6 +83,12 @@ func _ready() -> void:
 			Session.new_game()
 		else:
 			Session.ensure_game()
+		var zone_count: int = int(_screenshot_args.get("zones", 0))
+		for zone_id: String in ZoneDefs.ids().slice(0, zone_count):
+			Session.complete_zone(zone_id)
+		if _screenshot_args.has("essence"):
+			for path: Affinity.Type in Affinity.colored_types():
+				Session.profile.set_essence(path, 14 if path == Affinity.Type.A or path == Affinity.Type.D else 3)
 	if Session.deck == null:
 		Session.new_game()
 	_ensure_input_actions()
@@ -92,6 +98,7 @@ func _ready() -> void:
 	_build_actors()
 	_build_spots()
 	_build_portal_barriers()
+	TownDressing.alchemist(self, town.anchors, Session.alchemist_unlocked(), StoryText.shared())
 	_build_camera()
 	_build_ui()
 	_refresh_objective()
@@ -143,6 +150,8 @@ func _build_actors() -> void:
 	# New brief, Part F: the item vendor.
 	_add_npc("item_vendor", "Mage", town.anchors["npc_item_vendor"] as Vector3, -110.0)
 	_add_npc("equipment_vendor", "Knight", town.anchors["npc_equipment_vendor"] as Vector3, -70.0)
+	if Session.alchemist_unlocked():
+		_add_npc("alchemist", "Mage", town.anchors["npc_alchemist"] as Vector3, -80.0, Color(0.7, 1.0, 0.7))
 	# New brief, Part E: the 4 corrupted NPCs stay in town, and stay challengeable, even after
 	# being freed (D68) - only their dialogue changes on later visits, not their presence/look.
 	for npc_id: String in CorruptedNpcs.IDS:
@@ -286,6 +295,8 @@ func _build_spots() -> void:
 	_add_spot("item_vendor", "Wick's Supplies", town.anchors["npc_item_vendor"] as Vector3, 1.5)
 	# Fourth brief, Part C: the equipment vendor.
 	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, 1.5)
+	# Brief 9, Part F: the Alchemist (locked until two zones are free; visible and closed before that).
+	_add_spot("alchemist", StoryText.shared().text("town.alchemist.name"), town.anchors["alchemist"] as Vector3, 1.7)
 	# New brief (third), Part E: the debug-only Dev Shrine - only constructed at all (so only ever
 	# present as an anchor here) when DevTools.shrine_enabled() said yes at builder time.
 	if town.anchors.has("dev_shrine"):
@@ -505,6 +516,8 @@ func _prompt_text(spot: Spot) -> String:
 			return "Open the vault" if Session.flag(VAULT_LEVER_FLAG) else "Try the sealed door"
 		"graveyard_cairn":
 			return "Disturb the cairn"
+		"alchemist":
+			return "Browse Crucible & Co." if Session.alchemist_unlocked() else "Knock (the shop is closed)"
 	if spot.id.begins_with("portal_"):
 		var zone_id: String = spot.id.trim_prefix("portal_")
 		return "Sealed - the corrupted guardian must fall first" if _portal_is_locked(zone_id) else "Enter"
@@ -596,6 +609,8 @@ func _interact(spot: Spot) -> void:
 			_talk_equipment_vendor()
 		"graveyard_cairn":
 			_talk_graveyard()
+		"alchemist":
+			_use_alchemist()
 		_:
 			if spot.id.begins_with("portal_"):
 				_use_zone_portal(spot.id.trim_prefix("portal_"))
@@ -1004,6 +1019,29 @@ func _open_vendor() -> void:
 	EventBus.tutorial_event.emit(&"vendor_opened")
 
 
+## Brief 9, Part F: Crucible & Co. Locked until 2 zones are free: visible and shuttered, with a hint from the note on the
+## door. Open: Zinnia Vex greets you and the crafting screen opens.
+func _use_alchemist() -> void:
+	var story: StoryText = StoryText.shared()
+	if not Session.alchemist_unlocked():
+		_face_npc("alchemist")
+		dialogue.start(story.text("town.alchemist.name"), story.get_lines("town.alchemist.locked"))
+		hud.toast("%s (%d of %d zones free)" % ["Crucible & Co. is closed", Session.completed_zone_count(), ZoneCompletion.ALCHEMIST_UNLOCK_COUNT], Color("ffcf70"))
+		return
+	_face_npc("alchemist")
+	var lines: Array[String] = story.get_lines("town.alchemist.return" if Session.flag(&"alchemist_met") else "town.alchemist.intro")
+	Session.set_flag(&"alchemist_met")
+	dialogue.start("Zinnia Vex", lines)
+	dialogue.finished.connect(_open_alchemist, CONNECT_ONE_SHOT)
+
+
+func _open_alchemist() -> void:
+	if not Session.has_profile():
+		return
+	var screen: AlchemistScreen = AlchemistScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
 ## New brief, Part F: the item vendor.
 func _talk_item_vendor() -> void:
 	_face_npc("item_vendor")
@@ -1178,6 +1216,8 @@ func _screenshot_open(what: String) -> void:
 			_open_codex()
 		"character":
 			_open_character_screen()
+		"alchemist":
+			_open_alchemist()
 		"quests":
 			_open_quest_log()
 		"map":

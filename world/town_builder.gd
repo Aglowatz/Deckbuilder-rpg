@@ -235,6 +235,13 @@ func _build_props() -> void:
 	_building("blacksmith", equipment_vendor_center, 20.0, 1.25, 0.9)
 	anchors["equipment_vendor"] = equipment_vendor_center + Vector3(0, 0, 1.05)
 	anchors["npc_equipment_vendor"] = equipment_vendor_center + Vector3(1.0, 0, 0.6)
+	# Brief 9, Part F: Crucible & Co., the Alchemist's shop, on the Beefcake Flats' north edge, facing the open
+	# east-west corridor. It is always there (closed until two zones are free): the scene decorates it.
+	var alchemist_center: Vector3 = cell_center(1, 10)
+	_building("tower_B", alchemist_center, 0.0, 1.15, 0.95)
+	anchors["alchemist"] = alchemist_center + Vector3(0, 0, 1.15)
+	anchors["npc_alchemist"] = alchemist_center + Vector3(1.15, 0, 0.75)
+	anchors["alchemist_door"] = alchemist_center + Vector3(0, 0, 0.55)
 	# New brief, Part E: 4 corrupted NPCs, one per element district, close enough to their own
 	# district's edge gate to read as "belongs to that zone" without blocking the district's main
 	# path. Visual corruption (tint + particle effect) is TownScene's job, not the builder's.

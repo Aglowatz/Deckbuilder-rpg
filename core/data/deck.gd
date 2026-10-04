@@ -34,10 +34,11 @@ func infrastructure_count() -> int:
 	return count
 
 
-## Distinct non-neutral color types used by any card (infrastructure included).
+## Distinct Paths used by any card (infrastructure included). A multi-Path card counts as BOTH of its Paths.
 func colors() -> Array[Affinity.Type]:
 	var result: Array[Affinity.Type] = []
 	for card: CardData in cards:
-		if card.color != Affinity.Type.NEUTRAL and not result.has(card.color):
-			result.append(card.color)
+		for path: Affinity.Type in card.paths():
+			if not result.has(path):
+				result.append(path)
 	return result

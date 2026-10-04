@@ -220,14 +220,14 @@ func all_creatures() -> Array[CardInstance]:
 func get_power(card: CardInstance) -> int:
 	if not card.data.is_creature():
 		return 0
-	var bonus: Vector2i = players[card.owner].modifiers.stat_bonus(card.data.color)
+	var bonus: Vector2i = players[card.owner].modifiers.stat_bonus_for(card.data)
 	return maxi(0, card.data.power + card.power_bonus + card.temp_power + bonus.x)
 
 
 func get_toughness(card: CardInstance) -> int:
 	if not card.data.is_creature():
 		return 0
-	var bonus: Vector2i = players[card.owner].modifiers.stat_bonus(card.data.color)
+	var bonus: Vector2i = players[card.owner].modifiers.stat_bonus_for(card.data)
 	var total: int = card.data.toughness + card.toughness_bonus + card.temp_toughness + bonus.y
 	# A negative zone effect (a debuff) never kills a creature outright by itself: it leaves at least 1.
 	if bonus.y < 0 and card.data.toughness >= 1:
@@ -237,7 +237,7 @@ func get_toughness(card: CardInstance) -> int:
 
 ## Generic cost after cost-change modifiers (never below 0).
 func generic_cost_for(player_index: int, data: CardData) -> int:
-	var change: int = players[player_index].modifiers.sum_for_color(Modifier.Kind.COST_CHANGE, data.color)
+	var change: int = players[player_index].modifiers.sum_for_card(Modifier.Kind.COST_CHANGE, data)
 	return maxi(0, data.generic_cost + change)
 
 
@@ -408,12 +408,12 @@ func _enter_battlefield(card: CardInstance, chosen: int, cast_from_hand: bool) -
 ## modifiers (e.g. Hover Boots) once, when a creature enters the battlefield. Equipment doesn't
 ## change mid-duel, so this never needs to be recomputed afterwards.
 func _apply_static_equipment_grants(card: CardInstance, player: PlayerState) -> void:
-	for keyword: CardEnums.Keyword in player.modifiers.keyword_grants(Modifier.Kind.GRANT_KEYWORD_TO_CREATURES, card.data.color):
+	for keyword: CardEnums.Keyword in player.modifiers.keyword_grants_for(Modifier.Kind.GRANT_KEYWORD_TO_CREATURES, card.data):
 		if not card.granted_keywords.has(keyword):
 			card.granted_keywords.append(keyword)
 	if player.modifiers.has(Modifier.Kind.CANNOT_BLOCK):
 		card.cannot_block = true
-	if player.modifiers.sum_for_color(Modifier.Kind.ENTER_EXHAUSTED, card.data.color) > 0:
+	if player.modifiers.sum_for_card(Modifier.Kind.ENTER_EXHAUSTED, card.data) > 0:
 		card.exhausted = true
 
 

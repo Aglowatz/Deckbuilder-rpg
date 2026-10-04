@@ -31,6 +31,7 @@ static func build() -> ContentSet:
 	content.infrastructure = build_infrastructure()
 	content.cards = build_cards(content.tokens)
 	content.zone_cards = build_zone_cards(content.tokens)
+	content.multipath_cards = MultipathContent.build(content.tokens)
 	content.zone_equipment = ProgressionContent.zone_equipment()
 	content.decks = build_decks(content)
 	content.challenges = ChallengeExamples.all(reward_pool(content.cards))

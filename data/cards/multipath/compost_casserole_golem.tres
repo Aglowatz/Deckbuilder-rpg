@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_bvlhe"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_bb4n4"]
+
+[sub_resource type="Resource" id="Resource_xenav"]
+script = ExtResource("1_bvlhe")
+target = 1
+op = 9
+amount = 4
+
+[resource]
+script = ExtResource("2_bb4n4")
+id = "compost_casserole_golem"
+display_name = "Compost Casserole Golem"
+color = 2
+color2 = 3
+generic_cost = 3
+colored_pips = Array[int]([2, 3])
+power = 5
+toughness = 6
+keywords = Array[int]([7])
+rules_text = "Guard. When this enters, gain 4 life."
+effects = Array[ExtResource("1_bvlhe")]([SubResource("Resource_xenav")])
+rarity = 2
+flavor_text = "Neither side will admit they made it."

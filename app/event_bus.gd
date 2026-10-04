@@ -14,6 +14,9 @@ signal collection_changed
 signal quest_changed
 ## A quest toast: text, and true when it is a "new quest" (false = completed).
 signal quest_notice(text: String, is_new: bool)
+## A spare copy of a card was converted (Part F): the message to show, essence by Path ({Affinity.Type: amount})
+## and gold gained (one of the two is empty/0).
+signal essence_converted(message: String, essence: Dictionary, gold: int)
 ## A zone was freed (its dungeon boss fell): the zone id. The Arena and the Alchemist listen for this.
 signal zone_completed(zone_id: String)
 ## The player's zone life changed (battle/enemy hit/heal) - HUD redraws and flashes.

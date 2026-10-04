@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_n8xlu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_fksi0"]
+
+[sub_resource type="Resource" id="Resource_wbhnb"]
+script = ExtResource("1_n8xlu")
+target = 2
+op = 3
+amount = 1
+
+[resource]
+script = ExtResource("2_fksi0")
+id = "compliance_on_steroids"
+display_name = "Compliance Officer on Steroids"
+color = 1
+color2 = 4
+generic_cost = 3
+colored_pips = Array[int]([1, 4])
+power = 5
+toughness = 4
+keywords = Array[int]([5])
+rules_text = "First Strike. When this enters, the opponent discards a card."
+effects = Array[ExtResource("1_n8xlu")]([SubResource("Resource_wbhnb")])
+rarity = 2
+flavor_text = "Fills in your forms. Fills in your face."

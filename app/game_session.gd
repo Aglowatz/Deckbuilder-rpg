@@ -11,6 +11,8 @@ var save_enabled: bool = true
 var save_path: String = SaveSystem.PATH
 
 var content: ContentSet
+## The global notification layer (essence conversions, toasts) - see `ToastLayer`.
+var toasts: ToastLayer
 var profile: PlayerProfile
 var gold: int = 0
 var deck: Deck
@@ -49,6 +51,9 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	rng.randomize()
 	content = ContentLibrary.load_all()
+	toasts = ToastLayer.new()
+	toasts.name = "ToastLayer"
+	add_child(toasts)
 	for arg: String in OS.get_cmdline_user_args():
 		if arg == "--no-save":
 			save_enabled = false
@@ -297,12 +302,45 @@ func unlock_state() -> UnlockState:
 	return state
 
 
-func add_cards(cards: Array[CardData]) -> void:
+## The Alchemist (Part F): trades ALL essence of two Paths plus gold for a random dual-Path card of those Paths
+## (`Alchemy.craft`). On success the gold is paid and the card joins the collection (an extra copy converts like any
+## other). The result says why a trade could not be made.
+func craft_dual_card(first: Affinity.Type, second: Affinity.Type) -> Alchemy.Result:
 	if profile == null:
-		return
-	profile.owned_cards.append_array(cards)
+		return Alchemy.Result.new()
+	var result: Alchemy.Result = Alchemy.craft(content, profile, gold, first, second, rng)
+	if result.ok:
+		spend_gold(result.gold_spent)
+		add_cards([result.card] as Array[CardData])
+		bump_counter("cards_crafted")
+		save_game()
+	return result
+
+## Adds cards to the collection. A player may own at most `DeckValidator.MAX_COPIES` (4) copies of a card:
+## an extra copy is NOT kept but converts into Path essence of its Path (more for higher rarity), or into gold
+## for a neutral card (`Essence`); each conversion fires `EventBus.essence_converted` (the toast layer shows
+## it). Infrastructure is unlimited. Returns the conversion messages (empty when nothing converted).
+func add_cards(cards: Array[CardData]) -> Array[String]:
+	var notices: Array[String] = []
+	if profile == null:
+		return notices
+	for card: CardData in cards:
+		if card.is_unlimited() or profile.owned_copies(card.id) < DeckValidator.MAX_COPIES:
+			profile.owned_cards.append(card)
+			continue
+		var conversion: Dictionary = Essence.conversion(card)
+		var essence_by_path: Dictionary = conversion["essence"] as Dictionary
+		for path: Variant in essence_by_path.keys():
+			profile.add_essence(int(path) as Affinity.Type, int(essence_by_path[path]))
+		var gold_amount: int = int(conversion["gold"])
+		if gold_amount > 0:
+			add_gold(gold_amount)
+		var text: String = Essence.message(card, conversion)
+		notices.append(text)
+		EventBus.essence_converted.emit(text, essence_by_path, gold_amount)
 	EventBus.collection_changed.emit()
 	refresh_quests()
+	return notices
 
 
 ## New brief, Part D: grants one consumable item (chests, and the item vendor in Part F). Owning
@@ -516,6 +554,7 @@ func to_dict() -> Dictionary:
 		"equipped_items": profile.equipped_item_ids,
 		"pending_equipment_choices": pending_equipment_choices,
 		"vendor_discount_percent": profile.vendor_discount_percent,
+		"essence": _essence_to_dict(),
 	}
 
 
@@ -556,6 +595,8 @@ func from_dict(data: Dictionary) -> bool:
 	for id: Variant in data.get("equipped_items", []) as Array:
 		loaded.equipped_item_ids.append(str(id))
 	loaded.vendor_discount_percent = int(data.get("vendor_discount_percent", 0))
+	for path_key: Variant in (data.get("essence", {}) as Dictionary).keys():
+		loaded.essence[int(str(path_key))] = int((data["essence"] as Dictionary)[path_key])
 	profile = loaded
 	deck = Deck.new()
 	deck.deck_name = DECK_NAME
@@ -588,6 +629,13 @@ func from_dict(data: Dictionary) -> bool:
 	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
 		rebuild_starter_deck()
 	return true
+
+
+func _essence_to_dict() -> Dictionary:
+	var result: Dictionary = {}
+	for path: Variant in profile.essence.keys():
+		result[str(int(path))] = int(profile.essence[path])
+	return result
 
 
 func save_game() -> void:

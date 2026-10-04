@@ -3,16 +3,18 @@ extends Control
 ## Developer scene: every card style side by side (used for visual review of card frames).
 
 var _page: int = 0
+var _multipath: bool = false
 
 
 func screenshot_prepare(args: Dictionary) -> void:
 	_page = int(args.get("page", 0))
+	_multipath = args.has("multipath")
 
 
 func _ready() -> void:
 	var content: ContentSet = Session.content
 	add_child(UIKit.gradient_background())
-	var ids: Array = content.cards.keys()
+	var ids: Array = content.multipath_cards.keys() if _multipath else content.cards.keys()
 	ids.sort()
 	var infrastructure: Array = content.infrastructure.values()
 	var margin: MarginContainer = UIKit.margin(VBoxContainer.new(), 20)

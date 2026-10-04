@@ -302,6 +302,11 @@ func _list_row(card: CardData, count: int) -> Control:
 	bar.custom_minimum_size = Vector2(6, 28)
 	bar.add_theme_stylebox_override("panel", UIStyle.box(tint, Color(0, 0, 0, 0), 0, 3))
 	line.add_child(bar)
+	if card.is_multipath():
+		var bar2: Panel = Panel.new()
+		bar2.custom_minimum_size = Vector2(6, 28)
+		bar2.add_theme_stylebox_override("panel", UIStyle.box(UIStyle.affinity_color(card.color2), Color(0, 0, 0, 0), 0, 3))
+		line.add_child(bar2)
 	var cost: Label = UIKit.label("" if card.is_infrastructure() else str(card.energy_value()), &"", 20, UIStyle.INK, HORIZONTAL_ALIGNMENT_CENTER)
 	cost.custom_minimum_size = Vector2(30, 28)
 	cost.add_theme_stylebox_override("normal", UIStyle.box(Color("cdc5d6") if not card.is_infrastructure() else Color(0, 0, 0, 0), Color(0, 0, 0, 0), 0, 14))

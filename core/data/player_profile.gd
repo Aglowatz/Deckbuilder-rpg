@@ -45,7 +45,36 @@ const DEFAULT_MAX_HAND_SIZE: int = 10
 ## flat percentage off every vendor's listed price (cards, items, equipment alike). Stacks
 ## additively across however many such levels are gained (see ProgressionTable).
 @export var vendor_discount_percent: int = 0
+## Brief 9, Part F: Path essence from extra card copies - Affinity.Type (as int) -> amount. Spent at the
+## Alchemist (`Alchemy`); saved by `Session.to_dict`.
+@export var essence: Dictionary = {}
 
+
+func essence_of(path: Affinity.Type) -> int:
+	return int(essence.get(int(path), 0))
+
+
+func add_essence(path: Affinity.Type, amount: int) -> void:
+	essence[int(path)] = essence_of(path) + amount
+
+
+func set_essence(path: Affinity.Type, amount: int) -> void:
+	essence[int(path)] = maxi(0, amount)
+
+
+func total_essence() -> int:
+	var total: int = 0
+	for path: Variant in essence.keys():
+		total += int(essence[path])
+	return total
+
+
+func owned_copies(card_id: String) -> int:
+	var copies: int = 0
+	for card: CardData in owned_cards:
+		if card.id == card_id:
+			copies += 1
+	return copies
 
 ## The price actually charged/shown after `vendor_discount_percent`, never below 1 for a
 ## positive base price.

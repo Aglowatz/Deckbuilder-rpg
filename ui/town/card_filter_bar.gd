@@ -99,7 +99,7 @@ func _select(group: int, value: int) -> void:
 
 
 func matches(card: CardData) -> bool:
-	if affinity_filter != -1 and int(card.color) != affinity_filter:
+	if affinity_filter != -1 and not card.is_on_path(affinity_filter as Affinity.Type) and int(card.color) != affinity_filter:
 		return false
 	if type_filter != -1 and int(card.type) != type_filter:
 		return false

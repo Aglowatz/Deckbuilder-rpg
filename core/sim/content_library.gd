@@ -9,6 +9,7 @@ const AI_DIR: String = "res://data/ai/"
 const EQUIPMENT_DIR: String = "res://data/equipment/"
 const ITEM_DIR: String = "res://data/items/"
 const ZONE_CARD_DIR: String = "res://data/cards/zone/"
+const MULTIPATH_CARD_DIR: String = "res://data/cards/multipath/"
 const ZONE_EQUIPMENT_DIR: String = "res://data/equipment/zone/"
 
 
@@ -28,6 +29,10 @@ static func load_all() -> ContentSet:
 		var zone_card: CardData = load(path) as CardData
 		if zone_card != null:
 			content.zone_cards[zone_card.id] = zone_card
+	for path: String in _tres_files(MULTIPATH_CARD_DIR):
+		var multipath_card: CardData = load(path) as CardData
+		if multipath_card != null:
+			content.multipath_cards[multipath_card.id] = multipath_card
 	for path: String in _tres_files(ZONE_EQUIPMENT_DIR):
 		var zone_piece: EquipmentData = load(path) as EquipmentData
 		if zone_piece != null:

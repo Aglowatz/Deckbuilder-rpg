@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_hro61"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_t5qus"]
+
+[sub_resource type="Resource" id="Resource_3lhvf"]
+script = ExtResource("1_hro61")
+target = 1
+op = 2
+amount = 2
+
+[sub_resource type="Resource" id="Resource_vg5sj"]
+script = ExtResource("1_hro61")
+target = 1
+op = 9
+amount = 2
+
+[resource]
+script = ExtResource("2_t5qus")
+id = "dumpster_bistro"
+display_name = "Dumpster-Diving Bistro"
+type = 2
+color = 2
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([2, 3])
+toughness = 0
+rules_text = "Draw two cards. Gain 2 life."
+effects = Array[ExtResource("1_hro61")]([SubResource("Resource_3lhvf"), SubResource("Resource_vg5sj")])
+rarity = 1
+flavor_text = "Reservations are required. So is a strong stomach."

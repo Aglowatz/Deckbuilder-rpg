@@ -37,6 +37,33 @@ func sum_for_color(kind: Modifier.Kind, card_color: Affinity.Type) -> int:
 	return total
 
 
+## Sum of `value` over modifiers of `kind` that apply to `card` (multi-Path aware).
+func sum_for_card(kind: Modifier.Kind, card: CardData) -> int:
+	var total: int = 0
+	for modifier: Modifier in modifiers:
+		if modifier.kind == kind and modifier.matches_card(card):
+			total += modifier.value
+	return total
+
+
+## Combined (power, toughness) bonus for `card` (multi-Path aware).
+func stat_bonus_for(card: CardData) -> Vector2i:
+	var bonus: Vector2i = Vector2i.ZERO
+	for modifier: Modifier in modifiers:
+		if modifier.kind == Modifier.Kind.STAT_CHANGE and modifier.matches_card(card):
+			bonus += Vector2i(modifier.value, modifier.value2)
+	return bonus
+
+
+## Keywords granted to `card` (multi-Path aware).
+func keyword_grants_for(kind: Modifier.Kind, card: CardData) -> Array[CardEnums.Keyword]:
+	var result: Array[CardEnums.Keyword] = []
+	for modifier: Modifier in modifiers:
+		if modifier.kind == kind and modifier.matches_card(card):
+			result.append(modifier.value as CardEnums.Keyword)
+	return result
+
+
 ## Combined (power, toughness) bonus for a creature of the given color.
 func stat_bonus(card_color: Affinity.Type) -> Vector2i:
 	var bonus: Vector2i = Vector2i.ZERO

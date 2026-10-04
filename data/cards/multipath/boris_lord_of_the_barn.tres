@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_h8sbm"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_u0ail"]
+
+[sub_resource type="Resource" id="Resource_vqpr8"]
+script = ExtResource("1_h8sbm")
+target = 10
+op = 5
+amount = 1
+
+[resource]
+script = ExtResource("2_u0ail")
+id = "boris_lord_of_the_barn"
+display_name = "Boris, Lord of the Barn"
+color = 1
+color2 = 3
+generic_cost = 4
+colored_pips = Array[int]([1, 3])
+power = 8
+toughness = 8
+keywords = Array[int]([4])
+rules_text = "Trample. When this enters, your creatures get +1/+0 permanently."
+effects = Array[ExtResource("1_h8sbm")]([SubResource("Resource_vqpr8")])
+rarity = 3
+flavor_text = "The boar has seen things. The boar has lifted things."

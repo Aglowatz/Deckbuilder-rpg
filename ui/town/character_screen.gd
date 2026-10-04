@@ -184,9 +184,17 @@ func _refresh() -> void:
 	_stat_row("Item slots", "%d / %d" % [profile.item_slots, ProgressionTable.row(ProgressionTable.MAX_LEVEL).item_slots])
 	_stat_row("Deck copy limit", "%d per card (infrastructure unlimited)" % DeckValidator.MAX_COPIES)
 	_stat_row("Max hand size", str(profile.base_max_hand_size()))
+	_stat_row("Path essence", _essence_text(profile))
 	_refresh_equipment()
 	_refresh_items()
 
+
+## Part F: essence by Path ("Beefcake 12, Gourmand 0, ..."), the currency of the Alchemist.
+func _essence_text(profile: PlayerProfile) -> String:
+	var parts: PackedStringArray = []
+	for path: Affinity.Type in Affinity.colored_types():
+		parts.append("%s %d" % [UIStyle.affinity_name(path), profile.essence_of(path)])
+	return ", ".join(parts)
 
 func _stat_row(label: String, value: String) -> void:
 	var row: HBoxContainer = UIKit.hbox(8)

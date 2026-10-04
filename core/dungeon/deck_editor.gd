@@ -46,9 +46,14 @@ func why_not_add(card: CardData) -> String:
 			return "A deck holds at most %d copies of any card (infrastructure is unlimited)." % limit
 		if count(card) >= owned(card):
 			return "You do not own another copy."
-	if card.color != Affinity.Type.NEUTRAL and not deck.colors().has(card.color):
-		if deck.colors().size() >= DeckValidator.max_colors(profile, modifiers):
-			return "A deck may use only %d colors." % DeckValidator.max_colors(profile, modifiers)
+	var resulting: Array[Affinity.Type] = deck.colors()
+	for path: Affinity.Type in card.paths():
+		if not resulting.has(path):
+			resulting.append(path)
+	if resulting.size() > DeckValidator.max_colors(profile, modifiers) and resulting.size() > deck.colors().size():
+		if card.is_multipath():
+			return "%s needs both of its Paths, and a deck may use only %d Paths." % [card.display_name, DeckValidator.max_colors(profile, modifiers)]
+		return "A deck may use only %d Paths." % DeckValidator.max_colors(profile, modifiers)
 	return ""
 
 

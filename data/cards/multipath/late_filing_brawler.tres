@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_p556e"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rnk4t"]
+
+[sub_resource type="Resource" id="Resource_sk7nr"]
+script = ExtResource("1_p556e")
+trigger = 1
+target = 1
+op = 2
+amount = 1
+
+[resource]
+script = ExtResource("2_rnk4t")
+id = "late_filing_brawler"
+display_name = "Late Filing Brawler"
+color = 1
+color2 = 4
+generic_cost = 1
+colored_pips = Array[int]([1, 4])
+power = 3
+keywords = Array[int]([2])
+rules_text = "Haste. When this dies, draw a card."
+effects = Array[ExtResource("1_p556e")]([SubResource("Resource_sk7nr")])
+flavor_text = "Arrives there-ish, on-time-ish, and a form is always filed afterwards."

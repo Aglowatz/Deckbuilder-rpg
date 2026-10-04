@@ -96,3 +96,9 @@ const ANY_COLOR: int = -1
 
 func matches_color(card_color: Affinity.Type) -> bool:
 	return color == ANY_COLOR or color == int(card_color)
+
+
+## Whether this modifier applies to `card`: a multi-Path card is on both its Paths, so it receives every
+## modifier (buff or debuff) aimed at either of them.
+func matches_card(card: CardData) -> bool:
+	return color == ANY_COLOR or card.is_on_path(color as Affinity.Type)

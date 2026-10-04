@@ -7,6 +7,10 @@ extends Resource
 @export var type: CardEnums.CardType = CardEnums.CardType.CREATURE
 ## For infrastructure: the Path energy type produced. For others: the card's color identity.
 @export var color: Affinity.Type = Affinity.Type.NEUTRAL
+## Brief 9, Part F: the SECOND Path of a multi-Path (dual-Path) card. NEUTRAL = a single-Path card. A multi-Path
+## card has pips of both Paths (it needs Path energy from both), counts as BOTH Paths for the deck's Path limit
+## and for zone effects, and is crafted at the Alchemist.
+@export var color2: Affinity.Type = Affinity.Type.NEUTRAL
 ## Generic Path energy (payable by any infrastructure).
 @export var generic_cost: int = 0
 ## One entry per colored pip; each must be paid by an infrastructure of that type.
@@ -27,6 +31,23 @@ extends Resource
 func energy_value() -> int:
 	return generic_cost + colored_pips.size()
 
+
+func is_multipath() -> bool:
+	return color != Affinity.Type.NEUTRAL and color2 != Affinity.Type.NEUTRAL and color2 != color
+
+
+## Every Path this card belongs to (none for a neutral card, one normally, two for a multi-Path card).
+func paths() -> Array[Affinity.Type]:
+	var result: Array[Affinity.Type] = []
+	if color != Affinity.Type.NEUTRAL:
+		result.append(color)
+	if is_multipath():
+		result.append(color2)
+	return result
+
+
+func is_on_path(path: Affinity.Type) -> bool:
+	return path != Affinity.Type.NEUTRAL and (color == path or (is_multipath() and color2 == path))
 
 func is_infrastructure() -> bool:
 	return type == CardEnums.CardType.INFRASTRUCTURE
