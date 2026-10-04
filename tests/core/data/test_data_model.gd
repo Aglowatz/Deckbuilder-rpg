@@ -6,7 +6,7 @@ const TMP_PATH: String = "user://test_card_roundtrip.tres"
 func test_affinity_has_four_colors_plus_neutral() -> void:
 	assert_eq(Affinity.colored_types().size(), 4)
 	assert_eq(Affinity.Type.size(), 5)
-	assert_eq(Affinity.display_name(Affinity.Type.A), "Affinity A")
+	assert_eq(Affinity.display_name(Affinity.Type.A), "Beefcake")
 	assert_eq(Affinity.display_name(Affinity.Type.NEUTRAL), "Neutral")
 
 

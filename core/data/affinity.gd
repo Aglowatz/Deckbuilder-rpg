@@ -1,16 +1,18 @@
 class_name Affinity
 extends RefCounted
-## Single source of truth for infrastructure/color types.
-## To rename a type for players, edit DISPLAY_NAMES only; code always uses the enum.
+## Single source of truth for the four Paths (colors). The enum members stay A-D; to rename a Path for
+## players, edit DISPLAY_NAMES only - code always uses the enum.
+## A = Beefcake (Gainlands), B = Gourmand (Endless Buffet), C = Refusemancer (Verdant Dump),
+## D = Necrocrat (D.N.A.).
 
 enum Type { NEUTRAL, A, B, C, D }
 
 const DISPLAY_NAMES: Dictionary = {
 	Type.NEUTRAL: "Neutral",
-	Type.A: "Affinity A",
-	Type.B: "Affinity B",
-	Type.C: "Affinity C",
-	Type.D: "Affinity D",
+	Type.A: "Beefcake",
+	Type.B: "Gourmand",
+	Type.C: "Refusemancer",
+	Type.D: "Necrocrat",
 }
 
 

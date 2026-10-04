@@ -25,5 +25,8 @@ var won: bool = false
 ## Brief 5: set for a duel against a roaming zone enemy (see Session.make_zone_battle/
 ## _complete_zone_battle) - the id is a DnaEnemies id plus which spawn it was.
 var zone_battle: bool = false
+## The zone (or zone dungeon) this duel is fought in, "" elsewhere: its buff/debuff apply to both sides and
+## the battle UI shows them (`ZoneEffects`).
+var zone_id: String = ""
 var zone_enemy_id: String = ""
 var zone_enemy_type: String = ""

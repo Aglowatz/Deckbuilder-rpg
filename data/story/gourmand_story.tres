@@ -177,6 +177,10 @@ lines = {
 "npc.tarragon.return.freed": ["Fetching is fun again! Everyone waves at me! Nobody asks me to fetch cannonballs!"],
 "npc.dolcetta.intro.freed": ["Dolcetta Crumb, dessert dealer, free of the sauce! My taste buds came back last week and wow, wow, the sugar. Cakes by day. Cards by night. Both by appointment, and all by choice."],
 "npc.dolcetta.return.freed": ["Shop's open, the cards are fresh, and the cake is for eating now. Sit down. Have a slice."],
+"effect.buff.name": ["Well Fed"],
+"effect.buff.flavor": ["Nobody leaves hungry, least of all the Gourmands. Full bellies make for strong golems."],
+"effect.debuff.name": ["Dress Code Violation"],
+"effect.debuff.flavor": ["The Gourmands look down their noses at garbage eaters. Refusemancers here feel very, very underdressed."],
 }
 quiz_questions = Array[Dictionary]([{
 "a": ["Feeding the kingdom and protecting it", "Collecting the kingdom's taxes", "Inspecting the kingdom's dungeons", "Writing the kingdom's restaurant reviews"],

@@ -168,6 +168,10 @@ lines = {
 "npc.hob.return.freed": ["Shop's open. The cards are fresh. The turnips are a day old, and they are not looking at anybody."],
 "npc.wren.intro.freed": ["Wren Muckfoot, animal handler! The herd is back. The goat is eating a sign. The sign is not eating back. I have never been so happy to see a goat ruin something."],
 "npc.wren.return.freed": ["All animals present and entirely un-mutated. I could cry. I might. Into a bucket. For the plants."],
+"effect.buff.name": ["Overgrowth"],
+"effect.buff.flavor": ["The Dump is alive in all the wrong ways, but its own druids know how to make the best of it."],
+"effect.debuff.name": ["Spoilage"],
+"effect.debuff.flavor": ["Everything delicate rots fast in the Dump. Gourmand food does not keep. Gourmand golems keep even less."],
 }
 quiz_questions = Array[Dictionary]([{
 "a": ["Waste removal and agriculture", "Tax collection and cartography", "Weather forecasting and sword polishing", "Opening the kingdom's mail"],

@@ -687,9 +687,11 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	options.first_player = 0 if node.tutorial else -1
 	options.rng_seed = rng.randi() % 1000000 + 1
 	var enemy: PlayerSetup = MiniDungeon.enemy_setup(content, node, zone_def().id) if mini_active else TrialOfTheHollow.enemy_setup(content, node)
-	var game: GameState = run.start_encounter(enemy, null, options)
+	var effect_zone: String = zone_def().id if (mini_active or main_dungeon_active) else ""
+	var game: GameState = run.start_encounter(enemy, ZoneEffects.source_for(effect_zone), options)
 	var context: BattleContext = BattleContext.new()
 	context.game = game
+	context.zone_id = effect_zone
 	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if mini_active else TrialOfTheHollow.personality(content, node.ai_name))
 	context.enemy_name = node.enemy_name
 	context.enemy_icon = str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
@@ -1025,16 +1027,24 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	var buffs: Array[ModifierSource] = []
 	if zone_run != null:
 		buffs = zone_run.run.dungeon_sources
+	var zone_source: ModifierSource = ZoneEffects.source_for(zone_id)
+	if zone_source != null:
+		buffs = buffs.duplicate()
+		buffs.append(zone_source)
 	var player: PlayerSetup = PlayerSetup.create(deck, profile, buffs, "You")
 	if zone_run != null:
 		player.starting_life = zone_run.life
 	game.add_player(player)
-	game.add_player(ZoneEnemies.enemy_setup(content, zone_id, enemy_type))
+	var zone_enemy: PlayerSetup = ZoneEnemies.enemy_setup(content, zone_id, enemy_type)
+	if zone_source != null:
+		zone_enemy.modifiers.add_source(zone_source)
+	game.add_player(zone_enemy)
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
 	context.ai = AIPlayer.new(ZoneEnemies.personality(content, zone_id, enemy_type))
 	context.enemy_name = data.display_name
+	context.zone_id = zone_id
 	context.zone_battle = true
 	context.zone_enemy_id = enemy_instance_id
 	context.zone_enemy_type = enemy_type
@@ -1083,6 +1093,8 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 ## True while a run on `MiniDungeon`'s map is going (so the shared dungeon screens know to return
 ## to the zone instead of town).
 var mini_active: bool = false
+## True while inside a zone's main (final) dungeon (the Test Kitchen, the House of Gains, ...). Part E.
+var main_dungeon_active: bool = false
 
 
 ## From the zone's elevator: a run that starts at the zone's current life (no healing).

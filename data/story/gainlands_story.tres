@@ -172,6 +172,10 @@ lines = {
 "npc.gus.return.freed": ["The wheels turn when they feel like it, and somehow that's more energy than ever. Don't tell the regime. Oh wait, there isn't one."],
 "npc.tony.intro.freed": ["Tiny Tony, back in business! The iron came out from under the floorboard and went straight onto a rack. Shop's open to everyone. The regime's merchandise is in the clearance bin."],
 "npc.tony.return.freed": ["Everything's on the shelves where it belongs. The jokes are still a day old. Some things are sacred."],
+"effect.buff.name": ["Pump It Up"],
+"effect.buff.flavor": ["The whole zone is on a permanent pump. Beefcakes feel it in their quads."],
+"effect.debuff.name": ["Processing Time"],
+"effect.debuff.flavor": ["\"Your request is being processed.\" Necrocrats are used to forms and queues. Beefcakes just show up there-ish, on-time-ish, and the paperwork never catches up."],
 }
 quiz_questions = Array[Dictionary]([{
 "a": ["Giant mills and colossal hamster wheels", "Solar panels the size of a bench", "One extremely motivated battery", "Coal, mostly, and spite"],

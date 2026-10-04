@@ -64,6 +64,7 @@ func _ready() -> void:
 	context = Session.pending_battle
 	if context == null:
 		context = Session.make_practice_battle(str(_screenshot_args.get("enemy", "Cave Scavenger")))
+		context.zone_id = str(_screenshot_args.get("zone", ""))
 	Session.pending_battle = null
 	game = context.game
 	ai = context.ai
@@ -83,6 +84,12 @@ func _ready() -> void:
 		tutorial.setup(self)
 	_drive.call_deferred()
 
+
+## "The Gainlands" etc. for the zone-effects panel (the zone's own display name).
+func _zone_title(zone_id: String) -> String:
+	if zone_id.is_empty() or not ZoneDefs.has_def(zone_id):
+		return ""
+	return ZoneDefs.get_def(zone_id).display_name
 
 func _build_scene() -> void:
 	add_child(ArenaBackdrop.new())
@@ -105,6 +112,7 @@ func _build_scene() -> void:
 	fx.shake_target = _board_root
 	board.setup(game, fx)
 	hud.setup(game, context.enemy_name, context.enemy_icon)
+	hud.set_zone_effects(ZoneEffects.for_zone(context.zone_id), _zone_title(context.zone_id))
 	board.portrait_anchor = [hud.portrait_center(0), hud.portrait_center(1)]
 	board.card_hovered.connect(_on_card_hovered)
 	board.card_unhovered.connect(_on_card_unhovered)

@@ -74,6 +74,10 @@ enum Kind {
 	LIFE_GAIN_BONUS,
 	## Brief 8, Part C: `effect` resolves for the owner every time one of THEIR creatures dies, e.g. the Compost Boots.
 	ON_ALLY_DEATH_EFFECT,
+	## Brief 9, Part C: creatures of a matching `color` (ANY_COLOR = every creature) enter the battlefield
+	## exhausted (they cannot block until their controller's next ready step) - the Gainlands' "Processing
+	## Time" debuff on Necrocrat creatures.
+	ENTER_EXHAUSTED,
 }
 
 ## `color` value meaning "matches every card".

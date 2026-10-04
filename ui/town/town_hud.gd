@@ -8,6 +8,8 @@ signal quests_pressed
 
 var _objective: RichTextLabel
 var _location: Label
+var _left_column: VBoxContainer
+var _effects_panel: ZoneEffectsPanel
 var _progress: Label
 var _gold: Label
 var _prompt_panel: PanelContainer
@@ -26,6 +28,7 @@ func _ready() -> void:
 	var objective_panel: PanelContainer = UIKit.panel(&"DarkPanel")
 	objective_panel.custom_minimum_size = Vector2(430, 0)
 	left_column.add_child(objective_panel)
+	_left_column = left_column
 	left_column.add_child(QuestTracker.new())
 	var column: VBoxContainer = UIKit.vbox(4)
 	objective_panel.add_child(column)
@@ -84,6 +87,18 @@ func _ready() -> void:
 
 func set_gold(amount: int) -> void:
 	_gold.text = str(amount)
+
+
+## Part C: the active zone's buff and debuff, shown under the objective while in a zone.
+func show_zone_effects(effect: ZoneEffects.Effect, zone_title: String) -> void:
+	if _effects_panel != null:
+		_effects_panel.queue_free()
+		_effects_panel = null
+	if effect == null:
+		return
+	_effects_panel = ZoneEffectsPanel.make(effect, zone_title, true)
+	_left_column.add_child(_effects_panel)
+	_left_column.move_child(_effects_panel, 1)
 
 
 ## The town's name and how many zones are free ("Concord Crossing - 1 of 4 zones free").

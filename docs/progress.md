@@ -2083,3 +2083,10 @@ Story source of truth: `docs/design/story_source.md`; organized in `docs/design/
 - The town HUD shows **Concord Crossing - N of 4 zones free**.
 - Zone completion API (`ZoneCompletion`, `Session.complete_zone/is_zone_completed/completed_zone_count`, `EventBus.zone_completed`) is in place (Part D builds on it).
 - Tests: `tests/test_story_rewrite.gd`; 613 GUT tests pass.
+
+## Part C: zone buffs and debuffs - done
+
+- `ZoneEffects` (`core/zone/zone_effects.gd`): the four zone buffs/debuffs (table in `docs/design/zones.md`), flavored per rivalry (Necrocrat "Processing Time" in the Gainlands, Beefcake "Unauthorized Activity" in the D.N.A., ...), implemented as Modifiers in a ZONE source applied to **both** player and enemy in zone battles and zone-dungeon battles. New `Modifier.Kind.ENTER_EXHAUSTED`.
+- Shown in the zone HUD and in battle (shared `ZoneEffectsPanel` widget) with tooltips; names/flavor live in the zone story files.
+- `Affinity.DISPLAY_NAMES` holds the real Path names (so infrastructure cards read "Beefcake Infrastructure" from core too).
+- Tests: `tests/core/zone/test_zone_effects.gd` (12); 625 GUT tests pass.

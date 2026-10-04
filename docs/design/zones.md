@@ -100,3 +100,16 @@ The Refusemancer zone (`ZonePortals` id `refusemancer`, reached from the town's 
 - **Quests**: *Round Up the Herd* (Wren: shoo 3 escaped animals), *Fertilizer Run* (Hob: gather 3 sacks), *Unblock the Stream* (Marigold: smash the junk dam on a mount; rewards the **Compost Boots**).
 - **Enemies** (`HeapEnemies`): Mossy Trash Golem and Possessed Scarecrow Druid (slow, start Refusemancer-deck battles), Junk Gull Flock (fast, 2 damage + knockback, flaps; never starts a battle). Enemies never enter the water/pits or climb cliffs.
 - **Mini dungeon** "The Landfill Depths: Three Levels" (3 battles, one-time unique card **Mother of the Dump**), **puzzle** "The Seed Shrine" (`GrowthGrid`: a 5 x 5 garden where planting flips a plot and its neighbours; solvable, shortest solution checked by tests; reward one-time **Refusemancer Seed Satchel**), **quiz master** Elder Fennel (4 questions on the Refusemancers), **minigame** "Sort It Out!" by the original **Blue-Ribbon Bev Pettigrew** (a sorting game, `SortGame`: 20 junk pieces ride a conveyor, sort each to Compost / Metal / Glass / Paper before it falls off; streak scoring; rewards by stars, one-time first-clear bonus; nods to 90s environmental PSAs, county-fair blue ribbons and dumpster-diving), **8 hidden chests** (docs/design/secrets.md), **interactables**: compost bin (junk -> max-life buff), crop plots (plant with fertilizer, harvest later in the visit), druid shrine (blessing), animal trough (junk -> gold), escaped animals, **main dungeon placeholder** "Closed for Composting".
+
+## Zone effects: buff and debuff (brief 9, Part C)
+
+Every zone (and every dungeon inside it - the mini dungeon now, the final dungeons in Part E) has one **buff** for its own Path and one **debuff** for the rival Path. They are `Modifier`s in a `ZONE` `ModifierSource` (`ZoneEffects.source_for(zone_id)`) fed to **both** the player's and the enemy's modifier set, so they affect every card of that Path regardless of who plays it (`Session.make_zone_battle`, `Session.make_dungeon_battle` via `DungeonRun.start_encounter(enemy, zone_source)`). Rivalries: Beefcakes (chaotic, "there-ish, on-time-ish") vs Necrocrats (orderly, by the book); Gourmands (snooty, proper) vs Refusemancers ("garbage eaters"). Zone completion does not remove them.
+
+| Zone | Buff | Debuff (rival) |
+|---|---|---|
+| Gainlands | **Pump It Up**: Beefcake creatures +1 power | **Processing Time**: Necrocrat creatures enter exhausted (new `Modifier.Kind.ENTER_EXHAUSTED`) |
+| D.N.A. | **Approved Procedure**: Necrocrat creatures +1 toughness | **Unauthorized Activity**: Beefcake cards cost 1 more (`COST_CHANGE`) |
+| Endless Buffet | **Well Fed**: Gourmand creatures +1/+1 | **Dress Code Violation**: Refusemancer creatures -1 power |
+| Verdant Dump | **Overgrowth**: Refusemancer creatures +2 toughness | **Spoilage**: Gourmand creatures -1 toughness (a debuff never takes a creature below 1 toughness by itself) |
+
+Names and flavor are in each zone's story file (`effect.buff.name`, `effect.debuff.flavor`, ...); the mechanical text is generated from the modifier. The active effects show in the zone HUD (left column, under the objective) and in battle (a panel under the enemy portrait), each with a tooltip. Tests: `tests/core/zone/test_zone_effects.gd`.

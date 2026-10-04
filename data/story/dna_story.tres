@@ -131,6 +131,10 @@ lines = {
 "memo.new_rules.freed": ["RULES: REDUCED", "Rules 40,001 through 40,003 have been repealed on grounds of being a joke."],
 "poster.compliance": ["COMPLIANCE IS FREEDOM", "(Freedom is subject to approval.)"],
 "poster.compliance.freed": ["COMPLIANCE IS FINE", "(Freedom is also fine. Choose what you like.)"],
+"effect.buff.name": ["Approved Procedure"],
+"effect.buff.flavor": ["Every Necrocrat here is properly stamped, countersigned and notarized. It makes them very hard to argue with."],
+"effect.debuff.name": ["Unauthorized Activity"],
+"effect.debuff.flavor": ["Beefcakes do things on the spot, which here requires a permit, in triplicate, and a fee. The fee is also a form."],
 }
 quiz_questions = Array[Dictionary]([{
 "a": ["Department of Necrotic Affairs", "Division of Nocturnal Accounting", "Directorate of Newly Arrived", "Department of Neglected Alumni"],

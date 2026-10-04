@@ -228,7 +228,11 @@ func get_toughness(card: CardInstance) -> int:
 	if not card.data.is_creature():
 		return 0
 	var bonus: Vector2i = players[card.owner].modifiers.stat_bonus(card.data.color)
-	return card.data.toughness + card.toughness_bonus + card.temp_toughness + bonus.y
+	var total: int = card.data.toughness + card.toughness_bonus + card.temp_toughness + bonus.y
+	# A negative zone effect (a debuff) never kills a creature outright by itself: it leaves at least 1.
+	if bonus.y < 0 and card.data.toughness >= 1:
+		total = maxi(total, 1)
+	return total
 
 
 ## Generic cost after cost-change modifiers (never below 0).
@@ -409,6 +413,8 @@ func _apply_static_equipment_grants(card: CardInstance, player: PlayerState) -> 
 			card.granted_keywords.append(keyword)
 	if player.modifiers.has(Modifier.Kind.CANNOT_BLOCK):
 		card.cannot_block = true
+	if player.modifiers.sum_for_color(Modifier.Kind.ENTER_EXHAUSTED, card.data.color) > 0:
+		card.exhausted = true
 
 
 func _send_to_graveyard(card: CardInstance) -> void:

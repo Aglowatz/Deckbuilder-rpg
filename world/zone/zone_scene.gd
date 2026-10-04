@@ -130,6 +130,7 @@ func _ready() -> void:
 	_build_camera()
 	_build_ui()
 	hud.set_objective(story.text("hud.objective"))
+	hud.show_zone_effects(ZoneEffects.for_zone(def.id), def.display_name)
 	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
 	_apply_pending_result.call_deferred()
 	if _screenshot_args.has("at"):

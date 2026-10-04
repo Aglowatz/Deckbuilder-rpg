@@ -41,6 +41,15 @@ func setup(game_state: GameState, enemy_name: String, enemy_icon: String) -> voi
 	refresh_all()
 
 
+## Part C: the zone's buff and debuff, under the enemy portrait. Both apply to both players; the
+## tooltips explain each (and the rivalry behind it).
+func set_zone_effects(effect: ZoneEffects.Effect, zone_title: String) -> void:
+	if effect == null:
+		return
+	var panel: ZoneEffectsPanel = ZoneEffectsPanel.make(effect, zone_title)
+	panel.position = Vector2(24, 190)
+	add_child(panel)
+
 # ---- Construction -----------------------------------------------------------------------
 
 

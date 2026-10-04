@@ -22,14 +22,8 @@ const AFFINITY_COLORS: Dictionary = {
 	Affinity.Type.C: Color("5aa84e"),
 	Affinity.Type.D: Color("9a5fc7"),
 }
-## Thematic names for the placeholder affinities (UI only; core keeps "Affinity A-D").
-const AFFINITY_NAMES: Dictionary = {
-	Affinity.Type.NEUTRAL: "Neutral",
-	Affinity.Type.A: "Beefcake",
-	Affinity.Type.B: "Gourmand",
-	Affinity.Type.C: "Refusemancer",
-	Affinity.Type.D: "Necrocrat",
-}
+## The Path names players see (the single source is `Affinity.DISPLAY_NAMES`).
+static var AFFINITY_NAMES: Dictionary = Affinity.DISPLAY_NAMES
 const AFFINITY_BLURBS: Dictionary = {
 	Affinity.Type.A: "Aggressive. Haste, first strike, burn.",
 	Affinity.Type.B: "Control. Draw, removal, fliers.",
