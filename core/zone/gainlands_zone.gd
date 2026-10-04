@@ -131,11 +131,11 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	mini.reward_card_id = "iron_titan"
 	mini.battles = [
 		_battle("Set 1: The Warm-Up", "Light weight, heavy attitude. Stretch first.", "Warm-Up Whelp", 12, "Balanced", false,
-			{"land:A": 15, "gym_rat": 4, "wheel_runner": 3, "mill_hand": 3, "cheat_day": 1}),
+			{"infrastructure:A": 15, "gym_rat": 4, "wheel_runner": 3, "mill_hand": 3, "cheat_day": 1}),
 		_battle("Set 2: Working Weight", "A spotter who has seen things. Mostly your elbows.", "Rogue Spotter", 14, "Defensive", false,
-			{"land:A": 15, "protein_golem": 3, "mill_hand": 3, "pump_chaser": 2, "flex_off": 2, "pre_workout": 1}),
+			{"infrastructure:A": 15, "protein_golem": 3, "mill_hand": 3, "pump_chaser": 2, "flex_off": 2, "pre_workout": 1}),
 		_battle("Set 3: One-Rep Max", "The Titan of the Rack. It has never once skipped leg day.", "Titan of the Rack", 18, "Aggressive", true,
-			{"land:A": 16, "max_rep": 2, "courtesy_chucker": 3, "pump_chaser": 3, "leg_day": 2, "flex_off": 2}),
+			{"infrastructure:A": 16, "max_rep": 2, "courtesy_chucker": 3, "pump_chaser": 3, "leg_day": 2, "flex_off": 2}),
 	]
 	return mini
 

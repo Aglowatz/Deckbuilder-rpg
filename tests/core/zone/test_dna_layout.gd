@@ -10,7 +10,7 @@ func before_all() -> void:
 
 
 func test_zone_is_about_three_times_the_town() -> void:
-	# The town has 353 land cells of 3.46 m2 (hex, 2 m flat-to-flat); the zone's cells are 1 m2.
+	# The town has 353 infrastructure cells of 3.46 m2 (hex, 2 m flat-to-flat); the zone's cells are 1 m2.
 	var town_area: float = 353.0 * (sqrt(3.0) / 2.0 * 4.0)
 	var zone_area: float = float(layout.floor_cell_count())
 	var ratio: float = zone_area / town_area

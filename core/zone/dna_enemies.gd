@@ -34,7 +34,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 5.5
 			made.leash_range = 9.0
 			made.recipe = {
-				"land:D": 16, "middle_manager": 3, "cubicle_zombie": 3, "soul_auditor": 2,
+				"infrastructure:D": 16, "middle_manager": 3, "cubicle_zombie": 3, "soul_auditor": 2,
 				"performance_review": 2, "death_benefits": 1,
 			}
 			made.life = 14
@@ -56,7 +56,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
 			made.recipe = {
-				"land:D": 15, "overdue_intern": 4, "cubicle_zombie": 3, "mandatory_fun_day": 2,
+				"infrastructure:D": 15, "overdue_intern": 4, "cubicle_zombie": 3, "mandatory_fun_day": 2,
 				"take_a_number": 1, "hr_reaper": 1,
 			}
 			made.life = 10

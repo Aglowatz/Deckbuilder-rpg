@@ -109,11 +109,11 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	mini.reward_card_id = "deceased_ceo"
 	mini.battles = [
 		_battle("Meeting 1: Kickoff Sync", "A meeting that could have been a memo. The memo is also here.", "Kickoff Facilitator", 12, "Balanced", false,
-			{"land:D": 15, "cubicle_zombie": 4, "overdue_intern": 3, "middle_manager": 2, "death_benefits": 1}),
+			{"infrastructure:D": 15, "cubicle_zombie": 4, "overdue_intern": 3, "middle_manager": 2, "death_benefits": 1}),
 		_battle("Meeting 2: Budget Review", "Every line item is a soul. Every soul is over budget.", "Budget Reviewer", 14, "Defensive", false,
-			{"land:D": 15, "soul_auditor": 3, "performance_review": 2, "cubicle_zombie": 3, "take_a_number": 2, "middle_manager": 1}),
+			{"infrastructure:D": 15, "soul_auditor": 3, "performance_review": 2, "cubicle_zombie": 3, "take_a_number": 2, "middle_manager": 1}),
 		_battle("Meeting 3: Quarterly Review", "Your performance this quarter has been: deceased.", "The Quarterly Reviewer", 18, "Aggressive", true,
-			{"land:D": 16, "hr_reaper": 2, "middle_manager": 3, "soul_auditor": 2, "mandatory_fun_day": 1, "performance_review": 2, "death_benefits": 1}),
+			{"infrastructure:D": 16, "hr_reaper": 2, "middle_manager": 3, "soul_auditor": 2, "mandatory_fun_day": 1, "performance_review": 2, "death_benefits": 1}),
 	]
 	return mini
 

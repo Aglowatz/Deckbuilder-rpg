@@ -22,7 +22,7 @@ static func equipment() -> Dictionary:
 	_add(result, _piece("solid_plate", "Solid Plate", EquipmentData.Slot.ARMOR, "Unglamorous, unyielding. Your creatures get +1 toughness.", [_mod(K.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)]))
 	_add(result, _piece("thorned_loincloth", "Thorned Loincloth", EquipmentData.Slot.ARMOR, "Nobody enjoys being the one who has to remove this from a corpse. Max life -5; whenever an enemy creature attacks you, it takes 1 damage.", [_mod(K.MAX_LIFE, -5), _mod_effect(K.RETALIATE_ON_ATTACK, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ATTACKERS))], true))
 	_add(result, _piece("xray_goggles", "X-Ray Goggles", EquipmentData.Slot.HELM, "Everything looks the same underneath. The opponent's hand is revealed to you - it doesn't see through a face-down trap, though.", [_mod(K.REVEAL_OPPONENT_HAND, 1)]))
-	_add(result, _piece("big_brain_beret", "Big Brain Beret", EquipmentData.Slot.HELM, "It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-land card per turn.", [_mod(K.EXTRA_DRAWS, 1), _mod(K.MAX_NON_LAND_CASTS_PER_TURN, 1)], true))
+	_add(result, _piece("big_brain_beret", "Big Brain Beret", EquipmentData.Slot.HELM, "It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-infrastructure card per turn.", [_mod(K.EXTRA_DRAWS, 1), _mod(K.MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN, 1)], true))
 	return result
 
 

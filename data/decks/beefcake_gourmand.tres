@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Deck" format=3]
 
 [ext_resource type="Script" path="res://core/data/card_data.gd" id="1_ok11j"]
-[ext_resource type="Resource" path="res://data/cards/land_affinity_a.tres" id="2_r6l2s"]
-[ext_resource type="Resource" path="res://data/cards/land_affinity_b.tres" id="3_opium"]
+[ext_resource type="Resource" path="res://data/cards/infrastructure_a.tres" id="2_r6l2s"]
+[ext_resource type="Resource" path="res://data/cards/infrastructure_b.tres" id="3_opium"]
 [ext_resource type="Resource" path="res://data/cards/beefcake_imp.tres" id="4_m1iui"]
 [ext_resource type="Resource" path="res://data/cards/blade_dancer.tres" id="5_bmdxn"]
 [ext_resource type="Resource" path="res://data/cards/raider.tres" id="6_nhxo2"]

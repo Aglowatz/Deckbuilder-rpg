@@ -10,7 +10,7 @@ enum Phase { START, MAIN1, COMBAT, MAIN2, END }
 enum Stage { SETUP, MULLIGAN, PLAYING, OVER }
 enum CombatStep { NONE, DECLARE_ATTACKERS, DECLARE_BLOCKERS }
 
-const LAND_DROPS_PER_TURN: int = 1
+const INFRASTRUCTURE_DROPS_PER_TURN: int = 1
 ## Base face-down traps one player may have set at a time, before Modifier.Kind.MAX_TRAPS
 ## (dungeon rules, equipment...) - see PlayerState.max_traps, set once in add_player().
 const MAX_TRAPS: int = 3
@@ -71,11 +71,11 @@ func add_player(setup: PlayerSetup) -> PlayerState:
 	player.max_hand_size = maxi(1, profile.base_max_hand_size() + mods.sum(Modifier.Kind.MAX_HAND_SIZE))
 	player.opening_hand_size = maxi(1, profile.base_opening_hand() + mods.sum(Modifier.Kind.OPENING_HAND_SIZE))
 	player.max_traps = maxi(0, MAX_TRAPS + mods.sum(Modifier.Kind.MAX_TRAPS))
-	player.non_land_cast_cap = mods.cap(Modifier.Kind.MAX_NON_LAND_CASTS_PER_TURN)
+	player.non_infrastructure_cast_cap = mods.cap(Modifier.Kind.MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN)
 	for data: CardData in setup.deck.cards:
 		player.library.append(create_instance(data, player.index))
 	if setup.deck.size() > 0:
-		player.deck_land_ratio = float(setup.deck.land_count()) / float(setup.deck.size())
+		player.deck_infrastructure_ratio = float(setup.deck.infrastructure_count()) / float(setup.deck.size())
 	players.append(player)
 	return player
 
@@ -115,13 +115,13 @@ func _pick_first_player() -> int:
 
 func _deal_opening_hand(player: PlayerState) -> void:
 	var hand: Array[CardInstance] = HandSmoother.draw_opening_hand(
-		player.library, player.opening_hand_size, player.deck_land_ratio, options.hand_smoother, rng, options.smoother_tolerance
+		player.library, player.opening_hand_size, player.deck_infrastructure_ratio, options.hand_smoother, rng, options.smoother_tolerance
 	)
 	for card: CardInstance in hand:
 		player.hand.append(card)
 		emit_event(GameEvent.Type.CARD_DRAWN, player.index, card.uid, 0, 1, player.hand.size(), "opening")
 	if options.hand_smoother:
-		emit_event(GameEvent.Type.HAND_SMOOTHED, player.index, 0, 0, HandSmoother.count_lands(hand))
+		emit_event(GameEvent.Type.HAND_SMOOTHED, player.index, 0, 0, HandSmoother.count_infrastructure(hand))
 
 
 ## Takes the one free mulligan: hand is shuffled back and the same number of cards drawn.
@@ -194,7 +194,7 @@ static func opponent_of(player_index: int) -> int:
 
 func find_card(uid: int) -> CardInstance:
 	for player: PlayerState in players:
-		for zone: Array[CardInstance] in [player.battlefield, player.lands, player.hand, player.traps, player.graveyard]:
+		for zone: Array[CardInstance] in [player.battlefield, player.infrastructure, player.hand, player.traps, player.graveyard]:
 			var card: CardInstance = PlayerState.find_in(zone, uid)
 			if card != null:
 				return card
@@ -246,26 +246,26 @@ func in_main_phase() -> bool:
 # --------------------------------------------------------------------------------------
 
 
-func can_play_land(player_index: int, uid: int) -> bool:
+func can_play_infrastructure(player_index: int, uid: int) -> bool:
 	if not in_main_phase() or player_index != active:
 		return false
 	var player: PlayerState = players[player_index]
-	if player.lands_played >= LAND_DROPS_PER_TURN:
+	if player.infrastructure_played >= INFRASTRUCTURE_DROPS_PER_TURN:
 		return false
 	var card: CardInstance = player.find_hand(uid)
-	return card != null and card.data.is_land()
+	return card != null and card.data.is_infrastructure()
 
 
-func play_land(player_index: int, uid: int) -> bool:
-	if not can_play_land(player_index, uid):
+func play_infrastructure(player_index: int, uid: int) -> bool:
+	if not can_play_infrastructure(player_index, uid):
 		return false
 	var player: PlayerState = players[player_index]
 	var card: CardInstance = player.find_hand(uid)
 	player.hand.erase(card)
-	player.lands.append(card)
-	card.tapped = false
-	player.lands_played += 1
-	emit_event(GameEvent.Type.LAND_PLAYED, player_index, uid, 0, 1, player.lands.size())
+	player.infrastructure.append(card)
+	card.exhausted = false
+	player.infrastructure_played += 1
+	emit_event(GameEvent.Type.INFRASTRUCTURE_PLAYED, player_index, uid, 0, 1, player.infrastructure.size())
 	return true
 
 
@@ -274,13 +274,13 @@ func can_cast(player_index: int, uid: int) -> bool:
 		return false
 	var player: PlayerState = players[player_index]
 	var card: CardInstance = player.find_hand(uid)
-	if card == null or card.data.is_land():
+	if card == null or card.data.is_infrastructure():
 		return false
-	if player.non_land_cast_cap >= 0 and player.non_land_casts_this_turn >= player.non_land_cast_cap:
+	if player.non_infrastructure_cast_cap >= 0 and player.non_infrastructure_casts_this_turn >= player.non_infrastructure_cast_cap:
 		return false
 	if card.data.type == CardEnums.CardType.TRAP and player.traps.size() >= player.max_traps:
 		return false
-	if not Mana.can_pay(player.untapped_lands(), generic_cost_for(player_index, card.data), card.data.colored_pips):
+	if not PathEnergy.can_pay(player.ready_infrastructure(), generic_cost_for(player_index, card.data), card.data.colored_pips):
 		return false
 	# Spells that need a chosen target cannot be cast without a legal one.
 	var target_effect: EffectData = _primary_target_effect(card.data)
@@ -290,8 +290,8 @@ func can_cast(player_index: int, uid: int) -> bool:
 
 
 ## Casts a card from hand. `target` is a Targets ref for cards with a chosen-target effect.
-## `tap_uids` optionally names the exact lands to tap; otherwise mana is paid automatically.
-func cast(player_index: int, uid: int, target: int = 0, tap_uids: Array[int] = []) -> bool:
+## `activate_uids` optionally names the exact infrastructure to activate; otherwise Path energy is paid automatically.
+func cast(player_index: int, uid: int, target: int = 0, activate_uids: Array[int] = []) -> bool:
 	if not can_cast(player_index, uid):
 		return false
 	var player: PlayerState = players[player_index]
@@ -303,11 +303,11 @@ func cast(player_index: int, uid: int, target: int = 0, tap_uids: Array[int] = [
 			return false
 	else:
 		chosen = 0
-	if not _pay(player_index, generic_cost_for(player_index, card.data), card.data.colored_pips, tap_uids, uid):
+	if not _pay(player_index, generic_cost_for(player_index, card.data), card.data.colored_pips, activate_uids, uid):
 		return false
 	player.hand.erase(card)
-	player.non_land_casts_this_turn += 1
-	emit_event(GameEvent.Type.CARD_CAST, player_index, uid, chosen, card.data.mana_value())
+	player.non_infrastructure_casts_this_turn += 1
+	emit_event(GameEvent.Type.CARD_CAST, player_index, uid, chosen, card.data.energy_value())
 	match card.data.type:
 		CardEnums.CardType.CREATURE, CardEnums.CardType.ARTIFACT:
 			_enter_battlefield(card, chosen, true)
@@ -326,7 +326,7 @@ func cast(player_index: int, uid: int, target: int = 0, tap_uids: Array[int] = [
 
 ## New brief, Part F: whether `item` could be used right now by `player_index` (their own main
 ## phase, and a legal target if its effect needs one - the same rule spells follow). Items are
-## equipped gear, not cards - no mana cost, no hand/battlefield involvement, so this sits beside
+## equipped gear, not cards - no Path energy cost, no hand/battlefield involvement, so this sits beside
 ## can_cast/cast rather than going through the CAST GameAction.
 func can_use_item(player_index: int, item: ItemData) -> bool:
 	if item == null or item.effect == null or not in_main_phase() or player_index != active:
@@ -350,23 +350,23 @@ func use_item(player_index: int, item: ItemData, target: int = 0) -> bool:
 	return true
 
 
-func _pay(player_index: int, generic: int, pips: Array[Affinity.Type], tap_uids: Array[int], for_uid: int) -> bool:
+func _pay(player_index: int, generic: int, pips: Array[Affinity.Type], activate_uids: Array[int], for_uid: int) -> bool:
 	var player: PlayerState = players[player_index]
-	var to_tap: Array[CardInstance] = []
-	if tap_uids.is_empty():
-		if not Mana.plan(player.untapped_lands(), generic, pips, to_tap):
+	var to_activate: Array[CardInstance] = []
+	if activate_uids.is_empty():
+		if not PathEnergy.plan(player.ready_infrastructure(), generic, pips, to_activate):
 			return false
 	else:
-		for land_uid: int in tap_uids:
-			var land: CardInstance = player.find_land(land_uid)
-			if land == null or land.tapped or to_tap.has(land):
+		for infrastructure_uid: int in activate_uids:
+			var infra: CardInstance = player.find_infrastructure(infrastructure_uid)
+			if infra == null or infra.exhausted or to_activate.has(infra):
 				return false
-			to_tap.append(land)
-		if not Mana.exact_payment_ok(to_tap, generic, pips):
+			to_activate.append(infra)
+		if not PathEnergy.exact_payment_ok(to_activate, generic, pips):
 			return false
-	for land: CardInstance in to_tap:
-		land.tapped = true
-		emit_event(GameEvent.Type.MANA_SPENT, player_index, land.uid, for_uid, 1, int(land.data.color))
+	for infra: CardInstance in to_activate:
+		infra.exhausted = true
+		emit_event(GameEvent.Type.ENERGY_SPENT, player_index, infra.uid, for_uid, 1, int(infra.data.color))
 	return true
 
 
@@ -387,7 +387,7 @@ func _enter_battlefield(card: CardInstance, chosen: int, cast_from_hand: bool) -
 	var player: PlayerState = players[card.owner]
 	player.battlefield.append(card)
 	card.summoning_sick = true
-	card.tapped = false
+	card.exhausted = false
 	card.damage = 0
 	if card.data.is_creature():
 		_apply_static_equipment_grants(card, player)
@@ -431,12 +431,12 @@ func _begin_turn() -> void:
 	combat_step = CombatStep.NONE
 	pending_discard = 0
 	var player: PlayerState = players[active]
-	player.lands_played = 0
-	player.non_land_casts_this_turn = 0
-	for land: CardInstance in player.lands:
-		land.tapped = false
+	player.infrastructure_played = 0
+	player.non_infrastructure_casts_this_turn = 0
+	for infra: CardInstance in player.infrastructure:
+		infra.exhausted = false
 	for card: CardInstance in player.battlefield:
-		card.tapped = false
+		card.exhausted = false
 		card.summoning_sick = false
 		card.activated_this_turn = false
 	emit_event(GameEvent.Type.TURN_STARTED, active, 0, 0, turn)
@@ -830,7 +830,7 @@ func can_activate(player_index: int, uid: int, effect_index: int) -> bool:
 	var effect: EffectData = card.data.effects[effect_index]
 	if effect.trigger != CardEnums.Trigger.ACTIVATED:
 		return false
-	if not Mana.can_pay(player.untapped_lands(), effect.activation_cost, [] as Array[Affinity.Type]):
+	if not PathEnergy.can_pay(player.ready_infrastructure(), effect.activation_cost, [] as Array[Affinity.Type]):
 		return false
 	if effect.needs_chosen_target():
 		return not legal_targets(player_index, effect, uid).is_empty()
@@ -907,10 +907,10 @@ func legal_actions() -> Array[GameAction]:
 		return result
 	var seen: Dictionary = {}
 	for card: CardInstance in player.hand:
-		if card.data.is_land():
-			if can_play_land(who, card.uid) and not seen.has(card.data.id):
+		if card.data.is_infrastructure():
+			if can_play_infrastructure(who, card.uid) and not seen.has(card.data.id):
 				seen[card.data.id] = true
-				result.append(GameAction.play_land(who, card.uid))
+				result.append(GameAction.play_infrastructure(who, card.uid))
 			continue
 		if not can_cast(who, card.uid):
 			continue
@@ -978,8 +978,8 @@ func apply_action(action: GameAction) -> bool:
 	match action.type:
 		GameAction.Type.PASS:
 			return action.player == awaiting_player() and advance_phase()
-		GameAction.Type.PLAY_LAND:
-			return play_land(action.player, action.card_uid)
+		GameAction.Type.PLAY_INFRASTRUCTURE:
+			return play_infrastructure(action.player, action.card_uid)
 		GameAction.Type.CAST:
 			return cast(action.player, action.card_uid, action.target)
 		GameAction.Type.ACTIVATE:

@@ -24,9 +24,9 @@ static func resolve(
 				if card.is_creature():
 					result.success = card.power >= challenge.threshold
 					break
-		ChallengeData.Kind.TOP_N_LAND_COUNT:
+		ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT:
 			result.revealed = _reveal(deck_cards, challenge.reveal_count, rng)
-			result.success = _count(result.revealed, func(c: CardData) -> bool: return c.is_land()) >= challenge.threshold
+			result.success = _count(result.revealed, func(c: CardData) -> bool: return c.is_infrastructure()) >= challenge.threshold
 		ChallengeData.Kind.TOP_N_TYPE_COUNT:
 			result.revealed = _reveal(deck_cards, challenge.reveal_count, rng)
 			var wanted: CardEnums.CardType = challenge.card_type
@@ -35,7 +35,7 @@ static func resolve(
 			result.revealed = _reveal(deck_cards, challenge.reveal_count, rng)
 			var total: int = 0
 			for card: CardData in result.revealed:
-				total += card.mana_value()
+				total += card.energy_value()
 			result.success = total >= challenge.threshold
 		ChallengeData.Kind.SACRIFICE_CARD:
 			sacrificed = picked.sacrifice_card
@@ -94,7 +94,7 @@ static func _card_to_lose(run: DungeonRun, rng: RandomNumberGenerator, result: C
 	for card: CardData in result.revealed:
 		if card.is_basic or not run.current_deck().cards.has(card):
 			continue
-		if best == null or card.mana_value() > best.mana_value():
+		if best == null or card.energy_value() > best.energy_value():
 			best = card
 	if best != null:
 		return best
@@ -129,6 +129,6 @@ static func _cheapest_non_basic(cards: Array[CardData]) -> CardData:
 	for card: CardData in cards:
 		if card.is_basic:
 			continue
-		if best == null or card.mana_value() < best.mana_value():
+		if best == null or card.energy_value() < best.energy_value():
 			best = card
 	return best

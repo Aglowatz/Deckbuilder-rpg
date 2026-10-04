@@ -1,12 +1,12 @@
 class_name DeckValidator
 extends RefCounted
 ## Deck construction rules: at least 45 cards (MIN_DECK_SIZE modifiers can lower this, e.g. the
-## tutorial dungeon's starter-deck waiver), at most N copies of a card by rarity and player level
-## (basic lands exempt - see `PlayerProfile.max_copies_for`/Part E's progression table), at most 2
-## land/color types (4 once postgame_unlocked; MAX_DECK_COLORS modifiers add more).
+## tutorial dungeon's starter-deck waiver), at most 4 copies of any non-infrastructure card at every level
+## (infrastructure is unlimited), at most 2
+## infrastructure/color types (4 once postgame_unlocked; MAX_DECK_COLORS modifiers add more).
 
 const MIN_DECK_SIZE: int = 45
-const MAX_COPIES: int = 3
+const MAX_COPIES: int = 4
 const BASE_MAX_COLORS: int = 2
 const POSTGAME_MAX_COLORS: int = 4
 
@@ -20,7 +20,7 @@ class Issue:
 	var message: String = ""
 
 
-## How many land/color types a deck may use.
+## How many infrastructure/color types a deck may use.
 static func max_colors(profile: PlayerProfile, modifiers: ModifierSet = null) -> int:
 	var limit: int = POSTGAME_MAX_COLORS if profile.postgame_unlocked else BASE_MAX_COLORS
 	if modifiers != null:
@@ -38,7 +38,7 @@ static func min_deck_size(modifiers: ModifierSet = null) -> int:
 
 
 ## Returns every rule the deck breaks (empty = legal). With `check_ownership`, the deck may not
-## contain more copies of a card than the profile owns (basic lands are always available).
+## contain more copies of a card than the profile owns (basic infrastructure are always available).
 static func validate(
 	deck: Deck,
 	profile: PlayerProfile,
@@ -51,21 +51,19 @@ static func validate(
 		issues.append(_issue(Problem.TOO_FEW_CARDS, "", "Deck has %d cards; minimum is %d." % [deck.size(), min_size]))
 	var counts: Dictionary = deck.copy_counts()
 	var basics: Dictionary = {}
-	var rarities: Dictionary = {}
 	for card: CardData in deck.cards:
-		basics[card.id] = card.is_basic
-		rarities[card.id] = card.rarity
+		basics[card.id] = card.is_unlimited()
 	for card_id: Variant in counts.keys():
 		var id: String = str(card_id)
 		if bool(basics[id]):
 			continue
-		var limit: int = profile.max_copies_for(rarities[id] as CardEnums.Rarity)
+		var limit: int = MAX_COPIES
 		if int(counts[id]) > limit:
 			issues.append(_issue(Problem.TOO_MANY_COPIES, id, "%d copies of %s; maximum is %d." % [int(counts[id]), id, limit]))
 	var colors: int = deck.colors().size()
 	var limit: int = max_colors(profile, modifiers)
 	if colors > limit:
-		issues.append(_issue(Problem.TOO_MANY_COLORS, "", "Deck uses %d land types; limit is %d." % [colors, limit]))
+		issues.append(_issue(Problem.TOO_MANY_COLORS, "", "Deck uses %d infrastructure types; limit is %d." % [colors, limit]))
 	if check_ownership:
 		var owned: Dictionary = {}
 		for card: CardData in profile.owned_cards:

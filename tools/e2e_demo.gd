@@ -234,9 +234,9 @@ func _walk_to(scene: TownScene, id: String, must_walk: bool = false) -> void:
 
 
 ## Scrolls `control`'s nearest ScrollContainer ancestor so it is actually on screen before a click
-## lands on it - a grid of every card in the game (vendor stock, the deck station's collection)
+## infrastructure on it - a grid of every card in the game (vendor stock, the deck station's collection)
 ## does not all fit in one screen, and a click computed from an off-screen control's position
-## lands wherever that coordinate falls (or nowhere), not on the control itself.
+## infrastructure wherever that coordinate falls (or nowhere), not on the control itself.
 func _scroll_into_view(control: Control) -> void:
 	var scroller: ScrollContainer = null
 	var node: Node = control.get_parent()

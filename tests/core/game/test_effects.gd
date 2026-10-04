@@ -31,8 +31,8 @@ func _creature(power: int, toughness: int, effects: Array[EffectData] = [], keyw
 
 func _game() -> GameState:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_lands(game, 0, 6)
-	GameFactory.add_lands(game, 1, 6)
+	GameFactory.add_infrastructure_cards(game, 0, 6)
+	GameFactory.add_infrastructure_cards(game, 1, 6)
 	return game
 
 
@@ -67,7 +67,7 @@ func test_illegal_target_rejects_cast_and_keeps_card_in_hand() -> void:
 	var card: CardInstance = GameFactory.add_to_hand(game, 0, data)
 	assert_false(game.cast(0, card.uid, mine.uid), "own creature is not an enemy creature")
 	assert_eq(game.players[0].hand.size(), 1)
-	assert_eq(game.players[0].untapped_lands().size(), 6)
+	assert_eq(game.players[0].ready_infrastructure().size(), 6)
 
 
 func test_spell_needing_a_target_cannot_be_cast_without_one() -> void:
@@ -408,24 +408,24 @@ func _pinger() -> CardData:
 	return _creature(1, 1, [ping] as Array[EffectData])
 
 
-func test_activated_ability_costs_mana_and_works_once_per_turn() -> void:
+func test_activated_ability_costs_energy_and_works_once_per_turn() -> void:
 	var game: GameState = _game()
 	var card: CardInstance = GameFactory.add_to_battlefield(game, 0, _pinger())
 	assert_true(game.activate(0, card.uid, 0, Targets.player(1)))
 	assert_eq(game.players[1].life, 9)
-	assert_eq(game.players[0].untapped_lands().size(), 4)
+	assert_eq(game.players[0].ready_infrastructure().size(), 4)
 	assert_false(game.activate(0, card.uid, 0, Targets.player(1)), "once per turn")
 	GameFactory.pass_turn(game)
 	GameFactory.pass_turn(game)
 	assert_true(game.activate(0, card.uid, 0, Targets.player(1)), "available again next turn")
 
 
-func test_activated_ability_needs_mana_and_main_phase() -> void:
+func test_activated_ability_needs_energy_and_main_phase() -> void:
 	var game: GameState = GameFactory.blank_game()
 	var card: CardInstance = GameFactory.add_to_battlefield(game, 0, _pinger())
-	GameFactory.add_lands(game, 0, 1)
-	assert_false(game.can_activate(0, card.uid, 0), "cost is 2, only 1 land")
-	GameFactory.add_lands(game, 0, 1)
+	GameFactory.add_infrastructure_cards(game, 0, 1)
+	assert_false(game.can_activate(0, card.uid, 0), "cost is 2, only 1 infrastructure")
+	GameFactory.add_infrastructure_cards(game, 0, 1)
 	game.advance_phase()
 	assert_false(game.can_activate(0, card.uid, 0), "not in combat")
 	game.advance_phase()

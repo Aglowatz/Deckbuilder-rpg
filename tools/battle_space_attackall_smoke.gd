@@ -87,11 +87,11 @@ func _act() -> void:
 		BattleScreen.Mode.MAIN:
 			var player: PlayerState = game.players[0]
 			for card: CardInstance in player.hand:
-				if card.data.is_land() and game.can_play_land(0, card.uid):
+				if card.data.is_infrastructure() and game.can_play_infrastructure(0, card.uid):
 					await driver.click(_view_center(card.uid))
 					return
 			for card: CardInstance in player.hand:
-				if not card.data.is_land() and game.can_cast(0, card.uid) and card.data.effects.is_empty():
+				if not card.data.is_infrastructure() and game.can_cast(0, card.uid) and card.data.effects.is_empty():
 					await driver.click(_view_center(card.uid))
 					return
 			await _space_advance()

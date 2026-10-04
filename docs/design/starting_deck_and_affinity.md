@@ -26,7 +26,7 @@ the bottom for what changed and why.
 3. **The tutorial dungeon** (`Session.begin_intro_trial(color)`): a fresh `PlayerProfile` is
    created with that element as `primary_affinity`, owning only the **23 neutral starter spells**
    (`CampaignStart.starter_spells`). The deck for the run is the **42-card starter**
-   (`CampaignStart.starter_deck`): those 23 spells plus **19 basic lands** of the chosen element -
+   (`CampaignStart.starter_deck`): those 23 spells plus **19 basic infrastructure** of the chosen element -
    short of the normal 45-card minimum on purpose. `TrialOfTheHollow.deck_size_waiver()` (a
    `Modifier.Kind.MIN_DECK_SIZE` dungeon source) waives the minimum down to 42 for the whole run,
    so the deck is legal to play (and to edit/save in the in-dungeon deck builder, see below) the
@@ -61,13 +61,13 @@ everything).
 
 ## Rules
 
-- The **starter deck** is always 23 neutral spells + 19 basic lands of the chosen element = 42
+- The **starter deck** is always 23 neutral spells + 19 basic infrastructure of the chosen element = 42
   cards, including several 1-cost creatures (`apprentice_blade`, `scrappy_recruit`) so the
   opening turns have something to do. It is never a two-color deck.
 - The 45-card minimum is waived **only inside the tutorial dungeon**, via a `MIN_DECK_SIZE`
   modifier (`TrialOfTheHollow.deck_size_waiver()`), not a special-cased check - `DeckValidator`
   and `DeckEditor` both read the minimum from the active modifiers everywhere.
-- There is no neutral (colorless) land. Neutral *cards* cost generic mana and are cast with lands
+- There is no neutral (colorless) infrastructure. Neutral *cards* cost generic Path energy and are cast with infrastructure
   of any color.
 - The other three elements' cards are not given to the player; nothing stops them from being
   bought/found and built into a second color later once town is reached (deck rules are unchanged
@@ -103,7 +103,7 @@ offered to the player anywhere.
 Two flows came before this one:
 
 1. Originally the player picked their color at the town Wellspring before any dungeon, and got
-   only the neutral deck plus that color's lands to start; the intro dungeon then granted 5 cards
+   only the neutral deck plus that color's infrastructure to start; the intro dungeon then granted 5 cards
    of that color once cleared.
 2. That was replaced by clearing the tutorial with a *fixed neutral* deck first, then choosing one
    of four pre-built two-color decks afterward (`StartingDecks`/`StartingDeckChoiceScreen`,

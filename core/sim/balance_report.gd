@@ -110,7 +110,7 @@ static func _card_usage(decks: Array[Deck], results: Array[MatchupStats]) -> Pac
 	var lines: PackedStringArray = PackedStringArray()
 	lines.append("## Most-played cards")
 	lines.append("")
-	lines.append("Average casts per game (spells only; lands excluded), top %d per deck." % TOP_CARDS)
+	lines.append("Average casts per game (spells only; infrastructure excluded), top %d per deck." % TOP_CARDS)
 	lines.append("")
 	for deck: Deck in decks:
 		var totals: Dictionary = {}
@@ -174,7 +174,7 @@ static func _pct(value: float) -> String:
 static func _least_played(deck: Deck, totals: Dictionary, games: int) -> String:
 	var copies: Dictionary = {}
 	for card: CardData in deck.cards:
-		if not card.is_land():
+		if not card.is_infrastructure():
 			copies[card.id] = int(copies.get(card.id, 0)) + 1
 	var ids: Array[String] = []
 	for id: Variant in copies.keys():

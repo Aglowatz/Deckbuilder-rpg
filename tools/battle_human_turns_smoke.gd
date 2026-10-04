@@ -1,7 +1,7 @@
 extends Node
 ## Regression test for the "human turns get skipped" bug (A1): plays a whole battle where the
 ## HUMAN seat (player 0) is driven ONLY through injected mouse input (no keyboard, no bot), for
-## at least MIN_HUMAN_TURNS full turns (land drop, cast, attack, end turn each turn), and asserts
+## at least MIN_HUMAN_TURNS full turns (infrastructure drop, cast, attack, end turn each turn), and asserts
 ## the battle screen actually entered a human decision mode (Mode.MAIN) on every one of the
 ## player's turns - i.e. the game always waits for human input on the human's turn, never
 ## auto-passing it.
@@ -97,11 +97,11 @@ func _act() -> void:
 		BattleScreen.Mode.MAIN:
 			var player: PlayerState = game.players[0]
 			for card: CardInstance in player.hand:
-				if card.data.is_land() and game.can_play_land(0, card.uid):
+				if card.data.is_infrastructure() and game.can_play_infrastructure(0, card.uid):
 					await driver.click(_view_center(card.uid))
 					return
 			for card: CardInstance in player.hand:
-				if not card.data.is_land() and game.can_cast(0, card.uid) and card.data.effects.is_empty():
+				if not card.data.is_infrastructure() and game.can_cast(0, card.uid) and card.data.effects.is_empty():
 					await driver.click(_view_center(card.uid))
 					return
 			if use_shortcut and game.phase == GameState.Phase.MAIN1:

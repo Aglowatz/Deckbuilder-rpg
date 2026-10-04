@@ -103,7 +103,7 @@ func matches(card: CardData) -> bool:
 		return false
 	if type_filter != -1 and int(card.type) != type_filter:
 		return false
-	var cost: int = card.mana_value()
+	var cost: int = card.energy_value()
 	match cost_filter:
 		1:
 			return cost <= 1

@@ -10,14 +10,14 @@ const KEYWORD_TEXT: Dictionary = {
 	CardEnums.Keyword.TRAMPLE: ["Trample", "Excess combat damage carries over to the player when blocked."],
 	CardEnums.Keyword.FIRST_STRIKE: ["First Strike", "Deals combat damage before creatures without it."],
 	CardEnums.Keyword.LIFESTEAL: ["Lifesteal", "Damage dealt by this creature also heals its controller."],
-	CardEnums.Keyword.GUARD: ["Guard", "While you control an untapped Guard creature, enemy attackers must attack a Guard creature. A tapped Guard does not force attacks."],
-	CardEnums.Keyword.VIGILANCE: ["Vigilance", "Attacking does not tap this creature."],
+	CardEnums.Keyword.GUARD: ["Guard", "While you control a ready Guard creature, enemy attackers must attack a Guard creature. An exhausted Guard does not force attacks."],
+	CardEnums.Keyword.VIGILANCE: ["Vigilance", "Attacking does not exhaust this creature."],
 }
 
 const GLOSSARY: Dictionary = {
 	"Trap": "Set face-down on your turn. It springs automatically when its condition is met, then is spent.",
 	"Summoning sickness": "A creature that just entered play cannot attack until your next turn (unless it has Haste).",
-	"Tapped": "A tapped creature or land is spent until its controller's next turn.",
+	"Exhausted": "An exhausted creature or infrastructure is spent until its controller's next turn.",
 }
 
 
@@ -42,8 +42,8 @@ static func entries_for(card: CardData) -> Array[Array]:
 ## Turns card rules text into BBCode with keywords in bold gold.
 static func rules_bbcode(card: CardData) -> String:
 	var text: String = card.rules_text
-	if card.is_land():
-		text = "Tap: add one %s mana." % UIStyle.affinity_name(card.color)
+	if card.is_infrastructure():
+		text = "Activate: add one %s Path energy." % UIStyle.affinity_name(card.color)
 	var gold: String = UIStyle.GOLD.darkened(0.45).to_html(false)
 	var words: Array[String] = ["Trap"]
 	for keyword: CardEnums.Keyword in KEYWORD_TEXT.keys():

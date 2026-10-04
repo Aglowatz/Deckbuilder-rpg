@@ -44,15 +44,12 @@ func test_opening_hand_and_item_slots_reach_their_caps_gradually() -> void:
 		assert_lte(rows[i].item_slots - rows[i - 1].item_slots, 1)
 
 
-func test_copy_limits_start_and_end_where_the_brief_says() -> void:
-	var first: LevelData = ProgressionTable.row(1)
-	assert_eq(int(first.copy_limits[CardEnums.Rarity.COMMON]), 3)
-	assert_eq(int(first.copy_limits[CardEnums.Rarity.UNCOMMON]), 3)
-	assert_eq(int(first.copy_limits[CardEnums.Rarity.EPIC]), 2)
-	assert_eq(int(first.copy_limits[CardEnums.Rarity.LEGENDARY]), 1)
-	var last: LevelData = ProgressionTable.row(ProgressionTable.MAX_LEVEL)
-	for rarity: CardEnums.Rarity in [CardEnums.Rarity.COMMON, CardEnums.Rarity.UNCOMMON, CardEnums.Rarity.EPIC, CardEnums.Rarity.LEGENDARY]:
-		assert_eq(int(last.copy_limits[rarity]), 4, "%s should reach 4 by max level" % rarity)
+func test_copy_limit_is_four_at_every_level_and_levels_have_other_rewards() -> void:
+	assert_eq(DeckValidator.MAX_COPIES, 4)
+	for level: int in [6, 11, 14, 17, 21, 24, 28]:
+		var row: LevelData = ProgressionTable.row(level)
+		assert_true(row.reward_gold > 0 or row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty() or row.max_hand_size > ProgressionTable.row(level - 1).max_hand_size, "level %d replaced its copy-limit reward with something else" % level)
+	assert_eq(ProgressionTable.row(30).max_hand_size, 12)
 
 
 func test_equipment_choice_offered_at_5_10_15_20_25_only() -> void:
@@ -68,7 +65,7 @@ func test_equipment_choice_offered_at_5_10_15_20_25_only() -> void:
 ## vendor, and the second half of the item vendor's stock - each unlock exactly once, at their
 ## own level, and the popup can announce them (LevelUpScreen._bonuses_for reads these same
 ## fields).
-func test_vendor_unlock_rewards_land_at_their_own_levels_only() -> void:
+func test_vendor_unlock_rewards_infrastructure_at_their_own_levels_only() -> void:
 	var rows: Array[LevelData] = ProgressionTable.build()
 	var equipment_unlock_levels: Array[int] = []
 	var item_unlock_levels: Array[int] = []
@@ -91,7 +88,7 @@ func test_every_level_up_grants_something() -> void:
 		var has_real_gain: bool = (
 			row.max_life > previous.max_life or row.opening_hand_size > previous.opening_hand_size
 			or row.item_slots > previous.item_slots or row.equipment_choice
-			or row.copy_limits.hash() != previous.copy_limits.hash()
+			or row.max_hand_size > previous.max_hand_size
 		)
 		var has_filler: bool = row.reward_gold > 0 or row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty()
 		assert_true(has_real_gain or has_filler, "level %d grants nothing" % row.level)
@@ -142,22 +139,25 @@ func test_discounted_price_applies_the_percentage_and_never_drops_below_one() ->
 	assert_eq(profile.discounted_price(0), 0)
 
 
-func test_max_copies_for_reads_the_profiles_level() -> void:
+func test_apply_level_sets_max_hand_size() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
-	assert_eq(profile.max_copies_for(CardEnums.Rarity.LEGENDARY), 1)
+	assert_eq(profile.base_max_hand_size(), 10)
+	profile.apply_level(ProgressionTable.row(14))
+	assert_eq(profile.base_max_hand_size(), 11)
 	profile.apply_level(ProgressionTable.row(30))
-	assert_eq(profile.max_copies_for(CardEnums.Rarity.LEGENDARY), 4)
+	assert_eq(profile.base_max_hand_size(), 12)
 
 
-func test_deck_validator_reads_copy_limits_from_the_profile_level() -> void:
+func test_deck_validator_allows_four_copies_of_any_rarity_at_level_one() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	var legendary: CardData = CardBuilder.creature("myth", "Myth", Affinity.Type.A, 1, [] as Array[Affinity.Type], 1, 1)
 	legendary.rarity = CardEnums.Rarity.LEGENDARY
 	var deck: Deck = Deck.new()
-	deck.cards = [legendary, legendary] as Array[CardData]
-	assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "2 copies of a Legendary is too many at level 1")
-	profile.apply_level(ProgressionTable.row(17))
-	assert_false(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "2 copies is fine once the level-17 bump lands")
+	for i: int in range(4):
+		deck.cards.append(legendary)
+	assert_false(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "4 copies of a Legendary are fine at level 1")
+	deck.cards.append(legendary)
+	assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "5 copies are too many at any level")
 
 
 # ---- Equipment ----------------------------------------------------------------------------

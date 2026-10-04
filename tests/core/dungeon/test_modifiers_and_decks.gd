@@ -24,7 +24,7 @@ func _legal_deck(colors: Array[Affinity.Type]) -> Deck:
 	var deck: Deck = Deck.new()
 	for color: Affinity.Type in colors:
 		for i: int in range(8):
-			deck.cards.append(CardBuilder.land(color))
+			deck.cards.append(CardBuilder.infra(color))
 	var n: int = 0
 	while deck.cards.size() < 45:
 		var color: Affinity.Type = colors[n % colors.size()]
@@ -140,18 +140,18 @@ func test_deck_with_too_few_cards_fails() -> void:
 	assert_true(DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS))
 
 
-func test_more_than_three_copies_fails_but_basic_lands_are_exempt() -> void:
+func test_more_than_four_copies_fails_but_basic_infrastructure_are_exempt() -> void:
 	var deck: Deck = _legal_deck([Affinity.Type.A] as Array[Affinity.Type])
-	assert_true(deck.count_of("land_affinity_a") > 3, "test deck has many basic lands")
-	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new()), "basic lands do not count against the limit")
+	assert_true(deck.count_of("infrastructure_a") > 3, "test deck has many basic infrastructure")
+	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new()), "basic infrastructure do not count against the limit")
 	var dupe: CardData = _card("dupe", Affinity.Type.A)
-	for i: int in range(4):
+	for i: int in range(5):
 		deck.cards.append(dupe)
 	var issues: Array[DeckValidator.Issue] = DeckValidator.validate(deck, PlayerProfile.new())
 	assert_true(DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES))
 	assert_eq(issues[0].card_id, "dupe")
 	deck.cards.pop_back()
-	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new()), "exactly three copies is fine")
+	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new()), "exactly four copies is fine")
 
 
 func test_color_limit_is_two_until_postgame_then_four() -> void:

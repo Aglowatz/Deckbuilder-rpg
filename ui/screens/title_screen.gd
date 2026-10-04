@@ -65,11 +65,20 @@ func _build_menu() -> void:
 	subtitle.add_theme_color_override("font_color", UIStyle.PARCHMENT)
 	_menu_column.add_child(subtitle)
 	_menu_column.add_child(UIKit.spacer(40))
+	Session.discard_incompatible_save()
 	if Session.has_save():
 		_menu_column.add_child(_menu_button("Continue", &"PrimaryButton", _on_continue))
 	_menu_column.add_child(_menu_button("New Game", &"PrimaryButton" if not Session.has_save() else &"", _on_new_game))
 	_menu_column.add_child(_menu_button("Settings", &"", _on_settings))
 	_menu_column.add_child(_menu_button("Quit", &"", SceneManager.quit_game))
+	if not Session.save_reset_message.is_empty():
+		var notice: Label = UIKit.label(Session.save_reset_message, &"MutedLabel", 20)
+		notice.name = "SaveResetNotice"
+		notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		notice.custom_minimum_size = Vector2(760, 0)
+		notice.add_theme_color_override("font_color", Color("ffcf7a"))
+		_menu_column.add_child(notice)
+		Session.save_reset_message = ""
 	_menu_column.add_child(UIKit.filler())
 	_menu_column.add_child(UIKit.label("Placeholder art and names. Press Esc in game for the pause menu.", &"MutedLabel", 18))
 	for index: int in range(_menu_column.get_child_count()):

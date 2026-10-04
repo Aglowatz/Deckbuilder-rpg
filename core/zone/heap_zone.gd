@@ -168,11 +168,11 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	mini.reward_card_id = "heap_mother"
 	mini.battles = [
 		_battle("Level 1: The Top Layer", "Fresh garbage, still warm. It has strong feelings about being thrown away.", "Bin Bag Brute", 12, "Balanced", false,
-			{"land:C": 15, "scrap_goat": 4, "tin_can_raccoon": 3, "sprout_surge": 2, "vine_snare": 1}),
+			{"infrastructure:C": 15, "scrap_goat": 4, "tin_can_raccoon": 3, "sprout_surge": 2, "vine_snare": 1}),
 		_battle("Level 2: The Compost Layer", "Warm, damp, and absolutely thriving. Something down here is composting very quickly.", "Compost Colossus", 14, "Defensive", false,
-			{"land:C": 15, "compost_golem": 3, "dung_beetle": 3, "harvest_moon": 2, "fertilizer_burst": 2}),
+			{"infrastructure:C": 15, "compost_golem": 3, "dung_beetle": 3, "harvest_moon": 2, "fertilizer_burst": 2}),
 		_battle("Level 3: The Forgotten Layer", "Things nobody has thrown away since before the kingdom had a name. They are old. They are cross.", "Landfill Leviathan", 18, "Aggressive", true,
-			{"land:C": 16, "landfill_hog": 3, "moss_titan": 1, "dung_beetle": 3, "vine_snare": 3, "scrap_goat": 2}),
+			{"infrastructure:C": 16, "landfill_hog": 3, "moss_titan": 1, "dung_beetle": 3, "vine_snare": 3, "scrap_goat": 2}),
 	]
 	return mini
 

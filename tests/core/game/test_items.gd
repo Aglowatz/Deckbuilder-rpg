@@ -1,6 +1,6 @@
 extends GutTest
 ## New brief, Part F: GameState.can_use_item/use_item - resolving an equipped item's effect
-## against a live duel. Items are gear, not cards: no mana cost, no hand/battlefield involvement.
+## against a live duel. Items are gear, not cards: no Path energy cost, no hand/battlefield involvement.
 
 func _item(op: CardEnums.EffectOp, target: CardEnums.TargetKind, amount: int, amount2: int = 0, duration: CardEnums.Duration = CardEnums.Duration.PERMANENT) -> ItemData:
 	var data: ItemData = ItemData.new()

@@ -13,7 +13,7 @@ const STARTING_LIFE: int = 12
 ## A thin, mostly-defensive dark (Affinity D) deck - the escalating summon is the real engine of
 ## difficulty, not the boss's own hand; see docs/balance_report.md for how this was tuned.
 const DECK_RECIPE: Dictionary = {
-	"land:D": 20, "bone_servant": 3, "grave_tender": 3, "martyr": 1, "soul_drain": 1,
+	"infrastructure:D": 20, "bone_servant": 3, "grave_tender": 3, "martyr": 1, "soul_drain": 1,
 }
 const AI_NAME: String = "Defensive"
 const REWARD_GOLD: int = 220
@@ -57,9 +57,9 @@ static func _deck(content: ContentSet) -> Deck:
 	for key: Variant in DECK_RECIPE.keys():
 		var id: String = str(key)
 		var card: CardData = null
-		if id.begins_with("land:"):
-			var color: Affinity.Type = ["", "A", "B", "C", "D"].find(id.substr(5)) as Affinity.Type
-			card = content.lands[int(color)] as CardData
+		if id.begins_with("infrastructure:"):
+			var color: Affinity.Type = ["", "A", "B", "C", "D"].find(id.substr(15)) as Affinity.Type
+			card = content.infrastructure[int(color)] as CardData
 		else:
 			card = content.card(id)
 		if card == null:

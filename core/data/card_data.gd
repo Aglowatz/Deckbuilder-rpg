@@ -5,11 +5,11 @@ extends Resource
 @export var id: String = ""
 @export var display_name: String = ""
 @export var type: CardEnums.CardType = CardEnums.CardType.CREATURE
-## For lands: the mana type produced. For others: the card's color identity.
+## For infrastructure: the Path energy type produced. For others: the card's color identity.
 @export var color: Affinity.Type = Affinity.Type.NEUTRAL
-## Generic mana (payable by any land).
+## Generic Path energy (payable by any infrastructure).
 @export var generic_cost: int = 0
-## One entry per colored pip; each must be paid by a land of that type.
+## One entry per colored pip; each must be paid by an infrastructure of that type.
 @export var colored_pips: Array[Affinity.Type] = []
 @export var power: int = 0
 @export var toughness: int = 1
@@ -18,18 +18,18 @@ extends Resource
 @export var effects: Array[EffectData] = []
 @export var rarity: CardEnums.Rarity = CardEnums.Rarity.COMMON
 @export_multiline var flavor_text: String = ""
-## Basic lands are exempt from the copy limit.
+## Basic infrastructure are exempt from the copy limit.
 @export var is_basic: bool = false
 ## Tokens are created by effects and cease to exist outside the battlefield.
 @export var is_token: bool = false
 
 
-func mana_value() -> int:
+func energy_value() -> int:
 	return generic_cost + colored_pips.size()
 
 
-func is_land() -> bool:
-	return type == CardEnums.CardType.LAND
+func is_infrastructure() -> bool:
+	return type == CardEnums.CardType.INFRASTRUCTURE
 
 
 func is_creature() -> bool:
@@ -58,3 +58,8 @@ func has_trigger(trigger: CardEnums.Trigger) -> bool:
 		if effect.trigger == trigger:
 			return true
 	return false
+
+
+## Infrastructure (and basic cards) are exempt from the 4-copy limit and never need to be owned.
+func is_unlimited() -> bool:
+	return is_basic or is_infrastructure()

@@ -31,13 +31,13 @@ func test_forty_placeholder_cards_split_by_color() -> void:
 	assert_eq(_count_color(Affinity.Type.D), 7)
 
 
-func test_basic_lands_for_every_color_and_a_token() -> void:
-	assert_eq(_content.lands.size(), 4, "one basic land per color, no neutral land")
+func test_basic_infrastructure_for_every_color_and_a_token() -> void:
+	assert_eq(_content.infrastructure.size(), 4, "one basic infrastructure per color, no neutral infrastructure")
 	for color: Affinity.Type in Affinity.colored_types():
-		var land: CardData = _content.lands[int(color)]
-		assert_true(land.is_land())
-		assert_true(land.is_basic)
-		assert_eq(land.color, color)
+		var infra: CardData = _content.infrastructure[int(color)]
+		assert_true(infra.is_infrastructure())
+		assert_true(infra.is_basic)
+		assert_eq(infra.color, color)
 	assert_eq(_content.tokens.size(), 1)
 	assert_true(_content.card("token_spirit").is_token)
 
@@ -68,12 +68,12 @@ func test_every_card_is_well_formed() -> void:
 		for pip: Affinity.Type in card.colored_pips:
 			assert_eq(pip, card.color, "%s pips must match its color" % card.id)
 		if card.color == Affinity.Type.NEUTRAL:
-			assert_eq(card.colored_pips.size(), 0, "neutral cards cost generic mana only")
+			assert_eq(card.colored_pips.size(), 0, "neutral cards cost generic Path energy only")
 		if not card.effects.is_empty() or not card.keywords.is_empty():
 			assert_ne(card.rules_text, "", "%s needs rules text" % card.id)
 		if card.is_creature():
 			assert_gt(card.toughness, 0)
-		assert_ne(card.type, CardEnums.CardType.LAND)
+		assert_ne(card.type, CardEnums.CardType.INFRASTRUCTURE)
 
 
 func test_each_color_uses_its_identity_keywords() -> void:
@@ -128,7 +128,7 @@ func test_five_sample_decks_are_legal() -> void:
 			# rewards, not a directly-playable deck - see test_neutral_starter_spells_are_all_neutral.
 			continue
 		assert_eq(deck.size(), 45, deck.deck_name)
-		assert_eq(deck.land_count(), 17, deck.deck_name)
+		assert_eq(deck.infrastructure_count(), 17, deck.deck_name)
 		var issues: Array[DeckValidator.Issue] = DeckValidator.validate(deck, profile)
 		for issue: DeckValidator.Issue in issues:
 			fail_test("%s: %s" % [deck.deck_name, issue.message])
@@ -150,21 +150,21 @@ func test_deck_color_coverage() -> void:
 func test_decks_only_use_cards_from_the_library() -> void:
 	for deck: Deck in _content.decks:
 		for card: CardData in deck.cards:
-			assert_true(card.is_land() or _content.cards.has(card.id), "%s: unknown card %s" % [deck.deck_name, card.id])
+			assert_true(card.is_infrastructure() or _content.cards.has(card.id), "%s: unknown card %s" % [deck.deck_name, card.id])
 
 
 func test_neutral_starter_spells_are_all_neutral() -> void:
 	var starter: Deck = _content.deck("Wanderer's Pack")
 	assert_not_null(starter)
-	assert_eq(starter.size(), 42, "23 neutral spells + 19 lands - short of 45 on purpose (Part C)")
-	assert_eq(starter.land_count(), 19)
+	assert_eq(starter.size(), 42, "23 neutral spells + 19 infrastructure - short of 45 on purpose (Part C)")
+	assert_eq(starter.infrastructure_count(), 19)
 	for card: CardData in starter.cards:
-		if not card.is_land():
+		if not card.is_infrastructure():
 			assert_eq(card.color, Affinity.Type.NEUTRAL, card.id)
-	assert_eq(starter.colors().size(), 1, "only its lands carry a color")
+	assert_eq(starter.colors().size(), 1, "only its infrastructure carry a color")
 	var one_cost_creatures: int = 0
 	for card: CardData in starter.cards:
-		if card.is_creature() and card.mana_value() == 1:
+		if card.is_creature() and card.energy_value() == 1:
 			one_cost_creatures += 1
 	assert_gt(one_cost_creatures, 0, "the starter template needs several 1-cost creatures")
 
@@ -175,8 +175,8 @@ func test_neutral_starter_spells_are_all_neutral() -> void:
 func _prepared_game() -> GameState:
 	var game: GameState = GameFactory.blank_game(3)
 	for color: Affinity.Type in Affinity.colored_types():
-		GameFactory.add_lands(game, 0, 3, color)
-	GameFactory.add_lands(game, 1, 6, Affinity.Type.A)
+		GameFactory.add_infrastructure_cards(game, 0, 3, color)
+	GameFactory.add_infrastructure_cards(game, 1, 6, Affinity.Type.A)
 	GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(2, 2))
 	GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(2, 2))
 	GameFactory.add_to_hand(game, 1, GameFactory.vanilla(1, 1))

@@ -3,7 +3,7 @@ extends Control
 ## Shown in the starting area, right before the tutorial dungeon (Part C): pick the element the
 ## Wanderer carries into the Trial of the Hollow. Each tile shows the element's identity,
 ## playstyle and a few representative cards. The choice becomes `PlayerProfile.primary_affinity`
-## and decides the starter deck's basic land color (`CampaignStart.starter_deck`); the neutral
+## and decides the starter deck's basic infrastructure color (`CampaignStart.starter_deck`); the neutral
 ## cards in the starter are the same regardless of which element is picked.
 
 signal chosen(color: Affinity.Type)

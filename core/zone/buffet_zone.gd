@@ -160,11 +160,11 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	mini.reward_card_id = "buffet_colossus"
 	mini.battles = [
 		_battle("Appetizer: Cold Cuts", "A tray of very opinionated deli meat guards the first shelf.", "Cold Cut Colossus", 12, "Balanced", false,
-			{"land:B": 15, "breadstick_sentry": 4, "gravy_courier": 3, "soup_of_the_day": 2, "food_fight": 1}),
+			{"infrastructure:B": 15, "breadstick_sentry": 4, "gravy_courier": 3, "soup_of_the_day": 2, "food_fight": 1}),
 		_battle("Main Course: Frozen Dinner", "The Frozen Dinner has been in here since 1994. It has had a lot of time to think.", "Frozen Dinner Golem", 14, "Defensive", false,
-			{"land:B": 15, "meatloaf_golem": 3, "gelatin_sentinel": 3, "sneeze_guard": 2, "sous_assist": 2}),
+			{"infrastructure:B": 15, "meatloaf_golem": 3, "gelatin_sentinel": 3, "sneeze_guard": 2, "sous_assist": 2}),
 		_battle("Dessert: Baked Alaska", "The Baked Alaska is hot on the outside, cold on the inside, and furious all the way through.", "Baked Alaska Beast", 18, "Aggressive", true,
-			{"land:B": 16, "souffle_sprite": 3, "runaway_meatball": 3, "food_fight": 3, "meatloaf_golem": 2, "tasting_menu": 1}),
+			{"infrastructure:B": 16, "souffle_sprite": 3, "runaway_meatball": 3, "food_fight": 3, "meatloaf_golem": 2, "tasting_menu": 1}),
 	]
 	return mini
 

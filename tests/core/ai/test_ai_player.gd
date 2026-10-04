@@ -7,10 +7,10 @@ func _ai(personality: AIPersonality = null) -> AIPlayer:
 	return AIPlayer.new(personality)
 
 
-func _game_with_lands(p0_lands: int = 6, p1_lands: int = 6) -> GameState:
+func _game_with_infrastructure(p0_infrastructure: int = 6, p1_infrastructure: int = 6) -> GameState:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_lands(game, 0, p0_lands)
-	GameFactory.add_lands(game, 1, p1_lands)
+	GameFactory.add_infrastructure_cards(game, 0, p0_infrastructure)
+	GameFactory.add_infrastructure_cards(game, 1, p1_infrastructure)
 	return game
 
 
@@ -23,7 +23,7 @@ func _burn(amount: int, target_kind: CardEnums.TargetKind = CardEnums.TargetKind
 
 
 func test_evaluate_prefers_winning_more_life_and_bigger_board() -> void:
-	var game: GameState = _game_with_lands()
+	var game: GameState = _game_with_infrastructure()
 	var ai: AIPlayer = _ai()
 	var base: float = ai.evaluate(game, 0)
 	game.players[1].life = 5
@@ -38,7 +38,7 @@ func test_evaluate_prefers_winning_more_life_and_bigger_board() -> void:
 
 
 func test_evaluate_penalizes_lethal_threat() -> void:
-	var game: GameState = _game_with_lands()
+	var game: GameState = _game_with_infrastructure()
 	var ai: AIPlayer = _ai()
 	GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(3, 3))
 	var safe: float = ai.evaluate(game, 0)
@@ -47,41 +47,41 @@ func test_evaluate_penalizes_lethal_threat() -> void:
 	assert_lt(ai.evaluate(game, 0), safe - 10.0, "10 power on board threatens lethal")
 
 
-func test_untapped_creature_reduces_threat() -> void:
-	var game: GameState = _game_with_lands()
+func test_ready_creature_reduces_threat() -> void:
+	var game: GameState = _game_with_infrastructure()
 	var ai: AIPlayer = _ai(AIPersonality.balanced())
 	GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(10, 10))
 	var open: float = ai.evaluate(game, 0)
 	var guard: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(1, 1))
 	var covered: float = ai.evaluate(game, 0)
-	guard.tapped = true
+	guard.exhausted = true
 	var exposed: float = ai.evaluate(game, 0)
 	assert_gt(covered, open)
-	assert_gt(covered, exposed, "a tapped creature cannot block next turn")
+	assert_gt(covered, exposed, "an exhausted creature cannot block next turn")
 
 
 # ---- Main phase decisions ----------------------------------------------------------
 
 
-func test_ai_plays_a_land_first() -> void:
+func test_ai_plays_a_infrastructure_first() -> void:
 	var game: GameState = GameFactory.blank_game()
-	var land: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.land())
+	var infra: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.infra())
 	var action: GameAction = _ai().choose_action(game)
-	assert_eq(action.type, GameAction.Type.PLAY_LAND)
-	assert_eq(action.card_uid, land.uid)
+	assert_eq(action.type, GameAction.Type.PLAY_INFRASTRUCTURE)
+	assert_eq(action.card_uid, infra.uid)
 
 
-func test_ai_plays_the_land_type_its_hand_needs() -> void:
+func test_ai_plays_the_infrastructure_type_its_hand_needs() -> void:
 	var game: GameState = GameFactory.blank_game()
 	var pips: Array[Affinity.Type] = [Affinity.Type.B, Affinity.Type.B]
 	GameFactory.add_to_hand(game, 0, CardBuilder.creature("bb", "BB", Affinity.Type.B, 0, pips, 3, 3))
-	GameFactory.add_to_hand(game, 0, GameFactory.land(Affinity.Type.A))
-	var wanted: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.land(Affinity.Type.B))
+	GameFactory.add_to_hand(game, 0, GameFactory.infra(Affinity.Type.A))
+	var wanted: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.infra(Affinity.Type.B))
 	assert_eq(_ai().choose_action(game).card_uid, wanted.uid)
 
 
 func test_ai_casts_a_creature_instead_of_passing() -> void:
-	var game: GameState = _game_with_lands()
+	var game: GameState = _game_with_infrastructure()
 	var bear: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 2))
 	var action: GameAction = _ai().choose_action(game)
 	assert_eq(action.type, GameAction.Type.CAST)
@@ -89,20 +89,20 @@ func test_ai_casts_a_creature_instead_of_passing() -> void:
 
 
 func test_ai_passes_with_nothing_castable() -> void:
-	var game: GameState = _game_with_lands(1, 1)
+	var game: GameState = _game_with_infrastructure(1, 1)
 	GameFactory.add_to_hand(game, 0, GameFactory.vanilla(5, 5, 5))
 	assert_eq(_ai().choose_action(game).type, GameAction.Type.PASS)
 
 
 func test_ai_prefers_the_bigger_creature_when_it_can_only_afford_one() -> void:
-	var game: GameState = _game_with_lands(3, 3)
+	var game: GameState = _game_with_infrastructure(3, 3)
 	GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
 	var big: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(4, 4, 3))
 	assert_eq(_ai().choose_action(game).card_uid, big.uid)
 
 
 func test_ai_uses_removal_on_the_best_enemy_creature() -> void:
-	var game: GameState = _game_with_lands()
+	var game: GameState = _game_with_infrastructure()
 	GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(1, 1))
 	var bomb: CardInstance = GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(3, 2))
 	GameFactory.add_to_hand(game, 0, _burn(2))
@@ -112,13 +112,13 @@ func test_ai_uses_removal_on_the_best_enemy_creature() -> void:
 
 
 func test_ai_does_not_waste_removal_on_nothing() -> void:
-	var game: GameState = _game_with_lands()
+	var game: GameState = _game_with_infrastructure()
 	GameFactory.add_to_hand(game, 0, _burn(2))
 	assert_eq(_ai().choose_action(game).type, GameAction.Type.PASS, "no legal target, so it cannot even be cast")
 
 
 func test_ai_aims_face_burn_at_the_opponent() -> void:
-	var game: GameState = _game_with_lands()
+	var game: GameState = _game_with_infrastructure()
 	GameFactory.add_to_hand(game, 0, _burn(3, CardEnums.TargetKind.CHOSEN_PLAYER))
 	var action: GameAction = _ai().choose_action(game)
 	assert_eq(action.type, GameAction.Type.CAST)
@@ -126,15 +126,15 @@ func test_ai_aims_face_burn_at_the_opponent() -> void:
 
 
 func test_ai_look_ahead_does_not_change_the_real_game() -> void:
-	var game: GameState = _game_with_lands()
+	var game: GameState = _game_with_infrastructure()
 	GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 2))
 	GameFactory.add_to_hand(game, 0, _burn(2, CardEnums.TargetKind.CHOSEN_PLAYER))
 	var hand_before: int = game.players[0].hand.size()
-	var lands_before: int = game.players[0].untapped_lands().size()
+	var infrastructure_before: int = game.players[0].ready_infrastructure().size()
 	var rng_before: int = game.rng.state
 	_ai().choose_action(game)
 	assert_eq(game.players[0].hand.size(), hand_before)
-	assert_eq(game.players[0].untapped_lands().size(), lands_before)
+	assert_eq(game.players[0].ready_infrastructure().size(), infrastructure_before)
 	assert_eq(game.players[0].battlefield.size(), 0)
 	assert_eq(game.players[1].life, 10)
 	assert_eq(game.rng.state, rng_before)
@@ -144,7 +144,7 @@ func test_ai_look_ahead_does_not_change_the_real_game() -> void:
 
 
 func _combat_game() -> GameState:
-	var game: GameState = _game_with_lands()
+	var game: GameState = _game_with_infrastructure()
 	return game
 
 
@@ -269,7 +269,7 @@ func test_ai_blocks_are_always_legal() -> void:
 # ---- Mulligan and discard ----------------------------------------------------------
 
 
-func test_ai_mulligans_a_land_light_hand_but_keeps_a_good_one() -> void:
+func test_ai_mulligans_a_infrastructure_light_hand_but_keeps_a_good_one() -> void:
 	var game: GameState = GameState.new()
 	game.options.rng_seed = 1
 	game.add_player(PlayerSetup.create(GameFactory.make_deck()))
@@ -281,16 +281,16 @@ func test_ai_mulligans_a_land_light_hand_but_keeps_a_good_one() -> void:
 	assert_eq(_ai().choose_action(game).type, GameAction.Type.MULLIGAN)
 	game.players[0].hand.clear()
 	for i: int in range(2):
-		GameFactory.add_to_hand(game, 0, GameFactory.land())
+		GameFactory.add_to_hand(game, 0, GameFactory.infra())
 	for i: int in range(3):
 		GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1))
 	assert_eq(_ai().choose_action(game).type, GameAction.Type.KEEP_HAND)
 
 
-func test_ai_discards_surplus_lands_before_spells() -> void:
-	var game: GameState = _game_with_lands(7, 7)
+func test_ai_discards_surplus_infrastructure_before_spells() -> void:
+	var game: GameState = _game_with_infrastructure(7, 7)
 	for i: int in range(2):
-		GameFactory.add_to_hand(game, 0, GameFactory.land())
+		GameFactory.add_to_hand(game, 0, GameFactory.infra())
 	for i: int in range(9):
 		GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 2))
 	game.advance_phase()
@@ -299,7 +299,7 @@ func test_ai_discards_surplus_lands_before_spells() -> void:
 	assert_eq(game.pending_discard, 1)
 	var action: GameAction = _ai().choose_action(game)
 	assert_eq(action.type, GameAction.Type.DISCARD)
-	assert_true(game.find_card(action.uids[0]).data.is_land())
+	assert_true(game.find_card(action.uids[0]).data.is_infrastructure())
 	assert_true(game.apply_action(action))
 
 

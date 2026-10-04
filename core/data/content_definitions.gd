@@ -28,7 +28,7 @@ const DECK_SIZE: int = 45
 static func build() -> ContentSet:
 	var content: ContentSet = ContentSet.new()
 	content.tokens = build_tokens()
-	content.lands = build_lands()
+	content.infrastructure = build_infrastructure()
 	content.cards = build_cards(content.tokens)
 	content.zone_cards = build_zone_cards(content.tokens)
 	content.zone_equipment = ProgressionContent.zone_equipment()
@@ -88,7 +88,7 @@ static func _trap(id: String, title: String, color: Affinity.Type, generic: int,
 	return CardBuilder.trap(id, title, color, generic, _pips(pips))
 
 
-# ---- Tokens and lands ----------------------------------------------------------------
+# ---- Tokens and infrastructure ----------------------------------------------------------------
 
 
 static func build_tokens() -> Dictionary:
@@ -99,13 +99,13 @@ static func build_tokens() -> Dictionary:
 	return tokens
 
 
-static func build_lands() -> Dictionary:
-	var lands: Dictionary = {}
+static func build_infrastructure() -> Dictionary:
+	var infrastructure: Dictionary = {}
 	for color: Affinity.Type in Affinity.colored_types():
-		var land: CardData = CardBuilder.land(color)
-		land.rules_text = "Tap: add one %s mana." % Affinity.display_name(color)
-		lands[int(color)] = land
-	return lands
+		var infra: CardData = CardBuilder.infra(color)
+		infra.rules_text = "Activate: add one %s Path energy." % Affinity.display_name(color)
+		infrastructure[int(color)] = infra
+	return infrastructure
 
 
 # ---- The 40 cards --------------------------------------------------------------------
@@ -222,12 +222,12 @@ static func reward_pool(cards: Dictionary) -> Array[CardData]:
 # ---- Decks ---------------------------------------------------------------------------
 
 
-## Each recipe: name, land counts by color, and spell counts by card id (28 spells + 17 lands).
+## Each recipe: name, infrastructure counts by color, and spell counts by card id (28 spells + 17 infrastructure).
 static func deck_recipes() -> Array[Dictionary]:
 	return [
 		{
 			"name": "Beefcake & Gourmand",
-			"lands": {A: 9, B: 8},
+			"infrastructure": {A: 9, B: 8},
 			"spells": {
 				"beefcake_imp": 3, "blade_dancer": 3, "raider": 2, "blazing_charger": 2, "firebolt": 3,
 				"flame_burst": 2, "warcry": 1, "whispering_shade": 2, "dissolve": 2, "snare": 1,
@@ -236,7 +236,7 @@ static func deck_recipes() -> Array[Dictionary]:
 		},
 		{
 			"name": "Gourmand & Refusemancer",
-			"lands": {B: 8, C: 9},
+			"infrastructure": {B: 8, C: 9},
 			"spells": {
 				"frost_sentry": 1, "sage": 2, "whispering_shade": 2, "dissolve": 2, "recall": 1,
 				"deep_insight": 2, "snare": 1, "sea_warden": 1, "mossback_bear": 3, "rampaging_boar": 3,
@@ -246,7 +246,7 @@ static func deck_recipes() -> Array[Dictionary]:
 		},
 		{
 			"name": "Refusemancer & Necrocrat",
-			"lands": {C: 9, D: 8},
+			"infrastructure": {C: 9, D: 8},
 			"spells": {
 				"mossback_bear": 3, "rampaging_boar": 3, "stag_warden": 2, "ancient_treant": 1,
 				"thornback_colossus": 1, "growth": 2, "rejuvenate": 1, "bone_servant": 2,
@@ -256,7 +256,7 @@ static func deck_recipes() -> Array[Dictionary]:
 		},
 		{
 			"name": "Necrocrat & Beefcake",
-			"lands": {D: 9, A: 8},
+			"infrastructure": {D: 9, A: 8},
 			"spells": {
 				"bone_servant": 2, "grave_tender": 2, "martyr": 2, "bloodthirst_wolf": 3, "soul_drain": 2,
 				"dark_bargain": 2, "necromancer": 1, "beefcake_imp": 2, "blade_dancer": 2, "raider": 2, "blazing_charger": 1,
@@ -265,12 +265,12 @@ static func deck_recipes() -> Array[Dictionary]:
 		},
 		{
 			# The tutorial-dungeon starter template (docs/design/starting_deck_and_affinity.md):
-			# 19 lands + 23 neutral spells = 42 cards, NOT the normal 45-card minimum - the
+			# 19 infrastructure + 23 neutral spells = 42 cards, NOT the normal 45-card minimum - the
 			# `TrialOfTheHollow` MIN_DECK_SIZE waiver covers the gap until the 3 tutorial reward
-			# picks fill it back out. Its land color here (A) is irrelevant: CampaignStart.
-			# starter_deck() replaces every land with the player's actually-chosen color.
+			# picks fill it back out. Its infrastructure color here (A) is irrelevant: CampaignStart.
+			# starter_deck() replaces every infrastructure with the player's actually-chosen color.
 			"name": "Wanderer's Pack",
-			"lands": {A: 19},
+			"infrastructure": {A: 19},
 			"spells": {
 				"apprentice_blade": 3, "scrappy_recruit": 3, "sellsword": 2, "cave_bat": 2,
 				"stone_sentinel": 2, "field_medic": 2, "merchant": 2, "ironclad": 1,
@@ -285,10 +285,10 @@ static func build_decks(content: ContentSet) -> Array[Deck]:
 	for recipe: Dictionary in deck_recipes():
 		var deck: Deck = Deck.new()
 		deck.deck_name = str(recipe["name"])
-		var lands: Dictionary = recipe["lands"]
-		for color: Variant in lands.keys():
-			for i: int in range(int(lands[color])):
-				deck.cards.append(content.lands[int(color)] as CardData)
+		var infrastructure: Dictionary = recipe["infrastructure"]
+		for color: Variant in infrastructure.keys():
+			for i: int in range(int(infrastructure[color])):
+				deck.cards.append(content.infrastructure[int(color)] as CardData)
 		var spells: Dictionary = recipe["spells"]
 		for id: Variant in spells.keys():
 			for i: int in range(int(spells[id])):

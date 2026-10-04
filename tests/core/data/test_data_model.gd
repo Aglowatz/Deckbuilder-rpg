@@ -10,20 +10,20 @@ func test_affinity_has_four_colors_plus_neutral() -> void:
 	assert_eq(Affinity.display_name(Affinity.Type.NEUTRAL), "Neutral")
 
 
-func test_card_mana_value_and_helpers() -> void:
+func test_card_energy_value_and_helpers() -> void:
 	var card: CardData = CardBuilder.creature("c1", "Test", Affinity.Type.A, 2, [Affinity.Type.A, Affinity.Type.A], 3, 2)
-	assert_eq(card.mana_value(), 4)
+	assert_eq(card.energy_value(), 4)
 	assert_true(card.is_creature())
 	assert_true(card.is_permanent())
-	assert_false(card.is_land())
+	assert_false(card.is_infrastructure())
 
 
-func test_land_builder_is_basic_and_colored() -> void:
-	var land: CardData = CardBuilder.land(Affinity.Type.B)
-	assert_true(land.is_land())
-	assert_true(land.is_basic)
-	assert_eq(land.color, Affinity.Type.B)
-	assert_eq(land.mana_value(), 0)
+func test_infrastructure_builder_is_basic_and_colored() -> void:
+	var infra: CardData = CardBuilder.infra(Affinity.Type.B)
+	assert_true(infra.is_infrastructure())
+	assert_true(infra.is_basic)
+	assert_eq(infra.color, Affinity.Type.B)
+	assert_eq(infra.energy_value(), 0)
 
 
 func test_keywords_and_effect_lookup() -> void:
@@ -60,11 +60,11 @@ func test_card_resource_roundtrip_through_tres() -> void:
 func test_deck_counts() -> void:
 	var deck: Deck = Deck.new()
 	var a: CardData = CardBuilder.creature("a", "A", Affinity.Type.A, 1, [], 1, 1)
-	var land: CardData = CardBuilder.land(Affinity.Type.B)
-	deck.cards = [a, a, land, land, land] as Array[CardData]
+	var infra: CardData = CardBuilder.infra(Affinity.Type.B)
+	deck.cards = [a, a, infra, infra, infra] as Array[CardData]
 	assert_eq(deck.size(), 5)
 	assert_eq(deck.count_of("a"), 2)
-	assert_eq(deck.land_count(), 3)
+	assert_eq(deck.infrastructure_count(), 3)
 	assert_eq(deck.copy_counts()["a"], 2)
 	var colors: Array[Affinity.Type] = deck.colors()
 	assert_eq(colors.size(), 2)

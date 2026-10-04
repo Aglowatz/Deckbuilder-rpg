@@ -7,8 +7,8 @@ const B: Affinity.Type = Affinity.Type.B
 const NO_PIPS: Array[Affinity.Type] = []
 
 
-static func land(color: Affinity.Type = Affinity.Type.A) -> CardData:
-	return CardBuilder.land(color)
+static func infra(color: Affinity.Type = Affinity.Type.A) -> CardData:
+	return CardBuilder.infra(color)
 
 
 static func vanilla(power: int, toughness: int, cost: int = 1, color: Affinity.Type = Affinity.Type.A, keywords: Array[CardEnums.Keyword] = []) -> CardData:
@@ -16,14 +16,14 @@ static func vanilla(power: int, toughness: int, cost: int = 1, color: Affinity.T
 	return CardBuilder.creature(id, id, color, cost, NO_PIPS, power, toughness, keywords)
 
 
-## A legal-size deck: `lands` basic lands of `color` plus copies of `spell` (or a filler
+## A legal-size deck: `infrastructure` basic infrastructure of `color` plus copies of `spell` (or a filler
 ## creature) up to `size` cards.
-static func make_deck(spell: CardData = null, lands: int = 20, size: int = 45, color: Affinity.Type = Affinity.Type.A) -> Deck:
+static func make_deck(spell: CardData = null, infrastructure: int = 20, size: int = 45, color: Affinity.Type = Affinity.Type.A) -> Deck:
 	var deck: Deck = Deck.new()
-	var land_card: CardData = land(color)
+	var infrastructure_card: CardData = infra(color)
 	var filler: CardData = spell if spell != null else vanilla(1, 1, 1, color)
-	for i: int in range(lands):
-		deck.cards.append(land_card)
+	for i: int in range(infrastructure):
+		deck.cards.append(infrastructure_card)
 	while deck.cards.size() < size:
 		deck.cards.append(filler)
 	return deck
@@ -43,7 +43,7 @@ static func new_game(seed_value: int = 1, deck_a: Deck = null, deck_b: Deck = nu
 	return game
 
 
-## A game with empty hands/lands so a test controls every card.
+## A game with empty hands/infrastructure so a test controls every card.
 static func blank_game(seed_value: int = 1) -> GameState:
 	var game: GameState = new_game(seed_value)
 	for player: PlayerState in game.players:
@@ -57,15 +57,15 @@ static func add_to_hand(game: GameState, player_index: int, data: CardData) -> C
 	return card
 
 
-static func add_land(game: GameState, player_index: int, data: CardData = null) -> CardInstance:
-	var card: CardInstance = game.create_instance(data if data != null else land(), player_index)
-	game.players[player_index].lands.append(card)
+static func add_infrastructure(game: GameState, player_index: int, data: CardData = null) -> CardInstance:
+	var card: CardInstance = game.create_instance(data if data != null else infra(), player_index)
+	game.players[player_index].infrastructure.append(card)
 	return card
 
 
-static func add_lands(game: GameState, player_index: int, count: int, color: Affinity.Type = Affinity.Type.A) -> void:
+static func add_infrastructure_cards(game: GameState, player_index: int, count: int, color: Affinity.Type = Affinity.Type.A) -> void:
 	for i: int in range(count):
-		add_land(game, player_index, land(color))
+		add_infrastructure(game, player_index, infra(color))
 
 
 ## Puts a permanent straight onto the battlefield, ready to attack unless `ready` is false.

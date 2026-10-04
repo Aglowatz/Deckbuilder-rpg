@@ -1,6 +1,6 @@
 class_name BattleHud
 extends Control
-## Everything around the card table: player portraits with life and mana orbs, the turn and
+## Everything around the card table: player portraits with life and Path energy orbs, the turn and
 ## phase tracker, deck/graveyard counters, the prompt line, the action buttons, the card zoom
 ## preview with keyword tooltips, and the "your turn" banner.
 
@@ -157,7 +157,7 @@ func refresh_all() -> void:
 	for index: int in range(2):
 		var player: PlayerState = game.players[index]
 		_portraits[index].set_life(player.life, false)
-		_portraits[index].set_lands(player.lands)
+		_portraits[index].set_infrastructure(player.infrastructure)
 		_counts[index].text = "Deck %d    Grave %d" % [player.library.size(), player.graveyard.size()]
 	_turn_label.text = "Turn %d" % maxi(game.turn, 1)
 	_set_phase(int(game.phase) if game.stage == GameState.Stage.PLAYING else -1)
@@ -175,9 +175,9 @@ func portrait_rect(player_index: int) -> Rect2:
 	return Rect2(_portraits[player_index].position, _portraits[player_index].size)
 
 
-func refresh_lands() -> void:
+func refresh_infrastructure() -> void:
 	for index: int in range(2):
-		_portraits[index].set_lands(game.players[index].lands)
+		_portraits[index].set_infrastructure(game.players[index].infrastructure)
 
 
 func portrait_center(player_index: int) -> Vector2:
@@ -195,8 +195,8 @@ func on_event(event: GameEvent) -> void:
 			Audio.sfx(&"turn_start", -10.0)
 		GameEvent.Type.PHASE_CHANGED:
 			_set_phase(event.value)
-		GameEvent.Type.MANA_SPENT, GameEvent.Type.LAND_PLAYED:
-			refresh_lands()
+		GameEvent.Type.ENERGY_SPENT, GameEvent.Type.INFRASTRUCTURE_PLAYED:
+			refresh_infrastructure()
 		GameEvent.Type.CARD_DRAWN, GameEvent.Type.CARD_DISCARDED, GameEvent.Type.CREATURE_DIED, GameEvent.Type.CARD_MILLED:
 			for index: int in range(2):
 				var player: PlayerState = game.players[index]
@@ -359,11 +359,29 @@ class Portrait:
 		var fill: StyleBoxFlat = UIStyle.box(Color("6fbf73") if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.LIFE_RED), Color(0, 0, 0, 0), 0, 8)
 		_bar.add_theme_stylebox_override("fill", fill)
 
-	func set_lands(lands: Array[CardInstance]) -> void:
+	func set_infrastructure(infrastructure: Array[CardInstance]) -> void:
 		if _orbs != null:
-			_orbs.lands = lands.duplicate()
+			_orbs.infrastructure = infrastructure.duplicate()
 			_orbs.queue_redraw()
+			_orbs.mouse_filter = Control.MOUSE_FILTER_PASS
+			_orbs.tooltip_text = _infrastructure_tooltip(infrastructure)
 
+
+	## Which Path energy is ready right now, per Path (activating infrastructure pays for cards).
+	func _infrastructure_tooltip(infrastructure: Array[CardInstance]) -> String:
+		var ready_by_path: Dictionary = {}
+		var ready_count: int = 0
+		for infra: CardInstance in infrastructure:
+			if not infra.exhausted:
+				ready_count += 1
+				ready_by_path[infra.data.color] = int(ready_by_path.get(infra.data.color, 0)) + 1
+		var parts: PackedStringArray = []
+		for path: Variant in ready_by_path.keys():
+			parts.append("%d %s" % [int(ready_by_path[path]), UIStyle.affinity_name(path as Affinity.Type)])
+		var available: String = ", ".join(parts) if not parts.is_empty() else "none"
+		return "Infrastructure: %d of %d ready (filled orbs).
+Activating an infrastructure gives 1 Path energy of its Path; casting a card activates the infrastructure that pays for it, and they all ready again next turn.
+Path energy available: %s." % [ready_count, infrastructure.size(), available]
 
 class HeartIcon:
 	extends Control
@@ -385,13 +403,13 @@ class HeartIcon:
 
 class OrbRow:
 	extends Control
-	var lands: Array[CardInstance] = []
+	var infrastructure: Array[CardInstance] = []
 
 	func _draw() -> void:
 		var x: float = 11.0
-		for land: CardInstance in lands:
-			var color: Color = UIStyle.affinity_color(land.data.color)
-			if land.tapped:
+		for infra: CardInstance in infrastructure:
+			var color: Color = UIStyle.affinity_color(infra.data.color)
+			if infra.exhausted:
 				draw_arc(Vector2(x, 13.0), 8.0, 0.0, TAU, 20, color.darkened(0.3), 2.5, true)
 			else:
 				draw_circle(Vector2(x, 13.0), 10.0, color.darkened(0.5))

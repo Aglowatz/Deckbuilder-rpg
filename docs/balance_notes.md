@@ -1,7 +1,7 @@
 These notes are hand-written and are appended to the generated tables above by
 `--notes=res://docs/balance_notes.md`.
 
-**Overall.** All five decks land between 42% and 57% overall. The first player wins 46-54% of
+**Overall.** All five decks infrastructure between 42% and 57% overall. The first player wins 46-54% of
 decided games per matchup, so going first is not a meaningful advantage (this includes the gentle
 hand smoother). Games last about 15 turns (both players' turns combined), roughly 7-8 turns each.
 With 100 games per matchup the 95% confidence interval on a single win rate is about +/-10 points,
@@ -18,11 +18,11 @@ The player starts with the neutral Wanderer's Pack only; the four pair decks are
   reverted once the starter reached 56%.
 - Frost Sentry became 1/4 Defender + Reach; Ironclad carries Vigilance, so all 9 keywords appear.
 - Hand smoother made gentler (see combat_rules.md): it only swaps a hand that is more than one
-  land away from the deck's land ratio.
+  infrastructure away from the deck's infrastructure ratio.
 
 **Known weak spots.**
 - Refusemancer & Grave is the weakest (42%): its double-pip cards are rarely cast (Thornback Colossus 0.07,
-  Ancient Treant 0.13 per copy) with 9 C lands in 45 cards.
+  Ancient Treant 0.13 per copy) with 9 C infrastructure in 45 cards.
 - Grave & Beefcake's sacrifice identity relies on cards the AI hardly uses (Dark Bargain about 0.1
   casts per copy per game): its one-step evaluation counts "destroy my own creature" as a loss and
   does not value the death triggers. An AI limitation, not necessarily a card problem.

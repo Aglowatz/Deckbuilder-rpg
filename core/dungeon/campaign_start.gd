@@ -2,7 +2,7 @@ class_name CampaignStart
 extends RefCounted
 ## The start of a new campaign (Part C): the player picks their element BEFORE the tutorial
 ## dungeon, in the starting area (`ElementChoiceScreen`). `new_profile`/`starter_deck` then build
-## the 42-card starter - 23 colorless spells + 19 basic lands of the chosen element - the player
+## the 42-card starter - 23 colorless spells + 19 basic infrastructure of the chosen element - the player
 ## carries into the Trial of the Hollow. It is short of the normal 45-card minimum on purpose
 ## (`TrialOfTheHollow.deck_size_waiver()`); the 3 tutorial reward picks (one on-element card per
 ## battle) bring it up to a real, legal 45-card deck by the time the player reaches town.
@@ -15,19 +15,19 @@ static func is_valid_choice(color: Affinity.Type) -> bool:
 	return color != Affinity.Type.NEUTRAL
 
 
-## The neutral spells of the starter template (basic lands are not part of the collection).
+## The neutral spells of the starter template (basic infrastructure are not part of the collection).
 static func starter_spells(content: ContentSet) -> Array[CardData]:
 	var spells: Array[CardData] = []
 	var template: Deck = content.deck(STARTER_DECK_NAME)
 	if template == null:
 		return spells
 	for card: CardData in template.cards:
-		if not card.is_land():
+		if not card.is_infrastructure():
 			spells.append(card)
 	return spells
 
 
-## The real starter deck (Part C): the 23 neutral spells plus 19 basic lands of `primary`. 42
+## The real starter deck (Part C): the 23 neutral spells plus 19 basic infrastructure of `primary`. 42
 ## cards - short of the 45 minimum until the tutorial reward picks fill it out.
 static func starter_deck(content: ContentSet, primary: Affinity.Type) -> Deck:
 	var deck: Deck = Deck.new()
@@ -35,9 +35,9 @@ static func starter_deck(content: ContentSet, primary: Affinity.Type) -> Deck:
 	var template: Deck = content.deck(STARTER_DECK_NAME)
 	if template == null or not is_valid_choice(primary):
 		return deck
-	var land: CardData = content.lands[int(primary)] as CardData
+	var infra: CardData = content.infrastructure[int(primary)] as CardData
 	for card: CardData in template.cards:
-		deck.cards.append(land if card.is_land() else card)
+		deck.cards.append(infra if card.is_infrastructure() else card)
 	return deck
 
 
@@ -55,12 +55,12 @@ static func new_profile(content: ContentSet, primary: Affinity.Type) -> PlayerPr
 ## New brief (third), Part D: the secret tunnel skip grants 3 *random* on-element cards (unlike
 ## the normal tutorial's 3 curated reward picks, or `ElementChoice`'s fixed sample cards) - the
 ## same 45-card-legal shape the real tutorial reward picks would leave the starter deck in, just
-## reached a different way. Non-land, `color`-affinity cards only; fewer than `count` exist for no
+## reached a different way. Non-infrastructure, `color`-affinity cards only; fewer than `count` exist for no
 ## element in the current content (8/8/7/7), but this stays correct if that ever changes.
 static func random_element_cards(content: ContentSet, color: Affinity.Type, count: int, rng: RandomNumberGenerator) -> Array[CardData]:
 	var pool: Array[CardData] = []
 	for card: CardData in content.cards.values():
-		if card.color == color and not card.is_land():
+		if card.color == color and not card.is_infrastructure():
 			pool.append(card)
 	RngUtil.shuffle(pool, rng)
 	var result: Array[CardData] = []

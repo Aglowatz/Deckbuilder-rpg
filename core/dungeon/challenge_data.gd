@@ -5,11 +5,11 @@ extends Resource
 enum Kind {
 	## Reveal cards until the first creature; success if its power >= threshold.
 	FIRST_CREATURE_POWER,
-	## Reveal the top `reveal_count` cards; success if they hold >= threshold lands.
-	TOP_N_LAND_COUNT,
+	## Reveal the top `reveal_count` cards; success if they hold >= threshold infrastructure.
+	TOP_N_INFRASTRUCTURE_COUNT,
 	## Reveal the top `reveal_count` cards; success if >= threshold are of `card_type`.
 	TOP_N_TYPE_COUNT,
-	## Reveal the top `reveal_count` cards; success if their total mana value >= threshold.
+	## Reveal the top `reveal_count` cards; success if their total Path energy value >= threshold.
 	TOP_N_TOTAL_COST,
 	## Sacrifice a card of your choice; success if the deck has a card to give.
 	SACRIFICE_CARD,

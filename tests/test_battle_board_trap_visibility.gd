@@ -33,7 +33,7 @@ func test_opponent_trap_never_shows_face_up_during_the_cast_animation() -> void:
 	var game: GameState = GameFactory.blank_game()
 	GameFactory.pass_turn(game)
 	assert_eq(game.active, 1, "setup: it should now be player 1's (the AI/opponent's) turn")
-	GameFactory.add_lands(game, 1, 1)
+	GameFactory.add_infrastructure_cards(game, 1, 1)
 	var trap: CardInstance = GameFactory.add_to_hand(game, 1, _attack_trap())
 	assert_true(game.cast(1, trap.uid))
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.CARD_CAST), 1)
@@ -52,7 +52,7 @@ func test_opponent_trap_never_shows_face_up_during_the_cast_animation() -> void:
 
 func test_own_trap_is_still_shown_face_up_to_its_owner() -> void:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_lands(game, 0, 1)
+	GameFactory.add_infrastructure_cards(game, 0, 1)
 	var trap: CardInstance = GameFactory.add_to_hand(game, 0, _attack_trap())
 	assert_true(game.cast(0, trap.uid))
 
@@ -69,7 +69,7 @@ func test_own_trap_is_still_shown_face_up_to_its_owner() -> void:
 func test_opponent_trap_flips_face_up_only_once_it_actually_triggers() -> void:
 	var game: GameState = GameFactory.blank_game()
 	GameFactory.pass_turn(game)
-	GameFactory.add_lands(game, 1, 1)
+	GameFactory.add_infrastructure_cards(game, 1, 1)
 	var trap: CardInstance = GameFactory.add_to_hand(game, 1, _attack_trap())
 	assert_true(game.cast(1, trap.uid))
 	GameFactory.pass_turn(game)

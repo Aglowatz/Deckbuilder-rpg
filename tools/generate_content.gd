@@ -19,8 +19,8 @@ func _init() -> void:
 	# Tokens first so cards that summon them reference the saved file instead of embedding it.
 	for token: CardData in content.tokens.values():
 		saved += _save(token, CARD_DIR + token.id + ".tres")
-	for land: CardData in content.lands.values():
-		saved += _save(land, CARD_DIR + land.id + ".tres")
+	for infra: CardData in content.infrastructure.values():
+		saved += _save(infra, CARD_DIR + infra.id + ".tres")
 	for card: CardData in content.cards.values():
 		saved += _save(card, CARD_DIR + card.id + ".tres")
 	for zone_card: CardData in content.zone_cards.values():

@@ -11,8 +11,8 @@ const STEPS: Array[Dictionary] = [
 		"info": true,
 	},
 	{
-		"id": "land", "title": "Play a land",
-		"text": "Lands make the mana you spend on spells. [b]Click a land[/b] (or drag it onto the table). You can play [b]one land per turn[/b].",
+		"id": "infrastructure", "title": "Play an infrastructure",
+		"text": "Infrastructure make the Path energy you spend on spells. [b]Click an infrastructure[/b] (or drag it onto the table). You can play [b]one infrastructure per turn[/b].",
 	},
 	{
 		"id": "cast", "title": "Cast a card",
@@ -29,12 +29,12 @@ const STEPS: Array[Dictionary] = [
 	},
 	{
 		"id": "end_turn", "title": "Ending your turn",
-		"text": "Nothing left to do? [b]To Combat[/b] moves on to attacking, and [b]End Turn[/b] passes the turn. Your lands untap and you draw a card next turn.",
+		"text": "Nothing left to do? [b]To Combat[/b] moves on to attacking, and [b]End Turn[/b] passes the turn. Your infrastructure ready and you draw a card next turn.",
 		"info": true,
 	},
 	{
 		"id": "attack", "title": "Attack!",
-		"text": "[b]Click your creatures[/b] to send them at the opponent, then press [b]Attack[/b]. Attackers tap (they cannot block next turn) and creatures that just arrived cannot attack yet.",
+		"text": "[b]Click your creatures[/b] to send them at the opponent, then press [b]Attack[/b]. Attackers activate (they cannot block next turn) and creatures that just arrived cannot attack yet.",
 	},
 	{
 		"id": "block", "title": "Block!",
@@ -105,9 +105,9 @@ func _hide() -> void:
 
 func on_battle_event(event: GameEvent) -> void:
 	match event.type:
-		GameEvent.Type.LAND_PLAYED:
+		GameEvent.Type.INFRASTRUCTURE_PLAYED:
 			if event.player == 0:
-				_flags["land_played"] = true
+				_flags["infrastructure_played"] = true
 		GameEvent.Type.CARD_CAST:
 			if event.player == 0:
 				_flags["cast"] = true
@@ -183,15 +183,15 @@ func _hand_cards() -> Array[CardInstance]:
 func _castable() -> Array[int]:
 	var result: Array[int] = []
 	for card: CardInstance in _hand_cards():
-		if not card.data.is_land() and screen.game.can_cast(0, card.uid):
+		if not card.data.is_infrastructure() and screen.game.can_cast(0, card.uid):
 			result.append(card.uid)
 	return result
 
 
-func _playable_lands() -> Array[int]:
+func _playable_infrastructure() -> Array[int]:
 	var result: Array[int] = []
 	for card: CardInstance in _hand_cards():
-		if card.data.is_land() and screen.game.can_play_land(0, card.uid):
+		if card.data.is_infrastructure() and screen.game.can_play_infrastructure(0, card.uid):
 			result.append(card.uid)
 	return result
 
@@ -219,16 +219,16 @@ func _triggered(id: String) -> bool:
 	match id:
 		"intro":
 			return mode == BattleScreen.Mode.MULLIGAN
-		"land":
-			return mode == BattleScreen.Mode.MAIN and not _playable_lands().is_empty()
+		"infrastructure":
+			return mode == BattleScreen.Mode.MAIN and not _playable_infrastructure().is_empty()
 		"cast":
-			return mode == BattleScreen.Mode.MAIN and bool(_flags.get("land_played", false)) and not _castable().is_empty()
+			return mode == BattleScreen.Mode.MAIN and bool(_flags.get("infrastructure_played", false)) and not _castable().is_empty()
 		"keywords":
 			return mode == BattleScreen.Mode.MAIN and _done.has("cast") and not _keyword_cards().is_empty()
 		"trap":
 			return mode == BattleScreen.Mode.MAIN and _done.has("cast") and not _trap_cards().is_empty()
 		"end_turn":
-			return mode == BattleScreen.Mode.MAIN and bool(_flags.get("land_played", false)) and _castable().is_empty() and _playable_lands().is_empty()
+			return mode == BattleScreen.Mode.MAIN and bool(_flags.get("infrastructure_played", false)) and _castable().is_empty() and _playable_infrastructure().is_empty()
 		"attack":
 			return mode == BattleScreen.Mode.ATTACK and not screen.game.possible_attackers(0).is_empty()
 		"block":
@@ -238,8 +238,8 @@ func _triggered(id: String) -> bool:
 
 func _finished(id: String) -> bool:
 	match id:
-		"land":
-			return bool(_flags.get("land_played", false))
+		"infrastructure":
+			return bool(_flags.get("infrastructure_played", false))
 		"cast":
 			return bool(_flags.get("cast", false))
 		"trap":
@@ -257,7 +257,7 @@ func _still_relevant(id: String) -> bool:
 	match id:
 		"intro":
 			return mode == BattleScreen.Mode.MULLIGAN
-		"land", "cast", "keywords", "trap", "end_turn":
+		"infrastructure", "cast", "keywords", "trap", "end_turn":
 			return mode == BattleScreen.Mode.MAIN or mode == BattleScreen.Mode.TARGETING
 		"attack":
 			return mode == BattleScreen.Mode.ATTACK
@@ -273,8 +273,8 @@ func _target_rect(id: String) -> Rect2:
 	match id:
 		"intro":
 			return Rect2(700, 380, 540, 180)
-		"land":
-			return _union(_playable_lands())
+		"infrastructure":
+			return _union(_playable_infrastructure())
 		"cast":
 			return _union(_castable())
 		"keywords":

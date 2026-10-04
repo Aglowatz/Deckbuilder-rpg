@@ -452,7 +452,7 @@ func test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer(
 		var info: ZoneEnemyInfo = HeapEnemies.info(id)
 		if info.kind == ZoneEnemyInfo.Kind.BATTLE:
 			assert_lt(info.chase_speed, ZoneEnemies.PLAYER_SPEED)
-			assert_true(info.recipe.has("land:C"), "%s plays Refusemancer lands" % id)
+			assert_true(info.recipe.has("infrastructure:C"), "%s plays Refusemancer infrastructure" % id)
 			slow_battle += 1
 		else:
 			assert_gt(info.chase_speed, ZoneEnemies.PLAYER_SPEED)

@@ -34,12 +34,12 @@ func test_entering_combat_awaits_attackers() -> void:
 	assert_eq(game.awaiting_player(), 0)
 
 
-func test_unblocked_attacker_damages_player_and_taps() -> void:
+func test_unblocked_attacker_damages_player_and_activates() -> void:
 	var ctx: Dictionary = _setup(_vanilla(3, 3))
 	var game: GameState = ctx["game"]
 	var attacker: CardInstance = ctx["attacker"]
 	assert_true(_attack(game, attacker))
-	assert_true(attacker.tapped)
+	assert_true(attacker.exhausted)
 	assert_eq(game.combat_step, GameState.CombatStep.DECLARE_BLOCKERS)
 	assert_eq(game.awaiting_player(), 1, "defender decides blocks")
 	assert_true(game.declare_blockers({}))
@@ -85,12 +85,12 @@ func test_defender_cannot_attack() -> void:
 	assert_false(_attack(ctx["game"], ctx["attacker"]))
 
 
-func test_tapped_creature_cannot_attack_and_no_double_declaration() -> void:
+func test_exhausted_creature_cannot_attack_and_no_double_declaration() -> void:
 	var ctx: Dictionary = _setup(_vanilla(2, 2))
 	var game: GameState = ctx["game"]
 	var attacker: CardInstance = ctx["attacker"]
 	assert_false(game.declare_attackers([attacker.uid, attacker.uid] as Array[int]))
-	attacker.tapped = true
+	attacker.exhausted = true
 	assert_false(_attack(game, attacker))
 
 
@@ -103,7 +103,7 @@ func test_cannot_declare_attackers_outside_combat_or_for_opponents_cards() -> vo
 	assert_false(game.declare_attackers([theirs.uid] as Array[int]), "not your creature")
 
 
-func test_attackers_stay_tapped_through_opponents_turn() -> void:
+func test_attackers_stay_exhausted_through_opponents_turn() -> void:
 	var ctx: Dictionary = _setup(_vanilla(1, 1))
 	var game: GameState = ctx["game"]
 	var attacker: CardInstance = ctx["attacker"]
@@ -111,10 +111,10 @@ func test_attackers_stay_tapped_through_opponents_turn() -> void:
 	game.declare_blockers({})
 	GameFactory.pass_turn(game)
 	assert_eq(game.active, 1)
-	assert_true(attacker.tapped)
+	assert_true(attacker.exhausted)
 	assert_eq(game.possible_blockers(0).size(), 0)
 	GameFactory.pass_turn(game)
-	assert_false(attacker.tapped, "untaps on its controller's turn")
+	assert_false(attacker.exhausted, "readies on its controller's turn")
 
 
 # ---- Blocking ----------------------------------------------------------------------
@@ -168,17 +168,17 @@ func test_one_blocker_per_attacker_and_one_attacker_per_blocker() -> void:
 	assert_eq(game.players[1].life, 8, "the other attacker got through")
 
 
-func test_cannot_block_with_tapped_or_foreign_creature() -> void:
+func test_cannot_block_with_exhausted_or_foreign_creature() -> void:
 	var game: GameState = GameFactory.blank_game()
 	var attacker: CardInstance = GameFactory.add_to_battlefield(game, 0, _vanilla(1, 1))
 	var mine: CardInstance = GameFactory.add_to_battlefield(game, 0, _vanilla(1, 1))
-	var tapped: CardInstance = GameFactory.add_to_battlefield(game, 1, _vanilla(1, 1))
-	tapped.tapped = true
+	var exhausted: CardInstance = GameFactory.add_to_battlefield(game, 1, _vanilla(1, 1))
+	exhausted.exhausted = true
 	game.advance_phase()
 	_attack(game, attacker)
-	assert_false(game.declare_blockers({attacker.uid: tapped.uid}))
+	assert_false(game.declare_blockers({attacker.uid: exhausted.uid}))
 	assert_false(game.declare_blockers({attacker.uid: mine.uid}))
-	assert_false(game.declare_blockers({999: tapped.uid}), "unknown attacker")
+	assert_false(game.declare_blockers({999: exhausted.uid}), "unknown attacker")
 
 
 func test_summoning_sick_creatures_can_block() -> void:
@@ -339,19 +339,19 @@ func test_attack_target_without_guard_is_rejected() -> void:
 	assert_false(ctx["game"].declare_attackers([ctx["attacker"].uid] as Array[int], {ctx["attacker"].uid: ctx["blocker"].uid}))
 
 
-func test_tapped_guard_does_not_force_attacks() -> void:
+func test_exhausted_guard_does_not_force_attacks() -> void:
 	var guard: Array[CardEnums.Keyword] = [KW.GUARD]
 	var game: GameState = GameFactory.blank_game()
 	var attacker: CardInstance = GameFactory.add_to_battlefield(game, 0, _vanilla(2, 2))
 	var guard_card: CardInstance = GameFactory.add_to_battlefield(game, 1, _vanilla(0, 5, guard))
-	guard_card.tapped = true
+	guard_card.exhausted = true
 	game.advance_phase()
-	assert_true(CombatResolver.guard_creatures(game, 1).is_empty(), "tapped Guard is not a Guard for attack-forcing purposes")
-	assert_true(game.declare_attackers([attacker.uid] as Array[int]), "attacker may go past a tapped Guard")
-	assert_false(game.attack_targets.has(attacker.uid), "no forced target when the only Guard is tapped")
+	assert_true(CombatResolver.guard_creatures(game, 1).is_empty(), "exhausted Guard is not a Guard for attack-forcing purposes")
+	assert_true(game.declare_attackers([attacker.uid] as Array[int]), "attacker may go past an exhausted Guard")
+	assert_false(game.attack_targets.has(attacker.uid), "no forced target when the only Guard is exhausted")
 
 
-func test_guard_can_still_block_and_trample_excess_lands_on_guard() -> void:
+func test_guard_can_still_block_and_trample_excess_infrastructure_on_guard() -> void:
 	var guard: Array[CardEnums.Keyword] = [KW.GUARD]
 	var tr: Array[CardEnums.Keyword] = [KW.TRAMPLE]
 	var game: GameState = GameFactory.blank_game()
@@ -433,22 +433,22 @@ func test_opponent_cannot_act_during_attackers_step() -> void:
 # ---- Vigilance ---------------------------------------------------------------------
 
 
-func test_vigilance_attacker_does_not_tap_and_can_block_next_turn() -> void:
+func test_vigilance_attacker_does_not_activate_and_can_block_next_turn() -> void:
 	var vig: Array[CardEnums.Keyword] = [KW.VIGILANCE]
 	var ctx: Dictionary = _setup(_vanilla(2, 2, vig))
 	var game: GameState = ctx["game"]
 	var attacker: CardInstance = ctx["attacker"]
 	assert_true(_attack(game, attacker))
-	assert_false(attacker.tapped, "vigilance: attacking does not tap")
+	assert_false(attacker.exhausted, "vigilance: attacking does not activate")
 	game.declare_blockers({})
 	assert_eq(game.players[1].life, 8)
 	assert_true(game.possible_blockers(0).has(attacker), "still available to block on the opponent's turn")
 
 
-func test_non_vigilance_attacker_still_taps() -> void:
+func test_non_vigilance_attacker_still_activates() -> void:
 	var ctx: Dictionary = _setup(_vanilla(2, 2))
 	_attack(ctx["game"], ctx["attacker"])
-	assert_true(ctx["attacker"].tapped)
+	assert_true(ctx["attacker"].exhausted)
 
 
 func test_vigilance_creature_can_attack_every_turn() -> void:
@@ -474,4 +474,4 @@ func test_vigilance_can_be_granted_by_an_effect() -> void:
 	game.cast(0, hand.uid, creature.uid)
 	game.advance_phase()
 	_attack(game, creature)
-	assert_false(creature.tapped)
+	assert_false(creature.exhausted)

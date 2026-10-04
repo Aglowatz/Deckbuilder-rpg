@@ -2,7 +2,7 @@ class_name CardEnums
 extends RefCounted
 ## Shared enums for card and effect data.
 
-enum CardType { LAND, CREATURE, SPELL, TRAP, ARTIFACT }
+enum CardType { INFRASTRUCTURE, CREATURE, SPELL, TRAP, ARTIFACT }
 
 ## Exactly four tiers - see docs/design/combat_rules.md "Rarity". Values are stored by ordinal
 ## in every saved .tres card, so the order must never change (only append would be safe).
@@ -17,7 +17,7 @@ enum Keyword {
 	FIRST_STRIKE,
 	LIFESTEAL,
 	GUARD,
-	## Attacking does not tap this creature.
+	## Attacking does not activate this creature.
 	VIGILANCE,
 }
 

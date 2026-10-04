@@ -6,8 +6,8 @@ extends RefCounted
 var cards: Dictionary = {}
 ## card id -> CardData for tokens created by effects.
 var tokens: Dictionary = {}
-## Affinity.Type (as int) -> basic land CardData (including a Neutral land).
-var lands: Dictionary = {}
+## Affinity.Type (as int) -> basic infrastructure CardData (including a Neutral infrastructure).
+var infrastructure: Dictionary = {}
 var decks: Array[Deck] = []
 var challenges: Array[ChallengeData] = []
 var personalities: Array[AIPersonality] = []

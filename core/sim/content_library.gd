@@ -20,8 +20,8 @@ static func load_all() -> ContentSet:
 			continue
 		if card.is_token:
 			content.tokens[card.id] = card
-		elif card.is_land():
-			content.lands[int(card.color)] = card
+		elif card.is_infrastructure():
+			content.infrastructure[int(card.color)] = card
 		else:
 			content.cards[card.id] = card
 	for path: String in _tres_files(ZONE_CARD_DIR):

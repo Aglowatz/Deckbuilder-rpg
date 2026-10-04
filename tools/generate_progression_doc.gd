@@ -31,19 +31,19 @@ func _initialize() -> void:
 	lines.append("- **Item slots**: 1 at level 1, gradually up to **4** at level 30.")
 	lines.append("- **Equipment slots** (Helm/Weapon/Armor/Boots/Relic): 0 at level 1; one is chosen")
 	lines.append("  and unlocked at levels 5, 10, 15, 20 and 25 - all five are unlocked by level 25.")
-	lines.append("- **Deck copy limits by rarity**: Common/Uncommon start at 3, Epic at 2, Legendary at")
-	lines.append("  1; each increases gradually until every rarity allows **4 copies**.")
+	lines.append("- **Deck copy limit**: 4 copies of every non-infrastructure card at every level; infrastructure is unlimited.")
+	lines.append("  (The old rarity-based limits were removed - the levels that raised them now grant gold, vendor")
+	lines.append("  discounts, a bigger max hand size and a vendor-stock unlock instead.)")
+	lines.append("- **Max hand size**: 10, +1 at levels 14 and 28.")
 	lines.append("- Every level grants something: a real stat/slot/limit increase, an equipment choice,")
 	lines.append("  a vendor unlock/discount, or gold - New brief, Part D removed random card-choice")
 	lines.append("  level rewards entirely.")
 	lines.append("")
-	lines.append("| Level | XP to reach | Life | Hand | Items | Common | Uncommon | Epic | Legendary | Grants |")
-	lines.append("|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|")
+	lines.append("| Level | XP to reach | Life | Hand | Max hand | Items | Grants |")
+	lines.append("|---:|---:|---:|---:|---:|---:|---|")
 	for row: LevelData in rows:
-		lines.append("| %d | %d | %d | %d | %d | %d | %d | %d | %d | %s |" % [
-			row.level, row.xp_to_reach, row.max_life, row.opening_hand_size, row.item_slots,
-			int(row.copy_limits[CardEnums.Rarity.COMMON]), int(row.copy_limits[CardEnums.Rarity.UNCOMMON]),
-			int(row.copy_limits[CardEnums.Rarity.EPIC]), int(row.copy_limits[CardEnums.Rarity.LEGENDARY]),
+		lines.append("| %d | %d | %d | %d | %d | %d | %s |" % [
+			row.level, row.xp_to_reach, row.max_life, row.opening_hand_size, row.max_hand_size, row.item_slots,
 			row.summary,
 		])
 	lines.append("")

@@ -26,7 +26,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 5.5
 			made.leash_range = 8.5
 			made.recipe = {
-				"land:C": 16, "scrap_goat": 3, "compost_golem": 3, "dung_beetle": 2,
+				"infrastructure:C": 16, "scrap_goat": 3, "compost_golem": 3, "dung_beetle": 2,
 				"vine_snare": 2, "sprout_surge": 1,
 			}
 			made.life = 14
@@ -43,7 +43,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
 			made.recipe = {
-				"land:C": 15, "tin_can_raccoon": 3, "bramble_trap": 2, "harvest_moon": 3,
+				"infrastructure:C": 15, "tin_can_raccoon": 3, "bramble_trap": 2, "harvest_moon": 3,
 				"dung_beetle": 3, "fertilizer_burst": 1,
 			}
 			made.life = 16

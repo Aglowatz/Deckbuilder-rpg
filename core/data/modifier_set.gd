@@ -56,7 +56,7 @@ func has(kind: Modifier.Kind) -> bool:
 
 
 ## Smallest `value` among modifiers of `kind`, or -1 (meaning "unlimited"/absent) if none exist.
-## Used for caps multiple sources could tighten (e.g. Big Brain Beret's one-non-land-card cap).
+## Used for caps multiple sources could tighten (e.g. Big Brain Beret's one-non-infrastructure-card cap).
 func cap(kind: Modifier.Kind) -> int:
 	var result: int = -1
 	for modifier: Modifier in modifiers:

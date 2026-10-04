@@ -10,26 +10,26 @@ var max_hand_size: int = 10
 var opening_hand_size: int = 5
 var max_traps: int = GameState.MAX_TRAPS
 var modifiers: ModifierSet = ModifierSet.new()
-## land count / deck size, fixed at deck construction (used by the hand smoother).
-var deck_land_ratio: float = 0.0
+## infrastructure count / deck size, fixed at deck construction (used by the hand smoother).
+var deck_infrastructure_ratio: float = 0.0
 var library: Array[CardInstance] = []
 var hand: Array[CardInstance] = []
 ## Creatures and artifacts.
 var battlefield: Array[CardInstance] = []
-var lands: Array[CardInstance] = []
+var infrastructure: Array[CardInstance] = []
 var graveyard: Array[CardInstance] = []
 ## Face-down traps.
 var traps: Array[CardInstance] = []
-var lands_played: int = 0
+var infrastructure_played: int = 0
 var mulligan_used: bool = false
 ## Set when the player must lose (deck-out); resolved with life checks.
 var lost: bool = false
 ## New brief, Part B: whether this player has begun their first turn yet (FIRST_TURN_EXTRA_DRAW).
 var has_taken_first_turn: bool = false
-## New brief, Part B: non-land cards cast so far this turn, and the cap (MAX_NON_LAND_CASTS_PER_TURN;
+## New brief, Part B: non-infrastructure cards cast so far this turn, and the cap (MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN;
 ## -1 = unlimited), reset/computed alongside max_hand_size etc.
-var non_land_casts_this_turn: int = 0
-var non_land_cast_cap: int = -1
+var non_infrastructure_casts_this_turn: int = 0
+var non_infrastructure_cast_cap: int = -1
 ## New brief, Part F: how many SCRIPTED_ESCALATING_SUMMON activations this player has had this
 ## duel - selects which stage (capped at the last) the next one summons.
 var scripted_summon_count: int = 0
@@ -50,8 +50,8 @@ func find_battlefield(uid: int) -> CardInstance:
 	return find_in(battlefield, uid)
 
 
-func find_land(uid: int) -> CardInstance:
-	return find_in(lands, uid)
+func find_infrastructure(uid: int) -> CardInstance:
+	return find_in(infrastructure, uid)
 
 
 func find_trap(uid: int) -> CardInstance:
@@ -66,11 +66,11 @@ func creatures() -> Array[CardInstance]:
 	return result
 
 
-func untapped_lands() -> Array[CardInstance]:
+func ready_infrastructure() -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
-	for land: CardInstance in lands:
-		if not land.tapped:
-			result.append(land)
+	for infra: CardInstance in infrastructure:
+		if not infra.exhausted:
+			result.append(infra)
 	return result
 
 
@@ -86,13 +86,13 @@ func clone(deep_library: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.opening_hand_size = opening_hand_size
 	copy.max_traps = max_traps
 	copy.modifiers = modifiers
-	copy.deck_land_ratio = deck_land_ratio
-	copy.lands_played = lands_played
+	copy.deck_infrastructure_ratio = deck_infrastructure_ratio
+	copy.infrastructure_played = infrastructure_played
 	copy.mulligan_used = mulligan_used
 	copy.lost = lost
 	copy.has_taken_first_turn = has_taken_first_turn
-	copy.non_land_casts_this_turn = non_land_casts_this_turn
-	copy.non_land_cast_cap = non_land_cast_cap
+	copy.non_infrastructure_casts_this_turn = non_infrastructure_casts_this_turn
+	copy.non_infrastructure_cast_cap = non_infrastructure_cast_cap
 	copy.scripted_summon_count = scripted_summon_count
 	if deep_library:
 		copy.library = _clone_zone(library)
@@ -100,7 +100,7 @@ func clone(deep_library: bool = true, keep_traps: bool = true) -> PlayerState:
 		copy.library = library.duplicate()
 	copy.hand = _clone_zone(hand)
 	copy.battlefield = _clone_zone(battlefield)
-	copy.lands = _clone_zone(lands)
+	copy.infrastructure = _clone_zone(infrastructure)
 	copy.graveyard = graveyard.duplicate()
 	if keep_traps:
 		copy.traps = _clone_zone(traps)

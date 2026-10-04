@@ -5,7 +5,7 @@ extends RefCounted
 
 enum Type {
 	PASS,
-	PLAY_LAND,
+	PLAY_INFRASTRUCTURE,
 	CAST,
 	ACTIVATE,
 	DECLARE_ATTACKERS,
@@ -39,8 +39,8 @@ static func pass_phase(acting_player: int) -> GameAction:
 	return make(Type.PASS, acting_player)
 
 
-static func play_land(acting_player: int, uid: int) -> GameAction:
-	var action: GameAction = make(Type.PLAY_LAND, acting_player)
+static func play_infrastructure(acting_player: int, uid: int) -> GameAction:
+	var action: GameAction = make(Type.PLAY_INFRASTRUCTURE, acting_player)
 	action.card_uid = uid
 	return action
 

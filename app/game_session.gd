@@ -57,8 +57,35 @@ func _ready() -> void:
 # ---- Campaign lifecycle -----------------------------------------------------------------
 
 
+## Version of the campaign save layout. Bump it whenever a change makes old saves unreadable (ids
+## renamed, systems added); `discard_incompatible_save` then resets the old save gracefully.
+const SAVE_FORMAT: int = 2
+
+## Set when an old save was reset; the title screen shows it once and clears it.
+var save_reset_message: String = ""
+
+
 func has_save() -> bool:
 	return SaveSystem.exists(save_path)
+
+
+## True when the file at `save_path` was written by this save format.
+func save_is_compatible() -> bool:
+	return int(SaveSystem.read(save_path).get("save_format", 1)) == SAVE_FORMAT
+
+
+## Resets a save from an older format (proof-of-concept policy: no migration). The old file is kept
+## next to the new one as `<name>.old`, and `save_reset_message` explains what happened. Returns
+## true when a save was discarded.
+func discard_incompatible_save() -> bool:
+	if not has_save() or save_is_compatible():
+		return false
+	var backup: String = save_path + ".old"
+	if FileAccess.file_exists(backup):
+		DirAccess.remove_absolute(backup)
+	DirAccess.rename_absolute(save_path, backup)
+	save_reset_message = "Your old save came from an earlier version of the game (infrastructure, Path energy, new story and systems) and could not be loaded. It was reset - please start a new game. (The old file was kept as save.json.old.)"
+	return true
 
 
 ## Starts a fresh campaign. The profile is created when the Wellspring is chosen.
@@ -170,14 +197,14 @@ func set_flag(name: StringName, value: bool = true) -> void:
 	refresh_quests()
 
 
-## Any card (spell, token or basic land) by its id.
+## Any card (spell, token or basic infrastructure) by its id.
 func card_by_id(id: String) -> CardData:
 	var found: CardData = content.card(id)
 	if found != null:
 		return found
-	for land: Variant in content.lands.values():
-		if (land as CardData).id == id:
-			return land as CardData
+	for infra: Variant in content.infrastructure.values():
+		if (infra as CardData).id == id:
+			return infra as CardData
 	return null
 
 
@@ -393,13 +420,13 @@ func deck_is_valid() -> bool:
 
 ## Picks a legal starter-based deck automatically (used when the saved deck is missing/corrupt,
 ## e.g. an old save). CampaignStart.starter_deck is only 42 cards (Part C, meant to be topped up
-## by tutorial rewards); pad it with a few more basic lands of the same color so this fallback is
+## by tutorial rewards); pad it with a few more basic infrastructure of the same color so this fallback is
 ## always a legal 45+ card deck outside the dungeon, where there is no size waiver.
 func rebuild_starter_deck() -> void:
 	deck = CampaignStart.starter_deck(content, profile.primary_affinity)
-	var land: CardData = content.lands[int(profile.primary_affinity)] as CardData
+	var infra: CardData = content.infrastructure[int(profile.primary_affinity)] as CardData
 	while deck.size() < DeckValidator.MIN_DECK_SIZE:
-		deck.cards.append(land)
+		deck.cards.append(infra)
 	deck.deck_name = DECK_NAME
 
 
@@ -424,6 +451,7 @@ func to_dict() -> Dictionary:
 		item_saves.append({"id": owned_item.id, "uses_left": profile.item_uses_left(owned_item)})
 	return {
 		"gold": gold,
+		"save_format": SAVE_FORMAT,
 		"primary": int(profile.primary_affinity),
 		"intro_cleared": profile.intro_dungeon_cleared,
 		"postgame": profile.postgame_unlocked,
@@ -452,6 +480,8 @@ func to_dict() -> Dictionary:
 
 
 func from_dict(data: Dictionary) -> bool:
+	if int(data.get("save_format", 1)) != SAVE_FORMAT:
+		return false
 	if not data.has("primary"):
 		return false
 	# The element is chosen before the profile is even created now (Part C), so a saved profile
@@ -580,7 +610,7 @@ func begin_trial() -> void:
 ## Enters the Trial of the Hollow for the very first time, from the starting area, right after
 ## the player has chosen their element (`ElementChoiceScreen`, Part C): a fresh profile owning
 ## only the 23 neutral starter spells, and a 42-card starter deck (those spells plus 19 basic
-## lands of `color`) - short of the normal 45-card minimum until the 3 tutorial reward picks fill
+## infrastructure of `color`) - short of the normal 45-card minimum until the 3 tutorial reward picks fill
 ## it out (`deck_size_waiver()`). Retrying after an abandoned first attempt reuses the same
 ## profile/color (still no real deck exists until this trial is actually cleared).
 func begin_intro_trial(color: Affinity.Type) -> void:
@@ -1136,13 +1166,13 @@ func complete_trial() -> void:
 		deck = run.current_deck()
 		deck.deck_name = DECK_NAME
 		# Safety net: the Hollow Well challenge can cost a card (D51/D62) - normally the 3
-		# reward picks land exactly on 45, but if the challenge went badly the player would
-		# otherwise walk into town one card short of a legal deck. A basic land of their own
+		# reward picks infrastructure exactly on 45, but if the challenge went badly the player would
+		# otherwise walk into town one card short of a legal deck. A basic infrastructure of their own
 		# color always keeps it legal without changing the "3 on-element picks" story.
 		if deck.size() < DeckValidator.MIN_DECK_SIZE:
-			var land: CardData = content.lands[int(profile.primary_affinity)] as CardData
+			var infra: CardData = content.infrastructure[int(profile.primary_affinity)] as CardData
 			while deck.size() < DeckValidator.MIN_DECK_SIZE:
-				deck.cards.append(land)
+				deck.cards.append(infra)
 	profile.intro_dungeon_cleared = true
 	set_flag(&"trial_cleared")
 	run = null

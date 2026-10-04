@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Deck" format=3]
 
 [ext_resource type="Script" path="res://core/data/card_data.gd" id="1_inahn"]
-[ext_resource type="Resource" path="res://data/cards/land_affinity_c.tres" id="2_i6lem"]
-[ext_resource type="Resource" path="res://data/cards/land_affinity_d.tres" id="3_g02pt"]
+[ext_resource type="Resource" path="res://data/cards/infrastructure_c.tres" id="2_i6lem"]
+[ext_resource type="Resource" path="res://data/cards/infrastructure_d.tres" id="3_g02pt"]
 [ext_resource type="Resource" path="res://data/cards/mossback_bear.tres" id="4_rr1tf"]
 [ext_resource type="Resource" path="res://data/cards/rampaging_boar.tres" id="5_cylf3"]
 [ext_resource type="Resource" path="res://data/cards/stag_warden.tres" id="6_hyd2x"]

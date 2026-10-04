@@ -53,7 +53,7 @@ func evaluate(state: GameState, me: int) -> float:
 	score += personality.board_weight * _board_value(state, mine)
 	score -= personality.enemy_board_weight * _board_value(state, foe)
 	score += personality.hand_weight * (_hand_value(mine) - _hand_value(foe))
-	score += personality.mana_weight * float(mine.lands.size())
+	score += personality.energy_weight * float(mine.infrastructure.size())
 	score -= personality.threat_weight * _threat(state, mine, foe)
 	return score
 
@@ -77,16 +77,16 @@ func _board_value(state: GameState, player: PlayerState) -> float:
 func _hand_value(player: PlayerState) -> float:
 	var total: float = 0.0
 	for card: CardInstance in player.hand:
-		total += 0.4 if card.data.is_land() else 1.0
+		total += 0.4 if card.data.is_infrastructure() else 1.0
 	return total
 
 
-## Damage the opponent could deal next turn after my untapped creatures block their strongest
+## Damage the opponent could deal next turn after my ready creatures block their strongest
 ## attackers, plus a big penalty if that is lethal.
 func _threat(state: GameState, mine: PlayerState, foe: PlayerState) -> float:
 	var blockers: int = 0
 	for card: CardInstance in mine.creatures():
-		if not card.tapped:
+		if not card.exhausted:
 			blockers += 1
 	var powers: Array[int] = []
 	for card: CardInstance in foe.creatures():
@@ -108,9 +108,9 @@ func _threat(state: GameState, mine: PlayerState, foe: PlayerState) -> float:
 
 func _choose_mulligan(state: GameState, who: int) -> GameAction:
 	var player: PlayerState = state.players[who]
-	var lands: int = HandSmoother.count_lands(player.hand)
+	var infrastructure: int = HandSmoother.count_infrastructure(player.hand)
 	var size: int = player.hand.size()
-	var bad_hand: bool = lands < 2 or lands > size - 2
+	var bad_hand: bool = infrastructure < 2 or infrastructure > size - 2
 	if bad_hand and not player.mulligan_used and state.options.free_mulligan:
 		return GameAction.make(GameAction.Type.MULLIGAN, who)
 	return GameAction.make(GameAction.Type.KEEP_HAND, who)
@@ -119,9 +119,9 @@ func _choose_mulligan(state: GameState, who: int) -> GameAction:
 func _choose_discard(state: GameState, who: int) -> GameAction:
 	var player: PlayerState = state.players[who]
 	var ranked: Array[CardInstance] = player.hand.duplicate()
-	var lands_out: int = player.lands.size()
+	var infrastructure_out: int = player.infrastructure.size()
 	ranked.sort_custom(func(a: CardInstance, b: CardInstance) -> bool:
-		return _keep_value(a, lands_out) < _keep_value(b, lands_out)
+		return _keep_value(a, infrastructure_out) < _keep_value(b, infrastructure_out)
 	)
 	var action: GameAction = GameAction.make(GameAction.Type.DISCARD, who)
 	for i: int in range(state.pending_discard):
@@ -129,10 +129,10 @@ func _choose_discard(state: GameState, who: int) -> GameAction:
 	return action
 
 
-func _keep_value(card: CardInstance, lands_out: int) -> float:
-	if card.data.is_land():
-		return 4.0 if lands_out < 5 else 0.5
-	return float(card.data.mana_value()) + 1.5
+func _keep_value(card: CardInstance, infrastructure_out: int) -> float:
+	if card.data.is_infrastructure():
+		return 4.0 if infrastructure_out < 5 else 0.5
+	return float(card.data.energy_value()) + 1.5
 
 
 # --------------------------------------------------------------------------------------
@@ -142,12 +142,12 @@ func _keep_value(card: CardInstance, lands_out: int) -> float:
 
 func _choose_main_action(state: GameState, who: int) -> GameAction:
 	var actions: Array[GameAction] = state.legal_actions()
-	var land_actions: Array[GameAction] = []
+	var infrastructure_actions: Array[GameAction] = []
 	for action: GameAction in actions:
-		if action.type == GameAction.Type.PLAY_LAND:
-			land_actions.append(action)
-	if not land_actions.is_empty():
-		return _best_land(state, who, land_actions)
+		if action.type == GameAction.Type.PLAY_INFRASTRUCTURE:
+			infrastructure_actions.append(action)
+	if not infrastructure_actions.is_empty():
+		return _best_infrastructure(state, who, infrastructure_actions)
 	var baseline: float = evaluate(state, who)
 	var best: GameAction = GameAction.pass_phase(who)
 	var best_gain: float = EPSILON
@@ -164,19 +164,19 @@ func _choose_main_action(state: GameState, who: int) -> GameAction:
 	return best
 
 
-## Plays the land type the hand needs most (pips in hand vs lands already out).
-func _best_land(state: GameState, who: int, land_actions: Array[GameAction]) -> GameAction:
+## Plays the infrastructure type the hand needs most (pips in hand vs infrastructure already out).
+func _best_infrastructure(state: GameState, who: int, infrastructure_actions: Array[GameAction]) -> GameAction:
 	var player: PlayerState = state.players[who]
 	var need: Dictionary = {}
 	for card: CardInstance in player.hand:
 		for pip: Affinity.Type in card.data.colored_pips:
 			need[pip] = float(need.get(pip, 0.0)) + 1.0
 	var have: Dictionary = {}
-	for land: CardInstance in player.lands:
-		have[land.data.color] = int(have.get(land.data.color, 0)) + 1
-	var best: GameAction = land_actions[0]
+	for infra: CardInstance in player.infrastructure:
+		have[infra.data.color] = int(have.get(infra.data.color, 0)) + 1
+	var best: GameAction = infrastructure_actions[0]
 	var best_score: float = -INF
-	for action: GameAction in land_actions:
+	for action: GameAction in infrastructure_actions:
 		var color: Affinity.Type = state.find_card(action.card_uid).data.color
 		var score: float = float(need.get(color, 0.0)) / float(1 + int(have.get(color, 0)))
 		if score > best_score:
@@ -228,7 +228,7 @@ func _attack_candidates(state: GameState, who: int, available: Array[CardInstanc
 	# Attackers that no enemy blocker could kill without help ("safe" attackers).
 	var strongest_foe: int = 0
 	for card: CardInstance in state.players[1 - who].creatures():
-		if not card.tapped:
+		if not card.exhausted:
 			strongest_foe = maxi(strongest_foe, state.get_power(card))
 	var safe: Array[int] = []
 	for card: CardInstance in available:

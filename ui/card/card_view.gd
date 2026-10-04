@@ -157,7 +157,7 @@ func _build_name_bar() -> void:
 	_fit_name(_name_label, 24 if mode == Mode.FULL else 25)
 	_name_label.add_theme_constant_override("line_spacing", -6)
 	add_child(_name_label)
-	if not data.is_land():
+	if not data.is_infrastructure():
 		var pips: PipRow = PipRow.new()
 		pips.data = data
 		pips.position = Vector2(288 - 8 - _pips_width(), 12 + (height - 30.0) * 0.5)
@@ -167,13 +167,13 @@ func _build_name_bar() -> void:
 
 
 func _display_name() -> String:
-	if data.is_land():
-		return "%s Land" % UIStyle.affinity_name(data.color)
+	if data.is_infrastructure():
+		return "%s Infrastructure" % UIStyle.affinity_name(data.color)
 	return data.display_name
 
 
 func _pips_width() -> float:
-	if data.is_land():
+	if data.is_infrastructure():
 		return 0.0
 	var count: int = data.colored_pips.size() + (1 if data.generic_cost > 0 else 0)
 	return maxf(30.0, count * 32.0)
@@ -253,8 +253,8 @@ func _build_type_line() -> void:
 func _type_text() -> String:
 	var kind: String = "Creature"
 	match data.type:
-		CardEnums.CardType.LAND:
-			kind = "Basic Land" if data.is_basic else "Land"
+		CardEnums.CardType.INFRASTRUCTURE:
+			kind = "Basic Infrastructure" if data.is_basic else "Infrastructure"
 		CardEnums.CardType.SPELL:
 			kind = "Spell"
 		CardEnums.CardType.TRAP:
@@ -399,7 +399,7 @@ func _set_stats(power: int, toughness: int, damage: int) -> void:
 	_power_label.add_theme_color_override("font_color", color)
 
 
-## Refreshes power/toughness/damage/tapped/summoning-sick from the rules engine.
+## Refreshes power/toughness/damage/exhausted/summoning-sick from the rules engine.
 func apply_instance(instance: CardInstance, game: GameState) -> void:
 	instance_uid = instance.uid
 	if data == null or mode == Mode.BACK:
@@ -410,9 +410,9 @@ func apply_instance(instance: CardInstance, game: GameState) -> void:
 		_damage_label.visible = instance.damage > 0
 		_damage_label.text = "-%d" % instance.damage
 	if _badge_sick != null:
-		_badge_sick.visible = instance.summoning_sick and data.is_creature() and not instance.tapped and not instance.has_keyword(CardEnums.Keyword.HASTE)
+		_badge_sick.visible = instance.summoning_sick and data.is_creature() and not instance.exhausted and not instance.has_keyword(CardEnums.Keyword.HASTE)
 	if _tint_overlay != null:
-		_tint_overlay.color = Color(0.05, 0.05, 0.12, 0.45) if instance.tapped else Color(0, 0, 0, 0)
+		_tint_overlay.color = Color(0.05, 0.05, 0.12, 0.45) if instance.exhausted else Color(0, 0, 0, 0)
 
 
 func set_glow(kind: Glow) -> void:

@@ -28,7 +28,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 5.5
 			made.leash_range = 8.5
 			made.recipe = {
-				"land:B": 16, "breadstick_sentry": 3, "meatloaf_golem": 3, "gravy_courier": 2,
+				"infrastructure:B": 16, "breadstick_sentry": 3, "meatloaf_golem": 3, "gravy_courier": 2,
 				"food_fight": 2, "soup_of_the_day": 1,
 			}
 			made.life = 14
@@ -45,7 +45,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
 			made.recipe = {
-				"land:B": 15, "gelatin_sentinel": 4, "sneeze_guard": 2, "soup_of_the_day": 3,
+				"infrastructure:B": 15, "gelatin_sentinel": 4, "sneeze_guard": 2, "soup_of_the_day": 3,
 				"sous_assist": 2, "souffle_sprite": 1,
 			}
 			made.life = 16
@@ -69,7 +69,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.display_name = "Colonel Casserole"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
 			made.recipe = {
-				"land:B": 16, "meatloaf_golem": 3, "gelatin_sentinel": 2, "breadstick_sentry": 3,
+				"infrastructure:B": 16, "meatloaf_golem": 3, "gelatin_sentinel": 2, "breadstick_sentry": 3,
 				"sneeze_guard": 2, "food_fight": 2, "sous_assist": 1,
 			}
 			made.life = 16

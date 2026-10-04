@@ -182,16 +182,10 @@ func _refresh() -> void:
 	_stat_row("Starting life", str(profile.base_max_life()))
 	_stat_row("Opening hand", str(profile.base_opening_hand()))
 	_stat_row("Item slots", "%d / %d" % [profile.item_slots, ProgressionTable.row(ProgressionTable.MAX_LEVEL).item_slots])
-	_stat_row("Deck copy limits", _copy_limits_text(profile))
+	_stat_row("Deck copy limit", "%d per card (infrastructure unlimited)" % DeckValidator.MAX_COPIES)
+	_stat_row("Max hand size", str(profile.base_max_hand_size()))
 	_refresh_equipment()
 	_refresh_items()
-
-
-func _copy_limits_text(profile: PlayerProfile) -> String:
-	var parts: PackedStringArray = []
-	for rarity: CardEnums.Rarity in [CardEnums.Rarity.COMMON, CardEnums.Rarity.UNCOMMON, CardEnums.Rarity.EPIC, CardEnums.Rarity.LEGENDARY]:
-		parts.append("%s %d" % [CardEnums.Rarity.keys()[int(rarity)].capitalize(), profile.max_copies_for(rarity)])
-	return ", ".join(parts)
 
 
 func _stat_row(label: String, value: String) -> void:

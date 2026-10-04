@@ -13,17 +13,17 @@ static func possible_attackers(state: GameState, player_index: int) -> Array[Car
 
 
 static func _can_attack(card: CardInstance) -> bool:
-	if card.tapped or card.has_keyword(CardEnums.Keyword.DEFENDER):
+	if card.exhausted or card.has_keyword(CardEnums.Keyword.DEFENDER):
 		return false
 	return not card.summoning_sick or card.has_keyword(CardEnums.Keyword.HASTE)
 
 
 ## Creatures with Guard: while the defender controls any UNTAPPED Guard creature, attackers
-## must attack one of them. A tapped Guard creature does not force attacks.
+## must attack one of them. An exhausted Guard creature does not force attacks.
 static func guard_creatures(state: GameState, defender_index: int) -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
 	for card: CardInstance in state.players[defender_index].creatures():
-		if card.has_keyword(CardEnums.Keyword.GUARD) and not card.tapped:
+		if card.has_keyword(CardEnums.Keyword.GUARD) and not card.exhausted:
 			result.append(card)
 	return result
 
@@ -31,7 +31,7 @@ static func guard_creatures(state: GameState, defender_index: int) -> Array[Card
 static func possible_blockers(state: GameState, defender_index: int) -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
 	for card: CardInstance in state.players[defender_index].creatures():
-		if not card.tapped and not card.cannot_block:
+		if not card.exhausted and not card.cannot_block:
 			result.append(card)
 	return result
 
@@ -39,7 +39,7 @@ static func possible_blockers(state: GameState, defender_index: int) -> Array[Ca
 ## Flying attackers can only be blocked by Flying or Reach creatures. New brief, Part B: a
 ## creature whose controller's equipment forbids blocking (e.g. Hover Boots) can never block.
 static func can_block(attacker: CardInstance, blocker: CardInstance) -> bool:
-	if blocker.tapped or not blocker.data.is_creature() or blocker.cannot_block:
+	if blocker.exhausted or not blocker.data.is_creature() or blocker.cannot_block:
 		return false
 	if attacker.has_keyword(CardEnums.Keyword.FLYING):
 		return blocker.has_keyword(CardEnums.Keyword.FLYING) or blocker.has_keyword(CardEnums.Keyword.REACH)
@@ -78,7 +78,7 @@ static func declare_attackers(state: GameState, uids: Array[int], guard_targets:
 
 	for card: CardInstance in chosen:
 		if not card.has_keyword(CardEnums.Keyword.VIGILANCE):
-			card.tapped = true
+			card.exhausted = true
 		state.attackers.append(card.uid)
 		var target_ref: int = Targets.player(defender)
 		if targets.has(card.uid):

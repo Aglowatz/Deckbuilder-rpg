@@ -51,34 +51,34 @@ static func display_name(id: String) -> String:
 	return str(DISPLAY_NAMES.get(id, "A Corrupted Wanderer"))
 
 
-## Mono-color deck recipes (card id, or "land:<A|B|C|D>", -> copies) - see
+## Mono-color deck recipes (card id, or "infrastructure:<A|B|C|D>", -> copies) - see
 ## docs/balance_report.md for how these were tuned against a typical level-3 player deck.
 static func recipe(id: String) -> Dictionary:
 	match id:
 		"beefcake":
 			return {
-				"land:A": 16, "beefcake_imp": 2, "blade_dancer": 2, "raider": 2,
+				"infrastructure:A": 16, "beefcake_imp": 2, "blade_dancer": 2, "raider": 2,
 				"blazing_charger": 1, "firebolt": 2, "flame_burst": 1, "warcry": 1,
 			}
 		"gourmand":
 			return {
-				"land:B": 16, "frost_sentry": 3, "sage": 2, "whispering_shade": 2,
+				"infrastructure:B": 16, "frost_sentry": 3, "sage": 2, "whispering_shade": 2,
 				"sea_warden": 1, "deep_insight": 1, "dissolve": 2, "snare": 1,
 			}
 		"refusemancer":
 			return {
-				"land:C": 17, "mossback_bear": 2, "rampaging_boar": 1, "stag_warden": 2,
+				"infrastructure:C": 17, "mossback_bear": 2, "rampaging_boar": 1, "stag_warden": 2,
 				"thornback_colossus": 1, "growth": 1, "rejuvenate": 1,
 			}
 		"necrocrat":
 			return {
-				"land:D": 16, "bone_servant": 2, "martyr": 2, "grave_tender": 2,
+				"infrastructure:D": 16, "bone_servant": 2, "martyr": 2, "grave_tender": 2,
 				"bloodthirst_wolf": 2, "necromancer": 2, "soul_drain": 1, "dark_bargain": 1,
 			}
 	return {}
 
 
-## Builds a Deck from a recipe (same "id, or land:<color>, -> copies" convention as
+## Builds a Deck from a recipe (same "id, or infrastructure:<color>, -> copies" convention as
 ## TrialOfTheHollow.enemy_deck).
 static func _deck_from_recipe(content: ContentSet, deck_name: String, deck_recipe: Dictionary) -> Deck:
 	var deck: Deck = Deck.new()
@@ -86,9 +86,9 @@ static func _deck_from_recipe(content: ContentSet, deck_name: String, deck_recip
 	for key: Variant in deck_recipe.keys():
 		var id: String = str(key)
 		var card: CardData = null
-		if id.begins_with("land:"):
-			var color: Affinity.Type = ["", "A", "B", "C", "D"].find(id.substr(5)) as Affinity.Type
-			card = content.lands[int(color)] as CardData
+		if id.begins_with("infrastructure:"):
+			var color: Affinity.Type = ["", "A", "B", "C", "D"].find(id.substr(15)) as Affinity.Type
+			card = content.infrastructure[int(color)] as CardData
 		else:
 			card = content.card(id)
 		if card == null:

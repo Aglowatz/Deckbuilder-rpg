@@ -147,7 +147,7 @@ func test_first_turn_extra_draw_also_applies_to_whoever_goes_second() -> void:
 ## real game would.
 func test_grant_keyword_to_creatures_gives_flying_to_a_newly_entered_creature() -> void:
 	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.GRANT_KEYWORD_TO_CREATURES, int(CardEnums.Keyword.FLYING))])
-	GameFactory.add_lands(game, 0, 1)
+	GameFactory.add_infrastructure_cards(game, 0, 1)
 	var hand_card: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2))
 	assert_true(game.cast(0, hand_card.uid))
 	var creature: CardInstance = game.players[0].find_battlefield(hand_card.uid)
@@ -159,7 +159,7 @@ func test_grant_keyword_to_creatures_gives_flying_to_a_newly_entered_creature() 
 func test_cannot_block_modifier_creature_can_never_be_declared_as_blocker() -> void:
 	var game: GameState = _game([], [CardBuilder.modifier(Modifier.Kind.CANNOT_BLOCK, 1)])
 	var attacker: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(2, 2))
-	GameFactory.add_lands(game, 1, 1)
+	GameFactory.add_infrastructure_cards(game, 1, 1)
 	var grounded_in_hand: CardInstance = GameFactory.add_to_hand(game, 1, GameFactory.vanilla(5, 5))
 	GameFactory.pass_turn(game) # P1's main phase, so P1 can cast
 	assert_true(game.cast(1, grounded_in_hand.uid))
@@ -173,24 +173,24 @@ func test_cannot_block_modifier_creature_can_never_be_declared_as_blocker() -> v
 	assert_false(game.declare_blockers({attacker.uid: grounded.uid}), "cannot be assigned as a blocker either")
 
 
-# ---- Big Brain Beret: MAX_NON_LAND_CASTS_PER_TURN ---------------------------------------------
+# ---- Big Brain Beret: MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN ---------------------------------------------
 
 
-func test_non_land_cast_cap_blocks_a_second_non_land_card_but_allows_a_land() -> void:
-	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.MAX_NON_LAND_CASTS_PER_TURN, 1)])
-	GameFactory.add_lands(game, 0, 3)
+func test_non_infrastructure_cast_cap_blocks_a_second_non_infrastructure_card_but_allows_a_infrastructure() -> void:
+	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN, 1)])
+	GameFactory.add_infrastructure_cards(game, 0, 3)
 	var first: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1))
 	var second: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1))
-	var land: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.land())
+	var infra: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.infra())
 	assert_true(game.cast(0, first.uid))
-	assert_false(game.can_cast(0, second.uid), "the one-non-land-card-per-turn cap")
-	assert_true(game.can_play_land(0, land.uid), "playing a land is unaffected by the cap")
-	assert_true(game.play_land(0, land.uid))
+	assert_false(game.can_cast(0, second.uid), "the one-non-infrastructure-card-per-turn cap")
+	assert_true(game.can_play_infrastructure(0, infra.uid), "playing an infrastructure is unaffected by the cap")
+	assert_true(game.play_infrastructure(0, infra.uid))
 
 
-func test_non_land_cast_cap_resets_next_turn() -> void:
-	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.MAX_NON_LAND_CASTS_PER_TURN, 1)])
-	GameFactory.add_lands(game, 0, 2)
+func test_non_infrastructure_cast_cap_resets_next_turn() -> void:
+	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN, 1)])
+	GameFactory.add_infrastructure_cards(game, 0, 2)
 	var first: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1))
 	assert_true(game.cast(0, first.uid))
 	GameFactory.pass_turn(game)

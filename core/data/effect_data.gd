@@ -14,7 +14,7 @@ extends Resource
 @export var keyword: CardEnums.Keyword = CardEnums.Keyword.FLYING
 ## Token summoned by SUMMON_TOKEN.
 @export var token: CardData
-## Generic mana paid to use an ACTIVATED effect (once per turn per card).
+## Generic Path energy paid to use an ACTIVATED effect (once per turn per card).
 @export var activation_cost: int = 0
 @export var description: String = ""
 

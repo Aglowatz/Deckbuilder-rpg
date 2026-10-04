@@ -1,8 +1,8 @@
 class_name HandSmoother
 extends RefCounted
 ## Opening-hand selection. Draws `hand_size` cards from a shuffled library. With the smoother on,
-## a second candidate hand is drawn only when the first one's land count is more than `tolerance`
-## away from `land_ratio * hand_size`; the candidate closer to that target is kept (ties keep the
+## a second candidate hand is drawn only when the first one's infrastructure count is more than `tolerance`
+## away from `infrastructure_ratio * hand_size`; the candidate closer to that target is kept (ties keep the
 ## first). A tolerance of 0 always compares two hands; the default game setting is deliberately
 ## gentle so the smoother rescues floods and screws without making every hand ideal.
 
@@ -12,16 +12,16 @@ extends RefCounted
 static func draw_opening_hand(
 	library: Array[CardInstance],
 	hand_size: int,
-	land_ratio: float,
+	infrastructure_ratio: float,
 	smoother: bool,
 	rng: RandomNumberGenerator,
 	tolerance: float = 0.0,
 ) -> Array[CardInstance]:
 	var count: int = mini(hand_size, library.size())
-	var target: float = land_ratio * float(count)
+	var target: float = infrastructure_ratio * float(count)
 	RngUtil.shuffle(library, rng)
 	var hand: Array[CardInstance] = _top(library, count)
-	if smoother and absf(float(count_lands(hand)) - target) > tolerance:
+	if smoother and absf(float(count_infrastructure(hand)) - target) > tolerance:
 		var first: Array[CardInstance] = hand
 		RngUtil.shuffle(library, rng)
 		var second: Array[CardInstance] = _top(library, count)
@@ -32,23 +32,23 @@ static func draw_opening_hand(
 	return hand
 
 
-## Returns whichever hand's land count is closer to `target_lands` (ties -> `first`).
+## Returns whichever hand's infrastructure count is closer to `target_infrastructure` (ties -> `first`).
 static func pick_closest(
 	first: Array[CardInstance],
 	second: Array[CardInstance],
-	target_lands: float,
+	target_infrastructure: float,
 ) -> Array[CardInstance]:
-	var first_gap: float = absf(float(count_lands(first)) - target_lands)
-	var second_gap: float = absf(float(count_lands(second)) - target_lands)
+	var first_gap: float = absf(float(count_infrastructure(first)) - target_infrastructure)
+	var second_gap: float = absf(float(count_infrastructure(second)) - target_infrastructure)
 	return second if second_gap < first_gap else first
 
 
-static func count_lands(cards: Array[CardInstance]) -> int:
-	var lands: int = 0
+static func count_infrastructure(cards: Array[CardInstance]) -> int:
+	var infrastructure: int = 0
 	for card: CardInstance in cards:
-		if card.data.is_land():
-			lands += 1
-	return lands
+		if card.data.is_infrastructure():
+			infrastructure += 1
+	return infrastructure
 
 
 static func _top(library: Array[CardInstance], count: int) -> Array[CardInstance]:

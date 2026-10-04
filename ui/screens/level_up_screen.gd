@@ -105,9 +105,8 @@ func _bonuses_for(row: LevelData) -> Array[Bonus]:
 		bonuses.append(_bonus("hand", "Opening hand size +1 (now %d)." % row.opening_hand_size))
 	if row.item_slots > previous.item_slots:
 		bonuses.append(_bonus("item_slot", "+1 item slot (now %d)." % row.item_slots))
-	for rarity: Variant in row.copy_limits.keys():
-		if int(row.copy_limits[rarity]) > int(previous.copy_limits.get(rarity, 0)):
-			bonuses.append(_bonus("copies", "%s deck copy limit +1 (now %d)." % [CardEnums.Rarity.keys()[int(rarity)].capitalize(), int(row.copy_limits[rarity])]))
+	if row.max_hand_size > previous.max_hand_size:
+		bonuses.append(_bonus("hand", "Max hand size +1 (now %d)." % row.max_hand_size))
 	if row.equipment_choice:
 		bonuses.append(_bonus("equipment_unlock", "Choose an equipment slot to unlock."))
 	if row.reward_equipment_vendor_unlock:

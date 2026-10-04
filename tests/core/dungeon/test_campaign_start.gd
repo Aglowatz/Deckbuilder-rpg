@@ -7,14 +7,14 @@ func before_all() -> void:
 	_content = ContentLibrary.load_all()
 
 
-func test_starter_deck_is_neutral_spells_plus_chosen_color_lands() -> void:
+func test_starter_deck_is_neutral_spells_plus_chosen_color_infrastructure() -> void:
 	for color: Affinity.Type in Affinity.colored_types():
 		var deck: Deck = CampaignStart.starter_deck(_content, color)
-		assert_eq(deck.size(), 42, "23 neutral spells + 19 lands, short of 45 on purpose")
-		assert_eq(deck.land_count(), 19)
+		assert_eq(deck.size(), 42, "23 neutral spells + 19 infrastructure, short of 45 on purpose")
+		assert_eq(deck.infrastructure_count(), 19)
 		assert_eq(deck.colors(), [color] as Array[Affinity.Type], "only the chosen color appears")
 		for card: CardData in deck.cards:
-			assert_true(card.is_land() or card.color == Affinity.Type.NEUTRAL, card.id)
+			assert_true(card.is_infrastructure() or card.color == Affinity.Type.NEUTRAL, card.id)
 		# Not legal under the plain rules (too few cards)...
 		assert_false(DeckValidator.is_valid(deck, PlayerProfile.new()))
 		# ...but legal with the tutorial dungeon's size waiver applied.
@@ -60,7 +60,7 @@ func test_random_element_cards_are_distinct_and_on_element() -> void:
 	var seen_ids: Dictionary = {}
 	for card: CardData in picks:
 		assert_eq(card.color, Affinity.Type.A)
-		assert_false(card.is_land())
+		assert_false(card.is_infrastructure())
 		assert_false(seen_ids.has(card.id), "no duplicate picks")
 		seen_ids[card.id] = true
 

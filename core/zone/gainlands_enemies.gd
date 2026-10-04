@@ -26,7 +26,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 6.0
 			made.leash_range = 9.5
 			made.recipe = {
-				"land:A": 16, "gym_rat": 3, "pump_chaser": 3, "courtesy_chucker": 2,
+				"infrastructure:A": 16, "gym_rat": 3, "pump_chaser": 3, "courtesy_chucker": 2,
 				"flex_off": 2, "leg_day": 1,
 			}
 			made.life = 14
@@ -52,7 +52,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
 			made.recipe = {
-				"land:A": 15, "protein_golem": 4, "mill_hand": 3, "cheat_day": 2,
+				"infrastructure:A": 15, "protein_golem": 4, "mill_hand": 3, "cheat_day": 2,
 				"gym_rat": 2, "pre_workout": 1,
 			}
 			made.life = 16

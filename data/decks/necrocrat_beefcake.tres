@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Deck" format=3]
 
 [ext_resource type="Script" path="res://core/data/card_data.gd" id="1_x8lh7"]
-[ext_resource type="Resource" path="res://data/cards/land_affinity_d.tres" id="2_q74vk"]
-[ext_resource type="Resource" path="res://data/cards/land_affinity_a.tres" id="3_vi1cv"]
+[ext_resource type="Resource" path="res://data/cards/infrastructure_d.tres" id="2_q74vk"]
+[ext_resource type="Resource" path="res://data/cards/infrastructure_a.tres" id="3_vi1cv"]
 [ext_resource type="Resource" path="res://data/cards/bone_servant.tres" id="4_5rp3c"]
 [ext_resource type="Resource" path="res://data/cards/grave_tender.tres" id="5_6mrjl"]
 [ext_resource type="Resource" path="res://data/cards/martyr.tres" id="6_ymvyf"]

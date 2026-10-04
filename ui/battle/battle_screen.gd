@@ -326,7 +326,7 @@ func _refresh_ui() -> void:
 					glows[card.uid] = CardView.Glow.PLAYABLE
 			primary = "To Combat" if game.phase == GameState.Phase.MAIN1 else "End Turn"
 			end_visible = game.phase == GameState.Phase.MAIN1
-			prompt = "[b]Your main phase[/b]\nPlay a land and cast spells. Click a card, or drag it onto the table."
+			prompt = "[b]Your main phase[/b]\nPlay an infrastructure and cast spells. Click a card, or drag it onto the table."
 			if game.phase == GameState.Phase.MAIN2:
 				prompt = "[b]Second main phase[/b]\nPlay anything you held back, then end your turn."
 		Mode.ATTACK:
@@ -384,8 +384,8 @@ func _refresh_ui() -> void:
 
 
 func _is_playable(card: CardInstance) -> bool:
-	if card.data.is_land():
-		return game.can_play_land(0, card.uid)
+	if card.data.is_infrastructure():
+		return game.can_play_infrastructure(0, card.uid)
 	return game.can_cast(0, card.uid)
 
 
@@ -542,11 +542,11 @@ func _try_play(uid: int) -> void:
 	var card: CardInstance = game.players[0].find_hand(uid)
 	if card == null:
 		return
-	if card.data.is_land():
-		if game.can_play_land(0, uid):
-			_submit(GameAction.play_land(0, uid))
+	if card.data.is_infrastructure():
+		if game.can_play_infrastructure(0, uid):
+			_submit(GameAction.play_infrastructure(0, uid))
 		else:
-			_reject("You can only play one land per turn")
+			_reject("You can only play one infrastructure per turn")
 		return
 	if not game.can_cast(0, uid):
 		_reject(_why_not_castable(card))
@@ -563,8 +563,8 @@ func _try_play(uid: int) -> void:
 func _why_not_castable(card: CardInstance) -> String:
 	if not game.in_main_phase() or game.active != 0:
 		return "You can only cast cards in your main phase"
-	if not Mana.can_pay(game.players[0].untapped_lands(), game.generic_cost_for(0, card.data), card.data.colored_pips):
-		return "Not enough mana"
+	if not PathEnergy.can_pay(game.players[0].ready_infrastructure(), game.generic_cost_for(0, card.data), card.data.colored_pips):
+		return "Not enough Path energy"
 	return "There is no legal target"
 
 
@@ -593,7 +593,7 @@ func _try_activate(uid: int) -> void:
 	_submit(GameAction.activate(0, uid, index))
 
 
-## New brief, Part F: using an equipped item from the item bar. Items are not cards - no mana, no
+## New brief, Part F: using an equipped item from the item bar. Items are not cards - no Path energy, no
 ## hand/battlefield involvement - but they reuse the exact same TARGETING flow when their effect
 ## needs a chosen target (_pending_item, checked first in _finish_targeting).
 func _on_item_pressed(item: ItemData) -> void:
@@ -726,7 +726,7 @@ func _toggle_attacker(uid: int) -> void:
 func _block_click(uid: int, mine: bool) -> void:
 	if mine:
 		var blocker: CardInstance = game.players[0].find_battlefield(uid)
-		if blocker == null or blocker.tapped:
+		if blocker == null or blocker.exhausted:
 			_reject("That creature cannot block")
 			return
 		# Clicking an assigned blocker removes its block.
@@ -786,11 +786,11 @@ func _show_mulligan() -> void:
 	var column: VBoxContainer = UIKit.vbox(12)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Opening hand", &"HeadingLabel", 34, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var lands: int = 0
+	var infrastructure: int = 0
 	for card: CardInstance in game.players[0].hand:
-		if card.data.is_land():
-			lands += 1
-	var info: Label = UIKit.label("%d lands, %d spells in your %d cards." % [lands, game.players[0].hand.size() - lands, game.players[0].hand.size()], &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		if card.data.is_infrastructure():
+			infrastructure += 1
+	var info: Label = UIKit.label("%d infrastructure, %d spells in your %d cards." % [infrastructure, game.players[0].hand.size() - infrastructure, game.players[0].hand.size()], &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(info)
 	var row: HBoxContainer = UIKit.hbox(14)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER

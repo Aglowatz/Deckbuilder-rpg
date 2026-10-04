@@ -67,7 +67,7 @@ func test_caps_at_the_last_stage_once_past_the_authored_ones() -> void:
 		GameFactory.pass_turn(game) # alternates P1/P0/P1/P0/P1
 	assert_eq(game.active, 1)
 	var battlefield: Array[CardInstance] = game.players[1].battlefield
-	# 5 pass_turns from P1's first turn crosses P1's turn 1, 2 and 3 of their own (turns land on
+	# 5 pass_turns from P1's first turn crosses P1's turn 1, 2 and 3 of their own (turns infrastructure on
 	# P1 at i=0,2,4) - stage0 once, then stage1 (the cap) for every activation after.
 	assert_eq(battlefield.size(), 3)
 	assert_eq(battlefield[0].data, stage0)

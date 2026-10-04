@@ -12,11 +12,11 @@ enum Kind {
 	MAX_HAND_SIZE,
 	## value = flat change to opening hand size.
 	OPENING_HAND_SIZE,
-	## value = change to generic cost of matching non-land cards (min cost 0).
+	## value = change to generic cost of matching non-infrastructure cards (min cost 0).
 	COST_CHANGE,
 	## value = power delta, value2 = toughness delta for matching creatures.
 	STAT_CHANGE,
-	## value = extra land/color types allowed in the deck.
+	## value = extra infrastructure/color types allowed in the deck.
 	MAX_DECK_COLORS,
 	## value = extra cards drawn in each draw step.
 	EXTRA_DRAWS,
@@ -46,9 +46,9 @@ enum Kind {
 	## New brief, Part B: presence means every creature the owner controls can never be declared
 	## as a blocker (applied once on entering the battlefield, same timing as the grant above).
 	CANNOT_BLOCK,
-	## New brief, Part B: value = the smallest cap (if several apply) on how many non-land cards
+	## New brief, Part B: value = the smallest cap (if several apply) on how many non-infrastructure cards
 	## the owner may cast in one turn. Absent (no such modifier) means unlimited.
-	MAX_NON_LAND_CASTS_PER_TURN,
+	MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN,
 	## New brief, Part B: presence means the owner sees the opponent's hand face-up in the UI.
 	## Never reveals set traps - see `docs/design/open_questions.md` D91/D92.
 	REVEAL_OPPONENT_HAND,

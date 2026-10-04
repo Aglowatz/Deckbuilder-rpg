@@ -14,7 +14,7 @@ func _ready() -> void:
 	add_child(UIKit.gradient_background())
 	var ids: Array = content.cards.keys()
 	ids.sort()
-	var lands: Array = content.lands.values()
+	var infrastructure: Array = content.infrastructure.values()
 	var margin: MarginContainer = UIKit.margin(VBoxContainer.new(), 20)
 	UIKit.full_rect(margin)
 	add_child(margin)
@@ -34,5 +34,5 @@ func _ready() -> void:
 		compact.add_child(CardView.wrapped(content.card(str(ids[index])), 0.5, CardView.Mode.COMPACT))
 	var back: CardData = null
 	compact.add_child(CardView.wrapped(back, 0.5, CardView.Mode.BACK))
-	for land: Variant in lands.slice(0, 2):
-		compact.add_child(CardView.wrapped(land as CardData, 0.5))
+	for infra: Variant in infrastructure.slice(0, 2):
+		compact.add_child(CardView.wrapped(infra as CardData, 0.5))

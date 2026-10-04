@@ -6,7 +6,7 @@ var uid: int = 0
 var data: CardData
 var owner: int = 0
 var damage: int = 0
-var tapped: bool = false
+var exhausted: bool = false
 var summoning_sick: bool = false
 var face_down: bool = false
 var activated_this_turn: bool = false
@@ -34,7 +34,7 @@ func has_keyword(keyword: CardEnums.Keyword) -> bool:
 ## Clears all per-game state (used when a card leaves the battlefield).
 func reset() -> void:
 	damage = 0
-	tapped = false
+	exhausted = false
 	summoning_sick = false
 	face_down = false
 	activated_this_turn = false
@@ -60,7 +60,7 @@ func clone() -> CardInstance:
 	copy.data = data
 	copy.owner = owner
 	copy.damage = damage
-	copy.tapped = tapped
+	copy.exhausted = exhausted
 	copy.summoning_sick = summoning_sick
 	copy.face_down = face_down
 	copy.activated_this_turn = activated_this_turn

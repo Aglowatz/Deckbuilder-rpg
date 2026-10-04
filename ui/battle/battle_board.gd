@@ -1,29 +1,29 @@
 class_name BattleBoard
 extends Control
 ## The card table: creates a CardView per card, lays them out per zone (hands, battlefields,
-## land rows, trap slots) and animates the rules engine's event log. It never decides anything
+## infrastructure rows, trap slots) and animates the rules engine's event log. It never decides anything
 ## about the rules; it only shows what GameState already did.
 
 signal card_hovered(view: CardView)
 signal card_unhovered(view: CardView)
 signal card_input(view: CardView, event: InputEvent)
 
-enum Zone { HAND, BATTLEFIELD, LANDS, TRAPS, CENTER }
+enum Zone { HAND, BATTLEFIELD, INFRASTRUCTURE, TRAPS, CENTER }
 
 const CENTER_X: float = 985.0
 const ENEMY_HAND_Y: float = 6.0
-const ENEMY_LAND_Y: float = 152.0
+const ENEMY_INFRASTRUCTURE_Y: float = 152.0
 const ENEMY_BF_Y: float = 366.0
 const PLAYER_BF_Y: float = 620.0
-const PLAYER_LAND_Y: float = 806.0
+const PLAYER_INFRASTRUCTURE_Y: float = 806.0
 const HAND_Y: float = 985.0
 const CENTER_POINT: Vector2 = Vector2(985.0, 500.0)
 const BF_SPACING: float = 182.0
-const LAND_SPACING: float = 86.0
+const INFRASTRUCTURE_SPACING: float = 86.0
 const SCALE_HAND: float = 0.68
 const SCALE_ENEMY_HAND: float = 0.3
 const SCALE_BF: float = 0.56
-const SCALE_LAND: float = 0.27
+const SCALE_INFRASTRUCTURE: float = 0.27
 const SCALE_TRAP: float = 0.32
 const SCALE_CENTER: float = 0.85
 
@@ -64,7 +64,7 @@ func setup(game_state: GameState, effects: BattleFX) -> void:
 
 func register_all() -> void:
 	for player: PlayerState in game.players:
-		for zone_cards: Array[CardInstance] in [player.library, player.hand, player.battlefield, player.lands, player.graveyard, player.traps]:
+		for zone_cards: Array[CardInstance] in [player.library, player.hand, player.battlefield, player.infrastructure, player.graveyard, player.traps]:
 			for card: CardInstance in zone_cards:
 				card_data[card.uid] = card.data
 
@@ -203,7 +203,7 @@ func layout(animated: bool = true) -> void:
 	for owner_index: int in range(2):
 		_layout_hand(owner_index)
 		_layout_row(owner_index, Zone.BATTLEFIELD, PLAYER_BF_Y if owner_index == human else ENEMY_BF_Y, SCALE_BF, BF_SPACING, CENTER_X, 1250.0)
-		_layout_row(owner_index, Zone.LANDS, PLAYER_LAND_Y if owner_index == human else ENEMY_LAND_Y, SCALE_LAND, LAND_SPACING, CENTER_X - 130.0, 950.0)
+		_layout_row(owner_index, Zone.INFRASTRUCTURE, PLAYER_INFRASTRUCTURE_Y if owner_index == human else ENEMY_INFRASTRUCTURE_Y, SCALE_INFRASTRUCTURE, INFRASTRUCTURE_SPACING, CENTER_X - 130.0, 950.0)
 		_layout_traps(owner_index)
 	_place_blockers()
 	var center: Array[int] = []
@@ -257,9 +257,9 @@ func _layout_row(owner_index: int, zone: Zone, y: float, card_scale: float, spac
 			var dir: float = -1.0 if owner_index == human else 1.0
 			if attacking.has(uid):
 				pos.y += dir * 70.0
-		if card != null and card.tapped and zone != Zone.BATTLEFIELD:
+		if card != null and card.exhausted and zone != Zone.BATTLEFIELD:
 			rot = 14.0
-		elif card != null and card.tapped:
+		elif card != null and card.exhausted:
 			rot = 7.0
 		var z: int = 5 + index
 		if uid == hover_uid:
@@ -282,7 +282,7 @@ func _place_blockers() -> void:
 
 func _layout_traps(owner_index: int) -> void:
 	var cards: Array[int] = _cards_in(owner_index, Zone.TRAPS)
-	var y: float = PLAYER_LAND_Y if owner_index == human else ENEMY_LAND_Y
+	var y: float = PLAYER_INFRASTRUCTURE_Y if owner_index == human else ENEMY_INFRASTRUCTURE_Y
 	for index: int in range(cards.size()):
 		_targets[cards[index]] = {"pos": Vector2(1500.0 - float(index) * 62.0, y), "rot": -6.0 + float(index) * 3.0, "scale": SCALE_TRAP, "z": 4 + index}
 
@@ -330,7 +330,7 @@ func sync_state(animated: bool = true) -> void:
 	for player: PlayerState in game.players:
 		_sync_zone(player.hand, player.index, Zone.HAND, alive)
 		_sync_zone(player.battlefield, player.index, Zone.BATTLEFIELD, alive)
-		_sync_zone(player.lands, player.index, Zone.LANDS, alive)
+		_sync_zone(player.infrastructure, player.index, Zone.INFRASTRUCTURE, alive)
 		_sync_zone(player.traps, player.index, Zone.TRAPS, alive)
 	for uid: int in views.keys():
 		if not alive.has(uid):
@@ -360,7 +360,7 @@ func _sync_zone(cards: Array[CardInstance], owner_index: int, zone: Zone, alive:
 			set_zone(card.uid, zone)
 
 
-## Dissolves every card still on the table (hand, battlefield, lands, traps) away. Used when a
+## Dissolves every card still on the table (hand, battlefield, infrastructure, traps) away. Used when a
 ## battle ends, so the result/reward panel never overlaps a frozen board. Fire-and-forget per
 ## card (matches `_on_died`'s pattern); the caller awaits a fixed settle time.
 func clear_board() -> void:
@@ -387,7 +387,7 @@ func _flush_center_instant() -> void:
 		if zones.get(uid) == Zone.CENTER:
 			var card: CardInstance = game.find_card(uid)
 			# A card left in the center that is no longer on any live zone is finished.
-			if card == null or not (game.players[card.owner].battlefield.has(card) or game.players[card.owner].traps.has(card) or game.players[card.owner].hand.has(card) or game.players[card.owner].lands.has(card)):
+			if card == null or not (game.players[card.owner].battlefield.has(card) or game.players[card.owner].traps.has(card) or game.players[card.owner].hand.has(card) or game.players[card.owner].infrastructure.has(card)):
 				var view: CardView = views[uid] as CardView
 				views.erase(uid)
 				zones.erase(uid)
@@ -427,7 +427,7 @@ func present(event: GameEvent) -> void:
 	# trap's view out of existence before _on_trap_set could move it, so a set trap never actually
 	# appeared in the trap row at all - it just vanished after the cast animation.
 	var flush_types: Array[GameEvent.Type] = [
-		GameEvent.Type.CARD_CAST, GameEvent.Type.LAND_PLAYED, GameEvent.Type.TURN_STARTED,
+		GameEvent.Type.CARD_CAST, GameEvent.Type.INFRASTRUCTURE_PLAYED, GameEvent.Type.TURN_STARTED,
 		GameEvent.Type.ATTACKERS_DECLARED, GameEvent.Type.PHASE_CHANGED,
 	]
 	if flush_types.has(event.type):
@@ -437,9 +437,9 @@ func present(event: GameEvent) -> void:
 			await _on_drawn(event)
 		GameEvent.Type.MULLIGAN_TAKEN:
 			_on_mulligan(event)
-		GameEvent.Type.LAND_PLAYED:
-			await _on_land_played(event)
-		GameEvent.Type.MANA_SPENT:
+		GameEvent.Type.INFRASTRUCTURE_PLAYED:
+			await _on_infrastructure_played(event)
+		GameEvent.Type.ENERGY_SPENT:
 			_refresh_view(event.card)
 			layout()
 		GameEvent.Type.CARD_CAST:
@@ -541,11 +541,11 @@ func _reveal(uid: int) -> void:
 		_refresh_view(uid)
 
 
-func _on_land_played(event: GameEvent) -> void:
+func _on_infrastructure_played(event: GameEvent) -> void:
 	if not views.has(event.card):
 		ensure_view(event.card, Zone.HAND, event.player, Vector2(CENTER_X, ENEMY_HAND_Y), SCALE_ENEMY_HAND)
 	_reveal(event.card)
-	set_zone(event.card, Zone.LANDS)
+	set_zone(event.card, Zone.INFRASTRUCTURE)
 	Audio.sfx(&"land_play")
 	layout()
 	await _wait(0.35)

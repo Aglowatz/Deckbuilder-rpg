@@ -1,6 +1,6 @@
 class_name BattlePilot
 extends RefCounted
-## A simple click-driven player used by the smoke and end-to-end tests. It plays a land, casts
+## A simple click-driven player used by the smoke and end-to-end tests. It plays an infrastructure, casts
 ## its most expensive card (dragging the first plain one), attacks with everything and blocks
 ## when it is safe or necessary, all through real mouse input.
 
@@ -74,13 +74,13 @@ func act() -> void:
 func _act_main(game: GameState) -> void:
 	var player: PlayerState = game.players[0]
 	for card: CardInstance in player.hand:
-		if card.data.is_land() and game.can_play_land(0, card.uid):
+		if card.data.is_infrastructure() and game.can_play_infrastructure(0, card.uid):
 			await driver.click(_view_center(card.uid))
 			return
 	var best: CardInstance = null
 	for card: CardInstance in player.hand:
-		if not card.data.is_land() and game.can_cast(0, card.uid) and not _skip_this_turn.has(card.uid):
-			if best == null or card.data.mana_value() > best.data.mana_value():
+		if not card.data.is_infrastructure() and game.can_cast(0, card.uid) and not _skip_this_turn.has(card.uid):
+			if best == null or card.data.energy_value() > best.data.energy_value():
 				best = card
 	if best != null:
 		if not dragged_once and best.data.effects.is_empty():

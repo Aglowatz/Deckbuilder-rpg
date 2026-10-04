@@ -73,11 +73,11 @@ func test_first_creature_with_no_creatures_in_deck_fails() -> void:
 	assert_eq(result.revealed.size(), 5)
 
 
-# ---- Hollow Well: land count ---------------------------------------------------------
+# ---- Hollow Well: infrastructure count ---------------------------------------------------------
 
 
-func test_top_five_land_count_success_heals() -> void:
-	var run: DungeonRun = _run(_repeat(CardBuilder.land(Affinity.Type.A), 10))
+func test_top_five_infrastructure_count_success_heals() -> void:
+	var run: DungeonRun = _run(_repeat(CardBuilder.infra(Affinity.Type.A), 10))
 	run.lose_life(6)
 	var result: ChallengeResult = ChallengeResolver.resolve(ChallengeExamples.hollow_well(), run, _rng())
 	assert_true(result.success)
@@ -86,7 +86,7 @@ func test_top_five_land_count_success_heals() -> void:
 	assert_eq(run.life, 8)
 
 
-func test_top_five_land_count_failure_loses_the_priciest_revealed_card() -> void:
+func test_top_five_infrastructure_count_failure_loses_the_priciest_revealed_card() -> void:
 	var cards: Array[CardData] = _repeat(_creature(3, 4, "pricey"), 3)
 	cards.append_array(_repeat(_creature(1, 1, "cheap"), 3))
 	var run: DungeonRun = _run(cards)
@@ -97,12 +97,12 @@ func test_top_five_land_count_failure_loses_the_priciest_revealed_card() -> void
 	assert_eq(run.current_deck().size(), before - 1)
 	var priciest: int = 0
 	for card: CardData in result.revealed:
-		priciest = maxi(priciest, card.mana_value())
-	assert_eq(result.lost_cards[0].mana_value(), priciest)
+		priciest = maxi(priciest, card.energy_value())
+	assert_eq(result.lost_cards[0].energy_value(), priciest)
 
 
-func test_lose_card_never_takes_basic_lands() -> void:
-	var cards: Array[CardData] = _repeat(CardBuilder.land(Affinity.Type.A), 3)
+func test_lose_card_never_takes_basic_infrastructure() -> void:
+	var cards: Array[CardData] = _repeat(CardBuilder.infra(Affinity.Type.A), 3)
 	var challenge: ChallengeData = ChallengeExamples.hollow_well()
 	challenge.threshold = 99
 	var run: DungeonRun = _run(cards)
@@ -165,7 +165,7 @@ func test_sacrifice_uses_the_players_choice() -> void:
 
 
 func test_sacrifice_defaults_to_the_cheapest_non_basic_card() -> void:
-	var cards: Array[CardData] = [_creature(5, 5, "big"), _creature(1, 1, "small"), CardBuilder.land(Affinity.Type.A)]
+	var cards: Array[CardData] = [_creature(5, 5, "big"), _creature(1, 1, "small"), CardBuilder.infra(Affinity.Type.A)]
 	var run: DungeonRun = _run(cards)
 	var result: ChallengeResult = ChallengeResolver.resolve(ChallengeExamples.altar_of_sacrifice(), run, _rng())
 	assert_eq(result.lost_cards[0].id, "small")
@@ -180,7 +180,7 @@ func test_sacrifice_of_a_card_not_in_the_deck_falls_back_to_default() -> void:
 
 
 func test_sacrifice_with_nothing_to_give_fails_without_outcomes() -> void:
-	var run: DungeonRun = _run(_repeat(CardBuilder.land(Affinity.Type.A), 3))
+	var run: DungeonRun = _run(_repeat(CardBuilder.infra(Affinity.Type.A), 3))
 	var result: ChallengeResult = ChallengeResolver.resolve(ChallengeExamples.altar_of_sacrifice(), run, _rng())
 	assert_false(result.success)
 	assert_eq(result.outcomes.size(), 0)

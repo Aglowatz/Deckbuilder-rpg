@@ -13,8 +13,8 @@ extends Resource
 @export var enemy_board_weight: float = 1.0
 ## Value of cards in hand.
 @export var hand_weight: float = 0.6
-## Value of lands on the battlefield (mana development).
-@export var mana_weight: float = 0.5
+## Value of infrastructure on the battlefield (Path energy development).
+@export var energy_weight: float = 0.5
 ## How much the AI dislikes leaving itself open to a counter-attack.
 @export var threat_weight: float = 0.6
 ## Flat bonus per attacking creature (positive = more eager to attack).

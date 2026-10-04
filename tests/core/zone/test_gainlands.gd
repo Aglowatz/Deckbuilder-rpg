@@ -325,7 +325,7 @@ func test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer(
 		var deck: Deck = ZoneEnemies.deck(Session.content, GainlandsZone.ID, id)
 		assert_gte(deck.size(), 24, "%s has a real deck" % id)
 		for card: CardData in deck.cards:
-			assert_true(card.type == CardEnums.CardType.LAND or card.color == Affinity.Type.A or card.color == Affinity.Type.NEUTRAL, "%s uses Beefcake cards" % id)
+			assert_true(card.type == CardEnums.CardType.INFRASTRUCTURE or card.color == Affinity.Type.A or card.color == Affinity.Type.NEUTRAL, "%s uses Beefcake cards" % id)
 	var sprite: ZoneEnemyInfo = GainlandsEnemies.info(GainlandsEnemies.SPRITE)
 	assert_eq(sprite.kind, ZoneEnemyInfo.Kind.DAMAGE)
 	assert_eq(sprite.damage, 2)

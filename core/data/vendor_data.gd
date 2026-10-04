@@ -49,7 +49,7 @@ func is_open(state: UnlockState) -> bool:
 	return Condition.met(appears_when, state)
 
 
-## Every card in a full deck's non-land, non-token cards, priced/gated by rarity: common cards
+## Every card in a full deck's non-infrastructure, non-token cards, priced/gated by rarity: common cards
 ## unlock once `gate` (usually the vendor's home dungeon being cleared) is met; uncommon/epic/
 ## legendary unlock progressively further behind lifetime gold spent OR player level (Part E: a
 ## "vendor unlock" level reward is real, not just flavor - either path opens the tier, whichever

@@ -8,23 +8,15 @@ extends RefCounted
 const MAX_LEVEL: int = 30
 ## Levels that hand out an equipment slot choice (Part E: one per level, 5 slots total).
 const EQUIPMENT_CHOICE_LEVELS: Array[int] = [5, 10, 15, 20, 25]
-## Levels where a rarity's max deck copies increases by 1, in the order the brief lists rarities
-## (Common/Uncommon start at 3, Epic at 2, Legendary at 1 - all reach 4 by level 28, well before
-## the postgame levels 21-30 begin at 21, except Legendary's last step, deliberately the latest
-## since it is the rarest tier - see docs/design/open_questions.md).
-const COPY_LIMIT_STEPS: Dictionary = {
-	6: CardEnums.Rarity.COMMON,
-	11: CardEnums.Rarity.UNCOMMON,
-	14: CardEnums.Rarity.EPIC,
-	17: CardEnums.Rarity.LEGENDARY,
-	21: CardEnums.Rarity.EPIC,
-	24: CardEnums.Rarity.LEGENDARY,
-	28: CardEnums.Rarity.LEGENDARY,
-}
-const STARTING_COPY_LIMITS: Dictionary = {
-	CardEnums.Rarity.COMMON: 3, CardEnums.Rarity.UNCOMMON: 3,
-	CardEnums.Rarity.EPIC: 2, CardEnums.Rarity.LEGENDARY: 1,
-}
+## Part A (infrastructure brief): rarity-based deck copy limits are gone - every non-infrastructure
+## card allows `DeckValidator.MAX_COPIES` (4) copies at every level, and infrastructure is unlimited.
+## The seven level-ups that used to raise a rarity's copy limit now grant other rewards instead:
+## gold, permanent vendor discounts, a bigger maximum hand size, and a vendor-stock unlock.
+const BONUS_GOLD_LEVELS: Dictionary = {6: 120, 21: 200}
+const BONUS_DISCOUNT_LEVELS: Array[int] = [11, 24]
+const MAX_HAND_LEVELS: Array[int] = [14, 28]
+const BONUS_VENDOR_UNLOCK_LEVELS: Array[int] = [17]
+const BONUS_VENDOR_UNLOCK_NAME: String = "Sable's rare stock"
 ## Opening hand size increases at these levels (5 -> 8 over 3 steps).
 const HAND_SIZE_LEVELS: Array[int] = [8, 16, 24]
 ## Item slots increase at these levels (1 -> 4 over 3 steps).
@@ -42,7 +34,6 @@ const FILLER_DISCOUNT_PERCENT: int = 10
 
 static func build() -> Array[LevelData]:
 	var rows: Array[LevelData] = []
-	var copy_limits: Dictionary = STARTING_COPY_LIMITS.duplicate()
 	for level: int in range(1, MAX_LEVEL + 1):
 		var row: LevelData = LevelData.new()
 		row.level = level
@@ -50,10 +41,10 @@ static func build() -> Array[LevelData]:
 		row.max_life = PlayerProfile.START_MAX_LIFE + int(level / 2)
 		row.opening_hand_size = PlayerProfile.MIN_OPENING_HAND + _steps_reached(level, HAND_SIZE_LEVELS)
 		row.item_slots = 1 + _steps_reached(level, ITEM_SLOT_LEVELS)
-		if COPY_LIMIT_STEPS.has(level):
-			var rarity: CardEnums.Rarity = COPY_LIMIT_STEPS[level] as CardEnums.Rarity
-			copy_limits[rarity] = int(copy_limits[rarity]) + 1
-		row.copy_limits = copy_limits.duplicate()
+		row.max_hand_size = PlayerProfile.DEFAULT_MAX_HAND_SIZE + _steps_reached(level, MAX_HAND_LEVELS)
+		row.reward_gold = int(BONUS_GOLD_LEVELS.get(level, 0))
+		row.reward_vendor_discount_percent = FILLER_DISCOUNT_PERCENT if BONUS_DISCOUNT_LEVELS.has(level) else 0
+		row.reward_vendor_unlock = BONUS_VENDOR_UNLOCK_NAME if BONUS_VENDOR_UNLOCK_LEVELS.has(level) else ""
 		row.equipment_choice = EQUIPMENT_CHOICE_LEVELS.has(level)
 		row.reward_equipment_vendor_unlock = level == EQUIPMENT_VENDOR_UNLOCK_LEVEL
 		row.reward_item_vendor_advanced_unlock = level == ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL
@@ -124,9 +115,14 @@ static func _fill_summaries_and_fallback_rewards(rows: Array[LevelData]) -> void
 				notes.append("Opening hand size +1 (%d)." % current.opening_hand_size)
 			if current.item_slots > previous.item_slots:
 				notes.append("+1 item slot (%d)." % current.item_slots)
-			for rarity: Variant in current.copy_limits.keys():
-				if int(current.copy_limits[rarity]) > int(previous.copy_limits.get(rarity, 0)):
-					notes.append("%s deck copy limit +1 (%d)." % [CardEnums.Rarity.keys()[int(rarity)].capitalize(), int(current.copy_limits[rarity])])
+			if current.max_hand_size > previous.max_hand_size:
+				notes.append("Max hand size +1 (%d)." % current.max_hand_size)
+			if current.reward_gold > 0:
+				notes.append("+%d gold." % current.reward_gold)
+			if current.reward_vendor_discount_percent > 0:
+				notes.append("Permanent vendor discount +%d%%." % current.reward_vendor_discount_percent)
+			if not current.reward_vendor_unlock.is_empty():
+				notes.append("Unlocks a small batch of rarer cards at the vendor.")
 			if current.equipment_choice:
 				notes.append("Choose an equipment slot to unlock.")
 			if current.reward_equipment_vendor_unlock:

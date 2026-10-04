@@ -15,7 +15,7 @@ const DEFAULT_MAX_HAND_SIZE: int = 10
 @export var owned_cards: Array[CardData] = []
 ## Raises the deck color limit from 2 to 4.
 @export var postgame_unlocked: bool = false
-## The land color the player chose at the start (NEUTRAL = not chosen yet).
+## The infrastructure color the player chose at the start (NEUTRAL = not chosen yet).
 @export var primary_affinity: Affinity.Type = Affinity.Type.NEUTRAL
 ## Set once the intro dungeon is cleared and the attunement reward has been granted.
 @export var intro_dungeon_cleared: bool = false
@@ -86,14 +86,9 @@ func gear_modifiers() -> ModifierSet:
 func apply_level(row: LevelData) -> void:
 	level = row.level
 	max_life = row.max_life
+	max_hand_size = row.max_hand_size
 	opening_hand_size = row.opening_hand_size
 	item_slots = row.item_slots
-
-
-## Max copies of a card of `rarity` this profile's level allows in a deck.
-func max_copies_for(rarity: CardEnums.Rarity) -> int:
-	var row: LevelData = ProgressionTable.row(level)
-	return int(row.copy_limits.get(rarity, DeckValidator.MAX_COPIES)) if row != null else DeckValidator.MAX_COPIES
 
 
 func has_equipment_slot(slot: EquipmentData.Slot) -> bool:

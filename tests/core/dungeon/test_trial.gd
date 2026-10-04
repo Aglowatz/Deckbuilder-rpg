@@ -50,14 +50,14 @@ func test_non_boss_decks_are_weak_and_vanilla_with_1_cost_creatures() -> void:
 		var one_cost_creatures: int = 0
 		var seen: Dictionary = {}
 		for card: CardData in deck.cards:
-			if card.is_land() or seen.has(card.id):
+			if card.is_infrastructure() or seen.has(card.id):
 				continue
 			seen[card.id] = true
 			for effect: EffectData in card.effects:
 				assert_false(removal_or_draw_ops.has(effect.op), "%s: %s has removal/card-draw (%s)" % [enemy_name, card.id, effect.op])
 			if card.is_creature():
 				assert_lt(card.power + card.toughness, 8, "%s: %s should be a low-stat creature" % [enemy_name, card.id])
-				if card.mana_value() == 1:
+				if card.energy_value() == 1:
 					one_cost_creatures += 1
 		assert_gt(one_cost_creatures, 0, "%s should include 1-cost creatures" % enemy_name)
 
@@ -103,7 +103,7 @@ func test_enemy_decks_resolve_all_cards() -> void:
 		for count: Variant in TrialOfTheHollow.enemy_recipe(enemy).values():
 			recipe_total += int(count)
 		assert_eq(deck.size(), recipe_total, "%s has every recipe card" % enemy)
-		assert_true(deck.land_count() >= 12, "%s has lands" % enemy)
+		assert_true(deck.infrastructure_count() >= 12, "%s has infrastructure" % enemy)
 
 
 func test_deck_size_waiver_matches_the_starter_deck() -> void:

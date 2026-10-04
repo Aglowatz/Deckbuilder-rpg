@@ -13,7 +13,7 @@ func test_offers_distinct_cards() -> void:
 		assert_ne(cards[1].id, cards[2].id)
 		assert_ne(cards[0].id, cards[2].id)
 		for card: CardData in cards:
-			assert_false(card.is_token or card.is_land())
+			assert_false(card.is_token or card.is_infrastructure())
 
 
 func test_favours_primary_color_and_neutral() -> void:
@@ -57,7 +57,7 @@ func test_card_choices_for_color_never_leaves_the_given_color() -> void:
 			assert_eq(cards.size(), 3)
 			for card: CardData in cards:
 				assert_eq(card.color, color, "%s should never be offered as an %s reward" % [card.id, Affinity.display_name(color)])
-				assert_false(card.is_token or card.is_land())
+				assert_false(card.is_token or card.is_infrastructure())
 
 
 func test_card_choices_for_color_never_repeats_a_card() -> void:

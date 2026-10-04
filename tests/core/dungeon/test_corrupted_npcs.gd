@@ -25,8 +25,8 @@ func test_every_deck_card_is_known_and_strictly_mono_color() -> void:
 		assert_false(deck.cards.is_empty(), "%s should have a real deck" % id)
 		var color: Affinity.Type = CorruptedNpcs.element(id)
 		for card: CardData in deck.cards:
-			if card.is_land():
-				assert_eq(card.color, color, "%s's lands should match their element" % id)
+			if card.is_infrastructure():
+				assert_eq(card.color, color, "%s's infrastructure should match their element" % id)
 			else:
 				assert_eq(card.color, color, "%s's deck should be strictly mono-color (found %s)" % [id, card.id])
 

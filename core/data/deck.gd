@@ -26,15 +26,15 @@ func copy_counts() -> Dictionary:
 	return counts
 
 
-func land_count() -> int:
+func infrastructure_count() -> int:
 	var count: int = 0
 	for card: CardData in cards:
-		if card.is_land():
+		if card.is_infrastructure():
 			count += 1
 	return count
 
 
-## Distinct non-neutral color types used by any card (lands included).
+## Distinct non-neutral color types used by any card (infrastructure included).
 func colors() -> Array[Affinity.Type]:
 	var result: Array[Affinity.Type] = []
 	for card: CardData in cards:

@@ -48,7 +48,7 @@ Average game length: **14.8 turns** (both players' turns) over 1000 games.
 
 ## Most-played cards
 
-Average casts per game (spells only; lands excluded), top 8 per deck.
+Average casts per game (spells only; infrastructure excluded), top 8 per deck.
 
 - **Beefcake & Gourmand**: blade_dancer (0.79), sellsword (0.70), beefcake_imp (0.69), firebolt (0.53), cave_bat (0.51), flame_burst (0.48), whispering_shade (0.46), blazing_charger (0.38)
   - least played: supply_cache (0.16 per copy), firebolt (0.18 per copy), raider (0.19 per copy)
@@ -74,7 +74,7 @@ Drawn / unfinished games: 0. Illegal AI actions: 0.
 ## Tutorial dungeon (Trial of the Hollow) balance
 
 Simulated with the AI (balanced personality) playing each element's real 42-card starter
-deck (23 neutral spells + 19 basic lands, Part C) through the whole dungeon (both battles,
+deck (23 neutral spells + 19 basic infrastructure, Part C) through the whole dungeon (both battles,
 the challenge, the shrine and the boss), picking one of the 3 offered on-element reward
 cards after each battle exactly like a real playthrough (so the deck grows to 45 cards by
 the boss), life carried between nodes, no dungeon-wide blessing - exactly what a human

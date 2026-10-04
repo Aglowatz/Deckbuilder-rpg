@@ -12,11 +12,11 @@ func _trap(trigger: CardEnums.Trigger, target: CardEnums.TargetKind, op: CardEnu
 	return card
 
 
-## P0 sets `trap_data`, then it is P1's main phase 1 with 4 lands and nothing else.
+## P0 sets `trap_data`, then it is P1's main phase 1 with 4 infrastructure and nothing else.
 func _set_trap_then_opponent_turn(trap_data: CardData) -> GameState:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_lands(game, 0, 2)
-	GameFactory.add_lands(game, 1, 4)
+	GameFactory.add_infrastructure_cards(game, 0, 2)
+	GameFactory.add_infrastructure_cards(game, 1, 4)
 	var card: CardInstance = GameFactory.add_to_hand(game, 0, trap_data)
 	assert_true(game.cast(0, card.uid))
 	GameFactory.pass_turn(game)
@@ -26,7 +26,7 @@ func _set_trap_then_opponent_turn(trap_data: CardData) -> GameState:
 
 func test_setting_a_trap_is_face_down_and_uses_a_card_slot() -> void:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_lands(game, 0, 1)
+	GameFactory.add_infrastructure_cards(game, 0, 1)
 	var card: CardInstance = GameFactory.add_to_hand(game, 0, _trap(Trig.TRAP_OPPONENT_ATTACKS, Tgt.TRIGGERING_CARD, Op.DESTROY))
 	assert_true(game.cast(0, card.uid))
 	assert_eq(game.players[0].traps.size(), 1)
@@ -36,10 +36,10 @@ func test_setting_a_trap_is_face_down_and_uses_a_card_slot() -> void:
 
 func test_traps_can_only_be_set_on_your_own_turn_in_main_phase() -> void:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_lands(game, 1, 2)
+	GameFactory.add_infrastructure_cards(game, 1, 2)
 	var theirs: CardInstance = GameFactory.add_to_hand(game, 1, _trap(Trig.TRAP_OPPONENT_ATTACKS, Tgt.TRIGGERING_CARD, Op.DESTROY))
 	assert_false(game.cast(1, theirs.uid), "not P1's turn")
-	GameFactory.add_lands(game, 0, 2)
+	GameFactory.add_infrastructure_cards(game, 0, 2)
 	var mine: CardInstance = GameFactory.add_to_hand(game, 0, _trap(Trig.TRAP_OPPONENT_ATTACKS, Tgt.TRIGGERING_CARD, Op.DESTROY))
 	game.advance_phase()
 	assert_false(game.cast(0, mine.uid), "not in combat")
@@ -126,7 +126,7 @@ func test_player_damaged_trap_retaliates_against_the_damage_source() -> void:
 
 func test_traps_do_not_fire_on_their_owners_own_actions() -> void:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_lands(game, 0, 4)
+	GameFactory.add_infrastructure_cards(game, 0, 4)
 	var trap: CardInstance = GameFactory.add_to_hand(game, 0, _trap(Trig.TRAP_OPPONENT_CREATURE, Tgt.TRIGGERING_CARD, Op.DESTROY))
 	game.cast(0, trap.uid)
 	var mine: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
@@ -137,8 +137,8 @@ func test_traps_do_not_fire_on_their_owners_own_actions() -> void:
 
 func test_two_traps_can_trigger_on_the_same_event() -> void:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_lands(game, 0, 4)
-	GameFactory.add_lands(game, 1, 4)
+	GameFactory.add_infrastructure_cards(game, 0, 4)
+	GameFactory.add_infrastructure_cards(game, 1, 4)
 	for i: int in range(2):
 		var trap: CardInstance = GameFactory.add_to_hand(game, 0, _trap(Trig.TRAP_OPPONENT_SPELL, Tgt.OPPONENT, Op.DEAL_DAMAGE, 1))
 		game.cast(0, trap.uid)
@@ -159,7 +159,7 @@ func test_ai_clone_can_hide_traps() -> void:
 
 func test_at_most_three_traps_can_be_set() -> void:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_lands(game, 0, 6)
+	GameFactory.add_infrastructure_cards(game, 0, 6)
 	var cards: Array[CardInstance] = []
 	for i: int in range(4):
 		cards.append(GameFactory.add_to_hand(game, 0, _trap(Trig.TRAP_OPPONENT_ATTACKS, Tgt.TRIGGERING_CARD, Op.DESTROY)))
@@ -172,7 +172,7 @@ func test_at_most_three_traps_can_be_set() -> void:
 
 func test_max_traps_is_a_modifiable_stat_not_a_hardcoded_limit() -> void:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_lands(game, 0, 8)
+	GameFactory.add_infrastructure_cards(game, 0, 8)
 	game.players[0].max_traps = GameState.MAX_TRAPS + 1
 	var cards: Array[CardInstance] = []
 	for i: int in range(4):

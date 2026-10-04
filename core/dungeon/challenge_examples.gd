@@ -50,12 +50,12 @@ static func test_of_might() -> ChallengeData:
 	return challenge
 
 
-## Reveal the top 5 cards: 2+ lands heals 4 life, otherwise the well takes a card.
+## Reveal the top 5 cards: 2+ infrastructure heals 4 life, otherwise the well takes a card.
 static func hollow_well() -> ChallengeData:
 	var challenge: ChallengeData = _challenge(
 		"hollow_well", "The Hollow Well",
-		"Five cards fall into the well. If enough of them are lands, it answers with water.",
-		ChallengeData.Kind.TOP_N_LAND_COUNT, 5, 2,
+		"Five cards fall into the well. If enough of them are infrastructure, it answers with water.",
+		ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT, 5, 2,
 	)
 	challenge.on_success = [_outcome(ChallengeOutcome.Kind.HEAL, 4, "Heal 4 life.")] as Array[ChallengeOutcome]
 	challenge.on_failure = [_outcome(ChallengeOutcome.Kind.LOSE_CARD, 0, "Lose a card for the dungeon.")] as Array[ChallengeOutcome]
@@ -77,7 +77,7 @@ static func scholars_riddle(reward_pool: Array[CardData]) -> ChallengeData:
 	return challenge
 
 
-## Reveal the top 3: total mana value 7+ tips the scale in your favour (+1 hand size).
+## Reveal the top 3: total Path energy value 7+ tips the scale in your favour (+1 hand size).
 static func weighing_scale() -> ChallengeData:
 	var challenge: ChallengeData = _challenge(
 		"weighing_scale", "The Weighing Scale",

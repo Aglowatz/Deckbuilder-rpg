@@ -62,7 +62,7 @@ func _write_report(runs: int, per_element: Array[Dictionary], overall_rate: floa
 	lines.append("## Tutorial dungeon (Trial of the Hollow) balance")
 	lines.append("")
 	lines.append("Simulated with the AI (balanced personality) playing each element's real 42-card starter")
-	lines.append("deck (23 neutral spells + 19 basic lands, Part C) through the whole dungeon (both battles,")
+	lines.append("deck (23 neutral spells + 19 basic infrastructure, Part C) through the whole dungeon (both battles,")
 	lines.append("the challenge, the shrine and the boss), picking one of the 3 offered on-element reward")
 	lines.append("cards after each battle exactly like a real playthrough (so the deck grows to 45 cards by")
 	lines.append("the boss), life carried between nodes, no dungeon-wide blessing - exactly what a human")

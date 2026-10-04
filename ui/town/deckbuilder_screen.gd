@@ -45,10 +45,10 @@ func _write_back(edited: Deck) -> void:
 
 
 func _build() -> void:
-	var lands: Array[CardData] = []
+	var infrastructure: Array[CardData] = []
 	for color: Affinity.Type in Affinity.colored_types():
-		lands.append(Session.content.lands[int(color)] as CardData)
-	editor = DeckEditor.from(Session.profile, _source_deck(), lands, _active_modifiers())
+		infrastructure.append(Session.content.infrastructure[int(color)] as CardData)
+	editor = DeckEditor.from(Session.profile, _source_deck(), infrastructure, _active_modifiers())
 	_preview = HoverPreview.new()
 	add_child(_preview)
 	var split: HBoxContainer = UIKit.hbox(22)
@@ -82,7 +82,7 @@ func _build() -> void:
 	add_child(_toast)
 	_refresh()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
-	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]2 colors[/b], and a rarity-based copy limit that grows as you level up. Lands power your spells: [b]Fill Lands[/b] tops up to %d." % [min_size, min_size], Vector2(300, 900))
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]2 colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure power your spells: [b]Fill Infrastructure[/b] tops up to %d." % [min_size, min_size], Vector2(300, 900))
 
 
 func _build_deck_panel() -> Control:
@@ -110,8 +110,8 @@ func _build_deck_panel() -> Control:
 	_save_button = FancyButton.make("Save Deck", &"PrimaryButton", Vector2(190, 54))
 	_save_button.pressed.connect(_save)
 	buttons.add_child(_save_button)
-	var fill: FancyButton = FancyButton.make("Fill Lands", &"", Vector2(150, 54))
-	fill.tooltip_text = "Adds basic lands of your deck's colors until the deck reaches the minimum size."
+	var fill: FancyButton = FancyButton.make("Fill Infrastructure", &"", Vector2(150, 54))
+	fill.tooltip_text = "Adds basic infrastructure of your deck's colors until the deck reaches the minimum size."
 	fill.pressed.connect(_autofill)
 	buttons.add_child(fill)
 	var reset: FancyButton = FancyButton.make("Reset", &"", Vector2(120, 54))
@@ -134,11 +134,11 @@ func _collection() -> Array[CardData]:
 	result.sort_custom(func(a: CardData, b: CardData) -> bool:
 		if a.color != b.color:
 			return int(a.color) < int(b.color)
-		if a.mana_value() != b.mana_value():
-			return a.mana_value() < b.mana_value()
+		if a.energy_value() != b.energy_value():
+			return a.energy_value() < b.energy_value()
 		return a.display_name < b.display_name)
 	for color: Affinity.Type in Affinity.colored_types():
-		result.append(Session.content.lands[int(color)] as CardData)
+		result.append(Session.content.infrastructure[int(color)] as CardData)
 	return result
 
 
@@ -235,7 +235,7 @@ func _refresh() -> void:
 	_rebuild_list()
 	_rebuild_rules()
 	var size: int = editor.deck.size()
-	_count_label.text = "%d cards  -  %d lands, %d spells" % [size, editor.land_count(), size - editor.land_count()]
+	_count_label.text = "%d cards  -  %d infrastructure, %d spells" % [size, editor.infrastructure_count(), size - editor.infrastructure_count()]
 	_save_button.text = "Save Deck" if _dirty else "Saved"
 	_save_button.disabled = not _dirty
 
@@ -250,18 +250,10 @@ func _rebuild_rules() -> void:
 		color_names.append(UIStyle.affinity_name(color))
 	var limit: int = DeckValidator.max_colors(Session.profile, _active_modifiers())
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS), "At least %d cards (you have %d)" % [DeckValidator.min_deck_size(_active_modifiers()), editor.deck.size()])
-	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "Copy limits (basic lands are free): %s" % _copy_limits_text())
+	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "At most %d copies of each card (infrastructure is unlimited)" % DeckValidator.MAX_COPIES)
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COLORS), "At most %d colors (%s)" % [limit, ", ".join(color_names) if not color_names.is_empty() else "none yet"])
 	if DeckValidator.has_problem(issues, DeckValidator.Problem.NOT_OWNED):
 		_rule_row(false, "You use cards you do not own")
-
-
-## Copy limits by rarity, level-dependent (Part E): "Common 3, Uncommon 3, Epic 2, Legendary 1".
-func _copy_limits_text() -> String:
-	var parts: PackedStringArray = []
-	for rarity: CardEnums.Rarity in [CardEnums.Rarity.COMMON, CardEnums.Rarity.UNCOMMON, CardEnums.Rarity.EPIC, CardEnums.Rarity.LEGENDARY]:
-		parts.append("%s %d" % [CardEnums.Rarity.keys()[int(rarity)].capitalize(), Session.profile.max_copies_for(rarity)])
-	return ", ".join(parts)
 
 
 func _rule_row(ok: bool, text: String) -> void:
@@ -286,14 +278,14 @@ func _rebuild_list() -> void:
 			card = Session.card_by_id(str(id))
 		entries.append(card)
 	entries.sort_custom(func(a: CardData, b: CardData) -> bool:
-		if a.is_land() != b.is_land():
-			return b.is_land()
-		if a.mana_value() != b.mana_value():
-			return a.mana_value() < b.mana_value()
+		if a.is_infrastructure() != b.is_infrastructure():
+			return b.is_infrastructure()
+		if a.energy_value() != b.energy_value():
+			return a.energy_value() < b.energy_value()
 		return a.display_name < b.display_name)
 	var last_group: String = ""
 	for card: CardData in entries:
-		var group: String = "Lands" if card.is_land() else "Spells and creatures"
+		var group: String = "Infrastructure" if card.is_infrastructure() else "Spells and creatures"
 		if group != last_group:
 			last_group = group
 			_list_box.add_child(UIKit.label(group, &"MutedLabel", 19))
@@ -310,12 +302,12 @@ func _list_row(card: CardData, count: int) -> Control:
 	bar.custom_minimum_size = Vector2(6, 28)
 	bar.add_theme_stylebox_override("panel", UIStyle.box(tint, Color(0, 0, 0, 0), 0, 3))
 	line.add_child(bar)
-	var cost: Label = UIKit.label("" if card.is_land() else str(card.mana_value()), &"", 20, UIStyle.INK, HORIZONTAL_ALIGNMENT_CENTER)
+	var cost: Label = UIKit.label("" if card.is_infrastructure() else str(card.energy_value()), &"", 20, UIStyle.INK, HORIZONTAL_ALIGNMENT_CENTER)
 	cost.custom_minimum_size = Vector2(30, 28)
-	cost.add_theme_stylebox_override("normal", UIStyle.box(Color("cdc5d6") if not card.is_land() else Color(0, 0, 0, 0), Color(0, 0, 0, 0), 0, 14))
+	cost.add_theme_stylebox_override("normal", UIStyle.box(Color("cdc5d6") if not card.is_infrastructure() else Color(0, 0, 0, 0), Color(0, 0, 0, 0), 0, 14))
 	cost.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	line.add_child(cost)
-	var name_label: Label = UIKit.label("%s Land" % UIStyle.affinity_name(card.color) if card.is_land() else card.display_name, &"", 22, UIStyle.PARCHMENT)
+	var name_label: Label = UIKit.label("%s Infrastructure" % UIStyle.affinity_name(card.color) if card.is_infrastructure() else card.display_name, &"", 22, UIStyle.PARCHMENT)
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	line.add_child(name_label)
 	line.add_child(_step_button("-", func() -> void: _remove(card)))
@@ -339,19 +331,19 @@ func _step_button(symbol: String, callback: Callable) -> Button:
 
 
 func _autofill() -> void:
-	var added: int = editor.autofill_lands()
+	var added: int = editor.autofill_infrastructure()
 	if added > 0:
 		_dirty = true
 		Audio.sfx(&"card_shuffle", -6.0)
-		_say("Added %d basic lands." % added)
+		_say("Added %d basic infrastructure." % added)
 	else:
 		_say("Nothing to fill: the deck already has %d cards." % editor.deck.size())
 	_refresh()
 
 
 func _reset() -> void:
-	var lands: Array[CardData] = editor.lands
-	editor = DeckEditor.from(Session.profile, _source_deck(), lands, _active_modifiers())
+	var infrastructure: Array[CardData] = editor.infrastructure
+	editor = DeckEditor.from(Session.profile, _source_deck(), infrastructure, _active_modifiers())
 	_dirty = false
 	_refresh()
 

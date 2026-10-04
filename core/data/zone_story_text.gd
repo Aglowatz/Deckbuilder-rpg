@@ -137,7 +137,7 @@ const PATH: String = "res://data/story/dna_story.tres"
 	"match.intro": ["Flip two cards at a time. Find all 8 pairs in 14 moves or fewer. Fewer moves, better stars."],
 	"npc.matching.return": [
 		"My virtual pet died again. That's seven times this week. It's okay. I'll hatch another one. I always do.",
-		"Flip-phone texting, nine taps for one letter, and I still sent you a good message. Anyway: wanna play?",
+		"Flip-phone texting, nine presses for one letter, and I still sent you a good message. Anyway: wanna play?",
 	],
 	"match.win": ["Nice flipping! You're a natural. Better than the Top 8. Much better."],
 	"match.first": ["First time clearing it? Here's a bonus. It's not much. It's a memory. Literally, it's a memory game."],

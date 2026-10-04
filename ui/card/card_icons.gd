@@ -1,7 +1,7 @@
 class_name CardIcons
 extends RefCounted
 ## Placeholder card art: game-icons.net silhouettes (see CREDITS.md). Icons are looked up by
-## card id; lands and tokens have their own entries.
+## card id; infrastructure and tokens have their own entries.
 
 const BASE: String = "res://assets/icons/game-icons/"
 
@@ -57,10 +57,10 @@ const BY_ID: Dictionary = {
 	"take_a_number": "delapouite/ticket",
 	"hr_reaper": "delapouite/plague-doctor-profile",
 	"deceased_ceo": "delapouite/imperial-crown",
-	"land_affinity_a": "carl-olsen/flame",
-	"land_affinity_b": "lorc/drop",
-	"land_affinity_c": "lorc/leaf-swirl",
-	"land_affinity_d": "lorc/skull-crossed-bones",
+	"infrastructure_a": "carl-olsen/flame",
+	"infrastructure_b": "lorc/drop",
+	"infrastructure_c": "lorc/leaf-swirl",
+	"infrastructure_d": "lorc/skull-crossed-bones",
 }
 
 ## New brief, Part F: item icons, looked up by item id (same game-icons.net silhouette style).

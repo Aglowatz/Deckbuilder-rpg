@@ -11,8 +11,8 @@ extends Resource
 @export var max_life: int = 10
 @export var opening_hand_size: int = 5
 @export var item_slots: int = 1
-## CardEnums.Rarity (as int) -> max copies of a card of that rarity a deck may hold.
-@export var copy_limits: Dictionary = {}
+## Maximum hand size at this level (10, +1 at levels 14 and 28 - replaces the old rarity copy-limit rewards).
+@export var max_hand_size: int = 10
 ## True on levels 5/10/15/20/25: an equipment slot choice screen is shown.
 @export var equipment_choice: bool = false
 ## Filler reward for a level that would otherwise grant nothing new (Part E: "something must

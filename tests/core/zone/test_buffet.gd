@@ -474,7 +474,7 @@ func test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer(
 		if info.kind == ZoneEnemyInfo.Kind.BATTLE:
 			assert_lt(info.chase_speed, ZoneEnemies.PLAYER_SPEED, "%s is slower than the player" % id)
 			assert_false(info.recipe.is_empty(), "%s has a Gourmand deck" % id)
-			assert_true(info.recipe.has("land:B"), "%s plays Gourmand lands" % id)
+			assert_true(info.recipe.has("infrastructure:B"), "%s plays Gourmand infrastructure" % id)
 			slow_battle += 1
 		else:
 			assert_gt(info.chase_speed, ZoneEnemies.PLAYER_SPEED, "%s is faster than the player" % id)

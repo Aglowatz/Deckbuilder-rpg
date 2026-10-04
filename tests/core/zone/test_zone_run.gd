@@ -87,7 +87,7 @@ func test_enemy_decks_are_legal_necrocrat_decks() -> void:
 		var deck: Deck = DnaEnemies.deck(Session.content, id)
 		assert_gte(deck.size(), 24, id)
 		for card: CardData in deck.cards:
-			assert_true(card.is_land() or card.color == Affinity.Type.D, "%s: %s is Necrocrat" % [id, card.id])
+			assert_true(card.is_infrastructure() or card.color == Affinity.Type.D, "%s: %s is Necrocrat" % [id, card.id])
 
 
 func test_zone_cards_exist_and_stay_out_of_normal_pools() -> void:

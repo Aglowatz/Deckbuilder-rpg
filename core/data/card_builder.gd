@@ -4,11 +4,11 @@ extends RefCounted
 ## so card definitions stay short and typed.
 
 
-static func land(color: Affinity.Type, basic: bool = true) -> CardData:
+static func infra(color: Affinity.Type, basic: bool = true) -> CardData:
 	var card: CardData = CardData.new()
-	card.id = "land_%s" % Affinity.display_name(color).to_lower().replace(" ", "_")
-	card.display_name = "%s Land" % Affinity.display_name(color)
-	card.type = CardEnums.CardType.LAND
+	card.id = "infrastructure_%s" % str(Affinity.Type.keys()[int(color)]).to_lower()
+	card.display_name = "%s Infrastructure" % Affinity.display_name(color)
+	card.type = CardEnums.CardType.INFRASTRUCTURE
 	card.color = color
 	card.is_basic = basic
 	card.toughness = 0

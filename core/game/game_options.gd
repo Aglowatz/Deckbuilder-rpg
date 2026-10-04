@@ -2,11 +2,11 @@ class_name GameOptions
 extends RefCounted
 ## Per-game rule options.
 
-## Opening hand: draw 2 candidate hands and keep the one whose land count is closest to the
-## deck's land ratio.
+## Opening hand: draw 2 candidate hands and keep the one whose infrastructure count is closest to the
+## deck's infrastructure ratio.
 var hand_smoother: bool = true
-## The smoother only steps in when the first hand is more than this many lands away from the
-## deck's land ratio (so it rescues clearly bad hands instead of perfecting every hand).
+## The smoother only steps in when the first hand is more than this many infrastructure away from the
+## deck's infrastructure ratio (so it rescues clearly bad hands instead of perfecting every hand).
 var smoother_tolerance: float = 1.0
 ## Each player may take one free mulligan.
 var free_mulligan: bool = true
