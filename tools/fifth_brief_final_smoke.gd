@@ -483,7 +483,7 @@ func _mini_dungeon(zone: DnaScene) -> DnaScene:
 	await driver.seconds(1.0)
 	if zone != null:
 		await _shot("e_33_back_from_mini_dungeon")
-t_note("mini end state: scene=%s active=%s settle=%d" % [get_tree().current_scene, str(Session.mini_active), settle])
+	_note("mini end state: scene=%s active=%s" % [get_tree().current_scene, str(Session.mini_active)])
 	_check(not Session.mini_active, "the mini dungeon run ended and returned to the zone")
 	if Session.flag(DnaZone.FLAG_MINI_DUNGEON_CLEARED):
 		_check(Session.owned_count(MiniDungeon.REWARD_CARD_ID) == 1, "clearing it granted the unique Deceased CEO card")
