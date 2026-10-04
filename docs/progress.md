@@ -2114,3 +2114,30 @@ Story source of truth: `docs/design/story_source.md`; organized in `docs/design/
 ## Part G: the Arena - done
 
 See `docs/design/arena.md`. 714 GUT tests pass. Screenshots `_screenshots/g_*.png`. The FINAL e2e flows (human-style input) and zone-flow regression runs have NOT been run yet.
+
+## FINAL: end-to-end check and summary - done
+
+`tools/run_ninth_brief_final_smoke.sh` drives the game with human-style input (mouse clicks, key presses) and passes: battle
+with an infrastructure card played and Path energy shown; a deck with 4 copies (5th refused); the zone buff/debuff panel in a
+Gainlands battle; a full House of Gains run through the branching map (Regime Checkpoint, Descent, prison rescue, flex
+confrontation, boss); the zone becoming completed and changing; the Arena opening after 1 zone; essence conversion on a 5th
+copy; the Alchemist closed after 1 zone, open after 2, and crafting a dual-Path card. Screenshots: `_screenshots/brief9/`
+(25) plus the per-part `d_*`, `e_*`, `f_*`, `g_*` shots. The older D.N.A., Gainlands, Buffet and Verdant Dump e2e flows were re-run.
+
+Shortcuts the e2e takes (stated, not hidden): dungeon battles are resolved by forcing the win (the real rewards, level-up and
+story flow then run); zone flags for the 2-zone Alchemist check are set directly with the debug helpers; the check that casting
+an activated infrastructure card works is a note, because the random opening hand may hold no castable card.
+
+Real bug found by the e2e and fixed: `Callable.bind` appends bound args after call-time args, which swapped the arguments of
+story/cutscene steps in the dungeon map.
+
+New asset packs: none. Extra game-icons.net icons are credited in CREDITS.md.
+
+Placeholder names chosen (all in story data files, easy to change): the kingdom Concordia; the big bad Malvane the Usurper;
+the main town Concord Crossing; the Arena The Grand Clashatorium (Marshal Vesna Tuskmore); the Alchemist's shop Crucible & Co.
+(Zinnia Vex); the impostor False Aurelio (Gourmands); the Beefcake leader Commander Gristle (move: Heartlift); the Necrocrat
+boss the Registrar of Final Approvals; the Refusemancer Archdruid Fernwick Loam.
+
+Questions for you: (1) Keep these names, or give me yours? (2) Should the big bad appear in person before the final zone, or
+stay offstage? (3) Should arena first-clear equipment be sellable? (4) Do you want a balance pass next (all numbers are
+placeholders)? See also open_questions.md M1-M13.
