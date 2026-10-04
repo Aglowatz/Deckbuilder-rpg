@@ -19,7 +19,7 @@ amount = 5
 [resource]
 script = ExtResource("2_bspxv")
 id = "heap_mother"
-display_name = "Mother of the Heap"
+display_name = "Mother of the Dump"
 color = 3
 generic_cost = 5
 colored_pips = Array[int]([3, 3])

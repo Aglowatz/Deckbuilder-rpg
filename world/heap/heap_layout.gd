@@ -1,6 +1,6 @@
 class_name HeapLayout
 extends RefCounted
-## The Verdant Heap's map as plain data (no scene nodes), so it can be unit-tested headless: a rounded-rectangle
+## The Verdant Dump's map as plain data (no scene nodes), so it can be unit-tested headless: a rounded-rectangle
 ## stretch of farmland and junkyard with a recycling stream across it, compost pits, two junk mountains, patchwork
 ## fields, a scree field only a mount can cross, a wall of tires with gaps (one plugged by a junk barricade), named
 ## anchors, hidden chests, enemy homes, props and signs. `HeapBuilder` turns it into meshes; `HeapScene` makes it
@@ -413,7 +413,7 @@ func _areas() -> void:
 	_area("rust", "The Rust Peak Yards", 22.0, 18.0, 15.0)
 	_area("landfill", "The Landfill Rim", 50.0, 17.0, 14.0)
 	_area("scree", "The Scree Fields", 79.0, 17.0, 13.5)
-	_area("meadow", "The Verdant Heap", 50.0, 45.0, 60.0)
+	_area("meadow", "The Verdant Dump", 50.0, 45.0, 60.0)
 
 
 func _paths() -> void:

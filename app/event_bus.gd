@@ -14,5 +14,7 @@ signal collection_changed
 signal quest_changed
 ## A quest toast: text, and true when it is a "new quest" (false = completed).
 signal quest_notice(text: String, is_new: bool)
+## A zone was freed (its dungeon boss fell): the zone id. The Arena and the Alchemist listen for this.
+signal zone_completed(zone_id: String)
 ## The player's zone life changed (battle/enemy hit/heal) - HUD redraws and flashes.
 signal zone_life_changed(life: int, max_life: int)

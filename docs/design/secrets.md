@@ -166,7 +166,7 @@ Verified in `tests/core/zone/test_buffet.gd` (rewards defined for every chest, >
 inside an interact spot, reachability with the right crossings/pads/gates) and the windowed e2e
 (`tools/seventh_brief_final_smoke.gd`).
 
-## Brief 8: the Verdant Heap - 8 hidden chests
+## Brief 8: the Verdant Dump - 8 hidden chests
 
 Same rules as every zone: a `chest_gold` prop at 1/4 scale (0.225), **no marker, no plate, no minimap icon**
 (never on any map), the only tell is `[E] Open the chest` within `ZoneScene.HIDDEN_CHEST_RADIUS` (~1.5 m); one-time per

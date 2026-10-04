@@ -705,35 +705,28 @@ func _show_graveyard_result() -> void:
 
 
 func _elder_lines() -> Array[String]:
+	var story: StoryText = StoryText.shared()
 	if not Session.flag(&"elder_greeted"):
 		Session.set_flag(&"elder_greeted")
-		return [
-			"You made it out of the Hollow, and with a deck to your name. Not everyone does.",
-			"This town is yours to explore now. The spring in the square still hums, if you ever want to listen to it.",
-			"Buy cards from Sable, refine your deck at the station by the tavern, and the gate stays open if you want to test yourself again.",
-		] as Array[String]
-	return [
-		"The spring recognizes you now. There are other springs and other Wanderers, but that is a story for another day.",
-		"Buy cards, build a better deck, and try the Trial again if you miss the gold.",
-	] as Array[String]
+		return story.get_lines("town.elder.first")
+	var freed: int = Session.completed_zone_count()
+	if freed > 0:
+		var lines: Array[String] = story.get_lines("town.elder.progress.%d" % mini(freed, 4))
+		lines.append_array(story.get_lines("town.elder.return"))
+		return lines
+	return story.get_lines("town.elder.return")
 
 
 func _guard_lines() -> Array[String]:
-	return [
-		"You came back from the Hollow. Not many do on the first try.",
-		"The gate stays open. The scavengers restock, and they pay well.",
-	] as Array[String]
+	return StoryText.shared().get_lines("town.guard")
 
 
 func _talk_vendor() -> void:
 	_face_npc("vendor")
-	var lines: Array[String] = ["Cards for coin, friend. Everything on the table is honest, mostly."] as Array[String]
+	var lines: Array[String] = StoryText.shared().get_lines("town.vendor.return")
 	if not Session.flag(&"vendor_seen"):
 		Session.set_flag(&"vendor_seen")
-		lines = [
-			"Well met, Wanderer! Sable the Trader, at your service.",
-			"You start with common neutral cards, but the colors are where the power is. Have a look, then check the Deck Station to put your purchases to use.",
-		] as Array[String]
+		lines = StoryText.shared().get_lines("town.vendor.first")
 	dialogue.start("Sable the Trader", lines)
 	dialogue.finished.connect(_open_vendor, CONNECT_ONE_SHOT)
 
@@ -977,7 +970,7 @@ func _open_vault() -> void:
 
 func _talk_hidden_vendor() -> void:
 	_face_npc("hidden_vendor")
-	var lines: Array[String] = ["You found the chest, so I suppose you've earned a look. Epic and Legendary goods, quiet prices."] as Array[String]
+	var lines: Array[String] = StoryText.shared().get_lines("town.hidden_vendor")
 	dialogue.start("A Secret Dealer", lines)
 	dialogue.finished.connect(_open_hidden_vendor, CONNECT_ONE_SHOT)
 
@@ -1014,13 +1007,10 @@ func _open_vendor() -> void:
 ## New brief, Part F: the item vendor.
 func _talk_item_vendor() -> void:
 	_face_npc("item_vendor")
-	var lines: Array[String] = ["Potions, charms, one good tonic if you're feeling reckless. Equip what you buy from your Character screen to carry it into a fight."] as Array[String]
+	var lines: Array[String] = StoryText.shared().get_lines("town.item_vendor.return")
 	if not Session.flag(&"item_vendor_seen"):
 		Session.set_flag(&"item_vendor_seen")
-		lines = [
-			"You look like you could use some supplies. Wick, at your service.",
-			"Everything here is a one-time use in a fight - equip what you buy from the Character screen, then use it on your turn.",
-		] as Array[String]
+		lines = StoryText.shared().get_lines("town.item_vendor.first")
 	dialogue.start("Wick", lines)
 	dialogue.finished.connect(_open_item_vendor, CONNECT_ONE_SHOT)
 
@@ -1148,7 +1138,9 @@ func _close_overlay() -> void:
 
 
 func _refresh_objective() -> void:
-	hud.set_objective("The Trial is cleared. Buy cards, refine your deck at the Deck Station, and replay the Trial for gold.")
+	var story: StoryText = StoryText.shared()
+	hud.set_location(story.text("town.name"), ZoneCompletion.progress_text(Session.flags))
+	hud.set_objective(story.text("town.objective.free" if Session.completed_zone_count() >= ZoneCompletion.TOTAL_ZONES else "town.objective"))
 
 
 # ---- Screenshot helpers -----------------------------------------------------------------

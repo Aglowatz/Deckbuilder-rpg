@@ -50,7 +50,7 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
      The Gourmand entrance (the Path of the Gourmand) leads into **The Endless Buffet**, a whimsical land made of
      giant food: a gravy river crossed on crouton rafts and a rotating lazy susan, jelly bounce pads up to pancake
      and cheese mesas, and golem gate guardians that only let you pass for an ingredient, a quest or a card battle.
-     The Refusemancer entrance (the Path of the Refusemancer) leads into **The Verdant Heap**, an overgrown junkyard-farm:
+     The Refusemancer entrance (the Path of the Refusemancer) leads into **The Verdant Dump**, an overgrown junkyard-farm:
      druids grow vine bridges and beanstalks, you ride giant boars and goats through junk barricades and over scree,
      and trash chutes whoosh you down the junk mountains.
      Both share one zone framework: a hub, zone life (no healing after battles), roaming enemies, a mini

@@ -1,122 +1,77 @@
 class_name StoryText
 extends Resource
-## All narrative/placeholder dialogue text that isn't tied to a specific NPC's own script, kept
-## in one place so it is easy to find and rewrite. Currently just the wake-up scene that opens
-## the game; add more exported arrays here as the story grows instead of hardcoding lines in
-## scene scripts.
+## All narrative/placeholder dialogue text that isn't tied to a specific zone, kept in one data file
+## (`data/story/intro_story.tres`) so it is easy to find and rewrite - the script holds no text. The
+## story itself is summarized in docs/design/story_bible.md.
+##
+## - `awakening_lines`: the hero waking up in the cave (the starting area).
+## - the corrupted-NPC arrays: one set per Path (see core/dungeon/corrupted_npcs.gd).
+## - `texts`: everything else, by key: "start.*" (the starting area), "town.*" (the town's NPCs, the
+##   Arena and the Alchemist), "zone.complete.<zone id>" (the completion announcement) and
+##   "boon.*"/"arena.*" text that the dungeon/arena code looks up. Each value is an Array of lines.
+
+const PATH: String = "res://data/story/intro_story.tres"
 
 ## The hero wakes up alone and talks to themselves, before noticing the way out.
-@export var awakening_lines: Array[String] = [
-	"Where am I?",
-	"What happened?",
-	"My head...",
-	"...There. Light, through the rocks. That must be the way out.",
-]
+@export var awakening_lines: Array[String] = []
 
-## New brief, Part E: the 4 corrupted NPCs (one per element zone, see core/dungeon/
-## corrupted_npcs.gd). Each has 3 sets of lines - before the fight (corrupted, hinting at what
-## happened in their zone), after a win (freed/calmer, hinting at their zone), after a loss
-## (short - they can be challenged again). Kept here, not hardcoded in town_scene.gd, so they can
-## be rewritten without touching code.
-@export var beefcake_npc_intro_lines: Array[String] = [
-	"The wheel... it never stops turning. It's UNDER my skin now. Pre-workout every hour!",
-	"The Beefcake Path built me, and I can't stop lifting.",
-	"Stand still and let me spot you - INTO THE NEXT ZIP CODE!",
-]
-@export var beefcake_npc_victory_lines: Array[String] = [
-	"...it's quiet. First time in - I don't know how long. Thank you.",
-	"The Gainlands did something to the wheels there. Turned them wrong. Nobody skips leg day anymore - they can't stop.",
-	"Be careful, if you ever go.",
-]
-@export var beefcake_npc_defeat_lines: Array[String] = [
-	"Ha! The pump's still mine.",
-	"Come back when you can actually lift, shrimp.",
-]
+## The 4 corrupted NPCs at the town's Path gates: before the fight, after a win, after a loss.
+@export var beefcake_npc_intro_lines: Array[String] = []
+@export var beefcake_npc_victory_lines: Array[String] = []
+@export var beefcake_npc_defeat_lines: Array[String] = []
+@export var gourmand_npc_intro_lines: Array[String] = []
+@export var gourmand_npc_victory_lines: Array[String] = []
+@export var gourmand_npc_defeat_lines: Array[String] = []
+@export var refusemancer_npc_intro_lines: Array[String] = []
+@export var refusemancer_npc_victory_lines: Array[String] = []
+@export var refusemancer_npc_defeat_lines: Array[String] = []
+@export var necrocrat_npc_intro_lines: Array[String] = []
+@export var necrocrat_npc_victory_lines: Array[String] = []
+@export var necrocrat_npc_defeat_lines: Array[String] = []
 
-@export var gourmand_npc_intro_lines: Array[String] = [
-	"Too many tasting menus... the stove never turns off in my head. I hear the timers still, ticking under my ribs.",
-	"You want to go to the Buffet? You will have to get through me first, little one.",
-]
-@export var gourmand_npc_victory_lines: Array[String] = [
-	"The simmer let go. I can breathe again.",
-	"There is a Kitchen beyond the Buffet that failed its health inspection, and its golems still follow orders. It does not want visitors.",
-]
-@export var gourmand_npc_defeat_lines: Array[String] = [
-	"Under-seasoned. Next!",
-	"Try again when you have learned to cook.",
-]
+## Wendell Cobb, "Assistant to the Regional Merchant" - the equipment vendor.
+@export var equipment_vendor_intro_lines: Array[String] = []
+@export var equipment_vendor_return_lines: Array[String] = []
 
-@export var refusemancer_npc_intro_lines: Array[String] = [
-	"The compost took hold of me long before I noticed. I stopped fighting it.",
-	"Now the heap speaks through my mouth, and it says: NOTHING GOES TO WASTE. LEAVE.",
-]
-@export var refusemancer_npc_victory_lines: Array[String] = [
-	"The compost has loosened its grip. My apologies for the heap's rudeness.",
-	"Something took root down in the Verdant Heap that shouldn't have. Watch your step, if you go looking.",
-]
-@export var refusemancer_npc_defeat_lines: Array[String] = [
-	"The heap is patient. It has all the time in the world, and so does the garbage.",
-	"Come back when you can turn something rotten into something useful.",
-]
+## The Restless Cairn (the Graveyard's scripted battle): before, after a win, after a loss.
+@export var graveyard_intro_lines: Array[String] = []
+@export var graveyard_victory_lines: Array[String] = []
+@export var graveyard_defeat_lines: Array[String] = []
 
-@export var necrocrat_npc_intro_lines: Array[String] = [
-	"I buried them all, you know. Every last one, with my own two hands.",
-	"Afterlife Services and Labor filed me under Pending and I have been Pending ever since. Come closer. It wants to meet you.",
-]
-@export var necrocrat_npc_victory_lines: Array[String] = [
-	"...I can hear my own thoughts again.",
-	"Whatever is down in the D.N.A., it is not finished with the dead, and HR will not intervene. Go carefully. Or file a form.",
-]
-@export var necrocrat_npc_defeat_lines: Array[String] = [
-	"Not yet, then. The Necrocrats keep no schedule.",
-	"Return whenever you're ready to lose again.",
-]
-
-## Fourth brief, Part C: Wendell Cobb, "Assistant to the Regional Merchant" - the equipment
-## vendor. An original character, not a reference to any real show - the brief asked for the
-## flavor (rule-obsessed, beet-farming, security-protocol-minded office life), not the specifics.
-@export var equipment_vendor_intro_lines: Array[String] = [
-	"Halt. ...Or don't. I'm not a gate, I'm a merchant's assistant. But you were going to stop anyway - I could see it in your gait. Security Protocol One: assess the gait.",
-	"Wendell Cobb. Assistant to the Regional Merchant. Not the Regional Merchant. Assistant TO. Say it with me. No? Fine. It matters to me.",
-	"Everything on this rack is inventoried, oiled, and accounted for under Security Protocol Seven, which I will not explain, because it is need-to-know and you do not need to know.",
-	"I keep the rest under the counter. Do not reach for the drawer. The drawer is not for you. The drawer has never been for anyone.",
-]
-@export var equipment_vendor_return_lines: Array[String] = [
-	"Back again. Good - returning customers are the backbone of a healthy economy, and of my personal employee-of-the-month case file.",
-	"The beets are coming in early this year. I'm choosing to see that as a sign.",
-	"There's a bear that comes around some nights. We've reached an understanding: it doesn't ask about the beets, and I don't ask why it's there.",
-]
-
-## Fourth brief, Part F: The Restless Cairn - the ominous object that starts the Graveyard's
-## scripted battle. Placeholder dialogue, shown before the fight (every time) and after (once per
-## outcome) - see world/town_scene.gd `_talk_graveyard`/`_show_graveyard_result`.
-@export var graveyard_intro_lines: Array[String] = [
-	"The stones here were stacked by hands that stopped moving a long time ago.",
-	"Something under the cairn is still keeping count of its turns.",
-	"Touch it, and it will not stop counting until one of you does.",
-]
-@export var graveyard_victory_lines: Array[String] = [
-	"The counting stops. For now.",
-	"Whatever was keeping time down there has nothing left to spend it on.",
-	"The stones are just stones again. Take what it was guarding.",
-]
-@export var graveyard_defeat_lines: Array[String] = [
-	"It is still counting.",
-	"Come back when you have more turns to spare than it does.",
-]
-
-
-## Part B: what quest givers say. Keys are "<quest id>.offer" (shown when the quest is offered),
-## ".active" (reminder while it is running), ".ready" (objectives done, handing in) and ".done"
-## (after it was completed). Each value is an Array of lines. Add a quest, add its keys here.
+## What quest givers say. Keys are "<quest id>.offer" / ".active" / ".ready" / ".done".
 @export var quest_dialogue: Dictionary = {}
+
+## Everything else, key -> Array of lines (see the header).
+@export var texts: Dictionary = {}
+
+static var _shared: StoryText
 
 
 func quest_lines(key: String) -> Array[String]:
-	var lines: Array[String] = []
+	var result: Array[String] = []
 	for line: Variant in (quest_dialogue.get(key, []) as Array):
-		lines.append(str(line))
-	return lines
+		result.append(str(line))
+	return result
+
+
+## The lines for `key` in `texts`, or a visible placeholder so a missing key is easy to spot.
+func get_lines(key: String) -> Array[String]:
+	var result: Array[String] = []
+	var raw: Variant = texts.get(key)
+	if raw is Array:
+		for entry: Variant in (raw as Array):
+			result.append(str(entry))
+	if result.is_empty():
+		result.append("[missing text: %s]" % key)
+	return result
+
+
+func has_text(key: String) -> bool:
+	return texts.has(key)
+
+
+func text(key: String) -> String:
+	return "\n".join(get_lines(key))
 
 
 func npc_intro_lines(id: String) -> Array[String]:
@@ -156,3 +111,12 @@ func npc_defeat_lines(id: String) -> Array[String]:
 		"necrocrat":
 			return necrocrat_npc_defeat_lines
 	return []
+
+
+## The shared story text (loaded from the data file once).
+static func shared() -> StoryText:
+	if _shared == null:
+		_shared = load(PATH) as StoryText
+		if _shared == null:
+			_shared = StoryText.new()
+	return _shared

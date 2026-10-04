@@ -1,6 +1,6 @@
 class_name HeapModels
 extends RefCounted
-## Loads the Verdant Heap's third-party models: the Kenney Nature Kit (trees, crops, fences, rocks, flowers), Survival
+## Loads the Verdant Dump's third-party models: the Kenney Nature Kit (trees, crops, fences, rocks, flowers), Survival
 ## Kit (scrap shacks, barrels, metal panels), Car Kit (rusting wrecks, tractors, tyres) and Cube Pets (the animated
 ## animals), plus the Kenney Food Kit for the harvest meal. All CC0. Scenes are cached.
 

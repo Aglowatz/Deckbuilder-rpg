@@ -120,7 +120,7 @@ No new third-party asset packs were needed. The Gainlands reuses packs that are 
   - Downloaded earlier into `_asset_library/`; first used here (2026-10-02) for the Grand Pantry and the Dinner in a Dash set.
 - The jelly pads, crouton rafts, lazy susan, layer-cake buildings, golem gates, signs, the Gravy River and the table rim are original procedural geometry (`world/buffet/`). The `buffet` music track and the "boing" / "splash" / "ding" sound effects are generated in code (`app/music_synth.gd`); no recorded audio was added.
 
-## Brief 8: the Verdant Heap (added 2026-10-02)
+## Brief 8: the Verdant Dump (added 2026-10-02)
 
 - **assets/kenney-nature-kit/** - Nature Kit 2.1 (trees, bushes, crops, flowers, rocks, logs, mushrooms, fences)
   - Author: Kenney (www.kenney.nl) - Source: https://kenney.nl/assets/nature-kit - License: CC0 (license file in the folder)

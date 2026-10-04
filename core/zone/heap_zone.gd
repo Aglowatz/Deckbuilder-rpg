@@ -1,13 +1,13 @@
 class_name HeapZone
 extends RefCounted
-## Constants and the `ZoneDef` of the Verdant Heap: the overgrown junkyard-farm zone that the town's Path of the
+## Constants and the `ZoneDef` of the Verdant Dump: the overgrown junkyard-farm zone that the town's Path of the
 ## Refusemancer leads to. The Refusemancers are druids responsible for waste removal and agriculture: they summon
 ## animals that eat the kingdom's garbage and turn it into fertilizer, and use magic to help crops grow. All text
 ## lives in `data/story/refusemancer_story.tres`. Pure data: nothing here touches `Session` (see `HeapInteractables`).
 
 const ID: String = "refusemancer"
-const DISPLAY_NAME: String = "The Verdant Heap"
-const FULL_NAME: String = "The Verdant Heap (Refusemancer Country)"
+const DISPLAY_NAME: String = "The Verdant Dump"
+const FULL_NAME: String = "The Verdant Dump (Refusemancer Country)"
 const HUB_NAME: String = "The Compost Grange"
 
 const NPC_MARIGOLD: String = "Druid Marigold"
@@ -123,7 +123,7 @@ static func build_def() -> ZoneDef:
 		_spot("mini_dungeon", "The Landfill Depths", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Climb into the landfill: three levels", "mini_dungeon"),
 		_spot("main_dungeon", "Closed for Composting", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Try the door", "main_dungeon"),
 		_spot("puzzle", "The Seed Shrine", "puzzle", Vector3(0, 0, 1.4), 1.9, "Plant the seeds (puzzle)", "puzzle"),
-		_spot("quiz", "Elder Fennel, Keeper of the Heap", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "speaker": "Elder Fennel"}),
+		_spot("quiz", "Elder Fennel, Keeper of the Dump", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "speaker": "Elder Fennel"}),
 		_spot("minigame", "Blue-Ribbon Bev Pettigrew, Fair Judge", "minigame", Vector3(0, 0, 1.2), 1.9, "Talk", "minigame", {"npc": "minigame", "speaker": "Blue-Ribbon Bev"}),
 		_spot("compost_bin", "The Compost Bin", "compost_bin", Vector3(0, 0, 1.6), 1.8, "Compost some junk", "zone"),
 		_spot("shrine", "The Druid Shrine", "shrine", Vector3(0, 0, 1.8), 1.9, "Kneel at the shrine", "zone"),

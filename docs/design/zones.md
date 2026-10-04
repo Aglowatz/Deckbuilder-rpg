@@ -1,5 +1,19 @@
 # Zones and the D.N.A.
 
+## Story (brief 9)
+
+The whole world's story, factions and rulers are in `docs/design/story_bible.md` (source of truth: `docs/design/story_source.md`). In short: ten years ago Malvane the Usurper (placeholder) took over or corrupted all four Paths; every zone lives under an oppressive ruler and the player frees each one by beating the boss of its final dungeon (zone completion, `ZoneCompletion`).
+
+| Zone | Faction | Ruler / corruption | Final dungeon |
+|---|---|---|---|
+| The Gainlands | Beefcakes | Commander Gristle's regime; true leader Heartlift imprisoned in the Iron-less Prison | The House of Gains |
+| The Endless Buffet | Gourmands | A doppelgänger (the False Aurelio), corrupted food (the Special Sauce), a hidden war-machine R&D complex | The Test Kitchen |
+| The D.N.A. | Necrocrats | Legally valid paperwork ("Yes, but the authorization is valid"), absurd bureaucracy | The Hall of Final Approvals |
+| The Verdant Dump | Refusemancers | The leader corrupted through nature itself; the ecosystem is unnaturally alive | The Rotheart |
+
+Every zone's story file (`data/story/<zone>_story.tres`) has an oppressed text and, for the key signs, hub NPCs and objectives, a `<key>.freed` variant that `ZoneStoryText.get_lines` uses once the zone is completed.
+
+
 Source of truth for zone rules. Code: `core/zone/`, `world/dna/`. Text: `core/data/zone_story_text.gd`.
 
 ## Zone life rules (every zone)
@@ -71,7 +85,7 @@ The Gourmand zone (`ZonePortals` id `gourmand`, reached from the town's **Path o
 - **Mini dungeon** "The Walk-In Freezer: Three Courses" (3 battles, no healing between, one-time unique card **Colossus of the Endless Buffet**), **puzzle** "The Mystery Stew" (`RecipePuzzle`: a logic puzzle - pick 4 of 6 ingredients in order from 7 clues, exactly one of 360 stews works, serving says only right/wrong; reward one-time **Head Chef's Ladle**), **quiz master** Lady Brioche (4 questions on the Gourmands, answers on signs), **minigame** "Order Up!" by Chef Turbo Tartine (an assembly/time-pressure game, `OrderGame`: stack the right ingredients in order for six tickets before each timer runs out; wrong ingredient tosses the plate; rewards by stars, one-time first-clear bonus), **8 hidden chests** (docs/design/secrets.md), **interactables**: Taste-Test Station (random good/bad effects), the Grand Oven (bakes a Hearty Pot Pie from honey + basil + ghost pepper), the Soup Fountain (3 ladles per visit), the Fortune Cookie Dispenser (hints about the secrets), Old Meatloaf (mend him), **main dungeon placeholder** "Kitchen Closed for Health Inspection".
 
 
-## The Verdant Heap (brief 8, Part B)
+## The Verdant Dump (brief 8, Part B)
 The Refusemancer zone (`ZonePortals` id `refusemancer`, reached from the town's **Path of the Refusemancer**, still unlocked by defeating Old Thistlebark the Over-Composted). The Refusemancers are druids responsible for **waste removal and agriculture**: they summon animals that eat the kingdom's garbage and turn it into fertilizer, and use magic to help crops grow. Code: `core/zone/heap_*.gd`, `growth_grid.gd`, `sort_game.gd`, `core/data/heap_content.gd`, `world/heap/`, `ui/zone/growth_grid_screen.gd`, `sort_game_screen.gd`. All text: `data/story/refusemancer_story.tres`.
 
 - **Map** (`HeapLayout`, pure data): a rounded-rectangle stretch of farmland and junkyard (~6,400 m2, like the Buffet): patchwork fields, an appliance-ring druid grove, a county-fair ground, scrap barns and windmills, overgrown rusted car wrecks used as planters, junk piles, two **junk mountains** (Mount Scrapmore, Rust Peak), a **recycling stream** across the middle, two **compost pits**, a **scree field** and a **wall of tyres** with three gaps. Golden-hour lighting (`HeapLook`), fireflies, synthesized `heap` music. Dressing: Kenney **Nature Kit**, **Survival Kit**, **Car Kit** and **Cube Pets** (animated animals) plus the Food Kit for the harvest table.
@@ -85,4 +99,4 @@ The Refusemancer zone (`ZonePortals` id `refusemancer`, reached from the town's 
 - **Districts** north of the stream: Rust Peak yards (open gap in the tyre wall; Rust Peak beanstalk, Seed Shrine on top), the Landfill Depths (centre gap plugged by a **junk barricade** only a charging mount smashes), the scree fields and the scrap barn (east gap: scree, mount only).
 - **Quests**: *Round Up the Herd* (Wren: shoo 3 escaped animals), *Fertilizer Run* (Hob: gather 3 sacks), *Unblock the Stream* (Marigold: smash the junk dam on a mount; rewards the **Compost Boots**).
 - **Enemies** (`HeapEnemies`): Mossy Trash Golem and Possessed Scarecrow Druid (slow, start Refusemancer-deck battles), Junk Gull Flock (fast, 2 damage + knockback, flaps; never starts a battle). Enemies never enter the water/pits or climb cliffs.
-- **Mini dungeon** "The Landfill Depths: Three Levels" (3 battles, one-time unique card **Mother of the Heap**), **puzzle** "The Seed Shrine" (`GrowthGrid`: a 5 x 5 garden where planting flips a plot and its neighbours; solvable, shortest solution checked by tests; reward one-time **Refusemancer Seed Satchel**), **quiz master** Elder Fennel (4 questions on the Refusemancers), **minigame** "Sort It Out!" by the original **Blue-Ribbon Bev Pettigrew** (a sorting game, `SortGame`: 20 junk pieces ride a conveyor, sort each to Compost / Metal / Glass / Paper before it falls off; streak scoring; rewards by stars, one-time first-clear bonus; nods to 90s environmental PSAs, county-fair blue ribbons and dumpster-diving), **8 hidden chests** (docs/design/secrets.md), **interactables**: compost bin (junk -> max-life buff), crop plots (plant with fertilizer, harvest later in the visit), druid shrine (blessing), animal trough (junk -> gold), escaped animals, **main dungeon placeholder** "Closed for Composting".
+- **Mini dungeon** "The Landfill Depths: Three Levels" (3 battles, one-time unique card **Mother of the Dump**), **puzzle** "The Seed Shrine" (`GrowthGrid`: a 5 x 5 garden where planting flips a plot and its neighbours; solvable, shortest solution checked by tests; reward one-time **Refusemancer Seed Satchel**), **quiz master** Elder Fennel (4 questions on the Refusemancers), **minigame** "Sort It Out!" by the original **Blue-Ribbon Bev Pettigrew** (a sorting game, `SortGame`: 20 junk pieces ride a conveyor, sort each to Compost / Metal / Glass / Paper before it falls off; streak scoring; rewards by stars, one-time first-clear bonus; nods to 90s environmental PSAs, county-fair blue ribbons and dumpster-diving), **8 hidden chests** (docs/design/secrets.md), **interactables**: compost bin (junk -> max-life buff), crop plots (plant with fertilizer, harvest later in the visit), druid shrine (blessing), animal trough (junk -> gold), escaped animals, **main dungeon placeholder** "Closed for Composting".

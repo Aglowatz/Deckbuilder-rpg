@@ -1,6 +1,6 @@
 class_name HeapLook
 extends RefCounted
-## The Verdant Heap's golden-hour lighting: a low warm sun, a peach-and-green dusk sky, soft bloom, a little extra
+## The Verdant Dump's golden-hour lighting: a low warm sun, a peach-and-green dusk sky, soft bloom, a little extra
 ## saturation and drifting fireflies. Same tone-mapper and post-processing family as the other zones.
 
 

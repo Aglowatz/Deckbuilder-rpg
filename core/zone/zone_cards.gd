@@ -29,7 +29,7 @@ const BUFFET_VENDOR_IDS: Array[String] = [
 ## The Walk-In Freezer's one-time unique reward.
 const BUFFET_MINI_REWARD_ID: String = "buffet_colossus"
 
-## The Verdant Heap's Refusemancer cards (defined in ContentDefinitions.build_zone_cards). Sold by Farmer Hob at the
+## The Verdant Dump's Refusemancer cards (defined in ContentDefinitions.build_zone_cards). Sold by Farmer Hob at the
 ## Swap Shed; "recycle_bin" and "moss_titan" are chest cards, "heap_mother" is the Landfill Depths' unique reward.
 const HEAP_VENDOR_IDS: Array[String] = [
 	"scrap_goat", "tin_can_raccoon", "compost_golem", "dung_beetle", "landfill_hog",

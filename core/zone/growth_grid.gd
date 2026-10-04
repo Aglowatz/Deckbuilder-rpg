@@ -1,6 +1,6 @@
 class_name GrowthGrid
 extends RefCounted
-## The Verdant Heap's puzzle, "The Seed Shrine": a 5 x 5 garden of plots, each bare or in bloom. Planting a seed in a
+## The Verdant Dump's puzzle, "The Seed Shrine": a 5 x 5 garden of plots, each bare or in bloom. Planting a seed in a
 ## plot flips that plot AND its four neighbours (bare <-> bloom). Bring every plot into bloom to grow the great
 ## beanstalk. The garden starts as the all-bloom garden with a secret set of plantings already undone, so a
 ## solution always exists; the chase-the-lights method finds every solution (a 5 x 5 board has exactly four, and the

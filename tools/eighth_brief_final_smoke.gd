@@ -1,7 +1,7 @@
 class_name EighthBriefFinalSmoke
 extends Node
-## FINAL (eighth brief): the Verdant Heap flow with human-style input, end to end: the Path of the Refusemancer in town ->
-## the Verdant Heap, the minimap reveals as you explore and POIs appear (full map on M) -> pick up a Magic Bean and grow
+## FINAL (eighth brief): the Verdant Dump flow with human-style input, end to end: the Path of the Refusemancer in town ->
+## the Verdant Dump, the minimap reveals as you explore and POIs appear (full map on M) -> pick up a Magic Bean and grow
 ## a VINE BRIDGE at its sprout mound, cross it, step off into the stream once (respawn, -1 zone life, logged) ->
 ## mount a giant goat, smash the junk dam and CHARGE a junk barricade -> plant a bean, grow a BEANSTALK, climb Rust Peak,
 ## solve the Seed Shrine, take a TRASH CHUTE down -> slow-enemy battle -> fast-enemy hit -> interactables (compost bin,
@@ -40,7 +40,7 @@ func run() -> void:
 	await _town_path(town)
 	var zone: HeapScene = await _enter_the_heap(town)
 	if zone == null:
-		_finish(false, "never reached the Verdant Heap")
+		_finish(false, "never reached the Verdant Dump")
 		return
 	await _explore_and_reveal(zone)
 	await _areas_tour(zone)
@@ -60,7 +60,7 @@ func run() -> void:
 	await _hand_in_dam_quest(zone)
 	await _final_state(zone)
 	await _other_zones_equipment()
-	_finish(_failures.is_empty(), "town -> Path of the Refusemancer -> Verdant Heap: minimap reveal + POIs -> bean -> vine bridge -> stream fall (-1 life) -> goat mount -> dam + barricade charge -> beanstalk -> Seed Shrine -> trash chute -> slow battle -> fast hit -> interactables -> hub heal -> quiz -> Sort It Out! -> chest -> Landfill Depths -> Compost Boots; all four zones' new equipment obtained (%d screenshots)" % _shots)
+	_finish(_failures.is_empty(), "town -> Path of the Refusemancer -> Verdant Dump: minimap reveal + POIs -> bean -> vine bridge -> stream fall (-1 life) -> goat mount -> dam + barricade charge -> beanstalk -> Seed Shrine -> trash chute -> slow battle -> fast hit -> interactables -> hub heal -> quiz -> Sort It Out! -> chest -> Landfill Depths -> Compost Boots; all four zones' new equipment obtained (%d screenshots)" % _shots)
 
 
 # ---- Steps ------------------------------------------------------------------------------
@@ -83,10 +83,10 @@ func _town_path(town: TownScene) -> void:
 func _enter_the_heap(town: TownScene) -> HeapScene:
 	await driver.tap_key(KEY_E)
 	var zone: HeapScene = await _wait_for(HeapScene) as HeapScene
-	_check(zone != null, "the Path of the Refusemancer leads into the Verdant Heap")
+	_check(zone != null, "the Path of the Refusemancer leads into the Verdant Dump")
 	if zone != null:
 		await driver.seconds(1.2)
-		_check(Session.zone_run != null and Session.zone_run.zone_id == HeapZone.ID, "a zone visit starts for the Verdant Heap")
+		_check(Session.zone_run != null and Session.zone_run.zone_id == HeapZone.ID, "a zone visit starts for the Verdant Dump")
 		_check(Session.zone_run.life == Session.zone_run.max_life(), "entering starts at full zone life")
 		await _shot("h_02_heap_arrival_hub")
 	return zone
@@ -128,7 +128,7 @@ func _explore_and_reveal(zone: HeapScene) -> void:
 	await _shot("h_04_minimap_after_exploring_quiz")
 	await driver.tap_key(KEY_M)
 	await driver.seconds(0.4)
-	_check(zone._overlay is FullMapScreen, "M opens the full map in the Verdant Heap")
+	_check(zone._overlay is FullMapScreen, "M opens the full map in the Verdant Dump")
 	await _shot("h_05_heap_full_map_with_legend")
 	await driver.tap_key(KEY_M)
 	await driver.seconds(0.3)
@@ -448,7 +448,7 @@ func _slow_enemy_battle(zone: HeapScene) -> HeapScene:
 	zone = await _wait_for(HeapScene) as HeapScene
 	await driver.seconds(1.0)
 	if zone != null:
-		_check(Session.zone_run != null, "back in the Verdant Heap after the battle")
+		_check(Session.zone_run != null, "back in the Verdant Dump after the battle")
 		_check(zone.heap.is_barricade_standing("gate") == false and zone.heap.is_barricade_standing("dam") == false, "smashed barricades stay smashed after the scene reloads")
 		_check(zone.heap.bridge_progress.get("bridge_west", 0.0) == 1.0, "grown bridges stay grown after the scene reloads")
 		if won:
@@ -468,7 +468,7 @@ func _fast_enemy_hit(zone: HeapScene) -> void:
 	var gulls: ZoneEnemy = _find_enemy(zone, HeapEnemies.GULLS, true)
 	if gulls == null:
 		gulls = _find_enemy(zone, HeapEnemies.GULLS)
-	_check(gulls != null, "a Junk Gull Flock roams the Verdant Heap")
+	_check(gulls != null, "a Junk Gull Flock roams the Verdant Dump")
 	if gulls == null:
 		return
 	if Session.zone_run.life <= 3:
@@ -657,7 +657,7 @@ func _quiz(zone: HeapScene) -> void:
 			await driver.click(driver.button_center(button))
 			await driver.seconds(0.3)
 	await _shot("h_49_quiz_result")
-	_check(Session.flag(HeapZone.FLAG_QUIZ_DONE), "finishing the quiz sets the Heap's quiz flag")
+	_check(Session.flag(HeapZone.FLAG_QUIZ_DONE), "finishing the quiz sets the Dump's quiz flag")
 	_check(Session.gold > gold_before, "a perfect score paid out (%d -> %d gold)" % [gold_before, Session.gold])
 	await driver.click_button("Leave")
 	await driver.seconds(0.3)
@@ -816,7 +816,7 @@ func _mini_dungeon(zone: HeapScene) -> HeapScene:
 		await _shot("h_62_back_from_the_landfill")
 	_check(not Session.mini_active, "the mini dungeon run ended and returned to the zone")
 	if Session.flag(HeapZone.FLAG_MINI_CLEARED):
-		_check(Session.owned_count("heap_mother") == 1, "clearing it granted the unique Mother of the Heap")
+		_check(Session.owned_count("heap_mother") == 1, "clearing it granted the unique Mother of the Dump")
 	_note("mini dungeon: %d battle(s) fought, cleared=%s (a loss wakes you at the hub; the clear path is unit-tested)" % [battles, str(Session.flag(HeapZone.FLAG_MINI_CLEARED))])
 	return zone
 
@@ -860,7 +860,7 @@ func _final_state(zone: HeapScene) -> void:
 	await driver.tap_key(KEY_J)
 	await driver.seconds(0.3)
 	var fog: FogOfWar = Session.fog_for(HeapZone.ID, zone.builder.map_bounds())
-	_check(fog.revealed_count() > 1200, "the Verdant Heap fog of war ended up well explored (%d cells)" % fog.revealed_count())
+	_check(fog.revealed_count() > 1200, "the Verdant Dump fog of war ended up well explored (%d cells)" % fog.revealed_count())
 	var saved: Dictionary = Session.to_dict()
 	_check((saved.get("map_fog", {}) as Dictionary).has(HeapZone.ID), "the reveal is in the save, per zone")
 	_check(not Session.zone_log.is_empty(), "the zone log has entries (stream falls / fees)")

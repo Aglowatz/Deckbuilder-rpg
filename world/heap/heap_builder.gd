@@ -1,6 +1,6 @@
 class_name HeapBuilder
 extends ZoneMap
-## Turns a `HeapLayout` into the Verdant Heap's 3D world and answers walkability queries: the faceted patchwork land
+## Turns a `HeapLayout` into the Verdant Dump's 3D world and answers walkability queries: the faceted patchwork land
 ## with its layered earth rim, the recycling stream and compost pits (hazards you fall into), the two junk
 ## mountains, the scree only a mount can cross, the wall of tires with its junk barricades, vine bridges and
 ## beanstalks that grow on request, trash chutes, Kenney Nature / Survival / Car Kit dressing, signs and the hidden
@@ -575,7 +575,7 @@ func _add_multimesh(model: String, transforms: Array) -> void:
 		holder.name = "MM_" + model
 		var material: Material = mesh_instance.get_active_material(0)
 		if material is StandardMaterial3D and (model.begins_with("tree") or model.begins_with("plant")):
-			# The Nature Kit's greens are teal; warm them towards the Heap's earthy green.
+			# The Nature Kit's greens are teal; warm them towards the Dump's earthy green.
 			var warmed: StandardMaterial3D = (material as StandardMaterial3D).duplicate() as StandardMaterial3D
 			warmed.albedo_color = warmed.albedo_color * Color(1.18, 1.0, 0.5)
 			material = warmed

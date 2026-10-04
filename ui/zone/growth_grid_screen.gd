@@ -1,6 +1,6 @@
 class_name GrowthGridScreen
 extends OverlayScreen
-## The Verdant Heap's puzzle (see `GrowthGrid`): a 5 x 5 garden. Plant a seed in a plot and that plot and its four
+## The Verdant Dump's puzzle (see `GrowthGrid`): a 5 x 5 garden. Plant a seed in a plot and that plot and its four
 ## neighbours flip between bare and in bloom. Bring every plot into bloom. Emits `solved` once; the scene grants the
 ## one-time reward.
 

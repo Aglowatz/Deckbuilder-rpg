@@ -10,7 +10,7 @@ func test_zone_portal_is_the_path_of_the_refusemancer() -> void:
 	var info: ZonePortals.Info = ZonePortals.find("refusemancer")
 	assert_not_null(info)
 	assert_null(ZonePortals.find("root"))
-	assert_true(info.display_name == "Path of the Refusemancer" or info.display_name == "The Verdant Heap")
+	assert_true(info.display_name == "Path of the Refusemancer" or info.display_name == "The Verdant Dump")
 
 
 func test_corrupted_npc_ids_use_refusemancer() -> void:

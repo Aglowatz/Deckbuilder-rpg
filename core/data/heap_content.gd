@@ -1,6 +1,6 @@
 class_name HeapContent
 extends RefCounted
-## Brief 8: the Verdant Heap's Refusemancer cards. 10 sold by Farmer Hob (`ZoneCards.HEAP_VENDOR_IDS`), plus
+## Brief 8: the Verdant Dump's Refusemancer cards. 10 sold by Farmer Hob (`ZoneCards.HEAP_VENDOR_IDS`), plus
 ## "recycle_bin" and "moss_titan" (chest cards) and the Landfill Depths' unique "heap_mother". Refusemancer =
 ## big sturdy creatures, life gain and growth. Placeholder numbers - real cards come later.
 
@@ -35,7 +35,7 @@ static func add_cards(cards: Dictionary) -> void:
 	cards["recycle_bin"] = ContentDefinitions._fin(ContentDefinitions._with(bin, ContentDefinitions._fx(T.ON_ENTER, G.CONTROLLER, O.LOSE_LIFE, 1)), R.UNCOMMON, "Draw two cards. You lose 1 life.", "Blue bin: bottles. Green bin: leaves. Gold bin: you, apparently.")
 	cards["moss_titan"] = _make("moss_titan", "Moss Titan", 4, [C, C], 6, 6, [K.GUARD], R.EPIC, "Guard. When this enters, gain 3 life.", "A junk mountain that got up and decided to garden.",
 		[ContentDefinitions._fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 3)])
-	var mother: CardData = _make("heap_mother", "Mother of the Heap", 5, [C, C], 7, 7, [K.TRAMPLE], R.LEGENDARY, "Trample. When this enters, your creatures get +1/+1 permanently and you gain 5 life.", "Unique reward of the Landfill Depths. Everything thrown away ends up in her care.",
+	var mother: CardData = _make("heap_mother", "Mother of the Dump", 5, [C, C], 7, 7, [K.TRAMPLE], R.LEGENDARY, "Trample. When this enters, your creatures get +1/+1 permanently and you gain 5 life.", "Unique reward of the Landfill Depths. Everything thrown away ends up in her care.",
 		[ContentDefinitions._fx(T.ON_ENTER, G.ALL_ALLY_CREATURES, O.BUFF, 1, 1), ContentDefinitions._fx(T.ON_ENTER, G.CONTROLLER, O.GAIN_LIFE, 5)])
 	cards["heap_mother"] = mother
 

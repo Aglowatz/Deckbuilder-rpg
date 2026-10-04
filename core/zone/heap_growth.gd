@@ -1,6 +1,6 @@
 class_name HeapGrowth
 extends RefCounted
-## The things a Refusemancer can grow in the Verdant Heap: two kinds of crossing - VINE BRIDGES across the recycling
+## The things a Refusemancer can grow in the Verdant Dump: two kinds of crossing - VINE BRIDGES across the recycling
 ## stream and BEANSTALK LADDERS up the junk mountains - and how each is grown: by a DRUID NPC once a condition is
 ## met (the centre bridge: Druid Sorrel wants the herd rounded up), or by planting a MAGIC BEAN at its sprout mound.
 ## Once grown it stays grown (a flag). Also the junk barricades (smashed by a charging mount) and a few counts.

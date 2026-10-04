@@ -212,8 +212,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func _enter_gate() -> void:
 	Audio.sfx(&"ui_select")
 	var dialog: ConfirmDialog = ConfirmDialog.ask(
-		_overlay_layer, "Trial of the Hollow",
-		"A cold draft rises from the dark. This looks like the only way out. Go in?",
+		_overlay_layer, StoryText.shared().text("start.gate_title"),
+		StoryText.shared().text("start.gate_prompt"),
 		"Enter", "Not yet",
 	)
 	_locked = true
@@ -228,7 +228,7 @@ func _enter_gate() -> void:
 func _enter_tunnel() -> void:
 	Audio.sfx(&"ui_select")
 	_locked = true
-	dialogue.start("", ["A narrow gap in the old treeline - easy to miss, easy enough to slip through, if you're not afraid of a shortcut."])
+	dialogue.start("", StoryText.shared().get_lines("start.tunnel"))
 	dialogue.finished.connect(func() -> void:
 		var choice: ElementChoiceScreen = ElementChoiceScreen.new()
 		_overlay_layer.add_child(choice)

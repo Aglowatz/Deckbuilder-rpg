@@ -1,6 +1,6 @@
 class_name HeapMobs
 extends RefCounted
-## Procedural models of the Verdant Heap's three roaming enemies (a moss-covered trash golem, a possessed scarecrow
+## Procedural models of the Verdant Dump's three roaming enemies (a moss-covered trash golem, a possessed scarecrow
 ## druid and a flock of junk gulls) and helpers for the animated Cube Pets animals (mounts and escaped livestock).
 ## Built from primitives in the shared palette and Kenney Car/Survival Kit pieces; all face +z and stand on the ground.
 

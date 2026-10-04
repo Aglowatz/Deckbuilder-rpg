@@ -1,6 +1,6 @@
 class_name HeapMaterials
 extends RefCounted
-## The Verdant Heap's shared palette: earthy greens and browns with rust oranges. Every procedural prop, the terrain
+## The Verdant Dump's shared palette: earthy greens and browns with rust oranges. Every procedural prop, the terrain
 ## and the golems draw from these few flat-shaded materials so the zone reads as one cohesive low-poly family
 ## alongside the Kenney Nature / Survival / Car / Cube Pets models. Cached; never create one-off materials.
 

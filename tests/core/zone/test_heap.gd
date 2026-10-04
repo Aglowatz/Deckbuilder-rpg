@@ -1,5 +1,5 @@
 extends GutTest
-## Brief 8, Part B: the Verdant Heap - layout, traversal (vine bridges, beanstalks, mounts, barricades, scree, chutes,
+## Brief 8, Part B: the Verdant Dump - layout, traversal (vine bridges, beanstalks, mounts, barricades, scree, chutes,
 ## hazard falls), def, enemies, content, story, interactables, the Seed Shrine puzzle and the Sort It Out! minigame.
 
 const STEP: float = 0.6
@@ -50,7 +50,7 @@ func test_the_land_is_about_the_size_of_the_other_zones() -> void:
 			if HeapLayout.edge_distance(float(x) + 0.5, float(z) + 0.5) >= 0.0:
 				area += 1.0
 	var ratio: float = area / float(dna.floor_cell_count())
-	assert_between(ratio, 0.8, 2.2, "the Verdant Heap is roughly the D.N.A.'s size (ratio %.2f)" % ratio)
+	assert_between(ratio, 0.8, 2.2, "the Verdant Dump is roughly the D.N.A.'s size (ratio %.2f)" % ratio)
 
 
 func test_surface_rules() -> void:
@@ -395,7 +395,7 @@ func test_smashing_a_barricade_is_permanent_and_counted() -> void:
 func test_the_zone_is_registered_and_named() -> void:
 	assert_true(ZoneDefs.has_def(HeapZone.ID))
 	assert_eq(HeapZone.ID, "refusemancer")
-	assert_eq(def.display_name, "The Verdant Heap")
+	assert_eq(def.display_name, "The Verdant Dump")
 	assert_true(ResourceLoader.exists(def.scene_path))
 	assert_true(ResourceLoader.exists(def.story_path))
 	assert_eq(ZonePortals.find("refusemancer").display_name, "Path of the Refusemancer")

@@ -95,6 +95,7 @@ func new_game() -> void:
 	deck.deck_name = DECK_NAME
 	gold = STARTING_GOLD
 	flags = {}
+	_sync_freed_stories()
 	run = null
 	dungeon_map = null
 	gold_spent_total = 0
@@ -186,6 +187,45 @@ func spend_gold(amount: int) -> bool:
 	gold_spent_total += amount
 	EventBus.gold_changed.emit(gold)
 	return true
+
+
+## ---- Zone completion (Part D) -------------------------------------------------------------
+
+
+func is_zone_completed(zone_id: String) -> bool:
+	return ZoneCompletion.is_completed(flags, zone_id)
+
+
+func completed_zone_count() -> int:
+	return ZoneCompletion.count(flags)
+
+
+func arena_unlocked() -> bool:
+	return ZoneCompletion.arena_unlocked(flags)
+
+
+func alchemist_unlocked() -> bool:
+	return ZoneCompletion.alchemist_unlocked(flags)
+
+
+## Frees a zone (its dungeon boss was defeated): sets the saved flag once, switches the zone's story
+## to its freed text, fires `EventBus.zone_completed` (the Arena and the Alchemist unlock from it)
+## and saves. Returns true only the first time.
+func complete_zone(zone_id: String) -> bool:
+	if not ZoneDefs.has_def(zone_id) or is_zone_completed(zone_id):
+		return false
+	flags[str(ZoneCompletion.flag_name(zone_id))] = true
+	_sync_freed_stories()
+	refresh_quests()
+	EventBus.zone_completed.emit(zone_id)
+	save_game()
+	return true
+
+
+## Makes every zone story agree with the completion flags (after a load, a new game or a completion).
+func _sync_freed_stories() -> void:
+	for zone_id: String in ZoneDefs.ids():
+		ZoneStoryText.set_zone_freed(zone_id, is_zone_completed(zone_id))
 
 
 func flag(name: StringName) -> bool:
@@ -525,6 +565,7 @@ func from_dict(data: Dictionary) -> bool:
 			deck.cards.append(card)
 	gold = int(data.get("gold", 0))
 	flags = (data.get("flags", {}) as Dictionary).duplicate()
+	_sync_freed_stories()
 	# Part A rename (Grave -> Necrocrat): old saves used the "grave" zone id.
 	if flags.has("grave_zone_unlocked") and not flags.has("necrocrat_zone_unlocked"):
 		flags["necrocrat_zone_unlocked"] = flags["grave_zone_unlocked"]

@@ -147,7 +147,7 @@ static func _add_item(
 ##  - Compliance Clipboard (D.N.A., relic)       <- *Compliance Audit* (END_OF_TURN_EFFECT)
 ##  - Spotter's Barbell (Gainlands, weapon)      <- *Clear the Lanes* (ON_CREATURE_ENTER_EFFECT)
 ##  - Head Chef's Toque (Endless Buffet, helm)   <- *Bake Me a Pie* (LIFE_GAIN_BONUS)
-##  - Compost Boots (Verdant Heap, boots)        <- *Unblock the Stream* (ON_ALLY_DEATH_EFFECT)
+##  - Compost Boots (Verdant Dump, boots)        <- *Unblock the Stream* (ON_ALLY_DEATH_EFFECT)
 static func _add_zone_pieces(result: Dictionary) -> void:
 	var clipboard: EquipmentData = _piece("compliance_clipboard", "Compliance Clipboard", EquipmentData.Slot.RELIC, "At the end of your turn, the opponent loses 1 life.", [_mod_effect(K.END_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.LOSE_LIFE, 1, CardEnums.TargetKind.OPPONENT))], true)
 	clipboard.flavor_text = "Every box ticked is a little paper cut. Nobody has ever read what it says."

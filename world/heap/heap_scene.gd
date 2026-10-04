@@ -1,6 +1,6 @@
 class_name HeapScene
 extends ZoneScene
-## The playable Verdant Heap (Refusemancer zone). The shared zone framework (`ZoneScene`) provides the hub, life rules,
+## The playable Verdant Dump (Refusemancer zone). The shared zone framework (`ZoneScene`) provides the hub, life rules,
 ## enemies, chests, quiz/minigame/puzzle launchers and the minimap; this subclass adds what is unique here: the
 ## golden-hour look and fireflies, GROWING (a druid or a Magic Bean grows a vine bridge across the recycling stream or a
 ## beanstalk up a junk mountain), RIDEABLE ANIMALS (a giant boar or goat from a stable: faster, crosses the scree and

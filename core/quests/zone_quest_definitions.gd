@@ -169,7 +169,7 @@ static func _buf_mend() -> QuestData:
 	return quest
 
 
-# ---- The Verdant Heap (brief 8): three hub quests ---------------------------------------------
+# ---- The Verdant Dump (brief 8): three hub quests ---------------------------------------------
 
 
 static func _heap_herd() -> QuestData:
@@ -192,7 +192,7 @@ static func _heap_fert() -> QuestData:
 	quest.id = HeapZone.QUEST_FERT
 	quest.order = 420
 	quest.title = "Fertilizer Run"
-	quest.summary = "Farmer Hob is out of fertilizer and the crops are sulking. Gather three sacks from around the Verdant Heap."
+	quest.summary = "Farmer Hob is out of fertilizer and the crops are sulking. Gather three sacks from around the Verdant Dump."
 	quest.giver_npc = HeapZone.NPC_HOB
 	quest.turn_in_npc = HeapZone.NPC_HOB
 	quest.objectives = [QuestObjective.make("Gather sacks of fertilizer", Condition.counter(HeapZone.COUNTER_FERTILIZER, 3))] as Array[QuestObjective]

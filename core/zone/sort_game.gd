@@ -1,6 +1,6 @@
 class_name SortGame
 extends RefCounted
-## The Verdant Heap's minigame, "Sort It Out!" - a SORTING / classification game (unlike the D.N.A.'s memory game, the
+## The Verdant Dump's minigame, "Sort It Out!" - a SORTING / classification game (unlike the D.N.A.'s memory game, the
 ## Gainlands' timing game and the Endless Buffet's assembly game). Twenty pieces of junk ride down a conveyor, one
 ## after another and faster and faster; send the front piece to the right bin (Compost, Metal, Glass or Paper)
 ## before it reaches the end. A wrong bin or a piece that falls off the end breaks your streak. Points: 1 per piece,

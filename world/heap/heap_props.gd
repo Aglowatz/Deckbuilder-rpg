@@ -1,6 +1,6 @@
 class_name HeapProps
 extends RefCounted
-## Procedural props of the Verdant Heap, built from primitives in the shared palette (`HeapMaterials`) and dressed with
+## Procedural props of the Verdant Dump, built from primitives in the shared palette (`HeapMaterials`) and dressed with
 ## Kenney Nature / Survival / Car Kit models: the scrap barn and windmills, the harvest table, the swap shed, the
 ## compost bin and heaps, the druid shrine, stables with their animals, crop plots, the county-fair stage, rusted
 ## wrecks overgrown with moss, junk piles, the landfill hatch, vine bridges, beanstalks and trash chutes. Every

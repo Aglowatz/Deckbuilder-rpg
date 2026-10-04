@@ -1,6 +1,6 @@
 class_name HeapEnemies
 extends RefCounted
-## The roaming enemy designs of the Verdant Heap (placeholder numbers - balance is out of scope):
+## The roaming enemy designs of the Verdant Dump (placeholder numbers - balance is out of scope):
 ##
 ##  - `golem`     Mossy Trash Golem        - slow and hulking; touching starts an (aggressive) Refusemancer-deck battle.
 ##  - `scarecrow` Possessed Scarecrow Druid - slow; touching starts a (defensive) Refusemancer-deck battle.

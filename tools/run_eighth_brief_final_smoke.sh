@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# FINAL (eighth brief): (1) the regressions (D.N.A. + Gainlands e2e flows) and (2) the Verdant Heap flow with
+# FINAL (eighth brief): (1) the regressions (D.N.A. + Gainlands e2e flows) and (2) the Verdant Dump flow with
 # human-style input; screenshots in _screenshots/brief5/, brief6/ and brief8/. Run alone (windowed).
 #   tools/run_eighth_brief_final_smoke.sh          # all three
-#   tools/run_eighth_brief_final_smoke.sh heap   # only the Verdant Heap flow
+#   tools/run_eighth_brief_final_smoke.sh heap   # only the Verdant Dump flow
 GODOT="/c/Tools/Godot/Godot_v4.7.2-stable_win64.exe"
 CONSOLE="/c/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe"
 cd "$(dirname "$0")/.."

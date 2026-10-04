@@ -1,6 +1,6 @@
 class_name HeapInteractables
 extends RefCounted
-## The rules behind the Verdant Heap's interactables (all effects are real; the scene only animates them):
+## The rules behind the Verdant Dump's interactables (all effects are real; the scene only animates them):
 ##  - Pickups: beans, fertilizer and junk, once per visit each; the stock persists in the campaign.
 ##  - The Compost Bin: 2 piles of junk make a "Compost Cocktail" - +1 max life for the visit (twice per visit).
 ##  - Crop plots: plant a crop with a sack of fertilizer; it ripens after `HeapGrowth.CROP_SECONDS` of real time in

@@ -7,6 +7,8 @@ signal deck_pressed
 signal quests_pressed
 
 var _objective: RichTextLabel
+var _location: Label
+var _progress: Label
 var _gold: Label
 var _prompt_panel: PanelContainer
 var _prompt_label: Label
@@ -27,6 +29,12 @@ func _ready() -> void:
 	left_column.add_child(QuestTracker.new())
 	var column: VBoxContainer = UIKit.vbox(4)
 	objective_panel.add_child(column)
+	_location = UIKit.label("", &"HeadingLabel", 30)
+	_location.name = "LocationLabel"
+	column.add_child(_location)
+	_progress = UIKit.label("", &"MutedLabel", 20)
+	_progress.name = "ZoneProgressLabel"
+	column.add_child(_progress)
 	column.add_child(UIKit.label("Objective", &"HeadingLabel", 22))
 	_objective = UIKit.rich("", 22)
 	_objective.custom_minimum_size = Vector2(400, 0)
@@ -76,6 +84,12 @@ func _ready() -> void:
 
 func set_gold(amount: int) -> void:
 	_gold.text = str(amount)
+
+
+## The town's name and how many zones are free ("Concord Crossing - 1 of 4 zones free").
+func set_location(town_name: String, progress: String) -> void:
+	_location.text = town_name
+	_progress.text = progress
 
 
 func set_objective(bbcode: String) -> void:
