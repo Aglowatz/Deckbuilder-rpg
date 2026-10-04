@@ -57,6 +57,10 @@ const BY_ID: Dictionary = {
 	"take_a_number": "delapouite/ticket",
 	"hr_reaper": "delapouite/plague-doctor-profile",
 	"deceased_ceo": "delapouite/imperial-crown",
+	"heartlift_the_unbroken": "delapouite/strong-man",
+	"aurelio_the_true": "delapouite/chef-toque",
+	"the_final_approval": "delapouite/stamper",
+	"heart_of_the_dump": "cathelineau/tree-face",
 	"infrastructure_a": "carl-olsen/flame",
 	"infrastructure_b": "lorc/drop",
 	"infrastructure_c": "lorc/leaf-swirl",
@@ -151,6 +155,11 @@ static func for_equipment(equipment: EquipmentData) -> Texture2D:
 	var key: String = str(BY_EQUIPMENT_ID.get(equipment.id, ""))
 	if key == "":
 		key = "lorc/gem-pendant"
+	return _load(key)
+
+
+## Any icon of the game-icons set by its "author/name" key (the dungeon maps and cutscenes use these).
+static func named(key: String) -> Texture2D:
 	return _load(key)
 
 

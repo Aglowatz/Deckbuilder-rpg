@@ -18,6 +18,9 @@ var _life_bar: ProgressBar
 var _modal: Control
 var _busy: bool = false
 var _screenshot_args: Dictionary = {}
+var _dialogue: DialogueBox
+## Set while inside a zone's final dungeon (Part E): its data (foes, events, backdrop).
+var _main_def: MainDungeonDef
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -27,7 +30,9 @@ func screenshot_prepare(args: Dictionary) -> void:
 func _ready() -> void:
 	SceneManager.pause_allowed = true
 	Audio.play_music(&"map")
-	if not Session.in_dungeon():
+	if not Session.in_dungeon() and _screenshot_args.has("main"):
+		_prepare_main_dungeon_for_screenshot()
+	elif not Session.in_dungeon():
 		Session.ensure_game()
 		Session.dungeon_map = TrialOfTheHollow.build_map()
 		Session.run = DungeonRun.enter(Session.profile, Session.deck, [] as Array[ModifierSource])
@@ -38,7 +43,11 @@ func _ready() -> void:
 				Session.run.lose_life(int(_screenshot_args["damage"]))
 	map = Session.dungeon_map
 	run = Session.run
-	add_child(ArenaBackdrop.new())
+	if Session.main_dungeon_active:
+		_main_def = MainDungeons.def(Session.zone_def().id)
+		add_child(DungeonBackdrop.make(_main_def.backdrop))
+	else:
+		add_child(ArenaBackdrop.new())
 	var dim: ColorRect = ColorRect.new()
 	dim.color = Color(0.03, 0.02, 0.07, 0.25)
 	UIKit.full_rect(dim)
@@ -49,11 +58,35 @@ func _ready() -> void:
 	_build_hud()
 	_build_nodes()
 	_refresh_life()
+	_build_dungeon_extras()
+	_dialogue = DialogueBox.new()
+	_dialogue.z_index = 150
+	add_child(_dialogue)
 	if _screenshot_args.has("open"):
 		_open_from_screenshot.call_deferred(str(_screenshot_args["open"]))
 	EventBus.tutorial_event.emit(&"map_entered")
 	if _screenshot_args.is_empty() or _screenshot_args.has("tip"):
-		TipPanel.show_once(self, &"tip_map", "The dungeon map", ("Glowing nodes are your next steps. [b]Life carries from fight to fight[/b] and nothing heals in between - this is the zone's life. Lose a duel and you wake at the hub (for a paperwork fee)." if Session.mini_active else "Glowing nodes are your next steps. [b]Life carries from fight to fight[/b], so save the shrine for when you need it. Lose a duel and you are carried back to town with your collection intact."), Vector2(560, 140))
+		TipPanel.show_once(self, &"tip_map", "The dungeon map", ("Glowing nodes are your next steps, and some of them are real choices between routes. [b]Life carries from fight to fight[/b] and nothing heals except at shrines - this is the zone's life. Lose a duel and you wake at the hub (for a paperwork fee)." if (Session.mini_active or Session.main_dungeon_active) else "Glowing nodes are your next steps. [b]Life carries from fight to fight[/b], so save the shrine for when you need it. Lose a duel and you are carried back to town with your collection intact."), Vector2(560, 140))
+	_play_pending_after_story.call_deferred()
+
+
+## Screenshot/dev only: enter a zone's final dungeon directly (`--main=<zone id> --progress=N`).
+func _prepare_main_dungeon_for_screenshot() -> void:
+	Session.ensure_game()
+	var zone_id: String = str(_screenshot_args.get("main", "beefcake"))
+	Session.zone_run = ZoneRun.enter(zone_id, Session.profile, Session.deck)
+	Session.dungeon_map = MainDungeons.build_map(zone_id)
+	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
+	Session.main_dungeon_active = true
+	for step: int in range(int(_screenshot_args.get("progress", 0))):
+		var choices: Array[DungeonMap.MapNode] = Session.dungeon_map.available()
+		if choices.is_empty():
+			break
+		Session.dungeon_map.complete(choices[int(_screenshot_args.get("branch", 0)) % choices.size()].id)
+	if _screenshot_args.has("damage"):
+		Session.run.lose_life(int(_screenshot_args["damage"]))
+	if _screenshot_args.has("boon") and MainDungeons.def(zone_id).boon != null:
+		Session.run.add_dungeon_source(MainDungeons.def(zone_id).boon)
 
 
 func _build_board() -> void:
@@ -211,9 +244,16 @@ func _on_node_hovered(id: int) -> void:
 	var node: DungeonMap.MapNode = map.node(id)
 	_info_title.text = node.title
 	var text: String = node.blurb
+	if not node.section.is_empty():
+		text = "[color=#a89bb5](%s)[/color]  %s" % [node.section, text]
 	match node.kind:
-		DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS:
-			text += "\n[b]%s[/b], %d life.  Reward: %d gold and a choice of card." % [node.enemy_name, node.enemy_life, node.gold_reward]
+		DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS, DungeonMap.Kind.ELITE:
+			var prize: String = "a choice of card" if node.card_choices > 0 else "no card choice"
+			text += "\n[b]%s[/b], %d life.  Reward: %d gold and XP, %s." % [node.enemy_name, node.enemy_life, node.gold_reward, prize]
+		DungeonMap.Kind.EVENT:
+			text += "\nA story event: choose how to deal with it."
+		DungeonMap.Kind.TREASURE:
+			text += "\nTreasure: gold, XP and an item."
 		DungeonMap.Kind.CHALLENGE:
 			text += "\nA deck challenge: the outcome depends on the cards you draw."
 		DungeonMap.Kind.SHRINE:
@@ -227,19 +267,102 @@ func _on_node_hovered(id: int) -> void:
 
 
 func _on_node_chosen(id: int) -> void:
-	if _busy or _modal != null:
+	if _busy or _modal != null or (_dialogue != null and _dialogue.active):
 		return
 	var node: DungeonMap.MapNode = map.node(id)
 	Audio.sfx(&"ui_select")
+	_play_before(node, _run_node.bind(node))
+
+
+## What entering a node does, after its story and scene have played.
+func _run_node(node: DungeonMap.MapNode) -> void:
 	match node.kind:
-		DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS:
+		DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS, DungeonMap.Kind.ELITE:
 			_busy = true
 			Audio.sfx(&"door")
 			Session.start_battle(Session.make_dungeon_battle(node))
 		DungeonMap.Kind.CHALLENGE:
-			_open_modal(ChallengeScreen.new(), id)
+			_open_modal(ChallengeScreen.new(), node.id)
 		DungeonMap.Kind.SHRINE:
-			_open_modal(ShrineScreen.new(), id)
+			_open_modal(ShrineScreen.new(), node.id)
+		DungeonMap.Kind.EVENT:
+			var event: DungeonEvent = _main_def.event(node.event_id) if _main_def != null else null
+			if event != null:
+				_open_modal(EventScreen.make(event, Session.zone_def().id), node.id)
+		DungeonMap.Kind.TREASURE:
+			_open_modal(TreasureScreen.make(node), node.id)
+
+
+## The node's story lines (placeholder dialogue), then its cutscene if any, then `then`.
+func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
+	var steps: Array[Callable] = []
+	if not node.story_before.is_empty() and _main_def != null:
+		steps.append(_show_story.bind(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_before)))
+	if not node.scene.is_empty() and CutsceneDefs.has_scene(node.scene):
+		steps.append(_show_cutscene.bind(node.scene))
+	_run_steps(steps, then)
+
+
+func _run_steps(steps: Array[Callable], then: Callable) -> void:
+	if steps.is_empty():
+		then.call()
+		return
+	var first: Callable = steps[0]
+	var rest: Array[Callable] = steps.slice(1)
+	first.call(func() -> void: _run_steps(rest, then))
+
+
+func _show_story(lines: Array[String], done: Callable) -> void:
+	_dialogue.start("", lines)
+	_dialogue.finished.connect(done, CONNECT_ONE_SHOT)
+
+
+func _show_cutscene(scene_id: String, done: Callable) -> void:
+	var scene: CutsceneScreen = CutsceneScreen.make(scene_id)
+	add_child(scene)
+	scene.finished.connect(done, CONNECT_ONE_SHOT)
+
+
+## After returning to the map: the story line of the node just cleared (once per run).
+func _play_pending_after_story() -> void:
+	if _main_def == null or map == null:
+		return
+	var node: DungeonMap.MapNode = map.node(map.current)
+	if node.story_after.is_empty() or Session.dungeon_story_seen.has(node.id) or not map.is_cleared(node.id):
+		return
+	Session.dungeon_story_seen.append(node.id)
+	_show_story(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_after), func() -> void: pass)
+
+
+## Part E: the zone effects, the boons earned in this dungeon and the current section under the title.
+func _build_dungeon_extras() -> void:
+	if _main_def == null and not Session.mini_active:
+		return
+	var zone_id: String = Session.zone_def().id
+	var effect: ZoneEffects.Effect = ZoneEffects.for_zone(zone_id)
+	if effect != null:
+		var panel: ZoneEffectsPanel = ZoneEffectsPanel.make(effect, Session.zone_def().display_name, true)
+		panel.position = Vector2(34, 150)
+		add_child(panel)
+	var boons: Array[ModifierSource] = []
+	for source: ModifierSource in run.dungeon_sources:
+		if source.source_kind == ModifierSource.SourceKind.BOON:
+			boons.append(source)
+	if boons.is_empty():
+		return
+	var boon_panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	boon_panel.name = "BoonPanel"
+	boon_panel.position = Vector2(1560, 150)
+	boon_panel.custom_minimum_size = Vector2(330, 0)
+	add_child(boon_panel)
+	var column: VBoxContainer = UIKit.vbox(4)
+	boon_panel.add_child(column)
+	column.add_child(UIKit.label("Boons", &"HeadingLabel", 22))
+	for boon: ModifierSource in boons:
+		var row: Label = UIKit.label(boon.source_name, &"", 18, Color("9cf5a0"))
+		row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		row.custom_minimum_size = Vector2(300, 0)
+		column.add_child(row)
 
 
 func _open_modal(screen: Control, node_id: int) -> void:
@@ -300,3 +423,18 @@ func _open_from_screenshot(what: String) -> void:
 			_open_modal(ShrineScreen.new(), 4)
 		"deck":
 			_open_deck_builder()
+		"event":
+			var shown: DungeonEvent = _main_def.event(str(_screenshot_args.get("event_id", ""))) if _main_def != null else null
+			if shown != null:
+				_open_modal(EventScreen.make(shown, Session.zone_def().id), 1)
+		"treasure":
+			for candidate: DungeonMap.MapNode in map.nodes:
+				if candidate.kind == DungeonMap.Kind.TREASURE:
+					_open_modal(TreasureScreen.make(candidate), candidate.id)
+					break
+		"cutscene":
+			var scene: CutsceneScreen = CutsceneScreen.make(str(_screenshot_args.get("scene_id", "flex")))
+			add_child(scene)
+			for beat: int in range(int(_screenshot_args.get("beat", 0))):
+				scene.advance()
+				scene.advance()

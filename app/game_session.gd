@@ -686,15 +686,21 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var options: GameOptions = GameOptions.new()
 	options.first_player = 0 if node.tutorial else -1
 	options.rng_seed = rng.randi() % 1000000 + 1
-	var enemy: PlayerSetup = MiniDungeon.enemy_setup(content, node, zone_def().id) if mini_active else TrialOfTheHollow.enemy_setup(content, node)
+	var enemy: PlayerSetup
+	if main_dungeon_active:
+		enemy = MainDungeons.enemy_setup(content, node, zone_def().id)
+	elif mini_active:
+		enemy = MiniDungeon.enemy_setup(content, node, zone_def().id)
+	else:
+		enemy = TrialOfTheHollow.enemy_setup(content, node)
 	var effect_zone: String = zone_def().id if (mini_active or main_dungeon_active) else ""
 	var game: GameState = run.start_encounter(enemy, ZoneEffects.source_for(effect_zone), options)
 	var context: BattleContext = BattleContext.new()
 	context.game = game
 	context.zone_id = effect_zone
-	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if mini_active else TrialOfTheHollow.personality(content, node.ai_name))
+	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if (mini_active or main_dungeon_active) else TrialOfTheHollow.personality(content, node.ai_name))
 	context.enemy_name = node.enemy_name
-	context.enemy_icon = str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
+	context.enemy_icon = MainDungeons.enemy_icon(zone_def().id, node.enemy_name) if main_dungeon_active else str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
 	context.node_id = node.id
 	context.tutorial = node.tutorial
 	context.is_boss = node.kind == DungeonMap.Kind.BOSS
@@ -1095,6 +1101,8 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 var mini_active: bool = false
 ## True while inside a zone's main (final) dungeon (the Test Kitchen, the House of Gains, ...). Part E.
 var main_dungeon_active: bool = false
+## Node ids whose "after" story has been shown in the current dungeon run (so it plays once).
+var dungeon_story_seen: Array[int] = []
 
 
 ## From the zone's elevator: a run that starts at the zone's current life (no healing).
@@ -1140,6 +1148,121 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 		result["woke_at_hub"] = true
 	pending_zone_result = result
 	save_game()
+	return result
+
+
+# ---- The zone's final dungeon (brief 9, Part E) -------------------------------------------
+
+
+## From the zone's dungeon entrance: a run that starts at the zone's current life (no healing, zone life
+## rules). The map is the zone's final dungeon (`MainDungeons`).
+func enter_main_dungeon() -> void:
+	if zone_run == null or not MainDungeons.has_def(zone_run.zone_id):
+		return
+	dungeon_map = MainDungeons.build_map(zone_run.zone_id)
+	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
+	run.life = clampi(zone_run.life, 1, run.max_life())
+	mini_active = false
+	main_dungeon_active = true
+	dungeon_story_seen = []
+	trial_finished = false
+	pending_reward = null
+	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+
+
+## Leaves the final dungeon back to the zone (retreat, a loss or the boss falling).
+func finish_main_dungeon(cleared: bool, failed: bool = false) -> void:
+	resolve_main_dungeon(cleared, failed)
+	SceneManager.change_scene(zone_def().scene_path)
+
+
+## The state changes of leaving the final dungeon (no scene change, so tests can run it). Beating the
+## boss the first time completes the zone: the unique card, gold and XP, then `complete_zone` (which
+## fires the completion event and saves). Returns what the zone scene should announce.
+func resolve_main_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
+	var zone_id: String = zone_def().id
+	var dungeon: MainDungeonDef = MainDungeons.def(zone_id)
+	var result: Dictionary = {"kind": "main", "cleared": cleared, "failed": failed}
+	if zone_run != null and run != null:
+		zone_run.life = run.life
+	if cleared and dungeon != null:
+		if not cleared_dungeons.has(dungeon.dungeon_name):
+			cleared_dungeons.append(dungeon.dungeon_name)
+		if not is_zone_completed(zone_id):
+			var arena_before: bool = arena_unlocked()
+			var alchemist_before: bool = alchemist_unlocked()
+			var card: CardData = card_by_id(dungeon.reward_card_id)
+			if card != null:
+				add_cards([card] as Array[CardData])
+				result["card"] = card.display_name
+			add_gold(dungeon.reward_gold)
+			pending_level_ups.append_array(add_xp(dungeon.reward_xp))
+			complete_zone(zone_id)
+			result["kind"] = "zone_freed"
+			result["first_clear"] = true
+			result["gold"] = dungeon.reward_gold
+			result["xp"] = dungeon.reward_xp
+			result["arena_opened"] = arena_unlocked() and not arena_before
+			result["alchemist_opened"] = alchemist_unlocked() and not alchemist_before
+	run = null
+	dungeon_map = null
+	main_dungeon_active = false
+	trial_finished = false
+	pending_reward = null
+	if zone_run != null and (failed or zone_run.is_down()):
+		result["fee"] = zone_wake_at_hub("sent home from %s" % (dungeon.dungeon_name if dungeon != null else "the final dungeon"))
+		result["woke_at_hub"] = true
+	pending_zone_result = result
+	save_game()
+	return result
+
+
+## Applies a TREASURE node's loot (gold, XP, a heal, an item, a card, a piece of equipment) and returns what was
+## granted, for the treasure screen to show.
+func apply_treasure(node: DungeonMap.MapNode) -> Dictionary:
+	var loot: Dictionary = node.treasure
+	var granted: Dictionary = {}
+	var gold_amount: int = int(loot.get("gold", 0))
+	if gold_amount > 0:
+		add_gold(gold_amount)
+		granted["gold"] = gold_amount
+	var xp_amount: int = int(loot.get("xp", 0))
+	if xp_amount > 0:
+		pending_level_ups.append_array(add_xp(xp_amount))
+		granted["xp"] = xp_amount
+	var heal_amount: int = int(loot.get("heal", 0))
+	if heal_amount > 0 and run != null:
+		run.heal(heal_amount)
+		granted["heal"] = heal_amount
+	var item: ItemData = content.item(str(loot.get("item", "")))
+	if item != null:
+		add_item(item)
+		granted["item"] = item.display_name
+	var card: CardData = content.card(str(loot.get("card", "")))
+	if card != null:
+		add_cards([card] as Array[CardData])
+		if run != null:
+			run.gain_card(card)
+		granted["card"] = card.display_name
+	var piece: EquipmentData = content.equipment_piece(str(loot.get("equipment", "")))
+	if piece != null and grant_equipment(piece):
+		granted["equipment"] = piece.source_name
+	save_game()
+	return granted
+
+
+## Resolves one choice of a story event for the current dungeon run: life/boons/cards go to the run, gold
+## to the player. Returns the `EventResolver.Result` (ok = false when the choice could not be taken).
+func resolve_dungeon_event(event: DungeonEvent, choice_index: int) -> EventResolver.Result:
+	var result: EventResolver.Result = EventResolver.resolve(event, choice_index, run, content, gold)
+	if result.ok:
+		if result.gold_delta > 0:
+			add_gold(result.gold_delta)
+		elif result.gold_delta < 0:
+			spend_gold(-result.gold_delta)
+		if not result.cards.is_empty():
+			add_cards(result.cards)
+		save_game()
 	return result
 
 
@@ -1237,6 +1360,9 @@ func complete_trial() -> void:
 
 
 func abandon_run(notice: String = "") -> void:
+	if main_dungeon_active:
+		finish_main_dungeon(false, run != null and (run.failed or run.life <= 0))
+		return
 	if mini_active:
 		finish_mini_dungeon(false, run != null and (run.failed or run.life <= 0))
 		return

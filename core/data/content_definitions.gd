@@ -209,6 +209,7 @@ static func build_zone_cards(tokens: Dictionary) -> Dictionary:
 	_add_gainlands_cards(cards)
 	_add_buffet_cards(cards)
 	HeapContent.add_cards(cards)
+	DungeonContent.add_cards(cards)
 	return cards
 
 

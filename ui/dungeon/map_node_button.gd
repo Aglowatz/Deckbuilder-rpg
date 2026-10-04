@@ -14,6 +14,9 @@ const KIND_ICONS: Dictionary = {
 	DungeonMap.Kind.CHALLENGE: "rune",
 	DungeonMap.Kind.SHRINE: "fountain",
 	DungeonMap.Kind.BOSS: "skull",
+	DungeonMap.Kind.ELITE: "skull",
+	DungeonMap.Kind.EVENT: "rune",
+	DungeonMap.Kind.TREASURE: "gems",
 }
 
 var map_node: DungeonMap.MapNode
@@ -45,12 +48,15 @@ func _ready() -> void:
 	_glyph.position = Vector2(DIAMETER - 60.0, DIAMETER - 60.0) * 0.5
 	_glyph.size = Vector2(60, 60)
 	add_child(_glyph)
-	_name_label = UIKit.label(map_node.title, &"", 21, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	_name_label = UIKit.label(map_node.title, &"", 20, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_name_label.add_theme_font_override("font", UIStyle.font_bold())
 	_name_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
 	_name_label.add_theme_constant_override("outline_size", 6)
-	_name_label.position = Vector2(-60, DIAMETER + 6.0)
-	_name_label.size = Vector2(DIAMETER + 120.0, 30)
+	# Two short lines at most, so neighbouring nodes never run their names together.
+	_name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_name_label.max_lines_visible = 2
+	_name_label.position = Vector2(-22, DIAMETER + 4.0)
+	_name_label.size = Vector2(DIAMETER + 44.0, 56)
 	add_child(_name_label)
 	mouse_entered.connect(func() -> void:
 		hovered.emit(map_node.id)
@@ -66,7 +72,7 @@ func _ready() -> void:
 
 func refresh() -> void:
 	var boss: bool = map_node.kind == DungeonMap.Kind.BOSS
-	var base: Color = Color("6b2f3a") if boss else Color("3a2d55")
+	var base: Color = Color("6b2f3a") if boss else (Color("5e3328") if map_node.kind == DungeonMap.Kind.ELITE else Color("3a2d55"))
 	var border: Color = UIStyle.GOLD_DIM
 	var glyph_color: Color = UIStyle.PARCHMENT
 	if cleared:

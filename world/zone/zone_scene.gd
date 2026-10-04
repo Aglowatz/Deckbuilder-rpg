@@ -633,10 +633,24 @@ func _ask_mini_dungeon(spot: ZoneSpot) -> void:
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
 
+## The zone's final dungeon (Part E): its entrance shows what waits inside, then enters it (life carries in
+## from the zone, like the mini dungeon).
 func _use_main_dungeon(spot: ZoneSpot) -> void:
 	player.face(spot.position)
-	Audio.sfx(&"ui_error")
 	hud.toast(story.text("fx.main_dungeon"), Color("ffcf70"))
+	if not MainDungeons.has_def(def.id):
+		return
+	_locked = true
+	var cleared: bool = Session.is_zone_completed(def.id)
+	var body: String = story.text("ui.main.body_cleared" if cleared else "ui.main.body")
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, story.text("ui.main.title"), body, story.text("ui.main.button"), "Not yet")
+	dialog.confirmed.connect(func() -> void:
+		var run: ZoneRun = Session.zone_run
+		run.return_position = spot.position + Vector3(0, 0, 1.4)
+		run.has_return_position = true
+		Audio.sfx(&"door")
+		Session.enter_main_dungeon())
+	dialog.cancelled.connect(func() -> void: _locked = false)
 
 
 func _ask_exit() -> void:
@@ -837,6 +851,12 @@ func _apply_pending_result() -> void:
 		return
 	if str(result.get("kind", "")) == "zone_freed":
 		_show_zone_freed(result)
+		return
+	if str(result.get("kind", "")) == "main":
+		if bool(result.get("cleared", false)):
+			hud.toast("%s survived again. Life carries over." % ZoneDefs.get_def(def.id).full_name, UIStyle.GOOD)
+		else:
+			hud.toast("You leave the dungeon with %d life." % Session.zone_run.life, Color("ffcf70"))
 		return
 	if str(result.get("kind", "")) == "mini":
 		if bool(result.get("first_clear", false)):

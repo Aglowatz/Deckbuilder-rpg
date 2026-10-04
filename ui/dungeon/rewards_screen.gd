@@ -138,6 +138,9 @@ func _confirm() -> void:
 
 
 func _after_rewards(continues: bool, was_boss: bool, first_clear: bool) -> void:
+	if Session.main_dungeon_active and was_boss and not continues:
+		_main_boss_epilogue()
+		return
 	if Session.mini_active and was_boss and not continues:
 		Session.finish_mini_dungeon(true)
 		return
@@ -147,6 +150,28 @@ func _after_rewards(continues: bool, was_boss: bool, first_clear: bool) -> void:
 	Session.complete_trial()
 	_show_trial_complete(first_clear)
 
+
+## Part E: after a zone dungeon's boss falls: the boss node's closing story lines, then its cutscene (the
+## Archdruid cut free from the Rotheart...), then the zone is freed (`Session.finish_main_dungeon`).
+func _main_boss_epilogue() -> void:
+	var boss: DungeonMap.MapNode = Session.dungeon_map.boss()
+	var story: ZoneStoryText = ZoneStoryText.for_zone(Session.zone_def().id)
+	var finish: Callable = func() -> void: Session.finish_main_dungeon(true)
+	var after_scene: Callable = func() -> void:
+		if boss != null and not boss.after_scene.is_empty() and CutsceneDefs.has_scene(boss.after_scene):
+			var scene: CutsceneScreen = CutsceneScreen.make(boss.after_scene)
+			add_child(scene)
+			scene.finished.connect(finish, CONNECT_ONE_SHOT)
+		else:
+			finish.call()
+	if boss != null and not boss.story_after.is_empty():
+		_panel.visible = false
+		var dialogue: DialogueBox = DialogueBox.new()
+		add_child(dialogue)
+		dialogue.start("", story.get_lines(boss.story_after))
+		dialogue.finished.connect(after_scene, CONNECT_ONE_SHOT)
+	else:
+		after_scene.call()
 
 ## Part C: the boss reward is what actually completes the trial now - there is no separate
 ## deck-choice step (the starter deck already grew to 45 cards via the 3 on-element reward

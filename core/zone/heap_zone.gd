@@ -127,7 +127,7 @@ static func build_def() -> ZoneDef:
 		_spot("heal", "The Harvest Meal", "heal", Vector3(0, 0, 1.6), 1.9, "Sit down to a fresh harvest meal (full heal)", "heal"),
 		_spot("exit", "The Path of the Refusemancer", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Landfill Depths", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Climb into the landfill: three levels", "mini_dungeon"),
-		_spot("main_dungeon", "Closed for Composting", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Try the door", "main_dungeon"),
+		_spot("main_dungeon", "The Rotheart", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Descend into the Rotheart", "main_dungeon"),
 		_spot("puzzle", "The Seed Shrine", "puzzle", Vector3(0, 0, 1.4), 1.9, "Plant the seeds (puzzle)", "puzzle"),
 		_spot("quiz", "Elder Fennel, Keeper of the Dump", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "speaker": "Elder Fennel"}),
 		_spot("minigame", "Blue-Ribbon Bev Pettigrew, Fair Judge", "minigame", Vector3(0, 0, 1.2), 1.9, "Talk", "minigame", {"npc": "minigame", "speaker": "Blue-Ribbon Bev"}),

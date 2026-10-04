@@ -2096,3 +2096,10 @@ Story source of truth: `docs/design/story_source.md`; organized in `docs/design/
 - `Session.complete_zone` / `ZoneCompletion`: one saved flag per zone, a count of completed zones (saved/loaded, `EventBus.zone_completed`), thresholds for the Arena (1) and the Alchemist (2). Quest *Free the Kingdom* tracks it.
 - A freed zone is visibly different: brighter lighting (`ZoneCompletionLook`; oppressed zones are dim and tinted), the ruler's statue toppled and banners replaced by bunting (`RulerPresence`), oppressive signs swapped for their `.freed` text, freed hub NPC dialogue, the freed leader at the hub, and a full-screen announcement (`AnnouncementScreen`).
 - Tests: `tests/core/zone/test_zone_completion.gd` (13); 636 GUT tests pass. Screenshots `_screenshots/d_*.png`.
+
+## Part E: the four zone dungeons - done
+
+- The old "closed" placeholders are now **The Test Kitchen**, **The House of Gains** (with the **Iron-less Prison** and the rescue), **The Hall of Final Approvals** (take-a-number waits, forms that require forms) and **The Rotheart**: 12-14 nodes each, 2-3 branch points whose routes rejoin, mixing battles, elites, deck challenges, shrines, events, treasure and a boss (full table in `docs/design/zones.md`).
+- New shared node kinds: **ELITE, EVENT, TREASURE** (+ `DungeonEvent`/`EventResolver`, `EventScreen`, `TreasureScreen`), story dialogue at key nodes and before/after each boss, cutscenes for the **Test Kitchen reveal**, the **rescue** and the **Heartlift flex** ("he throws off his outer clothing... true strength comes from the heart and the mind") and the Rotheart **sever**, a per-dungeon **diorama** (`DungeonBackdrop`), zone effects and boons in the map HUD, each boss drops a unique Legendary card plus gold and XP, and beating it **completes the zone** (Part D).
+- Zone life rules apply (the run starts at the zone's life; a loss wakes you at the hub; the fee is charged).
+- Tests: `tests/core/dungeon/test_main_dungeons.gd` (branching structure, decks, story text, events, rescue boon, completion). 659 GUT tests pass. Screenshots `_screenshots/e_*.png`.

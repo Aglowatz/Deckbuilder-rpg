@@ -125,7 +125,7 @@ static func build_def() -> ZoneDef:
 		_spot("heal", "The Hearty Meal", "heal", Vector3(0, 0, 1.6), 1.9, "Sit down for a hearty meal (full heal)", "heal"),
 		_spot("exit", "The Path of the Gourmand", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Walk-In Freezer", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Open the freezer door: three courses", "mini_dungeon"),
-		_spot("main_dungeon", "Kitchen Closed for Health Inspection", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Try the door", "main_dungeon"),
+		_spot("main_dungeon", "The Test Kitchen", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Enter the Test Kitchen", "main_dungeon"),
 		_spot("puzzle", "The Mystery Stew Pot", "puzzle", Vector3(0, 0, 1.2), 1.9, "Work out the recipe (puzzle)", "puzzle"),
 		_spot("quiz", "Lady Brioche, Keeper of the Cookbook", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "speaker": "Lady Brioche"}),
 		_spot("minigame", "Chef Turbo Tartine, Host of Dinner in a Dash", "minigame", Vector3(0, 0, 1.2), 1.9, "Talk", "minigame", {"npc": "minigame", "speaker": "Chef Turbo Tartine"}),

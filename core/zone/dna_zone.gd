@@ -89,7 +89,7 @@ static func build_def() -> ZoneDef:
 		_spot("printer", "Haunted Printer", "printer", Vector3(0.9, 0, 0), 1.4, "Print a card (40 gold)", "zone"),
 		_spot("suggestion", "Suggestion Box", "suggestion", Vector3.ZERO, 1.3, "Drop in a suggestion", "zone"),
 		_spot("mini_dungeon", "Sub-Basement 3", "mini_dungeon", Vector3.ZERO, 1.5, "Take the elevator to Quarterly Reviews", "mini_dungeon"),
-		_spot("main_dungeon", "Under Renovation", "main_dungeon", Vector3.ZERO, 1.7, "Try the door", "main_dungeon"),
+		_spot("main_dungeon", "The Hall of Final Approvals", "main_dungeon", Vector3.ZERO, 1.7, "Take a number and enter the Hall of Final Approvals", "main_dungeon"),
 		_spot("puzzle", "Soul Routing Terminal", "puzzle", Vector3.ZERO, 1.7, "Route the souls (puzzle)", "puzzle"),
 		_spot("quiz", "Lethe, Compliance Examiner", "quiz", Vector3(0.9, 0, 0), 1.6, "Talk", "quiz", {"npc": "quiz", "speaker": "Lethe"}),
 		_spot("matching", "Skylar, Last Employee of the Month", "matching", Vector3(0.0, 0, 0.9), 1.6, "Talk", "minigame", {"npc": "matching", "speaker": "Skylar"}),

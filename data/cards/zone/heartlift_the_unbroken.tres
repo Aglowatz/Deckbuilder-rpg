@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_vdurq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_4calf"]
+
+[sub_resource type="Resource" id="Resource_nkdo8"]
+script = ExtResource("1_vdurq")
+target = 10
+op = 5
+amount = 1
+amount2 = 1
+
+[resource]
+script = ExtResource("2_4calf")
+id = "heartlift_the_unbroken"
+display_name = "Heartlift, the Unbroken"
+color = 1
+generic_cost = 3
+colored_pips = Array[int]([1, 1])
+power = 6
+toughness = 6
+keywords = Array[int]([8])
+rules_text = "Vigilance. When this enters, your creatures get +1/+1 permanently."
+effects = Array[ExtResource("1_vdurq")]([SubResource("Resource_nkdo8")])
+rarity = 3
+flavor_text = "Unique reward of the House of Gains. True strength comes from the heart and the mind. The legs help."

@@ -131,3 +131,9 @@ No new third-party asset packs were needed. The Gainlands reuses packs that are 
 - **assets/kenney-cube-pets/** - Cube Pets 1.0 (animated animals: boar, deer as goat, pig, cat as raccoon)
   - Author: Kenney (www.kenney.nl) - Source: https://kenney.nl/assets/cube-pets - License: CC0 (license file in the folder)
 - All downloaded 2026-10-02; only the models actually used were kept in `assets/`. The scrap barns, windmills, junk piles, compost heaps, vine bridges, beanstalks, trash chutes, shrine, fair stage and the three enemy models are original procedural geometry (`world/heap/`); the `heap` music track is generated in code (`app/music_synth.gd`).
+
+- **assets/icons/game-icons/** (brief 9 additions: carnival-mask, prisoner, fur-shirt, strong-man, biceps, tree-roots, plant-roots, root-tip, mushrooms-cluster, gingerbread-man, bubbling-flask, pirate-cannon, imprisoned, stamper, open-folder, lotus) - extra game-icons.net silhouettes for the zone dungeons' enemies and cutscenes.
+  - Author: Delapouite and Lorc (game-icons.net)
+  - Source: https://game-icons.net (repository https://github.com/game-icons/icons)
+  - License: CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)
+  - Notes: attribution required: icons by Delapouite and Lorc via game-icons.net. Added 2026-10-04.

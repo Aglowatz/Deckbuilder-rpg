@@ -49,6 +49,11 @@ func _ready() -> void:
 
 
 func _pick_challenge() -> ChallengeData:
+	if Session.main_dungeon_active:
+		var node: DungeonMap.MapNode = Session.dungeon_map.node(int(get_meta("node_id", 0)))
+		var themed: ChallengeData = MainDungeons.def(Session.zone_def().id).challenge(node.challenge_id)
+		if themed != null:
+			return themed
 	for candidate: ChallengeData in Session.content.challenges:
 		if candidate.id == TrialOfTheHollow.CHALLENGE_ID:
 			return candidate
