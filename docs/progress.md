@@ -2028,3 +2028,16 @@ Built on the shared zone framework as a `ZoneDef` (`HeapZone`) + `HeapLayout`/`H
 - **Content**: Landfill Depths mini dungeon (3 battles, unique **Mother of the Heap**), **Seed Shrine** garden puzzle (one-time **Seed Satchel**), quiz master Elder Fennel, **Sort It Out!** sorting minigame by the original Blue-Ribbon Bev Pettigrew, **8 hidden chests**, compost bin / crop plots / druid shrine / animal trough / escaped animals, main dungeon placeholder "Closed for Composting". Humor throughout.
 - **Tests**: `tests/core/zone/test_heap.gd` (45 tests: layout, reachability on the real map incl. bridges / beanstalks / mount / barricade, chutes, hazards, growth rules, def, enemies, content, story keys, quiz, interactables, garden puzzle, sort game). **590 GUT tests pass** (incl. compile-every-script).
 - New asset packs: **Kenney Nature Kit, Survival Kit, Car Kit, Cube Pets** (CC0) - logged in CREDITS.md. Nothing for itch.io.
+
+## Part C: new equipment for every zone - done
+
+One extra piece per zone beyond the puzzle rewards, each with a distinct mechanic through the modifier pipeline (four **new hooks**, tested in `tests/core/game/test_zone_equipment.gd`), an icon, a description and a flavor-text line (new `EquipmentData.flavor_text`, shown in the shared tooltip). Slots are varied. All are **zone quest rewards** (none sold by the equipment vendor):
+
+| Zone | Piece | Slot | Effect (new hook) | Obtained |
+|------|-------|------|-------------------|----------|
+| D.N.A. | **Compliance Clipboard** | Relic | At the end of your turn the opponent loses 1 life (`END_OF_TURN_EFFECT`) | quest *Compliance Audit* |
+| Gainlands | **Spotter's Barbell** | Weapon | Whenever a creature enters under your control, deal 1 damage to the opponent (`ON_CREATURE_ENTER_EFFECT`) | quest *Clear the Lanes* |
+| Endless Buffet | **Head Chef's Toque** | Helm | Whenever you gain life, gain 1 extra (`LIFE_GAIN_BONUS`) | quest *Bake Me a Pie* |
+| Verdant Heap | **Compost Boots** | Boots | Whenever a creature of yours dies, your creatures get +0/+1 permanently (`ON_ALLY_DEATH_EFFECT`) | quest *Unblock the Stream* |
+
+Icons (game-icons.net, CC BY 3.0, already credited): checklist, weight-lifting-up, chef-toque, rubber-boot; the four puzzle-reward pieces that had none (Swole Belt, Head Chef's Ladle, Seed Satchel) got icons too. 598 GUT tests pass. Logged as K1-K3 in open_questions.md.

@@ -61,6 +61,7 @@ static func _audit() -> QuestData:
 	quest.reward_gold = 80
 	quest.reward_xp = 70
 	quest.reward_card_ids = ["death_benefits"] as Array[String]
+	quest.reward_equipment_ids = ["compliance_clipboard"] as Array[String]
 	return quest
 
 
@@ -115,6 +116,7 @@ static func _gain_lanes() -> QuestData:
 	quest.reward_gold = 80
 	quest.reward_xp = 70
 	quest.reward_card_ids = ["leg_day"] as Array[String]
+	quest.reward_equipment_ids = ["spotters_barbell"] as Array[String]
 	return quest
 
 
@@ -148,6 +150,7 @@ static func _buf_pie() -> QuestData:
 	quest.reward_gold = 70
 	quest.reward_xp = 60
 	quest.reward_card_ids = ["sous_assist"] as Array[String]
+	quest.reward_equipment_ids = ["head_chef_toque"] as Array[String]
 	return quest
 
 

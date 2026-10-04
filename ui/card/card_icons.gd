@@ -121,6 +121,13 @@ const BY_EQUIPMENT_ID: Dictionary = {
 	"xray_goggles": "delapouite/steampunk-goggles",
 	"big_brain_beret": "lorc/brainstorm",
 	"courier_lanyard": "delapouite/key-card",
+	"swole_belt": "delapouite/belt-armor",
+	"head_chef_ladle": "delapouite/ladle",
+	"seed_satchel": "delapouite/plant-seed",
+	"compliance_clipboard": "delapouite/checklist",
+	"spotters_barbell": "delapouite/weight-lifting-up",
+	"head_chef_toque": "delapouite/chef-toque",
+	"compost_boots": "delapouite/rubber-boot",
 }
 
 static var _cache: Dictionary = {}

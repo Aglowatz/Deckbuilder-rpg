@@ -17,6 +17,8 @@ const SLOT_NAMES: Dictionary = {
 ## New brief, Part B: false = tier 1 ("basic", stocked at the equipment vendor from the start),
 ## true = tier 2 ("advanced", locked behind a level-up reward - see docs/design/progression.md).
 @export var advanced: bool = false
+## Brief 8, Part C: a line of flavor text shown under the description.
+@export var flavor_text: String = ""
 
 
 static func slot_name(value: Slot) -> String:
@@ -26,4 +28,6 @@ static func slot_name(value: Slot) -> String:
 ## New brief, Part B/C: the one shared hover tooltip text for an equipped piece - name and full
 ## effect - used identically by the character screen (and anywhere else that shows equipment).
 func tooltip_text() -> String:
-	return "%s\n%s" % [source_name, description]
+	if flavor_text.is_empty():
+		return "%s\n%s" % [source_name, description]
+	return "%s\n%s\n%s" % [source_name, description, flavor_text]

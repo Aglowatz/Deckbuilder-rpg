@@ -34,7 +34,7 @@ static func zone_equipment() -> Dictionary:
 	_add(result, _piece("swole_belt", "Gainsmith's Lifting Belt", EquipmentData.Slot.ARMOR, "Brace the core, brace the deck. Max life +3 and your creatures get +1 toughness.", [_mod(K.MAX_LIFE, 3), _mod(K.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)], true))
 	_add(result, _piece("head_chef_ladle", "Head Chef's Ladle", EquipmentData.Slot.WEAPON, "Heavy, battered and trusted by a hundred golems. At the start of your turn, gain 1 life.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.GAIN_LIFE, 1, CardEnums.TargetKind.CONTROLLER))], true))
 	_add(result, _piece("seed_satchel", "Refusemancer Seed Satchel", EquipmentData.Slot.RELIC, "Every pocket holds something that wants to grow. At the start of your turn, your creatures get +0/+1 permanently.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect_ab(CardEnums.EffectOp.BUFF, 0, 1, CardEnums.TargetKind.ALL_ALLY_CREATURES))], true))
-	_add(result, _piece("compost_boots", "Compost Boots", EquipmentData.Slot.BOOTS, "Squelch, squelch, grow. Draw an extra card on your first turn.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1)], true))
+	_add_zone_pieces(result)
 	return result
 
 
@@ -140,3 +140,24 @@ static func _add_item(
 		effect.token = token
 	data.effect = effect
 	result[id] = data
+
+
+## Brief 8, Part C: one extra piece per zone beyond the puzzle rewards, each with its own new modifier hook (slots varied:
+## relic, weapon, helm, boots). Obtained as zone quest rewards (see `ZoneQuestDefinitions`):
+##  - Compliance Clipboard (D.N.A., relic)       <- *Compliance Audit* (END_OF_TURN_EFFECT)
+##  - Spotter's Barbell (Gainlands, weapon)      <- *Clear the Lanes* (ON_CREATURE_ENTER_EFFECT)
+##  - Head Chef's Toque (Endless Buffet, helm)   <- *Bake Me a Pie* (LIFE_GAIN_BONUS)
+##  - Compost Boots (Verdant Heap, boots)        <- *Unblock the Stream* (ON_ALLY_DEATH_EFFECT)
+static func _add_zone_pieces(result: Dictionary) -> void:
+	var clipboard: EquipmentData = _piece("compliance_clipboard", "Compliance Clipboard", EquipmentData.Slot.RELIC, "At the end of your turn, the opponent loses 1 life.", [_mod_effect(K.END_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.LOSE_LIFE, 1, CardEnums.TargetKind.OPPONENT))], true)
+	clipboard.flavor_text = "Every box ticked is a little paper cut. Nobody has ever read what it says."
+	_add(result, clipboard)
+	var barbell: EquipmentData = _piece("spotters_barbell", "Spotter's Barbell", EquipmentData.Slot.WEAPON, "Whenever a creature enters the battlefield under your control, deal 1 damage to the opponent.", [_mod_effect(K.ON_CREATURE_ENTER_EFFECT, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.OPPONENT))], true)
+	barbell.flavor_text = "Every new face gets a free rep. Somebody is always counting out loud."
+	_add(result, barbell)
+	var toque: EquipmentData = _piece("head_chef_toque", "Head Chef's Toque", EquipmentData.Slot.HELM, "Whenever you gain life, gain 1 extra life.", [_mod(K.LIFE_GAIN_BONUS, 1)], true)
+	toque.flavor_text = "Tall, white and slightly stained. Seconds are always an option while it is on."
+	_add(result, toque)
+	var boots: EquipmentData = _piece("compost_boots", "Compost Boots", EquipmentData.Slot.BOOTS, "Whenever a creature of yours dies, your creatures get +0/+1 permanently.", [_mod_effect(K.ON_ALLY_DEATH_EFFECT, _effect_ab(CardEnums.EffectOp.BUFF, 0, 1, CardEnums.TargetKind.ALL_ALLY_CREATURES))], true)
+	boots.flavor_text = "Squelch, squelch, grow. What falls feeds what stands."
+	_add(result, boots)

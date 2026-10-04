@@ -26,3 +26,4 @@ objectives = Array[ExtResource("1_6cle3")]([SubResource("Resource_rok60")])
 reward_gold = 70
 reward_xp = 60
 reward_card_ids = Array[String](["sous_assist"])
+reward_equipment_ids = Array[String](["head_chef_toque"])

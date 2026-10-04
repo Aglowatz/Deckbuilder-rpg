@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_1ldgt"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_6h6j6"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_s0336"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_t7alb"]
+
+[sub_resource type="Resource" id="Resource_2f3sk"]
+script = ExtResource("2_6h6j6")
+target = 2
+op = 10
+amount = 1
+
+[sub_resource type="Resource" id="Resource_owbvx"]
+script = ExtResource("1_1ldgt")
+kind = 20
+effect = SubResource("Resource_2f3sk")
+
+[resource]
+script = ExtResource("4_t7alb")
+id = "compliance_clipboard"
+description = "At the end of your turn, the opponent loses 1 life."
+advanced = true
+flavor_text = "Every box ticked is a little paper cut. Nobody has ever read what it says."
+source_name = "Compliance Clipboard"
+modifiers = Array[ExtResource("1_1ldgt")]([SubResource("Resource_owbvx")])

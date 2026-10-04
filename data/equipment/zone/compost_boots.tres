@@ -1,19 +1,27 @@
 [gd_resource type="Resource" script_class="EquipmentData" format=3]
 
-[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_jy0rh"]
-[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_dvs36"]
-[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_uuhx2"]
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_dvs36"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_uuhx2"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_lbj8f"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_vu8u1"]
 
-[sub_resource type="Resource" id="Resource_lbj8f"]
-script = ExtResource("1_jy0rh")
-kind = 13
-value = 1
+[sub_resource type="Resource" id="Resource_jmjei"]
+script = ExtResource("2_uuhx2")
+target = 10
+op = 5
+amount2 = 1
+
+[sub_resource type="Resource" id="Resource_bprav"]
+script = ExtResource("1_dvs36")
+kind = 23
+effect = SubResource("Resource_jmjei")
 
 [resource]
-script = ExtResource("3_uuhx2")
+script = ExtResource("4_vu8u1")
 id = "compost_boots"
 slot = 3
-description = "Squelch, squelch, grow. Draw an extra card on your first turn."
+description = "Whenever a creature of yours dies, your creatures get +0/+1 permanently."
 advanced = true
+flavor_text = "Squelch, squelch, grow. What falls feeds what stands."
 source_name = "Compost Boots"
-modifiers = Array[ExtResource("1_jy0rh")]([SubResource("Resource_lbj8f")])
+modifiers = Array[ExtResource("1_dvs36")]([SubResource("Resource_bprav")])

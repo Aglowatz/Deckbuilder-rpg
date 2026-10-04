@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_bfqch"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_dxjdg"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_ntc0j"]
+
+[sub_resource type="Resource" id="Resource_x4nln"]
+script = ExtResource("1_bfqch")
+kind = 22
+value = 1
+
+[resource]
+script = ExtResource("3_ntc0j")
+id = "head_chef_toque"
+slot = 0
+description = "Whenever you gain life, gain 1 extra life."
+advanced = true
+flavor_text = "Tall, white and slightly stained. Seconds are always an option while it is on."
+source_name = "Head Chef's Toque"
+modifiers = Array[ExtResource("1_bfqch")]([SubResource("Resource_x4nln")])

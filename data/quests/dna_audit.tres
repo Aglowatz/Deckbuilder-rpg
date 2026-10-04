@@ -35,3 +35,4 @@ objectives = Array[ExtResource("1_kceu4")]([SubResource("Resource_c1hbr"), SubRe
 reward_gold = 80
 reward_xp = 70
 reward_card_ids = Array[String](["death_benefits"])
+reward_equipment_ids = Array[String](["compliance_clipboard"])

@@ -396,6 +396,8 @@ func _enter_battlefield(card: CardInstance, chosen: int, cast_from_hand: bool) -
 		fire_traps(1 - card.owner, CardEnums.Trigger.TRAP_OPPONENT_CREATURE, card.uid)
 	if not is_over() and player.find_battlefield(card.uid) != null:
 		fire_trigger(card, CardEnums.Trigger.ON_ENTER, 0, chosen)
+	if card.data.is_creature() and not is_over():
+		_fire_modifier_effects(card.owner, Modifier.Kind.ON_CREATURE_ENTER_EFFECT)
 
 
 ## New brief, Part B: applies the controller's GRANT_KEYWORD_TO_CREATURES/CANNOT_BLOCK equipment
@@ -535,6 +537,7 @@ func finish_combat() -> void:
 func _end_phase() -> void:
 	_set_phase(Phase.END)
 	_fire_turn_triggers(active, CardEnums.Trigger.END_OF_TURN)
+	_fire_modifier_effects(active, Modifier.Kind.END_OF_TURN_EFFECT)
 	if is_over():
 		return
 	for player: PlayerState in players:
@@ -620,6 +623,7 @@ func gain_life(player_index: int, amount: int) -> void:
 	if amount <= 0 or is_over():
 		return
 	var player: PlayerState = players[player_index]
+	amount += maxi(0, player.modifiers.sum(Modifier.Kind.LIFE_GAIN_BONUS))
 	var new_life: int = maxi(player.life, mini(player.life + amount, player.max_life))
 	var delta: int = new_life - player.life
 	if delta > 0:
@@ -680,6 +684,8 @@ func kill_creature(card: CardInstance) -> void:
 	emit_event(GameEvent.Type.CREATURE_DIED, card.owner, card.uid)
 	# Death triggers use the card as it was; reset only after they resolve.
 	fire_trigger(card, CardEnums.Trigger.ON_DEATH, 0, 0)
+	if card.data.is_creature() and not is_over():
+		_fire_modifier_effects(card.owner, Modifier.Kind.ON_ALLY_DEATH_EFFECT)
 	_send_to_graveyard(card)
 
 
@@ -1081,3 +1087,12 @@ func emit_event(
 	event.detail = detail
 	events.append(event)
 	event_emitted.emit(event)
+
+
+## Brief 8, Part C: resolves every effect of a modifier `kind` that `player_index` has (END_OF_TURN_EFFECT,
+## ON_CREATURE_ENTER_EFFECT, ON_ALLY_DEATH_EFFECT), each as an effect controlled by that player.
+func _fire_modifier_effects(player_index: int, kind: Modifier.Kind) -> void:
+	for effect: EffectData in players[player_index].modifiers.effects_of(kind):
+		if is_over():
+			return
+		EffectResolver.resolve(self, effect, EffectContext.make(0, player_index))

@@ -63,6 +63,17 @@ enum Kind {
 	## Fires once per the owner's turn, right alongside START_OF_TURN_EFFECT - see
 	## `PlayerState.scripted_summon_count` and `GameState._fire_scripted_summons`.
 	SCRIPTED_ESCALATING_SUMMON,
+	## Brief 8, Part C: `effect` resolves for the owner at the end of each of their own turns (after the end-of-turn
+	## card triggers), e.g. the Compliance Clipboard.
+	END_OF_TURN_EFFECT,
+	## Brief 8, Part C: `effect` resolves for the owner every time a creature enters the battlefield under their
+	## control (cast or summoned), e.g. the Spotter's Barbell.
+	ON_CREATURE_ENTER_EFFECT,
+	## Brief 8, Part C: value = extra life gained every time the owner gains life from a card effect or item
+	## (only when some life is gained), e.g. the Head Chef's Toque.
+	LIFE_GAIN_BONUS,
+	## Brief 8, Part C: `effect` resolves for the owner every time one of THEIR creatures dies, e.g. the Compost Boots.
+	ON_ALLY_DEATH_EFFECT,
 }
 
 ## `color` value meaning "matches every card".
