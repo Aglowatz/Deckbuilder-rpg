@@ -6,9 +6,9 @@
 [resource]
 script = ExtResource("2_ba7pn")
 id = "infrastructure_b"
-display_name = "Affinity B Infrastructure"
+display_name = "Gourmand Infrastructure"
 type = 0
 color = 2
 toughness = 0
-rules_text = "Activate: add one Affinity B Path energy."
+rules_text = "Activate: add one Gourmand Path energy."
 is_basic = true

@@ -6,12 +6,14 @@ extends RefCounted
 
 const MERCHANTS: String = "meet_the_merchants"
 const PATHS: String = "clear_the_paths"
+const FREE_ZONES: String = "free_the_kingdom"
 
 
 static func build_all() -> Array[QuestData]:
 	var result: Array[QuestData] = []
 	result.append(_meet_the_merchants())
 	result.append(_clear_the_paths())
+	result.append(_free_the_kingdom())
 	result.append_array(ZoneQuestDefinitions.build_all())
 	return result
 
@@ -38,7 +40,7 @@ static func _clear_the_paths() -> QuestData:
 	quest.id = PATHS
 	quest.order = 20
 	quest.title = "Clear the Paths"
-	quest.summary = "Four corrupted wanderers block the roads out of town. Defeat each one."
+	quest.summary = "Four corrupted envoys, in the Usurper's thrall, block the roads out of town. Defeat each one to open its Path."
 	quest.auto_give = true
 	var objectives: Array[QuestObjective] = []
 	for npc_id: String in CorruptedNpcs.IDS:
@@ -46,4 +48,21 @@ static func _clear_the_paths() -> QuestData:
 	quest.objectives = objectives
 	quest.reward_gold = 150
 	quest.reward_xp = 120
+	return quest
+
+
+static func _free_the_kingdom() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = FREE_ZONES
+	quest.order = 30
+	quest.title = "Free the Kingdom"
+	quest.summary = "Malvane the Usurper rules each Path through an oppressive ruler. Defeat the boss of every zone's final dungeon to free it."
+	quest.auto_give = true
+	var objectives: Array[QuestObjective] = []
+	for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
+		var dungeon: String = "The House of Gains" if zone_id == "beefcake" else ("The Test Kitchen" if zone_id == "gourmand" else ("The Hall of Final Approvals" if zone_id == "necrocrat" else "The Rotheart"))
+		objectives.append(QuestObjective.make("Free the zone: clear %s" % dungeon, Condition.flag(str(ZoneCompletion.flag_name(zone_id)))))
+	quest.objectives = objectives
+	quest.reward_gold = 300
+	quest.reward_xp = 250
 	return quest

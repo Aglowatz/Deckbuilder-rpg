@@ -135,6 +135,9 @@ lines = {
 "effect.buff.flavor": ["Every Necrocrat here is properly stamped, countersigned and notarized. It makes them very hard to argue with."],
 "effect.debuff.name": ["Unauthorized Activity"],
 "effect.debuff.flavor": ["Beefcakes do things on the spot, which here requires a permit, in triplicate, and a fee. The fee is also a form."],
+"freed_npc.vellum": ["Director Vellum, retired. Not so retired. Ten years of filing complaints in the Records Basement, and not one answered. I will answer them now.", "The transfer was valid. It was valid, and then it was a Tuesday. A technicality, hero, is a loophole that has been waiting patiently. We Necrocrats love a loophole. We just never thought one would save us.", "The Department is ours again. Take a number. Or don't. I am genuinely not sure which of us is more frightened."],
+"ruler.statue": ["STATUE OF THE REGISTRAR OF FINAL APPROVALS", "Statue pending approval. Do not look at it until it has been approved."],
+"ruler.statue.freed": ["FORMER STATUE OF THE REGISTRAR", "(Authorization revoked. The statue has been asked to leave. It has not left.)"],
 }
 quiz_questions = Array[Dictionary]([{
 "a": ["Department of Necrotic Affairs", "Division of Nocturnal Accounting", "Directorate of Newly Arrived", "Department of Neglected Alumni"],

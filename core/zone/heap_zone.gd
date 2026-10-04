@@ -105,6 +105,12 @@ static func build_def() -> ZoneDef:
 	def.puzzle_equipment_id = "seed_satchel"
 	def.minigame_kind = "sort"
 	def.quest_npc_names = [NPC_MARIGOLD, NPC_HOB, NPC_WREN]
+	def.ruler_name = "The Rot"
+	def.ruler_tint = Color("5a2f6e")
+	def.gloom_tint = Color(0.52, 0.4, 0.62)
+	def.freed_npcs = [
+		{"id": "fernwick", "model": "Mage", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(0.7, 1.0, 0.7), "scale": 1.2, "name": "Archdruid Fernwick Loam", "speaker": "Archdruid Fernwick"},
+	]
 	def.mini = _mini_def()
 	def.npcs = [
 		{"id": "marigold", "model": "Mage", "anchor": "marigold", "yaw": 0.0, "tint": Color(0.75, 1.2, 0.75), "scale": 1.7, "hat": "wreath"},

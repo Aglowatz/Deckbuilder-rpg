@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_h26vd"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_liong"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_iaja8"]
+
+[sub_resource type="Resource" id="Resource_k0nfe"]
+script = ExtResource("2_liong")
+key = "zone_beefcake_completed"
+
+[sub_resource type="Resource" id="Resource_kvh6c"]
+script = ExtResource("1_h26vd")
+text = "Free the zone: clear The House of Gains"
+condition = SubResource("Resource_k0nfe")
+
+[sub_resource type="Resource" id="Resource_i7ipf"]
+script = ExtResource("2_liong")
+key = "zone_gourmand_completed"
+
+[sub_resource type="Resource" id="Resource_qvhh8"]
+script = ExtResource("1_h26vd")
+text = "Free the zone: clear The Test Kitchen"
+condition = SubResource("Resource_i7ipf")
+
+[sub_resource type="Resource" id="Resource_4paf1"]
+script = ExtResource("2_liong")
+key = "zone_necrocrat_completed"
+
+[sub_resource type="Resource" id="Resource_4uxig"]
+script = ExtResource("1_h26vd")
+text = "Free the zone: clear The Hall of Final Approvals"
+condition = SubResource("Resource_4paf1")
+
+[sub_resource type="Resource" id="Resource_mqyts"]
+script = ExtResource("2_liong")
+key = "zone_refusemancer_completed"
+
+[sub_resource type="Resource" id="Resource_pm31n"]
+script = ExtResource("1_h26vd")
+text = "Free the zone: clear The Rotheart"
+condition = SubResource("Resource_mqyts")
+
+[resource]
+script = ExtResource("3_iaja8")
+id = "free_the_kingdom"
+title = "Free the Kingdom"
+summary = "Malvane the Usurper rules each Path through an oppressive ruler. Defeat the boss of every zone's final dungeon to free it."
+auto_give = true
+order = 30
+objectives = Array[ExtResource("1_h26vd")]([SubResource("Resource_kvh6c"), SubResource("Resource_qvhh8"), SubResource("Resource_4uxig"), SubResource("Resource_pm31n")])
+reward_gold = 300
+reward_xp = 250

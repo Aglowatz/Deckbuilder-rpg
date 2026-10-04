@@ -176,6 +176,9 @@ lines = {
 "effect.buff.flavor": ["The whole zone is on a permanent pump. Beefcakes feel it in their quads."],
 "effect.debuff.name": ["Processing Time"],
 "effect.debuff.flavor": ["\"Your request is being processed.\" Necrocrats are used to forms and queues. Beefcakes just show up there-ish, on-time-ish, and the paperwork never catches up."],
+"freed_npc.heartlift": ["Welcome, hero. Thaddeus \"Heartlift\" Brawn. Ten years in the dark and I do not feel a day over thirty. Do not look at my legs. Look at my heart.", "They took my plates, my protein, my pre-workout. So I stretched. I breathed. I counted my own heartbeats until they became songs. They thought they were breaking me. They were teaching me.", "True strength is not what you can lift. It is what you can carry, and for how long. Thank you for lifting me. Now: leg day?"],
+"ruler.statue": ["STATUE OF COMMANDER GRISTLE", "\"A Beefcake without iron is just a cake.\""],
+"ruler.statue.freed": ["FORMER STATUE OF COMMANDER GRISTLE", "(Toppled by public demand. Please do not stand on it. Gary did, once.)"],
 }
 quiz_questions = Array[Dictionary]([{
 "a": ["Giant mills and colossal hamster wheels", "Solar panels the size of a bench", "One extremely motivated battery", "Coal, mostly, and spite"],

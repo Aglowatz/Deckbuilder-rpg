@@ -75,6 +75,12 @@ static func build_def() -> ZoneDef:
 	def.puzzle_equipment_id = "swole_belt"
 	def.minigame_kind = "reps"
 	def.quest_npc_names = [NPC_BRENDA, NPC_GUS, NPC_TONY]
+	def.ruler_name = "Commander Gristle"
+	def.ruler_tint = Color("8a1f1f")
+	def.gloom_tint = Color(0.5, 0.52, 0.58)
+	def.freed_npcs = [
+		{"id": "heartlift", "model": "Barbarian", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.85, 0.7), "scale": 2.1, "name": "Grand Champion Heartlift", "speaker": "Grand Champion Heartlift"},
+	]
 	def.mini = _mini_def()
 	def.npcs = [
 		{"id": "brenda", "model": "Barbarian", "anchor": "brenda", "yaw": 0.0, "tint": Color(1.0, 0.75, 0.85), "scale": 1.5},

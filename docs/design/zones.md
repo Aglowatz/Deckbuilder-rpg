@@ -113,3 +113,19 @@ Every zone (and every dungeon inside it - the mini dungeon now, the final dungeo
 | Verdant Dump | **Overgrowth**: Refusemancer creatures +2 toughness | **Spoilage**: Gourmand creatures -1 toughness (a debuff never takes a creature below 1 toughness by itself) |
 
 Names and flavor are in each zone's story file (`effect.buff.name`, `effect.debuff.flavor`, ...); the mechanical text is generated from the modifier. The active effects show in the zone HUD (left column, under the objective) and in battle (a panel under the enemy portrait), each with a tooltip. Tests: `tests/core/zone/test_zone_effects.gd`.
+
+## Zone completion (brief 9, Part D)
+
+A zone is **completed** (freed) when its final dungeon's boss is defeated. `Session.complete_zone(zone_id)` sets the saved flag `zone_<id>_completed` once, switches the zone's story to its freed text (`ZoneStoryText`'s `<key>.freed` variants), fires `EventBus.zone_completed(zone_id)` (the Arena and the Alchemist unlock from it) and saves. `Session.completed_zone_count()`, `arena_unlocked()` (>= 1 zone) and `alchemist_unlocked()` (>= 2 zones) read it (`ZoneCompletion`).
+
+What changes in a freed zone (`ZoneScene._build_completion_state`):
+
+| | Oppressed | Freed |
+|---|---|---|
+| Lighting (`ZoneCompletionLook`) | dimmer, desaturated, fog and sky pulled toward the ruler's gloom tint | brighter, warmer, clearer, fog lifts |
+| The ruler (`RulerPresence`) | a looming statue with a plaque and tall banners in the ruler's colors at the hub | the statue lies toppled with a new plaque, bunting where the banners were |
+| Signage | regime/permit/Special-Sauce/Rot signs | the same signs' `.freed` variants (rules abolished, notices revoked) |
+| NPCs | frightened/guarded dialogue | `.freed` dialogue; the freed leader (Heartlift / Grand Chef Aurelio / Director Vellum / Archdruid Fernwick) stands at the hub and talks (`freed_npc.<id>`) |
+| Announcement | - | a full-screen "THE X IS FREE!" screen with what just unlocked (`AnnouncementScreen`), then the zone |
+
+The quest *Free the Kingdom* tracks the four completions. Tests: `tests/core/zone/test_zone_completion.gd`.

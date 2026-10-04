@@ -77,6 +77,20 @@ var spots: Array[Dictionary] = []
 var poi_kinds: Dictionary = {}
 var quest_npc_names: Array[String] = []
 
+## ---- Part D: the ruler and the zone's completed state ---------------------------------------
+## Who oppresses the zone (statue/banner text) and the colors of their rule: the banners/statue tint and
+## the gloom the zone's lighting is pulled toward until it is freed (`ZoneCompletionLook`).
+var ruler_name: String = ""
+var ruler_tint: Color = Color(0.55, 0.1, 0.1)
+var gloom_tint: Color = Color(0.5, 0.5, 0.55)
+## The hub anchor the ruler's props and the freed NPCs are placed around, and their offsets from it.
+var hub_anchor: String = "hub"
+var statue_offset: Vector3 = Vector3(-9.0, 0.0, 3.0)
+var banner_offsets: Array[Vector3] = [Vector3(-6.0, 0.0, -3.0), Vector3(7.0, 0.0, -3.0)]
+## NPCs who appear only once the zone is freed: [{id, model, offset, yaw, tint, scale, name, speaker}]. Their
+## dialogue is the story key `freed_npc.<id>`.
+var freed_npcs: Array[Dictionary] = []
+
 
 func flag_met(npc_id: String) -> StringName:
 	return StringName("%s_met_%s" % [flag_met_prefix, npc_id])

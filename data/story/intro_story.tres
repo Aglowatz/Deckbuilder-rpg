@@ -62,4 +62,6 @@ texts = {
 "zone.complete.count": ["%d of 4 zones free"],
 "town.objective": ["Malvane the Usurper rules the four Paths through their rulers. Beat each Path's envoy at its gate, then free its zone by defeating the boss of its final dungeon. Buy cards, refine your deck at the Deck Station, and replay the Trial for gold."],
 "town.objective.free": ["All four Paths are free. Buy cards, test yourself in the Grand Clashatorium, and brew something dangerous at the Alchemist's."],
+"town.arena.unlock_line": ["The Grand Clashatorium (the Arena) is now open in Concord Crossing!"],
+"town.alchemist.unlock_line": ["Crucible & Co. (the Alchemist) is now open in Concord Crossing!"],
 }

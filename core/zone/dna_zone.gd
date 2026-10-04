@@ -63,6 +63,13 @@ static func build_def() -> ZoneDef:
 	def.puzzle_equipment_id = "courier_lanyard"
 	def.minigame_kind = "match"
 	def.quest_npc_names = [NPC_DOLORES, NPC_BARNABY, NPC_PIP]
+	def.ruler_name = "The Registrar"
+	def.ruler_tint = Color("2f4f4f")
+	def.gloom_tint = Color(0.45, 0.56, 0.54)
+	def.hub_anchor = "lobby_center"
+	def.freed_npcs = [
+		{"id": "vellum", "model": "Mage", "offset": Vector3(0.0, 0.0, 4.0), "yaw": 180.0, "tint": Color(0.85, 0.9, 1.0), "scale": 1.15, "name": "Director Vellum", "speaker": "Director Vellum"},
+	]
 	def.mini = _mini_def()
 	def.npcs = [
 		{"id": "dolores", "model": "Mage", "anchor": "dolores", "yaw": 0.0, "tint": Color(0.85, 1.0, 0.95)},

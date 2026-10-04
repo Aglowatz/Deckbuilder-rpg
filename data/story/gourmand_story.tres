@@ -181,6 +181,9 @@ lines = {
 "effect.buff.flavor": ["Nobody leaves hungry, least of all the Gourmands. Full bellies make for strong golems."],
 "effect.debuff.name": ["Dress Code Violation"],
 "effect.debuff.flavor": ["The Gourmands look down their noses at garbage eaters. Refusemancers here feel very, very underdressed."],
+"freed_npc.aurelio": ["Grand Chef Aurelio Saucier, at your service, and at your stove. Forgive the apron. The impostor wore it better, but I wear it with feeling.", "Ten years in the walk-in freezer, and I never once forgot the taste of honest soup. They fed the Gourmands corrupted sauce and called it innovation. They were wrong. Innovation is a pinch of something new in something good.", "Thank you for finding me. Sit. Eat. Let me cook for you. I promise there is no cannon in it."],
+"ruler.statue": ["THE GRAND CHEF (OFFICIAL LIKENESS)", "\"Innovation Is Delicious.\""],
+"ruler.statue.freed": ["FORMER LIKENESS OF THE FALSE AURELIO", "(It was always a little off. Whose chin is that?)"],
 }
 quiz_questions = Array[Dictionary]([{
 "a": ["Feeding the kingdom and protecting it", "Collecting the kingdom's taxes", "Inspecting the kingdom's dungeons", "Writing the kingdom's restaurant reviews"],

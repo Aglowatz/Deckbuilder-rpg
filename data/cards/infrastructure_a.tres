@@ -6,9 +6,9 @@
 [resource]
 script = ExtResource("2_pvkkn")
 id = "infrastructure_a"
-display_name = "Affinity A Infrastructure"
+display_name = "Beefcake Infrastructure"
 type = 0
 color = 1
 toughness = 0
-rules_text = "Activate: add one Affinity A Path energy."
+rules_text = "Activate: add one Beefcake Path energy."
 is_basic = true

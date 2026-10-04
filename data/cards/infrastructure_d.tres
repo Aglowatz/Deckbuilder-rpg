@@ -6,9 +6,9 @@
 [resource]
 script = ExtResource("2_0srh7")
 id = "infrastructure_d"
-display_name = "Affinity D Infrastructure"
+display_name = "Necrocrat Infrastructure"
 type = 0
 color = 4
 toughness = 0
-rules_text = "Activate: add one Affinity D Path energy."
+rules_text = "Activate: add one Necrocrat Path energy."
 is_basic = true

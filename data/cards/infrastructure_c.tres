@@ -6,9 +6,9 @@
 [resource]
 script = ExtResource("2_sul12")
 id = "infrastructure_c"
-display_name = "Affinity C Infrastructure"
+display_name = "Refusemancer Infrastructure"
 type = 0
 color = 3
 toughness = 0
-rules_text = "Activate: add one Affinity C Path energy."
+rules_text = "Activate: add one Refusemancer Path energy."
 is_basic = true

@@ -2090,3 +2090,9 @@ Story source of truth: `docs/design/story_source.md`; organized in `docs/design/
 - Shown in the zone HUD and in battle (shared `ZoneEffectsPanel` widget) with tooltips; names/flavor live in the zone story files.
 - `Affinity.DISPLAY_NAMES` holds the real Path names (so infrastructure cards read "Beefcake Infrastructure" from core too).
 - Tests: `tests/core/zone/test_zone_effects.gd` (12); 625 GUT tests pass.
+
+## Part D: zone completion state - done
+
+- `Session.complete_zone` / `ZoneCompletion`: one saved flag per zone, a count of completed zones (saved/loaded, `EventBus.zone_completed`), thresholds for the Arena (1) and the Alchemist (2). Quest *Free the Kingdom* tracks it.
+- A freed zone is visibly different: brighter lighting (`ZoneCompletionLook`; oppressed zones are dim and tinted), the ruler's statue toppled and banners replaced by bunting (`RulerPresence`), oppressive signs swapped for their `.freed` text, freed hub NPC dialogue, the freed leader at the hub, and a full-screen announcement (`AnnouncementScreen`).
+- Tests: `tests/core/zone/test_zone_completion.gd` (13); 636 GUT tests pass. Screenshots `_screenshots/d_*.png`.

@@ -104,6 +104,12 @@ static func build_def() -> ZoneDef:
 	def.puzzle_equipment_id = "head_chef_ladle"
 	def.minigame_kind = "order"
 	def.quest_npc_names = [NPC_ODALYS, NPC_TARRAGON, NPC_DOLCETTA]
+	def.ruler_name = "The Grand Chef"
+	def.ruler_tint = Color("5f7a1c")
+	def.gloom_tint = Color(0.62, 0.68, 0.38)
+	def.freed_npcs = [
+		{"id": "aurelio", "model": "Knight", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.95, 0.9), "scale": 1.2, "name": "Grand Chef Aurelio Saucier", "speaker": "Grand Chef Aurelio"},
+	]
 	def.mini = _mini_def()
 	def.npcs = [
 		{"id": "odalys", "model": "Knight", "anchor": "odalys", "yaw": 0.0, "tint": Color(1.25, 1.15, 1.05), "scale": 1.7, "hat": "tall"},

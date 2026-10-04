@@ -96,6 +96,36 @@ func _grade_enemy(_model: Node3D) -> void:
 	pass
 
 
+# ---- Completion state (Part D) ----------------------------------------------------------------
+
+
+## The zone as it should look right now: oppressed (the ruler's statue and banners, dim tinted light)
+## or freed (a toppled statue, bunting, the freed leader at the hub, brighter light).
+func _build_completion_state() -> void:
+	var freed: bool = Session.is_zone_completed(def.id)
+	ZoneCompletionLook.apply(self, def, freed)
+	var hub: Vector3 = builder.anchor(def.hub_anchor)
+	hub.y = builder.height_at(hub)
+	RulerPresence.build(self, builder, def, story, hub, freed)
+	if freed:
+		_build_freed_npcs(hub)
+
+
+func _build_freed_npcs(hub: Vector3) -> void:
+	for entry: Dictionary in def.freed_npcs:
+		var pos: Vector3 = hub + (entry["offset"] as Vector3)
+		pos.y = builder.height_at(pos)
+		var npc: Node3D = ModelKit.character(str(entry["model"]))
+		ModelKit.tint(npc, entry["tint"] as Color)
+		ModelKit.place(self, npc, pos, float(entry["yaw"]), TownPlayer.MODEL_SCALE * float(entry.get("scale", 1.0)))
+		var animation: AnimationPlayer = ModelKit.animation_player(npc)
+		if animation != null and animation.has_animation("Idle"):
+			animation.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
+			animation.play("Idle")
+		_npcs[str(entry["id"])] = npc
+		builder.add_blocker(pos, 0.4)
+		_add_spot("freed_%s" % str(entry["id"]), str(entry["name"]), pos, 1.9, "Talk", true, "freed_npc", {"npc": str(entry["id"]), "speaker": str(entry["speaker"])})
+
 # ---- Setup -----------------------------------------------------------------------------------
 
 
@@ -114,6 +144,10 @@ func _ready() -> void:
 			Session.zone_run = ZoneRun.enter(def.id, Session.profile, Session.deck)
 		if _screenshot_args.has("damage"):
 			Session.zone_run.damage(int(_screenshot_args["damage"]))
+		if _screenshot_args.has("freed"):
+			Session.complete_zone(def.id)
+		if _screenshot_args.has("announce"):
+			Session.pending_zone_result = {"kind": "zone_freed", "arena_opened": true, "alchemist_opened": Session.completed_zone_count() >= 2}
 	if Session.zone_run == null:
 		# Reached some other way (a dev launch): start a fresh visit.
 		Session.ensure_game()
@@ -127,6 +161,7 @@ func _ready() -> void:
 	_build_spots()
 	_build_enemies()
 	_build_zone_extras()
+	_build_completion_state()
 	_build_camera()
 	_build_ui()
 	hud.set_objective(story.text("hud.objective"))
@@ -480,6 +515,9 @@ func _interact(spot: ZoneSpot) -> void:
 			_ask_mini_dungeon(spot)
 		"puzzle":
 			_open_puzzle(spot)
+		"freed_npc":
+			_face_npc(str(spot.data["npc"]))
+			_say(str(spot.data["speaker"]), story.get_lines("freed_npc.%s" % str(spot.data["npc"])))
 		"quiz":
 			_face_npc(str(spot.data["npc"]))
 			_say(str(spot.data["speaker"]), story.get_lines("npc.quiz.return" if Session.flag(def.flag_met("quiz")) else "npc.quiz.intro"), _open_quiz)
@@ -797,6 +835,9 @@ func _apply_pending_result() -> void:
 		if _last_fee == 0:
 			hud.toast("%s waived (you were broke)." % def.fee_label, Color("ffcf70"))
 		return
+	if str(result.get("kind", "")) == "zone_freed":
+		_show_zone_freed(result)
+		return
 	if str(result.get("kind", "")) == "mini":
 		if bool(result.get("first_clear", false)):
 			hud.toast("%s cleared! Unique card: %s" % [def.mini.dungeon_name, str(result.get("card", ""))], UIStyle.GOLD)
@@ -808,6 +849,20 @@ func _apply_pending_result() -> void:
 	if bool(result.get("won", false)):
 		hud.toast("Won! +%d gold, +%d XP. Life stays as it is." % [int(result.get("gold", 0)), int(result.get("xp", 0))], UIStyle.GOLD)
 
+
+## The announcement after the zone's final boss falls: the zone is free; what just unlocked.
+func _show_zone_freed(result: Dictionary) -> void:
+	var story_text: StoryText = StoryText.shared()
+	var lines: Array[String] = []
+	lines.append(ZoneCompletion.progress_text(Session.flags))
+	if bool(result.get("arena_opened", false)):
+		lines.append(story_text.text("town.arena.unlock_line"))
+	if bool(result.get("alchemist_opened", false)):
+		lines.append(story_text.text("town.alchemist.unlock_line"))
+	var screen: AnnouncementScreen = AnnouncementScreen.make(story_text.text("zone.complete.%s.title" % def.id), story_text.text("zone.complete.%s.body" % def.id), lines)
+	_locked = true
+	_overlay_layer.add_child(screen)
+	screen.finished.connect(func() -> void: _locked = false)
 
 # ---- Minimap ---------------------------------------------------------------------------------
 
