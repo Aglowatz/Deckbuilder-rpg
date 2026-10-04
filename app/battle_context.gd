@@ -25,6 +25,9 @@ var won: bool = false
 ## Brief 5: set for a duel against a roaming zone enemy (see Session.make_zone_battle/
 ## _complete_zone_battle) - the id is a DnaEnemies id plus which spawn it was.
 var zone_battle: bool = false
+## Brief 9, Part G: set for a Grand Clashatorium fight (`ArenaEncounter` id, "" otherwise). The result is judged by
+## `ArenaEncounter.player_won` and pays its first-clear prize (`Session.complete_battle`).
+var arena_id: String = ""
 ## The zone (or zone dungeon) this duel is fought in, "" elsewhere: its buff/debuff apply to both sides and
 ## the battle UI shows them (`ZoneEffects`).
 var zone_id: String = ""

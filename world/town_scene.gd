@@ -99,6 +99,9 @@ func _ready() -> void:
 	_build_spots()
 	_build_portal_barriers()
 	TownDressing.alchemist(self, town.anchors, Session.alchemist_unlocked(), StoryText.shared())
+	TownDressing.arena_gate(self, town.anchors, Session.arena_unlocked(), StoryText.shared())
+	_announce_new_unlocks.call_deferred()
+	_show_pending_arena_result.call_deferred()
 	_build_camera()
 	_build_ui()
 	_refresh_objective()
@@ -152,6 +155,8 @@ func _build_actors() -> void:
 	_add_npc("equipment_vendor", "Knight", town.anchors["npc_equipment_vendor"] as Vector3, -70.0)
 	if Session.alchemist_unlocked():
 		_add_npc("alchemist", "Mage", town.anchors["npc_alchemist"] as Vector3, -80.0, Color(0.7, 1.0, 0.7))
+	if Session.arena_unlocked():
+		_add_npc("arena", "Barbarian", town.anchors["npc_arena"] as Vector3, 200.0, Color(1.0, 0.8, 0.6))
 	# New brief, Part E: the 4 corrupted NPCs stay in town, and stay challengeable, even after
 	# being freed (D68) - only their dialogue changes on later visits, not their presence/look.
 	for npc_id: String in CorruptedNpcs.IDS:
@@ -297,6 +302,8 @@ func _build_spots() -> void:
 	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, 1.5)
 	# Brief 9, Part F: the Alchemist (locked until two zones are free; visible and closed before that).
 	_add_spot("alchemist", StoryText.shared().text("town.alchemist.name"), town.anchors["alchemist"] as Vector3, 1.7)
+	# Brief 9, Part G: the Grand Clashatorium (chained until the first zone is free).
+	_add_spot("arena", StoryText.shared().text("town.arena.name"), town.anchors["arena"] as Vector3, 1.9)
 	# New brief (third), Part E: the debug-only Dev Shrine - only constructed at all (so only ever
 	# present as an anchor here) when DevTools.shrine_enabled() said yes at builder time.
 	if town.anchors.has("dev_shrine"):
@@ -518,6 +525,8 @@ func _prompt_text(spot: Spot) -> String:
 			return "Disturb the cairn"
 		"alchemist":
 			return "Browse Crucible & Co." if Session.alchemist_unlocked() else "Knock (the shop is closed)"
+		"arena":
+			return "Enter the Grand Clashatorium" if Session.arena_unlocked() else "The gates are chained shut"
 	if spot.id.begins_with("portal_"):
 		var zone_id: String = spot.id.trim_prefix("portal_")
 		return "Sealed - the corrupted guardian must fall first" if _portal_is_locked(zone_id) else "Enter"
@@ -609,6 +618,8 @@ func _interact(spot: Spot) -> void:
 			_talk_equipment_vendor()
 		"graveyard_cairn":
 			_talk_graveyard()
+		"arena":
+			_use_arena()
 		"alchemist":
 			_use_alchemist()
 		_:
@@ -1042,6 +1053,32 @@ func _open_alchemist() -> void:
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 
+## Brief 9, Part G: the Grand Clashatorium. Chained until the first zone is free (a hint from the sign on the chains), then
+## Marshal Vesna Tuskmore greets you and the Arena screen opens.
+func _use_arena() -> void:
+	var story: StoryText = StoryText.shared()
+	if not Session.arena_unlocked():
+		dialogue.start(story.text("town.arena.name"), story.get_lines("town.arena.locked"))
+		hud.toast("The Arena is closed (%d of %d zones free)" % [Session.completed_zone_count(), ZoneCompletion.ARENA_UNLOCK_COUNT], Color("ffcf70"))
+		return
+	_face_npc("arena")
+	var lines: Array[String] = story.get_lines("town.arena.return" if Session.flag(&"arena_met") else "town.arena.intro")
+	Session.set_flag(&"arena_met")
+	dialogue.start("Marshal Vesna Tuskmore", lines)
+	dialogue.finished.connect(_open_arena, CONNECT_ONE_SHOT)
+
+
+func _open_arena(result: Dictionary = {}) -> void:
+	if not Session.has_profile():
+		return
+	var screen: ArenaScreen = ArenaScreen.new()
+	screen.result = result
+	screen.fight_chosen.connect(func(encounter_id: String) -> void:
+		_close_overlay()
+		Session.start_arena_battle(encounter_id))
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
 ## New brief, Part F: the item vendor.
 func _talk_item_vendor() -> void:
 	_face_npc("item_vendor")
@@ -1181,6 +1218,29 @@ func _refresh_objective() -> void:
 	hud.set_objective(story.text("town.objective.free" if Session.completed_zone_count() >= ZoneCompletion.TOTAL_ZONES else "town.objective"))
 
 
+## Brief 9: the Arena / the Alchemist opened since the player was last in town and nothing has announced it yet (the zone's own
+## "free" screen normally does): a short announcement, once.
+func _announce_new_unlocks() -> void:
+	var story: StoryText = StoryText.shared()
+	var notices: Array[String] = []
+	if Session.arena_unlocked() and not Session.flag(&"arena_announced"):
+		Session.set_flag(&"arena_announced")
+		notices.append(story.text("town.arena.announce"))
+	if Session.alchemist_unlocked() and not Session.flag(&"alchemist_announced"):
+		Session.set_flag(&"alchemist_announced")
+		notices.append(story.text("town.alchemist.announce"))
+	for notice: String in notices:
+		hud.toast(notice, Color("ffd98a"))
+
+
+## After an arena fight the town reopens the Arena screen with what happened.
+func _show_pending_arena_result() -> void:
+	if Session.pending_arena_result.is_empty():
+		return
+	var result: Dictionary = Session.pending_arena_result
+	Session.pending_arena_result = {}
+	_open_arena(result)
+
 # ---- Screenshot helpers -----------------------------------------------------------------
 
 
@@ -1218,6 +1278,8 @@ func _screenshot_open(what: String) -> void:
 			_open_character_screen()
 		"alchemist":
 			_open_alchemist()
+		"arena":
+			_open_arena()
 		"quests":
 			_open_quest_log()
 		"map":

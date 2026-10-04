@@ -78,6 +78,21 @@ enum Kind {
 	## exhausted (they cannot block until their controller's next ready step) - the Gainlands' "Processing
 	## Time" debuff on Necrocrat creatures.
 	ENTER_EXHAUSTED,
+	## Brief 9, Part G (the Arena): `effect` resolves for the owner once, when the duel starts (after the
+	## mulligans, before turn 1), e.g. the Champion's Laurels.
+	START_OF_DUEL_EFFECT,
+	## Part G: `effect` resolves for the owner every time THEY declare attackers (once per declaration), e.g. the
+	## Crowd-Pleaser's Cape.
+	ON_ATTACK_DECLARED_EFFECT,
+	## Part G: `effect` resolves for the owner whenever an ENEMY creature enters the battlefield; its target
+	## kind TRIGGERING_CARD means that creature, e.g. the Gladiator's Net.
+	ON_ENEMY_CREATURE_ENTER_EFFECT,
+	## Part G: `effect` resolves for the owner whenever they are dealt damage (not mere life loss), e.g. the
+	## Bloodsand Boots.
+	ON_PLAYER_DAMAGED_EFFECT,
+	## Part G (a rule, not gear): presence means the owner may not cast creature cards (the Arena's "win without
+	## casting creatures" puzzle).
+	NO_CREATURE_CASTS,
 }
 
 ## `color` value meaning "matches every card".

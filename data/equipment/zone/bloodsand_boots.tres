@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_1qp1y"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_sewo8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_2x4md"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_x1agq"]
+
+[sub_resource type="Resource" id="Resource_k3v0d"]
+script = ExtResource("2_sewo8")
+target = 1
+op = 2
+amount = 1
+
+[sub_resource type="Resource" id="Resource_my1jt"]
+script = ExtResource("1_1qp1y")
+kind = 28
+effect = SubResource("Resource_k3v0d")
+
+[resource]
+script = ExtResource("4_x1agq")
+id = "bloodsand_boots"
+slot = 3
+description = "Whenever you are dealt damage, draw a card."
+flavor_text = "Every scar teaches you something. These boots have taken notes."
+source_name = "Bloodsand Boots"
+modifiers = Array[ExtResource("1_1qp1y")]([SubResource("Resource_my1jt")])

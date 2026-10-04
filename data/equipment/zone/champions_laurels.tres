@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_lqije"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_jaukm"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_gmhii"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_8pe0n"]
+
+[sub_resource type="Resource" id="Resource_so1ib"]
+script = ExtResource("2_jaukm")
+target = 1
+op = 9
+amount = 4
+
+[sub_resource type="Resource" id="Resource_3hyq5"]
+script = ExtResource("1_lqije")
+kind = 25
+effect = SubResource("Resource_so1ib")
+
+[sub_resource type="Resource" id="Resource_rx03f"]
+script = ExtResource("2_jaukm")
+target = 1
+op = 2
+amount = 1
+
+[sub_resource type="Resource" id="Resource_e5sk0"]
+script = ExtResource("1_lqije")
+kind = 25
+effect = SubResource("Resource_rx03f")
+
+[resource]
+script = ExtResource("4_8pe0n")
+id = "champions_laurels"
+slot = 0
+description = "At the start of the duel, gain 4 life and draw a card."
+flavor_text = "A little wilted, a little sweaty, entirely yours. The crowd chants your name. Mostly."
+source_name = "Champion's Laurels"
+modifiers = Array[ExtResource("1_lqije")]([SubResource("Resource_3hyq5"), SubResource("Resource_e5sk0")])

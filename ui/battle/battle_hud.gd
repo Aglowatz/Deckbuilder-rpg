@@ -41,6 +41,26 @@ func setup(game_state: GameState, enemy_name: String, enemy_icon: String) -> voi
 	refresh_all()
 
 
+## Part G: a banner at the top of an Arena duel: the fight's name and its rules/goal (a puzzle's goal is the whole point).
+func set_arena_banner(encounter_id: String) -> void:
+	var encounter: ArenaEncounter = ArenaDefs.find(encounter_id)
+	if encounter == null:
+		return
+	var story: StoryText = StoryText.shared()
+	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	panel.name = "ArenaBanner"
+	panel.position = Vector2(500, 8)
+	panel.custom_minimum_size = Vector2(920, 0)
+	add_child(panel)
+	var column: VBoxContainer = UIKit.vbox(2)
+	panel.add_child(column)
+	var title: Label = UIKit.label("%s  -  %s" % [story.text("town.arena.name"), story.text(encounter.title_key())], &"HeadingLabel", 24, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	column.add_child(title)
+	var rules: Label = UIKit.label(story.text(encounter.rules_key()), &"", 19, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	rules.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	rules.custom_minimum_size = Vector2(880, 0)
+	column.add_child(rules)
+
 ## Part C: the zone's buff and debuff, under the enemy portrait. Both apply to both players; the
 ## tooltips explain each (and the rivalry behind it).
 func set_zone_effects(effect: ZoneEffects.Effect, zone_title: String) -> void:

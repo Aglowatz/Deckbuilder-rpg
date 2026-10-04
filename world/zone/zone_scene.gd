@@ -876,6 +876,10 @@ func _show_zone_freed(result: Dictionary) -> void:
 	var lines: Array[String] = []
 	lines.append(ZoneCompletion.progress_text(Session.flags))
 	if bool(result.get("arena_opened", false)):
+		Session.set_flag(&"arena_announced")
+	if bool(result.get("alchemist_opened", false)):
+		Session.set_flag(&"alchemist_announced")
+	if bool(result.get("arena_opened", false)):
 		lines.append(story_text.text("town.arena.unlock_line"))
 	if bool(result.get("alchemist_opened", false)):
 		lines.append(story_text.text("town.alchemist.unlock_line"))

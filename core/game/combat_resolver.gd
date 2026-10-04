@@ -92,6 +92,8 @@ static func declare_attackers(state: GameState, uids: Array[int], guard_targets:
 		state.fire_traps(defender, CardEnums.Trigger.TRAP_OPPONENT_ATTACKS, _strongest(state, chosen))
 	if not state.is_over():
 		state.fire_retaliation(defender)
+	if not state.is_over():
+		state._fire_modifier_effects(state.active, Modifier.Kind.ON_ATTACK_DECLARED_EFFECT)
 	state.check_state()
 	if state.is_over():
 		return true

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_wiqsb"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_0tss7"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_wbwpd"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_n6ai7"]
+
+[sub_resource type="Resource" id="Resource_cmynm"]
+script = ExtResource("2_0tss7")
+target = 3
+op = 5
+amount = -1
+amount2 = -1
+
+[sub_resource type="Resource" id="Resource_j30ri"]
+script = ExtResource("1_wiqsb")
+kind = 27
+effect = SubResource("Resource_cmynm")
+
+[resource]
+script = ExtResource("4_n6ai7")
+id = "gladiators_net"
+slot = 1
+description = "Whenever an enemy creature enters the battlefield, it gets -1/-1 permanently."
+flavor_text = "Thrown from the stands by a very enthusiastic fishmonger. It holds, apparently."
+source_name = "Gladiator's Net"
+modifiers = Array[ExtResource("1_wiqsb")]([SubResource("Resource_j30ri")])

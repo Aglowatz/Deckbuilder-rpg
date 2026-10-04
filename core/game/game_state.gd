@@ -158,6 +158,9 @@ func _try_begin_playing() -> void:
 
 func _begin_playing() -> void:
 	stage = Stage.PLAYING
+	# Part G: START_OF_DUEL_EFFECT (e.g. the Champion's Laurels), after the mulligans and before turn 1.
+	for index: int in range(players.size()):
+		_fire_modifier_effects(index, Modifier.Kind.START_OF_DUEL_EFFECT)
 	_begin_turn()
 
 
@@ -279,6 +282,8 @@ func can_cast(player_index: int, uid: int) -> bool:
 	var player: PlayerState = players[player_index]
 	var card: CardInstance = player.find_hand(uid)
 	if card == null or card.data.is_infrastructure():
+		return false
+	if card.data.is_creature() and player.modifiers.has(Modifier.Kind.NO_CREATURE_CASTS):
 		return false
 	if player.non_infrastructure_cast_cap >= 0 and player.non_infrastructure_casts_this_turn >= player.non_infrastructure_cast_cap:
 		return false
@@ -402,6 +407,8 @@ func _enter_battlefield(card: CardInstance, chosen: int, cast_from_hand: bool) -
 		fire_trigger(card, CardEnums.Trigger.ON_ENTER, 0, chosen)
 	if card.data.is_creature() and not is_over():
 		_fire_modifier_effects(card.owner, Modifier.Kind.ON_CREATURE_ENTER_EFFECT)
+	if card.data.is_creature() and not is_over():
+		_fire_modifier_effects(1 - card.owner, Modifier.Kind.ON_ENEMY_CREATURE_ENTER_EFFECT, card.uid)
 
 
 ## New brief, Part B: applies the controller's GRANT_KEYWORD_TO_CREATURES/CANNOT_BLOCK equipment
@@ -656,6 +663,8 @@ func deal_damage_to_player(source_uid: int, player_index: int, amount: int) -> i
 	emit_event(GameEvent.Type.LIFE_CHANGED, player_index, 0, 0, -amount, player.life)
 	_apply_lifesteal(source_uid, amount)
 	fire_traps(player_index, CardEnums.Trigger.TRAP_PLAYER_DAMAGED, source_uid)
+	if not is_over():
+		_fire_modifier_effects(player_index, Modifier.Kind.ON_PLAYER_DAMAGED_EFFECT)
 	return amount
 
 
@@ -1097,8 +1106,8 @@ func emit_event(
 
 ## Brief 8, Part C: resolves every effect of a modifier `kind` that `player_index` has (END_OF_TURN_EFFECT,
 ## ON_CREATURE_ENTER_EFFECT, ON_ALLY_DEATH_EFFECT), each as an effect controlled by that player.
-func _fire_modifier_effects(player_index: int, kind: Modifier.Kind) -> void:
+func _fire_modifier_effects(player_index: int, kind: Modifier.Kind, trigger_uid: int = 0) -> void:
 	for effect: EffectData in players[player_index].modifiers.effects_of(kind):
 		if is_over():
 			return
-		EffectResolver.resolve(self, effect, EffectContext.make(0, player_index))
+		EffectResolver.resolve(self, effect, EffectContext.make(0, player_index, trigger_uid))

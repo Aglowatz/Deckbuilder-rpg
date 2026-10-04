@@ -113,6 +113,8 @@ func _build_scene() -> void:
 	board.setup(game, fx)
 	hud.setup(game, context.enemy_name, context.enemy_icon)
 	hud.set_zone_effects(ZoneEffects.for_zone(context.zone_id), _zone_title(context.zone_id))
+	if not context.arena_id.is_empty():
+		hud.set_arena_banner(context.arena_id)
 	board.portrait_anchor = [hud.portrait_center(0), hud.portrait_center(1)]
 	board.card_hovered.connect(_on_card_hovered)
 	board.card_unhovered.connect(_on_card_unhovered)
@@ -827,6 +829,8 @@ func _show_result() -> void:
 	mode = Mode.OVER
 	_refresh_ui()
 	var won: bool = game.winner == 0
+	if not context.arena_id.is_empty():
+		won = ArenaDefs.find(context.arena_id).player_won(game)
 	context.won = won
 	Audio.sfx(&"victory" if won else &"defeat")
 	await get_tree().create_timer(0.7, false).timeout
@@ -855,6 +859,14 @@ func _show_result() -> void:
 	var detail: String = "You defeated %s in %d turns." % [context.enemy_name, game.turn] if won else "%s wins after %d turns." % [context.enemy_name, game.turn]
 	if game.is_draw:
 		detail = "Neither side could finish the game."
+	if not context.arena_id.is_empty():
+		var arena_encounter: ArenaEncounter = ArenaDefs.find(context.arena_id)
+		var arena_story: StoryText = StoryText.shared()
+		if arena_encounter.is_puzzle():
+			title_label.text = "Puzzle Solved!" if won else "Puzzle Failed"
+			detail = arena_story.text("arena.puzzle.won" if won else "arena.puzzle.lost")
+		else:
+			detail = arena_story.text("arena.won.first" if won and not Session.is_arena_cleared(context.arena_id) else ("arena.won.replay" if won else "arena.lost"))
 	column.add_child(UIKit.label(detail, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
 	if context.zone_battle:
 		var zone_note: String = "Your life stays as it is - there is no healing after a battle in the zone. Heal at the hub." if won else "Declared Deceased. You will wake at the hub (and owe a small paperwork fee)."

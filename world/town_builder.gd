@@ -242,6 +242,14 @@ func _build_props() -> void:
 	anchors["alchemist"] = alchemist_center + Vector3(0, 0, 1.15)
 	anchors["npc_alchemist"] = alchemist_center + Vector3(1.15, 0, 0.75)
 	anchors["alchemist_door"] = alchemist_center + Vector3(0, 0, 0.55)
+	# Brief 9, Part G: the Grand Clashatorium (the Arena), a colosseum south of the Beefcake Flats corridor. Its gate faces
+	# north onto the open corridor; the building itself is solid.
+	var arena_center: Vector3 = cell_center(4, 13)
+	ArenaBuilding.build(root, arena_center)
+	obstacles.append(Vector3(arena_center.x, arena_center.z, ArenaBuilding.RADIUS + 0.15))
+	anchors["arena"] = arena_center + Vector3(0, 0, -(ArenaBuilding.RADIUS + 0.95))
+	anchors["arena_gate"] = arena_center + Vector3(0, 0, -(ArenaBuilding.RADIUS + 0.2))
+	anchors["npc_arena"] = arena_center + Vector3(1.8, 0, -(ArenaBuilding.RADIUS + 0.9))
 	# New brief, Part E: 4 corrupted NPCs, one per element district, close enough to their own
 	# district's edge gate to read as "belongs to that zone" without blocking the district's main
 	# path. Visual corruption (tint + particle effect) is TownScene's job, not the builder's.

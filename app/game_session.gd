@@ -1314,6 +1314,96 @@ func resolve_dungeon_event(event: DungeonEvent, choice_index: int) -> EventResol
 	return result
 
 
+# ---- The Arena (brief 9, Part G) ----------------------------------------------------------
+
+## Set by `_complete_arena_battle`, read once by the town (which reopens the Arena screen with the outcome): {id, won,
+## first_clear, reward (resolved), replay_gold}. {} when there is nothing to show.
+var pending_arena_result: Dictionary = {}
+
+
+func is_arena_cleared(encounter_id: String) -> bool:
+	return flag(ArenaDefs.flag_name(encounter_id))
+
+
+func arena_cleared_count() -> int:
+	var count: int = 0
+	for encounter: ArenaEncounter in ArenaDefs.all():
+		if is_arena_cleared(encounter.id):
+			count += 1
+	return count
+
+
+## The duel of one arena encounter, using the player's real deck/profile (or the encounter's restricted deck).
+func make_arena_battle(encounter_id: String) -> BattleContext:
+	ensure_game()
+	var encounter: ArenaEncounter = ArenaDefs.find(encounter_id)
+	var game: GameState = ArenaScenario.build_game(content, encounter, profile, deck, rng.randi() % 1000000 + 1)
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(ZoneDecks.personality(content, encounter.enemy_ai))
+	context.enemy_name = encounter.enemy_name
+	context.enemy_icon = "lorc/muscle-up" if encounter.tier < 3 else "delapouite/strong-man"
+	context.is_boss = encounter.tier == 3 and not encounter.is_puzzle()
+	context.arena_id = encounter_id
+	return context
+
+
+func start_arena_battle(encounter_id: String) -> void:
+	start_battle(make_arena_battle(encounter_id))
+
+
+## After an arena duel: the first clear of an encounter pays its prize (gold, XP, essence of Paths, equipment, an item, a
+## card); replays only pay a small flat gold amount. Losing pays nothing and can always be retried.
+func _complete_arena_battle(context: BattleContext) -> void:
+	resolve_arena_battle(context)
+	SceneManager.go_to_town()
+
+
+## The state changes of a finished arena duel (no scene change, so tests can run it). Returns the result dictionary.
+func resolve_arena_battle(context: BattleContext) -> Dictionary:
+	var encounter: ArenaEncounter = ArenaDefs.find(context.arena_id)
+	var won: bool = encounter.player_won(context.game)
+	context.won = won
+	var result: Dictionary = {"id": encounter.id, "won": won, "first_clear": false, "reward": {}, "replay_gold": 0}
+	if won:
+		if not is_arena_cleared(encounter.id):
+			set_flag(ArenaDefs.flag_name(encounter.id))
+			result["first_clear"] = true
+			var reward: Dictionary = ArenaScenario.resolve_reward(encounter, profile.primary_affinity)
+			result["reward"] = reward
+			_grant_arena_reward(reward)
+		else:
+			result["replay_gold"] = encounter.replay_gold
+			add_gold(encounter.replay_gold)
+	pending_arena_result = result
+	EventBus.arena_fight_finished.emit(encounter.id, won)
+	save_game()
+	return result
+
+
+func _grant_arena_reward(reward: Dictionary) -> void:
+	if reward.has("gold"):
+		add_gold(int(reward["gold"]))
+	if reward.has("xp"):
+		pending_level_ups.append_array(add_xp(int(reward["xp"])))
+	if reward.has("essence"):
+		for path: Variant in (reward["essence"] as Dictionary).keys():
+			profile.add_essence(int(path) as Affinity.Type, int((reward["essence"] as Dictionary)[path]))
+	if reward.has("equipment"):
+		var piece: EquipmentData = content.equipment_piece(str(reward["equipment"]))
+		if piece != null:
+			grant_equipment(piece)
+	if reward.has("item"):
+		var item: ItemData = content.item(str(reward["item"]))
+		if item != null:
+			add_item(item)
+	if reward.has("card"):
+		var card: CardData = card_by_id(str(reward["card"]))
+		if card != null:
+			add_cards([card] as Array[CardData])
+
+
+
 # ---- Zone portals (Part G) ---------------------------------------------------------------
 
 ## Which placeholder zone (`ZonePortals.Info.id`) the placeholder scene should show.
@@ -1328,6 +1418,9 @@ func enter_zone_portal(zone_id: String) -> void:
 ## Called by the battle screen when the player leaves the result panel.
 func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
+	if not context.arena_id.is_empty():
+		_complete_arena_battle(context)
+		return
 	if not context.town_npc_id.is_empty():
 		_complete_npc_challenge(context)
 		return
