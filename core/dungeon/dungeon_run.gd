@@ -92,12 +92,15 @@ func start_encounter(
 	enemy: PlayerSetup,
 	zone: ModifierSource = null,
 	options: GameOptions = null,
+	player_rules: ModifierSource = null,
 ) -> GameState:
 	var player: PlayerSetup = PlayerSetup.new()
 	player.player_name = "Player"
 	player.deck = current_deck()
 	player.profile = profile
 	player.modifiers = modifiers(zone)
+	if player_rules != null:
+		player.modifiers.add_source(player_rules)
 	player.starting_life = life
 	# Zone/dungeon effects apply to the enemy too (ModifierPipeline.build_for_enemy's contract).
 	if zone != null:

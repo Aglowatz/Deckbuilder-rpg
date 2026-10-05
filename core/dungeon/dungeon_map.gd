@@ -47,6 +47,9 @@ class MapNode:
 	## Story keys in the zone story file: lines shown when the node is entered / after it is cleared.
 	var story_before: String = ""
 	var story_after: String = ""
+	## Brief 10: a side branch that dead-ends (a treasure, an encounter, an event, lore): once it is done the party doubles back to this
+	## node (the branch point it hangs off), where the other routes are still open. -1 = not a dead end.
+	var return_to: int = -1
 
 
 var dungeon_name: String = ""
@@ -54,6 +57,8 @@ var nodes: Array[MapNode] = []
 var cleared: Array[int] = []
 ## Id of the node the party stands on (the START node at first).
 var current: int = 0
+## The node most recently completed (a dead end sends `current` back to its branch point, this still names the dead end).
+var last_cleared: int = -1
 
 
 func node(id: int) -> MapNode:
@@ -93,13 +98,25 @@ func is_available(id: int) -> bool:
 	return false
 
 
-## Marks an available node as done and moves the party onto it.
+## Marks an available node as done and moves the party onto it. A dead-end side branch (`return_to`) sends the party back to
+## the branch point it hangs off, where the other routes are still open.
 func complete(id: int) -> bool:
 	if not is_available(id):
 		return false
 	cleared.append(id)
-	current = id
+	last_cleared = id
+	var done: MapNode = node(id)
+	current = done.return_to if done.return_to >= 0 else id
 	return true
+
+
+## The side branches that dead-end and double back.
+func dead_ends() -> Array[int]:
+	var result: Array[int] = []
+	for candidate: MapNode in nodes:
+		if candidate.return_to >= 0:
+			result.append(candidate.id)
+	return result
 
 
 ## True for the node kinds that start a duel.
@@ -185,7 +202,12 @@ func problems() -> Array[String]:
 	for candidate: MapNode in nodes:
 		if not reachable.has(candidate.id):
 			found.append("node %d (%s) is unreachable" % [candidate.id, candidate.title])
-		if candidate.kind != Kind.BOSS and candidate.next.is_empty():
+		if candidate.return_to >= 0:
+			if not candidate.next.is_empty():
+				found.append("node %d (%s) is a dead-end branch but has nodes after it" % [candidate.id, candidate.title])
+			if candidate.return_to >= candidate.id or node(candidate.return_to) == null or not node(candidate.return_to).next.has(candidate.id):
+				found.append("node %d (%s) must double back to the earlier node it hangs off" % [candidate.id, candidate.title])
+		elif candidate.kind != Kind.BOSS and candidate.next.is_empty():
 			found.append("node %d (%s) is a dead end" % [candidate.id, candidate.title])
 		for next_id: int in candidate.next:
 			if next_id <= candidate.id:

@@ -6,6 +6,8 @@ extends Control
 var _map: DungeonMap
 var _point_of: Callable
 var _time: float = 0.0
+## How far a path stops short of each node centre (smaller on dense maps whose nodes are drawn smaller).
+var trim_radius: float = 62.0
 
 
 func setup(map: DungeonMap, point_of: Callable) -> void:
@@ -28,7 +30,9 @@ func _draw() -> void:
 			var to: Vector2 = _point_of.call(next_id) as Vector2
 			var walked: bool = _map.is_cleared(next_id)
 			var ahead: bool = node.id == _map.current and not walked
-			var points: PackedVector2Array = _trim(_curve(from, to), 62.0)
+			var points: PackedVector2Array = _trim(_curve(from, to), trim_radius)
+			if points.size() < 2:
+				continue
 			if walked:
 				draw_polyline(points, Color(0, 0, 0, 0.5), 10.0, true)
 				draw_polyline(points, UIStyle.GOLD, 6.0, true)

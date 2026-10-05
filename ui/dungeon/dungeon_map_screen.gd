@@ -5,6 +5,9 @@ extends Control
 
 const MAP_ORIGIN: Vector2 = Vector2(120.0, 150.0)
 const MAP_EXTENT: Vector2 = Vector2(1680.0, 880.0)
+## Big maps (Primm's Castle, 30 nodes) draw their nodes smaller so the rows and columns do not overlap.
+const DENSE_NODE_COUNT: int = 18
+const DENSE_NODE_SCALE: float = 0.78
 
 var map: DungeonMap
 var run: DungeonRun
@@ -68,6 +71,25 @@ func _ready() -> void:
 	if _screenshot_args.is_empty() or _screenshot_args.has("tip"):
 		TipPanel.show_once(self, &"tip_map", "The dungeon map", ("Glowing nodes are your next steps, and some of them are real choices between routes. [b]Life carries from fight to fight[/b] and nothing heals except at shrines - this is the zone's life. Lose a duel and you wake at the hub (for a paperwork fee)." if (Session.mini_active or Session.main_dungeon_active) else "Glowing nodes are your next steps. [b]Life carries from fight to fight[/b], so save the shrine for when you need it. Lose a duel and you are carried back to town with your collection intact."), Vector2(560, 140))
 	_play_pending_after_story.call_deferred()
+	if Session.boss_phase_pending and Session.main_dungeon_active:
+		_begin_boss_phase.call_deferred()
+
+
+## Brief 10: between the final boss's phases the map plays the scene (`primm_p1` / `primm_p2`) and then starts the next duel.
+func _begin_boss_phase() -> void:
+	var boss: DungeonMap.MapNode = map.boss()
+	if boss == null:
+		return
+	_busy = true
+	var scene_id: String = "primm_p%d" % Session.boss_phase
+	Session.boss_phase_pending = false
+	var start: Callable = func() -> void:
+		Audio.sfx(&"door")
+		Session.start_battle(Session.make_dungeon_battle(boss))
+	if CutsceneDefs.has_scene(scene_id):
+		_show_cutscene(start, scene_id)
+	else:
+		start.call()
 
 
 ## Screenshot/dev only: enter a zone's final dungeon directly (`--main=<zone id> --progress=N`).
@@ -116,10 +138,14 @@ func _build_nodes() -> void:
 		button.setup(node, available_ids.has(node.id), map.is_cleared(node.id))
 		add_child(button)
 		button.position = _node_position(node) - Vector2(MapNodeButton.DIAMETER, MapNodeButton.DIAMETER) * 0.5
+		if map.nodes.size() > DENSE_NODE_COUNT:
+			button.scale = Vector2.ONE * DENSE_NODE_SCALE
 		button.hovered.connect(_on_node_hovered)
 		button.unhovered.connect(func(_id: int) -> void: _show_default_info())
 		button.chosen.connect(_on_node_chosen)
 		_buttons[node.id] = button
+	if map.nodes.size() > DENSE_NODE_COUNT:
+		_paths.trim_radius = 62.0 * DENSE_NODE_SCALE
 	_paths.setup(map, func(id: int) -> Vector2: return (_buttons[id] as MapNodeButton).center_point())
 	_marker = _make_marker()
 	add_child(_marker)
@@ -300,7 +326,16 @@ func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 		steps.append(_show_story.bind(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_before)))
 	if not node.scene.is_empty() and CutsceneDefs.has_scene(node.scene):
 		steps.append(_show_cutscene.bind(node.scene))
+	if _main_def != null and node.kind == DungeonMap.Kind.BOSS and _main_def.zone_id == CapitalZone.ID:
+		steps.append(_show_leaders)
 	_run_steps(steps, then)
+
+
+## The freed leaders join you before the final fight (each lends a boon: `PrimmBoss.leader_boon`).
+func _show_leaders(done: Callable) -> void:
+	var lines: Array[String] = Session.begin_primm_fight()
+	_dialogue.start("The Freed Leaders", lines)
+	_dialogue.finished.connect(done, CONNECT_ONE_SHOT)
 
 
 func _run_steps(steps: Array[Callable], then: Callable) -> void:
@@ -327,7 +362,7 @@ func _show_cutscene(done: Callable, scene_id: String) -> void:
 func _play_pending_after_story() -> void:
 	if _main_def == null or map == null:
 		return
-	var node: DungeonMap.MapNode = map.node(map.current)
+	var node: DungeonMap.MapNode = map.node(map.last_cleared if map.last_cleared >= 0 else map.current)
 	if node.story_after.is_empty() or Session.dungeon_story_seen.has(node.id) or not map.is_cleared(node.id):
 		return
 	Session.dungeon_story_seen.append(node.id)

@@ -9,6 +9,7 @@ extends Node3D
 ##                bars, boulders and logs (the only gym equipment left).
 ##   "hall"     - the Hall of Final Approvals: endless desks, cabinets, a queue of rope posts, fluorescent
 ##                strips, a NOW SERVING board.
+##   "castle"   - Primm's Castle: marble, gold, endless portraits of its owner, mirrors, a scale model of the kingdom on a table.
 ##   "rotheart" - the Rotheart: dark purple-green, giant mutant mushrooms, writhing roots and a pulsing
 ##                glowing heart in the middle.
 ## A slowly swaying camera looks down on it, like `ArenaBackdrop`; the map screen dims it.
@@ -39,6 +40,8 @@ func _ready() -> void:
 			_build_house()
 		"hall":
 			_build_hall()
+		"castle":
+			_build_castle()
 		"rotheart":
 			_build_rotheart()
 		_:
@@ -382,3 +385,74 @@ func _build_rotheart() -> void:
 	spores.mesh = spore_mesh
 	spores.material_override = _material(Color("b4ff6a"), 0.3, 3.0)
 	add_child(spores)
+
+
+## Primm's Castle: a palace of polished marble and gold, endless portraits of its owner, mirrors that show only him and, at the
+## centre, a round table with a scale model of the whole kingdom that he rearranges by hand.
+func _build_castle() -> void:
+	_environment(Color("1a1426"), Color("6a5a78"), Color("e8d8ff"), Color("3a2f48"), 0.006, 1.05)
+	_sun(Color("ffe0b0"), 0.7, Vector3(-55, -30, 0))
+	_floor(16, 11, 1.4, Color("e8dfc8"), Color("b8a888"))
+	var gold: StandardMaterial3D = _material(Color("e8c040"), 0.3, 0.25)
+	var marble: StandardMaterial3D = _material(Color("efe8d8"), 0.4)
+	# A red carpet runs down the middle of the hall.
+	_box(Vector3(20, 0.03, 2.4), _material(Color("8a1f2a"), 0.9), Vector3(0, 0.0, 3.0))
+	# Pillars and portraits down both long walls.
+	for index: int in range(7):
+		var x: float = -9.0 + float(index) * 3.0
+		for side: float in [-1.0, 1.0]:
+			_cylinder(0.45, 5.0, marble, Vector3(x, 2.5, side * 6.4))
+			_box(Vector3(1.0, 0.25, 1.0), gold, Vector3(x, 5.0, side * 6.4))
+		var portrait: MeshInstance3D = MeshInstance3D.new()
+		var quad: QuadMesh = QuadMesh.new()
+		quad.size = Vector2(1.7, 2.1)
+		portrait.mesh = quad
+		var portrait_material: StandardMaterial3D = StandardMaterial3D.new()
+		portrait_material.albedo_texture = CapitalProps.portrait_texture(index % 2)
+		portrait_material.cull_mode = BaseMaterial3D.CULL_DISABLED
+		portrait.material_override = portrait_material
+		portrait.position = Vector3(x + 1.5, 2.8, -6.9)
+		add_child(portrait)
+		_box(Vector3(2.0, 2.4, 0.1), gold, Vector3(x + 1.5, 2.8, -6.95))
+		# A mirror opposite: it reflects only him (a cold glass panel).
+		_box(Vector3(1.7, 2.6, 0.08), _material(Color(0.7, 0.9, 1.0, 0.85), 0.05, 0.4), Vector3(x + 1.5, 2.8, 6.95))
+	# Chandeliers.
+	for index: int in range(3):
+		var cx: float = -6.0 + float(index) * 6.0
+		_ball(0.45, _material(Color("ffd890"), 0.3, 2.4), Vector3(cx, 4.6, 0.0))
+		_lamp(Color("ffd890"), 1.8, Vector3(cx, 4.4, 0.0), 10.0)
+	# The scale model of the kingdom on a round table: four districts around a tiny castle.
+	_cylinder(2.4, 0.9, _material(Color("5a3a22"), 0.7), Vector3(0, 0.45, -1.0))
+	_cylinder(2.2, 0.12, _material(Color("2a5a3a"), 0.9), Vector3(0, 0.95, -1.0))
+	var district_colors: Array[Color] = [Color("e2553f"), Color("f2c14e"), Color("a870d8"), Color("7bc86c")]
+	for district: int in range(4):
+		var angle: float = TAU * float(district) / 4.0 + 0.4
+		for house: int in range(5):
+			var offset: Vector3 = Vector3(cos(angle) * (0.8 + 0.2 * float(house)) + _rng.randf_range(-0.2, 0.2), 1.1, sin(angle) * (0.8 + 0.2 * float(house)) - 1.0 + _rng.randf_range(-0.2, 0.2))
+			_box(Vector3(0.28, 0.3, 0.28), _material(district_colors[district], 0.6, 0.25), offset)
+	_box(Vector3(0.5, 0.8, 0.5), _material(Color("e8c040"), 0.3, 0.8), Vector3(0, 1.4, -1.0))
+	_pulse = Node3D.new()
+	_pulse.position = Vector3(0, 2.2, -1.0)
+	add_child(_pulse)
+	var glow_ball: MeshInstance3D = _ball(0.25, _material(Color("ffe090"), 0.3, 3.0), Vector3.ZERO)
+	remove_child(glow_ball)
+	_pulse.add_child(glow_ball)
+	_lamp(Color("ffe090"), 2.2, Vector3(0, 2.6, -1.0), 9.0)
+	var motes: CPUParticles3D = CPUParticles3D.new()
+	motes.position = Vector3(0, 0.5, 0)
+	motes.amount = 50
+	motes.lifetime = 8.0
+	motes.preprocess = 8.0
+	motes.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+	motes.emission_box_extents = Vector3(11, 0.5, 7)
+	motes.direction = Vector3.UP
+	motes.spread = 20.0
+	motes.initial_velocity_min = 0.1
+	motes.initial_velocity_max = 0.4
+	motes.gravity = Vector3.ZERO
+	var mote_mesh: SphereMesh = SphereMesh.new()
+	mote_mesh.radius = 0.04
+	mote_mesh.height = 0.08
+	motes.mesh = mote_mesh
+	motes.material_override = _material(Color("ffe8b0"), 0.3, 2.0)
+	add_child(motes)

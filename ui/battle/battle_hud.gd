@@ -70,6 +70,29 @@ func set_zone_effects(effect: ZoneEffects.Effect, zone_title: String) -> void:
 	panel.position = Vector2(24, 190)
 	add_child(panel)
 
+
+
+## Brief 10: in the Capital's duels the broken services (the debuffs that apply to this duel) and, in a boss phase, the phase's rule.
+func set_capital_panels(flags: Dictionary, rules_text: String) -> void:
+	var y: float = 190.0
+	if not CapitalDebuffs.active(flags).is_empty():
+		var services: ServiceDebuffsPanel = ServiceDebuffsPanel.make(flags)
+		services.position = Vector2(24, y)
+		add_child(services)
+		y += 40.0 + 30.0 * float(CapitalDebuffs.all().size())
+	if not rules_text.is_empty():
+		var panel: PanelContainer = UIKit.panel(&"DarkPanel")
+		panel.name = "PhaseRulePanel"
+		panel.position = Vector2(24, y)
+		panel.custom_minimum_size = Vector2(300, 0)
+		var column: VBoxContainer = UIKit.vbox(4)
+		panel.add_child(column)
+		column.add_child(UIKit.label("Primm's rule", &"HeadingLabel", 21))
+		var body: Label = UIKit.label(rules_text, &"", 18, Color("ffcf70"))
+		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		body.custom_minimum_size = Vector2(270, 0)
+		column.add_child(body)
+		add_child(panel)
 # ---- Construction -----------------------------------------------------------------------
 
 

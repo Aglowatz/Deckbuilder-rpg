@@ -29,6 +29,27 @@ const STAGES: Dictionary = {
 		"left": {"icon": "cathelineau/tree-face", "color": Color("7bc86c"), "scale": 1.1, "roots": true},
 		"right": {"icon": "lorc/pointy-hat", "color": Color("d9b86a"), "scale": 0.8},
 	},
+	# Brief 10: Primm (left) and you (right), before the fight, between its phases and after it.
+	"primm_intro": {
+		"tint": Color(0.16, 0.12, 0.05),
+		"left": {"icon": "cathelineau/old-king", "color": Color("f2d070"), "scale": 1.1},
+		"right": {"icon": "lorc/pointy-hat", "color": Color("d9b86a"), "scale": 0.8},
+	},
+	"primm_p1": {
+		"tint": Color(0.14, 0.12, 0.12),
+		"left": {"icon": "cathelineau/old-king", "color": Color("f2d070"), "scale": 1.1},
+		"right": {"icon": "lorc/pointy-hat", "color": Color("d9b86a"), "scale": 0.8},
+	},
+	"primm_p2": {
+		"tint": Color(0.06, 0.12, 0.16),
+		"left": {"icon": "delapouite/shinto-shrine-mirror", "color": Color("b8e8ff"), "scale": 1.1},
+		"right": {"icon": "lorc/pointy-hat", "color": Color("d9b86a"), "scale": 0.8},
+	},
+	"primm_end": {
+		"tint": Color(0.1, 0.08, 0.14),
+		"left": {"icon": "cathelineau/old-king", "color": Color("cfc8d8"), "scale": 0.95},
+		"right": {"icon": "lorc/pointy-hat", "color": Color("d9b86a"), "scale": 0.8},
+	},
 }
 
 var scene_id: String = ""
@@ -221,6 +242,33 @@ func _fx(name: String) -> void:
 			_roots_retract()
 		"cleansed":
 			_cleansed()
+		"crown":
+			_flash_screen(Color("ffd36b"), 0.7)
+			_burst(_left.position + _left.size * 0.5, Color("ffd36b"), 80)
+			Audio.sfx(&"victory", -6.0)
+		"crack":
+			_flash_screen(Color("ffffff"), 0.9)
+			_shake(22.0, 0.6)
+			_burst(_left.position + _left.size * 0.5, Color("cfc8d8"), 90)
+			Audio.sfx(&"hit_heavy", 0.0)
+		"mirror":
+			_flash_screen(Color("b8e8ff"), 0.85)
+			_shake(10.0, 0.4)
+			Audio.sfx(&"spell", -2.0)
+		"unravel":
+			_flash_screen(Color("d8c8ff"), 0.8)
+			_shake(26.0, 0.9)
+			_burst(_left.position + _left.size * 0.5, Color("b8a8d8"), 130)
+			Audio.sfx(&"hit_heavy", 0.0)
+		"crown_off":
+			_crown_off()
+		"shrink":
+			var shrink: Tween = create_tween()
+			shrink.tween_property(_left, "scale", Vector2(0.78, 0.78), 1.2).set_trans(Tween.TRANS_CUBIC)
+		"dove":
+			_flash_screen(Color("f4fff0"), 0.7)
+			_burst(_left.position + _left.size * 0.5, Color("f4fff0"), 70)
+			Audio.sfx(&"heal")
 
 
 func _shake(strength: float, duration: float) -> void:
@@ -321,6 +369,23 @@ func _muscle_reveal() -> void:
 	swell.tween_property(_left, "scale", Vector2(1.3, 1.3), 0.4)
 	_burst(_left.position + _left.size * 0.5, Color("ffcf70"), 110)
 	Audio.sfx(&"victory", -2.0)
+
+
+## His crown slips off and rolls away.
+func _crown_off() -> void:
+	var crown: TextureRect = CardIcons.glyph(CardIcons.named("delapouite/imperial-crown"), Color("f2d070"), Vector2(220, 220))
+	crown.size = Vector2(220, 220)
+	crown.pivot_offset = crown.size * 0.5
+	crown.position = _left.position + Vector2(80, -30)
+	_stage_root.add_child(crown)
+	Audio.sfx(&"hit_heavy", -4.0)
+	var fall: Tween = create_tween().set_parallel(true)
+	fall.tween_property(crown, "position", crown.position + Vector2(-260, 420), 1.1).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	fall.tween_property(crown, "rotation_degrees", -200.0, 1.1)
+	fall.tween_property(crown, "modulate:a", 0.0, 0.5).set_delay(1.1)
+	fall.tween_callback(crown.queue_free).set_delay(1.7)
+	var shrink: Tween = create_tween()
+	shrink.tween_property(_left, "scale", Vector2(0.82, 0.82), 1.0).set_trans(Tween.TRANS_CUBIC)
 
 
 func _stagger() -> void:

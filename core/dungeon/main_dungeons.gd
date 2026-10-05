@@ -8,7 +8,7 @@ static var _defs: Dictionary = {}
 
 
 static func ids() -> Array[String]:
-	return [TestKitchenDungeon.ZONE_ID, HouseOfGainsDungeon.ZONE_ID, HallOfApprovalsDungeon.ZONE_ID, RotheartDungeon.ZONE_ID]
+	return [TestKitchenDungeon.ZONE_ID, HouseOfGainsDungeon.ZONE_ID, HallOfApprovalsDungeon.ZONE_ID, RotheartDungeon.ZONE_ID, PrimmsCastleDungeon.ZONE_ID]
 
 
 static func has_def(zone_id: String) -> bool:
@@ -26,6 +26,8 @@ static func def(zone_id: String) -> MainDungeonDef:
 				_defs[zone_id] = HallOfApprovalsDungeon.build_def()
 			RotheartDungeon.ZONE_ID:
 				_defs[zone_id] = RotheartDungeon.build_def()
+			PrimmsCastleDungeon.ZONE_ID:
+				_defs[zone_id] = PrimmsCastleDungeon.build_def()
 			_:
 				return null
 		_fill_challenge_text(_defs[zone_id] as MainDungeonDef)
@@ -52,6 +54,8 @@ static func build_map(zone_id: String) -> DungeonMap:
 			return HallOfApprovalsDungeon.build_map(dungeon)
 		RotheartDungeon.ZONE_ID:
 			return RotheartDungeon.build_map(dungeon)
+		PrimmsCastleDungeon.ZONE_ID:
+			return PrimmsCastleDungeon.build_map(dungeon)
 	return null
 
 

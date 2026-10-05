@@ -12,6 +12,11 @@ const SCENES: Dictionary = {
 	"rescue": {"zone": "beefcake", "beats": [[1, ""], [2, ""], [3, "stand_up"]]},
 	"flex": {"zone": "beefcake", "beats": [[1, ""], [2, "coat_off"], [3, "muscle_reveal"], [4, "stagger"], [5, ""]]},
 	"sever": {"zone": "refusemancer", "beats": [[1, "shake"], [2, ""], [3, "roots_retract"], [4, "cleansed"]]},
+	# Brief 10: Primm, before the fight, between its phases and after it (text in the Capital's story file).
+	"primm_intro": {"zone": "final", "beats": [[1, ""], [2, "crown"], [3, ""], [4, ""], [5, "shake"], [6, ""]]},
+	"primm_p1": {"zone": "final", "beats": [[1, "crack"], [2, ""], [3, ""], [4, "shake"]]},
+	"primm_p2": {"zone": "final", "beats": [[1, "mirror"], [2, ""], [3, ""], [4, "unravel"], [5, ""]]},
+	"primm_end": {"zone": "final", "beats": [[1, "crack"], [2, "crown_off"], [3, ""], [4, ""], [5, "shrink"], [6, ""], [7, ""], [8, "dove"]]},
 }
 
 

@@ -2,7 +2,7 @@ class_name DeckbuilderScreen
 extends OverlayScreen
 ## The Deck Station: browse the collection with filters, click to add a card to the deck
 ## (right-click to remove), see the deck list with counts and live validation of the deck
-## rules (45 cards minimum, 3 copies, 2 colors), then save.
+## rules (45 cards minimum, 4 copies, 2 colors - 3 or 4 once Primm is beaten and the postgame is unlocked), then save.
 
 const CARD_SCALE: float = 0.55
 const COLUMNS: int = 7
@@ -82,7 +82,7 @@ func _build() -> void:
 	add_child(_toast)
 	_refresh()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
-	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]2 colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure power your spells: [b]Fill Infrastructure[/b] tops up to %d." % [min_size, min_size], Vector2(300, 900))
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure power your spells: [b]Fill Infrastructure[/b] tops up to %d." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), min_size], Vector2(300, 900))
 
 
 func _build_deck_panel() -> Control:

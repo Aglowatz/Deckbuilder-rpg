@@ -87,7 +87,7 @@ func _build_essence_column() -> Control:
 		_essence_rows[path] = {"button": row, "bar": bar, "amount": amount}
 	column.add_child(UIKit.spacer(6))
 	if Alchemy.tri_path_unlocked(Session.profile):
-		var tri: Label = UIKit.label("Tri-Path crafting is unlocked in the postgame. (No tri-Path cards exist yet.)", &"MutedLabel", 20)
+		var tri: Label = UIKit.label("TRI-PATH CRAFTING UNLOCKED: with Primm gone the Paths may mix freely, and the cauldron will take three. (No tri-Path recipes exist yet; the hook is ready.)", &"MutedLabel", 20)
 		tri.name = "TriPathHint"
 		tri.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		tri.custom_minimum_size = Vector2(580, 0)

@@ -207,3 +207,57 @@ the four (what `ZoneCompletion` counts), `ZoneDefs.all_ids()` adds the Capital.
 - **Zone life rules** as every zone; the fee is 20 gold ("Correction fee"). Famine lowers the visit's max life, so the Capital is hard
   until the Paths are free; this is by design (and balance is out of scope).
 - **Dev/screenshot helpers**: `tools/shot.sh res://scenes/capital_zone.tscn <name> --at=<anchor> [--gate] [--hub] [--paths[=N]] [--freed]`.
+
+
+## Primm's Castle (brief 10, Part C)
+
+The Capital's main dungeon (`MainDungeons` id `final`, entered from the **Castle Approach** door `castle_door`; `Session.enter_main_dungeon`
+starts it at the visit's current life, nothing heals except shrines, and the Capital's broken-service debuffs apply to every duel).
+Code: `core/dungeon/primms_castle_dungeon.gd` (def + map), `primm_boss.gd`, `world/dungeon_backdrop.gd` (`castle`). All text: the Capital story
+(`dungeon.pc_*`, `event.pc_*`, `challenge.pc_*`, `cutscene.primm_*`, `boss.*`, `boon.*`).
+
+- **30 nodes**, heavy branching, **8 dead-end side branches that double back** (`DungeonMap.MapNode.return_to`: once a dead end is done the
+  party returns to the branch point; `DungeonMap.problems()` accepts a dead end only when it hangs off an earlier node and has nothing after it),
+  12 branch points, 8+ routes to the boss.
+- **Sections**: the Great Hall (doors, a hall guard) -> **the Portrait Gallery** (the *Improved Portraits* event, the Curator, a forgotten alcove
+  with a prize) -> **the Hall of Mirrors** (the Mirror Knight, a *mirror* deck challenge, **the One Honest Mirror** as a dead-end event, the Quiet
+  Room shrine) -> **the Ministry of Correction** (the Desk of Correction challenge, a clerk, the **Chief Corrector** elite, **the Corrected**: the
+  citizens he "corrected", a serious dead-end event) -> **the Hall of the Four Wings**: four dead-end wings, one per Path (the Doppelganger's lab
+  notes, the coup orders, the notarized Form 1-A, the corrupted seed; each a battle with its document as the story) and two ways on (the servants'
+  corridor, the grand staircase) -> the Wing Vault (treasure; the card *Correction*) -> **the Archive of Good Intentions** (the Archive Warden, the
+  **Early Journals** event: his reforms that really did help, the Reading Room shrine, the Blueprint Vault dead end, the Escalation Shelf challenge,
+  the Archive Automaton elite, and **the Last Journal**: the moment you see that he truly believes he is the hero) -> **the Scale Model Chamber**
+  (the Model Warden elite and the boss).
+- Node kinds used: battle, elite, deck challenge (3), event (7), shrine (2), treasure (3), start, boss. The map screen draws maps of more than 18
+  nodes with smaller nodes (`DENSE_NODE_SCALE`) so rows and columns do not overlap.
+- Reward for the first clear: the unique card **The Paths, United**, 500 gold, 400 XP; the Capital becomes "freed" (`zone_final_completed`).
+
+## The final boss: Primm (brief 10, Part D)
+
+`PrimmBoss`: an EXTREMELY challenging three-phase fight on the boss node (**balance is out of scope**: every number is a placeholder, nothing was
+simulated). The phases are three duels back to back (`Session.boss_phase`), life carrying over, with a cutscene between them (`CutsceneDefs`:
+`primm_intro` before, `primm_p1` and `primm_p2` between, `primm_end` after; played by the map screen; the duel's music is `primm`).
+
+| Phase | Rule | How (Modifier pipeline) |
+|---|---|---|
+| 1. **Standardization** | every creature (yours and his) is a 3/3; you may cast at most two non-infrastructure cards a turn | `STANDARDIZE_CREATURES` (new) on his seat + `MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN` 2 on yours |
+| 2. **Reflection** | his deck is a copy of yours; he draws an extra card each turn | the enemy seat is built from your current deck; `EXTRA_DRAWS` |
+| 3. **Unraveling** | his creatures get +1/+1 and he draws extra, but loses 1 life at the start of each of his turns | `STAT_CHANGE`, `EXTRA_DRAWS`, `START_OF_TURN_EFFECT` (lose life) |
+
+The battle screen shows the phase's rule and the active broken services (`BattleHud.set_capital_panels`). **Freed leaders lend a boon**: for each
+completed zone its freed leader (Heartlift, Aurelio, Director Vellum, Fernwick) joins you when the boss is entered (dialogue, then a dungeon-wide
+boon: +2 max life and +1 power to Beefcakes / +1 toughness and bigger life gain to Gourmands / Necrocrat cards 1 cheaper / +2 toughness to
+Refusemancers; once per run). Dialogue is comedic self-importance first ("it has just been polished by seventeen people"), then real tragedy:
+he insists he did it all for the people, and the player's victory shows him (and the player) that his perfection was really about himself.
+
+## The ending and the postgame (brief 10, Part E)
+
+Defeating Primm (`Session.resolve_main_dungeon` -> kind `primm_defeated`) sets `postgame_unlocked` and `primm_defeated`, **frees the four Paths**
+(his fall ends every ruler's authority; no zone rewards), and plays `EndingScreen` (`scenes/ending.tscn`, text `ending.*`): the model falls and the castle
+crumbles, the facade falls, the rifts close, the Wrinkles come into the light, the four Paths meet, the theme in plain words (Primm demanded one
+way for everyone; his fall frees the Paths to mix again; different Paths working together is what made the kingdom strong), a dove and the new
+decree; then **placeholder credits**; then the postgame announcement **"The Paths Unbound"**: decks may now combine cards from **all Paths** (3 or 4
+Path decks: `DeckValidator.max_colors` = 4, the deck builder reads it) and the **Alchemist's tri-Path crafting hook** opens (`Alchemy.tri_path_unlocked`;
+still no tri/quad cards). Then the player returns to the world: the **changed Capital** (`CapitalBuilder.story_context().final`): the facade has crumbled
+(houses ruined, statues toppled, painted shops fallen), every rift is sealed, the lights are on, the citizens are free and say new things (`.freed`
+story variants), the four freed leaders stand in the Crease, the castle is open for a replay. Tests: `tests/core/dungeon/test_ending_postgame.gd`.

@@ -2194,3 +2194,28 @@ serious underneath (a grandfather unburied for three years, children on energy w
 will not grow). Each has two objectives tracked in the quest log (stamp + burial, wheel crews + cable, recipe cards + dispenser, compost
 heaps + seed), and rewards gold, XP, a card, an item and a **story insight** into Primm (flag `capital_insight_<path>`, shown in the log's
 reward line and referenced by Mabbit Quill). Tests in `test_capital.gd`.
+
+## Part C: Primm's Castle - done
+
+The Capital's main dungeon on the node-map system: **30 nodes**, heavy branching and **8 dead-end side branches that double back**
+(`DungeonMap.MapNode.return_to`, `DungeonMap.last_cleared`, `problems()` and tests updated), sections: the Great Hall, the Portrait Gallery, the
+Hall of Mirrors, the Ministry of Correction, the Four Wings (a dead-end wing per Path: lab notes, coup orders, notarized Form 1-A, the corrupted
+seed), the Archive of Good Intentions (early journals, blueprints, the last journal) and the Scale Model Chamber. Battles, elites, 3 deck
+challenges, 7 events, shrines, treasure, serious beats (the corrected citizens, the journals, the last journal). A new `castle` backdrop (marble,
+gold, portraits, mirrors, a scale model on a round table), 14 foe decks, 17 new game-icons icons. Dense maps draw smaller nodes. Zone life rules
+and the Capital's debuffs apply in the castle. All text in the story data. `tests/core/dungeon/test_primms_castle.gd` (19 tests).
+
+## Part D: the final boss, Primm - done
+
+`PrimmBoss`: three phases as three back-to-back duels on the boss node (Standardization: all creatures 3/3 and two spells a turn; Reflection: his deck
+is a copy of yours; Unraveling: stronger, but he loses life each turn as his rules break), cutscenes before, between and after (`primm_intro`,
+`primm_p1`, `primm_p2`, `primm_end`: self-important and funny, then genuinely tragic), phase rules shown on the battle screen, the `primm`
+music, and **freed leaders lending a boon** (one per completed zone). Three new engine rules were needed for the Capital and the boss
+(`STANDARDIZE_CREATURES`, `GRAVEYARD_RETURN_CHANCE`, `SHUFFLE_JUNK_INTO_DECK`). Balance deliberately not touched or simulated.
+
+## Part E: victory, ending and postgame - done
+
+`EndingScreen` (castle crumbles, facade falls, rifts close, the Wrinkles, the Paths meet and unite, the theme, a dove), placeholder credits, the
+"The Paths Unbound" popup, then the player returns to the changed Capital. Beating Primm sets `postgame_unlocked` (decks of 3+ Paths are legal; the
+deck builder tip and validator updated; the Alchemist's tri-Path hook opens), `primm_defeated`, and frees the four Paths (decision N14). The
+Capital after: facade down, rifts sealed, new signs and dialogue, the freed leaders in the Crease. `tests/core/dungeon/test_ending_postgame.gd`.

@@ -60,12 +60,12 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 func _ready() -> void:
 	SceneManager.pause_allowed = true
-	Audio.play_music(&"battle")
 	context = Session.pending_battle
 	if context == null:
 		context = Session.make_practice_battle(str(_screenshot_args.get("enemy", "Cave Scavenger")))
 		context.zone_id = str(_screenshot_args.get("zone", ""))
 	Session.pending_battle = null
+	Audio.play_music(context.music)
 	game = context.game
 	ai = context.ai
 	_build_scene()
@@ -113,6 +113,8 @@ func _build_scene() -> void:
 	board.setup(game, fx)
 	hud.setup(game, context.enemy_name, context.enemy_icon)
 	hud.set_zone_effects(ZoneEffects.for_zone(context.zone_id), _zone_title(context.zone_id))
+	if context.zone_id == CapitalZone.ID:
+		hud.set_capital_panels(Session.flags, context.rules_text)
 	if not context.arena_id.is_empty():
 		hud.set_arena_banner(context.arena_id)
 	board.portrait_anchor = [hud.portrait_center(0), hud.portrait_center(1)]

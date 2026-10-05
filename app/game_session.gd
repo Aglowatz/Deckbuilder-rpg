@@ -747,19 +747,35 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	options.first_player = 0 if node.tutorial else -1
 	options.rng_seed = rng.randi() % 1000000 + 1
 	var enemy: PlayerSetup
-	if main_dungeon_active:
+	var player_rules: ModifierSource = null
+	var phase: PrimmBoss.Phase = null
+	var capital: bool = main_dungeon_active and zone_def().id == CapitalZone.ID
+	if capital and node.kind == DungeonMap.Kind.BOSS:
+		# The final boss: a duel per phase (see `PrimmBoss`); phase `boss_phase` is the one being fought.
+		phase = PrimmBoss.phase(boss_phase)
+		enemy = PrimmBoss.enemy_setup(content, boss_phase, run.current_deck())
+		player_rules = PrimmBoss.player_rules(boss_phase)
+	elif main_dungeon_active:
 		enemy = MainDungeons.enemy_setup(content, node, zone_def().id)
 	elif mini_active:
 		enemy = MiniDungeon.enemy_setup(content, node, zone_def().id)
 	else:
 		enemy = TrialOfTheHollow.enemy_setup(content, node)
 	var effect_zone: String = zone_def().id if (mini_active or main_dungeon_active) else ""
-	var game: GameState = run.start_encounter(enemy, ZoneEffects.source_for(effect_zone), options)
+	if capital:
+		var rules: ModifierSource = CapitalDebuffs.enemy_source(flags, content)
+		if rules != null:
+			enemy.modifiers.add_source(rules)
+	var game: GameState = run.start_encounter(enemy, ZoneEffects.source_for(effect_zone), options, player_rules)
 	var context: BattleContext = BattleContext.new()
 	context.game = game
 	context.zone_id = effect_zone
+	if phase != null:
+		context.boss_phase = phase.index
+		context.rules_text = phase.rule_text()
+		context.music = phase.music
 	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if (mini_active or main_dungeon_active) else TrialOfTheHollow.personality(content, node.ai_name))
-	context.enemy_name = node.enemy_name
+	context.enemy_name = node.enemy_name if phase == null else "%s - %s" % [Villain.display_name(), phase.title()]
 	context.enemy_icon = MainDungeons.enemy_icon(zone_def().id, node.enemy_name) if main_dungeon_active else str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
 	context.node_id = node.id
 	context.tutorial = node.tutorial
@@ -1203,6 +1219,21 @@ var mini_active: bool = false
 var main_dungeon_active: bool = false
 ## Node ids whose "after" story has been shown in the current dungeon run (so it plays once).
 var dungeon_story_seen: Array[int] = []
+## Brief 10: the phase of the final boss being fought (0-2), whether the next phase is waiting to start (the map plays the scene
+## between phases, then starts it) and whether the freed leaders' boons have been given for this run.
+var boss_phase: int = 0
+var boss_phase_pending: bool = false
+var boss_boons_given: bool = false
+
+
+## Entering the final boss's chamber: each freed leader lends a boon (once per run). Returns what they say (story lines).
+func begin_primm_fight() -> Array[String]:
+	var lines: Array[String] = PrimmBoss.leader_lines(flags)
+	if not boss_boons_given and run != null:
+		boss_boons_given = true
+		for boon: ModifierSource in PrimmBoss.leader_boons(flags):
+			run.add_dungeon_source(boon)
+	return lines
 
 
 ## From the zone's elevator: a run that starts at the zone's current life (no healing).
@@ -1264,6 +1295,9 @@ func enter_main_dungeon() -> void:
 	run.life = clampi(zone_run.life, 1, run.max_life())
 	mini_active = false
 	main_dungeon_active = true
+	boss_phase = 0
+	boss_phase_pending = false
+	boss_boons_given = false
 	dungeon_story_seen = []
 	trial_finished = false
 	pending_reward = null
@@ -1272,7 +1306,10 @@ func enter_main_dungeon() -> void:
 
 ## Leaves the final dungeon back to the zone (retreat, a loss or the boss falling).
 func finish_main_dungeon(cleared: bool, failed: bool = false) -> void:
-	resolve_main_dungeon(cleared, failed)
+	var result: Dictionary = resolve_main_dungeon(cleared, failed)
+	if str(result.get("kind", "")) == "primm_defeated":
+		SceneManager.change_scene(ENDING_SCENE)
+		return
 	SceneManager.change_scene(zone_def().scene_path)
 
 
@@ -1304,8 +1341,14 @@ func resolve_main_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 			result["xp"] = dungeon.reward_xp
 			result["arena_opened"] = arena_unlocked() and not arena_before
 			result["alchemist_opened"] = alchemist_unlocked() and not alchemist_before
+			if zone_id == CapitalZone.ID:
+				# Primm is down: the ending plays, the postgame unlocks (decks of 3+ Paths, the Alchemist's tri-Path hook).
+				result["kind"] = "primm_defeated"
+				result["postgame_unlocked"] = unlock_postgame()
 	run = null
 	dungeon_map = null
+	boss_phase = 0
+	boss_phase_pending = false
 	main_dungeon_active = false
 	trial_finished = false
 	pending_reward = null
@@ -1315,6 +1358,33 @@ func resolve_main_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	pending_zone_result = result
 	save_game()
 	return result
+
+
+const ENDING_SCENE: String = "res://scenes/ending.tscn"
+
+
+## Beating Primm: sets `postgame_unlocked` (3+ Path decks, the tri-Path crafting hook) and the `primm_defeated` flag. Returns true the
+## first time.
+func unlock_postgame() -> bool:
+	set_flag(&"primm_defeated")
+	# His fall frees the four Paths too (their rulers answered to him): the factions reunite.
+	for zone_id: String in ZoneDefs.ids():
+		if not is_zone_completed(zone_id):
+			complete_zone(zone_id)
+	if profile == null or profile.postgame_unlocked:
+		return false
+	profile.postgame_unlocked = true
+	EventBus.collection_changed.emit()
+	save_game()
+	return true
+
+
+## After the ending sequence (and its postgame announcement): back to the Capital, which has changed (a fresh visit at full life).
+func return_from_ending() -> void:
+	begin_zone_visit(CapitalZone.ID)
+	pending_zone_result = {"kind": "ending_return", "postgame_unlocked": bool(profile.postgame_unlocked) if profile != null else false}
+	save_game()
+	SceneManager.change_scene(ZoneDefs.get_def(CapitalZone.ID).scene_path)
 
 
 ## Applies a TREASURE node's loot (gold, XP, a heal, an item, a card, a piece of equipment) and returns what was
@@ -1488,6 +1558,12 @@ func complete_battle(context: BattleContext) -> void:
 	run.finish_encounter(context.game)
 	if not context.won or run.failed:
 		abandon_run("You were carried out of the Hollow. Your collection is safe.")
+		return
+	if context.boss_phase >= 0 and context.boss_phase < PrimmBoss.PHASES - 1:
+		boss_phase = context.boss_phase + 1
+		boss_phase_pending = true
+		save_game()
+		SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 		return
 	dungeon_map.complete(context.node_id)
 	var offer: RewardOffer = RewardOffer.new()

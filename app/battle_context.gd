@@ -33,3 +33,7 @@ var arena_id: String = ""
 var zone_id: String = ""
 var zone_enemy_id: String = ""
 var zone_enemy_type: String = ""
+## Brief 10: the final boss's phase (0-based, -1 = not a boss phase), the rule text of that phase and the music of the duel.
+var boss_phase: int = -1
+var rules_text: String = ""
+var music: StringName = &"battle"

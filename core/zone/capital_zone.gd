@@ -118,6 +118,13 @@ static func build_def() -> ZoneDef:
 	def.ruler_tint = Color("c9a227")
 	def.gloom_tint = Color(0.5, 0.46, 0.58)
 	def.hub_anchor = "crease_spawn"
+	# The freed leaders stand in the Crease once Primm has fallen (their dialogue is the story keys `freed_npc.<id>`).
+	def.freed_npcs = [
+		{"id": "heartlift", "model": "Barbarian", "offset": Vector3(-6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(1.2, 0.9, 0.7), "scale": 1.9, "name": "Heartlift Brawn", "speaker": "Heartlift"},
+		{"id": "aurelio", "model": "Rogue", "offset": Vector3(-2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(1.2, 1.1, 0.8), "scale": 1.5, "name": "Grand Chef Aurelio", "speaker": "Aurelio"},
+		{"id": "vellum", "model": "Mage", "offset": Vector3(2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(0.85, 0.75, 1.2), "scale": 1.5, "name": "Director Vellum", "speaker": "Director Vellum"},
+		{"id": "fernwick", "model": "Mage", "offset": Vector3(6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(0.7, 1.1, 0.7), "scale": 1.6, "name": "Archdruid Fernwick", "speaker": "Archdruid Fernwick"},
+	] as Array[Dictionary]
 	def.npcs = [
 		{"id": "mabbit", "model": "Mage", "anchor": "mabbit", "yaw": 0.0, "tint": Color(0.85, 0.85, 1.1), "scale": 1.5},
 		{"id": "fig", "model": "Rogue_Hooded", "anchor": "fig", "yaw": 0.0, "tint": Color(1.1, 0.9, 0.8), "scale": 1.5},

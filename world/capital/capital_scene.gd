@@ -505,6 +505,14 @@ func _apply_pending_result() -> void:
 	_add_service_panel()
 	_update_objective()
 	var result: Dictionary = Session.pending_zone_result
+	if str(result.get("kind", "")) == "ending_return":
+		# Back from the ending: the Capital has changed (facade down, rifts sealed, citizens free). Stand at the castle approach.
+		Session.pending_zone_result = {}
+		player.position = builder.anchor("net_approach") + Vector3(0, 0, 3.0)
+		_camera.position = player.position + camera_offset
+		_say("Mabbit Quill", story.get_lines("ending.return"))
+		hud.toast(story.text("fx.ending_return"), UIStyle.GOOD)
+		return
 	if bool(result.get("gate_opened", false)) and not bool(result.get("woke_at_hub", false)):
 		_say("Gate Captain", story.get_lines("npc.gate_captain.defeated"))
 	super()
