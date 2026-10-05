@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PackData" format=3]
+
+[ext_resource type="Script" path="res://core/data/pack_data.gd" id="1_h24t1"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_akcaq"]
+
+[sub_resource type="Resource" id="Resource_eglkm"]
+script = ExtResource("2_akcaq")
+key = "zone_refusemancer_completed"
+
+[resource]
+script = ExtResource("1_h24t1")
+id = "path_refusemancer"
+display_name = "Refusemancer Pack"
+path = 3
+pool_paths = Array[int]([3])
+art_color = Color(0.38, 0.74, 0.38, 1)
+frame_style = "foil"
+art_icon = "lorc/recycle"
+price = 150
+sold_by = "pack_vendor"
+unlock = SubResource("Resource_eglkm")
+order = 12

@@ -307,3 +307,18 @@ Logged as they were made; none blocks anything. Names are placeholders in story 
 | O5 | What does a trip do to the zone visit? | Leaving a zone ends its visit (full life, roaming enemies come back, like walking to town); arriving in a zone starts a new visit. A trip to the Capital's Crease uses the secret hideout, so it works before the gate is open. The menu says this. | `Session.fast_travel_to` |
 | O6 | Who runs it? | Rip Brogan, Beefcake Rift Technician, and his many cousins (one per station; "we ran out of names around cousin four"). Station: a squat rack of weight plates with a torn-open rift, a protein tub and a sign. All text in `intro_story.tres` (`travel.*`). | `FastTravelStation`, `StoryText` |
 | O7 | Fast travel from inside dungeons / battles? | No. Only from a station, in the open world. | |
+
+## Brief 11: card packs, pack sources and the health/travel rules (decisions made autonomously, section P)
+
+| # | Question | Decision | Where |
+|---|---|---|---|
+| P1 | Where do pack numbers live? | In `data/packs/*.tres` and `pack_config.tres` (weights, prices, counts, guarantees, unlock levels). `tools/generate_packs.gd` writes only missing files, so tuned values survive. | `PackData`, `PackConfig` |
+| P2 | Which cards are `not_in_packs`? | The 4 mini + 4 main dungeon uniques, the 4 Path-quest rewards, Primm's reward, 3 chest cards (`tasting_menu`, `recycle_bin`, `moss_titan`) and 12 enemy-only cards. `max_rep` stays in packs: it is the only pack-eligible Beefcake Epic. | `PackRules.NOT_IN_PACKS_IDS` |
+| P3 | Packs could never hold a Legendary (every Legendary was a unique reward) | Added one placeholder Legendary per Path (`deadlift_deity`, `grand_banquet`, `compost_elder`, `grim_auditor`). Rename/replace freely. | `PackContent` |
+| P4 | Prismatic pack size | 4 cards (the others 3), so a guaranteed multi-Path card still leaves room for a Path card. | `PackDefinitions.prismatic` |
+| P5 | What is the town vendor's "selection"? | The base card set it already sells (`content.cards`: no zone cards). Tier 1 packs hold its Commons and Uncommons; tier 2 holds every rarity. Packs ignore the vendor's gold-spent/level gates (the selection, not the current stock). | `PackData.vendor_selection_only`, `max_rarity` |
+| P6 | General tier 2 unlock | **Player level 10 OR 2 zones freed**, whichever first (one rule, `PackShop.tier2_unlocked`, in `PackConfig`). It also opens the vendor's expanded selection: every card is for sale (`VendorData.graduated`). | `PackShop` |
+| P7 | Gilded packs need the zone? | Yes: each Path's Gilded Pack is stocked at the black market only after that zone's dungeon was cleared once (same rule as the Path Pack). | `PackDefinitions.gilded_pack` |
+| P8 | Prismatic seller | The Pack Vendor, in a back room that appears only after the postgame (hidden, not even a teaser, before it). | `PackShop.is_visible` |
+| P9 | New `Condition` kinds | `ZONES_COMPLETED` and `POSTGAME` (appended last: saved as ints). `UnlockState` gained `zones_completed`, `postgame`. | `Condition` |
+| P10 | The generator cannot read zone classes | `PackRules.ZONE_BY_PATH` uses literal zone ids (a bare `-s` script cannot compile classes that touch the `Session` autoload); a test checks them against the zone classes. | `PackRules` |

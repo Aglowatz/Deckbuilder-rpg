@@ -296,6 +296,8 @@ func unlock_state() -> UnlockState:
 	state.player_level = profile.level if profile != null else 0
 	state.completed_quests = completed_quests
 	state.counters = counters
+	state.zones_completed = ZoneCompletion.count(flags)
+	state.postgame = profile != null and profile.postgame_unlocked
 	if profile != null:
 		for card: CardData in profile.owned_cards:
 			state.owned_cards[card.id] = int(state.owned_cards.get(card.id, 0)) + 1
@@ -341,6 +343,68 @@ func add_cards(cards: Array[CardData]) -> Array[String]:
 	EventBus.collection_changed.emit()
 	refresh_quests()
 	return notices
+
+
+# ---- Card packs -----------------------------------------------------------------------------
+
+
+func pack_count(pack_id: String) -> int:
+	return profile.pack_count(pack_id) if profile != null else 0
+
+
+## Puts unopened packs into the inventory. False for an unknown pack id.
+func add_pack(pack_id: String, amount: int = 1) -> bool:
+	if profile == null or PackCatalog.find(pack_id) == null or amount <= 0:
+		return false
+	profile.add_pack(pack_id, amount)
+	EventBus.packs_changed.emit()
+	return true
+
+
+## Buys one pack from a vendor: pays the price (with the vendor discount) and adds it to the inventory.
+func buy_pack(pack: PackData) -> bool:
+	if profile == null or pack == null:
+		return false
+	if not spend_gold(PackShop.price_for(pack, profile)):
+		return false
+	add_pack(pack.id)
+	bump_counter("packs_bought")
+	save_game()
+	return true
+
+
+## Opens one pack from the inventory (a seeded `rng` can be passed for tests): rolls its cards, adds them to the collection (an
+## extra copy beyond 4 converts into essence/gold, exactly like any other card) and returns what came out. Null if there is no
+## such pack in the inventory.
+func open_pack(pack_id: String, pack_rng: RandomNumberGenerator = null) -> PackOpening:
+	var pack: PackData = PackCatalog.find(pack_id)
+	if profile == null or pack == null or not profile.take_pack(pack_id):
+		return null
+	var opening: PackOpening = PackOpening.new()
+	opening.pack = pack
+	for card: CardData in PackRoller.roll(pack, content, pack_rng if pack_rng != null else rng):
+		var entry: PackOpening.Entry = PackOpening.Entry.new()
+		entry.card = card
+		entry.is_new = owned_count(card.id) == 0 and not card.is_unlimited()
+		if not card.is_unlimited() and owned_count(card.id) >= DeckValidator.MAX_COPIES:
+			var conversion: Dictionary = Essence.conversion(card)
+			entry.converted = true
+			entry.essence = (conversion["essence"] as Dictionary).duplicate()
+			entry.gold = int(conversion["gold"])
+			entry.notice = Essence.message(card, conversion)
+		add_cards([card] as Array[CardData])
+		opening.entries.append(entry)
+	bump_counter("packs_opened")
+	EventBus.packs_changed.emit()
+	save_game()
+	return opening
+
+
+## "Beefcake Pack" / "2x Gilded Necrocrat Pack" for reward text.
+func pack_label(pack_id: String, amount: int = 1) -> String:
+	var pack: PackData = PackCatalog.find(pack_id)
+	var title: String = pack.display_name if pack != null else pack_id
+	return title if amount == 1 else "%dx %s" % [amount, title]
 
 
 ## New brief, Part D: grants one consumable item (chests, and the item vendor in Part F). Owning
@@ -567,6 +631,7 @@ func to_dict() -> Dictionary:
 		"pending_equipment_choices": pending_equipment_choices,
 		"vendor_discount_percent": profile.vendor_discount_percent,
 		"essence": _essence_to_dict(),
+		"packs": profile.packs.duplicate(),
 	}
 
 
@@ -607,6 +672,8 @@ func from_dict(data: Dictionary) -> bool:
 	for id: Variant in data.get("equipped_items", []) as Array:
 		loaded.equipped_item_ids.append(str(id))
 	loaded.vendor_discount_percent = int(data.get("vendor_discount_percent", 0))
+	for pack_key: Variant in (data.get("packs", {}) as Dictionary).keys():
+		loaded.packs[str(pack_key)] = int((data["packs"] as Dictionary)[pack_key])
 	for path_key: Variant in (data.get("essence", {}) as Dictionary).keys():
 		loaded.essence[int(str(path_key))] = int((data["essence"] as Dictionary)[path_key])
 	profile = loaded
@@ -1692,3 +1759,19 @@ func abandon_run(notice: String = "") -> void:
 		# The town has not unlocked yet - a loss in the intro trial sends the player back to
 		# the starting area to try again, not to a town they have not reached.
 		SceneManager.go_to_start_area()
+
+
+# ---- Debug helpers (packs) ---------------------------------------------------------------------------------
+
+
+## Debug: one of every pack kind in the inventory (for the Dev Shrine and the e2e runs).
+func grant_dev_packs(amount: int = 1) -> void:
+	for pack: PackData in PackCatalog.all():
+		add_pack(pack.id, amount)
+
+
+## Debug: frees a zone as if its dungeon had been cleared for the first time (flag only; no rewards).
+func dev_free_zone(zone_id: String) -> void:
+	flags[str(ZoneCompletion.flag_name(zone_id))] = true
+	_sync_freed_stories()
+	refresh_quests()

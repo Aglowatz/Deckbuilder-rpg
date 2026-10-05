@@ -21,3 +21,4 @@ rules_text = "Flying. When this enters, the opponent discards a card."
 effects = Array[ExtResource("1_5sxv0")]([SubResource("Resource_75c6i")])
 rarity = 1
 flavor_text = "Your smile is 0.4 degrees off regulation."
+not_in_packs = true

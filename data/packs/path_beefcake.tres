@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PackData" format=3]
+
+[ext_resource type="Script" path="res://core/data/pack_data.gd" id="1_8muo2"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_3f5u4"]
+
+[sub_resource type="Resource" id="Resource_02wm8"]
+script = ExtResource("2_3f5u4")
+key = "zone_beefcake_completed"
+
+[resource]
+script = ExtResource("1_8muo2")
+id = "path_beefcake"
+display_name = "Beefcake Pack"
+path = 1
+pool_paths = Array[int]([1])
+art_color = Color(0.93, 0.38, 0.2, 1)
+frame_style = "foil"
+art_icon = "delapouite/biceps"
+price = 150
+sold_by = "pack_vendor"
+unlock = SubResource("Resource_02wm8")
+order = 10

@@ -12,3 +12,4 @@ power = 3
 toughness = 3
 rarity = 1
 flavor_text = "Identical, to the thread."
+not_in_packs = true

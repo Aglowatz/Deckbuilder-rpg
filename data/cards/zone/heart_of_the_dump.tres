@@ -24,3 +24,4 @@ rules_text = "Trample. When this enters, your creatures get +2/+2 permanently."
 effects = Array[ExtResource("1_2jh4b")]([SubResource("Resource_nkyii")])
 rarity = 3
 flavor_text = "Unique reward of the Rotheart. It beats once more, slowly, and everything nearby grows a little."
+not_in_packs = true

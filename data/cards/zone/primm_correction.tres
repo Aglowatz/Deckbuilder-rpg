@@ -19,3 +19,4 @@ rules_text = "Destroy target enemy creature."
 effects = Array[ExtResource("1_1ym3j")]([SubResource("Resource_fvcwb")])
 rarity = 2
 flavor_text = "A small adjustment. It was never going to hurt. It hurt."
+not_in_packs = true

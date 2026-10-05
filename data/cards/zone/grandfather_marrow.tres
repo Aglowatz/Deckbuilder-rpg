@@ -24,3 +24,4 @@ rules_text = "Guard. When this dies, gain 4 life."
 effects = Array[ExtResource("1_1175c")]([SubResource("Resource_exfjc")])
 rarity = 2
 flavor_text = "At rest at last. He would like it noted that he was never late."
+not_in_packs = true

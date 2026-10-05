@@ -25,3 +25,4 @@ rules_text = "Flying. When this enters, create two 1/1 Spirits."
 effects = Array[ExtResource("1_61mnr")]([SubResource("Resource_u61hx")])
 rarity = 3
 flavor_text = "Unique reward of the mini dungeon. Still takes credit for everything."
+not_in_packs = true

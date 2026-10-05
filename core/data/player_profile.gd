@@ -209,3 +209,35 @@ func spend_item_charge(item: ItemData) -> void:
 		owned_items.erase(item)
 		item_uses_remaining.erase(item.id)
 		unequip_item_id(item)
+
+
+# ---- Card packs -------------------------------------------------------------------------------
+
+## Unopened packs in the inventory: pack id -> count. Saved by `Session.to_dict`; opened from the Character screen.
+@export var packs: Dictionary = {}
+
+
+func pack_count(pack_id: String) -> int:
+	return int(packs.get(pack_id, 0))
+
+
+func total_packs() -> int:
+	var total: int = 0
+	for pack_id: Variant in packs.keys():
+		total += int(packs[pack_id])
+	return total
+
+
+func add_pack(pack_id: String, amount: int = 1) -> void:
+	if amount > 0:
+		packs[pack_id] = pack_count(pack_id) + amount
+
+
+## Removes one pack from the inventory. False if there was none.
+func take_pack(pack_id: String) -> bool:
+	if pack_count(pack_id) <= 0:
+		return false
+	packs[pack_id] = pack_count(pack_id) - 1
+	if pack_count(pack_id) == 0:
+		packs.erase(pack_id)
+	return true

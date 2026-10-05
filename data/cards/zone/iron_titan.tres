@@ -24,3 +24,4 @@ rules_text = "Trample. When this enters, your creatures get +1/+1 permanently."
 effects = Array[ExtResource("1_axk03")]([SubResource("Resource_ngx2n")])
 rarity = 3
 flavor_text = "Unique reward of the Iron Cavern. Has never once skipped leg day."
+not_in_packs = true

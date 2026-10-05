@@ -10,6 +10,8 @@ signal toast_requested(text: String)
 signal tutorial_event(id: StringName)
 ## The player's collection or deck changed.
 signal collection_changed
+## Unopened packs were granted, bought or opened (the Character screen refreshes its Packs list).
+signal packs_changed
 ## Quest log changed (started, progressed, completed) - the HUD tracker redraws.
 signal quest_changed
 ## A quest toast: text, and true when it is a "new quest" (false = completed).

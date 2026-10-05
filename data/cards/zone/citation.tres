@@ -18,3 +18,4 @@ toughness = 0
 rules_text = "Deal 3 damage to target enemy creature."
 effects = Array[ExtResource("1_dat5h")]([SubResource("Resource_jsu5t")])
 flavor_text = "Violation 4,112: Existing Without a Permit."
+not_in_packs = true

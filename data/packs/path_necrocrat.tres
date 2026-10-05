@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PackData" format=3]
+
+[ext_resource type="Script" path="res://core/data/pack_data.gd" id="1_jhemd"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_secu4"]
+
+[sub_resource type="Resource" id="Resource_845wh"]
+script = ExtResource("2_secu4")
+key = "zone_necrocrat_completed"
+
+[resource]
+script = ExtResource("1_jhemd")
+id = "path_necrocrat"
+display_name = "Necrocrat Pack"
+path = 4
+pool_paths = Array[int]([4])
+art_color = Color(0.6, 0.42, 0.88, 1)
+frame_style = "foil"
+art_icon = "lorc/tombstone"
+price = 150
+sold_by = "pack_vendor"
+unlock = SubResource("Resource_845wh")
+order = 13

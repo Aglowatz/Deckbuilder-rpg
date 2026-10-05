@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="PackData" format=3]
+
+[ext_resource type="Script" path="res://core/data/pack_data.gd" id="1_2hcow"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_qdrqy"]
+
+[sub_resource type="Resource" id="Resource_j0af8"]
+script = ExtResource("2_qdrqy")
+key = "zone_gourmand_completed"
+
+[resource]
+script = ExtResource("1_2hcow")
+id = "gilded_gourmand"
+display_name = "Gilded Gourmand Pack"
+kind = 1
+path = 2
+rarity_weights = Array[int]([40, 30, 22, 8])
+guarantee_epic_or_legendary = true
+pool_paths = Array[int]([2])
+art_color = Color(0.95, 0.76, 0.25, 1)
+frame_style = "gilded"
+art_icon = "delapouite/fork-knife-spoon"
+price = 600
+sold_by = "black_market"
+unlock = SubResource("Resource_j0af8")
+order = 31

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PackData" format=3]
+
+[ext_resource type="Script" path="res://core/data/pack_data.gd" id="1_o1d6j"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_hetts"]
+
+[sub_resource type="Resource" id="Resource_uwpo6"]
+script = ExtResource("2_hetts")
+key = "zone_gourmand_completed"
+
+[resource]
+script = ExtResource("1_o1d6j")
+id = "path_gourmand"
+display_name = "Gourmand Pack"
+path = 2
+pool_paths = Array[int]([2])
+art_color = Color(0.95, 0.76, 0.25, 1)
+frame_style = "foil"
+art_icon = "delapouite/fork-knife-spoon"
+price = 150
+sold_by = "pack_vendor"
+unlock = SubResource("Resource_uwpo6")
+order = 11

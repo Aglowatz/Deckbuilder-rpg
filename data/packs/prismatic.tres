@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="PackData" format=3]
+
+[ext_resource type="Script" path="res://core/data/pack_data.gd" id="1_54207"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_cnvr7"]
+
+[sub_resource type="Resource" id="Resource_bq7mt"]
+script = ExtResource("2_cnvr7")
+kind = 11
+
+[resource]
+script = ExtResource("1_54207")
+id = "prismatic"
+display_name = "Prismatic Pack"
+kind = 2
+card_count = 4
+rarity_weights = Array[int]([50, 28, 17, 5])
+guarantee_multipath = true
+include_multipath = true
+art_color = Color(0.85, 0.6, 0.95, 1)
+frame_style = "prismatic"
+art_icon = "lorc/rainbow-star"
+price = 900
+sold_by = "pack_vendor"
+unlock = SubResource("Resource_bq7mt")
+order = 50

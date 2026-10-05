@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="PackData" format=3]
+
+[ext_resource type="Script" path="res://core/data/pack_data.gd" id="1_vtvv1"]
+
+[resource]
+script = ExtResource("1_vtvv1")
+id = "general_2"
+display_name = "General Pack, Tier II"
+kind = 3
+general_tier = 2
+rarity_weights = Array[int]([58, 28, 11, 3])
+vendor_selection_only = true
+art_color = Color(0.55, 0.78, 0.95, 1)
+frame_style = "foil"
+art_icon = "faithtoken/card-random"
+price = 220
+sold_by = "card_vendor"
+order = 61

@@ -2259,3 +2259,20 @@ look in the final state, postgame elder/objective text.
   after a zone and a town duel; shortcuts: zone entered through `Session.enter_zone`, duel win forced, the first enemy touch triggered directly when it
   did not reach the player in time). Screenshots: `_screenshots/brief10b/`. No new asset packs.
 - Questions: should rips cost gold later? Should a trip keep the zone visit's life instead of resetting it (it currently counts as leaving the zone)?
+
+# Brief 11: card packs, pack sources and the health/travel rules
+
+## Part A: the pack system core - done
+
+`PackData` resources (`data/packs/*.tres`: name, art/frame style, pool rules, card count (default 3), rarity weights, guarantees, price, seller, unlock) plus a
+`PackConfig`; `CardData.not_in_packs` (unique dungeon/mini-dungeon/quest rewards, three chest cards and 12 enemy-only cards: `PackRules.NOT_IN_PACKS_IDS`);
+`PackRoller` (seeded, weighted, guarantees, no repeats in a pack); unopened packs in the inventory (`PlayerProfile.packs`, saved; `Session.add_pack / buy_pack /
+open_pack`); the opening experience `PackOpeningScreen` (foil pack with a moving shine, tear, cards dealt face-down, flip reveals, rarity flair escalating to a
+full Legendary moment, NEW badges, extra-copy -> essence/gold shown on the card and in the summary); a "Card Packs" list with Open buttons on the Character screen;
+debug helpers (`Session.grant_dev_packs`, `dev_free_zone`, the Dev Shrine also grants one of each pack). Four placeholder pack-eligible Legendaries were added
+(one per Path) because every other Legendary is a unique reward. Sounds are synthesized (`MusicSynth`) plus two extra Kenney cloth files already in the
+credited packs; five extra game-icons.net icons for the pack art (CREDITS.md). Decisions: `docs/design/open_questions.md` section P, rules: `docs/design/packs.md`.
+
+Tests: `tests/core/data/test_packs.gd` (25 tests: data, pools, determinism, weights, guarantees incl. both at once, no flagged cards, inventory, essence
+summary, NEW flags, buying, save round trip, shop stock rules, tier 2). Full suite: 817 passing. Screenshots: `_screenshots/brief11/` (pack_idle, pack_reveal1,
+pack_summary, pack_legendary).

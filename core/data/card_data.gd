@@ -26,6 +26,9 @@ extends Resource
 @export var is_basic: bool = false
 ## Tokens are created by effects and cease to exist outside the battlefield.
 @export var is_token: bool = false
+## Pack system: a card with this flag never appears in any pack (unique dungeon/quest rewards, chest cards, enemy-only
+## cards...) and must be found another way. The ids are listed in `PackRules.NOT_IN_PACKS_IDS`.
+@export var not_in_packs: bool = false
 
 
 func energy_value() -> int:

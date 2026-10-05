@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="PackData" format=3]
+
+[ext_resource type="Script" path="res://core/data/pack_data.gd" id="1_4fhpc"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_ksj61"]
+
+[sub_resource type="Resource" id="Resource_npfxt"]
+script = ExtResource("2_ksj61")
+key = "zone_refusemancer_completed"
+
+[resource]
+script = ExtResource("1_4fhpc")
+id = "gilded_refusemancer"
+display_name = "Gilded Refusemancer Pack"
+kind = 1
+path = 3
+rarity_weights = Array[int]([40, 30, 22, 8])
+guarantee_epic_or_legendary = true
+pool_paths = Array[int]([3])
+art_color = Color(0.38, 0.74, 0.38, 1)
+frame_style = "gilded"
+art_icon = "lorc/recycle"
+price = 600
+sold_by = "black_market"
+unlock = SubResource("Resource_npfxt")
+order = 32

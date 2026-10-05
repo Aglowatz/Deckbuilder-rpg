@@ -53,4 +53,7 @@ static func sounds() -> Dictionary:
 		&"level_up": [JINGLE + "8-Bit jingles/jingles_NES03.ogg"],
 		&"defeat": [JINGLE + "Hit jingles/jingles_HIT03.ogg"],
 		&"dialogue": [IFACE + "tick_002.ogg"],
+		# Card packs: the tear (cloth ripping) and the reveals (the rare chimes/fanfare are synthesized in `MusicSynth`).
+		&"pack_tear": [RPG + "cloth1.ogg", RPG + "cloth3.ogg", RPG + "drawKnife2.ogg"],
+		&"pack_flip": [CASINO + "card-slide-1.ogg", CASINO + "card-slide-2.ogg"],
 	}

@@ -29,3 +29,4 @@ rules_text = "Lifesteal. When this enters, the opponent discards two cards and l
 effects = Array[ExtResource("1_gx2u3")]([SubResource("Resource_i4jjp"), SubResource("Resource_5bkr3")])
 rarity = 3
 flavor_text = "Unique reward of the Hall of Final Approvals. Stamped, notarized and filed. The authorization is valid."
+not_in_packs = true

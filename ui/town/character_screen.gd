@@ -26,6 +26,7 @@ var _equipment_stage: Control
 var _equipment_slot_buttons: Dictionary = {}
 var _items_box: VBoxContainer
 var _items_note: Label
+var _packs_box: VBoxContainer
 var _toast: Label
 var _picker: Control
 
@@ -157,6 +158,14 @@ func _build_items_panel() -> Control:
 	column.add_child(_items_note)
 	_items_box = UIKit.vbox(6)
 	column.add_child(_items_box)
+	column.add_child(UIKit.spacer(8))
+	column.add_child(UIKit.label("Card Packs", &"HeadingLabel", 28))
+	var packs_note: Label = UIKit.label("Unopened packs. Dungeons, quests and vendors give them.", &"MutedLabel", 18)
+	packs_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	packs_note.custom_minimum_size = Vector2(360, 0)
+	column.add_child(packs_note)
+	_packs_box = UIKit.vbox(6)
+	column.add_child(_packs_box)
 	return panel
 
 
@@ -187,6 +196,7 @@ func _refresh() -> void:
 	_stat_row("Path essence", _essence_text(profile))
 	_refresh_equipment()
 	_refresh_items()
+	_refresh_packs()
 
 
 ## Part F: essence by Path ("Beefcake 12, Gourmand 0, ..."), the currency of the Alchemist.
@@ -413,3 +423,35 @@ func _say(text: String, color: Color) -> void:
 	var tween: Tween = create_tween()
 	tween.tween_interval(1.6)
 	tween.tween_property(_toast, "modulate:a", 0.0, 0.4)
+
+
+## Unopened card packs: one row per kind with an Open button (the opening plays on top of this screen).
+func _refresh_packs() -> void:
+	for child: Node in _packs_box.get_children():
+		child.queue_free()
+	var profile: PlayerProfile = Session.profile
+	var shown: int = 0
+	for pack: PackData in PackCatalog.all():
+		var count: int = profile.pack_count(pack.id)
+		if count <= 0:
+			continue
+		shown += 1
+		var row: HBoxContainer = UIKit.hbox(8)
+		var swatch: Panel = Panel.new()
+		swatch.custom_minimum_size = Vector2(18, 26)
+		swatch.add_theme_stylebox_override("panel", UIStyle.box(pack.art_color, pack.art_color.lightened(0.4), 2, 4, 0))
+		row.add_child(swatch)
+		var name_label: Label = UIKit.label("%s  x%d" % [pack.display_name, count], &"", 20, UIStyle.PARCHMENT)
+		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(name_label)
+		var open_button: FancyButton = _small_button("Open", func() -> void: _open_pack(pack.id))
+		open_button.name = "Open_%s" % pack.id
+		row.add_child(open_button)
+		_packs_box.add_child(row)
+	if shown == 0:
+		_packs_box.add_child(UIKit.label("No unopened packs. The Pack Vendor in town sells some.", &"MutedLabel", 18))
+
+
+func _open_pack(pack_id: String) -> void:
+	Audio.sfx(&"ui_confirm")
+	PackOpeningScreen.open_from_inventory(self, pack_id, func() -> void: _refresh())

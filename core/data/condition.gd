@@ -28,6 +28,10 @@ enum Kind {
 	## key = a Session counter name (enemies defeated, minigames won...); amount = the minimum value.
 	## Appended last on purpose: Kind is saved as an int in vendor .tres files.
 	COUNTER,
+	## amount = how many of the four Path zones must be freed.
+	ZONES_COMPLETED,
+	## The postgame has been unlocked (Primm defeated).
+	POSTGAME,
 }
 
 @export var kind: Kind = Kind.FLAG_SET
@@ -70,6 +74,14 @@ static func quest_completed(quest_id: String) -> Condition:
 
 static func counter(counter_name: String, at_least: int = 1) -> Condition:
 	return _make(Kind.COUNTER, counter_name, at_least)
+
+
+static func zones_completed(count: int) -> Condition:
+	return _make(Kind.ZONES_COMPLETED, "", count)
+
+
+static func postgame() -> Condition:
+	return _make(Kind.POSTGAME, "")
 
 
 static func all_of(conditions: Array[Condition]) -> Condition:
@@ -116,6 +128,10 @@ static func met(condition: Condition, state: UnlockState) -> bool:
 			return state.completed_quests.has(condition.key)
 		Kind.COUNTER:
 			return int(state.counters.get(condition.key, 0)) >= condition.amount
+		Kind.ZONES_COMPLETED:
+			return state.zones_completed >= condition.amount
+		Kind.POSTGAME:
+			return state.postgame
 		Kind.ALL_OF:
 			for sub: Condition in condition.sub_conditions:
 				if not met(sub, state):
@@ -150,6 +166,10 @@ static func teaser(condition: Condition) -> String:
 			return "Complete %s to unlock." % condition.key
 		Kind.COUNTER:
 			return "Keep going (%d needed)." % condition.amount
+		Kind.ZONES_COMPLETED:
+			return "Free %d zone%s to unlock." % [condition.amount, "" if condition.amount == 1 else "s"]
+		Kind.POSTGAME:
+			return "Unlocks after the final victory."
 		Kind.ALL_OF, Kind.ANY_OF:
 			return "Locked."
 	return "Locked."

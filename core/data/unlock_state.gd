@@ -17,3 +17,7 @@ var player_level: int = 0
 var completed_quests: Array[String] = []
 ## Named progress counters (Session.counters), for Condition.COUNTER.
 var counters: Dictionary = {}
+## How many of the four Path zones are freed (derived from `flags`).
+var zones_completed: int = 0
+## The postgame is unlocked (Primm defeated).
+var postgame: bool = false

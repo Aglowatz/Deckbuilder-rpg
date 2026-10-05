@@ -283,6 +283,14 @@ static func sfx_stream(sound: StringName) -> AudioStreamWAV:
 			buffer = _render_boing()
 		&"splash":
 			buffer = _render_splash()
+		&"pack_chime_uncommon":
+			buffer = _render_chime([79, 84] as Array[int], 0.09, 0.7, 0.0, 0.0)
+		&"pack_chime_epic":
+			buffer = _render_chime([67, 72, 76, 79] as Array[int], 0.08, 1.1, 0.7, 0.2)
+		&"pack_fanfare_legendary":
+			buffer = _render_chime([60, 64, 67, 72, 76, 79, 84, 88] as Array[int], 0.11, 2.4, 1.0, 0.55)
+		&"pack_whoosh":
+			buffer = _render_whoosh()
 		&"ding":
 			buffer = _render_ding()
 		_:
@@ -337,4 +345,58 @@ static func _render_ding() -> PackedFloat32Array:
 		var env: float = exp(-t * 4.2)
 		var tone: float = sin(TAU * 1568.0 * t) + 0.6 * sin(TAU * 2349.0 * t) + 0.35 * sin(TAU * 3136.0 * t) + 0.2 * sin(TAU * 4186.0 * t)
 		buffer[i] = tone * env * 0.22
+	return buffer
+
+
+## Pack opening: a bell arpeggio (`notes` are MIDI numbers, one every `spacing` seconds, each ringing `ring` seconds) with
+## optional low "boom" (`boom`: a falling sine plus a noise thump) and a rising noise swell (`swell`) under it.
+static func _render_chime(notes: Array[int], spacing: float, ring: float, boom: float, swell: float) -> PackedFloat32Array:
+	var length: int = int((spacing * float(notes.size()) + ring) * float(RATE))
+	var buffer: PackedFloat32Array = PackedFloat32Array()
+	buffer.resize(length)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 4242
+	for index: int in range(notes.size()):
+		var start: int = int(spacing * float(index) * float(RATE))
+		var freq: float = midi_to_hz(float(notes[index]))
+		var count: int = int(ring * float(RATE))
+		for i: int in range(count):
+			if start + i >= length:
+				break
+			var t: float = float(i) / float(RATE)
+			var env: float = exp(-t * (3.2 if boom > 0.5 else 4.6)) * minf(t * 400.0, 1.0)
+			var tone: float = sin(TAU * freq * t) + 0.45 * sin(TAU * freq * 2.01 * t) + 0.22 * sin(TAU * freq * 3.02 * t) + 0.1 * sin(TAU * freq * 5.1 * t)
+			buffer[start + i] += tone * env * 0.16
+	if boom > 0.0:
+		var boom_len: int = mini(int(0.7 * float(RATE)), length)
+		var phase: float = 0.0
+		var low: float = 0.0
+		for i: int in range(boom_len):
+			var t: float = float(i) / float(RATE)
+			phase += TAU * (46.0 + 90.0 * exp(-t * 9.0)) / float(RATE)
+			low += 0.12 * (rng.randf_range(-1.0, 1.0) - low)
+			buffer[i] += (sin(phase) * 0.9 + low * 0.5) * exp(-t * 6.0) * boom * 0.55
+	if swell > 0.0:
+		var swell_len: int = mini(int(spacing * float(notes.size()) * float(RATE)), length)
+		var smooth: float = 0.0
+		for i: int in range(swell_len):
+			var progress: float = float(i) / float(maxi(swell_len, 1))
+			smooth += 0.25 * (rng.randf_range(-1.0, 1.0) - smooth)
+			buffer[i] += smooth * progress * progress * swell * 0.7
+	return buffer
+
+
+## A short airy whoosh: noise swept from low to high with a quick fade (the pack bursting open).
+static func _render_whoosh() -> PackedFloat32Array:
+	var length: int = int(0.5 * float(RATE))
+	var buffer: PackedFloat32Array = PackedFloat32Array()
+	buffer.resize(length)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 99
+	var smooth: float = 0.0
+	for i: int in range(length):
+		var t: float = float(i) / float(RATE)
+		var progress: float = t / 0.5
+		smooth += (0.05 + 0.5 * progress) * (rng.randf_range(-1.0, 1.0) - smooth)
+		buffer[i] = smooth * sin(progress * PI) * 0.8
 	return buffer

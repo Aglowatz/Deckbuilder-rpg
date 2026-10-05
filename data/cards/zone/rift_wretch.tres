@@ -14,3 +14,4 @@ keywords = Array[int]([4])
 rules_text = "Trample"
 rarity = 1
 flavor_text = "A person-shaped tear in reality. It still remembers its name. It will not say it."
+not_in_packs = true

@@ -22,3 +22,4 @@ rules_text = "Guard, vigilance. When this enters, your creatures get +1/+1 perma
 effects = Array[ExtResource("1_aaacl")]([SubResource("Resource_d8qb5")])
 rarity = 2
 flavor_text = "Has measured eleven thousand visitors. Approved four."
+not_in_packs = true

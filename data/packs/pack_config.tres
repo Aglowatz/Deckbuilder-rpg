@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="PackConfig" format=3]
+
+[ext_resource type="Script" path="res://core/data/pack_config.gd" id="1_uyvqt"]
+
+[resource]
+script = ExtResource("1_uyvqt")

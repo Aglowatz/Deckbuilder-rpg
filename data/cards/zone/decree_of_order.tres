@@ -21,3 +21,4 @@ rules_text = "Your creatures get +2/+0 until end of turn."
 effects = Array[ExtResource("1_2y37x")]([SubResource("Resource_00vay")])
 rarity = 1
 flavor_text = "For their own good. Effective immediately. Retroactively."
+not_in_packs = true

@@ -870,6 +870,7 @@ func _show_level_up(gained: Array[LevelData]) -> void:
 func _use_dev_shrine() -> void:
 	if not DevTools.shrine_enabled():
 		return
+	Session.grant_dev_packs(1)
 	var gained: Array[LevelData] = Session.grant_dev_level()
 	if gained.is_empty():
 		hud.toast("Already at max level (%d)." % ProgressionTable.MAX_LEVEL, UIStyle.MUTED)

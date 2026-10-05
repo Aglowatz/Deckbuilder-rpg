@@ -13,3 +13,4 @@ toughness = 4
 keywords = Array[int]([7])
 rules_text = "Guard"
 flavor_text = "Halt. State your height."
+not_in_packs = true

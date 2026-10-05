@@ -28,3 +28,4 @@ rules_text = "Vigilance, trample. When this enters, your creatures get +1/+1 per
 effects = Array[ExtResource("1_78nlq")]([SubResource("Resource_bvspd"), SubResource("Resource_hh8q8")])
 rarity = 3
 flavor_text = "Unique reward for toppling Primm. Four ways of doing things, side by side. It is better, and it is messier, and that is the point."
+not_in_packs = true

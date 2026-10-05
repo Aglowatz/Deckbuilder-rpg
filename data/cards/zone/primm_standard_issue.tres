@@ -14,3 +14,4 @@ keywords = Array[int]([8])
 rules_text = "Vigilance"
 rarity = 1
 flavor_text = "One size fits all. It does not fit anyone."
+not_in_packs = true

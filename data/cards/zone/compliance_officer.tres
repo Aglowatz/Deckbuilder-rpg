@@ -11,3 +11,4 @@ generic_cost = 2
 power = 2
 toughness = 3
 flavor_text = "This is a courtesy citation. It is also a warning. It is also your fifth."
+not_in_packs = true

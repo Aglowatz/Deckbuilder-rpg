@@ -67,6 +67,7 @@ static func graduated(content: ContentSet, own_colors: Array[Affinity.Type], gat
 			continue
 		var spend_threshold: int = [80, 180, 320, 500][int(card.rarity)]
 		var level_threshold: int = [3, 9, 15, 21][int(card.rarity)]
-		var progress: Condition = Condition.any_of([Condition.gold_spent(spend_threshold), Condition.player_level(level_threshold)] as Array[Condition])
+		# The expanded selection (General Pack tier 2 unlock: a set level or two zones freed) opens every card.
+		var progress: Condition = Condition.any_of([Condition.gold_spent(spend_threshold), Condition.player_level(level_threshold), PackShop.tier2_condition()] as Array[Condition])
 		data.add(card.id, Condition.all_of([gate, progress] as Array[Condition]))
 	return data

@@ -30,3 +30,4 @@ rules_text = "Guard. When this enters, your creatures get +1/+1 permanently and 
 effects = Array[ExtResource("1_a6w0l")]([SubResource("Resource_imxuy"), SubResource("Resource_3bknj")])
 rarity = 3
 flavor_text = "Unique reward of the Walk-In Freezer. Seconds? Thirds? It is the Endless Buffet."
+not_in_packs = true

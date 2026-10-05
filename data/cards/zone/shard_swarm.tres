@@ -12,3 +12,4 @@ power = 2
 keywords = Array[int]([0, 2])
 rules_text = "Flying, haste"
 flavor_text = "Glass-bright, hungry, and very sorry about it."
+not_in_packs = true

@@ -32,6 +32,8 @@ static func build() -> ContentSet:
 	content.cards = build_cards(content.tokens)
 	content.zone_cards = build_zone_cards(content.tokens)
 	content.multipath_cards = MultipathContent.build(content.tokens)
+	PackRules.apply_flags(content.cards)
+	PackRules.apply_flags(content.zone_cards)
 	content.zone_equipment = ProgressionContent.zone_equipment()
 	content.decks = build_decks(content)
 	content.challenges = ChallengeExamples.all(reward_pool(content.cards))
@@ -213,6 +215,7 @@ static func build_zone_cards(tokens: Dictionary) -> Dictionary:
 	HeapContent.add_cards(cards)
 	DungeonContent.add_cards(cards)
 	CapitalContent.add_cards(cards)
+	PackContent.add_cards(cards)
 	return cards
 
 

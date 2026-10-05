@@ -24,3 +24,4 @@ rules_text = "Haste. When this enters, your creatures get +1/+0 until end of tur
 effects = Array[ExtResource("1_daqye")]([SubResource("Resource_ghylo")])
 rarity = 2
 flavor_text = "They ran for ten years. Now they are running somewhere on purpose."
+not_in_packs = true

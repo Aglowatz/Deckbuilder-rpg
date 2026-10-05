@@ -30,3 +30,4 @@ rules_text = "Trample. When this enters, your creatures get +1/+1 permanently an
 effects = Array[ExtResource("1_bubsx")]([SubResource("Resource_2dqae"), SubResource("Resource_eggyc")])
 rarity = 3
 flavor_text = "Unique reward of the Landfill Depths. Everything thrown away ends up in her care."
+not_in_packs = true

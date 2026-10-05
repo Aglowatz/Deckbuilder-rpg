@@ -24,3 +24,4 @@ rules_text = "Vigilance. When this enters, your creatures get +1/+1 permanently.
 effects = Array[ExtResource("1_vdurq")]([SubResource("Resource_nkdo8")])
 rarity = 3
 flavor_text = "Unique reward of the House of Gains. True strength comes from the heart and the mind. The legs help."
+not_in_packs = true

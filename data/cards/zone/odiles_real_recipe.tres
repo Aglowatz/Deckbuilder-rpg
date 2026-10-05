@@ -27,3 +27,4 @@ rules_text = "Gain 6 life. Draw a card."
 effects = Array[ExtResource("1_bs88e")]([SubResource("Resource_w2326"), SubResource("Resource_d1ict")])
 rarity = 2
 flavor_text = "Salt. Actual salt. A pinch of defiance."
+not_in_packs = true

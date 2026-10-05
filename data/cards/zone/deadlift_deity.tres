@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_3a1y5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_i4675"]
+
+[resource]
+script = ExtResource("2_i4675")
+id = "deadlift_deity"
+display_name = "The Deadlift Deity"
+color = 1
+generic_cost = 4
+colored_pips = Array[int]([1, 1])
+power = 7
+toughness = 5
+keywords = Array[int]([4, 2])
+rules_text = "Haste, trample"
+rarity = 3
+flavor_text = "Lifts the bar. Lifts the room. Lifts the mood, mostly."

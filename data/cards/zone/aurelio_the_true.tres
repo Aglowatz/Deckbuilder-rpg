@@ -29,3 +29,4 @@ rules_text = "Guard. When this enters, gain 6 life and draw a card."
 effects = Array[ExtResource("1_txnek")]([SubResource("Resource_pus1d"), SubResource("Resource_txlir")])
 rarity = 3
 flavor_text = "Unique reward of the Test Kitchen. The real thing. You can tell by the chin."
+not_in_packs = true

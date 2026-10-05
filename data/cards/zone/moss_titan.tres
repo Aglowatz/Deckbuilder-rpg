@@ -23,3 +23,4 @@ rules_text = "Guard. When this enters, gain 3 life."
 effects = Array[ExtResource("1_uxnki")]([SubResource("Resource_vhb5a")])
 rarity = 2
 flavor_text = "A junk mountain that got up and decided to garden."
+not_in_packs = true

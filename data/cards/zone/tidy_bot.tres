@@ -13,3 +13,4 @@ toughness = 2
 keywords = Array[int]([2])
 rules_text = "Haste"
 flavor_text = "Scrubs the streets. Scrubs the people. Scrubs the memory of the people."
+not_in_packs = true

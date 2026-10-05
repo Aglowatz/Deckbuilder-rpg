@@ -23,3 +23,4 @@ rules_text = "Guard. When this enters, gain 3 life."
 effects = Array[ExtResource("1_tiknc")]([SubResource("Resource_rjeo0")])
 rarity = 2
 flavor_text = "Banished for being untidy. Returned for being alive."
+not_in_packs = true
