@@ -36,3 +36,4 @@ reward_gold = 80
 reward_xp = 70
 reward_card_ids = Array[String](["death_benefits"])
 reward_equipment_ids = Array[String](["compliance_clipboard"])
+reward_pack_ids = Array[String](["path_necrocrat"])

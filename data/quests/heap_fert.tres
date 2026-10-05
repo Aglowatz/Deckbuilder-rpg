@@ -27,3 +27,4 @@ objectives = Array[ExtResource("1_ymswb")]([SubResource("Resource_ocdwe")])
 reward_gold = 70
 reward_xp = 60
 reward_card_ids = Array[String](["harvest_moon"])
+reward_pack_ids = Array[String](["path_refusemancer"])

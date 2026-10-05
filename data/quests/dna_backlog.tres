@@ -27,3 +27,4 @@ objectives = Array[ExtResource("1_5vsas")]([SubResource("Resource_fq71y")])
 reward_gold = 60
 reward_xp = 60
 reward_item_ids = Array[String](["healing_draught"])
+reward_pack_ids = Array[String](["path_necrocrat"])

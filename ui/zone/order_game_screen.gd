@@ -220,6 +220,8 @@ func _finish() -> void:
 		parts.append("+%d gold" % int(reward["gold"]))
 	if int(reward["xp"]) > 0:
 		parts.append("+%d XP" % int(reward["xp"]))
+	if not PackRewards.minigame_text(reward).is_empty():
+		parts.append(PackRewards.minigame_text(reward))
 	if not str(reward["item"]).is_empty() and Session.content.item(str(reward["item"])) != null:
 		parts.append(Session.content.item(str(reward["item"])).display_name)
 	_result_box.add_child(UIKit.label("   ".join(parts), &"", 30, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER))

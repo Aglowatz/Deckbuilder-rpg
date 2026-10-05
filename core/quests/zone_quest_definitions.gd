@@ -9,7 +9,25 @@ const ONBOARDING: String = "dna_onboarding"
 const AUDIT: String = "dna_audit"
 
 
+## Brief 11: which quests also pay a Path Pack (quest id -> pack id): two per zone, plus a minigame prize each (`ZoneDef.minigame_pack`).
+## All numbers/ids are placeholders: edit here (then regenerate the quest files) or in `data/quests/*.tres`.
+const PACK_REWARDS: Dictionary = {
+	"dna_backlog": "path_necrocrat", "dna_audit": "path_necrocrat",
+	"gain_spot_me": "path_beefcake", "gain_lanes": "path_beefcake",
+	"buf_pantry": "path_gourmand", "buf_mend": "path_gourmand",
+	"heap_fert": "path_refusemancer", "heap_dam": "path_refusemancer",
+}
+
+
 static func build_all() -> Array[QuestData]:
+	var quests: Array[QuestData] = _build_unpacked()
+	for quest: QuestData in quests:
+		if PACK_REWARDS.has(quest.id):
+			quest.reward_pack_ids = [str(PACK_REWARDS[quest.id])] as Array[String]
+	return quests
+
+
+static func _build_unpacked() -> Array[QuestData]:
 	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend(), _heap_herd(), _heap_fert(), _heap_dam()] as Array[QuestData] + capital_quests()
 
 

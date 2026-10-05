@@ -1038,6 +1038,8 @@ func complete_quest(quest_id: String) -> bool:
 			cards.append(card)
 	if not cards.is_empty():
 		add_cards(cards)
+	for pack_id: String in quest.reward_pack_ids:
+		add_pack(pack_id)
 	for equipment_id: String in quest.reward_equipment_ids:
 		grant_equipment(content.equipment_piece(equipment_id))
 	for flag_name: String in quest.reward_unlock_flags:
@@ -1111,6 +1113,8 @@ var zone_run: ZoneRun
 var pending_zone_result: Dictionary = {}
 ## Every paperwork fee ever charged ("log it") - newest last, saved with the campaign.
 var zone_log: Array[String] = []
+## Pack rewards from beating Primm, announced once when the hero is back in the Capital after the ending.
+var pending_ending_packs: Array[String] = []
 
 
 func in_zone() -> bool:
@@ -1437,6 +1441,8 @@ func resolve_main_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	if cleared and dungeon != null:
 		if not cleared_dungeons.has(dungeon.dungeon_name):
 			cleared_dungeons.append(dungeon.dungeon_name)
+		var first_clear: bool = not is_zone_completed(zone_id)
+		_grant_dungeon_packs(zone_id, first_clear, result)
 		if not is_zone_completed(zone_id):
 			var arena_before: bool = arena_unlocked()
 			var alchemist_before: bool = alchemist_unlocked()
@@ -1471,6 +1477,39 @@ func resolve_main_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	save_game()
 	return result
 
+
+
+## Brief 11: every clear of a zone's main dungeon awards that Path's Path Pack; the FIRST clear also grants a Gilded Pack, bonus gold and XP
+## (`PackConfig`) and unlocks the Path Pack at the Pack Vendor (the zone-completed flag it checks is set by the caller). Primm's fall
+## (the Capital) awards Prismatic Packs the first time. Fills `result` ("packs", "bonus_packs", "bonus_gold", "bonus_xp", "vendor_unlock").
+func _grant_dungeon_packs(zone_id: String, first_clear: bool, result: Dictionary) -> void:
+	var config: PackConfig = PackCatalog.config()
+	var path: Affinity.Type = PackRules.path_for_zone(zone_id)
+	if path == Affinity.Type.NEUTRAL:
+		if zone_id == CapitalZone.ID and first_clear and config.primm_prismatic_packs > 0:
+			add_pack(PackRules.PRISMATIC_ID, config.primm_prismatic_packs)
+			result["packs"] = [PackRewards.entry(PackRules.PRISMATIC_ID, config.primm_prismatic_packs)]
+			pending_ending_packs = [PackRewards.labels(result["packs"] as Array)]
+		return
+	var path_pack: PackData = PackCatalog.path_pack(path)
+	if path_pack == null:
+		return
+	add_pack(path_pack.id, config.dungeon_pack_count)
+	result["packs"] = [PackRewards.entry(path_pack.id, config.dungeon_pack_count)]
+	if not first_clear:
+		return
+	var bonus: Array = []
+	if config.first_clear_gilded_packs > 0 and PackCatalog.gilded_pack(path) != null:
+		add_pack(PackRules.gilded_pack_id(path), config.first_clear_gilded_packs)
+		bonus.append(PackRewards.entry(PackRules.gilded_pack_id(path), config.first_clear_gilded_packs))
+	result["bonus_packs"] = bonus
+	if config.first_clear_bonus_gold > 0:
+		add_gold(config.first_clear_bonus_gold)
+		result["bonus_gold"] = config.first_clear_bonus_gold
+	if config.first_clear_bonus_xp > 0:
+		pending_level_ups.append_array(add_xp(config.first_clear_bonus_xp))
+		result["bonus_xp"] = config.first_clear_bonus_xp
+	result["vendor_unlock"] = path_pack.display_name
 
 const ENDING_SCENE: String = "res://scenes/ending.tscn"
 

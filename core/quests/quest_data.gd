@@ -22,6 +22,8 @@ extends Resource
 @export var reward_item_ids: Array[String] = []
 @export var reward_card_ids: Array[String] = []
 @export var reward_equipment_ids: Array[String] = []
+## Brief 11: unopened packs (pack ids, `data/packs`) paid into the inventory.
+@export var reward_pack_ids: Array[String] = []
 ## Flags set on completion (the "unlocks" reward): vendors/gates/dialogue read them as Conditions.
 @export var reward_unlock_flags: Array[String] = []
 
@@ -38,6 +40,9 @@ func reward_summary() -> String:
 		parts.append(card_id.capitalize())
 	for equipment_id: String in reward_equipment_ids:
 		parts.append(equipment_id.capitalize())
+	for pack_id: String in reward_pack_ids:
+		var pack: PackData = PackCatalog.find(pack_id)
+		parts.append(pack.display_name if pack != null else pack_id)
 	for flag_name: String in reward_unlock_flags:
 		if flag_name.begins_with("capital_insight_"):
 			parts.append("Insight into %s" % Villain.display_name())

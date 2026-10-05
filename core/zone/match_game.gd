@@ -122,6 +122,7 @@ static func apply_result(stars_earned: int) -> Dictionary:
 	else:
 		result["gold"] = int(REPEAT_REWARD["gold"])
 		result["xp"] = int(REPEAT_REWARD["xp"])
+	PackRewards.grant_minigame_prize(result)
 	if int(result["gold"]) > 0:
 		Session.add_gold(int(result["gold"]))
 	if int(result["xp"]) > 0:

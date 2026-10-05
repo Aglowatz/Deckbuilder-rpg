@@ -28,7 +28,7 @@ func _ready() -> void:
 	pivot_offset = SIZE * 0.5
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_body_clip = _make_clip(Rect2(0, SEAM, SIZE.x, SIZE.y - SEAM))
-	_top_clip = _make_clip(Rect2(0, 0, SIZE.x, SEAM))
+	_top_clip = _make_clip(Rect2(0, 0, SIZE.x, SEAM + 1.5))
 	_add_face(_body_clip, Vector2(0, -SEAM))
 	_add_face(_top_clip, Vector2.ZERO)
 	_top_clip.pivot_offset = Vector2(SIZE.x * 0.5, SEAM)

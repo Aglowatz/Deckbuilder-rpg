@@ -313,9 +313,12 @@ func test_beating_primm_unlocks_the_postgame_and_sets_the_ending() -> void:
 	assert_true(Session.flag(&"primm_defeated"))
 	assert_true(Session.is_zone_completed(CapitalZone.ID), "the Capital is freed")
 	assert_gt(Session.owned_count("the_paths_united"), 0, "the unique reward card")
+	assert_eq(Session.pack_count(PackRules.PRISMATIC_ID), PackCatalog.config().primm_prismatic_packs, "Primm's fall pays a Prismatic Pack")
+	assert_false(Session.pending_ending_packs.is_empty(), "announced after the ending")
 	_start_castle_run()
 	var again: Dictionary = Session.resolve_main_dungeon(true, false)
 	assert_ne(again.get("kind"), "primm_defeated", "only the first time")
+	assert_eq(Session.pack_count(PackRules.PRISMATIC_ID), PackCatalog.config().primm_prismatic_packs, "only the first time")
 
 
 func test_losing_a_phase_sends_you_home_and_resets_the_boss() -> void:

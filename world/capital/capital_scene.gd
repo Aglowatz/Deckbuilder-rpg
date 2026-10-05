@@ -516,6 +516,9 @@ func _apply_pending_result() -> void:
 		_camera.position = player.position + camera_offset
 		_say("Mabbit Quill", story.get_lines("ending.return"))
 		hud.toast(story.text("fx.ending_return"), UIStyle.GOOD)
+		for pack_text: String in Session.pending_ending_packs:
+			hud.toast(StoryText.shared().text("pack.reward.primm") % pack_text, UIStyle.GOLD)
+		Session.pending_ending_packs = []
 		return
 	if bool(result.get("gate_opened", false)) and not bool(result.get("woke_at_hub", false)):
 		_say("Gate Captain", story.get_lines("npc.gate_captain.defeated"))

@@ -25,3 +25,4 @@ objectives = Array[ExtResource("1_y8gla")]([SubResource("Resource_ecyfg")])
 reward_gold = 80
 reward_xp = 70
 reward_equipment_ids = Array[String](["compost_boots"])
+reward_pack_ids = Array[String](["path_refusemancer"])

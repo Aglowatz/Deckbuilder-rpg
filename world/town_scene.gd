@@ -27,7 +27,7 @@ const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
 const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
-	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor",
+	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor",
 	"npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat",
 ]
 ## How close (in screen pixels) a click has to land to a spot's marker to count as
@@ -165,6 +165,8 @@ func _build_actors() -> void:
 	# New brief, Part F: the item vendor.
 	_add_npc("item_vendor", "Mage", town.anchors["npc_item_vendor"] as Vector3, -110.0)
 	_add_npc("equipment_vendor", "Knight", town.anchors["npc_equipment_vendor"] as Vector3, -70.0)
+	# Brief 11: Foil Fenwick, the Pack Vendor.
+	_add_npc("pack_vendor", "Rogue", town.anchors["npc_pack_vendor"] as Vector3, 25.0, Color(1.0, 0.9, 0.6))
 	if Session.alchemist_unlocked():
 		_add_npc("alchemist", "Mage", town.anchors["npc_alchemist"] as Vector3, -80.0, Color(0.7, 1.0, 0.7))
 	if Session.arena_unlocked():
@@ -312,6 +314,7 @@ func _build_spots() -> void:
 	_add_spot("item_vendor", "Wick's Supplies", town.anchors["npc_item_vendor"] as Vector3, 1.5)
 	# Fourth brief, Part C: the equipment vendor.
 	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, 1.5)
+	_add_spot("pack_vendor", StoryText.shared().text("town.pack_vendor.name"), town.anchors["npc_pack_vendor"] as Vector3, 1.5)
 	# Brief 9, Part F: the Alchemist (locked until two zones are free; visible and closed before that).
 	_add_spot("alchemist", StoryText.shared().text("town.alchemist.name"), town.anchors["alchemist"] as Vector3, 1.7)
 	# Brief 9, Part G: the Grand Clashatorium (chained until the first zone is free).
@@ -630,6 +633,8 @@ func _interact(spot: Spot) -> void:
 			_talk_item_vendor()
 		"equipment_vendor":
 			_talk_equipment_vendor()
+		"pack_vendor":
+			_talk_pack_vendor()
 		"graveyard_cairn":
 			_talk_graveyard()
 		"arena":
@@ -1044,6 +1049,8 @@ func _open_vendor() -> void:
 	if not Session.has_profile():
 		return
 	var screen: VendorScreen = VendorScreen.new()
+	screen.pack_vendor_id = PackData.VENDOR_CARD
+	screen.pack_story_prefix = "pack.card_vendor"
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 	EventBus.tutorial_event.emit(&"vendor_opened")
@@ -1139,6 +1146,30 @@ func _open_equipment_vendor() -> void:
 	screen.closed.connect(_close_overlay)
 
 
+## Brief 11: Foil Fenwick, the Pack Vendor. Sells each Path's pack once that Path's dungeon was cleared (locked ones are teasers), and the
+## Prismatic Pack from the back room after the postgame.
+func _talk_pack_vendor() -> void:
+	_face_npc("pack_vendor")
+	var story: StoryText = StoryText.shared()
+	var lines: Array[String] = story.get_lines("town.pack_vendor.return")
+	if not Session.flag(&"pack_vendor_seen"):
+		Session.set_flag(&"pack_vendor_seen")
+		lines = story.get_lines("town.pack_vendor.first")
+	if Session.profile != null and Session.profile.postgame_unlocked and not Session.flag(&"pack_vendor_prismatic_seen"):
+		Session.set_flag(&"pack_vendor_prismatic_seen")
+		lines.append_array(story.get_lines("town.pack_vendor.prismatic_reveal"))
+	dialogue.start(story.text("town.pack_vendor.name"), lines)
+	dialogue.finished.connect(_open_pack_vendor, CONNECT_ONE_SHOT)
+
+
+func _open_pack_vendor() -> void:
+	if not Session.has_profile():
+		return
+	var screen: PackShopScreen = PackShopScreen.make(PackData.VENDOR_PACK, "town.pack_vendor")
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
 ## Part G: a placeholder zone portal. Loads the reusable "coming soon" template
 ## (ZonePlaceholderScene) - no real zone exists yet for any of the 5. New brief, Part C/E: a
 ## locked element entrance shows a barrier message instead of loading the zone.
@@ -1185,7 +1216,7 @@ func _use_gate() -> void:
 ## lever, vault, secret dealer and dev shrine are deliberately NOT listed - secrets never show.
 const POI_KINDS: Dictionary = {
 	"well": MapPoi.Kind.HEAL, "vendor": MapPoi.Kind.VENDOR, "item_vendor": MapPoi.Kind.VENDOR,
-	"equipment_vendor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.INTERACTABLE, "codex": MapPoi.Kind.INTERACTABLE,
+	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.INTERACTABLE, "codex": MapPoi.Kind.INTERACTABLE,
 	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON,
 	"graveyard_cairn": MapPoi.Kind.CHALLENGE,
 }
@@ -1300,6 +1331,9 @@ func _announce_new_unlocks() -> void:
 	if Session.alchemist_unlocked() and not Session.flag(&"alchemist_announced"):
 		Session.set_flag(&"alchemist_announced")
 		notices.append(story.text("town.alchemist.announce"))
+	if PackShop.tier2_unlocked(Session.unlock_state()) and not Session.flag(&"general_tier2_announced"):
+		Session.set_flag(&"general_tier2_announced")
+		notices.append(story.text("pack.card_vendor.tier2"))
 	for notice: String in notices:
 		hud.toast(notice, Color("ffd98a"))
 
@@ -1339,6 +1373,8 @@ func _screenshot_open(what: String) -> void:
 			_open_item_vendor()
 		"equipment_vendor":
 			_open_equipment_vendor()
+		"pack_vendor":
+			_open_pack_vendor()
 		"dialogue":
 			_talk_npc("elder", "Elder Maren", _elder_lines())
 		"gate":

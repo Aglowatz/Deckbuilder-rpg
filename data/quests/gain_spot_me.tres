@@ -35,3 +35,4 @@ objectives = Array[ExtResource("1_qy6rh")]([SubResource("Resource_nog1j"), SubRe
 reward_gold = 70
 reward_xp = 60
 reward_card_ids = Array[String](["pre_workout"])
+reward_pack_ids = Array[String](["path_beefcake"])

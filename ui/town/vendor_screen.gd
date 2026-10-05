@@ -8,6 +8,9 @@ const CARD_SCALE: float = 0.68
 const COLUMNS: int = 8
 
 var stock: VendorData
+## When set (`PackData.VENDOR_*`), the header gets a "Card Packs" button opening that vendor's pack stall (`PackShopScreen`).
+var pack_vendor_id: String = ""
+var pack_story_prefix: String = ""
 var _filter: CardFilterBar
 var _grid: GridContainer
 var _gold_label: Label
@@ -28,6 +31,11 @@ func _init() -> void:
 func _build() -> void:
 	if stock == null:
 		stock = VendorData.graduated(Session.content, Session.deck.colors(), Condition.dungeon_cleared(TrialOfTheHollow.DUNGEON_NAME))
+	if not pack_vendor_id.is_empty():
+		var packs_button: FancyButton = FancyButton.make("Card Packs", &"PrimaryButton", Vector2(190, 52))
+		packs_button.name = "CardPacksButton"
+		packs_button.pressed.connect(_open_packs)
+		header_extra.add_child(packs_button)
 	var coin: TextureRect = CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(38, 38))
 	header_extra.add_child(coin)
 	_gold_label = UIKit.label("", &"", 34, UIStyle.GOLD)
@@ -184,3 +192,13 @@ func _say(text: String, color: Color = UIStyle.PARCHMENT) -> void:
 	var tween: Tween = create_tween()
 	tween.tween_interval(1.8)
 	tween.tween_property(_toast, "modulate:a", 0.0, 0.4)
+
+
+func _open_packs() -> void:
+	Audio.sfx(&"ui_open")
+	var shop: PackShopScreen = PackShopScreen.make(pack_vendor_id, pack_story_prefix)
+	shop.z_index = 100
+	add_child(shop)
+	shop.closed.connect(func() -> void:
+		shop.queue_free()
+		_refresh())

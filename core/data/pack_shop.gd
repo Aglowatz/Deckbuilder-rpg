@@ -50,3 +50,21 @@ static func is_visible(pack: PackData, state: UnlockState) -> bool:
 ## What a pack costs after the player's vendor discount.
 static func price_for(pack: PackData, profile: PlayerProfile) -> int:
 	return profile.discounted_price(pack.price) if profile != null else pack.price
+
+
+## A one-line player-facing summary of what a pack holds (built from its data, so it follows any tuning).
+static func describe(pack: PackData) -> String:
+	var parts: PackedStringArray = []
+	match pack.kind:
+		PackData.Kind.PATH:
+			parts.append("%d cards: %s cards and neutral cards." % [pack.card_count, Affinity.display_name(pack.path)])
+		PackData.Kind.GILDED:
+			parts.append("%d cards: %s cards and neutral cards. An Epic or Legendary is guaranteed." % [pack.card_count, Affinity.display_name(pack.path)])
+		PackData.Kind.PRISMATIC:
+			parts.append("%d cards from any Path, multi-Path cards included. One multi-Path card is guaranteed." % pack.card_count)
+		PackData.Kind.GENERAL:
+			if pack.max_rarity < CardEnums.Rarity.EPIC:
+				parts.append("%d cards from the stall's selection: Commons and Uncommons." % pack.card_count)
+			else:
+				parts.append("%d cards from the stall's whole selection, up to Legendary." % pack.card_count)
+	return " ".join(parts)

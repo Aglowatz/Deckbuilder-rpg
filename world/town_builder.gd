@@ -238,6 +238,11 @@ func _build_props() -> void:
 	_building("blacksmith", equipment_vendor_center, 20.0, 1.25, 0.9)
 	anchors["equipment_vendor"] = equipment_vendor_center + Vector3(0, 0, 1.05)
 	anchors["npc_equipment_vendor"] = equipment_vendor_center + Vector3(1.0, 0, 0.6)
+	# Brief 11: Foil Fenwick's Sealed Goods (the Pack Vendor), a market stall south-west of where the hero arrives.
+	var pack_vendor_center: Vector3 = cell_center(3, 8)
+	_building("market", pack_vendor_center, 15.0, 1.1, 0.9)
+	anchors["pack_vendor"] = pack_vendor_center + Vector3(0, 0, 1.05)
+	anchors["npc_pack_vendor"] = pack_vendor_center + Vector3(1.0, 0, 0.7)
 	# Brief 9, Part F: Crucible & Co., the Alchemist's shop, on the Beefcake Flats' north edge, facing the open
 	# east-west corridor. It is always there (closed until two zones are free): the scene decorates it.
 	var alchemist_center: Vector3 = cell_center(1, 10)

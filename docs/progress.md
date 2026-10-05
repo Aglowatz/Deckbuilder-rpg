@@ -2276,3 +2276,17 @@ credited packs; five extra game-icons.net icons for the pack art (CREDITS.md). D
 Tests: `tests/core/data/test_packs.gd` (25 tests: data, pools, determinism, weights, guarantees incl. both at once, no flagged cards, inventory, essence
 summary, NEW flags, buying, save round trip, shop stock rules, tier 2). Full suite: 817 passing. Screenshots: `_screenshots/brief11/` (pack_idle, pack_reveal1,
 pack_summary, pack_legendary).
+
+## Part B: the pack types - done
+
+Path Packs (4), Gilded Packs (4, guaranteed Epic or Legendary), the Prismatic Pack (any Path incl. all 24 multi-Path cards, one multi-Path card guaranteed, 4 cards) and the two General
+tiers (the card vendor's selection: tier 1 Commons/Uncommons, tier 2 everything) are all data in `data/packs/`. Tier 2 (and the vendor's expanded selection) unlocks at **level 10 or
+2 zones freed**, whichever first (`PackConfig`, `PackShop.tier2_unlocked`; Sable announces it in town). New Condition kinds `ZONES_COMPLETED` and `POSTGAME`. Tests in `test_packs.gd`.
+
+## Part C: where packs come from - done
+
+Every clear of a zone's main dungeon pays its Path Pack; the first clear adds a Gilded Pack, bonus gold/XP and unlocks the pack at the **Pack Vendor** (Foil Fenwick, a new town NPC with a
+market stall, personality and humour in the story file; locked packs are teasers with hints). The card vendor sells General packs (a "Card Packs" button), the black market (Fig Sly) the
+Gilded packs (each after that zone's first clear), the Pack Vendor the Prismatic Pack after the postgame. Two quests per zone and the first win of each zone's minigame pay the Path Pack;
+Primm's fall pays a Prismatic Pack. Reward text appears in the zone-freed announcement, the repeat-clear toast, the quest-complete notice and quest log, and the minigame result lines.
+`PackShopScreen` has "Buy" and "Buy & open". Tests: `test_pack_sources.gd` (7), plus the Primm test. Decisions P11-P15 in `open_questions.md`.

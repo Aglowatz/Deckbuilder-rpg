@@ -771,6 +771,9 @@ func _open_vendor() -> void:
 	var screen: VendorScreen = VendorScreen.new()
 	screen.stock = data
 	screen.screen_title = def.vendor_title
+	if def.id == CapitalZone.ID:
+		screen.pack_vendor_id = PackData.VENDOR_BLACK_MARKET
+		screen.pack_story_prefix = "pack.black_market"
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 
@@ -955,7 +958,8 @@ func _apply_pending_result() -> void:
 		return
 	if str(result.get("kind", "")) == "main":
 		if bool(result.get("cleared", false)):
-			hud.toast("%s survived again. Life carries over." % ZoneDefs.get_def(def.id).full_name, UIStyle.GOOD)
+			var pack_lines: Array[String] = PackRewards.dungeon_lines(result, StoryText.shared())
+			hud.toast("%s survived again. %s" % [ZoneDefs.get_def(def.id).full_name, pack_lines[0] if not pack_lines.is_empty() else "Life carries over."], UIStyle.GOOD)
 		else:
 			hud.toast("You leave the dungeon with %d life." % Session.zone_run.life, Color("ffcf70"))
 		return
@@ -984,6 +988,7 @@ func _show_zone_freed(result: Dictionary) -> void:
 		lines.append(story_text.text("town.arena.unlock_line"))
 	if bool(result.get("alchemist_opened", false)):
 		lines.append(story_text.text("town.alchemist.unlock_line"))
+	lines.append_array(PackRewards.dungeon_lines(result, story_text))
 	var screen: AnnouncementScreen = AnnouncementScreen.make(story_text.text("zone.complete.%s.title" % def.id), story_text.text("zone.complete.%s.body" % def.id), lines)
 	_locked = true
 	_overlay_layer.add_child(screen)
