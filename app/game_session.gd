@@ -1193,6 +1193,15 @@ func zone_def() -> ZoneDef:
 	return ZoneDefs.current()
 
 
+## Brief 11: the central town is always a full heal. The town has no life of its own, so arriving ends any zone visit (the next visit starts at
+## full life) and tops up any run that is somehow still open. Called by the town scene whenever the hero is in town, however they got there
+## (walking out of a zone, the Rift Express, waking up after a loss).
+func arrive_in_town() -> void:
+	zone_run = null
+	if run != null:
+		run.life = run.max_life()
+
+
 ## Walking back out to town. Town is a full heal, so the visit simply ends.
 func leave_zone() -> void:
 	zone_run = null

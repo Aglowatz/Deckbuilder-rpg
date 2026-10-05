@@ -2290,3 +2290,10 @@ market stall, personality and humour in the story file; locked packs are teasers
 Gilded packs (each after that zone's first clear), the Pack Vendor the Prismatic Pack after the postgame. Two quests per zone and the first win of each zone's minigame pay the Path Pack;
 Primm's fall pays a Prismatic Pack. Reward text appears in the zone-freed announcement, the repeat-clear toast, the quest-complete notice and quest log, and the minigame result lines.
 `PackShopScreen` has "Buy" and "Buy & open". Tests: `test_pack_sources.gd` (7), plus the Primm test. Decisions P11-P15 in `open_questions.md`.
+
+## Part D: health and travel rules - done
+
+The town is a full heal (`Session.arrive_in_town`, called whenever the town scene loads: it ends the zone visit and tops up any lingering run); entering any zone from any other place
+(town, another zone, the Rift Express) already started a full-life visit and is now covered by tests for every zone pair; zone life rules inside a zone and dungeon life rules are unchanged.
+Portal Ripper rips in the Gainlands were already free (no gold or life cost anywhere in the travel code): nothing needed removing; the story/quest locks (the wheel run, "Spot Me!") are kept and a
+test guards that no rip gets a purchase condition. Docs: `docs/design/zones.md` (zone life rules), open questions P16-P17. Tests: `tests/core/zone/test_health_travel_rules.gd` (6).

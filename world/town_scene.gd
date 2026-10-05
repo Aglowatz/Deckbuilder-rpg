@@ -93,6 +93,7 @@ func _ready() -> void:
 				Session.profile.set_essence(path, 14 if path == Affinity.Type.A or path == Affinity.Type.D else 3)
 	if Session.deck == null:
 		Session.new_game()
+	Session.arrive_in_town()
 	_ensure_input_actions()
 	add_child(WorldLook.environment(&"day"))
 	add_child(WorldLook.sun(&"day"))

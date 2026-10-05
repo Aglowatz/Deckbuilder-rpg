@@ -23,6 +23,10 @@ Source of truth for zone rules. Code: `core/zone/`, `world/dna/`. Text: `core/da
 - At **0 life** you wake at the hub at full life and pay a **paperwork fee** (`ZoneRun.PAPERWORK_FEE` = 15 gold, never more than you have). Every fee is logged to `Session.zone_log` (saved) and shown on screen.
 - Defeated roaming enemies stay gone until the zone is re-entered.
 - The mini dungeon follows the same life (see Part E in progress.md).
+- **Brief 11 rules:** the central town (Concord Crossing) is a **full heal**: arriving there (`Session.arrive_in_town`, called by the town scene however the hero got there) ends any zone visit. Entering **any zone from anywhere**
+  (the town, another zone, the Rift Express) starts a new visit at full life (`Session.begin_zone_visit`). Inside a zone nothing else changes: the rules above (life persists, no healing after battles, healing spots, items,
+  0 life = the hub and the paperwork fee) apply, and dungeon life rules are unchanged. **Gainlands portal rips are free** and always were: they have no gold or life cost; only story/quest locks remain (the Delt Deck ripper needs the
+  Colossal Hamster Wheel run, the Calf Cove ripper needs "Spot Me!", the return rippers are always open). `tests/core/zone/test_health_travel_rules.gd`.
 
 ## The D.N.A. (Department of Necrotic Affairs)
 The Necrocrat zone (`ZonePortals` id `necrocrat`, town gate at the southwest corner). The Necrocrats run Afterlife Services and Labor.
