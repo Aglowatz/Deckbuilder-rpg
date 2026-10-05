@@ -18,6 +18,8 @@ class Spot:
 
 ## High-angle diorama framing (docs/art/style_guide.md, section 7).
 const CAMERA_OFFSET: Vector3 = Vector3(0.0, 11.0, 8.2)
+## Screenshots can override it (`--cam=x,y,z`).
+var camera_offset: Vector3 = CAMERA_OFFSET
 ## New brief, Part E: corrupted-NPC dialogue lines live here, not hardcoded in this script.
 const STORY_PATH: String = "res://data/story/intro_story.tres"
 ## Three placeholder secrets proving the Condition system (docs/design/open_questions.md D38):
@@ -61,6 +63,8 @@ var hud: TownHud
 var dialogue: DialogueBox
 var _camera: Camera3D
 var style_rig: StyleRig
+var square: TownSquare
+var npc_life: NpcLife
 var _overlay_layer: Control
 var _overlay: Control
 var _near: Spot
@@ -100,6 +104,8 @@ func _ready() -> void:
 	add_child(WorldLook.environment(&"day"))
 	add_child(WorldLook.sun(&"day"))
 	town.build(self)
+	square = TownSquare.build(self, town, Settings.graphics_quality)
+	AmbientBirds.spawn(self, TownSquare.CENTER, 4, Color("f4ecd8"))
 	_build_actors()
 	_build_spots()
 	_build_rift_station()
@@ -108,15 +114,27 @@ func _ready() -> void:
 	TownDressing.arena_gate(self, town.anchors, Session.arena_unlocked(), StoryText.shared())
 	_announce_new_unlocks.call_deferred()
 	_show_pending_arena_result.call_deferred()
+	if _screenshot_args.has("cam"):
+		var cam: PackedStringArray = str(_screenshot_args["cam"]).split(",")
+		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 	_build_camera()
-	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player)
+	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 34.0)
+	style_rig.register_lights(square.lights)
 	_build_ui()
+	if str(_screenshot_args.get("nohud", "false")) == "true":
+		for child: Node in get_children():
+			if child is CanvasLayer:
+				(child as CanvasLayer).visible = false
 	if _arrived_by_rift:
 		_show_rift_arrival.call_deferred()
 	_refresh_objective()
 	EventBus.tutorial_event.emit(&"town_entered")
 	# Part B: the two starter quests are given the first time the player is in town.
 	Session.offer_auto_quests()
+	if _screenshot_args.has("pos"):
+		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
+		player.position = Vector3(float(pos[0]), 0.0, float(pos[1]))
+		_camera.position = player.position + camera_offset
 	if _screenshot_args.has("at"):
 		_teleport(str(_screenshot_args["at"]))
 	if _screenshot_args.has("open"):
@@ -161,6 +179,9 @@ func _build_actors() -> void:
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(town, "Knight", spawn)
+	npc_life = NpcLife.new()
+	npc_life.target = player
+	add_child(npc_life)
 	_add_npc("vendor", "Rogue_Hooded", town.anchors["npc_market"] as Vector3, 200.0)
 	_add_npc("elder", "Mage", town.anchors["npc_well"] as Vector3, 250.0)
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
@@ -223,6 +244,8 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 		animation.play("Idle")
 		animation.seek(randf() * 1.5)
 	_npcs[id] = npc
+	if npc_life != null:
+		npc_life.register(npc, yaw)
 	town.obstacles.append(Vector3(position.x, position.z, 0.3))
 
 
@@ -415,7 +438,7 @@ func _build_camera() -> void:
 	_camera.fov = 38.0
 	add_child(_camera)
 	_camera.current = true
-	_camera.position = player.position + CAMERA_OFFSET
+	_camera.position = player.position + camera_offset
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 
 
@@ -449,9 +472,9 @@ func _build_ui() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
-	var target: Vector3 = player.position + CAMERA_OFFSET
+	var target: Vector3 = player.position + camera_offset
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
-	_camera.rotation_degrees = Vector3(-atan2(CAMERA_OFFSET.y, CAMERA_OFFSET.z) * 180.0 / PI, 0.0, 0.0)
+	_camera.basis = Basis.looking_at(-camera_offset, Vector3.UP)
 	for spot: Spot in spots:
 		var base_y: float = 1.9 if spot.id in NPC_SPOT_IDS else 2.5
 		spot.marker.position.y = base_y + sin(_time * 2.4 + spot.position.x) * 0.08
@@ -1357,12 +1380,12 @@ func _teleport(spot_id: String) -> void:
 	for spot: Spot in spots:
 		if spot.id == spot_id:
 			player.position = spot.position + Vector3(0.0, 0.0, 1.8)
-			_camera.position = player.position + CAMERA_OFFSET
+			_camera.position = player.position + camera_offset
 			return
 	# Hidden chests (Part D) have no Spot - a dev-only screenshot convenience, not a gameplay path.
 	if town.anchors.has(spot_id):
 		player.position = (town.anchors[spot_id] as Vector3) + Vector3(0.0, 0.0, 1.8)
-		_camera.position = player.position + CAMERA_OFFSET
+		_camera.position = player.position + camera_offset
 
 
 func _screenshot_open(what: String) -> void:

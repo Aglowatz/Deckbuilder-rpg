@@ -52,17 +52,20 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.sky_horizon = Color("ffd7a0")
 			p.ground_horizon = Color("f0c690")
 			p.sun_color = Color("ffdca0")
-			p.sun_energy = 1.25
-			p.sun_pitch = -38.0
+			p.sun_energy = 1.05
+			p.sun_pitch = -30.0
 			p.sun_yaw = -35.0
-			p.ambient_color = Color("a493dc")
-			p.ambient_energy = 0.95
+			p.ambient_color = Color("8070c8")
+			p.ambient_energy = 0.4
 			p.fog_color = Color("f6c9a0")
-			p.fog_density = 0.0065
+			p.fog_density = 0.0022
 			p.volumetric_density = 0.012
 			p.volumetric_color = Color("ffc98a")
-			p.saturation = 1.15
-			p.glow_intensity = 0.42
+			p.saturation = 1.06
+			p.contrast = 1.1
+			p.glow_intensity = 0.1
+			p.glow_threshold = 1.15
+			p.exposure = 0.82
 			p.rim_color = Color("ffe0b8")
 			p.particles = [{"kind": "motes", "color": Color(1.0, 0.86, 0.55, 0.8), "amount": 60}, {"kind": "leaves", "color": Color("d98a3a"), "amount": 14}]
 		START:

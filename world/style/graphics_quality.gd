@@ -21,7 +21,7 @@ static func volumetric_fog(level: int) -> bool:
 
 
 static func ssao(level: int) -> bool:
-	return level >= Level.MEDIUM
+	return level >= Level.HIGH
 
 
 ## 0 = no shadows, 1 = a single soft cascade, 2 = full.
@@ -55,7 +55,7 @@ static func dof_allowed(level: int) -> bool:
 
 ## Internal 3D resolution (the dev PC is an integrated GPU, so fill rate is the budget): FSR upscales anything below 1.0.
 static func render_scale(level: int) -> float:
-	return [0.6, 0.72, 1.0][clampi(level, 0, 2)]
+	return [0.5, 0.62, 1.0][clampi(level, 0, 2)]
 
 
 ## MSAA only on High (it costs about 12 ms at 1600x900 here); Medium uses FXAA + the upscaler, Low uses neither.
@@ -73,3 +73,8 @@ static func apply_to_viewport(viewport: Viewport, level: int) -> void:
 	viewport.scaling_3d_scale = scale_value
 	viewport.msaa_3d = msaa(level) as Viewport.MSAA
 	viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if fxaa(level) else Viewport.SCREEN_SPACE_AA_DISABLED
+
+
+## How many dressing lights (lanterns, fires) stay on at once: the nearest ones to the hero (lights beyond the budget are switched off).
+static func light_budget(level: int) -> int:
+	return [3, 6, 12][clampi(level, 0, 2)]

@@ -9,7 +9,7 @@ uniform vec4 line_color : source_color = vec4(0.12, 0.07, 0.16, 1.0);
 uniform float strength : hint_range(0.0, 1.0) = 0.7;
 uniform float thickness = 1.0;
 uniform float depth_threshold = 0.9;
-uniform float normal_threshold = 0.45;
+uniform float normal_threshold = 0.8;
 uniform float fade_start = 28.0;
 uniform float fade_end = 70.0;
 

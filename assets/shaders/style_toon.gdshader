@@ -23,8 +23,8 @@ uniform float emission_energy = 1.0;
 uniform float rim_strength = 0.28;
 uniform float wind_amount = 0.0;
 uniform float alpha_scissor = -1.0;
-uniform float band_mid = 0.82;
-uniform float band_lit = 1.08;
+uniform float band_mid = 0.74;
+uniform float band_lit = 0.98;
 
 instance uniform float colour_keep : hint_range(0.0, 1.0) = 0.0;
 instance uniform float accent_mix : hint_range(0.0, 1.0) = 0.0;

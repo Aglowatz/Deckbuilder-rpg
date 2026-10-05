@@ -35,10 +35,12 @@ static func apply_mesh(mesh_instance: MeshInstance3D, wind: float = -1.0) -> int
 	var converted: int = 0
 	for surface: int in range(mesh_instance.mesh.get_surface_count()):
 		var source: Material = mesh_instance.get_active_material(surface)
-		var toon: ShaderMaterial = toon_for(source, wind)
+		var toon: ShaderMaterial = toon_for(source, wind_for(mesh_instance, wind))
 		if toon != null:
 			mesh_instance.set_surface_override_material(surface, toon)
 			converted += 1
+	if converted > 0 and mesh_instance.is_inside_tree() and (small_prop(mesh_instance) or heavy_backdrop(mesh_instance)):
+		mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	return converted
 
 
@@ -66,7 +68,7 @@ static func toon_for(source: Material, wind: float = -1.0) -> ShaderMaterial:
 		return _cache[key] as ShaderMaterial
 	var material: ShaderMaterial = ShaderMaterial.new()
 	material.shader = double_sided_shader() if standard.cull_mode == BaseMaterial3D.CULL_DISABLED else shader()
-	material.set_shader_parameter("albedo", standard.albedo_color)
+	material.set_shader_parameter("albedo", PALETTE_FIX.get(standard.resource_name, standard.albedo_color) if standard.albedo_texture == null else standard.albedo_color)
 	var texture: Texture2D = standard.albedo_texture
 	material.set_shader_parameter("use_texture", texture != null)
 	if texture != null:
@@ -106,3 +108,63 @@ static func double_sided_shader() -> Shader:
 		_shader_double = Shader.new()
 		_shader_double.code = shader().code.replace("cull_back", "cull_disabled")
 	return _shader_double
+
+
+const FOLIAGE_WORDS: PackedStringArray = ["tree", "bush", "grass", "flower", "plant", "leaf", "leaves", "hanging", "moss", "crop", "lily", "cactus", "banner", "flag", "cloth", "reed", "wheat", "corn", "fern", "mushroom_x"]
+
+
+## Only foliage and cloth sways: a mesh whose own name or one of its ancestors up to the model root mentions a foliage word.
+static func wind_for(mesh_instance: MeshInstance3D, wind: float) -> float:
+	if wind <= 0.0:
+		return -1.0
+	var current: Node = mesh_instance
+	var depth: int = 0
+	while current != null and depth < 4:
+		var lower: String = String(current.name).to_lower()
+		for word: String in ["mountain", "hill", "cliff", "rock", "stone", "building", "house"]:
+			if lower.contains(word):
+				return -1.0
+		for word: String in FOLIAGE_WORDS:
+			if lower.contains(word):
+				return wind
+		current = current.get_parent()
+		depth += 1
+	return -1.0
+
+
+## The Kenney Nature kit ships washed-out pastel flat colours (grass is mint, wood is peach). They are re-graded to the style guide palette
+## (saturated but harmonious, section 4) by material name; textured materials are untouched.
+const PALETTE_FIX: Dictionary = {
+	"grass": Color("5fae4c"), "leafsGreen": Color("5fb04c"), "leafsDark": Color("3f8a52"), "leafsFall": Color("ee9a3c"),
+	"wood": Color("c98f5e"), "woodDark": Color("9a6a46"), "woodBark": Color("ad7d54"), "woodBarkDark": Color("7d5538"),
+	"woodBirch": Color("e8dfcd"), "woodInner": Color("e9c99a"),
+	"stone": Color("b2a9bc"), "stoneDark": Color("7f7894"), "dirt": Color("bd8658"), "dirtDark": Color("8d6044"),
+	"colorRed": Color("e2493f"), "colorRedDark": Color("b93a3e"), "colorYellow": Color("f6c23c"), "colorPurple": Color("8f6dd8"),
+	"colorTan": Color("dcb68c"), "colorWhite": Color("f3ede1"), "corn": Color("e9c35c"), "water": Color("6cc4e8"),
+}
+
+
+## Small props (flowers, barrels, bottles) do not cast shadows: the shadow pass is the most expensive part of the look on the dev PC
+## and tiny shadows add little (docs/design/open_questions.md Q8).
+const SMALL_PROP_SIZE: float = 0.75
+
+
+static func small_prop(mesh_instance: MeshInstance3D) -> bool:
+	if mesh_instance.mesh == null:
+		return false
+	var size: Vector3 = mesh_instance.mesh.get_aabb().size * mesh_instance.global_transform.basis.get_scale()
+	return size.length() < SMALL_PROP_SIZE
+
+
+## Big, far, low-value shadow casters: mountains, hills, clouds and cliffs (many thousands of triangles each).
+static func heavy_backdrop(mesh_instance: MeshInstance3D) -> bool:
+	var current: Node = mesh_instance
+	var depth: int = 0
+	while current != null and depth < 4:
+		var lower: String = String(current.name).to_lower()
+		for word: String in ["mountain", "hill", "cloud", "cliff"]:
+			if lower.contains(word):
+				return true
+		current = current.get_parent()
+		depth += 1
+	return false

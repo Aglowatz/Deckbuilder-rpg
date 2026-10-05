@@ -26,7 +26,7 @@ static func hex_model(folder: String, model: String) -> Node3D:
 static func tile(model: String) -> Node3D:
 	var node: Node3D = hex_model("tiles/base", model)
 	if model == "hex_grass":
-		tint(node, Color(0.55, 0.85, 0.5))
+		tint(node, Color(0.5, 0.76, 0.5))
 	return node
 
 
@@ -100,3 +100,33 @@ static func tint(node: Node, color: Color) -> void:
 				var copy: StandardMaterial3D = (material as StandardMaterial3D).duplicate() as StandardMaterial3D
 				copy.albedo_color = copy.albedo_color * color
 				mesh_instance.set_surface_override_material(surface, copy)
+
+
+# ---- More kits for set dressing (Brief 12): Kenney Nature / Survival / Food, KayKit Halloween / Restaurant / Furniture ----------------
+
+const KENNEY_NATURE: String = "res://assets/kenney-nature-kit/models/"
+const KENNEY_SURVIVAL: String = "res://assets/kenney-survival-kit/models/"
+const KENNEY_FOOD: String = "res://assets/kenney-food-kit/models/"
+const HALLOWEEN: String = "res://assets/KayKit-Halloween-Bits-1.0/gltf/"
+const RESTAURANT: String = "res://assets/KayKit-Restaurant-Bits-1.0/gltf/"
+
+
+## An instance of a model from one of the extra kits (`folder` is one of the constants above, `model` the file name without extension).
+static func kit_model(folder: String, model: String) -> Node3D:
+	var path: String = "%s%s.%s" % [folder, model, "gltf" if folder == HALLOWEEN or folder == RESTAURANT else "glb"]
+	var packed: PackedScene = scene(path)
+	if packed == null:
+		push_warning("ModelKit: missing %s" % path)
+		return Node3D.new()
+	return packed.instantiate() as Node3D
+
+
+## The first mesh of a kit model (for MultiMesh scattering), or null.
+static func kit_mesh(folder: String, model: String) -> Mesh:
+	var node: Node3D = kit_model(folder, model)
+	var found: Array[Node] = node.find_children("*", "MeshInstance3D", true, false)
+	var mesh: Mesh = null
+	if not found.is_empty():
+		mesh = (found[0] as MeshInstance3D).mesh
+	node.free()
+	return mesh

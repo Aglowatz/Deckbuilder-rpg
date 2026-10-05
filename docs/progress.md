@@ -2321,3 +2321,8 @@ Questions for you: (1) Tier 2 at level 10 or 2 zones free: still right? (2) Do y
 `ZonePreset`/`StylePresets` (13 presets: one per zone plus Capital variants, battle, dungeon, arena), `StyleRig` (installs environment, key + fill light, shader globals, outline, DOF, ambient
 particles and converts all meshes, also late-added ones), `GraphicsQuality` + Settings (Low/Medium/High, optional DOF) and the settings panel. Installed in the town and every zone scene.
 Performance: the dev PC is an integrated GPU (baseline ~35 fps); Medium town now ~64 fps (`tools/fps.sh`). Tests: `tests/world/test_style.gd` (9). Decisions: section Q.
+
+## Part C: visual slice (town square) - done
+`world/town_square.gd` + `world/style/` (ground decals, ambient birds, NPC life): cobbled plaza, dirt paths, moss patches, market stalls with goods, lamp posts with budgeted lights and glow pools, benches, clutter,
+crop garden, campfire, bunting, MultiMesh meadow with shader wind, particles (motes, leaves), birds, NPC flourishes. Four iterations with screenshots, critique in `docs/art/visual_slice_log.md`
+(`_screenshots/visual_slice/`). Medium town: 62.5 fps (Low 120, High 24). Tools: `tools/fps.sh`, `tools/style_lab.tscn` (model bench), `tools/tri_count.gd`. Tests: `tests/world/test_town_square.gd`.

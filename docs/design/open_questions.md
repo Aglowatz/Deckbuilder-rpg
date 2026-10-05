@@ -341,3 +341,7 @@ Logged as they were made; none blocks anything. Names are placeholders in story 
 | Q5 | Performance: the dev PC is a Ryzen 5 4500U iGPU, fill-rate bound | Baseline (before this brief) was ~35 fps in the town at 1600x900 with MSAA 2x. Levels now set the 3D resolution scale (Low 0.6, Medium 0.72 + FXAA, High 1.0 + MSAA 2x; FSR upscales), SSAO low-quality, soft-shadow quality, volumetrics only on High. Medium town: ~64 fps. | `GraphicsQuality`, `tools/fps.sh` |
 | Q6 | Tilt-shift | Godot has no tilt-shift; the optional effect is a subtle far+near depth-of-field blur (Settings: "Soft depth of field", Medium/High only). | `StyleRig._apply_dof` |
 | Q7 | References | Only 3 images were in `_reference/` (the folder was named `reference/`; renamed, git-ignored). Benchmarks are taken from the brief's descriptions. | style_guide.md |
+| Q8 | Shadow cost | The sun shadow pass is the largest single cost on the dev PC. Small props (< 0.75 m) and mountains/hills/clouds/cliffs do not cast shadows; shadow distance 20 m on Low/Medium. | `StyleToon.small_prop`, `StyleRig` |
+| Q9 | Kenney Nature colours | The kit ships washed-out pastel flat colours (grass mint, wood peach); re-graded by material name to the palette. | `StyleToon.PALETTE_FIX` |
+| Q10 | Light budget | Dressing lights are limited to the nearest N (Low 3, Medium 6, High 12); ground glow decals keep the pools visible. | `GraphicsQuality.light_budget`, `StyleRig.register_lights` |
+| Q11 | SSAO | Only on High (it cost ~1 ms for little visible gain with toon bands and outlines). | `GraphicsQuality.ssao` |

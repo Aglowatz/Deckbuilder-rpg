@@ -48,6 +48,7 @@ func _process(delta: float) -> bool:
 		total += value
 	var avg: float = total / float(_frames.size())
 	var p95: float = float(sorted[int(float(sorted.size()) * 0.95)])
+	print("fps_probe_stats: draw_calls=%d objects=%d primitives=%d process_ms=%.2f" % [Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME), Performance.get_monitor(Performance.RENDER_TOTAL_OBJECTS_IN_FRAME), Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME), Performance.get_monitor(Performance.TIME_PROCESS) * 1000.0])
 	print("fps_probe: %s quality=%s avg_fps=%.1f avg_ms=%.2f p95_ms=%.2f min_fps=%.1f" % [str(_args.get("scene")), str(_args.get("quality", 1)), 1.0 / avg, avg * 1000.0, p95 * 1000.0, 1.0 / float(sorted[sorted.size() - 1])])
 	quit(0)
 	return true

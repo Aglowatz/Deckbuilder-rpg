@@ -44,7 +44,7 @@ var outline_strength: float = 0.62
 
 # Toon shader globals
 var rim_color: Color = Color("c8d4ff")
-var highlight: Vector3 = Vector3(1.05, 1.0, 0.92)
+var highlight: Vector3 = Vector3(1.03, 1.0, 0.95)
 var desaturate: float = 0.0
 var wind: float = 1.0
 var accent: Color = Color(0.92, 0.14, 0.1)

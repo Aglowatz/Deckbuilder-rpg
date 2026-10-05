@@ -17,13 +17,15 @@ var outline: MeshInstance3D
 var ambience: StyleAmbience
 ## Quality override for tests/screenshots (-1 = use Settings).
 var quality_override: int = -1
+## Meshes farther than this from the camera are not drawn (0 = no limit): trims geometry the diorama camera cannot see anyway.
+var cull_distance: float = 0.0
 
 var _scene_root: Node
 var _pending: Array[Node] = []
 var _flush_queued: bool = false
 
 
-static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_target: Node3D = null) -> StyleRig:
+static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_target: Node3D = null, cull: float = 0.0) -> StyleRig:
 	if OS.get_environment("NO_STYLE") != "":
 		return null
 	var rig: StyleRig = StyleRig.new()
@@ -31,6 +33,7 @@ static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_t
 	rig.preset_id = id
 	rig.camera = camera_node
 	rig.follow = follow_target
+	rig.cull_distance = cull
 	scene.add_child(rig)
 	return rig
 
@@ -56,6 +59,9 @@ func _ready() -> void:
 	_build_ambience()
 	apply()
 	StyleToon.apply(_scene_root, preset.wind)
+	if cull_distance > 0.0:
+		for node: Node in _scene_root.find_children("*", "MeshInstance3D", true, false):
+			_limit_range(node as MeshInstance3D)
 	get_tree().node_added.connect(_on_node_added)
 	Settings.graphics_changed.connect(apply)
 
@@ -93,6 +99,7 @@ func apply() -> void:
 	var level: int = quality()
 	_apply_globals()
 	GraphicsQuality.apply_to_viewport(get_viewport(), level)
+	RenderingServer.directional_shadow_atlas_set_size(1536 if level < GraphicsQuality.Level.HIGH else 4096, true)
 	RenderingServer.environment_set_ssao_quality(RenderingServer.ENV_SSAO_QUALITY_LOW if level < GraphicsQuality.Level.HIGH else RenderingServer.ENV_SSAO_QUALITY_MEDIUM, true, 0.5, 2, 50, 300)
 	RenderingServer.directional_soft_shadow_filter_set_quality(RenderingServer.SHADOW_QUALITY_SOFT_LOW if level < GraphicsQuality.Level.HIGH else RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM)
 	if OS.get_environment("STYLE_DEBUG") != "":
@@ -171,7 +178,7 @@ func _apply_lights(level: int) -> void:
 	var detail: int = GraphicsQuality.shadow_detail(level)
 	sun.shadow_enabled = detail > 0
 	sun.shadow_blur = 1.6
-	sun.directional_shadow_max_distance = 36.0 if detail < 2 else 64.0
+	sun.directional_shadow_max_distance = 20.0 if detail < 2 else 48.0
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL if detail < 2 else DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
 	if sun_cull_mask_hint != 0:
 		sun.light_cull_mask = sun_cull_mask_hint
@@ -242,4 +249,45 @@ func _flush() -> void:
 	for node: Node in _pending:
 		if is_instance_valid(node) and node.is_inside_tree():
 			StyleToon.apply_mesh(node as MeshInstance3D, preset.wind)
+			_limit_range(node as MeshInstance3D)
 	_pending.clear()
+
+
+func _limit_range(mesh_instance: MeshInstance3D) -> void:
+	if cull_distance > 0.0 and mesh_instance.get_parent() != camera:
+		mesh_instance.visibility_range_end = cull_distance
+		mesh_instance.visibility_range_end_margin = 3.0
+		mesh_instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_DISABLED
+
+
+# ---- Light budget: only the nearest dressing lights stay on (the glow decals keep the pools visible) ---------------------------------
+
+
+var _budget_lights: Array[OmniLight3D] = []
+var _budget_timer: float = 0.0
+
+
+func register_lights(lights: Array[OmniLight3D]) -> void:
+	_budget_lights.append_array(lights)
+	_update_light_budget()
+
+
+func _process(delta: float) -> void:
+	_budget_timer -= delta
+	if _budget_timer <= 0.0:
+		_budget_timer = 0.3
+		_update_light_budget()
+
+
+func _update_light_budget() -> void:
+	if _budget_lights.is_empty():
+		return
+	var origin: Vector3 = follow.global_position if follow != null else Vector3.ZERO
+	var live: Array[OmniLight3D] = []
+	for light: OmniLight3D in _budget_lights:
+		if is_instance_valid(light):
+			live.append(light)
+	live.sort_custom(func(a: OmniLight3D, b: OmniLight3D) -> bool: return a.global_position.distance_squared_to(origin) < b.global_position.distance_squared_to(origin))
+	var budget: int = GraphicsQuality.light_budget(quality())
+	for index: int in range(live.size()):
+		live[index].visible = index < budget
