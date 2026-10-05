@@ -29,6 +29,7 @@ func run() -> void:
 		return
 	await _flow_tailor(town)
 	await _flow_wardrobe(town)
+	await _flow_menu(town)
 	town = await _flow_reload(town)
 	if town != null:
 		await _flow_outfits(town)
@@ -296,3 +297,34 @@ func _note(message: String) -> void:
 func _finish(ok: bool, reason: String) -> void:
 	print("%s: %s - %s" % [TAG, "OK" if ok else "FAILED", reason])
 	get_tree().quit(0 if ok else 1)
+
+
+# ---- 3b: the single Menu button (brief 12b) -------------------------------------------------------------------------------------------
+
+
+func _flow_menu(town: TownScene) -> void:
+	var menu: Control = town.hud.find_child("MenuButton", true, false) as Control
+	_check(menu != null, "one Menu button replaces the four side buttons")
+	_check(town.hud.find_child("WardrobeButton", true, false) == null, "no separate wardrobe button")
+	await driver.click(driver.center_of_control(menu))
+	await driver.seconds(0.4)
+	for entry: String in ["Menu_Character", "Menu_Deck", "Menu_Quests", "Menu_Packs", "Menu_Wardrobe"]:
+		_check(town.hud.find_child(entry, true, false) != null, "the menu lists %s" % entry)
+	await _shot("e08b_menu_open")
+	await _click_named(town.hud, "Menu_Packs")
+	await driver.seconds(0.6)
+	_check(_find(town, PacksScreen) != null, "Packs opens the pack list")
+	await driver.tap_key(KEY_ESCAPE)
+	await driver.seconds(0.4)
+	# quest tracker: pick another quest and remove one
+	var untrack: Control = town.hud.find_child("Untrack_*", true, false) as Control
+	_check(untrack != null, "quests in the tracker can be removed")
+	if untrack != null:
+		var before: int = QuestTracker.removed_ids.size()
+		await driver.click(driver.center_of_control(untrack))
+		await driver.seconds(0.3)
+		_check(QuestTracker.removed_ids.size() == before + 1, "removing a quest hides it from the tracker")
+		var restore: Control = town.hud.find_child("TrackAll", true, false) as Control
+		if restore != null:
+			await driver.click(driver.center_of_control(restore))
+	_check(not (town.hud.find_child("Objective", true, false) is Label), "the objective box is gone")

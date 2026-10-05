@@ -2366,3 +2366,10 @@ volumetrics; for stronger GPUs). The pre-brief town ran about 35 fps. The Medium
 5. High quality is 24 fps on this PC. Should High be removed here or kept for other machines?
 6. Zone dressing outside the town square is generic scatter. Which zone should get a hand-dressed pass next?
 7. Reference images: only three were in `reference/` (renamed `_reference/`, git-ignored). If you have the Lil Gator Game / Slime Rancher / A Hat in Time shots, drop them in `_reference/` for the next pass.
+
+## Brief 12b: feedback pass (town layout, HUD, labels)
+- **Town spread out:** `TownBuilder.SCALE = 1.8` (tiles scaled, props not): every walkway between buildings is wide; the hero walks 1.35x faster in town. Verified with a flood fill (`tools/reach_check.gd`): every anchor is reachable.
+- **Less clutter:** the floating gold gem markers and the falling-leaf particles are gone from the town; the square dressing was rewritten airy (`TownSquare`: 5 lamps + 4 near vendors, 2 stalls, 2 benches, sparse grass, ~20 flowers in total instead of ~400, no gardens, bunting or campfire).
+- **Coliseum moved** to a new meadow at the bottom of the map (8 new rows); the tailor moved two cells away from the Deck Station.
+- **HUD:** the objective box is gone; the quest tracker lets you click a quest to show its objectives and remove quests with X (restore with "Show removed quests"); Character, Deck, Quests, Packs (new `PacksScreen`, hotkey P) and Wardrobe are one **Menu** button. The minimap moved down to make room.
+- **No labels:** hidden chests and the old lever have no name plate; vendors that are not open yet (Alchemist, the Arena, the Pack Vendor before the first zone) have no plate, no map icon and a plain "CLOSED" sign.

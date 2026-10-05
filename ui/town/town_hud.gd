@@ -6,8 +6,10 @@ signal character_pressed
 signal deck_pressed
 signal quests_pressed
 signal wardrobe_pressed
+signal packs_pressed
 
-var _objective: RichTextLabel
+var _menu_button: FancyButton
+var _menu_panel: PanelContainer
 var _location: Label
 var _left_column: VBoxContainer
 var _effects_panel: ZoneEffectsPanel
@@ -39,10 +41,6 @@ func _ready() -> void:
 	_progress = UIKit.label("", &"MutedLabel", 20)
 	_progress.name = "ZoneProgressLabel"
 	column.add_child(_progress)
-	column.add_child(UIKit.label("Objective", &"HeadingLabel", 22))
-	_objective = UIKit.rich("", 22)
-	_objective.custom_minimum_size = Vector2(400, 0)
-	column.add_child(_objective)
 	var gold_panel: PanelContainer = UIKit.panel(&"DarkPanel")
 	gold_panel.position = Vector2(1650, 28)
 	add_child(gold_panel)
@@ -52,23 +50,26 @@ func _ready() -> void:
 	_gold = UIKit.label("0", &"", 30, UIStyle.GOLD)
 	_gold.add_theme_font_override("font", UIStyle.font_title())
 	gold_row.add_child(_gold)
-	var character_button: FancyButton = FancyButton.make("Character (C)", &"", Vector2(180, 52))
-	character_button.position = Vector2(1650, 100)
-	character_button.pressed.connect(func() -> void: character_pressed.emit())
-	add_child(character_button)
-	var deck_button: FancyButton = FancyButton.make("Deck (B)", &"", Vector2(180, 52))
-	deck_button.position = Vector2(1650, 170)
-	deck_button.pressed.connect(func() -> void: deck_pressed.emit())
-	add_child(deck_button)
-	var quests_button: FancyButton = FancyButton.make("Quests (J)", &"", Vector2(180, 52))
-	quests_button.position = Vector2(1650, 240)
-	quests_button.pressed.connect(func() -> void: quests_pressed.emit())
-	add_child(quests_button)
-	var wardrobe_button: FancyButton = FancyButton.make("Wardrobe (T)", &"", Vector2(180, 52))
-	wardrobe_button.name = "WardrobeButton"
-	wardrobe_button.position = Vector2(1450, 100)
-	wardrobe_button.pressed.connect(func() -> void: wardrobe_pressed.emit())
-	add_child(wardrobe_button)
+	_menu_button = FancyButton.make("Menu", &"PrimaryButton", Vector2(180, 52))
+	_menu_button.name = "MenuButton"
+	_menu_button.position = Vector2(1650, 100)
+	_menu_button.pressed.connect(toggle_menu)
+	add_child(_menu_button)
+	_menu_panel = UIKit.panel()
+	_menu_panel.name = "MenuPanel"
+	_menu_panel.position = Vector2(1650, 160)
+	_menu_panel.visible = false
+	add_child(_menu_panel)
+	var menu_column: VBoxContainer = UIKit.vbox(6)
+	_menu_panel.add_child(menu_column)
+	for entry: Array in [["Character (C)", character_pressed], ["Deck (B)", deck_pressed], ["Quests (J)", quests_pressed], ["Packs (P)", packs_pressed], ["Wardrobe (T)", wardrobe_pressed]]:
+		var item: FancyButton = FancyButton.make(str(entry[0]), &"", Vector2(180, 48))
+		item.name = "Menu_%s" % str(entry[0]).split(" ")[0]
+		var signal_ref: Signal = entry[1] as Signal
+		item.pressed.connect(func() -> void:
+			close_menu()
+			signal_ref.emit())
+		menu_column.add_child(item)
 	_prompt_panel = UIKit.panel()
 	_prompt_panel.position = Vector2(700, 900)
 	_prompt_panel.visible = false
@@ -83,7 +84,7 @@ func _ready() -> void:
 	_toast.size = Vector2(1000, 44)
 	_toast.modulate.a = 0.0
 	add_child(_toast)
-	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      C: character      B: deck      J: quests      T: wardrobe      M: map      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      Menu button: character, deck, quests, packs, wardrobe      M: map      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
 	hints.position = Vector2(960, 1030)
 	hints.size = Vector2(940, 30)
 	add_child(hints)
@@ -119,8 +120,9 @@ func set_location(town_name: String, progress: String) -> void:
 	_progress.text = progress
 
 
-func set_objective(bbcode: String) -> void:
-	_objective.text = bbcode
+## The objective box was removed (the quest tracker replaces it); kept so scenes can still call it.
+func set_objective(_bbcode: String) -> void:
+	pass
 
 
 func show_prompt(text: String) -> void:
@@ -160,3 +162,12 @@ func toast(message: String, color: Color = UIStyle.PARCHMENT) -> void:
 	_toast_tween = create_tween()
 	_toast_tween.tween_interval(2.0)
 	_toast_tween.tween_property(_toast, "modulate:a", 0.0, 0.5)
+
+
+func toggle_menu() -> void:
+	_menu_panel.visible = not _menu_panel.visible
+	Audio.sfx(&"ui_tick")
+
+
+func close_menu() -> void:
+	_menu_panel.visible = false

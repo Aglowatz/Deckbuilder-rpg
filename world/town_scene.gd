@@ -14,6 +14,8 @@ class Spot:
 	var marker: Node3D
 	var label_height: float = 2.5
 	var plate: Label3D
+	## False: no name plate and no map icon (hidden chests and levers, and vendors whose stock is not open yet).
+	var named: bool = true
 
 
 ## High-angle diorama framing (docs/art/style_guide.md, section 7).
@@ -105,7 +107,7 @@ func _ready() -> void:
 	add_child(WorldLook.sun(&"day"))
 	town.build(self)
 	square = TownSquare.build(self, town, Settings.graphics_quality)
-	AmbientBirds.spawn(self, TownSquare.CENTER, 4, Color("f4ecd8"))
+	AmbientBirds.spawn(self, square.center, 4, Color("f4ecd8"))
 	_build_actors()
 	_build_spots()
 	_build_rift_station()
@@ -118,10 +120,10 @@ func _ready() -> void:
 		var cam: PackedStringArray = str(_screenshot_args["cam"]).split(",")
 		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 	_build_camera()
-	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 34.0)
+	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 0.0 if _screenshot_args.has("nocull") else 34.0)
 	if style_rig != null:
 		style_rig.register_lights(square.lights)
-	var avoid: Array[Vector3] = [Vector3(TownSquare.CENTER.x, TownSquare.CENTER.z, TownSquare.MEADOW_RADIUS)]
+	var avoid: Array[Vector3] = [Vector3(square.center.x, square.center.z, square.meadow_radius)]
 	if style_rig != null:
 		ZoneDressing.build(self, town, StylePresets.TOWN, Settings.graphics_quality, avoid)
 	_build_ui()
@@ -183,6 +185,7 @@ func _build_actors() -> void:
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(town, "Hero", spawn)
+	player.speed_multiplier = 1.35  # the town is spread out: a brisker walk
 	npc_life = NpcLife.new()
 	npc_life.target = player
 	add_child(npc_life)
@@ -409,24 +412,14 @@ func _add_spot(id: String, title: String, position: Vector3, radius: float) -> v
 	spot.title = title
 	spot.position = position
 	spot.radius = radius
-	# A bobbing gem marks each spot; a floating name plate tells what it is.
-	var marker: MeshInstance3D = MeshInstance3D.new()
-	var mesh: PrismMesh = PrismMesh.new()
-	mesh.size = Vector3(0.22, 0.32, 0.22)
-	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.albedo_color = UIStyle.GOLD
-	material.emission_enabled = true
-	material.emission = UIStyle.GOLD
-	material.emission_energy_multiplier = 1.6
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	mesh.material = material
-	marker.mesh = mesh
-	marker.rotation_degrees.x = 180.0
+	# The golden floating gems were removed (they read as clutter): a plain anchor holds the name plate; unnamed spots get an empty plate.
+	spot.named = _spot_is_named(id)
+	var marker: Node3D = Node3D.new()
 	marker.position = position + Vector3(0, 1.9 if id in NPC_SPOT_IDS else 2.5, 0)
 	add_child(marker)
 	spot.marker = marker
 	var plate: Label3D = Label3D.new()
-	plate.text = title
+	plate.text = title if spot.named else ""
 	plate.font = UIStyle.font_title()
 	plate.font_size = 46
 	plate.pixel_size = 0.0055
@@ -463,6 +456,7 @@ func _build_ui() -> void:
 	hud.deck_pressed.connect(_open_deck_builder_anywhere)
 	hud.quests_pressed.connect(_open_quest_log)
 	hud.wardrobe_pressed.connect(_open_wardrobe)
+	hud.packs_pressed.connect(_open_packs)
 	EventBus.quest_notice.connect(_on_quest_notice)
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
@@ -597,6 +591,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if (event as InputEventKey).keycode == KEY_B:
 			get_viewport().set_input_as_handled()
 			_open_deck_builder_anywhere()
+			return
+		if (event as InputEventKey).keycode == KEY_P:
+			get_viewport().set_input_as_handled()
+			_open_packs()
 			return
 		if (event as InputEventKey).keycode == KEY_T:
 			get_viewport().set_input_as_handled()
@@ -1267,6 +1265,8 @@ const POI_KINDS: Dictionary = {
 func _collect_pois() -> Array[MapPoi]:
 	var result: Array[MapPoi] = []
 	for spot: Spot in spots:
+		if not spot.named:
+			continue
 		if POI_KINDS.has(spot.id):
 			result.append(MapPoi.make(POI_KINDS[spot.id] as MapPoi.Kind, spot.position, spot.title))
 		elif spot.id.begins_with("npc_") and spot.id.trim_prefix("npc_") in CorruptedNpcs.IDS:
@@ -1472,3 +1472,26 @@ func _open_tailor() -> void:
 	var screen: TailorScreen = TailorScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
+
+
+## The Packs menu entry (hotkey P): unopened packs with Open buttons.
+func _open_packs() -> void:
+	if _locked or dialogue.active or not Session.has_profile():
+		return
+	var screen: PacksScreen = PacksScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
+## Hidden things and vendors whose stock is not open yet carry no name plate and no map icon: a locked shop does not announce itself.
+func _spot_is_named(id: String) -> bool:
+	match id:
+		"chest", "lever":
+			return false
+		"alchemist":
+			return Session.alchemist_unlocked()
+		"arena":
+			return Session.arena_unlocked()
+		"pack_vendor":
+			return Session.completed_zone_count() >= 1 or Session.flag(&"pack_vendor_seen")
+	return true

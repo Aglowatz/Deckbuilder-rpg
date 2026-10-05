@@ -18,9 +18,9 @@ static func alchemist(parent: Node3D, anchors: Dictionary, unlocked: bool, story
 			var board: MeshInstance3D = _box(Vector3(1.5, 0.16, 0.06), plank, Vector3(0, 0.45 + 0.34 * float(index), 0.5))
 			board.rotation_degrees.z = -14.0 + 14.0 * float(index)
 			root.add_child(board)
-		var note: Label3D = _label(story.text("town.alchemist.name") + "\nCLOSED", Vector3(0, 1.6, 0.6), Color("f2e8c8"), 0.0042)
+		var note: Label3D = _label("CLOSED", Vector3(0, 1.6, 0.6), Color("f2e8c8"), 0.0042)
 		root.add_child(note)
-		root.add_child(_label("(until two zones are free)", Vector3(0, 1.18, 0.6), Color("b9d8a8"), 0.0032))
+		root.add_child(_label("(not open yet)", Vector3(0, 1.18, 0.6), Color("b9d8a8"), 0.0032))
 		return
 	var iron: StandardMaterial3D = _material(Color("2a2a30"), 0.4)
 	var pot: MeshInstance3D = _cylinder(0.42, 0.36, iron, Vector3(0.9, 0.18, 0.7))
@@ -54,7 +54,7 @@ static func arena_gate(parent: Node3D, anchors: Dictionary, unlocked: bool, stor
 			chain.rotation_degrees.z = 12.0 if index == 0 else -12.0
 			root.add_child(chain)
 		root.add_child(_box(Vector3(0.34, 0.4, 0.14), iron, Vector3(0, 1.0, 0.2)))
-		root.add_child(_label(story.text("town.arena.name") + "\nCLOSED", Vector3(0, 2.6, 0.3), Color("f2e8c8"), 0.0058))
+		root.add_child(_label("CLOSED", Vector3(0, 2.6, 0.3), Color("f2e8c8"), 0.0058))
 		root.add_child(_label("(until the first zone is free)", Vector3(0, 2.05, 0.3), Color("ffcf70"), 0.0034))
 		return
 	for side: int in [-1, 1]:

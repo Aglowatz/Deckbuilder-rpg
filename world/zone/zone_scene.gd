@@ -415,6 +415,7 @@ func _build_ui() -> void:
 	hud.deck_pressed.connect(_open_deck_builder)
 	hud.quests_pressed.connect(_open_quest_log)
 	hud.wardrobe_pressed.connect(_open_wardrobe)
+	hud.packs_pressed.connect(_open_packs)
 	EventBus.quest_notice.connect(_on_quest_notice)
 	life_bar = ZoneLifeBar.new()
 	life_bar.position = Vector2(790, 24)
@@ -582,6 +583,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if code == KEY_B:
 			get_viewport().set_input_as_handled()
 			_open_deck_builder()
+			return
+		if code == KEY_P:
+			get_viewport().set_input_as_handled()
+			_open_packs()
 			return
 		if code == KEY_T:
 			get_viewport().set_input_as_handled()
@@ -1201,5 +1206,14 @@ func _open_wardrobe() -> void:
 	if _locked or dialogue.active:
 		return
 	var screen: WardrobeScreen = WardrobeScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
+## The Packs menu entry (hotkey P): unopened packs with Open buttons.
+func _open_packs() -> void:
+	if _locked or dialogue.active or not Session.has_profile():
+		return
+	var screen: PacksScreen = PacksScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)

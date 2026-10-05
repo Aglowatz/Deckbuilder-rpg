@@ -4,6 +4,9 @@ extends PanelContainer
 ## it remembers the choice for the rest of the session). Redraws on `EventBus.quest_changed`.
 
 static var collapsed: bool = false
+## The quest whose objectives are shown (click a quest title to switch); quests in `removed_ids` are removed from the tracker (they stay in the log, J).
+static var focus_id: String = ""
+static var removed_ids: Array[String] = []
 
 var _header: Button
 var _body: VBoxContainer
@@ -49,7 +52,13 @@ func refresh() -> void:
 		var quest: QuestData = QuestCatalog.find(quest_id)
 		if quest != null:
 			active.append(quest)
-	_header.text = "%s Quests (%d)   [J] log" % ["▸" if collapsed else "▾", active.size()]
+	var visible_quests: Array[QuestData] = []
+	for quest: QuestData in active:
+		if not removed_ids.has(quest.id):
+			visible_quests.append(quest)
+	if not visible_quests.is_empty() and not visible_quests.any(func(q: QuestData) -> bool: return q.id == focus_id):
+		focus_id = visible_quests[0].id
+	_header.text = "%s Quests (%d)   [J] log" % ["▸" if collapsed else "▾", visible_quests.size()]
 	_body.visible = not collapsed
 	visible = true
 	if collapsed:
@@ -57,14 +66,52 @@ func refresh() -> void:
 	if active.is_empty():
 		_body.add_child(UIKit.label("No active quests.", &"MutedLabel", 20))
 		return
-	for index: int in range(active.size()):
-		var quest: QuestData = active[index]
+	if visible_quests.is_empty():
+		_body.add_child(UIKit.label("Nothing tracked.", &"MutedLabel", 20))
+	for quest: QuestData in visible_quests:
 		var ready: bool = qlog.is_ready_to_turn_in(quest, state)
 		var title: String = quest.title + ("  (hand in to %s)" % quest.turn_in_npc if ready else "")
-		_body.add_child(UIKit.label(title, &"", 22, UIStyle.PARCHMENT))
-		if index == 0 or ready:
+		var row: HBoxContainer = UIKit.hbox(6)
+		var pick: Button = Button.new()
+		pick.name = "Track_%s" % quest.id
+		pick.flat = true
+		pick.text = title
+		pick.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		pick.focus_mode = Control.FOCUS_NONE
+		pick.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		pick.tooltip_text = "Show this quest's objectives"
+		pick.add_theme_font_size_override("font_size", 22)
+		pick.add_theme_color_override("font_color", UIStyle.GOLD if quest.id == focus_id else UIStyle.PARCHMENT)
+		pick.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+		pick.pressed.connect(func() -> void:
+			focus_id = quest.id
+			refresh())
+		row.add_child(pick)
+		var remove: Button = Button.new()
+		remove.name = "Untrack_%s" % quest.id
+		remove.text = "✕"
+		remove.flat = true
+		remove.focus_mode = Control.FOCUS_NONE
+		remove.tooltip_text = "Remove from the tracker (it stays in the quest log)"
+		remove.pressed.connect(func() -> void:
+			removed_ids.append(quest.id)
+			refresh())
+		row.add_child(remove)
+		_body.add_child(row)
+		if quest.id == focus_id or ready:
 			for objective_index: int in range(quest.objectives.size()):
 				_body.add_child(_objective_row(quest, objective_index, qlog, state))
+	if not removed_ids.is_empty():
+		var restore: Button = Button.new()
+		restore.name = "TrackAll"
+		restore.text = "Show removed quests (%d)" % removed_ids.size()
+		restore.flat = true
+		restore.focus_mode = Control.FOCUS_NONE
+		restore.add_theme_font_size_override("font_size", 18)
+		restore.pressed.connect(func() -> void:
+			removed_ids.clear()
+			refresh())
+		_body.add_child(restore)
 
 
 func _objective_row(quest: QuestData, index: int, qlog: QuestLog, state: UnlockState) -> Label:

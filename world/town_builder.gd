@@ -49,7 +49,18 @@ const MAP: Array[String] = [
 	"T#T#.TT#T######T..##T......",
 	".......#T###.#T#####T......",
 	"......TM###M##R.##T#.......",
+	"......#T###########T#......",
+	"......T#############T......",
+	"......##T###########T......",
+	"......T#############M......",
+	"......#T###########T#......",
+	"......T#############T......",
+	"......#T#########T##R......",
+	"......M#T#######T#R#M......",
 ]
+
+## The town is spread out: every hex cell is SCALE times its tile size (tiles are scaled, props are not), so there are wide walkways between buildings.
+const SCALE: float = 1.8
 
 const OBSTACLE_TREE: float = 0.32
 const OBSTACLE_ROCK: float = 0.35
@@ -81,7 +92,7 @@ func build(parent: Node3D, decorate_far: bool = true) -> void:
 
 
 func cell_center(col: int, row: int) -> Vector3:
-	return HexGrid.cell_to_world(col, row)
+	return HexGrid.cell_to_world(col, row) * SCALE
 
 
 ## `pad` cells of open water surround the island past its actual (map-size-derived) edges, so
@@ -98,30 +109,30 @@ func _build_water() -> void:
 			if inside:
 				continue
 			var water: Node3D = ModelKit.tile("hex_water")
-			ModelKit.place(root, water, HexGrid.cell_to_world(col, row))
+			ModelKit.place(root, water, cell_center(col, row), 0.0, SCALE)
 
 
 func _build_cell(col: int, row: int, symbol: String) -> void:
 	if symbol == ".":
 		return
-	var center: Vector3 = HexGrid.cell_to_world(col, row)
-	ModelKit.place(root, ModelKit.tile("hex_grass"), center)
+	var center: Vector3 = cell_center(col, row)
+	ModelKit.place(root, ModelKit.tile("hex_grass"), center, 0.0, SCALE)
 	var yaw: float = float(_rng.randi_range(0, 5)) * 60.0
 	match symbol:
 		"M":
 			var mountain: String = ["mountain_A_grass_trees", "mountain_B_grass_trees", "mountain_C_grass_trees"][_rng.randi() % 3]
-			ModelKit.place(root, ModelKit.nature(mountain), center, yaw)
+			ModelKit.place(root, ModelKit.nature(mountain), center, yaw, SCALE)
 			return
 		"T":
 			walkable[Vector2i(col, row)] = true
 			for i: int in range(3):
-				var offset: Vector3 = _scatter(center, 0.4, 0.85)
+				var offset: Vector3 = _scatter(center, 0.4 * SCALE, 0.85 * SCALE)
 				var tree: String = ["tree_single_A", "tree_single_B"][_rng.randi() % 2]
 				ModelKit.place(root, ModelKit.nature(tree), offset, _rng.randf() * 360.0, _rng.randf_range(1.1, 1.5))
 				obstacles.append(Vector3(offset.x, offset.z, OBSTACLE_TREE * 1.3))
 		"R":
 			walkable[Vector2i(col, row)] = true
-			var rock_pos: Vector3 = _scatter(center, 0.2, 0.7)
+			var rock_pos: Vector3 = _scatter(center, 0.2 * SCALE, 0.7 * SCALE)
 			ModelKit.place(root, ModelKit.nature("rock_single_%s" % ["A", "B", "C", "D", "E"][_rng.randi() % 5]), rock_pos, _rng.randf() * 360.0, 1.3)
 			obstacles.append(Vector3(rock_pos.x, rock_pos.z, OBSTACLE_ROCK * 1.3))
 		"K":
@@ -190,21 +201,21 @@ func _build_far_scenery() -> void:
 	var north_edge: int = -ROW_OFFSET
 	var far_row: int = north_edge - 2
 	for col: int in range(west_edge - 2, east_edge + 3):
-		var far: Vector3 = HexGrid.cell_to_world(col, far_row)
-		ModelKit.place(root, ModelKit.tile("hex_grass"), far)
+		var far: Vector3 = cell_center(col, far_row)
+		ModelKit.place(root, ModelKit.tile("hex_grass"), far, 0.0, SCALE)
 		var mountain: String = ["mountain_A_grass_trees", "mountain_B_grass_trees", "mountain_C_grass_trees"][_rng.randi() % 3]
-		ModelKit.place(root, ModelKit.nature(mountain), far, float(_rng.randi_range(0, 5)) * 60.0, 1.4)
+		ModelKit.place(root, ModelKit.nature(mountain), far, float(_rng.randi_range(0, 5)) * 60.0, 1.4 * SCALE)
 	var hill_cells: Array[Vector2i] = [
 		Vector2i(west_edge - 2, 1), Vector2i(west_edge - 2, 6), Vector2i(west_edge - 2, 11),
 		Vector2i(east_edge + 2, 2), Vector2i(east_edge + 2, 7), Vector2i(east_edge + 2, 0),
 	]
 	for cell: Vector2i in hill_cells:
-		var pos: Vector3 = HexGrid.cell_to_world(cell.x, cell.y)
-		ModelKit.place(root, ModelKit.tile("hex_grass"), pos)
-		ModelKit.place(root, ModelKit.nature(["hills_A_trees", "hills_B_trees"][_rng.randi() % 2]), pos, float(_rng.randi_range(0, 5)) * 60.0)
+		var pos: Vector3 = cell_center(cell.x, cell.y)
+		ModelKit.place(root, ModelKit.tile("hex_grass"), pos, 0.0, SCALE)
+		ModelKit.place(root, ModelKit.nature(["hills_A_trees", "hills_B_trees"][_rng.randi() % 2]), pos, float(_rng.randi_range(0, 5)) * 60.0, SCALE)
 	for i: int in range(9):
 		var cloud: Node3D = ModelKit.nature("cloud_big" if i % 2 == 0 else "cloud_small")
-		ModelKit.place(root, cloud, Vector3(_rng.randf_range(west_edge - 5, east_edge + 7), _rng.randf_range(7, 10), _rng.randf_range(far_row - 5, 8)), 0.0, 2.2)
+		ModelKit.place(root, cloud, Vector3(_rng.randf_range(west_edge - 5, east_edge + 7) * SCALE, _rng.randf_range(7, 10), _rng.randf_range(far_row - 5, 8) * SCALE), 0.0, 2.2 * SCALE)
 
 
 func _build_props() -> void:
@@ -244,7 +255,7 @@ func _build_props() -> void:
 	anchors["pack_vendor"] = pack_vendor_center + Vector3(0, 0, 1.05)
 	anchors["npc_pack_vendor"] = pack_vendor_center + Vector3(1.0, 0, 0.7)
 	# Brief 12, Part F: Thimble's Hats & Hems (the tailor), east of the Deck Station on the central square.
-	var tailor_center: Vector3 = cell_center(6, 3)
+	var tailor_center: Vector3 = cell_center(8, 3)
 	_building("market", tailor_center, 0.0, 1.2, 0.9)
 	anchors["tailor"] = tailor_center + Vector3(0, 0, 1.05)
 	anchors["npc_tailor"] = tailor_center + Vector3(1.0, 0, 0.75)
@@ -258,7 +269,7 @@ func _build_props() -> void:
 	anchors["alchemist_door"] = alchemist_center + Vector3(0, 0, 0.55)
 	# Brief 9, Part G: the Grand Clashatorium (the Arena), a colosseum south of the Beefcake Flats corridor. Its gate faces
 	# north onto the open corridor; the building itself is solid.
-	var arena_center: Vector3 = cell_center(4, 13)
+	var arena_center: Vector3 = cell_center(5, 20)
 	ArenaBuilding.build(root, arena_center)
 	obstacles.append(Vector3(arena_center.x, arena_center.z, ArenaBuilding.RADIUS + 0.15))
 	anchors["arena"] = arena_center + Vector3(0, 0, -(ArenaBuilding.RADIUS + 0.95))
@@ -449,7 +460,7 @@ func _prop(model: String, position: Vector3, yaw: float, model_scale: float, rad
 
 ## True when a character may stand at `pos` (on a walkable cell and clear of obstacles).
 func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
-	var cell: Vector2i = HexGrid.world_to_cell(pos)
+	var cell: Vector2i = HexGrid.world_to_cell(pos / SCALE)
 	if not walkable.has(cell):
 		return false
 	for obstacle: Vector3 in obstacles:
@@ -462,8 +473,9 @@ func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
 
 
 func is_floor_at(pos: Vector3) -> bool:
-	return walkable.has(HexGrid.world_to_cell(pos))
+	return walkable.has(HexGrid.world_to_cell(pos / SCALE))
 
 
 func map_bounds() -> Rect2:
-	return HexGrid.bounds_of(walkable.keys())
+	var rect: Rect2 = HexGrid.bounds_of(walkable.keys())
+	return Rect2(rect.position * SCALE, rect.size * SCALE)

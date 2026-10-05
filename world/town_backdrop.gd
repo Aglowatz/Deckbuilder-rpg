@@ -8,14 +8,14 @@ var _angle: float = 0.0
 var _center: Vector3
 var _time: float = 0.0
 @export var orbit_speed: float = 0.035
-@export var distance: float = 15.0
-@export var height: float = 8.5
+@export var distance: float = 24.0
+@export var height: float = 13.0
 @export var start_angle: float = 0.55
 
 
 func _ready() -> void:
 	town.build(self)
-	_center = HexGrid.cell_to_world(4, 3) + Vector3(0.6, 0.6, 0.0)
+	_center = town.cell_center(4, 4) + Vector3(0.6, 0.6, 0.0)
 	_camera = Camera3D.new()
 	_camera.fov = 42.0
 	_camera.h_offset = -3.2

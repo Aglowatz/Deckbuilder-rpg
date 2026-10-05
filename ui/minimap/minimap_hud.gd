@@ -44,7 +44,7 @@ func setup(zone_or_area_id: String, map: WalkableArea, hero: TownPlayer, poi_sou
 func _ready() -> void:
 	custom_minimum_size = SIZE
 	size = SIZE
-	position = Vector2(1640, 318)
+	position = Vector2(1640, 470)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	clip_contents = true
 	visible = Settings.show_minimap

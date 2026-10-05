@@ -67,7 +67,7 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.glow_threshold = 1.15
 			p.exposure = 0.82
 			p.rim_color = Color("ffe0b8")
-			p.particles = [{"kind": "motes", "color": Color(1.0, 0.86, 0.55, 0.8), "amount": 60}, {"kind": "leaves", "color": Color("d98a3a"), "amount": 14}]
+			p.particles = [{"kind": "motes", "color": Color(1.0, 0.86, 0.55, 0.8), "amount": 60}]
 		START:
 			p.with_id(id, "Starting area: soft, mysterious")
 			p.sky_top = Color("2a2e6a")
