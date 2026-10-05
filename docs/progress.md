@@ -2375,3 +2375,8 @@ volumetrics; for stronger GPUs). The pre-brief town ran about 35 fps. The Medium
 - **No labels:** hidden chests and the old lever have no name plate; vendors that are not open yet (Alchemist, the Arena, the Pack Vendor before the first zone) have no plate, no map icon and a plain "CLOSED" sign.
 - **Gainlands hand-dressed pass** (`world/gainlands/gainlands_dressing.gd`): red/gold/blue pennant poles, kettlebell clusters, plate stacks, tire piles, punching bags and sunflower beds around the Swole Station hub, procedural, seeded, walkability and anchor aware, quality scaled; the preset is brighter and more saturated again. The vertex-coloured terrain keeps its own material (the double-sided toon variant drew nothing on it and the zone looked gray; found by A/B tests). Medium: Gainlands 83 fps, town 72 fps. Test: `tests/world/test_gainlands_dressing.gd`.
 - Kept: High quality; D.N.A. accent red; prices; no new cosmetics until the custom hero.
+
+# Brief 13
+
+## Part A: main town ground - done
+The cobbled plaza and cobble discs are gone: the square is toon grass (650 wind-swaying tufts + 130 plants, now also on the former plaza), with worn-grass olive-tan paths 1.3 m wide where readability needs them and the usual ~20 flowers. Screenshots: `_screenshots/brief13/a_*`.

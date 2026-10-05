@@ -1,6 +1,6 @@
 class_name TownSquare
 extends RefCounted
-## The visual slice (Brief 12, Part C), calmed down in Brief 12b: the main town's central square dressed to docs/art/style_guide.md, but airy. A cobbled plaza around the
+## The visual slice (Brief 12, Part C), calmed down in Brief 12b: the main town's central square dressed to docs/art/style_guide.md, but airy. A grassy square around the
 ## well, dirt paths to the vendors, moss patches, a few lamp posts with warm pools, two market stalls, benches and sparse wind-swaying grass with only a handful of flowers.
 ## Nothing is placed on the walking lanes between buildings (docs/art/style_guide.md: walkable lanes stay at least 2 m wide). Deterministic (seeded), scaled by graphics quality.
 
@@ -10,7 +10,7 @@ var root: Node3D
 var town: TownBuilder
 var center: Vector3 = Vector3.ZERO
 var plaza_radius: float = 4.6
-var meadow_radius: float = 15.0
+var meadow_radius: float = 17.0
 var lights: Array[OmniLight3D] = []
 ## Where every meadow tuft/flower stands (also readable headless, where MultiMesh buffers are not).
 var meadow_points: Array[Vector3] = []
@@ -60,18 +60,13 @@ func _hex_prop(model: String, pos: Vector3, yaw: float = 0.0, scale_value: float
 
 
 func _ground() -> void:
-	var cobble: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.COBBLE, Color("e0c294"), Color("b8a0a8"), Color("584258"), GroundDecals.Shape.DISC, 2.6, 0.35, 1.0)
-	GroundDecals.disc(root, center, plaza_radius, cobble, 0.92, 0.0)
-	var cobble_small: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.COBBLE, Color("d8b88c"), Color("b0989e"), Color("584258"), GroundDecals.Shape.DISC, 2.6, 0.45, 2.0)
-	for key: String in ["market", "deck", "tailor", "rift_station", "item_vendor", "pack_vendor"]:
-		GroundDecals.disc(root, _anchor(key) + Vector3(0.0, 0.0, 0.1), 2.0, cobble_small, 0.85, 8.0, 0.002)
-	var dirt: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, Color("a78460"), Color("8f6e50"), Color("62483a"), GroundDecals.Shape.RIBBON, 1.0, 0.6, 3.0)
+	var dirt: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, Color("a9a463"), Color("8e9a54"), Color("6a6a3e"), GroundDecals.Shape.RIBBON, 1.0, 0.7, 3.0)
 	for key: String in ["market", "deck", "tailor", "spawn", "rift_station", "gate", "item_vendor", "pack_vendor", "equipment_vendor"]:
 		var points: Array[Vector3] = _smooth([center, _anchor(key) + Vector3(0.0, 0.0, 0.2)])
 		for piece: Array in _land_runs(points):
 			var typed: Array[Vector3] = []
 			typed.assign(piece)
-			GroundDecals.ribbon(root, typed, 1.5, dirt, 0.004)
+			GroundDecals.ribbon(root, typed, 1.3, dirt, 0.004)
 		_lane_points.append_array(points)
 	var grass_dark: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("4f9a58"), Color("3c8466"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 4.0)
 	var grass_light: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("86c066"), Color("6fae62"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 5.0)
@@ -229,8 +224,8 @@ func _plaza_furniture() -> void:
 
 func _meadow() -> void:
 	var groups: Array[Dictionary] = [
-		{"model": "grass_leafs", "count": 300, "scale": Vector2(1.4, 2.4)},
-		{"model": "plant_flatShort", "count": 70, "scale": Vector2(1.3, 2.0)},
+		{"model": "grass_leafs", "count": 650, "scale": Vector2(1.4, 2.4)},
+		{"model": "plant_flatShort", "count": 130, "scale": Vector2(1.3, 2.0)},
 		{"model": "plant_bush", "count": 20, "scale": Vector2(1.2, 1.8)},
 		{"model": "flower_redA", "count": 8, "scale": Vector2(1.2, 1.7)},
 		{"model": "flower_yellowA", "count": 8, "scale": Vector2(1.2, 1.7)},
@@ -261,7 +256,7 @@ func _meadow() -> void:
 func _meadow_ok(pos: Vector3) -> bool:
 	if not town.is_floor_at(pos):
 		return false
-	if Vector2(pos.x - center.x, pos.z - center.z).length() < plaza_radius * 0.95:
+	if Vector2(pos.x - center.x, pos.z - center.z).length() < 1.6:  # only the well itself
 		return false
 	for point: Vector3 in _lane_points:
 		if Vector2(pos.x - point.x, pos.z - point.z).length() < 0.9:
