@@ -14,6 +14,8 @@ const SUN_CULL_MASK: int = 0xFFFFF & ~2
 const SAFE_CHECK_INTERVAL: float = 0.25
 
 var capital: CapitalBuilder
+var wasteland: CapitalWasteland
+var _inside: bool = false
 var _ash_added: bool = false
 var _shake: float = 0.0
 var _traveling: bool = false
@@ -172,6 +174,10 @@ func _destination_name(dest: String) -> String:
 
 func _zone_process(delta: float) -> void:
 	capital.animate(delta)
+	if not player.airborne and not _fainting and not _traveling and style_rig != null:
+		var inside_now: bool = _is_inside(player.position)
+		if inside_now != _inside:
+			_cross_gate(inside_now)
 	if not _ash_added and _camera != null:
 		_ash_added = true
 		_camera.add_child(CapitalLook.confetti() if Session.flag(CapitalZone.FLAG_FREED) else CapitalLook.ash())
@@ -566,6 +572,48 @@ func screenshot_prepare(args: Dictionary) -> void:
 			Session.set_flag(StringName(flag_name))
 
 
+## Outside the wall is the wasteland, inside is the idyllic city (Brief 13): the preset follows where the hero stands.
 func _style_preset() -> StringName:
 	var state: Dictionary = CapitalBuilder.story_context()
+	_inside = _is_inside(player.position)
+	Audio.play_music(&"capital_inside" if _inside else &"capital_wasteland", 0.5)
+	if _inside:
+		return StylePresets.capital_inside(bool(state["dark"]), bool(state["final"]))
 	return StylePresets.capital(bool(state["dark"]), bool(state["final"]))
+
+
+## Is `pos` north of the city wall (inside the walls)? The gate opening itself counts as outside until the hero is past it.
+func _is_inside(pos: Vector3) -> bool:
+	var limit: float = float(CapitalLayout.WALL_Z0) + (1.5 if _inside else 0.0)
+	return pos.z < limit
+
+
+func _dress_zone() -> void:
+	var quality: int = Settings.graphics_quality
+	var north: Callable = func(pos: Vector3) -> bool: return pos.z < float(CapitalLayout.WALL_Z0) - 1.0
+	var south: Callable = func(pos: Vector3) -> bool: return pos.z > float(CapitalLayout.WALL_Z1) + 1.0
+	# inside: lawns, flowers and shrubs (the facade recipe); outside: the generic wasteland scatter plus dead trees, ruins and debris
+	ZoneDressing.build(self, builder, StylePresets.CAPITAL_FACADE, quality, [], north, 0.45)
+	ZoneDressing.build(self, builder, StylePresets.CAPITAL_OUTSKIRTS, quality, [], south, 0.2)
+	wasteland = CapitalWasteland.build(self, capital, capital.layout, quality)
+
+
+## The gate crossing: a flash, the whole look and the music change at once.
+func _cross_gate(now_inside: bool) -> void:
+	_inside = now_inside
+	var state: Dictionary = CapitalBuilder.story_context()
+	var id: StringName = StylePresets.capital_inside(bool(state["dark"]), bool(state["final"])) if now_inside else StylePresets.capital(bool(state["dark"]), bool(state["final"]))
+	var veil: ColorRect = ColorRect.new()
+	veil.color = Color(1.0, 0.98, 0.9, 0.0) if now_inside else Color(0.1, 0.1, 0.08, 0.0)
+	UIKit.full_rect(veil)
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_overlay_layer.add_child(veil)
+	var tween: Tween = create_tween()
+	tween.tween_property(veil, "color:a", 1.0, 0.25)
+	tween.tween_callback(func() -> void:
+		style_rig.set_preset(id)
+		Audio.play_music(&"capital_inside" if now_inside else &"capital_wasteland", 0.8)
+		Audio.sfx(&"heal" if now_inside else &"door")
+		hud.toast("Welcome to Neatropolis. Everything is perfectly fine." if now_inside else "Back out into the wastes.", UIStyle.GOLD))
+	tween.tween_property(veil, "color:a", 0.0, 0.9)
+	tween.tween_callback(veil.queue_free)

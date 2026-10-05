@@ -12,13 +12,15 @@ const CAPITAL_FACADE: StringName = &"capital_facade"
 const CAPITAL_OUTSKIRTS: StringName = &"capital_outskirts"
 const CAPITAL_DARK: StringName = &"capital_dark"
 const CAPITAL_FREED: StringName = &"capital_freed"
+const CAPITAL_INSIDE: StringName = &"capital_inside"
+const CAPITAL_INSIDE_DARK: StringName = &"capital_inside_dark"
 const BATTLE: StringName = &"battle"
 const DUNGEON: StringName = &"dungeon"
 const ARENA: StringName = &"arena"
 
 
 static func ids() -> Array[StringName]:
-	return [TOWN, START, DNA, GAINLANDS, BUFFET, HEAP, CAPITAL_FACADE, CAPITAL_OUTSKIRTS, CAPITAL_DARK, CAPITAL_FREED, BATTLE, DUNGEON, ARENA]
+	return [TOWN, START, DNA, GAINLANDS, BUFFET, HEAP, CAPITAL_FACADE, CAPITAL_OUTSKIRTS, CAPITAL_DARK, CAPITAL_FREED, CAPITAL_INSIDE, CAPITAL_INSIDE_DARK, BATTLE, DUNGEON, ARENA]
 
 
 ## The preset for a zone id (`DnaZone.ID` etc.) - the Capital resolves its own variant, see `capital`.
@@ -35,6 +37,13 @@ static func for_zone(zone_id: String) -> StringName:
 		"final":
 			return CAPITAL_OUTSKIRTS
 	return TOWN
+
+
+## Inside the walls the Capital is bright and idyllic (unless the service is down); outside is the wasteland.
+static func capital_inside(dark: bool, freed: bool) -> StringName:
+	if freed:
+		return CAPITAL_FREED
+	return CAPITAL_INSIDE_DARK if dark else CAPITAL_INSIDE
 
 
 static func capital(dark: bool, freed: bool) -> StringName:
@@ -206,41 +215,75 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.rim_color = Color("ffffff")
 			p.particles = [{"kind": "sparkles", "color": Color(1.0, 0.95, 1.0, 1.0), "amount": 30}]
 		CAPITAL_OUTSKIRTS:
-			p.with_id(id, "Capital outskirts: desaturated, unsettling")
-			p.sky_top = Color("3c3a5c")
-			p.sky_horizon = Color("a28aa8")
-			p.ground_horizon = Color("807088")
-			p.ground_bottom = Color("2a2430")
-			p.sun_color = Color("c0b0e0")
-			p.sun_energy = 0.8
-			p.sun_pitch = -52.0
-			p.ambient_color = Color("8a7ab0")
-			p.ambient_energy = 0.9
-			p.fog_color = Color("7a6a90")
-			p.fog_density = 0.011
-			p.volumetric_density = 0.025
-			p.volumetric_color = Color("8a70b0")
-			p.saturation = 0.78
-			p.contrast = 1.1
-			p.glow_intensity = 0.55
-			p.outline_color = Color("120c1c")
+			p.with_id(id, "Capital outskirts: a gray, sickly wasteland")
+			p.sky_top = Color("6c7266")
+			p.sky_horizon = Color("b8b296")
+			p.ground_horizon = Color("a49e86")
+			p.ground_bottom = Color("4a4840")
+			p.sun_color = Color("d8d2b8")
+			p.sun_energy = 0.7
+			p.sun_pitch = -40.0
+			p.ambient_color = Color("8a8c78")
+			p.ambient_energy = 0.75
+			p.exposure = 0.78
+			p.fog_color = Color("9a9684")
+			p.fog_density = 0.013
+			p.volumetric_density = 0.02
+			p.volumetric_color = Color("9a967e")
+			p.saturation = 0.62
+			p.contrast = 1.12
+			p.glow_intensity = 0.5
+			p.outline_color = Color("1c1a16")
 			p.outline_strength = 0.7
 			p.rim_color = Color("e060ff")
-			p.desaturate = 0.45
+			p.desaturate = 0.35
 			p.wind = 0.6
 			p.accent = Color("ff3aa8")
-			p.particles = [{"kind": "ash", "color": Color(0.75, 0.7, 0.8, 0.7), "amount": 50}, {"kind": "sparkles", "color": Color("ff50d0"), "amount": 14}]
+			p.particles = [{"kind": "ash", "color": Color(0.7, 0.68, 0.62, 0.8), "amount": 80}, {"kind": "motes", "color": Color(0.8, 0.76, 0.62, 0.6), "amount": 40}, {"kind": "sparkles", "color": Color("ff50d0"), "amount": 12}]
 		CAPITAL_DARK:
 			p = get_preset(CAPITAL_OUTSKIRTS)
 			p.with_id(id, "Capital outskirts, service down: dark")
-			p.sky_top = Color("14132a")
-			p.sky_horizon = Color("3a2f50")
-			p.ground_horizon = Color("2a2438")
-			p.sun_energy = 0.45
-			p.ambient_color = Color("5a5478")
-			p.ambient_energy = 0.8
-			p.fog_color = Color("2a2438")
-			p.fog_density = 0.014
+			p.sky_top = Color("4a4e48")
+			p.sky_horizon = Color("8a8670")
+			p.ground_horizon = Color("6a6652")
+			p.sun_energy = 0.4
+			p.ambient_color = Color("727868")
+			p.ambient_energy = 0.7
+			p.exposure = 0.7
+			p.fog_color = Color("6a6a5c")
+			p.fog_density = 0.016
+		CAPITAL_INSIDE:
+			p.with_id(id, "Capital inside the walls: idyllic, bright, blue sky")
+			p.sky_top = Color("3f8fe6")
+			p.sky_horizon = Color("cfeaff")
+			p.ground_horizon = Color("e8f4ff")
+			p.ground_bottom = Color("a8d0f0")
+			p.sun_color = Color("fff3d6")
+			p.sun_energy = 0.8
+			p.sun_pitch = -46.0
+			p.sun_yaw = -30.0
+			p.ambient_color = Color("8fb8e8")
+			p.ambient_energy = 0.5
+			p.exposure = 0.6
+			p.fog_color = Color("d8ecff")
+			p.fog_density = 0.0016
+			p.saturation = 1.12
+			p.contrast = 1.08
+			p.glow_intensity = 0.25
+			p.outline_color = Color("5a6aa0")
+			p.outline_strength = 0.4
+			p.rim_color = Color("fff6d8")
+			p.highlight = Vector3(1.05, 1.02, 0.94)
+			p.particles = [{"kind": "sparkles", "color": Color(1.0, 0.95, 0.7, 1.0), "amount": 22}, {"kind": "petals", "color": Color("ffb0d0"), "amount": 16}]
+		CAPITAL_INSIDE_DARK:
+			p = get_preset(CAPITAL_INSIDE)
+			p.with_id(id, "Capital inside, service down: the idyll at dusk")
+			p.sky_top = Color("3a74c8")
+			p.sky_horizon = Color("b8d0f0")
+			p.sun_energy = 0.75
+			p.ambient_energy = 0.5
+			p.exposure = 0.56
+			p.fog_color = Color("c0d4f0")
 		CAPITAL_FREED:
 			p.with_id(id, "Capital freed: bright and warm")
 			p.sky_top = Color("6fa8e0")

@@ -70,7 +70,7 @@ static func recipe(preset_id: StringName) -> Dictionary:
 		StylePresets.CAPITAL_FACADE, StylePresets.CAPITAL_FREED:
 			return {
 				"items": [
-					[NATURE, "plant_bushLarge", 1.5, 1.6, 2.4], [NATURE, "flower_redC", 4.0, 1.3, 1.9], [NATURE, "flower_purpleC", 4.0, 1.3, 1.9], [NATURE, "flower_yellowC", 4.0, 1.3, 1.9],
+					[NATURE, "plant_bushLarge", 3.0, 1.6, 2.4], [NATURE, "flower_redC", 14.0, 1.3, 1.9], [NATURE, "flower_purpleC", 14.0, 1.3, 1.9], [NATURE, "flower_yellowC", 14.0, 1.3, 1.9], [NATURE, "flower_redA", 8.0, 1.3, 1.9],
 					[NATURE, "grass_leafs", 18.0, 1.4, 2.0],
 				],
 				"patches": [Color("b8e8c8"), Color("d8c8f0"), Color("f0d0e0")], "patch_pattern": GroundDecals.Pattern.MOSS,
@@ -86,8 +86,8 @@ static func recipe(preset_id: StringName) -> Dictionary:
 	return {"items": [], "patches": []}
 
 
-## Builds the dressing under `parent` for walkable area `area`; `avoid` lists circles (Vector3(x, z, radius)) to leave empty (a hand-dressed square, say).
-static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, quality: int, avoid: Array[Vector3] = []) -> Node3D:
+## Builds the dressing under `parent` for walkable area `area`; `avoid` lists circles (Vector3(x, z, radius)) to leave empty (a hand-dressed square, say); `region` (pos -> bool) limits where items and patches go.
+static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, quality: int, avoid: Array[Vector3] = [], region: Callable = Callable(), region_share: float = 1.0) -> Node3D:
 	var root: Node3D = Node3D.new()
 	root.name = "ZoneDressing"
 	parent.add_child(root)
@@ -97,12 +97,12 @@ static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, qua
 	var data: Dictionary = recipe(preset_id)
 	var items: Array = data.get("items", []) as Array
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	rng.seed = hash(String(preset_id))
+	rng.seed = hash(String(preset_id)) + (7 if region.is_valid() else 0)
 	var chunks: Dictionary = {}
 	var budget: int = BUDGET[clampi(quality, 0, 2)]
 	var placed: int = 0
 	var density_scale: float = GraphicsQuality.foliage_density(quality)
-	var area_m2: float = bounds.size.x * bounds.size.y
+	var area_m2: float = bounds.size.x * bounds.size.y * region_share
 	for item: Array in items:
 		var wanted: int = int(area_m2 / 100.0 * float(item[2]) * density_scale * 0.35)
 		wanted = mini(wanted, budget - placed)
@@ -116,7 +116,7 @@ static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, qua
 		while count < wanted and tries < wanted * 10:
 			tries += 1
 			var pos: Vector3 = Vector3(rng.randf_range(bounds.position.x, bounds.end.x), 0.0, rng.randf_range(bounds.position.y, bounds.end.y))
-			if not area.is_floor_at(pos) or not area.is_walkable(pos, 0.12) or _avoided(pos, avoid):
+			if not area.is_floor_at(pos) or not area.is_walkable(pos, 0.12) or _avoided(pos, avoid) or (region.is_valid() and not bool(region.call(pos))):
 				continue
 			pos.y = area.height_at(pos)
 			var s: float = rng.randf_range(float(item[3]), float(item[4]))
@@ -129,7 +129,7 @@ static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, qua
 		placed += count
 	for key: String in chunks:
 		_make_multimesh(root, chunks[key] as Dictionary)
-	_patches(root, area, bounds, data, rng, quality)
+	_patches(root, area, bounds, data, rng, quality, region)
 	return root
 
 
@@ -168,7 +168,7 @@ static func _is_foliage(model: String) -> bool:
 	return false
 
 
-static func _patches(root: Node3D, area: WalkableArea, bounds: Rect2, data: Dictionary, rng: RandomNumberGenerator, quality: int) -> void:
+static func _patches(root: Node3D, area: WalkableArea, bounds: Rect2, data: Dictionary, rng: RandomNumberGenerator, quality: int, region: Callable = Callable()) -> void:
 	var colors: Array = data.get("patches", []) as Array
 	if colors.is_empty():
 		return
@@ -179,7 +179,7 @@ static func _patches(root: Node3D, area: WalkableArea, bounds: Rect2, data: Dict
 	while made < count and tries < count * 12:
 		tries += 1
 		var pos: Vector3 = Vector3(rng.randf_range(bounds.position.x, bounds.end.x), 0.0, rng.randf_range(bounds.position.y, bounds.end.y))
-		if not area.is_floor_at(pos) or not area.is_floor_at(pos + Vector3(1.0, 0.0, 0.0)) or not area.is_floor_at(pos + Vector3(0.0, 0.0, 1.0)):
+		if not area.is_floor_at(pos) or not area.is_floor_at(pos + Vector3(1.0, 0.0, 0.0)) or not area.is_floor_at(pos + Vector3(0.0, 0.0, 1.0)) or (region.is_valid() and not bool(region.call(pos))):
 			continue
 		pos.y = area.height_at(pos)
 		var base: Color = colors[made % colors.size()] as Color

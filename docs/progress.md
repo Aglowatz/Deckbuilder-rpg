@@ -2386,3 +2386,6 @@ Default camera pulled out 1.5x in the town, starting area and every zone (one mu
 
 ## Part C: clouds - done
 Town clouds: 9 huge -> 5 small ones at 24-30 m (they sit above the camera); starting area: 3 -> 2 small high ones. New `CloudFader`: adopted clouds get a translucent material and fade out when between the camera and the hero or close to the camera (also applied to the Gainlands' cloud sea). The Verdant Dump and the other zones have no cloud models. Tests: `tests/world/test_cloud_fader.gd`.
+
+## Part D: the Capital, outside vs inside - done
+Outside the wall: cracked ash-tan wasteland, dead trees, ruined walls, debris, broken carts, stumps, crack decals, gray sickly sky, thick haze, ash/dust/rift sparks, a bare windswept drone track. Inside: lush striped lawns, cream paving, flowers and shrubs, blue sky, petals, a cheerful loop; the identical-smile portraits, speakers, never-opening doors and propaganda remain as the tells. The gate crossing fades through a veil and swaps look, music and sound. Screenshots `_screenshots/brief13/d_*`. Tests `tests/world/test_capital_mood.gd`. Capital Medium fps 94. Decisions R2-R3.

@@ -219,12 +219,18 @@ func _district_free(cx: int, cz: int) -> bool:
 
 
 func _floor_color(kind: CapitalLayout.Floor, cx: int, cz: int) -> Color:
-	var n: float = _noise(float(cx), float(cz))
+	var n: float = 0.5 + 0.5 * sin(float(cx) * 0.21 + sin(float(cz) * 0.17) * 2.0) * sin(float(cz) * 0.19 + float(cx) * 0.05)
 	var checker: bool = (cx + cz) % 2 == 0
+	var inside: bool = cz < CapitalLayout.WALL_Z0
 	var color: Color = M.ROAD
+	if inside and kind != CapitalLayout.Floor.HUB:
+		return _inside_color(kind, cx, cz, n, checker)
 	match kind:
 		CapitalLayout.Floor.GRAVEL:
-			color = M.GRAVEL.lerp(Color(0.38, 0.35, 0.34), n * 0.7)
+			# barren, cracked wasteland: dry ash-tan ground with dark crack cells and the odd pale bone-dry patch
+			color = Color(0.55, 0.5, 0.4).lerp(Color(0.38, 0.34, 0.3), n * 0.8)
+			if (cx * 5 + cz * 3) % 13 == 0 or (cx * 3 - cz * 4 + 400) % 17 == 0:  # thin diagonal cracks
+				color = color.darkened(0.16)
 		CapitalLayout.Floor.ROAD:
 			color = M.ROAD.lerp(Color(0.28, 0.28, 0.33), n * 0.6)
 		CapitalLayout.Floor.PLAZA:
@@ -254,18 +260,41 @@ func _floor_color(kind: CapitalLayout.Floor, cx: int, cz: int) -> Color:
 	return color
 
 
+## Inside the walls everything is idyllic (Brief 13): lush striped lawns, clean cream streets, pastel paving. The districts keep a faint hint of their
+## identity (a slightly different tone) so the map still reads, but nothing looks broken from the ground.
+func _inside_color(kind: CapitalLayout.Floor, cx: int, cz: int, n: float, checker: bool) -> Color:
+	var stripe: bool = (cx / 2) % 2 == 0
+	match kind:
+		CapitalLayout.Floor.ROAD:
+			return Color(0.86, 0.82, 0.74).lerp(Color(0.8, 0.76, 0.68), 0.35 if checker else n * 0.1)
+		CapitalLayout.Floor.PLAZA:
+			return Color(0.92, 0.88, 0.8).lerp(Color(0.84, 0.8, 0.72), 0.5 if checker else 0.0)
+		CapitalLayout.Floor.LAWN:
+			return Color(0.32, 0.82, 0.3) * (1.0 if stripe else 0.9)
+		CapitalLayout.Floor.SOIL:
+			return Color(0.3, 0.74, 0.3) * (1.0 if stripe else 0.92)
+		CapitalLayout.Floor.GRAY:
+			return Color(0.84, 0.8, 0.78).lerp(Color(0.78, 0.74, 0.74), 0.5 if checker else 0.0)
+		CapitalLayout.Floor.METAL:
+			return Color(0.8, 0.84, 0.88).lerp(Color(0.72, 0.78, 0.84), 0.5 if checker else 0.0)
+		CapitalLayout.Floor.TILE:
+			return Color(0.98, 0.86, 0.9) if checker else Color(0.86, 0.94, 0.9)
+	return Color(0.4, 0.8, 0.32)
+
+
 func _build_ground() -> void:
 	_build_ground_mesh(Rect2i(0, 0, CapitalLayout.W, int(CREASE_Z)), 1, "Ground")
 	_build_ground_mesh(Rect2i(0, int(CREASE_Z), CapitalLayout.W, CapitalLayout.H - int(CREASE_Z)), CREASE_LAYER, "CreaseGround")
-	# The wasteland beyond the walls: a huge dark plane so the void is not the sky.
-	var plane: MeshInstance3D = MeshInstance3D.new()
-	var mesh: PlaneMesh = PlaneMesh.new()
-	mesh.size = Vector2(700.0, 700.0)
-	plane.mesh = mesh
-	plane.material_override = M.flat(Color(0.14, 0.13, 0.17))
-	plane.position = Vector3(60.0, -0.4, 45.0)
-	plane.name = "Wasteland"
-	root.add_child(plane)
+	# Beyond the map: dusty wasteland south of the wall, lush meadow north of it (so the void is never the sky and each side keeps its mood to the horizon).
+	for half: Array in [["Wasteland", Color(0.6, 0.55, 0.44), 60.0, 340.0], ["Meadow", Color(0.3, 0.7, 0.28), -280.0, 340.0]]:
+		var plane: MeshInstance3D = MeshInstance3D.new()
+		var mesh: PlaneMesh = PlaneMesh.new()
+		mesh.size = Vector2(700.0, float(half[3]))
+		plane.mesh = mesh
+		plane.material_override = M.flat(half[1] as Color)
+		plane.position = Vector3(60.0, -0.4, float(half[2]) + float(half[3]) * 0.5)
+		plane.name = str(half[0])
+		root.add_child(plane)
 
 
 func _build_ground_mesh(rect: Rect2i, layer: int, node_name: String) -> void:
@@ -383,14 +412,14 @@ func _wall(node: Node3D, w: float, d: float, h: float, is_facade: bool) -> void:
 		_box(node, Vector3(w, h, d), M.shiny(M.WHITE, 0.3), Vector3(0, h * 0.5, 0))
 		_box(node, Vector3(w + 0.1, 0.18, d + 0.12), M.shiny(M.GOLD, 0.3), Vector3(0, h + 0.05, 0))
 		return
-	_box(node, Vector3(w, h, d), M.flat(Color(0.34, 0.33, 0.4)), Vector3(0, h * 0.5, 0))
+	_box(node, Vector3(w, h, d), M.flat(Color(0.6, 0.55, 0.5)), Vector3(0, h * 0.5, 0))
 	var along_x: bool = w >= d
 	var length: float = w if along_x else d
 	var count: int = int(length / 1.8)
 	for index: int in range(count):
 		var offset: float = -length * 0.5 + (float(index) + 0.5) * length / float(count)
 		var merlon: Vector3 = Vector3(offset, h + 0.4, 0.0) if along_x else Vector3(0.0, h + 0.4, offset)
-		_box(node, Vector3(1.0, 0.8, d + 0.2) if along_x else Vector3(w + 0.2, 0.8, 1.0), M.flat(Color(0.3, 0.29, 0.36)), merlon)
+		_box(node, Vector3(1.0, 0.8, d + 0.2) if along_x else Vector3(w + 0.2, 0.8, 1.0), M.flat(Color(0.5, 0.46, 0.43)), merlon)
 
 
 func _tower(node: Node3D, w: float, d: float, h: float) -> void:

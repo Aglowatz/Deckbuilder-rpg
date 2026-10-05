@@ -23,6 +23,10 @@ const TRACKS: Dictionary = {
 	&"heap": {"bpm": 92, "root": 57, "prog": [[0, false], [5, false], [9, true], [7, false]], "pad": 0.3, "arp": 0.4, "bass": 0.34, "drums": 0.18, "bell": 0.28, "wind": 0.4},
 	## Brief 10: the Capital - eerily cheerful: a bright major progression with a sour minor-iv turn, bells and a faint mains hum.
 	&"capital": {"bpm": 84, "root": 60, "prog": [[0, false], [5, true], [0, false], [7, false]], "pad": 0.3, "arp": 0.3, "bass": 0.22, "drums": 0.0, "bell": 0.5, "wind": 0.1, "hum": 0.25},
+	## Brief 13: inside the Capital's walls - sunny, bouncy and a little too cheerful (a bright major loop, plucky arp, bells, light shuffle).
+	&"capital_inside": {"bpm": 110, "root": 62, "prog": [[0, false], [7, false], [9, false], [5, false]], "pad": 0.25, "arp": 0.45, "bass": 0.3, "drums": 0.22, "bell": 0.5, "wind": 0.15, "hum": 0.06},
+	## Brief 13: outside the walls - a bare, windswept minor drone with distant bells.
+	&"capital_wasteland": {"bpm": 52, "root": 43, "prog": [[0, true], [-2, false], [-4, true], [-5, false]], "pad": 0.5, "arp": 0.0, "bass": 0.28, "drums": 0.0, "bell": 0.22, "wind": 0.6, "hum": 0.2},
 	## Primm's Castle - a slow, grand minor drone with echoing bells.
 	&"castle": {"bpm": 62, "root": 48, "prog": [[0, true], [-2, false], [-4, true], [-5, false]], "pad": 0.55, "arp": 0.18, "bass": 0.32, "drums": 0.0, "bell": 0.35, "wind": 0.05},
 	## The Primm boss duel - hard, driving, a little too tidy.

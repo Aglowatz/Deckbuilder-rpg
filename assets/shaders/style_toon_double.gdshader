@@ -43,9 +43,6 @@ void vertex() {
 }
 
 void fragment() {
-	if (!FRONT_FACING) {
-		NORMAL = -NORMAL;
-	}
 	vec2 uv = UV * uv1_scale.xy + uv1_offset.xy;
 	vec4 base = albedo;
 	if (use_texture) {

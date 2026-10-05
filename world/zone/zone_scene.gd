@@ -394,7 +394,7 @@ func _build_camera() -> void:
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	style_rig = StyleRig.install(self, _style_preset(), _camera, player)
 	if style_rig != null:
-		ZoneDressing.build(self, builder, style_rig.preset_id, Settings.graphics_quality)
+		_dress_zone()
 
 
 func _build_ui() -> void:
@@ -1217,3 +1217,8 @@ func _open_packs() -> void:
 	var screen: PacksScreen = PacksScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
+
+
+## Generic foliage/clutter dressing for the zone's preset; a zone with two moods (the Capital) overrides it.
+func _dress_zone() -> void:
+	ZoneDressing.build(self, builder, style_rig.preset_id, Settings.graphics_quality)
