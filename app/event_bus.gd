@@ -12,6 +12,8 @@ signal tutorial_event(id: StringName)
 signal collection_changed
 ## Unopened packs were granted, bought or opened (the Character screen refreshes its Packs list).
 signal packs_changed
+## The hero cosmetics (hat, cloak, dyes, owned items) changed: live hero models rebuild their look.
+signal cosmetics_changed
 ## Quest log changed (started, progressed, completed) - the HUD tracker redraws.
 signal quest_changed
 ## A quest toast: text, and true when it is a "new quest" (false = completed).

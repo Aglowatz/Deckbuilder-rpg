@@ -27,7 +27,9 @@ var moving: bool = false
 func setup(town_builder: WalkableArea, model_name: String, start: Vector3) -> void:
 	town = town_builder
 	position = start
-	model = ModelKit.character(model_name)
+	model = HeroModel.build(Session.cosmetics) if model_name == "Hero" else ModelKit.character(model_name)
+	if model_name == "Hero" and not EventBus.cosmetics_changed.is_connected(_on_cosmetics_changed):
+		EventBus.cosmetics_changed.connect(_on_cosmetics_changed)
 	add_child(model)
 	model.scale = Vector3.ONE * MODEL_SCALE
 	_animation = ModelKit.animation_player(model)
@@ -97,3 +99,13 @@ func _play(animation_name: StringName) -> void:
 		return
 	_current_animation = animation_name
 	_animation.play(animation_name, 0.2)
+
+
+func _on_cosmetics_changed() -> void:
+	if model != null and is_instance_valid(model):
+		HeroModel.refresh(model, Session.cosmetics)
+
+
+func _exit_tree() -> void:
+	if EventBus.cosmetics_changed.is_connected(_on_cosmetics_changed):
+		EventBus.cosmetics_changed.disconnect(_on_cosmetics_changed)

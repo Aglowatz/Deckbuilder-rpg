@@ -45,7 +45,7 @@ func _build_actors() -> void:
 	var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
 	player = TownPlayer.new()
 	add_child(player)
-	player.setup(area, "Knight", spawn)
+	player.setup(area, "Hero", spawn)
 	_portal_marker = Node3D.new()
 	_portal_marker.position = (area.anchors.get("portal", Vector3.ZERO) as Vector3) + Vector3(0, 1.6, 0)
 	add_child(_portal_marker)

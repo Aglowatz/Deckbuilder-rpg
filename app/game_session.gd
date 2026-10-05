@@ -35,6 +35,8 @@ var found_secrets: Array[String] = []
 ## (zone enemies beaten, minigames won...) that Condition.COUNTER reads.
 var quest_log: QuestLog = QuestLog.new()
 var counters: Dictionary = {}
+## Hats, cloaks and dyes (purely visual; saved with the campaign).
+var cosmetics: CosmeticState = CosmeticState.new()
 ## Level-ups earned outside a battle (quest rewards...) that the current scene still has to show.
 var pending_level_ups: Array[LevelData] = []
 var completed_quests: Array[String]:
@@ -109,6 +111,7 @@ func new_game() -> void:
 	found_secrets = []
 	quest_log.reset()
 	counters = {}
+	cosmetics = CosmeticState.new()
 	zone_log = []
 	map_fog = {}
 	_fog_live = {}
@@ -135,6 +138,7 @@ func ensure_game(color: Affinity.Type = Affinity.Type.A) -> void:
 		deck.deck_name = DECK_NAME
 		cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)
 		set_flag(&"trial_cleared")
+		choose_starting_look("hat_wide_brim", "cloak_short", 1, 0)  # screenshot/test launches skip the starting area: a default look
 
 
 ## New brief (third), Part D: the hidden tunnel in the starting area's bottom-left corner - the
@@ -632,6 +636,7 @@ func to_dict() -> Dictionary:
 		"vendor_discount_percent": profile.vendor_discount_percent,
 		"essence": _essence_to_dict(),
 		"packs": profile.packs.duplicate(),
+		"cosmetics": cosmetics.to_dict(),
 	}
 
 
@@ -699,6 +704,11 @@ func from_dict(data: Dictionary) -> bool:
 	found_secrets.assign(data.get("found_secrets", []) as Array)
 	quest_log.from_dict(data.get("quests", {"completed": data.get("completed_quests", [])}) as Dictionary)
 	counters = (data.get("counters", {}) as Dictionary).duplicate()
+	cosmetics = CosmeticState.new()
+	if data.has("cosmetics"):
+		cosmetics.from_dict(data["cosmetics"] as Dictionary)
+	else:
+		cosmetics.look_chosen = true  # a save from before cosmetics: nothing to choose
 	zone_log.assign(data.get("zone_log", []) as Array)
 	map_fog = (data.get("map_fog", {}) as Dictionary).duplicate(true)
 	_fog_live = {}
@@ -1823,3 +1833,58 @@ func dev_free_zone(zone_id: String) -> void:
 	flags[str(ZoneCompletion.flag_name(zone_id))] = true
 	_sync_freed_stories()
 	refresh_quests()
+
+
+# ---- Cosmetics (hats, cloaks, dyes: purely visual) ---------------------------------------------------------------------------------
+
+
+## Adds a hat or cloak to the wardrobe. False for unknown ids or items already owned. Pass `announce` to toast it.
+func grant_cosmetic(item_id: String, announce: bool = false) -> bool:
+	if not cosmetics.grant(item_id):
+		return false
+	EventBus.cosmetics_changed.emit()
+	if announce:
+		var item: CosmeticData = CosmeticCatalog.find(item_id)
+		town_notice = "New %s: %s! (open the wardrobe with T)" % [item.slot_name().to_lower(), item.display_name]
+	save_game()
+	return true
+
+
+## Buys a cosmetic at the tailor: pays the price (the vendor discount does not apply to clothes) and adds it.
+func buy_cosmetic(item_id: String) -> bool:
+	var item: CosmeticData = CosmeticCatalog.find(item_id)
+	if item == null or not item.is_for_sale() or cosmetics.owns(item_id):
+		return false
+	if not Condition.met(item.unlock, unlock_state()):
+		return false
+	if not spend_gold(item.price):
+		return false
+	cosmetics.grant(item_id)
+	bump_counter("cosmetics_bought")
+	EventBus.cosmetics_changed.emit()
+	save_game()
+	return true
+
+
+## Applies a (previewed) look: the equipped hat/cloak and dyes copied from `look`.
+func apply_look(look: CosmeticState) -> void:
+	cosmetics.hat_id = look.hat_id if cosmetics.owns(look.hat_id) else ""
+	cosmetics.cloak_id = look.cloak_id if cosmetics.owns(look.cloak_id) else ""
+	cosmetics.hat_dye = Dye.clamp_index(look.hat_dye)
+	cosmetics.cloak_dye = Dye.clamp_index(look.cloak_dye)
+	EventBus.cosmetics_changed.emit()
+	save_game()
+
+
+## The new-game choice: grants and equips the chosen starter hat and cloak ("" for none) and marks the look as chosen.
+func choose_starting_look(hat_item: String, cloak_item: String, hat_dye_index: int, cloak_dye_index: int) -> void:
+	for item_id: String in [hat_item, cloak_item]:
+		if item_id != "":
+			cosmetics.grant(item_id)
+	cosmetics.equip(CosmeticData.Slot.HAT, hat_item)
+	cosmetics.equip(CosmeticData.Slot.CLOAK, cloak_item)
+	cosmetics.set_dye(CosmeticData.Slot.HAT, hat_dye_index)
+	cosmetics.set_dye(CosmeticData.Slot.CLOAK, cloak_dye_index)
+	cosmetics.look_chosen = true
+	EventBus.cosmetics_changed.emit()
+	save_game()

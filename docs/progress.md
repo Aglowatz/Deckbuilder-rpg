@@ -2332,3 +2332,8 @@ crop garden, campfire, bunting, MultiMesh meadow with shader wind, particles (mo
 (foliage, clutter and ground patches per preset, chunked MultiMesh) plus the town's `ZoneDressing` outside the hand-dressed square. Fixes found on the way (Q12): Gainlands terrain normals, sRGB vertex colours,
 double-sided normals, material_override conversion. D.N.A.: colour only on the hero, NPCs, enemies (red rim) and the Rift station. Before/after: `_screenshots/visual_slice/areas/` (`tools/zone_shots.sh`).
 Performance at Medium: town 62 fps, D.N.A. 84, Gainlands 90, Buffet 91, Dump 91, Capital 97, starting area 113. Tests: 850 passing (`test_zone_dressing.gd`).
+
+## Part E: hero overhaul and customization - done
+The Knight is replaced by an unarmored adventurer (KayKit Rogue, weapons/cape hidden, same animation rig). Cosmetics: 12 hats + 10 cloaks (3 starter choices each, the rest at the tailor or hidden), 12 dyes, `CloakSway` spring
+motion, `WardrobeScreen` (T / HUD button) with a rotating `HeroPreview`, the new-game "choose your look", save/load (`Session.cosmetics`). Equipment slots remain stat-only and are not drawn. How each item was made:
+docs/art/cosmetics.md. Tests: `tests/core/cosmetics/test_cosmetics.gd` (11): catalog, mesh builders, ownership/equip/dye, save round trip, old saves, starting look, unarmed hero model, cloak sway.

@@ -5,6 +5,7 @@ extends Control
 signal character_pressed
 signal deck_pressed
 signal quests_pressed
+signal wardrobe_pressed
 
 var _objective: RichTextLabel
 var _location: Label
@@ -63,6 +64,11 @@ func _ready() -> void:
 	quests_button.position = Vector2(1650, 240)
 	quests_button.pressed.connect(func() -> void: quests_pressed.emit())
 	add_child(quests_button)
+	var wardrobe_button: FancyButton = FancyButton.make("Wardrobe (T)", &"", Vector2(180, 52))
+	wardrobe_button.name = "WardrobeButton"
+	wardrobe_button.position = Vector2(1650, 310)
+	wardrobe_button.pressed.connect(func() -> void: wardrobe_pressed.emit())
+	add_child(wardrobe_button)
 	_prompt_panel = UIKit.panel()
 	_prompt_panel.position = Vector2(700, 900)
 	_prompt_panel.visible = false
@@ -77,7 +83,7 @@ func _ready() -> void:
 	_toast.size = Vector2(1000, 44)
 	_toast.modulate.a = 0.0
 	add_child(_toast)
-	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      C: character      B: deck      J: quests      M: map      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      C: character      B: deck      J: quests      T: wardrobe      M: map      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
 	hints.position = Vector2(960, 1030)
 	hints.size = Vector2(940, 30)
 	add_child(hints)

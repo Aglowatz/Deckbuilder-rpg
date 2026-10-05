@@ -54,7 +54,7 @@ func _build_actors() -> void:
 	var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
 	player = TownPlayer.new()
 	add_child(player)
-	player.setup(area, "Knight", spawn)
+	player.setup(area, "Hero", spawn)
 	_gate_marker = Node3D.new()
 	_gate_marker.position = (area.anchors.get("gate", Vector3.ZERO) as Vector3) + Vector3(0, 1.6, 0)
 	add_child(_gate_marker)
@@ -122,6 +122,24 @@ func _open_full_map() -> void:
 
 
 func _play_awakening() -> void:
+	if not Session.cosmetics.look_chosen:
+		_choose_look()
+		return
+	_play_awakening_lines()
+
+
+## The new-game choice of a starting hat and cloak (a short, friendly screen before the first words of the story).
+func _choose_look() -> void:
+	_locked = true
+	var screen: WardrobeScreen = WardrobeScreen.starter()
+	_overlay_layer.add_child(screen)
+	screen.closed.connect(func() -> void:
+		screen.queue_free()
+		_locked = false
+		_play_awakening_lines())
+
+
+func _play_awakening_lines() -> void:
 	var story: StoryText = load(STORY_PATH) as StoryText
 	if story == null or story.awakening_lines.is_empty():
 		return

@@ -216,7 +216,7 @@ func _build_player() -> void:
 				_arrived_by_rift = true
 	player = TownPlayer.new()
 	add_child(player)
-	player.setup(builder, "Knight", spawn)
+	player.setup(builder, "Hero", spawn)
 	player.position.y = builder.height_at(spawn)
 
 
@@ -414,6 +414,7 @@ func _build_ui() -> void:
 	hud.character_pressed.connect(_open_character_screen)
 	hud.deck_pressed.connect(_open_deck_builder)
 	hud.quests_pressed.connect(_open_quest_log)
+	hud.wardrobe_pressed.connect(_open_wardrobe)
 	EventBus.quest_notice.connect(_on_quest_notice)
 	life_bar = ZoneLifeBar.new()
 	life_bar.position = Vector2(790, 24)
@@ -581,6 +582,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if code == KEY_B:
 			get_viewport().set_input_as_handled()
 			_open_deck_builder()
+			return
+		if code == KEY_T:
+			get_viewport().set_input_as_handled()
+			_open_wardrobe()
 			return
 		if code == KEY_J:
 			get_viewport().set_input_as_handled()
@@ -1186,3 +1191,12 @@ func _apply_colour_keep() -> void:
 		StyleToon.keep_colour(enemy, 1.0)
 	if _station != null:
 		StyleToon.keep_colour(_station)
+
+
+## The wardrobe (hotkey T): hats, cloaks and dyes, purely cosmetic.
+func _open_wardrobe() -> void:
+	if _locked or dialogue.active:
+		return
+	var screen: WardrobeScreen = WardrobeScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)

@@ -182,7 +182,7 @@ func _build_actors() -> void:
 		Session.has_town_return_position = false
 	player = TownPlayer.new()
 	add_child(player)
-	player.setup(town, "Knight", spawn)
+	player.setup(town, "Hero", spawn)
 	npc_life = NpcLife.new()
 	npc_life.target = player
 	add_child(npc_life)
@@ -458,6 +458,7 @@ func _build_ui() -> void:
 	hud.character_pressed.connect(_open_character_screen)
 	hud.deck_pressed.connect(_open_deck_builder_anywhere)
 	hud.quests_pressed.connect(_open_quest_log)
+	hud.wardrobe_pressed.connect(_open_wardrobe)
 	EventBus.quest_notice.connect(_on_quest_notice)
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
@@ -592,6 +593,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if (event as InputEventKey).keycode == KEY_B:
 			get_viewport().set_input_as_handled()
 			_open_deck_builder_anywhere()
+			return
+		if (event as InputEventKey).keycode == KEY_T:
+			get_viewport().set_input_as_handled()
+			_open_wardrobe()
 			return
 		if (event as InputEventKey).keycode == KEY_J:
 			get_viewport().set_input_as_handled()
@@ -1412,6 +1417,8 @@ func _screenshot_open(what: String) -> void:
 			_use_gate()
 		"codex":
 			_open_codex()
+		"wardrobe":
+			_open_wardrobe()
 		"character":
 			_open_character_screen()
 		"alchemist":
@@ -1422,3 +1429,12 @@ func _screenshot_open(what: String) -> void:
 			_open_quest_log()
 		"map":
 			_open_full_map()
+
+
+## The wardrobe (hotkey T): hats, cloaks and dyes, purely cosmetic.
+func _open_wardrobe() -> void:
+	if _locked or dialogue.active:
+		return
+	var screen: WardrobeScreen = WardrobeScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)

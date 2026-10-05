@@ -13,7 +13,7 @@ func _ready() -> void:
 	var camera: Camera3D = Camera3D.new()
 	camera.fov = 38.0
 	add_child(camera)
-	camera.position = Vector3(0, 4.0, 4.2)
+	camera.position = Vector3(0, float(_args.get("camy", 4.0)), float(_args.get("camz", 4.2)))
 	camera.look_at(Vector3(0, 0.3, 0), Vector3.UP)
 	camera.current = true
 	var ground: MeshInstance3D = MeshInstance3D.new()
@@ -31,7 +31,20 @@ func _ready() -> void:
 	for spec: String in specs:
 		var parts: PackedStringArray = spec.split(":")
 		var node: Node3D
-		if parts[0] == "hex":
+		if parts[0] == "hero":
+			var look: CosmeticState = CosmeticState.new()
+			for item_id: String in [parts[1], parts[2]]:
+				look.grant(item_id)
+			look.equip(CosmeticData.Slot.HAT, parts[1])
+			look.equip(CosmeticData.Slot.CLOAK, parts[2])
+			if parts.size() > 3:
+				look.set_dye(CosmeticData.Slot.HAT, int(parts[3]))
+				look.set_dye(CosmeticData.Slot.CLOAK, int(parts[4]))
+			node = HeroModel.build(look)
+			var anim: AnimationPlayer = ModelKit.animation_player(node)
+			if anim != null:
+				anim.play("Idle")
+		elif parts[0] == "hex":
 			node = ModelKit.prop(parts[1])
 		elif parts[0] == "char":
 			node = ModelKit.character(parts[1])
@@ -40,5 +53,6 @@ func _ready() -> void:
 		add_child(node)
 		node.position = Vector3((float(index) - float(specs.size() - 1) * 0.5) * 0.9, 0, 0)
 		node.scale = Vector3.ONE * scale_value
+		node.rotation_degrees.y = float(_args.get("yaw", 0.0))
 		index += 1
 	StyleRig.install(self, StringName(str(_args.get("preset", "town"))), camera, null)
