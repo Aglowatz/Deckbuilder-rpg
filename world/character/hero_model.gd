@@ -85,3 +85,23 @@ static func has_core_animations(model: Node) -> bool:
 		if not player.has_animation(animation_name):
 			return false
 	return true
+
+
+## Fixed outfits for the hero-shaped NPCs and display mannequins (the tailor and her window dummy): [hat id, hat dye, cloak id, cloak dye].
+const NPC_LOOKS: Dictionary = {
+	"tailor": ["hat_top_hat", 10, "cloak_scarf", 8],
+	"mannequin": ["hat_party", 7, "cloak_star", 6],
+}
+
+
+static func npc_look(kind: String) -> CosmeticState:
+	var spec: Array = NPC_LOOKS.get(kind, ["", 0, "", 0]) as Array
+	var look: CosmeticState = CosmeticState.new()
+	for item_id: String in [str(spec[0]), str(spec[2])]:
+		if item_id != "":
+			look.grant(item_id)
+	look.equip(CosmeticData.Slot.HAT, str(spec[0]))
+	look.equip(CosmeticData.Slot.CLOAK, str(spec[2]))
+	look.set_dye(CosmeticData.Slot.HAT, int(spec[1]))
+	look.set_dye(CosmeticData.Slot.CLOAK, int(spec[3]))
+	return look

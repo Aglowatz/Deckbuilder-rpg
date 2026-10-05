@@ -2337,3 +2337,8 @@ Performance at Medium: town 62 fps, D.N.A. 84, Gainlands 90, Buffet 91, Dump 91,
 The Knight is replaced by an unarmored adventurer (KayKit Rogue, weapons/cape hidden, same animation rig). Cosmetics: 12 hats + 10 cloaks (3 starter choices each, the rest at the tailor or hidden), 12 dyes, `CloakSway` spring
 motion, `WardrobeScreen` (T / HUD button) with a rotating `HeroPreview`, the new-game "choose your look", save/load (`Session.cosmetics`). Equipment slots remain stat-only and are not drawn. How each item was made:
 docs/art/cosmetics.md. Tests: `tests/core/cosmetics/test_cosmetics.gd` (11): catalog, mesh builders, ownership/equip/dye, save round trip, old saves, starting look, unarmed hero model, cloak sway.
+
+## Part F: clothing vendor - done
+Tilda Thimble (Thimble's Hats & Hems) in the main town square: hero-shaped NPC, window mannequin, funny dialogue (first/return/progress/secrets lines in `data/story/intro_story.tres`), `TailorScreen` with try-on preview,
+dye choice, buying (worn at once), locked teasers, stock by zones/levels. Three special cosmetics hidden in the world (docs/design/secrets.md). E2E (`tools/run_twelfth_brief_final_smoke.sh`, 12 screenshots in
+`_screenshots/brief12/`): choose-your-look at new game, walk up/talk/try/dye/buy, poor-gold refusal, locked teaser, T wardrobe, save/load, reload keeps the hat, four outfits.

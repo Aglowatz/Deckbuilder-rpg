@@ -37,7 +37,7 @@ const FALL_DAMAGE: int = 1
 ## Rewards of the hidden chests: id -> {gold, item, card, equipment}. Documented in
 ## docs/design/secrets.md - keep both in sync.
 const CHEST_REWARDS: Dictionary = {
-	"chest_ground_0": {"gold": 40, "item": "", "card": ""},
+	"chest_ground_0": {"gold": 40, "item": "", "card": "", "cosmetic": "cloak_tattered"},
 	"chest_ground_1": {"gold": 20, "item": "healing_salve", "card": ""},
 	"chest_ground_2": {"gold": 0, "item": "", "card": "wheel_runner"},
 	"chest_pec": {"gold": 60, "item": "scroll_of_insight", "card": ""},

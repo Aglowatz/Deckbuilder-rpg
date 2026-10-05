@@ -243,6 +243,12 @@ func _build_props() -> void:
 	_building("market", pack_vendor_center, 15.0, 1.1, 0.9)
 	anchors["pack_vendor"] = pack_vendor_center + Vector3(0, 0, 1.05)
 	anchors["npc_pack_vendor"] = pack_vendor_center + Vector3(1.0, 0, 0.7)
+	# Brief 12, Part F: Thimble's Hats & Hems (the tailor), east of the Deck Station on the central square.
+	var tailor_center: Vector3 = cell_center(6, 3)
+	_building("market", tailor_center, 0.0, 1.2, 0.9)
+	anchors["tailor"] = tailor_center + Vector3(0, 0, 1.05)
+	anchors["npc_tailor"] = tailor_center + Vector3(1.0, 0, 0.75)
+	anchors["tailor_mannequin"] = tailor_center + Vector3(-1.05, 0, 0.8)
 	# Brief 9, Part F: Crucible & Co., the Alchemist's shop, on the Beefcake Flats' north edge, facing the open
 	# east-west corridor. It is always there (closed until two zones are free): the scene decorates it.
 	var alchemist_center: Vector3 = cell_center(1, 10)

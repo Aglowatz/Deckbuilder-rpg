@@ -221,3 +221,15 @@ chest: only an up-close `[E] Squeeze through the gap` prompt, and only within 1.
 Verified in `tests/core/zone/test_capital.gd` (rewards defined for every chest, >= 6 chests, none inside an interact spot, none
 a minimap kind, the tunnel spot hidden and not a POI, reachability from the road through the gate) and the windowed e2e
 (`tools/tenth_brief_final_smoke.gd`).
+
+## Brief 12, Part F: three special cosmetics (spoilers)
+
+None of these is sold by the tailor (Tilda Thimble hints at all three once the first zone is freed). Each is purely visual.
+
+| Cosmetic | Where | How |
+|---|---|---|
+| **Crown of Leaves** (hat) | Verdant Dump, the hidden chest `chest_fridge` (`HeapZone.CHEST_REWARDS`) | one-time hidden chest, no marker; also pays 40 gold. Granted by `ZoneScene._open_chest` through the new `"cosmetic"` reward key |
+| **Tattered Cloak** (cloak) | Gainlands, the hidden chest `chest_ground_0` (`GainlandsZone.CHEST_REWARDS`) | one-time hidden chest; also pays 40 gold |
+| **Royal Mantle** (cloak) | beating Primm for the first time | `Session._grant_dungeon_packs` (Capital first clear); announced as a town notice |
+
+The tailor's regular stock (zones and levels): Tricorn (level 5), Top Hat (1 zone), Cat-Ear Band (level 8), Mushroom Cap (2 zones), Patchwork Cloak (level 4), Leaf Cloak (1 zone), Starfall Cloak (3 zones).

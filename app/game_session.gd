@@ -1505,6 +1505,8 @@ func _grant_dungeon_packs(zone_id: String, first_clear: bool, result: Dictionary
 	var config: PackConfig = PackCatalog.config()
 	var path: Affinity.Type = PackRules.path_for_zone(zone_id)
 	if path == Affinity.Type.NEUTRAL:
+		if zone_id == CapitalZone.ID and first_clear:
+			grant_cosmetic("cloak_royal", true)  # the Royal Mantle: the one thing Primm left behind that is worth wearing
 		if zone_id == CapitalZone.ID and first_clear and config.primm_prismatic_packs > 0:
 			add_pack(PackRules.PRISMATIC_ID, config.primm_prismatic_packs)
 			result["packs"] = [PackRewards.entry(PackRules.PRISMATIC_ID, config.primm_prismatic_packs)]

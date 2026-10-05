@@ -819,6 +819,9 @@ func _open_chest(id: String) -> void:
 	if not card_id.is_empty() and Session.card_by_id(card_id) != null:
 		Session.add_cards([Session.card_by_id(card_id)] as Array[CardData])
 		parts.append(Session.card_by_id(card_id).display_name)
+	var cosmetic_id: String = str(reward.get("cosmetic", ""))
+	if not cosmetic_id.is_empty() and Session.grant_cosmetic(cosmetic_id):
+		parts.append(CosmeticCatalog.find(cosmetic_id).display_name)
 	var equipment_id: String = str(reward.get("equipment", ""))
 	if not equipment_id.is_empty():
 		var piece: EquipmentData = Session.content.equipment_piece(equipment_id)

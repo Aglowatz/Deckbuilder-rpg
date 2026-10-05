@@ -66,7 +66,7 @@ func _ready() -> void:
 	add_child(quests_button)
 	var wardrobe_button: FancyButton = FancyButton.make("Wardrobe (T)", &"", Vector2(180, 52))
 	wardrobe_button.name = "WardrobeButton"
-	wardrobe_button.position = Vector2(1650, 310)
+	wardrobe_button.position = Vector2(1450, 100)
 	wardrobe_button.pressed.connect(func() -> void: wardrobe_pressed.emit())
 	add_child(wardrobe_button)
 	_prompt_panel = UIKit.panel()

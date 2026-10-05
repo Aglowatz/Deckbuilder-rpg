@@ -30,7 +30,7 @@ const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
 const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
-	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor",
+	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor",
 	"npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat",
 ]
 ## How close (in screen pixels) a click has to land to a spot's marker to count as
@@ -196,6 +196,9 @@ func _build_actors() -> void:
 	_add_npc("equipment_vendor", "Knight", town.anchors["npc_equipment_vendor"] as Vector3, -70.0)
 	# Brief 11: Foil Fenwick, the Pack Vendor.
 	_add_npc("pack_vendor", "Rogue", town.anchors["npc_pack_vendor"] as Vector3, 25.0, Color(1.0, 0.9, 0.6))
+	# Brief 12, Part F: Tilda Thimble, the tailor (hero-shaped, in her own top hat and scarf-cape), and a window mannequin.
+	_add_npc("tailor", "hero:tailor", town.anchors["npc_tailor"] as Vector3, -20.0)
+	_add_npc("mannequin", "hero:mannequin", town.anchors["tailor_mannequin"] as Vector3, 40.0)
 	if Session.alchemist_unlocked():
 		_add_npc("alchemist", "Mage", town.anchors["npc_alchemist"] as Vector3, -80.0, Color(0.7, 1.0, 0.7))
 	if Session.arena_unlocked():
@@ -239,7 +242,7 @@ func _build_actors() -> void:
 
 
 func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tint: Color = Color.WHITE) -> void:
-	var npc: Node3D = ModelKit.character(model_name)
+	var npc: Node3D = HeroModel.build(HeroModel.npc_look(model_name.substr(5))) if model_name.begins_with("hero:") else ModelKit.character(model_name)
 	if tint != Color.WHITE:
 		ModelKit.tint(npc, tint)
 	ModelKit.place(self, npc, position, yaw, TownPlayer.MODEL_SCALE)
@@ -248,7 +251,7 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 		animation.play("Idle")
 		animation.seek(randf() * 1.5)
 	_npcs[id] = npc
-	if npc_life != null:
+	if npc_life != null and id != "mannequin":
 		npc_life.register(npc, yaw)
 	town.obstacles.append(Vector3(position.x, position.z, 0.3))
 
@@ -346,6 +349,7 @@ func _build_spots() -> void:
 	# Fourth brief, Part C: the equipment vendor.
 	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, 1.5)
 	_add_spot("pack_vendor", StoryText.shared().text("town.pack_vendor.name"), town.anchors["npc_pack_vendor"] as Vector3, 1.5)
+	_add_spot("tailor", StoryText.shared().text("town.tailor.name"), town.anchors["npc_tailor"] as Vector3, 1.5)
 	# Brief 9, Part F: the Alchemist (locked until two zones are free; visible and closed before that).
 	_add_spot("alchemist", StoryText.shared().text("town.alchemist.name"), town.anchors["alchemist"] as Vector3, 1.7)
 	# Brief 9, Part G: the Grand Clashatorium (chained until the first zone is free).
@@ -669,6 +673,8 @@ func _interact(spot: Spot) -> void:
 			_talk_item_vendor()
 		"equipment_vendor":
 			_talk_equipment_vendor()
+		"tailor":
+			_talk_tailor()
 		"pack_vendor":
 			_talk_pack_vendor()
 		"graveyard_cairn":
@@ -1252,7 +1258,7 @@ func _use_gate() -> void:
 ## lever, vault, secret dealer and dev shrine are deliberately NOT listed - secrets never show.
 const POI_KINDS: Dictionary = {
 	"well": MapPoi.Kind.HEAL, "vendor": MapPoi.Kind.VENDOR, "item_vendor": MapPoi.Kind.VENDOR,
-	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.INTERACTABLE, "codex": MapPoi.Kind.INTERACTABLE,
+	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "tailor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.INTERACTABLE, "codex": MapPoi.Kind.INTERACTABLE,
 	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON,
 	"graveyard_cairn": MapPoi.Kind.CHALLENGE,
 }
@@ -1409,6 +1415,8 @@ func _screenshot_open(what: String) -> void:
 			_open_item_vendor()
 		"equipment_vendor":
 			_open_equipment_vendor()
+		"tailor":
+			_open_tailor()
 		"pack_vendor":
 			_open_pack_vendor()
 		"dialogue":
@@ -1436,5 +1444,31 @@ func _open_wardrobe() -> void:
 	if _locked or dialogue.active:
 		return
 	var screen: WardrobeScreen = WardrobeScreen.new()
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
+## Brief 12, Part F: Tilda Thimble's Hats & Hems. Try items on a rotating copy of the hero before buying; stock grows with zones freed and levels.
+func _talk_tailor() -> void:
+	_face_npc("tailor")
+	var story: StoryText = StoryText.shared()
+	var lines: Array[String] = story.get_lines("town.tailor.return")
+	if not Session.flag(&"tailor_seen"):
+		Session.set_flag(&"tailor_seen")
+		lines = story.get_lines("town.tailor.first")
+	elif Session.completed_zone_count() > int(Session.counters.get("tailor_zones_seen", 0)):
+		Session.counters["tailor_zones_seen"] = Session.completed_zone_count()
+		lines = story.get_lines("town.tailor.progress")
+	if Session.completed_zone_count() >= 1 and not Session.flag(&"tailor_secrets_told"):
+		Session.set_flag(&"tailor_secrets_told")
+		lines.append_array(story.get_lines("town.tailor.secrets"))
+	dialogue.start(story.text("town.tailor.name"), lines)
+	dialogue.finished.connect(_open_tailor, CONNECT_ONE_SHOT)
+
+
+func _open_tailor() -> void:
+	if not Session.has_profile():
+		return
+	var screen: TailorScreen = TailorScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)

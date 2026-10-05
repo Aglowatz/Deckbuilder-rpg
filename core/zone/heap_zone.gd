@@ -57,7 +57,7 @@ const PICKUPS: Dictionary = {
 ## Rewards of the hidden chests: id -> {gold, item, card, equipment}. Documented in docs/design/secrets.md - keep
 ## both in sync.
 const CHEST_REWARDS: Dictionary = {
-	"chest_fridge": {"gold": 40, "item": "", "card": ""},
+	"chest_fridge": {"gold": 40, "item": "", "card": "", "cosmetic": "hat_leaf_crown"},
 	"chest_compost": {"gold": 25, "item": "healing_salve", "card": ""},
 	"chest_peak_a": {"gold": 0, "item": "", "card": "recycle_bin"},
 	"chest_hay": {"gold": 30, "item": "scroll_of_insight", "card": ""},

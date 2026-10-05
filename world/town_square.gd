@@ -177,7 +177,6 @@ func _market() -> void:
 	# two stalls flanking the market building, awnings from the tents, goods on the tables
 	_stall(m + Vector3(-1.9, 0.0, 0.9), 0.0, ["bread", "loaf", "cheese"])
 	_stall(m + Vector3(2.0, 0.0, 1.0), 0.0, ["cabbage", "carrot", "broccoli"])
-	_stall(_anchor("deck") + Vector3(2.0, 0.0, 1.1), -15.0, ["pie", "cupcake", "muffin"])
 	# loose goods: sacks, crates, barrels, baskets of produce
 	for offset: Vector3 in [Vector3(-0.7, 0.0, -0.9), Vector3(0.8, 0.0, -1.0), Vector3(1.4, 0.0, -0.5)]:
 		_put(ModelKit.KENNEY_SURVIVAL, ["box-large", "barrel", "box"][_rng.randi() % 3], m + offset, _rng.randf() * 360.0, 1.5, 0.2)
