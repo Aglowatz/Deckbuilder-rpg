@@ -176,6 +176,18 @@ func _ready() -> void:
 		_show_rift_arrival.call_deferred()
 	if _screenshot_args.has("at"):
 		_teleport(str(_screenshot_args["at"]))
+	_apply_colour_keep()
+	if _screenshot_args.has("cam"):
+		var cam: PackedStringArray = str(_screenshot_args["cam"]).split(",")
+		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
+	if _screenshot_args.has("pos"):
+		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
+		player.position = Vector3(float(pos[0]), 0.0, float(pos[1]))
+		_camera.position = player.position + camera_offset
+	if str(_screenshot_args.get("nohud", "false")) == "true":
+		for child: Node in get_children():
+			if child is CanvasLayer:
+				(child as CanvasLayer).visible = false
 	if _screenshot_args.has("open"):
 		_screenshot_open.call_deferred(str(_screenshot_args["open"]))
 	Session.save_game()
@@ -381,6 +393,8 @@ func _build_camera() -> void:
 	_camera.position = player.position + camera_offset
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	style_rig = StyleRig.install(self, _style_preset(), _camera, player)
+	if style_rig != null:
+		ZoneDressing.build(self, builder, style_rig.preset_id, Settings.graphics_quality)
 
 
 func _build_ui() -> void:
@@ -1158,3 +1172,17 @@ func screenshot_ready() -> bool:
 ## The lighting/environment preset this zone uses (docs/art/style_guide.md, section 11). The Capital overrides it with its state.
 func _style_preset() -> StringName:
 	return StylePresets.for_zone(def.id)
+
+
+## In the near-monochrome zones (the D.N.A.) colour is reserved for the hero, the people, the enemies and the key objects (docs/art/style_guide.md, section 11):
+## they keep their colours, and enemies also get the zone's accent (red) rim.
+func _apply_colour_keep() -> void:
+	if style_rig == null or style_rig.preset.desaturate < 0.3:
+		return
+	StyleToon.keep_colour(player)
+	for npc: Variant in _npcs.values():
+		StyleToon.keep_colour(npc as Node)
+	for enemy: ZoneEnemy in enemies:
+		StyleToon.keep_colour(enemy, 1.0)
+	if _station != null:
+		StyleToon.keep_colour(_station)

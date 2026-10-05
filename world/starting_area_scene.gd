@@ -40,8 +40,6 @@ func _ready() -> void:
 		Session.new_game()
 	elif Session.profile == null and not Session.flag(&"awakened"):
 		Session.new_game()
-	add_child(WorldLook.environment(&"dusk"))
-	add_child(WorldLook.sun(&"dusk"))
 	area.build(self)
 	_build_actors()
 	_build_ui()
@@ -66,6 +64,9 @@ func _build_actors() -> void:
 	_camera.current = true
 	_camera.position = player.position + CAMERA_OFFSET
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
+	var rig: StyleRig = StyleRig.install(self, StylePresets.START, _camera, player)
+	if rig != null:
+		ZoneDressing.build(self, area, StylePresets.START, Settings.graphics_quality)
 
 
 func _build_ui() -> void:

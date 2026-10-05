@@ -2326,3 +2326,9 @@ Performance: the dev PC is an integrated GPU (baseline ~35 fps); Medium town now
 `world/town_square.gd` + `world/style/` (ground decals, ambient birds, NPC life): cobbled plaza, dirt paths, moss patches, market stalls with goods, lamp posts with budgeted lights and glow pools, benches, clutter,
 crop garden, campfire, bunting, MultiMesh meadow with shader wind, particles (motes, leaves), birds, NPC flourishes. Four iterations with screenshots, critique in `docs/art/visual_slice_log.md`
 (`_screenshots/visual_slice/`). Medium town: 62.5 fps (Low 120, High 24). Tools: `tools/fps.sh`, `tools/style_lab.tscn` (model bench), `tools/tri_count.gd`. Tests: `tests/world/test_town_square.gd`.
+
+## Part D: roll-out to every area - done
+`StyleRig` now runs in the town, every zone, the starting area, battle/rewards/dungeon-map backdrops, the title backdrop and the zone placeholder; each zone has its mood preset. Generic `ZoneDressing`
+(foliage, clutter and ground patches per preset, chunked MultiMesh) plus the town's `ZoneDressing` outside the hand-dressed square. Fixes found on the way (Q12): Gainlands terrain normals, sRGB vertex colours,
+double-sided normals, material_override conversion. D.N.A.: colour only on the hero, NPCs, enemies (red rim) and the Rift station. Before/after: `_screenshots/visual_slice/areas/` (`tools/zone_shots.sh`).
+Performance at Medium: town 62 fps, D.N.A. 84, Gainlands 90, Buffet 91, Dump 91, Capital 97, starting area 113. Tests: 850 passing (`test_zone_dressing.gd`).

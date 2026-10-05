@@ -250,6 +250,7 @@ func _build_main_land() -> void:
 			_tri(surface, previous[next], current[next], current[sector], rock.darkened(0.04))
 		previous = current
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
+	surface.generate_normals()  # without normals the terrain ignores every directional light and shows only the ambient colour
 	mesh_instance.mesh = surface.commit()
 	mesh_instance.material_override = M.terrain()
 	mesh_instance.name = "MainLand"
@@ -302,6 +303,7 @@ func _build_islands() -> void:
 				_tri(surface, previous[next], current[next], current[sector], rock.darkened(0.05))
 			previous = current
 		var instance: MeshInstance3D = MeshInstance3D.new()
+		surface.generate_normals()
 		instance.mesh = surface.commit()
 		instance.material_override = M.terrain()
 		instance.name = "Island_" + island.id

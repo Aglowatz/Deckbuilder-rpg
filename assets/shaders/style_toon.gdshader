@@ -16,6 +16,7 @@ uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable
 uniform vec4 albedo : source_color = vec4(1.0);
 uniform bool use_texture = true;
 uniform bool use_vertex_color = false;
+uniform bool vertex_color_srgb = false;
 uniform vec3 uv1_scale = vec3(1.0, 1.0, 1.0);
 uniform vec3 uv1_offset = vec3(0.0);
 uniform vec3 emission_color : source_color = vec3(0.0);
@@ -42,13 +43,20 @@ void vertex() {
 }
 
 void fragment() {
+	if (!FRONT_FACING) {
+		NORMAL = -NORMAL;
+	}
 	vec2 uv = UV * uv1_scale.xy + uv1_offset.xy;
 	vec4 base = albedo;
 	if (use_texture) {
 		base *= texture(albedo_tex, uv);
 	}
 	if (use_vertex_color) {
-		base.rgb *= COLOR.rgb;
+		vec3 vc = COLOR.rgb;
+		if (vertex_color_srgb) {
+			vc = mix(pow((vc + vec3(0.055)) / 1.055, vec3(2.4)), vc / 12.92, vec3(lessThan(vc, vec3(0.04045))));
+		}
+		base.rgb *= vc;
 	}
 	if (alpha_scissor > 0.0 && base.a < alpha_scissor) {
 		discard;

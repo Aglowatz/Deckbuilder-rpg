@@ -7,6 +7,7 @@ extends RefCounted
 
 const FLOOR_SHADER: String = """
 shader_type spatial;
+global uniform float style_desaturate;
 uniform vec3 color_a : source_color = vec3(0.2, 0.3, 0.27);
 uniform vec3 color_b : source_color = vec3(0.14, 0.2, 0.19);
 uniform int pattern = 0;
@@ -42,7 +43,7 @@ void fragment() {
 		c = mix(color_a, color_b, step(0.5, fract(p.x * 0.5)) * 0.55);
 		c *= 0.94 + 0.06 * hash(floor(p * 6.0));
 	}
-	ALBEDO = c;
+	ALBEDO = mix(c, vec3(dot(c, vec3(0.299, 0.587, 0.114))), style_desaturate);
 	ROUGHNESS = 0.92;
 	SPECULAR = 0.1;
 }
@@ -50,6 +51,7 @@ void fragment() {
 
 const WALL_SHADER: String = """
 shader_type spatial;
+global uniform float style_desaturate;
 uniform vec3 wall_color : source_color = vec3(0.40, 0.56, 0.49);
 uniform vec3 trim_color : source_color = vec3(0.16, 0.22, 0.21);
 uniform vec3 cap_color : source_color = vec3(0.12, 0.17, 0.16);
@@ -83,7 +85,7 @@ void fragment() {
 			c = mix(c, trim_color * 1.4, step(abs(h - 0.78), 0.02));       // chair rail
 		}
 	}
-	ALBEDO = c;
+	ALBEDO = mix(c, vec3(dot(c, vec3(0.299, 0.587, 0.114))), style_desaturate);
 	EMISSION = c * 0.22;
 	ROUGHNESS = 0.85;
 }

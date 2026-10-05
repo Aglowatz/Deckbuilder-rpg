@@ -8,9 +8,6 @@ var _time: float = 0.0
 
 
 func _ready() -> void:
-	add_child(WorldLook.environment(&"dusk"))
-	var sun: DirectionalLight3D = WorldLook.sun(&"dusk")
-	add_child(sun)
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 11
 	for row: int in range(-4, 5):
@@ -34,6 +31,7 @@ func _ready() -> void:
 	_camera.fov = 45.0
 	add_child(_camera)
 	_camera.current = true
+	StyleRig.install(self, StylePresets.BATTLE, _camera)
 	_update_camera()
 
 

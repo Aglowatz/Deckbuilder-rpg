@@ -19,13 +19,15 @@ var ambience: StyleAmbience
 var quality_override: int = -1
 ## Meshes farther than this from the camera are not drawn (0 = no limit): trims geometry the diorama camera cannot see anyway.
 var cull_distance: float = 0.0
+## A hand-tuned preset used instead of the one named by `preset_id` (the dungeon stages build theirs from their own colours).
+var preset_override: ZonePreset
 
 var _scene_root: Node
 var _pending: Array[Node] = []
 var _flush_queued: bool = false
 
 
-static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_target: Node3D = null, cull: float = 0.0) -> StyleRig:
+static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_target: Node3D = null, cull: float = 0.0, preset_override: ZonePreset = null) -> StyleRig:
 	if OS.get_environment("NO_STYLE") != "":
 		return null
 	var rig: StyleRig = StyleRig.new()
@@ -34,17 +36,21 @@ static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_t
 	rig.camera = camera_node
 	rig.follow = follow_target
 	rig.cull_distance = cull
+	rig.preset_override = preset_override
 	scene.add_child(rig)
 	return rig
 
 
 func quality() -> int:
+	var forced: String = OS.get_environment("STYLE_QUALITY")
+	if forced != "":
+		return clampi(int(forced), 0, 2)
 	return quality_override if quality_override >= 0 else Settings.graphics_quality
 
 
 func _ready() -> void:
 	_scene_root = get_parent()
-	preset = StylePresets.get_preset(preset_id)
+	preset = preset_override if preset_override != null else StylePresets.get_preset(preset_id)
 	_remove_old_environment()
 	world_env = WorldEnvironment.new()
 	world_env.name = "StyleEnvironment"
@@ -144,6 +150,7 @@ func _apply_environment(level: int) -> void:
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	env.ambient_light_color = preset.ambient_color
 	env.ambient_light_energy = preset.ambient_energy
+	env.reflected_light_source = Environment.REFLECTION_SOURCE_DISABLED
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC if preset.filmic else Environment.TONE_MAPPER_ACES
 	env.tonemap_exposure = preset.exposure
 	env.glow_enabled = GraphicsQuality.glow(level)

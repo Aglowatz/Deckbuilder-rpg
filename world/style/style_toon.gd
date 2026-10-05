@@ -33,6 +33,13 @@ static func apply_mesh(mesh_instance: MeshInstance3D, wind: float = -1.0) -> int
 	if mesh_instance.mesh == null or _is_excluded(mesh_instance):
 		return 0
 	var converted: int = 0
+	if mesh_instance.material_override != null:
+		var override_toon: ShaderMaterial = toon_for(mesh_instance.material_override, wind_for(mesh_instance, wind))
+		if override_toon != null:
+			mesh_instance.material_override = override_toon
+			converted += 1
+		else:
+			return 0
 	for surface: int in range(mesh_instance.mesh.get_surface_count()):
 		var source: Material = mesh_instance.get_active_material(surface)
 		var toon: ShaderMaterial = toon_for(source, wind_for(mesh_instance, wind))
@@ -74,6 +81,7 @@ static func toon_for(source: Material, wind: float = -1.0) -> ShaderMaterial:
 	if texture != null:
 		material.set_shader_parameter("albedo_tex", texture)
 	material.set_shader_parameter("use_vertex_color", standard.vertex_color_use_as_albedo)
+	material.set_shader_parameter("vertex_color_srgb", standard.vertex_color_is_srgb)
 	material.set_shader_parameter("uv1_scale", standard.uv1_scale)
 	material.set_shader_parameter("uv1_offset", standard.uv1_offset)
 	if standard.emission_enabled:

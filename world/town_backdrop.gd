@@ -14,8 +14,6 @@ var _time: float = 0.0
 
 
 func _ready() -> void:
-	add_child(WorldLook.environment(&"day"))
-	add_child(WorldLook.sun(&"day"))
 	town.build(self)
 	_center = HexGrid.cell_to_world(4, 3) + Vector3(0.6, 0.6, 0.0)
 	_camera = Camera3D.new()
@@ -30,6 +28,7 @@ func _ready() -> void:
 	var animation: AnimationPlayer = ModelKit.animation_player(knight)
 	if animation != null and animation.has_animation("Idle"):
 		animation.play("Idle")
+	StyleRig.install(self, StylePresets.TOWN, _camera)
 	_update_camera()
 
 

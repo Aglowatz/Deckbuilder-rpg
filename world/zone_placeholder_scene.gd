@@ -35,8 +35,6 @@ func _ready() -> void:
 	if info == null:
 		info = ZonePortals.all()[0]
 	area.tint = info.tint
-	add_child(WorldLook.environment(&"dusk"))
-	add_child(WorldLook.sun(&"dusk"))
 	area.build(self)
 	_build_actors()
 	_build_sign()
@@ -57,6 +55,7 @@ func _build_actors() -> void:
 	_camera.current = true
 	_camera.position = player.position + CAMERA_OFFSET
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
+	StyleRig.install(self, StylePresets.ARENA, _camera, player)
 
 
 func _build_sign() -> void:

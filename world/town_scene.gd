@@ -119,7 +119,11 @@ func _ready() -> void:
 		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 	_build_camera()
 	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 34.0)
-	style_rig.register_lights(square.lights)
+	if style_rig != null:
+		style_rig.register_lights(square.lights)
+	var avoid: Array[Vector3] = [Vector3(TownSquare.CENTER.x, TownSquare.CENTER.z, TownSquare.MEADOW_RADIUS)]
+	if style_rig != null:
+		ZoneDressing.build(self, town, StylePresets.TOWN, Settings.graphics_quality, avoid)
 	_build_ui()
 	if str(_screenshot_args.get("nohud", "false")) == "true":
 		for child: Node in get_children():

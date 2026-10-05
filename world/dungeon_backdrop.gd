@@ -23,6 +23,7 @@ var theme: String = "kitchen"
 var _camera: Camera3D
 var _time: float = 0.0
 var _pulse: Node3D
+var _preset: ZonePreset
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
@@ -50,6 +51,7 @@ func _ready() -> void:
 	_camera.fov = 45.0
 	add_child(_camera)
 	_camera.current = true
+	_install_style()
 	_update_camera()
 
 
@@ -69,40 +71,33 @@ func _update_camera() -> void:
 # ---- Shared helpers -----------------------------------------------------------------------
 
 
+## Collects this stage's mood into a `ZonePreset`; `StyleRig` turns it into the environment once the stage is built (`_install_style`).
 func _environment(sky_top: Color, sky_horizon: Color, ambient: Color, fog: Color, fog_density: float, exposure: float) -> void:
-	var world_env: WorldEnvironment = WorldEnvironment.new()
-	var env: Environment = Environment.new()
-	var sky_material: ProceduralSkyMaterial = ProceduralSkyMaterial.new()
-	sky_material.sky_top_color = sky_top
-	sky_material.sky_horizon_color = sky_horizon
-	sky_material.ground_horizon_color = sky_horizon
-	sky_material.ground_bottom_color = sky_top.darkened(0.3)
-	var sky: Sky = Sky.new()
-	sky.sky_material = sky_material
-	env.background_mode = Environment.BG_SKY
-	env.sky = sky
-	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = ambient
-	env.ambient_light_energy = 0.8
-	env.tonemap_mode = Environment.TONE_MAPPER_ACES
-	env.tonemap_exposure = exposure
-	env.glow_enabled = true
-	env.glow_intensity = 0.5
-	env.glow_bloom = 0.1
-	env.fog_enabled = true
-	env.fog_light_color = fog
-	env.fog_density = fog_density
-	world_env.environment = env
-	add_child(world_env)
+	_preset = StylePresets.get_preset(StylePresets.DUNGEON)
+	_preset.sky_top = sky_top
+	_preset.sky_horizon = sky_horizon
+	_preset.ground_horizon = sky_horizon
+	_preset.ground_bottom = sky_top.darkened(0.3)
+	_preset.ambient_color = ambient.darkened(0.35)
+	_preset.ambient_energy = 0.75
+	_preset.fog_color = fog
+	_preset.fog_density = fog_density
+	_preset.exposure = exposure * 0.72
+	_preset.volumetric_density = 0.0
 
 
 func _sun(color: Color, energy: float, rotation_deg: Vector3) -> void:
-	var light: DirectionalLight3D = DirectionalLight3D.new()
-	light.light_color = color
-	light.light_energy = energy
-	light.rotation_degrees = rotation_deg
-	light.shadow_enabled = true
-	add_child(light)
+	if _preset == null:
+		return
+	_preset.sun_color = color
+	_preset.sun_energy = energy
+	_preset.sun_pitch = rotation_deg.x
+	_preset.sun_yaw = rotation_deg.y
+
+
+func _install_style() -> void:
+	var rig: StyleRig = StyleRig.install(self, StylePresets.DUNGEON, _camera, null, 0.0, _preset)
+	rig.name = "StyleRig"
 
 
 func _lamp(color: Color, energy: float, pos: Vector3, light_range: float = 9.0) -> OmniLight3D:
