@@ -32,7 +32,7 @@ static func build_map() -> DungeonMap:
 	var map: DungeonMap = DungeonMap.new()
 	map.dungeon_name = DUNGEON_NAME
 	var start: DungeonMap.MapNode = _node(map, DungeonMap.Kind.START, "Cave Mouth", "The trial begins.", Vector2(0.09, 0.68))
-	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger, one of the Usurper's cast-offs, guards the first chamber.", Vector2(0.27, 0.38))
+	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger, one of {villain}'s cast-offs, guards the first chamber.", Vector2(0.27, 0.38))
 	first.enemy_name = "Cave Scavenger"
 	first.enemy_life = 3
 	first.ai_name = "Aggressive (tutorial)"
@@ -53,7 +53,7 @@ static func build_map() -> DungeonMap:
 	# Full heal: the node right before the boss (docs/design/open_questions.md D32). A plain
 	# large number is enough - DungeonRun.heal() already caps at max life.
 	shrine.heal_amount = 999
-	var boss: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BOSS, "Heart of the Hollow", "The Usurper's warden wakes, set here to test anyone who wanders out of the old caves.", Vector2(0.92, 0.34))
+	var boss: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BOSS, "Heart of the Hollow", "{villain}'s warden wakes, set here to test anyone who wanders out of the old caves.", Vector2(0.92, 0.34))
 	boss.enemy_name = "Hollow Warden"
 	boss.enemy_life = 3
 	boss.ai_name = "Balanced"
@@ -85,8 +85,8 @@ static func total_tutorial_rewards() -> Dictionary:
 static func _node(map: DungeonMap, kind: DungeonMap.Kind, title: String, blurb: String, position: Vector2) -> DungeonMap.MapNode:
 	var map_node: DungeonMap.MapNode = DungeonMap.MapNode.new()
 	map_node.kind = kind
-	map_node.title = title
-	map_node.blurb = blurb
+	map_node.title = Villain.fill(title)
+	map_node.blurb = Villain.fill(blurb)
 	map_node.position = position
 	return map.add_node(map_node)
 

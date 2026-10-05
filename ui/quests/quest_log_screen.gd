@@ -92,7 +92,7 @@ func _show_detail(state: UnlockState) -> void:
 	_detail.add_child(UIKit.label(quest.title, &"HeadingLabel", 34))
 	if not quest.giver_npc.is_empty():
 		_detail.add_child(UIKit.label("Given by %s" % quest.giver_npc, &"MutedLabel", 20))
-	var summary: Label = UIKit.label(quest.summary, &"", 24, UIStyle.PARCHMENT)
+	var summary: Label = UIKit.label(Villain.fill(quest.summary), &"", 24, UIStyle.PARCHMENT)
 	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	summary.custom_minimum_size = Vector2(720, 0)
 	_detail.add_child(summary)

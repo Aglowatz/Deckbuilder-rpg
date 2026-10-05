@@ -2144,3 +2144,16 @@ placeholders)? See also open_questions.md M1-M13.
 
 ### Decisions on the Brief 9 questions
 Names kept (to be changed later); Malvane appears in person only in the final zone; arena equipment is unique and not sellable; no balance pass (cards will be replaced by custom ones). Details in `docs/design/open_questions.md`.
+
+# Brief 10: Primm, the Capital, the Castle and the ending
+
+## Part 0: the villain Primm and the story bible - done
+
+- The big bad is now **Primm, "His Perfection"** everywhere (all four zone stories, the intro story, quests, the trial
+  map). His name and title live in ONE place, `data/story/villain.tres` (`VillainData`, `Villain`); story text uses the
+  tokens `{villain}` / `{villain_title}`, filled in by `Villain.fill` in every text reader (`ZoneStoryText`, `StoryText`,
+  `DialogueBox`, the quest log). Rename him by editing the .tres.
+- `docs/design/story_bible.md` has a new "Part 10" section: who Primm is (tragic, controlling, narcissistic; his reforms
+  genuinely helped at first), the Capital (areas, the gate, the secret entrance, the facade, the rifts, the four broken
+  services), the four Path quests, Primm's Castle, the three-phase boss and the ending/postgame.
+- Existing GUT suite still passes (714 tests).

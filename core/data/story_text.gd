@@ -50,7 +50,7 @@ static var _shared: StoryText
 func quest_lines(key: String) -> Array[String]:
 	var result: Array[String] = []
 	for line: Variant in (quest_dialogue.get(key, []) as Array):
-		result.append(str(line))
+		result.append(Villain.fill(str(line)))
 	return result
 
 
@@ -60,7 +60,7 @@ func get_lines(key: String) -> Array[String]:
 	var raw: Variant = texts.get(key)
 	if raw is Array:
 		for entry: Variant in (raw as Array):
-			result.append(str(entry))
+			result.append(Villain.fill(str(entry)))
 	if result.is_empty():
 		result.append("[missing text: %s]" % key)
 	return result
@@ -77,39 +77,39 @@ func text(key: String) -> String:
 func npc_intro_lines(id: String) -> Array[String]:
 	match id:
 		"beefcake":
-			return beefcake_npc_intro_lines
+			return _filled(beefcake_npc_intro_lines)
 		"gourmand":
-			return gourmand_npc_intro_lines
+			return _filled(gourmand_npc_intro_lines)
 		"refusemancer":
-			return refusemancer_npc_intro_lines
+			return _filled(refusemancer_npc_intro_lines)
 		"necrocrat":
-			return necrocrat_npc_intro_lines
+			return _filled(necrocrat_npc_intro_lines)
 	return []
 
 
 func npc_victory_lines(id: String) -> Array[String]:
 	match id:
 		"beefcake":
-			return beefcake_npc_victory_lines
+			return _filled(beefcake_npc_victory_lines)
 		"gourmand":
-			return gourmand_npc_victory_lines
+			return _filled(gourmand_npc_victory_lines)
 		"refusemancer":
-			return refusemancer_npc_victory_lines
+			return _filled(refusemancer_npc_victory_lines)
 		"necrocrat":
-			return necrocrat_npc_victory_lines
+			return _filled(necrocrat_npc_victory_lines)
 	return []
 
 
 func npc_defeat_lines(id: String) -> Array[String]:
 	match id:
 		"beefcake":
-			return beefcake_npc_defeat_lines
+			return _filled(beefcake_npc_defeat_lines)
 		"gourmand":
-			return gourmand_npc_defeat_lines
+			return _filled(gourmand_npc_defeat_lines)
 		"refusemancer":
-			return refusemancer_npc_defeat_lines
+			return _filled(refusemancer_npc_defeat_lines)
 		"necrocrat":
-			return necrocrat_npc_defeat_lines
+			return _filled(necrocrat_npc_defeat_lines)
 	return []
 
 
@@ -120,3 +120,11 @@ static func shared() -> StoryText:
 		if _shared == null:
 			_shared = StoryText.new()
 	return _shared
+
+
+## Story lines with the `{villain}` tokens filled in.
+static func _filled(source: Array[String]) -> Array[String]:
+	var result: Array[String] = []
+	for line: String in source:
+		result.append(Villain.fill(line))
+	return result

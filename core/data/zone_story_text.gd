@@ -59,7 +59,7 @@ func get_lines(key: String) -> Array[String]:
 		raw = lines.get(key + ".freed")
 	if raw is Array:
 		for entry: Variant in (raw as Array):
-			result.append(str(entry))
+			result.append(Villain.fill(str(entry)))
 	if result.is_empty():
 		result.append("[missing text: %s]" % key)
 	return result

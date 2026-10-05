@@ -100,7 +100,7 @@ lines = {
 "enemy.jelly": ["A lime gelatin sentinel with a spoon spear and a fruit cocktail soul. Prototype Mk. 2. Wobbles when it thinks, which is rarely, on instructions."],
 "enemy.meatball": ["Pure momentum with a side of sauce. A failed prototype that escaped. Nobody knows what it is running from. It is probably the cannon."],
 "enemy.casserole": ["A pot-bellied colonel with a lid for a hat and a ladle for a sword. Thirty years of service, forty years of cheese."],
-"npc.odalys.intro": ["Welcome to the Grand Pantry! I am Head Chef Odalys. Ladle in one hand, kingdom in the other.", "We are the Gourmands, little one. We feed the kingdom and we protect it. Every plate is a promise. Every golem is a guard. ...Or they were. Ten years ago, the Usurper's people came, and shortly after, the Grand Chef changed.", "He looks the same. Sounds the same. But he does not taste a dish before he sends it out any more. He ordered the Special Sauce into every pot. And the golems answer \"Yes, Chef!\" to a chef who no longer cooks.", "Say it with me, quietly. Yes, Chef. The Endless Buffet runs on three rules: nobody leaves hungry, nobody double-dips, and everyone cleans their own plate. The fourth rule is new: nobody asks about the Test Kitchen."],
+"npc.odalys.intro": ["Welcome to the Grand Pantry! I am Head Chef Odalys. Ladle in one hand, kingdom in the other.", "We are the Gourmands, little one. We feed the kingdom and we protect it. Every plate is a promise. Every golem is a guard. ...Or they were. Ten years ago, {villain}'s people came, and shortly after, the Grand Chef changed.", "He looks the same. Sounds the same. But he does not taste a dish before he sends it out any more. He ordered the Special Sauce into every pot. And the golems answer \"Yes, Chef!\" to a chef who no longer cooks.", "Say it with me, quietly. Yes, Chef. The Endless Buffet runs on three rules: nobody leaves hungry, nobody double-dips, and everyone cleans their own plate. The fourth rule is new: nobody asks about the Test Kitchen."],
 "npc.odalys.return": ["Back at my kitchen? Good. A Gourmand never stops stirring. What do we say? Yes, Chef. Quietly. The Grand Chef has very good hearing, for a man who does not eat."],
 "npc.tarragon.intro": ["Oh! A customer! A helper! A pair of hands! Sous-Chef Tarragon, the Head Chef's fetcher of things. I fetch. All day. It is a lot of fetching.", "We are always out of something. Basil, honey, ghost pepper... half our ingredients go to the Test Kitchen now and nothing comes back. Please, if you see any lying around, pick them up. I would be so grateful.", "I once fetched a whole pig. It was the wrong pig. It is still angry about it. Do not tell the Grand Chef I said anything. He has very good hearing."],
 "npc.tarragon.return": ["Any ingredients? Anything? I will take a single leaf of anything. I am not proud. I am hungry. And a bit scared."],
@@ -240,11 +240,11 @@ lines = {
 "cutscene.reveal.2.speaker": ["You"],
 "cutscene.reveal.2": ["You never taste your own soup, do you?"],
 "cutscene.reveal.3.speaker": ["The False Aurelio"],
-"cutscene.reveal.3": ["...Soup is for the weak. The Usurper's orders are for the strong. I have given the Gourmands the Special Sauce, and they have given me an army of golems. It is a very efficient arrangement."],
+"cutscene.reveal.3": ["...Soup is for the weak. {villain}'s orders are for the strong. I have given the Gourmands the Special Sauce, and they have given me an army of golems. It is a very efficient arrangement."],
 "cutscene.reveal.4.speaker": ["The False Aurelio"],
 "cutscene.reveal.4": ["Fine. If you must see. I always hated this chin."],
 "cutscene.reveal.5.speaker": ["The False Aurelio"],
-"cutscene.reveal.5": ["THIS is my real face. Behold the true dish of the Usurper: the Doppelgänger. Now. Let me serve you."],
+"cutscene.reveal.5": ["THIS is my real face. Behold the true dish of {villain}: the Doppelgänger. Now. Let me serve you."],
 }
 quiz_questions = Array[Dictionary]([{
 "a": ["Feeding the kingdom and protecting it", "Collecting the kingdom's taxes", "Inspecting the kingdom's dungeons", "Writing the kingdom's restaurant reviews"],

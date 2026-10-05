@@ -39,7 +39,9 @@ func _ready() -> void:
 
 
 func start(speaker: String, lines: Array[String]) -> void:
-	_lines = lines
+	_lines = []
+	for line: String in lines:
+		_lines.append(Villain.fill(line))
 	_index = 0
 	_speaker.text = speaker
 	active = true

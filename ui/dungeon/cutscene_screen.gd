@@ -281,7 +281,7 @@ func _mask_off() -> void:
 	wobble.tween_property(_left, "scale", Vector2.ONE, 0.12)
 
 
-## ... and underneath is the doppelganger: a purple blob of the Usurper's making.
+## ... and underneath is the doppelganger: a purple blob of the villain's making.
 func _reveal_form() -> void:
 	_flash_screen(Color("b46cff"), 0.85)
 	_shake(18.0, 0.5)

@@ -47,7 +47,7 @@ func test_corrupted_envoys_fit_each_factions_situation() -> void:
 func test_the_town_has_a_name_and_a_story_intro() -> void:
 	var story: StoryText = StoryText.shared()
 	assert_eq(story.text("town.name"), "Concord Crossing")
-	assert_true(story.text("town.elder.first").contains("Malvane"))
+	assert_true(story.text("town.elder.first").contains("Primm"))
 	assert_true(story.text("town.elder.first").contains("Concordia"))
 	for key: String in ["town.guard", "town.vendor.first", "town.alchemist.locked", "town.arena.locked"]:
 		assert_true(story.has_text(key), key)

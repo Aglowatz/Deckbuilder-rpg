@@ -2,7 +2,7 @@
 
 ## Story (brief 9)
 
-The whole world's story, factions and rulers are in `docs/design/story_bible.md` (source of truth: `docs/design/story_source.md`). In short: ten years ago Malvane the Usurper (placeholder) took over or corrupted all four Paths; every zone lives under an oppressive ruler and the player frees each one by beating the boss of its final dungeon (zone completion, `ZoneCompletion`).
+The whole world's story, factions and rulers are in `docs/design/story_bible.md` (source of truth: `docs/design/story_source.md`). In short: ten years ago Primm ("His Perfection") took over or corrupted all four Paths; every zone lives under an oppressive ruler and the player frees each one by beating the boss of its final dungeon (zone completion, `ZoneCompletion`).
 
 | Zone | Faction | Ruler / corruption | Final dungeon |
 |---|---|---|---|

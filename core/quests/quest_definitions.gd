@@ -40,7 +40,7 @@ static func _clear_the_paths() -> QuestData:
 	quest.id = PATHS
 	quest.order = 20
 	quest.title = "Clear the Paths"
-	quest.summary = "Four corrupted envoys, in the Usurper's thrall, block the roads out of town. Defeat each one to open its Path."
+	quest.summary = "Four corrupted envoys, in {villain}'s thrall, block the roads out of town. Defeat each one to open its Path."
 	quest.auto_give = true
 	var objectives: Array[QuestObjective] = []
 	for npc_id: String in CorruptedNpcs.IDS:
@@ -56,7 +56,7 @@ static func _free_the_kingdom() -> QuestData:
 	quest.id = FREE_ZONES
 	quest.order = 30
 	quest.title = "Free the Kingdom"
-	quest.summary = "Malvane the Usurper rules each Path through an oppressive ruler. Defeat the boss of every zone's final dungeon to free it."
+	quest.summary = "{villain} rules each Path through an oppressive ruler. Defeat the boss of every zone's final dungeon to free it."
 	quest.auto_give = true
 	var objectives: Array[QuestObjective] = []
 	for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:

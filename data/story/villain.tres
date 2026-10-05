@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="VillainData" format=3]
+
+[ext_resource type="Script" path="res://core/data/villain_data.gd" id="1_vd"]
+
+[resource]
+script = ExtResource("1_vd")
+villain_name = "Primm"
+villain_title = "His Perfection"
