@@ -185,6 +185,10 @@ static func fountain(ctx: Dictionary) -> Node3D:
 	var figure: Node3D = _golden_figure(1.0)
 	root.add_child(figure)
 	figure.position = Vector3(0, 1.7, 0)
+	if bool(ctx.get("final", false)):
+		# Primm has fallen: the golden statue lies in the basin and the fountain runs dry.
+		figure.rotation_degrees = Vector3(80.0, 0.0, 25.0)
+		figure.position = Vector3(0.9, 0.7, 0.4)
 	return root
 
 

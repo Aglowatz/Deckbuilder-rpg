@@ -375,3 +375,64 @@ func _finish_battle(context: BattleContext) -> void:
 		Session.boss_phase_pending = true
 		return
 	Session.dungeon_map.complete(context.node_id)
+
+
+func test_every_castle_node_resolves_through_the_session_api_in_a_full_run() -> void:
+	# A headless run: the first forward route to the boss with a dead end taken on the way; every node kind is resolved by the same
+	# Session / resolver calls the map screens use (battles are won by decree).
+	Session.profile.max_life = PlayerProfile.ENDGAME_MAX_LIFE
+	_start_castle_run()
+	var map: DungeonMap = Session.dungeon_map
+	var dead_end_taken: bool = false
+	var guard: int = 0
+	while not map.is_complete() and guard < 80:
+		guard += 1
+		var options: Array[DungeonMap.MapNode] = map.available()
+		assert_false(options.is_empty(), "never stuck (current node %d)" % map.current)
+		if options.is_empty():
+			return
+		var node: DungeonMap.MapNode = options[0]
+		for option: DungeonMap.MapNode in options:
+			if option.return_to >= 0 and not dead_end_taken:
+				node = option
+				dead_end_taken = true
+				break
+			if option.return_to < 0 and (node.return_to >= 0 and dead_end_taken):
+				node = option
+		match node.kind:
+			DungeonMap.Kind.BATTLE, DungeonMap.Kind.ELITE:
+				var context: BattleContext = Session.make_dungeon_battle(node)
+				context.game._end_game(0, false)
+				Session.run.finish_encounter(context.game)
+				assert_false(Session.run.failed)
+				map.complete(node.id)
+			DungeonMap.Kind.BOSS:
+				for phase_index: int in range(PrimmBoss.PHASES):
+					Session.boss_phase = phase_index
+					var boss_context: BattleContext = Session.make_dungeon_battle(node)
+					boss_context.game._end_game(0, false)
+					Session.run.finish_encounter(boss_context.game)
+				map.complete(node.id)
+			DungeonMap.Kind.EVENT:
+				var event: DungeonEvent = _def.event(node.event_id)
+				assert_not_null(event, node.event_id)
+				var result: EventResolver.Result = Session.resolve_dungeon_event(event, 0)
+				assert_true(result.ok, node.event_id)
+				map.complete(node.id)
+			DungeonMap.Kind.CHALLENGE:
+				var challenge: ChallengeData = _def.challenge(node.challenge_id)
+				assert_not_null(challenge, node.challenge_id)
+				ChallengeResolver.resolve(challenge, Session.run, Session.rng)
+				map.complete(node.id)
+			DungeonMap.Kind.SHRINE:
+				Session.run.heal(node.heal_amount)
+				map.complete(node.id)
+			DungeonMap.Kind.TREASURE:
+				var granted: Dictionary = Session.apply_treasure(node)
+				assert_false(granted.is_empty(), "the chest held something")
+				map.complete(node.id)
+			_:
+				map.complete(node.id)
+		Session.run.life = maxi(Session.run.life, 1)
+	assert_true(map.is_complete(), "reached and cleared the boss through %d steps" % guard)
+	assert_true(dead_end_taken)

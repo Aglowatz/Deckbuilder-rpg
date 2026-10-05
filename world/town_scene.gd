@@ -735,6 +735,8 @@ func _elder_lines() -> Array[String]:
 	if not Session.flag(&"elder_greeted"):
 		Session.set_flag(&"elder_greeted")
 		return story.get_lines("town.elder.first")
+	if Session.flag(&"primm_defeated"):
+		return story.get_lines("town.elder.postgame")
 	var freed: int = Session.completed_zone_count()
 	if freed > 0:
 		var lines: Array[String] = story.get_lines("town.elder.progress.%d" % mini(freed, 4))
@@ -1215,7 +1217,7 @@ func _close_overlay() -> void:
 func _refresh_objective() -> void:
 	var story: StoryText = StoryText.shared()
 	hud.set_location(story.text("town.name"), ZoneCompletion.progress_text(Session.flags))
-	hud.set_objective(story.text("town.objective.free" if Session.completed_zone_count() >= ZoneCompletion.TOTAL_ZONES else "town.objective"))
+	hud.set_objective(story.text("town.objective.postgame" if Session.flag(&"primm_defeated") else ("town.objective.free" if Session.completed_zone_count() >= ZoneCompletion.TOTAL_ZONES else "town.objective")))
 
 
 ## Brief 9: the Arena / the Alchemist opened since the player was last in town and nothing has announced it yet (the zone's own

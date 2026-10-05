@@ -2219,3 +2219,29 @@ music, and **freed leaders lending a boon** (one per completed zone). Three new 
 "The Paths Unbound" popup, then the player returns to the changed Capital. Beating Primm sets `postgame_unlocked` (decks of 3+ Paths are legal; the
 deck builder tip and validator updated; the Alchemist's tri-Path hook opens), `primm_defeated`, and frees the four Paths (decision N14). The
 Capital after: facade down, rifts sealed, new signs and dialogue, the freed leaders in the Crease. `tests/core/dungeon/test_ending_postgame.gd`.
+
+## FINAL: e2e, polish and summary (brief 10)
+
+**E2E** (`tools/run_tenth_brief_final_smoke.sh`, `tools/tenth_brief_final_smoke.gd`): two full runs plus two partial debug runs
+(`--castle_only [--with_city]`) after harness fixes, within the CLAUDE.md budget. Covered: the town entrance and HUD debuffs, the secret hatch (no
+marker), the Crease, the gate battle opening the gate, a facade citizen and door, a rift hazard (life 20 -> 18), the Tilda Path quest end to end
+(log, insight flag, card, gold), a castle run through the Forgotten Alcove dead end (doubling back) to the boss, all three phases, the ending,
+credits skip, the postgame popup, the changed Capital, and a 4-Path deck legal after the unlock. The harness fixes were not re-verified in one single
+unbroken pass.
+
+**Shortcuts (honest list):** duel wins are forced, the player teleports between districts, an endgame max-life shortcut keeps the castle survivable,
+and equipment-slot choices are emitted directly. Balance was never simulated.
+
+**Screenshots:** `_screenshots/brief10/` (facade, corrupted outskirts, rifts, castle map, ending, final_* views of the freed Capital).
+
+**New asset packs:** none (17 extra game-icons.net icons from the existing library; see CREDITS.md). Polish: toppled fountain statue and a softer freed
+look in the final state, postgame elder/objective text.
+
+**Questions for the user:**
+1. Famine's -5 max life makes the Capital harsh at low level. Keep, or soften?
+2. Primm's fall frees unfreed Paths (N14). OK?
+3. Keep the placeholder names (Concordia Prime, the Crease, the Wrinkles)?
+4. The boss is untuned: when do you want a balance pass?
+5. The ending uses 2D icon staging and placeholder credits.
+6. The wake-location rule after fainting in the Capital: is it right?
+7. Rift sealing needs the guardian beaten: too strict?

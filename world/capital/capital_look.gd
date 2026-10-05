@@ -31,7 +31,7 @@ static func environment(dark: bool, freed: bool) -> WorldEnvironment:
 		env.ambient_light_color = Color("fff0d0")
 		env.ambient_light_energy = 0.62
 	env.tonemap_mode = Environment.TONE_MAPPER_ACES
-	env.tonemap_exposure = 0.85
+	env.tonemap_exposure = 0.85 if not freed else 0.72
 	env.glow_enabled = true
 	env.glow_intensity = 0.5
 	env.glow_strength = 1.0
@@ -56,7 +56,7 @@ static func environment(dark: bool, freed: bool) -> WorldEnvironment:
 static func sun(dark: bool, freed: bool) -> DirectionalLight3D:
 	var light: DirectionalLight3D = DirectionalLight3D.new()
 	light.light_color = Color("b8a8d8") if not freed else Color("ffe6b0")
-	light.light_energy = (0.7 if not dark else 0.45) if not freed else 1.0
+	light.light_energy = (0.7 if not dark else 0.45) if not freed else 0.9
 	light.rotation_degrees = Vector3(-52, -32, 0)
 	light.shadow_enabled = true
 	light.directional_shadow_max_distance = 80.0
