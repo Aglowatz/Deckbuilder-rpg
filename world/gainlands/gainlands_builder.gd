@@ -253,6 +253,7 @@ func _build_main_land() -> void:
 	surface.generate_normals()  # without normals the terrain ignores every directional light and shows only the ambient colour
 	mesh_instance.mesh = surface.commit()
 	mesh_instance.material_override = M.terrain()
+	mesh_instance.set_meta(StyleToon.META_NO_TOON, true)  # the vertex-coloured terrain keeps its own material (the double-sided toon variant draws nothing on it)
 	mesh_instance.name = "MainLand"
 	root.add_child(mesh_instance)
 
@@ -306,6 +307,7 @@ func _build_islands() -> void:
 		surface.generate_normals()
 		instance.mesh = surface.commit()
 		instance.material_override = M.terrain()
+		instance.set_meta(StyleToon.META_NO_TOON, true)
 		instance.name = "Island_" + island.id
 		root.add_child(instance)
 

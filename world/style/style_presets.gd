@@ -118,21 +118,21 @@ static func get_preset(id: StringName) -> ZonePreset:
 		GAINLANDS:
 			p.with_id(id, "Gainlands: bright, sunny, big skies")
 			p.sky_top = Color("2f86e8")
-			p.sky_horizon = Color("c8ecff")
+			p.sky_horizon = Color("b8e4ff")
 			p.ground_horizon = Color("d8f0ff")
 			p.ground_bottom = Color("6aa0d8")
 			p.sun_color = Color("fff3d0")
-			p.sun_energy = 0.9
+			p.sun_energy = 0.95
 			p.sun_pitch = -52.0
 			p.sun_yaw = -25.0
-			p.ambient_color = Color("78b8ff")
-			p.ambient_energy = 0.55
+			p.ambient_color = Color("78b8a8")
+			p.ambient_energy = 0.42
 			p.fog_color = Color("cfeaff")
 			p.fog_density = 0.0028
 			p.fog_sky_affect = 0.3
-			p.saturation = 1.12
-			p.exposure = 0.72
-			p.contrast = 1.05
+			p.saturation = 1.2
+			p.exposure = 0.62
+			p.contrast = 1.12
 			p.glow_intensity = 0.3
 			p.outline_color = Color("1c2a5a")
 			p.outline_strength = 0.55

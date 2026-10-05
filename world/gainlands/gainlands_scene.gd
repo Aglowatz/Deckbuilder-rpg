@@ -13,6 +13,7 @@ const GROUND_SAFE_EDGE: float = 2.5
 
 ## The layout/map (typed access to the Gainlands' own builder).
 var gain: GainlandsBuilder
+var dressing: GainlandsDressing
 ## The last place the player stood safely (where a fall puts them back).
 var last_safe: Vector3 = Vector3.ZERO
 var _safe_timer: float = 0.0
@@ -40,6 +41,7 @@ func _build_zone_extras() -> void:
 	camera_offset = Vector3(0.0, 14.5, 8.7)
 	last_safe = player.position
 	gain.wheel_speed = 1.8 if Session.flag(GainlandsZone.FLAG_WHEEL_POWERED) else 0.45
+	dressing = GainlandsDressing.build(self, gain, Settings.graphics_quality)
 	for point: GainlandsTravel.Point in GainlandsTravel.points():
 		var npc: Node3D = _npcs.get(point.id) as Node3D
 		if npc != null:

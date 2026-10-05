@@ -74,7 +74,7 @@ static func toon_for(source: Material, wind: float = -1.0) -> ShaderMaterial:
 	if _cache.has(key):
 		return _cache[key] as ShaderMaterial
 	var material: ShaderMaterial = ShaderMaterial.new()
-	material.shader = double_sided_shader() if standard.cull_mode == BaseMaterial3D.CULL_DISABLED else shader()
+	material.shader = double_sided_shader() if (standard.cull_mode == BaseMaterial3D.CULL_DISABLED) else shader()
 	material.set_shader_parameter("albedo", PALETTE_FIX.get(standard.resource_name, standard.albedo_color) if standard.albedo_texture == null else standard.albedo_color)
 	var texture: Texture2D = standard.albedo_texture
 	material.set_shader_parameter("use_texture", texture != null)
@@ -113,8 +113,7 @@ static func clear_cache() -> void:
 ## The same shader with back faces drawn (leaves, cloth, flags).
 static func double_sided_shader() -> Shader:
 	if _shader_double == null:
-		_shader_double = Shader.new()
-		_shader_double.code = shader().code.replace("cull_back", "cull_disabled")
+		_shader_double = load("res://assets/shaders/style_toon_double.gdshader") as Shader
 	return _shader_double
 
 
