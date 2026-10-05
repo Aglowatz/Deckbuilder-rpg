@@ -144,3 +144,66 @@ New shared node kinds (appended to `DungeonMap.Kind`): **ELITE** (a harder battl
 | **The Rotheart** (Dump) | 13 | 3 | sections that grow stranger (outskirts, grove, root tunnels, heartwood), whispering-mushrooms and pulsing-wall events, spore-gauntlet challenge, clean-soil shrine, seed-vault treasure, golem / treant elites; boss **Archdruid Fernwick Loam** with the **sever** cutscene (cutting the heart severs the big bad's influence). Reward: **Heart of the Dump** |
 
 Code: `core/dungeon/main_dungeon_def.gd` (+ `main_dungeons.gd`, `test_kitchen_dungeon.gd`, `house_of_gains_dungeon.gd`, `hall_of_approvals_dungeon.gd`, `rotheart_dungeon.gd`, `dungeon_event.gd`, `event_resolver.gd`, `cutscene_defs.gd`), UI `ui/dungeon/` (`event_screen.gd`, `treasure_screen.gd`, `cutscene_screen.gd`), `world/dungeon_backdrop.gd`. All titles, blurbs, dialogue, events and cutscene lines are in the zone story files (`dungeon.<node key>.*`, `event.<id>.*`, `challenge.<id>.*`, `cutscene.<id>.<n>`). Tests: `tests/core/dungeon/test_main_dungeons.gd`.
+
+
+## The Capital (brief 10, Part A)
+
+The final area (`ZonePortals` id `final`, zone id `final`, the town's last gate: **open from the start**, no zone needs to be free).
+Story and names: `docs/design/story_bible.md` Part 10. Code: `core/zone/capital_*.gd`, `core/data/capital_content.gd`, `world/capital/`,
+`ui/widgets/service_debuffs_panel.gd`. All text: `data/story/capital_story.tres`. Not one of the four Path zones: `ZoneDefs.ids()` are
+the four (what `ZoneCompletion` counts), `ZoneDefs.all_ids()` adds the Capital.
+
+- **Map** (`CapitalLayout`, pure data, 1 m grid `120 x 126`, ~8,500 m2 of walkable ground, more than any other zone): the **Outskirts** (south:
+  the road from town, abandoned checkpoints, rifts, a hidden service-tunnel hatch), the **city wall** with the **Approved Gate** (a 10 m
+  opening closed by a barrier until the gate battle is won), **Checkpoint Plaza**, then inside the walls **the Reek** (Refusemancers) and
+  **Grave Row** (Necrocrats) in the west, **the Transit Yards** (Beefcakes) and **the Hungry Quarter** (Gourmands) in the east,
+  **Primm's Perfection** (the facade town) in the middle behind its own low white wall, **the Castle Approach** (doors of Primm's Castle)
+  and **the Correction Ward** and **Checkpoint Row** in the north. **The Crease** (the hideout hub) is a separate underground hall far to the
+  south on its own visual layer (the sun does not light it), reached by ladder/hatch/shaft. Minimap + fog of war from the framework.
+- **Entry** is strictly controlled: the **Approved Gate Captain** (`CapitalEnemies.GATE_CAPTAIN`, a deliberately hard Necrocrat/Gourmand
+  deck, 24 life) gives absurd entry requirements in dialogue and the **Entry Examination** is a card battle (`Session.start_gate_battle`);
+  winning sets `cap_gate_open` + `cap_inside` and the barrier lifts. Losing = wake outside the gate with the **Correction fee** (20 gold,
+  logged). Exits are controlled too (flavor): the Exit Interview booth, exit-control guards and signs.
+- **Secret entrance**: the **Old Joint Works** hatch in the south-west of the Outskirts (a `hidden` spot: no marker/plate/icon, an up-close
+  prompt only) leads into the Crease and sneaks the player past the gate (`docs/design/secrets.md`).
+- **Hub: the Crease** (safe, no enemies): Nurse Hesper's **Tea of Dissent** (heal), **Fig Sly's** black market (rare cards:
+  `CapitalContent.BLACK_MARKET_CARD_IDS`, and a crate of supplies: `CapitalZone.BLACK_MARKET_ITEMS`), **Mabbit Quill** (the resistance's
+  keeper of records; reacts to your collected insights), the **service-shaft network** (six shafts to the six streets; **down while the Beefcake
+  service is broken**), a ladder up to the plaza manhole and the tunnel back to the Outskirts. You wake here at 0 life once you know it
+  (`cap_hub_known`), otherwise outside the gate.
+- **Primm's Perfection** (the facade): 16 identical houses (2 are painted storefronts), regulation lawns/hedges, a fountain with a golden
+  statue, loudspeakers (rotating cheerful announcements), portraits and statues of Primm, decree signs ("Approved Hat Sizes: 1",
+  "Spontaneity by Permit Only", "Smiling Is Mandatory"), 9 citizens in matching clothes with fixed smiles (each says an approved phrase
+  and, the next times you talk, slips up with a hint of fear), painted doors that do not open (4 `door` spots).
+- **Outside the facade**: cracked streets (crack decals), crumbling/leaning buildings, gray districts, dead street lamps, abandoned checkpoints,
+  the Correction Ward, and **rifts**.
+- **Rifts** (`CapitalRifts`, 9 of them): standing in one **damages you** (1, or 2 for the big ones, with knockback and the usual 1.6 s
+  invulnerability), the world **wobbles** (camera shake) and a refractive lens warps the light around it (`rift_distortion.gdshader`);
+  roaming enemies whose home is within 9 m of an unsealed rift are **empowered** (+3 life, +1/+1 on their creatures; they glow violet) and
+  sealable rifts have a **Rift Wretch guardian**. **5 can be sealed** (beat the guardian this visit, then use the rift-stone) for a reward
+  (gold + an item or card); the 4 big/unsealable ones stay until Primm falls. Sealing is saved (`cap_rift_<id>_sealed`).
+- **Broken-service debuffs** (`CapitalDebuffs`, applied through the Modifier pipeline: `Session.begin_zone_visit` adds the player-side
+  `ModifierSource` to the visit, `Session.make_zone_battle`/dungeon battles add the enemy-side one; three new `Modifier.Kind`s):
+
+  | Zone not free | Debuff | In duels | In the world |
+  |---|---|---|---|
+  | Gainlands | Blackout | your creatures enter exhausted (`ENTER_EXHAUSTED`) | darkness, -20% speed, no shaft travel |
+  | Endless Buffet | Famine | max life -5 (`MAX_LIFE`) | healing items do nothing (`Session.healing_blocked_for`) |
+  | D.N.A. | Restless Dead | enemy creatures return from the graveyard 35% of the time (`GRAVEYARD_RETURN_CHANCE`, enemy side) | - |
+  | Verdant Dump | Clutter | 3 Heaps of Rubbish shuffled into your deck (`SHUFFLE_JUNK_INTO_DECK`) | - |
+
+  Each completed zone removes its debuff and the Capital shows it (lights return and the lamps light, stalls reopen with awnings/lanterns/
+  steam, the graves become tidy, the heaps shrink and bloom). The HUD shows all four (`ServiceDebuffsPanel`, a row each with tooltip, red
+  while broken, green "restored" when free). Tests: `tests/core/zone/test_capital.gd`.
+- **Enemies** (`CapitalEnemies`, the shared framework): **Compliance Officer** and **Perfection Inspector** (slow, start battles), **Tidy-Bot**
+  (fast, 2 damage + knockback, never starts a battle), **Rift Wretch** (slow, rift guardian) and **Shard Swarm** (fast, 2 damage).
+- **9 hidden chests** (docs/design/secrets.md) and **interactables with real effects**: *deface propaganda* (6 portraits, +12 gold each, once),
+  *seal a rift* (reward), the **Anonymous Complaint Box** (2 per visit; replies cycle: compensation gold, a heal, "noted", an Inspector
+  who costs you 1 life), plus the objects of the four Path quests (wheels, cable, paste dispenser, recipe cards, compost heaps, seed, stamp,
+  the Marrow plot, the Sick Patch).
+- **The four Path quests** (`ZoneQuestDefinitions.capital_quests`, tracked in the quest log; each pays gold, XP, a card, an item and a
+  **story insight** into Primm via `reward_unlock_flags`): *Form 27-B/6: A Burial Permit* (Tilda Marrow, Necrocrat), *The Wheel Never Stops*
+  (Bram Haulsworth, Beefcake), *The Recipe Box* (Odile Bisque, Gourmand), *Untidy* (Gus Peelings, Refusemancer).
+- **Zone life rules** as every zone; the fee is 20 gold ("Correction fee"). Famine lowers the visit's max life, so the Capital is hard
+  until the Paths are free; this is by design (and balance is out of scope).
+- **Dev/screenshot helpers**: `tools/shot.sh res://scenes/capital_zone.tscn <name> --at=<anchor> [--gate] [--hub] [--paths[=N]] [--freed]`.

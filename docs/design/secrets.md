@@ -187,3 +187,37 @@ keep all three in sync.
 Verified in `tests/core/zone/test_heap.gd` (rewards defined for every chest, >= 6 chests, >= 2 on summits, none inside an
 interact spot, reachability with the right bridges / beanstalks / mount / barricade) and the windowed e2e
 (`tools/eighth_brief_final_smoke.gd`).
+
+## Brief 10: the Capital - the secret entrance and 9 hidden chests
+
+Same rules as every zone: a `chest_gold` prop at 1/4 scale (0.225), **no marker, no plate, no minimap icon** (never on any map),
+the only tell is `[E] Open the chest` within `ZoneScene.HIDDEN_CHEST_RADIUS` (~1.5 m); one-time per chest, secret id
+`cap_<chest id>`. Rewards live in `CapitalZone.CHEST_REWARDS`, positions in `CapitalLayout._chests()`; keep all three in sync.
+
+### The secret entrance: the Old Joint Works
+
+A forgotten service tunnel the four Paths built together back when they cooperated. It is the only way past the Approved Gate
+that is not the Gate Captain's card battle. **No marker, no plate, no minimap icon** (it is a `hidden` spot, the same rules as a
+chest: only an up-close `[E] Squeeze through the gap` prompt, and only within 1.5 m).
+
+| Where | How it is tucked | Hint (only for those who read signs) | What it does |
+|-------|------------------|---------------------------------------|---------------|
+| South-west corner of the **Outskirts**, (7, 72), behind a toppled statue of Primm and a rubble heap | Looks like rubble; the hatch under it is a hole | A pinned note by a post at (12, 74) ("forgotten service shaft, SW of the wall, behind the fallen statue") and a faded Old Joint Works sign at the far east edge (115, 80) | Leads straight into **the Crease** (the hideout), sets `cap_hub_known`, `cap_inside` and the secret `capital_old_joint_works` (the **gate stays closed**: you simply sneaked past it). The Crease's tunnel arch leads back out to the same place. |
+
+### The nine hidden chests
+
+| id | Where (world x, z) | How it's tucked | Contents |
+|----|--------------------|-----------------|----------|
+| `chest_wreck` | The Outskirts, (14, 89) | Behind a wrecked wagon stack in the south-west corner | 60 gold + **Field Bandage** |
+| `chest_rock` | The Outskirts, (113, 70) | Behind a boulder against the east edge | 80 gold + **Tasting Menu** (card) |
+| `chest_reek` | The Reek, (5, 52) | Behind a heap of junk against the west wall | 40 gold + **Healing Salve** |
+| `chest_crypt` | Grave Row, (5, 21) | In the corner behind the mausoleum row | 90 gold + **Necromancer** (card, Epic) |
+| `chest_cellar` | The Hungry Quarter, (114, 18) | Behind a shuttered stall at the north-east corner | 70 gold + **Hearty Pie** |
+| `chest_wheel` | The Transit Yards, (114, 56) | Beyond the third energy wheel, against the south-east wall | 100 gold + **Max Rep** (card) |
+| `chest_lane` | The service lane behind the facade, (45, 13.5) | Between the facade's back wall and the Castle Approach | 120 gold + **Vitality Charm** |
+| `chest_corner` | The Castle Approach, (90, 3.5) | In the north-east corner behind the last statue | 50 gold + **Ward Sigil** |
+| `chest_ward` | The Correction Ward, (115, 4) | In the ward's north-east corner (beyond the rift) | 150 gold + **Recycle Bin** (card) |
+
+Verified in `tests/core/zone/test_capital.gd` (rewards defined for every chest, >= 6 chests, none inside an interact spot, none
+a minimap kind, the tunnel spot hidden and not a POI, reachability from the road through the gate) and the windowed e2e
+(`tools/tenth_brief_final_smoke.gd`).

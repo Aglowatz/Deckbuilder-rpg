@@ -21,6 +21,14 @@ const TRACKS: Dictionary = {
 	&"buffet": {"bpm": 104, "root": 60, "prog": [[0, false], [9, true], [5, false], [7, false]], "pad": 0.28, "arp": 0.42, "bass": 0.4, "drums": 0.3, "bell": 0.35, "wind": 0.0},
 	## Brief 8: the Verdant Dump - a warm, folky major progression with plucks, light shuffle, wind and birds.
 	&"heap": {"bpm": 92, "root": 57, "prog": [[0, false], [5, false], [9, true], [7, false]], "pad": 0.3, "arp": 0.4, "bass": 0.34, "drums": 0.18, "bell": 0.28, "wind": 0.4},
+	## Brief 10: the Capital - eerily cheerful: a bright major progression with a sour minor-iv turn, bells and a faint mains hum.
+	&"capital": {"bpm": 84, "root": 60, "prog": [[0, false], [5, true], [0, false], [7, false]], "pad": 0.3, "arp": 0.3, "bass": 0.22, "drums": 0.0, "bell": 0.5, "wind": 0.1, "hum": 0.25},
+	## Primm's Castle - a slow, grand minor drone with echoing bells.
+	&"castle": {"bpm": 62, "root": 48, "prog": [[0, true], [-2, false], [-4, true], [-5, false]], "pad": 0.55, "arp": 0.18, "bass": 0.32, "drums": 0.0, "bell": 0.35, "wind": 0.05},
+	## The Primm boss duel - hard, driving, a little too tidy.
+	&"primm": {"bpm": 138, "root": 45, "prog": [[0, true], [1, true], [-4, false], [-1, true]], "pad": 0.35, "arp": 0.4, "bass": 0.5, "drums": 0.6, "bell": 0.2, "wind": 0.0},
+	## The ending - warm and open, the Paths in harmony.
+	&"ending": {"bpm": 72, "root": 60, "prog": [[0, false], [7, false], [9, true], [5, false]], "pad": 0.45, "arp": 0.35, "bass": 0.28, "drums": 0.0, "bell": 0.4, "wind": 0.15},
 }
 
 static var _cache: Dictionary = {}

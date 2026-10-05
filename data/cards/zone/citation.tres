@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_dat5h"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_s07xr"]
+
+[sub_resource type="Resource" id="Resource_jsu5t"]
+script = ExtResource("1_dat5h")
+target = 5
+amount = 3
+
+[resource]
+script = ExtResource("2_s07xr")
+id = "citation"
+display_name = "Citation"
+type = 2
+generic_cost = 2
+toughness = 0
+rules_text = "Deal 3 damage to target enemy creature."
+effects = Array[ExtResource("1_dat5h")]([SubResource("Resource_jsu5t")])
+flavor_text = "Violation 4,112: Existing Without a Permit."

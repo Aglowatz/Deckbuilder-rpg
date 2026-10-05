@@ -74,6 +74,11 @@ func add_player(setup: PlayerSetup) -> PlayerState:
 	player.non_infrastructure_cast_cap = mods.cap(Modifier.Kind.MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN)
 	for data: CardData in setup.deck.cards:
 		player.library.append(create_instance(data, player.index))
+	# Brief 10: junk cards shuffled into the deck (the Capital's Clutter debuff).
+	for modifier: Modifier in mods.modifiers:
+		if modifier.kind == Modifier.Kind.SHUFFLE_JUNK_INTO_DECK and not modifier.tokens.is_empty():
+			for junk_index: int in range(maxi(modifier.value, 0)):
+				player.library.append(create_instance(modifier.tokens[0], player.index))
 	if setup.deck.size() > 0:
 		player.deck_infrastructure_ratio = float(setup.deck.infrastructure_count()) / float(setup.deck.size())
 	players.append(player)
@@ -224,18 +229,28 @@ func get_power(card: CardInstance) -> int:
 	if not card.data.is_creature():
 		return 0
 	var bonus: Vector2i = players[card.owner].modifiers.stat_bonus_for(card.data)
-	return maxi(0, card.data.power + card.power_bonus + card.temp_power + bonus.x)
+	return maxi(0, _base_stats(card).x + card.power_bonus + card.temp_power + bonus.x)
 
 
 func get_toughness(card: CardInstance) -> int:
 	if not card.data.is_creature():
 		return 0
 	var bonus: Vector2i = players[card.owner].modifiers.stat_bonus_for(card.data)
-	var total: int = card.data.toughness + card.toughness_bonus + card.temp_toughness + bonus.y
+	var total: int = _base_stats(card).y + card.toughness_bonus + card.temp_toughness + bonus.y
 	# A negative zone effect (a debuff) never kills a creature outright by itself: it leaves at least 1.
-	if bonus.y < 0 and card.data.toughness >= 1:
+	if bonus.y < 0 and _base_stats(card).y >= 1:
 		total = maxi(total, 1)
 	return total
+
+
+## A creature's base (power, toughness): its card's, unless a STANDARDIZE_CREATURES rule is in force for
+## the duel (Primm's Standardization), which gives every creature the same stats.
+func _base_stats(card: CardInstance) -> Vector2i:
+	for player: PlayerState in players:
+		for modifier: Modifier in player.modifiers.modifiers:
+			if modifier.kind == Modifier.Kind.STANDARDIZE_CREATURES:
+				return Vector2i(modifier.value, modifier.value2)
+	return Vector2i(card.data.power, card.data.toughness)
 
 
 ## Generic cost after cost-change modifiers (never below 0).
@@ -702,6 +717,21 @@ func kill_creature(card: CardInstance) -> void:
 	if card.data.is_creature() and not is_over():
 		_fire_modifier_effects(card.owner, Modifier.Kind.ON_ALLY_DEATH_EFFECT)
 	_send_to_graveyard(card)
+	_maybe_return_from_graveyard(card)
+
+
+## Brief 10 (Restless Dead): a dead creature may climb out of the graveyard again (GRAVEYARD_RETURN_CHANCE percent).
+func _maybe_return_from_graveyard(card: CardInstance) -> void:
+	if is_over() or card.data.is_token or not card.data.is_creature():
+		return
+	var chance: int = players[card.owner].modifiers.sum(Modifier.Kind.GRAVEYARD_RETURN_CHANCE)
+	if chance <= 0 or rng.randi_range(1, 100) > chance:
+		return
+	var owner_state: PlayerState = players[card.owner]
+	if not owner_state.graveyard.has(card):
+		return
+	owner_state.graveyard.erase(card)
+	_enter_battlefield(card, 0, false)
 
 
 func _clear_combat_refs(uid: int) -> void:

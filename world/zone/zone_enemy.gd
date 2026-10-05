@@ -77,6 +77,8 @@ func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: flo
 ## The enemy's model: "proc:<name>" is a procedural Gainlands model, "kaykit:<name>" an animated KayKit
 ## character, anything else a Kenney Graveyard Kit character.
 func _make_model() -> Node3D:
+	if info.model.begins_with("capital:"):
+		return CapitalMobs.build(info.model)
 	if info.model.begins_with("heap:"):
 		return HeapMobs.build(info.model)
 	if info.model.begins_with("buffet:"):

@@ -229,7 +229,7 @@ func complete_zone(zone_id: String) -> bool:
 
 ## Makes every zone story agree with the completion flags (after a load, a new game or a completion).
 func _sync_freed_stories() -> void:
-	for zone_id: String in ZoneDefs.ids():
+	for zone_id: String in ZoneDefs.all_ids():
 		ZoneStoryText.set_zone_freed(zone_id, is_zone_completed(zone_id))
 
 
@@ -480,8 +480,20 @@ func choose_equipment_slot(slot: EquipmentData.Slot) -> bool:
 	return true
 
 
+## The Capital's Famine debuff: while the Gourmand zone is not free, healing consumables (the kingdom's food and provisions) do
+## nothing in the Capital and its castle. Used by `use_item` and the character screen.
+func healing_blocked_for(item: ItemData) -> bool:
+	if item == null or item.effect == null or item.effect.op != CardEnums.EffectOp.GAIN_LIFE:
+		return false
+	if zone_run == null or zone_run.zone_id != CapitalZone.ID:
+		return false
+	return CapitalDebuffs.food_healing_blocked(flags)
+
+
 ## Uses one charge of an owned item against the current dungeon run (if any).
 func use_item(item: ItemData) -> bool:
+	if healing_blocked_for(item):
+		return false
 	if profile == null or not profile.use_item(item, life_run()):
 		return false
 	save_game()
@@ -1027,9 +1039,21 @@ func enter_dna() -> void:
 
 ## Entering any zone (`ZoneDefs`) from town: a brand-new visit, always at full life.
 func enter_zone(zone_id: String) -> void:
-	zone_run = ZoneRun.enter(zone_id, profile, deck)
+	begin_zone_visit(zone_id)
 	pending_zone_result = {}
 	SceneManager.change_scene(ZoneDefs.get_def(zone_id).scene_path)
+
+
+## Starts a visit to `zone_id` (full life). The Capital's broken-service debuffs (`CapitalDebuffs`) join the visit's modifiers
+## here, so they apply to every duel and to the zone life (Famine lowers max life).
+func begin_zone_visit(zone_id: String) -> ZoneRun:
+	zone_run = ZoneRun.enter(zone_id, profile, deck)
+	if zone_id == CapitalZone.ID:
+		var debuffs: ModifierSource = CapitalDebuffs.player_source(flags, content)
+		if debuffs != null:
+			zone_run.run.dungeon_sources.append(debuffs)
+			zone_run.run.life = zone_run.run.max_life()
+	return zone_run
 
 
 ## The def of the zone the player is visiting (the D.N.A. when not in a zone).
@@ -1092,6 +1116,9 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	var zone_enemy: PlayerSetup = ZoneEnemies.enemy_setup(content, zone_id, enemy_type)
 	if zone_source != null:
 		zone_enemy.modifiers.add_source(zone_source)
+	if zone_id == CapitalZone.ID:
+		_add_capital_enemy_rules(zone_enemy, zone_empower_next)
+	zone_empower_next = false
 	game.add_player(zone_enemy)
 	game.start()
 	var context: BattleContext = BattleContext.new()
@@ -1109,6 +1136,27 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 
 func start_zone_battle(enemy_type: String, enemy_instance_id: String) -> void:
 	start_battle(make_zone_battle(enemy_type, enemy_instance_id))
+
+
+## Set by the Capital scene just before a battle: the enemy stood near an unsealed rift, so it fights empowered
+## (`CapitalRifts.EMPOWER_LIFE` more life and +1/+1 on its creatures). Read and cleared by `make_zone_battle`.
+var zone_empower_next: bool = false
+
+
+## The Capital's rules for the enemy's side: the Necrocrat debuff (its creatures may return from the graveyard) and a rift's empowering.
+func _add_capital_enemy_rules(enemy: PlayerSetup, empowered: bool) -> void:
+	var rules: ModifierSource = CapitalDebuffs.enemy_source(flags, content)
+	if rules != null:
+		enemy.modifiers.add_source(rules)
+	if empowered:
+		var boost: Modifier = CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, CapitalRifts.EMPOWER_STAT, Modifier.ANY_COLOR, CapitalRifts.EMPOWER_STAT)
+		enemy.modifiers.add_source(CardBuilder.modifier_source("Rift-empowered", ModifierSource.SourceKind.ZONE, [boost] as Array[Modifier]))
+		enemy.starting_life += CapitalRifts.EMPOWER_LIFE
+
+
+## The Gate Captain's entry examination: the CHALLENGING card battle that opens the Capital's gate.
+func start_gate_battle() -> void:
+	start_zone_battle(CapitalEnemies.GATE_CAPTAIN, CapitalEnemies.GATE_CAPTAIN)
 
 
 ## After a zone duel: life carries over (no post-battle heal). A win removes that enemy for the rest
@@ -1133,6 +1181,10 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 		bump_counter("zone_enemies_defeated")
 		if zone_def().counter_enemies != "zone_enemies_defeated":
 			bump_counter(zone_def().counter_enemies)
+		if zone_def().id == CapitalZone.ID and context.zone_enemy_type == CapitalEnemies.GATE_CAPTAIN:
+			set_flag(CapitalZone.FLAG_GATE_OPEN)
+			set_flag(CapitalZone.FLAG_INSIDE)
+			result["gate_opened"] = true
 	if zone_run.is_down() or not context.won:
 		var fee: int = zone_wake_at_hub("beaten by a %s" % context.enemy_name)
 		result["woke_at_hub"] = true

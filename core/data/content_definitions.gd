@@ -97,6 +97,7 @@ static func build_tokens() -> Dictionary:
 	var spirit: CardData = CardBuilder.token("token_spirit", "Spirit", 1, 1)
 	spirit.rules_text = "A 1/1 spirit."
 	tokens[spirit.id] = spirit
+	CapitalContent.add_tokens(tokens)
 	return tokens
 
 
@@ -211,6 +212,7 @@ static func build_zone_cards(tokens: Dictionary) -> Dictionary:
 	_add_buffet_cards(cards)
 	HeapContent.add_cards(cards)
 	DungeonContent.add_cards(cards)
+	CapitalContent.add_cards(cards)
 	return cards
 
 

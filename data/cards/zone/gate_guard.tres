@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_agf2a"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_k1iha"]
+
+[resource]
+script = ExtResource("2_k1iha")
+id = "gate_guard"
+display_name = "Gate Guard"
+generic_cost = 3
+power = 3
+toughness = 4
+keywords = Array[int]([7])
+rules_text = "Guard"
+flavor_text = "Halt. State your height."

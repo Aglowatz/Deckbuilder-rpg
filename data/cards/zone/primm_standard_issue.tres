@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_wk4ls"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_isw0l"]
+
+[resource]
+script = ExtResource("2_isw0l")
+id = "primm_standard_issue"
+display_name = "Standard-Issue Soldier"
+generic_cost = 3
+power = 3
+toughness = 3
+keywords = Array[int]([8])
+rules_text = "Vigilance"
+rarity = 1
+flavor_text = "One size fits all. It does not fit anyone."

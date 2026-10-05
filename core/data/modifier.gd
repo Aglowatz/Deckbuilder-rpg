@@ -93,6 +93,15 @@ enum Kind {
 	## Part G (a rule, not gear): presence means the owner may not cast creature cards (the Arena's "win without
 	## casting creatures" puzzle).
 	NO_CREATURE_CASTS,
+	## Brief 10 (the Capital's Clutter debuff): `value` copies of the card in `tokens[0]` are shuffled into the owner's
+	## deck at the start of every duel (junk cards).
+	SHUFFLE_JUNK_INTO_DECK,
+	## Brief 10 (the Capital's Restless Dead debuff): whenever one of the owner's creatures dies it returns from the
+	## graveyard to the battlefield with `value` percent probability (tokens never do).
+	GRAVEYARD_RETURN_CHANCE,
+	## Brief 10 (Primm phase 1, Standardization): while ANY player has it, every creature in the duel has base
+	## power `value` and base toughness `value2` (bonuses still apply on top).
+	STANDARDIZE_CREATURES,
 }
 
 ## `color` value meaning "matches every card".

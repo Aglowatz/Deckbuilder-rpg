@@ -10,7 +10,7 @@ const AUDIT: String = "dna_audit"
 
 
 static func build_all() -> Array[QuestData]:
-	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend(), _heap_herd(), _heap_fert(), _heap_dam()] as Array[QuestData]
+	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend(), _heap_herd(), _heap_fert(), _heap_dam()] as Array[QuestData] + capital_quests()
 
 
 static func _backlog() -> QuestData:
@@ -214,4 +214,91 @@ static func _heap_dam() -> QuestData:
 	quest.reward_gold = 80
 	quest.reward_xp = 70
 	quest.reward_equipment_ids = ["compost_boots"] as Array[String]
+	return quest
+
+
+# ---- The Capital (brief 10): four Path quests, one per Path, given by citizens who show what Primm's perfection cost -------------
+
+
+static func capital_quests() -> Array[QuestData]:
+	return [_cap_burial(), _cap_wheels(), _cap_recipes(), _cap_untidy()] as Array[QuestData]
+
+
+static func _cap_burial() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = CapitalZone.QUEST_BURIAL
+	quest.order = 510
+	quest.title = "Form 27-B/6: A Burial Permit"
+	quest.summary = "Tilda Marrow's grandfather has sat in the family parlor for three years because the permit loops forever. Find the Stamp of Final Approval in Grave Row, then lay him to rest."
+	quest.giver_npc = CapitalZone.NPC_TILDA
+	quest.turn_in_npc = CapitalZone.NPC_TILDA
+	quest.objectives = [
+		QuestObjective.make("Find the Stamp of Final Approval", Condition.flag(str(CapitalZone.FLAG_STAMP))),
+		QuestObjective.make("Lay Grandfather Marrow to rest", Condition.flag(str(CapitalZone.FLAG_LAID_TO_REST))),
+	] as Array[QuestObjective]
+	quest.reward_gold = 150
+	quest.reward_xp = 120
+	quest.reward_item_ids = ["healing_draught"] as Array[String]
+	quest.reward_card_ids = ["grandfather_marrow"] as Array[String]
+	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("necrocrat"))] as Array[String]
+	return quest
+
+
+static func _cap_wheels() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = CapitalZone.QUEST_WHEELS
+	quest.order = 520
+	quest.title = "The Wheel Never Stops"
+	quest.summary = "Beefcake crews have run the facade's energy wheels for ten years because nobody told them they could stop. Free the three crews in the Transit Yards and cut the cable that feeds the facade."
+	quest.giver_npc = CapitalZone.NPC_BRAM
+	quest.turn_in_npc = CapitalZone.NPC_BRAM
+	quest.objectives = [
+		QuestObjective.make("Free the wheel crews", Condition.counter(CapitalZone.COUNTER_WHEELS, 3)),
+		QuestObjective.make("Cut the facade's power cable", Condition.flag(str(CapitalZone.FLAG_CABLE_CUT))),
+	] as Array[QuestObjective]
+	quest.reward_gold = 150
+	quest.reward_xp = 120
+	quest.reward_item_ids = ["vitality_charm"] as Array[String]
+	quest.reward_card_ids = ["freed_wheel_crew"] as Array[String]
+	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("beefcake"))] as Array[String]
+	return quest
+
+
+static func _cap_recipes() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = CapitalZone.QUEST_RECIPES
+	quest.order = 530
+	quest.title = "The Recipe Box"
+	quest.summary = "Everyone eats Primm's Perfect Nutrient Paste. Chef Odile Bisque has hidden real recipes around the Hungry Quarter: recover three of them and spoil the paste dispenser."
+	quest.giver_npc = CapitalZone.NPC_ODILE
+	quest.turn_in_npc = CapitalZone.NPC_ODILE
+	quest.objectives = [
+		QuestObjective.make("Find the hidden recipe cards", Condition.counter(CapitalZone.COUNTER_RECIPES, 3)),
+		QuestObjective.make("Spoil the Perfect Nutrient Paste dispenser", Condition.flag(str(CapitalZone.FLAG_PASTE_SPOILED))),
+	] as Array[QuestObjective]
+	quest.reward_gold = 150
+	quest.reward_xp = 120
+	quest.reward_item_ids = ["hearty_pie"] as Array[String]
+	quest.reward_card_ids = ["odiles_real_recipe"] as Array[String]
+	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("gourmand"))] as Array[String]
+	return quest
+
+
+static func _cap_untidy() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = CapitalZone.QUEST_UNTIDY
+	quest.order = 540
+	quest.title = "Untidy"
+	quest.summary = "Composting is outlawed as untidy and the Capital's garbage is hidden behind the facade, so the land is sickening. Rescue three banished compost heaps in the Reek, find the old seed and plant it in the Sick Patch."
+	quest.giver_npc = CapitalZone.NPC_GUS
+	quest.turn_in_npc = CapitalZone.NPC_GUS
+	quest.objectives = [
+		QuestObjective.make("Rescue the banished compost heaps", Condition.counter(CapitalZone.COUNTER_COMPOST, 3)),
+		QuestObjective.make("Plant the old seed in the Sick Patch", Condition.flag(str(CapitalZone.FLAG_SEED_PLANTED))),
+	] as Array[QuestObjective]
+	quest.reward_gold = 150
+	quest.reward_xp = 120
+	quest.reward_item_ids = ["healing_salve"] as Array[String]
+	quest.reward_card_ids = ["rescued_compost_heap"] as Array[String]
+	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("refusemancer"))] as Array[String]
 	return quest

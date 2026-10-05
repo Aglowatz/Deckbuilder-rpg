@@ -2157,3 +2157,40 @@ Names kept (to be changed later); Malvane appears in person only in the final zo
   genuinely helped at first), the Capital (areas, the gate, the secret entrance, the facade, the rifts, the four broken
   services), the four Path quests, Primm's Castle, the three-phase boss and the ending/postgame.
 - Existing GUT suite still passes (714 tests).
+
+## Part A: the Capital zone - done
+
+Built on the shared zone framework (`ZoneDef` + `ZoneMap` + story file + a thin `ZoneScene` subclass). Full description in
+`docs/design/zones.md` ("The Capital") and `docs/design/story_bible.md` (Part 10).
+
+- **Zone**: `CapitalZone` (id `final`: the town's last entrance, open from the start), `CapitalLayout` (1 m grid, ~8,500 m2 walkable, bigger
+  than every other zone), `CapitalBuilder` (ground, 16 identical facade houses + painted shops, crumbling districts, castle backdrop,
+  cracks, rifts with a refractive-light shader), `CapitalScene`, minimap and fog of war from the framework.
+- **Controlled entry**: the Approved Gate Captain's absurd requirements + a CHALLENGING card battle (the Entry Examination) lifts the gate
+  barrier; exits are controlled (booth, guards, signs). **Secret entrance**: the Old Joint Works hatch in the Outskirts (hidden spot: no
+  marker/plate/icon) leads past the gate into the hideout (docs/design/secrets.md).
+- **Primm's Perfection** (facade town) and the **corrupted districts** (Reek, Grave Row, Transit Yards, Hungry Quarter, Checkpoint Row, the
+  Correction Ward, the Castle Approach), 9 **rifts** (contact damage, warped light, empowered enemies, 5 sealable for rewards).
+- **Broken-service debuffs** via the Modifier pipeline (3 new `Modifier.Kind`s + small `GameState` hooks): Blackout, Famine, Restless Dead,
+  Clutter; each removed (with a visible change) when its Path's zone is free; HUD panel with tooltips (`ServiceDebuffsPanel`).
+- **Hub: the Crease** (underground, safe): heal (Tea of Dissent), black market (cards + supplies), Mabbit Quill, service-shaft network (down
+  during Blackout).
+- **Enemies** (framework): Compliance Officer, Perfection Inspector (slow battle-starters), Tidy-Bot, Shard Swarm (fast damage), Rift Wretch.
+  **9 hidden chests**, **interactables** (deface propaganda, seal rifts, the Anonymous Complaint Box).
+- **Content**: 14 new cards (`CapitalContent`: enforcers, quest rewards, Primm's own, the junk token), new music tracks (`capital`,
+  `castle`, `primm`, `ending`), `data/story/capital_story.tres` (~230 keys).
+- Tests: `tests/core/zone/test_capital.gd` (35 tests: size, reachability of every spot/chest/enemy from the road through the gate, the closed
+  gate, the hideout, debuffs, rifts, interactables, quests, text keys, engine rules). Full suite: 749 passing (incl. compile-every-script).
+- Screenshots (windowed): `_screenshots/cap_*.png`.
+- Fixed: `tools/generate_quests.gd` could not compile as a SceneTree script even before this brief (autoload `Session` via `ZoneDefs`); added
+  `tools/generate_quests.tscn` (see open_questions N11).
+
+## Part B: the four Path quests - done (built together with Part A)
+
+One quest per Path, given by citizens who show what Primm's perfection cost that Path: *Form 27-B/6: A Burial Permit* (Tilda Marrow,
+Necrocrat), *The Wheel Never Stops* (Bram Haulsworth, Beefcake), *The Recipe Box* (Odile Bisque, Gourmand), *Untidy* (Gus Peelings,
+Refusemancer). Funny on the surface (looping permit paperwork, mandatory cardio, "Perfect Nutrient Paste", composting outlawed as untidy),
+serious underneath (a grandfather unburied for three years, children on energy wheels, a chef hiding recipes in her apron, a land that
+will not grow). Each has two objectives tracked in the quest log (stamp + burial, wheel crews + cable, recipe cards + dispenser, compost
+heaps + seed), and rewards gold, XP, a card, an item and a **story insight** into Primm (flag `capital_insight_<path>`, shown in the log's
+reward line and referenced by Mabbit Quill). Tests in `test_capital.gd`.

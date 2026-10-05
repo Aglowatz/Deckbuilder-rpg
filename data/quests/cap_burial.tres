@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_ayw58"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_rj7cx"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_qcinw"]
+
+[sub_resource type="Resource" id="Resource_3d6pb"]
+script = ExtResource("2_rj7cx")
+key = "cap_stamp_found"
+
+[sub_resource type="Resource" id="Resource_s06lw"]
+script = ExtResource("1_ayw58")
+text = "Find the Stamp of Final Approval"
+condition = SubResource("Resource_3d6pb")
+
+[sub_resource type="Resource" id="Resource_klqar"]
+script = ExtResource("2_rj7cx")
+key = "cap_laid_to_rest"
+
+[sub_resource type="Resource" id="Resource_d43l6"]
+script = ExtResource("1_ayw58")
+text = "Lay Grandfather Marrow to rest"
+condition = SubResource("Resource_klqar")
+
+[resource]
+script = ExtResource("3_qcinw")
+id = "cap_burial"
+title = "Form 27-B/6: A Burial Permit"
+summary = "Tilda Marrow's grandfather has sat in the family parlor for three years because the permit loops forever. Find the Stamp of Final Approval in Grave Row, then lay him to rest."
+giver_npc = "Tilda Marrow"
+turn_in_npc = "Tilda Marrow"
+order = 510
+objectives = Array[ExtResource("1_ayw58")]([SubResource("Resource_s06lw"), SubResource("Resource_d43l6")])
+reward_gold = 150
+reward_xp = 120
+reward_item_ids = Array[String](["healing_draught"])
+reward_card_ids = Array[String](["grandfather_marrow"])
+reward_unlock_flags = Array[String](["capital_insight_necrocrat"])

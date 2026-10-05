@@ -101,6 +101,12 @@ func show_zone_effects(effect: ZoneEffects.Effect, zone_title: String) -> void:
 	_left_column.move_child(_effects_panel, 1)
 
 
+## Any extra panel under the objective (the Capital's broken services).
+func add_panel(panel: Control) -> void:
+	_left_column.add_child(panel)
+	_left_column.move_child(panel, 1)
+
+
 ## The town's name and how many zones are free ("Concord Crossing - 1 of 4 zones free").
 func set_location(town_name: String, progress: String) -> void:
 	_location.text = town_name

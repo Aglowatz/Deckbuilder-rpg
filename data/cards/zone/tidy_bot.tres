@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_rdu52"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xbxf2"]
+
+[resource]
+script = ExtResource("2_xbxf2")
+id = "tidy_bot"
+display_name = "Tidy-Bot"
+generic_cost = 1
+power = 1
+toughness = 2
+keywords = Array[int]([2])
+rules_text = "Haste"
+flavor_text = "Scrubs the streets. Scrubs the people. Scrubs the memory of the people."

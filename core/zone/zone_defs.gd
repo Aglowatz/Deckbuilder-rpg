@@ -1,16 +1,23 @@
 class_name ZoneDefs
 extends RefCounted
-## Registry of the playable zones (`ZoneDef`s), keyed by zone id (the same ids as `ZonePortals`).
+## Registry of the playable zones (`ZoneDef`s), keyed by zone id (the same ids as `ZonePortals`). `ids()` are the four Path
+## zones (the ones the player frees; `ZoneCompletion` counts them); `all_ids()` adds the Capital (the final area).
 
 static var _cache: Dictionary = {}
 
 
+## The four Path zones.
 static func ids() -> Array[String]:
 	return [DnaZone.ID, GainlandsZone.ID, BuffetZone.ID, HeapZone.ID]
 
 
+## Every zone with a def: the four Path zones and the Capital.
+static func all_ids() -> Array[String]:
+	return [DnaZone.ID, GainlandsZone.ID, BuffetZone.ID, HeapZone.ID, CapitalZone.ID]
+
+
 static func has_def(zone_id: String) -> bool:
-	return ids().has(zone_id)
+	return all_ids().has(zone_id)
 
 
 static func get_def(zone_id: String) -> ZoneDef:
@@ -22,6 +29,8 @@ static func get_def(zone_id: String) -> ZoneDef:
 				_cache[zone_id] = HeapZone.build_def()
 			BuffetZone.ID:
 				_cache[zone_id] = BuffetZone.build_def()
+			CapitalZone.ID:
+				_cache[zone_id] = CapitalZone.build_def()
 			_:
 				_cache[zone_id] = DnaZone.build_def()
 	return _cache[zone_id] as ZoneDef

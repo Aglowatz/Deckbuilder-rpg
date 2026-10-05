@@ -31,7 +31,7 @@ static func all() -> Array[Info]:
 		result.append(info)
 	var final_info: Info = Info.new()
 	final_info.id = FINAL_ID
-	final_info.display_name = "The Final Depths"
+	final_info.display_name = "The Capital"
 	final_info.tint = UIStyle.GOLD
 	result.append(final_info)
 	return result

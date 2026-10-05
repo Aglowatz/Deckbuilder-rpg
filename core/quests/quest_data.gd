@@ -38,4 +38,7 @@ func reward_summary() -> String:
 		parts.append(card_id.capitalize())
 	for equipment_id: String in reward_equipment_ids:
 		parts.append(equipment_id.capitalize())
+	for flag_name: String in reward_unlock_flags:
+		if flag_name.begins_with("capital_insight_"):
+			parts.append("Insight into %s" % Villain.display_name())
 	return ", ".join(parts)

@@ -38,7 +38,7 @@ func test_basic_infrastructure_for_every_color_and_a_token() -> void:
 		assert_true(infra.is_infrastructure())
 		assert_true(infra.is_basic)
 		assert_eq(infra.color, color)
-	assert_eq(_content.tokens.size(), 1)
+	assert_eq(_content.tokens.size(), 2, "the Spirit and (brief 10) the junk card the Capital shuffles into your deck")
 	assert_true(_content.card("token_spirit").is_token)
 
 

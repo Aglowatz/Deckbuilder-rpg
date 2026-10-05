@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_5sxv0"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_iddb1"]
+
+[sub_resource type="Resource" id="Resource_75c6i"]
+script = ExtResource("1_5sxv0")
+target = 2
+op = 3
+amount = 1
+
+[resource]
+script = ExtResource("2_iddb1")
+id = "perfection_inspector"
+display_name = "Perfection Inspector"
+generic_cost = 3
+power = 2
+toughness = 3
+keywords = Array[int]([0])
+rules_text = "Flying. When this enters, the opponent discards a card."
+effects = Array[ExtResource("1_5sxv0")]([SubResource("Resource_75c6i")])
+rarity = 1
+flavor_text = "Your smile is 0.4 degrees off regulation."

@@ -141,7 +141,7 @@ func _ready() -> void:
 	if not _screenshot_args.is_empty():
 		Session.ensure_game()
 		if Session.zone_run == null:
-			Session.zone_run = ZoneRun.enter(def.id, Session.profile, Session.deck)
+			Session.begin_zone_visit(def.id)
 		if _screenshot_args.has("damage"):
 			Session.zone_run.damage(int(_screenshot_args["damage"]))
 		if _screenshot_args.has("freed"):
@@ -151,7 +151,7 @@ func _ready() -> void:
 	if Session.zone_run == null:
 		# Reached some other way (a dev launch): start a fresh visit.
 		Session.ensure_game()
-		Session.zone_run = ZoneRun.enter(def.id, Session.profile, Session.deck)
+		Session.begin_zone_visit(def.id)
 	_ensure_input_actions()
 	builder = _make_map()
 	_build_environment()
@@ -251,6 +251,9 @@ func _add_spot(id: String, title: String, pos: Vector3, radius: float, prompt: S
 	plate.position = marker.position + Vector3(0, 0.34, 0)
 	add_child(plate)
 	spot.plate = plate
+	if bool(data.get("hidden", false)):
+		marker.visible = false
+		plate.visible = false
 	spots.append(spot)
 	return spot
 
@@ -265,7 +268,7 @@ func _build_enemies() -> void:
 	var run: ZoneRun = Session.zone_run
 	var index: int = 0
 	for spawn: Dictionary in builder.enemy_spawns():
-		var instance_id: String = "%s_%d" % [str(spawn["type"]), index]
+		var instance_id: String = str(spawn.get("id", "%s_%d" % [str(spawn["type"]), index]))
 		index += 1
 		if run.is_defeated(instance_id):
 			continue
@@ -349,6 +352,8 @@ func _process(delta: float) -> void:
 		if _spawn_grace > 0.0 and enemy.cooldown < _spawn_grace:
 			enemy.cooldown = _spawn_grace
 	for spot: ZoneSpot in spots:
+		if bool(spot.data.get("hidden", false)):
+			continue
 		var base_y: float = builder.height_at(spot.position) + (1.45 if spot.is_npc else 1.7)
 		spot.marker.position.y = base_y + sin(_time * 2.4 + spot.position.x) * 0.07
 		spot.marker.rotation_degrees.y += 60.0 * delta

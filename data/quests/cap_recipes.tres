@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_u08fy"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_ktrf2"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_j3l47"]
+
+[sub_resource type="Resource" id="Resource_omkym"]
+script = ExtResource("2_ktrf2")
+kind = 9
+key = "cap_recipes_found"
+amount = 3
+
+[sub_resource type="Resource" id="Resource_iqmtc"]
+script = ExtResource("1_u08fy")
+text = "Find the hidden recipe cards"
+condition = SubResource("Resource_omkym")
+
+[sub_resource type="Resource" id="Resource_ncoal"]
+script = ExtResource("2_ktrf2")
+key = "cap_paste_spoiled"
+
+[sub_resource type="Resource" id="Resource_noobk"]
+script = ExtResource("1_u08fy")
+text = "Spoil the Perfect Nutrient Paste dispenser"
+condition = SubResource("Resource_ncoal")
+
+[resource]
+script = ExtResource("3_j3l47")
+id = "cap_recipes"
+title = "The Recipe Box"
+summary = "Everyone eats Primm's Perfect Nutrient Paste. Chef Odile Bisque has hidden real recipes around the Hungry Quarter: recover three of them and spoil the paste dispenser."
+giver_npc = "Odile Bisque"
+turn_in_npc = "Odile Bisque"
+order = 530
+objectives = Array[ExtResource("1_u08fy")]([SubResource("Resource_iqmtc"), SubResource("Resource_noobk")])
+reward_gold = 150
+reward_xp = 120
+reward_item_ids = Array[String](["hearty_pie"])
+reward_card_ids = Array[String](["odiles_real_recipe"])
+reward_unlock_flags = Array[String](["capital_insight_gourmand"])

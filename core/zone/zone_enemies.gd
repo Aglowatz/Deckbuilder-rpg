@@ -16,6 +16,8 @@ static func info(zone_id: String, enemy_id: String) -> ZoneEnemyInfo:
 	match zone_id:
 		GainlandsZone.ID:
 			return GainlandsEnemies.info(enemy_id)
+		CapitalZone.ID:
+			return CapitalEnemies.info(enemy_id)
 		HeapZone.ID:
 			return HeapEnemies.info(enemy_id)
 		BuffetZone.ID:
