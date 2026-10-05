@@ -149,6 +149,19 @@ func test_the_battle_hud_shows_the_zone_effects_panel() -> void:
 	var effect: ZoneEffects.Effect = ZoneEffects.for_zone(GainlandsZone.ID)
 	var panel: ZoneEffectsPanel = ZoneEffectsPanel.make(effect, "The Gainlands")
 	add_child_autofree(panel)
-	assert_true(panel.tooltip_text.contains("Pump It Up"))
-	assert_true(panel.tooltip_text.contains("Processing Time"))
-	assert_true(panel.tooltip_text.contains("you and to the enemy"))
+	var rows: Array[Node] = panel.find_children("*", "VBoxContainer", true, false).filter(func(node: Node) -> bool: return node.get_signal_connection_list("mouse_entered").size() > 0)
+	assert_eq(rows.size(), 2, "the buff row and the debuff row each have a hover tip")
+	var expected: Array[String] = ["Pump It Up", "Processing Time"]
+	for index: int in range(rows.size()):
+		var row: Control = rows[index] as Control
+		row.mouse_entered.emit()
+		var tip: Node = row.find_child("HoverTip", true, false)
+		assert_not_null(tip, "hovering shows a tip")
+		var text: String = ""
+		for label: Node in tip.find_children("*", "Label", true, false):
+			text += (label as Label).text + "\n"
+		assert_true(text.contains(expected[index]), "%s is named" % expected[index])
+		assert_true(text.contains("you and to the enemy"), "the tip says both sides are affected")
+		row.mouse_exited.emit()
+		await get_tree().process_frame
+		assert_null(row.find_child("HoverTip", true, false), "and goes away when the mouse leaves")

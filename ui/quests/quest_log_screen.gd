@@ -109,6 +109,16 @@ func _show_detail(state: UnlockState) -> void:
 		row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		row.custom_minimum_size = Vector2(720, 0)
 		_detail.add_child(row)
+	if _tab_active and not done_quest:
+		var tracked_now: bool = Session.quest_log.tracked_id() == quest.id
+		var track: FancyButton = FancyButton.make("Tracking in the HUD" if tracked_now else "Track this quest", &"PrimaryButton" if not tracked_now else &"GhostButton", Vector2(300, 50))
+		track.name = "TrackButton"
+		track.disabled = tracked_now
+		track.pressed.connect(func() -> void:
+			Session.quest_log.track(quest.id)
+			EventBus.quest_changed.emit()
+			_refresh())
+		_detail.add_child(track)
 	if not quest.turn_in_npc.is_empty() and not done_quest:
 		_detail.add_child(UIKit.label("Hand in to: %s" % quest.turn_in_npc, &"MutedLabel", 20))
 	_detail.add_child(UIKit.spacer(8))

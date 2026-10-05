@@ -18,7 +18,6 @@ static func make(flags: Dictionary) -> ServiceDebuffsPanel:
 	panel.add_child(column)
 	var active_count: int = CapitalDebuffs.active(flags).size()
 	column.add_child(UIKit.label("Broken services (%d of 4)" % active_count, &"HeadingLabel", 21))
-	panel.tooltip_text = "The kingdom's four services are broken. Free each Path's zone to restore its service here."
 	for debuff: CapitalDebuffs.Debuff in CapitalDebuffs.all():
 		var active: bool = CapitalDebuffs.is_active(flags, debuff.zone_id)
 		column.add_child(_row(debuff, active))
@@ -33,5 +32,6 @@ static func _row(debuff: CapitalDebuffs.Debuff, active: bool) -> VBoxContainer:
 	head.add_theme_font_override("font", UIStyle.font_bold())
 	head.mouse_filter = Control.MOUSE_FILTER_PASS
 	box.add_child(head)
-	box.tooltip_text = debuff.tooltip(active)
+	box.mouse_filter = Control.MOUSE_FILTER_STOP
+	HoverTip.attach(box, debuff.name_text(), debuff.tooltip(active), BAD if active else GOOD)
 	return box

@@ -2389,3 +2389,19 @@ Town clouds: 9 huge -> 5 small ones at 24-30 m (they sit above the camera); star
 
 ## Part D: the Capital, outside vs inside - done
 Outside the wall: cracked ash-tan wasteland, dead trees, ruined walls, debris, broken carts, stumps, crack decals, gray sickly sky, thick haze, ash/dust/rift sparks, a bare windswept drone track. Inside: lush striped lawns, cream paving, flowers and shrubs, blue sky, petals, a cheerful loop; the identical-smile portraits, speakers, never-opening doors and propaganda remain as the tells. The gate crossing fades through a veil and swaps look, music and sound. Screenshots `_screenshots/brief13/d_*`. Tests `tests/world/test_capital_mood.gd`. Capital Medium fps 94. Decisions R2-R3.
+
+## Part E: zone passageways - done
+The five towers are gone. Each zone has a themed natural passageway at the edge of the town (rock arch, barbell arch, office gate, awning arch, junk arch), a carved wooden signpost with the zone name (and the name plate fades in from 7 m), a sealed state (barrier, solid, message) and walking into the open passage loads the zone. E2E (`tools/run_thirteenth_brief_final_smoke.sh`, ran twice): for all five zones the name shows on approach, the sealed passage stops the hero in town, unlocking and walking in loads the right scene (Gainlands, D.N.A., Buffet, Dump, Capital), plus wheel zoom limits. The greedy WASD walker needed a teleport to reach each entry (it stops on trees), flood-fill proves every entry and mouth reachable (`tools/reach_check.gd`). Screenshots `_screenshots/brief13/g_passage_*`. Decision R4. Tests `tests/world/test_passages.gd`.
+
+## Part F: HUD cleanup - done
+Minimap top-right; no empty box (the location box hides when empty); zone-effect hover tips on every buff/debuff row and broken service everywhere they appear (`HoverTip`, tested); the tracker shows ONE quest (name, current objective, progress), compact (300 px), the quest is chosen in the Quest Log (J) with "Track this quest", default the most recent. Screenshots `_screenshots/brief13/f_hud_{town,zone,battle}.png`: nothing overlaps (right column: minimap, gold, Menu; left: location, effects, tracker; battle effects panel under the enemy portrait).
+
+## Brief 13 FINAL: summary
+All parts done and pushed, 872 tests pass. Medium fps: town 77, Gainlands 83, Capital 94 (zoom 1.5x).
+
+**Questions for you:**
+1. Camera default is 1.5x further out (wheel range 1.0-2.3x): right amount?
+2. The town ground is now plain grass with olive paths; want any patches of cobble back around the vendors for readability?
+3. Capital: inside is very bright and saturated (blue sky, striped lawns); outside is a gray-olive wasteland. Is the contrast right, and should the facade hide more "wrong" details (the portraits, speakers and never-opening doors are the ones already there)?
+4. Passageways: the greedy walker could not always reach them without help, which suggests the hex trees near the edge cells make the approach fiddly in places; tell me which one feels awkward.
+5. Zone effects are shown in battle only when the duel carries a zone context; the arena duels and town duels have none (by design). OK?

@@ -15,7 +15,6 @@ static func make(effect: ZoneEffects.Effect, title: String, compact: bool = fals
 	panel.theme_type_variation = &"DarkPanel"
 	panel.custom_minimum_size = Vector2(300, 0)
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
-	panel.tooltip_text = effect.tooltip()
 	var column: VBoxContainer = UIKit.vbox(5)
 	column.mouse_filter = Control.MOUSE_FILTER_PASS
 	panel.add_child(column)
@@ -38,5 +37,7 @@ static func _row(sign_text: String, title: String, mechanic: String, color: Colo
 		body.custom_minimum_size = Vector2(270, 0)
 		body.mouse_filter = Control.MOUSE_FILTER_PASS
 		box.add_child(body)
-	box.tooltip_text = "%s\n%s\n\n%s\n(Applies to you and to the enemy.)" % [title, mechanic, flavor]
+	box.mouse_filter = Control.MOUSE_FILTER_STOP
+	var prefix: String = "Buff: " if sign_text == "+" else "Debuff: "
+	HoverTip.attach(box, prefix + title, "%s\n\n%s\n\nApplies to you and to the enemy." % [mechanic, flavor], color)
 	return box

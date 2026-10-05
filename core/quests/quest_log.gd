@@ -8,6 +8,8 @@ var active: Array[String] = []
 var completed: Array[String] = []
 ## "<quest id>|<counter key>" -> the counter's value when the quest started.
 var baselines: Dictionary = {}
+## The quest shown in the HUD tracker (chosen in the Quest Log); a newly started quest becomes the tracked one.
+var tracked: String = ""
 
 
 func is_active(quest_id: String) -> bool:
@@ -28,6 +30,7 @@ func start(quest: QuestData, state: UnlockState) -> bool:
 	if not can_start(quest, state):
 		return false
 	active.append(quest.id)
+	tracked = quest.id
 	for objective: QuestObjective in quest.objectives:
 		var cond: Condition = objective.condition
 		if cond != null and cond.kind == Condition.Kind.COUNTER:
@@ -86,20 +89,37 @@ func auto_completable(catalog: Array[QuestData], state: UnlockState) -> Array[St
 
 
 func to_dict() -> Dictionary:
-	return {"active": active, "completed": completed, "baselines": baselines}
+	return {"active": active, "completed": completed, "baselines": baselines, "tracked": tracked}
 
 
 func from_dict(data: Dictionary) -> void:
 	active.assign(data.get("active", []) as Array)
 	completed.assign(data.get("completed", []) as Array)
 	baselines = (data.get("baselines", {}) as Dictionary).duplicate()
+	tracked = str(data.get("tracked", ""))
 
 
 func reset() -> void:
 	active.clear()
 	completed.clear()
 	baselines.clear()
+	tracked = ""
 
 
 static func _baseline_key(quest_id: String, counter_key: String) -> String:
 	return "%s|%s" % [quest_id, counter_key]
+
+
+## The id of the quest the HUD tracker shows: the chosen one while it is active, otherwise the most recently started active quest ("" with none).
+func tracked_id() -> String:
+	if tracked != "" and active.has(tracked):
+		return tracked
+	return active[active.size() - 1] if not active.is_empty() else ""
+
+
+## Picks the tracked quest (an active one). False otherwise.
+func track(quest_id: String) -> bool:
+	if not active.has(quest_id):
+		return false
+	tracked = quest_id
+	return true

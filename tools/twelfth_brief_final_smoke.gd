@@ -316,15 +316,9 @@ func _flow_menu(town: TownScene) -> void:
 	_check(_find(town, PacksScreen) != null, "Packs opens the pack list")
 	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.4)
-	# quest tracker: pick another quest and remove one
-	var untrack: Control = town.hud.find_child("Untrack_*", true, false) as Control
-	_check(untrack != null, "quests in the tracker can be removed")
-	if untrack != null:
-		var before: int = QuestTracker.removed_ids.size()
-		await driver.click(driver.center_of_control(untrack))
-		await driver.seconds(0.3)
-		_check(QuestTracker.removed_ids.size() == before + 1, "removing a quest hides it from the tracker")
-		var restore: Control = town.hud.find_child("TrackAll", true, false) as Control
-		if restore != null:
-			await driver.click(driver.center_of_control(restore))
-	_check(not (town.hud.find_child("Objective", true, false) is Label), "the objective box is gone")
+	# quest tracker: exactly one quest is shown (brief 13)
+	var tracker_rows: int = 0
+	for node: Node in town.hud.find_children("*", "Label", true, false):
+		if node.get_parent() is VBoxContainer and node.get_parent().get_parent() is VBoxContainer and (node.get_parent().get_parent().get_parent() is QuestTracker):
+			tracker_rows += 1
+	_check(tracker_rows <= 2, "the tracker shows one quest: its objective only (%d rows)" % tracker_rows)

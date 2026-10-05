@@ -66,6 +66,7 @@ var dialogue: DialogueBox
 var _camera: Camera3D
 var style_rig: StyleRig
 var square: TownSquare
+var _portal_toast_cooldown: float = 0.0
 var cloud_fader: CloudFader
 var npc_life: NpcLife
 var _overlay_layer: Control
@@ -376,7 +377,7 @@ func _build_spots() -> void:
 	# this pass. New brief, Part C/E: the 4 element entrances start locked (see
 	# _portal_is_locked); the final entrance is always open.
 	for info: ZonePortals.Info in ZonePortals.all():
-		_add_spot("portal_%s" % info.id, info.display_name if ZoneDefs.has_def(info.id) else "%s (coming soon)" % info.display_name, town.anchors["portal_%s" % info.id] as Vector3, 1.6)
+		_add_spot("portal_%s" % info.id, info.display_name if ZoneDefs.has_def(info.id) else "%s (coming soon)" % info.display_name, town.anchors["portal_%s" % info.id] as Vector3, 3.4)
 
 
 ## New brief, Part E sets this flag (via CorruptedNpcs.unlock_flag, the single source of truth)
@@ -394,14 +395,18 @@ func _portal_is_locked(zone_id: String) -> bool:
 ## it never needs to change live mid-visit).
 func _build_portal_barriers() -> void:
 	for info: ZonePortals.Info in ZonePortals.all():
+		var passage: Node3D = town.passage_nodes.get(info.id) as Node3D
 		if not _portal_is_locked(info.id):
 			continue
-		var anchor: Vector3 = town.anchors.get("portal_%s" % info.id, Vector3.ZERO) as Vector3
+		var mouth: Vector3 = town.anchors.get("portal_%s_mouth" % info.id, Vector3.ZERO) as Vector3
+		var out: Vector3 = TownBuilder.PORTAL_OUT.get(info.id, Vector3(0, 0, -1)) as Vector3
 		var barrier: MeshInstance3D = MeshInstance3D.new()
+		barrier.name = "Barrier_%s" % info.id
 		var mesh: BoxMesh = BoxMesh.new()
-		mesh.size = Vector3(1.7, 1.9, 0.1)
+		mesh.size = Vector3(TownPassages.OPENING * 2.0 + 0.3, 2.6, 0.12)
 		barrier.mesh = mesh
-		barrier.position = anchor + Vector3(0, 0.95, 0)
+		barrier.position = mouth - out * 1.7 + Vector3(0, 1.3, 0)
+		barrier.rotation_degrees.y = TownPassages.yaw_for(out)
 		var material: StandardMaterial3D = StandardMaterial3D.new()
 		material.albedo_color = Color(info.tint.r, info.tint.g, info.tint.b, 0.32)
 		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
@@ -410,7 +415,30 @@ func _build_portal_barriers() -> void:
 		material.emission_energy_multiplier = 0.9
 		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 		barrier.material_override = material
+		barrier.set_meta(StyleToon.META_NO_TOON, true)
 		add_child(barrier)
+		# solid: the hero cannot walk through a sealed passage
+		town.obstacles.append(Vector3(mouth.x, mouth.z, 1.55))
+		var glow: Node = passage.find_child("FarGlow", true, false) if passage != null else null
+		if glow != null:
+			((glow as MeshInstance3D).material_override as StandardMaterial3D).albedo_color.a = 0.1
+
+
+## Walking down a passageway takes it: an open one changes scene (the same call the E prompt makes), a sealed one stops the hero and says why.
+func _check_portal_walk(delta: float) -> void:
+	_portal_toast_cooldown = maxf(0.0, _portal_toast_cooldown - delta)
+	if _locked or dialogue.active or player.airborne:
+		return
+	for info: ZonePortals.Info in ZonePortals.all():
+		var mouth: Vector3 = town.anchors.get("portal_%s_mouth" % info.id, Vector3.ZERO) as Vector3
+		var distance: float = Vector2(player.position.x - mouth.x, player.position.z - mouth.z).length()
+		if _portal_is_locked(info.id):
+			if distance < 2.3 and _portal_toast_cooldown <= 0.0:
+				_portal_toast_cooldown = 3.5
+				_use_zone_portal(info.id)
+		elif distance < TownBuilder.PORTAL_TRIGGER:
+			_use_zone_portal(info.id)
+			return
 
 
 func _add_spot(id: String, title: String, position: Vector3, radius: float) -> void:
@@ -490,12 +518,14 @@ func _process(delta: float) -> void:
 		spot.marker.position.y = base_y + sin(_time * 2.4 + spot.position.x) * 0.08
 		spot.marker.rotation_degrees.y += 60.0 * delta
 		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
-		spot.plate.modulate.a = clampf(1.0 - (distance - 2.6) / 1.6, 0.0, 1.0)
+		var fade_start: float = 7.0 if spot.id.begins_with("portal_") else 2.6
+		spot.plate.modulate.a = clampf(1.0 - (distance - fade_start) / 1.6, 0.0, 1.0)
 		spot.plate.outline_modulate.a = spot.plate.modulate.a
 		spot.plate.visible = spot.plate.modulate.a > 0.02
 	_well_light.light_energy = 1.4 + sin(_time * 1.7) * 0.35
 	_update_nearest()
 	_update_hidden_chest_prompt()
+	_check_portal_walk(delta)
 	player.input_enabled = not _locked and not dialogue.active
 	if not _locked and not dialogue.active and not Session.pending_level_ups.is_empty():
 		var gained: Array[LevelData] = Session.pending_level_ups.duplicate()
@@ -1224,9 +1254,9 @@ func _use_zone_portal(zone_id: String) -> void:
 	var info: ZonePortals.Info = ZonePortals.find(zone_id)
 	if info == null:
 		return
-	player.face(town.anchors["portal_%s" % zone_id] as Vector3)
+	player.face(town.anchors["portal_%s_mouth" % zone_id] as Vector3)
 	if _portal_is_locked(zone_id):
-		hud.toast("The %s entrance is sealed. Defeat their corrupted guardian to open it." % info.display_name, info.tint.lightened(0.35))
+		hud.toast("The way to %s is sealed. Defeat its corrupted guardian to open it." % info.display_name, info.tint.lightened(0.35))
 		Audio.sfx(&"ui_error")
 		return
 	Audio.sfx(&"door")

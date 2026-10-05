@@ -29,20 +29,22 @@ func _ready() -> void:
 	left_column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(left_column)
 	var objective_panel: PanelContainer = UIKit.panel(&"DarkPanel")
-	objective_panel.custom_minimum_size = Vector2(430, 0)
+	objective_panel.name = "LocationPanel"
+	objective_panel.custom_minimum_size = Vector2(300, 0)
+	objective_panel.visible = false  # shown once a location is set: no empty box
 	left_column.add_child(objective_panel)
 	_left_column = left_column
 	left_column.add_child(QuestTracker.new())
 	var column: VBoxContainer = UIKit.vbox(4)
 	objective_panel.add_child(column)
-	_location = UIKit.label("", &"HeadingLabel", 30)
+	_location = UIKit.label("", &"HeadingLabel", 26)
 	_location.name = "LocationLabel"
 	column.add_child(_location)
-	_progress = UIKit.label("", &"MutedLabel", 20)
+	_progress = UIKit.label("", &"MutedLabel", 18)
 	_progress.name = "ZoneProgressLabel"
 	column.add_child(_progress)
 	var gold_panel: PanelContainer = UIKit.panel(&"DarkPanel")
-	gold_panel.position = Vector2(1650, 28)
+	gold_panel.position = Vector2(1650, 282)
 	add_child(gold_panel)
 	var gold_row: HBoxContainer = UIKit.hbox(10)
 	gold_panel.add_child(gold_row)
@@ -52,12 +54,12 @@ func _ready() -> void:
 	gold_row.add_child(_gold)
 	_menu_button = FancyButton.make("Menu", &"PrimaryButton", Vector2(180, 52))
 	_menu_button.name = "MenuButton"
-	_menu_button.position = Vector2(1650, 100)
+	_menu_button.position = Vector2(1650, 346)
 	_menu_button.pressed.connect(toggle_menu)
 	add_child(_menu_button)
 	_menu_panel = UIKit.panel()
 	_menu_panel.name = "MenuPanel"
-	_menu_panel.position = Vector2(1650, 160)
+	_menu_panel.position = Vector2(1650, 408)
 	_menu_panel.visible = false
 	add_child(_menu_panel)
 	var menu_column: VBoxContainer = UIKit.vbox(6)
@@ -117,6 +119,7 @@ func add_panel(panel: Control) -> void:
 ## The town's name and how many zones are free ("Concord Crossing - 1 of 4 zones free").
 func set_location(town_name: String, progress: String) -> void:
 	_location.text = town_name
+	_location.get_parent().get_parent().visible = town_name != "" or progress != ""
 	_progress.text = progress
 
 

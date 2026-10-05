@@ -418,38 +418,36 @@ func _build_hidden_chests() -> void:
 ## `TownScene`, not here - `TownBuilder` only places the structure and its anchor.
 const PORTAL_CELLS: Dictionary = {
 	"final": Vector2i(4, -5), "refusemancer": Vector2i(-6, 4), "gourmand": Vector2i(20, 4),
-	"beefcake": Vector2i(7, 14), "necrocrat": Vector2i(-6, 11),
+	"beefcake": Vector2i(7, 22), "necrocrat": Vector2i(-6, 11),
 }
+
+
+## Which way each passageway leads out of the map (a unit vector on the ground).
+const PORTAL_OUT: Dictionary = {
+	"final": Vector3(0, 0, -1), "refusemancer": Vector3(-1, 0, 0), "gourmand": Vector3(1, 0, 0),
+	"beefcake": Vector3(0, 0, 1), "necrocrat": Vector3(-1, 0, 0),
+}
+## How far inside the passage mouth the hero's arrival anchor sits, and the radius at which walking in counts as taking the passage.
+const PORTAL_ENTRY: float = 3.0
+const PORTAL_TRIGGER: float = 0.9
+## id -> the passage's root node (the scene dims the far glow of locked ones).
+var passage_nodes: Dictionary = {}
 
 
 func _build_zone_portals() -> void:
 	for info: ZonePortals.Info in ZonePortals.all():
 		var cell: Vector2i = PORTAL_CELLS.get(info.id, Vector2i.ZERO) as Vector2i
 		var center: Vector3 = cell_center(cell.x, cell.y)
-		var portal: Node3D = ModelKit.building("tower_A")
-		ModelKit.tint(portal, info.tint)
-		ModelKit.place(root, portal, center, 0.0, 1.05)
-		obstacles.append(Vector3(center.x, center.z, 0.85))
-		anchors["portal_%s" % info.id] = center + _portal_approach_offset(info.id)
-
-
-## The interact anchor sits on the walkable, map-facing side of each edge gate (not a fixed
-## direction) so the prompt/click target is always on the side the player actually approaches
-## from.
-func _portal_approach_offset(zone_id: String) -> Vector3:
-	match zone_id:
-		"final":
-			return Vector3(0, 0, 1.0) # north edge - approach from the south
-		"refusemancer":
-			return Vector3(1.0, 0, 0) # west edge - approach from the east
-		"gourmand":
-			return Vector3(-1.0, 0, 0) # east edge - approach from the west
-		"beefcake":
-			return Vector3(0, 0, -1.0) # south edge - approach from the north
-		"necrocrat":
-			return Vector3(1.0, 0, 0) # southwest corner - approach from the east
-		_:
-			return Vector3(0, 0, 1.0)
+		var out: Vector3 = PORTAL_OUT.get(info.id, Vector3(0, 0, -1)) as Vector3
+		var passage: Node3D = TownPassages.build(info.id, info.display_name, info.tint, false)
+		ModelKit.place(root, passage, center, TownPassages.yaw_for(out), 1.0)
+		passage_nodes[info.id] = passage
+		var right: Vector3 = Vector3(-out.z, 0.0, out.x)
+		for side: float in [-1.0, 1.0]:
+			var post: Vector3 = center + right * side * (TownPassages.OPENING + 0.55)
+			obstacles.append(Vector3(post.x, post.z, 0.55))
+		anchors["portal_%s" % info.id] = center - out * PORTAL_ENTRY
+		anchors["portal_%s_mouth" % info.id] = center
 
 
 func _prop(model: String, position: Vector3, yaw: float, model_scale: float, radius: float) -> void:
