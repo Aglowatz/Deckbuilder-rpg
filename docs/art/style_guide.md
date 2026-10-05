@@ -113,6 +113,28 @@ Silhouettes are generic (kit repetition shows), there are few bespoke faces/expr
 - Baked light/AO on large set pieces, and stylised skyboxes per zone.
 - Flipbook VFX sheets (smoke, steam, sparkle) in the final art style.
 
-## 13. Result log
+## 13. Result log (end of Brief 12)
 
-(Filled in at the end of the brief.)
+**Achieved**
+- One look for every pack: `StyleToon` (3 soft bands, coloured shadows from the tinted ambient, rim, wind, desaturation with per-instance colour keep) converts every KayKit and Kenney mesh at runtime; screen-space outlines; 13 zone presets
+  (sky, key/fill light, fog, volumetrics, grading, bloom, SSAO, outline colour, particles); Low/Medium/High quality plus optional soft depth of field.
+- The town square is the reference quality: cobbles, paths, moss, stalls with goods, lamp posts with budgeted light pools, bunting, benches, a wind-swaying meadow, motes, leaves, birds and NPCs that fidget and turn to the hero.
+  Every other area got its preset, particles, generic dressing (foliage/clutter/ground patches), and the D.N.A. is near-monochrome with colour only on the hero, NPCs, enemies (red rim) and the Rift station.
+- Battle, rewards, dungeon-map and title backdrops use the same rig (the dungeon stages keep their own mood colours).
+- The hero is an unarmored adventurer (KayKit Rogue) with 12 hats and 10 cloaks, 12 dyes and a spring-driven cloak; a wardrobe, a new-game look choice and a tailor with try-on.
+- Medium holds 60+ fps on the dev PC (town 64, other zones 76-98); Low 120; High 24 (for stronger GPUs).
+
+**Not reached / honest gaps**
+- Textures are still flat or gradient: no painted grain, stains or stitching; kit repetition is visible (the same barrel, crate and stall).
+- Characters keep the stock KayKit faces (no expressions); hats poke through the hair block a little; cloaks are plain cloth.
+- The grass tufts and Kenney props are chunkier than the references; ground blending is procedural, not authored.
+- Lighting is one sun + fill + a few budgeted point lights: no baked light or real window glow; the towns buildings do not light their own pools.
+- Dressing in the zones is generic scatter, not authored layouts like the town square.
+
+**Custom assets that should come next (for the Blender test)**
+1. Hand-painted tiling textures: cobble, planks, plaster, moss, carpet, tile (the biggest visual win).
+2. A custom hero (bald or hair-as-separate-mesh head, expressive face, modular bust) with painted hats and cloaks; a few signature NPC silhouettes.
+3. Bespoke hero props per zone (Rift Express, D.N.A. vault door and filing cabinets, buffet counters, dump heap, Capital facade pieces).
+4. Hand-authored decals and signage (stains, chalk, leaf piles, banners).
+5. Window and lantern meshes with baked glow, plus baked AO on big set pieces; stylised skyboxes.
+6. Flipbook VFX (smoke, steam, sparkles) in the final style.

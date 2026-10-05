@@ -2342,3 +2342,27 @@ docs/art/cosmetics.md. Tests: `tests/core/cosmetics/test_cosmetics.gd` (11): cat
 Tilda Thimble (Thimble's Hats & Hems) in the main town square: hero-shaped NPC, window mannequin, funny dialogue (first/return/progress/secrets lines in `data/story/intro_story.tres`), `TailorScreen` with try-on preview,
 dye choice, buying (worn at once), locked teasers, stock by zones/levels. Three special cosmetics hidden in the world (docs/design/secrets.md). E2E (`tools/run_twelfth_brief_final_smoke.sh`, 12 screenshots in
 `_screenshots/brief12/`): choose-your-look at new game, walk up/talk/try/dye/buy, poor-gold refusal, locked teaser, T wardrobe, save/load, reload keeps the hat, four outfits.
+
+## Brief 12 FINAL: summary
+
+**Done:** Part 0 (all pack checks green, clickable pack cards bug fixed), A (style guide), B (toon shader, outlines, presets, quality settings), C (town square slice, 4 iterations), D (every area), E (unarmored hero, cosmetics, wardrobe),
+F (tailor, secrets). Everything committed and pushed after each part; 861 GUT tests pass.
+
+**Performance (tools/fps.sh, 1600x900, Ryzen 5 4500U iGPU):** Medium: town 63.7 fps (the busiest area), D.N.A. 75.9, Gainlands 93.1, Buffet 91.5, Dump 89.4, Capital 97.5, starting area 92.8. Low: town 120.7. High: town 24 (MSAA, full resolution, SSAO,
+volumetrics; for stronger GPUs). The pre-brief town ran about 35 fps. The Medium level renders at 62% resolution with FSR + FXAA, no SSAO, soft low-quality shadows, 6 dressing lights.
+
+**E2E:** `tools/run_eleventh_brief_final_smoke.sh` (packs, with the new `SMOKE_ONLY` hook) and `tools/run_twelfth_brief_final_smoke.sh` (look choice, tailor, wardrobe, persistence, outfits), both green. Screenshots:
+`_screenshots/brief11/`, `_screenshots/brief12/`, `_screenshots/visual_slice/` (areas before/after, character, the slice iterations).
+
+**New tools:** `tools/fps.sh`, `tools/zone_shots.sh` (before = `NO_STYLE=1`), `tools/style_lab.tscn` (model bench), `tools/shot.sh ... --nohud=true --cam=x,y,z --pos=x,z`, `STYLE_QUALITY=0|1|2`, `tools/tri_count.gd`.
+
+**Bugs found on the way:** clicking on pack cards did nothing (CardView mouse filter); Gainlands terrain had no normals; sRGB vertex colours; double-sided normals; the Kenney nature kit's pastel flat colours (re-graded).
+
+**Questions for you:**
+1. Is the cosy-bright town (golden-hour sun, violet shadows) the mood you wanted, or should it be darker like ref_cozy_interior? (The `StylePresets.TOWN` numbers are the dial.)
+2. D.N.A. accent is red (like ref_necro_grayscale): keep, or sickly green?
+3. The hero is the KayKit Rogue with hair baked into the head. Fine for now, or should the custom Blender hero come before more cosmetics?
+4. Prices and unlocks of the 22 cosmetics (60-450 gold; level 4-8, 1-3 freed zones) and the three secret ones (Dump chest, Gainlands chest, Primm): OK?
+5. High quality is 24 fps on this PC. Should High be removed here or kept for other machines?
+6. Zone dressing outside the town square is generic scatter. Which zone should get a hand-dressed pass next?
+7. Reference images: only three were in `reference/` (renamed `_reference/`, git-ignored). If you have the Lil Gator Game / Slime Rancher / A Hat in Time shots, drop them in `_reference/` for the next pass.
