@@ -185,7 +185,7 @@ func _apply_lights(level: int) -> void:
 	var detail: int = GraphicsQuality.shadow_detail(level)
 	sun.shadow_enabled = detail > 0
 	sun.shadow_blur = 1.6
-	sun.directional_shadow_max_distance = 20.0 if detail < 2 else 48.0
+	sun.directional_shadow_max_distance = 32.0 if detail < 2 else 48.0
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL if detail < 2 else DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
 	if sun_cull_mask_hint != 0:
 		sun.light_cull_mask = sun_cull_mask_hint

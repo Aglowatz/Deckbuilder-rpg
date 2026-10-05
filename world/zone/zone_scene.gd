@@ -183,7 +183,7 @@ func _ready() -> void:
 	if _screenshot_args.has("pos"):
 		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
 		player.position = Vector3(float(pos[0]), 0.0, float(pos[1]))
-		_camera.position = player.position + camera_offset
+		_camera.position = player.position + camera_offset * Settings.camera_zoom
 	if str(_screenshot_args.get("nohud", "false")) == "true":
 		for child: Node in get_children():
 			if child is CanvasLayer:
@@ -390,7 +390,7 @@ func _build_camera() -> void:
 	_camera.fov = 38.0
 	add_child(_camera)
 	_camera.current = true
-	_camera.position = player.position + camera_offset
+	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	style_rig = StyleRig.install(self, _style_preset(), _camera, player)
 	if style_rig != null:
@@ -483,7 +483,7 @@ func _world_active() -> bool:
 
 
 func _update_camera(delta: float) -> void:
-	var target: Vector3 = player.position + camera_offset
+	var target: Vector3 = player.position + camera_offset * Settings.camera_zoom
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.rotation_degrees = Vector3(-atan2(camera_offset.y, camera_offset.z) * 180.0 / PI, 0.0, 0.0)
 
@@ -956,7 +956,7 @@ func _wake_at_hub(cause: String) -> void:
 	_last_fee = Session.zone_wake_at_hub(cause)
 	hud.set_gold(Session.gold)
 	player.position = _hub_spawn()
-	_camera.position = player.position + camera_offset
+	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	_invulnerable = 2.0
 	_spawn_grace = SPAWN_GRACE
 	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
@@ -976,7 +976,7 @@ func _apply_pending_result() -> void:
 		return
 	if bool(result.get("woke_at_hub", false)):
 		player.position = _hub_spawn()
-		_camera.position = player.position + camera_offset
+		_camera.position = player.position + camera_offset * Settings.camera_zoom
 		_last_fee = int(result.get("fee", 0))
 		_show_wake_dialogue(maxi(_last_fee, 0) if _last_fee > 0 else 0)
 		if _last_fee == 0:
@@ -1115,7 +1115,7 @@ func _teleport(anchor_name: String) -> void:
 		for enemy: ZoneEnemy in enemies:
 			if enemy.info.kind == ZoneEnemyInfo.Kind.DAMAGE:
 				player.position = enemy.position + Vector3(3.0, 0, 0.0)
-				_camera.position = player.position + camera_offset
+				_camera.position = player.position + camera_offset * Settings.camera_zoom
 				_spawn_grace = 0.3
 				for other: ZoneEnemy in enemies.duplicate():
 					if other != enemy:
@@ -1127,7 +1127,7 @@ func _teleport(anchor_name: String) -> void:
 			if enemy.info.id == anchor_name.trim_prefix("enemy:"):
 				player.position = enemy.position + Vector3(2.6, 0, 1.2)
 				player.position.y = builder.height_at(player.position)
-				_camera.position = player.position + camera_offset
+				_camera.position = player.position + camera_offset * Settings.camera_zoom
 				_spawn_grace = 30.0
 				return
 		return
@@ -1136,7 +1136,7 @@ func _teleport(anchor_name: String) -> void:
 		pos = builder.anchor(anchor_name) + Vector3(0.0, 0.0, 1.0)
 		player.position = pos
 		player.position.y = builder.height_at(pos)
-		_camera.position = player.position + camera_offset
+		_camera.position = player.position + camera_offset * Settings.camera_zoom
 		_spawn_grace = 12.0
 		return
 	if builder.has_anchor(anchor_name):
@@ -1149,7 +1149,7 @@ func _teleport(anchor_name: String) -> void:
 	if not builder.is_walkable(player.position):
 		player.position = pos
 	player.position.y = builder.height_at(player.position)
-	_camera.position = player.position + camera_offset
+	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	_spawn_grace = 12.0
 
 

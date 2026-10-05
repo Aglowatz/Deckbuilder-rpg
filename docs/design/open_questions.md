@@ -355,3 +355,9 @@ Logged as they were made; none blocks anything. Names are placeholders in story 
 | Q19 | The tailor | **Tilda Thimble** at Thimble's Hats & Hems, a stall east of the Deck Station (cell 6,3), hero-shaped in her own top hat and scarf-cape, with a window mannequin. Try anything on a rotating copy of the hero before buying, dye it, buy it (worn at once). Locked pieces are teasers with the requirement. Prices 60-450 gold, no vendor discount. | `TailorScreen`, `TownScene._talk_tailor` |
 | Q20 | Secret cosmetics | Crown of Leaves (Dump chest), Tattered Cloak (Gainlands chest), Royal Mantle (Primm); see secrets.md. Chests learned a `"cosmetic"` reward key. | `ZoneScene._open_chest` |
 | Q21 | Pie stall removed | The pie stall of the square dressing sat where the tailor now stands, so it was dropped. | `TownSquare._market` |
+
+## R. Brief 13
+
+| # | Question | Decision | Where |
+|---|---|---|---|
+| R1 | Camera zoom | One multiplier `Settings.camera_zoom` (default **1.5**, wheel range 1.0-2.3, saved, also a slider in Settings) applied wherever a 3D scene positions its camera (`player.position + camera_offset * zoom`); each area keeps its own base offset, so every area is 1.5x further out by default, no per-area exceptions needed. Shadow distance 20 -> 32 m, town cull 34 -> 70 m so the wider view stays lit and complete. | `Settings`, `world/*` |

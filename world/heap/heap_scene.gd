@@ -643,7 +643,7 @@ func _fall_into_hazard() -> void:
 	player.model.scale = Vector3.ONE * TownPlayer.MODEL_SCALE
 	player.model.rotation = Vector3.ZERO
 	player.position = last_safe
-	_camera.position = player.position + camera_offset
+	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	var run: ZoneRun = Session.zone_run
 	var place: String = "the compost pit" if in_pit else "the Recycling Stream"
 	HeapInteractables.apply_hazard_fall(run, place, story.text("fx.hazard_fall_log"))
@@ -770,7 +770,7 @@ func _teleport(anchor_name: String) -> void:
 	if anchor_name == "bridge_center_mid":
 		var zc: float = HeapLayout.stream_z(50.0)
 		player.position = Vector3(50.0, 0.12, zc)
-		_camera.position = player.position + camera_offset
+		_camera.position = player.position + camera_offset * Settings.camera_zoom
 		_spawn_grace = 30.0
 		return
 	super._teleport(anchor_name)

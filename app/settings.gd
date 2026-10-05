@@ -20,6 +20,11 @@ var show_minimap: bool = true
 var graphics_quality: int = GraphicsQuality.Level.MEDIUM
 ## Optional subtle depth of field (never on Low).
 var depth_of_field: bool = false
+## How far the 3D camera sits from the hero, as a multiple of each area's base offset (mouse wheel changes it; remembered).
+const ZOOM_MIN: float = 1.0
+const ZOOM_MAX: float = 2.3
+const ZOOM_DEFAULT: float = 1.5
+var camera_zoom: float = ZOOM_DEFAULT
 
 
 func _ready() -> void:
@@ -70,6 +75,7 @@ func save_settings() -> void:
 	config.set_value("video", "minimap", show_minimap)
 	config.set_value("video", "quality", graphics_quality)
 	config.set_value("video", "dof", depth_of_field)
+	config.set_value("video", "zoom", camera_zoom)
 	config.save(PATH)
 
 
@@ -84,3 +90,33 @@ func load_settings() -> void:
 	show_minimap = bool(config.get_value("video", "minimap", show_minimap))
 	graphics_quality = clampi(int(config.get_value("video", "quality", graphics_quality)), 0, 2)
 	depth_of_field = bool(config.get_value("video", "dof", depth_of_field))
+	camera_zoom = clampf(float(config.get_value("video", "zoom", camera_zoom)), ZOOM_MIN, ZOOM_MAX)
+
+
+## Mouse wheel zoom in every 3D scene (UI that scrolls swallows the wheel first, so lists still scroll).
+func _unhandled_input(event: InputEvent) -> void:
+	var wheel: InputEventMouseButton = event as InputEventMouseButton
+	if wheel == null or not wheel.pressed:
+		return
+	if wheel.button_index == MOUSE_BUTTON_WHEEL_UP:
+		set_camera_zoom(camera_zoom - 0.1)
+	elif wheel.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		set_camera_zoom(camera_zoom + 0.1)
+
+
+func set_camera_zoom(value: float) -> void:
+	var clamped: float = clampf(value, ZOOM_MIN, ZOOM_MAX)
+	if is_equal_approx(clamped, camera_zoom):
+		return
+	camera_zoom = clamped
+	_zoom_dirty = 0.6
+
+
+var _zoom_dirty: float = 0.0
+
+
+func _process(delta: float) -> void:
+	if _zoom_dirty > 0.0:
+		_zoom_dirty -= delta
+		if _zoom_dirty <= 0.0:
+			save_settings()

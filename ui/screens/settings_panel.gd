@@ -23,6 +23,7 @@ func _ready() -> void:
 	minimap.button_pressed = Settings.show_minimap
 	minimap.toggled.connect(_on_minimap)
 	column.add_child(minimap)
+	column.add_child(_slider_row("Camera distance", (Settings.camera_zoom - Settings.ZOOM_MIN) / (Settings.ZOOM_MAX - Settings.ZOOM_MIN), _on_zoom))
 	column.add_child(_quality_row())
 	var dof: CheckButton = CheckButton.new()
 	dof.text = "Soft depth of field (Medium and High)"
@@ -112,3 +113,7 @@ func _on_dof(pressed: bool) -> void:
 	Audio.sfx(&"ui_toggle")
 	Settings.depth_of_field = pressed
 	Settings.graphics_changed.emit()
+
+
+func _on_zoom(value: float) -> void:
+	Settings.set_camera_zoom(lerpf(Settings.ZOOM_MIN, Settings.ZOOM_MAX, value))

@@ -484,7 +484,7 @@ func _fall_into_soup() -> void:
 	player.model.scale = Vector3.ONE * TownPlayer.MODEL_SCALE
 	player.model.rotation = Vector3.ZERO
 	player.position = last_safe
-	_camera.position = player.position + camera_offset
+	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	var run: ZoneRun = Session.zone_run
 	BuffetInteractables.apply_soup_fall(run, buf.layout.area_at(start.x, start.z).title if buf.layout.area_at(start.x, start.z) != null else "the soup", story.text("fx.soup_fall_log"))
 	EventBus.zone_life_changed.emit(run.life, run.max_life())
@@ -605,13 +605,13 @@ func _teleport(anchor_name: String) -> void:
 		var raft: BuffetLayout.Raft = buf.layout.rafts[0]
 		var pos: Vector2 = buf.layout.raft_position(raft, buf.time)
 		player.position = Vector3(pos.x, 0.0, pos.y)
-		_camera.position = player.position + camera_offset
+		_camera.position = player.position + camera_offset * Settings.camera_zoom
 		_spawn_grace = 30.0
 		return
 	if anchor_name == "susan_ride":
 		var susan: BuffetLayout.Susan = buf.layout.susans[0]
 		player.position = Vector3(susan.center.x + 2.8, 0.0, susan.center.y + 1.2)
-		_camera.position = player.position + camera_offset
+		_camera.position = player.position + camera_offset * Settings.camera_zoom
 		_spawn_grace = 30.0
 		return
 	super._teleport(anchor_name)

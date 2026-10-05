@@ -120,7 +120,7 @@ func _ready() -> void:
 		var cam: PackedStringArray = str(_screenshot_args["cam"]).split(",")
 		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 	_build_camera()
-	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 0.0 if _screenshot_args.has("nocull") else 34.0)
+	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 0.0 if _screenshot_args.has("nocull") else 70.0)
 	if style_rig != null:
 		style_rig.register_lights(square.lights)
 	var avoid: Array[Vector3] = [Vector3(square.center.x, square.center.z, square.meadow_radius)]
@@ -140,7 +140,7 @@ func _ready() -> void:
 	if _screenshot_args.has("pos"):
 		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
 		player.position = Vector3(float(pos[0]), 0.0, float(pos[1]))
-		_camera.position = player.position + camera_offset
+		_camera.position = player.position + camera_offset * Settings.camera_zoom
 	if _screenshot_args.has("at"):
 		_teleport(str(_screenshot_args["at"]))
 	if _screenshot_args.has("open"):
@@ -439,7 +439,7 @@ func _build_camera() -> void:
 	_camera.fov = 38.0
 	add_child(_camera)
 	_camera.current = true
-	_camera.position = player.position + camera_offset
+	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 
 
@@ -475,7 +475,7 @@ func _build_ui() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
-	var target: Vector3 = player.position + camera_offset
+	var target: Vector3 = player.position + camera_offset * Settings.camera_zoom
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.basis = Basis.looking_at(-camera_offset, Vector3.UP)
 	for spot: Spot in spots:
@@ -1395,12 +1395,12 @@ func _teleport(spot_id: String) -> void:
 	for spot: Spot in spots:
 		if spot.id == spot_id:
 			player.position = spot.position + Vector3(0.0, 0.0, 1.8)
-			_camera.position = player.position + camera_offset
+			_camera.position = player.position + camera_offset * Settings.camera_zoom
 			return
 	# Hidden chests (Part D) have no Spot - a dev-only screenshot convenience, not a gameplay path.
 	if town.anchors.has(spot_id):
 		player.position = (town.anchors[spot_id] as Vector3) + Vector3(0.0, 0.0, 1.8)
-		_camera.position = player.position + camera_offset
+		_camera.position = player.position + camera_offset * Settings.camera_zoom
 
 
 func _screenshot_open(what: String) -> void:

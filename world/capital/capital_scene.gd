@@ -238,7 +238,7 @@ func _travel_to(target: Vector3, message_key: String = "") -> void:
 	await out.finished
 	player.position = target
 	player.position.y = builder.height_at(target)
-	_camera.position = player.position + camera_offset
+	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	_invulnerable = 1.0
 	_spawn_grace = 2.0
 	var back: Tween = create_tween()
@@ -513,7 +513,7 @@ func _apply_pending_result() -> void:
 		# Back from the ending: the Capital has changed (facade down, rifts sealed, citizens free). Stand at the castle approach.
 		Session.pending_zone_result = {}
 		player.position = builder.anchor("net_approach") + Vector3(0, 0, 3.0)
-		_camera.position = player.position + camera_offset
+		_camera.position = player.position + camera_offset * Settings.camera_zoom
 		_say("Mabbit Quill", story.get_lines("ending.return"))
 		hud.toast(story.text("fx.ending_return"), UIStyle.GOOD)
 		for pack_text: String in Session.pending_ending_packs:

@@ -62,7 +62,7 @@ func _build_actors() -> void:
 	_camera.fov = 40.0
 	add_child(_camera)
 	_camera.current = true
-	_camera.position = player.position + CAMERA_OFFSET
+	_camera.position = player.position + CAMERA_OFFSET * Settings.camera_zoom
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	var rig: StyleRig = StyleRig.install(self, StylePresets.START, _camera, player)
 	if rig != null:
@@ -147,7 +147,7 @@ func _play_awakening_lines() -> void:
 
 
 func _process(delta: float) -> void:
-	var target: Vector3 = player.position + CAMERA_OFFSET
+	var target: Vector3 = player.position + CAMERA_OFFSET * Settings.camera_zoom
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.rotation_degrees = Vector3(-atan2(CAMERA_OFFSET.y, CAMERA_OFFSET.z) * 180.0 / PI, 0.0, 0.0)
 	_update_prompt()

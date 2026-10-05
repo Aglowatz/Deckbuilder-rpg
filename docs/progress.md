@@ -2380,3 +2380,6 @@ volumetrics; for stronger GPUs). The pre-brief town ran about 35 fps. The Medium
 
 ## Part A: main town ground - done
 The cobbled plaza and cobble discs are gone: the square is toon grass (650 wind-swaying tufts + 130 plants, now also on the former plaza), with worn-grass olive-tan paths 1.3 m wide where readability needs them and the usual ~20 flowers. Screenshots: `_screenshots/brief13/a_*`.
+
+## Part B: camera - done
+Default camera pulled out 1.5x in the town, starting area and every zone (one multiplier on each area's own offset), mouse-wheel zoom 1.0-2.3x remembered in settings (and a Settings slider). Medium: town 77 fps, Gainlands 83. Decision R1. Screenshots `_screenshots/brief13/b_*`.
