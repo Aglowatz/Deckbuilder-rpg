@@ -564,3 +564,8 @@ func screenshot_prepare(args: Dictionary) -> void:
 	if args.has("flags"):
 		for flag_name: String in str(args["flags"]).split(","):
 			Session.set_flag(StringName(flag_name))
+
+
+func _style_preset() -> StringName:
+	var state: Dictionary = CapitalBuilder.story_context()
+	return StylePresets.capital(bool(state["dark"]), bool(state["final"]))

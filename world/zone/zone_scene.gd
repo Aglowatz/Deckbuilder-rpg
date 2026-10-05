@@ -26,6 +26,7 @@ var enemies: Array[ZoneEnemy] = []
 var story: ZoneStoryText
 var camera_offset: Vector3 = CAMERA_OFFSET
 var _camera: Camera3D
+var style_rig: StyleRig
 var _overlay_layer: Control
 var _overlay: Control
 var _flash: ColorRect
@@ -379,6 +380,7 @@ func _build_camera() -> void:
 	_camera.current = true
 	_camera.position = player.position + camera_offset
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
+	style_rig = StyleRig.install(self, _style_preset(), _camera, player)
 
 
 func _build_ui() -> void:
@@ -1151,3 +1153,8 @@ func _screenshot_open(what: String) -> void:
 
 func screenshot_ready() -> bool:
 	return true
+
+
+## The lighting/environment preset this zone uses (docs/art/style_guide.md, section 11). The Capital overrides it with its state.
+func _style_preset() -> StringName:
+	return StylePresets.for_zone(def.id)

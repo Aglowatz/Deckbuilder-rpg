@@ -2310,3 +2310,14 @@ click (only clicks on empty space advanced the reveal). `PackOpeningScreen._igno
 The harness failures were otherwise timing: card reveals now wait for the phase instead of fixed delays, an overlay left by the quest reward is closed, and the first E press at Fig is retried.
 
 Questions for you: (1) Tier 2 at level 10 or 2 zones free: still right? (2) Do you want the Legendary reveal even longer (currently ~1.5 s hang + rays)?
+
+# Brief 12: visual overhaul, character and cosmetics
+
+## Part A: style guide - done
+`docs/art/style_guide.md`: toon model, outline decision, palette rules, lighting rig, post stack, camera, density, VFX, proportions, per-zone moods (D.N.A. accent: red), honest scope and the custom-asset wish list.
+
+## Part B: style foundation - done
+`world/style/`: `StyleToon` (+ `assets/shaders/style_toon.gdshader`: banded toon, coloured shadows via tinted ambient, rim, wind, desaturation mode), the screen-space outline pass,
+`ZonePreset`/`StylePresets` (13 presets: one per zone plus Capital variants, battle, dungeon, arena), `StyleRig` (installs environment, key + fill light, shader globals, outline, DOF, ambient
+particles and converts all meshes, also late-added ones), `GraphicsQuality` + Settings (Low/Medium/High, optional DOF) and the settings panel. Installed in the town and every zone scene.
+Performance: the dev PC is an integrated GPU (baseline ~35 fps); Medium town now ~64 fps (`tools/fps.sh`). Tests: `tests/world/test_style.gd` (9). Decisions: section Q.

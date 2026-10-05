@@ -7,6 +7,8 @@ const BUS_SFX: StringName = &"SFX"
 
 ## Emitted when the minimap setting changes (a live HUD hides or shows its minimap at once).
 signal minimap_toggled(visible_now: bool)
+## Emitted when the graphics quality or depth-of-field setting changes (live `StyleRig`s re-apply at once).
+signal graphics_changed
 
 var master_volume: float = 0.8
 var music_volume: float = 0.6
@@ -14,6 +16,10 @@ var sfx_volume: float = 0.8
 var fullscreen: bool = false
 ## Whether the HUD minimap is drawn (the M full map always works).
 var show_minimap: bool = true
+## Low / Medium / High (`GraphicsQuality.Level`): outlines, volumetrics, SSAO, shadows, DOF, foliage density.
+var graphics_quality: int = GraphicsQuality.Level.MEDIUM
+## Optional subtle depth of field (never on Low).
+var depth_of_field: bool = false
 
 
 func _ready() -> void:
@@ -62,6 +68,8 @@ func save_settings() -> void:
 	config.set_value("audio", "sfx", sfx_volume)
 	config.set_value("video", "fullscreen", fullscreen)
 	config.set_value("video", "minimap", show_minimap)
+	config.set_value("video", "quality", graphics_quality)
+	config.set_value("video", "dof", depth_of_field)
 	config.save(PATH)
 
 
@@ -74,3 +82,5 @@ func load_settings() -> void:
 	sfx_volume = float(config.get_value("audio", "sfx", sfx_volume))
 	fullscreen = bool(config.get_value("video", "fullscreen", fullscreen))
 	show_minimap = bool(config.get_value("video", "minimap", show_minimap))
+	graphics_quality = clampi(int(config.get_value("video", "quality", graphics_quality)), 0, 2)
+	depth_of_field = bool(config.get_value("video", "dof", depth_of_field))

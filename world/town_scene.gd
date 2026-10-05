@@ -16,7 +16,8 @@ class Spot:
 	var plate: Label3D
 
 
-const CAMERA_OFFSET: Vector3 = Vector3(0.0, 8.4, 7.0)
+## High-angle diorama framing (docs/art/style_guide.md, section 7).
+const CAMERA_OFFSET: Vector3 = Vector3(0.0, 11.0, 8.2)
 ## New brief, Part E: corrupted-NPC dialogue lines live here, not hardcoded in this script.
 const STORY_PATH: String = "res://data/story/intro_story.tres"
 ## Three placeholder secrets proving the Condition system (docs/design/open_questions.md D38):
@@ -59,6 +60,7 @@ var minimap: MinimapHud
 var hud: TownHud
 var dialogue: DialogueBox
 var _camera: Camera3D
+var style_rig: StyleRig
 var _overlay_layer: Control
 var _overlay: Control
 var _near: Spot
@@ -107,6 +109,7 @@ func _ready() -> void:
 	_announce_new_unlocks.call_deferred()
 	_show_pending_arena_result.call_deferred()
 	_build_camera()
+	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player)
 	_build_ui()
 	if _arrived_by_rift:
 		_show_rift_arrival.call_deferred()

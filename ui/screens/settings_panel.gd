@@ -1,6 +1,6 @@
 class_name SettingsPanel
 extends PanelContainer
-## Volume sliders and the fullscreen toggle. Changes apply immediately and are saved on close.
+## Volume sliders, graphics quality, depth of field and the fullscreen toggle. Changes apply immediately and are saved on close.
 
 signal closed
 
@@ -23,6 +23,12 @@ func _ready() -> void:
 	minimap.button_pressed = Settings.show_minimap
 	minimap.toggled.connect(_on_minimap)
 	column.add_child(minimap)
+	column.add_child(_quality_row())
+	var dof: CheckButton = CheckButton.new()
+	dof.text = "Soft depth of field (Medium and High)"
+	dof.button_pressed = Settings.depth_of_field
+	dof.toggled.connect(_on_dof)
+	column.add_child(dof)
 	var back: FancyButton = FancyButton.make("Back", &"PrimaryButton", Vector2(200, 52))
 	back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	back.pressed.connect(_on_back)
@@ -78,3 +84,31 @@ func _on_minimap(pressed: bool) -> void:
 func _on_back() -> void:
 	Settings.save_settings()
 	closed.emit()
+
+
+func _quality_row() -> Control:
+	var row: HBoxContainer = UIKit.hbox(16)
+	var caption: Label = UIKit.label("Graphics quality")
+	caption.custom_minimum_size = Vector2(190, 0)
+	row.add_child(caption)
+	var options: OptionButton = OptionButton.new()
+	options.name = "QualityOptions"
+	for level: int in range(GraphicsQuality.NAMES.size()):
+		options.add_item(GraphicsQuality.display_name(level), level)
+	options.selected = Settings.graphics_quality
+	options.item_selected.connect(_on_quality)
+	options.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(options)
+	return row
+
+
+func _on_quality(index: int) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.graphics_quality = index
+	Settings.graphics_changed.emit()
+
+
+func _on_dof(pressed: bool) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.depth_of_field = pressed
+	Settings.graphics_changed.emit()

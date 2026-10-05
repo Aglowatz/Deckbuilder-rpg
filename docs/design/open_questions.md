@@ -329,3 +329,15 @@ Logged as they were made; none blocks anything. Names are placeholders in story 
 | P15 | Quest/minigame packs before the zone is cleared | Allowed: the Pack Vendor's stock needs the dungeon clear, but a pack won from a quest or minigame is just a pack. | |
 | P16 | Town heal | The town has no life state of its own, so "always full health in town" is `Session.arrive_in_town()`: it ends the zone visit (the next one is full) and tops up any lingering run. Called from `TownScene._ready`, so it holds for every way of arriving (walking, rift station, waking after a loss). | `Session.arrive_in_town` |
 | P17 | Portal Ripper cost | **Nothing to remove:** the Gainlands rippers never charged gold or life. They keep their story/quest locks (the wheel, "Spot Me!"); a test now guards that no rip has a purchase condition. A trip from one zone to another already started a fresh full-life visit (brief 10b). | `GainlandsTravel`, `test_health_travel_rules.gd` |
+
+## Q. Brief 12: visual style, characters, cosmetics
+
+| # | Question | Decision | Where |
+|---|---|---|---|
+| Q1 | Outline approach | **Screen-space depth+normal edge detection** (one full-screen quad on the camera) instead of inverted hull: works the same on every imported pack, one pass, no double geometry, quality-toggleable. Medium/High only. | `assets/shaders/style_outline.gdshader`, `StyleRig` |
+| Q2 | D.N.A. accent colour | **Red** (like ref_necro_grayscale); interactables warm red-orange, enemies deep crimson, the player keeps natural colours. | style_guide.md section 11 |
+| Q3 | Toon shading model | Custom spatial shader, 3 half-lambert bands with soft edges (also steps lantern pools), shadow colour = the zone's *ambient colour* (so no per-light hacks), Fresnel rim, wind, desaturation with per-instance `colour_keep`. | `assets/shaders/style_toon.gdshader`, `StyleToon` |
+| Q4 | How packs are unified | `StyleToon.apply` swaps every StandardMaterial3D under a scene for a toon ShaderMaterial built from it (same atlas, colour, emission); unshaded/blended materials (glows, FX) and `no_toon` meta are skipped. New meshes are converted as they are added. | `StyleRig._on_node_added` |
+| Q5 | Performance: the dev PC is a Ryzen 5 4500U iGPU, fill-rate bound | Baseline (before this brief) was ~35 fps in the town at 1600x900 with MSAA 2x. Levels now set the 3D resolution scale (Low 0.6, Medium 0.72 + FXAA, High 1.0 + MSAA 2x; FSR upscales), SSAO low-quality, soft-shadow quality, volumetrics only on High. Medium town: ~64 fps. | `GraphicsQuality`, `tools/fps.sh` |
+| Q6 | Tilt-shift | Godot has no tilt-shift; the optional effect is a subtle far+near depth-of-field blur (Settings: "Soft depth of field", Medium/High only). | `StyleRig._apply_dof` |
+| Q7 | References | Only 3 images were in `_reference/` (the folder was named `reference/`; renamed, git-ignored). Benchmarks are taken from the brief's descriptions. | style_guide.md |
