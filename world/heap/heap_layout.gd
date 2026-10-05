@@ -310,6 +310,7 @@ func _anchors() -> void:
 	var ez: float = stream_z(78.0)
 	# The Compost Grange (hub, south centre).
 	_at("spawn", 50.0, 70.5)
+	_at("rift_station", 43.0, 67.0)
 	_at("hub", 50.0, 64.0)
 	_at("exit", 50.0, 74.2)
 	_at("heal", 41.0, 62.0)

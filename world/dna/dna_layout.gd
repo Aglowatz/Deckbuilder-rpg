@@ -206,6 +206,7 @@ func _rooms_and_corridors() -> void:
 	_link(Rect2i(43, 14, 4, 2), Floor.EXEC)   # elevator bank <-> executive floor
 	_link(Rect2i(70, 24, 3, 2), Floor.CONCRETE) # farm B <-> records basement
 	anchors["spawn"] = cell_center(45, 53)
+	anchors["rift_station"] = Vector3(48.5, 0.0, 55.5)
 
 
 # ---- Prop helpers --------------------------------------------------------------------------

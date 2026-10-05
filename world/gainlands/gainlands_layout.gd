@@ -202,6 +202,7 @@ func _at(name: String, x: float, z: float) -> void:
 func _anchors() -> void:
 	# The Swole Station hub (south of the main land).
 	_at("spawn", 52.0, 68.0)
+	_at("rift_station", 58.5, 66.0)
 	_at("hub", 52.0, 64.0)
 	_at("exit", 52.0, 74.0)
 	_at("heal", 44.0, 62.0)

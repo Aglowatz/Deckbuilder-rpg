@@ -261,3 +261,19 @@ Path decks: `DeckValidator.max_colors` = 4, the deck builder reads it) and the *
 still no tri/quad cards). Then the player returns to the world: the **changed Capital** (`CapitalBuilder.story_context().final`): the facade has crumbled
 (houses ruined, statues toppled, painted shops fallen), every rift is sealed, the lights are on, the citizens are free and say new things (`.freed`
 story variants), the four freed leaders stand in the Crease, the castle is open for a replay. Tests: `tests/core/dungeon/test_ending_postgame.gd`.
+
+
+## Fast travel: the Beefcake Rift Express (brief 10b)
+
+Portals run by the Beefcakes. One station stands in Concord Crossing (open from the start, east of the spawn point); every zone has one beside its
+hub (`rift_station` anchor in each layout: the D.N.A. lobby, the Swole Station, the Grand Pantry, the Compost Grange, and the Crease under the
+Capital). Reaching a zone's town the first time unlocks its station (flag `rift_station_<zone id>`, saved). Using a station: the operator talks
+(first time long), then the menu lists every station (locked ones are ???) with a "Rip me there!" button; a trip plays a rip shout, the rift tears
+wide and flares, a white flash, then the hero arrives at the other station in front of its operator. Trips end the current zone visit and start a
+new one (full life, enemies back). Code: `core/travel/fast_travel.gd` (rules), `world/travel/fast_travel_station.gd` (the prop, procedural,
+`rift_portal.gdshader`), `world/travel/rift_trip.gd` (the sequence), `ui/town/fast_travel_screen.gd`, `Session.fast_travel_to`. Text: `travel.*` in
+`data/story/intro_story.tres`. Tests: `tests/core/travel/test_fast_travel.gd`; e2e: `tools/run_travel_smoke.sh`.
+
+The Capital is called **Neatropolis** (renamed from "Concordia Prime").
+
+After any normal duel (a roaming zone enemy, a town NPC challenge, the Arena, the Graveyard) the hero stands exactly where the duel began.

@@ -42,6 +42,8 @@ var _area_id: String = ""
 var _screenshot_args: Dictionary = {}
 var _fainting: bool = false
 var _last_fee: int = 0
+var _station: FastTravelStation
+var _arrived_by_rift: bool = false
 
 
 # ---- Hooks for subclasses --------------------------------------------------------------------
@@ -159,6 +161,7 @@ func _ready() -> void:
 	_build_player()
 	_build_npcs()
 	_build_spots()
+	_build_fast_travel()
 	_build_enemies()
 	_build_zone_extras()
 	_build_completion_state()
@@ -168,6 +171,8 @@ func _ready() -> void:
 	hud.show_zone_effects(ZoneEffects.for_zone(def.id), def.display_name)
 	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
 	_apply_pending_result.call_deferred()
+	if _arrived_by_rift:
+		_show_rift_arrival.call_deferred()
 	if _screenshot_args.has("at"):
 		_teleport(str(_screenshot_args["at"]))
 	if _screenshot_args.has("open"):
@@ -189,6 +194,13 @@ func _build_player() -> void:
 	if run.has_return_position:
 		spawn = run.return_position
 		run.has_return_position = false
+	if Session.arrive_at_station:
+		Session.arrive_at_station = false
+		if builder.has_anchor(FastTravel.ANCHOR):
+			var landing: Vector3 = builder.anchor(FastTravel.ANCHOR) + Vector3(0.0, 0.0, 2.4)
+			if builder.is_walkable(landing):
+				spawn = landing
+				_arrived_by_rift = true
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(builder, "Knight", spawn)
@@ -262,6 +274,87 @@ func _build_spots() -> void:
 	for entry: Dictionary in def.spots:
 		var pos: Vector3 = builder.anchor(str(entry["anchor"])) + (entry["offset"] as Vector3)
 		_add_spot(str(entry["id"]), str(entry["title"]), pos, float(entry["radius"]), str(entry["prompt"]), entry.has("npc"), str(entry["kind"]), entry)
+
+
+# ---- The Beefcake Rift Express (brief 10b) -----------------------------------------------------------------------
+
+
+## The zone's Rift Station beside its hub: a squat-rack frame with a torn-open rift, a Beefcake operator, and a spot to use it.
+func _build_fast_travel() -> void:
+	if not builder.has_anchor(FastTravel.ANCHOR):
+		return
+	var travel: StoryText = StoryText.shared()
+	var pos: Vector3 = builder.anchor(FastTravel.ANCHOR)
+	pos.y = builder.height_at(pos)
+	_station = FastTravelStation.new()
+	add_child(_station)
+	_station.position = pos
+	_station.build(travel.get_lines("travel.sign.zone"), Session.fast_travel_unlocked(def.id))
+	if _station_layer() != 1:
+		_station.set_render_layer(_station_layer())
+	builder.add_blocker(pos, 1.3)
+	var operator: Node3D = ModelKit.character("Barbarian")
+	ModelKit.tint(operator, Color(1.0, 0.8, 0.65))
+	var operator_pos: Vector3 = pos + Vector3(-2.4, 0.0, 0.8)
+	ModelKit.place(self, operator, operator_pos, 50.0, TownPlayer.MODEL_SCALE * 1.3)
+	var animation: AnimationPlayer = ModelKit.animation_player(operator)
+	if animation != null and animation.has_animation("Idle"):
+		animation.play("Idle")
+		animation.seek(randf() * 1.5)
+	_npcs["rift_operator"] = operator
+	builder.add_blocker(operator_pos, 0.35)
+	_add_spot("rift_station", travel.text("travel.title"), pos + Vector3(0.0, 0.0, 1.6), 2.0, travel.text("travel.prompt"), false, "rift_station")
+
+
+## The visual layer of the station (the Capital puts its underground hideout on layer 2).
+func _station_layer() -> int:
+	return 1
+
+
+func _rift_operator() -> String:
+	return StoryText.shared().text("travel.operator.%s" % def.id)
+
+
+## Reaching the zone's town (walking up to its station) unlocks the station for good.
+func _update_station() -> void:
+	if _station == null or Session.fast_travel_unlocked(def.id) or _locked or dialogue.active or _fainting:
+		return
+	var offset: Vector3 = player.position - _station.position
+	if Vector2(offset.x, offset.z).length() > FastTravel.UNLOCK_RADIUS:
+		return
+	if Session.unlock_fast_travel(def.id):
+		_station.set_active(true)
+		Audio.sfx(&"level_up")
+		_say(_rift_operator(), StoryText.shared().get_lines("travel.unlock.%s" % def.id))
+
+
+func _show_rift_arrival() -> void:
+	if not dialogue.active:
+		_say(_rift_operator(), StoryText.shared().get_lines("travel.arrive.%s" % def.id))
+
+
+func _use_rift_station() -> void:
+	var travel: StoryText = StoryText.shared()
+	_face_npc("rift_operator")
+	if Session.unlock_fast_travel(def.id):
+		_station.set_active(true)
+	var met: StringName = StringName("rift_met_%s" % def.id)
+	var lines: Array[String] = travel.get_lines("travel.return.zone")
+	if not Session.flag(met):
+		Session.set_flag(met)
+		lines = travel.get_lines("travel.intro.final" if def.id == CapitalZone.ID else "travel.intro.zone")
+	_say(_rift_operator(), lines, _open_rift_screen)
+
+
+func _open_rift_screen() -> void:
+	var screen: FastTravelScreen = FastTravelScreen.new()
+	screen.here = def.id
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+	screen.destination_chosen.connect(func(station_id: String) -> void:
+		_close_overlay()
+		_locked = true
+		RiftTrip.run(self, _overlay_layer, dialogue, _station, _rift_operator(), station_id))
 
 
 func _build_enemies() -> void:
@@ -364,6 +457,7 @@ func _process(delta: float) -> void:
 	_update_nearest()
 	_update_chest_prompt()
 	_update_area_banner()
+	_update_station()
 
 
 func _world_active() -> bool:
@@ -512,6 +606,8 @@ func _interact(spot: ZoneSpot) -> void:
 			_talk_quest_npc(str(spot.data["npc"]), str(spot.data["npc_name"]), str(spot.data["speaker"]), _open_vendor)
 		"heal":
 			_use_heal_spot(spot)
+		"rift_station":
+			_use_rift_station()
 		"exit":
 			_ask_exit()
 		"main_dungeon":
@@ -910,6 +1006,9 @@ func _collect_pois() -> Array[MapPoi]:
 			marker = not Session.quests_ready_for(npc_name).is_empty() or not Session.quests_offered_by(npc_name).is_empty()
 		var label: String = spot.title
 		result.append(MapPoi.make(poi_kind, spot.position, label, marker))
+	for spot: ZoneSpot in spots:
+		if spot.id == "rift_station":
+			result.append(MapPoi.make(MapPoi.Kind.TRAVEL_PORTAL, spot.position, spot.title))
 	result.append_array(_extra_pois())
 	return result
 
@@ -997,6 +1096,14 @@ func _teleport(anchor_name: String) -> void:
 				_camera.position = player.position + camera_offset
 				_spawn_grace = 30.0
 				return
+		return
+	if anchor_name == "rift_station_view" and builder.has_anchor(FastTravel.ANCHOR):
+		anchor_name = FastTravel.ANCHOR
+		pos = builder.anchor(anchor_name) + Vector3(0.0, 0.0, 1.0)
+		player.position = pos
+		player.position.y = builder.height_at(pos)
+		_camera.position = player.position + camera_offset
+		_spawn_grace = 12.0
 		return
 	if builder.has_anchor(anchor_name):
 		pos = builder.anchor(anchor_name)

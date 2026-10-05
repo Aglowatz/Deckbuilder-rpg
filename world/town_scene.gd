@@ -68,6 +68,8 @@ var _well_light: OmniLight3D
 var _well_particles: CPUParticles3D
 var _screenshot_args: Dictionary = {}
 var _locked: bool = false
+var _station: FastTravelStation
+var _arrived_by_rift: bool = false
 var _hidden_chest_near: String = ""
 
 
@@ -97,6 +99,7 @@ func _ready() -> void:
 	town.build(self)
 	_build_actors()
 	_build_spots()
+	_build_rift_station()
 	_build_portal_barriers()
 	TownDressing.alchemist(self, town.anchors, Session.alchemist_unlocked(), StoryText.shared())
 	TownDressing.arena_gate(self, town.anchors, Session.arena_unlocked(), StoryText.shared())
@@ -104,6 +107,8 @@ func _ready() -> void:
 	_show_pending_arena_result.call_deferred()
 	_build_camera()
 	_build_ui()
+	if _arrived_by_rift:
+		_show_rift_arrival.call_deferred()
 	_refresh_objective()
 	EventBus.tutorial_event.emit(&"town_entered")
 	# Part B: the two starter quests are given the first time the player is in town.
@@ -142,6 +147,13 @@ func _build_actors() -> void:
 			# (see TownBuilder._portal_approach_offset) - safe to spawn on directly.
 			spawn = town.anchors[portal_key] as Vector3
 		Session.pending_zone_id = ""
+	if Session.arrive_at_station:
+		Session.arrive_at_station = false
+		spawn = (town.anchors["rift_station"] as Vector3) + Vector3(0.0, 0.0, 1.6)
+		_arrived_by_rift = true
+	if Session.has_town_return_position:
+		spawn = Session.town_return_position
+		Session.has_town_return_position = false
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(town, "Knight", spawn)
@@ -523,6 +535,8 @@ func _prompt_text(spot: Spot) -> String:
 			return "Open the vault" if Session.flag(VAULT_LEVER_FLAG) else "Try the sealed door"
 		"graveyard_cairn":
 			return "Disturb the cairn"
+		"rift_station":
+			return StoryText.shared().text("travel.prompt")
 		"alchemist":
 			return "Browse Crucible & Co." if Session.alchemist_unlocked() else "Knock (the shop is closed)"
 		"arena":
@@ -620,6 +634,8 @@ func _interact(spot: Spot) -> void:
 			_talk_graveyard()
 		"arena":
 			_use_arena()
+		"rift_station":
+			_use_rift_station()
 		"alchemist":
 			_use_alchemist()
 		_:
@@ -1193,6 +1209,58 @@ func _open_full_map() -> void:
 	screen.setup("town", town, player, _collect_pois(), "Town")
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
+
+
+# ---- The Beefcake Rift Express (brief 10b) -----------------------------------------------------------------------
+
+
+## The home station: a squat-rack frame with a torn-open rift, and the Beefcake who tears it.
+func _build_rift_station() -> void:
+	var travel: StoryText = StoryText.shared()
+	var pos: Vector3 = town.anchors["rift_station"] as Vector3
+	_station = FastTravelStation.new()
+	add_child(_station)
+	_station.position = pos
+	_station.build(travel.get_lines("travel.sign.town"), true)
+	town.obstacles.append(Vector3(pos.x, pos.z, 1.3))
+	var operator: Node3D = ModelKit.character("Barbarian")
+	ModelKit.tint(operator, Color(1.0, 0.8, 0.65))
+	ModelKit.place(self, operator, town.anchors["npc_rift_station"] as Vector3, 40.0, TownPlayer.MODEL_SCALE * 1.3)
+	var animation: AnimationPlayer = ModelKit.animation_player(operator)
+	if animation != null and animation.has_animation("Idle"):
+		animation.play("Idle")
+		animation.seek(randf() * 1.5)
+	_npcs["rift_operator"] = operator
+	town.obstacles.append(Vector3((town.anchors["npc_rift_station"] as Vector3).x, (town.anchors["npc_rift_station"] as Vector3).z, 0.35))
+	_add_spot("rift_station", travel.text("travel.title"), pos + Vector3(0.0, 0.0, 1.6), 2.0)
+
+
+func _use_rift_station() -> void:
+	var travel: StoryText = StoryText.shared()
+	_face_npc("rift_operator")
+	var lines: Array[String] = travel.get_lines("travel.return.town")
+	if not Session.flag(&"rift_met_town"):
+		Session.set_flag(&"rift_met_town")
+		lines = travel.get_lines("travel.intro.town")
+	dialogue.start(travel.text("travel.operator.town"), lines)
+	dialogue.finished.connect(_open_rift_screen, CONNECT_ONE_SHOT)
+
+
+func _open_rift_screen() -> void:
+	var screen: FastTravelScreen = FastTravelScreen.new()
+	screen.here = FastTravel.TOWN
+	screen.destination_chosen.connect(func(station_id: String) -> void:
+		_close_overlay()
+		_locked = true
+		RiftTrip.run(self, _overlay_layer, dialogue, _station, StoryText.shared().text("travel.operator.town"), station_id))
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
+
+
+## Arriving by rift: the operator says the town's landing line.
+func _show_rift_arrival() -> void:
+	if not dialogue.active:
+		dialogue.start(StoryText.shared().text("travel.operator.town"), StoryText.shared().get_lines("travel.arrive.town"))
 
 
 func _open_overlay(screen: Control) -> void:

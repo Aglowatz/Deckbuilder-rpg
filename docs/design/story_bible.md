@@ -194,7 +194,7 @@ sickening under hidden garbage. The jokes get less funny the closer you get; the
 
 **His title.** He insists on **"His Perfection"** (and gets visibly upset, in a very small way, when it is forgotten).
 
-## The Capital: Concordia Prime
+## The Capital: Neatropolis
 
 Reached from the start of the game through the town's **final-area entrance** (`ZonePortals` id `final`,
 renamed "The Capital"). Zone id `final`. Same shared zone framework as the four path zones (`ZoneDef`,

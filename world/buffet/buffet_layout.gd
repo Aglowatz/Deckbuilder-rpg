@@ -379,6 +379,7 @@ func _at(name: String, x: float, z: float) -> void:
 func _anchors() -> void:
 	# The Grand Pantry (hub, south centre).
 	_at("spawn", 50.0, 70.5)
+	_at("rift_station", 44.0, 67.0)
 	_at("hub", 50.0, 64.0)
 	_at("exit", 50.0, 74.2)
 	_at("heal", 41.0, 62.0)

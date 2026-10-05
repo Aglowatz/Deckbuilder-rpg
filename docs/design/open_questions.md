@@ -278,7 +278,7 @@ Logged as they were made; none blocks anything. Names are placeholders in story 
 | N7 | New engine rules | Three `Modifier.Kind`s (`SHUFFLE_JUNK_INTO_DECK`, `GRAVEYARD_RETURN_CHANCE`, `STANDARDIZE_CREATURES`) with small hooks in `GameState` (deck setup, `kill_creature`, base stats). Tokens never return from the graveyard. | `core/game/game_state.gd` |
 | N8 | Rifts | 9 rifts; contact damage 1 (2 for big ones) with the normal 1.6 s invulnerability; camera wobble + a refractive lens shader; enemies homed within 9 m are empowered (+3 life, +1/+1 creatures). 5 are sealable (beat the guardian this visit, then the rift-stone), 4 stay until Primm falls. | `CapitalRifts` |
 | N9 | Path-quest "story insight" | The reward is a saved flag (`capital_insight_<path>`) set via `reward_unlock_flags`, shown in the quest log's reward line, referenced by Mabbit Quill and by the castle/boss text. Rewards per quest: 150 gold, 120 XP, a card and an item. | `ZoneQuestDefinitions.capital_quests` |
-| N10 | Names | The Capital: **Concordia Prime**; the facade: **Primm's Perfection**; the hideout: **the Crease** (the resistance: **the Wrinkles**); Mabbit Quill, Fig Sly, Nurse Hesper Dray, Gus Peelings, Tilda Marrow, Bram "Heft" Haulsworth, Odile Bisque; the gate guard **the Approved Gate Captain**; the secret tunnel **the Old Joint Works**. | story data |
+| N10 | Names | The Capital: **Neatropolis** (was "Concordia Prime"; renamed brief 10b: "Neat" + "metropolis", it is very neat); the facade: **Primm's Perfection**; the hideout: **the Crease** (the resistance: **the Wrinkles**); Mabbit Quill, Fig Sly, Nurse Hesper Dray, Gus Peelings, Tilda Marrow, Bram "Heft" Haulsworth, Odile Bisque; the gate guard **the Approved Gate Captain**; the secret tunnel **the Old Joint Works**. | story data |
 | N11 | `tools/generate_quests.gd` | It cannot compile as a SceneTree script on the current code (the baseline already failed: `ZoneCompletion` -> `ZoneDefs` -> the `Session` autoload). Added `tools/generate_quests.tscn` (same job, run as a scene so the autoloads exist): `Godot --headless --path . res://tools/generate_quests.tscn`. | `tools/` |
 | N12 | The facade citizens | 9 citizens say an approved phrase the first time, a slightly-off one the second time and a frightened slip the third (then it repeats); once Primm falls they have `.freed` lines of their own. | `CapitalScene._talk_citizen` |
 | N13 | Gate Captain difficulty | "Challenging" = 24 life, a 36-card deck of orderly Necrocrat/Gourmand cards and neutral enforcers, an aggressive AI. Numbers are not tuned (balance is out of scope). | `CapitalEnemies` |
@@ -288,3 +288,22 @@ Logged as they were made; none blocks anything. Names are placeholders in story 
 | N17 | Dense maps | Maps of more than 18 nodes draw their nodes at 78% size so 30 nodes fit the screen. | `DungeonMapScreen` |
 | N18 | New icons | 17 more game-icons.net icons (CC BY 3.0, authors Delapouite and Cathelineau, already credited) for the castle foes, the cutscenes and the ending. No new asset pack was added: everything else uses the existing KayKit / Kenney packs and primitives (the Capital's buildings, statues and rifts are procedural). | `assets/icons/game-icons/`, CREDITS.md |
 | N19 | Ending credits | Placeholder credits (12 lines in the story file) with a Skip button. | `EndingDefs` |
+
+## Answers from the user (after Brief 10) and the follow-up (brief 10b)
+
+- Famine's -5 max life: fine for now. Primm's fall freeing unfreed Paths (N14): fine for now. Ending staging and placeholder credits: fine.
+- The boss balance pass waits until the real cards are developed and implemented.
+- "Concordia Prime" was disliked: the Capital is now **Neatropolis** ("neat" + "metropolis"; the kingdom is still Concordia). Name in
+  `CapitalZone.FULL_NAME`, the gate sign `sign.gate_inside`, `fx.inside`.
+
+## Brief 10b: fast travel and the return position (decisions made autonomously, section O)
+
+| # | Question | Decision | Where |
+|---|---|---|---|
+| O1 | Where does the hero stand after a normal encounter? | Exactly where the duel began. Zones already did (`ZoneRun.return_position`, now verified end to end); **town duels did not** (NPC challenges, the Graveyard, the Arena sent the hero back to the spawn point). `Session.start_battle` now remembers the hero's town position and `TownScene` restores it. | `Session.town_return_position`, `TownScene._build_actors` |
+| O2 | Which towns get a station? | The main town (open from the start) and the hub of every zone including the Capital's hideout the Crease (5 zone stations + 1). | `FastTravel.station_ids` |
+| O3 | What unlocks a zone's station? | Walking within 9 units of it, i.e. reaching the zone's town (it sits by the spawn/hub), the first time. A toast-style dialogue from the cousin announces it. Saved as the flag `rift_station_<zone id>`. | `FastTravel.UNLOCK_RADIUS`, `ZoneScene._update_station` |
+| O4 | Cost? | Free. The joke is that Beefcakes charge for spotting and spotting is free. Easy to turn into a gold sink later. | `travel.warning` |
+| O5 | What does a trip do to the zone visit? | Leaving a zone ends its visit (full life, roaming enemies come back, like walking to town); arriving in a zone starts a new visit. A trip to the Capital's Crease uses the secret hideout, so it works before the gate is open. The menu says this. | `Session.fast_travel_to` |
+| O6 | Who runs it? | Rip Brogan, Beefcake Rift Technician, and his many cousins (one per station; "we ran out of names around cousin four"). Station: a squat rack of weight plates with a torn-open rift, a protein tub and a sign. All text in `intro_story.tres` (`travel.*`). | `FastTravelStation`, `StoryText` |
+| O7 | Fast travel from inside dungeons / battles? | No. Only from a station, in the open world. | |

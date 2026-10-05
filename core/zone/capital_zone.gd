@@ -1,13 +1,13 @@
 class_name CapitalZone
 extends RefCounted
-## Constants and the `ZoneDef` of the Capital (Concordia Prime): the final area the town's last entrance leads to, home of
+## Constants and the `ZoneDef` of the Capital (Neatropolis): the final area the town's last entrance leads to, home of
 ## Primm's Perfection (the facade town), the four broken districts, the resistance hideout (the Crease) and the doors of
 ## Primm's Castle. Zone id `final` (the same id as `ZonePortals.FINAL_ID`). All text lives in `data/story/capital_story.tres`.
 ## Pure data: nothing here touches `Session` (see `CapitalInteractables`).
 
 const ID: String = "final"
 const DISPLAY_NAME: String = "The Capital"
-const FULL_NAME: String = "The Capital: Concordia Prime"
+const FULL_NAME: String = "The Capital: Neatropolis"
 const HUB_NAME: String = "The Crease"
 
 const NPC_MABBIT: String = "Mabbit Quill"

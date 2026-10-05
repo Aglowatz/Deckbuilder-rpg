@@ -313,6 +313,7 @@ func _anchors() -> void:
 	_anchor("yard_sign", 14.0, 11.0)
 	# The Crease (the hub): everything is underground, south of the world.
 	_anchor("crease_spawn", 22.0, 116.0)
+	_anchor("rift_station", 28.0, 112.0)
 	_anchor("mabbit", 14.0, 106.0)
 	_anchor("fig", 31.0, 106.0)
 	_anchor("fig_crate", 36.0, 110.0)

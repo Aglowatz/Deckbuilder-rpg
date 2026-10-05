@@ -786,8 +786,17 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	return context
 
 
+## Where the hero stood in town when a duel started (an NPC challenge, the Graveyard, the Arena), so town puts them back there.
+var town_return_position: Vector3 = Vector3.ZERO
+var has_town_return_position: bool = false
+
+
 func start_battle(context: BattleContext) -> void:
 	pending_battle = context
+	var scene: Node = get_tree().current_scene if get_tree() != null else null
+	if scene is TownScene and (scene as TownScene).player != null:
+		town_return_position = (scene as TownScene).player.position
+		has_town_return_position = true
 	SceneManager.change_scene("res://scenes/battle.tscn")
 
 
@@ -1058,6 +1067,42 @@ func enter_zone(zone_id: String) -> void:
 	begin_zone_visit(zone_id)
 	pending_zone_result = {}
 	SceneManager.change_scene(ZoneDefs.get_def(zone_id).scene_path)
+
+
+# ---- The Beefcake Rift Express (brief 10b) ----------------------------------------------------------------------------
+
+## Set just before a rift trip: the next scene puts the hero at that scene's Rift Station instead of its usual spawn (read once).
+var arrive_at_station: bool = false
+
+
+func fast_travel_unlocked(station_id: String) -> bool:
+	return FastTravel.is_unlocked(flags, station_id)
+
+
+## Reaching a zone's town unlocks its station. Returns true the first time (the caller toasts it).
+func unlock_fast_travel(station_id: String) -> bool:
+	if not FastTravel.unlock(flags, station_id):
+		return false
+	save_game()
+	return true
+
+
+## Rips the hero to another station: to the town, or into a fresh visit of a zone (full life, the visit's enemies are back, like walking
+## in from town). Does nothing for a station that is not unlocked.
+func fast_travel_to(destination: String) -> bool:
+	if not FastTravel.is_unlocked(flags, destination):
+		return false
+	arrive_at_station = true
+	pending_zone_result = {}
+	if destination == FastTravel.TOWN:
+		zone_run = null
+		save_game()
+		SceneManager.go_to_town()
+		return true
+	begin_zone_visit(destination)
+	save_game()
+	SceneManager.change_scene(ZoneDefs.get_def(destination).scene_path)
+	return true
 
 
 ## Starts a visit to `zone_id` (full life). The Capital's broken-service debuffs (`CapitalDebuffs`) join the visit's modifiers

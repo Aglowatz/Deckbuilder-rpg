@@ -106,6 +106,10 @@ func _build_completion_state() -> void:
 		_build_freed_npcs(hub)
 
 
+func _station_layer() -> int:
+	return CapitalBuilder.CREASE_LAYER
+
+
 func _hub_spawn() -> Vector3:
 	if Session.flag(CapitalZone.FLAG_HUB_KNOWN):
 		return builder.anchor("crease_spawn")

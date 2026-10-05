@@ -2245,3 +2245,17 @@ look in the final state, postgame elder/objective text.
 5. The ending uses 2D icon staging and placeholder credits.
 6. The wake-location rule after fainting in the Capital: is it right?
 7. Rift sealing needs the guardian beaten: too strict?
+
+## Brief 10b: Neatropolis rename, return position, fast travel - done
+
+- The Capital is now **Neatropolis** (the user disliked "Concordia Prime"; the kingdom stays Concordia). Famine, N14 and the ending were approved;
+  the boss balance pass waits for the real cards.
+- **Return position:** zone duels already returned the hero to where they stood; town duels (corrupted NPCs, the Graveyard, the Arena) did not.
+  Fixed in `Session.start_battle` / `TownScene`. E2E-verified for a zone enemy and a town NPC duel (moved 0.00).
+- **Fast travel, the Beefcake Rift Express:** a station in the main town and in every zone town (incl. the Capital's Crease), unlocked by reaching the
+  town; menu, rip sequence (shout, tearing rift, flare, flash), arrival at the destination station, Beefcake humor (Rip Brogan and his cousins, "hold
+  the sky", "never skip leg day"). See docs/design/zones.md and open questions section O.
+- Tests: full suite passing (see the final run below). E2E: `tools/run_travel_smoke.sh` (town station, zone unlock, rips both ways, return position
+  after a zone and a town duel; shortcuts: zone entered through `Session.enter_zone`, duel win forced, the first enemy touch triggered directly when it
+  did not reach the player in time). Screenshots: `_screenshots/brief10b/`. No new asset packs.
+- Questions: should rips cost gold later? Should a trip keep the zone visit's life instead of resetting it (it currently counts as leaving the zone)?
