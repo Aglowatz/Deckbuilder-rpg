@@ -7,3 +7,7 @@
 
 # Screenshot self-review output
 /_screenshots/
+
+# Third-party visual references (copyrighted; never commit)
+/_reference/
+/reference/

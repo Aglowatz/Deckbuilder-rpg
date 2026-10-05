@@ -2297,3 +2297,16 @@ The town is a full heal (`Session.arrive_in_town`, called whenever the town scen
 (town, another zone, the Rift Express) already started a full-life visit and is now covered by tests for every zone pair; zone life rules inside a zone and dungeon life rules are unchanged.
 Portal Ripper rips in the Gainlands were already free (no gold or life cost anywhere in the travel code): nothing needed removing; the story/quest locks (the wheel run, "Spot Me!") are kept and a
 test guards that no rip gets a purchase condition. Docs: `docs/design/zones.md` (zone life rules), open questions P16-P17. Tests: `tests/core/zone/test_health_travel_rules.gd` (6).
+
+## Brief 11 final checks (finished at the start of Brief 12) - done
+
+All previously unconfirmed checks now pass in the windowed e2e (`tools/run_eleventh_brief_final_smoke.sh`; new `SMOKE_ONLY=flow1,flow2` hook runs just some flows:
+`vendor_locked, dungeon_clear, vendor_stocked, general, open_packs, black_market, health`): the stocked Pack Vendor, pack quest reward, General Packs and the Tier 2 unlock,
+opening every pack type (Path with essence conversion, Gilded with a Legendary reveal, Prismatic with a multi-Path guarantee, both General tiers, Gilded Necrocrat), the black
+market Gilded stall (stock gated by freed zones), full life when switching zones, and free Portal Ripper travel. Screenshots: `_screenshots/brief11/` (p01-p19).
+
+**Real bug found and fixed:** clicking directly on a pack card did nothing, because `CardView` sets its mouse filter to STOP in `_ready` and every control inside a card swallowed the
+click (only clicks on empty space advanced the reveal). `PackOpeningScreen._ignore_mouse` now makes the card subtree click-through (deferred, because `_ready` runs later).
+The harness failures were otherwise timing: card reveals now wait for the phase instead of fixed delays, an overlay left by the quest reward is closed, and the first E press at Fig is retried.
+
+Questions for you: (1) Tier 2 at level 10 or 2 zones free: still right? (2) Do you want the Legendary reveal even longer (currently ~1.5 s hang + rays)?

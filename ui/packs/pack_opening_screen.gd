@@ -45,6 +45,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.03, 0.02, 0.06, 0.97)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	UIKit.full_rect(shade)
 	add_child(shade)
 	_glow = UIKit.gradient_background()
@@ -150,6 +151,7 @@ func _deal() -> void:
 		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		holder.add_child(view)
 		CardView.fit(view, CARD_SCALE)
+		_ignore_mouse(view)
 		_stage.add_child(holder)
 		_holders.append(holder)
 		_views.append(view)
@@ -217,6 +219,7 @@ func _flip(index: int, quick: bool = false) -> void:
 	squash.tween_property(holder, "scale:x", 0.0, 0.1 if quick else 0.16)
 	await squash.finished
 	view.set_mode(CardView.Mode.FULL)
+	_ignore_mouse(view)
 	var open: Tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	var lift: float = 1.0 + 0.04 * float(rarity)
 	open.tween_property(holder, "scale", Vector2.ONE * lift, 0.12 if quick else 0.26)
@@ -524,3 +527,12 @@ static func open_from_inventory(host: Node, pack_id: String, on_closed: Callable
 		if on_closed.is_valid():
 			on_closed.call())
 	return true
+
+
+## The cards are display only: every control inside them lets clicks through so a click on a card advances the opening.
+func _ignore_mouse(node: Node) -> void:
+	var control: Control = node as Control
+	if control != null:
+		control.set_deferred(&"mouse_filter", Control.MOUSE_FILTER_IGNORE)  # CardView sets STOP in _ready
+	for child: Node in node.get_children():
+		_ignore_mouse(child)
