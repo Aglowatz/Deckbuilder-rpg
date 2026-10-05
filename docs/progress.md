@@ -2383,3 +2383,6 @@ The cobbled plaza and cobble discs are gone: the square is toon grass (650 wind-
 
 ## Part B: camera - done
 Default camera pulled out 1.5x in the town, starting area and every zone (one multiplier on each area's own offset), mouse-wheel zoom 1.0-2.3x remembered in settings (and a Settings slider). Medium: town 77 fps, Gainlands 83. Decision R1. Screenshots `_screenshots/brief13/b_*`.
+
+## Part C: clouds - done
+Town clouds: 9 huge -> 5 small ones at 24-30 m (they sit above the camera); starting area: 3 -> 2 small high ones. New `CloudFader`: adopted clouds get a translucent material and fade out when between the camera and the hero or close to the camera (also applied to the Gainlands' cloud sea). The Verdant Dump and the other zones have no cloud models. Tests: `tests/world/test_cloud_fader.gd`.

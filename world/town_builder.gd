@@ -72,6 +72,8 @@ var obstacles: Array[Vector3] = []
 ## Named world positions: "spawn", "market", "well", "gate", "deck", plus NPC spots.
 var anchors: Dictionary = {}
 var root: Node3D
+## The decorative clouds (a scene may hand them to a `CloudFader`).
+var clouds: Array[Node3D] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
@@ -213,9 +215,7 @@ func _build_far_scenery() -> void:
 		var pos: Vector3 = cell_center(cell.x, cell.y)
 		ModelKit.place(root, ModelKit.tile("hex_grass"), pos, 0.0, SCALE)
 		ModelKit.place(root, ModelKit.nature(["hills_A_trees", "hills_B_trees"][_rng.randi() % 2]), pos, float(_rng.randi_range(0, 5)) * 60.0, SCALE)
-	for i: int in range(9):
-		var cloud: Node3D = ModelKit.nature("cloud_big" if i % 2 == 0 else "cloud_small")
-		ModelKit.place(root, cloud, Vector3(_rng.randf_range(west_edge - 5, east_edge + 7) * SCALE, _rng.randf_range(7, 10), _rng.randf_range(far_row - 5, 8) * SCALE), 0.0, 2.2 * SCALE)
+# Few, small and high (they used to be huge and drift in front of the camera); CloudFader fades any that still get between the camera and the hero.	for i: int in range(5):		var cloud: Node3D = ModelKit.nature("cloud_big" if i % 2 == 0 else "cloud_small")		var cloud_scale: float = 0.9 if i % 2 == 0 else 0.65		ModelKit.place(root, cloud, Vector3(_rng.randf_range(west_edge - 3, east_edge + 5) * SCALE, _rng.randf_range(24, 30), _rng.randf_range(far_row - 3, 14) * SCALE), 0.0, cloud_scale)		clouds.append(cloud)
 
 
 func _build_props() -> void:

@@ -312,6 +312,11 @@ func _build_islands() -> void:
 		root.add_child(instance)
 
 
+## The cloud models (adopted by a `CloudFader` so none can block the view).
+func cloud_nodes() -> Array[Node3D]:
+	return _clouds
+
+
 func _build_clouds() -> void:
 	var specs: Array[Vector4] = []
 	var tries: int = 0

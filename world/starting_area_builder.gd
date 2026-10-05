@@ -26,6 +26,7 @@ var obstacles: Array[Vector3] = []
 ## Named world positions: "spawn", "gate".
 var anchors: Dictionary = {}
 var root: Node3D
+var clouds: Array[Node3D] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
@@ -86,9 +87,10 @@ func _build_far_trees() -> void:
 		ModelKit.place(root, ModelKit.tile("hex_grass"), far)
 		var mountain: String = ["mountain_A_grass_trees", "mountain_B_grass_trees"][_rng.randi() % 2]
 		ModelKit.place(root, ModelKit.nature(mountain), far, float(_rng.randi_range(0, 5)) * 60.0, 1.2)
-	for i: int in range(3):
-		var cloud: Node3D = ModelKit.nature("cloud_small" if i % 2 == 0 else "cloud_big")
-		ModelKit.place(root, cloud, Vector3(_rng.randf_range(-4, 12), _rng.randf_range(6, 9), _rng.randf_range(-10, -2)), 0.0, 1.8)
+	for i: int in range(2):
+		var cloud: Node3D = ModelKit.nature("cloud_small")
+		ModelKit.place(root, cloud, Vector3(_rng.randf_range(-4, 12), _rng.randf_range(16, 20), _rng.randf_range(-12, -4)), 0.0, 0.7)
+		clouds.append(cloud)
 
 
 func _scatter(center: Vector3, min_radius: float, max_radius: float) -> Vector3:

@@ -65,6 +65,12 @@ func _build_actors() -> void:
 	_camera.position = player.position + CAMERA_OFFSET * Settings.camera_zoom
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	var rig: StyleRig = StyleRig.install(self, StylePresets.START, _camera, player)
+	var fader: CloudFader = CloudFader.new()
+	fader.camera = _camera
+	fader.target = player
+	add_child(fader)
+	for cloud: Node3D in area.clouds:
+		fader.adopt(cloud, 2.0)
 	if rig != null:
 		ZoneDressing.build(self, area, StylePresets.START, Settings.graphics_quality)
 

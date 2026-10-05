@@ -66,6 +66,7 @@ var dialogue: DialogueBox
 var _camera: Camera3D
 var style_rig: StyleRig
 var square: TownSquare
+var cloud_fader: CloudFader
 var npc_life: NpcLife
 var _overlay_layer: Control
 var _overlay: Control
@@ -121,6 +122,12 @@ func _ready() -> void:
 		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 	_build_camera()
 	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 0.0 if _screenshot_args.has("nocull") else 70.0)
+	cloud_fader = CloudFader.new()
+	cloud_fader.camera = _camera
+	cloud_fader.target = player
+	add_child(cloud_fader)
+	for cloud: Node3D in town.clouds:
+		cloud_fader.adopt(cloud, 3.0)
 	if style_rig != null:
 		style_rig.register_lights(square.lights)
 	var avoid: Array[Vector3] = [Vector3(square.center.x, square.center.z, square.meadow_radius)]
