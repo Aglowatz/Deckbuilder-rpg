@@ -80,22 +80,22 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.particles = [{"kind": "motes", "color": Color(1.0, 0.86, 0.55, 0.8), "amount": 60}, {"kind": "leaves", "color": Color("d8b050"), "amount": 14}, {"kind": "fireflies", "color": Color(1.0, 0.9, 0.5, 1.0), "amount": 10}]
 		START:
 			p.with_id(id, "Starting area: soft, mysterious")
-			p.sky_top = Color("2a2e6a")
-			p.sky_horizon = Color("8a70bc")
-			p.ground_horizon = Color("6c5a96")
+			p.sky_top = Color("141448")
+			p.sky_horizon = Color("5c4c9c")
+			p.ground_horizon = Color("46387a")
 			p.ground_bottom = Color("2a2048")
-			p.sun_color = Color("d6d0ff")
+			p.sun_color = Color("f4e2b4")
 			p.sun_energy = 0.8
 			p.sun_pitch = -48.0
-			p.ambient_color = Color("6c6ac0")
-			p.ambient_energy = 1.0
-			p.cloud_color = Color("a494dc")
+			p.ambient_color = Color("4c5cc0")
+			p.ambient_energy = 0.75
+			p.cloud_color = Color("5c50a0")
 			p.cloud_cover = 0.58
 			p.star_amount = 1.0
-			p.fog_color = Color("7a70b8")
+			p.fog_color = Color("4c4494")
 			p.fog_density = 0.016
 			p.volumetric_density = 0.03
-			p.volumetric_color = Color("9a90e0")
+			p.volumetric_color = Color("6a62c0")
 			p.saturation = 1.1
 			p.glow_intensity = 0.6
 			p.glow_threshold = 0.85

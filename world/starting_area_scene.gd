@@ -71,6 +71,13 @@ func _build_actors() -> void:
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(area, "Hero", spawn)
+	var moon: OmniLight3D = OmniLight3D.new()
+	moon.light_color = Color("ffe6b0")
+	moon.light_energy = 2.0
+	moon.omni_range = 6.0
+	moon.omni_attenuation = 1.2
+	moon.position = spawn + Vector3(0.0, 3.2, 0.6)
+	add_child(moon)
 	_gate_marker = Node3D.new()
 	_gate_marker.position = (area.anchors.get("gate", Vector3.ZERO) as Vector3) + Vector3(0, 1.6, 0)
 	add_child(_gate_marker)
