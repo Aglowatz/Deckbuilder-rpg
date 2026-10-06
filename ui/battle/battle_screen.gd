@@ -53,6 +53,12 @@ var _block_assign: Dictionary = {}
 var _block_pick: int = 0
 var _discard_selection: Array[int] = []
 var _hovered_view: CardView
+## Brief 14: the decision chain for playing a card or activating an ability (targets, cost picks, X), one step at a time.
+var _chain_steps: Array[Dictionary] = []
+var _chain_pos: int = 0
+var _chain_active: bool = false
+var _chain_source: int = 0
+var _chain_done: Callable = Callable()
 var _toast_label: Label
 
 
@@ -273,7 +279,7 @@ func _any_block_possible() -> bool:
 	for attacker_uid: int in game.attackers:
 		var attacker: CardInstance = game.find_permanent(attacker_uid)
 		for blocker: CardInstance in game.possible_blockers(0):
-			if attacker != null and CombatResolver.can_block(attacker, blocker):
+			if attacker != null and CombatResolver.can_block(game, attacker, blocker):
 				return true
 	return false
 
@@ -346,8 +352,8 @@ func _refresh_ui() -> void:
 			for card: CardInstance in hand:
 				if _is_playable(card):
 					glows[card.uid] = CardView.Glow.PLAYABLE
-			for card: CardInstance in game.players[0].field:
-				if _usable_ability(card) >= 0:
+			for card: CardInstance in game.players[0].field + game.players[0].infrastructure:
+				if _usable_ability(card) >= 0 or not _usable_abilities(card).is_empty():
 					glows[card.uid] = CardView.Glow.PLAYABLE
 			primary = "To Combat" if game.phase == GameState.Phase.MAIN1 else "End Turn"
 			end_visible = game.phase == GameState.Phase.MAIN1
@@ -388,6 +394,13 @@ func _refresh_ui() -> void:
 			glows[_target_source] = CardView.Glow.SELECTED
 			primary = "Cancel"
 			prompt = "[b]Choose a target[/b]\nClick a highlighted target. Right-click to cancel."
+			if _chain_active and _chain_pos < _chain_steps.size():
+				var step: Dictionary = _chain_steps[_chain_pos]
+				prompt = str(step["prompt"])
+				for picked_uid: int in step["picked"] as Array[int]:
+					glows[picked_uid] = CardView.Glow.SELECTED
+				if str(step["kind"]) == "multi":
+					primary = "Done (%d/%d)" % [(step["picked"] as Array[int]).size(), int(step["max"])]
 		Mode.MULLIGAN:
 			primary = "..."
 			primary_enabled = false
@@ -465,7 +478,10 @@ func _on_primary() -> void:
 				action.uids.append(uid)
 			_submit(action)
 		Mode.TARGETING:
-			_cancel_targeting()
+			if _chain_active and _chain_pos < _chain_steps.size() and str(_chain_steps[_chain_pos]["kind"]) == "multi":
+				_chain_advance()
+			else:
+				_cancel_targeting()
 
 
 func _on_end_turn() -> void:
@@ -512,7 +528,7 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 			if zone == BattleBoard.Zone.HAND and mine and button_event.pressed:
 				_press_uid = uid
 				_press_pos = get_global_mouse_position()
-			elif zone == BattleBoard.Zone.FIELD and mine and button_event.pressed:
+			elif (zone == BattleBoard.Zone.FIELD or zone == BattleBoard.Zone.INFRASTRUCTURE) and mine and button_event.pressed:
 				_try_activate(uid)
 		Mode.ATTACK:
 			if button_event.pressed and zone == BattleBoard.Zone.FIELD and mine:
@@ -573,21 +589,74 @@ func _try_play(uid: int) -> void:
 	if not game.can_play_card(0, uid):
 		_reject(_why_not_castable(card))
 		return
-	var effect: EffectData = _target_effect(card.data)
-	if effect != null:
-		var options: Array[int] = game.legal_targets(0, effect, uid)
-		if not options.is_empty():
-			_begin_targeting(uid, options, GameAction.Type.PLAY, 0)
-			return
-	_submit(GameAction.play_card(0, uid))
+	var steps: Array[Dictionary] = _play_steps(card)
+	if steps.is_empty():
+		var effect: EffectData = _target_effect(card.data)
+		if effect != null:
+			var options: Array[int] = game.legal_targets(0, effect, uid)
+			if not options.is_empty():
+				_begin_targeting(uid, options, GameAction.Type.PLAY, 0)
+				return
+		_submit(GameAction.play_card(0, uid))
+		return
+	_start_chain(uid, steps, func(result: Dictionary) -> void:
+		var chosen: Array[int] = result["targets"] as Array[int]
+		var action: GameAction = GameAction.play_card(0, uid, chosen[0] if not chosen.is_empty() else 0)
+		action.targets = chosen
+		action.picks = result["picks"] as Array[int]
+		_submit(action)
+	)
+
+
+## The choices the player makes when playing a card: its declared targets, then the units/tokens it destroys or uses as an
+## additional cost.
+func _play_steps(card: CardInstance) -> Array[Dictionary]:
+	var steps: Array[Dictionary] = []
+	var ability: CardAbility = game.play_ability_of(card.data)
+	if ability != null:
+		for index: int in range(ability.targets.size()):
+			var decl: CardAbility.TargetDecl = ability.targets[index]
+			var options: Array[int] = game.legal_play_targets(0, card.uid, index)
+			if options.is_empty():
+				continue
+			steps.append(_target_step(decl, options))
+	var ctx: AbilityContext = game.play_context(0, card)
+	for cost: CardAbility.Cost in game.play_costs_of(card.data):
+		var pick_step: Dictionary = _cost_pick_step(ctx, cost)
+		if not pick_step.is_empty():
+			steps.append(pick_step)
+	return steps
+
+
+func _target_step(decl: CardAbility.TargetDecl, options: Array[int]) -> Dictionary:
+	var many: bool = decl.max_count > 1
+	var text: String = "Choose up to %d targets" % decl.max_count if many else "Choose a target"
+	return {"role": "target", "kind": "multi" if many else "ref", "options": options, "max": decl.max_count, "prompt": "[b]%s[/b]\nClick a highlighted target. Right-click to cancel." % text, "picked": [] as Array[int]}
+
+
+## A "destroy a unit you control" / "use a token" cost: the player chooses which.
+func _cost_pick_step(ctx: AbilityContext, cost: CardAbility.Cost) -> Dictionary:
+	var options: Array[int] = []
+	if cost.kind == "destroy":
+		for card: CardInstance in AbilityRunner.destroy_cost_options(ctx, cost):
+			options.append(card.uid)
+	elif cost.kind == "use_token":
+		for card: CardInstance in AbilityRunner.token_cost_options(ctx):
+			if not card.data.is_resource():
+				options.append(card.uid)
+	if options.is_empty() or (options.size() <= cost.count and cost.kind == "destroy"):
+		return {}
+	var wording: String = "Choose the unit to destroy" if cost.kind == "destroy" else "Choose the token to use"
+	return {"role": "pick", "kind": "multi" if cost.count > 1 else "ref", "options": options, "max": cost.count, "prompt": "[b]%s[/b]\nThis is part of the cost. Right-click to cancel." % wording, "picked": [] as Array[int]}
 
 
 func _why_not_castable(card: CardInstance) -> String:
 	if not game.in_main_phase() or game.active != 0:
 		return "You can only play cards in your main phase"
-	if not PathEnergy.can_pay(game.players[0].ready_infrastructure(), game.generic_cost_for(0, card.data), card.data.colored_pips):
+	var pips: Array[Affinity.Type] = game.pips_for(0, card.data, card)
+	if not game.can_pay_energy(0, game.generic_cost_for(0, card.data, card), pips):
 		return "Not enough energy"
-	return "There is no legal target"
+	return "There is no legal target, or you can't pay its extra cost"
 
 
 func _target_effect(data: CardData) -> EffectData:
@@ -595,6 +664,102 @@ func _target_effect(data: CardData) -> EffectData:
 		if effect.trigger == CardEnums.Trigger.ON_ENTER and effect.needs_chosen_target():
 			return effect
 	return null
+
+
+# ---- Decision chains (Brief 14) --------------------------------------------------------------
+
+
+## Walks the player through `steps` (targets, cost picks, X) and then calls `done` with {"targets", "picks", "x"}.
+func _start_chain(source_uid: int, steps: Array[Dictionary], done: Callable) -> void:
+	_chain_steps = steps
+	_chain_pos = 0
+	_chain_active = true
+	_chain_source = source_uid
+	_chain_done = done
+	_chain_enter_step()
+
+
+func _chain_enter_step() -> void:
+	var step: Dictionary = _chain_steps[_chain_pos]
+	if str(step["kind"]) == "x":
+		_show_x_dialog(step)
+		return
+	_begin_targeting(_chain_source, step["options"] as Array[int], GameAction.Type.PLAY, 0)
+	_chain_active = true
+
+
+func _chain_pick(ref: int) -> void:
+	var step: Dictionary = _chain_steps[_chain_pos]
+	var picked: Array[int] = step["picked"] as Array[int]
+	if str(step["kind"]) == "multi":
+		if picked.has(ref):
+			picked.erase(ref)
+		elif picked.size() < int(step["max"]):
+			picked.append(ref)
+		if picked.size() >= int(step["max"]):
+			_chain_advance()
+		else:
+			_refresh_ui()
+		return
+	picked.append(ref)
+	_chain_advance()
+
+
+func _chain_advance() -> void:
+	_chain_pos += 1
+	if _chain_pos < _chain_steps.size():
+		_chain_enter_step()
+		return
+	var result: Dictionary = {"targets": [] as Array[int], "picks": [] as Array[int], "x": 0}
+	for step: Dictionary in _chain_steps:
+		match str(step["role"]):
+			"target":
+				(result["targets"] as Array[int]).append_array(step["picked"] as Array[int])
+			"pick":
+				(result["picks"] as Array[int]).append_array(step["picked"] as Array[int])
+			"x":
+				result["x"] = int(step["value"])
+	var done: Callable = _chain_done
+	_chain_reset()
+	_clear_selection_state()
+	mode = Mode.MAIN
+	done.call(result)
+
+
+func _chain_reset() -> void:
+	_chain_steps = []
+	_chain_pos = 0
+	_chain_active = false
+	_chain_done = Callable()
+
+
+## "Use X Ingredients": the player picks X (1 to the most they can afford).
+func _show_x_dialog(step: Dictionary) -> void:
+	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	panel.name = "XDialog"
+	panel.position = Vector2(760, 420)
+	_overlay_layer.add_child(panel)
+	var column: VBoxContainer = UIKit.vbox(10)
+	panel.add_child(column)
+	column.add_child(UIKit.label("Choose X", &"HeadingLabel", 26, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	var row: HBoxContainer = UIKit.hbox(8)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_child(row)
+	for value: int in range(1, int(step["max"]) + 1):
+		var button: FancyButton = FancyButton.make(str(value), &"", Vector2(70, 56))
+		var chosen: int = value
+		button.pressed.connect(func() -> void:
+			step["value"] = chosen
+			panel.queue_free()
+			_chain_advance()
+		)
+		row.add_child(button)
+	var cancel: FancyButton = FancyButton.make("Cancel", &"GhostButton", Vector2(160, 46))
+	cancel.pressed.connect(func() -> void:
+		panel.queue_free()
+		_cancel_targeting()
+	)
+	column.add_child(cancel)
 
 
 func _refresh_resource_trays() -> void:
@@ -619,9 +784,22 @@ func _on_resource_pressed(kind: ResourceKind.Kind) -> void:
 func _try_activate(uid: int) -> void:
 	var card: CardInstance = game.players[0].find_field(uid)
 	if card == null:
+		card = game.players[0].find_infrastructure(uid)
+	if card == null:
+		return
+	var usable: Array[int] = _usable_abilities(card)
+	if not usable.is_empty():
+		if usable.size() == 1:
+			_begin_ability(card, usable[0])
+		else:
+			_show_ability_menu(card, usable)
 		return
 	var index: int = _usable_ability(card)
 	if index < 0:
+		for ability: CardAbility in card.data.abilities():
+			if ability.is_activated():
+				_reject("That ability can't be used right now")
+				return
 		return
 	var effect: EffectData = card.data.effects[index]
 	if effect.needs_chosen_target():
@@ -632,6 +810,86 @@ func _try_activate(uid: int) -> void:
 		_begin_targeting(uid, options, GameAction.Type.ACTIVATE, index)
 		return
 	_submit(GameAction.activate(0, uid, index))
+
+
+## Indices of the scripted activated abilities of a permanent that can be used right now.
+func _usable_abilities(card: CardInstance) -> Array[int]:
+	var result: Array[int] = []
+	var abilities: Array[CardAbility] = card.data.abilities()
+	for index: int in range(abilities.size()):
+		if abilities[index].is_activated() and _ability_available(card, index):
+			result.append(index)
+	return result
+
+
+## An ability is usable if it has legal targets and costs, for some choice of X.
+func _ability_available(card: CardInstance, index: int) -> bool:
+	var ability: CardAbility = card.data.abilities()[index]
+	var uses_x: bool = false
+	for cost: CardAbility.Cost in ability.costs:
+		uses_x = uses_x or cost.x_count
+	return game.can_activate_ability(0, card.uid, index, [] as Array[int], 1 if uses_x else 0)
+
+
+func _begin_ability(card: CardInstance, index: int) -> void:
+	var ability: CardAbility = card.data.abilities()[index]
+	var ctx: AbilityContext = game.activation_context(0, card, ability)
+	var steps: Array[Dictionary] = []
+	for decl: CardAbility.TargetDecl in ability.targets:
+		var options: Array[int] = TargetResolver.legal_targets(decl, ctx)
+		if not options.is_empty():
+			steps.append(_target_step(decl, options))
+	for cost: CardAbility.Cost in ability.costs:
+		if cost.x_count:
+			var most: int = 1
+			for kind: ResourceKind.Kind in cost.resource_kinds:
+				most = maxi(most, game.players[0].count_resource(kind))
+			if most > 1:
+				steps.append({"role": "x", "kind": "x", "max": mini(most, 12), "value": 1, "picked": [] as Array[int]})
+		else:
+			var pick_step: Dictionary = _cost_pick_step(ctx, cost)
+			if not pick_step.is_empty():
+				steps.append(pick_step)
+	var finish: Callable = func(result: Dictionary) -> void:
+		var chosen: Array[int] = result["targets"] as Array[int]
+		var x_value: int = int(result["x"]) if int(result["x"]) > 0 else _default_x(ability)
+		var action: GameAction = GameAction.activate_ability(0, card.uid, index, chosen, x_value)
+		action.picks = result["picks"] as Array[int]
+		_submit(action)
+	if steps.is_empty():
+		finish.call({"targets": [] as Array[int], "picks": [] as Array[int], "x": 0})
+		return
+	_start_chain(card.uid, steps, finish)
+
+
+func _default_x(ability: CardAbility) -> int:
+	for cost: CardAbility.Cost in ability.costs:
+		if cost.x_count:
+			return 1
+	return 0
+
+
+## Several abilities can be used: a small menu of them next to the card.
+func _show_ability_menu(card: CardInstance, usable: Array[int]) -> void:
+	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	panel.name = "AbilityMenu"
+	panel.position = board.center_of(card.uid) + Vector2(-140, -40)
+	_overlay_layer.add_child(panel)
+	var column: VBoxContainer = UIKit.vbox(8)
+	panel.add_child(column)
+	column.add_child(UIKit.label(card.data.display_name, &"HeadingLabel", 22, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	for index: int in usable:
+		var ability: CardAbility = card.data.abilities()[index]
+		var button: FancyButton = FancyButton.make(AbilityDescriber.describe(ability), &"", Vector2(360, 50))
+		var chosen: int = index
+		button.pressed.connect(func() -> void:
+			panel.queue_free()
+			_begin_ability(card, chosen)
+		)
+		column.add_child(button)
+	var close: FancyButton = FancyButton.make("Never mind", &"GhostButton", Vector2(160, 44))
+	close.pressed.connect(func() -> void: panel.queue_free())
+	column.add_child(close)
 
 
 ## New brief, Part F: using an equipped item from the item bar. Items are not cards - no energy, no
@@ -701,6 +959,7 @@ func _cancel_targeting() -> void:
 	if mode != Mode.TARGETING:
 		return
 	_pending_item = null
+	_chain_reset()
 	_clear_selection_state()
 	mode = Mode.MAIN
 	_refresh_ui()
@@ -714,6 +973,9 @@ func _click_portrait_target(pos: Vector2) -> void:
 
 
 func _finish_targeting(ref: int) -> void:
+	if _chain_active:
+		_chain_pick(ref)
+		return
 	if _pending_item != null:
 		var item: ItemData = _pending_item
 		_pending_item = null
@@ -792,7 +1054,7 @@ func _block_click(uid: int, mine: bool) -> void:
 			return
 		var attacker: CardInstance = game.find_permanent(uid)
 		var blocker: CardInstance = game.players[0].find_field(_block_pick)
-		if attacker == null or blocker == null or not CombatResolver.can_block(attacker, blocker):
+		if attacker == null or blocker == null or not CombatResolver.can_block(game, attacker, blocker):
 			_reject("That unit cannot block this attacker")
 			return
 		_block_assign.erase(uid)

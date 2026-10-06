@@ -40,8 +40,7 @@ func test_each_basic_infrastructure_creates_its_paths_resource_when_it_enters() 
 
 func test_special_and_dual_infrastructure_never_create_resources() -> void:
 	var game: GameState = _game()
-	var special: CardData = GameFactory.infra(Affinity.Type.BEEFCAKE)
-	special.is_basic = false
+	var special: CardData = CardBuilder.infra(Affinity.Type.BEEFCAKE, false)
 	var card: CardInstance = GameFactory.add_to_hand(game, 0, special)
 	assert_true(game.play_infrastructure(0, card.uid))
 	assert_eq(game.players[0].resources.size(), 0, "a non-basic infrastructure creates no resource")

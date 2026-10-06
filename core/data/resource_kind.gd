@@ -128,3 +128,19 @@ static func from_card_id(id: String) -> int:
 		if str(IDS[kind]) == id:
 			return int(kind)
 	return NONE
+
+
+## The word scripts use for a kind (`create(redtape)`).
+static func script_word(kind: Kind) -> String:
+	match kind:
+		Kind.IRON:
+			return "iron"
+		Kind.RED_TAPE:
+			return "redtape"
+		Kind.CONTRACT:
+			return "contract"
+		Kind.INGREDIENT:
+			return "ingredient"
+		Kind.GARBAGE:
+			return "garbage"
+	return ""

@@ -42,7 +42,7 @@ func act() -> void:
 			for attacker_uid: int in game.attackers:
 				var attacker: CardInstance = game.find_permanent(attacker_uid)
 				for blocker: CardInstance in game.possible_blockers(0):
-					if used.has(blocker.uid) or attacker == null or not CombatResolver.can_block(attacker, blocker):
+					if used.has(blocker.uid) or attacker == null or not CombatResolver.can_block(game, attacker, blocker):
 						continue
 					if game.get_defense(blocker) > game.get_attack(attacker) or game.players[0].hp <= game.get_attack(attacker) * 2:
 						used.append(blocker.uid)

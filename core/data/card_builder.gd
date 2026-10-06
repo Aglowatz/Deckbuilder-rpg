@@ -12,6 +12,7 @@ static func infra(color: Affinity.Type, basic: bool = true) -> CardData:
 	card.color = color
 	card.is_basic = basic
 	card.defense = 0
+	card.script_text = infra_script(color, basic)
 	return card
 
 
@@ -130,3 +131,15 @@ static func _base(
 	card.colored_pips = pips.duplicate()
 	card.defense = 0
 	return card
+
+
+## The script of an infrastructure card: the energy it produces, and for a BASIC one the resource it creates when it enters.
+static func infra_script(color: Affinity.Type, basic: bool) -> String:
+	if color == Affinity.Type.NEUTRAL:
+		return ""
+	var text: String = "produce %s" % Affinity.symbol(color)
+	if basic:
+		var kind: int = ResourceKind.created_by_basic(color)
+		if kind != ResourceKind.NONE:
+			text += "\nenter => create(%s)" % ResourceKind.script_word(kind as ResourceKind.Kind)
+	return text

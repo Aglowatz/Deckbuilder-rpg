@@ -73,3 +73,9 @@ presentation.
 ## E2E testing budget
 
 E2E testing budget: during proof-of-concept work, run the full e2e flow only for the area changed in the current task, in the foreground, at most twice. Re-run other zones' flows only if shared code they depend on changed, and cap total e2e time at about 15 minutes per task. Unit tests (GUT) still run after every part.
+
+## Card pipeline
+
+The card set comes from the designer's Google Sheet (CSV export in `data/source/`) through `tools/import_cards` into `data/cards/` and `data/tokens/`;
+each card's rules text is a script in `data/scripts/`, and card art loads by convention from `assets/art/cards/<CardID>.webp`. Everything about
+the pipeline, the script vocabulary and the re-import workflow is in `docs/card_pipeline.md`.

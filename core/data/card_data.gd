@@ -44,6 +44,37 @@ extends Resource
 @export var is_signature: bool = false
 
 
+## The parsed card script (cached per card; re-parsed if `script_text` changes).
+var _parsed_cache: ScriptParser.Parsed
+var _parsed_for: String = ""
+var _has_static: bool = false
+
+
+func parsed_script() -> ScriptParser.Parsed:
+	if _parsed_cache == null or _parsed_for != script_text:
+		_parsed_cache = ScriptCache.parsed_text(script_text)
+		_parsed_for = script_text
+		_has_static = false
+		for ability: CardAbility in _parsed_cache.abilities:
+			if ability.is_static_kind():
+				_has_static = true
+	return _parsed_cache
+
+
+func abilities() -> Array[CardAbility]:
+	return parsed_script().abilities
+
+
+## Whether a `when(...)` or `trap(...)` ability of this card listens to the event.
+func listens_to(event_name: String) -> bool:
+	return parsed_script().events.has(event_name)
+
+## True when the card has any continuous ability (aura, host effect, static flag, cost change).
+func has_static_abilities() -> bool:
+	parsed_script()
+	return _has_static
+
+
 func energy_value() -> int:
 	return generic_cost + colored_pips.size()
 

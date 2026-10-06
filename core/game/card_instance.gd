@@ -47,6 +47,8 @@ var targeted_this_turn: Array[int] = []
 var entered_turn: int = 0
 ## Brief 14: for a Clause token in a deck, the player who created it.
 var creator: int = -1
+## Brief 14: Toxic damage was dealt to this unit (it is destroyed at the next check unless Unbreakable).
+var toxic_hit: bool = false
 
 
 func has_keyword(keyword: CardEnums.Keyword) -> bool:
@@ -87,6 +89,7 @@ func reset() -> void:
 	targeted_this_turn.clear()
 	entered_turn = 0
 	creator = -1
+	toxic_hit = false
 	owner = real_owner
 
 
@@ -96,6 +99,7 @@ func clear_end_of_turn() -> void:
 	temp_defense = 0
 	temp_keywords.clear()
 	temp_cannot_block = false
+	toxic_hit = false
 
 
 func clone() -> CardInstance:
@@ -128,4 +132,5 @@ func clone() -> CardInstance:
 	copy.targeted_this_turn = targeted_this_turn.duplicate()
 	copy.entered_turn = entered_turn
 	copy.creator = creator
+	copy.toxic_hit = toxic_hit
 	return copy

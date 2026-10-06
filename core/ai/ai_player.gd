@@ -164,15 +164,45 @@ func _choose_main_action(state: GameState, who: int) -> GameAction:
 	var best: GameAction = GameAction.pass_phase(who)
 	var best_gain: float = EPSILON
 	for action: GameAction in actions:
-		if action.type != GameAction.Type.PLAY and action.type != GameAction.Type.ACTIVATE and action.type != GameAction.Type.USE_RESOURCE:
+		if action.type != GameAction.Type.PLAY and action.type != GameAction.Type.ACTIVATE and action.type != GameAction.Type.USE_RESOURCE and action.type != GameAction.Type.ACTIVATE_ABILITY:
 			continue
 		var trial: GameState = state.clone(false, 1 - who)
 		if not trial.apply_action(action):
 			continue
 		var gain: float = evaluate(trial, who) - baseline
+		if action.type == GameAction.Type.ACTIVATE_ABILITY and _only_adds_energy(state, action):
+			# Floating energy is worth what it lets you play next.
+			gain = _best_follow_up(trial, who)
 		if gain > best_gain:
 			best_gain = gain
 			best = action
+	return best
+
+
+## True for an ability whose whole effect is "add energy" (Mulch Mole, Bird of Paradump, Four-Path Compass...).
+func _only_adds_energy(state: GameState, action: GameAction) -> bool:
+	var card: CardInstance = state.find_card(action.card_uid)
+	if card == null or action.effect_index >= card.data.abilities().size():
+		return false
+	var ability: CardAbility = card.data.abilities()[action.effect_index]
+	if ability.effects.is_empty():
+		return false
+	for fx: CardAbility.Fx in ability.effects:
+		if fx.name != "add":
+			return false
+	return true
+
+
+## The best gain a single card play gives from this position (used to value floating energy).
+func _best_follow_up(trial: GameState, who: int) -> float:
+	var baseline: float = evaluate(trial, who)
+	var best: float = 0.0
+	for action: GameAction in trial.legal_actions():
+		if action.type != GameAction.Type.PLAY:
+			continue
+		var next: GameState = trial.clone(false, 1 - who)
+		if next.apply_action(action):
+			best = maxf(best, evaluate(next, who) - baseline)
 	return best
 
 
@@ -185,12 +215,17 @@ func _best_infrastructure(state: GameState, who: int, infrastructure_actions: Ar
 			need[pip] = float(need.get(pip, 0.0)) + 1.0
 	var have: Dictionary = {}
 	for infra: CardInstance in player.infrastructure:
-		have[infra.data.color] = int(have.get(infra.data.color, 0)) + 1
+		for path: Affinity.Type in infra.data.produced_paths():
+			have[path] = int(have.get(path, 0)) + 1
 	var best: GameAction = infrastructure_actions[0]
 	var best_score: float = -INF
 	for action: GameAction in infrastructure_actions:
-		var color: Affinity.Type = state.find_card(action.card_uid).data.color
-		var score: float = float(need.get(color, 0.0)) / float(1 + int(have.get(color, 0)))
+		var data: CardData = state.find_card(action.card_uid).data
+		var score: float = 0.0
+		for path: Affinity.Type in data.produced_paths():
+			score += float(need.get(path, 0.0)) / float(1 + int(have.get(path, 0)))
+		# A flexible infrastructure is worth a little more than a plain one of the same need; basics keep the resource flowing.
+		score += 0.05 * float(data.produced_paths().size()) + (0.02 if data.is_basic else 0.0)
 		if score > best_score:
 			best_score = score
 			best = action
@@ -295,7 +330,7 @@ func choose_blocks(state: GameState, who: int) -> Dictionary:
 	candidates.append(_value_blocks(state, attackers, blockers))
 	candidates.append(_add_chump_blocks(state, who, attackers, blockers, _value_blocks(state, attackers, blockers)))
 	candidates.append(_add_chump_blocks(state, who, attackers, blockers, {}))
-	candidates.append_array(_enumerate_blocks(attackers, blockers))
+	candidates.append_array(_enumerate_blocks(state, attackers, blockers))
 	var best: Dictionary = {}
 	var best_score: float = -INF
 	var seen: Dictionary = {}
@@ -324,7 +359,7 @@ func _value_blocks(state: GameState, attackers: Array[CardInstance], blockers: A
 		var best: CardInstance = null
 		var best_rank: int = -1
 		for blocker: CardInstance in blockers:
-			if used.has(blocker.uid) or not CombatResolver.can_block(attacker, blocker):
+			if used.has(blocker.uid) or not CombatResolver.can_block(state, attacker, blocker):
 				continue
 			var kills: bool = state.get_attack(blocker) >= state.get_defense(attacker) - attacker.damage
 			var survives: bool = state.get_defense(blocker) - blocker.damage > state.get_attack(attacker)
@@ -371,7 +406,7 @@ func _add_chump_blocks(
 		if incoming < state.players[who].hp:
 			break
 		for blocker: CardInstance in free_blockers:
-			if CombatResolver.can_block(attacker, blocker):
+			if CombatResolver.can_block(state, attacker, blocker):
 				assignment[attacker.uid] = blocker.uid
 				free_blockers.erase(blocker)
 				incoming -= state.get_attack(attacker)
@@ -380,18 +415,19 @@ func _add_chump_blocks(
 
 
 ## Every legal assignment when the search space is tiny.
-func _enumerate_blocks(attackers: Array[CardInstance], blockers: Array[CardInstance]) -> Array[Dictionary]:
+func _enumerate_blocks(state: GameState, attackers: Array[CardInstance], blockers: Array[CardInstance]) -> Array[Dictionary]:
 	var results: Array[Dictionary] = []
 	var combos: int = 1
 	for i: int in range(attackers.size()):
 		combos *= blockers.size() + 1
 		if combos > MAX_BLOCK_ENUMERATION:
 			return results
-	_enumerate_from(0, attackers, blockers, {}, [] as Array[int], results)
+	_enumerate_from(state, 0, attackers, blockers, {}, [] as Array[int], results)
 	return results
 
 
 func _enumerate_from(
+	state: GameState,
 	index: int,
 	attackers: Array[CardInstance],
 	blockers: Array[CardInstance],
@@ -403,12 +439,12 @@ func _enumerate_from(
 		results.append(current.duplicate())
 		return
 	var attacker: CardInstance = attackers[index]
-	_enumerate_from(index + 1, attackers, blockers, current, used, results)
+	_enumerate_from(state, index + 1, attackers, blockers, current, used, results)
 	for blocker: CardInstance in blockers:
-		if used.has(blocker.uid) or not CombatResolver.can_block(attacker, blocker):
+		if used.has(blocker.uid) or not CombatResolver.can_block(state, attacker, blocker):
 			continue
 		current[attacker.uid] = blocker.uid
 		used.append(blocker.uid)
-		_enumerate_from(index + 1, attackers, blockers, current, used, results)
+		_enumerate_from(state, index + 1, attackers, blockers, current, used, results)
 		used.erase(blocker.uid)
 		current.erase(attacker.uid)

@@ -47,6 +47,48 @@ battle UI (counts + tooltips). They are `CardType.RESOURCE` tokens; the kinds li
   of the turn; "add one energy of any Path" can pay any colored pip.
 - Cards can create, use, double (Infinite Pantry, Harvest Festival), steal (Hostile Takeover), Shred and count resources.
 
+## Card types and abilities (Brief 14)
+
+Card types: **Unit, Spell, Trap, Tool, Wonder, Infrastructure**; Resources and Tokens are token permanents (`Resource`, `Token`).
+
+- **Unit** - enters the field with summoning sickness (Hustle: can attack and activate at once). Units with an `Exhaust` ability
+  cannot use it while summoning sick unless they have Hustle.
+- **Spell** - played on your turn, resolves, goes to your Refuse Pile.
+- **Trap** - played face-down on your turn (max 3 set); springs on whichever turn its condition is met, resolves, goes to the Refuse Pile.
+- **Tool** - a permanent. "Exhaust: attach to target unit you control" (your turn; it may be moved to another unit later) gives the
+  attached unit its bonuses. One-shot Tools: "Destroy this Tool: ...". When the attached unit leaves the field the Tool stays unattached.
+- **Wonder** - a permanent with static or repeatable effects.
+- **Infrastructure** - one per turn from hand (`Mr. Tiggle`: two). Exhaust for 1 energy of one of its Paths. A basic one creates its
+  Path's resource when it enters; special ones carry extra abilities; dual-Path ones produce either Path; any-Path ones any.
+
+**Abilities.** *Activated* abilities (your turn only, main phase) list their real costs: `Exhaust`, `Overexert` (exhaust and don't
+refresh next turn), `pay N` / `pay (G)` energy, `use N <resource>`, `use a token`, `eat garbage`, `destroy a unit you control`,
+`destroy this Tool`, X costs ("use X Ingredients"); "Do this only once per turn" is tracked per ability. *Triggered* abilities fire
+on either turn whenever their event happens: when a unit enters / dies / attacks / blocks, start of turn / beginning of combat /
+end of turn, a resource is created or used, a token is created or dies, a player plays a card type, HP drops to a threshold,
+an attached unit attacks/dies/damages. "As an additional cost to play this ..." costs are paid when the card is played.
+Chosen targets are picked when a card is played or an ability activated (up to N for "any number"); triggered abilities that
+name a target pick the best one automatically (the strongest enemy for harmful effects, the best ally for helpful ones).
+"May" effects are taken when they help. Scripts are described in `docs/card_pipeline.md`.
+
+**Keywords.** Flying (blocked only by Flying/Swat), Swat (can block Flying), Hustle, Bulldoze (excess damage to the player),
+Sucker Punch (damage before others), One-Two Punch (both steps), Toxic (any damage destroys a unit), Nourish (damage heals you),
+Overtime (attacking doesn't exhaust), Wallflower (can't attack), Elusive (can't be blocked), Untouchable (the opponent's cards,
+abilities and resources can't target it), Unbreakable (can't be destroyed by damage or destroy effects; can still be Shredded,
+sent back or reduced to 0 defense). There is no Guard: attackers attack the player.
+
+**Terms.** Destroy (a unit dies and goes to its owner's Refuse Pile), Shred (removed from the game), Toss (discard), Bury X (the top
+X cards of a deck go to its owner's Refuse Pile), Reinstate (a unit from a Refuse Pile enters the field, under your control if
+you say so), Send back (to its owner's hand; tokens vanish), Plate (becomes a 1/1 Snack token with no abilities), Brawl (two units
+deal damage equal to their attack to each other), Peek X (look at the top X, put any on the bottom), Buff (+1/+1 permanently),
+Fertilize X (X buffs), Processing X (resolves at the start of your turn X of your turns from now), Gain control (the permanent
+moves to your zones; a stolen unit dies into its owner's Refuse Pile), Overexert (see above).
+
+**Order of events.** A permanent entering: the "unit enters" event first (so a Trap can destroy it before its own enter ability),
+then its own enter ability. A unit dying: it leaves the field and sits in the Refuse Pile (tokens: nowhere) while its "when this
+dies" ability and every "whenever a unit dies" ability resolve, so cards can return it; stats it read are the ones it died with.
+Several traps/triggers on one event are all judged against the event as it happened, then resolve in turn order of the field.
+
 ## Turn Structure
 
 Start (ready, draw; the first player skips their first draw) → Main 1 → Combat → Main 2 → End.
