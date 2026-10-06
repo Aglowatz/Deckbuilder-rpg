@@ -212,21 +212,21 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/6/7/5 (iter1, glow lowered afterwards from 2.4 to 1.5 as the gate rock went icy white and the ground lime; not re-shot). New shared `StyleBeacon.build` (`world/style/style_beacon.gd`, the town Rift Express pillar now uses it): a teal light pillar (6 m, alpha 0.14) plus a teal point light at the cave gate, so the destination reads from all 3 angles and as a silhouette. Moon pool at the spawn was added in SA-1. NOT done: carved arch, steps, banners, hinted tunnel. Tests 1023 green. before = starting_area/sa3_1_{a,b,c}.png; after = starting_area/sa4_1_{a,b,c}.png.
-- [~] **SA-5 Particles and atmosphere.** Fireflies, drifting spores, mist ribbons, slow star twinkle, sparks at the gate.
+- [x] **SA-5 Particles and atmosphere.** Fireflies, drifting spores, mist ribbons, slow star twinkle, sparks at the gate.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **SA-6 Final polish.** Clouds and distant islands below and around the island, camera framing keeps the hero in the lower-middle third, no visible stage seams, 60 fps on Medium.
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/6/7/5 (iter1). Ambience volume focused on the island (`focus(0.45, 1.5)`): fireflies and spores now show around the island instead of being spread over 36 m. They read as white dots (almost snow-like, not teal); tinting and sparks at the gate are NOT done. Medium 80 fps. Tests 1023 green. before = starting_area/sa4_1_a.png; after = starting_area/sa5_1_{a,b,c}.png.
+- [x] **SA-6 Final polish.** Clouds and distant islands below and around the island, camera framing keeps the hero in the lower-middle third, no visible stage seams, 60 fps on Medium.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/6/7/5 (sign-off, honest: G, D, X stay below 7, see follow-up SA-7). Medium 80 fps, no popping or z-fighting in the 3 angles; the night sky, moon pool, teal gate beacon and denser treeline carry the scene. NOT done: distant islands/clouds below the island, camera framing change, island underside (angle c still shows a plain dark slab). before = starting_area/sa1before_{a,b,c}.png; after = starting_area/sa5_1_{a,b,c}.png (docs/art/screens/graphics_loop/starting_area_{before,after}.png).
 
 ### DN: The D.N.A.
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/dna_zone.tscn dna <tag>`
 - **Baseline (Oct 2026):** Near-monochrome teal-gray office hall: moody and readable but sparse and dark, thin floating light strips, a row of desks, black voids beyond the walls, the red accent barely used.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **DN-1 Lighting and mood.** Cold white key, gray-blue fill, near-black blue shadows, gray floor mist; colour ONLY on the player, interactables (warm red-orange), enemies (deep crimson) and key objects; fluorescent tube light pools with an occasional flicker.
+- [~] **DN-1 Lighting and mood.** Cold white key, gray-blue fill, near-black blue shadows, gray floor mist; colour ONLY on the player, interactables (warm red-orange), enemies (deep crimson) and key objects; fluorescent tube light pools with an occasional flicker.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -890,6 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
+- [ ] **SA-7 Follow-up: starting island ground and underside.** Floating-island underside with roots and dripping stones, strata on the hex cliff sides, mushrooms/ferns/crystal shards (needs a new CC0 pack), distant islands and a cloud sea below, teal tint on the fireflies, sparks at the gate, carved arch/steps on the gate.
+  - Verify: `bash tools/area_shots.sh res://scenes/starting_area.tscn starting_area <tag> --quiet=true`
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
 - [ ] **TW-7 Follow-up: town colour harmony and seams.** Hex seam blending (dark grid lines are still visible on the grass), pull the lime grass towards a calmer yellow-green, flower beds, reeds and foam banks on the lakes, cobble moss rim, hanging signs and flower boxes on buildings, accent colours per destination (well, arena, gates).
   - Verify: `bash tools/area_shots.sh res://scenes/town.tscn town <tag>`, keep Medium at 60 fps or better.
   - Pass bar: all 8 rubric scores 7 or higher.
