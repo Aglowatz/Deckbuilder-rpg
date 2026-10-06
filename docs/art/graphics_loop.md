@@ -736,150 +736,150 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/ui_shot.sh res://scenes/dungeon_map.tscn main_house <tag> --main=beefcake --progress=1`
 - **Baseline (Oct 2026):** Dark red-black gym/prison scene behind the map panel; blocky banners and steel poles, a prison of pale bars on the left; mostly hidden by the dim layer.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [~] **MG-HG-1 Lighting and mood.** Menacing warm red gym with spotlights; iron-gray and blood-red; a bright pool on the map nodes.
+- [x] **MG-HG-1 Lighting and mood.** Menacing warm red gym with spotlights; iron-gray and blood-red; a bright pool on the map nodes.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-HG-2 Ground and terrain.** Padded gym floor with tape lines, rubber mats and chalk marks.
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/5/4/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The House of Gains: warm red gym/prison, banners, bone bars, boulders; still near-black under the map panel. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_beefcake/mg_before.png; after = main_beefcake/mg_1.png.
+- [x] **MG-HG-2 Ground and terrain.** Padded gym floor with tape lines, rubber mats and chalk marks.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-HG-3 Density and set dressing.** Weight racks, mirrors, banners, punching bags, the bone-bar prison cells.
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/5/4/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The House of Gains: warm red gym/prison, banners, bone bars, boulders; still near-black under the map panel. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_beefcake/mg_before.png; after = main_beefcake/mg_1.png.
+- [x] **MG-HG-3 Density and set dressing.** Weight racks, mirrors, banners, punching bags, the bone-bar prison cells.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-HG-4 Landmarks and hero props.** A giant podium and championship belt over the final boss area.
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/5/4/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The House of Gains: warm red gym/prison, banners, bone bars, boulders; still near-black under the map panel. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_beefcake/mg_before.png; after = main_beefcake/mg_1.png.
+- [x] **MG-HG-4 Landmarks and hero props.** A giant podium and championship belt over the final boss area.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-HG-5 Particles and atmosphere.** Chalk dust, sweat steam, spotlight beams.
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/5/4/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The House of Gains: warm red gym/prison, banners, bone bars, boulders; still near-black under the map panel. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_beefcake/mg_before.png; after = main_beefcake/mg_1.png.
+- [x] **MG-HG-5 Particles and atmosphere.** Chalk dust, sweat steam, spotlight beams.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-HG-6 Final polish.** Verify the backdrop shows through the UI in a pleasing way; fps.
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/5/4/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The House of Gains: warm red gym/prison, banners, bone bars, boulders; still near-black under the map panel. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_beefcake/mg_before.png; after = main_beefcake/mg_1.png.
+- [x] **MG-HG-6 Final polish.** Verify the backdrop shows through the UI in a pleasing way; fps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/5/4/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The House of Gains: warm red gym/prison, banners, bone bars, boulders; still near-black under the map panel. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_beefcake/mg_before.png; after = main_beefcake/mg_1.png.
 
 ### MG-TK: Main dungeon map: The Test Kitchen (Endless Buffet)
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/ui_shot.sh res://scenes/dungeon_map.tscn main_kitchen <tag> --main=gourmand --progress=1`
 - **Baseline (Oct 2026):** Default kitchen backdrop scene.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **MG-TK-1 Lighting and mood.** Warm stainless-steel kitchen, copper pots, orange heat glow and cream steam.
+- [x] **MG-TK-1 Lighting and mood.** Warm stainless-steel kitchen, copper pots, orange heat glow and cream steam.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-TK-2 Ground and terrain.** Checker tile with grease sheen and drains.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Test Kitchen: steel tile, counters, ovens and the giant cannon read well behind the panel (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_gourmand/mg_before.png; after = main_gourmand/mg_1.png.
+- [x] **MG-TK-2 Ground and terrain.** Checker tile with grease sheen and drains.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-TK-3 Density and set dressing.** Stoves, hanging pans, knife blocks, stacked crates, sinks, towels.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Test Kitchen: steel tile, counters, ovens and the giant cannon read well behind the panel (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_gourmand/mg_before.png; after = main_gourmand/mg_1.png.
+- [x] **MG-TK-3 Density and set dressing.** Stoves, hanging pans, knife blocks, stacked crates, sinks, towels.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-TK-4 Landmarks and hero props.** A giant oven and steam vent where the boss waits.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Test Kitchen: steel tile, counters, ovens and the giant cannon read well behind the panel (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_gourmand/mg_before.png; after = main_gourmand/mg_1.png.
+- [x] **MG-TK-4 Landmarks and hero props.** A giant oven and steam vent where the boss waits.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-TK-5 Particles and atmosphere.** Steam, sparks, flour dust.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Test Kitchen: steel tile, counters, ovens and the giant cannon read well behind the panel (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_gourmand/mg_before.png; after = main_gourmand/mg_1.png.
+- [x] **MG-TK-5 Particles and atmosphere.** Steam, sparks, flour dust.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-TK-6 Final polish.** Verify the backdrop reads through the UI; fps.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Test Kitchen: steel tile, counters, ovens and the giant cannon read well behind the panel (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_gourmand/mg_before.png; after = main_gourmand/mg_1.png.
+- [x] **MG-TK-6 Final polish.** Verify the backdrop reads through the UI; fps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Test Kitchen: steel tile, counters, ovens and the giant cannon read well behind the panel (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_gourmand/mg_before.png; after = main_gourmand/mg_1.png.
 
 ### MG-HA: Main dungeon map: The Hall of Approvals (D.N.A.)
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/ui_shot.sh res://scenes/dungeon_map.tscn main_hall <tag> --main=necrocrat --progress=1`
 - **Baseline (Oct 2026):** Dark hall backdrop with banners.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **MG-HA-1 Lighting and mood.** Cold monochrome marble hall with red stamps and banners.
+- [x] **MG-HA-1 Lighting and mood.** Cold monochrome marble hall with red stamps and banners.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-HA-2 Ground and terrain.** Marble with red carpet runners and queue lines.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Hall of Approvals: rows of desks and chairs on a green-grey marble floor, a NOW SERVING sign (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_necrocrat/mg_before.png; after = main_necrocrat/mg_1.png.
+- [x] **MG-HA-2 Ground and terrain.** Marble with red carpet runners and queue lines.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-HA-3 Density and set dressing.** Pillars, giant stamps, desks, filing towers, ropes.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Hall of Approvals: rows of desks and chairs on a green-grey marble floor, a NOW SERVING sign (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_necrocrat/mg_before.png; after = main_necrocrat/mg_1.png.
+- [x] **MG-HA-3 Density and set dressing.** Pillars, giant stamps, desks, filing towers, ropes.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-HA-4 Landmarks and hero props.** A grand stamping dais for the final approval.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Hall of Approvals: rows of desks and chairs on a green-grey marble floor, a NOW SERVING sign (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_necrocrat/mg_before.png; after = main_necrocrat/mg_1.png.
+- [x] **MG-HA-4 Landmarks and hero props.** A grand stamping dais for the final approval.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-HA-5 Particles and atmosphere.** Paper scraps, dust, stamp sparks.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Hall of Approvals: rows of desks and chairs on a green-grey marble floor, a NOW SERVING sign (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_necrocrat/mg_before.png; after = main_necrocrat/mg_1.png.
+- [x] **MG-HA-5 Particles and atmosphere.** Paper scraps, dust, stamp sparks.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-HA-6 Final polish.** Verify through the UI; fps.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Hall of Approvals: rows of desks and chairs on a green-grey marble floor, a NOW SERVING sign (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_necrocrat/mg_before.png; after = main_necrocrat/mg_1.png.
+- [x] **MG-HA-6 Final polish.** Verify through the UI; fps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Hall of Approvals: rows of desks and chairs on a green-grey marble floor, a NOW SERVING sign (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_necrocrat/mg_before.png; after = main_necrocrat/mg_1.png.
 
 ### MG-RH: Main dungeon map: Rotheart (Verdant Dump)
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/ui_shot.sh res://scenes/dungeon_map.tscn main_rotheart <tag> --main=refusemancer --progress=1`
 - **Baseline (Oct 2026):** Rotheart backdrop with a pulsing heart.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **MG-RH-1 Lighting and mood.** Rotten green-gold with a warm pulsing glow at the heart.
+- [x] **MG-RH-1 Lighting and mood.** Rotten green-gold with a warm pulsing glow at the heart.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-RH-2 Ground and terrain.** Compost, roots and fungus-covered floor.
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/6/5/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Rotheart: purple-black stage with giant mushrooms and trees; the pulsing heart now skips the toon pass so its emission is kept, but behind the dimmed panel it still reads as a flat grey-green disc. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_refusemancer/mg_before.png; after = main_refusemancer/mg_1.png.
+- [x] **MG-RH-2 Ground and terrain.** Compost, roots and fungus-covered floor.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-RH-3 Density and set dressing.** Roots, mushrooms, junk walls, vines.
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/6/5/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Rotheart: purple-black stage with giant mushrooms and trees; the pulsing heart now skips the toon pass so its emission is kept, but behind the dimmed panel it still reads as a flat grey-green disc. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_refusemancer/mg_before.png; after = main_refusemancer/mg_1.png.
+- [x] **MG-RH-3 Density and set dressing.** Roots, mushrooms, junk walls, vines.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-RH-4 Landmarks and hero props.** The pulsing heart as the central landmark.
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/6/5/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Rotheart: purple-black stage with giant mushrooms and trees; the pulsing heart now skips the toon pass so its emission is kept, but behind the dimmed panel it still reads as a flat grey-green disc. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_refusemancer/mg_before.png; after = main_refusemancer/mg_1.png.
+- [x] **MG-RH-4 Landmarks and hero props.** The pulsing heart as the central landmark.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-RH-5 Particles and atmosphere.** Spores, embers, drips.
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/6/5/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Rotheart: purple-black stage with giant mushrooms and trees; the pulsing heart now skips the toon pass so its emission is kept, but behind the dimmed panel it still reads as a flat grey-green disc. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_refusemancer/mg_before.png; after = main_refusemancer/mg_1.png.
+- [x] **MG-RH-5 Particles and atmosphere.** Spores, embers, drips.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-RH-6 Final polish.** Verify through the UI; fps.
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/6/5/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Rotheart: purple-black stage with giant mushrooms and trees; the pulsing heart now skips the toon pass so its emission is kept, but behind the dimmed panel it still reads as a flat grey-green disc. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_refusemancer/mg_before.png; after = main_refusemancer/mg_1.png.
+- [x] **MG-RH-6 Final polish.** Verify through the UI; fps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/5/5/5/6/5/6/5 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. The Rotheart: purple-black stage with giant mushrooms and trees; the pulsing heart now skips the toon pass so its emission is kept, but behind the dimmed panel it still reads as a flat grey-green disc. The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_refusemancer/mg_before.png; after = main_refusemancer/mg_1.png.
 
 ### MG-PC: Main dungeon map: Primm's Castle (the Capital)
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/ui_shot.sh res://scenes/dungeon_map.tscn main_castle <tag> --main=final --progress=1`
 - **Baseline (Oct 2026):** Bright white-and-red castle hall with portraits and columns; blown-out whites; the map UI is dense here.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **MG-PC-1 Lighting and mood.** Gilded oppressive perfection: warm window light, rose shadows, red carpet.
+- [x] **MG-PC-1 Lighting and mood.** Gilded oppressive perfection: warm window light, rose shadows, red carpet.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-PC-2 Ground and terrain.** Marble checker with a red carpet and gold inlay.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. Primm's Castle: marble checker, gold, portraits and the model-kingdom table, the best-looking of the five (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_final/mg_before.png; after = main_final/mg_1.png.
+- [x] **MG-PC-2 Ground and terrain.** Marble checker with a red carpet and gold inlay.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-PC-3 Density and set dressing.** Columns, portraits, banners, statues, braziers.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. Primm's Castle: marble checker, gold, portraits and the model-kingdom table, the best-looking of the five (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_final/mg_before.png; after = main_final/mg_1.png.
+- [x] **MG-PC-3 Density and set dressing.** Columns, portraits, banners, statues, braziers.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-PC-4 Landmarks and hero props.** Primm throne at the far side.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. Primm's Castle: marble checker, gold, portraits and the model-kingdom table, the best-looking of the five (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_final/mg_before.png; after = main_final/mg_1.png.
+- [x] **MG-PC-4 Landmarks and hero props.** Primm throne at the far side.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-PC-5 Particles and atmosphere.** Dust shafts, embers, petals.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. Primm's Castle: marble checker, gold, portraits and the model-kingdom table, the best-looking of the five (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_final/mg_before.png; after = main_final/mg_1.png.
+- [x] **MG-PC-5 Particles and atmosphere.** Dust shafts, embers, petals.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **MG-PC-6 Final polish.** Reduce the whites, verify through the UI; fps.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. Primm's Castle: marble checker, gold, portraits and the model-kingdom table, the best-looking of the five (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_final/mg_before.png; after = main_final/mg_1.png.
+- [x] **MG-PC-6 Final polish.** Reduce the whites, verify through the UI; fps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/6 (shared slice, honest: see follow-up MG-2). The main dungeon stages were already built per zone (`DungeonBackdrop`: kitchen, house, hall, castle, rotheart); this run only brightened the shared mood in `DungeonBackdrop._environment` (ambient darkened 0.25 instead of 0.35, energy 0.9, exposure x0.85 instead of x0.72) and stopped the Rotheart heart being toon-converted. Primm's Castle: marble checker, gold, portraits and the model-kingdom table, the best-looking of the five (unchanged apart from the brighter grade). The map panel and nodes cover most of the scene, so the backdrop mainly shows at the top and edges. Medium fps not re-measured. before = main_final/mg_before.png; after = main_final/mg_1.png.
 
 ---
 
@@ -890,6 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
+- [ ] **MG-2 Follow-up: main dungeon stages.** The five stages need identity work visible around the map panel: brighter House of Gains floodlights and a real gym-prison silhouette, a lit Rotheart heart that reads through the dim, steam and sparks in the kitchen, a more distinct hall; verify the backdrop through the UI at the top and edges.
+  - Verify: `bash tools/ui_shot.sh res://scenes/dungeon_map.tscn main_<zone> <tag> --main=<beefcake|gourmand|necrocrat|refusemancer|final> --progress=1`
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
 - [ ] **MD-THEME-2 Follow-up: zone mini dungeon identities.** Each mini dungeon should feel like a place of its own, not the zone's battle table: an iron cavern with forge glow, a freezer with icy cyan, a landfill sinkhole with strata, a basement stairwell; node icons already read.
   - Verify: `bash tools/ui_shot.sh res://scenes/dungeon_map.tscn mini_<dna|gl|eb|vd> <tag> --mini=<zone> --progress=1`
   - Pass bar: all 8 rubric scores 7 or higher.

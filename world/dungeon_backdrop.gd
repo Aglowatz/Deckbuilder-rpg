@@ -78,11 +78,11 @@ func _environment(sky_top: Color, sky_horizon: Color, ambient: Color, fog: Color
 	_preset.sky_horizon = sky_horizon
 	_preset.ground_horizon = sky_horizon
 	_preset.ground_bottom = sky_top.darkened(0.3)
-	_preset.ambient_color = ambient.darkened(0.35)
-	_preset.ambient_energy = 0.75
+	_preset.ambient_color = ambient.darkened(0.25)
+	_preset.ambient_energy = 0.9
 	_preset.fog_color = fog
 	_preset.fog_density = fog_density
-	_preset.exposure = exposure * 0.72
+	_preset.exposure = exposure * 0.85
 	_preset.volumetric_density = 0.0
 
 
@@ -352,10 +352,12 @@ func _build_rotheart() -> void:
 	heart.position = Vector3(0, 1.6, 0)
 	add_child(heart)
 	var glow: MeshInstance3D = _ball(1.7, _material(Color("7fe04a"), 0.3, 1.6), Vector3.ZERO)
+	glow.set_meta(StyleToon.META_NO_TOON, true)
 	remove_child(glow)
 	heart.add_child(glow)
 	var shell: MeshInstance3D = _ball(2.1, _material(Color(0.7, 0.2, 0.9, 0.18), 0.2, 0.8), Vector3.ZERO)
 	(shell.material_override as StandardMaterial3D).transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	shell.set_meta(StyleToon.META_NO_TOON, true)
 	remove_child(shell)
 	heart.add_child(shell)
 	_pulse = heart
