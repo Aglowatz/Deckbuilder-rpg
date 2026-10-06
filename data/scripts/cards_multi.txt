@@ -1,0 +1,127 @@
+# Card scripts: three- and four-Path sections (GRB, GRN, GBN, NBR, 4 Color).
+
+== GRB-01 @8d1c8c974b3b  # Greased Pig
+trap(attacks:opp) => pump(trig,-3,0,eot); create(ingredient); create(garbage); create(iron)
+
+== GRB-02 @816b062362a7  # Blue Ribbon
+attach
+host => stat(2,2)
+host ? has_buff(host) => kw(bulldoze)
+
+== GRB-03 @a73c912f0bc3  # County Fairgrounds
+sot => choose({create(ingredient)},{create(garbage)},{create(iron)})
+
+== GRB-04 @4af889a8e931  # The Competitive Eater
+act once | use(ingredient), use(garbage) => buff(self,2); create(iron)
+
+== GRB-05 @4081c687fd9a  # Food Coma
+trap(attacks:opp) => exhaust(all(unit.opp)); no_refresh(all(unit.opp))
+
+== GRB-06 @fc4f07c9b14e  # Strongman Sledge
+attach
+host => stat(3,1); kw(bulldoze)
+when(attached_dmg_opp) => create(ingredient); create(garbage); create(iron)
+
+== GRB-07 @613e41fbc56e  # Harvest Festival
+static => flag(global_double_resources)
+
+== GRB-08 @b30c35039ac5  # Big Bertha, Blue Ribbon Behemoth
+kw bulldoze,swat
+enter => create(ingredient,3); create(garbage,3); create(iron,3)
+when(resource_used:mine) => pump(self,1,1,eot)
+
+== GRN-01 @9a35ce0e8d49  # Mushroom Ring
+when(unit_dies:mine) => create(garbage); create(ingredient); gain(me,1)
+
+== GRN-02 @d1f21acd8865  # Death Cap
+trap(unit_enters:opp) => pump(trig,-2,-2,perm)
+
+== GRN-03 @29c7d1f46997  # Circle of Life Insurance
+playcost | destroy(unit.mine)
+play => reinstate(pick(refuse.unit.mine.cost>$paid_cost))
+
+== GRN-04 @d9e0238abb27  # Fungal Undertaker
+when(unit_dies:any:other) => create(T-22)
+
+== GRN-05 @251de866343f  # The Great Compost Cycle
+eot => bury(me,1); if(ge($buried_units,1),{create(garbage); create(ingredient); create(redtape)})
+
+== GRN-06 @aee0b1a98285  # Recycled Remains
+trap(unit_dies:mine) => delay_start_next_turn({reinstate(trig)}); create(ingredient)
+
+== GRN-07 @203f4995f02f  # Rot and Rebirth
+play => destroy(all(unit)); reinstate_destroyed(2)
+
+== GRN-08 @7260b2aa4b55  # Something out of nothing
+play => copy_all_tokens(); morph_tokens()
+
+== GBN-01 @21a32bdfc957  # Running Tab
+when(resource_used:mine) => lose(opp,1)
+
+== GBN-02 @a3e55ea572a6  # Velvet Rope
+act t=unit.opp | destroy_self => exhaust(t); no_refresh(t); create(ingredient)
+
+== GBN-03 @a16fa78e4cde  # Toast to the Dead
+play t=refuse.unit.mine.cost<=3 => reinstate(t); pump(last,2,0,eot); kw_grant(last,hustle,eot); create(ingredient)
+
+== GBN-04 @8862512163ae  # Black Tie Brawl
+play => brawl_each(unit.mine,unit.opp)
+
+== GBN-05 @05cbed0eb6ba  # Silver Serving Platter
+attach
+host => stat(2,2); kw(nourish)
+when(attached_dies) => create(ingredient,3); create(redtape)
+
+== GBN-06 @b779fb01ef41  # Dinner with Schmucks
+sot => create(T-23,1,opp)
+when(schmuck_dies) => create(ingredient); create(iron); lose(trig_ctl,1)
+
+== GBN-07 @73f67aa3f8fa  # The Undead Maitre D'
+kw overtime
+when(unit_enters:mine:other) => buff(trig,1)
+when(unit_dies:mine) => create(ingredient)
+
+== GBN-08 @245bb0954120  # Baron Von Banquet, Host of the Last Gala
+kw bulldoze
+enter => reinstate_up_to(2,refuse.unit.mine); kw_grant(last,hustle,eot)
+when(attacks:mine) => create(ingredient)
+
+== NBR-01 @60bfea47d47f  # Condemned Building
+trap(plays:opp:tool|wonder) => destroy(trig); create(redtape); create(iron); create(garbage)
+
+== NBR-02 @b9241792e62c  # Wrecking Ball
+act t=tool|wonder|infra | destroy_self => destroy(t)
+
+== NBR-03 @6735404c8982  # Demolition Permit
+play t=unit => set(c,ctl(t)); destroy(t); create(garbage,1,$c); create(iron); create(redtape)
+
+== NBR-04 @2a85205d48d2  # Total Teardown
+play => destroy(all(tool)); destroy(all(wonder)); destroy(all(unit.cost<=3))
+
+== NBR-05 @2dd616c12683  # Salvaged Exoskeleton
+attach
+host => stat(3,3); kw(bulldoze,hustle)
+when(attached_dies) => reinstate(trig); destroy_self
+
+== NBR-06 @82f2c832e0b2  # Zombie Apocalypse Drill
+trap(attacks:opp) => create(T-10,3); create(T-02,3)
+
+== NBR-07 @9d7df7a3428a  # Scrapheap Lich
+kw hustle
+when(destroyed:tool|wonder|unit) => create(garbage)
+act t=tool | exhaust, eat => destroy(t)
+
+== NBR-08 @87fad75256bc  # Big Wreck Ronnie, Boss of the Wrecking Crew
+kw hustle,bulldoze
+enter => destroy(all(tool|wonder)); create(garbage,$destroyed)
+
+== P4-01 @e5550abe7293  # Champion of the Four Paths
+kw hustle,overtime,swat,nourish
+enter => create(iron); create(redtape); create(ingredient); create(garbage)
+
+== P4-02 @64dae635c18e  # Reunion of the Paths
+play => reinstate_diff_paths(4); create(iron); create(redtape); create(ingredient); create(garbage); pump(all(unit.mine),2,2,eot)
+
+== P4-03 @1ba2cf32f7ca  # Mr. Tiggle, Rules Lawyer
+kw untouchable
+static => cost_plus(opp,any,played(opp)); flag(extra_infra_drop)

@@ -1,0 +1,111 @@
+# Card scripts: Necrocrat.
+
+== N-01 @f5e7b20ccf28  # Skeleton Clerk
+die => create(redtape)
+
+== N-02 @b2b488d67611  # Infernal Intern
+enter => create(redtape)
+
+== N-03 @daf30642bb19  # Post-Human Resources Ghoul
+enter => edict(opp)
+
+== N-04 @a579f7671ecc  # Body-builder
+act | exhaust, use(redtape) => create(T-21)
+
+== N-05 @fdd986a7d129  # Corpseified Public Accountant
+when(unit_dies:opp) => create(redtape)
+
+== N-06 @542c750d5407  # Notary Wraith
+kw flying
+die => lose(opp,1); gain(me,1)
+
+== N-07 @db231d332299  # Grave Shift Worker
+enter t=refuse.unit.mine.cost<=2 => reinstate(t)
+
+== N-08 @dc5381408fa1  # Corporate-Approved Pen
+attach
+host => stat(1,0); kw(toxic)
+
+== N-09 @186406e84ad7  # Red Tape Dispenser
+act | exhaust, pay(1) => create(redtape)
+
+== N-10 @80658fae6236  # Push Broom of Undeath
+when(attacks:any) => may({shred(all(resource.opp.kind=garbage|iron|ingredient))})
+
+== N-11 @2102315dacea  # Late Fee
+trap(plays:opp:cost>=4) => lose(opp,2)
+
+== N-12 @658dbb0dd461  # Invisible Ink
+trap(unit_enters:opp) => exhaust(trig); no_refresh(trig)
+
+== N-13 @9cf3149fcf33  # Waiting Room
+static => flag(opp_units_enter_exhausted)
+
+== N-14 @3072bd827a7d  # The Breakroom
+when(unit_dies:mine) => lose(opp,1)
+
+== N-15 @3cfdf02f1a10  # Pink Slip
+play t=unit.atk<=3 => destroy(t)
+
+== N-16 @e4b9987d4ef7  # Processing Delay
+play t=unit => processing(2,{destroy(t)})
+
+== N-17 @1e4132e7c5e6  # Buried in Paperwork
+play t=refuse.unit.mine => to_hand(t); create(contract)
+
+== N-18 @6e3682fdfc72  # Requisition Form
+playcost | use(redtape|contract)
+play => draw(2)
+
+== N-19 @923b0bef8da6  # Resting In Peace Clause
+play => shuffle_into(opp,T-12,2)
+
+== N-20 @dbd09c35cd63  # I've Made a Huge Mistake
+playcost | destroy(unit.mine)
+play => draw(2); create(redtape)
+
+== N-21 @b8a82453515c  # Become Useful at Work
+playcost | destroy(unit.mine)
+play => create(T-10,$paid_def)
+
+== N-22 @d0e648c5139e  # Working in Your Own Casket
+play t=unit.mine => protect(t,until_next_turn)
+
+== N-23 @b25c61298a20  # Middle Management Zombie
+aura(unit.mine.tok:T-10) => stat(1,0)
+act | exhaust, use(redtape) => create(T-10)
+
+== N-24 @01408dbca2f5  # Endless Filing
+play => bury(me,4); reinstate(pick(refuse.unit.mine.cost<=3))
+
+== N-25 @1c7c554fd146  # Permission to Die - Denied
+trap(unit_dies:mine) => reinstate(trig)
+
+== N-26 @15d405015cba  # Audit Wraith
+kw flying
+enter => lose(opp,count(tool|wonder.opp)); create(redtape)
+
+== N-27 @c2029b1d09d7  # Mandatory Optional Team Meeting
+play => reinstate_all(refuse.unit.mine.path=N)
+
+== N-28 @44ad561d9977  # Lich of Accounts Payable
+kw flying
+enter t=refuse.unit.any => reinstate(t)
+
+== N-29 @438e87039a91  # Mass Layoffs
+play => destroy(all(unit)); create(redtape,$destroyed)
+
+== N-30 @05e69de1622f  # Betty Bones, Surly Secretary
+when(unit_enters:mine) => create(contract)
+when(attacks:opp) => create(redtape)
+
+== N-31 @feefeba93e10  # Department of Final Approvals
+static => cost_plus(opp,spell,1)
+sot => create(redtape)
+
+== N-32 @cbd84764bb99  # Unconscionable Contract
+play t=unit => steal(t,perm); create(contract,3)
+
+== N-33 @0a64f70546d0  # Mortimer Grimsby, CE-No
+when(unit_dies:mine:other) => create(redtape); lose(opp,1)
+act t=refuse.unit.mine once | use(redtape,3) => reinstate(t)

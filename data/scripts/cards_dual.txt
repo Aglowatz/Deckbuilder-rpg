@@ -1,0 +1,335 @@
+# Card scripts: dual-Path sections (Gourmand/Refusemancer, Gourmand/Necrocrat, Gourmand/Beefcake, Necrocrat/Refusemancer,
+# Necrocrat/Beefcake, Beefcake/Refusemancer).
+
+== GR-01 @0e01a31ccfe2  # Farm-to-Table Chef
+act | exhaust, use(garbage) => create(ingredient)
+
+== GR-02 @13bf1bebf2ca  # Freegan Forager
+act | exhaust, eat => create(ingredient); gain(me,2)
+
+== GR-03 @6de7a8c8f0df  # Dumpster Gourmet
+enter => create(garbage); create(ingredient)
+aura(unit.mine.golem) => kw(swat)
+
+== GR-04 @64bfd6700c42  # Food Fight
+trap(attacks:opp) => create(T-17)
+
+== GR-05 @d767101ee640  # Expired Goods
+trap(plays:opp:wonder) => destroy(trig); create(ingredient,2)
+
+== GR-06 @c8f904fb6459  # Leftovers
+trap(unit_dies:mine) => create(garbage); create(ingredient)
+
+== GR-07 @efaf5711bc02  # Community Garden
+sot => choose({create(garbage)},{create(ingredient)})
+
+== GR-08 @d1e5491155da  # Fermentation Cellar
+act t=unit.mine once | use(garbage), use(ingredient) => buff(t,2)
+
+== GR-09 @828ca6944411  # Compost Kitchen
+act once | use(garbage,2) => create(T-17)
+
+== GR-10 @32114111864b  # Spork of Unity
+attach
+host => stat(1,1)
+when(attached_dmg_opp) => create(garbage); create(ingredient)
+
+== GR-11 @1971d7f81619  # Potluck
+play => gain(me,3); gain(opp,3); draw(1); create(garbage); create(ingredient)
+
+== GR-12 @a915a7262de3  # Recyc-lops
+enter t=tool|wonder => destroy(t)
+when(resource_created:mine:garbage) => create(ingredient)
+
+== GR-13 @44b1458c0677  # The Verdant Vines
+sot => may({use(garbage)}); ifdid({create(ingredient,2)})
+
+== GR-14 @1036073a183c  # Today's Special
+trap(attacks:opp) => plate(trig); create(garbage)
+
+== GR-15 @6cd769483f70  # Giant Heirloom Pumpkin
+kw swat
+die => create(garbage,2); create(ingredient,2)
+
+== GR-16 @01c2d6dc215b  # Ratatouille, Rodent de Cuisine
+aura(unit.mine.tok:T-02) => stat(1,1)
+act | exhaust, destroy(unit.mine.tok:T-02,2), use(ingredient,2) => create(T-18)
+
+== GN-01 @4b1ed6a7b2f7  # Sous Boo
+kw elusive
+playcost | use(ingredient)
+
+== GN-02 @27c7b9dfb647  # Skeleton Crew
+enter => create(T-10,2)
+
+== GN-03 @ef685ebe92b2  # Bone Broth Brewer
+when(token_dies:mine) => create(ingredient)
+
+== GN-04 @d627b34f87b6  # Ghost Pepper
+act t=unit | destroy_self => pump(t,2,0,eot); kw_grant(t,flying,eot)
+
+== GN-05 @26c1c07dc8f1  # Dead on Arrival
+trap(unit_enters:opp:def<=2) => destroy(trig); create(ingredient)
+
+== GN-06 @ed293a0a7810  # Soul Food Kitchen
+when(unit_dies:mine) => create(ingredient)
+
+== GN-07 @7d01b5e8e15a  # The Haunted Buffet
+act once | use(ingredient,2) => create(T-19)
+
+== GN-08 @617c8dee2a14  # Staff Appreciation Dinner
+aura(token.mine) => stat(1,0)
+
+== GN-09 @1dbaebd23d41  # To Die For
+play t=unit.def<=3 => destroy(t); create(ingredient,2)
+
+== GN-10 @47c0d8608d22  # Final Meal Request
+playcost | destroy(token.mine)
+play => draw(2)
+
+== GN-11 @ee3e89c86a03  # Reheated Leftovers
+play t=refuse.unit.mine => reinstate(t); create(ingredient)
+
+== GN-12 @b569b8680fbe  # Ghoul Sommelier
+kw flying
+when(token_dies:mine) => lose(opp,1); create(ingredient)
+
+== GN-13 @f849c8ca7f96  # The Gastronomicon
+act t=refuse.unit.mine.cost<=3 once | use(ingredient,2), use(redtape) => reinstate(t)
+
+== GN-14 @e335766f2f2c  # Dinner Party of the Damned
+play => create(T-10,count(ingredient))
+
+== GN-15 @88b1b3cb6fe4  # The Eternal Kitchen
+sot => create(T-19)
+aura(token.mine) => kw(nourish)
+
+== GN-16 @1e3aa684f76d  # Madame Mortadella, Eternal Restaurateur
+kw flying
+when(token_dies:mine) => create(ingredient); create(T-19)
+act | use(ingredient,3) => pump(all(token.mine),2,2,eot)
+
+== GB-01 @6a6d6762e5f7  # Bulking Season Brute
+enter => create(ingredient); create(iron)
+
+== GB-02 @9f3798b80f4f  # Meathead Butcher
+kw hustle
+act once | use(ingredient) => buff(self,1)
+
+== GB-03 @26e84cb1e176  # Cheat Day Champion
+kw bulldoze
+when(resource_used:mine:ingredient) => pump(self,1,1,eot)
+
+== GB-04 @adc4a7b46de5  # Carb Load
+trap(attacks:opp) => pump(all(unit.mine),1,2,eot); create(ingredient)
+
+== GB-05 @cbf4aada06c4  # Meal Prep
+sot => create(ingredient)
+act once | use(ingredient) => create(iron)
+
+== GB-06 @f7e609aa350c  # The Gainz Kitchen
+when(golem_created:mine) => pump(trig,1,0,perm); kw_grant(trig,hustle,perm)
+
+== GB-07 @9cdb737ac0a4  # Bulking Program
+sot t=unit.mine => buff(t,1)
+
+== GB-08 @f5f96b44e0a4  # Shaker Bottle
+act t=unit | destroy_self => pump(t,2,2,eot); create(ingredient)
+
+== GB-09 @694c15d546fe  # Recipe for disaster
+act ts=unit*4 | use(ingredient,2), destroy_self => damage_divided(ts,4)
+
+== GB-10 @74165f67cf35  # Meat Tenderizer
+attach
+host => stat(2,1)
+when(attached_combat_dmg_unit) => create(ingredient)
+
+== GB-11 @fb006f7fdea5  # Idiot Sandwich
+play t=unit.atk<=4 => plate(t); damage(ctl(t),2)
+
+== GB-12 @5211957fe82f  # A Feast for the Eyes
+kw hustle
+enter => create(ingredient,3)
+when(resource_used:mine:ingredient) => pump(self,1,1,eot)
+
+== GB-13 @591edfa51431  # Sir Loin, Prime Cut
+kw hustle
+enter t=unit|opp => use_any(ingredient); damage(t,mul($used,2))
+
+== GB-14 @6ae1dc8fb414  # The Gain Train
+when(resource_used:mine:ingredient) => pump(all(unit.mine),1,1,eot)
+
+== GB-15 @e2fe50321952  # Protein Forge
+act | exhaust, use(ingredient,2), use(iron,2) => create(T-20)
+
+== GB-16 @4819315b80cb  # GLP-100
+act t=unit | destroy_self => pump(t,10,0,perm); set_def(t,1)
+
+== NR-01 @6ba36f407fdd  # Sewer Rat Courier
+enter => create(T-02)
+
+== NR-02 @b4436675f7ba  # Waste Manager
+act t=refuse.unit.mine | exhaust, use(token) => to_hand(t)
+
+== NR-03 @9df053a33f9d  # Rat King Bureaucrat
+aura(unit.mine.tok:T-02) => stat(1,0)
+when(rat_dies:mine) => create(garbage)
+
+== NR-04 @66cf5e3fcd62  # Landfill Permit Office
+when(token_dies:mine) => create(garbage)
+act | use(garbage,2) => create(redtape)
+
+== NR-05 @2c616c63ca64  # Rusty Grave Shovel
+attach
+host => stat(1,1); kw(toxic)
+
+== NR-06 @a5df31aa602f  # Rat Swarm
+trap(attacks:opp) => create(T-02,3)
+
+== NR-07 @ed2ac7a9b351  # Littering Citation
+trap(creates_token:opp) => lose(opp,1); create(garbage)
+
+== NR-08 @464c413c362a  # Ghostly Garbage
+trap(unit_dies:opp) => create(T-02); create(garbage)
+
+== NR-09 @2e841d65cb2f  # Plague of Rats
+play => create(T-02,min(count(refuse.unit.mine),5))
+
+== NR-10 @0e2b705b4440  # Decomposition Notice
+play t=unit => set(n,def(t)); destroy(t); create(garbage,$n)
+
+== NR-11 @e7e463baba5c  # Gross Margin
+play => bury(me,5); create(garbage,$buried_units); lose(opp,$buried_units)
+
+== NR-12 @4f77bd5861ad  # Conscripted Constrictor
+act t=unit | exhaust, eat(2) => destroy(t)
+
+== NR-13 @04b43bfbab1f  # Reclamation Order
+trap(attacks:opp) => destroy(trig); delay_start_next_turn({reinstate(trig)})
+
+== NR-14 @e6850a22a98b  # Plague Season
+play => pump_kill(all(unit.opp),-2,-2); create(T-02,$died)
+
+== NR-15 @ce7ebeb1d964  # Necro Cat
+kw toxic
+die => to_hand(self)
+
+== NR-16 @9a9306bf4c98  # Necro Rat, Chairman of the Sewer Board
+aura(unit.mine.tok:T-02) => kw(toxic)
+act t=unit | destroy(unit.mine.tok:T-02,5) => destroy(t); lose(opp,5)
+
+== NB-01 @462951fc0abd  # Shredded Spectre
+act | use(redtape,3) => kw_grant(self,elusive,eot)
+act | use(iron,3) => pump(self,1,0,eot)
+
+== NB-02 @fd72638ce6a8  # Un-Deadlifter
+die => create(iron); create(redtape)
+
+== NB-03 @5096a75b72de  # Vigor Mortis
+play t=refuse.unit.mine => reinstate(t); kw_grant(last,hustle,eot)
+
+== NB-04 @221cee3b2e0b  # Dead weight
+playcost | destroy(unit.mine)
+play t=unit|opp => damage(t,$paid_atk)
+
+== NB-05 @2ad075553522  # Squatter's Rights
+play t=infra.opp => steal(t,perm); create(iron)
+
+== NB-06 @a2fe2833eea2  # Membership Cancellation
+play t=tool => set(c,ctl(t)); destroy(t); lose($c,2)
+
+== NB-07 @55b9625cbea4  # Ball and Chain
+attach
+host => stat(3,3); kw(wallflower)
+
+== NB-08 @7f5155c2f91c  # Protein Powder Urn
+act t=refuse.unit.mine.cost<=2 | destroy_self => reinstate(t); kw_grant(last,hustle,eot)
+
+== NB-09 @f60ddd8c6114  # Spirit-Lifting Belt
+attach
+host => stat(1,1)
+when(attached_attacks) => choose({create(iron)},{create(redtape)})
+
+== NB-10 @c9ae488702e1  # The Afterlife Gym
+when(unit_dies:mine) => create(iron)
+
+== NB-11 @33e727dbcb24  # Death Grip
+trap(unit_dies:mine) => lose(opp,atk(trig))
+
+== NB-12 @b2e17fb2c697  # Hostile Takeover
+play => steal_all(resource.opp)
+
+== NB-13 @2e387ae0c867  # Jello Weights
+attach | pay(1)
+host ? host_is(N) => stat(5,5)
+aura(unit.mine.path=B) ? host_is(B) => stat(1,2)
+
+== NB-14 @c35f5e25bbc4  # Bone-afide Strongman
+kw hustle
+die => processing(1,{reinstate(self)})
+
+== NB-15 @60ad84da6eb6  # Grim Repper
+kw flying
+when(unit_dies:mine:other) t=unit.mine => buff(t,2)
+
+== NB-16 @857b82b77299  # Chancellor Clench, Iron Regent
+kw overtime
+static => flag(iron_plus_2); flag(red_tape_minus_2)
+sot => create(iron); create(redtape)
+
+== BR-01 @efb5c200474a  # Gym Rat
+act | exhaust, use(garbage) => create(iron)
+
+== BR-02 @04faa04f096d  # Scrap Metal Lifter
+kw hustle
+enter => create(garbage)
+
+== BR-03 @123ce0b7d332  # Rat Pack Coach
+enter => create(T-02,2); kw_grant(last,hustle,eot)
+
+== BR-04 @06c6bfb957a5  # Truck Tire
+attach
+host => stat(2,0)
+act | eat => pump(host,2,2,eot)
+
+== BR-05 @53ae6bb2f560  # Rusty Dumbbell
+act t=unit | destroy_self => damage(t,2); create(garbage)
+
+== BR-06 @3c6596de85fc  # Hamster Ball
+attach
+host => stat(1,1); kw(bulldoze)
+
+== BR-07 @72ed0fc624a0  # Wrestling Ring Ambush
+trap(attacks:opp) => pump(top_atk(unit.mine),2,0,eot); brawl(top_atk(unit.mine),trig)
+
+== BR-08 @f4744073c013  # Swole Revenge
+trap(unit_dies:mine) t=unit.mine => buff(t,2)
+
+== BR-09 @56f1a924a6f0  # Trash Can Lid Slam
+trap(unit_enters:opp) => damage(trig,3)
+
+== BR-10 @7c9e98744958  # The Junkyard Gym
+when(resource_created:mine:garbage) t=unit.mine => buff(t,1)
+
+== BR-11 @e2b04fb2faa9  # Stampede
+play => pump(all(unit.mine),2,0,eot); kw_grant(all(unit.mine),bulldoze,eot)
+
+== BR-12 @b9c2cfd9d129  # Iron Rhino
+kw hustle,bulldoze
+
+== BR-13 @195ccf5fdae9  # Trash Panda Powerlifter
+when(eat:mine) => create(iron)
+act | use(iron) => pump(self,2,2,eot)
+
+== BR-14 @9584cc29b510  # Scrapyard Gauntlets
+attach
+host => stat(2,2)
+act t=unit once | use(garbage,2) => brawl(host,t)
+
+== BR-15 @3a3fee9c0e56  # Trash Avalanche
+trap(attacks:opp) => damage(all(unit.attacking),4)
+
+== BR-16 @6d0db0a63d45  # Tuskeroni, Junkyard Champion
+kw hustle
+sot => create(garbage); create(iron)
+act | eat => buff(self,1); kw_grant(self,bulldoze,eot)

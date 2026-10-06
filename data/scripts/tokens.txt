@@ -1,0 +1,56 @@
+# Token scripts (data/source/token_list.csv). Resource tokens (T-13 Contract, T-14 Red Tape and the three that only exist in the
+# Design Guidance) are built into the engine: see ResourceRules.
+
+== T-01 @d41d8cd98f00  # Poo Golem
+
+== T-02 @d41d8cd98f00  # Rat
+
+== T-03 @d41d8cd98f00  # Sashimi Weenie
+
+== T-04 @d41d8cd98f00  # Goat
+
+== T-05 @d41d8cd98f00  # Meatloaf Golem
+
+== T-06 @d41d8cd98f00  # Cake Golem
+
+== T-07 @872717e97967  # Wedding Cake Colossus
+kw bulldoze
+
+== T-08 @d41d8cd98f00  # Chef's Special Golem
+
+== T-09 @502e01ecdda9  # Snack
+
+== T-10 @d41d8cd98f00  # Zombie Temp
+
+== T-11 @d41d8cd98f00  # Zombie Rat
+
+== T-12 @f1bc55851230  # Clause
+drawn => shred(self); create(T-11,1,creator)
+
+== T-13 @c4bc82b040d4  # Contract
+
+== T-14 @24ded13d0041  # Red Tape
+
+== T-15 @ae0a0e7bbd57  # Grandmaster Flex, the Unbroken
+kw overtime,unbreakable
+sot => pump(all(unit.mine.other),1,1,eot)
+
+== T-16 @d41d8cd98f00  # Militia
+
+== T-17 @d41d8cd98f00  # Compost Golem
+
+== T-18 @9e9fa8184616  # Chef's Masterpiece Golem
+kw nourish
+
+== T-19 @36a29f7e4508  # Hungry Ghost
+kw flying
+
+== T-20 @a866391f7101  # Protein Golem
+kw hustle
+
+== T-21 @d41d8cd98f00  # Patchwork Body
+
+== T-22 @d41d8cd98f00  # Sporeling
+
+== T-23 @f501bdd147ea  # Schmuck
+kw wallflower

@@ -1,0 +1,159 @@
+# Card scripts: Colorless, Infrastructure, and the 4-Color / basic Infrastructure rows.
+
+== C-01 @d41d8cd98f00  # Cannon Fodder
+
+== C-02 @d41d8cd98f00  # Village Militia
+
+== C-03 @9f37347e0e9e  # Watchtower Archer
+kw swat
+
+== C-04 @f1dd92f9ace8  # Courier Pigeon
+kw flying
+enter => peek(1)
+
+== C-05 @f501bdd147ea  # Shield Bearer
+kw wallflower
+
+== C-06 @205baa3da649  # Traveling Brawler
+kw sucker_punch
+
+== C-07 @9e9fa8184616  # Wandering Medic
+kw nourish
+
+== C-08 @e08698e8b16b  # Tavern Regular
+kw overtime
+
+== C-09 @d41d8cd98f00  # Old Kingdom Automaton
+
+== C-10 @a9d3931c7670  # Stapler
+act t=unit | destroy_self => exhaust(t); no_refresh(t)
+
+== C-11 @5830e5ca2d9e  # Traveler's Sword
+attach
+host => stat(2,0)
+
+== C-12 @000a5d7942c0  # Healing Potion
+act | destroy_self => gain(me,4)
+
+== C-13 @99f3c34b6105  # Rally the Village
+play => pump(all(unit.mine),1,1,eot)
+
+== C-14 @30534abd4711  # Second Wind
+play => draw(2)
+
+== C-15 @b3138549e937  # Desperate Measures
+play t=unit.atk>=4 => destroy(t)
+
+== C-16 @fd883b1fe629  # Tripwire
+trap(attacks:opp) => pump(trig,-2,0,eot)
+
+== C-17 @cd538d7006ea  # Ambush Party
+trap(attacks:opp) => create(T-16,2)
+
+== C-18 @249fdbad2058  # Emergency Rations
+trap(hp_drops:mine:le=5) => gain(me,4)
+
+== C-19 @a323ee451164  # Village Well
+sot => gain(me,1)
+
+== C-20 @986bc04fbb1f  # Training Grounds
+act t=unit.mine once | pay(2) => buff(t,1)
+
+== C-21 @4c26b1deb2a8  # Old Kingdom Banner
+aura(unit.mine) => stat(1,0)
+
+== C-22 @9115a11debfc  # Mercenary Captain
+enter => create(T-16,2)
+
+== C-23 @6110a22f64e0  # Resistance Scout
+kw elusive
+
+== C-24 @18744499117d  # Wandering Alchemist
+act | exhaust => add(any)
+
+== C-25 @60624cd6e584  # Shred the Evidence
+play ts=refuse.card.any*3 => shred(ts); draw(1)
+
+== C-26 @330e985e90ff  # Adventurer's Pack
+attach
+host => stat(1,1)
+when(attached_dies) => draw(1)
+
+== C-27 @d5053985112c  # Underdog's Gambit
+trap(attacks:opp) ? count(unit.mine)<count(unit.opp) => destroy(trig)
+
+== C-28 @bb486724085e  # Cartographer's Table
+sot => peek(2)
+
+== C-29 @be7b74d07ec4  # The Wanderer
+static => selfstat(distinct_paths(infra.mine),distinct_paths(infra.mine))
+when(plays:mine:multipath) => draw(1)
+
+== C-30 @25bf26430b99  # Royal Audit
+play t=unit|wonder => shred(t)
+
+== C-31 @05963af44279  # Four-Path Compass
+act | exhaust => add(any)
+act | destroy_self => search(infra,1,field)
+
+== C-32 @51436caeb23d  # Mirrored Hall
+trap(attacks:opp) => copy_token(trig)
+
+== C-33 @65bb8f8d40fd  # Unstable Rift
+sot => damage(rand(unit),2)
+
+== C-34 @a5ba256d3c63  # The Harmony Engine
+enter => create(iron); create(redtape); create(ingredient); create(garbage)
+
+== INF-01 @e9828fe3401b  # Hamster Wheel Power Plant
+produce B
+act | overexert => add(B,B)
+
+== INF-02 @9c1f5603e275  # Hall of Records
+produce N
+act | exhaust, pay(3) => create(redtape)
+
+== INF-03 @71138d550513  # Spice Bazaar
+produce G
+act | exhaust, pay(2) => peek(2)
+
+== INF-04 @f50669171e6e  # Compost Grange
+produce R
+act t=refuse.infra.mine | exhaust, pay(2) => to_hand(t)
+
+== INF-05 @92e885eb8dbb  # The Ghost Express Depot
+produce N|B
+
+== INF-06 @8d5d5ef07552  # The Eternal Diner
+produce N|G
+
+== INF-07 @7e374c4296a3  # Potter's Field Landfill
+produce N|R
+
+== INF-08 @10cddbed360e  # Bulk Barn
+produce G|B
+
+== INF-09 @cef17c7b26d9  # Market Garden
+produce G|R
+
+== INF-10 @142738b27483  # Scrapyard Mill
+produce R|B
+
+== INF-11 @18744499117d  # Old Kingdom Crossroads
+produce any
+
+== BAS-N @b6b7038a5ed4  # Ghost Town
+produce N
+enter => create(redtape)
+
+== BAS-R @a6ecda436243  # Wasteworks
+produce R
+enter => create(garbage)
+
+== BAS-G @1cc120b708d9  # Feastforge
+produce G
+enter => create(ingredient)
+
+== BAS-B @808d5d492502  # Powerhouse
+produce B
+enter => create(iron)

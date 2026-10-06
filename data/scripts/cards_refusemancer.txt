@@ -1,0 +1,106 @@
+# Card scripts: Refusemancer. Format and vocabulary: docs/card_pipeline.md.
+# Header: "== CARD-ID @hash   # name" (the hash is the sheet's rules text when the card was scripted; tools/import_cards --stamp refreshes it).
+
+== R-01 @db62407c6624  # Mulch Mole
+act | exhaust => add(R)
+
+== R-02 @b2905420182e  # Dumpster Diver
+act | exhaust, pay(1) => create(garbage)
+
+== R-03 @b118e2708c67  # Landfill Ox
+act | exhaust, eat(2) => add(R,R,R,R)
+
+== R-04 @88cad4579e9f  # Rubbish Goat
+enter t=tool => may({destroy(t)}); ifdid({create(garbage)})
+
+== R-05 @c17305fabeca  # Kidding Around
+enter => create(T-04)
+
+== R-06 @bc0742f70501  # Curbside Rat
+enter => create(garbage)
+
+== R-07 @9f37347e0e9e  # Junkyard Giraffe
+kw swat
+
+== R-08 @326491cb3795  # Possum Prowler
+act | eat => pump(self,2,2,eot)
+
+== R-09 @bd71c0f52e86  # Heap Tortoise
+kw swat
+enter => create(garbage)
+
+== R-10 @c7cb991f05cf  # Community Compost Bin
+sot ? count(garbage)==0 => create(garbage)
+
+== R-11 @86aa2eb89aab  # Raised Bed
+act t=unit.mine once | use(garbage) => buff(t,1)
+
+== R-12 @e66af6d3f4b8  # Garbage Pit
+trap(unit_enters:opp) => set(n,def(trig)); destroy(trig); create(garbage,$n)
+
+== R-13 @122531f1e6d8  # Reclaimed Land
+trap(infra_enters:opp) ? count(infra.opp)>count(infra.mine) => search(infra,2,field)
+
+== R-14 @b611bcd7d0e0  # Rusty Spring Trap
+trap(attacks:opp) => damage(trig,2)
+
+== R-15 @8534eb759bb5  # Turf War
+trap(attacks:opp) => brawl(top_atk(unit.mine),trig)
+
+== R-16 @092f8035b952  # Recycling Day
+trap(plays:opp:tool|wonder) => destroy(trig); create(garbage)
+
+== R-17 @40a6f0919c73  # Hayfork Harpoon
+attach
+host => stat(1,1); kw(swat)
+
+== R-18 @a8d554aab0f2  # Rusty Can Opener
+act t=tool|wonder|resource | destroy_self => destroy(t)
+
+== R-19 @7337fd5e66d1  # Alley Scrap
+play a=unit.mine b=unit.opp => brawl(a,b)
+
+== R-20 @8ecac504b764  # Landfill Grab
+play => search(infra,1,field)
+
+== R-21 @76e31693e3e7  # Let them eat cake
+play t=unit.path=G => destroy(t)
+
+== R-22 @bf6923ef21fe  # Acid Vomitor
+act t=unit | exhaust, eat => damage(t,2)
+
+== R-23 @878c5dbe7ffb  # Bird of Paradump
+kw flying
+act | exhaust, eat => add(any)
+
+== R-24 @b6d06f703fef  # Second-Hand Life
+trap(unit_dies:mine) => to_hand(trig); create(garbage)
+
+== R-25 @f28a2716d74b  # Manure Miracle
+play t=unit.mine => buff(t,3)
+
+== R-26 @8c3359cda9c8  # The Recycling Center
+eot t=refuse.card.mine => may({use(garbage,2)}); ifdid({to_hand(t)})
+
+== R-27 @5340156d61c5  # Raccoon
+static => flag(free_eat)
+
+== R-28 @a4990576e02f  # Poo-uid
+act | exhaust, eat => create(T-01)
+
+== R-29 @f1ec0e1427dc  # Mount Trashmore
+kw bulldoze
+enter => use_any(garbage); buff(self,$used)
+
+== R-30 @aaaf6d239c9c  # The Mother Heap
+when(resource_created:mine:garbage) => create(T-02)
+
+== R-31 @cbdb7c35e31b  # Bulk Trash Day
+trap(plays:opp:tool|wonder) => destroy(all(tool|wonder.opp))
+
+== R-32 @b8fcf7ac1dda  # Back From the Heap
+trap(hp_drops:mine:le=5) => shuffle_refuse_into_deck(me); gain(me,5); create(garbage,5)
+
+== R-33 @ead9df38cb70  # Archdruid Compostella
+sot => create(garbage); buff(all(unit.mine.other),1)
+act t=refuse.card.mine | exhaust, eat => to_hand(t)

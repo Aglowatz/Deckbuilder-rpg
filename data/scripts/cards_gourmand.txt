@@ -1,0 +1,106 @@
+# Card scripts: Gourmand.
+
+== G-01 @b00e3d2080c9  # Line Cook
+enter => create(ingredient)
+
+== G-02 @a301042c504b  # Sushi Apprentice
+act | exhaust, use(ingredient) => create(T-03)
+
+== G-03 @e045ea51c2b7  # Conveyor Belt Chef
+act | exhaust, use(ingredient,2) => create(T-03,2)
+
+== G-04 @f501bdd147ea  # Sourdough Sentry
+kw wallflower
+
+== G-05 @271819d5ee35  # Food Critic
+enter t=unit.atk<=3 => send_back(t)
+
+== G-06 @052b9a73e925  # Soup Kitchen Volunteer
+enter => gain(me,2)
+
+== G-07 @add6d8d60858  # Sous Chef
+enter => peek(2); draw(1)
+
+== G-08 @fc4c5c41f5a3  # Pastry Artificer
+act | exhaust, pay(2), use(ingredient,2) => create(T-06)
+
+== G-09 @1a9b458ab403  # Kitchen Porter
+die => create(ingredient,2)
+
+== G-10 @4a3de1dbbba5  # The Recipe Engine
+act once | use(ingredient,2) => draw(1)
+
+== G-11 @4e3d601b8712  # Gourmand Cooking Academy
+act once | destroy(unit.mine) => create(ingredient,2)
+
+== G-12 @d2a248f68810  # Meatloaf Mold
+act once | use(ingredient,2) => create(T-05)
+
+== G-13 @5c5e8c875432  # Hearth Kitchen
+act | use(ingredient) => gain(me,2)
+
+== G-14 @0ad4a14b3083  # Seasoning Station
+aura(unit.mine.golem) => stat(1,1)
+
+== G-15 @67829783e438  # Windowsill Herb Garden
+sot => create(ingredient)
+
+== G-16 @5f2f768a48c5  # Dinner Is Served
+trap(attacks:opp:atk<=3) => plate(trig)
+
+== G-17 @0d038e1b9a07  # Sent Back to the Kitchen
+trap(attacks:opp) => send_back(trig)
+
+== G-18 @23ef72704ada  # Rolling Pin
+attach
+host => stat(1,2)
+
+== G-19 @f3857ffce834  # Lunchbox
+act | destroy_self => create(ingredient,2); gain(me,2)
+
+== G-20 @cf04f454212c  # Plate It
+play t=unit => plate(t)
+
+== G-21 @5fabba48d189  # Consult the Cookbook
+play => peek(3); draw(1)
+
+== G-22 @d9512eda3f47  # The Cullinator
+enter t=unit => set(n,def(t)); destroy(t); create(ingredient,$n)
+
+== G-23 @16553e289789  # En Garde-Manger
+kw sucker_punch
+block => create(ingredient)
+
+== G-24 @16150600a837  # Health Code Violation
+trap(unit_enters:opp) => send_back(trig); create(ingredient)
+
+== G-25 @99f834bf2fca  # Stock The Pantry
+play => create(ingredient,3)
+
+== G-26 @78942187aeb1  # Banquet Hall
+when(golem_created:mine) => gain(me,2); peek(1)
+
+== G-27 @7afe075872bb  # Toro Toro
+kw bulldoze,swat
+playcost | use(ingredient,3)
+
+== G-28 @f4c3d75eeefb  # Chef de Golem
+aura(unit.mine.golem) => stat(1,1); kw(swat)
+act | exhaust, use(ingredient,2) => create(T-05)
+
+== G-29 @b945c91069ce  # Head Health Inspector
+enter => send_back(all(unit.other))
+
+== G-30 @1c040e6da9dd  # The Infinite Pantry
+static => flag(double_ingredients)
+
+== G-31 @8d7ff8bcf1f7  # Recipe for wonder
+act | pay(G), use(ingredient,3), destroy_self => put_field(rand(deck.wonder))
+
+== G-32 @be3ed568014c  # The Eternal Banquet
+sot => create(ingredient,2)
+act | use(ingredient,5) => create(T-07)
+
+== G-33 @9940d0bf585f  # Grand Chef Escoffina
+enter => create(ingredient,3)
+act | exhaust, use(ingredient,X) => create_x(T-08,X)

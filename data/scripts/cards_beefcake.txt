@@ -1,0 +1,120 @@
+# Card scripts: Beefcake.
+
+== B-01 @a866391f7101  # Gym Bro
+kw hustle
+
+== B-02 @5830e5ca2d9e  # Bronzer
+attach
+host => stat(2,0)
+
+== B-03 @9eec177cd2bf  # Dropped Weights
+play t=unit|opp => damage(t,2)
+
+== B-04 @e9828fe3401b  # Millstone Pusher
+act | exhaust => add(B)
+act | overexert => add(B,B)
+
+== B-05 @a7d36b5e4e8d  # Hamster Wheel Runner
+enter => create(iron)
+
+== B-06 @3b42c56267e6  # Portal Ripper
+kw hustle
+enter t=unit => cant_block(t,eot)
+
+== B-07 @897c0b1649c1  # Late-ish Courier
+kw hustle
+static => flag(cant_block)
+
+== B-08 @a2e139702135  # Spotter
+enter t=unit.mine => buff(t,1)
+
+== B-09 @2b153df8851d  # Personal Trainer
+when(resource_used:mine:iron) => buff(self,1)
+
+== B-10 @9d4e0611097a  # Shot Putter
+act t=unit | overexert => damage(t,2)
+
+== B-11 @872717e97967  # Beefy Bouncer
+kw bulldoze
+
+== B-12 @a866391f7101  # Leg Day Survivor
+kw hustle
+
+== B-13 @a866391f7101  # Hulking Hauler
+kw hustle
+
+== B-14 @3c6596de85fc  # Weight Belt
+attach
+host => stat(1,1); kw(bulldoze)
+
+== B-15 @1692b816e9e7  # Kettlebell
+act t=unit | destroy_self => damage(t,3)
+
+== B-16 @bf3901a185fb  # Lifting Gloves
+attach
+host => stat(2,0); kw(sucker_punch)
+
+== B-17 @600eff135701  # Pre-Workout Canister
+act t=unit | destroy_self => pump(t,3,0,eot); kw_grant(t,hustle,eot)
+
+== B-18 @14e91c8fbe04  # Sledgehammer
+attach
+host => stat(2,1)
+when(attached_attacks) t=tool => may({destroy(t)})
+
+== B-19 @5b9dec23e035  # Counterweight
+trap(attacks:opp) => damage(trig,3)
+
+== B-20 @d54a27238c8e  # Dry Scoop
+play t=unit => kw_grant(t,hustle,eot)
+
+== B-21 @f034e76489ca  # Flex on 'Em
+play ? exists(unit.mine.atk>=5) => damage(opp,4)
+play ?! exists(unit.mine.atk>=5) => damage(opp,2)
+
+== B-22 @9ce12627a629  # Alarm-ish Clock
+attach | pay(1)
+boc => flip({pump(host,2,0,eot); kw_grant(host,sucker_punch,eot)},{exhaust(host)})
+
+== B-23 @2e75923737b8  # Snack Bar
+act t=unit.fresh | pay(1) => pump(t,1,0,eot)
+
+== B-24 @c518e49f2bdf  # Overclocked Mill Worker
+kw overtime
+attack => create(iron)
+
+== B-25 @afd144726d05  # Yeet
+play a=unit.mine b=unit|opp => damage(b,atk(a),a)
+
+== B-26 @7d3e2ded3c96  # The Carpool
+kw hustle
+enter => kw_grant(all(unit.mine.other),hustle,eot)
+
+== B-27 @ea17c967c36b  # Protein Farts
+play => damage(all(unit),4)
+
+== B-28 @8e229c8246b3  # Portal-Ripping Titan
+kw hustle
+enter t=unit => damage(t,3)
+
+== B-29 @00d1f1eb7c9a  # Swole Patrol Sergeant
+sot => create(iron)
+when(resource_used:mine:iron) => damage(opp,1)
+
+== B-30 @6bb8e22b46a3  # Barbell of the Ancients
+attach
+host => stat(3,3); kw(bulldoze)
+boc => may({pump(host,3,0,eot); no_refresh(host)})
+
+== B-31 @680ad464410e  # The Ultimate Cardio Machine
+when(unit_enters:mine:nohustle) => kw_grant(trig,hustle,perm)
+when(unit_enters:mine:hustle) => pump(trig,2,1,eot)
+
+== B-32 @c4c2eb201451  # The Big Unit
+kw bulldoze
+costmod ? distinct_atk(unit.mine)>=5 => cost_set(0,B)
+
+== B-33 @aa6648b120aa  # Global Gains Platinum Membership
+attach
+sot => buff(host,1); kw_grant(host,hustle,perm); kw_grant(host,overtime,perm)
+when(attached_dies) => send_back(self)
