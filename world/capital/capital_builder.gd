@@ -361,7 +361,7 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 		"tower":
 			_tower(node, w, d, h)
 		"castle":
-			_box(node, Vector3(w, h, d), M.shiny(Color(0.2, 0.18, 0.26), 0.4), Vector3(0, h * 0.5, 0))
+			_box(node, Vector3(w, h, d), M.shiny(Color(0.52, 0.4, 0.46), 0.4), Vector3(0, h * 0.5, 0))
 			_box(node, Vector3(w + 0.4, 0.5, d + 0.4), M.shiny(M.GOLD, 0.3), Vector3(0, h, 0))
 		"ward":
 			_box(node, Vector3(w, h, d), M.flat(Color(0.34, 0.34, 0.38)), Vector3(0, h * 0.5, 0))

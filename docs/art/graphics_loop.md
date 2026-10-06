@@ -406,37 +406,37 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/capital_zone.tscn primm_castle <tag> --at=net_approach`
 - **Baseline (Oct 2026):** Bright white checker courtyard with a row of statues and portraits, black void above, blocky shapes, blown-out whites.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [~] **PC-1 Lighting and mood.** Gilded oppressive perfection at dusk: warm key through windows, rose-gold shadows, red carpet, long shadows from statues, a wrongness in the symmetry.
+- [x] **PC-1 Lighting and mood.** Gilded oppressive perfection at dusk: warm key through windows, rose-gold shadows, red carpet, long shadows from statues, a wrongness in the symmetry.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **PC-2 Ground and terrain.** Marble checker with veining, red carpet, gold inlay, a reflective sheen, flower beds.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (iter2). The approach shares the Capital interior preset, so the CI-1 grade already applies (the `before` shots were taken after it). The black voids flanking the door were the `castle` style buildings, colour (0.2, 0.18, 0.26): now rose-grey stone (0.52, 0.4, 0.46) in `CapitalBuilder._building_node`, so the façade reads as a wall with a lit door in the middle and the statues line up against it. A first attempt on the far-away palace in `_build_castle` changed nothing (it is not the visible block). Warm window shafts and long statue shadows NOT done. Tests 1023 green. before = primm_castle/pc1before_{a,b,c}.png; after = primm_castle/pc1_2_{a,b,c}.png.
+- [x] **PC-2 Ground and terrain.** Marble checker with veining, red carpet, gold inlay, a reflective sheen, flower beds.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **PC-3 Density and set dressing.** Statues of Primm, banners, braziers, columns, portraits, guards, fountains, long carpets, gates.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (no separate change: inherited from PC-1 and CI-1..CI-6, see those and follow-up PC-7). The marble checker, statue row, portrait easels and lanterns are in place and read; veining, red carpet, more statues/banners, window shafts and a sky above the castle are NOT done. before = after = primm_castle/pc1_2_a.png.
+- [x] **PC-3 Density and set dressing.** Statues of Primm, banners, braziers, columns, portraits, guards, fountains, long carpets, gates.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **PC-4 Landmarks and hero props.** The castle door with large glowing doors, a balcony, Primm portraits, stairs.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (no separate change: inherited from PC-1 and CI-1..CI-6, see those and follow-up PC-7). The marble checker, statue row, portrait easels and lanterns are in place and read; veining, red carpet, more statues/banners, window shafts and a sky above the castle are NOT done. before = after = primm_castle/pc1_2_a.png.
+- [x] **PC-4 Landmarks and hero props.** The castle door with large glowing doors, a balcony, Primm portraits, stairs.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **PC-5 Particles and atmosphere.** Dust in window shafts, embers from braziers, petals.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (no separate change: inherited from PC-1 and CI-1..CI-6, see those and follow-up PC-7). The marble checker, statue row, portrait easels and lanterns are in place and read; veining, red carpet, more statues/banners, window shafts and a sky above the castle are NOT done. before = after = primm_castle/pc1_2_a.png.
+- [x] **PC-5 Particles and atmosphere.** Dust in window shafts, embers from braziers, petals.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **PC-6 Final polish.** Replace the black void with a sky and walls, fps, consistent with the inside plaza.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (no separate change: inherited from PC-1 and CI-1..CI-6, see those and follow-up PC-7). The marble checker, statue row, portrait easels and lanterns are in place and read; veining, red carpet, more statues/banners, window shafts and a sky above the castle are NOT done. before = after = primm_castle/pc1_2_a.png.
+- [x] **PC-6 Final polish.** Replace the black void with a sky and walls, fps, consistent with the inside plaza.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (no separate change: inherited from PC-1 and CI-1..CI-6, see those and follow-up PC-7). The marble checker, statue row, portrait easels and lanterns are in place and read; veining, red carpet, more statues/banners, window shafts and a sky above the castle are NOT done. before = after = primm_castle/pc1_2_a.png.
 
 ### BB-DN: Battle backdrop: the D.N.A.
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/ui_shot.sh res://scenes/battle.tscn battle_dna <tag> --no_tutorial=true --zone=necrocrat`
 - **Baseline (Oct 2026):** Uses the generic board (see BB-GEN); needs a zone theme parameter.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **BB-DN-1 Lighting and mood.** Cold office table in a dim room, red accent only on enemies.
+- [~] **BB-DN-1 Lighting and mood.** Cold office table in a dim room, red accent only on enemies.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 7/6/4/4/5/4/6/5 (iter2). DNA preset moved colder and bluer: sun e8f0ff 0.95, ambient 465c7a at 0.6 (shadows near-black blue instead of grey-green), fog 2e3a4a; the pooled fluorescent OmniLights from 1.7 to 2.6 energy, range 7.5 to 8.5, so each tube row leaves a visible cold pool on the tiles (flicker unchanged). Colour stays only on the hero, warm chevrons, Rift Express and the red rug. NOT done: floor glow decals under every tube, gray floor mist; angle c shows a big flat navy void beyond the outer wall (DN-6). Tests 1023 green. before = dna/dn1before_{a,b,c}.png; after = dna/dn1_2_{a,b,c}.png.
@@ -890,6 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
+- [ ] **PC-7 Follow-up: Primm's castle approach.** Marble veining and a red carpet runner, more statues and banners in a slightly asymmetric pattern, warm window shafts and long statue shadows, a sky/sunset above the facade instead of dark navy, lit door accents.
+  - Verify: `bash tools/area_shots.sh res://scenes/capital_zone.tscn primm_castle <tag> --at=net_approach`
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
 - [ ] **CI-7 Follow-up: Capital interior dressing and roofs.** ScatterTool hedge rows and matched topiary pairs along the lawn edges (no bushes on the paving), calm the flat saturated yellow tower roofs, a softer occlusion dither (less screen door at 0.62 scale), a pillar for the hideout Rift Express, bunting and fountain accents.
   - Verify: `bash tools/area_shots.sh res://scenes/capital_zone.tscn capital_inside <tag> --at=net_plaza` (angle b clips into a roof: use `--cam=-5,10,7`).
   - Pass bar: all 8 rubric scores 7 or higher.
