@@ -86,15 +86,8 @@ static func translucent(color: Color, alpha: float, energy: float = 0.4, roughne
 
 
 ## Vertex-coloured, double-sided terrain material (the colours are painted per triangle).
-static func terrain() -> StandardMaterial3D:
-	if not _cache.has("terrain"):
-		var material: StandardMaterial3D = StandardMaterial3D.new()
-		material.vertex_color_use_as_albedo = true
-		material.vertex_color_is_srgb = true
-		material.roughness = 0.85
-		material.cull_mode = BaseMaterial3D.CULL_DISABLED
-		_cache["terrain"] = material
-	return _cache["terrain"] as StandardMaterial3D
+static func terrain() -> Material:
+	return StyleTerrain.material(0.1, 0.0)
 
 
 ## The gravy: a glossy, slightly glowing brown that reads as hot soup.

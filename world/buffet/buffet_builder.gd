@@ -226,11 +226,10 @@ func _vertex(x: float, z: float) -> Vector3:
 func _terrain_color(centroid: Vector3) -> Color:
 	var x: float = centroid.x
 	var z: float = centroid.z
-	var jitter: float = (_noise(x * 0.7, z * 0.7) - 0.5) * 0.08
+	var jitter: float = (_noise(x * 0.7, z * 0.7) - 0.5) * 0.02
 	var edge: float = BuffetLayout.edge_distance(x, z)
 	if edge < 0.0:
-		var band: int = int(floorf(absf(centroid.y) / 0.7)) % 3
-		return [M.CHEESE, M.PINK, M.VANILLA][band]
+		return M.CHEESE.darkened(clampf(absf(centroid.y) / 8.0, 0.0, 0.3))
 	var surface: BuffetLayout.Surface = layout.surface_at(x, z)
 	if surface == BuffetLayout.Surface.CLIFF:
 		for mesa: BuffetLayout.Mesa in layout.mesas:

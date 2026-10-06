@@ -197,7 +197,7 @@ func _land_point(ring: int, sector: int, rings: int, sectors: int) -> Vector3:
 func _grass_color(p: Vector3, centroid: Vector3) -> Color:
 	var shade: float = clampf((centroid.y + 1.6) / 3.2, 0.0, 1.0)
 	var color: Color = M.GRASS_LOW.lerp(M.GRASS_HIGH, shade)
-	color = color.lightened((_noise(centroid.x * 0.7, centroid.z * 0.7) - 0.5) * 0.14)
+	color = color.lightened((_noise(centroid.x * 0.7, centroid.z * 0.7) - 0.5) * 0.04)
 	var path: float = layout.path_weight(centroid.x, centroid.z)
 	if path > 0.0:
 		color = color.lerp(M.PATH.lightened((_noise(p.x, p.z) - 0.5) * 0.08), path)

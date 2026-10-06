@@ -78,15 +78,8 @@ static func translucent(color: Color, alpha: float, energy: float = 0.4, roughne
 	return _cache[key] as StandardMaterial3D
 
 
-static func terrain() -> StandardMaterial3D:
-	if not _cache.has("terrain"):
-		var material: StandardMaterial3D = StandardMaterial3D.new()
-		material.vertex_color_use_as_albedo = true
-		material.vertex_color_is_srgb = true
-		material.roughness = 0.9
-		material.cull_mode = BaseMaterial3D.CULL_DISABLED
-		_cache["terrain"] = material
-	return _cache["terrain"] as StandardMaterial3D
+static func terrain() -> Material:
+	return StyleTerrain.material(0.14, 0.0)
 
 
 ## The recycling stream: glossy teal water that glints.

@@ -245,11 +245,10 @@ func _vertex(x: float, z: float) -> Vector3:
 func _terrain_color(centroid: Vector3) -> Color:
 	var x: float = centroid.x
 	var z: float = centroid.z
-	var jitter: float = (_noise(x * 0.7, z * 0.7) - 0.5) * 0.1
+	var jitter: float = (_noise(x * 0.7, z * 0.7) - 0.5) * 0.03
 	var edge: float = HeapLayout.edge_distance(x, z)
 	if edge < 0.0:
-		var band: int = int(floorf(absf(centroid.y) / 0.9)) % 3
-		return [H.GRASS_DARK, H.DIRT, H.STONE][band]
+		return H.GRASS_DARK.lerp(H.DIRT, clampf(absf(centroid.y) / 2.5, 0.0, 1.0))
 	var surface: HeapLayout.Surface = layout.surface_at(x, z)
 	if surface == HeapLayout.Surface.CLIFF:
 		var stripe: int = int(floorf(centroid.y / 0.6 + _noise(x, z) * 2.0)) % 4

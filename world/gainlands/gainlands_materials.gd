@@ -62,12 +62,5 @@ static func translucent(color: Color, alpha: float, energy: float = 0.8) -> Stan
 
 
 ## Vertex-coloured, double-sided terrain material (the colours are painted per triangle).
-static func terrain() -> StandardMaterial3D:
-	if not _cache.has("terrain"):
-		var material: StandardMaterial3D = StandardMaterial3D.new()
-		material.vertex_color_use_as_albedo = true
-		material.vertex_color_is_srgb = true
-		material.roughness = 0.95
-		material.cull_mode = BaseMaterial3D.CULL_DISABLED
-		_cache["terrain"] = material
-	return _cache["terrain"] as StandardMaterial3D
+static func terrain() -> Material:
+	return StyleTerrain.material(0.2, 0.1)
