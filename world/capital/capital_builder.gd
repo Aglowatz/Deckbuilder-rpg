@@ -266,13 +266,13 @@ func _inside_color(kind: CapitalLayout.Floor, cx: int, cz: int, n: float, checke
 	var stripe: bool = (cx / 2) % 2 == 0
 	match kind:
 		CapitalLayout.Floor.ROAD:
-			return Color(0.86, 0.82, 0.74).lerp(Color(0.8, 0.76, 0.68), 0.35 if checker else n * 0.1)
+			return Color(0.78, 0.72, 0.64).lerp(Color(0.7, 0.64, 0.58), 0.35 if checker else n * 0.1)
 		CapitalLayout.Floor.PLAZA:
-			return Color(0.92, 0.88, 0.8).lerp(Color(0.84, 0.8, 0.72), 0.5 if checker else 0.0)
+			return Color(0.84, 0.78, 0.7).lerp(Color(0.72, 0.66, 0.6), 0.5 if checker else 0.0)
 		CapitalLayout.Floor.LAWN:
-			return Color(0.32, 0.82, 0.3) * (1.0 if stripe else 0.9)
+			return Color(0.3, 0.7, 0.32) * (1.0 if stripe else 0.88)
 		CapitalLayout.Floor.SOIL:
-			return Color(0.3, 0.74, 0.3) * (1.0 if stripe else 0.92)
+			return Color(0.28, 0.64, 0.3) * (1.0 if stripe else 0.9)
 		CapitalLayout.Floor.GRAY:
 			return Color(0.84, 0.8, 0.78).lerp(Color(0.78, 0.74, 0.74), 0.5 if checker else 0.0)
 		CapitalLayout.Floor.METAL:

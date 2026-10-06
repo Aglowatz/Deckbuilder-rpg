@@ -376,15 +376,15 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/capital_zone.tscn capital_inside <tag> --at=net_plaza`
 - **Baseline (Oct 2026):** A giant yellow wall block covers half of the default view; flat pastel plaza with neon-green lawns and white checker; the statue silhouettes are decent.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [~] **CI-1 Lighting and mood.** Unnaturally clean pastel: soft white-pink key, mint fill, sparkles; uncanny perfection (too even, no soft gradients) with small wrongness (portrait eyes, too-symmetric layout).
+- [x] **CI-1 Lighting and mood.** Unnaturally clean pastel: soft white-pink key, mint fill, sparkles; uncanny perfection (too even, no soft gradients) with small wrongness (portrait eyes, too-symmetric layout).
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **CI-2 Ground and terrain.** Perfect pastel tile plaza, striped trimmed lawns, flower beds in rows, immaculate paths; no dirt, except one telling crack or gum spot.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/4/5/5/6/5 (iter1). The inside plaza was blown out to near-white and the lawns were neon: `CapitalBuilder._inside_color` road/plaza/gray floors darkened to warm blush-tan (0.84/0.78/0.7 with a 0.72/0.66/0.6 checker), lawns 0.3/0.7/0.32 (was 0.32/0.82/0.3); CAPITAL_INSIDE preset sun ffe8c0, ambient violet 9a90d8 (lilac shadows), exposure 0.5, contrast 1.14. The statue, the gold-trimmed hall, the lawns and the checker plaza now sit in one soft pastel family (capital_inside/ci1_1_a.png). Angle b of the shot tool (`--cam=-8,5.5,7`) puts the camera inside a flat roof (an artifact of the tool, the game camera never goes there): used `--cam=-5,10,7` instead (ci1_1_b.png). The dither of the faded building still looks like a screen door. Tests 1023 green. before = capital_inside/ci1before_a.png; after = capital_inside/ci1_1_{a,b}.png.
+- [x] **CI-2 Ground and terrain.** Perfect pastel tile plaza, striped trimmed lawns, flower beds in rows, immaculate paths; no dirt, except one telling crack or gum spot.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **CI-3 Density and set dressing.** Identical hedges, topiary, lamp posts, loudspeakers, portraits of Primm, benches, painted doors, citizens in identical clothes, symmetric rows.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/4/5/5/6/5 (floor colours handled in CI-1: calmer plaza checker and striped lawns). NOT done: pastel paving variety, mosaic, path edging, manicured hedges' edging, scuffs. before/after = capital_inside/ci1before_a.png, ci1_1_a.png.
+- [~] **CI-3 Density and set dressing.** Identical hedges, topiary, lamp posts, loudspeakers, portraits of Primm, benches, painted doors, citizens in identical clothes, symmetric rows.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
