@@ -14,6 +14,7 @@ static func build(state: CosmeticState = null) -> Node3D:
 	var model: Node3D = ModelKit.scene(BASE_MODEL).instantiate() as Node3D
 	model.name = "Hero"
 	model.set_meta("hero_model", true)
+	ContactShadow.attach(model, 0.5)
 	_hide_gear(model)
 	refresh(model, state if state != null else Session.cosmetics)
 	return model

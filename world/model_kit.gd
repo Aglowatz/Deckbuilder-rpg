@@ -62,12 +62,16 @@ const ZONE_CHARACTERS: String = "res://assets/kenney-graveyard-kit/models/"
 ## Brief 5: an animated Kenney Graveyard Kit character (the D.N.A.'s undead staff).
 static func zone_character(model: String) -> Node3D:
 	var packed: PackedScene = scene("%s%s.glb" % [ZONE_CHARACTERS, model])
-	return packed.instantiate() as Node3D
+	var zone_node: Node3D = packed.instantiate() as Node3D
+	ContactShadow.attach(zone_node, 0.55)
+	return zone_node
 
 
 static func character(model: String) -> Node3D:
 	var packed: PackedScene = scene("%s%s.glb" % [CHARACTERS, model])
-	return packed.instantiate() as Node3D
+	var character_node: Node3D = packed.instantiate() as Node3D
+	ContactShadow.attach(character_node, 0.55)
+	return character_node
 
 
 ## Finds the AnimationPlayer inside an imported character and makes idle/walk loop.
