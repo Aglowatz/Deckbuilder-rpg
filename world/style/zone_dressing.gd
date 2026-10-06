@@ -61,8 +61,11 @@ static func recipe(preset_id: StringName) -> Dictionary:
 				"items": [
 					[FOOD, "cupcake", 0.5, 1.4, 1.9], [FOOD, "donut", 0.5, 1.4, 1.9], [FOOD, "muffin", 0.45, 1.4, 1.9], [FOOD, "cookie", 0.6, 1.4, 1.9],
 					[FOOD, "loaf", 0.35, 1.4, 1.9], [FOOD, "pie", 0.25, 1.2, 1.6], [FOOD, "cheese", 0.3, 1.2, 1.6],
+					[FOOD, "broccoli", 0.7, 1.6, 2.4], [FOOD, "cabbage", 0.5, 1.4, 2.0], [FOOD, "carrot", 0.5, 1.6, 2.2], [FOOD, "bread", 0.35, 1.4, 1.9],
+					[FOOD, "pancakes", 0.3, 1.4, 1.9], [FOOD, "sausage", 0.35, 1.6, 2.2], [FOOD, "mushroom", 0.4, 1.6, 2.2], [FOOD, "sundae", 0.2, 1.4, 1.8],
+					[FOOD, "egg", 0.35, 1.6, 2.2], [FOOD, "pot", 0.12, 1.2, 1.6], [FOOD, "cake", 0.12, 1.3, 1.7], [FOOD, "utensil-fork", 0.3, 2.0, 3.0],
 				],
-				"patches": [Color("e8a85a"), Color("d98a4a"), Color("f0c070")], "patch_pattern": GroundDecals.Pattern.DIRT,
+				"patches": [Color("e8a85a"), Color("d98a4a"), Color("f0c070")], "patch_pattern": GroundDecals.Pattern.DIRT, "density": 2.2, "scale": 2.0,
 			}
 		StylePresets.HEAP:
 			return {
@@ -139,7 +142,8 @@ static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, qua
 			placed += count / 3
 		else:
 			# Everything else goes through the ScatterTool: clusters of three (big, medium, small), keep-outs respected.
-			var entry: ScatterTool.Entry = ScatterTool.Entry.make(str(item[0]), str(item[1]), 1.0, float(item[3]), float(item[4]))
+			var item_scale: float = float(data.get("scale", 1.0))
+			var entry: ScatterTool.Entry = ScatterTool.Entry.make(str(item[0]), str(item[1]), 1.0, float(item[3]) * item_scale, float(item[4]) * item_scale)
 			for placement: ScatterTool.Placement in scatter.scatter(str(item[1]), [entry] as Array[ScatterTool.Entry], wanted, 3, 1.1):
 				_add_to_chunk(chunks, mesh, str(item[1]), placement.transform(), data)
 				count += 1
