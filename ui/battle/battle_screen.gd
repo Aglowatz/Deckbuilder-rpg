@@ -112,7 +112,9 @@ func _zone_title(zone_id: String) -> String:
 	return ZoneDefs.get_def(zone_id).display_name
 
 func _build_scene() -> void:
-	add_child(ArenaBackdrop.new())
+	var backdrop: ArenaBackdrop = ArenaBackdrop.new()
+	backdrop.zone_id = context.zone_id
+	add_child(backdrop)
 	var dim: ColorRect = ColorRect.new()
 	dim.color = Color(0.03, 0.02, 0.07, 0.45)
 	UIKit.full_rect(dim)

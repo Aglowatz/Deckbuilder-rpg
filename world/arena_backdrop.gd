@@ -1,13 +1,17 @@
 class_name ArenaBackdrop
 extends Node3D
-## The 3D scene behind the battle table: a small hex meadow at dusk with banners and mountains,
-## seen from a slowly swaying camera. It is dimmed by the battle screen so cards stay readable.
+## The 3D scene behind the battle table: a small hex table seen from a slowly swaying camera, dimmed by the battle screen so cards stay readable. The generic table is a
+## dusk meadow with banners and mountains; a zone theme (`ArenaTheme`) re-dresses it as that zone (the D.N.A. office desk, the Gainlands training ground, the Buffet table...).
 
+## The zone the duel is fought in ("" = the generic meadow table); set before the node enters the tree.
+var zone_id: String = ""
+var theme: ArenaTheme
 var _camera: Camera3D
 var _time: float = 0.0
 
 
 func _ready() -> void:
+	theme = ArenaTheme.for_zone(zone_id)
 	GroundDecals.begin(Settings.graphics_quality)
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 11
@@ -18,26 +22,36 @@ func _ready() -> void:
 			var pos: Vector3 = HexGrid.cell_to_world(col, row)
 			var dist: float = Vector2(pos.x, pos.z).length()
 			if dist > 9.5:
-				var water: Node3D = ModelKit.tile("hex_water")
-				ModelKit.place(self, water, pos)
+				if theme.meadow:
+					ModelKit.place(self, ModelKit.tile("hex_water"), pos)
+				else:
+					# Off the table: the same tile in deep shade, so a themed table floats in its room instead of in a lake.
+					var shade: Node3D = ModelKit.tile("hex_grass")
+					ModelKit.tint(shade, theme.tile_tint * Color(0.35, 0.35, 0.4))
+					ModelKit.place(self, shade, pos)
 				continue
-			ModelKit.place(self, ModelKit.tile("hex_grass"), pos)
+			var tile: Node3D = ModelKit.tile("hex_grass")
+			if theme.tile_tint != Color.WHITE:
+				ModelKit.tint(tile, theme.tile_tint)
+			ModelKit.place(self, tile, pos)
 			_paint_tile(paint_rng, pos, dist)
-			if dist > 5.0 and rng.randf() < 0.55:
+			if theme.meadow and dist > 5.0 and rng.randf() < 0.55:
 				var pick: String = ["tree_single_A", "tree_single_B", "rock_single_A", "rock_single_C", "trees_A_small", "trees_B_small"][rng.randi() % 6]
 				ModelKit.place(self, ModelKit.nature(pick), pos + Vector3(rng.randf_range(-0.4, 0.4), 0, rng.randf_range(-0.4, 0.4)), rng.randf() * 360.0, 1.3)
-	for side: int in [-1, 1]:
-		ModelKit.place(self, ModelKit.prop("flag_blue"), Vector3(side * 5.0, 0, 0), 0.0, 2.0)
+	if theme.meadow:
+		for side: int in [-1, 1]:
+			ModelKit.place(self, ModelKit.prop("flag_blue"), Vector3(side * 5.0, 0, 0), 0.0, 2.0)
 	_dress_ring()
 	_add_landmark()
-	for i: int in range(5):
-		var far: Vector3 = HexGrid.cell_to_world(-4 + i * 2, -7)
-		ModelKit.place(self, ModelKit.nature("mountain_A_grass_trees"), far, 0.0, 1.5)
+	if theme.meadow:
+		for i: int in range(5):
+			var far: Vector3 = HexGrid.cell_to_world(-4 + i * 2, -7)
+			ModelKit.place(self, ModelKit.nature("mountain_A_grass_trees"), far, 0.0, 1.5)
 	_camera = Camera3D.new()
 	_camera.fov = 45.0
 	add_child(_camera)
 	_camera.current = true
-	var rig: StyleRig = StyleRig.install(self, StylePresets.BATTLE, _camera)
+	var rig: StyleRig = StyleRig.install(self, theme.preset_id, _camera, null, 0.0, theme.table_preset())
 	var table: Node3D = Node3D.new()
 	table.position = Vector3(0.0, 2.0, 0.0)
 	add_child(table)
@@ -62,7 +76,7 @@ func _update_camera() -> void:
 func _add_lights() -> void:
 	var pool: SpotLight3D = SpotLight3D.new()
 	pool.name = "PlayAreaPool"
-	pool.light_color = Color("ffd8a0")
+	pool.light_color = theme.pool_color
 	pool.light_energy = 22.0
 	pool.spot_range = 34.0
 	pool.spot_angle = 34.0
@@ -74,7 +88,7 @@ func _add_lights() -> void:
 	add_child(pool)
 	var back: OmniLight3D = OmniLight3D.new()
 	back.name = "CoolBackLight"
-	back.light_color = Color("7a8cff")
+	back.light_color = theme.back_color
 	back.light_energy = 2.2
 	back.omni_range = 26.0
 	back.shadow_enabled = false
@@ -84,22 +98,22 @@ func _add_lights() -> void:
 
 ## Painted variation on a grass tile: moss, packed earth and worn stone patches so no tile is one flat colour; the play area stays calmer than the rim.
 func _paint_tile(rng: RandomNumberGenerator, pos: Vector3, dist: float) -> void:
-	var count: int = 2 if dist > 5.0 else 1
+	var count: int = (2 if dist > 5.0 else 1) + theme.patch_extra
 	for i: int in range(count):
 		var offset: Vector3 = Vector3(rng.randf_range(-0.7, 0.7), 0.0, rng.randf_range(-0.7, 0.7))
 		var kind: GroundDecals.Kind = [GroundDecals.Kind.MOSS_PATCH, GroundDecals.Kind.DIRT_PATCH, GroundDecals.Kind.STAIN][rng.randi() % 3]
 		var palette: Array[Color] = []
 		match kind:
 			GroundDecals.Kind.MOSS_PATCH:
-				palette = [Color("4f7a3a"), Color("6a9a48")]
+				palette = theme.moss
 			GroundDecals.Kind.DIRT_PATCH:
-				palette = [Color("7e7a50"), Color("676442"), Color("4e4a34")]
+				palette = theme.earth
 			_:
-				palette = [Color("5a5a64"), Color("7a7a80")]
-		GroundDecals.add_patch(self, pos + offset + Vector3(0.0, 0.45, 0.0), rng.randf_range(0.7, 1.1), kind, palette, rng.randf() * 40.0, rng.randf_range(0.8, 1.0), rng.randf() * 180.0)
+				palette = theme.stone
+		GroundDecals.add_patch(self, pos + offset + Vector3(0.0, 0.45, 0.0), rng.randf_range(0.7, 1.1) * theme.patch_scale, kind, palette, rng.randf() * 40.0, rng.randf_range(0.8, 1.0), rng.randf() * 180.0)
 
 
-## A ring of small set dressing (rocks, crates, barrels, sacks, lumber) on the rim only: clusters of three, nothing inside the play area or around the banners.
+## A ring of small set dressing on the rim only (the theme picks the props): clusters of three, nothing inside the play area or around the banners.
 func _dress_ring() -> void:
 	var scatter: ScatterTool = ScatterTool.new()
 	scatter.seed_value = 41
@@ -109,33 +123,24 @@ func _dress_ring() -> void:
 		return radius > 5.6 and radius < 9.0 and pos.z < 2.5 and (absf(pos.x) > 3.5 or pos.z < -3.0)
 	for side: int in [-1, 1]:
 		scatter.keep_out_circles.append(Vector3(side * 5.0, 0.0, 1.5))
-	var nature: String = "decoration/nature"
-	var props: String = "decoration/props"
-	var entries: Array[ScatterTool.Entry] = [
-		ScatterTool.Entry.make(nature, "rock_single_B", 2.0, 1.0, 1.5, 0.08),
-		ScatterTool.Entry.make(nature, "rock_single_D", 2.0, 1.0, 1.5, 0.08),
-		ScatterTool.Entry.make(nature, "rock_single_E", 1.5, 1.0, 1.4, 0.08),
-		ScatterTool.Entry.make(props, "barrel", 1.0, 1.0, 1.3),
-		ScatterTool.Entry.make(props, "crate_A_big", 1.0, 1.0, 1.3),
-		ScatterTool.Entry.make(props, "sack", 1.0, 1.0, 1.4),
-		ScatterTool.Entry.make(props, "resource_lumber", 0.6, 1.0, 1.2),
-		ScatterTool.Entry.make(nature, "tree_single_A_cut", 0.6, 1.0, 1.3),
-	]
+	var entries: Array[ScatterTool.Entry] = []
+	for item: Array in theme.rim:
+		var entry: ScatterTool.Entry = ScatterTool.Entry.make(str(item[0]), str(item[1]), float(item[2]), float(item[3]), float(item[4]))
+		entries.append(entry)
 	var count: int = [16, 28, 42][clampi(Settings.graphics_quality, 0, 2)]
 	for placement: ScatterTool.Placement in scatter.scatter("battle_rim", entries, count, 3, 1.0):
-		var node: Node3D = ModelKit.hex_model(placement.folder, placement.model)
-		ModelKit.place(self, node, placement.position, rad_to_deg(placement.yaw), placement.scale * 1.7)
+		var node: Node3D = ArenaTheme.make_node(placement.folder, placement.model)
+		ModelKit.place(self, node, placement.position, rad_to_deg(placement.yaw), placement.scale * theme.rim_scale)
 
 
-## The far-side focal point behind the enemy: a war tent between two tall banners with a warm lantern glow, so the board reads as a diorama with a destination.
+## The far-side focal point behind the enemy (the theme's pieces around one anchor) with a warm lantern glow, so the board reads as a diorama with a destination.
 func _add_landmark() -> void:
 	var anchor: Vector3 = Vector3(0.0, 0.0, -6.3)
-	ModelKit.place(self, ModelKit.prop("tent"), anchor, 0.0, 2.6)
-	for side: int in [-1, 1]:
-		ModelKit.place(self, ModelKit.prop("flag_blue"), anchor + Vector3(side * 3.2, 0.0, 0.8), side * 12.0, 3.4)
-	ModelKit.place(self, ModelKit.prop("weaponrack"), anchor + Vector3(2.0, 0.0, 1.8), -20.0, 1.8)
+	for piece: Array in theme.landmark:
+		var node: Node3D = ArenaTheme.make_node(str(piece[0]), str(piece[1]))
+		ModelKit.place(self, node, anchor + Vector3(float(piece[2]), 0.0, float(piece[3])), float(piece[4]), float(piece[5]))
 	var glow: OmniLight3D = OmniLight3D.new()
-	glow.light_color = Color("ffb867")
+	glow.light_color = theme.glow_color
 	glow.light_energy = 2.2
 	glow.omni_range = 5.0
 	glow.shadow_enabled = false
