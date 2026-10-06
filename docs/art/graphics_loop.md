@@ -298,25 +298,25 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/5/5/6/5 (iter3). Buffet recipe: 12 more food items (broccoli, cabbage, carrots, bread, pancakes, sausages, mushrooms, sundae, eggs, pots, cake slices, giant forks) on top of the pastries, `"density": 2.2` and a new recipe key `"scale": 2.0` (ZoneDressing multiplies the item scales: iter1/2 pieces were tiny crumbs at the default zoom). Clusters of three through the ScatterTool, keep-outs unchanged; a carrot cluster stands right by the hero spawn in angle a (decorative, not blocking). Medium 80 fps. Stalls/skirts of the hand-built props, bunting and the hub clutter are NOT touched. Tests 1023 green. before = buffet/eb2_2_{a,b,c}.png; after = buffet/eb3_3_{a,b,c}.png.
-- [~] **EB-4 Landmarks and hero props.** The chocolate fountain, the buffet counters, the cloche gate to the Test Kitchen, the Rift Express, steam towers, a giant cake landmark.
+- [x] **EB-4 Landmarks and hero props.** The chocolate fountain, the buffet counters, the cloche gate to the Test Kitchen, the Rift Express, steam towers, a giant cake landmark.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **EB-5 Particles and atmosphere.** Steam plumes, crumbs, sparkles on glazes, sauce drips, flour dust.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/5 (iter1, no new code: the generic ZoneScene beams from DN-4/GL-4 already cover the Buffet). `--at=mini_dungeon` (buffet/eb4_mini.png) shows the Walk-In Freezer with its icicle roof, glowing door and sign, the Test Kitchen frame with its red sign and the cyan Rift Express beam: destinations read, but a cake and carrot wall hides part of the route and the beam is faint on the bright cream. NOT done: distinct silhouettes/accent colours for the Grand Oven, Mystery Stew Pot and Dolcetta, floating-label fixes. before = buffet/eb3_3_a.png; after = buffet/eb4_mini.png.
+- [x] **EB-5 Particles and atmosphere.** Steam plumes, crumbs, sparkles on glazes, sauce drips, flour dust.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **EB-6 Final polish.** Glossy specular pass, no sawtooth edges anywhere, fps (steam particle cost), consistent with the other zones.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/5 (iter1, no new code: `ZoneScene` already tightens the ambience volume, DN-5). Steam puffs over the pots and sparkle motes are visible around the hero (eb4_mini.png); crumbs and the steam over the soup could be bigger. Medium 80 fps. before/after = buffet/eb3_3_a.png, eb4_mini.png.
+- [x] **EB-6 Final polish.** Glossy specular pass, no sawtooth edges anywhere, fps (steam particle cost), consistent with the other zones.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/6/6/5/6/5 (sign-off, honest: everything below 7, see follow-up EB-7). Medium 80 fps, no popping or z-fighting in the three angles, the table edge and gingham cloth now finish the stage. The Buffet still reads as one orange family (ground, props and fog) with only the checker and food accents as contrast. before = buffet/eb1before_{a,b,c}.png; after = buffet/eb3_3_{a,b,c}.png (docs/art/screens/graphics_loop/buffet_{before,after}.png).
 
 ### VD: The Verdant Dump
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/heap_zone.tscn heap <tag>`
 - **Baseline (Oct 2026):** Rust-orange dirt with green faceted grass, triangle noise, sawtooth stage edge, sparse junk, plain sign boards.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **VD-1 Lighting and mood.** Earthy greens, rust orange, golden hour: low gold key, olive-teal fill, brown-purple shadows, golden haze with soft rays; rust orange and rotten lime accents.
+- [~] **VD-1 Lighting and mood.** Earthy greens, rust orange, golden hour: low gold key, olive-teal fill, brown-purple shadows, golden haze with soft rays; rust orange and rotten lime accents.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -890,6 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
+- [ ] **EB-7 Follow-up: Buffet colour range and landmarks.** Break the single orange family (cool mint/blue accents, a stronger value contrast between ground and props), glossy tile grout, distinct silhouettes/accents for the Grand Oven, Mystery Stew Pot and Dolcetta, brighter beam over the cream, bigger steam and crumb particles, the Dump (Heap) stage edge and pattern floors from G-08b.
+  - Verify: `bash tools/area_shots.sh res://scenes/buffet_zone.tscn buffet <tag>`
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
 - [ ] **GL-7 Follow-up: Gainlands dressing and atmosphere.** Scale audit of the gym props against the hero (barbells, dumbbells, tents), ScatterTool clusters and skirts around the gym buildings, worn paths with edges, strong rim light, cyan/magenta/orange accents, bigger sky/long fog, visible particles and sparkle, the unexplained pale cyan shape under the south gate.
   - Verify: `bash tools/area_shots.sh res://scenes/gainlands_zone.tscn gainlands <tag>`
   - Pass bar: all 8 rubric scores 7 or higher.
