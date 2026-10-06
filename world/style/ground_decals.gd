@@ -6,7 +6,7 @@ extends RefCounted
 const SHADER_PATH: String = "res://assets/shaders/style_ground.gdshader"
 const LIFT: float = 0.025
 
-enum Pattern { COBBLE, DIRT, MOSS, SOIL }
+enum Pattern { COBBLE, DIRT, MOSS, SOIL, CRACKS, PUDDLE, STAIN, LEAVES, CHALK, SCORCH, FOOTPRINTS }
 enum Shape { DISC, RIBBON }
 
 static var _shader: Shader
@@ -118,3 +118,78 @@ static func glow(parent: Node3D, center: Vector3, radius: float, color: Color, s
 	instance.set_meta(StyleToon.META_NO_TOON, true)
 	parent.add_child(instance)
 	return instance
+
+
+# ---- Authoring API (G-09): kinds with default palettes, soft edges and a per-quality budget ---------------------------------------------
+
+## Higher-level decal kinds; each maps to a shader pattern with its own default palette (`palette` overrides: [color_a, color_b, gap]).
+enum Kind { CRACKS, PUDDLE, STAIN, LEAF_PILE, CHALK, SCORCH, FOOTPRINTS, MOSS_PATCH, DIRT_PATCH, WORN_PATH }
+
+## The most decals one scene may add per graphics quality level (Low / Medium / High).
+const BUDGETS: Array[int] = [40, 120, 260]
+
+static var _budget_left: int = 120
+static var _added: Dictionary = {}
+
+
+## Call once when building a scene: resets the budget for `level` and the per-kind report.
+static func begin(level: int) -> void:
+	_budget_left = BUDGETS[clampi(level, 0, BUDGETS.size() - 1)]
+	_added.clear()
+
+
+## How many decals of each kind were added since `begin` (Kind name -> count), for tests and the debug overlay.
+static func report() -> Dictionary:
+	return _added.duplicate()
+
+
+static func budget_left() -> int:
+	return _budget_left
+
+
+static func _kind_material(kind: Kind, palette: Array[Color], shape: Shape, seed_value: float) -> ShaderMaterial:
+	var a: Color = palette[0] if palette.size() > 0 else Color.WHITE
+	var b: Color = palette[1] if palette.size() > 1 else a
+	var gap: Color = palette[2] if palette.size() > 2 else a.darkened(0.5)
+	match kind:
+		Kind.CRACKS:
+			return material(Pattern.CRACKS, a, b, palette[2] if palette.size() > 2 else Color(0.12, 0.1, 0.12), shape, 0.9, 0.1, seed_value)
+		Kind.PUDDLE:
+			var puddle: ShaderMaterial = material(Pattern.PUDDLE, palette[0] if palette.size() > 0 else Color("6fb8d8"), palette[1] if palette.size() > 1 else Color("3f7fb0"), gap, shape, 1.0, 0.35, seed_value)
+			return puddle
+		Kind.STAIN:
+			return material(Pattern.STAIN, palette[0] if palette.size() > 0 else Color("5a3d2e"), palette[1] if palette.size() > 1 else Color("7a5a44"), gap, shape, 0.6, 0.6, seed_value)
+		Kind.LEAF_PILE:
+			return material(Pattern.LEAVES, palette[0] if palette.size() > 0 else Color("c9803a"), palette[1] if palette.size() > 1 else Color("a85a2a"), gap, shape, 2.6, 0.4, seed_value)
+		Kind.CHALK:
+			return material(Pattern.CHALK, palette[0] if palette.size() > 0 else Color("f2eee0"), b, gap, shape, 1.0, 0.2, seed_value)
+		Kind.SCORCH:
+			return material(Pattern.SCORCH, palette[0] if palette.size() > 0 else Color("3a3028"), b, palette[2] if palette.size() > 2 else Color("120e0c"), shape, 1.0, 0.5, seed_value)
+		Kind.FOOTPRINTS:
+			return material(Pattern.FOOTPRINTS, palette[0] if palette.size() > 0 else Color("6a5238"), b, gap, shape, 1.0, 0.15, seed_value)
+		Kind.MOSS_PATCH:
+			return material(Pattern.MOSS, palette[0] if palette.size() > 0 else Color("5f9a4a"), palette[1] if palette.size() > 1 else Color("7aa850"), gap, shape, 1.0, 0.7, seed_value)
+		Kind.DIRT_PATCH:
+			return material(Pattern.DIRT, palette[0] if palette.size() > 0 else Color("a9835a"), palette[1] if palette.size() > 1 else Color("8a6a46"), palette[2] if palette.size() > 2 else Color("5e4630"), shape, 1.0, 0.5, seed_value)
+		_:
+			return material(Pattern.DIRT, palette[0] if palette.size() > 0 else Color("b79a64"), palette[1] if palette.size() > 1 else Color("9c8157"), palette[2] if palette.size() > 2 else Color("6e5a3c"), shape, 1.0, 0.3, seed_value)
+
+
+## A decal patch of `kind` centred on `center` (x/z; y is the ground height), `radius` across. Returns null when the budget is spent.
+static func add_patch(parent: Node3D, center: Vector3, radius: float, kind: Kind, palette: Array[Color] = [], seed_value: float = 0.0, stretch: float = 1.0, yaw: float = 0.0) -> MeshInstance3D:
+	if _budget_left <= 0:
+		return null
+	_budget_left -= 1
+	_added[Kind.keys()[kind]] = int(_added.get(Kind.keys()[kind], 0)) + 1
+	var mat: ShaderMaterial = _kind_material(kind, palette, Shape.DISC, seed_value)
+	return disc(parent, center, radius, mat, stretch, yaw, 0.001 * float(_added.size()) + 0.0004 * float(kind))
+
+
+## A decal ribbon of `kind` along `points`, `width` wide (paths, tracks, chalk lines, footprints). Returns null when the budget is spent.
+static func add_path(parent: Node3D, points: Array[Vector3], kind: Kind, width: float = 1.0, palette: Array[Color] = [], seed_value: float = 0.0) -> MeshInstance3D:
+	if _budget_left <= 0 or points.size() < 2:
+		return null
+	_budget_left -= 1
+	_added[Kind.keys()[kind]] = int(_added.get(Kind.keys()[kind], 0)) + 1
+	var mat: ShaderMaterial = _kind_material(kind, palette, Shape.RIBBON, seed_value)
+	return ribbon(parent, points, width, mat, 0.001 * float(_added.size()) + 0.0004 * float(kind))

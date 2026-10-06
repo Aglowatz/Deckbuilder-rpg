@@ -132,6 +132,9 @@ static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, qua
 	for key: String in chunks:
 		_make_multimesh(root, chunks[key] as Dictionary)
 	_patches(root, area, bounds, data, rng, quality, region)
+	_decals(root, area, bounds, preset_id, rng, quality, region, avoid)
+	if OS.get_environment("STYLE_DEBUG") != "":
+		print("zone_dressing decals ", preset_id, " ", GroundDecals.report(), " budget left ", GroundDecals.budget_left())
 	return root
 
 
@@ -192,3 +195,86 @@ static func _patches(root: Node3D, area: WalkableArea, bounds: Rect2, data: Dict
 		var material: ShaderMaterial = GroundDecals.material(pattern as GroundDecals.Pattern, base, base.lerp(colors[(made + 1) % colors.size()] as Color, 0.6), base.darkened(0.4), GroundDecals.Shape.DISC, 1.0, 0.7, float(made))
 		GroundDecals.disc(root, pos, rng.randf_range(1.0, 2.4), material, rng.randf_range(0.6, 1.0), rng.randf() * 180.0, 0.001 * float(made))
 		made += 1
+
+
+# ---- Decals (cracks, puddles, stains, leaf piles, scorch ...) through the GroundDecals authoring API ----------------------------------
+
+
+## Per preset: [GroundDecals.Kind, count at High, min radius, max radius, palette colours].
+static func decal_recipe(preset_id: StringName) -> Array:
+	match preset_id:
+		StylePresets.TOWN:
+			return [
+				[GroundDecals.Kind.LEAF_PILE, 8, 0.8, 1.5, [Color("d9a03a"), Color("b8652a")]],
+				[GroundDecals.Kind.PUDDLE, 5, 0.9, 1.6, [Color("8fd0e8"), Color("4f95c8")]],
+				[GroundDecals.Kind.STAIN, 5, 0.7, 1.4, [Color("6a4a30"), Color("86623e")]],
+			]
+		StylePresets.START:
+			return [
+				[GroundDecals.Kind.MOSS_PATCH, 8, 0.9, 1.8, [Color("3f8a7a"), Color("5aa890")]],
+				[GroundDecals.Kind.PUDDLE, 3, 0.5, 0.9, [Color("9ab8ff"), Color("4a5ab8")]],
+			]
+		StylePresets.DNA:
+			return [
+				[GroundDecals.Kind.STAIN, 8, 0.4, 0.9, [Color("3a2c22"), Color("52402f")]],
+				[GroundDecals.Kind.CRACKS, 8, 1.2, 2.2, [Color("1b2024"), Color("1b2024"), Color("0b0e10")]],
+			]
+		StylePresets.HEAP:
+			return [
+				[GroundDecals.Kind.PUDDLE, 8, 1.0, 1.9, [Color("7aa890"), Color("3a6a5a")]],
+				[GroundDecals.Kind.STAIN, 10, 0.8, 1.8, [Color("2e241a"), Color("4a3a24")]],
+				[GroundDecals.Kind.SCORCH, 3, 1.0, 1.8, [Color("3a2c20"), Color("3a2c20"), Color("100c08")]],
+				[GroundDecals.Kind.LEAF_PILE, 6, 0.8, 1.5, [Color("a8a03a"), Color("7a7a2a")]],
+			]
+		StylePresets.BUFFET:
+			return [
+				[GroundDecals.Kind.STAIN, 12, 0.6, 1.4, [Color("a8322a"), Color("c8643a")]],
+				[GroundDecals.Kind.PUDDLE, 4, 0.5, 1.0, [Color("c8742a"), Color("8a4a1c")]],
+			]
+		StylePresets.GAINLANDS:
+			return [
+				[GroundDecals.Kind.DIRT_PATCH, 8, 1.0, 2.0, [Color("c8a870"), Color("a88850")]],
+				[GroundDecals.Kind.CHALK, 0, 1.0, 1.0, []],
+			]
+		StylePresets.CAPITAL_OUTSKIRTS, StylePresets.CAPITAL_DARK:
+			return [
+				[GroundDecals.Kind.CRACKS, 16, 1.4, 2.8, [Color("2a2630"), Color("2a2630"), Color("0c0a10")]],
+				[GroundDecals.Kind.SCORCH, 5, 1.0, 2.0, [Color("2e2a28"), Color("2e2a28"), Color("0e0c0c")]],
+				[GroundDecals.Kind.STAIN, 8, 0.8, 1.6, [Color("3a3030"), Color("504444")]],
+			]
+	return []
+
+
+static func _decals(root: Node3D, area: WalkableArea, bounds: Rect2, preset_id: StringName, rng: RandomNumberGenerator, quality: int, region: Callable, avoid: Array[Vector3]) -> void:
+	GroundDecals.begin(quality)
+	var scale_by_quality: float = [0.35, 0.7, 1.0][clampi(quality, 0, 2)]
+	var kind_index: int = 0
+	for entry: Array in decal_recipe(preset_id):
+		var count: int = int(round(float(entry[1]) * scale_by_quality))
+		var palette: Array[Color] = []
+		palette.assign(entry[4] as Array)
+		var made: int = 0
+		var tries: int = 0
+		while made < count and tries < count * 14:
+			tries += 1
+			var pos: Vector3 = Vector3(rng.randf_range(bounds.position.x, bounds.end.x), 0.0, rng.randf_range(bounds.position.y, bounds.end.y))
+			if not area.is_floor_at(pos) or not area.is_walkable(pos, 0.3) or _avoided(pos, avoid) or (region.is_valid() and not bool(region.call(pos))):
+				continue
+			pos.y = area.height_at(pos)
+			pos.y = _decal_height(area, pos, float(entry[3]))
+			var radius: float = rng.randf_range(float(entry[2]), float(entry[3]))
+			if OS.get_environment("STYLE_DEBUG") != "" and made == 0:
+				print("decal ", entry[0], " at ", pos, " r ", radius)
+			if GroundDecals.add_patch(root, pos, radius, entry[0] as GroundDecals.Kind, palette, float(made + kind_index * 17), rng.randf_range(0.6, 1.0), rng.randf() * 180.0) == null:
+				return
+			made += 1
+		kind_index += 1
+
+
+## The highest ground under a decal of up to `radius` (centre and eight ring points), so a flat decal never sinks into a bump.
+static func _decal_height(area: WalkableArea, pos: Vector3, radius: float) -> float:
+	var top: float = area.height_at(pos)
+	for i: int in range(8):
+		var angle: float = TAU * float(i) / 8.0
+		top = maxf(top, area.height_at(pos + Vector3(cos(angle) * radius, 0.0, sin(angle) * radius)))
+	return top
