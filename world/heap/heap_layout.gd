@@ -628,7 +628,7 @@ func _scatter() -> void:
 	_scatter_kind("tree", Rect2(5.0, 31.0, 90.0, 10.0), 10, keep_clear, 1.8, 0.5, 1.0, 1.3)
 	_scatter_kind("bush", Rect2(5.0, 5.0, 90.0, 70.0), 40, keep_clear, 1.0, 0.45, 0.9, 1.4)
 	_scatter_kind("flowers", Rect2(5.0, 5.0, 90.0, 70.0), 40, keep_clear, 0.8, 0.0, 0.9, 1.4)
-	_scatter_kind("rock", Rect2(5.0, 5.0, 90.0, 70.0), 24, keep_clear, 1.2, 0.6, 0.9, 1.6)
+	_scatter_kind("rock", Rect2(5.0, 5.0, 90.0, 70.0), 24, keep_clear, 1.8, 0.0, 0.9, 1.6)
 	_scatter_kind("mushrooms", Rect2(5.0, 5.0, 40.0, 70.0), 14, keep_clear, 1.0, 0.0, 0.9, 1.4)
 	_scatter_kind("tire_stack", Rect2(5.0, 5.0, 90.0, 70.0), 16, keep_clear, 1.6, 0.9, 0.9, 1.2)
 

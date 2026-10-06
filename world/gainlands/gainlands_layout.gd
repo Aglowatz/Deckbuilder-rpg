@@ -339,7 +339,10 @@ func _prop(kind: String, x: float, z: float, yaw: float = 0.0, model_scale: floa
 
 func _features() -> void:
 	# The hub: the Station building, hot tub, vendor stall, the arch back to the Beefcake Path.
-	_prop("station", 52.0, 53.5, 0.0, 1.0, 4.0)
+	# The Station is the KayKit tavern at 2.5x: about 2.9 m wide and 3.3 m deep, so four 1 m colliders trace its real footprint (a single 4 m circle used to wall off the hub from the north fields).
+	_prop("station", 52.0, 53.5, 0.0, 1.0, 0.0)
+	for foot: Vector2 in [Vector2(-0.55, -0.9), Vector2(0.55, -0.9), Vector2(-0.55, 0.7), Vector2(0.55, 0.7)]:
+		_prop("pylon", 52.0 + foot.x, 53.5 + foot.y, 0.0, 1.0, 1.0)
 	_prop("tub", 44.0, 62.0, 0.0, 1.0, 1.7)
 	_prop("stall", 63.0, 64.5, 200.0, 1.0, 1.4)
 	_prop("arch", 52.0, 75.0, 0.0, 1.0, 0.0)
@@ -454,7 +457,7 @@ func _scatter() -> void:
 		var rz: float = _rng.randf_range(CENTER.y - RADII.y, CENTER.y + RADII.y)
 		if main_edge_distance(rx, rz) < 1.5 or not _is_clear(rx, rz, keep_clear):
 			continue
-		_prop("boulder", rx, rz, _rng.randf() * 360.0, _rng.randf_range(0.8, 1.5), 0.55, _rng.randi() % 5)
+		_prop("boulder", rx, rz, _rng.randf() * 360.0, _rng.randf_range(0.8, 1.5), 0.0, _rng.randi() % 5)
 		keep_clear.append(Vector3(rx, rz, 1.2))
 		rocks += 1
 	# A few trees and boulders on each island, away from the travel points and the chest.
@@ -469,7 +472,7 @@ func _scatter() -> void:
 			var tz: float = island.center.y + sin(angle) * distance
 			if not _is_clear(tx, tz, keep_clear):
 				continue
-			_prop("tree" if on_island % 2 == 0 else "boulder", tx, tz, _rng.randf() * 360.0, _rng.randf_range(1.0, 1.4), 0.4, _rng.randi() % 2)
+			_prop("tree" if on_island % 2 == 0 else "boulder", tx, tz, _rng.randf() * 360.0, _rng.randf_range(1.0, 1.4), 0.4 if on_island % 2 == 0 else 0.0, _rng.randi() % 2)
 			keep_clear.append(Vector3(tx, tz, 1.2))
 			on_island += 1
 

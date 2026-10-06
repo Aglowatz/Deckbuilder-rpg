@@ -697,7 +697,7 @@ func _outskirts() -> void:
 		if not _clear_of_anchors(x - 1.0, z - 1.0, 2.0, 2.0, 3.0):
 			continue
 		var kind: String = ["rock", "tree_dead", "wreck", "rock", "queue_post"][index % 5]
-		_prop(kind, x, z, _rng.randf_range(0.0, 360.0), _rng.randf_range(0.8, 1.6), 1.0 if kind != "queue_post" else 0.2, index % 3)
+		_prop(kind, x, z, _rng.randf_range(0.0, 360.0), _rng.randf_range(0.8, 1.6), 0.0 if kind == "rock" else (1.0 if kind != "queue_post" else 0.2), index % 3)
 	_prop("wreck_stack", 14.0, 91.0, 30.0, 1.4, 1.6)
 	_prop("tunnel_hatch_cover", 7.0, 72.0, 0.0, 1.0, 0.0)
 	_prop("toppled_statue", 9.0, 70.0, 80.0, 1.3, 1.6)

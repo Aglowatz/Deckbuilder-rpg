@@ -117,3 +117,32 @@ static func _nearest_standable(can_stand: Callable, start: Vector3, step: float)
 				if can_stand.call(_world(cell, step)):
 					return cell
 	return base
+
+
+## `flood` plus the zone's non-walking connections: `links` is [[from, to], ...] (a jelly pad, a beanstalk ladder, a manhole). Whenever the
+## ground around a `from` is reached, the ground around its `to` joins the reached set (and so on until nothing new is added).
+static func flood_linked(can_stand: Callable, start: Vector3, bounds: Rect2, links: Array, reach_slack: float = 2.4, step: float = STEP) -> Dictionary:
+	var reached: Dictionary = flood(can_stand, start, bounds, step)
+	var applied: Dictionary = {}
+	var changed: bool = true
+	while changed:
+		changed = false
+		for index: int in range(links.size()):
+			if applied.has(index):
+				continue
+			var link: Array = links[index] as Array
+			if gap(reached, link[0] as Vector3, reach_slack + 1.0, step) > reach_slack:
+				continue
+			applied[index] = true
+			changed = true
+			reached.merge(flood(can_stand, link[1] as Vector3, bounds, step))
+	return reached
+
+
+## Like `unreachable`, but over a precomputed reached set (see `flood_linked`).
+static func missing_from(reached: Dictionary, targets: Dictionary, slack: float = REACH_SLACK, step: float = STEP) -> Array[String]:
+	var missing: Array[String] = []
+	for key: String in targets.keys():
+		if gap(reached, targets[key] as Vector3, slack + 1.0, step) > slack:
+			missing.append(key)
+	return missing

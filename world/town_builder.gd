@@ -136,7 +136,7 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 			walkable[Vector2i(col, row)] = true
 			var rock_pos: Vector3 = _scatter(center, 0.2 * SCALE, 0.7 * SCALE)
 			ModelKit.place(root, ModelKit.nature("rock_single_%s" % ["A", "B", "C", "D", "E"][_rng.randi() % 5]), rock_pos, _rng.randf() * 360.0, 1.3)
-			obstacles.append(Vector3(rock_pos.x, rock_pos.z, OBSTACLE_ROCK * 1.3))
+			# Polish round: small decorative rocks never block the hero (OBSTACLE_ROCK is kept for the doc of what it used to be).
 		"K":
 			walkable[Vector2i(col, row)] = true
 			_building("market", center, 0.0, 1.25, 1.1)
