@@ -108,10 +108,10 @@ Verify for global tasks: shoot at least town (`TW`), Gainlands (`GL`) and D.N.A.
   - Verify: town and one zone before/after; clusters visible, lanes clear, no prop inside a building or on water.
   - Pass bar: D 7 or higher in the two areas; tool has a GUT test for determinism and keep-out.
   - Result: scores = _; before = _; after = _
-- [ ] **G-11 Landmark readability.** Rules and helpers so destinations pop: silhouette + accent colour + light pillar/beacon for gates, rift stations, shops, doors and quest givers; icon billboards at distance; fix the floating Label3D signs and titles (SDF/outlined text, size stable with distance, fade near the hero, no garbling).
+- [x] **G-11 Landmark readability.** Rules and helpers so destinations pop: silhouette + accent colour + light pillar/beacon for gates, rift stations, shops, doors and quest givers; icon billboards at distance; fix the floating Label3D signs and titles (SDF/outlined text, size stable with distance, fade near the hero, no garbling).
   - Verify: town and one zone at angle a: can you find every destination in 2 seconds? Close-up of sign text.
   - Pass bar: M and R 7 or higher; no garbled text.
-  - Result: scores = _; before = _; after = _
+  - Result (slice 1, text only): `StyleLabel` (`world/style/style_label.gd`): MSDF versions of the title/body fonts (Label3D text stays crisp at the Medium/Low internal resolution), `tune()` (min outline when an outline is set, mip filtering, unshaded, 46 m distance fade) and `lean_back()` (free-standing signs tilt 32 degrees towards the high camera: the garbled look of the station text was mostly edge-on foreshortening); `StyleLabelFader` (installed by `StyleRig`): rescans for Label3D every 2 s, tunes them and fades labels hanging directly above the hero (within 0.9-2.4 m horizontally, 1-4.5 m up) to 22 percent. Applied to the Rift Express sign (`fast_travel_station.gd`). Town M/R about 5/6 (station name plate and the 'The Beefcake Rift Express' plate read, the 2-line sign is still small). NOT done (follow-up G-11b): landmark beacons / light pillars, accent colours + silhouettes per destination, icon billboards at distance, retilting the other free-standing signs (town passages, Gainlands/Buffet/Dump sign boards) and checking MSDF output on all of them (only the town was shot). Tests 1021 green, Medium 70 fps. before = town/g10_a.png; after = town/g11b_{a,b,c}.png.
 - [ ] **G-12 Character and NPC presentation.** Hero, NPCs and zone enemies: consistent outline/rim, one dominant colour per character, head about 40 percent proportion check, idle and flavour animations always on, contact shadows, readable name/role tags, enemies with the deep-crimson rim in the D.N.A. and a distinct readable language elsewhere; NPCs not clipping into props.
   - Verify: close-ups of hero, 4 NPCs and 3 enemy types in town, D.N.A. and Gainlands.
   - Pass bar: R 7 or higher; character pass in all three.
@@ -897,6 +897,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **G-08b Stage edge and pattern floors (Buffet, Dump).** Remove the sawtooth stage edge: collapse terrain vertices outside `edge_distance` onto the outline and add a vertical skirt down to the rim layers (`buffet_builder.gd`/`heap_builder.gd` `_build_terrain`, `*_layout.gd` `ground_height`); paint the Buffet checker/tile floor and the Dump dirt/grass cells from world position in the shader (or at 4x terrain resolution) so boundaries are not triangle zigzags.
   - Verify: Buffet and Dump angles a/b/c; a crop of the stage edge and one checker boundary.
   - Pass bar: no sawtooth anywhere on the edge; G 7 or higher in both zones.
+  - Result: scores = _; before = _; after = _
+- [ ] **G-11b Landmark beacons and sign lean.** Light pillar/beacon helper for gates, rift stations, shops and quest givers (soft additive column plus a ground ring in the accent colour, budgeted), icon billboards beyond 25 m, `StyleLabel.lean_back` on every free-standing sign (town passages, zone sign boards in Gainlands/Buffet/Dump, ruler plaques), and an MSDF check of every Label3D font in all zones.
+  - Verify: town and one zone at angle a: every destination found in 2 seconds; sign text close-up.
+  - Pass bar: M and R 7 or higher in town and one zone.
   - Result: scores = _; before = _; after = _
 
 ---

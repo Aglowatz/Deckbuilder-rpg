@@ -149,6 +149,7 @@ func _add_sign(lines: Array[String]) -> void:
 	title.outline_modulate = Color(0.1, 0.03, 0.03, 0.95)
 	title.modulate = Color("ffcf70")
 	title.position = Vector3(0.0, 3.3, 0.1)
+	StyleLabel.lean_back(title)
 	add_child(title)
 	if lines.size() > 1:
 		var small: Label3D = Label3D.new()
@@ -160,6 +161,7 @@ func _add_sign(lines: Array[String]) -> void:
 		small.outline_modulate = Color(0.1, 0.03, 0.03, 0.95)
 		small.modulate = Color("f3e9d2")
 		small.position = Vector3(0.0, 3.0, 0.1)
+		StyleLabel.lean_back(small)
 		add_child(small)
 
 

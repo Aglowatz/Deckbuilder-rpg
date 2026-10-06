@@ -69,6 +69,11 @@ func _ready() -> void:
 	if cull_distance > 0.0:
 		for node: Node in _scene_root.find_children("*", "MeshInstance3D", true, false):
 			_limit_range(node as MeshInstance3D)
+	var label_fader: StyleLabelFader = StyleLabelFader.new()
+	label_fader.name = "StyleLabelFader"
+	label_fader.root = _scene_root
+	label_fader.hero = follow
+	add_child(label_fader)
 	get_tree().node_added.connect(_on_node_added)
 	Settings.graphics_changed.connect(apply)
 
