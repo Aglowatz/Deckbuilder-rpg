@@ -69,6 +69,13 @@ func _ready() -> void:
 	if cull_distance > 0.0:
 		for node: Node in _scene_root.find_children("*", "MeshInstance3D", true, false):
 			_limit_range(node as MeshInstance3D)
+	if camera != null and follow != null:
+		var occlusion: OcclusionFader = OcclusionFader.new()
+		occlusion.name = "OcclusionFader"
+		occlusion.camera = camera
+		occlusion.hero = follow
+		occlusion.root = _scene_root
+		add_child(occlusion)
 	var label_fader: StyleLabelFader = StyleLabelFader.new()
 	label_fader.name = "StyleLabelFader"
 	label_fader.root = _scene_root

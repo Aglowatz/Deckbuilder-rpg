@@ -32,6 +32,9 @@ uniform float gloss = 0.0;
 
 instance uniform float colour_keep : hint_range(0.0, 1.0) = 0.0;
 instance uniform float accent_mix : hint_range(0.0, 1.0) = 0.0;
+instance uniform float occlusion_fade : hint_range(0.0, 1.0) = 0.0;
+
+const float BAYER[16] = float[16](0.0, 8.0, 2.0, 10.0, 12.0, 4.0, 14.0, 6.0, 3.0, 11.0, 1.0, 9.0, 15.0, 7.0, 13.0, 5.0);
 
 varying vec3 v_world;
 
@@ -75,6 +78,10 @@ void fragment() {
 		base.rgb *= vc;
 	}
 	if (alpha_scissor > 0.0 && base.a < alpha_scissor) {
+		discard;
+	}
+	// Walls and roofs between the camera and the hero dissolve in a 4x4 ordered dither (OcclusionFader), staying in the opaque pipeline.
+	if (occlusion_fade > 0.0 && (BAYER[(int(FRAGCOORD.y) % 4) * 4 + (int(FRAGCOORD.x) % 4)] + 0.5) / 16.0 < occlusion_fade) {
 		discard;
 	}
 	vec3 col = base.rgb;
