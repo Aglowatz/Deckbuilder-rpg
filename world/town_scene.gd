@@ -123,6 +123,8 @@ func _ready() -> void:
 		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 	_build_camera()
 	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 0.0 if _screenshot_args.has("nocull") else 70.0)
+	if style_rig != null and style_rig.ambience != null:
+		style_rig.ambience.focus(0.5, 1.6)
 	cloud_fader = CloudFader.new()
 	cloud_fader.camera = _camera
 	cloud_fader.target = player
