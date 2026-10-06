@@ -61,24 +61,26 @@ func _hex_prop(model: String, pos: Vector3, yaw: float = 0.0, scale_value: float
 
 func _ground() -> void:
 	var dirt: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, Color("b79a64"), Color("9c8157"), Color("6e5a3c"), GroundDecals.Shape.RIBBON, 1.0, 0.3, 3.0)
+	var edge: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("9a8a4c"), Color("b09a5a"), Color.BLACK, GroundDecals.Shape.RIBBON, 1.0, 0.5, 7.0)
 	for key: String in ["market", "deck", "tailor", "spawn", "rift_station", "gate", "item_vendor", "pack_vendor", "equipment_vendor"]:
 		var points: Array[Vector3] = _smooth([center, _anchor(key) + Vector3(0.0, 0.0, 0.2)])
 		for piece: Array in _land_runs(points):
 			var typed: Array[Vector3] = []
 			typed.assign(piece)
-			GroundDecals.ribbon(root, typed, 1.1, dirt, 0.004)
+			GroundDecals.ribbon(root, typed, 1.55, edge, 0.002)
+			GroundDecals.ribbon(root, typed, 1.25, dirt, 0.004)
 		_lane_points.append_array(points)
 	var grass_dark: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("4f9a58"), Color("3c8466"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 4.0)
 	var grass_light: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("86c066"), Color("6fae62"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 5.0)
 	var moss: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("5f9a4a"), Color("7aa850"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.6, 6.0)
-	for i: int in range(26):
+	for i: int in range(44):
 		var angle: float = _rng.randf() * TAU
 		var distance: float = _rng.randf_range(plaza_radius + 1.5, meadow_radius + 6.0)
 		var pos: Vector3 = center + Vector3(cos(angle) * distance, 0.0, sin(angle) * distance)
 		if not town.is_floor_at(pos):
 			continue
 		var mat: ShaderMaterial = [grass_dark, grass_light, moss][i % 3]
-		GroundDecals.disc(root, pos, _rng.randf_range(1.4, 3.0), mat, _rng.randf_range(0.6, 1.0), _rng.randf() * 180.0, 0.001 * float(i))
+		GroundDecals.disc(root, pos, _rng.randf_range(1.6, 3.8), mat, _rng.randf_range(0.6, 1.0), _rng.randf() * 180.0, 0.0004 * float(i % 6))
 
 
 func _smooth(points: Array) -> Array[Vector3]:
@@ -89,7 +91,7 @@ func _smooth(points: Array) -> Array[Vector3]:
 		var steps: int = maxi(2, int(a.distance_to(b) / 0.8))
 		for step: int in range(steps):
 			var t: float = float(step) / float(steps)
-			var wobble: float = sin((t + float(i)) * 3.1) * 0.14
+			var wobble: float = sin((t + float(i)) * 3.1) * 0.3 + sin(t * 9.0 + float(i) * 2.0) * 0.08
 			var along: Vector3 = (b - a).normalized()
 			result.append(a.lerp(b, t) + Vector3(-along.z, 0.0, along.x) * wobble)
 	result.append(points[points.size() - 1] as Vector3)
