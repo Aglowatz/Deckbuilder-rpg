@@ -28,6 +28,7 @@ func _ready() -> void:
 				ModelKit.place(self, ModelKit.nature(pick), pos + Vector3(rng.randf_range(-0.4, 0.4), 0, rng.randf_range(-0.4, 0.4)), rng.randf() * 360.0, 1.3)
 	for side: int in [-1, 1]:
 		ModelKit.place(self, ModelKit.prop("flag_blue"), Vector3(side * 5.0, 0, 0), 0.0, 2.0)
+	_dress_ring()
 	for i: int in range(5):
 		var far: Vector3 = HexGrid.cell_to_world(-4 + i * 2, -7)
 		ModelKit.place(self, ModelKit.nature("mountain_A_grass_trees"), far, 0.0, 1.5)
@@ -89,3 +90,31 @@ func _paint_tile(rng: RandomNumberGenerator, pos: Vector3, dist: float) -> void:
 			_:
 				palette = [Color("5a5a64"), Color("7a7a80")]
 		GroundDecals.add_patch(self, pos + offset + Vector3(0.0, 0.45, 0.0), rng.randf_range(0.7, 1.1), kind, palette, rng.randf() * 40.0, rng.randf_range(0.8, 1.0), rng.randf() * 180.0)
+
+
+## A ring of small set dressing (rocks, crates, barrels, sacks, lumber) on the rim only: clusters of three, nothing inside the play area or around the banners.
+func _dress_ring() -> void:
+	var scatter: ScatterTool = ScatterTool.new()
+	scatter.seed_value = 41
+	scatter.bounds = Rect2(-12.0, -9.0, 24.0, 18.0)
+	scatter.is_floor = func(pos: Vector3) -> bool:
+		var radius: float = Vector2(pos.x, pos.z).length()
+		return radius > 5.6 and radius < 9.0 and pos.z < 2.5 and (absf(pos.x) > 3.5 or pos.z < -3.0)
+	for side: int in [-1, 1]:
+		scatter.keep_out_circles.append(Vector3(side * 5.0, 0.0, 1.5))
+	var nature: String = "decoration/nature"
+	var props: String = "decoration/props"
+	var entries: Array[ScatterTool.Entry] = [
+		ScatterTool.Entry.make(nature, "rock_single_B", 2.0, 1.0, 1.5, 0.08),
+		ScatterTool.Entry.make(nature, "rock_single_D", 2.0, 1.0, 1.5, 0.08),
+		ScatterTool.Entry.make(nature, "rock_single_E", 1.5, 1.0, 1.4, 0.08),
+		ScatterTool.Entry.make(props, "barrel", 1.0, 1.0, 1.3),
+		ScatterTool.Entry.make(props, "crate_A_big", 1.0, 1.0, 1.3),
+		ScatterTool.Entry.make(props, "sack", 1.0, 1.0, 1.4),
+		ScatterTool.Entry.make(props, "resource_lumber", 0.6, 1.0, 1.2),
+		ScatterTool.Entry.make(nature, "tree_single_A_cut", 0.6, 1.0, 1.3),
+	]
+	var count: int = [16, 28, 42][clampi(Settings.graphics_quality, 0, 2)]
+	for placement: ScatterTool.Placement in scatter.scatter("battle_rim", entries, count, 3, 1.0):
+		var node: Node3D = ModelKit.hex_model(placement.folder, placement.model)
+		ModelKit.place(self, node, placement.position, rad_to_deg(placement.yaw), placement.scale * 1.7)
