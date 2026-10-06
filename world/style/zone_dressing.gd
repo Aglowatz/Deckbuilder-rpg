@@ -101,6 +101,12 @@ static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, qua
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = hash(String(preset_id)) + (7 if region.is_valid() else 0)
 	var chunks: Dictionary = {}
+	var scatter: ScatterTool = ScatterTool.new()
+	scatter.seed_value = hash(String(preset_id)) & 0xFFFF
+	scatter.bounds = bounds
+	scatter.keep_out_circles = avoid
+	scatter.is_floor = func(pos: Vector3) -> bool: return area.is_floor_at(pos) and area.is_walkable(pos, 0.12) and (not region.is_valid() or bool(region.call(pos)))
+	scatter.height_at = func(pos: Vector3) -> float: return area.height_at(pos)
 	var budget: int = BUDGET[clampi(quality, 0, 2)]
 	var placed: int = 0
 	var density_scale: float = GraphicsQuality.foliage_density(quality)
@@ -114,21 +120,26 @@ static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, qua
 		if mesh == null:
 			continue
 		var count: int = 0
-		var tries: int = 0
-		while count < wanted and tries < wanted * 10:
-			tries += 1
-			var pos: Vector3 = Vector3(rng.randf_range(bounds.position.x, bounds.end.x), 0.0, rng.randf_range(bounds.position.y, bounds.end.y))
-			if not area.is_floor_at(pos) or not area.is_walkable(pos, 0.12) or _avoided(pos, avoid) or (region.is_valid() and not bool(region.call(pos))):
-				continue
-			pos.y = area.height_at(pos)
-			var s: float = rng.randf_range(float(item[3]), float(item[4]))
-			var xform: Transform3D = Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * s), pos)
-			var key: String = "%s|%d|%d" % [str(item[1]), int(floor(pos.x / CHUNK)), int(floor(pos.z / CHUNK))]
-			if not chunks.has(key):
-				chunks[key] = {"mesh": mesh, "model": str(item[1]), "transforms": [] as Array[Transform3D], "grass": StyleGrass.colors_for(data.get("patches", []) as Array)}
-			(chunks[key]["transforms"] as Array[Transform3D]).append(xform)
-			count += 1
-		placed += count / 3 if StyleGrass.replaces(str(item[1])) else count
+		if StyleGrass.replaces(str(item[1])):
+			# Grass is a uniform carpet of clumps: plain random placement.
+			var tries: int = 0
+			while count < wanted and tries < wanted * 10:
+				tries += 1
+				var pos: Vector3 = Vector3(rng.randf_range(bounds.position.x, bounds.end.x), 0.0, rng.randf_range(bounds.position.y, bounds.end.y))
+				if not area.is_floor_at(pos) or not area.is_walkable(pos, 0.12) or _avoided(pos, avoid) or (region.is_valid() and not bool(region.call(pos))):
+					continue
+				pos.y = area.height_at(pos)
+				var s: float = rng.randf_range(float(item[3]), float(item[4]))
+				_add_to_chunk(chunks, mesh, str(item[1]), Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * s), pos), data)
+				count += 1
+			placed += count / 3
+		else:
+			# Everything else goes through the ScatterTool: clusters of three (big, medium, small), keep-outs respected.
+			var entry: ScatterTool.Entry = ScatterTool.Entry.make(str(item[0]), str(item[1]), 1.0, float(item[3]), float(item[4]))
+			for placement: ScatterTool.Placement in scatter.scatter(str(item[1]), [entry] as Array[ScatterTool.Entry], wanted, 3, 1.1):
+				_add_to_chunk(chunks, mesh, str(item[1]), placement.transform(), data)
+				count += 1
+			placed += count
 	for key: String in chunks:
 		_make_multimesh(root, chunks[key] as Dictionary)
 	_patches(root, area, bounds, data, rng, quality, region)
@@ -278,3 +289,11 @@ static func _decal_height(area: WalkableArea, pos: Vector3, radius: float) -> fl
 		var angle: float = TAU * float(i) / 8.0
 		top = maxf(top, area.height_at(pos + Vector3(cos(angle) * radius, 0.0, sin(angle) * radius)))
 	return top
+
+
+static func _add_to_chunk(chunks: Dictionary, mesh: Mesh, model: String, xform: Transform3D, data: Dictionary) -> void:
+	var pos: Vector3 = xform.origin
+	var key: String = "%s|%d|%d" % [model, int(floor(pos.x / CHUNK)), int(floor(pos.z / CHUNK))]
+	if not chunks.has(key):
+		chunks[key] = {"mesh": mesh, "model": model, "transforms": [] as Array[Transform3D], "grass": StyleGrass.colors_for(data.get("patches", []) as Array)}
+	(chunks[key]["transforms"] as Array[Transform3D]).append(xform)
