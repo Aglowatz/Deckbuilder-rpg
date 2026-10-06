@@ -96,6 +96,7 @@ func _build_actors() -> void:
 		fader.adopt(cloud, 2.0)
 	if rig != null:
 		ZoneDressing.build(self, area, StylePresets.START, Settings.graphics_quality)
+		_worn_path()
 
 
 func _build_ui() -> void:
@@ -321,3 +322,17 @@ func _confirm_enter() -> void:
 
 func screenshot_ready() -> bool:
 	return true
+
+
+## A faint worn trail from the arrival spot to the cave gate, so the first thing the eye finds is where to go.
+func _worn_path() -> void:
+	var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
+	var gate: Vector3 = (area.anchors.get("gate", Vector3.ZERO) as Vector3) + Vector3(0.0, 0.0, 0.6)
+	var points: Array[Vector3] = []
+	for i: int in range(7):
+		var t: float = float(i) / 6.0
+		var wobble: float = sin(t * 6.0) * 0.25
+		var p: Vector3 = spawn.lerp(gate, t) + Vector3(wobble, 0.0, 0.0)
+		p.y = area.height_at(p)
+		points.append(p)
+	GroundDecals.add_path(self, points, GroundDecals.Kind.WORN_PATH, 1.0, [Color("8a8470"), Color("6a6a60")], 3.0)

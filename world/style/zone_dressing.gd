@@ -222,7 +222,8 @@ static func decal_recipe(preset_id: StringName) -> Array:
 			]
 		StylePresets.START:
 			return [
-				[GroundDecals.Kind.MOSS_PATCH, 8, 0.9, 1.8, [Color("3f8a7a"), Color("5aa890")]],
+				[GroundDecals.Kind.MOSS_PATCH, 14, 0.9, 1.8, [Color("3f8a7a"), Color("5aa890")]],
+				[GroundDecals.Kind.DIRT_PATCH, 6, 0.7, 1.3, [Color("5a5a52"), Color("46463e"), Color("303028")]],
 				[GroundDecals.Kind.PUDDLE, 3, 0.5, 0.9, [Color("9ab8ff"), Color("4a5ab8")]],
 			]
 		StylePresets.DNA:
