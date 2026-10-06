@@ -83,3 +83,36 @@ static func apply_to_viewport(viewport: Viewport, level: int) -> void:
 ## How many dressing lights (lanterns, fires) stay on at once: the nearest ones to the hero (lights beyond the budget are switched off).
 static func light_budget(level: int) -> int:
 	return [3, 6, 12][clampi(level, 0, 2)]
+
+
+## The default level for this machine: a discrete GPU gets High, an integrated or unknown one Medium, a software renderer Low.
+static func recommended() -> int:
+	match RenderingServer.get_video_adapter_type():
+		RenderingDevice.DEVICE_TYPE_DISCRETE_GPU:
+			return Level.HIGH
+		RenderingDevice.DEVICE_TYPE_CPU:
+			return Level.LOW
+	return Level.MEDIUM
+
+
+## The preset table (one row per level) for the settings screen and docs/art/graphics_loop.md: every knob in one place.
+static func table() -> Array[Dictionary]:
+	var rows: Array[Dictionary] = []
+	for level: int in range(NAMES.size()):
+		rows.append({
+			"name": NAMES[level],
+			"render_scale": render_scale(level),
+			"msaa": msaa(level) != Viewport.MSAA_DISABLED,
+			"fxaa": fxaa(level),
+			"shadows": shadow_detail(level),
+			"ssao": ssao(level),
+			"outlines": outlines(level),
+			"bloom": glow(level),
+			"volumetric_fog": volumetric_fog(level),
+			"foliage_density": foliage_density(level),
+			"ambient_particles": ambient_particles_scale(level),
+			"ambient_particle_budget": ambient_particle_budget(level),
+			"light_budget": light_budget(level),
+			"decal_budget": GroundDecals.BUDGETS[level],
+		})
+	return rows

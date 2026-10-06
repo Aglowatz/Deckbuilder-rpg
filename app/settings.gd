@@ -82,13 +82,14 @@ func save_settings() -> void:
 func load_settings() -> void:
 	var config: ConfigFile = ConfigFile.new()
 	if config.load(PATH) != OK:
+		graphics_quality = GraphicsQuality.recommended()
 		return
 	master_volume = float(config.get_value("audio", "master", master_volume))
 	music_volume = float(config.get_value("audio", "music", music_volume))
 	sfx_volume = float(config.get_value("audio", "sfx", sfx_volume))
 	fullscreen = bool(config.get_value("video", "fullscreen", fullscreen))
 	show_minimap = bool(config.get_value("video", "minimap", show_minimap))
-	graphics_quality = clampi(int(config.get_value("video", "quality", graphics_quality)), 0, 2)
+	graphics_quality = clampi(int(config.get_value("video", "quality", GraphicsQuality.recommended())), 0, 2)
 	depth_of_field = bool(config.get_value("video", "dof", depth_of_field))
 	camera_zoom = clampf(float(config.get_value("video", "zoom", camera_zoom)), ZOOM_MIN, ZOOM_MAX)
 
