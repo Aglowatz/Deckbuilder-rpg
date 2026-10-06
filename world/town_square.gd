@@ -32,6 +32,7 @@ static func build(parent: Node3D, builder: TownBuilder, quality: int) -> TownSqu
 	square._lanterns()
 	square._market()
 	square._plaza_furniture()
+	square._skirts()
 	square._meadow()
 	return square
 
@@ -294,3 +295,39 @@ func _multimesh(mesh: Mesh, transforms: Array[Transform3D]) -> void:
 		instance.material_override = toon
 	instance.set_meta(StyleToon.META_NO_TOON, true)
 	root.add_child(instance)
+
+
+# ---- building skirts: clustered clutter around the shops and along the lanes ------------------------------------------------------
+
+
+## Crates, barrels, sacks and buckets in clusters of three around every building and the market, never on a lane or inside an obstacle (ScatterTool keep-outs).
+func _skirts() -> void:
+	var scatter: ScatterTool = ScatterTool.new()
+	scatter.seed_value = 4243
+	scatter.bounds = Rect2(center.x - 30.0, center.z - 30.0, 60.0, 60.0)
+	scatter.is_floor = func(pos: Vector3) -> bool: return town.is_floor_at(pos)
+	for point: Vector3 in _lane_points:
+		scatter.keep_out_circles.append(Vector3(point.x, point.z, 1.0))
+	for obstacle: Vector3 in town.obstacles:
+		scatter.keep_out_circles.append(Vector3(obstacle.x, obstacle.y, obstacle.z + 0.3))
+	scatter.keep_out_circles.append(Vector3(center.x, center.z, 2.4))
+	for key: String in ["npc_market", "npc_well", "npc_gate", "npc_tailor", "rift_station", "spawn"]:
+		scatter.keep_out_circles.append(Vector3(_anchor(key).x, _anchor(key).z, 1.5))
+	var skirt_points: Array[Vector3] = []
+	for key: String in ["market", "deck", "tailor", "alchemist", "item_vendor", "equipment_vendor", "pack_vendor", "gate"]:
+		if town.anchors.has(key):
+			skirt_points.append(_anchor(key))
+	var props: String = "decoration/props"
+	var entries: Array[ScatterTool.Entry] = [
+		ScatterTool.Entry.make(props, "crate_A_big", 1.0, 0.9, 1.1),
+		ScatterTool.Entry.make(props, "crate_B_small", 1.2, 0.9, 1.2),
+		ScatterTool.Entry.make(props, "barrel", 1.4, 0.9, 1.1),
+		ScatterTool.Entry.make(props, "sack", 1.2, 0.9, 1.2),
+		ScatterTool.Entry.make(props, "bucket_water", 0.8, 0.9, 1.1),
+		ScatterTool.Entry.make(props, "wheelbarrow", 0.3, 0.9, 1.0),
+	]
+	var count: int = [10, 21, 33][clampi(_quality, 0, 2)]
+	for placement: ScatterTool.Placement in scatter.scatter("town_skirts", entries, count, 3, 0.9, 0.0, skirt_points, 2.8, 0.85):
+		var node: Node3D = ModelKit.hex_model(placement.folder, placement.model)
+		ModelKit.place(root, node, placement.position, rad_to_deg(placement.yaw), placement.scale * 1.6)
+		town.obstacles.append(Vector3(placement.position.x, placement.position.z, 0.35 * placement.scale * 1.6))
