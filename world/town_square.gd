@@ -129,12 +129,12 @@ func _lanterns() -> void:
 			continue
 		_lamp_post(pos)
 		town.obstacles.append(Vector3(pos.x, pos.z, 0.18))
-		GroundDecals.glow(root, pos, 2.4, WARM_LIGHT, 0.12)
+		GroundDecals.glow(root, pos, 2.8, WARM_LIGHT, 0.22)
 		var light: OmniLight3D = OmniLight3D.new()
 		light.position = pos + Vector3(0.0, 1.45, 0.0)
 		light.light_color = WARM_LIGHT
-		light.light_energy = 1.6
-		light.omni_range = 5.0
+		light.light_energy = 2.2
+		light.omni_range = 6.0
 		light.omni_attenuation = 1.3
 		root.add_child(light)
 		lights.append(light)
