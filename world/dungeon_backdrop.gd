@@ -202,6 +202,26 @@ func _steam(pos: Vector3, color: Color) -> void:
 	add_child(particles)
 
 
+## A short fountain of glowing sparks (welding, ovens, the unfinished cannon).
+func _sparks(pos: Vector3, color: Color) -> void:
+	var particles: CPUParticles3D = CPUParticles3D.new()
+	particles.position = pos
+	particles.amount = 30
+	particles.lifetime = 1.4
+	particles.preprocess = 1.4
+	particles.direction = Vector3.UP
+	particles.spread = 40.0
+	particles.initial_velocity_min = 2.5
+	particles.initial_velocity_max = 5.0
+	particles.gravity = Vector3(0, -7.0, 0)
+	var mesh: SphereMesh = SphereMesh.new()
+	mesh.radius = 0.07
+	mesh.height = 0.14
+	particles.mesh = mesh
+	particles.material_override = _material(color, 0.3, 4.0)
+	add_child(particles)
+
+
 func _label(text: String, pos: Vector3, color: Color, pixel_size: float = 0.012) -> void:
 	var label: Label3D = Label3D.new()
 	label.text = text
@@ -248,6 +268,10 @@ func _build_kitchen() -> void:
 	_lamp(Color("ffffff"), 1.5, Vector3(6, 4.0, -2), 9.0)
 	_steam(Vector3(-1.5, 2.2, -5.4), Color("e8fff0"))
 	_steam(Vector3(5.0, 2.4, -6.0), Color("e8fff0"))
+	_sparks(Vector3(-0.8, 5.0, -2.0), Color("ffb040"))
+	_sparks(Vector3(-6.0, 2.4, -4.6), Color("ffd070"))
+	_sparks(Vector3(5.0, 2.4, -4.6), Color("ffd070"))
+	_lamp(Color("ffb060"), 2.4, Vector3(-0.8, 5.0, -1.0), 7.0)
 
 
 # ---- The House of Gains -------------------------------------------------------------------------
@@ -256,7 +280,7 @@ func _build_kitchen() -> void:
 func _build_house() -> void:
 	_environment(Color("1a0a0c"), Color("5a1f22"), Color("e0a0a0"), Color("40181c"), 0.01, 1.2)
 	_sun(Color("ffb0a0"), 0.7, Vector3(-60, 25, 0))
-	_floor(16, 11, 1.4, Color("3b3b42"), Color("2f2f36"))
+	_floor(16, 11, 1.4, Color("55525c"), Color("403d48"))
 	var steel: StandardMaterial3D = _material(Color("55555f"), 0.3)
 	for index: int in range(6):
 		var x: float = -8.5 + float(index) * 3.4
@@ -284,9 +308,9 @@ func _build_house() -> void:
 	for index: int in range(3):
 		var spot: SpotLight3D = SpotLight3D.new()
 		spot.light_color = Color("ff5040")
-		spot.light_energy = 6.0
-		spot.spot_range = 14.0
-		spot.spot_angle = 40.0
+		spot.light_energy = 16.0
+		spot.spot_range = 16.0
+		spot.spot_angle = 48.0
 		spot.position = Vector3(-6.0 + float(index) * 6.0, 7.0, -1.0)
 		spot.rotation_degrees = Vector3(-90, 0, 0)
 		add_child(spot)
@@ -325,6 +349,9 @@ func _build_hall() -> void:
 		var strip: MeshInstance3D = _box(Vector3(5.0, 0.12, 0.4), _material(Color("e8fff4"), 0.2, 2.5), Vector3(-7.5 + float(index) * 5.0, 5.5, 0.0))
 		strip.rotation_degrees.y = 0.0
 		_lamp(Color("d8fff0"), 1.4, Vector3(-7.5 + float(index) * 5.0, 5.0, 0.0), 9.0)
+	# Cold fluorescent pool over the queue counter and a warm brass lamp pool over the clerks' desks.
+	_lamp(Color("fff0b0"), 3.0, Vector3(0, 3.5, 6.0), 8.0)
+	_lamp(Color("ffc060"), 2.4, Vector3(6.0, 3.0, -4.0), 8.0)
 
 
 # ---- The Rotheart ---------------------------------------------------------------------------------
@@ -351,17 +378,20 @@ func _build_rotheart() -> void:
 	var heart: Node3D = Node3D.new()
 	heart.position = Vector3(0, 1.6, 0)
 	add_child(heart)
-	var glow: MeshInstance3D = _ball(1.7, _material(Color("7fe04a"), 0.3, 1.6), Vector3.ZERO)
+	# Dark albedo, coloured emission only: lit albedo plus emission blew the core out to a pale grey disc.
+	var core_material: StandardMaterial3D = _material(Color("22e040"), 0.3, 1.7)
+	core_material.albedo_color = Color("0c2408")
+	var glow: MeshInstance3D = _ball(1.7, core_material, Vector3.ZERO)
 	glow.set_meta(StyleToon.META_NO_TOON, true)
 	remove_child(glow)
 	heart.add_child(glow)
-	var shell: MeshInstance3D = _ball(2.1, _material(Color(0.7, 0.2, 0.9, 0.18), 0.2, 0.8), Vector3.ZERO)
+	var shell: MeshInstance3D = _ball(2.1, _material(Color(0.75, 0.15, 0.95, 0.22), 0.2, 0.0), Vector3.ZERO)
 	(shell.material_override as StandardMaterial3D).transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	shell.set_meta(StyleToon.META_NO_TOON, true)
 	remove_child(shell)
 	heart.add_child(shell)
 	_pulse = heart
-	_lamp(Color("b4ff6a"), 3.2, Vector3(0, 2.5, 0), 12.0)
+	_lamp(Color("a0ff50"), 5.0, Vector3(0, 2.5, 0), 13.0)
 	_lamp(Color("b46cff"), 2.0, Vector3(-6, 3, 3), 10.0)
 	_lamp(Color("b46cff"), 2.0, Vector3(6, 3, -3), 10.0)
 	var spores: CPUParticles3D = CPUParticles3D.new()
