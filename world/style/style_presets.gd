@@ -77,7 +77,7 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.glow_threshold = 1.15
 			p.exposure = 0.82
 			p.rim_color = Color("ffe0b8")
-			p.particles = [{"kind": "motes", "color": Color(1.0, 0.86, 0.55, 0.8), "amount": 60}]
+			p.particles = [{"kind": "motes", "color": Color(1.0, 0.86, 0.55, 0.8), "amount": 60}, {"kind": "leaves", "color": Color("a4cf5a"), "amount": 10}, {"kind": "fireflies", "color": Color(1.0, 0.9, 0.5, 1.0), "amount": 10}]
 		START:
 			p.with_id(id, "Starting area: soft, mysterious")
 			p.sky_top = Color("2a2e6a")
@@ -101,7 +101,7 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.glow_threshold = 0.85
 			p.rim_color = Color("a8c8ff")
 			p.highlight = Vector3(0.98, 1.0, 1.1)
-			p.particles = [{"kind": "fireflies", "color": Color(0.7, 1.0, 0.85, 1.0), "amount": 30}, {"kind": "motes", "color": Color(0.8, 0.8, 1.0, 0.6), "amount": 40}]
+			p.particles = [{"kind": "fireflies", "color": Color(0.7, 1.0, 0.85, 1.0), "amount": 30}, {"kind": "spores", "color": Color(0.7, 0.85, 1.0, 0.7), "amount": 26}]
 		DNA:
 			p.with_id(id, "D.N.A.: near-monochrome, red accent")
 			p.use_sky = false
@@ -201,7 +201,7 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.outline_color = Color("3a2a14")
 			p.rim_color = Color("ffd08a")
 			p.highlight = Vector3(1.08, 1.0, 0.88)
-			p.particles = [{"kind": "motes", "color": Color(1.0, 0.8, 0.45, 0.8), "amount": 50}, {"kind": "fireflies", "color": Color(0.8, 1.0, 0.4, 1.0), "amount": 16}]
+			p.particles = [{"kind": "motes", "color": Color(1.0, 0.8, 0.45, 0.8), "amount": 50}, {"kind": "flies", "color": Color(0.08, 0.07, 0.05, 0.9), "amount": 14}, {"kind": "spores", "color": Color(0.7, 0.9, 0.3, 0.7), "amount": 18}]
 		CAPITAL_FACADE:
 			p.with_id(id, "Capital facade: unnaturally clean pastel")
 			p.sky_top = Color("a8d8f0")
@@ -248,7 +248,7 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.desaturate = 0.35
 			p.wind = 0.6
 			p.accent = Color("ff3aa8")
-			p.particles = [{"kind": "ash", "color": Color(0.7, 0.68, 0.62, 0.8), "amount": 80}, {"kind": "motes", "color": Color(0.8, 0.76, 0.62, 0.6), "amount": 40}, {"kind": "sparkles", "color": Color("ff50d0"), "amount": 12}]
+			p.particles = [{"kind": "ash", "color": Color(0.7, 0.68, 0.62, 0.8), "amount": 80}, {"kind": "motes", "color": Color(0.8, 0.76, 0.62, 0.6), "amount": 40}, {"kind": "rift", "color": Color("ff50d0"), "amount": 12}, {"kind": "rift", "color": Color("40e0ff"), "amount": 8}]
 		CAPITAL_DARK:
 			p = get_preset(CAPITAL_OUTSKIRTS)
 			p.with_id(id, "Capital outskirts, service down: dark")

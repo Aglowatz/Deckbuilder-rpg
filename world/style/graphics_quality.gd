@@ -33,6 +33,11 @@ static func glow(level: int) -> bool:
 	return level >= Level.MEDIUM
 
 
+## The most ambient particles alive at once (all emitters of a preset together).
+static func ambient_particle_budget(level: int) -> int:
+	return [120, 260, 400][clampi(level, 0, 2)]
+
+
 static func ambient_particles_scale(level: int) -> float:
 	return [0.35, 0.8, 1.0][clampi(level, 0, 2)]
 
