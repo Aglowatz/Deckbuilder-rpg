@@ -25,6 +25,8 @@ static func hex_model(folder: String, model: String) -> Node3D:
 
 static func tile(model: String) -> Node3D:
 	var node: Node3D = hex_model("tiles/base", model)
+	if model == "hex_water":
+		StyleWater.apply(node)
 	if model == "hex_grass":
 		tint(node, Color(0.5, 0.76, 0.5))
 	return node

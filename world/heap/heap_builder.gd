@@ -405,7 +405,8 @@ func _build_hazards() -> void:
 	surface.generate_normals()
 	var stream: MeshInstance3D = MeshInstance3D.new()
 	stream.mesh = surface.commit()
-	stream.material_override = water
+	stream.material_override = StyleWater.material(Color("62c0a4"), Color("1b6670"))
+	stream.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	stream.name = "RecyclingStream"
 	root.add_child(stream)
 	for pit: Vector3 in layout.pits:
