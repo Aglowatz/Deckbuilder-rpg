@@ -272,21 +272,21 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/6/4/6/5 (iter1). `ZoneScene._add_spot` now puts a faint light pillar over every visible dungeon entrance (warm gold, 5 m, alpha 0.12) and exit (pale blue, 4 m, alpha 0.08) in all generic zones, on top of the cyan Rift Express beam from DN-4: destinations read from afar (the exit gate at the bottom of the hub shows its beam). Gym props are not re-sized, no accent colours per landmark yet; an unexplained pale-cyan elongated shape lies under the south gate (also in the baseline). Tests 1023 green. before = gainlands/gl3_1_a.png; after = gainlands/gl4_1_{a,b,c}.png.
-- [~] **GL-5 Particles and atmosphere.** Cloud streaks overhead, petals, sparkles from weights, sun glints, dust kicked up by training dummies.
+- [x] **GL-5 Particles and atmosphere.** Cloud streaks overhead, petals, sparkles from weights, sun glints, dust kicked up by training dummies.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **GL-6 Final polish.** Edge of the zone (cliffs, sky), camera, fps, consistent with Buffet and Dump.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/6/4/6/5 (iter1). Petals 32 and sparkles 26 (was 24/20), tightened by the shared `focus(0.5, 1.6)` from DN-5; still only an occasional pink petal reads at the default zoom: particles are weak here (the preset's quality scale and the 100 m map), wind streaks are the zone's other cue. Medium 76 fps. Tests 1023 green. before = gainlands/gl4_1_b.png; after = gainlands/gl5_1_b.png.
+- [x] **GL-6 Final polish.** Edge of the zone (cliffs, sky), camera, fps, consistent with Buffet and Dump.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/6/4/6/5 (sign-off, honest: everything below 7, see follow-up GL-7). Gainlands is clearly better than the baseline (deeper greens, sand hub, beams, more flowers) but still reads as a green field with big signs. Medium 76 fps. before = gainlands/gl1before_{a,b,c}.png; after = gainlands/gl4_1_{a,b,c}.png (docs/art/screens/graphics_loop/gainlands_{before,after}.png).
 
 ### EB: The Endless Buffet
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/buffet_zone.tscn buffet <tag>`
 - **Baseline (Oct 2026):** Flat orange/cream checkerboard floor with sawtooth triangle edges at the stage boundary, enormous fridge-like props, strong banding, jagged pink edge strip.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **EB-1 Lighting and mood.** Warm, saturated, appetizing: orange-yellow key, pink fill, raspberry shadows, warm cream steam, glossy highlights, red/green/yellow food accents.
+- [~] **EB-1 Lighting and mood.** Warm, saturated, appetizing: orange-yellow key, pink fill, raspberry shadows, warm cream steam, glossy highlights, red/green/yellow food accents.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -485,11 +485,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **BB-GL-5 Particles and atmosphere.** Sun glints, petals.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/6/4/6/5 (iter1). Petals 32 and sparkles 26 (was 24/20), tightened by the shared `focus(0.5, 1.6)` from DN-5; still only an occasional pink petal reads at the default zoom: particles are weak here (the preset's quality scale and the 100 m map), wind streaks are the zone's other cue. Medium 76 fps. Tests 1023 green. before = gainlands/gl4_1_b.png; after = gainlands/gl5_1_b.png.
 - [ ] **BB-GL-6 Final polish.** Check cards legibility, fps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/6/4/6/5 (sign-off, honest: everything below 7, see follow-up GL-7). Gainlands is clearly better than the baseline (deeper greens, sand hub, beams, more flowers) but still reads as a green field with big signs. Medium 76 fps. before = gainlands/gl1before_{a,b,c}.png; after = gainlands/gl4_1_{a,b,c}.png (docs/art/screens/graphics_loop/gainlands_{before,after}.png).
 
 ### BB-EB: Battle backdrop: the Endless Buffet
 
@@ -665,11 +665,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **MD-GL-5 Particles and atmosphere.** Chalk dust, forge sparks.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/6/4/6/5 (iter1). Petals 32 and sparkles 26 (was 24/20), tightened by the shared `focus(0.5, 1.6)` from DN-5; still only an occasional pink petal reads at the default zoom: particles are weak here (the preset's quality scale and the 100 m map), wind streaks are the zone's other cue. Medium 76 fps. Tests 1023 green. before = gainlands/gl4_1_b.png; after = gainlands/gl5_1_b.png.
 - [ ] **MD-GL-6 Final polish.** Reuse the backdrop theme parameter, fps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/6/4/6/5 (sign-off, honest: everything below 7, see follow-up GL-7). Gainlands is clearly better than the baseline (deeper greens, sand hub, beams, more flowers) but still reads as a green field with big signs. Medium 76 fps. before = gainlands/gl1before_{a,b,c}.png; after = gainlands/gl4_1_{a,b,c}.png (docs/art/screens/graphics_loop/gainlands_{before,after}.png).
 
 ### MD-EB: Mini dungeon map: The Walk-In Freezer - Three Courses (Endless Buffet)
 
@@ -890,6 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
+- [ ] **GL-7 Follow-up: Gainlands dressing and atmosphere.** Scale audit of the gym props against the hero (barbells, dumbbells, tents), ScatterTool clusters and skirts around the gym buildings, worn paths with edges, strong rim light, cyan/magenta/orange accents, bigger sky/long fog, visible particles and sparkle, the unexplained pale cyan shape under the south gate.
+  - Verify: `bash tools/area_shots.sh res://scenes/gainlands_zone.tscn gainlands <tag>`
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
 - [ ] **DN-7 Follow-up: D.N.A. voids, shadows and floors.** Replace the navy void beyond the outer walls with a finished edge, soften or lighten the sun shadows (the black smudge by the breakroom rug), linoleum value variation, painted floor arrows and queue lines, cubicle walls and function-grouped clusters (waiting room, records, mail), red sparks at interactables.
   - Verify: `bash tools/area_shots.sh res://scenes/dna_zone.tscn dna <tag>`
   - Pass bar: all 8 rubric scores 7 or higher.

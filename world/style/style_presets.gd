@@ -153,7 +153,7 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.rim_color = Color("fff0c0")
 			p.highlight = Vector3(1.06, 1.03, 0.92)
 			p.wind = 1.5
-			p.particles = [{"kind": "petals", "color": Color("ff9ac8"), "amount": 24}, {"kind": "sparkles", "color": Color(1.0, 1.0, 0.8, 1.0), "amount": 20}]
+			p.particles = [{"kind": "petals", "color": Color("ff9ac8"), "amount": 32}, {"kind": "sparkles", "color": Color(1.0, 1.0, 0.8, 1.0), "amount": 26}]
 		BUFFET:
 			p.with_id(id, "Endless Buffet: warm, saturated, appetizing")
 			p.sky_top = Color("d86a4a")
