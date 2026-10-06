@@ -80,10 +80,10 @@ static func recipe(preset_id: StringName) -> Dictionary:
 		StylePresets.CAPITAL_FACADE, StylePresets.CAPITAL_FREED:
 			return {
 				"items": [
-					[NATURE, "plant_bushLarge", 3.0, 1.6, 2.4], [NATURE, "flower_redC", 14.0, 1.3, 1.9], [NATURE, "flower_purpleC", 14.0, 1.3, 1.9], [NATURE, "flower_yellowC", 14.0, 1.3, 1.9], [NATURE, "flower_redA", 8.0, 1.3, 1.9],
+					[NATURE, "plant_bushLarge", 6.0, 1.6, 2.4], [NATURE, "plant_bush", 4.0, 1.5, 2.1], [NATURE, "tree_pineSmallA", 0.6, 1.4, 1.9], [NATURE, "flower_redC", 14.0, 1.3, 1.9], [NATURE, "flower_purpleC", 14.0, 1.3, 1.9], [NATURE, "flower_yellowC", 14.0, 1.3, 1.9], [NATURE, "flower_redA", 8.0, 1.3, 1.9],
 					[NATURE, "grass_leafs", 18.0, 1.4, 2.0],
 				],
-				"patches": [Color("b8e8c8"), Color("d8c8f0"), Color("f0d0e0")], "patch_pattern": GroundDecals.Pattern.MOSS,
+				"patches": [Color("b8e8c8"), Color("d8c8f0"), Color("f0d0e0")], "patch_pattern": GroundDecals.Pattern.MOSS, "density": 1.8, "scale": 1.4,
 			}
 		StylePresets.CAPITAL_OUTSKIRTS, StylePresets.CAPITAL_DARK:
 			return {

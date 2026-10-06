@@ -384,11 +384,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 6/6/5/4/5/5/6/5 (floor colours handled in CI-1: calmer plaza checker and striped lawns). NOT done: pastel paving variety, mosaic, path edging, manicured hedges' edging, scuffs. before/after = capital_inside/ci1before_a.png, ci1_1_a.png.
-- [~] **CI-3 Density and set dressing.** Identical hedges, topiary, lamp posts, loudspeakers, portraits of Primm, benches, painted doors, citizens in identical clothes, symmetric rows.
+- [x] **CI-3 Density and set dressing.** Identical hedges, topiary, lamp posts, loudspeakers, portraits of Primm, benches, painted doors, citizens in identical clothes, symmetric rows.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **CI-4 Landmarks and hero props.** The fountain, statue plaza, complaint box, painted doors, the manhole, the castle in the distance, Primm portraits.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/5/5/6/5 (iter2). Capital facade/freed recipe (also used inside): bushes 6.0 and 4.0 weight, small pines, `"density": 1.8`, `"scale": 1.4`: more flowers and bushes, but they scatter across the plaza paving as well as the lawns (the region is the whole north half), so it reads as random litter rather than identical hedges and topiary along the lanes. A proper pass needs ScatterTool hedge rows along lawn edges and identical topiary pairs. Tests 1023 green. before = capital_inside/ci1_1_a.png; after = capital_inside/ci3_2_a.png.
+- [~] **CI-4 Landmarks and hero props.** The fountain, statue plaza, complaint box, painted doors, the manhole, the castle in the distance, Primm portraits.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
