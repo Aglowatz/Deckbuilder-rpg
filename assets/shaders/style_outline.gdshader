@@ -9,7 +9,7 @@ uniform vec4 line_color : source_color = vec4(0.12, 0.07, 0.16, 1.0);
 uniform float strength : hint_range(0.0, 1.0) = 0.7;
 uniform float thickness = 1.0;
 uniform float depth_threshold = 0.9;
-uniform float normal_threshold = 0.8;
+uniform float normal_threshold = 1.15;
 uniform float fade_start = 28.0;
 uniform float fade_end = 70.0;
 
@@ -26,7 +26,8 @@ void vertex() {
 }
 
 void fragment() {
-	vec2 px = thickness / VIEWPORT_SIZE;
+	// Constant line width: `thickness` px at 1080p, never thinner than one pixel at lower resolutions.
+	vec2 px = max(thickness * VIEWPORT_SIZE.y / 1080.0, 1.0) / VIEWPORT_SIZE;
 	float c = linear_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
 	float l = linear_depth(SCREEN_UV + vec2(-px.x, 0.0), INV_PROJECTION_MATRIX);
 	float r = linear_depth(SCREEN_UV + vec2(px.x, 0.0), INV_PROJECTION_MATRIX);
@@ -41,8 +42,10 @@ void fragment() {
 	vec3 nu = texture(normal_tex, SCREEN_UV + vec2(0.0, -px.y)).xyz * 2.0 - 1.0;
 	vec3 nd = texture(normal_tex, SCREEN_UV + vec2(0.0, px.y)).xyz * 2.0 - 1.0;
 	float edge_n = length(n - nl) + length(n - nr) + length(n - nu) + length(n - nd);
-	float normal_edge = smoothstep(normal_threshold, normal_threshold + 0.5, edge_n);
-	float edge = max(depth_edge, normal_edge * 0.8);
+	// Normal edges only count where the depth is smooth (creases on solid shapes). On crumpled foliage and across hex seams the normals
+	// jump every pixel, which drew shimmering double lines, so those regions are suppressed.
+	float normal_edge = smoothstep(normal_threshold, normal_threshold + 0.6, edge_n) * (1.0 - smoothstep(0.02, 0.08, edge_d));
+	float edge = max(depth_edge, normal_edge * 0.6);
 	float fade = 1.0 - smoothstep(fade_start, fade_end, c);
 	float sky = step(0.0001, texture(depth_tex, SCREEN_UV).x);
 	ALBEDO = line_color.rgb;
