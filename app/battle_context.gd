@@ -37,3 +37,5 @@ var zone_enemy_type: String = ""
 var boss_phase: int = -1
 var rules_text: String = ""
 var music: StringName = &"battle"
+## Which battleboard backdrop the duel is fought on: a key of `data/battleboards.json` ("zone:beefcake", "capital:in", "arena"...). "" = the neutral board.
+var board_key: String = ""

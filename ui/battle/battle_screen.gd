@@ -140,11 +140,19 @@ func _zone_title(zone_id: String) -> String:
 	return ZoneDefs.get_def(zone_id).display_name
 
 func _build_scene() -> void:
-	var backdrop: ArenaBackdrop = ArenaBackdrop.new()
-	backdrop.zone_id = context.zone_id
+	# Screenshot/dev helpers: --ctx=<context key> (e.g. zone:beefcake, capital:in) or --board=<Battleboard ID> picks the board without playing to it.
+	if _screenshot_args.has("ctx"):
+		context.board_key = str(_screenshot_args["ctx"])
+	var backdrop: TextureRect = TextureRect.new()
+	backdrop.name = "Battleboard"
+	backdrop.texture = Battleboards.texture_for(str(_screenshot_args.get("board", context.board_key)))
+	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	UIKit.full_rect(backdrop)
+	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(backdrop)
 	var dim: ColorRect = ColorRect.new()
-	dim.color = Color(0.03, 0.02, 0.07, 0.45)
+	dim.color = Color(0.03, 0.02, 0.07, 0.2)
 	UIKit.full_rect(dim)
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)

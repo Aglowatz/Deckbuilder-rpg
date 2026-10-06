@@ -29,6 +29,7 @@ func _init() -> void:
 	var file: FileAccess = FileAccess.open(STATUS, FileAccess.WRITE)
 	file.store_string(ArtImporter.status_markdown(OUT, known, result))
 	file.close()
+	Battleboards.write_status(STATUS)
 	print("Source: %s" % (source_dir if not source_dir.is_empty() else "(none; inbox only)"))
 	print("Added: %s" % (", ".join(result.added) if not result.added.is_empty() else "(none)"))
 	print("Replaced (source changed): %s" % (", ".join(result.replaced) if not result.replaced.is_empty() else "(none)"))

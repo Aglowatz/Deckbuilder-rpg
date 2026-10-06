@@ -770,6 +770,7 @@ func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: i
 	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if mini_active else TrialOfTheHollow.personality(content, node.ai_name))
 	context.enemy_name = node.enemy_name
 	context.practice = true
+	context.board_key = "dungeon:hollow"
 	return context
 
 
@@ -851,6 +852,14 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	context.game = game
 	context.zone_id = effect_zone
 	if phase != null:
+		context.board_key = "boss:final"
+	elif main_dungeon_active:
+		context.board_key = "dungeon:%s" % zone_def().id
+	elif mini_active:
+		context.board_key = "mini:%s" % zone_def().id
+	else:
+		context.board_key = "dungeon:hollow"
+	if phase != null:
 		context.boss_phase = phase.index
 		context.rules_text = phase.rule_text()
 		context.music = phase.music
@@ -905,6 +914,7 @@ func make_npc_challenge_battle(id: String) -> BattleContext:
 	context.ai = AIPlayer.new(CorruptedNpcs.personality(content, id))
 	context.enemy_name = CorruptedNpcs.display_name(id)
 	context.town_npc_id = id
+	context.board_key = "town"
 	return context
 
 
@@ -959,6 +969,7 @@ func make_graveyard_battle() -> BattleContext:
 	context.enemy_name = GraveyardBoss.DISPLAY_NAME
 	context.is_boss = true
 	context.is_graveyard_boss = true
+	context.board_key = "graveyard"
 	return context
 
 
@@ -1281,11 +1292,20 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	context.enemy_name = data.display_name
 	context.zone_id = zone_id
 	context.zone_battle = true
+	context.board_key = _zone_board_key(zone_id, enemy_type)
 	context.zone_enemy_id = enemy_instance_id
 	context.zone_enemy_type = enemy_type
 	context.gold_reward = data.gold_reward
 	context.xp_reward = data.xp_reward
 	return context
+
+
+## The battleboard key of an overworld duel: the zone's board, or in the Capital the one outside the walls (the Gate Captain's exam, or before the
+## hero has gone through the gate) and the one inside.
+func _zone_board_key(zone_id: String, enemy_type: String) -> String:
+	if zone_id == CapitalZone.ID:
+		return "capital:in" if flag(CapitalZone.FLAG_INSIDE) and enemy_type != CapitalEnemies.GATE_CAPTAIN else "capital:out"
+	return "zone:%s" % zone_id
 
 
 func start_zone_battle(enemy_type: String, enemy_instance_id: String) -> void:
@@ -1642,6 +1662,7 @@ func make_arena_battle(encounter_id: String) -> BattleContext:
 	context.enemy_icon = "lorc/muscle-up" if encounter.tier < 3 else "delapouite/strong-man"
 	context.is_boss = encounter.tier == 3 and not encounter.is_puzzle()
 	context.arena_id = encounter_id
+	context.board_key = "arena"
 	return context
 
 

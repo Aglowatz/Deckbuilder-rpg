@@ -42,3 +42,26 @@ Re-running with an empty inbox is a no-op that refreshes the status file. To rep
 
 `tests/core/data/test_card_art.gd`: the importer (naming, token and JPG input, art map, unknown names, re-import, status report, 2:3 crop),
 the fallback and the square/compact crops. The fixtures are flat colour images made in `user://`, not card art.
+
+## Battleboards (battle backgrounds)
+
+Every duel is fought on a **battleboard**: a 16:9 painted background (`assets/art/battleboards/<Battleboard ID>.webp`, e.g. `BB-HOG.webp`) that
+replaced the 3D table backdrop. The IDs, names and "Used In" text come from the designer's sheet (`data/source/battleboard_list.csv.csv`).
+When you say **"import battleboards"**, run `bash tools/import_battleboards.sh` and report what was added, the IDs of the CSV with no image, and
+the files that match no ID.
+
+- **Source:** `data/source/art_config.cfg` `battleboard_dir` (`G:/My Drive/Card Game Art/Approved_Battleboards`; override with env
+  `BATTLEBOARD_SOURCE_DIR`). Read-only, like the card importer: files are only copied (centre-cropped to 16:9, 3:2 art loses 5.5% at the top and
+  bottom, converted to WebP, scaled down to at most 1920x1080); nothing in the Drive folder is moved, renamed or deleted. Files are named by
+  Battleboard ID. `data/source/battleboard_import_manifest.csv` records each file's MD5 so a changed Drive file is replaced on the next run.
+- **Mapping (data, not code):** `data/battleboards.json` maps a battle **context key** to a Battleboard ID; edit it to reassign boards.
+  Keys: `town` (corrupted path NPCs), `graveyard`, `arena`, `zone:<zone id>` (overworld battles of beefcake = Gainlands, necrocrat = D.N.A.,
+  gourmand = Endless Buffet, refusemancer = Verdant Dump), `capital:out` / `capital:in` (outside / inside the walls; the Gate Captain's exam is
+  outside), `dungeon:<zone id>` (the zone's main dungeon: House of Gains, Hall of Final Approvals, Test Kitchen, Rotheart, `final` = Primm's
+  Castle; `dungeon:hollow` = the Trial of the Hollow, which includes practice duels), `mini:<zone id>` (the zone's side dungeon) and
+  `boss:final` (the Primm boss duel). The key is set on `BattleContext.board_key` by the `Session.make_*_battle` factories.
+- **Fallback:** an unmapped key or a missing image shows a neutral dark-slate placeholder board (`Battleboards.texture_for`).
+- **Readability:** the art keeps its centre calm; `BattleScreen._build_scene` adds only a 20% dark wash and the vignette. The HUD panels, the
+  resource tray and the hand are opaque panels / cards, so nothing else is needed.
+- **Screenshots:** `bash tools/shot.sh res://scenes/battle.tscn <name> --ctx=<context key>` (or `--board=<Battleboard ID>`, plus `--bot=4
+  --fast=true --wait=14` to play a few turns); `bash tools/battleboard_shots.sh` makes one per board into `_screenshots/bb_*.png`.

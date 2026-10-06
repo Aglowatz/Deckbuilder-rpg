@@ -1,0 +1,25 @@
+{
+	"_about": "Battle context key -> Battleboard ID (docs/art/art_pipeline.md). Edit freely; a key with no entry, or an ID with no image, shows the neutral placeholder board. Keys: town, graveyard, arena, zone:<zone id>, capital:out, capital:in, dungeon:<zone id> (the zone's main dungeon; dungeon:hollow is the Trial of the Hollow), mini:<zone id> (the zone's side dungeon), boss:final.",
+	"contexts": {
+		"dungeon:hollow": "BB-TUT",
+		"town": "BB-TOWN",
+		"graveyard": "BB-GRAVE",
+		"arena": "BB-ARENA",
+		"zone:beefcake": "BB-GAIN",
+		"zone:necrocrat": "BB-DNA",
+		"zone:gourmand": "BB-BUFF",
+		"zone:refusemancer": "BB-DUMP",
+		"capital:out": "BB-CAP-OUT",
+		"capital:in": "BB-CAP-IN",
+		"dungeon:beefcake": "BB-HOG",
+		"dungeon:gourmand": "BB-TTK",
+		"dungeon:necrocrat": "BB-HFA",
+		"dungeon:refusemancer": "BB-ROT",
+		"dungeon:final": "BB-PC",
+		"boss:final": "BB-PC-BOSS",
+		"mini:beefcake": "BB-S-BEEF",
+		"mini:gourmand": "BB-S-GOUR",
+		"mini:necrocrat": "BB-S-NECRO",
+		"mini:refusemancer": "BB-S-REF"
+	}
+}
