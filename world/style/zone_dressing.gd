@@ -228,8 +228,11 @@ static func decal_recipe(preset_id: StringName) -> Array:
 			]
 		StylePresets.DNA:
 			return [
-				[GroundDecals.Kind.STAIN, 8, 0.4, 0.9, [Color("3a2c22"), Color("52402f")]],
-				[GroundDecals.Kind.CRACKS, 8, 1.2, 2.2, [Color("1b2024"), Color("1b2024"), Color("0b0e10")]],
+				[GroundDecals.Kind.STAIN, 40, 0.5, 1.3, [Color("3a2c22"), Color("52402f")]],
+				[GroundDecals.Kind.CRACKS, 18, 1.2, 2.4, [Color("1b2024"), Color("1b2024"), Color("0b0e10")]],
+				[GroundDecals.Kind.PUDDLE, 8, 0.9, 1.6, [Color("9ab4c8"), Color("5a7890")]],
+				[GroundDecals.Kind.FOOTPRINTS, 14, 0.8, 1.2, [Color("1b2024"), Color("2a3036")]],
+				[GroundDecals.Kind.CHALK, 8, 0.9, 1.5, [Color("c8d0d8"), Color("a0a8b0")]],
 			]
 		StylePresets.HEAP:
 			return [
