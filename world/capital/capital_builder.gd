@@ -527,6 +527,23 @@ func _add_multimesh(multimesh: MultiMesh, material: Material, node_name: String)
 # ---- Boundaries and the castle ---------------------------------------------------------------------------
 
 
+## A broken wall of lumpy charcoal-violet boulders along a line (rotated, mixed sizes and tones) instead of one long black box: the south edge of the Outskirts no longer
+## reads as a black band across the screen.
+func _rock_wall(from: Vector3, to: Vector3) -> void:
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = int(from.x * 31.0 + from.z * 17.0)
+	var length: float = from.distance_to(to)
+	var along: Vector3 = (to - from).normalized()
+	var distance: float = 0.0
+	while distance < length:
+		var size: Vector3 = Vector3(rng.randf_range(1.6, 3.4), rng.randf_range(0.8, 2.2), rng.randf_range(1.4, 2.6))
+		var tone: float = rng.randf_range(0.2, 0.34)
+		var color: Color = Color(tone, tone * 0.95, tone * 1.2)
+		var pos: Vector3 = from + along * distance + Vector3(0.0, size.y * 0.5 - 0.2, rng.randf_range(-0.5, 0.5))
+		_box(root, size, M.flat(color), pos, Vector3(rng.randf_range(-6.0, 6.0), rng.randf_range(-35.0, 35.0), rng.randf_range(-8.0, 8.0)))
+		distance += size.x * 0.8
+
+
 func _build_boundaries() -> void:
 	var wall_color: StandardMaterial3D = M.flat(Color(0.3, 0.29, 0.36))
 	# The city's outer walls (north, west, east).
@@ -543,7 +560,7 @@ func _build_boundaries() -> void:
 	# The Outskirts' edge: broken fence and low black rock.
 	for side_x: float in [0.5, 119.5]:
 		_box(root, Vector3(2.5, 3.0, 32.0), M.flat(Color(0.18, 0.17, 0.2)), Vector3(side_x, 1.5, 79.0))
-	_box(root, Vector3(120.0, 3.0, 2.5), M.flat(Color(0.18, 0.17, 0.2)), Vector3(60.0, 1.5, 94.8))
+	_rock_wall(Vector3(0.0, 0.0, 94.8), Vector3(120.0, 0.0, 94.8))
 	# The Crease's walls (inside layer 2).
 	for rect: Rect2 in [Rect2(3.0, 99.0, 39.0, 1.0), Rect2(3.0, 121.0, 39.0, 1.0), Rect2(3.0, 99.0, 1.0, 23.0), Rect2(41.0, 99.0, 1.0, 23.0)]:
 		var wall: Vector3 = Vector3(rect.position.x + rect.size.x * 0.5, 2.6, rect.position.y + rect.size.y * 0.5)
