@@ -62,15 +62,8 @@ func _hex_prop(model: String, pos: Vector3, yaw: float = 0.0, scale_value: float
 
 
 func _ground() -> void:
-	var dirt: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, Color("b79a64"), Color("9c8157"), Color("6e5a3c"), GroundDecals.Shape.RIBBON, 1.0, 0.3, 3.0)
-	var edge: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("6a8a42"), Color("7a9448"), Color.BLACK, GroundDecals.Shape.RIBBON, 1.0, 0.5, 7.0)
 	for key: String in ["market", "deck", "tailor", "spawn", "rift_station", "gate", "item_vendor", "pack_vendor", "equipment_vendor"]:
 		var points: Array[Vector3] = _smooth([center, _anchor(key) + Vector3(0.0, 0.0, 0.2)])
-		for piece: Array in _land_runs(points):
-			var typed: Array[Vector3] = []
-			typed.assign(piece)
-			GroundDecals.ribbon(root, typed, 1.55, edge, 0.002)
-			GroundDecals.ribbon(root, typed, 1.25, dirt, 0.004)
 		_lane_points.append_array(points)
 	var grass_dark: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("4f9a58"), Color("3c8466"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 4.0)
 	var grass_light: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("86c066"), Color("6fae62"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 5.0)
@@ -249,7 +242,7 @@ func _meadow() -> void:
 			var angle: float = _rng.randf() * TAU
 			var distance: float = sqrt(_rng.randf()) * meadow_radius
 			var pos: Vector3 = center + Vector3(cos(angle) * distance, 0.0, sin(angle) * distance * 0.9)
-			if not _meadow_ok(pos):
+			if not _meadow_ok(pos, str(group["model"]) in ["grass_leafs", "plant_flatShort"]):
 				continue
 			var scale_range: Vector2 = group["scale"] as Vector2
 			var s: float = _rng.randf_range(scale_range.x, scale_range.y)
@@ -262,14 +255,15 @@ func _meadow() -> void:
 		_multimesh(mesh, transforms)
 
 
-func _meadow_ok(pos: Vector3) -> bool:
+func _meadow_ok(pos: Vector3, lane_ok: bool = false) -> bool:
 	if not town.is_floor_at(pos):
 		return false
 	if Vector2(pos.x - center.x, pos.z - center.z).length() < 1.6:  # only the well itself
 		return false
-	for point: Vector3 in _lane_points:
-		if Vector2(pos.x - point.x, pos.z - point.z).length() < 0.9:
-			return false
+	if not lane_ok:
+		for point: Vector3 in _lane_points:
+			if Vector2(pos.x - point.x, pos.z - point.z).length() < 0.9:
+				return false
 	for obstacle: Vector3 in town.obstacles:
 		if Vector2(pos.x - obstacle.x, pos.z - obstacle.y).length() < obstacle.z + 0.2:
 			return false
@@ -344,6 +338,4 @@ func _landmarks() -> void:
 			continue
 		var roof: Vector3 = _anchor(key) + Vector3(0.45, 2.3, -1.25)
 		StyleAmbience.chimney_smoke(root, roof, smoke, [4, 6, 8][clampi(_quality, 0, 2)])
-	if town.anchors.has("rift_station"):
-		StyleBeacon.build(root, _anchor("rift_station"), Color(0.55, 0.95, 1.0))
 

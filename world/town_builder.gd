@@ -34,13 +34,13 @@ const MAP: Array[String] = [
 	"......M##R######T#TR#......",
 	"......##TM#T.##.###.#......",
 	"......###.###.##TT##R......",
-	"#.#T....MMTTM..MMTTMMR##T#T",
-	"#R#MT#..T#G#TT.TT##RT#MRM.#",
-	"##.####T#H#hF#.T#Y#T##T###R",
+	"#.#T....MMTTM##MMTTMMR##T#T",
+	"#R#MT#..T#G#TT#TT##RT#MRM.#",
+	"##.####T#H#hF##T#Y#T##T###R",
 	"RR######K##D#T#T####T#####T",
-	"#######T##W##R.T##Z#T######",
-	"R##TTT..#C###T.T####T##.#.#",
-	"RTT#T#..R#S#T..T##T######T#",
+	"#######T##W##R#T##Z#T######",
+	"R##TTT..#C###T#T####T##.#.#",
+	"RTT#T#..R#S#T##T##T######T#",
 	"#T##T#..TT###TT##T....#TTMM",
 	"T#T#R#..T#####X###T..RTTT#.",
 	"M#####..MTTT#T#TTTM..#MM#.#",
@@ -237,8 +237,8 @@ func _build_props() -> void:
 	anchors["npc_gate"] = gate + Vector3(-2.0, 0, 0.9)
 	anchors["npc_market"] = market + Vector3(0.1, 0, 0.55)
 	# Brief 10b: the Beefcake Rift Station, just east of where the hero arrives.
-	anchors["rift_station"] = spawn + Vector3(4.0, 0, 2.4)
-	anchors["npc_rift_station"] = spawn + Vector3(2.1, 0, 3.2)
+	anchors["rift_station"] = spawn + Vector3(5.2, 0, 3.6)
+	anchors["npc_rift_station"] = spawn + Vector3(3.3, 0, 4.4)
 	# New brief, Part F: the item vendor's stall (Wick), a short walk from the card vendor.
 	var item_vendor_center: Vector3 = cell_center(10, 5)
 	_building("barracks", item_vendor_center, -20.0, 1.2, 0.85)
@@ -291,6 +291,7 @@ func _build_props() -> void:
 	obstacles.append(Vector3(lever_pos.x, lever_pos.z, 0.2))
 	anchors["lever"] = lever_pos + Vector3(0.4, 0, 0.2)
 	_build_hidden_chests()
+	expansion = TownExpansion.build(root, self)
 	_build_dev_shrine()
 	_build_graveyard()
 
@@ -395,6 +396,8 @@ const HIDDEN_CHEST_OFFSETS: Dictionary = {
 
 ## id -> the chest's Node3D, so TownScene can play an open animation on the real model.
 var hidden_chest_nodes: Dictionary = {}
+## Polish round: label -> world position of every added cottage, shed, stall and well (TownExpansion).
+var expansion: Dictionary = {}
 
 
 func _build_hidden_chests() -> void:

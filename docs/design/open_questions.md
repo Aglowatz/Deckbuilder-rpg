@@ -395,3 +395,13 @@ Logged as they were made; none blocks anything. Names are placeholders in story 
 | B14-20 | Special/dual Infrastructure copy limit | OPEN: basic Infrastructure are unlimited; special and dual Infrastructure still count as ordinary cards (max 4). `is_unlimited` vs ownership needs an `ignores_copy_limit` flag in CardData/DeckValidator/DeckEditor. | Not needed for play; asked in the final summary. |
 | B14-21 | Reward-only flags | `data/source/card_overrides.csv` marks quest/dungeon/final rewards `not_in_packs`. | Survives re-import. |
 | B14-22 | Junk card | JUNK-01 is a TOKEN-type card (shuffled into the deck by the Capital debuff, `play => lose(me,1)`). | Same path as the Clause. |
+
+## Polish round (towns, collision, starting area, chests, popups)
+
+| # | Question | Decision | Why |
+|---|---|---|---|
+| P-1 | "Rip Express" vs "Beefcake Rift Express" | They are the same object (`rift_station`, the squat-rack station south-east of the spawn). The beam removal and the move both apply to it. | There is only one such station in the town. |
+| P-2 | Which water is "the pond" | The canal cells at MAP columns 13-14 (rows 5-12) between the central square and the item/equipment vendors are now grass. The big lake west of the spawn and the harbor canal further east stay. | These were the only small water pockets on the route between the centre and the right-hand vendors. |
+| P-3 | Brown roads | The dirt/moss ribbons from the square to the vendors are gone; the grass tufts now also grow where the roads were (flowers and bushes still keep off the lanes). The lanes read through the buildings, lamps and gaps in the trees. | The brief asked for grass instead of roads and to keep the few flowers. |
+| P-4 | New town structures | 18 sites in `world/town_expansion.gd` (cottages, a bakery, a barn, sheds, a lookout tower, an archery range, a watch shed, wells and two market stalls), each on the centre of an empty grass hex on a district edge. The "bakery" is the blue market building and the "barn"/"sheds" are the lumbermill model (no dedicated model in the approved packs). | Stays in the existing KayKit style, no new pack. |
+| P-5 | Walkability check | `WalkProbe` (world/walk_probe.gd) flood-fills from the spawn at 0.3 m steps; tests require every anchor reachable and a body radius of at least 0.5 m (a 1 m wide lane) to still get everywhere. The Express is solid, so its interact spot (1.6 m in front) is the target. | Machine-checkable "wide, open lanes". |
