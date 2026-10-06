@@ -890,7 +890,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
-- [ ] **G-12b Character audit.** Proportion check (head about 40 percent), flavour idle animations for all NPCs, readable role tags at distance, enemy rim language per zone (distinct from the DNA crimson), NPC/prop clipping; close-ups in town, D.N.A. and Gainlands.  - Verify: close-ups of hero, 4 NPCs and 3 enemy types in town, D.N.A. and Gainlands.  - Pass bar: R 7 or higher in all three.  - Result: scores = _; before = _; after = _- [ ] **BB-GEN-7 Follow-up: battle board finish.** Bevelled hex edges with a visible rim/board thickness, subtle grid glow on placeable cells, warm the pale motes, low rim mist, colour harmony (the green board vs orange decals vs violet grade), a backdrop `--cam` arg so 3 angles can be shot, fps with a full board of 7 units per side.  - Verify: `bash tools/ui_shot.sh res://scenes/battle.tscn battle_generic <tag> --no_tutorial=true`, plus the rewards and mini-dungeon screens.  - Pass bar: all 8 rubric scores 7 or higher.  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _- [ ] **G-02b Lighting follow-up.** Contact-shadow blobs under characters and props, apply the rig shadow settings (opacity, blur, bias) to the Gainlands, Buffet and Heap zone suns, shadow acne check on High, omni-light budget audit (12 Medium / 24 High).
+- [ ] **BB-GEN-7 Follow-up: battle board finish.** Bevelled hex edges with a visible rim/board thickness, subtle grid glow on placeable cells, warm the pale motes, low rim mist, colour harmony (green board vs orange decals vs violet grade), a backdrop `--cam` arg so 3 angles can be shot, fps with a full board of 7 units per side.
+  - Verify: `bash tools/ui_shot.sh res://scenes/battle.tscn battle_generic <tag> --no_tutorial=true`, plus the rewards and mini-dungeon screens.
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+- [ ] **G-02b Lighting follow-up.** Contact-shadow blobs under characters and props, apply the rig shadow settings (opacity, blur, bias) to the Gainlands, Buffet and Heap zone suns, shadow acne check on High, omni-light budget audit (12 Medium / 24 High).
   - Verify: Gainlands, Buffet, Heap angle a/b; character close-ups.
   - Pass bar: L 7 or higher in town, Gainlands, D.N.A.
   - Result: scores = _; before = _; after = _
