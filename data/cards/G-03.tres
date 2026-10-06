@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_j0qr8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_fey0v"]
+
+[resource]
+script = ExtResource("2_fey0v")
+id = "G-03"
+display_name = "Conveyor Belt Chef"
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+attack = 2
+defense = 3
+rules_text = "Exhaust, use two Ingredients: create two 1/1 Sashimi Weenie tokens."
+flavor_text = "Round and round it goes. Where it stops, it bites."
+paths_all = Array[int]([2])
+script_text = "act | exhaust, use(ingredient,2) => create(T-03,2)"
+rules_hash = "e045ea51c2b7"
+image_description = "A calm sushi master standing behind a long rotating conveyor belt as little sashimi creatures ride by on plates like a carnival ride."

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qraoq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ba7fu"]
+
+[resource]
+script = ExtResource("2_ba7fu")
+id = "C-25"
+display_name = "Shred the Evidence"
+type = 2
+generic_cost = 2
+defense = 0
+rules_text = "Shred up to three target cards from Refuse Piles. Draw a card."
+rarity = 1
+flavor_text = "What evidence?"
+script_text = "play ts=refuse.card.any*3 => shred(ts); draw(1)"
+rules_hash = "60624cd6e584"
+image_description = "A frantic clerk feeding papers into a cranking hand-powered shredder as confetti-like scraps fly everywhere."

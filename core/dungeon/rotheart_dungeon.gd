@@ -8,7 +8,7 @@ extends RefCounted
 ## Text: data/story/refusemancer_story.tres (`dungeon.rh_*`, `event.rh_*`, `cutscene.sever.*`).
 
 const ZONE_ID: String = "refusemancer"
-const REWARD_CARD_ID: String = "heart_of_the_dump"
+const REWARD_CARD_ID: String = "R-33"
 
 
 static func build_def() -> MainDungeonDef:
@@ -19,14 +19,13 @@ static func build_def() -> MainDungeonDef:
 	def.reward_card_id = REWARD_CARD_ID
 	def.reward_gold = 220
 	def.reward_xp = 160
-	var C: String = "infrastructure:C"
-	def.add_foe("Overgrown Scarecrow", 12, "Balanced", {C: 16, "scrap_goat": 4, "tin_can_raccoon": 3, "dung_beetle": 3, "sprout_surge": 2}, "lorc/sprout")
-	def.add_foe("Mutant Mushroom Troop", 14, "Aggressive", {C: 16, "tin_can_raccoon": 4, "landfill_hog": 3, "sprout_surge": 3, "vine_snare": 2}, "delapouite/mushrooms-cluster")
-	def.add_foe("Strangler Vine", 15, "Defensive", {C: 16, "dung_beetle": 4, "compost_golem": 3, "vine_snare": 3, "harvest_moon": 2, "bramble_trap": 1}, "delapouite/plant-roots")
-	def.add_foe("Rootbound Golem", 19, "Defensive", {C: 15, "compost_golem": 4, "landfill_hog": 3, "fertilizer_burst": 3, "moss_titan": 2, "harvest_moon": 2}, "delapouite/tree-roots")
-	def.add_foe("Root Tunnel Horror", 16, "Aggressive", {C: 16, "landfill_hog": 4, "compost_golem": 3, "vine_snare": 3, "fertilizer_burst": 3, "bramble_trap": 2}, "lorc/root-tip")
-	def.add_foe("The Heartwood Treant", 22, "Balanced", {C: 15, "moss_titan": 3, "compost_golem": 4, "landfill_hog": 3, "fertilizer_burst": 3, "harvest_moon": 3, "vine_snare": 2}, "cathelineau/tree-face")
-	def.add_foe("Archdruid Fernwick Loam", 28, "Balanced", {C: 16, "moss_titan": 4, "compost_golem": 4, "landfill_hog": 3, "fertilizer_burst": 3, "harvest_moon": 3, "vine_snare": 3, "heap_mother": 1}, "cathelineau/tree-face")
+	def.add_foe("Overgrown Scarecrow", 12, "Balanced", EnemyDecks.trimmed("refuse_rats", 27, 16), "lorc/sprout")
+	def.add_foe("Mutant Mushroom Troop", 14, "Aggressive", EnemyDecks.trimmed("refuse_garbage", 28, 16), "delapouite/mushrooms-cluster")
+	def.add_foe("Strangler Vine", 15, "Defensive", EnemyDecks.trimmed("refuse_rats", 29, 16), "delapouite/plant-roots")
+	def.add_foe("Rootbound Golem", 19, "Defensive", EnemyDecks.trimmed("refuse_garbage", 32, 15), "delapouite/tree-roots")
+	def.add_foe("Root Tunnel Horror", 16, "Aggressive", EnemyDecks.trimmed("refuse_rats", 30, 16), "lorc/root-tip")
+	def.add_foe("The Heartwood Treant", 22, "Balanced", EnemyDecks.trimmed("refuse_garbage", 34, 15), "cathelineau/tree-face")
+	def.add_foe("Archdruid Fernwick Loam", 28, "Balanced", EnemyDecks.with_cards(EnemyDecks.recipe("refuse_garbage", 17), {"R-33": 1}), "cathelineau/tree-face")
 	# The Spore Gauntlet (node 5): do you have enough sturdy bodies to push through?
 	var gauntlet: ChallengeData = MainDungeonDef.make_challenge("rh_spore_gauntlet", "The Spore Gauntlet", "", ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT, 5, 2)
 	gauntlet.on_success = [MainDungeonDef.outcome(ChallengeOutcome.Kind.HEAL, 4, "Heal 4 HP.")] as Array[ChallengeOutcome]

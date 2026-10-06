@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_jlrp5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_pflys"]
+
+[resource]
+script = ExtResource("2_pflys")
+id = "GBN-03"
+display_name = "Toast to the Dead"
+type = 2
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 1, 4])
+defense = 0
+rules_text = "Reinstate target unit with cost 3 or less from your Refuse Pile. It gets +2/+0 and Hustle until end of turn. Create an Ingredient."
+rarity = 1
+flavor_text = "To absent friends! (They're right behind you.)"
+paths_all = Array[int]([1, 2, 4])
+script_text = "play t=refuse.unit.mine.cost<=3 => reinstate(t); pump(last,2,0,eot); kw_grant(last,hustle,eot); create(ingredient)"
+rules_hash = "a16fa78e4cde"
+image_description = "A grand gala crowd of chefs, Beefcakes, and ghosts raising glowing goblets as a fallen hero rises from a banquet table."

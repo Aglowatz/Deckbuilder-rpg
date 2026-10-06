@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_4y0w8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_byhom"]
+
+[resource]
+script = ExtResource("2_byhom")
+id = "GR-13"
+display_name = "The Verdant Vines"
+type = 4
+color = 2
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([2, 3])
+defense = 0
+rules_text = "At the start of your turn, you may use a Garbage. If you do, create two Ingredients."
+rarity = 2
+flavor_text = "From compost to cuisine in one growing season."
+paths_all = Array[int]([2, 3])
+script_text = "sot => may({use(garbage)}); ifdid({create(ingredient,2)})"
+rules_hash = "44b1458c0677"
+image_description = "Thick magical vines climbing out of a compost heap and up a kitchen wall, sprouting tomatoes, squash, and herbs that drop straight into waiting pots."

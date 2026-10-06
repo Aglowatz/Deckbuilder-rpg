@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_82msf"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_trm43"]
+
+[resource]
+script = ExtResource("2_trm43")
+id = "GR-04"
+display_name = "Food Fight"
+type = 3
+color = 2
+color2 = 3
+generic_cost = 1
+colored_pips = Array[int]([2, 3])
+defense = 0
+rules_text = "When an opposing unit attacks, create a 3/3 Compost Golem token."
+rarity = 1
+flavor_text = "It started with a single pea."
+paths_all = Array[int]([2, 3])
+script_text = "trap(attacks:opp) => create(T-17)"
+rules_hash = "64bfd6700c42"
+image_description = "A chaotic cafeteria brawl between snooty chefs and scrappy druids, pies and rotten cabbages flying in every direction."

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_vttj0"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cqsmn"]
+
+[resource]
+script = ExtResource("2_cqsmn")
+id = "GN-04"
+display_name = "Ghost Pepper"
+type = 5
+color = 2
+color2 = 4
+colored_pips = Array[int]([2, 4])
+defense = 0
+rules_text = "Destroy this Tool: target unit gets +2/+0 and Flying until end of turn."
+rarity = 1
+flavor_text = "Spicy enough to leave your body."
+paths_all = Array[int]([2, 4])
+script_text = "act t=unit | destroy_self => pump(t,2,0,eot); kw_grant(t,flying,eot)"
+rules_hash = "d627b34f87b6"
+image_description = "A glowing translucent chili pepper with a ghostly face, wisps of spectral steam curling off it like flames."

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_0bcjr"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_5dt5s"]
+
+[resource]
+script = ExtResource("2_5dt5s")
+id = "GBN-06"
+display_name = "Dinner with Schmucks"
+type = 4
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 1, 4])
+defense = 0
+rules_text = "At the start of your turn, create a 0/1 Schmuck token with Wallflower under your opponent's control.
+
+Whenever a Schmuck dies, create an Ingredient and an Iron, and its controller loses 1 HP."
+rarity = 2
+flavor_text = "You're invited! (You're the entertainment.)"
+paths_all = Array[int]([1, 2, 4])
+script_text = "sot => create(T-23,1,opp)
+when(schmuck_dies) => create(ingredient); create(iron); lose(trig_ctl,1)"
+rules_hash = "b779fb01ef41"
+image_description = "A fancy dinner party where smug hosts snicker behind their goblets at a clueless guest wearing a lampshade, a place card reading only a star."

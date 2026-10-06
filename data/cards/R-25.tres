@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_swh4n"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_r052b"]
+
+[resource]
+script = ExtResource("2_r052b")
+id = "R-25"
+display_name = "Manure Miracle"
+type = 2
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "Fertilize 3 (put three buffs on target unit you control)."
+rarity = 1
+flavor_text = "Smells like victory. Mostly it just smells."
+paths_all = Array[int]([3])
+script_text = "play t=unit.mine => buff(t,3)"
+rules_hash = "f28a2716d74b"
+image_description = "A tiny goat ballooning into a hulking muscular beast after being splashed by a glowing bucket of magical manure, flies circling and flowers bursting into bloom around it."

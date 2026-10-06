@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_nxna5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_5edy5"]
+
+[resource]
+script = ExtResource("2_5edy5")
+id = "R-07"
+display_name = "Junkyard Giraffe"
+color = 3
+generic_cost = 3
+colored_pips = Array[int]([3])
+attack = 2
+defense = 5
+keywords = Array[int]([1])
+rules_text = "Swat."
+flavor_text = "Looks down on everyone. Literally."
+paths_all = Array[int]([3])
+script_text = "kw swat"
+rules_hash = "9f37347e0e9e"
+image_description = "A tall giraffe with scrap-metal patches and vines wrapped around its long neck, snatching a startled flying creature out of the air beside a tower of stacked rusty carts."

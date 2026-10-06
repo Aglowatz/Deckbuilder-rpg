@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_61oua"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_64ldi"]
+
+[resource]
+script = ExtResource("2_64ldi")
+id = "GB-09"
+display_name = "Recipe for disaster"
+type = 5
+color = 1
+color2 = 2
+generic_cost = 1
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "Use two Ingredients, destroy this Tool: deal 4 damage divided as you choose among any number of target units."
+rarity = 1
+flavor_text = "Step one: add explosives. There is no step two."
+paths_all = Array[int]([1, 2])
+script_text = "act ts=unit*4 | use(ingredient,2), destroy_self => damage_divided(ts,4)"
+rules_hash = "694c15d546fe"
+image_description = "A Beefcake and a chef proudly standing in front of a kitchen that is mid-explosion, flour, flames, and pots flying everywhere."

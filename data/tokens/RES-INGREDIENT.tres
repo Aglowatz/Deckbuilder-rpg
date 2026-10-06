@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qhb3x"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_lwgqx"]
+
+[resource]
+script = ExtResource("2_lwgqx")
+id = "RES-INGREDIENT"
+display_name = "Ingredient"
+type = 6
+color = 2
+defense = 0
+rules_text = "Does nothing on its own. Spent by Gourmand cards (Cook, golems, recipes)."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([2])
+resource_kind = 3
+rules_hash = "ad0b2a96540e"

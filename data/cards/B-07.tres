@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_t3il5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rvci4"]
+
+[resource]
+script = ExtResource("2_rvci4")
+id = "B-07"
+display_name = "Late-ish Courier"
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+attack = 3
+keywords = Array[int]([2])
+rules_text = "Hustle.
+
+This unit can't block."
+flavor_text = "Delivered on time-ish."
+paths_all = Array[int]([1])
+script_text = "kw hustle
+static => flag(cant_block)"
+rules_hash = "897c0b1649c1"
+image_description = "A breathless courier with an enormous backpack sprinting past a sundial, packages flying out behind him, one sandal missing."

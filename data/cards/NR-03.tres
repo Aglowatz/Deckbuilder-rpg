@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_8tp32"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_y1g81"]
+
+[resource]
+script = ExtResource("2_y1g81")
+id = "NR-03"
+display_name = "Rat King Bureaucrat"
+color = 3
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([4, 3])
+attack = 2
+defense = 3
+rules_text = "Rat tokens you control get +1/+0.
+
+Whenever a Rat token you control dies, create a Garbage."
+rarity = 1
+flavor_text = "Of the rats, by the rats, for the rats."
+paths_all = Array[int]([3, 4])
+script_text = "aura(unit.mine.tok:T-02) => stat(1,0)
+when(rat_dies:mine) => create(garbage)"
+rules_hash = "9df053a33f9d"
+image_description = "A plump rat in a tiny crown and spectacles sitting behind a desk made of garbage, signing papers while hundreds of rats line up."

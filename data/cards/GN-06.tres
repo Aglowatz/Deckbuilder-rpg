@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_estoh"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_f6t0e"]
+
+[resource]
+script = ExtResource("2_f6t0e")
+id = "GN-06"
+display_name = "Soul Food Kitchen"
+type = 4
+color = 2
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([2, 4])
+defense = 0
+rules_text = "Whenever a unit you control dies, create an Ingredient."
+rarity = 1
+flavor_text = "Comfort food for the recently departed."
+paths_all = Array[int]([2, 4])
+script_text = "when(unit_dies:mine) => create(ingredient)"
+rules_hash = "ed293a0a7810"
+image_description = "A warm, glowing diner in a misty graveyard, ghosts lined up at the counter as a cheerful undead cook serves heaping plates."

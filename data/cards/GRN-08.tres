@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_0ni5a"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_kxnio"]
+
+[resource]
+script = ExtResource("2_kxnio")
+id = "GRN-08"
+display_name = "Something out of nothing"
+type = 2
+color = 2
+color2 = 3
+colored_pips = Array[int]([2, 2, 3, 3, 4, 4])
+defense = 0
+rules_text = "Create a copy of each token you control. Then choose a token you control; each other token you control becomes a copy of it."
+rarity = 3
+flavor_text = "Waste not, want not, fear not."
+paths_all = Array[int]([2, 3, 4])
+script_text = "play => copy_all_tokens(); morph_tokens()"
+rules_hash = "7260b2aa4b55"
+image_description = "A chef, a druid, and a skeleton clerk standing around a glowing cauldron as an army of identical tokens pours out of it in every direction."

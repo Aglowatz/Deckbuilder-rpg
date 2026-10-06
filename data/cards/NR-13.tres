@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_v1mv6"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_lf0r2"]
+
+[resource]
+script = ExtResource("2_lf0r2")
+id = "NR-13"
+display_name = "Reclamation Order"
+type = 3
+color = 3
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([4, 4, 3])
+defense = 0
+rules_text = "When an opposing unit attacks, destroy it. At the start of your next turn, Reinstate it under your control."
+rarity = 2
+flavor_text = "Property of the Department of Waste. Return immediately."
+paths_all = Array[int]([3, 4])
+script_text = "trap(attacks:opp) => destroy(trig); delay_start_next_turn({reinstate(trig)})"
+rules_hash = "04b43bfbab1f"
+image_description = "A towering ghostly clerk and a vine-covered druid dragging a captured creature into a glowing recycling bin stamped with an official seal."

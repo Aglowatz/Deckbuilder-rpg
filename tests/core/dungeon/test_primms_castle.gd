@@ -120,7 +120,7 @@ func test_the_final_chamber_and_the_boss() -> void:
 	assert_eq(boss.after_scene, "primm_end")
 	assert_true(CutsceneDefs.has_scene("primm_intro") and CutsceneDefs.has_scene("primm_p1") and CutsceneDefs.has_scene("primm_p2") and CutsceneDefs.has_scene("primm_end"))
 	assert_eq(_def.backdrop, "castle")
-	assert_eq(_def.reward_card_id, "the_paths_united")
+	assert_eq(_def.reward_card_id, "P4-02")
 	assert_not_null(Session.card_by_id(_def.reward_card_id))
 
 
@@ -211,8 +211,8 @@ func test_standardization_makes_every_unit_the_same_in_a_real_duel() -> void:
 	assert_ne(context.rules_text, "")
 	assert_eq(context.music, &"primm")
 	var game: GameState = context.game
-	var big: CardInstance = game.create_instance(Session.card_by_id("ironclad"), 0)
-	var small: CardInstance = game.create_instance(Session.card_by_id("cave_bat"), 1)
+	var big: CardInstance = game.create_instance(Session.card_by_id("C-04"), 0)
+	var small: CardInstance = game.create_instance(Session.card_by_id("C-02"), 1)
 	game.players[0].field.append(big)
 	game.players[1].field.append(small)
 	assert_eq(game.get_attack(big), PrimmBoss.STANDARD_ATTACK)
@@ -312,7 +312,7 @@ func test_beating_primm_unlocks_the_postgame_and_sets_the_ending() -> void:
 	assert_true(Session.profile.postgame_unlocked)
 	assert_true(Session.flag(&"primm_defeated"))
 	assert_true(Session.is_zone_completed(CapitalZone.ID), "the Capital is freed")
-	assert_gt(Session.owned_count("the_paths_united"), 0, "the unique reward card")
+	assert_gt(Session.owned_count("P4-02"), 0, "the unique reward card")
 	assert_eq(Session.pack_count(PackRules.PRISMATIC_ID), PackCatalog.config().primm_prismatic_packs, "Primm's fall pays a Prismatic Pack")
 	assert_false(Session.pending_ending_packs.is_empty(), "announced after the ending")
 	_start_castle_run()

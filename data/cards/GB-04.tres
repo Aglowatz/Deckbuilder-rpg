@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_3mp21"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_svsgs"]
+
+[resource]
+script = ExtResource("2_svsgs")
+id = "GB-04"
+display_name = "Carb Load"
+type = 3
+color = 1
+color2 = 2
+generic_cost = 1
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "When an opposing unit attacks, units you control get +1/+2 until end of turn. Create an Ingredient."
+rarity = 1
+flavor_text = "Pasta: the original pre-workout."
+paths_all = Array[int]([1, 2])
+script_text = "trap(attacks:opp) => pump(all(unit.mine),1,2,eot); create(ingredient)"
+rules_hash = "adc4a7b46de5"
+image_description = "A team of Beefcakes slurping enormous bowls of glowing spaghetti in unison, veins and auras swelling."

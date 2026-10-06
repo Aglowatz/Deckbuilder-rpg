@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_5rmy1"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_x4iux"]
+
+[resource]
+script = ExtResource("2_x4iux")
+id = "N-25"
+display_name = "Permission to Die - Denied"
+type = 3
+color = 4
+generic_cost = 1
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "When a unit you control dies, Reinstate it."
+rarity = 1
+flavor_text = "You should have read the fine print."
+paths_all = Array[int]([4])
+script_text = "trap(unit_dies:mine) => reinstate(trig)"
+rules_hash = "1c7c554fd146"
+image_description = "A ghostly soul trying to float up toward a glowing light while a skeleton clerk slams a giant stamp onto a form, pulling the soul back down by its ankle."

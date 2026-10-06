@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_epnmf"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rncmt"]
+
+[resource]
+script = ExtResource("2_rncmt")
+id = "C-29"
+display_name = "The Wanderer"
+generic_cost = 4
+attack = 3
+defense = 4
+rules_text = "This unit gets +1/+1 for each different Path among Infrastructure you control.
+
+Whenever you play a multi-path card, draw a card."
+rarity = 2
+flavor_text = "Where am I? What happened? ...Why am I so good at this?"
+script_text = "static => selfstat(distinct_paths(infra.mine),distinct_paths(infra.mine))
+when(plays:mine:multipath) => draw(1)"
+rules_hash = "be7b74d07ec4"
+image_description = "A mysterious traveler in a weathered cloak standing at a crossroads where four very different paths diverge, a faint glow of all four Path colors around them."

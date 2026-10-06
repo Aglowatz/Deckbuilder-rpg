@@ -451,7 +451,7 @@ func test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer(
 		var info: ZoneEnemyInfo = HeapEnemies.info(id)
 		if info.kind == ZoneEnemyInfo.Kind.BATTLE:
 			assert_lt(info.chase_speed, ZoneEnemies.PLAYER_SPEED)
-			assert_true(info.recipe.has("infrastructure:C"), "%s plays Refusemancer infrastructure" % id)
+			assert_true(info.recipe.has("BAS-R"), "%s plays Refusemancer infrastructure" % id)
 			slow_battle += 1
 		else:
 			assert_gt(info.chase_speed, ZoneEnemies.PLAYER_SPEED)
@@ -476,7 +476,7 @@ func test_a_heap_battle_uses_the_zone_hp_and_the_refusemancer_deck() -> void:
 	var seen: Dictionary = {}
 	for card: CardData in deck.cards:
 		seen[card.id] = true
-	assert_true(seen.has("compost_golem"))
+	assert_true(seen.has("R-06"))
 	context.won = true
 	context.gold_reward = 5
 	Session.resolve_zone_battle(context)
@@ -484,7 +484,7 @@ func test_a_heap_battle_uses_the_zone_hp_and_the_refusemancer_deck() -> void:
 
 
 func test_heap_cards_and_equipment_exist() -> void:
-	for id: String in ZoneCards.HEAP_VENDOR_IDS + ["recycle_bin", "moss_titan", "heap_mother"]:
+	for id: String in ZoneCards.HEAP_VENDOR_IDS + ["R-20", "R-33", "R-29"]:
 		assert_not_null(Session.content.card(id), "card %s exists" % id)
 		assert_eq(Session.content.card(id).color, Affinity.Type.REFUSEMANCER)
 	assert_not_null(Session.content.equipment_piece("seed_satchel"))
@@ -493,7 +493,7 @@ func test_heap_cards_and_equipment_exist() -> void:
 
 func test_mini_dungeon_is_three_battles_and_a_one_time_unique_card() -> void:
 	assert_eq(def.mini.battles.size(), 3)
-	assert_eq(def.mini.reward_card_id, "heap_mother")
+	assert_eq(def.mini.reward_card_id, "R-29")
 	var map: DungeonMap = MiniDungeon.build_map(HeapZone.ID)
 	var battles: int = 0
 	for node: DungeonMap.MapNode in map.nodes:
@@ -503,9 +503,9 @@ func test_mini_dungeon_is_three_battles_and_a_one_time_unique_card() -> void:
 			assert_gt(deck.cards.size(), 20)
 	assert_eq(battles, 3)
 	Session.resolve_mini_dungeon(true)
-	assert_eq(Session.owned_count("heap_mother"), 1)
+	assert_eq(Session.owned_count("R-29"), 1)
 	Session.resolve_mini_dungeon(true)
-	assert_eq(Session.owned_count("heap_mother"), 1)
+	assert_eq(Session.owned_count("R-29"), 1)
 
 
 # ---- Story ---------------------------------------------------------------------------------------------------

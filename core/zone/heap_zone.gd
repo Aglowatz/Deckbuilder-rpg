@@ -59,10 +59,10 @@ const PICKUPS: Dictionary = {
 const CHEST_REWARDS: Dictionary = {
 	"chest_fridge": {"gold": 40, "item": "", "card": "", "cosmetic": "hat_leaf_crown"},
 	"chest_compost": {"gold": 25, "item": "healing_salve", "card": ""},
-	"chest_peak_a": {"gold": 0, "item": "", "card": "recycle_bin"},
+	"chest_peak_a": {"gold": 0, "item": "", "card": "R-26"},
 	"chest_hay": {"gold": 30, "item": "scroll_of_insight", "card": ""},
 	"chest_log": {"gold": 60, "item": "healing_draught", "card": ""},
-	"chest_peak_b": {"gold": 20, "item": "", "card": "moss_titan"},
+	"chest_peak_b": {"gold": 20, "item": "", "card": "R-09"},
 	"chest_car": {"gold": 90, "item": "firebrand_charm", "card": ""},
 	"chest_barn": {"gold": 50, "item": "vitality_charm", "card": ""},
 }
@@ -171,14 +171,14 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	mini.dungeon_name = "The Landfill Depths: Three Levels"
 	mini.start_title = "Top of the Pile"
 	mini.start_blurb = "A rusted hatch in the heap, a ladder going down, and a sign that says 'Please do not dig deeper than the raccoons.' The raccoons are very deep."
-	mini.reward_card_id = "heap_mother"
+	mini.reward_card_id = "R-29"
 	mini.battles = [
 		_battle("Level 1: The Top Layer", "Fresh garbage, still warm. It has strong feelings about being thrown away.", "Bin Bag Brute", 12, "Balanced", false,
-			{"infrastructure:C": 15, "scrap_goat": 4, "tin_can_raccoon": 3, "sprout_surge": 2, "vine_snare": 1}),
+			EnemyDecks.trimmed("refuse_rats", 27, 15)),
 		_battle("Level 2: The Compost Layer", "Warm, damp, and absolutely thriving. Something down here is composting very quickly.", "Compost Colossus", 14, "Defensive", false,
-			{"infrastructure:C": 15, "compost_golem": 3, "dung_beetle": 3, "harvest_moon": 2, "fertilizer_burst": 2}),
+			EnemyDecks.trimmed("refuse_garbage", 28, 15)),
 		_battle("Level 3: The Forgotten Layer", "Things nobody has thrown away since before the kingdom had a name. They are old. They are cross.", "Landfill Leviathan", 18, "Aggressive", true,
-			{"infrastructure:C": 16, "landfill_hog": 3, "moss_titan": 1, "dung_beetle": 3, "vine_snare": 3, "scrap_goat": 2}),
+			EnemyDecks.with_cards(EnemyDecks.trimmed("refuse_garbage", 31, 16), {"R-29": 1})),
 	]
 	return mini
 

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_cri7v"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_4oq56"]
+
+[resource]
+script = ExtResource("2_4oq56")
+id = "T-02"
+display_name = "Rat"
+color = 3
+attack = 1
+flavor_text = "There's never just one."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([3])
+rules_hash = "d41d8cd98f00"
+image_description = "A scrappy little rat in a bottle-cap helmet, standing on its hind legs and saluting."

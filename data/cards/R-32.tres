@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_3f52d"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_au5kq"]
+
+[resource]
+script = ExtResource("2_au5kq")
+id = "R-32"
+display_name = "Back From the Heap"
+type = 3
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3, 3])
+defense = 0
+rules_text = "When your HP drops to 5 or less, shuffle your Refuse Pile into your deck, gain 5 HP, and create five Garbage."
+rarity = 3
+flavor_text = "You can't throw us away. We ARE away."
+paths_all = Array[int]([3])
+script_text = "trap(hp_drops:mine:le=5) => shuffle_refuse_into_deck(me); gain(me,5); create(garbage,5)"
+rules_hash = "b8fcf7ac1dda"
+image_description = "A battered druid rising heroically out of a towering trash heap in a burst of green light, vines and animals swirling around them."

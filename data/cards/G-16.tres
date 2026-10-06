@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_hpw8d"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_77lxa"]
+
+[resource]
+script = ExtResource("2_77lxa")
+id = "G-16"
+display_name = "Dinner Is Served"
+type = 3
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "When an opposing unit with attack 3 or less attacks, Plate it (it becomes a 1/1 Snack token)."
+flavor_text = "Garnish optional."
+paths_all = Array[int]([2])
+script_text = "trap(attacks:opp:atk<=3) => plate(trig)"
+rules_hash = "5f2f768a48c5"
+image_description = "A charging creature mid-leap suddenly transformed into a tiny dumpling on a silver platter, a butler chef lifting the cloche with a flourish."

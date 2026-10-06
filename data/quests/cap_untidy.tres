@@ -36,5 +36,5 @@ objectives = Array[ExtResource("1_55kl4")]([SubResource("Resource_pcb0b"), SubRe
 reward_gold = 150
 reward_xp = 120
 reward_item_ids = Array[String](["healing_salve"])
-reward_card_ids = Array[String](["rescued_compost_heap"])
+reward_card_ids = Array[String](["R-30"])
 reward_unlock_flags = Array[String](["capital_insight_refusemancer"])

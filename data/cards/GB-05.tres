@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_4b600"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_p5u4a"]
+
+[resource]
+script = ExtResource("2_p5u4a")
+id = "GB-05"
+display_name = "Meal Prep"
+type = 4
+color = 1
+color2 = 2
+generic_cost = 1
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "At the start of your turn, create an Ingredient.
+
+Use an Ingredient: create an Iron. Do this only once per turn."
+rarity = 1
+flavor_text = "Chicken, rice, broccoli. Chicken, rice, broccoli. Chicken..."
+paths_all = Array[int]([1, 2])
+script_text = "sot => create(ingredient)
+act once | use(ingredient) => create(iron)"
+rules_hash = "cbf4aada06c4"
+image_description = "A kitchen counter covered in dozens of identical labeled meal containers, a determined Beefcake portioning them with surgical precision."

@@ -25,10 +25,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.8
 			made.aggro_range = 5.5
 			made.leash_range = 8.5
-			made.recipe = {
-				"infrastructure:C": 16, "scrap_goat": 3, "compost_golem": 3, "dung_beetle": 2,
-				"vine_snare": 2, "sprout_surge": 1,
-			}
+			made.recipe = EnemyDecks.trimmed("refuse_rats", 27, 16)
 			made.hp = 14
 			made.ai_name = "Aggressive"
 			made.gold_reward = 30
@@ -42,10 +39,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.6
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
-			made.recipe = {
-				"infrastructure:C": 15, "tin_can_raccoon": 3, "bramble_trap": 2, "harvest_moon": 3,
-				"dung_beetle": 3, "fertilizer_burst": 1,
-			}
+			made.recipe = EnemyDecks.trimmed("refuse_garbage", 27, 15)
 			made.hp = 16
 			made.ai_name = "Defensive"
 			made.gold_reward = 35

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_geg2b"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_4hyh4"]
+
+[resource]
+script = ExtResource("2_4hyh4")
+id = "R-08"
+display_name = "Possum Prowler"
+color = 3
+colored_pips = Array[int]([3])
+attack = 1
+defense = 2
+rules_text = "Eat garbage: this unit gets +2/+2 until end of turn."
+flavor_text = "Plays dead. Plays to win."
+paths_all = Array[int]([3])
+script_text = "act | eat => pump(self,2,2,eot)"
+rules_hash = "326491cb3795"
+image_description = "A possum hanging upside down by its tail from a rusty pipe, munching a moldy sandwich, eyes glowing green as its muscles bulge with energy."

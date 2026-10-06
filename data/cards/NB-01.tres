@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_8c8yw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_d1ni4"]
+
+[resource]
+script = ExtResource("2_d1ni4")
+id = "NB-01"
+display_name = "Shredded Spectre"
+color = 1
+color2 = 4
+generic_cost = 4
+colored_pips = Array[int]([1, 4])
+attack = 5
+defense = 5
+rules_text = "Use 3 Red Tape: this unit gains Elusive until end of turn.
+Use 3 Iron: this unit gets +1 attack until end of turn."
+rarity = 1
+flavor_text = "Bro! It's like, so easy to count calories and hit crazy goals when you're dead! Being dead rules!"
+paths_all = Array[int]([1, 4])
+script_text = "act | use(redtape,3) => kw_grant(self,elusive,eot)
+act | use(iron,3) => pump(self,1,0,eot)"
+rules_hash = "462951fc0abd"
+image_description = "Beefcake ghost with his shirt off, flexing and showing off his huge muscles and abs as a bunch of other shocked beefcakes look on"

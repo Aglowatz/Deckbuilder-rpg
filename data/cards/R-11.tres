@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_p36sh"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_k7lca"]
+
+[resource]
+script = ExtResource("2_k7lca")
+id = "R-11"
+display_name = "Raised Bed"
+type = 4
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "Use a Garbage: put a buff on target unit you control. Do this only once per turn."
+flavor_text = "Grown with love. And coffee grounds."
+paths_all = Array[int]([3])
+script_text = "act t=unit.mine once | use(garbage) => buff(t,1)"
+rules_hash = "86aa2eb89aab"
+image_description = "A raised garden bed built from an old rowboat, overflowing with oversized glowing vegetables and curling vines, a druid's watering can floating above it."

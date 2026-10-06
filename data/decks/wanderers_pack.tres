@@ -1,22 +1,26 @@
 [gd_resource type="Resource" script_class="Deck" format=3]
 
-[ext_resource type="Script" path="res://core/data/card_data.gd" id="1_43001"]
-[ext_resource type="Resource" path="res://data/cards/infrastructure_beefcake.tres" id="2_ntshu"]
-[ext_resource type="Resource" path="res://data/cards/apprentice_blade.tres" id="3_cct18"]
-[ext_resource type="Resource" path="res://data/cards/scrappy_recruit.tres" id="4_ddufi"]
-[ext_resource type="Resource" path="res://data/cards/sellsword.tres" id="5_cecpt"]
-[ext_resource type="Resource" path="res://data/cards/cave_bat.tres" id="6_p4lwh"]
-[ext_resource type="Resource" path="res://data/cards/stone_sentinel.tres" id="7_ixvk8"]
-[ext_resource type="Resource" path="res://data/cards/field_medic.tres" id="8_baj51"]
-[ext_resource type="Resource" path="res://data/cards/merchant.tres" id="9_q87j3"]
-[ext_resource type="Resource" path="res://data/cards/ironclad.tres" id="10_xqma3"]
-[ext_resource type="Resource" path="res://data/cards/healing_idol.tres" id="11_mxtx2"]
-[ext_resource type="Resource" path="res://data/cards/rusty_curse.tres" id="12_aixr8"]
-[ext_resource type="Resource" path="res://data/cards/pitfall.tres" id="13_th4v0"]
-[ext_resource type="Resource" path="res://data/cards/supply_cache.tres" id="14_e8v85"]
-[ext_resource type="Script" path="res://core/data/deck.gd" id="15_65lyl"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="1_cecpt"]
+[ext_resource type="Resource" path="res://data/cards/BAS-B.tres" id="2_p4lwh"]
+[ext_resource type="Resource" path="res://data/cards/C-01.tres" id="3_ixvk8"]
+[ext_resource type="Resource" path="res://data/cards/C-02.tres" id="4_baj51"]
+[ext_resource type="Resource" path="res://data/cards/C-03.tres" id="5_q87j3"]
+[ext_resource type="Resource" path="res://data/cards/C-04.tres" id="6_xqma3"]
+[ext_resource type="Resource" path="res://data/cards/C-05.tres" id="7_mxtx2"]
+[ext_resource type="Resource" path="res://data/cards/C-06.tres" id="8_aixr8"]
+[ext_resource type="Resource" path="res://data/cards/C-07.tres" id="9_th4v0"]
+[ext_resource type="Resource" path="res://data/cards/C-08.tres" id="10_e8v85"]
+[ext_resource type="Resource" path="res://data/cards/C-10.tres" id="11_65lyl"]
+[ext_resource type="Resource" path="res://data/cards/C-11.tres" id="12_ohlof"]
+[ext_resource type="Resource" path="res://data/cards/C-12.tres" id="13_an7dn"]
+[ext_resource type="Resource" path="res://data/cards/C-13.tres" id="14_fd40l"]
+[ext_resource type="Resource" path="res://data/cards/C-14.tres" id="15_nvber"]
+[ext_resource type="Resource" path="res://data/cards/C-16.tres" id="16_80jid"]
+[ext_resource type="Resource" path="res://data/cards/C-17.tres" id="17_6urt4"]
+[ext_resource type="Resource" path="res://data/cards/C-19.tres" id="18_elab7"]
+[ext_resource type="Script" path="res://core/data/deck.gd" id="19_1vpn8"]
 
 [resource]
-script = ExtResource("15_65lyl")
+script = ExtResource("19_1vpn8")
 deck_name = "Wanderer's Pack"
-cards = Array[ExtResource("1_43001")]([ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("2_ntshu"), ExtResource("3_cct18"), ExtResource("3_cct18"), ExtResource("3_cct18"), ExtResource("4_ddufi"), ExtResource("4_ddufi"), ExtResource("4_ddufi"), ExtResource("5_cecpt"), ExtResource("5_cecpt"), ExtResource("6_p4lwh"), ExtResource("6_p4lwh"), ExtResource("7_ixvk8"), ExtResource("7_ixvk8"), ExtResource("8_baj51"), ExtResource("8_baj51"), ExtResource("9_q87j3"), ExtResource("9_q87j3"), ExtResource("10_xqma3"), ExtResource("11_mxtx2"), ExtResource("12_aixr8"), ExtResource("12_aixr8"), ExtResource("13_th4v0"), ExtResource("14_e8v85"), ExtResource("14_e8v85")])
+cards = Array[ExtResource("1_cecpt")]([ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("2_p4lwh"), ExtResource("3_ixvk8"), ExtResource("3_ixvk8"), ExtResource("3_ixvk8"), ExtResource("4_baj51"), ExtResource("4_baj51"), ExtResource("4_baj51"), ExtResource("5_q87j3"), ExtResource("5_q87j3"), ExtResource("6_xqma3"), ExtResource("6_xqma3"), ExtResource("7_mxtx2"), ExtResource("8_aixr8"), ExtResource("8_aixr8"), ExtResource("9_th4v0"), ExtResource("10_e8v85"), ExtResource("11_65lyl"), ExtResource("12_ohlof"), ExtResource("13_an7dn"), ExtResource("14_fd40l"), ExtResource("15_nvber"), ExtResource("16_80jid"), ExtResource("17_6urt4"), ExtResource("18_elab7")])

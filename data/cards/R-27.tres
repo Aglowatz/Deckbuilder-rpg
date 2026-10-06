@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_71jvt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_fvvdj"]
+
+[resource]
+script = ExtResource("2_fvvdj")
+id = "R-27"
+display_name = "Raccoon"
+color = 3
+colored_pips = Array[int]([3])
+attack = 1
+defense = 2
+rules_text = "When your units eat garbage, they don't pay energy or lose HP."
+rarity = 2
+flavor_text = ".... *sweats profusely*"
+paths_all = Array[int]([3])
+script_text = "static => flag(free_eat)"
+rules_hash = "5340156d61c5"
+image_description = "A nervous raccoon wearing a crown made from a soup can, sitting atop a mountain of trash and sweating profusely with a guilty grin while other animals feast below."

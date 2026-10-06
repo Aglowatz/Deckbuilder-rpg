@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_5r5pp"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_5f30n"]
+
+[resource]
+script = ExtResource("2_5f30n")
+id = "T-18"
+display_name = "Chef's Masterpiece Golem"
+color = 2
+color2 = 3
+attack = 6
+defense = 6
+keywords = Array[int]([6])
+rules_text = "Nourish."
+flavor_text = "A five-star creation. Rated by rats."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([2, 3])
+script_text = "kw nourish"
+rules_hash = "9e9fa8184616"
+image_description = "A magnificent golem made of a perfect ratatouille, layered vegetable slices forming armor, rats riding on its shoulders proudly."

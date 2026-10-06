@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_6rd0v"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xqfyd"]
+
+[resource]
+script = ExtResource("2_xqfyd")
+id = "GB-01"
+display_name = "Bulking Season Brute"
+color = 1
+color2 = 2
+generic_cost = 1
+colored_pips = Array[int]([2, 1])
+attack = 2
+defense = 3
+rules_text = "When this unit enters, create an Ingredient and an Iron."
+rarity = 1
+flavor_text = "Eat big. Lift big. Nap big."
+paths_all = Array[int]([1, 2])
+script_text = "enter => create(ingredient); create(iron)"
+rules_hash = "6a6d6762e5f7"
+image_description = "A huge, happy Beefcake in a bib eating from a mountain of food while doing bicep curls with a turkey leg."

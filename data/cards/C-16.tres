@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_gxbrk"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_owe2j"]
+
+[resource]
+script = ExtResource("2_owe2j")
+id = "C-16"
+display_name = "Tripwire"
+type = 3
+generic_cost = 1
+defense = 0
+rules_text = "When an opposing unit attacks, it gets -2/-0 until end of turn."
+flavor_text = "Simple. Effective. Embarrassing."
+script_text = "trap(attacks:opp) => pump(trig,-2,0,eot)"
+rules_hash = "fd883b1fe629"
+image_description = "A charging warrior tripping face-first over a nearly invisible string tied between two trees, helmet flying off."

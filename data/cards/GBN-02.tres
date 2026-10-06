@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_l8xnn"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_4hi2w"]
+
+[resource]
+script = ExtResource("2_4hi2w")
+id = "GBN-02"
+display_name = "Velvet Rope"
+type = 5
+color = 1
+color2 = 2
+colored_pips = Array[int]([2, 1, 4])
+defense = 0
+rules_text = "Destroy this Tool: exhaust target opposing unit. It doesn't refresh during its controller's next turn. Create an Ingredient."
+rarity = 1
+flavor_text = "You're not on the list. You're not even on the waitlist."
+paths_all = Array[int]([1, 2, 4])
+script_text = "act t=unit.opp | destroy_self => exhaust(t); no_refresh(t); create(ingredient)"
+rules_hash = "a3e55ea572a6"
+image_description = "A Beefcake bouncer and a skeletal host standing behind a plush red velvet rope outside a grand gala, a disappointed monster turned away."

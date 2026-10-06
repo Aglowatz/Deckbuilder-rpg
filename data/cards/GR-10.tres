@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_60te8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3ehfq"]
+
+[resource]
+script = ExtResource("2_3ehfq")
+id = "GR-10"
+display_name = "Spork of Unity"
+type = 5
+color = 2
+color2 = 3
+colored_pips = Array[int]([2, 3])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +1/+1.
+
+Whenever attached unit deals damage to an opponent, create a Garbage and an Ingredient."
+rarity = 1
+flavor_text = "Half spoon. Half fork. Fully committed."
+paths_all = Array[int]([2, 3])
+script_text = "attach
+host => stat(1,1)
+when(attached_dmg_opp) => create(garbage); create(ingredient)"
+rules_hash = "32114111864b"
+image_description = "A legendary golden spork glowing on a pedestal, one half polished silver and the other half rusty and vine-wrapped."

@@ -587,15 +587,15 @@ func _hub_heal(zone: BuffetScene) -> void:
 	if zone._overlay is VendorScreen:
 		await driver.click_button("Got it")
 		await _shot("g_43_gourmand_vendor")
-		var tile: Control = _find_meta_tile(zone._overlay, "card_id", "meatloaf_golem")
+		var tile: Control = _find_meta_tile(zone._overlay, "card_id", "G-02")
 		_check(tile != null, "a Meatloaf Golem card is for sale")
-		var owned: int = Session.owned_count("meatloaf_golem")
+		var owned: int = Session.owned_count("G-02")
 		if tile != null:
 			await driver.click(tile.get_global_rect().position + Vector2(60, 90))
 			await driver.seconds(0.3)
 			await driver.click_button("Buy")
 			await driver.seconds(0.4)
-		_check(Session.owned_count("meatloaf_golem") == owned + 1, "buying adds the Gourmand card")
+		_check(Session.owned_count("G-02") == owned + 1, "buying adds the Gourmand card")
 		await driver.click_button("Leave")
 		await driver.seconds(0.3)
 	# Quest counters count from acceptance, so bake a second pie now (the pantry stock is topped up directly:
@@ -866,7 +866,7 @@ func _mini_dungeon(zone: BuffetScene) -> BuffetScene:
 		await _shot("g_66_back_from_the_freezer")
 	_check(not Session.mini_active, "the mini dungeon run ended and returned to the zone")
 	if Session.flag(BuffetZone.FLAG_MINI_CLEARED):
-		_check(Session.owned_count("buffet_colossus") == 1, "clearing it granted the unique Colossus of the Endless Buffet")
+		_check(Session.owned_count("G-28") == 1, "clearing it granted the unique Colossus of the Endless Buffet")
 	_note("mini dungeon: %d battle(s) fought, cleared=%s (a loss wakes you at the hub; the clear path is unit-tested)" % [battles, str(Session.flag(BuffetZone.FLAG_MINI_CLEARED))])
 	return zone
 

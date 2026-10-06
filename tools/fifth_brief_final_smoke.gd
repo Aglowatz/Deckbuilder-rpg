@@ -264,16 +264,16 @@ func _buy_a_necrocrat_card(zone: DnaScene) -> void:
 	if not (zone._overlay is VendorScreen):
 		return
 	await driver.click_button("Got it")
-	var tile: Control = _find_meta_tile(zone._overlay, "card_id", "cubicle_zombie")
+	var tile: Control = _find_meta_tile(zone._overlay, "card_id", "N-06")
 	_check(tile != null, "Cubicle Zombie is for sale")
-	var owned_before: int = Session.owned_count("cubicle_zombie")
+	var owned_before: int = Session.owned_count("N-06")
 	if tile != null:
 		await driver.click(tile.get_global_rect().position + Vector2(60, 90))
 		await driver.seconds(0.3)
 		await _shot("e_14_vendor_buy_confirm")
 		await driver.click_button("Buy")
 		await driver.seconds(0.4)
-	_check(Session.owned_count("cubicle_zombie") == owned_before + 1, "buying adds the Necrocrat card to the collection")
+	_check(Session.owned_count("N-06") == owned_before + 1, "buying adds the Necrocrat card to the collection")
 	await driver.click_button("Leave")
 	await driver.seconds(0.3)
 

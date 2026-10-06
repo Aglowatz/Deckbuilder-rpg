@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_td0u4"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_uwlly"]
+
+[resource]
+script = ExtResource("2_uwlly")
+id = "C-18"
+display_name = "Emergency Rations"
+type = 3
+generic_cost = 1
+defense = 0
+rules_text = "When your HP drops to 5 or less, gain 4 HP."
+flavor_text = "Hardtack: technically food. Technically."
+script_text = "trap(hp_drops:mine:le=5) => gain(me,4)"
+rules_hash = "249fdbad2058"
+image_description = "A battered adventurer cracking open a rock-hard ration biscuit with a hammer, a glowing aura of relief around them."

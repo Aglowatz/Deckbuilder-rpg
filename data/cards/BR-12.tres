@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_jxa58"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_yauro"]
+
+[resource]
+script = ExtResource("2_yauro")
+id = "BR-12"
+display_name = "Iron Rhino"
+color = 1
+color2 = 3
+generic_cost = 4
+colored_pips = Array[int]([1, 3])
+attack = 6
+defense = 5
+keywords = Array[int]([2, 4])
+rules_text = "Hustle. Bulldoze."
+rarity = 2
+flavor_text = "Charges first. Composts later."
+paths_all = Array[int]([1, 3])
+script_text = "kw hustle,bulldoze"
+rules_hash = "b9c2cfd9d129"
+image_description = "A massive rhinoceros with scrap-metal armor plating and a horn made of a rusty pickaxe, charging through a wall of junk."

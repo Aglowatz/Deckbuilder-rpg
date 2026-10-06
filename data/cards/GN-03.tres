@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_1ecsv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_dp1ec"]
+
+[resource]
+script = ExtResource("2_dp1ec")
+id = "GN-03"
+display_name = "Bone Broth Brewer"
+color = 2
+color2 = 4
+generic_cost = 1
+colored_pips = Array[int]([2, 4])
+attack = 1
+defense = 3
+rules_text = "Whenever a token you control dies, create an Ingredient."
+rarity = 1
+flavor_text = "Nothing goes to waste. Not even Gary."
+paths_all = Array[int]([2, 4])
+script_text = "when(token_dies:mine) => create(ingredient)"
+rules_hash = "ef685ebe92b2"
+image_description = "A hunched ghoul stirring a huge bubbling cauldron of glowing broth, bones bobbing at the surface, a ladle in one hand and a recipe scroll in the other."

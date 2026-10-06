@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_73gub"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_2pwab"]
+
+[resource]
+script = ExtResource("2_2pwab")
+id = "R-29"
+display_name = "Mount Trashmore"
+color = 3
+generic_cost = 3
+colored_pips = Array[int]([3, 3, 3])
+attack = 6
+defense = 7
+keywords = Array[int]([4])
+rules_text = "Bulldoze.
+
+When this unit enters, use any number of Garbage. Put a buff on it for each Garbage used."
+rarity = 2
+flavor_text = "It's not a mountain. It's a lifestyle."
+not_in_packs = true
+paths_all = Array[int]([3])
+script_text = "kw bulldoze
+enter => use_any(garbage); buff(self,$used)"
+rules_hash = "f1ec0e1427dc"
+image_description = "A colossal walking mountain of junk and earth with trees growing from its shoulders, glowing green eyes, and a cascade of scrap tumbling from its back as it stomps forward."

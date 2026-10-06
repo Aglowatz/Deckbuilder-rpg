@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_7s4q5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_lwgee"]
+
+[resource]
+script = ExtResource("2_lwgee")
+id = "N-08"
+display_name = "Corporate-Approved Pen"
+type = 5
+color = 4
+generic_cost = 1
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +1/+0 and Toxic."
+flavor_text = "Mightier than the sword. Legally binding."
+paths_all = Array[int]([4])
+script_text = "attach
+host => stat(1,0); kw(toxic)"
+rules_hash = "dc5381408fa1"
+image_description = "An elegant black fountain pen dripping sickly green ink, levitating above a contract, a faint skull-shaped glow in the ink droplet."

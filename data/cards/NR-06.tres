@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_umpfw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_5enhy"]
+
+[resource]
+script = ExtResource("2_5enhy")
+id = "NR-06"
+display_name = "Rat Swarm"
+type = 3
+color = 3
+color2 = 4
+generic_cost = 1
+colored_pips = Array[int]([4, 3])
+defense = 0
+rules_text = "When an opposing unit attacks, create three 1/1 Rat tokens."
+rarity = 1
+flavor_text = "Where there's one, there's a class-action lawsuit."
+paths_all = Array[int]([3, 4])
+script_text = "trap(attacks:opp) => create(T-02,3)"
+rules_hash = "a5df31aa602f"
+image_description = "A flood of rats pouring out of manholes, trash cans, and filing cabinets to surround a startled attacker."

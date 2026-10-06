@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_sro3i"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_wl6s1"]
+
+[resource]
+script = ExtResource("2_wl6s1")
+id = "GRB-02"
+display_name = "Blue Ribbon"
+type = 5
+color = 1
+color2 = 2
+colored_pips = Array[int]([2, 3, 1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +2/+2. If it has a buff on it, it also has Bulldoze."
+rarity = 1
+flavor_text = "Best in show. Worst in temper."
+paths_all = Array[int]([1, 2, 3])
+script_text = "attach
+host => stat(2,2)
+host ? has_buff(host) => kw(bulldoze)"
+rules_hash = "816b062362a7"
+image_description = "A huge glowing blue prize ribbon pinned to the chest of a proud, muscular goat standing on a hay-bale podium."

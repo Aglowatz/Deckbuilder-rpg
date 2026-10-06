@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_q370v"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_n678u"]
+
+[resource]
+script = ExtResource("2_n678u")
+id = "N-31"
+display_name = "Department of Final Approvals"
+type = 4
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4, 4])
+defense = 0
+rules_text = "Spells your opponent plays cost 1 more.
+
+At the start of your turn, create a Red Tape."
+rarity = 2
+flavor_text = "Your request has been received. And denied. And received again."
+paths_all = Array[int]([4])
+script_text = "static => cost_plus(opp,spell,1)
+sot => create(redtape)"
+rules_hash = "feefeba93e10"
+image_description = "A monumental gray government building with countless tiny windows, an endless queue of ghosts snaking out of its doors and up its steps."

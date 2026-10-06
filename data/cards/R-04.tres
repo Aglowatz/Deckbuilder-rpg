@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_b7ocf"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_s4w1y"]
+
+[resource]
+script = ExtResource("2_s4w1y")
+id = "R-04"
+display_name = "Rubbish Goat"
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+attack = 2
+defense = 2
+rules_text = "When this unit enters, you may destroy target Tool. If you do, create a Garbage."
+flavor_text = "Please do not feed the goats. They will eat the sign."
+paths_all = Array[int]([3])
+script_text = "enter t=tool => may({destroy(t)}); ifdid({create(garbage)})"
+rules_hash = "88cad4579e9f"
+image_description = "A smug goat mid-chew with half of a wooden warning sign hanging from its mouth, standing on a pile of broken tools and gears."

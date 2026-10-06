@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_bkqh6"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_d1sr8"]
+
+[resource]
+script = ExtResource("2_d1sr8")
+id = "NBR-02"
+display_name = "Wrecking Ball"
+type = 5
+color = 1
+color2 = 3
+colored_pips = Array[int]([4, 1, 3])
+defense = 0
+rules_text = "Destroy this Tool: destroy target Tool, Wonder, or Infrastructure."
+rarity = 1
+flavor_text = "Demolition: the only renovation that always finishes on time."
+paths_all = Array[int]([1, 3, 4])
+script_text = "act t=tool|wonder|infra | destroy_self => destroy(t)"
+rules_hash = "b9241792e62c"
+image_description = "An enormous rusty wrecking ball swinging into a building, chains rattling, debris and paperwork flying everywhere."

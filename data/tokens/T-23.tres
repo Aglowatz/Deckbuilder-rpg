@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ixt37"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_hbjap"]
+
+[resource]
+script = ExtResource("2_hbjap")
+id = "T-23"
+display_name = "Schmuck"
+keywords = Array[int]([3])
+rules_text = "Wallflower."
+flavor_text = "He thinks he's the guest of honor."
+is_token = true
+not_in_packs = true
+script_text = "kw wallflower"
+rules_hash = "f501bdd147ea"
+image_description = "A clueless, grinning dinner guest wearing a lampshade on his head and holding an empty plate."

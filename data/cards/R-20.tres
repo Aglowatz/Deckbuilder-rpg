@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_tt8fr"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_nkofm"]
+
+[resource]
+script = ExtResource("2_nkofm")
+id = "R-20"
+display_name = "Landfill Grab"
+type = 2
+color = 3
+generic_cost = 1
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "Search your deck for an Infrastructure and put it onto the field."
+flavor_text = "Location, location, decomposition."
+paths_all = Array[int]([3])
+script_text = "play => search(infra,1,field)"
+rules_hash = "8ecac504b764"
+image_description = "A druid surveying a misty valley of junk hills through a spyglass made from a bottle, while eager vines unroll a fresh patch of land ahead."

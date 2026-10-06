@@ -44,8 +44,7 @@ const D := CardEnums.Duration
 const K2 := CardEnums.Keyword
 
 
-## `tokens` is the same dict `ContentDefinitions.build_tokens()` produces - Summoning Charm reuses
-## the existing "token_spirit" token rather than defining a near-duplicate.
+## `tokens` is the same dict `ContentDefinitions.build_tokens()` produces - Summoning Charm summons the sheet's Militia token.
 static func items(tokens: Dictionary = {}) -> Dictionary:
 	var result: Dictionary = {}
 	_add_item(result, "healing_draught", "Healing Draught", "A common camp remedy.", 3, CardEnums.EffectOp.GAIN_HP, 3)
@@ -59,12 +58,12 @@ static func items(tokens: Dictionary = {}) -> Dictionary:
 	_add_item(result, "firebrand_charm", "Firebrand Charm", "Deal 2 damage to an enemy unit.", 2, CardEnums.EffectOp.DEAL_DAMAGE, 2, 0, D.PERMANENT, G.CHOSEN_UNIT_ENEMY)
 	_add_item(result, "sharpening_stone", "Sharpening Stone", "Give a unit +2/+2 until end of turn.", 3, CardEnums.EffectOp.BUFF, 2, 2, D.END_OF_TURN, G.CHOSEN_UNIT_ALLY)
 	_add_item(result, "binding_chains", "Binding Chains", "Return an enemy unit to its owner's hand.", 1, CardEnums.EffectOp.SEND_BACK, 0, 0, D.PERMANENT, G.CHOSEN_UNIT_ENEMY)
-	_add_item(result, "silence_powder", "Silence Powder", "The opponent discards a random card.", 2, CardEnums.EffectOp.TOSS, 1, 0, D.PERMANENT, G.OPPONENT)
-	_add_item(result, "grave_dust", "Grave Dust", "The opponent mills 3 cards.", 2, CardEnums.EffectOp.BURY, 3, 0, D.PERMANENT, G.OPPONENT)
-	var spirit: CardData = tokens.get("token_spirit") as CardData
-	if spirit == null:
-		spirit = CardBuilder.token("token_spirit", "Spirit", 1, 1)
-	_add_item(result, "summoning_charm", "Summoning Charm", "Summon a 1/1 Spirit token.", 1, CardEnums.EffectOp.SUMMON_TOKEN, 1, 0, D.PERMANENT, G.CONTROLLER, null, spirit)
+	_add_item(result, "silence_powder", "Silence Powder", "The opponent tosses a random card.", 2, CardEnums.EffectOp.TOSS, 1, 0, D.PERMANENT, G.OPPONENT)
+	_add_item(result, "grave_dust", "Grave Dust", "The opponent buries their top 3 cards.", 2, CardEnums.EffectOp.BURY, 3, 0, D.PERMANENT, G.OPPONENT)
+	var militia: CardData = tokens.get("T-16") as CardData
+	if militia == null:
+		militia = CardBuilder.token("T-16", "Militia", 1, 1)
+	_add_item(result, "summoning_charm", "Summoning Charm", "Summon a 1/1 Militia token.", 1, CardEnums.EffectOp.SUMMON_TOKEN, 1, 0, D.PERMANENT, G.CONTROLLER, null, militia)
 	_add_item(result, "ward_sigil", "Ward Sigil", "Give a unit Untouchable until end of turn.", 2, CardEnums.EffectOp.GRANT_KEYWORD, 0, 0, D.END_OF_TURN, G.CHOSEN_UNIT_ALLY, K2.UNTOUCHABLE)
 	_add_item(result, "hearty_pie", "Hearty Pot Pie", "Baked at the Grand Pantry oven. Heal 6 HP.", 1, CardEnums.EffectOp.GAIN_HP, 6, 0, D.PERMANENT, G.CONTROLLER)
 	return result

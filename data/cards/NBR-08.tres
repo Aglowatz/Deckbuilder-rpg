@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_h5cvj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cqdt0"]
+
+[resource]
+script = ExtResource("2_cqdt0")
+id = "NBR-08"
+display_name = "Big Wreck Ronnie, Boss of the Wrecking Crew"
+color = 1
+color2 = 3
+generic_cost = 4
+colored_pips = Array[int]([4, 1, 3])
+attack = 8
+defense = 6
+keywords = Array[int]([2, 4])
+rules_text = "Hustle. Bulldoze.
+
+When this unit enters, destroy all Tools and Wonders. Create a Garbage for each one destroyed this way."
+rarity = 3
+flavor_text = "He doesn't knock things down. He knocks them OUT."
+paths_all = Array[int]([1, 3, 4])
+script_text = "kw hustle,bulldoze
+enter => destroy(all(tool|wonder)); create(garbage,$destroyed)"
+rules_hash = "87fad75256bc"
+image_description = "A colossal demolition foreman with a hard hat, a skull tattoo, and a wrecking ball on a chain over his shoulder, standing on a flattened city block."

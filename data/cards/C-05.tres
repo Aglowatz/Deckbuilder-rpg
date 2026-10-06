@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_bp7iu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_supc0"]
+
+[resource]
+script = ExtResource("2_supc0")
+id = "C-05"
+display_name = "Shield Bearer"
+generic_cost = 3
+attack = 1
+defense = 5
+keywords = Array[int]([3])
+rules_text = "Wallflower."
+flavor_text = "His job is to stand there. He's very good at his job."
+script_text = "kw wallflower"
+rules_hash = "f501bdd147ea"
+image_description = "A broad, calm guard planted behind an enormous tower shield covered in dents and doodles, unbothered as arrows bounce off."

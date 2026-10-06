@@ -66,7 +66,7 @@ func _ready() -> void:
 
 ## Version of the campaign save layout. Bump it whenever a change makes old saves unreadable (ids
 ## renamed, systems added); `discard_incompatible_save` then resets the old save gracefully.
-const SAVE_FORMAT: int = 2
+const SAVE_FORMAT: int = 3
 
 ## Set when an old save was reset; the title screen shows it once and clears it.
 var save_reset_message: String = ""
@@ -91,7 +91,7 @@ func discard_incompatible_save() -> bool:
 	if FileAccess.file_exists(backup):
 		DirAccess.remove_absolute(backup)
 	DirAccess.rename_absolute(save_path, backup)
-	save_reset_message = "Your old save came from an earlier version of the game (infrastructure, energy, new story and systems) and could not be loaded. It was reset - please start a new game. (The old file was kept as save.json.old.)"
+	save_reset_message = "Your old save came from an earlier version of the game (the new card set, Resources and renamed terms) and could not be loaded. It was reset - please start a new game. (The old file was kept as save.json.old.)"
 	return true
 
 
@@ -844,6 +844,9 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		if rules != null:
 			enemy.modifiers.add_source(rules)
 	var game: GameState = run.start_encounter(enemy, ZoneEffects.source_for(effect_zone), options, player_rules)
+	# Grandmaster Flex, the Unbroken fights beside you in the House of Gains boss duel if you rescued him in this run.
+	if main_dungeon_active and node.kind == DungeonMap.Kind.BOSS and zone_def().id == HouseOfGainsDungeon.ZONE_ID and HouseOfGainsDungeon.rescued(run):
+		HouseOfGainsDungeon.place_ally(game)
 	var context: BattleContext = BattleContext.new()
 	context.game = game
 	context.zone_id = effect_zone

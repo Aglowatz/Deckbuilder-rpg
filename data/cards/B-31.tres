@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_1dmy4"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_uw2fm"]
+
+[resource]
+script = ExtResource("2_uw2fm")
+id = "B-31"
+display_name = "The Ultimate Cardio Machine"
+type = 4
+color = 1
+generic_cost = 2
+colored_pips = Array[int]([1, 1])
+defense = 0
+rules_text = "Whenever a unit enters under your control without Hustle, it gains Hustle. Whenever a unit with Hustle enters under your control, it gets +2/+1 until end of turn."
+rarity = 2
+flavor_text = "Never skip leg day!"
+paths_all = Array[int]([1])
+script_text = "when(unit_enters:mine:nohustle) => kw_grant(trig,hustle,perm)
+when(unit_enters:mine:hustle) => pump(trig,2,1,eot)"
+rules_hash = "680ad464410e"
+image_description = "A huge, chicken-legged Beefcake running on a colossal hamster-wheel treadmill, his upper body enormous and his legs comically skinny."

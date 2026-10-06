@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_y4h31"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ts0jg"]
+
+[resource]
+script = ExtResource("2_ts0jg")
+id = "G-06"
+display_name = "Soup Kitchen Volunteer"
+color = 2
+generic_cost = 1
+colored_pips = Array[int]([2])
+attack = 1
+defense = 3
+rules_text = "When this unit enters, gain 2 HP."
+flavor_text = "Chicken soup for the whole soul."
+paths_all = Array[int]([2])
+script_text = "enter => gain(me,2)"
+rules_hash = "052b9a73e925"
+image_description = "A warm, smiling volunteer ladling glowing golden soup from a giant cauldron into bowls held by grateful townsfolk."

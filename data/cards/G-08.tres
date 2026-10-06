@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ace2i"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_c7tme"]
+
+[resource]
+script = ExtResource("2_c7tme")
+id = "G-08"
+display_name = "Pastry Artificer"
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+attack = 1
+defense = 3
+rules_text = "Exhaust, pay 2, use two Ingredients: create a 4/4 Cake Golem token."
+flavor_text = "She bakes things. Big things. Angry things."
+paths_all = Array[int]([2])
+script_text = "act | exhaust, pay(2), use(ingredient,2) => create(T-06)"
+rules_hash = "fc4c5c41f5a3"
+image_description = "An inventor-baker in goggles and a flour-dusted apron piping glowing frosting onto a hulking cake golem that is just opening its eyes."

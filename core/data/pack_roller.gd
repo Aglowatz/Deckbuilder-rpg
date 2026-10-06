@@ -10,13 +10,9 @@ extends RefCounted
 ## Every card a pack can contain, sorted by id (stable for seeded rolls).
 static func pool(pack: PackData, content: ContentSet) -> Array[CardData]:
 	var result: Array[CardData] = []
-	var sources: Array[Dictionary] = [content.cards]
-	if not pack.vendor_selection_only:
-		sources.append(content.zone_cards)
-	for source: Dictionary in sources:
-		for card: Variant in source.values():
-			if _fits(pack, card as CardData):
-				result.append(card as CardData)
+	for card: Variant in content.cards.values():
+		if _fits(pack, card as CardData):
+			result.append(card as CardData)
 	if pack.include_multipath:
 		for card: Variant in content.multipath_cards.values():
 			if _fits(pack, card as CardData):
@@ -26,15 +22,15 @@ static func pool(pack: PackData, content: ContentSet) -> Array[CardData]:
 
 
 static func _fits(pack: PackData, card: CardData) -> bool:
-	if card == null or card.not_in_packs or card.is_token or card.is_infrastructure():
+	if card == null or card.not_in_packs or card.is_token or card.is_basic:
 		return false
 	if int(card.rarity) < int(pack.min_rarity) or int(card.rarity) > int(pack.max_rarity):
 		return false
 	if card.is_multipath():
 		return pack.include_multipath
-	if card.color == Affinity.Type.NEUTRAL:
+	if card.paths().is_empty():
 		return pack.include_neutral
-	return pack.pool_paths.is_empty() or pack.pool_paths.has(card.color)
+	return pack.pool_paths.is_empty() or pack.pool_paths.has(card.paths()[0])
 
 
 ## The cards of one opening. Empty if the pool is empty.

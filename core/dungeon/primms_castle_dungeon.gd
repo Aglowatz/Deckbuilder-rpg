@@ -12,7 +12,7 @@ extends RefCounted
 ## `challenge.pc_*`, `cutscene.primm_*`). The boss is `PrimmBoss` (three phases).
 
 const ZONE_ID: String = "final"
-const REWARD_CARD_ID: String = "the_paths_united"
+const REWARD_CARD_ID: String = "P4-02"
 const K := DungeonMap.Kind
 
 
@@ -24,23 +24,19 @@ static func build_def() -> MainDungeonDef:
 	def.reward_card_id = REWARD_CARD_ID
 	def.reward_gold = 500
 	def.reward_xp = 400
-	var D: String = "infrastructure:D"
-	var B: String = "infrastructure:B"
-	var A: String = "infrastructure:A"
-	var C: String = "infrastructure:C"
-	def.add_foe("Hall Guard", 14, "Balanced", {D: 8, B: 8, "gate_guard": 4, "compliance_officer": 4, "citation": 3, "decree_of_order": 2, "perfection_inspector": 2}, "delapouite/guards")
-	def.add_foe("Gallery Curator", 15, "Defensive", {D: 8, B: 8, "perfection_inspector": 4, "compliance_officer": 3, "tidy_bot": 3, "citation": 3, "decree_of_order": 2, "middle_manager": 2}, "delapouite/portrait")
-	def.add_foe("Mirror Knight", 16, "Aggressive", {A: 8, D: 8, "gate_guard": 3, "ironclad": 3, "bloodthirst_wolf": 3, "citation": 3, "decree_of_order": 3, "hr_reaper": 1}, "delapouite/shinto-shrine-mirror")
-	def.add_foe("Ministry Clerk", 15, "Balanced", {D: 9, B: 7, "compliance_officer": 4, "soul_auditor": 3, "citation": 4, "mandatory_fun_day": 2, "death_benefits": 2, "middle_manager": 2}, "delapouite/stamper")
-	def.add_foe("Chief Corrector", 21, "Aggressive", {D: 8, A: 8, "perfection_inspector": 4, "hr_reaper": 2, "citation": 4, "decree_of_order": 3, "approved_gate_captain": 1, "performance_review": 2}, "cathelineau/nun-face")
-	def.add_foe("Doppelganger Technician", 17, "Balanced", {B: 9, D: 7, "souffle_sprite": 3, "sneeze_guard": 3, "meatloaf_golem": 3, "food_fight": 2, "soup_of_the_day": 2, "citation": 2}, "lorc/acid-blob")
-	def.add_foe("Regime Enforcer", 17, "Aggressive", {A: 9, D: 7, "gym_rat": 3, "pump_chaser": 3, "protein_golem": 3, "leg_day": 2, "compliance_officer": 3}, "delapouite/viking-head")
-	def.add_foe("Notary Wraith", 17, "Defensive", {D: 10, B: 6, "soul_auditor": 3, "cubicle_zombie": 3, "middle_manager": 3, "take_a_number": 2, "performance_review": 2}, "delapouite/stamper")
-	def.add_foe("Rotting Gardener", 17, "Balanced", {C: 9, D: 7, "compost_golem": 3, "landfill_hog": 3, "dung_beetle": 3, "vine_snare": 2, "moss_titan": 1, "citation": 2}, "cathelineau/tree-face")
-	def.add_foe("Servant Corps", 16, "Balanced", {D: 8, B: 8, "tidy_bot": 4, "compliance_officer": 4, "gate_guard": 3, "citation": 3, "decree_of_order": 2}, "delapouite/guards")
-	def.add_foe("Archive Warden", 17, "Defensive", {D: 9, B: 7, "perfection_inspector": 4, "gate_guard": 4, "middle_manager": 3, "citation": 3, "soul_auditor": 2}, "delapouite/book-cover")
-	def.add_foe("Archive Automaton", 22, "Balanced", {D: 8, B: 8, "approved_gate_captain": 2, "perfection_inspector": 4, "tidy_bot": 4, "citation": 4, "decree_of_order": 3, "primm_standard_issue": 2}, "delapouite/cyborg-face")
-	def.add_foe("Model Warden", 25, "Aggressive", {A: 5, B: 5, C: 5, D: 5, "approved_gate_captain": 2, "primm_perfect_citizen": 4, "primm_standard_issue": 3, "citation": 4, "decree_of_order": 3, "primm_correction": 1}, "delapouite/castle")
+	def.add_foe("Hall Guard", 14, "Balanced", EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), "delapouite/guards")
+	def.add_foe("Gallery Curator", 15, "Defensive", EnemyDecks.mixed("colorless_regime", 29, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), "delapouite/portrait")
+	def.add_foe("Mirror Knight", 16, "Aggressive", EnemyDecks.trimmed("necrocrat_beefcake", 30, 16), "delapouite/shinto-shrine-mirror")
+	def.add_foe("Ministry Clerk", 15, "Balanced", EnemyDecks.trimmed("gourmand_necrocrat", 30, 16), "delapouite/stamper")
+	def.add_foe("Chief Corrector", 21, "Aggressive", EnemyDecks.trimmed("necrocrat_beefcake", 32, 16), "cathelineau/nun-face")
+	def.add_foe("Doppelganger Technician", 17, "Balanced", EnemyDecks.trimmed("gourmand_necrocrat", 31, 16), "lorc/acid-blob")
+	def.add_foe("Regime Enforcer", 17, "Aggressive", EnemyDecks.trimmed("necrocrat_beefcake", 30, 16), "delapouite/viking-head")
+	def.add_foe("Notary Wraith", 17, "Defensive", EnemyDecks.trimmed("necro_control", 30, 16), "delapouite/stamper")
+	def.add_foe("Rotting Gardener", 17, "Balanced", EnemyDecks.trimmed("necrocrat_refusemancer", 30, 16), "cathelineau/tree-face")
+	def.add_foe("Servant Corps", 16, "Balanced", EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), "delapouite/guards")
+	def.add_foe("Archive Warden", 17, "Defensive", EnemyDecks.mixed("colorless_regime", 30, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), "delapouite/book-cover")
+	def.add_foe("Archive Automaton", 22, "Balanced", EnemyDecks.mixed("colorless_regime", 33, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), "delapouite/cyborg-face")
+	def.add_foe("Model Warden", 25, "Aggressive", EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 36, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT] as Array[Affinity.Type], 20), {"P4-01": 1}), "delapouite/castle")
 	def.add_foe(PrimmBoss.BOSS_FOE, PrimmBoss.phase(0).hp, "Balanced", PrimmBoss.phase(0).recipe, "cathelineau/old-king")
 	_challenges(def)
 	_events(def)
@@ -144,7 +140,7 @@ static func build_map(def: MainDungeonDef) -> DungeonMap:
 		wing.gold_reward = 40
 	var servants: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_servants", Vector2(_x(8.0), 0.28), "Servant Corps", wings)                           # 18
 	var staircase: DungeonMap.MapNode = def.event_node(map, "pc_staircase", Vector2(_x(8.0), 0.64), "pc_grand_staircase", wings)                         # 19
-	var vault: DungeonMap.MapNode = def.treasure_node(map, "pc_vault", Vector2(_x(9.0), 0.46), {"gold": 100, "xp": 50, "card": "primm_correction"}, wings)     # 20
+	var vault: DungeonMap.MapNode = def.treasure_node(map, "pc_vault", Vector2(_x(9.0), 0.46), {"gold": 100, "xp": 50, "card": "C-30"}, wings)     # 20
 	# Column 10-12: the Archive of Good Intentions.
 	var archive_gate: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_archive_gate", Vector2(_x(10.0), 0.28), "Archive Warden", archive)             # 21
 	var journals: DungeonMap.MapNode = def.event_node(map, "pc_journals", Vector2(_x(10.0), 0.64), "pc_early_journals", archive)                         # 22

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_7pruw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_l7dy1"]
+
+[resource]
+script = ExtResource("2_l7dy1")
+id = "GBN-04"
+display_name = "Black Tie Brawl"
+type = 2
+color = 1
+color2 = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 1, 4])
+defense = 0
+rules_text = "Each unit you control brawls a different target unit you don't control."
+rarity = 2
+flavor_text = "Formal attire required. Formal manners optional."
+paths_all = Array[int]([1, 2, 4])
+script_text = "play => brawl_each(unit.mine,unit.opp)"
+rules_hash = "8862512163ae"
+image_description = "A chaotic brawl breaking out at an elegant ball, guests in tuxedos and gowns swinging chandeliers and cake platters at each other."

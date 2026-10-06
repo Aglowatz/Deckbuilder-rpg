@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_opeov"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_t67qr"]
+
+[resource]
+script = ExtResource("2_t67qr")
+id = "NR-10"
+display_name = "Decomposition Notice"
+type = 2
+color = 3
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([4, 3])
+defense = 0
+rules_text = "Destroy target unit. Create Garbage equal to its defense."
+rarity = 1
+flavor_text = "You have been scheduled for composting."
+paths_all = Array[int]([3, 4])
+script_text = "play t=unit => set(n,def(t)); destroy(t); create(garbage,$n)"
+rules_hash = "0e2b705b4440"
+image_description = "An official notice nailed to a tree beside a creature slowly turning into a pile of mulch and mushrooms."

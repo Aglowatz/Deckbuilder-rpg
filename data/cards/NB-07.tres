@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_rk3v5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rw55b"]
+
+[resource]
+script = ExtResource("2_rw55b")
+id = "NB-07"
+display_name = "Ball and Chain"
+type = 5
+color = 1
+color2 = 4
+generic_cost = 1
+colored_pips = Array[int]([4, 1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +3/+3 and Wallflower."
+rarity = 1
+flavor_text = "Commitment issues? Not anymore."
+paths_all = Array[int]([1, 4])
+script_text = "attach
+host => stat(3,3); kw(wallflower)"
+rules_hash = "55b9625cbea4"
+image_description = "A massive iron ball chained to a ghostly prisoner's ankle, the prisoner flexing proudly and refusing to move."

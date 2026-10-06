@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_rfy43"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_qnrw8"]
+
+[resource]
+script = ExtResource("2_qnrw8")
+id = "GB-07"
+display_name = "Bulking Program"
+type = 4
+color = 1
+color2 = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "At the start of your turn, put a buff on target unit you control."
+rarity = 1
+flavor_text = "Week one: eat. Week two: eat more. Week three: become furniture."
+paths_all = Array[int]([1, 2])
+script_text = "sot t=unit.mine => buff(t,1)"
+rules_hash = "9cdb737ac0a4"
+image_description = "A chalkboard training plan covered in food drawings and arrows, a Beefcake and a chef nodding seriously in front of it."

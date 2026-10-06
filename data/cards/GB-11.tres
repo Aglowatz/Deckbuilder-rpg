@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_l0beu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_sb1pt"]
+
+[resource]
+script = ExtResource("2_sb1pt")
+id = "GB-11"
+display_name = "Idiot Sandwich"
+type = 2
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "Plate target unit with attack 4 or less. Deal 2 damage to its controller."
+rarity = 1
+flavor_text = "Hugs and Kisses - the Gourmands"
+paths_all = Array[int]([1, 2])
+script_text = "play t=unit.atk<=4 => plate(t); damage(ctl(t),2)"
+rules_hash = "fb006f7fdea5"
+image_description = "A grumpy, surprised creature squashed between two giant slices of bread as a furious chef in a white coat yells at it, a Beefcake holding the bread in place."

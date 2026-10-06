@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ikfrw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_vrekl"]
+
+[resource]
+script = ExtResource("2_vrekl")
+id = "NBR-06"
+display_name = "Zombie Apocalypse Drill"
+type = 3
+color = 1
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([4, 1, 3])
+defense = 0
+rules_text = "When an opposing unit attacks, create three 1/1 Zombie Temp tokens and three 1/1 Rat tokens."
+rarity = 2
+flavor_text = "This is only a drill. The zombies were not informed."
+paths_all = Array[int]([1, 3, 4])
+script_text = "trap(attacks:opp) => create(T-10,3); create(T-02,3)"
+rules_hash = "82f2c832e0b2"
+image_description = "Sirens blaring as zombies and rats flood out of buildings and sewers in an orderly-chaotic swarm, a ghostly official holding a megaphone."

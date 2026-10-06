@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_usapd"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_o2kur"]
+
+[resource]
+script = ExtResource("2_o2kur")
+id = "N-26"
+display_name = "Audit Wraith"
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4])
+attack = 2
+defense = 2
+keywords = Array[int]([0])
+rules_text = "Flying.
+
+When this unit enters, your opponent loses 1 HP for each Tool and Wonder they control. Create a Red Tape."
+rarity = 1
+flavor_text = "Your receipts, please."
+paths_all = Array[int]([4])
+script_text = "kw flying
+enter => lose(opp,count(tool|wonder.opp)); create(redtape)"
+rules_hash = "15d405015cba"
+image_description = "A wraith in a long coat and spectacles hovering over a terrified merchant's stall, inspecting every item with a glowing magnifying glass."

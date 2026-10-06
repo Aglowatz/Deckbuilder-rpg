@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ln02b"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_oisfn"]
+
+[resource]
+script = ExtResource("2_oisfn")
+id = "NBR-01"
+display_name = "Condemned Building"
+type = 3
+color = 1
+color2 = 3
+generic_cost = 1
+colored_pips = Array[int]([4, 1, 3])
+defense = 0
+rules_text = "When your opponent plays a Tool or Wonder, destroy it. Create a Red Tape, an Iron, and a Garbage."
+rarity = 1
+flavor_text = "This structure has been declared unsafe. Mostly by us."
+paths_all = Array[int]([1, 3, 4])
+script_text = "trap(plays:opp:tool|wonder) => destroy(trig); create(redtape); create(iron); create(garbage)"
+rules_hash = "60bfea47d47f"
+image_description = "A fancy building collapsing as a Beefcake pulls out a support beam, a skeleton nails up a condemned notice, and raccoons cheer."

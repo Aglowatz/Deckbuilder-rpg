@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_kh8p3"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ly0bt"]
+
+[resource]
+script = ExtResource("2_ly0bt")
+id = "N-28"
+display_name = "Lich of Accounts Payable"
+color = 4
+generic_cost = 4
+colored_pips = Array[int]([4, 4])
+attack = 4
+defense = 5
+keywords = Array[int]([0])
+rules_text = "Flying.
+
+When this unit enters, Reinstate target unit from any Refuse Pile under your control."
+rarity = 2
+flavor_text = "Every debt is collected. Eventually. Forever."
+not_in_packs = true
+paths_all = Array[int]([4])
+script_text = "kw flying
+enter t=refuse.unit.any => reinstate(t)"
+rules_hash = "44ad561d9977"
+image_description = "A towering lich in a tattered business robe, ledger glowing in one hand, pulling a ghostly creature out of a pit of paperwork with the other."

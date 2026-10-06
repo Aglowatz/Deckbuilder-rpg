@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_t06kv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_8fx4u"]
+
+[resource]
+script = ExtResource("2_8fx4u")
+id = "B-09"
+display_name = "Personal Trainer"
+color = 1
+generic_cost = 2
+colored_pips = Array[int]([1])
+attack = 2
+defense = 2
+rules_text = "Whenever you use an Iron, put a buff on this unit."
+flavor_text = "One more rep. ONE MORE."
+paths_all = Array[int]([1])
+script_text = "when(resource_used:mine:iron) => buff(self,1)"
+rules_hash = "2b153df8851d"
+image_description = "An intense personal trainer with a whistle and clipboard yelling motivation, a pile of glowing iron weights behind her."

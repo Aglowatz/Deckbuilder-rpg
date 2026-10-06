@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_u45at"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_n8mih"]
+
+[resource]
+script = ExtResource("2_n8mih")
+id = "B-29"
+display_name = "Swole Patrol Sergeant"
+color = 1
+generic_cost = 3
+colored_pips = Array[int]([1, 1])
+attack = 4
+defense = 4
+rules_text = "At the start of your turn, create an Iron.
+
+Whenever you use an Iron, deal 1 damage to target opponent."
+rarity = 2
+flavor_text = "Drop and give me twenty. Then give me twenty more."
+paths_all = Array[int]([1])
+script_text = "sot => create(iron)
+when(resource_used:mine:iron) => damage(opp,1)"
+rules_hash = "00d1f1eb7c9a"
+image_description = "A barrel-chested drill sergeant with a whistle and a tiny beret, barking orders at a line of Beefcakes doing push-ups on iron plates."

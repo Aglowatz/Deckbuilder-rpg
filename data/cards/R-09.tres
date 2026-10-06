@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_olmiw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_7eiyc"]
+
+[resource]
+script = ExtResource("2_7eiyc")
+id = "R-09"
+display_name = "Heap Tortoise"
+color = 3
+generic_cost = 4
+colored_pips = Array[int]([3])
+attack = 4
+defense = 6
+keywords = Array[int]([1])
+rules_text = "Swat.
+
+When this unit enters, create a Garbage."
+flavor_text = "Slow and steady wins the landfill."
+paths_all = Array[int]([3])
+script_text = "kw swat
+enter => create(garbage)"
+rules_hash = "bd71c0f52e86"
+image_description = "An enormous tortoise whose shell is a tiny overgrown junkyard, complete with a rusty bathtub garden, teapot planters, and little birds nesting on top."

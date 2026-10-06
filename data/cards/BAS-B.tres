@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_fajmh"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_7r0cm"]
+
+[resource]
+script = ExtResource("2_7r0cm")
+id = "BAS-B"
+display_name = "Powerhouse"
+type = 0
+color = 1
+defense = 0
+rules_text = "When this Infrastructure enters, create an Iron.
+
+Exhaust: add (B)."
+flavor_text = "Powered entirely by protein and yelling."
+is_basic = true
+paths_all = Array[int]([1])
+script_text = "produce B
+enter => create(iron)"
+rules_hash = "808d5d492502"
+image_description = "A massive brick power station with giant mills and hamster wheels, Beefcakes running and pushing as lightning arcs between towers."

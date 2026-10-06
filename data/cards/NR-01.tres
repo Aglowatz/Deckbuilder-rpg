@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_lkqrn"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_57i0c"]
+
+[resource]
+script = ExtResource("2_57i0c")
+id = "NR-01"
+display_name = "Sewer Rat Courier"
+color = 3
+color2 = 4
+colored_pips = Array[int]([4, 3])
+attack = 2
+rules_text = "When this unit enters, create a 1/1 Rat token."
+rarity = 1
+flavor_text = "Delivers mail through the pipes. You don't want to know how."
+paths_all = Array[int]([3, 4])
+script_text = "enter => create(T-02)"
+rules_hash = "6ba36f407fdd"
+image_description = "A rat in a tiny postal cap and satchel riding a floating paper boat through a glowing green sewer tunnel, a second rat in tow."

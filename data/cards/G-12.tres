@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_4l8sj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3l7gw"]
+
+[resource]
+script = ExtResource("2_3l7gw")
+id = "G-12"
+display_name = "Meatloaf Mold"
+type = 4
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "Use two Ingredients: create a 3/3 Meatloaf Golem token. Do this only once per turn."
+flavor_text = "Mom's recipe. Mom's temper."
+paths_all = Array[int]([2])
+script_text = "act once | use(ingredient,2) => create(T-05)"
+rules_hash = "d2a248f68810"
+image_description = "A giant golem-shaped baking mold on a kitchen counter, a lumpy meatloaf golem climbing out of it and flexing, ketchup glaze dripping."

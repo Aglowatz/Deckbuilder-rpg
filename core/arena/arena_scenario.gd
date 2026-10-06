@@ -71,15 +71,14 @@ static func apply_preset(game: GameState, content: ContentSet, preset: Dictionar
 					state.field.append(unit)
 		if spec.has("infrastructure"):
 			state.infrastructure.clear()
-			var letters: Array[String] = ["", "A", "B", "C", "D"]
 			for letter: Variant in (spec["infrastructure"] as Dictionary).keys():
-				var path: int = letters.find(str(letter))
+				var path: int = int(Affinity.from_symbol(str(letter)))
 				for copy: int in range(int((spec["infrastructure"] as Dictionary)[letter])):
 					state.infrastructure.append(game.create_instance(content.infrastructure[path] as CardData, index))
-		if spec.has("graveyard"):
+		if spec.has("refuse"):
 			state.refuse_pile.clear()
-			for card_id: Variant in (spec["graveyard"] as Dictionary).keys():
-				for copy: int in range(int((spec["graveyard"] as Dictionary)[card_id])):
+			for card_id: Variant in (spec["refuse"] as Dictionary).keys():
+				for copy: int in range(int((spec["refuse"] as Dictionary)[card_id])):
 					state.refuse_pile.append(game.create_instance(content.card(str(card_id)), index))
 
 
@@ -91,9 +90,8 @@ static func resolve_reward(encounter: ArenaEncounter, primary: Affinity.Type) ->
 		if str(key) != "essence":
 			result[str(key)] = encounter.reward[key]
 	var essence: Dictionary = {}
-	var letters: Dictionary = {"A": Affinity.Type.BEEFCAKE, "B": Affinity.Type.GOURMAND, "C": Affinity.Type.REFUSEMANCER, "D": Affinity.Type.NECROCRAT}
 	for key: Variant in (encounter.reward.get("essence", {}) as Dictionary).keys():
-		var path: Affinity.Type = primary if str(key) == "primary" else letters[str(key)] as Affinity.Type
+		var path: Affinity.Type = primary if str(key) == "primary" else Affinity.from_symbol(str(key))
 		essence[path] = int(essence.get(path, 0)) + int((encounter.reward["essence"] as Dictionary)[key])
 	if not essence.is_empty():
 		result["essence"] = essence

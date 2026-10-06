@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_l4p65"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_bx7av"]
+
+[resource]
+script = ExtResource("2_bx7av")
+id = "N-06"
+display_name = "Notary Wraith"
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4])
+attack = 2
+defense = 2
+keywords = Array[int]([0])
+rules_text = "Flying.
+
+When this unit dies, your opponent loses 1 HP and you gain 1 HP."
+flavor_text = "Signed, sealed, deceased."
+paths_all = Array[int]([4])
+script_text = "kw flying
+die => lose(opp,1); gain(me,1)"
+rules_hash = "542c750d5407"
+image_description = "A floating wraith in a tattered robe holding a giant glowing stamp, pressing an official seal onto a document in midair."

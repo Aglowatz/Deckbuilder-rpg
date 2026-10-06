@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_cdlr4"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ehx0t"]
+
+[resource]
+script = ExtResource("2_ehx0t")
+id = "B-01"
+display_name = "Gym Bro"
+color = 1
+colored_pips = Array[int]([1])
+attack = 2
+keywords = Array[int]([2])
+rules_text = "Hustle."
+flavor_text = "Do you even lift? He does. Constantly. Loudly."
+paths_all = Array[int]([1])
+script_text = "kw hustle"
+rules_hash = "a866391f7101"
+image_description = "A grinning, overly confident gym bro in a tank top flexing one bicep while sprinting into battle, a shaker bottle swinging from his belt."

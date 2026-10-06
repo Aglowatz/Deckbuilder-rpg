@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_c72sj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_6j8vu"]
+
+[resource]
+script = ExtResource("2_6j8vu")
+id = "GN-09"
+display_name = "To Die For"
+type = 2
+color = 2
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([2, 4])
+defense = 0
+rules_text = "Destroy target unit with defense 3 or less. Create two Ingredients."
+rarity = 1
+flavor_text = "The dessert was to die for. So the dessert did it."
+paths_all = Array[int]([2, 4])
+script_text = "play t=unit.def<=3 => destroy(t); create(ingredient,2)"
+rules_hash = "1dbaebd23d41"
+image_description = "A decadent chocolate cake with a sinister grin, a fallen creature collapsed in bliss beside a fork, a ghostly chef smiling in the background."

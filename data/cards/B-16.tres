@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_l5tqk"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_shuto"]
+
+[resource]
+script = ExtResource("2_shuto")
+id = "B-16"
+display_name = "Lifting Gloves"
+type = 5
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +2/+0 and Sucker Punch."
+flavor_text = "Fingerless. Like his sense of shame."
+paths_all = Array[int]([1])
+script_text = "attach
+host => stat(2,0); kw(sucker_punch)"
+rules_hash = "bf3901a185fb"
+image_description = "A pair of worn fingerless lifting gloves glowing with golden energy, knuckles cracked and ready, chalk dust drifting around them."

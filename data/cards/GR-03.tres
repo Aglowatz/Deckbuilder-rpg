@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_x5lao"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_akm1l"]
+
+[resource]
+script = ExtResource("2_akm1l")
+id = "GR-03"
+display_name = "Dumpster Gourmet"
+color = 2
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([2, 3])
+attack = 3
+defense = 3
+rules_text = "When this unit enters, create a Garbage and an Ingredient.
+
+Golem tokens you control have Swat."
+rarity = 1
+flavor_text = "Trash to treasure. Treasure to trash. Circle of life."
+paths_all = Array[int]([2, 3])
+script_text = "enter => create(garbage); create(ingredient)
+aura(unit.mine.golem) => kw(swat)"
+rules_hash = "6de7a8c8f0df"
+image_description = "A sophisticated chef in a tall hat and a monocle elegantly plating a gourmet dish inside an overflowing dumpster."

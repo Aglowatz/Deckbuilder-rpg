@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ufjfj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_iferf"]
+
+[resource]
+script = ExtResource("2_iferf")
+id = "INF-07"
+display_name = "Potter's Field Landfill"
+type = 0
+color = 4
+color2 = 3
+defense = 0
+rules_text = "Exhaust: add (N) or (R)."
+rarity = 2
+flavor_text = "Where the forgotten things and the forgotten folks rest together."
+paths_all = Array[int]([4, 3])
+script_text = "produce N|R"
+rules_hash = "7e374c4296a3"
+image_description = "A sprawling landfill dotted with crooked gravestones and wildflowers, rats and ghosts sharing the hills under a pale moon."

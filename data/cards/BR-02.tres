@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_uv821"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_sdit3"]
+
+[resource]
+script = ExtResource("2_sdit3")
+id = "BR-02"
+display_name = "Scrap Metal Lifter"
+color = 1
+color2 = 3
+generic_cost = 1
+colored_pips = Array[int]([1, 3])
+attack = 3
+defense = 2
+keywords = Array[int]([2])
+rules_text = "Hustle.
+
+When this unit enters, create a Garbage."
+rarity = 1
+flavor_text = "Why buy weights when the junkyard is free?"
+paths_all = Array[int]([1, 3])
+script_text = "kw hustle
+enter => create(garbage)"
+rules_hash = "04faa04f096d"
+image_description = "A grinning Beefcake lifting a rusted car door over his head in a junkyard, sparks and rust flakes flying."

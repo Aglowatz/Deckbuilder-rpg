@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_0cqj2"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_h8i7k"]
+
+[resource]
+script = ExtResource("2_h8i7k")
+id = "T-16"
+display_name = "Militia"
+attack = 1
+flavor_text = "Volunteered. Mostly."
+is_token = true
+not_in_packs = true
+rules_hash = "d41d8cd98f00"
+image_description = "A determined villager in a pot helmet holding a pitchfork, standing in a heroic pose."

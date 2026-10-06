@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_n4anq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xjv4l"]
+
+[resource]
+script = ExtResource("2_xjv4l")
+id = "BR-16"
+display_name = "Tuskeroni, Junkyard Champion"
+color = 1
+color2 = 3
+generic_cost = 3
+colored_pips = Array[int]([1, 3, 3])
+attack = 6
+defense = 6
+keywords = Array[int]([2])
+rules_text = "Hustle.
+
+At the start of your turn, create a Garbage and an Iron.
+
+Eat garbage: put a buff on this unit. It gains Bulldoze until end of turn."
+rarity = 3
+flavor_text = "Undefeated. Unwashed. Unstoppable."
+paths_all = Array[int]([1, 3])
+script_text = "kw hustle
+sot => create(garbage); create(iron)
+act | eat => buff(self,1); kw_grant(self,bulldoze,eot)"
+rules_hash = "6d0db0a63d45"
+image_description = "A colossal boar wrestler in a championship belt made from a hubcap, standing triumphantly in a junkyard wrestling ring as rats and goats cheer."

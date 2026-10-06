@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_sas1t"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_empkr"]
+
+[resource]
+script = ExtResource("2_empkr")
+id = "N-07"
+display_name = "Grave Shift Worker"
+color = 4
+generic_cost = 3
+colored_pips = Array[int]([4])
+attack = 2
+defense = 3
+rules_text = "When this unit enters, Reinstate target unit with cost 2 or less from your Refuse Pile."
+flavor_text = "The night shift never ends. Literally."
+paths_all = Array[int]([4])
+script_text = "enter t=refuse.unit.mine.cost<=2 => reinstate(t)"
+rules_hash = "db231d332299"
+image_description = "A sleepy undead janitor in coveralls pushing a mop cart through a dark office at night, helping a small zombie climb out of a filing cabinet."

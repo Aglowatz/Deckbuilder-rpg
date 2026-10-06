@@ -1,33 +1,27 @@
 extends SceneTree
-## Writes the placeholder content (ContentDefinitions) to .tres files under data/.
+## Writes the non-card content (decks, challenges, AI personalities, equipment, items) to .tres files under data/.
+## The cards and tokens are written by `tools/import_cards.sh --write` (run that first: the decks reference those files).
 ## Run from the project root:
 ##   Godot --headless --path . -s res://tools/generate_content.gd
 
-const CARD_DIR: String = "res://data/cards/"
 const DECK_DIR: String = "res://data/decks/"
 const CHALLENGE_DIR: String = "res://data/encounters/challenges/"
 const AI_DIR: String = "res://data/ai/"
 const EQUIPMENT_DIR: String = "res://data/equipment/"
 const ITEM_DIR: String = "res://data/items/"
-const ZONE_CARD_DIR: String = "res://data/cards/zone/"
-const MULTIPATH_CARD_DIR: String = "res://data/cards/multipath/"
 const ZONE_EQUIPMENT_DIR: String = "res://data/equipment/zone/"
 
 
 func _init() -> void:
 	var content: ContentSet = ContentDefinitions.build()
+	# Point every card at its imported file, so decks, challenges and items reference the files instead of embedding copies.
+	for card: CardData in content.all_collectible():
+		card.take_over_path("%s%s.tres" % [CardImporter.CARD_DIR, card.id])
+	for infra: Variant in content.infrastructure.values():
+		(infra as CardData).take_over_path("%s%s.tres" % [CardImporter.CARD_DIR, (infra as CardData).id])
+	for token: Variant in content.tokens.values():
+		(token as CardData).take_over_path("%s%s.tres" % [CardImporter.TOKEN_DIR, (token as CardData).id])
 	var saved: int = 0
-	# Tokens first so cards that summon them reference the saved file instead of embedding it.
-	for token: CardData in content.tokens.values():
-		saved += _save(token, CARD_DIR + token.id + ".tres")
-	for infra: CardData in content.infrastructure.values():
-		saved += _save(infra, CARD_DIR + infra.id + ".tres")
-	for card: CardData in content.cards.values():
-		saved += _save(card, CARD_DIR + card.id + ".tres")
-	for zone_card: CardData in content.zone_cards.values():
-		saved += _save(zone_card, ZONE_CARD_DIR + zone_card.id + ".tres")
-	for multipath_card: CardData in content.multipath_cards.values():
-		saved += _save(multipath_card, MULTIPATH_CARD_DIR + multipath_card.id + ".tres")
 	for zone_piece: Variant in content.zone_equipment.values():
 		saved += _save(zone_piece as EquipmentData, ZONE_EQUIPMENT_DIR + (zone_piece as EquipmentData).id + ".tres")
 	for deck: Deck in content.decks:

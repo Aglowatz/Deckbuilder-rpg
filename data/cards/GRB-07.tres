@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_h76gj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_42tcc"]
+
+[resource]
+script = ExtResource("2_42tcc")
+id = "GRB-07"
+display_name = "Harvest Festival"
+type = 4
+color = 1
+color2 = 2
+colored_pips = Array[int]([2, 3, 1])
+defense = 0
+rules_text = "All resources generated for all players are doubled."
+rarity = 2
+flavor_text = "More of everything. For everyone. Uh oh."
+paths_all = Array[int]([1, 2, 3])
+script_text = "static => flag(global_double_resources)"
+rules_hash = "613e41fbc56e"
+image_description = "A massive harvest festival bonfire surrounded by mountains of food, junk, and iron weights, everyone dancing as resources pour from the sky."

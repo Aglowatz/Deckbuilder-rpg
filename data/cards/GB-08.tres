@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_jrkeb"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_o5x2c"]
+
+[resource]
+script = ExtResource("2_o5x2c")
+id = "GB-08"
+display_name = "Shaker Bottle"
+type = 5
+color = 1
+color2 = 2
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "Destroy this Tool: target unit gets +2/+2 until end of turn. Create an Ingredient."
+rarity = 1
+flavor_text = "Shake well. Swing harder."
+paths_all = Array[int]([1, 2])
+script_text = "act t=unit | destroy_self => pump(t,2,2,eot); create(ingredient)"
+rules_hash = "f5f96b44e0a4"
+image_description = "A giant shaker bottle sloshing with glowing protein shake, a little whisk ball rattling inside like a trapped comet."

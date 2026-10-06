@@ -33,10 +33,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.9
 			made.aggro_range = 5.5
 			made.leash_range = 9.0
-			made.recipe = {
-				"infrastructure:D": 16, "middle_manager": 3, "cubicle_zombie": 3, "soul_auditor": 2,
-				"performance_review": 2, "death_benefits": 1,
-			}
+			made.recipe = EnemyDecks.trimmed("necro_zombies", 27, 16)
 			made.hp = 14
 			made.ai_name = "Balanced"
 			made.gold_reward = 30
@@ -55,10 +52,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 2.2
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
-			made.recipe = {
-				"infrastructure:D": 15, "overdue_intern": 4, "cubicle_zombie": 3, "mandatory_fun_day": 2,
-				"take_a_number": 1, "hr_reaper": 1,
-			}
+			made.recipe = EnemyDecks.trimmed("necro_control", 27, 15)
 			made.hp = 10
 			made.ai_name = "Aggressive"
 			made.gold_reward = 25

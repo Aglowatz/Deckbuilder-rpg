@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_7jrfu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_7lgd8"]
+
+[resource]
+script = ExtResource("2_7lgd8")
+id = "GRB-05"
+display_name = "Food Coma"
+type = 3
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 3, 1])
+defense = 0
+rules_text = "When an opposing unit attacks, exhaust all units your opponent controls. They don't refresh during their controller's next turn."
+rarity = 2
+flavor_text = "Just resting my eyes..."
+paths_all = Array[int]([1, 2, 3])
+script_text = "trap(attacks:opp) => exhaust(all(unit.opp)); no_refresh(all(unit.opp))"
+rules_hash = "4081c687fd9a"
+image_description = "An entire enemy army slumped asleep around a giant picnic table covered in empty plates, snoring, with crumbs on their faces."

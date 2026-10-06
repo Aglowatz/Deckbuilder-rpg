@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_1158n"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_mt6dh"]
+
+[resource]
+script = ExtResource("2_mt6dh")
+id = "N-13"
+display_name = "Waiting Room"
+type = 4
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "Units your opponent controls enter exhausted."
+flavor_text = "Please take a number. The number is infinity."
+paths_all = Array[int]([4])
+script_text = "static => flag(opp_units_enter_exhausted)"
+rules_hash = "9cf3149fcf33"
+image_description = "A vast gray waiting room with endless rows of chairs filled with bored ghosts and skeletons, a ticket number sign flickering overhead."

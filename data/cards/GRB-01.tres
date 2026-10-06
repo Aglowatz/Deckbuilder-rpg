@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_to4wv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_6ro53"]
+
+[resource]
+script = ExtResource("2_6ro53")
+id = "GRB-01"
+display_name = "Greased Pig"
+type = 3
+color = 1
+color2 = 2
+generic_cost = 1
+colored_pips = Array[int]([2, 3, 1])
+defense = 0
+rules_text = "When an opposing unit attacks, it gets -3/-0 until end of turn. Create an Ingredient, a Garbage, and an Iron."
+rarity = 1
+flavor_text = "First prize goes to whoever catches it. Second prize: a bath."
+paths_all = Array[int]([1, 2, 3])
+script_text = "trap(attacks:opp) => pump(trig,-3,0,eot); create(ingredient); create(garbage); create(iron)"
+rules_hash = "8d1c8c974b3b"
+image_description = "A squealing, slippery pig rocketing through a county-fair arena, sending an attacking warrior sprawling face-first into the mud."

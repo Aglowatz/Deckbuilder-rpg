@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_1tum2"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_4fbti"]
+
+[resource]
+script = ExtResource("2_4fbti")
+id = "NB-04"
+display_name = "Dead weight"
+type = 2
+color = 1
+color2 = 4
+colored_pips = Array[int]([4, 1])
+defense = 0
+rules_text = "As an additional cost to play this, destroy a unit you control.
+
+Deal damage equal to its attack to target unit or opponent."
+rarity = 1
+flavor_text = "Lift with your legs. Throw with your heart."
+paths_all = Array[int]([1, 4])
+script_text = "playcost | destroy(unit.mine)
+play t=unit|opp => damage(t,$paid_atk)"
+rules_hash = "221cee3b2e0b"
+image_description = "A Beefcake hurling the limp body of a fallen zombie like a sandbag at an enemy, a ghostly clerk stamping 'approved' in the background."

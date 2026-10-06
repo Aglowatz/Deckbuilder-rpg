@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_vmeyr"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_b4j6g"]
+
+[resource]
+script = ExtResource("2_b4j6g")
+id = "GR-08"
+display_name = "Fermentation Cellar"
+type = 4
+color = 2
+color2 = 3
+generic_cost = 1
+colored_pips = Array[int]([2, 3])
+defense = 0
+rules_text = "Use a Garbage and an Ingredient: put two buffs on target unit you control. Do this only once per turn."
+rarity = 1
+flavor_text = "It's not rotten. It's aged."
+paths_all = Array[int]([2, 3])
+script_text = "act t=unit.mine once | use(garbage), use(ingredient) => buff(t,2)"
+rules_hash = "d1e5491155da"
+image_description = "A dim cellar lined with bubbling jars of pickles, kimchi, and suspicious glowing goo, a druid and a chef sniffing a jar together."

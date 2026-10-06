@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_cf1mu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_guks5"]
+
+[resource]
+script = ExtResource("2_guks5")
+id = "R-13"
+display_name = "Reclaimed Land"
+type = 3
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "When an Infrastructure enters under your opponent's control, if they control more Infrastructure than you, search your deck for two Infrastructure and put them onto the field."
+flavor_text = "Possession is nine-tenths of the landfill."
+paths_all = Array[int]([3])
+script_text = "trap(infra_enters:opp) ? count(infra.opp)>count(infra.mine) => search(infra,2,field)"
+rules_hash = "122531f1e6d8"
+image_description = "Two raccoons in tiny hard hats hammering a crooked flag with a paw-print emblem into a freshly claimed patch of land beside a rusty shack."

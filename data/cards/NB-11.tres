@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_pfxvf"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_pl0so"]
+
+[resource]
+script = ExtResource("2_pl0so")
+id = "NB-11"
+display_name = "Death Grip"
+type = 3
+color = 1
+color2 = 4
+generic_cost = 1
+colored_pips = Array[int]([4, 1])
+defense = 0
+rules_text = "When a unit you control dies, your opponent loses HP equal to its attack."
+rarity = 1
+flavor_text = "Grip strength so strong it holds a grudge past the grave."
+paths_all = Array[int]([1, 4])
+script_text = "trap(unit_dies:mine) => lose(opp,atk(trig))"
+rules_hash = "33e727dbcb24"
+image_description = "A ghostly, chalk-dusted hand crushing an enemy's arm while the glowing spirit of a fallen Beefcake glares behind it."

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_k8bfe"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_tprij"]
+
+[resource]
+script = ExtResource("2_tprij")
+id = "NB-12"
+display_name = "Hostile Takeover"
+type = 2
+color = 1
+color2 = 4
+generic_cost = 5
+colored_pips = Array[int]([4, 1])
+defense = 0
+rules_text = "Gain control of all resources your opponent controls."
+rarity = 2
+flavor_text = "Effective immediately, all your stuff is our stuff."
+paths_all = Array[int]([1, 4])
+script_text = "play => steal_all(resource.opp)"
+rules_hash = "b2e17fb2c697"
+image_description = "A skeletal executive and a hulking Beefcake carrying off armfuls of iron plates, red tape, ingredients, and garbage bags from a stunned opponent's vault."

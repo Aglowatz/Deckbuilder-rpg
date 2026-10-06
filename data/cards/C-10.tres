@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_2gank"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ufrv6"]
+
+[resource]
+script = ExtResource("2_ufrv6")
+id = "C-10"
+display_name = "Stapler"
+type = 5
+generic_cost = 1
+defense = 0
+rules_text = "Destroy this Tool: exhaust target unit. It doesn't refresh during its controller's next turn."
+flavor_text = "Have you seen my stapler?"
+script_text = "act t=unit | destroy_self => exhaust(t); no_refresh(t)"
+rules_hash = "a9d3931c7670"
+image_description = "A glossy red office stapler sitting alone on a desk under a single dramatic beam of light, a few staples scattered like treasure."

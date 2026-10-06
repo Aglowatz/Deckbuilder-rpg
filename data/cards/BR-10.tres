@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_64h0o"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cb8dq"]
+
+[resource]
+script = ExtResource("2_cb8dq")
+id = "BR-10"
+display_name = "The Junkyard Gym"
+type = 4
+color = 1
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([1, 3])
+defense = 0
+rules_text = "Whenever you create a Garbage, put a buff on target unit you control."
+rarity = 1
+flavor_text = "Membership: free. Tetanus: included."
+paths_all = Array[int]([1, 3])
+script_text = "when(resource_created:mine:garbage) t=unit.mine => buff(t,1)"
+rules_hash = "7c9e98744958"
+image_description = "An outdoor gym built entirely from scrap: benches of old doors, weights of rusty gears, pull-up bars of pipes, and animals working out."

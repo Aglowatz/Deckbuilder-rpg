@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_yheon"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_6l11w"]
+
+[resource]
+script = ExtResource("2_6l11w")
+id = "N-21"
+display_name = "Become Useful at Work"
+type = 2
+color = 4
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "As an additional cost to play this, destroy a unit you control.
+
+Create 1/1 Zombie Temp tokens equal to its defense."
+flavor_text = "Your role has been restructured into several smaller roles."
+paths_all = Array[int]([4])
+script_text = "playcost | destroy(unit.mine)
+play => create(T-10,$paid_def)"
+rules_hash = "b8a82453515c"
+image_description = "A large zombie walking into a door marked with a cubicle icon and three tiny identical zombies walking out the other side with briefcases."

@@ -2,10 +2,10 @@
 
 [ext_resource type="Script" path="res://core/dungeon/challenge_outcome.gd" id="1_keg1i"]
 [ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xb66m"]
-[ext_resource type="Resource" path="res://data/cards/merchant.tres" id="3_xxnfr"]
-[ext_resource type="Resource" path="res://data/cards/ironclad.tres" id="4_ypi84"]
-[ext_resource type="Resource" path="res://data/cards/supply_cache.tres" id="5_n20us"]
-[ext_resource type="Resource" path="res://data/cards/pitfall.tres" id="6_fmlpg"]
+[ext_resource type="Resource" path="res://data/cards/C-20.tres" id="3_xxnfr"]
+[ext_resource type="Resource" path="res://data/cards/C-21.tres" id="4_ypi84"]
+[ext_resource type="Resource" path="res://data/cards/C-22.tres" id="5_n20us"]
+[ext_resource type="Resource" path="res://data/cards/C-15.tres" id="6_fmlpg"]
 [ext_resource type="Script" path="res://core/dungeon/challenge_data.gd" id="7_2g6db"]
 
 [sub_resource type="Resource" id="Resource_pkk5g"]

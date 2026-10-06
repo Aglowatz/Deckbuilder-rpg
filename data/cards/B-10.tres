@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_y5538"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_yagg7"]
+
+[resource]
+script = ExtResource("2_yagg7")
+id = "B-10"
+display_name = "Shot Putter"
+color = 1
+generic_cost = 3
+colored_pips = Array[int]([1])
+attack = 3
+defense = 3
+rules_text = "Overexert: this unit deals 2 damage to target unit."
+flavor_text = "Distance: impressive. Accuracy: debatable."
+paths_all = Array[int]([1])
+script_text = "act t=unit | overexert => damage(t,2)"
+rules_hash = "9d4e0611097a"
+image_description = "A massive athlete spinning and launching a glowing iron ball across a field, a distant creature ducking far too late."

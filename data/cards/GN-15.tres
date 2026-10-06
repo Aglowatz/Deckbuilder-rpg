@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_yue72"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_dlefb"]
+
+[resource]
+script = ExtResource("2_dlefb")
+id = "GN-15"
+display_name = "The Eternal Kitchen"
+type = 4
+color = 2
+color2 = 4
+generic_cost = 3
+colored_pips = Array[int]([2, 4])
+defense = 0
+rules_text = "At the start of your turn, create a 1/1 Hungry Ghost token with Flying.
+
+Tokens you control have Nourish."
+rarity = 2
+flavor_text = "The ovens never cool. The cooks never leave."
+paths_all = Array[int]([2, 4])
+script_text = "sot => create(T-19)
+aura(token.mine) => kw(nourish)"
+rules_hash = "88b1b3cb6fe4"
+image_description = "A vast spectral kitchen where ghostly chefs endlessly cook, glowing ovens burning with green fire, steam forming the shapes of faces."

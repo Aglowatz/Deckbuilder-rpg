@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ymfuu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_swlmb"]
+
+[resource]
+script = ExtResource("2_swlmb")
+id = "C-28"
+display_name = "Cartographer's Table"
+type = 4
+generic_cost = 2
+defense = 0
+rules_text = "At the start of your turn, Peek 2."
+rarity = 1
+flavor_text = "Here there be dragons. And snack stands."
+script_text = "sot => peek(2)"
+rules_hash = "bb486724085e"
+image_description = "A cluttered map table covered in parchment maps of the four zones, compasses, candles, and tiny painted figurines."

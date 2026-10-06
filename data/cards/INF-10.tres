@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_o004o"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_00lbo"]
+
+[resource]
+script = ExtResource("2_00lbo")
+id = "INF-10"
+display_name = "Scrapyard Mill"
+type = 0
+color = 3
+color2 = 1
+defense = 0
+rules_text = "Exhaust: add (R) or (B)."
+rarity = 2
+flavor_text = "Turning junk into juice since forever."
+paths_all = Array[int]([3, 1])
+script_text = "produce R|B"
+rules_hash = "142738b27483"
+image_description = "A rickety mill built from scrap metal and old wagon wheels, a giant waterwheel of rusty gears turned by a muscular rhino."

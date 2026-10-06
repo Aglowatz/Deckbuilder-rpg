@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_8bu13"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_jpfpr"]
+
+[resource]
+script = ExtResource("2_jpfpr")
+id = "GBN-07"
+display_name = "The Undead Maître D'"
+color = 1
+color2 = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 1, 4])
+attack = 4
+defense = 4
+keywords = Array[int]([7])
+rules_text = "Overtime.
+
+Whenever another unit enters under your control, put a buff on it.
+
+Whenever a unit you control dies, create an Ingredient."
+rarity = 2
+flavor_text = "Your table is ready. It has been for centuries."
+paths_all = Array[int]([1, 2, 4])
+script_text = "kw overtime
+when(unit_enters:mine:other) => buff(trig,1)
+when(unit_dies:mine) => create(ingredient)"
+rules_hash = "73f67aa3f8fa"
+image_description = "An elegant skeletal maître d' in a crisp tuxedo bowing deeply at the entrance of a candlelit grand hall, menus tucked under one arm."

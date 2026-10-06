@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_j2f78"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_wn6q4"]
+
+[resource]
+script = ExtResource("2_wn6q4")
+id = "N-32"
+display_name = "Unconscionable Contract"
+type = 2
+color = 4
+generic_cost = 4
+colored_pips = Array[int]([4, 4])
+defense = 0
+rules_text = "Gain control of target unit permanently. Create three Contracts."
+rarity = 3
+flavor_text = "Sign here, here, here, and... your soul, here."
+paths_all = Array[int]([4])
+script_text = "play t=unit => steal(t,perm); create(contract,3)"
+rules_hash = "cbd84764bb99"
+image_description = "A giant glowing contract wrapping around a mighty creature like chains, ghostly hands guiding a quill to its signature line."

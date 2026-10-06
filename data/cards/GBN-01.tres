@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_w0ia8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_7k3yv"]
+
+[resource]
+script = ExtResource("2_7k3yv")
+id = "GBN-01"
+display_name = "Running Tab"
+type = 4
+color = 1
+color2 = 2
+generic_cost = 1
+colored_pips = Array[int]([2, 1, 4])
+defense = 0
+rules_text = "Whenever you use a resource, your opponent loses 1 HP."
+rarity = 1
+flavor_text = "Put it on the tab. The tab is eternal."
+paths_all = Array[int]([1, 2, 4])
+script_text = "when(resource_used:mine) => lose(opp,1)"
+rules_hash = "21a32bdfc957"
+image_description = "A ghostly bartender in a grand banquet hall writing on an endless scroll of a bar tab that unrolls out the door."

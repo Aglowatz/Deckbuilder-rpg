@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_lyb3l"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_imk62"]
+
+[resource]
+script = ExtResource("2_imk62")
+id = "G-19"
+display_name = "Lunchbox"
+type = 5
+color = 2
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "Destroy this Tool: create two Ingredients and gain 2 HP."
+flavor_text = "Packed with love and a passive-aggressive note."
+paths_all = Array[int]([2])
+script_text = "act | destroy_self => create(ingredient,2); gain(me,2)"
+rules_hash = "f3857ffce834"
+image_description = "A cute metal lunchbox popping open with light pouring out, revealing a sandwich, an apple, and a folded note with a heart on it."

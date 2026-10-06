@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_a66ef"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_yviyc"]
+
+[resource]
+script = ExtResource("2_yviyc")
+id = "C-03"
+display_name = "Watchtower Archer"
+generic_cost = 2
+attack = 1
+defense = 3
+keywords = Array[int]([1])
+rules_text = "Swat."
+flavor_text = "Aims high. Hits... occasionally."
+script_text = "kw swat"
+rules_hash = "9f37347e0e9e"
+image_description = "A squinting archer atop a rickety wooden watchtower drawing her bow at a flying shape in the sky, a bird nest on her helmet."

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_id5bn"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ch4tr"]
+
+[resource]
+script = ExtResource("2_ch4tr")
+id = "R-26"
+display_name = "The Recycling Center"
+type = 4
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "At the end of your turn, you may use two Garbage. If you do, return target card from your Refuse Pile to your hand."
+rarity = 1
+flavor_text = "Nothing is wasted. Not even you."
+paths_all = Array[int]([3])
+script_text = "eot t=refuse.card.mine => may({use(garbage,2)}); ifdid({to_hand(t)})"
+rules_hash = "8c3359cda9c8"
+image_description = "A whimsical junk-built recycling mill with a waterwheel, conveyor belts, and vines, animals sorting glowing scraps into chutes."

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qyblw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_s7fqe"]
+
+[resource]
+script = ExtResource("2_s7fqe")
+id = "B-23"
+display_name = "Snack Bar"
+type = 4
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Pay 1: target unit gets +1/+0 until end of turn. Each unit can be targeted only once per turn."
+rarity = 1
+flavor_text = "Oops, all protein bars"
+paths_all = Array[int]([1])
+script_text = "act t=unit.fresh | pay(1) => pump(t,1,0,eot)"
+rules_hash = "2e75923737b8"
+image_description = "A roadside snack stand stacked high with brightly wrapped protein bars, Beefcakes lining up and flexing while they wait."

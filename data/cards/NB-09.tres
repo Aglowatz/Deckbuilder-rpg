@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_734oa"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_n874t"]
+
+[resource]
+script = ExtResource("2_n874t")
+id = "NB-09"
+display_name = "Spirit-Lifting Belt"
+type = 5
+color = 1
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([4, 1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +1/+1.
+
+Whenever attached unit attacks, create an Iron or a Red Tape."
+rarity = 1
+flavor_text = "Lifts spirits. Literally."
+paths_all = Array[int]([1, 4])
+script_text = "attach
+host => stat(1,1)
+when(attached_attacks) => choose({create(iron)},{create(redtape)})"
+rules_hash = "f60ddd8c6114"
+image_description = "A glowing ghostly lifting belt with a skull buckle, wisps of spirits rising from it like steam, cinched around a determined lifter."

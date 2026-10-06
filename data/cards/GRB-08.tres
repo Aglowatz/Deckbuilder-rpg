@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_3sme2"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_e0pbk"]
+
+[resource]
+script = ExtResource("2_e0pbk")
+id = "GRB-08"
+display_name = "Big Bertha, Blue Ribbon Behemoth"
+color = 1
+color2 = 2
+generic_cost = 4
+colored_pips = Array[int]([2, 3, 1])
+attack = 7
+defense = 7
+keywords = Array[int]([4, 1])
+rules_text = "Bulldoze. Swat.
+
+When this unit enters, create three Ingredients, three Garbage, and three Iron.
+
+Whenever you use a resource, this unit gets +1/+1 until end of turn."
+rarity = 3
+flavor_text = "Seven-time grand champion. Ate the judges' table twice."
+paths_all = Array[int]([1, 2, 3])
+script_text = "kw bulldoze,swat
+enter => create(ingredient,3); create(garbage,3); create(iron,3)
+when(resource_used:mine) => pump(self,1,1,eot)"
+rules_hash = "b30c35039ac5"
+image_description = "A colossal prize pig in a blue ribbon sash and a tiny crown, standing atop a mountain of produce and scrap while confetti rains down."

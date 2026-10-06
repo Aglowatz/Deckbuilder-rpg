@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_duim7"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_7a5uh"]
+
+[resource]
+script = ExtResource("2_7a5uh")
+id = "NR-07"
+display_name = "Littering Citation"
+type = 3
+color = 3
+color2 = 4
+generic_cost = 1
+colored_pips = Array[int]([4, 3])
+defense = 0
+rules_text = "When your opponent creates a token, they lose 1 HP and you create a Garbage."
+rarity = 1
+flavor_text = "That'll be one HP. Per wrapper."
+paths_all = Array[int]([3, 4])
+script_text = "trap(creates_token:opp) => lose(opp,1); create(garbage)"
+rules_hash = "ed2ac7a9b351"
+image_description = "A ghostly sanitation officer handing a glowing ticket to a shocked creature who just dropped a candy wrapper."

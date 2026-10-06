@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_p11qt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ehk83"]
+
+[resource]
+script = ExtResource("2_ehk83")
+id = "N-33"
+display_name = "Mortimer Grimsby, CE-No"
+color = 4
+generic_cost = 3
+colored_pips = Array[int]([4, 4])
+attack = 3
+defense = 5
+rules_text = "Whenever another unit you control dies, create a Red Tape and your opponent loses 1 HP.
+
+Use three Red Tape: Reinstate target unit from your Refuse Pile. Do this only once per turn."
+rarity = 3
+flavor_text = "The answer is no. The question is irrelevant."
+not_in_packs = true
+paths_all = Array[int]([4])
+script_text = "when(unit_dies:mine:other) => create(redtape); lose(opp,1)
+act t=refuse.unit.mine once | use(redtape,3) => reinstate(t)"
+rules_hash = "0a64f70546d0"
+image_description = "An imposing skeletal executive in an immaculate pinstripe suit seated behind a massive desk of black stone, a giant 'DENIED' stamp in hand and a sea of paperwork rising behind him."
+is_signature = true

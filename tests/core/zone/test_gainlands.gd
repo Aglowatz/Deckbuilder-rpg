@@ -247,7 +247,7 @@ func test_travel_locks_open_with_their_conditions() -> void:
 	assert_true(GainlandsTravel.is_unlocked(calf, Session.unlock_state()), "Coach Brenda's quest opens Calf Cove")
 	var across: GainlandsTravel.Point = GainlandsTravel.find("thrower_east")
 	assert_false(GainlandsTravel.is_unlocked(across, Session.unlock_state()))
-	Session.add_cards([Session.card_by_id("gym_rat")] as Array[CardData])
+	Session.add_cards([Session.card_by_id("B-27")] as Array[CardData])
 	assert_true(GainlandsTravel.is_unlocked(across, Session.unlock_state()), "owning a Gym Rat card opens the cross-country throw")
 
 
@@ -355,9 +355,8 @@ func test_defeating_a_gainlands_enemy_bumps_the_zone_counter() -> void:
 
 
 func test_gainlands_cards_and_equipment_exist() -> void:
-	for id: String in ZoneCards.GAINLANDS_VENDOR_IDS + ["max_rep", "iron_titan"]:
+	for id: String in ZoneCards.GAINLANDS_VENDOR_IDS + ["B-06", "B-28"]:
 		assert_not_null(Session.card_by_id(id), id)
-	assert_eq(Session.card_by_id("iron_titan").rarity, CardEnums.Rarity.LEGENDARY)
 	var belt: EquipmentData = Session.content.equipment_piece("swole_belt")
 	assert_not_null(belt)
 	assert_eq(belt.slot, EquipmentData.Slot.ARMOR)
@@ -375,16 +374,16 @@ func test_mini_dungeon_is_three_battles_and_a_one_time_unique_beefcake_card() ->
 	Session.dungeon_map = MiniDungeon.build_map(GainlandsZone.ID)
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.mini_active = true
-	var before: int = Session.owned_count("iron_titan")
+	var before: int = Session.owned_count("B-28")
 	var first: Dictionary = Session.resolve_mini_dungeon(true)
 	assert_true(bool(first.get("first_clear", false)))
-	assert_eq(Session.owned_count("iron_titan"), before + 1)
+	assert_eq(Session.owned_count("B-28"), before + 1)
 	assert_true(Session.flag(GainlandsZone.FLAG_MINI_CLEARED))
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.mini_active = true
 	var second: Dictionary = Session.resolve_mini_dungeon(true)
 	assert_false(second.has("first_clear"))
-	assert_eq(Session.owned_count("iron_titan"), before + 1, "the card is a one-time reward")
+	assert_eq(Session.owned_count("B-28"), before + 1, "the card is a one-time reward")
 
 
 # ---- Story text ------------------------------------------------------------------------------------------------

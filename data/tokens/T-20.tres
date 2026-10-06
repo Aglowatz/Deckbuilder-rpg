@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_lh2fd"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_0g63f"]
+
+[resource]
+script = ExtResource("2_0g63f")
+id = "T-20"
+display_name = "Protein Golem"
+color = 1
+color2 = 2
+attack = 6
+defense = 6
+keywords = Array[int]([2])
+rules_text = "Hustle."
+flavor_text = "Twenty grams of protein. Six hundred pounds of attitude."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([1, 2])
+script_text = "kw hustle"
+rules_hash = "a866391f7101"
+image_description = "A hulking golem made of swirling chocolate protein shake, a shaker-bottle lid for a hat, flexing."

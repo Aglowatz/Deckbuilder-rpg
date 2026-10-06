@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_lxa76"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cjl7u"]
+
+[resource]
+script = ExtResource("2_cjl7u")
+id = "GB-03"
+display_name = "Cheat Day Champion"
+color = 1
+color2 = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 1])
+attack = 4
+defense = 4
+keywords = Array[int]([4])
+rules_text = "Bulldoze.
+
+Whenever you use an Ingredient, this unit gets +1/+1 until end of turn."
+rarity = 1
+flavor_text = "Six days of discipline. One day of destiny."
+paths_all = Array[int]([1, 2])
+script_text = "kw bulldoze
+when(resource_used:mine:ingredient) => pump(self,1,1,eot)"
+rules_hash = "26e84cb1e176"
+image_description = "A triumphant Beefcake bursting through a wall of donuts, pizza slices, and cake, glowing with sugary power."

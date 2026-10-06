@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_gw6yd"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_hnrr2"]
+
+[resource]
+script = ExtResource("2_hnrr2")
+id = "N-05"
+display_name = "Corpseified Public Accountant"
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4])
+attack = 1
+defense = 3
+rules_text = "Whenever an opposing unit dies, create a Red Tape."
+flavor_text = "The bones are their dollars"
+paths_all = Array[int]([4])
+script_text = "when(unit_dies:opp) => create(redtape)"
+rules_hash = "fdd986a7d129"
+image_description = "A skeletal accountant with an abacus made of finger bones and teeth, tallying a ledger by candlelight as tiny ghostly coins drift around him."

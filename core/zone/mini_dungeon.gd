@@ -8,7 +8,7 @@ extends RefCounted
 
 const BATTLE_COUNT: int = 3
 ## The D.N.A.'s reward (kept for the existing tests/docs); other zones read `ZoneDef.mini.reward_card_id`.
-const REWARD_CARD_ID: String = "deceased_ceo"
+const REWARD_CARD_ID: String = "N-29"
 const DUNGEON_NAME: String = "Sub-Basement 3: Quarterly Reviews"
 
 

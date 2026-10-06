@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_v70fn"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_aju3n"]
+
+[resource]
+script = ExtResource("2_aju3n")
+id = "R-10"
+display_name = "Community Compost Bin"
+type = 4
+color = 3
+generic_cost = 1
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "At the start of your turn, if you control no Garbage, create a Garbage."
+flavor_text = "Leave a scrap, take a scrap."
+paths_all = Array[int]([3])
+script_text = "sot ? count(garbage)==0 => create(garbage)"
+rules_hash = "c7cb991f05cf"
+image_description = "A cheerful hand-painted wooden compost bin covered in flowers and doodles, steam rising from it, with rats and goats politely waiting in line."

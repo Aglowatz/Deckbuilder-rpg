@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_13ddx"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_vofh7"]
+
+[resource]
+script = ExtResource("2_vofh7")
+id = "NBR-07"
+display_name = "Scrapheap Lich"
+color = 1
+color2 = 3
+generic_cost = 3
+colored_pips = Array[int]([4, 1, 3])
+attack = 5
+defense = 5
+keywords = Array[int]([2])
+rules_text = "Hustle.
+
+Whenever a Tool, Wonder, or unit is destroyed, create a Garbage.
+
+Exhaust, eat garbage: destroy target Tool."
+rarity = 2
+flavor_text = "Undying. Unwashed. Unbelievably well-organized."
+paths_all = Array[int]([1, 3, 4])
+script_text = "kw hustle
+when(destroyed:tool|wonder|unit) => create(garbage)
+act t=tool | exhaust, eat => destroy(t)"
+rules_hash = "9d7df7a3428a"
+image_description = "A hulking lich built from junk and bones with a crown of rusty gears, hunched over a mountain of scrap and sorting it with glowing hands."

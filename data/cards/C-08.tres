@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_egg6u"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_k21qy"]
+
+[resource]
+script = ExtResource("2_k21qy")
+id = "C-08"
+display_name = "Tavern Regular"
+generic_cost = 4
+attack = 3
+defense = 4
+keywords = Array[int]([7])
+rules_text = "Overtime."
+flavor_text = "Hasn't left his stool in six years. Still ready to fight."
+script_text = "kw overtime"
+rules_hash = "e08698e8b16b"
+image_description = "A burly bearded man on a tavern stool, mug in one hand and a club in the other, the stool worn into his exact shape."

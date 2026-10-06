@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_2dobb"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ajs3k"]
+
+[resource]
+script = ExtResource("2_ajs3k")
+id = "NR-05"
+display_name = "Rusty Grave Shovel"
+type = 5
+color = 3
+color2 = 4
+colored_pips = Array[int]([4, 3])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +1/+1 and Toxic."
+rarity = 1
+flavor_text = "Digs graves. Digs landfills. Same thing, really."
+paths_all = Array[int]([3, 4])
+script_text = "attach
+host => stat(1,1); kw(toxic)"
+rules_hash = "2c616c63ca64"
+image_description = "A rusted shovel with a glowing green blade planted in a grave mound covered in garbage and wildflowers."

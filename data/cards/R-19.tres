@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ac4yk"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_b8wdb"]
+
+[resource]
+script = ExtResource("2_b8wdb")
+id = "R-19"
+display_name = "Alley Scrap"
+type = 2
+color = 3
+generic_cost = 1
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "Target unit you control brawls target unit you don't control."
+flavor_text = "Winner gets the pizza crust."
+paths_all = Array[int]([3])
+script_text = "play a=unit.mine b=unit.opp => brawl(a,b)"
+rules_hash = "7337fd5e66d1"
+image_description = "A scrappy raccoon and a bigger armored foe tumbling in a cartoon dust cloud of fists and flying trash, a single slice of pizza crust in the foreground."

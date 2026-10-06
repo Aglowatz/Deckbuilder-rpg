@@ -21,10 +21,12 @@ static func card_choices(
 	ids.sort()
 	for id: Variant in ids:
 		var card: CardData = content.cards[id] as CardData
+		if card.is_infrastructure():
+			continue
 		var weight: float = table[int(card.rarity)]
-		if card.color == profile.primary_affinity:
+		if card.is_on_path(profile.primary_affinity):
 			weight *= 3.0
-		elif card.color == Affinity.Type.NEUTRAL:
+		elif card.paths().is_empty():
 			weight *= 2.0
 		pool.append(card)
 		weights.append(weight)
@@ -48,7 +50,7 @@ static func card_choices_for_color(
 	ids.sort()
 	for id: Variant in ids:
 		var card: CardData = content.cards[id] as CardData
-		if card.color != color:
+		if not card.is_on_path(color) or card.is_infrastructure():
 			continue
 		pool.append(card)
 		weights.append(table[int(card.rarity)])

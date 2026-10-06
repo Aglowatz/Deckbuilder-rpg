@@ -49,7 +49,7 @@ static func points() -> Array[Point]:
 		# Main land -> islands and across the map.
 		_point("thrower_pec", "throw", "thrower_pec", "arrive_pec", "Brock, Heavy Heaver", "Brock", throw_tint),
 		_point("ripper_delt", "portal", "ripper_delt", "arrive_delt", "Rita, Portal Ripper", "Rita", rip_tint, Condition.flag(str(GainlandsZone.FLAG_WHEEL_POWERED))),
-		_point("thrower_east", "throw", "thrower_east", "land_west", "Tobias, Cross-Country Chucker", "Tobias", throw_tint, Condition.card_owned("gym_rat", 1)),
+		_point("thrower_east", "throw", "thrower_east", "land_west", "Tobias, Cross-Country Chucker", "Tobias", throw_tint, Condition.card_owned("B-27", 1)),
 		_point("thrower_west", "throw", "thrower_west", "land_east", "Wanda, Cross-Country Chucker", "Wanda", throw_tint),
 		# Pec Perch.
 		_point("thrower_pec_back", "throw", "thrower_pec_back", "land_pec", "Bonnie, Return Chucker", "Bonnie", throw_tint),

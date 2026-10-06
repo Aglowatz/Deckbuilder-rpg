@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_1uh7e"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_fsxk1"]
+
+[resource]
+script = ExtResource("2_fsxk1")
+id = "GN-02"
+display_name = "Skeleton Crew"
+color = 2
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([2, 4])
+attack = 2
+defense = 2
+rules_text = "When this unit enters, create two 1/1 Zombie Temp tokens."
+rarity = 1
+flavor_text = "Minimal staff. Maximal bones."
+paths_all = Array[int]([2, 4])
+script_text = "enter => create(T-10,2)"
+rules_hash = "27c7b9dfb647"
+image_description = "A bustling kitchen run entirely by cheerful skeletons in aprons, flipping pancakes, chopping onions, and dropping their own fingers into the soup."

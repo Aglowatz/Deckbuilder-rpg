@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_q67yx"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_kntvq"]
+
+[resource]
+script = ExtResource("2_kntvq")
+id = "INF-11"
+display_name = "Old Kingdom Crossroads"
+type = 0
+defense = 0
+rules_text = "Exhaust: add one energy of any Path."
+rarity = 2
+flavor_text = "Four roads. One kingdom. Once."
+produces_any = true
+script_text = "produce any"
+rules_hash = "18744499117d"
+image_description = "A weathered stone crossroads with an ancient four-sided signpost, each road leading toward a different glowing horizon: a gym, an office, a kitchen, and a junkyard."

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ws80b"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_egesy"]
+
+[resource]
+script = ExtResource("2_egesy")
+id = "B-18"
+display_name = "Sledgehammer"
+type = 5
+color = 1
+generic_cost = 2
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +2/+1.
+
+Whenever attached unit attacks, you may destroy target Tool."
+flavor_text = "Fixes everything. Permanently."
+paths_all = Array[int]([1])
+script_text = "attach
+host => stat(2,1)
+when(attached_attacks) t=tool => may({destroy(t)})"
+rules_hash = "14e91c8fbe04"
+image_description = "A massive sledgehammer embedded in a pile of smashed gadgets and gears, its handle wrapped in grip tape, sparks still flying."

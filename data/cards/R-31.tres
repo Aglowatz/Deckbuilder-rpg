@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_obukg"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3brh4"]
+
+[resource]
+script = ExtResource("2_3brh4")
+id = "R-31"
+display_name = "Bulk Trash Day"
+type = 3
+color = 3
+generic_cost = 3
+colored_pips = Array[int]([3, 3])
+defense = 0
+rules_text = "When your opponent plays a Tool or Wonder, destroy all Tools and Wonders your opponent controls."
+rarity = 2
+flavor_text = "Everything must go."
+paths_all = Array[int]([3])
+script_text = "trap(plays:opp:tool|wonder) => destroy(all(tool|wonder.opp))"
+rules_hash = "cbdb7c35e31b"
+image_description = "A massive garbage wagon pulled by giant beetles barreling through, scooping up shiny gadgets, banners, and statues while druids cheer from the back."

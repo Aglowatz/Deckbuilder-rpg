@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_sx11w"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_no0b5"]
+
+[resource]
+script = ExtResource("2_no0b5")
+id = "G-22"
+display_name = "The Cullinator"
+color = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 2])
+attack = 3
+defense = 3
+rules_text = "When this unit enters, destroy target unit and create Ingredients equal to its defense."
+rarity = 1
+flavor_text = "He'll be back. For seconds."
+paths_all = Array[int]([2])
+script_text = "enter t=unit => set(n,def(t)); destroy(t); create(ingredient,$n)"
+rules_hash = "d9512eda3f47"
+image_description = "A towering, muscle-bound cyborg chef in a white chef's coat and dark sunglasses, one glowing red mechanical eye, gripping a cleaver and a sizzling pan in a fiery kitchen."

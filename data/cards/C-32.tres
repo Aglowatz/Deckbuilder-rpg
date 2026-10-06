@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_do0xb"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ueavp"]
+
+[resource]
+script = ExtResource("2_ueavp")
+id = "C-32"
+display_name = "Mirrored Hall"
+type = 3
+generic_cost = 4
+defense = 0
+rules_text = "When an opposing unit attacks, create a token copy of it under your control."
+rarity = 2
+flavor_text = "Your reflection seems... more loyal."
+script_text = "trap(attacks:opp) => copy_token(trig)"
+rules_hash = "51436caeb23d"
+image_description = "An attacking warrior freezing in surprise as their own reflection steps out of a gilded mirror to face them."

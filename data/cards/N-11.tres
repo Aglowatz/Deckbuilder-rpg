@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_eyetb"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_t0ao3"]
+
+[resource]
+script = ExtResource("2_t0ao3")
+id = "N-11"
+display_name = "Late Fee"
+type = 3
+color = 4
+generic_cost = 1
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "When your opponent plays a card that costs 4 or more, they lose 2 HP."
+flavor_text = "Payment was due yesterday. In the afterlife, it's always yesterday."
+paths_all = Array[int]([4])
+script_text = "trap(plays:opp:cost>=4) => lose(opp,2)"
+rules_hash = "2102315dacea"
+image_description = "A ghostly envelope bursting open in front of a shocked creature, a spectral bill unrolling to the floor with an enormous total."

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_dbt80"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3he2d"]
+
+[resource]
+script = ExtResource("2_3he2d")
+id = "GRN-04"
+display_name = "Fungal Undertaker"
+color = 2
+color2 = 3
+generic_cost = 3
+colored_pips = Array[int]([2, 3, 4])
+attack = 4
+defense = 5
+rules_text = "Whenever another unit dies, create a 1/1 Sporeling token."
+rarity = 2
+flavor_text = "Every funeral is a feast for someone."
+paths_all = Array[int]([2, 3, 4])
+script_text = "when(unit_dies:any:other) => create(T-22)"
+rules_hash = "d9e0238abb27"
+image_description = "A tall, gentle undertaker made of mushrooms and moss in a black top hat, holding a lantern as tiny sporelings sprout behind it."

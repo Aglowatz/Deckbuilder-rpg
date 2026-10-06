@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_vhq0f"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_swxrs"]
+
+[resource]
+script = ExtResource("2_swxrs")
+id = "T-10"
+display_name = "Zombie Temp"
+color = 4
+attack = 1
+flavor_text = "Here until further notice. There will be no further notice."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([4])
+rules_hash = "d41d8cd98f00"
+image_description = "A shambling zombie in a crooked tie and visitor lanyard, holding a stapler like a weapon."

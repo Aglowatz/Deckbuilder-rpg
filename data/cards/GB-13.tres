@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_c6rbq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_u5tic"]
+
+[resource]
+script = ExtResource("2_u5tic")
+id = "GB-13"
+display_name = "Sir Loin, Prime Cut"
+color = 1
+color2 = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 1, 1])
+attack = 6
+defense = 5
+keywords = Array[int]([2])
+rules_text = "Hustle.
+
+When this unit enters, use any number of Ingredients. Deal 2 damage to target unit or opponent for each Ingredient used this way."
+rarity = 2
+flavor_text = "Aged to perfection. Built like a refrigerator."
+paths_all = Array[int]([1, 2])
+script_text = "kw hustle
+enter t=unit|opp => use_any(ingredient); damage(t,mul($used,2))"
+rules_hash = "591edfa51431"
+image_description = "A noble, enormously muscular knight whose armor is styled like a marbled steak, raising a carving-knife sword in a sizzling grill-fire glow."

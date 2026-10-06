@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_nif7c"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_6x8mx"]
+
+[resource]
+script = ExtResource("2_6x8mx")
+id = "N-01"
+display_name = "Skeleton Clerk"
+color = 4
+colored_pips = Array[int]([4])
+attack = 1
+rules_text = "When this unit dies, create a Red Tape."
+flavor_text = "Even in death, he files."
+paths_all = Array[int]([4])
+script_text = "die => create(redtape)"
+rules_hash = "f5e7b20ccf28"
+image_description = "A tiny skeleton in sleeve garters and a green visor stamping forms at a cluttered desk, ghostly light from a flickering lamp."

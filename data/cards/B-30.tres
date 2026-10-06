@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qmasn"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_a101a"]
+
+[resource]
+script = ExtResource("2_a101a")
+id = "B-30"
+display_name = "Barbell of the Ancients"
+type = 5
+color = 1
+generic_cost = 2
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +3/+3 and Bulldoze.
+
+At the beginning of combat on your turn, you may have attached unit get an additional +3/+0 until end of turn. If you do, it doesn't refresh during your next turn."
+rarity = 2
+flavor_text = "Lifted only by the worthy. And by Greg."
+not_in_packs = true
+paths_all = Array[int]([1])
+script_text = "attach
+host => stat(3,3); kw(bulldoze)
+boc => may({pump(host,3,0,eot); no_refresh(host)})"
+rules_hash = "6bb8e22b46a3"
+image_description = "An ancient stone-and-gold barbell resting on a mountaintop altar, glowing runes on its plates, light beaming down on it."

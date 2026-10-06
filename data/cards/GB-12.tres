@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_tmxv6"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_acgng"]
+
+[resource]
+script = ExtResource("2_acgng")
+id = "GB-12"
+display_name = "A Feast for the Eyes"
+color = 1
+color2 = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 1])
+attack = 5
+defense = 5
+keywords = Array[int]([2])
+rules_text = "Hustle.
+
+When this unit enters, create three Ingredients.
+
+Whenever you use an Ingredient, this unit gets +1/+1 until end of turn."
+rarity = 2
+flavor_text = "Look at it all you want. It's looking back."
+paths_all = Array[int]([1, 2])
+script_text = "kw hustle
+enter => create(ingredient,3)
+when(resource_used:mine:ingredient) => pump(self,1,1,eot)"
+rules_hash = "5211957fe82f"
+image_description = "A towering, lavish banquet golem of roasts, pies, and fruit, covered in dozens of curious olive eyes that all blink at once."

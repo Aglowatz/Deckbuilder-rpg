@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_mkpag"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_8ueu0"]
+
+[resource]
+script = ExtResource("2_8ueu0")
+id = "T-09"
+display_name = "Snack"
+attack = 1
+rules_text = "Has no abilities."
+flavor_text = "Bite-sized. Formerly terrifying."
+is_token = true
+not_in_packs = true
+rules_hash = "502e01ecdda9"
+image_description = "A tiny, nervous dumpling with stubby legs on a silver platter, sweating."

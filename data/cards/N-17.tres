@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_h8y1u"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_06gtf"]
+
+[resource]
+script = ExtResource("2_06gtf")
+id = "N-17"
+display_name = "Buried in Paperwork"
+type = 2
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "Return target unit from your Refuse Pile to your hand. Create a Contract."
+flavor_text = "We see you've already completed the requisite death forms. Once we get you processed, you can get started on the requisite undeath forms."
+paths_all = Array[int]([4])
+script_text = "play t=refuse.unit.mine => to_hand(t); create(contract)"
+rules_hash = "1e4132e7c5e6"
+image_description = "Art has a recently deceased Necrocrat, mummified in various forms sitting up, unwrapping himself, hes about halfway done. Other necrocrats look on, writing on clipboards."

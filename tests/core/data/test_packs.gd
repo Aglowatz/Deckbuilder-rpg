@@ -57,12 +57,12 @@ func test_every_pack_type_exists_as_data() -> void:
 
 
 func test_not_in_packs_flag_is_on_the_unique_cards() -> void:
-	for id: String in PackRules.NOT_IN_PACKS_IDS:
+	for id: String in CapitalContent.QUEST_REWARD_IDS + ZoneCards.MAIN_DUNGEON_REWARD_IDS + ["P4-02"] as Array[String]:
 		var card: CardData = content.card(id)
 		assert_not_null(card, "%s exists" % id)
 		if card != null:
 			assert_true(card.not_in_packs, "%s is flagged" % id)
-	for id: String in CapitalContent.QUEST_REWARD_IDS + DungeonContent.REWARD_IDS:
+	for id: String in CapitalContent.QUEST_REWARD_IDS + ZoneCards.MAIN_DUNGEON_REWARD_IDS:
 		assert_true(content.card(id).not_in_packs, "%s (quest/dungeon reward) never appears in packs" % id)
 	for id: String in [ZoneCards.MINI_DUNGEON_REWARD_ID, ZoneCards.GAINLANDS_MINI_REWARD_ID, ZoneCards.BUFFET_MINI_REWARD_ID, ZoneCards.HEAP_MINI_REWARD_ID]:
 		assert_true(content.card(id).not_in_packs, "%s (mini dungeon reward) never appears in packs" % id)
@@ -75,7 +75,7 @@ func test_no_pack_pool_ever_contains_a_flagged_card() -> void:
 	for pack: PackData in PackCatalog.all():
 		for card: CardData in PackRoller.pool(pack, content):
 			assert_false(card.not_in_packs, "%s is not in the %s pool" % [card.id, pack.id])
-			assert_false(card.is_token or card.is_infrastructure(), "%s is a real card" % card.id)
+			assert_false(card.is_token, "%s is a real card" % card.id)
 
 
 func test_path_pack_pool_is_its_path_plus_neutral() -> void:
@@ -102,7 +102,11 @@ func test_prismatic_pool_has_every_path_and_multipath_cards() -> void:
 		elif card.color != Affinity.Type.NEUTRAL:
 			paths[int(card.color)] = true
 	assert_eq(paths.size(), 4)
-	assert_eq(multipath, 24, "all 24 multi-Path cards")
+	var expected: int = 0
+	for card: CardData in content.multipath_cards.values():
+		if not card.not_in_packs:
+			expected += 1
+	assert_eq(multipath, expected, "every pack-eligible multi-Path card")
 
 
 func test_general_pool_is_the_vendor_selection_by_tier() -> void:

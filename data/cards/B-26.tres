@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_s231r"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_mehnr"]
+
+[resource]
+script = ExtResource("2_mehnr")
+id = "B-26"
+display_name = "The Carpool"
+color = 1
+generic_cost = 3
+colored_pips = Array[int]([1])
+attack = 4
+defense = 3
+keywords = Array[int]([2])
+rules_text = "Hustle.
+
+When this unit enters, other units you control gain Hustle until end of turn."
+rarity = 1
+flavor_text = "Everybody in. Seatbelts are for the weak."
+paths_all = Array[int]([1])
+script_text = "kw hustle
+enter => kw_grant(all(unit.mine.other),hustle,eot)"
+rules_hash = "7d3e2ded3c96"
+image_description = "A giant Beefcake running with a wooden cart strapped to his back, a crowd of smaller warriors cheering from the cart as it bounces down a hill."

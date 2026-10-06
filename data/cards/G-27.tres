@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_g0uq7"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_34fms"]
+
+[resource]
+script = ExtResource("2_34fms")
+id = "G-27"
+display_name = "Toro Toro"
+color = 2
+generic_cost = 1
+colored_pips = Array[int]([2, 2])
+attack = 4
+defense = 6
+keywords = Array[int]([4, 1])
+rules_text = "As an additional cost to play this, use three Ingredients.
+
+Bulldoze. Swat."
+rarity = 2
+flavor_text = "The chef's choice. The bull's choice, too."
+not_in_packs = true
+paths_all = Array[int]([2])
+script_text = "kw bulldoze,swat
+playcost | use(ingredient,3)"
+rules_hash = "7afe075872bb"
+image_description = "A large, muscular bull made of glistening sushi and tuna slices, rice-grain horns, charging forward in a burst of soy-sauce-colored dust."

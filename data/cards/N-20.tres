@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_o2bvx"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_fwiw2"]
+
+[resource]
+script = ExtResource("2_fwiw2")
+id = "N-20"
+display_name = "I've Made a Huge Mistake"
+type = 2
+color = 4
+generic_cost = 1
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "As an additional cost to play this, destroy a unit you control.
+
+Draw 2 cards and create a Red Tape."
+flavor_text = "Regret: now with paperwork."
+paths_all = Array[int]([4])
+script_text = "playcost | destroy(unit.mine)
+play => draw(2); create(redtape)"
+rules_hash = "dbd09c35cd63"
+image_description = "A guilty-looking ghost clerk staring at a shredder that has just eaten an important document, a single scrap fluttering away."

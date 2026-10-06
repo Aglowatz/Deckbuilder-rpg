@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_duu5k"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_iwkax"]
+
+[resource]
+script = ExtResource("2_iwkax")
+id = "B-08"
+display_name = "Spotter"
+color = 1
+generic_cost = 2
+colored_pips = Array[int]([1])
+attack = 2
+defense = 3
+rules_text = "When this unit enters, put a buff on target unit you control."
+flavor_text = "\"I got you, bro. I got you.\""
+paths_all = Array[int]([1])
+script_text = "enter t=unit.mine => buff(t,1)"
+rules_hash = "a2e139702135"
+image_description = "A supportive Beefcake hovering hands under a straining lifter's barbell, shouting encouragement, both glowing with golden energy."

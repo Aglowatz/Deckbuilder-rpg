@@ -411,7 +411,7 @@ func _walk_to_portal(scene: ZonePlaceholderScene) -> void:
 ## Part C: the player only ever owns 3 of their own element's cards (the tutorial reward picks) -
 ## every other card of that element is unowned but already unlocked (VendorData.graduated: a
 ## player's own color needs only the trial-cleared gate, no gold-spent threshold), so it is always
-## for sale. A different color (e.g. the old "recall") would now be gold-gated and might not be.
+## for sale. A different color (e.g. the old "G-21") would now be gold-gated and might not be.
 var _shop_card_id: String = ""
 var _bought_item_id: String = ""
 
@@ -517,7 +517,7 @@ func _edit_deck(screen: DeckbuilderScreen) -> void:
 	await driver.click(view_center, MOUSE_BUTTON_RIGHT)
 	_check(screen.editor.count(card) == 0, "right-clicking removes it again")
 	# Break a rule on purpose: 44 cards is illegal and the panel says so.
-	var neutral: CardData = Session.content.card("sellsword")
+	var neutral: CardData = Session.content.card("C-07")
 	screen.editor.remove(neutral)
 	screen.editor.remove(neutral)
 	screen._refresh()

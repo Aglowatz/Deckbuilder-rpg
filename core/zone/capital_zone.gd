@@ -57,14 +57,14 @@ const RIFT_COOLDOWN: float = 1.4
 ## Hidden chest rewards: id -> {gold, item, card, equipment}. Documented in docs/design/secrets.md - keep both in sync.
 const CHEST_REWARDS: Dictionary = {
 	"chest_wreck": {"gold": 60, "item": "field_bandage", "card": ""},
-	"chest_rock": {"gold": 80, "item": "", "card": "tasting_menu"},
+	"chest_rock": {"gold": 80, "item": "", "card": "G-26"},
 	"chest_reek": {"gold": 40, "item": "healing_salve", "card": ""},
-	"chest_crypt": {"gold": 90, "item": "", "card": "necromancer"},
+	"chest_crypt": {"gold": 90, "item": "", "card": "N-31"},
 	"chest_cellar": {"gold": 70, "item": "hearty_pie", "card": ""},
-	"chest_wheel": {"gold": 100, "item": "", "card": "max_rep"},
+	"chest_wheel": {"gold": 100, "item": "", "card": "B-31"},
 	"chest_lane": {"gold": 120, "item": "vitality_charm", "card": ""},
 	"chest_corner": {"gold": 50, "item": "ward_sigil", "card": ""},
-	"chest_ward": {"gold": 150, "item": "", "card": "recycle_bin"},
+	"chest_ward": {"gold": 150, "item": "", "card": "R-26"},
 }
 
 ## Propaganda that can be defaced (spot ids) and the small reward for each.

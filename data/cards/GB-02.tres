@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_neb5a"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_u0xhc"]
+
+[resource]
+script = ExtResource("2_u0xhc")
+id = "GB-02"
+display_name = "Meathead Butcher"
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 1])
+attack = 3
+defense = 3
+keywords = Array[int]([2])
+rules_text = "Hustle.
+
+Use an Ingredient: put a buff on this unit. Do this only once per turn."
+rarity = 1
+flavor_text = "Cuts meat. Cuts weight. Never cuts carbs."
+paths_all = Array[int]([1, 2])
+script_text = "kw hustle
+act once | use(ingredient) => buff(self,1)"
+rules_hash = "9f3798b80f4f"
+image_description = "A massive butcher in a bloodless white apron swinging a giant cleaver through a hanging slab of meat, muscles rippling."

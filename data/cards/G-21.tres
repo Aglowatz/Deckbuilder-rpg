@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_bpmfc"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_opuf6"]
+
+[resource]
+script = ExtResource("2_opuf6")
+id = "G-21"
+display_name = "Consult the Cookbook"
+type = 2
+color = 2
+generic_cost = 1
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "Peek 3, then draw a card."
+flavor_text = "Page 47: \"Do not substitute.\" Page 48: stained beyond reading."
+paths_all = Array[int]([2])
+script_text = "play => peek(3); draw(1)"
+rules_hash = "5fabba48d189"
+image_description = "A huge, ancient cookbook floating open on a lectern, pages glowing and turning by themselves, splatters and sticky notes everywhere."

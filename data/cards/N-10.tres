@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_60bdm"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_wervn"]
+
+[resource]
+script = ExtResource("2_wervn")
+id = "N-10"
+display_name = "Push Broom of Undeath"
+type = 5
+color = 4
+generic_cost = 4
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "Whenever a unit attacks, you may Shred any number of Garbage, Iron, and Ingredients."
+flavor_text = "Looks like one of the beefcakes blew themselves up trying to start the train...again. Send the intern to the entrance with the broom."
+paths_all = Array[int]([4])
+script_text = "when(attacks:any) => may({shred(all(resource.opp.kind=garbage|iron|ingredient))})"
+rules_hash = "80658fae6236"
+image_description = "A skeletal janitor sweeping a pile of trash, iron plates, and spilled ingredients into a glowing green shredder vortex."

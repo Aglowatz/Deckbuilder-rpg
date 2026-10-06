@@ -26,4 +26,4 @@ order = 410
 objectives = Array[ExtResource("1_scxaw")]([SubResource("Resource_ij1bh")])
 reward_gold = 60
 reward_xp = 50
-reward_card_ids = Array[String](["scrap_goat"])
+reward_card_ids = Array[String](["R-04"])

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_jy423"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_7mv62"]
+
+[resource]
+script = ExtResource("2_7mv62")
+id = "NB-08"
+display_name = "Protein Powder Urn"
+type = 5
+color = 1
+color2 = 4
+colored_pips = Array[int]([4, 1])
+defense = 0
+rules_text = "Destroy this Tool: Reinstate target unit with cost 2 or less from your Refuse Pile. It gains Hustle until end of turn."
+rarity = 1
+flavor_text = "Grandpa wanted to be scattered at the gym."
+paths_all = Array[int]([1, 4])
+script_text = "act t=refuse.unit.mine.cost<=2 | destroy_self => reinstate(t); kw_grant(last,hustle,eot)"
+rules_hash = "7f5155c2f91c"
+image_description = "An ornate funeral urn shaped like a protein tub, glowing powder swirling out of it and forming a muscular ghost."

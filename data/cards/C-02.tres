@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ivuqt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_2162y"]
+
+[resource]
+script = ExtResource("2_2162y")
+id = "C-02"
+display_name = "Village Militia"
+generic_cost = 2
+attack = 2
+defense = 2
+flavor_text = "Armed with pitchforks and optimism."
+rules_hash = "d41d8cd98f00"
+image_description = "A small band of farmers in mismatched armor holding pitchforks and frying pans, striking a heroic pose in front of a quaint village gate."

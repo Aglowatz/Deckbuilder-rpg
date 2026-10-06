@@ -60,7 +60,7 @@ static func new_profile(content: ContentSet, primary: Affinity.Type) -> PlayerPr
 static func random_element_cards(content: ContentSet, color: Affinity.Type, count: int, rng: RandomNumberGenerator) -> Array[CardData]:
 	var pool: Array[CardData] = []
 	for card: CardData in content.cards.values():
-		if card.color == color and not card.is_infrastructure():
+		if card.paths().size() == 1 and card.is_on_path(color) and not card.is_infrastructure():
 			pool.append(card)
 	RngUtil.shuffle(pool, rng)
 	var result: Array[CardData] = []

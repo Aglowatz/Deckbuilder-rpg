@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_kcfy3"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_alwrc"]
+
+[resource]
+script = ExtResource("2_alwrc")
+id = "G-13"
+display_name = "Hearth Kitchen"
+type = 4
+color = 2
+generic_cost = 1
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "Use an Ingredient: gain 2 HP."
+flavor_text = "Comfort food for the comfortless."
+paths_all = Array[int]([2])
+script_text = "act | use(ingredient) => gain(me,2)"
+rules_hash = "5c5e8c875432"
+image_description = "A cozy stone hearth with a bubbling stew pot, warm firelight, and a rocking chair beside it, a cat asleep on a stack of cookbooks."

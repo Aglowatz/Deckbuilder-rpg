@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_2cquq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_0jtd5"]
+
+[resource]
+script = ExtResource("2_0jtd5")
+id = "GBN-05"
+display_name = "Silver Serving Platter"
+type = 5
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 1, 4])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +2/+2 and Nourish.
+
+When attached unit dies, create three Ingredients and a Red Tape."
+rarity = 2
+flavor_text = "Polished, ornate, and surprisingly good at blocking swords."
+paths_all = Array[int]([1, 2, 4])
+script_text = "attach
+host => stat(2,2); kw(nourish)
+when(attached_dies) => create(ingredient,3); create(redtape)"
+rules_hash = "05cbed0eb6ba"
+image_description = "A gleaming silver serving platter used as a shield by a dapper skeletal waiter, deflecting a blow while balancing a drink."

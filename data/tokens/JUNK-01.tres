@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_53vfy"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_4k0p5"]
+
+[resource]
+script = ExtResource("2_4k0p5")
+id = "JUNK-01"
+display_name = "Heap of Rubbish"
+type = 7
+generic_cost = 1
+defense = 0
+rules_text = "You lose 1 HP. Somebody has to take it out."
+flavor_text = "Banished behind the facade for being untidy. It did not go quietly."
+is_token = true
+not_in_packs = true
+script_text = "play => lose(me,1)"
+rules_hash = "42595878c399"
+image_description = "A teetering heap of tidy-looking rubbish bags with one unmistakably untidy banana peel on top."

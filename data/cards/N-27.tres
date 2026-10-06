@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ab170"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ekuac"]
+
+[resource]
+script = ExtResource("2_ekuac")
+id = "N-27"
+display_name = "Mandatory Optional Team Meeting"
+type = 2
+color = 4
+generic_cost = 4
+colored_pips = Array[int]([4, 4])
+defense = 0
+rules_text = "Reinstate all Necrocrat units from your Refuse Pile."
+rarity = 2
+flavor_text = "I am glad you all volunteered to be forced to be here today. - Mortimer Grimsby, CE-No"
+paths_all = Array[int]([4])
+script_text = "play => reinstate_all(refuse.unit.mine.path=N)"
+rules_hash = "c2029b1d09d7"
+image_description = "A gloomy conference room packed with undead employees rising from coffins and filing cabinets to sit at a long table, a skeletal boss at the head pointing at a chart."

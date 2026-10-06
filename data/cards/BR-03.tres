@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_u4j12"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_hlpg5"]
+
+[resource]
+script = ExtResource("2_hlpg5")
+id = "BR-03"
+display_name = "Rat Pack Coach"
+color = 1
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([1, 3])
+attack = 2
+defense = 3
+rules_text = "When this unit enters, create two 1/1 Rat tokens. They gain Hustle until end of turn."
+rarity = 1
+flavor_text = "Running drills. Running the sewers."
+paths_all = Array[int]([1, 3])
+script_text = "enter => create(T-02,2); kw_grant(last,hustle,eot)"
+rules_hash = "123ce0b7d332"
+image_description = "A burly coach with a whistle leading a squad of rats in tiny sweatbands through a junkyard obstacle course."

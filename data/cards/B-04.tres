@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qolp3"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_oju2f"]
+
+[resource]
+script = ExtResource("2_oju2f")
+id = "B-04"
+display_name = "Millstone Pusher"
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+attack = 2
+defense = 2
+rules_text = "Exhaust: add (B).
+
+Overexert: add (B)(B)."
+flavor_text = "Grinding the grain. Grinding the gains."
+paths_all = Array[int]([1])
+script_text = "act | exhaust => add(B)
+act | overexert => add(B,B)"
+rules_hash = "e9828fe3401b"
+image_description = "A broad-shouldered worker straining against a giant millstone lever, veins popping, grain dust swirling in golden sunlight."

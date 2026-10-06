@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_cfgef"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_62sdi"]
+
+[resource]
+script = ExtResource("2_62sdi")
+id = "C-31"
+display_name = "Four-Path Compass"
+type = 5
+generic_cost = 2
+defense = 0
+rules_text = "Exhaust: add one energy of any Path.
+
+Destroy this Tool: search your deck for an Infrastructure and put it onto the field."
+rarity = 2
+flavor_text = "Every needle points somewhere different. All of them are right."
+script_text = "act | exhaust => add(any)
+act | destroy_self => search(infra,1,field)"
+rules_hash = "05963af44279"
+image_description = "An ornate brass compass with four needles, each glowing a different color and pointing in a different direction."

@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_y5g3o"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xeu5x"]
+
+[resource]
+script = ExtResource("2_xeu5x")
+id = "NR-15"
+display_name = "Necro Cat"
+color = 3
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([4, 3])
+attack = 2
+defense = 2
+keywords = Array[int]([9])
+rules_text = "Toxic.
+
+When this unit dies, return it to your hand."
+rarity = 2
+flavor_text = "Eight lives down. Paperwork for the ninth is pending."
+paths_all = Array[int]([3, 4])
+script_text = "kw toxic
+die => to_hand(self)"
+rules_hash = "ce7ebeb1d964"
+image_description = "A skeletal black cat with glowing green eyes perched on a gravestone surrounded by trash, smugly licking a bony paw."

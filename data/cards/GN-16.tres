@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_dxd1i"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_i7107"]
+
+[resource]
+script = ExtResource("2_i7107")
+id = "GN-16"
+display_name = "Madame Mortadella, Eternal Restaurateur"
+color = 2
+color2 = 4
+generic_cost = 3
+colored_pips = Array[int]([2, 4, 4])
+attack = 4
+defense = 4
+keywords = Array[int]([0])
+rules_text = "Flying.
+
+Whenever a token you control dies, create an Ingredient and a 1/1 Hungry Ghost token with Flying.
+
+Use three Ingredients: tokens you control get +2/+2 until end of turn."
+rarity = 3
+flavor_text = "Reservations are required. Death is not."
+paths_all = Array[int]([2, 4])
+script_text = "kw flying
+when(token_dies:mine) => create(ingredient); create(T-19)
+act | use(ingredient,3) => pump(all(token.mine),2,2,eot)"
+rules_hash = "1e3aa684f76d"
+image_description = "A glamorous ghost restaurateur in a flowing translucent gown and pearls, floating above a candlelit haunted bistro full of spectral diners."

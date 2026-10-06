@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_w5j53"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_emwqf"]
+
+[resource]
+script = ExtResource("2_emwqf")
+id = "C-19"
+display_name = "Village Well"
+type = 4
+generic_cost = 2
+defense = 0
+rules_text = "At the start of your turn, gain 1 HP."
+flavor_text = "Wish for health. Get exactly one health."
+script_text = "sot => gain(me,1)"
+rules_hash = "a323ee451164"
+image_description = "A charming old stone well with a wooden roof and a bucket, coins glittering at the bottom, a wish-sparkle rising from it."

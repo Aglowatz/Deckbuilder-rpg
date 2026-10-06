@@ -104,7 +104,7 @@ func _click_hand_card(battle: BattleScreen, infra: bool) -> void:
 
 
 func _flow_four_copies() -> void:
-	var card: CardData = Session.content.card("firebolt")
+	var card: CardData = Session.content.card("B-03")
 	while Session.owned_count(card.id) < 5:
 		Session.profile.owned_cards.append(card)
 	var town: TownScene = get_tree().current_scene as TownScene
@@ -380,12 +380,12 @@ func _flow_arena() -> void:
 
 
 func _flow_essence() -> void:
-	var card: CardData = Session.content.card("raider")
+	var card: CardData = Session.content.card("B-26")
 	Session.profile.essence.clear()
 	for i: int in range(5):
 		Session.add_cards([card] as Array[CardData])
 	await driver.seconds(0.6)
-	_check(Session.owned_count("raider") == 4, "only 4 copies are kept")
+	_check(Session.owned_count("B-26") == 4, "only 4 copies are kept")
 	_check(Session.profile.essence_of(Affinity.Type.BEEFCAKE) > 0, "the 5th copy became Beefcake essence (%d)" % Session.profile.essence_of(Affinity.Type.BEEFCAKE))
 	_check(Session.toasts.history.size() > 0 and Session.toasts.history.back().contains("converted"), "a notification was shown")
 	await _shot("12_essence_notification")

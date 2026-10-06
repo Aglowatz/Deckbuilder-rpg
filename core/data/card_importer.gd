@@ -281,7 +281,7 @@ static func parse_tokens() -> Array[Entry]:
 	return entries
 
 
-## The three resources the token sheet does not list (they are only described in the Design Guidance).
+## The three resources the token sheet does not list (they are only described in the Design Guidance), and the Capital's junk card.
 static func extra_resource_tokens() -> Array[Entry]:
 	var entries: Array[Entry] = []
 	for kind: ResourceKind.Kind in [ResourceKind.Kind.IRON, ResourceKind.Kind.INGREDIENT, ResourceKind.Kind.GARBAGE]:
@@ -292,7 +292,29 @@ static func extra_resource_tokens() -> Array[Entry]:
 		entry.rules_text = entry.data.rules_text
 		entry.data.paths_all = [ResourceKind.path_of(kind)] as Array[Affinity.Type]
 		entries.append(entry)
+	entries.append(_junk_entry())
 	return entries
+
+
+## The junk card the Capital's Clutter service debuff shuffles into your deck (not in the sheets).
+static func _junk_entry() -> Entry:
+	var entry: Entry = Entry.new()
+	entry.id = "JUNK-01"
+	entry.is_token = true
+	var card: CardData = CardData.new()
+	card.id = entry.id
+	card.display_name = "Heap of Rubbish"
+	card.type = CardEnums.CardType.TOKEN
+	card.is_token = true
+	card.not_in_packs = true
+	card.generic_cost = 1
+	card.defense = 0
+	card.rules_text = "You lose 1 HP. Somebody has to take it out."
+	card.flavor_text = "Banished behind the facade for being untidy. It did not go quietly."
+	card.image_description = "A teetering heap of tidy-looking rubbish bags with one unmistakably untidy banana peel on top."
+	entry.rules_text = card.rules_text
+	entry.data = card
+	return entry
 
 
 # ---- Putting it together --------------------------------------------------------------------------------

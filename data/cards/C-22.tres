@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_a4a5c"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_u7ur1"]
+
+[resource]
+script = ExtResource("2_u7ur1")
+id = "C-22"
+display_name = "Mercenary Captain"
+generic_cost = 4
+attack = 3
+defense = 3
+rules_text = "When this unit enters, create two 1/1 Militia tokens."
+rarity = 1
+flavor_text = "Will fight for gold. Will fight harder for snacks."
+script_text = "enter => create(T-16,2)"
+rules_hash = "9115a11debfc"
+image_description = "A grizzled mercenary captain with an eyepatch and a coin purse, leading two eager, mismatched recruits into battle."

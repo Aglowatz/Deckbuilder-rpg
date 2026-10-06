@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_x54q5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_i6w7v"]
+
+[resource]
+script = ExtResource("2_i6w7v")
+id = "N-24"
+display_name = "Endless Filing"
+type = 2
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "Bury 4. Then Reinstate target unit with cost 3 or less from your Refuse Pile."
+rarity = 1
+flavor_text = "File it under 'Pending'. Pending what? Pending."
+paths_all = Array[int]([4])
+script_text = "play => bury(me,4); reinstate(pick(refuse.unit.mine.cost<=3))"
+rules_hash = "01408dbca2f5"
+image_description = "An endless canyon of filing cabinets stretching into fog, drawers sliding open on their own and spilling papers and the occasional zombie."

@@ -50,8 +50,8 @@ const HIDDEN_CHEST_RADIUS: float = 1.5
 const HIDDEN_CHEST_REWARDS: Dictionary = {
 	"west_woods": {"gold": 45, "item": "", "card": ""},
 	"harbor_dock": {"gold": 30, "item": "healing_draught", "card": ""},
-	"grave_hollow": {"gold": 0, "item": "reckless_tonic", "card": "stag_warden"},
-	"uplands": {"gold": 50, "item": "", "card": "stone_sentinel"},
+	"grave_hollow": {"gold": 0, "item": "reckless_tonic", "card": "N-06"},
+	"uplands": {"gold": 50, "item": "", "card": "C-05"},
 	"beefcake_flats": {"gold": 0, "item": "vitality_charm", "card": ""},
 	"uplands_ridge": {"gold": 0, "item": "", "card": "", "equipment": "travelers_boots"},
 	"harbor_dock_back": {"gold": 0, "item": "", "card": "", "equipment": "solid_plate"},
@@ -1086,7 +1086,7 @@ func _open_vault() -> void:
 		hud.toast("The vault stands open and empty.", UIStyle.MUTED)
 		return
 	Session.set_flag(&"vault_opened")
-	var reward: CardData = Session.content.card("thornback_colossus")
+	var reward: CardData = Session.content.card("B-27")
 	if reward != null:
 		Session.add_cards([reward] as Array[CardData])
 	Audio.sfx(&"card_draw")

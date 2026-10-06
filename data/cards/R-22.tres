@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_gslvl"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_88xfn"]
+
+[resource]
+script = ExtResource("2_88xfn")
+id = "R-22"
+display_name = "Acid Vomitor"
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3])
+attack = 1
+defense = 3
+rules_text = "Exhaust, eat garbage: deal 2 damage to target unit."
+rarity = 1
+flavor_text = "Better out than in."
+paths_all = Array[int]([3])
+script_text = "act t=unit | exhaust, eat => damage(t,2)"
+rules_hash = "bf6923ef21fe"
+image_description = "A lanky, snake-like druid with a long neck and a moss-green robe spewing a glowing arc of green acid, junk sizzling where it lands."

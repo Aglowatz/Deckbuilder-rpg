@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_6rhr1"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rf1fr"]
+
+[resource]
+script = ExtResource("2_rf1fr")
+id = "GN-08"
+display_name = "Staff Appreciation Dinner"
+type = 4
+color = 2
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([2, 4])
+defense = 0
+rules_text = "Tokens you control get +1/+0."
+rarity = 1
+flavor_text = "Thank you for your service. Here is a cold sandwich."
+paths_all = Array[int]([2, 4])
+script_text = "aura(token.mine) => stat(1,0)"
+rules_hash = "617c8dee2a14"
+image_description = "A gloomy office party where zombie temps and food golems sit at a long table wearing paper party hats, each with a single sad sandwich."

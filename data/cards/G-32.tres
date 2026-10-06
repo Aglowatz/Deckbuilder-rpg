@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qqvgn"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_758jn"]
+
+[resource]
+script = ExtResource("2_758jn")
+id = "G-32"
+display_name = "The Eternal Banquet"
+type = 4
+color = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 2])
+defense = 0
+rules_text = "At the start of your turn, create two Ingredients.
+
+Use five Ingredients: create an 8/8 Wedding Cake Colossus token with Bulldoze."
+rarity = 3
+flavor_text = "There is always room for dessert."
+paths_all = Array[int]([2])
+script_text = "sot => create(ingredient,2)
+act | use(ingredient,5) => create(T-07)"
+rules_hash = "be3ed568014c"
+image_description = "A colossal, many-tiered wedding cake golem rising over an endless banquet table that stretches to the horizon, fireworks of sprinkles bursting overhead."

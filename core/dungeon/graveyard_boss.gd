@@ -13,7 +13,7 @@ const STARTING_HP: int = 12
 ## A thin, mostly-defensive dark (Affinity D) deck - the escalating summon is the real engine of
 ## difficulty, not the boss's own hand; see docs/balance_report.md for how this was tuned.
 const DECK_RECIPE: Dictionary = {
-	"infrastructure:D": 20, "bone_servant": 3, "grave_tender": 3, "martyr": 1, "soul_drain": 1,
+	"BAS-N": 20, "N-01": 3, "N-02": 3, "N-06": 1, "N-15": 1,
 }
 const AI_NAME: String = "Defensive"
 const REWARD_GOLD: int = 220
@@ -25,21 +25,14 @@ const REWARD_XP: int = 150
 const REWARD_EQUIPMENT_ID: String = "thorned_loincloth"
 
 
-## The 6 escalating stages: 1/1, 2/2, 3/3, 3/4 Bulldoze, 4/4 Flying, 4/5 Flying (the cap -
-## every activation past the 6th re-summons this one). Named individually rather than numbered so
-## a real battle log/board reads like a story, not a debug dump. Softer past stage 2 than the
-## first tuning pass (which capped at 6/6 Flying+Bulldoze) - see docs/balance_report.md/D-log.
+## The 6 escalating stages (tokens of the token sheet): Zombie Temp 1/1, Zombie Rat 2/2, Patchwork Body 2/2, Compost Golem 3/3,
+## Hungry Ghost 1/1 Flying, and Compost Golem again (the cap - every activation past the 6th re-summons the last stage). Softer than
+## the first tuning pass - see docs/balance_report.md/D-log.
 static func summon_stages() -> Array[CardData]:
-	var trample: Array[CardEnums.Keyword] = [CardEnums.Keyword.BULLDOZE]
-	var flying: Array[CardEnums.Keyword] = [CardEnums.Keyword.FLYING]
-	return [
-		CardBuilder.token("grave_stage_0", "Restless Bone", 1, 1),
-		CardBuilder.token("grave_stage_1", "Grave Wight", 2, 2),
-		CardBuilder.token("grave_stage_2", "Crypt Sentinel", 3, 3),
-		CardBuilder.token("grave_stage_3", "Bone Colossus", 3, 4, trample),
-		CardBuilder.token("grave_stage_4", "Grave Wraith", 4, 4, flying),
-		CardBuilder.token("grave_stage_5", "The Devourer", 4, 5, flying),
-	] as Array[CardData]
+	var stages: Array[CardData] = []
+	for id: String in ["T-10", "T-11", "T-21", "T-17", "T-19", "T-17"]:
+		stages.append(TokenRegistry.data(id))
+	return stages
 
 
 static func _escalation_modifier() -> Modifier:
@@ -51,22 +44,7 @@ static func _escalation_modifier() -> Modifier:
 
 
 static func _deck(content: ContentSet) -> Deck:
-	var deck: Deck = Deck.new()
-	deck.deck_name = DISPLAY_NAME
-	for key: Variant in DECK_RECIPE.keys():
-		var id: String = str(key)
-		var card: CardData = null
-		if id.begins_with("infrastructure:"):
-			var color: Affinity.Type = ["", "A", "B", "C", "D"].find(id.substr(15)) as Affinity.Type
-			card = content.infrastructure[int(color)] as CardData
-		else:
-			card = content.card(id)
-		if card == null:
-			push_warning("GraveyardBoss: unknown card %s" % id)
-			continue
-		for i: int in range(int(DECK_RECIPE[key])):
-			deck.cards.append(card)
-	return deck
+	return ZoneDecks.from_recipe(content, DISPLAY_NAME, DECK_RECIPE)
 
 
 static func personality(content: ContentSet) -> AIPersonality:

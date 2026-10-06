@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_nmjq7"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_6ijoa"]
+
+[resource]
+script = ExtResource("2_6ijoa")
+id = "GRN-05"
+display_name = "The Great Compost Cycle"
+type = 4
+color = 2
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([2, 3, 4])
+defense = 0
+rules_text = "At the end of your turn, Bury 1. If a unit card was buried this way, create a Garbage, an Ingredient, and a Red Tape."
+rarity = 2
+flavor_text = "Life, death, dinner. Repeat."
+paths_all = Array[int]([2, 3, 4])
+script_text = "eot => bury(me,1); if(ge($buried_units,1),{create(garbage); create(ingredient); create(redtape)})"
+rules_hash = "251de866343f"
+image_description = "A vast circular garden where crops grow, are harvested, cooked, eaten, and composted in an endless glowing loop."

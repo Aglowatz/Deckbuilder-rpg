@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_il7bn"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rs1v8"]
+
+[resource]
+script = ExtResource("2_rs1v8")
+id = "R-23"
+display_name = "Bird of Paradump"
+color = 3
+colored_pips = Array[int]([3])
+keywords = Array[int]([0])
+rules_text = "Flying.
+
+Exhaust, eat garbage: add one energy of any Path."
+rarity = 1
+flavor_text = "Paradise is in the eye of the beholder."
+paths_all = Array[int]([3])
+script_text = "kw flying
+act | exhaust, eat => add(any)"
+rules_hash = "878c5dbe7ffb"
+image_description = "A flamboyant tropical bird with feathers made of colorful bottle caps and candy wrappers, perched on a trash heap like a throne, glowing with swirling multicolored energy."

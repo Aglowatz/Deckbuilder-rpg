@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_4uxtk"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_keklm"]
+
+[resource]
+script = ExtResource("2_keklm")
+id = "B-22"
+display_name = "Alarm-ish Clock"
+type = 5
+color = 1
+generic_cost = 2
+defense = 0
+rules_text = "Exhaust, pay 1: attach to target unit you control.
+
+At the beginning of combat on your turn, flip a coin. Heads: attached unit gets +2/+0 and Sucker Punch until end of turn. Tails: attached unit becomes exhausted."
+rarity = 1
+flavor_text = "Oh no, I'm late! Or am I...?"
+paths_all = Array[int]([1])
+script_text = "attach | pay(1)
+boc => flip({pump(host,2,0,eot); kw_grant(host,sucker_punch,eot)},{exhaust(host)})"
+rules_hash = "9ce12627a629"
+image_description = "A battered wind-up alarm clock with mismatched hands and a bent bell, ringing wildly while a Beefcake either sprints off or snoozes on top of it."

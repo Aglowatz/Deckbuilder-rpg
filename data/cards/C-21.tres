@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_1q3qs"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_kr8hv"]
+
+[resource]
+script = ExtResource("2_kr8hv")
+id = "C-21"
+display_name = "Old Kingdom Banner"
+type = 4
+generic_cost = 3
+defense = 0
+rules_text = "Units you control get +1/+0."
+flavor_text = "From the days when the four Paths marched as one."
+script_text = "aura(unit.mine) => stat(1,0)"
+rules_hash = "4c26b1deb2a8"
+image_description = "A faded royal banner bearing four interlocking symbols, still flying proudly over ruined ramparts at sunrise."

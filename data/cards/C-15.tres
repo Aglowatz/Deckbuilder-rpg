@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_54u5g"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_yp88t"]
+
+[resource]
+script = ExtResource("2_yp88t")
+id = "C-15"
+display_name = "Desperate Measures"
+type = 2
+generic_cost = 4
+defense = 0
+rules_text = "Destroy target unit with attack 4 or more."
+flavor_text = "Big problems call for... honestly, any solution."
+script_text = "play t=unit.atk>=4 => destroy(t)"
+rules_hash = "b3138549e937"
+image_description = "A tiny adventurer pulling a rope that drops a gigantic boulder onto a hulking monster, eyes squeezed shut."

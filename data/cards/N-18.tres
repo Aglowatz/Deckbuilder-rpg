@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_rqueg"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3bvda"]
+
+[resource]
+script = ExtResource("2_3bvda")
+id = "N-18"
+display_name = "Requisition Form"
+type = 2
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "As an additional cost to play this, use a Red Tape or Contract.
+
+Draw 2 cards."
+flavor_text = "Please allow six to eight eternities for processing."
+paths_all = Array[int]([4])
+script_text = "playcost | use(redtape|contract)
+play => draw(2)"
+rules_hash = "6e3682fdfc72"
+image_description = "A towering, wobbling stack of paperwork balanced on a tiny skeleton's head as it tiptoes through a dim hallway."

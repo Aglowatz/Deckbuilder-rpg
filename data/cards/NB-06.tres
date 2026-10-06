@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_4ilco"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_1c225"]
+
+[resource]
+script = ExtResource("2_1c225")
+id = "NB-06"
+display_name = "Membership Cancellation"
+type = 2
+color = 1
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([4, 1])
+defense = 0
+rules_text = "Destroy target Tool. Its controller loses 2 HP."
+rarity = 1
+flavor_text = "Please cancel in person, by mail, in triplicate, under a full moon."
+paths_all = Array[int]([1, 4])
+script_text = "play t=tool => set(c,ctl(t)); destroy(t); lose($c,2)"
+rules_hash = "a2fe2833eea2"
+image_description = "A frustrated adventurer at a gym front desk buried under an avalanche of forms, a skeletal receptionist smiling sweetly."

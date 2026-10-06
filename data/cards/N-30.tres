@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ap0yu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_c0re5"]
+
+[resource]
+script = ExtResource("2_c0re5")
+id = "N-30"
+display_name = "Betty Bones, Surly Secretary"
+color = 4
+generic_cost = 3
+colored_pips = Array[int]([4])
+attack = 2
+defense = 4
+rules_text = "Whenever a unit enters under your control, create a Contract.
+Whenever a unit attacks you, create a Red Tape."
+rarity = 2
+flavor_text = "I'm sorry sir, you are going to have to fill out forms A-F. After which you will have the designated waiting period. I estimate 4 to 6 centuries."
+paths_all = Array[int]([4])
+script_text = "when(unit_enters:mine) => create(contract)
+when(attacks:opp) => create(redtape)"
+rules_hash = "05e69de1622f"
+image_description = "A skeleton, profling like an older woman, stits at a desk pouring over a requisiton form. She is wearing old style cateye glasses, holding the form in one hand and adjusting her glasses with the other."

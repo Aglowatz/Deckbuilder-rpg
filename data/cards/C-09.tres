@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_cf31s"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_0ky5k"]
+
+[resource]
+script = ExtResource("2_0ky5k")
+id = "C-09"
+display_name = "Old Kingdom Automaton"
+generic_cost = 5
+attack = 5
+defense = 5
+flavor_text = "Built when the four Paths still worked together. It remembers."
+rules_hash = "d41d8cd98f00"
+image_description = "A mossy ancient clockwork guardian built from iron, bone, copper pots, and woven vines, glowing softly in a forgotten courtyard."

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_gxe7h"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3rjcc"]
+
+[resource]
+script = ExtResource("2_3rjcc")
+id = "GRN-03"
+display_name = "Circle of Life Insurance"
+type = 2
+color = 2
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([2, 3, 4])
+defense = 0
+rules_text = "As an additional cost to play this, destroy a unit you control.
+
+Reinstate target unit from your Refuse Pile with greater cost than the destroyed unit."
+rarity = 1
+flavor_text = "Coverage includes death, rebirth, and light composting."
+paths_all = Array[int]([2, 3, 4])
+script_text = "playcost | destroy(unit.mine)
+play => reinstate(pick(refuse.unit.mine.cost>$paid_cost))"
+rules_hash = "29c7d1f46997"
+image_description = "A ghostly insurance agent, a chef, and a druid shaking hands over a policy document as a spirit rises from a compost heap into a new body."

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_8dfsu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ms2c1"]
+
+[resource]
+script = ExtResource("2_ms2c1")
+id = "B-05"
+display_name = "Hamster Wheel Runner"
+color = 1
+colored_pips = Array[int]([1])
+attack = 1
+rules_text = "When this unit enters, create an Iron."
+flavor_text = "Runs on carbs and spite."
+paths_all = Array[int]([1])
+script_text = "enter => create(iron)"
+rules_hash = "a7d36b5e4e8d"
+image_description = "A tiny but intense athlete sprinting inside a giant wooden hamster wheel, sparks of energy flying off the axle into power lines."

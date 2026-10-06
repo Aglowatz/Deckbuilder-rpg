@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_as5nq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cvs1b"]
+
+[resource]
+script = ExtResource("2_cvs1b")
+id = "BR-01"
+display_name = "Gym Rat"
+color = 1
+color2 = 3
+colored_pips = Array[int]([1, 3])
+attack = 1
+defense = 2
+rules_text = "Exhaust, use a Garbage: create an Iron."
+rarity = 1
+flavor_text = "Never leaves the gym. Lives in the gym. Literally."
+paths_all = Array[int]([1, 3])
+script_text = "act | exhaust, use(garbage) => create(iron)"
+rules_hash = "efb5c200474a"
+image_description = "A buff little rat in a sweatband and tiny tank top lifting a bottle-cap barbell inside an old shoebox gym."

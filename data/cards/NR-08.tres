@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ygjwm"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_2nqbv"]
+
+[resource]
+script = ExtResource("2_2nqbv")
+id = "NR-08"
+display_name = "Ghostly Garbage"
+type = 3
+color = 3
+color2 = 4
+generic_cost = 1
+colored_pips = Array[int]([4, 3])
+defense = 0
+rules_text = "When an opposing unit dies, create a 1/1 Rat token and a Garbage."
+rarity = 1
+flavor_text = "Even the trash haunts this place."
+paths_all = Array[int]([3, 4])
+script_text = "trap(unit_dies:opp) => create(T-02); create(garbage)"
+rules_hash = "464c413c362a"
+image_description = "A pile of translucent ghostly garbage floating out of a broken bin, spectral rats scurrying through it."

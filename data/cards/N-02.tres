@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_2s4gd"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_2mec7"]
+
+[resource]
+script = ExtResource("2_2mec7")
+id = "N-02"
+display_name = "Infernal Intern"
+color = 4
+generic_cost = 1
+colored_pips = Array[int]([4])
+attack = 1
+defense = 2
+rules_text = "When this unit enters, create a Red Tape."
+flavor_text = "Unpaid internship. Eternal duration."
+paths_all = Array[int]([4])
+script_text = "enter => create(redtape)"
+rules_hash = "b2b488d67611"
+image_description = "A Necrocrat ghoul in a suit, carrying a giant stack of requisition forms, looking incredibly stressed."

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qayqq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_1hqg3"]
+
+[resource]
+script = ExtResource("2_1hqg3")
+id = "B-21"
+display_name = "Flex on 'Em"
+type = 2
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Deal 2 damage to target opponent. If you control a unit with 5 or more attack, deal 4 damage instead."
+flavor_text = "Intimidation is a legitimate damage type."
+paths_all = Array[int]([1])
+script_text = "play ? exists(unit.mine.atk>=5) => damage(opp,4)
+play ?! exists(unit.mine.atk>=5) => damage(opp,2)"
+rules_hash = "f034e76489ca"
+image_description = "A gigantic Beefcake hitting a dramatic double-biceps pose so intense that a shockwave blows an enemy's hair and cape backward."

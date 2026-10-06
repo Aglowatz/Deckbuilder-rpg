@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ugbw6"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_8ql1x"]
+
+[resource]
+script = ExtResource("2_8ql1x")
+id = "GRB-03"
+display_name = "County Fairgrounds"
+type = 4
+color = 1
+color2 = 2
+generic_cost = 1
+colored_pips = Array[int]([2, 3, 1])
+defense = 0
+rules_text = "At the start of your turn, create an Ingredient, a Garbage, or an Iron."
+rarity = 1
+flavor_text = "Fried everything, prize pumpkins, and a strongman tent."
+paths_all = Array[int]([1, 2, 3])
+script_text = "sot => choose({create(ingredient)},{create(garbage)},{create(iron)})"
+rules_hash = "a73c912f0bc3"
+image_description = "A bustling county fair with a Ferris wheel, food stalls, a prize-vegetable tent, and a strongman bell, all at golden hour."

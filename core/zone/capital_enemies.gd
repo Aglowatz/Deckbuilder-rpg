@@ -30,10 +30,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.9
 			made.aggro_range = 5.5
 			made.leash_range = 8.5
-			made.recipe = {
-				"infrastructure:D": 9, "infrastructure:B": 7, "compliance_officer": 4, "gate_guard": 3, "citation": 3,
-				"decree_of_order": 2, "middle_manager": 2,
-			}
+			made.recipe = EnemyDecks.mixed("colorless_regime", 27, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16)
 			made.hp = 14
 			made.ai_name = "Balanced"
 			made.gold_reward = 35
@@ -55,10 +52,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.7
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
-			made.recipe = {
-				"infrastructure:D": 9, "infrastructure:A": 6, "perfection_inspector": 4, "compliance_officer": 3,
-				"citation": 3, "tidy_bot": 3, "soul_auditor": 2,
-			}
+			made.recipe = EnemyDecks.mixed("colorless_regime", 27, [Affinity.Type.NECROCRAT, Affinity.Type.BEEFCAKE] as Array[Affinity.Type], 15)
 			made.hp = 16
 			made.ai_name = "Defensive"
 			made.gold_reward = 40
@@ -91,10 +85,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.8
 			made.aggro_range = 5.5
 			made.leash_range = 8.0
-			made.recipe = {
-				"infrastructure:C": 8, "infrastructure:D": 7, "rift_wretch": 4, "shard_swarm": 3, "landfill_hog": 3,
-				"compost_golem": 2, "vine_snare": 2, "cubicle_zombie": 2,
-			}
+			made.recipe = EnemyDecks.trimmed("necrocrat_refusemancer", 30, 15)
 			made.hp = 15
 			made.ai_name = "Aggressive"
 			made.gold_reward = 45
@@ -116,10 +107,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 		GATE_CAPTAIN:
 			made.display_name = "The Approved Gate Captain"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
-			made.recipe = {
-				"infrastructure:D": 8, "infrastructure:B": 8, "approved_gate_captain": 2, "gate_guard": 4, "compliance_officer": 4,
-				"citation": 4, "perfection_inspector": 3, "decree_of_order": 3, "middle_manager": 2, "sneeze_guard": 2,
-			}
+			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 38, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), {"C-30": 1, "C-34": 1})
 			made.hp = 24
 			made.ai_name = "Aggressive"
 			made.gold_reward = 120

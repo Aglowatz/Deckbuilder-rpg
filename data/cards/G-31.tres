@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ub8bq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_378xr"]
+
+[resource]
+script = ExtResource("2_378xr")
+id = "G-31"
+display_name = "Recipe for wonder"
+type = 5
+color = 2
+colored_pips = Array[int]([2, 2])
+defense = 0
+rules_text = "Pay 1(G), use three Ingredients, destroy this Tool: put a random Wonder from your deck onto the field."
+rarity = 2
+flavor_text = "Step one: believe. Step two: whisk."
+not_in_packs = true
+paths_all = Array[int]([2])
+script_text = "act | pay(G), use(ingredient,3), destroy_self => put_field(rand(deck.wonder))"
+rules_hash = "8d7ff8bcf1f7"
+image_description = "A glowing handwritten recipe card hovering above a mixing bowl, swirling ingredients forming the shape of a tiny magical building."

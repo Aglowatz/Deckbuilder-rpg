@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_3khn8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3jqsm"]
+
+[resource]
+script = ExtResource("2_3jqsm")
+id = "GR-12"
+display_name = "Recyc-lops"
+color = 2
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([2, 3])
+attack = 4
+defense = 4
+rules_text = "When this unit enters, destroy target Tool or Wonder.
+
+Whenever you create a Garbage, also create an Ingredient."
+rarity = 2
+flavor_text = "\"Sort your bins, citizens! The Recyc-lops is watching!\""
+paths_all = Array[int]([2, 3])
+script_text = "enter t=tool|wonder => destroy(t)
+when(resource_created:mine:garbage) => create(ingredient)"
+rules_hash = "a915a7262de3"
+image_description = "A hulking one-eyed hero wearing a dented recycling-bin helmet and a cape made of patched plastic bags, holding a trash-can-lid shield and striking a heroic pose on a junk pile."

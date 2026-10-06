@@ -20,25 +20,25 @@ const RECIPES: Array[Dictionary] = [
 		"affinity": Affinity.Type.BEEFCAKE,
 		"identity": "Beefcake is aggressive and chaotic: Hustle, big strong units, raw stat boosts, Tools, tempo and direct damage. Burst now, pay later.",
 		"playstyle": "Race to deal damage before the table settles. Pump your units with Iron and strike first.",
-		"sample_card_ids": ["beefcake_imp", "blazing_charger", "firebolt"],
+		"sample_card_ids": ["B-01", "B-14", "B-03"],
 	},
 	{
 		"affinity": Affinity.Type.GOURMAND,
 		"identity": "Gourmand is refined and controlling: chefs and Wonders that turn Ingredients into big Golem tokens, recipes, healing, bounce and Plating.",
 		"playstyle": "Control the pace, cook Golems from Ingredients, and win the long game.",
-		"sample_card_ids": ["deep_insight", "frost_sentry", "recall"],
+		"sample_card_ids": ["G-01", "G-08", "G-21"],
 	},
 	{
 		"affinity": Affinity.Type.REFUSEMANCER,
 		"identity": "Refusemancer is resilient and recycling: Garbage-eating units, ramp into big units, the Refuse Pile as a resource, scrappy rats, and Tool and Wonder destruction.",
 		"playstyle": "Eat Garbage, recycle your Refuse Pile and ramp into huge units.",
-		"sample_card_ids": ["ancient_treant", "mossback_bear", "growth"],
+		"sample_card_ids": ["R-06", "R-19", "R-02"],
 	},
 	{
 		"affinity": Affinity.Type.NECROCRAT,
 		"identity": "Necrocrat is orderly and value-grinding: small tokens, reanimation, drain, delayed but inevitable effects, taxes and fees, Red Tape and Contracts.",
 		"playstyle": "Go wide, grind with Red Tape and Contracts, and bring your units back.",
-		"sample_card_ids": ["bloodthirst_wolf", "necromancer", "soul_drain"],
+		"sample_card_ids": ["N-02", "N-15", "N-09"],
 	},
 ]
 

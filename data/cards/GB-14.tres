@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_noeqw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ftcoy"]
+
+[resource]
+script = ExtResource("2_ftcoy")
+id = "GB-14"
+display_name = "The Gain Train"
+type = 4
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "Whenever you use an Ingredient, units you control get +1/+1 until end of turn."
+rarity = 2
+flavor_text = "All aboard! Next stop: Swoleville."
+paths_all = Array[int]([1, 2])
+script_text = "when(resource_used:mine:ingredient) => pump(all(unit.mine),1,1,eot)"
+rules_hash = "6ae1dc8fb414"
+image_description = "A huge steam train built from dumbbells and lunchboxes, Beefcakes powering it from the inside while a chef shovels food into the furnace."

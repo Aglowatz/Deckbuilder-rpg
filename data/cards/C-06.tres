@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ugm6l"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_2guho"]
+
+[resource]
+script = ExtResource("2_2guho")
+id = "C-06"
+display_name = "Traveling Brawler"
+generic_cost = 3
+attack = 3
+defense = 2
+keywords = Array[int]([5])
+rules_text = "Sucker Punch."
+flavor_text = "Punches first. Asks questions never."
+script_text = "kw sucker_punch"
+rules_hash = "205baa3da649"
+image_description = "A wiry fighter with taped fists and a traveling cloak mid-punch, a tavern sign swinging behind him."

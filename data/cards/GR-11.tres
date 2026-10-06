@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_klvji"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rscpk"]
+
+[resource]
+script = ExtResource("2_rscpk")
+id = "GR-11"
+display_name = "Potluck"
+type = 2
+color = 2
+color2 = 3
+generic_cost = 1
+colored_pips = Array[int]([2, 3])
+defense = 0
+rules_text = "Each player gains 3 HP. Draw a card. Create a Garbage and an Ingredient."
+rarity = 1
+flavor_text = "Everyone brings something. Gerald brings compost."
+paths_all = Array[int]([2, 3])
+script_text = "play => gain(me,3); gain(opp,3); draw(1); create(garbage); create(ingredient)"
+rules_hash = "1971d7f81619"
+image_description = "A long picnic table overflowing with mismatched dishes, chefs and druids awkwardly sharing a meal under string lights."

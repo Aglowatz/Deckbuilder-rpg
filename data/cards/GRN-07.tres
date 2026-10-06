@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_d6n7d"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_kjmk1"]
+
+[resource]
+script = ExtResource("2_kjmk1")
+id = "GRN-07"
+display_name = "Rot and Rebirth"
+type = 2
+color = 2
+color2 = 3
+generic_cost = 3
+colored_pips = Array[int]([2, 3, 4])
+defense = 0
+rules_text = "Destroy all units. Then Reinstate each unit you owned that was destroyed this way with cost 2 or less."
+rarity = 2
+flavor_text = "Clean slate. Mostly clean."
+paths_all = Array[int]([2, 3, 4])
+script_text = "play => destroy(all(unit)); reinstate_destroyed(2)"
+rules_hash = "203f4995f02f"
+image_description = "A wave of decay sweeping across a battlefield, everything crumbling into soil, then small creatures sprouting back up like seedlings."

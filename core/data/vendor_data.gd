@@ -62,7 +62,7 @@ static func graduated(content: ContentSet, own_colors: Array[Affinity.Type], gat
 	ids.sort()
 	for id: Variant in ids:
 		var card: CardData = content.cards[str(id)] as CardData
-		if card.color == Affinity.Type.NEUTRAL or own_colors.has(card.color):
+		if card.paths().is_empty() or own_colors.has(card.paths()[0]):
 			data.add(card.id, gate)
 			continue
 		var spend_threshold: int = [80, 180, 320, 500][int(card.rarity)]

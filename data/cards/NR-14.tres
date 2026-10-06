@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_kq5qw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_jxrue"]
+
+[resource]
+script = ExtResource("2_jxrue")
+id = "NR-14"
+display_name = "Plague Season"
+type = 2
+color = 3
+color2 = 4
+generic_cost = 3
+colored_pips = Array[int]([4, 3, 3])
+defense = 0
+rules_text = "Units your opponent controls get -2/-2 until end of turn. Create a 1/1 Rat token for each unit that dies this way."
+rarity = 2
+flavor_text = "Flu season, but worse. And with paperwork."
+paths_all = Array[int]([3, 4])
+script_text = "play => pump_kill(all(unit.opp),-2,-2); create(T-02,$died)"
+rules_hash = "e6850a22a98b"
+image_description = "A sickly green fog rolling over a battlefield, enemy creatures coughing and wilting while rats emerge from the mist."

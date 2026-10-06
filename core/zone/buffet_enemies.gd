@@ -27,10 +27,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.8
 			made.aggro_range = 5.5
 			made.leash_range = 8.5
-			made.recipe = {
-				"infrastructure:B": 16, "breadstick_sentry": 3, "meatloaf_golem": 3, "gravy_courier": 2,
-				"food_fight": 2, "soup_of_the_day": 1,
-			}
+			made.recipe = EnemyDecks.trimmed("gourmand_golems", 27, 16)
 			made.hp = 14
 			made.ai_name = "Aggressive"
 			made.gold_reward = 30
@@ -44,10 +41,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.6
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
-			made.recipe = {
-				"infrastructure:B": 15, "gelatin_sentinel": 4, "sneeze_guard": 2, "soup_of_the_day": 3,
-				"sous_assist": 2, "souffle_sprite": 1,
-			}
+			made.recipe = EnemyDecks.trimmed("gourmand_control", 27, 15)
 			made.hp = 16
 			made.ai_name = "Defensive"
 			made.gold_reward = 35
@@ -68,10 +62,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 		CASSEROLE:
 			made.display_name = "Colonel Casserole"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
-			made.recipe = {
-				"infrastructure:B": 16, "meatloaf_golem": 3, "gelatin_sentinel": 2, "breadstick_sentry": 3,
-				"sneeze_guard": 2, "food_fight": 2, "sous_assist": 1,
-			}
+			made.recipe = EnemyDecks.trimmed("gourmand_golems", 30, 16)
 			made.hp = 16
 			made.ai_name = "Balanced"
 			made.gold_reward = 50

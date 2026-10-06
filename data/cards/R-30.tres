@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_wv8qn"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_amce0"]
+
+[resource]
+script = ExtResource("2_amce0")
+id = "R-30"
+display_name = "The Mother Heap"
+type = 4
+color = 3
+generic_cost = 2
+colored_pips = Array[int]([3, 3])
+defense = 0
+rules_text = "Whenever a Garbage enters under your control, create a 1/1 Rat token."
+rarity = 2
+flavor_text = "Every family has one. This one has thousands."
+not_in_packs = true
+paths_all = Array[int]([3])
+script_text = "when(resource_created:mine:garbage) => create(T-02)"
+rules_hash = "aaaf6d239c9c"
+image_description = "A towering, cozy mound of garbage glowing warmly from within, countless rats peeking out of tunnels and little windows like a bustling apartment building."

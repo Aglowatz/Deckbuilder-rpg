@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ed7q3"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_mw1lu"]
+
+[resource]
+script = ExtResource("2_mw1lu")
+id = "T-22"
+display_name = "Sporeling"
+color = 2
+color2 = 3
+attack = 1
+flavor_text = "Grows on you."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([2, 3, 4])
+rules_hash = "d41d8cd98f00"
+image_description = "A tiny walking mushroom with stubby legs and glowing spots, waving shyly."

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_tf5lq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_dmtgf"]
+
+[resource]
+script = ExtResource("2_dmtgf")
+id = "N-19"
+display_name = "Resting In Peace Clause"
+type = 2
+color = 4
+generic_cost = 3
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "Shuffle 2 Clause tokens into your opponent's deck. When your opponent draws a Clause, Shred it and create a 2/2 Zombie Rat token under your control."
+flavor_text = "Read the fine print. It reads you back."
+paths_all = Array[int]([4])
+script_text = "play => shuffle_into(opp,T-12,2)"
+rules_hash = "923b0bef8da6"
+image_description = "A contract unrolling to reveal tiny print that crawls off the page as little zombie rats scurrying toward the reader."

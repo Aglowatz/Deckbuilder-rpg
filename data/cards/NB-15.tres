@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_3stn7"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ugpo7"]
+
+[resource]
+script = ExtResource("2_ugpo7")
+id = "NB-15"
+display_name = "Grim Repper"
+color = 1
+color2 = 4
+generic_cost = 3
+colored_pips = Array[int]([4, 1])
+attack = 4
+defense = 4
+keywords = Array[int]([0])
+rules_text = "Flying.
+
+Whenever another unit you control dies, put two buffs on target unit you control."
+rarity = 2
+flavor_text = "One more rep. Then your soul."
+paths_all = Array[int]([1, 4])
+script_text = "kw flying
+when(unit_dies:mine:other) t=unit.mine => buff(t,2)"
+rules_hash = "60ad84da6eb6"
+image_description = "A hooded reaper in a sweatband and gym shorts, holding a scythe with a whistle tied to it, counting reps for a sweating ghost."

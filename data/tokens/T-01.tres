@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_x1wcl"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_chsxt"]
+
+[resource]
+script = ExtResource("2_chsxt")
+id = "T-01"
+display_name = "Poo Golem"
+color = 3
+attack = 3
+defense = 3
+flavor_text = "Handcrafted. Do not ask with what."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([3])
+rules_hash = "d41d8cd98f00"
+image_description = "A lumpy, cheerful golem made of steaming manure and straw, flowers sprouting from its head, flies orbiting like tiny moons."

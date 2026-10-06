@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_0lwoi"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_q87pf"]
+
+[resource]
+script = ExtResource("2_q87pf")
+id = "C-13"
+display_name = "Rally the Village"
+type = 2
+generic_cost = 2
+defense = 0
+rules_text = "Units you control get +1/+1 until end of turn."
+flavor_text = "Grab your pitchforks. And your frying pans. And Grandma."
+script_text = "play => pump(all(unit.mine),1,1,eot)"
+rules_hash = "99f3c34b6105"
+image_description = "A whole village charging out of their houses together, a grandmother leading the way with a rolling pin raised high."

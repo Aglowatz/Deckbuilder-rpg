@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_wvcad"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_tpmd5"]
+
+[resource]
+script = ExtResource("2_tpmd5")
+id = "C-20"
+display_name = "Training Grounds"
+type = 4
+generic_cost = 2
+defense = 0
+rules_text = "Pay 2: put a buff on target unit you control. Do this only once per turn."
+flavor_text = "Practice makes slightly better."
+script_text = "act t=unit.mine once | pay(2) => buff(t,1)"
+rules_hash = "986bc04fbb1f"
+image_description = "A sunny training yard with straw dummies, wooden swords, and an obstacle course, a recruit swinging enthusiastically."

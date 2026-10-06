@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_c4arm"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_owhjs"]
+
+[resource]
+script = ExtResource("2_owhjs")
+id = "BAS-G"
+display_name = "Feastforge"
+type = 0
+color = 2
+defense = 0
+rules_text = "When this Infrastructure enters, create an Ingredient.
+
+Exhaust: add (G)."
+flavor_text = "The ovens never go cold."
+is_basic = true
+paths_all = Array[int]([2])
+script_text = "produce G
+enter => create(ingredient)"
+rules_hash = "1cc120b708d9"
+image_description = "A grand copper-domed kitchen-forge with chimneys puffing steam, glowing ovens and golems being assembled from baked goods."

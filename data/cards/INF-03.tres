@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_i8fbu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_tnmut"]
+
+[resource]
+script = ExtResource("2_tnmut")
+id = "INF-03"
+display_name = "Spice Bazaar"
+type = 0
+color = 2
+defense = 0
+rules_text = "Exhaust: add (G).
+
+Exhaust, pay 2: Peek 2."
+rarity = 1
+flavor_text = "Forty kinds of pepper. Fifty opinions about each."
+paths_all = Array[int]([2])
+script_text = "produce G
+act | exhaust, pay(2) => peek(2)"
+rules_hash = "71138d550513"
+image_description = "A colorful covered market overflowing with mountains of spices, hanging copper pots, and silk awnings, chefs haggling in clouds of fragrant steam."

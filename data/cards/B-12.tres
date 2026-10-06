@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_vhf1o"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_d8fcd"]
+
+[resource]
+script = ExtResource("2_d8fcd")
+id = "B-12"
+display_name = "Leg Day Survivor"
+color = 1
+generic_cost = 3
+colored_pips = Array[int]([1])
+attack = 4
+defense = 2
+keywords = Array[int]([2])
+rules_text = "Hustle."
+flavor_text = "Can't feel legs. Can feel victory."
+paths_all = Array[int]([1])
+script_text = "kw hustle"
+rules_hash = "a866391f7101"
+image_description = "A wobbly-legged but huge-torsoed Beefcake charging forward on trembling legs, a determined grin on his face."

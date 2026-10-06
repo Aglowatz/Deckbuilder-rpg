@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_1iwhv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_wumac"]
+
+[resource]
+script = ExtResource("2_wumac")
+id = "R-15"
+display_name = "Turf War"
+type = 3
+color = 3
+generic_cost = 1
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "When an opposing unit attacks, the unit you control with the highest attack brawls it."
+flavor_text = "This is OUR dumpster."
+paths_all = Array[int]([3])
+script_text = "trap(attacks:opp) => brawl(top_atk(unit.mine),trig)"
+rules_hash = "8534eb759bb5"
+image_description = "A gang of rats, goats, and a possum squaring off against a lone intruder in front of a glowing dumpster, sleeves rolled up and ready to brawl."

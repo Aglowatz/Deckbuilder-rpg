@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_8oipv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_q6vlo"]
+
+[resource]
+script = ExtResource("2_q6vlo")
+id = "B-32"
+display_name = "The Big Unit"
+color = 1
+generic_cost = 5
+colored_pips = Array[int]([1, 1])
+attack = 12
+defense = 12
+keywords = Array[int]([4])
+rules_text = "Team Leader: if you control 5 units with 5 different attack values, The Big Unit costs only (B) to play.
+
+Bulldoze."
+rarity = 3
+flavor_text = "The ultimate specimen"
+not_in_packs = true
+paths_all = Array[int]([1])
+script_text = "kw bulldoze
+costmod ? distinct_atk(unit.mine)>=5 => cost_set(0,B)"
+rules_hash = "c4c2eb201451"
+image_description = "The most enormous, muscular Beefcake imaginable, towering over mountains and clouds, flexing as tiny Beefcakes cheer at his feet."

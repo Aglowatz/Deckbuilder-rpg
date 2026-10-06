@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ecgyu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cf18w"]
+
+[resource]
+script = ExtResource("2_cf18w")
+id = "B-28"
+display_name = "Portal-Ripping Titan"
+color = 1
+generic_cost = 4
+colored_pips = Array[int]([1, 1])
+attack = 6
+defense = 6
+keywords = Array[int]([2])
+rules_text = "Hustle.
+
+When this unit enters, deal 3 damage to target unit."
+rarity = 2
+flavor_text = "Knocks before entering. Through the wall."
+not_in_packs = true
+paths_all = Array[int]([1])
+script_text = "kw hustle
+enter t=unit => damage(t,3)"
+rules_hash = "8e229c8246b3"
+image_description = "A colossal Beefcake bursting through a glowing torn portal, fists first, shards of magical energy and stone exploding outward."

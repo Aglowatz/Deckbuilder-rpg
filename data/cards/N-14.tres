@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_cemt7"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_k65my"]
+
+[resource]
+script = ExtResource("2_k65my")
+id = "N-14"
+display_name = "The Breakroom"
+type = 4
+color = 4
+generic_cost = 2
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "Whenever a unit you control dies, your opponent loses 1 HP."
+flavor_text = "Mandatory fun. Optional survival."
+paths_all = Array[int]([4])
+script_text = "when(unit_dies:mine) => lose(opp,1)"
+rules_hash = "3072bd827a7d"
+image_description = "A gloomy office breakroom with a sad birthday banner, a coffin-shaped refrigerator, and zombies standing around a cake with candles."

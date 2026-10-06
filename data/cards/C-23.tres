@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_yb7so"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_pedvv"]
+
+[resource]
+script = ExtResource("2_pedvv")
+id = "C-23"
+display_name = "Resistance Scout"
+generic_cost = 2
+attack = 2
+defense = 2
+keywords = Array[int]([10])
+rules_text = "Elusive."
+rarity = 1
+flavor_text = "Primm's guards never see her coming. Or going."
+script_text = "kw elusive"
+rules_hash = "6110a22f64e0"
+image_description = "A hooded scout slipping between the shadows of an unnaturally perfect, pastel city street, a rolled-up map in her teeth."

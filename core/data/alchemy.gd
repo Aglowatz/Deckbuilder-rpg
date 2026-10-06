@@ -2,13 +2,13 @@ class_name Alchemy
 extends RefCounted
 ## Brief 9, Part F: the Alchemist's crafting rules. Once the player has at least `MIN_ESSENCE_PER_PATH` essence
 ## of two different Paths, they may trade ALL of their essence of those two Paths plus `GOLD_COST` gold for ONE random
-## dual-Path card of those two Paths (there are 4 per pair, `MultipathContent`). The more essence traded
+## dual-Path card of those two Paths (the designed card set has 16 per pair). The more essence traded
 ## beyond the minimum, the better the odds of the rarer cards. Tri-Path crafting is a postgame hook only
 ## (`tri_path_unlocked`, no tri-Path cards exist yet).
 
 const MIN_ESSENCE_PER_PATH: int = 10
 const GOLD_COST: int = 100
-## Odds (weights) for Common, Uncommon, Epic, Legendary at the minimum trade.
+## Odds (weights) for Common, Uncommon, Epic, Legendary at the minimum trade (the dual-Path cards are Uncommon, Epic and Legendary).
 const BASE_WEIGHTS: Array[int] = [8, 6, 3, 1]
 ## Every this-many essence beyond the two minimums shifts one weight point from Common to Epic and
 ## one from Uncommon to Legendary.
@@ -56,11 +56,13 @@ static func problem(profile: PlayerProfile, gold: int, first: Affinity.Type, sec
 	return ""
 
 
-## The four cards a pair of Paths can produce, rarest last.
+## The cards of exactly this pair of Paths, rarest last (Brief 14: the designed set has 16 per pair).
 static func possible_cards(content: ContentSet, first: Affinity.Type, second: Affinity.Type) -> Array[CardData]:
 	var result: Array[CardData] = []
-	for card_id: String in MultipathContent.ids_for(first, second, content.multipath_cards):
-		result.append(content.multipath_cards[card_id] as CardData)
+	for card: Variant in content.multipath_cards.values():
+		var data: CardData = card as CardData
+		if data.paths().size() == 2 and data.paths().has(first) and data.paths().has(second):
+			result.append(data)
 	result.sort_custom(func(a: CardData, b: CardData) -> bool: return int(a.rarity) < int(b.rarity))
 	return result
 
@@ -125,6 +127,16 @@ static func max_craft_paths(profile: PlayerProfile) -> int:
 	return 3 if tri_path_unlocked(profile) else 2
 
 
-## Tri-Path recipes: none exist yet.
-static func tri_path_cards(_content: ContentSet, _paths: Array[Affinity.Type]) -> Array[CardData]:
-	return []
+## The three-Path (or, with four, the four-Path) cards of exactly these Paths, rarest last.
+static func tri_path_cards(content: ContentSet, paths: Array[Affinity.Type]) -> Array[CardData]:
+	var result: Array[CardData] = []
+	for card: Variant in content.multipath_cards.values():
+		var data: CardData = card as CardData
+		if data.paths().size() == paths.size() and paths.size() >= 3:
+			var fits: bool = true
+			for path: Affinity.Type in paths:
+				fits = fits and data.paths().has(path)
+			if fits:
+				result.append(data)
+	result.sort_custom(func(a: CardData, b: CardData) -> bool: return int(a.rarity) < int(b.rarity))
+	return result

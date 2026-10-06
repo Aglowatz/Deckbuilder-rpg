@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_53ac4"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_y20ch"]
+
+[resource]
+script = ExtResource("2_y20ch")
+id = "R-02"
+display_name = "Dumpster Diver"
+color = 3
+generic_cost = 1
+colored_pips = Array[int]([3])
+attack = 1
+defense = 2
+rules_text = "Exhaust, pay 1: create a Garbage."
+flavor_text = "It's not hoarding if it's curated."
+paths_all = Array[int]([3])
+script_text = "act | exhaust, pay(1) => create(garbage)"
+rules_hash = "b2905420182e"
+image_description = "A scrappy young druid half-inside an overflowing dumpster, only their legs and mossy cloak sticking out, tossing treasures (a boot, a teapot, a fish skeleton) over their shoulder while a curious crow watches."

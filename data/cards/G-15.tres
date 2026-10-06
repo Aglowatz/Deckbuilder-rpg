@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_kky0p"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3b37c"]
+
+[resource]
+script = ExtResource("2_3b37c")
+id = "G-15"
+display_name = "Windowsill Herb Garden"
+type = 4
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "At the start of your turn, create an Ingredient."
+flavor_text = "Mostly basil. Mostly thyme."
+paths_all = Array[int]([2])
+script_text = "sot => create(ingredient)"
+rules_hash = "67829783e438"
+image_description = "A sunny kitchen windowsill lined with terracotta pots of glowing herbs, a tiny watering can, and a ladybug wearing a chef's hat."

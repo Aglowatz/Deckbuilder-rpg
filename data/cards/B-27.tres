@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qmbsu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_2yo2e"]
+
+[resource]
+script = ExtResource("2_2yo2e")
+id = "B-27"
+display_name = "Protein Farts"
+type = 2
+color = 1
+generic_cost = 2
+colored_pips = Array[int]([1, 1])
+defense = 0
+rules_text = "Deal 4 damage to all units."
+rarity = 2
+flavor_text = "No pain, all gains"
+paths_all = Array[int]([1])
+script_text = "play => damage(all(unit),4)"
+rules_hash = "ea17c967c36b"
+image_description = "A Beefcake looking innocent in the center of a gym while a huge green shockwave cloud blasts outward, knocking creatures over and wilting plants."

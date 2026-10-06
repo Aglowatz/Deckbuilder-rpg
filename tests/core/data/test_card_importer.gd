@@ -21,7 +21,7 @@ func test_the_sheets_are_fully_scripted_with_only_supported_mechanics() -> void:
 
 func test_counts_and_ids() -> void:
 	assert_eq(CardSet.all_cards().size(), 312, "312 cards in the sheet")
-	assert_eq(CardSet.all_tokens().size(), 26, "23 sheet tokens + 3 Design-Guidance-only resources")
+	assert_eq(CardSet.all_tokens().size(), 27, "23 sheet tokens + 3 Design-Guidance-only resources")
 	var seen: Dictionary = {}
 	for card: CardData in CardSet.all_cards():
 		assert_false(seen.has(card.id), "duplicate id %s" % card.id)

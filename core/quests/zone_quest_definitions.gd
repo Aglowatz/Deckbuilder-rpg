@@ -78,7 +78,7 @@ static func _audit() -> QuestData:
 	] as Array[QuestObjective]
 	quest.reward_gold = 80
 	quest.reward_xp = 70
-	quest.reward_card_ids = ["death_benefits"] as Array[String]
+	quest.reward_card_ids = ["N-14"] as Array[String]
 	quest.reward_equipment_ids = ["compliance_clipboard"] as Array[String]
 	return quest
 
@@ -118,7 +118,7 @@ static func _gain_spot_me() -> QuestData:
 	] as Array[QuestObjective]
 	quest.reward_gold = 70
 	quest.reward_xp = 60
-	quest.reward_card_ids = ["pre_workout"] as Array[String]
+	quest.reward_card_ids = ["B-17"] as Array[String]
 	return quest
 
 
@@ -133,7 +133,7 @@ static func _gain_lanes() -> QuestData:
 	quest.objectives = [QuestObjective.make("Defeat roaming Gainlands enemies", Condition.counter(GainlandsZone.COUNTER_ENEMIES, 3))] as Array[QuestObjective]
 	quest.reward_gold = 80
 	quest.reward_xp = 70
-	quest.reward_card_ids = ["leg_day"] as Array[String]
+	quest.reward_card_ids = ["B-12"] as Array[String]
 	quest.reward_equipment_ids = ["spotters_barbell"] as Array[String]
 	return quest
 
@@ -152,7 +152,7 @@ static func _buf_pantry() -> QuestData:
 	quest.objectives = [QuestObjective.make("Gather ingredients around the zone", Condition.counter(BuffetZone.COUNTER_GATHERED, 3))] as Array[QuestObjective]
 	quest.reward_gold = 60
 	quest.reward_xp = 50
-	quest.reward_card_ids = ["soup_of_the_day"] as Array[String]
+	quest.reward_card_ids = ["G-25"] as Array[String]
 	return quest
 
 
@@ -167,7 +167,7 @@ static func _buf_pie() -> QuestData:
 	quest.objectives = [QuestObjective.make("Bake a Hearty Pot Pie in the Grand Oven", Condition.counter(BuffetZone.COUNTER_BAKED, 1))] as Array[QuestObjective]
 	quest.reward_gold = 70
 	quest.reward_xp = 60
-	quest.reward_card_ids = ["sous_assist"] as Array[String]
+	quest.reward_card_ids = ["G-07"] as Array[String]
 	quest.reward_equipment_ids = ["head_chef_toque"] as Array[String]
 	return quest
 
@@ -183,7 +183,7 @@ static func _buf_mend() -> QuestData:
 	quest.objectives = [QuestObjective.make("Repair Old Meatloaf", Condition.flag(str(BuffetZone.FLAG_MENDED)))] as Array[QuestObjective]
 	quest.reward_gold = 80
 	quest.reward_xp = 70
-	quest.reward_card_ids = ["food_fight"] as Array[String]
+	quest.reward_card_ids = ["GR-04"] as Array[String]
 	return quest
 
 
@@ -201,7 +201,7 @@ static func _heap_herd() -> QuestData:
 	quest.objectives = [QuestObjective.make("Shoo escaped animals back to the pen", Condition.counter(HeapZone.COUNTER_HERDED, 3))] as Array[QuestObjective]
 	quest.reward_gold = 60
 	quest.reward_xp = 50
-	quest.reward_card_ids = ["scrap_goat"] as Array[String]
+	quest.reward_card_ids = ["R-04"] as Array[String]
 	return quest
 
 
@@ -216,7 +216,7 @@ static func _heap_fert() -> QuestData:
 	quest.objectives = [QuestObjective.make("Gather sacks of fertilizer", Condition.counter(HeapZone.COUNTER_FERTILIZER, 3))] as Array[QuestObjective]
 	quest.reward_gold = 70
 	quest.reward_xp = 60
-	quest.reward_card_ids = ["harvest_moon"] as Array[String]
+	quest.reward_card_ids = ["R-25"] as Array[String]
 	return quest
 
 
@@ -257,7 +257,7 @@ static func _cap_burial() -> QuestData:
 	quest.reward_gold = 150
 	quest.reward_xp = 120
 	quest.reward_item_ids = ["healing_draught"] as Array[String]
-	quest.reward_card_ids = ["grandfather_marrow"] as Array[String]
+	quest.reward_card_ids = ["N-28"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("necrocrat"))] as Array[String]
 	return quest
 
@@ -277,7 +277,7 @@ static func _cap_wheels() -> QuestData:
 	quest.reward_gold = 150
 	quest.reward_xp = 120
 	quest.reward_item_ids = ["vitality_charm"] as Array[String]
-	quest.reward_card_ids = ["freed_wheel_crew"] as Array[String]
+	quest.reward_card_ids = ["B-30"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("beefcake"))] as Array[String]
 	return quest
 
@@ -297,7 +297,7 @@ static func _cap_recipes() -> QuestData:
 	quest.reward_gold = 150
 	quest.reward_xp = 120
 	quest.reward_item_ids = ["hearty_pie"] as Array[String]
-	quest.reward_card_ids = ["odiles_real_recipe"] as Array[String]
+	quest.reward_card_ids = ["G-31"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("gourmand"))] as Array[String]
 	return quest
 
@@ -317,6 +317,6 @@ static func _cap_untidy() -> QuestData:
 	quest.reward_gold = 150
 	quest.reward_xp = 120
 	quest.reward_item_ids = ["healing_salve"] as Array[String]
-	quest.reward_card_ids = ["rescued_compost_heap"] as Array[String]
+	quest.reward_card_ids = ["R-30"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("refusemancer"))] as Array[String]
 	return quest

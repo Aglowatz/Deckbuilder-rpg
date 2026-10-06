@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_1hcfp"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xe48d"]
+
+[resource]
+script = ExtResource("2_xe48d")
+id = "G-10"
+display_name = "The Recipe Engine"
+type = 4
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "Use two Ingredients: draw a card. Do this only once per turn."
+flavor_text = "Step one: gather ingredients. Step two: ??? Step three: dinner."
+paths_all = Array[int]([2])
+script_text = "act once | use(ingredient,2) => draw(1)"
+rules_hash = "4a3de1dbbba5"
+image_description = "A whimsical brass machine with spinning gears and funnels, recipe cards fluttering out of its chimney as ingredients get sucked into a hopper."

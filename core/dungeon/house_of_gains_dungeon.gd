@@ -9,13 +9,33 @@ extends RefCounted
 ## Text: data/story/gainlands_story.tres (`dungeon.hg_*`, `event.hg_*`, `cutscene.rescue.*`, `cutscene.flex.*`).
 
 const ZONE_ID: String = "beefcake"
-const REWARD_CARD_ID: String = "heartlift_the_unbroken"
+const REWARD_CARD_ID: String = "B-32"
 const RESCUE_NODE_KEY: String = "hg_rescue"
+const BOON_NAME: String = "Heartlift Fights Beside You"
+## The rescued leader as a card-game ally (the token sheet's T-15): he starts on your field in the boss fight.
+const ALLY_TOKEN_ID: String = "T-15"
 
+
+## True when the player rescued the leader in this run (the rescue event grants the boon).
+static func rescued(run: DungeonRun) -> bool:
+	for source: ModifierSource in run.dungeon_sources:
+		if source.source_name == BOON_NAME:
+			return true
+	return false
+
+
+## Puts Grandmaster Flex, the Unbroken on the player's field (ready) at the start of the boss duel.
+static func place_ally(game: GameState) -> CardInstance:
+	var data: CardData = TokenRegistry.data(ALLY_TOKEN_ID)
+	if data == null:
+		return null
+	var ally: CardInstance = game.create_token(0, data)
+	ally.summoning_sick = false
+	return ally
 
 ## Heartlift's dungeon-wide boon: strength of heart and mind (+1/+1 to all your units, +3 max HP).
 static func heartlift_boon() -> ModifierSource:
-	return MainDungeonDef.boon_source("Heartlift Fights Beside You", [
+	return MainDungeonDef.boon_source(BOON_NAME, [
 		CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1),
 		CardBuilder.modifier(Modifier.Kind.MAX_HP, 3),
 	] as Array[Modifier])
@@ -30,13 +50,12 @@ static func build_def() -> MainDungeonDef:
 	def.reward_gold = 220
 	def.reward_xp = 160
 	def.boon = heartlift_boon()
-	var A: String = "infrastructure:A"
-	def.add_foe("Regime Enforcer", 12, "Aggressive", {A: 16, "gym_rat": 4, "pump_chaser": 3, "courtesy_chucker": 2, "sellsword": 2}, "delapouite/viking-head")
-	def.add_foe("Cell Block Brawler", 14, "Aggressive", {A: 16, "gym_rat": 4, "mill_hand": 3, "cheat_day": 2, "pre_workout": 2}, "lorc/muscle-up")
-	def.add_foe("The Iron-less Warden", 18, "Defensive", {A: 15, "protein_golem": 4, "wheel_runner": 3, "leg_day": 3, "flex_off": 2, "max_rep": 1}, "lorc/imprisoned")
-	def.add_foe("Barracks Drill Sergeant", 16, "Aggressive", {A: 16, "pump_chaser": 4, "gym_rat": 3, "wheel_runner": 3, "flex_off": 3, "pre_workout": 1}, "delapouite/weight-lifting-up")
-	def.add_foe("Honor Guard Captain", 22, "Aggressive", {A: 15, "protein_golem": 4, "max_rep": 3, "leg_day": 3, "flex_off": 3, "cheat_day": 3}, "delapouite/strong-man")
-	def.add_foe("Commander Gristle", 28, "Aggressive", {A: 16, "protein_golem": 4, "max_rep": 4, "leg_day": 3, "flex_off": 3, "cheat_day": 3, "pre_workout": 2, "courtesy_chucker": 2}, "delapouite/viking-head")
+	def.add_foe("Regime Enforcer", 12, "Aggressive", EnemyDecks.trimmed("beefcake_rush", 27, 16), "delapouite/viking-head")
+	def.add_foe("Cell Block Brawler", 14, "Aggressive", EnemyDecks.trimmed("beefcake_tools", 28, 16), "lorc/muscle-up")
+	def.add_foe("The Iron-less Warden", 18, "Defensive", EnemyDecks.trimmed("beefcake_bruisers", 28, 15), "lorc/imprisoned")
+	def.add_foe("Barracks Drill Sergeant", 16, "Aggressive", EnemyDecks.trimmed("beefcake_rush", 30, 16), "delapouite/weight-lifting-up")
+	def.add_foe("Honor Guard Captain", 22, "Aggressive", EnemyDecks.trimmed("beefcake_bruisers", 33, 15), "delapouite/strong-man")
+	def.add_foe("Commander Gristle", 28, "Aggressive", EnemyDecks.recipe("beefcake_bruisers", 17), "delapouite/viking-head")
 	# The Calisthenics Check (node 4): the prison has no iron, so it tests bodies, not weights.
 	var check: ChallengeData = MainDungeonDef.make_challenge("hg_calisthenics", "The Calisthenics Check", "", ChallengeData.Kind.FIRST_UNIT_ATTACK, 0, 3)
 	var might: ChallengeOutcome = MainDungeonDef.outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +2 max HP for the dungeon.")

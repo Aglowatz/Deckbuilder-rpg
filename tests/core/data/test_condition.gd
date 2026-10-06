@@ -27,10 +27,10 @@ func test_dungeon_cleared() -> void:
 
 
 func test_card_owned_checks_copy_count() -> void:
-	var condition: Condition = Condition.card_owned("beefcake_imp", 2)
-	state.owned_cards["beefcake_imp"] = 1
+	var condition: Condition = Condition.card_owned("B-01", 2)
+	state.owned_cards["B-01"] = 1
 	assert_false(Condition.met(condition, state))
-	state.owned_cards["beefcake_imp"] = 2
+	state.owned_cards["B-01"] = 2
 	assert_true(Condition.met(condition, state))
 
 

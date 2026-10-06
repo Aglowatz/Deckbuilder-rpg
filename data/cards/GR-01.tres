@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_an7ch"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_81snr"]
+
+[resource]
+script = ExtResource("2_81snr")
+id = "GR-01"
+display_name = "Farm-to-Table Chef"
+color = 2
+color2 = 3
+colored_pips = Array[int]([2, 3])
+attack = 2
+defense = 2
+rules_text = "Exhaust, use a Garbage: create an Ingredient."
+rarity = 1
+flavor_text = "Locally sourced. Very locally."
+paths_all = Array[int]([2, 3])
+script_text = "act | exhaust, use(garbage) => create(ingredient)"
+rules_hash = "0e01a31ccfe2"
+image_description = "A cheerful chef in a straw hat pulling glowing vegetables straight out of a compost-rich garden bed and tossing them into a pot."

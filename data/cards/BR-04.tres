@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_tv63h"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_wqtjy"]
+
+[resource]
+script = ExtResource("2_wqtjy")
+id = "BR-04"
+display_name = "Truck Tire"
+type = 5
+color = 1
+color2 = 3
+colored_pips = Array[int]([1, 3])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +2/+0.
+
+Eat garbage: attached unit gets +2/+2 until end of turn."
+rarity = 1
+flavor_text = "Flip it. Roll it. Live in it."
+paths_all = Array[int]([1, 3])
+script_text = "attach
+host => stat(2,0)
+act | eat => pump(host,2,2,eot)"
+rules_hash = "06c6bfb957a5"
+image_description = "A massive old cart tire covered in moss and flowers, a Beefcake mid-flip lifting it out of a scrap heap."

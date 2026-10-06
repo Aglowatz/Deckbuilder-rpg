@@ -13,6 +13,6 @@ amount = 3
 script = ExtResource("2_v1ipr")
 id = "grave_dust"
 display_name = "Grave Dust"
-description = "The opponent mills 3 cards."
+description = "The opponent buries their top 3 cards."
 uses = 2
 effect = SubResource("Resource_04xuh")

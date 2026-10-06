@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_44v4k"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_4wbyo"]
+
+[resource]
+script = ExtResource("2_4wbyo")
+id = "T-21"
+display_name = "Patchwork Body"
+color = 4
+attack = 2
+defense = 2
+flavor_text = "Assembled to code. Mostly."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([4])
+rules_hash = "d41d8cd98f00"
+image_description = "A stitched-together body of mismatched limbs with filing tags on each part, giving a cheerful thumbs-up."

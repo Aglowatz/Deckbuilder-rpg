@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_un4yt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ykjv2"]
+
+[resource]
+script = ExtResource("2_ykjv2")
+id = "NR-09"
+display_name = "Plague of Rats"
+type = 2
+color = 3
+color2 = 4
+generic_cost = 3
+colored_pips = Array[int]([4, 3])
+defense = 0
+rules_text = "Create a 1/1 Rat token for each unit card in your Refuse Pile (maximum 5)."
+rarity = 1
+flavor_text = "Every rat has a name. Every name has a file."
+paths_all = Array[int]([3, 4])
+script_text = "play => create(T-02,min(count(refuse.unit.mine),5))"
+rules_hash = "2e841d65cb2f"
+image_description = "A tide of rats pouring out of a graveyard and a landfill at once, eyes glowing green, a ghostly clerk counting them."

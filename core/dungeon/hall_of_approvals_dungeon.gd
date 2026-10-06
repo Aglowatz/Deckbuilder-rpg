@@ -8,7 +8,7 @@ extends RefCounted
 ## Text: data/story/dna_story.tres (`dungeon.ha_*`, `event.ha_*`).
 
 const ZONE_ID: String = "necrocrat"
-const REWARD_CARD_ID: String = "the_final_approval"
+const REWARD_CARD_ID: String = "N-33"
 
 
 static func build_def() -> MainDungeonDef:
@@ -19,14 +19,13 @@ static func build_def() -> MainDungeonDef:
 	def.reward_card_id = REWARD_CARD_ID
 	def.reward_gold = 220
 	def.reward_xp = 160
-	var D: String = "infrastructure:D"
-	def.add_foe("Intake Clerk", 12, "Balanced", {D: 16, "cubicle_zombie": 4, "overdue_intern": 3, "middle_manager": 2, "death_benefits": 2}, "delapouite/tie")
-	def.add_foe("Duplicate Forms Zombie", 14, "Defensive", {D: 16, "cubicle_zombie": 4, "take_a_number": 3, "middle_manager": 3, "death_benefits": 2}, "delapouite/shambling-zombie")
-	def.add_foe("Mailroom Wraith", 14, "Aggressive", {D: 16, "overdue_intern": 4, "soul_auditor": 3, "mandatory_fun_day": 2, "bone_servant": 3}, "lorc/ghost")
-	def.add_foe("Compliance Enforcement Officer", 18, "Balanced", {D: 15, "soul_auditor": 4, "performance_review": 3, "middle_manager": 3, "take_a_number": 2, "hr_reaper": 1}, "delapouite/warlock-eye")
-	def.add_foe("Appeals Judge", 16, "Defensive", {D: 16, "middle_manager": 4, "performance_review": 3, "death_benefits": 3, "take_a_number": 3, "soul_auditor": 2}, "delapouite/full-folder")
-	def.add_foe("Senior Clerk of Final Approvals", 22, "Balanced", {D: 15, "hr_reaper": 3, "soul_auditor": 3, "performance_review": 3, "middle_manager": 3, "mandatory_fun_day": 2, "necromancer": 2}, "delapouite/stamper")
-	def.add_foe("The Registrar of Final Approvals", 28, "Balanced", {D: 16, "hr_reaper": 4, "soul_auditor": 3, "performance_review": 3, "necromancer": 3, "middle_manager": 3, "take_a_number": 3, "deceased_ceo": 1}, "delapouite/stamper")
+	def.add_foe("Intake Clerk", 12, "Balanced", EnemyDecks.trimmed("necro_zombies", 27, 16), "delapouite/tie")
+	def.add_foe("Duplicate Forms Zombie", 14, "Defensive", EnemyDecks.trimmed("necro_zombies", 28, 16), "delapouite/shambling-zombie")
+	def.add_foe("Mailroom Wraith", 14, "Aggressive", EnemyDecks.trimmed("necro_control", 28, 16), "lorc/ghost")
+	def.add_foe("Compliance Enforcement Officer", 18, "Balanced", EnemyDecks.trimmed("necro_control", 31, 15), "delapouite/warlock-eye")
+	def.add_foe("Appeals Judge", 16, "Defensive", EnemyDecks.trimmed("necro_control", 30, 16), "delapouite/full-folder")
+	def.add_foe("Senior Clerk of Final Approvals", 22, "Balanced", EnemyDecks.trimmed("necro_zombies", 34, 15), "delapouite/stamper")
+	def.add_foe("The Registrar of Final Approvals", 28, "Balanced", EnemyDecks.with_cards(EnemyDecks.recipe("necro_control", 17), {"N-33": 1, "N-32": 1}), "delapouite/stamper")
 	# The Audit (node 6): your deck is examined for compliance.
 	var audit: ChallengeData = MainDungeonDef.make_challenge("ha_audit", "The Audit", "", ChallengeData.Kind.TOP_N_TOTAL_COST, 3, 6)
 	var stamp: ChallengeOutcome = MainDungeonDef.outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +1 max hand size for the dungeon.")

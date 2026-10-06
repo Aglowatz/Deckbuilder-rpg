@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_dttde"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_yo88k"]
+
+[resource]
+script = ExtResource("2_yo88k")
+id = "BR-14"
+display_name = "Scrapyard Gauntlets"
+type = 5
+color = 1
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([1, 3])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +2/+2.
+
+Use two Garbage: attached unit brawls target unit. Do this only once per turn."
+rarity = 2
+flavor_text = "Assembled from three toasters and a grudge."
+paths_all = Array[int]([1, 3])
+script_text = "attach
+host => stat(2,2)
+act t=unit once | use(garbage,2) => brawl(host,t)"
+rules_hash = "9584cc29b510"
+image_description = "A pair of huge mismatched gauntlets made from toasters, gears, and pipes, crackling with green energy."

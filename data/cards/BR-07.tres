@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_j0b2a"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_31gn5"]
+
+[resource]
+script = ExtResource("2_31gn5")
+id = "BR-07"
+display_name = "Wrestling Ring Ambush"
+type = 3
+color = 1
+color2 = 3
+generic_cost = 1
+colored_pips = Array[int]([1, 3])
+defense = 0
+rules_text = "When an opposing unit attacks, the unit you control with the highest attack gets +2/+0 until end of turn, then brawls it."
+rarity = 1
+flavor_text = "And from the top of the dumpster...!"
+paths_all = Array[int]([1, 3])
+script_text = "trap(attacks:opp) => pump(top_atk(unit.mine),2,0,eot); brawl(top_atk(unit.mine),trig)"
+rules_hash = "72ed0fc624a0"
+image_description = "A raccoon in a luchador mask leaping off the top of a dumpster onto an attacker, a junkyard crowd cheering."

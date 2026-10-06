@@ -61,5 +61,5 @@ func test_escalation_actually_fires_in_a_real_duel_against_the_boss() -> void:
 	if game.active == 0:
 		GameFactory.pass_turn(game)
 	assert_eq(game.active, 1)
-	assert_eq(game.players[1].field.size(), 1, "the boss's first turn should summon Restless Bone")
-	assert_eq(game.players[1].field[0].data.display_name, "Restless Bone")
+	assert_eq(game.players[1].field.size(), 1, "the boss's first turn should summon Zombie Temp")
+	assert_eq(game.players[1].field[0].data.display_name, "Zombie Temp")

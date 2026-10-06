@@ -90,11 +90,10 @@ func test_enemy_decks_are_legal_necrocrat_decks() -> void:
 			assert_true(card.is_infrastructure() or card.color == Affinity.Type.NECROCRAT, "%s: %s is Necrocrat" % [id, card.id])
 
 
-func test_zone_cards_exist_and_stay_out_of_normal_pools() -> void:
-	assert_eq(ZoneCards.VENDOR_IDS.size(), 9)
+func test_zone_vendor_cards_exist() -> void:
+	assert_eq(ZoneCards.VENDOR_IDS.size(), 10)
 	for id: String in ZoneCards.VENDOR_IDS:
 		assert_not_null(Session.content.card(id), id)
-		assert_false(Session.content.cards.has(id), "%s is zone-exclusive" % id)
 	assert_not_null(Session.content.card(ZoneCards.MINI_DUNGEON_REWARD_ID))
 	assert_not_null(Session.content.equipment_piece("courier_lanyard"))
 

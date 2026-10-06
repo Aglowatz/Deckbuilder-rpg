@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_j8g3b"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_qg781"]
+
+[resource]
+script = ExtResource("2_qg781")
+id = "INF-08"
+display_name = "Bulk Barn"
+type = 0
+color = 2
+color2 = 1
+defense = 0
+rules_text = "Exhaust: add (G) or (B)."
+rarity = 2
+flavor_text = "Buy in bulk. Get bulky."
+paths_all = Array[int]([2, 1])
+script_text = "produce G|B"
+rules_hash = "10cddbed360e"
+image_description = "A giant red barn stuffed with sacks of grain, wheels of cheese, and stacked iron weights, Beefcakes hauling crates out of the doors."

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_j5oox"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_fsjyg"]
+
+[resource]
+script = ExtResource("2_fsjyg")
+id = "T-08"
+display_name = "Chef's Special Golem"
+color = 2
+defense = 0
+flavor_text = "Today's special: whatever's left."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([2])
+rules_hash = "d41d8cd98f00"
+image_description = "A patchwork golem built from everything in the pantry: bread, cheese, vegetables, and a fish, held together by noodles."

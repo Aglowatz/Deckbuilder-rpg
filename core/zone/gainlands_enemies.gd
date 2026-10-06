@@ -25,10 +25,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 2.0
 			made.aggro_range = 6.0
 			made.leash_range = 9.5
-			made.recipe = {
-				"infrastructure:A": 16, "gym_rat": 3, "pump_chaser": 3, "courtesy_chucker": 2,
-				"flex_off": 2, "leg_day": 1,
-			}
+			made.recipe = EnemyDecks.trimmed("beefcake_rush", 27, 16)
 			made.hp = 14
 			made.ai_name = "Aggressive"
 			made.gold_reward = 30
@@ -51,10 +48,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.7
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
-			made.recipe = {
-				"infrastructure:A": 15, "protein_golem": 4, "mill_hand": 3, "cheat_day": 2,
-				"gym_rat": 2, "pre_workout": 1,
-			}
+			made.recipe = EnemyDecks.trimmed("beefcake_bruisers", 28, 15)
 			made.hp = 16
 			made.ai_name = "Defensive"
 			made.gold_reward = 35

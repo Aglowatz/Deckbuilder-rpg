@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_p1ifv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_emw4u"]
+
+[resource]
+script = ExtResource("2_emw4u")
+id = "NR-11"
+display_name = "Gross Margin"
+type = 2
+color = 3
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([4, 3])
+defense = 0
+rules_text = "Bury 5. Create a Garbage for each unit card put into your Refuse Pile this way. Your opponent loses that much HP."
+rarity = 1
+flavor_text = "Revenue is up. Everything else is disgusting."
+paths_all = Array[int]([3, 4])
+script_text = "play => bury(me,5); create(garbage,$buried_units); lose(opp,$buried_units)"
+rules_hash = "e7e463baba5c"
+image_description = "A skeletal accountant proudly presenting a chart drawn on a dripping garbage bag, line rising, flies circling."

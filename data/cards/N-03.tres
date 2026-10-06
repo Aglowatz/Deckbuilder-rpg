@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_rgp6x"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_yljmq"]
+
+[resource]
+script = ExtResource("2_yljmq")
+id = "N-03"
+display_name = "Post-Human Resources Ghoul"
+color = 4
+generic_cost = 3
+colored_pips = Array[int]([4])
+attack = 2
+defense = 2
+rules_text = "When this unit enters, your opponent destroys a unit they control."
+flavor_text = "We're restructuring. You're the structure."
+paths_all = Array[int]([4])
+script_text = "enter => edict(opp)"
+rules_hash = "daf30642bb19"
+image_description = "A gaunt ghoul in a cardigan and lanyard sliding a single slip of paper across a desk toward a terrified creature, a box of belongings waiting beside it."

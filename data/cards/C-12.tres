@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_r51xx"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rtyek"]
+
+[resource]
+script = ExtResource("2_rtyek")
+id = "C-12"
+display_name = "Healing Potion"
+type = 5
+generic_cost = 1
+defense = 0
+rules_text = "Destroy this Tool: gain 4 HP."
+flavor_text = "Tastes like cherries and regret."
+script_text = "act | destroy_self => gain(me,4)"
+rules_hash = "000a5d7942c0"
+image_description = "A round glass bottle of glowing red potion with a cork and a handwritten label, bubbles rising inside it."

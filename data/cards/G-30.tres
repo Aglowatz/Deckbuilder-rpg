@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_lnirw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_e5cwm"]
+
+[resource]
+script = ExtResource("2_e5cwm")
+id = "G-30"
+display_name = "The Infinite Pantry"
+type = 4
+color = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 2])
+defense = 0
+rules_text = "Whenever you would create one or more Ingredients, create twice that many instead."
+rarity = 2
+flavor_text = "What about second breakfast?"
+paths_all = Array[int]([2])
+script_text = "static => flag(double_ingredients)"
+rules_hash = "1c040e6da9dd"
+image_description = "An impossibly deep pantry with shelves stretching into a glowing infinity, jars and cheeses multiplying as they float."

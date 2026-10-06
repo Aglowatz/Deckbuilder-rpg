@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_utin6"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_tp4ck"]
+
+[resource]
+script = ExtResource("2_tp4ck")
+id = "GN-11"
+display_name = "Reheated Leftovers"
+type = 2
+color = 2
+color2 = 4
+generic_cost = 3
+colored_pips = Array[int]([2, 4])
+defense = 0
+rules_text = "Reinstate target unit from your Refuse Pile. Create an Ingredient."
+rarity = 1
+flavor_text = "Tastes even better the second time around."
+paths_all = Array[int]([2, 4])
+script_text = "play t=refuse.unit.mine => reinstate(t); create(ingredient)"
+rules_hash = "ee3e89c86a03"
+image_description = "A creature climbing out of a steaming takeout container in a glowing ghostly microwave, looking refreshed."

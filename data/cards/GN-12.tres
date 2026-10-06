@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_b0m2f"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_5djxj"]
+
+[resource]
+script = ExtResource("2_5djxj")
+id = "GN-12"
+display_name = "Ghoul Sommelier"
+color = 2
+color2 = 4
+generic_cost = 3
+colored_pips = Array[int]([2, 4])
+attack = 3
+defense = 4
+keywords = Array[int]([0])
+rules_text = "Flying.
+
+Whenever a token you control dies, your opponent loses 1 HP and you create an Ingredient."
+rarity = 2
+flavor_text = "A bold vintage. Notes of oak, cherry, and the grave."
+paths_all = Array[int]([2, 4])
+script_text = "kw flying
+when(token_dies:mine) => lose(opp,1); create(ingredient)"
+rules_hash = "b569b8680fbe"
+image_description = "An elegant floating ghoul in a tuxedo swirling a glass of glowing wine, a tasting cup on a chain around its neck."

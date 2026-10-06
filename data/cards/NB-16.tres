@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ax5r0"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_o7enj"]
+
+[resource]
+script = ExtResource("2_o7enj")
+id = "NB-16"
+display_name = "Chancellor Clench, Iron Regent"
+color = 1
+color2 = 4
+generic_cost = 3
+colored_pips = Array[int]([4, 1])
+attack = 5
+defense = 5
+keywords = Array[int]([7])
+rules_text = "Overtime.
+
+Your Iron gives +2 attack instead of +1. Your Red Tape gives -2 attack instead of -1.
+
+At the start of your turn, create an Iron and a Red Tape."
+rarity = 3
+flavor_text = "Strength through order. Order through strength. Mostly through paperwork."
+paths_all = Array[int]([1, 4])
+script_text = "kw overtime
+static => flag(iron_plus_2); flag(red_tape_minus_2)
+sot => create(iron); create(redtape)"
+rules_hash = "857b82b77299"
+image_description = "A towering, stern ruler with a bodybuilder's physique stuffed into an immaculate official uniform, seated on a throne of stacked weights and filing cabinets, a gavel-dumbbell in hand."

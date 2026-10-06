@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_s6qj3"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_wipwi"]
+
+[resource]
+script = ExtResource("2_wipwi")
+id = "GRN-02"
+display_name = "Death Cap"
+type = 3
+color = 2
+color2 = 3
+generic_cost = 1
+colored_pips = Array[int]([2, 3, 4])
+defense = 0
+rules_text = "When an opposing unit enters, it gets -2/-2 permanently."
+rarity = 1
+flavor_text = "Do not eat. Seriously. The paperwork alone..."
+paths_all = Array[int]([2, 3, 4])
+script_text = "trap(unit_enters:opp) => pump(trig,-2,-2,perm)"
+rules_hash = "d1f21acd8865"
+image_description = "A beautiful but sinister pale mushroom with a skull-patterned cap, a creature sniffing it and immediately turning green."

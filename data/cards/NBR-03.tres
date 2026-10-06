@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_uy1n1"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_sjtb7"]
+
+[resource]
+script = ExtResource("2_sjtb7")
+id = "NBR-03"
+display_name = "Demolition Permit"
+type = 2
+color = 1
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([4, 1, 3])
+defense = 0
+rules_text = "Destroy target unit. Its controller creates a Garbage. You create an Iron and a Red Tape."
+rarity = 1
+flavor_text = "Approved, stamped, and swung."
+paths_all = Array[int]([1, 3, 4])
+script_text = "play t=unit => set(c,ctl(t)); destroy(t); create(garbage,1,$c); create(iron); create(redtape)"
+rules_hash = "6735404c8982"
+image_description = "A skeleton clerk stamping a permit as a Beefcake swings a sledgehammer at a creature, a raccoon waiting to collect the debris."

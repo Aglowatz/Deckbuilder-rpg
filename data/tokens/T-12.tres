@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qs7x2"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ya62e"]
+
+[resource]
+script = ExtResource("2_ya62e")
+id = "T-12"
+display_name = "Clause"
+type = 7
+defense = 0
+rules_text = "When drawn: Shred it; the player who created it creates a 2/2 Zombie Rat token."
+is_token = true
+not_in_packs = true
+script_text = "drawn => shred(self); create(T-11,1,creator)"
+rules_hash = "f1bc55851230"
+image_description = "A tiny glowing paragraph of fine print curled like a scroll."

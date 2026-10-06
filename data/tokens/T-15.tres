@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_77t3s"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_krywy"]
+
+[resource]
+script = ExtResource("2_krywy")
+id = "T-15"
+display_name = "Grandmaster Flex, the Unbroken"
+color = 1
+attack = 7
+defense = 7
+keywords = Array[int]([7, 12])
+rules_text = "Starts on the player's field during the House of Gains boss fight if the player rescued him in that dungeon run.
+
+Overtime. Unbreakable.
+
+At the start of your turn, other units you control get +1/+1 until end of turn."
+flavor_text = "True strength was never in the iron. It's in here. (And also, look at these.)"
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([1])
+script_text = "kw overtime,unbreakable
+sot => pump(all(unit.mine.other),1,1,eot)"
+rules_hash = "ae0a0e7bbd57"
+image_description = "A once-frail old Beefcake monk tearing away his ragged prison robes to reveal a massive, chiseled physique, glowing with calm inner light in a broken prison cell, chains snapping around him."

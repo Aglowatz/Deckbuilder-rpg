@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_gg0r1"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_p3uji"]
+
+[resource]
+script = ExtResource("2_p3uji")
+id = "NR-12"
+display_name = "Conscripted Constrictor"
+color = 3
+color2 = 4
+generic_cost = 4
+colored_pips = Array[int]([4, 3])
+attack = 6
+defense = 5
+rules_text = "Exhaust, eat garbage twice: destroy target unit."
+rarity = 2
+flavor_text = "I think it has a crush on you."
+paths_all = Array[int]([3, 4])
+script_text = "act t=unit | exhaust, eat(2) => destroy(t)"
+rules_hash = "4f77bd5861ad"
+image_description = "Giant skeletal snake coming out of a large trash pile and squeezing someone. Background is dark and eerie"

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_25axg"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_y08hy"]
+
+[resource]
+script = ExtResource("2_y08hy")
+id = "BR-13"
+display_name = "Trash Panda Powerlifter"
+color = 1
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([1, 3])
+attack = 3
+defense = 3
+rules_text = "Whenever you eat garbage, create an Iron.
+
+Use an Iron: this unit gets +2/+2 until end of turn."
+rarity = 2
+flavor_text = "Bench press: 400 pounds. Of pizza boxes."
+paths_all = Array[int]([1, 3])
+script_text = "when(eat:mine) => create(iron)
+act | use(iron) => pump(self,2,2,eot)"
+rules_hash = "195ccf5fdae9"
+image_description = "A ripped raccoon in a lifting singlet bench-pressing a bar loaded with stacked pizza boxes and tin cans."

@@ -457,15 +457,15 @@ func _hub_heal(zone: GainlandsScene) -> void:
 	if zone._overlay is VendorScreen:
 		await driver.click_button("Got it")
 		await _shot("f_33_beefcake_vendor")
-		var tile: Control = _find_meta_tile(zone._overlay, "card_id", "gym_rat")
+		var tile: Control = _find_meta_tile(zone._overlay, "card_id", "B-01")
 		_check(tile != null, "a Gym Rat is for sale")
-		var owned: int = Session.owned_count("gym_rat")
+		var owned: int = Session.owned_count("B-01")
 		if tile != null:
 			await driver.click(tile.get_global_rect().position + Vector2(60, 90))
 			await driver.seconds(0.3)
 			await driver.click_button("Buy")
 			await driver.seconds(0.4)
-		_check(Session.owned_count("gym_rat") == owned + 1, "buying adds the Beefcake card")
+		_check(Session.owned_count("B-01") == owned + 1, "buying adds the Beefcake card")
 		await driver.click_button("Leave")
 		await driver.seconds(0.3)
 
@@ -670,7 +670,7 @@ func _mini_dungeon(zone: GainlandsScene) -> GainlandsScene:
 		await _shot("f_53_back_from_the_iron_cavern")
 	_check(not Session.mini_active, "the mini dungeon run ended and returned to the zone")
 	if Session.flag(GainlandsZone.FLAG_MINI_CLEARED):
-		_check(Session.owned_count("iron_titan") == 1, "clearing it granted the unique Iron Titan card")
+		_check(Session.owned_count("B-05") == 1, "clearing it granted the unique Iron Titan card")
 	_note("mini dungeon: %d battle(s) fought, cleared=%s (a loss wakes you at the hub; the clear path is unit-tested)" % [battles, str(Session.flag(GainlandsZone.FLAG_MINI_CLEARED))])
 	return zone
 

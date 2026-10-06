@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_6uwwm"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_qgigs"]
+
+[resource]
+script = ExtResource("2_qgigs")
+id = "R-03"
+display_name = "Landfill Ox"
+color = 3
+generic_cost = 3
+colored_pips = Array[int]([3])
+attack = 2
+defense = 4
+rules_text = "Exhaust, eat garbage twice: add (R)(R)(R)(R)."
+flavor_text = "Not a beast of burden. A beast of garbage."
+paths_all = Array[int]([3])
+script_text = "act | exhaust, eat(2) => add(R,R,R,R)"
+rules_hash = "b118e2708c67"
+image_description = "A huge shaggy ox with moss growing on its horns, contentedly chewing a mouthful of tin cans and old newspapers, harnessed to a cart of glowing compost."

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_awo1x"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_re4ys"]
+
+[resource]
+script = ExtResource("2_re4ys")
+id = "T-11"
+display_name = "Zombie Rat"
+color = 4
+attack = 2
+defense = 2
+flavor_text = "Signed the clause. Kept the tail."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([4])
+rules_hash = "d41d8cd98f00"
+image_description = "An undead rat with stitched ears and a tiny ink-stained contract clutched in its paws."

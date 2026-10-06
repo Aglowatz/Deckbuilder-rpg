@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_eppwf"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_s75lc"]
+
+[resource]
+script = ExtResource("2_s75lc")
+id = "C-33"
+display_name = "Unstable Rift"
+type = 4
+generic_cost = 3
+defense = 0
+rules_text = "At the start of your turn, deal 2 damage to a random unit."
+rarity = 2
+flavor_text = "The kingdom is coming apart at the seams. Literally."
+script_text = "sot => damage(rand(unit),2)"
+rules_hash = "65bb8f8d40fd"
+image_description = "A jagged glowing tear in reality floating over a ruined street, crackling with chaotic magic and pulling debris into it."

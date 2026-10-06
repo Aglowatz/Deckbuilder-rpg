@@ -473,7 +473,7 @@ func test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer(
 		if info.kind == ZoneEnemyInfo.Kind.BATTLE:
 			assert_lt(info.chase_speed, ZoneEnemies.PLAYER_SPEED, "%s is slower than the player" % id)
 			assert_false(info.recipe.is_empty(), "%s has a Gourmand deck" % id)
-			assert_true(info.recipe.has("infrastructure:B"), "%s plays Gourmand infrastructure" % id)
+			assert_true(info.recipe.has("BAS-G"), "%s plays Gourmand infrastructure" % id)
 			slow_battle += 1
 		else:
 			assert_gt(info.chase_speed, ZoneEnemies.PLAYER_SPEED, "%s is faster than the player" % id)
@@ -498,7 +498,7 @@ func test_a_buffet_battle_uses_the_zone_hp_and_the_gourmand_deck() -> void:
 	var enemy_cards: Dictionary = {}
 	for card: CardData in deck.cards:
 		enemy_cards[card.id] = true
-	assert_true(enemy_cards.has("meatloaf_golem"), "the Meatloaf Golem plays Gourmand food golems")
+	assert_true(enemy_cards.has("G-02"), "the Meatloaf Golem plays Gourmand food golems")
 	context.won = true
 	context.gold_reward = 5
 	Session.resolve_zone_battle(context)
@@ -506,7 +506,7 @@ func test_a_buffet_battle_uses_the_zone_hp_and_the_gourmand_deck() -> void:
 
 
 func test_buffet_cards_equipment_and_items_exist() -> void:
-	for id: String in ZoneCards.BUFFET_VENDOR_IDS + ["tasting_menu", "cheese_wheel_golem", "buffet_colossus"]:
+	for id: String in ZoneCards.BUFFET_VENDOR_IDS + ["G-21", "G-29", "G-27"]:
 		assert_not_null(Session.content.card(id), "card %s exists" % id)
 		assert_eq(Session.content.card(id).color, Affinity.Type.GOURMAND)
 	var ladle: EquipmentData = Session.content.equipment_piece("head_chef_ladle")
@@ -517,7 +517,7 @@ func test_buffet_cards_equipment_and_items_exist() -> void:
 
 func test_mini_dungeon_is_three_battles_and_a_one_time_unique_gourmand_card() -> void:
 	assert_eq(def.mini.battles.size(), 3)
-	assert_eq(def.mini.reward_card_id, "buffet_colossus")
+	assert_eq(def.mini.reward_card_id, "G-27")
 	var map: DungeonMap = MiniDungeon.build_map(BuffetZone.ID)
 	var battles: int = 0
 	for node: DungeonMap.MapNode in map.nodes:
@@ -526,11 +526,11 @@ func test_mini_dungeon_is_three_battles_and_a_one_time_unique_gourmand_card() ->
 			var deck: Deck = ZoneDecks.from_recipe(Session.content, node.enemy_name, MiniDungeon.enemy_recipe(node.enemy_name, BuffetZone.ID))
 			assert_gt(deck.cards.size(), 20, "%s has a deck" % node.enemy_name)
 	assert_eq(battles, 3)
-	assert_eq(Session.owned_count("buffet_colossus"), 0)
+	assert_eq(Session.owned_count("G-27"), 0)
 	Session.resolve_mini_dungeon(true)
-	assert_eq(Session.owned_count("buffet_colossus"), 1, "the first clear grants the unique card")
+	assert_eq(Session.owned_count("G-27"), 1, "the first clear grants the unique card")
 	Session.resolve_mini_dungeon(true)
-	assert_eq(Session.owned_count("buffet_colossus"), 1, "...once")
+	assert_eq(Session.owned_count("G-27"), 1, "...once")
 
 
 # ---- Story ----------------------------------------------------------------------------------------------

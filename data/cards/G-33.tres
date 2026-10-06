@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ls7aa"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_u8sa5"]
+
+[resource]
+script = ExtResource("2_u8sa5")
+id = "G-33"
+display_name = "Grand Chef Escoffina"
+color = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 2])
+attack = 4
+defense = 6
+rules_text = "When this unit enters, create three Ingredients.
+
+Exhaust, use X Ingredients: create an X/X Golem token."
+rarity = 3
+flavor_text = "\"A kitchen is a kingdom. Feed it well and it will never fall.\""
+not_in_packs = true
+paths_all = Array[int]([2])
+script_text = "enter => create(ingredient,3)
+act | exhaust, use(ingredient,X) => create_x(T-08,X)"
+rules_hash = "9940d0bf585f"
+image_description = "A regal, warm-eyed master chef in an ornate golden chef's coat and towering toque, ladle raised like a scepter as golems of every food rise around her in a radiant kitchen-throne room."
+is_signature = true

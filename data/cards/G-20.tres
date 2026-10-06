@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_xoymt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_d0cok"]
+
+[resource]
+script = ExtResource("2_d0cok")
+id = "G-20"
+display_name = "Plate It"
+type = 2
+color = 2
+generic_cost = 3
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "Plate target unit (it becomes a 1/1 Snack token)."
+flavor_text = "Presentation is everything."
+paths_all = Array[int]([2])
+script_text = "play t=unit => plate(t)"
+rules_hash = "cf04f454212c"
+image_description = "A fearsome monster shrinking into an elegant bite-sized appetizer as a chef's tweezers place a microgreen on top."

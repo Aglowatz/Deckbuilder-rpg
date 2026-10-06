@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_lup04"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xkd4n"]
+
+[resource]
+script = ExtResource("2_xkd4n")
+id = "C-34"
+display_name = "The Harmony Engine"
+generic_cost = 6
+attack = 6
+defense = 6
+rules_text = "When this unit enters, create an Iron, a Red Tape, an Ingredient, and a Garbage."
+rarity = 3
+flavor_text = "Powered by four Paths. Built by all. Owned by none."
+script_text = "enter => create(iron); create(redtape); create(ingredient); create(garbage)"
+rules_hash = "a5ba256d3c63"
+image_description = "A colossal ancient machine-guardian built from Beefcake iron, Necrocrat stone, Gourmand copper, and Refusemancer vines, its four-colored core blazing to life."

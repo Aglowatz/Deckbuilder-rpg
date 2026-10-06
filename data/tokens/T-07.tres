@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_8iup1"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_yl83y"]
+
+[resource]
+script = ExtResource("2_yl83y")
+id = "T-07"
+display_name = "Wedding Cake Colossus"
+color = 2
+attack = 8
+defense = 8
+keywords = Array[int]([4])
+rules_text = "Bulldoze."
+flavor_text = "Till dessert do us part."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([2])
+script_text = "kw bulldoze"
+rules_hash = "872717e97967"
+image_description = "A towering multi-tiered wedding cake colossus with sugar-flower armor and a tiny bride-and-groom topper on its head like a crown."

@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_eqo6k"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cnqtg"]
+
+[resource]
+script = ExtResource("2_cnqtg")
+id = "C-26"
+display_name = "Adventurer's Pack"
+type = 5
+generic_cost = 2
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +1/+1.
+
+When attached unit dies, draw a card."
+rarity = 1
+flavor_text = "Rope, torch, snacks, regrets."
+script_text = "attach
+host => stat(1,1)
+when(attached_dies) => draw(1)"
+rules_hash = "330e985e90ff"
+image_description = "An overstuffed leather backpack with a rolled bedroll, dangling pots, a torch, and a rubber chicken poking out."

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_fscyv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_mvw8r"]
+
+[resource]
+script = ExtResource("2_mvw8r")
+id = "R-01"
+display_name = "Mulch Mole"
+color = 3
+colored_pips = Array[int]([3])
+defense = 2
+rules_text = "Exhaust: add (R)."
+flavor_text = "Digs it."
+paths_all = Array[int]([3])
+script_text = "act | exhaust => add(R)"
+rules_hash = "db62407c6624"
+image_description = "A chubby mole wearing tiny patched overalls and a leaf hat, popping out of a steaming compost heap and holding up a glowing seed, wildflowers sprouting around it."

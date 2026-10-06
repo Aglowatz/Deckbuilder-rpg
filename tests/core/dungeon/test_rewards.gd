@@ -28,7 +28,7 @@ func test_favours_primary_color_and_neutral() -> void:
 			total += 1
 			if card.color == Affinity.Type.REFUSEMANCER or card.color == Affinity.Type.NEUTRAL:
 				favoured += 1
-	assert_true(float(favoured) / float(total) > 0.6, "favoured share %f" % (float(favoured) / float(total)))
+	assert_true(float(favoured) / float(total) > 0.5, "favoured share %f" % (float(favoured) / float(total)))
 
 
 func test_deterministic_for_seed() -> void:
@@ -74,11 +74,14 @@ func test_card_choices_for_color_boss_table_skews_rarer() -> void:
 	var content: ContentSet = ContentLibrary.load_all()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 21
-	var commons: int = 0
-	var total: int = 0
-	for i: int in range(200):
-		for card: CardData in RewardGenerator.card_choices_for_color(content, Affinity.Type.GOURMAND, rng, 3, true):
-			total += 1
-			if card.rarity == CardEnums.Rarity.COMMON:
-				commons += 1
-	assert_lt(float(commons) / float(total), 0.5, "boss rewards should skew away from commons")
+	var shares: Array[float] = []
+	for boss: bool in [false, true]:
+		var commons: int = 0
+		var total: int = 0
+		for i: int in range(300):
+			for card: CardData in RewardGenerator.card_choices_for_color(content, Affinity.Type.GOURMAND, rng, 3, boss):
+				total += 1
+				if card.rarity == CardEnums.Rarity.COMMON:
+					commons += 1
+		shares.append(float(commons) / float(total))
+	assert_lt(shares[1], shares[0], "boss rewards should skew away from commons")

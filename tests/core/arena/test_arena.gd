@@ -131,18 +131,19 @@ func test_lethal_lunch_starts_on_the_preset_board() -> void:
 	assert_eq(game.turn, 1)
 	assert_eq(game.players[1].hp, 10)
 	assert_eq(game.players[0].infrastructure.size(), 4)
-	assert_eq(game.players[0].hand.size(), 3)
-	assert_not_null(_unit(game, 0, "raider"))
-	assert_not_null(_unit(game, 1, "sellsword"))
-	assert_false(_unit(game, 0, "raider").summoning_sick, "preset units are ready to attack")
+	assert_eq(game.players[0].hand.size(), 2)
+	assert_not_null(_unit(game, 0, "B-11"))
+	assert_not_null(_unit(game, 1, "C-02"))
+	assert_false(_unit(game, 0, "B-11").summoning_sick, "preset units are ready to attack")
 
 
 func test_lethal_lunch_has_a_win_this_turn_solution() -> void:
 	var game: GameState = _puzzle_game("arena_lethal_lunch")
-	var blocker: CardInstance = _unit(game, 1, "sellsword")
-	assert_true(game.play_card(0, _hand_card(game, "firebolt").uid, blocker.uid), "firebolt the only blocker")
-	assert_true(game.play_card(0, _hand_card(game, "warcry").uid), "pump the team")
-	var attackers: Array[int] = [_unit(game, 0, "raider").uid, _unit(game, 0, "beefcake_imp").uid]
+	var blocker: CardInstance = _unit(game, 1, "C-02")
+	assert_true(game.play_card(0, _hand_card(game, "B-21").uid), "Flex on 'Em: 4 damage with a 5-attack unit")
+	assert_eq(game.players[1].hp, 6)
+	assert_true(game.play_card(0, _hand_card(game, "B-03").uid, blocker.uid), "drop the weights on the only blocker")
+	var attackers: Array[int] = [_unit(game, 0, "B-11").uid, _unit(game, 0, "B-12").uid]
 	assert_true(game.advance_phase(), "to combat")
 	assert_true(game.declare_attackers(attackers))
 	if not game.is_over():
@@ -164,13 +165,13 @@ func test_lethal_lunch_is_lost_when_the_turn_ends_without_lethal() -> void:
 
 func test_zero_to_hero_solution_clears_both_blockers_then_pumps() -> void:
 	var game: GameState = _puzzle_game("arena_zero_to_hero")
-	var sellsword: CardInstance = _unit(game, 1, "sellsword")
-	var bat: CardInstance = _unit(game, 1, "cave_bat")
-	assert_true(game.play_card(0, _hand_card(game, "firebolt").uid, sellsword.uid))
-	assert_true(game.play_card(0, _hand_card(game, "rusty_curse").uid, bat.uid))
-	assert_true(game.play_card(0, _hand_card(game, "warcry").uid))
+	var brawler: CardInstance = _unit(game, 1, "C-06")
+	var militia: CardInstance = _unit(game, 1, "C-02")
+	assert_true(game.play_card(0, _hand_card(game, "B-03").uid, militia.uid), "weights on the militia")
+	assert_true(game.play_card(0, _hand_card(game, "B-15").uid), "play the Kettlebell")
+	assert_true(game.activate_ability(0, _unit(game, 0, "B-15").uid, 0, [brawler.uid] as Array[int]), "smash the brawler")
 	assert_true(game.advance_phase())
-	var attackers: Array[int] = [_unit(game, 0, "raider").uid, _unit(game, 0, "blade_dancer").uid, _unit(game, 0, "beefcake_imp").uid]
+	var attackers: Array[int] = [_unit(game, 0, "B-12").uid, _unit(game, 0, "B-11").uid, _unit(game, 0, "B-01").uid]
 	assert_true(game.declare_attackers(attackers))
 	if not game.is_over():
 		game.declare_blockers({})
@@ -180,9 +181,9 @@ func test_zero_to_hero_solution_clears_both_blockers_then_pumps() -> void:
 
 func test_zero_to_hero_cannot_be_won_by_skipping_the_blockers() -> void:
 	var game: GameState = _puzzle_game("arena_zero_to_hero")
-	assert_true(game.play_card(0, _hand_card(game, "warcry").uid))
+	assert_true(game.play_card(0, _hand_card(game, "B-03").uid))
 	assert_true(game.advance_phase())
-	var attackers: Array[int] = [_unit(game, 0, "raider").uid, _unit(game, 0, "blade_dancer").uid, _unit(game, 0, "beefcake_imp").uid]
+	var attackers: Array[int] = [_unit(game, 0, "B-12").uid, _unit(game, 0, "B-11").uid, _unit(game, 0, "B-01").uid]
 	game.declare_attackers(attackers)
 	if not game.is_over():
 		var blocks: Dictionary = AIPlayer.new(AIPersonality.balanced()).choose_blocks(game, 1)
@@ -232,7 +233,7 @@ func test_no_unit_casts_blocks_units_but_not_spells() -> void:
 	var encounter: ArenaEncounter = ArenaDefs.find("arena_spells_only")
 	var game: GameState = ArenaScenario.build_game(Session.content, encounter, Session.profile, Session.deck, 3)
 	var unit: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
-	var spell: CardInstance = GameFactory.add_to_hand(game, 0, Session.content.card("flame_burst"))
+	var spell: CardInstance = GameFactory.add_to_hand(game, 0, Session.content.card("B-21"))
 	GameFactory.add_infrastructure_cards(game, 0, 4, A)
 	while game.stage == GameState.Stage.MULLIGAN:
 		game.keep_hand(game.awaiting_player())

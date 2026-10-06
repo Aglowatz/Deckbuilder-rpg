@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_7wics"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ephir"]
+
+[resource]
+script = ExtResource("2_ephir")
+id = "NR-16"
+display_name = "Necro Rat, Chairman of the Sewer Board"
+color = 3
+color2 = 4
+generic_cost = 3
+colored_pips = Array[int]([4, 3])
+attack = 4
+defense = 4
+rules_text = "Rat tokens you control have Toxic.
+
+Destroy five Rat tokens you control: destroy target unit, and your opponent loses 5 HP."
+rarity = 3
+flavor_text = "Motion to devour. All in favor?"
+paths_all = Array[int]([3, 4])
+script_text = "aura(unit.mine.tok:T-02) => kw(toxic)
+act t=unit | destroy(unit.mine.tok:T-02,5) => destroy(t); lose(opp,5)"
+rules_hash = "9a9306bf4c98"
+image_description = "A tall, imposing figure with a human body in a tattered judge's robe and a sinister rat's head, presiding over a sewer boardroom of rats from a throne of trash."

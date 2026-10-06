@@ -13,7 +13,7 @@ const PRINTER_COST: int = 40
 const PRINTER_JAM_CHANCE: float = 0.2
 const PUNCH_IN_BONUS: int = 2
 const SUGGESTION_GOLD: int = 25
-const SUGGESTION_CARD: String = "overdue_intern"
+const SUGGESTION_CARD: String = "N-02"
 const SUGGESTION_SECRET: String = "dna_suggestion_box"
 
 

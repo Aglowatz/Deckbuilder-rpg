@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_rl3lq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_8ppnu"]
+
+[resource]
+script = ExtResource("2_8ppnu")
+id = "GB-15"
+display_name = "Protein Forge"
+type = 5
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "Exhaust, use two Ingredients and two Iron: create a 6/6 Protein Golem token with Hustle."
+rarity = 2
+flavor_text = "Forged in fire. Fortified with whey."
+paths_all = Array[int]([1, 2])
+script_text = "act | exhaust, use(ingredient,2), use(iron,2) => create(T-20)"
+rules_hash = "e2fe50321952"
+image_description = "A blazing forge shaped like a blender, molten protein shake pouring into a mold as a muscular golem takes shape."

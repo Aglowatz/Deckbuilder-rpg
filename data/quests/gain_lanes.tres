@@ -26,6 +26,6 @@ order = 230
 objectives = Array[ExtResource("1_x0ere")]([SubResource("Resource_b07rn")])
 reward_gold = 80
 reward_xp = 70
-reward_card_ids = Array[String](["leg_day"])
+reward_card_ids = Array[String](["B-12"])
 reward_equipment_ids = Array[String](["spotters_barbell"])
 reward_pack_ids = Array[String](["path_beefcake"])

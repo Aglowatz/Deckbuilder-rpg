@@ -7,7 +7,7 @@ extends RefCounted
 ## Text: data/story/gourmand_story.tres (`dungeon.tk_*`, `event.tk_*`, `cutscene.reveal.*`).
 
 const ZONE_ID: String = "gourmand"
-const REWARD_CARD_ID: String = "aurelio_the_true"
+const REWARD_CARD_ID: String = "G-33"
 
 
 static func build_def() -> MainDungeonDef:
@@ -18,13 +18,12 @@ static func build_def() -> MainDungeonDef:
 	def.reward_card_id = REWARD_CARD_ID
 	def.reward_gold = 220
 	def.reward_xp = 160
-	var B: String = "infrastructure:B"
-	def.add_foe("Corrupted Sous-Chef", 12, "Balanced", {B: 16, "breadstick_sentry": 4, "gravy_courier": 3, "soup_of_the_day": 2, "sellsword": 2}, "delapouite/chef-toque")
-	def.add_foe("Cold Storage Prototype", 13, "Defensive", {B: 16, "gelatin_sentinel": 4, "sneeze_guard": 3, "meatloaf_golem": 2, "food_fight": 1}, "delapouite/ice-golem")
-	def.add_foe("Experimental Food Construct", 18, "Aggressive", {B: 15, "meatloaf_golem": 4, "runaway_meatball": 3, "food_fight": 3, "souffle_sprite": 2, "tasting_menu": 1}, "delapouite/gingerbread-man")
-	def.add_foe("Special Sauce Vat Warden", 16, "Balanced", {B: 16, "gelatin_sentinel": 3, "sous_assist": 3, "gravy_courier": 3, "soup_of_the_day": 3, "cheese_wheel_golem": 1}, "lorc/bubbling-flask")
-	def.add_foe("Mk. IX Prototype", 22, "Aggressive", {B: 15, "meatloaf_golem": 4, "cheese_wheel_golem": 3, "runaway_meatball": 3, "food_fight": 3, "souffle_sprite": 3}, "delapouite/pirate-cannon")
-	def.add_foe("The False Aurelio", 28, "Balanced", {B: 16, "meatloaf_golem": 4, "cheese_wheel_golem": 3, "gelatin_sentinel": 3, "souffle_sprite": 3, "food_fight": 3, "tasting_menu": 2, "sous_assist": 2}, "delapouite/chef-toque")
+	def.add_foe("Corrupted Sous-Chef", 12, "Balanced", EnemyDecks.trimmed("gourmand_golems", 27, 16), "delapouite/chef-toque")
+	def.add_foe("Cold Storage Prototype", 13, "Defensive", EnemyDecks.trimmed("gourmand_control", 28, 16), "delapouite/ice-golem")
+	def.add_foe("Experimental Food Construct", 18, "Aggressive", EnemyDecks.trimmed("gourmand_golems", 30, 15), "delapouite/gingerbread-man")
+	def.add_foe("Special Sauce Vat Warden", 16, "Balanced", EnemyDecks.trimmed("gourmand_control", 31, 16), "lorc/bubbling-flask")
+	def.add_foe("Mk. IX Prototype", 22, "Aggressive", EnemyDecks.trimmed("gourmand_golems", 33, 15), "delapouite/pirate-cannon")
+	def.add_foe("The False Aurelio", 28, "Balanced", EnemyDecks.with_cards(EnemyDecks.recipe("gourmand_golems", 17), {"G-33": 1}), "delapouite/chef-toque")
 	var panel: ChallengeData = MainDungeonDef.make_challenge("tk_taste_panel", "The Taste Panel", "", ChallengeData.Kind.TOP_N_TYPE_COUNT, 4, 2)
 	panel.card_type = CardEnums.CardType.UNIT
 	panel.on_success = [_boon_outcome("Palate of the Panel", CardBuilder.modifier(Modifier.Kind.MAX_HP, 3), "Gain +3 max HP for the dungeon.")] as Array[ChallengeOutcome]

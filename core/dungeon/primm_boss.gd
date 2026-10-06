@@ -31,7 +31,7 @@ class Phase:
 	var key: String = ""
 	var hp: int = 28
 	var ai_name: String = "Balanced"
-	## "id or infrastructure:X -> copies"; empty when `mirror` (the player's deck is copied instead).
+	## "Card ID -> copies" (BAS-x are the basic Infrastructure); empty when `mirror` (the player's deck is copied instead).
 	var recipe: Dictionary = {}
 	var mirror: bool = false
 	var enemy_modifiers: Array[Modifier] = []
@@ -55,10 +55,7 @@ static func phase(index: int) -> Phase:
 		0:
 			made.hp = 30
 			made.ai_name = "Balanced"
-			made.recipe = {
-				"infrastructure:D": 8, "infrastructure:B": 8, "primm_perfect_citizen": 5, "primm_standard_issue": 4, "citation": 3,
-				"decree_of_order": 3, "compliance_officer": 3, "perfection_inspector": 2,
-			}
+			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 30, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), {"C-30": 1})
 			made.enemy_modifiers = [_mod(Modifier.Kind.STANDARDIZE_UNITS, STANDARD_ATTACK, "Standardization", STANDARD_DEFENSE)] as Array[Modifier]
 			made.player_modifiers = [_mod(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, SPELL_CAP, "Two Is the Perfect Number")] as Array[Modifier]
 		1:
@@ -69,10 +66,7 @@ static func phase(index: int) -> Phase:
 		_:
 			made.hp = 28
 			made.ai_name = "Aggressive"
-			made.recipe = {
-				"infrastructure:A": 4, "infrastructure:B": 4, "infrastructure:C": 4, "infrastructure:D": 4, "primm_correction": 4,
-				"primm_perfect_citizen": 4, "approved_gate_captain": 2, "decree_of_order": 4, "citation": 4, "hr_reaper": 2, "moss_titan": 2,
-			}
+			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT] as Array[Affinity.Type], 16), {"P4-03": 1, "P4-01": 1, "C-30": 2})
 			made.enemy_modifiers = [
 				_mod(Modifier.Kind.STAT_CHANGE, 1, "Everything He Cannot Control", 1),
 				_mod(Modifier.Kind.EXTRA_DRAWS, 1, "Panic"),

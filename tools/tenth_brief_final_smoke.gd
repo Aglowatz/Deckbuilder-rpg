@@ -264,7 +264,7 @@ func _flow_quest() -> void:
 	await _clear_overlays(zone)
 	_check(Session.quest_log.completed.has(CapitalZone.QUEST_BURIAL) or Session.completed_quests.has(CapitalZone.QUEST_BURIAL), "the quest completed")
 	_check(Session.gold > gold, "gold was rewarded")
-	_check(Session.owned_count("grandfather_marrow") > 0, "a card was rewarded")
+	_check(Session.owned_count("N-23") > 0, "a card was rewarded")
 	_check(Session.flag(CapitalZone.insight_flag("necrocrat")), "and a story insight into Primm")
 	await driver.tap_key(KEY_J)
 	await driver.seconds(0.8)
@@ -437,10 +437,10 @@ func _flow_postgame_deck() -> void:
 	var infrastructure: Array[CardData] = []
 	for infra: Variant in Session.content.infrastructure.values():
 		infrastructure.append(infra as CardData)
-	for id: String in ["frost_sentry", "mossback_bear", "grave_tender"]:
+	for id: String in ["G-01", "R-02", "N-03"]:
 		Session.add_cards([Session.card_by_id(id)] as Array[CardData])
 	var editor: DeckEditor = DeckEditor.from(Session.profile, Session.deck, infrastructure)
-	for id: String in ["frost_sentry", "mossback_bear", "grave_tender"]:
+	for id: String in ["G-01", "R-02", "N-03"]:
 		editor.add(Session.card_by_id(id))
 	_check(editor.deck.colors().size() >= 3, "a deck of %d Paths" % editor.deck.colors().size())
 	_check(not DeckValidator.has_problem(editor.issues(), DeckValidator.Problem.TOO_MANY_COLORS), "is legal after the postgame unlock")

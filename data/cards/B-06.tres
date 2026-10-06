@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_r1u7y"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ltuo6"]
+
+[resource]
+script = ExtResource("2_ltuo6")
+id = "B-06"
+display_name = "Portal Ripper"
+color = 1
+generic_cost = 2
+colored_pips = Array[int]([1])
+attack = 2
+defense = 2
+keywords = Array[int]([2])
+rules_text = "Hustle.
+
+When this unit enters, target unit can't block this turn."
+flavor_text = "Rips portals. Rips shirts. Same energy."
+paths_all = Array[int]([1])
+script_text = "kw hustle
+enter t=unit => cant_block(t,eot)"
+rules_hash = "3b42c56267e6"
+image_description = "A huge Beefcake tearing open a glowing swirling portal with his bare hands, his shirt also ripping apart from the effort."

@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_wg3ea"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xtuvj"]
+
+[resource]
+script = ExtResource("2_xtuvj")
+id = "GBN-08"
+display_name = "Baron Von Banquet, Host of the Last Gala"
+color = 1
+color2 = 2
+generic_cost = 4
+colored_pips = Array[int]([2, 1, 4])
+attack = 6
+defense = 6
+keywords = Array[int]([4])
+rules_text = "Bulldoze.
+
+When this unit enters, Reinstate up to two units from your Refuse Pile. They gain Hustle until end of turn.
+
+Whenever a unit you control attacks, create an Ingredient."
+rarity = 3
+flavor_text = "The party never ends. Neither do the guests."
+paths_all = Array[int]([1, 2, 4])
+script_text = "kw bulldoze
+enter => reinstate_up_to(2,refuse.unit.mine); kw_grant(last,hustle,eot)
+when(attacks:mine) => create(ingredient)"
+rules_hash = "245bb0954120"
+image_description = "A towering, muscular undead aristocrat in a velvet coat and monocle presiding over a lavish eternal feast, ghostly guests and golem waiters all around."

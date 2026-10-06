@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_7uday"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_qbvk5"]
+
+[resource]
+script = ExtResource("2_qbvk5")
+id = "INF-01"
+display_name = "Hamster Wheel Power Plant"
+type = 0
+color = 1
+defense = 0
+rules_text = "Exhaust: add (B).
+
+Overexert: add (B)(B)."
+rarity = 1
+flavor_text = "Clean energy. Sweaty, but clean."
+paths_all = Array[int]([1])
+script_text = "produce B
+act | overexert => add(B,B)"
+rules_hash = "e9828fe3401b"
+image_description = "A towering wooden power plant built around a colossal hamster wheel, a Beefcake sprinting inside it as sparks crackle along copper lines to a glowing village."

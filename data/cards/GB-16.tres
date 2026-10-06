@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_3b6qu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_5vd1c"]
+
+[resource]
+script = ExtResource("2_5vd1c")
+id = "GB-16"
+display_name = "GLP-100"
+type = 5
+color = 1
+color2 = 2
+generic_cost = 1
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "Destroy this Tool: target unit gets +10 attack and its defense becomes 1."
+rarity = 3
+flavor_text = "Results not typical. Side effects very typical."
+paths_all = Array[int]([1, 2])
+script_text = "act t=unit | destroy_self => pump(t,10,0,perm); set_def(t,1)"
+rules_hash = "4819315b80cb"
+image_description = "A glowing injector pen on a pedestal; behind it, a Beefcake with an enormous upper body, tiny skinny legs, and a wobbly neck stares at his reflection in shock."

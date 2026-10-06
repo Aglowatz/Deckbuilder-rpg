@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_j3l60"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_7foss"]
+
+[resource]
+script = ExtResource("2_7foss")
+id = "BR-11"
+display_name = "Stampede"
+type = 2
+color = 1
+color2 = 3
+generic_cost = 3
+colored_pips = Array[int]([1, 3])
+defense = 0
+rules_text = "Units you control get +2/+0 and Bulldoze until end of turn."
+rarity = 1
+flavor_text = "Goats. Rats. Beefcakes. Nobody knows who started it."
+paths_all = Array[int]([1, 3])
+script_text = "play => pump(all(unit.mine),2,0,eot); kw_grant(all(unit.mine),bulldoze,eot)"
+rules_hash = "e2b04fb2faa9"
+image_description = "A chaotic charge of goats, rats, oxen, and Beefcakes thundering across a junkyard in a cloud of dust and flying scraps."

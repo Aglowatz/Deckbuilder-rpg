@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_sd7dq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_uycml"]
+
+[resource]
+script = ExtResource("2_uycml")
+id = "G-26"
+display_name = "Banquet Hall"
+type = 4
+color = 2
+generic_cost = 3
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "Whenever you create a Golem token, gain 2 HP and Peek 1."
+rarity = 1
+flavor_text = "Seating for three hundred. Golems stand."
+paths_all = Array[int]([2])
+script_text = "when(golem_created:mine) => gain(me,2); peek(1)"
+rules_hash = "78942187aeb1"
+image_description = "A grand banquet hall with chandeliers and a long feast table, food golems standing at attention as waiters around the table."

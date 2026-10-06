@@ -12,14 +12,13 @@ func test_basic_infrastructure_is_named_and_worded_with_the_new_terms() -> void:
 	var infra: CardData = CardBuilder.infra(Affinity.Type.BEEFCAKE)
 	assert_true(infra.is_infrastructure())
 	assert_true(infra.is_unlimited())
-	assert_eq(infra.id, "infrastructure_beefcake")
 	assert_true(infra.display_name.ends_with("Infrastructure"))
 	for content_infra: Variant in Session.content.infrastructure.values():
 		var card: CardData = content_infra as CardData
 		if card.color == Affinity.Type.NEUTRAL:
 			continue
-		assert_true(card.rules_text.begins_with("Activate:"), "%s tells the player to activate it" % card.id)
-		assert_true(card.rules_text.contains("energy"), "%s makes energy" % card.id)
+		assert_true(card.rules_text.contains("Exhaust: add"), "%s tells the player to activate it" % card.id)
+		assert_true(card.rules_text.contains("add ("), "%s makes energy" % card.id)
 		assert_false(card.rules_text.to_lower().contains("mana"))
 
 

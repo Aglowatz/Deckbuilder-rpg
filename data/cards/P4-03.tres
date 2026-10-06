@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_umpvo"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_bbw2p"]
+
+[resource]
+script = ExtResource("2_bbw2p")
+id = "P4-03"
+display_name = "Mr. Tiggle, Rules Lawyer"
+color = 1
+color2 = 2
+colored_pips = Array[int]([1, 2, 4, 3])
+attack = 2
+defense = 4
+keywords = Array[int]([11])
+rules_text = "Untouchable.
+
+Cards your opponent plays cost 1 more for each other card they've played this turn.
+
+You may play an additional Infrastructure each turn."
+rarity = 3
+flavor_text = "Section 4, subsection 9, paragraph C: I win."
+paths_all = Array[int]([1, 2, 3, 4])
+script_text = "kw untouchable
+static => cost_plus(opp,any,played(opp)); flag(extra_infra_drop)"
+rules_hash = "1ba2cf32f7ca"
+image_description = "A tiny, very serious cat in a powdered wig and spectacles standing on a stack of rulebooks, pointing a paw at a page as larger creatures look baffled."

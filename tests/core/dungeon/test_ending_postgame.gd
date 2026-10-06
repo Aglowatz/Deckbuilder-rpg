@@ -95,13 +95,13 @@ func test_the_deck_editor_allows_a_third_path_after_the_unlock() -> void:
 	var waiver: ModifierSet = ModifierSet.new()
 	waiver.add_source(TrialOfTheHollow.deck_size_waiver())
 	var editor: DeckEditor = DeckEditor.from(Session.profile, CampaignStart.starter_deck(Session.content, Affinity.Type.BEEFCAKE), infrastructure, waiver)
-	Session.profile.owned_cards.append(Session.content.card("frost_sentry"))
-	Session.profile.owned_cards.append(Session.content.card("mossback_bear"))
-	assert_true(editor.add(Session.content.card("frost_sentry")), "a second Path is fine")
-	assert_ne(editor.why_not_add(Session.content.card("mossback_bear")), "", "a third Path is refused before Primm falls")
+	Session.profile.owned_cards.append(Session.content.card("G-01"))
+	Session.profile.owned_cards.append(Session.content.card("R-02"))
+	assert_true(editor.add(Session.content.card("G-01")), "a second Path is fine")
+	assert_ne(editor.why_not_add(Session.content.card("R-02")), "", "a third Path is refused before Primm falls")
 	Session.unlock_postgame()
-	assert_eq(editor.why_not_add(Session.content.card("mossback_bear")), "", "legal after the postgame unlock")
-	assert_true(editor.add(Session.content.card("mossback_bear")))
+	assert_eq(editor.why_not_add(Session.content.card("R-02")), "", "legal after the postgame unlock")
+	assert_true(editor.add(Session.content.card("R-02")))
 	assert_eq(editor.deck.colors().size(), 3, "a 3-Path deck")
 
 
@@ -111,7 +111,7 @@ func test_the_alchemists_tri_path_hook_opens() -> void:
 	Session.unlock_postgame()
 	assert_true(Alchemy.tri_path_unlocked(Session.profile))
 	assert_eq(Alchemy.max_craft_paths(Session.profile), 3)
-	assert_eq(Alchemy.tri_path_cards(Session.content, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER] as Array[Affinity.Type]).size(), 0, "no tri-Path cards yet")
+	assert_gt(Alchemy.tri_path_cards(Session.content, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER] as Array[Affinity.Type]).size(), 0, "the Beefcake/Gourmand/Refusemancer tri-Path cards exist")
 
 
 func test_the_postgame_unlock_is_saved() -> void:

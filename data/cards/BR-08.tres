@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ylxow"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_r8wtk"]
+
+[resource]
+script = ExtResource("2_r8wtk")
+id = "BR-08"
+display_name = "Swole Revenge"
+type = 3
+color = 1
+color2 = 3
+colored_pips = Array[int]([1, 3])
+defense = 0
+rules_text = "When a unit you control dies, put two buffs on target unit you control."
+rarity = 1
+flavor_text = "Do it for Steve."
+paths_all = Array[int]([1, 3])
+script_text = "trap(unit_dies:mine) t=unit.mine => buff(t,2)"
+rules_hash = "f4744073c013"
+image_description = "A grieving Beefcake and a druid side by side, both swelling with glowing rage-muscle as they glare at an enemy."

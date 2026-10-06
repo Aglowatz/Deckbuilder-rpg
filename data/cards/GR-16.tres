@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_3j6jn"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_sw5sc"]
+
+[resource]
+script = ExtResource("2_sw5sc")
+id = "GR-16"
+display_name = "Ratatouille, Rodent de Cuisine"
+color = 2
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([2, 3])
+attack = 2
+defense = 3
+rules_text = "Rat tokens you control get +1/+1.
+
+Exhaust, destroy two Rat tokens you control, use two Ingredients: create a 6/6 Chef's Masterpiece Golem token with Nourish."
+rarity = 3
+flavor_text = "Anyone can cook. Even the ones you chase out of the kitchen."
+paths_all = Array[int]([2, 3])
+script_text = "aura(unit.mine.tok:T-02) => stat(1,1)
+act | exhaust, destroy(unit.mine.tok:T-02,2), use(ingredient,2) => create(T-18)"
+rules_hash = "01c2d6dc215b"
+image_description = "A tiny, proud rat in a perfectly fitted chef's coat and toque, standing on a cutting board and directing a team of rats cooking a glorious stew."

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_unmv0"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xxooy"]
+
+[resource]
+script = ExtResource("2_xxooy")
+id = "T-04"
+display_name = "Goat"
+color = 3
+attack = 1
+flavor_text = "Small. Hungry. Unstoppable."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([3])
+rules_hash = "d41d8cd98f00"
+image_description = "A tiny wide-eyed kid goat chewing on a tin can, standing proudly on a pile of junk."

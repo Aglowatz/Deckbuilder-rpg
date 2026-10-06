@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_t5wek"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_d3ond"]
+
+[resource]
+script = ExtResource("2_d3ond")
+id = "C-30"
+display_name = "Royal Audit"
+type = 2
+generic_cost = 5
+defense = 0
+rules_text = "Shred target unit or Wonder."
+rarity = 2
+flavor_text = "\"Imperfections will be removed. Kindly.\" - Primm"
+script_text = "play t=unit|wonder => shred(t)"
+rules_hash = "25bf26430b99"
+image_description = "A pristine royal seal descending from the sky like a stamp onto a creature, which dissolves into neat little squares of light."

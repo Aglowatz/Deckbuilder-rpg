@@ -61,9 +61,9 @@ const PIE_ITEM_ID: String = "hearty_pie"
 const CHEST_REWARDS: Dictionary = {
 	"chest_loaf": {"gold": 40, "item": "", "card": ""},
 	"chest_butte": {"gold": 20, "item": "healing_salve", "card": ""},
-	"chest_candy": {"gold": 0, "item": "", "card": "tasting_menu"},
+	"chest_candy": {"gold": 0, "item": "", "card": "G-21"},
 	"chest_salt": {"gold": 30, "item": "scroll_of_insight", "card": ""},
-	"chest_cheddar": {"gold": 20, "item": "", "card": "cheese_wheel_golem"},
+	"chest_cheddar": {"gold": 20, "item": "", "card": "G-28"},
 	"chest_wheel": {"gold": 60, "item": "healing_draught", "card": ""},
 	"chest_pancake": {"gold": 50, "item": "vitality_charm", "card": ""},
 	"chest_cake": {"gold": 90, "item": "firebrand_charm", "card": ""},
@@ -163,14 +163,14 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	mini.dungeon_name = "The Walk-In Freezer: Three Courses"
 	mini.start_title = "Cold Open"
 	mini.start_blurb = "A heavy steel door, a puff of frost, and a sign that says 'Please do not lock yourself in.' Somebody has already done that."
-	mini.reward_card_id = "buffet_colossus"
+	mini.reward_card_id = "G-27"
 	mini.battles = [
 		_battle("Appetizer: Cold Cuts", "A tray of very opinionated deli meat guards the first shelf.", "Cold Cut Colossus", 12, "Balanced", false,
-			{"infrastructure:B": 15, "breadstick_sentry": 4, "gravy_courier": 3, "soup_of_the_day": 2, "food_fight": 1}),
+			EnemyDecks.trimmed("gourmand_golems", 27, 15)),
 		_battle("Main Course: Frozen Dinner", "The Frozen Dinner has been in here since 1994. It has had a lot of time to think.", "Frozen Dinner Golem", 14, "Defensive", false,
-			{"infrastructure:B": 15, "meatloaf_golem": 3, "gelatin_sentinel": 3, "sneeze_guard": 2, "sous_assist": 2}),
+			EnemyDecks.trimmed("gourmand_control", 28, 15)),
 		_battle("Dessert: Baked Alaska", "The Baked Alaska is hot on the outside, cold on the inside, and furious all the way through.", "Baked Alaska Beast", 18, "Aggressive", true,
-			{"infrastructure:B": 16, "souffle_sprite": 3, "runaway_meatball": 3, "food_fight": 3, "meatloaf_golem": 2, "tasting_menu": 1}),
+			EnemyDecks.with_cards(EnemyDecks.trimmed("gourmand_golems", 31, 16), {"G-27": 1})),
 	]
 	return mini
 

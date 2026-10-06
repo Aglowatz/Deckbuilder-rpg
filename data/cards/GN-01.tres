@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_owbc7"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_kx1v7"]
+
+[resource]
+script = ExtResource("2_kx1v7")
+id = "GN-01"
+display_name = "Sous Boo"
+color = 2
+color2 = 4
+colored_pips = Array[int]([4])
+attack = 2
+defense = 2
+keywords = Array[int]([10])
+rules_text = "As an additional cost to play this, use an Ingredient.
+
+Elusive."
+rarity = 1
+flavor_text = "He loves the food... maybe a little too much."
+paths_all = Array[int]([2, 4])
+script_text = "kw elusive
+playcost | use(ingredient)"
+rules_hash = "4b1ed6a7b2f7"
+image_description = "A little adorable ghost chef in a tiny toque, floating dreamily over a steaming dish and gazing at it with heart-shaped eyes, as if in love."

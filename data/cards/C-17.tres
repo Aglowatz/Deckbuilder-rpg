@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_85w2q"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_8dld8"]
+
+[resource]
+script = ExtResource("2_8dld8")
+id = "C-17"
+display_name = "Ambush Party"
+type = 3
+generic_cost = 2
+defense = 0
+rules_text = "When an opposing unit attacks, create two 1/1 Militia tokens."
+flavor_text = "Surprise! (The party was a trap.)"
+script_text = "trap(attacks:opp) => create(T-16,2)"
+rules_hash = "cd538d7006ea"
+image_description = "Two villagers leaping out of a giant party cake and a hay bale with pitchforks raised, streamers flying."

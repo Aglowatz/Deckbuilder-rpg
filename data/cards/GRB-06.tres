@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_i46ys"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rbjje"]
+
+[resource]
+script = ExtResource("2_rbjje")
+id = "GRB-06"
+display_name = "Strongman Sledge"
+type = 5
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 3, 1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +3/+1 and Bulldoze.
+
+Whenever attached unit deals combat damage to an opponent, create an Ingredient, a Garbage, and an Iron."
+rarity = 2
+flavor_text = "Pull it. Push it. Eat off it."
+paths_all = Array[int]([1, 2, 3])
+script_text = "attach
+host => stat(3,1); kw(bulldoze)
+when(attached_dmg_opp) => create(ingredient); create(garbage); create(iron)"
+rules_hash = "fc4f07c9b14e"
+image_description = "A massive wooden sledge loaded with scrap, pumpkins, and a cooking pot, a Beefcake dragging it by chains across a fairground."

@@ -17,7 +17,7 @@ static func all() -> Array[Dictionary]:
 	return [
 		{"id": "out_a", "x": 30.0, "z": 78.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 70, "item": "healing_draught"}},
 		{"id": "out_b", "x": 92.0, "z": 74.0, "radius": 2.4, "big": false, "sealable": false, "reward": {}},
-		{"id": "reek", "x": 22.0, "z": 51.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "card": "recycle_bin"}},
+		{"id": "reek", "x": 22.0, "z": 51.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "card": "R-26"}},
 		{"id": "grave", "x": 20.0, "z": 25.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "item": "grave_dust"}},
 		{"id": "transit", "x": 105.0, "z": 47.0, "radius": 3.2, "big": true, "sealable": false, "reward": {}},
 		{"id": "hungry", "x": 106.0, "z": 27.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "item": "hearty_pie"}},

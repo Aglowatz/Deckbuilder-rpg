@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_xxp3p"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_smt6i"]
+
+[resource]
+script = ExtResource("2_smt6i")
+id = "RES-GARBAGE"
+display_name = "Garbage"
+type = 6
+color = 3
+defense = 0
+rules_text = "Does nothing on its own. Spent by Refusemancer cards (Eat Garbage)."
+is_token = true
+not_in_packs = true
+paths_all = Array[int]([3])
+resource_kind = 4
+rules_hash = "9901667e41cd"

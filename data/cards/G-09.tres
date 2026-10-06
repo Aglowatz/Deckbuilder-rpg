@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_yy7r6"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_w0ev6"]
+
+[resource]
+script = ExtResource("2_w0ev6")
+id = "G-09"
+display_name = "Kitchen Porter"
+color = 2
+colored_pips = Array[int]([2])
+attack = 1
+defense = 2
+rules_text = "When this unit dies, create two Ingredients."
+flavor_text = "Dishes don't wash themselves. Well, they do now."
+paths_all = Array[int]([2])
+script_text = "die => create(ingredient,2)"
+rules_hash = "1a9b458ab403"
+image_description = "A tired kitchen porter buried up to the shoulders in a mountain of soapy pots and pans, bubbles floating up around him."

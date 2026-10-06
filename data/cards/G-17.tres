@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_13k2v"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ics8u"]
+
+[resource]
+script = ExtResource("2_ics8u")
+id = "G-17"
+display_name = "Sent Back to the Kitchen"
+type = 3
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "When an opposing unit attacks, send it back to its owner's hand."
+flavor_text = "We don't serve your kind. Or anyone, really."
+paths_all = Array[int]([2])
+script_text = "trap(attacks:opp) => send_back(trig)"
+rules_hash = "0d038e1b9a07"
+image_description = "A furious head chef flinging a swinging kitchen door open as an attacking creature is swept back out by a whirlwind of flying plates."

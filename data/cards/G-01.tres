@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_776xp"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_hv6g1"]
+
+[resource]
+script = ExtResource("2_hv6g1")
+id = "G-01"
+display_name = "Line Cook"
+color = 2
+colored_pips = Array[int]([2])
+attack = 1
+rules_text = "When this unit enters, create an Ingredient."
+flavor_text = "\"Yes, Chef!\" (He has no idea what Chef said.)"
+paths_all = Array[int]([2])
+script_text = "enter => create(ingredient)"
+rules_hash = "b00e3d2080c9"
+image_description = "A frazzled young cook in an oversized chef's hat juggling carrots, onions, and an egg mid-air in a gleaming copper kitchen, steam everywhere."

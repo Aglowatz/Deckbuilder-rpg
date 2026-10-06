@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_32bq4"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_vjnjn"]
+
+[resource]
+script = ExtResource("2_vjnjn")
+id = "N-29"
+display_name = "Mass Layoffs"
+type = 2
+color = 4
+generic_cost = 4
+colored_pips = Array[int]([4, 4])
+defense = 0
+rules_text = "Destroy all units. Create a Red Tape for each unit destroyed this way."
+rarity = 2
+flavor_text = "It's not personal. It's every person."
+not_in_packs = true
+paths_all = Array[int]([4])
+script_text = "play => destroy(all(unit)); create(redtape,$destroyed)"
+rules_hash = "438e87039a91"
+image_description = "A huge stamp slamming down on an office floor, sending a shockwave of pink slips through a crowd of units who all fade into smoke."

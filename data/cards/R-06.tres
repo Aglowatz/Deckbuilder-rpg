@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_5r4c5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_v2v3w"]
+
+[resource]
+script = ExtResource("2_v2v3w")
+id = "R-06"
+display_name = "Curbside Rat"
+color = 3
+colored_pips = Array[int]([3])
+attack = 1
+rules_text = "When this unit enters, create a Garbage."
+flavor_text = "Takes one to make one."
+paths_all = Array[int]([3])
+script_text = "enter => create(garbage)"
+rules_hash = "bc0742f70501"
+image_description = "A street-smart rat wearing a bottle-cap helmet, dragging a banana peel twice its size down a mossy cobbled alley."

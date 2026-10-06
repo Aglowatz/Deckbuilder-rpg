@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_4fxuu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_5584r"]
+
+[resource]
+script = ExtResource("2_5584r")
+id = "GR-14"
+display_name = "Today's Special"
+type = 3
+color = 2
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([2, 3])
+defense = 0
+rules_text = "When an opposing unit attacks, Plate it and create a Garbage."
+rarity = 2
+flavor_text = "Tonight's special: whatever just attacked us."
+paths_all = Array[int]([2, 3])
+script_text = "trap(attacks:opp) => plate(trig); create(garbage)"
+rules_hash = "1036073a183c"
+image_description = "A charging monster transformed into a fancy appetizer on a trash-can-lid platter, a chef and a raccoon bowing together."

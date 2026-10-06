@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_5yefn"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3evno"]
+
+[resource]
+script = ExtResource("2_3evno")
+id = "GR-06"
+display_name = "Leftovers"
+type = 3
+color = 2
+color2 = 3
+colored_pips = Array[int]([2, 3])
+defense = 0
+rules_text = "When a unit you control dies, create a Garbage and an Ingredient."
+rarity = 1
+flavor_text = "Waste not."
+paths_all = Array[int]([2, 3])
+script_text = "trap(unit_dies:mine) => create(garbage); create(ingredient)"
+rules_hash = "c8f904fb6459"
+image_description = "A cozy container of leftovers glowing on a windowsill, a raccoon and a chef both reaching for it at the same time."

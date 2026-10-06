@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_xf08g"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_vwb5t"]
+
+[resource]
+script = ExtResource("2_vwb5t")
+id = "GR-02"
+display_name = "Freegan Forager"
+color = 2
+color2 = 3
+generic_cost = 1
+colored_pips = Array[int]([2, 3])
+attack = 2
+defense = 3
+rules_text = "Exhaust, eat garbage: create an Ingredient and gain 2 HP."
+rarity = 1
+flavor_text = "Best-before dates are a social construct."
+paths_all = Array[int]([2, 3])
+script_text = "act | exhaust, eat => create(ingredient); gain(me,2)"
+rules_hash = "13bf1bebf2ca"
+image_description = "A resourceful forager in a patched apron gleefully pulling a perfect-looking cake out of a dumpster, a raccoon nodding approvingly."

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_j7n12"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_t5phr"]
+
+[resource]
+script = ExtResource("2_t5phr")
+id = "B-13"
+display_name = "Hulking Hauler"
+color = 1
+generic_cost = 5
+colored_pips = Array[int]([1])
+attack = 6
+defense = 5
+keywords = Array[int]([2])
+rules_text = "Hustle."
+flavor_text = "Transportation? He IS the transportation."
+paths_all = Array[int]([1])
+script_text = "kw hustle"
+rules_hash = "a866391f7101"
+image_description = "An enormous Beefcake carrying an entire wagon full of passengers on his back while running along a dirt road, dust billowing behind."

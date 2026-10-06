@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_6wet4"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_b3jhk"]
+
+[resource]
+script = ExtResource("2_b3jhk")
+id = "G-29"
+display_name = "Head Health Inspector"
+color = 2
+generic_cost = 4
+colored_pips = Array[int]([2, 2])
+attack = 3
+defense = 6
+rules_text = "When this unit enters, send all other units back to their owners' hands."
+rarity = 2
+flavor_text = "\"Everybody out. NOW.\""
+paths_all = Array[int]([2])
+script_text = "enter => send_back(all(unit.other))"
+rules_hash = "b945c91069ce"
+image_description = "A towering, stern inspector in a spotless coat blowing a whistle as chefs, golems, and monsters all scramble out of a kitchen in a panic."

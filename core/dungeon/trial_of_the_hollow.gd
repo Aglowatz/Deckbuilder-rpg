@@ -91,50 +91,26 @@ static func _node(map: DungeonMap, kind: DungeonMap.Kind, title: String, blurb: 
 	return map.add_node(map_node)
 
 
-## Enemy deck recipes: card id (or "infrastructure:<A|B|C|D>") -> copies.
+## Enemy deck recipes: Card ID -> copies (BAS-x are the basic Infrastructure).
 static func enemy_recipe(enemy_name: String) -> Dictionary:
 	# Tutorial-weak (Part D): the two non-boss opponents use only low-stat vanilla units
 	# (including 1-cost ones, same as the player's own starter) - no removal spells, no card-draw,
 	# nothing that generates card advantage - and are thinner on threats/heavier on infrastructure than a
 	# normal deck, so a beginner's deck can beat them reliably (docs/balance_report.md tracks the
-	# win rate). The boss is allowed real removal/value (soul_drain, necromancer) and a bigger
+	# win rate). The boss is allowed real removal/value (Pink Slip, Skeleton Clerks) and a bigger
 	# body or two - stronger, but still tuned to keep the whole dungeon's win rate above target.
 	match enemy_name:
 		"Cave Scavenger":
-			return {
-				"infrastructure:A": 17, "apprentice_blade": 1, "sellsword": 3, "cave_bat": 3, "stone_sentinel": 2,
-			}
+			return {"BAS-B": 17, "C-01": 4, "C-02": 3, "C-03": 2, "C-04": 2, "C-06": 1}
 		"Hollow Stalker":
-			return {
-				"infrastructure:C": 11, "infrastructure:B": 8, "apprentice_blade": 1, "sellsword": 2, "cave_bat": 2,
-				"mossback_bear": 2, "frost_sentry": 1,
-			}
+			return {"BAS-R": 11, "BAS-G": 8, "C-01": 3, "C-02": 3, "C-03": 2, "C-04": 2, "C-05": 1, "C-07": 1}
 		"Hollow Warden":
-			return {
-				"infrastructure:D": 12, "infrastructure:C": 10, "bone_servant": 1, "grave_tender": 1,
-				"bloodthirst_wolf": 1, "necromancer": 1, "mossback_bear": 1, "rampaging_boar": 1,
-			}
+			return {"BAS-N": 12, "BAS-R": 10, "C-02": 3, "C-06": 2, "C-08": 2, "C-09": 1, "N-01": 2, "N-02": 2, "N-15": 1}
 	return {}
 
 
 static func enemy_deck(content: ContentSet, enemy_name: String) -> Deck:
-	var deck: Deck = Deck.new()
-	deck.deck_name = enemy_name
-	var recipe: Dictionary = enemy_recipe(enemy_name)
-	for key: Variant in recipe.keys():
-		var id: String = str(key)
-		var card: CardData = null
-		if id.begins_with("infrastructure:"):
-			var color: Affinity.Type = ["", "A", "B", "C", "D"].find(id.substr(15)) as Affinity.Type
-			card = content.infrastructure[int(color)] as CardData
-		else:
-			card = content.card(id)
-		if card == null:
-			push_warning("TrialOfTheHollow: unknown card %s" % id)
-			continue
-		for i: int in range(int(recipe[key])):
-			deck.cards.append(card)
-	return deck
+	return ZoneDecks.from_recipe(content, enemy_name, enemy_recipe(enemy_name))
 
 
 static func personality(content: ContentSet, ai_name: String) -> AIPersonality:

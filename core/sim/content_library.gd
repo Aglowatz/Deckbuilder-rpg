@@ -3,36 +3,25 @@ extends RefCounted
 ## Loads the generated .tres content from data/ into a ContentSet.
 
 const CARD_DIR: String = "res://data/cards/"
+const TOKEN_DIR: String = "res://data/tokens/"
 const DECK_DIR: String = "res://data/decks/"
 const CHALLENGE_DIR: String = "res://data/encounters/challenges/"
 const AI_DIR: String = "res://data/ai/"
 const EQUIPMENT_DIR: String = "res://data/equipment/"
 const ITEM_DIR: String = "res://data/items/"
-const ZONE_CARD_DIR: String = "res://data/cards/zone/"
-const MULTIPATH_CARD_DIR: String = "res://data/cards/multipath/"
 const ZONE_EQUIPMENT_DIR: String = "res://data/equipment/zone/"
 
 
 static func load_all() -> ContentSet:
 	var content: ContentSet = ContentSet.new()
-	for path: String in _tres_files(CARD_DIR):
-		var card: CardData = load(path) as CardData
-		if card == null:
-			continue
-		if card.is_token:
-			content.tokens[card.id] = card
-		elif card.is_infrastructure():
-			content.infrastructure[int(card.color)] = card
-		else:
-			content.cards[card.id] = card
-	for path: String in _tres_files(ZONE_CARD_DIR):
-		var zone_card: CardData = load(path) as CardData
-		if zone_card != null:
-			content.zone_cards[zone_card.id] = zone_card
-	for path: String in _tres_files(MULTIPATH_CARD_DIR):
-		var multipath_card: CardData = load(path) as CardData
-		if multipath_card != null:
-			content.multipath_cards[multipath_card.id] = multipath_card
+	for dir_path: String in [CARD_DIR, TOKEN_DIR]:
+		for path: String in _tres_files(dir_path):
+			var card: CardData = load(path) as CardData
+			if card == null:
+				continue
+			content.index_card(card)
+			if card.is_token:
+				TokenRegistry.register(card)
 	for path: String in _tres_files(ZONE_EQUIPMENT_DIR):
 		var zone_piece: EquipmentData = load(path) as EquipmentData
 		if zone_piece != null:

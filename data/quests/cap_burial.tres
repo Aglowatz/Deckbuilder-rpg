@@ -34,5 +34,5 @@ objectives = Array[ExtResource("1_ayw58")]([SubResource("Resource_s06lw"), SubRe
 reward_gold = 150
 reward_xp = 120
 reward_item_ids = Array[String](["healing_draught"])
-reward_card_ids = Array[String](["grandfather_marrow"])
+reward_card_ids = Array[String](["N-28"])
 reward_unlock_flags = Array[String](["capital_insight_necrocrat"])

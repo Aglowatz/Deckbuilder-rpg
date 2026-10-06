@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qj128"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_6cbky"]
+
+[resource]
+script = ExtResource("2_6cbky")
+id = "B-33"
+display_name = "Global Gains Platinum Membership"
+type = 5
+color = 1
+generic_cost = 3
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. At the start of your turn, put a buff on attached unit; it gains Hustle and Overtime.
+
+When attached unit dies, return this Tool to your hand."
+rarity = 3
+flavor_text = "Cancel anytime.* (*You cannot cancel.)"
+paths_all = Array[int]([1])
+script_text = "attach
+sot => buff(host,1); kw_grant(host,hustle,perm); kw_grant(host,overtime,perm)
+when(attached_dies) => send_back(self)"
+rules_hash = "aa6648b120aa"
+image_description = "A glowing platinum membership card hovering above a pedestal in a grand marble gym, golden light rays and floating dumbbells around it."

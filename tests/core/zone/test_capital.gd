@@ -183,7 +183,7 @@ func test_blackout_darkens_slows_blocks_travel_and_exhausts_your_units() -> void
 	var player_mods: ModifierSource = CapitalDebuffs.player_source(Session.flags, Session.content)
 	var set: ModifierSet = ModifierSet.new()
 	set.add_source(player_mods)
-	var data: CardData = Session.card_by_id("compliance_officer")
+	var data: CardData = Session.card_by_id("C-23")
 	assert_gt(set.sum_for_card(Modifier.Kind.ENTER_EXHAUSTED, data), 0)
 
 
@@ -232,12 +232,12 @@ func test_restless_dead_makes_enemy_units_return_from_the_graveyard() -> void:
 	var game: GameState = _plain_game()
 	var modifier: Modifier = CardBuilder.modifier(Modifier.Kind.GRAVEYARD_RETURN_CHANCE, 100)
 	game.players[1].modifiers.add(modifier)
-	var unit: CardInstance = game.create_instance(Session.card_by_id("sellsword"), 1)
+	var unit: CardInstance = game.create_instance(Session.card_by_id("C-07"), 1)
 	game.players[1].field.append(unit)
 	game.destroy_unit(unit)
 	assert_true(game.players[1].field.has(unit), "returned from the graveyard")
 	assert_false(game.players[1].refuse_pile.has(unit))
-	var other: CardInstance = game.create_instance(Session.card_by_id("sellsword"), 0)
+	var other: CardInstance = game.create_instance(Session.card_by_id("C-07"), 0)
 	game.players[0].field.append(other)
 	game.destroy_unit(other)
 	assert_false(game.players[0].field.has(other), "the player's side is not affected")
@@ -389,7 +389,7 @@ func test_the_necrocrat_quest_plays_out_through_its_interactables() -> void:
 	Session.turn_in_quest(CapitalZone.QUEST_BURIAL)
 	assert_gt(Session.gold, before_gold)
 	assert_true(Session.flag(CapitalZone.insight_flag("necrocrat")), "the insight is recorded")
-	assert_gt(Session.owned_count("grandfather_marrow"), 0)
+	assert_gt(Session.owned_count("N-28"), 0)
 	assert_eq(CapitalInteractables.insight_count(Session.flags), 1)
 
 
@@ -465,8 +465,8 @@ func test_modifier_engine_rules_standardize_units_and_junk() -> void:
 	var game: GameState = _plain_game()
 	var standard: Modifier = CardBuilder.modifier(Modifier.Kind.STANDARDIZE_UNITS, 3, Modifier.ANY_COLOR, 3)
 	game.players[1].modifiers.add(standard)
-	var big: CardInstance = game.create_instance(Session.card_by_id("ironclad"), 0)
-	var small: CardInstance = game.create_instance(Session.card_by_id("sellsword"), 1)
+	var big: CardInstance = game.create_instance(Session.card_by_id("C-04"), 0)
+	var small: CardInstance = game.create_instance(Session.card_by_id("C-07"), 1)
 	game.players[0].field.append(big)
 	game.players[1].field.append(small)
 	assert_eq(game.get_attack(big), 3, "every unit has the same stats (both sides)")
@@ -539,7 +539,7 @@ func test_the_villains_name_lives_in_one_place() -> void:
 
 
 func test_new_cards_and_the_junk_token_exist() -> void:
-	for id: String in ["compliance_officer", "perfection_inspector", "tidy_bot", "gate_guard", "approved_gate_captain", "rift_wretch", "shard_swarm", "citation", "decree_of_order", "freed_wheel_crew", "odiles_real_recipe", "grandfather_marrow", "rescued_compost_heap", "the_paths_united", CapitalContent.JUNK_ID]:
+	for id: String in ["C-23", "C-29", "C-05", "C-24", "C-22", "C-02", "C-03", "C-25", "C-30", "B-32", "G-21", "N-23", "R-01", "C-04", CapitalContent.JUNK_ID]:
 		assert_not_null(Session.card_by_id(id), id)
 
 

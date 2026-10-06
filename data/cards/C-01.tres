@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_bhr2u"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_1c4al"]
+
+[resource]
+script = ExtResource("2_1c4al")
+id = "C-01"
+display_name = "Cannon Fodder"
+generic_cost = 1
+attack = 1
+flavor_text = "You gotta start somewhere."
+rules_hash = "d41d8cd98f00"
+image_description = "A nervous young recruit in an oversized dented helmet clutching a wooden spoon like a sword, standing at attention on a village road."

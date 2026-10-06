@@ -27,10 +27,10 @@ const CHEST_REWARDS: Dictionary = {
 	"chest_farm_a": {"gold": 35, "item": "", "card": ""},
 	"chest_farm_b": {"gold": 0, "item": "healing_salve", "card": ""},
 	"chest_maze_0": {"gold": 50, "item": "", "card": ""},
-	"chest_maze_1": {"gold": 0, "item": "scroll_of_insight", "card": "overdue_intern"},
+	"chest_maze_1": {"gold": 0, "item": "scroll_of_insight", "card": "N-02"},
 	"chest_maze_2": {"gold": 25, "item": "firebrand_charm", "card": ""},
 	"chest_records_0": {"gold": 60, "item": "", "card": ""},
-	"chest_records_1": {"gold": 0, "item": "vitality_charm", "card": "cubicle_zombie"},
+	"chest_records_1": {"gold": 0, "item": "vitality_charm", "card": "N-01"},
 	"chest_exec": {"gold": 80, "item": "healing_draught", "card": ""},
 }
 
@@ -113,14 +113,14 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	var mini: ZoneDef.MiniDef = ZoneDef.MiniDef.new()
 	mini.dungeon_name = "Sub-Basement 3: Quarterly Reviews"
 	mini.start_blurb = "The elevator doors open on a conference room. Nobody has been invited. Everybody is here."
-	mini.reward_card_id = "deceased_ceo"
+	mini.reward_card_id = "N-29"
 	mini.battles = [
 		_battle("Meeting 1: Kickoff Sync", "A meeting that could have been a memo. The memo is also here.", "Kickoff Facilitator", 12, "Balanced", false,
-			{"infrastructure:D": 15, "cubicle_zombie": 4, "overdue_intern": 3, "middle_manager": 2, "death_benefits": 1}),
+			EnemyDecks.trimmed("necro_zombies", 27, 15)),
 		_battle("Meeting 2: Budget Review", "Every line item is a soul. Every soul is over budget.", "Budget Reviewer", 14, "Defensive", false,
-			{"infrastructure:D": 15, "soul_auditor": 3, "performance_review": 2, "cubicle_zombie": 3, "take_a_number": 2, "middle_manager": 1}),
+			EnemyDecks.trimmed("necro_control", 28, 15)),
 		_battle("Meeting 3: Quarterly Review", "Your performance this quarter has been: deceased.", "The Quarterly Reviewer", 18, "Aggressive", true,
-			{"infrastructure:D": 16, "hr_reaper": 2, "middle_manager": 3, "soul_auditor": 2, "mandatory_fun_day": 1, "performance_review": 2, "death_benefits": 1}),
+			EnemyDecks.with_cards(EnemyDecks.trimmed("necro_control", 31, 16), {"N-29": 1})),
 	]
 	return mini
 

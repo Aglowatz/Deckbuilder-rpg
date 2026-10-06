@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_t2vqa"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_1j2q4"]
+
+[resource]
+script = ExtResource("2_1j2q4")
+id = "NB-03"
+display_name = "Vigor Mortis"
+type = 2
+color = 1
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([4, 1])
+defense = 0
+rules_text = "Reinstate target unit from your Refuse Pile. It gains Hustle until end of turn."
+rarity = 1
+flavor_text = "Back from the dead and ready for leg day."
+paths_all = Array[int]([1, 4])
+script_text = "play t=refuse.unit.mine => reinstate(t); kw_grant(last,hustle,eot)"
+rules_hash = "5096a75b72de"
+image_description = "A zombie bursting out of a grave mid-sprint in a sweatband and gym shorts, dirt flying, while a ghostly coach blows a whistle."

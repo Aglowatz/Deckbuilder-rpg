@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_44o50"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_qxdq5"]
+
+[resource]
+script = ExtResource("2_qxdq5")
+id = "N-23"
+display_name = "Middle Management Zombie"
+color = 4
+generic_cost = 3
+colored_pips = Array[int]([4])
+attack = 2
+defense = 3
+rules_text = "Zombie Temp tokens you control get +1/+0.
+
+Exhaust, use a Red Tape: create a 1/1 Zombie Temp token."
+rarity = 1
+flavor_text = "Delegates everything. Including decomposition."
+paths_all = Array[int]([4])
+script_text = "aura(unit.mine.tok:T-10) => stat(1,0)
+act | exhaust, use(redtape) => create(T-10)"
+rules_hash = "b25c61298a20"
+image_description = "A zombie in a wrinkled tie with a clipboard and a whistle, directing a line of smaller zombies carrying boxes, a 'world's okayest boss' mug in hand."

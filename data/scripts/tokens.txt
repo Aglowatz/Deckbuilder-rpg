@@ -54,3 +54,6 @@ kw hustle
 
 == T-23 @f501bdd147ea  # Schmuck
 kw wallflower
+
+== JUNK-01 @42595878c399  # Heap of Rubbish
+play => lose(me,1)

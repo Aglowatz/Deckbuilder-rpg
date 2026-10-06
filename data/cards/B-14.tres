@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_p50sv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_vhbdv"]
+
+[resource]
+script = ExtResource("2_vhbdv")
+id = "B-14"
+display_name = "Weight Belt"
+type = 5
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +1/+1 and Bulldoze."
+flavor_text = "Holds everything in. Mostly the snacks."
+paths_all = Array[int]([1])
+script_text = "attach
+host => stat(1,1); kw(bulldoze)"
+rules_hash = "3c6596de85fc"
+image_description = "A thick leather lifting belt with a glowing golden buckle, hanging on a rack in a sunlit outdoor gym made of logs and boulders."

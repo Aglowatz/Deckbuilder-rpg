@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_kd7bl"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_74av0"]
+
+[resource]
+script = ExtResource("2_74av0")
+id = "C-04"
+display_name = "Courier Pigeon"
+generic_cost = 1
+attack = 1
+keywords = Array[int]([0])
+rules_text = "Flying.
+
+When this unit enters, Peek 1."
+flavor_text = "No message too small. Or too smelly."
+script_text = "kw flying
+enter => peek(1)"
+rules_hash = "f1dd92f9ace8"
+image_description = "A plump, determined pigeon in a tiny messenger cap carrying a scroll larger than itself across a bright sky."

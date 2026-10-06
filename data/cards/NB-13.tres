@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_cy23l"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cqkaa"]
+
+[resource]
+script = ExtResource("2_cqkaa")
+id = "NB-13"
+display_name = "Jello Weights"
+type = 5
+color = 1
+color2 = 4
+generic_cost = 2
+defense = 0
+rules_text = "Exhaust, pay 1: attach to target unit you control. If it's a Necrocrat, it gets +5/+5. If it's a Beefcake, all Beefcakes you control get +1/+2."
+rarity = 2
+flavor_text = "Here for a good time, not a long time"
+paths_all = Array[int]([1, 4])
+script_text = "attach | pay(1)
+host ? host_is(N) => stat(5,5)
+aura(unit.mine.path=B) ? host_is(B) => stat(1,2)"
+rules_hash = "2e387ae0c867"
+image_description = "A pair of wobbling, glowing green gelatin dumbbells, a skeleton cackling as it lifts them and a Beefcake staring in confused awe."

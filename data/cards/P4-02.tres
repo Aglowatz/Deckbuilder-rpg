@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_5ggsm"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_aoj4e"]
+
+[resource]
+script = ExtResource("2_aoj4e")
+id = "P4-02"
+display_name = "Reunion of the Paths"
+type = 2
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([1, 4, 2, 3])
+defense = 0
+rules_text = "Reinstate up to four units from your Refuse Pile with different Paths. Create an Iron, a Red Tape, an Ingredient, and a Garbage. Units you control get +2/+2 until end of turn."
+rarity = 3
+flavor_text = "The kingdom was never stronger than when we stood together."
+not_in_packs = true
+paths_all = Array[int]([1, 2, 3, 4])
+script_text = "play => reinstate_diff_paths(4); create(iron); create(redtape); create(ingredient); create(garbage); pump(all(unit.mine),2,2,eot)"
+rules_hash = "64dae635c18e"
+image_description = "Leaders of all four Paths clasping hands in a sunlit restored capital square as their peoples cheer, broken mirrors and rifts fading in the background."

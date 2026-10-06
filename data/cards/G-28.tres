@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_su3xa"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_8yhih"]
+
+[resource]
+script = ExtResource("2_8yhih")
+id = "G-28"
+display_name = "Chef de Golem"
+color = 2
+generic_cost = 3
+colored_pips = Array[int]([2, 2])
+attack = 3
+defense = 5
+rules_text = "Golem tokens you control get +1/+1 and Swat.
+
+Exhaust, use two Ingredients: create a 3/3 Meatloaf Golem token."
+rarity = 2
+flavor_text = "Every golem is a recipe. Every recipe is a golem."
+paths_all = Array[int]([2])
+script_text = "aura(unit.mine.golem) => stat(1,1); kw(swat)
+act | exhaust, use(ingredient,2) => create(T-05)"
+rules_hash = "f4c3d75eeefb"
+image_description = "A grand artificer chef with a mechanical arm conducting a small army of food golems with a whisk like a baton."

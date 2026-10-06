@@ -612,15 +612,15 @@ func _hub_heal(zone: HeapScene) -> void:
 	if zone._overlay is VendorScreen:
 		await driver.click_button("Got it")
 		await _shot("h_46_refusemancer_vendor")
-		var tile: Control = _find_meta_tile(zone._overlay, "card_id", "compost_golem")
+		var tile: Control = _find_meta_tile(zone._overlay, "card_id", "R-22")
 		_check(tile != null, "a Compost Golem card is for sale")
-		var owned: int = Session.owned_count("compost_golem")
+		var owned: int = Session.owned_count("R-22")
 		if tile != null:
 			await driver.click(tile.get_global_rect().position + Vector2(60, 90))
 			await driver.seconds(0.3)
 			await driver.click_button("Buy")
 			await driver.seconds(0.4)
-		_check(Session.owned_count("compost_golem") == owned + 1, "buying adds the Refusemancer card")
+		_check(Session.owned_count("R-22") == owned + 1, "buying adds the Refusemancer card")
 		await driver.click_button("Leave")
 		await driver.seconds(0.3)
 
@@ -816,7 +816,7 @@ func _mini_dungeon(zone: HeapScene) -> HeapScene:
 		await _shot("h_62_back_from_the_landfill")
 	_check(not Session.mini_active, "the mini dungeon run ended and returned to the zone")
 	if Session.flag(HeapZone.FLAG_MINI_CLEARED):
-		_check(Session.owned_count("heap_mother") == 1, "clearing it granted the unique Mother of the Dump")
+		_check(Session.owned_count("R-27") == 1, "clearing it granted the unique Mother of the Dump")
 	_note("mini dungeon: %d battle(s) fought, cleared=%s (a loss wakes you at the hub; the clear path is unit-tested)" % [battles, str(Session.flag(HeapZone.FLAG_MINI_CLEARED))])
 	return zone
 

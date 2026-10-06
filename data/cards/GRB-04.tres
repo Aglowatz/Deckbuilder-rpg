@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_a11qb"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_3n8ma"]
+
+[resource]
+script = ExtResource("2_3n8ma")
+id = "GRB-04"
+display_name = "The Competitive Eater"
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 3, 1])
+attack = 4
+defense = 4
+rules_text = "Use an Ingredient and a Garbage: put two buffs on this unit and create an Iron. Do this only once per turn."
+rarity = 2
+flavor_text = "Sixty-eight in ten minutes. Then dessert."
+paths_all = Array[int]([1, 2, 3])
+script_text = "act once | use(ingredient), use(garbage) => buff(self,2); create(iron)"
+rules_hash = "4af889a8e931"
+image_description = "A barrel-shaped champion eater in a tank top and bib inhaling a towering stack of food at a contest table as the crowd gasps."

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_xn8k4"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_67h4y"]
+
+[resource]
+script = ExtResource("2_67h4y")
+id = "G-14"
+display_name = "Seasoning Station"
+type = 4
+color = 2
+generic_cost = 1
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "Golem tokens you control get +1/+1."
+flavor_text = "Golems have very strong opinions about seasoning."
+paths_all = Array[int]([2])
+script_text = "aura(unit.mine.golem) => stat(1,1)"
+rules_hash = "0ad4a14b3083"
+image_description = "A row of giant spice jars and pepper mills, a cake golem and a meatloaf golem arguing over a salt shaker."

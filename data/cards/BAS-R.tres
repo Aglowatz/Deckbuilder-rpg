@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_fa4e8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_g5qii"]
+
+[resource]
+script = ExtResource("2_g5qii")
+id = "BAS-R"
+display_name = "Wasteworks"
+type = 0
+color = 3
+defense = 0
+rules_text = "When this Infrastructure enters, create a Garbage.
+
+Exhaust: add (R)."
+flavor_text = "Where the kingdom's garbage goes to become something better."
+is_basic = true
+paths_all = Array[int]([3])
+script_text = "produce R
+enter => create(garbage)"
+rules_hash = "a6ecda436243"
+image_description = "A sprawling, cheerful junkyard factory with conveyor belts, compost heaps, and animals sorting scrap under a golden sky."

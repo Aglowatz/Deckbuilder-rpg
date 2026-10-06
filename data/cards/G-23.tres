@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_0lamf"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_j7orl"]
+
+[resource]
+script = ExtResource("2_j7orl")
+id = "G-23"
+display_name = "En Garde-Manger"
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+attack = 2
+defense = 4
+keywords = Array[int]([5])
+rules_text = "Sucker Punch.
+
+Whenever this unit blocks, create an Ingredient."
+rarity = 1
+flavor_text = "\"The Keeper of the Food\" - the Gourmands' highest title of honor."
+paths_all = Array[int]([2])
+script_text = "kw sucker_punch
+block => create(ingredient)"
+rules_hash = "16553e289789"
+image_description = "A dashing chef-fencer in a crisp white coat lunging with a baguette rapier and a pot-lid buckler, cheese wheels stacked behind him."

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_qckfa"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_n2250"]
+
+[resource]
+script = ExtResource("2_n2250")
+id = "GN-10"
+display_name = "Final Meal Request"
+type = 2
+color = 2
+color2 = 4
+generic_cost = 1
+colored_pips = Array[int]([2, 4])
+defense = 0
+rules_text = "As an additional cost to play this, destroy a token you control.
+
+Draw two cards."
+rarity = 1
+flavor_text = "One last bite. Then the paperwork."
+paths_all = Array[int]([2, 4])
+script_text = "playcost | destroy(token.mine)
+play => draw(2)"
+rules_hash = "47c0d8608d22"
+image_description = "A skeleton clerk solemnly serving a tiny zombie a fancy last meal on a silver platter, a form and quill waiting beside it."

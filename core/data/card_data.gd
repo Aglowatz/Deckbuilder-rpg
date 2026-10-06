@@ -27,7 +27,7 @@ extends Resource
 ## Tokens are created by effects and cease to exist outside the field.
 @export var is_token: bool = false
 ## Pack system: a card with this flag never appears in any pack (unique dungeon/quest rewards, chest cards, enemy-only
-## cards...) and must be found another way. The ids are listed in `PackRules.NOT_IN_PACKS_IDS`.
+## cards...) and must be found another way. The flags live in data/source/card_overrides.csv.
 @export var not_in_packs: bool = false
 ## Brief 14: the designed card set. `paths_all` is the authoritative Path list of a card with 3-4 Paths (empty = derive
 ## the Paths from `color` / `color2`, the way the older 1-2 Path cards do). `color` / `color2` still mirror the first two Paths.

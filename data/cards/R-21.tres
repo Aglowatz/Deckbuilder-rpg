@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_jhapb"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_7utsj"]
+
+[resource]
+script = ExtResource("2_7utsj")
+id = "R-21"
+display_name = "Let them eat cake"
+type = 2
+color = 3
+generic_cost = 1
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "Destroy target Gourmand unit."
+flavor_text = "The Gourmands always said it was to die for."
+paths_all = Array[int]([3])
+script_text = "play t=unit.path=G => destroy(t)"
+rules_hash = "76e31693e3e7"
+image_description = "Raccoons, rats, and other scrappy animals gleefully devouring a towering frosted cake golem, crumbs and icing flying everywhere."

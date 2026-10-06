@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_x5n0l"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_uql3c"]
+
+[resource]
+script = ExtResource("2_uql3c")
+id = "NB-10"
+display_name = "The Afterlife Gym"
+type = 4
+color = 1
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([4, 1])
+defense = 0
+rules_text = "Whenever a unit you control dies, create an Iron."
+rarity = 1
+flavor_text = "No pain. No pulse. No problem."
+paths_all = Array[int]([1, 4])
+script_text = "when(unit_dies:mine) => create(iron)"
+rules_hash = "c9ae488702e1"
+image_description = "A spooky gym in a misty graveyard where ghosts and skeletons lift weights under flickering lanterns, tombstones used as benches."

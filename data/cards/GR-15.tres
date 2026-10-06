@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ttw8t"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_05k56"]
+
+[resource]
+script = ExtResource("2_05k56")
+id = "GR-15"
+display_name = "Giant Heirloom Pumpkin"
+color = 2
+color2 = 3
+generic_cost = 3
+colored_pips = Array[int]([2, 3])
+attack = 5
+defense = 5
+keywords = Array[int]([1])
+rules_text = "Swat.
+
+When this unit dies, create two Garbage and two Ingredients."
+rarity = 2
+flavor_text = "Blue ribbon winner. Also, it's alive."
+paths_all = Array[int]([2, 3])
+script_text = "kw swat
+die => create(garbage,2); create(ingredient,2)"
+rules_hash = "6cd769483f70"
+image_description = "An enormous living heirloom pumpkin with a carved grin and vine arms, a blue prize ribbon pinned to its side, towering over a county-fair stall."

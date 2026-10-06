@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_5vqk8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_5brc8"]
+
+[resource]
+script = ExtResource("2_5brc8")
+id = "GRN-06"
+display_name = "Recycled Remains"
+type = 3
+color = 2
+color2 = 3
+generic_cost = 2
+colored_pips = Array[int]([2, 3, 4])
+defense = 0
+rules_text = "When a unit you control dies, Reinstate it at the start of your next turn and create an Ingredient."
+rarity = 2
+flavor_text = "Gently used. Freshly returned."
+paths_all = Array[int]([2, 3, 4])
+script_text = "trap(unit_dies:mine) => delay_start_next_turn({reinstate(trig)}); create(ingredient)"
+rules_hash = "aee0b1a98285"
+image_description = "A compost bin glowing green as a recently fallen creature climbs back out, covered in leaves and holding a carrot."

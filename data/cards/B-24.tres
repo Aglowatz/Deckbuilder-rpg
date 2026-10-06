@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_vfj7a"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_m3pt8"]
+
+[resource]
+script = ExtResource("2_m3pt8")
+id = "B-24"
+display_name = "Overclocked Mill Worker"
+color = 1
+generic_cost = 2
+colored_pips = Array[int]([1])
+attack = 3
+defense = 3
+keywords = Array[int]([7])
+rules_text = "Overtime.
+
+Whenever this unit attacks, create an Iron."
+rarity = 1
+flavor_text = "Clocked in. Never clocked out."
+paths_all = Array[int]([1])
+script_text = "kw overtime
+attack => create(iron)"
+rules_hash = "c518e49f2bdf"
+image_description = "A tireless mill worker pushing a giant wheel while marching into battle, a time card stuck in his headband."

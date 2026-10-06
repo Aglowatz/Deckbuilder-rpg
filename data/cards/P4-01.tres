@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_0rsrt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_6n36t"]
+
+[resource]
+script = ExtResource("2_6n36t")
+id = "P4-01"
+display_name = "Champion of the Four Paths"
+color = 1
+color2 = 2
+generic_cost = 1
+colored_pips = Array[int]([1, 4, 2, 3])
+attack = 6
+defense = 6
+keywords = Array[int]([2, 7, 1, 6])
+rules_text = "Hustle. Overtime. Swat. Nourish.
+
+When this unit enters, create an Iron, a Red Tape, an Ingredient, and a Garbage."
+rarity = 2
+flavor_text = "Strength, order, nourishment, and renewal. Together at last."
+paths_all = Array[int]([1, 2, 3, 4])
+script_text = "kw hustle,overtime,swat,nourish
+enter => create(iron); create(redtape); create(ingredient); create(garbage)"
+rules_hash = "e5550abe7293"
+image_description = "A radiant champion wearing armor that blends iron plates, paperwork seals, copper cookware, and living vines, standing where four roads meet."

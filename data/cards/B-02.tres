@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_lto3y"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_by7e3"]
+
+[resource]
+script = ExtResource("2_by7e3")
+id = "B-02"
+display_name = "Bronzer"
+type = 5
+color = 1
+generic_cost = 1
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +2/+0."
+flavor_text = "Looks stronger. Isn't stronger. Is a little stronger."
+paths_all = Array[int]([1])
+script_text = "attach
+host => stat(2,0)"
+rules_hash = "5830e5ca2d9e"
+image_description = "A gleaming jar of glowing bronze tanning paste, a muscular arm reaching in, golden sparkles and a sunset-orange glow surrounding it."

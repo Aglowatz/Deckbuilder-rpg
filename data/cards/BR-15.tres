@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_lclqu"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_42c3n"]
+
+[resource]
+script = ExtResource("2_42c3n")
+id = "BR-15"
+display_name = "Trash Avalanche"
+type = 3
+color = 1
+color2 = 3
+generic_cost = 3
+colored_pips = Array[int]([1, 3])
+defense = 0
+rules_text = "When an opposing unit attacks, deal 4 damage to each attacking unit."
+rarity = 2
+flavor_text = "The mountain was load-bearing."
+paths_all = Array[int]([1, 3])
+script_text = "trap(attacks:opp) => damage(all(unit.attacking),4)"
+rules_hash = "3a3fee9c0e56"
+image_description = "A towering junk mountain collapsing onto a line of attackers as a Beefcake who just pulled out the bottom piece looks guilty."

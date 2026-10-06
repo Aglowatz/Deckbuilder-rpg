@@ -39,11 +39,11 @@ const FALL_DAMAGE: int = 1
 const CHEST_REWARDS: Dictionary = {
 	"chest_ground_0": {"gold": 40, "item": "", "card": "", "cosmetic": "cloak_tattered"},
 	"chest_ground_1": {"gold": 20, "item": "healing_salve", "card": ""},
-	"chest_ground_2": {"gold": 0, "item": "", "card": "wheel_runner"},
+	"chest_ground_2": {"gold": 0, "item": "", "card": "B-04"},
 	"chest_pec": {"gold": 60, "item": "scroll_of_insight", "card": ""},
-	"chest_delt": {"gold": 0, "item": "", "card": "max_rep"},
+	"chest_delt": {"gold": 0, "item": "", "card": "B-24"},
 	"chest_glute": {"gold": 90, "item": "healing_draught", "card": ""},
-	"chest_calf": {"gold": 50, "item": "vitality_charm", "card": "cheat_day"},
+	"chest_calf": {"gold": 50, "item": "vitality_charm", "card": "B-21"},
 }
 
 
@@ -134,14 +134,14 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	mini.dungeon_name = "The Iron Cavern: Three Sets"
 	mini.start_title = "Chalk Up"
 	mini.start_blurb = "A cave that smells of rubber mats and ambition. Somebody has left a towel on every rock."
-	mini.reward_card_id = "iron_titan"
+	mini.reward_card_id = "B-28"
 	mini.battles = [
 		_battle("Set 1: The Warm-Up", "Light weight, heavy attitude. Stretch first.", "Warm-Up Whelp", 12, "Balanced", false,
-			{"infrastructure:A": 15, "gym_rat": 4, "wheel_runner": 3, "mill_hand": 3, "cheat_day": 1}),
+			EnemyDecks.trimmed("beefcake_rush", 27, 15)),
 		_battle("Set 2: Working Weight", "A spotter who has seen things. Mostly your elbows.", "Rogue Spotter", 14, "Defensive", false,
-			{"infrastructure:A": 15, "protein_golem": 3, "mill_hand": 3, "pump_chaser": 2, "flex_off": 2, "pre_workout": 1}),
+			EnemyDecks.trimmed("beefcake_tools", 28, 15)),
 		_battle("Set 3: One-Rep Max", "The Titan of the Rack. It has never once skipped leg day.", "Titan of the Rack", 18, "Aggressive", true,
-			{"infrastructure:A": 16, "max_rep": 2, "courtesy_chucker": 3, "pump_chaser": 3, "leg_day": 2, "flex_off": 2}),
+			EnemyDecks.with_cards(EnemyDecks.trimmed("beefcake_bruisers", 31, 16), {"B-28": 1})),
 	]
 	return mini
 

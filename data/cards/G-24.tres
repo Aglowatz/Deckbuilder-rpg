@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_1tbo1"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_romn8"]
+
+[resource]
+script = ExtResource("2_romn8")
+id = "G-24"
+display_name = "Health Code Violation"
+type = 3
+color = 2
+generic_cost = 2
+colored_pips = Array[int]([2])
+defense = 0
+rules_text = "When an opposing unit enters, send it back to its owner's hand and create an Ingredient."
+rarity = 1
+flavor_text = "Is that a hair? That's a whole goblin."
+paths_all = Array[int]([2])
+script_text = "trap(unit_enters:opp) => send_back(trig); create(ingredient)"
+rules_hash = "16150600a837"
+image_description = "A stern inspector in a spotless uniform holding up a giant magnifying glass to reveal a startled goblin hiding in a soup pot."

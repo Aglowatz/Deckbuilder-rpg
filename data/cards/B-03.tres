@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_gfaxt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_r6eq7"]
+
+[resource]
+script = ExtResource("2_r6eq7")
+id = "B-03"
+display_name = "Dropped Weights"
+type = 2
+color = 1
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "Deal 2 damage to target unit or opponent."
+flavor_text = "Gravity always wins."
+paths_all = Array[int]([1])
+script_text = "play t=unit|opp => damage(t,2)"
+rules_hash = "9eec177cd2bf"
+image_description = "A sweaty Beefcake fumbling a heavy barbell while re-racking it, the weights crashing down on a startled creature below in a cloud of chalk dust."

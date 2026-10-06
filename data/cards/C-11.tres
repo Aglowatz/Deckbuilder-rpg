@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_mufau"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_afofe"]
+
+[resource]
+script = ExtResource("2_afofe")
+id = "C-11"
+display_name = "Traveler's Sword"
+type = 5
+generic_cost = 2
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +2/+0."
+flavor_text = "Slightly used. Previous owner unavailable for comment."
+script_text = "attach
+host => stat(2,0)"
+rules_hash = "5830e5ca2d9e"
+image_description = "A plain but sturdy sword leaning against a mossy milestone at a crossroads, a faded ribbon tied to its hilt."

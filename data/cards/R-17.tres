@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_e1edo"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_4441s"]
+
+[resource]
+script = ExtResource("2_4441s")
+id = "R-17"
+display_name = "Hayfork Harpoon"
+type = 5
+color = 3
+generic_cost = 1
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +1/+1 and Swat."
+flavor_text = "For hay. And for harpies."
+paths_all = Array[int]([3])
+script_text = "attach
+host => stat(1,1); kw(swat)"
+rules_hash = "40a6f0919c73"
+image_description = "A rusty pitchfork wrapped in vines with a rope tied to its handle, mounted on a wheelbarrow like a harpoon and aimed at the sky."

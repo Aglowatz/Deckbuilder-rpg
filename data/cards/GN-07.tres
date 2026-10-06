@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_mcixd"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_08ap5"]
+
+[resource]
+script = ExtResource("2_08ap5")
+id = "GN-07"
+display_name = "The Haunted Buffet"
+type = 4
+color = 2
+color2 = 4
+generic_cost = 2
+colored_pips = Array[int]([2, 4])
+defense = 0
+rules_text = "Use two Ingredients: create a 1/1 Hungry Ghost token with Flying. Do this only once per turn."
+rarity = 1
+flavor_text = "All you can eat. Forever."
+paths_all = Array[int]([2, 4])
+script_text = "act once | use(ingredient,2) => create(T-19)"
+rules_hash = "7d01b5e8e15a"
+image_description = "An eerie, candlelit buffet table piled with food, translucent ghosts floating up out of the serving dishes with napkins tucked in."

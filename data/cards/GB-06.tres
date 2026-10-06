@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_hjeli"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ckkpv"]
+
+[resource]
+script = ExtResource("2_ckkpv")
+id = "GB-06"
+display_name = "The Gainz Kitchen"
+type = 4
+color = 1
+color2 = 2
+generic_cost = 2
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "Whenever you create a Golem token, it gets +1 attack permanently and gains Hustle."
+rarity = 1
+flavor_text = "Pre-heated. Pre-workout."
+paths_all = Array[int]([1, 2])
+script_text = "when(golem_created:mine) => pump(trig,1,0,perm); kw_grant(trig,hustle,perm)"
+rules_hash = "f7e609aa350c"
+image_description = "A rowdy open kitchen where food golems sprint out of the ovens doing warm-up stretches, a coach-chef blowing a whistle."

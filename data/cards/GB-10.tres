@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_soqgt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xiu4f"]
+
+[resource]
+script = ExtResource("2_xiu4f")
+id = "GB-10"
+display_name = "Meat Tenderizer"
+type = 5
+color = 1
+color2 = 2
+generic_cost = 1
+colored_pips = Array[int]([2, 1])
+defense = 0
+rules_text = "Exhaust: attach to target unit you control. Attached unit gets +2/+1.
+
+Whenever attached unit deals combat damage to a unit, create an Ingredient."
+rarity = 1
+flavor_text = "Tenderizes steak. And opinions."
+paths_all = Array[int]([1, 2])
+script_text = "attach
+host => stat(2,1)
+when(attached_combat_dmg_unit) => create(ingredient)"
+rules_hash = "74165f67cf35"
+image_description = "A heavy spiked meat mallet glowing with golden energy, resting on a butcher block next to a dented helmet."

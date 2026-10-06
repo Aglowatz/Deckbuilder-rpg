@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_mrroh"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_uj2ya"]
+
+[resource]
+script = ExtResource("2_uj2ya")
+id = "N-16"
+display_name = "Processing Delay"
+type = 2
+color = 4
+generic_cost = 1
+colored_pips = Array[int]([4])
+defense = 0
+rules_text = "Processing 2 (this resolves at the start of your turn two turns from now): destroy target unit."
+flavor_text = "Your termination has been approved. Please wait to be terminated."
+paths_all = Array[int]([4])
+script_text = "play t=unit => processing(2,{destroy(t)})"
+rules_hash = "e4b9987d4ef7"
+image_description = "A creature anxiously holding a numbered ticket in a long ghostly queue, an hourglass and a stamp-wielding skeleton waiting at the front."

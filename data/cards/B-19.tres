@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_ny34t"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_x6i7a"]
+
+[resource]
+script = ExtResource("2_x6i7a")
+id = "B-19"
+display_name = "Counterweight"
+type = 3
+color = 1
+generic_cost = 2
+colored_pips = Array[int]([1])
+defense = 0
+rules_text = "When an opposing unit attacks, deal 3 damage to it."
+flavor_text = "What goes up..."
+paths_all = Array[int]([1])
+script_text = "trap(attacks:opp) => damage(trig,3)"
+rules_hash = "5b9dec23e035"
+image_description = "A giant counterweight dropping from a mill's rope pulley onto an attacking creature, a Beefcake holding the cut rope with a smirk."

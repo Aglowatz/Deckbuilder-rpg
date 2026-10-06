@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_4u52f"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_tirfj"]
+
+[resource]
+script = ExtResource("2_tirfj")
+id = "R-24"
+display_name = "Second-Hand Life"
+type = 3
+color = 3
+generic_cost = 1
+colored_pips = Array[int]([3])
+defense = 0
+rules_text = "When a unit you control dies, return it to your hand and create a Garbage."
+rarity = 1
+flavor_text = "Pre-owned. Pre-loved. Pre-deceased."
+paths_all = Array[int]([3])
+script_text = "trap(unit_dies:mine) => to_hand(trig); create(garbage)"
+rules_hash = "b6d06f703fef"
+image_description = "The glowing spirit of a fallen rat being gently scooped from a compost heap by hands made of vines, a patched thrift-shop cloak draped over it."

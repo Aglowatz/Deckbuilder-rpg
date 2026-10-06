@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_mlxxb"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_kfrid"]
+
+[resource]
+script = ExtResource("2_kfrid")
+id = "BAS-N"
+display_name = "Ghost Town"
+type = 0
+color = 4
+defense = 0
+rules_text = "When this Infrastructure enters, create a Red Tape.
+
+Exhaust: add (N)."
+flavor_text = "Population: technically zero."
+is_basic = true
+paths_all = Array[int]([4])
+script_text = "produce N
+enter => create(redtape)"
+rules_hash = "b6b7038a5ed4"
+image_description = "A quiet, foggy town of crooked gray buildings with glowing green windows, ghosts drifting along the streets carrying briefcases."
