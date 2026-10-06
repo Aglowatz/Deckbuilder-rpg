@@ -2457,3 +2457,14 @@ Tests: see Part D (the card tests use the imported set); 988 pass.
 - Full-art 2:3 card frame (`CardView.SIZE` 300x450): the art fills the card; name/cost bar on top; semi-transparent type line + rules panel over the bottom third; COMPACT (battlefield) crops the art's upper-middle; `CardArt.square()` is the square crop for thumbnails. Placeholder art (icon silhouette on a gradient) fills the same area for every card until real images exist.
 - `CardArt` loads `assets/art/cards/<ID>.webp` by convention (cached, null -> placeholder). `tools/import_art.sh` (`core/data/art_importer.gd`) reads PNG/JPG named by Card/Token ID from `_art_inbox/` (optional `data/source/art_map.csv`), crops to 2:3, resizes to 768x1152, writes WebP q85, moves originals to `_art_source/` (both git-ignored) and writes `docs/art/art_status.md` (0 of 339 have art; no art was created or fetched).
 - Docs: `docs/art/art_pipeline.md`; CLAUDE.md says how to handle "import card art". Tests: `test_card_art.gd` (8).
+
+## Brief 14 FINAL: summary
+- Verification (within the E2E budget): the full GUT suite (1005 tests, one process at a time) is green; the windowed human-turn battle smoke ran once against the new content (6 human turns OK); card import report CLEAN (339 cards/tokens, 0 problems); `tools/import_art.sh` re-run with an empty inbox is clean (0 errors, 0 unknown, 339 missing).
+- The brief's battle features each have an exact test: resources by basic Infrastructure/Iron/Red Tape/Contract and eating Garbage, cooking a Golem from Ingredients, Tool attach, Wonder abilities, Traps, Plate, Brawl, Processing, Shred, Reinstate (`test_card_mechanics*.gd`, `test_card_keywords.gd`), the AI playing full games with the set (`test_card_set_ai.gd`), the 4-copy/Path rules (`test_deck_rules_card_set.gd`, `test_infrastructure_rename.gd`), and every card played by `test_card_smoke.gd`. I did not build a separate scripted full-UI battle for all of them.
+- Screenshots: `docs/art/screens/battle_resource_tray_full_art.png` (battle UI with resource tray and full-art frames, placeholder art) and `docs/art/screens/card_frames_placeholder.png`.
+
+### Questions for you
+1. Special and dual Infrastructure still count against the 4-copy limit (basic ones are unlimited). Should they be unlimited too? (open_questions B14-20)
+2. The story NPC is called Heartlift but the sheet's token is Grandmaster Flex (T-15). Rename the NPC?
+3. Card art: drop PNG/JPG named by Card ID into `_art_inbox/` and say "import card art". Is 2:3 with the subject in the upper-middle what the artist will deliver?
+4. Pair sample decks were trimmed to 45 cards (17 Infrastructure); chests now roll from Path reward tables instead of fixed cards. OK?
