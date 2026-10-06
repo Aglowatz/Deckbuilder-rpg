@@ -29,6 +29,7 @@ uniform float band_mid = 0.74;
 uniform float band_lit = 0.98;
 uniform float grain_amount = 0.05;
 uniform float gloss = 0.0;
+uniform bool flat_up = false;
 
 instance uniform float colour_keep : hint_range(0.0, 1.0) = 0.0;
 instance uniform float accent_mix : hint_range(0.0, 1.0) = 0.0;
@@ -83,6 +84,10 @@ void fragment() {
 	// Walls and roofs between the camera and the hero dissolve in a 4x4 ordered dither (OcclusionFader), staying in the opaque pipeline.
 	if (occlusion_fade > 0.0 && (BAYER[(int(FRAGCOORD.y) % 4) * 4 + (int(FRAGCOORD.x) % 4)] + 0.5) / 16.0 < occlusion_fade) {
 		discard;
+	}
+	if (flat_up) {
+		// Hex meadow tiles: ignore the bevel so the tile seams do not draw a grid.
+		NORMAL = normalize((VIEW_MATRIX * vec4(0.0, 1.0, 0.0, 0.0)).xyz);
 	}
 	vec3 col = base.rgb;
 	float luma = dot(col, vec3(0.299, 0.587, 0.114));

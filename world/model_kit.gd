@@ -28,8 +28,23 @@ static func tile(model: String) -> Node3D:
 	if model == "hex_water":
 		StyleWater.apply(node)
 	if model == "hex_grass":
-		tint(node, Color(0.5, 0.76, 0.5))
+		flatten(node, Color(0.43, 0.55, 0.26))
 	return node
+
+
+## Replaces the atlas texture of every mesh under `node` by one flat colour: the hex tile textures
+## paint a dark bevel line on every tile edge, which shows as a grid on the meadow.
+static func flatten(node: Node, color: Color) -> void:
+	for child: Node in node.find_children("*", "MeshInstance3D", true, false):
+		var mesh_instance: MeshInstance3D = child as MeshInstance3D
+		for surface: int in range(mesh_instance.mesh.get_surface_count()):
+			var material: Material = mesh_instance.get_active_material(surface)
+			if material is StandardMaterial3D:
+				var copy: StandardMaterial3D = (material as StandardMaterial3D).duplicate() as StandardMaterial3D
+				copy.albedo_texture = null
+				copy.set_meta(StyleToon.META_FLAT_UP, true)
+				copy.albedo_color = color
+				mesh_instance.set_surface_override_material(surface, copy)
 
 
 static func building(model: String) -> Node3D:

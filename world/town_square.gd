@@ -63,7 +63,7 @@ func _hex_prop(model: String, pos: Vector3, yaw: float = 0.0, scale_value: float
 
 func _ground() -> void:
 	var dirt: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, Color("b79a64"), Color("9c8157"), Color("6e5a3c"), GroundDecals.Shape.RIBBON, 1.0, 0.3, 3.0)
-	var edge: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("9a8a4c"), Color("b09a5a"), Color.BLACK, GroundDecals.Shape.RIBBON, 1.0, 0.5, 7.0)
+	var edge: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("6a8a42"), Color("7a9448"), Color.BLACK, GroundDecals.Shape.RIBBON, 1.0, 0.5, 7.0)
 	for key: String in ["market", "deck", "tailor", "spawn", "rift_station", "gate", "item_vendor", "pack_vendor", "equipment_vendor"]:
 		var points: Array[Vector3] = _smooth([center, _anchor(key) + Vector3(0.0, 0.0, 0.2)])
 		for piece: Array in _land_runs(points):

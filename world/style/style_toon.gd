@@ -8,6 +8,7 @@ const SHADER_PATH: String = "res://assets/shaders/style_toon.gdshader"
 const META_NO_TOON: StringName = &"no_toon"
 ## Set on a StandardMaterial3D (float 0..1) to give its toon version the glossy highlight band.
 const META_GLOSS: StringName = &"toon_gloss"
+const META_FLAT_UP: StringName = &"toon_flat_up"
 
 static var _shader: Shader
 static var _shader_double: Shader
@@ -91,6 +92,8 @@ static func toon_for(source: Material, wind: float = -1.0) -> ShaderMaterial:
 		material.set_shader_parameter("emission_energy", standard.emission_energy_multiplier)
 	if scissor:
 		material.set_shader_parameter("alpha_scissor", standard.alpha_scissor_threshold)
+	if standard.has_meta(META_FLAT_UP):
+		material.set_shader_parameter("flat_up", true)
 	if standard.has_meta(META_GLOSS):
 		material.set_shader_parameter("gloss", float(standard.get_meta(META_GLOSS)))
 	if wind >= 0.0:
