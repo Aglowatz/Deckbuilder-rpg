@@ -5,6 +5,7 @@ extends Node
 ## to the toon material. Reacts to `Settings.graphics_changed`. One rig per scene: `StyleRig.install(self, StylePresets.TOWN, camera, player)`.
 
 const OUTLINE_SHADER: String = "res://assets/shaders/style_outline.gdshader"
+const SKY_SHADER: String = "res://assets/shaders/style_sky.gdshader"
 
 var preset: ZonePreset
 var preset_id: StringName = &"town"
@@ -134,15 +135,22 @@ func _apply_globals() -> void:
 func _apply_environment(level: int) -> void:
 	var env: Environment = Environment.new()
 	if preset.use_sky:
-		var sky_material: ProceduralSkyMaterial = ProceduralSkyMaterial.new()
-		sky_material.sky_top_color = preset.sky_top
-		sky_material.sky_horizon_color = preset.sky_horizon
-		sky_material.ground_horizon_color = preset.ground_horizon
-		sky_material.ground_bottom_color = preset.ground_bottom
-		sky_material.sun_angle_max = 25.0
-		sky_material.sky_curve = 0.2
+		var sky_material: ShaderMaterial = ShaderMaterial.new()
+		sky_material.shader = load(SKY_SHADER) as Shader
+		var cloud: Color = preset.cloud_color if preset.cloud_color.a > 0.0 else preset.sky_horizon.lerp(Color.WHITE, 0.6)
+		sky_material.set_shader_parameter("top_color", preset.sky_top)
+		sky_material.set_shader_parameter("horizon_color", preset.sky_horizon)
+		sky_material.set_shader_parameter("bottom_color", preset.ground_bottom.lerp(preset.sky_top, 0.35))
+		sky_material.set_shader_parameter("cloud_color", cloud)
+		sky_material.set_shader_parameter("cloud_shade", preset.ambient_color.lerp(preset.sky_top, 0.4))
+		sky_material.set_shader_parameter("cloud_cover", preset.cloud_cover)
+		sky_material.set_shader_parameter("haze", preset.sky_haze)
+		sky_material.set_shader_parameter("star_amount", preset.star_amount)
+		sky_material.set_shader_parameter("sun_color", preset.sun_color)
 		var sky: Sky = Sky.new()
 		sky.sky_material = sky_material
+		sky.radiance_size = Sky.RADIANCE_SIZE_32
+		sky.process_mode = Sky.PROCESS_MODE_INCREMENTAL
 		env.background_mode = Environment.BG_SKY
 		env.sky = sky
 	else:
@@ -169,7 +177,7 @@ func _apply_environment(level: int) -> void:
 	env.fog_enabled = true
 	env.fog_light_color = preset.fog_color
 	env.fog_density = preset.fog_density
-	env.fog_sky_affect = preset.fog_sky_affect
+	env.fog_sky_affect = preset.fog_sky_affect * (0.25 if preset.use_sky else 1.0)  # the sky shader paints its own haze
 	if GraphicsQuality.volumetric_fog(level) and preset.volumetric_density > 0.0:
 		env.volumetric_fog_enabled = true
 		env.volumetric_fog_density = preset.volumetric_density * 0.5  # sparse shafts, never a broad haze

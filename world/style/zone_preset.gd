@@ -13,6 +13,11 @@ var sky_horizon: Color = Color("ffd9a8")
 var ground_horizon: Color = Color("e6bd8f")
 var ground_bottom: Color = Color("6c5a6a")
 var background_color: Color = Color(0.05, 0.05, 0.08)
+## Sky shader extras (`style_sky.gdshader`): the clouds are tinted from the horizon colour unless `cloud_color` is set.
+var cloud_color: Color = Color(0, 0, 0, 0)
+var cloud_cover: float = 0.5
+var star_amount: float = 0.0
+var sky_haze: float = 0.5
 
 # Key light (sun / moon) and ambient (the ambient colour IS the coloured shadow)
 var sun_color: Color = Color("ffe2b0")
