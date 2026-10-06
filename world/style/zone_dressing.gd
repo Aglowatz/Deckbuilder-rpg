@@ -39,10 +39,14 @@ static func recipe(preset_id: StringName) -> Dictionary:
 		StylePresets.DNA:
 			return {
 				"items": [
-					[FURNITURE, "books", 0.5, 1.4, 1.8], [FURNITURE, "cardboardBoxOpen", 0.35, 1.6, 2.2], [FURNITURE, "plantSmall1", 0.3, 1.8, 2.4],
-					[FURNITURE, "cardboardBoxClosed", 0.35, 1.6, 2.2], [FURNITURE, "plantSmall2", 0.25, 1.8, 2.4], [FURNITURE, "lampRoundFloor", 0.12, 1.4, 1.6],
+					[FURNITURE, "books", 0.9, 1.4, 1.8], [FURNITURE, "cardboardBoxOpen", 0.7, 1.6, 2.2], [FURNITURE, "plantSmall1", 0.4, 1.8, 2.4],
+					[FURNITURE, "cardboardBoxClosed", 0.7, 1.6, 2.2], [FURNITURE, "plantSmall2", 0.3, 1.8, 2.4], [FURNITURE, "lampRoundFloor", 0.12, 1.4, 1.6],
+					[FURNITURE, "bookcaseClosed", 0.3, 1.2, 1.5], [FURNITURE, "trashcan", 0.35, 1.5, 2.0], [FURNITURE, "pottedPlant", 0.25, 1.3, 1.7],
+					[FURNITURE, "sideTableDrawers", 0.2, 1.3, 1.6], [FURNITURE, "coatRackStanding", 0.15, 1.2, 1.5], [FURNITURE, "chairDesk", 0.3, 1.3, 1.6],
 				],
 				"patches": [Color("20262b"), Color("2b3238"), Color("171b1f")], "patch_pattern": GroundDecals.Pattern.DIRT,
+				"density": 2.6,
+				"tint": Color(0.5, 0.56, 0.6),
 			}
 		StylePresets.GAINLANDS:
 			return {
@@ -112,7 +116,7 @@ static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, qua
 	var density_scale: float = GraphicsQuality.foliage_density(quality)
 	var area_m2: float = bounds.size.x * bounds.size.y * region_share
 	for item: Array in items:
-		var wanted: int = int(area_m2 / 100.0 * float(item[2]) * density_scale * 0.35 * (GRASS_DENSITY if StyleGrass.replaces(str(item[1])) else 1.0))
+		var wanted: int = int(area_m2 / 100.0 * float(item[2]) * density_scale * 0.35 * float(data.get("density", 1.0)) * (GRASS_DENSITY if StyleGrass.replaces(str(item[1])) else 1.0))
 		wanted = mini(wanted, budget - placed)
 		if wanted <= 0:
 			continue
@@ -165,7 +169,13 @@ static func _make_multimesh(root: Node3D, chunk: Dictionary) -> void:
 		return
 	var foliage: bool = _is_foliage(str(chunk["model"]))
 	for surface: int in range(mesh.get_surface_count()):
-		var toon: ShaderMaterial = StyleToon.toon_for(mesh.surface_get_material(surface), 1.0 if foliage else -1.0)
+		var source: Material = mesh.surface_get_material(surface)
+		var tint: Color = chunk.get("tint", Color.WHITE) as Color
+		if tint != Color.WHITE and source is StandardMaterial3D:
+			# A per-zone multiplier on the prop colours (the D.N.A. keeps its clutter dark and desaturated so only the intended objects carry colour).
+			source = source.duplicate()
+			(source as StandardMaterial3D).albedo_color = (source as StandardMaterial3D).albedo_color * tint
+		var toon: ShaderMaterial = StyleToon.toon_for(source, 1.0 if foliage else -1.0)
 		if toon != null:
 			mesh.surface_set_material(surface, toon)
 	var multimesh: MultiMesh = MultiMesh.new()
@@ -299,5 +309,5 @@ static func _add_to_chunk(chunks: Dictionary, mesh: Mesh, model: String, xform: 
 	var pos: Vector3 = xform.origin
 	var key: String = "%s|%d|%d" % [model, int(floor(pos.x / CHUNK)), int(floor(pos.z / CHUNK))]
 	if not chunks.has(key):
-		chunks[key] = {"mesh": mesh, "model": model, "transforms": [] as Array[Transform3D], "grass": StyleGrass.colors_for(data.get("patches", []) as Array)}
+		chunks[key] = {"mesh": mesh, "model": model, "transforms": [] as Array[Transform3D], "grass": StyleGrass.colors_for(data.get("patches", []) as Array), "tint": data.get("tint", Color.WHITE)}
 	(chunks[key]["transforms"] as Array[Transform3D]).append(xform)
