@@ -8,8 +8,11 @@ var _time: float = 0.0
 
 
 func _ready() -> void:
+	GroundDecals.begin(Settings.graphics_quality)
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 11
+	var paint_rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	paint_rng.seed = 29
 	for row: int in range(-4, 5):
 		for col: int in range(-5, 6):
 			var pos: Vector3 = HexGrid.cell_to_world(col, row)
@@ -19,6 +22,7 @@ func _ready() -> void:
 				ModelKit.place(self, water, pos)
 				continue
 			ModelKit.place(self, ModelKit.tile("hex_grass"), pos)
+			_paint_tile(paint_rng, pos, dist)
 			if dist > 5.0 and rng.randf() < 0.55:
 				var pick: String = ["tree_single_A", "tree_single_B", "rock_single_A", "rock_single_C", "trees_A_small", "trees_B_small"][rng.randi() % 6]
 				ModelKit.place(self, ModelKit.nature(pick), pos + Vector3(rng.randf_range(-0.4, 0.4), 0, rng.randf_range(-0.4, 0.4)), rng.randf() * 360.0, 1.3)
@@ -68,3 +72,20 @@ func _add_lights() -> void:
 	back.shadow_enabled = false
 	back.position = Vector3(0.0, 5.0, -12.0)
 	add_child(back)
+
+
+## Painted variation on a grass tile: moss, packed earth and worn stone patches so no tile is one flat colour; the play area stays calmer than the rim.
+func _paint_tile(rng: RandomNumberGenerator, pos: Vector3, dist: float) -> void:
+	var count: int = 2 if dist > 5.0 else 1
+	for i: int in range(count):
+		var offset: Vector3 = Vector3(rng.randf_range(-0.7, 0.7), 0.0, rng.randf_range(-0.7, 0.7))
+		var kind: GroundDecals.Kind = [GroundDecals.Kind.MOSS_PATCH, GroundDecals.Kind.DIRT_PATCH, GroundDecals.Kind.STAIN][rng.randi() % 3]
+		var palette: Array[Color] = []
+		match kind:
+			GroundDecals.Kind.MOSS_PATCH:
+				palette = [Color("4f7a3a"), Color("6a9a48")]
+			GroundDecals.Kind.DIRT_PATCH:
+				palette = [Color("7e7a50"), Color("676442"), Color("4e4a34")]
+			_:
+				palette = [Color("5a5a64"), Color("7a7a80")]
+		GroundDecals.add_patch(self, pos + offset + Vector3(0.0, 0.45, 0.0), rng.randf_range(0.7, 1.1), kind, palette, rng.randf() * 40.0, rng.randf_range(0.8, 1.0), rng.randf() * 180.0)
