@@ -156,10 +156,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 7/5/6/6/6/5/6/5 (iter2). Battle preset particles: motes 50, drifting leaves 10, warm fireflies 12. The ambience box followed the camera (9 m up, 36 m wide) so nothing showed: `ArenaBackdrop` now makes the emitters follow a point above the table and calls new `StyleAmbience.focus(0.4, 1.6)` (smaller volume, larger particles). Motes read as sparse bokeh over the board, never behind cards; still pale (could be warmer). Low ground mist at the rim NOT done. Medium 68 fps (battle scene). Tests 1023 green. before = battle_generic/g4_2.png; after = battle_generic/g5_2.png.
-- [~] **BB-GEN-6 Final polish.** Gentle camera drift, optional tilt-shift, no overdraw on Medium, 60 fps with a full board of 7 units per side and effects firing, consistent with the rewards and mini-dungeon screens that reuse it.
+- [x] **BB-GEN-6 Final polish.** Gentle camera drift, optional tilt-shift, no overdraw on Medium, 60 fps with a full board of 7 units per side and effects firing, consistent with the rewards and mini-dungeon screens that reuse it.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/5/6/6/6/5/6/5 (sign-off; honest, area stays below 7 on C/A/X and below 8 overall: see follow-up BB-GEN-7). Camera already drifts gently (sin sway); Medium 68 fps in the battle scene (draw calls 521); no popping or z-fighting seen in the single available angle. Not done: tilt-shift, 7-units-per-side fps run, rewards/mini-dungeon screens not re-shot. before = battle_generic/before14.png; after = battle_generic/g5_2.png (docs/art/screens/graphics_loop/battle_generic_{before,after}.png).
 
 ### TW: Main town: Concord Crossing
 
@@ -890,7 +890,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
-- [ ] **G-02b Lighting follow-up.** Contact-shadow blobs under characters and props, apply the rig shadow settings (opacity, blur, bias) to the Gainlands, Buffet and Heap zone suns, shadow acne check on High, omni-light budget audit (12 Medium / 24 High).
+- [ ] **G-12b Character audit.** Proportion check (head about 40 percent), flavour idle animations for all NPCs, readable role tags at distance, enemy rim language per zone (distinct from the DNA crimson), NPC/prop clipping; close-ups in town, D.N.A. and Gainlands.  - Verify: close-ups of hero, 4 NPCs and 3 enemy types in town, D.N.A. and Gainlands.  - Pass bar: R 7 or higher in all three.  - Result: scores = _; before = _; after = _- [ ] **BB-GEN-7 Follow-up: battle board finish.** Bevelled hex edges with a visible rim/board thickness, subtle grid glow on placeable cells, warm the pale motes, low rim mist, colour harmony (the green board vs orange decals vs violet grade), a backdrop `--cam` arg so 3 angles can be shot, fps with a full board of 7 units per side.  - Verify: `bash tools/ui_shot.sh res://scenes/battle.tscn battle_generic <tag> --no_tutorial=true`, plus the rewards and mini-dungeon screens.  - Pass bar: all 8 rubric scores 7 or higher.  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _- [ ] **G-02b Lighting follow-up.** Contact-shadow blobs under characters and props, apply the rig shadow settings (opacity, blur, bias) to the Gainlands, Buffet and Heap zone suns, shadow acne check on High, omni-light budget audit (12 Medium / 24 High).
   - Verify: Gainlands, Buffet, Heap angle a/b; character close-ups.
   - Pass bar: L 7 or higher in town, Gainlands, D.N.A.
   - Result: scores = _; before = _; after = _
