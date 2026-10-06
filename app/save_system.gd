@@ -1,7 +1,7 @@
 class_name SaveSystem
 extends RefCounted
 ## JSON save/load. The save holds only plain data (ids and numbers); the Session turns ids back
-## into cards through the content library.
+## into cards through the content deck.
 
 const PATH: String = "user://save.json"
 const VERSION: int = 1

@@ -2,7 +2,7 @@ class_name GameEvent
 extends RefCounted
 ## One typed entry in the game's event log. The future UI animates purely from these.
 ## `card` is a card uid, `other` is a card uid or a Targets ref, `amount` is a delta or
-## count, `value` is a resulting total (e.g. new life).
+## count, `value` is a resulting total (e.g. new HP).
 
 enum Type {
 	GAME_STARTED,
@@ -12,11 +12,11 @@ enum Type {
 	TURN_STARTED,
 	PHASE_CHANGED,
 	CARD_DRAWN,
-	CARD_DISCARDED,
-	CARD_MILLED,
+	CARD_TOSSED,
+	CARD_BURIED,
 	INFRASTRUCTURE_PLAYED,
 	ENERGY_SPENT,
-	CARD_CAST,
+	CARD_PLAYED,
 	PERMANENT_ENTERED,
 	TRAP_SET,
 	TRAP_TRIGGERED,
@@ -25,9 +25,9 @@ enum Type {
 	ATTACKERS_DECLARED,
 	BLOCKER_ASSIGNED,
 	DAMAGE_DEALT,
-	LIFE_CHANGED,
-	CREATURE_DIED,
-	CARD_RETURNED_TO_HAND,
+	HP_CHANGED,
+	UNIT_DIED,
+	CARD_SENT_BACK,
 	TOKEN_CREATED,
 	STATS_CHANGED,
 	KEYWORD_GRANTED,

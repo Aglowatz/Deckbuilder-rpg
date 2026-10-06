@@ -3,7 +3,7 @@ extends GutTest
 
 
 func test_affinity_display_name_is_refusemancer() -> void:
-	assert_eq(UIStyle.affinity_name(Affinity.Type.C), "Refusemancer")
+	assert_eq(UIStyle.affinity_name(Affinity.Type.REFUSEMANCER), "Refusemancer")
 
 
 func test_zone_portal_is_the_path_of_the_refusemancer() -> void:
@@ -16,5 +16,5 @@ func test_zone_portal_is_the_path_of_the_refusemancer() -> void:
 func test_corrupted_npc_ids_use_refusemancer() -> void:
 	assert_true(CorruptedNpcs.IDS.has("refusemancer"))
 	assert_false(CorruptedNpcs.IDS.has("root"))
-	assert_eq(CorruptedNpcs.element("refusemancer"), Affinity.Type.C)
+	assert_eq(CorruptedNpcs.element("refusemancer"), Affinity.Type.REFUSEMANCER)
 	assert_eq(CorruptedNpcs.unlock_flag("refusemancer"), &"refusemancer_zone_unlocked")

@@ -21,7 +21,7 @@ var _shots: int = 0
 func run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 	var town: TownScene = await _wait_for_town()

@@ -3,7 +3,7 @@ extends GutTest
 
 
 func test_affinity_display_name_is_gourmand() -> void:
-	assert_eq(UIStyle.affinity_name(Affinity.Type.B), "Gourmand")
+	assert_eq(UIStyle.affinity_name(Affinity.Type.GOURMAND), "Gourmand")
 
 
 func test_zone_portal_is_the_path_of_the_gourmand() -> void:
@@ -16,5 +16,5 @@ func test_zone_portal_is_the_path_of_the_gourmand() -> void:
 func test_corrupted_npc_ids_use_gourmand() -> void:
 	assert_true(CorruptedNpcs.IDS.has("gourmand"))
 	assert_false(CorruptedNpcs.IDS.has("tide"))
-	assert_eq(CorruptedNpcs.element("gourmand"), Affinity.Type.B)
+	assert_eq(CorruptedNpcs.element("gourmand"), Affinity.Type.GOURMAND)
 	assert_eq(CorruptedNpcs.unlock_flag("gourmand"), &"gourmand_zone_unlocked")

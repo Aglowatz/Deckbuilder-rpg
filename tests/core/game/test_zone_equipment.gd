@@ -60,8 +60,8 @@ func test_each_piece_uses_a_different_new_hook() -> void:
 		kinds[(_piece_mods(id)[0] as Modifier).kind] = true
 	assert_eq(kinds.size(), 4)
 	assert_true(kinds.has(Modifier.Kind.END_OF_TURN_EFFECT))
-	assert_true(kinds.has(Modifier.Kind.ON_CREATURE_ENTER_EFFECT))
-	assert_true(kinds.has(Modifier.Kind.LIFE_GAIN_BONUS))
+	assert_true(kinds.has(Modifier.Kind.ON_UNIT_ENTER_EFFECT))
+	assert_true(kinds.has(Modifier.Kind.HP_GAIN_BONUS))
 	assert_true(kinds.has(Modifier.Kind.ON_ALLY_DEATH_EFFECT))
 
 
@@ -70,50 +70,50 @@ func test_each_piece_uses_a_different_new_hook() -> void:
 
 func test_compliance_clipboard_drains_the_opponent_at_the_end_of_your_turn_only() -> void:
 	var game: GameState = _game(_piece_mods("compliance_clipboard"))
-	var before: int = game.players[1].life
+	var before: int = game.players[1].hp
 	assert_eq(game.active, 0)
 	GameFactory.pass_turn(game)
-	assert_eq(game.players[1].life, before - 1, "the opponent lost 1 life when my turn ended")
-	assert_eq(game.players[0].life, game.players[0].max_life, "I lost nothing")
+	assert_eq(game.players[1].hp, before - 1, "the opponent lost 1 HP when my turn ended")
+	assert_eq(game.players[0].hp, game.players[0].max_hp, "I lost nothing")
 	GameFactory.pass_turn(game)
-	assert_eq(game.players[1].life, before - 1, "their turn ending does nothing for me")
+	assert_eq(game.players[1].hp, before - 1, "their turn ending does nothing for me")
 	GameFactory.pass_turn(game)
-	assert_eq(game.players[1].life, before - 2, "it fires every one of my turns")
+	assert_eq(game.players[1].hp, before - 2, "it fires every one of my turns")
 
 
-func test_spotters_barbell_hits_the_opponent_whenever_a_creature_enters() -> void:
+func test_spotters_barbell_hits_the_opponent_whenever_a_unit_enters() -> void:
 	var game: GameState = _game(_piece_mods("spotters_barbell"))
-	var before: int = game.players[1].life
+	var before: int = game.players[1].hp
 	game.create_token(0, GameFactory.vanilla(1, 1))
-	assert_eq(game.players[1].life, before - 1, "one creature entered: 1 damage")
+	assert_eq(game.players[1].hp, before - 1, "one unit entered: 1 damage")
 	game.create_token(0, GameFactory.vanilla(1, 1))
-	assert_eq(game.players[1].life, before - 2)
+	assert_eq(game.players[1].hp, before - 2)
 	game.create_token(1, GameFactory.vanilla(1, 1))
-	assert_eq(game.players[1].life, before - 2, "the opponent's creature entering does not count")
+	assert_eq(game.players[1].hp, before - 2, "the opponent's unit entering does not count")
 
 
-func test_head_chefs_toque_adds_one_to_every_life_gain() -> void:
+func test_head_chefs_toque_adds_one_to_every_hp_gain() -> void:
 	var game: GameState = _game(_piece_mods("head_chef_toque"))
-	game.players[0].life = 5
-	game.gain_life(0, 2)
-	assert_eq(game.players[0].life, 8, "2 + 1 extra")
-	game.gain_life(0, 0)
-	assert_eq(game.players[0].life, 8, "gaining nothing stays nothing")
-	game.players[1].life = 5
-	game.gain_life(1, 2)
-	assert_eq(game.players[1].life, 7, "the opponent has no toque")
+	game.players[0].hp = 5
+	game.gain_hp(0, 2)
+	assert_eq(game.players[0].hp, 8, "2 + 1 extra")
+	game.gain_hp(0, 0)
+	assert_eq(game.players[0].hp, 8, "gaining nothing stays nothing")
+	game.players[1].hp = 5
+	game.gain_hp(1, 2)
+	assert_eq(game.players[1].hp, 7, "the opponent has no toque")
 
 
-func test_compost_boots_grow_your_creatures_when_one_of_yours_dies() -> void:
+func test_compost_boots_grow_your_units_when_one_of_yours_dies() -> void:
 	var game: GameState = _game(_piece_mods("compost_boots"))
-	var survivor: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(2, 2))
-	var doomed: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(1, 1))
-	var enemy: CardInstance = GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(1, 1))
-	var toughness: int = game.get_toughness(survivor)
-	game.kill_creature(doomed)
-	assert_eq(game.get_toughness(survivor), toughness + 1, "the survivor grew +0/+1 permanently")
-	game.kill_creature(enemy)
-	assert_eq(game.get_toughness(survivor), toughness + 1, "an enemy dying does nothing")
+	var survivor: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 2))
+	var doomed: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(1, 1))
+	var enemy: CardInstance = GameFactory.add_to_field(game, 1, GameFactory.vanilla(1, 1))
+	var defense: int = game.get_defense(survivor)
+	game.destroy_unit(doomed)
+	assert_eq(game.get_defense(survivor), defense + 1, "the survivor grew +0/+1 permanently")
+	game.destroy_unit(enemy)
+	assert_eq(game.get_defense(survivor), defense + 1, "an enemy dying does nothing")
 
 
 # ---- Getting them ---------------------------------------------------------------------------------------------
@@ -136,7 +136,7 @@ func test_each_piece_is_a_quest_reward_in_its_own_zone_and_nowhere_in_the_equipm
 func test_turning_in_the_quest_grants_the_piece_once() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.B)
+	Session.ensure_game(Affinity.Type.GOURMAND)
 	var piece: EquipmentData = Session.content.equipment_piece("head_chef_toque")
 	assert_false(Session.profile.owned_equipment.has(piece))
 	assert_true(Session.grant_equipment(piece))

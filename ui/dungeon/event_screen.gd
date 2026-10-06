@@ -103,10 +103,10 @@ func _choose(index: int) -> void:
 
 func _summary_lines(result: EventResolver.Result) -> Array[String]:
 	var lines: Array[String] = []
-	if result.life_delta > 0:
-		lines.append("+%d life" % result.life_delta)
-	elif result.life_delta < 0:
-		lines.append("%d life" % result.life_delta)
+	if result.hp_delta > 0:
+		lines.append("+%d HP" % result.hp_delta)
+	elif result.hp_delta < 0:
+		lines.append("%d HP" % result.hp_delta)
 	if result.gold_delta > 0:
 		lines.append("+%d gold" % result.gold_delta)
 	elif result.gold_delta < 0:

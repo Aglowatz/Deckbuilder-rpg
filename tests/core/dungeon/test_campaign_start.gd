@@ -30,22 +30,22 @@ func test_neutral_is_not_a_valid_starting_choice() -> void:
 
 
 func test_new_profile_owns_only_the_neutral_starter_cards() -> void:
-	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.C)
-	assert_eq(profile.primary_affinity, Affinity.Type.C)
+	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.REFUSEMANCER)
+	assert_eq(profile.primary_affinity, Affinity.Type.REFUSEMANCER)
 	assert_false(profile.intro_dungeon_cleared)
 	assert_eq(profile.owned_cards.size(), 23)
 	for card: CardData in profile.owned_cards:
 		assert_eq(card.color, Affinity.Type.NEUTRAL)
-	assert_eq(profile.base_max_life(), 10)
+	assert_eq(profile.base_max_hp(), 10)
 	assert_eq(profile.base_opening_hand(), 5)
-	var deck: Deck = CampaignStart.starter_deck(_content, Affinity.Type.C)
+	var deck: Deck = CampaignStart.starter_deck(_content, Affinity.Type.REFUSEMANCER)
 	var modifiers: ModifierSet = ModifierSet.new()
 	modifiers.add_source(TrialOfTheHollow.deck_size_waiver())
 	assert_true(DeckValidator.is_valid(deck, profile, modifiers, true), "the starter deck is buildable from the collection")
 
 
 func test_no_sample_pair_deck_is_given_to_the_player() -> void:
-	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.B)
+	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.GOURMAND)
 	var beefcake: Deck = _content.deck("Beefcake & Gourmand")
 	assert_false(DeckValidator.is_valid(beefcake, profile, null, true), "pair decks must be built by the player")
 
@@ -55,11 +55,11 @@ func test_no_sample_pair_deck_is_given_to_the_player() -> void:
 func test_random_element_cards_are_distinct_and_on_element() -> void:
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 42
-	var picks: Array[CardData] = CampaignStart.random_element_cards(_content, Affinity.Type.A, 3, rng)
+	var picks: Array[CardData] = CampaignStart.random_element_cards(_content, Affinity.Type.BEEFCAKE, 3, rng)
 	assert_eq(picks.size(), 3)
 	var seen_ids: Dictionary = {}
 	for card: CardData in picks:
-		assert_eq(card.color, Affinity.Type.A)
+		assert_eq(card.color, Affinity.Type.BEEFCAKE)
 		assert_false(card.is_infrastructure())
 		assert_false(seen_ids.has(card.id), "no duplicate picks")
 		seen_ids[card.id] = true
@@ -70,17 +70,17 @@ func test_random_element_cards_same_seed_same_picks() -> void:
 	rng_a.seed = 7
 	var rng_b: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng_b.seed = 7
-	var picks_a: Array[CardData] = CampaignStart.random_element_cards(_content, Affinity.Type.C, 3, rng_a)
-	var picks_b: Array[CardData] = CampaignStart.random_element_cards(_content, Affinity.Type.C, 3, rng_b)
+	var picks_a: Array[CardData] = CampaignStart.random_element_cards(_content, Affinity.Type.REFUSEMANCER, 3, rng_a)
+	var picks_b: Array[CardData] = CampaignStart.random_element_cards(_content, Affinity.Type.REFUSEMANCER, 3, rng_b)
 	for i: int in range(3):
 		assert_eq(picks_a[i].id, picks_b[i].id)
 
 
 func test_profile_choice_survives_tres() -> void:
-	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.D)
+	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.NECROCRAT)
 	var path: String = "user://test_profile.tres"
 	assert_eq(ResourceSaver.save(profile, path), OK)
 	var loaded: PlayerProfile = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as PlayerProfile
-	assert_eq(loaded.primary_affinity, Affinity.Type.D)
+	assert_eq(loaded.primary_affinity, Affinity.Type.NECROCRAT)
 	assert_eq(loaded.owned_cards.size(), 23)
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))

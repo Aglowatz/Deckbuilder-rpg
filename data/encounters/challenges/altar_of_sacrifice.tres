@@ -25,7 +25,7 @@ modifiers = Array[ExtResource("3_5nw0i")]([SubResource("Resource_qsig6")])
 script = ExtResource("1_q14cx")
 kind = 4
 boon = SubResource("Resource_2c3rt")
-description = "Gain +3 max life for the dungeon."
+description = "Gain +3 max HP for the dungeon."
 
 [resource]
 script = ExtResource("5_5iu7a")

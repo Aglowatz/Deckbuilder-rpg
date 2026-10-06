@@ -101,7 +101,7 @@ func _scene_name() -> String:
 func _progress_key() -> String:
 	var cleared: int = Session.dungeon_map.cleared.size() if Session.dungeon_map != null else -1
 	var owned: int = Session.profile.owned_cards.size() if Session.profile != null else -1
-	return "%s|%d|%d|%d|%d|%d" % [_scene_name(), Session.flags.size(), Session.gold, owned, cleared, Session.run.life if Session.run != null else -1]
+	return "%s|%d|%d|%d|%d|%d" % [_scene_name(), Session.flags.size(), Session.gold, owned, cleared, Session.run.hp if Session.run != null else -1]
 
 
 func _report() -> void:
@@ -165,12 +165,12 @@ func _find_element_choice(scene: StartingAreaScene) -> ElementChoiceScreen:
 ## every later Beefcake-specific check in this driver depends on that.
 func _choose_element(choice: ElementChoiceScreen) -> void:
 	_check(choice._confirm.disabled, "the element choice needs a pick before confirming")
-	var tile: Button = choice._tiles[Affinity.Type.A] as Button
+	var tile: Button = choice._tiles[Affinity.Type.BEEFCAKE] as Button
 	await driver.click(driver.center_of_control(tile))
-	_check(choice.selected == Affinity.Type.A, "clicking the Beefcake tile selects it")
+	_check(choice.selected == Affinity.Type.BEEFCAKE, "clicking the Beefcake tile selects it")
 	await driver.click_button("Begin")
 	await driver.seconds(1.0)
-	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.A, "choosing an element sets the primary affinity")
+	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.BEEFCAKE, "choosing an element sets the primary affinity")
 	_check(Session.deck.size() == TrialOfTheHollow.STARTER_DECK_SIZE, "the starter deck is %d cards" % TrialOfTheHollow.STARTER_DECK_SIZE)
 	_check(not Session.deck_is_valid(), "the starter deck is short of the plain 45-card minimum")
 	_check(Session.in_dungeon(), "choosing an element enters the tutorial dungeon")
@@ -546,10 +546,10 @@ func _map(scene: DungeonMapScreen) -> void:
 			_check(driver.find_button("Continue") != null, "the challenge shows an outcome")
 			await driver.click_button("Continue")
 		elif modal is ShrineScreen:
-			var before: int = Session.run.life
+			var before: int = Session.run.hp
 			await driver.click_button("Rest")
 			await driver.seconds(1.2)
-			_check(Session.run.life >= before, "the shrine never lowers life")
+			_check(Session.run.hp >= before, "the shrine never lowers HP")
 			await driver.click_button("Continue")
 		await driver.seconds(1.0)
 		return
@@ -565,7 +565,7 @@ func _map(scene: DungeonMapScreen) -> void:
 		await driver.frames(10)
 		return
 	var button: MapNodeButton = scene._buttons[available[0].id] as MapNodeButton
-	_note("map: entering %s (life %d)" % [available[0].title, Session.run.life])
+	_note("map: entering %s (HP %d)" % [available[0].title, Session.run.hp])
 	await driver.click(driver.center_of_control(button))
 	await driver.seconds(1.0)
 
@@ -666,7 +666,7 @@ func _battle(screen: BattleScreen) -> void:
 		# but using the item is expected every attempt regardless of outcome.
 		_check(used_item, "an equipped item was actually used during the corrupted-NPC duel")
 	var won: bool = screen.game.winner == 0
-	_note("battle %d vs %s: %s in %d turns (life %d)" % [_battles, screen.context.enemy_name, "won" if won else "lost", screen.game.turn, screen.game.players[0].life])
+	_note("battle %d vs %s: %s in %d turns (HP %d)" % [_battles, screen.context.enemy_name, "won" if won else "lost", screen.game.turn, screen.game.players[0].hp])
 	# Part E: force the first win's XP high enough to cross an equipment-choice level (5) and a
 	# vendor-discount filler level (7, New brief Part D - was a card-choice level before that
 	# reward was removed entirely) in one jump, so the multi-level LevelUpScreen chain (recap ->

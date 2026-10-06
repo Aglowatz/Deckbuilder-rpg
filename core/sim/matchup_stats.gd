@@ -13,7 +13,7 @@ var illegal_actions: int = 0
 ## Games won by whoever went first, and games where the first player was decided.
 var first_player_wins: int = 0
 var decided_games: int = 0
-## card id -> total casts across all games, per deck.
+## card id -> total plays across all games, per deck.
 var casts_a: Dictionary = {}
 var casts_b: Dictionary = {}
 

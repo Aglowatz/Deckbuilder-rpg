@@ -3,7 +3,7 @@ extends Node
 ## FINAL (seventh brief): the Endless Buffet flow with human-style input, end to end: the Path of the Gourmand in
 ## town -> the Endless Buffet, the minimap reveals as you explore and POIs appear (full map on M) -> a JELLY
 ## BOUNCE PAD up to Butter Butte (and its chest) -> the rotating LAZY SUSAN carries you -> a CROUTON RAFT: step off
-## into the soup once (respawn, -1 zone life, logged), then ride it properly across -> a GOLEM GATE opens for an
+## into the soup once (respawn, -1 zone HP, logged), then ride it properly across -> a GOLEM GATE opens for an
 ## ingredient -> slow-enemy battle -> fast-enemy hit -> interactables (fountain, oven, taste test, fortune cookie)
 ## -> hub heal -> quiz -> the Order Up! minigame -> the Mystery Stew puzzle -> the Walk-In Freezer mini dungeon ->
 ## a hidden chest. Screenshots every new area and screen to _screenshots/brief7/. Run windowed:
@@ -29,7 +29,7 @@ var _shots: int = 0
 func run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.B)
+	Session.ensure_game(Affinity.Type.GOURMAND)
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 	var town: TownScene = await _wait_for(TownScene) as TownScene
@@ -59,7 +59,7 @@ func run() -> void:
 	await _hidden_chest(zone)
 	zone = await _mini_dungeon(zone)
 	await _final_state(zone)
-	_finish(_failures.is_empty(), "town -> Path of the Gourmand -> Endless Buffet: minimap reveal + POIs -> jelly pad -> lazy susan -> raft (fall in once: -1 life) -> golem gate -> slow battle -> fast hit -> interactables -> hub heal -> quiz -> Order Up! -> stew puzzle -> chest -> Walk-In Freezer (%d screenshots)" % _shots)
+	_finish(_failures.is_empty(), "town -> Path of the Gourmand -> Endless Buffet: minimap reveal + POIs -> jelly pad -> lazy susan -> raft (fall in once: -1 HP) -> golem gate -> slow battle -> fast hit -> interactables -> hub heal -> quiz -> Order Up! -> stew puzzle -> chest -> Walk-In Freezer (%d screenshots)" % _shots)
 
 
 # ---- Steps ------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ func _enter_the_buffet(town: TownScene) -> BuffetScene:
 	if zone != null:
 		await driver.seconds(1.2)
 		_check(Session.zone_run != null and Session.zone_run.zone_id == BuffetZone.ID, "a zone visit starts for the Endless Buffet")
-		_check(Session.zone_run.life == Session.zone_run.max_life(), "entering starts at full zone life")
+		_check(Session.zone_run.hp == Session.zone_run.max_hp(), "entering starts at full zone HP")
 		await _shot("g_02_buffet_arrival_hub")
 	return zone
 
@@ -252,7 +252,7 @@ func _lazy_susan(zone: BuffetScene) -> void:
 	_check(absf(start.angle_to(now)) > 0.8, "the turning platter carried you round (%.2f rad)" % absf(start.angle_to(now)))
 	_check(absf(start.length() - now.length()) < 0.8, "...around its pillar, not off it (radius %.1f -> %.1f)" % [start.length(), now.length()])
 	_check(int(Session.counters.get(BuffetZone.COUNTER_RIDES, 0)) == rides_before + 1, "the ride was counted")
-	_check(Session.zone_run.life == Session.zone_run.max_life(), "riding costs nothing")
+	_check(Session.zone_run.hp == Session.zone_run.max_hp(), "riding costs nothing")
 	# Wait until we are carried to the north rim, then step off onto the north bank.
 	var guard: int = 0
 	while zone.player.position.z > susan.center.y - 2.4 and guard < 900:
@@ -268,7 +268,7 @@ func _lazy_susan(zone: BuffetScene) -> void:
 	await driver.seconds(0.4)
 	await _hold(KEY_W, false)
 	_check(zone.player.position.z < susan.center.y - BuffetLayout.RIVER_HALF_WIDTH, "stepped off the other side onto the north bank (z %.1f)" % zone.player.position.z)
-	_check(Session.zone_run.life == Session.zone_run.max_life(), "no fall on the way off")
+	_check(Session.zone_run.hp == Session.zone_run.max_hp(), "no fall on the way off")
 	await _shot("g_17_north_bank_after_the_susan")
 
 
@@ -303,7 +303,7 @@ func _raft_and_soup(zone: BuffetScene) -> void:
 	await driver.seconds(3.2)
 	await _shot("g_19_riding_the_crouton_raft")
 	# Mid-river: deliberately step off into the soup, once.
-	var life_before: int = Session.zone_run.life
+	var hp_before: int = Session.zone_run.hp
 	var log_before: int = Session.zone_log.size()
 	var safe: Vector3 = zone.last_safe
 	await _hold(KEY_A, true)
@@ -320,10 +320,10 @@ func _raft_and_soup(zone: BuffetScene) -> void:
 		guard += 1
 		await driver.frames(3)
 	await driver.seconds(0.5)
-	_check(Session.zone_run.life == life_before - BuffetZone.SOUP_DAMAGE, "the soup dunk cost exactly 1 zone life (%d -> %d)" % [life_before, Session.zone_run.life])
+	_check(Session.zone_run.hp == hp_before - BuffetZone.SOUP_DAMAGE, "the soup dunk cost exactly 1 zone HP (%d -> %d)" % [hp_before, Session.zone_run.hp])
 	_check(zone.player.position.distance_to(safe) < 1.5 and zone.buf.layout.surface_at(zone.player.position.x, zone.player.position.z) == BuffetLayout.Surface.GROUND, "...and you respawn on dry ground at the last safe spot")
 	_check(Session.zone_log.size() == log_before + 1, "the dunk is logged (%s)" % Session.zone_log[Session.zone_log.size() - 1])
-	await _shot("g_21_respawned_minus_one_life")
+	await _shot("g_21_respawned_minus_one_HP")
 	# Now do it properly: board again and ride all the way over.
 	zone._invulnerable = 600.0
 	await _clear_popups(zone)
@@ -338,7 +338,7 @@ func _raft_and_soup(zone: BuffetScene) -> void:
 	await _walk_to(zone, north, 1.2)
 	await driver.seconds(0.4)
 	_check(zone.player.position.z < raft.b.y and zone.buf.layout.surface_at(zone.player.position.x, zone.player.position.z) == BuffetLayout.Surface.GROUND, "you stepped off onto the north bank (z %.1f)" % zone.player.position.z)
-	_check(Session.zone_run.life == life_before - BuffetZone.SOUP_DAMAGE, "the second crossing cost nothing")
+	_check(Session.zone_run.hp == hp_before - BuffetZone.SOUP_DAMAGE, "the second crossing cost nothing")
 	_check(int(Session.counters.get(BuffetZone.COUNTER_RIDES, 0)) >= rides_before + 1, "the rides were counted")
 	await _shot("g_23_gravy_bank_west")
 
@@ -407,7 +407,7 @@ func _slow_enemy_battle(zone: BuffetScene) -> BuffetScene:
 	_check(enemy != null, "a Meatloaf Golem roams the Cheddar Cliffs")
 	if enemy == null:
 		return zone
-	var life_before: int = Session.zone_run.life
+	var hp_before: int = Session.zone_run.hp
 	var enemies_before: int = int(Session.counters.get(BuffetZone.COUNTER_ENEMIES, 0))
 	zone.player.position = _spot_near(zone, enemy.position)
 	zone.player.position.y = zone.builder.height_at(zone.player.position)
@@ -423,10 +423,10 @@ func _slow_enemy_battle(zone: BuffetScene) -> BuffetScene:
 	if battle == null:
 		return zone
 	_check(battle.context.zone_battle, "it is a zone battle")
-	_check(battle.game.players[0].life == life_before, "the battle starts at the persisted zone life (%d)" % life_before)
+	_check(battle.game.players[0].hp == hp_before, "the battle starts at the persisted zone HP (%d)" % hp_before)
 	await _shot("g_30_buffet_battle_gourmand_deck")
 	await _play_battle(battle)
-	var life_end: int = battle.game.players[0].life
+	var hp_end: int = battle.game.players[0].hp
 	var won: bool = battle.context.won
 	await _shot("g_31_buffet_battle_result")
 	await driver.click_button("Continue")
@@ -436,10 +436,10 @@ func _slow_enemy_battle(zone: BuffetScene) -> BuffetScene:
 		_check(Session.zone_run != null, "back in the Endless Buffet after the battle")
 		_check(Session.flag(BuffetZone.FLAG_GATE_INGREDIENT) and zone.buf.is_gate_open("ingredient"), "the opened gate stays open after the scene reloads")
 		if won:
-			_check(Session.zone_run.life == life_end, "life after the battle is what was left, with no free heal (%d)" % life_end)
+			_check(Session.zone_run.hp == hp_end, "HP after the battle is what was left, with no free heal (%d)" % hp_end)
 			_check(int(Session.counters.get(BuffetZone.COUNTER_ENEMIES, 0)) == enemies_before + 1, "the zone's enemy counter went up")
 		else:
-			_check(Session.zone_run.life == Session.zone_run.max_life(), "a loss wakes you at the Grand Pantry at full life")
+			_check(Session.zone_run.hp == Session.zone_run.max_hp(), "a loss wakes you at the Grand Pantry at full HP")
 			_check(Session.zone_log[Session.zone_log.size() - 1].begins_with("Dish duty fee"), "the dish duty fee was logged")
 		await _clear_popups(zone)
 		await _shot("g_32_back_in_the_buffet_after_battle")
@@ -455,9 +455,9 @@ func _fast_enemy_hit(zone: BuffetScene) -> void:
 	_check(ball != null, "a Runaway Meatball roams the Endless Buffet")
 	if ball == null:
 		return
-	if Session.zone_run.life <= 3:
+	if Session.zone_run.hp <= 3:
 		Session.zone_run.fully_heal()
-	var start_life: int = Session.zone_run.life
+	var start_hp: int = Session.zone_run.hp
 	ball.cooldown = 0.0
 	ball.state = ZoneEnemy.State.PATROL
 	var saved_ranges: Dictionary = {}
@@ -475,13 +475,13 @@ func _fast_enemy_hit(zone: BuffetScene) -> void:
 	await driver.frames(3)
 	await _shot("g_33_meatball_approaching")
 	var waited: float = 0.0
-	while Session.zone_run.life >= start_life and waited < 12.0:
+	while Session.zone_run.hp >= start_hp and waited < 12.0:
 		await driver.frames(3)
 		waited += 3.0 / 60.0
-	_check(Session.zone_run.life == start_life - BuffetEnemies.MEATBALL_DAMAGE, "the meatball hit for exactly 2 (life %d -> %d)" % [start_life, Session.zone_run.life])
-	_check(zone.life_bar._last_life == Session.zone_run.life, "the HUD life bar shows the new life")
+	_check(Session.zone_run.hp == start_hp - BuffetEnemies.MEATBALL_DAMAGE, "the meatball hit for exactly 2 (HP %d -> %d)" % [start_hp, Session.zone_run.hp])
+	_check(zone.hp_bar._last_hp == Session.zone_run.hp, "the HUD HP bar shows the new HP")
 	await driver.frames(4)
-	await _shot("g_34_meatball_hit_flash_and_life")
+	await _shot("g_34_meatball_hit_flash_and_HP")
 	_check(zone._invulnerable > 0.0, "the hit grants a short invulnerability window")
 	for other: ZoneEnemy in zone.enemies:
 		if other != ball:
@@ -511,14 +511,14 @@ func _interactables(zone: BuffetScene) -> void:
 	Session.add_gold(100)
 	zone.hud.set_gold(Session.gold)
 	var run: ZoneRun = Session.zone_run
-	run.life = 2
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
+	run.hp = 2
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	# The soup fountain: real healing, three ladles per visit.
 	await _stand_at(zone, "soup_fountain")
 	await _shot("g_35_soup_fountain_prompt")
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(run.life == 2 + BuffetInteractables.FOUNTAIN_HEAL, "a ladle of soup heals %d" % BuffetInteractables.FOUNTAIN_HEAL)
+	_check(run.hp == 2 + BuffetInteractables.FOUNTAIN_HEAL, "a ladle of soup heals %d" % BuffetInteractables.FOUNTAIN_HEAL)
 	await _shot("g_36_soup_fountain_heal")
 	# The Grand Oven needs honey + basil + ghost pepper: we have honey; fetch the other two by hand.
 	await _stand_at(zone, "oven")
@@ -561,16 +561,16 @@ func _interactables(zone: BuffetScene) -> void:
 func _hub_heal(zone: BuffetScene) -> void:
 	await _clear_popups(zone)
 	var run: ZoneRun = Session.zone_run
-	run.life = maxi(1, run.max_life() - 4)
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
-	var hurt: int = run.life
+	run.hp = maxi(1, run.max_hp() - 4)
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
+	var hurt: int = run.hp
 	zone._spawn_grace = 600.0
 	var spot: ZoneSpot = _spot(zone, "heal")
 	await _walk_to(zone, spot.position, spot.radius)
 	await driver.frames(4)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(hurt < run.max_life() and run.life == run.max_life(), "the Hearty Meal heals to full (%d -> %d)" % [hurt, run.life])
+	_check(hurt < run.max_hp() and run.hp == run.max_hp(), "the Hearty Meal heals to full (%d -> %d)" % [hurt, run.hp])
 	await _shot("g_41_hub_heal_hearty_meal")
 	# The vendor sells Gourmand cards (and Dolcetta hands out Bake Me a Pie).
 	await _clear_popups(zone)
@@ -808,13 +808,13 @@ func _mini_dungeon(zone: BuffetScene) -> BuffetScene:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
 	await _shot("g_62_walk_in_freezer_prompt")
-	var life_at_entry: int = Session.zone_run.life
+	var hp_at_entry: int = Session.zone_run.hp
 	await driver.click_button("Open the door")
 	var map_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 	_check(map_screen != null, "the mini dungeon opens the node map")
 	if map_screen == null:
 		return zone
-	_check(Session.mini_active and Session.run.life == life_at_entry, "the run starts at the zone's current life (%d)" % life_at_entry)
+	_check(Session.mini_active and Session.run.hp == hp_at_entry, "the run starts at the zone's current HP (%d)" % hp_at_entry)
 	await driver.seconds(1.2)
 	await _shot("g_63_walk_in_freezer_map")
 	var battles: int = 0
@@ -827,13 +827,13 @@ func _mini_dungeon(zone: BuffetScene) -> BuffetScene:
 		if available.is_empty():
 			break
 		var button: MapNodeButton = map_screen._buttons[available[0].id] as MapNodeButton
-		var life_before: int = Session.run.life
+		var hp_before: int = Session.run.hp
 		await driver.click(driver.center_of_control(button))
 		var battle: BattleScreen = await _wait_for(BattleScreen) as BattleScreen
 		if battle == null:
 			break
 		battles += 1
-		_check(battle.game.players[0].life == life_before, "freezer battle %d starts at the carried life (%d)" % [battles, life_before])
+		_check(battle.game.players[0].hp == hp_before, "freezer battle %d starts at the carried HP (%d)" % [battles, hp_before])
 		if battles == 1:
 			await _shot("g_64_freezer_battle_1")
 		await _play_battle(battle)

@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="Deck" format=3]
 
 [ext_resource type="Script" path="res://core/data/card_data.gd" id="1_xwitr"]
-[ext_resource type="Resource" path="res://data/cards/infrastructure_b.tres" id="2_negrd"]
-[ext_resource type="Resource" path="res://data/cards/infrastructure_c.tres" id="3_0avn6"]
+[ext_resource type="Resource" path="res://data/cards/infrastructure_gourmand.tres" id="2_negrd"]
+[ext_resource type="Resource" path="res://data/cards/infrastructure_refusemancer.tres" id="3_0avn6"]
 [ext_resource type="Resource" path="res://data/cards/frost_sentry.tres" id="4_qtt2p"]
 [ext_resource type="Resource" path="res://data/cards/sage.tres" id="5_vgsck"]
 [ext_resource type="Resource" path="res://data/cards/whispering_shade.tres" id="6_g1xvp"]

@@ -4,22 +4,22 @@ extends Resource
 ## without touching code.
 
 @export var personality_name: String = "Balanced"
-## Value of the AI's own life total.
-@export var life_weight: float = 1.0
-## Value of reducing the opponent's life total (aggression).
-@export var enemy_life_weight: float = 1.0
+## Value of the AI's own HP total.
+@export var hp_weight: float = 1.0
+## Value of reducing the opponent's HP total (aggression).
+@export var enemy_hp_weight: float = 1.0
 ## Value of the AI's own board / of removing the opponent's board.
 @export var board_weight: float = 1.0
 @export var enemy_board_weight: float = 1.0
 ## Value of cards in hand.
 @export var hand_weight: float = 0.6
-## Value of infrastructure on the battlefield (Path energy development).
+## Value of infrastructure on the field (energy development).
 @export var energy_weight: float = 0.5
 ## How much the AI dislikes leaving itself open to a counter-attack.
 @export var threat_weight: float = 0.6
-## Flat bonus per attacking creature (positive = more eager to attack).
+## Flat bonus per attacking unit (positive = more eager to attack).
 @export var attack_bias: float = 0.0
-## Flat bonus per blocking creature (positive = more eager to block).
+## Flat bonus per blocking unit (positive = more eager to block).
 @export var block_bias: float = 0.0
 
 
@@ -30,8 +30,8 @@ static func balanced() -> AIPersonality:
 static func aggressive() -> AIPersonality:
 	var p: AIPersonality = AIPersonality.new()
 	p.personality_name = "Aggressive"
-	p.life_weight = 0.7
-	p.enemy_life_weight = 1.5
+	p.hp_weight = 0.7
+	p.enemy_hp_weight = 1.5
 	p.board_weight = 0.9
 	p.enemy_board_weight = 0.8
 	p.threat_weight = 0.25
@@ -43,8 +43,8 @@ static func aggressive() -> AIPersonality:
 static func defensive() -> AIPersonality:
 	var p: AIPersonality = AIPersonality.new()
 	p.personality_name = "Defensive"
-	p.life_weight = 1.4
-	p.enemy_life_weight = 0.7
+	p.hp_weight = 1.4
+	p.enemy_hp_weight = 0.7
 	p.board_weight = 1.2
 	p.enemy_board_weight = 1.2
 	p.hand_weight = 0.8
@@ -63,8 +63,8 @@ static func defensive() -> AIPersonality:
 static func passive() -> AIPersonality:
 	var p: AIPersonality = AIPersonality.new()
 	p.personality_name = "Passive"
-	p.life_weight = 1.0
-	p.enemy_life_weight = 0.35
+	p.hp_weight = 1.0
+	p.enemy_hp_weight = 0.35
 	p.board_weight = 0.8
 	p.enemy_board_weight = 0.5
 	p.hand_weight = 0.6
@@ -81,8 +81,8 @@ static func passive() -> AIPersonality:
 static func aggressive_dumb() -> AIPersonality:
 	var p: AIPersonality = AIPersonality.new()
 	p.personality_name = "Aggressive (tutorial)"
-	p.life_weight = 1.0
-	p.enemy_life_weight = 1.0
+	p.hp_weight = 1.0
+	p.enemy_hp_weight = 1.0
 	p.board_weight = 0.7
 	p.enemy_board_weight = 0.4
 	p.hand_weight = 0.4

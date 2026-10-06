@@ -34,7 +34,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:D": 9, "infrastructure:B": 7, "compliance_officer": 4, "gate_guard": 3, "citation": 3,
 				"decree_of_order": 2, "middle_manager": 2,
 			}
-			made.life = 14
+			made.hp = 14
 			made.ai_name = "Balanced"
 			made.gold_reward = 35
 			made.xp_reward = 45
@@ -59,7 +59,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:D": 9, "infrastructure:A": 6, "perfection_inspector": 4, "compliance_officer": 3,
 				"citation": 3, "tidy_bot": 3, "soul_auditor": 2,
 			}
-			made.life = 16
+			made.hp = 16
 			made.ai_name = "Defensive"
 			made.gold_reward = 40
 			made.xp_reward = 50
@@ -95,7 +95,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:C": 8, "infrastructure:D": 7, "rift_wretch": 4, "shard_swarm": 3, "landfill_hog": 3,
 				"compost_golem": 2, "vine_snare": 2, "cubicle_zombie": 2,
 			}
-			made.life = 15
+			made.hp = 15
 			made.ai_name = "Aggressive"
 			made.gold_reward = 45
 			made.xp_reward = 55
@@ -120,7 +120,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:D": 8, "infrastructure:B": 8, "approved_gate_captain": 2, "gate_guard": 4, "compliance_officer": 4,
 				"citation": 4, "perfection_inspector": 3, "decree_of_order": 3, "middle_manager": 2, "sneeze_guard": 2,
 			}
-			made.life = 24
+			made.hp = 24
 			made.ai_name = "Aggressive"
 			made.gold_reward = 120
 			made.xp_reward = 120

@@ -13,22 +13,22 @@ const PARCHMENT: Color = Color("f3e9d2")
 const MUTED: Color = Color("a89bb5")
 const DANGER: Color = Color("d9534f")
 const GOOD: Color = Color("6fbf73")
-const LIFE_RED: Color = Color("d8404a")
+const HP_RED: Color = Color("d8404a")
 
 const AFFINITY_COLORS: Dictionary = {
 	Affinity.Type.NEUTRAL: Color("b8a98a"),
-	Affinity.Type.A: Color("e2553f"),
-	Affinity.Type.B: Color("4a8fe0"),
-	Affinity.Type.C: Color("5aa84e"),
-	Affinity.Type.D: Color("9a5fc7"),
+	Affinity.Type.BEEFCAKE: Color("e2553f"),
+	Affinity.Type.GOURMAND: Color("4a8fe0"),
+	Affinity.Type.REFUSEMANCER: Color("5aa84e"),
+	Affinity.Type.NECROCRAT: Color("9a5fc7"),
 }
 ## The Path names players see (the single source is `Affinity.DISPLAY_NAMES`).
 static var AFFINITY_NAMES: Dictionary = Affinity.DISPLAY_NAMES
 const AFFINITY_BLURBS: Dictionary = {
-	Affinity.Type.A: "Aggressive. Haste, first strike, burn.",
-	Affinity.Type.B: "Control. Draw, removal, fliers.",
-	Affinity.Type.C: "Big bodies. Trample, guard, growth.",
-	Affinity.Type.D: "Sacrifice and value. Tokens, drain. Afterlife Services and Labor.",
+	Affinity.Type.BEEFCAKE: "Aggressive. Hustle, Iron, Tools, burst damage.",
+	Affinity.Type.GOURMAND: "Control. Ingredients, Golems, Wonders, healing.",
+	Affinity.Type.REFUSEMANCER: "Recycling. Garbage, rats, ramp, Traps.",
+	Affinity.Type.NECROCRAT: "Value. Red Tape, Contracts, tokens, reanimation.",
 }
 
 static var _theme: Theme
@@ -40,7 +40,7 @@ static func affinity_color(type: Affinity.Type) -> Color:
 
 
 static func affinity_name(type: Affinity.Type) -> String:
-	return str(AFFINITY_NAMES.get(type, "Neutral"))
+	return str(AFFINITY_NAMES.get(type, "Colorless"))
 
 
 ## Fonts: Cinzel for titles, Alegreya Sans for body text.
@@ -277,7 +277,7 @@ static func theme() -> Theme:
 
 	# Progress bars
 	t.set_stylebox("background", "ProgressBar", box(Color(0, 0, 0, 0.55), Color(1, 1, 1, 0.12), 1, 8))
-	t.set_stylebox("fill", "ProgressBar", box(LIFE_RED, Color(0, 0, 0, 0), 0, 8))
+	t.set_stylebox("fill", "ProgressBar", box(HP_RED, Color(0, 0, 0, 0), 0, 8))
 	t.set_color("font_color", "ProgressBar", PARCHMENT)
 
 	# Scrollbars

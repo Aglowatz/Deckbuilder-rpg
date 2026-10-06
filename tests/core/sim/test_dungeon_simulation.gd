@@ -13,11 +13,11 @@ func before_all() -> void:
 
 func test_enemy_attacks_at_least_once_across_the_tutorial() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
-	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.A)
+	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.BEEFCAKE)
 	var ai: AIPlayer = AIPlayer.new(AIPersonality.balanced())
 	var any_attacked: bool = false
 	for seed_value: int in range(10):
-		var result: DungeonSimulation.RunResult = DungeonSimulation.run_once(content, map, deck, ai, 42000 + seed_value, Affinity.Type.A)
+		var result: DungeonSimulation.RunResult = DungeonSimulation.run_once(content, map, deck, ai, 42000 + seed_value, Affinity.Type.BEEFCAKE)
 		if result.enemy_attacks > 0:
 			any_attacked = true
 	assert_true(any_attacked, "the tutorial's Aggressive (tutorial) AI should attack at least once in 10 runs")
@@ -29,12 +29,12 @@ func test_enemy_attacks_at_least_once_across_the_tutorial() -> void:
 ## open_questions.md D51.
 func test_reward_picks_grow_the_deck_from_42_towards_45() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
-	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.B)
+	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.GOURMAND)
 	assert_eq(deck.size(), 42)
 	var ai: AIPlayer = AIPlayer.new(AIPersonality.balanced())
 	var reached_45: bool = false
 	for seed_value: int in range(20):
-		var result: DungeonSimulation.RunResult = DungeonSimulation.run_once(content, map, deck, ai, 51000 + seed_value, Affinity.Type.B)
+		var result: DungeonSimulation.RunResult = DungeonSimulation.run_once(content, map, deck, ai, 51000 + seed_value, Affinity.Type.GOURMAND)
 		assert_gte(result.final_deck_size, 42, "the deck never shrinks below the starter size")
 		if result.won:
 			assert_true(result.final_deck_size == 44 or result.final_deck_size == 45, "a full clear should be 45 (or 44 if the Hollow Well challenge cost a card)")
@@ -45,7 +45,7 @@ func test_reward_picks_grow_the_deck_from_42_towards_45() -> void:
 
 func test_no_reward_color_means_the_deck_never_grows() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
-	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.C)
+	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.REFUSEMANCER)
 	var ai: AIPlayer = AIPlayer.new(AIPersonality.balanced())
 	var result: DungeonSimulation.RunResult = DungeonSimulation.run_once(content, map, deck, ai, 61001)
 	assert_eq(result.final_deck_size, 42, "without a reward_color, the deck stays at its starting size")

@@ -1,6 +1,6 @@
 class_name AmbientBirds
 extends Node3D
-## A small flock of low-poly birds circling over an area (two flapping wings and a body, built from primitives): life in the sky without a model pack.
+## A small flock of low-poly birds circling over an area (two flapping wings and a body, built from primitives): HP in the sky without a model pack.
 
 class Bird:
 	extends RefCounted

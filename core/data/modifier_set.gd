@@ -46,7 +46,7 @@ func sum_for_card(kind: Modifier.Kind, card: CardData) -> int:
 	return total
 
 
-## Combined (power, toughness) bonus for `card` (multi-Path aware).
+## Combined (attack, defense) bonus for `card` (multi-Path aware).
 func stat_bonus_for(card: CardData) -> Vector2i:
 	var bonus: Vector2i = Vector2i.ZERO
 	for modifier: Modifier in modifiers:
@@ -64,7 +64,7 @@ func keyword_grants_for(kind: Modifier.Kind, card: CardData) -> Array[CardEnums.
 	return result
 
 
-## Combined (power, toughness) bonus for a creature of the given color.
+## Combined (attack, defense) bonus for a unit of the given color.
 func stat_bonus(card_color: Affinity.Type) -> Vector2i:
 	var bonus: Vector2i = Vector2i.ZERO
 	for modifier: Modifier in modifiers:
@@ -92,7 +92,7 @@ func cap(kind: Modifier.Kind) -> int:
 	return result
 
 
-## Keywords granted to every matching creature the owner controls (GRANT_KEYWORD_TO_CREATURES).
+## Keywords granted to every matching unit the owner controls (GRANT_KEYWORD_TO_CREATURES).
 func keyword_grants(kind: Modifier.Kind, card_color: Affinity.Type) -> Array[CardEnums.Keyword]:
 	var result: Array[CardEnums.Keyword] = []
 	for modifier: Modifier in modifiers:

@@ -38,20 +38,20 @@ because no tri-/quad-Path cards exist yet.
 
 ## Multi-Path (dual-Path) cards
 
-24 cards: **4 for each of the 6 Path pairs** (a Common creature, an Uncommon spell, an Epic and a Legendary creature
+24 cards: **4 for each of the 6 Path pairs** (a Common unit, an Uncommon spell, an Epic and a Legendary unit
 per pair), defined in `MultipathContent`, saved in `data/cards/multipath/`. They are only obtainable by crafting (never in
 vendors, rewards or the general Codex list).
 
 - **Data**: `CardData.color2` (the second Path; `is_multipath()`, `paths()`, `is_on_path()`).
-- **Cost**: pips of BOTH Paths (plus generic), so the card needs Path energy from both: `PathEnergy` already pays each pip
-  from an infrastructure of that exact Path (tested), the AI plays the infrastructure its hand needs and casts the card once both
+- **Cost**: pips of BOTH Paths (plus generic), so the card needs energy from both: `PathEnergy` already pays each pip
+  from an infrastructure of that exact Path (tested), the AI plays the infrastructure its hand needs and plays the card once both
   are out (tested).
 - **Deck rules**: a dual card counts as **both** Paths for the 2-Path deck limit (4 after the postgame flag): `Deck.colors()`,
   `DeckValidator`, and the deck builder (`DeckEditor.why_not_add`: "needs both of its Paths..."). The 4-copy limit applies.
 - **Modifiers**: zone effects and equipment aimed at either Path affect it (`Modifier.matches_card`): a Beefcake/Necrocrat
-  creature in the Gainlands gets Pump It Up AND enters exhausted from Processing Time.
+  unit in the Gainlands gets Pump It Up AND enters exhausted from Processing Time.
 - **Frame visuals** (`CardView`): a second inner border in the other Path's color, a two-color name bar, a two-color art
-  gradient, two Path gems in the art's corner, "Beefcake + Necrocrat - Creature" on the type line, both pip colors in the cost row,
+  gradient, two Path gems in the art's corner, "Beefcake + Necrocrat - Unit" on the type line, both pip colors in the cost row,
   and long names wrap to two lines.
 - The card filter bar (by Path) lists a dual card under both of its Paths.
 

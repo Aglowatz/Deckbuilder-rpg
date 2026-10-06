@@ -1,25 +1,25 @@
 class_name PrimmBoss
 extends RefCounted
 ## The final boss: Primm, "His Perfection" (Brief 10, Part D). An EXTREMELY challenging three-phase fight (balance is out of scope:
-## the numbers are placeholders). The phases are three separate duels back to back on the same boss node, life carrying over,
+## the numbers are placeholders). The phases are three separate duels back to back on the same boss node, HP carrying over,
 ## with a cutscene between them (`CutsceneDefs`: primm_intro / primm_p1 / primm_p2 / primm_end).
 ##
-##  1. STANDARDIZATION - he forces conformity: every creature (yours and his) has the same stats (3/3) and you may cast at
+##  1. STANDARDIZATION - he forces conformity: every unit (yours and his) has the same stats (3/3) and you may play at
 ##     most two non-infrastructure cards a turn ("Two Is the Perfect Number").
 ##  2. REFLECTION - he copies the player's cards: his deck is a copy of yours (he can only imitate, never create); he draws
 ##     an extra card each turn because he already knows what you hold.
-##  3. UNRAVELING - his perfect rules break down: the arena cracks, his true selfishness shows. His creatures are stronger and he
-##     draws more, but he loses 1 life at the start of each of his turns as the rules he wrote stop working.
+##  3. UNRAVELING - his perfect rules break down: the arena cracks, his true selfishness shows. His units are stronger and he
+##     draws more, but he loses 1 HP at the start of each of his turns as the rules he wrote stop working.
 ##
 ## FREED LEADERS lend a boon: for every completed Path zone, that zone's freed leader (Heartlift, Aurelio, Vellum, Fernwick) stands
 ## beside you when the boss is entered and adds a dungeon-wide boon (`leader_boon`) for the fight.
 ## All text: `data/story/capital_story.tres` (`boss.*`, `boon.<zone>.*`, `cutscene.primm_*`, `dungeon.primm_boss.*`).
 
 const PHASES: int = 3
-const STANDARD_POWER: int = 3
-const STANDARD_TOUGHNESS: int = 3
+const STANDARD_ATTACK: int = 3
+const STANDARD_DEFENSE: int = 3
 const SPELL_CAP: int = 2
-const UNRAVEL_LIFE_LOSS: int = 1
+const UNRAVEL_HP_LOSS: int = 1
 ## The enemy name of the boss node (the battle screen's title is the phase title).
 const BOSS_FOE: String = "Primm"
 const PHASE_KEYS: Array[String] = ["standardization", "reflection", "unraveling"]
@@ -29,7 +29,7 @@ class Phase:
 	extends RefCounted
 	var index: int = 0
 	var key: String = ""
-	var life: int = 28
+	var hp: int = 28
 	var ai_name: String = "Balanced"
 	## "id or infrastructure:X -> copies"; empty when `mirror` (the player's deck is copied instead).
 	var recipe: Dictionary = {}
@@ -53,21 +53,21 @@ static func phase(index: int) -> Phase:
 	made.key = PHASE_KEYS[made.index]
 	match made.index:
 		0:
-			made.life = 30
+			made.hp = 30
 			made.ai_name = "Balanced"
 			made.recipe = {
 				"infrastructure:D": 8, "infrastructure:B": 8, "primm_perfect_citizen": 5, "primm_standard_issue": 4, "citation": 3,
 				"decree_of_order": 3, "compliance_officer": 3, "perfection_inspector": 2,
 			}
-			made.enemy_modifiers = [_mod(Modifier.Kind.STANDARDIZE_CREATURES, STANDARD_POWER, "Standardization", STANDARD_TOUGHNESS)] as Array[Modifier]
-			made.player_modifiers = [_mod(Modifier.Kind.MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN, SPELL_CAP, "Two Is the Perfect Number")] as Array[Modifier]
+			made.enemy_modifiers = [_mod(Modifier.Kind.STANDARDIZE_UNITS, STANDARD_ATTACK, "Standardization", STANDARD_DEFENSE)] as Array[Modifier]
+			made.player_modifiers = [_mod(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, SPELL_CAP, "Two Is the Perfect Number")] as Array[Modifier]
 		1:
-			made.life = 32
+			made.hp = 32
 			made.ai_name = "Balanced"
 			made.mirror = true
 			made.enemy_modifiers = [_mod(Modifier.Kind.EXTRA_DRAWS, 1, "He Already Knows")] as Array[Modifier]
 		_:
-			made.life = 28
+			made.hp = 28
 			made.ai_name = "Aggressive"
 			made.recipe = {
 				"infrastructure:A": 4, "infrastructure:B": 4, "infrastructure:C": 4, "infrastructure:D": 4, "primm_correction": 4,
@@ -90,15 +90,15 @@ static func _mod(kind: Modifier.Kind, value: int, label: String, value2: int = 0
 	return modifier
 
 
-## "As the rules he wrote stop working, he loses life at the start of each of his turns."
+## "As the rules he wrote stop working, he loses HP at the start of each of his turns."
 static func _unraveling_effect() -> Modifier:
 	var modifier: Modifier = _mod(Modifier.Kind.START_OF_TURN_EFFECT, 0, "The Rules Break Down")
-	modifier.effect = CardBuilder.effect(CardEnums.Trigger.START_OF_TURN, CardEnums.TargetKind.CONTROLLER, CardEnums.EffectOp.LOSE_LIFE, UNRAVEL_LIFE_LOSS)
+	modifier.effect = CardBuilder.effect(CardEnums.Trigger.START_OF_TURN, CardEnums.TargetKind.CONTROLLER, CardEnums.EffectOp.LOSE_HP, UNRAVEL_HP_LOSS)
 	return modifier
 
 
 ## The seat for phase `index`: a mirror phase copies `player_deck` (his deck is yours), the others use their recipe. `content` is
-## the card library; enemy modifiers are added to the seat (the caller adds the Capital's debuffs).
+## the card deck; enemy modifiers are added to the seat (the caller adds the Capital's debuffs).
 static func enemy_setup(content: ContentSet, index: int, player_deck: Deck) -> PlayerSetup:
 	var stage: Phase = phase(index)
 	var deck: Deck
@@ -109,9 +109,9 @@ static func enemy_setup(content: ContentSet, index: int, player_deck: Deck) -> P
 	else:
 		deck = ZoneDecks.from_recipe(content, Villain.display_name(), stage.recipe)
 	var setup: PlayerSetup = PlayerSetup.create(deck, null, [] as Array[ModifierSource], Villain.display_name())
-	setup.starting_life = stage.life
+	setup.starting_hp = stage.hp
 	setup.profile = PlayerProfile.new()
-	setup.profile.max_life = stage.life
+	setup.profile.max_hp = stage.hp
 	setup.modifiers.add_source(CardBuilder.modifier_source("Primm: %s" % stage.key, ModifierSource.SourceKind.ZONE, stage.enemy_modifiers))
 	return setup
 
@@ -138,13 +138,13 @@ static func leader_boon(zone_id: String) -> ModifierSource:
 	var story: ZoneStoryText = ZoneStoryText.for_zone(ZONE_ID)
 	var name: String = story.text("boon.%s.name" % zone_id)
 	var path: int = int(ZoneEffects.path_of(zone_id))
-	var mods: Array[Modifier] = [CardBuilder.modifier(Modifier.Kind.MAX_LIFE, 2)] as Array[Modifier]
+	var mods: Array[Modifier] = [CardBuilder.modifier(Modifier.Kind.MAX_HP, 2)] as Array[Modifier]
 	match zone_id:
 		"beefcake":
 			mods.append(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, path, 0))
 		"gourmand":
 			mods.append(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 0, path, 1))
-			mods.append(CardBuilder.modifier(Modifier.Kind.LIFE_GAIN_BONUS, 1))
+			mods.append(CardBuilder.modifier(Modifier.Kind.HP_GAIN_BONUS, 1))
 		"necrocrat":
 			mods.append(CardBuilder.modifier(Modifier.Kind.COST_CHANGE, -1, path))
 		"refusemancer":

@@ -7,25 +7,25 @@ extends CanvasLayer
 const STEPS: Array[Dictionary] = [
 	{
 		"id": "intro", "title": "Your first duel",
-		"text": "Reduce your opponent's life to 0 before they do the same to you. Each side starts with 5 cards. You may keep this hand, or take one free mulligan for a fresh 5.",
+		"text": "Reduce your opponent's HP to 0 before they do the same to you. Each side starts with 5 cards. You may keep this hand, or take one free mulligan for a fresh 5.",
 		"info": true,
 	},
 	{
 		"id": "infrastructure", "title": "Play an infrastructure",
-		"text": "Infrastructure make the Path energy you spend on spells. [b]Click an infrastructure[/b] (or drag it onto the table). You can play [b]one infrastructure per turn[/b].",
+		"text": "Infrastructure make the energy you spend on spells. [b]Click an infrastructure[/b] (or drag it onto the table). You can play [b]one infrastructure per turn[/b].",
 	},
 	{
-		"id": "cast", "title": "Cast a card",
-		"text": "Cards [color=#ffd76a]glow gold[/color] when you can pay for them. Click one to cast it. Creatures stay on the battlefield; spells act once and are spent. Some spells ask you to choose a target.",
+		"id": "cast", "title": "Play a card",
+		"text": "Cards [color=#ffd76a]glow gold[/color] when you can pay for them. Click one to play it. Units stay on the field; spells act once and are spent. Some spells ask you to choose a target.",
 	},
 	{
 		"id": "keywords", "title": "Keywords",
-		"text": "Words like [b]Flying[/b] or [b]Guard[/b] change how a creature fights. [b]Hover any card[/b] to see it zoomed, with every keyword explained underneath.",
+		"text": "Words like [b]Flying[/b] or [b]Hustle[/b] change how a unit fights. [b]Hover any card[/b] to see it zoomed, with every keyword explained underneath.",
 		"info": true,
 	},
 	{
 		"id": "trap", "title": "Traps",
-		"text": "A [b]Trap[/b] is cast face-down. It springs by itself when the opponent does what it watches for, such as attacking. The opponent cannot see what it is.",
+		"text": "A [b]Trap[/b] is play face-down. It springs by itself when the opponent does what it watches for, such as attacking. The opponent cannot see what it is.",
 	},
 	{
 		"id": "end_turn", "title": "Ending your turn",
@@ -34,11 +34,11 @@ const STEPS: Array[Dictionary] = [
 	},
 	{
 		"id": "attack", "title": "Attack!",
-		"text": "[b]Click your creatures[/b] to send them at the opponent, then press [b]Attack[/b]. Attackers activate (they cannot block next turn) and creatures that just arrived cannot attack yet.",
+		"text": "[b]Click your units[/b] to send them at the opponent, then press [b]Attack[/b]. Attackers activate (they cannot block next turn) and units that just arrived cannot attack yet.",
 	},
 	{
 		"id": "block", "title": "Block!",
-		"text": "The opponent is attacking. [b]Click one of your creatures, then the attacker[/b] it should block. Unblocked attackers hit you. Then press [b]Confirm Blocks[/b].",
+		"text": "The opponent is attacking. [b]Click one of your units, then the attacker[/b] it should block. Unblocked attackers hit you. Then press [b]Confirm Blocks[/b].",
 	},
 ]
 
@@ -108,7 +108,7 @@ func on_battle_event(event: GameEvent) -> void:
 		GameEvent.Type.INFRASTRUCTURE_PLAYED:
 			if event.player == 0:
 				_flags["infrastructure_played"] = true
-		GameEvent.Type.CARD_CAST:
+		GameEvent.Type.CARD_PLAYED:
 			if event.player == 0:
 				_flags["cast"] = true
 		GameEvent.Type.TRAP_SET:
@@ -183,7 +183,7 @@ func _hand_cards() -> Array[CardInstance]:
 func _castable() -> Array[int]:
 	var result: Array[int] = []
 	for card: CardInstance in _hand_cards():
-		if not card.data.is_infrastructure() and screen.game.can_cast(0, card.uid):
+		if not card.data.is_infrastructure() and screen.game.can_play_card(0, card.uid):
 			result.append(card.uid)
 	return result
 
@@ -207,7 +207,7 @@ func _keyword_cards() -> Array[int]:
 func _trap_cards() -> Array[int]:
 	var result: Array[int] = []
 	for card: CardInstance in _hand_cards():
-		if card.data.type == CardEnums.CardType.TRAP and screen.game.can_cast(0, card.uid):
+		if card.data.type == CardEnums.CardType.TRAP and screen.game.can_play_card(0, card.uid):
 			result.append(card.uid)
 	return result
 

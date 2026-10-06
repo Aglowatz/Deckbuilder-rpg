@@ -6,9 +6,9 @@ extends RefCounted
 var source_uid: int = 0
 ## Player who controls the effect.
 var controller: int = 0
-## Card that caused the trigger (damage source, attacker, blocked attacker, cast creature...).
+## Card that caused the trigger (damage source, attacker, blocked attacker, play unit...).
 var trigger_uid: int = 0
-## Target picked by the acting player at cast/activation time (Targets ref, 0 = none).
+## Target picked by the acting player at play/activation time (Targets ref, 0 = none).
 var chosen: int = 0
 
 

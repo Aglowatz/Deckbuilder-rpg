@@ -16,6 +16,6 @@ type = 2
 color = 1
 generic_cost = 1
 colored_pips = Array[int]([1])
-toughness = 0
+defense = 0
 rules_text = "Deal 3 damage to the opponent."
 effects = Array[ExtResource("1_e8x2n")]([SubResource("Resource_300mq")])

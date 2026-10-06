@@ -22,7 +22,7 @@ func before_all() -> void:
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.C)
+	Session.ensure_game(Affinity.Type.REFUSEMANCER)
 	Session.zone_run = ZoneRun.enter(HeapZone.ID, Session.profile, Session.deck)
 	builder._smashed.clear()
 	builder.mounted = false
@@ -301,16 +301,16 @@ func test_every_chute_starts_on_a_summit_slopes_down_and_lands_on_the_ground() -
 			assert_gt(Vector2(dest.x - other.pos.x, dest.z - other.pos.y).length(), other.radius + 0.5, "landing does not re-trigger %s" % other.id)
 
 
-func test_falling_into_the_hazards_costs_one_life_and_is_logged() -> void:
+func test_falling_into_the_hazards_costs_one_hp_and_is_logged() -> void:
 	var run: ZoneRun = Session.zone_run
-	var before: int = run.life
+	var before: int = run.hp
 	var log_before: int = Session.zone_log.size()
 	var result: Dictionary = HeapInteractables.apply_hazard_fall(run, "the compost pit", story.text("fx.hazard_fall_log"))
-	assert_eq(run.life, before - HeapZone.HAZARD_DAMAGE)
+	assert_eq(run.hp, before - HeapZone.HAZARD_DAMAGE)
 	assert_eq(int(result["damage"]), 1)
 	assert_eq(Session.zone_log.size(), log_before + 1)
 	assert_true(Session.zone_log[Session.zone_log.size() - 1].contains("compost pit"))
-	run.life = 1
+	run.hp = 1
 	assert_true(HeapInteractables.apply_hazard_fall(run, "x", "%s")["down"])
 
 
@@ -413,7 +413,7 @@ func test_hub_has_a_heal_spot_a_vendor_npcs_and_quests() -> void:
 	for id: String in def.vendor_ids:
 		var card: CardData = Session.content.card(id)
 		assert_not_null(card, "vendor card %s exists" % id)
-		assert_eq(card.color, Affinity.Type.C, "%s is a Refusemancer card" % id)
+		assert_eq(card.color, Affinity.Type.REFUSEMANCER, "%s is a Refusemancer card" % id)
 	for quest_id: String in [HeapZone.QUEST_HERD, HeapZone.QUEST_FERT, HeapZone.QUEST_DAM]:
 		assert_not_null(QuestCatalog.find(quest_id), "quest %s exists" % quest_id)
 	for name: String in def.quest_npc_names:
@@ -431,15 +431,15 @@ func test_main_dungeon_signs_name_the_rotheart() -> void:
 	assert_eq(def.spot_def("main_dungeon")["kind"], "main_dungeon")
 
 
-func test_zone_life_rules_use_the_mucking_out_fee() -> void:
+func test_zone_hp_rules_use_the_mucking_out_fee() -> void:
 	assert_eq(def.fee, 20)
 	assert_eq(def.fee_label, "Mucking-out fee")
 	var run: ZoneRun = Session.zone_run
-	run.damage(run.max_life())
+	run.damage(run.max_hp())
 	var gold_before: int = Session.gold
 	var fee: int = Session.zone_wake_at_hub("run over by a trash golem")
 	assert_eq(fee, mini(20, gold_before))
-	assert_eq(run.life, run.max_life())
+	assert_eq(run.hp, run.max_hp())
 	assert_true(Session.zone_log[Session.zone_log.size() - 1].begins_with("Mucking-out fee"))
 
 
@@ -466,11 +466,11 @@ func test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer(
 	assert_eq(types.size(), 3, "all three designs roam the zone")
 
 
-func test_a_heap_battle_uses_the_zone_life_and_the_refusemancer_deck() -> void:
-	Session.zone_run.life = 5
+func test_a_heap_battle_uses_the_zone_hp_and_the_refusemancer_deck() -> void:
+	Session.zone_run.hp = 5
 	var context: BattleContext = Session.make_zone_battle(HeapEnemies.GOLEM, "golem_0")
 	assert_true(context.zone_battle)
-	assert_eq(context.game.players[0].life, 5)
+	assert_eq(context.game.players[0].hp, 5)
 	var deck: Deck = HeapEnemies.deck(Session.content, HeapEnemies.GOLEM)
 	assert_gt(deck.cards.size(), 20)
 	var seen: Dictionary = {}
@@ -486,7 +486,7 @@ func test_a_heap_battle_uses_the_zone_life_and_the_refusemancer_deck() -> void:
 func test_heap_cards_and_equipment_exist() -> void:
 	for id: String in ZoneCards.HEAP_VENDOR_IDS + ["recycle_bin", "moss_titan", "heap_mother"]:
 		assert_not_null(Session.content.card(id), "card %s exists" % id)
-		assert_eq(Session.content.card(id).color, Affinity.Type.C)
+		assert_eq(Session.content.card(id).color, Affinity.Type.REFUSEMANCER)
 	assert_not_null(Session.content.equipment_piece("seed_satchel"))
 	assert_eq(Session.content.equipment_piece("compost_boots").slot, EquipmentData.Slot.BOOTS)
 
@@ -553,9 +553,9 @@ func test_the_compost_bin_turns_junk_into_a_visit_buff_twice_per_visit() -> void
 	var run: ZoneRun = Session.zone_run
 	assert_false(HeapInteractables.can_compost(run))
 	HeapInteractables.give("junk", 5)
-	var max_before: int = run.max_life()
+	var max_before: int = run.max_hp()
 	assert_true(HeapInteractables.compost(run))
-	assert_eq(run.max_life(), max_before + 1)
+	assert_eq(run.max_hp(), max_before + 1)
 	assert_true(HeapInteractables.compost(run))
 	assert_false(HeapInteractables.compost(run), "two cocktails per visit")
 	assert_eq(HeapInteractables.stock("junk"), 1)
@@ -572,11 +572,11 @@ func test_crops_grow_over_time_and_pay_a_harvest() -> void:
 	assert_false(HeapInteractables.plant(run, 1, now), "the plot is taken")
 	assert_eq(HeapInteractables.crop_state(run, 1, now + 10.0), "growing")
 	assert_false(bool(HeapInteractables.harvest(run, 1, now + 10.0)["ok"]), "not ripe yet")
-	run.life = 2
+	run.hp = 2
 	var gold_before: int = Session.gold
 	var result: Dictionary = HeapInteractables.harvest(run, 1, now + HeapGrowth.CROP_SECONDS + 1.0)
 	assert_true(bool(result["ok"]))
-	assert_eq(run.life, 2 + HeapInteractables.HARVEST_HEAL)
+	assert_eq(run.hp, 2 + HeapInteractables.HARVEST_HEAL)
 	assert_eq(Session.gold, gold_before + HeapInteractables.HARVEST_GOLD)
 	assert_eq(HeapInteractables.crop_state(run, 1, now + 100.0), "empty", "the plot is bare again")
 	assert_eq(HeapInteractables.stock("fert"), 1)
@@ -584,11 +584,11 @@ func test_crops_grow_over_time_and_pay_a_harvest() -> void:
 
 func test_shrine_blessing_once_per_visit_and_trough_pays_for_junk() -> void:
 	var run: ZoneRun = Session.zone_run
-	run.life = 3
-	var max_before: int = run.max_life()
+	run.hp = 3
+	var max_before: int = run.max_hp()
 	var blessing: Dictionary = HeapInteractables.bless(run)
 	assert_true(bool(blessing["ok"]))
-	assert_eq(run.max_life(), max_before + 1)
+	assert_eq(run.max_hp(), max_before + 1)
 	assert_gt(int(blessing["healed"]), 0)
 	assert_false(bool(HeapInteractables.bless(run)["ok"]), "once per visit")
 	assert_false(HeapInteractables.can_feed(run), "nothing to feed")

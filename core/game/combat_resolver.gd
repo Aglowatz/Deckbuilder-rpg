@@ -1,54 +1,43 @@
 class_name CombatResolver
 extends RefCounted
-## Combat rules: declare attackers, one blocker per attacker, damage (first strike then
+## Combat rules: declare attackers, one blocker per attacker, damage (Sucker Punch then
 ## regular), keyword handling. Operates on a GameState; owns no state of its own.
 
 
 static func possible_attackers(state: GameState, player_index: int) -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
-	for card: CardInstance in state.players[player_index].creatures():
+	for card: CardInstance in state.players[player_index].units():
 		if _can_attack(card):
 			result.append(card)
 	return result
 
 
 static func _can_attack(card: CardInstance) -> bool:
-	if card.exhausted or card.has_keyword(CardEnums.Keyword.DEFENDER):
+	if card.exhausted or card.has_keyword(CardEnums.Keyword.WALLFLOWER):
 		return false
-	return not card.summoning_sick or card.has_keyword(CardEnums.Keyword.HASTE)
-
-
-## Creatures with Guard: while the defender controls any UNTAPPED Guard creature, attackers
-## must attack one of them. An exhausted Guard creature does not force attacks.
-static func guard_creatures(state: GameState, defender_index: int) -> Array[CardInstance]:
-	var result: Array[CardInstance] = []
-	for card: CardInstance in state.players[defender_index].creatures():
-		if card.has_keyword(CardEnums.Keyword.GUARD) and not card.exhausted:
-			result.append(card)
-	return result
+	return not card.summoning_sick or card.has_keyword(CardEnums.Keyword.HUSTLE)
 
 
 static func possible_blockers(state: GameState, defender_index: int) -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
-	for card: CardInstance in state.players[defender_index].creatures():
+	for card: CardInstance in state.players[defender_index].units():
 		if not card.exhausted and not card.cannot_block:
 			result.append(card)
 	return result
 
 
-## Flying attackers can only be blocked by Flying or Reach creatures. New brief, Part B: a
-## creature whose controller's equipment forbids blocking (e.g. Hover Boots) can never block.
+## Flying attackers can only be blocked by Flying or Reach units. New brief, Part B: a
+## unit whose controller's equipment forbids blocking (e.g. Hover Boots) can never block.
 static func can_block(attacker: CardInstance, blocker: CardInstance) -> bool:
-	if blocker.exhausted or not blocker.data.is_creature() or blocker.cannot_block:
+	if blocker.exhausted or not blocker.data.is_unit() or blocker.cannot_block:
 		return false
 	if attacker.has_keyword(CardEnums.Keyword.FLYING):
-		return blocker.has_keyword(CardEnums.Keyword.FLYING) or blocker.has_keyword(CardEnums.Keyword.REACH)
+		return blocker.has_keyword(CardEnums.Keyword.FLYING) or blocker.has_keyword(CardEnums.Keyword.SWAT)
 	return true
 
 
-## `guard_targets` maps attacker uid -> Guard creature uid; missing entries default to the
-## first Guard creature when the defender has any.
-static func declare_attackers(state: GameState, uids: Array[int], guard_targets: Dictionary) -> bool:
+## Attackers always attack the opposing player (there is no Guard).
+static func declare_attackers(state: GameState, uids: Array[int]) -> bool:
 	if not _in_step(state, GameState.CombatStep.DECLARE_ATTACKERS):
 		return false
 	var defender: int = 1 - state.active
@@ -59,31 +48,15 @@ static func declare_attackers(state: GameState, uids: Array[int], guard_targets:
 		if card == null or chosen.has(card):
 			return false
 		chosen.append(card)
-	var guards: Array[CardInstance] = guard_creatures(state, defender)
-	var targets: Dictionary = {}
-	for card: CardInstance in chosen:
-		var target_uid: int = int(guard_targets.get(card.uid, 0))
-		if guards.is_empty():
-			if target_uid != 0:
-				return false
-		else:
-			if target_uid == 0:
-				target_uid = guards[0].uid
-			if PlayerState.find_in(guards, target_uid) == null:
-				return false
-			targets[card.uid] = target_uid
 	if chosen.is_empty():
 		state.finish_combat()
 		return true
 
 	for card: CardInstance in chosen:
-		if not card.has_keyword(CardEnums.Keyword.VIGILANCE):
+		if not card.has_keyword(CardEnums.Keyword.OVERTIME):
 			card.exhausted = true
 		state.attackers.append(card.uid)
 		var target_ref: int = Targets.player(defender)
-		if targets.has(card.uid):
-			state.attack_targets[card.uid] = targets[card.uid]
-			target_ref = int(targets[card.uid])
 		state.emit_event(GameEvent.Type.ATTACKERS_DECLARED, state.active, card.uid, target_ref, chosen.size())
 	for card: CardInstance in chosen:
 		if state.attackers.has(card.uid):
@@ -116,7 +89,7 @@ static func declare_blockers(state: GameState, assignment: Dictionary) -> bool:
 		if not state.attackers.has(attacker_uid) or used.has(blocker_uid):
 			return false
 		var attacker: CardInstance = state.find_permanent(attacker_uid)
-		var blocker: CardInstance = state.players[defender].find_battlefield(blocker_uid)
+		var blocker: CardInstance = state.players[defender].find_field(blocker_uid)
 		if attacker == null or blocker == null or not can_block(attacker, blocker):
 			return false
 		used.append(blocker_uid)
@@ -140,7 +113,7 @@ static func declare_blockers(state: GameState, assignment: Dictionary) -> bool:
 	return true
 
 
-## First-strike damage step (if anyone has first strike), then the regular damage step.
+## First-strike damage step (if anyone has Sucker Punch), then the regular damage step.
 static func resolve_damage(state: GameState) -> void:
 	if _any_first_strike(state):
 		_damage_step(state, true)
@@ -162,25 +135,25 @@ static func _damage_step(state: GameState, first_strike_step: bool) -> void:
 		if state.blocks.has(attacker_uid):
 			blocker = state.find_permanent(int(state.blocks[attacker_uid]))
 		if _deals_damage_now(attacker, first_strike_step):
-			var power: int = state.get_power(attacker)
-			var attacked: int = int(state.attack_targets.get(attacker_uid, Targets.player(defender)))
-			if power > 0:
+			var attack: int = state.get_attack(attacker)
+			var attacked: int = Targets.player(defender)
+			if attack > 0:
 				if blocker != null:
-					var to_blocker: int = power
+					var to_blocker: int = attack
 					var excess: int = 0
-					if attacker.has_keyword(CardEnums.Keyword.TRAMPLE):
-						var lethal: int = maxi(0, state.get_toughness(blocker) - blocker.damage)
-						to_blocker = mini(power, lethal)
-						excess = power - to_blocker
+					if attacker.has_keyword(CardEnums.Keyword.BULLDOZE):
+						var lethal: int = maxi(0, state.get_defense(blocker) - blocker.damage)
+						to_blocker = mini(attack, lethal)
+						excess = attack - to_blocker
 					plan.append(_entry(attacker.uid, blocker.uid, to_blocker))
 					plan.append(_entry(attacker.uid, attacked, excess))
 				elif state.blocked_attackers.has(attacker_uid):
-					if attacker.has_keyword(CardEnums.Keyword.TRAMPLE):
-						plan.append(_entry(attacker.uid, attacked, power))
+					if attacker.has_keyword(CardEnums.Keyword.BULLDOZE):
+						plan.append(_entry(attacker.uid, attacked, attack))
 				else:
-					plan.append(_entry(attacker.uid, attacked, power))
+					plan.append(_entry(attacker.uid, attacked, attack))
 		if blocker != null and _deals_damage_now(blocker, first_strike_step):
-			plan.append(_entry(blocker.uid, attacker.uid, state.get_power(blocker)))
+			plan.append(_entry(blocker.uid, attacker.uid, state.get_attack(blocker)))
 	# Damage is simultaneous: postpone deaths until every hit in this step has landed.
 	state.defer_state_checks += 1
 	for entry: Dictionary in plan:
@@ -202,22 +175,22 @@ static func _apply_damage(state: GameState, source_uid: int, target_ref: int, am
 	else:
 		var target: CardInstance = state.find_permanent(target_ref)
 		if target != null:
-			state.deal_damage_to_creature(source_uid, target, amount)
+			state.deal_damage_to_unit(source_uid, target, amount)
 
 
 ## First strikers deal damage in the first step only; everyone else in the regular step.
 static func _deals_damage_now(card: CardInstance, first_strike_step: bool) -> bool:
-	return card.has_keyword(CardEnums.Keyword.FIRST_STRIKE) == first_strike_step
+	return card.has_keyword(CardEnums.Keyword.SUCKER_PUNCH) == first_strike_step
 
 
 static func _any_first_strike(state: GameState) -> bool:
 	for attacker_uid: int in state.attackers:
 		var attacker: CardInstance = state.find_permanent(attacker_uid)
-		if attacker != null and attacker.has_keyword(CardEnums.Keyword.FIRST_STRIKE):
+		if attacker != null and attacker.has_keyword(CardEnums.Keyword.SUCKER_PUNCH):
 			return true
 		if state.blocks.has(attacker_uid):
 			var blocker: CardInstance = state.find_permanent(int(state.blocks[attacker_uid]))
-			if blocker != null and blocker.has_keyword(CardEnums.Keyword.FIRST_STRIKE):
+			if blocker != null and blocker.has_keyword(CardEnums.Keyword.SUCKER_PUNCH):
 				return true
 	return false
 
@@ -225,7 +198,7 @@ static func _any_first_strike(state: GameState) -> bool:
 static func _strongest(state: GameState, cards: Array[CardInstance]) -> int:
 	var best: CardInstance = cards[0]
 	for card: CardInstance in cards:
-		if state.get_power(card) > state.get_power(best):
+		if state.get_attack(card) > state.get_attack(best):
 			best = card
 	return best.uid
 
@@ -235,5 +208,5 @@ static func _in_step(state: GameState, step: GameState.CombatStep) -> bool:
 		state.stage == GameState.Stage.PLAYING
 		and state.phase == GameState.Phase.COMBAT
 		and state.combat_step == step
-		and state.pending_discard == 0
+		and state.pending_toss == 0
 	)

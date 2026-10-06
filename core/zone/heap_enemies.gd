@@ -29,7 +29,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:C": 16, "scrap_goat": 3, "compost_golem": 3, "dung_beetle": 2,
 				"vine_snare": 2, "sprout_surge": 1,
 			}
-			made.life = 14
+			made.hp = 14
 			made.ai_name = "Aggressive"
 			made.gold_reward = 30
 			made.xp_reward = 40
@@ -46,7 +46,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:C": 15, "tin_can_raccoon": 3, "bramble_trap": 2, "harvest_moon": 3,
 				"dung_beetle": 3, "fertilizer_burst": 1,
 			}
-			made.life = 16
+			made.hp = 16
 			made.ai_name = "Defensive"
 			made.gold_reward = 35
 			made.xp_reward = 45

@@ -1,7 +1,7 @@
 class_name GainlandsScene
 extends ZoneScene
 ## The playable Gainlands (Beefcake zone). The shared zone framework (`ZoneScene`) provides the hub,
-## life rules, enemies, chests, quiz/minigame/puzzle launchers and the minimap; this subclass adds
+## HP rules, enemies, chests, quiz/minigame/puzzle launchers and the minimap; this subclass adds
 ## what is unique here: the bright look and wind, the TRAVEL NETWORK (Beefcake throwers that hurl you
 ## in an arc with the camera following, portal rippers that tear open a portal), falling off the
 ## floating islands (respawn at the last safe spot, 1 damage, logged), and the interactables (hamster
@@ -373,7 +373,7 @@ func _make_portal(pos: Vector3) -> Node3D:
 
 
 ## Fell past an island's rim: tumble down, fade out, respawn at the last safe spot with 1 damage to the
-## zone life (logged in the zone log), and wake at the hub instead if that was the last life.
+## zone HP (logged in the zone log), and wake at the hub instead if that was the last HP.
 func _fall_off(island: GainlandsLayout.Island) -> void:
 	_falling = true
 	_locked = true
@@ -400,7 +400,7 @@ func _fall_off(island: GainlandsLayout.Island) -> void:
 	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	var run: ZoneRun = Session.zone_run
 	GainlandsInteractables.apply_fall(run, island.title, story.text("fx.fall_log"))
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	hud.toast(story.text("fx.fall"), Color("ff8a85"))
 	Audio.sfx(&"hit_heavy", -2.0)
 	_floating_text("-%d" % GainlandsZone.FALL_DAMAGE, Color("ff6a60"))
@@ -437,7 +437,7 @@ func _use_protein_stand(spot: ZoneSpot) -> void:
 	Audio.sfx(&"heal" if outcome in ["good", "great", "buff"] else (&"coins" if outcome == "gold" else &"hit_light"))
 	hud.toast("%s %s" % [story.text("fx.shake_" + outcome), effect], UIStyle.GOOD if good else Color("ff8a85"))
 	hud.set_gold(Session.gold)
-	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
+	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 	Session.save_game()
 
 
@@ -453,7 +453,7 @@ func _use_flex_mirror(spot: ZoneSpot) -> void:
 	Audio.sfx(&"heal" if int(result["healed"]) > 0 else &"ui_confirm")
 	var key: String = "fx.flex_%d" % int(result["number"]) if int(result["healed"]) > 0 else "fx.flex_full"
 	hud.toast(story.text(key), UIStyle.GOOD)
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	Session.save_game()
 
 
@@ -463,9 +463,9 @@ func _use_spot_me() -> void:
 		var result: Dictionary = GainlandsInteractables.spot_gary(Session.zone_run)
 		if bool(result["ok"]):
 			Audio.sfx(&"victory", -6.0)
-			hud.toast("Spotted Gary! +%d max life this visit%s" % [GainlandsInteractables.SPOT_MAX_LIFE_BONUS, (", +%d gold" % int(result["gold"])) if int(result["gold"]) > 0 else ""], UIStyle.GOLD)
+			hud.toast("Spotted Gary! +%d max HP this visit%s" % [GainlandsInteractables.SPOT_MAX_HP_BONUS, (", +%d gold" % int(result["gold"])) if int(result["gold"]) > 0 else ""], UIStyle.GOLD)
 			hud.set_gold(Session.gold)
-			EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
+			EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 			_say("Gary", story.get_lines("fx.spot_done"))
 		else:
 			_say("Gary", story.get_lines("fx.spot_again"))

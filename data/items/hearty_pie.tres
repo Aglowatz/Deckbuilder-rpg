@@ -13,5 +13,5 @@ amount = 6
 script = ExtResource("2_fnlu7")
 id = "hearty_pie"
 display_name = "Hearty Pot Pie"
-description = "Baked at the Grand Pantry oven. Heal 6 life."
+description = "Baked at the Grand Pantry oven. Heal 6 HP."
 effect = SubResource("Resource_kk7wy")

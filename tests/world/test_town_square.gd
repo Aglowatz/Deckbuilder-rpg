@@ -56,12 +56,12 @@ func test_square_is_deterministic() -> void:
 	assert_eq(first, second)
 
 
-func test_birds_and_npc_life() -> void:
+func test_birds_and_npc_hp() -> void:
 	var host: Node3D = Node3D.new()
 	add_child_autofree(host)
 	var flock: AmbientBirds = AmbientBirds.spawn(host, Vector3.ZERO, 3, Color.WHITE)
 	assert_eq(flock.birds.size(), 3)
-	var life: NpcLife = NpcLife.new()
-	host.add_child(life)
-	life.register(ModelKit.character("Mage"), 0.0)
-	assert_eq(life.entry_count(), 1)
+	var hp: NpcHp = NpcHp.new()
+	host.add_child(hp)
+	hp.register(ModelKit.character("Mage"), 0.0)
+	assert_eq(hp.entry_count(), 1)

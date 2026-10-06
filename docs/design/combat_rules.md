@@ -6,20 +6,19 @@ disagree, this file wins (or is deliberately updated first).
 ## Resources
 
 - **Infrastructure** replaces lands. Infrastructure cards come in 4 types, one per **Path** (Beefcake,
-  Gourmand, Refusemancer, Necrocrat - placeholder enum names **Affinity A-D**, see `Affinity` /
-  `UIStyle`). Players **activate** (never "tap") an infrastructure to gain **one Path energy of its
-  Path**. Casting a card activates the infrastructure that pays for it (chosen automatically, or
-  explicitly via `GameState.cast`'s `activate_uids`).
-- **Path energy** (formerly "mana"): a card costs generic Path energy (payable by any infrastructure)
+  Gourmand, Refusemancer, Necrocrat - see `Affinity`). Players **activate** an infrastructure to gain **one energy of its
+  Path**. Playing a card exhausts the infrastructure that pays for it (chosen automatically, or
+  explicitly via `GameState.play`'s `activate_uids`).
+- **Energy** (symbols: (B) Beefcake, (N) Necrocrat, (G) Gourmand, (R) Refusemancer; a number is generic): a card costs generic energy (payable by any infrastructure)
   plus one **pip** per colored energy, each of which needs an infrastructure of that exact Path.
   A **multi-Path (dual-Path) card** has pips of two Paths and needs energy from both (Part F).
-- Terminology: land -> infrastructure, mana -> Path energy, tap/untap -> activate/ready. For **creatures**
-  the old "tapped" state is called **exhausted** (attacking creatures are exhausted until their
-  controller's next ready step; see `docs/design/open_questions.md` M2). The engine field is
-  `CardInstance.exhausted` for both.
+- Terminology (see `data/source/design_guidance.csv`): Unit, Infrastructure (land), Energy (mana), Exhaust/Refresh
+  (tap/untap), Activate (the act of using an ability, never a cost), Play (cast), Deck, Refuse Pile (graveyard), the field,
+  Use (sacrifice a token or resource), Destroy, Shred (exile), Toss (discard), Bury X (mill), Reinstate, Send back, Brawl, Peek X,
+  HP, Attack/Defense. The engine field for the tapped state is `CardInstance.exhausted`.
 - A deck may use at most **2** Paths in the main campaign (a multi-Path card counts as BOTH of its Paths).
   The flag `postgame_unlocked` raises this limit to **4**.
-- **Neutral** cards cost generic Path energy and fit any deck. There is no neutral infrastructure.
+- **Neutral** cards cost generic energy and fit any deck. There is no neutral infrastructure.
 - The player starts with the neutral starter deck only, using basic infrastructure of a chosen
   primary Path; see `docs/design/starting_deck_and_affinity.md`.
 
@@ -28,8 +27,8 @@ disagree, this file wins (or is deliberately updated first).
 Start (ready, draw; the first player skips their first draw) → Main 1 → Combat → Main 2 → End.
 
 - One infrastructure may be played per turn.
-- Creatures have summoning sickness.
-- Damage on creatures clears at end of turn.
+- Units have summoning sickness.
+- Damage on units clears at end of turn.
 
 ## Combat
 
@@ -37,25 +36,21 @@ Start (ready, draw; the first player skips their first draw) → Main 1 → Comb
 2. The defender assigns at most one blocker per attacker.
 3. Unblocked damage hits the player.
 
-- Attacking creatures become **exhausted** and stay exhausted until their controller's next ready step,
-  so they cannot block on the opponent's turn. **Vigilance** creatures do not exhaust when attacking.
+- Attacking units become **exhausted** and stay exhausted until their controller's next ready step,
+  so they cannot block on the opponent's turn. **Overtime** units do not exhaust when attacking.
 - Each blocker blocks at most one attacker.
-- **Guard**: while a defender controls a READY Guard creature, every attacker must attack a
-  Guard creature instead of the player (unblocked damage lands on that Guard creature). An exhausted
-  Guard creature does not force attacks — attackers may go past it at the player or at other
-  legal targets as normal.
 
 ## No Interaction Windows
 
 - No instants, no stack, no priority.
 - Traps are set face-down on your turn and trigger automatically when their condition is met.
-- A player may have at most **3** traps set at a time (a fourth cannot be cast until one has
+- A player may have at most **3** traps set at a time (a fourth cannot be played until one has
   sprung). This cap is a base stat like max hand size, not a hard limit: dungeon rules, equipment
   or the final dungeon can raise it (`Modifier.Kind.MAX_TRAPS`).
 
 ## Win / Lose
 
-- A player loses when their life reaches 0.
+- A player loses when their HP reaches 0.
 - A player also loses when they must draw from an empty deck.
 
 ## Player Stats (PlayerProfile)
@@ -64,7 +59,7 @@ Stats come from a `PlayerProfile` resource, never hardcoded.
 
 | Stat | Value |
 |------|-------|
-| Max life | 10 at start, 25 at endgame |
+| Max HP | 10 at start, 25 at endgame |
 | Opening hand | 5 to 8 cards |
 | Max hand size | 10 |
 
@@ -72,7 +67,7 @@ Modifiers from equipment, items, and zones apply on top of the profile values.
 
 ## Progression (Part E)
 
-Life, opening hand size, max hand size, item slots and equipment slot unlocks all advance with
+HP, opening hand size, max hand size, item slots and equipment slot unlocks all advance with
 the player's level (1-30), not fixed values - see `docs/design/progression.md` for the full,
 generated level-by-level table and `core/data/progression_table.gd` for the source of truth. Every
 encounter grants XP and gold scaled by `DungeonMap.Difficulty` (`EncounterRewards`).
@@ -107,7 +102,7 @@ respectively, so the tier reads even without the color).
 
 ## Dungeons
 
-- Life carries over between encounters within a dungeon.
+- HP carries over between encounters within a dungeon.
 - The player is fully healed on entering a dungeon.
 
 ## Opening Hand: Hand Smoother (option)

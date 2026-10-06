@@ -36,7 +36,7 @@ const FLAG_PUZZLE_SOLVED: StringName = &"heap_puzzle_solved"
 const FLAG_MINI_CLEARED: StringName = &"heap_mini_dungeon_cleared"
 const FLAG_SORT_FIRST: StringName = &"heap_sort_first_clear"
 
-## Falling into the compost pit or the recycling stream: respawn at the last safe spot and lose this much life.
+## Falling into the compost pit or the recycling stream: respawn at the last safe spot and lose this much HP.
 const HAZARD_DAMAGE: int = 1
 
 ## Stock items scattered around the zone (id -> display name). Picking one up adds one to the stock
@@ -183,12 +183,12 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	return mini
 
 
-static func _battle(title: String, blurb: String, enemy: String, life: int, ai: String, elite: bool, recipe: Dictionary) -> ZoneDef.MiniBattle:
+static func _battle(title: String, blurb: String, enemy: String, hp: int, ai: String, elite: bool, recipe: Dictionary) -> ZoneDef.MiniBattle:
 	var battle: ZoneDef.MiniBattle = ZoneDef.MiniBattle.new()
 	battle.title = title
 	battle.blurb = blurb
 	battle.enemy = enemy
-	battle.life = life
+	battle.hp = hp
 	battle.ai_name = ai
 	battle.elite = elite
 	battle.recipe = recipe

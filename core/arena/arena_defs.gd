@@ -8,7 +8,7 @@ extends RefCounted
 ## | 1 | Lethal Lunch | puzzle: win this turn | gold, essence |
 ## | 1 | The Neutral Mile | battle, restricted deck | gold, a Healing Draught |
 ## | 2 | Hold the Line | puzzle: survive 3 turns | Champion's Laurels |
-## | 2 | Spells Only, Please | battle, no creature casts, restricted deck | Crowd-Pleaser's Cape |
+## | 2 | Spells Only, Please | battle, no unit plays, restricted deck | Crowd-Pleaser's Cape |
 ## | 2 | The Four Fists | battle, your deck | gold, essence of every Path |
 ## | 3 | Zero to Hero | puzzle: win this turn (harder) | Gladiator's Net |
 ## | 3 | The Marshal | battle, your deck | Bloodsand Boots, gold, essence |
@@ -55,13 +55,13 @@ static func _build() -> Array[ArenaEncounter]:
 	list.append(warmup)
 	var lunch: ArenaEncounter = _puzzle("arena_lethal_lunch", 1, ArenaEncounter.Goal.WIN_THIS_TURN, 0, 0)
 	lunch.enemy_name = "Lunch Rush"
-	lunch.enemy_life = 10
+	lunch.enemy_hp = 10
 	lunch.enemy_recipe = {A: 20, "sellsword": 3}
 	lunch.player_recipe = {A: 20, "firebolt": 3}
-	lunch.player_life = 10
+	lunch.player_hp = 10
 	lunch.preset = {
-		"player": {"life": 10, "infrastructure": {"A": 4}, "battlefield": {"beefcake_imp": 1, "raider": 1}, "hand": {"warcry": 1, "flame_burst": 1, "firebolt": 1}},
-		"enemy": {"life": 10, "infrastructure": {"A": 2}, "battlefield": {"sellsword": 1}, "hand": {}},
+		"player": {"hp": 10, "infrastructure": {"A": 4}, "field": {"beefcake_imp": 1, "raider": 1}, "hand": {"warcry": 1, "flame_burst": 1, "firebolt": 1}},
+		"enemy": {"hp": 10, "infrastructure": {"A": 2}, "field": {"sellsword": 1}, "hand": {}},
 	}
 	lunch.reward = {"gold": 120, "xp": 40, "essence": {"primary": 4}}
 	list.append(lunch)
@@ -72,22 +72,22 @@ static func _build() -> Array[ArenaEncounter]:
 	# ---- Tier 2: Silver Sand ------------------------------------------------------------------------
 	var line: ArenaEncounter = _puzzle("arena_hold_the_line", 2, ArenaEncounter.Goal.SURVIVE_TURNS, 3, 1)
 	line.enemy_name = "Stampeding Squad"
-	line.enemy_life = 25
+	line.enemy_hp = 25
 	line.enemy_recipe = {A: 24, "sellsword": 2}
 	line.player_recipe = {A: 20, "stone_sentinel": 3, "field_medic": 3, "pitfall": 2, "ironclad": 2, "healing_idol": 2}
-	line.player_life = 9
+	line.player_hp = 9
 	line.preset = {
-		"player": {"life": 9, "infrastructure": {"A": 5}, "battlefield": {}, "hand": {"stone_sentinel": 1, "field_medic": 1, "ironclad": 1, "pitfall": 1, "healing_idol": 1}},
-		"enemy": {"life": 25, "infrastructure": {"A": 4}, "battlefield": {"sellsword": 2}, "hand": {}},
+		"player": {"hp": 9, "infrastructure": {"A": 5}, "field": {}, "hand": {"stone_sentinel": 1, "field_medic": 1, "ironclad": 1, "pitfall": 1, "healing_idol": 1}},
+		"enemy": {"hp": 25, "infrastructure": {"A": 4}, "field": {"sellsword": 2}, "hand": {}},
 	}
 	line.reward = {"equipment": "champions_laurels", "gold": 150, "xp": 80}
 	list.append(line)
 	var spells: ArenaEncounter = _battle("arena_spells_only", 2, "Cardboard Colossus", 8, "Passive", {A: 16, "sellsword": 4, "stone_sentinel": 2, "apprentice_blade": 3, "scrappy_recruit": 3, "cave_bat": 2})
 	spells.player_recipe = {A: 9, B: 8, "flame_burst": 6, "firebolt": 3, "deep_insight": 3, "dissolve": 3, "rusty_curse": 3, "supply_cache": 3, "recall": 2}
-	var no_creatures: Modifier = Modifier.new()
-	no_creatures.kind = Modifier.Kind.NO_CREATURE_CASTS
-	no_creatures.label = "No creature casts"
-	spells.player_rules = [no_creatures] as Array[Modifier]
+	var no_units: Modifier = Modifier.new()
+	no_units.kind = Modifier.Kind.NO_UNIT_PLAYS
+	no_units.label = "No unit plays"
+	spells.player_rules = [no_units] as Array[Modifier]
 	spells.reward = {"equipment": "crowd_pleasers_cape", "gold": 150, "xp": 80}
 	list.append(spells)
 	var fists: ArenaEncounter = _battle("arena_four_fists", 2, "Champion of the Four Fists", 22, "Balanced", {A: 5, B: 4, C: 4, D: 4, "raider": 2, "sage": 2, "stag_warden": 2, "bone_servant": 2, "firebolt": 2, "dissolve": 2, "growth": 2, "soul_drain": 2, "sellsword": 2, "ironclad": 1})
@@ -96,13 +96,13 @@ static func _build() -> Array[ArenaEncounter]:
 	# ---- Tier 3: Gold Sand --------------------------------------------------------------------------
 	var hero: ArenaEncounter = _puzzle("arena_zero_to_hero", 3, ArenaEncounter.Goal.WIN_THIS_TURN, 0, 0)
 	hero.enemy_name = "The Wall of Fame"
-	hero.enemy_life = 11
+	hero.enemy_hp = 11
 	hero.enemy_recipe = {A: 20, "sellsword": 3, "cave_bat": 3}
 	hero.player_recipe = {A: 20, "firebolt": 3, "rusty_curse": 3}
-	hero.player_life = 8
+	hero.player_hp = 8
 	hero.preset = {
-		"player": {"life": 8, "infrastructure": {"A": 5}, "battlefield": {"raider": 1, "blade_dancer": 1, "beefcake_imp": 1}, "hand": {"warcry": 1, "flame_burst": 1, "firebolt": 1, "rusty_curse": 1}},
-		"enemy": {"life": 11, "infrastructure": {"A": 2}, "battlefield": {"sellsword": 1, "cave_bat": 1}, "hand": {}},
+		"player": {"hp": 8, "infrastructure": {"A": 5}, "field": {"raider": 1, "blade_dancer": 1, "beefcake_imp": 1}, "hand": {"warcry": 1, "flame_burst": 1, "firebolt": 1, "rusty_curse": 1}},
+		"enemy": {"hp": 11, "infrastructure": {"A": 2}, "field": {"sellsword": 1, "cave_bat": 1}, "hand": {}},
 	}
 	hero.reward = {"equipment": "gladiators_net", "gold": 200, "xp": 120}
 	list.append(hero)
@@ -112,13 +112,13 @@ static func _build() -> Array[ArenaEncounter]:
 	return list
 
 
-static func _battle(id: String, tier: int, enemy: String, life: int, ai: String, recipe: Dictionary) -> ArenaEncounter:
+static func _battle(id: String, tier: int, enemy: String, hp: int, ai: String, recipe: Dictionary) -> ArenaEncounter:
 	var encounter: ArenaEncounter = ArenaEncounter.new()
 	encounter.id = id
 	encounter.tier = tier
 	encounter.kind = ArenaEncounter.Kind.BATTLE
 	encounter.enemy_name = enemy
-	encounter.enemy_life = life
+	encounter.enemy_hp = hp
 	encounter.enemy_ai = ai
 	encounter.enemy_recipe = recipe
 	return encounter

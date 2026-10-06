@@ -17,7 +17,7 @@ func before_all() -> void:
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	Session.zone_run = ZoneRun.enter(GainlandsZone.ID, Session.profile, Session.deck)
 
 
@@ -251,18 +251,18 @@ func test_travel_locks_open_with_their_conditions() -> void:
 	assert_true(GainlandsTravel.is_unlocked(across, Session.unlock_state()), "owning a Gym Rat card opens the cross-country throw")
 
 
-func test_falling_costs_one_life_and_is_logged() -> void:
+func test_falling_costs_one_hp_and_is_logged() -> void:
 	var run: ZoneRun = Session.zone_run
-	var before: int = run.life
+	var before: int = run.hp
 	var logged: int = Session.zone_log.size()
 	var result: Dictionary = GainlandsInteractables.apply_fall(run, "Pec Perch", story.text("fx.fall_log"))
-	assert_eq(run.life, before - GainlandsZone.FALL_DAMAGE)
+	assert_eq(run.hp, before - GainlandsZone.FALL_DAMAGE)
 	assert_eq(int(result["damage"]), 1)
 	assert_eq(Session.zone_log.size(), logged + 1)
 	assert_true(Session.zone_log[Session.zone_log.size() - 1].contains("Pec Perch"))
-	run.life = 1
+	run.hp = 1
 	var last: Dictionary = GainlandsInteractables.apply_fall(run, "Delt Deck", story.text("fx.fall_log"))
-	assert_true(bool(last["down"]), "the last life lost sends you to the hub")
+	assert_true(bool(last["down"]), "the last HP lost sends you to the hub")
 
 
 # ---- The def: hub, vendor, NPCs, quests -----------------------------------------------------------------
@@ -283,7 +283,7 @@ func test_hub_has_a_heal_spot_vendor_npcs_and_quests() -> void:
 	assert_between(def.vendor_ids.size(), 8, 10)
 	for id: String in def.vendor_ids:
 		assert_not_null(Session.card_by_id(id), "vendor card %s exists" % id)
-		assert_eq(Session.card_by_id(id).color, Affinity.Type.A, "%s is a Beefcake card" % id)
+		assert_eq(Session.card_by_id(id).color, Affinity.Type.BEEFCAKE, "%s is a Beefcake card" % id)
 	var zone_quests: int = 0
 	for quest: QuestData in QuestCatalog.all():
 		if quest.id.begins_with("gain_"):
@@ -301,15 +301,15 @@ func test_main_dungeon_signs_name_the_house_of_gains() -> void:
 	assert_true(story.text("sign.main_dungeon").to_lower().contains("leg day"), "the quiz answer is still on the sign")
 
 
-func test_zone_life_rules_use_the_gainlands_fee() -> void:
+func test_zone_hp_rules_use_the_gainlands_fee() -> void:
 	var run: ZoneRun = Session.zone_run
-	run.damage(run.life)
+	run.damage(run.hp)
 	Session.add_gold(100)
 	var gold: int = Session.gold
 	var fee: int = Session.zone_wake_at_hub("beaten by a Flexing Brute")
 	assert_eq(fee, 20)
 	assert_eq(Session.gold, gold - 20)
-	assert_eq(run.life, run.max_life(), "wake at the hub at full life")
+	assert_eq(run.hp, run.max_hp(), "wake at the hub at full HP")
 	assert_true(Session.zone_log[Session.zone_log.size() - 1].begins_with("Protein tab"))
 
 
@@ -326,20 +326,20 @@ func test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer(
 		var deck: Deck = ZoneEnemies.deck(Session.content, GainlandsZone.ID, id)
 		assert_gte(deck.size(), 24, "%s has a real deck" % id)
 		for card: CardData in deck.cards:
-			assert_true(card.type == CardEnums.CardType.INFRASTRUCTURE or card.color == Affinity.Type.A or card.color == Affinity.Type.NEUTRAL, "%s uses Beefcake cards" % id)
+			assert_true(card.type == CardEnums.CardType.INFRASTRUCTURE or card.color == Affinity.Type.BEEFCAKE or card.color == Affinity.Type.NEUTRAL, "%s uses Beefcake cards" % id)
 	var sprite: ZoneEnemyInfo = GainlandsEnemies.info(GainlandsEnemies.SPRITE)
 	assert_eq(sprite.kind, ZoneEnemyInfo.Kind.DAMAGE)
 	assert_eq(sprite.damage, 2)
 	assert_gt(sprite.chase_speed, TownPlayer.SPEED)
 
 
-func test_a_gainlands_battle_uses_the_zone_life_and_the_beefcake_deck() -> void:
+func test_a_gainlands_battle_uses_the_zone_hp_and_the_beefcake_deck() -> void:
 	Session.zone_run.damage(3)
 	var context: BattleContext = Session.make_zone_battle(GainlandsEnemies.GOLEM, "golem_0")
 	assert_eq(context.enemy_name, "Protein Shake Golem")
-	assert_eq(context.game.players[0].life, Session.zone_run.max_life() - 3, "no heal on entry")
+	assert_eq(context.game.players[0].hp, Session.zone_run.max_hp() - 3, "no heal on entry")
 	Session.zone_run.finish_battle(context.game)
-	assert_eq(Session.zone_run.life, context.game.players[0].life, "life carries over, no post-battle heal")
+	assert_eq(Session.zone_run.hp, context.game.players[0].hp, "HP carries over, no post-battle heal")
 
 
 func test_defeating_a_gainlands_enemy_bumps_the_zone_counter() -> void:
@@ -425,18 +425,18 @@ func test_the_quiz_has_four_questions_about_energy_and_transport_with_findable_a
 func test_protein_shake_outcomes_have_real_effects() -> void:
 	var run: ZoneRun = Session.zone_run
 	run.damage(5)
-	var life: int = run.life
+	var hp: int = run.hp
 	GainlandsInteractables.apply_shake(run, GainlandsInteractables.shake_outcome(0.0))
-	assert_eq(run.life, life + 3, "a good shake heals")
-	var max_before: int = run.max_life()
+	assert_eq(run.hp, hp + 3, "a good shake heals")
+	var max_before: int = run.max_hp()
 	GainlandsInteractables.apply_shake(run, "buff")
-	assert_eq(run.max_life(), max_before + 1, "the buff raises max life for the visit")
+	assert_eq(run.max_hp(), max_before + 1, "the buff raises max HP for the visit")
 	var gold: int = Session.gold
 	GainlandsInteractables.apply_shake(run, "gold")
 	assert_eq(Session.gold, gold + GainlandsInteractables.SHAKE_REFUND)
-	run.life = 1
+	run.hp = 1
 	GainlandsInteractables.apply_shake(run, "bad")
-	assert_eq(run.life, 1, "a bad shake never kills")
+	assert_eq(run.hp, 1, "a bad shake never kills")
 	assert_eq(GainlandsInteractables.shake_outcome(0.99), "empty")
 	var seen: Dictionary = {}
 	for step: int in range(100):
@@ -447,12 +447,12 @@ func test_protein_shake_outcomes_have_real_effects() -> void:
 func test_flex_mirror_heals_up_to_three_times_per_visit() -> void:
 	var run: ZoneRun = Session.zone_run
 	run.damage(6)
-	var life: int = run.life
+	var hp: int = run.hp
 	for flex: int in range(3):
 		var result: Dictionary = GainlandsInteractables.flex(run)
 		assert_true(bool(result["ok"]))
 		assert_eq(int(result["healed"]), 1)
-	assert_eq(run.life, life + 3)
+	assert_eq(run.hp, hp + 3)
 	assert_false(bool(GainlandsInteractables.flex(run)["ok"]), "the pump peaks after three flexes")
 	assert_eq(int(Session.counters.get(GainlandsZone.COUNTER_FLEXES, 0)), 3)
 	var fresh: ZoneRun = ZoneRun.enter(GainlandsZone.ID, Session.profile, Session.deck)
@@ -461,11 +461,11 @@ func test_flex_mirror_heals_up_to_three_times_per_visit() -> void:
 
 func test_spotting_gary_gives_a_buff_each_visit_and_gold_only_once() -> void:
 	var run: ZoneRun = Session.zone_run
-	var max_before: int = run.max_life()
+	var max_before: int = run.max_hp()
 	var gold: int = Session.gold
 	var first: Dictionary = GainlandsInteractables.spot_gary(run)
 	assert_true(bool(first["ok"]) and bool(first["first_time"]))
-	assert_eq(run.max_life(), max_before + 2)
+	assert_eq(run.max_hp(), max_before + 2)
 	assert_eq(Session.gold, gold + GainlandsInteractables.SPOT_GOLD)
 	assert_true(Session.flag(GainlandsZone.FLAG_SPOTTED))
 	assert_false(bool(GainlandsInteractables.spot_gary(run)["ok"]), "once per visit")

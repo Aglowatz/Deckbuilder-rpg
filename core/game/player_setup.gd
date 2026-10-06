@@ -7,8 +7,8 @@ var deck: Deck
 var profile: PlayerProfile
 ## All modifiers affecting this player (gear, zone, dungeon, boons...).
 var modifiers: ModifierSet = ModifierSet.new()
-## Life at the start of the duel; -1 = max life (+ STARTING_LIFE modifiers).
-var starting_life: int = -1
+## HP at the start of the duel; -1 = max HP (+ STARTING_LIFE modifiers).
+var starting_hp: int = -1
 
 
 ## Builds a setup whose modifiers are the profile's gear plus any extra sources.

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_76eg8"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_0c8nh"]
+
+[resource]
+script = ExtResource("2_0c8nh")
+id = "infrastructure_beefcake"
+display_name = "Beefcake Infrastructure"
+type = 0
+color = 1
+defense = 0
+rules_text = "Activate: add one Beefcake energy."
+is_basic = true

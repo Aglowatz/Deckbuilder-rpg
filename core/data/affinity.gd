@@ -1,18 +1,26 @@
 class_name Affinity
 extends RefCounted
-## Single source of truth for the four Paths (colors). The enum members stay A-D; to rename a Path for
-## players, edit DISPLAY_NAMES only - code always uses the enum.
-## A = Beefcake (Gainlands), B = Gourmand (Endless Buffet), C = Refusemancer (Verdant Dump),
-## D = Necrocrat (D.N.A.).
+## Single source of truth for the four Paths. Energy symbols: (B) Beefcake, (N) Necrocrat, (G) Gourmand,
+## (R) Refusemancer. The enum order is stored in saves and .tres files (Beefcake = Gainlands, Gourmand =
+## Endless Buffet, Refusemancer = Verdant Dump, Necrocrat = D.N.A.), so only ever append.
 
-enum Type { NEUTRAL, A, B, C, D }
+enum Type { NEUTRAL, BEEFCAKE, GOURMAND, REFUSEMANCER, NECROCRAT }
 
 const DISPLAY_NAMES: Dictionary = {
-	Type.NEUTRAL: "Neutral",
-	Type.A: "Beefcake",
-	Type.B: "Gourmand",
-	Type.C: "Refusemancer",
-	Type.D: "Necrocrat",
+	Type.NEUTRAL: "Colorless",
+	Type.BEEFCAKE: "Beefcake",
+	Type.GOURMAND: "Gourmand",
+	Type.REFUSEMANCER: "Refusemancer",
+	Type.NECROCRAT: "Necrocrat",
+}
+
+## The energy symbol letter used in costs, e.g. "(B)".
+const SYMBOLS: Dictionary = {
+	Type.NEUTRAL: "",
+	Type.BEEFCAKE: "B",
+	Type.GOURMAND: "G",
+	Type.REFUSEMANCER: "R",
+	Type.NECROCRAT: "N",
 }
 
 
@@ -20,7 +28,19 @@ static func display_name(type: Type) -> String:
 	return str(DISPLAY_NAMES.get(type, "Unknown"))
 
 
-## The four real (non-neutral) infrastructure types.
+static func symbol(type: Type) -> String:
+	return str(SYMBOLS.get(type, ""))
+
+
+## The Path for an energy symbol letter ("B", "N", "G", "R"), or NEUTRAL.
+static func from_symbol(letter: String) -> Type:
+	for type: Variant in SYMBOLS.keys():
+		if str(SYMBOLS[type]) == letter.to_upper() and letter != "":
+			return int(type) as Type
+	return Type.NEUTRAL
+
+
+## The four real (non-neutral) Paths.
 static func colored_types() -> Array[Type]:
-	var result: Array[Type] = [Type.A, Type.B, Type.C, Type.D]
+	var result: Array[Type] = [Type.BEEFCAKE, Type.GOURMAND, Type.REFUSEMANCER, Type.NECROCRAT]
 	return result

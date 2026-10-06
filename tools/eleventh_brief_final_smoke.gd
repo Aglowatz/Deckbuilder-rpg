@@ -23,7 +23,7 @@ func run() -> void:
 	_only = OS.get_environment("SMOKE_ONLY")
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	Session.gold = 5000
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
@@ -392,20 +392,20 @@ func _flow_health_and_rips() -> void:
 	await driver.seconds(1.2)
 	dna._spawn_grace = 600.0
 	await _clear_popups(dna)
-	_check(Session.zone_run.life == Session.zone_run.max_life(), "entering a zone from town: full life")
+	_check(Session.zone_run.hp == Session.zone_run.max_hp(), "entering a zone from town: full HP")
 	Session.zone_run.damage(6)
 	Session.unlock_fast_travel(GainlandsZone.ID)
 	_check(Session.fast_travel_to(GainlandsZone.ID), "a rift trip from the D.N.A. to the Gainlands")
 	var gain: GainlandsScene = await _wait_for(GainlandsScene) as GainlandsScene
 	await driver.seconds(1.5)
-	_check(Session.zone_run.zone_id == GainlandsZone.ID and Session.zone_run.life == Session.zone_run.max_life(), "switching zones: full life (%d/%d)" % [Session.zone_run.life, Session.zone_run.max_life()])
+	_check(Session.zone_run.zone_id == GainlandsZone.ID and Session.zone_run.hp == Session.zone_run.max_hp(), "switching zones: full HP (%d/%d)" % [Session.zone_run.hp, Session.zone_run.max_hp()])
 	await _shot("p17_new_zone_full_health")
-	# Free rips inside the Gainlands: life and gold untouched.
+	# Free rips inside the Gainlands: HP and gold untouched.
 	gain._spawn_grace = 600.0
 	await _clear_popups(gain)
 	Session.set_flag(GainlandsZone.FLAG_WHEEL_POWERED)  # shortcut: the wheel run is covered by the brief 6 e2e
 	Session.zone_run.damage(4)
-	var life_before: int = Session.zone_run.life
+	var hp_before: int = Session.zone_run.hp
 	var gold_before: int = Session.gold
 	var spot: ZoneSpot = _spot(gain, "travel_ripper_delt")
 	await _walk_to(gain, spot.position, spot.radius)
@@ -421,7 +421,7 @@ func _flow_health_and_rips() -> void:
 	var island: GainlandsLayout.Island = gain.gain.island_under(gain.player.position)
 	_check(island != null and island.id == "delt", "the rip led to Delt Deck")
 	_check(Session.gold == gold_before, "the rip cost no gold")
-	_check(Session.zone_run.life == life_before, "and no life (still %d, not healed either: zone life rules apply inside a zone)" % life_before)
+	_check(Session.zone_run.hp == hp_before, "and no HP (still %d, not healed either: zone HP rules apply inside a zone)" % hp_before)
 	await _shot("p19_after_the_free_rip")
 
 

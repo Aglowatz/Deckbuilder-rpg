@@ -13,11 +13,11 @@ const REWARD_CARD_ID: String = "heartlift_the_unbroken"
 const RESCUE_NODE_KEY: String = "hg_rescue"
 
 
-## Heartlift's dungeon-wide boon: strength of heart and mind (+1/+1 to all your creatures, +3 max life).
+## Heartlift's dungeon-wide boon: strength of heart and mind (+1/+1 to all your units, +3 max HP).
 static func heartlift_boon() -> ModifierSource:
 	return MainDungeonDef.boon_source("Heartlift Fights Beside You", [
 		CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1),
-		CardBuilder.modifier(Modifier.Kind.MAX_LIFE, 3),
+		CardBuilder.modifier(Modifier.Kind.MAX_HP, 3),
 	] as Array[Modifier])
 
 
@@ -38,11 +38,11 @@ static func build_def() -> MainDungeonDef:
 	def.add_foe("Honor Guard Captain", 22, "Aggressive", {A: 15, "protein_golem": 4, "max_rep": 3, "leg_day": 3, "flex_off": 3, "cheat_day": 3}, "delapouite/strong-man")
 	def.add_foe("Commander Gristle", 28, "Aggressive", {A: 16, "protein_golem": 4, "max_rep": 4, "leg_day": 3, "flex_off": 3, "cheat_day": 3, "pre_workout": 2, "courtesy_chucker": 2}, "delapouite/viking-head")
 	# The Calisthenics Check (node 4): the prison has no iron, so it tests bodies, not weights.
-	var check: ChallengeData = MainDungeonDef.make_challenge("hg_calisthenics", "The Calisthenics Check", "", ChallengeData.Kind.FIRST_CREATURE_POWER, 0, 3)
-	var might: ChallengeOutcome = MainDungeonDef.outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +2 max life for the dungeon.")
-	might.boon = MainDungeonDef.boon_source("Prison Push-ups", [CardBuilder.modifier(Modifier.Kind.MAX_LIFE, 2)] as Array[Modifier])
+	var check: ChallengeData = MainDungeonDef.make_challenge("hg_calisthenics", "The Calisthenics Check", "", ChallengeData.Kind.FIRST_UNIT_ATTACK, 0, 3)
+	var might: ChallengeOutcome = MainDungeonDef.outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +2 max HP for the dungeon.")
+	might.boon = MainDungeonDef.boon_source("Prison Push-ups", [CardBuilder.modifier(Modifier.Kind.MAX_HP, 2)] as Array[Modifier])
 	check.on_success = [might] as Array[ChallengeOutcome]
-	check.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_LIFE, 3, "Lose 3 life.")] as Array[ChallengeOutcome]
+	check.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_HP, 3, "Lose 3 HP.")] as Array[ChallengeOutcome]
 	def.add_challenge(check)
 	# The Descent (node 2).
 	var descent: DungeonEvent = DungeonEvent.make("hg_descent")

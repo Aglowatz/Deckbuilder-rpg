@@ -1,11 +1,11 @@
-class_name ZoneLifeBar
+class_name ZoneHpBar
 extends PanelContainer
-## HUD: the zone life that persists for the whole visit. Redraws on `EventBus.zone_life_changed`
-## and flashes red (with a shake) when life drops.
+## HUD: the zone HP that persists for the whole visit. Redraws on `EventBus.zone_HP_changed`
+## and flashes red (with a shake) when HP drops.
 
 var _label: Label
 var _bar: ProgressBar
-var _last_life: int = -1
+var _last_hp: int = -1
 var _shake: Tween
 
 
@@ -26,30 +26,30 @@ func _ready() -> void:
 	_bar.custom_minimum_size = Vector2(0, 14)
 	_bar.show_percentage = false
 	column.add_child(_bar)
-	column.add_child(UIKit.label("Zone life: no healing after battles.", &"MutedLabel", 16))
-	EventBus.zone_life_changed.connect(set_life)
+	column.add_child(UIKit.label("Zone HP: no healing after battles.", &"MutedLabel", 16))
+	EventBus.zone_hp_changed.connect(set_hp)
 	if Session.zone_run != null:
-		set_life(Session.zone_run.life, Session.zone_run.max_life())
+		set_hp(Session.zone_run.hp, Session.zone_run.max_hp())
 
 
-func set_life(life: int, max_life: int) -> void:
+func set_hp(hp: int, max_hp: int) -> void:
 	if _label == null:
 		return
-	_label.text = "Life  %d / %d" % [life, max_life]
-	_bar.max_value = max_life
-	_bar.value = life
-	var ratio: float = float(life) / float(maxi(max_life, 1))
-	var fill: Color = UIStyle.GOOD if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.LIFE_RED)
+	_label.text = "HP  %d / %d" % [hp, max_hp]
+	_bar.max_value = max_hp
+	_bar.value = hp
+	var ratio: float = float(hp) / float(maxi(max_hp, 1))
+	var fill: Color = UIStyle.GOOD if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.HP_RED)
 	_bar.add_theme_stylebox_override("fill", UIStyle.box(fill, Color(0, 0, 0, 0), 0, 8))
-	if _last_life >= 0 and life < _last_life:
+	if _last_hp >= 0 and hp < _last_hp:
 		_flash()
-	_last_life = life
+	_last_hp = hp
 
 
 func _flash() -> void:
 	if _shake != null and _shake.is_valid():
 		_shake.kill()
-	_label.add_theme_color_override("font_color", UIStyle.LIFE_RED)
+	_label.add_theme_color_override("font_color", UIStyle.HP_RED)
 	var home: float = position.x
 	_shake = create_tween()
 	for i: int in range(6):

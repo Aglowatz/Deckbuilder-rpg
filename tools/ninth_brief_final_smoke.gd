@@ -1,7 +1,7 @@
 class_name NinthBriefFinalSmoke
 extends Node
 ## FINAL (brief 9): the new systems with human-style input (real injected keys/clicks), end to end:
-## 1 a battle using infrastructure and Path energy, 2 a deck with 4 copies, 3 a zone buff/debuff in battle,
+## 1 a battle using infrastructure and energy, 2 a deck with 4 copies, 3 a zone buff/debuff in battle,
 ## 4 a full House of Gains run through a branching path (prison rescue, flex scene, boss),
 ## 5 zone completion changing the zone, 6 the Arena unlocking after 1 zone, 7 essence conversion on a 5th copy,
 ## 8 the Alchemist unlocking after 2 zones and crafting a dual-Path card. Screenshots: _screenshots/brief9/.
@@ -21,7 +21,7 @@ var _shots: int = 0
 func run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 	var town: TownScene = await _wait_for(TownScene) as TownScene
@@ -40,7 +40,7 @@ func run() -> void:
 	_finish(_failures.is_empty(), "battle with infrastructure, 4 copies, zone effects, House of Gains run, zone completion, Arena, essence, Alchemist (%d screenshots)" % _shots)
 
 
-# ---- 1: a battle with infrastructure activation and Path energy -------------------------------------
+# ---- 1: a battle with infrastructure activation and energy -------------------------------------
 
 
 func _flow_battle() -> void:
@@ -59,7 +59,7 @@ func _flow_battle() -> void:
 	while game.awaiting_player() == 1 and guard < 40:
 		guard += 1
 		await driver.seconds(0.4)
-	# Play an infrastructure card by clicking it, then cast a spell with the energy it makes.
+	# Play an infrastructure card by clicking it, then play a spell with the energy it makes.
 	for turn: int in range(7):
 		await _click_hand_card(battle, true)
 		await driver.seconds(0.8)
@@ -70,11 +70,11 @@ func _flow_battle() -> void:
 		await driver.click_button("End Turn")
 		await driver.seconds(3.0)
 	_check(game.players[0].infrastructure.size() >= 1, "a click played an infrastructure card")
-	_note("infrastructure activated by casting: %s" % str(_any_exhausted(game)))
+	_note("infrastructure activated by playing: %s" % str(_any_exhausted(game)))
 	await _shot("01_battle_infrastructure_and_energy")
 	Session.pending_battle = null
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	get_tree().change_scene_to_file("res://scenes/town.tscn")
 	await _wait_for(TownScene)
 
@@ -386,7 +386,7 @@ func _flow_essence() -> void:
 		Session.add_cards([card] as Array[CardData])
 	await driver.seconds(0.6)
 	_check(Session.owned_count("raider") == 4, "only 4 copies are kept")
-	_check(Session.profile.essence_of(Affinity.Type.A) > 0, "the 5th copy became Beefcake essence (%d)" % Session.profile.essence_of(Affinity.Type.A))
+	_check(Session.profile.essence_of(Affinity.Type.BEEFCAKE) > 0, "the 5th copy became Beefcake essence (%d)" % Session.profile.essence_of(Affinity.Type.BEEFCAKE))
 	_check(Session.toasts.history.size() > 0 and Session.toasts.history.back().contains("converted"), "a notification was shown")
 	await _shot("12_essence_notification")
 
@@ -403,8 +403,8 @@ func _flow_alchemist() -> void:
 	await _shot("13_alchemist_closed")
 	await _dismiss(town.dialogue)
 	Session.complete_zone(DnaZone.ID)
-	Session.profile.set_essence(Affinity.Type.A, 14)
-	Session.profile.set_essence(Affinity.Type.D, 12)
+	Session.profile.set_essence(Affinity.Type.BEEFCAKE, 14)
+	Session.profile.set_essence(Affinity.Type.NECROCRAT, 12)
 	Session.gold = 400
 	get_tree().change_scene_to_file("res://scenes/town.tscn")
 	town = await _wait_for(TownScene) as TownScene
@@ -419,8 +419,8 @@ func _flow_alchemist() -> void:
 	var screen: AlchemistScreen = town._overlay as AlchemistScreen
 	if screen == null:
 		return
-	await driver.click(driver.center_of_control(screen.find_child("EssenceRow%d" % int(Affinity.Type.A), true, false) as Control))
-	await driver.click(driver.center_of_control(screen.find_child("EssenceRow%d" % int(Affinity.Type.D), true, false) as Control))
+	await driver.click(driver.center_of_control(screen.find_child("EssenceRow%d" % int(Affinity.Type.BEEFCAKE), true, false) as Control))
+	await driver.click(driver.center_of_control(screen.find_child("EssenceRow%d" % int(Affinity.Type.NECROCRAT), true, false) as Control))
 	await driver.seconds(0.5)
 	await _shot("15_alchemist_selected")
 	await driver.click_button("Craft")
@@ -431,8 +431,8 @@ func _flow_alchemist() -> void:
 	for owned: CardData in Session.profile.owned_cards:
 		if owned.is_multipath():
 			crafted = owned
-	_check(crafted != null and crafted.is_on_path(Affinity.Type.A) and crafted.is_on_path(Affinity.Type.D), "crafted a Beefcake/Necrocrat dual-Path card (%s)" % (crafted.display_name if crafted != null else "none"))
-	_check(Session.profile.essence_of(Affinity.Type.A) == 0 and Session.profile.essence_of(Affinity.Type.D) == 0, "all essence of both Paths was spent")
+	_check(crafted != null and crafted.is_on_path(Affinity.Type.BEEFCAKE) and crafted.is_on_path(Affinity.Type.NECROCRAT), "crafted a Beefcake/Necrocrat dual-Path card (%s)" % (crafted.display_name if crafted != null else "none"))
+	_check(Session.profile.essence_of(Affinity.Type.BEEFCAKE) == 0 and Session.profile.essence_of(Affinity.Type.NECROCRAT) == 0, "all essence of both Paths was spent")
 	await _shot("17_alchemist_result")
 
 

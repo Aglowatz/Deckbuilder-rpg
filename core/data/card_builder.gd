@@ -11,23 +11,23 @@ static func infra(color: Affinity.Type, basic: bool = true) -> CardData:
 	card.type = CardEnums.CardType.INFRASTRUCTURE
 	card.color = color
 	card.is_basic = basic
-	card.toughness = 0
+	card.defense = 0
 	return card
 
 
-static func creature(
+static func unit(
 	id: String,
 	display_name: String,
 	color: Affinity.Type,
 	generic: int,
 	pips: Array[Affinity.Type],
-	power: int,
-	toughness: int,
+	attack: int,
+	defense: int,
 	keywords: Array[CardEnums.Keyword] = [],
 ) -> CardData:
-	var card: CardData = _base(id, display_name, CardEnums.CardType.CREATURE, color, generic, pips)
-	card.power = power
-	card.toughness = toughness
+	var card: CardData = _base(id, display_name, CardEnums.CardType.UNIT, color, generic, pips)
+	card.attack = attack
+	card.defense = defense
 	card.keywords = keywords.duplicate()
 	return card
 
@@ -52,18 +52,18 @@ static func trap(
 	return _base(id, display_name, CardEnums.CardType.TRAP, color, generic, pips)
 
 
-static func artifact(
+static func wonder(
 	id: String,
 	display_name: String,
 	color: Affinity.Type,
 	generic: int,
 	pips: Array[Affinity.Type],
 ) -> CardData:
-	return _base(id, display_name, CardEnums.CardType.ARTIFACT, color, generic, pips)
+	return _base(id, display_name, CardEnums.CardType.WONDER, color, generic, pips)
 
 
-static func token(id: String, display_name: String, power: int, toughness: int, keywords: Array[CardEnums.Keyword] = []) -> CardData:
-	var card: CardData = creature(id, display_name, Affinity.Type.NEUTRAL, 0, [], power, toughness, keywords)
+static func token(id: String, display_name: String, attack: int, defense: int, keywords: Array[CardEnums.Keyword] = []) -> CardData:
+	var card: CardData = unit(id, display_name, Affinity.Type.NEUTRAL, 0, [], attack, defense, keywords)
 	card.is_token = true
 	return card
 
@@ -128,5 +128,5 @@ static func _base(
 	card.color = color
 	card.generic_cost = generic
 	card.colored_pips = pips.duplicate()
-	card.toughness = 0
+	card.defense = 0
 	return card

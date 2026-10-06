@@ -1,0 +1,28 @@
+Token ID,Token Name,Token Type,Card Text/Effect,Power/Toughness (if relevant),Flavor Text,Image description
+T-01,Poo Golem,Unit token (Refusemancer),,3/3,Handcrafted. Do not ask with what.,"A lumpy, cheerful golem made of steaming manure and straw, flowers sprouting from its head, flies orbiting like tiny moons."
+T-02,Rat,Unit token (Refusemancer),,1/1,There's never just one.,"A scrappy little rat in a bottle-cap helmet, standing on its hind legs and saluting."
+T-03,Sashimi Weenie,Unit token (Gourmand),,1/1,"Small, fresh, and slightly offended.","A tiny, adorable creature made of a slice of salmon sashimi on a rice body, waving with a little chopstick."
+T-04,Goat,Unit token (Refusemancer),,1/1,Small. Hungry. Unstoppable.,"A tiny wide-eyed kid goat chewing on a tin can, standing proudly on a pile of junk."
+T-05,Meatloaf Golem,Unit token (Gourmand Golem),,3/3,Mom's recipe. Mom's temper.,"A lumpy, sturdy meatloaf golem with a ketchup glaze, flexing proudly, carrot-stick fingers."
+T-06,Cake Golem,Unit token (Gourmand Golem),,4/4,Frosted. Fearsome. Delicious.,"A big layered cake golem with frosting armor and candle horns, sprinkles falling as it stomps."
+T-07,Wedding Cake Colossus,Unit token (Gourmand Golem),Bulldoze.,8/8,Till dessert do us part.,A towering multi-tiered wedding cake colossus with sugar-flower armor and a tiny bride-and-groom topper on its head like a crown.
+T-08,Chef's Special Golem,Unit token (Gourmand Golem),,X/X,Today's special: whatever's left.,"A patchwork golem built from everything in the pantry: bread, cheese, vegetables, and a fish, held together by noodles."
+T-09,Snack,Unit token (created by Plate),Has no abilities.,1/1,Bite-sized. Formerly terrifying.,"A tiny, nervous dumpling with stubby legs on a silver platter, sweating."
+T-10,Zombie Temp,Unit token (Necrocrat),,1/1,Here until further notice. There will be no further notice.,"A shambling zombie in a crooked tie and visitor lanyard, holding a stapler like a weapon."
+T-11,Zombie Rat,Unit token (Necrocrat),,2/2,Signed the clause. Kept the tail.,An undead rat with stitched ears and a tiny ink-stained contract clutched in its paws.
+T-12,Clause,Special token (shuffled into a deck),When drawn: Shred it; the player who created it creates a 2/2 Zombie Rat token.,,,A tiny glowing paragraph of fine print curled like a scroll.
+T-13,Contract,Resource token (Necrocrat),"Pay 1, use this Contract: exhaust target unit. It doesn't refresh during its controller's next turn. (Your turn only.)",,,A ghostly parchment contract with a green wax seal.
+T-14,Red Tape,Resource token (Necrocrat),"Pay 1, use this Red Tape: target unit gets -1 attack permanently. (Your turn only.)",,,A coil of glowing red tape bound with a skull clasp.
+T-15,"Grandmaster Flex, the Unbroken",Boss-fight ally token (Beefcake leader). Never available to the player normally.,"Starts on the player's field during the House of Gains boss fight if the player rescued him in that dungeon run.
+
+Overtime. Unbreakable.
+
+At the start of your turn, other units you control get +1/+1 until end of turn.",7/7,"True strength was never in the iron. It's in here. (And also, look at these.)","A once-frail old Beefcake monk tearing away his ragged prison robes to reveal a massive, chiseled physique, glowing with calm inner light in a broken prison cell, chains snapping around him."
+T-16,Militia,Unit token (Colorless),,1/1,Volunteered. Mostly.,"A determined villager in a pot helmet holding a pitchfork, standing in a heroic pose."
+T-17,Compost Golem,Unit token (Gourmand/Refusemancer Golem),,3/3,Made from scraps. Built with love.,"A sturdy golem of soil, vegetable peels, and eggshells, with a carrot nose and sprouting herbs for hair."
+T-18,Chef's Masterpiece Golem,Unit token (Gourmand/Refusemancer Golem),Nourish.,6/6,A five-star creation. Rated by rats.,"A magnificent golem made of a perfect ratatouille, layered vegetable slices forming armor, rats riding on its shoulders proudly."
+T-19,Hungry Ghost,Unit token (Gourmand/Necrocrat),Flying.,1/1,Always peckish. Never full.,"A small floating ghost with a bib and a fork, looking longingly at a pie."
+T-20,Protein Golem,Unit token (Gourmand/Beefcake Golem),Hustle.,6/6,Twenty grams of protein. Six hundred pounds of attitude.,"A hulking golem made of swirling chocolate protein shake, a shaker-bottle lid for a hat, flexing."
+T-21,Patchwork Body,Unit token (Necrocrat),,2/2,Assembled to code. Mostly.,"A stitched-together body of mismatched limbs with filing tags on each part, giving a cheerful thumbs-up."
+T-22,Sporeling,Unit token (Gourmand/Refusemancer/Necrocrat),,1/1,Grows on you.,"A tiny walking mushroom with stubby legs and glowing spots, waving shyly."
+T-23,Schmuck,Unit token (created under the OPPONENT's control by Dinner with Schmucks),Wallflower.,0/1,He thinks he's the guest of honor.,"A clueless, grinning dinner guest wearing a lampshade on his head and holding an empty plate."

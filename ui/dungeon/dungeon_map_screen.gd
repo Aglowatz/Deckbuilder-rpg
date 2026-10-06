@@ -1,7 +1,7 @@
 class_name DungeonMapScreen
 extends Control
 ## The dungeon node map: nodes joined by paths over a 3D diorama, the party marker, the run's
-## life bar, and the entry points for battles, the challenge and the shrine.
+## HP bar, and the entry points for battles, the challenge and the shrine.
 
 const MAP_ORIGIN: Vector2 = Vector2(120.0, 150.0)
 const MAP_EXTENT: Vector2 = Vector2(1680.0, 880.0)
@@ -16,8 +16,8 @@ var _paths: MapPaths
 var _marker: Control
 var _info_title: Label
 var _info_body: RichTextLabel
-var _life_label: Label
-var _life_bar: ProgressBar
+var _hp_label: Label
+var _hp_bar: ProgressBar
 var _modal: Control
 var _busy: bool = false
 var _screenshot_args: Dictionary = {}
@@ -43,7 +43,7 @@ func _ready() -> void:
 		for step: int in range(progress):
 			Session.dungeon_map.complete(Session.dungeon_map.available()[0].id)
 			if _screenshot_args.has("damage"):
-				Session.run.lose_life(int(_screenshot_args["damage"]))
+				Session.run.lose_hp(int(_screenshot_args["damage"]))
 	map = Session.dungeon_map
 	run = Session.run
 	if Session.main_dungeon_active:
@@ -60,7 +60,7 @@ func _ready() -> void:
 	_build_board()
 	_build_hud()
 	_build_nodes()
-	_refresh_life()
+	_refresh_hp()
 	_build_dungeon_extras()
 	_dialogue = DialogueBox.new()
 	_dialogue.z_index = 150
@@ -69,7 +69,7 @@ func _ready() -> void:
 		_open_from_screenshot.call_deferred(str(_screenshot_args["open"]))
 	EventBus.tutorial_event.emit(&"map_entered")
 	if _screenshot_args.is_empty() or _screenshot_args.has("tip"):
-		TipPanel.show_once(self, &"tip_map", "The dungeon map", ("Glowing nodes are your next steps, and some of them are real choices between routes. [b]Life carries from fight to fight[/b] and nothing heals except at shrines - this is the zone's life. Lose a duel and you wake at the hub (for a paperwork fee)." if (Session.mini_active or Session.main_dungeon_active) else "Glowing nodes are your next steps. [b]Life carries from fight to fight[/b], so save the shrine for when you need it. Lose a duel and you are carried back to town with your collection intact."), Vector2(560, 140))
+		TipPanel.show_once(self, &"tip_map", "The dungeon map", ("Glowing nodes are your next steps, and some of them are real choices between routes. [b]HP carries from fight to fight[/b] and nothing heals except at shrines - this is the zone's HP. Lose a duel and you wake at the hub (for a paperwork fee)." if (Session.mini_active or Session.main_dungeon_active) else "Glowing nodes are your next steps. [b]HP carries from fight to fight[/b], so save the shrine for when you need it. Lose a duel and you are carried back to town with your collection intact."), Vector2(560, 140))
 	_play_pending_after_story.call_deferred()
 	if Session.boss_phase_pending and Session.main_dungeon_active:
 		_begin_boss_phase.call_deferred()
@@ -106,7 +106,7 @@ func _prepare_main_dungeon_for_screenshot() -> void:
 			break
 		Session.dungeon_map.complete(choices[int(_screenshot_args.get("branch", 0)) % choices.size()].id)
 	if _screenshot_args.has("damage"):
-		Session.run.lose_life(int(_screenshot_args["damage"]))
+		Session.run.lose_hp(int(_screenshot_args["damage"]))
 	if _screenshot_args.has("boon") and MainDungeons.def(zone_id).boon != null:
 		Session.run.add_dungeon_source(MainDungeons.def(zone_id).boon)
 
@@ -196,25 +196,25 @@ func _build_hud() -> void:
 	title.position = Vector2(360, 26)
 	title.size = Vector2(1200, 80)
 	add_child(title)
-	var life_panel: PanelContainer = UIKit.panel(&"DarkPanel")
-	life_panel.position = Vector2(34, 28)
-	life_panel.custom_minimum_size = Vector2(320, 0)
-	add_child(life_panel)
-	var life_column: VBoxContainer = UIKit.vbox(6)
-	life_panel.add_child(life_column)
+	var hp_panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	hp_panel.position = Vector2(34, 28)
+	hp_panel.custom_minimum_size = Vector2(320, 0)
+	add_child(hp_panel)
+	var hp_column: VBoxContainer = UIKit.vbox(6)
+	hp_panel.add_child(hp_column)
 	var top: HBoxContainer = UIKit.hbox(8)
 	var heart: BattleHud.HeartIcon = BattleHud.HeartIcon.new()
 	heart.custom_minimum_size = Vector2(34, 34)
 	top.add_child(heart)
-	_life_label = UIKit.label("", &"", 30, UIStyle.PARCHMENT)
-	_life_label.add_theme_font_override("font", UIStyle.font_title())
-	top.add_child(_life_label)
-	life_column.add_child(top)
-	_life_bar = ProgressBar.new()
-	_life_bar.custom_minimum_size = Vector2(0, 16)
-	_life_bar.show_percentage = false
-	life_column.add_child(_life_bar)
-	life_column.add_child(UIKit.label("Life carries from fight to fight.", &"MutedLabel", 18))
+	_hp_label = UIKit.label("", &"", 30, UIStyle.PARCHMENT)
+	_hp_label.add_theme_font_override("font", UIStyle.font_title())
+	top.add_child(_hp_label)
+	hp_column.add_child(top)
+	_hp_bar = ProgressBar.new()
+	_hp_bar.custom_minimum_size = Vector2(0, 16)
+	_hp_bar.show_percentage = false
+	hp_column.add_child(_hp_bar)
+	hp_column.add_child(UIKit.label("HP carries from fight to fight.", &"MutedLabel", 18))
 	var gold_panel: PanelContainer = UIKit.panel(&"DarkPanel")
 	gold_panel.position = Vector2(1650, 28)
 	add_child(gold_panel)
@@ -246,12 +246,12 @@ func _build_hud() -> void:
 	add_child(deck_button)
 
 
-func _refresh_life() -> void:
-	_life_label.text = "Life  %d / %d" % [run.life, run.max_life()]
-	_life_bar.max_value = run.max_life()
-	_life_bar.value = run.life
-	var ratio: float = float(run.life) / float(maxi(run.max_life(), 1))
-	_life_bar.add_theme_stylebox_override("fill", UIStyle.box(UIStyle.GOOD if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.LIFE_RED), Color(0, 0, 0, 0), 0, 8))
+func _refresh_hp() -> void:
+	_hp_label.text = "HP  %d / %d" % [run.hp, run.max_hp()]
+	_hp_bar.max_value = run.max_hp()
+	_hp_bar.value = run.hp
+	var ratio: float = float(run.hp) / float(maxi(run.max_hp(), 1))
+	_hp_bar.add_theme_stylebox_override("fill", UIStyle.box(UIStyle.GOOD if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.HP_RED), Color(0, 0, 0, 0), 0, 8))
 
 
 # ---- Info panel -------------------------------------------------------------------------
@@ -275,7 +275,7 @@ func _on_node_hovered(id: int) -> void:
 	match node.kind:
 		DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS, DungeonMap.Kind.ELITE:
 			var prize: String = "a choice of card" if node.card_choices > 0 else "no card choice"
-			text += "\n[b]%s[/b], %d life.  Reward: %d gold and XP, %s." % [node.enemy_name, node.enemy_life, node.gold_reward, prize]
+			text += "\n[b]%s[/b], %d HP.  Reward: %d gold and XP, %s." % [node.enemy_name, node.enemy_hp, node.gold_reward, prize]
 		DungeonMap.Kind.EVENT:
 			text += "\nA story event: choose how to deal with it."
 		DungeonMap.Kind.TREASURE:
@@ -283,7 +283,7 @@ func _on_node_hovered(id: int) -> void:
 		DungeonMap.Kind.CHALLENGE:
 			text += "\nA deck challenge: the outcome depends on the cards you draw."
 		DungeonMap.Kind.SHRINE:
-			text += "\nRestore [b]%d[/b] life." % node.heal_amount
+			text += "\nRestore [b]%d[/b] HP." % node.heal_amount
 	if map.is_cleared(id):
 		text += "  [color=#6fbf73](cleared)[/color]"
 	_info_body.text = text

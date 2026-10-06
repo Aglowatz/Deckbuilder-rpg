@@ -6,7 +6,7 @@ extends RefCounted
 var winner: int = -1
 var turns: int = 0
 var first_player: int = 0
-## Spells cast per seat: card id -> count (infrastructure excluded).
+## Spells play per seat: card id -> count (infrastructure excluded).
 var casts: Array[Dictionary] = [{}, {}]
 ## Actions the engine rejected (should always be 0).
 var illegal_actions: int = 0

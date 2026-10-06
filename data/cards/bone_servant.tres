@@ -17,6 +17,6 @@ display_name = "Bone Servant"
 color = 4
 generic_cost = 1
 colored_pips = Array[int]([4])
-power = 2
+attack = 2
 rules_text = "When this dies, draw a card."
 effects = Array[ExtResource("1_nn65u")]([SubResource("Resource_ahy2m")])

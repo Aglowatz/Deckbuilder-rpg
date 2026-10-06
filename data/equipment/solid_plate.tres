@@ -13,6 +13,6 @@ value2 = 1
 script = ExtResource("3_vjuei")
 id = "solid_plate"
 slot = 2
-description = "Unglamorous, unyielding. Your creatures get +1 toughness."
+description = "Unglamorous, unyielding. Your units get +1 defense."
 source_name = "Solid Plate"
 modifiers = Array[ExtResource("1_v0fuj")]([SubResource("Resource_ld8hc")])

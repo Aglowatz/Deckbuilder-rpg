@@ -2,7 +2,7 @@ class_name EighthBriefFinalSmoke
 extends Node
 ## FINAL (eighth brief): the Verdant Dump flow with human-style input, end to end: the Path of the Refusemancer in town ->
 ## the Verdant Dump, the minimap reveals as you explore and POIs appear (full map on M) -> pick up a Magic Bean and grow
-## a VINE BRIDGE at its sprout mound, cross it, step off into the stream once (respawn, -1 zone life, logged) ->
+## a VINE BRIDGE at its sprout mound, cross it, step off into the stream once (respawn, -1 zone HP, logged) ->
 ## mount a giant goat, smash the junk dam and CHARGE a junk barricade -> plant a bean, grow a BEANSTALK, climb Rust Peak,
 ## solve the Seed Shrine, take a TRASH CHUTE down -> slow-enemy battle -> fast-enemy hit -> interactables (compost bin,
 ## shrine, crops) -> hub heal -> quiz -> the Sort It Out! minigame -> the Landfill Depths mini dungeon -> a hidden chest ->
@@ -29,7 +29,7 @@ var _shots: int = 0
 func run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.C)
+	Session.ensure_game(Affinity.Type.REFUSEMANCER)
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 	var town: TownScene = await _wait_for(TownScene) as TownScene
@@ -60,7 +60,7 @@ func run() -> void:
 	await _hand_in_dam_quest(zone)
 	await _final_state(zone)
 	await _other_zones_equipment()
-	_finish(_failures.is_empty(), "town -> Path of the Refusemancer -> Verdant Dump: minimap reveal + POIs -> bean -> vine bridge -> stream fall (-1 life) -> goat mount -> dam + barricade charge -> beanstalk -> Seed Shrine -> trash chute -> slow battle -> fast hit -> interactables -> hub heal -> quiz -> Sort It Out! -> chest -> Landfill Depths -> Compost Boots; all four zones' new equipment obtained (%d screenshots)" % _shots)
+	_finish(_failures.is_empty(), "town -> Path of the Refusemancer -> Verdant Dump: minimap reveal + POIs -> bean -> vine bridge -> stream fall (-1 HP) -> goat mount -> dam + barricade charge -> beanstalk -> Seed Shrine -> trash chute -> slow battle -> fast hit -> interactables -> hub heal -> quiz -> Sort It Out! -> chest -> Landfill Depths -> Compost Boots; all four zones' new equipment obtained (%d screenshots)" % _shots)
 
 
 # ---- Steps ------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ func _enter_the_heap(town: TownScene) -> HeapScene:
 	if zone != null:
 		await driver.seconds(1.2)
 		_check(Session.zone_run != null and Session.zone_run.zone_id == HeapZone.ID, "a zone visit starts for the Verdant Dump")
-		_check(Session.zone_run.life == Session.zone_run.max_life(), "entering starts at full zone life")
+		_check(Session.zone_run.hp == Session.zone_run.max_hp(), "entering starts at full zone HP")
 		await _shot("h_02_heap_arrival_hub")
 	return zone
 
@@ -209,12 +209,12 @@ func _bean_and_bridge(zone: HeapScene) -> void:
 	# Walk across it with the keys.
 	zone._spawn_grace = 600.0
 	zone._invulnerable = 600.0
-	var life_before: int = Session.zone_run.life
+	var hp_before: int = Session.zone_run.hp
 	await _walk_to(zone, Vector3(22.0, 0.0, HeapLayout.stream_z(22.0) + 4.6), 0.6)
 	await _walk_to(zone, zone.builder.anchor("land_west"), 1.2)
 	await driver.seconds(0.4)
 	_check(zone.player.position.z < HeapLayout.stream_z(22.0) - HeapLayout.STREAM_HALF_WIDTH, "walked over the vine bridge to the north bank (z %.1f)" % zone.player.position.z)
-	_check(Session.zone_run.life == life_before, "crossing a grown bridge costs nothing")
+	_check(Session.zone_run.hp == hp_before, "crossing a grown bridge costs nothing")
 	await _shot("h_12_north_bank_after_the_bridge")
 
 
@@ -225,7 +225,7 @@ func _fall_in_the_stream(zone: HeapScene) -> void:
 	var zc: float = HeapLayout.stream_z(22.0)
 	await _walk_to(zone, Vector3(22.0, 0.0, zc - 3.0), 0.6)
 	await driver.seconds(0.4)
-	var life_before: int = Session.zone_run.life
+	var hp_before: int = Session.zone_run.hp
 	var log_before: int = Session.zone_log.size()
 	await _walk_to(zone, Vector3(22.0, 0.0, zc), 0.5)
 	await driver.frames(3)
@@ -243,10 +243,10 @@ func _fall_in_the_stream(zone: HeapScene) -> void:
 		guard += 1
 		await driver.frames(3)
 	await driver.seconds(0.5)
-	_check(Session.zone_run.life == life_before - HeapZone.HAZARD_DAMAGE, "the dunk cost exactly 1 zone life (%d -> %d)" % [life_before, Session.zone_run.life])
+	_check(Session.zone_run.hp == hp_before - HeapZone.HAZARD_DAMAGE, "the dunk cost exactly 1 zone HP (%d -> %d)" % [hp_before, Session.zone_run.hp])
 	_check(zone.heap.layout.surface_at(zone.player.position.x, zone.player.position.z) == HeapLayout.Surface.GROUND, "...and you respawn on dry ground at the last safe spot")
 	_check(Session.zone_log.size() == log_before + 1, "the dunk is logged (%s)" % Session.zone_log[Session.zone_log.size() - 1])
-	await _shot("h_14_respawned_minus_one_life")
+	await _shot("h_14_respawned_minus_one_HP")
 	zone._invulnerable = 600.0
 
 
@@ -422,7 +422,7 @@ func _slow_enemy_battle(zone: HeapScene) -> HeapScene:
 	_check(enemy != null, "a Mossy Trash Golem roams the Rust Peak yards")
 	if enemy == null:
 		return zone
-	var life_before: int = Session.zone_run.life
+	var hp_before: int = Session.zone_run.hp
 	var enemies_before: int = int(Session.counters.get(HeapZone.COUNTER_ENEMIES, 0))
 	zone.player.position = _spot_near(zone, enemy.position)
 	zone.player.position.y = zone.builder.height_at(zone.player.position)
@@ -438,10 +438,10 @@ func _slow_enemy_battle(zone: HeapScene) -> HeapScene:
 	if battle == null:
 		return zone
 	_check(battle.context.zone_battle, "it is a zone battle")
-	_check(battle.game.players[0].life == life_before, "the battle starts at the persisted zone life (%d)" % life_before)
+	_check(battle.game.players[0].hp == hp_before, "the battle starts at the persisted zone HP (%d)" % hp_before)
 	await _shot("h_33_heap_battle_refusemancer_deck")
 	await _play_battle(battle)
-	var life_end: int = battle.game.players[0].life
+	var hp_end: int = battle.game.players[0].hp
 	var won: bool = battle.context.won
 	await _shot("h_34_heap_battle_result")
 	await driver.click_button("Continue")
@@ -452,10 +452,10 @@ func _slow_enemy_battle(zone: HeapScene) -> HeapScene:
 		_check(zone.heap.is_barricade_standing("gate") == false and zone.heap.is_barricade_standing("dam") == false, "smashed barricades stay smashed after the scene reloads")
 		_check(zone.heap.bridge_progress.get("bridge_west", 0.0) == 1.0, "grown bridges stay grown after the scene reloads")
 		if won:
-			_check(Session.zone_run.life == life_end, "life after the battle is what was left, with no free heal (%d)" % life_end)
+			_check(Session.zone_run.hp == hp_end, "HP after the battle is what was left, with no free heal (%d)" % hp_end)
 			_check(int(Session.counters.get(HeapZone.COUNTER_ENEMIES, 0)) == enemies_before + 1, "the zone's enemy counter went up")
 		else:
-			_check(Session.zone_run.life == Session.zone_run.max_life(), "a loss wakes you at the Compost Grange at full life")
+			_check(Session.zone_run.hp == Session.zone_run.max_hp(), "a loss wakes you at the Compost Grange at full HP")
 			_check(Session.zone_log[Session.zone_log.size() - 1].begins_with("Mucking-out fee"), "the mucking-out fee was logged")
 		await _clear_popups(zone)
 		await _shot("h_35_back_in_the_heap_after_battle")
@@ -471,9 +471,9 @@ func _fast_enemy_hit(zone: HeapScene) -> void:
 	_check(gulls != null, "a Junk Gull Flock roams the Verdant Dump")
 	if gulls == null:
 		return
-	if Session.zone_run.life <= 3:
+	if Session.zone_run.hp <= 3:
 		Session.zone_run.fully_heal()
-	var start_life: int = Session.zone_run.life
+	var start_hp: int = Session.zone_run.hp
 	gulls.cooldown = 0.0
 	gulls.state = ZoneEnemy.State.PATROL
 	var saved_ranges: Dictionary = {}
@@ -491,13 +491,13 @@ func _fast_enemy_hit(zone: HeapScene) -> void:
 	await driver.frames(3)
 	await _shot("h_36_gulls_approaching")
 	var waited: float = 0.0
-	while Session.zone_run.life >= start_life and waited < 12.0:
+	while Session.zone_run.hp >= start_hp and waited < 12.0:
 		await driver.frames(3)
 		waited += 3.0 / 60.0
-	_check(Session.zone_run.life == start_life - HeapEnemies.GULL_DAMAGE, "the gulls hit for exactly 2 (life %d -> %d)" % [start_life, Session.zone_run.life])
-	_check(zone.life_bar._last_life == Session.zone_run.life, "the HUD life bar shows the new life")
+	_check(Session.zone_run.hp == start_hp - HeapEnemies.GULL_DAMAGE, "the gulls hit for exactly 2 (HP %d -> %d)" % [start_hp, Session.zone_run.hp])
+	_check(zone.hp_bar._last_hp == Session.zone_run.hp, "the HUD HP bar shows the new HP")
 	await driver.frames(4)
-	await _shot("h_37_gulls_hit_flash_and_life")
+	await _shot("h_37_gulls_hit_flash_and_HP")
 	_check(zone._invulnerable > 0.0, "the hit grants a short invulnerability window")
 	for other: ZoneEnemy in zone.enemies:
 		if other != gulls:
@@ -525,8 +525,8 @@ func _stand_at(zone: HeapScene, spot_id: String) -> void:
 func _interactables(zone: HeapScene) -> void:
 	await _clear_popups(zone)
 	var run: ZoneRun = Session.zone_run
-	run.life = 3
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
+	run.hp = 3
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	# The compost bin needs two piles of junk.
 	await _stand_at(zone, "compost_bin")
 	await driver.tap_key(KEY_E)
@@ -539,18 +539,18 @@ func _interactables(zone: HeapScene) -> void:
 		await driver.tap_key(KEY_E)
 		await driver.seconds(0.3)
 	await _stand_at(zone, "compost_bin")
-	var max_before: int = run.max_life()
+	var max_before: int = run.max_hp()
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(run.max_life() == max_before + 1, "the compost bin turned two piles of junk into +1 max life this visit")
+	_check(run.max_hp() == max_before + 1, "the compost bin turned two piles of junk into +1 max HP this visit")
 	await _shot("h_39_compost_cocktail")
 	# The druid shrine.
 	await _stand_at(zone, "shrine")
 	await _shot("h_40_druid_shrine")
-	var life_before: int = run.life
+	var hp_before: int = run.hp
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(run.life > life_before and run.max_life() == max_before + 2, "the shrine's blessing healed and raised max life")
+	_check(run.hp > hp_before and run.max_hp() == max_before + 2, "the shrine's blessing healed and raised max HP")
 	# Crop plots: plant with fertilizer, then it grows.
 	await _stand_at(zone, "pickup_fert_1")
 	await driver.tap_key(KEY_E)
@@ -587,16 +587,16 @@ func _interactables(zone: HeapScene) -> void:
 func _hub_heal(zone: HeapScene) -> void:
 	await _clear_popups(zone)
 	var run: ZoneRun = Session.zone_run
-	run.life = maxi(1, run.max_life() - 4)
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
-	var hurt: int = run.life
+	run.hp = maxi(1, run.max_hp() - 4)
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
+	var hurt: int = run.hp
 	zone._spawn_grace = 600.0
 	var spot: ZoneSpot = _spot(zone, "heal")
 	await _walk_to(zone, spot.position, spot.radius)
 	await driver.frames(4)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(hurt < run.max_life() and run.life == run.max_life(), "the Harvest Meal heals to full (%d -> %d)" % [hurt, run.life])
+	_check(hurt < run.max_hp() and run.hp == run.max_hp(), "the Harvest Meal heals to full (%d -> %d)" % [hurt, run.hp])
 	await _shot("h_44_hub_heal_harvest_meal")
 	await _clear_popups(zone)
 	var hob: ZoneSpot = _spot(zone, "hob")
@@ -758,13 +758,13 @@ func _mini_dungeon(zone: HeapScene) -> HeapScene:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
 	await _shot("h_58_landfill_depths_prompt")
-	var life_at_entry: int = Session.zone_run.life
+	var hp_at_entry: int = Session.zone_run.hp
 	await driver.click_button("Climb in")
 	var map_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 	_check(map_screen != null, "the mini dungeon opens the node map")
 	if map_screen == null:
 		return zone
-	_check(Session.mini_active and Session.run.life == life_at_entry, "the run starts at the zone's current life (%d)" % life_at_entry)
+	_check(Session.mini_active and Session.run.hp == hp_at_entry, "the run starts at the zone's current HP (%d)" % hp_at_entry)
 	await driver.seconds(1.2)
 	await _shot("h_59_landfill_depths_map")
 	var battles: int = 0
@@ -777,13 +777,13 @@ func _mini_dungeon(zone: HeapScene) -> HeapScene:
 		if available.is_empty():
 			_note("exit: no available node"); break
 		var button: MapNodeButton = map_screen._buttons[available[0].id] as MapNodeButton
-		var life_before: int = Session.run.life
+		var hp_before: int = Session.run.hp
 		await driver.click(driver.center_of_control(button))
 		var battle: BattleScreen = await _wait_for(BattleScreen) as BattleScreen
 		if battle == null:
 			_note("exit: no battle screen, scene=%s" % get_tree().current_scene); break
 		battles += 1
-		_check(battle.game.players[0].life == life_before, "landfill battle %d starts at the carried life (%d)" % [battles, life_before])
+		_check(battle.game.players[0].hp == hp_before, "landfill battle %d starts at the carried HP (%d)" % [battles, hp_before])
 		if battles == 1:
 			await _shot("h_60_landfill_battle_1")
 		await _play_battle(battle)

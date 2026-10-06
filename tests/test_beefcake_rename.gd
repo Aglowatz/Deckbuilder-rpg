@@ -3,7 +3,7 @@ extends GutTest
 
 
 func test_affinity_display_name_is_beefcake() -> void:
-	assert_eq(UIStyle.affinity_name(Affinity.Type.A), "Beefcake")
+	assert_eq(UIStyle.affinity_name(Affinity.Type.BEEFCAKE), "Beefcake")
 
 
 func test_zone_portal_is_the_beefcake_path() -> void:
@@ -16,4 +16,4 @@ func test_zone_portal_is_the_beefcake_path() -> void:
 func test_corrupted_npc_ids_use_beefcake() -> void:
 	assert_true(CorruptedNpcs.IDS.has("beefcake"))
 	assert_false(CorruptedNpcs.IDS.has("ember"))
-	assert_eq(CorruptedNpcs.element("beefcake"), Affinity.Type.A)
+	assert_eq(CorruptedNpcs.element("beefcake"), Affinity.Type.BEEFCAKE)

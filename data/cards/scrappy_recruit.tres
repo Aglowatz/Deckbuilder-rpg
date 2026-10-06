@@ -8,5 +8,5 @@ script = ExtResource("2_ckq6k")
 id = "scrappy_recruit"
 display_name = "Scrappy Recruit"
 generic_cost = 1
-power = 2
+attack = 2
 flavor_text = "Braver than trained."

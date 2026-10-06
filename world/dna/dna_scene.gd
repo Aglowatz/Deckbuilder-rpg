@@ -1,7 +1,7 @@
 class_name DnaScene
 extends ZoneScene
 ## The playable D.N.A. (Department of Necrotic Affairs): the Necrocrat zone. The shared zone
-## framework (`ZoneScene`) provides the hub, life rules, enemies, chests, quiz/minigame/puzzle
+## framework (`ZoneScene`) provides the hub, HP rules, enemies, chests, quiz/minigame/puzzle
 ## launchers and the minimap; this subclass only adds what is unique to the office complex: the cold
 ## green look, the flickering tube lights (a pooled-light system) and the four office interactables.
 

@@ -9,6 +9,6 @@ id = "beefcake_imp"
 display_name = "Beefcake Imp"
 color = 1
 colored_pips = Array[int]([1])
-power = 2
+attack = 2
 keywords = Array[int]([2])
 rules_text = "Haste"

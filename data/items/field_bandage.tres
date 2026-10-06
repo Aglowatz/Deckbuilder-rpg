@@ -13,6 +13,6 @@ amount = 3
 script = ExtResource("2_unv7v")
 id = "field_bandage"
 display_name = "Field Bandage"
-description = "Mend 3 damage from one of your creatures."
+description = "Mend 3 damage from one of your units."
 uses = 3
 effect = SubResource("Resource_fxti3")

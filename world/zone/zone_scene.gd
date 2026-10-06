@@ -3,7 +3,7 @@ extends Node3D
 ## The shared zone framework: everything a zone scene does that is not specific to one zone. A zone
 ## (the D.N.A., the Gainlands, future ones) is a `ZoneDef` (data) + a `ZoneMap` (layout) + a story file,
 ## plus a thin subclass for its own look and its own interactables. This base provides the hub (heal
-## spot, vendor, quest NPCs), the zone life rules and 0-life respawn (`ZoneRun`), roaming enemies,
+## spot, vendor, quest NPCs), the zone HP rules and 0-HP respawn (`ZoneRun`), roaming enemies,
 ## hidden chests, the quiz master / minigame / puzzle launchers, the mini dungeon entrance, the
 ## main-dungeon placeholder, the HUD, overlays, dialogue and the minimap.
 ##
@@ -18,7 +18,7 @@ var def: ZoneDef
 var builder: ZoneMap
 var player: TownPlayer
 var hud: TownHud
-var life_bar: ZoneLifeBar
+var hp_bar: ZoneHpBar
 var dialogue: DialogueBox
 var minimap: MinimapHud
 var spots: Array[ZoneSpot] = []
@@ -170,7 +170,7 @@ func _ready() -> void:
 	_build_ui()
 	hud.set_objective(story.text("hud.objective"))
 	hud.show_zone_effects(ZoneEffects.for_zone(def.id), def.display_name)
-	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
+	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 	_apply_pending_result.call_deferred()
 	if _arrived_by_rift:
 		_show_rift_arrival.call_deferred()
@@ -417,9 +417,9 @@ func _build_ui() -> void:
 	hud.wardrobe_pressed.connect(_open_wardrobe)
 	hud.packs_pressed.connect(_open_packs)
 	EventBus.quest_notice.connect(_on_quest_notice)
-	life_bar = ZoneLifeBar.new()
-	life_bar.position = Vector2(790, 24)
-	host.add_child(life_bar)
+	hp_bar = ZoneHpBar.new()
+	hp_bar.position = Vector2(790, 24)
+	host.add_child(hp_bar)
 	_banner = UIKit.label("", &"TitleLabel", 54, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	_banner.position = Vector2(360, 190)
 	_banner.size = Vector2(1200, 80)
@@ -740,7 +740,7 @@ func _greeting(npc_id: String) -> Array[String]:
 func _use_heal_spot(spot: ZoneSpot) -> void:
 	player.face(spot.position)
 	var healed: int = Session.zone_run.fully_heal()
-	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
+	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 	Audio.sfx(&"heal")
 	hud.toast(story.text("fx.heal_couch") if healed > 0 else story.text("fx.heal_already"), UIStyle.GOOD)
 
@@ -760,7 +760,7 @@ func _ask_mini_dungeon(spot: ZoneSpot) -> void:
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
 
-## The zone's final dungeon (Part E): its entrance shows what waits inside, then enters it (life carries in
+## The zone's final dungeon (Part E): its entrance shows what waits inside, then enters it (HP carries in
 ## from the zone, like the mini dungeon).
 func _use_main_dungeon(spot: ZoneSpot) -> void:
 	player.face(spot.position)
@@ -850,7 +850,7 @@ func _animate_chest(id: String) -> void:
 		tween.tween_property(chest, "scale", chest.scale, 0.22)
 
 
-# ---- Zone life: enemies, damage, fainting ----------------------------------------------------
+# ---- Zone HP: enemies, damage, fainting ----------------------------------------------------
 
 
 func _on_enemy_touched(enemy: ZoneEnemy) -> void:
@@ -877,13 +877,13 @@ func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 	Session.start_zone_battle(enemy.info.id, enemy.instance_id)
 
 
-## Damage to the persistent zone life: flash, shake, HUD update, knockback and a short
-## invulnerability window. At 0 life the player faints and wakes at the hub.
+## Damage to the persistent zone HP: flash, shake, HUD update, knockback and a short
+## invulnerability window. At 0 HP the player faints and wakes at the hub.
 func hit_player(amount: int, from: Vector3, cause: String = "knocked flat") -> void:
 	var run: ZoneRun = Session.zone_run
 	run.damage(amount)
 	_invulnerable = ZoneEnemies.HIT_COOLDOWN
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	Audio.sfx(&"hit_heavy")
 	hud.toast(story.text("fx.hit"), Color("ff8a85"))
 	_flash.color.a = 0.38
@@ -959,7 +959,7 @@ func _wake_at_hub(cause: String) -> void:
 	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	_invulnerable = 2.0
 	_spawn_grace = SPAWN_GRACE
-	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
+	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 
 
 func _show_wake_dialogue(fee_override: int) -> void:
@@ -988,20 +988,20 @@ func _apply_pending_result() -> void:
 	if str(result.get("kind", "")) == "main":
 		if bool(result.get("cleared", false)):
 			var pack_lines: Array[String] = PackRewards.dungeon_lines(result, StoryText.shared())
-			hud.toast("%s survived again. %s" % [ZoneDefs.get_def(def.id).full_name, pack_lines[0] if not pack_lines.is_empty() else "Life carries over."], UIStyle.GOOD)
+			hud.toast("%s survived again. %s" % [ZoneDefs.get_def(def.id).full_name, pack_lines[0] if not pack_lines.is_empty() else "HP carries over."], UIStyle.GOOD)
 		else:
-			hud.toast("You leave the dungeon with %d life." % Session.zone_run.life, Color("ffcf70"))
+			hud.toast("You leave the dungeon with %d HP." % Session.zone_run.hp, Color("ffcf70"))
 		return
 	if str(result.get("kind", "")) == "mini":
 		if bool(result.get("first_clear", false)):
 			hud.toast("%s cleared! Unique card: %s" % [def.mini.dungeon_name, str(result.get("card", ""))], UIStyle.GOLD)
 		elif bool(result.get("cleared", false)):
-			hud.toast("%s survived again. Life carries over." % def.mini.dungeon_name, UIStyle.GOOD)
+			hud.toast("%s survived again. HP carries over." % def.mini.dungeon_name, UIStyle.GOOD)
 		else:
-			hud.toast("You leave %s with %d life." % [def.mini.dungeon_name, Session.zone_run.life], Color("ffcf70"))
+			hud.toast("You leave %s with %d HP." % [def.mini.dungeon_name, Session.zone_run.hp], Color("ffcf70"))
 		return
 	if bool(result.get("won", false)):
-		hud.toast("Won! +%d gold, +%d XP. Life stays as it is." % [int(result.get("gold", 0)), int(result.get("xp", 0))], UIStyle.GOLD)
+		hud.toast("Won! +%d gold, +%d XP. HP stays as it is." % [int(result.get("gold", 0)), int(result.get("xp", 0))], UIStyle.GOLD)
 
 
 ## The announcement after the zone's final boss falls: the zone is free; what just unlocked.
@@ -1073,7 +1073,7 @@ func _close_overlay() -> void:
 		_overlay = null
 	_locked = false
 	hud.set_gold(Session.gold)
-	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
+	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 	Session.save_game()
 	Audio.sfx(&"ui_close", -4.0)
 

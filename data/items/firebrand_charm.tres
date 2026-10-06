@@ -12,6 +12,6 @@ amount = 2
 script = ExtResource("2_7d10d")
 id = "firebrand_charm"
 display_name = "Firebrand Charm"
-description = "Deal 2 damage to an enemy creature."
+description = "Deal 2 damage to an enemy unit."
 uses = 2
 effect = SubResource("Resource_28hxo")

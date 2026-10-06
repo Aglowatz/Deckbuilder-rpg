@@ -1,0 +1,109 @@
+Section,Term / Item,Definition / Rule,Notes
+OVERVIEW,Game,"Single-player PvE deckbuilding RPG card game inspired by MTG. No direct interaction: everything (Tools, Wonders, resources, unit abilities) is used only on your own turn. Only Traps act on the opponent's turn, and only when their specific condition is met.","Light-hearted, deep mechanics. Humor is extremely important: puns, references, and nods millennials will get."
+OVERVIEW,Decks,45-card minimum including ~19 Infrastructure. Up to 4 copies of each non-Infrastructure card. 2 Paths max during the main game; all Paths after beating the final boss.,"Player HP: 10 at level 1, up to 25 at max level. Keep face damage modest."
+OVERVIEW,Energy symbols,"(B) Beefcake, (N) Necrocrat, (G) Gourmand, (R) Refusemancer. A number = generic energy of any Path. Cost format: generic first, then Path pips, e.g. 2(N)(N).",
+,,,
+CORE TERMS,Unit,Creature.,
+CORE TERMS,Infrastructure,Land. Play one per turn from hand. Activate for energy. Basic Infrastructure also creates that Path's resource when it enters.,"Basics: Ghost Town (N), Wasteworks (R), Feastforge (G), Powerhouse (B)."
+CORE TERMS,Energy,Mana.,
+CORE TERMS,Exhaust / Refresh / Activate,"EXHAUST = tap: the card is spent until it refreshes at the start of its controller's turn. REFRESH = untap. ACTIVATE = the act of using any ability (rules/UI term only; never written as a cost). Abilities list only their real costs: ""Exhaust, pay 1: ..."" taps the card; ""Use 3 Red Tape: ..."" does not.",Replaces the earlier Activate = tap rule.
+CORE TERMS,Play,Cast.,
+CORE TERMS,Deck,Library.,
+CORE TERMS,Refuse Pile,Graveyard.,
+CORE TERMS,The field,Battlefield.,
+CORE TERMS,Use,"Sacrifice a token or resource (e.g. ""Use a Garbage"").",
+CORE TERMS,Destroy (your own),"Sacrificing your own unit, Tool, or Wonder is written as ""Destroy a unit you control: ..."".",
+CORE TERMS,Shred,Exile. The card is removed from the game for good. Use sparingly; it is the main answer to Refusemancer recursion.,Meta imagery: the card is literally shredded.
+CORE TERMS,Toss,Discard.,
+CORE TERMS,Bury X,Mill: put the top X cards of a deck into its owner's Refuse Pile.,
+CORE TERMS,Reinstate,Return a unit from a Refuse Pile to the field.,
+CORE TERMS,Send back,Return a card from the field to its owner's hand.,
+CORE TERMS,Brawl,Fight: two units deal damage equal to their attack to each other.,
+CORE TERMS,Peek X,"Scry: look at the top X cards of your deck, put any on the bottom in any order.",
+CORE TERMS,Buff,#ERROR!,
+CORE TERMS,HP,Life.,
+CORE TERMS,Attack / Defense,"Power / Toughness. Written as Attack/Defense, e.g. 2/3.",
+CORE TERMS,Enters,Enters the field.,
+CORE TERMS,Combat,Attackers attack the opposing PLAYER only. The defender may assign one blocker per attacker. Unblocked damage hits the player.,
+,,,
+CARD TYPES,Unit,Creature. All Paths use units.,
+CARD TYPES,Infrastructure,Land.,
+CARD TYPES,Resource,"Iron (B), Red Tape (N), Ingredient (G), Garbage (R). Token-like permanents created by basic Infrastructure and card effects.",New to this game; key differentiator from MTG.
+CARD TYPES,Spell,"Sorcery. Played on your turn, resolves, goes to the Refuse Pile.",
+CARD TYPES,Trap,"Played face-down on your turn; triggers automatically on the opponent's turn when its condition is met. Max 3 set traps (game rule, may change).",Hearthstone-style secrets.
+CARD TYPES,Tool,"Artifact/equipment-like. Often one-time use (""Destroy this Tool: ..."") or attach-to-a-unit (""Exhaust: attach to target unit you control."" Your turn only).",No Equip X keyword.
+CARD TYPES,Wonder,Enchantment-like. Usually static effects or repeatable uses.,
+CARD TYPES,Token,"Created by effects (Rats, Golems, Sashimi Weenies, Snacks, etc.). Resources are also tokens.",
+,,,
+KEYWORDS,Flying,Can only be blocked by units with Flying or Swat.,Kept from MTG.
+KEYWORDS,Swat,Can block units with Flying.,Reach.
+KEYWORDS,Hustle,Can attack and activate the turn it enters.,Haste.
+KEYWORDS,Bulldoze,Excess combat damage beyond the blocker's defense hits the opponent.,Trample.
+KEYWORDS,Sucker Punch,Deals combat damage before units without it.,First strike.
+KEYWORDS,One-Two Punch,Deals both Sucker Punch and regular combat damage.,Double strike.
+KEYWORDS,Toxic,Any damage this deals to a unit destroys it.,Deathtouch.
+KEYWORDS,Nourish,Damage this deals also heals you that much.,Lifelink.
+KEYWORDS,Overtime,Attacking doesn't activate this unit.,Vigilance.
+KEYWORDS,Wallflower,Can't attack.,Defender.
+KEYWORDS,Elusive,Can't be blocked.,Unblockable.
+KEYWORDS,Untouchable,Can't be targeted by your opponent's cards.,Hexproof.
+KEYWORDS,Unbreakable,"Can't be destroyed by damage or destroy effects. Can still be Shredded, sent back, or reduced to 0 defense.",Indestructible.
+KEYWORDS,Not used,"Guard, Equip X, Ward/Notarized, Menace (one blocker per attacker), Flash/instants.",
+,,,
+RESOURCES,Iron (Beefcake),"Pay 1 energy, use an Iron: target unit gets +1 attack permanently. Your turn only.",Created by Powerhouse.
+RESOURCES,Red Tape (Necrocrat),"Pay 1 energy, use a Red Tape: target unit gets -1 attack permanently. Your turn only.",Created by Ghost Town.
+RESOURCES,Contract (Necrocrat),"Pay 1 energy, use a Contract: exhaust target unit. It doesn't refresh during its controller's next turn. Your turn only.",Second Necrocrat token. Can target any unit (allows combos).
+RESOURCES,Ingredient (Gourmand),"Does nothing on its own. Spent by Gourmand cards (Cook, golems, recipes).",Created by Feastforge.
+RESOURCES,Garbage (Refusemancer),Does nothing on its own. Spent by Refusemancer cards (Eat Garbage).,Created by Wasteworks.
+,,,
+PATH MECHANICS,Yeet (B),Activate this unit: it deals damage equal to its attack to target unit or opponent. Exact wording and any extra cost set per card.,Beefcake throwing/transport flavor.
+PATH MECHANICS,Overexert (B),"A cost: exhaust this unit, and it also doesn't refresh during your next turn. Used for big bursts now, exhaustion later (e.g. ""Overexert: add (B)(B)."").","Burst now, exhaustion later."
+PATH MECHANICS,Processing X (N),"A delayed effect: put this aside; at the start of your turn X turns from now, it resolves.",Slow but inevitable bureaucracy.
+PATH MECHANICS,Reinstate (N),Necrocrat reanimation (see core terms).,
+PATH MECHANICS,Cook X (G),Use X Ingredients: create a Golem token (size set by the card).,Artificer chefs.
+PATH MECHANICS,Plate (G),Turn target unit into a 1/1 Snack token (loses all abilities).,Gourmand transformation removal.
+PATH MECHANICS,Eat Garbage (R),"Ability cost: pay 1 energy, lose 1 HP, use a Garbage. The Raccoon makes this free on your turn.","Mostly direct effects: pump, damage, energy."
+PATH MECHANICS,Fertilize X (R),Put X buffs on target unit.,Growth.
+PATH MECHANICS,Regrow (R),Return a card from your Refuse Pile to your hand (or as specified).,Recycling.
+,,,
+PATH IDENTITY,Beefcake,"Aggressive, chaotic. Hustle, big strong units, raw stat boosts, Tools/equipment, tempo, direct damage to units and face, throwing and portal tricks. Burst now, pay later.",Preferred type: Tool. Minimal: Traps. Opposes Necrocrats.
+PATH IDENTITY,Necrocrat,"Orderly, value-grinding. Small tokens (zombies, skeletons) to go wide, reanimator, profit from deaths, drain, delayed but inevitable effects, taxes and fees, Red Tape/Contract control.",Preferred type: Spell. Minimal: Wonders. Opposes Beefcakes.
+PATH IDENTITY,Gourmand,"Refined, controlling, defensive artificers. Chefs (small units) and Wonders that turn Ingredients into big Golem tokens; recipes (card selection/draw), healing, bounce and transformation removal.",Preferred type: Wonder. Minimal: Spells. Opposes Refusemancers.
+PATH IDENTITY,Refusemancer,"Resilient, recycling growth. Garbage-eating units with direct effects, ramp into big units, Refuse Pile as a resource, scrappy animals (rats), Tool/Wonder/resource destruction.",Preferred type: Trap. Minimal: Tools. Opposes Gourmands.
+,,,
+REMOVAL,Beefcake,"Primary: direct damage (units or face), Yeet. Mass: damage to all units. Strong vs: small/mid units, Tools (smash). Weak vs: high-defense units, Wonders.",
+REMOVAL,Necrocrat,"Primary: straight destroy, edicts (opponent destroys a unit they control), Red Tape shrinking, Contract lockdown. Mass: destroy all units (expensive). Strong vs: any single unit, Wonders (""Permit Revoked""). Weak vs: Tools, wide token boards early.",
+REMOVAL,Gourmand,"Primary: send back, Plate, eat units for Ingredients. Mass: send back all units. Strong vs: big threats and tokens, Tools (dismantle). Weak vs: repeated threats, recursion.",Stealing stays in multi-path (e.g. Necrocrat/Beefcake).
+REMOVAL,Refusemancer,"Primary: Brawl, Eat Garbage damage, traps on entering units, big units eating things. Mass: destroy all Tools/Wonders. Strong vs: Tools, Wonders, resources, Flying (Swat). Weak vs: Untouchable/Elusive units.",
+REMOVAL,Colorless,"Expensive, conditional general removal only. No mass removal.",
+REMOVAL,Shred,Rare in every Path. Mostly Necrocrat (shredding paperwork) and colorless.,
+,,,
+RARITY,Common (C),"Simple, 1-2 lines, one clear effect. Teaches the Path's mechanics. Fair stats.",
+RARITY,Uncommon (U),Synergy and payoffs; slightly more complex. All dual-path non-epic cards are uncommon.,
+RARITY,Epic (E),"Build-arounds, strong engines, named characters.",
+RARITY,Legendary (L),"Unique, splashy, game-changing. Signature legendaries are faction leaders/icons tied to the story.","Story: Gourmand leader (impostor doppelganger), Beefcake leader (imprisoned, secretly ripped), Necrocrat authority (via valid paperwork), Refusemancer leader (corrupted by nature)."
+,,,
+STATS CURVE,Vanilla rate,"Common unit with no abilities: total attack+defense about 2x cost + 1 (1: 1/2 or 2/1, 2: 2/3 or 3/2, 3: 3/4, 4: 4/5, 5: 5/6). Each meaningful ability costs about 1-2 stat points.",Guideline only; balance comes later.
+STATS CURVE,Removal rate,2 damage for 1 energy; 3-4 damage for 2-3; targeted destroy 3-4; mass removal 4-6. Face damage costs more than unit damage.,
+STATS CURVE,Path skew,"Beefcake: higher attack, Hustle premium. Necrocrat: smaller bodies, more value. Gourmand: higher defense, Golem tokens bigger than their cost. Refusemancer: big top end via ramp.",
+,,,
+TEXT TEMPLATES,Ability,"""[Costs]: [effect]."" Include Exhaust in the costs only if the ability taps the card. Examples: ""Exhaust, eat garbage: deal 2 damage to target unit."" / ""Use 3 Red Tape: this unit gains Elusive until end of turn."" Repeatable non-exhaust abilities on Wonders usually say ""Do this only once per turn.""",Your turn only (no need to say it on each card).
+TEXT TEMPLATES,Enters,"""When this unit enters, [effect].""",
+TEXT TEMPLATES,Trap,"""When [condition], [effect].""",
+TEXT TEMPLATES,Tool attach,"""Exhaust: attach to target unit you control. Attached unit gets [effect]."" One-shot Tools: ""Destroy this Tool: [effect].""",
+TEXT TEMPLATES,Additional cost,"""As an additional cost to play this, use [X].""",
+,,,
+HUMOR + IP,Humor,"Puns, millennial references, office/gym/kitchen/junkyard comedy, dry morbid jokes. Flavor text short and punchy.",
+HUMOR + IP,IP safety,"Commercial game: use parody names and nods, not real brands, trademarks, real people, or direct quotes. Image descriptions must describe ORIGINAL characters (e.g. ""a towering sunglasses-wearing chef""), never ""looks like [real person/character]"".",AI image tools also refuse real likenesses.
+,,,
+IMAGE STYLE LOCK,Style prefix (paste before every image description),"Stylized fantasy card illustration, painterly digital art with clean bold shapes and soft cel-shaded lighting, whimsical and expressive young-adult tone like a modern indie RPG, rich saturated colors with a warm key light and colored shadows, a single clear focal subject with a readable silhouette, simple atmospheric background, slight exaggeration for comedy. Vertical 2:3 portrait composition for a full-art trading card: main subject in the upper-middle of the frame, fully visible, head and key details within the upper 60%; top 10% uncluttered; lower third calmer and less detailed (soft background, ground, or atmosphere) so rules text can overlay it; keep important elements away from the outer edges. No text, no letters, no card frame, no border.",LOCKED (tested by designer). Generate at 1024x1536 (2:3 portrait). Full-art card format (Option B).
+IMAGE STYLE LOCK,Beefcake accent,"Sunny gold and warm red palette, gym and mill motifs, dynamic action poses.",Added to each Beefcake description.
+IMAGE STYLE LOCK,Necrocrat accent,"Cool grays with sickly green highlights, paperwork, filing cabinets, ghostly light.",
+IMAGE STYLE LOCK,Gourmand accent,"Warm cream, copper and pastry tones, kitchen steam, polished cookware.",
+IMAGE STYLE LOCK,Refusemancer accent,"Mossy greens, rust orange, junk piles with wildflowers, golden-hour light.",
+IMAGE STYLE LOCK,Colorless / multi-path accent,Neutral stone and parchment tones (colorless); blend the accents of each Path (multi-path).,
+,,,
+TIMING,Activated vs. triggered,"ACTIVATED abilities (anything with ""Activate"", Tools, resources) are your turn only. TRIGGERED abilities (""When..."", ""Whenever..."") happen whenever their condition is met, on either turn. Traps are the only cards you set to respond on the opponent's turn.",
+INFRASTRUCTURE,Basic,One per Path. Creates that Path's resource when it enters. Activate for one energy of its Path.,
+INFRASTRUCTURE,"Special (uncommon, one per Path)",Path-flavored utility Infrastructure. Does not create a resource.,
+INFRASTRUCTURE,"Dual-path (epic, one per pair) + any-Path",Enters refreshed (ready to use). Activate for one energy of either Path. Never creates a resource.,The trade-off for flexibility.

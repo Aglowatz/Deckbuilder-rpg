@@ -41,7 +41,7 @@ static func build_def() -> MainDungeonDef:
 	def.add_foe("Archive Warden", 17, "Defensive", {D: 9, B: 7, "perfection_inspector": 4, "gate_guard": 4, "middle_manager": 3, "citation": 3, "soul_auditor": 2}, "delapouite/book-cover")
 	def.add_foe("Archive Automaton", 22, "Balanced", {D: 8, B: 8, "approved_gate_captain": 2, "perfection_inspector": 4, "tidy_bot": 4, "citation": 4, "decree_of_order": 3, "primm_standard_issue": 2}, "delapouite/cyborg-face")
 	def.add_foe("Model Warden", 25, "Aggressive", {A: 5, B: 5, C: 5, D: 5, "approved_gate_captain": 2, "primm_perfect_citizen": 4, "primm_standard_issue": 3, "citation": 4, "decree_of_order": 3, "primm_correction": 1}, "delapouite/castle")
-	def.add_foe(PrimmBoss.BOSS_FOE, PrimmBoss.phase(0).life, "Balanced", PrimmBoss.phase(0).recipe, "cathelineau/old-king")
+	def.add_foe(PrimmBoss.BOSS_FOE, PrimmBoss.phase(0).hp, "Balanced", PrimmBoss.phase(0).recipe, "cathelineau/old-king")
 	_challenges(def)
 	_events(def)
 	return def
@@ -49,21 +49,21 @@ static func build_def() -> MainDungeonDef:
 
 static func _challenges(def: MainDungeonDef) -> void:
 	# The Hall of Mirrors (node 6): a mirror shows you what you really lead with.
-	var mirror: ChallengeData = MainDungeonDef.make_challenge("pc_mirror_test", "", "", ChallengeData.Kind.FIRST_CREATURE_POWER, 0, 3)
-	mirror.on_success = [MainDungeonDef.outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain the boon Unreflected."), MainDungeonDef.outcome(ChallengeOutcome.Kind.HEAL, 2, "Heal 2 life.")] as Array[ChallengeOutcome]
-	mirror.on_success[0].boon = MainDungeonDef.boon_source("Unreflected", [CardBuilder.modifier(Modifier.Kind.STARTING_LIFE, 2)] as Array[Modifier])
-	mirror.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_LIFE, 2, "Lose 2 life.")] as Array[ChallengeOutcome]
+	var mirror: ChallengeData = MainDungeonDef.make_challenge("pc_mirror_test", "", "", ChallengeData.Kind.FIRST_UNIT_ATTACK, 0, 3)
+	mirror.on_success = [MainDungeonDef.outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain the boon Unreflected."), MainDungeonDef.outcome(ChallengeOutcome.Kind.HEAL, 2, "Heal 2 HP.")] as Array[ChallengeOutcome]
+	mirror.on_success[0].boon = MainDungeonDef.boon_source("Unreflected", [CardBuilder.modifier(Modifier.Kind.STARTING_HP, 2)] as Array[Modifier])
+	mirror.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_HP, 2, "Lose 2 HP.")] as Array[ChallengeOutcome]
 	def.add_challenge(mirror)
 	# The Ministry's desk (node 9): a form of correction. Do you have the bodies to put on it?
 	var desk: ChallengeData = MainDungeonDef.make_challenge("pc_ministry_desk", "", "", ChallengeData.Kind.TOP_N_TYPE_COUNT, 5, 2)
-	desk.card_type = CardEnums.CardType.CREATURE
-	desk.on_success = [MainDungeonDef.outcome(ChallengeOutcome.Kind.HEAL, 3, "Heal 3 life.")] as Array[ChallengeOutcome]
-	desk.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_LIFE, 3, "Lose 3 life.")] as Array[ChallengeOutcome]
+	desk.card_type = CardEnums.CardType.UNIT
+	desk.on_success = [MainDungeonDef.outcome(ChallengeOutcome.Kind.HEAL, 3, "Heal 3 HP.")] as Array[ChallengeOutcome]
+	desk.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_HP, 3, "Lose 3 HP.")] as Array[ChallengeOutcome]
 	def.add_challenge(desk)
 	# The Escalation Shelf (node 25): reforms that got out of hand; can your deck keep its footing?
 	var shelf: ChallengeData = MainDungeonDef.make_challenge("pc_escalation_shelf", "", "", ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT, 5, 2)
-	shelf.on_success = [MainDungeonDef.outcome(ChallengeOutcome.Kind.HEAL, 4, "Heal 4 life.")] as Array[ChallengeOutcome]
-	shelf.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_LIFE, 3, "Lose 3 life.")] as Array[ChallengeOutcome]
+	shelf.on_success = [MainDungeonDef.outcome(ChallengeOutcome.Kind.HEAL, 4, "Heal 4 HP.")] as Array[ChallengeOutcome]
+	shelf.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_HP, 3, "Lose 3 HP.")] as Array[ChallengeOutcome]
 	def.add_challenge(shelf)
 
 
@@ -78,7 +78,7 @@ static func _events(def: MainDungeonDef) -> void:
 	honest.choice([DungeonEvent.gold(40)] as Array[DungeonEvent.Outcome])
 	def.add_event(honest)
 	var corrected: DungeonEvent = DungeonEvent.make("pc_corrected_citizens")
-	corrected.choice([DungeonEvent.boon(MainDungeonDef.boon_source("They Were Heard", [CardBuilder.modifier(Modifier.Kind.MAX_LIFE, 3)] as Array[Modifier]))] as Array[DungeonEvent.Outcome])
+	corrected.choice([DungeonEvent.boon(MainDungeonDef.boon_source("They Were Heard", [CardBuilder.modifier(Modifier.Kind.MAX_HP, 3)] as Array[Modifier]))] as Array[DungeonEvent.Outcome])
 	corrected.choice([DungeonEvent.heal(5), DungeonEvent.damage(1)] as Array[DungeonEvent.Outcome])
 	corrected.choice([DungeonEvent.gold(60)] as Array[DungeonEvent.Outcome])
 	def.add_event(corrected)
@@ -89,10 +89,10 @@ static func _events(def: MainDungeonDef) -> void:
 	var staircase: DungeonEvent = DungeonEvent.make("pc_grand_staircase")
 	staircase.choice([DungeonEvent.damage(1), DungeonEvent.gold(70)] as Array[DungeonEvent.Outcome])
 	staircase.choice([DungeonEvent.heal(3)] as Array[DungeonEvent.Outcome])
-	staircase.choice([DungeonEvent.boon(MainDungeonDef.boon_source("The Servants' Way", [CardBuilder.modifier(Modifier.Kind.MAX_LIFE, 2)] as Array[Modifier]))] as Array[DungeonEvent.Outcome])
+	staircase.choice([DungeonEvent.boon(MainDungeonDef.boon_source("The Servants' Way", [CardBuilder.modifier(Modifier.Kind.MAX_HP, 2)] as Array[Modifier]))] as Array[DungeonEvent.Outcome])
 	def.add_event(staircase)
 	var journals: DungeonEvent = DungeonEvent.make("pc_early_journals")
-	journals.choice([DungeonEvent.boon(MainDungeonDef.boon_source("A Good Man's Plans", [CardBuilder.modifier(Modifier.Kind.MAX_LIFE, 2), CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)] as Array[Modifier]))] as Array[DungeonEvent.Outcome])
+	journals.choice([DungeonEvent.boon(MainDungeonDef.boon_source("A Good Man's Plans", [CardBuilder.modifier(Modifier.Kind.MAX_HP, 2), CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)] as Array[Modifier]))] as Array[DungeonEvent.Outcome])
 	journals.choice([DungeonEvent.heal(4)] as Array[DungeonEvent.Outcome])
 	def.add_event(journals)
 	var last: DungeonEvent = DungeonEvent.make("pc_last_journal")

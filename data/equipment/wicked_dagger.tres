@@ -13,6 +13,6 @@ value = 1
 script = ExtResource("3_u4oeu")
 id = "wicked_dagger"
 slot = 1
-description = "A blade with a reputation it didn't earn honestly. Your creatures get +1 power."
+description = "A blade with a reputation it didn't earn honestly. Your units get +1 attack."
 source_name = "Wicked Dagger"
 modifiers = Array[ExtResource("1_wjapx")]([SubResource("Resource_eaej0")])

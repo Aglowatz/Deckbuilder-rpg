@@ -1,7 +1,7 @@
 class_name CardPricing
 extends RefCounted
 ## What the vendor charges for a card (gold). Placeholder economy: rarity sets the base price
-## and the Path energy value adds a little.
+## and the energy value adds a little.
 
 const BASE_BY_RARITY: Dictionary = {
 	CardEnums.Rarity.COMMON: 15,

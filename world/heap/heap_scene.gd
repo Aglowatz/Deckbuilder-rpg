@@ -1,11 +1,11 @@
 class_name HeapScene
 extends ZoneScene
-## The playable Verdant Dump (Refusemancer zone). The shared zone framework (`ZoneScene`) provides the hub, life rules,
+## The playable Verdant Dump (Refusemancer zone). The shared zone framework (`ZoneScene`) provides the hub, HP rules,
 ## enemies, chests, quiz/minigame/puzzle launchers and the minimap; this subclass adds what is unique here: the
 ## golden-hour look and fireflies, GROWING (a druid or a Magic Bean grows a vine bridge across the recycling stream or a
 ## beanstalk up a junk mountain), RIDEABLE ANIMALS (a giant boar or goat from a stable: faster, crosses the scree and
 ## charges through junk barricades; Q dismounts), TRASH CHUTES down the junk mountains, falling into the stream or a
-## compost pit (respawn at the last safe spot for 1 zone life, logged), and the interactables (compost bin, crop plots,
+## compost pit (respawn at the last safe spot for 1 zone HP, logged), and the interactables (compost bin, crop plots,
 ## druid shrine, animal trough, escaped animals, ingredient-style pickups).
 
 const SAFE_INTERVAL: float = 0.2
@@ -215,8 +215,8 @@ func _use_compost_bin(spot: ZoneSpot) -> void:
 	HeapInteractables.compost(Session.zone_run)
 	Audio.sfx(&"heal", -2.0)
 	hud.toast(story.text("fx.compost_done"), UIStyle.GOOD)
-	_floating_text("+1 max life", UIStyle.GOOD)
-	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
+	_floating_text("+1 max HP", UIStyle.GOOD)
+	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 	Session.save_game()
 
 
@@ -230,7 +230,7 @@ func _use_shrine(spot: ZoneSpot) -> void:
 	Audio.sfx(&"level_up", -4.0)
 	hud.toast(story.text("fx.shrine_blessing"), UIStyle.GOLD)
 	_floating_text("Blessed!", Color("ff9ad0"))
-	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
+	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 	Session.save_game()
 
 
@@ -267,9 +267,9 @@ func _use_crop(spot: ZoneSpot, plot: int) -> void:
 			var result: Dictionary = HeapInteractables.harvest(run, plot, now)
 			Audio.sfx(&"heal")
 			Audio.sfx(&"coins", -2.0)
-			hud.toast("%s +%d life, +%d gold" % [story.text("fx.crop_harvest"), int(result["healed"]), int(result["gold"])], UIStyle.GOLD)
+			hud.toast("%s +%d HP, +%d gold" % [story.text("fx.crop_harvest"), int(result["healed"]), int(result["gold"])], UIStyle.GOLD)
 			hud.set_gold(Session.gold)
-			EventBus.zone_life_changed.emit(run.life, run.max_life())
+			EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	_refresh_crops()
 	Session.save_game()
 
@@ -612,8 +612,8 @@ func _slide(chute: HeapLayout.Chute) -> void:
 # ---- Falling into the stream or a compost pit ------------------------------------------------------------------
 
 
-## Stepped off a bridge (or waded in): splash, sink, respawn at the last safe spot with 1 damage to the zone life
-## (logged in the zone log), and wake at the hub instead if that was the last life.
+## Stepped off a bridge (or waded in): splash, sink, respawn at the last safe spot with 1 damage to the zone HP
+## (logged in the zone log), and wake at the hub instead if that was the last HP.
 func _fall_into_hazard() -> void:
 	_falling = true
 	_locked = true
@@ -647,7 +647,7 @@ func _fall_into_hazard() -> void:
 	var run: ZoneRun = Session.zone_run
 	var place: String = "the compost pit" if in_pit else "the Recycling Stream"
 	HeapInteractables.apply_hazard_fall(run, place, story.text("fx.hazard_fall_log"))
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	hud.toast(story.text("fx.hazard_fall"), Color("ff8a85"))
 	Audio.sfx(&"hit_heavy", -2.0)
 	_floating_text("-%d" % HeapZone.HAZARD_DAMAGE, Color("ff6a60"))

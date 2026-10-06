@@ -188,7 +188,7 @@ func _refresh() -> void:
 		_xp_label.text += "  -  %d / %d XP to level %d" % [profile.xp - floor_xp, ceil_xp - floor_xp, next_level]
 	for child: Node in _stats_box.get_children():
 		child.queue_free()
-	_stat_row("Starting life", str(profile.base_max_life()))
+	_stat_row("Starting HP", str(profile.base_max_hp()))
 	_stat_row("Opening hand", str(profile.base_opening_hand()))
 	_stat_row("Item slots", "%d / %d" % [profile.item_slots, ProgressionTable.row(ProgressionTable.MAX_LEVEL).item_slots])
 	_stat_row("Deck copy limit", "%d per card (infrastructure unlimited)" % DeckValidator.MAX_COPIES)
@@ -367,7 +367,7 @@ func _refresh_items() -> void:
 		var equip_button: FancyButton = _small_button("Unequip" if equipped else "Equip", func() -> void: _toggle_equip(owned_item))
 		equip_button.disabled = not equipped and profile.equipped_item_ids.size() >= profile.item_slots
 		row.add_child(equip_button)
-		var usable: bool = Session.life_run() != null and ItemUseResolver.can_apply(owned_item)
+		var usable: bool = Session.hp_run() != null and ItemUseResolver.can_apply(owned_item)
 		var use_button: FancyButton = _small_button("Use", func() -> void: _use(owned_item))
 		use_button.disabled = not usable
 		row.add_child(use_button)

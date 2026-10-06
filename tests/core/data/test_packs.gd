@@ -2,10 +2,10 @@ extends GutTest
 ## Pack system: data, pools, seeded rolls (weights, guarantees, not_in_packs), opening into the collection, the essence
 ## summary, the shops' stock rules and the save round trip. Everything is deterministic: rolls use a seeded RNG.
 
-const A: Affinity.Type = Affinity.Type.A
-const B: Affinity.Type = Affinity.Type.B
-const C: Affinity.Type = Affinity.Type.C
-const D: Affinity.Type = Affinity.Type.D
+const A: Affinity.Type = Affinity.Type.BEEFCAKE
+const B: Affinity.Type = Affinity.Type.GOURMAND
+const C: Affinity.Type = Affinity.Type.REFUSEMANCER
+const D: Affinity.Type = Affinity.Type.NECROCRAT
 
 var content: ContentSet
 

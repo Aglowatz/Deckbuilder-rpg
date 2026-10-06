@@ -54,7 +54,7 @@ func test_unlock_thresholds_arena_after_one_alchemist_after_two() -> void:
 
 
 func test_completed_zones_survive_a_save_and_load() -> void:
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	Session.complete_zone("beefcake")
 	Session.complete_zone("necrocrat")
 	var data: Dictionary = Session.to_dict()

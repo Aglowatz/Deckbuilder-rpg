@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1_nttny")
 personality_name = "Defensive"
-life_weight = 1.4
-enemy_life_weight = 0.7
+hp_weight = 1.4
+enemy_hp_weight = 0.7
 board_weight = 1.2
 enemy_board_weight = 1.2
 hand_weight = 0.8

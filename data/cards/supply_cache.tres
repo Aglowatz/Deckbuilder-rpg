@@ -15,6 +15,6 @@ id = "supply_cache"
 display_name = "Supply Cache"
 type = 2
 generic_cost = 2
-toughness = 0
+defense = 0
 rules_text = "Draw two cards."
 effects = Array[ExtResource("1_81pig")]([SubResource("Resource_bbiec")])

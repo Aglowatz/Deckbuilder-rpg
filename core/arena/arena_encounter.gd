@@ -19,18 +19,18 @@ var goal: Goal = Goal.WIN
 var turns: int = 0
 ## 0 = the player goes first, 1 = the enemy does.
 var first_player: int = 0
-## The opponent's name, life, AI personality and deck recipe (`ZoneDecks.from_recipe` convention).
+## The opponent's name, HP, AI personality and deck recipe (`ZoneDecks.from_recipe` convention).
 var enemy_name: String = ""
-var enemy_life: int = 15
+var enemy_hp: int = 15
 var enemy_ai: String = "Balanced"
 var enemy_recipe: Dictionary = {}
 ## A preset deck the player MUST use ("restricted deck"); empty = the player's own deck. Same recipe convention.
 var player_recipe: Dictionary = {}
-## The player's life for the duel; -1 = their normal maximum life.
-var player_life: int = -1
+## The player's HP for the duel; -1 = their normal maximum HP.
+var player_hp: int = -1
 ## Rule modifiers applied to the player for this fight (e.g. NO_CREATURE_CASTS).
 var player_rules: Array[Modifier] = []
-## A preset board: {"player": {...}, "enemy": {...}}, each with optional "life", "hand", "battlefield", "infrastructure"
+## A preset board: {"player": {...}, "enemy": {...}}, each with optional "HP", "hand", "field", "infrastructure"
 ## ({"A": 4}) and "graveyard" (card id -> copies). Empty = a normal start.
 var preset: Dictionary = {}
 ## First-clear prizes: gold, xp, essence ({path letter or "primary": amount}), equipment (id), item (id), card (id).
@@ -76,6 +76,6 @@ func turn_limit() -> int:
 func player_won(game: GameState) -> bool:
 	if game.winner == 0:
 		return true
-	if goal == Goal.SURVIVE_TURNS and game.is_draw and game.players[0].life > 0:
+	if goal == Goal.SURVIVE_TURNS and game.is_draw and game.players[0].hp > 0:
 		return true
 	return false

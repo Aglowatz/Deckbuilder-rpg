@@ -1,7 +1,7 @@
 extends Node
 ## Regression test for the "human turns get skipped" bug (A1): plays a whole battle where the
 ## HUMAN seat (player 0) is driven ONLY through injected mouse input (no keyboard, no bot), for
-## at least MIN_HUMAN_TURNS full turns (infrastructure drop, cast, attack, end turn each turn), and asserts
+## at least MIN_HUMAN_TURNS full turns (infrastructure drop, play, attack, end turn each turn), and asserts
 ## the battle screen actually entered a human decision mode (Mode.MAIN) on every one of the
 ## player's turns - i.e. the game always waits for human input on the human's turn, never
 ## auto-passing it.
@@ -9,8 +9,8 @@ extends Node
 ## Turns alternate between the two real ways a player ends a turn, because the original bug
 ## ("End Turn" leaking `_fast_end_turn` into later turns) only reproduces via the dedicated
 ## shortcut button, not the main "To Combat" / "End Turn" progression button:
-##  - even turns: cast, declare an actual attack, then finish through Main 2 normally.
-##  - odd turns:  cast, then click the "End Turn" shortcut to fast-forward the rest of the turn.
+##  - even turns: play, declare an actual attack, then finish through Main 2 normally.
+##  - odd turns:  play, then click the "End Turn" shortcut to fast-forward the rest of the turn.
 ##
 ## Run windowed (not headless - injected mouse input needs a real viewport):
 ##   Godot --path . res://tools/battle_human_turns_smoke.tscn
@@ -19,7 +19,7 @@ extends Node
 
 const MIN_HUMAN_TURNS: int = 6
 const STEP_LIMIT: int = 6000
-const HIGH_LIFE: int = 999
+const HIGH_HP: int = 999
 
 var driver: UiDriver
 var screen: BattleScreen
@@ -76,8 +76,8 @@ func _act() -> void:
 	match screen.mode:
 		BattleScreen.Mode.MULLIGAN:
 			await driver.click_button("Keep Hand")
-		BattleScreen.Mode.DISCARD:
-			for card: CardInstance in game.players[0].hand.slice(0, game.pending_discard):
+		BattleScreen.Mode.TOSS:
+			for card: CardInstance in game.players[0].hand.slice(0, game.pending_toss):
 				await driver.click(_view_center(card.uid))
 			await driver.click_button("Discard")
 		BattleScreen.Mode.BLOCK:
@@ -101,7 +101,7 @@ func _act() -> void:
 					await driver.click(_view_center(card.uid))
 					return
 			for card: CardInstance in player.hand:
-				if not card.data.is_infrastructure() and game.can_cast(0, card.uid) and card.data.effects.is_empty():
+				if not card.data.is_infrastructure() and game.can_play_card(0, card.uid) and card.data.effects.is_empty():
 					await driver.click(_view_center(card.uid))
 					return
 			if use_shortcut and game.phase == GameState.Phase.MAIN1:
@@ -113,7 +113,7 @@ func _act() -> void:
 				await driver.click(driver.button_center(button))
 
 
-## Builds a practice battle where both sides have very high life, so the match reliably lasts
+## Builds a practice battle where both sides have very high HP, so the match reliably lasts
 ## long enough to observe MIN_HUMAN_TURNS full human turns before anyone wins or loses.
 func _start_battle() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
@@ -124,9 +124,9 @@ func _start_battle() -> void:
 	options.turn_limit = 60
 	var game: GameState = GameState.new(options)
 	var human: PlayerSetup = PlayerSetup.create(Session.deck, Session.profile, [] as Array[ModifierSource], "You")
-	human.starting_life = HIGH_LIFE
+	human.starting_hp = HIGH_HP
 	var enemy: PlayerSetup = TrialOfTheHollow.enemy_setup(Session.content, node)
-	enemy.starting_life = HIGH_LIFE
+	enemy.starting_hp = HIGH_HP
 	game.add_player(human)
 	game.add_player(enemy)
 	game.start()

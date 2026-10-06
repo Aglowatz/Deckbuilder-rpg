@@ -1,9 +1,9 @@
 class_name DnaInteractables
 extends RefCounted
 ## The D.N.A.'s small interactable objects and what they do (all effects are real):
-##  - Coffee machine (5 gold): random outcome - heal 2, heal 4, a bad cup (-1 life), a coin back,
+##  - Coffee machine (5 gold): random outcome - heal 2, heal 4, a bad cup (-1 HP), a coin back,
 ##    or an empty cup. Counts for the Onboarding quest.
-##  - Time clock: "punch in" once per visit for +2 max life (and +2 life) until you leave.
+##  - Time clock: "punch in" once per visit for +2 max HP (and +2 HP) until you leave.
 ##  - Haunted printer (40 gold): prints a random Necrocrat card from the vendor's list - or jams
 ##    (20%) and keeps your money.
 ##  - Suggestion box: the first suggestion pays 25 gold and a card; afterwards it is empty.
@@ -38,7 +38,7 @@ static func coffee(scene: DnaScene) -> void:
 			scene.hud.toast(story.text("fx.coffee_great"), UIStyle.GOOD)
 			Audio.sfx(&"heal")
 		"bad":
-			run.life = maxi(1, run.life - 1)
+			run.hp = maxi(1, run.hp - 1)
 			scene.hud.toast(story.text("fx.coffee_bad"), Color("ff8a85"))
 			Audio.sfx(&"hit_light")
 		"gold":
@@ -49,7 +49,7 @@ static func coffee(scene: DnaScene) -> void:
 			scene.hud.toast("An empty cup. It is very hot. It is also empty.", UIStyle.MUTED)
 	Session.bump_counter(DnaZone.COUNTER_COFFEE)
 	scene.hud.set_gold(Session.gold)
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 
 
 ## Outcome for a roll in [0, 1): kept separate so tests can pin every branch.
@@ -77,7 +77,7 @@ static func time_clock(scene: DnaScene) -> void:
 	Session.bump_counter(DnaZone.COUNTER_PUNCHED_IN)
 	scene.hud.toast(scene.story.text("fx.punch_in"), UIStyle.GOOD)
 	Audio.sfx(&"ui_confirm")
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 
 
 static func punch_in_buff() -> ModifierSource:
@@ -85,9 +85,9 @@ static func punch_in_buff() -> ModifierSource:
 	source.source_name = "Punched in"
 	source.source_kind = ModifierSource.SourceKind.ZONE
 	var modifier: Modifier = Modifier.new()
-	modifier.kind = Modifier.Kind.MAX_LIFE
+	modifier.kind = Modifier.Kind.MAX_HP
 	modifier.value = PUNCH_IN_BONUS
-	modifier.label = "Punched in: +%d max life this visit" % PUNCH_IN_BONUS
+	modifier.label = "Punched in: +%d max HP this visit" % PUNCH_IN_BONUS
 	source.modifiers = [modifier] as Array[Modifier]
 	return source
 

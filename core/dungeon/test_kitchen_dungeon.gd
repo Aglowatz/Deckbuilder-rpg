@@ -26,9 +26,9 @@ static func build_def() -> MainDungeonDef:
 	def.add_foe("Mk. IX Prototype", 22, "Aggressive", {B: 15, "meatloaf_golem": 4, "cheese_wheel_golem": 3, "runaway_meatball": 3, "food_fight": 3, "souffle_sprite": 3}, "delapouite/pirate-cannon")
 	def.add_foe("The False Aurelio", 28, "Balanced", {B: 16, "meatloaf_golem": 4, "cheese_wheel_golem": 3, "gelatin_sentinel": 3, "souffle_sprite": 3, "food_fight": 3, "tasting_menu": 2, "sous_assist": 2}, "delapouite/chef-toque")
 	var panel: ChallengeData = MainDungeonDef.make_challenge("tk_taste_panel", "The Taste Panel", "", ChallengeData.Kind.TOP_N_TYPE_COUNT, 4, 2)
-	panel.card_type = CardEnums.CardType.CREATURE
-	panel.on_success = [_boon_outcome("Palate of the Panel", CardBuilder.modifier(Modifier.Kind.MAX_LIFE, 3), "Gain +3 max life for the dungeon.")] as Array[ChallengeOutcome]
-	panel.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_LIFE, 2, "Lose 2 life.")] as Array[ChallengeOutcome]
+	panel.card_type = CardEnums.CardType.UNIT
+	panel.on_success = [_boon_outcome("Palate of the Panel", CardBuilder.modifier(Modifier.Kind.MAX_HP, 3), "Gain +3 max HP for the dungeon.")] as Array[ChallengeOutcome]
+	panel.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_HP, 2, "Lose 2 HP.")] as Array[ChallengeOutcome]
 	def.add_challenge(panel)
 	# The cannon bay (node 6): three ways to deal with the unfinished war machine.
 	var cannon: DungeonEvent = DungeonEvent.make("tk_cannon_bay")

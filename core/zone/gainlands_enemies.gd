@@ -29,7 +29,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:A": 16, "gym_rat": 3, "pump_chaser": 3, "courtesy_chucker": 2,
 				"flex_off": 2, "leg_day": 1,
 			}
-			made.life = 14
+			made.hp = 14
 			made.ai_name = "Aggressive"
 			made.gold_reward = 30
 			made.xp_reward = 40
@@ -55,7 +55,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:A": 15, "protein_golem": 4, "mill_hand": 3, "cheat_day": 2,
 				"gym_rat": 2, "pre_workout": 1,
 			}
-			made.life = 16
+			made.hp = 16
 			made.ai_name = "Defensive"
 			made.gold_reward = 35
 			made.xp_reward = 45

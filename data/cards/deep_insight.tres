@@ -17,6 +17,6 @@ type = 2
 color = 2
 generic_cost = 1
 colored_pips = Array[int]([2])
-toughness = 0
+defense = 0
 rules_text = "Draw two cards."
 effects = Array[ExtResource("1_6nnof")]([SubResource("Resource_j736u")])

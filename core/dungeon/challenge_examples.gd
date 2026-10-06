@@ -36,33 +36,33 @@ static func _challenge(id: String, title: String, text: String, kind: ChallengeD
 	return challenge
 
 
-## Reveal the first creature in your deck: power 3+ wins a boon, otherwise lose 3 life.
+## Reveal the first unit in your deck: attack 3+ wins a boon, otherwise lose 3 HP.
 static func test_of_might() -> ChallengeData:
 	var challenge: ChallengeData = _challenge(
 		"test_of_might", "Test of Might",
-		"The statue demands proof of strength. Its gaze finds your first creature: is it mighty enough?",
-		ChallengeData.Kind.FIRST_CREATURE_POWER, 0, 3,
+		"The statue demands proof of strength. Its gaze finds your first unit: is it mighty enough?",
+		ChallengeData.Kind.FIRST_UNIT_ATTACK, 0, 3,
 	)
-	var boon: ChallengeOutcome = _outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +2 max life for the dungeon.")
-	boon.boon = _boon("Blessing of Might", Modifier.Kind.MAX_LIFE, 2)
+	var boon: ChallengeOutcome = _outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +2 max HP for the dungeon.")
+	boon.boon = _boon("Blessing of Might", Modifier.Kind.MAX_HP, 2)
 	challenge.on_success = [boon] as Array[ChallengeOutcome]
-	challenge.on_failure = [_outcome(ChallengeOutcome.Kind.LOSE_LIFE, 3, "Lose 3 life.")] as Array[ChallengeOutcome]
+	challenge.on_failure = [_outcome(ChallengeOutcome.Kind.LOSE_HP, 3, "Lose 3 HP.")] as Array[ChallengeOutcome]
 	return challenge
 
 
-## Reveal the top 5 cards: 2+ infrastructure heals 4 life, otherwise the well takes a card.
+## Reveal the top 5 cards: 2+ infrastructure heals 4 HP, otherwise the well takes a card.
 static func hollow_well() -> ChallengeData:
 	var challenge: ChallengeData = _challenge(
 		"hollow_well", "The Hollow Well",
 		"Five cards fall into the well. If enough of them are infrastructure, it answers with water.",
 		ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT, 5, 2,
 	)
-	challenge.on_success = [_outcome(ChallengeOutcome.Kind.HEAL, 4, "Heal 4 life.")] as Array[ChallengeOutcome]
+	challenge.on_success = [_outcome(ChallengeOutcome.Kind.HEAL, 4, "Heal 4 HP.")] as Array[ChallengeOutcome]
 	challenge.on_failure = [_outcome(ChallengeOutcome.Kind.LOSE_CARD, 0, "Lose a card for the dungeon.")] as Array[ChallengeOutcome]
 	return challenge
 
 
-## Reveal the top 4: at least one spell wins a card from the pool; otherwise lose 2 life.
+## Reveal the top 4: at least one spell wins a card from the pool; otherwise lose 2 HP.
 static func scholars_riddle(reward_pool: Array[CardData]) -> ChallengeData:
 	var challenge: ChallengeData = _challenge(
 		"scholars_riddle", "Scholar's Riddle",
@@ -73,11 +73,11 @@ static func scholars_riddle(reward_pool: Array[CardData]) -> ChallengeData:
 	var reward: ChallengeOutcome = _outcome(ChallengeOutcome.Kind.GAIN_CARD, 0, "Gain a card for the dungeon.")
 	reward.card_pool = reward_pool.duplicate()
 	challenge.on_success = [reward] as Array[ChallengeOutcome]
-	challenge.on_failure = [_outcome(ChallengeOutcome.Kind.LOSE_LIFE, 2, "Lose 2 life.")] as Array[ChallengeOutcome]
+	challenge.on_failure = [_outcome(ChallengeOutcome.Kind.LOSE_HP, 2, "Lose 2 HP.")] as Array[ChallengeOutcome]
 	return challenge
 
 
-## Reveal the top 3: total Path energy value 7+ tips the scale in your favour (+1 hand size).
+## Reveal the top 3: total energy value 7+ tips the scale in your favour (+1 hand size).
 static func weighing_scale() -> ChallengeData:
 	var challenge: ChallengeData = _challenge(
 		"weighing_scale", "The Weighing Scale",
@@ -87,31 +87,31 @@ static func weighing_scale() -> ChallengeData:
 	var boon: ChallengeOutcome = _outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +1 max hand size for the dungeon.")
 	boon.boon = _boon("Heavy Purse", Modifier.Kind.MAX_HAND_SIZE, 1)
 	challenge.on_success = [boon] as Array[ChallengeOutcome]
-	challenge.on_failure = [_outcome(ChallengeOutcome.Kind.LOSE_LIFE, 2, "Lose 2 life.")] as Array[ChallengeOutcome]
+	challenge.on_failure = [_outcome(ChallengeOutcome.Kind.LOSE_HP, 2, "Lose 2 HP.")] as Array[ChallengeOutcome]
 	return challenge
 
 
-## Sacrifice a card of your choice for +3 max life (and a matching heal).
+## Sacrifice a card of your choice for +3 max HP (and a matching heal).
 static func altar_of_sacrifice() -> ChallengeData:
 	var challenge: ChallengeData = _challenge(
 		"altar_of_sacrifice", "Altar of Sacrifice",
 		"Give up one card from your deck and the altar will strengthen you.",
 		ChallengeData.Kind.SACRIFICE_CARD, 0, 0,
 	)
-	var boon: ChallengeOutcome = _outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +3 max life for the dungeon.")
-	boon.boon = _boon("Altar's Favor", Modifier.Kind.MAX_LIFE, 3)
+	var boon: ChallengeOutcome = _outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +3 max HP for the dungeon.")
+	boon.boon = _boon("Altar's Favor", Modifier.Kind.MAX_HP, 3)
 	challenge.on_success = [_outcome(ChallengeOutcome.Kind.LOSE_CARD, 0, "The sacrificed card is lost."), boon] as Array[ChallengeOutcome]
 	return challenge
 
 
-## Pay 4 life (if you can spare it) to gain a card from the pool.
+## Pay 4 HP (if you can spare it) to gain a card from the pool.
 static func toll_keeper(reward_pool: Array[CardData]) -> ChallengeData:
 	var challenge: ChallengeData = _challenge(
 		"toll_keeper", "The Toll Keeper",
 		"Pay in blood and pass with a prize; refuse and walk on with nothing.",
-		ChallengeData.Kind.PAY_LIFE, 0, 4,
+		ChallengeData.Kind.PAY_HP, 0, 4,
 	)
 	var reward: ChallengeOutcome = _outcome(ChallengeOutcome.Kind.GAIN_CARD, 0, "Gain a card for the dungeon.")
 	reward.card_pool = reward_pool.duplicate()
-	challenge.on_success = [_outcome(ChallengeOutcome.Kind.LOSE_LIFE, 4, "Lose 4 life."), reward] as Array[ChallengeOutcome]
+	challenge.on_success = [_outcome(ChallengeOutcome.Kind.LOSE_HP, 4, "Lose 4 HP."), reward] as Array[ChallengeOutcome]
 	return challenge

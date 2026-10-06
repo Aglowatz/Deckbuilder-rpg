@@ -151,7 +151,7 @@ const PALETTE_FIX: Dictionary = {
 }
 
 
-## Small props (flowers, barrels, bottles) do not cast shadows: the shadow pass is the most expensive part of the look on the dev PC
+## Small props (flowers, barrels, bottles) do not play shadows: the shadow pass is the most expensive part of the look on the dev PC
 ## and tiny shadows add little (docs/design/open_questions.md Q8).
 const SMALL_PROP_SIZE: float = 0.75
 

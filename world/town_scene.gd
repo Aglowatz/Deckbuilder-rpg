@@ -68,7 +68,7 @@ var style_rig: StyleRig
 var square: TownSquare
 var _portal_toast_cooldown: float = 0.0
 var cloud_fader: CloudFader
-var npc_life: NpcLife
+var npc_hp: NpcHp
 var _overlay_layer: Control
 var _overlay: Control
 var _near: Spot
@@ -100,7 +100,7 @@ func _ready() -> void:
 			Session.complete_zone(zone_id)
 		if _screenshot_args.has("essence"):
 			for path: Affinity.Type in Affinity.colored_types():
-				Session.profile.set_essence(path, 14 if path == Affinity.Type.A or path == Affinity.Type.D else 3)
+				Session.profile.set_essence(path, 14 if path == Affinity.Type.BEEFCAKE or path == Affinity.Type.NECROCRAT else 3)
 	if Session.deck == null:
 		Session.new_game()
 	Session.arrive_in_town()
@@ -194,9 +194,9 @@ func _build_actors() -> void:
 	add_child(player)
 	player.setup(town, "Hero", spawn)
 	player.speed_multiplier = 1.35  # the town is spread out: a brisker walk
-	npc_life = NpcLife.new()
-	npc_life.target = player
-	add_child(npc_life)
+	npc_hp = NpcHp.new()
+	npc_hp.target = player
+	add_child(npc_hp)
 	_add_npc("vendor", "Rogue_Hooded", town.anchors["npc_market"] as Vector3, 200.0)
 	_add_npc("elder", "Mage", town.anchors["npc_well"] as Vector3, 250.0)
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
@@ -262,8 +262,8 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 		animation.play("Idle")
 		animation.seek(randf() * 1.5)
 	_npcs[id] = npc
-	if npc_life != null and id != "mannequin":
-		npc_life.register(npc, yaw)
+	if npc_hp != null and id != "mannequin":
+		npc_hp.register(npc, yaw)
 	town.obstacles.append(Vector3(position.x, position.z, 0.3))
 
 
@@ -1276,7 +1276,7 @@ func _use_gate() -> void:
 		return
 	var dialog: ConfirmDialog = ConfirmDialog.ask(
 		_overlay_layer, "Trial of the Hollow",
-		"Enter the cave? You are fully healed on entry, and your life carries from fight to fight. Lose a duel and you are carried back to town.",
+		"Enter the cave? You are fully healed on entry, and your HP carries from fight to fight. Lose a duel and you are carried back to town.",
 		"Enter", "Not yet",
 	)
 	_locked = true

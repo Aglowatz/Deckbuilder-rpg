@@ -6,11 +6,11 @@ extends RefCounted
 enum Type {
 	PASS,
 	PLAY_INFRASTRUCTURE,
-	CAST,
+	PLAY,
 	ACTIVATE,
 	DECLARE_ATTACKERS,
 	DECLARE_BLOCKERS,
-	DISCARD,
+	TOSS,
 	MULLIGAN,
 	KEEP_HAND,
 }
@@ -22,8 +22,6 @@ var target: int = 0
 var effect_index: int = 0
 ## Attacker uids (DECLARE_ATTACKERS) or discarded card uids (DISCARD).
 var uids: Array[int] = []
-## attacker uid -> Guard creature uid being attacked (DECLARE_ATTACKERS).
-var attack_targets: Dictionary = {}
 ## attacker uid -> blocker uid (DECLARE_BLOCKERS).
 var blocks: Dictionary = {}
 
@@ -45,8 +43,8 @@ static func play_infrastructure(acting_player: int, uid: int) -> GameAction:
 	return action
 
 
-static func cast(acting_player: int, uid: int, target_ref: int = 0) -> GameAction:
-	var action: GameAction = make(Type.CAST, acting_player)
+static func play_card(acting_player: int, uid: int, target_ref: int = 0) -> GameAction:
+	var action: GameAction = make(Type.PLAY, acting_player)
 	action.card_uid = uid
 	action.target = target_ref
 	return action

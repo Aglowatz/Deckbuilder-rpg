@@ -368,3 +368,11 @@ Logged as they were made; none blocks anything. Names are placeholders in story 
 | R6 | HUD layout | Minimap top-right (1650,20), gold under it, one Menu button under that; the location box hides when it has nothing to say; left column = location, zone effects, tracker. | `TownHud`, `MinimapHud` |
 | R7 | Zone-effect tooltips | `HoverTip`: a styled hover panel (own panel, shown on mouse enter, freed on leave) on every buff/debuff row (town/zone HUD, battle HUD, dungeon map) and on the Capital's broken-service rows; it states the exact rule, the flavor and that it applies to both sides. | `ui/widgets/hover_tip.gd` |
 | R8 | Clouds | See Part C: fewer/smaller/higher + `CloudFader`. | |
+
+## Brief 14 (designed card set, Resources, new terminology)
+
+| # | Question | Chosen | Why |
+|---|----------|--------|-----|
+| B14-1 | "Buff" is `#ERROR!` in the Design Guidance sheet | A buff is one permanent +1/+1 on a unit (tracked as a count so "if it has a buff on it" works). Fertilize X puts X buffs. | The only reading consistent with "Fertilize 3 (put three buffs on target unit)" and "Spotter: put a buff on target unit". |
+| B14-2 | Neutral Path name | Displays as "Colorless" (the sheet's wording); the enum member is still `NEUTRAL`. | Matches the sheet. |
+| B14-3 | The `.gdignore` in `data/source/` | The CSVs are read at runtime by `tools/import_cards`, never imported as Godot resources. | Godot would otherwise try to turn each CSV into translation files. |

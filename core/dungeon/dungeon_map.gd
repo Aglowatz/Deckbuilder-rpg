@@ -24,7 +24,7 @@ class MapNode:
 	var next: Array[int] = []
 	## BATTLE / BOSS
 	var enemy_name: String = ""
-	var enemy_life: int = -1
+	var enemy_hp: int = -1
 	var ai_name: String = "Balanced"
 	var difficulty: Difficulty = Difficulty.NORMAL
 	var gold_reward: int = 0

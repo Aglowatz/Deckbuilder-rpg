@@ -1,6 +1,6 @@
 class_name CapitalScene
 extends ZoneScene
-## The playable Capital (the final area). The shared zone framework (`ZoneScene`) provides the life rules, enemies, hidden
+## The playable Capital (the final area). The shared zone framework (`ZoneScene`) provides the HP rules, enemies, hidden
 ## chests, dialogue, the minimap and fog of war; this subclass adds what is unique here: the controlled gate (a challenging card
 ## battle, or the secret Old Joint Works tunnel past it), the hidden resistance hideout (the Crease) and its service-shaft
 ## network, Primm's facade town (hollow citizens, painted doors, loudspeakers, portraits to deface), the complaint box, the
@@ -342,9 +342,9 @@ func _report(result: Dictionary, color: Color = Color("ffcf70")) -> void:
 		extra = "  (+%d gold)" % int(result["gold"])
 		hud.set_gold(Session.gold)
 	if int(result.get("healed", 0)) > 0:
-		extra += "  (+%d life)" % int(result["healed"])
+		extra += "  (+%d HP)" % int(result["healed"])
 	if int(result.get("damage", 0)) > 0:
-		extra += "  (-%d life)" % int(result["damage"])
+		extra += "  (-%d HP)" % int(result["damage"])
 		_after_self_damage()
 	if str(result.get("reward_text", "")) != "":
 		extra += "  (%s)" % str(result["reward_text"])
@@ -354,7 +354,7 @@ func _report(result: Dictionary, color: Color = Color("ffcf70")) -> void:
 			hud.toast(extra.strip_edges(), color)
 	else:
 		hud.toast(lines[0] + extra, color)
-	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
+	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 	Session.refresh_quests()
 	Session.save_game()
 

@@ -1,7 +1,7 @@
 class_name HallOfApprovalsDungeon
 extends RefCounted
 ## THE HALL OF FINAL APPROVALS (Necrocrats): the ultimate bureaucratic nightmare - a massive government
-## complex where every aspect of life, death, resurrection and the afterlife requires authorization.
+## complex where every aspect of HP, death, resurrection and the afterlife requires authorization.
 ## Absurd departments, paperwork, waiting rooms, regulations and undead bureaucrats; nodes include
 ## bureaucratic challenges ("take a number" waits, forms that require other forms). Boss: the Registrar of
 ## Final Approvals, the authority that now controls the Necrocrats. 14 nodes, three branch points that rejoin.
@@ -32,7 +32,7 @@ static func build_def() -> MainDungeonDef:
 	var stamp: ChallengeOutcome = MainDungeonDef.outcome(ChallengeOutcome.Kind.GAIN_BOON, 0, "Gain +1 max hand size for the dungeon.")
 	stamp.boon = MainDungeonDef.boon_source("Stamped and Approved", [CardBuilder.modifier(Modifier.Kind.MAX_HAND_SIZE, 1)] as Array[Modifier])
 	audit.on_success = [stamp] as Array[ChallengeOutcome]
-	audit.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_LIFE, 2, "Lose 2 life (a fine).")] as Array[ChallengeOutcome]
+	audit.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_HP, 2, "Lose 2 HP (a fine).")] as Array[ChallengeOutcome]
 	def.add_challenge(audit)
 	# Take a Number (node 1): a wait.
 	var number: DungeonEvent = DungeonEvent.make("ha_take_a_number")

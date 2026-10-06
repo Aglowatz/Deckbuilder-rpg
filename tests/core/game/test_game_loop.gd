@@ -4,14 +4,14 @@ extends GutTest
 # ---- Setup -------------------------------------------------------------------------
 
 
-func test_new_game_deals_opening_hands_and_full_life() -> void:
+func test_new_game_deals_opening_hands_and_full_hp() -> void:
 	var game: GameState = GameFactory.new_game()
 	assert_eq(game.stage, GameState.Stage.PLAYING)
-	assert_eq(game.players[0].life, 10)
-	assert_eq(game.players[1].life, 10)
+	assert_eq(game.players[0].hp, 10)
+	assert_eq(game.players[1].hp, 10)
 	assert_eq(game.players[0].hand.size(), 5)
 	assert_eq(game.players[1].hand.size(), 5)
-	assert_eq(game.players[0].library.size(), 40)
+	assert_eq(game.players[0].deck.size(), 40)
 	assert_eq(game.turn, 1)
 	assert_eq(game.active, 0)
 	assert_eq(game.phase, GameState.Phase.MAIN1)
@@ -55,12 +55,12 @@ func test_first_player_option_and_random() -> void:
 func test_opening_hand_uses_profile_and_modifiers() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	profile.opening_hand_size = 7
-	profile.max_life = 25
+	profile.max_hp = 25
 	var boost: ModifierSource = CardBuilder.modifier_source(
 		"Ring", ModifierSource.SourceKind.EQUIPMENT,
 		[
 			CardBuilder.modifier(Modifier.Kind.OPENING_HAND_SIZE, 1),
-			CardBuilder.modifier(Modifier.Kind.MAX_LIFE, 3),
+			CardBuilder.modifier(Modifier.Kind.MAX_HP, 3),
 			CardBuilder.modifier(Modifier.Kind.MAX_HAND_SIZE, 2),
 		] as Array[Modifier],
 	)
@@ -70,23 +70,23 @@ func test_opening_hand_uses_profile_and_modifiers() -> void:
 	game.add_player(PlayerSetup.create(GameFactory.make_deck()))
 	game.start()
 	assert_eq(game.players[0].hand.size(), 8)
-	assert_eq(game.players[0].max_life, 28)
-	assert_eq(game.players[0].life, 28)
+	assert_eq(game.players[0].max_hp, 28)
+	assert_eq(game.players[0].hp, 28)
 	assert_eq(game.players[0].max_hand_size, 12)
 	assert_eq(game.players[1].hand.size(), 5)
 
 
-func test_starting_life_override_and_modifier() -> void:
+func test_starting_hp_override_and_modifier() -> void:
 	var game: GameState = GameState.new()
 	var setup: PlayerSetup = PlayerSetup.create(GameFactory.make_deck())
-	setup.starting_life = 4
+	setup.starting_hp = 4
 	game.add_player(setup)
 	var second: PlayerSetup = PlayerSetup.create(GameFactory.make_deck())
-	second.modifiers.add(CardBuilder.modifier(Modifier.Kind.STARTING_LIFE, 2))
+	second.modifiers.add(CardBuilder.modifier(Modifier.Kind.STARTING_HP, 2))
 	game.add_player(second)
-	assert_eq(game.players[0].life, 4)
-	assert_eq(game.players[1].life, 12)
-	assert_eq(game.players[1].max_life, 10)
+	assert_eq(game.players[0].hp, 4)
+	assert_eq(game.players[1].hp, 12)
+	assert_eq(game.players[1].max_hp, 10)
 
 
 # ---- Events ------------------------------------------------------------------------
@@ -134,7 +134,7 @@ func test_one_free_mulligan_per_player() -> void:
 	assert_false(game.mulligan(1), "not their turn to decide yet")
 	assert_true(game.mulligan(0))
 	assert_eq(game.players[0].hand.size(), 5, "free mulligan: same number of cards")
-	assert_eq(game.players[0].library.size(), 40)
+	assert_eq(game.players[0].deck.size(), 40)
 	assert_false(game.mulligan(0), "only one mulligan")
 	assert_eq(game.awaiting_player(), 1)
 	assert_true(game.keep_hand(1))
@@ -195,12 +195,12 @@ func _infrastructure_error(deck: Deck, ratio: float, smoother: bool, seed_value:
 	var game: GameState = GameState.new()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = seed_value
-	var library: Array[CardInstance] = []
+	var pile: Array[CardInstance] = []
 	for data: CardData in deck.cards:
-		library.append(game.create_instance(data, 0))
-	var hand: Array[CardInstance] = HandSmoother.draw_opening_hand(library, 7, ratio, smoother, rng)
+		pile.append(game.create_instance(data, 0))
+	var hand: Array[CardInstance] = HandSmoother.draw_opening_hand(pile, 7, ratio, smoother, rng)
 	assert_eq(hand.size(), 7)
-	assert_eq(library.size(), 38)
+	assert_eq(pile.size(), 38)
 	return absf(float(HandSmoother.count_infrastructure(hand)) - ratio * 7.0)
 
 
@@ -211,7 +211,7 @@ func test_smoother_can_be_turned_off() -> void:
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.HAND_SMOOTHED), 0)
 
 
-# ---- Infrastructure and Path energy ----------------------------------------------------------------
+# ---- Infrastructure and energy ----------------------------------------------------------------
 
 
 func test_one_infrastructure_per_turn() -> void:
@@ -256,13 +256,13 @@ func test_infrastructure_ready_at_start_of_turn() -> void:
 	assert_false(infrastructure_card.exhausted)
 
 
-func test_cast_creature_pays_generic_energy_and_enters_summoning_sick() -> void:
+func test_cast_unit_pays_generic_energy_and_enters_summoning_sick() -> void:
 	var game: GameState = GameFactory.blank_game()
 	GameFactory.add_infrastructure_cards(game, 0, 3)
 	var bear: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 2))
-	assert_true(game.cast(0, bear.uid))
+	assert_true(game.play_card(0, bear.uid))
 	assert_eq(game.players[0].ready_infrastructure().size(), 1)
-	assert_eq(game.players[0].battlefield.size(), 1)
+	assert_eq(game.players[0].field.size(), 1)
 	assert_true(bear.summoning_sick)
 	assert_eq(game.players[0].hand.size(), 0)
 
@@ -271,85 +271,85 @@ func test_cannot_cast_without_enough_energy() -> void:
 	var game: GameState = GameFactory.blank_game()
 	GameFactory.add_infrastructure_cards(game, 0, 1)
 	var big: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(5, 5, 3))
-	assert_false(game.can_cast(0, big.uid))
-	assert_false(game.cast(0, big.uid))
+	assert_false(game.can_play_card(0, big.uid))
+	assert_false(game.play_card(0, big.uid))
 	assert_eq(game.players[0].hand.size(), 1)
-	assert_eq(game.players[0].ready_infrastructure().size(), 1, "failed cast activates nothing")
+	assert_eq(game.players[0].ready_infrastructure().size(), 1, "failed play activates nothing")
 
 
 func test_colored_pips_require_matching_infrastructure() -> void:
 	var game: GameState = GameFactory.blank_game()
-	GameFactory.add_infrastructure_cards(game, 0, 3, Affinity.Type.A)
-	var pips: Array[Affinity.Type] = [Affinity.Type.B]
-	var b_card: CardInstance = GameFactory.add_to_hand(game, 0, CardBuilder.creature("b1", "B1", Affinity.Type.B, 1, pips, 2, 2))
-	assert_false(game.can_cast(0, b_card.uid), "no B infrastructure")
-	GameFactory.add_infrastructure(game, 0, GameFactory.infra(Affinity.Type.B))
-	assert_true(game.cast(0, b_card.uid))
+	GameFactory.add_infrastructure_cards(game, 0, 3, Affinity.Type.BEEFCAKE)
+	var pips: Array[Affinity.Type] = [Affinity.Type.GOURMAND]
+	var b_card: CardInstance = GameFactory.add_to_hand(game, 0, CardBuilder.unit("b1", "B1", Affinity.Type.GOURMAND, 1, pips, 2, 2))
+	assert_false(game.can_play_card(0, b_card.uid), "no B infrastructure")
+	GameFactory.add_infrastructure(game, 0, GameFactory.infra(Affinity.Type.GOURMAND))
+	assert_true(game.play_card(0, b_card.uid))
 	assert_eq(game.players[0].ready_infrastructure().size(), 2)
 
 
 func test_generic_payment_spends_the_most_plentiful_color_first() -> void:
 	var infrastructure: Array[CardInstance] = []
 	var game: GameState = GameFactory.blank_game()
-	for color: Affinity.Type in [Affinity.Type.A, Affinity.Type.A, Affinity.Type.A, Affinity.Type.B]:
+	for color: Affinity.Type in [Affinity.Type.BEEFCAKE, Affinity.Type.BEEFCAKE, Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND]:
 		infrastructure.append(GameFactory.add_infrastructure(game, 0, GameFactory.infra(color)))
 	var out: Array[CardInstance] = []
 	assert_true(PathEnergy.plan(infrastructure, 2, [] as Array[Affinity.Type], out))
 	assert_eq(out.size(), 2)
 	for infrastructure_card: CardInstance in out:
-		assert_eq(infrastructure_card.data.color, Affinity.Type.A, "keeps the lone B infrastructure ready")
+		assert_eq(infrastructure_card.data.color, Affinity.Type.BEEFCAKE, "keeps the lone B infrastructure ready")
 
 
 func test_neutral_infrastructure_pays_generic_only_and_is_spent_first() -> void:
 	var game: GameState = GameFactory.blank_game()
 	var neutral: CardInstance = GameFactory.add_infrastructure(game, 0, CardBuilder.infra(Affinity.Type.NEUTRAL))
-	var colored: CardInstance = GameFactory.add_infrastructure(game, 0, GameFactory.infra(Affinity.Type.A))
+	var colored: CardInstance = GameFactory.add_infrastructure(game, 0, GameFactory.infra(Affinity.Type.BEEFCAKE))
 	var out: Array[CardInstance] = []
 	assert_true(PathEnergy.plan([neutral, colored] as Array[CardInstance], 1, [] as Array[Affinity.Type], out))
 	assert_eq(out[0], neutral)
-	assert_false(PathEnergy.can_pay([neutral] as Array[CardInstance], 0, [Affinity.Type.A] as Array[Affinity.Type]))
+	assert_false(PathEnergy.can_pay([neutral] as Array[CardInstance], 0, [Affinity.Type.BEEFCAKE] as Array[Affinity.Type]))
 
 
 func test_explicit_activate_choice_is_respected_and_validated() -> void:
 	var game: GameState = GameFactory.blank_game()
-	var a1: CardInstance = GameFactory.add_infrastructure(game, 0, GameFactory.infra(Affinity.Type.A))
-	var b1: CardInstance = GameFactory.add_infrastructure(game, 0, GameFactory.infra(Affinity.Type.B))
+	var a1: CardInstance = GameFactory.add_infrastructure(game, 0, GameFactory.infra(Affinity.Type.BEEFCAKE))
+	var b1: CardInstance = GameFactory.add_infrastructure(game, 0, GameFactory.infra(Affinity.Type.GOURMAND))
 	var card: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
-	assert_false(game.cast(0, card.uid, 0, [a1.uid, b1.uid] as Array[int]), "pays too much")
+	assert_false(game.play_card(0, card.uid, 0, [a1.uid, b1.uid] as Array[int]), "pays too much")
 	assert_false(a1.exhausted)
-	assert_true(game.cast(0, card.uid, 0, [b1.uid] as Array[int]))
+	assert_true(game.play_card(0, card.uid, 0, [b1.uid] as Array[int]))
 	assert_true(b1.exhausted)
 	assert_false(a1.exhausted)
 
 
 func test_cost_change_modifier_by_color() -> void:
 	var game: GameState = GameFactory.blank_game()
-	game.players[0].modifiers.add(CardBuilder.modifier(Modifier.Kind.COST_CHANGE, -1, Affinity.Type.A))
+	game.players[0].modifiers.add(CardBuilder.modifier(Modifier.Kind.COST_CHANGE, -1, Affinity.Type.BEEFCAKE))
 	GameFactory.add_infrastructure_cards(game, 0, 1)
-	var cheap: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 2, Affinity.Type.A))
-	var b_card: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 1, Affinity.Type.B))
+	var cheap: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 2, Affinity.Type.BEEFCAKE))
+	var b_card: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 1, Affinity.Type.GOURMAND))
 	assert_eq(game.generic_cost_for(0, cheap.data), 1)
 	assert_eq(game.generic_cost_for(0, b_card.data), 1)
-	game.players[0].modifiers.add(CardBuilder.modifier(Modifier.Kind.COST_CHANGE, -5, Affinity.Type.A))
+	game.players[0].modifiers.add(CardBuilder.modifier(Modifier.Kind.COST_CHANGE, -5, Affinity.Type.BEEFCAKE))
 	assert_eq(game.generic_cost_for(0, cheap.data), 0, "never below zero")
-	assert_true(game.cast(0, cheap.uid))
+	assert_true(game.play_card(0, cheap.uid))
 
 
 func test_cast_emits_events() -> void:
 	var game: GameState = GameFactory.blank_game()
 	GameFactory.add_infrastructure_cards(game, 0, 1)
 	var card: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
-	game.cast(0, card.uid)
+	game.play_card(0, card.uid)
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.ENERGY_SPENT), 1)
-	assert_eq(GameFactory.count_events(game, GameEvent.Type.CARD_CAST), 1)
+	assert_eq(GameFactory.count_events(game, GameEvent.Type.CARD_PLAYED), 1)
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.PERMANENT_ENTERED), 1)
 
 
-func test_creatures_lose_summoning_sickness_next_own_turn() -> void:
+func test_units_lose_summoning_sickness_next_own_turn() -> void:
 	var game: GameState = GameFactory.blank_game()
 	GameFactory.add_infrastructure_cards(game, 0, 1)
 	var card: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
-	game.cast(0, card.uid)
+	game.play_card(0, card.uid)
 	assert_true(card.summoning_sick)
 	GameFactory.pass_turn(game)
 	assert_true(card.summoning_sick, "still sick during the opponent's turn")
@@ -360,11 +360,11 @@ func test_creatures_lose_summoning_sickness_next_own_turn() -> void:
 func test_spell_goes_to_graveyard_and_trap_is_set_face_down() -> void:
 	var game: GameState = GameFactory.blank_game()
 	GameFactory.add_infrastructure_cards(game, 0, 3)
-	var spell: CardInstance = GameFactory.add_to_hand(game, 0, CardBuilder.spell("s", "S", Affinity.Type.A, 1, [] as Array[Affinity.Type]))
-	var trap: CardInstance = GameFactory.add_to_hand(game, 0, CardBuilder.trap("t", "T", Affinity.Type.A, 1, [] as Array[Affinity.Type]))
-	assert_true(game.cast(0, spell.uid))
-	assert_true(game.cast(0, trap.uid))
-	assert_eq(game.players[0].graveyard.size(), 1)
+	var spell: CardInstance = GameFactory.add_to_hand(game, 0, CardBuilder.spell("s", "S", Affinity.Type.BEEFCAKE, 1, [] as Array[Affinity.Type]))
+	var trap: CardInstance = GameFactory.add_to_hand(game, 0, CardBuilder.trap("t", "T", Affinity.Type.BEEFCAKE, 1, [] as Array[Affinity.Type]))
+	assert_true(game.play_card(0, spell.uid))
+	assert_true(game.play_card(0, trap.uid))
+	assert_eq(game.players[0].refuse_pile.size(), 1)
 	assert_eq(game.players[0].traps.size(), 1)
 	assert_true(trap.face_down)
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.TRAP_SET), 1)
@@ -375,7 +375,7 @@ func test_spell_goes_to_graveyard_and_trap_is_set_face_down() -> void:
 
 func test_drawing_from_empty_library_loses() -> void:
 	var game: GameState = GameFactory.blank_game()
-	game.players[1].library.clear()
+	game.players[1].deck.clear()
 	GameFactory.pass_turn(game)
 	assert_true(game.is_over())
 	assert_eq(game.winner, 0)
@@ -383,7 +383,7 @@ func test_drawing_from_empty_library_loses() -> void:
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.GAME_OVER), 1)
 
 
-func test_opponent_at_zero_life_loses() -> void:
+func test_opponent_at_zero_hp_loses() -> void:
 	var game: GameState = GameFactory.blank_game()
 	game.deal_damage_to_player(0, 1, 10)
 	game.check_state()
@@ -393,8 +393,8 @@ func test_opponent_at_zero_life_loses() -> void:
 
 func test_both_players_at_zero_is_a_draw() -> void:
 	var game: GameState = GameFactory.blank_game()
-	game.players[0].life = 0
-	game.players[1].life = -2
+	game.players[0].hp = 0
+	game.players[1].hp = -2
 	game.check_state()
 	assert_true(game.is_over())
 	assert_true(game.is_draw)
@@ -404,7 +404,7 @@ func test_both_players_at_zero_is_a_draw() -> void:
 func test_no_actions_after_game_over() -> void:
 	var game: GameState = GameFactory.blank_game()
 	var infrastructure_card: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.infra())
-	game.players[1].life = 0
+	game.players[1].hp = 0
 	game.check_state()
 	assert_false(game.play_infrastructure(0, infrastructure_card.uid))
 	assert_false(game.advance_phase())
@@ -440,15 +440,15 @@ func test_must_discard_down_to_max_hand_size() -> void:
 	game.advance_phase()
 	game.advance_phase()
 	assert_eq(game.phase, GameState.Phase.END)
-	assert_eq(game.pending_discard, 2)
+	assert_eq(game.pending_toss, 2)
 	assert_eq(game.awaiting_player(), 0)
 	assert_false(game.advance_phase(), "cannot pass while a discard is owed")
 	var uids: Array[int] = [game.players[0].hand[0].uid]
-	assert_false(game.discard_for_hand_size(0, uids), "wrong number of cards")
+	assert_false(game.toss_for_hand_size(0, uids), "wrong number of cards")
 	uids.append(game.players[0].hand[1].uid)
-	assert_true(game.discard_for_hand_size(0, uids))
+	assert_true(game.toss_for_hand_size(0, uids))
 	assert_eq(game.players[0].hand.size(), 10)
-	assert_eq(game.players[0].graveyard.size(), 2)
+	assert_eq(game.players[0].refuse_pile.size(), 2)
 	assert_eq(game.active, 1, "turn passed to the opponent")
 
 
@@ -458,50 +458,50 @@ func test_max_hand_size_modifier() -> void:
 	for i: int in range(12):
 		GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
 	GameFactory.pass_turn(game)
-	assert_eq(game.pending_discard, 0)
+	assert_eq(game.pending_toss, 0)
 	assert_eq(game.active, 1)
 
 
 func test_damage_and_temp_effects_clear_at_end_of_turn() -> void:
 	var game: GameState = GameFactory.blank_game()
-	var wall: CardInstance = GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(1, 4, 1))
-	game.deal_damage_to_creature(0, wall, 3)
-	wall.temp_power = 2
+	var wall: CardInstance = GameFactory.add_to_field(game, 1, GameFactory.vanilla(1, 4, 1))
+	game.deal_damage_to_unit(0, wall, 3)
+	wall.temp_attack = 2
 	assert_eq(wall.damage, 3)
 	GameFactory.pass_turn(game)
 	assert_eq(wall.damage, 0)
-	assert_eq(wall.temp_power, 0)
+	assert_eq(wall.temp_attack, 0)
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.DAMAGE_CLEARED), 1)
 
 
-func test_lethal_damage_kills_creature_and_moves_it_to_graveyard() -> void:
+func test_lethal_damage_kills_unit_and_moves_it_to_graveyard() -> void:
 	var game: GameState = GameFactory.blank_game()
-	var bear: CardInstance = GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(2, 2, 2))
-	game.deal_damage_to_creature(0, bear, 2)
+	var bear: CardInstance = GameFactory.add_to_field(game, 1, GameFactory.vanilla(2, 2, 2))
+	game.deal_damage_to_unit(0, bear, 2)
 	game.check_state()
-	assert_eq(game.players[1].battlefield.size(), 0)
-	assert_eq(game.players[1].graveyard.size(), 1)
-	assert_eq(GameFactory.count_events(game, GameEvent.Type.CREATURE_DIED), 1)
+	assert_eq(game.players[1].field.size(), 0)
+	assert_eq(game.players[1].refuse_pile.size(), 1)
+	assert_eq(GameFactory.count_events(game, GameEvent.Type.UNIT_DIED), 1)
 
 
 func test_stat_modifiers_apply_to_matching_color() -> void:
 	var game: GameState = GameFactory.blank_game()
-	game.players[0].modifiers.add(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Affinity.Type.A, 2))
-	var a_card: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(2, 2, 1, Affinity.Type.A))
-	var b_card: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(2, 2, 1, Affinity.Type.B))
-	assert_eq(game.get_power(a_card), 3)
-	assert_eq(game.get_toughness(a_card), 4)
-	assert_eq(game.get_power(b_card), 2)
+	game.players[0].modifiers.add(CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Affinity.Type.BEEFCAKE, 2))
+	var a_card: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 2, 1, Affinity.Type.BEEFCAKE))
+	var b_card: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 2, 1, Affinity.Type.GOURMAND))
+	assert_eq(game.get_attack(a_card), 3)
+	assert_eq(game.get_defense(a_card), 4)
+	assert_eq(game.get_attack(b_card), 2)
 
 
-func test_gain_life_is_capped_but_starting_life_above_max_is_kept() -> void:
+func test_gain_hp_is_capped_but_starting_hp_above_max_is_kept() -> void:
 	var game: GameState = GameFactory.blank_game()
-	game.players[0].life = 8
-	game.gain_life(0, 5)
-	assert_eq(game.players[0].life, 10)
-	game.players[0].life = 12
-	game.gain_life(0, 5)
-	assert_eq(game.players[0].life, 12)
+	game.players[0].hp = 8
+	game.gain_hp(0, 5)
+	assert_eq(game.players[0].hp, 10)
+	game.players[0].hp = 12
+	game.gain_hp(0, 5)
+	assert_eq(game.players[0].hp, 12)
 
 
 # ---- Actions and cloning -----------------------------------------------------------
@@ -519,7 +519,7 @@ func test_legal_actions_include_pass_infrastructure_and_castable_cards() -> void
 		types.append(action.type)
 	assert_eq(types.count(GameAction.Type.PASS), 1)
 	assert_eq(types.count(GameAction.Type.PLAY_INFRASTRUCTURE), 1, "duplicate infrastructure collapse")
-	assert_eq(types.count(GameAction.Type.CAST), 1, "only the affordable creature")
+	assert_eq(types.count(GameAction.Type.PLAY), 1, "only the affordable unit")
 
 
 func test_apply_action_routes_to_rules() -> void:
@@ -536,9 +536,9 @@ func test_clone_is_independent_and_keeps_uids() -> void:
 	GameFactory.add_infrastructure_cards(game, 0, 2)
 	var card: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
 	var copy: GameState = game.clone()
-	assert_true(copy.cast(0, card.uid))
-	assert_eq(copy.players[0].battlefield.size(), 1)
-	assert_eq(game.players[0].battlefield.size(), 0)
+	assert_true(copy.play_card(0, card.uid))
+	assert_eq(copy.players[0].field.size(), 1)
+	assert_eq(game.players[0].field.size(), 0)
 	assert_eq(game.players[0].ready_infrastructure().size(), 2)
 	assert_eq(copy.events.size(), 0, "clones do not record events")
 	assert_eq(copy.rng.state, game.rng.state)
@@ -546,7 +546,7 @@ func test_clone_is_independent_and_keeps_uids() -> void:
 
 func test_clone_can_hide_traps() -> void:
 	var game: GameState = GameFactory.blank_game()
-	var trap: CardData = CardBuilder.trap("t", "T", Affinity.Type.A, 0, [] as Array[Affinity.Type])
+	var trap: CardData = CardBuilder.trap("t", "T", Affinity.Type.BEEFCAKE, 0, [] as Array[Affinity.Type])
 	game.players[1].traps.append(game.create_instance(trap, 1))
 	assert_eq(game.clone().players[1].traps.size(), 1)
 	assert_eq(game.clone(true, 1).players[1].traps.size(), 0)
@@ -585,29 +585,29 @@ func _hand_infrastructure(deck: Deck, ratio: float, smoother: bool, tolerance: f
 	var game: GameState = GameState.new()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = seed_value
-	var library: Array[CardInstance] = []
+	var pile: Array[CardInstance] = []
 	for data: CardData in deck.cards:
-		library.append(game.create_instance(data, 0))
-	return HandSmoother.count_infrastructure(HandSmoother.draw_opening_hand(library, 7, ratio, smoother, rng, tolerance))
+		pile.append(game.create_instance(data, 0))
+	return HandSmoother.count_infrastructure(HandSmoother.draw_opening_hand(pile, 7, ratio, smoother, rng, tolerance))
 
 
 func test_smoother_leaves_a_reasonable_first_hand_alone() -> void:
 	var game: GameState = GameState.new()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 5
-	var library: Array[CardInstance] = []
+	var deck: Array[CardInstance] = []
 	for i: int in range(20):
-		library.append(game.create_instance(GameFactory.infra(), 0))
+		deck.append(game.create_instance(GameFactory.infra(), 0))
 	for i: int in range(25):
-		library.append(game.create_instance(GameFactory.vanilla(1, 1), 0))
+		deck.append(game.create_instance(GameFactory.vanilla(1, 1), 0))
 	var before: RandomNumberGenerator = RandomNumberGenerator.new()
 	before.seed = 5
-	var reference: Array[CardInstance] = library.duplicate()
+	var reference: Array[CardInstance] = deck.duplicate()
 	RngUtil.shuffle(reference, before)
 	var expected_first_infrastructure: int = 0
 	for i: int in range(reference.size() - 7, reference.size()):
 		if reference[i].data.is_infrastructure():
 			expected_first_infrastructure += 1
 	var target: float = 20.0 / 45.0 * 7.0
-	var hand: Array[CardInstance] = HandSmoother.draw_opening_hand(library, 7, 20.0 / 45.0, true, rng, 99.0)
+	var hand: Array[CardInstance] = HandSmoother.draw_opening_hand(deck, 7, 20.0 / 45.0, true, rng, 99.0)
 	assert_eq(HandSmoother.count_infrastructure(hand), expected_first_infrastructure, "huge tolerance = never swap (target %.1f)" % target)

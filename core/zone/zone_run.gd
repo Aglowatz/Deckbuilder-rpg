@@ -1,15 +1,15 @@
 class_name ZoneRun
 extends RefCounted
-## One visit to a zone (the D.N.A.). Implements the zone life rules (docs/design/zones.md):
-## life persists between battles and enemy hits for the whole visit - there is no healing after a
+## One visit to a zone (the D.N.A.). Implements the zone HP rules (docs/design/zones.md):
+## HP persists between battles and enemy hits for the whole visit - there is no healing after a
 ## battle. The only ways back up are the hub's healing spot, items/cards, or leaving to town (a
-## fresh visit starts at full life). At 0 life the player wakes up at the hub at full life and
+## fresh visit starts at full HP). At 0 HP the player wakes up at the hub at full HP and
 ## pays a small gold "paperwork fee".
 ##
-## Life itself lives in a wrapped `DungeonRun` so everything that already knows how to heal or
+## HP itself lives in a wrapped `DungeonRun` so everything that already knows how to heal or
 ## damage a run (consumable items, `ItemUseResolver`, battles via `start_encounter`) works unchanged.
 
-## Gold taken when the player is carried back to the hub at 0 life (never more than they have).
+## Gold taken when the player is carried back to the hub at 0 HP (never more than they have).
 const PAPERWORK_FEE: int = 15
 
 var zone_id: String = ""
@@ -35,42 +35,42 @@ static func enter(zone: String, profile: PlayerProfile, deck: Deck) -> ZoneRun:
 	return visit
 
 
-var life: int:
+var hp: int:
 	get:
-		return run.life
+		return run.hp
 	set(value):
-		run.life = clampi(value, 0, run.max_life())
+		run.hp = clampi(value, 0, run.max_hp())
 
 
-func max_life() -> int:
-	return run.max_life()
+func max_hp() -> int:
+	return run.max_hp()
 
 
 func is_down() -> bool:
-	return run.life <= 0
+	return run.hp <= 0
 
 
 func damage(amount: int) -> void:
 	if amount <= 0:
 		return
-	run.life = maxi(0, run.life - amount)
+	run.hp = maxi(0, run.hp - amount)
 
 
-## Heals up to max life. Returns how much life was actually restored.
+## Heals up to max HP. Returns how much HP was actually restored.
 func heal(amount: int) -> int:
-	var before: int = run.life
-	run.life = mini(run.life + maxi(amount, 0), run.max_life())
-	return run.life - before
+	var before: int = run.hp
+	run.hp = mini(run.hp + maxi(amount, 0), run.max_hp())
+	return run.hp - before
 
 
 func fully_heal() -> int:
-	return heal(run.max_life())
+	return heal(run.max_hp())
 
 
-## Carried to the hub at 0 life: back to full life, minus the paperwork fee. Returns the fee
+## Carried to the hub at 0 HP: back to full HP, minus the paperwork fee. Returns the fee
 ## actually charged (capped at the gold the player has).
 func wake_at_hub(gold_available: int, cause: String = "") -> int:
-	run.life = run.max_life()
+	run.hp = run.max_hp()
 	run.failed = false
 	var def: ZoneDef = ZoneDefs.get_def(zone_id)
 	var fee: int = mini(def.fee, maxi(gold_available, 0))
@@ -80,12 +80,12 @@ func wake_at_hub(gold_available: int, cause: String = "") -> int:
 	return fee
 
 
-## Records the life left after a duel fought inside the zone (a loss leaves 0).
+## Records the HP left after a duel fought inside the zone (a loss leaves 0).
 func finish_battle(game: GameState) -> void:
-	run.life = clampi(game.players[0].life, 0, run.max_life())
+	run.hp = clampi(game.players[0].hp, 0, run.max_hp())
 
 
-## Adds a visit-long buff (a ModifierSource); max-life buffs raise current life too.
+## Adds a visit-long buff (a ModifierSource); max-HP buffs raise current HP too.
 func add_buff(source: ModifierSource) -> void:
 	run.add_dungeon_source(source)
 

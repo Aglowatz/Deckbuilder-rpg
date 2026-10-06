@@ -4,15 +4,15 @@ extends RefCounted
 ## Path's broken service as a debuff, and each completed zone removes its debuff.
 ##
 ## | Path (zone id)          | Debuff        | In duels (Modifier pipeline)              | In the world |
-## | Beefcake (beefcake)     | Blackout      | your creatures enter exhausted            | darkness, slower movement, no travel |
-## | Gourmand (gourmand)     | Famine        | max life -5                               | healing items do not work |
-## | Necrocrat (necrocrat)   | Restless Dead | enemy creatures may return from the grave | - |
+## | Beefcake (beefcake)     | Blackout      | your units enter exhausted            | darkness, slower movement, no travel |
+## | Gourmand (gourmand)     | Famine        | max HP -5                               | healing items do not work |
+## | Necrocrat (necrocrat)   | Restless Dead | enemy units may return from the grave | - |
 ## | Refusemancer (refusemancer) | Clutter   | 3 junk cards are shuffled into your deck  | - |
 ##
 ## Names, flavor and "what changed when freed" text are in the Capital's story file (`debuff.<zone id>.*`).
 
 const BLACKOUT_SPEED: float = 0.8
-const FAMINE_MAX_LIFE: int = -5
+const FAMINE_MAX_HP: int = -5
 const RETURN_CHANCE_PERCENT: int = 35
 const JUNK_COUNT: int = 3
 ## Visible-change keys of the world (the Capital scene reads these).
@@ -140,12 +140,12 @@ static func speed_multiplier(flags: Dictionary) -> float:
 	return BLACKOUT_SPEED if has_world_rule(flags, WORLD_SLOW) else 1.0
 
 
-## The max-life change the active debuffs cause (Famine).
-static func max_life_change(flags: Dictionary) -> int:
+## The max-HP change the active debuffs cause (Famine).
+static func max_hp_change(flags: Dictionary) -> int:
 	var total: int = 0
 	for debuff: Debuff in active(flags):
 		for modifier: Modifier in debuff.player_modifiers:
-			if modifier.kind == Modifier.Kind.MAX_LIFE:
+			if modifier.kind == Modifier.Kind.MAX_HP:
 				total += modifier.value
 	return total
 
@@ -156,7 +156,7 @@ static func max_life_change(flags: Dictionary) -> int:
 static func _beefcake() -> Debuff:
 	var debuff: Debuff = Debuff.new()
 	debuff.zone_id = "beefcake"
-	debuff.path = Affinity.Type.A
+	debuff.path = Affinity.Type.BEEFCAKE
 	debuff.player_modifiers = [_mod(Modifier.Kind.ENTER_EXHAUSTED, 1, "Blackout")] as Array[Modifier]
 	debuff.world = [WORLD_DARKNESS, WORLD_SLOW, WORLD_NO_TRAVEL] as Array[String]
 	return debuff
@@ -165,8 +165,8 @@ static func _beefcake() -> Debuff:
 static func _gourmand() -> Debuff:
 	var debuff: Debuff = Debuff.new()
 	debuff.zone_id = "gourmand"
-	debuff.path = Affinity.Type.B
-	debuff.player_modifiers = [_mod(Modifier.Kind.MAX_LIFE, FAMINE_MAX_LIFE, "Famine")] as Array[Modifier]
+	debuff.path = Affinity.Type.GOURMAND
+	debuff.player_modifiers = [_mod(Modifier.Kind.MAX_HP, FAMINE_MAX_HP, "Famine")] as Array[Modifier]
 	debuff.world = [WORLD_NO_FOOD_HEAL] as Array[String]
 	return debuff
 
@@ -174,7 +174,7 @@ static func _gourmand() -> Debuff:
 static func _necrocrat() -> Debuff:
 	var debuff: Debuff = Debuff.new()
 	debuff.zone_id = "necrocrat"
-	debuff.path = Affinity.Type.D
+	debuff.path = Affinity.Type.NECROCRAT
 	debuff.enemy_modifiers = [_mod(Modifier.Kind.GRAVEYARD_RETURN_CHANCE, RETURN_CHANCE_PERCENT, "Restless Dead")] as Array[Modifier]
 	return debuff
 
@@ -182,7 +182,7 @@ static func _necrocrat() -> Debuff:
 static func _refusemancer() -> Debuff:
 	var debuff: Debuff = Debuff.new()
 	debuff.zone_id = "refusemancer"
-	debuff.path = Affinity.Type.C
+	debuff.path = Affinity.Type.REFUSEMANCER
 	debuff.player_modifiers = [_mod(Modifier.Kind.SHUFFLE_JUNK_INTO_DECK, JUNK_COUNT, "Clutter")] as Array[Modifier]
 	return debuff
 
@@ -199,11 +199,11 @@ static func _mod(kind: Modifier.Kind, value: int, label: String) -> Modifier:
 static func modifier_text(modifier: Modifier, on_player: bool) -> String:
 	match modifier.kind:
 		Modifier.Kind.ENTER_EXHAUSTED:
-			return "In duels your creatures enter exhausted."
-		Modifier.Kind.MAX_LIFE:
-			return "Your max life is %d lower." % absi(modifier.value)
+			return "In duels your units enter exhausted."
+		Modifier.Kind.MAX_HP:
+			return "Your max HP is %d lower." % absi(modifier.value)
 		Modifier.Kind.GRAVEYARD_RETURN_CHANCE:
-			return "In duels, each enemy creature that dies has a %d%% chance to climb back out of the graveyard." % modifier.value
+			return "In duels, each enemy unit that dies has a %d%% chance to climb back out of the Refuse Pile." % modifier.value
 		Modifier.Kind.SHUFFLE_JUNK_INTO_DECK:
 			return "In duels, %d Heaps of Rubbish are shuffled into your deck." % modifier.value
 	return modifier.label if on_player else modifier.label

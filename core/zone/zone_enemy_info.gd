@@ -17,11 +17,11 @@ var aggro_range: float = 0.0
 ## ... and gives up once the player is this far from the enemy's patrol home (metres).
 var leash_range: float = 0.0
 var touch_range: float = 0.55
-## DAMAGE types: life taken per touch.
+## DAMAGE types: HP taken per touch.
 var damage: int = 2
 ## Battle opponents only.
 var recipe: Dictionary = {}
-var life: int = 10
+var hp: int = 10
 var ai_name: String = "Balanced"
 var gold_reward: int = 0
 var xp_reward: int = 0

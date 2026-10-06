@@ -4,9 +4,9 @@ extends Resource
 
 enum Kind {
 	NOTHING,
-	## amount = life lost.
-	LOSE_LIFE,
-	## amount = life restored (capped at max life).
+	## amount = HP lost.
+	LOSE_HP,
+	## amount = HP restored (capped at max HP).
 	HEAL,
 	## A card is lost for the dungeon: the sacrificed card, else the priciest revealed
 	## non-basic card, else a random non-basic card from the deck.

@@ -4,19 +4,19 @@ extends Resource
 
 @export var id: String = ""
 @export var display_name: String = ""
-@export var type: CardEnums.CardType = CardEnums.CardType.CREATURE
-## For infrastructure: the Path energy type produced. For others: the card's color identity.
+@export var type: CardEnums.CardType = CardEnums.CardType.UNIT
+## For infrastructure: the energy type produced. For others: the card's color identity.
 @export var color: Affinity.Type = Affinity.Type.NEUTRAL
 ## Brief 9, Part F: the SECOND Path of a multi-Path (dual-Path) card. NEUTRAL = a single-Path card. A multi-Path
-## card has pips of both Paths (it needs Path energy from both), counts as BOTH Paths for the deck's Path limit
+## card has pips of both Paths (it needs energy from both), counts as BOTH Paths for the deck's Path limit
 ## and for zone effects, and is crafted at the Alchemist.
 @export var color2: Affinity.Type = Affinity.Type.NEUTRAL
-## Generic Path energy (payable by any infrastructure).
+## Generic energy (payable by any infrastructure).
 @export var generic_cost: int = 0
 ## One entry per colored pip; each must be paid by an infrastructure of that type.
 @export var colored_pips: Array[Affinity.Type] = []
-@export var power: int = 0
-@export var toughness: int = 1
+@export var attack: int = 0
+@export var defense: int = 1
 @export var keywords: Array[CardEnums.Keyword] = []
 @export_multiline var rules_text: String = ""
 @export var effects: Array[EffectData] = []
@@ -24,7 +24,7 @@ extends Resource
 @export_multiline var flavor_text: String = ""
 ## Basic infrastructure are exempt from the copy limit.
 @export var is_basic: bool = false
-## Tokens are created by effects and cease to exist outside the battlefield.
+## Tokens are created by effects and cease to exist outside the field.
 @export var is_token: bool = false
 ## Pack system: a card with this flag never appears in any pack (unique dungeon/quest rewards, chest cards, enemy-only
 ## cards...) and must be found another way. The ids are listed in `PackRules.NOT_IN_PACKS_IDS`.
@@ -56,13 +56,13 @@ func is_infrastructure() -> bool:
 	return type == CardEnums.CardType.INFRASTRUCTURE
 
 
-func is_creature() -> bool:
-	return type == CardEnums.CardType.CREATURE
+func is_unit() -> bool:
+	return type == CardEnums.CardType.UNIT
 
 
-## Creatures and artifacts stay on the battlefield after being cast.
+## Units and wonders stay on the field after being play.
 func is_permanent() -> bool:
-	return type == CardEnums.CardType.CREATURE or type == CardEnums.CardType.ARTIFACT
+	return type == CardEnums.CardType.UNIT or type == CardEnums.CardType.WONDER
 
 
 func has_keyword(keyword: CardEnums.Keyword) -> bool:

@@ -54,12 +54,12 @@ func run() -> void:
 		_finish(false, "no ElementChoiceScreen appeared")
 		return
 	var gold_before: int = Session.gold
-	var tile: Button = choice._tiles[Affinity.Type.C] as Button
+	var tile: Button = choice._tiles[Affinity.Type.REFUSEMANCER] as Button
 	await driver.click(driver.center_of_control(tile))
 	await driver.click_button("Begin")
 	await driver.seconds(0.6)
 
-	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.C, "choosing an element via the tunnel sets the primary affinity")
+	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.REFUSEMANCER, "choosing an element via the tunnel sets the primary affinity")
 	_check(not Session.in_dungeon(), "the tunnel skips the tutorial dungeon entirely")
 	_check(Session.deck != null and Session.deck.size() == 45, "the tunnel grants a full 45-card deck (got %d)" % (Session.deck.size() if Session.deck != null else -1))
 	_check(Session.deck_is_valid(), "the granted deck is actually legal")

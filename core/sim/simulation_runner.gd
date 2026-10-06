@@ -28,7 +28,7 @@ func play_game(deck_a: Deck, deck_b: Deck, seed_value: int, first_player: int) -
 		steps += 1
 		var who: int = game.awaiting_player()
 		var action: GameAction = ais[who].choose_action(game)
-		if action.type == GameAction.Type.CAST:
+		if action.type == GameAction.Type.PLAY:
 			var card: CardInstance = game.find_card(action.card_uid)
 			if card != null:
 				var counts: Dictionary = record.casts[who]

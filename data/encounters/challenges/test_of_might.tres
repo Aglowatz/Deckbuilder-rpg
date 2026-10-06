@@ -10,7 +10,7 @@
 script = ExtResource("1_yyc1f")
 kind = 1
 amount = 3
-description = "Lose 3 life."
+description = "Lose 3 HP."
 
 [sub_resource type="Resource" id="Resource_o2hb3"]
 script = ExtResource("3_vxgbs")
@@ -26,13 +26,13 @@ modifiers = Array[ExtResource("3_vxgbs")]([SubResource("Resource_o2hb3")])
 script = ExtResource("1_yyc1f")
 kind = 4
 boon = SubResource("Resource_xfo5c")
-description = "Gain +2 max life for the dungeon."
+description = "Gain +2 max HP for the dungeon."
 
 [resource]
 script = ExtResource("5_4bfw8")
 id = "test_of_might"
 display_name = "Test of Might"
-description = "The statue demands proof of strength. Its gaze finds your first creature: is it mighty enough?"
+description = "The statue demands proof of strength. Its gaze finds your first unit: is it mighty enough?"
 threshold = 3
 on_success = Array[ExtResource("1_yyc1f")]([SubResource("Resource_srojg")])
 on_failure = Array[ExtResource("1_yyc1f")]([SubResource("Resource_ccoph")])

@@ -1,5 +1,5 @@
 extends GutTest
-## Part C/D: zone life rules and the enemy definitions.
+## Part C/D: zone HP rules and the enemy definitions.
 
 var run: ZoneRun
 
@@ -7,44 +7,44 @@ var run: ZoneRun
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.D)
+	Session.ensure_game(Affinity.Type.NECROCRAT)
 	run = ZoneRun.enter(DnaZone.ID, Session.profile, Session.deck)
 
 
-func test_entering_starts_at_full_life() -> void:
-	assert_eq(run.life, run.max_life())
+func test_entering_starts_at_full_hp() -> void:
+	assert_eq(run.hp, run.max_hp())
 
 
 func test_damage_and_heal_persist_and_clamp() -> void:
 	run.damage(3)
-	assert_eq(run.life, run.max_life() - 3)
+	assert_eq(run.hp, run.max_hp() - 3)
 	assert_eq(run.heal(1), 1)
-	assert_eq(run.heal(99), 2, "only the missing life is restored")
-	assert_eq(run.life, run.max_life())
+	assert_eq(run.heal(99), 2, "only the missing HP is restored")
+	assert_eq(run.hp, run.max_hp())
 
 
-func test_no_healing_after_battle_life_carries_over() -> void:
+func test_no_healing_after_battle_hp_carries_over() -> void:
 	var game: GameState = Session.make_zone_battle(DnaEnemies.INTERN, "intern_0").game
-	assert_eq(game.players[0].life, run_life_at_battle_start())
-	game.players[0].life = 3
+	assert_eq(game.players[0].hp, run_hp_at_battle_start())
+	game.players[0].hp = 3
 	run.finish_battle(game)
-	assert_eq(run.life, 3, "life after a battle is what is left, not refilled")
+	assert_eq(run.hp, 3, "HP after a battle is what is left, not refilled")
 
 
-func run_life_at_battle_start() -> int:
-	return Session.zone_run.life if Session.zone_run != null else run.max_life()
+func run_hp_at_battle_start() -> int:
+	return Session.zone_run.hp if Session.zone_run != null else run.max_hp()
 
 
-func test_zone_battle_starts_at_the_persisted_life() -> void:
+func test_zone_battle_starts_at_the_persisted_hp() -> void:
 	Session.zone_run = run
 	run.damage(4)
 	var context: BattleContext = Session.make_zone_battle(DnaEnemies.MANAGER, "manager_0")
-	assert_eq(context.game.players[0].life, run.max_life() - 4)
+	assert_eq(context.game.players[0].hp, run.max_hp() - 4)
 	assert_true(context.zone_battle)
 	Session.zone_run = null
 
 
-func test_zero_life_wakes_at_hub_with_paperwork_fee_and_is_logged() -> void:
+func test_zero_hp_wakes_at_hub_with_paperwork_fee_and_is_logged() -> void:
 	Session.zone_run = run
 	Session.gold = 100
 	run.damage(999)
@@ -52,7 +52,7 @@ func test_zero_life_wakes_at_hub_with_paperwork_fee_and_is_logged() -> void:
 	var fee: int = Session.zone_wake_at_hub("test faint")
 	assert_eq(fee, ZoneRun.PAPERWORK_FEE)
 	assert_eq(Session.gold, 100 - ZoneRun.PAPERWORK_FEE)
-	assert_eq(run.life, run.max_life(), "full life after waking")
+	assert_eq(run.hp, run.max_hp(), "full HP after waking")
 	assert_true(Session.zone_log[Session.zone_log.size() - 1].contains("test faint"))
 	Session.zone_run = null
 
@@ -87,7 +87,7 @@ func test_enemy_decks_are_legal_necrocrat_decks() -> void:
 		var deck: Deck = DnaEnemies.deck(Session.content, id)
 		assert_gte(deck.size(), 24, id)
 		for card: CardData in deck.cards:
-			assert_true(card.is_infrastructure() or card.color == Affinity.Type.D, "%s: %s is Necrocrat" % [id, card.id])
+			assert_true(card.is_infrastructure() or card.color == Affinity.Type.NECROCRAT, "%s: %s is Necrocrat" % [id, card.id])
 
 
 func test_zone_cards_exist_and_stay_out_of_normal_pools() -> void:
@@ -99,11 +99,11 @@ func test_zone_cards_exist_and_stay_out_of_normal_pools() -> void:
 	assert_not_null(Session.content.equipment_piece("courier_lanyard"))
 
 
-func test_time_clock_buff_raises_max_life_once() -> void:
-	var before: int = run.max_life()
+func test_time_clock_buff_raises_max_hp_once() -> void:
+	var before: int = run.max_hp()
 	run.add_buff(DnaInteractables.punch_in_buff())
-	assert_eq(run.max_life(), before + DnaInteractables.PUNCH_IN_BONUS)
-	assert_eq(run.life, before + DnaInteractables.PUNCH_IN_BONUS)
+	assert_eq(run.max_hp(), before + DnaInteractables.PUNCH_IN_BONUS)
+	assert_eq(run.hp, before + DnaInteractables.PUNCH_IN_BONUS)
 
 
 func test_coffee_and_printer_outcomes() -> void:

@@ -25,7 +25,7 @@ func _initialize() -> void:
 	lines.append("- **XP**: every encounter grants XP scaled by difficulty (`EncounterRewards`):")
 	lines.append("  Tutorial 15, Normal 30, Elite 60, Boss 120. The curve below is tuned so finishing")
 	lines.append("  the main story lands around **level 20**; levels 21-30 are postgame.")
-	lines.append("- **Starting life**: 10 at level 1, +1 on every even level, reaching **25 at level 30**")
+	lines.append("- **Starting HP**: 10 at level 1, +1 on every even level, reaching **25 at level 30**")
 	lines.append("  (before equipment/item modifiers).")
 	lines.append("- **Opening hand size**: 5 at level 1, gradually up to **8** at level 24+.")
 	lines.append("- **Item slots**: 1 at level 1, gradually up to **4** at level 30.")
@@ -39,11 +39,11 @@ func _initialize() -> void:
 	lines.append("  a vendor unlock/discount, or gold - New brief, Part D removed random card-choice")
 	lines.append("  level rewards entirely.")
 	lines.append("")
-	lines.append("| Level | XP to reach | Life | Hand | Max hand | Items | Grants |")
+	lines.append("| Level | XP to reach | HP | Hand | Max hand | Items | Grants |")
 	lines.append("|---:|---:|---:|---:|---:|---:|---|")
 	for row: LevelData in rows:
 		lines.append("| %d | %d | %d | %d | %d | %d | %s |" % [
-			row.level, row.xp_to_reach, row.max_life, row.opening_hand_size, row.max_hand_size, row.item_slots,
+			row.level, row.xp_to_reach, row.max_hp, row.opening_hand_size, row.max_hand_size, row.item_slots,
 			row.summary,
 		])
 	lines.append("")

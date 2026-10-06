@@ -7,7 +7,7 @@ extends GutTest
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 
 
 ## Random card-choice level rewards are gone entirely: leveling all the way up (crossing every

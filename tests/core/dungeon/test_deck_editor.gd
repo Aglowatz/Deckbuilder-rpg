@@ -8,7 +8,7 @@ var waiver: ModifierSet
 
 func before_each() -> void:
 	content = ContentLibrary.load_all()
-	profile = CampaignStart.new_profile(content, Affinity.Type.A)
+	profile = CampaignStart.new_profile(content, Affinity.Type.BEEFCAKE)
 	var infrastructure: Array[CardData] = []
 	for infra: Variant in content.infrastructure.values():
 		infrastructure.append(infra as CardData)
@@ -16,7 +16,7 @@ func before_each() -> void:
 	waiver.add_source(TrialOfTheHollow.deck_size_waiver())
 	# The 42-card starter is the realistic in-dungeon case (Part C), so the fixture edits it with
 	# the tutorial's size waiver applied, same as DungeonDeckbuilderScreen would.
-	editor = DeckEditor.from(profile, CampaignStart.starter_deck(content, Affinity.Type.A), infrastructure, waiver)
+	editor = DeckEditor.from(profile, CampaignStart.starter_deck(content, Affinity.Type.BEEFCAKE), infrastructure, waiver)
 
 
 func test_starter_deck_is_valid_with_the_tutorial_waiver() -> void:
@@ -24,7 +24,7 @@ func test_starter_deck_is_valid_with_the_tutorial_waiver() -> void:
 
 
 func test_starter_deck_is_not_valid_without_the_waiver() -> void:
-	var plain: DeckEditor = DeckEditor.from(profile, CampaignStart.starter_deck(content, Affinity.Type.A), editor.infrastructure)
+	var plain: DeckEditor = DeckEditor.from(profile, CampaignStart.starter_deck(content, Affinity.Type.BEEFCAKE), editor.infrastructure)
 	assert_false(plain.is_valid(), "42 cards is below the plain 45-card minimum")
 	assert_true(DeckValidator.has_problem(plain.issues(), DeckValidator.Problem.TOO_FEW_CARDS))
 
@@ -79,7 +79,7 @@ func test_autofill_infrastructure_reaches_the_modifier_adjusted_minimum() -> voi
 
 
 func test_autofill_infrastructure_reaches_the_plain_minimum_without_a_waiver() -> void:
-	var plain: DeckEditor = DeckEditor.from(profile, CampaignStart.starter_deck(content, Affinity.Type.A), editor.infrastructure)
+	var plain: DeckEditor = DeckEditor.from(profile, CampaignStart.starter_deck(content, Affinity.Type.BEEFCAKE), editor.infrastructure)
 	plain.remove(content.card("cave_bat"))
 	plain.remove(content.card("sellsword"))
 	var added: int = plain.autofill_infrastructure()
@@ -88,6 +88,6 @@ func test_autofill_infrastructure_reaches_the_plain_minimum_without_a_waiver() -
 
 
 func test_basic_infrastructure_are_unlimited() -> void:
-	var infra: CardData = content.infrastructure[int(Affinity.Type.A)] as CardData
+	var infra: CardData = content.infrastructure[int(Affinity.Type.BEEFCAKE)] as CardData
 	for i: int in range(5):
 		assert_true(editor.add(infra))

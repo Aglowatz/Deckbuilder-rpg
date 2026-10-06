@@ -25,7 +25,7 @@ func choose_action(state: GameState) -> GameAction:
 		return GameAction.pass_phase(0)
 	if state.stage == GameState.Stage.MULLIGAN:
 		return _choose_mulligan(state, who)
-	if state.pending_discard > 0:
+	if state.pending_toss > 0:
 		return _choose_discard(state, who)
 	if state.phase == GameState.Phase.COMBAT:
 		if state.combat_step == GameState.CombatStep.DECLARE_ATTACKERS:
@@ -48,8 +48,8 @@ func evaluate(state: GameState, me: int) -> float:
 	var mine: PlayerState = state.players[me]
 	var foe: PlayerState = state.players[1 - me]
 	var score: float = 0.0
-	score += personality.life_weight * _life_value(mine.life)
-	score -= personality.enemy_life_weight * _life_value(foe.life)
+	score += personality.hp_weight * _hp_value(mine.hp)
+	score -= personality.enemy_hp_weight * _hp_value(foe.hp)
 	score += personality.board_weight * _board_value(state, mine)
 	score -= personality.enemy_board_weight * _board_value(state, foe)
 	score += personality.hand_weight * (_hand_value(mine) - _hand_value(foe))
@@ -58,16 +58,16 @@ func evaluate(state: GameState, me: int) -> float:
 	return score
 
 
-## Life matters more the lower it gets.
-func _life_value(life: int) -> float:
-	return float(life) - maxf(0.0, 6.0 - float(life)) * 0.5
+## HP matters more the lower it gets.
+func _hp_value(hp: int) -> float:
+	return float(hp) - maxf(0.0, 6.0 - float(hp)) * 0.5
 
 
 func _board_value(state: GameState, player: PlayerState) -> float:
 	var total: float = 0.0
-	for card: CardInstance in player.battlefield:
-		if card.data.is_creature():
-			total += float(EffectResolver.creature_value(state, card)) * BOARD_UNIT
+	for card: CardInstance in player.field:
+		if card.data.is_unit():
+			total += float(EffectResolver.unit_value(state, card)) * BOARD_UNIT
 		else:
 			total += 2.0
 	total += 2.0 * float(player.traps.size())
@@ -81,24 +81,24 @@ func _hand_value(player: PlayerState) -> float:
 	return total
 
 
-## Damage the opponent could deal next turn after my ready creatures block their strongest
+## Damage the opponent could deal next turn after my ready units block their strongest
 ## attackers, plus a big penalty if that is lethal.
 func _threat(state: GameState, mine: PlayerState, foe: PlayerState) -> float:
 	var blockers: int = 0
-	for card: CardInstance in mine.creatures():
+	for card: CardInstance in mine.units():
 		if not card.exhausted:
 			blockers += 1
 	var powers: Array[int] = []
-	for card: CardInstance in foe.creatures():
-		if not card.has_keyword(CardEnums.Keyword.DEFENDER):
-			powers.append(state.get_power(card))
+	for card: CardInstance in foe.units():
+		if not card.has_keyword(CardEnums.Keyword.WALLFLOWER):
+			powers.append(state.get_attack(card))
 	powers.sort()
 	powers.reverse()
 	var remaining: int = 0
 	for i: int in range(powers.size()):
 		if i >= blockers:
 			remaining += powers[i]
-	return float(remaining) + (LETHAL_THREAT if remaining >= mine.life else 0.0)
+	return float(remaining) + (LETHAL_THREAT if remaining >= mine.hp else 0.0)
 
 
 # --------------------------------------------------------------------------------------
@@ -123,8 +123,8 @@ func _choose_discard(state: GameState, who: int) -> GameAction:
 	ranked.sort_custom(func(a: CardInstance, b: CardInstance) -> bool:
 		return _keep_value(a, infrastructure_out) < _keep_value(b, infrastructure_out)
 	)
-	var action: GameAction = GameAction.make(GameAction.Type.DISCARD, who)
-	for i: int in range(state.pending_discard):
+	var action: GameAction = GameAction.make(GameAction.Type.TOSS, who)
+	for i: int in range(state.pending_toss):
 		action.uids.append(ranked[i].uid)
 	return action
 
@@ -152,7 +152,7 @@ func _choose_main_action(state: GameState, who: int) -> GameAction:
 	var best: GameAction = GameAction.pass_phase(who)
 	var best_gain: float = EPSILON
 	for action: GameAction in actions:
-		if action.type != GameAction.Type.CAST and action.type != GameAction.Type.ACTIVATE:
+		if action.type != GameAction.Type.PLAY and action.type != GameAction.Type.ACTIVATE:
 			continue
 		var trial: GameState = state.clone(false, 1 - who)
 		if not trial.apply_action(action):
@@ -227,16 +227,16 @@ func _attack_candidates(state: GameState, who: int, available: Array[CardInstanc
 			options.append([uid] as Array[int])
 	# Attackers that no enemy blocker could kill without help ("safe" attackers).
 	var strongest_foe: int = 0
-	for card: CardInstance in state.players[1 - who].creatures():
+	for card: CardInstance in state.players[1 - who].units():
 		if not card.exhausted:
-			strongest_foe = maxi(strongest_foe, state.get_power(card))
+			strongest_foe = maxi(strongest_foe, state.get_attack(card))
 	var safe: Array[int] = []
 	for card: CardInstance in available:
-		if state.get_toughness(card) > strongest_foe or card.has_keyword(CardEnums.Keyword.FLYING):
+		if state.get_defense(card) > strongest_foe or card.has_keyword(CardEnums.Keyword.FLYING):
 			safe.append(card.uid)
 	options.append(safe)
 	var by_power: Array[CardInstance] = available.duplicate()
-	by_power.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return state.get_power(a) > state.get_power(b))
+	by_power.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return state.get_attack(a) > state.get_attack(b))
 	var top: Array[int] = []
 	for i: int in range(mini(2, by_power.size())):
 		top.append(by_power[i].uid)
@@ -307,21 +307,21 @@ func _value_blocks(state: GameState, attackers: Array[CardInstance], blockers: A
 	var assignment: Dictionary = {}
 	var used: Array[int] = []
 	var ordered: Array[CardInstance] = attackers.duplicate()
-	ordered.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return state.get_power(a) > state.get_power(b))
+	ordered.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return state.get_attack(a) > state.get_attack(b))
 	for attacker: CardInstance in ordered:
 		var best: CardInstance = null
 		var best_rank: int = -1
 		for blocker: CardInstance in blockers:
 			if used.has(blocker.uid) or not CombatResolver.can_block(attacker, blocker):
 				continue
-			var kills: bool = state.get_power(blocker) >= state.get_toughness(attacker) - attacker.damage
-			var survives: bool = state.get_toughness(blocker) - blocker.damage > state.get_power(attacker)
+			var kills: bool = state.get_attack(blocker) >= state.get_defense(attacker) - attacker.damage
+			var survives: bool = state.get_defense(blocker) - blocker.damage > state.get_attack(attacker)
 			var rank: int = -1
 			if kills and survives:
 				rank = 2
-			elif kills and EffectResolver.creature_value(state, attacker) >= EffectResolver.creature_value(state, blocker):
+			elif kills and EffectResolver.unit_value(state, attacker) >= EffectResolver.unit_value(state, blocker):
 				rank = 1
-			if rank > best_rank or (rank == best_rank and rank >= 0 and EffectResolver.creature_value(state, blocker) < EffectResolver.creature_value(state, best)):
+			if rank > best_rank or (rank == best_rank and rank >= 0 and EffectResolver.unit_value(state, blocker) < EffectResolver.unit_value(state, best)):
 				best_rank = rank
 				best = blocker
 		if best != null and best_rank >= 0:
@@ -346,23 +346,23 @@ func _add_chump_blocks(
 	for attacker: CardInstance in attackers:
 		if not assignment.has(attacker.uid):
 			unblocked.append(attacker)
-	unblocked.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return state.get_power(a) > state.get_power(b))
+	unblocked.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return state.get_attack(a) > state.get_attack(b))
 	var incoming: int = 0
 	for attacker: CardInstance in unblocked:
-		incoming += state.get_power(attacker)
+		incoming += state.get_attack(attacker)
 	var free_blockers: Array[CardInstance] = []
 	for blocker: CardInstance in blockers:
 		if not used.has(blocker.uid):
 			free_blockers.append(blocker)
-	free_blockers.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return EffectResolver.creature_value(state, a) < EffectResolver.creature_value(state, b))
+	free_blockers.sort_custom(func(a: CardInstance, b: CardInstance) -> bool: return EffectResolver.unit_value(state, a) < EffectResolver.unit_value(state, b))
 	for attacker: CardInstance in unblocked:
-		if incoming < state.players[who].life:
+		if incoming < state.players[who].hp:
 			break
 		for blocker: CardInstance in free_blockers:
 			if CombatResolver.can_block(attacker, blocker):
 				assignment[attacker.uid] = blocker.uid
 				free_blockers.erase(blocker)
-				incoming -= state.get_power(attacker)
+				incoming -= state.get_attack(attacker)
 				break
 	return assignment
 

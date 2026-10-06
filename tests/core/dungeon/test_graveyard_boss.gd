@@ -1,5 +1,5 @@
 extends GutTest
-## Fourth brief, Part F: the Graveyard boss's data - deck legality, life, the escalation modifier,
+## Fourth brief, Part F: the Graveyard boss's data - deck legality, HP, the escalation modifier,
 ## AI and reward plumbing. Presentation (town placement/dialogue/battle flow) is not under GUT per
 ## CLAUDE.md - verified instead with a real-input smoke test, same as CorruptedNpcs
 ## (test_corrupted_npcs.gd).
@@ -15,13 +15,13 @@ func test_deck_is_real_and_strictly_dark_colored() -> void:
 	var setup: PlayerSetup = GraveyardBoss.enemy_setup(content)
 	assert_false(setup.deck.cards.is_empty(), "should have a real deck")
 	for card: CardData in setup.deck.cards:
-		assert_eq(card.color, Affinity.Type.D, "the boss's deck should be strictly dark-colored (found %s)" % card.id)
+		assert_eq(card.color, Affinity.Type.NECROCRAT, "the boss's deck should be strictly dark-colored (found %s)" % card.id)
 
 
-func test_enemy_setup_starts_at_its_own_life_total() -> void:
+func test_enemy_setup_starts_at_its_own_hp_total() -> void:
 	var setup: PlayerSetup = GraveyardBoss.enemy_setup(content)
-	assert_eq(setup.starting_life, GraveyardBoss.STARTING_LIFE)
-	assert_eq(setup.profile.max_life, GraveyardBoss.STARTING_LIFE)
+	assert_eq(setup.starting_hp, GraveyardBoss.STARTING_HP)
+	assert_eq(setup.profile.max_hp, GraveyardBoss.STARTING_HP)
 
 
 func test_has_a_resolvable_ai_personality() -> void:
@@ -41,10 +41,10 @@ func test_enemy_setup_carries_the_escalation_modifier_with_six_stages() -> void:
 		if modifier.kind == Modifier.Kind.SCRIPTED_ESCALATING_SUMMON:
 			found = true
 			assert_eq(modifier.tokens.size(), 6, "should have exactly the 6 authored stages")
-			assert_eq(int(modifier.tokens[0].power), 1)
+			assert_eq(int(modifier.tokens[0].attack), 1)
 			var last: CardData = modifier.tokens[5]
 			var first: CardData = modifier.tokens[0]
-			assert_true(int(last.power) + int(last.toughness) > int(first.power) + int(first.toughness), "the last stage should be the strongest (the cap)")
+			assert_true(int(last.attack) + int(last.defense) > int(first.attack) + int(first.defense), "the last stage should be the strongest (the cap)")
 	assert_true(found, "the boss's setup should carry a SCRIPTED_ESCALATING_SUMMON modifier")
 
 
@@ -61,5 +61,5 @@ func test_escalation_actually_fires_in_a_real_duel_against_the_boss() -> void:
 	if game.active == 0:
 		GameFactory.pass_turn(game)
 	assert_eq(game.active, 1)
-	assert_eq(game.players[1].battlefield.size(), 1, "the boss's first turn should summon Restless Bone")
-	assert_eq(game.players[1].battlefield[0].data.display_name, "Restless Bone")
+	assert_eq(game.players[1].field.size(), 1, "the boss's first turn should summon Restless Bone")
+	assert_eq(game.players[1].field[0].data.display_name, "Restless Bone")

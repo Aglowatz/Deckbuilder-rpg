@@ -12,7 +12,7 @@ const NAMES: Dictionary = {
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 
 
 func after_each() -> void:
@@ -29,7 +29,7 @@ func _enter(zone_id: String) -> void:
 	Session.zone_run = ZoneRun.enter(zone_id, Session.profile, Session.deck)
 	Session.dungeon_map = MainDungeons.build_map(zone_id)
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
-	Session.run.life = Session.zone_run.life
+	Session.run.hp = Session.zone_run.hp
 	Session.main_dungeon_active = true
 	Session.dungeon_story_seen = []
 
@@ -134,37 +134,37 @@ func test_every_battle_has_a_themed_legal_enemy_deck() -> void:
 			assert_not_null(foe, "%s: %s has a foe" % [zone_id, node.enemy_name])
 			var setup: PlayerSetup = MainDungeons.enemy_setup(Session.content, node, zone_id)
 			assert_gte(setup.deck.size(), 25, "%s deck is a real deck" % node.enemy_name)
-			assert_eq(setup.starting_life, foe.life)
+			assert_eq(setup.starting_hp, foe.hp)
 			for card: CardData in setup.deck.cards:
 				assert_true(card.color == path or card.color == Affinity.Type.NEUTRAL, "%s only plays %d / neutral cards (%s)" % [node.enemy_name, int(path), card.id])
 
 
 func test_bosses_and_elites_are_tougher_and_pay_a_card_choice() -> void:
 	for zone_id: String in ZONES:
-		var life_normal: int = 0
-		var life_boss: int = 0
+		var hp_normal: int = 0
+		var hp_boss: int = 0
 		for node: DungeonMap.MapNode in MainDungeons.build_map(zone_id).nodes:
 			if node.kind == DungeonMap.Kind.BATTLE:
-				life_normal = maxi(life_normal, node.enemy_life)
+				hp_normal = maxi(hp_normal, node.enemy_hp)
 			elif node.kind == DungeonMap.Kind.BOSS:
-				life_boss = node.enemy_life
+				hp_boss = node.enemy_hp
 				assert_eq(node.difficulty, DungeonMap.Difficulty.BOSS)
 				assert_gt(node.card_choices, 0)
 			elif node.kind == DungeonMap.Kind.ELITE:
 				assert_eq(node.difficulty, DungeonMap.Difficulty.ELITE)
 				assert_gt(node.card_choices, 0)
-		assert_gt(life_boss, life_normal)
+		assert_gt(hp_boss, hp_normal)
 
 
-func test_a_dungeon_battle_carries_the_zone_effects_and_zone_life() -> void:
+func test_a_dungeon_battle_carries_the_zone_effects_and_zone_hp() -> void:
 	for zone_id: String in ZONES:
 		_enter(zone_id)
 		Session.zone_run.damage(3)
-		Session.run.life = Session.zone_run.life
+		Session.run.hp = Session.zone_run.hp
 		var node: DungeonMap.MapNode = Session.dungeon_map.available()[0]
 		var context: BattleContext = Session.make_dungeon_battle(node)
 		assert_eq(context.zone_id, zone_id)
-		assert_eq(context.game.players[0].life, Session.zone_run.life, "zone life carries into the dungeon battle")
+		assert_eq(context.game.players[0].hp, Session.zone_run.hp, "zone HP carries into the dungeon battle")
 		var effect: ZoneEffects.Effect = ZoneEffects.for_zone(zone_id)
 		for player: PlayerState in context.game.players:
 			assert_gt(player.modifiers.modifiers.size(), 0)
@@ -238,20 +238,20 @@ func test_every_event_choice_resolves_and_chains_exist() -> void:
 func test_events_heal_hurt_and_pay_through_the_run_and_gold() -> void:
 	_enter("necrocrat")
 	var dungeon: MainDungeonDef = MainDungeons.def("necrocrat")
-	Session.run.life = 5
+	Session.run.hp = 5
 	Session.gold = 100
 	var number: DungeonEvent = dungeon.event("ha_take_a_number")
 	var paid: EventResolver.Result = Session.resolve_dungeon_event(number, 1)
 	assert_true(paid.ok)
 	assert_eq(Session.gold, 70, "the expedite fee was paid")
-	assert_eq(Session.run.life, 7, "and the wait healed 2")
+	assert_eq(Session.run.hp, 7, "and the wait healed 2")
 	Session.gold = 10
 	var broke: EventResolver.Result = Session.resolve_dungeon_event(number, 1)
 	assert_false(broke.ok, "cannot pay without the gold")
 	assert_eq(Session.gold, 10)
 	var hurt: EventResolver.Result = Session.resolve_dungeon_event(number, 2)
-	assert_eq(Session.run.life, 5)
-	assert_eq(hurt.life_delta, -2)
+	assert_eq(Session.run.hp, 5)
+	assert_eq(hurt.hp_delta, -2)
 
 
 func test_forms_that_require_forms_chain_three_steps() -> void:
@@ -287,18 +287,18 @@ func test_treasure_grants_loot() -> void:
 func test_rescuing_heartlift_adds_a_dungeon_wide_boon() -> void:
 	_enter("beefcake")
 	var dungeon: MainDungeonDef = MainDungeons.def("beefcake")
-	var life_before: int = Session.run.max_life()
-	assert_eq(Session.run.modifiers().stat_bonus(Affinity.Type.A), Vector2i.ZERO)
+	var hp_before: int = Session.run.max_hp()
+	assert_eq(Session.run.modifiers().stat_bonus(Affinity.Type.BEEFCAKE), Vector2i.ZERO)
 	var rescue: EventResolver.Result = Session.resolve_dungeon_event(dungeon.event("hg_rescue"), 0)
 	assert_true(rescue.ok)
 	assert_eq(rescue.boons.size(), 1)
-	assert_eq(Session.run.modifiers().stat_bonus(Affinity.Type.A), Vector2i(1, 1), "Heartlift fights beside you: +1/+1")
-	assert_eq(Session.run.max_life(), life_before + 3)
+	assert_eq(Session.run.modifiers().stat_bonus(Affinity.Type.BEEFCAKE), Vector2i(1, 1), "Heartlift fights beside you: +1/+1")
+	assert_eq(Session.run.max_hp(), hp_before + 3)
 	# The boon is carried into the next duel for the rest of the run.
 	var map: DungeonMap = Session.dungeon_map
 	var node: DungeonMap.MapNode = map.available()[0]
 	var context: BattleContext = Session.make_dungeon_battle(node)
-	assert_gte(context.game.players[0].modifiers.stat_bonus(Affinity.Type.A).x, 1)
+	assert_gte(context.game.players[0].modifiers.stat_bonus(Affinity.Type.BEEFCAKE).x, 1)
 
 
 func test_the_prison_is_a_section_and_the_rescue_comes_before_the_boss() -> void:
@@ -367,7 +367,7 @@ func test_losing_in_the_dungeon_wakes_you_at_the_hub_without_completing() -> voi
 	_enter("refusemancer")
 	var gold_before: int = Session.gold
 	Session.zone_run.damage(100)
-	Session.run.life = 0
+	Session.run.hp = 0
 	var result: Dictionary = Session.resolve_main_dungeon(false, true)
 	assert_false(Session.is_zone_completed("refusemancer"))
 	assert_true(bool(result.get("woke_at_hub", false)))
@@ -375,7 +375,7 @@ func test_losing_in_the_dungeon_wakes_you_at_the_hub_without_completing() -> voi
 
 
 func test_the_unique_cards_are_legendary_and_of_their_path() -> void:
-	var expected: Dictionary = {"gourmand": Affinity.Type.B, "beefcake": Affinity.Type.A, "necrocrat": Affinity.Type.D, "refusemancer": Affinity.Type.C}
+	var expected: Dictionary = {"gourmand": Affinity.Type.GOURMAND, "beefcake": Affinity.Type.BEEFCAKE, "necrocrat": Affinity.Type.NECROCRAT, "refusemancer": Affinity.Type.REFUSEMANCER}
 	for zone_id: String in ZONES:
 		var card: CardData = Session.content.card(MainDungeons.def(zone_id).reward_card_id)
 		assert_not_null(card, zone_id)

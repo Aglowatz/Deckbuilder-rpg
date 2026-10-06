@@ -51,35 +51,35 @@ func _effect_mod(kind: Modifier.Kind, op: CardEnums.EffectOp, amount: int, targe
 # ---- Wicked Dagger / Solid Plate: STAT_CHANGE (already-generic mechanism) ---------------------
 
 
-func test_stat_change_any_color_buffs_both_power_and_toughness() -> void:
+func test_stat_change_any_color_buffs_both_power_and_defense() -> void:
 	var game: GameState = _game([
 		CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 0),
 		CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1),
 	])
-	var creature: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(2, 2))
-	assert_eq(game.get_power(creature), 3, "Wicked Dagger's +1 power")
-	assert_eq(game.get_toughness(creature), 3, "Solid Plate's +1 toughness")
+	var unit: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 2))
+	assert_eq(game.get_attack(unit), 3, "Wicked Dagger's +1 attack")
+	assert_eq(game.get_defense(unit), 3, "Solid Plate's +1 defense")
 
 
 # ---- Flamethrower: START_OF_TURN_EFFECT -------------------------------------------------------
 
 
-func test_start_of_turn_effect_damages_every_opposing_creature() -> void:
-	var game: GameState = _game([_effect_mod(Modifier.Kind.START_OF_TURN_EFFECT, CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ENEMY_CREATURES)])
-	var enemy_a: CardInstance = GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(2, 2))
-	var enemy_b: CardInstance = GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(2, 1))
-	var mine: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(2, 2))
+func test_start_of_turn_effect_damages_every_opposing_unit() -> void:
+	var game: GameState = _game([_effect_mod(Modifier.Kind.START_OF_TURN_EFFECT, CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ENEMY_UNITS)])
+	var enemy_a: CardInstance = GameFactory.add_to_field(game, 1, GameFactory.vanilla(2, 2))
+	var enemy_b: CardInstance = GameFactory.add_to_field(game, 1, GameFactory.vanilla(2, 1))
+	var mine: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 2))
 	GameFactory.pass_turn(game) # ends P0's turn 1, begins P1's turn 2
 	GameFactory.pass_turn(game) # ends P1's turn 2, begins P0's turn 3 - fires the effect
 	assert_eq(game.active, 0)
-	assert_eq(enemy_a.damage, 1, "opposing creature took the Flamethrower tick")
-	assert_false(game.players[1].battlefield.has(enemy_b), "the 2/1 died to the 1 damage")
-	assert_eq(mine.damage, 0, "the owner's own creature is untouched")
+	assert_eq(enemy_a.damage, 1, "opposing unit took the Flamethrower tick")
+	assert_false(game.players[1].field.has(enemy_b), "the 2/1 died to the 1 damage")
+	assert_eq(mine.damage, 0, "the owner's own unit is untouched")
 
 
 func test_start_of_turn_effect_does_not_fire_on_the_opponents_turn() -> void:
-	var game: GameState = _game([_effect_mod(Modifier.Kind.START_OF_TURN_EFFECT, CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ENEMY_CREATURES)])
-	var enemy: CardInstance = GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(2, 2))
+	var game: GameState = _game([_effect_mod(Modifier.Kind.START_OF_TURN_EFFECT, CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ENEMY_UNITS)])
+	var enemy: CardInstance = GameFactory.add_to_field(game, 1, GameFactory.vanilla(2, 2))
 	GameFactory.pass_turn(game) # P1's turn begins - P1 does not have the modifier
 	assert_eq(game.active, 1)
 	assert_eq(enemy.damage, 0)
@@ -141,29 +141,29 @@ func test_first_turn_extra_draw_also_applies_to_whoever_goes_second() -> void:
 # ---- Hover Boots: GRANT_KEYWORD_TO_CREATURES + CANNOT_BLOCK ------------------------------------
 
 
-## Note: GameFactory.add_to_battlefield() deliberately bypasses _enter_battlefield() (so tests can
+## Note: GameFactory.add_to_field() deliberately bypasses _enter_field() (so tests can
 ## place board fixtures without triggering ON_ENTER etc.) - that also skips the equipment-grant
-## hook these two tests target, so both cast a real creature from hand instead, exactly like a
+## hook these two tests target, so both play a real unit from hand instead, exactly like a
 ## real game would.
-func test_grant_keyword_to_creatures_gives_flying_to_a_newly_entered_creature() -> void:
-	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.GRANT_KEYWORD_TO_CREATURES, int(CardEnums.Keyword.FLYING))])
+func test_grant_keyword_to_units_gives_flying_to_a_newly_entered_unit() -> void:
+	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.GRANT_KEYWORD_TO_UNITS, int(CardEnums.Keyword.FLYING))])
 	GameFactory.add_infrastructure_cards(game, 0, 1)
 	var hand_card: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2))
-	assert_true(game.cast(0, hand_card.uid))
-	var creature: CardInstance = game.players[0].find_battlefield(hand_card.uid)
-	assert_true(creature.has_keyword(CardEnums.Keyword.FLYING))
-	var unaffected: CardInstance = GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(2, 2))
-	assert_false(unaffected.has_keyword(CardEnums.Keyword.FLYING), "the opponent's creature is unaffected")
+	assert_true(game.play_card(0, hand_card.uid))
+	var unit: CardInstance = game.players[0].find_field(hand_card.uid)
+	assert_true(unit.has_keyword(CardEnums.Keyword.FLYING))
+	var unaffected: CardInstance = GameFactory.add_to_field(game, 1, GameFactory.vanilla(2, 2))
+	assert_false(unaffected.has_keyword(CardEnums.Keyword.FLYING), "the opponent's unit is unaffected")
 
 
-func test_cannot_block_modifier_creature_can_never_be_declared_as_blocker() -> void:
+func test_cannot_block_modifier_unit_can_never_be_declared_as_blocker() -> void:
 	var game: GameState = _game([], [CardBuilder.modifier(Modifier.Kind.CANNOT_BLOCK, 1)])
-	var attacker: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(2, 2))
+	var attacker: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 2))
 	GameFactory.add_infrastructure_cards(game, 1, 1)
 	var grounded_in_hand: CardInstance = GameFactory.add_to_hand(game, 1, GameFactory.vanilla(5, 5))
-	GameFactory.pass_turn(game) # P1's main phase, so P1 can cast
-	assert_true(game.cast(1, grounded_in_hand.uid))
-	var grounded: CardInstance = game.players[1].find_battlefield(grounded_in_hand.uid)
+	GameFactory.pass_turn(game) # P1's main phase, so P1 can play
+	assert_true(game.play_card(1, grounded_in_hand.uid))
+	var grounded: CardInstance = game.players[1].find_field(grounded_in_hand.uid)
 	assert_true(grounded.cannot_block)
 	assert_false(CombatResolver.possible_blockers(game, 1).has(grounded), "cannot appear as a possible blocker at all")
 	GameFactory.pass_turn(game) # back to P0's turn, so P0 can attack
@@ -176,28 +176,28 @@ func test_cannot_block_modifier_creature_can_never_be_declared_as_blocker() -> v
 # ---- Big Brain Beret: MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN ---------------------------------------------
 
 
-func test_non_infrastructure_cast_cap_blocks_a_second_non_infrastructure_card_but_allows_a_infrastructure() -> void:
-	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN, 1)])
+func test_non_infrastructure_play_cap_blocks_a_second_non_infrastructure_card_but_allows_a_infrastructure() -> void:
+	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, 1)])
 	GameFactory.add_infrastructure_cards(game, 0, 3)
 	var first: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1))
 	var second: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1))
 	var infra: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.infra())
-	assert_true(game.cast(0, first.uid))
-	assert_false(game.can_cast(0, second.uid), "the one-non-infrastructure-card-per-turn cap")
+	assert_true(game.play_card(0, first.uid))
+	assert_false(game.can_play_card(0, second.uid), "the one-non-infrastructure-card-per-turn cap")
 	assert_true(game.can_play_infrastructure(0, infra.uid), "playing an infrastructure is unaffected by the cap")
 	assert_true(game.play_infrastructure(0, infra.uid))
 
 
-func test_non_infrastructure_cast_cap_resets_next_turn() -> void:
-	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN, 1)])
+func test_non_infrastructure_play_cap_resets_next_turn() -> void:
+	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, 1)])
 	GameFactory.add_infrastructure_cards(game, 0, 2)
 	var first: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1))
-	assert_true(game.cast(0, first.uid))
+	assert_true(game.play_card(0, first.uid))
 	GameFactory.pass_turn(game)
 	GameFactory.pass_turn(game)
 	assert_eq(game.active, 0)
 	var second: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1))
-	assert_true(game.can_cast(0, second.uid), "a fresh turn resets the cap")
+	assert_true(game.can_play_card(0, second.uid), "a fresh turn resets the cap")
 
 
 # ---- Thorned Loincloth: RETALIATE_ON_ATTACK ----------------------------------------------------
@@ -206,7 +206,7 @@ func test_non_infrastructure_cast_cap_resets_next_turn() -> void:
 func test_retaliate_on_attack_damages_the_attacker_when_declared() -> void:
 	var game: GameState = _game([_effect_mod(Modifier.Kind.RETALIATE_ON_ATTACK, CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ATTACKERS)])
 	# P0 (the defender-to-be, holding Thorned Loincloth) passes the turn to P1, who attacks P0.
-	var attacker: CardInstance = GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(3, 3))
+	var attacker: CardInstance = GameFactory.add_to_field(game, 1, GameFactory.vanilla(3, 3))
 	GameFactory.pass_turn(game)
 	assert_eq(game.active, 1)
 	game.advance_phase() # MAIN1 -> COMBAT
@@ -216,8 +216,8 @@ func test_retaliate_on_attack_damages_the_attacker_when_declared() -> void:
 
 func test_retaliate_on_attack_fires_even_if_the_attacker_is_ultimately_unblocked() -> void:
 	var game: GameState = _game([_effect_mod(Modifier.Kind.RETALIATE_ON_ATTACK, CardEnums.EffectOp.DEAL_DAMAGE, 5, CardEnums.TargetKind.ALL_ATTACKERS)])
-	var attacker: CardInstance = GameFactory.add_to_battlefield(game, 1, GameFactory.vanilla(2, 2))
+	var attacker: CardInstance = GameFactory.add_to_field(game, 1, GameFactory.vanilla(2, 2))
 	GameFactory.pass_turn(game)
 	game.advance_phase()
 	assert_true(game.declare_attackers([attacker.uid]))
-	assert_false(game.players[1].battlefield.has(attacker), "5 damage on a 2/2 kills it before it even connects")
+	assert_false(game.players[1].field.has(attacker), "5 damage on a 2/2 kills it before it even connects")

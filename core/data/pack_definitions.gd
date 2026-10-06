@@ -5,16 +5,16 @@ extends RefCounted
 ## of scope): tune them in the .tres files.
 
 const PATH_COLORS: Dictionary = {
-	Affinity.Type.A: Color(0.93, 0.38, 0.2),
-	Affinity.Type.B: Color(0.95, 0.76, 0.25),
-	Affinity.Type.C: Color(0.38, 0.74, 0.38),
-	Affinity.Type.D: Color(0.6, 0.42, 0.88),
+	Affinity.Type.BEEFCAKE: Color(0.93, 0.38, 0.2),
+	Affinity.Type.GOURMAND: Color(0.95, 0.76, 0.25),
+	Affinity.Type.REFUSEMANCER: Color(0.38, 0.74, 0.38),
+	Affinity.Type.NECROCRAT: Color(0.6, 0.42, 0.88),
 }
 const PATH_ICONS: Dictionary = {
-	Affinity.Type.A: "delapouite/biceps",
-	Affinity.Type.B: "delapouite/fork-knife-spoon",
-	Affinity.Type.C: "lorc/recycle",
-	Affinity.Type.D: "lorc/tombstone",
+	Affinity.Type.BEEFCAKE: "delapouite/biceps",
+	Affinity.Type.GOURMAND: "delapouite/fork-knife-spoon",
+	Affinity.Type.REFUSEMANCER: "lorc/recycle",
+	Affinity.Type.NECROCRAT: "lorc/tombstone",
 }
 
 

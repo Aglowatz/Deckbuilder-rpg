@@ -1,6 +1,6 @@
-class_name NpcLife
+class_name NpcHp
 extends Node
-## Small idle life for NPCs: now and then a flourish animation (a wave, a stretch, tinkering), and a gentle turn toward the hero when close.
+## Small idle HP for NPCs: now and then a flourish animation (a wave, a stretch, tinkering), and a gentle turn toward the hero when close.
 ## Register each NPC's model; `target` is the hero (a Node3D).
 
 const FLOURISHES: Array[StringName] = [&"Interact", &"Use_Item", &"Cheer", &"PickUp", &"Spellcast_Raise"]

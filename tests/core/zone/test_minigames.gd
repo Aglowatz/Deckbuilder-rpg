@@ -7,7 +7,7 @@ var story: ZoneStoryText
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.D)
+	Session.ensure_game(Affinity.Type.NECROCRAT)
 	story = ZoneStoryText.shared()
 
 

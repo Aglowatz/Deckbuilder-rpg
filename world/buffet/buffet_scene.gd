@@ -1,10 +1,10 @@
 class_name BuffetScene
 extends ZoneScene
 ## The playable Endless Buffet (Gourmand zone). The shared zone framework (`ZoneScene`) provides the hub,
-## life rules, enemies, chests, quiz/minigame/puzzle launchers and the minimap; this subclass adds what is
+## HP rules, enemies, chests, quiz/minigame/puzzle launchers and the minimap; this subclass adds what is
 ## unique here: the warm look and drifting sprinkles, the jelly BOUNCE PADS (step on one and get launched to a
 ## higher mesa), the crouton RAFTS and the rotating LAZY SUSAN that carry you across the gravy river, falling into
-## the soup (respawn at the last safe spot for 1 zone life, logged), the golem GATES (ingredient / quest / battle),
+## the soup (respawn at the last safe spot for 1 zone HP, logged), the golem GATES (ingredient / quest / battle),
 ## the ingredient pickups and the interactables (oven, taste test, soup fountain, fortune cookies, Old Meatloaf).
 
 const SAFE_INTERVAL: float = 0.2
@@ -236,7 +236,7 @@ func _use_taste_test(spot: ZoneSpot) -> void:
 	Audio.sfx(&"heal" if outcome in ["good", "great", "buff"] else (&"coins" if outcome == "tip" else &"hit_light"))
 	hud.toast("%s %s" % [story.text("fx.taste_" + outcome), effect], UIStyle.GOOD if good else Color("ff8a85"))
 	hud.set_gold(Session.gold)
-	EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
+	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 	Session.save_game()
 
 
@@ -251,7 +251,7 @@ func _use_fountain(spot: ZoneSpot) -> void:
 	Audio.sfx(&"heal" if int(result["healed"]) > 0 else &"ui_confirm")
 	var key: String = "fx.fountain_%d" % int(result["number"]) if int(result["healed"]) > 0 else "fx.fountain_full"
 	hud.toast(story.text(key), UIStyle.GOOD)
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	Session.save_game()
 
 
@@ -458,7 +458,7 @@ func _crumb_burst(pos: Vector3) -> void:
 
 
 ## Stepped off a raft or the susan into the gravy: splash, sink, respawn at the last safe spot with 1 damage to
-## the zone life (logged in the zone log), and wake at the hub instead if that was the last life.
+## the zone HP (logged in the zone log), and wake at the hub instead if that was the last HP.
 func _fall_into_soup() -> void:
 	_falling = true
 	_locked = true
@@ -487,7 +487,7 @@ func _fall_into_soup() -> void:
 	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	var run: ZoneRun = Session.zone_run
 	BuffetInteractables.apply_soup_fall(run, buf.layout.area_at(start.x, start.z).title if buf.layout.area_at(start.x, start.z) != null else "the soup", story.text("fx.soup_fall_log"))
-	EventBus.zone_life_changed.emit(run.life, run.max_life())
+	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
 	hud.toast(story.text("fx.soup_fall"), Color("ff8a85"))
 	Audio.sfx(&"hit_heavy", -2.0)
 	_floating_text("-%d" % BuffetZone.SOUP_DAMAGE, Color("ff6a60"))
@@ -538,7 +538,7 @@ func _splash(pos: Vector3) -> void:
 var _pickup_nodes: Dictionary = {}
 
 
-## Every hub chef gets a toque (tall, short, pastry puff or a scholar's cap) so the cast reads as cooks at a glance.
+## Every hub chef gets a toque (tall, short, pastry puff or a scholar's cap) so the play reads as cooks at a glance.
 func _add_chef_hats() -> void:
 	for entry: Dictionary in def.npcs:
 		var npc: Node3D = _npcs.get(str(entry["id"])) as Node3D

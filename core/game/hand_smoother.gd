@@ -1,34 +1,34 @@
 class_name HandSmoother
 extends RefCounted
-## Opening-hand selection. Draws `hand_size` cards from a shuffled library. With the smoother on,
+## Opening-hand selection. Draws `hand_size` cards from a shuffled deck. With the smoother on,
 ## a second candidate hand is drawn only when the first one's infrastructure count is more than `tolerance`
 ## away from `infrastructure_ratio * hand_size`; the candidate closer to that target is kept (ties keep the
 ## first). A tolerance of 0 always compares two hands; the default game setting is deliberately
 ## gentle so the smoother rescues floods and screws without making every hand ideal.
 
 
-## Removes `hand_size` cards from `library` (top = end) and returns them as the hand.
-## The library is left shuffled.
+## Removes `hand_size` cards from `deck` (top = end) and returns them as the hand.
+## The deck is left shuffled.
 static func draw_opening_hand(
-	library: Array[CardInstance],
+	deck: Array[CardInstance],
 	hand_size: int,
 	infrastructure_ratio: float,
 	smoother: bool,
 	rng: RandomNumberGenerator,
 	tolerance: float = 0.0,
 ) -> Array[CardInstance]:
-	var count: int = mini(hand_size, library.size())
+	var count: int = mini(hand_size, deck.size())
 	var target: float = infrastructure_ratio * float(count)
-	RngUtil.shuffle(library, rng)
-	var hand: Array[CardInstance] = _top(library, count)
+	RngUtil.shuffle(deck, rng)
+	var hand: Array[CardInstance] = _top(deck, count)
 	if smoother and absf(float(count_infrastructure(hand)) - target) > tolerance:
 		var first: Array[CardInstance] = hand
-		RngUtil.shuffle(library, rng)
-		var second: Array[CardInstance] = _top(library, count)
+		RngUtil.shuffle(deck, rng)
+		var second: Array[CardInstance] = _top(deck, count)
 		hand = pick_closest(first, second, target)
 	for card: CardInstance in hand:
-		library.erase(card)
-	RngUtil.shuffle(library, rng)
+		deck.erase(card)
+	RngUtil.shuffle(deck, rng)
 	return hand
 
 
@@ -51,8 +51,8 @@ static func count_infrastructure(cards: Array[CardInstance]) -> int:
 	return infrastructure
 
 
-static func _top(library: Array[CardInstance], count: int) -> Array[CardInstance]:
+static func _top(deck: Array[CardInstance], count: int) -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
-	for i: int in range(library.size() - count, library.size()):
-		result.append(library[i])
+	for i: int in range(deck.size() - count, deck.size()):
+		result.append(deck[i])
 	return result

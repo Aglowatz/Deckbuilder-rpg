@@ -19,7 +19,7 @@ effect = SubResource("Resource_dm1k3")
 [resource]
 script = ExtResource("4_jdodf")
 id = "seed_satchel"
-description = "Every pocket holds something that wants to grow. At the start of your turn, your creatures get +0/+1 permanently."
+description = "Every pocket holds something that wants to grow. At the start of your turn, your units get +0/+1 permanently."
 advanced = true
 source_name = "Refusemancer Seed Satchel"
 modifiers = Array[ExtResource("1_nqhko")]([SubResource("Resource_e2u20")])

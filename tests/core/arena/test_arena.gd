@@ -2,7 +2,7 @@ extends GutTest
 ## Part G: the Grand Clashatorium - encounters, puzzle battles, restricted decks and rules, the arena equipment's new
 ## modifier hooks, first-clear prizes, the unlock rule, the colosseum and the UI.
 
-var A: Affinity.Type = Affinity.Type.A
+var A: Affinity.Type = Affinity.Type.BEEFCAKE
 
 
 func before_each() -> void:
@@ -15,7 +15,7 @@ func _equipment(id: String) -> EquipmentData:
 	return Session.content.equipment_piece(id)
 
 
-func _game_with_gear(piece: EquipmentData, starting_life: int = -1) -> GameState:
+func _game_with_gear(piece: EquipmentData, starting_hp: int = -1) -> GameState:
 	var options: GameOptions = GameOptions.new()
 	options.rng_seed = 5
 	options.free_mulligan = false
@@ -24,8 +24,8 @@ func _game_with_gear(piece: EquipmentData, starting_life: int = -1) -> GameState
 	if piece != null:
 		gear.append(piece)
 	var setup: PlayerSetup = PlayerSetup.create(GameFactory.make_deck(), profile, gear, "Gladiator")
-	if starting_life > 0:
-		setup.starting_life = starting_life
+	if starting_hp > 0:
+		setup.starting_hp = starting_hp
 	var game: GameState = GameState.new(options)
 	game.add_player(setup)
 	game.add_player(PlayerSetup.create(GameFactory.make_deck(), null, [] as Array[ModifierSource], "Foe"))
@@ -60,7 +60,7 @@ func test_there_are_eight_encounters_in_three_tiers_mixing_battles_and_puzzles()
 		if not encounter.player_rules.is_empty():
 			rule_fights += 1
 	assert_gte(restricted, 2, "restricted decks")
-	assert_eq(rule_fights, 1, "win without casting creatures")
+	assert_eq(rule_fights, 1, "win without playing units")
 	assert_not_null(ArenaDefs.find("arena_marshal"))
 	assert_null(ArenaDefs.find("nope"))
 
@@ -75,7 +75,7 @@ func test_every_deck_card_preset_prize_and_text_resolves() -> void:
 				if not str(card_id).begins_with("infrastructure:"):
 					assert_not_null(Session.content.card(str(card_id)), "%s uses %s" % [encounter.id, str(card_id)])
 		for side: Variant in encounter.preset.keys():
-			for zone: String in ["hand", "battlefield", "graveyard"]:
+			for zone: String in ["hand", "field", "graveyard"]:
 				for card_id: Variant in ((encounter.preset[side] as Dictionary).get(zone, {}) as Dictionary).keys():
 					assert_not_null(Session.content.card(str(card_id)), "%s preset %s" % [encounter.id, str(card_id)])
 		var reward: Dictionary = encounter.reward
@@ -118,8 +118,8 @@ func _hand_card(game: GameState, card_id: String) -> CardInstance:
 	return null
 
 
-func _creature(game: GameState, player: int, card_id: String) -> CardInstance:
-	for card: CardInstance in game.players[player].battlefield:
+func _unit(game: GameState, player: int, card_id: String) -> CardInstance:
+	for card: CardInstance in game.players[player].field:
 		if card.data.id == card_id:
 			return card
 	return null
@@ -129,20 +129,20 @@ func test_lethal_lunch_starts_on_the_preset_board() -> void:
 	var game: GameState = _puzzle_game("arena_lethal_lunch")
 	assert_eq(game.active, 0)
 	assert_eq(game.turn, 1)
-	assert_eq(game.players[1].life, 10)
+	assert_eq(game.players[1].hp, 10)
 	assert_eq(game.players[0].infrastructure.size(), 4)
 	assert_eq(game.players[0].hand.size(), 3)
-	assert_not_null(_creature(game, 0, "raider"))
-	assert_not_null(_creature(game, 1, "sellsword"))
-	assert_false(_creature(game, 0, "raider").summoning_sick, "preset creatures are ready to attack")
+	assert_not_null(_unit(game, 0, "raider"))
+	assert_not_null(_unit(game, 1, "sellsword"))
+	assert_false(_unit(game, 0, "raider").summoning_sick, "preset units are ready to attack")
 
 
 func test_lethal_lunch_has_a_win_this_turn_solution() -> void:
 	var game: GameState = _puzzle_game("arena_lethal_lunch")
-	var blocker: CardInstance = _creature(game, 1, "sellsword")
-	assert_true(game.cast(0, _hand_card(game, "firebolt").uid, blocker.uid), "firebolt the only blocker")
-	assert_true(game.cast(0, _hand_card(game, "warcry").uid), "pump the team")
-	var attackers: Array[int] = [_creature(game, 0, "raider").uid, _creature(game, 0, "beefcake_imp").uid]
+	var blocker: CardInstance = _unit(game, 1, "sellsword")
+	assert_true(game.play_card(0, _hand_card(game, "firebolt").uid, blocker.uid), "firebolt the only blocker")
+	assert_true(game.play_card(0, _hand_card(game, "warcry").uid), "pump the team")
+	var attackers: Array[int] = [_unit(game, 0, "raider").uid, _unit(game, 0, "beefcake_imp").uid]
 	assert_true(game.advance_phase(), "to combat")
 	assert_true(game.declare_attackers(attackers))
 	if not game.is_over():
@@ -164,13 +164,13 @@ func test_lethal_lunch_is_lost_when_the_turn_ends_without_lethal() -> void:
 
 func test_zero_to_hero_solution_clears_both_blockers_then_pumps() -> void:
 	var game: GameState = _puzzle_game("arena_zero_to_hero")
-	var sellsword: CardInstance = _creature(game, 1, "sellsword")
-	var bat: CardInstance = _creature(game, 1, "cave_bat")
-	assert_true(game.cast(0, _hand_card(game, "firebolt").uid, sellsword.uid))
-	assert_true(game.cast(0, _hand_card(game, "rusty_curse").uid, bat.uid))
-	assert_true(game.cast(0, _hand_card(game, "warcry").uid))
+	var sellsword: CardInstance = _unit(game, 1, "sellsword")
+	var bat: CardInstance = _unit(game, 1, "cave_bat")
+	assert_true(game.play_card(0, _hand_card(game, "firebolt").uid, sellsword.uid))
+	assert_true(game.play_card(0, _hand_card(game, "rusty_curse").uid, bat.uid))
+	assert_true(game.play_card(0, _hand_card(game, "warcry").uid))
 	assert_true(game.advance_phase())
-	var attackers: Array[int] = [_creature(game, 0, "raider").uid, _creature(game, 0, "blade_dancer").uid, _creature(game, 0, "beefcake_imp").uid]
+	var attackers: Array[int] = [_unit(game, 0, "raider").uid, _unit(game, 0, "blade_dancer").uid, _unit(game, 0, "beefcake_imp").uid]
 	assert_true(game.declare_attackers(attackers))
 	if not game.is_over():
 		game.declare_blockers({})
@@ -180,9 +180,9 @@ func test_zero_to_hero_solution_clears_both_blockers_then_pumps() -> void:
 
 func test_zero_to_hero_cannot_be_won_by_skipping_the_blockers() -> void:
 	var game: GameState = _puzzle_game("arena_zero_to_hero")
-	assert_true(game.cast(0, _hand_card(game, "warcry").uid))
+	assert_true(game.play_card(0, _hand_card(game, "warcry").uid))
 	assert_true(game.advance_phase())
-	var attackers: Array[int] = [_creature(game, 0, "raider").uid, _creature(game, 0, "blade_dancer").uid, _creature(game, 0, "beefcake_imp").uid]
+	var attackers: Array[int] = [_unit(game, 0, "raider").uid, _unit(game, 0, "blade_dancer").uid, _unit(game, 0, "beefcake_imp").uid]
 	game.declare_attackers(attackers)
 	if not game.is_over():
 		var blocks: Dictionary = AIPlayer.new(AIPersonality.balanced()).choose_blocks(game, 1)
@@ -200,7 +200,7 @@ func test_hold_the_line_is_won_by_surviving_not_by_killing() -> void:
 	game._end_game(-1, true)
 	assert_true(encounter.player_won(game))
 	var dead: GameState = _puzzle_game("arena_hold_the_line")
-	dead.players[0].life = 0
+	dead.players[0].hp = 0
 	dead._end_game(1, false)
 	assert_false(encounter.player_won(dead))
 
@@ -228,17 +228,17 @@ func test_hold_the_line_is_survivable() -> void:
 	assert_gt(wins, 0, "a competent player can hold the line (%d of 12 seeds)" % wins)
 
 
-func test_no_creature_casts_blocks_creatures_but_not_spells() -> void:
+func test_no_unit_casts_blocks_units_but_not_spells() -> void:
 	var encounter: ArenaEncounter = ArenaDefs.find("arena_spells_only")
 	var game: GameState = ArenaScenario.build_game(Session.content, encounter, Session.profile, Session.deck, 3)
-	var creature: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
+	var unit: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1))
 	var spell: CardInstance = GameFactory.add_to_hand(game, 0, Session.content.card("flame_burst"))
 	GameFactory.add_infrastructure_cards(game, 0, 4, A)
 	while game.stage == GameState.Stage.MULLIGAN:
 		game.keep_hand(game.awaiting_player())
 	game.active = 0
-	assert_false(game.can_cast(0, creature.uid), "creatures cannot be cast this duel")
-	assert_true(game.can_cast(0, spell.uid), "spells can")
+	assert_false(game.can_play_card(0, unit.uid), "units cannot be play this duel")
+	assert_true(game.can_play_card(0, spell.uid), "spells can")
 
 
 func test_spells_only_is_winnable_with_the_restricted_deck() -> void:
@@ -258,7 +258,7 @@ func test_the_neutral_mile_uses_only_the_gladiators_kit() -> void:
 	var encounter: ArenaEncounter = ArenaDefs.find("arena_neutral_mile")
 	var game: GameState = ArenaScenario.build_game(Session.content, encounter, Session.profile, Session.deck, 2)
 	var seen: Dictionary = {}
-	for zone: Array[CardInstance] in [game.players[0].hand, game.players[0].library]:
+	for zone: Array[CardInstance] in [game.players[0].hand, game.players[0].deck]:
 		for card: CardInstance in zone:
 			if not card.data.is_infrastructure():
 				seen[card.data.color] = true
@@ -268,39 +268,39 @@ func test_the_neutral_mile_uses_only_the_gladiators_kit() -> void:
 # ---- The arena equipment's new hooks -----------------------------------------------------------------------------
 
 
-func test_champions_laurels_gain_life_and_draw_at_the_start_of_the_duel() -> void:
+func test_champions_laurels_gain_hp_and_draw_at_the_start_of_the_duel() -> void:
 	var plain: GameState = _game_with_gear(null, 5)
 	var geared: GameState = _game_with_gear(_equipment("champions_laurels"), 5)
-	assert_eq(geared.players[0].life, plain.players[0].life + 4)
-	assert_eq(geared.players[0].hand.size() + geared.players[0].library.size(), plain.players[0].hand.size() + plain.players[0].library.size())
+	assert_eq(geared.players[0].hp, plain.players[0].hp + 4)
+	assert_eq(geared.players[0].hand.size() + geared.players[0].deck.size(), plain.players[0].hand.size() + plain.players[0].deck.size())
 	assert_eq(geared.players[0].hand.size(), plain.players[0].hand.size() + 1, "and drew an extra card")
 
 
 func test_the_crowd_pleasers_cape_heals_when_you_declare_attackers() -> void:
 	var game: GameState = _game_with_gear(_equipment("crowd_pleasers_cape"), 5)
-	var attacker: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(2, 2, 1), true)
-	game.players[0].life = 5
+	var attacker: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 2, 1), true)
+	game.players[0].hp = 5
 	assert_true(game.advance_phase())
 	assert_true(game.declare_attackers([attacker.uid] as Array[int]))
-	assert_eq(game.players[0].life, 6, "+1 life for declaring an attack")
+	assert_eq(game.players[0].hp, 6, "+1 HP for declaring an attack")
 
 
-func test_the_gladiators_net_shrinks_enemy_creatures_as_they_enter() -> void:
+func test_the_gladiators_net_shrinks_enemy_units_as_they_enter() -> void:
 	var game: GameState = _game_with_gear(_equipment("gladiators_net"))
 	game.players[1].hand.clear()
 	var foe_card: CardInstance = GameFactory.add_to_hand(game, 1, GameFactory.vanilla(2, 2, 1))
 	GameFactory.add_infrastructure_cards(game, 1, 2, A)
 	game.active = 1
 	game.phase = GameState.Phase.MAIN1
-	assert_true(game.cast(1, foe_card.uid))
-	assert_eq(game.get_power(foe_card), 1)
-	assert_eq(game.get_toughness(foe_card), 1, "-1/-1 permanently")
+	assert_true(game.play_card(1, foe_card.uid))
+	assert_eq(game.get_attack(foe_card), 1)
+	assert_eq(game.get_defense(foe_card), 1, "-1/-1 permanently")
 	var mine: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2, 1))
 	GameFactory.add_infrastructure_cards(game, 0, 2, A)
 	game.active = 0
 	game.phase = GameState.Phase.MAIN1
-	assert_true(game.cast(0, mine.uid))
-	assert_eq(game.get_power(mine), 2, "your own creatures are untouched")
+	assert_true(game.play_card(0, mine.uid))
+	assert_eq(game.get_attack(mine), 2, "your own units are untouched")
 
 
 func test_the_bloodsand_boots_draw_when_you_are_dealt_damage() -> void:
@@ -308,8 +308,8 @@ func test_the_bloodsand_boots_draw_when_you_are_dealt_damage() -> void:
 	var before: int = game.players[0].hand.size()
 	game.deal_damage_to_player(0, 0, 2)
 	assert_eq(game.players[0].hand.size(), before + 1, "dealt damage draws a card")
-	game.lose_life(0, 1)
-	assert_eq(game.players[0].hand.size(), before + 1, "mere life loss does not")
+	game.lose_hp(0, 1)
+	assert_eq(game.players[0].hand.size(), before + 1, "mere HP loss does not")
 
 
 func test_arena_equipment_is_exclusive_and_has_icons_and_tooltips() -> void:

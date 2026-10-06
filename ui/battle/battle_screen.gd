@@ -6,7 +6,7 @@ extends Control
 
 signal finished(won: bool)
 
-enum Mode { WAITING, MAIN, TARGETING, ATTACK, BLOCK, DISCARD, MULLIGAN, OVER }
+enum Mode { WAITING, MAIN, TARGETING, ATTACK, BLOCK, TOSS, MULLIGAN, OVER }
 
 const DRAG_START_DISTANCE: float = 16.0
 const PLAY_LINE_Y: float = 720.0
@@ -40,7 +40,7 @@ var _press_pos: Vector2 = Vector2.ZERO
 var _dragging: bool = false
 var _target_source: int = 0
 var _target_options: Array[int] = []
-var _target_action: GameAction.Type = GameAction.Type.CAST
+var _target_action: GameAction.Type = GameAction.Type.PLAY
 var _target_ability: int = 0
 ## New brief, Part F: set instead of _target_action/_target_ability while targeting an equipped
 ## item's effect (items are not cards - no GameAction involved).
@@ -147,7 +147,7 @@ func _build_scene() -> void:
 
 
 const _SEEN_EVENT_TYPES: Array[GameEvent.Type] = [
-	GameEvent.Type.CARD_CAST, GameEvent.Type.PERMANENT_ENTERED, GameEvent.Type.TRAP_SET,
+	GameEvent.Type.CARD_PLAYED, GameEvent.Type.PERMANENT_ENTERED, GameEvent.Type.TRAP_SET,
 ]
 
 
@@ -238,7 +238,7 @@ func _bot_step() -> void:
 
 ## Skips decisions that have no choices (no possible attackers, no possible blockers).
 func _auto_pass_if_pointless() -> bool:
-	if game.stage != GameState.Stage.PLAYING or game.pending_discard > 0:
+	if game.stage != GameState.Stage.PLAYING or game.pending_toss > 0:
 		return false
 	if game.phase != GameState.Phase.COMBAT:
 		if _fast_end_turn and game.active == 0 and game.phase != GameState.Phase.END:
@@ -301,8 +301,8 @@ func _enter_human_mode() -> void:
 	if game.stage == GameState.Stage.MULLIGAN:
 		mode = Mode.MULLIGAN
 		_show_mulligan()
-	elif game.pending_discard > 0:
-		mode = Mode.DISCARD
+	elif game.pending_toss > 0:
+		mode = Mode.TOSS
 		_fast_end_turn = false
 	elif game.phase == GameState.Phase.COMBAT and game.combat_step == GameState.CombatStep.DECLARE_ATTACKERS:
 		mode = Mode.ATTACK
@@ -333,12 +333,12 @@ func _refresh_ui() -> void:
 			for card: CardInstance in hand:
 				if _is_playable(card):
 					glows[card.uid] = CardView.Glow.PLAYABLE
-			for card: CardInstance in game.players[0].battlefield:
+			for card: CardInstance in game.players[0].field:
 				if _usable_ability(card) >= 0:
 					glows[card.uid] = CardView.Glow.PLAYABLE
 			primary = "To Combat" if game.phase == GameState.Phase.MAIN1 else "End Turn"
 			end_visible = game.phase == GameState.Phase.MAIN1
-			prompt = "[b]Your main phase[/b]\nPlay an infrastructure and cast spells. Click a card, or drag it onto the table."
+			prompt = "[b]Your main phase[/b]\nPlay an infrastructure and play spells. Click a card, or drag it onto the table."
 			if game.phase == GameState.Phase.MAIN2:
 				prompt = "[b]Second main phase[/b]\nPlay anything you held back, then end your turn."
 		Mode.ATTACK:
@@ -349,9 +349,7 @@ func _refresh_ui() -> void:
 			var count: int = _selected_attackers.size()
 			primary = "Attack with %d" % count if count > 0 else "No Attack"
 			end_visible = true
-			prompt = "[b]Choose attackers[/b]\nClick your creatures to send them into battle."
-			if not CombatResolver.guard_creatures(game, 1).is_empty():
-				prompt += "\n[color=#e8b04a]Guard:[/color] attackers must attack the enemy Guard creature first."
+			prompt = "[b]Choose attackers[/b]\nClick your units to send them into battle."
 		Mode.BLOCK:
 			for attacker_uid: int in game.attackers:
 				glows[attacker_uid] = CardView.Glow.ATTACK
@@ -363,13 +361,13 @@ func _refresh_ui() -> void:
 				glows[_block_pick] = CardView.Glow.SELECTED
 			var blocks: int = _block_assign.size()
 			primary = "Confirm Blocks (%d)" % blocks if blocks > 0 else "No Blocks"
-			prompt = "[b]Block![/b]\nClick one of your creatures, then the attacker it should block."
-		Mode.DISCARD:
+			prompt = "[b]Block![/b]\nClick one of your units, then the attacker it should block."
+		Mode.TOSS:
 			for card: CardInstance in game.players[0].hand:
 				glows[card.uid] = CardView.Glow.TARGET if _discard_selection.has(card.uid) else CardView.Glow.PLAYABLE
-			primary = "Discard (%d/%d)" % [_discard_selection.size(), game.pending_discard]
-			primary_enabled = _discard_selection.size() == game.pending_discard
-			prompt = "[b]Too many cards[/b]\nChoose %d card%s to discard." % [game.pending_discard, "" if game.pending_discard == 1 else "s"]
+			primary = "Toss (%d/%d)" % [_discard_selection.size(), game.pending_toss]
+			primary_enabled = _discard_selection.size() == game.pending_toss
+			prompt = "[b]Too many cards[/b]\nChoose %d card%s to toss." % [game.pending_toss, "" if game.pending_toss == 1 else "s"]
 		Mode.TARGETING:
 			for uid: int in _target_options:
 				if uid > 0:
@@ -398,7 +396,7 @@ func _refresh_ui() -> void:
 func _is_playable(card: CardInstance) -> bool:
 	if card.data.is_infrastructure():
 		return game.can_play_infrastructure(0, card.uid)
-	return game.can_cast(0, card.uid)
+	return game.can_play_card(0, card.uid)
 
 
 ## Index of the first activated ability the player can use on this permanent, or -1.
@@ -412,9 +410,8 @@ func _usable_ability(card: CardInstance) -> int:
 func _update_arrows() -> void:
 	var arrows: Array[Dictionary] = []
 	if mode == Mode.ATTACK:
-		var guards: Array[CardInstance] = CombatResolver.guard_creatures(game, 1)
 		for uid: int in _selected_attackers:
-			var to: Vector2 = board.center_of(guards[0].uid) if not guards.is_empty() else hud.portrait_center(1)
+			var to: Vector2 = hud.portrait_center(1)
 			arrows.append({"from": board.center_of(uid), "to": to, "color": Color("ff9c4a")})
 	elif mode == Mode.BLOCK:
 		for attacker_uid: Variant in _block_assign.keys():
@@ -449,8 +446,8 @@ func _on_primary() -> void:
 			var action: GameAction = GameAction.make(GameAction.Type.DECLARE_BLOCKERS, 0)
 			action.blocks = _block_assign.duplicate()
 			_submit(action)
-		Mode.DISCARD:
-			var action: GameAction = GameAction.make(GameAction.Type.DISCARD, 0)
+		Mode.TOSS:
+			var action: GameAction = GameAction.make(GameAction.Type.TOSS, 0)
 			for uid: int in _discard_selection:
 				action.uids.append(uid)
 			_submit(action)
@@ -502,15 +499,15 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 			if zone == BattleBoard.Zone.HAND and mine and button_event.pressed:
 				_press_uid = uid
 				_press_pos = get_global_mouse_position()
-			elif zone == BattleBoard.Zone.BATTLEFIELD and mine and button_event.pressed:
+			elif zone == BattleBoard.Zone.FIELD and mine and button_event.pressed:
 				_try_activate(uid)
 		Mode.ATTACK:
-			if button_event.pressed and zone == BattleBoard.Zone.BATTLEFIELD and mine:
+			if button_event.pressed and zone == BattleBoard.Zone.FIELD and mine:
 				_toggle_attacker(uid)
 		Mode.BLOCK:
-			if button_event.pressed and zone == BattleBoard.Zone.BATTLEFIELD:
+			if button_event.pressed and zone == BattleBoard.Zone.FIELD:
 				_block_click(uid, mine)
-		Mode.DISCARD:
+		Mode.TOSS:
 			if button_event.pressed and zone == BattleBoard.Zone.HAND and mine:
 				_toggle_discard(uid)
 		Mode.TARGETING:
@@ -560,23 +557,23 @@ func _try_play(uid: int) -> void:
 		else:
 			_reject("You can only play one infrastructure per turn")
 		return
-	if not game.can_cast(0, uid):
+	if not game.can_play_card(0, uid):
 		_reject(_why_not_castable(card))
 		return
 	var effect: EffectData = _target_effect(card.data)
 	if effect != null:
 		var options: Array[int] = game.legal_targets(0, effect, uid)
 		if not options.is_empty():
-			_begin_targeting(uid, options, GameAction.Type.CAST, 0)
+			_begin_targeting(uid, options, GameAction.Type.PLAY, 0)
 			return
-	_submit(GameAction.cast(0, uid))
+	_submit(GameAction.play_card(0, uid))
 
 
 func _why_not_castable(card: CardInstance) -> String:
 	if not game.in_main_phase() or game.active != 0:
-		return "You can only cast cards in your main phase"
+		return "You can only play cards in your main phase"
 	if not PathEnergy.can_pay(game.players[0].ready_infrastructure(), game.generic_cost_for(0, card.data), card.data.colored_pips):
-		return "Not enough Path energy"
+		return "Not enough energy"
 	return "There is no legal target"
 
 
@@ -588,7 +585,7 @@ func _target_effect(data: CardData) -> EffectData:
 
 
 func _try_activate(uid: int) -> void:
-	var card: CardInstance = game.players[0].find_battlefield(uid)
+	var card: CardInstance = game.players[0].find_field(uid)
 	if card == null:
 		return
 	var index: int = _usable_ability(card)
@@ -605,8 +602,8 @@ func _try_activate(uid: int) -> void:
 	_submit(GameAction.activate(0, uid, index))
 
 
-## New brief, Part F: using an equipped item from the item bar. Items are not cards - no Path energy, no
-## hand/battlefield involvement - but they reuse the exact same TARGETING flow when their effect
+## New brief, Part F: using an equipped item from the item bar. Items are not cards - no energy, no
+## hand/field involvement - but they reuse the exact same TARGETING flow when their effect
 ## needs a chosen target (_pending_item, checked first in _finish_targeting).
 func _on_item_pressed(item: ItemData) -> void:
 	if busy or mode == Mode.TARGETING:
@@ -620,7 +617,7 @@ func _on_item_pressed(item: ItemData) -> void:
 			_reject("There is no legal target")
 			return
 		_pending_item = item
-		_begin_targeting(0, options, GameAction.Type.CAST, 0)
+		_begin_targeting(0, options, GameAction.Type.PLAY, 0)
 		return
 	_use_item(item, 0)
 
@@ -693,8 +690,8 @@ func _finish_targeting(ref: int) -> void:
 	var source: int = _target_source
 	var action_type: GameAction.Type = _target_action
 	var ability: int = _target_ability
-	if action_type == GameAction.Type.CAST:
-		_submit(GameAction.cast(0, source, ref))
+	if action_type == GameAction.Type.PLAY:
+		_submit(GameAction.play_card(0, source, ref))
 	else:
 		_submit(GameAction.activate(0, source, ability, ref))
 
@@ -702,7 +699,7 @@ func _finish_targeting(ref: int) -> void:
 # ---- Combat selection -------------------------------------------------------------------
 
 
-## Selects every creature able to attack (the player can still deselect before confirming).
+## Selects every unit able to attack (the player can still deselect before confirming).
 func _on_attack_all() -> void:
 	if busy or mode != Mode.ATTACK:
 		return
@@ -720,7 +717,7 @@ func _on_attack_all() -> void:
 func _toggle_attacker(uid: int) -> void:
 	var available: Array[CardInstance] = game.possible_attackers(0)
 	if PlayerState.find_in(available, uid) == null:
-		_reject("That creature cannot attack")
+		_reject("That unit cannot attack")
 		return
 	if _selected_attackers.has(uid):
 		_selected_attackers.erase(uid)
@@ -737,9 +734,9 @@ func _toggle_attacker(uid: int) -> void:
 
 func _block_click(uid: int, mine: bool) -> void:
 	if mine:
-		var blocker: CardInstance = game.players[0].find_battlefield(uid)
+		var blocker: CardInstance = game.players[0].find_field(uid)
 		if blocker == null or blocker.exhausted:
-			_reject("That creature cannot block")
+			_reject("That unit cannot block")
 			return
 		# Clicking an assigned blocker removes its block.
 		for attacker_uid: Variant in _block_assign.keys():
@@ -756,12 +753,12 @@ func _block_click(uid: int, mine: bool) -> void:
 		if not game.attackers.has(uid):
 			return
 		if _block_pick == 0:
-			_toast("Pick one of your creatures first")
+			_toast("Pick one of your units first")
 			return
 		var attacker: CardInstance = game.find_permanent(uid)
-		var blocker: CardInstance = game.players[0].find_battlefield(_block_pick)
+		var blocker: CardInstance = game.players[0].find_field(_block_pick)
 		if attacker == null or blocker == null or not CombatResolver.can_block(attacker, blocker):
-			_reject("That creature cannot block this attacker")
+			_reject("That unit cannot block this attacker")
 			return
 		_block_assign.erase(uid)
 		_block_assign[uid] = _block_pick
@@ -775,7 +772,7 @@ func _block_click(uid: int, mine: bool) -> void:
 func _toggle_discard(uid: int) -> void:
 	if _discard_selection.has(uid):
 		_discard_selection.erase(uid)
-	elif _discard_selection.size() < game.pending_discard:
+	elif _discard_selection.size() < game.pending_toss:
 		_discard_selection.append(uid)
 	Audio.sfx(&"ui_tick")
 	_refresh_ui()
@@ -871,7 +868,7 @@ func _show_result() -> void:
 			detail = arena_story.text("arena.won.first" if won and not Session.is_arena_cleared(context.arena_id) else ("arena.won.replay" if won else "arena.lost"))
 	column.add_child(UIKit.label(detail, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
 	if context.zone_battle:
-		var zone_note: String = "Your life stays as it is - there is no healing after a battle in the zone. Heal at the hub." if won else "Declared Deceased. You will wake at the hub (and owe a small paperwork fee)."
+		var zone_note: String = "Your HP stays as it is - there is no healing after a battle in the zone. Heal at the hub." if won else "Declared Deceased. You will wake at the hub (and owe a small paperwork fee)."
 		column.add_child(UIKit.label(zone_note, &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	elif not won and not context.practice and context.town_npc_id.is_empty():
 		column.add_child(UIKit.label("You are carried out of the dungeon. Your collection is safe.", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))

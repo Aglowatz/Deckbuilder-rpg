@@ -94,10 +94,10 @@ func _show_outcome(result: ChallengeResult) -> void:
 	var headline: Label = UIKit.label("The well answers." if passed else "The well stays silent.", &"HeadingLabel", 36, UIStyle.GOOD if passed else Color("e06a5a"), HORIZONTAL_ALIGNMENT_CENTER)
 	_result_box.add_child(headline)
 	var lines: PackedStringArray = []
-	if result.life_healed > 0:
-		lines.append("You recover %d life." % result.life_healed)
-	if result.life_lost > 0:
-		lines.append("You lose %d life." % result.life_lost)
+	if result.hp_healed > 0:
+		lines.append("You recover %d HP." % result.hp_healed)
+	if result.hp_lost > 0:
+		lines.append("You lose %d HP." % result.hp_lost)
 	for card: CardData in result.lost_cards:
 		lines.append("%s is lost for this dungeon." % card.display_name)
 	for card: CardData in result.gained_cards:

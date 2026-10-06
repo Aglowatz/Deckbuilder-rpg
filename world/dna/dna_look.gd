@@ -1,7 +1,7 @@
 class_name DnaLook
 extends RefCounted
 ## The D.N.A.'s atmosphere: no sky, a sickly cold-green ambient, depth fog that swallows the far end
-## of each corridor, a dim moonlight and glow. Real shadows-casting light is one directional light;
+## of each corridor, a dim moonlight and glow. Real shadows-playing light is one directional light;
 ## the fluorescent pools come from `DnaScene`'s pooled OmniLights.
 
 

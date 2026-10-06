@@ -10,6 +10,6 @@ display_name = "Blade Dancer"
 color = 1
 generic_cost = 1
 colored_pips = Array[int]([1])
-power = 2
+attack = 2
 keywords = Array[int]([5])
 rules_text = "First Strike"

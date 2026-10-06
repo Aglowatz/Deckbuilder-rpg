@@ -8,7 +8,7 @@ const AREA: Rect2 = Rect2(0.0, 0.0, 40.0, 30.0)
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 
 
 func test_everything_starts_hidden() -> void:

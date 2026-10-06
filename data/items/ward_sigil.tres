@@ -8,12 +8,12 @@ script = ExtResource("1_ug1m4")
 target = 6
 op = 11
 duration = 1
-keyword = 7
+keyword = 11
 
 [resource]
 script = ExtResource("2_3k25h")
 id = "ward_sigil"
 display_name = "Ward Sigil"
-description = "Give a creature Guard until end of turn."
+description = "Give a unit Untouchable until end of turn."
 uses = 2
 effect = SubResource("Resource_bjqk8")

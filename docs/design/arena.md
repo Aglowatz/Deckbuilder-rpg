@@ -4,7 +4,7 @@ A colosseum in Concord Crossing (`world/arena_building.gd`, gate dressing in `wo
 (`ZoneCompletion.ARENA_UNLOCK_COUNT`), then Marshal Vesna Tuskmore welcomes you and `ArenaScreen` lists the encounters.
 
 8 encounters in 3 tiers (`core/arena/arena_defs.gd`): battles with your own deck, restricted-deck battles (Gladiator's Kit, Spellslinger's Satchel),
-a "no creature casts" rule (`Modifier.Kind.NO_CREATURE_CASTS`), and preset-board puzzles: win this turn (turn limit 1) and survive 3 enemy turns
+a "no unit plays" rule (`Modifier.Kind.NO_CREATURE_CASTS`), and preset-board puzzles: win this turn (turn limit 1) and survive 3 enemy turns
 (drawn clock with the player alive counts as a win, `ArenaEncounter.player_won`). First clears pay a prize once (gold, XP, essence of a Path or all Paths,
 an item, or arena-exclusive equipment); replays pay 15 gold. Cleared state is saved (flags `arena_cleared_<id>`).
 

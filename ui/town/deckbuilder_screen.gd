@@ -82,7 +82,7 @@ func _build() -> void:
 	add_child(_toast)
 	_refresh()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
-	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure power your spells: [b]Fill Infrastructure[/b] tops up to %d." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), min_size], Vector2(300, 900))
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure attack your spells: [b]Fill Infrastructure[/b] tops up to %d." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), min_size], Vector2(300, 900))
 
 
 func _build_deck_panel() -> Control:
@@ -285,7 +285,7 @@ func _rebuild_list() -> void:
 		return a.display_name < b.display_name)
 	var last_group: String = ""
 	for card: CardData in entries:
-		var group: String = "Infrastructure" if card.is_infrastructure() else "Spells and creatures"
+		var group: String = "Infrastructure" if card.is_infrastructure() else "Spells and units"
 		if group != last_group:
 			last_group = group
 			_list_box.add_child(UIKit.label(group, &"MutedLabel", 19))

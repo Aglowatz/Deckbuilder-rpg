@@ -2,7 +2,7 @@ class_name CorruptedNpcSmoke
 extends Node
 ## New brief, Part E: a human-input e2e regression test for one corrupted-NPC encounter - talks
 ## to Torvin (Beefcake), checks the pre-fight dialogue and that it actually starts a real battle
-## with the right opponent (name, life, town_npc_id), plays the duel out for real with
+## with the right opponent (name, HP, town_npc_id), plays the duel out for real with
 ## BattlePilot (a real, uncertain outcome - not scripted), then checks the town-side result
 ## (post-fight dialogue matches what actually happened, and only a win actually pays out/unlocks).
 ## Run through the real scene tree (needs the real town <-> battle SceneManager transition):
@@ -44,7 +44,7 @@ func run() -> void:
 		return
 	_check(battle.context.town_npc_id == "beefcake", "the battle context is tagged as the beefcake challenge")
 	_check(battle.context.enemy_name == "Torvin the Over-Pumped", "the battle opponent is the corrupted NPC")
-	_check(battle.game.players[1].life == CorruptedNpcs.STARTING_LIFE, "the corrupted NPC starts at 15 life")
+	_check(battle.game.players[1].hp == CorruptedNpcs.STARTING_HP, "the corrupted NPC starts at 15 HP")
 
 	var pilot: BattlePilot = BattlePilot.new(driver, battle)
 	battle.board.speed = 10.0

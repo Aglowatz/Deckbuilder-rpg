@@ -31,7 +31,7 @@ const FLAG_REPS_FIRST: StringName = &"gain_reps_first_clear"
 const FLAG_WHEEL_POWERED: StringName = &"gain_wheel_powered"
 const FLAG_SPOTTED: StringName = &"gain_spotted_gary"
 
-## Falling off an island: respawn at the last safe spot and lose this much zone life.
+## Falling off an island: respawn at the last safe spot and lose this much zone HP.
 const FALL_DAMAGE: int = 1
 
 ## Rewards of the hidden chests: id -> {gold, item, card, equipment}. Documented in
@@ -146,12 +146,12 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	return mini
 
 
-static func _battle(title: String, blurb: String, enemy: String, life: int, ai: String, elite: bool, recipe: Dictionary) -> ZoneDef.MiniBattle:
+static func _battle(title: String, blurb: String, enemy: String, hp: int, ai: String, elite: bool, recipe: Dictionary) -> ZoneDef.MiniBattle:
 	var battle: ZoneDef.MiniBattle = ZoneDef.MiniBattle.new()
 	battle.title = title
 	battle.blurb = blurb
 	battle.enemy = enemy
-	battle.life = life
+	battle.hp = hp
 	battle.ai_name = ai
 	battle.elite = elite
 	battle.recipe = recipe

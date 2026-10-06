@@ -22,7 +22,7 @@ func before_all() -> void:
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.B)
+	Session.ensure_game(Affinity.Type.GOURMAND)
 	Session.zone_run = ZoneRun.enter(BuffetZone.ID, Session.profile, Session.deck)
 	builder._open_gates.clear()
 
@@ -340,18 +340,18 @@ func test_enemies_never_enter_the_soup_or_climb_cliffs() -> void:
 	assert_true(builder.is_walkable(Vector3(40.0, 0.0, BuffetLayout.river_z(40.0) + 2.0)), "the player may wade in (and fall)")
 
 
-func test_falling_into_the_soup_costs_one_life_and_is_logged() -> void:
+func test_falling_into_the_soup_costs_one_hp_and_is_logged() -> void:
 	var run: ZoneRun = Session.zone_run
-	var before: int = run.life
+	var before: int = run.hp
 	var log_before: int = Session.zone_log.size()
 	var result: Dictionary = BuffetInteractables.apply_soup_fall(run, "The Gravy River", story.text("fx.soup_fall_log"))
-	assert_eq(run.life, before - BuffetZone.SOUP_DAMAGE)
+	assert_eq(run.hp, before - BuffetZone.SOUP_DAMAGE)
 	assert_eq(int(result["damage"]), 1)
 	assert_eq(BuffetZone.SOUP_DAMAGE, 1)
 	assert_eq(Session.zone_log.size(), log_before + 1)
 	assert_true(Session.zone_log[Session.zone_log.size() - 1].contains("The Gravy River"))
-	run.life = 1
-	assert_true(BuffetInteractables.apply_soup_fall(run, "x", "%s")["down"], "the last life means waking at the hub")
+	run.hp = 1
+	assert_true(BuffetInteractables.apply_soup_fall(run, "x", "%s")["down"], "the last HP means waking at the hub")
 
 
 # ---- Gates --------------------------------------------------------------------------------------------
@@ -435,7 +435,7 @@ func test_hub_has_a_heal_spot_a_vendor_chefs_and_quests() -> void:
 	for id: String in def.vendor_ids:
 		var card: CardData = Session.content.card(id)
 		assert_not_null(card, "vendor card %s exists" % id)
-		assert_eq(card.color, Affinity.Type.B, "%s is a Gourmand card" % id)
+		assert_eq(card.color, Affinity.Type.GOURMAND, "%s is a Gourmand card" % id)
 	for quest_id: String in [BuffetZone.QUEST_PANTRY, BuffetZone.QUEST_PIE, BuffetZone.QUEST_MEND]:
 		assert_not_null(QuestCatalog.find(quest_id), "quest %s exists" % quest_id)
 	for name: String in def.quest_npc_names:
@@ -452,15 +452,15 @@ func test_main_dungeon_signs_name_the_test_kitchen() -> void:
 	assert_true(def.spot_def("main_dungeon")["kind"] == "main_dungeon")
 
 
-func test_zone_life_rules_use_the_dish_duty_fee() -> void:
+func test_zone_hp_rules_use_the_dish_duty_fee() -> void:
 	assert_eq(def.fee, 20)
 	assert_eq(def.fee_label, "Dish duty fee")
 	var run: ZoneRun = Session.zone_run
-	run.damage(run.max_life())
+	run.damage(run.max_hp())
 	var gold_before: int = Session.gold
 	var fee: int = Session.zone_wake_at_hub("beat up by a meatloaf")
 	assert_eq(fee, mini(20, gold_before))
-	assert_eq(run.life, run.max_life(), "waking at the hub restores full life")
+	assert_eq(run.hp, run.max_hp(), "waking at the hub restores full HP")
 	assert_true(Session.zone_log[Session.zone_log.size() - 1].begins_with("Dish duty fee"))
 
 
@@ -488,11 +488,11 @@ func test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer(
 	assert_eq(types.size(), 3, "all three designs roam the zone")
 
 
-func test_a_buffet_battle_uses_the_zone_life_and_the_gourmand_deck() -> void:
-	Session.zone_run.life = 4
+func test_a_buffet_battle_uses_the_zone_hp_and_the_gourmand_deck() -> void:
+	Session.zone_run.hp = 4
 	var context: BattleContext = Session.make_zone_battle(BuffetEnemies.LOAF, "loaf_0")
 	assert_true(context.zone_battle)
-	assert_eq(context.game.players[0].life, 4, "the duel starts at the zone's persistent life")
+	assert_eq(context.game.players[0].hp, 4, "the duel starts at the zone's persistent HP")
 	var deck: Deck = BuffetEnemies.deck(Session.content, BuffetEnemies.LOAF)
 	assert_gt(deck.cards.size(), 20)
 	var enemy_cards: Dictionary = {}
@@ -508,7 +508,7 @@ func test_a_buffet_battle_uses_the_zone_life_and_the_gourmand_deck() -> void:
 func test_buffet_cards_equipment_and_items_exist() -> void:
 	for id: String in ZoneCards.BUFFET_VENDOR_IDS + ["tasting_menu", "cheese_wheel_golem", "buffet_colossus"]:
 		assert_not_null(Session.content.card(id), "card %s exists" % id)
-		assert_eq(Session.content.card(id).color, Affinity.Type.B)
+		assert_eq(Session.content.card(id).color, Affinity.Type.GOURMAND)
 	var ladle: EquipmentData = Session.content.equipment_piece("head_chef_ladle")
 	assert_not_null(ladle)
 	assert_eq(ladle.slot, EquipmentData.Slot.WEAPON)
@@ -586,7 +586,7 @@ func test_the_quiz_has_four_questions_about_the_gourmands_with_findable_answers(
 
 func test_taste_test_outcomes_have_real_effects() -> void:
 	var run: ZoneRun = Session.zone_run
-	run.life = 3
+	run.hp = 3
 	assert_eq(BuffetInteractables.taste_outcome(0.1), "good")
 	assert_eq(BuffetInteractables.taste_outcome(0.3), "great")
 	assert_eq(BuffetInteractables.taste_outcome(0.5), "buff")
@@ -594,23 +594,23 @@ func test_taste_test_outcomes_have_real_effects() -> void:
 	assert_eq(BuffetInteractables.taste_outcome(0.75), "spicy")
 	assert_eq(BuffetInteractables.taste_outcome(0.95), "bland")
 	BuffetInteractables.apply_taste(run, "good")
-	assert_eq(run.life, 6, "good heals 3")
+	assert_eq(run.hp, 6, "good heals 3")
 	BuffetInteractables.apply_taste(run, "great")
-	assert_eq(run.life, run.max_life(), "great heals up to full")
-	var max_before: int = run.max_life()
+	assert_eq(run.hp, run.max_hp(), "great heals up to full")
+	var max_before: int = run.max_hp()
 	BuffetInteractables.apply_taste(run, "buff")
-	assert_eq(run.max_life(), max_before + 1, "the buff raises max life for the visit")
+	assert_eq(run.max_hp(), max_before + 1, "the buff raises max HP for the visit")
 	var gold_before: int = Session.gold
 	BuffetInteractables.apply_taste(run, "tip")
 	assert_eq(Session.gold, gold_before + BuffetInteractables.TASTE_TIP)
-	var life_before: int = run.life
+	var hp_before: int = run.hp
 	BuffetInteractables.apply_taste(run, "spicy")
-	assert_eq(run.life, life_before - 1, "spicy costs 1 life")
-	run.life = 1
+	assert_eq(run.hp, hp_before - 1, "spicy costs 1 HP")
+	run.hp = 1
 	BuffetInteractables.apply_taste(run, "spicy")
-	assert_eq(run.life, 1, "never below 1")
+	assert_eq(run.hp, 1, "never below 1")
 	BuffetInteractables.apply_taste(run, "bland")
-	assert_eq(run.life, 1, "bland does nothing")
+	assert_eq(run.hp, 1, "bland does nothing")
 
 
 func test_pickups_are_once_per_visit_and_the_oven_bakes_a_pie_from_them() -> void:
@@ -632,7 +632,7 @@ func test_pickups_are_once_per_visit_and_the_oven_bakes_a_pie_from_them() -> voi
 
 func test_soup_fountain_heals_up_to_three_times_per_visit() -> void:
 	var run: ZoneRun = Session.zone_run
-	run.life = 1
+	run.hp = 1
 	for number: int in range(1, 4):
 		var result: Dictionary = BuffetInteractables.ladle(run)
 		assert_true(bool(result["ok"]))

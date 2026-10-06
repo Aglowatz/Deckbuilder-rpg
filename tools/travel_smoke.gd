@@ -20,7 +20,7 @@ var _shots: int = 0
 func run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 	var town: TownScene = await _wait_for(TownScene) as TownScene
@@ -133,7 +133,7 @@ func _flow_rips() -> void:
 	await driver.seconds(1.0)
 	var zone_station: Vector3 = again.builder.anchor(FastTravel.ANCHOR)
 	_check(Vector2(again.player.position.x - zone_station.x, again.player.position.z - zone_station.z).length() < 3.5, "and they arrive at the zone's station")
-	_check(Session.zone_run != null and Session.zone_run.life == Session.zone_run.max_life(), "a fresh visit at full life")
+	_check(Session.zone_run != null and Session.zone_run.hp == Session.zone_run.max_hp(), "a fresh visit at full HP")
 	await _shot("t09_arrived_in_zone")
 	await _dismiss(again.dialogue)
 
@@ -240,7 +240,7 @@ func _force_win(battle_scene: Node) -> void:
 	await driver.seconds(0.5)
 	if context == null:
 		return
-	context.game.players[0].life = maxi(context.game.players[0].life, 1)
+	context.game.players[0].hp = maxi(context.game.players[0].hp, 1)
 	context.game._end_game(0, false)
 	context.won = true
 	Session.complete_battle(context)

@@ -7,10 +7,10 @@ extends RefCounted
 ## Gourmands (snooty and proper) vs. Refusemancers ("garbage eaters"). See docs/design/story_bible.md.
 ##
 ## | Zone | Buff | Debuff |
-## | Gainlands | Pump It Up: Beefcake creatures +1 power | Processing Time: Necrocrat creatures enter exhausted |
-## | D.N.A. | Approved Procedure: Necrocrat creatures +1 toughness | Unauthorized Activity: Beefcake cards cost 1 more |
-## | Endless Buffet | Well Fed: Gourmand creatures +1/+1 | Dress Code Violation: Refusemancer creatures -1 power |
-## | Verdant Dump | Overgrowth: Refusemancer creatures +2 toughness | Spoilage: Gourmand creatures -1 toughness |
+## | Gainlands | Pump It Up: Beefcake units +1 attack | Processing Time: Necrocrat units enter exhausted |
+## | D.N.A. | Approved Procedure: Necrocrat units +1 defense | Unauthorized Activity: Beefcake cards cost 1 more |
+## | Endless Buffet | Well Fed: Gourmand units +1/+1 | Dress Code Violation: Refusemancer units -1 attack |
+## | Verdant Dump | Overgrowth: Refusemancer units +2 defense | Spoilage: Gourmand units -1 defense |
 ##
 ## Names and flavor text live in each zone's story file (`effect.buff.name`, `effect.buff.flavor`,
 ## `effect.debuff.name`, `effect.debuff.flavor`); the mechanical description is generated from the modifier.
@@ -43,7 +43,7 @@ class Effect:
 	func debuff_mechanic() -> String:
 		return ZoneEffects.mechanic_text(debuff)
 
-	## "Pump It Up: Beefcake creatures get +1 power." - one line for HUD rows and tooltips.
+	## "Pump It Up: Beefcake units get +1 attack." - one line for HUD rows and tooltips.
 	func buff_line() -> String:
 		return "%s: %s" % [buff_name(), buff_mechanic()]
 
@@ -87,27 +87,27 @@ static func source_for(zone_id: String) -> ModifierSource:
 static func path_of(zone_id: String) -> Affinity.Type:
 	match zone_id:
 		GainlandsZone.ID:
-			return Affinity.Type.A
+			return Affinity.Type.BEEFCAKE
 		BuffetZone.ID:
-			return Affinity.Type.B
+			return Affinity.Type.GOURMAND
 		HeapZone.ID:
-			return Affinity.Type.C
+			return Affinity.Type.REFUSEMANCER
 		DnaZone.ID:
-			return Affinity.Type.D
+			return Affinity.Type.NECROCRAT
 	return Affinity.Type.NEUTRAL
 
 
 ## The rival Path: Beefcake <-> Necrocrat, Gourmand <-> Refusemancer.
 static func rival_of(path: Affinity.Type) -> Affinity.Type:
 	match path:
-		Affinity.Type.A:
-			return Affinity.Type.D
-		Affinity.Type.D:
-			return Affinity.Type.A
-		Affinity.Type.B:
-			return Affinity.Type.C
-		Affinity.Type.C:
-			return Affinity.Type.B
+		Affinity.Type.BEEFCAKE:
+			return Affinity.Type.NECROCRAT
+		Affinity.Type.NECROCRAT:
+			return Affinity.Type.BEEFCAKE
+		Affinity.Type.GOURMAND:
+			return Affinity.Type.REFUSEMANCER
+		Affinity.Type.REFUSEMANCER:
+			return Affinity.Type.GOURMAND
 	return Affinity.Type.NEUTRAL
 
 
@@ -145,21 +145,21 @@ static func _mod(kind: Modifier.Kind, color: Affinity.Type, value: int, value2: 
 	return modifier
 
 
-## Plain-language description of one zone modifier ("Beefcake creatures get +1 power.").
+## Plain-language description of one zone modifier ("Beefcake units get +1 attack.").
 static func mechanic_text(modifier: Modifier) -> String:
 	var path: String = Affinity.display_name(modifier.color as Affinity.Type)
 	match modifier.kind:
 		Modifier.Kind.STAT_CHANGE:
 			var parts: PackedStringArray = []
 			if modifier.value != 0:
-				parts.append("%+d power" % modifier.value)
+				parts.append("%+d attack" % modifier.value)
 			if modifier.value2 != 0:
-				parts.append("%+d toughness" % modifier.value2)
-			return "%s creatures get %s." % [path, " and ".join(parts)]
+				parts.append("%+d defense" % modifier.value2)
+			return "%s units get %s." % [path, " and ".join(parts)]
 		Modifier.Kind.COST_CHANGE:
 			if modifier.value > 0:
 				return "%s cards cost %d more." % [path, modifier.value]
 			return "%s cards cost %d less." % [path, -modifier.value]
 		Modifier.Kind.ENTER_EXHAUSTED:
-			return "%s creatures enter exhausted (they cannot block until readied)." % path
+			return "%s units enter exhausted (they cannot block until readied)." % path
 	return modifier.label

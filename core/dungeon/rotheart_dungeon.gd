@@ -29,8 +29,8 @@ static func build_def() -> MainDungeonDef:
 	def.add_foe("Archdruid Fernwick Loam", 28, "Balanced", {C: 16, "moss_titan": 4, "compost_golem": 4, "landfill_hog": 3, "fertilizer_burst": 3, "harvest_moon": 3, "vine_snare": 3, "heap_mother": 1}, "cathelineau/tree-face")
 	# The Spore Gauntlet (node 5): do you have enough sturdy bodies to push through?
 	var gauntlet: ChallengeData = MainDungeonDef.make_challenge("rh_spore_gauntlet", "The Spore Gauntlet", "", ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT, 5, 2)
-	gauntlet.on_success = [MainDungeonDef.outcome(ChallengeOutcome.Kind.HEAL, 4, "Heal 4 life.")] as Array[ChallengeOutcome]
-	gauntlet.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_LIFE, 3, "Lose 3 life.")] as Array[ChallengeOutcome]
+	gauntlet.on_success = [MainDungeonDef.outcome(ChallengeOutcome.Kind.HEAL, 4, "Heal 4 HP.")] as Array[ChallengeOutcome]
+	gauntlet.on_failure = [MainDungeonDef.outcome(ChallengeOutcome.Kind.LOSE_HP, 3, "Lose 3 HP.")] as Array[ChallengeOutcome]
 	def.add_challenge(gauntlet)
 	# The Whispering Mushrooms (node 3).
 	var mushrooms: DungeonEvent = DungeonEvent.make("rh_mushrooms")
@@ -40,7 +40,7 @@ static func build_def() -> MainDungeonDef:
 	def.add_event(mushrooms)
 	# The Pulsing Wall (node 10).
 	var wall: DungeonEvent = DungeonEvent.make("rh_pulsing_wall")
-	wall.choice([DungeonEvent.damage(2), DungeonEvent.boon(MainDungeonDef.boon_source("Root-Bound", [CardBuilder.modifier(Modifier.Kind.MAX_LIFE, 4)] as Array[Modifier]))] as Array[DungeonEvent.Outcome])
+	wall.choice([DungeonEvent.damage(2), DungeonEvent.boon(MainDungeonDef.boon_source("Root-Bound", [CardBuilder.modifier(Modifier.Kind.MAX_HP, 4)] as Array[Modifier]))] as Array[DungeonEvent.Outcome])
 	wall.choice([DungeonEvent.heal(5)] as Array[DungeonEvent.Outcome])
 	wall.choice([DungeonEvent.gold(60), DungeonEvent.damage(1)] as Array[DungeonEvent.Outcome])
 	def.add_event(wall)

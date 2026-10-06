@@ -12,7 +12,7 @@
 script = ExtResource("1_aitjd")
 kind = 1
 amount = 2
-description = "Lose 2 life."
+description = "Lose 2 HP."
 
 [sub_resource type="Resource" id="Resource_igwxv"]
 script = ExtResource("1_aitjd")

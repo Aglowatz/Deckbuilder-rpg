@@ -4,8 +4,8 @@ extends Node
 ## buttons directly), and uses the "Attack with All" button at least once, verifying:
 ##  1. Space advances the same decision the primary button would ("the end-step button for the
 ##     current phase") in MAIN, ATTACK and BLOCK modes, and is a no-op everywhere else.
-##  2. "Attack with All" selects every creature `possible_attackers(0)` reports, matching the
-##     engine's own legality - not just "some creatures".
+##  2. "Attack with All" selects every unit `possible_attackers(0)` reports, matching the
+##     engine's own legality - not just "some units".
 ##  3. After Attack with All, the player can still deselect an attacker (click it again) before
 ##     confirming, and the confirm (via Space) only sends the reduced set.
 ##
@@ -14,7 +14,7 @@ extends Node
 ## Exit code 0 = both checks observed at least once and no failures. Exit code 1 otherwise.
 
 const STEP_LIMIT: int = 6000
-const HIGH_LIFE: int = 999
+const HIGH_HP: int = 999
 
 var driver: UiDriver
 var screen: BattleScreen
@@ -71,8 +71,8 @@ func _act() -> void:
 	match screen.mode:
 		BattleScreen.Mode.MULLIGAN:
 			await driver.click_button("Keep Hand")
-		BattleScreen.Mode.DISCARD:
-			for card: CardInstance in game.players[0].hand.slice(0, game.pending_discard):
+		BattleScreen.Mode.TOSS:
+			for card: CardInstance in game.players[0].hand.slice(0, game.pending_toss):
 				await driver.click(_view_center(card.uid))
 			await driver.click_button("Discard")
 		BattleScreen.Mode.TARGETING:
@@ -91,7 +91,7 @@ func _act() -> void:
 					await driver.click(_view_center(card.uid))
 					return
 			for card: CardInstance in player.hand:
-				if not card.data.is_infrastructure() and game.can_cast(0, card.uid) and card.data.effects.is_empty():
+				if not card.data.is_infrastructure() and game.can_play_card(0, card.uid) and card.data.effects.is_empty():
 					await driver.click(_view_center(card.uid))
 					return
 			await _space_advance()
@@ -152,7 +152,7 @@ func _check_attack_all() -> void:
 	await _space_advance()
 
 
-## Builds a practice battle with very high life so the match lasts long enough to see everything.
+## Builds a practice battle with very high HP so the match lasts long enough to see everything.
 func _start_battle() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
 	var node: DungeonMap.MapNode = map.node(1)
@@ -162,9 +162,9 @@ func _start_battle() -> void:
 	options.turn_limit = 60
 	var game: GameState = GameState.new(options)
 	var human: PlayerSetup = PlayerSetup.create(Session.deck, Session.profile, [] as Array[ModifierSource], "You")
-	human.starting_life = HIGH_LIFE
+	human.starting_hp = HIGH_HP
 	var enemy: PlayerSetup = TrialOfTheHollow.enemy_setup(Session.content, node)
-	enemy.starting_life = HIGH_LIFE
+	enemy.starting_hp = HIGH_HP
 	game.add_player(human)
 	game.add_player(enemy)
 	game.start()

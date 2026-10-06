@@ -16,13 +16,13 @@ static func resolve(
 	var deck_cards: Array[CardData] = run.current_deck().cards
 	var sacrificed: CardData = null
 	match challenge.kind:
-		ChallengeData.Kind.FIRST_CREATURE_POWER:
+		ChallengeData.Kind.FIRST_UNIT_ATTACK:
 			var shuffled: Array[CardData] = deck_cards.duplicate()
 			RngUtil.shuffle(shuffled, rng)
 			for card: CardData in shuffled:
 				result.revealed.append(card)
-				if card.is_creature():
-					result.success = card.power >= challenge.threshold
+				if card.is_unit():
+					result.success = card.attack >= challenge.threshold
 					break
 		ChallengeData.Kind.TOP_N_INFRASTRUCTURE_COUNT:
 			result.revealed = _reveal(deck_cards, challenge.reveal_count, rng)
@@ -44,8 +44,8 @@ static func resolve(
 			if sacrificed == null:
 				sacrificed = _cheapest_non_basic(deck_cards)
 			result.success = sacrificed != null
-		ChallengeData.Kind.PAY_LIFE:
-			if not picked.accept or run.life <= challenge.threshold:
+		ChallengeData.Kind.PAY_HP:
+			if not picked.accept or run.hp <= challenge.threshold:
 				result.declined = true
 				return result
 			result.success = true
@@ -64,14 +64,14 @@ static func _apply(
 ) -> void:
 	result.outcomes.append(outcome)
 	match outcome.kind:
-		ChallengeOutcome.Kind.LOSE_LIFE:
-			var before: int = run.life
-			run.lose_life(outcome.amount)
-			result.life_lost += before - run.life
+		ChallengeOutcome.Kind.LOSE_HP:
+			var before: int = run.hp
+			run.lose_hp(outcome.amount)
+			result.hp_lost += before - run.hp
 		ChallengeOutcome.Kind.HEAL:
-			var before: int = run.life
+			var before: int = run.hp
 			run.heal(outcome.amount)
-			result.life_healed += run.life - before
+			result.hp_healed += run.hp - before
 		ChallengeOutcome.Kind.LOSE_CARD:
 			var victim: CardData = _card_to_lose(run, rng, result, sacrificed)
 			if victim != null and run.lose_card(victim):

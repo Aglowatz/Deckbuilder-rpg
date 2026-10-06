@@ -6,8 +6,8 @@ extends RefCounted
 const DUNGEON_NAME: String = "Trial of the Hollow"
 const CHALLENGE_ID: String = "hollow_well"
 
-## No dungeon-wide life blessing any more (docs/design/open_questions.md D32): the tutorial run
-## uses the player's plain base life (10) and is balanced to be winnable on that alone - see
+## No dungeon-wide HP blessing any more (docs/design/open_questions.md D32): the tutorial run
+## uses the player's plain base HP (10) and is balanced to be winnable on that alone - see
 ## docs/balance_report.md for the simulated win rate.
 
 const STARTER_DECK_SIZE: int = 42
@@ -32,9 +32,9 @@ static func build_map() -> DungeonMap:
 	var map: DungeonMap = DungeonMap.new()
 	map.dungeon_name = DUNGEON_NAME
 	var start: DungeonMap.MapNode = _node(map, DungeonMap.Kind.START, "Cave Mouth", "The trial begins.", Vector2(0.09, 0.68))
-	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger, one of {villain}'s cast-offs, guards the first chamber.", Vector2(0.27, 0.38))
+	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger, one of {villain}'s play-offs, guards the first chamber.", Vector2(0.27, 0.38))
 	first.enemy_name = "Cave Scavenger"
-	first.enemy_life = 3
+	first.enemy_hp = 3
 	first.ai_name = "Aggressive (tutorial)"
 	first.difficulty = DungeonMap.Difficulty.TUTORIAL
 	first.gold_reward = EncounterRewards.gold_for(first.difficulty)
@@ -44,18 +44,18 @@ static func build_map() -> DungeonMap:
 	challenge.challenge_id = CHALLENGE_ID
 	var second: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Mossy Gallery", "Something with claws prowls between the roots.", Vector2(0.63, 0.36))
 	second.enemy_name = "Hollow Stalker"
-	second.enemy_life = 3
+	second.enemy_hp = 3
 	second.ai_name = "Aggressive (tutorial)"
 	second.difficulty = DungeonMap.Difficulty.TUTORIAL
 	second.gold_reward = EncounterRewards.gold_for(second.difficulty)
 	second.card_choices = 3
 	var shrine: DungeonMap.MapNode = _node(map, DungeonMap.Kind.SHRINE, "Whispering Shrine", "A quiet place to rest before the last chamber.", Vector2(0.78, 0.68))
 	# Full heal: the node right before the boss (docs/design/open_questions.md D32). A plain
-	# large number is enough - DungeonRun.heal() already caps at max life.
+	# large number is enough - DungeonRun.heal() already caps at max HP.
 	shrine.heal_amount = 999
 	var boss: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BOSS, "Heart of the Hollow", "{villain}'s warden wakes, set here to test anyone who wanders out of the old caves.", Vector2(0.92, 0.34))
 	boss.enemy_name = "Hollow Warden"
-	boss.enemy_life = 3
+	boss.enemy_hp = 3
 	boss.ai_name = "Balanced"
 	boss.difficulty = DungeonMap.Difficulty.BOSS
 	boss.gold_reward = EncounterRewards.gold_for(boss.difficulty)
@@ -93,7 +93,7 @@ static func _node(map: DungeonMap, kind: DungeonMap.Kind, title: String, blurb: 
 
 ## Enemy deck recipes: card id (or "infrastructure:<A|B|C|D>") -> copies.
 static func enemy_recipe(enemy_name: String) -> Dictionary:
-	# Tutorial-weak (Part D): the two non-boss opponents use only low-stat vanilla creatures
+	# Tutorial-weak (Part D): the two non-boss opponents use only low-stat vanilla units
 	# (including 1-cost ones, same as the player's own starter) - no removal spells, no card-draw,
 	# nothing that generates card advantage - and are thinner on threats/heavier on infrastructure than a
 	# normal deck, so a beginner's deck can beat them reliably (docs/balance_report.md tracks the
@@ -149,8 +149,8 @@ static func enemy_setup(content: ContentSet, map_node: DungeonMap.MapNode) -> Pl
 	var setup: PlayerSetup = PlayerSetup.create(
 		enemy_deck(content, map_node.enemy_name), null, [] as Array[ModifierSource], map_node.enemy_name
 	)
-	if map_node.enemy_life > 0:
-		setup.starting_life = map_node.enemy_life
+	if map_node.enemy_hp > 0:
+		setup.starting_hp = map_node.enemy_hp
 		setup.profile = PlayerProfile.new()
-		setup.profile.max_life = maxi(map_node.enemy_life, PlayerProfile.START_MAX_LIFE)
+		setup.profile.max_hp = maxi(map_node.enemy_hp, PlayerProfile.START_MAX_HP)
 	return setup

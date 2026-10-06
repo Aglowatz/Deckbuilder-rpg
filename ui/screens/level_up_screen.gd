@@ -99,8 +99,8 @@ func _bonuses_for(row: LevelData) -> Array[Bonus]:
 	if previous == null:
 		bonuses.append(_bonus("level_badge", "Starting stats."))
 		return bonuses
-	if row.max_life > previous.max_life:
-		bonuses.append(_bonus("life", "+1 starting life (now %d)." % row.max_life))
+	if row.max_hp > previous.max_hp:
+		bonuses.append(_bonus("hp", "+1 starting HP (now %d)." % row.max_hp))
 	if row.opening_hand_size > previous.opening_hand_size:
 		bonuses.append(_bonus("hand", "Opening hand size +1 (now %d)." % row.opening_hand_size))
 	if row.item_slots > previous.item_slots:

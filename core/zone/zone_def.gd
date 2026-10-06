@@ -12,7 +12,7 @@ class MiniBattle:
 	var title: String = ""
 	var blurb: String = ""
 	var enemy: String = ""
-	var life: int = 12
+	var hp: int = 12
 	var ai_name: String = "Balanced"
 	var elite: bool = false
 	var recipe: Dictionary = {}
@@ -39,7 +39,7 @@ var full_name: String = ""
 var music: StringName = &"map"
 var scene_path: String = ""
 var story_path: String = ""
-## Gold taken when the player is carried back to the hub at 0 life, and what the fee is called.
+## Gold taken when the player is carried back to the hub at 0 HP, and what the fee is called.
 var fee: int = 15
 var fee_label: String = "Paperwork fee"
 ## Who speaks the wake-up dialogue (story key `fx.wake`).

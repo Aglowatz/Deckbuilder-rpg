@@ -18,18 +18,18 @@ func test_table_has_exactly_thirty_levels_in_order() -> void:
 		assert_eq(rows[i].level, i + 1)
 
 
-func test_life_reaches_25_at_level_30_via_even_levels_only() -> void:
+func test_hp_reaches_25_at_level_30_via_even_levels_only() -> void:
 	var rows: Array[LevelData] = ProgressionTable.build()
-	assert_eq(rows[0].max_life, PlayerProfile.START_MAX_LIFE)
-	assert_eq(rows[29].max_life, PlayerProfile.ENDGAME_MAX_LIFE)
+	assert_eq(rows[0].max_hp, PlayerProfile.START_MAX_HP)
+	assert_eq(rows[29].max_hp, PlayerProfile.ENDGAME_MAX_HP)
 	for row: LevelData in rows:
 		if row.level == 1:
 			continue
 		var previous: LevelData = rows[row.level - 2]
 		if row.level % 2 == 0:
-			assert_eq(row.max_life, previous.max_life + 1, "level %d should gain life" % row.level)
+			assert_eq(row.max_hp, previous.max_hp + 1, "level %d should gain HP" % row.level)
 		else:
-			assert_eq(row.max_life, previous.max_life, "odd level %d should not gain life" % row.level)
+			assert_eq(row.max_hp, previous.max_hp, "odd level %d should not gain HP" % row.level)
 
 
 func test_opening_hand_and_item_slots_reach_their_caps_gradually() -> void:
@@ -86,7 +86,7 @@ func test_every_level_up_grants_something() -> void:
 			continue
 		var previous: LevelData = ProgressionTable.row(row.level - 1)
 		var has_real_gain: bool = (
-			row.max_life > previous.max_life or row.opening_hand_size > previous.opening_hand_size
+			row.max_hp > previous.max_hp or row.opening_hand_size > previous.opening_hand_size
 			or row.item_slots > previous.item_slots or row.equipment_choice
 			or row.max_hand_size > previous.max_hand_size
 		)
@@ -119,10 +119,10 @@ func test_apply_level_updates_absolute_stats() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	profile.apply_level(ProgressionTable.row(10))
 	assert_eq(profile.level, 10)
-	assert_eq(profile.max_life, ProgressionTable.row(10).max_life)
+	assert_eq(profile.max_hp, ProgressionTable.row(10).max_hp)
 	assert_eq(profile.opening_hand_size, ProgressionTable.row(10).opening_hand_size)
 	assert_eq(profile.item_slots, ProgressionTable.row(10).item_slots)
-	assert_eq(profile.base_max_life(), ProgressionTable.row(10).max_life)
+	assert_eq(profile.base_max_hp(), ProgressionTable.row(10).max_hp)
 
 
 ## New brief, Part D: PlayerProfile.discounted_price() - the pure-core half of the vendor-discount
@@ -150,7 +150,7 @@ func test_apply_level_sets_max_hand_size() -> void:
 
 func test_deck_validator_allows_four_copies_of_any_rarity_at_level_one() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
-	var legendary: CardData = CardBuilder.creature("myth", "Myth", Affinity.Type.A, 1, [] as Array[Affinity.Type], 1, 1)
+	var legendary: CardData = CardBuilder.unit("myth", "Myth", Affinity.Type.BEEFCAKE, 1, [] as Array[Affinity.Type], 1, 1)
 	legendary.rarity = CardEnums.Rarity.LEGENDARY
 	var deck: Deck = Deck.new()
 	for i: int in range(4):
@@ -226,11 +226,11 @@ func test_unequip_returns_it_to_owned_and_removes_its_modifiers() -> void:
 	var vest: EquipmentData = content.equipment_piece("thorned_loincloth")
 	profile.owned_equipment.append(vest)
 	profile.equip(vest)
-	assert_eq(profile.gear_modifiers().sum(Modifier.Kind.MAX_LIFE), -5)
+	assert_eq(profile.gear_modifiers().sum(Modifier.Kind.MAX_HP), -5)
 	var removed: EquipmentData = profile.unequip(EquipmentData.Slot.ARMOR)
 	assert_eq(removed, vest)
 	assert_null(profile.equipped_in(EquipmentData.Slot.ARMOR))
-	assert_eq(profile.gear_modifiers().sum(Modifier.Kind.MAX_LIFE), 0)
+	assert_eq(profile.gear_modifiers().sum(Modifier.Kind.MAX_HP), 0)
 	assert_true(profile.owned_equipment.has(vest), "still owned after unequipping")
 
 
@@ -244,7 +244,7 @@ func test_equipped_gear_flows_through_the_pipeline_into_a_real_game() -> void:
 	var game: GameState = GameState.new()
 	game.add_player(setup)
 	game.add_player(PlayerSetup.create(GameFactory.make_deck()))
-	assert_eq(game.players[0].max_life, 5, "10 base - 5 from Thorned Loincloth")
+	assert_eq(game.players[0].max_hp, 5, "10 base - 5 from Thorned Loincloth")
 
 
 # ---- Items ----------------------------------------------------------------------------------
@@ -255,10 +255,10 @@ func test_use_item_consumes_a_charge_and_heals_the_run() -> void:
 	var draught: ItemData = content.item("healing_draught")
 	profile.owned_items.append(draught)
 	var run: DungeonRun = DungeonRun.enter(profile, GameFactory.make_deck())
-	run.lose_life(5)
-	var before: int = run.life
+	run.lose_hp(5)
+	var before: int = run.hp
 	assert_true(profile.use_item(draught, run))
-	assert_eq(run.life, before + 3)
+	assert_eq(run.hp, before + 3)
 	assert_eq(profile.item_uses_left(draught), draught.uses - 1)
 
 

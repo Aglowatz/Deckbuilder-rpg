@@ -1,10 +1,10 @@
 extends GutTest
 ## Part A (bug fix): BattleBoard must never show an opponent's set trap face-up - not even for
-## the brief moment between the CARD_CAST event (casting is always announced) and the TRAP_SET
+## the brief moment between the CARD_CAST event (playing is always announced) and the TRAP_SET
 ## event that moves the card into the (hidden) trap row. core/ already fully hides trap identity
 ## from the rules engine and from AI look-ahead (see tests/core/game/test_traps.gd's
 ## test_ai_clone_can_hide_traps and test_game_loop.gd's test_clone_can_hide_traps) - this bug
-## lived purely in presentation: `_on_cast` unconditionally revealed the cast card face-up in the
+## lived purely in presentation: `_on_cast` unconditionally revealed the play card face-up in the
 ## center of the table for 0.55s before `_on_trap_set` flipped it back down.
 
 const Trig := CardEnums.Trigger
@@ -14,7 +14,7 @@ const NO_PIPS: Array[Affinity.Type] = []
 
 
 func _attack_trap() -> CardData:
-	var card: CardData = CardBuilder.trap("test_trap", "Test Trap", Affinity.Type.A, 1, NO_PIPS)
+	var card: CardData = CardBuilder.trap("test_trap", "Test Trap", Affinity.Type.BEEFCAKE, 1, NO_PIPS)
 	CardBuilder.with_effect(card, CardBuilder.effect(Trig.TRAP_OPPONENT_ATTACKS, Tgt.TRIGGERING_CARD, Op.DESTROY))
 	return card
 
@@ -35,8 +35,8 @@ func test_opponent_trap_never_shows_face_up_during_the_cast_animation() -> void:
 	assert_eq(game.active, 1, "setup: it should now be player 1's (the AI/opponent's) turn")
 	GameFactory.add_infrastructure_cards(game, 1, 1)
 	var trap: CardInstance = GameFactory.add_to_hand(game, 1, _attack_trap())
-	assert_true(game.cast(1, trap.uid))
-	assert_eq(GameFactory.count_events(game, GameEvent.Type.CARD_CAST), 1)
+	assert_true(game.play_card(1, trap.uid))
+	assert_eq(GameFactory.count_events(game, GameEvent.Type.CARD_PLAYED), 1)
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.TRAP_SET), 1)
 
 	var board: BattleBoard = _new_board(game)
@@ -54,7 +54,7 @@ func test_own_trap_is_still_shown_face_up_to_its_owner() -> void:
 	var game: GameState = GameFactory.blank_game()
 	GameFactory.add_infrastructure_cards(game, 0, 1)
 	var trap: CardInstance = GameFactory.add_to_hand(game, 0, _attack_trap())
-	assert_true(game.cast(0, trap.uid))
+	assert_true(game.play_card(0, trap.uid))
 
 	var board: BattleBoard = _new_board(game)
 	for event: GameEvent in game.events:
@@ -71,10 +71,10 @@ func test_opponent_trap_flips_face_up_only_once_it_actually_triggers() -> void:
 	GameFactory.pass_turn(game)
 	GameFactory.add_infrastructure_cards(game, 1, 1)
 	var trap: CardInstance = GameFactory.add_to_hand(game, 1, _attack_trap())
-	assert_true(game.cast(1, trap.uid))
+	assert_true(game.play_card(1, trap.uid))
 	GameFactory.pass_turn(game)
 	assert_eq(game.active, 0, "setup: it should now be the human's turn to attack into the trap")
-	var attacker: CardInstance = GameFactory.add_to_battlefield(game, 0, GameFactory.vanilla(2, 2))
+	var attacker: CardInstance = GameFactory.add_to_field(game, 0, GameFactory.vanilla(2, 2))
 	game.advance_phase() # MAIN1 -> COMBAT
 	assert_true(game.declare_attackers([attacker.uid]))
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.TRAP_TRIGGERED), 1, "the attack trap should have fired")

@@ -9,7 +9,7 @@ var _layout: CapitalLayout
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	_layout = CapitalLayout.new()
 	_layout.build()
 
@@ -176,7 +176,7 @@ func test_each_service_debuff_is_active_until_its_zone_is_free() -> void:
 	assert_eq(CapitalDebuffs.speed_multiplier(Session.flags), 1.0)
 
 
-func test_blackout_darkens_slows_blocks_travel_and_exhausts_your_creatures() -> void:
+func test_blackout_darkens_slows_blocks_travel_and_exhausts_your_units() -> void:
 	assert_true(CapitalDebuffs.darkness(Session.flags))
 	assert_lt(CapitalDebuffs.speed_multiplier(Session.flags), 1.0)
 	assert_false(CapitalInteractables.can_travel(Session.flags))
@@ -187,29 +187,29 @@ func test_blackout_darkens_slows_blocks_travel_and_exhausts_your_creatures() -> 
 	assert_gt(set.sum_for_card(Modifier.Kind.ENTER_EXHAUSTED, data), 0)
 
 
-func test_famine_lowers_max_life_and_blocks_healing_items() -> void:
+func test_famine_lowers_max_hp_and_blocks_healing_items() -> void:
 	var run: ZoneRun = Session.begin_zone_visit(CapitalZone.ID)
-	var before_famine: int = Session.profile.base_max_life() + ModifierPipeline.build(Session.profile, null, [] as Array[ModifierSource]).sum(Modifier.Kind.MAX_LIFE)
-	assert_eq(run.max_life(), before_famine + CapitalDebuffs.FAMINE_MAX_LIFE, "Famine: max life -5")
-	assert_eq(run.life, run.max_life(), "a visit starts at full (reduced) life")
+	var before_famine: int = Session.profile.base_max_hp() + ModifierPipeline.build(Session.profile, null, [] as Array[ModifierSource]).sum(Modifier.Kind.MAX_HP)
+	assert_eq(run.max_hp(), before_famine + CapitalDebuffs.FAMINE_MAX_HP, "Famine: max HP -5")
+	assert_eq(run.hp, run.max_hp(), "a visit starts at full (reduced) HP")
 	var salve: ItemData = Session.content.item("healing_salve")
 	run.damage(4)
 	assert_true(Session.healing_blocked_for(salve), "healing items do not work in the Capital under Famine")
-	var life_before: int = run.life
+	var hp_before: int = run.hp
 	Session.add_item(salve)
 	Session.use_item(salve)
-	assert_eq(run.life, life_before, "no healing happened")
+	assert_eq(run.hp, hp_before, "no healing happened")
 	Session.complete_zone("gourmand")
 	assert_false(Session.healing_blocked_for(salve), "freed: food works again")
 	var fresh: ZoneRun = Session.begin_zone_visit(CapitalZone.ID)
-	assert_eq(fresh.max_life(), before_famine, "and the max life is back")
+	assert_eq(fresh.max_hp(), before_famine, "and the max HP is back")
 
 
 func test_clutter_shuffles_junk_into_your_deck_in_every_capital_duel() -> void:
 	Session.begin_zone_visit(CapitalZone.ID)
 	var context: BattleContext = Session.make_zone_battle(CapitalEnemies.OFFICER, "officer_0")
 	var junk: int = 0
-	for card: CardInstance in context.game.players[0].library:
+	for card: CardInstance in context.game.players[0].deck:
 		if card.data.id == CapitalContent.JUNK_ID:
 			junk += 1
 	for card: CardInstance in context.game.players[0].hand:
@@ -219,28 +219,28 @@ func test_clutter_shuffles_junk_into_your_deck_in_every_capital_duel() -> void:
 	Session.complete_zone("refusemancer")
 	Session.begin_zone_visit(CapitalZone.ID)
 	var clean: BattleContext = Session.make_zone_battle(CapitalEnemies.OFFICER, "officer_0")
-	for card: CardInstance in clean.game.players[0].library:
+	for card: CardInstance in clean.game.players[0].deck:
 		assert_ne(card.data.id, CapitalContent.JUNK_ID, "no junk once the Dump is free")
 
 
-func test_restless_dead_makes_enemy_creatures_return_from_the_graveyard() -> void:
+func test_restless_dead_makes_enemy_units_return_from_the_graveyard() -> void:
 	Session.begin_zone_visit(CapitalZone.ID)
 	var context: BattleContext = Session.make_zone_battle(CapitalEnemies.OFFICER, "officer_0")
 	var enemy_mods: ModifierSet = context.game.players[1].modifiers
 	assert_eq(enemy_mods.sum(Modifier.Kind.GRAVEYARD_RETURN_CHANCE), CapitalDebuffs.RETURN_CHANCE_PERCENT)
-	# Engine rule: with a 100% chance a dying creature comes straight back; tokens never do.
+	# Engine rule: with a 100% chance a dying unit comes straight back; tokens never do.
 	var game: GameState = _plain_game()
 	var modifier: Modifier = CardBuilder.modifier(Modifier.Kind.GRAVEYARD_RETURN_CHANCE, 100)
 	game.players[1].modifiers.add(modifier)
-	var creature: CardInstance = game.create_instance(Session.card_by_id("sellsword"), 1)
-	game.players[1].battlefield.append(creature)
-	game.kill_creature(creature)
-	assert_true(game.players[1].battlefield.has(creature), "returned from the graveyard")
-	assert_false(game.players[1].graveyard.has(creature))
+	var unit: CardInstance = game.create_instance(Session.card_by_id("sellsword"), 1)
+	game.players[1].field.append(unit)
+	game.destroy_unit(unit)
+	assert_true(game.players[1].field.has(unit), "returned from the graveyard")
+	assert_false(game.players[1].refuse_pile.has(unit))
 	var other: CardInstance = game.create_instance(Session.card_by_id("sellsword"), 0)
-	game.players[0].battlefield.append(other)
-	game.kill_creature(other)
-	assert_false(game.players[0].battlefield.has(other), "the player's side is not affected")
+	game.players[0].field.append(other)
+	game.destroy_unit(other)
+	assert_false(game.players[0].field.has(other), "the player's side is not affected")
 	Session.complete_zone("necrocrat")
 	Session.begin_zone_visit(CapitalZone.ID)
 	var calm: BattleContext = Session.make_zone_battle(CapitalEnemies.OFFICER, "officer_1")
@@ -275,12 +275,12 @@ func test_rifts_hurt_on_contact_and_empower_nearby_enemies() -> void:
 	assert_false(CapitalRifts.empowers(Session.flags, Vector2(60, 90)), "far from any rift")
 
 
-func test_an_empowered_enemy_fights_with_more_life_and_stronger_creatures() -> void:
+func test_an_empowered_enemy_fights_with_more_hp_and_stronger_units() -> void:
 	Session.begin_zone_visit(CapitalZone.ID)
 	var plain: BattleContext = Session.make_zone_battle(CapitalEnemies.WRETCH, "wretch_0")
 	Session.zone_empower_next = true
 	var strong: BattleContext = Session.make_zone_battle(CapitalEnemies.WRETCH, "wretch_1")
-	assert_eq(strong.game.players[1].life, plain.game.players[1].life + CapitalRifts.EMPOWER_LIFE)
+	assert_eq(strong.game.players[1].hp, plain.game.players[1].hp + CapitalRifts.EMPOWER_HP)
 	assert_eq(strong.game.players[1].modifiers.stat_bonus(Affinity.Type.NEUTRAL), Vector2i(CapitalRifts.EMPOWER_STAT, CapitalRifts.EMPOWER_STAT))
 	assert_false(Session.zone_empower_next, "the flag is consumed")
 
@@ -346,11 +346,11 @@ func test_the_complaint_box_replies_differently_and_has_a_limit() -> void:
 	Session.counters[CapitalZone.COUNTER_COMPLAINTS] = 0
 	assert_eq(CapitalInteractables.complaint(run2)["reply"], "compensation")
 	assert_eq(Session.gold, gold + CapitalInteractables.COMPENSATION_GOLD)
-	var life: int = run2.life
+	var hp: int = run2.hp
 	run2.visit_counts.clear()
 	Session.counters[CapitalZone.COUNTER_COMPLAINTS] = 3
 	assert_eq(CapitalInteractables.complaint(run2)["reply"], "inspector")
-	assert_eq(run2.life, life - CapitalInteractables.INSPECTOR_DAMAGE)
+	assert_eq(run2.hp, hp - CapitalInteractables.INSPECTOR_DAMAGE)
 
 
 func test_the_four_path_quests_exist_with_rewards_and_an_insight() -> void:
@@ -435,13 +435,13 @@ func test_enemy_types_use_the_framework_slow_battle_starters_and_fast_damagers()
 func test_the_gate_battle_is_challenging_and_winning_it_opens_the_gate() -> void:
 	var captain: ZoneEnemyInfo = ZoneEnemies.info(CapitalZone.ID, CapitalEnemies.GATE_CAPTAIN)
 	var officer: ZoneEnemyInfo = ZoneEnemies.info(CapitalZone.ID, CapitalEnemies.OFFICER)
-	assert_gt(captain.life, officer.life, "tougher than a roamer")
+	assert_gt(captain.hp, officer.hp, "tougher than a roamer")
 	assert_gt(captain.gold_reward, officer.gold_reward)
 	Session.begin_zone_visit(CapitalZone.ID)
 	assert_false(Session.flag(CapitalZone.FLAG_GATE_OPEN))
 	var context: BattleContext = Session.make_zone_battle(CapitalEnemies.GATE_CAPTAIN, CapitalEnemies.GATE_CAPTAIN)
 	context.won = true
-	context.game.players[0].life = 12
+	context.game.players[0].hp = 12
 	var result: Dictionary = Session.resolve_zone_battle(context)
 	assert_true(bool(result.get("gate_opened", false)))
 	assert_true(Session.flag(CapitalZone.FLAG_GATE_OPEN))
@@ -452,7 +452,7 @@ func test_a_lost_gate_battle_wakes_you_outside_with_a_fee() -> void:
 	Session.begin_zone_visit(CapitalZone.ID)
 	var context: BattleContext = Session.make_zone_battle(CapitalEnemies.GATE_CAPTAIN, CapitalEnemies.GATE_CAPTAIN)
 	context.won = false
-	context.game.players[0].life = 0
+	context.game.players[0].hp = 0
 	var gold: int = Session.gold
 	var result: Dictionary = Session.resolve_zone_battle(context)
 	assert_true(bool(result.get("woke_at_hub", false)))
@@ -461,18 +461,18 @@ func test_a_lost_gate_battle_wakes_you_outside_with_a_fee() -> void:
 	assert_eq(ZoneDefs.get_def(CapitalZone.ID).fee, CapitalZone.FEE)
 
 
-func test_modifier_engine_rules_standardize_creatures_and_junk() -> void:
+func test_modifier_engine_rules_standardize_units_and_junk() -> void:
 	var game: GameState = _plain_game()
-	var standard: Modifier = CardBuilder.modifier(Modifier.Kind.STANDARDIZE_CREATURES, 3, Modifier.ANY_COLOR, 3)
+	var standard: Modifier = CardBuilder.modifier(Modifier.Kind.STANDARDIZE_UNITS, 3, Modifier.ANY_COLOR, 3)
 	game.players[1].modifiers.add(standard)
 	var big: CardInstance = game.create_instance(Session.card_by_id("ironclad"), 0)
 	var small: CardInstance = game.create_instance(Session.card_by_id("sellsword"), 1)
-	game.players[0].battlefield.append(big)
-	game.players[1].battlefield.append(small)
-	assert_eq(game.get_power(big), 3, "every creature has the same stats (both sides)")
-	assert_eq(game.get_toughness(big), 3)
-	assert_eq(game.get_power(small), 3)
-	assert_eq(game.get_toughness(small), 3)
+	game.players[0].field.append(big)
+	game.players[1].field.append(small)
+	assert_eq(game.get_attack(big), 3, "every unit has the same stats (both sides)")
+	assert_eq(game.get_defense(big), 3)
+	assert_eq(game.get_attack(small), 3)
+	assert_eq(game.get_defense(small), 3)
 
 
 # ---- Text -------------------------------------------------------------------------------------------------------------------------------

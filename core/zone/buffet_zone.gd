@@ -36,7 +36,7 @@ const FLAG_GATE_INGREDIENT: StringName = &"buf_gate_ingredient_open"
 const FLAG_GATE_QUEST: StringName = &"buf_gate_quest_open"
 const FLAG_GATE_BATTLE: StringName = &"buf_gate_battle_open"
 
-## Falling into the soup: respawn at the last safe spot and lose this much zone life.
+## Falling into the soup: respawn at the last safe spot and lose this much zone HP.
 const SOUP_DAMAGE: int = 1
 
 ## The six ingredients scattered around the zone (id -> display name). Picking one up adds one to the
@@ -175,12 +175,12 @@ static func _mini_def() -> ZoneDef.MiniDef:
 	return mini
 
 
-static func _battle(title: String, blurb: String, enemy: String, life: int, ai: String, elite: bool, recipe: Dictionary) -> ZoneDef.MiniBattle:
+static func _battle(title: String, blurb: String, enemy: String, hp: int, ai: String, elite: bool, recipe: Dictionary) -> ZoneDef.MiniBattle:
 	var battle: ZoneDef.MiniBattle = ZoneDef.MiniBattle.new()
 	battle.title = title
 	battle.blurb = blurb
 	battle.enemy = enemy
-	battle.life = life
+	battle.hp = hp
 	battle.ai_name = ai
 	battle.elite = elite
 	battle.recipe = recipe

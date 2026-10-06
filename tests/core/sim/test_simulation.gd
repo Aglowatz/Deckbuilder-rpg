@@ -18,7 +18,7 @@ func test_a_simulated_game_finishes_legally() -> void:
 	for seat: Dictionary in record.casts:
 		for count: Variant in seat.values():
 			total_casts += int(count)
-	assert_gt(total_casts, 3, "spells were cast and counted")
+	assert_gt(total_casts, 3, "spells were play and counted")
 
 
 func test_same_seed_same_game() -> void:

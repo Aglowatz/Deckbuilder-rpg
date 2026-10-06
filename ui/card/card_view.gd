@@ -2,8 +2,8 @@ class_name CardView
 extends Control
 ## One card on screen. Built from a CardData: a frame tinted per affinity, cost pips, name,
 ## placeholder art (game-icons silhouette on a gradient), type line, rules text with bold
-## keywords, power/toughness and a rarity gem. Three looks: FULL (hand, zoom, deckbuilder),
-## COMPACT (battlefield: art-first, no rules text) and BACK (face-down / opponent hand).
+## keywords, attack/defense and a rarity gem. Three looks: FULL (hand, zoom, deckbuilder),
+## COMPACT (field: art-first, no rules text) and BACK (face-down / opponent hand).
 ## The card is laid out at 300x420; scale the node to draw it smaller or larger.
 
 signal hovered(view: CardView)
@@ -32,15 +32,15 @@ var dual: bool = false
 var _frame: Panel
 var _glow: Control
 var _name_label: Label
-var _power_label: Label
+var _attack_label: Label
 var _plaque: PanelContainer
 var _badge_sick: Label
 var _damage_label: Label
 var _tint_overlay: ColorRect
 var _glow_tween: Tween
 var _glow_kind: Glow = Glow.NONE
-var _base_power: int = 0
-var _base_toughness: int = 0
+var _base_attack: int = 0
+var _base_defense: int = 0
 
 
 static func create(card: CardData, card_mode: Mode = Mode.FULL) -> CardView:
@@ -98,8 +98,8 @@ func _build() -> void:
 	if mode == Mode.BACK or data == null:
 		_build_back()
 		return
-	_base_power = data.power
-	_base_toughness = data.toughness
+	_base_attack = data.attack
+	_base_defense = data.defense
 	_frame = _panel(Rect2(Vector2.ZERO, SIZE), UIStyle.box(Color("1c1526"), accent.darkened(0.15), 6, 20, 10))
 	add_child(_frame)
 	if dual:
@@ -287,7 +287,7 @@ func _build_type_line() -> void:
 
 
 func _type_text() -> String:
-	var kind: String = "Creature"
+	var kind: String = "Unit"
 	match data.type:
 		CardEnums.CardType.INFRASTRUCTURE:
 			kind = "Basic Infrastructure" if data.is_basic else "Infrastructure"
@@ -295,8 +295,8 @@ func _type_text() -> String:
 			kind = "Spell"
 		CardEnums.CardType.TRAP:
 			kind = "Trap"
-		CardEnums.CardType.ARTIFACT:
-			kind = "Artifact"
+		CardEnums.CardType.WONDER:
+			kind = "Wonder"
 	if data.is_token:
 		kind = "Token " + kind
 	if data.is_multipath():
@@ -332,7 +332,7 @@ func _build_chips() -> void:
 		names.append("Trap")
 	if data.has_trigger(CardEnums.Trigger.ACTIVATED):
 		names.append("Ability")
-	if data.type != CardEnums.CardType.CREATURE and data.type != CardEnums.CardType.TRAP:
+	if data.type != CardEnums.CardType.UNIT and data.type != CardEnums.CardType.TRAP:
 		names.append(_type_text().split("-")[-1].strip_edges())
 	if names.is_empty() and data.rules_text != "":
 		names.append("Effect")
@@ -360,7 +360,7 @@ func _build_chips() -> void:
 
 
 func _build_plaque() -> void:
-	if not data.is_creature():
+	if not data.is_unit():
 		return
 	var width: float = 92.0 if mode == Mode.FULL else 118.0
 	var height: float = 48.0 if mode == Mode.FULL else 60.0
@@ -370,15 +370,15 @@ func _build_plaque() -> void:
 	_plaque.size = Vector2(width, height)
 	_plaque.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_plaque)
-	_power_label = Label.new()
-	_power_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_power_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_power_label.add_theme_font_override("font", UIStyle.font_title())
-	_power_label.add_theme_font_size_override("font_size", 32 if mode == Mode.FULL else 40)
-	_power_label.add_theme_color_override("font_color", UIStyle.PARCHMENT)
-	_power_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_plaque.add_child(_power_label)
-	_set_stats(data.power, data.toughness, 0)
+	_attack_label = Label.new()
+	_attack_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_attack_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_attack_label.add_theme_font_override("font", UIStyle.font_title())
+	_attack_label.add_theme_font_size_override("font_size", 32 if mode == Mode.FULL else 40)
+	_attack_label.add_theme_color_override("font_color", UIStyle.PARCHMENT)
+	_attack_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_plaque.add_child(_attack_label)
+	_set_stats(data.attack, data.defense, 0)
 
 
 func _build_overlays() -> void:
@@ -424,31 +424,31 @@ func _build_overlays() -> void:
 # ---- Live state (battle) ----------------------------------------------------------------
 
 
-func _set_stats(power: int, toughness: int, damage: int) -> void:
-	if _power_label == null:
+func _set_stats(attack: int, defense: int, damage: int) -> void:
+	if _attack_label == null:
 		return
-	var shown_toughness: int = toughness - damage
-	_power_label.text = "%d/%d" % [power, shown_toughness]
+	var shown_defense: int = defense - damage
+	_attack_label.text = "%d/%d" % [attack, shown_defense]
 	var color: Color = UIStyle.PARCHMENT
-	if damage > 0 or toughness < _base_toughness:
+	if damage > 0 or defense < _base_defense:
 		color = Color("ff8080")
-	elif power > _base_power or toughness > _base_toughness:
+	elif attack > _base_attack or defense > _base_defense:
 		color = Color("9be49f")
-	_power_label.add_theme_color_override("font_color", color)
+	_attack_label.add_theme_color_override("font_color", color)
 
 
-## Refreshes power/toughness/damage/exhausted/summoning-sick from the rules engine.
+## Refreshes attack/defense/damage/exhausted/summoning-sick from the rules engine.
 func apply_instance(instance: CardInstance, game: GameState) -> void:
 	instance_uid = instance.uid
 	if data == null or mode == Mode.BACK:
 		return
-	if data.is_creature():
-		_set_stats(game.get_power(instance), game.get_toughness(instance), instance.damage)
+	if data.is_unit():
+		_set_stats(game.get_attack(instance), game.get_defense(instance), instance.damage)
 	if _damage_label != null:
 		_damage_label.visible = instance.damage > 0
 		_damage_label.text = "-%d" % instance.damage
 	if _badge_sick != null:
-		_badge_sick.visible = instance.summoning_sick and data.is_creature() and not instance.exhausted and not instance.has_keyword(CardEnums.Keyword.HASTE)
+		_badge_sick.visible = instance.summoning_sick and data.is_unit() and not instance.exhausted and not instance.has_keyword(CardEnums.Keyword.HUSTLE)
 	if _tint_overlay != null:
 		_tint_overlay.color = Color(0.05, 0.05, 0.12, 0.45) if instance.exhausted else Color(0, 0, 0, 0)
 

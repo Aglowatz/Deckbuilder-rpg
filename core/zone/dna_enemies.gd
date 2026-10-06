@@ -37,7 +37,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:D": 16, "middle_manager": 3, "cubicle_zombie": 3, "soul_auditor": 2,
 				"performance_review": 2, "death_benefits": 1,
 			}
-			made.life = 14
+			made.hp = 14
 			made.ai_name = "Balanced"
 			made.gold_reward = 30
 			made.xp_reward = 40
@@ -59,7 +59,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:D": 15, "overdue_intern": 4, "cubicle_zombie": 3, "mandatory_fun_day": 2,
 				"take_a_number": 1, "hr_reaper": 1,
 			}
-			made.life = 10
+			made.hp = 10
 			made.ai_name = "Aggressive"
 			made.gold_reward = 25
 			made.xp_reward = 35
@@ -102,6 +102,6 @@ static func personality(content: ContentSet, id: String) -> AIPersonality:
 	return ZoneEnemies.personality(content, DnaZone.ID, id)
 
 
-## The enemy seat for a zone duel: a Necrocrat deck and the type's own life total.
+## The enemy seat for a zone duel: a Necrocrat deck and the type's own HP total.
 static func enemy_setup(content: ContentSet, id: String) -> PlayerSetup:
 	return ZoneEnemies.enemy_setup(content, DnaZone.ID, id)

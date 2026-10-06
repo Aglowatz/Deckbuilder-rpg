@@ -19,11 +19,11 @@ func test_map_shape_and_order() -> void:
 	assert_true(map.node(1).tutorial, "first battle is the tutorial")
 
 
-func test_tutorial_encounters_have_low_life() -> void:
+func test_tutorial_encounters_have_low_hp() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
 	for node: DungeonMap.MapNode in map.nodes:
 		if node.kind == DungeonMap.Kind.BATTLE or node.kind == DungeonMap.Kind.BOSS:
-			assert_lt(node.enemy_life, PlayerProfile.START_MAX_LIFE, "%s should have low life" % node.title)
+			assert_lt(node.enemy_hp, PlayerProfile.START_MAX_HP, "%s should have low HP" % node.title)
 
 
 ## Part D: non-boss opponents attack (an eager "aggressive but dumb" AI, not the old "Passive"
@@ -39,15 +39,15 @@ func test_non_boss_opponents_use_the_aggressive_dumb_ai_the_boss_does_not() -> v
 
 
 ## Part D: the two non-boss decks are vanilla-only - no removal, no card-draw/advantage - and
-## include 1-cost creatures, same idea as the player's own starter.
-func test_non_boss_decks_are_weak_and_vanilla_with_1_cost_creatures() -> void:
+## include 1-cost units, same idea as the player's own starter.
+func test_non_boss_decks_are_weak_and_vanilla_with_1_cost_units() -> void:
 	var removal_or_draw_ops: Array[CardEnums.EffectOp] = [
-		CardEnums.EffectOp.DESTROY, CardEnums.EffectOp.DRAW, CardEnums.EffectOp.DISCARD,
-		CardEnums.EffectOp.RETURN_TO_HAND, CardEnums.EffectOp.MILL,
+		CardEnums.EffectOp.DESTROY, CardEnums.EffectOp.DRAW, CardEnums.EffectOp.TOSS,
+		CardEnums.EffectOp.SEND_BACK, CardEnums.EffectOp.BURY,
 	]
 	for enemy_name: String in ["Cave Scavenger", "Hollow Stalker"]:
 		var deck: Deck = TrialOfTheHollow.enemy_deck(content, enemy_name)
-		var one_cost_creatures: int = 0
+		var one_cost_units: int = 0
 		var seen: Dictionary = {}
 		for card: CardData in deck.cards:
 			if card.is_infrastructure() or seen.has(card.id):
@@ -55,11 +55,11 @@ func test_non_boss_decks_are_weak_and_vanilla_with_1_cost_creatures() -> void:
 			seen[card.id] = true
 			for effect: EffectData in card.effects:
 				assert_false(removal_or_draw_ops.has(effect.op), "%s: %s has removal/card-draw (%s)" % [enemy_name, card.id, effect.op])
-			if card.is_creature():
-				assert_lt(card.power + card.toughness, 8, "%s: %s should be a low-stat creature" % [enemy_name, card.id])
+			if card.is_unit():
+				assert_lt(card.attack + card.defense, 8, "%s: %s should be a low-stat unit" % [enemy_name, card.id])
 				if card.energy_value() == 1:
-					one_cost_creatures += 1
-		assert_gt(one_cost_creatures, 0, "%s should include 1-cost creatures" % enemy_name)
+					one_cost_units += 1
+		assert_gt(one_cost_units, 0, "%s should include 1-cost units" % enemy_name)
 
 
 func test_shrine_before_the_boss_is_a_full_heal() -> void:
@@ -73,9 +73,9 @@ func test_shrine_before_the_boss_is_a_full_heal() -> void:
 			boss = node
 	assert_true(shrine.next.has(boss.id), "the shrine leads straight into the boss")
 	var run: DungeonRun = DungeonRun.enter(PlayerProfile.new(), Deck.new(), [] as Array[ModifierSource])
-	run.lose_life(run.max_life() - 1)
+	run.lose_hp(run.max_hp() - 1)
 	run.heal(shrine.heal_amount)
-	assert_eq(run.life, run.max_life(), "the shrine heals all the way to max life")
+	assert_eq(run.hp, run.max_hp(), "the shrine heals all the way to max HP")
 
 
 func test_only_connected_nodes_are_available() -> void:
@@ -110,24 +110,24 @@ func test_deck_size_waiver_matches_the_starter_deck() -> void:
 	var mods: ModifierSet = ModifierSet.new()
 	mods.add_source(TrialOfTheHollow.deck_size_waiver())
 	assert_eq(DeckValidator.min_deck_size(mods), TrialOfTheHollow.STARTER_DECK_SIZE)
-	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.B)
+	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.GOURMAND)
 	assert_eq(deck.size(), TrialOfTheHollow.STARTER_DECK_SIZE)
 	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new(), mods))
 
 
-func test_no_dungeon_wide_blessing_run_uses_plain_base_life() -> void:
-	var profile: PlayerProfile = CampaignStart.new_profile(content, Affinity.Type.A)
-	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.A)
+func test_no_dungeon_wide_blessing_run_uses_plain_base_hp() -> void:
+	var profile: PlayerProfile = CampaignStart.new_profile(content, Affinity.Type.BEEFCAKE)
+	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.BEEFCAKE)
 	var run: DungeonRun = DungeonRun.enter(profile, deck, [] as Array[ModifierSource])
-	assert_eq(run.life, PlayerProfile.START_MAX_LIFE)
-	assert_eq(run.max_life(), PlayerProfile.START_MAX_LIFE)
+	assert_eq(run.hp, PlayerProfile.START_MAX_HP)
+	assert_eq(run.max_hp(), PlayerProfile.START_MAX_HP)
 
 
-func test_enemy_setup_uses_node_life() -> void:
+func test_enemy_setup_uses_node_hp() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
 	var setup: PlayerSetup = TrialOfTheHollow.enemy_setup(content, map.node(1))
-	assert_eq(setup.starting_life, map.node(1).enemy_life)
-	assert_lt(setup.starting_life, PlayerProfile.START_MAX_LIFE, "the tutorial's first enemy should be easier than the player")
+	assert_eq(setup.starting_hp, map.node(1).enemy_hp)
+	assert_lt(setup.starting_hp, PlayerProfile.START_MAX_HP, "the tutorial's first enemy should be easier than the player")
 
 
 ## New brief (third), Part D: the secret tunnel skip grants exactly what the tutorial's own 2

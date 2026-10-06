@@ -2405,3 +2405,16 @@ All parts done and pushed, 872 tests pass. Medium fps: town 77, Gainlands 83, Ca
 3. Capital: inside is very bright and saturated (blue sky, striped lawns); outside is a gray-olive wasteland. Is the contrast right, and should the facade hide more "wrong" details (the portraits, speakers and never-opening doors are the ones already there)?
 4. Passageways: the greedy walker could not always reach them without help, which suggests the hex trees near the edge cells make the approach fiddly in places; tell me which one feels awkward.
 5. Zone effects are shown in battle only when the duel carries a zone context; the arena duels and town duels have none (by design). OK?
+
+# Brief 14: the designed card set, Resources and new terminology
+
+Source of truth: `data/source/card_list.csv`, `token_list.csv`, `design_guidance.csv` (a `.gdignore` in `data/source/` keeps Godot from importing the CSVs as translations).
+
+## Part A: terminology everywhere - done
+Applied the Design Guidance terms across the engine API, UI, tooltips, tutorial text, story data, quest/challenge text, docs and tests (mechanical pass in `tools/refactor_terms.pl`, which treats code and prose separately):
+- Engine names: `CardType.UNIT/TOOL/WONDER/RESOURCE/TOKEN` (no more CREATURE/ARTIFACT), `PlayerState.deck / field / refuse_pile / hp`, `units()`, `get_attack/get_defense`, `attack`/`defense` on cards, `play_card`/`can_play_card`, `GameAction.Type.PLAY`, `TOSS`, `BURY`, `SEND_BACK`, `destroy_unit`, `gain_hp/lose_hp`, `Affinity.Type.BEEFCAKE/GOURMAND/REFUSEMANCER/NECROCRAT` (plus `Affinity.symbol()/from_symbol()` for the (B)(N)(G)(R) energy symbols; the neutral Path displays as "Colorless").
+- Keywords: Flying, Swat, Hustle, Bulldoze, Sucker Punch, One-Two Punch, Toxic, Nourish, Overtime, Wallflower, Elusive, Untouchable, Unbreakable (tooltips in `KeywordInfo`). The new ones are defined now and implemented in Part C.
+- Guard is removed entirely: attackers always attack the opposing player (no attack targets in the engine, UI or AI); Vigilance/Haste/etc. old names are gone.
+- UI strings: HP instead of Life, Refuse pile counter, Toss prompt, Play instead of Cast, Path identity blurbs rewritten from the Design Guidance.
+- The old generated `.tres` content was regenerated with the new property names (all of it is replaced in Part E).
+Tests: 873 pass (new `tests/test_terminology.gd`; the five Guard tests were removed).

@@ -2,10 +2,10 @@ extends GutTest
 ## Part F: essence from extra copies, the Alchemist's crafting, and the multi-Path (dual-Path) cards: deck rules,
 ## costs, the AI and zone effects.
 
-var A: Affinity.Type = Affinity.Type.A
-var B: Affinity.Type = Affinity.Type.B
-var C: Affinity.Type = Affinity.Type.C
-var D: Affinity.Type = Affinity.Type.D
+var A: Affinity.Type = Affinity.Type.BEEFCAKE
+var B: Affinity.Type = Affinity.Type.GOURMAND
+var C: Affinity.Type = Affinity.Type.REFUSEMANCER
+var D: Affinity.Type = Affinity.Type.NECROCRAT
 
 
 func before_each() -> void:
@@ -18,13 +18,13 @@ func before_each() -> void:
 
 
 func _card(id: String, color: Affinity.Type, rarity: CardEnums.Rarity) -> CardData:
-	var card: CardData = CardBuilder.creature(id, id.capitalize(), color, 1, [] as Array[Affinity.Type], 1, 1)
+	var card: CardData = CardBuilder.unit(id, id.capitalize(), color, 1, [] as Array[Affinity.Type], 1, 1)
 	card.rarity = rarity
 	return card
 
 
 func _dual(id: String, first: Affinity.Type, second: Affinity.Type, rarity: CardEnums.Rarity = CardEnums.Rarity.COMMON) -> CardData:
-	var card: CardData = CardBuilder.creature(id, id.capitalize(), first, 1, [first, second] as Array[Affinity.Type], 2, 2)
+	var card: CardData = CardBuilder.unit(id, id.capitalize(), first, 1, [first, second] as Array[Affinity.Type], 2, 2)
 	card.color2 = second
 	card.rarity = rarity
 	return card
@@ -271,10 +271,10 @@ func test_a_dual_card_needs_energy_from_both_paths() -> void:
 	var game: GameState = GameFactory.blank_game()
 	var card: CardInstance = GameFactory.add_to_hand(game, 0, _dual("both", A, D))
 	GameFactory.add_infrastructure_cards(game, 0, 3, A)
-	assert_false(game.can_cast(0, card.uid), "three Beefcake infrastructure cannot pay a Necrocrat pip")
+	assert_false(game.can_play_card(0, card.uid), "three Beefcake infrastructure cannot pay a Necrocrat pip")
 	GameFactory.add_infrastructure_cards(game, 0, 1, D)
-	assert_true(game.can_cast(0, card.uid))
-	assert_true(game.cast(0, card.uid))
+	assert_true(game.can_play_card(0, card.uid))
+	assert_true(game.play_card(0, card.uid))
 	assert_eq(game.players[0].ready_infrastructure().size(), 1, "paid with one infrastructure of each Path plus one generic")
 	for infra: CardInstance in game.players[0].infrastructure:
 		if infra.data.color == D:
@@ -287,7 +287,7 @@ func test_the_ai_casts_a_dual_card_once_it_has_both_paths() -> void:
 	GameFactory.add_infrastructure_cards(game, 0, 1, B)
 	GameFactory.add_infrastructure_cards(game, 0, 2, C)
 	var action: GameAction = AIPlayer.new(AIPersonality.balanced()).choose_action(game)
-	assert_eq(action.type, GameAction.Type.CAST)
+	assert_eq(action.type, GameAction.Type.PLAY)
 	assert_eq(action.card_uid, card.uid)
 
 
@@ -365,12 +365,12 @@ func test_a_dual_card_receives_the_zone_effects_of_both_its_paths() -> void:
 	while game.stage == GameState.Stage.MULLIGAN:
 		game.keep_hand(game.awaiting_player())
 	game.players[0].hand.clear()
-	var card: CardInstance = GameFactory.add_to_battlefield(game, 0, _dual("rival", A, D), true)
-	assert_eq(game.get_power(card), 3, "Pump It Up (Beefcake) buffs it...")
+	var card: CardInstance = GameFactory.add_to_field(game, 0, _dual("rival", A, D), true)
+	assert_eq(game.get_attack(card), 3, "Pump It Up (Beefcake) buffs it...")
 	GameFactory.add_infrastructure_cards(game, 0, 3, A)
 	GameFactory.add_infrastructure_cards(game, 0, 3, D)
 	var second: CardInstance = GameFactory.add_to_hand(game, 0, _dual("rival2", A, D))
-	assert_true(game.cast(0, second.uid))
+	assert_true(game.play_card(0, second.uid))
 	assert_true(second.exhausted, "...and Processing Time (Necrocrat) makes it enter exhausted")
 
 

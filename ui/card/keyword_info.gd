@@ -3,21 +3,27 @@ extends RefCounted
 ## Player-facing names and explanations of keywords and card types (tooltips, bold text).
 
 const KEYWORD_TEXT: Dictionary = {
-	CardEnums.Keyword.FLYING: ["Flying", "Can only be blocked by creatures with Flying or Reach."],
-	CardEnums.Keyword.REACH: ["Reach", "Can block creatures with Flying."],
-	CardEnums.Keyword.HASTE: ["Haste", "Can attack the turn it enters play."],
-	CardEnums.Keyword.DEFENDER: ["Defender", "Cannot attack."],
-	CardEnums.Keyword.TRAMPLE: ["Trample", "Excess combat damage carries over to the player when blocked."],
-	CardEnums.Keyword.FIRST_STRIKE: ["First Strike", "Deals combat damage before creatures without it."],
-	CardEnums.Keyword.LIFESTEAL: ["Lifesteal", "Damage dealt by this creature also heals its controller."],
-	CardEnums.Keyword.GUARD: ["Guard", "While you control a ready Guard creature, enemy attackers must attack a Guard creature. An exhausted Guard does not force attacks."],
-	CardEnums.Keyword.VIGILANCE: ["Vigilance", "Attacking does not exhaust this creature."],
+	CardEnums.Keyword.FLYING: ["Flying", "Can only be blocked by units with Flying or Swat."],
+	CardEnums.Keyword.SWAT: ["Swat", "Can block units with Flying."],
+	CardEnums.Keyword.HUSTLE: ["Hustle", "Can attack and activate the turn it enters."],
+	CardEnums.Keyword.WALLFLOWER: ["Wallflower", "Can't attack."],
+	CardEnums.Keyword.BULLDOZE: ["Bulldoze", "Excess combat damage beyond the blocker's defense hits the opponent."],
+	CardEnums.Keyword.SUCKER_PUNCH: ["Sucker Punch", "Deals combat damage before units without it."],
+	CardEnums.Keyword.ONE_TWO_PUNCH: ["One-Two Punch", "Deals both Sucker Punch and regular combat damage."],
+	CardEnums.Keyword.TOXIC: ["Toxic", "Any damage this deals to a unit destroys it."],
+	CardEnums.Keyword.NOURISH: ["Nourish", "Damage this deals also heals you that much."],
+	CardEnums.Keyword.OVERTIME: ["Overtime", "Attacking doesn't activate (exhaust) this unit."],
+	CardEnums.Keyword.ELUSIVE: ["Elusive", "Can't be blocked."],
+	CardEnums.Keyword.UNTOUCHABLE: ["Untouchable", "Can't be targeted by your opponent's cards."],
+	CardEnums.Keyword.UNBREAKABLE: ["Unbreakable", "Can't be destroyed by damage or destroy effects. It can still be Shredded, sent back, or reduced to 0 defense."],
 }
 
 const GLOSSARY: Dictionary = {
-	"Trap": "Set face-down on your turn. It springs automatically when its condition is met, then is spent.",
-	"Summoning sickness": "A creature that just entered play cannot attack until your next turn (unless it has Haste).",
-	"Exhausted": "An exhausted creature or infrastructure is spent until its controller's next turn.",
+	"Trap": "Played face-down on your turn. It springs automatically on your opponent's turn when its condition is met, then goes to your Refuse Pile.",
+	"Summoning sickness": "A unit that just entered the field can't attack until your next turn (unless it has Hustle).",
+	"Exhaust": "An exhausted card is spent until it refreshes at the start of its controller's turn.",
+	"Activate": "Using an ability. Activated abilities can only be used on your own turn.",
+	"Shred": "Removed from the game for good.",
 }
 
 
@@ -43,7 +49,7 @@ static func entries_for(card: CardData) -> Array[Array]:
 static func rules_bbcode(card: CardData) -> String:
 	var text: String = card.rules_text
 	if card.is_infrastructure():
-		text = "Activate: add one %s Path energy." % UIStyle.affinity_name(card.color)
+		text = "Activate: add one %s energy." % UIStyle.affinity_name(card.color)
 	var gold: String = UIStyle.GOLD.darkened(0.45).to_html(false)
 	var words: Array[String] = ["Trap"]
 	for keyword: CardEnums.Keyword in KEYWORD_TEXT.keys():

@@ -13,7 +13,7 @@ description = "Lose a card for the dungeon."
 script = ExtResource("1_roeef")
 kind = 2
 amount = 4
-description = "Heal 4 life."
+description = "Heal 4 HP."
 
 [resource]
 script = ExtResource("3_nf7dg")

@@ -1,8 +1,8 @@
 class_name BuffetInteractables
 extends RefCounted
 ## The rules behind the Endless Buffet's interactables (all effects are real; the scene only animates them):
-##  - Taste-Test Station (8 gold): a blind taste test with a random result - heal 3, heal 6, +1 max life
-##    for the visit, a tip in gold, a bland bite (nothing) or a too-spicy one (-1 life, never below 1).
+##  - Taste-Test Station (8 gold): a blind taste test with a random result - heal 3, heal 6, +1 max HP
+##    for the visit, a tip in gold, a bland bite (nothing) or a too-spicy one (-1 HP, never below 1).
 ##    Counts for nothing else but is the only random-effect interactable.
 ##  - The Grand Oven: bakes a Hearty Pot Pie (an item that heals 6) from honey, basil and a ghost pepper.
 ##    Counts for "Bake Me a Pie".
@@ -17,7 +17,7 @@ const COOKIE_COST: int = 5
 const FOUNTAIN_LIMIT: int = 3
 const FOUNTAIN_HEAL: int = 2
 const TASTE_TIP: int = 25
-const TASTE_MAX_LIFE_BONUS: int = 1
+const TASTE_MAX_HP_BONUS: int = 1
 const VISIT_FOUNTAIN: String = "fountain"
 const PICKUP_PREFIX: String = "pick_"
 
@@ -41,19 +41,19 @@ static func taste_outcome(roll: float) -> String:
 static func apply_taste(run: ZoneRun, outcome: String) -> String:
 	match outcome:
 		"good":
-			return "+%d life" % run.heal(3)
+			return "+%d HP" % run.heal(3)
 		"great":
-			return "+%d life" % run.heal(6)
+			return "+%d HP" % run.heal(6)
 		"buff":
-			run.add_buff(GainlandsInteractables.max_life_buff("Refined Palate", TASTE_MAX_LIFE_BONUS))
-			return "+%d max life this visit" % TASTE_MAX_LIFE_BONUS
+			run.add_buff(GainlandsInteractables.max_hp_buff("Refined Palate", TASTE_MAX_HP_BONUS))
+			return "+%d max HP this visit" % TASTE_MAX_HP_BONUS
 		"tip":
 			Session.add_gold(TASTE_TIP)
 			return "+%d gold" % TASTE_TIP
 		"spicy":
-			var before: int = run.life
-			run.life = maxi(1, run.life - 1)
-			return "-%d life" % (before - run.life)
+			var before: int = run.hp
+			run.hp = maxi(1, run.hp - 1)
+			return "-%d HP" % (before - run.hp)
 	return ""
 
 
@@ -122,13 +122,13 @@ static func mend() -> bool:
 	return true
 
 
-## Falling into the soup: 1 damage to the zone life and a line in the zone log. Returns {damage, down, log}.
+## Falling into the soup: 1 damage to the zone HP and a line in the zone log. Returns {damage, down, log}.
 static func apply_soup_fall(run: ZoneRun, place: String, log_template: String) -> Dictionary:
-	var before: int = run.life
+	var before: int = run.hp
 	run.damage(BuffetZone.SOUP_DAMAGE)
 	var line: String = log_template % place
 	Session.log_zone_event(line)
-	return {"damage": before - run.life, "down": run.is_down(), "log": line}
+	return {"damage": before - run.hp, "down": run.is_down(), "log": line}
 
 
 # ---- Ingredient stock and gates (anything that needs the Session lives here, not in the pure data classes) ----

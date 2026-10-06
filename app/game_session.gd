@@ -91,7 +91,7 @@ func discard_incompatible_save() -> bool:
 	if FileAccess.file_exists(backup):
 		DirAccess.remove_absolute(backup)
 	DirAccess.rename_absolute(save_path, backup)
-	save_reset_message = "Your old save came from an earlier version of the game (infrastructure, Path energy, new story and systems) and could not be loaded. It was reset - please start a new game. (The old file was kept as save.json.old.)"
+	save_reset_message = "Your old save came from an earlier version of the game (infrastructure, energy, new story and systems) and could not be loaded. It was reset - please start a new game. (The old file was kept as save.json.old.)"
 	return true
 
 
@@ -124,7 +124,7 @@ func new_game() -> void:
 ## Makes sure a complete, post-tutorial game exists (used when a scene - town, the vendor, the
 ## deck station... - is launched directly for testing/screenshots, skipping the starting area
 ## and the tutorial dungeon).
-func ensure_game(color: Affinity.Type = Affinity.Type.A) -> void:
+func ensure_game(color: Affinity.Type = Affinity.Type.BEEFCAKE) -> void:
 	if profile == null:
 		new_game()
 		profile = CampaignStart.new_profile(content, color)
@@ -551,7 +551,7 @@ func choose_equipment_slot(slot: EquipmentData.Slot) -> bool:
 ## The Capital's Famine debuff: while the Gourmand zone is not free, healing consumables (the kingdom's food and provisions) do
 ## nothing in the Capital and its castle. Used by `use_item` and the character screen.
 func healing_blocked_for(item: ItemData) -> bool:
-	if item == null or item.effect == null or item.effect.op != CardEnums.EffectOp.GAIN_LIFE:
+	if item == null or item.effect == null or item.effect.op != CardEnums.EffectOp.GAIN_HP:
 		return false
 	if zone_run == null or zone_run.zone_id != CapitalZone.ID:
 		return false
@@ -562,7 +562,7 @@ func healing_blocked_for(item: ItemData) -> bool:
 func use_item(item: ItemData) -> bool:
 	if healing_blocked_for(item):
 		return false
-	if profile == null or not profile.use_item(item, life_run()):
+	if profile == null or not profile.use_item(item, hp_run()):
 		return false
 	save_game()
 	return true
@@ -818,7 +818,7 @@ func in_dungeon() -> bool:
 	return run != null and dungeon_map != null
 
 
-## Builds the duel for a battle or boss node. Life carries over from the run.
+## Builds the duel for a battle or boss node. HP carries over from the run.
 func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var options: GameOptions = GameOptions.new()
 	options.first_player = 0 if node.tutorial else -1
@@ -887,7 +887,7 @@ var pending_npc_result: Dictionary = {}
 
 ## A duel against one of the 4 corrupted NPCs, using the player's real current deck/profile (not
 ## a "typical" reference deck - that only exists for balance simulation, see
-## core/dungeon/corrupted_npcs.gd). Full life, like a fresh duel - not carried over from anywhere.
+## core/dungeon/corrupted_npcs.gd). Full HP, like a fresh duel - not carried over from anywhere.
 func make_npc_challenge_battle(id: String) -> BattleContext:
 	ensure_game()
 	var options: GameOptions = GameOptions.new()
@@ -940,7 +940,7 @@ var pending_graveyard_result: Dictionary = {}
 
 
 ## The Graveyard's scripted battle, using the player's real current deck/profile (not a
-## reference deck) at full life - a real, standalone fight, not carried over from a dungeon run.
+## reference deck) at full HP - a real, standalone fight, not carried over from a dungeon run.
 func make_graveyard_battle() -> BattleContext:
 	ensure_game()
 	var options: GameOptions = GameOptions.new()
@@ -1117,7 +1117,7 @@ func _fog_to_dict() -> Dictionary:
 const DNA_SCENE: String = "res://scenes/dna_zone.tscn"  # kept for older callers; the zone scene comes from ZoneDef.scene_path
 const ZONE_LOG_LIMIT: int = 40
 
-## The current zone visit (null in town). Holds the life that persists across the whole visit.
+## The current zone visit (null in town). Holds the HP that persists across the whole visit.
 var zone_run: ZoneRun
 ## Set when the zone scene (re)loads after a battle/minigame, read once by it: {} when nothing.
 var pending_zone_result: Dictionary = {}
@@ -1131,19 +1131,19 @@ func in_zone() -> bool:
 	return zone_run != null
 
 
-## The run that item use and healing apply to: the dungeon run, else the zone visit's life.
-func life_run() -> DungeonRun:
+## The run that item use and healing apply to: the dungeon run, else the zone visit's HP.
+func hp_run() -> DungeonRun:
 	if in_dungeon():
 		return run
 	return zone_run.run if zone_run != null else null
 
 
-## Entering from town: a brand-new visit, always at full life (town heals fully).
+## Entering from town: a brand-new visit, always at full HP (town heals fully).
 func enter_dna() -> void:
 	enter_zone(DnaZone.ID)
 
 
-## Entering any zone (`ZoneDefs`) from town: a brand-new visit, always at full life.
+## Entering any zone (`ZoneDefs`) from town: a brand-new visit, always at full HP.
 func enter_zone(zone_id: String) -> void:
 	begin_zone_visit(zone_id)
 	pending_zone_result = {}
@@ -1168,7 +1168,7 @@ func unlock_fast_travel(station_id: String) -> bool:
 	return true
 
 
-## Rips the hero to another station: to the town, or into a fresh visit of a zone (full life, the visit's enemies are back, like walking
+## Rips the hero to another station: to the town, or into a fresh visit of a zone (full HP, the visit's enemies are back, like walking
 ## in from town). Does nothing for a station that is not unlocked.
 func fast_travel_to(destination: String) -> bool:
 	if not FastTravel.is_unlocked(flags, destination):
@@ -1186,15 +1186,15 @@ func fast_travel_to(destination: String) -> bool:
 	return true
 
 
-## Starts a visit to `zone_id` (full life). The Capital's broken-service debuffs (`CapitalDebuffs`) join the visit's modifiers
-## here, so they apply to every duel and to the zone life (Famine lowers max life).
+## Starts a visit to `zone_id` (full HP). The Capital's broken-service debuffs (`CapitalDebuffs`) join the visit's modifiers
+## here, so they apply to every duel and to the zone HP (Famine lowers max HP).
 func begin_zone_visit(zone_id: String) -> ZoneRun:
 	zone_run = ZoneRun.enter(zone_id, profile, deck)
 	if zone_id == CapitalZone.ID:
 		var debuffs: ModifierSource = CapitalDebuffs.player_source(flags, content)
 		if debuffs != null:
 			zone_run.run.dungeon_sources.append(debuffs)
-			zone_run.run.life = zone_run.run.max_life()
+			zone_run.run.hp = zone_run.run.max_hp()
 	return zone_run
 
 
@@ -1203,13 +1203,13 @@ func zone_def() -> ZoneDef:
 	return ZoneDefs.current()
 
 
-## Brief 11: the central town is always a full heal. The town has no life of its own, so arriving ends any zone visit (the next visit starts at
-## full life) and tops up any run that is somehow still open. Called by the town scene whenever the hero is in town, however they got there
+## Brief 11: the central town is always a full heal. The town has no HP of its own, so arriving ends any zone visit (the next visit starts at
+## full HP) and tops up any run that is somehow still open. Called by the town scene whenever the hero is in town, however they got there
 ## (walking out of a zone, the Rift Express, waking up after a loss).
 func arrive_in_town() -> void:
 	zone_run = null
 	if run != null:
-		run.life = run.max_life()
+		run.hp = run.max_hp()
 
 
 ## Walking back out to town. Town is a full heal, so the visit simply ends.
@@ -1230,7 +1230,7 @@ func log_paperwork_fee(line: String) -> void:
 		zone_log.remove_at(0)
 
 
-## Carried to the hub at 0 life: full life again, pay the paperwork fee, log it. Returns the fee.
+## Carried to the hub at 0 HP: full HP again, pay the paperwork fee, log it. Returns the fee.
 func zone_wake_at_hub(cause: String) -> int:
 	if zone_run == null:
 		return 0
@@ -1244,7 +1244,7 @@ func zone_wake_at_hub(cause: String) -> int:
 	return fee
 
 
-## A duel against a roaming zone enemy: the player's real deck at the zone's persistent life.
+## A duel against a roaming zone enemy: the player's real deck at the zone's persistent HP.
 func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleContext:
 	ensure_game()
 	var zone_id: String = zone_def().id
@@ -1262,7 +1262,7 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 		buffs.append(zone_source)
 	var player: PlayerSetup = PlayerSetup.create(deck, profile, buffs, "You")
 	if zone_run != null:
-		player.starting_life = zone_run.life
+		player.starting_hp = zone_run.hp
 	game.add_player(player)
 	var zone_enemy: PlayerSetup = ZoneEnemies.enemy_setup(content, zone_id, enemy_type)
 	if zone_source != null:
@@ -1290,11 +1290,11 @@ func start_zone_battle(enemy_type: String, enemy_instance_id: String) -> void:
 
 
 ## Set by the Capital scene just before a battle: the enemy stood near an unsealed rift, so it fights empowered
-## (`CapitalRifts.EMPOWER_LIFE` more life and +1/+1 on its creatures). Read and cleared by `make_zone_battle`.
+## (`CapitalRifts.EMPOWER_LIFE` more HP and +1/+1 on its units). Read and cleared by `make_zone_battle`.
 var zone_empower_next: bool = false
 
 
-## The Capital's rules for the enemy's side: the Necrocrat debuff (its creatures may return from the graveyard) and a rift's empowering.
+## The Capital's rules for the enemy's side: the Necrocrat debuff (its units may return from the graveyard) and a rift's empowering.
 func _add_capital_enemy_rules(enemy: PlayerSetup, empowered: bool) -> void:
 	var rules: ModifierSource = CapitalDebuffs.enemy_source(flags, content)
 	if rules != null:
@@ -1302,7 +1302,7 @@ func _add_capital_enemy_rules(enemy: PlayerSetup, empowered: bool) -> void:
 	if empowered:
 		var boost: Modifier = CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, CapitalRifts.EMPOWER_STAT, Modifier.ANY_COLOR, CapitalRifts.EMPOWER_STAT)
 		enemy.modifiers.add_source(CardBuilder.modifier_source("Rift-empowered", ModifierSource.SourceKind.ZONE, [boost] as Array[Modifier]))
-		enemy.starting_life += CapitalRifts.EMPOWER_LIFE
+		enemy.starting_hp += CapitalRifts.EMPOWER_HP
 
 
 ## The Gate Captain's entry examination: the CHALLENGING card battle that opens the Capital's gate.
@@ -1310,8 +1310,8 @@ func start_gate_battle() -> void:
 	start_zone_battle(CapitalEnemies.GATE_CAPTAIN, CapitalEnemies.GATE_CAPTAIN)
 
 
-## After a zone duel: life carries over (no post-battle heal). A win removes that enemy for the rest
-## of the visit and pays a small reward; a loss (0 life) wakes the player at the hub, minus the fee.
+## After a zone duel: HP carries over (no post-battle heal). A win removes that enemy for the rest
+## of the visit and pays a small reward; a loss (0 HP) wakes the player at the hub, minus the fee.
 func _complete_zone_battle(context: BattleContext) -> void:
 	resolve_zone_battle(context)
 	SceneManager.change_scene(zone_def().scene_path)
@@ -1371,21 +1371,21 @@ func begin_primm_fight() -> Array[String]:
 	return lines
 
 
-## From the zone's elevator: a run that starts at the zone's current life (no healing).
+## From the zone's elevator: a run that starts at the zone's current HP (no healing).
 func enter_mini_dungeon() -> void:
 	if zone_run == null:
 		return
 	dungeon_map = MiniDungeon.build_map(zone_run.zone_id)
 	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
-	run.life = clampi(zone_run.life, 1, run.max_life())
+	run.hp = clampi(zone_run.hp, 1, run.max_hp())
 	mini_active = true
 	trial_finished = false
 	pending_reward = null
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 
 
-## Leaves the mini dungeon back to the zone. The life left goes back to the zone; clearing it the
-## first time grants the unique card. `failed` (0 life) wakes the player at the hub with the fee.
+## Leaves the mini dungeon back to the zone. The HP left goes back to the zone; clearing it the
+## first time grants the unique card. `failed` (0 HP) wakes the player at the hub with the fee.
 func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
 	resolve_mini_dungeon(cleared, failed)
 	SceneManager.change_scene(zone_def().scene_path)
@@ -1395,7 +1395,7 @@ func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
 func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	var result: Dictionary = {"kind": "mini", "cleared": cleared, "failed": failed}
 	if zone_run != null and run != null:
-		zone_run.life = run.life
+		zone_run.hp = run.hp
 	var def: ZoneDef = zone_def()
 	if cleared and not flag(def.flag_mini_cleared):
 		set_flag(def.flag_mini_cleared)
@@ -1420,14 +1420,14 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 # ---- The zone's final dungeon (brief 9, Part E) -------------------------------------------
 
 
-## From the zone's dungeon entrance: a run that starts at the zone's current life (no healing, zone life
+## From the zone's dungeon entrance: a run that starts at the zone's current HP (no healing, zone HP
 ## rules). The map is the zone's final dungeon (`MainDungeons`).
 func enter_main_dungeon() -> void:
 	if zone_run == null or not MainDungeons.has_def(zone_run.zone_id):
 		return
 	dungeon_map = MainDungeons.build_map(zone_run.zone_id)
 	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
-	run.life = clampi(zone_run.life, 1, run.max_life())
+	run.hp = clampi(zone_run.hp, 1, run.max_hp())
 	mini_active = false
 	main_dungeon_active = true
 	boss_phase = 0
@@ -1456,7 +1456,7 @@ func resolve_main_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	var dungeon: MainDungeonDef = MainDungeons.def(zone_id)
 	var result: Dictionary = {"kind": "main", "cleared": cleared, "failed": failed}
 	if zone_run != null and run != null:
-		zone_run.life = run.life
+		zone_run.hp = run.hp
 	if cleared and dungeon != null:
 		if not cleared_dungeons.has(dungeon.dungeon_name):
 			cleared_dungeons.append(dungeon.dungeon_name)
@@ -1551,7 +1551,7 @@ func unlock_postgame() -> bool:
 	return true
 
 
-## After the ending sequence (and its postgame announcement): back to the Capital, which has changed (a fresh visit at full life).
+## After the ending sequence (and its postgame announcement): back to the Capital, which has changed (a fresh visit at full HP).
 func return_from_ending() -> void:
 	begin_zone_visit(CapitalZone.ID)
 	pending_zone_result = {"kind": "ending_return", "postgame_unlocked": bool(profile.postgame_unlocked) if profile != null else false}
@@ -1593,7 +1593,7 @@ func apply_treasure(node: DungeonMap.MapNode) -> Dictionary:
 	return granted
 
 
-## Resolves one choice of a story event for the current dungeon run: life/boons/cards go to the run, gold
+## Resolves one choice of a story event for the current dungeon run: HP/boons/cards go to the run, gold
 ## to the player. Returns the `EventResolver.Result` (ok = false when the choice could not be taken).
 func resolve_dungeon_event(event: DungeonEvent, choice_index: int) -> EventResolver.Result:
 	var result: EventResolver.Result = EventResolver.resolve(event, choice_index, run, content, gold)
@@ -1802,10 +1802,10 @@ func complete_trial() -> void:
 
 func abandon_run(notice: String = "") -> void:
 	if main_dungeon_active:
-		finish_main_dungeon(false, run != null and (run.failed or run.life <= 0))
+		finish_main_dungeon(false, run != null and (run.failed or run.hp <= 0))
 		return
 	if mini_active:
-		finish_mini_dungeon(false, run != null and (run.failed or run.life <= 0))
+		finish_mini_dungeon(false, run != null and (run.failed or run.hp <= 0))
 		return
 	run = null
 	dungeon_map = null

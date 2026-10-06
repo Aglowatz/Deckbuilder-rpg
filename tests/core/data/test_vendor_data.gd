@@ -37,7 +37,7 @@ func test_vendor_appears_when_gated() -> void:
 
 func test_graduated_stock_starts_small_and_grows_with_progress() -> void:
 	var gate: Condition = Condition.dungeon_cleared("Trial of the Hollow")
-	var vendor: VendorData = VendorData.graduated(content, [Affinity.Type.A] as Array[Affinity.Type], gate)
+	var vendor: VendorData = VendorData.graduated(content, [Affinity.Type.BEEFCAKE] as Array[Affinity.Type], gate)
 	assert_eq(vendor.entries.size(), content.cards.size(), "every card is a known entry")
 	var closed: UnlockState = UnlockState.new()
 	assert_true(vendor.available_card_ids(closed).is_empty(), "nothing is for sale before the gate")
@@ -47,7 +47,7 @@ func test_graduated_stock_starts_small_and_grows_with_progress() -> void:
 	assert_false(early_stock.is_empty())
 	for id: String in early_stock:
 		var card: CardData = content.card(id)
-		assert_true(card.color == Affinity.Type.NEUTRAL or card.color == Affinity.Type.A, "%s should be neutral or the primary color" % id)
+		assert_true(card.color == Affinity.Type.NEUTRAL or card.color == Affinity.Type.BEEFCAKE, "%s should be neutral or the primary color" % id)
 	opened.gold_spent = 1000
 	var late_stock: Array[String] = vendor.available_card_ids(opened)
 	assert_gt(late_stock.size(), early_stock.size(), "spending more gold unlocks more stock")
@@ -58,7 +58,7 @@ func test_graduated_stock_starts_small_and_grows_with_progress() -> void:
 ## path unlocks it, so a "vendor unlock" level reward is a real mechanic.
 func test_graduated_stock_also_unlocks_by_player_level() -> void:
 	var gate: Condition = Condition.dungeon_cleared("Trial of the Hollow")
-	var vendor: VendorData = VendorData.graduated(content, [Affinity.Type.A] as Array[Affinity.Type], gate)
+	var vendor: VendorData = VendorData.graduated(content, [Affinity.Type.BEEFCAKE] as Array[Affinity.Type], gate)
 	var state: UnlockState = UnlockState.new()
 	state.cleared_dungeons.append("Trial of the Hollow")
 	var no_level: Array[String] = vendor.available_card_ids(state)

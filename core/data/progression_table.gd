@@ -38,7 +38,7 @@ static func build() -> Array[LevelData]:
 		var row: LevelData = LevelData.new()
 		row.level = level
 		row.xp_to_reach = xp_to_reach(level)
-		row.max_life = PlayerProfile.START_MAX_LIFE + int(level / 2)
+		row.max_hp = PlayerProfile.START_MAX_HP + int(level / 2)
 		row.opening_hand_size = PlayerProfile.MIN_OPENING_HAND + _steps_reached(level, HAND_SIZE_LEVELS)
 		row.item_slots = 1 + _steps_reached(level, ITEM_SLOT_LEVELS)
 		row.max_hand_size = PlayerProfile.DEFAULT_MAX_HAND_SIZE + _steps_reached(level, MAX_HAND_LEVELS)
@@ -109,8 +109,8 @@ static func _fill_summaries_and_fallback_rewards(rows: Array[LevelData]) -> void
 		if previous == null:
 			notes.append("Starting stats.")
 		else:
-			if current.max_life > previous.max_life:
-				notes.append("+1 starting life (%d)." % current.max_life)
+			if current.max_hp > previous.max_hp:
+				notes.append("+1 starting HP (%d)." % current.max_hp)
 			if current.opening_hand_size > previous.opening_hand_size:
 				notes.append("Opening hand size +1 (%d)." % current.opening_hand_size)
 			if current.item_slots > previous.item_slots:

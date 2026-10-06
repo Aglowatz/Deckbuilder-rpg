@@ -29,7 +29,7 @@ func screenshot_ready() -> bool:
 
 func _ready() -> void:
 	Session.save_enabled = false
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	var pack: PackData = PackCatalog.find(_pack_id)
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = _seed

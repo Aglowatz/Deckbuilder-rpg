@@ -1,35 +1,35 @@
 class_name PlayerState
 extends RefCounted
-## One player's zones and numbers. The top of the library is the END of the array.
+## One player's zones and numbers. The top of the deck is the END of the array.
 
 var index: int = 0
 var player_name: String = ""
-var life: int = 0
-var max_life: int = 0
+var hp: int = 0
+var max_hp: int = 0
 var max_hand_size: int = 10
 var opening_hand_size: int = 5
 var max_traps: int = GameState.MAX_TRAPS
 var modifiers: ModifierSet = ModifierSet.new()
 ## infrastructure count / deck size, fixed at deck construction (used by the hand smoother).
 var deck_infrastructure_ratio: float = 0.0
-var library: Array[CardInstance] = []
+var deck: Array[CardInstance] = []
 var hand: Array[CardInstance] = []
-## Creatures and artifacts.
-var battlefield: Array[CardInstance] = []
+## Units and wonders.
+var field: Array[CardInstance] = []
 var infrastructure: Array[CardInstance] = []
-var graveyard: Array[CardInstance] = []
+var refuse_pile: Array[CardInstance] = []
 ## Face-down traps.
 var traps: Array[CardInstance] = []
 var infrastructure_played: int = 0
 var mulligan_used: bool = false
-## Set when the player must lose (deck-out); resolved with life checks.
+## Set when the player must lose (deck-out); resolved with HP checks.
 var lost: bool = false
 ## New brief, Part B: whether this player has begun their first turn yet (FIRST_TURN_EXTRA_DRAW).
 var has_taken_first_turn: bool = false
-## New brief, Part B: non-infrastructure cards cast so far this turn, and the cap (MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN;
+## New brief, Part B: non-infrastructure cards play so far this turn, and the cap (MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN;
 ## -1 = unlimited), reset/computed alongside max_hand_size etc.
-var non_infrastructure_casts_this_turn: int = 0
-var non_infrastructure_cast_cap: int = -1
+var non_infrastructure_plays_this_turn: int = 0
+var non_infrastructure_play_cap: int = -1
 ## New brief, Part F: how many SCRIPTED_ESCALATING_SUMMON activations this player has had this
 ## duel - selects which stage (capped at the last) the next one summons.
 var scripted_summon_count: int = 0
@@ -46,8 +46,8 @@ func find_hand(uid: int) -> CardInstance:
 	return find_in(hand, uid)
 
 
-func find_battlefield(uid: int) -> CardInstance:
-	return find_in(battlefield, uid)
+func find_field(uid: int) -> CardInstance:
+	return find_in(field, uid)
 
 
 func find_infrastructure(uid: int) -> CardInstance:
@@ -58,10 +58,10 @@ func find_trap(uid: int) -> CardInstance:
 	return find_in(traps, uid)
 
 
-func creatures() -> Array[CardInstance]:
+func units() -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
-	for card: CardInstance in battlefield:
-		if card.data.is_creature():
+	for card: CardInstance in field:
+		if card.data.is_unit():
 			result.append(card)
 	return result
 
@@ -74,14 +74,14 @@ func ready_infrastructure() -> Array[CardInstance]:
 	return result
 
 
-## `deep_library` copies library cards; otherwise the clone shares the (unmodified) library
+## `deep_deck` copies deck cards; otherwise the clone shares the (unmodified) deck
 ## instances, which is enough for one-step look-ahead. `keep_traps` = false hides set traps.
-func clone(deep_library: bool = true, keep_traps: bool = true) -> PlayerState:
+func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	var copy: PlayerState = PlayerState.new()
 	copy.index = index
 	copy.player_name = player_name
-	copy.life = life
-	copy.max_life = max_life
+	copy.hp = hp
+	copy.max_hp = max_hp
 	copy.max_hand_size = max_hand_size
 	copy.opening_hand_size = opening_hand_size
 	copy.max_traps = max_traps
@@ -91,17 +91,17 @@ func clone(deep_library: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.mulligan_used = mulligan_used
 	copy.lost = lost
 	copy.has_taken_first_turn = has_taken_first_turn
-	copy.non_infrastructure_casts_this_turn = non_infrastructure_casts_this_turn
-	copy.non_infrastructure_cast_cap = non_infrastructure_cast_cap
+	copy.non_infrastructure_plays_this_turn = non_infrastructure_plays_this_turn
+	copy.non_infrastructure_play_cap = non_infrastructure_play_cap
 	copy.scripted_summon_count = scripted_summon_count
-	if deep_library:
-		copy.library = _clone_zone(library)
+	if deep_deck:
+		copy.deck = _clone_zone(deck)
 	else:
-		copy.library = library.duplicate()
+		copy.deck = deck.duplicate()
 	copy.hand = _clone_zone(hand)
-	copy.battlefield = _clone_zone(battlefield)
+	copy.field = _clone_zone(field)
 	copy.infrastructure = _clone_zone(infrastructure)
-	copy.graveyard = graveyard.duplicate()
+	copy.refuse_pile = refuse_pile.duplicate()
 	if keep_traps:
 		copy.traps = _clone_zone(traps)
 	return copy

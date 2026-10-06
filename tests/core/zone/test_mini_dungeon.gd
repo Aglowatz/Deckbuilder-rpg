@@ -1,11 +1,11 @@
 extends GutTest
-## Part E: the mini dungeon - 3 battles in a row, zone life rules, a one-time unique card.
+## Part E: the mini dungeon - 3 battles in a row, zone HP rules, a one-time unique card.
 
 
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.D)
+	Session.ensure_game(Affinity.Type.NECROCRAT)
 	Session.zone_run = ZoneRun.enter(DnaZone.ID, Session.profile, Session.deck)
 	Session.mini_active = false
 
@@ -20,7 +20,7 @@ func after_each() -> void:
 func _enter() -> void:
 	Session.dungeon_map = MiniDungeon.build_map()
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
-	Session.run.life = Session.zone_run.life
+	Session.run.hp = Session.zone_run.hp
 	Session.mini_active = true
 
 
@@ -45,13 +45,13 @@ func test_map_is_three_battles_in_a_row_ending_in_a_boss() -> void:
 	assert_eq(steps, 3)
 
 
-func test_run_starts_at_the_zone_life_and_battles_use_mini_decks() -> void:
+func test_run_starts_at_the_zone_hp_and_battles_use_mini_decks() -> void:
 	Session.zone_run.damage(4)
 	_enter()
-	assert_eq(Session.run.life, Session.zone_run.max_life() - 4)
+	assert_eq(Session.run.hp, Session.zone_run.max_hp() - 4)
 	var node: DungeonMap.MapNode = Session.dungeon_map.available()[0]
 	var context: BattleContext = Session.make_dungeon_battle(node)
-	assert_eq(context.game.players[0].life, Session.zone_run.max_life() - 4, "no heal on entry")
+	assert_eq(context.game.players[0].hp, Session.zone_run.max_hp() - 4, "no heal on entry")
 	assert_eq(context.enemy_name, "Kickoff Facilitator")
 
 
@@ -68,19 +68,19 @@ func test_clearing_grants_the_unique_card_exactly_once() -> void:
 	assert_eq(Session.owned_count(MiniDungeon.REWARD_CARD_ID), before + 1, "one-time reward")
 
 
-func test_life_left_goes_back_to_the_zone() -> void:
+func test_hp_left_goes_back_to_the_zone() -> void:
 	_enter()
-	Session.run.life = 3
+	Session.run.hp = 3
 	Session.resolve_mini_dungeon(false)
-	assert_eq(Session.zone_run.life, 3)
+	assert_eq(Session.zone_run.hp, 3)
 
 
 func test_losing_wakes_at_the_hub_for_a_fee() -> void:
 	Session.gold = 50
 	_enter()
-	Session.run.life = 0
+	Session.run.hp = 0
 	var result: Dictionary = Session.resolve_mini_dungeon(false, true)
 	assert_true(bool(result.get("woke_at_hub", false)))
-	assert_eq(Session.zone_run.life, Session.zone_run.max_life())
+	assert_eq(Session.zone_run.hp, Session.zone_run.max_hp())
 	assert_eq(Session.gold, 50 - ZoneRun.PAPERWORK_FEE)
 	assert_false(Session.mini_active)

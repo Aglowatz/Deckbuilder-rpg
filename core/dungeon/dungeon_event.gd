@@ -1,7 +1,7 @@
 class_name DungeonEvent
 extends RefCounted
 ## A story event node of a zone dungeon (Part E): a short scene with a few choices, each with
-## outcomes (heal, lose life, gold, a dungeon-wide boon, a card...). Pure data; `EventResolver`
+## outcomes (heal, lose HP, gold, a dungeon-wide boon, a card...). Pure data; `EventResolver`
 ## applies it. All text (title, body, choice labels, results) lives in the zone's story file under
 ## `event.<id>.title`, `.body`, `.choice.<n>` and `.result.<n>`; this class only holds the mechanics.
 ## An outcome of kind NEXT chains into another event ("forms that require other forms").
@@ -17,13 +17,13 @@ class Outcome:
 	var card_id: String = ""
 	var event_id: String = ""
 
-	## One-line description for the choice button's hint ("Heal 4", "Lose 2 life"...).
+	## One-line description for the choice button's hint ("Heal 4", "Lose 2 HP"...).
 	func describe() -> String:
 		match kind:
 			OutcomeKind.HEAL:
 				return "heal %d" % amount
 			OutcomeKind.DAMAGE:
-				return "lose %d life" % amount
+				return "lose %d HP" % amount
 			OutcomeKind.GOLD:
 				return "gain %d gold" % amount
 			OutcomeKind.PAY_GOLD:

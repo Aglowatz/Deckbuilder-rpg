@@ -1,6 +1,6 @@
 class_name EventResolver
 extends RefCounted
-## Applies one choice of a `DungeonEvent` to the dungeon run (life, boons, cards) and reports what
+## Applies one choice of a `DungeonEvent` to the dungeon run (HP, boons, cards) and reports what
 ## else happened (gold for the Session to pay or receive, the next chained event). Pure core logic.
 
 
@@ -9,7 +9,7 @@ class Result:
 	var ok: bool = true
 	var reason: String = ""
 	var gold_delta: int = 0
-	var life_delta: int = 0
+	var hp_delta: int = 0
 	var boons: Array[ModifierSource] = []
 	var cards: Array[CardData] = []
 	## The id of the event this choice leads into ("" = the event is over).
@@ -34,13 +34,13 @@ static func resolve(event: DungeonEvent, choice_index: int, run: DungeonRun, con
 	for outcome: DungeonEvent.Outcome in choice.outcomes:
 		match outcome.kind:
 			DungeonEvent.OutcomeKind.HEAL:
-				var before: int = run.life
+				var before: int = run.hp
 				run.heal(outcome.amount)
-				result.life_delta += run.life - before
+				result.hp_delta += run.hp - before
 			DungeonEvent.OutcomeKind.DAMAGE:
-				var before_damage: int = run.life
-				run.lose_life(outcome.amount)
-				result.life_delta += run.life - before_damage
+				var before_damage: int = run.hp
+				run.lose_hp(outcome.amount)
+				result.hp_delta += run.hp - before_damage
 			DungeonEvent.OutcomeKind.GOLD:
 				result.gold_delta += outcome.amount
 			DungeonEvent.OutcomeKind.PAY_GOLD:

@@ -1,9 +1,9 @@
 class_name MiniDungeon
 extends RefCounted
 ## A zone's mini dungeon: three battles in a row on the existing node-map system, then a unique
-## card (one time only, flag in the zone's `ZoneDef`). It follows the zone's life rules: the run
-## starts at the zone's current life, nothing heals between fights (no shrine node on purpose), and
-## the life left at the end goes back to the zone. Losing wakes you at the hub (fee). Placeholder
+## card (one time only, flag in the zone's `ZoneDef`). It follows the zone's HP rules: the run
+## starts at the zone's current HP, nothing heals between fights (no shrine node on purpose), and
+## the HP left at the end goes back to the zone. Losing wakes you at the hub (fee). Placeholder
 ## decks. The battles are data in the zone's `ZoneDef.mini` (D.N.A.: Quarterly Reviews).
 
 const BATTLE_COUNT: int = 3
@@ -33,7 +33,7 @@ static func build_map(zone_id: String = DnaZone.ID) -> DungeonMap:
 static func _battle(map: DungeonMap, battle: ZoneDef.MiniBattle, position: Vector2, difficulty: DungeonMap.Difficulty) -> DungeonMap.MapNode:
 	var node: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, battle.title, battle.blurb, position)
 	node.enemy_name = battle.enemy
-	node.enemy_life = battle.life
+	node.enemy_hp = battle.hp
 	node.ai_name = battle.ai_name
 	node.difficulty = difficulty
 	node.gold_reward = EncounterRewards.gold_for(difficulty) / 2
@@ -57,7 +57,7 @@ static func enemy_recipe(enemy_name: String, zone_id: String = DnaZone.ID) -> Di
 static func enemy_setup(content: ContentSet, map_node: DungeonMap.MapNode, zone_id: String = DnaZone.ID) -> PlayerSetup:
 	var deck: Deck = ZoneDecks.from_recipe(content, map_node.enemy_name, enemy_recipe(map_node.enemy_name, zone_id))
 	var setup: PlayerSetup = PlayerSetup.create(deck, null, [] as Array[ModifierSource], map_node.enemy_name)
-	setup.starting_life = map_node.enemy_life
+	setup.starting_hp = map_node.enemy_hp
 	setup.profile = PlayerProfile.new()
-	setup.profile.max_life = maxi(map_node.enemy_life, PlayerProfile.START_MAX_LIFE)
+	setup.profile.max_hp = maxi(map_node.enemy_hp, PlayerProfile.START_MAX_HP)
 	return setup

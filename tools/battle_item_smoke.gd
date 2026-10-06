@@ -49,25 +49,25 @@ func _run() -> void:
 	_check(screen.game.players[0].hand.size() == hand_before + 1, "clicking Scroll of Insight draws a card")
 	_check(Session.profile.item_uses_left(scroll) == uses_before - 1, "using it spends a charge")
 
-	# Targeted: Firebrand Charm (deal 2 damage) - needs an enemy creature on the board. The AI
+	# Targeted: Firebrand Charm (deal 2 damage) - needs an enemy unit on the board. The AI
 	# starting hand may not have one out yet, so pass turns (via BattlePilot) until it does.
 	var pilot: BattlePilot = BattlePilot.new(driver, screen)
-	var found_target: bool = await _get_an_enemy_creature_out(pilot)
-	_check(found_target, "an enemy creature eventually takes the field")
+	var found_target: bool = await _get_an_enemy_unit_out(pilot)
+	_check(found_target, "an enemy unit eventually takes the field")
 	if found_target and screen.mode == BattleScreen.Mode.MAIN:
-		var enemy_creature: CardInstance = screen.game.players[1].creatures()[0]
-		var damage_before: int = enemy_creature.damage
+		var enemy_unit: CardInstance = screen.game.players[1].units()[0]
+		var damage_before: int = enemy_unit.damage
 		await driver.click(_slot_center(1))
 		await driver.frames(3)
 		_check(screen.mode == BattleScreen.Mode.TARGETING, "a targeted item enters targeting mode")
-		var view: CardView = screen.board.view_for(enemy_creature.uid)
+		var view: CardView = screen.board.view_for(enemy_unit.uid)
 		await driver.click(driver.center_of_control(view))
 		await driver.frames(6)
-		# 2 damage may well be lethal against a weak tutorial creature - a dead creature's damage
+		# 2 damage may well be lethal against a weak tutorial unit - a dead unit's damage
 		# resets on the way to the graveyard, so "it died" is just as much proof the 2 damage
 		# landed as "its damage counter went up by 2".
-		var died: bool = not screen.game.players[1].creatures().has(enemy_creature)
-		_check(died or enemy_creature.damage == damage_before + 2, "clicking a target actually deals the item's damage")
+		var died: bool = not screen.game.players[1].units().has(enemy_unit)
+		_check(died or enemy_unit.damage == damage_before + 2, "clicking a target actually deals the item's damage")
 
 	_finish(_failures.is_empty(), "checked using an equipped item in battle (untargeted + targeted)")
 
@@ -89,12 +89,12 @@ func _wait_for_main() -> void:
 		elapsed += 3.0 / 60.0
 
 
-## Passes/plays turns (via BattlePilot) until an enemy creature is on the board and it is the
+## Passes/plays turns (via BattlePilot) until an enemy unit is on the board and it is the
 ## player's main phase again, or we give up.
-func _get_an_enemy_creature_out(pilot: BattlePilot) -> bool:
+func _get_an_enemy_unit_out(pilot: BattlePilot) -> bool:
 	var elapsed: float = 0.0
 	while elapsed < 60.0:
-		if screen.mode == BattleScreen.Mode.MAIN and not screen.game.players[1].creatures().is_empty():
+		if screen.mode == BattleScreen.Mode.MAIN and not screen.game.players[1].units().is_empty():
 			return true
 		if screen.mode == BattleScreen.Mode.OVER:
 			return false

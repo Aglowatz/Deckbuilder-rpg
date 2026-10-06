@@ -17,27 +17,27 @@ class Offer:
 ## Affinity.colored_types() color.
 const RECIPES: Array[Dictionary] = [
 	{
-		"affinity": Affinity.Type.A,
-		"identity": "Beefcake hits hard and fast: haste, power spells and huge aggressive bodies that punish a slow start.",
-		"playstyle": "Race to deal damage before the table settles. Strike first, strike often.",
+		"affinity": Affinity.Type.BEEFCAKE,
+		"identity": "Beefcake is aggressive and chaotic: Hustle, big strong units, raw stat boosts, Tools, tempo and direct damage. Burst now, pay later.",
+		"playstyle": "Race to deal damage before the table settles. Pump your units with Iron and strike first.",
 		"sample_card_ids": ["beefcake_imp", "blazing_charger", "firebolt"],
 	},
 	{
-		"affinity": Affinity.Type.B,
-		"identity": "Gourmand answers: bounce, card draw and food-golem defenders that buy time while you out-cook the opponent.",
-		"playstyle": "Control the pace, see more cards than they do, win the long game.",
+		"affinity": Affinity.Type.GOURMAND,
+		"identity": "Gourmand is refined and controlling: chefs and Wonders that turn Ingredients into big Golem tokens, recipes, healing, bounce and Plating.",
+		"playstyle": "Control the pace, cook Golems from Ingredients, and win the long game.",
 		"sample_card_ids": ["deep_insight", "frost_sentry", "recall"],
 	},
 	{
-		"affinity": Affinity.Type.C,
-		"identity": "Refusemancer grows: big, sturdy creatures and life gain that outlast anything thrown at them.",
-		"playstyle": "Stabilize behind tough bodies, then close it out with size.",
+		"affinity": Affinity.Type.REFUSEMANCER,
+		"identity": "Refusemancer is resilient and recycling: Garbage-eating units, ramp into big units, the Refuse Pile as a resource, scrappy rats, and Tool and Wonder destruction.",
+		"playstyle": "Eat Garbage, recycle your Refuse Pile and ramp into huge units.",
 		"sample_card_ids": ["ancient_treant", "mossback_bear", "growth"],
 	},
 	{
-		"affinity": Affinity.Type.D,
-		"identity": "Necrocrat trades: sacrifice, death triggers and drain effects that turn losses into value.",
-		"playstyle": "Grind through exchanges; every creature that dies is doing you a favor.",
+		"affinity": Affinity.Type.NECROCRAT,
+		"identity": "Necrocrat is orderly and value-grinding: small tokens, reanimation, drain, delayed but inevitable effects, taxes and fees, Red Tape and Contracts.",
+		"playstyle": "Go wide, grind with Red Tape and Contracts, and bring your units back.",
 		"sample_card_ids": ["bloodthirst_wolf", "necromancer", "soul_drain"],
 	},
 ]

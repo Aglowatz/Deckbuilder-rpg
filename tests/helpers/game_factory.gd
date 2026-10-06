@@ -2,23 +2,23 @@ class_name GameFactory
 extends RefCounted
 ## Test helpers for building games and putting cards exactly where a test needs them.
 
-const A: Affinity.Type = Affinity.Type.A
-const B: Affinity.Type = Affinity.Type.B
+const A: Affinity.Type = Affinity.Type.BEEFCAKE
+const B: Affinity.Type = Affinity.Type.GOURMAND
 const NO_PIPS: Array[Affinity.Type] = []
 
 
-static func infra(color: Affinity.Type = Affinity.Type.A) -> CardData:
+static func infra(color: Affinity.Type = Affinity.Type.BEEFCAKE) -> CardData:
 	return CardBuilder.infra(color)
 
 
-static func vanilla(power: int, toughness: int, cost: int = 1, color: Affinity.Type = Affinity.Type.A, keywords: Array[CardEnums.Keyword] = []) -> CardData:
-	var id: String = "vanilla_%d_%d_%d" % [power, toughness, cost]
-	return CardBuilder.creature(id, id, color, cost, NO_PIPS, power, toughness, keywords)
+static func vanilla(attack: int, defense: int, cost: int = 1, color: Affinity.Type = Affinity.Type.BEEFCAKE, keywords: Array[CardEnums.Keyword] = []) -> CardData:
+	var id: String = "vanilla_%d_%d_%d" % [attack, defense, cost]
+	return CardBuilder.unit(id, id, color, cost, NO_PIPS, attack, defense, keywords)
 
 
 ## A legal-size deck: `infrastructure` basic infrastructure of `color` plus copies of `spell` (or a filler
-## creature) up to `size` cards.
-static func make_deck(spell: CardData = null, infrastructure: int = 20, size: int = 45, color: Affinity.Type = Affinity.Type.A) -> Deck:
+## unit) up to `size` cards.
+static func make_deck(spell: CardData = null, infrastructure: int = 20, size: int = 45, color: Affinity.Type = Affinity.Type.BEEFCAKE) -> Deck:
 	var deck: Deck = Deck.new()
 	var infrastructure_card: CardData = infra(color)
 	var filler: CardData = spell if spell != null else vanilla(1, 1, 1, color)
@@ -63,15 +63,15 @@ static func add_infrastructure(game: GameState, player_index: int, data: CardDat
 	return card
 
 
-static func add_infrastructure_cards(game: GameState, player_index: int, count: int, color: Affinity.Type = Affinity.Type.A) -> void:
+static func add_infrastructure_cards(game: GameState, player_index: int, count: int, color: Affinity.Type = Affinity.Type.BEEFCAKE) -> void:
 	for i: int in range(count):
 		add_infrastructure(game, player_index, infra(color))
 
 
-## Puts a permanent straight onto the battlefield, ready to attack unless `ready` is false.
-static func add_to_battlefield(game: GameState, player_index: int, data: CardData, ready: bool = true) -> CardInstance:
+## Puts a permanent straight onto the field, ready to attack unless `ready` is false.
+static func add_to_field(game: GameState, player_index: int, data: CardData, ready: bool = true) -> CardInstance:
 	var card: CardInstance = game.create_instance(data, player_index)
-	game.players[player_index].battlefield.append(card)
+	game.players[player_index].field.append(card)
 	card.summoning_sick = not ready
 	return card
 
@@ -82,12 +82,12 @@ static func pass_turn(game: GameState) -> void:
 	var guard: int = 0
 	while game.turn == start_turn and not game.is_over() and guard < 20:
 		guard += 1
-		if game.pending_discard > 0:
+		if game.pending_toss > 0:
 			var uids: Array[int] = []
 			var hand: Array[CardInstance] = game.players[game.active].hand
-			for i: int in range(game.pending_discard):
+			for i: int in range(game.pending_toss):
 				uids.append(hand[i].uid)
-			game.discard_for_hand_size(game.active, uids)
+			game.toss_for_hand_size(game.active, uids)
 		else:
 			game.advance_phase()
 

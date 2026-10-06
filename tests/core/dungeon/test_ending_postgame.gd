@@ -6,7 +6,7 @@ extends GutTest
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 
 
 func after_each() -> void:
@@ -83,7 +83,7 @@ func test_a_three_path_deck_is_illegal_before_and_legal_after_the_postgame_unloc
 	assert_eq(DeckValidator.max_colors(Session.profile), 4, "and 4 Paths, all of them")
 	var four: Deck = _three_path_deck()
 	for index: int in range(10):
-		four.cards.append(Session.content.infrastructure[int(Affinity.Type.D)] as CardData)
+		four.cards.append(Session.content.infrastructure[int(Affinity.Type.NECROCRAT)] as CardData)
 	assert_eq(four.colors().size(), 4)
 	assert_false(DeckValidator.has_problem(DeckValidator.validate(four, Session.profile), DeckValidator.Problem.TOO_MANY_COLORS))
 
@@ -94,7 +94,7 @@ func test_the_deck_editor_allows_a_third_path_after_the_unlock() -> void:
 		infrastructure.append(infra as CardData)
 	var waiver: ModifierSet = ModifierSet.new()
 	waiver.add_source(TrialOfTheHollow.deck_size_waiver())
-	var editor: DeckEditor = DeckEditor.from(Session.profile, CampaignStart.starter_deck(Session.content, Affinity.Type.A), infrastructure, waiver)
+	var editor: DeckEditor = DeckEditor.from(Session.profile, CampaignStart.starter_deck(Session.content, Affinity.Type.BEEFCAKE), infrastructure, waiver)
 	Session.profile.owned_cards.append(Session.content.card("frost_sentry"))
 	Session.profile.owned_cards.append(Session.content.card("mossback_bear"))
 	assert_true(editor.add(Session.content.card("frost_sentry")), "a second Path is fine")
@@ -111,7 +111,7 @@ func test_the_alchemists_tri_path_hook_opens() -> void:
 	Session.unlock_postgame()
 	assert_true(Alchemy.tri_path_unlocked(Session.profile))
 	assert_eq(Alchemy.max_craft_paths(Session.profile), 3)
-	assert_eq(Alchemy.tri_path_cards(Session.content, [Affinity.Type.A, Affinity.Type.B, Affinity.Type.C] as Array[Affinity.Type]).size(), 0, "no tri-Path cards yet")
+	assert_eq(Alchemy.tri_path_cards(Session.content, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER] as Array[Affinity.Type]).size(), 0, "no tri-Path cards yet")
 
 
 func test_the_postgame_unlock_is_saved() -> void:
@@ -171,7 +171,7 @@ func test_a_free_capital_builds_and_the_facade_is_down() -> void:
 
 func _three_path_deck() -> Deck:
 	var deck: Deck = Deck.new()
-	for color: Affinity.Type in [Affinity.Type.A, Affinity.Type.B, Affinity.Type.C]:
+	for color: Affinity.Type in [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER]:
 		for index: int in range(16):
 			deck.cards.append(Session.content.infrastructure[int(color)] as CardData)
 	return deck

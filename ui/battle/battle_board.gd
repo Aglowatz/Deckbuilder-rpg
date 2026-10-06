@@ -1,6 +1,6 @@
 class_name BattleBoard
 extends Control
-## The card table: creates a CardView per card, lays them out per zone (hands, battlefields,
+## The card table: creates a CardView per card, lays them out per zone (hands, fields,
 ## infrastructure rows, trap slots) and animates the rules engine's event log. It never decides anything
 ## about the rules; it only shows what GameState already did.
 
@@ -8,7 +8,7 @@ signal card_hovered(view: CardView)
 signal card_unhovered(view: CardView)
 signal card_input(view: CardView, event: InputEvent)
 
-enum Zone { HAND, BATTLEFIELD, INFRASTRUCTURE, TRAPS, CENTER }
+enum Zone { HAND, FIELD, INFRASTRUCTURE, TRAPS, CENTER }
 
 const CENTER_X: float = 985.0
 const ENEMY_HAND_Y: float = 6.0
@@ -64,7 +64,7 @@ func setup(game_state: GameState, effects: BattleFX) -> void:
 
 func register_all() -> void:
 	for player: PlayerState in game.players:
-		for zone_cards: Array[CardInstance] in [player.library, player.hand, player.battlefield, player.infrastructure, player.graveyard, player.traps]:
+		for zone_cards: Array[CardInstance] in [player.deck, player.hand, player.field, player.infrastructure, player.refuse_pile, player.traps]:
 			for card: CardInstance in zone_cards:
 				card_data[card.uid] = card.data
 
@@ -141,7 +141,7 @@ func _is_hidden(owner_index: int, zone: Zone) -> bool:
 
 func _mode_for(zone: Zone) -> CardView.Mode:
 	match zone:
-		Zone.BATTLEFIELD:
+		Zone.FIELD:
 			return CardView.Mode.COMPACT
 		_:
 			return CardView.Mode.FULL
@@ -202,7 +202,7 @@ func layout(animated: bool = true) -> void:
 	_targets.clear()
 	for owner_index: int in range(2):
 		_layout_hand(owner_index)
-		_layout_row(owner_index, Zone.BATTLEFIELD, PLAYER_BF_Y if owner_index == human else ENEMY_BF_Y, SCALE_BF, BF_SPACING, CENTER_X, 1250.0)
+		_layout_row(owner_index, Zone.FIELD, PLAYER_BF_Y if owner_index == human else ENEMY_BF_Y, SCALE_BF, BF_SPACING, CENTER_X, 1250.0)
 		_layout_row(owner_index, Zone.INFRASTRUCTURE, PLAYER_INFRASTRUCTURE_Y if owner_index == human else ENEMY_INFRASTRUCTURE_Y, SCALE_INFRASTRUCTURE, INFRASTRUCTURE_SPACING, CENTER_X - 130.0, 950.0)
 		_layout_traps(owner_index)
 	_place_blockers()
@@ -253,11 +253,11 @@ func _layout_row(owner_index: int, zone: Zone, y: float, card_scale: float, spac
 		var pos: Vector2 = Vector2(center_x + offset * step, y)
 		var rot: float = 0.0
 		var card: CardInstance = game.find_card(uid)
-		if zone == Zone.BATTLEFIELD:
+		if zone == Zone.FIELD:
 			var dir: float = -1.0 if owner_index == human else 1.0
 			if attacking.has(uid):
 				pos.y += dir * 70.0
-		if card != null and card.exhausted and zone != Zone.BATTLEFIELD:
+		if card != null and card.exhausted and zone != Zone.FIELD:
 			rot = 14.0
 		elif card != null and card.exhausted:
 			rot = 7.0
@@ -267,7 +267,7 @@ func _layout_row(owner_index: int, zone: Zone, y: float, card_scale: float, spac
 		_targets[uid] = {"pos": pos, "rot": rot, "scale": card_scale, "z": z}
 
 
-## Blockers step up next to the creature they block.
+## Blockers step up next to the unit they block.
 func _place_blockers() -> void:
 	for blocker_uid: int in blockers.keys():
 		var attacker_uid: int = int(blockers[blocker_uid])
@@ -329,7 +329,7 @@ func sync_state(animated: bool = true) -> void:
 	var alive: Dictionary = {}
 	for player: PlayerState in game.players:
 		_sync_zone(player.hand, player.index, Zone.HAND, alive)
-		_sync_zone(player.battlefield, player.index, Zone.BATTLEFIELD, alive)
+		_sync_zone(player.field, player.index, Zone.FIELD, alive)
 		_sync_zone(player.infrastructure, player.index, Zone.INFRASTRUCTURE, alive)
 		_sync_zone(player.traps, player.index, Zone.TRAPS, alive)
 	for uid: int in views.keys():
@@ -360,7 +360,7 @@ func _sync_zone(cards: Array[CardInstance], owner_index: int, zone: Zone, alive:
 			set_zone(card.uid, zone)
 
 
-## Dissolves every card still on the table (hand, battlefield, infrastructure, traps) away. Used when a
+## Dissolves every card still on the table (hand, field, infrastructure, traps) away. Used when a
 ## battle ends, so the result/reward panel never overlaps a frozen board. Fire-and-forget per
 ## card (matches `_on_died`'s pattern); the caller awaits a fixed settle time.
 func clear_board() -> void:
@@ -387,7 +387,7 @@ func _flush_center_instant() -> void:
 		if zones.get(uid) == Zone.CENTER:
 			var card: CardInstance = game.find_card(uid)
 			# A card left in the center that is no longer on any live zone is finished.
-			if card == null or not (game.players[card.owner].battlefield.has(card) or game.players[card.owner].traps.has(card) or game.players[card.owner].hand.has(card) or game.players[card.owner].infrastructure.has(card)):
+			if card == null or not (game.players[card.owner].field.has(card) or game.players[card.owner].traps.has(card) or game.players[card.owner].hand.has(card) or game.players[card.owner].infrastructure.has(card)):
 				var view: CardView = views[uid] as CardView
 				views.erase(uid)
 				zones.erase(uid)
@@ -425,9 +425,9 @@ func present(event: GameEvent) -> void:
 	# the very same card and only re-homes that same view into the trap row (see _on_trap_set,
 	# which already clears _center_uid itself once it does). Flushing here used to dissolve the
 	# trap's view out of existence before _on_trap_set could move it, so a set trap never actually
-	# appeared in the trap row at all - it just vanished after the cast animation.
+	# appeared in the trap row at all - it just vanished after the play animation.
 	var flush_types: Array[GameEvent.Type] = [
-		GameEvent.Type.CARD_CAST, GameEvent.Type.INFRASTRUCTURE_PLAYED, GameEvent.Type.TURN_STARTED,
+		GameEvent.Type.CARD_PLAYED, GameEvent.Type.INFRASTRUCTURE_PLAYED, GameEvent.Type.TURN_STARTED,
 		GameEvent.Type.ATTACKERS_DECLARED, GameEvent.Type.PHASE_CHANGED,
 	]
 	if flush_types.has(event.type):
@@ -442,7 +442,7 @@ func present(event: GameEvent) -> void:
 		GameEvent.Type.ENERGY_SPENT:
 			_refresh_view(event.card)
 			layout()
-		GameEvent.Type.CARD_CAST:
+		GameEvent.Type.CARD_PLAYED:
 			await _on_cast(event)
 		GameEvent.Type.PERMANENT_ENTERED:
 			await _on_entered(event)
@@ -464,13 +464,13 @@ func present(event: GameEvent) -> void:
 			await _wait(0.3)
 		GameEvent.Type.DAMAGE_DEALT:
 			await _on_damage(event)
-		GameEvent.Type.LIFE_CHANGED:
-			_on_life(event)
-		GameEvent.Type.CREATURE_DIED:
+		GameEvent.Type.HP_CHANGED:
+			_on_hp(event)
+		GameEvent.Type.UNIT_DIED:
 			await _on_died(event)
-		GameEvent.Type.CARD_RETURNED_TO_HAND:
+		GameEvent.Type.CARD_SENT_BACK:
 			await _on_returned(event)
-		GameEvent.Type.CARD_DISCARDED:
+		GameEvent.Type.CARD_TOSSED:
 			await _on_discarded(event)
 		GameEvent.Type.EFFECT_TRIGGERED, GameEvent.Type.ABILITY_ACTIVATED:
 			_pulse(event.card)
@@ -558,7 +558,7 @@ func _on_cast(event: GameEvent) -> void:
 	# Bug fix (Part A): setting a trap is still a CARD_CAST event before the TRAP_SET event that
 	# actually moves it into the (hidden) trap row. An opponent's trap must never hit the
 	# face-up center reveal in between - it goes straight from a hidden hand card to a hidden
-	# trap slot. The player's own traps are unaffected: casting them is meant to be visible to
+	# trap slot. The player's own traps are unaffected: playing them is meant to be visible to
 	# the player who is setting them.
 	if data != null and data.type == CardEnums.CardType.TRAP and event.player != human:
 		layout()
@@ -581,11 +581,11 @@ func _on_cast(event: GameEvent) -> void:
 
 func _on_entered(event: GameEvent) -> void:
 	if not views.has(event.card):
-		ensure_view(event.card, Zone.BATTLEFIELD, event.player, CENTER_POINT, SCALE_CENTER)
+		ensure_view(event.card, Zone.FIELD, event.player, CENTER_POINT, SCALE_CENTER)
 	if _center_uid == event.card:
 		_center_uid = 0
 	_reveal(event.card)
-	set_zone(event.card, Zone.BATTLEFIELD)
+	set_zone(event.card, Zone.FIELD)
 	layout()
 	var view: CardView = view_for(event.card)
 	if view != null:
@@ -618,10 +618,10 @@ func _on_trap_triggered(event: GameEvent) -> void:
 
 
 func _on_token(event: GameEvent) -> void:
-	var view: CardView = ensure_view(event.card, Zone.BATTLEFIELD, event.player, CENTER_POINT, 0.3)
+	var view: CardView = ensure_view(event.card, Zone.FIELD, event.player, CENTER_POINT, 0.3)
 	if view == null:
 		return
-	set_zone(event.card, Zone.BATTLEFIELD)
+	set_zone(event.card, Zone.FIELD)
 	Audio.sfx(&"card_play", -4.0)
 	layout()
 	fx.burst(center_of(event.card), UIStyle.affinity_color(view.data.color), 14, 160.0)
@@ -638,8 +638,8 @@ func _on_damage(event: GameEvent) -> void:
 		target_center = portrait_anchor[Targets.player_index(event.other)]
 	else:
 		target_center = center_of(event.other)
-	# The attacking creature lunges at its target before the hit lands.
-	if attacker_view != null and attacking.has(event.card) and zones.get(event.card) == Zone.BATTLEFIELD:
+	# The attacking unit lunges at its target before the hit lands.
+	if attacker_view != null and attacking.has(event.card) and zones.get(event.card) == Zone.FIELD:
 		var origin: Vector2 = attacker_view.position
 		var lunge: Vector2 = (target_center - center_of(event.card)).limit_length(120.0)
 		var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD)
@@ -664,7 +664,7 @@ func _on_damage(event: GameEvent) -> void:
 	await _wait(0.28)
 
 
-func _on_life(event: GameEvent) -> void:
+func _on_hp(event: GameEvent) -> void:
 	if event.amount > 0:
 		Audio.sfx(&"heal")
 		fx.floating_text(portrait_anchor[event.player], "+%d" % event.amount, Color("7be08a"), 48)
@@ -690,7 +690,7 @@ func _on_died(event: GameEvent) -> void:
 
 func _on_returned(event: GameEvent) -> void:
 	if not views.has(event.card):
-		ensure_view(event.card, Zone.BATTLEFIELD, event.player)
+		ensure_view(event.card, Zone.FIELD, event.player)
 	set_zone(event.card, Zone.HAND)
 	Audio.sfx(&"card_draw", -4.0)
 	layout()

@@ -2,10 +2,10 @@ class_name HeapInteractables
 extends RefCounted
 ## The rules behind the Verdant Dump's interactables (all effects are real; the scene only animates them):
 ##  - Pickups: beans, fertilizer and junk, once per visit each; the stock persists in the campaign.
-##  - The Compost Bin: 2 piles of junk make a "Compost Cocktail" - +1 max life for the visit (twice per visit).
+##  - The Compost Bin: 2 piles of junk make a "Compost Cocktail" - +1 max HP for the visit (twice per visit).
 ##  - Crop plots: plant a crop with a sack of fertilizer; it ripens after `HeapGrowth.CROP_SECONDS` of real time in
 ##    the same visit; harvesting heals 4 and pays 15 gold.
-##  - The Druid Shrine: kneel once per visit for the "Blessing of Bloom" (+1 max life for the visit, heal 3).
+##  - The Druid Shrine: kneel once per visit for the "Blessing of Bloom" (+1 max HP for the visit, heal 3).
 ##  - The Feeding Trough: feed it a pile of junk, the animals pay 12 gold (3 feedings per visit).
 ##  - Growing: plant a Magic Bean at a sprout mound, or let a druid grow it once her condition is met.
 ##  - Barricades: smashed by a charging mount.
@@ -13,13 +13,13 @@ extends RefCounted
 
 const COMPOST_COST: int = 2
 const COMPOST_LIMIT: int = 2
-const COMPOST_MAX_LIFE_BONUS: int = 1
+const COMPOST_MAX_HP_BONUS: int = 1
 const HARVEST_HEAL: int = 4
 const HARVEST_GOLD: int = 15
 const FEED_GOLD: int = 12
 const FEED_LIMIT: int = 3
 const BLESSING_HEAL: int = 3
-const BLESSING_MAX_LIFE_BONUS: int = 1
+const BLESSING_MAX_HP_BONUS: int = 1
 const PICKUP_PREFIX: String = "pick_"
 const VISIT_COMPOST: String = "compost"
 const VISIT_FEED: String = "feed"
@@ -70,7 +70,7 @@ static func compost(run: ZoneRun) -> bool:
 		return false
 	spend("junk", COMPOST_COST)
 	run.bump_visit(VISIT_COMPOST)
-	run.add_buff(GainlandsInteractables.max_life_buff("Compost Cocktail", COMPOST_MAX_LIFE_BONUS))
+	run.add_buff(GainlandsInteractables.max_hp_buff("Compost Cocktail", COMPOST_MAX_HP_BONUS))
 	Session.bump_counter(HeapZone.COUNTER_COMPOSTED)
 	Session.refresh_quests()
 	return true
@@ -85,7 +85,7 @@ static func bless(run: ZoneRun) -> Dictionary:
 	if not can_bless(run):
 		return {"ok": false, "healed": 0}
 	run.bump_visit(VISIT_BLESSED)
-	run.add_buff(GainlandsInteractables.max_life_buff("Blessing of Bloom", BLESSING_MAX_LIFE_BONUS))
+	run.add_buff(GainlandsInteractables.max_hp_buff("Blessing of Bloom", BLESSING_MAX_HP_BONUS))
 	return {"ok": true, "healed": run.heal(BLESSING_HEAL)}
 
 
@@ -198,8 +198,8 @@ static func herded_this_visit(run: ZoneRun, animal: int) -> bool:
 
 ## Falling into the compost pit or the recycling stream: 1 damage and a line in the zone log. Returns {damage, down, log}.
 static func apply_hazard_fall(run: ZoneRun, place: String, log_template: String) -> Dictionary:
-	var before: int = run.life
+	var before: int = run.hp
 	run.damage(HeapZone.HAZARD_DAMAGE)
 	var line: String = log_template % place
 	Session.log_zone_event(line)
-	return {"damage": before - run.life, "down": run.is_down(), "log": line}
+	return {"damage": before - run.hp, "down": run.is_down(), "log": line}

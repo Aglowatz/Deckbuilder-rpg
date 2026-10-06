@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_7q3b3"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_l8keg"]
+
+[resource]
+script = ExtResource("2_l8keg")
+id = "infrastructure_refusemancer"
+display_name = "Refusemancer Infrastructure"
+type = 0
+color = 3
+defense = 0
+rules_text = "Activate: add one Refusemancer energy."
+is_basic = true

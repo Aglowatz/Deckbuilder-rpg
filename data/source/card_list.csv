@@ -1,0 +1,538 @@
+Card Path,Rarity,Card Name,Casting Cost,Card Type,Card Text/Effect,Power/Toughness (if relevant),Flavor Text,Image description,Notes,,,,Source,Card ID
+Refusemancers:,,,,,,,,,"Green coded - Ramp, big creatures, graveyard matters (as a resource)
+Rat tokens.",Unit,,,,
+1,(C),Mulch Mole,(R),Unit,Exhaust: add (R).,0/2,Digs it.,"A chubby mole wearing tiny patched overalls and a leaf hat, popping out of a steaming compost heap and holding up a glowing seed, wildflowers sprouting around it.",,Spell,Necrocrats,minimal wonders,AI-completed,R-01
+2,(C),Dumpster Diver,1(R),Unit,"Exhaust, pay 1: create a Garbage.",1/2,It's not hoarding if it's curated.,"A scrappy young druid half-inside an overflowing dumpster, only their legs and mossy cloak sticking out, tossing treasures (a boot, a teapot, a fish skeleton) over their shoulder while a curious crow watches.",,Trap,Refusemancers,minimal tools,AI-completed,R-02
+3,(C),Landfill Ox,3(R),Unit,"Exhaust, eat garbage twice: add (R)(R)(R)(R).",2/4,Not a beast of burden. A beast of garbage.,"A huge shaggy ox with moss growing on its horns, contentedly chewing a mouthful of tin cans and old newspapers, harnessed to a cart of glowing compost.",,Tool,Beefcakes,minimal traps,AI-completed,R-03
+4,(C),Rubbish Goat,2(R),Unit,"When this unit enters, you may destroy target Tool. If you do, create a Garbage.",2/2,Please do not feed the goats. They will eat the sign.,"A smug goat mid-chew with half of a wooden warning sign hanging from its mouth, standing on a pile of broken tools and gears.",,Wonder,Gourmands,minimal spells,AI-new,R-04
+5,(C),Kidding Around,2(R),Unit,"When this unit enters, create a 1/1 Goat token.",2/2,Twice the bleating. Half the dignity.,"A proud mother goat and a tiny hyperactive kid goat headbutting a rusty bucket together on top of a junk pile, flowers tangled in their fur.",,,,,AI-new,R-05
+6,(C),Curbside Rat,(R),Unit,"When this unit enters, create a Garbage.",1/1,Takes one to make one.,"A street-smart rat wearing a bottle-cap helmet, dragging a banana peel twice its size down a mossy cobbled alley.",,,,,AI-new,R-06
+7,(C),Junkyard Giraffe,3(R),Unit,Swat.,2/5,Looks down on everyone. Literally.,"A tall giraffe with scrap-metal patches and vines wrapped around its long neck, snatching a startled flying creature out of the air beside a tower of stacked rusty carts.",,,,,AI-new,R-07
+8,(C),Possum Prowler,(R),Unit,Eat garbage: this unit gets +2/+2 until end of turn.,1/2,Plays dead. Plays to win.,"A possum hanging upside down by its tail from a rusty pipe, munching a moldy sandwich, eyes glowing green as its muscles bulge with energy.",,Sushi dungeon idea:,ideas:,,AI-new,R-08
+9,(C),Heap Tortoise,4(R),Unit,"Swat.
+
+When this unit enters, create a Garbage.",4/6,Slow and steady wins the landfill.,"An enormous tortoise whose shell is a tiny overgrown junkyard, complete with a rusty bathtub garden, teapot planters, and little birds nesting on top.",,Omakase pun name. Prize is Toro Toro,Sashimi Weeinie,Gourmand Dungeon theme idea- sushi,AI-new,R-09
+10,(C),Community Compost Bin,1(R),Wonder,"At the start of your turn, if you control no Garbage, create a Garbage.",,"Leave a scrap, take a scrap.","A cheerful hand-painted wooden compost bin covered in flowers and doodles, steam rising from it, with rats and goats politely waiting in line.",,,Toro Toro,Gourmand Dungeon theme idea- sushi,AI-new,R-10
+11,(C),Raised Bed,2(R),Wonder,Use a Garbage: put a buff on target unit you control. Do this only once per turn.,,Grown with love. And coffee grounds.,"A raised garden bed built from an old rowboat, overflowing with oversized glowing vegetables and curling vines, a druid's watering can floating above it.",,,,,AI-new,R-11
+12,(C),Garbage Pit,2(R),Trap,"When a unit enters under your opponent's control, destroy it and create Garbage equal to its defense.",,Mind the gap. It's hungry.,"A gaping pit in the junkyard ground ringed with jagged scrap and grasping vines, a surprised armored invader slipping in while rats peek over the edges.",,,chaotic good barbarian (youtube seris),Beefcake unit,AI-completed,R-12
+13,(C),Reclaimed Land,2(R),Trap,"When an Infrastructure enters under your opponent's control, if they control more Infrastructure than you, search your deck for two Infrastructure and put them onto the field.",,Possession is nine-tenths of the landfill.,Two raccoons in tiny hard hats hammering a crooked flag with a paw-print emblem into a freshly claimed patch of land beside a rusty shack.,,,goat,,AI-completed,R-13
+14,(C),Rusty Spring Trap,1(R),Trap,"When an opposing unit attacks, deal 2 damage to it.",,Tetanus shots sold separately.,"A giant rusty jaw trap hidden under leaves and tin cans snapping shut, sparks and leaves flying everywhere.",,,two goats,,AI-new,R-14
+15,(C),Turf War,1(R),Trap,"When an opposing unit attacks, the unit you control with the highest attack brawls it.",,This is OUR dumpster.,"A gang of rats, goats, and a possum squaring off against a lone intruder in front of a glowing dumpster, sleeves rolled up and ready to brawl.",,,,,AI-new,R-15
+16,(C),Recycling Day,2(R),Trap,"When your opponent plays a Tool or Wonder, destroy it and create a Garbage.",,"If it's not nailed down, it's recyclable. If it is, so are the nails.",A swarm of animals carrying off a fancy golden gadget piece by piece into color-coded bins while a druid conducts them like an orchestra.,,,,,AI-new,R-16
+17,(C),Hayfork Harpoon,1(R),Tool,Exhaust: attach to target unit you control. Attached unit gets +1/+1 and Swat.,,For hay. And for harpies.,"A rusty pitchfork wrapped in vines with a rope tied to its handle, mounted on a wheelbarrow like a harpoon and aimed at the sky.",,"I need wonder, tool and resoure destruction",,,AI-new,R-17
+18,(C),Rusty Can Opener,1(R),Tool,"Destroy this Tool: destroy target Tool, Wonder, or resource.",,Opens anything. Eventually.,"An oversized rusty can opener wielded like a battle axe by a goat-riding druid, prying open a shiny metal contraption.",,,,,AI-new,R-18
+19,(C),Alley Scrap,1(R),Spell,Target unit you control brawls target unit you don't control.,,Winner gets the pizza crust.,"A scrappy raccoon and a bigger armored foe tumbling in a cartoon dust cloud of fists and flying trash, a single slice of pizza crust in the foreground.",,,,,AI-new,R-19
+20,(C),Landfill Grab,1(R),Spell,Search your deck for an Infrastructure and put it onto the field.,,"Location, location, decomposition.","A druid surveying a misty valley of junk hills through a spyglass made from a bottle, while eager vines unroll a fresh patch of land ahead.",,,,,AI-completed,R-20
+21,(C),Let them eat cake,1 (R),Spell,Destroy target Gourmand unit.,,The Gourmands always said it was to die for.,"Raccoons, rats, and other scrappy animals gleefully devouring a towering frosted cake golem, crumbs and icing flying everywhere.",,,,,AI-completed,R-21
+22,(U),Acid Vomitor,2 (R),Unit,"Exhaust, eat garbage: deal 2 damage to target unit.",1/3,Better out than in.,"A lanky, snake-like druid with a long neck and a moss-green robe spewing a glowing arc of green acid, junk sizzling where it lands.",snake type guy,,,,AI-completed,R-22
+23,(U),Bird of Paradump,(R),Unit,"Flying.
+
+Exhaust, eat garbage: add one energy of any Path.",0/1,Paradise is in the eye of the beholder.,"A flamboyant tropical bird with feathers made of colorful bottle caps and candy wrappers, perched on a trash heap like a throne, glowing with swirling multicolored energy.",,,,,AI-completed,R-23
+24,(U),Second-Hand Life,1(R),Trap,"When a unit you control dies, return it to your hand and create a Garbage.",,Pre-owned. Pre-loved. Pre-deceased.,"The glowing spirit of a fallen rat being gently scooped from a compost heap by hands made of vines, a patched thrift-shop cloak draped over it.",birds-of-paradise type,,,,AI-new,R-24
+25,(U),Manure Miracle,2(R),Spell,Fertilize 3 (put three buffs on target unit you control).,,Smells like victory. Mostly it just smells.,"A tiny goat ballooning into a hulking muscular beast after being splashed by a glowing bucket of magical manure, flies circling and flowers bursting into bloom around it.",,,,,AI-new,R-25
+26,(U),The Recycling Center,2(R),Wonder,"At the end of your turn, you may use two Garbage. If you do, return target card from your Refuse Pile to your hand.",,Nothing is wasted. Not even you.,"A whimsical junk-built recycling mill with a waterwheel, conveyor belts, and vines, animals sorting glowing scraps into chutes.",,,,,AI-new,R-26
+27,(E),Raccoon,(R),Unit,"When your units eat garbage, they don't pay energy or lose HP.",1/2,.... *sweats profusely*,"A nervous raccoon wearing a crown made from a soup can, sitting atop a mountain of trash and sweating profusely with a guilty grin while other animals feast below.",,,,,AI-completed,R-27
+28,(E),Poo-uid,2 (R),Unit,"Exhaust, eat garbage: create a 3/3 Poo Golem token.",2/2,Druid. Poo-id. It's all organic.,"A dignified elderly druid with a long beard and a clothespin on his nose, sculpting a hulking golem out of steaming manure with glowing green magic.",,,,,AI-completed,R-28
+29,(E),Mount Trashmore,3(R)(R)(R),Unit,"Bulldoze.
+
+When this unit enters, use any number of Garbage. Put a buff on it for each Garbage used.",6/7,It's not a mountain. It's a lifestyle.,"A colossal walking mountain of junk and earth with trees growing from its shoulders, glowing green eyes, and a cascade of scrap tumbling from its back as it stomps forward.",Big Boy,,,,AI-completed,R-29
+30,(E),The Mother Heap,2(R)(R),Wonder,"Whenever a Garbage enters under your control, create a 1/1 Rat token.",,Every family has one. This one has thousands.,"A towering, cozy mound of garbage glowing warmly from within, countless rats peeking out of tunnels and little windows like a bustling apartment building.",,,,,AI-completed,R-30
+31,(E),Bulk Trash Day,3(R)(R),Trap,"When your opponent plays a Tool or Wonder, destroy all Tools and Wonders your opponent controls.",,Everything must go.,"A massive garbage wagon pulled by giant beetles barreling through, scooping up shiny gadgets, banners, and statues while druids cheer from the back.",,,,,AI-new,R-31
+32,(L),Back From the Heap,2(R)(R),Trap,"When your HP drops to 5 or less, shuffle your Refuse Pile into your deck, gain 5 HP, and create five Garbage.",,You can't throw us away. We ARE away.,"A battered druid rising heroically out of a towering trash heap in a burst of green light, vines and animals swirling around them.",,,,,AI-new,R-32
+33,(L) Signature card,Archdruid Compostella,3(R)(R)(R),Unit,"At the start of your turn, create a Garbage and put a buff on each other unit you control.
+
+Exhaust, eat garbage: return target card from your Refuse Pile to your hand.",5/5,Every ending is just compost for a beginning.,"A majestic elderly druid queen with a crown of antlers, wildflowers, and bottle caps, wearing robes of moss and patchwork, raising a staff carved from a twisted pipe as the junkyard blooms around her.",,,,,AI-new,R-33
+,,,,,,,,,,,,,,
+Gourmand:,,,,,,,,,Blue Artificer Coded - Make Golems (big tokens) and Wonders,,,,,
+1,(C),Line Cook,(G),Unit,"When this unit enters, create an Ingredient.",1/1,"""Yes, Chef!"" (He has no idea what Chef said.)","A frazzled young cook in an oversized chef's hat juggling carrots, onions, and an egg mid-air in a gleaming copper kitchen, steam everywhere.",,,,,AI-completed,G-01
+2,(C),Sushi Apprentice,(G),Unit,"Exhaust, use an Ingredient: create a 1/1 Sashimi Weenie token.",1/1,Raw talent.,"An eager apprentice chef with a headband carefully slicing a glowing fish, tiny sashimi creatures hopping off the cutting board and waving.",,,,,AI-completed,G-02
+3,(C),Conveyor Belt Chef,2(G),Unit,"Exhaust, use two Ingredients: create two 1/1 Sashimi Weenie tokens.",2/3,"Round and round it goes. Where it stops, it bites.",A calm sushi master standing behind a long rotating conveyor belt as little sashimi creatures ride by on plates like a carnival ride.,,,,,AI-completed,G-03
+4,(C),Sourdough Sentry,2(G),Unit,Wallflower.,1/6,Proofed and ready.,"A stout guard made of a giant crusty sourdough loaf, holding a breadknife spear and a pot-lid shield, standing firmly in a bakery doorway.",,,,,AI-new,G-04
+5,(C),Food Critic,3(G),Unit,"When this unit enters, send target unit with attack 3 or less back to its owner's hand.",2/2,"""Send it back. It's undercooked.""","A haughty critic with a monocle and a tiny notebook, wrinkling his nose and pointing dramatically away from a plate as the dish flies back toward the kitchen.",,,,,AI-new,G-05
+6,(C),Soup Kitchen Volunteer,1(G),Unit,"When this unit enters, gain 2 HP.",1/3,Chicken soup for the whole soul.,"A warm, smiling volunteer ladling glowing golden soup from a giant cauldron into bowls held by grateful townsfolk.",,,,,AI-new,G-06
+7,(C),Sous Chef,2(G),Unit,"When this unit enters, Peek 2, then draw a card.",2/2,Chef's second. Chef's best.,"A sharp, confident sous chef reading a floating glowing recipe book while chopping vegetables without looking.",,,,,AI-new,G-07
+8,(C),Pastry Artificer,2(G),Unit,"Exhaust, pay 2, use two Ingredients: create a 4/4 Cake Golem token.",1/3,She bakes things. Big things. Angry things.,An inventor-baker in goggles and a flour-dusted apron piping glowing frosting onto a hulking cake golem that is just opening its eyes.,,,,,AI-new,G-08
+9,(C),Kitchen Porter,(G),Unit,"When this unit dies, create two Ingredients.",1/2,"Dishes don't wash themselves. Well, they do now.","A tired kitchen porter buried up to the shoulders in a mountain of soapy pots and pans, bubbles floating up around him.",,,,,AI-new,G-09
+10,(C),The Recipe Engine,2(G),Wonder,Use two Ingredients: draw a card. Do this only once per turn.,,Step one: gather ingredients. Step two: ??? Step three: dinner.,"A whimsical brass machine with spinning gears and funnels, recipe cards fluttering out of its chimney as ingredients get sucked into a hopper.",,,,,AI-completed,G-10
+11,(C),Gourmand Cooking Academy,2(G),Wonder,Destroy a unit you control: create two Ingredients. Do this only once per turn.,,Every graduate is guaranteed placement. On a plate.,"A grand culinary school hall with rows of students at copper stoves, a stern headmaster chef pointing a wooden spoon at a chalkboard covered in diagrams.",,,,,AI-completed,G-11
+12,(C),Meatloaf Mold,2(G),Wonder,Use two Ingredients: create a 3/3 Meatloaf Golem token. Do this only once per turn.,,Mom's recipe. Mom's temper.,"A giant golem-shaped baking mold on a kitchen counter, a lumpy meatloaf golem climbing out of it and flexing, ketchup glaze dripping.",,,,,AI-completed,G-12
+13,(C),Hearth Kitchen,1(G),Wonder,Use an Ingredient: gain 2 HP.,,Comfort food for the comfortless.,"A cozy stone hearth with a bubbling stew pot, warm firelight, and a rocking chair beside it, a cat asleep on a stack of cookbooks.",,,,,AI-new,G-13
+14,(C),Seasoning Station,1(G),Wonder,Golem tokens you control get +1/+1.,,Golems have very strong opinions about seasoning.,"A row of giant spice jars and pepper mills, a cake golem and a meatloaf golem arguing over a salt shaker.",,,,,AI-new,G-14
+15,(C),Windowsill Herb Garden,2(G),Wonder,"At the start of your turn, create an Ingredient.",,Mostly basil. Mostly thyme.,"A sunny kitchen windowsill lined with terracotta pots of glowing herbs, a tiny watering can, and a ladybug wearing a chef's hat.",,,,,AI-new,G-15
+16,(C),Dinner Is Served,2(G),Trap,"When an opposing unit with attack 3 or less attacks, Plate it (it becomes a 1/1 Snack token).",,Garnish optional.,"A charging creature mid-leap suddenly transformed into a tiny dumpling on a silver platter, a butler chef lifting the cloche with a flourish.",,,,,AI-new,G-16
+17,(C),Sent Back to the Kitchen,2(G),Trap,"When an opposing unit attacks, send it back to its owner's hand.",,"We don't serve your kind. Or anyone, really.",A furious head chef flinging a swinging kitchen door open as an attacking creature is swept back out by a whirlwind of flying plates.,,,,,AI-new,G-17
+18,(C),Rolling Pin,1(G),Tool,Exhaust: attach to target unit you control. Attached unit gets +1/+2.,,Kitchen utensil. Also a weapon. Mostly a weapon.,"A heavy polished rolling pin with brass handles, glowing faintly, resting on a flour-dusted counter like a legendary weapon on an altar.",,,,,AI-new,G-18
+19,(C),Lunchbox,(G),Tool,Destroy this Tool: create two Ingredients and gain 2 HP.,,Packed with love and a passive-aggressive note.,"A cute metal lunchbox popping open with light pouring out, revealing a sandwich, an apple, and a folded note with a heart on it.",,,,,AI-new,G-19
+20,(C),Plate It,3(G),Spell,Plate target unit (it becomes a 1/1 Snack token).,,Presentation is everything.,A fearsome monster shrinking into an elegant bite-sized appetizer as a chef's tweezers place a microgreen on top.,,,,,AI-new,G-20
+21,(C),Consult the Cookbook,1(G),Spell,"Peek 3, then draw a card.",,"Page 47: ""Do not substitute."" Page 48: stained beyond reading.","A huge, ancient cookbook floating open on a lectern, pages glowing and turning by themselves, splatters and sticky notes everywhere.",,,,,AI-new,G-21
+22,(U),The Cullinator,3(G)(G),Unit,"When this unit enters, destroy target unit and create Ingredients equal to its defense.",3/3,He'll be back. For seconds.,"A towering, muscle-bound cyborg chef in a white chef's coat and dark sunglasses, one glowing red mechanical eye, gripping a cleaver and a sizzling pan in a fiery kitchen.",Terminator cooking pun,,,,AI-completed,G-22
+23,(U),En Garde-Manger,2(G),Unit,"Sucker Punch.
+
+Whenever this unit blocks, create an Ingredient.",2/4,"""The Keeper of the Food"" - the Gourmands' highest title of honor.","A dashing chef-fencer in a crisp white coat lunging with a baguette rapier and a pot-lid buckler, cheese wheels stacked behind him.",,,,,AI-completed,G-23
+24,(U),Health Code Violation,2(G),Trap,"When an opposing unit enters, send it back to its owner's hand and create an Ingredient.",,Is that a hair? That's a whole goblin.,A stern inspector in a spotless uniform holding up a giant magnifying glass to reveal a startled goblin hiding in a soup pot.,,,,,AI-new,G-24
+25,(U),Stock The Pantry,1(G),Spell,Create three Ingredients.,,Twelve jars of pickles. Just in case.,"A towering pantry bursting with jars, wheels of cheese, hanging sausages, and sacks of flour, a chef triumphantly shoving the door closed.",,,,,AI-completed,G-25
+26,(U),Banquet Hall,3(G),Wonder,"Whenever you create a Golem token, gain 2 HP and Peek 1.",,Seating for three hundred. Golems stand.,"A grand banquet hall with chandeliers and a long feast table, food golems standing at attention as waiters around the table.",,,,,AI-new,G-26
+27,(E),Toro Toro,1(G)(G),Unit,"As an additional cost to play this, use three Ingredients.
+
+Bulldoze. Swat.",4/6,"The chef's choice. The bull's choice, too.","A large, muscular bull made of glistening sushi and tuna slices, rice-grain horns, charging forward in a burst of soy-sauce-colored dust.",Prize from the Omakase dungeon,,,,AI-completed,G-27
+28,(E),Chef de Golem,3(G)(G),Unit,"Golem tokens you control get +1/+1 and Swat.
+
+Exhaust, use two Ingredients: create a 3/3 Meatloaf Golem token.",3/5,Every golem is a recipe. Every recipe is a golem.,A grand artificer chef with a mechanical arm conducting a small army of food golems with a whisk like a baton.,,,,,AI-new,G-28
+29,(E),Head Health Inspector,4(G)(G),Unit,"When this unit enters, send all other units back to their owners' hands.",3/6,"""Everybody out. NOW.""","A towering, stern inspector in a spotless coat blowing a whistle as chefs, golems, and monsters all scramble out of a kitchen in a panic.",,,,,AI-new,G-29
+30,(E),The Infinite Pantry,3(G)(G),Wonder,"Whenever you would create one or more Ingredients, create twice that many instead.",,What about second breakfast?,"An impossibly deep pantry with shelves stretching into a glowing infinity, jars and cheeses multiplying as they float.",,,,,AI-completed,G-30
+31,(E),Recipe for wonder,(G)(G),Tool,"Pay 1(G), use three Ingredients, destroy this Tool: put a random Wonder from your deck onto the field.",,Step one: believe. Step two: whisk.,"A glowing handwritten recipe card hovering above a mixing bowl, swirling ingredients forming the shape of a tiny magical building.",,,,,AI-completed,G-31
+32,(L),The Eternal Banquet,3(G)(G),Wonder,"At the start of your turn, create two Ingredients.
+
+Use five Ingredients: create an 8/8 Wedding Cake Colossus token with Bulldoze.",,There is always room for dessert.,"A colossal, many-tiered wedding cake golem rising over an endless banquet table that stretches to the horizon, fireworks of sprinkles bursting overhead.",,,,,AI-new,G-32
+33,(L) Signature,Grand Chef Escoffina,3(G)(G),Unit,"When this unit enters, create three Ingredients.
+
+Exhaust, use X Ingredients: create an X/X Golem token.",4/6,"""A kitchen is a kingdom. Feed it well and it will never fall.""","A regal, warm-eyed master chef in an ornate golden chef's coat and towering toque, ladle raised like a scepter as golems of every food rise around her in a radiant kitchen-throne room.",,,,,AI-completed,G-33
+,,,,,,,,,,,,,,
+Beefcake:,,,,,,,,,"Red coded - haste, tools (artifacts/equipment), tempo creatures",,,,,
+1,(C),Gym Bro,(B),Unit,Hustle.,2/1,Do you even lift? He does. Constantly. Loudly.,"A grinning, overly confident gym bro in a tank top flexing one bicep while sprinting into battle, a shaker bottle swinging from his belt.",,,,,AI-new,B-01
+2,(C),Bronzer,1(B),Tool,Exhaust: attach to target unit you control. Attached unit gets +2/+0.,,Looks stronger. Isn't stronger. Is a little stronger.,"A gleaming jar of glowing bronze tanning paste, a muscular arm reaching in, golden sparkles and a sunset-orange glow surrounding it.",,,,,AI-completed,B-02
+3,(C),Dropped Weights,(B),Spell,Deal 2 damage to target unit or opponent.,N/A,Gravity always wins.,"A sweaty Beefcake fumbling a heavy barbell while re-racking it, the weights crashing down on a startled creature below in a cloud of chalk dust.",,,,,AI-completed,B-03
+4,(C),Millstone Pusher,1(B),Unit,"Exhaust: add (B).
+
+Overexert: add (B)(B).",2/2,Grinding the grain. Grinding the gains.,"A broad-shouldered worker straining against a giant millstone lever, veins popping, grain dust swirling in golden sunlight.",,,,,AI-new,B-04
+5,(C),Hamster Wheel Runner,(B),Unit,"When this unit enters, create an Iron.",1/1,Runs on carbs and spite.,"A tiny but intense athlete sprinting inside a giant wooden hamster wheel, sparks of energy flying off the axle into power lines.",,,,,AI-new,B-05
+6,(C),Portal Ripper,2(B),Unit,"Hustle.
+
+When this unit enters, target unit can't block this turn.",2/2,Rips portals. Rips shirts. Same energy.,"A huge Beefcake tearing open a glowing swirling portal with his bare hands, his shirt also ripping apart from the effort.",,,,,AI-new,B-06
+7,(C),Late-ish Courier,1(B),Unit,"Hustle.
+
+This unit can't block.",3/1,Delivered on time-ish.,"A breathless courier with an enormous backpack sprinting past a sundial, packages flying out behind him, one sandal missing.",,,,,AI-new,B-07
+8,(C),Spotter,2(B),Unit,"When this unit enters, put a buff on target unit you control.",2/3,"""I got you, bro. I got you.""","A supportive Beefcake hovering hands under a straining lifter's barbell, shouting encouragement, both glowing with golden energy.",,,,,AI-new,B-08
+9,(C),Personal Trainer,2(B),Unit,"Whenever you use an Iron, put a buff on this unit.",2/2,One more rep. ONE MORE.,"An intense personal trainer with a whistle and clipboard yelling motivation, a pile of glowing iron weights behind her.",,,,,AI-new,B-09
+10,(C),Shot Putter,3(B),Unit,Overexert: this unit deals 2 damage to target unit.,3/3,Distance: impressive. Accuracy: debatable.,"A massive athlete spinning and launching a glowing iron ball across a field, a distant creature ducking far too late.",,,,,AI-new,B-10
+11,(C),Beefy Bouncer,4(B),Unit,Bulldoze.,5/4,Not on the list. Not my problem.,"A giant bouncer with crossed arms and sunglasses standing at a velvet rope, effortlessly shoving an intruder backward through a wall.",,,,,AI-new,B-11
+12,(C),Leg Day Survivor,3(B),Unit,Hustle.,4/2,Can't feel legs. Can feel victory.,"A wobbly-legged but huge-torsoed Beefcake charging forward on trembling legs, a determined grin on his face.",,,,,AI-new,B-12
+13,(C),Hulking Hauler,5(B),Unit,Hustle.,6/5,Transportation? He IS the transportation.,"An enormous Beefcake carrying an entire wagon full of passengers on his back while running along a dirt road, dust billowing behind.",,,,,AI-new,B-13
+14,(C),Weight Belt,1(B),Tool,Exhaust: attach to target unit you control. Attached unit gets +1/+1 and Bulldoze.,,Holds everything in. Mostly the snacks.,"A thick leather lifting belt with a glowing golden buckle, hanging on a rack in a sunlit outdoor gym made of logs and boulders.",,,,,AI-new,B-14
+15,(C),Kettlebell,(B),Tool,Destroy this Tool: deal 3 damage to target unit.,,Swing it. Let go. Apologize.,"A heavy iron kettlebell flying through the air toward a startled creature, the thrower wincing apologetically in the background.",,,,,AI-new,B-15
+16,(C),Lifting Gloves,1(B),Tool,Exhaust: attach to target unit you control. Attached unit gets +2/+0 and Sucker Punch.,,Fingerless. Like his sense of shame.,"A pair of worn fingerless lifting gloves glowing with golden energy, knuckles cracked and ready, chalk dust drifting around them.",,,,,AI-new,B-16
+17,(C),Pre-Workout Canister,(B),Tool,Destroy this Tool: target unit gets +3/+0 and Hustle until end of turn.,,Contains 900% of your daily jitters.,"A neon-colored canister of pre-workout powder bursting open in an explosion of electric energy, a nearby Beefcake vibrating intensely.",,,,,AI-new,B-17
+18,(C),Sledgehammer,2(B),Tool,"Exhaust: attach to target unit you control. Attached unit gets +2/+1.
+
+Whenever attached unit attacks, you may destroy target Tool.",,Fixes everything. Permanently.,"A massive sledgehammer embedded in a pile of smashed gadgets and gears, its handle wrapped in grip tape, sparks still flying.",,,,,AI-new,B-18
+19,(C),Counterweight,2(B),Trap,"When an opposing unit attacks, deal 3 damage to it.",,What goes up...,"A giant counterweight dropping from a mill's rope pulley onto an attacking creature, a Beefcake holding the cut rope with a smirk.",,,,,AI-new,B-19
+20,(C),Dry Scoop,(B),Spell,Target unit gains Hustle until end of turn.,,*cough* *cough*... who's up for a relay race?!,"A Beefcake coughing a cloud of bright pre-workout powder while already sprinting, eyes wide, a relay baton in hand.",,,,,AI-completed,B-20
+21,(C),Flex on 'Em,1(B),Spell,"Deal 2 damage to target opponent. If you control a unit with 5 or more attack, deal 4 damage instead.",,Intimidation is a legitimate damage type.,A gigantic Beefcake hitting a dramatic double-biceps pose so intense that a shockwave blows an enemy's hair and cape backward.,,,,,AI-new,B-21
+22,(U),Alarm-ish Clock,2,Tool,"Exhaust, pay 1: attach to target unit you control.
+
+At the beginning of combat on your turn, flip a coin. Heads: attached unit gets +2/+0 and Sucker Punch until end of turn. Tails: attached unit becomes exhausted.",,"Oh no, I'm late! Or am I...?","A battered wind-up alarm clock with mismatched hands and a bent bell, ringing wildly while a Beefcake either sprints off or snoozes on top of it.",,,,,AI-completed,B-22
+23,(U),Snack Bar,1(B),Wonder,Pay 1: target unit gets +1/+0 until end of turn. Each unit can be targeted only once per turn.,,"Oops, all protein bars","A roadside snack stand stacked high with brightly wrapped protein bars, Beefcakes lining up and flexing while they wait.",,,,,AI-completed,B-23
+24,(U),Overclocked Mill Worker,2(B),Unit,"Overtime.
+
+Whenever this unit attacks, create an Iron.",3/3,Clocked in. Never clocked out.,"A tireless mill worker pushing a giant wheel while marching into battle, a time card stuck in his headband.",,,,,AI-new,B-24
+25,(U),Yeet,2(B),Spell,Target unit you control deals damage equal to its attack to target unit or opponent.,,Physics is just a suggestion.,"A grinning Beefcake hurling a startled smaller ally through the air like a javelin toward a distant enemy, a dust trail behind them.",,,,,AI-completed,B-25
+26,(U),The Carpool,3(B),Unit,"Hustle.
+
+When this unit enters, other units you control gain Hustle until end of turn.",4/3,Everybody in. Seatbelts are for the weak.,"A giant Beefcake running with a wooden cart strapped to his back, a crowd of smaller warriors cheering from the cart as it bounces down a hill.",,,,,AI-new,B-26
+27,(E),Protein Farts,2(B)(B),Spell,Deal 4 damage to all units.,,"No pain, all gains","A Beefcake looking innocent in the center of a gym while a huge green shockwave cloud blasts outward, knocking creatures over and wilting plants.",,,,,AI-completed,B-27
+28,(E),Portal-Ripping Titan,4(B)(B),Unit,"Hustle.
+
+When this unit enters, deal 3 damage to target unit.",6/6,Knocks before entering. Through the wall.,"A colossal Beefcake bursting through a glowing torn portal, fists first, shards of magical energy and stone exploding outward.",,,,,AI-new,B-28
+29,(E),Swole Patrol Sergeant,3(B)(B),Unit,"At the start of your turn, create an Iron.
+
+Whenever you use an Iron, deal 1 damage to target opponent.",4/4,Drop and give me twenty. Then give me twenty more.,"A barrel-chested drill sergeant with a whistle and a tiny beret, barking orders at a line of Beefcakes doing push-ups on iron plates.",,,,,AI-new,B-29
+30,(E),Barbell of the Ancients,2(B),Tool,"Exhaust: attach to target unit you control. Attached unit gets +3/+3 and Bulldoze.
+
+At the beginning of combat on your turn, you may have attached unit get an additional +3/+0 until end of turn. If you do, it doesn't refresh during your next turn.",,Lifted only by the worthy. And by Greg.,"An ancient stone-and-gold barbell resting on a mountaintop altar, glowing runes on its plates, light beaming down on it.",,,,,AI-new,B-30
+31,(E),The Ultimate Cardio Machine,2(B)(B),Wonder,"Whenever a unit enters under your control without Hustle, it gains Hustle. Whenever a unit with Hustle enters under your control, it gets +2/+1 until end of turn.",,Never skip leg day!,"A huge, chicken-legged Beefcake running on a colossal hamster-wheel treadmill, his upper body enormous and his legs comically skinny.",,,,,AI-completed,B-31
+32,(L),The Big Unit,5(B)(B),Unit,"Team Leader: if you control 5 units with 5 different attack values, The Big Unit costs only (B) to play.
+
+Bulldoze.",12/12,The ultimate specimen,"The most enormous, muscular Beefcake imaginable, towering over mountains and clouds, flexing as tiny Beefcakes cheer at his feet.",,,,,AI-completed,B-32
+33,(L),Global Gains Platinum Membership,3(B),Tool,"Exhaust: attach to target unit you control. At the start of your turn, put a buff on attached unit; it gains Hustle and Overtime.
+
+When attached unit dies, return this Tool to your hand.",,Cancel anytime.* (*You cannot cancel.),"A glowing platinum membership card hovering above a pedestal in a grand marble gym, golden light rays and floating dumbbells around it.",,,,,AI-completed,B-33
+,,,,,,,,,,,,,,
+Necrocrat:,,,,,,,,,"Black coded - reanimator, aristocrats, small tokens",,,,,
+1,(C),Skeleton Clerk,(N),Unit,"When this unit dies, create a Red Tape.",1/1,"Even in death, he files.","A tiny skeleton in sleeve garters and a green visor stamping forms at a cluttered desk, ghostly light from a flickering lamp.",,,,,AI-new,N-01
+2,(C),Infernal Intern,1(N),Unit,"When this unit enters, create a Red Tape.",1/2,Unpaid internship. Eternal duration.,"A Necrocrat ghoul in a suit, carrying a giant stack of requisition forms, looking incredibly stressed.",,,,,AI-completed,N-02
+3,(C),Post-Human Resources Ghoul,3(N),Unit,"When this unit enters, your opponent destroys a unit they control.",2/2,We're restructuring. You're the structure.,"A gaunt ghoul in a cardigan and lanyard sliding a single slip of paper across a desk toward a terrified creature, a box of belongings waiting beside it.",,,,,AI-completed,N-03
+4,(C),Body-builder,2(N),Unit,"Exhaust, use a Red Tape: create a 2/2 Patchwork Body token.",1/2,Some build muscle. He builds everything else.,"A meticulous undead tailor in a leather apron stitching a body together from mismatched parts on a workbench, each part labeled with a tiny filing tag.",,,,,AI-new (designer concept),N-04
+5,(C),Corpseified Public Accountant,2(N),Unit,"Whenever an opposing unit dies, create a Red Tape.",1/3,The bones are their dollars,"A skeletal accountant with an abacus made of finger bones and teeth, tallying a ledger by candlelight as tiny ghostly coins drift around him.",,,,,AI-completed,N-05
+6,(C),Notary Wraith,2(N),Unit,"Flying.
+
+When this unit dies, your opponent loses 1 HP and you gain 1 HP.",2/2,"Signed, sealed, deceased.","A floating wraith in a tattered robe holding a giant glowing stamp, pressing an official seal onto a document in midair.",,,,,AI-new,N-06
+7,(C),Grave Shift Worker,3(N),Unit,"When this unit enters, Reinstate target unit with cost 2 or less from your Refuse Pile.",2/3,The night shift never ends. Literally.,"A sleepy undead janitor in coveralls pushing a mop cart through a dark office at night, helping a small zombie climb out of a filing cabinet.",,,,,AI-new,N-07
+8,(C),Corporate-Approved Pen,1(N),Tool,Exhaust: attach to target unit you control. Attached unit gets +1/+0 and Toxic.,,Mightier than the sword. Legally binding.,"An elegant black fountain pen dripping sickly green ink, levitating above a contract, a faint skull-shaped glow in the ink droplet.",,,,,AI-completed,N-08
+9,(C),Red Tape Dispenser,2(N),Tool,"Exhaust, pay 1: create a Red Tape.",,Pull. Tear. Regret.,A heavy desk tape dispenser spewing endless coils of glowing red tape that wrap around everything in a gray office.,,,,,AI-completed,N-09
+10,(C),Push Broom of Undeath ,4(N) ,Tool,"Whenever a unit attacks, you may Shred any number of Garbage, Iron, and Ingredients.",,Looks like one of the beefcakes blew themselves up trying to start the train...again. Send the intern to the entrance with the broom. ,"A skeletal janitor sweeping a pile of trash, iron plates, and spilled ingredients into a glowing green shredder vortex.",,,,,AI-completed,N-10
+11,(C),Late Fee,1(N),Trap,"When your opponent plays a card that costs 4 or more, they lose 2 HP.",,"Payment was due yesterday. In the afterlife, it's always yesterday.","A ghostly envelope bursting open in front of a shocked creature, a spectral bill unrolling to the floor with an enormous total.",,,,,AI-new,N-11
+12,(C),Invisible Ink,1(N),Trap,"When an opposing unit enters, exhaust it. It doesn't refresh during its controller's next turn.",,This is what we use to write the fine print,A creature happily signing a blank-looking scroll as faint glowing chains of ghostly text appear around its ankles.,,,,,AI-completed,N-12
+13,(C),Waiting Room,2(N),Wonder,Units your opponent controls enter exhausted.,,Please take a number. The number is infinity.,"A vast gray waiting room with endless rows of chairs filled with bored ghosts and skeletons, a ticket number sign flickering overhead.",,,,,AI-new,N-13
+14,(C),The Breakroom,2(N),Wonder,"Whenever a unit you control dies, your opponent loses 1 HP.",,Mandatory fun. Optional survival.,"A gloomy office breakroom with a sad birthday banner, a coffin-shaped refrigerator, and zombies standing around a cake with candles.",,,,,AI-new,N-14
+15,(C),Pink Slip,2(N),Spell,Destroy target unit with attack 3 or less.,,Your services are no longer required. Or wanted. Or remembered.,"A ghostly pink slip of paper floating down onto a startled creature, which fades into a wisp of smoke.",,,,,AI-new,N-15
+16,(C),Processing Delay,1(N),Spell,Processing 2 (this resolves at the start of your turn two turns from now): destroy target unit.,,Your termination has been approved. Please wait to be terminated.,"A creature anxiously holding a numbered ticket in a long ghostly queue, an hourglass and a stamp-wielding skeleton waiting at the front.",,,,,AI-new,N-16
+17,(C),Buried in Paperwork,2(N),Spell,Return target unit from your Refuse Pile to your hand. Create a Contract.,,"We see you've already completed the requisite death forms. Once we get you processed, you can get started on the requisite undeath forms.","Art has a recently deceased Necrocrat, mummified in various forms sitting up, unwrapping himself, hes about halfway done. Other necrocrats look on, writing on clipboards.",,,,,AI-completed,N-17
+18,(C),Requisition Form,2(N),Spell,"As an additional cost to play this, use a Red Tape or Contract.
+
+Draw 2 cards.",,Please allow six to eight eternities for processing.,"A towering, wobbling stack of paperwork balanced on a tiny skeleton's head as it tiptoes through a dim hallway.",,,,,AI-completed,N-18
+19,(C),Resting In Peace Clause,3(N),Spell,"Shuffle 2 Clause tokens into your opponent's deck. When your opponent draws a Clause, Shred it and create a 2/2 Zombie Rat token under your control.",,Read the fine print. It reads you back.,A contract unrolling to reveal tiny print that crawls off the page as little zombie rats scurrying toward the reader.,,,,,AI-completed,N-19
+20,(C),I've Made a Huge Mistake,1(N),Spell,"As an additional cost to play this, destroy a unit you control.
+
+Draw 2 cards and create a Red Tape.",,Regret: now with paperwork.,"A guilty-looking ghost clerk staring at a shredder that has just eaten an important document, a single scrap fluttering away.",,,,,AI-completed,N-20
+21,(C),Become Useful at Work,(N),Spell,"As an additional cost to play this, destroy a unit you control.
+
+Create 1/1 Zombie Temp tokens equal to its defense.",,Your role has been restructured into several smaller roles.,A large zombie walking into a door marked with a cubicle icon and three tiny identical zombies walking out the other side with briefcases.,,,,,AI-completed,N-21
+22,(U),Working in Your Own Casket,1(N),Spell,Target unit you control can't be targeted and can't be damaged until the start of your next turn.,N/A,"Feed up with Kim and Sam's repeated PDA, Dwayne requested a remote work arrangement ","A stern, bespectacled vampire office worker with slicked-back hair lying in a closed coffin, using the lid as a desk to write a contract by candlelight.",,,,,AI-completed,N-22
+23,(U),Middle Management Zombie,3(N),Unit,"Zombie Temp tokens you control get +1/+0.
+
+Exhaust, use a Red Tape: create a 1/1 Zombie Temp token.",2/3,Delegates everything. Including decomposition.,"A zombie in a wrinkled tie with a clipboard and a whistle, directing a line of smaller zombies carrying boxes, a 'world's okayest boss' mug in hand.",,,,,AI-completed,N-23
+24,(U),Endless Filing,2(N),Spell,Bury 4. Then Reinstate target unit with cost 3 or less from your Refuse Pile.,,File it under 'Pending'. Pending what? Pending.,"An endless canyon of filing cabinets stretching into fog, drawers sliding open on their own and spilling papers and the occasional zombie.",,,,,AI-completed,N-24
+25,(U),Permission to Die - Denied,1(N),Trap,"When a unit you control dies, Reinstate it.",N/A,You should have read the fine print.,"A ghostly soul trying to float up toward a glowing light while a skeleton clerk slams a giant stamp onto a form, pulling the soul back down by its ankle.",,,,,AI-completed,N-25
+26,(U),Audit Wraith,2(N),Unit,"Flying.
+
+When this unit enters, your opponent loses 1 HP for each Tool and Wonder they control. Create a Red Tape.",2/2,"Your receipts, please.","A wraith in a long coat and spectacles hovering over a terrified merchant's stall, inspecting every item with a glowing magnifying glass.",,,,,AI-new,N-26
+27,(E),Mandatory Optional Team Meeting ,4(N)(N),Spell,Reinstate all Necrocrat units from your Refuse Pile.,,"I am glad you all volunteered to be forced to be here today. - Mortimer Grimsby, CE-No","A gloomy conference room packed with undead employees rising from coffins and filing cabinets to sit at a long table, a skeletal boss at the head pointing at a chart.",,,,,AI-completed,N-27
+28,(E),Lich of Accounts Payable,4(N)(N),Unit,"Flying.
+
+When this unit enters, Reinstate target unit from any Refuse Pile under your control.",4/5,Every debt is collected. Eventually. Forever.,"A towering lich in a tattered business robe, ledger glowing in one hand, pulling a ghostly creature out of a pit of paperwork with the other.",,,,,AI-new,N-28
+29,(E),Mass Layoffs,4(N)(N),Spell,Destroy all units. Create a Red Tape for each unit destroyed this way.,,It's not personal. It's every person.,"A huge stamp slamming down on an office floor, sending a shockwave of pink slips through a crowd of units who all fade into smoke.",,,,,AI-new,N-29
+30,(E),"Betty Bones, Surly Secretary",3(N),Unit,"Whenever a unit enters under your control, create a Contract.
+Whenever a unit attacks you, create a Red Tape.",2/4,"I'm sorry sir, you are going to have to fill out forms A-F. After which you will have the designated waiting period. I estimate 4 to 6 centuries.","A skeleton, profling like an older woman, stits at a desk pouring over a requisiton form. She is wearing old style cateye glasses, holding the form in one hand and adjusting her glasses with the other.",,,,,AI-completed,N-30
+31,(E),Department of Final Approvals,2(N)(N),Wonder,"Spells your opponent plays cost 1 more.
+
+At the start of your turn, create a Red Tape.",,Your request has been received. And denied. And received again.,"A monumental gray government building with countless tiny windows, an endless queue of ghosts snaking out of its doors and up its steps.",,,,,AI-new,N-31
+32,(L),Unconscionable Contract,4(N)(N),Spell,Gain control of target unit permanently. Create three Contracts.,,"Sign here, here, here, and... your soul, here.","A giant glowing contract wrapping around a mighty creature like chains, ghostly hands guiding a quill to its signature line.",,,,,AI-completed,N-32
+33,(L) Signature,"Mortimer Grimsby, CE-No",3(N)(N),Unit,"Whenever another unit you control dies, create a Red Tape and your opponent loses 1 HP.
+
+Use three Red Tape: Reinstate target unit from your Refuse Pile. Do this only once per turn.",3/5,The answer is no. The question is irrelevant.,"An imposing skeletal executive in an immaculate pinstripe suit seated behind a massive desk of black stone, a giant 'DENIED' stamp in hand and a sea of paperwork rising behind him.",,,,,AI-completed,N-33
+,,,,,,,,,,,,,,
+Gourmand / Refusemancer:,,,,,,,,,,,,,,
+1,(U),Farm-to-Table Chef,(G)(R),Unit,"Exhaust, use a Garbage: create an Ingredient.",2/2,Locally sourced. Very locally.,A cheerful chef in a straw hat pulling glowing vegetables straight out of a compost-rich garden bed and tossing them into a pot.,,,,,AI-new,GR-01
+2,(U),Freegan Forager,1(G)(R),Unit,"Exhaust, eat garbage: create an Ingredient and gain 2 HP.",2/3,Best-before dates are a social construct.,"A resourceful forager in a patched apron gleefully pulling a perfect-looking cake out of a dumpster, a raccoon nodding approvingly.",,,,,AI-new,GR-02
+3,(U),Dumpster Gourmet,2(G)(R),Unit,"When this unit enters, create a Garbage and an Ingredient.
+
+Golem tokens you control have Swat.",3/3,Trash to treasure. Treasure to trash. Circle of life.,A sophisticated chef in a tall hat and a monocle elegantly plating a gourmet dish inside an overflowing dumpster.,,,,,AI-new,GR-03
+4,(U),Food Fight,1(G)(R),Trap,"When an opposing unit attacks, create a 3/3 Compost Golem token.",,It started with a single pea.,"A chaotic cafeteria brawl between snooty chefs and scrappy druids, pies and rotten cabbages flying in every direction.",,,,,AI-new,GR-04
+5,(U),Expired Goods,1(G)(R),Trap,"When your opponent plays a Wonder, destroy it and create two Ingredients.",,Best before: yesterday.,"A fancy pastry shop slowly wilting and crumbling as moss and mold creep over it, a sad baker holding a moldy loaf.",,,,,AI-new,GR-05
+6,(U),Leftovers,(G)(R),Trap,"When a unit you control dies, create a Garbage and an Ingredient.",,Waste not.,"A cozy container of leftovers glowing on a windowsill, a raccoon and a chef both reaching for it at the same time.",,,,,AI-new,GR-06
+7,(U),Community Garden,2(G)(R),Wonder,"At the start of your turn, create a Garbage or an Ingredient.",,Grown by everyone. Eaten by everyone. Argued about by everyone.,"A lush shared garden growing out of old tires, bathtubs, and copper pots, chefs and druids reluctantly working side by side.",,,,,AI-new,GR-07
+8,(U),Fermentation Cellar,1(G)(R),Wonder,Use a Garbage and an Ingredient: put two buffs on target unit you control. Do this only once per turn.,,It's not rotten. It's aged.,"A dim cellar lined with bubbling jars of pickles, kimchi, and suspicious glowing goo, a druid and a chef sniffing a jar together.",,,,,AI-new,GR-08
+9,(U),Compost Kitchen,2(G)(R),Wonder,Use two Garbage: create a 3/3 Compost Golem token. Do this only once per turn.,,Today's menu: last week's menu.,"A rustic outdoor kitchen built into a compost heap, a golem made of vegetable scraps and soil rising from a giant mixing bowl.",,,,,AI-new,GR-09
+10,(U),Spork of Unity,(G)(R),Tool,"Exhaust: attach to target unit you control. Attached unit gets +1/+1.
+
+Whenever attached unit deals damage to an opponent, create a Garbage and an Ingredient.",,Half spoon. Half fork. Fully committed.,"A legendary golden spork glowing on a pedestal, one half polished silver and the other half rusty and vine-wrapped.",,,,,AI-new,GR-10
+11,(U),Potluck,1(G)(R),Spell,Each player gains 3 HP. Draw a card. Create a Garbage and an Ingredient.,,Everyone brings something. Gerald brings compost.,"A long picnic table overflowing with mismatched dishes, chefs and druids awkwardly sharing a meal under string lights.",,,,,AI-new,GR-11
+12,(E),Recyc-lops,2(G)(R),Unit,"When this unit enters, destroy target Tool or Wonder.
+
+Whenever you create a Garbage, also create an Ingredient.",4/4,"""Sort your bins, citizens! The Recyc-lops is watching!""","A hulking one-eyed hero wearing a dented recycling-bin helmet and a cape made of patched plastic bags, holding a trash-can-lid shield and striking a heroic pose on a junk pile.","Make sure it is legally distinct from ""the office"" but a nod to it, and very different from MTG secrete lair card.",,,,AI-completed,GR-12
+13,(E),The Verdant Vines,2(G)(R),Wonder,"At the start of your turn, you may use a Garbage. If you do, create two Ingredients.",,From compost to cuisine in one growing season.,"Thick magical vines climbing out of a compost heap and up a kitchen wall, sprouting tomatoes, squash, and herbs that drop straight into waiting pots.",,,,,AI-completed,GR-13
+14,(E),Today's Special,2(G)(R),Trap,"When an opposing unit attacks, Plate it and create a Garbage.",,Tonight's special: whatever just attacked us.,"A charging monster transformed into a fancy appetizer on a trash-can-lid platter, a chef and a raccoon bowing together.",,,,,AI-new,GR-14
+15,(E),Giant Heirloom Pumpkin,3(G)(R),Unit,"Swat.
+
+When this unit dies, create two Garbage and two Ingredients.",5/5,"Blue ribbon winner. Also, it's alive.","An enormous living heirloom pumpkin with a carved grin and vine arms, a blue prize ribbon pinned to its side, towering over a county-fair stall.",,,,,AI-new,GR-15
+16,(L),"Ratatouille, Rodent de Cuisine",2(G)(R),Unit,"Rat tokens you control get +1/+1.
+
+Exhaust, destroy two Rat tokens you control, use two Ingredients: create a 6/6 Chef's Masterpiece Golem token with Nourish.",2/3,Anyone can cook. Even the ones you chase out of the kitchen.,"A tiny, proud rat in a perfectly fitted chef's coat and toque, standing on a cutting board and directing a team of rats cooking a glorious stew.",ratatouill refernce ,,,,AI-completed,GR-16
+,,,,,,,,,,,,,,
+Gourmand / Necrocrat:,,,,,,,,,Token focused,,,,,
+1,(U),Sous Boo,(N),Unit,"As an additional cost to play this, use an Ingredient.
+
+Elusive.",2/2,He loves the food... maybe a little too much.,"A little adorable ghost chef in a tiny toque, floating dreamily over a steaming dish and gazing at it with heart-shaped eyes, as if in love.",,,,,AI-completed,GN-01
+2,(U),Skeleton Crew,2(G)(N),Unit,"When this unit enters, create two 1/1 Zombie Temp tokens.",2/2,Minimal staff. Maximal bones.,"A bustling kitchen run entirely by cheerful skeletons in aprons, flipping pancakes, chopping onions, and dropping their own fingers into the soup.",,,,,AI-new,GN-02
+3,(U),Bone Broth Brewer,1(G)(N),Unit,"Whenever a token you control dies, create an Ingredient.",1/3,Nothing goes to waste. Not even Gary.,"A hunched ghoul stirring a huge bubbling cauldron of glowing broth, bones bobbing at the surface, a ladle in one hand and a recipe scroll in the other.",,,,,AI-new,GN-03
+4,(U),Ghost Pepper,(G)(N),Tool,Destroy this Tool: target unit gets +2/+0 and Flying until end of turn.,,Spicy enough to leave your body.,"A glowing translucent chili pepper with a ghostly face, wisps of spectral steam curling off it like flames.",,,,,AI-new,GN-04
+5,(U),Dead on Arrival,1(G)(N),Trap,"When an opposing unit with defense 2 or less enters, destroy it and create an Ingredient.",,Delivered cold. Delivered dead.,"A ghostly delivery driver handing over a covered tray; under the lid, a tiny creature has turned to dust.",,,,,AI-new,GN-05
+6,(U),Soul Food Kitchen,2(G)(N),Wonder,"Whenever a unit you control dies, create an Ingredient.",,Comfort food for the recently departed.,"A warm, glowing diner in a misty graveyard, ghosts lined up at the counter as a cheerful undead cook serves heaping plates.",,,,,AI-new,GN-06
+7,(U),The Haunted Buffet,2(G)(N),Wonder,Use two Ingredients: create a 1/1 Hungry Ghost token with Flying. Do this only once per turn.,,All you can eat. Forever.,"An eerie, candlelit buffet table piled with food, translucent ghosts floating up out of the serving dishes with napkins tucked in.",,,,,AI-new,GN-07
+8,(U),Staff Appreciation Dinner,2(G)(N),Wonder,Tokens you control get +1/+0.,,Thank you for your service. Here is a cold sandwich.,"A gloomy office party where zombie temps and food golems sit at a long table wearing paper party hats, each with a single sad sandwich.",,,,,AI-new,GN-08
+9,(U),To Die For,2(G)(N),Spell,Destroy target unit with defense 3 or less. Create two Ingredients.,,The dessert was to die for. So the dessert did it.,"A decadent chocolate cake with a sinister grin, a fallen creature collapsed in bliss beside a fork, a ghostly chef smiling in the background.",,,,,AI-new,GN-09
+10,(U),Final Meal Request,1(G)(N),Spell,"As an additional cost to play this, destroy a token you control.
+
+Draw two cards.",,One last bite. Then the paperwork.,"A skeleton clerk solemnly serving a tiny zombie a fancy last meal on a silver platter, a form and quill waiting beside it.",,,,,AI-new,GN-10
+11,(U),Reheated Leftovers,3(G)(N),Spell,Reinstate target unit from your Refuse Pile. Create an Ingredient.,,Tastes even better the second time around.,"A creature climbing out of a steaming takeout container in a glowing ghostly microwave, looking refreshed.",,,,,AI-new,GN-11
+12,(E),Ghoul Sommelier,3(G)(N),Unit,"Flying.
+
+Whenever a token you control dies, your opponent loses 1 HP and you create an Ingredient.",3/4,"A bold vintage. Notes of oak, cherry, and the grave.","An elegant floating ghoul in a tuxedo swirling a glass of glowing wine, a tasting cup on a chain around its neck.",,,,,AI-new,GN-12
+13,(E),The Gastronomicon,(G)(N),Tool,Use two Ingredients and a Red Tape: Reinstate target unit with cost 3 or less from your Refuse Pile. Do this only once per turn.,,"Recipes for the dead, by the dead, and occasionally of the dead.","An ancient leather-bound cookbook with a skull-and-spatula clasp, floating open with glowing green recipes and ghostly steam pouring from its pages.",,,,,AI-completed,GN-13
+14,(E),Dinner Party of the Damned,4(G)(N),Spell,Create a 1/1 Zombie Temp token for each Ingredient you control.,,"RSVP: Rest, Sleep, Very Permanently.","A grand gothic dining hall filled with zombie guests in party attire raising goblets, a towering feast in the center under a cobwebbed chandelier.",,,,,AI-new,GN-14
+15,(E),The Eternal Kitchen,3(G)(N),Wonder,"At the start of your turn, create a 1/1 Hungry Ghost token with Flying.
+
+Tokens you control have Nourish.",,The ovens never cool. The cooks never leave.,"A vast spectral kitchen where ghostly chefs endlessly cook, glowing ovens burning with green fire, steam forming the shapes of faces.",,,,,AI-new,GN-15
+16,(L),"Madame Mortadella, Eternal Restaurateur",3(G)(N)(N),Unit,"Flying.
+
+Whenever a token you control dies, create an Ingredient and a 1/1 Hungry Ghost token with Flying.
+
+Use three Ingredients: tokens you control get +2/+2 until end of turn.",4/4,Reservations are required. Death is not.,"A glamorous ghost restaurateur in a flowing translucent gown and pearls, floating above a candlelit haunted bistro full of spectral diners.",,,,,AI-new,GN-16
+,,,,,,,,,,,,,,
+Gourmand / Beefcake:,,,,,,,,,,,,,,
+1,(U),Bulking Season Brute,1(G)(B),Unit,"When this unit enters, create an Ingredient and an Iron.",2/3,Eat big. Lift big. Nap big.,"A huge, happy Beefcake in a bib eating from a mountain of food while doing bicep curls with a turkey leg.",,,,,AI-new,GB-01
+2,(U),Meathead Butcher,2(G)(B),Unit,"Hustle.
+
+Use an Ingredient: put a buff on this unit. Do this only once per turn.",3/3,Cuts meat. Cuts weight. Never cuts carbs.,"A massive butcher in a bloodless white apron swinging a giant cleaver through a hanging slab of meat, muscles rippling.",,,,,AI-new,GB-02
+3,(U),Cheat Day Champion,3(G)(B),Unit,"Bulldoze.
+
+Whenever you use an Ingredient, this unit gets +1/+1 until end of turn.",4/4,Six days of discipline. One day of destiny.,"A triumphant Beefcake bursting through a wall of donuts, pizza slices, and cake, glowing with sugary power.",,,,,AI-new,GB-03
+4,(U),Carb Load,1(G)(B),Trap,"When an opposing unit attacks, units you control get +1/+2 until end of turn. Create an Ingredient.",,Pasta: the original pre-workout.,"A team of Beefcakes slurping enormous bowls of glowing spaghetti in unison, veins and auras swelling.",,,,,AI-new,GB-04
+5,(U),Meal Prep,1(G)(B),Wonder,"At the start of your turn, create an Ingredient.
+
+Use an Ingredient: create an Iron. Do this only once per turn.",,"Chicken, rice, broccoli. Chicken, rice, broccoli. Chicken...","A kitchen counter covered in dozens of identical labeled meal containers, a determined Beefcake portioning them with surgical precision.",,,,,AI-completed,GB-05
+6,(U),The Gainz Kitchen,2(G)(B),Wonder,"Whenever you create a Golem token, it gets +1 attack permanently and gains Hustle.",,Pre-heated. Pre-workout.,"A rowdy open kitchen where food golems sprint out of the ovens doing warm-up stretches, a coach-chef blowing a whistle.",,,,,AI-new,GB-06
+7,(U),Bulking Program,3(G)(B),Wonder,"At the start of your turn, put a buff on target unit you control.",,Week one: eat. Week two: eat more. Week three: become furniture.,"A chalkboard training plan covered in food drawings and arrows, a Beefcake and a chef nodding seriously in front of it.",,,,,AI-new,GB-07
+8,(U),Shaker Bottle,(G)(B),Tool,Destroy this Tool: target unit gets +2/+2 until end of turn. Create an Ingredient.,,Shake well. Swing harder.,"A giant shaker bottle sloshing with glowing protein shake, a little whisk ball rattling inside like a trapped comet.",,,,,AI-new,GB-08
+9,(U),Recipe for disaster,1(G)(B),Tool,"Use two Ingredients, destroy this Tool: deal 4 damage divided as you choose among any number of target units.",,Step one: add explosives. There is no step two.,"A Beefcake and a chef proudly standing in front of a kitchen that is mid-explosion, flour, flames, and pots flying everywhere.",,,,,AI-completed,GB-09
+10,(U),Meat Tenderizer,1(G)(B),Tool,"Exhaust: attach to target unit you control. Attached unit gets +2/+1.
+
+Whenever attached unit deals combat damage to a unit, create an Ingredient.",,Tenderizes steak. And opinions.,"A heavy spiked meat mallet glowing with golden energy, resting on a butcher block next to a dented helmet.",,,,,AI-new,GB-10
+11,(U),Idiot Sandwich,2(G)(B),Spell,Plate target unit with attack 4 or less. Deal 2 damage to its controller.,,Hugs and Kisses - the Gourmands,"A grumpy, surprised creature squashed between two giant slices of bread as a furious chef in a white coat yells at it, a Beefcake holding the bread in place.",,,,,AI-completed,GB-11
+12,(E),A Feast for the Eyes,3(G)(B),Unit,"Hustle.
+
+When this unit enters, create three Ingredients.
+
+Whenever you use an Ingredient, this unit gets +1/+1 until end of turn.",5/5,Look at it all you want. It's looking back.,"A towering, lavish banquet golem of roasts, pies, and fruit, covered in dozens of curious olive eyes that all blink at once.",,,,,AI-completed,GB-12
+13,(E),"Sir Loin, Prime Cut",3(G)(B)(B),Unit,"Hustle.
+
+When this unit enters, use any number of Ingredients. Deal 2 damage to target unit or opponent for each Ingredient used this way.",6/5,Aged to perfection. Built like a refrigerator.,"A noble, enormously muscular knight whose armor is styled like a marbled steak, raising a carving-knife sword in a sizzling grill-fire glow.",,,,,AI-new,GB-13
+14,(E),The Gain Train,2(G)(B),Wonder,"Whenever you use an Ingredient, units you control get +1/+1 until end of turn.",,All aboard! Next stop: Swoleville.,"A huge steam train built from dumbbells and lunchboxes, Beefcakes powering it from the inside while a chef shovels food into the furnace.",,,,,AI-completed,GB-14
+15,(E),Protein Forge,2(G)(B),Tool,"Exhaust, use two Ingredients and two Iron: create a 6/6 Protein Golem token with Hustle.",,Forged in fire. Fortified with whey.,"A blazing forge shaped like a blender, molten protein shake pouring into a mold as a muscular golem takes shape.",,,,,AI-new,GB-15
+16,(L),GLP-100,1(G)(B),Tool,Destroy this Tool: target unit gets +10 attack and its defense becomes 1.,,Results not typical. Side effects very typical.,"A glowing injector pen on a pedestal; behind it, a Beefcake with an enormous upper body, tiny skinny legs, and a wobbly neck stares at his reflection in shock.",Single Use,,,,AI-completed,GB-16
+,,,,,,,,,,,,,,
+Necrocrat / Refusemancer:,,,,,,,,,,,,,,
+1,(U),Sewer Rat Courier,(N)(R),Unit,"When this unit enters, create a 1/1 Rat token.",2/1,Delivers mail through the pipes. You don't want to know how.,"A rat in a tiny postal cap and satchel riding a floating paper boat through a glowing green sewer tunnel, a second rat in tow.",Rats / rat tokens is main theme,,,,AI-new,NR-01
+2,(U),Waste Manager,1(N)(R),Unit,"Exhaust, use a token: return target unit from your Refuse Pile to your hand.",2/2,"If you're going to take that garbage, you're going to need a permit. ","A skeletal sanitation officer with a clipboard and a reflective vest standing guard over a mountain of trash, stamping a permit.",,,,,AI-completed,NR-02
+3,(U),Rat King Bureaucrat,2(N)(R),Unit,"Rat tokens you control get +1/+0.
+
+Whenever a Rat token you control dies, create a Garbage.",2/3,"Of the rats, by the rats, for the rats.","A plump rat in a tiny crown and spectacles sitting behind a desk made of garbage, signing papers while hundreds of rats line up.",,,,,AI-new,NR-03
+4,(U),Landfill Permit Office,1(N)(R),Wonder,"Whenever a token you control dies, create a Garbage.
+
+Use two Garbage: create a Red Tape.",,Dumping without a permit is illegal. Getting a permit is impossible.,"A tiny ramshackle government booth perched atop a towering landfill, a ghostly clerk stamping forms through a small window.",,,,,AI-new,NR-04
+5,(U),Rusty Grave Shovel,(N)(R),Tool,Exhaust: attach to target unit you control. Attached unit gets +1/+1 and Toxic.,,"Digs graves. Digs landfills. Same thing, really.",A rusted shovel with a glowing green blade planted in a grave mound covered in garbage and wildflowers.,,,,,AI-new,NR-05
+6,(U),Rat Swarm,1(N)(R),Trap,"When an opposing unit attacks, create three 1/1 Rat tokens.",,"Where there's one, there's a class-action lawsuit.","A flood of rats pouring out of manholes, trash cans, and filing cabinets to surround a startled attacker.",,,,,AI-new,NR-06
+7,(U),Littering Citation,1(N)(R),Trap,"When your opponent creates a token, they lose 1 HP and you create a Garbage.",,That'll be one HP. Per wrapper.,A ghostly sanitation officer handing a glowing ticket to a shocked creature who just dropped a candy wrapper.,,,,,AI-new,NR-07
+8,(U),Ghostly Garbage,1(N)(R),Trap,"When an opposing unit dies, create a 1/1 Rat token and a Garbage.",,Even the trash haunts this place.,"A pile of translucent ghostly garbage floating out of a broken bin, spectral rats scurrying through it.",,,,,AI-completed,NR-08
+9,(U),Plague of Rats,3(N)(R),Spell,Create a 1/1 Rat token for each unit card in your Refuse Pile (maximum 5).,,Every rat has a name. Every name has a file.,"A tide of rats pouring out of a graveyard and a landfill at once, eyes glowing green, a ghostly clerk counting them.",,,,,AI-new,NR-09
+10,(U),Decomposition Notice,2(N)(R),Spell,Destroy target unit. Create Garbage equal to its defense.,,You have been scheduled for composting.,An official notice nailed to a tree beside a creature slowly turning into a pile of mulch and mushrooms.,,,,,AI-new,NR-10
+11,(U),Gross Margin,2(N)(R),Spell,Bury 5. Create a Garbage for each unit card put into your Refuse Pile this way. Your opponent loses that much HP.,,Revenue is up. Everything else is disgusting.,"A skeletal accountant proudly presenting a chart drawn on a dripping garbage bag, line rising, flies circling.",Some sort of pun on gross (disgusting) and gross (total),,,,AI-completed,NR-11
+12,(E),Conscripted Constrictor,4(N)(R),Unit,"Exhaust, eat garbage twice: destroy target unit.",6/5,I think it has a crush on you.,Giant skeletal snake coming out of a large trash pile and squeezing someone. Background is dark and eerie,,,,,AI-completed,NR-12
+13,(E),Reclamation Order,2(N)(N)(R),Trap,"When an opposing unit attacks, destroy it. At the start of your next turn, Reinstate it under your control.",,Property of the Department of Waste. Return immediately.,A towering ghostly clerk and a vine-covered druid dragging a captured creature into a glowing recycling bin stamped with an official seal.,,,,,AI-new,NR-13
+14,(E),Plague Season,3(N)(R)(R),Spell,Units your opponent controls get -2/-2 until end of turn. Create a 1/1 Rat token for each unit that dies this way.,,"Flu season, but worse. And with paperwork.","A sickly green fog rolling over a battlefield, enemy creatures coughing and wilting while rats emerge from the mist.",,,,,AI-new,NR-14
+15,(E),Necro Cat,2(N)(R),Unit,"Toxic.
+
+When this unit dies, return it to your hand.",2/2,Eight lives down. Paperwork for the ninth is pending.,"A skeletal black cat with glowing green eyes perched on a gravestone surrounded by trash, smugly licking a bony paw.",,,,,AI-completed,NR-15
+16,(L),"Necro Rat, Chairman of the Sewer Board",3(N)(R),Unit,"Rat tokens you control have Toxic.
+
+Destroy five Rat tokens you control: destroy target unit, and your opponent loses 5 HP.",4/4,Motion to devour. All in favor?,"A tall, imposing figure with a human body in a tattered judge's robe and a sinister rat's head, presiding over a sewer boardroom of rats from a throne of trash.",,,,,AI-completed,NR-16
+,,,,,,,,,,,,,,
+Necrocrat / Beefcake:,,,,,,,,,,,,,,
+1,(U),Shredded Spectre,4(B)(N),Unit,"Use 3 Red Tape: this unit gains Elusive until end of turn.
+Use 3 Iron: this unit gets +1 attack until end of turn.",5/5,"Bro! It's like, so easy to count calories and hit crazy goals when you're dead! Being dead rules!","Beefcake ghost with his shirt off, flexing and showing off his huge muscles and abs as a bunch of other shocked beefcakes look on",,,,,AI-completed,NB-01
+2,(U),Un-Deadlifter,2(N)(B),Unit,"When this unit dies, create an Iron and a Red Tape.",3/2,Lifts the dead. Also is the dead.,"A grinning skeletal powerlifter in a lifting belt hoisting a barbell loaded with tombstones, bones creaking.",,,,,AI-new,NB-02
+3,(U),Vigor Mortis,2(N)(B),Spell,Reinstate target unit from your Refuse Pile. It gains Hustle until end of turn.,,Back from the dead and ready for leg day.,"A zombie bursting out of a grave mid-sprint in a sweatband and gym shorts, dirt flying, while a ghostly coach blows a whistle.",,,,,AI-new,NB-03
+4,(U),Dead weight ,(N)(B),Spell,"As an additional cost to play this, destroy a unit you control.
+
+Deal damage equal to its attack to target unit or opponent.",,Lift with your legs. Throw with your heart.,"A Beefcake hurling the limp body of a fallen zombie like a sandbag at an enemy, a ghostly clerk stamping 'approved' in the background.",,,,,AI-completed,NB-04
+5,(U),Squatter's Rights,2(B)(N),Spell,Gain control of target Infrastructure your opponent controls. Create an Iron.,,"Squat there long enough and it's legally yours. Great for the glutes, too.",A hulking Beefcake doing deep barbell squats in the middle of someone else's ghostly office building while a skeletal Necrocrat clerk stamps an official-looking deed beside him.,,,,,AI-new (designer name),NB-05
+6,(U),Membership Cancellation,2(N)(B),Spell,Destroy target Tool. Its controller loses 2 HP.,,"Please cancel in person, by mail, in triplicate, under a full moon.","A frustrated adventurer at a gym front desk buried under an avalanche of forms, a skeletal receptionist smiling sweetly.",,,,,AI-new,NB-06
+7,(U),Ball and Chain,1(N)(B),Tool,Exhaust: attach to target unit you control. Attached unit gets +3/+3 and Wallflower.,,Commitment issues? Not anymore.,"A massive iron ball chained to a ghostly prisoner's ankle, the prisoner flexing proudly and refusing to move.",,,,,AI-new,NB-07
+8,(U),Protein Powder Urn,(N)(B),Tool,Destroy this Tool: Reinstate target unit with cost 2 or less from your Refuse Pile. It gains Hustle until end of turn.,,Grandpa wanted to be scattered at the gym.,"An ornate funeral urn shaped like a protein tub, glowing powder swirling out of it and forming a muscular ghost.",,,,,AI-new,NB-08
+9,(U),Spirit-Lifting Belt,2(N)(B),Tool,"Exhaust: attach to target unit you control. Attached unit gets +1/+1.
+
+Whenever attached unit attacks, create an Iron or a Red Tape.",,Lifts spirits. Literally.,"A glowing ghostly lifting belt with a skull buckle, wisps of spirits rising from it like steam, cinched around a determined lifter.",,,,,AI-new,NB-09
+10,(U),The Afterlife Gym,2(N)(B),Wonder,"Whenever a unit you control dies, create an Iron.",,No pain. No pulse. No problem.,"A spooky gym in a misty graveyard where ghosts and skeletons lift weights under flickering lanterns, tombstones used as benches.",,,,,AI-new,NB-10
+11,(U),Death Grip,1(N)(B),Trap,"When a unit you control dies, your opponent loses HP equal to its attack.",,Grip strength so strong it holds a grudge past the grave.,"A ghostly, chalk-dusted hand crushing an enemy's arm while the glowing spirit of a fallen Beefcake glares behind it.",,,,,AI-new,NB-11
+12,(E),Hostile Takeover,5(N)(B),Spell,Gain control of all resources your opponent controls.,,"Effective immediately, all your stuff is our stuff.","A skeletal executive and a hulking Beefcake carrying off armfuls of iron plates, red tape, ingredients, and garbage bags from a stunned opponent's vault.",,,,,AI-completed,NB-12
+13,(E),Jello Weights,2,Tool,"Exhaust, pay 1: attach to target unit you control. If it's a Necrocrat, it gets +5/+5. If it's a Beefcake, all Beefcakes you control get +1/+2.",,"Here for a good time, not a long time","A pair of wobbling, glowing green gelatin dumbbells, a skeleton cackling as it lifts them and a Beefcake staring in confused awe.",,,,,AI-completed,NB-13
+14,(E),Bone-afide Strongman,3(N)(B),Unit,"Hustle.
+
+When this unit dies, Processing 1: Reinstate it.",5/3,Died doing what he loved. Came back to do it again.,"A skeletal circus strongman with a curled mustache and leopard-print singlet, lifting a barbell with two coffins as plates.",,,,,AI-new,NB-14
+15,(E),Grim Repper,3(N)(B),Unit,"Flying.
+
+Whenever another unit you control dies, put two buffs on target unit you control.",4/4,One more rep. Then your soul.,"A hooded reaper in a sweatband and gym shorts, holding a scythe with a whistle tied to it, counting reps for a sweating ghost.",,,,,AI-new,NB-15
+16,(L),"Chancellor Clench, Iron Regent",3(N)(B),Unit,"Overtime.
+
+Your Iron gives +2 attack instead of +1. Your Red Tape gives -2 attack instead of -1.
+
+At the start of your turn, create an Iron and a Red Tape.",5/5,Strength through order. Order through strength. Mostly through paperwork.,"A towering, stern ruler with a bodybuilder's physique stuffed into an immaculate official uniform, seated on a throne of stacked weights and filing cabinets, a gavel-dumbbell in hand.",,,,,AI-new,NB-16
+,,,,,,,,,,,,,,
+Beefcake / Refusemancer:,,,,,,,,,,,,,,
+1,(U),Gym Rat,(B)(R),Unit,"Exhaust, use a Garbage: create an Iron.",1/2,Never leaves the gym. Lives in the gym. Literally.,A buff little rat in a sweatband and tiny tank top lifting a bottle-cap barbell inside an old shoebox gym.,Convert garbage to iron,,,,AI-completed,BR-01
+2,(U),Scrap Metal Lifter,1(B)(R),Unit,"Hustle.
+
+When this unit enters, create a Garbage.",3/2,Why buy weights when the junkyard is free?,"A grinning Beefcake lifting a rusted car door over his head in a junkyard, sparks and rust flakes flying.",,,,,AI-new,BR-02
+3,(U),Rat Pack Coach,2(B)(R),Unit,"When this unit enters, create two 1/1 Rat tokens. They gain Hustle until end of turn.",2/3,Running drills. Running the sewers.,A burly coach with a whistle leading a squad of rats in tiny sweatbands through a junkyard obstacle course.,,,,,AI-new,BR-03
+4,(U),Truck Tire,(B)(R),Tool,"Exhaust: attach to target unit you control. Attached unit gets +2/+0.
+
+Eat garbage: attached unit gets +2/+2 until end of turn.",,Flip it. Roll it. Live in it.,"A massive old cart tire covered in moss and flowers, a Beefcake mid-flip lifting it out of a scrap heap.",,,,,AI-new,BR-04
+5,(U),Rusty Dumbbell,(B)(R),Tool,Destroy this Tool: deal 2 damage to target unit. Create a Garbage.,,Found in a dumpster. Still heavier than your excuses.,"A rust-covered dumbbell flying end over end toward a target, trailing flakes of rust and a startled pigeon.",,,,,AI-new,BR-05
+6,(U),Hamster Ball,1(B)(R),Tool,Exhaust: attach to target unit you control. Attached unit gets +1/+1 and Bulldoze.,,Transportation-ish.,"A gigantic clear hamster ball with a Beefcake running inside it, plowing through a pile of junk at full speed.",,,,,AI-new,BR-06
+7,(U),Wrestling Ring Ambush,1(B)(R),Trap,"When an opposing unit attacks, the unit you control with the highest attack gets +2/+0 until end of turn, then brawls it.",,And from the top of the dumpster...!,"A raccoon in a luchador mask leaping off the top of a dumpster onto an attacker, a junkyard crowd cheering.",,,,,AI-new,BR-07
+8,(U),Swole Revenge,(B)(R),Trap,"When a unit you control dies, put two buffs on target unit you control.",,Do it for Steve.,"A grieving Beefcake and a druid side by side, both swelling with glowing rage-muscle as they glare at an enemy.",,,,,AI-new,BR-08
+9,(U),Trash Can Lid Slam,2(B)(R),Trap,"When an opposing unit enters, deal 3 damage to it.",,Welcome to the neighborhood.,A trash can bursting open as a muscular raccoon swings its lid like a cymbal into a surprised newcomer.,,,,,AI-new,BR-09
+10,(U),The Junkyard Gym,2(B)(R),Wonder,"Whenever you create a Garbage, put a buff on target unit you control.",,Membership: free. Tetanus: included.,"An outdoor gym built entirely from scrap: benches of old doors, weights of rusty gears, pull-up bars of pipes, and animals working out.",,,,,AI-new,BR-10
+11,(U),Stampede,3(B)(R),Spell,Units you control get +2/+0 and Bulldoze until end of turn.,,Goats. Rats. Beefcakes. Nobody knows who started it.,"A chaotic charge of goats, rats, oxen, and Beefcakes thundering across a junkyard in a cloud of dust and flying scraps.",,,,,AI-new,BR-11
+12,(E),Iron Rhino,4(B)(R),Unit,Hustle. Bulldoze.,6/5,Charges first. Composts later.,"A massive rhinoceros with scrap-metal armor plating and a horn made of a rusty pickaxe, charging through a wall of junk.",,,,,AI-new,BR-12
+13,(E),Trash Panda Powerlifter,2(B)(R),Unit,"Whenever you eat garbage, create an Iron.
+
+Use an Iron: this unit gets +2/+2 until end of turn.",3/3,Bench press: 400 pounds. Of pizza boxes.,A ripped raccoon in a lifting singlet bench-pressing a bar loaded with stacked pizza boxes and tin cans.,,,,,AI-new,BR-13
+14,(E),Scrapyard Gauntlets,2(B)(R),Tool,"Exhaust: attach to target unit you control. Attached unit gets +2/+2.
+
+Use two Garbage: attached unit brawls target unit. Do this only once per turn.",,Assembled from three toasters and a grudge.,"A pair of huge mismatched gauntlets made from toasters, gears, and pipes, crackling with green energy.",,,,,AI-new,BR-14
+15,(E),Trash Avalanche,3(B)(R),Trap,"When an opposing unit attacks, deal 4 damage to each attacking unit.",,The mountain was load-bearing.,A towering junk mountain collapsing onto a line of attackers as a Beefcake who just pulled out the bottom piece looks guilty.,,,,,AI-new,BR-15
+16,(L),"Tuskeroni, Junkyard Champion",3(B)(R)(R),Unit,"Hustle.
+
+At the start of your turn, create a Garbage and an Iron.
+
+Eat garbage: put a buff on this unit. It gains Bulldoze until end of turn.",6/6,Undefeated. Unwashed. Unstoppable.,"A colossal boar wrestler in a championship belt made from a hubcap, standing triumphantly in a junkyard wrestling ring as rats and goats cheer.",,,,,AI-new,BR-16
+,,,,,,,,,,,,,,
+Gourmand / Refusemancer / Beefcake:,,,,,,,,,,,,,,
+1,(U),Greased Pig,1(G)(R)(B),Trap,"When an opposing unit attacks, it gets -3/-0 until end of turn. Create an Ingredient, a Garbage, and an Iron.",,First prize goes to whoever catches it. Second prize: a bath.,"A squealing, slippery pig rocketing through a county-fair arena, sending an attacking warrior sprawling face-first into the mud.",,,,,AI-new,GRB-01
+2,(U),Blue Ribbon,(G)(R)(B),Tool,"Exhaust: attach to target unit you control. Attached unit gets +2/+2. If it has a buff on it, it also has Bulldoze.",,Best in show. Worst in temper.,"A huge glowing blue prize ribbon pinned to the chest of a proud, muscular goat standing on a hay-bale podium.",,,,,AI-new,GRB-02
+3,(U),County Fairgrounds,1(G)(R)(B),Wonder,"At the start of your turn, create an Ingredient, a Garbage, or an Iron.",,"Fried everything, prize pumpkins, and a strongman tent.","A bustling county fair with a Ferris wheel, food stalls, a prize-vegetable tent, and a strongman bell, all at golden hour.",,,,,AI-new,GRB-03
+4,(E),The Competitive Eater,2(G)(R)(B),Unit,Use an Ingredient and a Garbage: put two buffs on this unit and create an Iron. Do this only once per turn.,4/4,Sixty-eight in ten minutes. Then dessert.,A barrel-shaped champion eater in a tank top and bib inhaling a towering stack of food at a contest table as the crowd gasps.,,,,,AI-new,GRB-04
+5,(E),Food Coma,2(G)(R)(B),Trap,"When an opposing unit attacks, exhaust all units your opponent controls. They don't refresh during their controller's next turn.",,Just resting my eyes...,"An entire enemy army slumped asleep around a giant picnic table covered in empty plates, snoring, with crumbs on their faces.",,,,,AI-new,GRB-05
+6,(E),Strongman Sledge,2(G)(R)(B),Tool,"Exhaust: attach to target unit you control. Attached unit gets +3/+1 and Bulldoze.
+
+Whenever attached unit deals combat damage to an opponent, create an Ingredient, a Garbage, and an Iron.",,Pull it. Push it. Eat off it.,"A massive wooden sledge loaded with scrap, pumpkins, and a cooking pot, a Beefcake dragging it by chains across a fairground.",,,,,AI-new,GRB-06
+7,(E),Harvest Festival,(G)(R)(B),Wonder,All resources generated for all players are doubled.,,More of everything. For everyone. Uh oh.,"A massive harvest festival bonfire surrounded by mountains of food, junk, and iron weights, everyone dancing as resources pour from the sky.",,,,,AI-completed,GRB-07
+8,(L),"Big Bertha, Blue Ribbon Behemoth",4(G)(R)(B),Unit,"Bulldoze. Swat.
+
+When this unit enters, create three Ingredients, three Garbage, and three Iron.
+
+Whenever you use a resource, this unit gets +1/+1 until end of turn.",7/7,Seven-time grand champion. Ate the judges' table twice.,"A colossal prize pig in a blue ribbon sash and a tiny crown, standing atop a mountain of produce and scrap while confetti rains down.",,,,,AI-new,GRB-08
+,,,,,,,,,,,,,,
+Gourmand / Refusemancer / Necrocrat:,,,,,,,,,,,,,,
+1,(U),Mushroom Ring,1(G)(R)(N),Wonder,"Whenever a unit you control dies, create a Garbage and an Ingredient, and gain 1 HP.",,"Where things end, things grow.","A glowing fairy ring of mushrooms in a misty graveyard garden, tiny spirits dancing inside it.",,,,,AI-new,GRN-01
+2,(U),Death Cap,1(G)(R)(N),Trap,"When an opposing unit enters, it gets -2/-2 permanently.",,Do not eat. Seriously. The paperwork alone...,"A beautiful but sinister pale mushroom with a skull-patterned cap, a creature sniffing it and immediately turning green.",,,,,AI-new,GRN-02
+3,(U),Circle of Life Insurance,2(G)(R)(N),Spell,"As an additional cost to play this, destroy a unit you control.
+
+Reinstate target unit from your Refuse Pile with greater cost than the destroyed unit.",,"Coverage includes death, rebirth, and light composting.","A ghostly insurance agent, a chef, and a druid shaking hands over a policy document as a spirit rises from a compost heap into a new body.",,,,,AI-new,GRN-03
+4,(E),Fungal Undertaker,3(G)(R)(N),Unit,"Whenever another unit dies, create a 1/1 Sporeling token.",4/5,Every funeral is a feast for someone.,"A tall, gentle undertaker made of mushrooms and moss in a black top hat, holding a lantern as tiny sporelings sprout behind it.",,,,,AI-new,GRN-04
+5,(E),The Great Compost Cycle,2(G)(R)(N),Wonder,"At the end of your turn, Bury 1. If a unit card was buried this way, create a Garbage, an Ingredient, and a Red Tape.",,"Life, death, dinner. Repeat.","A vast circular garden where crops grow, are harvested, cooked, eaten, and composted in an endless glowing loop.",,,,,AI-new,GRN-05
+6,(E),Recycled Remains,2(G)(R)(N),Trap,"When a unit you control dies, Reinstate it at the start of your next turn and create an Ingredient.",,Gently used. Freshly returned.,"A compost bin glowing green as a recently fallen creature climbs back out, covered in leaves and holding a carrot.",,,,,AI-new,GRN-06
+7,(E),Rot and Rebirth,3(G)(R)(N),Spell,Destroy all units. Then Reinstate each unit you owned that was destroyed this way with cost 2 or less.,,Clean slate. Mostly clean.,"A wave of decay sweeping across a battlefield, everything crumbling into soil, then small creatures sprouting back up like seedlings.",,,,,AI-new,GRN-07
+8,(L),Something out of nothing,(G)(G)(R)(R)(N)(N),Spell,Create a copy of each token you control. Then choose a token you control; each other token you control becomes a copy of it.,,"Waste not, want not, fear not.","A chef, a druid, and a skeleton clerk standing around a glowing cauldron as an army of identical tokens pours out of it in every direction.",,,,,AI-completed,GRN-08
+,,,,,,,,,,,,,,
+Gourmand / Beefcake / Necrocrat:,,,,,,,,,,,,,,
+1,(U),Running Tab,1(G)(B)(N),Wonder,"Whenever you use a resource, your opponent loses 1 HP.",,Put it on the tab. The tab is eternal.,A ghostly bartender in a grand banquet hall writing on an endless scroll of a bar tab that unrolls out the door.,,,,,AI-new,GBN-01
+2,(U),Velvet Rope,(G)(B)(N),Tool,Destroy this Tool: exhaust target opposing unit. It doesn't refresh during its controller's next turn. Create an Ingredient.,,You're not on the list. You're not even on the waitlist.,"A Beefcake bouncer and a skeletal host standing behind a plush red velvet rope outside a grand gala, a disappointed monster turned away.",,,,,AI-new,GBN-02
+3,(U),Toast to the Dead,2(G)(B)(N),Spell,Reinstate target unit with cost 3 or less from your Refuse Pile. It gets +2/+0 and Hustle until end of turn. Create an Ingredient.,,To absent friends! (They're right behind you.),"A grand gala crowd of chefs, Beefcakes, and ghosts raising glowing goblets as a fallen hero rises from a banquet table.",,,,,AI-new,GBN-03
+4,(E),Black Tie Brawl,3(G)(B)(N),Spell,Each unit you control brawls a different target unit you don't control.,,Formal attire required. Formal manners optional.,"A chaotic brawl breaking out at an elegant ball, guests in tuxedos and gowns swinging chandeliers and cake platters at each other.",,,,,AI-new,GBN-04
+5,(E),Silver Serving Platter,2(G)(B)(N),Tool,"Exhaust: attach to target unit you control. Attached unit gets +2/+2 and Nourish.
+
+When attached unit dies, create three Ingredients and a Red Tape.",,"Polished, ornate, and surprisingly good at blocking swords.","A gleaming silver serving platter used as a shield by a dapper skeletal waiter, deflecting a blow while balancing a drink.",,,,,AI-new,GBN-05
+6,(E),Dinner with Schmucks,2(G)(B)(N),Wonder,"At the start of your turn, create a 0/1 Schmuck token with Wallflower under your opponent's control.
+
+Whenever a Schmuck dies, create an Ingredient and an Iron, and its controller loses 1 HP.",,You're invited! (You're the entertainment.),"A fancy dinner party where smug hosts snicker behind their goblets at a clueless guest wearing a lampshade, a place card reading only a star.",,,,,AI-completed,GBN-06
+7,(E),The Undead Maître D',3(G)(B)(N),Unit,"Overtime.
+
+Whenever another unit enters under your control, put a buff on it.
+
+Whenever a unit you control dies, create an Ingredient.",4/4,Your table is ready. It has been for centuries.,"An elegant skeletal maître d' in a crisp tuxedo bowing deeply at the entrance of a candlelit grand hall, menus tucked under one arm.",,,,,AI-new,GBN-07
+8,(L),"Baron Von Banquet, Host of the Last Gala",4(G)(B)(N),Unit,"Bulldoze.
+
+When this unit enters, Reinstate up to two units from your Refuse Pile. They gain Hustle until end of turn.
+
+Whenever a unit you control attacks, create an Ingredient.",6/6,The party never ends. Neither do the guests.,"A towering, muscular undead aristocrat in a velvet coat and monocle presiding over a lavish eternal feast, ghostly guests and golem waiters all around.",,,,,AI-new,GBN-08
+,,,,,,,,,,,,,,
+Necrocrat / Beefcake / Refusemancer:,,,,,,,,,,,,,,
+1,(U),Condemned Building,1(N)(B)(R),Trap,"When your opponent plays a Tool or Wonder, destroy it. Create a Red Tape, an Iron, and a Garbage.",,This structure has been declared unsafe. Mostly by us.,"A fancy building collapsing as a Beefcake pulls out a support beam, a skeleton nails up a condemned notice, and raccoons cheer.",,,,,AI-new,NBR-01
+2,(U),Wrecking Ball,(N)(B)(R),Tool,"Destroy this Tool: destroy target Tool, Wonder, or Infrastructure.",,Demolition: the only renovation that always finishes on time.,"An enormous rusty wrecking ball swinging into a building, chains rattling, debris and paperwork flying everywhere.",,,,,AI-new,NBR-02
+3,(U),Demolition Permit,2(N)(B)(R),Spell,Destroy target unit. Its controller creates a Garbage. You create an Iron and a Red Tape.,,"Approved, stamped, and swung.","A skeleton clerk stamping a permit as a Beefcake swings a sledgehammer at a creature, a raccoon waiting to collect the debris.",,,,,AI-new,NBR-03
+4,(E),Total Teardown,4(N)(B)(R),Spell,"Destroy all Tools, Wonders, and units with cost 3 or less.",,We're going to need a bigger dumpster.,"A massive demolition wave flattening an entire district into rubble, a wrecking crew of Beefcakes, skeletons, and raccoons watching with hard hats.",,,,,AI-new,NBR-04
+5,(E),Salvaged Exoskeleton,2(N)(B)(R),Tool,"Exhaust: attach to target unit you control. Attached unit gets +3/+3, Bulldoze, and Hustle.
+
+When attached unit dies, Reinstate it and destroy this Tool.",,Built from scrap. Powered by spite. Haunted by Gary.,"A towering patchwork mech suit made of scrap metal and bones, a tiny pilot raccoon visible in the cockpit.",,,,,AI-new,NBR-05
+6,(E),Zombie Apocalypse Drill,2(N)(B)(R),Trap,"When an opposing unit attacks, create three 1/1 Zombie Temp tokens and three 1/1 Rat tokens.",,This is only a drill. The zombies were not informed.,"Sirens blaring as zombies and rats flood out of buildings and sewers in an orderly-chaotic swarm, a ghostly official holding a megaphone.",,,,,AI-new,NBR-06
+7,(E),Scrapheap Lich,3(N)(B)(R),Unit,"Hustle.
+
+Whenever a Tool, Wonder, or unit is destroyed, create a Garbage.
+
+Exhaust, eat garbage: destroy target Tool.",5/5,Undying. Unwashed. Unbelievably well-organized.,"A hulking lich built from junk and bones with a crown of rusty gears, hunched over a mountain of scrap and sorting it with glowing hands.",,,,,AI-new,NBR-07
+8,(L),"Big Wreck Ronnie, Boss of the Wrecking Crew",4(N)(B)(R),Unit,"Hustle. Bulldoze.
+
+When this unit enters, destroy all Tools and Wonders. Create a Garbage for each one destroyed this way.",8/6,He doesn't knock things down. He knocks them OUT.,"A colossal demolition foreman with a hard hat, a skull tattoo, and a wrecking ball on a chain over his shoulder, standing on a flattened city block.",,,,,AI-new,NBR-08
+,,,,,,,,,,,,,,
+4 Color:,,,,,,,,,,,,,,
+1,(E),Champion of the Four Paths,1(B)(N)(G)(R),Unit,"Hustle. Overtime. Swat. Nourish.
+
+When this unit enters, create an Iron, a Red Tape, an Ingredient, and a Garbage.",6/6,"Strength, order, nourishment, and renewal. Together at last.","A radiant champion wearing armor that blends iron plates, paperwork seals, copper cookware, and living vines, standing where four roads meet.",,,,,AI-new,P4-01
+2,(L),Reunion of the Paths,2(B)(N)(G)(R),Spell,"Reinstate up to four units from your Refuse Pile with different Paths. Create an Iron, a Red Tape, an Ingredient, and a Garbage. Units you control get +2/+2 until end of turn.",,The kingdom was never stronger than when we stood together.,"Leaders of all four Paths clasping hands in a sunlit restored capital square as their peoples cheer, broken mirrors and rifts fading in the background.",,,,,AI-new,P4-02
+3,(L),"Mr. Tiggle, Rules Lawyer",(B)(G)(N)(R),Unit,"Untouchable.
+
+Cards your opponent plays cost 1 more for each other card they've played this turn.
+
+You may play an additional Infrastructure each turn.",2/4,"Section 4, subsection 9, paragraph C: I win.","A tiny, very serious cat in a powdered wig and spectacles standing on a stack of rulebooks, pointing a paw at a page as larger creatures look baffled.",,,,,AI-completed,P4-03
+,,,,,,,,,,,,,,
+Colorless:,,,,,,,,,,,,,,
+1,(C),Cannon Fodder,1,Unit,,1/1,You gotta start somewhere.,"A nervous young recruit in an oversized dented helmet clutching a wooden spoon like a sword, standing at attention on a village road.",,,,,AI-completed,C-01
+2,(C),Village Militia,2,Unit,,2/2,Armed with pitchforks and optimism.,"A small band of farmers in mismatched armor holding pitchforks and frying pans, striking a heroic pose in front of a quaint village gate.",,,,,AI-new,C-02
+3,(C),Watchtower Archer,2,Unit,Swat.,1/3,Aims high. Hits... occasionally.,"A squinting archer atop a rickety wooden watchtower drawing her bow at a flying shape in the sky, a bird nest on her helmet.",,,,,AI-new,C-03
+4,(C),Courier Pigeon,1,Unit,"Flying.
+
+When this unit enters, Peek 1.",1/1,No message too small. Or too smelly.,"A plump, determined pigeon in a tiny messenger cap carrying a scroll larger than itself across a bright sky.",,,,,AI-new,C-04
+5,(C),Shield Bearer,3,Unit,Wallflower.,1/5,His job is to stand there. He's very good at his job.,"A broad, calm guard planted behind an enormous tower shield covered in dents and doodles, unbothered as arrows bounce off.",,,,,AI-new,C-05
+6,(C),Traveling Brawler,3,Unit,Sucker Punch.,3/2,Punches first. Asks questions never.,"A wiry fighter with taped fists and a traveling cloak mid-punch, a tavern sign swinging behind him.",,,,,AI-new,C-06
+7,(C),Wandering Medic,3,Unit,Nourish.,2/2,Every bandage comes with a lecture.,"A stern traveling medic with a satchel of bandages and herbs, wagging a finger at a bruised adventurer while patching them up.",,,,,AI-new,C-07
+8,(C),Tavern Regular,4,Unit,Overtime.,3/4,Hasn't left his stool in six years. Still ready to fight.,"A burly bearded man on a tavern stool, mug in one hand and a club in the other, the stool worn into his exact shape.",,,,,AI-new,C-08
+9,(C),Old Kingdom Automaton,5,Unit,,5/5,Built when the four Paths still worked together. It remembers.,"A mossy ancient clockwork guardian built from iron, bone, copper pots, and woven vines, glowing softly in a forgotten courtyard.",,,,,AI-new,C-09
+10,(C),Stapler,1,Tool,Destroy this Tool: exhaust target unit. It doesn't refresh during its controller's next turn.,,Have you seen my stapler?,"A glossy red office stapler sitting alone on a desk under a single dramatic beam of light, a few staples scattered like treasure.",,,,,AI-completed,C-10
+11,(C),Traveler's Sword,2,Tool,Exhaust: attach to target unit you control. Attached unit gets +2/+0.,,Slightly used. Previous owner unavailable for comment.,"A plain but sturdy sword leaning against a mossy milestone at a crossroads, a faded ribbon tied to its hilt.",,,,,AI-new,C-11
+12,(C),Healing Potion,1,Tool,Destroy this Tool: gain 4 HP.,,Tastes like cherries and regret.,"A round glass bottle of glowing red potion with a cork and a handwritten label, bubbles rising inside it.",,,,,AI-new,C-12
+13,(C),Rally the Village,2,Spell,Units you control get +1/+1 until end of turn.,,Grab your pitchforks. And your frying pans. And Grandma.,"A whole village charging out of their houses together, a grandmother leading the way with a rolling pin raised high.",,,,,AI-new,C-13
+14,(C),Second Wind,3,Spell,Draw two cards.,,Just one more try.,A tired adventurer catching their breath as a fresh gust of glowing wind lifts their cloak and two cards spiral up into their hands.,,,,,AI-new,C-14
+15,(C),Desperate Measures,4,Spell,Destroy target unit with attack 4 or more.,,"Big problems call for... honestly, any solution.","A tiny adventurer pulling a rope that drops a gigantic boulder onto a hulking monster, eyes squeezed shut.",,,,,AI-new,C-15
+16,(C),Tripwire,1,Trap,"When an opposing unit attacks, it gets -2/-0 until end of turn.",,Simple. Effective. Embarrassing.,"A charging warrior tripping face-first over a nearly invisible string tied between two trees, helmet flying off.",,,,,AI-new,C-16
+17,(C),Ambush Party,2,Trap,"When an opposing unit attacks, create two 1/1 Militia tokens.",,Surprise! (The party was a trap.),"Two villagers leaping out of a giant party cake and a hay bale with pitchforks raised, streamers flying.",,,,,AI-new,C-17
+18,(C),Emergency Rations,1,Trap,"When your HP drops to 5 or less, gain 4 HP.",,Hardtack: technically food. Technically.,"A battered adventurer cracking open a rock-hard ration biscuit with a hammer, a glowing aura of relief around them.",,,,,AI-new,C-18
+19,(C),Village Well,2,Wonder,"At the start of your turn, gain 1 HP.",,Wish for health. Get exactly one health.,"A charming old stone well with a wooden roof and a bucket, coins glittering at the bottom, a wish-sparkle rising from it.",,,,,AI-new,C-19
+20,(C),Training Grounds,2,Wonder,Pay 2: put a buff on target unit you control. Do this only once per turn.,,Practice makes slightly better.,"A sunny training yard with straw dummies, wooden swords, and an obstacle course, a recruit swinging enthusiastically.",,,,,AI-new,C-20
+21,(C),Old Kingdom Banner,3,Wonder,Units you control get +1/+0.,,From the days when the four Paths marched as one.,"A faded royal banner bearing four interlocking symbols, still flying proudly over ruined ramparts at sunrise.",,,,,AI-new,C-21
+22,(U),Mercenary Captain,4,Unit,"When this unit enters, create two 1/1 Militia tokens.",3/3,Will fight for gold. Will fight harder for snacks.,"A grizzled mercenary captain with an eyepatch and a coin purse, leading two eager, mismatched recruits into battle.",,,,,AI-new,C-22
+23,(U),Resistance Scout,2,Unit,Elusive.,2/2,Primm's guards never see her coming. Or going.,"A hooded scout slipping between the shadows of an unnaturally perfect, pastel city street, a rolled-up map in her teeth.",,,,,AI-new,C-23
+24,(U),Wandering Alchemist,3,Unit,Exhaust: add one energy of any Path.,1/3,Mixes anything with anything. Results vary.,"An eccentric alchemist with singed eyebrows and a coat full of bubbling vials, four different colored smokes swirling from her flask.",,,,,AI-new,C-24
+25,(U),Shred the Evidence,2,Spell,Shred up to three target cards from Refuse Piles. Draw a card.,,What evidence?,A frantic clerk feeding papers into a cranking hand-powered shredder as confetti-like scraps fly everywhere.,,,,,AI-new,C-25
+26,(U),Adventurer's Pack,2,Tool,"Exhaust: attach to target unit you control. Attached unit gets +1/+1.
+
+When attached unit dies, draw a card.",,"Rope, torch, snacks, regrets.","An overstuffed leather backpack with a rolled bedroll, dangling pots, a torch, and a rubber chicken poking out.",,,,,AI-new,C-26
+27,(U),Underdog's Gambit,3,Trap,"When an opposing unit attacks, if you control fewer units than your opponent, destroy it.",,Never count out the little guy. He's counting on that.,"A tiny scrappy hero standing defiantly in front of a giant charging monster, a clever trapdoor opening right under the monster's feet.",,,,,AI-new,C-27
+28,(U),Cartographer's Table,2,Wonder,"At the start of your turn, Peek 2.",,Here there be dragons. And snack stands.,"A cluttered map table covered in parchment maps of the four zones, compasses, candles, and tiny painted figurines.",,,,,AI-new,C-28
+29,(E),The Wanderer,4,Unit,"This unit gets +1/+1 for each different Path among Infrastructure you control.
+
+Whenever you play a multi-path card, draw a card.",3/4,Where am I? What happened? ...Why am I so good at this?,"A mysterious traveler in a weathered cloak standing at a crossroads where four very different paths diverge, a faint glow of all four Path colors around them.",,,,,AI-new,C-29
+30,(E),Royal Audit,5,Spell,Shred target unit or Wonder.,,"""Imperfections will be removed. Kindly."" - Primm","A pristine royal seal descending from the sky like a stamp onto a creature, which dissolves into neat little squares of light.",,,,,AI-new,C-30
+31,(E),Four-Path Compass,2,Tool,"Exhaust: add one energy of any Path.
+
+Destroy this Tool: search your deck for an Infrastructure and put it onto the field.",,Every needle points somewhere different. All of them are right.,"An ornate brass compass with four needles, each glowing a different color and pointing in a different direction.",,,,,AI-new,C-31
+32,(E),Mirrored Hall,4,Trap,"When an opposing unit attacks, create a token copy of it under your control.",,Your reflection seems... more loyal.,An attacking warrior freezing in surprise as their own reflection steps out of a gilded mirror to face them.,,,,,AI-new,C-32
+33,(E),Unstable Rift,3,Wonder,"At the start of your turn, deal 2 damage to a random unit.",,The kingdom is coming apart at the seams. Literally.,"A jagged glowing tear in reality floating over a ruined street, crackling with chaotic magic and pulling debris into it.",,,,,AI-new,C-33
+34,(L),The Harmony Engine,6,Unit,"When this unit enters, create an Iron, a Red Tape, an Ingredient, and a Garbage.",6/6,Powered by four Paths. Built by all. Owned by none.,"A colossal ancient machine-guardian built from Beefcake iron, Necrocrat stone, Gourmand copper, and Refusemancer vines, its four-colored core blazing to life.",,,,,AI-new,C-34
+,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,
+Infrastructure:,,,,,,,,,,,,,,
+1,(U),Hamster Wheel Power Plant,N/A,Infrastructure,"Exhaust: add (B).
+
+Overexert: add (B)(B).",,"Clean energy. Sweaty, but clean.","A towering wooden power plant built around a colossal hamster wheel, a Beefcake sprinting inside it as sparks crackle along copper lines to a glowing village.",,,,,AI-new,INF-01
+2,(U),Hall of Records,N/A,Infrastructure,"Exhaust: add (N).
+
+Exhaust, pay 3: create a Red Tape.",,Every soul. Every form. Every staple.,"A gloomy gothic archive with endless shelves of files rising into the fog, ghostly clerks floating between ladders with candles.",,,,,AI-new,INF-02
+3,(U),Spice Bazaar,N/A,Infrastructure,"Exhaust: add (G).
+
+Exhaust, pay 2: Peek 2.",,Forty kinds of pepper. Fifty opinions about each.,"A colorful covered market overflowing with mountains of spices, hanging copper pots, and silk awnings, chefs haggling in clouds of fragrant steam.",,,,,AI-new,INF-03
+4,(U),Compost Grange,N/A,Infrastructure,"Exhaust: add (R).
+
+Exhaust, pay 2: return target Infrastructure card from your Refuse Pile to your hand.",,Home is where the heap is.,"A cozy farmstead built from salvaged junk, a steaming compost hill beside a patchwork barn, goats on the roof and flowers in every rusty bucket.",,,,,AI-new,INF-04
+5,(E),The Ghost Express Depot,N/A,Infrastructure,Exhaust: add (N) or (B).,,Departures: on time-ish. Arrivals: eventually. Passengers: deceased.,"A spooky train station where a phantom steam train pulls in, a Beefcake conductor waving and skeleton porters stamping tickets.",,,,,AI-completed,INF-05
+6,(E),The Eternal Diner,N/A,Infrastructure,Exhaust: add (N) or (G).,,Open 24 hours. Forever.,"A glowing roadside diner in a misty graveyard, neon-green lights flickering, ghostly customers in the booths and a skeleton flipping pancakes.",,,,,AI-completed,INF-06
+7,(E),Potter's Field Landfill,N/A,Infrastructure,Exhaust: add (N) or (R).,,Where the forgotten things and the forgotten folks rest together.,"A sprawling landfill dotted with crooked gravestones and wildflowers, rats and ghosts sharing the hills under a pale moon.",,,,,AI-completed,INF-07
+8,(E),Bulk Barn,N/A,Infrastructure,Exhaust: add (G) or (B).,,Buy in bulk. Get bulky.,"A giant red barn stuffed with sacks of grain, wheels of cheese, and stacked iron weights, Beefcakes hauling crates out of the doors.",,,,,AI-completed,INF-08
+9,(E),Market Garden,N/A,Infrastructure,Exhaust: add (G) or (R).,,Grown in compost. Sold at a markup.,"Lush terraced gardens growing out of old junk planters, a fancy farmers' market stall at the bottom with chefs and druids bartering.",,,,,AI-completed,INF-09
+10,(E),Scrapyard Mill,N/A,Infrastructure,Exhaust: add (R) or (B).,,Turning junk into juice since forever.,"A rickety mill built from scrap metal and old wagon wheels, a giant waterwheel of rusty gears turned by a muscular rhino.",,,,,AI-completed,INF-10
+11,(E),Old Kingdom Crossroads,N/A,Infrastructure,Exhaust: add one energy of any Path.,,Four roads. One kingdom. Once.,"A weathered stone crossroads with an ancient four-sided signpost, each road leading toward a different glowing horizon: a gym, an office, a kitchen, and a junkyard.",,,,,AI-completed,INF-11
+,,,,,,,,,,,,,,
+Infrastructure (basic):,,,,,,,,,,,,,,
+1,,Ghost Town,N/A,Infrastructure,"When this Infrastructure enters, create a Red Tape.
+
+Exhaust: add (N).",,Population: technically zero.,"A quiet, foggy town of crooked gray buildings with glowing green windows, ghosts drifting along the streets carrying briefcases.",,,,,AI-completed,BAS-N
+2,,Wasteworks,N/A,Infrastructure,"When this Infrastructure enters, create a Garbage.
+
+Exhaust: add (R).",,Where the kingdom's garbage goes to become something better.,"A sprawling, cheerful junkyard factory with conveyor belts, compost heaps, and animals sorting scrap under a golden sky.",,,,,AI-completed,BAS-R
+3,,Feastforge,N/A,Infrastructure,"When this Infrastructure enters, create an Ingredient.
+
+Exhaust: add (G).",,The ovens never go cold.,"A grand copper-domed kitchen-forge with chimneys puffing steam, glowing ovens and golems being assembled from baked goods.",,,,,AI-completed,BAS-G
+4,,Powerhouse,N/A,Infrastructure,"When this Infrastructure enters, create an Iron.
+
+Exhaust: add (B).",,Powered entirely by protein and yelling.,"A massive brick power station with giant mills and hamster wheels, Beefcakes running and pushing as lightning arcs between towers.",,,,,AI-completed,BAS-B

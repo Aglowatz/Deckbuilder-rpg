@@ -13,18 +13,18 @@ const IDS: Array[String] = ["champions_laurels", "crowd_pleasers_cape", "gladiat
 
 static func add_equipment(result: Dictionary) -> void:
 	var laurels: EquipmentData = _piece("champions_laurels", "Champion's Laurels", EquipmentData.Slot.HELM,
-		"At the start of the duel, gain 4 life and draw a card.",
-		[ProgressionContent._mod_effect(K.START_OF_DUEL_EFFECT, ProgressionContent._effect(O.GAIN_LIFE, 4, G.CONTROLLER)), ProgressionContent._mod_effect(K.START_OF_DUEL_EFFECT, ProgressionContent._effect(O.DRAW, 1, G.CONTROLLER))])
+		"At the start of the duel, gain 4 HP and draw a card.",
+		[ProgressionContent._mod_effect(K.START_OF_DUEL_EFFECT, ProgressionContent._effect(O.GAIN_HP, 4, G.CONTROLLER)), ProgressionContent._mod_effect(K.START_OF_DUEL_EFFECT, ProgressionContent._effect(O.DRAW, 1, G.CONTROLLER))])
 	laurels.flavor_text = "A little wilted, a little sweaty, entirely yours. The crowd chants your name. Mostly."
 	result[laurels.id] = laurels
 	var cape: EquipmentData = _piece("crowd_pleasers_cape", "Crowd-Pleaser's Cape", EquipmentData.Slot.ARMOR,
-		"Each time you declare attackers, gain 1 life.",
-		[ProgressionContent._mod_effect(K.ON_ATTACK_DECLARED_EFFECT, ProgressionContent._effect(O.GAIN_LIFE, 1, G.CONTROLLER))])
+		"Each time you declare attackers, gain 1 HP.",
+		[ProgressionContent._mod_effect(K.ON_ATTACK_DECLARED_EFFECT, ProgressionContent._effect(O.GAIN_HP, 1, G.CONTROLLER))])
 	cape.flavor_text = "Every charge earns a roar, and every roar is oddly nourishing."
 	result[cape.id] = cape
 	var net: EquipmentData = _piece("gladiators_net", "Gladiator's Net", EquipmentData.Slot.WEAPON,
-		"Whenever an enemy creature enters the battlefield, it gets -1/-1 permanently.",
-		[ProgressionContent._mod_effect(K.ON_ENEMY_CREATURE_ENTER_EFFECT, ProgressionContent._effect_ab(O.BUFF, -1, -1, G.TRIGGERING_CARD))])
+		"Whenever an enemy unit enters the field, it gets -1/-1 permanently.",
+		[ProgressionContent._mod_effect(K.ON_ENEMY_UNIT_ENTER_EFFECT, ProgressionContent._effect_ab(O.BUFF, -1, -1, G.TRIGGERING_CARD))])
 	net.flavor_text = "Thrown from the stands by a very enthusiastic fishmonger. It holds, apparently."
 	result[net.id] = net
 	var boots: EquipmentData = _piece("bloodsand_boots", "Bloodsand Boots", EquipmentData.Slot.BOOTS,

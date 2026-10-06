@@ -1,6 +1,6 @@
 extends GutTest
 ## New brief, Part E: the 4 corrupted NPCs' data - deck legality (every card known, strictly
-## mono-color), life, AI, reward and unlock-flag plumbing. The town placement/dialogue/battle
+## mono-color), HP, AI, reward and unlock-flag plumbing. The town placement/dialogue/battle
 ## flow itself is presentation (world/town_scene.gd, app/game_session.gd) and is not under GUT
 ## per CLAUDE.md - verified instead with a real-input smoke test.
 
@@ -31,11 +31,11 @@ func test_every_deck_card_is_known_and_strictly_mono_color() -> void:
 				assert_eq(card.color, color, "%s's deck should be strictly mono-color (found %s)" % [id, card.id])
 
 
-func test_enemy_setup_starts_at_15_life() -> void:
+func test_enemy_setup_starts_at_15_hp() -> void:
 	for id: String in CorruptedNpcs.IDS:
 		var setup: PlayerSetup = CorruptedNpcs.enemy_setup(content, id)
-		assert_eq(setup.starting_life, CorruptedNpcs.STARTING_LIFE)
-		assert_eq(CorruptedNpcs.STARTING_LIFE, 15)
+		assert_eq(setup.starting_hp, CorruptedNpcs.STARTING_HP)
+		assert_eq(CorruptedNpcs.STARTING_HP, 15)
 
 
 func test_every_npc_has_a_resolvable_ai_personality() -> void:

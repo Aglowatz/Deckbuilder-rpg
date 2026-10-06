@@ -25,5 +25,5 @@ signal essence_converted(message: String, essence: Dictionary, gold: int)
 signal arena_fight_finished(encounter_id: String, won: bool)
 ## A zone was freed (its dungeon boss fell): the zone id. The Arena and the Alchemist listen for this.
 signal zone_completed(zone_id: String)
-## The player's zone life changed (battle/enemy hit/heal) - HUD redraws and flashes.
-signal zone_life_changed(life: int, max_life: int)
+## The player's zone HP changed (battle/enemy hit/heal) - HUD redraws and flashes.
+signal zone_hp_changed(hp: int, max_hp: int)

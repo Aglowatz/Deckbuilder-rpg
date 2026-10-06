@@ -1,7 +1,7 @@
 class_name PathEnergy
 extends RefCounted
-## Path energy payment. Every infrastructure activates for exactly one Path energy of its own type; NEUTRAL infrastructure make
-## colorless Path energy that only pays generic costs.
+## energy payment. Every infrastructure activates for exactly one energy of its own type; NEUTRAL infrastructure make
+## colorless energy that only pays generic costs.
 
 
 ## Fills `out` with infrastructure to activate (from `infrastructure`, which must be ready) and returns true when

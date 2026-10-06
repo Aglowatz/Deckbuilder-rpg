@@ -5,18 +5,18 @@ extends GutTest
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.D)
+	Session.ensure_game(Affinity.Type.NECROCRAT)
 
 
 func test_affinity_display_name_is_necrocrat() -> void:
-	assert_eq(UIStyle.affinity_name(Affinity.Type.D), "Necrocrat")
+	assert_eq(UIStyle.affinity_name(Affinity.Type.NECROCRAT), "Necrocrat")
 
 
 func test_zone_portal_and_corrupted_npc_ids_use_necrocrat() -> void:
 	assert_not_null(ZonePortals.find("necrocrat"))
 	assert_null(ZonePortals.find("grave"))
 	assert_true(CorruptedNpcs.IDS.has("necrocrat"))
-	assert_eq(CorruptedNpcs.element("necrocrat"), Affinity.Type.D)
+	assert_eq(CorruptedNpcs.element("necrocrat"), Affinity.Type.NECROCRAT)
 	assert_false(CorruptedNpcs.recipe("necrocrat").is_empty())
 
 

@@ -8,7 +8,7 @@ extends Resource
 @export var level: int = 1
 ## Cumulative XP needed to be at this level (0 for level 1).
 @export var xp_to_reach: int = 0
-@export var max_life: int = 10
+@export var max_hp: int = 10
 @export var opening_hand_size: int = 5
 @export var item_slots: int = 1
 ## Maximum hand size at this level (10, +1 at levels 14 and 28 - replaces the old rarity copy-limit rewards).

@@ -3,10 +3,10 @@ extends GutTest
 
 const ZONES: Array[String] = ["beefcake", "gourmand", "necrocrat", "refusemancer"]
 
-var A: Affinity.Type = Affinity.Type.A
-var B: Affinity.Type = Affinity.Type.B
-var C: Affinity.Type = Affinity.Type.C
-var D: Affinity.Type = Affinity.Type.D
+var A: Affinity.Type = Affinity.Type.BEEFCAKE
+var B: Affinity.Type = Affinity.Type.GOURMAND
+var C: Affinity.Type = Affinity.Type.REFUSEMANCER
+var D: Affinity.Type = Affinity.Type.NECROCRAT
 
 
 func before_each() -> void:
@@ -32,8 +32,8 @@ func _game_in(zone_id: String) -> GameState:
 	return game
 
 
-func _creature(game: GameState, owner: int, color: Affinity.Type, power: int = 2, toughness: int = 2) -> CardInstance:
-	return GameFactory.add_to_battlefield(game, owner, GameFactory.vanilla(power, toughness, 1, color), true)
+func _unit(game: GameState, owner: int, color: Affinity.Type, attack: int = 2, defense: int = 2) -> CardInstance:
+	return GameFactory.add_to_field(game, owner, GameFactory.vanilla(attack, defense, 1, color), true)
 
 
 func test_every_zone_has_a_buff_for_its_path_and_a_debuff_for_the_rival() -> void:
@@ -62,29 +62,29 @@ func test_each_zone_has_named_flavored_effects_and_a_tooltip() -> void:
 
 func test_gainlands_buff_beefcake_power_for_both_sides() -> void:
 	var game: GameState = _game_in(GainlandsZone.ID)
-	var mine: CardInstance = _creature(game, 0, A)
-	var theirs: CardInstance = _creature(game, 1, A)
-	assert_eq(game.get_power(mine), 3)
-	assert_eq(game.get_power(theirs), 3, "the enemy gets the buff too")
-	assert_eq(game.get_toughness(mine), 2)
-	assert_eq(game.get_power(_creature(game, 0, B)), 2, "other Paths are unaffected")
+	var mine: CardInstance = _unit(game, 0, A)
+	var theirs: CardInstance = _unit(game, 1, A)
+	assert_eq(game.get_attack(mine), 3)
+	assert_eq(game.get_attack(theirs), 3, "the enemy gets the buff too")
+	assert_eq(game.get_defense(mine), 2)
+	assert_eq(game.get_attack(_unit(game, 0, B)), 2, "other Paths are unaffected")
 
 
-func test_gainlands_processing_time_necrocrat_creatures_enter_exhausted() -> void:
+func test_gainlands_processing_time_necrocrat_units_enter_exhausted() -> void:
 	var game: GameState = _game_in(GainlandsZone.ID)
 	GameFactory.add_infrastructure_cards(game, 0, 3, D)
 	var necro: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1, D))
 	var other: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1, A))
-	assert_true(game.cast(0, necro.uid))
-	assert_true(game.cast(0, other.uid))
-	assert_true(necro.exhausted, "a Necrocrat creature enters exhausted (it cannot block)")
-	assert_false(other.exhausted, "a Beefcake creature does not")
+	assert_true(game.play_card(0, necro.uid))
+	assert_true(game.play_card(0, other.uid))
+	assert_true(necro.exhausted, "a Necrocrat unit enters exhausted (it cannot block)")
+	assert_false(other.exhausted, "a Beefcake unit does not")
 
 
-func test_dna_buffs_necrocrat_toughness_and_taxes_beefcake_cards() -> void:
+func test_dna_buffs_necrocrat_defense_and_taxes_beefcake_cards() -> void:
 	var game: GameState = _game_in(DnaZone.ID)
-	assert_eq(game.get_toughness(_creature(game, 0, D)), 3)
-	assert_eq(game.get_toughness(_creature(game, 1, D)), 3, "both sides")
+	assert_eq(game.get_defense(_unit(game, 0, D)), 3)
+	assert_eq(game.get_defense(_unit(game, 1, D)), 3, "both sides")
 	var beef: CardData = GameFactory.vanilla(1, 1, 2, A)
 	assert_eq(game.generic_cost_for(0, beef), 3, "Unauthorized Activity: +1 generic cost")
 	assert_eq(game.generic_cost_for(1, beef), 3)
@@ -93,27 +93,27 @@ func test_dna_buffs_necrocrat_toughness_and_taxes_beefcake_cards() -> void:
 
 func test_buffet_buffs_gourmand_and_debuffs_refusemancer_power() -> void:
 	var game: GameState = _game_in(BuffetZone.ID)
-	var gourmand: CardInstance = _creature(game, 0, B)
-	assert_eq(game.get_power(gourmand), 3)
-	assert_eq(game.get_toughness(gourmand), 3)
-	assert_eq(game.get_power(_creature(game, 1, C)), 1, "Dress Code Violation: -1 power on Refusemancers")
+	var gourmand: CardInstance = _unit(game, 0, B)
+	assert_eq(game.get_attack(gourmand), 3)
+	assert_eq(game.get_defense(gourmand), 3)
+	assert_eq(game.get_attack(_unit(game, 1, C)), 1, "Dress Code Violation: -1 attack on Refusemancers")
 
 
-func test_dump_buffs_refusemancer_toughness_and_debuffs_gourmand_toughness() -> void:
+func test_dump_buffs_refusemancer_defense_and_debuffs_gourmand_defense() -> void:
 	var game: GameState = _game_in(HeapZone.ID)
-	assert_eq(game.get_toughness(_creature(game, 0, C)), 4)
-	assert_eq(game.get_toughness(_creature(game, 1, B)), 1, "Spoilage: -1 toughness on Gourmands")
+	assert_eq(game.get_defense(_unit(game, 0, C)), 4)
+	assert_eq(game.get_defense(_unit(game, 1, B)), 1, "Spoilage: -1 defense on Gourmands")
 
 
-func test_a_debuff_never_kills_a_one_toughness_creature_by_itself() -> void:
+func test_a_debuff_never_kills_a_one_defense_unit_by_itself() -> void:
 	var game: GameState = _game_in(HeapZone.ID)
-	var tiny: CardInstance = _creature(game, 0, B, 1, 1)
-	assert_eq(game.get_toughness(tiny), 1, "floored at 1")
+	var tiny: CardInstance = _unit(game, 0, B, 1, 1)
+	assert_eq(game.get_defense(tiny), 1, "floored at 1")
 
 
 func test_outside_a_zone_nothing_changes() -> void:
 	var game: GameState = _game_in("")
-	assert_eq(game.get_power(_creature(game, 0, A)), 2)
+	assert_eq(game.get_attack(_unit(game, 0, A)), 2)
 	assert_eq(game.generic_cost_for(0, GameFactory.vanilla(1, 1, 2, A)), 2)
 
 

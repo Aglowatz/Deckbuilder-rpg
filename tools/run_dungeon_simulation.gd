@@ -65,7 +65,7 @@ func _write_report(runs: int, per_element: Array[Dictionary], overall_rate: floa
 	lines.append("deck (23 neutral spells + 19 basic infrastructure, Part C) through the whole dungeon (both battles,")
 	lines.append("the challenge, the shrine and the boss), picking one of the 3 offered on-element reward")
 	lines.append("cards after each battle exactly like a real playthrough (so the deck grows to 45 cards by")
-	lines.append("the boss), life carried between nodes, no dungeon-wide blessing - exactly what a human")
+	lines.append("the boss), HP carried between nodes, no dungeon-wide blessing - exactly what a human")
 	lines.append("player gets. Non-boss opponents use only weak, vanilla decks with an eager \"Aggressive")
 	lines.append("(tutorial)\" AI (attacks readily, does not play around counter-attacks - Part D); the boss")
 	lines.append("uses the real (smarter than \"Aggressive (tutorial)\") \"Balanced\" AI and a few real")

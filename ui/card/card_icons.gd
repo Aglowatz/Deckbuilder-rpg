@@ -109,7 +109,7 @@ const BY_ITEM_ID: Dictionary = {
 }
 
 const UI_ICONS: Dictionary = {
-	"life": "lorc/heart-inside",
+	"hp": "lorc/heart-inside",
 	"attack": "lorc/crossed-swords",
 	"graveyard": "lorc/tombstone",
 	"trap": "sbed/spikes-full",

@@ -1,11 +1,11 @@
 class_name DungeonRun
 extends RefCounted
-## State of one dungeon run: life carries between encounters, the deck can lose/gain cards for
+## State of one dungeon run: HP carries between encounters, the deck can lose/gain cards for
 ## the duration of the dungeon, and dungeon-wide modifiers (rules, boons) apply to every duel.
 
 var profile: PlayerProfile
 var base_deck: Deck
-var life: int = 0
+var hp: int = 0
 var encounters_won: int = 0
 var failed: bool = false
 ## Cards lost / gained for this dungeon only (the profile's collection is never touched).
@@ -25,7 +25,7 @@ static func enter(
 	run.profile = player_profile
 	run.base_deck = player_deck
 	run.dungeon_sources = dungeon_modifiers.duplicate()
-	run.life = run.max_life()
+	run.hp = run.max_hp()
 	return run
 
 
@@ -33,8 +33,8 @@ func modifiers(zone: ModifierSource = null) -> ModifierSet:
 	return ModifierPipeline.build(profile, zone, dungeon_sources)
 
 
-func max_life() -> int:
-	return maxi(1, profile.base_max_life() + modifiers().sum(Modifier.Kind.MAX_LIFE))
+func max_hp() -> int:
+	return maxi(1, profile.base_max_hp() + modifiers().sum(Modifier.Kind.MAX_HP))
 
 
 func is_over() -> bool:
@@ -55,14 +55,14 @@ func current_deck() -> Deck:
 
 func heal(amount: int) -> void:
 	if amount > 0:
-		life = maxi(life, mini(life + amount, max_life()))
+		hp = maxi(hp, mini(hp + amount, max_hp()))
 
 
-func lose_life(amount: int) -> void:
+func lose_hp(amount: int) -> void:
 	if amount <= 0:
 		return
-	life = maxi(0, life - amount)
-	if life <= 0:
+	hp = maxi(0, hp - amount)
+	if hp <= 0:
 		failed = true
 
 
@@ -77,16 +77,16 @@ func gain_card(card: CardData) -> void:
 	gained_cards.append(card)
 
 
-## Adds a dungeon-wide source. A max-life increase also raises current life by the same amount.
+## Adds a dungeon-wide source. A max-HP increase also raises current HP by the same amount.
 func add_dungeon_source(source: ModifierSource) -> void:
-	var before: int = max_life()
+	var before: int = max_hp()
 	dungeon_sources.append(source)
-	var gained: int = max_life() - before
+	var gained: int = max_hp() - before
 	if gained > 0:
-		life += gained
+		hp += gained
 
 
-## Builds a duel for the next encounter: the player enters with the carried-over life.
+## Builds a duel for the next encounter: the player enters with the carried-over HP.
 ## The enemy is seat 1.
 func start_encounter(
 	enemy: PlayerSetup,
@@ -101,7 +101,7 @@ func start_encounter(
 	player.modifiers = modifiers(zone)
 	if player_rules != null:
 		player.modifiers.add_source(player_rules)
-	player.starting_life = life
+	player.starting_hp = hp
 	# Zone/dungeon effects apply to the enemy too (ModifierPipeline.build_for_enemy's contract).
 	if zone != null:
 		enemy.modifiers.add_source(zone)
@@ -112,9 +112,9 @@ func start_encounter(
 	return game
 
 
-## Records the result of a finished duel: life carries over; a loss fails the run.
+## Records the result of a finished duel: HP carries over; a loss fails the run.
 func finish_encounter(game: GameState) -> void:
-	life = maxi(0, game.players[0].life)
+	hp = maxi(0, game.players[0].hp)
 	if game.winner == 0:
 		encounters_won += 1
 	else:

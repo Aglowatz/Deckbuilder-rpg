@@ -2,7 +2,7 @@ class_name FifthBriefFinalSmoke
 extends Node
 ## FINAL (fifth brief): the D.N.A. flow with human-style input, end to end: town quests appear in
 ## the tracker -> talk to a vendor (quest progress) -> enter the D.N.A. -> get hit by the fast
-## courier (life drops) -> touch a slow enemy (real battle, life carries) -> heal at the hub ->
+## courier (HP drops) -> touch a slow enemy (real battle, HP carries) -> heal at the hub ->
 ## buy a Necrocrat card -> quiz master -> matching game -> puzzle -> mini dungeon -> open a chest.
 ## Screenshots every new area/screen to _screenshots/brief5/. Run windowed:
 ##   Godot --path . res://tools/fifth_brief_final_launcher.tscn
@@ -24,7 +24,7 @@ var _shots: int = 0
 func run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.D)
+	Session.ensure_game(Affinity.Type.NECROCRAT)
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 	var town: TownScene = await _wait_for(TownScene) as TownScene
@@ -102,7 +102,7 @@ func _enter_the_dna(town: TownScene) -> DnaScene:
 	_check(zone != null, "the Necrocrat gate leads into the D.N.A.")
 	if zone != null:
 		await driver.seconds(1.0)
-		_check(Session.zone_run != null and Session.zone_run.life == Session.zone_run.max_life(), "entering starts at full zone life")
+		_check(Session.zone_run != null and Session.zone_run.hp == Session.zone_run.max_hp(), "entering starts at full zone HP")
 		await _shot("e_05_dna_lobby_arrival")
 	return zone
 
@@ -145,7 +145,7 @@ func _get_hit_by_the_courier(zone: DnaScene) -> void:
 	_check(courier != null, "a Speedy Ghost Courier roams the zone")
 	if courier == null:
 		return
-	var start_life: int = Session.zone_run.life
+	var start_hp: int = Session.zone_run.hp
 	courier.cooldown = 0.0
 	courier.state = ZoneEnemy.State.PATROL
 	var saved_ranges: Dictionary = {}
@@ -164,17 +164,17 @@ func _get_hit_by_the_courier(zone: DnaScene) -> void:
 	await driver.frames(3)
 	await _shot("e_07_courier_approaching")
 	var waited: float = 0.0
-	while Session.zone_run.life >= start_life and waited < 12.0:
+	while Session.zone_run.hp >= start_hp and waited < 12.0:
 		await driver.frames(3)
-		if int(waited * 10.0) % 20 == 19 and Session.zone_run.life >= start_life:
+		if int(waited * 10.0) % 20 == 19 and Session.zone_run.hp >= start_hp:
 			zone.player.position = courier.position + Vector3(2.0, 0.0, 0.0)
 			if not zone.builder.is_walkable(zone.player.position):
 				zone.player.position = courier.position + Vector3(-2.0, 0.0, 0.0)
 		waited += 3.0 / 60.0
-	_check(Session.zone_run.life == start_life - DnaEnemies.COURIER_DAMAGE, "the courier hit for exactly 2 (life %d -> %d)" % [start_life, Session.zone_run.life])
-	_check(zone.life_bar._last_life == Session.zone_run.life, "the HUD life bar shows the new life")
+	_check(Session.zone_run.hp == start_hp - DnaEnemies.COURIER_DAMAGE, "the courier hit for exactly 2 (HP %d -> %d)" % [start_hp, Session.zone_run.hp])
+	_check(zone.hp_bar._last_hp == Session.zone_run.hp, "the HUD HP bar shows the new HP")
 	await driver.frames(4)
-	await _shot("e_08_courier_hit_flash_and_life")
+	await _shot("e_08_courier_hit_flash_and_HP")
 	_check(zone._invulnerable > 0.0, "the hit grants a short invulnerability window")
 	for other: ZoneEnemy in zone.enemies:
 		if other != courier:
@@ -192,7 +192,7 @@ func _touch_a_slow_enemy(zone: DnaScene) -> DnaScene:
 	if enemy == null:
 		return zone
 	var enemy_id: String = enemy.instance_id
-	var life_before: int = Session.zone_run.life
+	var hp_before: int = Session.zone_run.hp
 	zone.player.position = _spot_near(zone, enemy.position)
 	zone._camera.position = zone.player.position + DnaScene.CAMERA_OFFSET
 	zone._spawn_grace = 0.0
@@ -202,10 +202,10 @@ func _touch_a_slow_enemy(zone: DnaScene) -> DnaScene:
 	if battle == null:
 		return zone
 	_check(battle.context.zone_battle, "it is a zone battle")
-	_check(battle.game.players[0].life == life_before, "the battle starts at the persisted zone life (%d)" % life_before)
+	_check(battle.game.players[0].hp == hp_before, "the battle starts at the persisted zone HP (%d)" % hp_before)
 	await _shot("e_09_zone_battle_necrocrat_deck")
 	await _play_battle(battle)
-	var life_end: int = battle.game.players[0].life
+	var hp_end: int = battle.game.players[0].hp
 	var won: bool = battle.context.won
 	await _shot("e_10_zone_battle_result")
 	await driver.click_button("Continue")
@@ -214,10 +214,10 @@ func _touch_a_slow_enemy(zone: DnaScene) -> DnaScene:
 	if zone != null:
 		_check(Session.zone_run != null, "back in the zone after the battle")
 		if won:
-			_check(Session.zone_run.life == life_end, "life after the battle is what was left, with no free heal (%d)" % life_end)
+			_check(Session.zone_run.hp == hp_end, "HP after the battle is what was left, with no free heal (%d)" % hp_end)
 			_check(not _enemy_exists(zone, enemy_id), "the defeated enemy is gone")
 		else:
-			_check(Session.zone_run.life == Session.zone_run.max_life(), "a loss wakes you at the hub at full life")
+			_check(Session.zone_run.hp == Session.zone_run.max_hp(), "a loss wakes you at the hub at full HP")
 			_check(not Session.zone_log.is_empty(), "the paperwork fee was logged (%s)" % Session.zone_log[Session.zone_log.size() - 1])
 		await _clear_popups(zone)
 		await _shot("e_11_back_in_zone_after_battle")
@@ -234,18 +234,18 @@ func _enemy_exists(zone: DnaScene, instance_id: String) -> bool:
 
 func _heal_at_the_hub(zone: DnaScene) -> void:
 	await _clear_popups(zone)
-	# Make sure there is something to heal (a battle won unhurt would leave full life).
-	if Session.zone_run.life >= Session.zone_run.max_life():
+	# Make sure there is something to heal (a battle won unhurt would leave full HP).
+	if Session.zone_run.hp >= Session.zone_run.max_hp():
 		Session.zone_run.damage(3)
-		EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
-	var hurt: int = Session.zone_run.life
+		EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
+	var hurt: int = Session.zone_run.hp
 	zone.player.position = zone.builder.anchor("lobby_center")
 	zone._spawn_grace = 5.0
 	await _walk_to(zone, zone.builder.anchor("heal"), 1.5)
 	await driver.frames(4)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(hurt < Session.zone_run.max_life() and Session.zone_run.life == Session.zone_run.max_life(), "resting on the Breakroom Couch heals to full (%d -> %d)" % [hurt, Session.zone_run.life])
+	_check(hurt < Session.zone_run.max_hp() and Session.zone_run.hp == Session.zone_run.max_hp(), "resting on the Breakroom Couch heals to full (%d -> %d)" % [hurt, Session.zone_run.hp])
 	await _shot("e_12_hub_heal_couch")
 
 
@@ -424,13 +424,13 @@ func _mini_dungeon(zone: DnaScene) -> DnaScene:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
 	await _shot("e_29_mini_dungeon_prompt")
-	var life_at_entry: int = Session.zone_run.life
+	var hp_at_entry: int = Session.zone_run.hp
 	await driver.click_button("Go down")
 	var map_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 	_check(map_screen != null, "the mini dungeon opens the node map")
 	if map_screen == null:
 		return zone
-	_check(Session.mini_active and Session.run.life == life_at_entry, "the run starts at the zone's current life (%d)" % life_at_entry)
+	_check(Session.mini_active and Session.run.hp == hp_at_entry, "the run starts at the zone's current HP (%d)" % hp_at_entry)
 	await driver.seconds(1.2)
 	await _shot("e_30_mini_dungeon_map")
 	var battles: int = 0
@@ -444,13 +444,13 @@ func _mini_dungeon(zone: DnaScene) -> DnaScene:
 		if available.is_empty():
 			break
 		var button: MapNodeButton = map_screen._buttons[available[0].id] as MapNodeButton
-		var life_before: int = Session.run.life
+		var hp_before: int = Session.run.hp
 		await driver.click(driver.center_of_control(button))
 		var battle: BattleScreen = await _wait_for(BattleScreen) as BattleScreen
 		if battle == null:
 			break
 		battles += 1
-		_check(battle.game.players[0].life == life_before, "mini dungeon battle %d starts at the carried life (%d)" % [battles, life_before])
+		_check(battle.game.players[0].hp == hp_before, "mini dungeon battle %d starts at the carried HP (%d)" % [battles, hp_before])
 		if battles == 1:
 			await _shot("e_31_mini_dungeon_battle_1")
 		await _play_battle(battle)

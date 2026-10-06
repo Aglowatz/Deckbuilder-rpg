@@ -79,7 +79,7 @@ func _lines(granted: Dictionary) -> Array[String]:
 	if granted.has("xp"):
 		lines.append("+%d XP" % int(granted["xp"]))
 	if granted.has("heal"):
-		lines.append("+%d life" % int(granted["heal"]))
+		lines.append("+%d HP" % int(granted["heal"]))
 	if granted.has("item"):
 		lines.append("Item: %s" % str(granted["item"]))
 	if granted.has("card"):

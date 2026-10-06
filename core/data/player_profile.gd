@@ -3,13 +3,13 @@ extends Resource
 ## Player stats live here, never hardcoded in the rules. Equipment/items/zones layer
 ## Modifiers on top of these base values.
 
-const START_MAX_LIFE: int = 10
-const ENDGAME_MAX_LIFE: int = 25
+const START_MAX_HP: int = 10
+const ENDGAME_MAX_HP: int = 25
 const MIN_OPENING_HAND: int = 5
 const MAX_OPENING_HAND: int = 8
 const DEFAULT_MAX_HAND_SIZE: int = 10
 
-@export var max_life: int = START_MAX_LIFE
+@export var max_hp: int = START_MAX_HP
 @export var opening_hand_size: int = MIN_OPENING_HAND
 @export var max_hand_size: int = DEFAULT_MAX_HAND_SIZE
 @export var owned_cards: Array[CardData] = []
@@ -85,8 +85,8 @@ func discounted_price(base_price: int) -> int:
 
 
 ## Base stats clamped to their allowed ranges (before modifiers).
-func base_max_life() -> int:
-	return clampi(max_life, START_MAX_LIFE, ENDGAME_MAX_LIFE)
+func base_max_hp() -> int:
+	return clampi(max_hp, START_MAX_HP, ENDGAME_MAX_HP)
 
 
 func base_opening_hand() -> int:
@@ -108,13 +108,13 @@ func gear_modifiers() -> ModifierSet:
 # ---- Progression (Part E) ----------------------------------------------------------------
 
 
-## Applies one level's absolute stats (max_life/opening_hand_size/item_slots/level). Called once
+## Applies one level's absolute stats (max_HP/opening_hand_size/item_slots/level). Called once
 ## per level gained, in the order gained, by whatever awards XP - never inferred automatically
-## from `level` alone, so a profile built directly for a test (setting `max_life` etc by hand) is
+## from `level` alone, so a profile built directly for a test (setting `max_HP` etc by hand) is
 ## never silently overwritten by this.
 func apply_level(row: LevelData) -> void:
 	level = row.level
-	max_life = row.max_life
+	max_hp = row.max_hp
 	max_hand_size = row.max_hand_size
 	opening_hand_size = row.opening_hand_size
 	item_slots = row.item_slots

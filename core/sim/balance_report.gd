@@ -110,7 +110,7 @@ static func _card_usage(decks: Array[Deck], results: Array[MatchupStats]) -> Pac
 	var lines: PackedStringArray = PackedStringArray()
 	lines.append("## Most-played cards")
 	lines.append("")
-	lines.append("Average casts per game (spells only; infrastructure excluded), top %d per deck." % TOP_CARDS)
+	lines.append("Average plays per game (spells only; infrastructure excluded), top %d per deck." % TOP_CARDS)
 	lines.append("")
 	for deck: Deck in decks:
 		var totals: Dictionary = {}
@@ -169,7 +169,7 @@ static func _pct(value: float) -> String:
 	return "%.0f%%" % (value * 100.0)
 
 
-## The deck's three spells cast least often per copy in the deck (cards that may be underpowered
+## The deck's three spells play least often per copy in the deck (cards that may be underpowered
 ## or that the AI does not know how to use).
 static func _least_played(deck: Deck, totals: Dictionary, games: int) -> String:
 	var copies: Dictionary = {}

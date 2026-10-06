@@ -22,7 +22,7 @@ var _shots: int = 0
 func run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 
@@ -149,10 +149,10 @@ func _verify_equipment_effect_in_battle(piece: EquipmentData) -> void:
 		if battle.mode == BattleScreen.Mode.OVER and battle._result_panel != null:
 			break
 		if not verified:
-			for card: CardInstance in battle.game.players[0].battlefield:
-				if card.data.is_creature():
-					var expected: int = card.data.power + 1
-					_check(battle.game.get_power(card) == expected, "Wicked Dagger's +1 power is live in a real battle (%s: %d, expected %d)" % [card.data.display_name, battle.game.get_power(card), expected])
+			for card: CardInstance in battle.game.players[0].field:
+				if card.data.is_unit():
+					var expected: int = card.data.attack + 1
+					_check(battle.game.get_attack(card) == expected, "Wicked Dagger's +1 attack is live in a real battle (%s: %d, expected %d)" % [card.data.display_name, battle.game.get_attack(card), expected])
 					_shot(battle, "final2_04_battle_wicked_dagger_buff")
 					verified = true
 					break
@@ -166,7 +166,7 @@ func _verify_equipment_effect_in_battle(piece: EquipmentData) -> void:
 			last_progress = steps
 		if steps - last_progress > 60:
 			break
-	_check(verified, "at least one of the player's own creatures was cast and checked")
+	_check(verified, "at least one of the player's own units was play and checked")
 	_check(battle.mode == BattleScreen.Mode.OVER, "the practice duel actually finishes (%d steps)" % steps)
 	await driver.click_button("Continue")
 	await _wait_for(TownScene)
@@ -223,7 +223,7 @@ func _attempt_the_graveyard(town: TownScene) -> void:
 		steps += 1
 		if battle.mode == BattleScreen.Mode.OVER and battle._result_panel != null:
 			break
-		if not shot_taken and battle.game.players[1].battlefield.size() > 0:
+		if not shot_taken and battle.game.players[1].field.size() > 0:
 			_shot(battle, "final2_09_graveyard_battle_escalating_summon")
 			shot_taken = true
 		if battle.busy or battle.mode == BattleScreen.Mode.WAITING:

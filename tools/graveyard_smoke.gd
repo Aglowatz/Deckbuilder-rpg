@@ -1,7 +1,7 @@
 class_name GraveyardSmoke
 extends Node
 ## Fourth brief, Part F: a human-input e2e regression test for The Restless Cairn - talks to it,
-## checks the pre-fight dialogue and that it actually starts a real battle (opponent name/life,
+## checks the pre-fight dialogue and that it actually starts a real battle (opponent name/HP,
 ## is_graveyard_boss), plays the duel out for real with BattlePilot (a real, uncertain outcome -
 ## the fight is intentionally very hard for a fresh no-gear profile, so a loss is an expected,
 ## handled outcome, not a failure), then checks the town-side result either way. Mirrors
@@ -51,7 +51,7 @@ func run() -> void:
 		return
 	_check(battle.context.is_graveyard_boss, "the battle context is tagged as the Graveyard boss")
 	_check(battle.context.enemy_name == GraveyardBoss.DISPLAY_NAME, "the battle opponent is The Restless Dead")
-	_check(battle.game.players[1].life == GraveyardBoss.STARTING_LIFE, "the boss starts at its own life total")
+	_check(battle.game.players[1].hp == GraveyardBoss.STARTING_HP, "the boss starts at its own HP total")
 
 	var pilot: BattlePilot = BattlePilot.new(driver, battle)
 	battle.board.speed = 10.0
@@ -62,7 +62,7 @@ func run() -> void:
 		steps += 1
 		if battle.mode == BattleScreen.Mode.OVER and battle._result_panel != null:
 			break
-		if battle.game.players[1].battlefield.size() > 0:
+		if battle.game.players[1].field.size() > 0:
 			saw_a_summon = true
 		if battle.busy or battle.mode == BattleScreen.Mode.WAITING:
 			await driver.frames(4)
@@ -75,7 +75,7 @@ func run() -> void:
 		if steps - last_progress > 60:
 			break
 	_check(battle.mode == BattleScreen.Mode.OVER, "the duel actually finishes (%d steps)" % steps)
-	_check(saw_a_summon, "the boss actually summoned an escalating creature during the fight")
+	_check(saw_a_summon, "the boss actually summoned an escalating unit during the fight")
 	var won: bool = battle.context.won
 	var gold_before: int = Session.gold
 	await driver.click_button("Continue")

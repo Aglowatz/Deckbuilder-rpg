@@ -7,11 +7,11 @@ extends RefCounted
 ## `event.<id>.*`, `cutscene.*`); this class only holds structure and mechanics.
 
 
-## One enemy of the dungeon: its display name (also its recipe key), life, AI and deck recipe.
+## One enemy of the dungeon: its display name (also its recipe key), HP, AI and deck recipe.
 class Foe:
 	extends RefCounted
 	var enemy_name: String = ""
-	var life: int = 15
+	var hp: int = 15
 	var ai_name: String = "Balanced"
 	var recipe: Dictionary = {}
 	var icon: String = "lorc/imp"
@@ -44,10 +44,10 @@ func challenge(challenge_id: String) -> ChallengeData:
 	return challenges.get(challenge_id) as ChallengeData
 
 
-func add_foe(enemy_name: String, life: int, ai_name: String, recipe: Dictionary, icon: String = "lorc/imp") -> void:
+func add_foe(enemy_name: String, hp: int, ai_name: String, recipe: Dictionary, icon: String = "lorc/imp") -> void:
 	var added: Foe = Foe.new()
 	added.enemy_name = enemy_name
-	added.life = life
+	added.hp = hp
 	added.ai_name = ai_name
 	added.recipe = recipe
 	added.icon = icon
@@ -84,7 +84,7 @@ func battle(map: DungeonMap, kind: DungeonMap.Kind, key: String, position: Vecto
 	var added: DungeonMap.MapNode = node(map, kind, key, position, section)
 	var fighter: Foe = foe(enemy_name)
 	added.enemy_name = enemy_name
-	added.enemy_life = fighter.life
+	added.enemy_hp = fighter.hp
 	added.ai_name = fighter.ai_name
 	match kind:
 		DungeonMap.Kind.ELITE:

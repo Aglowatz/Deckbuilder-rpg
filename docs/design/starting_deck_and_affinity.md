@@ -62,12 +62,12 @@ everything).
 ## Rules
 
 - The **starter deck** is always 23 neutral spells + 19 basic infrastructure of the chosen element = 42
-  cards, including several 1-cost creatures (`apprentice_blade`, `scrappy_recruit`) so the
+  cards, including several 1-cost units (`apprentice_blade`, `scrappy_recruit`) so the
   opening turns have something to do. It is never a two-color deck.
 - The 45-card minimum is waived **only inside the tutorial dungeon**, via a `MIN_DECK_SIZE`
   modifier (`TrialOfTheHollow.deck_size_waiver()`), not a special-cased check - `DeckValidator`
   and `DeckEditor` both read the minimum from the active modifiers everywhere.
-- There is no neutral (colorless) infrastructure. Neutral *cards* cost generic Path energy and are cast with infrastructure
+- There is no neutral (colorless) infrastructure. Neutral *cards* cost generic energy and are play with infrastructure
   of any color.
 - The other three elements' cards are not given to the player; nothing stops them from being
   bought/found and built into a second color later once town is reached (deck rules are unchanged
@@ -87,10 +87,10 @@ they arrive.
 
 | Element | Identity | Playstyle |
 |---------|----------|-----------|
-| A | Beefcake hits hard and fast: haste, power spells and huge aggressive bodies that punish a slow start. | Race to deal damage before the table settles. Strike first, strike often. |
+| A | Beefcake hits hard and fast: haste, attack spells and huge aggressive bodies that punish a slow start. | Race to deal damage before the table settles. Strike first, strike often. |
 | B | Gourmand answers: bounce, card draw and food-golem defenders that buy time while you out-cook the opponent. | Control the pace, see more cards than they do, win the long game. |
-| C | Refusemancer grows: big, sturdy creatures and life gain that outlast anything thrown at them. | Stabilize behind tough bodies, then close it out with size. |
-| D | Necrocrat trades: sacrifice, death triggers and drain effects that turn losses into value. | Grind through exchanges; every creature that dies is doing you a favor. |
+| C | Refusemancer grows: big, sturdy units and HP gain that outlast anything thrown at them. | Stabilize behind tough bodies, then close it out with size. |
+| D | Necrocrat trades: sacrifice, death triggers and drain effects that turn losses into value. | Grind through exchanges; every unit that dies is doing you a favor. |
 
 See `core/dungeon/element_choice.gd` for the full text and sample cards shown on the choice
 screen, and `tests/core/dungeon/test_element_choice.gd` for the coverage. The two-color sample

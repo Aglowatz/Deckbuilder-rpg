@@ -6,7 +6,7 @@ generate_progression_doc.gd` - edit the table, not this file, then regenerate.
 - **XP**: every encounter grants XP scaled by difficulty (`EncounterRewards`):
   Tutorial 15, Normal 30, Elite 60, Boss 120. The curve below is tuned so finishing
   the main story lands around **level 20**; levels 21-30 are postgame.
-- **Starting life**: 10 at level 1, +1 on every even level, reaching **25 at level 30**
+- **Starting HP**: 10 at level 1, +1 on every even level, reaching **25 at level 30**
   (before equipment/item modifiers).
 - **Opening hand size**: 5 at level 1, gradually up to **8** at level 24+.
 - **Item slots**: 1 at level 1, gradually up to **4** at level 30.
@@ -20,38 +20,38 @@ generate_progression_doc.gd` - edit the table, not this file, then regenerate.
   a vendor unlock/discount, or gold - New brief, Part D removed random card-choice
   level rewards entirely.
 
-| Level | XP to reach | Life | Hand | Max hand | Items | Grants |
+| Level | XP to reach | HP | Hand | Max hand | Items | Grants |
 |---:|---:|---:|---:|---:|---:|---|
 | 1 | 0 | 10 | 5 | 10 | 1 | Starting stats. |
-| 2 | 30 | 11 | 5 | 10 | 1 | +1 starting life (11). |
+| 2 | 30 | 11 | 5 | 10 | 1 | +1 starting HP (11). |
 | 3 | 90 | 11 | 5 | 10 | 1 | +65 gold. |
-| 4 | 180 | 12 | 5 | 10 | 1 | +1 starting life (12). |
+| 4 | 180 | 12 | 5 | 10 | 1 | +1 starting HP (12). |
 | 5 | 300 | 12 | 5 | 10 | 1 | Choose an equipment slot to unlock. |
-| 6 | 450 | 13 | 5 | 10 | 1 | +1 starting life (13). +120 gold. Unlocks the second half of the item vendor's stock. |
+| 6 | 450 | 13 | 5 | 10 | 1 | +1 starting HP (13). +120 gold. Unlocks the second half of the item vendor's stock. |
 | 7 | 630 | 13 | 5 | 10 | 1 | Permanent vendor discount +10%. |
-| 8 | 840 | 14 | 6 | 10 | 1 | +1 starting life (14). Opening hand size +1 (6). |
+| 8 | 840 | 14 | 6 | 10 | 1 | +1 starting HP (14). Opening hand size +1 (6). |
 | 9 | 1080 | 14 | 6 | 10 | 1 | Unlocks a small batch of rarer cards at the vendor. |
-| 10 | 1350 | 15 | 6 | 10 | 2 | +1 starting life (15). +1 item slot (2). Choose an equipment slot to unlock. Unlocks the advanced equipment at the equipment vendor. |
+| 10 | 1350 | 15 | 6 | 10 | 2 | +1 starting HP (15). +1 item slot (2). Choose an equipment slot to unlock. Unlocks the advanced equipment at the equipment vendor. |
 | 11 | 1650 | 15 | 6 | 10 | 2 | Permanent vendor discount +10%. |
-| 12 | 1980 | 16 | 6 | 10 | 2 | +1 starting life (16). |
+| 12 | 1980 | 16 | 6 | 10 | 2 | +1 starting HP (16). |
 | 13 | 2340 | 16 | 6 | 10 | 2 | +115 gold. |
-| 14 | 2730 | 17 | 6 | 11 | 2 | +1 starting life (17). Max hand size +1 (11). |
+| 14 | 2730 | 17 | 6 | 11 | 2 | +1 starting HP (17). Max hand size +1 (11). |
 | 15 | 3150 | 17 | 6 | 11 | 2 | Choose an equipment slot to unlock. |
-| 16 | 3600 | 18 | 7 | 11 | 2 | +1 starting life (18). Opening hand size +1 (7). |
+| 16 | 3600 | 18 | 7 | 11 | 2 | +1 starting HP (18). Opening hand size +1 (7). |
 | 17 | 4080 | 18 | 7 | 11 | 2 | Unlocks a small batch of rarer cards at the vendor. |
-| 18 | 4590 | 19 | 7 | 11 | 2 | +1 starting life (19). |
+| 18 | 4590 | 19 | 7 | 11 | 2 | +1 starting HP (19). |
 | 19 | 5130 | 19 | 7 | 11 | 2 | Permanent vendor discount +10%. |
-| 20 | 5700 | 20 | 7 | 11 | 3 | +1 starting life (20). +1 item slot (3). Choose an equipment slot to unlock. |
+| 20 | 5700 | 20 | 7 | 11 | 3 | +1 starting HP (20). +1 item slot (3). Choose an equipment slot to unlock. |
 | 21 | 5780 | 20 | 7 | 11 | 3 | +200 gold. |
-| 22 | 5940 | 21 | 7 | 11 | 3 | +1 starting life (21). |
+| 22 | 5940 | 21 | 7 | 11 | 3 | +1 starting HP (21). |
 | 23 | 6180 | 21 | 7 | 11 | 3 | Unlocks a small batch of rarer cards at the vendor. |
-| 24 | 6500 | 22 | 8 | 11 | 3 | +1 starting life (22). Opening hand size +1 (8). Permanent vendor discount +10%. |
+| 24 | 6500 | 22 | 8 | 11 | 3 | +1 starting HP (22). Opening hand size +1 (8). Permanent vendor discount +10%. |
 | 25 | 6900 | 22 | 8 | 11 | 3 | Choose an equipment slot to unlock. |
-| 26 | 7380 | 23 | 8 | 11 | 3 | +1 starting life (23). |
+| 26 | 7380 | 23 | 8 | 11 | 3 | +1 starting HP (23). |
 | 27 | 7940 | 23 | 8 | 11 | 3 | +185 gold. |
-| 28 | 8580 | 24 | 8 | 12 | 3 | +1 starting life (24). Max hand size +1 (12). |
+| 28 | 8580 | 24 | 8 | 12 | 3 | +1 starting HP (24). Max hand size +1 (12). |
 | 29 | 9300 | 24 | 8 | 12 | 3 | Permanent vendor discount +10%. |
-| 30 | 10100 | 25 | 8 | 12 | 4 | +1 starting life (25). +1 item slot (4). |
+| 30 | 10100 | 25 | 8 | 12 | 4 | +1 starting HP (25). +1 item slot (4). |
 
 ## Level-up rewards (New brief, Part D)
 
@@ -79,14 +79,14 @@ start) and one "advanced" (tier 2, locked behind a level-up reward, see the tabl
 
 | Slot | Tier | Piece | Effect |
 |---|---|---|---|
-| Weapon | Basic | Wicked Dagger | A blade with a reputation it didn't earn honestly. Your creatures get +1 power. |
-| Weapon | Advanced | Flamethrower | Alchemist's fire in a backpack tank. At the start of your turn, deal 1 damage to each opposing creature. |
+| Weapon | Basic | Wicked Dagger | A blade with a reputation it didn't earn honestly. Your units get +1 attack. |
+| Weapon | Advanced | Flamethrower | Alchemist's fire in a backpack tank. At the start of your turn, deal 1 damage to each opposing unit. |
 | Relic | Basic | Extra Pocket | Sewn in where no one thinks to look. Max hand size +1. |
 | Relic | Advanced | Cheater's Dice | They only ever land the way you need them to. You always go first, but your opening hand is 1 card smaller. |
 | Boots | Basic | Traveler's Boots | Worn thin by roads longer than this one. Draw an extra card at the start of your first turn. |
-| Boots | Advanced | Hover Boots | A finger's width of clearance, always. Your creatures have Flying but cannot block. |
-| Armor | Basic | Solid Plate | Unglamorous, unyielding. Your creatures get +1 toughness. |
-| Armor | Advanced | Thorned Loincloth | Nobody enjoys being the one who has to remove this from a corpse. Max life -5; whenever an enemy creature attacks you, it takes 1 damage. |
+| Boots | Advanced | Hover Boots | A finger's width of clearance, always. Your units have Flying but cannot block. |
+| Armor | Basic | Solid Plate | Unglamorous, unyielding. Your units get +1 defense. |
+| Armor | Advanced | Thorned Loincloth | Nobody enjoys being the one who has to remove this from a corpse. Max HP -5; whenever an enemy unit attacks you, it takes 1 damage. |
 | Helm | Basic | X-Ray Goggles | Everything looks the same underneath. The opponent's hand is revealed to you - never a set trap. |
 | Helm | Advanced | Big Brain Beret | It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-infrastructure card per turn. |
 

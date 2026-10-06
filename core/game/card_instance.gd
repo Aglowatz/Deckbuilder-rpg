@@ -11,15 +11,15 @@ var summoning_sick: bool = false
 var face_down: bool = false
 var activated_this_turn: bool = false
 ## Permanent stat changes.
-var power_bonus: int = 0
-var toughness_bonus: int = 0
+var attack_bonus: int = 0
+var defense_bonus: int = 0
 ## Until-end-of-turn stat changes.
-var temp_power: int = 0
-var temp_toughness: int = 0
+var temp_attack: int = 0
+var temp_defense: int = 0
 var granted_keywords: Array[CardEnums.Keyword] = []
 var temp_keywords: Array[CardEnums.Keyword] = []
-## New brief, Part B: set once on entering the battlefield if the controller's equipment grants
-## it (e.g. Hover Boots) - this creature can never be declared as a blocker.
+## New brief, Part B: set once on entering the field if the controller's equipment grants
+## it (e.g. Hover Boots) - this unit can never be declared as a blocker.
 var cannot_block: bool = false
 
 
@@ -31,17 +31,17 @@ func has_keyword(keyword: CardEnums.Keyword) -> bool:
 	)
 
 
-## Clears all per-game state (used when a card leaves the battlefield).
+## Clears all per-game state (used when a card leaves the field).
 func reset() -> void:
 	damage = 0
 	exhausted = false
 	summoning_sick = false
 	face_down = false
 	activated_this_turn = false
-	power_bonus = 0
-	toughness_bonus = 0
-	temp_power = 0
-	temp_toughness = 0
+	attack_bonus = 0
+	defense_bonus = 0
+	temp_attack = 0
+	temp_defense = 0
 	granted_keywords.clear()
 	temp_keywords.clear()
 	cannot_block = false
@@ -49,8 +49,8 @@ func reset() -> void:
 
 func clear_end_of_turn() -> void:
 	damage = 0
-	temp_power = 0
-	temp_toughness = 0
+	temp_attack = 0
+	temp_defense = 0
 	temp_keywords.clear()
 
 
@@ -64,10 +64,10 @@ func clone() -> CardInstance:
 	copy.summoning_sick = summoning_sick
 	copy.face_down = face_down
 	copy.activated_this_turn = activated_this_turn
-	copy.power_bonus = power_bonus
-	copy.toughness_bonus = toughness_bonus
-	copy.temp_power = temp_power
-	copy.temp_toughness = temp_toughness
+	copy.attack_bonus = attack_bonus
+	copy.defense_bonus = defense_bonus
+	copy.temp_attack = temp_attack
+	copy.temp_defense = temp_defense
 	copy.granted_keywords = granted_keywords.duplicate()
 	copy.temp_keywords = temp_keywords.duplicate()
 	copy.cannot_block = cannot_block

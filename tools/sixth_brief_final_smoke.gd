@@ -3,8 +3,8 @@ extends Node
 ## FINAL (sixth brief): the Gainlands flow with human-style input, end to end: town -> Beefcake Path ->
 ## the Gainlands, the minimap reveals as you explore and POIs appear (full map on M) -> run the hamster
 ## wheel -> get THROWN to a floating island (a chest up there) -> come back -> use a PORTAL (unlocked by the
-## wheel) -> FALL off an island (respawn at the last safe spot, -1 zone life, logged) -> slow-enemy battle
-## -> fast-enemy hit -> hub heal -> quiz -> Rep Counter minigame -> power-routing puzzle -> mini dungeon
+## wheel) -> FALL off an island (respawn at the last safe spot, -1 zone HP, logged) -> slow-enemy battle
+## -> fast-enemy hit -> hub heal -> quiz -> Rep Counter minigame -> attack-routing puzzle -> mini dungeon
 ## -> a ground chest. Screenshots every new area and screen to _screenshots/brief6/. Run windowed:
 ##   Godot --path . res://tools/sixth_brief_final_launcher.tscn
 ## (the D.N.A. regression is `tools/run_fifth_brief_final_smoke.sh`, run first by the runner script).
@@ -28,7 +28,7 @@ var _shots: int = 0
 func run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 	var town: TownScene = await _wait_for(TownScene) as TownScene
@@ -57,7 +57,7 @@ func run() -> void:
 	await _ground_chest(zone)
 	zone = await _mini_dungeon(zone)
 	await _final_state(zone)
-	_finish(_failures.is_empty(), "town -> Beefcake Path -> Gainlands: minimap reveal + POIs -> wheel -> throw to island + chest -> portal -> fall (-1 life) -> slow battle -> fast hit -> hub heal -> quiz -> rep counter -> puzzle -> chest -> mini dungeon (%d screenshots)" % _shots)
+	_finish(_failures.is_empty(), "town -> Beefcake Path -> Gainlands: minimap reveal + POIs -> wheel -> throw to island + chest -> portal -> fall (-1 HP) -> slow battle -> fast hit -> hub heal -> quiz -> rep counter -> puzzle -> chest -> mini dungeon (%d screenshots)" % _shots)
 
 
 # ---- Steps ------------------------------------------------------------------------------
@@ -92,7 +92,7 @@ func _enter_the_gainlands(town: TownScene) -> GainlandsScene:
 	if zone != null:
 		await driver.seconds(1.2)
 		_check(Session.zone_run != null and Session.zone_run.zone_id == GainlandsZone.ID, "a zone visit starts for the Gainlands")
-		_check(Session.zone_run.life == Session.zone_run.max_life(), "entering starts at full zone life")
+		_check(Session.zone_run.hp == Session.zone_run.max_hp(), "entering starts at full zone HP")
 		await _shot("f_04_gainlands_arrival_hub")
 	return zone
 
@@ -264,7 +264,7 @@ func _fall_off_an_island(zone: GainlandsScene) -> void:
 		return
 	await driver.seconds(0.5)
 	var safe: Vector3 = zone.last_safe
-	var life_before: int = Session.zone_run.life
+	var hp_before: int = Session.zone_run.hp
 	var log_before: int = Session.zone_log.size()
 	_check(zone.gain.island_under(safe) == island, "the last safe spot is on this island (%.1f, %.1f)" % [safe.x, safe.z])
 	var _unused_safe: Vector3 = safe
@@ -284,12 +284,12 @@ func _fall_off_an_island(zone: GainlandsScene) -> void:
 		guard += 1
 		await driver.frames(3)
 	await driver.seconds(0.4)
-	_check(Session.zone_run.life == life_before - GainlandsZone.FALL_DAMAGE, "the fall cost exactly 1 zone life (%d -> %d)" % [life_before, Session.zone_run.life])
+	_check(Session.zone_run.hp == hp_before - GainlandsZone.FALL_DAMAGE, "the fall cost exactly 1 zone HP (%d -> %d)" % [hp_before, Session.zone_run.hp])
 	_check(zone.gain.island_under(zone.player.position) == island, "you respawn on the island")
 	var rim_distance: float = Vector2(zone.player.position.x - island.center.x, zone.player.position.z - island.center.y).length()
 	_check(zone.player.position.distance_to(zone.last_safe) < 1.0 and rim_distance <= island.radius - GainlandsScene.RIM_SAFE_DISTANCE + 0.2, "...at the last safe spot, well inside the island (%.1f of %.1f from the centre)" % [rim_distance, island.radius])
 	_check(Session.zone_log.size() == log_before + 1, "the fall is logged (%s)" % Session.zone_log[Session.zone_log.size() - 1])
-	await _shot("f_24_respawned_minus_one_life")
+	await _shot("f_24_respawned_minus_one_HP")
 
 
 func _portal_home(zone: GainlandsScene) -> void:
@@ -343,7 +343,7 @@ func _slow_enemy_battle(zone: GainlandsScene) -> GainlandsScene:
 	if enemy == null:
 		return zone
 	var enemy_id: String = enemy.instance_id
-	var life_before: int = Session.zone_run.life
+	var hp_before: int = Session.zone_run.hp
 	var enemies_before: int = int(Session.counters.get(GainlandsZone.COUNTER_ENEMIES, 0))
 	zone.player.position = _spot_near(zone, enemy.position)
 	zone.player.position.y = zone.builder.height_at(zone.player.position)
@@ -359,10 +359,10 @@ func _slow_enemy_battle(zone: GainlandsScene) -> GainlandsScene:
 	if battle == null:
 		return zone
 	_check(battle.context.zone_battle, "it is a zone battle")
-	_check(battle.game.players[0].life == life_before, "the battle starts at the persisted zone life (%d)" % life_before)
+	_check(battle.game.players[0].hp == hp_before, "the battle starts at the persisted zone HP (%d)" % hp_before)
 	await _shot("f_26_gainlands_battle_beefcake_deck")
 	await _play_battle(battle)
-	var life_end: int = battle.game.players[0].life
+	var hp_end: int = battle.game.players[0].hp
 	var won: bool = battle.context.won
 	await _shot("f_27_gainlands_battle_result")
 	await driver.click_button("Continue")
@@ -371,10 +371,10 @@ func _slow_enemy_battle(zone: GainlandsScene) -> GainlandsScene:
 	if zone != null:
 		_check(Session.zone_run != null, "back in the Gainlands after the battle")
 		if won:
-			_check(Session.zone_run.life == life_end, "life after the battle is what was left, with no free heal (%d)" % life_end)
+			_check(Session.zone_run.hp == hp_end, "HP after the battle is what was left, with no free heal (%d)" % hp_end)
 			_check(int(Session.counters.get(GainlandsZone.COUNTER_ENEMIES, 0)) == enemies_before + 1, "the zone's enemy counter went up")
 		else:
-			_check(Session.zone_run.life == Session.zone_run.max_life(), "a loss wakes you at the Swole Station at full life")
+			_check(Session.zone_run.hp == Session.zone_run.max_hp(), "a loss wakes you at the Swole Station at full HP")
 			_check(Session.zone_log[Session.zone_log.size() - 1].begins_with("Protein tab"), "the protein tab was logged")
 		await _clear_popups(zone)
 		await _shot("f_28_back_in_gainlands_after_battle")
@@ -388,9 +388,9 @@ func _fast_enemy_hit(zone: GainlandsScene) -> void:
 	_check(sprite != null, "a Sprinting Energy Sprite roams the Gainlands")
 	if sprite == null:
 		return
-	if Session.zone_run.life <= 3:
+	if Session.zone_run.hp <= 3:
 		Session.zone_run.fully_heal()
-	var start_life: int = Session.zone_run.life
+	var start_hp: int = Session.zone_run.hp
 	sprite.cooldown = 0.0
 	sprite.state = ZoneEnemy.State.PATROL
 	var saved_ranges: Dictionary = {}
@@ -410,13 +410,13 @@ func _fast_enemy_hit(zone: GainlandsScene) -> void:
 	await driver.frames(3)
 	await _shot("f_29_sprite_approaching")
 	var waited: float = 0.0
-	while Session.zone_run.life >= start_life and waited < 12.0:
+	while Session.zone_run.hp >= start_hp and waited < 12.0:
 		await driver.frames(3)
 		waited += 3.0 / 60.0
-	_check(Session.zone_run.life == start_life - GainlandsEnemies.SPRITE_DAMAGE, "the sprite hit for exactly 2 (life %d -> %d)" % [start_life, Session.zone_run.life])
-	_check(zone.life_bar._last_life == Session.zone_run.life, "the HUD life bar shows the new life")
+	_check(Session.zone_run.hp == start_hp - GainlandsEnemies.SPRITE_DAMAGE, "the sprite hit for exactly 2 (HP %d -> %d)" % [start_hp, Session.zone_run.hp])
+	_check(zone.hp_bar._last_hp == Session.zone_run.hp, "the HUD HP bar shows the new HP")
 	await driver.frames(4)
-	await _shot("f_30_sprite_hit_flash_and_life")
+	await _shot("f_30_sprite_hit_flash_and_HP")
 	_check(zone._invulnerable > 0.0, "the hit grants a short invulnerability window")
 	for other: ZoneEnemy in zone.enemies:
 		if other != sprite:
@@ -430,17 +430,17 @@ func _fast_enemy_hit(zone: GainlandsScene) -> void:
 
 func _hub_heal(zone: GainlandsScene) -> void:
 	await _clear_popups(zone)
-	if Session.zone_run.life >= Session.zone_run.max_life():
+	if Session.zone_run.hp >= Session.zone_run.max_hp():
 		Session.zone_run.damage(3)
-		EventBus.zone_life_changed.emit(Session.zone_run.life, Session.zone_run.max_life())
-	var hurt: int = Session.zone_run.life
+		EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
+	var hurt: int = Session.zone_run.hp
 	zone._spawn_grace = 600.0
 	var spot: ZoneSpot = _spot(zone, "heal")
 	await _walk_to(zone, spot.position, spot.radius)
 	await driver.frames(4)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(hurt < Session.zone_run.max_life() and Session.zone_run.life == Session.zone_run.max_life(), "the Cooldown Hot Tub heals to full (%d -> %d)" % [hurt, Session.zone_run.life])
+	_check(hurt < Session.zone_run.max_hp() and Session.zone_run.hp == Session.zone_run.max_hp(), "the Cooldown Hot Tub heals to full (%d -> %d)" % [hurt, Session.zone_run.hp])
 	await _shot("f_31_hub_heal_hot_tub")
 	# The vendor sells Beefcake cards.
 	await _clear_popups(zone)
@@ -559,7 +559,7 @@ func _power_puzzle(zone: GainlandsScene) -> void:
 	await driver.frames(3)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
-	_check(zone._overlay is WheelPuzzleScreen, "the control panel opens the power puzzle")
+	_check(zone._overlay is WheelPuzzleScreen, "the control panel opens the attack puzzle")
 	if not (zone._overlay is WheelPuzzleScreen):
 		return
 	var screen: WheelPuzzleScreen = zone._overlay as WheelPuzzleScreen
@@ -622,13 +622,13 @@ func _mini_dungeon(zone: GainlandsScene) -> GainlandsScene:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
 	await _shot("f_49_iron_cavern_prompt")
-	var life_at_entry: int = Session.zone_run.life
+	var hp_at_entry: int = Session.zone_run.hp
 	await driver.click_button("Chalk up")
 	var map_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 	_check(map_screen != null, "the mini dungeon opens the node map")
 	if map_screen == null:
 		return zone
-	_check(Session.mini_active and Session.run.life == life_at_entry, "the run starts at the zone's current life (%d)" % life_at_entry)
+	_check(Session.mini_active and Session.run.hp == hp_at_entry, "the run starts at the zone's current HP (%d)" % hp_at_entry)
 	await driver.seconds(1.2)
 	await _shot("f_50_iron_cavern_map")
 	var battles: int = 0
@@ -641,13 +641,13 @@ func _mini_dungeon(zone: GainlandsScene) -> GainlandsScene:
 		if available.is_empty():
 			break
 		var button: MapNodeButton = map_screen._buttons[available[0].id] as MapNodeButton
-		var life_before: int = Session.run.life
+		var hp_before: int = Session.run.hp
 		await driver.click(driver.center_of_control(button))
 		var battle: BattleScreen = await _wait_for(BattleScreen) as BattleScreen
 		if battle == null:
 			break
 		battles += 1
-		_check(battle.game.players[0].life == life_before, "mini dungeon battle %d starts at the carried life (%d)" % [battles, life_before])
+		_check(battle.game.players[0].hp == hp_before, "mini dungeon battle %d starts at the carried HP (%d)" % [battles, hp_before])
 		if battles == 1:
 			await _shot("f_51_iron_cavern_battle_1")
 		await _play_battle(battle)

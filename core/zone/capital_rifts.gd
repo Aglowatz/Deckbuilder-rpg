@@ -7,8 +7,8 @@ extends RefCounted
 
 ## Roaming enemies whose home is this close to an unsealed rift are empowered.
 const EMPOWER_RANGE: float = 9.0
-## Empowered enemies fight with this much more life and +1/+1 on their creatures.
-const EMPOWER_LIFE: int = 3
+## Empowered enemies fight with this much more HP and +1/+1 on their units.
+const EMPOWER_HP: int = 3
 const EMPOWER_STAT: int = 1
 
 

@@ -1,7 +1,7 @@
 class_name CorruptedNpcs
 extends RefCounted
 ## New brief, Part E: the 4 corrupted NPCs in town, one per element zone. Single source of truth
-## for their deck/life/AI/reward - `world/town_scene.gd` handles placement, dialogue and the
+## for their deck/HP/AI/reward - `world/town_scene.gd` handles placement, dialogue and the
 ## battle flow; dialogue text itself lives in `data/story/corrupted_npcs_story.tres`
 ## (`CorruptedNpcStory`), not here, per the brief ("keep all dialogue in the story data file").
 ##
@@ -9,7 +9,7 @@ extends RefCounted
 ## unlock flag (`TownScene._portal_unlock_flag`), per the Part C contract (D66).
 
 const IDS: Array[String] = ["beefcake", "gourmand", "refusemancer", "necrocrat"]
-const STARTING_LIFE: int = 15
+const STARTING_HP: int = 15
 
 const DISPLAY_NAMES: Dictionary = {
 	"beefcake": "Torvin the Over-Pumped", "gourmand": "Maris the Over-Seasoned",
@@ -37,13 +37,13 @@ static func unlock_flag(id: String) -> StringName:
 static func element(id: String) -> Affinity.Type:
 	match id:
 		"beefcake":
-			return Affinity.Type.A
+			return Affinity.Type.BEEFCAKE
 		"gourmand":
-			return Affinity.Type.B
+			return Affinity.Type.GOURMAND
 		"refusemancer":
-			return Affinity.Type.C
+			return Affinity.Type.REFUSEMANCER
 		"necrocrat":
-			return Affinity.Type.D
+			return Affinity.Type.NECROCRAT
 	return Affinity.Type.NEUTRAL
 
 
@@ -114,14 +114,14 @@ static func personality(content: ContentSet, id: String) -> AIPersonality:
 ## The enemy seat for a corrupted-NPC duel: their mono-color deck, STARTING_LIFE (15).
 static func enemy_setup(content: ContentSet, id: String) -> PlayerSetup:
 	var setup: PlayerSetup = PlayerSetup.create(deck(content, id), null, [] as Array[ModifierSource], display_name(id))
-	setup.starting_life = STARTING_LIFE
+	setup.starting_hp = STARTING_HP
 	setup.profile = PlayerProfile.new()
-	setup.profile.max_life = STARTING_LIFE
+	setup.profile.max_hp = STARTING_HP
 	return setup
 
 
 ## Reward for defeating `id` the first time - reuses the existing difficulty-scaled table
-## (Elite tier: a corrupted NPC with a real curated deck and 15 life is a real fight, not a
+## (Elite tier: a corrupted NPC with a real curated deck and 15 HP is a real fight, not a
 ## throwaway encounter).
 static func reward_gold() -> int:
 	return EncounterRewards.gold_for(DungeonMap.Difficulty.ELITE)
@@ -140,10 +140,10 @@ static func reward_item(content: ContentSet, id: String) -> ItemData:
 ## elements - used only by the balance simulation (tools/run_corrupted_npc_simulation.gd), not by
 ## real gameplay (a real player's actual deck is whatever they built).
 const REFERENCE_EXTRA_PICKS: Dictionary = {
-	Affinity.Type.A: ["blade_dancer", "raider", "blazing_charger"],
-	Affinity.Type.B: ["frost_sentry", "sage", "sea_warden"],
-	Affinity.Type.C: ["mossback_bear", "stag_warden", "ancient_treant"],
-	Affinity.Type.D: ["bone_servant", "grave_tender", "necromancer"],
+	Affinity.Type.BEEFCAKE: ["blade_dancer", "raider", "blazing_charger"],
+	Affinity.Type.GOURMAND: ["frost_sentry", "sage", "sea_warden"],
+	Affinity.Type.REFUSEMANCER: ["mossback_bear", "stag_warden", "ancient_treant"],
+	Affinity.Type.NECROCRAT: ["bone_servant", "grave_tender", "necromancer"],
 }
 
 

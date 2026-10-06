@@ -19,7 +19,7 @@ effect = SubResource("Resource_2f3sk")
 [resource]
 script = ExtResource("4_t7alb")
 id = "compliance_clipboard"
-description = "At the end of your turn, the opponent loses 1 life."
+description = "At the end of your turn, the opponent loses 1 HP."
 advanced = true
 flavor_text = "Every box ticked is a little paper cut. Nobody has ever read what it says."
 source_name = "Compliance Clipboard"

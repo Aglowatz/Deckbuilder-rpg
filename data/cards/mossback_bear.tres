@@ -10,5 +10,5 @@ display_name = "Mossback Bear"
 color = 3
 generic_cost = 2
 colored_pips = Array[int]([3])
-power = 3
-toughness = 3
+attack = 3
+defense = 3

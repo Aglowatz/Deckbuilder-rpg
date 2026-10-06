@@ -1,6 +1,6 @@
 class_name BattleHud
 extends Control
-## Everything around the card table: player portraits with life and Path energy orbs, the turn and
+## Everything around the card table: player portraits with HP and energy orbs, the turn and
 ## phase tracker, deck/graveyard counters, the prompt line, the action buttons, the card zoom
 ## preview with keyword tooltips, and the "your turn" banner.
 
@@ -111,8 +111,8 @@ func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
 	add_child(enemy_panel)
 	_portraits = [player_panel, enemy_panel]
 	for index: int in range(2):
-		_portraits[index].max_life = game.players[index].max_life
-		_portraits[index].life = game.players[index].life
+		_portraits[index].max_hp = game.players[index].max_hp
+		_portraits[index].hp = game.players[index].hp
 
 
 func _build_side_panel() -> void:
@@ -152,7 +152,7 @@ func _build_side_panel() -> void:
 		var row: HBoxContainer = UIKit.hbox(8)
 		row.alignment = BoxContainer.ALIGNMENT_CENTER
 		counter.add_child(row)
-		var label: Label = UIKit.label("Deck 0   Grave 0", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		var label: Label = UIKit.label("Deck 0   Refuse 0", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 		row.add_child(label)
 		_counts.append(label)
 
@@ -208,9 +208,9 @@ func _build_banner() -> void:
 func refresh_all() -> void:
 	for index: int in range(2):
 		var player: PlayerState = game.players[index]
-		_portraits[index].set_life(player.life, false)
+		_portraits[index].set_hp(player.hp, false)
 		_portraits[index].set_infrastructure(player.infrastructure)
-		_counts[index].text = "Deck %d    Grave %d" % [player.library.size(), player.graveyard.size()]
+		_counts[index].text = "Deck %d    Refuse %d" % [player.deck.size(), player.refuse_pile.size()]
 	_turn_label.text = "Turn %d" % maxi(game.turn, 1)
 	_set_phase(int(game.phase) if game.stage == GameState.Stage.PLAYING else -1)
 	_turn_sub.text = ""
@@ -238,8 +238,8 @@ func portrait_center(player_index: int) -> Vector2:
 
 func on_event(event: GameEvent) -> void:
 	match event.type:
-		GameEvent.Type.LIFE_CHANGED:
-			_portraits[event.player].set_life(event.value, true)
+		GameEvent.Type.HP_CHANGED:
+			_portraits[event.player].set_hp(event.value, true)
 		GameEvent.Type.TURN_STARTED:
 			_turn_label.text = "Turn %d" % event.value
 			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy turn"
@@ -249,10 +249,10 @@ func on_event(event: GameEvent) -> void:
 			_set_phase(event.value)
 		GameEvent.Type.ENERGY_SPENT, GameEvent.Type.INFRASTRUCTURE_PLAYED:
 			refresh_infrastructure()
-		GameEvent.Type.CARD_DRAWN, GameEvent.Type.CARD_DISCARDED, GameEvent.Type.CREATURE_DIED, GameEvent.Type.CARD_MILLED:
+		GameEvent.Type.CARD_DRAWN, GameEvent.Type.CARD_TOSSED, GameEvent.Type.UNIT_DIED, GameEvent.Type.CARD_BURIED:
 			for index: int in range(2):
 				var player: PlayerState = game.players[index]
-				_counts[index].text = "Deck %d    Grave %d" % [player.library.size(), player.graveyard.size()]
+				_counts[index].text = "Deck %d    Refuse %d" % [player.deck.size(), player.refuse_pile.size()]
 
 
 func _set_phase(index: int) -> void:
@@ -280,9 +280,9 @@ func show_banner(text: String, color: Color) -> void:
 	tween.tween_property(_banner, "modulate:a", 0.0, 0.3)
 
 
-func set_life_display(player_index: int, life: int, max_life: int) -> void:
-	_portraits[player_index].max_life = max_life
-	_portraits[player_index].set_life(life, false)
+func set_hp_display(player_index: int, hp: int, max_hp: int) -> void:
+	_portraits[player_index].max_hp = max_hp
+	_portraits[player_index].set_hp(hp, false)
 
 
 # ---- Card preview -----------------------------------------------------------------------
@@ -305,7 +305,7 @@ func show_preview(view: CardView) -> void:
 	for child: Node in _tooltip_box.get_children():
 		child.queue_free()
 	var entries: Array[Array] = KeywordInfo.entries_for(view.data)
-	if card != null and card.summoning_sick and card.data.is_creature() and game.players[card.owner].battlefield.has(card):
+	if card != null and card.summoning_sick and card.data.is_unit() and game.players[card.owner].field.has(card):
 		entries.append(["Summoning sickness", str(KeywordInfo.GLOSSARY["Summoning sickness"])])
 	_tooltip.visible = not entries.is_empty()
 	for entry: Array in entries:
@@ -332,12 +332,12 @@ class Portrait:
 	var title: String = ""
 	var icon_key: String = "lorc/imp"
 	var accent: Color = UIStyle.GOLD
-	var life: int = 10
-	var max_life: int = 10
-	var _life_label: Label
+	var hp: int = 10
+	var max_hp: int = 10
+	var _hp_label: Label
 	var _bar: ProgressBar
 	var _orbs: OrbRow
-	var _shown_life: float = 10.0
+	var _shown_hp: float = 10.0
 	var _tween: Tween
 
 	func _ready() -> void:
@@ -360,26 +360,26 @@ class Portrait:
 		column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(column)
 		column.add_child(UIKit.label(title, &"HeadingLabel", 22))
-		var life_row: HBoxContainer = UIKit.hbox(6)
+		var hp_row: HBoxContainer = UIKit.hbox(6)
 		var heart: HeartIcon = HeartIcon.new()
 		heart.custom_minimum_size = Vector2(34, 34)
 		heart.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		life_row.add_child(heart)
-		_life_label = UIKit.label(str(life), &"", 40, UIStyle.PARCHMENT)
-		_life_label.add_theme_font_override("font", UIStyle.font_title())
-		life_row.add_child(_life_label)
-		column.add_child(life_row)
+		hp_row.add_child(heart)
+		_hp_label = UIKit.label(str(hp), &"", 40, UIStyle.PARCHMENT)
+		_hp_label.add_theme_font_override("font", UIStyle.font_title())
+		hp_row.add_child(_hp_label)
+		column.add_child(hp_row)
 		_bar = ProgressBar.new()
 		_bar.custom_minimum_size = Vector2(0, 14)
 		_bar.show_percentage = false
-		_bar.max_value = max_life
-		_bar.value = life
+		_bar.max_value = max_hp
+		_bar.value = hp
 		column.add_child(_bar)
 		_orbs = OrbRow.new()
 		_orbs.custom_minimum_size = Vector2(0, 26)
 		column.add_child(_orbs)
-		_shown_life = float(life)
-		_apply_life(_shown_life)
+		_shown_hp = float(hp)
+		_apply_hp(_shown_hp)
 
 	func _frame(border: Color, width: int, shadow: int) -> StyleBoxFlat:
 		var style: StyleBoxFlat = UIStyle.box(Color(0.06, 0.04, 0.1, 0.9), border, width, 16, shadow)
@@ -390,25 +390,25 @@ class Portrait:
 		var color: Color = Color("ff5a5a") if active else accent.darkened(0.2)
 		add_theme_stylebox_override("panel", _frame(color, 5 if active else 3, 18 if active else 12))
 
-	func set_life(value: int, animate: bool) -> void:
-		life = value
-		if _life_label == null:
+	func set_hp(value: int, animate: bool) -> void:
+		hp = value
+		if _hp_label == null:
 			return
-		_bar.max_value = max_life
+		_bar.max_value = max_hp
 		if not animate:
-			_apply_life(float(value))
+			_apply_hp(float(value))
 			return
 		if _tween != null and _tween.is_valid():
 			_tween.kill()
 		_tween = create_tween()
-		_tween.tween_method(_apply_life, _shown_life, float(value), 0.5)
+		_tween.tween_method(_apply_hp, _shown_hp, float(value), 0.5)
 
-	func _apply_life(value: float) -> void:
-		_shown_life = value
-		_life_label.text = str(roundi(value))
+	func _apply_hp(value: float) -> void:
+		_shown_hp = value
+		_hp_label.text = str(roundi(value))
 		_bar.value = value
-		var ratio: float = value / maxf(float(max_life), 1.0)
-		var fill: StyleBoxFlat = UIStyle.box(Color("6fbf73") if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.LIFE_RED), Color(0, 0, 0, 0), 0, 8)
+		var ratio: float = value / maxf(float(max_hp), 1.0)
+		var fill: StyleBoxFlat = UIStyle.box(Color("6fbf73") if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.HP_RED), Color(0, 0, 0, 0), 0, 8)
 		_bar.add_theme_stylebox_override("fill", fill)
 
 	func set_infrastructure(infrastructure: Array[CardInstance]) -> void:
@@ -419,7 +419,7 @@ class Portrait:
 			_orbs.tooltip_text = _infrastructure_tooltip(infrastructure)
 
 
-	## Which Path energy is ready right now, per Path (activating infrastructure pays for cards).
+	## Which energy is ready right now, per Path (activating infrastructure pays for cards).
 	func _infrastructure_tooltip(infrastructure: Array[CardInstance]) -> String:
 		var ready_by_path: Dictionary = {}
 		var ready_count: int = 0
@@ -432,8 +432,8 @@ class Portrait:
 			parts.append("%d %s" % [int(ready_by_path[path]), UIStyle.affinity_name(path as Affinity.Type)])
 		var available: String = ", ".join(parts) if not parts.is_empty() else "none"
 		return "Infrastructure: %d of %d ready (filled orbs).
-Activating an infrastructure gives 1 Path energy of its Path; casting a card activates the infrastructure that pays for it, and they all ready again next turn.
-Path energy available: %s." % [ready_count, infrastructure.size(), available]
+Activating an infrastructure gives 1 energy of its Path; playing a card activates the infrastructure that pays for it, and they all ready again next turn.
+Energy available: %s." % [ready_count, infrastructure.size(), available]
 
 class HeartIcon:
 	extends Control
@@ -445,11 +445,11 @@ class HeartIcon:
 			var x: float = 16.0 * pow(sin(a), 3.0)
 			var y: float = -(13.0 * cos(a) - 5.0 * cos(2.0 * a) - 2.0 * cos(3.0 * a) - cos(4.0 * a))
 			points.append(Vector2(17.0 + x, 16.0 + y) * 0.98)
-		draw_colored_polygon(points, UIStyle.LIFE_RED.darkened(0.35))
+		draw_colored_polygon(points, UIStyle.HP_RED.darkened(0.35))
 		var inner: PackedVector2Array = PackedVector2Array()
 		for point: Vector2 in points:
 			inner.append((point - Vector2(17, 16)) * 0.82 + Vector2(17, 16))
-		draw_colored_polygon(inner, UIStyle.LIFE_RED)
+		draw_colored_polygon(inner, UIStyle.HP_RED)
 		draw_circle(Vector2(10.0, 9.0), 3.0, Color(1, 1, 1, 0.45))
 
 

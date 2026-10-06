@@ -1,6 +1,6 @@
 class_name DungeonSimulation
 extends RefCounted
-## Plays one full AI-vs-AI run through a dungeon map, carrying life and challenge outcomes
+## Plays one full AI-vs-AI run through a dungeon map, carrying HP and challenge outcomes
 ## between nodes exactly like a real playthrough (via `DungeonRun`), with no UI. Used to verify
 ## tutorial-dungeon balance (docs/balance_report.md) - see `tools/run_dungeon_simulation.gd`.
 
@@ -11,7 +11,7 @@ class RunResult:
 	extends RefCounted
 	var won: bool = false
 	var turns_played: int = 0
-	var final_life: int = 0
+	var final_hp: int = 0
 	## The node title the run ended at, if it failed (empty when it won).
 	var failed_at: String = ""
 	## How many times the enemy AI actually declared at least one attacker, across every
@@ -22,7 +22,7 @@ class RunResult:
 	var final_deck_size: int = 0
 
 
-## Plays one dungeon encounter to completion inside `run` (life carries over via
+## Plays one dungeon encounter to completion inside `run` (HP carries over via
 ## `DungeonRun.start_encounter`/`finish_encounter`). Returns the finished GameState. `counters`,
 ## if given, has `counters.enemy_attacks` incremented once per real enemy attack declaration.
 static func play_encounter(
@@ -85,7 +85,7 @@ static func run_once(
 				result.turns_played += game.turn
 				if run.is_over():
 					result.failed_at = map_node.title
-					result.final_life = run.life
+					result.final_hp = run.hp
 					result.final_deck_size = run.current_deck().size()
 					return result
 				if reward_color != Affinity.Type.NEUTRAL:
@@ -98,13 +98,13 @@ static func run_once(
 					ChallengeResolver.resolve(challenge, run, rng)
 				if run.is_over():
 					result.failed_at = map_node.title
-					result.final_life = run.life
+					result.final_hp = run.hp
 					result.final_deck_size = run.current_deck().size()
 					return result
 			DungeonMap.Kind.SHRINE:
 				run.heal(map_node.heal_amount)
 	result.won = not run.is_over()
-	result.final_life = run.life
+	result.final_hp = run.hp
 	result.final_deck_size = run.current_deck().size()
 	return result
 

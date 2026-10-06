@@ -67,9 +67,9 @@ static func enemy_recipe(zone_id: String, enemy_name: String) -> Dictionary:
 static func enemy_setup(content: ContentSet, map_node: DungeonMap.MapNode, zone_id: String) -> PlayerSetup:
 	var deck: Deck = ZoneDecks.from_recipe(content, map_node.enemy_name, enemy_recipe(zone_id, map_node.enemy_name))
 	var setup: PlayerSetup = PlayerSetup.create(deck, null, [] as Array[ModifierSource], map_node.enemy_name)
-	setup.starting_life = map_node.enemy_life
+	setup.starting_hp = map_node.enemy_hp
 	setup.profile = PlayerProfile.new()
-	setup.profile.max_life = maxi(map_node.enemy_life, PlayerProfile.START_MAX_LIFE)
+	setup.profile.max_hp = maxi(map_node.enemy_hp, PlayerProfile.START_MAX_HP)
 	return setup
 
 

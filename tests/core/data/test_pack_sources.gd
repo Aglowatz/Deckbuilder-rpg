@@ -8,7 +8,7 @@ const ZONES: Array[String] = ["beefcake", "gourmand", "refusemancer", "necrocrat
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	Session.profile.packs.clear()
 
 
@@ -25,7 +25,7 @@ func _enter(zone_id: String) -> void:
 	Session.zone_run = ZoneRun.enter(zone_id, Session.profile, Session.deck)
 	Session.dungeon_map = MainDungeons.build_map(zone_id)
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
-	Session.run.life = Session.zone_run.life
+	Session.run.hp = Session.zone_run.hp
 	Session.main_dungeon_active = true
 
 
@@ -63,7 +63,7 @@ func test_every_clear_awards_the_path_pack_and_the_first_adds_a_bonus() -> void:
 
 func test_a_lost_run_or_a_retreat_pays_no_pack() -> void:
 	_enter("beefcake")
-	Session.run.life = 0
+	Session.run.hp = 0
 	Session.resolve_main_dungeon(false, true)
 	assert_eq(Session.profile.total_packs(), 0)
 	_enter("beefcake")
@@ -90,7 +90,7 @@ func test_the_dungeon_packs_can_be_opened_and_follow_their_pool_rules() -> void:
 	assert_true(gilded.cards().any(func(card: CardData) -> bool: return card.rarity >= CardEnums.Rarity.EPIC), "the Gilded Pack has an Epic or better")
 	var plain: PackOpening = Session.open_pack("path_gourmand")
 	for card: CardData in plain.cards():
-		assert_true(card.color == Affinity.Type.B or card.color == Affinity.Type.NEUTRAL)
+		assert_true(card.color == Affinity.Type.GOURMAND or card.color == Affinity.Type.NEUTRAL)
 
 
 # ---- Quests and minigames --------------------------------------------------------------------------------

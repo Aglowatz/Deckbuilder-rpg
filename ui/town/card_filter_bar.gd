@@ -5,7 +5,7 @@ extends VBoxContainer
 signal changed
 
 const COST_LABELS: Array[String] = ["Any cost", "0-1", "2", "3", "4+"]
-const TYPE_LABELS: Array[String] = ["All types", "Creature", "Spell", "Trap", "Artifact"]
+const TYPE_LABELS: Array[String] = ["All types", "Unit", "Spell", "Trap", "Wonder"]
 
 var affinity_filter: int = -1
 var type_filter: int = -1
@@ -16,7 +16,7 @@ var _groups: Array[Array] = [[], [], []]
 func _ready() -> void:
 	add_theme_constant_override("separation", 6)
 	var affinities: Array[Dictionary] = [{"label": "All colors", "value": -1}]
-	for type: Affinity.Type in [Affinity.Type.NEUTRAL, Affinity.Type.A, Affinity.Type.B, Affinity.Type.C, Affinity.Type.D]:
+	for type: Affinity.Type in [Affinity.Type.NEUTRAL, Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT]:
 		affinities.append({"label": UIStyle.affinity_name(type), "value": int(type), "color": UIStyle.affinity_color(type)})
 	add_child(_row(0, affinities))
 	var types: Array[Dictionary] = []
@@ -34,12 +34,12 @@ func _ready() -> void:
 func _card_type_for(index: int) -> int:
 	match index:
 		1:
-			return int(CardEnums.CardType.CREATURE)
+			return int(CardEnums.CardType.UNIT)
 		2:
 			return int(CardEnums.CardType.SPELL)
 		3:
 			return int(CardEnums.CardType.TRAP)
-	return int(CardEnums.CardType.ARTIFACT)
+	return int(CardEnums.CardType.WONDER)
 
 
 func _row(group: int, options: Array[Dictionary]) -> HBoxContainer:

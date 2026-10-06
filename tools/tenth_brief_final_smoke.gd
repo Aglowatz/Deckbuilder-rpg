@@ -22,9 +22,9 @@ var _shots: int = 0
 func run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
-	# Shortcut (stated): the Capital is the END of the game, so the player is an endgame-level character (max life), not a level-1 one.
-	Session.profile.max_life = PlayerProfile.ENDGAME_MAX_LIFE
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
+	# Shortcut (stated): the Capital is the END of the game, so the player is an endgame-level character (max HP), not a level-1 one.
+	Session.profile.max_hp = PlayerProfile.ENDGAME_MAX_HP
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 	var town: TownScene = await _wait_for(TownScene) as TownScene
@@ -158,7 +158,7 @@ func _flow_gate_battle() -> void:
 		return
 	await driver.seconds(1.5)
 	_check(battle.find_child("ServiceDebuffsPanel", true, false) != null, "the duel shows the broken services")
-	_check(battle.context.game.players[1].life > ZoneEnemies.info(CapitalZone.ID, CapitalEnemies.OFFICER).life, "a challenging opponent")
+	_check(battle.context.game.players[1].hp > ZoneEnemies.info(CapitalZone.ID, CapitalEnemies.OFFICER).hp, "a challenging opponent")
 	await _shot("08_gate_battle")
 	await _force_win(battle)
 	zone = await _wait_for(CapitalScene) as CapitalScene
@@ -222,13 +222,13 @@ func _flow_rift() -> void:
 	await _shot("12_corrupted_reek_and_rift_approach")
 	zone._spawn_grace = 0.0
 	zone._invulnerable = 0.0
-	var before: int = Session.zone_run.life
+	var before: int = Session.zone_run.hp
 	await _walk_to(zone, rift, 0.8)
 	await driver.seconds(0.5)
 	await _shot("13_rift_contact")
-	_check(Session.zone_run.life < before, "touching a rift hurts (%d -> %d life)" % [before, Session.zone_run.life])
+	_check(Session.zone_run.hp < before, "touching a rift hurts (%d -> %d HP)" % [before, Session.zone_run.hp])
 	_check(zone.capital.rift_nodes.has("reek"), "the rift is on the map's scenery")
-	# Healing at the hideout is only a teleport away: restore life for the rest of the flow.
+	# Healing at the hideout is only a teleport away: restore HP for the rest of the flow.
 	Session.zone_run.fully_heal()
 
 
@@ -325,7 +325,7 @@ func _flow_castle() -> void:
 				continue
 			# The first time at the Portrait Gallery, take the dead-end alcove and watch the party double back.
 			var node: DungeonMap.MapNode = _pick(map_screen.map, options)
-			print("%s: castle step %d -> %s (life %d)" % [TAG, steps, node.title, Session.run.life])
+			print("%s: castle step %d -> %s (HP %d)" % [TAG, steps, node.title, Session.run.hp])
 			if node.return_to >= 0 and not doubled_back:
 				await _shot("18_castle_map_before_dead_end")
 			var branch_point: int = node.return_to
@@ -581,7 +581,7 @@ func _force_win(battle_scene: Node) -> void:
 	await driver.seconds(0.5)
 	if context == null:
 		return
-	context.game.players[0].life = maxi(context.game.players[0].life, 1)
+	context.game.players[0].hp = maxi(context.game.players[0].hp, 1)
 	context.game._end_game(0, false)
 	context.won = true
 	Session.complete_battle(context)

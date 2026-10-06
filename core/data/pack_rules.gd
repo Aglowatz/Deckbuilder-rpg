@@ -37,10 +37,10 @@ static func apply_flags(cards: Dictionary) -> void:
 ## Zone ids by Path. Literals on purpose (checked against the zone classes by a test): the pack generator runs as a bare script,
 ## where the zone classes (which reference the Session autoload) cannot compile.
 const ZONE_BY_PATH: Dictionary = {
-	Affinity.Type.A: "beefcake",
-	Affinity.Type.B: "gourmand",
-	Affinity.Type.C: "refusemancer",
-	Affinity.Type.D: "necrocrat",
+	Affinity.Type.BEEFCAKE: "beefcake",
+	Affinity.Type.GOURMAND: "gourmand",
+	Affinity.Type.REFUSEMANCER: "refusemancer",
+	Affinity.Type.NECROCRAT: "necrocrat",
 }
 
 

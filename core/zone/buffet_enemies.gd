@@ -31,7 +31,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:B": 16, "breadstick_sentry": 3, "meatloaf_golem": 3, "gravy_courier": 2,
 				"food_fight": 2, "soup_of_the_day": 1,
 			}
-			made.life = 14
+			made.hp = 14
 			made.ai_name = "Aggressive"
 			made.gold_reward = 30
 			made.xp_reward = 40
@@ -48,7 +48,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:B": 15, "gelatin_sentinel": 4, "sneeze_guard": 2, "soup_of_the_day": 3,
 				"sous_assist": 2, "souffle_sprite": 1,
 			}
-			made.life = 16
+			made.hp = 16
 			made.ai_name = "Defensive"
 			made.gold_reward = 35
 			made.xp_reward = 45
@@ -72,7 +72,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 				"infrastructure:B": 16, "meatloaf_golem": 3, "gelatin_sentinel": 2, "breadstick_sentry": 3,
 				"sneeze_guard": 2, "food_fight": 2, "sous_assist": 1,
 			}
-			made.life = 16
+			made.hp = 16
 			made.ai_name = "Balanced"
 			made.gold_reward = 50
 			made.xp_reward = 60

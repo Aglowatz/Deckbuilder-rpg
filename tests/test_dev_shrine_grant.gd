@@ -8,7 +8,7 @@ extends GutTest
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 
 
 func test_grant_dev_level_grants_exactly_one_level_per_call() -> void:

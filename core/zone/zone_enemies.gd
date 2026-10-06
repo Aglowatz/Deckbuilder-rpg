@@ -38,11 +38,11 @@ static func personality(content: ContentSet, zone_id: String, enemy_id: String) 
 	return ZoneDecks.personality(content, info(zone_id, enemy_id).ai_name)
 
 
-## The enemy seat for a zone duel: the type's deck and its own life total.
+## The enemy seat for a zone duel: the type's deck and its own HP total.
 static func enemy_setup(content: ContentSet, zone_id: String, enemy_id: String) -> PlayerSetup:
 	var data: ZoneEnemyInfo = info(zone_id, enemy_id)
 	var setup: PlayerSetup = PlayerSetup.create(deck(content, zone_id, enemy_id), null, [] as Array[ModifierSource], data.display_name)
-	setup.starting_life = data.life
+	setup.starting_hp = data.hp
 	setup.profile = PlayerProfile.new()
-	setup.profile.max_life = data.life
+	setup.profile.max_hp = data.hp
 	return setup

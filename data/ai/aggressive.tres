@@ -5,8 +5,8 @@
 [resource]
 script = ExtResource("1_xg8j5")
 personality_name = "Aggressive"
-life_weight = 0.7
-enemy_life_weight = 1.5
+hp_weight = 0.7
+enemy_hp_weight = 1.5
 board_weight = 0.9
 enemy_board_weight = 0.8
 threat_weight = 0.25

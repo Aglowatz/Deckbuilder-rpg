@@ -12,5 +12,5 @@ op = 7
 script = ExtResource("2_t0k50")
 id = "binding_chains"
 display_name = "Binding Chains"
-description = "Return an enemy creature to its owner's hand."
+description = "Return an enemy unit to its owner's hand."
 effect = SubResource("Resource_ujt7c")

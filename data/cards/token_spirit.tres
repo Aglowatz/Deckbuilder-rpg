@@ -7,6 +7,6 @@
 script = ExtResource("2_eueww")
 id = "token_spirit"
 display_name = "Spirit"
-power = 1
+attack = 1
 rules_text = "A 1/1 spirit."
 is_token = true

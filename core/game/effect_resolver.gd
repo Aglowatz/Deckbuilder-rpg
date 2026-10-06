@@ -35,7 +35,7 @@ static func fire_traps(state: GameState, owner_index: int, trigger: CardEnums.Tr
 		for effect: EffectData in trap.data.effects_for(trigger):
 			resolve(state, effect, EffectContext.make(trap.uid, owner_index, trigger_uid, 0))
 		trap.reset()
-		owner.graveyard.append(trap)
+		owner.refuse_pile.append(trap)
 
 
 static func resolve(state: GameState, effect: EffectData, ctx: EffectContext) -> void:
@@ -69,8 +69,8 @@ static func resolve_targets(state: GameState, effect: EffectData, ctx: EffectCon
 		CardEnums.TargetKind.TRIGGERING_CARD:
 			if ctx.trigger_uid > 0 and state.find_permanent(ctx.trigger_uid) != null:
 				result.append(ctx.trigger_uid)
-		CardEnums.TargetKind.CHOSEN_CREATURE_ANY, CardEnums.TargetKind.CHOSEN_CREATURE_ENEMY, \
-		CardEnums.TargetKind.CHOSEN_CREATURE_ALLY, CardEnums.TargetKind.CHOSEN_PLAYER:
+		CardEnums.TargetKind.CHOSEN_UNIT_ANY, CardEnums.TargetKind.CHOSEN_UNIT_ENEMY, \
+		CardEnums.TargetKind.CHOSEN_UNIT_ALLY, CardEnums.TargetKind.CHOSEN_PLAYER:
 			var legal: Array[int] = legal_targets(state, me, effect)
 			if ctx.chosen != 0 and _ref_matches_kind(effect.target, ctx.chosen):
 				# The picked target may have died since being chosen: the effect then fizzles.
@@ -80,14 +80,14 @@ static func resolve_targets(state: GameState, effect: EffectData, ctx: EffectCon
 				var picked: int = auto_pick(state, effect, me, legal)
 				if picked != 0:
 					result.append(picked)
-		CardEnums.TargetKind.ALL_CREATURES:
-			for card: CardInstance in state.all_creatures():
+		CardEnums.TargetKind.ALL_UNITS:
+			for card: CardInstance in state.all_units():
 				result.append(card.uid)
-		CardEnums.TargetKind.ALL_ENEMY_CREATURES:
-			for card: CardInstance in state.players[foe].creatures():
+		CardEnums.TargetKind.ALL_ENEMY_UNITS:
+			for card: CardInstance in state.players[foe].units():
 				result.append(card.uid)
-		CardEnums.TargetKind.ALL_ALLY_CREATURES:
-			for card: CardInstance in state.players[me].creatures():
+		CardEnums.TargetKind.ALL_ALLY_UNITS:
+			for card: CardInstance in state.players[me].units():
 				result.append(card.uid)
 		CardEnums.TargetKind.ALL_PLAYERS:
 			result.append(Targets.player(0))
@@ -95,15 +95,15 @@ static func resolve_targets(state: GameState, effect: EffectData, ctx: EffectCon
 		CardEnums.TargetKind.ALL_ATTACKERS:
 			for uid: int in state.attackers:
 				result.append(uid)
-		CardEnums.TargetKind.RANDOM_CREATURE, CardEnums.TargetKind.RANDOM_ENEMY_CREATURE, \
-		CardEnums.TargetKind.RANDOM_ALLY_CREATURE:
+		CardEnums.TargetKind.RANDOM_UNIT, CardEnums.TargetKind.RANDOM_ENEMY_UNIT, \
+		CardEnums.TargetKind.RANDOM_ALLY_UNIT:
 			var pool: Array[CardInstance] = []
-			if effect.target == CardEnums.TargetKind.RANDOM_CREATURE:
-				pool = state.all_creatures()
-			elif effect.target == CardEnums.TargetKind.RANDOM_ENEMY_CREATURE:
-				pool = state.players[foe].creatures()
+			if effect.target == CardEnums.TargetKind.RANDOM_UNIT:
+				pool = state.all_units()
+			elif effect.target == CardEnums.TargetKind.RANDOM_ENEMY_UNIT:
+				pool = state.players[foe].units()
 			else:
-				pool = state.players[me].creatures()
+				pool = state.players[me].units()
 			if not pool.is_empty():
 				result.append((RngUtil.pick(pool, state.rng) as CardInstance).uid)
 	return result
@@ -113,14 +113,14 @@ static func resolve_targets(state: GameState, effect: EffectData, ctx: EffectCon
 static func legal_targets(state: GameState, controller: int, effect: EffectData) -> Array[int]:
 	var result: Array[int] = []
 	match effect.target:
-		CardEnums.TargetKind.CHOSEN_CREATURE_ANY:
-			for card: CardInstance in state.all_creatures():
+		CardEnums.TargetKind.CHOSEN_UNIT_ANY:
+			for card: CardInstance in state.all_units():
 				result.append(card.uid)
-		CardEnums.TargetKind.CHOSEN_CREATURE_ENEMY:
-			for card: CardInstance in state.players[1 - controller].creatures():
+		CardEnums.TargetKind.CHOSEN_UNIT_ENEMY:
+			for card: CardInstance in state.players[1 - controller].units():
 				result.append(card.uid)
-		CardEnums.TargetKind.CHOSEN_CREATURE_ALLY:
-			for card: CardInstance in state.players[controller].creatures():
+		CardEnums.TargetKind.CHOSEN_UNIT_ALLY:
+			for card: CardInstance in state.players[controller].units():
 				result.append(card.uid)
 		CardEnums.TargetKind.CHOSEN_PLAYER:
 			result.append(Targets.player(controller))
@@ -153,7 +153,7 @@ static func auto_pick(state: GameState, effect: EffectData, controller: int, leg
 			if card == null:
 				continue
 			owner_index = card.owner
-			value = creature_value(state, card)
+			value = unit_value(state, card)
 		var on_right_side: bool = (owner_index != controller) == harmful
 		var score: int = value + (10000 if on_right_side else 0)
 		if score > best_score:
@@ -164,17 +164,17 @@ static func auto_pick(state: GameState, effect: EffectData, controller: int, leg
 
 static func is_harmful(effect: EffectData) -> bool:
 	match effect.op:
-		CardEnums.EffectOp.DEAL_DAMAGE, CardEnums.EffectOp.DESTROY, CardEnums.EffectOp.LOSE_LIFE, \
-		CardEnums.EffectOp.DISCARD, CardEnums.EffectOp.MILL, CardEnums.EffectOp.RETURN_TO_HAND:
+		CardEnums.EffectOp.DEAL_DAMAGE, CardEnums.EffectOp.DESTROY, CardEnums.EffectOp.LOSE_HP, \
+		CardEnums.EffectOp.TOSS, CardEnums.EffectOp.BURY, CardEnums.EffectOp.SEND_BACK:
 			return true
 		CardEnums.EffectOp.BUFF:
 			return effect.amount + effect.amount2 < 0
 	return false
 
 
-## Rough worth of a creature (used for auto-targeting and by the AI).
-static func creature_value(state: GameState, card: CardInstance) -> int:
-	return state.get_power(card) * 2 + state.get_toughness(card) + card.data.keywords.size() * 2
+## Rough worth of a unit (used for auto-targeting and by the AI).
+static func unit_value(state: GameState, card: CardInstance) -> int:
+	return state.get_attack(card) * 2 + state.get_defense(card) + card.data.keywords.size() * 2
 
 
 # --------------------------------------------------------------------------------------
@@ -186,17 +186,17 @@ static func _apply(state: GameState, effect: EffectData, ctx: EffectContext, tar
 	var is_player: bool = Targets.is_player(target_ref)
 	var player_index: int = Targets.player_index(target_ref) if is_player else -1
 	var card: CardInstance = null if is_player else state.find_permanent(target_ref)
-	if not is_player and (card == null or not card.data.is_creature()):
+	if not is_player and (card == null or not card.data.is_unit()):
 		return
 	match effect.op:
 		CardEnums.EffectOp.DEAL_DAMAGE:
 			if is_player:
 				state.deal_damage_to_player(ctx.source_uid, player_index, effect.amount)
 			else:
-				state.deal_damage_to_creature(ctx.source_uid, card, effect.amount)
+				state.deal_damage_to_unit(ctx.source_uid, card, effect.amount)
 		CardEnums.EffectOp.HEAL:
 			if is_player:
-				state.gain_life(player_index, effect.amount)
+				state.gain_hp(player_index, effect.amount)
 			else:
 				var healed: int = mini(card.damage, effect.amount)
 				if healed > 0:
@@ -205,41 +205,41 @@ static func _apply(state: GameState, effect: EffectData, ctx: EffectContext, tar
 		CardEnums.EffectOp.DRAW:
 			if is_player:
 				state.draw_cards(player_index, effect.amount)
-		CardEnums.EffectOp.DISCARD:
+		CardEnums.EffectOp.TOSS:
 			if is_player:
 				var hand: Array[CardInstance] = state.players[player_index].hand
 				for i: int in range(effect.amount):
 					if hand.is_empty():
 						break
-					state.discard_card(player_index, RngUtil.pick(hand, state.rng) as CardInstance)
+					state.toss_card(player_index, RngUtil.pick(hand, state.rng) as CardInstance)
 		CardEnums.EffectOp.DESTROY:
 			if not is_player:
-				state.kill_creature(card)
+				state.destroy_unit(card)
 		CardEnums.EffectOp.BUFF:
 			if not is_player:
 				if effect.duration == CardEnums.Duration.PERMANENT:
-					card.power_bonus += effect.amount
-					card.toughness_bonus += effect.amount2
+					card.attack_bonus += effect.amount
+					card.defense_bonus += effect.amount2
 				else:
-					card.temp_power += effect.amount
-					card.temp_toughness += effect.amount2
+					card.temp_attack += effect.amount
+					card.temp_defense += effect.amount2
 				state.emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, effect.amount, effect.amount2)
 		CardEnums.EffectOp.SUMMON_TOKEN:
 			if is_player and effect.token != null:
 				for i: int in range(maxi(1, effect.amount)):
 					state.create_token(player_index, effect.token)
-		CardEnums.EffectOp.RETURN_TO_HAND:
+		CardEnums.EffectOp.SEND_BACK:
 			if not is_player:
-				state.return_to_hand(card)
-		CardEnums.EffectOp.MILL:
+				state.send_back(card)
+		CardEnums.EffectOp.BURY:
 			if is_player:
-				state.mill_cards(player_index, effect.amount)
-		CardEnums.EffectOp.GAIN_LIFE:
+				state.bury_cards(player_index, effect.amount)
+		CardEnums.EffectOp.GAIN_HP:
 			if is_player:
-				state.gain_life(player_index, effect.amount)
-		CardEnums.EffectOp.LOSE_LIFE:
+				state.gain_hp(player_index, effect.amount)
+		CardEnums.EffectOp.LOSE_HP:
 			if is_player:
-				state.lose_life(player_index, effect.amount)
+				state.lose_hp(player_index, effect.amount)
 		CardEnums.EffectOp.GRANT_KEYWORD:
 			if not is_player:
 				var keyword: CardEnums.Keyword = effect.keyword

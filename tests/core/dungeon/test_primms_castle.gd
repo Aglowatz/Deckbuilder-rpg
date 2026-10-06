@@ -12,7 +12,7 @@ var _story: ZoneStoryText
 func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
-	Session.ensure_game(Affinity.Type.A)
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	_def = MainDungeons.def(PrimmsCastleDungeon.ZONE_ID)
 	_map = MainDungeons.build_map(PrimmsCastleDungeon.ZONE_ID)
 	_story = ZoneStoryText.for_zone(CapitalZone.ID)
@@ -186,22 +186,22 @@ func test_three_phases_with_their_own_rules() -> void:
 	var standard: PrimmBoss.Phase = PrimmBoss.phase(0)
 	var found_standard: bool = false
 	for modifier: Modifier in standard.enemy_modifiers:
-		found_standard = found_standard or modifier.kind == Modifier.Kind.STANDARDIZE_CREATURES
-	assert_true(found_standard, "Standardization: every creature has the same stats")
-	assert_eq(PrimmBoss.player_rules(0).modifiers[0].kind, Modifier.Kind.MAX_NON_INFRASTRUCTURE_CASTS_PER_TURN, "and you may cast only two spells a turn")
+		found_standard = found_standard or modifier.kind == Modifier.Kind.STANDARDIZE_UNITS
+	assert_true(found_standard, "Standardization: every unit has the same stats")
+	assert_eq(PrimmBoss.player_rules(0).modifiers[0].kind, Modifier.Kind.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, "and you may play only two spells a turn")
 	assert_true(PrimmBoss.phase(1).mirror, "Reflection: he copies your cards")
 	assert_null(PrimmBoss.player_rules(1))
 	var unravel: PrimmBoss.Phase = PrimmBoss.phase(2)
 	var self_damage: bool = false
 	for modifier: Modifier in unravel.enemy_modifiers:
-		self_damage = self_damage or (modifier.kind == Modifier.Kind.START_OF_TURN_EFFECT and modifier.effect != null and modifier.effect.op == CardEnums.EffectOp.LOSE_LIFE)
+		self_damage = self_damage or (modifier.kind == Modifier.Kind.START_OF_TURN_EFFECT and modifier.effect != null and modifier.effect.op == CardEnums.EffectOp.LOSE_HP)
 	assert_true(self_damage, "Unraveling: his own rules hurt him")
 	for index: int in range(3):
 		assert_false(PrimmBoss.phase(index).title().begins_with("[missing"))
 		assert_false(PrimmBoss.phase(index).rule_text().begins_with("[missing"))
 
 
-func test_standardization_makes_every_creature_the_same_in_a_real_duel() -> void:
+func test_standardization_makes_every_unit_the_same_in_a_real_duel() -> void:
 	_start_castle_run()
 	var boss: DungeonMap.MapNode = _map.boss()
 	Session.boss_phase = 0
@@ -213,13 +213,13 @@ func test_standardization_makes_every_creature_the_same_in_a_real_duel() -> void
 	var game: GameState = context.game
 	var big: CardInstance = game.create_instance(Session.card_by_id("ironclad"), 0)
 	var small: CardInstance = game.create_instance(Session.card_by_id("cave_bat"), 1)
-	game.players[0].battlefield.append(big)
-	game.players[1].battlefield.append(small)
-	assert_eq(game.get_power(big), PrimmBoss.STANDARD_POWER)
-	assert_eq(game.get_toughness(big), PrimmBoss.STANDARD_TOUGHNESS)
-	assert_eq(game.get_power(small), PrimmBoss.STANDARD_POWER)
-	assert_eq(game.players[0].non_infrastructure_cast_cap, PrimmBoss.SPELL_CAP, "two spells a turn")
-	assert_eq(game.players[1].life, PrimmBoss.phase(0).life)
+	game.players[0].field.append(big)
+	game.players[1].field.append(small)
+	assert_eq(game.get_attack(big), PrimmBoss.STANDARD_ATTACK)
+	assert_eq(game.get_defense(big), PrimmBoss.STANDARD_DEFENSE)
+	assert_eq(game.get_attack(small), PrimmBoss.STANDARD_ATTACK)
+	assert_eq(game.players[0].non_infrastructure_play_cap, PrimmBoss.SPELL_CAP, "two spells a turn")
+	assert_eq(game.players[1].hp, PrimmBoss.phase(0).hp)
 
 
 func test_reflection_copies_the_players_deck() -> void:
@@ -228,12 +228,12 @@ func test_reflection_copies_the_players_deck() -> void:
 	var context: BattleContext = Session.make_dungeon_battle(_map.boss())
 	var mine: Dictionary = Session.run.current_deck().copy_counts()
 	var his: Dictionary = {}
-	for card: CardInstance in context.game.players[1].library:
+	for card: CardInstance in context.game.players[1].deck:
 		his[card.data.id] = int(his.get(card.data.id, 0)) + 1
 	for card: CardInstance in context.game.players[1].hand:
 		his[card.data.id] = int(his.get(card.data.id, 0)) + 1
 	assert_eq(his, mine, "a perfect copy: he can only imitate")
-	assert_eq(context.game.players[0].non_infrastructure_cast_cap, -1, "no restriction in this phase")
+	assert_eq(context.game.players[0].non_infrastructure_play_cap, -1, "no restriction in this phase")
 
 
 func test_unraveling_hurts_him_each_turn_and_makes_him_stronger() -> void:
@@ -252,7 +252,7 @@ func test_capital_debuffs_apply_to_castle_duels_too() -> void:
 	var context: BattleContext = Session.make_dungeon_battle(hall)
 	assert_eq(context.game.players[1].modifiers.sum(Modifier.Kind.GRAVEYARD_RETURN_CHANCE), CapitalDebuffs.RETURN_CHANCE_PERCENT, "Restless Dead until the D.N.A. is free")
 	var junk: int = 0
-	for card: CardInstance in context.game.players[0].library:
+	for card: CardInstance in context.game.players[0].deck:
 		junk += 1 if card.data.id == CapitalContent.JUNK_ID else 0
 	for card: CardInstance in context.game.players[0].hand:
 		junk += 1 if card.data.id == CapitalContent.JUNK_ID else 0
@@ -263,7 +263,7 @@ func test_freed_leaders_lend_a_boon_each() -> void:
 	assert_eq(PrimmBoss.leader_boons(Session.flags).size(), 0, "nobody stands beside you at first")
 	assert_true(PrimmBoss.leader_lines(Session.flags)[0].contains("Nobody stands beside you"))
 	_start_castle_run()
-	var life_before: int = Session.run.max_life()
+	var hp_before: int = Session.run.max_hp()
 	for zone_id: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
 		Session.complete_zone(zone_id)
 	var boons: Array[ModifierSource] = PrimmBoss.leader_boons(Session.flags)
@@ -273,10 +273,10 @@ func test_freed_leaders_lend_a_boon_each() -> void:
 		assert_false(boon.source_name.begins_with("[missing"))
 	var lines: Array[String] = Session.begin_primm_fight()
 	assert_gte(lines.size(), 4, "each leader speaks")
-	assert_gt(Session.run.max_life(), life_before, "+2 max life each")
-	var after: int = Session.run.max_life()
+	assert_gt(Session.run.max_hp(), hp_before, "+2 max HP each")
+	var after: int = Session.run.max_hp()
 	Session.begin_primm_fight()
-	assert_eq(Session.run.max_life(), after, "boons are given once per run")
+	assert_eq(Session.run.max_hp(), after, "boons are given once per run")
 
 
 # ---- The flow of a boss run, ending, and the postgame ---------------------------------------------------------------------
@@ -292,7 +292,7 @@ func test_winning_a_phase_goes_on_to_the_next_and_the_last_completes_the_node() 
 		var context: BattleContext = Session.make_dungeon_battle(boss)
 		assert_eq(context.boss_phase, phase_index)
 		context.won = true
-		context.game.players[1].life = 0
+		context.game.players[1].hp = 0
 		context.game.winner = 0
 		_finish_battle(context)
 		if phase_index < PrimmBoss.PHASES - 1:
@@ -345,7 +345,7 @@ func _start_castle_run() -> void:
 	Session.dungeon_map = MainDungeons.build_map(CapitalZone.ID)
 	_map = Session.dungeon_map
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
-	Session.run.life = clampi(Session.zone_run.life, 1, Session.run.max_life())
+	Session.run.hp = clampi(Session.zone_run.hp, 1, Session.run.max_hp())
 	Session.main_dungeon_active = true
 	Session.boss_phase = 0
 	Session.boss_phase_pending = false
@@ -383,7 +383,7 @@ func _finish_battle(context: BattleContext) -> void:
 func test_every_castle_node_resolves_through_the_session_api_in_a_full_run() -> void:
 	# A headless run: the first forward route to the boss with a dead end taken on the way; every node kind is resolved by the same
 	# Session / resolver calls the map screens use (battles are won by decree).
-	Session.profile.max_life = PlayerProfile.ENDGAME_MAX_LIFE
+	Session.profile.max_hp = PlayerProfile.ENDGAME_MAX_HP
 	_start_castle_run()
 	var map: DungeonMap = Session.dungeon_map
 	var dead_end_taken: bool = false
@@ -436,6 +436,6 @@ func test_every_castle_node_resolves_through_the_session_api_in_a_full_run() -> 
 				map.complete(node.id)
 			_:
 				map.complete(node.id)
-		Session.run.life = maxi(Session.run.life, 1)
+		Session.run.hp = maxi(Session.run.hp, 1)
 	assert_true(map.is_complete(), "reached and cleared the boss through %d steps" % guard)
 	assert_true(dead_end_taken)

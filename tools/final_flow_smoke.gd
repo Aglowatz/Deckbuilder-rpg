@@ -83,7 +83,7 @@ func _skip_tutorial_via_tunnel() -> void:
 	_check(choice != null, "the tunnel offers the same element choice as the real gate")
 	if choice == null:
 		return
-	var tile: Button = choice._tiles[Affinity.Type.A] as Button
+	var tile: Button = choice._tiles[Affinity.Type.BEEFCAKE] as Button
 	await driver.click(driver.center_of_control(tile))
 	await driver.click_button("Begin")
 	await driver.seconds(0.6)
