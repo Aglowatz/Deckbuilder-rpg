@@ -148,11 +148,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 7/5/6/6/4/3/6/5 (iter2; M/A belong to BB-GEN-4/5). `ArenaBackdrop._dress_ring` uses `ScatterTool` (seed 41, clusters of 3, rim ring only, back and sides, keep-out around the banners, 16/28/42 props by quality): rocks, crates, barrels, sacks, lumber, cut stump at 1.7x so they read at the backdrop distance. iter1 props were too small and mostly hidden behind the HUD/cards. Single angle only (no backdrop `--cam`). Tests 1023 green. before = battle_generic/g2_2.png; after = battle_generic/g3_2.png.
-- [ ] **BB-GEN-4 Landmarks and hero props.** A thematic far-side focal prop behind the enemy (a banner, shrine or big tree) and a table-edge frame near the player; the board reads as a diorama on a table.
+- [x] **BB-GEN-4 Landmarks and hero props.** A thematic far-side focal prop behind the enemy (a banner, shrine or big tree) and a table-edge frame near the player; the board reads as a diorama on a table.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **BB-GEN-5 Particles and atmosphere.** Sparse motes in the light pool, a few drifting leaves, soft low ground mist at the rim; all behind cards.
+  - Result: scores L/C/G/D/M/A/R/X = 7/5/6/6/6/3/6/5 (iter2; A is BB-GEN-5). `ArenaBackdrop._add_landmark`: a war tent between two tall banners and a weapon rack with a warm lantern glow behind the enemy side (z -6.3; at -7.6 the enemy hand hid it). Tent reads as the far-side focal point and a silhouette. NOT done: table-edge frame near the player (hidden by the card hand anyway), single angle only. Tests 1023 green. before = battle_generic/g3_2.png; after = battle_generic/g4_2.png.
+- [~] **BB-GEN-5 Particles and atmosphere.** Sparse motes in the light pool, a few drifting leaves, soft low ground mist at the rim; all behind cards.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _

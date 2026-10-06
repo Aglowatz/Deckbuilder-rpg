@@ -29,6 +29,7 @@ func _ready() -> void:
 	for side: int in [-1, 1]:
 		ModelKit.place(self, ModelKit.prop("flag_blue"), Vector3(side * 5.0, 0, 0), 0.0, 2.0)
 	_dress_ring()
+	_add_landmark()
 	for i: int in range(5):
 		var far: Vector3 = HexGrid.cell_to_world(-4 + i * 2, -7)
 		ModelKit.place(self, ModelKit.nature("mountain_A_grass_trees"), far, 0.0, 1.5)
@@ -118,3 +119,19 @@ func _dress_ring() -> void:
 	for placement: ScatterTool.Placement in scatter.scatter("battle_rim", entries, count, 3, 1.0):
 		var node: Node3D = ModelKit.hex_model(placement.folder, placement.model)
 		ModelKit.place(self, node, placement.position, rad_to_deg(placement.yaw), placement.scale * 1.7)
+
+
+## The far-side focal point behind the enemy: a war tent between two tall banners with a warm lantern glow, so the board reads as a diorama with a destination.
+func _add_landmark() -> void:
+	var anchor: Vector3 = Vector3(0.0, 0.0, -6.3)
+	ModelKit.place(self, ModelKit.prop("tent"), anchor, 0.0, 2.6)
+	for side: int in [-1, 1]:
+		ModelKit.place(self, ModelKit.prop("flag_blue"), anchor + Vector3(side * 3.2, 0.0, 0.8), side * 12.0, 3.4)
+	ModelKit.place(self, ModelKit.prop("weaponrack"), anchor + Vector3(2.0, 0.0, 1.8), -20.0, 1.8)
+	var glow: OmniLight3D = OmniLight3D.new()
+	glow.light_color = Color("ffb867")
+	glow.light_energy = 2.2
+	glow.omni_range = 5.0
+	glow.shadow_enabled = false
+	glow.position = anchor + Vector3(0.0, 1.6, 2.0)
+	add_child(glow)
