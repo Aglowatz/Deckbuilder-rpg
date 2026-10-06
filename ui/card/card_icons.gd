@@ -100,7 +100,7 @@ const PLACEHOLDER_BY_PATH: Dictionary = {
 
 
 const RESOURCE_ICONS: Dictionary = {
-	"IRON": "lorc/breastplate", "RED_TAPE": "delapouite/files", "CONTRACT": "lorc/scroll-unfurled", "INGREDIENT": "delapouite/olive", "GARBAGE": "lorc/recycle",
+	"IRON": "delapouite/weight-lifting-up", "RED_TAPE": "delapouite/crime-scene-tape", "CONTRACT": "lorc/scroll-unfurled", "INGREDIENT": "delapouite/olive", "GARBAGE": "delapouite/trash-can",
 }
 
 

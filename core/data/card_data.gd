@@ -115,6 +115,11 @@ func is_resource() -> bool:
 	return type == CardEnums.CardType.RESOURCE
 
 
+## A non-unit token that sits on the table (the Necrocrat Contract). Not a resource.
+func is_table_token() -> bool:
+	return type == CardEnums.CardType.TOKEN and resource_kind >= 0
+
+
 func is_tool() -> bool:
 	return type == CardEnums.CardType.TOOL
 

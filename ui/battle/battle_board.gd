@@ -8,7 +8,7 @@ signal card_hovered(view: CardView)
 signal card_unhovered(view: CardView)
 signal card_input(view: CardView, event: InputEvent)
 
-enum Zone { HAND, FIELD, INFRASTRUCTURE, TRAPS, CENTER, RESOURCES }
+enum Zone { HAND, FIELD, INFRASTRUCTURE, TRAPS, CENTER, RESOURCES, TOKENS }
 
 const CENTER_X: float = 985.0
 const ENEMY_HAND_Y: float = 6.0
@@ -25,10 +25,13 @@ const SCALE_ENEMY_HAND: float = 0.3
 const SCALE_BF: float = 0.56
 const SCALE_INFRASTRUCTURE: float = 0.27
 const SCALE_TRAP: float = 0.32
-const SCALE_RESOURCE: float = 0.2
+const SCALE_RESOURCE: float = 0.26
 ## Where each side's Resource tokens sit (centre of the first coin): on the table, left of the battlefield, on each side's half.
-const RESOURCE_ORIGIN: Array[Vector2] = [Vector2(70, 585), Vector2(70, 385)]
-const RESOURCE_SPAN: float = 270.0
+const RESOURCE_ORIGIN: Array[Vector2] = [Vector2(70, 565), Vector2(70, 385)]
+const RESOURCE_SLOT_PITCH: float = 84.0
+const TOKEN_SPAN: float = 110.0
+## The separate token area (Contracts): below the human's resource tray, above the enemy's (always on the far side from the middle).
+const TOKEN_ORIGIN: Array[Vector2] = [Vector2(70, 656), Vector2(70, 270)]
 const SCALE_CENTER: float = 0.85
 
 var game: GameState
@@ -68,7 +71,7 @@ func setup(game_state: GameState, effects: BattleFX) -> void:
 
 func register_all() -> void:
 	for player: PlayerState in game.players:
-		for zone_cards: Array[CardInstance] in [player.deck, player.hand, player.field, player.infrastructure, player.refuse_pile, player.traps, player.resources]:
+		for zone_cards: Array[CardInstance] in [player.deck, player.hand, player.field, player.infrastructure, player.refuse_pile, player.traps, player.resources, player.tokens]:
 			for card: CardInstance in zone_cards:
 				card_data[card.uid] = card.data
 
@@ -147,7 +150,7 @@ func _mode_for(zone: Zone) -> CardView.Mode:
 	match zone:
 		Zone.FIELD:
 			return CardView.Mode.COMPACT
-		Zone.RESOURCES:
+		Zone.RESOURCES, Zone.TOKENS:
 			return CardView.Mode.COIN
 		_:
 			return CardView.Mode.FULL
@@ -212,6 +215,7 @@ func layout(animated: bool = true) -> void:
 		_layout_row(owner_index, Zone.INFRASTRUCTURE, PLAYER_INFRASTRUCTURE_Y if owner_index == human else ENEMY_INFRASTRUCTURE_Y, SCALE_INFRASTRUCTURE, INFRASTRUCTURE_SPACING, CENTER_X - 130.0, 950.0)
 		_layout_traps(owner_index)
 		_layout_resources(owner_index)
+		_layout_tokens(owner_index)
 	_place_blockers()
 	var center: Array[int] = []
 	for uid: int in order:
@@ -294,17 +298,101 @@ func _layout_traps(owner_index: int) -> void:
 		_targets[cards[index]] = {"pos": Vector2(1500.0 - float(index) * 62.0, y), "rot": -6.0 + float(index) * 3.0, "scale": SCALE_TRAP, "z": 4 + index}
 
 
-## Resource tokens sit in a row of overlapping coins, grouped by kind (Iron, Red Tape, Contract, Ingredient, Garbage).
+## The four resources sit in a fixed tray: one slot per kind (Iron, Red Tape, Ingredient, Garbage), each with a faint icon, a
+## count and a tooltip. Coins of a kind stack inside their slot with a small offset.
 func _layout_resources(owner_index: int) -> void:
 	var cards: Array[int] = _cards_in(owner_index, Zone.RESOURCES)
-	cards.sort_custom(func(a: int, b: int) -> bool:
-		var kind_a: int = card_data[a].resource_kind if card_data.has(a) else 0
-		var kind_b: int = card_data[b].resource_kind if card_data.has(b) else 0
-		return kind_a < kind_b or (kind_a == kind_b and a < b)
-	)
-	var step: float = minf(38.0, RESOURCE_SPAN / float(maxi(cards.size(), 1)))
+	var counts: Dictionary = {}
+	var kinds: Array[ResourceKind.Kind] = ResourceKind.all()
+	for uid: int in cards:
+		var kind: int = card_data[uid].resource_kind if card_data.has(uid) else 0
+		var slot: int = kinds.find(kind as ResourceKind.Kind)
+		var stacked: int = int(counts.get(kind, 0))
+		counts[kind] = stacked + 1
+		var pos: Vector2 = RESOURCE_ORIGIN[owner_index] + Vector2(float(maxi(slot, 0)) * RESOURCE_SLOT_PITCH + minf(float(stacked), 5.0) * 6.0, -minf(float(stacked), 5.0) * 2.0)
+		_targets[uid] = {"pos": pos, "rot": 0.0, "scale": SCALE_RESOURCE, "z": 30 + stacked}
+	var tray: Control = _tray(owner_index)
+	for slot_index: int in range(kinds.size()):
+		var count: int = int(counts.get(int(kinds[slot_index]), 0))
+		var label: Label = tray.get_node("Count%d" % slot_index) as Label
+		label.text = "x%d" % count
+		(tray.get_node("Icon%d" % slot_index) as TextureRect).modulate.a = 0.55 if count == 0 else 0.0
+
+
+func _tray(owner_index: int) -> Control:
+	var node_name: String = "ResourceTray%d" % owner_index
+	var existing: Node = get_node_or_null(node_name)
+	if existing is Control:
+		return existing as Control
+	var tray: Control = Control.new()
+	tray.name = node_name
+	tray.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tray.z_index = 20
+	add_child(tray)
+	var kinds: Array[ResourceKind.Kind] = ResourceKind.all()
+	var origin: Vector2 = RESOURCE_ORIGIN[owner_index]
+	for slot_index: int in range(kinds.size()):
+		var kind: ResourceKind.Kind = kinds[slot_index]
+		var center: Vector2 = origin + Vector2(float(slot_index) * RESOURCE_SLOT_PITCH, 0.0)
+		var slot: Panel = Panel.new()
+		slot.name = "Slot%d" % slot_index
+		slot.position = center - Vector2(RESOURCE_SLOT_PITCH * 0.5 - 4.0, 42.0)
+		slot.size = Vector2(RESOURCE_SLOT_PITCH - 8.0, 110.0)
+		slot.add_theme_stylebox_override("panel", UIStyle.box(Color(0.05, 0.03, 0.09, 0.55), Color(ResourceKind.COLORS[kind] as Color, 0.55), 2, 14))
+		slot.mouse_filter = Control.MOUSE_FILTER_PASS
+		slot.tooltip_text = "%s (resource)\n%s" % [ResourceKind.display_name(kind), str(ResourceKind.DESCRIPTIONS[kind])]
+		tray.add_child(slot)
+		var icon: TextureRect = CardIcons.glyph(CardIcons.named(str(CardIcons.RESOURCE_ICONS[ResourceKind.Kind.keys()[kind]])), ResourceKind.COLORS[kind] as Color, Vector2(42, 42))
+		icon.name = "Icon%d" % slot_index
+		icon.position = center - Vector2(21, 21)
+		icon.size = Vector2(42, 42)
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tray.add_child(icon)
+		var count: Label = Label.new()
+		count.name = "Count%d" % slot_index
+		count.position = center + Vector2(-RESOURCE_SLOT_PITCH * 0.5 + 4.0, 42.0)
+		count.z_index = 45
+		count.size = Vector2(RESOURCE_SLOT_PITCH - 8.0, 22.0)
+		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		count.add_theme_font_size_override("font_size", 17)
+		count.add_theme_color_override("font_color", Color("f1e6c8"))
+		count.add_theme_color_override("font_outline_color", Color("1b1020"))
+		count.add_theme_constant_override("outline_size", 6)
+		count.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tray.add_child(count)
+	return tray
+
+
+## Non-resource tokens (Contracts) sit in their own labelled area, apart from the resource tray: parchment tiles stacked tightly,
+## a "Tokens" caption with a counter, and a tooltip. A Contract is a token, not a resource.
+func _layout_tokens(owner_index: int) -> void:
+	var cards: Array[int] = _cards_in(owner_index, Zone.TOKENS)
+	cards.sort()
+	var step: float = minf(22.0, TOKEN_SPAN / float(maxi(cards.size(), 1)))
+	var origin: Vector2 = TOKEN_ORIGIN[owner_index]
 	for index: int in range(cards.size()):
-		_targets[cards[index]] = {"pos": RESOURCE_ORIGIN[owner_index] + Vector2(float(index) * step, 0.0), "rot": 0.0, "scale": SCALE_RESOURCE, "z": 30 + index}
+		_targets[cards[index]] = {"pos": origin + Vector2(float(index) * step, 0.0), "rot": 0.0, "scale": SCALE_RESOURCE, "z": 30 + index}
+	var badge: Label = _token_badge(owner_index)
+	badge.visible = not cards.is_empty()
+	badge.text = "TOKENS\nContract x%d" % cards.size()
+	badge.tooltip_text = "Contract (token, not a resource)\n%s" % str(ResourceKind.DESCRIPTIONS[ResourceKind.Kind.CONTRACT])
+	badge.position = origin + Vector2(TOKEN_SPAN + 28.0, -12.0)
+	badge.size = Vector2(160.0, 44.0)
+func _token_badge(owner_index: int) -> Label:
+	var node_name: String = "TokenBadge%d" % owner_index
+	var existing: Node = get_node_or_null(node_name)
+	if existing is Label:
+		return existing as Label
+	var badge: Label = Label.new()
+	badge.name = node_name
+	badge.add_theme_font_size_override("font_size", 14)
+	badge.add_theme_color_override("font_color", Color("f1e6c8"))
+	badge.add_theme_color_override("font_outline_color", Color("1b1020"))
+	badge.add_theme_constant_override("outline_size", 6)
+	badge.mouse_filter = Control.MOUSE_FILTER_PASS
+	badge.z_index = 60
+	add_child(badge)
+	return badge
 
 
 func _apply_target(uid: int, target: Dictionary, animated: bool) -> void:
@@ -353,6 +441,7 @@ func sync_state(animated: bool = true) -> void:
 		_sync_zone(player.infrastructure, player.index, Zone.INFRASTRUCTURE, alive)
 		_sync_zone(player.traps, player.index, Zone.TRAPS, alive)
 		_sync_zone(player.resources, player.index, Zone.RESOURCES, alive)
+		_sync_zone(player.tokens, player.index, Zone.TOKENS, alive)
 	for uid: int in views.keys():
 		if not alive.has(uid):
 			var view: CardView = views[uid] as CardView

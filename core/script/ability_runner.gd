@@ -405,7 +405,7 @@ static func pay_costs(ctx: AbilityContext, costs: Array[CardAbility.Cost], picks
 					ResourceRules.use_any_of(state, ctx.controller, cost.resource_kinds, count)
 			"use_token":
 				for card: CardInstance in _picked_or_cheapest(state, token_cost_options(ctx), picks, count):
-					if card.data.is_resource():
+					if card.data.is_resource() or card.data.is_table_token():
 						ResourceRules.use(state, card.owner, card.data.resource_kind as ResourceKind.Kind, 1)
 					else:
 						state.destroy_unit(card)
@@ -441,6 +441,8 @@ static func token_cost_options(ctx: AbilityContext) -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
 	var player: PlayerState = ctx.state.players[ctx.controller]
 	for card: CardInstance in player.resources:
+		result.append(card)
+	for card: CardInstance in player.tokens:
 		result.append(card)
 	for card: CardInstance in player.units():
 		if card.is_token():

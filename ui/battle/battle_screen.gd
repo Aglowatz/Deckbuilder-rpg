@@ -64,6 +64,19 @@ func screenshot_prepare(args: Dictionary) -> void:
 	_screenshot_args = args
 
 
+## Screenshot/dev helper: `--give=iron:2,redtape:2,ingredient:3,garbage:2,contract:2` puts that many of each on the human's table.
+func _screenshot_give(spec: String) -> void:
+	if spec.is_empty():
+		return
+	for part: String in spec.split(","):
+		var pieces: PackedStringArray = part.split(":")
+		var kind: int = ResourceKind.from_word(pieces[0])
+		if kind != ResourceKind.NONE:
+			ResourceRules.create(game, 0, kind as ResourceKind.Kind, int(pieces[1]) if pieces.size() > 1 else 1)
+	board.sync_state(false)
+	board.layout(false)
+
+
 func _ready() -> void:
 	SceneManager.pause_allowed = true
 	context = Session.pending_battle
@@ -75,6 +88,7 @@ func _ready() -> void:
 	game = context.game
 	ai = context.ai
 	_build_scene()
+	_screenshot_give(str(_screenshot_args.get("give", "")))
 	game.event_emitted.connect(_on_game_event)
 	var bot_turns: int = int(_screenshot_args.get("bot", 0))
 	if bot_turns > 0:
@@ -518,7 +532,7 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 				_press_pos = get_global_mouse_position()
 			elif (zone == BattleBoard.Zone.FIELD or zone == BattleBoard.Zone.INFRASTRUCTURE) and mine and button_event.pressed:
 				_try_activate(uid)
-			elif zone == BattleBoard.Zone.RESOURCES and mine and button_event.pressed and view.data != null:
+			elif (zone == BattleBoard.Zone.RESOURCES or zone == BattleBoard.Zone.TOKENS) and mine and button_event.pressed and view.data != null:
 				_on_resource_pressed(view.data.resource_kind as ResourceKind.Kind)
 		Mode.ATTACK:
 			if button_event.pressed and zone == BattleBoard.Zone.FIELD and mine:
@@ -632,7 +646,7 @@ func _cost_pick_step(ctx: AbilityContext, cost: CardAbility.Cost) -> Dictionary:
 			options.append(card.uid)
 	elif cost.kind == "use_token":
 		for card: CardInstance in AbilityRunner.token_cost_options(ctx):
-			if not card.data.is_resource():
+			if not card.data.is_resource() and not card.data.is_table_token():
 				options.append(card.uid)
 	if options.is_empty() or (options.size() <= cost.count and cost.kind == "destroy"):
 		return {}
@@ -752,10 +766,10 @@ func _show_x_dialog(step: Dictionary) -> void:
 	column.add_child(cancel)
 
 
-## Resources are tokens on the table (BattleBoard Zone.RESOURCES). Your Iron, Red Tape and Contract glow when you can use one now.
+## Resources and Contract tokens sit on the table (BattleBoard Zone.RESOURCES and TOKENS). Your Iron, Red Tape and Contract glow when you can use one now.
 func _refresh_resource_tokens() -> void:
 	for uid: int in board.views.keys():
-		if int(board.zones.get(uid, -1)) != BattleBoard.Zone.RESOURCES:
+		if not [BattleBoard.Zone.RESOURCES, BattleBoard.Zone.TOKENS].has(int(board.zones.get(uid, -1))):
 			continue
 		var view: CardView = board.view_for(uid)
 		if view == null or view.data == null or int(view.get_meta("owner", 0)) != 0:

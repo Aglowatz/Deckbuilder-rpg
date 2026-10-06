@@ -18,6 +18,9 @@ static func candidates(spec: TargetSpec, ctx: AbilityContext, for_targeting: boo
 				for card: CardInstance in state.all_units():
 					if card.is_token():
 						_add_field_card(result, card, spec, ctx, for_targeting)
+				for player: PlayerState in state.players:
+					for card: CardInstance in player.tokens:
+						_add_field_card(result, card, spec, ctx, false)
 			"tool":
 				for player: PlayerState in state.players:
 					for card: CardInstance in player.tools():
@@ -220,7 +223,7 @@ static func matches(spec: TargetSpec, candidate: CardInstance, ctx: AbilityConte
 			"unit":
 				zone_ok = zone_ok or candidate.data.is_unit()
 			"token":
-				zone_ok = zone_ok or (candidate.data.is_unit() and candidate.is_token())
+				zone_ok = zone_ok or ((candidate.data.is_unit() and candidate.is_token()) or candidate.data.is_table_token())
 			"tool":
 				zone_ok = zone_ok or candidate.data.is_tool()
 			"wonder":
@@ -309,7 +312,7 @@ static func auto_pick(spec: TargetSpec, ctx: AbilityContext, ability: CardAbilit
 			if card == null:
 				continue
 			score = state.card_worth(card)
-			var on_field: bool = state.find_permanent(ref) != null or state.players[card.owner].resources.has(card) or state.players[card.owner].infrastructure.has(card)
+			var on_field: bool = state.find_permanent(ref) != null or state.players[card.owner].resources.has(card) or state.players[card.owner].tokens.has(card) or state.players[card.owner].infrastructure.has(card)
 			if on_field:
 				var mine: bool = card.owner == ctx.controller
 				var wants_enemy: bool = polarity_value <= 0

@@ -513,7 +513,8 @@ func test_squatters_rights_and_hostile_takeover() -> void:
 	_play(game, "NB-12")
 	assert_eq(_count(game, 1, KIND.GARBAGE), 0)
 	assert_eq(_count(game, 0, KIND.GARBAGE), 2, "Hostile Takeover: all the opponent's resources are yours")
-	assert_eq(_count(game, 0, KIND.CONTRACT), 1)
+	assert_eq(_count(game, 0, KIND.CONTRACT), 0, "a Contract is a token, not a resource: Hostile Takeover leaves it")
+	assert_eq(_count(game, 1, KIND.CONTRACT), 1)
 
 
 func test_resting_in_peace_clause_springs_when_the_opponent_draws_it() -> void:

@@ -11,7 +11,7 @@ T-09,Snack,Unit token (created by Plate),Has no abilities.,1/1,Bite-sized. Forme
 T-10,Zombie Temp,Unit token (Necrocrat),,1/1,Here until further notice. There will be no further notice.,"A shambling zombie in a crooked tie and visitor lanyard, holding a stapler like a weapon."
 T-11,Zombie Rat,Unit token (Necrocrat),,2/2,Signed the clause. Kept the tail.,An undead rat with stitched ears and a tiny ink-stained contract clutched in its paws.
 T-12,Clause,Special token (shuffled into a deck),When drawn: Shred it; the player who created it creates a 2/2 Zombie Rat token.,,,A tiny glowing paragraph of fine print curled like a scroll.
-T-13,Contract,Resource token (Necrocrat),"Pay 1, use this Contract: exhaust target unit. It doesn't refresh during its controller's next turn. (Your turn only.)",,,A ghostly parchment contract with a green wax seal.
+T-13,Contract,Special token (Necrocrat; non-unit token that sits on the table. NOT a resource),"Pay 1, use this Contract: exhaust target unit. It doesn't refresh during its controller's next turn. (Your turn only.)",,,A ghostly parchment contract with a green wax seal.
 T-14,Red Tape,Resource token (Necrocrat),"Pay 1, use this Red Tape: target unit gets -1 attack permanently. (Your turn only.)",,,A coil of glowing red tape bound with a skull clasp.
 T-15,"Grandmaster Flex, the Unbroken",Boss-fight ally token (Beefcake leader). Never available to the player normally.,"Starts on the player's field during the House of Gains boss fight if the player rescued him in that dungeon run.
 

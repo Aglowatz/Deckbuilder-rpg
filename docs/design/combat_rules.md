@@ -24,21 +24,30 @@ disagree, this file wins (or is deliberately updated first).
 
 ## Resources (Brief 14)
 
-Resources are token permanents kept in their own zone per player (`PlayerState.resources`), shown in the resource tray in the
-battle UI (counts + tooltips). They are `CardType.RESOURCE` tokens; the kinds live in `ResourceKind`.
+There are exactly **four resources**: Iron (B), Red Tape (N), Ingredient (G), Garbage (R). They are token permanents kept in
+their own zone per player (`PlayerState.resources`), created by basic Infrastructure and by card effects, and shown in the
+resource tray in the battle UI. They are `CardType.RESOURCE` tokens; the kinds live in `ResourceKind`.
+
+**Contract is NOT a resource.** It is a non-unit Necrocrat *token* (`CardType.TOKEN`, kept in `PlayerState.tokens` and shown in
+its own token area with a counter). Everything else cards create (Contracts, Clauses, unit tokens, Snacks...) is a token, not a
+resource. Effects that say "resource" (Hostile Takeover, Rusty Can Opener, Harvest Festival doubling, "whenever you use a
+resource") never include Contracts; effects that say "token" (Waste Manager "use a token") do.
 
 | Resource | Path | What it does |
 |----------|------|--------------|
 | Iron | Beefcake | Pay 1, use an Iron: target unit gets +1 attack permanently. |
 | Red Tape | Necrocrat | Pay 1, use a Red Tape: target unit gets -1 attack permanently. |
-| Contract | Necrocrat | Pay 1, use a Contract: exhaust target unit. It doesn't refresh during its controller's next turn. |
 | Ingredient | Gourmand | Does nothing alone; Gourmand cards spend it (Cook, golems, recipes). |
 | Garbage | Refusemancer | Does nothing alone; Refusemancer cards spend it (Eat Garbage). |
 
+| Token (not a resource) | Path | What it does |
+|------------------------|------|--------------|
+| Contract | Necrocrat | Pay 1, use a Contract: exhaust target unit. It doesn't refresh during its controller's next turn. |
+
 - Playing a BASIC Infrastructure creates its Path's resource (Powerhouse: Iron, Ghost Town: Red Tape, Feastforge: Ingredient,
   Wasteworks: Garbage) - the basic's "When this Infrastructure enters" trigger, so putting a basic onto the field also does it.
-  Special and dual-Path infrastructure never create resources. Nothing creates Contracts except cards.
-- Resource uses (Iron, Red Tape, Contract) are your-turn-only main-phase abilities, and the target may be any unit that
+  Special and dual-Path infrastructure never create resources. Nothing creates Contracts except cards (they are tokens, not resources).
+- Uses of Iron, Red Tape and the Contract token are your-turn-only main-phase abilities, and the target may be any unit that
   you are allowed to target (Untouchable units cannot be targeted by the opponent's resources).
 - "Use" a resource = remove it from your zone. "Shred" or "destroy" a resource (cards say which) also removes it.
 - **Eat garbage** is a cost: pay 1 energy, lose 1 HP, use a Garbage (Raccoon: no energy, no HP). You cannot eat if it would

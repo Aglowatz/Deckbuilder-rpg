@@ -11,6 +11,16 @@ signal unhovered(view: CardView)
 signal gui_event(view: CardView, event: InputEvent)
 
 enum Mode { FULL, COMPACT, BACK, COIN }
+
+## Corner radius of the squarer tile a non-resource token (Contract) is drawn with.
+const COIN_TOKEN_RADIUS: int = 60
+## The cost pips never take more than this much of the name bar.
+const MAX_PIPS_WIDTH: float = 130.0
+## Smallest font a card name may be shrunk to before it wraps onto two lines instead.
+const MIN_SINGLE_LINE_SIZE_FULL: int = 16
+const MIN_SINGLE_LINE_SIZE_COMPACT: int = 20
+const MIN_WRAPPED_SIZE_FULL: int = 11
+const MIN_WRAPPED_SIZE_COMPACT: int = 14
 enum Glow { NONE, PLAYABLE, SELECTED, TARGET, ATTACK, BLOCK }
 
 const SIZE: Vector2 = Vector2(300, 450)
@@ -122,15 +132,17 @@ func _build() -> void:
 	_build_overlays()
 
 
-## A Resource token on the table: a round coin (Path colour, glyph) drawn at the card's centre; scaled small it sits among the units.
+## A Resource coin on the table: a round coin (Path colour, glyph) drawn at the card's centre; scaled small it sits among the units.
+## Non-resource tokens (the Contract) are drawn as a squarer parchment tile with a dashed-looking inner border so they never read as resources.
 func _build_coin() -> void:
 	var kind: int = data.resource_kind
+	var is_token_tile: bool = not data.is_resource()
 	var color: Color = ResourceKind.COLORS.get(kind, accent) as Color
 	var diameter: float = 270.0
 	var rect: Rect2 = Rect2((SIZE - Vector2(diameter, diameter)) * 0.5, Vector2(diameter, diameter))
-	_frame = _panel(rect, UIStyle.box(color, Color(0.07, 0.05, 0.1), 18, 135, 12))
+	_frame = _panel(rect, UIStyle.box(color, Color(0.07, 0.05, 0.1), 18, COIN_TOKEN_RADIUS if is_token_tile else 135, 12))
 	add_child(_frame)
-	add_child(_panel(Rect2(rect.position + Vector2(26, 26), rect.size - Vector2(52, 52)), UIStyle.box(Color(0, 0, 0, 0), Color(1, 1, 1, 0.45), 8, 110)))
+	add_child(_panel(Rect2(rect.position + Vector2(26, 26), rect.size - Vector2(52, 52)), UIStyle.box(Color(0, 0, 0, 0), Color(1, 1, 1, 0.45), 8, 40 if is_token_tile else 110)))
 	var icon_key: String = str(CardIcons.RESOURCE_ICONS.get(ResourceKind.Kind.keys()[kind], "lorc/magic-swirl"))
 	var glyph: TextureRect = CardIcons.glyph(CardIcons.named(icon_key), Color("1b1020"), Vector2(170, 170))
 	glyph.position = rect.position + (rect.size - Vector2(170, 170)) * 0.5
@@ -191,6 +203,9 @@ func _build_name_bar() -> void:
 		fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		bar.add_child(fill)
 	_name_label = Label.new()
+	# Clip first: a Label that is not clipping has its text width as minimum size, which would stretch it over the pips.
+	_name_label.clip_text = true
+	_name_label.custom_minimum_size = Vector2.ZERO
 	_name_label.text = _display_name()
 	_name_label.position = Vector2(22, 12)
 	_name_label.size = Vector2(276 - 20 - _pips_width() - 6, height)
@@ -199,8 +214,7 @@ func _build_name_bar() -> void:
 	_name_label.add_theme_color_override("font_color", UIStyle.PARCHMENT)
 	_name_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.6))
 	_name_label.add_theme_constant_override("shadow_offset_y", 2)
-	_name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if mode == Mode.COMPACT else TextServer.AUTOWRAP_OFF
-	_name_label.clip_text = true
+	_name_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_fit_name(_name_label, 24 if mode == Mode.FULL else 25)
 	_name_label.add_theme_constant_override("line_spacing", -6)
@@ -208,6 +222,7 @@ func _build_name_bar() -> void:
 	if not data.is_infrastructure():
 		var pips: PipRow = PipRow.new()
 		pips.data = data
+		pips.step = _pip_step()
 		pips.position = Vector2(288 - 8 - _pips_width(), 12 + (height - 30.0) * 0.5)
 		pips.size = Vector2(_pips_width(), 30)
 		pips.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -220,27 +235,66 @@ func _display_name() -> String:
 	return data.display_name
 
 
+## Distance between cost pips: 32, tightened (the pips overlap a little) on 5+ pip costs so the name keeps room.
+func _pip_step() -> float:
+	var count: int = data.colored_pips.size() + (1 if data.generic_cost > 0 else 0)
+	return minf(32.0, MAX_PIPS_WIDTH / float(maxi(count, 1)))
+
+
 func _pips_width() -> float:
 	if data.is_infrastructure():
 		return 0.0
 	var count: int = data.colored_pips.size() + (1 if data.generic_cost > 0 else 0)
-	return maxf(30.0, count * 32.0)
+	return maxf(30.0, count * _pip_step())
 
 
+## Fits a card name into the space left of the cost pips: one line shrunk down to a floor size, otherwise wrapped lines shrunk
+## until they fit the bar. A very long "Name, Epithet" falls back to just the name part (the full name is on the hover preview),
+## and the label clips its contents, so a name can never touch the pips.
 func _fit_name(label: Label, max_size: int) -> void:
-	var font: Font = UIStyle.font_title()
-	var chosen: int = max_size
 	var available: float = label.size.x
-	while chosen > 12 and mode == Mode.FULL and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, chosen).x > available:
-		chosen -= 1
-	if mode == Mode.COMPACT:
-		while chosen > 17 and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, chosen).x > available * 1.9:
-			chosen -= 1
-	# A name that still does not fit on one line (long multi-Path card names) wraps onto two smaller lines.
-	if mode == Mode.FULL and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, chosen).x > available:
-		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		chosen = 17
-	label.add_theme_font_size_override("font_size", chosen)
+	var max_height: float = label.size.y - 2.0
+	var floor_size: int = MIN_WRAPPED_SIZE_FULL if mode == Mode.FULL else MIN_WRAPPED_SIZE_COMPACT
+	label.clip_contents = true
+	var candidates: Array[String] = [label.text]
+	if label.text.contains(","):
+		candidates.append(label.text.get_slice(",", 0).strip_edges())
+	for candidate: String in candidates:
+		if _try_fit_name(label, candidate, max_size, floor_size, available, max_height):
+			return
+	label.text = candidates[candidates.size() - 1]
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	label.add_theme_font_size_override("font_size", floor_size)
+
+
+func _try_fit_name(label: Label, text: String, max_size: int, floor_size: int, available: float, max_height: float) -> bool:
+	var font: Font = UIStyle.font_title()
+	var single_floor: int = MIN_SINGLE_LINE_SIZE_FULL if mode == Mode.FULL else MIN_SINGLE_LINE_SIZE_COMPACT
+	label.text = text
+	label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	for size_try: int in range(max_size, single_floor - 1, -1):
+		if font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_try).x <= available:
+			label.add_theme_font_size_override("font_size", size_try)
+			return true
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	for size_try: int in range(max_size, floor_size - 1, -1):
+		var wrapped: Vector2 = font.get_multiline_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, available, size_try, -1, TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE | TextServer.BREAK_MANDATORY)
+		if wrapped.x <= available and wrapped.y <= max_height:
+			label.add_theme_font_size_override("font_size", size_try)
+			return true
+	return false
+
+
+## True when the (possibly shrunk, wrapped or shortened) name sits inside the space left of the cost pips (used by tests).
+func name_fits() -> bool:
+	if _name_label == null:
+		return true
+	var font: Font = UIStyle.font_title()
+	var font_size: int = _name_label.get_theme_font_size("font_size")
+	var wrap_width: float = _name_label.size.x if _name_label.autowrap_mode != TextServer.AUTOWRAP_OFF else -1.0
+	var measured: Vector2 = font.get_multiline_string_size(_name_label.text, HORIZONTAL_ALIGNMENT_LEFT, wrap_width, font_size, -1, TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE | TextServer.BREAK_MANDATORY)
+	return measured.x <= _name_label.size.x + 0.5 and measured.y <= _name_label.size.y
 
 
 ## The art area: the whole card inside the frame border. Real art (assets/art/cards/<id>.webp) when it exists, the placeholder otherwise.
@@ -508,7 +562,7 @@ func _build_overlays() -> void:
 	for ring: int in range(3):
 		var grow: float = 3.0 + float(ring) * 5.0
 		var base: Rect2 = Rect2(Vector2(15, 90), Vector2(270, 270)) if mode == Mode.COIN else Rect2(Vector2.ZERO, SIZE)
-		var outline: Panel = _panel(Rect2(base.position - Vector2(grow, grow), base.size + Vector2(grow, grow) * 2.0), UIStyle.box(Color(1, 1, 1, 0), Color(1, 1, 1, 0), 4 if ring == 0 else 6, (135 if mode == Mode.COIN else 20) + int(grow)))
+		var outline: Panel = _panel(Rect2(base.position - Vector2(grow, grow), base.size + Vector2(grow, grow) * 2.0), UIStyle.box(Color(1, 1, 1, 0), Color(1, 1, 1, 0), 4 if ring == 0 else 6, ((COIN_TOKEN_RADIUS if (data != null and not data.is_resource()) else 135) if mode == Mode.COIN else 20) + int(grow)))
 		_glow.add_child(outline)
 	if _glow_kind != Glow.NONE:
 		set_glow.call_deferred(_glow_kind)
@@ -584,16 +638,17 @@ func set_glow(kind: Glow) -> void:
 class PipRow:
 	extends Control
 	var data: CardData
+	var step: float = 32.0
 
 	func _draw() -> void:
 		var x: float = size.x
 		var pips: Array[Affinity.Type] = data.colored_pips
 		# Right-aligned: colored pips first (from the right), generic on the left.
 		for index: int in range(pips.size() - 1, -1, -1):
-			x -= 32.0
+			x -= step
 			_pip(Vector2(x + 15.0, 15.0), UIStyle.affinity_color(pips[index]), "")
 		if data.generic_cost > 0:
-			x -= 32.0
+			x -= step
 			_pip(Vector2(x + 15.0, 15.0), Color("cdc5d6"), str(data.generic_cost))
 		elif pips.is_empty():
 			_pip(Vector2(size.x - 17.0, 15.0), Color("cdc5d6"), "0")

@@ -221,7 +221,7 @@ func find_card(uid: int) -> CardInstance:
 		if dying.uid == uid:
 			return dying
 	for player: PlayerState in players:
-		for zone: Array[CardInstance] in [player.field, player.infrastructure, player.hand, player.traps, player.refuse_pile, player.resources]:
+		for zone: Array[CardInstance] in [player.field, player.infrastructure, player.hand, player.traps, player.refuse_pile, player.resources, player.tokens]:
 			var card: CardInstance = PlayerState.find_in(zone, uid)
 			if card != null:
 				return card
@@ -1531,14 +1531,14 @@ func card_worth(card: CardInstance) -> int:
 	if card.data.is_unit():
 		var value: int = get_attack(card) * 2 + get_defense(card) + card.data.keywords.size() * 2 + card.buffs
 		return value if players[card.owner].field.has(card) else card.data.energy_value() * 2 + card.data.attack + card.data.defense
-	if card.data.is_resource():
+	if card.data.is_resource() or card.data.is_table_token():
 		return 1 if card.data.resource_kind >= int(ResourceKind.Kind.INGREDIENT) else 2
 	return card.data.energy_value() * 2 + 2
 
 
 func _remove_from_zones(card: CardInstance) -> void:
 	for player: PlayerState in players:
-		for zone: Array[CardInstance] in [player.field, player.infrastructure, player.hand, player.refuse_pile, player.deck, player.traps, player.resources]:
+		for zone: Array[CardInstance] in [player.field, player.infrastructure, player.hand, player.refuse_pile, player.deck, player.traps, player.resources, player.tokens]:
 			if zone.has(card):
 				zone.erase(card)
 	_clear_combat_refs(card.uid)
@@ -1620,6 +1620,10 @@ func steal_card(card: CardInstance, to_player: int, temporary: bool) -> bool:
 		source.resources.erase(card)
 		card.owner = to_player
 		target.resources.append(card)
+	elif source.tokens.has(card):
+		source.tokens.erase(card)
+		card.owner = to_player
+		target.tokens.append(card)
 	else:
 		return false
 	emit_event(GameEvent.Type.CONTROL_CHANGED, to_player, card.uid, from_player)
@@ -1686,7 +1690,7 @@ func copy_each_token(player_index: int) -> bool:
 		if card.is_token():
 			made = copy_unit_as_token(card, player_index) != null or made
 	var kinds: Dictionary = {}
-	for resource: CardInstance in players[player_index].resources:
+	for resource: CardInstance in players[player_index].resources + players[player_index].tokens:
 		kinds[resource.data.resource_kind] = int(kinds.get(resource.data.resource_kind, 0)) + 1
 	for kind: Variant in kinds.keys():
 		ResourceRules.create(self, player_index, int(kind) as ResourceKind.Kind, int(kinds[kind]))
@@ -1742,7 +1746,7 @@ func attach_tool(tool_card: CardInstance, unit: CardInstance) -> bool:
 
 ## Destroys a permanent: units die (unless Unbreakable), tools and wonders and infrastructure go to the Refuse Pile, a resource is removed.
 func destroy_card(card: CardInstance) -> bool:
-	if card.data.is_resource():
+	if card.data.is_resource() or card.data.is_table_token():
 		return ResourceRules.remove(self, card, false)
 	if card.data.is_unit():
 		if players[card.owner].find_field(card.uid) == null:
@@ -1779,7 +1783,7 @@ func destroy_permanent(card: CardInstance) -> bool:
 
 ## Shred: the card is removed from the game for good (from the field, a Refuse Pile, a hand, a deck...). No death triggers.
 func shred_card(card: CardInstance) -> bool:
-	if card.data.is_resource():
+	if card.data.is_resource() or card.data.is_table_token():
 		return ResourceRules.remove(self, card, true)
 	var found: bool = false
 	for player: PlayerState in players:
@@ -2084,7 +2088,7 @@ func _combat_actions(player_index: int) -> Array[GameAction]:
 ## One USE_RESOURCE action per (kind, target unit) the player can currently afford.
 func _resource_actions(player_index: int) -> Array[GameAction]:
 	var result: Array[GameAction] = []
-	for kind: ResourceKind.Kind in ResourceKind.all():
+	for kind: ResourceKind.Kind in ResourceKind.all_with_tokens():
 		if not ResourceKind.has_use_ability(kind) or players[player_index].count_resource(kind) < 1:
 			continue
 		for target_uid: int in ResourceRules.use_targets(self, player_index, kind):

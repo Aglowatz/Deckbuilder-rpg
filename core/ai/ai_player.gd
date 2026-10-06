@@ -85,7 +85,7 @@ func _board_value(state: GameState, player: PlayerState) -> float:
 ## Resources are worth holding: a few points for the ones that do something on their own, fewer for the ones cards spend.
 func _resource_value(player: PlayerState) -> float:
 	var total: float = 0.0
-	for resource: CardInstance in player.resources:
+	for resource: CardInstance in player.resources + player.tokens:
 		var kind: ResourceKind.Kind = resource.data.resource_kind as ResourceKind.Kind
 		if ResourceKind.has_use_ability(kind):
 			total += 1.0

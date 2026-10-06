@@ -150,6 +150,8 @@ static func card_flag(state: GameState, card: CardInstance, flag: String) -> boo
 ## How many times over resources of `kind` created for `player_index` are multiplied (Infinite Pantry, Harvest Festival).
 static func resource_multiplier(state: GameState, player_index: int, kind: ResourceKind.Kind) -> int:
 	var result: int = 1
+	if not ResourceKind.is_resource(kind):
+		return 1
 	if flag_count(state, player_index, "global_double_resources") > 0:
 		result *= 2
 	if kind == ResourceKind.Kind.INGREDIENT and flag_count(state, player_index, "double_ingredients") > 0:

@@ -7,7 +7,7 @@
 script = ExtResource("2_qkuwr")
 id = "T-13"
 display_name = "Contract"
-type = 6
+type = 7
 color = 4
 defense = 0
 rules_text = "Pay 1, use this Contract: exhaust target unit. It doesn't refresh during its controller's next turn. (Your turn only.)"

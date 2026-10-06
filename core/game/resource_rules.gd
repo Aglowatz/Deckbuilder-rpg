@@ -1,6 +1,6 @@
 class_name ResourceRules
 extends RefCounted
-## The Resource system (Brief 14, Part B): creating, using, destroying and spending resources, and the three built-in
+## The Resource system (Brief 14, Part B): creating, using, destroying and spending resources (and the Contract token), and the three built-in
 ## "pay 1 energy, use one" abilities (Iron, Red Tape, Contract) plus the Eat Garbage cost. Operates on a GameState.
 ## Resources are token permanents in `PlayerState.resources`; every one is a CardInstance of a resource token CardData.
 
@@ -14,7 +14,7 @@ static func data_for(kind: ResourceKind.Kind) -> CardData:
 	var card: CardData = CardData.new()
 	card.id = ResourceKind.card_id(kind)
 	card.display_name = ResourceKind.display_name(kind)
-	card.type = CardEnums.CardType.RESOURCE
+	card.type = CardEnums.CardType.RESOURCE if ResourceKind.is_resource(kind) else CardEnums.CardType.TOKEN
 	card.is_token = true
 	card.resource_kind = int(kind)
 	card.color = ResourceKind.path_of(kind)
@@ -42,13 +42,14 @@ static func create(state: GameState, player_index: int, kind: ResourceKind.Kind,
 	for i: int in range(total):
 		var card: CardInstance = state.create_instance(data_for(kind), player_index)
 		card.entered_turn = state.turn
-		player.resources.append(card)
+		player.zone_for_kind(kind).append(card)
 		created.append(card)
 		state.emit_event(GameEvent.Type.RESOURCE_CREATED, player_index, card.uid, source_uid, 1, int(kind))
 	for card: CardInstance in created:
 		if state.is_over():
 			break
-		state.fire_game_event("resource_created", {"card": card, "player": player_index, "kind": int(kind), "source": source_uid})
+		if ResourceKind.is_resource(kind):
+			state.fire_game_event("resource_created", {"card": card, "player": player_index, "kind": int(kind), "source": source_uid})
 		state.fire_game_event("creates_token", {"card": card, "player": player_index, "source": source_uid})
 	return created
 
@@ -61,16 +62,17 @@ static func use(state: GameState, player_index: int, kind: ResourceKind.Kind, co
 	if player.count_resource(kind) < count:
 		return false
 	var removed: int = 0
-	for card: CardInstance in player.resources.duplicate():
+	for card: CardInstance in player.zone_for_kind(kind).duplicate():
 		if card.data.resource_kind != int(kind):
 			continue
-		player.resources.erase(card)
+		player.zone_for_kind(kind).erase(card)
 		state.emit_event(GameEvent.Type.RESOURCE_USED, player_index, card.uid, 0, 1, int(kind))
 		removed += 1
 		if removed >= count:
 			break
-	for i: int in range(removed):
-		state.fire_game_event("resource_used", {"player": player_index, "kind": int(kind)})
+	if ResourceKind.is_resource(kind):
+		for i: int in range(removed):
+			state.fire_game_event("resource_used", {"player": player_index, "kind": int(kind)})
 	return true
 
 
@@ -90,17 +92,18 @@ static func use_any_of(state: GameState, player_index: int, kinds: Array[Resourc
 	return true
 
 
-## Removes one specific resource without "using" it (destroyed or Shredded by a card).
+## Removes one specific resource or Contract token without "using" it (destroyed or Shredded by a card).
 static func remove(state: GameState, card: CardInstance, shredded: bool = false) -> bool:
 	var player: PlayerState = state.players[card.owner]
-	if not player.resources.has(card):
+	var zone: Array[CardInstance] = player.zone_for_kind(card.data.resource_kind as ResourceKind.Kind)
+	if not zone.has(card):
 		return false
-	player.resources.erase(card)
+	zone.erase(card)
 	state.emit_event(GameEvent.Type.RESOURCE_REMOVED, card.owner, card.uid, 0, 1 if shredded else 0, card.data.resource_kind)
 	return true
 
 
-## All of a player's resources, optionally only of the given kinds (empty = every kind).
+## All of a player's resources (never Contract tokens), optionally only of the given kinds (empty = every resource kind).
 static func of_player(state: GameState, player_index: int, kinds: Array[ResourceKind.Kind] = [] as Array[ResourceKind.Kind]) -> Array[CardInstance]:
 	var result: Array[CardInstance] = []
 	for card: CardInstance in state.players[player_index].resources:
@@ -197,3 +200,10 @@ static func eat(state: GameState, player_index: int, times: int = 1) -> bool:
 		state.emit_event(GameEvent.Type.GARBAGE_EATEN, player_index)
 		state.fire_game_event("eat", {"player": player_index})
 	return true
+
+
+## All of a player's Contract tokens (the non-resource, non-unit table tokens).
+static func tokens_of_player(state: GameState, player_index: int) -> Array[CardInstance]:
+	var result: Array[CardInstance] = []
+	result.append_array(state.players[player_index].tokens)
+	return result

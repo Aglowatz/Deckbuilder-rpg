@@ -33,8 +33,10 @@ var non_infrastructure_play_cap: int = -1
 ## New brief, Part F: how many SCRIPTED_ESCALATING_SUMMON activations this player has had this
 ## duel - selects which stage (capped at the last) the next one summons.
 var scripted_summon_count: int = 0
-## Brief 14: Resources (Iron, Red Tape, Contract, Ingredient, Garbage) are token permanents in their own zone.
+## The four Resources (Iron, Red Tape, Ingredient, Garbage) are token permanents in their own zone.
 var resources: Array[CardInstance] = []
+## Non-unit tokens that are not resources (the Necrocrat Contract) sit in their own zone.
+var tokens: Array[CardInstance] = []
 ## Brief 14: floating energy (from "add (R)" abilities): each entry is an Affinity.Type, or POOL_ANY for "one energy of any
 ## Path". It is spent before infrastructure and empties at the end of the turn.
 var pool: Array[int] = []
@@ -72,13 +74,18 @@ func find_resource(uid: int) -> CardInstance:
 	return find_in(resources, uid)
 
 
-## How many resources of `kind` this player controls.
+## How many resources of `kind` (or Contract tokens, for Kind.CONTRACT) this player controls.
 func count_resource(kind: ResourceKind.Kind) -> int:
 	var total: int = 0
-	for resource: CardInstance in resources:
+	for resource: CardInstance in zone_for_kind(kind):
 		if resource.data.resource_kind == int(kind):
 			total += 1
 	return total
+
+
+## The zone a kind lives in: `resources` for the four resources, `tokens` for Contract.
+func zone_for_kind(kind: ResourceKind.Kind) -> Array[CardInstance]:
+	return resources if ResourceKind.is_resource(kind) else tokens
 
 
 func wonders() -> Array[CardInstance]:
@@ -136,6 +143,7 @@ func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.pool = pool.duplicate()
 	copy.cards_played_this_turn = cards_played_this_turn
 	copy.resources = _clone_zone(resources)
+	copy.tokens = _clone_zone(tokens)
 	if deep_deck:
 		copy.deck = _clone_zone(deck)
 	else:

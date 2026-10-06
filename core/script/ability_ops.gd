@@ -520,7 +520,7 @@ static func _create(fx: CardAbility.Fx, ctx: AbilityContext) -> bool:
 		if token == null:
 			push_warning("create(): unknown token '%s'" % what)
 			return false
-		if token.is_resource():
+		if token.is_resource() or token.is_table_token():
 			for card: CardInstance in ResourceRules.create(state, beneficiary, token.resource_kind as ResourceKind.Kind, count, ctx.source_uid()):
 				made.append(card.uid)
 		else:

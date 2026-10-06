@@ -1,9 +1,10 @@
 class_name ResourceKind
 extends RefCounted
-## The five Resources (Design Guidance): token permanents that live in their own zone per player.
-## Iron (Beefcake), Red Tape (Necrocrat), Contract (Necrocrat), Ingredient (Gourmand), Garbage (Refusemancer).
-## Iron, Red Tape and Contract have a built-in "pay 1, use one" ability; Ingredient and Garbage do nothing alone
-## (cards spend them).
+## The FOUR resources (Design Guidance): Iron (Beefcake), Red Tape (Necrocrat), Ingredient (Gourmand), Garbage (Refusemancer).
+## They are token permanents that live in `PlayerState.resources`, created by basic Infrastructure and card effects.
+## Contract is NOT a resource: it is a non-unit Necrocrat token (`PlayerState.tokens`). It shares this enum only so the
+## engine can address it by kind; `is_resource()` is false for it and `all()` lists the four resources only.
+## Iron, Red Tape and Contract have a built-in "pay 1, use one" ability; Ingredient and Garbage do nothing alone.
 
 enum Kind { IRON, RED_TAPE, CONTRACT, INGREDIENT, GARBAGE }
 
@@ -35,7 +36,7 @@ const PLURALS: Dictionary = {
 	Kind.GARBAGE: "Garbage",
 }
 
-## The Path each resource belongs to (Contract is the second Necrocrat resource).
+## The Path each resource or token belongs to.
 const PATHS: Dictionary = {
 	Kind.IRON: Affinity.Type.BEEFCAKE,
 	Kind.RED_TAPE: Affinity.Type.NECROCRAT,
@@ -70,9 +71,21 @@ const COLORS: Dictionary = {
 }
 
 
+## The four resources (never Contract).
 static func all() -> Array[Kind]:
+	var result: Array[Kind] = [Kind.IRON, Kind.RED_TAPE, Kind.INGREDIENT, Kind.GARBAGE]
+	return result
+
+
+## Every kind the engine can address: the four resources plus the Contract token.
+static func all_with_tokens() -> Array[Kind]:
 	var result: Array[Kind] = [Kind.IRON, Kind.RED_TAPE, Kind.CONTRACT, Kind.INGREDIENT, Kind.GARBAGE]
 	return result
+
+
+## True for the four resources; false for the Contract token.
+static func is_resource(kind: Kind) -> bool:
+	return kind != Kind.CONTRACT
 
 
 static func card_id(kind: Kind) -> String:

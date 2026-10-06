@@ -11,7 +11,7 @@ CORE TERMS,Play,Cast.,
 CORE TERMS,Deck,Library.,
 CORE TERMS,Refuse Pile,Graveyard.,
 CORE TERMS,The field,Battlefield.,
-CORE TERMS,Use,"Sacrifice a token or resource (e.g. ""Use a Garbage"").",
+CORE TERMS,Use,"Sacrifice a token or resource (e.g. ""Use a Garbage"", ""Use a token""). Contracts count as tokens, never as resources.",
 CORE TERMS,Destroy (your own),"Sacrificing your own unit, Tool, or Wonder is written as ""Destroy a unit you control: ..."".",
 CORE TERMS,Shred,Exile. The card is removed from the game for good. Use sparingly; it is the main answer to Refusemancer recursion.,Meta imagery: the card is literally shredded.
 CORE TERMS,Toss,Discard.,
@@ -28,12 +28,12 @@ CORE TERMS,Combat,Attackers attack the opposing PLAYER only. The defender may as
 ,,,
 CARD TYPES,Unit,Creature. All Paths use units.,
 CARD TYPES,Infrastructure,Land.,
-CARD TYPES,Resource,"Iron (B), Red Tape (N), Ingredient (G), Garbage (R). Token-like permanents created by basic Infrastructure and card effects.",New to this game; key differentiator from MTG.
+CARD TYPES,Resource,"There are exactly FOUR resources: Iron (B), Red Tape (N), Ingredient (G), Garbage (R). Token-like permanents created by basic Infrastructure and card effects. Contract is NOT a resource.",New to this game; key differentiator from MTG.
 CARD TYPES,Spell,"Sorcery. Played on your turn, resolves, goes to the Refuse Pile.",
 CARD TYPES,Trap,"Played face-down on your turn; triggers automatically on the opponent's turn when its condition is met. Max 3 set traps (game rule, may change).",Hearthstone-style secrets.
 CARD TYPES,Tool,"Artifact/equipment-like. Often one-time use (""Destroy this Tool: ..."") or attach-to-a-unit (""Exhaust: attach to target unit you control."" Your turn only).",No Equip X keyword.
 CARD TYPES,Wonder,Enchantment-like. Usually static effects or repeatable uses.,
-CARD TYPES,Token,"Created by effects (Rats, Golems, Sashimi Weenies, Snacks, etc.). Resources are also tokens.",
+CARD TYPES,Token,"Created by effects (Rats, Golems, Sashimi Weenies, Snacks, Contracts, Clauses, etc.). Everything a card creates other than the four resources is a token, not a resource. Resources are also token-like permanents; the Contract is a non-unit Necrocrat token.",
 ,,,
 KEYWORDS,Flying,Can only be blocked by units with Flying or Swat.,Kept from MTG.
 KEYWORDS,Swat,Can block units with Flying.,Reach.
@@ -52,7 +52,7 @@ KEYWORDS,Not used,"Guard, Equip X, Ward/Notarized, Menace (one blocker per attac
 ,,,
 RESOURCES,Iron (Beefcake),"Pay 1 energy, use an Iron: target unit gets +1 attack permanently. Your turn only.",Created by Powerhouse.
 RESOURCES,Red Tape (Necrocrat),"Pay 1 energy, use a Red Tape: target unit gets -1 attack permanently. Your turn only.",Created by Ghost Town.
-RESOURCES,Contract (Necrocrat),"Pay 1 energy, use a Contract: exhaust target unit. It doesn't refresh during its controller's next turn. Your turn only.",Second Necrocrat token. Can target any unit (allows combos).
+TOKENS (not resources),Contract (Necrocrat),"Pay 1 energy, use a Contract: exhaust target unit. It doesn't refresh during its controller's next turn. Your turn only.","Necrocrat non-unit token, NOT a resource. Effects that refer to resources never include Contracts; effects that refer to tokens do. Can target any unit (allows combos)."
 RESOURCES,Ingredient (Gourmand),"Does nothing on its own. Spent by Gourmand cards (Cook, golems, recipes).",Created by Feastforge.
 RESOURCES,Garbage (Refusemancer),Does nothing on its own. Spent by Refusemancer cards (Eat Garbage).,Created by Wasteworks.
 ,,,

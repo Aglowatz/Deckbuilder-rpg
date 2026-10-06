@@ -16,7 +16,7 @@ Export the three tabs as CSV into `data/source/` (overwrite):
 | File | Content |
 |------|---------|
 | `card_list.csv` | Every card. Rows with a value in the **Card ID** column are cards; section header rows ("Gourmand / Necrocrat:", "Colorless:", "Infrastructure:") give the card's Path(s); everything else (side notes, ideas) is ignored. |
-| `token_list.csv` | Every token (units, Clause, the Contract and Red Tape resources, Grandmaster Flex...). |
+| `token_list.csv` | Every token (units, Clause, the Contract token, the Red Tape resource, Grandmaster Flex...). |
 | `design_guidance.csv` | The rules glossary (terms, keywords, resources). Read by humans; the engine implements it. |
 
 `data/source/.gdignore` keeps Godot from importing the CSVs as translations. `data/source/card_overrides.csv` (`Card ID,not_in_packs`)
@@ -35,8 +35,8 @@ The importer (`core/data/card_importer.gd`, driven by `tools/import_cards.gd`) b
 (generic digits then `(B)(N)(G)(R)` pips), Paths (from the sheet section, so a "Gourmand / Necrocrat" card with a single
 (N) pip is still both Paths; Infrastructure takes its Paths from its `produce` line), type, rarity (+ Signature flag), attack/defense,
 rules text, flavor, image description (metadata for the art step), `not_in_packs` (default false), keywords and the script.
-Three resource tokens that only exist in the Design Guidance (`RES-IRON`, `RES-INGREDIENT`, `RES-GARBAGE`) are generated beside the
-sheet's tokens (`T-13` Contract and `T-14` Red Tape).
+Three of the four resources only exist in the Design Guidance (`RES-IRON`, `RES-INGREDIENT`, `RES-GARBAGE`) are generated beside the
+sheet's tokens (`T-13` Contract, a non-resource token, and `T-14` Red Tape).
 
 **The report** (`docs/card_import_report.md`) lists, after every run:
 
@@ -101,7 +101,7 @@ Untouchable units and protected units are excluded when a player chooses a targe
 ### Costs
 `exhaust`, `overexert`, `pay(2)` / `pay(G)` / `pay(1G)`, `use(ingredient,2)` / `use(redtape\|contract)` / `use(ingredient,X)` / `use(token)`, `eat` / `eat(2)`,
 `destroy(unit.mine)` / `destroy(unit.mine.tok:T-02,2)` / `destroy_self` (this Tool). The permanent that exhausts as part of a cost cannot pay the
-energy cost itself. Resource words: `iron redtape contract ingredient garbage`.
+energy cost itself. Resource words: `iron redtape ingredient garbage`; `contract` is the one non-resource table token.
 
 ### Effects (`;`-separated; `{ ... }` blocks as arguments)
 Damage and removal: `damage(sel,n[,source])` `damage_divided(ts,n)` `destroy(sel)` `destroy_self` `shred(sel)` `send_back(sel)` `to_hand(sel)` (Regrow) `edict(opp)` `plate(sel)` `brawl(a,b)` `brawl_each(spec,spec)`.

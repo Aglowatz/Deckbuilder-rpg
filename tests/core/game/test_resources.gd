@@ -1,5 +1,5 @@
 extends GutTest
-## Brief 14, Part B: the Resource system (Iron, Red Tape, Contract, Ingredient, Garbage), basic Infrastructure creating
+## Brief 14, Part B: the Resource system (Iron, Red Tape, Ingredient, Garbage; the Contract is a token), basic Infrastructure creating
 ## resources, the three "pay 1, use one" abilities, Eat Garbage, floating energy and the AI's use of resources.
 
 const KIND := ResourceKind.Kind
@@ -322,3 +322,30 @@ func test_the_ai_uses_red_tape_on_the_players_best_attacker_and_contract_on_a_bl
 		game.apply_action(action)
 	assert_true(game.get_attack(foe_unit) < 5 or foe_unit.exhausted, "the AI used a resource on the big enemy unit")
 	assert_true(game.get_attack(mine) >= 1)
+
+
+# ---- Contract is a token, not a resource ----------------------------------------------------------
+
+
+func test_there_are_exactly_four_resources_and_contract_is_not_one() -> void:
+	assert_eq(ResourceKind.all().size(), 4)
+	assert_false(ResourceKind.all().has(KIND.CONTRACT))
+	assert_false(ResourceKind.is_resource(KIND.CONTRACT))
+	for kind: ResourceKind.Kind in ResourceKind.all():
+		assert_true(ResourceKind.is_resource(kind))
+
+
+func test_a_contract_lives_in_the_token_zone_and_is_a_non_unit_token() -> void:
+	var game: GameState = _game()
+	_give(game, 0, KIND.CONTRACT, 2)
+	_give(game, 0, KIND.IRON, 1)
+	assert_eq(game.players[0].tokens.size(), 2)
+	assert_eq(game.players[0].resources.size(), 1, "Contracts are not in the resource zone")
+	var contract: CardInstance = game.players[0].tokens[0]
+	assert_eq(contract.data.type, CardEnums.CardType.TOKEN)
+	assert_false(contract.data.is_resource())
+	assert_true(contract.data.is_table_token())
+	assert_true(contract.is_token())
+	assert_eq(game.find_card(contract.uid), contract)
+	assert_eq(game.resource_count(0, KIND.CONTRACT), 2)
+	assert_eq(ResourceRules.of_player(game, 0).size(), 1, "of_player lists resources only")

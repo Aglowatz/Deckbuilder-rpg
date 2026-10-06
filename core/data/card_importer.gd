@@ -261,6 +261,7 @@ static func parse_tokens() -> Array[Entry]:
 			card.defense = 0
 		elif type_text.begins_with("special token"):
 			card.type = CardEnums.CardType.TOKEN
+			card.resource_kind = ResourceKind.from_card_id(entry.id)
 			card.defense = 0
 		else:
 			card.type = CardEnums.CardType.UNIT

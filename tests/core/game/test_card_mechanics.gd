@@ -189,6 +189,8 @@ func test_infinite_pantry_and_harvest_festival_double_resources() -> void:
 	_field(game, 1, "GRB-07")
 	_give(game, 0, KIND.IRON, 1)
 	assert_eq(_count(game, 0, KIND.IRON), 3, "Harvest Festival doubles every resource created for every player")
+	_give(game, 0, KIND.CONTRACT, 1)
+	assert_eq(_count(game, 0, KIND.CONTRACT), 1, "a Contract is a token, not a resource: Harvest Festival does not double it")
 	_give(game, 0, KIND.INGREDIENT, 1)
 	assert_eq(_count(game, 0, KIND.INGREDIENT), 10, "both effects stack: x4")
 
