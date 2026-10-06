@@ -72,9 +72,10 @@ static func recipe(preset_id: StringName) -> Dictionary:
 				"items": [
 					[NATURE, "grass_leafs", 26.0, 1.4, 2.3], [NATURE, "plant_flatShort", 6.0, 1.3, 2.0], [NATURE, "mushroom_tanGroup", 2.0, 1.4, 2.2],
 					[SURVIVAL, "box", 0.8, 1.2, 1.8], [SURVIVAL, "barrel", 0.5, 1.2, 1.6], [SURVIVAL, "bottle", 0.8, 1.6, 2.4], [SURVIVAL, "tree-log-small", 0.5, 1.3, 1.8],
+					[SURVIVAL, "bucket", 0.5, 1.3, 1.8], [SURVIVAL, "box-large", 0.4, 1.2, 1.6], [SURVIVAL, "barrel-open", 0.4, 1.2, 1.6], [SURVIVAL, "resource-planks", 0.5, 1.3, 1.8], [SURVIVAL, "metal-panel", 0.3, 1.2, 1.6], [SURVIVAL, "rock-c", 0.5, 1.4, 2.0], [SURVIVAL, "bottle-large", 0.4, 1.6, 2.2],
 					[NATURE, "stump_square", 0.6, 1.4, 2.0],
 				],
-				"patches": [Color("8a7a3a"), Color("9a6a3a"), Color("6a8a3a")], "patch_pattern": GroundDecals.Pattern.DIRT,
+				"patches": [Color("8a7a3a"), Color("9a6a3a"), Color("6a8a3a")], "patch_pattern": GroundDecals.Pattern.DIRT, "density": 2.0, "scale": 1.6,
 			}
 		StylePresets.CAPITAL_FACADE, StylePresets.CAPITAL_FREED:
 			return {

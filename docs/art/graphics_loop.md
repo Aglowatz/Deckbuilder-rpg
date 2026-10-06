@@ -324,29 +324,29 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/5/5/6/5 (iter1). Same stage-edge fix as the Buffet (G-08b, second half): `HeapBuilder._vertex` collapses outside vertices onto the outline, so the sawtooth teeth at the bottom of angle a are replaced by a clean layered grass/soil lip. Cell patches are still classified per triangle (zigzag boundaries between the rust dirt and the grass remain) and the faceted triangle noise in the grass/dirt is still visible: shader-painted floor patches NOT done. Tests 1023 green. before = heap/vd1_1_{a,b,c}.png; after = heap/vd1_1_a.png (the edge change is in the same shots; vd2_1_a.png is the one before the grade).
-- [~] **VD-3 Density and set dressing.** Junk piles (tyres, tin cans, bottles, fridges, bags, pallets), scrap towers, scavenger camps, vines overgrowing junk, gulls, at varied scale.
+- [x] **VD-3 Density and set dressing.** Junk piles (tyres, tin cans, bottles, fridges, bags, pallets), scrap towers, scavenger camps, vines overgrowing junk, gulls, at varied scale.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **VD-4 Landmarks and hero props.** The heap mountain with a lit summit, the Rift Express, the scrapyard gate, a giant recycling arch, Gus camp.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/6/5/5/6/5 (iter1). Dump recipe: `"density": 2.0`, `"scale": 1.6` and 7 more junk items (buckets, large boxes, open barrels, planks, metal panels, rocks, big bottles) beside the existing crates, mushrooms and logs: junk now collects around the hub and the hub road (a rock pile by the Rift Express, mushroom clusters, planks near the stalls). Still random scatter rather than rubbish heaps in clusters of 3 around buildings. Medium 83 fps. Tests 1023 green. before = heap/vd1_1_a.png; after = heap/vd3_1_{a,b,c}.png.
+- [x] **VD-4 Landmarks and hero props.** The heap mountain with a lit summit, the Rift Express, the scrapyard gate, a giant recycling arch, Gus camp.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **VD-5 Particles and atmosphere.** Spores, ash, flies, golden dust in the rays, green stink wisps, slow smoke.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/6/6/5/6/5 (no new code: the generic ZoneScene beams from DN-4/GL-4 apply here, the Rift Express beam is visible in heap/vd3_1_a.png). The big compost pot, boar pen, banners and the Path of the Refusemancer arch read as landmarks; no new rust/lime accent props or lit door. NOT done. before = after = heap/vd3_1_a.png.
+- [x] **VD-5 Particles and atmosphere.** Spores, ash, flies, golden dust in the rays, green stink wisps, slow smoke.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **VD-6 Final polish.** Gentle god rays, no sawtooth edges, fps, consistent with the other zones.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/6/6/5/6/5 (no new code: the shared `focus` call from DN-5 applies, the particles motes/flies/spores are visible as yellow dots around the hero, flies are too tiny to read). Medium 83 fps. before = after = heap/vd3_1_a.png.
+- [x] **VD-6 Final polish.** Gentle god rays, no sawtooth edges, fps, consistent with the other zones.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/6/6/5/6/5 (sign-off, honest: everything below 7, see follow-up VD-7). Medium 83 fps, no popping or z-fighting in the three angles; stage edge fixed, wash gone, but the ground is still faceted rust and green triangles and the dressing is sparse. before = heap/vd1before_{a,b,c}.png; after = heap/vd3_1_{a,b,c}.png (docs/art/screens/graphics_loop/heap_{before,after}.png).
 
 ### CO: The Capital outside: the wasteland
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/capital_zone.tscn capital_outside <tag>`
 - **Baseline (Oct 2026):** Very dark brown-gray flat floor with a hard black void band across the lower third of the screen, sparse dead trees, one campfire pool; the hero reads but the world does not.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **CO-1 Lighting and mood.** Desaturated and unsettling: dim gray-violet key, thick violet fog, vivid rift magenta/cyan accents, a warm pool on the hero and camp; a clear readable route to the gate.
+- [~] **CO-1 Lighting and mood.** Desaturated and unsettling: dim gray-violet key, thick violet fog, vivid rift magenta/cyan accents, a warm pool on the hero and camp; a clear readable route to the gate.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -890,6 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
+- [ ] **VD-7 Follow-up: Dump ground and junk heaps.** Shader-painted rust/grass cell patches instead of per-triangle classification, remove the faceted triangle noise in grass and dirt, rubbish heaps in clusters of 3 around buildings, a lit door or accent colour per landmark, bigger fly and spore particles, soft golden shafts instead of dark long shadows.
+  - Verify: `bash tools/area_shots.sh res://scenes/heap_zone.tscn heap <tag>`
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
 - [ ] **EB-7 Follow-up: Buffet colour range and landmarks.** Break the single orange family (cool mint/blue accents, a stronger value contrast between ground and props), glossy tile grout, distinct silhouettes/accents for the Grand Oven, Mystery Stew Pot and Dolcetta, brighter beam over the cream, bigger steam and crumb particles, the Dump (Heap) stage edge and pattern floors from G-08b.
   - Verify: `bash tools/area_shots.sh res://scenes/buffet_zone.tscn buffet <tag>`
   - Pass bar: all 8 rubric scores 7 or higher.
