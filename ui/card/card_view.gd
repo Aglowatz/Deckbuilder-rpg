@@ -103,9 +103,13 @@ func _build() -> void:
 		return
 	_base_attack = data.attack
 	_base_defense = data.defense
-	_frame = _panel(Rect2(Vector2.ZERO, SIZE), UIStyle.box(Color("1c1526"), accent.darkened(0.15), 6, 14, 10))
+	var rarity: int = int(data.rarity)
+	var border: Color = accent.darkened(0.15) if rarity == 0 else accent.darkened(0.15).lerp(RARITY_COLORS[rarity], 0.55)
+	_frame = _panel(Rect2(Vector2.ZERO, SIZE), UIStyle.box(Color("1c1526"), border, 6 if rarity < 3 else 8, 14, 10))
 	add_child(_frame)
 	_build_art()
+	if rarity >= 2:
+		_build_foil(rarity)
 	if dual:
 		add_child(_panel(Rect2(Vector2(3, 3), SIZE - Vector2(6, 6)), UIStyle.box(Color(0, 0, 0, 0), accent2.darkened(0.1), 4, 11)))
 	_build_name_bar()
@@ -122,22 +126,15 @@ func _build() -> void:
 func _build_coin() -> void:
 	var kind: int = data.resource_kind
 	var color: Color = ResourceKind.COLORS.get(kind, accent) as Color
-	var glyph_text: String = str(ResourceKind.GLYPHS.get(kind, "?"))
 	var diameter: float = 270.0
 	var rect: Rect2 = Rect2((SIZE - Vector2(diameter, diameter)) * 0.5, Vector2(diameter, diameter))
 	_frame = _panel(rect, UIStyle.box(color, Color(0.07, 0.05, 0.1), 18, 135, 12))
 	add_child(_frame)
 	add_child(_panel(Rect2(rect.position + Vector2(26, 26), rect.size - Vector2(52, 52)), UIStyle.box(Color(0, 0, 0, 0), Color(1, 1, 1, 0.45), 8, 110)))
-	var glyph: Label = Label.new()
-	glyph.text = glyph_text
-	glyph.position = rect.position
-	glyph.size = rect.size
-	glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	glyph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	glyph.add_theme_font_override("font", UIStyle.font_bold())
-	glyph.add_theme_font_size_override("font_size", 96)
-	glyph.add_theme_color_override("font_color", Color("1b1020"))
-	glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var icon_key: String = str(CardIcons.RESOURCE_ICONS.get(ResourceKind.Kind.keys()[kind], "lorc/magic-swirl"))
+	var glyph: TextureRect = CardIcons.glyph(CardIcons.named(icon_key), Color("1b1020"), Vector2(170, 170))
+	glyph.position = rect.position + (rect.size - Vector2(170, 170)) * 0.5
+	glyph.size = Vector2(170, 170)
 	add_child(glyph)
 	_build_overlays()
 
@@ -203,6 +200,7 @@ func _build_name_bar() -> void:
 	_name_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.6))
 	_name_label.add_theme_constant_override("shadow_offset_y", 2)
 	_name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART if mode == Mode.COMPACT else TextServer.AUTOWRAP_OFF
+	_name_label.clip_text = true
 	_name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_fit_name(_name_label, 24 if mode == Mode.FULL else 25)
 	_name_label.add_theme_constant_override("line_spacing", -6)
@@ -233,7 +231,7 @@ func _fit_name(label: Label, max_size: int) -> void:
 	var font: Font = UIStyle.font_title()
 	var chosen: int = max_size
 	var available: float = label.size.x
-	while chosen > 15 and mode == Mode.FULL and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, chosen).x > available:
+	while chosen > 12 and mode == Mode.FULL and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, chosen).x > available:
 		chosen -= 1
 	if mode == Mode.COMPACT:
 		while chosen > 17 and font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, chosen).x > available * 1.9:
@@ -286,6 +284,25 @@ func _build_art() -> void:
 
 
 ## Placeholder art: the gradient with the card's icon silhouette, in the upper-middle of the frame (where the art's subject would sit).
+## Epic and Legendary cards get a foil sheen across the art and a bright inner rim.
+func _build_foil(rarity: int) -> void:
+	var sheen: Gradient = Gradient.new()
+	sheen.offsets = PackedFloat32Array([0.0, 0.42, 0.5, 0.58, 1.0])
+	sheen.colors = PackedColorArray([Color(1, 1, 1, 0.0), Color(1, 1, 1, 0.0), Color(1, 1, 1, 0.16 if rarity == 2 else 0.24), Color(1, 1, 1, 0.0), Color(1, 1, 1, 0.0)])
+	var texture: GradientTexture2D = GradientTexture2D.new()
+	texture.gradient = sheen
+	texture.fill_from = Vector2(0.0, 0.0)
+	texture.fill_to = Vector2(1.0, 0.85)
+	var rect: TextureRect = TextureRect.new()
+	rect.texture = texture
+	rect.position = Vector2(5, 5)
+	rect.size = SIZE - Vector2(10, 10)
+	rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(rect)
+	add_child(_panel(Rect2(Vector2(7, 7), SIZE - Vector2(14, 14)), UIStyle.box(Color(0, 0, 0, 0), Color(RARITY_COLORS[rarity], 0.85), 2, 10)))
+
+
 func _build_placeholder_art(rect: Rect2) -> void:
 	var art: ColorRect = ColorRect.new()
 	art.position = rect.position
@@ -374,7 +391,7 @@ func _build_rules() -> void:
 	rules.scroll_active = false
 	rules.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rules.add_theme_color_override("default_color", PARCHMENT_TEXT)
-	var size_px: int = 20 if data.rules_text.length() < 55 else (18 if data.rules_text.length() < 100 else 16)
+	var size_px: int = _rules_font_size()
 	for key: String in ["normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size"]:
 		rules.add_theme_font_size_override(key, size_px)
 	var text: String = KeywordInfo.rules_bbcode(data)
@@ -383,6 +400,20 @@ func _build_rules() -> void:
 		text += "\n[i][color=#6b5b73]%s[/color][/i]" % data.flavor_text
 	rules.text = text
 	add_child(rules)
+
+
+## The biggest rules font (20 down to 11) whose wrapped text, with the flavor line when it is shown, fits the 260x72 panel.
+func _rules_font_size() -> int:
+	var plain: String = data.rules_text if data.rules_text != "" else (KeywordInfo.rules_bbcode(data) if data.is_infrastructure() else "")
+	if data.flavor_text != "" and data.rules_text.length() < 40:
+		plain += "
+" + data.flavor_text
+	var font: Font = UIStyle.font_bold()
+	for candidate: int in range(20, 10, -1):
+		var measured: Vector2 = font.get_multiline_string_size(plain, HORIZONTAL_ALIGNMENT_LEFT, 258.0, candidate)
+		if measured.y <= 72.0:
+			return candidate
+	return 11
 
 
 func _build_chips() -> void:

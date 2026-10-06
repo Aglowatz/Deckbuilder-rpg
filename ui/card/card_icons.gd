@@ -85,8 +85,40 @@ static var _cache: Dictionary = {}
 static func for_card(card: CardData) -> Texture2D:
 	var key: String = str(BY_ID.get(card.id, ""))
 	if key == "":
-		key = "lorc/magic-swirl"
+		key = placeholder_key(card)
 	return _load(key)
+
+
+## Placeholder silhouette per Path and card type, so cards without art still look different from each other.
+const PLACEHOLDER_BY_PATH: Dictionary = {
+	Affinity.Type.BEEFCAKE: {"unit": "delapouite/biceps", "spell": "lorc/fire-punch", "trap": "lorc/wolf-trap", "wonder": "delapouite/weight-lifting-up", "tool": "delapouite/belt-armor"},
+	Affinity.Type.GOURMAND: {"unit": "delapouite/chef-toque", "spell": "delapouite/fork-knife-spoon", "trap": "delapouite/olive", "wonder": "lorc/cauldron", "tool": "delapouite/ladle"},
+	Affinity.Type.REFUSEMANCER: {"unit": "lorc/boar-tusks", "spell": "lorc/recycle", "trap": "lorc/wolf-trap", "wonder": "delapouite/mushrooms-cluster", "tool": "delapouite/rubber-boot"},
+	Affinity.Type.NECROCRAT: {"unit": "delapouite/shambling-zombie", "spell": "delapouite/stamper", "trap": "delapouite/key-card", "wonder": "delapouite/full-folder", "tool": "caro-asercion/stapler"},
+	Affinity.Type.NEUTRAL: {"unit": "delapouite/guards", "spell": "lorc/scroll-unfurled", "trap": "lorc/wolf-trap", "wonder": "delapouite/castle", "tool": "delapouite/backpack"},
+}
+
+
+const RESOURCE_ICONS: Dictionary = {
+	"IRON": "lorc/breastplate", "RED_TAPE": "delapouite/files", "CONTRACT": "lorc/scroll-unfurled", "INGREDIENT": "delapouite/olive", "GARBAGE": "lorc/recycle",
+}
+
+
+static func placeholder_key(card: CardData) -> String:
+	var kind: String = "unit"
+	match card.type:
+		CardEnums.CardType.SPELL:
+			kind = "spell"
+		CardEnums.CardType.TRAP:
+			kind = "trap"
+		CardEnums.CardType.WONDER:
+			kind = "wonder"
+		CardEnums.CardType.TOOL:
+			kind = "tool"
+		CardEnums.CardType.INFRASTRUCTURE, CardEnums.CardType.RESOURCE:
+			return "lorc/magic-swirl"
+	var set: Dictionary = PLACEHOLDER_BY_PATH.get(card.color, PLACEHOLDER_BY_PATH[Affinity.Type.NEUTRAL]) as Dictionary
+	return str(set[kind])
 
 
 static func for_item(item: ItemData) -> Texture2D:

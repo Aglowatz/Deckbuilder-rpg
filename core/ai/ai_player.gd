@@ -12,6 +12,11 @@ const EPSILON: float = 0.05
 const MAX_BLOCK_ENUMERATION: int = 12
 ## What a held resource is worth in position-score points (spending one must gain more than this).
 const RESOURCE_VALUE: float = 0.3
+## What a set Trap is worth (it will stop or punish something later, so more than a plain permanent).
+const TRAP_VALUE: float = 3.0
+## Garbage/Ingredients are fuel: worth much more to a player holding cards that spend them.
+const FUEL_VALUE: float = 2.0
+var _fuel_cache: Dictionary = {}
 
 var personality: AIPersonality
 
@@ -73,7 +78,7 @@ func _board_value(state: GameState, player: PlayerState) -> float:
 			total += float(EffectResolver.unit_value(state, card)) * BOARD_UNIT
 		else:
 			total += 2.0
-	total += 2.0 * float(player.traps.size())
+	total += TRAP_VALUE * float(player.traps.size())
 	return total
 
 
@@ -81,8 +86,27 @@ func _board_value(state: GameState, player: PlayerState) -> float:
 func _resource_value(player: PlayerState) -> float:
 	var total: float = 0.0
 	for resource: CardInstance in player.resources:
-		total += 1.0 if ResourceKind.has_use_ability(resource.data.resource_kind as ResourceKind.Kind) else 0.6
+		var kind: ResourceKind.Kind = resource.data.resource_kind as ResourceKind.Kind
+		if ResourceKind.has_use_ability(kind):
+			total += 1.0
+		elif _spends(player, kind):
+			total += FUEL_VALUE
+		else:
+			total += 0.6
 	return total
+
+
+## Whether a card in this player's hand or on their table spends `kind` (Eat Garbage, Use an Ingredient...).
+func _spends(player: PlayerState, kind: ResourceKind.Kind) -> bool:
+	for pile: Array[CardInstance] in [player.hand, player.field, player.infrastructure]:
+		for card: CardInstance in pile:
+			var key: String = "%s:%d" % [card.data.id, int(kind)]
+			if not _fuel_cache.has(key):
+				var word: String = ResourceKind.script_word(kind)
+				_fuel_cache[key] = card.data.script_text.contains(word) or (kind == ResourceKind.Kind.GARBAGE and card.data.script_text.contains("eat"))
+			if bool(_fuel_cache[key]):
+				return true
+	return false
 
 
 func _hand_value(player: PlayerState) -> float:
