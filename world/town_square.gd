@@ -236,7 +236,8 @@ func _meadow() -> void:
 		var mesh: Mesh = ModelKit.kit_mesh(ModelKit.KENNEY_NATURE, str(group["model"]))
 		if mesh == null:
 			continue
-		var target: int = int(float(group["count"]) * density)
+		var is_grass: bool = StyleGrass.replaces(str(group["model"]))
+		var target: int = int(float(group["count"]) * density * (2.0 if is_grass else 1.0))
 		var transforms: Array[Transform3D] = []
 		var tries: int = 0
 		while transforms.size() < target and tries < target * 8:
@@ -250,6 +251,10 @@ func _meadow() -> void:
 			var s: float = _rng.randf_range(scale_range.x, scale_range.y)
 			transforms.append(Transform3D(Basis(Vector3.UP, _rng.randf() * TAU).scaled(Vector3.ONE * s), pos))
 			meadow_points.append(pos)
+		if is_grass:
+			var grass: Array[Color] = StyleGrass.colors_for([Color("6fae62")])
+			root.add_child(StyleGrass.multimesh_instance(transforms, grass[0], grass[1]))
+			continue
 		_multimesh(mesh, transforms)
 
 

@@ -294,6 +294,7 @@ func register_lights(lights: Array[OmniLight3D]) -> void:
 
 
 func _process(delta: float) -> void:
+	RenderingServer.global_shader_parameter_set("style_player_pos", follow.global_position if follow != null else Vector3(0.0, -1000.0, 0.0))
 	_budget_timer -= delta
 	if _budget_timer <= 0.0:
 		_budget_timer = 0.3

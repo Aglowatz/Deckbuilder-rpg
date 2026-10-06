@@ -12,6 +12,8 @@ const CHUNK: float = 16.0
 
 ## The instance budget over the whole area per quality level.
 const BUDGET: Array[int] = [250, 1100, 2400]
+## Grass clumps are cheap blades: this many per old Kenney tuft.
+const GRASS_DENSITY: float = 2.0
 
 
 ## Recipes: items are [kit folder, model, instances per 100 square metres, min scale, max scale].
@@ -104,7 +106,7 @@ static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, qua
 	var density_scale: float = GraphicsQuality.foliage_density(quality)
 	var area_m2: float = bounds.size.x * bounds.size.y * region_share
 	for item: Array in items:
-		var wanted: int = int(area_m2 / 100.0 * float(item[2]) * density_scale * 0.35)
+		var wanted: int = int(area_m2 / 100.0 * float(item[2]) * density_scale * 0.35 * (GRASS_DENSITY if StyleGrass.replaces(str(item[1])) else 1.0))
 		wanted = mini(wanted, budget - placed)
 		if wanted <= 0:
 			continue
@@ -123,10 +125,10 @@ static func build(parent: Node3D, area: WalkableArea, preset_id: StringName, qua
 			var xform: Transform3D = Transform3D(Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3.ONE * s), pos)
 			var key: String = "%s|%d|%d" % [str(item[1]), int(floor(pos.x / CHUNK)), int(floor(pos.z / CHUNK))]
 			if not chunks.has(key):
-				chunks[key] = {"mesh": mesh, "model": str(item[1]), "transforms": [] as Array[Transform3D]}
+				chunks[key] = {"mesh": mesh, "model": str(item[1]), "transforms": [] as Array[Transform3D], "grass": StyleGrass.colors_for(data.get("patches", []) as Array)}
 			(chunks[key]["transforms"] as Array[Transform3D]).append(xform)
 			count += 1
-		placed += count
+		placed += count / 3 if StyleGrass.replaces(str(item[1])) else count
 	for key: String in chunks:
 		_make_multimesh(root, chunks[key] as Dictionary)
 	_patches(root, area, bounds, data, rng, quality, region)
@@ -143,6 +145,10 @@ static func _avoided(pos: Vector3, avoid: Array[Vector3]) -> bool:
 static func _make_multimesh(root: Node3D, chunk: Dictionary) -> void:
 	var transforms: Array[Transform3D] = chunk["transforms"] as Array[Transform3D]
 	var mesh: Mesh = chunk["mesh"] as Mesh
+	if StyleGrass.replaces(str(chunk["model"])):
+		var grass: Array[Color] = chunk["grass"] as Array[Color]
+		root.add_child(StyleGrass.multimesh_instance(transforms, grass[0], grass[1]))
+		return
 	var foliage: bool = _is_foliage(str(chunk["model"]))
 	for surface: int in range(mesh.get_surface_count()):
 		var toon: ShaderMaterial = StyleToon.toon_for(mesh.surface_get_material(surface), 1.0 if foliage else -1.0)
