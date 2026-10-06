@@ -78,6 +78,14 @@ func _build_actors() -> void:
 	moon.omni_attenuation = 1.2
 	moon.position = spawn + Vector3(0.0, 3.2, 0.6)
 	add_child(moon)
+	var gate_pos: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
+	StyleBeacon.build(self, gate_pos + Vector3(0.0, 0.0, -0.9), Color(0.4, 1.0, 0.9), 6.0, 0.14)
+	var gate_light: OmniLight3D = OmniLight3D.new()
+	gate_light.light_color = Color("5ff0d8")
+	gate_light.light_energy = 1.5
+	gate_light.omni_range = 5.0
+	gate_light.position = gate_pos + Vector3(0.0, 1.4, 0.2)
+	add_child(gate_light)
 	_gate_marker = Node3D.new()
 	_gate_marker.position = (area.anchors.get("gate", Vector3.ZERO) as Vector3) + Vector3(0, 1.6, 0)
 	add_child(_gate_marker)

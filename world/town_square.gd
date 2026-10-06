@@ -345,29 +345,5 @@ func _landmarks() -> void:
 		var roof: Vector3 = _anchor(key) + Vector3(0.45, 2.3, -1.25)
 		StyleAmbience.chimney_smoke(root, roof, smoke, [4, 6, 8][clampi(_quality, 0, 2)])
 	if town.anchors.has("rift_station"):
-		_beacon(_anchor("rift_station") + Vector3(0.0, 0.0, 0.0), Color(0.55, 0.95, 1.0))
+		StyleBeacon.build(root, _anchor("rift_station"), Color(0.55, 0.95, 1.0))
 
-
-## A faint additive light pillar so a destination reads from across the map (soft at the top, no hard edge).
-func _beacon(pos: Vector3, color: Color) -> void:
-	var cylinder: CylinderMesh = CylinderMesh.new()
-	cylinder.top_radius = 0.2
-	cylinder.bottom_radius = 0.6
-	cylinder.height = 7.0
-	cylinder.radial_segments = 16
-	cylinder.rings = 1
-	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	material.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
-	material.cull_mode = BaseMaterial3D.CULL_BACK
-	material.albedo_color = Color(color.r, color.g, color.b, 0.22)
-	material.vertex_color_use_as_albedo = false
-	material.no_depth_test = false
-	var pillar: MeshInstance3D = MeshInstance3D.new()
-	pillar.mesh = cylinder
-	pillar.material_override = material
-	pillar.position = pos + Vector3(0.0, cylinder.height * 0.5, 0.0)
-	pillar.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	pillar.set_meta(StyleToon.META_NO_TOON, true)
-	root.add_child(pillar)
