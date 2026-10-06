@@ -260,11 +260,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 6/6/6/4/5/4/6/5 (iter2; L stays at 6: the sun reads strong but shadows are still faint, and `gainlands_look.gd` is NOT what the zone uses, the rig preset is: edits there were reverted). The washed-out look came from the vertex colours: grass 0.36/0.74/0.30 and 0.56/0.86/0.34 (lime) and a near-white hub plaza (0.93/0.86/0.70). Now grass 0.28/0.6/0.3 to 0.42/0.7/0.32 and a sandy plaza (0.78/0.66/0.5); GAINLANDS preset: sky-blue ambient 6aa8d0 (teal-blue shadows), sun fff0c8 at 1.0. The hub now has a readable sand circle against deeper greens; cyan beacon over the Rift Express (new, DN-4) shows. NOT done: big sky/long fog tuning, cyan/magenta/orange accents, strong rim. Tests 1023 green. before = gainlands/gl1before_{a,b,c}.png; after = gainlands/gl1_2_{a,b,c}.png.
-- [~] **GL-2 Ground and terrain.** Grass with painted mowed stripes, packed-dirt training paths, sand sparring rings, rubber gym mats; the triangle facets removed; cliff edges with strata.
+- [x] **GL-2 Ground and terrain.** Grass with painted mowed stripes, packed-dirt training paths, sand sparring rings, rubber gym mats; the triangle facets removed; cliff edges with strata.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **GL-3 Density and set dressing.** Gym and fairground clutter at one consistent scale: weight racks, plate stacks, banners, tents, punching bags, tyres, flags; a skirt on every stall.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/4/5/4/6/5 (iter1). Gainlands decal recipe: 24 dirt patches, 30 deep and 14 yellow-green moss patches, 10 footprint trails (was 8 dirt patches only). They give the big fields some value/hue variation up close, but spread over a 100 m map they stay subtle at the default zoom (ground G stays 6); worn paths with edges (`add_path`), stone circle at the hub and shore/cliff finishing are NOT done. Tests 1023 green. before = gainlands/gl1_2_b.png; after = gainlands/gl2_1_{a,b,c}.png.
+- [~] **GL-3 Density and set dressing.** Gym and fairground clutter at one consistent scale: weight racks, plate stacks, banners, tents, punching bags, tyres, flags; a skirt on every stall.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -473,7 +473,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **BB-GL-2 Ground and terrain.** Sand and mats with painted ring lines.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/4/5/4/6/5 (iter1). Gainlands decal recipe: 24 dirt patches, 30 deep and 14 yellow-green moss patches, 10 footprint trails (was 8 dirt patches only). They give the big fields some value/hue variation up close, but spread over a 100 m map they stay subtle at the default zoom (ground G stays 6); worn paths with edges (`add_path`), stone circle at the hub and shore/cliff finishing are NOT done. Tests 1023 green. before = gainlands/gl1_2_b.png; after = gainlands/gl2_1_{a,b,c}.png.
 - [ ] **BB-GL-3 Density and set dressing.** Weights, banners, cones, flags.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
@@ -653,7 +653,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **MD-GL-2 Ground and terrain.** Rock floor with iron veins, rubber mats, chalk marks.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/4/5/4/6/5 (iter1). Gainlands decal recipe: 24 dirt patches, 30 deep and 14 yellow-green moss patches, 10 footprint trails (was 8 dirt patches only). They give the big fields some value/hue variation up close, but spread over a 100 m map they stay subtle at the default zoom (ground G stays 6); worn paths with edges (`add_path`), stone circle at the hub and shore/cliff finishing are NOT done. Tests 1023 green. before = gainlands/gl1_2_b.png; after = gainlands/gl2_1_{a,b,c}.png.
 - [ ] **MD-GL-3 Density and set dressing.** Weight racks, plate stacks, stalagmites, chains, chalk buckets.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).

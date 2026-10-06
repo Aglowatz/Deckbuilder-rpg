@@ -258,8 +258,10 @@ static func decal_recipe(preset_id: StringName) -> Array:
 			]
 		StylePresets.GAINLANDS:
 			return [
-				[GroundDecals.Kind.DIRT_PATCH, 8, 1.0, 2.0, [Color("c8a870"), Color("a88850")]],
-				[GroundDecals.Kind.CHALK, 0, 1.0, 1.0, []],
+				[GroundDecals.Kind.DIRT_PATCH, 24, 1.0, 2.2, [Color("c8a870"), Color("a88850")]],
+				[GroundDecals.Kind.MOSS_PATCH, 30, 1.4, 2.8, [Color("2a6a38"), Color("4f9a3c")]],
+				[GroundDecals.Kind.MOSS_PATCH, 14, 1.2, 2.2, [Color("86a83a"), Color("a8b848")]],
+				[GroundDecals.Kind.FOOTPRINTS, 10, 0.8, 1.3, [Color("8a6a40"), Color("a88850")]],
 			]
 		StylePresets.CAPITAL_OUTSKIRTS, StylePresets.CAPITAL_DARK:
 			return [
