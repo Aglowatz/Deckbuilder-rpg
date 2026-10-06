@@ -31,6 +31,8 @@ var _near_tunnel: bool = false
 var _locked: bool = false
 var _screenshot_args: Dictionary = {}
 var minimap: MinimapHud
+## Polish round: the endless forest around the clearing (visual only).
+var forest: StartingForest
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -107,6 +109,11 @@ func _build_actors() -> void:
 	if rig != null:
 		ZoneDressing.build(self, area, StylePresets.START, Settings.graphics_quality)
 		_worn_path()
+	var cells: Array[Vector2i] = []
+	for row: int in range(StartingAreaBuilder.MAP.size()):
+		for col: int in range(StartingAreaBuilder.MAP[row].length()):
+			cells.append(Vector2i(col, row))
+	forest = StartingForest.build(self, cells, spawn, Settings.graphics_quality)
 
 
 func _build_ui() -> void:

@@ -83,14 +83,7 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 
 
 func _build_far_trees() -> void:
-	# A ring of mountains beyond the far (cave) side only, well clear of the camera, which sits
-	# close behind the spawn side - KayKit's mountain meshes are large enough to swallow the
-	# camera if placed anywhere near it (row 4, the spawn side, must stay clear).
-	for col: int in range(-2, 7):
-		var far: Vector3 = HexGrid.cell_to_world(col, -3)
-		ModelKit.place(root, ModelKit.tile("hex_grass"), far)
-		var mountain: String = ["mountain_A_grass_trees", "mountain_B_grass_trees"][_rng.randi() % 2]
-		ModelKit.place(root, ModelKit.nature(mountain), far, float(_rng.randi_range(0, 5)) * 60.0, 1.2)
+	# Polish round: the far hex strip is gone; `StartingForest` (built by the scene) surrounds the clearing with forest and a ring of far mountains.
 	for i: int in range(2):
 		var cloud: Node3D = ModelKit.nature("cloud_small")
 		ModelKit.place(root, cloud, Vector3(_rng.randf_range(-4, 12), _rng.randf_range(16, 20), _rng.randf_range(-12, -4)), 0.0, 0.7)
