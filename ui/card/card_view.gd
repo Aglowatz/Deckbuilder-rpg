@@ -306,10 +306,12 @@ func _build_art() -> void:
 	if art_texture != null:
 		var picture: TextureRect = TextureRect.new()
 		picture.texture = art_texture
-		picture.position = rect.position
-		picture.size = rect.size
+		# expand_mode first: with the default mode the minimum size is the texture's own (768x1152) and would clamp the size below.
 		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		picture.clip_contents = true
+		picture.position = rect.position
+		picture.size = rect.size
 		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(picture)
 	else:

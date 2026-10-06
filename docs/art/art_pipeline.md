@@ -17,7 +17,11 @@ Cards are 2:3 (laid out at 300x450, `CardView.SIZE`). The art fills the whole ca
 Draw the subject in the **upper-middle**: the top bar and the bottom third are covered by text in the FULL look, and COMPACT crops the
 edges.
 
-## Adding art
+## Importing from the Google Drive "Approved" folder
+
+`data/source/art_config.cfg` holds `source_dir` (`G:/My Drive/Card Game Art/Approved`; override with env `ART_SOURCE_DIR`). `bash tools/import_art.sh` reads that folder **read-only**: it only copies (converted to WebP), never moves, renames or deletes anything there, and refuses a folder named "Pending Review" or "Superseded". Accepted: .png .jpg .jpeg .webp named exactly by Card ID or Token ID; other images are listed as unknown and skipped, non-images are ignored. One image is in memory at a time. Images that are not 2:3 are centre-cropped (never stretched) and listed as "Cropped". `data/source/art_import_manifest.csv` records each file's MD5, so when the Drive file for an ID changes the next import replaces the game art (listed as "Replaced"); unchanged files are skipped. `bash tools/shot.sh res://scenes/dev/art_review.tscn <name> --view=hand|zoom|compact|deck --chunk=N` shows the review sample (every Path, the longest names, every legendary) at each view's real scale.
+
+## Adding art by hand
 
 1. Export each image (PNG or JPG, any size; 2:3 is best, other ratios are centre-cropped) named by **Card ID** (`C-01.png`, `GRB-04.jpg`);
    tokens by **Token ID** (`T-01.png`). Put them in `_art_inbox/` (git-ignored).
