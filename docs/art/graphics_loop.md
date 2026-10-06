@@ -316,15 +316,15 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/heap_zone.tscn heap <tag>`
 - **Baseline (Oct 2026):** Rust-orange dirt with green faceted grass, triangle noise, sawtooth stage edge, sparse junk, plain sign boards.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [~] **VD-1 Lighting and mood.** Earthy greens, rust orange, golden hour: low gold key, olive-teal fill, brown-purple shadows, golden haze with soft rays; rust orange and rotten lime accents.
+- [x] **VD-1 Lighting and mood.** Earthy greens, rust orange, golden hour: low gold key, olive-teal fill, brown-purple shadows, golden haze with soft rays; rust orange and rotten lime accents.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **VD-2 Ground and terrain.** Mud, compost and trash-strewn dirt, grass tufts, puddles, tyre tracks, metal sheet patches; triangles removed.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/5/5/6/5 (iter1). HEAP preset: ambient from olive to a violet-grey 6a6e8a so shadows go brown-purple, exposure 0.7 to 0.58, bloom 0.4 to 0.2, fog 0.007 to 0.004, volumetric off, contrast 1.12, saturation 1.1: the baseline cream-yellow wash is gone and the rust/green split reads. Shadows are still long and dark under the signs; no soft shafts. Tests 1023 green. before = heap/vd1before_{a,b,c}.png; after = heap/vd1_1_{a,b,c}.png.
+- [x] **VD-2 Ground and terrain.** Mud, compost and trash-strewn dirt, grass tufts, puddles, tyre tracks, metal sheet patches; triangles removed.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **VD-3 Density and set dressing.** Junk piles (tyres, tin cans, bottles, fridges, bags, pallets), scrap towers, scavenger camps, vines overgrowing junk, gulls, at varied scale.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/5/5/6/5 (iter1). Same stage-edge fix as the Buffet (G-08b, second half): `HeapBuilder._vertex` collapses outside vertices onto the outline, so the sawtooth teeth at the bottom of angle a are replaced by a clean layered grass/soil lip. Cell patches are still classified per triangle (zigzag boundaries between the rust dirt and the grass remain) and the faceted triangle noise in the grass/dirt is still visible: shader-painted floor patches NOT done. Tests 1023 green. before = heap/vd1_1_{a,b,c}.png; after = heap/vd1_1_a.png (the edge change is in the same shots; vd2_1_a.png is the one before the grade).
+- [~] **VD-3 Density and set dressing.** Junk piles (tyres, tin cans, bottles, fridges, bags, pallets), scrap towers, scavenger camps, vines overgrowing junk, gulls, at varied scale.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _

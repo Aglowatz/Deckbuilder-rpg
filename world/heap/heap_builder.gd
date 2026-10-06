@@ -239,6 +239,18 @@ func _tri(surface: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, color: Color
 
 
 func _vertex(x: float, z: float) -> Vector3:
+	var edge: float = HeapLayout.edge_distance(x, z)
+	if edge < 0.0:
+		# Outside the table: collapse the vertex onto the outline (a couple of Newton steps along the distance gradient) at the rim height, so the terrain ends in a clean
+		# curve instead of a sawtooth of grid triangles dropping away; the table rim below hangs from this edge.
+		var snapped: Vector2 = Vector2(x, z)
+		for i: int in range(3):
+			var here: float = HeapLayout.edge_distance(snapped.x, snapped.y)
+			var gradient: Vector2 = Vector2(
+				HeapLayout.edge_distance(snapped.x + 0.01, snapped.y) - HeapLayout.edge_distance(snapped.x - 0.01, snapped.y),
+				HeapLayout.edge_distance(snapped.x, snapped.y + 0.01) - HeapLayout.edge_distance(snapped.x, snapped.y - 0.01)).normalized()
+			snapped += gradient * (0.02 - here)
+		return Vector3(snapped.x, layout.ground_height(snapped.x, snapped.y), snapped.y)
 	return Vector3(x, layout.ground_height(x, z), z)
 
 
