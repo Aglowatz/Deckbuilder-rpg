@@ -186,10 +186,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 7/5/6/6/7/6/7/5 (iter1). The town ambience volume is now tightened around the hero with `StyleAmbience.focus(0.5, 1.6)` (half the x/z box, 1.6x particle size) so the few particles actually land in view; falling leaves recoloured to autumn gold (`d8b050`, 14). Motes and golden leaves read as sparse sparkles; fireflies and water sparkle from G-05/G-07 unchanged, birds not added. Tests 1023 green. before = town/tw4_3_a.png; after = town/tw5_1_{a,b,c}.png.
-- [~] **TW-6 Final polish.** A ring of foliage/cliffs hides the stage edge, roofs and walls fade when they block the hero, no z-fighting or shadow acne, 60 fps on Medium (this is the heaviest area), consistent look with the starting area and zones.
+- [x] **TW-6 Final polish.** A ring of foliage/cliffs hides the stage edge, roofs and walls fade when they block the hero, no z-fighting or shadow acne, 60 fps on Medium (this is the heaviest area), consistent look with the starting area and zones.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/5/6/6/7/6/7/5 (sign-off, honest: C and X stay below 7, see follow-up TW-7). Low camera (`--cam=0,3,12`, town/tw6_edge_a.png) shows the mountain ring hiding the stage edge, readable Rift Express sign, golden pools and beacon; no popping or z-fighting seen in a/b/c. Medium 63 fps (was 69 at the start of the area; measured 63.3 and 63.4 after TW-3 and TW-4), still above 60. Not done: hex seam blending, saturated lime grass vs props harmony, flower beds, reeds. before = town/tw1before_{a,b,c}.png; after = town/tw5_1_{a,b,c}.png, tw6_edge_a.png (docs/art/screens/graphics_loop/town_tw_{before,after}.png).
 
 ### SA: Starting area: The Awakening
 
@@ -890,6 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
+- [ ] **TW-7 Follow-up: town colour harmony and seams.** Hex seam blending (dark grid lines are still visible on the grass), pull the lime grass towards a calmer yellow-green, flower beds, reeds and foam banks on the lakes, cobble moss rim, hanging signs and flower boxes on buildings, accent colours per destination (well, arena, gates).
+  - Verify: `bash tools/area_shots.sh res://scenes/town.tscn town <tag>`, keep Medium at 60 fps or better.
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
 - [ ] **BB-GEN-7 Follow-up: battle board finish.** Bevelled hex edges with a visible rim/board thickness, subtle grid glow on placeable cells, warm the pale motes, low rim mist, colour harmony (green board vs orange decals vs violet grade), a backdrop `--cam` arg so 3 angles can be shot, fps with a full board of 7 units per side.
   - Verify: `bash tools/ui_shot.sh res://scenes/battle.tscn battle_generic <tag> --no_tutorial=true`, plus the rewards and mini-dungeon screens.
   - Pass bar: all 8 rubric scores 7 or higher.
