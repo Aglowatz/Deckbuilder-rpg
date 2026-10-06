@@ -203,7 +203,7 @@ func _grass_color(p: Vector3, centroid: Vector3) -> Color:
 		color = color.lerp(M.PATH.lightened((_noise(p.x, p.z) - 0.5) * 0.08), path)
 	var hub_distance: float = Vector2(centroid.x - 52.0, centroid.z - 64.0).length()
 	if hub_distance < 9.0:
-		color = color.lerp(Color(0.93, 0.86, 0.7), 1.0 - smoothstep(6.5, 9.0, hub_distance))
+		color = color.lerp(Color(0.78, 0.66, 0.5), 1.0 - smoothstep(6.5, 9.0, hub_distance))
 	return color
 
 

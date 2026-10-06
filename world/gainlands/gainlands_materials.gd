@@ -6,8 +6,8 @@ extends RefCounted
 
 static var _cache: Dictionary = {}
 
-const GRASS_LOW: Color = Color(0.36, 0.74, 0.30)
-const GRASS_HIGH: Color = Color(0.56, 0.86, 0.34)
+const GRASS_LOW: Color = Color(0.28, 0.6, 0.3)
+const GRASS_HIGH: Color = Color(0.42, 0.7, 0.32)
 const PATH: Color = Color(0.86, 0.72, 0.46)
 const ROCK: Color = Color(0.58, 0.54, 0.52)
 const ROCK_DARK: Color = Color(0.36, 0.33, 0.34)

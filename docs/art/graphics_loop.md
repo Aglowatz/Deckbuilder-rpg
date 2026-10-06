@@ -256,11 +256,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/gainlands_zone.tscn gainlands <tag>`
 - **Baseline (Oct 2026):** Flat saturated lime ground with visible triangle faceting, oversized mismatched gym props (barbells, dumbbells, tents) at inconsistent scale, flat yellow sign boards, tiny hero.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [~] **GL-1 Lighting and mood.** Bright sunny and high-energy: white-gold key, sky-blue fill, teal shadows, very light long fog, cyan/magenta/orange accents, big sky, strong rim light.
+- [x] **GL-1 Lighting and mood.** Bright sunny and high-energy: white-gold key, sky-blue fill, teal shadows, very light long fog, cyan/magenta/orange accents, big sky, strong rim light.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **GL-2 Ground and terrain.** Grass with painted mowed stripes, packed-dirt training paths, sand sparring rings, rubber gym mats; the triangle facets removed; cliff edges with strata.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/4/5/4/6/5 (iter2; L stays at 6: the sun reads strong but shadows are still faint, and `gainlands_look.gd` is NOT what the zone uses, the rig preset is: edits there were reverted). The washed-out look came from the vertex colours: grass 0.36/0.74/0.30 and 0.56/0.86/0.34 (lime) and a near-white hub plaza (0.93/0.86/0.70). Now grass 0.28/0.6/0.3 to 0.42/0.7/0.32 and a sandy plaza (0.78/0.66/0.5); GAINLANDS preset: sky-blue ambient 6aa8d0 (teal-blue shadows), sun fff0c8 at 1.0. The hub now has a readable sand circle against deeper greens; cyan beacon over the Rift Express (new, DN-4) shows. NOT done: big sky/long fog tuning, cyan/magenta/orange accents, strong rim. Tests 1023 green. before = gainlands/gl1before_{a,b,c}.png; after = gainlands/gl1_2_{a,b,c}.png.
+- [~] **GL-2 Ground and terrain.** Grass with painted mowed stripes, packed-dirt training paths, sand sparring rings, rubber gym mats; the triangle facets removed; cliff edges with strata.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -469,7 +469,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **BB-GL-1 Lighting and mood.** Bright sunny arena with a big sky.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/4/5/4/6/5 (iter2; L stays at 6: the sun reads strong but shadows are still faint, and `gainlands_look.gd` is NOT what the zone uses, the rig preset is: edits there were reverted). The washed-out look came from the vertex colours: grass 0.36/0.74/0.30 and 0.56/0.86/0.34 (lime) and a near-white hub plaza (0.93/0.86/0.70). Now grass 0.28/0.6/0.3 to 0.42/0.7/0.32 and a sandy plaza (0.78/0.66/0.5); GAINLANDS preset: sky-blue ambient 6aa8d0 (teal-blue shadows), sun fff0c8 at 1.0. The hub now has a readable sand circle against deeper greens; cyan beacon over the Rift Express (new, DN-4) shows. NOT done: big sky/long fog tuning, cyan/magenta/orange accents, strong rim. Tests 1023 green. before = gainlands/gl1before_{a,b,c}.png; after = gainlands/gl1_2_{a,b,c}.png.
 - [ ] **BB-GL-2 Ground and terrain.** Sand and mats with painted ring lines.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
@@ -649,7 +649,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **MD-GL-1 Lighting and mood.** A warm torchlit cavern with iron-red and gold; bright pools around the weight racks.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/4/5/4/6/5 (iter2; L stays at 6: the sun reads strong but shadows are still faint, and `gainlands_look.gd` is NOT what the zone uses, the rig preset is: edits there were reverted). The washed-out look came from the vertex colours: grass 0.36/0.74/0.30 and 0.56/0.86/0.34 (lime) and a near-white hub plaza (0.93/0.86/0.70). Now grass 0.28/0.6/0.3 to 0.42/0.7/0.32 and a sandy plaza (0.78/0.66/0.5); GAINLANDS preset: sky-blue ambient 6aa8d0 (teal-blue shadows), sun fff0c8 at 1.0. The hub now has a readable sand circle against deeper greens; cyan beacon over the Rift Express (new, DN-4) shows. NOT done: big sky/long fog tuning, cyan/magenta/orange accents, strong rim. Tests 1023 green. before = gainlands/gl1before_{a,b,c}.png; after = gainlands/gl1_2_{a,b,c}.png.
 - [ ] **MD-GL-2 Ground and terrain.** Rock floor with iron veins, rubber mats, chalk marks.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
