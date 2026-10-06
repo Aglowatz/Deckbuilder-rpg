@@ -200,7 +200,7 @@ static func opponent_of(player_index: int) -> int:
 
 func find_card(uid: int) -> CardInstance:
 	for player: PlayerState in players:
-		for zone: Array[CardInstance] in [player.field, player.infrastructure, player.hand, player.traps, player.refuse_pile]:
+		for zone: Array[CardInstance] in [player.field, player.infrastructure, player.hand, player.traps, player.refuse_pile, player.resources]:
 			var card: CardInstance = PlayerState.find_in(zone, uid)
 			if card != null:
 				return card
@@ -286,6 +286,7 @@ func play_infrastructure(player_index: int, uid: int) -> bool:
 	card.exhausted = false
 	player.infrastructure_played += 1
 	emit_event(GameEvent.Type.INFRASTRUCTURE_PLAYED, player_index, uid, 0, 1, player.infrastructure.size())
+	_infrastructure_entered(card)
 	return true
 
 
@@ -302,7 +303,7 @@ func can_play_card(player_index: int, uid: int) -> bool:
 		return false
 	if card.data.type == CardEnums.CardType.TRAP and player.traps.size() >= player.max_traps:
 		return false
-	if not PathEnergy.can_pay(player.ready_infrastructure(), generic_cost_for(player_index, card.data), card.data.colored_pips):
+	if not PathEnergy.can_pay(player.ready_infrastructure(), generic_cost_for(player_index, card.data), card.data.colored_pips, player.pool):
 		return false
 	# Spells that need a chosen target cannot be play without a legal one.
 	var target_effect: EffectData = _primary_target_effect(card.data)
@@ -372,12 +373,28 @@ func use_item(player_index: int, item: ItemData, target: int = 0) -> bool:
 	return true
 
 
+## True when `player_index` could pay `generic` + `pips` right now (floating energy plus ready infrastructure).
+func can_pay_energy(player_index: int, generic: int, pips: Array[Affinity.Type]) -> bool:
+	var player: PlayerState = players[player_index]
+	return PathEnergy.can_pay(player.ready_infrastructure(), generic, pips, player.pool)
+
+
 func _pay(player_index: int, generic: int, pips: Array[Affinity.Type], activate_uids: Array[int], for_uid: int) -> bool:
+	return pay_energy(player_index, generic, pips, activate_uids, for_uid)
+
+
+## Pays energy: floating energy first (unless exact infrastructure were named), then ready infrastructure.
+func pay_energy(player_index: int, generic: int, pips: Array[Affinity.Type], activate_uids: Array[int], for_uid: int) -> bool:
 	var player: PlayerState = players[player_index]
 	var to_activate: Array[CardInstance] = []
+	var pool_spent: Array[int] = []
 	if activate_uids.is_empty():
-		if not PathEnergy.plan(player.ready_infrastructure(), generic, pips, to_activate):
-			return false
+		if generic > 0 or not pips.is_empty():
+			var solution: Dictionary = PathEnergy.solve(player.ready_infrastructure(), generic, pips, player.pool)
+			if solution.is_empty():
+				return false
+			to_activate.append_array(solution["infra"] as Array[CardInstance])
+			pool_spent.append_array(solution["pool"] as Array[int])
 	else:
 		for infrastructure_uid: int in activate_uids:
 			var infra: CardInstance = player.find_infrastructure(infrastructure_uid)
@@ -386,9 +403,13 @@ func _pay(player_index: int, generic: int, pips: Array[Affinity.Type], activate_
 			to_activate.append(infra)
 		if not PathEnergy.exact_payment_ok(to_activate, generic, pips):
 			return false
+	for entry: int in pool_spent:
+		player.pool.erase(entry)
 	for infra: CardInstance in to_activate:
 		infra.exhausted = true
 		emit_event(GameEvent.Type.ENERGY_SPENT, player_index, infra.uid, for_uid, 1, int(infra.data.color))
+	if not pool_spent.is_empty():
+		emit_event(GameEvent.Type.ENERGY_SPENT, player_index, 0, for_uid, pool_spent.size(), -1)
 	return true
 
 
@@ -459,12 +480,15 @@ func _begin_turn() -> void:
 	var player: PlayerState = players[active]
 	player.infrastructure_played = 0
 	player.non_infrastructure_plays_this_turn = 0
+	player.cards_played_this_turn = 0
 	for infra: CardInstance in player.infrastructure:
-		infra.exhausted = false
+		_refresh(infra)
 	for card: CardInstance in player.field:
-		card.exhausted = false
+		_refresh(card)
 		card.summoning_sick = false
 		card.activated_this_turn = false
+		card.used_abilities.clear()
+		card.targeted_this_turn.clear()
 	emit_event(GameEvent.Type.TURN_STARTED, active, 0, 0, turn)
 	# New brief, Part B: FIRST_TURN_EXTRA_DRAW (e.g. Traveler's Boots) applies once, on a player's
 	# own first turn - including the game's very first turn, which otherwise draws 0 (the first
@@ -570,6 +594,8 @@ func _end_phase() -> void:
 			card.clear_end_of_turn()
 			if had_damage > 0:
 				emit_event(GameEvent.Type.DAMAGE_CLEARED, player.index, card.uid, 0, had_damage)
+	for player: PlayerState in players:
+		player.pool.clear()
 	var excess: int = players[active].hand.size() - players[active].max_hand_size
 	if excess > 0:
 		pending_toss = excess
@@ -894,6 +920,75 @@ func activate(player_index: int, uid: int, effect_index: int, target: int = 0) -
 	return true
 
 
+# --------------------------------------------------------------------------------------
+# Brief 14: refresh, exhaust, stats, targeting and resources
+# --------------------------------------------------------------------------------------
+
+
+## Refreshes (untaps) a card at the start of its controller's turn, unless it is set not to refresh this turn
+## (Contract, Overexert, Food Coma...): that consumes one `skip_refresh`.
+func _refresh(card: CardInstance) -> void:
+	if card.skip_refresh > 0:
+		card.skip_refresh -= 1
+		return
+	card.exhausted = false
+
+
+## Exhausts a unit. With `no_refresh` it also doesn't refresh during its controller's next turn.
+func exhaust_unit(card: CardInstance, no_refresh: bool = false) -> void:
+	card.exhausted = true
+	if no_refresh:
+		card.skip_refresh += 1
+	emit_event(GameEvent.Type.UNIT_EXHAUSTED, card.owner, card.uid, 0, 1 if no_refresh else 0)
+
+
+## Permanent (default) or until-end-of-turn stat change on a unit.
+func change_stats(card: CardInstance, attack_delta: int, defense_delta: int, until_end_of_turn: bool) -> void:
+	if until_end_of_turn:
+		card.temp_attack += attack_delta
+		card.temp_defense += defense_delta
+	else:
+		card.attack_bonus += attack_delta
+		card.defense_bonus += defense_delta
+	emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, attack_delta, defense_delta)
+
+
+## Whether `by_player` may target `card` with their own cards, abilities or resources. Untouchable units cannot be targeted by
+## the opponent; a unit protected until a later turn (Working in Your Own Casket) cannot be targeted by anyone.
+func can_be_targeted_by(card: CardInstance, by_player: int) -> bool:
+	if turn < card.protected_until_turn:
+		return false
+	return not (card.owner != by_player and card.has_keyword(CardEnums.Keyword.UNTOUCHABLE))
+
+
+## Infrastructure that just entered the field: a BASIC Infrastructure creates its Path's resource. Special and dual-Path
+## infrastructure never do.
+func _infrastructure_entered(card: CardInstance) -> void:
+	card.entered_turn = turn
+	if card.data.is_basic and card.data.is_infrastructure():
+		var kind: int = ResourceKind.created_by_basic(card.data.color)
+		if kind != ResourceKind.NONE:
+			ResourceRules.create(self, card.owner, kind as ResourceKind.Kind, 1, card.uid)
+	fire_game_event("infrastructure_enters", {"card": card, "player": card.owner})
+
+
+## Hook for triggered abilities ("whenever ..."): Part C dispatches it to the permanents and set traps that listen.
+func fire_game_event(_event_name: String, _data: Dictionary = {}) -> void:
+	pass
+
+
+func resource_count(player_index: int, kind: ResourceKind.Kind) -> int:
+	return players[player_index].count_resource(kind)
+
+
+func can_use_resource(player_index: int, kind: ResourceKind.Kind, target_uid: int) -> bool:
+	return ResourceRules.can_use_ability(self, player_index, kind, target_uid)
+
+
+func use_resource(player_index: int, kind: ResourceKind.Kind, target_uid: int) -> bool:
+	return ResourceRules.use_ability(self, player_index, kind, target_uid)
+
+
 func create_token(player_index: int, data: CardData) -> CardInstance:
 	var token: CardInstance = create_instance(data, player_index)
 	emit_event(GameEvent.Type.TOKEN_CREATED, player_index, token.uid)
@@ -967,6 +1062,7 @@ func legal_actions() -> Array[GameAction]:
 			seen[key] = true
 			result.append(GameAction.play_card(who, card.uid, target))
 	result.append_array(_activation_actions(who))
+	result.append_array(_resource_actions(who))
 	return result
 
 
@@ -999,6 +1095,18 @@ func _combat_actions(player_index: int) -> Array[GameAction]:
 	return result
 
 
+## One USE_RESOURCE action per (kind, target unit) the player can currently afford.
+func _resource_actions(player_index: int) -> Array[GameAction]:
+	var result: Array[GameAction] = []
+	for kind: ResourceKind.Kind in ResourceKind.all():
+		if not ResourceKind.has_use_ability(kind) or players[player_index].count_resource(kind) < 1:
+			continue
+		for target_uid: int in ResourceRules.use_targets(self, player_index, kind):
+			if ResourceRules.can_use_ability(self, player_index, kind, target_uid):
+				result.append(GameAction.use_resource(player_index, kind, target_uid))
+	return result
+
+
 func _activation_actions(player_index: int) -> Array[GameAction]:
 	var result: Array[GameAction] = []
 	for card: CardInstance in players[player_index].field:
@@ -1024,6 +1132,8 @@ func apply_action(action: GameAction) -> bool:
 			return play_card(action.player, action.card_uid, action.target)
 		GameAction.Type.ACTIVATE:
 			return activate(action.player, action.card_uid, action.effect_index, action.target)
+		GameAction.Type.USE_RESOURCE:
+			return use_resource(action.player, action.effect_index as ResourceKind.Kind, action.target)
 		GameAction.Type.DECLARE_ATTACKERS:
 			return action.player == awaiting_player() and declare_attackers(action.uids)
 		GameAction.Type.DECLARE_BLOCKERS:
@@ -1100,6 +1210,7 @@ func create_instance(data: CardData, owner_index: int) -> CardInstance:
 	_next_uid += 1
 	card.data = data
 	card.owner = owner_index
+	card.real_owner = owner_index
 	return card
 
 

@@ -10,6 +10,8 @@ const BOARD_UNIT: float = 0.5
 const LETHAL_THREAT: float = 20.0
 const EPSILON: float = 0.05
 const MAX_BLOCK_ENUMERATION: int = 12
+## What a held resource is worth in position-score points (spending one must gain more than this).
+const RESOURCE_VALUE: float = 0.3
 
 var personality: AIPersonality
 
@@ -54,6 +56,7 @@ func evaluate(state: GameState, me: int) -> float:
 	score -= personality.enemy_board_weight * _board_value(state, foe)
 	score += personality.hand_weight * (_hand_value(mine) - _hand_value(foe))
 	score += personality.energy_weight * float(mine.infrastructure.size())
+	score += RESOURCE_VALUE * (_resource_value(mine) - _resource_value(foe))
 	score -= personality.threat_weight * _threat(state, mine, foe)
 	return score
 
@@ -74,6 +77,14 @@ func _board_value(state: GameState, player: PlayerState) -> float:
 	return total
 
 
+## Resources are worth holding: a few points for the ones that do something on their own, fewer for the ones cards spend.
+func _resource_value(player: PlayerState) -> float:
+	var total: float = 0.0
+	for resource: CardInstance in player.resources:
+		total += 1.0 if ResourceKind.has_use_ability(resource.data.resource_kind as ResourceKind.Kind) else 0.6
+	return total
+
+
 func _hand_value(player: PlayerState) -> float:
 	var total: float = 0.0
 	for card: CardInstance in player.hand:
@@ -90,7 +101,8 @@ func _threat(state: GameState, mine: PlayerState, foe: PlayerState) -> float:
 			blockers += 1
 	var powers: Array[int] = []
 	for card: CardInstance in foe.units():
-		if not card.has_keyword(CardEnums.Keyword.WALLFLOWER):
+		# A unit that is exhausted and set not to refresh (Contract, Overexert) cannot attack next turn.
+		if not card.has_keyword(CardEnums.Keyword.WALLFLOWER) and not (card.exhausted and card.skip_refresh > 0):
 			powers.append(state.get_attack(card))
 	powers.sort()
 	powers.reverse()
@@ -152,7 +164,7 @@ func _choose_main_action(state: GameState, who: int) -> GameAction:
 	var best: GameAction = GameAction.pass_phase(who)
 	var best_gain: float = EPSILON
 	for action: GameAction in actions:
-		if action.type != GameAction.Type.PLAY and action.type != GameAction.Type.ACTIVATE:
+		if action.type != GameAction.Type.PLAY and action.type != GameAction.Type.ACTIVATE and action.type != GameAction.Type.USE_RESOURCE:
 			continue
 		var trial: GameState = state.clone(false, 1 - who)
 		if not trial.apply_action(action):

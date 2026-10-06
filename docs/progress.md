@@ -2418,3 +2418,12 @@ Applied the Design Guidance terms across the engine API, UI, tooltips, tutorial 
 - UI strings: HP instead of Life, Refuse pile counter, Toss prompt, Play instead of Cast, Path identity blurbs rewritten from the Design Guidance.
 - The old generated `.tres` content was regenerated with the new property names (all of it is replaced in Part E).
 Tests: 873 pass (new `tests/test_terminology.gd`; the five Guard tests were removed).
+
+## Part B: the Resource system - done
+- `ResourceKind` (Iron/Red Tape/Contract/Ingredient/Garbage with Path, text, tray glyph) and `ResourceRules` (create, use, use-any-of, remove/Shred, the three "pay 1 energy, use one" abilities, Eat Garbage). Resources are `CardType.RESOURCE` token `CardInstance`s in `PlayerState.resources`; `CardData.resource_kind` marks the token cards (ids: T-13 Contract and T-14 Red Tape from the token sheet, `RES-IRON/RES-INGREDIENT/RES-GARBAGE` defined in code because the sheet only describes them).
+- A BASIC Infrastructure creates its Path's resource when it enters (`GameState._infrastructure_entered`); special and dual-Path infrastructure never do.
+- Iron: +1 attack permanently. Red Tape: -1 attack permanently (attack floors at 0). Contract: exhaust, and it doesn't refresh during its controller's next turn (new `CardInstance.skip_refresh`, also used for Overexert later). All uses are your-turn, main-phase only and respect Untouchable / protected units. Hooks for Chancellor Clench (+2/-2), Raccoon (free eat) and the "double resources" Wonders are in `StaticEffects` (filled in Part C).
+- Floating energy pool (`PlayerState.pool`, spent before infrastructure, empties at end of turn) and a rewritten `PathEnergy` (bipartite matching) so dual-Path and any-Path infrastructure pay for either Path.
+- `GameAction.Type.USE_RESOURCE` + `legal_actions()`; the AI uses resources (position score counts held resources a little, so it only spends one when the effect gains more) and understands a Contracted unit cannot attack next turn.
+- UI: `ResourceTray` (five coins with counts, tooltips and a gold glow when a use is available) under each player's portrait; click a coin to pick a target unit (the normal targeting flow). Screenshot `_screenshots/b14_battle_tray.png`.
+- Tests: `tests/core/game/test_resources.gd` (22 tests: creation per Path, no resource from special/dual infrastructure, each ability, permanence, Contract timing, your-turn-only, Untouchable, Eat Garbage costs, pool and dual infrastructure payment, AI use). 895 tests pass.

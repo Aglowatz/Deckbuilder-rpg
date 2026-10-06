@@ -3,7 +3,7 @@
 Source of truth for game rules. `core/` implements this document; if code and this file
 disagree, this file wins (or is deliberately updated first).
 
-## Resources
+## Infrastructure and energy
 
 - **Infrastructure** replaces lands. Infrastructure cards come in 4 types, one per **Path** (Beefcake,
   Gourmand, Refusemancer, Necrocrat - see `Affinity`). Players **activate** an infrastructure to gain **one energy of its
@@ -21,6 +21,31 @@ disagree, this file wins (or is deliberately updated first).
 - **Neutral** cards cost generic energy and fit any deck. There is no neutral infrastructure.
 - The player starts with the neutral starter deck only, using basic infrastructure of a chosen
   primary Path; see `docs/design/starting_deck_and_affinity.md`.
+
+## Resources (Brief 14)
+
+Resources are token permanents kept in their own zone per player (`PlayerState.resources`), shown in the resource tray in the
+battle UI (counts + tooltips). They are `CardType.RESOURCE` tokens; the kinds live in `ResourceKind`.
+
+| Resource | Path | What it does |
+|----------|------|--------------|
+| Iron | Beefcake | Pay 1, use an Iron: target unit gets +1 attack permanently. |
+| Red Tape | Necrocrat | Pay 1, use a Red Tape: target unit gets -1 attack permanently. |
+| Contract | Necrocrat | Pay 1, use a Contract: exhaust target unit. It doesn't refresh during its controller's next turn. |
+| Ingredient | Gourmand | Does nothing alone; Gourmand cards spend it (Cook, golems, recipes). |
+| Garbage | Refusemancer | Does nothing alone; Refusemancer cards spend it (Eat Garbage). |
+
+- Playing a BASIC Infrastructure creates its Path's resource (Powerhouse: Iron, Ghost Town: Red Tape, Feastforge: Ingredient,
+  Wasteworks: Garbage) - the basic's "When this Infrastructure enters" trigger, so putting a basic onto the field also does it.
+  Special and dual-Path infrastructure never create resources. Nothing creates Contracts except cards.
+- Resource uses (Iron, Red Tape, Contract) are your-turn-only main-phase abilities, and the target may be any unit that
+  you are allowed to target (Untouchable units cannot be targeted by the opponent's resources).
+- "Use" a resource = remove it from your zone. "Shred" or "destroy" a resource (cards say which) also removes it.
+- **Eat garbage** is a cost: pay 1 energy, lose 1 HP, use a Garbage (Raccoon: no energy, no HP). You cannot eat if it would
+  reduce you to 0 HP.
+- Floating energy: abilities like "Exhaust: add (R)" put energy in a pool that is spent before infrastructure and empties at the end
+  of the turn; "add one energy of any Path" can pay any colored pip.
+- Cards can create, use, double (Infinite Pantry, Harvest Festival), steal (Hostile Takeover), Shred and count resources.
 
 ## Turn Structure
 

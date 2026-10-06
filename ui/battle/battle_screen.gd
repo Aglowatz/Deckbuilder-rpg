@@ -46,6 +46,8 @@ var _target_ability: int = 0
 ## item's effect (items are not cards - no GameAction involved).
 var _pending_item: ItemData = null
 var item_bar: ItemBar
+## Brief 14: both players' resource trays (index = player).
+var resource_trays: Array[ResourceTray] = []
 var _selected_attackers: Array[int] = []
 var _block_assign: Dictionary = {}
 var _block_pick: int = 0
@@ -131,6 +133,16 @@ func _build_scene() -> void:
 		_board_root.add_child(item_bar)
 		item_bar.setup(game, Session.profile)
 		item_bar.item_pressed.connect(_on_item_pressed)
+	var my_tray: ResourceTray = ResourceTray.new()
+	my_tray.position = Vector2(24, 796)
+	_board_root.add_child(my_tray)
+	my_tray.setup(game, 0, true)
+	my_tray.resource_pressed.connect(_on_resource_pressed)
+	var foe_tray: ResourceTray = ResourceTray.new()
+	foe_tray.position = Vector2(340, 24)
+	_board_root.add_child(foe_tray)
+	foe_tray.setup(game, 1, false)
+	resource_trays = [my_tray, foe_tray]
 	_overlay_layer = Control.new()
 	UIKit.full_rect(_overlay_layer)
 	_overlay_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -183,6 +195,7 @@ func _drive() -> void:
 		hud.refresh_all()
 		if item_bar != null:
 			item_bar.refresh()
+		_refresh_resource_trays()
 		if game.is_over():
 			busy = false
 			await _show_result()
@@ -584,6 +597,25 @@ func _target_effect(data: CardData) -> EffectData:
 	return null
 
 
+func _refresh_resource_trays() -> void:
+	for tray: ResourceTray in resource_trays:
+		tray.refresh()
+
+
+## Brief 14: clicking an Iron, Red Tape or Contract coin picks a target unit (the same targeting flow cards use).
+func _on_resource_pressed(kind: ResourceKind.Kind) -> void:
+	if busy or mode != Mode.MAIN:
+		return
+	var options: Array[int] = []
+	for target_uid: int in ResourceRules.use_targets(game, 0, kind):
+		if game.can_use_resource(0, kind, target_uid):
+			options.append(target_uid)
+	if options.is_empty():
+		_reject("You need a %s, 1 energy and a unit to use it on" % ResourceKind.display_name(kind))
+		return
+	_begin_targeting(0, options, GameAction.Type.USE_RESOURCE, int(kind))
+
+
 func _try_activate(uid: int) -> void:
 	var card: CardInstance = game.players[0].find_field(uid)
 	if card == null:
@@ -690,6 +722,9 @@ func _finish_targeting(ref: int) -> void:
 	var source: int = _target_source
 	var action_type: GameAction.Type = _target_action
 	var ability: int = _target_ability
+	if action_type == GameAction.Type.USE_RESOURCE:
+		_submit(GameAction.use_resource(0, ability as ResourceKind.Kind, ref))
+		return
 	if action_type == GameAction.Type.PLAY:
 		_submit(GameAction.play_card(0, source, ref))
 	else:

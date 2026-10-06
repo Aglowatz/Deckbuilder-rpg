@@ -13,6 +13,8 @@ enum Type {
 	TOSS,
 	MULLIGAN,
 	KEEP_HAND,
+	## Brief 14: pay 1 energy and use an Iron, Red Tape or Contract on a target unit (`effect_index` = ResourceKind).
+	USE_RESOURCE,
 }
 
 var type: Type = Type.PASS
@@ -55,6 +57,14 @@ static func activate(acting_player: int, uid: int, index: int, target_ref: int =
 	action.card_uid = uid
 	action.effect_index = index
 	action.target = target_ref
+	return action
+
+
+## Brief 14: use a resource ability on `target_uid` (a unit).
+static func use_resource(acting_player: int, kind: ResourceKind.Kind, target_uid: int) -> GameAction:
+	var action: GameAction = make(Type.USE_RESOURCE, acting_player)
+	action.effect_index = int(kind)
+	action.target = target_uid
 	return action
 
 
