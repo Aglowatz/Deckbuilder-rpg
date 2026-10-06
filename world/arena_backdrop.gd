@@ -38,7 +38,7 @@ func _ready() -> void:
 			if theme.meadow and dist > 5.0 and rng.randf() < 0.55:
 				var pick: String = ["tree_single_A", "tree_single_B", "rock_single_A", "rock_single_C", "trees_A_small", "trees_B_small"][rng.randi() % 6]
 				ModelKit.place(self, ModelKit.nature(pick), pos + Vector3(rng.randf_range(-0.4, 0.4), 0, rng.randf_range(-0.4, 0.4)), rng.randf() * 360.0, 1.3)
-	if theme.meadow:
+	if theme.meadow and theme.banners:
 		for side: int in [-1, 1]:
 			ModelKit.place(self, ModelKit.prop("flag_blue"), Vector3(side * 5.0, 0, 0), 0.0, 2.0)
 	_dress_ring()

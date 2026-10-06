@@ -52,7 +52,9 @@ func _ready() -> void:
 		_main_def = MainDungeons.def(Session.zone_def().id)
 		add_child(DungeonBackdrop.make(_main_def.backdrop))
 	else:
-		add_child(ArenaBackdrop.new())
+		var backdrop: ArenaBackdrop = ArenaBackdrop.new()
+		backdrop.zone_id = Session.zone_def().id if Session.mini_active else "hollow"
+		add_child(backdrop)
 	var dim: ColorRect = ColorRect.new()
 	dim.color = Color(0.03, 0.02, 0.07, 0.25)
 	UIKit.full_rect(dim)

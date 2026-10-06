@@ -28,6 +28,8 @@ var patch_scale: float = 1.0
 var patch_extra: int = 0
 ## Keep the meadow trees, mountains and flags (only the generic table and the Gainlands do).
 var meadow: bool = true
+## The two blue banners at the sides of the table (generic meadow only).
+var banners: bool = true
 
 
 static func for_zone(zone: String) -> ArenaTheme:
@@ -37,6 +39,26 @@ static func for_zone(zone: String) -> ArenaTheme:
 	var survival: String = ModelKit.KENNEY_SURVIVAL
 	var furniture: String = "res://assets/kenney-furniture-kit/models/"
 	match zone:
+		"hollow":
+			theme.preset_id = StylePresets.START
+			theme.tile_tint = Color(0.78, 0.92, 1.0)
+			theme.banners = false
+			theme.rim_scale = 1.8
+			theme.glow_color = Color("5ff0d8")
+			theme.pool_color = Color("e8e0ff")
+			theme.back_color = Color("5a6ad8")
+			theme.moss = [Color("2a6a5a"), Color("4a9a7a")]
+			theme.earth = [Color("6a6a70"), Color("505058"), Color("383840")]
+			var nature_kit: String = ModelKit.KENNEY_NATURE
+			theme.rim = [
+				[nature_kit, "mushroom_tanGroup", 1.4, 1.4, 2.0], [nature_kit, "mushroom_redGroup", 0.8, 1.4, 2.0], [nature_kit, "plant_bush", 1.0, 1.3, 1.8],
+				[NATURE_HEX, "rock_single_B", 1.6, 1.0, 1.5], [NATURE_HEX, "rock_single_D", 1.4, 1.0, 1.5], [NATURE_HEX, "tree_single_A_cut", 0.8, 1.0, 1.3],
+				[nature_kit, "stone_largeA", 0.6, 1.2, 1.8],
+			]
+			theme.landmark = [
+				["buildings/blue", "building_mine_blue", 0.0, 0.0, 0.0, 2.6], [NATURE_HEX, "rock_single_E", -3.0, 0.6, 0.0, 2.4], [NATURE_HEX, "rock_single_B", 3.0, 0.6, 0.0, 2.4],
+				[nature_kit, "mushroom_tanGroup", -1.8, 2.0, 0.0, 3.0], [nature_kit, "mushroom_tanGroup", 1.8, 2.0, 0.0, 3.0],
+			]
 		"necrocrat":
 			theme.preset_id = StylePresets.DNA
 			theme.tile_tint = Color(0.68, 0.78, 0.86)
