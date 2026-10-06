@@ -286,11 +286,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/buffet_zone.tscn buffet <tag>`
 - **Baseline (Oct 2026):** Flat orange/cream checkerboard floor with sawtooth triangle edges at the stage boundary, enormous fridge-like props, strong banding, jagged pink edge strip.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [~] **EB-1 Lighting and mood.** Warm, saturated, appetizing: orange-yellow key, pink fill, raspberry shadows, warm cream steam, glossy highlights, red/green/yellow food accents.
+- [x] **EB-1 Lighting and mood.** Warm, saturated, appetizing: orange-yellow key, pink fill, raspberry shadows, warm cream steam, glossy highlights, red/green/yellow food accents.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **EB-2 Ground and terrain.** Glossy kitchen tile with grout, tablecloth patches, sauce-spill decals, crumb trails, conveyor-belt strips; a proper stage edge (counter edge, plate rim) instead of sawtooth.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/4/5/5/5/6/5 (iter2). Buffet was washed out (a cream-orange fog over everything): BUFFET preset ambient raspberry c0507c (was pale pink), exposure 0.62 to 0.5, bloom 0.45 to 0.2, fog 0.005 to 0.003, volumetric fog off, contrast 1.14, saturation 1.08. Tablecloth reds and food now read saturated, shadows go raspberry. Everything is still one orange family and the ground is a flat orange field outside the hub (EB-2 / G-08b). iter1 (only ambient/exposure tweaks) was nearly identical to the baseline: the fog and bloom were the wash. Tests 1023 green. before = buffet/eb1before_{a,b,c}.png; after = buffet/eb1_2_{a,b,c}.png.
+- [~] **EB-2 Ground and terrain.** Glossy kitchen tile with grout, tablecloth patches, sauce-spill decals, crumb trails, conveyor-belt strips; a proper stage edge (counter edge, plate rim) instead of sawtooth.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
