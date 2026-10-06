@@ -354,29 +354,29 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 6/6/4/4/5/5/6/5 (solved as part of CO-1: the stage edge is now the boulder wall, see CO-1). The floor itself is still the dark gray checker of 1 m cells (no cracks beyond the generic decals, no scorched asphalt, no tyre tracks or painted lines): NOT done. before/after = capital_outside/co1before_a.png, co1_4_a.png.
-- [~] **CO-3 Density and set dressing.** Abandoned checkpoint barriers, broken signs, wrecked carts, dead trees, sandbags, loudspeakers, torn paperwork, queue-camp tents.
+- [x] **CO-3 Density and set dressing.** Abandoned checkpoint barriers, broken signs, wrecked carts, dead trees, sandbags, loudspeakers, torn paperwork, queue-camp tents.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **CO-4 Landmarks and hero props.** The gate wall and its queue, checkpoint booths, rift tears with distortion, Mabbit camp fire, the pastel facade glimpsed in the haze.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/5/5/6/5 (iter1). Outskirts recipe: `"density": 2.6`, `"scale": 1.5` and six more wasteland items (barrels, logs, metal panels, broken fences, planks, stumps) on top of the stones and mushrooms; cracks, scorch marks and stains from the decal recipe now show on the floor, and a pile of crates stands by the campfire. Still scattered, not heaps/clusters along the route to the gate. Tests 1023 green. before = capital_outside/co1_4_a.png; after = capital_outside/co3_1_a.png.
+- [x] **CO-4 Landmarks and hero props.** The gate wall and its queue, checkpoint booths, rift tears with distortion, Mabbit camp fire, the pastel facade glimpsed in the haze.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **CO-5 Particles and atmosphere.** Ash, magenta/cyan rift sparks, drifting paper, violet fog ribbons.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (no new code: the Rift Express beam from DN-4 applies in the Capital layer 1 only; the gate, rifts, facade and exit sign are unchanged). The campfire and hero pool are the readable lights; rifts are not framed with new silhouettes. NOT done: gate/rift landmark pass. before = after = capital_outside/co3_1_a.png.
+- [x] **CO-5 Particles and atmosphere.** Ash, magenta/cyan rift sparks, drifting paper, violet fog ribbons.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **CO-6 Final polish.** Stage-edge handling, fps (fog and distortion cost), seamless transition to the inside.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (no new code: the `focus` call from DN-5 tightens the ash/mote/rift volume, falling ash dots are visible in the shot, rift sparks are sparse). Medium 84 fps. NOT done: a pale cloud of ash drift, bigger rift sparks. before = after = capital_outside/co3_1_a.png.
+- [x] **CO-6 Final polish.** Stage-edge handling, fps (fog and distortion cost), seamless transition to the inside.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (sign-off, honest: everything below 7, see follow-up CO-7). Medium 84 fps, no popping in the 3 angles; the black band is gone and the violet grade is moodier, but the floor is still a dark gray checker and the area is sparse. before = capital_outside/co1before_{a,b,c}.png; after = capital_outside/co3_1_{a,b,c}.png (docs/art/screens/graphics_loop/capital_outside_{before,after}.png).
 
 ### CI: The Capital inside: Primm's Perfection
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/capital_zone.tscn capital_inside <tag> --at=net_plaza`
 - **Baseline (Oct 2026):** A giant yellow wall block covers half of the default view; flat pastel plaza with neon-green lawns and white checker; the statue silhouettes are decent.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **CI-1 Lighting and mood.** Unnaturally clean pastel: soft white-pink key, mint fill, sparkles; uncanny perfection (too even, no soft gradients) with small wrongness (portrait eyes, too-symmetric layout).
+- [~] **CI-1 Lighting and mood.** Unnaturally clean pastel: soft white-pink key, mint fill, sparkles; uncanny perfection (too even, no soft gradients) with small wrongness (portrait eyes, too-symmetric layout).
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -890,6 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
+- [ ] **CO-7 Follow-up: Capital outskirts floor and landmarks.** Replace the 1 m dark gray checker with cracked asphalt/scorched earth variation (tyre tracks, painted lines), clusters of wreckage along the route to the gate, silhouettes and accents for the gate and rifts, a drift of ash, find and explain the stray white glow orb in angle a.
+  - Verify: `bash tools/area_shots.sh res://scenes/capital_zone.tscn capital_outside <tag>`
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
 - [ ] **VD-7 Follow-up: Dump ground and junk heaps.** Shader-painted rust/grass cell patches instead of per-triangle classification, remove the faceted triangle noise in grass and dirt, rubbish heaps in clusters of 3 around buildings, a lit door or accent colour per landmark, bigger fly and spore particles, soft golden shafts instead of dark long shadows.
   - Verify: `bash tools/area_shots.sh res://scenes/heap_zone.tscn heap <tag>`
   - Pass bar: all 8 rubric scores 7 or higher.

@@ -90,8 +90,9 @@ static func recipe(preset_id: StringName) -> Dictionary:
 				"items": [
 					[NATURE, "stone_smallC", 2.2, 1.4, 2.6], [NATURE, "stone_smallFlatB", 1.8, 1.4, 2.4], [NATURE, "rock_smallA", 1.0, 1.5, 2.6],
 					[NATURE, "grass_leafs", 12.0, 1.3, 2.0], [NATURE, "mushroom_tanGroup", 1.0, 1.4, 2.0], [SURVIVAL, "box", 0.4, 1.2, 1.8],
+					[SURVIVAL, "barrel", 0.5, 1.2, 1.6], [SURVIVAL, "tree-log", 0.5, 1.3, 1.8], [SURVIVAL, "metal-panel", 0.4, 1.2, 1.6], [SURVIVAL, "fence", 0.5, 1.2, 1.5], [SURVIVAL, "resource-planks", 0.4, 1.3, 1.8], [NATURE, "stump_round", 0.5, 1.4, 2.0],
 				],
-				"patches": [Color("4a4258"), Color("5a4a60"), Color("3a3446")], "patch_pattern": GroundDecals.Pattern.DIRT,
+				"patches": [Color("4a4258"), Color("5a4a60"), Color("3a3446")], "patch_pattern": GroundDecals.Pattern.DIRT, "density": 2.6, "scale": 1.5,
 			}
 	return {"items": [], "patches": []}
 
