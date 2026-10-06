@@ -400,6 +400,8 @@ func _build_camera() -> void:
 	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	style_rig = StyleRig.install(self, _style_preset(), _camera, player)
+	if style_rig != null and style_rig.ambience != null:
+		style_rig.ambience.focus(0.5, 1.6)
 	if style_rig != null:
 		_dress_zone()
 

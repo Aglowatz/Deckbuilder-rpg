@@ -127,7 +127,7 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.desaturate = 0.97
 			p.wind = 0.2
 			p.accent = Color("e0221a")
-			p.particles = [{"kind": "motes", "color": Color(0.8, 0.85, 0.9, 0.6), "amount": 40}, {"kind": "paper", "color": Color(0.85, 0.85, 0.85, 1.0), "amount": 8}]
+			p.particles = [{"kind": "motes", "color": Color(0.8, 0.85, 0.9, 0.6), "amount": 50}, {"kind": "paper", "color": Color(0.85, 0.85, 0.85, 1.0), "amount": 12}, {"kind": "steam", "color": Color(0.8, 0.86, 0.92, 0.35), "amount": 10}]
 		GAINLANDS:
 			p.with_id(id, "Gainlands: bright, sunny, big skies")
 			p.sky_top = Color("2f86e8")

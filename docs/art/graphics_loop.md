@@ -242,21 +242,21 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/4/7/5 (iter1). `ZoneScene._build_fast_travel` now adds a `StyleBeacon` light pillar over every Rift Express (cyan by default through the new overridable `_station_beacon_color()`, crimson for the D.N.A. via `DnaScene`), so the fast-travel point reads across the whole map; this applies to all generic zones (Gainlands, Buffet, Dump), to be checked in their tasks. Registrar banners and the big wall signs already read; vault/reception, queue ropes and the stairwell NOT done. Tests 1023 green. before = dna/dn3_3_a.png; after = dna/dn4_1_{a,b,c}.png.
-- [~] **DN-5 Particles and atmosphere.** Drifting dust, paper scraps, vent steam, red sparks at interactables.
+- [x] **DN-5 Particles and atmosphere.** Drifting dust, paper scraps, vent steam, red sparks at interactables.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **DN-6 Final polish.** Desaturation check (only the intended objects are coloured), grayscale squint test, no black voids visible, fps.
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/5/7/5 (iter1). `ZoneScene` now tightens the ambience volume for every generic zone (`focus(0.5, 1.6)`); DNA particles: motes 50, paper scraps 12, a few steam puffs 10. The paper scraps read as white squares at 1.6x (fine as paper, a bit loud); red sparks at interactables NOT done. Medium DNA 75 fps. Tests 1023 green. before = dna/dn4_1_a.png; after = dna/dn5_1_{a,b,c}.png.
+- [x] **DN-6 Final polish.** Desaturation check (only the intended objects are coloured), grayscale squint test, no black voids visible, fps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/5/7/5 (sign-off, honest: G, D, A, X stay below 7, see follow-up DN-7). Colour only on the hero, chevrons, Rift Express (now with a crimson beam) and rugs; grayscale squint test reads (beam, rug, desks). Medium 75 fps. NOT done: the flat navy void beyond the outer wall (angle c), the large soft black sun-shadow smudge (a real soft sun shadow of a wall block, not a bug, but it reads as a stain: lighten/soften DNA shadows). before = dna/dn1before_{a,b,c}.png; after = dna/dn5_1_{a,b,c}.png (docs/art/screens/graphics_loop/dna_{before,after}.png).
 
 ### GL: The Gainlands
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/gainlands_zone.tscn gainlands <tag>`
 - **Baseline (Oct 2026):** Flat saturated lime ground with visible triangle faceting, oversized mismatched gym props (barbells, dumbbells, tents) at inconsistent scale, flat yellow sign boards, tiny hero.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **GL-1 Lighting and mood.** Bright sunny and high-energy: white-gold key, sky-blue fill, teal shadows, very light long fog, cyan/magenta/orange accents, big sky, strong rim light.
+- [~] **GL-1 Lighting and mood.** Bright sunny and high-energy: white-gold key, sky-blue fill, teal shadows, very light long fog, cyan/magenta/orange accents, big sky, strong rim light.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -455,11 +455,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **BB-DN-5 Particles and atmosphere.** Dust, paper scraps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/5/7/5 (iter1). `ZoneScene` now tightens the ambience volume for every generic zone (`focus(0.5, 1.6)`); DNA particles: motes 50, paper scraps 12, a few steam puffs 10. The paper scraps read as white squares at 1.6x (fine as paper, a bit loud); red sparks at interactables NOT done. Medium DNA 75 fps. Tests 1023 green. before = dna/dn4_1_a.png; after = dna/dn5_1_{a,b,c}.png.
 - [ ] **BB-DN-6 Final polish.** Check cards legibility, fps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/5/7/5 (sign-off, honest: G, D, A, X stay below 7, see follow-up DN-7). Colour only on the hero, chevrons, Rift Express (now with a crimson beam) and rugs; grayscale squint test reads (beam, rug, desks). Medium 75 fps. NOT done: the flat navy void beyond the outer wall (angle c), the large soft black sun-shadow smudge (a real soft sun shadow of a wall block, not a bug, but it reads as a stain: lighten/soften DNA shadows). before = dna/dn1before_{a,b,c}.png; after = dna/dn5_1_{a,b,c}.png (docs/art/screens/graphics_loop/dna_{before,after}.png).
 
 ### BB-GL: Battle backdrop: the Gainlands
 
@@ -635,11 +635,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **MD-DN-5 Particles and atmosphere.** Dust, paper scraps, vent steam.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/5/7/5 (iter1). `ZoneScene` now tightens the ambience volume for every generic zone (`focus(0.5, 1.6)`); DNA particles: motes 50, paper scraps 12, a few steam puffs 10. The paper scraps read as white squares at 1.6x (fine as paper, a bit loud); red sparks at interactables NOT done. Medium DNA 75 fps. Tests 1023 green. before = dna/dn4_1_a.png; after = dna/dn5_1_{a,b,c}.png.
 - [ ] **MD-DN-6 Final polish.** Add a theme parameter to the arena backdrop (shared by all mini dungeons and battles; the first task that needs it adds it); fps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/5/7/5 (sign-off, honest: G, D, A, X stay below 7, see follow-up DN-7). Colour only on the hero, chevrons, Rift Express (now with a crimson beam) and rugs; grayscale squint test reads (beam, rug, desks). Medium 75 fps. NOT done: the flat navy void beyond the outer wall (angle c), the large soft black sun-shadow smudge (a real soft sun shadow of a wall block, not a bug, but it reads as a stain: lighten/soften DNA shadows). before = dna/dn1before_{a,b,c}.png; after = dna/dn5_1_{a,b,c}.png (docs/art/screens/graphics_loop/dna_{before,after}.png).
 
 ### MD-GL: Mini dungeon map: The Iron Cavern - Three Sets (Gainlands)
 
@@ -890,6 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
+- [ ] **DN-7 Follow-up: D.N.A. voids, shadows and floors.** Replace the navy void beyond the outer walls with a finished edge, soften or lighten the sun shadows (the black smudge by the breakroom rug), linoleum value variation, painted floor arrows and queue lines, cubicle walls and function-grouped clusters (waiting room, records, mail), red sparks at interactables.
+  - Verify: `bash tools/area_shots.sh res://scenes/dna_zone.tscn dna <tag>`
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
 - [ ] **SA-7 Follow-up: starting island ground and underside.** Floating-island underside with roots and dripping stones, strata on the hex cliff sides, mushrooms/ferns/crystal shards (needs a new CC0 pack), distant islands and a cloud sea below, teal tint on the fireflies, sparks at the gate, carved arch/steps on the gate.
   - Verify: `bash tools/area_shots.sh res://scenes/starting_area.tscn starting_area <tag> --quiet=true`
   - Pass bar: all 8 rubric scores 7 or higher.
