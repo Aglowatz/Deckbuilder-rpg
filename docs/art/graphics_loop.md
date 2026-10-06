@@ -136,10 +136,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/ui_shot.sh res://scenes/battle.tscn battle_generic <tag> --no_tutorial=true`
 - **Baseline (Oct 2026):** Murky green-gray hex board with dark blobby pines and grey cliff rim; fine as a stage but dim, flat and identical for every zone; the middle band behind the cards is empty; UI panels cover the left and right thirds.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **BB-GEN-1 Lighting and mood.** Warm key with a soft spotlight pool over the play area and a darker, cooler surround so cards pop; violet shadows; slight vignette; keep card text legible (contrast check against the busiest card frame).
+- [x] **BB-GEN-1 Lighting and mood.** Warm key with a soft spotlight pool over the play area and a darker, cooler surround so cards pop; violet shadows; slight vignette; keep card text legible (contrast check against the busiest card frame).
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/5/4/4/4/3/6/5 (iter3; the other criteria belong to BB-GEN-2..6). `ArenaBackdrop._add_lights`: a warm spot pool (22 energy, 34 degrees, tight falloff) over the play area plus a cool blue back light; BATTLE preset: sun 0.9 warm, ambient violet at 0.38 so shadows are violet and the surround falls away; battle dim overlay 0.6 to 0.45 now that the 3D carries the mood (cards and panels unchanged and still legible). before = battle_generic/before14.png; after = battle_generic/iter3.png (iter1, iter2 show the steps).
 - [ ] **BB-GEN-2 Ground and terrain.** Hex tiles with painted value/hue variation, stone and moss mix, slightly beveled edges, a visible rim and board thickness, subtle grid glow where cards can be placed.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).

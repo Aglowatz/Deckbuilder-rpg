@@ -310,8 +310,10 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.particles = [{"kind": "sparkles", "color": Color(1.0, 0.95, 0.7, 1.0), "amount": 30}, {"kind": "petals", "color": Color("ffb0d0"), "amount": 18}]
 		BATTLE:
 			p.with_id(id, "Battle backdrop: warm key, rich shadows")
-			p.sun_energy = 1.1
-			p.ambient_color = Color("8a78c8")
+			p.sun_energy = 0.9
+			p.sun_color = Color("ffdca8")
+			p.ambient_color = Color("6a5cb0")
+			p.ambient_energy = 0.38
 			p.fog_density = 0.01
 			p.volumetric_density = 0.015
 			p.particles = [{"kind": "motes", "color": Color(1.0, 0.85, 0.6, 0.7), "amount": 40}]

@@ -32,6 +32,7 @@ func _ready() -> void:
 	add_child(_camera)
 	_camera.current = true
 	StyleRig.install(self, StylePresets.BATTLE, _camera)
+	_add_lights()
 	_update_camera()
 
 
@@ -43,3 +44,27 @@ func _process(delta: float) -> void:
 func _update_camera() -> void:
 	_camera.position = Vector3(sin(_time * 0.08) * 2.5, 9.0, 9.5)
 	_camera.look_at(Vector3(0, 0.5, 0.5), Vector3.UP)
+
+
+## A warm light pool over the play area and a cool back light: the board glows, the surround falls away into violet shade so the cards pop.
+func _add_lights() -> void:
+	var pool: SpotLight3D = SpotLight3D.new()
+	pool.name = "PlayAreaPool"
+	pool.light_color = Color("ffd8a0")
+	pool.light_energy = 22.0
+	pool.spot_range = 34.0
+	pool.spot_angle = 34.0
+	pool.spot_angle_attenuation = 2.4
+	pool.spot_attenuation = 0.9
+	pool.shadow_enabled = false
+	pool.position = Vector3(0.0, 16.0, 5.0)
+	pool.rotation_degrees = Vector3(-90.0, 0.0, 0.0)
+	add_child(pool)
+	var back: OmniLight3D = OmniLight3D.new()
+	back.name = "CoolBackLight"
+	back.light_color = Color("7a8cff")
+	back.light_energy = 2.2
+	back.omni_range = 26.0
+	back.shadow_enabled = false
+	back.position = Vector3(0.0, 5.0, -12.0)
+	add_child(back)

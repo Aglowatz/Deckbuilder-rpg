@@ -114,7 +114,7 @@ func _zone_title(zone_id: String) -> String:
 func _build_scene() -> void:
 	add_child(ArenaBackdrop.new())
 	var dim: ColorRect = ColorRect.new()
-	dim.color = Color(0.03, 0.02, 0.07, 0.6)
+	dim.color = Color(0.03, 0.02, 0.07, 0.45)
 	UIKit.full_rect(dim)
 	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(dim)
