@@ -143,6 +143,22 @@ func _build_coin() -> void:
 	_frame = _panel(rect, UIStyle.box(color, Color(0.07, 0.05, 0.1), 18, COIN_TOKEN_RADIUS if is_token_tile else 135, 12))
 	add_child(_frame)
 	add_child(_panel(Rect2(rect.position + Vector2(26, 26), rect.size - Vector2(52, 52)), UIStyle.box(Color(0, 0, 0, 0), Color(1, 1, 1, 0.45), 8, 40 if is_token_tile else 110)))
+	var art: Texture2D = CardArt.texture(data.id) if data.id != "" else null
+	if art != null:
+		var picture: TextureRect = TextureRect.new()
+		picture.texture = art
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_SCALE
+		picture.position = rect.position + Vector2(10, 10)
+		picture.size = rect.size - Vector2(20, 20)
+		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var mask: ShaderMaterial = ShaderMaterial.new()
+		mask.shader = load("res://ui/shaders/coin_art.gdshader") as Shader
+		mask.set_shader_parameter("corner", 0.22 if is_token_tile else 0.5)
+		picture.material = mask
+		add_child(picture)
+		_build_overlays()
+		return
 	var icon_key: String = str(CardIcons.RESOURCE_ICONS.get(ResourceKind.Kind.keys()[kind], "lorc/magic-swirl"))
 	var glyph: TextureRect = CardIcons.glyph(CardIcons.named(icon_key), Color("1b1020"), Vector2(170, 170))
 	glyph.position = rect.position + (rect.size - Vector2(170, 170)) * 0.5

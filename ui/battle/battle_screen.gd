@@ -64,6 +64,33 @@ func screenshot_prepare(args: Dictionary) -> void:
 	_screenshot_args = args
 
 
+## Screenshot/dev helper: `--keep=true` keeps the opening hand; `--hover=hand:2` (also field:N, efield:N, token:N, etoken:N, resource:N,
+## eresource:N) hovers that card after the board settles, as the mouse would (the preview opens, a hand card lifts).
+func _screenshot_hover(spec: String) -> void:
+	await get_tree().create_timer(1.5).timeout
+	if _flag("keep") and _mulligan_panel != null:
+		_mulligan_choice(true)
+		await get_tree().create_timer(2.0).timeout
+	if spec.is_empty():
+		return
+	var parts: PackedStringArray = spec.split(":")
+	var zone_names: Dictionary = {"hand": BattleBoard.Zone.HAND, "field": BattleBoard.Zone.FIELD, "token": BattleBoard.Zone.TOKENS, "resource": BattleBoard.Zone.RESOURCES}
+	var word: String = parts[0]
+	var enemy: bool = word.begins_with("e")
+	if enemy:
+		word = word.substr(1)
+	if not zone_names.has(word):
+		return
+	var owner_index: int = 1 if enemy else 0
+	var uids: Array[int] = board._cards_in(owner_index, int(zone_names[word]) as BattleBoard.Zone)
+	var at: int = int(parts[1]) if parts.size() > 1 else 0
+	if at >= uids.size():
+		print("hover: no %s card %d (have %d)" % [parts[0], at, uids.size()])
+		return
+	var view: CardView = board.view_for(uids[at])
+	board._on_hover(view)
+
+
 ## Screenshot/dev helper: `--give=iron:2,redtape:2,ingredient:3,garbage:2,contract:2` puts that many of each on the human's table.
 func _screenshot_give(spec: String) -> void:
 	if spec.is_empty():
@@ -89,6 +116,7 @@ func _ready() -> void:
 	ai = context.ai
 	_build_scene()
 	_screenshot_give(str(_screenshot_args.get("give", "")))
+	_screenshot_hover(str(_screenshot_args.get("hover", "")))
 	game.event_emitted.connect(_on_game_event)
 	var bot_turns: int = int(_screenshot_args.get("bot", 0))
 	if bot_turns > 0:

@@ -117,8 +117,8 @@ func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
 
 func _build_side_panel() -> void:
 	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
-	panel.position = Vector2(1640, 250)
-	panel.size = Vector2(250, 500)
+	panel.position = Vector2(1640, 226)
+	panel.size = Vector2(250, 406)
 	add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(8)
 	panel.add_child(column)
@@ -128,7 +128,7 @@ func _build_side_panel() -> void:
 	column.add_child(_turn_sub)
 	for phase_name: String in PHASE_NAMES:
 		var pill: Label = UIKit.label(phase_name, &"", 21, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
-		pill.custom_minimum_size = Vector2(0, 34)
+		pill.custom_minimum_size = Vector2(0, 30)
 		pill.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		pill.add_theme_stylebox_override("normal", UIStyle.box(Color(1, 1, 1, 0.04), Color(0, 0, 0, 0), 0, 8))
 		column.add_child(pill)
@@ -141,7 +141,7 @@ func _build_side_panel() -> void:
 	_prompt = UIKit.rich("", 20, false)
 	_prompt.fit_content = false
 	_prompt.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_prompt.custom_minimum_size = Vector2(0, 150)
+	_prompt.custom_minimum_size = Vector2(0, 96)
 	_prompt_panel.add_child(_prompt)
 	# Deck / graveyard counters.
 	for index: int in range(2):
