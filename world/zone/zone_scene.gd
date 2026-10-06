@@ -305,6 +305,8 @@ func _build_fast_travel() -> void:
 	_station.build(travel.get_lines("travel.sign.zone"), Session.fast_travel_unlocked(def.id))
 	if _station_layer() != 1:
 		_station.set_render_layer(_station_layer())
+	if _station_layer() == 1:
+		StyleBeacon.build(self, pos, _station_beacon_color(), 6.0, 0.18)
 	builder.add_blocker(pos, 1.3)
 	var operator: Node3D = ModelKit.character("Barbarian")
 	ModelKit.tint(operator, Color(1.0, 0.8, 0.65))
@@ -317,6 +319,11 @@ func _build_fast_travel() -> void:
 	_npcs["rift_operator"] = operator
 	builder.add_blocker(operator_pos, 0.35)
 	_add_spot("rift_station", travel.text("travel.title"), pos + Vector3(0.0, 0.0, 1.6), 2.0, travel.text("travel.prompt"), false, "rift_station")
+
+
+## The light pillar colour over the Rift Express (a zone with its own accent colour overrides it).
+func _station_beacon_color() -> Color:
+	return Color(0.55, 0.95, 1.0)
 
 
 ## The visual layer of the station (the Capital puts its underground hideout on layer 2).

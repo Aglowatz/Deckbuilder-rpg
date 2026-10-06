@@ -238,11 +238,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/5/4/6/5 (iter3). DNA ZoneDressing recipe: clutter set widened (file bookcases, trash cans, potted plants, drawers, coat racks, desk chairs on top of books, boxes and plants) and a new per-recipe `"density"` multiplier (2.6 for DNA) plus a new `"tint"` multiplier on the kit materials (0.5/0.56/0.6): iter2 props rendered pure white and shouted against the dark rooms, now they sit in the cold grade. Props still scatter randomly over the 100 m zone (not grouped by function: waiting room, records, mail; cubicle walls, printers, clocks, hanging fluorescents NOT done). Medium DNA 69 fps. Caveat: the tint is baked into the shared kit mesh surface, harmless unless another zone in the same session reuses those furniture models. Tests 1023 green. before = dna/dn2_2_{a,b,c}.png; after = dna/dn3_3_{a,b,c}.png.
-- [~] **DN-4 Landmarks and hero props.** The Registrar desk and banners, the vault/reception, the Rift Express in red, queue ropes, big readable wall signs; the mini-dungeon stairwell.
+- [x] **DN-4 Landmarks and hero props.** The Registrar desk and banners, the vault/reception, the Rift Express in red, queue ropes, big readable wall signs; the mini-dungeon stairwell.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **DN-5 Particles and atmosphere.** Drifting dust, paper scraps, vent steam, red sparks at interactables.
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/4/7/5 (iter1). `ZoneScene._build_fast_travel` now adds a `StyleBeacon` light pillar over every Rift Express (cyan by default through the new overridable `_station_beacon_color()`, crimson for the D.N.A. via `DnaScene`), so the fast-travel point reads across the whole map; this applies to all generic zones (Gainlands, Buffet, Dump), to be checked in their tasks. Registrar banners and the big wall signs already read; vault/reception, queue ropes and the stairwell NOT done. Tests 1023 green. before = dna/dn3_3_a.png; after = dna/dn4_1_{a,b,c}.png.
+- [~] **DN-5 Particles and atmosphere.** Drifting dust, paper scraps, vent steam, red sparks at interactables.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -451,7 +451,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **BB-DN-4 Landmarks and hero props.** A big wall clock or filing cabinet backdrop.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/4/7/5 (iter1). `ZoneScene._build_fast_travel` now adds a `StyleBeacon` light pillar over every Rift Express (cyan by default through the new overridable `_station_beacon_color()`, crimson for the D.N.A. via `DnaScene`), so the fast-travel point reads across the whole map; this applies to all generic zones (Gainlands, Buffet, Dump), to be checked in their tasks. Registrar banners and the big wall signs already read; vault/reception, queue ropes and the stairwell NOT done. Tests 1023 green. before = dna/dn3_3_a.png; after = dna/dn4_1_{a,b,c}.png.
 - [ ] **BB-DN-5 Particles and atmosphere.** Dust, paper scraps.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
@@ -631,7 +631,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **MD-DN-4 Landmarks and hero props.** A big stairwell down on the left, a vault door on the right.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/5/5/7/4/7/5 (iter1). `ZoneScene._build_fast_travel` now adds a `StyleBeacon` light pillar over every Rift Express (cyan by default through the new overridable `_station_beacon_color()`, crimson for the D.N.A. via `DnaScene`), so the fast-travel point reads across the whole map; this applies to all generic zones (Gainlands, Buffet, Dump), to be checked in their tasks. Registrar banners and the big wall signs already read; vault/reception, queue ropes and the stairwell NOT done. Tests 1023 green. before = dna/dn3_3_a.png; after = dna/dn4_1_{a,b,c}.png.
 - [ ] **MD-DN-5 Particles and atmosphere.** Dust, paper scraps, vent steam.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).

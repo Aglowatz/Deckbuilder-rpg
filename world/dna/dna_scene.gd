@@ -122,3 +122,8 @@ func _assign_lights() -> void:
 			light.set_meta("on", 1)
 		else:
 			light.set_meta("on", 0)
+
+
+## The D.N.A. keeps its colour for the things that matter: the Rift Express beams crimson-red.
+func _station_beacon_color() -> Color:
+	return Color(1.0, 0.3, 0.2)
