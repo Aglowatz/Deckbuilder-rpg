@@ -178,7 +178,7 @@ func test_progression_content_has_ten_equipment_two_per_slot_and_thirteen_items(
 	assert_eq(basic_by_slot.size(), 5, "one basic piece per slot")
 	assert_eq(advanced_by_slot.size(), 5, "one advanced piece per slot")
 	# New brief, Part F: 3 original placeholders + 10 new basic consumables.
-	assert_eq(content.items.size(), 14)
+	assert_eq(content.items.size(), 18)
 	for consumable: Variant in content.items.values():
 		assert_gt((consumable as ItemData).uses, 0)
 		assert_not_null((consumable as ItemData).effect)

@@ -2,7 +2,7 @@ class_name CutsceneScreen
 extends Control
 ## A short dungeon cutscene (Part E): two icon "actors" on a themed stage, a speaker line and typewriter text,
 ## advance with a click, Space or Enter. Each beat can fire a visual effect (`CutsceneDefs`): the
-## doppelganger's mask coming off, the starved prisoner standing up, Heartlift throwing off his coat to
+## doppelganger's mask coming off, the starved prisoner standing up, Grandmaster Flex throwing off his coat to
 ## reveal he is still incredibly muscular, the Archdruid's roots retracting. All text is in the zone story.
 
 signal finished
@@ -358,7 +358,7 @@ func _coat_off() -> void:
 	Audio.sfx(&"spell", -2.0)
 
 
-## Heartlift is NOT the starved prisoner he appeared to be: the whole silhouette swells into pure muscle.
+## Grandmaster Flex is NOT the starved prisoner he appeared to be: the whole silhouette swells into pure muscle.
 func _muscle_reveal() -> void:
 	_flash_screen(Color("ffd36b"), 0.95)
 	_shake(20.0, 0.6)

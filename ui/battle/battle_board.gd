@@ -8,7 +8,7 @@ signal card_hovered(view: CardView)
 signal card_unhovered(view: CardView)
 signal card_input(view: CardView, event: InputEvent)
 
-enum Zone { HAND, FIELD, INFRASTRUCTURE, TRAPS, CENTER }
+enum Zone { HAND, FIELD, INFRASTRUCTURE, TRAPS, CENTER, RESOURCES }
 
 const CENTER_X: float = 985.0
 const ENEMY_HAND_Y: float = 6.0
@@ -25,6 +25,10 @@ const SCALE_ENEMY_HAND: float = 0.3
 const SCALE_BF: float = 0.56
 const SCALE_INFRASTRUCTURE: float = 0.27
 const SCALE_TRAP: float = 0.32
+const SCALE_RESOURCE: float = 0.2
+## Where each side's Resource tokens sit (centre of the first coin): on the table, left of the battlefield, on each side's half.
+const RESOURCE_ORIGIN: Array[Vector2] = [Vector2(70, 585), Vector2(70, 385)]
+const RESOURCE_SPAN: float = 270.0
 const SCALE_CENTER: float = 0.85
 
 var game: GameState
@@ -64,7 +68,7 @@ func setup(game_state: GameState, effects: BattleFX) -> void:
 
 func register_all() -> void:
 	for player: PlayerState in game.players:
-		for zone_cards: Array[CardInstance] in [player.deck, player.hand, player.field, player.infrastructure, player.refuse_pile, player.traps]:
+		for zone_cards: Array[CardInstance] in [player.deck, player.hand, player.field, player.infrastructure, player.refuse_pile, player.traps, player.resources]:
 			for card: CardInstance in zone_cards:
 				card_data[card.uid] = card.data
 
@@ -143,6 +147,8 @@ func _mode_for(zone: Zone) -> CardView.Mode:
 	match zone:
 		Zone.FIELD:
 			return CardView.Mode.COMPACT
+		Zone.RESOURCES:
+			return CardView.Mode.COIN
 		_:
 			return CardView.Mode.FULL
 
@@ -205,6 +211,7 @@ func layout(animated: bool = true) -> void:
 		_layout_row(owner_index, Zone.FIELD, PLAYER_BF_Y if owner_index == human else ENEMY_BF_Y, SCALE_BF, BF_SPACING, CENTER_X, 1250.0)
 		_layout_row(owner_index, Zone.INFRASTRUCTURE, PLAYER_INFRASTRUCTURE_Y if owner_index == human else ENEMY_INFRASTRUCTURE_Y, SCALE_INFRASTRUCTURE, INFRASTRUCTURE_SPACING, CENTER_X - 130.0, 950.0)
 		_layout_traps(owner_index)
+		_layout_resources(owner_index)
 	_place_blockers()
 	var center: Array[int] = []
 	for uid: int in order:
@@ -287,6 +294,19 @@ func _layout_traps(owner_index: int) -> void:
 		_targets[cards[index]] = {"pos": Vector2(1500.0 - float(index) * 62.0, y), "rot": -6.0 + float(index) * 3.0, "scale": SCALE_TRAP, "z": 4 + index}
 
 
+## Resource tokens sit in a row of overlapping coins, grouped by kind (Iron, Red Tape, Contract, Ingredient, Garbage).
+func _layout_resources(owner_index: int) -> void:
+	var cards: Array[int] = _cards_in(owner_index, Zone.RESOURCES)
+	cards.sort_custom(func(a: int, b: int) -> bool:
+		var kind_a: int = card_data[a].resource_kind if card_data.has(a) else 0
+		var kind_b: int = card_data[b].resource_kind if card_data.has(b) else 0
+		return kind_a < kind_b or (kind_a == kind_b and a < b)
+	)
+	var step: float = minf(38.0, RESOURCE_SPAN / float(maxi(cards.size(), 1)))
+	for index: int in range(cards.size()):
+		_targets[cards[index]] = {"pos": RESOURCE_ORIGIN[owner_index] + Vector2(float(index) * step, 0.0), "rot": 0.0, "scale": SCALE_RESOURCE, "z": 30 + index}
+
+
 func _apply_target(uid: int, target: Dictionary, animated: bool) -> void:
 	var view: CardView = view_for(uid)
 	if view == null:
@@ -332,6 +352,7 @@ func sync_state(animated: bool = true) -> void:
 		_sync_zone(player.field, player.index, Zone.FIELD, alive)
 		_sync_zone(player.infrastructure, player.index, Zone.INFRASTRUCTURE, alive)
 		_sync_zone(player.traps, player.index, Zone.TRAPS, alive)
+		_sync_zone(player.resources, player.index, Zone.RESOURCES, alive)
 	for uid: int in views.keys():
 		if not alive.has(uid):
 			var view: CardView = views[uid] as CardView

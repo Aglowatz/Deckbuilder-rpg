@@ -27,7 +27,7 @@ func test_the_verdant_heap_is_now_the_verdant_dump_in_every_story_file() -> void
 func test_every_zone_text_mentions_its_oppression_and_the_ruler() -> void:
 	var gain: ZoneStoryText = ZoneStoryText.for_zone("beefcake")
 	assert_true(gain.text("sign.regime_rules").contains("GRISTLE"))
-	assert_true(gain.text("npc.brenda.intro").contains("Heartlift"))
+	assert_true(gain.text("npc.brenda.intro").contains("Grandmaster Flex"))
 	var buffet: ZoneStoryText = ZoneStoryText.for_zone("gourmand")
 	assert_true(buffet.text("npc.odalys.intro").contains("Special Sauce"))
 	var dna: ZoneStoryText = ZoneStoryText.for_zone("necrocrat")

@@ -39,7 +39,7 @@ Primm's methods differ per faction:
 | Faction | How Primm got them | The ruler now |
 |---|---|---|
 | Gourmands | A **doppelgänger** replaced the leader. Corrupted, magically tainted food steers the Gourmands' love of food, invention and feeding others against them. | **The False Aurelio** (the impostor wearing Grand Chef Aurelio Saucier's face) |
-| Beefcakes | The leader was **violently overthrown** and imprisoned; the regime holds the zone. | **Commander Gristle**, regime commander; the true leader is **Grand Champion Thaddeus "Heartlift" Brawn** |
+| Beefcakes | The leader was **violently overthrown** and imprisoned; the regime holds the zone. | **Commander Gristle**, regime commander; the true leader is **Grand Champion Thaddeus "Grandmaster Flex" Brawn** |
 | Necrocrats | **Paperwork.** Authority was transferred to Primm by a fully valid, notarized, filed process. The Necrocrats are not evil, just obligated: "Yes, but the authorization is valid." | **The Registrar of Final Approvals** |
 | Refusemancers | The leader was **corrupted through nature itself**; the infection spread through the magical ecosystem. | **Archdruid Fernwick Loam, the Rotheart Archdruid** |
 
@@ -63,7 +63,7 @@ Primm's methods differ per faction:
 - **Corrupted path NPC (town):** Maris the Over-Seasoned, a Gourmand envoy force-fed the Special Sauce.
 
 ### Beefcakes - The Gainlands / The House of Gains
-- **The corruption.** The original leader, Thaddeus "Heartlift" Brawn, was violently overthrown by Primm's forces and
+- **The corruption.** The original leader, Thaddeus "Grandmaster Flex" Brawn, was violently overthrown by Primm's forces and
   imprisoned beneath the House of Gains. His captors deprived him of everything they believed
   made a Beefcake strong - weights, protein, gym equipment, conventional training - assuming he
   would grow weak and broken. Instead he turned to **calisthenics, yoga, stretching, meditation and mental
@@ -300,7 +300,7 @@ on the same boss node, with life carrying over and dialogue between phases.
 3. **Unraveling** - as he loses, his perfect rules break down: the arena cracks, his own creatures enter exhausted and
    he loses life each turn as the rules he wrote stop working, and his true selfishness shows.
 
-**Freed leaders lend a boon.** For every completed zone, that zone's freed leader (Heartlift, Aurelio, Vellum,
+**Freed leaders lend a boon.** For every completed zone, that zone's freed leader (Grandmaster Flex, Aurelio, Vellum,
 Fernwick) appears in the final scene and lends a boon for the fight (`PrimmBoss.boons`): +1/+0 to that Path's creatures
 and extra max life. Dialogue before, between phases and after: comedic self-importance first, then real tragedy. He
 insists he did it all for the people; the player's victory shows him (and the player) that his perfection was really

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_nw33t"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_2u1nd"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_qngot"]
+
+[sub_resource type="Resource" id="Resource_3nj4v"]
+script = ExtResource("1_nw33t")
+kind = 33
+value = 2
+
+[resource]
+script = ExtResource("3_qngot")
+id = "iron_knuckles"
+slot = 1
+description = "Start every duel with 2 Iron."
+advanced = true
+flavor_text = "Heavy enough to count as a gym membership."
+source_name = "Iron Knuckles"
+modifiers = Array[ExtResource("1_nw33t")]([SubResource("Resource_3nj4v")])

@@ -179,6 +179,9 @@ func _begin_playing() -> void:
 	# Part G: START_OF_DUEL_EFFECT (e.g. the Champion's Laurels), after the mulligans and before turn 1.
 	for index: int in range(players.size()):
 		_fire_modifier_effects(index, Modifier.Kind.START_OF_DUEL_EFFECT)
+		for modifier: Modifier in players[index].modifiers.modifiers:
+			if modifier.kind == Modifier.Kind.STARTING_RESOURCES and modifier.value > 0:
+				ResourceRules.create(self, index, modifier.value2 as ResourceKind.Kind, modifier.value)
 	_begin_turn()
 
 

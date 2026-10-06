@@ -79,7 +79,7 @@ static func build_def() -> ZoneDef:
 	def.ruler_tint = Color("8a1f1f")
 	def.gloom_tint = Color(0.5, 0.52, 0.58)
 	def.freed_npcs = [
-		{"id": "heartlift", "model": "Barbarian", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.85, 0.7), "scale": 2.1, "name": "Grand Champion Heartlift", "speaker": "Grand Champion Heartlift"},
+		{"id": "heartlift", "model": "Barbarian", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.85, 0.7), "scale": 2.1, "name": "Grandmaster Flex", "speaker": "Grandmaster Flex"},
 	]
 	def.mini = _mini_def()
 	def.npcs = [

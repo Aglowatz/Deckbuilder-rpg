@@ -102,6 +102,10 @@ enum Kind {
 	## Brief 10 (Primm phase 1, Standardization): while ANY player has it, every unit in the duel has base
 	## attack `value` and base defense `value2` (bonuses still apply on top).
 	STANDARDIZE_UNITS,
+	## Brief 14: at the start of every duel the owner creates `value` resources of kind `value2` (a ResourceKind ordinal).
+	STARTING_RESOURCES,
+	## Brief 14: whenever the owner creates resources of kind `value2`, they create `value` extra.
+	RESOURCE_BONUS,
 }
 
 ## `color` value meaning "matches every card".

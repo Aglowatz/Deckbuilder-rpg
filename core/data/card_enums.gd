@@ -86,6 +86,8 @@ enum EffectOp {
 	GAIN_HP,
 	LOSE_HP,
 	GRANT_KEYWORD,
+	## Brief 14: create resources (`amount` = ResourceKind ordinal, `amount2` = how many, default 1) for the target player.
+	CREATE_RESOURCE,
 }
 
 enum Duration { PERMANENT, END_OF_TURN }

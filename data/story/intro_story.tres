@@ -6,7 +6,7 @@
 script = ExtResource("1_st0ry")
 awakening_lines = Array[String](["Where am I?", "What happened?", "My head... I remember a kingdom. Four Paths. A great, bright city where they all met. And then... nothing.", "...There. Light, through the rocks. That must be the way out."])
 beefcake_npc_intro_lines = Array[String](["Cardio. Cardio. CARDIO. The regime says I'm an Envoy of the Beefcake Path. The regime puts pre-workout in the water. Every hour. EVERY HOUR!", "Commander Gristle's orders: nobody gets down the Beefcake Path without a spotter. I AM THE SPOTTER. Stand still and let me spot you - INTO THE NEXT ZIP CODE!"])
-beefcake_npc_victory_lines = Array[String](["...it's quiet. First time in - I don't know how long. Thank you.", "The Gainlands is under the regime's thumb. They took the weights and locked up our leader, Heartlift, in the House of Gains. Free us. Please. Don't skip leg day on the way.", "Be careful out there. The pre-workout is in the water."])
+beefcake_npc_victory_lines = Array[String](["...it's quiet. First time in - I don't know how long. Thank you.", "The Gainlands is under the regime's thumb. They took the weights and locked up our leader, Grandmaster Flex, in the House of Gains. Free us. Please. Don't skip leg day on the way.", "Be careful out there. The pre-workout is in the water."])
 beefcake_npc_defeat_lines = Array[String](["Ha! The pump's still mine.", "Come back when you can actually lift, shrimp. The regime approves of this message."])
 gourmand_npc_intro_lines = Array[String](["Taste it. TASTE IT. The Special Sauce. It is in everything. It is in my soup. It is in my tea. It is in my soul. Delicious. Delicious. DELICIOUS.", "The Grand Chef has asked every envoy to taste test the roads. You will have to get through me first, little one. Yes, Chef!"])
 gourmand_npc_victory_lines = Array[String](["The simmer let go. The sauce let go. I can taste plain bread again, and it's the best thing I've ever eaten.", "The Grand Chef is not the Grand Chef. He has the same face, but the real one never stopped tasting. There is a Test Kitchen at the far end of the Endless Buffet where they are building something that is NOT a casserole.", "Please free us. Yes, Chef. No, I mean it. Yes, you. You are the chef now."])
@@ -52,7 +52,7 @@ texts = {
 "town.alchemist.return": ["Back already? Good. Essence of two Paths, a little gold, and a lot of faith. That is the whole recipe."],
 "town.alchemist.need_more": ["You do not have enough essence of two different Paths yet. Collect more duplicates, then come back. The cauldron will wait. The cauldron is patient. The cauldron is also hungry."],
 "zone.complete.beefcake.title": ["THE GAINLANDS ARE FREE!"],
-"zone.complete.beefcake.body": ["Commander Gristle is down, Grand Champion Heartlift is back, and the weights are back in the gym. The mills turn at a sensible pace. Somewhere, Gary lifts something."],
+"zone.complete.beefcake.body": ["Commander Gristle is down, Grand Champion Grandmaster Flex is back, and the weights are back in the gym. The mills turn at a sensible pace. Somewhere, Gary lifts something."],
 "zone.complete.gourmand.title": ["THE ENDLESS BUFFET IS FREE!"],
 "zone.complete.gourmand.body": ["The False Aurelio is exposed, the Special Sauce is recalled, and the real Grand Chef is back in his kitchen. The golems guard plates again. Nobody leaves hungry."],
 "zone.complete.necrocrat.title": ["THE D.N.A. IS FREE!"],

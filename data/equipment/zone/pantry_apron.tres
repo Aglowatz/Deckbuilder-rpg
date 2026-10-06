@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_y5nec"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_tyxi7"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_840r0"]
+
+[sub_resource type="Resource" id="Resource_1l60n"]
+script = ExtResource("1_y5nec")
+kind = 33
+value = 2
+value2 = 3
+
+[sub_resource type="Resource" id="Resource_ieypi"]
+script = ExtResource("1_y5nec")
+kind = 34
+value = 1
+value2 = 3
+
+[resource]
+script = ExtResource("3_840r0")
+id = "pantry_apron"
+slot = 2
+description = "Start every duel with 2 Ingredients, and whenever you create Ingredients, create 1 extra."
+advanced = true
+flavor_text = "Stained in every colour of dinner."
+source_name = "Pantry Apron"
+modifiers = Array[ExtResource("1_y5nec")]([SubResource("Resource_1l60n"), SubResource("Resource_ieypi")])

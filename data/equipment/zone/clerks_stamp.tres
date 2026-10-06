@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_ayl5g"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rdkpi"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_xmws0"]
+
+[sub_resource type="Resource" id="Resource_ig5wq"]
+script = ExtResource("1_ayl5g")
+kind = 33
+value = 1
+value2 = 1
+
+[sub_resource type="Resource" id="Resource_gclyf"]
+script = ExtResource("1_ayl5g")
+kind = 33
+value = 1
+value2 = 2
+
+[resource]
+script = ExtResource("3_xmws0")
+id = "clerks_stamp"
+description = "Start every duel with 1 Red Tape and 1 Contract."
+advanced = true
+flavor_text = "Approved. Denied. Approved again, in triplicate."
+source_name = "Clerk's Stamp"
+modifiers = Array[ExtResource("1_ayl5g")]([SubResource("Resource_ig5wq"), SubResource("Resource_gclyf")])

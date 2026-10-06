@@ -240,6 +240,9 @@ static func _apply(state: GameState, effect: EffectData, ctx: EffectContext, tar
 		CardEnums.EffectOp.LOSE_HP:
 			if is_player:
 				state.lose_hp(player_index, effect.amount)
+		CardEnums.EffectOp.CREATE_RESOURCE:
+			if is_player:
+				ResourceRules.create(state, player_index, effect.amount as ResourceKind.Kind, maxi(1, effect.amount2), ctx.source_uid)
 		CardEnums.EffectOp.GRANT_KEYWORD:
 			if not is_player:
 				var keyword: CardEnums.Keyword = effect.keyword

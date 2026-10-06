@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_a3yk3"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_bwvjb"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_vvwsv"]
+
+[sub_resource type="Resource" id="Resource_k07p4"]
+script = ExtResource("1_a3yk3")
+kind = 34
+value = 1
+value2 = 4
+
+[resource]
+script = ExtResource("3_vvwsv")
+id = "bin_lid"
+slot = 0
+description = "Whenever you create Garbage, create 1 extra."
+advanced = true
+flavor_text = "Smells like victory, mostly."
+source_name = "Bin Lid Helm"
+modifiers = Array[ExtResource("1_a3yk3")]([SubResource("Resource_k07p4")])

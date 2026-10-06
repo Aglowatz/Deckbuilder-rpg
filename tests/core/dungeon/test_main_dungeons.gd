@@ -292,7 +292,7 @@ func test_rescuing_heartlift_adds_a_dungeon_wide_boon() -> void:
 	var rescue: EventResolver.Result = Session.resolve_dungeon_event(dungeon.event("hg_rescue"), 0)
 	assert_true(rescue.ok)
 	assert_eq(rescue.boons.size(), 1)
-	assert_eq(Session.run.modifiers().stat_bonus(Affinity.Type.BEEFCAKE), Vector2i(1, 1), "Heartlift fights beside you: +1/+1")
+	assert_eq(Session.run.modifiers().stat_bonus(Affinity.Type.BEEFCAKE), Vector2i(1, 1), "Grandmaster Flex fights beside you: +1/+1")
 	assert_eq(Session.run.max_hp(), hp_before + 3)
 	# The boon is carried into the next duel for the rest of the run.
 	var map: DungeonMap = Session.dungeon_map

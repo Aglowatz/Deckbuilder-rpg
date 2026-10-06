@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_jnmcf"]
+[ext_resource type="Script" path="res://core/data/item_data.gd" id="2_1y1wk"]
+
+[sub_resource type="Resource" id="Resource_442pd"]
+script = ExtResource("1_jnmcf")
+target = 1
+op = 12
+amount = 1
+amount2 = 2
+
+[resource]
+script = ExtResource("2_1y1wk")
+id = "blank_form"
+display_name = "Blank Form"
+description = "Create 2 Red Tape."
+uses = 2
+effect = SubResource("Resource_442pd")

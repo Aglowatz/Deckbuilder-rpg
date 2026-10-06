@@ -36,6 +36,9 @@ static func create(state: GameState, player_index: int, kind: ResourceKind.Kind,
 		return created
 	var total: int = count * StaticEffects.resource_multiplier(state, player_index, kind)
 	var player: PlayerState = state.players[player_index]
+	for modifier: Modifier in player.modifiers.modifiers:
+		if modifier.kind == Modifier.Kind.RESOURCE_BONUS and modifier.value2 == int(kind):
+			total += maxi(modifier.value, 0)
 	for i: int in range(total):
 		var card: CardInstance = state.create_instance(data_for(kind), player_index)
 		card.entered_turn = state.turn

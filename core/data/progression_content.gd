@@ -35,6 +35,7 @@ static func zone_equipment() -> Dictionary:
 	_add(result, _piece("head_chef_ladle", "Head Chef's Ladle", EquipmentData.Slot.WEAPON, "Heavy, battered and trusted by a hundred golems. At the start of your turn, gain 1 HP.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.GAIN_HP, 1, CardEnums.TargetKind.CONTROLLER))], true))
 	_add(result, _piece("seed_satchel", "Refusemancer Seed Satchel", EquipmentData.Slot.RELIC, "Every pocket holds something that wants to grow. At the start of your turn, your units get +0/+1 permanently.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect_ab(CardEnums.EffectOp.BUFF, 0, 1, CardEnums.TargetKind.ALL_ALLY_UNITS))], true))
 	_add_zone_pieces(result)
+	_add_resource_gear(result)
 	ArenaContent.add_equipment(result)
 	return result
 
@@ -60,6 +61,10 @@ static func items(tokens: Dictionary = {}) -> Dictionary:
 	_add_item(result, "binding_chains", "Binding Chains", "Return an enemy unit to its owner's hand.", 1, CardEnums.EffectOp.SEND_BACK, 0, 0, D.PERMANENT, G.CHOSEN_UNIT_ENEMY)
 	_add_item(result, "silence_powder", "Silence Powder", "The opponent tosses a random card.", 2, CardEnums.EffectOp.TOSS, 1, 0, D.PERMANENT, G.OPPONENT)
 	_add_item(result, "grave_dust", "Grave Dust", "The opponent buries their top 3 cards.", 2, CardEnums.EffectOp.BURY, 3, 0, D.PERMANENT, G.OPPONENT)
+	_add_resource_item(result, "iron_ration", "Iron Ration", "Create 2 Iron.", ResourceKind.Kind.IRON, 2)
+	_add_resource_item(result, "spice_pouch", "Spice Pouch", "Create 2 Ingredients.", ResourceKind.Kind.INGREDIENT, 2)
+	_add_resource_item(result, "bag_of_rubbish", "Bag of Rubbish", "Create 3 Garbage.", ResourceKind.Kind.GARBAGE, 3)
+	_add_resource_item(result, "blank_form", "Blank Form", "Create 2 Red Tape.", ResourceKind.Kind.RED_TAPE, 2)
 	var militia: CardData = tokens.get("T-16") as CardData
 	if militia == null:
 		militia = CardBuilder.token("T-16", "Militia", 1, 1)
@@ -67,6 +72,10 @@ static func items(tokens: Dictionary = {}) -> Dictionary:
 	_add_item(result, "ward_sigil", "Ward Sigil", "Give a unit Untouchable until end of turn.", 2, CardEnums.EffectOp.GRANT_KEYWORD, 0, 0, D.END_OF_TURN, G.CHOSEN_UNIT_ALLY, K2.UNTOUCHABLE)
 	_add_item(result, "hearty_pie", "Hearty Pot Pie", "Baked at the Grand Pantry oven. Heal 6 HP.", 1, CardEnums.EffectOp.GAIN_HP, 6, 0, D.PERMANENT, G.CONTROLLER)
 	return result
+
+
+static func _add_resource_item(result: Dictionary, id: String, title: String, description: String, kind: ResourceKind.Kind, count: int) -> void:
+	_add_item(result, id, title, description, 2, CardEnums.EffectOp.CREATE_RESOURCE, int(kind), count, D.PERMANENT, G.CONTROLLER)
 
 
 static func _piece(id: String, title: String, slot: EquipmentData.Slot, description: String, modifiers: Array[Modifier], advanced: bool = false) -> EquipmentData:
@@ -148,6 +157,22 @@ static func _add_item(
 ##  - Spotter's Barbell (Gainlands, weapon)      <- *Clear the Lanes* (ON_CREATURE_ENTER_EFFECT)
 ##  - Head Chef's Toque (Endless Buffet, helm)   <- *Bake Me a Pie* (LIFE_GAIN_BONUS)
 ##  - Compost Boots (Verdant Dump, boots)        <- *Unblock the Stream* (ON_ALLY_DEATH_EFFECT)
+## Brief 14: one piece per Path that works on Resources (quest rewards of the Capital's Path quests).
+static func _add_resource_gear(result: Dictionary) -> void:
+	var knuckles: EquipmentData = _piece("iron_knuckles", "Iron Knuckles", EquipmentData.Slot.WEAPON, "Start every duel with 2 Iron.", [_mod(K.STARTING_RESOURCES, 2, Modifier.ANY_COLOR, int(ResourceKind.Kind.IRON))], true)
+	knuckles.flavor_text = "Heavy enough to count as a gym membership."
+	_add(result, knuckles)
+	var apron: EquipmentData = _piece("pantry_apron", "Pantry Apron", EquipmentData.Slot.ARMOR, "Start every duel with 2 Ingredients, and whenever you create Ingredients, create 1 extra.", [_mod(K.STARTING_RESOURCES, 2, Modifier.ANY_COLOR, int(ResourceKind.Kind.INGREDIENT)), _mod(K.RESOURCE_BONUS, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.INGREDIENT))], true)
+	apron.flavor_text = "Stained in every colour of dinner."
+	_add(result, apron)
+	var lid: EquipmentData = _piece("bin_lid", "Bin Lid Helm", EquipmentData.Slot.HELM, "Whenever you create Garbage, create 1 extra.", [_mod(K.RESOURCE_BONUS, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.GARBAGE))], true)
+	lid.flavor_text = "Smells like victory, mostly."
+	_add(result, lid)
+	var stamp: EquipmentData = _piece("clerks_stamp", "Clerk's Stamp", EquipmentData.Slot.RELIC, "Start every duel with 1 Red Tape and 1 Contract.", [_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.RED_TAPE)), _mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.CONTRACT))], true)
+	stamp.flavor_text = "Approved. Denied. Approved again, in triplicate."
+	_add(result, stamp)
+
+
 static func _add_zone_pieces(result: Dictionary) -> void:
 	var clipboard: EquipmentData = _piece("compliance_clipboard", "Compliance Clipboard", EquipmentData.Slot.RELIC, "At the end of your turn, the opponent loses 1 HP.", [_mod_effect(K.END_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.LOSE_HP, 1, CardEnums.TargetKind.OPPONENT))], true)
 	clipboard.flavor_text = "Every box ticked is a little paper cut. Nobody has ever read what it says."

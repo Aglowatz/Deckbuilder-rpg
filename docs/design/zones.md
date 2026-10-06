@@ -6,7 +6,7 @@ The whole world's story, factions and rulers are in `docs/design/story_bible.md`
 
 | Zone | Faction | Ruler / corruption | Final dungeon |
 |---|---|---|---|
-| The Gainlands | Beefcakes | Commander Gristle's regime; true leader Heartlift imprisoned in the Iron-less Prison | The House of Gains |
+| The Gainlands | Beefcakes | Commander Gristle's regime; true leader Grandmaster Flex imprisoned in the Iron-less Prison | The House of Gains |
 | The Endless Buffet | Gourmands | A doppelgänger (the False Aurelio), corrupted food (the Special Sauce), a hidden war-machine R&D complex | The Test Kitchen |
 | The D.N.A. | Necrocrats | Legally valid paperwork ("Yes, but the authorization is valid"), absurd bureaucracy | The Hall of Final Approvals |
 | The Verdant Dump | Refusemancers | The leader corrupted through nature itself; the ecosystem is unnaturally alive | The Rotheart |
@@ -129,7 +129,7 @@ What changes in a freed zone (`ZoneScene._build_completion_state`):
 | Lighting (`ZoneCompletionLook`) | dimmer, desaturated, fog and sky pulled toward the ruler's gloom tint | brighter, warmer, clearer, fog lifts |
 | The ruler (`RulerPresence`) | a looming statue with a plaque and tall banners in the ruler's colors at the hub | the statue lies toppled with a new plaque, bunting where the banners were |
 | Signage | regime/permit/Special-Sauce/Rot signs | the same signs' `.freed` variants (rules abolished, notices revoked) |
-| NPCs | frightened/guarded dialogue | `.freed` dialogue; the freed leader (Heartlift / Grand Chef Aurelio / Director Vellum / Archdruid Fernwick) stands at the hub and talks (`freed_npc.<id>`) |
+| NPCs | frightened/guarded dialogue | `.freed` dialogue; the freed leader (Grandmaster Flex / Grand Chef Aurelio / Director Vellum / Archdruid Fernwick) stands at the hub and talks (`freed_npc.<id>`) |
 | Announcement | - | a full-screen "THE X IS FREE!" screen with what just unlocked (`AnnouncementScreen`), then the zone |
 
 The quest *Free the Kingdom* tracks the four completions. Tests: `tests/core/zone/test_zone_completion.gd`.
@@ -143,7 +143,7 @@ New shared node kinds (appended to `DungeonMap.Kind`): **ELITE** (a harder battl
 | Dungeon (zone) | Nodes | Branches | Highlights |
 |---|---:|---|---|
 | **The Test Kitchen** (Buffet) | 12 | 3 (rejoin at the canteen, the armory, the boss) | taste-panel deck challenge, canteen shrine, food construct and Mk. IX elites, cannon-bay and whistleblower events, armory treasure; boss **The False Aurelio** with the **reveal** cutscene (the face slides off the doppelganger). Reward: **Aurelio, the True Chef** |
-| **The House of Gains** (Gainlands) | 13 | 2 | **The Iron-less Prison** section (descent event, cell block / calisthenics check, the Iron-less Warden elite), then **the rescue**: Heartlift, emaciated, joins as the dungeon-wide boon *Heartlift Fights Beside You* (+1/+1 to all your units, +3 max HP), a cell stretch shrine, barracks / gear-locker choice, honor guard elite, trophy hall; boss **Commander Gristle** with the **flex** cutscene (he throws off his outer clothing: still incredibly muscular; "true strength comes from the heart and the mind"). Reward: **Heartlift, the Unbroken** |
+| **The House of Gains** (Gainlands) | 13 | 2 | **The Iron-less Prison** section (descent event, cell block / calisthenics check, the Iron-less Warden elite), then **the rescue**: Grandmaster Flex, emaciated, joins as the dungeon-wide boon *Grandmaster Flex Fights Beside You* (+1/+1 to all your units, +3 max HP), a cell stretch shrine, barracks / gear-locker choice, honor guard elite, trophy hall; boss **Commander Gristle** with the **flex** cutscene (he throws off his outer clothing: still incredibly muscular; "true strength comes from the heart and the mind"). Reward: **Grandmaster Flex, the Unbroken** |
 | **The Hall of Final Approvals** (D.N.A.) | 14 | 3 | "take a number" wait event, **forms that require forms** (a 3-step chained event), waiting-room shrine, audit challenge, mailroom, lost-and-found treasure, compliance elite, appeals / notary choice, senior clerk elite; boss **The Registrar of Final Approvals** ("filed on a Tuesday"). Reward: **The Final Approval** |
 | **The Rotheart** (Dump) | 13 | 3 | sections that grow stranger (outskirts, grove, root tunnels, heartwood), whispering-mushrooms and pulsing-wall events, spore-gauntlet challenge, clean-soil shrine, seed-vault treasure, golem / treant elites; boss **Archdruid Fernwick Loam** with the **sever** cutscene (cutting the heart severs the big bad's influence). Reward: **Heart of the Dump** |
 
@@ -249,7 +249,7 @@ simulated). The phases are three duels back to back (`Session.boss_phase`), HP c
 | 3. **Unraveling** | his units get +1/+1 and he draws extra, but loses 1 HP at the start of each of his turns | `STAT_CHANGE`, `EXTRA_DRAWS`, `START_OF_TURN_EFFECT` (lose HP) |
 
 The battle screen shows the phase's rule and the active broken services (`BattleHud.set_capital_panels`). **Freed leaders lend a boon**: for each
-completed zone its freed leader (Heartlift, Aurelio, Director Vellum, Fernwick) joins you when the boss is entered (dialogue, then a dungeon-wide
+completed zone its freed leader (Grandmaster Flex, Aurelio, Director Vellum, Fernwick) joins you when the boss is entered (dialogue, then a dungeon-wide
 boon: +2 max HP and +1 attack to Beefcakes / +1 defense and bigger HP gain to Gourmands / Necrocrat cards 1 cheaper / +2 defense to
 Refusemancers; once per run). Dialogue is comedic self-importance first ("it has just been polished by seventeen people"), then real tragedy:
 he insists he did it all for the people, and the player's victory shows him (and the player) that his perfection was really about himself.

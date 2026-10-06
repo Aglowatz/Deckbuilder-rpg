@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="1_lumnn"]
+[ext_resource type="Script" path="res://core/data/item_data.gd" id="2_l1uup"]
+
+[sub_resource type="Resource" id="Resource_xsahh"]
+script = ExtResource("1_lumnn")
+target = 1
+op = 12
+amount = 3
+amount2 = 2
+
+[resource]
+script = ExtResource("2_l1uup")
+id = "spice_pouch"
+display_name = "Spice Pouch"
+description = "Create 2 Ingredients."
+uses = 2
+effect = SubResource("Resource_xsahh")

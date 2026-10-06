@@ -258,6 +258,7 @@ static func _cap_burial() -> QuestData:
 	quest.reward_xp = 120
 	quest.reward_item_ids = ["healing_draught"] as Array[String]
 	quest.reward_card_ids = ["N-28"] as Array[String]
+	quest.reward_equipment_ids = ["clerks_stamp"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("necrocrat"))] as Array[String]
 	return quest
 
@@ -278,6 +279,7 @@ static func _cap_wheels() -> QuestData:
 	quest.reward_xp = 120
 	quest.reward_item_ids = ["vitality_charm"] as Array[String]
 	quest.reward_card_ids = ["B-30"] as Array[String]
+	quest.reward_equipment_ids = ["iron_knuckles"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("beefcake"))] as Array[String]
 	return quest
 
@@ -298,6 +300,7 @@ static func _cap_recipes() -> QuestData:
 	quest.reward_xp = 120
 	quest.reward_item_ids = ["hearty_pie"] as Array[String]
 	quest.reward_card_ids = ["G-31"] as Array[String]
+	quest.reward_equipment_ids = ["pantry_apron"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("gourmand"))] as Array[String]
 	return quest
 
@@ -318,5 +321,6 @@ static func _cap_untidy() -> QuestData:
 	quest.reward_xp = 120
 	quest.reward_item_ids = ["healing_salve"] as Array[String]
 	quest.reward_card_ids = ["R-30"] as Array[String]
+	quest.reward_equipment_ids = ["bin_lid"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("refusemancer"))] as Array[String]
 	return quest

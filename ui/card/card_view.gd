@@ -10,7 +10,7 @@ signal hovered(view: CardView)
 signal unhovered(view: CardView)
 signal gui_event(view: CardView, event: InputEvent)
 
-enum Mode { FULL, COMPACT, BACK }
+enum Mode { FULL, COMPACT, BACK, COIN }
 enum Glow { NONE, PLAYABLE, SELECTED, TARGET, ATTACK, BLOCK }
 
 const SIZE: Vector2 = Vector2(300, 450)
@@ -98,6 +98,9 @@ func _build() -> void:
 	if mode == Mode.BACK or data == null:
 		_build_back()
 		return
+	if mode == Mode.COIN:
+		_build_coin()
+		return
 	_base_attack = data.attack
 	_base_defense = data.defense
 	_frame = _panel(Rect2(Vector2.ZERO, SIZE), UIStyle.box(Color("1c1526"), accent.darkened(0.15), 6, 14, 10))
@@ -112,6 +115,30 @@ func _build() -> void:
 	else:
 		_build_chips()
 	_build_plaque()
+	_build_overlays()
+
+
+## A Resource token on the table: a round coin (Path colour, glyph) drawn at the card's centre; scaled small it sits among the units.
+func _build_coin() -> void:
+	var kind: int = data.resource_kind
+	var color: Color = ResourceKind.COLORS.get(kind, accent) as Color
+	var glyph_text: String = str(ResourceKind.GLYPHS.get(kind, "?"))
+	var diameter: float = 270.0
+	var rect: Rect2 = Rect2((SIZE - Vector2(diameter, diameter)) * 0.5, Vector2(diameter, diameter))
+	_frame = _panel(rect, UIStyle.box(color, Color(0.07, 0.05, 0.1), 18, 135, 12))
+	add_child(_frame)
+	add_child(_panel(Rect2(rect.position + Vector2(26, 26), rect.size - Vector2(52, 52)), UIStyle.box(Color(0, 0, 0, 0), Color(1, 1, 1, 0.45), 8, 110)))
+	var glyph: Label = Label.new()
+	glyph.text = glyph_text
+	glyph.position = rect.position
+	glyph.size = rect.size
+	glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	glyph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	glyph.add_theme_font_override("font", UIStyle.font_bold())
+	glyph.add_theme_font_size_override("font_size", 96)
+	glyph.add_theme_color_override("font_color", Color("1b1020"))
+	glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(glyph)
 	_build_overlays()
 
 
@@ -449,7 +476,8 @@ func _build_overlays() -> void:
 	# Three border-only outlines, growing and fading, read as a soft glow.
 	for ring: int in range(3):
 		var grow: float = 3.0 + float(ring) * 5.0
-		var outline: Panel = _panel(Rect2(Vector2(-grow, -grow), SIZE + Vector2(grow, grow) * 2.0), UIStyle.box(Color(1, 1, 1, 0), Color(1, 1, 1, 0), 4 if ring == 0 else 6, 20 + int(grow)))
+		var base: Rect2 = Rect2(Vector2(15, 90), Vector2(270, 270)) if mode == Mode.COIN else Rect2(Vector2.ZERO, SIZE)
+		var outline: Panel = _panel(Rect2(base.position - Vector2(grow, grow), base.size + Vector2(grow, grow) * 2.0), UIStyle.box(Color(1, 1, 1, 0), Color(1, 1, 1, 0), 4 if ring == 0 else 6, (135 if mode == Mode.COIN else 20) + int(grow)))
 		_glow.add_child(outline)
 	if _glow_kind != Glow.NONE:
 		set_glow.call_deferred(_glow_kind)

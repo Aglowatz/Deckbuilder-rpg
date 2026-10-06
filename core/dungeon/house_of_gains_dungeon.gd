@@ -1,7 +1,7 @@
 class_name HouseOfGainsDungeon
 extends RefCounted
 ## THE HOUSE OF GAINS (Beefcakes): the regime's stronghold. A major section is the IRON-LESS PRISON:
-## the player descends, rescues the original leader (Heartlift: emaciated and decrepit), who then joins as a
+## the player descends, rescues the original leader (Grandmaster Flex: emaciated and decrepit), who then joins as a
 ## dungeon-wide boon for the rest of the run, and continues through the House. At the final
 ## confrontation a short scene (cutscene "flex"): he throws off his outer clothing, still incredibly
 ## muscular, and explains that true strength comes from the heart and the mind. Boss: Commander Gristle.
@@ -11,7 +11,7 @@ extends RefCounted
 const ZONE_ID: String = "beefcake"
 const REWARD_CARD_ID: String = "B-32"
 const RESCUE_NODE_KEY: String = "hg_rescue"
-const BOON_NAME: String = "Heartlift Fights Beside You"
+const BOON_NAME: String = "Grandmaster Flex Fights Beside You"
 ## The rescued leader as a card-game ally (the token sheet's T-15): he starts on your field in the boss fight.
 const ALLY_TOKEN_ID: String = "T-15"
 
@@ -33,7 +33,7 @@ static func place_ally(game: GameState) -> CardInstance:
 	ally.summoning_sick = false
 	return ally
 
-## Heartlift's dungeon-wide boon: strength of heart and mind (+1/+1 to all your units, +3 max HP).
+## Grandmaster Flex's dungeon-wide boon: strength of heart and mind (+1/+1 to all your units, +3 max HP).
 static func heartlift_boon() -> ModifierSource:
 	return MainDungeonDef.boon_source(BOON_NAME, [
 		CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 1, Modifier.ANY_COLOR, 1),

@@ -46,8 +46,6 @@ var _target_ability: int = 0
 ## item's effect (items are not cards - no GameAction involved).
 var _pending_item: ItemData = null
 var item_bar: ItemBar
-## Brief 14: both players' resource trays (index = player).
-var resource_trays: Array[ResourceTray] = []
 var _selected_attackers: Array[int] = []
 var _block_assign: Dictionary = {}
 var _block_pick: int = 0
@@ -139,16 +137,6 @@ func _build_scene() -> void:
 		_board_root.add_child(item_bar)
 		item_bar.setup(game, Session.profile)
 		item_bar.item_pressed.connect(_on_item_pressed)
-	var my_tray: ResourceTray = ResourceTray.new()
-	my_tray.position = Vector2(24, 796)
-	_board_root.add_child(my_tray)
-	my_tray.setup(game, 0, true)
-	my_tray.resource_pressed.connect(_on_resource_pressed)
-	var foe_tray: ResourceTray = ResourceTray.new()
-	foe_tray.position = Vector2(340, 24)
-	_board_root.add_child(foe_tray)
-	foe_tray.setup(game, 1, false)
-	resource_trays = [my_tray, foe_tray]
 	_overlay_layer = Control.new()
 	UIKit.full_rect(_overlay_layer)
 	_overlay_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -201,7 +189,7 @@ func _drive() -> void:
 		hud.refresh_all()
 		if item_bar != null:
 			item_bar.refresh()
-		_refresh_resource_trays()
+		_refresh_resource_tokens()
 		if game.is_over():
 			busy = false
 			await _show_result()
@@ -530,6 +518,8 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 				_press_pos = get_global_mouse_position()
 			elif (zone == BattleBoard.Zone.FIELD or zone == BattleBoard.Zone.INFRASTRUCTURE) and mine and button_event.pressed:
 				_try_activate(uid)
+			elif zone == BattleBoard.Zone.RESOURCES and mine and button_event.pressed and view.data != null:
+				_on_resource_pressed(view.data.resource_kind as ResourceKind.Kind)
 		Mode.ATTACK:
 			if button_event.pressed and zone == BattleBoard.Zone.FIELD and mine:
 				_toggle_attacker(uid)
@@ -762,9 +752,17 @@ func _show_x_dialog(step: Dictionary) -> void:
 	column.add_child(cancel)
 
 
-func _refresh_resource_trays() -> void:
-	for tray: ResourceTray in resource_trays:
-		tray.refresh()
+## Resources are tokens on the table (BattleBoard Zone.RESOURCES). Your Iron, Red Tape and Contract glow when you can use one now.
+func _refresh_resource_tokens() -> void:
+	for uid: int in board.views.keys():
+		if int(board.zones.get(uid, -1)) != BattleBoard.Zone.RESOURCES:
+			continue
+		var view: CardView = board.view_for(uid)
+		if view == null or view.data == null or int(view.get_meta("owner", 0)) != 0:
+			continue
+		var kind: ResourceKind.Kind = view.data.resource_kind as ResourceKind.Kind
+		var usable: bool = mode == Mode.MAIN and not busy and ResourceKind.has_use_ability(kind) and game.in_main_phase() and game.active == 0 and game.can_pay_energy(0, 1, [] as Array[Affinity.Type]) and not ResourceRules.use_targets(game, 0, kind).is_empty()
+		view.set_glow(CardView.Glow.PLAYABLE if usable else CardView.Glow.NONE)
 
 
 ## Brief 14: clicking an Iron, Red Tape or Contract coin picks a target unit (the same targeting flow cards use).

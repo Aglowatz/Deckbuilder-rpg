@@ -2100,7 +2100,7 @@ Story source of truth: `docs/design/story_source.md`; organized in `docs/design/
 ## Part E: the four zone dungeons - done
 
 - The old "closed" placeholders are now **The Test Kitchen**, **The House of Gains** (with the **Iron-less Prison** and the rescue), **The Hall of Final Approvals** (take-a-number waits, forms that require forms) and **The Rotheart**: 12-14 nodes each, 2-3 branch points whose routes rejoin, mixing battles, elites, deck challenges, shrines, events, treasure and a boss (full table in `docs/design/zones.md`).
-- New shared node kinds: **ELITE, EVENT, TREASURE** (+ `DungeonEvent`/`EventResolver`, `EventScreen`, `TreasureScreen`), story dialogue at key nodes and before/after each boss, cutscenes for the **Test Kitchen reveal**, the **rescue** and the **Heartlift flex** ("he throws off his outer clothing... true strength comes from the heart and the mind") and the Rotheart **sever**, a per-dungeon **diorama** (`DungeonBackdrop`), zone effects and boons in the map HUD, each boss drops a unique Legendary card plus gold and XP, and beating it **completes the zone** (Part D).
+- New shared node kinds: **ELITE, EVENT, TREASURE** (+ `DungeonEvent`/`EventResolver`, `EventScreen`, `TreasureScreen`), story dialogue at key nodes and before/after each boss, cutscenes for the **Test Kitchen reveal**, the **rescue** and the **Grandmaster Flex flex** ("he throws off his outer clothing... true strength comes from the heart and the mind") and the Rotheart **sever**, a per-dungeon **diorama** (`DungeonBackdrop`), zone effects and boons in the map HUD, each boss drops a unique Legendary card plus gold and XP, and beating it **completes the zone** (Part D).
 - Zone life rules apply (the run starts at the zone's life; a loss wakes you at the hub; the fee is charged).
 - Tests: `tests/core/dungeon/test_main_dungeons.gd` (branching structure, decks, story text, events, rescue boon, completion). 659 GUT tests pass. Screenshots `_screenshots/e_*.png`.
 
@@ -2135,7 +2135,7 @@ New asset packs: none. Extra game-icons.net icons are credited in CREDITS.md.
 
 Placeholder names chosen (all in story data files, easy to change): the kingdom Concordia; the big bad Malvane the Usurper;
 the main town Concord Crossing; the Arena The Grand Clashatorium (Marshal Vesna Tuskmore); the Alchemist's shop Crucible & Co.
-(Zinnia Vex); the impostor False Aurelio (Gourmands); the Beefcake leader Commander Gristle (move: Heartlift); the Necrocrat
+(Zinnia Vex); the impostor False Aurelio (Gourmands); the Beefcake leader Commander Gristle (move: Grandmaster Flex); the Necrocrat
 boss the Registrar of Final Approvals; the Refusemancer Archdruid Fernwick Loam.
 
 Questions for you: (1) Keep these names, or give me yours? (2) Should the big bad appear in person before the final zone, or
@@ -2461,10 +2461,17 @@ Tests: see Part D (the card tests use the imported set); 988 pass.
 ## Brief 14 FINAL: summary
 - Verification (within the E2E budget): the full GUT suite (1005 tests, one process at a time) is green; the windowed human-turn battle smoke ran once against the new content (6 human turns OK); card import report CLEAN (339 cards/tokens, 0 problems); `tools/import_art.sh` re-run with an empty inbox is clean (0 errors, 0 unknown, 339 missing).
 - The brief's battle features each have an exact test: resources by basic Infrastructure/Iron/Red Tape/Contract and eating Garbage, cooking a Golem from Ingredients, Tool attach, Wonder abilities, Traps, Plate, Brawl, Processing, Shred, Reinstate (`test_card_mechanics*.gd`, `test_card_keywords.gd`), the AI playing full games with the set (`test_card_set_ai.gd`), the 4-copy/Path rules (`test_deck_rules_card_set.gd`, `test_infrastructure_rename.gd`), and every card played by `test_card_smoke.gd`. I did not build a separate scripted full-UI battle for all of them.
-- Screenshots: `docs/art/screens/battle_resource_tray_full_art.png` (battle UI with resource tray and full-art frames, placeholder art) and `docs/art/screens/card_frames_placeholder.png`.
+- Screenshots: `docs/art/screens/battle_resource_tokens_on_field.png` (battle UI with resource tokens on the table and full-art frames, placeholder art) and `docs/art/screens/card_frames_placeholder.png`.
 
 ### Questions for you
 1. Special and dual Infrastructure still count against the 4-copy limit (basic ones are unlimited). Should they be unlimited too? (open_questions B14-20)
-2. The story NPC is called Heartlift but the sheet's token is Grandmaster Flex (T-15). Rename the NPC?
+2. The story NPC is called Grandmaster Flex but the sheet's token is Grandmaster Flex (T-15). Rename the NPC?
 3. Card art: drop PNG/JPG named by Card ID into `_art_inbox/` and say "import card art". Is 2:3 with the subject in the upper-middle what the artist will deliver?
 4. Pair sample decks were trimmed to 45 cards (17 Infrastructure); chests now roll from Path reward tables instead of fixed cards. OK?
+
+## Brief 14 follow-up (after review)
+- Answers applied: special/dual Infrastructure keep the 4-copy limit (basic stays unlimited); the NPC is now **Grandmaster Flex** everywhere (story files, names, docs; internal ids like `heartlift` kept); art/pair-deck/chest answers confirmed.
+- **Resources are tokens on the table**: the counter tray (`ResourceTray`) is gone. Each Resource is a round coin token (`CardView.Mode.COIN`, `BattleBoard.Zone.RESOURCES`) in a row on its owner's half of the battlefield, grouped by kind; your usable Iron / Red Tape / Contract glow and a click starts the targeting flow; hover shows the full token card. Screenshot: `docs/art/screens/battle_resource_tokens_on_field.png`.
+- **Resource gear**: new modifier kinds `STARTING_RESOURCES` (create N of a kind at duel start) and `RESOURCE_BONUS` (+N whenever you create that kind), new item op `CREATE_RESOURCE`. Equipment (rewards of the four Capital Path quests): Iron Knuckles (start with 2 Iron), Pantry Apron (start with 2 Ingredients, +1 whenever you create Ingredients), Bin Lid Helm (+1 Garbage whenever you create Garbage), Clerk's Stamp (start with Red Tape and a Contract). Items (Capital black market): Iron Ration, Spice Pouch, Bag of Rubbish, Blank Form. Tests: `test_resource_gear.gd`.
+- **Balance, first pass** (`tools/run_archetype_simulation.gd`, AI vs AI round robin of the enemy archetypes, 16-20 games per pairing). Card stats are the designer's and were NOT touched; only enemy deck composition changed. Before -> after win rates: beefcake_rush 81 -> 68, beefcake_tools 70 -> 68, gourmand_control 18 -> 30, necro_control 17 -> 43, refuse_garbage 36 -> 39, colorless_militia 73 -> 70, others 46-55. Still lopsided: cheap-curve aggro (Beefcake, Colorless) beats the AI-piloted Refusemancer decks (~21-39%); the AI does not use Garbage/trap synergies well, so this is partly an AI-skill artefact. Suggested next steps for you: decide whether Refusemancer needs stronger early bodies in the sheet, or I improve how the AI spends Garbage/sets traps.
+- 1010 tests pass.
