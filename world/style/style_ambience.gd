@@ -269,3 +269,15 @@ static func chimney_smoke(parent: Node3D, position: Vector3, color: Color = Colo
 	particles.position = position
 	parent.add_child(particles)
 	return particles
+
+
+## Shrinks every emitter volume (x/z) and enlarges the particles: for fixed-camera scenes (the battle table) where the default 36 m box would spread the few particles too thin to see.
+func focus(box_scale: float, size_scale: float) -> void:
+	for emitter: GPUParticles3D in _emitters:
+		var process: ParticleProcessMaterial = emitter.process_material as ParticleProcessMaterial
+		if process == null:
+			continue
+		var extents: Vector3 = process.emission_box_extents
+		process.emission_box_extents = Vector3(extents.x * box_scale, extents.y, extents.z * box_scale)
+		process.scale_min *= size_scale
+		process.scale_max *= size_scale

@@ -316,7 +316,7 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.ambient_energy = 0.38
 			p.fog_density = 0.01
 			p.volumetric_density = 0.015
-			p.particles = [{"kind": "motes", "color": Color(1.0, 0.85, 0.6, 0.7), "amount": 40}]
+			p.particles = [{"kind": "motes", "color": Color(1.0, 0.85, 0.6, 0.8), "amount": 50}, {"kind": "leaves", "color": Color("b4d060"), "amount": 10}, {"kind": "fireflies", "color": Color(1.0, 0.9, 0.5, 1.0), "amount": 12}]
 		DUNGEON:
 			p.with_id(id, "Dungeon map diorama: cool cave with warm lamps")
 			p.sky_top = Color("1b1230")

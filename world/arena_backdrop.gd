@@ -37,7 +37,13 @@ func _ready() -> void:
 	_camera.fov = 45.0
 	add_child(_camera)
 	_camera.current = true
-	StyleRig.install(self, StylePresets.BATTLE, _camera)
+	var rig: StyleRig = StyleRig.install(self, StylePresets.BATTLE, _camera)
+	var table: Node3D = Node3D.new()
+	table.position = Vector3(0.0, 2.0, 0.0)
+	add_child(table)
+	if rig != null and rig.ambience != null:
+		rig.ambience.follow = table
+		rig.ambience.focus(0.4, 1.6)
 	_add_lights()
 	_update_camera()
 
