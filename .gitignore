@@ -11,3 +11,7 @@
 # Third-party visual references (copyrighted; never commit)
 /_reference/
 /reference/
+
+# Card art pipeline (docs/art/art_pipeline.md): drop PNG/JPG named by Card ID in _art_inbox/; originals move to _art_source/
+/_art_inbox/
+/_art_source/

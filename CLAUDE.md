@@ -79,3 +79,4 @@ E2E testing budget: during proof-of-concept work, run the full e2e flow only for
 The card set comes from the designer's Google Sheet (CSV export in `data/source/`) through `tools/import_cards` into `data/cards/` and `data/tokens/`;
 each card's rules text is a script in `data/scripts/`, and card art loads by convention from `assets/art/cards/<CardID>.webp`. Everything about
 the pipeline, the script vocabulary and the re-import workflow is in `docs/card_pipeline.md`.
+When the user says "import card art": run `bash tools/import_art.sh` and report what was added and what is still missing (`docs/art/art_pipeline.md`). Never create or fetch card art yourself.

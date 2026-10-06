@@ -2452,3 +2452,8 @@ Tests: see Part D (the card tests use the imported set); 988 pass.
 - Starter deck: 19 basic Infrastructure of the chosen Path + 23 Colorless non-infra cards (42, the tutorial waiver still tops it up). Grandmaster Flex (T-15) starts on the player's field in the House of Gains boss fight if rescued that run. Save format bumped (old saves reset with a message).
 - Leftover check: a search of core/ui/world/app/data/tests/tools for every old card id finds none (only unrelated 3D mob-builder function names such as `meatloaf_golem()` remain).
 - Tests: 997 passing (test_content, arena puzzles, zone/mini-dungeon tests, packs, alchemy rewritten for the new set).
+
+## Part F: card art pipeline - done
+- Full-art 2:3 card frame (`CardView.SIZE` 300x450): the art fills the card; name/cost bar on top; semi-transparent type line + rules panel over the bottom third; COMPACT (battlefield) crops the art's upper-middle; `CardArt.square()` is the square crop for thumbnails. Placeholder art (icon silhouette on a gradient) fills the same area for every card until real images exist.
+- `CardArt` loads `assets/art/cards/<ID>.webp` by convention (cached, null -> placeholder). `tools/import_art.sh` (`core/data/art_importer.gd`) reads PNG/JPG named by Card/Token ID from `_art_inbox/` (optional `data/source/art_map.csv`), crops to 2:3, resizes to 768x1152, writes WebP q85, moves originals to `_art_source/` (both git-ignored) and writes `docs/art/art_status.md` (0 of 339 have art; no art was created or fetched).
+- Docs: `docs/art/art_pipeline.md`; CLAUDE.md says how to handle "import card art". Tests: `test_card_art.gd` (8).

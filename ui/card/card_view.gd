@@ -1,10 +1,10 @@
 class_name CardView
 extends Control
-## One card on screen. Built from a CardData: a frame tinted per affinity, cost pips, name,
-## placeholder art (game-icons silhouette on a gradient), type line, rules text with bold
-## keywords, attack/defense and a rarity gem. Three looks: FULL (hand, zoom, deckbuilder),
-## COMPACT (field: art-first, no rules text) and BACK (face-down / opponent hand).
-## The card is laid out at 300x420; scale the node to draw it smaller or larger.
+## One card on screen, full-art 2:3: the art fills the card (`CardArt`, or the placeholder: a game-icons silhouette on a
+## gradient), a name/cost bar sits on top, a semi-transparent type line + rules panel covers the bottom third, with the
+## attack/defense plaque and rarity gem. Three looks: FULL (hand, zoom, deckbuilder), COMPACT (field: the art cropped to its
+## upper-middle, name bar and keyword chips only) and BACK (face-down / opponent hand).
+## The card is laid out at 300x450; scale the node to draw it smaller or larger.
 
 signal hovered(view: CardView)
 signal unhovered(view: CardView)
@@ -13,7 +13,7 @@ signal gui_event(view: CardView, event: InputEvent)
 enum Mode { FULL, COMPACT, BACK }
 enum Glow { NONE, PLAYABLE, SELECTED, TARGET, ATTACK, BLOCK }
 
-const SIZE: Vector2 = Vector2(300, 420)
+const SIZE: Vector2 = Vector2(300, 450)
 ## Common, Uncommon, Epic, Legendary - see docs/design/combat_rules.md "Rarity". Colors AND gem
 ## shapes are distinct per tier (Gem below), so rarity reads at a glance even color-blind.
 const RARITY_COLORS: Array[Color] = [Color("c9c2b4"), Color("5fd6a4"), Color("b48cf2"), Color("ff9c3a")]
@@ -100,12 +100,12 @@ func _build() -> void:
 		return
 	_base_attack = data.attack
 	_base_defense = data.defense
-	_frame = _panel(Rect2(Vector2.ZERO, SIZE), UIStyle.box(Color("1c1526"), accent.darkened(0.15), 6, 20, 10))
+	_frame = _panel(Rect2(Vector2.ZERO, SIZE), UIStyle.box(Color("1c1526"), accent.darkened(0.15), 6, 14, 10))
 	add_child(_frame)
-	if dual:
-		add_child(_panel(Rect2(Vector2(3, 3), SIZE - Vector2(6, 6)), UIStyle.box(Color(0, 0, 0, 0), accent2.darkened(0.1), 4, 17)))
-	_build_name_bar()
 	_build_art()
+	if dual:
+		add_child(_panel(Rect2(Vector2(3, 3), SIZE - Vector2(6, 6)), UIStyle.box(Color(0, 0, 0, 0), accent2.darkened(0.1), 4, 11)))
+	_build_name_bar()
 	if mode == Mode.FULL:
 		_build_type_line()
 		_build_rules()
@@ -148,7 +148,7 @@ func _build_back() -> void:
 
 func _build_name_bar() -> void:
 	var height: float = 46.0 if mode == Mode.FULL else 64.0
-	var bar: Panel = _panel(Rect2(12, 12, 276, height), UIStyle.box(accent.darkened(0.5), accent.lightened(0.1), 2, 9))
+	var bar: Panel = _panel(Rect2(12, 12, 276, height), UIStyle.box(Color(accent.darkened(0.55), 0.9), accent.lightened(0.1), 2, 9))
 	add_child(bar)
 	if dual:
 		bar.clip_contents = true
@@ -218,12 +218,51 @@ func _fit_name(label: Label, max_size: int) -> void:
 	label.add_theme_font_size_override("font_size", chosen)
 
 
+## The art area: the whole card inside the frame border. Real art (assets/art/cards/<id>.webp) when it exists, the placeholder otherwise.
 func _build_art() -> void:
-	var top: float = 64.0 if mode == Mode.FULL else 82.0
-	var height: float = 172.0 if mode == Mode.FULL else 228.0
+	var rect: Rect2 = Rect2(5, 5, SIZE.x - 10.0, SIZE.y - 10.0)
+	var art_texture: Texture2D = null
+	if data.id != "":
+		art_texture = CardArt.compact(data.id) if mode == Mode.COMPACT else CardArt.texture(data.id)
+	if art_texture != null:
+		var picture: TextureRect = TextureRect.new()
+		picture.texture = art_texture
+		picture.position = rect.position
+		picture.size = rect.size
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(picture)
+	else:
+		_build_placeholder_art(rect)
+	# A soft dark ramp under the rules panel keeps text readable over any art.
+	var ramp: GradientTexture2D = GradientTexture2D.new()
+	var shade: Gradient = Gradient.new()
+	shade.set_color(0, Color(0, 0, 0, 0))
+	shade.set_color(1, Color(0.04, 0.02, 0.07, 0.78))
+	ramp.gradient = shade
+	ramp.fill_from = Vector2(0.0, 0.0)
+	ramp.fill_to = Vector2(0.0, 1.0)
+	var scrim: TextureRect = TextureRect.new()
+	scrim.texture = ramp
+	scrim.position = Vector2(rect.position.x, SIZE.y - 190.0)
+	scrim.size = Vector2(rect.size.x, 185.0)
+	scrim.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(scrim)
+	add_child(_panel(rect, UIStyle.box(Color(0, 0, 0, 0), accent.lightened(0.2), 3, 10)))
+	if dual:
+		# Two Path gems in the art's corner: both Paths of this card at a glance.
+		for index: int in range(2):
+			var gem_color: Color = accent if index == 0 else accent2
+			add_child(_panel(Rect2(22 + index * 26, 70, 22, 22), UIStyle.box(gem_color, Color("fdf3dc"), 2, 11, 4)))
+
+
+## Placeholder art: the gradient with the card's icon silhouette, in the upper-middle of the frame (where the art's subject would sit).
+func _build_placeholder_art(rect: Rect2) -> void:
 	var art: ColorRect = ColorRect.new()
-	art.position = Vector2(12, top)
-	art.size = Vector2(276, height)
+	art.position = rect.position
+	art.size = rect.size
 	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var material: ShaderMaterial = ShaderMaterial.new()
 	material.shader = load("res://ui/shaders/card_art.gdshader") as Shader
@@ -231,36 +270,31 @@ func _build_art() -> void:
 	if dual:
 		material.set_shader_parameter("bottom", accent2.darkened(0.45))
 		material.set_shader_parameter("glow", accent2.lightened(0.5))
-	material.set_shader_parameter("bottom", accent.darkened(0.7))
-	material.set_shader_parameter("glow", accent.lightened(0.5))
+	else:
+		material.set_shader_parameter("bottom", accent.darkened(0.7))
+		material.set_shader_parameter("glow", accent.lightened(0.5))
 	art.material = material
 	add_child(art)
-	var icon_size: float = height * 0.78
+	var icon_size: float = rect.size.x * 0.66
+	var top: float = 78.0 if mode == Mode.FULL else 90.0
 	var texture: Texture2D = CardIcons.for_card(data)
 	var shadow: TextureRect = CardIcons.glyph(texture, Color(0, 0, 0, 0.45), Vector2(icon_size, icon_size))
-	shadow.position = Vector2(12 + (276 - icon_size) * 0.5 + 4, top + (height - icon_size) * 0.5 + 6)
+	shadow.position = Vector2((SIZE.x - icon_size) * 0.5 + 4, top + 6)
 	shadow.size = Vector2(icon_size, icon_size)
 	add_child(shadow)
 	var icon: TextureRect = CardIcons.glyph(texture, Color("fdf3dc"), Vector2(icon_size, icon_size))
-	icon.position = Vector2(12 + (276 - icon_size) * 0.5, top + (height - icon_size) * 0.5)
+	icon.position = Vector2((SIZE.x - icon_size) * 0.5, top)
 	icon.size = Vector2(icon_size, icon_size)
 	add_child(icon)
-	add_child(_panel(Rect2(12, top, 276, height), UIStyle.box(Color(0, 0, 0, 0), accent.lightened(0.2), 3, 4)))
-	if dual:
-		# Two Path gems in the art's corner: both Paths of this card at a glance.
-		for index: int in range(2):
-			var gem_color: Color = accent if index == 0 else accent2
-			var dot: Panel = _panel(Rect2(22 + index * 26, top + 10, 22, 22), UIStyle.box(gem_color, Color("fdf3dc"), 2, 11, 4))
-			add_child(dot)
 
 
 func _build_type_line() -> void:
-	var bar: Panel = _panel(Rect2(12, 242, 276, 30), UIStyle.box(Color("2b2136"), Color(1, 1, 1, 0.08), 1, 7))
+	var bar: Panel = _panel(Rect2(12, 292, 276, 28), UIStyle.box(Color(0.1, 0.07, 0.15, 0.78), Color(1, 1, 1, 0.1), 1, 7))
 	add_child(bar)
 	var label: Label = Label.new()
 	label.text = _type_text()
-	label.position = Vector2(22, 242)
-	label.size = Vector2(220, 30)
+	label.position = Vector2(22, 292)
+	label.size = Vector2(220, 28)
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.add_theme_font_override("font", UIStyle.font_bold())
 	label.add_theme_font_size_override("font_size", 16 if dual else 19)
@@ -269,7 +303,7 @@ func _build_type_line() -> void:
 	add_child(label)
 	var rarity: Label = Label.new()
 	rarity.text = RARITY_NAMES[int(data.rarity)]
-	rarity.position = Vector2(20, 384)
+	rarity.position = Vector2(20, 408)
 	rarity.size = Vector2(160, 30)
 	rarity.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	rarity.add_theme_font_override("font", UIStyle.font_bold())
@@ -280,7 +314,7 @@ func _build_type_line() -> void:
 	var gem: Gem = Gem.new()
 	gem.color = RARITY_COLORS[int(data.rarity)]
 	gem.rarity = int(data.rarity)
-	gem.position = Vector2(288 - 10 - 20, 247)
+	gem.position = Vector2(288 - 10 - 20, 296)
 	gem.size = Vector2(20, 20)
 	gem.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(gem)
@@ -305,19 +339,19 @@ func _type_text() -> String:
 
 
 func _build_rules() -> void:
-	add_child(_panel(Rect2(12, 278, 276, 92), UIStyle.box(PARCHMENT_BG, Color("8f7d57"), 2, 8)))
+	add_child(_panel(Rect2(12, 324, 276, 78), UIStyle.box(Color(PARCHMENT_BG, 0.88), Color("8f7d57"), 2, 8)))
 	var rules: RichTextLabel = RichTextLabel.new()
 	rules.bbcode_enabled = true
-	rules.position = Vector2(20, 282)
-	rules.size = Vector2(260, 84)
+	rules.position = Vector2(20, 327)
+	rules.size = Vector2(260, 72)
 	rules.scroll_active = false
 	rules.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	rules.add_theme_color_override("default_color", PARCHMENT_TEXT)
-	var size_px: int = 20 if data.rules_text.length() < 70 else 18
+	var size_px: int = 20 if data.rules_text.length() < 55 else (18 if data.rules_text.length() < 100 else 16)
 	for key: String in ["normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size"]:
 		rules.add_theme_font_size_override(key, size_px)
 	var text: String = KeywordInfo.rules_bbcode(data)
-	var flavor_ok: bool = data.flavor_text != "" and data.rules_text.length() < 60
+	var flavor_ok: bool = data.flavor_text != "" and data.rules_text.length() < 40
 	if flavor_ok:
 		text += "\n[i][color=#6b5b73]%s[/color][/i]" % data.flavor_text
 	rules.text = text
@@ -336,7 +370,7 @@ func _build_chips() -> void:
 		names.append(_type_text().split("-")[-1].strip_edges())
 	if names.is_empty() and data.rules_text != "":
 		names.append("Effect")
-	var y: float = 318.0
+	var y: float = 330.0
 	var x: float = 16.0
 	for chip_text: String in names:
 		var width: float = UIStyle.font_bold().get_string_size(chip_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 21).x + 22.0
@@ -362,11 +396,11 @@ func _build_chips() -> void:
 func _build_plaque() -> void:
 	if not data.is_unit():
 		return
-	var width: float = 92.0 if mode == Mode.FULL else 118.0
-	var height: float = 48.0 if mode == Mode.FULL else 60.0
+	var width: float = 88.0 if mode == Mode.FULL else 118.0
+	var height: float = 40.0 if mode == Mode.FULL else 60.0
 	_plaque = PanelContainer.new()
 	_plaque.add_theme_stylebox_override("panel", UIStyle.box(Color("120d1a"), accent.lightened(0.2), 3, 14, 6))
-	_plaque.position = Vector2(SIZE.x - width - 6.0, SIZE.y - height - 4.0) if mode == Mode.FULL else Vector2((SIZE.x - width) * 0.5, SIZE.y - height - 8.0)
+	_plaque.position = Vector2(SIZE.x - width - 12.0, SIZE.y - height - 8.0) if mode == Mode.FULL else Vector2((SIZE.x - width) * 0.5, SIZE.y - height - 8.0)
 	_plaque.size = Vector2(width, height)
 	_plaque.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_plaque)
@@ -374,7 +408,7 @@ func _build_plaque() -> void:
 	_attack_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_attack_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_attack_label.add_theme_font_override("font", UIStyle.font_title())
-	_attack_label.add_theme_font_size_override("font_size", 32 if mode == Mode.FULL else 40)
+	_attack_label.add_theme_font_size_override("font_size", 28 if mode == Mode.FULL else 40)
 	_attack_label.add_theme_color_override("font_color", UIStyle.PARCHMENT)
 	_attack_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_plaque.add_child(_attack_label)
