@@ -14,8 +14,9 @@ Enable-ScheduledTask -TaskName "Graphics Loop"
 # Remove it completely:
 Unregister-ScheduledTask -TaskName "Graphics Loop" -Confirm:$false
 # Same with schtasks:  schtasks /Change /TN "Graphics Loop" /DISABLE    |    schtasks /Delete /TN "Graphics Loop" /F
-# Stop a run that is in progress right now (the runner removes its own lock when the process ends):
-Stop-Process -Id ([int](Get-Content C:\Dev\Deckbuilder-rpg\_logs\graphics_loop.lock)) -Force
+# Stop a run that is in progress right now (kills the runner and Claude; the runner removes _logs\graphics_loop.lock itself,
+# delete it by hand only if it is left behind):
+taskkill /PID ([int](Get-Content C:\Dev\Deckbuilder-rpg\_logs\graphics_loop.lock)[0]) /T /F
 # Look at the task / its next run:
 Get-ScheduledTask -TaskName "Graphics Loop" | Get-ScheduledTaskInfo
 ```

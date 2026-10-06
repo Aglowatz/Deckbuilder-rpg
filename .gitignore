@@ -15,3 +15,6 @@
 # Card art pipeline (docs/art/art_pipeline.md): drop PNG/JPG named by Card ID in _art_inbox/; originals move to _art_source/
 /_art_inbox/
 /_art_source/
+
+# Graphics loop logs and lock (tools/run_graphics_loop.ps1)
+/_logs/
