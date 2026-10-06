@@ -219,6 +219,18 @@ func _tri(surface: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, color: Color
 
 
 func _vertex(x: float, z: float) -> Vector3:
+	var edge: float = BuffetLayout.edge_distance(x, z)
+	if edge < 0.0:
+		# Outside the table: collapse the vertex onto the outline (a couple of Newton steps along the distance gradient) at the rim height, so the terrain ends in a clean
+		# curve instead of a sawtooth of grid triangles dropping away; the table rim below hangs from this edge.
+		var snapped: Vector2 = Vector2(x, z)
+		for i: int in range(3):
+			var here: float = BuffetLayout.edge_distance(snapped.x, snapped.y)
+			var gradient: Vector2 = Vector2(
+				BuffetLayout.edge_distance(snapped.x + 0.01, snapped.y) - BuffetLayout.edge_distance(snapped.x - 0.01, snapped.y),
+				BuffetLayout.edge_distance(snapped.x, snapped.y + 0.01) - BuffetLayout.edge_distance(snapped.x, snapped.y - 0.01)).normalized()
+			snapped += gradient * (0.02 - here)
+		return Vector3(snapped.x, layout.ground_height(snapped.x, snapped.y), snapped.y)
 	return Vector3(x, layout.ground_height(x, z), z)
 
 
@@ -265,15 +277,15 @@ func _terrain_color(centroid: Vector3) -> Color:
 			"forest":
 				color = color.lerp(M.LETTUCE.lightened(0.05), 0.6)
 			"candy":
-				var checker: bool = (int(floorf(x / 2.5)) + int(floorf(z / 2.5))) % 2 == 0
+				var checker: bool = _checker(x, z, 2.5)
 				color = color.lerp(M.PINK if checker else M.MINT, 0.65)
 			"hub":
-				var tile: bool = (int(floorf(x / 2.0)) + int(floorf(z / 2.0))) % 2 == 0
+				var tile: bool = _checker(x, z, 2.5)
 				color = Color(0.96, 0.9, 0.78) if tile else Color(0.82, 0.42, 0.3)
 			"cheddar", "cheddar_top":
 				color = color.lerp(M.CHEESE, 0.55)
 			"cake":
-				var frosting: bool = (int(floorf(x / 3.0)) + int(floorf(z / 3.0))) % 2 == 0
+				var frosting: bool = _checker(x, z, 3.75)
 				color = color.lerp(M.PINK if frosting else M.VANILLA, 0.55)
 			"pancake", "pancake_top":
 				color = color.lerp(M.PANCAKE, 0.5)
@@ -281,7 +293,7 @@ func _terrain_color(centroid: Vector3) -> Color:
 				color = color.lerp(Color(1, 1, 1), 0.6)
 	var hub_distance: float = Vector2(x - 50.0, z - 64.0).length()
 	if hub_distance < 12.5 and (area == null or area.id != "hub"):
-		var tile2: bool = (int(floorf(x / 2.0)) + int(floorf(z / 2.0))) % 2 == 0
+		var tile2: bool = _checker(x, z, 2.5)
 		color = color.lerp(Color(0.96, 0.9, 0.78) if tile2 else Color(0.82, 0.42, 0.3), 1.0 - smoothstep(9.0, 12.5, hub_distance))
 	var path: float = layout.path_weight(x, z)
 	if path > 0.0 and surface == BuffetLayout.Surface.GROUND:
@@ -726,3 +738,10 @@ func animate(delta: float) -> void:
 		material.emission_energy_multiplier = 0.28 + 0.1 * sin(time * 1.4)
 	for stream: Node3D in _fountain_streams:
 		stream.scale.y = 1.0 + 0.15 * sin(time * 6.0)
+
+
+## Checker pattern whose cell edges fall exactly on terrain grid lines (`size` must be a multiple of the grid step), so every triangle lies inside one cell and the boundaries are straight.
+func _checker(x: float, z: float, size: float) -> bool:
+	var origin_x: float = BuffetLayout.MIN_CORNER.x - 2.0 * BuffetLayout.TERRAIN_STEP
+	var origin_z: float = BuffetLayout.MIN_CORNER.y - 2.0 * BuffetLayout.TERRAIN_STEP
+	return (int(floorf((x - origin_x) / size)) + int(floorf((z - origin_z) / size))) % 2 == 0
