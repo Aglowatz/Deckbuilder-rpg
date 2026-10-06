@@ -30,6 +30,10 @@ var clouds: Array[Node3D] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
+## The treeline mixes tall pines, small groves and boulders so the ring is not one blob type (the walkable cells keep the two single trees).
+const TREELINE: Array[String] = ["tree_single_A", "tree_single_B", "tree_single_A", "trees_A_small", "trees_B_small", "rock_single_C", "tree_single_B", "trees_A_medium"]
+
+
 func build(parent: Node3D) -> void:
 	_rng.seed = 3
 	root = Node3D.new()
@@ -49,8 +53,8 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 		# A dense treeline, close enough together to read as a wall without being walkable.
 		for i: int in range(4):
 			var offset: Vector3 = _scatter(center, 0.15, 0.85)
-			var tree: String = ["tree_single_A", "tree_single_B"][_rng.randi() % 2]
-			ModelKit.place(root, ModelKit.nature(tree), offset, _rng.randf() * 360.0, _rng.randf_range(1.2, 1.7))
+			var tree: String = TREELINE[_rng.randi() % TREELINE.size()]
+			ModelKit.place(root, ModelKit.nature(tree), offset, _rng.randf() * 360.0, _rng.randf_range(0.9, 1.9))
 		return
 	walkable[Vector2i(col, row)] = true
 	match symbol:
