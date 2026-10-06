@@ -106,12 +106,12 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.with_id(id, "D.N.A.: near-monochrome, red accent")
 			p.use_sky = false
 			p.background_color = Color(0.04, 0.045, 0.05)
-			p.sun_color = Color("dfe6ee")
-			p.sun_energy = 0.85
+			p.sun_color = Color("e8f0ff")
+			p.sun_energy = 0.95
 			p.sun_pitch = -58.0
-			p.ambient_color = Color("5a6470")
-			p.ambient_energy = 0.75
-			p.fog_color = Color("333a42")
+			p.ambient_color = Color("465c7a")
+			p.ambient_energy = 0.6
+			p.fog_color = Color("2e3a4a")
 			p.fog_density = 0.02
 			p.fog_sky_affect = 1.0
 			p.volumetric_density = 0.02

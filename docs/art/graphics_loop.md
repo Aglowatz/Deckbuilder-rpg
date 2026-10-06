@@ -226,11 +226,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/dna_zone.tscn dna <tag>`
 - **Baseline (Oct 2026):** Near-monochrome teal-gray office hall: moody and readable but sparse and dark, thin floating light strips, a row of desks, black voids beyond the walls, the red accent barely used.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [~] **DN-1 Lighting and mood.** Cold white key, gray-blue fill, near-black blue shadows, gray floor mist; colour ONLY on the player, interactables (warm red-orange), enemies (deep crimson) and key objects; fluorescent tube light pools with an occasional flicker.
+- [x] **DN-1 Lighting and mood.** Cold white key, gray-blue fill, near-black blue shadows, gray floor mist; colour ONLY on the player, interactables (warm red-orange), enemies (deep crimson) and key objects; fluorescent tube light pools with an occasional flicker.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **DN-2 Ground and terrain.** Linoleum and tile with wear, scuffs, coffee stains, wet-floor sheen, carpet runners, painted floor arrows and queue lines, tile value variation.
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/4/4/5/4/6/5 (iter2). DNA preset moved colder and bluer: sun e8f0ff 0.95, ambient 465c7a at 0.6 (shadows near-black blue instead of grey-green), fog 2e3a4a; the pooled fluorescent OmniLights from 1.7 to 2.6 energy, range 7.5 to 8.5, so each tube row leaves a visible cold pool on the tiles (flicker unchanged). Colour stays only on the hero, warm chevrons, Rift Express and the red rug. NOT done: floor glow decals under every tube, gray floor mist; angle c shows a big flat navy void beyond the outer wall (DN-6). Tests 1023 green. before = dna/dn1before_{a,b,c}.png; after = dna/dn1_2_{a,b,c}.png.
+- [~] **DN-2 Ground and terrain.** Linoleum and tile with wear, scuffs, coffee stains, wet-floor sheen, carpet runners, painted floor arrows and queue lines, tile value variation.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -439,7 +439,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **BB-DN-1 Lighting and mood.** Cold office table in a dim room, red accent only on enemies.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/4/4/5/4/6/5 (iter2). DNA preset moved colder and bluer: sun e8f0ff 0.95, ambient 465c7a at 0.6 (shadows near-black blue instead of grey-green), fog 2e3a4a; the pooled fluorescent OmniLights from 1.7 to 2.6 energy, range 7.5 to 8.5, so each tube row leaves a visible cold pool on the tiles (flicker unchanged). Colour stays only on the hero, warm chevrons, Rift Express and the red rug. NOT done: floor glow decals under every tube, gray floor mist; angle c shows a big flat navy void beyond the outer wall (DN-6). Tests 1023 green. before = dna/dn1before_{a,b,c}.png; after = dna/dn1_2_{a,b,c}.png.
 - [ ] **BB-DN-2 Ground and terrain.** Desk-blotter and linoleum hex tiles.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
@@ -619,7 +619,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **MD-DN-1 Lighting and mood.** Cold gray-teal basement, flickering fluorescents, red accent on the boss node.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 7/6/4/4/5/4/6/5 (iter2). DNA preset moved colder and bluer: sun e8f0ff 0.95, ambient 465c7a at 0.6 (shadows near-black blue instead of grey-green), fog 2e3a4a; the pooled fluorescent OmniLights from 1.7 to 2.6 energy, range 7.5 to 8.5, so each tube row leaves a visible cold pool on the tiles (flicker unchanged). Colour stays only on the hero, warm chevrons, Rift Express and the red rug. NOT done: floor glow decals under every tube, gray floor mist; angle c shows a big flat navy void beyond the outer wall (DN-6). Tests 1023 green. before = dna/dn1before_{a,b,c}.png; after = dna/dn1_2_{a,b,c}.png.
 - [ ] **MD-DN-2 Ground and terrain.** Concrete and linoleum hex tiles with stains and floor markings.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).

@@ -70,7 +70,7 @@ func _zone_process(delta: float) -> void:
 func _build_lights() -> void:
 	for i: int in range(LIGHT_POOL):
 		var light: OmniLight3D = OmniLight3D.new()
-		light.omni_range = 7.5
+		light.omni_range = 8.5
 		light.light_energy = 0.0
 		light.light_color = Color(0.7, 1.0, 0.82)
 		light.shadow_enabled = false
@@ -103,7 +103,7 @@ func _update_flicker() -> void:
 		glow.set_shader_parameter("energy", _flicker(int(glow.get_meta("group", 0))))
 	for i: int in range(_light_pool.size()):
 		var light: OmniLight3D = _light_pool[i]
-		light.light_energy = lerpf(light.light_energy, 1.7 * _flicker(_light_groups[i]) * float(int(light.get_meta("on", 0))), 0.5)
+		light.light_energy = lerpf(light.light_energy, 2.6 * _flicker(_light_groups[i]) * float(int(light.get_meta("on", 0))), 0.5)
 
 
 ## Moves the pooled lights onto the nearest tube fixtures around the player.
