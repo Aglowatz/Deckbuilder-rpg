@@ -75,7 +75,7 @@ func _ground() -> void:
 	var grass_dark: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("4f9a58"), Color("3c8466"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 4.0)
 	var grass_light: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("86c066"), Color("6fae62"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 5.0)
 	var moss: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("5f9a4a"), Color("7aa850"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.6, 6.0)
-	for i: int in range(44):
+	for i: int in range(30):
 		var angle: float = _rng.randf() * TAU
 		var distance: float = _rng.randf_range(plaza_radius + 1.5, meadow_radius + 6.0)
 		var pos: Vector3 = center + Vector3(cos(angle) * distance, 0.0, sin(angle) * distance)
@@ -327,7 +327,7 @@ func _skirts() -> void:
 		ScatterTool.Entry.make(props, "bucket_water", 0.8, 0.9, 1.1),
 		ScatterTool.Entry.make(props, "wheelbarrow", 0.3, 0.9, 1.0),
 	]
-	var count: int = [10, 21, 33][clampi(_quality, 0, 2)]
+	var count: int = [8, 14, 33][clampi(_quality, 0, 2)]
 	for placement: ScatterTool.Placement in scatter.scatter("town_skirts", entries, count, 3, 0.9, 0.0, skirt_points, 2.8, 0.85):
 		var node: Node3D = ModelKit.hex_model(placement.folder, placement.model)
 		ModelKit.place(root, node, placement.position, rad_to_deg(placement.yaw), placement.scale * 1.6)

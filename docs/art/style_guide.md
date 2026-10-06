@@ -138,3 +138,18 @@ Silhouettes are generic (kit repetition shows), there are few bespoke faces/expr
 4. Hand-authored decals and signage (stains, chalk, leaf piles, banners).
 5. Window and lantern meshes with baked glow, plus baked AO on big set pieces; stylised skyboxes.
 6. Flipbook VFX (smoke, steam, sparkles) in the final style.
+
+**Graphics loop performance sign-off (2026-10-06, dev PC with an integrated GPU, 1600x900, `tools/fps.sh`)**
+
+| Scene | Medium (60 target) | Low |
+|---|---|---|
+| Town | 63 (was 69 before TW-1..5, trimmed in F-02: patches 44 to 30, skirts 21 to 14, ambient particle size 1.6x to 1.2x) | 124 |
+| Starting area | 76 | 114 |
+| D.N.A. | 75 | 146 |
+| Gainlands | 77 | 114 |
+| Endless Buffet | 81 | 124 |
+| Verdant Dump | 84 | 109 |
+| Capital (outskirts) | 83 | 101 |
+| Battle table (generic) | 69 | 140 |
+
+High stays about 25 fps in the town on this machine (meant for stronger GPUs). Lessons: larger ambient particle quads cost about 2.5 fps in the town (overdraw); the light-pillar beacons cost nothing measurable; each ground-decal disc is a mesh, so keep them in the tens.

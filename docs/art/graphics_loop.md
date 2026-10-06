@@ -886,7 +886,8 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 # FINAL REVIEW (when every task above is checked)
 
 - [ ] **F-01 Full review pass.** Re-shoot every area (3 angles each, tag `review1`), view them all, re-score the 8 criteria. For every area with any score below 8, add new tasks to a section "FOLLOW-UP TASKS" below (same format) and work them. Repeat the review until all areas are 8 or higher or a human takes over.
-- [ ] **F-02 Performance sign-off.** `tools/fps.sh` for every walking zone on Medium (60 fps) and Low; update the numbers in the Handoff notes and `docs/art/style_guide.md` section 13.
+- [x] **F-02 Performance sign-off.** `tools/fps.sh` for every walking zone on Medium (60 fps) and Low; update the numbers in the Handoff notes and `docs/art/style_guide.md` section 13.
+  - Result (2026-10-06): all scenes at or above 60 fps on Medium (town 63 after trimming, others 69-84) and 100+ on Low, numbers in `docs/art/style_guide.md` section 13 (appendix). The town had dropped to 59.8 after TW-1..5 (more lights, patches, props, larger particles); fixed by 30 patches, 14 skirt props on Medium and the particle size 1.2x. High not re-measured (about 25 in the town, known).
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
