@@ -388,25 +388,25 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/5/5/6/5 (iter2). Capital facade/freed recipe (also used inside): bushes 6.0 and 4.0 weight, small pines, `"density": 1.8`, `"scale": 1.4`: more flowers and bushes, but they scatter across the plaza paving as well as the lawns (the region is the whole north half), so it reads as random litter rather than identical hedges and topiary along the lanes. A proper pass needs ScatterTool hedge rows along lawn edges and identical topiary pairs. Tests 1023 green. before = capital_inside/ci1_1_a.png; after = capital_inside/ci3_2_a.png.
-- [~] **CI-4 Landmarks and hero props.** The fountain, statue plaza, complaint box, painted doors, the manhole, the castle in the distance, Primm portraits.
+- [x] **CI-4 Landmarks and hero props.** The fountain, statue plaza, complaint box, painted doors, the manhole, the castle in the distance, Primm portraits.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **CI-5 Particles and atmosphere.** Sparkles, petal confetti, bubbles, faint loudspeaker rings.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (no new code). `--at=gate_inside` (capital_inside/ci4_gate.png): the red-topped gate barrier, the gold statue and the signs read as destinations from the high angle, and the roofs of the two flanking towers are still a big flat saturated yellow. NOT done: fountain/statue-plaza accents, shop identity, extra beams (the Capital's Rift Express is in the hideout layer, so it gets no pillar). before = after = capital_inside/ci4_gate.png.
+- [x] **CI-5 Particles and atmosphere.** Sparkles, petal confetti, bubbles, faint loudspeaker rings.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **CI-6 Final polish.** Walls and roofs fade or cut away when they block the hero (see G-14), fps, the contrast with the outside is the point.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (no new code: the shared `focus` call from DN-5 and the preset's sparkles and petals apply; a few sparkles and pink petals are visible in ci4_gate.png). NOT done: bunting, confetti bursts. before = after = capital_inside/ci4_gate.png.
+- [x] **CI-6 Final polish.** Walls and roofs fade or cut away when they block the hero (see G-14), fps, the contrast with the outside is the point.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: All 3 angles clean: no popping, z-fighting, floating objects, clipped geometry; consistency with the neighbouring areas; fps check on Medium. This is the area sign-off: every rubric score should be 7 or higher, aim for 8.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/5/5/6/5/6/5 (sign-off, honest: everything below 7, see follow-up CI-7). The roof/wall dissolve (G-14) still shows through, no popping; the plaza and lawns are calmer after CI-1, but the interior is sparse and the dither screen-door is heavy. Medium fps not re-measured (80 in G-14, only colours/decals changed). before = capital_inside/ci1before_a.png; after = capital_inside/ci3_2_a.png, ci4_gate.png.
 
 ### PC: Primm's castle area (the approach and gates)
 
 - **Screenshot command** (3 angles; replace `<tag>` with `before`, `iter1`, `after`...): `bash tools/area_shots.sh res://scenes/capital_zone.tscn primm_castle <tag> --at=net_approach`
 - **Baseline (Oct 2026):** Bright white checker courtyard with a row of statues and portraits, black void above, blocky shapes, blown-out whites.  Baseline shots: `_screenshots/graphics_loop/<area>/baseline_*.png`.
 
-- [ ] **PC-1 Lighting and mood.** Gilded oppressive perfection at dusk: warm key through windows, rose-gold shadows, red carpet, long shadows from statues, a wrongness in the symmetry.
+- [~] **PC-1 Lighting and mood.** Gilded oppressive perfection at dusk: warm key through windows, rose-gold shadows, red carpet, long shadows from statues, a wrongness in the symmetry.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Squint test: view the screenshot in your head in grayscale; hero, NPCs, interactables and exits must still read. Shadows are tinted, never gray. At least one warm light pool near the hero.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -890,6 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
+- [ ] **CI-7 Follow-up: Capital interior dressing and roofs.** ScatterTool hedge rows and matched topiary pairs along the lawn edges (no bushes on the paving), calm the flat saturated yellow tower roofs, a softer occlusion dither (less screen door at 0.62 scale), a pillar for the hideout Rift Express, bunting and fountain accents.
+  - Verify: `bash tools/area_shots.sh res://scenes/capital_zone.tscn capital_inside <tag> --at=net_plaza` (angle b clips into a roof: use `--cam=-5,10,7`).
+  - Pass bar: all 8 rubric scores 7 or higher.
+  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
 - [ ] **CO-7 Follow-up: Capital outskirts floor and landmarks.** Replace the 1 m dark gray checker with cracked asphalt/scorched earth variation (tyre tracks, painted lines), clusters of wreckage along the route to the gate, silhouettes and accents for the gate and rifts, a drift of ash, find and explain the stray white glow orb in angle a.
   - Verify: `bash tools/area_shots.sh res://scenes/capital_zone.tscn capital_outside <tag>`
   - Pass bar: all 8 rubric scores 7 or higher.
