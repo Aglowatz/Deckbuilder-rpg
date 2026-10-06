@@ -52,6 +52,7 @@ static func shiny(color: Color, roughness: float = 0.25) -> StandardMaterial3D:
 		material.roughness = roughness
 		material.metallic = 0.2
 		material.metallic_specular = 0.8
+		material.set_meta(StyleToon.META_GLOSS, 0.45)
 		_cache[key] = material
 	return _cache[key] as StandardMaterial3D
 
