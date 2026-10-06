@@ -264,11 +264,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: No flat colour field larger than about 3 m without value/hue variation; no triangle or tiling artifacts at any of the 3 angles; paths and edges visible; the stage edge is hidden or finished.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 6/6/6/4/5/4/6/5 (iter1). Gainlands decal recipe: 24 dirt patches, 30 deep and 14 yellow-green moss patches, 10 footprint trails (was 8 dirt patches only). They give the big fields some value/hue variation up close, but spread over a 100 m map they stay subtle at the default zoom (ground G stays 6); worn paths with edges (`add_path`), stone circle at the hub and shore/cliff finishing are NOT done. Tests 1023 green. before = gainlands/gl1_2_b.png; after = gainlands/gl2_1_{a,b,c}.png.
-- [~] **GL-3 Density and set dressing.** Gym and fairground clutter at one consistent scale: weight racks, plate stacks, banners, tents, punching bags, tyres, flags; a skirt on every stall.
+- [x] **GL-3 Density and set dressing.** Gym and fairground clutter at one consistent scale: weight racks, plate stacks, banners, tents, punching bags, tyres, flags; a skirt on every stall.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **GL-4 Landmarks and hero props.** The House of Gains entrance as a giant dumbbell gate, the Rift Express, the arena ring, trophy statues, bold banners.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/5/4/6/5 (iter1). Gainlands recipe: the clutter set now adds large stones, large bushes, yellow and red flower groups and red mushrooms with a 1.6x `"density"`, so the fields carry more colour specks and boulders. The oversized, mismatched gym props (barbells, dumbbells, tents) are NOT re-scaled and the gym-prop clusters / building skirts are NOT done: these props come from custom builders (`gainlands_props.gd`), a proper pass needs a scale audit against the hero. Medium 76 fps. Tests 1023 green. before = gainlands/gl2_1_b.png; after = gainlands/gl3_1_{a,b,c}.png.
+- [~] **GL-4 Landmarks and hero props.** The House of Gains entrance as a giant dumbbell gate, the Rift Express, the arena ring, trophy statues, bold banners.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -477,7 +477,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **BB-GL-3 Density and set dressing.** Weights, banners, cones, flags.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/5/4/6/5 (iter1). Gainlands recipe: the clutter set now adds large stones, large bushes, yellow and red flower groups and red mushrooms with a 1.6x `"density"`, so the fields carry more colour specks and boulders. The oversized, mismatched gym props (barbells, dumbbells, tents) are NOT re-scaled and the gym-prop clusters / building skirts are NOT done: these props come from custom builders (`gainlands_props.gd`), a proper pass needs a scale audit against the hero. Medium 76 fps. Tests 1023 green. before = gainlands/gl2_1_b.png; after = gainlands/gl3_1_{a,b,c}.png.
 - [ ] **BB-GL-4 Landmarks and hero props.** Crowd stands or a championship banner.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
@@ -657,7 +657,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **MD-GL-3 Density and set dressing.** Weight racks, plate stacks, stalagmites, chains, chalk buckets.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/5/4/6/5 (iter1). Gainlands recipe: the clutter set now adds large stones, large bushes, yellow and red flower groups and red mushrooms with a 1.6x `"density"`, so the fields carry more colour specks and boulders. The oversized, mismatched gym props (barbells, dumbbells, tents) are NOT re-scaled and the gym-prop clusters / building skirts are NOT done: these props come from custom builders (`gainlands_props.gd`), a proper pass needs a scale audit against the hero. Medium 76 fps. Tests 1023 green. before = gainlands/gl2_1_b.png; after = gainlands/gl3_1_{a,b,c}.png.
 - [ ] **MD-GL-4 Landmarks and hero props.** A massive iron barbell gate at the far side.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).

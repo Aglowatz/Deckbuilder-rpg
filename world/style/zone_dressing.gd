@@ -52,9 +52,9 @@ static func recipe(preset_id: StringName) -> Dictionary:
 			return {
 				"items": [
 					[NATURE, "grass_leafs", 30.0, 1.4, 2.3], [NATURE, "flower_redB", 6.0, 1.3, 2.0], [NATURE, "flower_yellowB", 6.0, 1.3, 2.0], [NATURE, "flower_purpleA", 4.0, 1.3, 2.0],
-					[NATURE, "plant_flatTall", 4.0, 1.3, 2.0], [NATURE, "stone_smallB", 1.0, 1.6, 2.6],
+					[NATURE, "plant_flatTall", 4.0, 1.3, 2.0], [NATURE, "stone_smallB", 1.6, 1.6, 2.6], [NATURE, "stone_largeA", 0.35, 1.3, 2.0], [NATURE, "plant_bushLarge", 1.2, 1.4, 2.2], [NATURE, "flower_yellowC", 2.5, 1.3, 2.0], [NATURE, "flower_redC", 2.5, 1.3, 2.0], [NATURE, "mushroom_redGroup", 0.4, 1.4, 2.0],
 				],
-				"patches": [Color("78c25a"), Color("5fb064"), Color("9bd070")], "patch_pattern": GroundDecals.Pattern.MOSS,
+				"patches": [Color("78c25a"), Color("5fb064"), Color("9bd070")], "patch_pattern": GroundDecals.Pattern.MOSS, "density": 1.6,
 			}
 		StylePresets.BUFFET:
 			return {
