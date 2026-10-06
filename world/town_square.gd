@@ -60,13 +60,13 @@ func _hex_prop(model: String, pos: Vector3, yaw: float = 0.0, scale_value: float
 
 
 func _ground() -> void:
-	var dirt: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, Color("a9a463"), Color("8e9a54"), Color("6a6a3e"), GroundDecals.Shape.RIBBON, 1.0, 0.7, 3.0)
+	var dirt: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, Color("b79a64"), Color("9c8157"), Color("6e5a3c"), GroundDecals.Shape.RIBBON, 1.0, 0.3, 3.0)
 	for key: String in ["market", "deck", "tailor", "spawn", "rift_station", "gate", "item_vendor", "pack_vendor", "equipment_vendor"]:
 		var points: Array[Vector3] = _smooth([center, _anchor(key) + Vector3(0.0, 0.0, 0.2)])
 		for piece: Array in _land_runs(points):
 			var typed: Array[Vector3] = []
 			typed.assign(piece)
-			GroundDecals.ribbon(root, typed, 1.3, dirt, 0.004)
+			GroundDecals.ribbon(root, typed, 1.1, dirt, 0.004)
 		_lane_points.append_array(points)
 	var grass_dark: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("4f9a58"), Color("3c8466"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 4.0)
 	var grass_light: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("86c066"), Color("6fae62"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 5.0)

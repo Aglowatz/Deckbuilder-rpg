@@ -171,7 +171,8 @@ func _apply_environment(level: int) -> void:
 	env.fog_sky_affect = preset.fog_sky_affect
 	if GraphicsQuality.volumetric_fog(level) and preset.volumetric_density > 0.0:
 		env.volumetric_fog_enabled = true
-		env.volumetric_fog_density = preset.volumetric_density
+		env.volumetric_fog_density = preset.volumetric_density * 0.5  # sparse shafts, never a broad haze
+		env.volumetric_fog_anisotropy = 0.3
 		env.volumetric_fog_albedo = preset.volumetric_color
 		env.volumetric_fog_length = 48.0
 	world_env.environment = env
@@ -184,7 +185,11 @@ func _apply_lights(level: int) -> void:
 	sun.light_angular_distance = 1.5
 	var detail: int = GraphicsQuality.shadow_detail(level)
 	sun.shadow_enabled = detail > 0
-	sun.shadow_blur = 1.6
+	# Soft, tinted shadows: translucent so the coloured ambient shows through (never a black cut-out), blurred edges.
+	sun.shadow_blur = 2.4 if detail < 2 else 1.8
+	sun.shadow_opacity = 0.62
+	sun.shadow_normal_bias = 1.6
+	sun.shadow_bias = 0.06
 	sun.directional_shadow_max_distance = 32.0 if detail < 2 else 48.0
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL if detail < 2 else DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
 	if sun_cull_mask_hint != 0:

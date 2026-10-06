@@ -72,10 +72,10 @@ Verify for global tasks: shoot at least town (`TW`), Gainlands (`GL`) and D.N.A.
   - Verify: town + Gainlands + D.N.A. close-ups of a prop, a character and foliage; look for outline gaps, banding steps, shimmer (take two shots 1 s apart).
   - Pass bar: all 8 rubric scores 7 or higher in the three areas.
   - Result (slice 1, iter1): shader-only slice done: world-space brush grain (grain_amount), optional glossy band (`gloss` uniform, off by default), rim damped on up-facing surfaces, outline width constant per 1080p with a 1 px floor, normal edges suppressed on crumpled foliage and hex seams. Town L/C/G/D/M/A/R/X = 5/4/4/5/6/4/6/5, Gainlands 5/4/3/4/5/3/5/4 (the low scores belong to later tasks: ground, lighting, grading). Outline shimmer and double lines on foliage clearly reduced. Medium town 76 fps. before = town/before_{a,b,c}.png, gainlands/baseline_*.png; after = town/iter1_{a,b,c}.png, gainlands/iter1_{a,b,c}.png. DNA iter1 viewed (clean outlines, no regressions): DNA 5/5/4/4/5/4/6/5. Slice 2: `gloss` is wired via material meta `StyleToon.META_GLOSS` (Buffet `shiny()` sets 0.45); outline colour already comes from the preset (`outline_color`); repeat town shots (town/g01shimmer_*.png) show clean, steady outlines. Tests 1013 green.
-- [ ] **G-02 Lighting and shadow quality.** Soften the harsh long black shadows (shadow tint colour + opacity, PCF/soft-shadow filter, cascade splits and bias per quality level, no acne or peter-panning); replace the broad god-ray streak decals with a subtle, sparse shaft effect; ambient always tinted; add a contact-shadow blob under characters and props that sit on uneven ground; verify the omni-light budget (12 Medium / 24 High).
+- [x] **G-02 Lighting and shadow quality.** Soften the harsh long black shadows (shadow tint colour + opacity, PCF/soft-shadow filter, cascade splits and bias per quality level, no acne or peter-panning); replace the broad god-ray streak decals with a subtle, sparse shaft effect; ambient always tinted; add a contact-shadow blob under characters and props that sit on uneven ground; verify the omni-light budget (12 Medium / 24 High).
   - Verify: town plaza at two sun angles, Gainlands, D.N.A. corridor; look for shadow acne, light leaks, overly black shadows.
   - Pass bar: L 7 or higher in every checked area, no regressions.
-  - Result: scores = _; before = _; after = _
+  - Result (slice 1, 3 iterations): the "god-ray" streaks were the 9 radiating dirt path ribbons with a 0.7 edge fade (read as yellow light shafts), not light: now tan dirt, crisp edge (0.3), narrower (1.1 m). Sun shadows softer and translucent (`shadow_opacity` 0.62, blur 2.4/1.8, tuned bias), town ambient energy 0.4 to 0.58 so shadows stay violet-green not black, volumetric fog halved with lower anisotropy (High only). Town L/C/G/D/M/A/R/X = 6/4/4/5/6/4/6/5 (iter3), Gainlands L 4 (own sun in `gainlands_look.gd`, not on the rig), DNA L 6; no regressions seen. Tests 1013 green. before = town/before_*.png; after = town/g02c_{a,b,c}.png, gainlands/g02_*.png, dna/g02_*.png. REMAINING (follow-up G-02b): contact-shadow blobs under characters/props, route Gainlands/Buffet/Heap `*_look.gd` suns through the same shadow settings, shadow acne check on High, omni budget audit.
 - [ ] **G-03 Per-zone colour grading.** Build a grading layer per preset (saturation, contrast, exposure, white balance, lift/gamma/gain via Environment adjustments or a small post shader) and re-tune all 13 presets against the style guide mood table; fix the over-saturated lime (town, Gainlands), washed whites (Capital), crushed darks (Capital outside); keep ground saturation at about 70 percent of prop saturation.
   - Verify: one overview shot per zone before/after; check histograms by eye (no big clipped areas).
   - Pass bar: C 7 or higher in every zone.
@@ -890,7 +890,10 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 
 # FOLLOW-UP TASKS (added by runs; same format as above)
 
-_None yet._
+- [ ] **G-02b Lighting follow-up.** Contact-shadow blobs under characters and props, apply the rig shadow settings (opacity, blur, bias) to the Gainlands, Buffet and Heap zone suns, shadow acne check on High, omni-light budget audit (12 Medium / 24 High).
+  - Verify: Gainlands, Buffet, Heap angle a/b; character close-ups.
+  - Pass bar: L 7 or higher in town, Gainlands, D.N.A.
+  - Result: scores = _; before = _; after = _
 
 ---
 

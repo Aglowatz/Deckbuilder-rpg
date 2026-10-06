@@ -65,7 +65,7 @@ static func get_preset(id: StringName) -> ZonePreset:
 			p.sun_pitch = -30.0
 			p.sun_yaw = -35.0
 			p.ambient_color = Color("8070c8")
-			p.ambient_energy = 0.4
+			p.ambient_energy = 0.58
 			p.fog_color = Color("f6c9a0")
 			p.fog_density = 0.0022
 			p.volumetric_density = 0.012
