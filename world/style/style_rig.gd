@@ -128,6 +128,7 @@ func _apply_globals() -> void:
 	RenderingServer.global_shader_parameter_set("style_desaturate", preset.desaturate)
 	RenderingServer.global_shader_parameter_set("style_accent", preset.accent)
 	RenderingServer.global_shader_parameter_set("style_wind", preset.wind)
+	RenderingServer.global_shader_parameter_set("style_ground_sat", preset.ground_sat)
 
 
 func _apply_environment(level: int) -> void:

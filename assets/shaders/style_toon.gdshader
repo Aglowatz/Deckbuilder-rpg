@@ -11,6 +11,7 @@ global uniform float style_desaturate;
 global uniform float style_band_soft;
 global uniform vec3 style_accent;
 global uniform float style_wind;
+global uniform float style_ground_sat;
 
 uniform sampler2D albedo_tex : source_color, filter_linear_mipmap, repeat_enable;
 uniform vec4 albedo : source_color = vec4(1.0);
@@ -83,6 +84,9 @@ void fragment() {
 	// Faint brush grain: two octaves of world-space noise nudge the value so flat colours stop looking like plastic.
 	float grain = value_noise(v_world * 6.0) * 0.6 + value_noise(v_world * 17.0) * 0.4;
 	col *= 1.0 + (grain - 0.5) * 2.0 * grain_amount;
+	// Ground calmer than props (style guide section 4): up-facing surfaces are pulled towards their luma by the zone's ground saturation.
+	float ground = smoothstep(0.8, 0.95, (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).y);
+	col = mix(col, vec3(dot(col, vec3(0.299, 0.587, 0.114))), ground * (1.0 - style_ground_sat) * (1.0 - colour_keep));
 	ALBEDO = col;
 	ROUGHNESS = 1.0;
 	METALLIC = 0.0;
