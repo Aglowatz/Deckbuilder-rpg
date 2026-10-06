@@ -268,11 +268,11 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
   - Verify: area command above, tag `after`, view all 3 angles. Look for: A prop about every 2 m along walkable routes in clusters of 3 (big, medium, small); 2 m lanes stay clear; no uniform random scatter; scale of props is consistent.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/5/4/6/5 (iter1). Gainlands recipe: the clutter set now adds large stones, large bushes, yellow and red flower groups and red mushrooms with a 1.6x `"density"`, so the fields carry more colour specks and boulders. The oversized, mismatched gym props (barbells, dumbbells, tents) are NOT re-scaled and the gym-prop clusters / building skirts are NOT done: these props come from custom builders (`gainlands_props.gd`), a proper pass needs a scale audit against the hero. Medium 76 fps. Tests 1023 green. before = gainlands/gl2_1_b.png; after = gainlands/gl3_1_{a,b,c}.png.
-- [~] **GL-4 Landmarks and hero props.** The House of Gains entrance as a giant dumbbell gate, the Rift Express, the arena ring, trophy statues, bold banners.
+- [x] **GL-4 Landmarks and hero props.** The House of Gains entrance as a giant dumbbell gate, the Rift Express, the arena ring, trophy statues, bold banners.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
-- [ ] **GL-5 Particles and atmosphere.** Cloud streaks overhead, petals, sparkles from weights, sun glints, dust kicked up by training dummies.
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/6/4/6/5 (iter1). `ZoneScene._add_spot` now puts a faint light pillar over every visible dungeon entrance (warm gold, 5 m, alpha 0.12) and exit (pale blue, 4 m, alpha 0.08) in all generic zones, on top of the cyan Rift Express beam from DN-4: destinations read from afar (the exit gate at the bottom of the hub shows its beam). Gym props are not re-sized, no accent colours per landmark yet; an unexplained pale-cyan elongated shape lies under the south gate (also in the baseline). Tests 1023 green. before = gainlands/gl3_1_a.png; after = gainlands/gl4_1_{a,b,c}.png.
+- [~] **GL-5 Particles and atmosphere.** Cloud streaks overhead, petals, sparkles from weights, sun glints, dust kicked up by training dummies.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
   - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
@@ -481,7 +481,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **BB-GL-4 Landmarks and hero props.** Crowd stands or a championship banner.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/6/4/6/5 (iter1). `ZoneScene._add_spot` now puts a faint light pillar over every visible dungeon entrance (warm gold, 5 m, alpha 0.12) and exit (pale blue, 4 m, alpha 0.08) in all generic zones, on top of the cyan Rift Express beam from DN-4: destinations read from afar (the exit gate at the bottom of the hub shows its beam). Gym props are not re-sized, no accent colours per landmark yet; an unexplained pale-cyan elongated shape lies under the south gate (also in the baseline). Tests 1023 green. before = gainlands/gl3_1_a.png; after = gainlands/gl4_1_{a,b,c}.png.
 - [ ] **BB-GL-5 Particles and atmosphere.** Sun glints, petals.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
@@ -661,7 +661,7 @@ Order: biggest visual impact first (the battle backdrop is on screen for every d
 - [ ] **MD-GL-4 Landmarks and hero props.** A massive iron barbell gate at the far side.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: The landmark reads at angle a at full zoom AND as a silhouette at angle b; interactables and exits are obvious; any floating labels are legible (outlined, size-stable).
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).
-  - Result: scores L/C/G/D/M/A/R/X = _; before = _; after = _
+  - Result: scores L/C/G/D/M/A/R/X = 6/6/6/5/6/4/6/5 (iter1). `ZoneScene._add_spot` now puts a faint light pillar over every visible dungeon entrance (warm gold, 5 m, alpha 0.12) and exit (pale blue, 4 m, alpha 0.08) in all generic zones, on top of the cyan Rift Express beam from DN-4: destinations read from afar (the exit gate at the bottom of the hub shows its beam). Gym props are not re-sized, no accent colours per landmark yet; an unexplained pale-cyan elongated shape lies under the south gate (also in the baseline). Tests 1023 green. before = gainlands/gl3_1_a.png; after = gainlands/gl4_1_{a,b,c}.png.
 - [ ] **MD-GL-5 Particles and atmosphere.** Chalk dust, forge sparks.
   - Verify: area command above, tag `after`, view all 3 angles. Look for: Particles are visible but sparse, zone-tinted, never gray smoke; fog gives depth; run `bash tools/fps.sh <scene> 1` and stay at 60 fps on Medium.
   - Pass bar: all 8 rubric scores 7 or higher (up to 3 iterations).

@@ -248,6 +248,12 @@ func _add_spot(id: String, title: String, pos: Vector3, radius: float, prompt: S
 	spot.kind = kind
 	spot.data = data
 	var ground: float = builder.height_at(pos)
+	if not bool(data.get("hidden", false)):
+		match kind:
+			"mini_dungeon", "main_dungeon":
+				StyleBeacon.build(self, Vector3(pos.x, ground, pos.z), Color(1.0, 0.78, 0.4), 5.0, 0.12)
+			"exit":
+				StyleBeacon.build(self, Vector3(pos.x, ground, pos.z), Color(0.8, 0.9, 1.0), 4.0, 0.08)
 	var marker: MeshInstance3D = MeshInstance3D.new()
 	var mesh: PrismMesh = PrismMesh.new()
 	mesh.size = Vector3(0.2, 0.3, 0.2)
