@@ -35,6 +35,8 @@ func _ready() -> void:
 	Audio.play_music(&"map")
 	if not Session.in_dungeon() and _screenshot_args.has("main"):
 		_prepare_main_dungeon_for_screenshot()
+	elif not Session.in_dungeon() and _screenshot_args.has("mini"):
+		_prepare_mini_dungeon_for_screenshot()
 	elif not Session.in_dungeon():
 		Session.ensure_game()
 		Session.dungeon_map = TrialOfTheHollow.build_map()
@@ -90,6 +92,21 @@ func _begin_boss_phase() -> void:
 		_show_cutscene(start, scene_id)
 	else:
 		start.call()
+
+
+## Screenshot/dev only: enter a zone's mini dungeon directly (`--mini=<zone id> --progress=N`).
+func _prepare_mini_dungeon_for_screenshot() -> void:
+	Session.ensure_game()
+	var zone_id: String = str(_screenshot_args.get("mini", "necrocrat"))
+	Session.zone_run = ZoneRun.enter(zone_id, Session.profile, Session.deck)
+	Session.dungeon_map = MiniDungeon.build_map(zone_id)
+	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
+	Session.mini_active = true
+	for step: int in range(int(_screenshot_args.get("progress", 0))):
+		var choices: Array[DungeonMap.MapNode] = Session.dungeon_map.available()
+		if choices.is_empty():
+			break
+		Session.dungeon_map.complete(choices[0].id)
 
 
 ## Screenshot/dev only: enter a zone's final dungeon directly (`--main=<zone id> --progress=N`).

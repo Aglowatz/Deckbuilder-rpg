@@ -7,6 +7,10 @@ extends Node3D
 
 const STORY_PATH: String = "res://data/story/intro_story.tres"
 const CAMERA_OFFSET: Vector3 = Vector3(0.0, 8.4, 7.0)
+
+## Screenshot only: `--cam=x,y,z` replaces the camera offset and the camera then looks at the hero (any yaw).
+var _camera_offset: Vector3 = CAMERA_OFFSET
+var _custom_camera: bool = false
 const INTERACT_RADIUS: float = 1.7
 ## How close (in screen pixels) a click has to land to the gate's marker to count as clicking it.
 const CLICK_PICK_RADIUS: float = 90.0
@@ -41,9 +45,21 @@ func _ready() -> void:
 	elif Session.profile == null and not Session.flag(&"awakened"):
 		Session.new_game()
 	area.build(self)
+	if _screenshot_args.has("cam"):
+		var cam: PackedStringArray = str(_screenshot_args["cam"]).split(",")
+		_camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
+		_custom_camera = true
 	_build_actors()
 	_build_ui()
-	if not Session.flag(&"awakened"):
+	if _screenshot_args.has("pos"):
+		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
+		player.position = Vector3(float(pos[0]), 0.0, float(pos[1]))
+		_camera.position = player.position + _camera_offset * Settings.camera_zoom
+	if str(_screenshot_args.get("nohud", "false")) == "true":
+		for child: Node in get_children():
+			if child is CanvasLayer:
+				(child as CanvasLayer).visible = false
+	if not Session.flag(&"awakened") and not _screenshot_args.has("quiet"):
 		Session.set_flag(&"awakened")
 		Session.save_game()
 		_play_awakening.call_deferred()
@@ -62,7 +78,7 @@ func _build_actors() -> void:
 	_camera.fov = 40.0
 	add_child(_camera)
 	_camera.current = true
-	_camera.position = player.position + CAMERA_OFFSET * Settings.camera_zoom
+	_camera.position = player.position + _camera_offset * Settings.camera_zoom
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	var rig: StyleRig = StyleRig.install(self, StylePresets.START, _camera, player)
 	var fader: CloudFader = CloudFader.new()
@@ -153,9 +169,12 @@ func _play_awakening_lines() -> void:
 
 
 func _process(delta: float) -> void:
-	var target: Vector3 = player.position + CAMERA_OFFSET * Settings.camera_zoom
+	var target: Vector3 = player.position + _camera_offset * Settings.camera_zoom
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
-	_camera.rotation_degrees = Vector3(-atan2(CAMERA_OFFSET.y, CAMERA_OFFSET.z) * 180.0 / PI, 0.0, 0.0)
+	if _custom_camera:
+		_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
+	else:
+		_camera.rotation_degrees = Vector3(-atan2(CAMERA_OFFSET.y, CAMERA_OFFSET.z) * 180.0 / PI, 0.0, 0.0)
 	_update_prompt()
 	player.input_enabled = not _locked and not dialogue.active
 
