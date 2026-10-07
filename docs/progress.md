@@ -2625,7 +2625,7 @@ dialogue), NPC-SPOTTER, NPC-ITAMAE, NPC-BETTY, NPC-RACCOONKING, NPC-AUTOMATON (t
 | Boss portraits (Vellum undead, Doppelganger shapeshifter, Hollow Warden stone guardian) | | bosses have no 3D model (card battle only) |
 
 **Prose follow-ups** (the names were renamed in data, labels, quest givers and the quest/story lines that used the exact full names; the story text around them was not rewritten): bare first
-names and old titles still appear in some story lines (for example "Brenda", "Mabbit", "Tilda", "Head Spotter", "her 'Spot Me!' quest", he/she mismatches for Prudence Pallor and Brother Bramble);
+names and old titles still appear in some story lines (for example "Brenda", "Mabbit", "Tilda", "Head Spotter", "Hob Tillbury" (Granny Gristle introduces herself as him), "her 'Spot Me!' quest", he/she mismatches for Prudence Pallor and Brother Bramble);
 the shop names keep the old owners (Tiny Tony's Protein & Pasteboard, Dolcetta's Dessert & Deckery, Farmer Hob's Swap Shed, Wick's Supplies; vendor screens are out of scope); the zone villains and
 leaders still carry the old names in prose and battle (Commander Gristle = Chancellor Clench, the Registrar = Undersecretary Vellum, the False Aurelio = the Doppelganger, Archdruid Fernwick Loam =
 Compostella, the Rotheart, "Aurelio" / "Director Vellum" / "Fernwick" in lines). Dungeon boss beats show the list name on the plate, so plate and prose disagree until that prose is rewritten.
@@ -2660,3 +2660,32 @@ Compostella, the Rotheart, "Aurelio" / "Director Vellum" / "Fernwick" in lines).
   talking, chained conversations). GUT: 1108 tests, all passing. `tools/dialogue_shots.sh` takes several dialogue screenshots per run (real interactions, `npc:<ID>`, `story:<key>`).
 - E2E (budget): `town_interact_smoke` ran once (2 min): every NPC/vendor dialogue step passes, including the speaker plates and "dialogue panel is actually on screen". Two failures that are not about dialogue: the HUD Deck button
   click step (the same step the polish round already listed as a timing failure, patched and never re-run) and a stale chest id in the script (`hidden_chest_ember_flats` no longer exists since the polish round renamed the chests).
+
+### Part D: verification
+Screenshots (`docs/art/screens/portraits/dialogue/`, JPEG; `default_*` at the default 1920x1080 window, which this display clamps to 1886x1061, and `small_*` at 1024x576), all from real scenes through the real
+interactions (`bash tools/dialogue_shots.sh <scene> <prefix> <tokens>`):
+
+| Background | NPCs (portrait) |
+|------------|-----------------|
+| Town (day, grass) | Elder Maren, Sable (cards), Brick Bronson (corrupted path NPC), Pip Threadwell (tailor); small: Elder Maren, Sable, Prudence Pallor, Tilly Tonic with a long wrapped line |
+| D.N.A. (dark teal) | Agnes Overdue (quest giver), Kyle (minigame host); small: Agnes Overdue, Director Ectomund (quiz) |
+| Gainlands (bright) | Old Man Mountain (quest giver), Professor Pump (quiz master); small: Professor Pump, Big Hurl |
+| Verdant Dump / Endless Buffet | Granny Gristle (vendor); Basil (quest giver), Professor Pate (quiz master) |
+| Capital (dark) | Wren (resistance leader), Captain Spotless (gate), A Perfectly Happy Citizen; small: Wren, Primm |
+| Dungeon story beat (House of Gains map) | Grandmaster Flex (beat after The Cell Stretch), the narration beat with no portrait (plain box) |
+| Boss pre-fight line | Chancellor Clench (House of Gains), the Doppelganger (Test Kitchen); small: Chancellor Clench |
+| Starting area | The Wanderer (NPC-PLAYER) self-talk |
+
+That is 20+ different NPCs across town, a dark zone (D.N.A., Capital), a bright zone (Gainlands), dungeon beats and boss lines, at both sizes. Checked in the shots: portraits are clean cut-outs (no gray or
+dark edges, none of the 71 files needed background removal), the waist sits behind the box's top edge on every background, the text and name plate are never covered (the portrait is clipped at the box edge), the
+HUD (quest tracker, HP, gold, Menu, minimap) is drawn over the portrait, a long line grows the box upwards and the portrait follows, and 1024x576 reads the same (everything scales with the 1920x1080 design viewport).
+Known limits: on the dungeon map the portrait stands over part of the map (a cleared node can be hidden while a beat plays; the beat is modal and the box already covers the map's lower part); the real
+dialogue lines were written for the old NPC names (see the prose follow-ups in Part A), so a few lines name the old character under the new plate.
+
+**Portrait Image IDs now in the game (58 base portraits, plus 13 expression variants):**
+NPC-AGNES, NPC-AUTOMATON, NPC-BASIL, NPC-BELLOWS, NPC-BETTY, NPC-BRAMBLE, NPC-BRONSON, NPC-CITIZEN, NPC-CLENCH, NPC-COMPOSTELLA, NPC-DOPPEL, NPC-ECTOMUND, NPC-ELDER, NPC-ESCOFFINA, NPC-FERN,
+NPC-FLAMBE, NPC-FLEX, NPC-GATEKEEPER, NPC-GERALD, NPC-GRAVOIS, NPC-GUS, NPC-HOB, NPC-HURL, NPC-ITAMAE, NPC-KESTREL, NPC-KYLE, NPC-MARLO, NPC-MORTIMER, NPC-MOUNTAIN, NPC-MULLIGAN, NPC-PALLOR, NPC-PATE,
+NPC-PELL, NPC-PLAYER, NPC-PRIMM, NPC-PUMP, NPC-RACCOONKING, NPC-RHONDA, NPC-RIP, NPC-ROTHEART, NPC-SPOTLESS, NPC-SPOTTER, NPC-THISTLEWICK, NPC-THUNDERABS, NPC-VELLUM, NPC-WARDEN, NPC-WREN,
+V-ALEMBIC, V-BEETSWORTH, V-BENCHLEY, V-FENWICK, V-FIGSLY, V-GRISTLE, V-LEDGERBONE, V-MIREPOIX, V-SABLE, V-THREADWELL, V-TONIC
+(Ones whose NPC is not in the game yet and so never shows: NPC-HOB, NPC-KESTREL, NPC-SPOTTER, NPC-ITAMAE, NPC-BETTY, NPC-RACCOONKING, NPC-AUTOMATON, and NPC-WARDEN until the Hollow Warden gets lines.
+Vendor portraits V-* are imported but only used when the vendor talks; the vendor screens still have their own look.)

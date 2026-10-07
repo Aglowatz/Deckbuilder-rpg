@@ -1,7 +1,7 @@
 extends SceneTree
 ## Dialogue portrait screenshots from real scenes, several per run: `bash tools/dialogue_shots.sh <scene> <prefix> <tokens> [--size=WxH] [--zones=N]`.
 ## Tokens (comma separated): a spot id of the scene (`elder`, `brenda`; walks the hero there and runs the real interaction), `npc:<NPC-ID>` (that NPC's portrait
-## with two placeholder lines on the scene's own dialogue box) or `story:<story key>` (a dungeon map scene: that story beat with its mapped speaker).
+## with two placeholder lines on the scene's own dialogue box), `call:<method>` (a method of the scene, e.g. `call:_play_awakening_lines`; open overlays are closed first) or `story:<story key>` (a dungeon map scene: that story beat with its mapped speaker).
 ## Saves _screenshots/<prefix>_<token>.png once the line has typed out. Run (NOT headless).
 
 var _args: Dictionary = {}
@@ -90,7 +90,15 @@ func _begin(token: String) -> void:
 	var box: Node = _box()
 	if token.begins_with("npc:"):
 		var id: String = token.trim_prefix("npc:")
-		box.call("start", "", ["The road north is closed again. Mind the puddles, friend.", "[happy] Long lines wrap normally: the box widens a little beside the portrait and the text never runs under the character, however many words a line takes to say."] as Array[String], id)
+		box.call("start", "", ["[happy] Long lines wrap normally: the box grows upwards, the portrait stays behind its top edge and the text never runs under the character, however many words a line takes to say, and then a few more words for good measure.", "The road north is closed again. Mind the puddles, friend."] as Array[String], id)
+		return
+	if token.begins_with("call:"):
+		var layer: Variant = _scene.get("_overlay_layer")
+		if layer is Node:
+			for child: Node in (layer as Node).get_children():
+				child.queue_free()
+			_scene.set("_locked", false)
+		_scene.call(token.trim_prefix("call:"))
 		return
 	if token.begins_with("story:"):
 		var key: String = token.trim_prefix("story:")
