@@ -19,6 +19,9 @@ const WALL_Z0: int = 60
 const WALL_Z1: int = 63
 const GATE_X0: int = 55
 const GATE_X1: int = 64
+## Brief 16, Group C: the secret passage through the wall, far along the LEFT-hand side of the city wall (cells, 2 m wide). No sign points to it.
+const PASSAGE_X0: int = 22
+const PASSAGE_W: int = 2
 
 enum Cell { VOID, GROUND, SOLID }
 enum Floor { NONE, GRAVEL, ROAD, PLAZA, LAWN, GRAY, SOIL, METAL, TILE, HUB, GRASS, DEAD }
@@ -184,6 +187,7 @@ func _ground() -> void:
 	_set_cells(Rect2i(2, 64, 116, 30), Cell.GROUND, Floor.GRAVEL)       # the Outskirts (x 2..117, z 64..93)
 	_set_cells(Rect2i(2, 2, 116, 58), Cell.GROUND, Floor.ROAD)          # the city inside the wall (z 2..59)
 	_set_cells(Rect2i(GATE_X0, WALL_Z0, GATE_X1 - GATE_X0 + 1, WALL_Z1 - WALL_Z0 + 1), Cell.GROUND, Floor.ROAD)  # the gate
+	_set_cells(Rect2i(PASSAGE_X0, WALL_Z0, PASSAGE_W, WALL_Z1 - WALL_Z0 + 1), Cell.GROUND, Floor.GRAVEL)  # the secret passage through the wall
 	_set_cells(Rect2i(4, 100, 37, 21), Cell.GROUND, Floor.HUB)          # the Crease (x 4..40, z 100..120)
 	_floor_rect(Rect2i(2, 64, 116, 30), Floor.GRAVEL)
 	_floor_rect(Rect2i(42, 45, 37, 15), Floor.PLAZA)                    # Checkpoint Plaza
@@ -456,7 +460,9 @@ func _block_grid(area: Rect2, step: Vector2, size: Vector2, style: String, distr
 
 func _walls_and_gate() -> void:
 	# The city wall: rows 60..63 across the whole width except the gate opening; towers frame the opening.
-	_building("wall", 2.0, float(WALL_Z0), float(GATE_X0 - 2), float(WALL_Z1 - WALL_Z0 + 1), 7.0, 0.0, "", 0)
+	# The left-hand wall is two pieces with a 2 m gap between them (the secret passage).
+	_building("wall", 2.0, float(WALL_Z0), float(PASSAGE_X0 - 2), float(WALL_Z1 - WALL_Z0 + 1), 7.0, 0.0, "", 0)
+	_building("wall", float(PASSAGE_X0 + PASSAGE_W), float(WALL_Z0), float(GATE_X0 - PASSAGE_X0 - PASSAGE_W), float(WALL_Z1 - WALL_Z0 + 1), 7.0, 0.0, "", 0)
 	_building("wall", float(GATE_X1 + 1), float(WALL_Z0), float(118 - GATE_X1 - 1), float(WALL_Z1 - WALL_Z0 + 1), 7.0, 0.0, "", 0)
 	_building("tower", float(GATE_X0 - 5), float(WALL_Z0 - 1), 5.0, 6.0, 11.0, 0.0, "", 0)
 	_building("tower", float(GATE_X1 + 1), float(WALL_Z0 - 1), 5.0, 6.0, 11.0, 0.0, "", 1)
@@ -471,6 +477,16 @@ func _walls_and_gate() -> void:
 	_sign("sign.gate_height", 50.5, 66.0, 0.0, 0.9, "sign")
 	_sign("sign.gate_inside", 60.0, float(WALL_Z1) + 2.5, 180.0, 1.2, "banner")
 	_sign("sign.gate_exit_inside", 66.5, 56.0, 180.0, 0.9, "sign")
+	# The secret passage: only a subtle hint from the outside - a crack up the wall beside a gap half-hidden by dry scrub and a few loose stones.
+	var passage_x: float = float(PASSAGE_X0) + float(PASSAGE_W) * 0.5
+	_prop("wall_crack", float(PASSAGE_X0) - 0.15, float(WALL_Z1) + 1.02, 0.0, 1.0, 0.0)
+	_prop("wall_crack", float(PASSAGE_X0 + PASSAGE_W) + 0.4, float(WALL_Z1) + 1.02, 0.0, 0.7, 0.0, 1)
+	_prop("loose_stones", passage_x - 0.5, float(WALL_Z1) + 1.7, 20.0, 1.0, 0.0)
+	_prop("loose_stones", passage_x + 1.1, float(WALL_Z1) + 2.2, 80.0, 0.8, 0.0, 1)
+	_prop("scrub", passage_x - 1.3, float(WALL_Z1) + 1.7, 0.0, 1.0, 0.0)
+	_prop("scrub", passage_x + 0.2, float(WALL_Z1) + 1.5, 40.0, 1.15, 0.0, 1)
+	_prop("scrub", passage_x + 1.4, float(WALL_Z1) + 1.8, 110.0, 0.9, 0.0, 2)
+	anchors["wall_passage"] = Vector3(passage_x, 0.0, float(WALL_Z0) + 2.0)
 	# Walls around the whole city, drawn as scenery (the void already keeps you in).
 	_prop("gate_barrier", 60.0, float(WALL_Z0) + 1.0, 0.0, 1.0, 0.0)
 

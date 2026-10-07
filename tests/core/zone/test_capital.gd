@@ -67,12 +67,13 @@ func test_all_spots_hubs_chests_and_enemies_are_connected_to_the_spawn_through_t
 		assert_true(_reaches(reached, spawn["home"] as Vector3), "enemy home %s is reachable" % str(spawn["home"]))
 
 
-func test_the_closed_gate_keeps_the_city_out_of_reach() -> void:
+func test_the_closed_gate_stays_shut() -> void:
 	var builder: CapitalBuilder = _builder()
 	builder.gate_open = false
 	var reached: Dictionary = _flood(builder, builder.anchor("spawn"))
-	assert_false(_reaches(reached, builder.anchor("gate_inside")), "the barrier closes the 10 m opening")
-	assert_false(_reaches(reached, builder.anchor("castle_door")))
+	assert_false(builder.is_walkable(Vector3(60.0, 0.0, 61.0), 0.3), "the barrier closes the 10 m opening")
+	# Brief 16: the city is still reachable on foot, but only through the hidden gap in the left-hand wall (see test_capital_wall_passage.gd).
+	assert_true(_reaches(reached, builder.anchor("wall_passage")))
 	assert_true(_reaches(reached, builder.anchor("tunnel_in")), "the secret shaft is reachable from the road")
 	assert_true(_reaches(reached, builder.anchor("exit")))
 	builder.open_gate()

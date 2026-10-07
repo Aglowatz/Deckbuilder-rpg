@@ -104,6 +104,12 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 			return rock(prop.variant)
 		"tree_dead":
 			return dead_tree(prop.variant)
+		"wall_crack":
+			return wall_crack(prop.variant)
+		"loose_stones":
+			return loose_stones(prop.variant)
+		"scrub":
+			return scrub(prop.variant)
 		"wreck", "wreck_stack":
 			return wreck(prop.kind == "wreck_stack")
 		"queue_post":
@@ -751,4 +757,43 @@ static func shaft_door(index: int) -> Node3D:
 	B.box(root, Vector3(1.1, 2.0, 0.08), M.flat(Color(0.14, 0.14, 0.18)), Vector3(0, 1.1, 0.08))
 	B.box(root, Vector3(0.4, 0.4, 0.06), M.glow(M.LANTERN, 1.2), Vector3(0, 2.05, 0.14))
 	_text(root, str(index + 1), Vector3(0, 2.05, 0.18), 0.012, Color(0.2, 0.1, 0.05))
+	return root
+
+
+## Brief 16, Group C: a thin dark crack climbing the wall face (the only hint of the secret passage from far away).
+static func wall_crack(variant: int) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var dark: StandardMaterial3D = M.flat(Color(0.12, 0.1, 0.1))
+	var x: float = 0.0
+	var y: float = 0.1
+	var index: int = 0
+	while y < 3.6:
+		var step: float = 0.55 + 0.12 * float((index + variant) % 3)
+		var lean: float = 14.0 * float(1 - 2 * ((index + variant) % 2))
+		B.box(root, Vector3(0.07, step, 0.05), dark, Vector3(x, y + step * 0.5, 0), Vector3(0, 0, lean))
+		x += 0.09 * float(1 - 2 * ((index + variant) % 2))
+		y += step * 0.9
+		index += 1
+	return root
+
+
+## A few loose stones fallen from the wall at the foot of the gap.
+static func loose_stones(variant: int) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 91 + variant
+	for index: int in range(4):
+		var size: Vector3 = Vector3(rng.randf_range(0.18, 0.4), rng.randf_range(0.1, 0.22), rng.randf_range(0.18, 0.34))
+		B.box(root, size, M.flat(M.STONE_GRAY.darkened(0.05 * float(index))), Vector3(rng.randf_range(-0.5, 0.5), 0.08, rng.randf_range(-0.35, 0.35)), Vector3(0, rng.randf_range(0.0, 90.0), rng.randf_range(-8.0, 8.0)))
+	return root
+
+
+## A clump of dry scrub (walkable: the hero pushes through it).
+static func scrub(variant: int) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 33 + variant
+	for index: int in range(6):
+		var shade: Color = Color(0.36, 0.34, 0.2).lerp(Color(0.5, 0.42, 0.24), rng.randf())
+		B.ball(root, rng.randf_range(0.28, 0.5), M.flat(shade), Vector3(rng.randf_range(-0.45, 0.45), rng.randf_range(0.25, 0.7), rng.randf_range(-0.3, 0.3)), Vector3(1.0, 0.9, 1.0))
 	return root

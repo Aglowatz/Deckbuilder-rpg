@@ -12,6 +12,8 @@ const CAMERA_NORMAL: Vector3 = Vector3(0.0, 13.5, 9.2)
 ## Light cull mask that skips layer 2 (the underground hideout) so the sun does not light it.
 const SUN_CULL_MASK: int = 0xFFFFF & ~2
 const SAFE_CHECK_INTERVAL: float = 0.25
+## Brief 16, Group C: set the first time the hero comes through the hidden gap in the left-hand city wall.
+const WALL_PASSAGE_SECRET: String = "capital_wall_passage"
 
 var capital: CapitalBuilder
 var wasteland: CapitalWasteland
@@ -217,6 +219,10 @@ func _track_progress() -> void:
 		if not Session.flag(CapitalZone.FLAG_HUB_KNOWN):
 			Session.set_flag(CapitalZone.FLAG_HUB_KNOWN)
 		return
+	var passage_x: float = float(CapitalLayout.PASSAGE_X0) + float(CapitalLayout.PASSAGE_W) * 0.5
+	if not Session.found_secret(WALL_PASSAGE_SECRET) and z < float(CapitalLayout.WALL_Z0) and z > 40.0 and absf(player.position.x - passage_x) < 3.0:
+		Session.discover_secret(WALL_PASSAGE_SECRET)
+		hud.toast("You squeeze through a gap in the wall, right past the gate guards.", Color("ffcf70"))
 	if not Session.flag(CapitalZone.FLAG_INSIDE) and z < float(CapitalLayout.WALL_Z0) and z > 2.0:
 		Session.set_flag(CapitalZone.FLAG_INSIDE)
 		hud.toast(story.text("fx.inside"), Color("ffcf70"))
