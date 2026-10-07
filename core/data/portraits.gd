@@ -49,6 +49,8 @@ static func texture_for(portrait_id: String, expression: String = "") -> Texture
 		texture = _load(_path(portrait_id, expression))
 	if texture == null:
 		texture = _load(_path(portrait_id, ""))
+	if texture == null and PortraitPlaceholders.has(portrait_id):
+		texture = PortraitPlaceholders.texture(portrait_id)
 	_textures[key] = texture
 	return texture
 

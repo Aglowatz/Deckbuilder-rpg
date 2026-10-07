@@ -160,8 +160,11 @@ func _ready() -> void:
 	SceneManager.pause_allowed = true
 	context = Session.pending_battle
 	if context == null:
-		context = Session.make_practice_battle(str(_screenshot_args.get("enemy", "Cave Scavenger")))
-		context.zone_id = str(_screenshot_args.get("zone", ""))
+		if str(_screenshot_args.get("ninja", "false")) == "true":
+			context = Session.make_ninja_battle()
+		else:
+			context = Session.make_practice_battle(str(_screenshot_args.get("enemy", "Cave Scavenger")))
+			context.zone_id = str(_screenshot_args.get("zone", ""))
 	Session.pending_battle = null
 	Audio.play_music(context.music)
 	game = context.game

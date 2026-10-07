@@ -127,8 +127,7 @@ func _ready() -> void:
 	_build_spots()
 	_build_rift_station()
 	ChestKit.apply_saved(town.hidden_chest_nodes, TownScene._hidden_chest_secret)
-	if Session.found_secret(HIDDEN_CHEST_SECRET):
-		ChestKit.set_open(town.harbor_chest_node, true)
+	GiantChestEvent.apply_look(town.harbor_chest_node, NinjaBoss.ORIGINAL_CHEST)
 	_build_portal_barriers()
 	TownDressing.alchemist(self, town.anchors, Session.alchemist_unlocked(), StoryText.shared())
 	TownDressing.arena_gate(self, town.anchors, Session.arena_unlocked(), StoryText.shared())
@@ -176,6 +175,9 @@ func _ready() -> void:
 		Session.town_notice = ""
 	_show_npc_result.call_deferred()
 	_show_graveyard_result.call_deferred()
+	_show_ninja_result.call_deferred()
+	if _screenshot_args.has("ninja"):
+		GiantChestEvent.screenshot_run(self, str(_screenshot_args["ninja"]), town.harbor_chest_node, _screenshot_args)
 	Session.save_game()
 
 
@@ -218,7 +220,7 @@ func _build_actors() -> void:
 	_add_npc("vendor", "Rogue_Hooded", town.anchors["npc_market"] as Vector3, 200.0)
 	_add_npc("elder", "Mage", town.anchors["npc_well"] as Vector3, 250.0)
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
-	if Session.found_secret(HIDDEN_VENDOR_SECRET):
+	if _secret_dealer_open():
 		_add_npc("hidden_vendor", "Rogue_Hooded", town.anchors["hidden_vendor"] as Vector3, 100.0)
 	# New brief, Part F: the item vendor.
 	_add_npc("item_vendor", "Mage", town.anchors["npc_item_vendor"] as Vector3, -110.0)
@@ -373,7 +375,7 @@ func _build_spots() -> void:
 	# the hidden chests, this one DOES get the normal marker/name-plate treatment (a Spot) - it's
 	# meant to be found, not stumbled on; the challenge is the fight, not finding it.
 	_add_spot("graveyard_cairn", "The Restless Cairn", town.anchors["graveyard_cairn"] as Vector3, 1.6)
-	if Session.found_secret(HIDDEN_VENDOR_SECRET):
+	if _secret_dealer_open():
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
 	# New brief, Part F: the item vendor.
 	_add_spot("item_vendor", "Wick's Supplies", town.anchors["npc_item_vendor"] as Vector3, 1.5)
@@ -1080,15 +1082,62 @@ func _vault_condition() -> Condition:
 
 func _open_chest() -> void:
 	player.face(town.anchors["chest"] as Vector3)
-	if Session.found_secret(HIDDEN_CHEST_SECRET):
+	if Session.ninja_defeated():
+		hud.toast("The chest is empty. Only a faint smell of smoke remains.", UIStyle.MUTED)
+		return
+	if Session.ninja_ready():
+		_start_ninja_fight()
+		return
+	if Session.ninja_chest_opened(NinjaBoss.ORIGINAL_CHEST):
 		hud.toast("The chest is empty now.", UIStyle.MUTED)
 		return
-	Session.discover_secret(HIDDEN_CHEST_SECRET)
-	var summary: RewardSummary = Session.grant_chest_reward({"gold": 60}, "The Secluded Grove chest")
-	hud.set_gold(Session.gold)
-	# The hidden vendor appears the next time the player enters town, once the secret is saved.
-	_reveal_chest(town.harbor_chest_node, summary)
-	Session.save_game()
+	GiantChestEvent.play(self, NinjaBoss.ORIGINAL_CHEST, town.harbor_chest_node)
+
+
+## The Secret Dealer appears once the original giant chest has been opened (the old "harbor_chest" secret still counts for older saves).
+func _secret_dealer_open() -> bool:
+	return Session.found_secret(HIDDEN_VENDOR_SECRET) or Session.ninja_chest_opened(NinjaBoss.ORIGINAL_CHEST)
+
+
+## Shiro Swindle scene hooks (GiantChestEvent): the scene is locked while it plays, and the fifth chest wakes the original one.
+func set_world_locked(on: bool) -> void:
+	_locked = on
+
+
+func on_ninja_ready() -> void:
+	GiantChestEvent.apply_look(town.harbor_chest_node, NinjaBoss.ORIGINAL_CHEST)
+
+
+## The original chest, closed and glowing: his lines, then the duel on the town battleboard.
+func _start_ninja_fight() -> void:
+	_locked = true
+	player.input_enabled = false
+	Audio.sfx(&"chest_open", -4.0)
+	dialogue.start(NinjaBoss.DISPLAY_NAME, NinjaBoss.FIGHT_BEFORE, NinjaBoss.NPC_ID)
+	dialogue.finished.connect(func() -> void:
+		Session.save_game()
+		Session.challenge_ninja(), CONNECT_ONE_SHOT)
+
+
+## Shown once after the duel: his post-fight lines, and on a first win what he gave back (gold, three Gilded Packs).
+func _show_ninja_result() -> void:
+	if Session.pending_ninja_result.is_empty():
+		return
+	var result: Dictionary = Session.pending_ninja_result
+	Session.pending_ninja_result = {}
+	var won: bool = bool(result.get("won", false))
+	dialogue.start(NinjaBoss.DISPLAY_NAME, NinjaBoss.FIGHT_WIN if won else NinjaBoss.FIGHT_LOSE, NinjaBoss.NPC_ID)
+	if bool(result.get("first_win", false)):
+		var packs: Array = result.get("packs", []) as Array
+		var entries: Array[Dictionary] = []
+		for pack_id: Variant in packs:
+			entries.append(PackRewards.entry(str(pack_id)))
+		var returned: int = int(result.get("gold_returned", 0))
+		var text: String = "Shiro Swindle returns %d gold and 3 Gilded Packs: %s" % [returned, PackRewards.labels(entries)]
+		dialogue.finished.connect(func() -> void:
+			hud.set_gold(Session.gold)
+			hud.toast(text, UIStyle.GOLD)
+			Audio.sfx(&"victory", -6.0), CONNECT_ONE_SHOT)
 
 
 ## New brief, Part D (5 chests) / fourth brief, Part E (2 more, equipment this time): one of the

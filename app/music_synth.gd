@@ -297,6 +297,12 @@ static func sfx_stream(sound: StringName) -> AudioStreamWAV:
 			buffer = _render_whoosh()
 		&"ding":
 			buffer = _render_ding()
+		&"smoke_bomb":
+			buffer = _render_smoke_bomb()
+		&"lever_clunk":
+			buffer = _render_lever_clunk()
+		&"vault_grind":
+			buffer = _render_vault_grind()
 		_:
 			return null
 	var stream: AudioStreamWAV = _to_stream(buffer)
@@ -403,4 +409,75 @@ static func _render_whoosh() -> PackedFloat32Array:
 		var progress: float = t / 0.5
 		smooth += (0.05 + 0.5 * progress) * (rng.randf_range(-1.0, 1.0) - smooth)
 		buffer[i] = smooth * sin(progress * PI) * 0.8
+	return buffer
+
+
+# ---- Brief 16: the smoke bomb and the vault's heavy mechanics ----------------------------------------------------------
+
+
+## SMOKE BOMB: a sharp pop (noise crack plus a low thump) followed by a long hiss that fades out.
+static func _render_smoke_bomb() -> PackedFloat32Array:
+	var length: int = int(1.1 * float(RATE))
+	var buffer: PackedFloat32Array = PackedFloat32Array()
+	buffer.resize(length)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 313
+	var hiss: float = 0.0
+	var phase: float = 0.0
+	for i: int in range(length):
+		var t: float = float(i) / float(RATE)
+		var crack: float = rng.randf_range(-1.0, 1.0) * exp(-t * 55.0)
+		phase += TAU * (95.0 - 50.0 * minf(t * 5.0, 1.0)) / float(RATE)
+		var thump: float = sin(phase) * exp(-t * 14.0)
+		hiss += 0.55 * (rng.randf_range(-1.0, 1.0) - hiss)
+		var hiss_env: float = minf(t * 40.0, 1.0) * exp(-t * 3.4)
+		buffer[i] = crack * 0.9 + thump * 0.8 + (rng.randf_range(-1.0, 1.0) - hiss) * 0.45 * hiss_env
+	return buffer
+
+
+## A heavy lever being thrown: a deep clank with metallic partials, then a chain of fading gear ticks.
+static func _render_lever_clunk() -> PackedFloat32Array:
+	var length: int = int(1.3 * float(RATE))
+	var buffer: PackedFloat32Array = PackedFloat32Array()
+	buffer.resize(length)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 818
+	var low: float = 0.0
+	for i: int in range(length):
+		var t: float = float(i) / float(RATE)
+		low += 0.3 * (rng.randf_range(-1.0, 1.0) - low)
+		var clank: float = (sin(TAU * 62.0 * t) * 0.9 + sin(TAU * 410.0 * t) * 0.35 + sin(TAU * 655.0 * t) * 0.22) * exp(-t * 9.0)
+		var latch: float = 0.0
+		if t > 0.32:
+			var local: float = t - 0.32
+			latch = (sin(TAU * 180.0 * local) * 0.5 + sin(TAU * 1210.0 * local) * 0.18) * exp(-local * 16.0)
+		var ticks: float = 0.0
+		var tick_phase: float = fposmod(t * 14.0, 1.0)
+		if t > 0.5 and t < 1.2:
+			ticks = (rng.randf_range(-1.0, 1.0) * exp(-tick_phase * 28.0)) * (1.0 - (t - 0.5) / 0.7) * 0.4
+		buffer[i] = clank * 0.85 + low * 0.35 * exp(-t * 7.0) + latch + ticks
+	return buffer
+
+
+## A great stone lock grinding open: a very low, wobbling rumble with gritty noise that swells and then ends in a dull thud.
+static func _render_vault_grind() -> PackedFloat32Array:
+	var length: int = int(2.0 * float(RATE))
+	var buffer: PackedFloat32Array = PackedFloat32Array()
+	buffer.resize(length)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 5150
+	var grit: float = 0.0
+	var phase: float = 0.0
+	for i: int in range(length):
+		var t: float = float(i) / float(RATE)
+		grit += 0.06 * (rng.randf_range(-1.0, 1.0) - grit)
+		var swell: float = sin(clampf(t / 1.5, 0.0, 1.0) * PI)
+		var wobble: float = 0.65 + 0.35 * sin(TAU * 7.0 * t)
+		phase += TAU * (34.0 + 6.0 * sin(TAU * 0.9 * t)) / float(RATE)
+		var rumble: float = (sin(phase) * 0.8 + grit * 2.2) * swell * wobble
+		var thud: float = 0.0
+		if t > 1.5:
+			var local: float = t - 1.5
+			thud = sin(TAU * 52.0 * local) * exp(-local * 11.0) * 1.1
+		buffer[i] = rumble * 0.7 + thud
 	return buffer

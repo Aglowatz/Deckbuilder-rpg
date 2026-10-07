@@ -220,6 +220,8 @@ func _rooms_and_corridors() -> void:
 	_link(Rect2i(70, 24, 3, 2), Floor.CONCRETE) # farm B <-> records basement
 	anchors["spawn"] = cell_center(45, 53)
 	anchors["rift_station"] = Vector3(48.5, 0.0, 55.5)
+	# Brief 16: Shiro Swindle's giant chest, in the open floor north-west of the lobby (see NinjaBoss).
+	anchors["giant_chest"] = Vector3(28.2, 0.0, 42.6)
 
 
 # ---- Prop helpers --------------------------------------------------------------------------

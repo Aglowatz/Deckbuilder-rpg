@@ -47,6 +47,7 @@ func test_lanes_between_key_locations_stay_wide() -> void:
 	var make: Callable = func(radius: float) -> Callable: return _can_stand(radius)
 	var clearance: float = WalkProbe.lane_clearance(make, spawn, _town.map_bounds(), _targets)
 	gut.p("town lane clearance (body radius that still reaches everything): %.2f" % clearance)
+	gut.p("cut off just above that width: %s" % str(WalkProbe.unreachable(_can_stand(clearance + 0.05), spawn, _town.map_bounds(), _targets)))
 	assert_gte(clearance, MIN_LANE_RADIUS, "every key location is reachable with a 1 m wide body")
 
 

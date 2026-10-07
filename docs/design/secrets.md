@@ -339,3 +339,21 @@ with the first save the cave creates.
 | `chest_crease_w` | The Crease, (4.8, 100.8) | West end, past the ladder | I | 70 gold + **Hearty Pie** |
 | `chest_ward_n` | The Correction Ward, (95.4, 8.4) | North side of the ward, beyond the rift | II | 120 gold + **Cheater's Dice** (advanced relic) |
 | `chest_yard_corner` | Checkpoint Row, (2.4, 2.4) | The farthest corner of the whole map | III | 150 gold + the **Top Hat** (hat) |
+
+## Brief 16, Group B: the giant chests and Shiro Swindle (spoilers)
+
+**Five giant chests, all joke chests.** Each is the big `chest_gold` model (scale 0.9, four times the size of a hidden chest) with no marker and no plate; the usual `[E] Open the chest` prompt appears within 1.9 m. Opening one starts the scene in `world/ninja/giant_chest_event.gd`:
+the lid swings up, **Shiro Swindle, Master of the Oldest Trick** (`NPC-NINJA`, placeholder portrait drawn in code until real art is imported) leaps out, delivers that chest's own taunt, steals **50 gold** (or all of it when the player has less), a floating "-50 gold" and a toast show the amount,
+he shouts **SMOKE BOMB!!!** and vanishes in a puff of smoke (synthesized `smoke_bomb` sound). An opened chest stays open. The first chest opened adds the quest **The Oldest Trick in the Book** to the log ("Open the giant chests n/5").
+
+| Chest id | Where | Notes |
+|----------|-------|-------|
+| `town` | The tip of a lonely peninsula in the far south-east of the main town (hex (18, 12), MAP row 17, reached by the south-east shore) | The ORIGINAL chest (moved from beside Bertram Beetsworth in the Secluded Grove). Opening it still reveals the Secret Dealer the first time. |
+| `beefcake` (Gainlands) | (24.0, 63.6): out on the open meadow west of the Swole Station | 28 m from the hub |
+| `necrocrat` (D.N.A.) | (28.2, 42.6): the open floor north-west of the lobby, beside the cubicle farm | 20 m from the spawn |
+| `gourmand` (Endless Buffet) | (28.8, 72.6): down at the front edge of the table, west of the Grand Pantry | 22 m from the spawn |
+| `refusemancer` (Verdant Dump) | (22.8, 73.8): the heap's south-west shoulder | 27 m from the spawn |
+
+**After all five are opened (any order):** the fifth chest's taunt adds "come and meet me where it all began". The original chest (in town) closes again and glows faintly (a pulsing gold light and sparkles). Opening it plays his lines and starts a duel against Shiro Swindle on the main town battleboard
+(`NinjaBoss`: 18 HP, a trap deck: Tripwire, Ambush Party, Dinner Is Served, Sent Back to the Kitchen, Invisible Ink, Underdog's Gambit, Pink Slip, Unconscionable Contract and a swarm of Elusive/Flying scouts; the Balanced AI). **Winning** returns every coin he stole, pays **3 Gilded Packs (one random Path each)**, ends the questline and leaves the chest open for good.
+**Losing** changes nothing: the chest stays closed and glowing, retry any time. All progress is saved (`ninja_chest_<id>` secrets, the `ninja_gold_stolen` and `ninja_chests_opened` counters, the `ninja_defeated` flag, the quest log).

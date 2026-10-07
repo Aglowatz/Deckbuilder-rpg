@@ -32,5 +32,27 @@
 		"dungeon.dg_s_town_boss": "NPC-AUTOMATON",
 		"dungeon.pc_boss": "NPC-PRIMM"
 	},
-	"sides": {}
+	"sides": {},
+	"extra_npcs": [
+		{
+			"id": "NPC-NINJA",
+			"name": "Shiro Swindle, Master of the Oldest Trick",
+			"role": "Trickster / giant-chest con artist (questline boss)",
+			"location": "Main Town and the four Path zones (inside the giant chests)",
+			"portrait_id": "NPC-NINJA",
+			"species": "fox",
+			"notes": "Placeholder portrait is drawn in code (core/data/portrait_placeholders.gd) until real art is imported. Species is a suggestion: a smug fox in a ninja hood.",
+			"expressions": ["smug", "angry"]
+		},
+		{
+			"id": "NPC-VAULTWARDEN",
+			"name": "The Warden of the Four Seals",
+			"role": "Vault guardian (hidden four-lever vault boss)",
+			"location": "The Four-Seal Vault, Main Town",
+			"portrait_id": "NPC-VAULTWARDEN",
+			"species": "golem",
+			"notes": "A towering stone-and-gold sentinel whose chest shows four glowing seals, one per Path. No portrait art yet.",
+			"expressions": ["calm", "angry"]
+		}
+	]
 }

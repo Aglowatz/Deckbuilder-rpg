@@ -315,6 +315,8 @@ func _anchors() -> void:
 	_at("exit", 50.0, 74.2)
 	_at("heal", 41.0, 62.0)
 	_at("hob", 60.5, 63.5)
+	# Brief 16: Shiro Swindle's giant chest, on the heap's south-west shoulder.
+	_at("giant_chest", 22.8, 73.8)
 	_at("marigold", 50.0, 58.5)
 	_at("wren", 43.5, 67.0)
 	_at("compost_bin", 58.0, 69.5)

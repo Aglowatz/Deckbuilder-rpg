@@ -18,6 +18,8 @@ var town_npc_id: String = ""
 ## Fourth brief, Part F: set for the Graveyard's scripted battle (The Restless Cairn). See
 ## Session.make_graveyard_battle/_complete_graveyard_challenge.
 var is_graveyard_boss: bool = false
+## Brief 16: set for the duel against Shiro Swindle (the original giant chest). See Session.make_ninja_battle/_complete_ninja_challenge.
+var is_ninja_boss: bool = false
 var gold_reward: int = 0
 var xp_reward: int = 0
 var card_choices: int = 0

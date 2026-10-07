@@ -14,6 +14,7 @@ static func build_all() -> Array[QuestData]:
 	result.append(_meet_the_merchants())
 	result.append(_clear_the_paths())
 	result.append(_free_the_kingdom())
+	result.append(_oldest_trick())
 	result.append_array(ZoneQuestDefinitions.build_all())
 	return result
 
@@ -65,4 +66,18 @@ static func _free_the_kingdom() -> QuestData:
 	quest.objectives = objectives
 	quest.reward_gold = 300
 	quest.reward_xp = 250
+	return quest
+
+
+## Brief 16, Group B: started by Session.open_giant_chest the first time any giant chest is opened (never auto-given, so it stays hidden until then).
+static func _oldest_trick() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = NinjaBoss.QUEST_ID
+	quest.order = 40
+	quest.title = "The Oldest Trick in the Book"
+	quest.summary = "A giant chest was too good to be true. Someone is conning travellers across the kingdom with them, and he took your gold. Find the chests, and find him."
+	quest.objectives = [
+		QuestObjective.make("Open the giant chests", Condition.counter(NinjaBoss.COUNTER_OPENED, NinjaBoss.CHEST_IDS.size())),
+		QuestObjective.make("Face the Master of the Oldest Trick", Condition.flag(str(NinjaBoss.FLAG_DEFEATED))),
+	] as Array[QuestObjective]
 	return quest

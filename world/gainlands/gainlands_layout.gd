@@ -207,6 +207,8 @@ func _anchors() -> void:
 	_at("exit", 52.0, 74.0)
 	_at("heal", 44.0, 62.0)
 	_at("tony", 61.0, 63.0)
+	# Brief 16: Shiro Swindle's giant chest, tucked out west of the hub (see NinjaBoss).
+	_at("giant_chest", 24.0, 63.6)
 	_at("brenda", 52.0, 59.5)
 	_at("gus", 45.0, 68.0)
 	_at("station", 52.0, 55.0)

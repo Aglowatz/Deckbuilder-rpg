@@ -46,7 +46,7 @@ const MAP: Array[String] = [
 	"M#####..MTTT#T#TTTM..#MM#.#",
 	"#.##T###T#TT##MM##T#T......",
 	"################.###M......",
-	"T#T#.TT#T######T..##T......",
+	"T#T#.TT#T######T..####R##..",
 	".......#T###.#T#####T......",
 	"......TM###M##R.##T#.......",
 	"......#T###########T#......",
@@ -61,6 +61,9 @@ const MAP: Array[String] = [
 
 ## The town is spread out: every hex cell is SCALE times its tile size (tiles are scaled, props are not), so there are wide walkways between buildings.
 const SCALE: float = 1.8
+
+## Where the original giant chest stands (hex cell, world coordinates): the end of the peninsula that reaches out from the south-east shore (see MAP row 17).
+const GIANT_CHEST_CELL: Vector2i = Vector2i(18, 12)
 
 const OBSTACLE_TREE: float = 0.32
 const OBSTACLE_ROCK: float = 0.35
@@ -282,11 +285,12 @@ func _build_props() -> void:
 	anchors["npc_gourmand"] = cell_center(16, 3) + Vector3(-0.3, 0, 0.4)
 	anchors["npc_refusemancer"] = cell_center(-3, 2) + Vector3(0.3, 0, -0.3)
 	anchors["npc_necrocrat"] = cell_center(-3, 11) + Vector3(0.3, 0, 0.3)
-	# Secluded Grove secrets: a chest tucked behind trees, and the old lever that seals the vault.
-	var chest_pos: Vector3 = cell_center(11, 7) + Vector3(-0.3, 0, 0.4)
-	harbor_chest_node = ModelKit.dungeon_prop("chest_gold")
-	ModelKit.place(root, harbor_chest_node, chest_pos, 40.0, 0.9)
-	anchors["chest"] = chest_pos + Vector3(0.5, 0, 0.5)
+	# Brief 16: the giant chest (Shiro Swindle's original trap) sits at the tip of a lonely peninsula in the south-east, in the middle of nowhere,
+	# far from every building and NPC; the old lever that seals the vault stays near the Secluded Grove.
+	var chest_pos: Vector3 = cell_center(GIANT_CHEST_CELL.x, GIANT_CHEST_CELL.y) + Vector3(0.1, 0, 0.0)
+	harbor_chest_node = GiantChestEvent.make_chest(root, chest_pos, 200.0)
+	obstacles.append(Vector3(chest_pos.x, chest_pos.z, 0.5))
+	anchors["chest"] = chest_pos + Vector3(0.0, 0, 1.5)
 	var lever_pos: Vector3 = (anchors.get("vault", Vector3.ZERO) as Vector3) + Vector3(1.4, 0, -0.6)
 	ModelKit.place(root, ModelKit.prop("ladder"), lever_pos, 90.0, 1.0)
 	obstacles.append(Vector3(lever_pos.x, lever_pos.z, 0.2))
@@ -396,7 +400,7 @@ const HIDDEN_CHEST_OFFSETS: Dictionary = {
 	"beefcake_flats": Vector3(0.3, 0, -0.3),
 	"uplands_ridge": Vector3(0.3, 0, 0.25), "harbor_dock_back": Vector3(-0.25, 0, 0.3),
 	"clashatorium_west": Vector3(-1.8, 0, -0.55), "harbor_pier": Vector3(1.2, 0, 0.0),
-	"southeast_shore": Vector3(0.6, 0, 1.6), "northeast_ridge": Vector3(1.8, 0, 0.6),
+	"southeast_shore": Vector3(-1.2, 0, 0.6), "northeast_ridge": Vector3(1.8, 0, 0.6),
 }
 
 

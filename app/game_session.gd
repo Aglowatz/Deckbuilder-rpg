@@ -1008,6 +1008,98 @@ func _complete_graveyard_challenge(context: BattleContext) -> void:
 	SceneManager.go_to_town()
 
 
+# ---- Shiro Swindle and the giant chests (brief 16, Group B) ---------------------------------
+
+## Set by _complete_ninja_challenge, read once by TownScene._ready() to show the right post-fight dialogue and the reward toast, then cleared.
+var pending_ninja_result: Dictionary = {}
+
+
+func ninja_chest_opened(chest_id: String) -> bool:
+	return found_secret(NinjaBoss.secret_id(chest_id))
+
+
+func ninja_chests_opened() -> int:
+	return NinjaBoss.opened_count(found_secrets)
+
+
+func ninja_defeated() -> bool:
+	return flag(NinjaBoss.FLAG_DEFEATED)
+
+
+## All five chests are open and he has not been beaten yet: the original chest closes again and glows.
+func ninja_ready() -> bool:
+	return NinjaBoss.all_opened(found_secrets) and not ninja_defeated()
+
+
+## The player opens a giant chest for the first time: starts the questline, takes the gold (50, or all of it), records the chest and counts it.
+## Returns {"chest", "stolen", "count", "is_fifth", "first"}; {} when the chest was already opened.
+func open_giant_chest(chest_id: String) -> Dictionary:
+	if not NinjaBoss.is_chest_id(chest_id) or ninja_chest_opened(chest_id):
+		return {}
+	var first: bool = ninja_chests_opened() == 0
+	if first:
+		start_quest(NinjaBoss.QUEST_ID)
+	var stolen: int = NinjaBoss.steal_amount(gold)
+	if stolen > 0:
+		gold -= stolen
+		EventBus.gold_changed.emit(gold)
+	counters[NinjaBoss.COUNTER_STOLEN] = int(counters.get(NinjaBoss.COUNTER_STOLEN, 0)) + stolen
+	discover_secret(NinjaBoss.secret_id(chest_id))
+	bump_counter(NinjaBoss.COUNTER_OPENED)
+	var count: int = ninja_chests_opened()
+	return {"chest": chest_id, "stolen": stolen, "count": count, "is_fifth": count == NinjaBoss.CHEST_IDS.size(), "first": first}
+
+
+## The duel against Shiro Swindle on the town battleboard, using the player's real deck at full HP.
+func make_ninja_battle() -> BattleContext:
+	ensure_game()
+	var options: GameOptions = GameOptions.new()
+	options.first_player = -1
+	options.rng_seed = rng.randi() % 1000000 + 1
+	var game: GameState = GameState.new(options)
+	game.add_player(PlayerSetup.create(deck, profile, [] as Array[ModifierSource], "You"))
+	game.add_player(NinjaBoss.enemy_setup(content))
+	game.start()
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(NinjaBoss.personality(content))
+	context.enemy_name = NinjaBoss.DISPLAY_NAME
+	context.is_boss = true
+	context.is_ninja_boss = true
+	context.board_key = "town"
+	return context
+
+
+func challenge_ninja() -> void:
+	start_battle(make_ninja_battle())
+
+
+## Winning returns every coin he took and pays 3 Gilded Packs (one random Path each), ends the questline and leaves the chest open for good.
+## Losing changes nothing: the chest stays closed and glowing so the fight can be retried.
+func _complete_ninja_challenge(context: BattleContext) -> void:
+	pending_ninja_result = {"won": context.won, "first_win": false}
+	if context.won and not ninja_defeated():
+		pending_ninja_result = apply_ninja_win()
+	save_game()
+	SceneManager.go_to_town()
+
+
+## The first win over Shiro Swindle: every stolen coin comes back, 3 Gilded Packs (one random Path each) are paid and the questline ends.
+func apply_ninja_win() -> Dictionary:
+	var returned: int = int(counters.get(NinjaBoss.COUNTER_STOLEN, 0))
+	counters[NinjaBoss.COUNTER_STOLEN] = 0
+	if returned > 0:
+		add_gold(returned)
+	var packs: Array[String] = []
+	for path: Affinity.Type in NinjaBoss.reward_paths(rng):
+		var pack_id: String = PackRules.gilded_pack_id(path)
+		if add_pack(pack_id):
+			packs.append(pack_id)
+	set_flag(NinjaBoss.FLAG_DEFEATED)
+	refresh_quests()
+	return {"won": true, "first_win": true, "gold_returned": returned, "packs": packs}
+
+
 # ---- Quests (brief 5, Part B) -------------------------------------------------------------
 
 var _refreshing_quests: bool = false
@@ -1868,6 +1960,9 @@ func complete_battle(context: BattleContext) -> void:
 		return
 	if context.is_graveyard_boss:
 		_complete_graveyard_challenge(context)
+		return
+	if context.is_ninja_boss:
+		_complete_ninja_challenge(context)
 		return
 	if not in_dungeon():
 		SceneManager.go_to_town()

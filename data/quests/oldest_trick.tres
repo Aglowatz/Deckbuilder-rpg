@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_30ck6"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_c1dmy"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_xeigj"]
+
+[sub_resource type="Resource" id="Resource_u43c7"]
+script = ExtResource("2_c1dmy")
+kind = 9
+key = "ninja_chests_opened"
+amount = 5
+
+[sub_resource type="Resource" id="Resource_5clif"]
+script = ExtResource("1_30ck6")
+text = "Open the giant chests"
+condition = SubResource("Resource_u43c7")
+
+[sub_resource type="Resource" id="Resource_2jsfr"]
+script = ExtResource("2_c1dmy")
+key = "ninja_defeated"
+
+[sub_resource type="Resource" id="Resource_wovql"]
+script = ExtResource("1_30ck6")
+text = "Face the Master of the Oldest Trick"
+condition = SubResource("Resource_2jsfr")
+
+[resource]
+script = ExtResource("3_xeigj")
+id = "oldest_trick"
+title = "The Oldest Trick in the Book"
+summary = "A giant chest was too good to be true. Someone is conning travellers across the kingdom with them, and he took your gold. Find the chests, and find him."
+order = 40
+objectives = Array[ExtResource("1_30ck6")]([SubResource("Resource_5clif"), SubResource("Resource_wovql")])

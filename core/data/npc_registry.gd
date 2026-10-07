@@ -91,6 +91,7 @@ static func _load() -> void:
 	var map: Variant = _read_json(MAP_PATH)
 	if map is Dictionary:
 		var table: Dictionary = map as Dictionary
+		_add_extras(table.get("extra_npcs", []) as Array)
 		_aliases = (table.get("speakers", {}) as Dictionary).duplicate()
 		_prefixes = (table.get("speaker_prefixes", {}) as Dictionary).duplicate()
 		_story_keys = (table.get("story_keys", {}) as Dictionary).duplicate()
@@ -163,3 +164,31 @@ static func story_speaker(key: String) -> String:
 static func resolve_name(speaker: String) -> String:
 	_load()
 	return str(_by_name.get(speaker.strip_edges(), ""))
+
+
+## NPCs the game adds on top of the designer's list (`extra_npcs` in npc_game_map.json), e.g. Shiro Swindle (NPC-NINJA) until the list has a row for him. A row in
+## the list with the same ID wins.
+static func _add_extras(rows: Array) -> void:
+	for row: Variant in rows:
+		if not row is Dictionary:
+			continue
+		var data: Dictionary = row as Dictionary
+		var id: String = str(data.get("id", ""))
+		if id.is_empty() or _entries.has(id):
+			continue
+		var entry: Entry = Entry.new()
+		entry.id = id
+		entry.name = str(data.get("name", ""))
+		entry.role = str(data.get("role", ""))
+		entry.location = str(data.get("location", ""))
+		entry.portrait_id = str(data.get("portrait_id", id))
+		entry.species = str(data.get("species", ""))
+		entry.notes = str(data.get("notes", ""))
+		entry.side = str(data.get("side", "left"))
+		for expression: Variant in data.get("expressions", []) as Array:
+			entry.expressions.append(str(expression))
+		_entries[id] = entry
+		_by_name[entry.plate_name()] = id
+		_by_name[entry.name] = id
+		if not _by_name.has(entry.short_name()):
+			_by_name[entry.short_name()] = id

@@ -45,6 +45,8 @@ var _fainting: bool = false
 var _last_fee: int = 0
 var _station: FastTravelStation
 var _arrived_by_rift: bool = false
+## Brief 16: this zone's giant chest (Shiro Swindle's trap), null in a zone without one.
+var giant_chest_node: Node3D
 
 
 # ---- Hooks for subclasses --------------------------------------------------------------------
@@ -162,6 +164,7 @@ func _ready() -> void:
 	_build_player()
 	_build_npcs()
 	_build_spots()
+	_build_giant_chest()
 	_build_fast_travel()
 	ChestKit.apply_saved(builder.chest_nodes, _chest_secret)
 	_build_enemies()
@@ -191,6 +194,8 @@ func _ready() -> void:
 				(child as CanvasLayer).visible = false
 	if _screenshot_args.has("open"):
 		_screenshot_open.call_deferred(str(_screenshot_args["open"]))
+	if _screenshot_args.has("ninja") and giant_chest_node != null:
+		GiantChestEvent.screenshot_run(self, def.id, giant_chest_node, _screenshot_args)
 	Session.save_game()
 
 
@@ -667,6 +672,8 @@ func _interact(spot: ZoneSpot) -> void:
 		"freed_npc":
 			_face_npc(str(spot.data["npc"]))
 			_say(str(spot.data["speaker"]), story.get_lines("freed_npc.%s" % str(spot.data["npc"])), Callable(), str(spot.data.get("npc_id", "")))
+		"giant_chest":
+			_open_giant_chest()
 		"quiz":
 			_face_npc(str(spot.data["npc"]))
 			_say(str(spot.data["speaker"]), story.get_lines("npc.quiz.return" if Session.flag(def.flag_met("quiz")) else "npc.quiz.intro"), _open_quiz, str(spot.data.get("npc_id", "")))
@@ -877,6 +884,37 @@ func _animate_chest(id: String) -> void:
 	Audio.sfx(&"coins", 0.0, 0.05)
 	ChestKit.open_animated(builder.chest_nodes.get(id) as Node3D)
 
+
+
+# ---- Shiro Swindle's giant chest (brief 16, Group B) -----------------------------------------------------------------
+
+
+## Builds this zone's giant chest where the layout's `giant_chest` anchor says: a big chest (no marker, no plate) that stays open once opened.
+func _build_giant_chest() -> void:
+	if not builder.has_anchor("giant_chest") or not NinjaBoss.is_chest_id(def.id):
+		return
+	var pos: Vector3 = builder.anchor("giant_chest")
+	pos.y = builder.height_at(pos)
+	giant_chest_node = GiantChestEvent.make_chest(self, pos, 180.0)
+	builder.add_blocker(pos, 0.55)
+	GiantChestEvent.apply_look(giant_chest_node, def.id)
+	_add_spot("giant_chest", "", pos, GiantChestEvent.PROMPT_RADIUS, "Open the chest", false, "giant_chest", {"hidden": true})
+
+
+func _open_giant_chest() -> void:
+	if giant_chest_node == null:
+		return
+	player.face(giant_chest_node.position)
+	GiantChestEvent.play(self, def.id, giant_chest_node)
+
+
+## GiantChestEvent hooks: the scene is locked while the scene plays; only the town has an original chest to wake.
+func set_world_locked(on: bool) -> void:
+	_locked = on
+
+
+func on_ninja_ready() -> void:
+	pass
 
 
 # ---- Zone HP: enemies, damage, fainting ----------------------------------------------------
