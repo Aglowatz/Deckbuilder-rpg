@@ -342,7 +342,7 @@ func _run_node(node: DungeonMap.MapNode) -> void:
 func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 	var steps: Array[Callable] = []
 	if not node.story_before.is_empty() and _main_def != null:
-		steps.append(_show_story.bind(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_before)))
+		steps.append(_show_story.bind(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_before), NpcRegistry.story_speaker(node.story_before)))
 	if not node.scene.is_empty() and CutsceneDefs.has_scene(node.scene):
 		steps.append(_show_cutscene.bind(node.scene))
 	if _main_def != null and node.kind == DungeonMap.Kind.BOSS and _main_def.zone_id == CapitalZone.ID:
@@ -366,8 +366,9 @@ func _run_steps(steps: Array[Callable], then: Callable) -> void:
 	first.call(func() -> void: _run_steps(rest, then))
 
 
-func _show_story(done: Callable, lines: Array[String]) -> void:
-	_dialogue.start("", lines)
+## `speaker_npc_id`: the NPC who speaks the beat (`NpcRegistry.story_speaker`); empty for narration.
+func _show_story(done: Callable, lines: Array[String], speaker_npc_id: String = "") -> void:
+	_dialogue.start("", lines, speaker_npc_id)
 	_dialogue.finished.connect(done, CONNECT_ONE_SHOT)
 
 
@@ -385,7 +386,7 @@ func _play_pending_after_story() -> void:
 	if node.story_after.is_empty() or Session.dungeon_story_seen.has(node.id) or not map.is_cleared(node.id):
 		return
 	Session.dungeon_story_seen.append(node.id)
-	_show_story(func() -> void: pass, ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_after))
+	_show_story(func() -> void: pass, ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_after), NpcRegistry.story_speaker(node.story_after))
 
 
 ## Part E: the zone effects, the boons earned in this dungeon and the current section under the title.

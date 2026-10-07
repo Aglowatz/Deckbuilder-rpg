@@ -168,7 +168,7 @@ func _main_boss_epilogue() -> void:
 		_panel.visible = false
 		var dialogue: DialogueBox = DialogueBox.new()
 		add_child(dialogue)
-		dialogue.start("", story.get_lines(boss.story_after))
+		dialogue.start("", story.get_lines(boss.story_after), NpcRegistry.story_speaker(boss.story_after))
 		dialogue.finished.connect(after_scene, CONNECT_ONE_SHOT)
 	else:
 		after_scene.call()

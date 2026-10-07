@@ -193,7 +193,7 @@ func _check_equipment_vendor() -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
 	_check(scene.dialogue.active, "interacting with the equipment vendor opens dialogue")
-	_check(scene.dialogue._speaker.text == "Bertram Beetsworth", "the equipment vendor dialogue is from Bertram Beetsworth")
+	_check(scene.dialogue._speaker.text.begins_with("Bertram Beetsworth"), "the equipment vendor dialogue is from Bertram Beetsworth")
 	await _dismiss_dialogue()
 	await driver.seconds(0.3)
 	_check(scene._overlay is EquipmentVendorScreen, "the equipment vendor dialogue leads into the Equipment Vendor screen")

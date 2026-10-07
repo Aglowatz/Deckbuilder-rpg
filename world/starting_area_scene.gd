@@ -194,7 +194,7 @@ func _play_awakening_lines() -> void:
 	var story: StoryText = load(STORY_PATH) as StoryText
 	if story == null or story.awakening_lines.is_empty():
 		return
-	dialogue.start("", story.awakening_lines)
+	dialogue.start("", story.awakening_lines, NpcRegistry.PLAYER_ID)
 
 
 func _process(delta: float) -> void:
@@ -349,7 +349,7 @@ func _enter_gate() -> void:
 func _enter_tunnel() -> void:
 	Audio.sfx(&"ui_select")
 	_locked = true
-	dialogue.start("", StoryText.shared().get_lines("start.tunnel"))
+	dialogue.start("", StoryText.shared().get_lines("start.tunnel"), NpcRegistry.PLAYER_ID)
 	dialogue.finished.connect(func() -> void:
 		var choice: ElementChoiceScreen = ElementChoiceScreen.new()
 		_overlay_layer.add_child(choice)

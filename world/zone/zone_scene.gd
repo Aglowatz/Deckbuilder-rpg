@@ -127,7 +127,7 @@ func _build_freed_npcs(hub: Vector3) -> void:
 			animation.play("Idle")
 		_npcs[str(entry["id"])] = npc
 		builder.add_blocker(pos, 0.4)
-		_add_spot("freed_%s" % str(entry["id"]), str(entry["name"]), pos, 1.9, "Talk", true, "freed_npc", {"npc": str(entry["id"]), "speaker": str(entry["speaker"])})
+		_add_spot("freed_%s" % str(entry["id"]), str(entry["name"]), pos, 1.9, "Talk", true, "freed_npc", {"npc": str(entry["id"]), "speaker": str(entry["speaker"]), "npc_id": str(entry.get("npc_id", ""))})
 
 # ---- Setup -----------------------------------------------------------------------------------
 
@@ -443,6 +443,7 @@ func _build_ui() -> void:
 	host.add_child(_banner)
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
+	dialogue.stand_behind(hud)
 	minimap = MinimapHud.new()
 	host.add_child(minimap)
 	minimap.setup(def.id, builder, player, _collect_pois)
@@ -648,9 +649,9 @@ func _interact(spot: ZoneSpot) -> void:
 	Audio.sfx(&"ui_select")
 	match spot.kind:
 		"quest_npc":
-			_talk_quest_npc(str(spot.data["npc"]), str(spot.data["npc_name"]), str(spot.data["speaker"]))
+			_talk_quest_npc(str(spot.data["npc"]), str(spot.data["npc_name"]), str(spot.data["speaker"]), Callable(), str(spot.data.get("npc_id", "")))
 		"vendor_npc":
-			_talk_quest_npc(str(spot.data["npc"]), str(spot.data["npc_name"]), str(spot.data["speaker"]), _open_vendor)
+			_talk_quest_npc(str(spot.data["npc"]), str(spot.data["npc_name"]), str(spot.data["speaker"]), _open_vendor, str(spot.data.get("npc_id", "")))
 		"heal":
 			_use_heal_spot(spot)
 		"rift_station":
@@ -665,14 +666,14 @@ func _interact(spot: ZoneSpot) -> void:
 			_open_puzzle(spot)
 		"freed_npc":
 			_face_npc(str(spot.data["npc"]))
-			_say(str(spot.data["speaker"]), story.get_lines("freed_npc.%s" % str(spot.data["npc"])))
+			_say(str(spot.data["speaker"]), story.get_lines("freed_npc.%s" % str(spot.data["npc"])), Callable(), str(spot.data.get("npc_id", "")))
 		"quiz":
 			_face_npc(str(spot.data["npc"]))
-			_say(str(spot.data["speaker"]), story.get_lines("npc.quiz.return" if Session.flag(def.flag_met("quiz")) else "npc.quiz.intro"), _open_quiz)
+			_say(str(spot.data["speaker"]), story.get_lines("npc.quiz.return" if Session.flag(def.flag_met("quiz")) else "npc.quiz.intro"), _open_quiz, str(spot.data.get("npc_id", "")))
 			Session.set_flag(def.flag_met("quiz"))
 		"minigame":
 			_face_npc(str(spot.data["npc"]))
-			_say(str(spot.data["speaker"]), _greeting(str(spot.data["npc"])), _open_minigame)
+			_say(str(spot.data["speaker"]), _greeting(str(spot.data["npc"])), _open_minigame, str(spot.data.get("npc_id", "")))
 		_:
 			_interact_zone(spot)
 
@@ -715,8 +716,9 @@ func _face_npc(id: String) -> void:
 		player.face(npc.position)
 
 
-func _say(speaker: String, lines: Array[String], then: Callable = Callable()) -> void:
-	dialogue.start(speaker, lines)
+## `speaker_npc_id`: the list NPC (`NpcRegistry`) whose portrait shows; empty looks the speaker label up by name.
+func _say(speaker: String, lines: Array[String], then: Callable = Callable(), speaker_npc_id: String = "") -> void:
+	dialogue.start(speaker, lines, speaker_npc_id)
 	if then.is_valid():
 		dialogue.finished.connect(then, CONNECT_ONE_SHOT)
 
@@ -724,7 +726,7 @@ func _say(speaker: String, lines: Array[String], then: Callable = Callable()) ->
 ## An NPC who gives and takes quests: hand-in first, then a new offer, then a reminder, then the
 ## plain greeting (intro the first time, "return" lines afterwards). `after` runs when the
 ## conversation ends (the vendor opens his shop).
-func _talk_quest_npc(npc_id: String, npc_name: String, speaker: String, after: Callable = Callable()) -> void:
+func _talk_quest_npc(npc_id: String, npc_name: String, speaker: String, after: Callable = Callable(), portrait_npc: String = "") -> void:
 	_face_npc(npc_id)
 	var ready: Array[QuestData] = Session.quests_ready_for(npc_name)
 	if not ready.is_empty():
@@ -732,7 +734,7 @@ func _talk_quest_npc(npc_id: String, npc_name: String, speaker: String, after: C
 		_say(speaker, story.get_lines("quest.%s.ready" % quest.id), func() -> void:
 			Session.turn_in_quest(quest.id)
 			if after.is_valid():
-				after.call())
+				after.call(), portrait_npc)
 		return
 	var offered: Array[QuestData] = Session.quests_offered_by(npc_name)
 	if not offered.is_empty():
@@ -740,14 +742,14 @@ func _talk_quest_npc(npc_id: String, npc_name: String, speaker: String, after: C
 		_say(speaker, _greeting(npc_id) + story.get_lines("quest.%s.offer" % quest.id), func() -> void:
 			Session.start_quest(quest.id)
 			if after.is_valid():
-				after.call())
+				after.call(), portrait_npc)
 		return
 	for quest_id: String in Session.quest_log.active:
 		var active_quest: QuestData = QuestCatalog.find(quest_id)
 		if active_quest != null and active_quest.giver_npc == npc_name:
-			_say(speaker, story.get_lines("quest.%s.active" % quest_id), after)
+			_say(speaker, story.get_lines("quest.%s.active" % quest_id), after, portrait_npc)
 			return
-	_say(speaker, _greeting(npc_id), after)
+	_say(speaker, _greeting(npc_id), after, portrait_npc)
 
 
 func _greeting(npc_id: String) -> Array[String]:
@@ -1176,7 +1178,7 @@ func _screenshot_open(what: String) -> void:
 		"dialogue":
 			for spot: ZoneSpot in spots:
 				if spot.kind == "quest_npc":
-					_talk_quest_npc(str(spot.data["npc"]), str(spot.data["npc_name"]), str(spot.data["speaker"]))
+					_talk_quest_npc(str(spot.data["npc"]), str(spot.data["npc_name"]), str(spot.data["speaker"]), Callable(), str(spot.data.get("npc_id", "")))
 					return
 		_:
 			pass

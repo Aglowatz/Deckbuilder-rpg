@@ -24,9 +24,9 @@ class Entry extends RefCounted:
 	## "left" (default) or "right": which side of the dialogue box the portrait stands on.
 	var side: String = "left"
 
-	## The name shown on the dialogue name plate ("Brick Bronson (corrupted)" is a list annotation, not part of the name).
+	## The name shown on the dialogue name plate ("Brick Bronson (corrupted)", "The Wanderer (player)": the bracket is a list annotation, not part of the name).
 	func plate_name() -> String:
-		return name.replace(" (corrupted)", "").strip_edges()
+		return name.replace(" (corrupted)", "").replace(" (player)", "").strip_edges()
 
 	## The name before a comma or a bracket ("Kyle (Deceased Since '09)" -> "Kyle"): what the game data (speaker labels, quest givers) calls the NPC.
 	func short_name() -> String:
@@ -157,3 +157,9 @@ static func story_speaker(key: String) -> String:
 		return str(_story_keys[key.substr(0, dot)])
 	return ""
 
+
+
+## The NPC ID whose list name (full or short form) is exactly `speaker`; "" for aliases and unknown labels.
+static func resolve_name(speaker: String) -> String:
+	_load()
+	return str(_by_name.get(speaker.strip_edges(), ""))

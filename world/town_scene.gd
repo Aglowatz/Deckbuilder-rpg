@@ -513,6 +513,7 @@ func _build_ui() -> void:
 	EventBus.quest_notice.connect(_on_quest_notice)
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
+	dialogue.stand_behind(hud)
 	minimap = MinimapHud.new()
 	host.add_child(minimap)
 	minimap.setup("town", town, player, _collect_pois)

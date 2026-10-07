@@ -2640,3 +2640,23 @@ Compostella, the Rotheart, "Aurelio" / "Director Vellum" / "Fernwick" in lines).
 - Expression files use the `_EXPRESSION` suffix and fall back to the base portrait when an expression has no image. `docs/art/art_status.md` has a "Portraits" section; the card, battleboard and
   portrait status writers now keep each other's sections (before, the battleboard writer cut everything after its heading).
 - Docs: `docs/art/art_pipeline.md` ("NPC dialogue portraits") and CLAUDE.md ("import portraits").
+
+### Part C: dialogue presentation (visual-novel style)
+- `DialogueBox` (`ui/town/dialogue_box.gd`) now takes an optional NPC ID (`start(speaker, lines, npc_id)`); with none it looks the speaker label up in the NPC list (`NpcRegistry.resolve_speaker`: list
+  names, short names, the throwers / rippers / rift technicians by alias). Starting-area self-talk passes `NPC-PLAYER`; zone quest givers, vendors, quiz masters, minigame hosts and freed leaders pass the
+  `npc_id` stored in their spot data; dungeon story beats and boss epilogues use `NpcRegistry.story_speaker(story key)` (`data/npcs/npc_game_map.json`: the House of Gains, Hall of Final Approvals, Test Kitchen,
+  Rotheart and Primm's Castle boss beats, plus Grandmaster Flex's beat in the House of Gains; every other dungeon beat is narration and shows no portrait). Corrupted path NPCs, town NPCs and vendors, the
+  Arena master, the Capital's NPCs and the Gate Captain resolve by name. An NPC with no portrait (or no list match) shows the same box as before: no broken image.
+- `PortraitView` (`ui/town/portrait_view.gd`): the portrait stands on the left of the box (mirrored on the right for an NPC whose `side` is "right" in the game map), 64% of the screen height, overhanging the
+  box's left edge by 90 px, its waist tucked behind the box's top edge (it is clipped 4 px below that edge, so it never reaches the text and a translucent box shows nothing through it). It slides in
+  (70 px, 0.3 s) while fading in, fades out when the conversation ends, has a soft drop-shadow shader (`ui/shaders/portrait_shadow.gdshader`), and while a line types out the character is at full brightness with a
+  slight bob (dimmed to 90% when idle). Everything is laid out in the 1920x1080 design viewport, so it scales with the window.
+- The portrait is drawn **behind the scene's HUD** (`DialogueBox.stand_behind(hud)` in the town and zone scenes), so it never covers the quest tracker, gold counter, Menu button or minimap. The name plate is the
+  box's own speaker label directly under the portrait; it shows the list name (e.g. "Gerald, Number 4,000,212") unless the label is an alias (Brock, Rip Tearson (Cousin #3)), which keeps its own name.
+- The box is the old size and position (1100 x 190 at the bottom centre); a longer conversation makes it taller upwards (the bottom edge stays put; it used to run off the bottom of the screen) and the portrait follows its top edge.
+- **Expressions:** a line may start with a tag, `[happy] Well met.`; the game shows `<ID>_HAPPY` and falls back to the base portrait when that expression has no image. Lines with no tag use the base portrait. No dialogue
+  uses tags yet (the data supports it; the writers add them).
+- Tests: `tests/ui/test_dialogue_portraits.gd` (13: NPC/alias/explicit ID, plate names, no-portrait box, expression tags and fallback, box stays on screen and grows upwards, portrait geometry, mirroring, closing,
+  talking, chained conversations). GUT: 1108 tests, all passing. `tools/dialogue_shots.sh` takes several dialogue screenshots per run (real interactions, `npc:<ID>`, `story:<key>`).
+- E2E (budget): `town_interact_smoke` ran once (2 min): every NPC/vendor dialogue step passes, including the speaker plates and "dialogue panel is actually on screen". Two failures that are not about dialogue: the HUD Deck button
+  click step (the same step the polish round already listed as a timing failure, patched and never re-run) and a stale chest id in the script (`hidden_chest_ember_flats` no longer exists since the polish round renamed the chests).
