@@ -9,6 +9,12 @@ const DECK_NAME: String = "Wanderer's Deck"
 var save_enabled: bool = true
 ## Where the campaign is saved (tests use their own file).
 var save_path: String = SaveSystem.PATH
+## Brief 16: seconds played (saved with the campaign, shown in the save slot list), the last place the hero was saved in and when the autosave thumbnail was last taken.
+var playtime_seconds: float = 0.0
+var last_location: String = "Concord Crossing"
+var _last_autosave_thumb_msec: int = -100000
+## Which slot the game was last loaded from or saved to (0 = the autosave).
+var active_slot: int = 0
 
 var content: ContentSet
 ## The global notification layer (essence conversions, toasts) - see `ToastLayer`.
@@ -61,7 +67,14 @@ func _ready() -> void:
 	for arg: String in OS.get_cmdline_user_args():
 		if arg == "--no-save":
 			save_enabled = false
+	if save_enabled and save_path == SaveSystem.PATH:
+		SaveSlots.migrate_legacy()
 
+
+
+func _process(delta: float) -> void:
+	if profile != null and not get_tree().paused:
+		playtime_seconds += delta
 
 # ---- Campaign lifecycle -----------------------------------------------------------------
 
@@ -104,6 +117,8 @@ func new_game() -> void:
 	deck.deck_name = DECK_NAME
 	gold = STARTING_GOLD
 	flags = {}
+	playtime_seconds = 0.0
+	active_slot = 0
 	_sync_freed_stories()
 	run = null
 	dungeon_map = null
@@ -640,6 +655,8 @@ func to_dict() -> Dictionary:
 		"essence": _essence_to_dict(),
 		"packs": profile.packs.duplicate(),
 		"cosmetics": cosmetics.to_dict(),
+		"playtime": playtime_seconds,
+		"meta": slot_meta(),
 	}
 
 
@@ -693,6 +710,7 @@ func from_dict(data: Dictionary) -> bool:
 			deck.cards.append(card)
 	gold = int(data.get("gold", 0))
 	flags = (data.get("flags", {}) as Dictionary).duplicate()
+	playtime_seconds = float(data.get("playtime", 0.0))
 	_sync_freed_stories()
 	# Part A rename (Grave -> Necrocrat): old saves used the "grave" zone id.
 	if flags.has("grave_zone_unlocked") and not flags.has("necrocrat_zone_unlocked"):
@@ -734,7 +752,18 @@ func _essence_to_dict() -> Dictionary:
 func save_game() -> void:
 	if not save_enabled or profile == null:
 		return
-	SaveSystem.write(to_dict(), save_path)
+	last_location = location_name()
+	if save_path != SaveSystem.PATH:
+		SaveSystem.write(to_dict(), save_path)
+		return
+	# The autosave also keeps a small screenshot, refreshed at most every 20 seconds (grabbing the frame is not free).
+	var now: int = Time.get_ticks_msec()
+	var thumbnail: Image = null
+	if now - _last_autosave_thumb_msec > 20000:
+		thumbnail = capture_thumbnail()
+		if thumbnail != null:
+			_last_autosave_thumb_msec = now
+	SaveSlots.write(SaveSlots.AUTOSAVE, to_dict(), thumbnail)
 
 
 ## Loads the saved campaign. Returns false when there is none (a game that has not yet reached
@@ -745,6 +774,109 @@ func load_game() -> bool:
 		return false
 	return from_dict(data)
 
+
+
+# ---- Save slots (brief 16, Group E) ---------------------------------------------------------------
+
+
+## What the slot list shows about this moment: name (set by the caller), date, playtime, level, location, gold.
+func slot_meta(save_name: String = "") -> Dictionary:
+	return {
+		"name": save_name,
+		"saved_at": int(Time.get_unix_time_from_system()),
+		"playtime": playtime_seconds,
+		"level": profile.level if profile != null else 1,
+		"location": last_location,
+		"scene": scene_kind(),
+		"gold": gold,
+	}
+
+
+## The place the hero is in, for the slot list ("Concord Crossing", "The Gainlands"...).
+func location_name() -> String:
+	var tree: SceneTree = get_tree()
+	var scene: Node = tree.current_scene if tree != null else null
+	if scene is ZoneScene and (scene as ZoneScene).def != null:
+		return (scene as ZoneScene).def.display_name
+	if scene is TownScene:
+		return "Concord Crossing"
+	if scene is StartingAreaScene:
+		return "The Hollow's Edge"
+	return last_location
+
+
+## "town", "start" or "zone:<zone id>": where loading that save puts the hero back.
+func scene_kind() -> String:
+	var tree: SceneTree = get_tree()
+	var scene: Node = tree.current_scene if tree != null else null
+	if scene is ZoneScene and (scene as ZoneScene).def != null:
+		return "zone:%s" % (scene as ZoneScene).def.id
+	if scene is StartingAreaScene or not flag(&"trial_cleared"):
+		return "start"
+	return "town"
+
+
+## Manual saves are allowed in the town, the zones and the starting area; never mid-battle, in a dungeon map, a reward screen or the ending.
+func can_save_now() -> bool:
+	if profile == null or in_dungeon() or pending_battle != null:
+		return false
+	var tree: SceneTree = get_tree()
+	var scene: Node = tree.current_scene if tree != null else null
+	if scene == null:
+		return true
+	return scene is TownScene or scene is ZoneScene or scene is StartingAreaScene or scene is ZonePlaceholderScene
+
+
+## A screenshot of the game for the slot list (null in a headless run).
+func capture_thumbnail() -> Image:
+	if DisplayServer.get_name() == "headless" or get_viewport() == null:
+		return null
+	var texture: ViewportTexture = get_viewport().get_texture()
+	var image: Image = texture.get_image() if texture != null else null
+	if image == null or image.is_empty():
+		return null
+	return image
+
+
+## Saves the campaign into manual slot `slot` (1..5) under `save_name`. `thumbnail` is the screenshot taken when the pause menu opened.
+func save_to_slot(slot: int, save_name: String, thumbnail: Image = null) -> bool:
+	if profile == null or slot < 1 or slot > SaveSlots.SLOT_COUNT:
+		return false
+	last_location = location_name()
+	var data: Dictionary = to_dict()
+	data["meta"] = slot_meta(save_name)
+	if not SaveSlots.write(slot, data, thumbnail):
+		return false
+	active_slot = slot
+	return true
+
+
+## Loads a slot (0 = the autosave). False for an empty, unreadable or older-format slot. The caller changes scene (`resume_scene_path`).
+func load_from_slot(slot: int) -> bool:
+	var data: Dictionary = SaveSlots.load_data(slot)
+	if data.is_empty() or not from_dict(data):
+		return false
+	active_slot = slot
+	var meta: Dictionary = data.get("meta", {}) as Dictionary
+	last_location = str(meta.get("location", last_location))
+	pending_resume_scene = str(meta.get("scene", "start" if not flag(&"trial_cleared") else "town"))
+	return true
+
+
+## "town", "start" or "zone:<id>" from the last `load_from_slot` (read once by `resume_loaded_game`).
+var pending_resume_scene: String = "town"
+
+
+## Goes to the place a loaded save was made in (the zone's hub for a zone: the visit starts fresh), the starting area before the trial is cleared, otherwise town.
+func resume_loaded_game() -> void:
+	var kind: String = pending_resume_scene
+	pending_resume_scene = "town"
+	if not flag(&"trial_cleared"):
+		SceneManager.go_to_start_area()
+	elif kind.begins_with("zone:") and ZoneDefs.has_def(kind.trim_prefix("zone:")):
+		enter_zone(kind.trim_prefix("zone:"))
+	else:
+		SceneManager.go_to_town()
 
 # ---- Battles ----------------------------------------------------------------------------
 

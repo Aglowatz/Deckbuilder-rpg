@@ -185,6 +185,8 @@ func _ready() -> void:
 	_show_npc_result.call_deferred()
 	_show_graveyard_result.call_deferred()
 	_show_ninja_result.call_deferred()
+	if _screenshot_args.has("slots"):
+		_screenshot_slots.call_deferred(str(_screenshot_args["slots"]))
 	if _screenshot_args.has("ninja"):
 		GiantChestEvent.screenshot_run(self, str(_screenshot_args["ninja"]), town.harbor_chest_node, _screenshot_args)
 	Session.save_game()
@@ -1637,6 +1639,27 @@ func _teleport(spot_id: String) -> void:
 	if town.anchors.has(spot_id):
 		player.position = (town.anchors[spot_id] as Vector3) + Vector3(0.0, 0.0, 1.8)
 		_camera.position = player.position + camera_offset * Settings.camera_zoom
+
+
+## Screenshot helper (`--slots=save|load`): fills a few demo save slots in a throw-away folder and opens the slot list.
+func _screenshot_slots(mode_name: String) -> void:
+	SaveSlots.dir = "user://shot_saves/"
+	for slot: int in range(0, SaveSlots.SLOT_COUNT + 1):
+		SaveSlots.delete(slot)
+	await get_tree().create_timer(1.5).timeout
+	var shot: Image = Session.capture_thumbnail()
+	Session.playtime_seconds = 5025.0
+	Session.last_location = "Concord Crossing"
+	Session.save_to_slot(1, "Before the Dump", shot)
+	Session.gold = 340
+	Session.profile.level = 4
+	Session.playtime_seconds = 12480.0
+	Session.last_location = "The Endless Buffet"
+	Session.save_to_slot(3, "Buffet hub", shot)
+	SaveSlots.write(SaveSlots.AUTOSAVE, Session.to_dict(), shot)
+	var screen: SaveSlotsScreen = SaveSlotsScreen.make(SaveSlotsScreen.Mode.SAVE if mode_name == "save" else SaveSlotsScreen.Mode.LOAD, shot)
+	_open_overlay(screen)
+	screen.closed.connect(_close_overlay)
 
 
 func _screenshot_open(what: String) -> void:

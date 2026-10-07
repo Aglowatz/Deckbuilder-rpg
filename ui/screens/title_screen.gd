@@ -69,9 +69,12 @@ func _build_menu() -> void:
 	_menu_column.add_child(version)
 	_menu_column.add_child(UIKit.spacer(40))
 	Session.discard_incompatible_save()
-	if Session.has_save():
+	var has_saves: bool = SaveSlots.any_save()
+	if has_saves:
 		_menu_column.add_child(_menu_button("Continue", &"PrimaryButton", _on_continue))
-	_menu_column.add_child(_menu_button("New Game", &"PrimaryButton" if not Session.has_save() else &"", _on_new_game))
+	_menu_column.add_child(_menu_button("New Game", &"PrimaryButton" if not has_saves else &"", _on_new_game))
+	if has_saves:
+		_menu_column.add_child(_menu_button("Load Game", &"", _on_load_game))
 	_menu_column.add_child(_menu_button("Settings", &"", _on_settings))
 	_menu_column.add_child(_menu_button("Quit", &"", SceneManager.quit_game))
 	if not Session.save_reset_message.is_empty():
@@ -97,20 +100,23 @@ func _menu_button(text: String, variation: StringName, callback: Callable) -> Fa
 
 
 func _on_continue() -> void:
-	if Session.load_game():
+	# Continue picks up the most recently saved slot (the autosave or a manual save).
+	if Session.load_from_slot(SaveSlots.latest_slot()):
 		Audio.sfx(&"ui_confirm")
-		# Mid-dungeon state is not saved, so a save from before the intro trial was cleared
-		# resumes at the starting area (with whatever gold/cards were earned so far), not town.
-		if Session.flag(&"trial_cleared"):
-			SceneManager.go_to_town()
-		else:
-			SceneManager.go_to_start_area()
+		Session.resume_loaded_game()
 	else:
 		Audio.sfx(&"ui_error")
 
 
+func _on_load_game() -> void:
+	var screen: SaveSlotsScreen = SaveSlotsScreen.make(SaveSlotsScreen.Mode.LOAD)
+	screen.closed.connect(screen.queue_free)
+	screen.loaded.connect(Session.resume_loaded_game)
+	add_child(screen)
+
+
 func _on_new_game() -> void:
-	if Session.has_save():
+	if SaveSlots.any_save():
 		_confirm_overwrite()
 		return
 	_start_new_game()
@@ -125,7 +131,7 @@ func _start_new_game() -> void:
 func _confirm_overwrite() -> void:
 	_show_overlay(func(box: VBoxContainer) -> void:
 		box.add_child(UIKit.label("Start a new game?", &"HeadingLabel", 34, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-		var text: Label = UIKit.label("Your saved game will be replaced the next time you save.", &"", 22, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+		var text: Label = UIKit.label("Your autosave is replaced as you play. Your numbered save slots are not touched.", &"", 22, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 		text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		text.custom_minimum_size = Vector2(460, 0)
 		box.add_child(text)

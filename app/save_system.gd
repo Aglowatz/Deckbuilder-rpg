@@ -3,7 +3,8 @@ extends RefCounted
 ## JSON save/load. The save holds only plain data (ids and numbers); the Session turns ids back
 ## into cards through the content deck.
 
-const PATH: String = "user://save.json"
+## The autosave (see SaveSlots). The pre-slots single save lived at user://save.json and is migrated into slot 1.
+const PATH: String = "user://saves/autosave.json"
 const VERSION: int = 1
 
 
@@ -12,6 +13,7 @@ static func exists(path: String = PATH) -> bool:
 
 
 static func write(data: Dictionary, path: String = PATH) -> bool:
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path.get_base_dir()))
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		push_warning("SaveSystem: cannot write %s" % path)
