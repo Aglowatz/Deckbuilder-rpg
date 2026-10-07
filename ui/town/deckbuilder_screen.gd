@@ -21,6 +21,15 @@ var _preview: HoverPreview
 var _toast: Label
 var _dirty: bool = false
 var _hint_shown: bool = false
+## Brief 16: which saved deck of `Session.deck_box` this screen is editing, and the deck bar widgets.
+var _editing: int = 0
+var _deck_picker: OptionButton
+var _warning_label: Label
+var _use_button: FancyButton
+var _delete_button: FancyButton
+var _copy_button: FancyButton
+var _new_button: FancyButton
+var _prompt_layer: Control
 
 
 func _init() -> void:
@@ -31,7 +40,12 @@ func _init() -> void:
 ## Overridable so the same screen can edit the dungeon run's current deck instead of the town
 ## deck (see DungeonDeckbuilderScreen) with the same validation rules either way.
 func _source_deck() -> Deck:
-	return Session.deck
+	return Session.deck_box.build(_editing, Session.deck_lookup()) if _uses_deck_box() else Session.deck
+
+
+## The town Deck Station edits the saved decks of the deck box; the dungeon version edits the run's own deck.
+func _uses_deck_box() -> bool:
+	return true
 
 
 func _active_modifiers() -> ModifierSet:
@@ -39,12 +53,11 @@ func _active_modifiers() -> ModifierSet:
 
 
 func _write_back(edited: Deck) -> void:
-	Session.deck = edited
-	Session.deck.deck_name = Session.DECK_NAME
-	Session.save_game()
+	Session.store_deck(_editing, edited)
 
 
 func _build() -> void:
+	_editing = Session.deck_box.active
 	var infrastructure: Array[CardData] = []
 	for color: Affinity.Type in Affinity.colored_types():
 		infrastructure.append(Session.content.infrastructure[int(color)] as CardData)
@@ -91,10 +104,16 @@ func _build_deck_panel() -> Control:
 	var column: VBoxContainer = UIKit.vbox(10)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Your Deck", &"HeadingLabel", 30))
+	if _uses_deck_box():
+		column.add_child(_build_deck_bar())
 	_count_label = UIKit.label("", &"", 24, UIStyle.PARCHMENT)
 	column.add_child(_count_label)
 	_rules_box = UIKit.vbox(2)
 	column.add_child(_rules_box)
+	_warning_label = UIKit.label("", &"", 19, Color("ffb066"))
+	_warning_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_warning_label.custom_minimum_size = Vector2(540, 0)
+	column.add_child(_warning_label)
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -119,6 +138,200 @@ func _build_deck_panel() -> Control:
 	reset.pressed.connect(_reset)
 	buttons.add_child(reset)
 	return panel
+
+
+# ---- Saved decks (brief 16, Group E) --------------------------------------------------------
+
+
+func _build_deck_bar() -> Control:
+	var bar: VBoxContainer = UIKit.vbox(6)
+	bar.name = "DeckBar"
+	var top: HBoxContainer = UIKit.hbox(8)
+	bar.add_child(top)
+	_deck_picker = OptionButton.new()
+	_deck_picker.name = "DeckPicker"
+	_deck_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_deck_picker.custom_minimum_size = Vector2(0, 44)
+	_deck_picker.add_theme_font_size_override("font_size", 22)
+	_deck_picker.item_selected.connect(_on_deck_picked)
+	top.add_child(_deck_picker)
+	var row: HBoxContainer = UIKit.hbox(6)
+	bar.add_child(row)
+	_new_button = _bar_button("New", "Start an empty deck in the next free slot.", _on_new_deck)
+	_new_button.name = "NewDeck"
+	row.add_child(_new_button)
+	_copy_button = _bar_button("Copy", "Duplicate the saved version of this deck.", _on_copy_deck)
+	_copy_button.name = "CopyDeck"
+	row.add_child(_copy_button)
+	var rename: FancyButton = _bar_button("Rename", "Give this deck another name.", _on_rename_deck)
+	rename.name = "RenameDeck"
+	row.add_child(rename)
+	_delete_button = _bar_button("Delete", "Delete this deck (you always keep at least one).", _on_delete_deck)
+	_delete_button.name = "DeleteDeck"
+	row.add_child(_delete_button)
+	_use_button = _bar_button("Use for battles", "Make this the deck battles and dungeons use.", _on_use_deck)
+	_use_button.name = "UseDeck"
+	row.add_child(_use_button)
+	return bar
+
+
+func _bar_button(text: String, tip: String, callback: Callable) -> FancyButton:
+	var button: FancyButton = FancyButton.make(text, &"GhostButton", Vector2(0, 40))
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.tooltip_text = tip
+	button.add_theme_font_size_override("font_size", 19)
+	button.pressed.connect(callback)
+	return button
+
+
+func _refresh_deck_bar() -> void:
+	if _warning_label != null:
+		var lines: Array[String] = []
+		if _uses_deck_box():
+			lines = Session.deck_warnings(_editing)
+		_warning_label.text = "" if lines.is_empty() else "Warning: %s" % " ".join(lines)
+		_warning_label.visible = not lines.is_empty()
+	if _deck_picker == null:
+		return
+	_deck_picker.clear()
+	for index: int in range(Session.deck_box.size()):
+		var saved: DeckBox.SavedDeck = Session.deck_box.decks[index]
+		var label: String = "%d. %s (%d)" % [index + 1, saved.name, saved.card_count()]
+		if index == Session.deck_box.active:
+			label += "   [in use]"
+		if not Session.deck_warnings(index).is_empty():
+			label += "   [!]"
+		_deck_picker.add_item(label, index)
+	_deck_picker.select(_editing)
+	var capacity: int = Session.deck_capacity()
+	_new_button.disabled = Session.deck_box.is_full(capacity)
+	_copy_button.disabled = Session.deck_box.is_full(capacity)
+	_new_button.tooltip_text = "Your deck box is full (%d decks)." % capacity if _new_button.disabled else "Start an empty deck in the next free slot."
+	_delete_button.disabled = Session.deck_box.size() <= 1
+	_use_button.disabled = _editing == Session.deck_box.active
+	_use_button.text = "In use" if _use_button.disabled else "Use for battles"
+
+
+## Editing another deck; unsaved changes to this one have to be kept or thrown away first.
+func _on_deck_picked(position: int) -> void:
+	var target: int = _deck_picker.get_item_id(position)
+	if target == _editing:
+		return
+	if _dirty:
+		_deck_picker.select(_editing)
+		var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Unsaved changes", "Switch decks without saving your changes to this one?", "Discard changes", "Keep editing", true)
+		dialog.confirmed.connect(func() -> void: _edit_deck(target))
+		return
+	_edit_deck(target)
+
+
+func _edit_deck(index: int) -> void:
+	_editing = index
+	var infrastructure: Array[CardData] = editor.infrastructure
+	editor = DeckEditor.from(Session.profile, _source_deck(), infrastructure, _active_modifiers())
+	_dirty = false
+	_refresh()
+
+
+func _on_new_deck() -> void:
+	if _dirty:
+		_say("Save or reset this deck first.", Color("ffcf70"))
+		return
+	var index: int = Session.new_saved_deck("New Deck %d" % (Session.deck_box.size() + 1))
+	if index < 0:
+		_say("Your deck box is full (%d decks)." % Session.deck_capacity(), Color("ff8a85"))
+		return
+	_edit_deck(index)
+	_say("A new empty deck. Add cards, then Save Deck.", UIStyle.GOOD)
+
+
+func _on_copy_deck() -> void:
+	var index: int = Session.duplicate_saved_deck(_editing)
+	if index < 0:
+		_say("Your deck box is full (%d decks)." % Session.deck_capacity(), Color("ff8a85"))
+		return
+	if _dirty:
+		_say("Copied the saved version (your unsaved changes were not included).", Color("ffcf70"))
+	else:
+		_say("Deck copied.", UIStyle.GOOD)
+	_edit_deck(index)
+
+
+func _on_rename_deck() -> void:
+	_prompt_name("Rename deck", Session.deck_box.decks[_editing].name, func(new_name: String) -> void:
+		Session.rename_saved_deck(_editing, new_name)
+		_refresh())
+
+
+func _on_delete_deck() -> void:
+	if Session.deck_box.size() <= 1:
+		_say("You always keep at least one deck.", Color("ffcf70"))
+		return
+	var doomed: int = _editing
+	var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Delete this deck?", "\"%s\" will be deleted. Your cards stay in your collection." % Session.deck_box.decks[doomed].name, "Delete", "Cancel", true)
+	dialog.confirmed.connect(func() -> void:
+		Session.delete_saved_deck(doomed)
+		_edit_deck(clampi(doomed, 0, Session.deck_box.size() - 1))
+		_say("Deck deleted.", UIStyle.GOOD))
+
+
+func _on_use_deck() -> void:
+	if _dirty:
+		_say("Save this deck first.", Color("ffcf70"))
+		return
+	if Session.use_deck(_editing):
+		Audio.sfx(&"ui_confirm")
+		_say("\"%s\" is now your battle deck." % Session.deck_box.decks[_editing].name, UIStyle.GOOD)
+		_refresh()
+		EventBus.collection_changed.emit()
+
+
+## A small name prompt over the screen.
+func _prompt_name(title: String, default_text: String, done: Callable) -> void:
+	if _prompt_layer != null:
+		_prompt_layer.queue_free()
+	_prompt_layer = Control.new()
+	_prompt_layer.name = "NamePrompt"
+	UIKit.full_rect(_prompt_layer)
+	_prompt_layer.z_index = 220
+	add_child(_prompt_layer)
+	var shade: ColorRect = ColorRect.new()
+	shade.color = Color(0.02, 0.01, 0.05, 0.7)
+	UIKit.full_rect(shade)
+	_prompt_layer.add_child(shade)
+	var center: CenterContainer = CenterContainer.new()
+	UIKit.full_rect(center)
+	_prompt_layer.add_child(center)
+	var panel: PanelContainer = UIKit.panel()
+	panel.custom_minimum_size = Vector2(560, 0)
+	center.add_child(panel)
+	var column: VBoxContainer = UIKit.vbox(14)
+	panel.add_child(column)
+	column.add_child(UIKit.label(title, &"HeadingLabel", 32, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	var edit: LineEdit = LineEdit.new()
+	edit.name = "NameEdit"
+	edit.text = default_text
+	edit.max_length = DeckBox.MAX_NAME_LENGTH
+	edit.custom_minimum_size = Vector2(0, 48)
+	edit.add_theme_font_size_override("font_size", 26)
+	column.add_child(edit)
+	var row: HBoxContainer = UIKit.hbox(14)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_child(row)
+	var accept: FancyButton = FancyButton.make("OK", &"PrimaryButton", Vector2(200, 52))
+	accept.pressed.connect(func() -> void:
+		done.call(edit.text)
+		_prompt_layer.queue_free()
+		_prompt_layer = null)
+	row.add_child(accept)
+	var cancel: FancyButton = FancyButton.make("Cancel", &"", Vector2(200, 52))
+	cancel.pressed.connect(func() -> void:
+		_prompt_layer.queue_free()
+		_prompt_layer = null)
+	row.add_child(cancel)
+	edit.text_submitted.connect(func(_text: String) -> void: accept.pressed.emit())
+	edit.grab_focus()
+	edit.select_all()
 
 
 # ---- Collection grid --------------------------------------------------------------------
@@ -238,6 +451,7 @@ func _refresh() -> void:
 	_count_label.text = "%d cards  -  %d infrastructure, %d spells" % [size, editor.infrastructure_count(), size - editor.infrastructure_count()]
 	_save_button.text = "Save Deck" if _dirty else "Saved"
 	_save_button.disabled = not _dirty
+	_refresh_deck_bar()
 
 
 func _rebuild_rules() -> void:

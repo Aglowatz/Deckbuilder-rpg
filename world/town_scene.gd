@@ -120,6 +120,12 @@ func _ready() -> void:
 		var zone_count: int = int(_screenshot_args.get("zones", 0))
 		for zone_id: String in ZoneDefs.ids().slice(0, zone_count):
 			Session.complete_zone(zone_id)
+		if _screenshot_args.has("decks"):
+			Session.new_saved_deck("Quick Aggro", ["BAS-B", "BAS-B", "BAS-B", "B-01", "B-01"] as Array[String])
+			Session.new_saved_deck("Old Necro Deck", ["BAS-N", "N-28", "N-28", "N-17"] as Array[String])
+		if _screenshot_args.has("levelup"):
+			Session.add_xp(ProgressionTable.xp_to_reach(int(_screenshot_args["levelup"]) - 1))
+			Session.pending_level_ups.append_array(Session.add_xp(ProgressionTable.xp_to_reach(int(_screenshot_args["levelup"]))))
 		if _screenshot_args.has("essence"):
 			for path: Affinity.Type in Affinity.colored_types():
 				Session.profile.set_essence(path, 14 if path == Affinity.Type.BEEFCAKE or path == Affinity.Type.NECROCRAT else 3)
@@ -977,7 +983,7 @@ func _use_well_door() -> void:
 		hud.toast("The hatch is locked tight. The Elder might know why.", Color("ffcf70"))
 		Audio.sfx(&"ui_error")
 		return
-	if not Session.deck_is_valid():
+	if not Session.any_deck_valid():
 		hud.toast("Your deck is not ready for the vault.", Color("ff8a85"))
 		Audio.sfx(&"ui_error")
 		return
@@ -986,8 +992,9 @@ func _use_well_door() -> void:
 
 You are fully healed on entry. Lose a duel and you are carried back to town." % plan.story, "Descend", "Not yet")
 	dialog.confirmed.connect(func() -> void:
-		Audio.sfx(&"door")
-		Session.enter_town_side_dungeon())
+		DeckPicker.guard(_overlay_layer, func() -> void:
+			Audio.sfx(&"door")
+			Session.enter_town_side_dungeon(), func() -> void: _locked = false))
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
 
@@ -1379,7 +1386,8 @@ func _open_arena(result: Dictionary = {}) -> void:
 	screen.result = result
 	screen.fight_chosen.connect(func(encounter_id: String) -> void:
 		_close_overlay()
-		Session.start_arena_battle(encounter_id))
+		_locked = true
+		DeckPicker.guard(_overlay_layer, func() -> void: Session.start_arena_battle(encounter_id), func() -> void: _locked = false))
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 
@@ -1469,7 +1477,7 @@ func _use_zone_portal(zone_id: String) -> void:
 
 func _use_gate() -> void:
 	_face_npc("guard")
-	if not Session.deck_is_valid():
+	if not Session.any_deck_valid():
 		var problems: Array[DeckValidator.Issue] = Session.deck_issues()
 		var message: String = problems[0].message if not problems.is_empty() else "Your deck is not legal."
 		hud.toast("Your deck is not ready: %s" % message, Color("ff8a85"))
@@ -1482,8 +1490,9 @@ func _use_gate() -> void:
 	)
 	_locked = true
 	dialog.confirmed.connect(func() -> void:
-		Audio.sfx(&"door")
-		Session.begin_trial())
+		DeckPicker.guard(_overlay_layer, func() -> void:
+			Audio.sfx(&"door")
+			Session.begin_trial(), func() -> void: _locked = false))
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
 

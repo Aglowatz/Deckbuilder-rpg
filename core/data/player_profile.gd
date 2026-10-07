@@ -29,6 +29,8 @@ const DEFAULT_MAX_HAND_SIZE: int = 10
 @export var level: int = 1
 @export var xp: int = 0
 @export var item_slots: int = 1
+## Brief 16: saved-deck slots in the deck box (5, raised to 10 by a level reward).
+@export var deck_slots: int = 5
 ## Everything owned, whether equipped or not.
 @export var owned_equipment: Array[EquipmentData] = []
 ## Slot types unlocked so far (levels 5/10/15/20/25, one per level, player's choice).
@@ -118,6 +120,7 @@ func apply_level(row: LevelData) -> void:
 	max_hand_size = row.max_hand_size
 	opening_hand_size = row.opening_hand_size
 	item_slots = row.item_slots
+	deck_slots = row.deck_slots
 
 
 func has_equipment_slot(slot: EquipmentData.Slot) -> bool:

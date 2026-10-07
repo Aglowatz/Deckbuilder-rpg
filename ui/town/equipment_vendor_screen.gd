@@ -171,7 +171,7 @@ func _say(text: String, color: Color = UIStyle.PARCHMENT) -> void:
 static func default_stock() -> EquipmentVendorData:
 	var data: EquipmentVendorData = EquipmentVendorData.new()
 	var always: Condition = null
-	var advanced: Condition = Condition.player_level(10)
+	var advanced: Condition = Condition.player_level(ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL)
 	data.add("wicked_dagger", 120, always)
 	data.add("extra_pocket", 90, always)
 	data.add("travelers_boots", 100, always)

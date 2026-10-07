@@ -21,7 +21,14 @@ var content: ContentSet
 var toasts: ToastLayer
 var profile: PlayerProfile
 var gold: int = 0
-var deck: Deck
+## The ACTIVE deck: what battles and dungeons use. It always mirrors the active slot of `deck_box` (assigning it writes the cards into that slot).
+var deck: Deck:
+	set(value):
+		deck = value
+		_sync_active_deck()
+## Brief 16: the saved decks (names + card ids). See DeckBox.
+var deck_box: DeckBox = DeckBox.new()
+var _deck_sync_paused: bool = false
 var flags: Dictionary = {}
 var run: DungeonRun
 var dungeon_map: DungeonMap
@@ -113,6 +120,7 @@ func discard_incompatible_save() -> bool:
 ## Starts a fresh campaign. The profile is created when the Wellspring is chosen.
 func new_game() -> void:
 	profile = null
+	deck_box = DeckBox.new()
 	deck = Deck.new()
 	deck.deck_name = DECK_NAME
 	gold = STARTING_GOLD
@@ -505,8 +513,6 @@ func grant_dev_level() -> Array[LevelData]:
 
 
 func _apply_level_rewards(row: LevelData) -> void:
-	if row.reward_gold > 0:
-		add_gold(row.reward_gold)
 	if row.equipment_choice:
 		pending_equipment_choices += 1
 	if row.reward_vendor_discount_percent > 0:
@@ -594,6 +600,17 @@ func deck_is_valid() -> bool:
 	return profile != null and deck_issues().is_empty()
 
 
+## True when at least one saved deck is legal (the player can then pick it before a dungeon or an arena fight).
+func any_deck_valid() -> bool:
+	if profile == null:
+		return false
+	for index: int in range(deck_box.size()):
+		var candidate: Deck = deck_box.build(index, deck_lookup())
+		if DeckValidator.validate(candidate, profile, null, true).is_empty():
+			return true
+	return deck_is_valid()
+
+
 ## Picks a legal starter-based deck automatically (used when the saved deck is missing/corrupt,
 ## e.g. an old save). CampaignStart.starter_deck is only 42 cards (Part C, meant to be topped up
 ## by tutorial rewards); pad it with a few more basic infrastructure of the same color so this fallback is
@@ -610,6 +627,7 @@ func rebuild_starter_deck() -> void:
 
 
 func to_dict() -> Dictionary:
+	_sync_active_deck()  # code that appended cards to `deck` in place is picked up here
 	var owned: Array[String] = []
 	for card: CardData in profile.owned_cards:
 		owned.append(card.id)
@@ -633,6 +651,8 @@ func to_dict() -> Dictionary:
 		"postgame": profile.postgame_unlocked,
 		"owned": owned,
 		"deck": deck_ids,
+		"decks": deck_box.to_array(),
+		"active_deck": deck_box.active,
 		"flags": flags,
 		"gold_spent_total": gold_spent_total,
 		"cleared_dungeons": cleared_dungeons,
@@ -677,6 +697,9 @@ func from_dict(data: Dictionary) -> bool:
 	loaded.intro_dungeon_cleared = bool(data.get("intro_cleared", false))
 	loaded.postgame_unlocked = bool(data.get("postgame", false))
 	loaded.level = int(data.get("level", 1))
+	var level_row: LevelData = ProgressionTable.row(loaded.level)
+	if level_row != null:
+		loaded.apply_level(level_row)  # max HP, hand sizes, item and deck slots follow the level (a loaded game used to start from level-1 stats)
 	loaded.xp = int(data.get("xp", 0))
 	for slot: Variant in data.get("equipment_slots", []) as Array:
 		loaded.equipment_slots.append(int(slot) as EquipmentData.Slot)
@@ -702,12 +725,22 @@ func from_dict(data: Dictionary) -> bool:
 	for path_key: Variant in (data.get("essence", {}) as Dictionary).keys():
 		loaded.essence[int(str(path_key))] = int((data["essence"] as Dictionary)[path_key])
 	profile = loaded
+	_deck_sync_paused = true
 	deck = Deck.new()
 	deck.deck_name = DECK_NAME
 	for id: Variant in data.get("deck", []) as Array:
 		var card: CardData = card_by_id(str(id))
 		if card != null:
 			deck.cards.append(card)
+	if data.has("decks"):
+		deck_box = DeckBox.from_array(data["decks"] as Array, int(data.get("active_deck", 0)))
+	else:
+		deck_box = DeckBox.new()
+		deck_box.create(DECK_NAME, DeckBox.ids_of(deck), ProgressionTable.EXPANDED_DECK_SLOTS)
+	if deck_box.size() == 0:
+		deck_box.create(DECK_NAME, DeckBox.ids_of(deck), ProgressionTable.EXPANDED_DECK_SLOTS)
+	_deck_sync_paused = false
+	deck = deck_box.build(deck_box.active, deck_lookup())
 	gold = int(data.get("gold", 0))
 	flags = (data.get("flags", {}) as Dictionary).duplicate()
 	playtime_seconds = float(data.get("playtime", 0.0))
@@ -773,6 +806,100 @@ func load_game() -> bool:
 	if data.is_empty():
 		return false
 	return from_dict(data)
+
+
+# ---- Saved decks (brief 16, Group E) -----------------------------------------------------------------
+
+
+func _sync_active_deck() -> void:
+	if _deck_sync_paused or deck == null:
+		return
+	if deck_box.size() == 0:
+		deck_box.create(deck.deck_name if not deck.deck_name.is_empty() else DECK_NAME, DeckBox.ids_of(deck), ProgressionTable.EXPANDED_DECK_SLOTS)
+		deck_box.active = 0
+		return
+	deck_box.set_cards(deck_box.active, DeckBox.ids_of(deck))
+
+
+func deck_lookup() -> Callable:
+	return func(id: String) -> CardData: return card_by_id(id)
+
+
+## How many saved decks the player may have (5, then 10 after the deck box expansion reward).
+func deck_capacity() -> int:
+	return profile.deck_slots if profile != null else ProgressionTable.BASE_DECK_SLOTS
+
+
+## Makes saved deck `index` the active one (what battles and dungeons play).
+func use_deck(index: int) -> bool:
+	if not deck_box.set_active(index):
+		return false
+	_deck_sync_paused = true
+	deck = deck_box.build(index, deck_lookup())
+	_deck_sync_paused = false
+	save_game()
+	return true
+
+
+## Stores the cards of `edited` in saved deck `index` (and refreshes the active deck when that is the one).
+func store_deck(index: int, edited: Deck) -> bool:
+	if not deck_box.set_cards(index, DeckBox.ids_of(edited)):
+		return false
+	if index == deck_box.active:
+		_deck_sync_paused = true
+		deck = deck_box.build(index, deck_lookup())
+		_deck_sync_paused = false
+	save_game()
+	return true
+
+
+func new_saved_deck(deck_name: String = DeckBox.DEFAULT_NAME, ids: Array[String] = [] as Array[String]) -> int:
+	var index: int = deck_box.create(deck_name, ids, deck_capacity())
+	if index >= 0:
+		save_game()
+	return index
+
+
+func duplicate_saved_deck(index: int) -> int:
+	var created: int = deck_box.duplicate_deck(index, deck_capacity())
+	if created >= 0:
+		save_game()
+	return created
+
+
+func delete_saved_deck(index: int) -> bool:
+	var was_active: bool = index == deck_box.active
+	if not deck_box.delete(index):
+		return false
+	if was_active:
+		use_deck(deck_box.active)
+	else:
+		_sync_active_deck()
+		save_game()
+	return true
+
+
+func rename_saved_deck(index: int, new_name: String) -> bool:
+	var done: bool = deck_box.rename(index, new_name)
+	if done:
+		if index == deck_box.active and deck != null:
+			deck.deck_name = deck_box.decks[index].name
+		save_game()
+	return done
+
+
+## Plain-language warnings about a saved deck: cards it uses that are no longer owned or no longer exist (the deck still loads; those cards are simply skipped).
+func deck_warnings(index: int) -> Array[String]:
+	var warnings: Array[String] = []
+	if not deck_box.is_valid_index(index):
+		return warnings
+	for id: String in deck_box.unknown_ids(index, deck_lookup()):
+		warnings.append("Unknown card %s was removed from this deck." % id)
+	var missing: Dictionary = deck_box.missing_cards(index, profile, deck_lookup())
+	for id: Variant in missing.keys():
+		var card: CardData = card_by_id(str(id))
+		warnings.append("You no longer own %d x %s." % [int(missing[id]), card.display_name if card != null else str(id)])
+	return warnings
 
 
 

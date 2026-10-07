@@ -13,55 +13,55 @@ generate_progression_doc.gd` - edit the table, not this file, then regenerate.
 - **Equipment slots** (Helm/Weapon/Armor/Boots/Relic): 0 at level 1; one is chosen
   and unlocked at levels 5, 10, 15, 20 and 25 - all five are unlocked by level 25.
 - **Deck copy limit**: 4 copies of every non-infrastructure card at every level; infrastructure is unlimited.
-  (The old rarity-based limits were removed - the levels that raised them now grant gold, vendor
-  discounts, a bigger max hand size and a vendor-stock unlock instead.)
+  (The old rarity-based limits were removed - the levels that raised them now grant vendor
+  discounts, a bigger max hand size, vendor-stock unlocks and the deck box expansion instead.)
 - **Max hand size**: 10, +1 at levels 14 and 28.
 - Every level grants something: a real stat/slot/limit increase, an equipment choice,
-  a vendor unlock/discount, or gold - New brief, Part D removed random card-choice
-  level rewards entirely.
+  a vendor unlock/discount or the deck box expansion. **Gold is never a level-up reward** (Brief 16);
+  random card-choice level rewards were removed in an earlier brief.
+- **Deck box**: 5 saved-deck slots from the start, **10 from level 3** ("Deck box expansion: 5 to 10 deck slots").
 
 | Level | XP to reach | HP | Hand | Max hand | Items | Grants |
 |---:|---:|---:|---:|---:|---:|---|
 | 1 | 0 | 10 | 5 | 10 | 1 | Starting stats. |
 | 2 | 30 | 11 | 5 | 10 | 1 | +1 starting HP (11). |
-| 3 | 90 | 11 | 5 | 10 | 1 | +65 gold. |
+| 3 | 90 | 11 | 5 | 10 | 1 | Deck box expansion: 5 to 10 deck slots. |
 | 4 | 180 | 12 | 5 | 10 | 1 | +1 starting HP (12). |
 | 5 | 300 | 12 | 5 | 10 | 1 | Choose an equipment slot to unlock. |
-| 6 | 450 | 13 | 5 | 10 | 1 | +1 starting HP (13). +120 gold. Unlocks the second half of the item vendor's stock. |
-| 7 | 630 | 13 | 5 | 10 | 1 | Permanent vendor discount +10%. |
+| 6 | 450 | 13 | 5 | 10 | 1 | +1 starting HP (13). Unlocks the second half of the item vendor's stock. |
+| 7 | 630 | 13 | 5 | 10 | 1 | Unlocks a small batch of rarer cards at the vendor. |
 | 8 | 840 | 14 | 6 | 10 | 1 | +1 starting HP (14). Opening hand size +1 (6). |
-| 9 | 1080 | 14 | 6 | 10 | 1 | Unlocks a small batch of rarer cards at the vendor. |
-| 10 | 1350 | 15 | 6 | 10 | 2 | +1 starting HP (15). +1 item slot (2). Choose an equipment slot to unlock. Unlocks the advanced equipment at the equipment vendor. |
+| 9 | 1080 | 14 | 6 | 10 | 1 | Permanent vendor discount +10%. |
+| 10 | 1350 | 15 | 6 | 10 | 2 | +1 starting HP (15). +1 item slot (2). Choose an equipment slot to unlock. |
 | 11 | 1650 | 15 | 6 | 10 | 2 | Permanent vendor discount +10%. |
 | 12 | 1980 | 16 | 6 | 10 | 2 | +1 starting HP (16). |
-| 13 | 2340 | 16 | 6 | 10 | 2 | +115 gold. |
+| 13 | 2340 | 16 | 6 | 10 | 2 | Unlocks the advanced equipment at the equipment vendor. |
 | 14 | 2730 | 17 | 6 | 11 | 2 | +1 starting HP (17). Max hand size +1 (11). |
 | 15 | 3150 | 17 | 6 | 11 | 2 | Choose an equipment slot to unlock. |
 | 16 | 3600 | 18 | 7 | 11 | 2 | +1 starting HP (18). Opening hand size +1 (7). |
 | 17 | 4080 | 18 | 7 | 11 | 2 | Unlocks a small batch of rarer cards at the vendor. |
 | 18 | 4590 | 19 | 7 | 11 | 2 | +1 starting HP (19). |
-| 19 | 5130 | 19 | 7 | 11 | 2 | Permanent vendor discount +10%. |
+| 19 | 5130 | 19 | 7 | 11 | 2 | Unlocks a small batch of rarer cards at the vendor. |
 | 20 | 5700 | 20 | 7 | 11 | 3 | +1 starting HP (20). +1 item slot (3). Choose an equipment slot to unlock. |
-| 21 | 5780 | 20 | 7 | 11 | 3 | +200 gold. |
+| 21 | 5780 | 20 | 7 | 11 | 3 | Permanent vendor discount +10%. |
 | 22 | 5940 | 21 | 7 | 11 | 3 | +1 starting HP (21). |
-| 23 | 6180 | 21 | 7 | 11 | 3 | Unlocks a small batch of rarer cards at the vendor. |
-| 24 | 6500 | 22 | 8 | 11 | 3 | +1 starting HP (22). Opening hand size +1 (8). Permanent vendor discount +10%. |
+| 23 | 6180 | 21 | 7 | 11 | 3 | Permanent vendor discount +10%. |
+| 24 | 6500 | 22 | 8 | 11 | 3 | +1 starting HP (22). Opening hand size +1 (8). |
 | 25 | 6900 | 22 | 8 | 11 | 3 | Choose an equipment slot to unlock. |
 | 26 | 7380 | 23 | 8 | 11 | 3 | +1 starting HP (23). |
-| 27 | 7940 | 23 | 8 | 11 | 3 | +185 gold. |
+| 27 | 7940 | 23 | 8 | 11 | 3 | Unlocks a small batch of rarer cards at the vendor. |
 | 28 | 8580 | 24 | 8 | 12 | 3 | +1 starting HP (24). Max hand size +1 (12). |
-| 29 | 9300 | 24 | 8 | 12 | 3 | Permanent vendor discount +10%. |
+| 29 | 9300 | 24 | 8 | 12 | 3 | Unlocks a small batch of rarer cards at the vendor. |
 | 30 | 10100 | 25 | 8 | 12 | 4 | +1 starting HP (25). +1 item slot (4). |
 
 ## Level-up rewards (New brief, Part D)
 
 Random card-choice level rewards were removed entirely - every level now grants only
-real stat/slot/limit increases, an equipment-slot choice, gold, a permanent vendor
+real stat/slot/limit increases, an equipment-slot choice, the deck box expansion, a permanent vendor
 discount, or a vendor-stock unlock (see `PlayerProfile.vendor_discount_percent`/
 `Session.effective_price()` - the discount actually reduces what every vendor charges,
-not just what it displays). Two specific one-time unlocks, chosen to land "around when
-the player has 1-2 equipment slots": level 10 unlocks the equipment vendor's 5 advanced
-pieces (right alongside that level's own equipment-slot choice); level 6 unlocks the item
+not just what it displays). Two specific one-time unlocks: level 13 unlocks the equipment vendor's 5 advanced
+pieces (moved from level 10 in Brief 16 so that no level carries four rewards while others carry none); level 6 unlocks the item
 vendor's second (advanced) half. Both are plain `Condition.player_level(...)` checks read
 live against the profile - no flag to set, no save-data migration. The level-up popup
 announces every reward explicitly (`LevelUpScreen._bonuses_for`).

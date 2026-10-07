@@ -10,6 +10,10 @@ extends DeckbuilderScreen
 ## re-apply on top of it.
 
 
+func _uses_deck_box() -> bool:
+	return false
+
+
 func _source_deck() -> Deck:
 	return Session.run.current_deck()
 

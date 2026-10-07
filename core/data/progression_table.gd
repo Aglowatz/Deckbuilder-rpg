@@ -12,10 +12,11 @@ const EQUIPMENT_CHOICE_LEVELS: Array[int] = [5, 10, 15, 20, 25]
 ## card allows `DeckValidator.MAX_COPIES` (4) copies at every level, and infrastructure is unlimited.
 ## The seven level-ups that used to raise a rarity's copy limit now grant other rewards instead:
 ## gold, permanent vendor discounts, a bigger maximum hand size, and a vendor-stock unlock.
-const BONUS_GOLD_LEVELS: Dictionary = {6: 120, 21: 200}
-const BONUS_DISCOUNT_LEVELS: Array[int] = [11, 24]
+## Brief 16 (Group F): gold is never a level-up reward. The old gold levels (3, 6, 13, 21, 27) now grant other things: the deck box expansion (3), the advanced
+## equipment vendor stock (13, moved from 10), a vendor discount (21, moved from 24) and a rarer-stock unlock (27).
+const BONUS_DISCOUNT_LEVELS: Array[int] = [11, 21]
 const MAX_HAND_LEVELS: Array[int] = [14, 28]
-const BONUS_VENDOR_UNLOCK_LEVELS: Array[int] = [17]
+const BONUS_VENDOR_UNLOCK_LEVELS: Array[int] = [17, 27]
 const BONUS_VENDOR_UNLOCK_NAME: String = "Sable's rare stock"
 ## Opening hand size increases at these levels (5 -> 8 over 3 steps).
 const HAND_SIZE_LEVELS: Array[int] = [8, 16, 24]
@@ -25,11 +26,15 @@ const ITEM_SLOT_LEVELS: Array[int] = [10, 20, 30]
 ## gains (not filler). Level 10 already grants an equipment-slot choice (EQUIPMENT_CHOICE_LEVELS)
 ## - "around when the player has 1-2 equipment slots" per the brief, since level 5 grants the
 ## first slot. Level 6 reuses the item vendor's own former "late tier" threshold (D75).
-const EQUIPMENT_VENDOR_UNLOCK_LEVEL: int = 10
+const EQUIPMENT_VENDOR_UNLOCK_LEVEL: int = 13
 const ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL: int = 6
 ## New brief, Part D: a permanent vendor-discount filler reward, replacing the removed random
 ## card-choice filler (see LevelData.reward_vendor_discount_percent).
 const FILLER_DISCOUNT_PERCENT: int = 10
+## Brief 16: the deck box holds 5 saved decks from the start and 10 once the player reaches this level.
+const DECK_BOX_EXPANSION_LEVEL: int = 3
+const BASE_DECK_SLOTS: int = 5
+const EXPANDED_DECK_SLOTS: int = 10
 
 
 static func build() -> Array[LevelData]:
@@ -42,7 +47,8 @@ static func build() -> Array[LevelData]:
 		row.opening_hand_size = PlayerProfile.MIN_OPENING_HAND + _steps_reached(level, HAND_SIZE_LEVELS)
 		row.item_slots = 1 + _steps_reached(level, ITEM_SLOT_LEVELS)
 		row.max_hand_size = PlayerProfile.DEFAULT_MAX_HAND_SIZE + _steps_reached(level, MAX_HAND_LEVELS)
-		row.reward_gold = int(BONUS_GOLD_LEVELS.get(level, 0))
+		row.deck_slots = EXPANDED_DECK_SLOTS if level >= DECK_BOX_EXPANSION_LEVEL else BASE_DECK_SLOTS
+		row.reward_deck_expansion = level == DECK_BOX_EXPANSION_LEVEL
 		row.reward_vendor_discount_percent = FILLER_DISCOUNT_PERCENT if BONUS_DISCOUNT_LEVELS.has(level) else 0
 		row.reward_vendor_unlock = BONUS_VENDOR_UNLOCK_NAME if BONUS_VENDOR_UNLOCK_LEVELS.has(level) else ""
 		row.equipment_choice = EQUIPMENT_CHOICE_LEVELS.has(level)
@@ -117,8 +123,8 @@ static func _fill_summaries_and_fallback_rewards(rows: Array[LevelData]) -> void
 				notes.append("+1 item slot (%d)." % current.item_slots)
 			if current.max_hand_size > previous.max_hand_size:
 				notes.append("Max hand size +1 (%d)." % current.max_hand_size)
-			if current.reward_gold > 0:
-				notes.append("+%d gold." % current.reward_gold)
+			if current.reward_deck_expansion:
+				notes.append("Deck box expansion: %d to %d deck slots." % [BASE_DECK_SLOTS, EXPANDED_DECK_SLOTS])
 			if current.reward_vendor_discount_percent > 0:
 				notes.append("Permanent vendor discount +%d%%." % current.reward_vendor_discount_percent)
 			if not current.reward_vendor_unlock.is_empty():
@@ -131,14 +137,11 @@ static func _fill_summaries_and_fallback_rewards(rows: Array[LevelData]) -> void
 				notes.append("Unlocks the second half of the item vendor's stock.")
 		if notes.is_empty() and i > 0:
 			filler_count += 1
-			match filler_count % 3:
-				0:
-					current.reward_vendor_unlock = "Sable's rare stock"
-					notes.append("Unlocks a small batch of rarer cards at the vendor.")
-				2:
-					current.reward_vendor_discount_percent = FILLER_DISCOUNT_PERCENT
-					notes.append("Permanent vendor discount +%d%%." % FILLER_DISCOUNT_PERCENT)
-				_:
-					current.reward_gold = 50 + current.level * 5
-					notes.append("+%d gold." % current.reward_gold)
+			# Never gold: the filler alternates a rarer-stock unlock and a permanent vendor discount.
+			if filler_count % 2 == 1:
+				current.reward_vendor_unlock = "Sable's rare stock"
+				notes.append("Unlocks a small batch of rarer cards at the vendor.")
+			else:
+				current.reward_vendor_discount_percent = FILLER_DISCOUNT_PERCENT
+				notes.append("Permanent vendor discount +%d%%." % FILLER_DISCOUNT_PERCENT)
 		current.summary = " ".join(notes) if not notes.is_empty() else "Starting stats."

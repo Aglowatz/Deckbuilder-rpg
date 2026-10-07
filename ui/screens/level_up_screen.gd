@@ -89,8 +89,8 @@ func _bonuses_for(row: LevelData) -> Array[Bonus]:
 		bonuses.append(_bonus("equipment_unlock", "Unlocks the advanced equipment at the equipment vendor."))
 	if row.reward_item_vendor_advanced_unlock:
 		bonuses.append(_bonus("vendor", "Unlocks the second half of the item vendor's stock."))
-	if row.reward_gold > 0:
-		bonuses.append(_bonus("coins", "+%d gold." % row.reward_gold))
+	if row.reward_deck_expansion:
+		bonuses.append(_bonus("card_choice", "Deck box expansion: %d to %d deck slots." % [ProgressionTable.BASE_DECK_SLOTS, ProgressionTable.EXPANDED_DECK_SLOTS]))
 	if row.reward_vendor_discount_percent > 0:
 		bonuses.append(_bonus("vendor", "Permanent vendor discount +%d%%." % row.reward_vendor_discount_percent))
 	if not row.reward_vendor_unlock.is_empty():

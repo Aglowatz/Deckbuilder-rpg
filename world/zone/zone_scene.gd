@@ -807,11 +807,12 @@ func _ask_mini_dungeon(spot: ZoneSpot) -> void:
 %s" % [plan.story, "You have been here before: a repeat clear pays gold and a pack." if cleared else "First clear: a unique card."]
 	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, def.mini.dungeon_name, body, "Enter", "Not yet")
 	dialog.confirmed.connect(func() -> void:
-		var run: ZoneRun = Session.zone_run
-		run.return_position = spot.position + Vector3(0, 0, 1.0)
-		run.has_return_position = true
-		Audio.sfx(&"door")
-		Session.enter_mini_dungeon())
+		DeckPicker.guard(_overlay_layer, func() -> void:
+			var run: ZoneRun = Session.zone_run
+			run.return_position = spot.position + Vector3(0, 0, 1.0)
+			run.has_return_position = true
+			Audio.sfx(&"door")
+			Session.enter_mini_dungeon(), func() -> void: _locked = false))
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
 
@@ -827,11 +828,12 @@ func _use_main_dungeon(spot: ZoneSpot) -> void:
 	var body: String = story.text("ui.main.body_cleared" if cleared else "ui.main.body")
 	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, story.text("ui.main.title"), body, story.text("ui.main.button"), "Not yet")
 	dialog.confirmed.connect(func() -> void:
-		var run: ZoneRun = Session.zone_run
-		run.return_position = spot.position + Vector3(0, 0, 1.4)
-		run.has_return_position = true
-		Audio.sfx(&"door")
-		Session.enter_main_dungeon())
+		DeckPicker.guard(_overlay_layer, func() -> void:
+			var run: ZoneRun = Session.zone_run
+			run.return_position = spot.position + Vector3(0, 0, 1.4)
+			run.has_return_position = true
+			Audio.sfx(&"door")
+			Session.enter_main_dungeon(), func() -> void: _locked = false))
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
 

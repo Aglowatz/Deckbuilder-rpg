@@ -46,9 +46,9 @@ func test_opening_hand_and_item_slots_reach_their_caps_gradually() -> void:
 
 func test_copy_limit_is_four_at_every_level_and_levels_have_other_rewards() -> void:
 	assert_eq(DeckValidator.MAX_COPIES, 4)
-	for level: int in [6, 11, 14, 17, 21, 24, 28]:
+	for level: int in [11, 14, 17, 21, 28]:
 		var row: LevelData = ProgressionTable.row(level)
-		assert_true(row.reward_gold > 0 or row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty() or row.max_hand_size > ProgressionTable.row(level - 1).max_hand_size, "level %d replaced its copy-limit reward with something else" % level)
+		assert_true(row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty() or row.reward_equipment_vendor_unlock or row.reward_deck_expansion or row.max_hand_size > ProgressionTable.row(level - 1).max_hand_size, "level %d replaced its copy-limit reward with something else" % level)
 	assert_eq(ProgressionTable.row(30).max_hand_size, 12)
 
 
@@ -90,7 +90,7 @@ func test_every_level_up_grants_something() -> void:
 			or row.item_slots > previous.item_slots or row.equipment_choice
 			or row.max_hand_size > previous.max_hand_size
 		)
-		var has_filler: bool = row.reward_gold > 0 or row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty()
+		var has_filler: bool = row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty() or row.reward_deck_expansion or row.reward_equipment_vendor_unlock or row.reward_item_vendor_advanced_unlock
 		assert_true(has_real_gain or has_filler, "level %d grants nothing" % row.level)
 
 
@@ -326,3 +326,53 @@ func test_using_up_the_last_charge_also_unequips_it() -> void:
 	assert_false(profile.owns_item(tonic))
 	assert_false(profile.is_item_equipped(tonic), "gone from inventory, so no longer equipped either")
 	assert_eq(profile.equipped_item_ids.size(), 0)
+
+
+## Brief 16, Group F: gold is never a level-up reward; the old gold levels got real rewards; the deck box grows from 5 to 10 slots early on.
+func test_no_level_up_ever_grants_gold() -> void:
+	for row: LevelData in ProgressionTable.build():
+		assert_false("gold" in row.summary.to_lower(), "level %d summary mentions gold: %s" % [row.level, row.summary])
+	Session.save_enabled = false
+	Session.new_game()
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
+	var before: int = Session.gold
+	Session.add_xp(ProgressionTable.xp_to_reach(ProgressionTable.MAX_LEVEL))
+	assert_eq(Session.gold, before, "levelling from 1 to 30 pays no gold")
+
+
+func test_the_old_gold_levels_grant_something_meaningful() -> void:
+	for level: int in [3, 6, 13, 21, 27]:
+		var row: LevelData = ProgressionTable.row(level)
+		var previous: LevelData = ProgressionTable.row(level - 1)
+		var real: bool = (
+			row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty() or row.reward_deck_expansion
+			or row.reward_equipment_vendor_unlock or row.reward_item_vendor_advanced_unlock or row.max_hp > previous.max_hp
+		)
+		assert_true(real, "level %d (formerly gold) grants: %s" % [level, row.summary])
+	assert_true(ProgressionTable.row(3).reward_deck_expansion)
+	assert_true(ProgressionTable.row(13).reward_equipment_vendor_unlock)
+	assert_true(ProgressionTable.row(21).reward_vendor_discount_percent > 0)
+	assert_false(ProgressionTable.row(10).reward_equipment_vendor_unlock, "moved off level 10, which keeps its stat rewards")
+	assert_false(ProgressionTable.row(24).reward_vendor_discount_percent > 0, "moved off level 24")
+
+
+func test_deck_box_expansion_is_one_of_the_early_rewards() -> void:
+	assert_eq(ProgressionTable.row(1).deck_slots, 5)
+	assert_eq(ProgressionTable.row(2).deck_slots, 5)
+	assert_eq(ProgressionTable.row(ProgressionTable.DECK_BOX_EXPANSION_LEVEL).deck_slots, 10)
+	assert_eq(ProgressionTable.row(30).deck_slots, 10)
+	assert_true("Deck box expansion: 5 to 10 deck slots" in ProgressionTable.row(ProgressionTable.DECK_BOX_EXPANSION_LEVEL).summary)
+	assert_lte(ProgressionTable.DECK_BOX_EXPANSION_LEVEL, 10, "early-to-mid levels")
+
+
+func test_stat_rewards_keep_their_schedule() -> void:
+	var rows: Array[LevelData] = ProgressionTable.build()
+	assert_eq(rows[29].max_hp, 25)
+	assert_eq(rows[23].opening_hand_size, 8)
+	assert_eq(rows[29].item_slots, 4)
+	assert_eq(rows[27].max_hand_size, 12)
+	var choice_levels: Array[int] = []
+	for row: LevelData in rows:
+		if row.equipment_choice:
+			choice_levels.append(row.level)
+	assert_eq(choice_levels, [5, 10, 15, 20, 25])
