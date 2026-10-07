@@ -55,6 +55,11 @@ const HIDDEN_CHEST_REWARDS: Dictionary = {
 	"beefcake_flats": {"gold": 0, "item": "vitality_charm", "card": ""},
 	"uplands_ridge": {"gold": 0, "item": "", "card": "", "equipment": "travelers_boots"},
 	"harbor_dock_back": {"gold": 0, "item": "", "card": "", "equipment": "solid_plate"},
+	# Polish round: the shores and ridges, paid by how far they are from the spawn (see docs/design/secrets.md).
+	"clashatorium_west": {"gold": 60, "item": "healing_draught", "card": ""},
+	"harbor_pier": {"gold": 50, "item": "", "card": "C-22"},
+	"northeast_ridge": {"gold": 60, "item": "", "card": "C-29"},
+	"southeast_shore": {"gold": 80, "item": "", "card": "", "pack": "gilded_gourmand"},
 }
 
 var town: TownBuilder = TownBuilder.new()
@@ -95,6 +100,8 @@ func _ready() -> void:
 			Session.new_game()
 		else:
 			Session.ensure_game()
+		for found_id: String in str(_screenshot_args.get("found", "")).split(",", false):
+			Session.discover_secret(found_id)
 		var zone_count: int = int(_screenshot_args.get("zones", 0))
 		for zone_id: String in ZoneDefs.ids().slice(0, zone_count):
 			Session.complete_zone(zone_id)
@@ -113,6 +120,9 @@ func _ready() -> void:
 	_build_actors()
 	_build_spots()
 	_build_rift_station()
+	ChestKit.apply_saved(town.hidden_chest_nodes, TownScene._hidden_chest_secret)
+	if Session.found_secret(HIDDEN_CHEST_SECRET):
+		ChestKit.set_open(town.harbor_chest_node, true)
 	_build_portal_barriers()
 	TownDressing.alchemist(self, town.anchors, Session.alchemist_unlocked(), StoryText.shared())
 	TownDressing.arena_gate(self, town.anchors, Session.arena_unlocked(), StoryText.shared())
@@ -529,7 +539,9 @@ func _process(delta: float) -> void:
 	_update_hidden_chest_prompt()
 	_check_portal_walk(delta)
 	player.input_enabled = not _locked and not dialogue.active
-	if not _locked and not dialogue.active and not Session.pending_level_ups.is_empty():
+	if not _locked and not dialogue.active and not Session.pending_popups.is_empty():
+		_show_reward_box(Session.pending_popups.pop_front() as RewardSummary)
+	elif not _locked and not dialogue.active and not Session.pending_level_ups.is_empty():
 		var gained: Array[LevelData] = Session.pending_level_ups.duplicate()
 		Session.pending_level_ups.clear()
 		_show_level_up(gained)
@@ -926,7 +938,9 @@ func _open_quest_log() -> void:
 
 
 func _on_quest_notice(text: String, is_new: bool) -> void:
-	hud.queue_toast(text, UIStyle.GOLD if is_new else UIStyle.GOOD)
+	# A finished quest gets its own "Quest Complete" box (Session.pending_popups), so only new quests toast.
+	if is_new:
+		hud.queue_toast(text, UIStyle.GOLD)
 
 
 ## Part E: level, XP, stats, item and equipment slots. Hotkey C (global, see _unhandled_input) or
@@ -980,13 +994,10 @@ func _open_chest() -> void:
 		hud.toast("The chest is empty now.", UIStyle.MUTED)
 		return
 	Session.discover_secret(HIDDEN_CHEST_SECRET)
-	Session.add_gold(60)
-	Audio.sfx(&"coins")
-	Audio.sfx(&"ui_confirm")
+	var summary: RewardSummary = Session.grant_chest_reward({"gold": 60}, "The Secluded Grove chest")
 	hud.set_gold(Session.gold)
-	hud.toast("A hidden chest! +60 gold.", UIStyle.GOLD)
-	# Rebuilding the spots/actors would be needed to show the hidden vendor right now; simplest
-	# and honest: it appears the next time the player enters town, once the secret is saved.
+	# The hidden vendor appears the next time the player enters town, once the secret is saved.
+	_reveal_chest(town.harbor_chest_node, summary)
 	Session.save_game()
 
 
@@ -1001,44 +1012,36 @@ func _open_hidden_chest(id: String) -> void:
 		return
 	Session.discover_secret(_hidden_chest_secret(id))
 	var reward: Dictionary = HIDDEN_CHEST_REWARDS.get(id, {}) as Dictionary
-	var gold: int = int(reward.get("gold", 0))
-	var item_id: String = str(reward.get("item", ""))
-	var card_id: String = str(reward.get("card", ""))
-	var equipment_id: String = str(reward.get("equipment", ""))
-	var lines: PackedStringArray = []
-	if gold > 0:
-		Session.add_gold(gold)
-		hud.set_gold(Session.gold)
-		lines.append("+%d gold" % gold)
-	if not item_id.is_empty():
-		var item: ItemData = Session.content.item(item_id)
-		if item != null:
-			Session.add_item(item)
-			lines.append(item.display_name)
-	if not card_id.is_empty():
-		var card: CardData = Session.card_by_id(card_id)
-		if card != null:
-			Session.add_cards([card])
-			lines.append(card.display_name)
-	if not equipment_id.is_empty():
-		var piece: EquipmentData = Session.content.equipment_piece(equipment_id)
-		if piece != null and Session.grant_equipment(piece):
-			lines.append(piece.source_name)
+	var summary: RewardSummary = Session.grant_chest_reward(reward, "Hidden chest")
+	hud.set_gold(Session.gold)
 	_animate_chest_open(id)
-	hud.toast("A hidden chest! %s" % ", ".join(lines), UIStyle.GOLD)
+	_reveal_chest(null, summary)
 	Session.save_game()
+
+
+## Polish round: opens the chest lid (when `chest` is given), then the reward box once the lid has swung up. The hero stands still until it is dismissed.
+func _reveal_chest(chest: Node3D, summary: RewardSummary) -> void:
+	_locked = true
+	player.input_enabled = false
+	if chest != null:
+		Audio.sfx(&"chest_open")
+		Audio.sfx(&"coins", 0.0, 0.05)
+		ChestKit.open_animated(chest)
+	await get_tree().create_timer(0.7).timeout
+	_show_reward_box(summary)
+
+
+func _show_reward_box(summary: RewardSummary) -> void:
+	var popup: RewardPopup = RewardPopup.make(summary)
+	_open_overlay(popup)
+	popup.finished.connect(_close_overlay)
 
 
 ## A small bounce + a golden burst (reusing the Wellspring's particle-burst pattern) and a latch-
 ## then-coins sound, since the chest model has no separate lid to hinge open.
 func _animate_chest_open(id: String) -> void:
 	Audio.sfx(&"chest_open")
-	var chest: Node3D = town.hidden_chest_nodes.get(id) as Node3D
-	if chest != null:
-		var tween: Tween = create_tween()
-		tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-		tween.tween_property(chest, "scale", chest.scale * 1.35, 0.18)
-		tween.tween_property(chest, "scale", chest.scale, 0.22)
+	ChestKit.open_animated(town.hidden_chest_nodes.get(id) as Node3D)
 	var anchor: Vector3 = town.anchors.get("hidden_chest_%s" % id, Vector3.ZERO) as Vector3
 	var burst: CPUParticles3D = CPUParticles3D.new()
 	burst.position = anchor + Vector3(0, 0.3, 0)
@@ -1476,7 +1479,28 @@ func _screenshot_open(what: String) -> void:
 			_open_quest_log()
 		"map":
 			_open_full_map()
+		"chest_popup":
+			_show_reward_box(Session.grant_chest_reward({"gold": 80, "item": "healing_draught", "card": "C-29", "equipment": "hover_boots", "pack": "gilded_gourmand"}, "Hidden chest"))
+		"quest_popup":
+			_show_reward_box(_sample_quest_summary())
+		"level_popup":
+			_show_level_up(Session.grant_dev_level())
 
+
+
+## Screenshot only: a made-up finished quest for the Quest Complete box.
+func _sample_quest_summary() -> RewardSummary:
+	var summary: RewardSummary = RewardSummary.new()
+	summary.kind = RewardSummary.Kind.QUEST
+	summary.title = "Clear the Paths"
+	summary.subtitle = "The four envoys no longer block the roads."
+	summary.gold = 150
+	summary.xp = 120
+	summary.cards.append(Session.card_by_id("C-22"))
+	summary.items.append(Session.content.item("healing_draught"))
+	summary.add_pack("path_beefcake", "Beefcake Pack")
+	summary.unlocks = ["The Gainlands entrance is now open", "New stock at the Equipment Vendor", "The Alchemist is now available"] as Array[String]
+	return summary
 
 ## The wardrobe (hotkey T): hats, cloaks and dyes, purely cosmetic.
 func _open_wardrobe() -> void:

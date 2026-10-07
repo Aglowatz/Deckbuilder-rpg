@@ -483,7 +483,7 @@ func _dismiss(dialogue: DialogueBox) -> void:
 func _clear_popups(zone: ZoneScene) -> void:
 	zone._spawn_grace = maxf(zone._spawn_grace, 600.0)
 	var guard: int = 0
-	while guard < 25 and (zone.dialogue.active or zone._overlay is LevelUpScreen or _find_announcement(zone) != null):
+	while guard < 25 and (zone.dialogue.active or (zone._overlay is LevelUpScreen or zone._overlay is RewardPopup) or _find_announcement(zone) != null):
 		guard += 1
 		if zone.dialogue.active:
 			await driver.tap_key(KEY_E)

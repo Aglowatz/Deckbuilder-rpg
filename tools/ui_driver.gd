@@ -109,3 +109,32 @@ func click_button(text: String) -> bool:
 
 func center_of_control(control: Control) -> Vector2:
 	return control.get_global_transform() * (control.size * 0.5)
+
+
+## Polish round: a hidden chest or a finished quest shows a reward box that holds the hero still until the player confirms. Waits (up to `timeout`)
+## for one, clicks its Continue button like a player would and returns true; false when none appeared.
+func dismiss_reward_box(timeout: float = 3.0) -> bool:
+	var popup: Node = null
+	var waited: float = 0.0
+	while waited < timeout:
+		popup = _find_reward_popup()
+		if popup != null:
+			break
+		await seconds(0.1)
+		waited += 0.1
+	if popup == null:
+		return false
+	await seconds(PopupFrame.GUARD_TIME + 0.2)
+	var button: Button = find_button("Continue", popup)
+	if button == null:
+		return false
+	await click(button_center(button))
+	await seconds(0.3)
+	return true
+
+
+func _find_reward_popup() -> Node:
+	for node: Node in tree.root.find_children("*", "", true, false):
+		if node is RewardPopup:
+			return node
+	return null

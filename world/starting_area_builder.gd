@@ -11,13 +11,22 @@ extends WalkableArea
 ## New brief (third), Part D: 'H' is a hidden tunnel, tucked into the bottom-left corner of the
 ## treeline where a normal 'M' would be - no marker/glow, just a standard interact prompt once the
 ## player is genuinely close (see `docs/design/secrets.md`).
+## Polish round: 'N' is a camouflaged nook in the treeline with a hidden chest in it (see HIDDEN_CHESTS).
 const MAP: Array[String] = [
-	"MMMMM",
-	"M#G#M",
-	"M#T#M",
+	"MMMNM",
+	"N#G#M",
+	"M#T#N",
 	"H#S#M",
 	"MMMMM",
 ]
+
+## Polish round: 3 hidden chests in nooks of the treeline: id -> {cell, offset, gold}. Gold only, because the hero has no profile yet (no items, cards or equipment
+## exist before the element is chosen). No marker, no glow: the interact prompt (1.5 m) is the only tell. Documented in docs/design/secrets.md.
+const HIDDEN_CHESTS: Dictionary = {
+	"start_west": {"cell": Vector2i(0, 1), "offset": Vector3(0.45, 0.0, 0.1), "gold": 40},
+	"start_east": {"cell": Vector2i(4, 2), "offset": Vector3(-0.4, 0.0, 0.15), "gold": 25},
+	"start_cave": {"cell": Vector2i(3, 0), "offset": Vector3(-0.35, 0.0, 0.35), "gold": 70},
+}
 
 const OBSTACLE_TREE: float = 0.32
 
@@ -43,6 +52,7 @@ func build(parent: Node3D) -> void:
 		var line: String = MAP[row]
 		for col: int in range(line.length()):
 			_build_cell(col, row, line[col])
+	_build_hidden_chests()
 	_build_far_trees()
 
 
@@ -78,8 +88,30 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 				ModelKit.place(root, ModelKit.nature(tree), offset, _rng.randf() * 360.0, _rng.randf_range(1.1, 1.5))
 				obstacles.append(Vector3(offset.x, offset.z, OBSTACLE_TREE * 1.3))
 			anchors["tunnel"] = center
+		"N":
+			for i: int in range(3):
+				var offset: Vector3 = _scatter(center, 0.55, 0.95)
+				var tree: String = ["tree_single_A", "tree_single_B"][_rng.randi() % 2]
+				ModelKit.place(root, ModelKit.nature(tree), offset, _rng.randf() * 360.0, _rng.randf_range(1.1, 1.5))
+				obstacles.append(Vector3(offset.x, offset.z, OBSTACLE_TREE * 1.3))
 		"S":
 			anchors["spawn"] = center
+
+
+## id -> the chest's Node3D (the scene opens its lid and keeps it open once looted).
+var chest_nodes: Dictionary = {}
+
+
+func _build_hidden_chests() -> void:
+	for id: String in HIDDEN_CHESTS.keys():
+		var entry: Dictionary = HIDDEN_CHESTS[id] as Dictionary
+		var cell: Vector2i = entry["cell"] as Vector2i
+		var pos: Vector3 = HexGrid.cell_to_world(cell.x, cell.y) + (entry["offset"] as Vector3)
+		var chest: Node3D = ModelKit.dungeon_prop("chest_gold")
+		ModelKit.place(root, chest, pos, _rng.randf() * 360.0, 0.225)
+		anchors["hidden_chest_%s" % id] = pos
+		obstacles.append(Vector3(pos.x, pos.z, 0.18))
+		chest_nodes[id] = chest
 
 
 func _build_far_trees() -> void:

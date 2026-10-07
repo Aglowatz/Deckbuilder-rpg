@@ -65,6 +65,13 @@ const CHEST_REWARDS: Dictionary = {
 	"chest_lane": {"gold": 120, "item": "vitality_charm", "card": ""},
 	"chest_corner": {"gold": 50, "item": "ward_sigil", "card": ""},
 	"chest_ward": {"gold": 150, "item": "", "card": "R-26"},
+	# Polish round: the harder the chest is to reach, the better it pays (docs/design/secrets.md).
+	"chest_facade_back": {"gold": 100, "card": "C-30"},
+	"chest_facade_west": {"gold": 80, "item": "ward_sigil"},
+	"chest_crease_e": {"gold": 60, "pack": "general_2"},
+	"chest_crease_w": {"gold": 70, "item": "hearty_pie"},
+	"chest_ward_n": {"gold": 120, "equipment": "cheaters_dice"},
+	"chest_yard_corner": {"gold": 150, "cosmetic": "hat_top_hat"},
 }
 
 ## Propaganda that can be defaced (spot ids) and the small reward for each.

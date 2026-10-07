@@ -438,6 +438,13 @@ func _chests() -> void:
 		"chest_wheel": Vector3(29.0, 0.0, 8.4),
 		"chest_pancake": Vector3(87.0, 0.0, 17.0),
 		"chest_cake": Vector3(60.5, 0.0, 22.0),
+		# Polish round: a second chest on two mesas and four tucked into the table's corners and edges.
+		"chest_pancake_2": Vector3(76.8, 0.0, 11.4),
+		"chest_cheddar_2": Vector3(16.8, 0.0, 18.0),
+		"chest_meadow_ne": Vector3(90.6, 0.0, 6.6),
+		"chest_cliffs_w": Vector3(5.4, 0.0, 11.4),
+		"chest_crust": Vector3(42.6, 0.0, 4.8),
+		"chest_edge_sw": Vector3(4.8, 0.0, 24.6),
 	}
 
 

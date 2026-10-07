@@ -57,8 +57,11 @@ func test_all_spots_hubs_chests_and_enemies_are_connected_to_the_spawn_through_t
 	var reached: Dictionary = _flood(builder, builder.anchor("spawn"))
 	for name_to_check: String in ["gate_inside", "gus", "tilda", "bram", "odile", "castle_door", "net_approach", "manhole", "facade_gate", "fountain", "ward_window", "castle_door"]:
 		assert_true(_reaches(reached, builder.anchor(name_to_check)), "%s is reachable from the road" % name_to_check)
+	# The Crease (the underground hideout, z > 95) is reached through the manhole or the tunnel, so its chests are checked from its own arrival point.
+	var crease: Dictionary = _flood(builder, builder.anchor("crease_spawn"))
 	for chest_id: Variant in builder.chest_positions().keys():
-		assert_true(_reaches(reached, builder.chest_positions()[chest_id] as Vector3), "chest %s is reachable" % str(chest_id))
+		var chest_pos: Vector3 = builder.chest_positions()[chest_id] as Vector3
+		assert_true(_reaches(crease if chest_pos.z > 95.0 else reached, chest_pos), "chest %s is reachable" % str(chest_id))
 	for spawn: Dictionary in builder.enemy_spawns():
 		assert_true(builder.is_walkable(spawn["home"] as Vector3, 0.25), "enemy home %s is on open ground" % str(spawn["home"]))
 		assert_true(_reaches(reached, spawn["home"] as Vector3), "enemy home %s is reachable" % str(spawn["home"]))

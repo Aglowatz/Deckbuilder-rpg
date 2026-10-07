@@ -2484,3 +2484,54 @@ Tests: see Part D (the card tests use the imported set); 988 pass.
 ## Token art and resource tray position
 - **Token art**: T-01..T-23 imported from the Drive "Approved" folder (copy only, converted to 768x1152 WebP, none cropped, none missing, no unmatched files). Units/tokens on the field and the hover preview already load art by Token ID; the table coins/tiles (`CardView.Mode.COIN`: Red Tape T-14, Contract T-13) now draw it too through `ui/shaders/coin_art.gdshader` (circle or rounded tile). Iron, Ingredient and Garbage coins (RES-*) have no art in the sheet and keep their glyphs. `docs/art/art_status.md`: 328 of 339 have art.
 - **Resource tray moved to the right column** (it overlapped the hover preview on the left): your tray sits below the turn panel, the enemy's above it, each with its Contract row (your row below your tray, the enemy's above theirs). Turn panel shortened (y 226, h 406) to make room. Screenshot helpers: `--hover=hand:N|field:N|efield:N|token:N|resource:N` and `--keep=true` on the battle scene. Screens: `docs/art/screens/battle_tray_right_*.png` (1600x900 and 1280x720).
+
+## Polish round: town, collision, starting forest, chests and reward boxes
+
+Five groups, each finished with the full GUT run, screenshots, a commit and a push (screenshots are in `docs/art/screens/polish/`). Judgment calls are P-1..P-16 in
+`docs/design/open_questions.md`; every chest is in `docs/design/secrets.md`.
+
+### Group A: main town
+- **Brown roads gone.** The dirt/moss ribbons from the square to the vendors are removed (`TownSquare._ground`); the grass tufts now also grow where the roads were (flowers and bushes
+  still keep off the lanes). The few scattered flowers stay.
+- **The pond is gone.** The canal pockets at map columns 13-14 (rows 5-12) between the central square and the item/equipment vendors are grass now, so the way east is open ground.
+- **The Rift Express beam is removed** (the `StyleBeacon` pillar over the station). *"Rip Express" and "Beefcake Rift Express" are the same object* (`rift_station`), so the beam removal and the
+  move both apply to it. It stands 1.2 m further right and 1.2 m further down than before (and its operator with it).
+- **18 more structures** (`world/town_expansion.gd`): cottages, a bakery, a barn, a net shed, a lookout tower, an archery range, a watch shed, two wells and two market stalls, each on the
+  centre of an empty grass hex on a district edge (West Woods, North Uplands, Harbor Dock, Beefcake Flats), none in a main lane. The same KayKit set the town already uses (no new pack).
+
+### Group B: movement and collision
+- **Small decorative rocks no longer block:** the town's rock hexes, the Gainlands' scattered boulders (main land and islands), the Verdant Dump's scattered rocks and the Capital outskirts' rocks.
+  Kept solid: the two big boulders at the Gainlands gym, mountains, buildings, the town graveyard's tombstone stand-ins and cairn. The starting area, D.N.A. and the Endless Buffet had no rocks with collision.
+- **Gainlands "invisible wall" fixed.** The Swole Station (north of the spawn) had a single 4 m collision circle around a 2.9 x 3.3 m building and across the paths north; it now has four 1 m
+  colliders tracing the real footprint.
+- **Automated walkability check** (`WalkProbe` + `tests/world/test_walkability_town.gd` and `test_walkability_zones.gd`): flood-fills from the spawn at 0.3 m steps and fails if any vendor,
+  NPC, chest, quest giver, exit, dungeon entrance or travel point cannot be reached. Jelly pads, beanstalk ladders, manholes and the tunnel count as links; every progression gate is treated
+  as open. Results after Groups A and B (and again after Group D's chests): **every key location reachable in the town, the starting area and all five zones**; nothing needed fixing beyond
+  the Gainlands station. Widest body radius that still reaches everything (lane width / 2): town 0.55, D.N.A. 0.35, Gainlands 0.65, Buffet 0.60, Verdant Dump 0.65, Capital 0.65
+  (the hero's own radius is 0.22).
+
+### Group C: starting area
+- The clearing is now a clearing in an endless forest (`world/starting_forest.gd`): a 900 m mossy forest floor, a dense near layer of tall pines (to 24 m), a middle layer of bigger pines (to 58 m),
+  a far line of unshaded cone silhouettes out to 130 m that the preset's fog melts away, undergrowth, a bush skirt around the clearing, a ring of far mountains, slanted light shafts
+  (`style_lightshaft.gdshader`) and drifting fireflies on top of the preset's own. Visual only (nothing there is walkable); no edge of the world at any zoom level or camera angle.
+  Everything is MultiMesh: 254 draw calls, 59 fps on Medium on the dev PC (Ryzen 5 4500U iGPU).
+
+### Group D: chests and rewards
+- **37 new hidden chests:** 4 in the town (11 in all), 3 in the starting area (gold only: there is no profile yet), 6 in each of D.N.A., the Gainlands, the Endless Buffet, the Verdant Dump and the
+  Capital (a second chest on every floating island, mesa tops, summits, the deepest maze ends, behind the facade houses, in the Crease). Same rules as before (1/4 size, no marker, prompt only
+  within 1.5 m, one-time, saved). **Reward quality scales with difficulty** (tiers I-III in `secrets.md`; checked by a test). The game has no jump or climb button, so "hard to reach" uses the
+  traversal that exists (throws, pads, beanstalks, gates, the maze, the tunnel) plus far, tucked corners; see P-12.
+- **Opened chests stay open.** The lid swings up, the gold pile inside is removed, and the state is rebuilt from the save whenever the area loads (`ChestKit`).
+- **Chest reward box** (`RewardPopup`): gold, cards drawn as real cards with their art, items, equipment, packs, cosmetics. The hero stands still until a click or Enter / Space / E
+  (with a 0.5 s guard so the E that opened the chest cannot close it).
+
+### Group E: quest complete box
+- **Quest Complete box**: the quest name, a "QUEST COMPLETE" header, the rewards (gold, XP, cards with art, items, equipment, packs) and an "OPENED UP" list built from a before/after snapshot
+  of what the player can reach (`UnlockDigest`): zone entrances, the Arena, the Alchemist, new vendor stock by level, new quests. A level-up from the XP shows the quest box first, then the
+  level-up box. The quest toast now only announces *new* quests.
+- **One family:** the chest box, the quest box and the level-up box are all built on `PopupFrame` (shade, plum panel, gold-trimmed header with a badge, heading, body, Continue button, hint).
+
+### Tests and e2e
+- GUT: 1075 tests, all passing (36 new: walkability, forest, chests, boxes, unlock digest).
+- E2E (budget: two runs per area, ~15 min): `town_interact_smoke` ran twice (hidden chests and the new Quest Complete box pass; two failures were script timing - a level-up box after the quest box, and a HUD button click - patched, not re-run). The Gainlands flow ran once: 77 of 78 checks passed (Gainlands station route, island and ground chests, portals, quiz, puzzle); the one failure was the M key hitting a Quest Complete box, patched in the script, not re-run. Starting-area and the other zones' smokes were not run (budget); their chest steps were updated to click the box away.
+  Screenshots: `docs/art/screens/polish/` (town from four angles + overview, Rift Express, starting area zoomed out, Gainlands spawn, chest before/after, chest box, quest box, level-up box).

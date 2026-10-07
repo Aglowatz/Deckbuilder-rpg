@@ -472,7 +472,7 @@ func _teleport(zone: CapitalScene, pos: Vector3) -> void:
 func _clear_overlays(zone: ZoneScene) -> void:
 	var guard: int = 0
 	await driver.seconds(0.5)
-	while zone._overlay != null and zone._overlay is LevelUpScreen and guard < 12:
+	while zone._overlay != null and (zone._overlay is LevelUpScreen or zone._overlay is RewardPopup) and guard < 12:
 		guard += 1
 		var inner: Node = (zone._overlay as LevelUpScreen)._child_screen
 		if inner is EquipmentSlotChoiceScreen:
@@ -488,7 +488,7 @@ func _clear_overlays(zone: ZoneScene) -> void:
 		else:
 			await driver.tap_key(KEY_E)
 		await driver.seconds(0.6)
-	if zone._overlay != null and not (zone._overlay is LevelUpScreen):
+	if zone._overlay != null and not ((zone._overlay is LevelUpScreen or zone._overlay is RewardPopup)):
 		pass
 
 

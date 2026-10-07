@@ -90,8 +90,21 @@ func build() -> void:
 	_furnish_elevator_bank()
 	_furnish_records()
 	_furnish_executive()
+	_polish_chests()
 	_enemies()
 	_finish_walls()
+
+
+
+## Polish round: 6 more hidden chests, the hardest deep in the Filing Department's maze (docs/design/secrets.md). World metres; none is within
+## 4 m of an interact spot.
+func _polish_chests() -> void:
+	chests["chest_maze_3"] = Vector3(2.4, 0.0, 11.4)
+	chests["chest_maze_4"] = Vector3(9.6, 0.0, 4.8)
+	chests["chest_maze_5"] = Vector3(8.4, 0.0, 17.4)
+	chests["chest_records_2"] = Vector3(87.6, 0.0, 4.8)
+	chests["chest_exec_2"] = Vector3(52.2, 0.0, 2.4)
+	chests["chest_farm_c"] = Vector3(87.6, 0.0, 43.2)
 
 
 # ---- Grid helpers --------------------------------------------------------------------------

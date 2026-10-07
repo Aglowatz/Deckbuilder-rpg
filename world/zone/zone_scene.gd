@@ -163,6 +163,7 @@ func _ready() -> void:
 	_build_npcs()
 	_build_spots()
 	_build_fast_travel()
+	ChestKit.apply_saved(builder.chest_nodes, _chest_secret)
 	_build_enemies()
 	_build_zone_extras()
 	_build_completion_state()
@@ -463,7 +464,12 @@ func _process(delta: float) -> void:
 	builder.update_visibility(player.position)
 	_zone_process(delta)
 	var world_active: bool = _world_active()
-	if world_active and not Session.pending_level_ups.is_empty():
+	if world_active and not Session.pending_popups.is_empty():
+		var popup: RewardPopup = RewardPopup.make(Session.pending_popups.pop_front() as RewardSummary)
+		_open_overlay(popup)
+		popup.finished.connect(_close_overlay)
+		world_active = false
+	elif world_active and not Session.pending_level_ups.is_empty():
 		var gained: Array[LevelData] = Session.pending_level_ups.duplicate()
 		Session.pending_level_ups.clear()
 		var screen: LevelUpScreen = LevelUpScreen.new()
@@ -826,43 +832,24 @@ func _open_chest(id: String) -> void:
 		return
 	Session.discover_secret(_chest_secret(id))
 	var reward: Dictionary = def.chest_rewards.get(id, {}) as Dictionary
-	var parts: PackedStringArray = []
-	var gold: int = int(reward.get("gold", 0))
-	if gold > 0:
-		Session.add_gold(gold)
-		parts.append("+%d gold" % gold)
-	var item_id: String = str(reward.get("item", ""))
-	if not item_id.is_empty() and Session.content.item(item_id) != null:
-		Session.add_item(Session.content.item(item_id))
-		parts.append(Session.content.item(item_id).display_name)
-	var card_id: String = str(reward.get("card", ""))
-	if not card_id.is_empty() and Session.card_by_id(card_id) != null:
-		Session.add_cards([Session.card_by_id(card_id)] as Array[CardData])
-		parts.append(Session.card_by_id(card_id).display_name)
-	var cosmetic_id: String = str(reward.get("cosmetic", ""))
-	if not cosmetic_id.is_empty() and Session.grant_cosmetic(cosmetic_id):
-		parts.append(CosmeticCatalog.find(cosmetic_id).display_name)
-	var equipment_id: String = str(reward.get("equipment", ""))
-	if not equipment_id.is_empty():
-		var piece: EquipmentData = Session.content.equipment_piece(equipment_id)
-		if piece != null and Session.grant_equipment(piece):
-			parts.append(piece.source_name)
+	var summary: RewardSummary = Session.grant_chest_reward(reward, "Hidden chest")
 	Session.bump_counter(def.counter_chests)
-	_animate_chest(id)
 	hud.set_gold(Session.gold)
-	hud.toast("%s %s" % [story.text("fx.chest"), ", ".join(parts)], UIStyle.GOLD)
 	Session.save_game()
+	_locked = true
+	player.input_enabled = false
+	_animate_chest(id)
+	await get_tree().create_timer(0.7).timeout
+	var popup: RewardPopup = RewardPopup.make(summary)
+	_open_overlay(popup)
+	popup.finished.connect(_close_overlay)
 
 
 func _animate_chest(id: String) -> void:
 	Audio.sfx(&"chest_open")
 	Audio.sfx(&"coins", 0.0, 0.05)
-	var chest: Node3D = builder.chest_nodes.get(id) as Node3D
-	if chest != null:
-		var tween: Tween = create_tween()
-		tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-		tween.tween_property(chest, "scale", chest.scale * 1.35, 0.18)
-		tween.tween_property(chest, "scale", chest.scale, 0.22)
+	ChestKit.open_animated(builder.chest_nodes.get(id) as Node3D)
+
 
 
 # ---- Zone HP: enemies, damage, fainting ----------------------------------------------------
@@ -1118,7 +1105,9 @@ func _open_quest_log() -> void:
 
 
 func _on_quest_notice(text: String, is_new: bool) -> void:
-	hud.queue_toast(text, UIStyle.GOLD if is_new else UIStyle.GOOD)
+	# A finished quest gets its own "Quest Complete" box (Session.pending_popups), so only new quests toast.
+	if is_new:
+		hud.queue_toast(text, UIStyle.GOLD)
 
 
 # ---- Screenshot helpers ----------------------------------------------------------------------

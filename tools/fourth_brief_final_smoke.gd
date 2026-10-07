@@ -198,6 +198,7 @@ func _open_a_hidden_equipment_chest(town: TownScene) -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
 	_check(Session.found_secret("hidden_chest_uplands_ridge"), "opening the chest marks its secret found")
+	await driver.dismiss_reward_box()
 	_check(not owned_before and Session.profile.owned_equipment.has(piece), "opening it actually grants Traveler's Boots")
 	_shot(town, "final2_08_hidden_equipment_chest_opened")
 
@@ -248,7 +249,7 @@ func _attempt_the_graveyard(town: TownScene) -> void:
 ## choice offered (falls back to whatever tile is first if that slot isn't an option this time).
 func _drive_level_up(town: TownScene, preferred_slot: EquipmentData.Slot) -> void:
 	var guard: int = 0
-	while town._overlay is LevelUpScreen and guard < 20:
+	while (town._overlay is LevelUpScreen or town._overlay is RewardPopup) and guard < 20:
 		guard += 1
 		var level_up: LevelUpScreen = town._overlay as LevelUpScreen
 		if level_up._child_screen is EquipmentSlotChoiceScreen:

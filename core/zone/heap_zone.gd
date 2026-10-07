@@ -65,6 +65,13 @@ const CHEST_REWARDS: Dictionary = {
 	"chest_peak_b": {"gold": 20, "item": "", "card": "R-09"},
 	"chest_car": {"gold": 90, "item": "firebrand_charm", "card": ""},
 	"chest_barn": {"gold": 50, "item": "vitality_charm", "card": ""},
+	# Polish round: the harder the chest is to reach, the better it pays (docs/design/secrets.md).
+	"chest_peak_c": {"gold": 70, "pack": "gilded_refusemancer"},
+	"chest_peak_d": {"gold": 60, "card": "R-28"},
+	"chest_scree_ne": {"gold": 50, "equipment": "big_brain_beret"},
+	"chest_corner_nw": {"gold": 90, "item": "hearty_pie"},
+	"chest_back_edge": {"gold": 0, "pack": "path_refusemancer"},
+	"chest_thicket_s": {"gold": 40, "item": "healing_salve"},
 }
 
 

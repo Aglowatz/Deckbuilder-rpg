@@ -44,6 +44,13 @@ const CHEST_REWARDS: Dictionary = {
 	"chest_delt": {"gold": 0, "item": "", "card": "B-24"},
 	"chest_glute": {"gold": 90, "item": "healing_draught", "card": ""},
 	"chest_calf": {"gold": 50, "item": "vitality_charm", "card": "B-21"},
+	# Polish round: the harder the chest is to reach, the better it pays (docs/design/secrets.md).
+	"chest_pec_2": {"gold": 80, "item": "reckless_tonic"},
+	"chest_delt_2": {"gold": 40, "card": "B-28"},
+	"chest_glute_2": {"gold": 60, "pack": "gilded_beefcake"},
+	"chest_calf_2": {"gold": 100, "equipment": "hover_boots"},
+	"chest_ground_3": {"gold": 50, "item": "healing_draught"},
+	"chest_ground_4": {"gold": 30, "pack": "path_beefcake"},
 }
 
 

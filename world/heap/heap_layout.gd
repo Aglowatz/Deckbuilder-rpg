@@ -377,6 +377,13 @@ func _chests() -> void:
 		"chest_peak_b": Vector3(12.5, 0.0, 14.0),
 		"chest_car": Vector3(60.5, 0.0, 22.0),
 		"chest_barn": Vector3(88.0, 0.0, 21.0),
+		# Polish round: a third summit chest on each peak, one up the scree, three in the far corners.
+		"chest_peak_c": Vector3(19.8, 0.0, 11.4),
+		"chest_peak_d": Vector3(90.0, 0.0, 54.0),
+		"chest_scree_ne": Vector3(82.2, 0.0, 4.8),
+		"chest_corner_nw": Vector3(8.4, 0.0, 7.2),
+		"chest_back_edge": Vector3(34.8, 0.0, 4.8),
+		"chest_thicket_s": Vector3(4.8, 0.0, 28.2),
 	}
 
 

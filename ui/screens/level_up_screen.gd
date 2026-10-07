@@ -26,8 +26,7 @@ static func _bonus(icon_name: String, text_value: String) -> Bonus:
 
 var levels_gained: Array[LevelData] = []
 var _index: int = 0
-var _panel: PanelContainer
-var _column: VBoxContainer
+var _frame: PopupFrame
 var _child_screen: Control
 
 
@@ -37,19 +36,10 @@ func setup(gained: Array[LevelData]) -> void:
 
 func _ready() -> void:
 	UIKit.full_rect(self)
-	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.02, 0.02, 0.06, 0.92)
-	UIKit.full_rect(shade)
-	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(shade)
-	var center: CenterContainer = CenterContainer.new()
-	UIKit.full_rect(center)
-	add_child(center)
-	_panel = UIKit.panel()
-	_panel.custom_minimum_size = Vector2(760, 0)
-	center.add_child(_panel)
-	_column = UIKit.vbox(14)
-	_panel.add_child(_column)
+	# Polish round: the same frame as the chest and quest-complete boxes (`PopupFrame`).
+	_frame = PopupFrame.make("LEVEL UP!", "level_badge", UIStyle.GOLD)
+	add_child(_frame)
+	_frame.confirmed.connect(_next_level)
 	_index = 0
 	_show_level_popup()
 
@@ -58,20 +48,11 @@ func _ready() -> void:
 ## particle burst and a sound. `_advance()` moves to the next level, or on to equipment/card
 ## choices once every level has had its popup.
 func _show_level_popup() -> void:
-	for child: Node in _column.get_children():
-		child.queue_free()
+	_frame.clear_body()
 	var row: LevelData = levels_gained[_index]
-	var badge_row: HBoxContainer = UIKit.hbox(14)
-	badge_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	_column.add_child(badge_row)
-	badge_row.add_child(CardIcons.glyph(CardIcons.ui("level_badge"), UIStyle.GOLD, Vector2(56, 56)))
-	badge_row.add_child(UIKit.label("Level Up!", &"TitleLabel", 56, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	_column.add_child(UIKit.label("You are now level %d." % row.level, &"HeadingLabel", 26, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	if levels_gained.size() > 1:
-		_column.add_child(UIKit.label("(%d of %d levels gained)" % [_index + 1, levels_gained.size()], &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	_column.add_child(UIKit.spacer(6))
+	_frame.set_heading("You are now level %d." % row.level, "(%d of %d levels gained)" % [_index + 1, levels_gained.size()] if levels_gained.size() > 1 else "")
 	var bonus_list: VBoxContainer = UIKit.vbox(8)
-	_column.add_child(bonus_list)
+	_frame.body.add_child(bonus_list)
 	for bonus: Bonus in _bonuses_for(row):
 		var bonus_row: HBoxContainer = UIKit.hbox(12)
 		bonus_row.add_child(CardIcons.glyph(CardIcons.ui(bonus.icon), UIStyle.PARCHMENT, Vector2(32, 32)))
@@ -80,12 +61,7 @@ func _show_level_popup() -> void:
 		label.custom_minimum_size = Vector2(640, 0)
 		bonus_row.add_child(label)
 		bonus_list.add_child(bonus_row)
-	var button: FancyButton = FancyButton.make("Continue", &"PrimaryButton", Vector2(240, 60))
-	button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	button.pressed.connect(_next_level)
-	_column.add_child(UIKit.spacer(6))
-	_column.add_child(button)
-	_animate_in()
+	_frame.animate_in()
 	Audio.sfx(&"level_up")
 
 
@@ -124,45 +100,7 @@ func _bonuses_for(row: LevelData) -> Array[Bonus]:
 	return bonuses
 
 
-## Fades + scales the popup in and bursts particles from behind the badge - the "animated
-## entrance, particles and a sound" the brief asks for (the sound is played by the caller).
-func _animate_in() -> void:
-	_panel.pivot_offset = _panel.size * 0.5
-	_panel.scale = Vector2(0.7, 0.7)
-	_panel.modulate.a = 0.0
-	var tween: Tween = _panel.create_tween().set_parallel(true)
-	tween.tween_property(_panel, "modulate:a", 1.0, 0.3)
-	tween.tween_property(_panel, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	_burst_particles()
-
-
-func _burst_particles() -> void:
-	var particles: CPUParticles2D = CPUParticles2D.new()
-	particles.position = get_viewport_rect().size * 0.5
-	particles.emitting = false
-	particles.one_shot = true
-	particles.amount = 48
-	particles.lifetime = 1.0
-	particles.explosiveness = 1.0
-	particles.spread = 180.0
-	particles.gravity = Vector2(0, 260)
-	particles.initial_velocity_min = 140.0
-	particles.initial_velocity_max = 420.0
-	particles.scale_amount_min = 4.0
-	particles.scale_amount_max = 9.0
-	particles.color = UIStyle.GOLD
-	var ramp: Gradient = Gradient.new()
-	ramp.set_color(0, UIStyle.GOLD)
-	ramp.set_color(1, Color(UIStyle.GOLD.r, UIStyle.GOLD.g, UIStyle.GOLD.b, 0.0))
-	particles.color_ramp = ramp
-	particles.z_index = 250
-	add_child(particles)
-	particles.emitting = true
-	get_tree().create_timer(1.4, false).timeout.connect(particles.queue_free)
-
-
 func _next_level() -> void:
-	Audio.sfx(&"ui_confirm")
 	_index += 1
 	if _index < levels_gained.size():
 		_show_level_popup()
@@ -184,8 +122,7 @@ func _advance() -> void:
 
 
 func _show_equipment_choice() -> void:
-	for child: Node in _column.get_children():
-		child.queue_free()
+	_frame.visible = false
 	var choice: EquipmentSlotChoiceScreen = EquipmentSlotChoiceScreen.new()
 	choice.chosen.connect(func(slot: EquipmentData.Slot) -> void:
 		Session.choose_equipment_slot(slot)

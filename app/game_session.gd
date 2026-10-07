@@ -39,6 +39,8 @@ var counters: Dictionary = {}
 var cosmetics: CosmeticState = CosmeticState.new()
 ## Level-ups earned outside a battle (quest rewards...) that the current scene still has to show.
 var pending_level_ups: Array[LevelData] = []
+## Polish round: reward boxes waiting to be shown (a finished quest's "Quest Complete" box). The world scenes show them one by one before any level-up popup.
+var pending_popups: Array[RewardSummary] = []
 var completed_quests: Array[String]:
 	get:
 		return quest_log.completed
@@ -117,6 +119,7 @@ func new_game() -> void:
 	_fog_live = {}
 	zone_run = null
 	pending_level_ups = []
+	pending_popups = []
 	pending_equipment_choices = 0
 	rng.randomize()
 
@@ -714,6 +717,7 @@ func from_dict(data: Dictionary) -> bool:
 	_fog_live = {}
 	zone_run = null
 	pending_level_ups = []
+	pending_popups = []
 	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
 	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
 		rebuild_starter_deck()
@@ -1046,15 +1050,27 @@ func refresh_quests() -> void:
 	EventBus.quest_changed.emit()
 
 
-## Completes an active quest and pays its rewards. Returns false if it was not active.
+## Completes an active quest and pays its rewards. Returns false if it was not active. A "Quest Complete" box (`RewardSummary`) is queued in
+## `pending_popups` for the world scenes to show before any level-up popup the XP caused.
 func complete_quest(quest_id: String) -> bool:
 	var quest: QuestData = QuestCatalog.find(quest_id)
-	if quest == null or not quest_log.complete(quest_id):
+	if quest == null or not quest_log.is_active(quest_id):
 		return false
+	var before: UnlockDigest = UnlockDigest.capture(flags, profile.level if profile != null else 1, _startable_quests())
+	if not quest_log.complete(quest_id):
+		return false
+	var summary: RewardSummary = RewardSummary.new()
+	summary.kind = RewardSummary.Kind.QUEST
+	summary.title = quest.title
+	summary.subtitle = Villain.fill(quest.summary)
 	if quest.reward_gold > 0:
 		add_gold(quest.reward_gold)
+		summary.gold = quest.reward_gold
 	for item_id: String in quest.reward_item_ids:
-		add_item(content.item(item_id))
+		var item: ItemData = content.item(item_id)
+		add_item(item)
+		if item != null:
+			summary.items.append(item)
 	var cards: Array[CardData] = []
 	for card_id: String in quest.reward_card_ids:
 		var card: CardData = card_by_id(card_id)
@@ -1062,20 +1078,46 @@ func complete_quest(quest_id: String) -> bool:
 			cards.append(card)
 	if not cards.is_empty():
 		add_cards(cards)
+		summary.cards.append_array(cards)
 	for pack_id: String in quest.reward_pack_ids:
-		add_pack(pack_id)
+		if add_pack(pack_id):
+			var pack: PackData = PackCatalog.find(pack_id)
+			summary.add_pack(pack_id, pack.display_name if pack != null else pack_id)
 	for equipment_id: String in quest.reward_equipment_ids:
-		grant_equipment(content.equipment_piece(equipment_id))
+		var piece: EquipmentData = content.equipment_piece(equipment_id)
+		grant_equipment(piece)
+		if piece != null:
+			summary.equipment.append(piece)
 	for flag_name: String in quest.reward_unlock_flags:
 		flags[flag_name] = true
+		if flag_name.begins_with("capital_insight_"):
+			summary.unlocks.append("Insight into %s" % Villain.display_name())
 	if quest.reward_xp > 0:
-		pending_level_ups.append_array(add_xp(quest.reward_xp))
+		summary.xp = quest.reward_xp
+		var gained: Array[LevelData] = add_xp(quest.reward_xp)
+		pending_level_ups.append_array(gained)
+		for row: LevelData in gained:
+			summary.levels_reached.append(row.level)
+	summary.unlocks.append_array(UnlockDigest.capture(flags, profile.level if profile != null else 1, _startable_quests()).lines_since(before))
+	pending_popups.append(summary)
 	var rewards: String = quest.reward_summary()
 	var suffix: String = ("  (" + rewards + ")") if not rewards.is_empty() else ""
 	EventBus.quest_notice.emit("Quest complete: %s%s" % [quest.title, suffix], false)
 	EventBus.quest_changed.emit()
 	save_game()
 	return true
+
+
+## Quest id -> title for every quest that could be started right now (the "what this opened up" diff of a finished quest).
+func _startable_quests() -> Dictionary:
+	var result: Dictionary = {}
+	if profile == null:
+		return result
+	var state: UnlockState = unlock_state()
+	for quest: QuestData in QuestCatalog.all():
+		if quest_log.can_start(quest, state):
+			result[quest.id] = quest.title
+	return result
 
 
 ## Turn-in at an NPC: completes the quest if it is ready. Returns true on success.
@@ -1914,3 +1956,47 @@ func choose_starting_look(hat_item: String, cloak_item: String, hat_dye_index: i
 	cosmetics.look_chosen = true
 	EventBus.cosmetics_changed.emit()
 	save_game()
+
+
+# ---- Chest rewards (polish round) ---------------------------------------------------------------------------------------------------------
+
+
+## Pays out one hidden chest's contents and describes them for the reward box. `reward` is a chest table row: gold (int), item (item id), card (card id),
+## equipment (equipment id), cosmetic (cosmetic id), pack (pack id) and xp (int), any of them optional (a missing/empty value means "none of that").
+## The caller marks the chest found (`discover_secret`) and saves.
+func grant_chest_reward(reward: Dictionary, title: String = "Hidden chest") -> RewardSummary:
+	var summary: RewardSummary = RewardSummary.new()
+	summary.kind = RewardSummary.Kind.CHEST
+	summary.title = title
+	var gold_amount: int = int(reward.get("gold", 0))
+	if gold_amount > 0:
+		add_gold(gold_amount)
+		summary.gold = gold_amount
+	var item_id: String = str(reward.get("item", ""))
+	if not item_id.is_empty() and content.item(item_id) != null:
+		add_item(content.item(item_id))
+		summary.items.append(content.item(item_id))
+	var card_id: String = str(reward.get("card", ""))
+	if not card_id.is_empty() and card_by_id(card_id) != null:
+		add_cards([card_by_id(card_id)] as Array[CardData])
+		summary.cards.append(card_by_id(card_id))
+	var equipment_id: String = str(reward.get("equipment", ""))
+	if not equipment_id.is_empty():
+		var piece: EquipmentData = content.equipment_piece(equipment_id)
+		if piece != null and grant_equipment(piece):
+			summary.equipment.append(piece)
+	var cosmetic_id: String = str(reward.get("cosmetic", ""))
+	if not cosmetic_id.is_empty() and grant_cosmetic(cosmetic_id):
+		summary.cosmetics.append(CosmeticCatalog.find(cosmetic_id).display_name)
+	var pack_id: String = str(reward.get("pack", ""))
+	if not pack_id.is_empty() and add_pack(pack_id):
+		var pack: PackData = PackCatalog.find(pack_id)
+		summary.add_pack(pack_id, pack.display_name if pack != null else pack_id)
+	var xp_amount: int = int(reward.get("xp", 0))
+	if xp_amount > 0:
+		summary.xp = xp_amount
+		var gained: Array[LevelData] = add_xp(xp_amount)
+		pending_level_ups.append_array(gained)
+		for row: LevelData in gained:
+			summary.levels_reached.append(row.level)
+	return summary

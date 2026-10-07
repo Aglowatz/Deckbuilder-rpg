@@ -17,6 +17,8 @@ const CLICK_PICK_RADIUS: float = 90.0
 ## New brief (third), Part D: the hidden tunnel's interact radius - tight, like the town's hidden
 ## chests, since the only tell it exists at all is this prompt appearing once genuinely close.
 const TUNNEL_RADIUS: float = 1.5
+## Polish round: the treeline nooks' hidden chests use the same tight radius.
+const CHEST_RADIUS: float = 1.5
 
 var area: StartingAreaBuilder = StartingAreaBuilder.new()
 var player: TownPlayer
@@ -28,6 +30,7 @@ var _prompt_label: Label
 var _gate_marker: Node3D
 var _near_gate: bool = false
 var _near_tunnel: bool = false
+var _chest_near: String = ""
 var _locked: bool = false
 var _screenshot_args: Dictionary = {}
 var minimap: MinimapHud
@@ -53,6 +56,7 @@ func _ready() -> void:
 		_custom_camera = true
 	_build_actors()
 	_build_ui()
+	ChestKit.apply_saved(area.chest_nodes, StartingAreaScene._chest_secret)
 	if _screenshot_args.has("pos"):
 		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
 		player.position = Vector3(float(pos[0]), 0.0, float(pos[1]))
@@ -212,6 +216,7 @@ func _update_prompt() -> void:
 		_prompt_panel.visible = false
 		_near_gate = false
 		_near_tunnel = false
+		_chest_near = ""
 		return
 	var gate: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
 	var gate_distance: float = Vector2(player.position.x - gate.x, player.position.z - gate.z).length()
@@ -226,8 +231,11 @@ func _update_prompt() -> void:
 	_near_tunnel = near_tunnel_now
 	if (_near_gate and not was_near_gate) or (_near_tunnel and not was_near_tunnel):
 		Audio.sfx(&"ui_tick", -10.0)
+	_chest_near = _find_chest_in_reach()
 	if _near_gate:
 		_prompt_label.text = "[E]  Enter the cave"
+	elif _chest_near != "":
+		_prompt_label.text = "[E]  Open the chest"
 	elif _near_tunnel:
 		_prompt_label.text = "[E]  Slip through the tunnel"
 	else:
@@ -254,6 +262,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	# New brief (third), Part D: the hidden tunnel - E/Space only, like the town's hidden chests
 	# (no marker to click on).
+	if _chest_near != "" and not _near_gate and (event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE)):
+		get_viewport().set_input_as_handled()
+		_open_chest(_chest_near)
+		return
 	if _near_tunnel and not _near_gate:
 		if event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE):
 			get_viewport().set_input_as_handled()
@@ -276,6 +288,46 @@ func _unhandled_input(event: InputEvent) -> void:
 			if _camera.unproject_position(_gate_marker.position).distance_to(click.position) <= CLICK_PICK_RADIUS:
 				get_viewport().set_input_as_handled()
 				_enter_gate()
+
+
+## The id of the unopened hidden chest within CHEST_RADIUS of the hero, or "".
+func _find_chest_in_reach() -> String:
+	for id: String in StartingAreaBuilder.HIDDEN_CHESTS.keys():
+		if Session.found_secret(_chest_secret(id)):
+			continue
+		var pos: Vector3 = area.anchors.get("hidden_chest_%s" % id, Vector3.ZERO) as Vector3
+		if Vector2(player.position.x - pos.x, player.position.z - pos.z).length() <= CHEST_RADIUS:
+			return id
+	return ""
+
+
+static func _chest_secret(id: String) -> String:
+	return "hidden_chest_%s" % id
+
+
+## Opens a nook chest: the lid swings up, then the reward box (gold only here - there is no profile yet) until the player confirms.
+func _open_chest(id: String) -> void:
+	var pos: Vector3 = area.anchors.get("hidden_chest_%s" % id, Vector3.ZERO) as Vector3
+	player.face(pos)
+	if Session.found_secret(_chest_secret(id)):
+		return
+	Session.discover_secret(_chest_secret(id))
+	var reward: Dictionary = {"gold": int((StartingAreaBuilder.HIDDEN_CHESTS[id] as Dictionary)["gold"])}
+	var summary: RewardSummary = Session.grant_chest_reward(reward, "Hidden chest")
+	Session.save_game()
+	_locked = true
+	player.input_enabled = false
+	Audio.sfx(&"chest_open")
+	Audio.sfx(&"coins", 0.0, 0.05)
+	ChestKit.open_animated(area.chest_nodes.get(id) as Node3D)
+	await get_tree().create_timer(0.7).timeout
+	var popup: RewardPopup = RewardPopup.make(summary)
+	_overlay_layer.add_child(popup)
+	Audio.sfx(&"ui_open")
+	popup.finished.connect(func() -> void:
+		popup.queue_free()
+		_locked = false
+		Audio.sfx(&"ui_close", -4.0))
 
 
 func _enter_gate() -> void:

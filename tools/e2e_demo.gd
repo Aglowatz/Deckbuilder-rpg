@@ -447,6 +447,7 @@ func _open_a_hidden_chest(scene: TownScene) -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.6)
 	_check(Session.found_secret("hidden_chest_%s" % chest_id), "opening it marks the secret found")
+	await driver.dismiss_reward_box()
 
 
 ## New brief, Part F: buys the first available item from Wick, so there is something to equip.

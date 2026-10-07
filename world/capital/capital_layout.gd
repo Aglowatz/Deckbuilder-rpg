@@ -344,6 +344,13 @@ func _chests() -> void:
 		"chest_lane": Vector3(45.0, 0.0, 13.5),
 		"chest_corner": Vector3(90.0, 0.0, 3.5),
 		"chest_ward": Vector3(115.0, 0.0, 4.0),
+		# Polish round: two behind the facade houses, two in the Crease, one in the ward's far end, one in the farthest corner of Checkpoint Row.
+		"chest_facade_back": Vector3(75.6, 0.0, 16.8),
+		"chest_facade_west": Vector3(43.8, 0.0, 22.2),
+		"chest_crease_e": Vector3(40.2, 0.0, 100.8),
+		"chest_crease_w": Vector3(4.8, 0.0, 100.8),
+		"chest_ward_n": Vector3(95.4, 0.0, 8.4),
+		"chest_yard_corner": Vector3(2.4, 0.0, 2.4),
 	}
 
 

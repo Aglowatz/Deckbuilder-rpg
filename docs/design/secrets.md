@@ -233,3 +233,109 @@ None of these is sold by the tailor (Tilda Thimble hints at all three once the f
 | **Royal Mantle** (cloak) | beating Primm for the first time | `Session._grant_dungeon_packs` (Capital first clear); announced as a town notice |
 
 The tailor's regular stock (zones and levels): Tricorn (level 5), Top Hat (1 zone), Cat-Ear Band (level 8), Mushroom Cap (2 zones), Patchwork Cloak (level 4), Leaf Cloak (1 zone), Starfall Cloak (3 zones).
+
+## Polish round: 37 more hidden chests (4 in town, 3 in the starting area, 6 in each of the five zones)
+
+Same rules as every chest above: a `chest_gold` prop at 1/4 scale (0.225), **no marker, no plate, no glow, no minimap icon**, the only tell is the
+`[E] Open the chest` prompt within 1.5 m, one-time, saved as a found secret. New this round:
+
+- **An opened chest stays open.** Its lid (the model's separate `chest_gold_lid`) swings up when you open it and is shown up and empty from then on,
+  including after saving, loading and re-entering the area (`ChestKit.apply_saved`, run by every world scene when it builds).
+- **A reward box** opens a moment after the lid: gold, cards drawn as real cards with their art, items, equipment, packs and cosmetics. The hero stands
+  still until the player clicks or presses Enter / Space / E (`RewardPopup`, on the shared `PopupFrame`).
+- **Reward quality scales with how hard the chest is to reach.** Tiers used below: I (a corner or edge you can simply walk to) pays gold and a basic
+  item; II (a long walk, a deep dead end, behind a gate) pays more gold plus an Epic card, a path pack or a basic/advanced equipment piece; III (a floating
+  island, a mesa top, a summit, the deepest maze end, the far corners) pays a **gilded pack** (guaranteed Epic or Legendary), advanced equipment or a
+  rare cosmetic. The ordering is checked in `tests/world/test_polish_chests.gd`.
+- **How "hard to reach" is done.** The game has no jump or climb button, so rooftops, ledges and tricky jumps are not new mechanics: the hard spots use the
+  traversal the game already has (a throw or portal to a floating island, a jelly pad up a mesa, a beanstalk up a summit, the Brisket/Casserole/Sir Loin
+  gates, the mount up the scree, the maze, the tunnel into the Crease, the walk behind the facade houses) or sit in the far, tucked corners of a map. Every
+  chest is also covered by the walkability check (`tests/world/test_walkability_zones.gd`), which fails if one cannot be reached from the spawn.
+
+### Main town: 4 more (11 hidden chests in all)
+
+Locations are in `TownBuilder.HIDDEN_CHEST_CELLS` / `HIDDEN_CHEST_OFFSETS`, contents in `TownScene.HIDDEN_CHEST_REWARDS`; each is 60-75 m (a long walk) from the spawn.
+
+| id | Where | How it's tucked | Tier | Contents |
+|----|-------|-----------------|------|----------|
+| `clashatorium_west` | South-west shore, world cell (0, 20) | In a quiet grove at the far end of the shore, west of the Grand Clashatorium | I | 60 gold + **Healing Draught** |
+| `harbor_pier` | North peninsula of the Harbor, cell (20, 0) | At the tip of the peninsula past the Gourmand gate road | II | 50 gold + **Mercenary Captain** (card, Uncommon) |
+| `northeast_ridge` | Far north-east ridge, cell (14, -5) | At the very end of the Uplands' eastern ridge | II | 60 gold + **The Wanderer** (card, Epic) |
+| `southeast_shore` | South-east shore beyond the Dev Shrine, cell (14, 17) | In a nook on the far south-east shore, the longest walk in town | III | 80 gold + **Gilded Gourmand Pack** |
+
+### Starting area: 3 more (gold only)
+
+Three camouflaged nooks in the treeline (`N` in `StartingAreaBuilder.MAP`), each with trees growing around it like the hidden tunnel's corner. They pay gold only,
+because the hero has no profile yet (no items, cards or equipment exist before the element is chosen); like everything before the cave, the found state is saved
+with the first save the cave creates.
+
+| id | Where | Tier | Contents |
+|----|-------|------|----------|
+| `start_east` | East edge of the clearing, behind the trees right of the spawn | I | 25 gold |
+| `start_west` | West edge, a nook opposite the tunnel's corner | I | 40 gold |
+| `start_cave` | Behind the cave mouth's rocks, north-east | II | 70 gold |
+
+### D.N.A.: 6 more (14 in all)
+
+`DnaLayout._polish_chests()` / `DnaZone.CHEST_REWARDS`; secret id `dna_<id>`.
+
+| id | Where (world x, z) | How it's tucked | Tier | Contents |
+|----|--------------------|-----------------|------|----------|
+| `chest_maze_3` | Filing Department maze, (2.4, 11.4) | The deepest dead end, far west | III | 60 gold + **Gilded Necrocrat Pack** |
+| `chest_maze_4` | Filing Department maze, (9.6, 4.8) | A second dead end behind the north wall of the maze | II | 40 gold + **Thorned Loincloth** (advanced armor) |
+| `chest_maze_5` | Filing Department maze, (8.4, 17.4) | The south-west pocket of the maze | II | 25 gold + **Necrocrat Pack** |
+| `chest_records_2` | Records Basement, (87.6, 4.8) | North-east corner behind the last shelving row | II | 50 gold + **Mandatory Optional Team Meeting** (card, Epic) |
+| `chest_exec_2` | Executive Floor, (52.2, 2.4) | Against the north wall behind the boardroom | I | 120 gold + **Healing Draught** |
+| `chest_farm_c` | Cubicle Farm B, (87.6, 43.2) | The far south-east corner behind the last cubicle | I | 35 gold + **Vitality Charm** |
+
+### The Gainlands: 6 more (13 in all)
+
+`GainlandsLayout._chests()` / `GainlandsZone.CHEST_REWARDS`; secret id `gain_<id>`. Every floating island now has two chests.
+
+| id | Where (world x, z) | How it's tucked | Tier | Contents |
+|----|--------------------|-----------------|------|----------|
+| `chest_pec_2` | **Pec Perch** (island), (19, 11.1) | On the island's east side, opposite the first chest | II | 80 gold + **Reckless Tonic** |
+| `chest_delt_2` | **Delt Deck** (island), (85.2, 7.5) | On the west side, away from the thrower | II | 40 gold + **Portal-Ripping Titan** (card, Epic) |
+| `chest_glute_2` | **Glute Garden** (island, locked long-haul throw), (111.5, 46.6) | On the island's north side | III | 60 gold + **Gilded Beefcake Pack** |
+| `chest_calf_2` | **Calf Cove** (island, locked portal), (-8.8, 51.5) | North-west of the island, behind its crystal | III | 100 gold + **Hover Boots** (advanced boots) |
+| `chest_ground_3` | Hamster Wheel Heights, (93, 36) | Tucked between the first wheel and the east cliff | I | 50 gold + **Healing Draught** |
+| `chest_ground_4` | The Gainlands, (17.4, 25.2) | On the north-west cliff shelf above Mill Meadow | I | 30 gold + **Beefcake Pack** |
+
+### The Endless Buffet: 6 more (14 in all)
+
+`BuffetLayout._chests()` / `BuffetZone.CHEST_REWARDS`; secret id `buf_<id>`.
+
+| id | Where (world x, z) | How it's tucked | Tier | Contents |
+|----|--------------------|-----------------|------|----------|
+| `chest_pancake_2` | **Pancake Summit** (mesa, jelly pad), (76.8, 11.4) | West edge of the pancake top, away from the stew pot | III | 70 gold + **Gilded Gourmand Pack** |
+| `chest_cheddar_2` | **Cheddar Overlook** (mesa, gate + pad), (16.8, 18) | South side of the cheese top | II | 40 gold + **Chef de Golem** (card, Epic) |
+| `chest_meadow_ne` | Mashed Potato Meadow, (90.6, 6.6) | The far north-east corner of the table | I | 90 gold + **Hearty Pie** |
+| `chest_cliffs_w` | Cheddar Cliffs (behind Brisket's gate), (5.4, 11.4) | Against the west edge of the table | II | 30 gold + **Gourmand Pack** |
+| `chest_crust` | Mashed Potato Meadow, (42.6, 4.8) | A tight nook against the back edge, behind the crust | II | 60 gold + the **Chef's Toque** (hat) |
+| `chest_edge_sw` | Broccoli Forest edge, (4.8, 24.6) | In a pocket on the west rim | I | 45 gold + **Scroll of Insight** |
+
+### The Verdant Dump: 6 more (14 in all)
+
+`HeapLayout._chests()` / `HeapZone.CHEST_REWARDS`; secret id `heap_<id>`.
+
+| id | Where (world x, z) | How it's tucked | Tier | Contents |
+|----|--------------------|-----------------|------|----------|
+| `chest_peak_c` | **Rust Peak** summit (beanstalk), (19.8, 11.4) | The summit's north-east lip | III | 70 gold + **Gilded Refusemancer Pack** |
+| `chest_peak_d` | **Mount Scrapmore** summit (beanstalk), (90, 54) | The summit's east lip, past the chute | II | 60 gold + **Poo-uid** (card, Epic) |
+| `chest_scree_ne` | The Scree Fields (mount only), (82.2, 4.8) | North-east corner of the scree | II | 50 gold + **Big Brain Beret** (advanced helm) |
+| `chest_corner_nw` | The Verdant Dump, (8.4, 7.2) | The far north-west corner | I | 90 gold + **Hearty Pie** |
+| `chest_back_edge` | The Verdant Dump, (34.8, 4.8) | A nook against the back edge | I | **Refusemancer Pack** |
+| `chest_thicket_s` | The Patchwork Fields, (4.8, 28.2) | A thicket on the west rim | I | 40 gold + **Healing Salve** |
+
+### The Capital: 6 more (15 in all)
+
+`CapitalLayout._chests()` / `CapitalZone.CHEST_REWARDS`; secret id `cap_<id>`.
+
+| id | Where (world x, z) | How it's tucked | Tier | Contents |
+|----|--------------------|-----------------|------|----------|
+| `chest_facade_back` | Primm's Perfection, (75.6, 16.8) | Behind the facade: against the back wall behind the last identical house | II | 100 gold + **Royal Audit** (card, Epic) |
+| `chest_facade_west` | Primm's Perfection, (43.8, 22.2) | Behind the facade: squeezed between the west wall and the first row of houses | II | 80 gold + **Ward Sigil** |
+| `chest_crease_e` | The Crease (through the tunnel or the manhole), (40.2, 100.8) | East end of the hideout | I | 60 gold + **General Pack** (expanded) |
+| `chest_crease_w` | The Crease, (4.8, 100.8) | West end, past the ladder | I | 70 gold + **Hearty Pie** |
+| `chest_ward_n` | The Correction Ward, (95.4, 8.4) | North side of the ward, beyond the rift | II | 120 gold + **Cheater's Dice** (advanced relic) |
+| `chest_yard_corner` | Checkpoint Row, (2.4, 2.4) | The farthest corner of the whole map | III | 150 gold + the **Top Hat** (hat) |

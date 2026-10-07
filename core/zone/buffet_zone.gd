@@ -67,6 +67,13 @@ const CHEST_REWARDS: Dictionary = {
 	"chest_wheel": {"gold": 60, "item": "healing_draught", "card": ""},
 	"chest_pancake": {"gold": 50, "item": "vitality_charm", "card": ""},
 	"chest_cake": {"gold": 90, "item": "firebrand_charm", "card": ""},
+	# Polish round: the harder the chest is to reach, the better it pays (docs/design/secrets.md).
+	"chest_pancake_2": {"gold": 70, "pack": "gilded_gourmand"},
+	"chest_cheddar_2": {"gold": 40, "card": "G-28"},
+	"chest_meadow_ne": {"gold": 90, "item": "hearty_pie"},
+	"chest_cliffs_w": {"gold": 30, "pack": "path_gourmand"},
+	"chest_crust": {"gold": 60, "cosmetic": "hat_chef"},
+	"chest_edge_sw": {"gold": 45, "item": "scroll_of_insight"},
 }
 
 

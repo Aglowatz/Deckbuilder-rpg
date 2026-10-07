@@ -132,6 +132,8 @@ func _explore_and_reveal(zone: GainlandsScene) -> void:
 	_check(marker_found, "a quest giver with an available quest shows the '!' marker")
 	_chest_clear(zone)
 	await _shot("f_06_minimap_after_exploring_quiz")
+	# Exploring may finish a quest: its Quest Complete box holds the hero until it is clicked away.
+	await driver.dismiss_reward_box(0.5)
 	await driver.tap_key(KEY_M)
 	await driver.seconds(0.4)
 	_check(zone._overlay is FullMapScreen, "M opens the full map in the Gainlands")
@@ -223,6 +225,7 @@ func _thrown_to_an_island(zone: GainlandsScene) -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
 	_check(Session.found_secret("gain_chest_pec"), "the island chest was found")
+	await driver.dismiss_reward_box()
 	_check(Session.gold > gold_before, "the island chest paid gold (%d -> %d)" % [gold_before, Session.gold])
 	await _shot("f_18_island_chest_opened")
 	await _clear_popups(zone)
@@ -607,6 +610,7 @@ func _ground_chest(zone: GainlandsScene) -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
 	_check(Session.found_secret("gain_%s" % id), "opening the stash marks its secret found")
+	await driver.dismiss_reward_box()
 	_check(Session.gold > gold_before, "the stash paid gold (%d -> %d)" % [gold_before, Session.gold])
 	await _shot("f_47_ground_chest_opened")
 
@@ -768,7 +772,7 @@ func _dismiss_dialogue(dialogue: DialogueBox) -> void:
 func _clear_popups(zone: GainlandsScene) -> void:
 	zone._spawn_grace = maxf(zone._spawn_grace, 600.0)
 	var guard: int = 0
-	while guard < 20 and (zone.dialogue.active or zone._overlay is LevelUpScreen):
+	while guard < 20 and (zone.dialogue.active or (zone._overlay is LevelUpScreen or zone._overlay is RewardPopup)):
 		guard += 1
 		if zone.dialogue.active:
 			await driver.tap_key(KEY_E)

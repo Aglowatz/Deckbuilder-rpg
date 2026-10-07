@@ -56,8 +56,10 @@ func _process(delta: float) -> bool:
 		return false
 	var image: Image = root.get_texture().get_image()
 	DirAccess.make_dir_recursive_absolute("res://_screenshots")
-	var path: String = "res://_screenshots/%s.png" % _shot_name
-	var error: Error = image.save_png(ProjectSettings.globalize_path(path))
+	# `--jpg=true` writes a small JPEG instead (for the screenshots committed under docs/art/screens).
+	var jpg: bool = str(_args.get("jpg", "false")) == "true"
+	var path: String = "res://_screenshots/%s.%s" % [_shot_name, "jpg" if jpg else "png"]
+	var error: Error = image.save_jpg(ProjectSettings.globalize_path(path), 0.9) if jpg else image.save_png(ProjectSettings.globalize_path(path))
 	print("screenshot saved: %s (%s) %dx%d" % [path, error_string(error), image.get_width(), image.get_height()])
 	quit(0)
 	return true

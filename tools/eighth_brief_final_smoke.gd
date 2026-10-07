@@ -370,6 +370,7 @@ func _beanstalk_puzzle_and_chute(zone: HeapScene) -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
 	_check(Session.found_secret("heap_chest_peak_b"), "the summit chest was found")
+	await driver.dismiss_reward_box()
 	_check(Session.gold > gold_before, "the summit chest paid gold")
 	await _clear_popups(zone)
 	var chute: HeapLayout.Chute = zone.heap.layout.chutes[1]
@@ -738,6 +739,7 @@ func _hidden_chest(zone: HeapScene) -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
 	_check(Session.found_secret("heap_%s" % id), "opening the stash marks its secret found")
+	await driver.dismiss_reward_box()
 	_check(Session.gold > gold_before, "the stash paid gold (%d -> %d)" % [gold_before, Session.gold])
 	await _shot("h_56_log_chest_opened")
 
@@ -975,7 +977,7 @@ func _dismiss_dialogue(dialogue: DialogueBox) -> void:
 func _clear_popups(zone: HeapScene) -> void:
 	zone._spawn_grace = maxf(zone._spawn_grace, 600.0)
 	var guard: int = 0
-	while guard < 20 and (zone.dialogue.active or zone._overlay is LevelUpScreen):
+	while guard < 20 and (zone.dialogue.active or (zone._overlay is LevelUpScreen or zone._overlay is RewardPopup)):
 		guard += 1
 		if zone.dialogue.active:
 			await driver.tap_key(KEY_E)

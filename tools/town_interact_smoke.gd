@@ -215,6 +215,15 @@ func _check_equipment_vendor() -> void:
 		_check(Session.profile.owned_equipment.has(piece), "the bought piece is actually owned")
 		await driver.click_button("Leave")
 		await driver.seconds(0.3)
+	# Meeting the third merchant finishes "Meet the Merchants": its Quest Complete box appears (polish round) and is dismissed with a click.
+	_check(await driver.dismiss_reward_box(), "finishing Meet the Merchants shows the Quest Complete box")
+	# Its XP may also cross a level: the level-up box follows the quest box (and needs its guard time before it takes a click).
+	var level_guard: int = 0
+	while scene._overlay is LevelUpScreen and level_guard < 6:
+		level_guard += 1
+		await driver.seconds(0.7)
+		await driver.click_button("Continue")
+		await driver.seconds(0.4)
 	_check(scene._overlay == null, "closing the Equipment Vendor screen returns to town")
 
 
@@ -279,6 +288,7 @@ func _check_hidden_chests() -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
 	_check(Session.found_secret("hidden_chest_ember_flats"), "opening a hidden chest marks its secret found")
+	await driver.dismiss_reward_box()
 	_check(Session.profile.owned_items.size() == items_before + 1, "opening the Beefcake Flats chest grants its item")
 	scene.player.position = near_anchor + Vector3(0.0, 0.0, 4.0)
 	await driver.frames(3)
@@ -309,6 +319,7 @@ func _check_hidden_chests() -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
 	_check(Session.found_secret("hidden_chest_uplands_ridge"), "opening the Uplands Ridge chest marks its secret found")
+	await driver.dismiss_reward_box()
 	_check(Session.profile.owned_equipment.has(piece), "opening the Uplands Ridge chest grants its equipment")
 
 

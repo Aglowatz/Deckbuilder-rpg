@@ -205,7 +205,7 @@ func _play_battle_to_completion(battle: BattleScreen) -> bool:
 ## same screen either way (Part A).
 func _drive_level_up(town: TownScene) -> void:
 	var guard: int = 0
-	while town._overlay is LevelUpScreen and guard < 20:
+	while (town._overlay is LevelUpScreen or town._overlay is RewardPopup) and guard < 20:
 		guard += 1
 		var level_up: LevelUpScreen = town._overlay as LevelUpScreen
 		if level_up._child_screen is EquipmentSlotChoiceScreen:

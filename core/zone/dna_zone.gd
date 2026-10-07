@@ -32,6 +32,13 @@ const CHEST_REWARDS: Dictionary = {
 	"chest_records_0": {"gold": 60, "item": "", "card": ""},
 	"chest_records_1": {"gold": 0, "item": "vitality_charm", "card": "N-01"},
 	"chest_exec": {"gold": 80, "item": "healing_draught", "card": ""},
+	# Polish round: the harder the chest is to reach, the better it pays (docs/design/secrets.md).
+	"chest_maze_3": {"gold": 60, "pack": "gilded_necrocrat"},
+	"chest_maze_4": {"gold": 40, "equipment": "thorned_loincloth"},
+	"chest_maze_5": {"gold": 25, "pack": "path_necrocrat"},
+	"chest_records_2": {"gold": 50, "card": "N-27"},
+	"chest_exec_2": {"gold": 120, "item": "healing_draught"},
+	"chest_farm_c": {"gold": 35, "item": "vitality_charm"},
 }
 
 

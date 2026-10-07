@@ -258,6 +258,13 @@ func _chests() -> void:
 		"chest_delt": Vector3(95.0, 0.0, 7.0),
 		"chest_glute": Vector3(114.0, 0.0, 54.0),
 		"chest_calf": Vector3(-10.0, 0.0, 58.0),
+		# Polish round: a second chest on each floating island (throw or portal only) and two tucked away on the main land.
+		"chest_pec_2": Vector3(19.0, 0.0, 11.1),
+		"chest_delt_2": Vector3(85.2, 0.0, 7.5),
+		"chest_glute_2": Vector3(111.5, 0.0, 46.6),
+		"chest_calf_2": Vector3(-8.8, 0.0, 51.5),
+		"chest_ground_3": Vector3(93.0, 0.0, 36.0),
+		"chest_ground_4": Vector3(17.4, 0.0, 25.2),
 	}
 
 

@@ -284,7 +284,8 @@ func _build_props() -> void:
 	anchors["npc_necrocrat"] = cell_center(-3, 11) + Vector3(0.3, 0, 0.3)
 	# Secluded Grove secrets: a chest tucked behind trees, and the old lever that seals the vault.
 	var chest_pos: Vector3 = cell_center(11, 7) + Vector3(-0.3, 0, 0.4)
-	ModelKit.place(root, ModelKit.dungeon_prop("chest_gold"), chest_pos, 40.0, 0.9)
+	harbor_chest_node = ModelKit.dungeon_prop("chest_gold")
+	ModelKit.place(root, harbor_chest_node, chest_pos, 40.0, 0.9)
 	anchors["chest"] = chest_pos + Vector3(0.5, 0, 0.5)
 	var lever_pos: Vector3 = (anchors.get("vault", Vector3.ZERO) as Vector3) + Vector3(1.4, 0, -0.6)
 	ModelKit.place(root, ModelKit.prop("ladder"), lever_pos, 90.0, 1.0)
@@ -385,17 +386,24 @@ const HIDDEN_CHEST_CELLS: Dictionary = {
 	"beefcake_flats": Vector2i(9, 12), "west_woods": Vector2i(-4, 5), "harbor_dock": Vector2i(17, 6),
 	"grave_hollow": Vector2i(-4, 12), "uplands": Vector2i(8, -2),
 	"uplands_ridge": Vector2i(11, -3), "harbor_dock_back": Vector2i(16, 2),
+	# Polish round: 4 hard-to-find chests out on the shores and ridges (see docs/design/secrets.md).
+	"clashatorium_west": Vector2i(0, 20), "harbor_pier": Vector2i(20, 0),
+	"southeast_shore": Vector2i(14, 17), "northeast_ridge": Vector2i(14, -5),
 }
 const HIDDEN_CHEST_OFFSETS: Dictionary = {
 	"west_woods": Vector3(0.35, 0, -0.25), "harbor_dock": Vector3(-0.3, 0, 0.35),
 	"grave_hollow": Vector3(0.3, 0, 0.3), "uplands": Vector3(-0.25, 0, -0.35),
 	"beefcake_flats": Vector3(0.3, 0, -0.3),
 	"uplands_ridge": Vector3(0.3, 0, 0.25), "harbor_dock_back": Vector3(-0.25, 0, 0.3),
+	"clashatorium_west": Vector3(-1.8, 0, -0.55), "harbor_pier": Vector3(1.2, 0, 0.0),
+	"southeast_shore": Vector3(0.6, 0, 1.6), "northeast_ridge": Vector3(1.8, 0, 0.6),
 }
 
 
 ## id -> the chest's Node3D, so TownScene can play an open animation on the real model.
 var hidden_chest_nodes: Dictionary = {}
+## The Secluded Grove's big chest (the D38 one), so the scene can show it open once it has been looted.
+var harbor_chest_node: Node3D
 ## Polish round: label -> world position of every added cottage, shed, stall and well (TownExpansion).
 var expansion: Dictionary = {}
 

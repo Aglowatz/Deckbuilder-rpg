@@ -215,6 +215,7 @@ func _jelly_pad(zone: BuffetScene) -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
 	_check(Session.found_secret("buf_chest_butte"), "the mesa chest was found")
+	await driver.dismiss_reward_box()
 	_check(Session.gold > gold_before, "the mesa chest paid gold (%d -> %d)" % [gold_before, Session.gold])
 	await _clear_popups(zone)
 	var honey: ZoneSpot = _spot(zone, "pickup_honey")
@@ -786,6 +787,7 @@ func _hidden_chest(zone: BuffetScene) -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
 	_check(Session.found_secret("buf_%s" % id), "opening the stash marks its secret found")
+	await driver.dismiss_reward_box()
 	_check(Session.gold > gold_before, "the stash paid gold (%d -> %d)" % [gold_before, Session.gold])
 	await _shot("g_60_loaf_chest_opened")
 
@@ -963,7 +965,7 @@ func _dismiss_dialogue(dialogue: DialogueBox) -> void:
 func _clear_popups(zone: BuffetScene) -> void:
 	zone._spawn_grace = maxf(zone._spawn_grace, 600.0)
 	var guard: int = 0
-	while guard < 20 and (zone.dialogue.active or zone._overlay is LevelUpScreen):
+	while guard < 20 and (zone.dialogue.active or (zone._overlay is LevelUpScreen or zone._overlay is RewardPopup)):
 		guard += 1
 		if zone.dialogue.active:
 			await driver.tap_key(KEY_E)
