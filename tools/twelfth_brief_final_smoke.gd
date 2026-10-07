@@ -86,7 +86,7 @@ func _flow_tailor(town: TownScene) -> void:
 	await _shot("e03_tailor_stall")
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(town.dialogue.active, "Tilda Thimble talks")
+	_check(town.dialogue.active, "Pip Threadwell talks")
 	await _shot("e04_tailor_dialogue")
 	await _dismiss(town.dialogue)
 	await driver.seconds(0.8)

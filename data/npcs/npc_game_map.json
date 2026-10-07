@@ -1,0 +1,30 @@
+{
+	"_comment": "How the game ties to data/npcs/npcs.json (NpcRegistry). speakers: extra exact speaker labels -> NPC ID (list names resolve on their own); speaker_prefixes: labels that start with the key; story_keys: the NPC who speaks a story key's lines (dungeon beats; the .before/.after suffix may be dropped); sides: NPC ID -> 'right' to stand on the right of the dialogue box (default left).",
+	"speakers": {
+		"Brock": "NPC-HURL",
+		"Tobias": "NPC-HURL",
+		"Wanda": "NPC-HURL",
+		"Bonnie": "NPC-HURL",
+		"Dmitri": "NPC-HURL",
+		"Greta": "NPC-HURL",
+		"Rita": "NPC-RIP",
+		"Rhonda": "NPC-RIP",
+		"Ripley": "NPC-RIP",
+		"Raelynn": "NPC-RIP",
+		"Crucible & Co.": "V-ALEMBIC",
+		"The Grand Clashatorium": "NPC-BELLOWS"
+	},
+	"speaker_prefixes": {
+		"Rip Tearson": "NPC-RIP",
+		"Agnes Overdue": "NPC-AGNES"
+	},
+	"story_keys": {
+		"dungeon.hg_boss": "NPC-CLENCH",
+		"dungeon.hg_stretch.after": "NPC-FLEX",
+		"dungeon.ha_boss": "NPC-VELLUM",
+		"dungeon.tk_boss": "NPC-DOPPEL",
+		"dungeon.rh_boss": "NPC-ROTHEART",
+		"dungeon.pc_boss": "NPC-PRIMM"
+	},
+	"sides": {}
+}

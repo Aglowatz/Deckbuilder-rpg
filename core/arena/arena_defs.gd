@@ -106,7 +106,7 @@ static func _build() -> Array[ArenaEncounter]:
 	}
 	hero.reward = {"equipment": "gladiators_net", "gold": 200, "xp": 120}
 	list.append(hero)
-	var marshal: ArenaEncounter = _battle("arena_marshal", 3, "Marshal Vesna Tuskmore", 30, "Aggressive", EnemyDecks.with_cards(EnemyDecks.recipe("beefcake_rush", 16), {"B-13": 3, "B-28": 2, "B-11": 3}))
+	var marshal: ArenaEncounter = _battle("arena_marshal", 3, "Announcer Grand Bellows", 30, "Aggressive", EnemyDecks.with_cards(EnemyDecks.recipe("beefcake_rush", 16), {"B-13": 3, "B-28": 2, "B-11": 3}))
 	marshal.reward = {"equipment": "bloodsand_boots", "gold": 500, "xp": 250, "essence": {"primary": 10}}
 	list.append(marshal)
 	return list

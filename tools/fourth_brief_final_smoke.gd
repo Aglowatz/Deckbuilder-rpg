@@ -57,7 +57,7 @@ func _buy_wicked_dagger(town: TownScene) -> EquipmentData:
 	await driver.seconds(0.3)
 	await _dismiss_dialogue_on(town.dialogue)
 	await driver.seconds(0.3)
-	_check(town._overlay is EquipmentVendorScreen, "talking to Wendell Cobb opens the equipment vendor")
+	_check(town._overlay is EquipmentVendorScreen, "talking to Bertram Beetsworth opens the equipment vendor")
 	var piece: EquipmentData = Session.content.equipment_piece("wicked_dagger")
 	if town._overlay is EquipmentVendorScreen:
 		var vendor: EquipmentVendorScreen = town._overlay as EquipmentVendorScreen

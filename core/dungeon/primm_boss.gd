@@ -123,7 +123,7 @@ static func player_rules(index: int) -> ModifierSource:
 
 ## Zone id -> the freed leader who lends the boon.
 const LEADERS: Dictionary = {
-	"beefcake": "Grandmaster Flex", "gourmand": "Aurelio", "necrocrat": "Director Vellum", "refusemancer": "Fernwick",
+	"beefcake": "Grandmaster Flex", "gourmand": "Grand Chef Escoffina", "necrocrat": "Mortimer Grimsby", "refusemancer": "Archdruid Compostella",
 }
 
 

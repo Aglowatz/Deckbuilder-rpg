@@ -10,13 +10,13 @@ const DISPLAY_NAME: String = "The Capital"
 const FULL_NAME: String = "The Capital: Neatropolis"
 const HUB_NAME: String = "The Crease"
 
-const NPC_MABBIT: String = "Mabbit Quill"
+const NPC_MABBIT: String = "Wren"
 const NPC_FIG: String = "Fig Sly"
 const NPC_HESPER: String = "Nurse Hesper Dray"
-const NPC_GUS: String = "Gus Peelings"
-const NPC_TILDA: String = "Tilda Marrow"
-const NPC_BRAM: String = "Bram Haulsworth"
-const NPC_ODILE: String = "Odile Bisque"
+const NPC_GUS: String = "Old Fern"
+const NPC_TILDA: String = "Widow Pell"
+const NPC_BRAM: String = "Gus"
+const NPC_ODILE: String = "Chef Marlo"
 
 const QUEST_BURIAL: String = "cap_burial"
 const QUEST_WHEELS: String = "cap_wheels"
@@ -128,20 +128,20 @@ static func build_def() -> ZoneDef:
 	def.hub_anchor = "crease_spawn"
 	# The freed leaders stand in the Crease once Primm has fallen (their dialogue is the story keys `freed_npc.<id>`).
 	def.freed_npcs = [
-		{"id": "heartlift", "model": "Barbarian", "offset": Vector3(-6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(1.2, 0.9, 0.7), "scale": 1.9, "name": "Grandmaster Flex", "speaker": "Grandmaster Flex"},
-		{"id": "aurelio", "model": "Rogue", "offset": Vector3(-2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(1.2, 1.1, 0.8), "scale": 1.5, "name": "Grand Chef Aurelio", "speaker": "Aurelio"},
-		{"id": "vellum", "model": "Mage", "offset": Vector3(2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(0.85, 0.75, 1.2), "scale": 1.5, "name": "Director Vellum", "speaker": "Director Vellum"},
-		{"id": "fernwick", "model": "Mage", "offset": Vector3(6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(0.7, 1.1, 0.7), "scale": 1.6, "name": "Archdruid Fernwick", "speaker": "Archdruid Fernwick"},
+		{"id": "heartlift", "npc_id": "NPC-FLEX", "model": "Barbarian", "offset": Vector3(-6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(1.2, 0.9, 0.7), "scale": 1.9, "name": "Grandmaster Flex", "speaker": "Grandmaster Flex"},
+		{"id": "aurelio", "npc_id": "NPC-ESCOFFINA", "model": "Rogue", "offset": Vector3(-2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(1.2, 1.1, 0.8), "scale": 1.5, "name": "Grand Chef Escoffina", "speaker": "Grand Chef Escoffina"},
+		{"id": "vellum", "npc_id": "NPC-MORTIMER", "model": "Mage", "offset": Vector3(2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(0.85, 0.75, 1.2), "scale": 1.5, "name": "Mortimer Grimsby", "speaker": "Mortimer Grimsby"},
+		{"id": "fernwick", "npc_id": "NPC-COMPOSTELLA", "model": "Mage", "offset": Vector3(6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(0.7, 1.1, 0.7), "scale": 1.6, "name": "Archdruid Compostella", "speaker": "Archdruid Compostella"},
 	] as Array[Dictionary]
 	def.npcs = [
-		{"id": "mabbit", "model": "Mage", "anchor": "mabbit", "yaw": 0.0, "tint": Color(0.85, 0.85, 1.1), "scale": 1.5},
-		{"id": "fig", "model": "Rogue_Hooded", "anchor": "fig", "yaw": 0.0, "tint": Color(1.1, 0.9, 0.8), "scale": 1.5},
+		{"id": "mabbit", "npc_id": "NPC-WREN", "model": "Mage", "anchor": "mabbit", "yaw": 0.0, "tint": Color(0.85, 0.85, 1.1), "scale": 1.5},
+		{"id": "fig", "npc_id": "V-FIGSLY", "model": "Rogue_Hooded", "anchor": "fig", "yaw": 0.0, "tint": Color(1.1, 0.9, 0.8), "scale": 1.5},
 		{"id": "hesper", "model": "Mage", "anchor": "heal", "yaw": 180.0, "tint": Color(1.1, 1.0, 0.95), "scale": 1.45},
-		{"id": "gus", "model": "Barbarian", "anchor": "gus", "yaw": 0.0, "tint": Color(0.8, 1.0, 0.7), "scale": 1.6},
-		{"id": "tilda", "model": "Mage", "anchor": "tilda", "yaw": 180.0, "tint": Color(0.75, 0.7, 0.95), "scale": 1.45},
-		{"id": "bram", "model": "Barbarian", "anchor": "bram", "yaw": 180.0, "tint": Color(1.2, 0.85, 0.7), "scale": 1.85},
-		{"id": "odile", "model": "Rogue", "anchor": "odile", "yaw": 180.0, "tint": Color(1.1, 0.95, 0.7), "scale": 1.5},
-		{"id": "gate_captain", "model": "Knight", "anchor": "gate_captain", "yaw": 0.0, "tint": Color(0.9, 0.9, 1.0), "scale": 1.7},
+		{"id": "gus", "npc_id": "NPC-FERN", "model": "Barbarian", "anchor": "gus", "yaw": 0.0, "tint": Color(0.8, 1.0, 0.7), "scale": 1.6},
+		{"id": "tilda", "npc_id": "NPC-PELL", "model": "Mage", "anchor": "tilda", "yaw": 180.0, "tint": Color(0.75, 0.7, 0.95), "scale": 1.45},
+		{"id": "bram", "npc_id": "NPC-GUS", "model": "Barbarian", "anchor": "bram", "yaw": 180.0, "tint": Color(1.2, 0.85, 0.7), "scale": 1.85},
+		{"id": "odile", "npc_id": "NPC-MARLO", "model": "Rogue", "anchor": "odile", "yaw": 180.0, "tint": Color(1.1, 0.95, 0.7), "scale": 1.5},
+		{"id": "gate_captain", "npc_id": "NPC-SPOTLESS", "model": "Knight", "anchor": "gate_captain", "yaw": 0.0, "tint": Color(0.9, 0.9, 1.0), "scale": 1.7},
 		{"id": "guard_height", "model": "Knight", "anchor": "guard_height", "yaw": 0.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
 		{"id": "guard_queue", "model": "Knight", "anchor": "guard_queue", "yaw": 0.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
 		{"id": "guard_in_1", "model": "Knight", "anchor": "guard_in_1", "yaw": 180.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5},
@@ -150,7 +150,7 @@ static func build_def() -> ZoneDef:
 		{"id": "patient", "model": "Rogue", "anchor": "ward_patient", "yaw": 180.0, "tint": Color(0.75, 0.75, 0.8), "scale": 1.4},
 	]
 	for index: int in range(1, 10):
-		def.npcs.append({"id": "citizen_%d" % index, "model": "Rogue", "anchor": "citizen_%d" % index, "yaw": 180.0 if index % 2 == 0 else 0.0, "tint": Color(1.25, 1.1, 1.05), "scale": 1.4, "facade": true})
+		def.npcs.append({"id": "citizen_%d" % index, "npc_id": "NPC-CITIZEN", "model": "Rogue", "anchor": "citizen_%d" % index, "yaw": 180.0 if index % 2 == 0 else 0.0, "tint": Color(1.25, 1.1, 1.05), "scale": 1.4, "facade": true})
 	def.spots = _spots()
 	def.poi_kinds = _poi_kinds()
 	return def
@@ -159,8 +159,8 @@ static func build_def() -> ZoneDef:
 static func _spots() -> Array[Dictionary]:
 	var spots: Array[Dictionary] = []
 	# The hub (the Crease).
-	spots.append(_spot("mabbit", "Mabbit Quill, Keeper of the True Records", "mabbit", Vector3(0, 0, 1.0), 1.8, "Talk", "zone", {"npc": "mabbit", "speaker": "Mabbit Quill", "act": "mabbit"}))
-	spots.append(_spot("fig", "Fig Sly's Contraband & Curiosities", "fig", Vector3(0, 0, 1.0), 1.8, "Browse the black market", "vendor_npc", {"npc": "fig", "npc_name": NPC_FIG, "speaker": "Fig Sly"}))
+	spots.append(_spot("mabbit", "Wren, Resistance Leader", "mabbit", Vector3(0, 0, 1.0), 1.8, "Talk", "zone", {"npc": "mabbit", "npc_id": "NPC-WREN", "speaker": "Wren", "act": "mabbit"}))
+	spots.append(_spot("fig", "Fig Sly's Contraband & Curiosities", "fig", Vector3(0, 0, 1.0), 1.8, "Browse the black market", "vendor_npc", {"npc": "fig", "npc_id": "V-FIGSLY", "npc_name": NPC_FIG, "speaker": "Fig Sly"}))
 	spots.append(_spot("fig_crate", "Fig's Crate of Supplies", "fig_crate", Vector3(0, 0, 0.0), 1.8, "Buy supplies", "zone", {"act": "supplies"}))
 	spots.append(_spot("heal", "The Tea of Dissent", "heal", Vector3(0, 0, 1.0), 1.8, "Take a cup of the Tea of Dissent (full heal)", "heal"))
 	spots.append(_spot("ladder_up", "The Ladder (to the Reek)", "ladder_up", Vector3(0, 0, 0.0), 1.6, "Climb the ladder up to the Capital", "zone", {"act": "ladder"}))
@@ -169,7 +169,7 @@ static func _spots() -> Array[Dictionary]:
 		spots.append(_spot("shaft_" + destination, "Service Shaft", "shaft_" + destination, Vector3(0, 0, -0.9), 1.5, "Take the service shaft", "zone", {"act": "shaft", "dest": destination}))
 	# The Outskirts.
 	spots.append(_spot("exit", "The Road Back to Concord Crossing", "exit", Vector3(0, 0, 0.0), 1.9, "Walk back to town (full heal)", "exit"))
-	spots.append(_spot("gate_captain", "The Approved Gate Captain", "gate_captain", Vector3(0, 0, 1.0), 1.9, "Talk", "zone", {"npc": "gate_captain", "speaker": "Gate Captain", "act": "gate_captain"}))
+	spots.append(_spot("gate_captain", "The Approved Gate Captain", "gate_captain", Vector3(0, 0, 1.0), 1.9, "Talk", "zone", {"npc": "gate_captain", "npc_id": "NPC-SPOTLESS", "speaker": "Captain Spotless", "act": "gate_captain"}))
 	spots.append(_spot("guard_height", "Gate Guard (Height Inspection)", "guard_height", Vector3(0, 0, 1.0), 1.7, "Talk", "zone", {"npc": "guard_height", "speaker": "Gate Guard", "act": "guard"}))
 	spots.append(_spot("guard_queue", "Gate Guard (Queue Management)", "guard_queue", Vector3(0, 0, 1.0), 1.7, "Talk", "zone", {"npc": "guard_queue", "speaker": "Gate Guard", "act": "guard"}))
 	spots.append(_spot("tunnel_in", "Collapsed Service Shaft", "tunnel_in", Vector3(0, 0, 0.0), 1.5, "Squeeze through the gap", "zone", {"act": "tunnel_in", "hidden": true}))
@@ -182,7 +182,7 @@ static func _spots() -> Array[Dictionary]:
 	spots.append(_spot("manhole", "A Suspicious Manhole", "manhole", Vector3(0, 0, 0.0), 1.5, "Knock three times", "zone", {"act": "manhole"}))
 	# Primm's Perfection.
 	for index: int in range(1, 10):
-		spots.append(_spot("citizen_%d" % index, "A Citizen of Perfection", "citizen_%d" % index, Vector3(0, 0, 1.0), 1.6, "Talk", "zone", {"npc": "citizen_%d" % index, "speaker": "Citizen", "act": "citizen", "n": index}))
+		spots.append(_spot("citizen_%d" % index, "A Citizen of Perfection", "citizen_%d" % index, Vector3(0, 0, 1.0), 1.6, "Talk", "zone", {"npc": "citizen_%d" % index, "npc_id": "NPC-CITIZEN", "speaker": "A Perfectly Happy Citizen", "act": "citizen", "n": index}))
 	for index: int in range(1, 5):
 		spots.append(_spot("door_%d" % index, "A Perfect Front Door", "door_%d" % index, Vector3(0, 0, 0.0), 1.4, "Try the door", "zone", {"act": "door", "n": index}))
 	for index: int in range(1, 4):
@@ -190,10 +190,10 @@ static func _spots() -> Array[Dictionary]:
 	for portrait: String in DEFACE_SPOTS:
 		spots.append(_spot(portrait, "A Portrait of His Perfection", portrait, Vector3(0, 0, 0.9), 1.4, "Deface the portrait", "zone", {"act": "deface"}))
 	# The four districts: quest givers, quest objects.
-	spots.append(_spot("gus", "Gus Peelings, Banished Composter", "gus", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "gus", "npc_name": NPC_GUS, "speaker": "Gus Peelings"}))
-	spots.append(_spot("tilda", "Tilda Marrow", "tilda", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "tilda", "npc_name": NPC_TILDA, "speaker": "Tilda Marrow"}))
-	spots.append(_spot("bram", "Bram Haulsworth", "bram", Vector3(0, 0, 1.0), 1.9, "Talk", "quest_npc", {"npc": "bram", "npc_name": NPC_BRAM, "speaker": "Bram Haulsworth"}))
-	spots.append(_spot("odile", "Odile Bisque, Chef", "odile", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "odile", "npc_name": NPC_ODILE, "speaker": "Odile Bisque"}))
+	spots.append(_spot("gus", "Old Fern, Banished Composter", "gus", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "gus", "npc_id": "NPC-FERN", "npc_name": NPC_GUS, "speaker": "Old Fern"}))
+	spots.append(_spot("tilda", "Widow Pell", "tilda", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "tilda", "npc_id": "NPC-PELL", "npc_name": NPC_TILDA, "speaker": "Widow Pell"}))
+	spots.append(_spot("bram", "Gus", "bram", Vector3(0, 0, 1.0), 1.9, "Talk", "quest_npc", {"npc": "bram", "npc_id": "NPC-GUS", "npc_name": NPC_BRAM, "speaker": "Gus"}))
+	spots.append(_spot("odile", "Chef Marlo", "odile", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "odile", "npc_id": "NPC-MARLO", "npc_name": NPC_ODILE, "speaker": "Chef Marlo"}))
 	spots.append(_spot("permit_window", "The Permit Office Window", "permit_window", Vector3(0, 0, 0.0), 1.7, "Apply for a burial permit", "zone", {"act": "permit"}))
 	spots.append(_spot("marrow_plot", "The Marrow Family Plot", "marrow_plot", Vector3(0, 0, 0.0), 1.7, "Lay Grandfather Marrow to rest", "zone", {"act": "plot"}))
 	spots.append(_spot("sick_patch", "The Sick Patch", "sick_patch", Vector3(0, 0, 0.0), 1.7, "Plant the old seed", "zone", {"act": "patch"}))

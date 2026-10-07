@@ -29,7 +29,7 @@ const PATH: String = "res://data/story/intro_story.tres"
 @export var necrocrat_npc_victory_lines: Array[String] = []
 @export var necrocrat_npc_defeat_lines: Array[String] = []
 
-## Wendell Cobb, "Assistant to the Regional Merchant" - the equipment vendor.
+## Bertram Beetsworth, "Assistant to the Regional Merchant" - the equipment vendor.
 @export var equipment_vendor_intro_lines: Array[String] = []
 @export var equipment_vendor_return_lines: Array[String] = []
 

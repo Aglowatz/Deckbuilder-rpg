@@ -10,7 +10,7 @@ key = "beefcake_zone_unlocked"
 
 [sub_resource type="Resource" id="Resource_5nnu4"]
 script = ExtResource("1_8orm7")
-text = "Defeat Torvin the Over-Pumped"
+text = "Defeat Brick Bronson"
 condition = SubResource("Resource_sgke5")
 
 [sub_resource type="Resource" id="Resource_q2rb8"]
@@ -19,7 +19,7 @@ key = "gourmand_zone_unlocked"
 
 [sub_resource type="Resource" id="Resource_8pa8b"]
 script = ExtResource("1_8orm7")
-text = "Defeat Maris the Over-Seasoned"
+text = "Defeat Chef Fennel Gravois"
 condition = SubResource("Resource_q2rb8")
 
 [sub_resource type="Resource" id="Resource_sucut"]
@@ -28,7 +28,7 @@ key = "refusemancer_zone_unlocked"
 
 [sub_resource type="Resource" id="Resource_03dcc"]
 script = ExtResource("1_8orm7")
-text = "Defeat Old Thistlebark the Over-Composted"
+text = "Defeat Moss Mulligan"
 condition = SubResource("Resource_sucut")
 
 [sub_resource type="Resource" id="Resource_7h5bs"]
@@ -37,7 +37,7 @@ key = "necrocrat_zone_unlocked"
 
 [sub_resource type="Resource" id="Resource_nhd5t"]
 script = ExtResource("1_8orm7")
-text = "Defeat Corwyn the Filed-Away"
+text = "Defeat Prudence Pallor"
 condition = SubResource("Resource_7h5bs")
 
 [resource]

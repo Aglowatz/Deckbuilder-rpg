@@ -370,7 +370,7 @@ func _talk_mabbit() -> void:
 	var insights: int = CapitalInteractables.insight_count(Session.flags)
 	if insights > 0:
 		lines.append_array(story.get_lines("npc.mabbit.insight.%d" % insights))
-	_say("Mabbit Quill", lines)
+	_say("Wren", lines)
 
 
 func _open_supplies() -> void:
@@ -395,9 +395,9 @@ func _use_shaft(spot: ZoneSpot) -> void:
 func _talk_gate_captain() -> void:
 	_face_npc("gate_captain")
 	if Session.flag(CapitalZone.FLAG_GATE_OPEN) or Session.flag(CapitalZone.FLAG_FREED):
-		_say("Gate Captain", story.get_lines("npc.gate_captain.open"))
+		_say("Captain Spotless", story.get_lines("npc.gate_captain.open"))
 		return
-	_say("Gate Captain", _greeting("gate_captain"), _ask_gate_battle)
+	_say("Captain Spotless", _greeting("gate_captain"), _ask_gate_battle)
 
 
 func _ask_gate_battle() -> void:
@@ -451,7 +451,7 @@ func _talk_citizen(spot: ZoneSpot) -> void:
 	var variant: String = "approved" if count % 3 != 2 else "slip"
 	if count == 1:
 		variant = "approved2"
-	_say("Citizen", story.get_lines("facade.citizen.%d.%s" % [n, variant]))
+	_say("A Perfectly Happy Citizen", story.get_lines("facade.citizen.%d.%s" % [n, variant]))
 
 
 func _use_speaker(n: int) -> void:
@@ -520,14 +520,14 @@ func _apply_pending_result() -> void:
 		Session.pending_zone_result = {}
 		player.position = builder.anchor("net_approach") + Vector3(0, 0, 3.0)
 		_camera.position = player.position + camera_offset * Settings.camera_zoom
-		_say("Mabbit Quill", story.get_lines("ending.return"))
+		_say("Wren", story.get_lines("ending.return"))
 		hud.toast(story.text("fx.ending_return"), UIStyle.GOOD)
 		for pack_text: String in Session.pending_ending_packs:
 			hud.toast(StoryText.shared().text("pack.reward.primm") % pack_text, UIStyle.GOLD)
 		Session.pending_ending_packs = []
 		return
 	if bool(result.get("gate_opened", false)) and not bool(result.get("woke_at_hub", false)):
-		_say("Gate Captain", story.get_lines("npc.gate_captain.defeated"))
+		_say("Captain Spotless", story.get_lines("npc.gate_captain.defeated"))
 	super()
 
 

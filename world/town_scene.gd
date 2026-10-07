@@ -35,6 +35,12 @@ const NPC_SPOT_IDS: Array[String] = [
 	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor",
 	"npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat",
 ]
+## The NPC ID (data/npcs, `NpcRegistry`) of each talkable town spot; spots without one (the secret dealer, the rift technician) show no portrait.
+const NPC_IDS: Dictionary = {
+	"elder": "NPC-ELDER", "guard": "NPC-GATEKEEPER", "vendor": "V-SABLE", "item_vendor": "V-TONIC", "equipment_vendor": "V-BEETSWORTH",
+	"pack_vendor": "V-FENWICK", "tailor": "V-THREADWELL", "alchemist": "V-ALEMBIC", "arena": "NPC-BELLOWS",
+	"npc_beefcake": "NPC-BRONSON", "npc_gourmand": "NPC-GRAVOIS", "npc_refusemancer": "NPC-MULLIGAN", "npc_necrocrat": "NPC-PALLOR",
+}
 ## How close (in screen pixels) a click has to land to a spot's marker to count as
 ## "clicking the NPC", since the fixed camera has no 3D picking set up.
 const CLICK_PICK_RADIUS: float = 90.0
@@ -219,7 +225,7 @@ func _build_actors() -> void:
 	_add_npc("equipment_vendor", "Knight", town.anchors["npc_equipment_vendor"] as Vector3, -70.0)
 	# Brief 11: Foil Fenwick, the Pack Vendor.
 	_add_npc("pack_vendor", "Rogue", town.anchors["npc_pack_vendor"] as Vector3, 25.0, Color(1.0, 0.9, 0.6))
-	# Brief 12, Part F: Tilda Thimble, the tailor (hero-shaped, in her own top hat and scarf-cape), and a window mannequin.
+	# Brief 12, Part F: Pip Threadwell, the tailor (hero-shaped, in her own top hat and scarf-cape), and a window mannequin.
 	_add_npc("tailor", "hero:tailor", town.anchors["npc_tailor"] as Vector3, -20.0)
 	_add_npc("mannequin", "hero:mannequin", town.anchors["tailor_mannequin"] as Vector3, 40.0)
 	if Session.alchemist_unlocked():
@@ -867,7 +873,7 @@ func _talk_vendor() -> void:
 	if not Session.flag(&"vendor_seen"):
 		Session.set_flag(&"vendor_seen")
 		lines = StoryText.shared().get_lines("town.vendor.first")
-	dialogue.start("Sable the Trader", lines)
+	dialogue.start("Sable", lines)
 	dialogue.finished.connect(_open_vendor, CONNECT_ONE_SHOT)
 
 
@@ -1139,7 +1145,7 @@ func _open_vendor() -> void:
 
 
 ## Brief 9, Part F: Crucible & Co. Locked until 2 zones are free: visible and shuttered, with a hint from the note on the
-## door. Open: Zinnia Vex greets you and the crafting screen opens.
+## door. Open: Auntie Alembic greets you and the crafting screen opens.
 func _use_alchemist() -> void:
 	var story: StoryText = StoryText.shared()
 	if not Session.alchemist_unlocked():
@@ -1150,7 +1156,7 @@ func _use_alchemist() -> void:
 	_face_npc("alchemist")
 	var lines: Array[String] = story.get_lines("town.alchemist.return" if Session.flag(&"alchemist_met") else "town.alchemist.intro")
 	Session.set_flag(&"alchemist_met")
-	dialogue.start("Zinnia Vex", lines)
+	dialogue.start("Auntie Alembic", lines)
 	dialogue.finished.connect(_open_alchemist, CONNECT_ONE_SHOT)
 
 
@@ -1162,7 +1168,7 @@ func _open_alchemist() -> void:
 	screen.closed.connect(_close_overlay)
 
 ## Brief 9, Part G: the Grand Clashatorium. Chained until the first zone is free (a hint from the sign on the chains), then
-## Marshal Vesna Tuskmore greets you and the Arena screen opens.
+## Announcer Grand Bellows greets you and the Arena screen opens.
 func _use_arena() -> void:
 	var story: StoryText = StoryText.shared()
 	if not Session.arena_unlocked():
@@ -1172,7 +1178,7 @@ func _use_arena() -> void:
 	_face_npc("arena")
 	var lines: Array[String] = story.get_lines("town.arena.return" if Session.flag(&"arena_met") else "town.arena.intro")
 	Session.set_flag(&"arena_met")
-	dialogue.start("Marshal Vesna Tuskmore", lines)
+	dialogue.start("Announcer Grand Bellows", lines)
 	dialogue.finished.connect(_open_arena, CONNECT_ONE_SHOT)
 
 
@@ -1194,7 +1200,7 @@ func _talk_item_vendor() -> void:
 	if not Session.flag(&"item_vendor_seen"):
 		Session.set_flag(&"item_vendor_seen")
 		lines = StoryText.shared().get_lines("town.item_vendor.first")
-	dialogue.start("Wick", lines)
+	dialogue.start("Tilly Tonic", lines)
 	dialogue.finished.connect(_open_item_vendor, CONNECT_ONE_SHOT)
 
 
@@ -1206,9 +1212,9 @@ func _open_item_vendor() -> void:
 	screen.closed.connect(_close_overlay)
 
 
-## Fourth brief, Part C: the equipment vendor (Wendell Cobb, "Assistant to the Regional
+## Fourth brief, Part C: the equipment vendor (Bertram Beetsworth, "Assistant to the Regional
 ## Merchant"). Dialogue lives in the story data file (StoryText), not hardcoded here, matching
-## the brief's own instruction rather than this scene's older (inline) convention for Sable/Wick.
+## the brief's own instruction rather than this scene's older (inline) convention for Sable/Tilly Tonic.
 func _talk_equipment_vendor() -> void:
 	_face_npc("equipment_vendor")
 	var story: StoryText = load(STORY_PATH) as StoryText
@@ -1216,7 +1222,7 @@ func _talk_equipment_vendor() -> void:
 	if not Session.flag(&"equipment_vendor_seen"):
 		Session.set_flag(&"equipment_vendor_seen")
 		lines = story.equipment_vendor_intro_lines
-	dialogue.start("Wendell Cobb", lines)
+	dialogue.start("Bertram Beetsworth", lines)
 	dialogue.finished.connect(_open_equipment_vendor, CONNECT_ONE_SHOT)
 
 
@@ -1511,7 +1517,7 @@ func _open_wardrobe() -> void:
 	screen.closed.connect(_close_overlay)
 
 
-## Brief 12, Part F: Tilda Thimble's Hats & Hems. Try items on a rotating copy of the hero before buying; stock grows with zones freed and levels.
+## Brief 12, Part F: Pip Threadwell's Hats & Hems. Try items on a rotating copy of the hero before buying; stock grows with zones freed and levels.
 func _talk_tailor() -> void:
 	_face_npc("tailor")
 	var story: StoryText = StoryText.shared()

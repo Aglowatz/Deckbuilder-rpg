@@ -5,7 +5,7 @@ extends Node
 ## challenge -> battle -> shrine -> boss (forcing a multi-level jump on the first win, walking
 ## through the level-up recap -> equipment choice -> card offer chain) -> rewards (on-element
 ## picks grow the deck to 45) -> town (buy a card, edit and save the deck, open a hidden chest,
-## buy and equip an item from Wick, challenge a corrupted NPC and use the equipped item mid-duel -
+## buy and equip an item from Tilly Tonic, challenge a corrupted NPC and use the equipped item mid-duel -
 ## a real loss here is retried, not scripted to win, D71 - then the now-unlocked zone entrance,
 ## reopen the deck builder with the B hotkey). Mouse clicks and key presses are injected with
 ## UiDriver; battles use BattlePilot clicks for the tutorial battle and the corrupted-NPC fight,
@@ -339,7 +339,7 @@ func _town(scene: TownScene) -> void:
 		_did["deck"] = true
 		await _interact(scene, "deck")
 		return
-	# New brief, FINAL: buy an item from Wick (Part F).
+	# New brief, FINAL: buy an item from Tilly Tonic (Part F).
 	if not _did.has("item_vendor"):
 		_did["item_vendor"] = true
 		await _interact(scene, "item_vendor")
@@ -450,7 +450,7 @@ func _open_a_hidden_chest(scene: TownScene) -> void:
 	await driver.dismiss_reward_box()
 
 
-## New brief, Part F: buys the first available item from Wick, so there is something to equip.
+## New brief, Part F: buys the first available item from Tilly Tonic, so there is something to equip.
 func _shop_item(vendor: ItemVendorScreen) -> void:
 	var tip: Button = driver.find_button("Got it")
 	if tip != null:
@@ -726,7 +726,7 @@ func _rewards(scene: RewardsScreen) -> void:
 func _check_character_screen(screen: CharacterScreen) -> void:
 	_check(screen.visible, "the C hotkey opens the character screen")
 	_check(Session.profile.level >= 7, "the character screen reflects the level gained earlier")
-	# New brief, FINAL: the second visit (after buying from Wick) equips the item so it can
+	# New brief, FINAL: the second visit (after buying from Tilly Tonic) equips the item so it can
 	# actually be used in the corrupted-NPC fight right after this.
 	if _did.has("equip_item") and not _bought_item_id.is_empty():
 		var item: ItemData = Session.content.item(_bought_item_id)

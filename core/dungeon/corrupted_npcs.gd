@@ -12,8 +12,8 @@ const IDS: Array[String] = ["beefcake", "gourmand", "refusemancer", "necrocrat"]
 const STARTING_HP: int = 15
 
 const DISPLAY_NAMES: Dictionary = {
-	"beefcake": "Torvin the Over-Pumped", "gourmand": "Maris the Over-Seasoned",
-	"refusemancer": "Old Thistlebark the Over-Composted", "necrocrat": "Corwyn the Filed-Away",
+	"beefcake": "Brick Bronson", "gourmand": "Chef Fennel Gravois",
+	"refusemancer": "Moss Mulligan", "necrocrat": "Prudence Pallor",
 }
 ## Which AIPersonality (by name, see core/ai/ai_personality.gd) plays each - matched to their
 ## element identity (aggressive Beefcake, defensive Gourmand, patient/growing Refusemancer, opportunistic Necrocrat).

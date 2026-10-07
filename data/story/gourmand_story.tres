@@ -16,7 +16,7 @@ lines = {
 "fx.heal_couch": ["You sit down to a hearty meal: roast something, a bowl of soup the size of a bathtub, and a roll that hugs you back. HP restored."],
 "fx.heal_already": ["You are already full of HP. The chef politely refuses to give you seconds. The chef is lying; there are always seconds."],
 "fx.hit": ["BONK! A runaway prototype meatball hits you right in the shins. (-2 HP)"],
-"fx.wake": ["You wake up face-down in a bowl of mashed potatoes at the Grand Pantry. Head Chef Odalys is holding a ladle and a very long receipt.", "\"You fainted into the gravy, dear. We fished you out. The dish duty fee is on you. Say nothing to the taste testers. Yes, Chef is what you say.\""],
+"fx.wake": ["You wake up face-down in a bowl of mashed potatoes at the Grand Pantry. Basil is holding a ladle and a very long receipt.", "\"You fainted into the gravy, dear. We fished you out. The dish duty fee is on you. Say nothing to the taste testers. Yes, Chef is what you say.\""],
 "fx.chest": ["A hidden stash! Nobody tasted that one."],
 "fx.bounce": ["BOING!"],
 "fx.landed": ["Stuck the landing. In the sense that you are stuck to it a little."],
@@ -53,8 +53,8 @@ lines = {
 "gate.ingredient.pass": ["Brisket sniffs the air, eyes closing in bliss. \"Saffron. Real saffron. Do you know how long it has been?\" He takes the threads with great tenderness and steps aside.", "\"Go on through. Tell the Cheddar Cliffs I said they are overdue for a good grating.\""],
 "gate.ingredient.need": ["Brisket does not look at you. He looks over your head, at the horizon. \"I only open this gate for a pinch of saffron. Real saffron. It grows in the Candy Field. Ask a sous-chef.\"", "He sighs. \"Come back when your pockets are fancier.\""],
 "gate.quest.open": ["Sir Loin raises his fork in salute. \"You mended Old Meatloaf, so you are a friend of the Pantry. The town is yours.\""],
-"gate.quest.pass": ["Sir Loin inspects you. \"Old Meatloaf has been mended. Head Chef Odalys sends her thanks, and her orders, which are: let you in. Yes, Chef!\"", "He lowers his fork-lance. The gate swings open."],
-"gate.quest.need": ["Sir Loin clanks to attention. \"HALT! Nobody enters Layer-Cake Town unless they have mended Old Meatloaf. Quest from Head Chef Odalys. Speak to her at the Grand Pantry. Yes, Chef!\""],
+"gate.quest.pass": ["Sir Loin inspects you. \"Old Meatloaf has been mended. Basil sends her thanks, and her orders, which are: let you in. Yes, Chef!\"", "He lowers his fork-lance. The gate swings open."],
+"gate.quest.need": ["Sir Loin clanks to attention. \"HALT! Nobody enters Layer-Cake Town unless they have mended Old Meatloaf. Quest from Basil. Speak to her at the Grand Pantry. Yes, Chef!\""],
 "gate.battle.open": ["Colonel Casserole tips his lid. \"A fair fight, well fought. The Pancake Plateau is open to you. Mind the syrup; it pools.\""],
 "gate.battle.intro": ["Colonel Casserole bubbles ominously. \"Halt! This gate is guarded by a Colonel. I do not give passes. I do not take bribes. I take challengers in single combat, with cards.\"", "\"If you win, you pass. If you lose, you do the washing up. Both are honourable.\""],
 "gate.battle.ask": ["Defeat Colonel Casserole in a card battle to open the way to the Pancake Plateau. Your HP carries over as usual."],
@@ -67,9 +67,9 @@ lines = {
 "sign.fountain": ["THE SOUP FOUNTAIN", "Three ladles per customer. The soup of the day is soup."],
 "sign.golem_oath": ["THE GOLEM OATH", "We are the Gourmands: chefs of the kingdom.", "We feed the kingdom. We protect the kingdom.", "We cook food golems to guard it. They answer every order with \"Yes, Chef!\""],
 "sign.cookie": ["FORTUNE COOKIES - 5 GOLD", "Each one holds a hint about a secret. Handle with care. The secrets are crumbly."],
-"sign.old_meatloaf": ["OLD MEATLOAF", "Out of order. Needs sea salt and a black truffle. Please be gentle.", "- Head Chef Odalys"],
+"sign.old_meatloaf": ["OLD MEATLOAF", "Out of order. Needs sea salt and a black truffle. Please be gentle.", "- Basil"],
 "sign.forest": ["THE BROCCOLI FOREST", "Please do not eat the trees.", "The trees say the same about you."],
-"sign.quiz": ["THE COOKBOOK GAZEBO", "Lady Brioche asks 4 questions on the Gourmands and their kitchens. The answers are on the signs of the Endless Buffet."],
+"sign.quiz": ["THE COOKBOOK GAZEBO", "Professor Pate asks 4 questions on the Gourmands and their kitchens. The answers are on the signs of the Endless Buffet."],
 "sign.truffle_note": ["NOTE", "A black truffle was last seen near this tree.", "The tree was last seen near the truffle. They are inseparable."],
 "sign.candy": ["THE CANDY FIELD", "Everything here is edible. Not everything is wise."],
 "sign.studio": ["STUDIO 3: DINNER IN A DASH!", "Now taping: three tickets, one stove, zero patience.", "Live studio audience: a bowl of sprouts."],
@@ -84,7 +84,7 @@ lines = {
 "sign.raft_east": ["CROUTON RAFT FERRY", "Eastbound and northbound. Please have exact change.", "(There is no change. It is gravy. Everything is gravy.)"],
 "sign.bank": ["GRAVY BANK", "Welcome to the far side. The gates ahead are guarded by golems, as is the custom."],
 "sign.gate_ingredient": ["THE CHEESE CLIFFS GATE", "Doorman: Brisket.", "Admission: a pinch of saffron."],
-"sign.gate_quest": ["THE LAYER-CAKE TOWN GATE", "Warden: Sir Loin.", "Admission: a letter from Head Chef Odalys, proving Old Meatloaf has been mended."],
+"sign.gate_quest": ["THE LAYER-CAKE TOWN GATE", "Warden: Sir Loin.", "Admission: a letter from Basil, proving Old Meatloaf has been mended."],
 "sign.gate_battle": ["THE PANCAKE PLATEAU GATE", "Gatekeeper: Colonel Casserole.", "Admission: defeat the Colonel in a card battle."],
 "sign.cheddar": ["THE CHEDDAR CLIFFS", "Sharp. Sharper. Do not lean on the walls. Do not lick the walls."],
 "sign.cake_town": ["LAYER-CAKE TOWN", "Population: a lot of crumbs.", "Please do not bite the buildings."],
@@ -100,11 +100,11 @@ lines = {
 "enemy.jelly": ["A lime gelatin sentinel with a spoon spear and a fruit cocktail soul. Prototype Mk. 2. Wobbles when it thinks, which is rarely, on instructions."],
 "enemy.meatball": ["Pure momentum with a side of sauce. A failed prototype that escaped. Nobody knows what it is running from. It is probably the cannon."],
 "enemy.casserole": ["A pot-bellied colonel with a lid for a hat and a ladle for a sword. Thirty years of service, forty years of cheese."],
-"npc.odalys.intro": ["Welcome to the Grand Pantry! I am Head Chef Odalys. Ladle in one hand, kingdom in the other.", "We are the Gourmands, little one. We feed the kingdom and we protect it. Every plate is a promise. Every golem is a guard. ...Or they were. Ten years ago, {villain}'s people came, and shortly after, the Grand Chef changed.", "He looks the same. Sounds the same. But he does not taste a dish before he sends it out any more. He ordered the Special Sauce into every pot. And the golems answer \"Yes, Chef!\" to a chef who no longer cooks.", "Say it with me, quietly. Yes, Chef. The Endless Buffet runs on three rules: nobody leaves hungry, nobody double-dips, and everyone cleans their own plate. The fourth rule is new: nobody asks about the Test Kitchen."],
+"npc.odalys.intro": ["Welcome to the Grand Pantry! I am Basil. Ladle in one hand, kingdom in the other.", "We are the Gourmands, little one. We feed the kingdom and we protect it. Every plate is a promise. Every golem is a guard. ...Or they were. Ten years ago, {villain}'s people came, and shortly after, the Grand Chef changed.", "He looks the same. Sounds the same. But he does not taste a dish before he sends it out any more. He ordered the Special Sauce into every pot. And the golems answer \"Yes, Chef!\" to a chef who no longer cooks.", "Say it with me, quietly. Yes, Chef. The Endless Buffet runs on three rules: nobody leaves hungry, nobody double-dips, and everyone cleans their own plate. The fourth rule is new: nobody asks about the Test Kitchen."],
 "npc.odalys.return": ["Back at my kitchen? Good. A Gourmand never stops stirring. What do we say? Yes, Chef. Quietly. The Grand Chef has very good hearing, for a man who does not eat."],
 "npc.tarragon.intro": ["Oh! A customer! A helper! A pair of hands! Sous-Chef Tarragon, the Head Chef's fetcher of things. I fetch. All day. It is a lot of fetching.", "We are always out of something. Basil, honey, ghost pepper... half our ingredients go to the Test Kitchen now and nothing comes back. Please, if you see any lying around, pick them up. I would be so grateful.", "I once fetched a whole pig. It was the wrong pig. It is still angry about it. Do not tell the Grand Chef I said anything. He has very good hearing."],
 "npc.tarragon.return": ["Any ingredients? Anything? I will take a single leaf of anything. I am not proud. I am hungry. And a bit scared."],
-"npc.dolcetta.intro": ["Dolcetta Crumb, dessert dealer and card shark of the Grand Pantry. Cakes by day. Cards by night. Both by appointment.", "Everything here is Gourmand-issue: baked, bottled and, as of this year, officially inspected by the Test Kitchen. The inspection stamp is on the cake. The cake is, as ever, for decoration.", "I take gold, favours and sprinkles, in that order. Mostly gold. I do not take samples of the Special Sauce. I have been faking it for months."],
+"npc.dolcetta.intro": ["Madame Mirepoix, dessert dealer and card shark of the Grand Pantry. Cakes by day. Cards by night. Both by appointment.", "Everything here is Gourmand-issue: baked, bottled and, as of this year, officially inspected by the Test Kitchen. The inspection stamp is on the cake. The cake is, as ever, for decoration.", "I take gold, favours and sprinkles, in that order. Mostly gold. I do not take samples of the Special Sauce. I have been faking it for months."],
 "npc.dolcetta.return": ["Shop's open. The cards are fresh. The cake is for decoration. The sauce is for other people."],
 "quest.buf_pantry.offer": ["Oh good, you can fetch! Wonderful! I mean, I am not saying I want you to fetch, I am saying fetching is a gift.", "We need three ingredients, quick. The Test Kitchen has been taking our deliveries. They are scattered all over the Endless Buffet: truffles by the broccoli, salt by the river, honey up on the Butte. Pick up three and I will make it worth your while."],
 "quest.buf_pantry.active": ["Three ingredients, remember. The pantry is empty and the Head Chef is staring at me. Please hurry."],
@@ -121,7 +121,7 @@ lines = {
 "npc.old_meatloaf.broken": ["Old Meatloaf is slumped on the floor, in two pieces, with crossed-out eyes. A note on his chest reads: SEA SALT AND A BLACK TRUFFLE. PLEASE BE GENTLE."],
 "npc.old_meatloaf.fix": ["You season Old Meatloaf's joints with the sea salt and tuck the black truffle where his heart should be. He sits up slowly.", "\"...Chef?\" he says. \"Yes, Chef,\" you say, because it feels right. His eyes uncross."],
 "npc.old_meatloaf.mended": ["Old Meatloaf stands guard with great dignity. \"Yes, Chef!\" he whispers. He says it to you. You are not a chef. He does not care. He is just glad nobody wants to turn him into a cannon."],
-"npc.quiz.intro": ["Ah, a student! Lady Brioche, Keeper of the Cookbook. I have read every recipe in the kingdom. Twice. The second time was for the footnotes. I have never found a recipe for the Special Sauce. I looked.", "Four questions about the Gourmands: who they are, what they cook, how their golems speak. Every answer is written on a sign somewhere in the Endless Buffet.", "Answer well and earn gold, glory and the respect of a very old book. Answer poorly and earn a gentle, scholarly sigh."],
+"npc.quiz.intro": ["Ah, a student! Professor Pate, Keeper of the Cookbook. I have read every recipe in the kingdom. Twice. The second time was for the footnotes. I have never found a recipe for the Special Sauce. I looked.", "Four questions about the Gourmands: who they are, what they cook, how their golems speak. Every answer is written on a sign somewhere in the Endless Buffet.", "Answer well and earn gold, glory and the respect of a very old book. Answer poorly and earn a gentle, scholarly sigh."],
 "npc.quiz.return": ["Back to improve your score? Splendid. Practice makes perfect. Perfect makes me a little smug."],
 "quiz.result.0": ["Zero. Remarkable in its way. Nothing for you. The signs are patient. I am slightly less so."],
 "quiz.result.1": ["One. A pinch of knowledge, barely seasoned. Here is a small token. It is a thimble of encouragement."],
@@ -130,7 +130,7 @@ lines = {
 "quiz.result.4": ["FOUR! A perfectly risen set! You may now call yourself a Certified Gourmand, First Class. The reward is real. The certificate is imaginary."],
 "quiz.repeat": ["Another round! The Cookbook pays a small fee for repeat scholarship."],
 "quiz.not_passed": ["Not a pass. Walk the Endless Buffet, read the signs, and come back. There is no limit on attempts."],
-"npc.minigame.intro": ["*cue brass fanfare and a rimshot* WELCOME, WELCOME, WELCOME to DINNER IN A DASH! I'm your host, Chef Turbo Tartine, and tonight we are LIVE from a field of candy! The Test Kitchen cancelled my show, so I'm doing it in secret.", "You may remember me from the old tapes: nineteen ninety-seven to two-thousand-three, the kitchen that moved faster than the cameraman. My catchphrase was an actual sound effect. A whoosh. People still do the whoosh.", "My arch-rival, Chef Savannah Souffle, stole my signature dish: Spaghetti Surprise. The surprise was more spaghetti. She called it Spaghetti Deluxe. The nerve! Last I heard, she took a job at the Test Kitchen. I wish her well. I wish her well far away.", "I also had a line of kids'-meal toys: the Turbo Tots, tiny plastic spatulas that spun. They were recalled. Not for safety. For spinning too well. That's a different kind of danger.", "Tonight's show: ORDER UP! Six tickets, one counter, no mercy. Stack the dish in the right order before the timer dings. Rewards for performance, and a first-time bonus. The audience is ten sprouts and a very patient cloche. Let's COOK!"],
+"npc.minigame.intro": ["*cue brass fanfare and a rimshot* WELCOME, WELCOME, WELCOME to DINNER IN A DASH! I'm your host, Chef Flambe Fontaine, and tonight we are LIVE from a field of candy! The Test Kitchen cancelled my show, so I'm doing it in secret.", "You may remember me from the old tapes: nineteen ninety-seven to two-thousand-three, the kitchen that moved faster than the cameraman. My catchphrase was an actual sound effect. A whoosh. People still do the whoosh.", "My arch-rival, Chef Savannah Souffle, stole my signature dish: Spaghetti Surprise. The surprise was more spaghetti. She called it Spaghetti Deluxe. The nerve! Last I heard, she took a job at the Test Kitchen. I wish her well. I wish her well far away.", "I also had a line of kids'-meal toys: the Turbo Tots, tiny plastic spatulas that spun. They were recalled. Not for safety. For spinning too well. That's a different kind of danger.", "Tonight's show: ORDER UP! Six tickets, one counter, no mercy. Stack the dish in the right order before the timer dings. Rewards for performance, and a first-time bonus. The audience is ten sprouts and a very patient cloche. Let's COOK!"],
 "npc.minigame.return": [
 "Back for another shift, champ? The cameras are always rolling. They are not. They ran out of film in two-thousand-three. Smile anyway.",
 "Remember: the ticket is your friend. The ticket does not judge. The ticket is judging, but kindly."
@@ -175,7 +175,7 @@ lines = {
 "npc.odalys.return.freed": ["The Special Sauce is down the drain. The golems guard plates again. Yes, Chef! You may take seconds. You have earned seconds. You have earned thirds."],
 "npc.tarragon.intro.freed": ["Tarragon! Sous-Chef! Free! The ingredients are coming back from the Test Kitchen by the cartload. Pigs, even. Not the angry pig. A different one."],
 "npc.tarragon.return.freed": ["Fetching is fun again! Everyone waves at me! Nobody asks me to fetch cannonballs!"],
-"npc.dolcetta.intro.freed": ["Dolcetta Crumb, dessert dealer, free of the sauce! My taste buds came back last week and wow, wow, the sugar. Cakes by day. Cards by night. Both by appointment, and all by choice."],
+"npc.dolcetta.intro.freed": ["Madame Mirepoix, dessert dealer, free of the sauce! My taste buds came back last week and wow, wow, the sugar. Cakes by day. Cards by night. Both by appointment, and all by choice."],
 "npc.dolcetta.return.freed": ["Shop's open, the cards are fresh, and the cake is for eating now. Sit down. Have a slice."],
 "effect.buff.name": ["Well Fed"],
 "effect.buff.flavor": ["Nobody leaves hungry, least of all the Gourmands. Full bellies make for strong golems."],
@@ -250,12 +250,12 @@ quiz_questions = Array[Dictionary]([{
 "a": ["Feeding the kingdom and protecting it", "Collecting the kingdom's taxes", "Inspecting the kingdom's dungeons", "Writing the kingdom's restaurant reviews"],
 "correct": 0,
 "q": "What are the Gourmands responsible for?",
-"where": "sign.hub_main (Grand Pantry); sign.golem_oath; Head Chef Odalys' intro line"
+"where": "sign.hub_main (Grand Pantry); sign.golem_oath; Basil' intro line"
 }, {
 "a": ["Food golems", "Very angry souffles", "Moats of cold soup", "Strongly worded casseroles"],
 "correct": 0,
 "q": "What do the Gourmands cook to guard the kingdom?",
-"where": "sign.golem_oath; Odalys' intro line; the gate signs"
+"where": "sign.golem_oath; Basil' intro line; the gate signs"
 }, {
 "a": ["\"Yes, Chef!\"", "\"Maybe, Chef.\"", "\"Define medium rare.\"", "\"I'll check with the pancake.\""],
 "correct": 0,
@@ -265,5 +265,5 @@ quiz_questions = Array[Dictionary]([{
 "a": ["Nobody leaves hungry", "Everybody leaves tipping", "Nobody leaves without doing the dishes", "Everybody leaves with a doggie bag of golem"],
 "correct": 0,
 "q": "What is the Gourmands' promise to every guest of the Endless Buffet?",
-"where": "sign.hub_main; sign.cake_menu; Odalys' intro line"
+"where": "sign.hub_main; sign.cake_menu; Basil' intro line"
 }])

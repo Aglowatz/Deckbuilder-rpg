@@ -10,9 +10,9 @@ const DISPLAY_NAME: String = "The Gainlands"
 const FULL_NAME: String = "The Gainlands (Beefcake Country)"
 const HUB_NAME: String = "The Swole Station"
 
-const NPC_BRENDA: String = "Coach Brenda"
+const NPC_BRENDA: String = "Old Man Mountain"
 const NPC_GUS: String = "Foreman Gus"
-const NPC_TONY: String = "Tiny Tony"
+const NPC_TONY: String = "Coach Brutus Benchley"
 
 const QUEST_POWER: String = "gain_power"
 const QUEST_SPOT_ME: String = "gain_spot_me"
@@ -64,7 +64,7 @@ static func build_def() -> ZoneDef:
 	def.story_path = "res://data/story/gainlands_story.tres"
 	def.fee = 20
 	def.fee_label = "Protein tab"
-	def.wake_speaker = "Coach Brenda"
+	def.wake_speaker = "Old Man Mountain"
 	def.flag_quiz_done = FLAG_QUIZ_DONE
 	def.flag_quiz_passed = FLAG_QUIZ_PASSED
 	def.flag_puzzle_solved = FLAG_PUZZLE_SOLVED
@@ -86,28 +86,28 @@ static func build_def() -> ZoneDef:
 	def.ruler_tint = Color("8a1f1f")
 	def.gloom_tint = Color(0.5, 0.52, 0.58)
 	def.freed_npcs = [
-		{"id": "heartlift", "model": "Barbarian", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.85, 0.7), "scale": 2.1, "name": "Grandmaster Flex", "speaker": "Grandmaster Flex"},
+		{"id": "heartlift", "npc_id": "NPC-FLEX", "model": "Barbarian", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.85, 0.7), "scale": 2.1, "name": "Grandmaster Flex", "speaker": "Grandmaster Flex"},
 	]
 	def.mini = _mini_def()
 	def.npcs = [
-		{"id": "brenda", "model": "Barbarian", "anchor": "brenda", "yaw": 0.0, "tint": Color(1.0, 0.75, 0.85), "scale": 1.5},
+		{"id": "brenda", "npc_id": "NPC-MOUNTAIN", "model": "Barbarian", "anchor": "brenda", "yaw": 0.0, "tint": Color(1.0, 0.75, 0.85), "scale": 1.5},
 		{"id": "gus", "model": "Rogue_Hooded", "anchor": "gus", "yaw": 90.0, "tint": Color(1.0, 0.9, 0.6), "scale": 1.15},
-		{"id": "tony", "model": "Barbarian", "anchor": "tony", "yaw": 200.0, "tint": Color(0.8, 0.9, 1.0), "scale": 1.9},
-		{"id": "quiz", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(0.85, 0.95, 1.0), "scale": 1.1},
-		{"id": "minigame", "model": "Rogue", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.0, 0.45, 0.85), "scale": 1.1},
+		{"id": "tony", "npc_id": "V-BENCHLEY", "model": "Barbarian", "anchor": "tony", "yaw": 200.0, "tint": Color(0.8, 0.9, 1.0), "scale": 1.9},
+		{"id": "quiz", "npc_id": "NPC-PUMP", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(0.85, 0.95, 1.0), "scale": 1.1},
+		{"id": "minigame", "npc_id": "NPC-THUNDERABS", "model": "Rogue", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.0, 0.45, 0.85), "scale": 1.1},
 		{"id": "gary", "model": "Barbarian", "anchor": "spot_me", "yaw": 200.0, "tint": Color(0.9, 1.0, 0.8), "scale": 1.4, "anim": "Lie_Idle"},
 	]
 	def.spots = [
-		_spot("brenda", "Coach Brenda, Head Spotter", "brenda", Vector3(0, 0, 1.0), 1.7, "Talk", "quest_npc", {"npc": "brenda", "npc_name": NPC_BRENDA, "speaker": "Coach Brenda"}),
+		_spot("brenda", "Old Man Mountain, Hermit of the Swole Station", "brenda", Vector3(0, 0, 1.0), 1.7, "Talk", "quest_npc", {"npc": "brenda", "npc_id": "NPC-MOUNTAIN", "npc_name": NPC_BRENDA, "speaker": "Old Man Mountain"}),
 		_spot("gus", "Foreman Gus, Wheel Wrangler", "gus", Vector3(0.9, 0, 0), 1.6, "Talk", "quest_npc", {"npc": "gus", "npc_name": NPC_GUS, "speaker": "Foreman Gus"}),
-		_spot("tony", "Tiny Tony's Protein & Pasteboard", "tony", Vector3(-0.8, 0, 0.5), 1.8, "Talk", "vendor_npc", {"npc": "tony", "npc_name": NPC_TONY, "speaker": "Tiny Tony"}),
+		_spot("tony", "Tiny Tony's Protein & Pasteboard", "tony", Vector3(-0.8, 0, 0.5), 1.8, "Talk", "vendor_npc", {"npc": "tony", "npc_id": "V-BENCHLEY", "npc_name": NPC_TONY, "speaker": "Coach Brutus Benchley"}),
 		_spot("heal", "Cooldown Hot Tub", "heal", Vector3(0, 0, 1.6), 1.9, "Soak in the tub (full heal)", "heal"),
 		_spot("exit", "The Beefcake Path", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Iron Cavern", "mini_dungeon", Vector3(0, 0, 0.8), 1.7, "Enter the Iron Cavern: three sets", "mini_dungeon"),
 		_spot("main_dungeon", "The House of Gains", "main_dungeon", Vector3(0, 0, 0.6), 2.0, "Enter the House of Gains", "main_dungeon"),
 		_spot("puzzle", "Power Grid Control Panel", "puzzle", Vector3.ZERO, 1.8, "Route the power (puzzle)", "puzzle"),
-		_spot("quiz", "Professor Quad, Beefcake Scholar", "quiz", Vector3(0.9, 0, 0), 1.7, "Talk", "quiz", {"npc": "quiz", "speaker": "Professor Quad"}),
-		_spot("minigame", "Jazzy Jules, 3 AM Fitness Host", "minigame", Vector3(0, 0, 1.0), 1.8, "Talk", "minigame", {"npc": "minigame", "speaker": "Jazzy Jules"}),
+		_spot("quiz", "Professor Pump, Beefcake Scholar", "quiz", Vector3(0.9, 0, 0), 1.7, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-PUMP", "speaker": "Professor Pump"}),
+		_spot("minigame", "Chet Thunderabs, 3 AM Fitness Host", "minigame", Vector3(0, 0, 1.0), 1.8, "Talk", "minigame", {"npc": "minigame", "npc_id": "NPC-THUNDERABS", "speaker": "Chet Thunderabs"}),
 		_spot("protein_stand", "Protein Shake Stand", "protein_stand", Vector3(0, 0, 1.2), 1.7, "Buy a mystery shake (10 gold)", "zone"),
 		_spot("flex_mirror", "Flex Mirror", "flex_mirror", Vector3(0.9, 0, 0), 1.5, "Flex at the mirror", "zone"),
 		_spot("flex_mirror_pec", "Flex Mirror (Pec Perch)", "flex_mirror_pec", Vector3(0.9, 0, 0), 1.5, "Flex at the mirror", "zone"),

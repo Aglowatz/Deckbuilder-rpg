@@ -30,7 +30,7 @@ func run() -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
 	_check(town.dialogue.active, "talking to a corrupted NPC opens dialogue")
-	_check(town.dialogue._speaker.text == "Torvin the Over-Pumped", "the dialogue speaker is the corrupted NPC")
+	_check(town.dialogue._speaker.text == "Brick Bronson", "the dialogue speaker is the corrupted NPC")
 	var guard: int = 0
 	while town.dialogue.active and guard < 20:
 		guard += 1
@@ -43,7 +43,7 @@ func run() -> void:
 		_finish(false, "no battle started")
 		return
 	_check(battle.context.town_npc_id == "beefcake", "the battle context is tagged as the beefcake challenge")
-	_check(battle.context.enemy_name == "Torvin the Over-Pumped", "the battle opponent is the corrupted NPC")
+	_check(battle.context.enemy_name == "Brick Bronson", "the battle opponent is the corrupted NPC")
 	_check(battle.game.players[1].hp == CorruptedNpcs.STARTING_HP, "the corrupted NPC starts at 15 HP")
 
 	var pilot: BattlePilot = BattlePilot.new(driver, battle)
@@ -77,7 +77,7 @@ func run() -> void:
 	await driver.frames(5)
 	_check(back.dialogue.active, "a post-fight line plays on return")
 	if won:
-		_check(back.dialogue._speaker.text == "Torvin the Over-Pumped", "the win dialogue is from the NPC")
+		_check(back.dialogue._speaker.text == "Brick Bronson", "the win dialogue is from the NPC")
 		_check(Session.flag(CorruptedNpcs.unlock_flag("beefcake")), "a win unlocks the Beefcake zone entrance")
 		_check(Session.gold > gold_before, "a first win actually pays out gold")
 	else:

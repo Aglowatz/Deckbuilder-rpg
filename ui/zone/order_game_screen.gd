@@ -1,6 +1,6 @@
 class_name OrderGameScreen
 extends OverlayScreen
-## The Endless Buffet's minigame, "Order Up!" (see `OrderGame`): an assembly game hosted by Chef Turbo Tartine.
+## The Endless Buffet's minigame, "Order Up!" (see `OrderGame`): an assembly game hosted by Chef Flambe Fontaine.
 ## A ticket names a dish; press the ingredient stations in order (click, or keys 1-6) before the ticket's timer
 ## runs out. A wrong ingredient tosses the plate and costs time.
 

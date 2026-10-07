@@ -135,7 +135,7 @@ func _check_vendor_by_click() -> void:
 	await driver.click(pos)
 	await driver.seconds(0.3)
 	_check(scene.dialogue.active, "left-clicking the vendor in range opens dialogue")
-	_check(scene.dialogue._speaker.text == "Sable the Trader", "the vendor dialogue is from Sable the Trader")
+	_check(scene.dialogue._speaker.text == "Sable", "the vendor dialogue is from Sable")
 	_check_dialogue_on_screen("vendor")
 	await _dismiss_dialogue()
 	await driver.seconds(0.3)
@@ -154,7 +154,7 @@ func _check_item_vendor() -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
 	_check(scene.dialogue.active, "interacting with the item vendor opens dialogue")
-	_check(scene.dialogue._speaker.text == "Wick", "the item vendor dialogue is from Wick")
+	_check(scene.dialogue._speaker.text == "Tilly Tonic", "the item vendor dialogue is from Tilly Tonic")
 	await _dismiss_dialogue()
 	await driver.seconds(0.3)
 	_check(scene._overlay is ItemVendorScreen, "the item vendor dialogue leads into the Item Vendor screen")
@@ -184,7 +184,7 @@ func _find_item_tile(vendor_screen: ItemVendorScreen, item_id: String) -> Contro
 	return null
 
 
-## Fourth brief, Part C: the equipment vendor (Wendell Cobb) - talk, buy a basic (always-for-sale)
+## Fourth brief, Part C: the equipment vendor (Bertram Beetsworth) - talk, buy a basic (always-for-sale)
 ## piece with real gold, confirm it lands in owned_equipment, and confirm an advanced piece is
 ## still locked (shows no buy button/tile-with-meta) before the level-10 reward.
 func _check_equipment_vendor() -> void:
@@ -193,7 +193,7 @@ func _check_equipment_vendor() -> void:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
 	_check(scene.dialogue.active, "interacting with the equipment vendor opens dialogue")
-	_check(scene.dialogue._speaker.text == "Wendell Cobb", "the equipment vendor dialogue is from Wendell Cobb")
+	_check(scene.dialogue._speaker.text == "Bertram Beetsworth", "the equipment vendor dialogue is from Bertram Beetsworth")
 	await _dismiss_dialogue()
 	await driver.seconds(0.3)
 	_check(scene._overlay is EquipmentVendorScreen, "the equipment vendor dialogue leads into the Equipment Vendor screen")

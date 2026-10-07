@@ -28,6 +28,10 @@ class Point:
 	func lock_key() -> String:
 		return "travel.%s.locked" % id
 
+	## The list NPC (data/npcs): every thrower shares Big Hurl's portrait, every portal ripper Rip Tearson's.
+	func npc_id() -> String:
+		return "NPC-HURL" if kind == "throw" else "NPC-RIP"
+
 
 static func _point(id: String, kind: String, anchor: String, dest: String, title: String, speaker: String, tint: Color, lock: Condition = null) -> Point:
 	var point: Point = Point.new()

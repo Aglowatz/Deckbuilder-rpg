@@ -7,9 +7,9 @@ const ID: String = "necrocrat"
 const DISPLAY_NAME: String = "The D.N.A."
 const FULL_NAME: String = "Department of Necrotic Affairs"
 
-const NPC_DOLORES: String = "Dolores"
-const NPC_BARNABY: String = "Barnaby"
-const NPC_PIP: String = "Pip"
+const NPC_DOLORES: String = "Agnes Overdue"
+const NPC_BARNABY: String = "Gerald"
+const NPC_PIP: String = "Clerk Ledgerbone"
 
 ## Counters / flags the zone sets (quest objectives read these as Conditions).
 const COUNTER_PUNCHED_IN: String = "dna_punched_in"
@@ -52,7 +52,7 @@ static func build_def() -> ZoneDef:
 	def.story_path = "res://data/story/dna_story.tres"
 	def.fee = 15
 	def.fee_label = "Paperwork fee"
-	def.wake_speaker = "Dolores (over the intercom)"
+	def.wake_speaker = "Agnes Overdue (over the intercom)"
 	def.flag_quiz_done = FLAG_QUIZ_DONE
 	def.flag_quiz_passed = FLAG_QUIZ_PASSED
 	def.flag_puzzle_solved = FLAG_PUZZLE_SOLVED
@@ -75,20 +75,20 @@ static func build_def() -> ZoneDef:
 	def.gloom_tint = Color(0.45, 0.56, 0.54)
 	def.hub_anchor = "lobby_center"
 	def.freed_npcs = [
-		{"id": "vellum", "model": "Mage", "offset": Vector3(0.0, 0.0, 4.0), "yaw": 180.0, "tint": Color(0.85, 0.9, 1.0), "scale": 1.15, "name": "Director Vellum", "speaker": "Director Vellum"},
+		{"id": "vellum", "npc_id": "NPC-MORTIMER", "model": "Mage", "offset": Vector3(0.0, 0.0, 4.0), "yaw": 180.0, "tint": Color(0.85, 0.9, 1.0), "scale": 1.15, "name": "Mortimer Grimsby", "speaker": "Mortimer Grimsby"},
 	]
 	def.mini = _mini_def()
 	def.npcs = [
-		{"id": "dolores", "model": "Mage", "anchor": "dolores", "yaw": 0.0, "tint": Color(0.85, 1.0, 0.95)},
-		{"id": "barnaby", "model": "Rogue_Hooded", "anchor": "barnaby", "yaw": 90.0, "tint": Color(0.9, 1.0, 0.85)},
-		{"id": "pip", "model": "Rogue", "anchor": "pip", "yaw": 180.0, "tint": Color(0.9, 0.95, 1.0)},
-		{"id": "quiz", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(0.75, 0.85, 1.0)},
-		{"id": "matching", "model": "Barbarian", "anchor": "matching", "yaw": 135.0, "tint": Color(1.0, 0.85, 1.0)},
+		{"id": "dolores", "npc_id": "NPC-AGNES", "model": "Mage", "anchor": "dolores", "yaw": 0.0, "tint": Color(0.85, 1.0, 0.95)},
+		{"id": "barnaby", "npc_id": "NPC-GERALD", "model": "Rogue_Hooded", "anchor": "barnaby", "yaw": 90.0, "tint": Color(0.9, 1.0, 0.85)},
+		{"id": "pip", "npc_id": "V-LEDGERBONE", "model": "Rogue", "anchor": "pip", "yaw": 180.0, "tint": Color(0.9, 0.95, 1.0)},
+		{"id": "quiz", "npc_id": "NPC-ECTOMUND", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(0.75, 0.85, 1.0)},
+		{"id": "matching", "npc_id": "NPC-KYLE", "model": "Barbarian", "anchor": "matching", "yaw": 135.0, "tint": Color(1.0, 0.85, 1.0)},
 	]
 	def.spots = [
-		_spot("dolores", "Dolores, Front Desk", "dolores", Vector3(0, 0, 1.0), 1.7, "Talk", "quest_npc", {"npc": "dolores", "npc_name": NPC_DOLORES, "speaker": "Dolores"}),
-		_spot("barnaby", "Barnaby, Barista", "barnaby", Vector3(0, 0, 0.6), 1.5, "Talk", "quest_npc", {"npc": "barnaby", "npc_name": NPC_BARNABY, "speaker": "Barnaby"}),
-		_spot("pip", "Pip, Requisitions", "pip", Vector3(0, 0, -0.6), 1.5, "Talk", "vendor_npc", {"npc": "pip", "npc_name": NPC_PIP, "speaker": "Pip"}),
+		_spot("dolores", "Agnes Overdue, Front Desk", "dolores", Vector3(0, 0, 1.0), 1.7, "Talk", "quest_npc", {"npc": "dolores", "npc_id": "NPC-AGNES", "npc_name": NPC_DOLORES, "speaker": "Agnes Overdue"}),
+		_spot("barnaby", "Gerald, Barista", "barnaby", Vector3(0, 0, 0.6), 1.5, "Talk", "quest_npc", {"npc": "barnaby", "npc_id": "NPC-GERALD", "npc_name": NPC_BARNABY, "speaker": "Gerald"}),
+		_spot("pip", "Clerk Ledgerbone, Requisitions", "pip", Vector3(0, 0, -0.6), 1.5, "Talk", "vendor_npc", {"npc": "pip", "npc_id": "V-LEDGERBONE", "npc_name": NPC_PIP, "speaker": "Clerk Ledgerbone"}),
 		_spot("heal", "Breakroom Couch", "heal", Vector3.ZERO, 1.5, "Rest on the couch (full heal)", "heal"),
 		_spot("coffee", "Coffee Machine", "coffee", Vector3.ZERO, 1.3, "Pour a cup", "zone"),
 		_spot("time_clock", "Time Clock", "time_clock", Vector3.ZERO, 1.3, "Punch in", "zone"),
@@ -98,8 +98,8 @@ static func build_def() -> ZoneDef:
 		_spot("mini_dungeon", "Sub-Basement 3", "mini_dungeon", Vector3.ZERO, 1.5, "Take the elevator to Quarterly Reviews", "mini_dungeon"),
 		_spot("main_dungeon", "The Hall of Final Approvals", "main_dungeon", Vector3.ZERO, 1.7, "Take a number and enter the Hall of Final Approvals", "main_dungeon"),
 		_spot("puzzle", "Soul Routing Terminal", "puzzle", Vector3.ZERO, 1.7, "Route the souls (puzzle)", "puzzle"),
-		_spot("quiz", "Lethe, Compliance Examiner", "quiz", Vector3(0.9, 0, 0), 1.6, "Talk", "quiz", {"npc": "quiz", "speaker": "Lethe"}),
-		_spot("matching", "Skylar, Last Employee of the Month", "matching", Vector3(0.0, 0, 0.9), 1.6, "Talk", "minigame", {"npc": "matching", "speaker": "Skylar"}),
+		_spot("quiz", "Director Ectomund, Compliance Examiner", "quiz", Vector3(0.9, 0, 0), 1.6, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-ECTOMUND", "speaker": "Director Ectomund"}),
+		_spot("matching", "Kyle, Last Employee of the Month", "matching", Vector3(0.0, 0, 0.9), 1.6, "Talk", "minigame", {"npc": "matching", "npc_id": "NPC-KYLE", "speaker": "Kyle"}),
 	]
 	def.poi_kinds = {
 		"dolores": MapPoi.Kind.QUEST_GIVER, "barnaby": MapPoi.Kind.QUEST_GIVER, "pip": MapPoi.Kind.VENDOR,

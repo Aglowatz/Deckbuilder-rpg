@@ -243,7 +243,7 @@ func _flow_quest() -> void:
 	await driver.seconds(0.4)
 	await _shot("14_quest_offer_tilda")
 	await _dismiss(zone.dialogue)
-	_check(Session.quest_log.active.has(CapitalZone.QUEST_BURIAL), "Tilda Marrow's quest was accepted")
+	_check(Session.quest_log.active.has(CapitalZone.QUEST_BURIAL), "Widow Pell's quest was accepted")
 	await _teleport(zone, zone.builder.anchor("stamp") + Vector3(0, 0, 0.6))
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)

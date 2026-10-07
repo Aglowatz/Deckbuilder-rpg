@@ -26,9 +26,9 @@ static func _meet_the_merchants() -> QuestData:
 	quest.summary = "Three traders keep the town running. Introduce yourself to all of them."
 	quest.auto_give = true
 	quest.objectives = [
-		QuestObjective.make("Talk to Sable the Trader (cards)", Condition.flag("vendor_seen")),
-		QuestObjective.make("Talk to Wick (items)", Condition.flag("item_vendor_seen")),
-		QuestObjective.make("Talk to Wendell Cobb (equipment)", Condition.flag("equipment_vendor_seen")),
+		QuestObjective.make("Talk to Sable (cards)", Condition.flag("vendor_seen")),
+		QuestObjective.make("Talk to Tilly Tonic (items)", Condition.flag("item_vendor_seen")),
+		QuestObjective.make("Talk to Bertram Beetsworth (equipment)", Condition.flag("equipment_vendor_seen")),
 	] as Array[QuestObjective]
 	quest.reward_gold = 50
 	quest.reward_xp = 40

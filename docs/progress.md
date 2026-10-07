@@ -2535,3 +2535,97 @@ Five groups, each finished with the full GUT run, screenshots, a commit and a pu
 - GUT: 1075 tests, all passing (36 new: walkability, forest, chests, boxes, unlock digest).
 - E2E (budget: two runs per area, ~15 min): `town_interact_smoke` ran twice (hidden chests and the new Quest Complete box pass; two failures were script timing - a level-up box after the quest box, and a HUD button click - patched, not re-run). The Gainlands flow ran once: 77 of 78 checks passed (Gainlands station route, island and ground chests, portals, quiz, puzzle); the one failure was the M key hitting a Quest Complete box, patched in the script, not re-run. Starting-area and the other zones' smokes were not run (budget); their chest steps were updated to click the box away.
   Screenshots: `docs/art/screens/polish/` (town from four angles + overview, Rift Express, starting area zoomed out, Gainlands spawn, chest before/after, chest box, quest box, level-up box).
+
+
+## NPC dialogue portraits
+
+Source list: `data/source/npc_list.csv.csv` (the file really is named `.csv.csv`, like the battleboard list; 58 character rows, the VENDOR SCREENS section is ignored).
+`bash tools/import_npcs.sh` turns it into `data/npcs/npcs.json`; `NpcRegistry` (`core/data/npc_registry.gd`) reads it. `data/npcs/npc_game_map.json` is the hand-written link to the game
+(extra speaker aliases, which NPC speaks a dungeon story beat, which side a portrait stands on).
+
+### Part A: NPC data
+
+**How the game stores it:** every talkable NPC has an `npc_id` in its data (`def.npcs`, the spot dictionaries and `def.freed_npcs` of each zone, `TownScene.NPC_IDS`, `GainlandsTravel.Point.npc_id()`).
+In-game names are the list's names (short form before a comma or bracket for labels and quest givers, e.g. "Kyle"; the dialogue plate shows the full list name, e.g. "Kyle (Deceased Since '09)").
+Quest givers keep working because the `NPC_*` constants (what `giver_npc` / `turn_in_npc` match on) were renamed together with the quest definitions and the generated `data/quests/*.tres`.
+
+| NPC ID | In-game NPC (was) | Where |
+|--------|-------------------|-------|
+| NPC-PLAYER | the hero's own lines (starting-area self-talk) | starting area |
+| NPC-ELDER | Elder Maren | town |
+| NPC-GATEKEEPER | Gatekeeper Brannoch | town |
+| V-SABLE | Sable (Sable the Trader) | town |
+| V-TONIC | Tilly Tonic (Wick) | town |
+| V-BEETSWORTH | Bertram Beetsworth (Wendell Cobb) | town |
+| V-THREADWELL | Pip Threadwell (Tilda Thimble) | town |
+| V-FENWICK | Foil Fenwick | town |
+| V-ALEMBIC | Auntie Alembic (Zinnia Vex) | town |
+| NPC-BELLOWS | Announcer Grand Bellows (Marshal Vesna Tuskmore) | town, Arena |
+| NPC-BRONSON / GRAVOIS / MULLIGAN / PALLOR | Brick Bronson (Torvin), Chef Fennel Gravois (Maris), Moss Mulligan (Old Thistlebark), Prudence Pallor (Corwyn) | town, corrupted path NPCs |
+| V-BENCHLEY | Coach Brutus Benchley (Tiny Tony) | Gainlands |
+| NPC-MOUNTAIN | Old Man Mountain (Coach Brenda) | Gainlands, Swole Station |
+| NPC-PUMP / NPC-THUNDERABS | Professor Pump (Professor Quad), Chet Thunderabs (Jazzy Jules) | Gainlands quiz / minigame |
+| NPC-HURL / NPC-RIP | every thrower (Brock, Tobias, Wanda, Bonnie, Dmitri, Greta) / every portal ripper (Rita, Rhonda, Ripley, Raelynn) and the rift technicians (now "Rip Tearson", was "Rip Brogan") | Gainlands, every zone, town |
+| V-LEDGERBONE | Clerk Ledgerbone (Pip) | D.N.A. |
+| NPC-AGNES / NPC-GERALD | Agnes Overdue (Dolores), Gerald (Barnaby) | D.N.A. quest givers |
+| NPC-ECTOMUND / NPC-KYLE | Director Ectomund (Lethe), Kyle (Skylar) | D.N.A. quiz / minigame |
+| V-MIREPOIX | Madame Mirepoix (Dolcetta Crumb) | Endless Buffet |
+| NPC-BASIL | Basil (Head Chef Odalys) | Endless Buffet, Grand Pantry |
+| NPC-PATE / NPC-FLAMBE | Professor Pate (Lady Brioche), Chef Flambe Fontaine (Chef Turbo Tartine) | Endless Buffet quiz / minigame |
+| V-GRISTLE | Granny Gristle (Farmer Hob) | Verdant Dump |
+| NPC-BRAMBLE | Brother Bramble (Druid Marigold) | Verdant Dump |
+| NPC-THISTLEWICK / NPC-RHONDA | Druid Thistlewick (Elder Fennel), Recycle Rhonda (Blue-Ribbon Bev) | Verdant Dump quiz / minigame |
+| NPC-WREN | Wren (Mabbit Quill) | Capital, the Crease |
+| V-FIGSLY | Fig Sly | Capital, the Crease |
+| NPC-SPOTLESS | Captain Spotless (Gate Captain) | Capital gate |
+| NPC-FERN / NPC-PELL / NPC-GUS / NPC-MARLO | Old Fern (Gus Peelings), Widow Pell (Tilda Marrow), Gus (Bram Haulsworth), Chef Marlo (Odile Bisque) | Capital path quest givers |
+| NPC-CITIZEN | A Perfectly Happy Citizen (Citizen) | Capital, Primm's Perfection |
+| NPC-FLEX / NPC-ESCOFFINA / NPC-MORTIMER / NPC-COMPOSTELLA | the four freed leaders (Grandmaster Flex, Grand Chef Aurelio, Director Vellum, Archdruid Fernwick) | zones once freed, Capital |
+| NPC-CLENCH / NPC-VELLUM / NPC-DOPPEL / NPC-ROTHEART / NPC-PRIMM | the dungeon bosses (Commander Gristle, the Registrar, the False Aurelio, Archdruid Fernwick Loam, Primm) for their pre/post-fight story beats | dungeons |
+
+**In-game NPCs with no list match** (they keep their names and show no portrait): A Secret Dealer (hidden town vendor), Foreman Gus (Gainlands quest giver), Gary (under the barbell), Sous-Chef Tarragon,
+Wren Muckfoot, Druid Sorrel, Brisket / Sir Loin / Colonel Casserole (Buffet gates), Old Meatloaf, Nurse Hesper Dray (Capital wake-up nurse), Gate Guards, the Exit Clerk, Citizen 4471, Mabbit's
+loudspeakers, the Hollow Warden (tutorial boss, has no dialogue), the Restless Cairn (a pile of stones, not a person), props that talk (Compost Bin, Sprout Mound, Fortune Cookie, Grand Oven, "Narrator").
+
+**List NPCs that do not exist in the game yet** (nothing was created): NPC-HOB (Old Hob the Gravedigger; the Graveyard has only the Cairn), NPC-KESTREL, NPC-WARDEN (the boss exists but has no
+dialogue), NPC-SPOTTER, NPC-ITAMAE, NPC-BETTY, NPC-RACCOONKING, NPC-AUTOMATON (their dungeons are not built).
+
+**Species mismatches between the 3D world models and the portraits** (3D models were not touched; the world uses the KayKit humanoids Mage / Barbarian / Rogue / Rogue_Hooded / Knight):
+
+| NPC | Portrait species | 3D model now |
+|-----|------------------|--------------|
+| Elder Maren | tortoise | Mage |
+| Gatekeeper Brannoch | bear | Barbarian |
+| Sable | fox | Rogue_Hooded |
+| Tilly Tonic | frog | Mage |
+| Pip Threadwell | mouse (tiny tailor, huge hat) | hero-shaped tailor |
+| Foil Fenwick | magpie | Rogue |
+| Auntie Alembic | otherworldly, four arms, four-colored skin | Mage |
+| Announcer Grand Bellows | walrus | Barbarian |
+| Chef Fennel Gravois | ogre | Mage |
+| Moss Mulligan | faun | Rogue |
+| Coach Brutus Benchley | minotaur | Barbarian |
+| Big Hurl (all throwers) / Rip Tearson (all rippers and rift technicians) | stone troll / (none) | Barbarian (rift technician) / per-point humanoid |
+| Professor Pump | rhinoceros | Mage |
+| Old Man Mountain | yeti | Barbarian |
+| Clerk Ledgerbone | skeleton | Rogue |
+| Director Ectomund, Kyle, Gerald, Agnes Overdue | ghosts | Mage / Barbarian / Rogue_Hooded / Mage |
+| Mortimer Grimsby (freed leader) | skeleton | Mage |
+| Madame Mirepoix | Persian cat | Mage |
+| Professor Pate | otter | Mage |
+| Basil | rabbit | Knight |
+| Granny Gristle | opossum | Barbarian |
+| Druid Thistlewick | stag-headed druid | Mage |
+| Brother Bramble | hedgehog | Mage |
+| Wren | birdfolk (wren) | Mage |
+| Fig Sly | weasel | Rogue_Hooded |
+| Chef Marlo | mole | Rogue |
+| Old Fern | gnome | Barbarian |
+| Widow Pell | human, with her husband's ghost | Mage (no ghost) |
+| Boss portraits (Vellum undead, Doppelganger shapeshifter, Hollow Warden stone guardian) | | bosses have no 3D model (card battle only) |
+
+**Prose follow-ups** (the names were renamed in data, labels, quest givers and the quest/story lines that used the exact full names; the story text around them was not rewritten): bare first
+names and old titles still appear in some story lines (for example "Brenda", "Mabbit", "Tilda", "Head Spotter", "her 'Spot Me!' quest", he/she mismatches for Prudence Pallor and Brother Bramble);
+the shop names keep the old owners (Tiny Tony's Protein & Pasteboard, Dolcetta's Dessert & Deckery, Farmer Hob's Swap Shed, Wick's Supplies; vendor screens are out of scope); the zone villains and
+leaders still carry the old names in prose and battle (Commander Gristle = Chancellor Clench, the Registrar = Undersecretary Vellum, the False Aurelio = the Doppelganger, Archdruid Fernwick Loam =
+Compostella, the Rotheart, "Aurelio" / "Director Vellum" / "Fernwick" in lines). Dungeon boss beats show the list name on the plate, so plate and prose disagree until that prose is rewritten.

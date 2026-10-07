@@ -10,7 +10,7 @@ key = "vendor_seen"
 
 [sub_resource type="Resource" id="Resource_ymgck"]
 script = ExtResource("1_ji76s")
-text = "Talk to Sable the Trader (cards)"
+text = "Talk to Sable (cards)"
 condition = SubResource("Resource_hjk0m")
 
 [sub_resource type="Resource" id="Resource_ytodl"]
@@ -19,7 +19,7 @@ key = "item_vendor_seen"
 
 [sub_resource type="Resource" id="Resource_y37qb"]
 script = ExtResource("1_ji76s")
-text = "Talk to Wick (items)"
+text = "Talk to Tilly Tonic (items)"
 condition = SubResource("Resource_ytodl")
 
 [sub_resource type="Resource" id="Resource_wvd5t"]
@@ -28,7 +28,7 @@ key = "equipment_vendor_seen"
 
 [sub_resource type="Resource" id="Resource_ck1qj"]
 script = ExtResource("1_ji76s")
-text = "Talk to Wendell Cobb (equipment)"
+text = "Talk to Bertram Beetsworth (equipment)"
 condition = SubResource("Resource_wvd5t")
 
 [resource]

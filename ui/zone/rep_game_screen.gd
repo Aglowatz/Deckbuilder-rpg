@@ -1,7 +1,7 @@
 class_name RepGameScreen
 extends OverlayScreen
 ## The Gainlands' minigame, "Rep Counter" (see `RepGame`): a timing / rhythm lifting game hosted by
-## Jazzy Jules. Rings close on the bar; press SPACE (or click PUMP!) the moment each one lands.
+## Chet Thunderabs. Rings close on the bar; press SPACE (or click PUMP!) the moment each one lands.
 
 signal game_finished(stars: int, reward: Dictionary)
 

@@ -244,7 +244,7 @@ func test_travel_locks_open_with_their_conditions() -> void:
 	var calf: GainlandsTravel.Point = GainlandsTravel.find("ripper_calf")
 	assert_false(GainlandsTravel.is_unlocked(calf, Session.unlock_state()))
 	Session.quest_log.completed.append(GainlandsZone.QUEST_SPOT_ME)
-	assert_true(GainlandsTravel.is_unlocked(calf, Session.unlock_state()), "Coach Brenda's quest opens Calf Cove")
+	assert_true(GainlandsTravel.is_unlocked(calf, Session.unlock_state()), "Old Man Mountain's quest opens Calf Cove")
 	var across: GainlandsTravel.Point = GainlandsTravel.find("thrower_east")
 	assert_false(GainlandsTravel.is_unlocked(across, Session.unlock_state()))
 	Session.add_cards([Session.card_by_id("B-27")] as Array[CardData])

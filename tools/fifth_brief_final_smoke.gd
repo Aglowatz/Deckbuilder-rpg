@@ -259,8 +259,8 @@ func _buy_a_necrocrat_card(zone: DnaScene) -> void:
 	await _shot("e_13_pip_quest_offer_dialogue")
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(Session.quest_log.is_active(ZoneQuestDefinitions.AUDIT), "Pip handed out the Compliance Audit quest")
-	_check(zone._overlay is VendorScreen, "Pip opens the Requisitions vendor")
+	_check(Session.quest_log.is_active(ZoneQuestDefinitions.AUDIT), "Clerk Ledgerbone handed out the Compliance Audit quest")
+	_check(zone._overlay is VendorScreen, "Clerk Ledgerbone opens the Requisitions vendor")
 	if not (zone._overlay is VendorScreen):
 		return
 	await driver.click_button("Got it")
@@ -325,7 +325,7 @@ func _matching_game(zone: DnaScene) -> void:
 	await _shot("e_17_skylar_dialogue")
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(zone._overlay is MatchGameScreen, "Skylar launches the matching game")
+	_check(zone._overlay is MatchGameScreen, "Kyle launches the matching game")
 	if not (zone._overlay is MatchGameScreen):
 		return
 	var screen: MatchGameScreen = zone._overlay as MatchGameScreen

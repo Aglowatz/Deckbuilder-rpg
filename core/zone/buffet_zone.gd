@@ -9,9 +9,9 @@ const DISPLAY_NAME: String = "The Endless Buffet"
 const FULL_NAME: String = "The Endless Buffet (Gourmand Country)"
 const HUB_NAME: String = "The Grand Pantry"
 
-const NPC_ODALYS: String = "Head Chef Odalys"
+const NPC_ODALYS: String = "Basil"
 const NPC_TARRAGON: String = "Sous-Chef Tarragon"
-const NPC_DOLCETTA: String = "Dolcetta Crumb"
+const NPC_DOLCETTA: String = "Madame Mirepoix"
 
 const QUEST_PANTRY: String = "buf_pantry"
 const QUEST_PIE: String = "buf_pie"
@@ -93,7 +93,7 @@ static func build_def() -> ZoneDef:
 	def.story_path = "res://data/story/gourmand_story.tres"
 	def.fee = 20
 	def.fee_label = "Dish duty fee"
-	def.wake_speaker = "Head Chef Odalys"
+	def.wake_speaker = "Basil"
 	def.flag_quiz_done = FLAG_QUIZ_DONE
 	def.flag_quiz_passed = FLAG_QUIZ_PASSED
 	def.flag_puzzle_solved = FLAG_PUZZLE_SOLVED
@@ -115,27 +115,27 @@ static func build_def() -> ZoneDef:
 	def.ruler_tint = Color("5f7a1c")
 	def.gloom_tint = Color(0.62, 0.68, 0.38)
 	def.freed_npcs = [
-		{"id": "aurelio", "model": "Knight", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.95, 0.9), "scale": 1.2, "name": "Grand Chef Aurelio Saucier", "speaker": "Grand Chef Aurelio"},
+		{"id": "aurelio", "npc_id": "NPC-ESCOFFINA", "model": "Knight", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.95, 0.9), "scale": 1.2, "name": "Grand Chef Escoffina", "speaker": "Grand Chef Escoffina"},
 	]
 	def.mini = _mini_def()
 	def.npcs = [
-		{"id": "odalys", "model": "Knight", "anchor": "odalys", "yaw": 0.0, "tint": Color(1.25, 1.15, 1.05), "scale": 1.7, "hat": "tall"},
+		{"id": "odalys", "npc_id": "NPC-BASIL", "model": "Knight", "anchor": "odalys", "yaw": 0.0, "tint": Color(1.25, 1.15, 1.05), "scale": 1.7, "hat": "tall"},
 		{"id": "tarragon", "model": "Rogue_Hooded", "anchor": "tarragon", "yaw": 90.0, "tint": Color(0.85, 1.2, 0.8), "scale": 1.45, "hat": "short"},
-		{"id": "dolcetta", "model": "Mage", "anchor": "dolcetta", "yaw": 200.0, "tint": Color(1.3, 0.85, 1.0), "scale": 1.5, "hat": "pastry"},
-		{"id": "quiz", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(1.25, 1.1, 0.8), "scale": 1.5, "hat": "scholar"},
-		{"id": "minigame", "model": "Barbarian", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.4, 0.75, 0.55), "scale": 1.7, "hat": "tall"},
+		{"id": "dolcetta", "npc_id": "V-MIREPOIX", "model": "Mage", "anchor": "dolcetta", "yaw": 200.0, "tint": Color(1.3, 0.85, 1.0), "scale": 1.5, "hat": "pastry"},
+		{"id": "quiz", "npc_id": "NPC-PATE", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(1.25, 1.1, 0.8), "scale": 1.5, "hat": "scholar"},
+		{"id": "minigame", "npc_id": "NPC-FLAMBE", "model": "Barbarian", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.4, 0.75, 0.55), "scale": 1.7, "hat": "tall"},
 	]
 	def.spots = [
-		_spot("odalys", "Head Chef Odalys, Keeper of the Grand Pantry", "odalys", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "odalys", "npc_name": NPC_ODALYS, "speaker": "Head Chef Odalys"}),
+		_spot("odalys", "Basil, Keeper of the Grand Pantry", "odalys", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "odalys", "npc_id": "NPC-BASIL", "npc_name": NPC_ODALYS, "speaker": "Basil"}),
 		_spot("tarragon", "Sous-Chef Tarragon, Fetcher of Things", "tarragon", Vector3(0.9, 0, 0), 1.7, "Talk", "quest_npc", {"npc": "tarragon", "npc_name": NPC_TARRAGON, "speaker": "Sous-Chef Tarragon"}),
-		_spot("dolcetta", "Dolcetta's Dessert & Deckery", "dolcetta", Vector3(-1.6, 0, 0.2), 1.9, "Talk", "vendor_npc", {"npc": "dolcetta", "npc_name": NPC_DOLCETTA, "speaker": "Dolcetta Crumb"}),
+		_spot("dolcetta", "Dolcetta's Dessert & Deckery", "dolcetta", Vector3(-1.6, 0, 0.2), 1.9, "Talk", "vendor_npc", {"npc": "dolcetta", "npc_id": "V-MIREPOIX", "npc_name": NPC_DOLCETTA, "speaker": "Madame Mirepoix"}),
 		_spot("heal", "The Hearty Meal", "heal", Vector3(0, 0, 1.6), 1.9, "Sit down for a hearty meal (full heal)", "heal"),
 		_spot("exit", "The Path of the Gourmand", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Walk-In Freezer", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Open the freezer door: three courses", "mini_dungeon"),
 		_spot("main_dungeon", "The Test Kitchen", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Enter the Test Kitchen", "main_dungeon"),
 		_spot("puzzle", "The Mystery Stew Pot", "puzzle", Vector3(0, 0, 1.2), 1.9, "Work out the recipe (puzzle)", "puzzle"),
-		_spot("quiz", "Lady Brioche, Keeper of the Cookbook", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "speaker": "Lady Brioche"}),
-		_spot("minigame", "Chef Turbo Tartine, Host of Dinner in a Dash", "minigame", Vector3(0, 0, 1.2), 1.9, "Talk", "minigame", {"npc": "minigame", "speaker": "Chef Turbo Tartine"}),
+		_spot("quiz", "Professor Pate, Keeper of the Cookbook", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-PATE", "speaker": "Professor Pate"}),
+		_spot("minigame", "Chef Flambe Fontaine, Host of Dinner in a Dash", "minigame", Vector3(0, 0, 1.2), 1.9, "Talk", "minigame", {"npc": "minigame", "npc_id": "NPC-FLAMBE", "speaker": "Chef Flambe Fontaine"}),
 		_spot("oven", "The Grand Oven", "oven", Vector3(0, 0, 1.6), 1.9, "Bake a Hearty Pot Pie", "zone"),
 		_spot("taste_test", "Taste-Test Station", "taste_test", Vector3(0, 0, 1.4), 1.8, "Take the blind taste test (8 gold)", "zone"),
 		_spot("soup_fountain", "The Soup Fountain", "soup_fountain", Vector3(0, 0, 2.4), 2.2, "Ladle some soup", "zone"),

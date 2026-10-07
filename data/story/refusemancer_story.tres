@@ -14,9 +14,9 @@ lines = {
 "ui.exit.body": ["Leaving the Verdant Dump ends this visit. Town heals you fully; the roaming golems, scarecrows and gulls (all a little too alive) will be back next time, and so will the garbage."],
 "fx.main_dungeon": ["The path to the Rotheart is a tunnel of living roots. The air is warm, wet and humming. Something very large is breathing, somewhere underneath, and it is not you."],
 "fx.heal_couch": ["You sit down to a fresh harvest meal: roast roots, a pie with a fence post of a crust, and a mug of something that is mostly apple. HP restored."],
-"fx.heal_already": ["You are already full of HP. Farmer Hob offers you a third helping anyway. It is a very small turnip."],
+"fx.heal_already": ["You are already full of HP. Granny Gristle offers you a third helping anyway. It is a very small turnip."],
 "fx.hit": ["SCREEEE! A mutant junk gull dive-bombs you and steals your dignity. (-2 HP)"],
-"fx.wake": ["You wake up face-down in a haybale at the Compost Grange. Farmer Hob is leaning on a pitchfork and chewing a stalk of something.", "\"Fell over in the muck, friend. We rolled you out. The mucking-out fee is on you. Don't take it personal. The haybale was free. The haybale is also, I think, growing.\""],
+"fx.wake": ["You wake up face-down in a haybale at the Compost Grange. Granny Gristle is leaning on a pitchfork and chewing a stalk of something.", "\"Fell over in the muck, friend. We rolled you out. The mucking-out fee is on you. Don't take it personal. The haybale was free. The haybale is also, I think, growing.\""],
 "fx.chest": ["A hidden stash! One person's trash was another's treasure chest."],
 "fx.pickup": ["Found:"],
 "fx.pickup_again": ["You already took the one lying here. Come back next visit; the Dump restocks itself overnight. It is very good at that."],
@@ -82,7 +82,7 @@ lines = {
 "sign.oath": ["THE REFUSEMANCER'S OATH", "We are the Refusemancers, druids of the kingdom.", "We summon animals to eat its garbage and turn it into fertilizer.", "We use our magic to help the crops grow. Nothing goes to waste."],
 "sign.fields": ["THE PATCHWORK FIELDS", "Every patch grows something different. Every patch is fertilized by the same goat."],
 "sign.crops": ["PLANT A CROP", "A sack of fertilizer plus time makes a harvest. Visit-length time. Do not stare at it."],
-"sign.grove": ["THE APPLIANCE GROVE", "A druid circle of old fridges and washing machines. The spirits of dishwashers are strong here.", "Elder Fennel keeps the Dump's questions."],
+"sign.grove": ["THE APPLIANCE GROVE", "A druid circle of old fridges and washing machines. The spirits of dishwashers are strong here.", "Druid Thistlewick keeps the Dump's questions."],
 "sign.fair": ["THE COUNTY FAIR GROUNDS", "Blue ribbons for the best pumpkin, the best pie and the best pile.", "Judge: Bev Pettigrew. Do not argue with the judge."],
 "sign.fair_stage": ["SORT IT OUT! - TODAY ONLY", "Compost, metal, glass or paper. Twenty pieces, one conveyor.", "The belt does not care how you feel."],
 "sign.scrapmore": ["MOUNT SCRAPMORE", "A junk mountain, overgrown with moss and ambition.", "Plant a bean at the mound to climb. Slide down the chute to leave."],
@@ -93,7 +93,7 @@ lines = {
 "sign.bridge_center": ["CENTRE BRIDGE", "Druid Sorrel grows this one for anyone who helps Wren with the herd."],
 "sign.bridge_east": ["EAST BRIDGE", "Not grown yet? Plant a Magic Bean at the mound beside it."],
 "sign.bank": ["THE NORTH BANK", "Welcome to the far side. The wall of tyres ahead has three gaps. One has been plugged with junk."],
-"sign.dam": ["THE JUNK DAM", "Somebody has dumped half a landfill across the feeder channel.", "Needs a charging mount. Druid Marigold will pay."],
+"sign.dam": ["THE JUNK DAM", "Somebody has dumped half a landfill across the feeder channel.", "Needs a charging mount. Brother Bramble will pay."],
 "sign.stable_2": ["GIDEON THE GIANT GOAT", "Eats anything. Climbs anything. Rams anything.", "Do not feed him the sign."],
 "sign.barricade": ["JUNK BARRICADE", "A pile of tyres, doors and ambition across the gap.", "The Landfill Depths are beyond. Bring something that charges."],
 "sign.rust": ["RUST PEAK YARDS", "Where the best rust in the kingdom is made. Handmade. Small batch."],
@@ -108,7 +108,7 @@ lines = {
 "enemy.golem": ["A trash golem the size of a shed, wearing a coat of moss and a fridge for a body. Something is growing out of its ears. It has stopped having opinions about recycling and started having opinions about you."],
 "enemy.scarecrow": ["A scarecrow druid with a wreath, a grudge, and a cabbage growing out of its chest where the heart should be. The crows left. The seeds are still angry."],
 "enemy.gulls": ["Four junk gulls in a trench coat, if the trench coat were made of screaming and mutated fungus. They stole a can and they are not sharing. The can is growing mushrooms."],
-"npc.marigold.intro": ["Welcome to the Compost Grange. I am Druid Marigold, Warden of the Stream. I am very serious about recycling. Once I made a man cry over a yoghurt pot. He thanked me later. Please close the door behind you. And lock it. And check the window.", "We are the Refusemancers: druids who take the kingdom's garbage and turn it into fertilizer, and use our magic to help the crops grow. Waste removal, agriculture, and plenty of both. Our magic runs through nature itself. That is exactly what {villain} used against us.", "Our Archdruid, Fernwick Loam, was the first to go. Something got into his roots through the living world itself, and now it spreads. The plants are not dying. They are too alive. Fungi mutate. Roots break into barns. The whole Dump is sick with growing.", "The animals still do the heavy lifting. Goats eat what they can. Pigs eat what the goats refuse. Raccoons eat what the pigs are ashamed of. It is a system. It used to be a beautiful one."],
+"npc.marigold.intro": ["Welcome to the Compost Grange. I am Brother Bramble, Warden of the Stream. I am very serious about recycling. Once I made a man cry over a yoghurt pot. He thanked me later. Please close the door behind you. And lock it. And check the window.", "We are the Refusemancers: druids who take the kingdom's garbage and turn it into fertilizer, and use our magic to help the crops grow. Waste removal, agriculture, and plenty of both. Our magic runs through nature itself. That is exactly what {villain} used against us.", "Our Archdruid, Fernwick Loam, was the first to go. Something got into his roots through the living world itself, and now it spreads. The plants are not dying. They are too alive. Fungi mutate. Roots break into barns. The whole Dump is sick with growing.", "The animals still do the heavy lifting. Goats eat what they can. Pigs eat what the goats refuse. Raccoons eat what the pigs are ashamed of. It is a system. It used to be a beautiful one."],
 "npc.marigold.return": ["Back at the Grange? Good. Sort your boots on the way in. Compost, metal, glass or paper. Check them for tendrils. We do not have a bin for shame, but we do have a bin for tendrils."],
 "npc.hob.intro": ["Hob Tillbury, farmer. Born in a haybale, raised in a barn, retired to a shed. This is the shed. The shed has started growing a little. I am not worried. I am a bit worried.", "I run the Swap Shed. One person's trash is another person's cards, as the saying goes. I mean, I made that saying up. But it has stuck. Like gum. Like roots.", "Everything here is Refusemancer-issue: grown, composted and thoroughly rinsed. Strong cards, solid cards, cards with a faint smell of earth. And a faint hum. Do not ask about the hum."],
 "npc.hob.return": ["Shop's open. The cards are fresh. The turnips are a day old, which makes them better. The turnips are also looking at me, which makes them worse."],
@@ -126,7 +126,7 @@ lines = {
 "quest.heap_dam.active": ["The junk dam on the north bank, remember. Ride the goat from the north stable and charge it. Do not slow down. Dams can smell hesitation."],
 "quest.heap_dam.ready": ["The stream is flowing! It is practically dancing! Here: compost boots, still warm. They squelch with pride."],
 "quest.heap_dam.done": ["The stream is clear. For now. The kingdom will refill it by Thursday. That is why we are here."],
-"npc.quiz.intro": ["Ah, a visitor! Elder Fennel, Keeper of the Dump. I have sat in this ring of old appliances for forty years. The dishwasher and I have an understanding. The dishwasher has recently started talking back.", "Four questions about the Refusemancers, their work and their oath. Every answer is written on a sign somewhere in the Verdant Dump.", "Answer well and earn gold, glory and a handful of seeds. Answer poorly and earn a gentle, rustling sigh."],
+"npc.quiz.intro": ["Ah, a visitor! Druid Thistlewick, Keeper of the Dump. I have sat in this ring of old appliances for forty years. The dishwasher and I have an understanding. The dishwasher has recently started talking back.", "Four questions about the Refusemancers, their work and their oath. Every answer is written on a sign somewhere in the Verdant Dump.", "Answer well and earn gold, glory and a handful of seeds. Answer poorly and earn a gentle, rustling sigh."],
 "npc.quiz.return": ["Back to improve your score? Good. A druid is just a student who never left the garden."],
 "quiz.result.0": ["Zero. Remarkable in its way. Nothing for you. The signs are patient. I am slightly less so."],
 "quiz.result.1": ["One. A single seed. Plant it, water it, and try again."],
@@ -135,7 +135,7 @@ lines = {
 "quiz.result.4": ["FOUR! A perfect harvest! You may now call yourself a Certified Refusemancer, First Class. The reward is real. The certificate is compostable."],
 "quiz.repeat": ["Another round! The Dump pays a small fee for repeat scholarship."],
 "quiz.not_passed": ["Not a pass. Walk the Verdant Dump, read the signs, and come back. There is no limit on attempts."],
-"npc.minigame.intro": ["Step RIGHT up, folks, to the County Fair's own SORT IT OUT! I'm Blue-Ribbon Bev Pettigrew, fair judge, pie inspector, and the finest dumpster-diver in three counties! The Rot cancelled the pumpkin contest, but it cannot cancel me!", "Back in the nineties I hosted a PSA that aired between cartoons: Captain Compost Badger and his Sorting Squad. I was the voice of the badger. They never found out. The badger had a cape.", "I have won a blue ribbon every year since the county fair began. For pumpkins, for pies and, once, for a particularly gifted pile of junk. Judges said it had range.", "And I am a treasure hunter at heart. I have pulled a working harpsichord out of a skip. It did not stay working. But it stayed beautiful.", "Today's show: SORT IT OUT! Twenty pieces of junk, one conveyor, four bins. Compost, metal, glass or paper. Send each piece to the right bin before it falls off the edge. Rewards by performance, and a first-time bonus. Ready? Gloves on!"],
+"npc.minigame.intro": ["Step RIGHT up, folks, to the County Fair's own SORT IT OUT! I'm Recycle Rhonda, fair judge, pie inspector, and the finest dumpster-diver in three counties! The Rot cancelled the pumpkin contest, but it cannot cancel me!", "Back in the nineties I hosted a PSA that aired between cartoons: Captain Compost Badger and his Sorting Squad. I was the voice of the badger. They never found out. The badger had a cape.", "I have won a blue ribbon every year since the county fair began. For pumpkins, for pies and, once, for a particularly gifted pile of junk. Judges said it had range.", "And I am a treasure hunter at heart. I have pulled a working harpsichord out of a skip. It did not stay working. But it stayed beautiful.", "Today's show: SORT IT OUT! Twenty pieces of junk, one conveyor, four bins. Compost, metal, glass or paper. Send each piece to the right bin before it falls off the edge. Rewards by performance, and a first-time bonus. Ready? Gloves on!"],
 "npc.minigame.return": [
 "Back for another run, champ? The conveyor is hungry. The bins are patient. I have pie.",
 "Remember: one person's trash is another person's blue ribbon. Sort fast. Sort true. Sort with a smile."
@@ -241,12 +241,12 @@ quiz_questions = Array[Dictionary]([{
 "a": ["Waste removal and agriculture", "Tax collection and cartography", "Weather forecasting and sword polishing", "Opening the kingdom's mail"],
 "correct": 0,
 "q": "What are the Refusemancers responsible for?",
-"where": "sign.hub_main (Compost Grange); sign.oath; Druid Marigold's intro line"
+"where": "sign.hub_main (Compost Grange); sign.oath; Brother Bramble's intro line"
 }, {
 "a": ["Animals that eat the garbage and make fertilizer", "Furious plumbers", "Very small dragons", "A committee"],
 "correct": 0,
 "q": "What do the Refusemancers summon to deal with the kingdom's garbage?",
-"where": "sign.oath; Marigold's intro line; sign.trough"
+"where": "sign.oath; Brother Bramble's intro line; sign.trough"
 }, {
 "a": ["Nothing goes to waste", "Waste what you like, we will sort it later", "If it smells, it is art", "Reduce, reuse, panic"],
 "correct": 0,
@@ -256,5 +256,5 @@ quiz_questions = Array[Dictionary]([{
 "a": ["The crops", "Moustaches", "Opinions", "Debts"],
 "correct": 0,
 "q": "What do Refusemancers use their magic to help grow?",
-"where": "sign.oath; sign.crops; sign.fields; Marigold's intro line"
+"where": "sign.oath; sign.crops; sign.fields; Brother Bramble's intro line"
 }])

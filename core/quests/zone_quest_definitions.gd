@@ -36,7 +36,7 @@ static func _backlog() -> QuestData:
 	quest.id = BACKLOG
 	quest.order = 110
 	quest.title = "Clear the Backlog"
-	quest.summary = "Dolores' backlog has gone feral and is wandering the floors. Process three roaming staff members (win their duels)."
+	quest.summary = "Agnes Overdue's backlog has gone feral and is wandering the floors. Process three roaming staff members (win their duels)."
 	quest.giver_npc = DnaZone.NPC_DOLORES
 	quest.turn_in_npc = DnaZone.NPC_DOLORES
 	quest.objectives = [QuestObjective.make("Defeat roaming staff", Condition.counter("zone_enemies_defeated", 3))] as Array[QuestObjective]
@@ -51,7 +51,7 @@ static func _onboarding() -> QuestData:
 	quest.id = ONBOARDING
 	quest.order = 120
 	quest.title = "Mandatory Onboarding"
-	quest.summary = "Barnaby says all new hires must punch in at the time clock and pour a cup at the breakroom coffee machine. HR will know if you skip it."
+	quest.summary = "Gerald says all new hires must punch in at the time clock and pour a cup at the breakroom coffee machine. HR will know if you skip it."
 	quest.giver_npc = DnaZone.NPC_BARNABY
 	quest.turn_in_npc = DnaZone.NPC_BARNABY
 	quest.objectives = [
@@ -69,7 +69,7 @@ static func _audit() -> QuestData:
 	quest.id = AUDIT
 	quest.order = 130
 	quest.title = "Compliance Audit"
-	quest.summary = "Pip needs a fresh pair of hands for the audit: pass the Compliance quiz and find a hidden stash somewhere in the filing mazes."
+	quest.summary = "Clerk Ledgerbone needs a fresh pair of hands for the audit: pass the Compliance quiz and find a hidden stash somewhere in the filing mazes."
 	quest.giver_npc = DnaZone.NPC_PIP
 	quest.turn_in_npc = DnaZone.NPC_PIP
 	quest.objectives = [
@@ -109,7 +109,7 @@ static func _gain_spot_me() -> QuestData:
 	quest.id = GainlandsZone.QUEST_SPOT_ME
 	quest.order = 220
 	quest.title = "Spot Me!"
-	quest.summary = "Coach Brenda's rule: nobody lifts alone. Spot Gary (he is under a barbell again) and check your form at a Flex Mirror."
+	quest.summary = "Old Man Mountain's rule: nobody lifts alone. Spot Gary (he is under a barbell again) and check your form at a Flex Mirror."
 	quest.giver_npc = GainlandsZone.NPC_BRENDA
 	quest.turn_in_npc = GainlandsZone.NPC_BRENDA
 	quest.objectives = [
@@ -161,7 +161,7 @@ static func _buf_pie() -> QuestData:
 	quest.id = BuffetZone.QUEST_PIE
 	quest.order = 320
 	quest.title = "Bake Me a Pie"
-	quest.summary = "Dolcetta Crumb wants a Hearty Pot Pie, baked fresh in the Grand Oven from honey, basil and a ghost pepper, and delivered to her counter."
+	quest.summary = "Madame Mirepoix wants a Hearty Pot Pie, baked fresh in the Grand Oven from honey, basil and a ghost pepper, and delivered to her counter."
 	quest.giver_npc = BuffetZone.NPC_DOLCETTA
 	quest.turn_in_npc = BuffetZone.NPC_DOLCETTA
 	quest.objectives = [QuestObjective.make("Bake a Hearty Pot Pie in the Grand Oven", Condition.counter(BuffetZone.COUNTER_BAKED, 1))] as Array[QuestObjective]
@@ -177,7 +177,7 @@ static func _buf_mend() -> QuestData:
 	quest.id = BuffetZone.QUEST_MEND
 	quest.order = 330
 	quest.title = "Mend the Meatloaf"
-	quest.summary = "Old Meatloaf, the Grand Pantry's oldest golem, has stopped working. Head Chef Odalys needs him repaired: sea salt and a black truffle should do it."
+	quest.summary = "Old Meatloaf, the Grand Pantry's oldest golem, has stopped working. Basil needs him repaired: sea salt and a black truffle should do it."
 	quest.giver_npc = BuffetZone.NPC_ODALYS
 	quest.turn_in_npc = BuffetZone.NPC_ODALYS
 	quest.objectives = [QuestObjective.make("Repair Old Meatloaf", Condition.flag(str(BuffetZone.FLAG_MENDED)))] as Array[QuestObjective]
@@ -210,7 +210,7 @@ static func _heap_fert() -> QuestData:
 	quest.id = HeapZone.QUEST_FERT
 	quest.order = 420
 	quest.title = "Fertilizer Run"
-	quest.summary = "Farmer Hob is out of fertilizer and the crops are sulking. Gather three sacks from around the Verdant Dump."
+	quest.summary = "Granny Gristle is out of fertilizer and the crops are sulking. Gather three sacks from around the Verdant Dump."
 	quest.giver_npc = HeapZone.NPC_HOB
 	quest.turn_in_npc = HeapZone.NPC_HOB
 	quest.objectives = [QuestObjective.make("Gather sacks of fertilizer", Condition.counter(HeapZone.COUNTER_FERTILIZER, 3))] as Array[QuestObjective]
@@ -225,7 +225,7 @@ static func _heap_dam() -> QuestData:
 	quest.id = HeapZone.QUEST_DAM
 	quest.order = 430
 	quest.title = "Unblock the Stream"
-	quest.summary = "Somebody has dumped a junk dam across the recycling stream. Druid Marigold needs a charging mount to smash it, and she will reward you with a fine pair of compost boots."
+	quest.summary = "Somebody has dumped a junk dam across the recycling stream. Brother Bramble needs a charging mount to smash it, and she will reward you with a fine pair of compost boots."
 	quest.giver_npc = HeapZone.NPC_MARIGOLD
 	quest.turn_in_npc = HeapZone.NPC_MARIGOLD
 	quest.objectives = [QuestObjective.make("Smash the junk dam on a charging mount", Condition.flag("heap_smashed_dam"))] as Array[QuestObjective]
@@ -247,7 +247,7 @@ static func _cap_burial() -> QuestData:
 	quest.id = CapitalZone.QUEST_BURIAL
 	quest.order = 510
 	quest.title = "Form 27-B/6: A Burial Permit"
-	quest.summary = "Tilda Marrow's grandfather has sat in the family parlor for three years because the permit loops forever. Find the Stamp of Final Approval in Grave Row, then lay him to rest."
+	quest.summary = "Widow Pell's grandfather has sat in the family parlor for three years because the permit loops forever. Find the Stamp of Final Approval in Grave Row, then lay him to rest."
 	quest.giver_npc = CapitalZone.NPC_TILDA
 	quest.turn_in_npc = CapitalZone.NPC_TILDA
 	quest.objectives = [
@@ -289,7 +289,7 @@ static func _cap_recipes() -> QuestData:
 	quest.id = CapitalZone.QUEST_RECIPES
 	quest.order = 530
 	quest.title = "The Recipe Box"
-	quest.summary = "Everyone eats Primm's Perfect Nutrient Paste. Chef Odile Bisque has hidden real recipes around the Hungry Quarter: recover three of them and spoil the paste dispenser."
+	quest.summary = "Everyone eats Primm's Perfect Nutrient Paste. Chef Marlo has hidden real recipes around the Hungry Quarter: recover three of them and spoil the paste dispenser."
 	quest.giver_npc = CapitalZone.NPC_ODILE
 	quest.turn_in_npc = CapitalZone.NPC_ODILE
 	quest.objectives = [

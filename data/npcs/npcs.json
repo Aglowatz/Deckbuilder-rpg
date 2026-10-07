@@ -1,0 +1,847 @@
+[
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"confused",
+			"determined"
+		],
+		"id": "NPC-PLAYER",
+		"location": "Everywhere",
+		"name": "The Wanderer (player)",
+		"notes": "Cosmetic hats/cloaks are not reflected in the portrait (default outfit).",
+		"portrait_id": "NPC-PLAYER",
+		"role": "Player character",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"happy",
+			"worried"
+		],
+		"id": "NPC-ELDER",
+		"location": "Main Town",
+		"name": "Elder Maren",
+		"notes": "Species: tortoise (slow, ancient, has seen it all).",
+		"portrait_id": "NPC-ELDER",
+		"role": "Town elder / quest giver",
+		"species": "tortoise"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"stern",
+			"happy"
+		],
+		"id": "NPC-GATEKEEPER",
+		"location": "Main Town",
+		"name": "Gatekeeper Brannoch",
+		"notes": "Species: bear.",
+		"portrait_id": "NPC-GATEKEEPER",
+		"role": "Guard / quest giver",
+		"species": "bear"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"pleased",
+			"scheming"
+		],
+		"id": "V-SABLE",
+		"location": "Main Town market",
+		"name": "Sable",
+		"notes": "Species: fox. Name from the current game build.",
+		"portrait_id": "V-SABLE",
+		"role": "Vendor: cards (singles + General Packs)",
+		"species": "fox"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"excited",
+			"oops"
+		],
+		"id": "V-TONIC",
+		"location": "Main Town",
+		"name": "Tilly Tonic",
+		"notes": "Species: frog (her skin changes color like her potions).",
+		"portrait_id": "V-TONIC",
+		"role": "Vendor: consumable items",
+		"species": "frog"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"proud",
+			"suspicious"
+		],
+		"id": "V-BEETSWORTH",
+		"location": "Main Town",
+		"name": "Bertram Beetsworth, Assistant to the Regional Merchant",
+		"notes": "Must stay an original character (no TV names or quotes).",
+		"portrait_id": "V-BEETSWORTH",
+		"role": "Vendor: equipment",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"delighted",
+			"horrified"
+		],
+		"id": "V-THREADWELL",
+		"location": "Main Town",
+		"name": "Pip Threadwell",
+		"notes": "Species: mouse (tiny tailor, huge hat).",
+		"portrait_id": "V-THREADWELL",
+		"role": "Vendor: clothing (hats and cloaks)",
+		"species": "mouse"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"excited",
+			"overwhelmed"
+		],
+		"id": "V-FENWICK",
+		"location": "Main Town",
+		"name": "Foil Fenwick",
+		"notes": "Species: magpie (obsessed with shiny foils). Name from the current game build.",
+		"portrait_id": "V-FENWICK",
+		"role": "Vendor: Path Packs",
+		"species": "magpie"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"pleased",
+			"mysterious"
+		],
+		"id": "V-ALEMBIC",
+		"location": "Main Town",
+		"name": "Auntie Alembic",
+		"notes": "Species: otherworldly being (four arms, four-colored skin).",
+		"portrait_id": "V-ALEMBIC",
+		"role": "Vendor: the Alchemist (crafting)",
+		"species": "otherworldly being"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"shouting",
+			"impressed"
+		],
+		"id": "NPC-BELLOWS",
+		"location": "Main Town (Arena)",
+		"name": "Announcer Grand Bellows",
+		"notes": "Species: walrus (the mustache is real).",
+		"portrait_id": "NPC-BELLOWS",
+		"role": "Arena master",
+		"species": "walrus"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"grinning",
+			"ominous"
+		],
+		"id": "NPC-HOB",
+		"location": "Main Town (Graveyard)",
+		"name": "Old Hob the Gravedigger",
+		"notes": "Species: ghoul (undead, cheerful about it).",
+		"portrait_id": "NPC-HOB",
+		"role": "Ominous NPC",
+		"species": "ghoul"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"corrupted",
+			"freed"
+		],
+		"id": "NPC-BRONSON",
+		"location": "Main Town, Beefcake Path",
+		"name": "Brick Bronson (corrupted)",
+		"notes": "FREED expression: same man, normal skin, embarrassed smile.",
+		"portrait_id": "NPC-BRONSON",
+		"role": "Corrupted path NPC (Beefcake)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"corrupted",
+			"freed"
+		],
+		"id": "NPC-PALLOR",
+		"location": "Main Town, Necrocrat Path",
+		"name": "Prudence Pallor (corrupted)",
+		"notes": "",
+		"portrait_id": "NPC-PALLOR",
+		"role": "Corrupted path NPC (Necrocrat)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"corrupted",
+			"freed"
+		],
+		"id": "NPC-GRAVOIS",
+		"location": "Main Town, Gourmand Path",
+		"name": "Chef Fennel Gravois (corrupted)",
+		"notes": "Species: ogre.",
+		"portrait_id": "NPC-GRAVOIS",
+		"role": "Corrupted path NPC (Gourmand)",
+		"species": "ogre"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"corrupted",
+			"freed"
+		],
+		"id": "NPC-MULLIGAN",
+		"location": "Main Town, Refusemancer Path",
+		"name": "Moss Mulligan (corrupted)",
+		"notes": "Species: faun.",
+		"portrait_id": "NPC-MULLIGAN",
+		"role": "Corrupted path NPC (Refusemancer)",
+		"species": "faun"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"hyped",
+			"disappointed"
+		],
+		"id": "V-BENCHLEY",
+		"location": "Gainlands, Swole Station",
+		"name": "Coach Brutus Benchley",
+		"notes": "Species: minotaur.",
+		"portrait_id": "V-BENCHLEY",
+		"role": "Vendor: advanced Beefcake cards",
+		"species": "minotaur"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"winding up"
+		],
+		"id": "NPC-HURL",
+		"location": "Gainlands",
+		"name": "Big Hurl",
+		"notes": "Species: stone troll. Represents all Thrower NPCs.",
+		"portrait_id": "NPC-HURL",
+		"role": "Thrower (traversal)",
+		"species": "stone troll"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"straining"
+		],
+		"id": "NPC-RIP",
+		"location": "Gainlands",
+		"name": "Rip Tearson",
+		"notes": "Represents all Portal Ripper NPCs.",
+		"portrait_id": "NPC-RIP",
+		"role": "Portal Ripper (traversal)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"impressed",
+			"disappointed"
+		],
+		"id": "NPC-PUMP",
+		"location": "Gainlands",
+		"name": "Professor Pump",
+		"notes": "Species: rhinoceros.",
+		"portrait_id": "NPC-PUMP",
+		"role": "Quiz master",
+		"species": "rhinoceros"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"selling",
+			"shocked"
+		],
+		"id": "NPC-THUNDERABS",
+		"location": "Gainlands",
+		"name": "Chet Thunderabs",
+		"notes": "",
+		"portrait_id": "NPC-THUNDERABS",
+		"role": "Minigame host",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"nostalgic"
+		],
+		"id": "NPC-MOUNTAIN",
+		"location": "Gainlands, Swole Station",
+		"name": "Old Man Mountain",
+		"notes": "Species: yeti.",
+		"portrait_id": "NPC-MOUNTAIN",
+		"role": "Hermit / quest giver",
+		"species": "yeti"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"pleased",
+			"disapproving"
+		],
+		"id": "V-LEDGERBONE",
+		"location": "D.N.A. Lobby",
+		"name": "Clerk Ledgerbone",
+		"notes": "Undead: skeleton.",
+		"portrait_id": "V-LEDGERBONE",
+		"role": "Vendor: advanced Necrocrat cards",
+		"species": "skeleton"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"pleased"
+		],
+		"id": "NPC-ECTOMUND",
+		"location": "D.N.A.",
+		"name": "Director Ectomund",
+		"notes": "Undead: ghost.",
+		"portrait_id": "NPC-ECTOMUND",
+		"role": "Quiz master",
+		"species": "ghost"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"nostalgic",
+			"excited"
+		],
+		"id": "NPC-KYLE",
+		"location": "D.N.A.",
+		"name": "Kyle (Deceased Since '09)",
+		"notes": "Undead: ghost.",
+		"portrait_id": "NPC-KYLE",
+		"role": "Minigame host",
+		"species": "ghost"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"hopeful"
+		],
+		"id": "NPC-GERALD",
+		"location": "D.N.A.",
+		"name": "Gerald, Number 4,000,212",
+		"notes": "Undead: ghost.",
+		"portrait_id": "NPC-GERALD",
+		"role": "Quest giver",
+		"species": "ghost"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"exasperated"
+		],
+		"id": "NPC-AGNES",
+		"location": "D.N.A. Lobby",
+		"name": "Agnes Overdue",
+		"notes": "Undead: ghost.",
+		"portrait_id": "NPC-AGNES",
+		"role": "Quest giver",
+		"species": "ghost"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"impressed",
+			"unimpressed"
+		],
+		"id": "V-MIREPOIX",
+		"location": "Endless Buffet, Grand Pantry",
+		"name": "Madame Mirepoix",
+		"notes": "Species: Persian cat.",
+		"portrait_id": "V-MIREPOIX",
+		"role": "Vendor: advanced Gourmand cards",
+		"species": "Persian cat"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"delighted"
+		],
+		"id": "NPC-PATE",
+		"location": "Endless Buffet",
+		"name": "Professor Pate",
+		"notes": "Species: otter.",
+		"portrait_id": "NPC-PATE",
+		"role": "Quiz master",
+		"species": "otter"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"showbiz",
+			"furious"
+		],
+		"id": "NPC-FLAMBE",
+		"location": "Endless Buffet",
+		"name": "Chef Flambe Fontaine",
+		"notes": "",
+		"portrait_id": "NPC-FLAMBE",
+		"role": "Minigame host",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"nervous",
+			"determined"
+		],
+		"id": "NPC-BASIL",
+		"location": "Endless Buffet, Grand Pantry",
+		"name": "Basil",
+		"notes": "Species: rabbit.",
+		"portrait_id": "NPC-BASIL",
+		"role": "Quest giver",
+		"species": "rabbit"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"cackling",
+			"suspicious"
+		],
+		"id": "V-GRISTLE",
+		"location": "Verdant Dump, Compost Grange",
+		"name": "Granny Gristle",
+		"notes": "Species: opossum.",
+		"portrait_id": "V-GRISTLE",
+		"role": "Vendor: advanced Refusemancer cards",
+		"species": "opossum"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"approving"
+		],
+		"id": "NPC-THISTLEWICK",
+		"location": "Verdant Dump",
+		"name": "Druid Thistlewick",
+		"notes": "Species: stag-headed druid.",
+		"portrait_id": "NPC-THISTLEWICK",
+		"role": "Quiz master",
+		"species": "stag-headed druid"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"cheering"
+		],
+		"id": "NPC-RHONDA",
+		"location": "Verdant Dump",
+		"name": "Recycle Rhonda",
+		"notes": "",
+		"portrait_id": "NPC-RHONDA",
+		"role": "Minigame host",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"worried",
+			"indignant"
+		],
+		"id": "NPC-BRAMBLE",
+		"location": "Verdant Dump, Compost Grange",
+		"name": "Brother Bramble",
+		"notes": "Species: hedgehog.",
+		"portrait_id": "NPC-BRAMBLE",
+		"role": "Quest giver",
+		"species": "hedgehog"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"determined",
+			"sad"
+		],
+		"id": "NPC-WREN",
+		"location": "Capital, resistance hideout",
+		"name": "Wren",
+		"notes": "Species: birdfolk (wren).",
+		"portrait_id": "NPC-WREN",
+		"role": "Resistance leader",
+		"species": "birdfolk"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"sly",
+			"nervous"
+		],
+		"id": "V-FIGSLY",
+		"location": "Capital, resistance hideout",
+		"name": "Fig Sly",
+		"notes": "Species: weasel. Name from the current game build.",
+		"portrait_id": "V-FIGSLY",
+		"role": "Vendor: black market (rare cards, Gilded Packs)",
+		"species": "weasel"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"playful"
+		],
+		"id": "NPC-KESTREL",
+		"location": "Capital outskirts",
+		"name": "Kestrel",
+		"notes": "",
+		"portrait_id": "NPC-KESTREL",
+		"role": "Resistance scout / quest giver",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"outraged"
+		],
+		"id": "NPC-SPOTLESS",
+		"location": "Capital gate / Old Service Tunnels",
+		"name": "Captain Spotless",
+		"notes": "",
+		"portrait_id": "NPC-SPOTLESS",
+		"role": "Enforcer captain (boss)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"sad",
+			"hopeful"
+		],
+		"id": "NPC-PELL",
+		"location": "Capital",
+		"name": "Widow Pell",
+		"notes": "Human, with her husband's ghost.",
+		"portrait_id": "NPC-PELL",
+		"role": "Path quest giver (Necrocrat)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"exhausted",
+			"relieved"
+		],
+		"id": "NPC-GUS",
+		"location": "Capital",
+		"name": "Gus",
+		"notes": "",
+		"portrait_id": "NPC-GUS",
+		"role": "Path quest giver (Beefcake)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"conspiratorial"
+		],
+		"id": "NPC-MARLO",
+		"location": "Capital",
+		"name": "Chef Marlo",
+		"notes": "Species: mole (keeps recipes hidden underground).",
+		"portrait_id": "NPC-MARLO",
+		"role": "Path quest giver (Gourmand)",
+		"species": "mole"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"defiant"
+		],
+		"id": "NPC-FERN",
+		"location": "Capital",
+		"name": "Old Fern",
+		"notes": "Species: gnome.",
+		"portrait_id": "NPC-FERN",
+		"role": "Path quest giver (Refusemancer)",
+		"species": "gnome"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"smiling",
+			"slip-up (frightened)"
+		],
+		"id": "NPC-CITIZEN",
+		"location": "Capital, Primm's Perfection",
+		"name": "A Perfectly Happy Citizen",
+		"notes": "Human (deliberately identical: Primm's uniformity).",
+		"portrait_id": "NPC-CITIZEN",
+		"role": "Facade citizen (generic)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"frail",
+			"serene",
+			"reveal"
+		],
+		"id": "NPC-FLEX",
+		"location": "House of Gains",
+		"name": "Grandmaster Flex, the Unbroken",
+		"notes": "Human. Matches his token art; keep human. REVEAL expression (NPC-FLEX_REVEAL, later): the same man tearing away his robes to reveal an enormous chiseled physique, glowing with calm light.",
+		"portrait_id": "NPC-FLEX",
+		"role": "Beefcake leader (ally token)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"furious",
+			"defeated"
+		],
+		"id": "NPC-CLENCH",
+		"location": "House of Gains",
+		"name": "Chancellor Clench, Iron Regent",
+		"notes": "Human.",
+		"portrait_id": "NPC-CLENCH",
+		"role": "Boss (House of Gains)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"warm",
+			"proud"
+		],
+		"id": "NPC-ESCOFFINA",
+		"location": "Endless Buffet",
+		"name": "Grand Chef Escoffina",
+		"notes": "Human. Matches her card art; keep human.",
+		"portrait_id": "NPC-ESCOFFINA",
+		"role": "Gourmand leader",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"disguised",
+			"revealed"
+		],
+		"id": "NPC-DOPPEL",
+		"location": "Test Kitchen",
+		"name": "The Doppelganger",
+		"notes": "Shapeshifter. REVEALED expression (later): the disguise peeling away into a faceless, shifting silhouette in a chef's coat.",
+		"portrait_id": "NPC-DOPPEL",
+		"role": "Boss (Test Kitchen)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"denying",
+			"defeated"
+		],
+		"id": "NPC-VELLUM",
+		"location": "Hall of Final Approvals",
+		"name": "Undersecretary Vellum, Acting Director of Final Approvals",
+		"notes": "Undead.",
+		"portrait_id": "NPC-VELLUM",
+		"role": "Boss (Hall of Final Approvals)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"denying",
+			"approving"
+		],
+		"id": "NPC-MORTIMER",
+		"location": "D.N.A.",
+		"name": "Mortimer Grimsby, CE-No",
+		"notes": "Undead: skeleton. Matches his card art.",
+		"portrait_id": "NPC-MORTIMER",
+		"role": "Necrocrat leader",
+		"species": "skeleton"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"warm",
+			"fierce"
+		],
+		"id": "NPC-COMPOSTELLA",
+		"location": "Verdant Dump",
+		"name": "Archdruid Compostella",
+		"notes": "Matches her card art; keep as-is.",
+		"portrait_id": "NPC-COMPOSTELLA",
+		"role": "Refusemancer leader",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"enraged"
+		],
+		"id": "NPC-ROTHEART",
+		"location": "The Rotheart",
+		"name": "Compostella, the Rotheart",
+		"notes": "Corrupted version of Compostella; keep consistent with her card art.",
+		"portrait_id": "NPC-ROTHEART",
+		"role": "Boss (Rotheart)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"gracious",
+			"disappointed",
+			"enraged",
+			"broken"
+		],
+		"id": "NPC-PRIMM",
+		"location": "Capital, Primm's Castle",
+		"name": "Primm, \"His Perfection\"",
+		"notes": "Human.",
+		"portrait_id": "NPC-PRIMM",
+		"role": "Final boss",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"approving"
+		],
+		"id": "NPC-WARDEN",
+		"location": "Trial of the Hollow",
+		"name": "The Hollow Warden",
+		"notes": "Stone guardian.",
+		"portrait_id": "NPC-WARDEN",
+		"role": "Boss (tutorial)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"proud"
+		],
+		"id": "NPC-SPOTTER",
+		"location": "Mount Swolympus",
+		"name": "The Ancient Spotter",
+		"notes": "Stone colossus.",
+		"portrait_id": "NPC-SPOTTER",
+		"role": "Boss (Mount Swolympus)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"impressed"
+		],
+		"id": "NPC-ITAMAE",
+		"location": "Omakase",
+		"name": "The Itamae Supreme",
+		"notes": "Species: crane.",
+		"portrait_id": "NPC-ITAMAE",
+		"role": "Boss (Omakase)",
+		"species": "crane"
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"unimpressed"
+		],
+		"id": "NPC-BETTY",
+		"location": "Waiting Room of Eternity",
+		"name": "Betty Bones, Surly Secretary",
+		"notes": "",
+		"portrait_id": "NPC-BETTY",
+		"role": "Boss (Waiting Room of Eternity)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"sweating"
+		],
+		"id": "NPC-RACCOONKING",
+		"location": "Trash Panda Throne",
+		"name": "His Majesty the Raccoon",
+		"notes": "",
+		"portrait_id": "NPC-RACCOONKING",
+		"role": "Boss (Trash Panda Throne)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"awakened"
+		],
+		"id": "NPC-AUTOMATON",
+		"location": "Forgotten Vault",
+		"name": "The Vault Guardian",
+		"notes": "",
+		"portrait_id": "NPC-AUTOMATON",
+		"role": "Boss (Forgotten Vault)",
+		"species": ""
+	}
+]

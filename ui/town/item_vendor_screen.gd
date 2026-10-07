@@ -149,7 +149,7 @@ func _say(text: String, color: Color = UIStyle.PARCHMENT) -> void:
 	tween.tween_property(_toast, "modulate:a", 0.0, 0.4)
 
 
-## The one item vendor in the game (Wick, in town). New brief, Part D: simplified from 3 level
+## The one item vendor in the game (Tilly Tonic, in town). New brief, Part D: simplified from 3 level
 ## tiers down to 2 - basic (always for sale: the 3 original items plus 5 of the 10 Part F
 ## consumables) and advanced (the other 5 of the 10, locked behind the same level-up reward
 ## ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL announces), mirroring the equipment

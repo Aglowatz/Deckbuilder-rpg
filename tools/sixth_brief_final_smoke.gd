@@ -455,7 +455,7 @@ func _hub_heal(zone: GainlandsScene) -> void:
 	await _shot("f_32_tony_dialogue_and_quest_offer")
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(Session.quest_log.is_active(GainlandsZone.QUEST_LANES), "Tiny Tony handed out Clear the Lanes")
+	_check(Session.quest_log.is_active(GainlandsZone.QUEST_LANES), "Coach Brutus Benchley handed out Clear the Lanes")
 	_check(zone._overlay is VendorScreen, "Tony opens the Beefcake card vendor")
 	if zone._overlay is VendorScreen:
 		await driver.click_button("Got it")
@@ -516,7 +516,7 @@ func _rep_counter(zone: GainlandsScene) -> void:
 	await _shot("f_37_jazzy_jules_dialogue")
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(zone._overlay is RepGameScreen, "Jazzy Jules launches the Rep Counter")
+	_check(zone._overlay is RepGameScreen, "Chet Thunderabs launches the Rep Counter")
 	if not (zone._overlay is RepGameScreen):
 		return
 	var screen: RepGameScreen = zone._overlay as RepGameScreen

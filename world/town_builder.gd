@@ -239,7 +239,7 @@ func _build_props() -> void:
 	# Brief 10b: the Beefcake Rift Station, just east of where the hero arrives.
 	anchors["rift_station"] = spawn + Vector3(5.2, 0, 3.6)
 	anchors["npc_rift_station"] = spawn + Vector3(3.3, 0, 4.4)
-	# New brief, Part F: the item vendor's stall (Wick), a short walk from the card vendor.
+	# New brief, Part F: the item vendor's stall (Tilly Tonic), a short walk from the card vendor.
 	var item_vendor_center: Vector3 = cell_center(10, 5)
 	_building("barracks", item_vendor_center, -20.0, 1.2, 0.85)
 	anchors["item_vendor"] = item_vendor_center + Vector3(0, 0, 1.05)
@@ -344,7 +344,7 @@ func _build_graveyard() -> void:
 	anchors["graveyard_cairn"] = center + Vector3(0.0, 0, 1.1)
 	# Grave markers: no dedicated tombstone model exists in either approved pack, so plain rocks
 	# stand in for them (an honest reuse, same spirit as the equipment vendor's blacksmith
-	# building or Wendell Cobb's Knight model) - tinted a flatter grey so they read as worked
+	# building or Bertram Beetsworth's Knight model) - tinted a flatter grey so they read as worked
 	# stone rather than wayside boulders.
 	# Kept inside roughly one cell's own footprint (HexGrid.WIDTH is 2.0, ROW_SPACING ~1.73), and
 	# entirely on the north/east/west sides (z <= -0.3, or |z| small with large |x|) - the south

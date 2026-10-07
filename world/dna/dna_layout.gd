@@ -302,7 +302,7 @@ func _partition(a: Vector3, b: Vector3) -> void:
 func _furnish_lobby() -> void:
 	var r: Rect2i = Rect2i(36, 46, 20, 14)
 	_tube_row(r, 5, 2)
-	# Reception desk across the north end, Dolores behind it.
+	# Reception desk across the north end, Agnes Overdue behind it.
 	for i: int in range(6):
 		var pos: Vector3 = cell_center(40 + i * 2, 49)
 		_prop("desk", pos, 0.0, F)
@@ -584,7 +584,7 @@ func _furnish_filing_maze() -> void:
 		var chest_pos: Vector3 = cell_center(r.position.x + pick.x * 3, r.position.y + pick.y * 3) + Vector3(0.9, 0.0, 0.9)
 		chests["chest_maze_%d" % chest_index] = chest_pos
 		chest_index += 1
-	# The Rec Room alcove (Skylar's corner): the NW corner cell of the maze.
+	# The Rec Room alcove (Kyle's corner): the NW corner cell of the maze.
 	var nw: Vector3 = cell_center(r.position.x, r.position.y) + Vector3(0.5, 0, 0.5)
 	anchors["matching"] = nw + Vector3(0.0, 0.0, 0.2)
 	_prop("loungeSofa", nw + Vector3(0.0, 0.0, -0.45), 0.0, F * 0.9, 0.0)

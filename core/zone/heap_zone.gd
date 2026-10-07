@@ -10,8 +10,8 @@ const DISPLAY_NAME: String = "The Verdant Dump"
 const FULL_NAME: String = "The Verdant Dump (Refusemancer Country)"
 const HUB_NAME: String = "The Compost Grange"
 
-const NPC_MARIGOLD: String = "Druid Marigold"
-const NPC_HOB: String = "Farmer Hob"
+const NPC_MARIGOLD: String = "Brother Bramble"
+const NPC_HOB: String = "Granny Gristle"
 const NPC_WREN: String = "Wren Muckfoot"
 
 const QUEST_HERD: String = "heap_herd"
@@ -94,7 +94,7 @@ static func build_def() -> ZoneDef:
 	def.story_path = "res://data/story/refusemancer_story.tres"
 	def.fee = 20
 	def.fee_label = "Mucking-out fee"
-	def.wake_speaker = "Farmer Hob"
+	def.wake_speaker = "Granny Gristle"
 	def.flag_quiz_done = FLAG_QUIZ_DONE
 	def.flag_quiz_passed = FLAG_QUIZ_PASSED
 	def.flag_puzzle_solved = FLAG_PUZZLE_SOLVED
@@ -116,28 +116,28 @@ static func build_def() -> ZoneDef:
 	def.ruler_tint = Color("5a2f6e")
 	def.gloom_tint = Color(0.52, 0.4, 0.62)
 	def.freed_npcs = [
-		{"id": "fernwick", "model": "Mage", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(0.7, 1.0, 0.7), "scale": 1.2, "name": "Archdruid Fernwick Loam", "speaker": "Archdruid Fernwick"},
+		{"id": "fernwick", "npc_id": "NPC-COMPOSTELLA", "model": "Mage", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(0.7, 1.0, 0.7), "scale": 1.2, "name": "Archdruid Compostella", "speaker": "Archdruid Compostella"},
 	]
 	def.mini = _mini_def()
 	def.npcs = [
-		{"id": "marigold", "model": "Mage", "anchor": "marigold", "yaw": 0.0, "tint": Color(0.75, 1.2, 0.75), "scale": 1.7, "hat": "wreath"},
-		{"id": "hob", "model": "Barbarian", "anchor": "hob", "yaw": 200.0, "tint": Color(1.15, 0.95, 0.7), "scale": 1.55, "hat": "straw"},
+		{"id": "marigold", "npc_id": "NPC-BRAMBLE", "model": "Mage", "anchor": "marigold", "yaw": 0.0, "tint": Color(0.75, 1.2, 0.75), "scale": 1.7, "hat": "wreath"},
+		{"id": "hob", "npc_id": "V-GRISTLE", "model": "Barbarian", "anchor": "hob", "yaw": 200.0, "tint": Color(1.15, 0.95, 0.7), "scale": 1.55, "hat": "straw"},
 		{"id": "wren", "model": "Rogue", "anchor": "wren", "yaw": 90.0, "tint": Color(0.85, 1.05, 0.8), "scale": 1.45, "hat": "cap"},
-		{"id": "quiz", "model": "Mage", "anchor": "quiz", "yaw": 180.0, "tint": Color(1.1, 1.2, 0.8), "scale": 1.5, "hat": "wreath"},
-		{"id": "minigame", "model": "Knight", "anchor": "minigame", "yaw": 180.0, "tint": Color(0.7, 0.85, 1.3), "scale": 1.6, "hat": "ribbon"},
+		{"id": "quiz", "npc_id": "NPC-THISTLEWICK", "model": "Mage", "anchor": "quiz", "yaw": 180.0, "tint": Color(1.1, 1.2, 0.8), "scale": 1.5, "hat": "wreath"},
+		{"id": "minigame", "npc_id": "NPC-RHONDA", "model": "Knight", "anchor": "minigame", "yaw": 180.0, "tint": Color(0.7, 0.85, 1.3), "scale": 1.6, "hat": "ribbon"},
 		{"id": "sorrel", "model": "Mage", "anchor": "sorrel", "yaw": 180.0, "tint": Color(0.7, 1.1, 0.85), "scale": 1.55, "hat": "wreath"},
 	]
 	def.spots = [
-		_spot("marigold", "Druid Marigold, Warden of the Stream", "marigold", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "marigold", "npc_name": NPC_MARIGOLD, "speaker": "Druid Marigold"}),
-		_spot("hob", "Farmer Hob's Swap Shed", "hob", Vector3(-1.6, 0, 0.2), 1.9, "Talk", "vendor_npc", {"npc": "hob", "npc_name": NPC_HOB, "speaker": "Farmer Hob"}),
+		_spot("marigold", "Brother Bramble, Warden of the Stream", "marigold", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "marigold", "npc_id": "NPC-BRAMBLE", "npc_name": NPC_MARIGOLD, "speaker": "Brother Bramble"}),
+		_spot("hob", "Farmer Hob's Swap Shed", "hob", Vector3(-1.6, 0, 0.2), 1.9, "Talk", "vendor_npc", {"npc": "hob", "npc_id": "V-GRISTLE", "npc_name": NPC_HOB, "speaker": "Granny Gristle"}),
 		_spot("wren", "Wren Muckfoot, Animal Handler", "wren", Vector3(0.9, 0, 0), 1.7, "Talk", "quest_npc", {"npc": "wren", "npc_name": NPC_WREN, "speaker": "Wren Muckfoot"}),
 		_spot("heal", "The Harvest Meal", "heal", Vector3(0, 0, 1.6), 1.9, "Sit down to a fresh harvest meal (full heal)", "heal"),
 		_spot("exit", "The Path of the Refusemancer", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Landfill Depths", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Climb into the landfill: three levels", "mini_dungeon"),
 		_spot("main_dungeon", "The Rotheart", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Descend into the Rotheart", "main_dungeon"),
 		_spot("puzzle", "The Seed Shrine", "puzzle", Vector3(0, 0, 1.4), 1.9, "Plant the seeds (puzzle)", "puzzle"),
-		_spot("quiz", "Elder Fennel, Keeper of the Dump", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "speaker": "Elder Fennel"}),
-		_spot("minigame", "Blue-Ribbon Bev Pettigrew, Fair Judge", "minigame", Vector3(0, 0, 1.2), 1.9, "Talk", "minigame", {"npc": "minigame", "speaker": "Blue-Ribbon Bev"}),
+		_spot("quiz", "Druid Thistlewick, Keeper of the Dump", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-THISTLEWICK", "speaker": "Druid Thistlewick"}),
+		_spot("minigame", "Recycle Rhonda, Fair Judge", "minigame", Vector3(0, 0, 1.2), 1.9, "Talk", "minigame", {"npc": "minigame", "npc_id": "NPC-RHONDA", "speaker": "Recycle Rhonda"}),
 		_spot("compost_bin", "The Compost Bin", "compost_bin", Vector3(0, 0, 1.6), 1.8, "Compost some junk", "zone"),
 		_spot("shrine", "The Druid Shrine", "shrine", Vector3(0, 0, 1.8), 1.9, "Kneel at the shrine", "zone"),
 		_spot("trough", "The Feeding Trough", "trough", Vector3(0, 0, 1.4), 1.8, "Feed the animals", "zone"),

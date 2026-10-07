@@ -1,6 +1,6 @@
 class_name SortGameScreen
 extends OverlayScreen
-## The Verdant Dump's minigame, "Sort It Out!" (see `SortGame`): a recycling-sorting game hosted by Blue-Ribbon Bev
+## The Verdant Dump's minigame, "Sort It Out!" (see `SortGame`): a recycling-sorting game hosted by Recycle Rhonda
 ## Pettigrew. Junk rides down the conveyor; send the front piece to the right bin (click a bin, or keys 1-4 / the arrow
 ## keys) before it reaches the end.
 
