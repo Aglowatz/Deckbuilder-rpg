@@ -420,7 +420,7 @@ func test_the_zone_is_registered_and_named() -> void:
 	assert_eq(def.scene_path, "res://scenes/buffet_zone.tscn")
 	assert_true(ResourceLoader.exists(def.scene_path))
 	assert_true(ResourceLoader.exists(def.story_path))
-	assert_eq(ZonePortals.find("gourmand").display_name, "Path of the Gourmand")
+	assert_eq(ZonePortals.find("gourmand").display_name, "The Endless Buffet")
 
 
 func test_hub_has_a_heal_spot_a_vendor_chefs_and_quests() -> void:

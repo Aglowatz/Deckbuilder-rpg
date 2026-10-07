@@ -132,7 +132,7 @@ static func build_def() -> ZoneDef:
 		_spot("hob", "Farmer Hob's Swap Shed", "hob", Vector3(-1.6, 0, 0.2), 1.9, "Talk", "vendor_npc", {"npc": "hob", "npc_id": "V-GRISTLE", "npc_name": NPC_HOB, "speaker": "Granny Gristle"}),
 		_spot("wren", "Wren Muckfoot, Animal Handler", "wren", Vector3(0.9, 0, 0), 1.7, "Talk", "quest_npc", {"npc": "wren", "npc_name": NPC_WREN, "speaker": "Wren Muckfoot"}),
 		_spot("heal", "The Harvest Meal", "heal", Vector3(0, 0, 1.6), 1.9, "Sit down to a fresh harvest meal (full heal)", "heal"),
-		_spot("exit", "The Path of the Refusemancer", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
+		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Landfill Depths", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Climb into the landfill: three levels", "mini_dungeon"),
 		_spot("main_dungeon", "The Rotheart", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Descend into the Rotheart", "main_dungeon"),
 		_spot("puzzle", "The Seed Shrine", "puzzle", Vector3(0, 0, 1.4), 1.9, "Plant the seeds (puzzle)", "puzzle"),

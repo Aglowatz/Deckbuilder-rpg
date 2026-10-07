@@ -92,6 +92,15 @@ var _locked: bool = false
 var _station: FastTravelStation
 var _arrived_by_rift: bool = false
 var _hidden_chest_near: String = ""
+## Brief 16, Group D: the camera pulls back as the hero nears a zone passageway, to show the bridge and the land it leads to (1.0 = normal).
+var _passage_boost: float = 1.0
+var _passage_dir: Vector3 = Vector3.ZERO
+var _passage_dir_target: Vector3 = Vector3.ZERO
+## The destination name shown over the screen while the hero nears a passageway (only the name, like "The Capital").
+var _passage_label: Label
+const PASSAGE_ZOOM_NEAR: float = 5.0
+const PASSAGE_ZOOM_FAR: float = 13.0
+const PASSAGE_ZOOM_MAX: float = 1.0
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -446,6 +455,38 @@ func _build_portal_barriers() -> void:
 			((glow as MeshInstance3D).material_override as StandardMaterial3D).albedo_color.a = 0.1
 
 
+## Shows the name of the nearest passageway's destination (and nothing else) once the hero is within a dozen metres of its mouth.
+func _update_passage_label() -> void:
+	var nearest: float = 1e9
+	var title: String = ""
+	for info: ZonePortals.Info in ZonePortals.all():
+		var mouth: Vector3 = town.anchors.get("portal_%s_mouth" % info.id, Vector3.ZERO) as Vector3
+		var distance: float = Vector2(player.position.x - mouth.x, player.position.z - mouth.z).length()
+		if distance < nearest:
+			nearest = distance
+			title = info.display_name
+	var wanted: float = 0.0 if (_locked or dialogue.active) else clampf((13.0 - nearest) / 3.0, 0.0, 1.0)
+	if wanted > 0.0 and _passage_label.text != title:
+		_passage_label.text = title
+	_passage_label.modulate.a = lerpf(_passage_label.modulate.a, wanted, 0.2)
+
+
+## 1.0 normally; up to 2.2 within a few metres of a passageway mouth, so the bridge and the land beyond come into view.
+func _passage_boost_target() -> float:
+	if _locked or dialogue.active or player.airborne:
+		return 1.0
+	var nearest: float = 1e9
+	_passage_dir_target = Vector3.ZERO
+	for info: ZonePortals.Info in ZonePortals.all():
+		var mouth: Vector3 = town.anchors.get("portal_%s_mouth" % info.id, Vector3.ZERO) as Vector3
+		var distance: float = Vector2(player.position.x - mouth.x, player.position.z - mouth.z).length()
+		if distance < nearest:
+			nearest = distance
+			_passage_dir_target = TownBuilder.PORTAL_OUT.get(info.id, Vector3.ZERO) as Vector3
+	var t: float = clampf((PASSAGE_ZOOM_FAR - nearest) / (PASSAGE_ZOOM_FAR - PASSAGE_ZOOM_NEAR), 0.0, 1.0)
+	return 1.0 + 1.2 * smoothstep(0.0, 1.0, t) * PASSAGE_ZOOM_MAX
+
+
 ## Walking down a passageway takes it: an open one changes scene (the same call the E prompt makes), a sealed one stops the hero and says why.
 func _check_portal_walk(delta: float) -> void:
 	_portal_toast_cooldown = maxf(0.0, _portal_toast_cooldown - delta)
@@ -518,6 +559,14 @@ func _build_ui() -> void:
 	dialogue = DialogueBox.new()
 	host.add_child(dialogue)
 	dialogue.stand_behind(hud)
+	_passage_label = UIKit.label("", &"TitleLabel", 54, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	_passage_label.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.1, 0.95))
+	_passage_label.add_theme_constant_override("outline_size", 12)
+	_passage_label.position = Vector2(360, 96)
+	_passage_label.size = Vector2(1200, 80)
+	_passage_label.modulate.a = 0.0
+	_passage_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	host.add_child(_passage_label)
 	minimap = MinimapHud.new()
 	host.add_child(minimap)
 	minimap.setup("town", town, player, _collect_pois)
@@ -533,7 +582,11 @@ func _build_ui() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
-	var target: Vector3 = player.position + camera_offset * Settings.camera_zoom
+	_passage_boost = lerpf(_passage_boost, _passage_boost_target(), 1.0 - exp(-1.8 * delta))
+	_update_passage_label()
+	_passage_dir = _passage_dir.lerp(_passage_dir_target, 1.0 - exp(-1.8 * delta))
+	var look_ahead: Vector3 = _passage_dir * 9.0 * (_passage_boost - 1.0)
+	var target: Vector3 = player.position + look_ahead + camera_offset * Settings.camera_zoom * _passage_boost
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.basis = Basis.looking_at(-camera_offset, Vector3.UP)
 	for spot: Spot in spots:
@@ -541,8 +594,10 @@ func _process(delta: float) -> void:
 		spot.marker.position.y = base_y + sin(_time * 2.4 + spot.position.x) * 0.08
 		spot.marker.rotation_degrees.y += 60.0 * delta
 		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
-		var fade_start: float = 7.0 if spot.id.begins_with("portal_") else 2.6
+		var fade_start: float = 14.0 if spot.id.begins_with("portal_") else 2.6
 		spot.plate.modulate.a = clampf(1.0 - (distance - fade_start) / 1.6, 0.0, 1.0)
+		if spot.id.begins_with("portal_"):
+			spot.plate.pixel_size = 0.0075 * _passage_boost
 		spot.plate.outline_modulate.a = spot.plate.modulate.a
 		spot.plate.visible = spot.plate.modulate.a > 0.02
 	_well_light.light_energy = 1.4 + sin(_time * 1.7) * 0.35

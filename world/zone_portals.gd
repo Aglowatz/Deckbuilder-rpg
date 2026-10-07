@@ -7,6 +7,15 @@ extends RefCounted
 
 const FINAL_ID: String = "final"
 
+## The label a passageway shows (and its signpost reads): only the destination, like "The Capital".
+const DESTINATION_NAMES: Dictionary = {
+	"beefcake": "The Gainlands",
+	"necrocrat": "The Department of Necrotic Affairs",
+	"gourmand": "The Endless Buffet",
+	"refusemancer": "The Verdant Dump",
+	"final": "The Capital",
+}
+
 class Info:
 	extends RefCounted
 	var id: String = ""
@@ -20,18 +29,12 @@ static func all() -> Array[Info]:
 	for color: Affinity.Type in Affinity.colored_types():
 		var info: Info = Info.new()
 		info.id = UIStyle.affinity_name(color).to_lower()
-		info.display_name = "%s Path" % UIStyle.affinity_name(color)
-		if info.id == "refusemancer":
-			info.display_name = "Path of the Refusemancer"
-		if info.id == "gourmand":
-			info.display_name = "Path of the Gourmand"
+		info.display_name = str(DESTINATION_NAMES.get(info.id, "%s Path" % UIStyle.affinity_name(color)))
 		info.tint = UIStyle.affinity_color(color)
-		if info.id == DnaZone.ID:
-			info.display_name = DnaZone.DISPLAY_NAME
 		result.append(info)
 	var final_info: Info = Info.new()
 	final_info.id = FINAL_ID
-	final_info.display_name = "The Capital"
+	final_info.display_name = str(DESTINATION_NAMES[FINAL_ID])
 	final_info.tint = UIStyle.GOLD
 	result.append(final_info)
 	return result

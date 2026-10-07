@@ -6,11 +6,11 @@
 script = ExtResource("1_gain")
 zone_id = "beefcake"
 lines = {
-"hud.objective": ["The Gainlands: the Swole Station is safe, mostly because the regime keeps forgetting it exists. HP does not come back after battles - soak in the Cooldown Hot Tub, or walk back down the Beefcake Path. The House of Gains, where the regime sits, is on Leg Day Ridge."],
+"hud.objective": ["The Gainlands: the Swole Station is safe, mostly because the regime keeps forgetting it exists. HP does not come back after battles - soak in the Cooldown Hot Tub, or walk back down to town. The House of Gains, where the regime sits, is on Leg Day Ridge."],
 "ui.mini.body": ["Three sets in a row. Your HP carries from one set to the next and nothing heals in between. Finish all three for a unique Beefcake card."],
 "ui.mini.body_cleared": ["You already took the unique card from here. You can still lift for gold and XP. HP carries over; nothing heals in between."],
 "ui.mini.button": ["Chalk up"],
-"ui.exit.title": ["Walk back down the Beefcake Path?"],
+"ui.exit.title": ["Walk back down to town?"],
 "ui.exit.body": ["Leaving the Gainlands ends this visit. Town heals you fully; the regime's roaming brutes, golems and sprites will be back next time."],
 "fx.main_dungeon": ["The House of Gains looms over you, all iron-less steel and floodlights. The regime's flag snaps in the wind: a barbell with a red line through it."],
 "fx.heal_couch": ["You sink into the Cooldown Hot Tub. It smells of eucalyptus and old gym socks. HP restored."],
@@ -151,7 +151,7 @@ lines = {
 "wheel.hint": ["Start from the machine with the fewest options. The Mill needs 9, and only the wheels piped to it can supply it. Work out which wheel MUST feed the Gate."],
 "wheel.machines": ["The Lift", "The Gate", "The Mill"],
 "wheel.wheel_names": ["Hammy", "Gerald", "Princess Nibbles", "Sir Squeaks", "Biscuit", "The Colonel"],
-"hud.objective.freed": ["The Gainlands, free at last: the Swole Station is open to everyone. HP does not come back after battles - soak in the Cooldown Hot Tub, or walk back down the Beefcake Path."],
+"hud.objective.freed": ["The Gainlands, free at last: the Swole Station is open to everyone. HP does not come back after battles - soak in the Cooldown Hot Tub, or walk back down to town."],
 "ui.exit.body.freed": ["Leaving the Gainlands ends this visit. Town heals you fully. The brutes, golems and sprites are off-duty now, but they still enjoy a scrap."],
 "sign.hub_main.freed": ["THE SWOLE STATION", "Hub of the Gainlands. Heal here. Brag here. Do NOT skip leg day here.", "(Gatherings are now welcome. Mandatory cardio has been abolished. Gary is thrilled.)"],
 "sign.hub_power.freed": ["POWERED BY BEEFCAKES", "Every light in the Gainlands runs on giant mills and colossal hamster wheels.", "100% muscle. 0% coal. Quotas abolished: run at whatever pace feels good."],

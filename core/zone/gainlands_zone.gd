@@ -102,7 +102,7 @@ static func build_def() -> ZoneDef:
 		_spot("gus", "Foreman Gus, Wheel Wrangler", "gus", Vector3(0.9, 0, 0), 1.6, "Talk", "quest_npc", {"npc": "gus", "npc_name": NPC_GUS, "speaker": "Foreman Gus"}),
 		_spot("tony", "Tiny Tony's Protein & Pasteboard", "tony", Vector3(-0.8, 0, 0.5), 1.8, "Talk", "vendor_npc", {"npc": "tony", "npc_id": "V-BENCHLEY", "npc_name": NPC_TONY, "speaker": "Coach Brutus Benchley"}),
 		_spot("heal", "Cooldown Hot Tub", "heal", Vector3(0, 0, 1.6), 1.9, "Soak in the tub (full heal)", "heal"),
-		_spot("exit", "The Beefcake Path", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
+		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Iron Cavern", "mini_dungeon", Vector3(0, 0, 0.8), 1.7, "Enter the Iron Cavern: three sets", "mini_dungeon"),
 		_spot("main_dungeon", "The House of Gains", "main_dungeon", Vector3(0, 0, 0.6), 2.0, "Enter the House of Gains", "main_dungeon"),
 		_spot("puzzle", "Power Grid Control Panel", "puzzle", Vector3.ZERO, 1.8, "Route the power (puzzle)", "puzzle"),

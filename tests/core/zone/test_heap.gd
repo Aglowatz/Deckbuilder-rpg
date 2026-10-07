@@ -398,7 +398,7 @@ func test_the_zone_is_registered_and_named() -> void:
 	assert_eq(def.display_name, "The Verdant Dump")
 	assert_true(ResourceLoader.exists(def.scene_path))
 	assert_true(ResourceLoader.exists(def.story_path))
-	assert_eq(ZonePortals.find("refusemancer").display_name, "Path of the Refusemancer")
+	assert_eq(ZonePortals.find("refusemancer").display_name, "The Verdant Dump")
 
 
 func test_hub_has_a_heal_spot_a_vendor_npcs_and_quests() -> void:

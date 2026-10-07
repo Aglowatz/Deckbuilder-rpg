@@ -6,11 +6,11 @@
 script = ExtResource("1_buf")
 zone_id = "gourmand"
 lines = {
-"hud.objective": ["The Endless Buffet: the Grand Pantry is safe. HP does not come back after battles - sit down for a hearty meal, or walk back down the Path of the Gourmand. Everything here looks wonderful. Something under the Test Kitchen smells wrong."],
+"hud.objective": ["The Endless Buffet: the Grand Pantry is safe. HP does not come back after battles - sit down for a hearty meal, or walk back down to town. Everything here looks wonderful. Something under the Test Kitchen smells wrong."],
 "ui.mini.body": ["Three courses in a row. Your HP carries from one course to the next and nothing heals in between. Finish all three for a unique Gourmand card."],
 "ui.mini.body_cleared": ["You already took the unique card from this freezer. You can still eat your way through the courses for gold and XP. HP carries over; nothing heals in between."],
 "ui.mini.button": ["Open the door"],
-"ui.exit.title": ["Walk back down the Path of the Gourmand?"],
+"ui.exit.title": ["Walk back down to town?"],
 "ui.exit.body": ["Leaving the Endless Buffet ends this visit. Town heals you fully; the roaming golems, sentinels and meatballs (prototype batch, unfortunately) will be back next time. The buffet, as the name suggests, is endless."],
 "fx.main_dungeon": ["The Test Kitchen sits at the far end of the table: a gleaming glass-and-steel laboratory with a very large, very unfinished cannon sticking out of the roof. A banner reads INNOVATION SEASON."],
 "fx.heal_couch": ["You sit down to a hearty meal: roast something, a bowl of soup the size of a bathtub, and a roll that hugs you back. HP restored."],
@@ -158,7 +158,7 @@ lines = {
 "recipe.wrong": ["The golem that tastes it gags politely. \"Chef, this is not it.\"", "The stew goes bland. The pot sighs. The pot has seen better cooks.", "A single sad bubble rises. It pops. That was all it had to say.", "\"Chef, with respect: no.\""],
 "fortune.hints": ["A stash lies in the shade of the broccoli, in a loaf that has gone hollow.", "On the Butte, behind the butter, someone left a present for the brave.", "Candy is sweeter when it is hidden. Try the big jar in the south-east.", "Between the shakers on the salt flats, something shines.", "Cheddar tastes sharper from above. Take the lime jelly to the top.", "Behind a wheel of cheese, a smaller wheel of gold.", "At the summit of the pancakes, a tip: the syrup hides a treasure.", "In Layer-Cake Town, behind a cake: a cake of another kind."],
 "npc.gate.hint": ["The golem stands firm."],
-"hud.objective.freed": ["The Endless Buffet, free of the impostor: the Grand Pantry is safe. HP does not come back after battles - sit down for a hearty meal, or walk back down the Path of the Gourmand."],
+"hud.objective.freed": ["The Endless Buffet, free of the impostor: the Grand Pantry is safe. HP does not come back after battles - sit down for a hearty meal, or walk back down to town."],
 "ui.exit.body.freed": ["Leaving the Endless Buffet ends this visit. Town heals you fully. The golems are back to guarding plates, not people. The buffet is still endless."],
 "sign.hub_main.freed": ["THE GRAND PANTRY", "Hub of the Endless Buffet. The Gourmands feed the kingdom and protect it.", "Nobody leaves hungry. Innovation Season is over. Dinner is back."],
 "sign.hub_motto.freed": ["TODAY'S SPECIALS", "- Feed the kingdom", "- Guard the kingdom (with golems)", "- Answer every order with \"Yes, Chef!\"", "- Real food. Real sauce. Real chef."],

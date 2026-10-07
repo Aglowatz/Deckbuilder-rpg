@@ -6,11 +6,11 @@
 script = ExtResource("1_heap")
 zone_id = "refusemancer"
 lines = {
-"hud.objective": ["The Verdant Dump: the Compost Grange is safe, though the vines keep trying the door. HP does not come back after battles - sit down to a fresh harvest meal, or walk back down the Path of the Refusemancer. The Rotheart festers somewhere to the north."],
+"hud.objective": ["The Verdant Dump: the Compost Grange is safe, though the vines keep trying the door. HP does not come back after battles - sit down to a fresh harvest meal, or walk back down to town. The Rotheart festers somewhere to the north."],
 "ui.mini.body": ["Three levels down, one after another. Your HP carries from one level to the next and nothing heals in between. Reach the bottom for a unique Refusemancer card."],
 "ui.mini.body_cleared": ["You already took the unique card from the landfill. You can still dig for gold and XP. HP carries over; nothing heals in between."],
 "ui.mini.button": ["Climb in"],
-"ui.exit.title": ["Walk back down the Path of the Refusemancer?"],
+"ui.exit.title": ["Walk back down to town?"],
 "ui.exit.body": ["Leaving the Verdant Dump ends this visit. Town heals you fully; the roaming golems, scarecrows and gulls (all a little too alive) will be back next time, and so will the garbage."],
 "fx.main_dungeon": ["The path to the Rotheart is a tunnel of living roots. The air is warm, wet and humming. Something very large is breathing, somewhere underneath, and it is not you."],
 "fx.heal_couch": ["You sit down to a fresh harvest meal: roast roots, a pie with a fence post of a crust, and a mug of something that is mostly apple. HP restored."],
@@ -151,7 +151,7 @@ lines = {
 "growth.hint": ["Work from the top row down: if the plot above a bare plot is bare, plant right below it. Then fix the last row with the first row. Count your seeds; there are only four solutions."],
 "growth.solved": ["Every plot blooms at once. The beanstalk rises, shakes out a seed pouch the size of a satchel, and hands it down with a leaf. It is still warm."],
 "growth.already": ["The garden is in full bloom. Nothing left to plant."],
-"hud.objective.freed": ["The Verdant Dump, healing: the Compost Grange is safe. HP does not come back after battles - sit down to a fresh harvest meal, or walk back down the Path of the Refusemancer."],
+"hud.objective.freed": ["The Verdant Dump, healing: the Compost Grange is safe. HP does not come back after battles - sit down to a fresh harvest meal, or walk back down to town."],
 "ui.exit.body.freed": ["Leaving the Verdant Dump ends this visit. Town heals you fully; the roaming golems, scarecrows and gulls have calmed down a lot, and so has the garbage."],
 "sign.hub_main.freed": ["THE COMPOST GRANGE", "Hub of the Verdant Dump. The Refusemancers handle waste removal and agriculture.", "Nothing goes to waste. The Rot has gone. The doors may be opened again."],
 "sign.hub_motto.freed": ["TODAY'S COMPOST", "- Waste removal (by goat)", "- Agriculture (by magic)", "- Nothing goes to waste. Not even the menu.", "- Water things. They like it. They are only plants."],

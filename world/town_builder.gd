@@ -85,6 +85,7 @@ func build(parent: Node3D, decorate_far: bool = true) -> void:
 	root = Node3D.new()
 	root.name = "Town"
 	parent.add_child(root)
+	_plan_connectors()
 	_build_water()
 	for row: int in range(MAP.size()):
 		var line: String = MAP[row]
@@ -113,8 +114,53 @@ func _build_water() -> void:
 			var inside: bool = map_row >= 0 and map_row < MAP.size() and map_col >= 0 and map_col < MAP[0].length() and MAP[map_row][map_col] != "."
 			if inside:
 				continue
+			if _blocked_cells.has(Vector2i(col, row)) and _island_cells.has(Vector2i(col, row)):
+				continue
 			var water: Node3D = ModelKit.tile("hex_water")
 			ModelKit.place(root, water, cell_center(col, row), 0.0, SCALE)
+	_build_connector_water()
+
+
+## Brief 16, Group D: what lies beyond each passageway (see TownConnectors). The plans are made first so the water and the far scenery leave room for them.
+var _connector_plans: Dictionary = {}
+var _island_cells: Dictionary = {}
+var _blocked_cells: Dictionary = {}
+
+
+func _plan_connectors() -> void:
+	_connector_plans.clear()
+	_island_cells.clear()
+	_blocked_cells.clear()
+	for zone_id: String in PORTAL_CELLS.keys():
+		var cell: Vector2i = PORTAL_CELLS[zone_id] as Vector2i
+		var out: Vector3 = PORTAL_OUT.get(zone_id, Vector3(0, 0, -1)) as Vector3
+		var plan: Dictionary = TownConnectors.plan(cell_center(cell.x, cell.y), out)
+		_connector_plans[zone_id] = plan
+		for island_cell: Variant in plan["cells"] as Array:
+			_island_cells[island_cell as Vector2i] = true
+			_blocked_cells[island_cell as Vector2i] = true
+		for corridor_cell: Variant in plan["corridor"] as Array:
+			_blocked_cells[corridor_cell as Vector2i] = true
+
+
+## Water around each island where the usual pad of water tiles does not reach.
+func _build_connector_water() -> void:
+	var row_low: int = -ROW_OFFSET - WATER_PAD
+	var row_high: int = MAP.size() - ROW_OFFSET + WATER_PAD
+	var col_low: int = -COL_OFFSET - WATER_PAD
+	var col_high: int = MAP[0].length() - COL_OFFSET + WATER_PAD
+	var placed: Dictionary = {}
+	for plan: Variant in _connector_plans.values():
+		var center_cell: Vector2i = (plan as Dictionary)["center_cell"] as Vector2i
+		for row: int in range(center_cell.y - TownConnectors.WATER_RADIUS, center_cell.y + TownConnectors.WATER_RADIUS + 1):
+			for col: int in range(center_cell.x - TownConnectors.WATER_RADIUS - 1, center_cell.x + TownConnectors.WATER_RADIUS + 2):
+				var key: Vector2i = Vector2i(col, row)
+				if placed.has(key) or _island_cells.has(key):
+					continue
+				if row >= row_low and row < row_high and col >= col_low and col < col_high:
+					continue
+				placed[key] = true
+				ModelKit.place(root, ModelKit.tile("hex_water"), cell_center(col, row), 0.0, SCALE)
 
 
 func _build_cell(col: int, row: int, symbol: String) -> void:
@@ -206,6 +252,8 @@ func _build_far_scenery() -> void:
 	var north_edge: int = -ROW_OFFSET
 	var far_row: int = north_edge - 2
 	for col: int in range(west_edge - 2, east_edge + 3):
+		if _blocked_cells.has(Vector2i(col, far_row)):
+			continue
 		var far: Vector3 = cell_center(col, far_row)
 		ModelKit.place(root, ModelKit.tile("hex_grass"), far, 0.0, SCALE)
 		var mountain: String = ["mountain_A_grass_trees", "mountain_B_grass_trees", "mountain_C_grass_trees"][_rng.randi() % 3]
@@ -215,6 +263,8 @@ func _build_far_scenery() -> void:
 		Vector2i(east_edge + 2, 2), Vector2i(east_edge + 2, 7), Vector2i(east_edge + 2, 0),
 	]
 	for cell: Vector2i in hill_cells:
+		if _blocked_cells.has(cell):
+			continue
 		var pos: Vector3 = cell_center(cell.x, cell.y)
 		ModelKit.place(root, ModelKit.tile("hex_grass"), pos, 0.0, SCALE)
 		ModelKit.place(root, ModelKit.nature(["hills_A_trees", "hills_B_trees"][_rng.randi() % 2]), pos, float(_rng.randi_range(0, 5)) * 60.0, SCALE)
@@ -457,6 +507,7 @@ func _build_zone_portals() -> void:
 		var passage: Node3D = TownPassages.build(info.id, info.display_name, info.tint, false)
 		ModelKit.place(root, passage, center, TownPassages.yaw_for(out), 1.0)
 		passage_nodes[info.id] = passage
+		TownConnectors.build(root, info.id, center, out, _connector_plans[info.id] as Dictionary)
 		var right: Vector3 = Vector3(-out.z, 0.0, out.x)
 		for side: float in [-1.0, 1.0]:
 			var post: Vector3 = center + right * side * (TownPassages.OPENING + 0.55)
