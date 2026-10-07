@@ -127,6 +127,8 @@ func _ready() -> void:
 		if _screenshot_args.has("decks"):
 			Session.new_saved_deck("Quick Aggro", ["BAS-B", "BAS-B", "BAS-B", "B-01", "B-01"] as Array[String])
 			Session.new_saved_deck("Old Necro Deck", ["BAS-N", "N-28", "N-28", "N-17"] as Array[String])
+			if str(_screenshot_args["decks"]) == "2":
+				Session.use_deck(2)
 		if _screenshot_args.has("levelup"):
 			Session.add_xp(ProgressionTable.xp_to_reach(int(_screenshot_args["levelup"]) - 1))
 			Session.pending_level_ups.append_array(Session.add_xp(ProgressionTable.xp_to_reach(int(_screenshot_args["levelup"]))))

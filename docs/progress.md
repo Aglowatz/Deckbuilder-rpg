@@ -2755,3 +2755,53 @@ Source: `data/source/dungeon_list.csv.csv` (12 dungeons, not 13: D-TUT, the five
 - GUT: 1132 tests, all passing.
 
 **Map Image IDs now in the game:** MAP-HFA, MAP-HOG, MAP-PC, MAP-ROT, MAP-S-BEEF, MAP-S-CAP, MAP-S-GOUR, MAP-S-NECRO, MAP-S-REF, MAP-S-TOWN, MAP-TTK, MAP-TUT
+
+## Brief 16: Refuse Pile, Shiro Swindle, secrets, connectors, saves, decks, level rewards, the vault, packs
+
+All eight groups are done, committed and pushed one after the other (A..H, see `git log`). GUT after the last group: all tests passing (about 1,200; about 60 new ones in `test_refuse_pile_targeting`, `test_ninja_boss`, `test_capital_wall_passage`, `test_town_connectors`, `test_save_slots`, `test_deck_box`, `test_progression` (extended), `test_vault_guardian`, `test_pack_path_rule`).
+Screenshots of everything below are in `docs/art/screens/brief16/` (1600x900 JPGs). Every judgment call is logged in `docs/design/open_questions.md` (X-1 .. X-24); spoiler docs are in `docs/design/secrets.md`.
+
+### Group A - Refuse Pile (battle)
+- **Pile widgets** next to each portrait (top card face up on a few card backs, a gold count badge, a REFUSE label, a tooltip); cards fly into the widget. **Viewer**: click either pile; scrollable, newest first, hover-zoom on the right, closes with a click outside, Esc or Close.
+- **Targeting mode**: every spell/ability that targets a Refuse Pile card (Regrow-style `to_hand`, Reinstate, Lich "from any Refuse Pile", Shred up to three, the Infrastructure return) opens the viewer with only the legal cards glowing (right pile, type, cost/Path limits), the rest dimmed; click to choose, "up to X" has a Done button, Cancel / right-click cancel, "Show board" hides it without cancelling. Both piles show when the effect allows any pile.
+- The AI already used the same `TargetResolver`; `test_refuse_pile_targeting.gd` checks the legal list of **every** card with a Refuse Pile target (about 20) against an independent oracle, plus Regrow/Reinstate/Shred/Lich play-throughs and that the AI is only offered legal targets.
+- Not changed (X-4): end-of-turn/triggered abilities and `pick(...)` / `reinstate_up_to` effects are still chosen by the engine.
+
+### Group B - Shiro Swindle and the five giant chests
+- The giant chest beside Bertram (the Secluded Grove chest) moved to the tip of a new lonely peninsula in the south-east of the main town; one giant chest in each Path zone (Gainlands, D.N.A., Endless Buffet, Verdant Dump), all placed with `tools/giant_chest_sites.gd` (open, reachable, far from everything).
+- Opening one: the lid swings up, **Shiro Swindle** (`NPC-NINJA`, code-drawn placeholder portrait) leaps out, delivers that chest's own taunt, steals 50 gold (or all), a floating "-50 gold" and a toast show it, then **SMOKE BOMB!!!** and a smoke puff (synthesized sound). Opened chests stay open. The quest **The Oldest Trick in the Book** appears in the log after the first chest ("Open the giant chests n/5").
+- After all five: the fifth taunt adds "meet me where it all began", the original chest closes again and glows. Opening it: his lines, then a duel on the town battleboard against a trap deck (18 HP, Balanced AI); win = all stolen gold back + 3 Gilded Packs (one random Path each), questline ends; lose = retry. Everything saved.
+
+### Group C - Capital secret passage
+- A 2 m gap through the left (west) city wall at x 22..23, hidden by two cracks, loose stones and dry scrub; no sign, no marker. It lets you into the city past the closed gate (secret `capital_wall_passage`). The old "closed gate keeps the city out of reach" test now asserts the gate stays shut and the city is reachable only through the gap.
+
+### Group D - Zone connectors in the main town
+- Each passage leads over a bridge to a themed 19-cell island: sunny gym-and-mill (Gainlands), gloomy office tower (D.N.A.), giant food on a checkered cloth (Buffet), junk-and-farm hill (Dump), white-and-gold walls and castle (Capital). Visual only. Labels are now only the destination ("The Gainlands", "The Department of Necrotic Affairs", "The Endless Buffet", "The Verdant Dump", "The Capital"); the old "Beefcake Path" / "Path of the ..." labels are fixed ("Verdant Heap" did not exist anywhere). Because the town camera cannot see 20 m ahead, it eases out near a passage and the destination name shows large on screen (X-15).
+
+### Group E - Saves and decks
+- **Save slots**: 5 manual + autosave, thumbnails, name/date/playtime/level/location/gold, overwrite and delete confirmations, save from the pause menu (not in battles/dungeons), load from the title screen and the pause menu, the old `save.json` migrated into slot 1. **Bug found and fixed**: loading a save used to reset max HP / hand / item slots to level-1 values.
+- **Saved decks**: a deck box (5 slots, 10 after level 3) with New / Copy / Rename / Delete / "Use for battles" in the deck builder, a deck picker before the Trial, the Iron Hatch, zone dungeons and arena fights (only when you own more than one deck), warnings instead of breakage for cards you no longer own. `Session.deck` mirrors the active deck so all battle code is unchanged. Saved and loaded.
+
+### Group F - Level-up rewards
+- No gold anywhere in the table or popup (`docs/design/progression.md` regenerated). Old gold levels now give: 3 deck box expansion (5 to 10 slots), 13 advanced equipment stock (moved from 10), 21 vendor discount (moved from 24), 27 rarer-stock unlock, 6 keeps HP + item vendor unlock. Stat rewards keep their schedule.
+
+### Group G - Four-Lever Vault
+- The old vault lever moved far away (south-west of the southern strip). New **Four-Seal Vault** at the north-west shore of the uplands; four hidden levers (far corners of the Gainlands, Buffet, Dump and D.N.A.). Pulling one: heavy clunk, screen shake, grinding rumble and a cutaway "Far away, a great lock grinds open... (n/4)"; the vault seals light up one by one (built from the save). Hidden quest **The Four Seals** after the first lever. With all four: the **Warden of the Four Seals** (40 HP, four-Path deck, a stronger unit joins it every turn). **Rewards**: 4 Gilded Packs (one per Path), 40 essence of every Path, the exclusive Four-Seal Signet relic, the Cloak of the Four Seals and +600 XP; no new cards.
+
+### Group H - Pack rule
+- Path and Gilded packs always hold at least one card of their Path (a multi-Path card of that Path counts); the re-roll never removes the pack's only Epic/Legendary or only multi-Path card. 1,500-seed tests per pack.
+
+### Verification and E2E budget
+- Screenshots (windowed, real scenes) for: a Refuse Pile battle with the viewer, Regrow and Reinstate; a giant chest (dialogue, gold stolen, smoke bomb); the ninja duel (`--ninja=true` flag); the Capital passage from both sides; each zone connector view and label; the slot list in Save and Load mode (two demo slots); the deck builder with several decks and a "no longer own" warning; a level-up with no gold (level 3: deck box expansion); pulling a lever with the cutaway and the vault with 2/4 and 4/4 seals; the Warden duel; a Necrocrat Pack opening.
+- One windowed e2e run (`tools/run_sixth_brief_final_smoke.sh`, 9 min, covering the zone scene and chest code I changed): everything passed except the final "the mini dungeon opens the node map" step, which looks for the old "Chalk up" button of the pre-dungeon-list mini dungeons (the same step fails in the fifth-brief smoke); it is not caused by this brief. The ninja chests, levers, saves and decks were verified through GUT and screenshots, not walked by a scripted mouse, to stay in the budget.
+- New dev tools: `tools/giant_chest_sites.gd` (site search), `tools/dump_cards.gd` (card list for deck design), `tools/generate_vault_gear.gd`, `tools/png_to_jpg.gd`; screenshot flags `--ninja`, `--lever`, `--levers`, `--slots`, `--decks`, `--levelup`, and for battles `--bury/--hand/--energy/--play/--pick/--viewer` and `--ninja=true` / `--vault=true`.
+
+### Questions for you
+1. **Ninja and Warden portraits/names**: `NPC-NINJA` and `NPC-VAULTWARDEN` are not in the NPC sheet; they live in `data/npcs/npc_game_map.json` with code-drawn silhouettes. Add rows with those IDs (and the names) and import art when ready; the real art wins automatically.
+2. **Dialogue text** (taunts, fight lines) is in `core/dungeon/ninja_boss.gd` and `vault_guardian.gd`, not the story data file. Do you want it moved so you can edit it in one place?
+3. **Balance**: the ninja deck (18 HP trap deck) and the Warden (40 HP + escalating summons) were tuned by eye, not simulated. Want a simulation pass (like the corrupted NPCs got)?
+4. **Camera near zone passages**: I made the town camera ease out and show the destination name because the default view cannot show the island. Fine, or would you rather keep the camera fixed and use a minimap / full-map hint instead?
+5. **Level reward placement**: gold levels became deck box (3), advanced equipment (13, moved from 10), discount (21, moved from 24), rarer stock (27). Happy with those homes, or should the deck box expansion come later (for example 7)?
+6. **Where a loaded game resumes**: town (or the zone hub); position and zone HP are not saved. Acceptable for manual slots, or should I save the hero position too?
+7. **Secret Dealer** now appears after opening the original giant chest (it used to be the 60-gold Grove chest, which is now a joke chest). OK?
+8. **Old mini-dungeon smokes** (`fifth` / `sixth_brief_final_smoke`) still fail at the mini-dungeon step (old button text); shall I update them to the new side-dungeon quest flow?
