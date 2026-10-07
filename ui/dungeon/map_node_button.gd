@@ -8,6 +8,7 @@ signal hovered(node_id: int)
 signal unhovered(node_id: int)
 
 const DIAMETER: float = 104.0
+const PLATE_MAX_WIDTH: float = 170.0
 const KIND_ICONS: Dictionary = {
 	DungeonMap.Kind.START: "map",
 	DungeonMap.Kind.BATTLE: "attack",
@@ -26,6 +27,7 @@ var cleared: bool = false
 var _ring: Panel
 var _glyph: TextureRect
 var _name_label: Label
+var _plate: PanelContainer
 var _pulse: Tween
 
 
@@ -51,14 +53,23 @@ func _ready() -> void:
 	add_child(_glyph)
 	_name_label = UIKit.label(map_node.title, &"", 20, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_name_label.add_theme_font_override("font", UIStyle.font_bold())
-	_name_label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
-	_name_label.add_theme_constant_override("outline_size", 6)
-	# Two short lines at most, so neighbouring nodes never run their names together.
+	# Two short lines at most (an ellipsis after that), so neighbouring nodes never run their names together; the name sits on a small dark plate so it reads on any painted map.
 	_name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_name_label.max_lines_visible = 2
-	_name_label.position = Vector2(-22, DIAMETER + 4.0)
-	_name_label.size = Vector2(DIAMETER + 44.0, 56)
-	add_child(_name_label)
+	_name_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	var text_width: float = UIStyle.font_bold().get_string_size(map_node.title, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x
+	_name_label.custom_minimum_size = Vector2(minf(text_width + 6.0, PLATE_MAX_WIDTH), 0.0)
+	_plate = PanelContainer.new()
+	_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var plate_style: StyleBoxFlat = UIStyle.box(Color(0.05, 0.035, 0.08, 0.78), Color(UIStyle.GOLD_DIM, 0.5), 1, 8, 0)
+	plate_style.content_margin_left = 6.0
+	plate_style.content_margin_right = 6.0
+	plate_style.content_margin_top = 1.0
+	plate_style.content_margin_bottom = 1.0
+	_plate.add_theme_stylebox_override("panel", plate_style)
+	_plate.add_child(_name_label)
+	add_child(_plate)
+	_plate.position = Vector2((DIAMETER - (_name_label.custom_minimum_size.x + 12.0)) * 0.5, DIAMETER + 2.0)
 	mouse_entered.connect(func() -> void:
 		hovered.emit(map_node.id)
 		if available:
@@ -87,7 +98,7 @@ func refresh() -> void:
 		glyph_color = Color(UIStyle.PARCHMENT, 0.45)
 	_ring.add_theme_stylebox_override("panel", UIStyle.box(base, border, 5 if available else 3, int(DIAMETER * 0.5), 12 if available else 4))
 	(_glyph.material as ShaderMaterial).set_shader_parameter("tint", glyph_color)
-	_name_label.modulate.a = 1.0 if (available or cleared) else 0.55
+	_plate.modulate.a = 1.0 if (available or cleared) else 0.8
 	if _pulse != null and _pulse.is_valid():
 		_pulse.kill()
 	if available:

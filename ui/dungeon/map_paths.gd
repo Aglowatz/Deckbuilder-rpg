@@ -8,6 +8,9 @@ var _point_of: Callable
 var _time: float = 0.0
 ## How far a path stops short of each node centre (smaller on dense maps whose nodes are drawn smaller).
 var trim_radius: float = 62.0
+## How the paths are drawn over a painted map (decided per map in `data/dungeons/map_layout.json`, key "paths"): "full" (the placeholder look: all paths), "subtle" (thin and dim
+## paths, the walked and next ones highlighted), "highlight" (only the walked and the next paths; the painted path is clear enough), "none" (nothing).
+var style: String = "full"
 
 
 func setup(map: DungeonMap, point_of: Callable) -> void:
@@ -25,6 +28,8 @@ func _draw() -> void:
 	if _map == null:
 		return
 	for node: DungeonMap.MapNode in _map.nodes:
+		if node.hidden or style == "none":
+			continue
 		for next_id: int in node.next:
 			var from: Vector2 = _point_of.call(node.id) as Vector2
 			var to: Vector2 = _point_of.call(next_id) as Vector2
@@ -33,16 +38,25 @@ func _draw() -> void:
 			var points: PackedVector2Array = _trim(_curve(from, to), trim_radius)
 			if points.size() < 2:
 				continue
+			var thin: float = 0.6 if style == "subtle" else 1.0
 			if walked:
-				draw_polyline(points, Color(0, 0, 0, 0.5), 10.0, true)
-				draw_polyline(points, UIStyle.GOLD, 6.0, true)
+				draw_polyline(points, Color(0, 0, 0, 0.5), 10.0 * thin, true)
+				draw_polyline(points, UIStyle.GOLD, 6.0 * thin, true)
 			elif ahead:
-				_dashes(points, UIStyle.GOLD.lightened(0.2), 7.0, true)
-			else:
+				_dashes(points, UIStyle.GOLD.lightened(0.2), 7.0 * thin, true)
+			elif style == "full":
 				_dashes(points, Color(UIStyle.MUTED, 0.35), 4.0, false)
+			elif style == "subtle":
+				_dashes(points, Color(1, 1, 1, 0.22), 3.0, false)
 
 
 func _curve(from: Vector2, to: Vector2) -> PackedVector2Array:
+	if style == "highlight" or style == "subtle":
+		# Over a painted map the line only marks the way: straight, so it follows the painted path.
+		var straight: PackedVector2Array = PackedVector2Array()
+		for step: int in range(41):
+			straight.append(from.lerp(to, float(step) / 40.0))
+		return straight
 	var mid: Vector2 = (from + to) * 0.5 + Vector2(0.0, (to.x - from.x) * 0.06)
 	var control: Vector2 = mid + Vector2(0.0, (to.y - from.y) * 0.25)
 	var points: PackedVector2Array = PackedVector2Array()

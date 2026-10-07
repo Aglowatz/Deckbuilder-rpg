@@ -245,3 +245,10 @@ static func hooks_for_npc(npc_id: String) -> Array[Dictionary]:
 ## The flag a side dungeon's quest sets when it is done: the dungeon's entrance only opens once it is set.
 static func side_unlock_flag(dungeon_id: String) -> StringName:
 	return StringName("side_unlocked_%s" % dungeon_id.to_lower().replace("-", "_"))
+
+
+## How the paths between nodes are drawn over this dungeon's painted map: "full", "subtle" (default), "highlight" or "none" (`map_layout.json`, key "paths").
+static func path_style(dungeon_id: String) -> String:
+	_load()
+	var styles: Variant = _layout.get("paths", {})
+	return str((styles as Dictionary).get(dungeon_id, "subtle")) if styles is Dictionary else "subtle"

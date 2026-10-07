@@ -82,3 +82,20 @@ expressions). When you say **"import portraits"**, run `bash tools/import_portra
 - **Format:** scaled to 768 px tall (never enlarged; 1024x1536 sources become 512x768), colours bled into transparent pixels before the resize (no dark fringe), lossy WebP (quality 92) with alpha.
 - **Status:** `docs/art/art_status.md` has a "Portraits" section (every NPC, whether its image exists, which expressions exist). The status writers keep each other's sections.
 - **Tests:** `tests/core/data/test_portraits.gd` (naming, background removal without a halo, scaling, import/manifest/unknown files, fallbacks, status) and `test_npc_registry.gd`.
+
+## Dungeon maps
+
+Every dungeon of the dungeon list (`data/source/dungeon_list.csv.csv`, imported by `bash tools/import_dungeons.sh`) has one painted 3:2 map, `assets/art/maps/<Map Image ID>.webp` (e.g. `MAP-HOG.webp`). When you say **"import maps"**, run
+`bash tools/import_maps.sh` and report what was added, the Map Image IDs with no image and the files that match no ID.
+
+- **Source:** `data/source/art_config.cfg` `map_dir` (`G:/My Drive/Card Game Art/Approved_Maps`; override with env `MAP_SOURCE_DIR`). Read-only like the other importers: files are only copied (never moved, renamed or deleted); `data/source/map_import_manifest.csv`
+  records each file's MD5 so a changed Drive file is replaced on the next run. Files are named by Map Image ID. Maps are **never cropped** (nodes may sit near the edges): the importer only converts to lossy WebP (quality 90) and scales down a picture wider than 1536 px; a
+  picture that is not 3:2 is reported ("Not 3:2") but kept as it is. `docs/art/art_status.md` has a "Dungeon maps" section.
+- **On screen:** the map screen (`DungeonMapScreen`) shows the picture as large as fits the 1920x1080 screen without cropping (a 3:2 map is 1620x1080 with a 150 px band each side) and puts the nodes on it. A dungeon with no image keeps its old placeholder diorama.
+  Nothing covers the picture: the title is a small plate on top, HP / gold / Rules / Deck / Retreat sit in the left band, the node info floats beside the hovered node (in the half of the map the node is not in), and the zone effects, the dungeon's own rules
+  and the boons are behind the Rules button (R). Node names sit on small dark plates.
+- **Node coordinates (data, not code):** `data/dungeons/map_layout.json` holds, for each dungeon, node number -> [x, y] as a fraction of the picture: the center of the node's painted landing spot. A node with no entry falls back to the CSV percentage. To re-fit a regenerated map run
+  `bash tools/map_fit_sheet.sh D-HOG` (add `--crop=x0,y0,x1,y1` to zoom): it saves `_screenshots/map_fit/<ID>.png`, the map with a 10% grid and every node as a numbered dot at its current coordinates; compare the dots with the painted spots and edit the JSON.
+- **Paths between nodes:** `map_layout.json` key `paths` decides per map how the lines are drawn over the picture: `full` (the old look), `subtle` (thin dim lines for the paths not walked yet), `highlight` (only the walked and the next paths, straight lines that follow the painted path) or `none`.
+  All maps except the Forgotten Vault use `highlight`: the painted paths are clear, so locked paths are not drawn over them. The Forgotten Vault uses `subtle` because its bridges are partly hidden behind walls.
+- **Tests:** `tests/core/data/test_map_art.gd` (importer, never crops, every dungeon has a 3:2 map and a fitted position for every node, nodes do not overlap, the screen shows the picture whole).

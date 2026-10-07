@@ -24,6 +24,13 @@ var _screenshot_args: Dictionary = {}
 var _dialogue: DialogueBox
 ## Set while inside a zone's final dungeon (Part E): its data (foes, events, backdrop).
 var _main_def: MainDungeonDef
+## The dungeon list entry of this map and its painted map (null when the dungeon has no image yet: the placeholder diorama is used then).
+var _plan: DungeonCatalog.Blueprint
+var _art: Texture2D
+## Where the painted map sits on the 1920x1080 screen: as large as fits, never cropped (3:2 art leaves a band at each side).
+var _art_rect: Rect2 = Rect2(0.0, 0.0, 1920.0, 1080.0)
+var _info_panel: PanelContainer
+var _rules_panel: PanelContainer
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -52,18 +59,24 @@ func _ready() -> void:
 	run = Session.run
 	if Session.main_dungeon_active or Session.mini_active:
 		_main_def = MainDungeons.def(Session.dungeon_key)
-	if Session.main_dungeon_active:
-		add_child(DungeonBackdrop.make(_main_def.backdrop))
+	_plan = _find_plan()
+	_art = MapArt.texture_for(_plan.map_id) if _plan != null else null
+	if _art != null:
+		_build_art()
 	else:
-		var backdrop: ArenaBackdrop = ArenaBackdrop.new()
-		backdrop.zone_id = Session.zone_run.zone_id if (Session.mini_active and Session.zone_run != null) else "hollow"
-		add_child(backdrop)
-	var dim: ColorRect = ColorRect.new()
-	dim.color = Color(0.03, 0.02, 0.07, 0.25)
-	UIKit.full_rect(dim)
-	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(dim)
-	add_child(UIKit.vignette(0.85))
+		# No painted map for this dungeon yet: the placeholder diorama backdrop.
+		if Session.main_dungeon_active:
+			add_child(DungeonBackdrop.make(_main_def.backdrop))
+		else:
+			var backdrop: ArenaBackdrop = ArenaBackdrop.new()
+			backdrop.zone_id = Session.zone_run.zone_id if (Session.mini_active and Session.zone_run != null) else "hollow"
+			add_child(backdrop)
+		var dim: ColorRect = ColorRect.new()
+		dim.color = Color(0.03, 0.02, 0.07, 0.25)
+		UIKit.full_rect(dim)
+		dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(dim)
+		add_child(UIKit.vignette(0.85))
 	_build_board()
 	_build_hud()
 	_build_nodes()
@@ -167,20 +180,28 @@ func _prepare_main_dungeon_for_screenshot() -> void:
 
 
 func _build_board() -> void:
+	if _art == null:
+		_build_placeholder_board()
+	_paths = MapPaths.new()
+	_paths.position = Vector2.ZERO
+	_paths.size = Vector2(1920, 1080)
+	_paths.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_paths.style = DungeonCatalog.path_style(_plan.id) if _plan != null else "full"
+	add_child(_paths)
+
+
+func _build_placeholder_board() -> void:
 	var board: Panel = Panel.new()
 	board.position = MAP_ORIGIN - Vector2(30, 20)
 	board.size = MAP_EXTENT + Vector2(60, 40)
 	board.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	board.add_theme_stylebox_override("panel", UIStyle.box(Color(0.06, 0.04, 0.1, 0.5), Color(UIStyle.GOLD_DIM, 0.6), 3, 26, 20))
 	add_child(board)
-	_paths = MapPaths.new()
-	_paths.position = Vector2.ZERO
-	_paths.size = Vector2(1920, 1080)
-	_paths.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(_paths)
 
 
 func _node_position(node: DungeonMap.MapNode) -> Vector2:
+	if _art != null:
+		return _art_rect.position + node.position * _art_rect.size
 	return MAP_ORIGIN + Vector2(node.position.x * MAP_EXTENT.x, node.position.y * MAP_EXTENT.y - 60.0)
 
 
@@ -193,6 +214,7 @@ func _build_nodes() -> void:
 		button.setup(node, available_ids.has(node.id), map.is_cleared(node.id))
 		add_child(button)
 		button.position = _node_position(node) - Vector2(MapNodeButton.DIAMETER, MapNodeButton.DIAMETER) * 0.5
+		button.visible = not node.hidden
 		if map.nodes.size() > DENSE_NODE_COUNT:
 			button.scale = Vector2.ONE * DENSE_NODE_SCALE
 		button.hovered.connect(_on_node_hovered)
@@ -247,6 +269,9 @@ func _bob_marker() -> void:
 
 
 func _build_hud() -> void:
+	if _art != null:
+		_build_art_hud()
+		return
 	var title: Label = UIKit.label(map.dungeon_name, &"TitleLabel", 58, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	title.position = Vector2(360, 26)
 	title.size = Vector2(1200, 80)
@@ -302,7 +327,7 @@ func _build_hud() -> void:
 
 
 func _refresh_hp() -> void:
-	_hp_label.text = "HP  %d / %d" % [run.hp, run.max_hp()]
+	_hp_label.text = ("%d / %d" if _art != null else "HP  %d / %d") % [run.hp, run.max_hp()]
 	_hp_bar.max_value = run.max_hp()
 	_hp_bar.value = run.hp
 	var ratio: float = float(run.hp) / float(maxi(run.max_hp(), 1))
@@ -313,6 +338,9 @@ func _refresh_hp() -> void:
 
 
 func _show_default_info() -> void:
+	if _art != null:
+		_info_panel.visible = false
+		return
 	if map.is_complete():
 		_info_title.text = "%s is quiet" % map.dungeon_name
 		_info_body.text = "Every room is cleared."
@@ -344,6 +372,8 @@ func _on_node_hovered(id: int) -> void:
 	if map.is_cleared(id):
 		text += "  [color=#6fbf73](cleared)[/color]"
 	_info_body.text = text
+	if _art != null:
+		_place_info(node)
 
 
 # ---- Entering nodes ---------------------------------------------------------------------
@@ -429,6 +459,9 @@ func _play_pending_after_story() -> void:
 
 ## Part E: the zone effects, the boons earned in this dungeon and the current section under the title.
 func _build_dungeon_extras() -> void:
+	if _art != null:
+		_build_art_extras()
+		return
 	if _main_def == null and not Session.mini_active:
 		return
 	var zone_id: String = Session.zone_run.zone_id if Session.zone_run != null else ""
@@ -531,3 +564,168 @@ func _open_from_screenshot(what: String) -> void:
 			for beat: int in range(int(_screenshot_args.get("beat", 0))):
 				scene.advance()
 				scene.advance()
+
+
+# ---- The painted map ----------------------------------------------------------------------------------
+
+
+func _find_plan() -> DungeonCatalog.Blueprint:
+	if Session.main_dungeon_active or Session.mini_active:
+		return MainDungeons.blueprint(Session.dungeon_key)
+	return DungeonCatalog.find(DungeonCatalog.TUTORIAL_ID)
+
+
+## The largest centred rectangle of the screen with `size` aspect ratio: the map is shown whole, never cropped.
+static func fit_rect(size: Vector2) -> Rect2:
+	var scale: float = minf(1920.0 / size.x, 1080.0 / size.y)
+	var fitted: Vector2 = size * scale
+	return Rect2((Vector2(1920.0, 1080.0) - fitted) * 0.5, fitted)
+
+
+func _build_art() -> void:
+	var black: ColorRect = ColorRect.new()
+	black.color = Color(0.02, 0.015, 0.03)
+	UIKit.full_rect(black)
+	black.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(black)
+	_art_rect = fit_rect(_art.get_size())
+	var picture: TextureRect = TextureRect.new()
+	picture.name = "MapArt"
+	picture.texture = _art
+	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	picture.stretch_mode = TextureRect.STRETCH_SCALE
+	picture.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	picture.position = _art_rect.position
+	picture.size = _art_rect.size
+	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(picture)
+
+
+## HUD for a painted map: nothing covers the art. The title sits in a small plate on top, HP / gold / buttons in the side bands, and the node info
+## floats next to the hovered node. Zone effects, dungeon rules and boons live behind the Rules button.
+func _build_art_hud() -> void:
+	var plate: PanelContainer = UIKit.panel(&"DarkPanel")
+	plate.name = "TitlePlate"
+	plate.set_anchors_preset(Control.PRESET_CENTER_TOP)
+	plate.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	plate.position.y = 6.0
+	plate.modulate.a = 0.88
+	plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(plate)
+	plate.add_child(UIKit.label(map.dungeon_name, &"HeadingLabel", 34, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	var band: VBoxContainer = UIKit.vbox(8)
+	band.position = Vector2(8.0, 8.0)
+	band.custom_minimum_size = Vector2(134.0, 0.0)
+	add_child(band)
+	var hp_panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	band.add_child(hp_panel)
+	var hp_column: VBoxContainer = UIKit.vbox(4)
+	hp_panel.add_child(hp_column)
+	var top: HBoxContainer = UIKit.hbox(6)
+	var heart: BattleHud.HeartIcon = BattleHud.HeartIcon.new()
+	heart.custom_minimum_size = Vector2(26, 26)
+	top.add_child(heart)
+	_hp_label = UIKit.label("", &"", 22, UIStyle.PARCHMENT)
+	_hp_label.add_theme_font_override("font", UIStyle.font_title())
+	top.add_child(_hp_label)
+	hp_column.add_child(top)
+	_hp_bar = ProgressBar.new()
+	_hp_bar.custom_minimum_size = Vector2(0, 12)
+	_hp_bar.show_percentage = false
+	hp_column.add_child(_hp_bar)
+	var gold_panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	band.add_child(gold_panel)
+	var gold_row: HBoxContainer = UIKit.hbox(6)
+	gold_panel.add_child(gold_row)
+	gold_row.add_child(CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(26, 26)))
+	var gold: Label = UIKit.label(str(Session.gold), &"", 24, UIStyle.GOLD)
+	gold.add_theme_font_override("font", UIStyle.font_title())
+	gold_row.add_child(gold)
+	var buttons: VBoxContainer = UIKit.vbox(8)
+	buttons.position = Vector2(8.0, 1080.0 - 3.0 * 60.0 - 8.0)
+	add_child(buttons)
+	var rules_button: FancyButton = FancyButton.make("Rules (R)", &"", Vector2(134, 52))
+	rules_button.name = "RulesButton"
+	rules_button.pressed.connect(_toggle_rules)
+	buttons.add_child(rules_button)
+	var deck_button: FancyButton = FancyButton.make("Deck (B)", &"", Vector2(134, 52))
+	deck_button.tooltip_text = "Edit your deck without leaving the dungeon (same rules as town)."
+	deck_button.pressed.connect(_open_deck_builder)
+	buttons.add_child(deck_button)
+	var retreat: FancyButton = FancyButton.make("Retreat", &"DangerButton", Vector2(134, 52))
+	retreat.pressed.connect(_ask_retreat)
+	buttons.add_child(retreat)
+	_info_panel = UIKit.panel()
+	_info_panel.name = "NodeInfo"
+	_info_panel.custom_minimum_size = Vector2(540, 0)
+	_info_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_info_panel.visible = false
+	_info_panel.z_index = 20
+	add_child(_info_panel)
+	var info_column: VBoxContainer = UIKit.vbox(4)
+	_info_panel.add_child(info_column)
+	_info_title = UIKit.label("", &"HeadingLabel", 28)
+	info_column.add_child(_info_title)
+	_info_body = UIKit.rich("", 21)
+	_info_body.custom_minimum_size = Vector2(500, 0)
+	info_column.add_child(_info_body)
+
+
+## Puts the node info next to the hovered node, in the half of the map the node is not in, so it never covers the node itself.
+func _place_info(node: DungeonMap.MapNode) -> void:
+	_info_panel.visible = true
+	_info_panel.reset_size()
+	var anchor: Vector2 = _node_position(node)
+	var x: float = clampf(anchor.x - _info_panel.size.x * 0.5, _art_rect.position.x + 8.0, _art_rect.end.x - _info_panel.size.x - 8.0)
+	var y: float = 70.0 if node.position.y > 0.5 else 1080.0 - _info_panel.size.y - 12.0
+	_info_panel.position = Vector2(x, y)
+
+
+## The rules of this dungeon, shown on demand: the zone effects, the buffs and debuffs of the dungeon itself and the boons earned in this run.
+func _build_art_extras() -> void:
+	_rules_panel = UIKit.panel(&"DarkPanel")
+	_rules_panel.name = "RulesPanel"
+	_rules_panel.position = Vector2(160.0, 120.0)
+	_rules_panel.custom_minimum_size = Vector2(620, 0)
+	_rules_panel.z_index = 30
+	_rules_panel.visible = false
+	add_child(_rules_panel)
+	var column: VBoxContainer = UIKit.vbox(6)
+	_rules_panel.add_child(column)
+	column.add_child(UIKit.label("Rules of %s" % map.dungeon_name, &"HeadingLabel", 26))
+	var zone_id: String = Session.zone_run.zone_id if Session.zone_run != null else ""
+	var effect: ZoneEffects.Effect = ZoneEffects.for_zone(zone_id) if not zone_id.is_empty() else null
+	if effect != null:
+		column.add_child(_rule_label("[+] %s" % effect.buff_line(), Color("9cf5a0")))
+		column.add_child(_rule_label("[-] %s" % effect.debuff_line(), Color("ff9c8f")))
+	for rule: Dictionary in DungeonRules.rules(Session.dungeon_key if (Session.main_dungeon_active or Session.mini_active) else ""):
+		var active: bool = bool(rule["active"])
+		column.add_child(_rule_label("%s %s: %s%s" % ["[*]" if active else "[ ]", rule["name"], rule["text"], "" if active else "  (not enforced yet)"], UIStyle.PARCHMENT if active else Color(UIStyle.PARCHMENT, 0.6)))
+	var boons: Array[ModifierSource] = []
+	for source: ModifierSource in run.dungeon_sources:
+		if source.source_kind == ModifierSource.SourceKind.BOON:
+			boons.append(source)
+	if not boons.is_empty():
+		column.add_child(UIKit.label("Boons", &"HeadingLabel", 22))
+		for boon: ModifierSource in boons:
+			column.add_child(_rule_label(boon.source_name, Color("9cf5a0")))
+
+
+func _rule_label(text: String, color: Color) -> Label:
+	var label: Label = UIKit.label(text, &"", 19, color)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.custom_minimum_size = Vector2(580, 0)
+	return label
+
+
+func _toggle_rules() -> void:
+	if _rules_panel != null:
+		_rules_panel.visible = not _rules_panel.visible
+		Audio.sfx(&"ui_tick", -6.0)
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if key != null and key.pressed and not key.echo and key.keycode == KEY_R and _rules_panel != null and _modal == null:
+		_toggle_rules()
+		get_viewport().set_input_as_handled()

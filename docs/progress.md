@@ -2720,3 +2720,19 @@ Source: `data/source/dungeon_list.csv.csv` (12 dungeons, not 13: D-TUT, the five
   Gerald (S-NECRO: process two roaming staff), Brother Bramble (S-REF: beat two scavengers), Kestrel (S-CAP: reach the resistance hideout), Elder Maren (S-TOWN: find a hidden chest in town). Until then the entrance only says it is sealed and quotes the hook. The five main
   dungeon hooks became dialogue lines on the return visits of Old Man Mountain, Basil, Agnes Overdue, Brother Bramble and Wren while the dungeon is not cleared. (The four older zone quest files `cap_*.tres` differ from their definitions by equipment rewards; they were not regenerated.)
 - Tests: `tests/core/dungeon/test_dungeon_catalog.gd` (15), and the main dungeon, Primm's Castle, mini dungeon and zone tests were updated to the CSV maps. GUT: 1122 tests, all passing.
+
+### Part B: map art
+- `bash tools/import_maps.sh` ("import maps"): copies `G:\My Drive\Card Game Art\Approved_Maps` (path stored in `data/source/art_config.cfg` as `map_dir`; read-only, nothing there was moved, renamed or deleted) to `assets/art/maps/` as WebP (`MapArt`,
+  `core/data/map_art.gd`). **12 images imported, 12 of 12 dungeons covered: no missing Map Image IDs, no unmatched files.** All are 1536x1024 (3:2) and are kept whole (never cropped). Map IDs: MAP-TUT, MAP-HOG, MAP-TTK, MAP-HFA, MAP-ROT, MAP-PC, MAP-S-BEEF,
+  MAP-S-GOUR, MAP-S-NECRO, MAP-S-REF, MAP-S-CAP, MAP-S-TOWN.
+- `DungeonMapScreen` shows each picture as large as fits (1620x1080, a band each side), nodes on top; the old diorama remains only as the fallback for a dungeon with no image. The HUD was rebuilt so nothing covers the art (title plate, side-band HP/gold/buttons, a Rules
+  panel on R, node info floating next to the hovered node, name plates under the nodes).
+- **Node fit** (coordinates in `data/dungeons/map_layout.json`; every node was placed by viewing the painted map with a grid and putting the node on the center of its landing spot, in order along the painted path; verified in-game on screenshots). Mean / max distance of the fitted
+  position from the CSV percentage, in pixels of the 1536x1024 picture: D-TUT 32 / 70 (spots 2, 4 and 5 sat higher than the CSV), D-HOG 19 / 61, D-TTK 22 / 34 (the generator followed the CSV almost exactly), D-HFA 38 / 135 (spots 6 and 9 are higher and 4 lower than the CSV), D-ROT 11 / 36,
+  D-PC 75 / 147 (almost every node moved: the painted castle has a different layout; the CSV had the main road along the bottom), S-BEEF 56 / 87, S-GOUR 94 / 175 (the middle and last spots are lower and farther right), S-NECRO 33 / 65, S-REF 36 / 57, S-CAP 85 / 103, S-TOWN 46 / 83.
+- **Landing-spot mismatches: none in count.** Every map has exactly as many painted landing spots as nodes (6, 13, 13, 14, 13, 22 and 3 each), including D-PC's 10 main spots plus 12 dead-end spots and the dead-end chain 20 -> 21. Two judgment calls in Primm's Castle: the Model Room (node 10) has
+  no empty circle on the painted table platform, so it sits on the landing at the foot of the red staircase up to it, with node 9 (Royal Stair) on the landing before; and the painted order of the middle spots was read from the path layout (spot 6 beside the tall mirror frames is the Ministry of Correction,
+  spot 5 at the mirror panels is the Hall of Mirrors).
+- **Paths between nodes:** logged per map in `map_layout.json`: `highlight` (no lines over the painted paths; only the walked and next path are drawn, straight) on D-TUT, D-HOG, D-TTK, D-HFA, D-ROT, D-PC, S-BEEF, S-GOUR, S-NECRO, S-REF and S-CAP, because their painted paths are clear; `subtle` on
+  S-TOWN, where the bridge between the gate and the banner hall is partly hidden behind walls.
+- Tests: `tests/core/data/test_map_art.gd` (8). GUT: 1130 tests, all passing. Docs: `docs/art/art_pipeline.md` ("Dungeon maps"), `docs/art/art_status.md` ("Dungeon maps"), CLAUDE.md ("import maps"). Dev tool: `bash tools/map_fit_sheet.sh <ID>`.
