@@ -64,6 +64,9 @@ func _build_menu() -> void:
 	var subtitle: Label = UIKit.label("A DECKBUILDER ROLE-PLAYING GAME", &"MutedLabel", 24)
 	subtitle.add_theme_color_override("font_color", UIStyle.PARCHMENT)
 	_menu_column.add_child(subtitle)
+	var version: Label = UIKit.label("v%s" % str(ProjectSettings.get_setting("application/config/version", "0.0.0")), &"MutedLabel", 20)
+	version.name = "VersionLabel"
+	_menu_column.add_child(version)
 	_menu_column.add_child(UIKit.spacer(40))
 	Session.discard_incompatible_save()
 	if Session.has_save():
