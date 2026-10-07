@@ -102,4 +102,5 @@ static func _build() -> void:
 		CosmeticData.make("cloak_leaf", "Leaf Cloak", cloak, "Overlapping leaves that rustle when you walk.", 250, 3).unlocked_by(Condition.zones_completed(1)),
 		CosmeticData.make("cloak_star", "Starfall Cloak", cloak, "Night-blue with a scatter of tiny stars.", 450, 6).unlocked_by(Condition.zones_completed(3)),
 		CosmeticData.make("cloak_scarf", "Long Scarf-Cape", cloak, "A scarf that got ideas above its station.", 130, 8),
+		CosmeticData.make("cloak_four_seals", "Cloak of the Four Seals", cloak, "Four sigils, one for every Path, stitched on a cloak that does not wrinkle.", 0, 6).found_at("A reward for opening the Four-Seal Vault"),
 	]

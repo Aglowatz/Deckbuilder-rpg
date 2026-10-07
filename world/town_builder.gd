@@ -64,6 +64,9 @@ const SCALE: float = 1.8
 
 ## Where the original giant chest stands (hex cell, world coordinates): the end of the peninsula that reaches out from the south-east shore (see MAP row 17).
 const GIANT_CHEST_CELL: Vector2i = Vector2i(18, 12)
+## Brief 16, Group G: the old vault's lever (hex cell) and the mountain cell the new Four-Seal Vault is set into.
+const LEVER_CELL: Vector2i = Vector2i(1, 17)
+const FOUR_SEAL_CELL: Vector2i = Vector2i(0, -3)
 
 const OBSTACLE_TREE: float = 0.32
 const OBSTACLE_ROCK: float = 0.35
@@ -341,10 +344,16 @@ func _build_props() -> void:
 	harbor_chest_node = GiantChestEvent.make_chest(root, chest_pos, 200.0)
 	obstacles.append(Vector3(chest_pos.x, chest_pos.z, 0.5))
 	anchors["chest"] = chest_pos + Vector3(0.0, 0, 1.5)
-	var lever_pos: Vector3 = (anchors.get("vault", Vector3.ZERO) as Vector3) + Vector3(1.4, 0, -0.6)
+	# Brief 16: the old vault's lever now sits far from it (the south-west of the long southern strip), where only an explorer finds it.
+	var lever_pos: Vector3 = cell_center(LEVER_CELL.x, LEVER_CELL.y) + Vector3(0.3, 0, 0.2)
 	ModelKit.place(root, ModelKit.prop("ladder"), lever_pos, 90.0, 1.0)
 	obstacles.append(Vector3(lever_pos.x, lever_pos.z, 0.2))
 	anchors["lever"] = lever_pos + Vector3(0.4, 0, 0.2)
+	# Brief 16: the Four-Seal Vault - a door in the south face of the mountain at FOUR_SEAL_CELL, reached from the open ground south of it.
+	var vault4_mountain: Vector3 = cell_center(FOUR_SEAL_CELL.x, FOUR_SEAL_CELL.y)
+	anchors["vault4_mouth"] = vault4_mountain + Vector3(0, 0, 1.5)
+	anchors["vault4"] = (anchors["vault4_mouth"] as Vector3) + Vector3(0, 0, 1.4)
+	obstacles.append(Vector3(vault4_mountain.x, vault4_mountain.z + 1.5, 1.2))
 	_build_hidden_chests()
 	expansion = TownExpansion.build(root, self)
 	_build_dev_shrine()

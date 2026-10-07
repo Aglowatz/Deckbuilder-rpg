@@ -15,6 +15,7 @@ static func build_all() -> Array[QuestData]:
 	result.append(_clear_the_paths())
 	result.append(_free_the_kingdom())
 	result.append(_oldest_trick())
+	result.append(_four_seals())
 	result.append_array(ZoneQuestDefinitions.build_all())
 	return result
 
@@ -79,5 +80,19 @@ static func _oldest_trick() -> QuestData:
 	quest.objectives = [
 		QuestObjective.make("Open the giant chests", Condition.counter(NinjaBoss.COUNTER_OPENED, NinjaBoss.CHEST_IDS.size())),
 		QuestObjective.make("Face the Master of the Oldest Trick", Condition.flag(str(NinjaBoss.FLAG_DEFEATED))),
+	] as Array[QuestObjective]
+	return quest
+
+
+## Brief 16, Group G: a hidden quest, started by Session.pull_vault_lever the first time any of the four levers is pulled (never auto-given).
+static func _four_seals() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = VaultGuardian.QUEST_ID
+	quest.order = 41
+	quest.title = "The Four Seals"
+	quest.summary = "Far away, a great lock ground open. Somewhere in every Path zone a hidden lever answers a seal on a vault in town. Find them all."
+	quest.objectives = [
+		QuestObjective.make("Find the hidden levers", Condition.counter(VaultGuardian.COUNTER_LEVERS, VaultGuardian.ZONE_IDS.size())),
+		QuestObjective.make("Open the vault and defeat its Warden", Condition.flag(str(VaultGuardian.FLAG_DEFEATED))),
 	] as Array[QuestObjective]
 	return quest

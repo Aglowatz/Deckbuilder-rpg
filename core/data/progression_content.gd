@@ -36,6 +36,7 @@ static func zone_equipment() -> Dictionary:
 	_add(result, _piece("seed_satchel", "Refusemancer Seed Satchel", EquipmentData.Slot.RELIC, "Every pocket holds something that wants to grow. At the start of your turn, your units get +0/+1 permanently.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect_ab(CardEnums.EffectOp.BUFF, 0, 1, CardEnums.TargetKind.ALL_ALLY_UNITS))], true))
 	_add_zone_pieces(result)
 	_add_resource_gear(result)
+	_add_vault_gear(result)
 	ArenaContent.add_equipment(result)
 	return result
 
@@ -186,3 +187,16 @@ static func _add_zone_pieces(result: Dictionary) -> void:
 	var boots: EquipmentData = _piece("compost_boots", "Compost Boots", EquipmentData.Slot.BOOTS, "Whenever a unit of yours dies, your units get +0/+1 permanently.", [_mod_effect(K.ON_ALLY_DEATH_EFFECT, _effect_ab(CardEnums.EffectOp.BUFF, 0, 1, CardEnums.TargetKind.ALL_ALLY_UNITS))], true)
 	boots.flavor_text = "Squelch, squelch, grow. What falls feeds what stands."
 	_add(result, boots)
+
+
+## Brief 16, Group G: the exclusive reward of the Four-Seal Vault (never sold): a relic that holds one of each Path's Resources and a little extra life.
+static func _add_vault_gear(result: Dictionary) -> void:
+	var signet: EquipmentData = _piece("four_seal_signet", "Four-Seal Signet", EquipmentData.Slot.RELIC, "Max HP +3. Start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape.", [
+		_mod(K.MAX_HP, 3),
+		_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.IRON)),
+		_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.INGREDIENT)),
+		_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.GARBAGE)),
+		_mod(K.STARTING_RESOURCES, 1, Modifier.ANY_COLOR, int(ResourceKind.Kind.RED_TAPE)),
+	], true)
+	signet.flavor_text = "Four rings fused into one. Each remembers a Path, and none of them agree on much."
+	_add(result, signet)

@@ -47,6 +47,10 @@ var _station: FastTravelStation
 var _arrived_by_rift: bool = false
 ## Brief 16: this zone's giant chest (Shiro Swindle's trap), null in a zone without one.
 var giant_chest_node: Node3D
+## Brief 16, Group G: this zone's hidden vault lever (null in a zone without one) and the camera shake the lever and other big events use.
+var vault_lever_node: Node3D
+var _cam_shake_power: float = 0.0
+var _cam_shake_time: float = 0.0
 
 
 # ---- Hooks for subclasses --------------------------------------------------------------------
@@ -165,6 +169,7 @@ func _ready() -> void:
 	_build_npcs()
 	_build_spots()
 	_build_giant_chest()
+	_build_vault_lever()
 	_build_fast_travel()
 	ChestKit.apply_saved(builder.chest_nodes, _chest_secret)
 	_build_enemies()
@@ -196,6 +201,8 @@ func _ready() -> void:
 		_screenshot_open.call_deferred(str(_screenshot_args["open"]))
 	if _screenshot_args.has("ninja") and giant_chest_node != null:
 		GiantChestEvent.screenshot_run(self, def.id, giant_chest_node, _screenshot_args)
+	if _screenshot_args.has("lever") and vault_lever_node != null:
+		VaultLeverEvent.screenshot_run(self, def.id, vault_lever_node)
 	Session.save_game()
 
 
@@ -513,6 +520,9 @@ func _update_camera(delta: float) -> void:
 	var target: Vector3 = player.position + camera_offset * Settings.camera_zoom
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.rotation_degrees = Vector3(-atan2(camera_offset.y, camera_offset.z) * 180.0 / PI, 0.0, 0.0)
+	if _cam_shake_time > 0.0:
+		_cam_shake_time = maxf(0.0, _cam_shake_time - delta)
+		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _cam_shake_power * 0.14 * minf(1.0, _cam_shake_time * 3.0)
 
 
 func _update_nearest() -> void:
@@ -672,6 +682,8 @@ func _interact(spot: ZoneSpot) -> void:
 		"freed_npc":
 			_face_npc(str(spot.data["npc"]))
 			_say(str(spot.data["speaker"]), story.get_lines("freed_npc.%s" % str(spot.data["npc"])), Callable(), str(spot.data.get("npc_id", "")))
+		"vault_lever":
+			_pull_vault_lever()
 		"giant_chest":
 			_open_giant_chest()
 		"quiz":
@@ -886,6 +898,36 @@ func _animate_chest(id: String) -> void:
 	Audio.sfx(&"coins", 0.0, 0.05)
 	ChestKit.open_animated(builder.chest_nodes.get(id) as Node3D)
 
+
+
+# ---- The hidden vault lever (brief 16, Group G) ------------------------------------------------------------------------
+
+
+## Builds this zone's vault lever where the layout's `vault_lever` anchor says: tucked away, no marker, no plate - only the prompt close up.
+func _build_vault_lever() -> void:
+	if not builder.has_anchor("vault_lever") or not VaultGuardian.is_lever_zone(def.id):
+		return
+	var pos: Vector3 = builder.anchor("vault_lever")
+	pos.y = builder.height_at(pos)
+	vault_lever_node = LeverKit.build(VaultLeverEvent.seal_color(def.id))
+	add_child(vault_lever_node)
+	vault_lever_node.position = pos
+	vault_lever_node.rotation_degrees.y = 180.0
+	builder.add_blocker(pos, 0.45)
+	LeverKit.set_pulled(vault_lever_node, Session.vault_lever_pulled(def.id))
+	_add_spot("vault_lever", "", pos, LeverKit.PROMPT_RADIUS, "Pull the lever", false, "vault_lever", {"hidden": true})
+
+
+func _pull_vault_lever() -> void:
+	if vault_lever_node == null:
+		return
+	VaultLeverEvent.play(self, def.id, vault_lever_node)
+
+
+## A short camera shake (`power` ~0.5-1.5, `seconds`).
+func shake_camera(power: float, seconds: float) -> void:
+	_cam_shake_power = power
+	_cam_shake_time = seconds
 
 
 # ---- Shiro Swindle's giant chest (brief 16, Group B) -----------------------------------------------------------------

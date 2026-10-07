@@ -1359,6 +1359,110 @@ func apply_ninja_win() -> Dictionary:
 	return {"won": true, "first_win": true, "gold_returned": returned, "packs": packs}
 
 
+# ---- The Four-Seal Vault (brief 16, Group G) --------------------------------------------------
+
+## Set by _complete_vault_challenge, read once by TownScene._ready() to show the post-fight dialogue and the rewards, then cleared.
+var pending_vault_result: Dictionary = {}
+
+
+func vault_levers_pulled() -> int:
+	return VaultGuardian.levers_pulled(flags)
+
+
+func vault_lever_pulled(zone_id: String) -> bool:
+	return flag(VaultGuardian.flag_for(zone_id))
+
+
+func vault_unlocked() -> bool:
+	return VaultGuardian.all_pulled(flags)
+
+
+func vault_defeated() -> bool:
+	return flag(VaultGuardian.FLAG_DEFEATED)
+
+
+## Pulls the lever hidden in zone `zone_id`: records it, adds the hidden quest on the first one and counts it. Returns {"zone", "count", "all", "first"}; {} when it was already pulled.
+func pull_vault_lever(zone_id: String) -> Dictionary:
+	if not VaultGuardian.is_lever_zone(zone_id) or vault_lever_pulled(zone_id):
+		return {}
+	var first: bool = vault_levers_pulled() == 0
+	if first:
+		start_quest(VaultGuardian.QUEST_ID)
+	set_flag(VaultGuardian.flag_for(zone_id))
+	bump_counter(VaultGuardian.COUNTER_LEVERS)
+	save_game()
+	var count: int = vault_levers_pulled()
+	return {"zone": zone_id, "count": count, "all": count == VaultGuardian.ZONE_IDS.size(), "first": first}
+
+
+## The duel against the Warden on the town battleboard, using the player's real deck at full HP.
+func make_vault_battle() -> BattleContext:
+	ensure_game()
+	var options: GameOptions = GameOptions.new()
+	options.first_player = -1
+	options.rng_seed = rng.randi() % 1000000 + 1
+	var game: GameState = GameState.new(options)
+	game.add_player(PlayerSetup.create(deck, profile, [] as Array[ModifierSource], "You"))
+	game.add_player(VaultGuardian.enemy_setup(content))
+	game.start()
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(VaultGuardian.personality(content))
+	context.enemy_name = VaultGuardian.DISPLAY_NAME
+	context.is_boss = true
+	context.is_vault_boss = true
+	context.board_key = "town"
+	return context
+
+
+func challenge_vault_guardian() -> void:
+	start_battle(make_vault_battle())
+
+
+func _complete_vault_challenge(context: BattleContext) -> void:
+	pending_vault_result = {"won": context.won, "first_win": false}
+	if context.won and not vault_defeated():
+		pending_vault_result = apply_vault_win()
+	save_game()
+	SceneManager.go_to_town()
+
+
+## The first win over the Warden: 4 Gilded Packs (one per Path), 40 essence of every Path, the exclusive Four-Seal Signet, the Cloak of the Four Seals and a big XP bonus.
+func apply_vault_win() -> Dictionary:
+	var packs: Array[String] = []
+	for path: Affinity.Type in Affinity.colored_types():
+		var pack_id: String = PackRules.gilded_pack_id(path)
+		if add_pack(pack_id, VaultGuardian.REWARD_PACKS_PER_PATH):
+			packs.append(pack_id)
+		profile.add_essence(path, VaultGuardian.REWARD_ESSENCE_PER_PATH)
+	var result: Dictionary = {"won": true, "first_win": true, "packs": packs, "essence_each": VaultGuardian.REWARD_ESSENCE_PER_PATH, "xp": VaultGuardian.REWARD_XP}
+	var summary: RewardSummary = RewardSummary.new()
+	summary.title = "The Four-Seal Vault"
+	summary.subtitle = "The Warden is beaten. Everything it kept is yours."
+	for pack_id: String in packs:
+		var pack: PackData = PackCatalog.find(pack_id)
+		summary.add_pack(pack_id, pack.display_name if pack != null else pack_id)
+	summary.unlocks.append("+%d essence of every Path" % VaultGuardian.REWARD_ESSENCE_PER_PATH)
+	var signet: EquipmentData = VaultGuardian.reward_equipment(content)
+	if signet != null and grant_equipment(signet):
+		result["equipment"] = signet.source_name
+		summary.equipment.append(signet)
+	if grant_cosmetic(VaultGuardian.REWARD_COSMETIC_ID):
+		result["cosmetic"] = CosmeticCatalog.find(VaultGuardian.REWARD_COSMETIC_ID).display_name
+		summary.cosmetics.append(str(result["cosmetic"]))
+	var gained: Array[LevelData] = add_xp(VaultGuardian.REWARD_XP)
+	pending_level_ups.append_array(gained)
+	result["levels_gained"] = gained
+	summary.xp = VaultGuardian.REWARD_XP
+	for row: LevelData in gained:
+		summary.levels_reached.append(row.level)
+	result["summary"] = summary
+	set_flag(VaultGuardian.FLAG_DEFEATED)
+	refresh_quests()
+	EventBus.collection_changed.emit()
+	return result
+
+
 # ---- Quests (brief 5, Part B) -------------------------------------------------------------
 
 var _refreshing_quests: bool = false
@@ -2222,6 +2326,9 @@ func complete_battle(context: BattleContext) -> void:
 		return
 	if context.is_ninja_boss:
 		_complete_ninja_challenge(context)
+		return
+	if context.is_vault_boss:
+		_complete_vault_challenge(context)
 		return
 	if not in_dungeon():
 		SceneManager.go_to_town()

@@ -92,6 +92,8 @@ var _locked: bool = false
 var _station: FastTravelStation
 var _arrived_by_rift: bool = false
 var _hidden_chest_near: String = ""
+## Brief 16, Group G: the Four-Seal Vault (door, four seals) built from the save's lever flags.
+var four_seal_vault: Node3D
 ## Brief 16, Group D: the camera pulls back as the hero nears a zone passageway, to show the bridge and the land it leads to (1.0 = normal).
 var _passage_boost: float = 1.0
 var _passage_dir: Vector3 = Vector3.ZERO
@@ -120,6 +122,8 @@ func _ready() -> void:
 		var zone_count: int = int(_screenshot_args.get("zones", 0))
 		for zone_id: String in ZoneDefs.ids().slice(0, zone_count):
 			Session.complete_zone(zone_id)
+		for lever_zone: String in str(_screenshot_args.get("levers", "")).split(",", false):
+			Session.pull_vault_lever(lever_zone)
 		if _screenshot_args.has("decks"):
 			Session.new_saved_deck("Quick Aggro", ["BAS-B", "BAS-B", "BAS-B", "B-01", "B-01"] as Array[String])
 			Session.new_saved_deck("Old Necro Deck", ["BAS-N", "N-28", "N-28", "N-17"] as Array[String])
@@ -191,6 +195,7 @@ func _ready() -> void:
 	_show_npc_result.call_deferred()
 	_show_graveyard_result.call_deferred()
 	_show_ninja_result.call_deferred()
+	_show_vault_result.call_deferred()
 	if _screenshot_args.has("slots"):
 		_screenshot_slots.call_deferred(str(_screenshot_args["slots"]))
 	if _screenshot_args.has("ninja"):
@@ -388,6 +393,8 @@ func _build_spots() -> void:
 	_add_spot("chest", "A Hidden Chest", town.anchors["chest"] as Vector3, 1.3)
 	_add_spot("lever", "An Old Lever", town.anchors["lever"] as Vector3, 1.2)
 	_add_spot("vault", "The Sealed Vault", town.anchors["vault"] as Vector3, 1.8)
+	_add_spot("vault4", "The Four-Seal Vault", town.anchors["vault4"] as Vector3, 2.2)
+	four_seal_vault = FourSealVault.build(self, town.anchors["vault4_mouth"] as Vector3)
 	# Fourth brief, Part F: The Restless Cairn - the Graveyard's scripted-battle trigger. Unlike
 	# the hidden chests, this one DOES get the normal marker/name-plate treatment (a Spot) - it's
 	# meant to be found, not stumbled on; the challenge is the fight, not finding it.
@@ -693,6 +700,8 @@ func _prompt_text(spot: Spot) -> String:
 			return "Pray at the Dev Shrine (+1 level)"
 		"vault":
 			return "Open the vault" if Session.flag(VAULT_LEVER_FLAG) else "Try the sealed door"
+		"vault4":
+			return "Open the Four-Seal Vault" if Session.vault_unlocked() and not Session.vault_defeated() else "Examine the vault door"
 		"graveyard_cairn":
 			return "Disturb the cairn"
 		"rift_station":
@@ -794,6 +803,8 @@ func _interact(spot: Spot) -> void:
 			_use_dev_shrine()
 		"vault":
 			_open_vault()
+		"vault4":
+			_open_four_seal_vault()
 		"hidden_vendor":
 			_talk_hidden_vendor()
 		"item_vendor":
@@ -1183,6 +1194,42 @@ func _start_ninja_fight() -> void:
 		Session.challenge_ninja(), CONNECT_ONE_SHOT)
 
 
+## The Four-Seal Vault door: sealed until all four hidden levers (one per Path zone) are pulled, then the Warden's duel; empty once it is beaten.
+func _open_four_seal_vault() -> void:
+	player.face(town.anchors["vault4_mouth"] as Vector3)
+	if Session.vault_defeated():
+		hud.toast(VaultGuardian.EMPTY_LINES[0], UIStyle.MUTED)
+		return
+	if not Session.vault_unlocked():
+		Audio.sfx(&"ui_error")
+		var lines: Array[String] = VaultGuardian.SEALED_LINES.duplicate()
+		lines.append("%d of 4 seals are broken." % Session.vault_levers_pulled())
+		dialogue.start("", lines)
+		return
+	_locked = true
+	player.input_enabled = false
+	dialogue.start(VaultGuardian.DISPLAY_NAME, VaultGuardian.BEFORE_LINES, VaultGuardian.NPC_ID)
+	dialogue.finished.connect(func() -> void:
+		Session.save_game()
+		Session.challenge_vault_guardian(), CONNECT_ONE_SHOT)
+
+
+## Shown once after the duel: the Warden's lines, and on a first win the reward box (4 Gilded Packs, essence, the Four-Seal Signet, a cloak, XP).
+func _show_vault_result() -> void:
+	if Session.pending_vault_result.is_empty():
+		return
+	var result: Dictionary = Session.pending_vault_result
+	Session.pending_vault_result = {}
+	var won: bool = bool(result.get("won", false))
+	dialogue.start(VaultGuardian.DISPLAY_NAME, VaultGuardian.WIN_LINES if won else VaultGuardian.LOSE_LINES, VaultGuardian.NPC_ID)
+	if bool(result.get("first_win", false)):
+		var summary: RewardSummary = result.get("summary") as RewardSummary
+		dialogue.finished.connect(func() -> void:
+			Audio.sfx(&"victory", -6.0)
+			if summary != null:
+				_show_reward_box(summary), CONNECT_ONE_SHOT)
+
+
 ## Shown once after the duel: his post-fight lines, and on a first win what he gave back (gold, three Gilded Packs).
 func _show_ninja_result() -> void:
 	if Session.pending_ninja_result.is_empty():
@@ -1287,7 +1334,7 @@ func _pull_lever() -> void:
 func _open_vault() -> void:
 	player.face(town.anchors["vault"] as Vector3)
 	if not Condition.met(_vault_condition(), Session.unlock_state()):
-		hud.toast("Sealed. Somewhere nearby, an old lever might help.", Color("ffcf70"))
+		hud.toast("Sealed. Somewhere in the town, an old lever might help.", Color("ffcf70"))
 		Audio.sfx(&"ui_error")
 		return
 	if Session.flag(&"vault_opened"):
@@ -1775,7 +1822,7 @@ func _open_packs() -> void:
 ## Hidden things and vendors whose stock is not open yet carry no name plate and no map icon: a locked shop does not announce itself.
 func _spot_is_named(id: String) -> bool:
 	match id:
-		"chest", "lever":
+		"chest", "lever", "vault4":
 			return false
 		"alchemist":
 			return Session.alchemist_unlocked()

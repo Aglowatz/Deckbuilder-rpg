@@ -40,7 +40,7 @@ func test_secrets_are_not_sold_and_have_a_hint() -> void:
 		if not item.is_for_sale():
 			secrets += 1
 			assert_ne(item.secret_hint, "", "%s says where it hides" % item.id)
-	assert_eq(secrets, 3, "three special cosmetics hidden around the world")
+	assert_eq(secrets, 4, "four special cosmetics hidden around the world (the fourth is the Four-Seal Vault's cloak)")
 
 
 func test_state_owns_equips_and_dyes() -> void:

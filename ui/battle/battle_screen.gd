@@ -162,6 +162,8 @@ func _ready() -> void:
 	if context == null:
 		if str(_screenshot_args.get("ninja", "false")) == "true":
 			context = Session.make_ninja_battle()
+		elif str(_screenshot_args.get("vault", "false")) == "true":
+			context = Session.make_vault_battle()
 		else:
 			context = Session.make_practice_battle(str(_screenshot_args.get("enemy", "Cave Scavenger")))
 			context.zone_id = str(_screenshot_args.get("zone", ""))
@@ -1056,7 +1058,7 @@ func _toast(message: String) -> void:
 
 
 func _build_refuse_piles() -> void:
-	var spots: Array[Vector2] = [Vector2(340, 884), Vector2(340, 20)]
+	var spots: Array[Vector2] = [Vector2(340, 884), Vector2(520, 20)]
 	for index: int in range(2):
 		var widget: RefusePileWidget = RefusePileWidget.new()
 		_board_root.add_child(widget)

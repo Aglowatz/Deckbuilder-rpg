@@ -364,3 +364,28 @@ A 2 m wide gap through the city wall, **far along the LEFT-hand (west) side of t
 No marker, no sign, no map icon, no prompt. The only hints are visual: two thin dark **cracks** climbing the wall face either side of the gap, a few **loose stones** fallen at its foot and three clumps of **dry scrub** half-hiding the opening (scrub does not block walking).
 Walking through sets the secret `capital_wall_passage` (toast: "You squeeze through a gap in the wall, right past the gate guards.") and the usual inside-the-walls changes (the bright Neatropolis look, the `cap_inside` flag) apply by position as for the gate.
 It is separate from the Old Service Tunnels (S-CAP, which comes up in the Crease). Code: `CapitalLayout.PASSAGE_X0/PASSAGE_W`, props `wall_crack`, `loose_stones`, `scrub` (`world/capital/capital_props.gd`); tests: `tests/core/zone/test_capital_wall_passage.gd`.
+
+## Brief 16, Group G: the Four-Lever Vault (spoilers)
+
+**The old vault's lever moved.** The original sealed vault (the `X` castle building, reward card B-27) keeps its logic, but its lever (the "ladder" prop) is no longer beside it: it now stands in the far south-west of the long southern strip of the town (hex (1, 17), near the Arena), 25+ m from the vault. The vault's hint now says "Somewhere in the town, an old lever might help."
+
+**The Four-Seal Vault (new).** A stone door with four seal discs set at the north-west shore of the north uplands (hex (0, -3), a few steps from the Capital's entrance). No marker, no plate, no map icon; the prompt says "Examine the vault door". Each seal is dark until its lever is pulled, then glows in its Path colour
+(red Gainlands, green Endless Buffet... in the door's order: Gainlands, Endless Buffet, Verdant Dump, D.N.A.); with all four lit the door itself glows. After the Warden falls the door slides down for good ("The vault stands open...").
+
+**The four hidden levers** (one per Path zone; a small stone-and-iron lever box with a coloured knob, no marker, `[E] Pull the lever` only within 1.5 m):
+
+| Zone | Where | Why it is hard to find |
+|------|-------|------------------------|
+| The Gainlands (`beefcake`) | (88.8, 55.2): the far east rim of the main land, beside the giant hamster wheel | Off every path and every sign, 39 m from the hub |
+| The Endless Buffet (`gourmand`) | (86.4, 74.4): the far south-east corner of the table | 37 m from the spawn, along the table edge |
+| The Verdant Dump (`refusemancer`) | (80.4, 69.0): half buried on the east side of the heap | 30 m from the spawn, behind the scree |
+| The D.N.A. (`necrocrat`) | (7.2, 42.6): the far west end of the office | 40 m from the spawn, beyond the cubicle farm |
+
+Pulling one plays a heavy mechanical clunk (`lever_clunk`), a short screen shake, then a grinding rumble (`vault_grind`, synthesized) with a cutaway card over the world showing the four seals (the new one flashing) and "Far away, a great lock grinds open... (n/4)". The first lever adds the hidden quest **The Four Seals** to the log
+("Find the hidden levers n/4", then "Open the vault and defeat its Warden"). Levers can be pulled in any order; each works once; the lever states are saved as flags `vault_lever_<zone>` plus the `vault_levers_pulled` counter.
+
+**The Warden of the Four Seals** (`NPC-VAULTWARDEN`, placeholder portrait): with all four seals broken, using the door starts the duel on the town battleboard. EXTREMELY hard: **40 HP** (the next strongest duel in the game is about 20), a 45-card four-Path deck of every Path's heaviest cards and removal
+(Beefy Bouncer, Portal-Ripping Titan, Cullinator, Head Health Inspector, Lich of Accounts Payable, Mass Layoffs, Unconscionable Contract, Mount Trashmore, Archdruid Compostella, Champion of the Four Paths...) played by the Aggressive AI, **and at the start of each of its own turns a stronger unit joins it** (Zombie Rat, Poo Golem, Cake Golem, Chef's Masterpiece Golem, Protein Golem, Wedding Cake Colossus).
+Losing changes nothing (retry any time).
+
+**Rewards (first win, what I chose and why):** one **Gilded Pack of every Path** (4 packs), **40 essence of every Path**, the exclusive relic **Four-Seal Signet** (Max HP +3, start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape - an item for a four-Path player), the exclusive **Cloak of the Four Seals** cosmetic, and **+600 XP**. No new cards were created.

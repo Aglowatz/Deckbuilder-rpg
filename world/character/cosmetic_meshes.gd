@@ -168,6 +168,8 @@ static func build_cloak(item_id: String, dye_index: int) -> Node3D:
 			spec = {"segments": 3, "length": 0.8, "w_top": 0.76, "w_bottom": 1.0, "curve": 0.15, "color": primary, "hem": primary.darkened(0.2), "leaves": true}
 		"cloak_star":
 			spec = {"segments": 3, "length": 0.95, "w_top": 0.78, "w_bottom": 1.12, "curve": 0.16, "color": primary.darkened(0.22), "hem": secondary, "stars": true}
+		"cloak_four_seals":
+			spec = {"segments": 3, "length": 1.0, "w_top": 0.8, "w_bottom": 1.2, "curve": 0.18, "color": primary.darkened(0.15), "hem": secondary, "patches": true}
 		"cloak_scarf":
 			spec = {"segments": 5, "length": 1.1, "w_top": 0.2, "w_bottom": 0.24, "curve": 0.0, "color": primary, "hem": secondary, "scarf": true}
 		_:
@@ -265,7 +267,7 @@ static func _build_root_pieces(root: Node3D, item_id: String, primary: Color, se
 	var mesh: ProcMesh = ProcMesh.new()
 	var gold: Color = Color("f2c13c")
 	match item_id:
-		"cloak_short", "cloak_traveler", "cloak_patchwork", "cloak_tattered", "cloak_leaf", "cloak_star":
+		"cloak_short", "cloak_traveler", "cloak_patchwork", "cloak_tattered", "cloak_leaf", "cloak_star", "cloak_four_seals":
 			mesh.sphere(Vector3(0, 0.0, 0.0), 0.075, 3, 8, gold, Transform3D(Basis.IDENTITY, Vector3(0.0, 0.0, 0.3)))
 			mesh.frustum(-0.06, 0.03, 0.4, 0.38, 12, secondary, Transform3D(Basis.IDENTITY, Vector3(0.0, 0.0, 0.32)), false, false, 0.78)
 		"cloak_hooded":

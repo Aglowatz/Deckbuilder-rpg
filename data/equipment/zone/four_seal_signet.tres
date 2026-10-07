@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_eq6m2"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_juqm8"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_xmd1d"]
+
+[sub_resource type="Resource" id="Resource_uxcpb"]
+script = ExtResource("1_eq6m2")
+value = 3
+
+[sub_resource type="Resource" id="Resource_sy0bc"]
+script = ExtResource("1_eq6m2")
+kind = 33
+value = 1
+
+[sub_resource type="Resource" id="Resource_cp8xc"]
+script = ExtResource("1_eq6m2")
+kind = 33
+value = 1
+value2 = 3
+
+[sub_resource type="Resource" id="Resource_0s4k1"]
+script = ExtResource("1_eq6m2")
+kind = 33
+value = 1
+value2 = 4
+
+[sub_resource type="Resource" id="Resource_for2s"]
+script = ExtResource("1_eq6m2")
+kind = 33
+value = 1
+value2 = 1
+
+[resource]
+script = ExtResource("3_xmd1d")
+id = "four_seal_signet"
+description = "Max HP +3. Start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape."
+advanced = true
+flavor_text = "Four rings fused into one. Each remembers a Path, and none of them agree on much."
+source_name = "Four-Seal Signet"
+modifiers = Array[ExtResource("1_eq6m2")]([SubResource("Resource_uxcpb"), SubResource("Resource_sy0bc"), SubResource("Resource_cp8xc"), SubResource("Resource_0s4k1"), SubResource("Resource_for2s")])
