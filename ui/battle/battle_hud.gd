@@ -152,7 +152,7 @@ func _build_side_panel() -> void:
 		var row: HBoxContainer = UIKit.hbox(8)
 		row.alignment = BoxContainer.ALIGNMENT_CENTER
 		counter.add_child(row)
-		var label: Label = UIKit.label("Deck 0   Refuse 0", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		var label: Label = UIKit.label("Deck 0", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 		row.add_child(label)
 		_counts.append(label)
 
@@ -210,7 +210,7 @@ func refresh_all() -> void:
 		var player: PlayerState = game.players[index]
 		_portraits[index].set_hp(player.hp, false)
 		_portraits[index].set_infrastructure(player.infrastructure)
-		_counts[index].text = "Deck %d    Refuse %d" % [player.deck.size(), player.refuse_pile.size()]
+		_counts[index].text = "Deck %d" % player.deck.size()
 	_turn_label.text = "Turn %d" % maxi(game.turn, 1)
 	_set_phase(int(game.phase) if game.stage == GameState.Stage.PLAYING else -1)
 	_turn_sub.text = ""
@@ -252,7 +252,7 @@ func on_event(event: GameEvent) -> void:
 		GameEvent.Type.CARD_DRAWN, GameEvent.Type.CARD_TOSSED, GameEvent.Type.UNIT_DIED, GameEvent.Type.CARD_BURIED:
 			for index: int in range(2):
 				var player: PlayerState = game.players[index]
-				_counts[index].text = "Deck %d    Refuse %d" % [player.deck.size(), player.refuse_pile.size()]
+				_counts[index].text = "Deck %d" % player.deck.size()
 
 
 func _set_phase(index: int) -> void:

@@ -58,6 +58,8 @@ var _chain_active: bool = false
 var _chain_source: int = 0
 var _chain_done: Callable = Callable()
 var _toast_label: Label
+var refuse_widgets: Array[RefusePileWidget] = []
+var refuse_viewer: RefusePileViewer
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -104,6 +106,56 @@ func _screenshot_give(spec: String) -> void:
 	board.layout(false)
 
 
+## Screenshot/dev helper: `--bury=0:N-07,N-07;1:C-25` fills Refuse Piles, `--hand=N-17,N-28` adds cards to your hand, `--energy=1` gives
+## you every basic infrastructure, `--play=N-17` plays that hand card as the mouse would (opening the targeting viewer),
+## `--pick=0` then chooses the Nth legal pile card, `--viewer=0|1` opens the browse viewer on that pile. Runs once the board has settled.
+func _screenshot_scenario() -> void:
+	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer"]
+	var wanted: bool = false
+	for key: String in keys:
+		wanted = wanted or _screenshot_args.has(key)
+	if not wanted:
+		return
+	await get_tree().create_timer(2.5).timeout
+	if _mulligan_panel != null:
+		_mulligan_choice(true)
+		await get_tree().create_timer(2.5).timeout
+	for part: String in str(_screenshot_args.get("bury", "")).split(";", false):
+		var halves: PackedStringArray = part.split(":")
+		for id: String in halves[1].split(",", false):
+			var card: CardData = load("res://data/cards/%s.tres" % id) as CardData
+			game.players[int(halves[0])].refuse_pile.append(game.create_instance(card, int(halves[0])))
+	for id: String in str(_screenshot_args.get("hand", "")).split(",", false):
+		var card: CardData = load("res://data/cards/%s.tres" % id) as CardData
+		game.players[0].hand.append(game.create_instance(card, 0))
+	if _screenshot_args.has("energy"):
+		for number: int in range(1, 12):
+			var infra: CardData = load("res://data/cards/INF-%02d.tres" % number) as CardData
+			if infra != null:
+				game.players[0].infrastructure.append(game.create_instance(infra, 0))
+	board.register_all()
+	board.sync_state(false)
+	board.layout(false)
+	hud.refresh_all()
+	_refresh_piles()
+	_refresh_ui()
+	await get_tree().create_timer(0.6).timeout
+	if _screenshot_args.has("play"):
+		for card: CardInstance in game.players[0].hand:
+			if card.data.id == str(_screenshot_args["play"]):
+				_try_play(card.uid)
+				break
+		await get_tree().create_timer(0.6).timeout
+	if _screenshot_args.has("pick") and refuse_viewer.targeting:
+		var nth: int = int(_screenshot_args["pick"])
+		if nth >= 0 and nth < _target_options.size():
+			_finish_targeting(_target_options[nth])
+		await get_tree().create_timer(1.5).timeout
+	if _screenshot_args.has("viewer"):
+		var piles: Array[int] = [int(_screenshot_args["viewer"])]
+		refuse_viewer.open_browse(piles)
+
+
 func _ready() -> void:
 	SceneManager.pause_allowed = true
 	context = Session.pending_battle
@@ -117,6 +169,7 @@ func _ready() -> void:
 	_build_scene()
 	_screenshot_give(str(_screenshot_args.get("give", "")))
 	_screenshot_hover(str(_screenshot_args.get("hover", "")))
+	_screenshot_scenario()
 	game.event_emitted.connect(_on_game_event)
 	var bot_turns: int = int(_screenshot_args.get("bot", 0))
 	if bot_turns > 0:
@@ -189,6 +242,7 @@ func _build_scene() -> void:
 		_board_root.add_child(item_bar)
 		item_bar.setup(game, Session.profile)
 		item_bar.item_pressed.connect(_on_item_pressed)
+	_build_refuse_piles()
 	_overlay_layer = Control.new()
 	UIKit.full_rect(_overlay_layer)
 	_overlay_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -239,6 +293,7 @@ func _drive() -> void:
 		await _play_new_events()
 		board.sync_state()
 		hud.refresh_all()
+		_refresh_piles()
 		if item_bar != null:
 			item_bar.refresh()
 		_refresh_resource_tokens()
@@ -273,6 +328,7 @@ func _play_new_events() -> void:
 		var event: GameEvent = game.events[_event_cursor]
 		_event_cursor += 1
 		hud.on_event(event)
+		_refresh_piles()
 		await board.present(event)
 		if tutorial != null:
 			tutorial.on_battle_event(event)
@@ -348,6 +404,7 @@ func _clear_selection_state() -> void:
 	_dragging = false
 	fx.clear_arrows()
 	hud.set_portrait_targets(false, false)
+	_sync_pile_viewer()
 
 
 # ---- Human decision modes ---------------------------------------------------------------
@@ -456,6 +513,7 @@ func _refresh_ui() -> void:
 	hud.end_turn_button.visible = end_visible
 	hud.attack_all_button.visible = mode == Mode.ATTACK
 	hud.set_prompt(prompt)
+	_sync_pile_viewer()
 	_update_arrows()
 
 
@@ -988,6 +1046,90 @@ func _toast(message: String) -> void:
 	var tween: Tween = create_tween()
 	tween.tween_interval(1.0)
 	tween.tween_property(_toast_label, "modulate:a", 0.0, 0.4)
+
+
+
+# ---- Refuse Piles (viewer and pile targeting) ------------------------------------------------
+
+
+func _build_refuse_piles() -> void:
+	var spots: Array[Vector2] = [Vector2(340, 884), Vector2(340, 20)]
+	for index: int in range(2):
+		var widget: RefusePileWidget = RefusePileWidget.new()
+		_board_root.add_child(widget)
+		widget.setup(index)
+		widget.position = spots[index]
+		widget.pressed.connect(_on_pile_pressed)
+		refuse_widgets.append(widget)
+		board.grave_anchor[index] = spots[index] + Vector2(8, 26) + CardView.SIZE * RefusePileWidget.CARD_SCALE * 0.5
+	refuse_viewer = RefusePileViewer.new()
+	add_child(refuse_viewer)
+	refuse_viewer.setup(game)
+	refuse_viewer.card_chosen.connect(func(uid: int) -> void:
+		if mode == Mode.TARGETING and not busy:
+			_finish_targeting(uid)
+	)
+	refuse_viewer.done_pressed.connect(_on_primary)
+	refuse_viewer.cancel_pressed.connect(_cancel_targeting)
+	_refresh_piles()
+
+
+func _refresh_piles() -> void:
+	for index: int in range(refuse_widgets.size()):
+		refuse_widgets[index].show_pile(game.players[index].refuse_pile)
+
+
+func _on_pile_pressed(player_index: int) -> void:
+	if mode == Mode.TARGETING and _options_in_refuse_piles():
+		_sync_pile_viewer()
+		return
+	var piles: Array[int] = [player_index]
+	refuse_viewer.open_browse(piles)
+
+
+func _in_refuse_pile(uid: int) -> bool:
+	for player: PlayerState in game.players:
+		for card: CardInstance in player.refuse_pile:
+			if card.uid == uid:
+				return true
+	return false
+
+
+func _options_in_refuse_piles() -> bool:
+	for uid: int in _target_options:
+		if uid > 0 and _in_refuse_pile(uid):
+			return true
+	return false
+
+
+## While an effect needs cards from a Refuse Pile the viewer shows it in targeting mode (legal cards glow); in every other
+## state a targeting viewer closes.
+func _sync_pile_viewer() -> void:
+	if refuse_viewer == null:
+		return
+	var wants: bool = mode == Mode.TARGETING and _options_in_refuse_piles()
+	for index: int in range(refuse_widgets.size()):
+		var holds: bool = false
+		if wants:
+			for card: CardInstance in game.players[index].refuse_pile:
+				if _target_options.has(card.uid):
+					holds = true
+		refuse_widgets[index].set_targetable(holds)
+	if not wants:
+		if refuse_viewer.targeting:
+			refuse_viewer.targeting = false
+			refuse_viewer.close()
+		return
+	var picked: Array[int] = [] as Array[int]
+	var max_count: int = 1
+	var prompt: String = "[b]Choose a card in the Refuse Pile[/b]  Click a highlighted card."
+	if _chain_active and _chain_pos < _chain_steps.size():
+		var step: Dictionary = _chain_steps[_chain_pos]
+		picked = step["picked"] as Array[int]
+		max_count = int(step["max"])
+		if max_count > 1:
+			prompt = "[b]Choose up to %d cards in the Refuse Pile[/b]  Click highlighted cards, then Done." % max_count
+	refuse_viewer.open_targeting(_target_options, picked, max_count, prompt, true)
 
 
 # ---- Targeting --------------------------------------------------------------------------
