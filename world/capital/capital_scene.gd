@@ -526,6 +526,11 @@ func _apply_pending_result() -> void:
 			hud.toast(StoryText.shared().text("pack.reward.primm") % pack_text, UIStyle.GOLD)
 		Session.pending_ending_packs = []
 		return
+	if bool(result.get("secret_way", false)) and not bool(result.get("woke_at_hub", false)):
+		# Cleared the Old Service Tunnels: the secret way into the Capital comes out in the Crease.
+		super()
+		_say("", story.get_lines("fx.old_tunnels_way_in"), func() -> void: _travel_to(builder.anchor("crease_spawn")))
+		return
 	if bool(result.get("gate_opened", false)) and not bool(result.get("woke_at_hub", false)):
 		_say("Captain Spotless", story.get_lines("npc.gate_captain.defeated"))
 	super()

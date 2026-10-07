@@ -87,3 +87,34 @@ func test_losing_wakes_at_the_hub_for_a_fee() -> void:
 	assert_eq(Session.zone_run.hp, Session.zone_run.max_hp())
 	assert_eq(Session.gold, 50 - ZoneRun.PAPERWORK_FEE)
 	assert_false(Session.mini_active)
+
+
+func test_the_old_service_tunnels_are_the_secret_way_into_the_capital() -> void:
+	Session.zone_run = ZoneRun.enter(CapitalZone.ID, Session.profile, Session.deck)
+	Session.dungeon_key = "S-CAP"
+	Session.dungeon_map = MainDungeons.build_map("S-CAP")
+	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
+	Session.mini_active = true
+	assert_false(Session.flag(CapitalZone.FLAG_INSIDE))
+	var result: Dictionary = Session.resolve_mini_dungeon(true)
+	assert_true(bool(result.get("secret_way", false)), "clearing the tunnels is the way in")
+	assert_true(Session.flag(CapitalZone.FLAG_INSIDE) and Session.flag(CapitalZone.FLAG_HUB_KNOWN) and Session.flag(CapitalZone.FLAG_TUNNEL_FOUND))
+	assert_eq(Session.owned_count("C-29"), 1, "and the unique card The Wanderer")
+	assert_false(ZoneStoryText.for_zone(CapitalZone.ID).text("fx.old_tunnels_way_in").begins_with("[missing"))
+
+
+func test_every_side_dungeon_is_sealed_until_its_quest_is_done() -> void:
+	for dungeon_id: String in ZoneQuestDefinitions.SIDE_QUESTS.keys():
+		assert_false(Session.side_unlocked(dungeon_id), "%s starts sealed" % dungeon_id)
+		var quest: QuestData = QuestCatalog.find(str(ZoneQuestDefinitions.SIDE_QUESTS[dungeon_id]))
+		assert_not_null(quest, "%s has its quest" % dungeon_id)
+		if quest == null:
+			continue
+		assert_eq(quest.reward_unlock_flags, [str(DungeonCatalog.side_unlock_flag(dungeon_id))] as Array[String], "finishing it unlocks the dungeon")
+		assert_false(quest.giver_npc.is_empty())
+		assert_false(DungeonCatalog.text_lines("quest.%s.offer" % quest.id).is_empty(), "%s has offer dialogue" % quest.id)
+		assert_false(DungeonCatalog.text_lines("quest.%s.ready" % quest.id).is_empty())
+		assert_false(DungeonCatalog.text_lines("quest.%s.done" % quest.id).is_empty())
+	var givers: Dictionary = {"S-BEEF": "Old Man Mountain", "S-GOUR": "Basil", "S-NECRO": "Gerald", "S-REF": "Brother Bramble", "S-CAP": "Kestrel", "S-TOWN": "Elder Maren"}
+	for dungeon_id: String in givers.keys():
+		assert_eq(QuestCatalog.find(str(ZoneQuestDefinitions.SIDE_QUESTS[dungeon_id])).giver_npc, str(givers[dungeon_id]), dungeon_id)

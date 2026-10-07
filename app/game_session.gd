@@ -1502,6 +1502,12 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	if cleared and plan != null:
 		if dungeon != null and not cleared_dungeons.has(dungeon.dungeon_name):
 			cleared_dungeons.append(dungeon.dungeon_name)
+		if plan.id == "S-CAP":
+			# The Old Service Tunnels double as the secret way into the Capital: the party comes up inside the walls, in the Crease.
+			set_flag(CapitalZone.FLAG_TUNNEL_FOUND)
+			set_flag(CapitalZone.FLAG_HUB_KNOWN)
+			set_flag(CapitalZone.FLAG_INSIDE)
+			result["secret_way"] = true
 		var cleared_flag: StringName = side_cleared_flag(plan)
 		if not flag(cleared_flag):
 			set_flag(cleared_flag)

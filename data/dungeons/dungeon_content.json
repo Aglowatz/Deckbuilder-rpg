@@ -359,6 +359,7 @@
 		"quest.side_s_cap.offer": ["There is an older way into the city. Nobody remembers it. That is the point.", "The resistance remembers. Make your way inside and meet Wren in the Crease; she will tell you what the old tunnels are for, and I will show you the hatch."],
 		"quest.side_s_cap.active": ["Find the resistance hideout. Ask Wren about the tunnels."],
 		"quest.side_s_cap.ready": ["You found them. Good. Then you have earned this."],
+		"fx.old_tunnels_way_in": ["The grate beneath the plaza lifts with a groan. Light from the perfect city pours in, and behind you the old tunnels run on: four factions' services, still connected.", "You climb up past the walls. Nobody is watching this way in. Nobody remembers it. That is the point."],
 		"quest.side_s_cap.done": ["The hatch at the east end of the Outskirts leads down to the Old Service Tunnels. Mind the patrols."],
 		"dungeon.dg_s_beef_boss.before": ["A stone colossus sits at the summit with its hands out, palms up, as if waiting for a barbell to be placed in them. It has been spotting for a thousand years and it is very, very ready.", "\"Lift,\" it rumbles. \"I will catch it.\" It does not say what happens if you fail."],
 		"dungeon.dg_s_beef_boss.after": ["The Ancient Spotter lowers its hands and, for the first time in a thousand years, sets something down. The barbell on the altar is yours.", "\"Good form,\" it says. Then, quieter: \"Thank you for coming up.\""],
