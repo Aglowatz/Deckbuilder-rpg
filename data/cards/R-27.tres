@@ -14,6 +14,7 @@ defense = 2
 rules_text = "When your units eat garbage, they don't pay energy or lose HP."
 rarity = 2
 flavor_text = ".... *sweats profusely*"
+not_in_packs = true
 paths_all = Array[int]([3])
 script_text = "static => flag(free_eat)"
 rules_hash = "5340156d61c5"

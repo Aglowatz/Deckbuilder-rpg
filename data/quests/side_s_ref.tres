@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_4eonj"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_fe15b"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_wi20s"]
+
+[sub_resource type="Resource" id="Resource_n0iwj"]
+script = ExtResource("2_fe15b")
+kind = 9
+key = "heap_enemies_defeated"
+amount = 2
+
+[sub_resource type="Resource" id="Resource_o6hpw"]
+script = ExtResource("1_4eonj")
+text = "Defeat scavengers"
+condition = SubResource("Resource_n0iwj")
+
+[resource]
+script = ExtResource("3_wi20s")
+id = "side_s_ref"
+title = "Who Ate the Compost?"
+summary = "Little paw prints, a tiny crown, and no compost. Drive off two scavengers to follow the trail."
+giver_npc = "Brother Bramble"
+turn_in_npc = "Brother Bramble"
+order = 240
+objectives = Array[ExtResource("1_4eonj")]([SubResource("Resource_o6hpw")])
+reward_gold = 40
+reward_xp = 30
+reward_unlock_flags = Array[String](["side_unlocked_s_ref"])

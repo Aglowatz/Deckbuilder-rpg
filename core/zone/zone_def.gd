@@ -20,6 +20,7 @@ class MiniBattle:
 
 class MiniDef:
 	extends RefCounted
+	var dungeon_id: String = ""
 	var dungeon_name: String = ""
 	var start_title: String = "Landing"
 	var start_blurb: String = ""

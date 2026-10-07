@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_pc88v"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_qo5bo"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_31a47"]
+
+[sub_resource type="Resource" id="Resource_olfh1"]
+script = ExtResource("2_qo5bo")
+kind = 3
+key = "harbor_chest"
+
+[sub_resource type="Resource" id="Resource_eremk"]
+script = ExtResource("1_pc88v")
+text = "Find a hidden chest in town"
+condition = SubResource("Resource_olfh1")
+
+[resource]
+script = ExtResource("3_31a47")
+id = "side_s_town"
+title = "The Door Under the Well"
+summary = "There is a door under the old well that has been locked since before the Elder was born. Find the key: look for a hidden chest in town."
+giver_npc = "Elder Maren"
+turn_in_npc = "Elder Maren"
+order = 90
+objectives = Array[ExtResource("1_pc88v")]([SubResource("Resource_eremk")])
+reward_gold = 40
+reward_xp = 30
+reward_unlock_flags = Array[String](["side_unlocked_s_town"])

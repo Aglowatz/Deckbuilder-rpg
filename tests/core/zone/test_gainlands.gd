@@ -363,6 +363,7 @@ func test_gainlands_cards_and_equipment_exist() -> void:
 
 
 func test_mini_dungeon_is_three_battles_and_a_one_time_unique_beefcake_card() -> void:
+	Session.dungeon_key = "S-BEEF"
 	var map: DungeonMap = MiniDungeon.build_map(GainlandsZone.ID)
 	var battles: int = 0
 	for node: DungeonMap.MapNode in map.nodes:
@@ -374,16 +375,16 @@ func test_mini_dungeon_is_three_battles_and_a_one_time_unique_beefcake_card() ->
 	Session.dungeon_map = MiniDungeon.build_map(GainlandsZone.ID)
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.mini_active = true
-	var before: int = Session.owned_count("B-28")
+	var before: int = Session.owned_count("B-30")
 	var first: Dictionary = Session.resolve_mini_dungeon(true)
 	assert_true(bool(first.get("first_clear", false)))
-	assert_eq(Session.owned_count("B-28"), before + 1)
+	assert_eq(Session.owned_count("B-30"), before + 1)
 	assert_true(Session.flag(GainlandsZone.FLAG_MINI_CLEARED))
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.mini_active = true
 	var second: Dictionary = Session.resolve_mini_dungeon(true)
 	assert_false(second.has("first_clear"))
-	assert_eq(Session.owned_count("B-28"), before + 1, "the card is a one-time reward")
+	assert_eq(Session.owned_count("B-30"), before + 1, "the card is a one-time reward")
 
 
 # ---- Story text ------------------------------------------------------------------------------------------------

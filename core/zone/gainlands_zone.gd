@@ -136,30 +136,6 @@ static func _spot(id: String, title: String, anchor: String, offset: Vector3, ra
 	return entry
 
 
+## The zone's side dungeon (S-BEEF, S-NECRO...): everything comes from the dungeon list through `MiniDungeon.def_for`.
 static func _mini_def() -> ZoneDef.MiniDef:
-	var mini: ZoneDef.MiniDef = ZoneDef.MiniDef.new()
-	mini.dungeon_name = "The Iron Cavern: Three Sets"
-	mini.start_title = "Chalk Up"
-	mini.start_blurb = "A cave that smells of rubber mats and ambition. Somebody has left a towel on every rock."
-	mini.reward_card_id = "B-28"
-	mini.battles = [
-		_battle("Set 1: The Warm-Up", "Light weight, heavy attitude. Stretch first.", "Warm-Up Whelp", 12, "Balanced", false,
-			EnemyDecks.trimmed("beefcake_rush", 27, 15)),
-		_battle("Set 2: Working Weight", "A spotter who has seen things. Mostly your elbows.", "Rogue Spotter", 14, "Defensive", false,
-			EnemyDecks.trimmed("beefcake_tools", 28, 15)),
-		_battle("Set 3: One-Rep Max", "The Titan of the Rack. It has never once skipped leg day.", "Titan of the Rack", 18, "Aggressive", true,
-			EnemyDecks.with_cards(EnemyDecks.trimmed("beefcake_bruisers", 31, 16), {"B-28": 1})),
-	]
-	return mini
-
-
-static func _battle(title: String, blurb: String, enemy: String, hp: int, ai: String, elite: bool, recipe: Dictionary) -> ZoneDef.MiniBattle:
-	var battle: ZoneDef.MiniBattle = ZoneDef.MiniBattle.new()
-	battle.title = title
-	battle.blurb = blurb
-	battle.enemy = enemy
-	battle.hp = hp
-	battle.ai_name = ai
-	battle.elite = elite
-	battle.recipe = recipe
-	return battle
+	return MiniDungeon.def_for(ID)

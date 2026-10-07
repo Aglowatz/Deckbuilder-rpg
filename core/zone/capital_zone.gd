@@ -12,6 +12,7 @@ const HUB_NAME: String = "The Crease"
 
 const NPC_MABBIT: String = "Wren"
 const NPC_FIG: String = "Fig Sly"
+const NPC_KESTREL: String = "Kestrel"
 const NPC_HESPER: String = "Nurse Hesper Dray"
 const NPC_GUS: String = "Old Fern"
 const NPC_TILDA: String = "Widow Pell"
@@ -121,7 +122,8 @@ static func build_def() -> ZoneDef:
 	def.vendor_ids = CapitalContent.BLACK_MARKET_CARD_IDS
 	def.vendor_name = "Fig Sly's Contraband & Curiosities"
 	def.vendor_title = "Fig Sly's Contraband & Curiosities - the Black Market"
-	def.quest_npc_names = [NPC_GUS, NPC_TILDA, NPC_BRAM, NPC_ODILE]
+	def.quest_npc_names = [NPC_GUS, NPC_TILDA, NPC_BRAM, NPC_ODILE, NPC_KESTREL]
+	def.mini = MiniDungeon.def_for(ID)
 	def.ruler_name = Villain.display_name()
 	def.ruler_tint = Color("c9a227")
 	def.gloom_tint = Color(0.5, 0.46, 0.58)
@@ -136,6 +138,7 @@ static func build_def() -> ZoneDef:
 	def.npcs = [
 		{"id": "mabbit", "npc_id": "NPC-WREN", "model": "Mage", "anchor": "mabbit", "yaw": 0.0, "tint": Color(0.85, 0.85, 1.1), "scale": 1.5},
 		{"id": "fig", "npc_id": "V-FIGSLY", "model": "Rogue_Hooded", "anchor": "fig", "yaw": 0.0, "tint": Color(1.1, 0.9, 0.8), "scale": 1.5},
+		{"id": "kestrel", "npc_id": "NPC-KESTREL", "model": "Rogue_Hooded", "anchor": "kestrel", "yaw": 90.0, "tint": Color(0.9, 1.0, 0.85), "scale": 1.4},
 		{"id": "hesper", "model": "Mage", "anchor": "heal", "yaw": 180.0, "tint": Color(1.1, 1.0, 0.95), "scale": 1.45},
 		{"id": "gus", "npc_id": "NPC-FERN", "model": "Barbarian", "anchor": "gus", "yaw": 0.0, "tint": Color(0.8, 1.0, 0.7), "scale": 1.6},
 		{"id": "tilda", "npc_id": "NPC-PELL", "model": "Mage", "anchor": "tilda", "yaw": 180.0, "tint": Color(0.75, 0.7, 0.95), "scale": 1.45},
@@ -169,6 +172,8 @@ static func _spots() -> Array[Dictionary]:
 		spots.append(_spot("shaft_" + destination, "Service Shaft", "shaft_" + destination, Vector3(0, 0, -0.9), 1.5, "Take the service shaft", "zone", {"act": "shaft", "dest": destination}))
 	# The Outskirts.
 	spots.append(_spot("exit", "The Road Back to Concord Crossing", "exit", Vector3(0, 0, 0.0), 1.9, "Walk back to town (full heal)", "exit"))
+	spots.append(_spot("kestrel", "Kestrel, Resistance Scout", "kestrel", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "kestrel", "npc_id": "NPC-KESTREL", "npc_name": NPC_KESTREL, "speaker": "Kestrel"}))
+	spots.append(_spot("old_tunnels", "The Old Service Tunnels", "old_tunnels", Vector3(0, 0, 0.0), 1.8, "Enter the Old Service Tunnels", "mini_dungeon"))
 	spots.append(_spot("gate_captain", "The Approved Gate Captain", "gate_captain", Vector3(0, 0, 1.0), 1.9, "Talk", "zone", {"npc": "gate_captain", "npc_id": "NPC-SPOTLESS", "speaker": "Captain Spotless", "act": "gate_captain"}))
 	spots.append(_spot("guard_height", "Gate Guard (Height Inspection)", "guard_height", Vector3(0, 0, 1.0), 1.7, "Talk", "zone", {"npc": "guard_height", "speaker": "Gate Guard", "act": "guard"}))
 	spots.append(_spot("guard_queue", "Gate Guard (Queue Management)", "guard_queue", Vector3(0, 0, 1.0), 1.7, "Talk", "zone", {"npc": "guard_queue", "speaker": "Gate Guard", "act": "guard"}))
@@ -247,6 +252,7 @@ static func _poi_kinds() -> Dictionary:
 		"gus": MapPoi.Kind.QUEST_GIVER, "tilda": MapPoi.Kind.QUEST_GIVER, "bram": MapPoi.Kind.QUEST_GIVER, "odile": MapPoi.Kind.QUEST_GIVER,
 		"permit_window": MapPoi.Kind.INTERACTABLE, "dispenser": MapPoi.Kind.INTERACTABLE, "cable": MapPoi.Kind.INTERACTABLE,
 		"castle_door": MapPoi.Kind.DUNGEON, "ward_window": MapPoi.Kind.INTERACTABLE,
+		"kestrel": MapPoi.Kind.QUEST_GIVER, "old_tunnels": MapPoi.Kind.MINI_DUNGEON,
 	}
 	for destination: String in CapitalLayout.NETWORK_DESTINATIONS:
 		kinds["shaft_" + destination] = MapPoi.Kind.TRAVEL_PORTAL

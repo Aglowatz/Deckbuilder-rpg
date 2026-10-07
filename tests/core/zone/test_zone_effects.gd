@@ -131,6 +131,7 @@ func test_a_real_zone_battle_applies_the_effects_to_player_and_enemy() -> void:
 func test_zone_dungeon_battles_carry_the_zone_effects_too() -> void:
 	Session.ensure_game(A)
 	Session.zone_run = ZoneRun.enter(DnaZone.ID, Session.profile, Session.deck)
+	Session.dungeon_key = "S-NECRO"
 	Session.dungeon_map = MiniDungeon.build_map(DnaZone.ID)
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.mini_active = true

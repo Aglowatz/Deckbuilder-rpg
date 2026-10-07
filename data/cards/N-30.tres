@@ -16,6 +16,7 @@ rules_text = "Whenever a unit enters under your control, create a Contract.
 Whenever a unit attacks you, create a Red Tape."
 rarity = 2
 flavor_text = "I'm sorry sir, you are going to have to fill out forms A-F. After which you will have the designated waiting period. I estimate 4 to 6 centuries."
+not_in_packs = true
 paths_all = Array[int]([4])
 script_text = "when(unit_enters:mine) => create(contract)
 when(attacks:opp) => create(redtape)"

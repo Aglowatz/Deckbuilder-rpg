@@ -12,6 +12,7 @@ generic_cost = 3
 defense = 0
 rules_text = "Units you control get +1/+0."
 flavor_text = "From the days when the four Paths marched as one."
+not_in_packs = true
 script_text = "aura(unit.mine) => stat(1,0)"
 rules_hash = "4c26b1deb2a8"
 image_description = "A faded royal banner bearing four interlocking symbols, still flying proudly over ruined ramparts at sunrise."

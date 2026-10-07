@@ -837,30 +837,37 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		phase = PrimmBoss.phase(boss_phase)
 		enemy = PrimmBoss.enemy_setup(content, boss_phase, run.current_deck())
 		player_rules = PrimmBoss.player_rules(boss_phase)
-	elif main_dungeon_active:
-		enemy = MainDungeons.enemy_setup(content, node, zone_def().id)
-	elif mini_active:
-		enemy = MiniDungeon.enemy_setup(content, node, zone_def().id)
+	elif main_dungeon_active or mini_active:
+		enemy = MainDungeons.enemy_setup(content, node, dungeon_key)
+		# Severing the Heart Roots (D-ROT) weakens the Rotheart.
+		if node.kind == DungeonMap.Kind.BOSS and dungeon_key == RotheartDungeon.ZONE_ID and RotheartDungeon.severed(run):
+			enemy.starting_hp = maxi(enemy.starting_hp - RotheartDungeon.SEVERED_HP_LOSS, 5)
 	else:
 		enemy = TrialOfTheHollow.enemy_setup(content, node)
-	var effect_zone: String = zone_def().id if (mini_active or main_dungeon_active) else ""
+	var effect_zone: String = zone_def().id if ((mini_active or main_dungeon_active) and zone_run != null) else ""
 	if capital:
 		var rules: ModifierSource = CapitalDebuffs.enemy_source(flags, content)
 		if rules != null:
 			enemy.modifiers.add_source(rules)
-	var game: GameState = run.start_encounter(enemy, ZoneEffects.source_for(effect_zone), options, player_rules)
+	var zone_source: ModifierSource = ZoneEffects.source_for(effect_zone)
+	if main_dungeon_active or mini_active:
+		# The dungeon list's own buffs and debuffs, on top of the zone effects (`DungeonRules`).
+		zone_source = DungeonRules.with_shared(zone_source, dungeon_key)
+		if player_rules == null:
+			player_rules = DungeonRules.player_source(dungeon_key)
+	var game: GameState = run.start_encounter(enemy, zone_source, options, player_rules)
 	# Grandmaster Flex, the Unbroken fights beside you in the House of Gains boss duel if you rescued him in this run.
-	if main_dungeon_active and node.kind == DungeonMap.Kind.BOSS and zone_def().id == HouseOfGainsDungeon.ZONE_ID and HouseOfGainsDungeon.rescued(run):
+	if main_dungeon_active and node.kind == DungeonMap.Kind.BOSS and dungeon_key == HouseOfGainsDungeon.ZONE_ID and HouseOfGainsDungeon.rescued(run):
 		HouseOfGainsDungeon.place_ally(game)
 	var context: BattleContext = BattleContext.new()
 	context.game = game
 	context.zone_id = effect_zone
 	if phase != null:
 		context.board_key = "boss:final"
-	elif main_dungeon_active:
-		context.board_key = "dungeon:%s" % zone_def().id
-	elif mini_active:
-		context.board_key = "mini:%s" % zone_def().id
+	elif main_dungeon_active or mini_active:
+		# The dungeon list names each dungeon's battleboard (`DungeonCatalog.Blueprint.battleboard_id`).
+		var plan: DungeonCatalog.Blueprint = MainDungeons.blueprint(dungeon_key)
+		context.board_key = plan.battleboard_id if plan != null else ("dungeon:%s" % dungeon_key)
 	else:
 		context.board_key = "dungeon:hollow"
 	if phase != null:
@@ -869,7 +876,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		context.music = phase.music
 	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if (mini_active or main_dungeon_active) else TrialOfTheHollow.personality(content, node.ai_name))
 	context.enemy_name = node.enemy_name if phase == null else "%s - %s" % [Villain.display_name(), phase.title()]
-	context.enemy_icon = MainDungeons.enemy_icon(zone_def().id, node.enemy_name) if main_dungeon_active else str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
+	context.enemy_icon = MainDungeons.enemy_icon(dungeon_key, node.enemy_name) if (main_dungeon_active or mini_active) else str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
 	context.node_id = node.id
 	context.tutorial = node.tutorial
 	context.is_boss = node.kind == DungeonMap.Kind.BOSS
@@ -1417,6 +1424,10 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 var mini_active: bool = false
 ## True while inside a zone's main (final) dungeon (the Test Kitchen, the House of Gains, ...). Part E.
 var main_dungeon_active: bool = false
+## The dungeon being run, as a `MainDungeons` key: the zone id of a final dungeon ("beefcake"), the dungeon ID of a side dungeon ("S-BEEF"). "" in the Trial of the Hollow.
+var dungeon_key: String = ""
+## True while the town's side dungeon (the Forgotten Vault) is running: no zone visit, full HP, and the party is carried back to the town.
+var town_side_active: bool = false
 ## Node ids whose "after" story has been shown in the current dungeon run (so it plays once).
 var dungeon_story_seen: Array[int] = []
 ## Brief 10: the phase of the final boss being fought (0-2), whether the next phase is waiting to start (the map plays the scene
@@ -1440,46 +1451,100 @@ func begin_primm_fight() -> Array[String]:
 func enter_mini_dungeon() -> void:
 	if zone_run == null:
 		return
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.side_for_zone(zone_run.zone_id)
+	if plan == null:
+		return
+	dungeon_key = plan.id
 	dungeon_map = MiniDungeon.build_map(zone_run.zone_id)
 	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
 	run.hp = clampi(zone_run.hp, 1, run.max_hp())
 	mini_active = true
+	town_side_active = false
 	trial_finished = false
 	pending_reward = null
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 
 
-## Leaves the mini dungeon back to the zone. The HP left goes back to the zone; clearing it the
-## first time grants the unique card. `failed` (0 HP) wakes the player at the hub with the fee.
+## Leaves the side dungeon back to the zone (or the town). The HP left goes back to the zone; clearing it the
+## first time grants the unique card, repeat clears pay gold and a pack. `failed` (0 HP) wakes the player at the hub with the fee.
 func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
+	var was_town: bool = town_side_active
 	resolve_mini_dungeon(cleared, failed)
+	if was_town:
+		SceneManager.go_to_town()
+		return
 	SceneManager.change_scene(zone_def().scene_path)
 
 
-## The state changes of leaving the mini dungeon (no scene change, so tests can run it).
+## The flag a side dungeon sets on its first clear (zones keep theirs in their `ZoneDef`; the Forgotten Vault under the town has its own).
+func side_cleared_flag(plan: DungeonCatalog.Blueprint) -> StringName:
+	if plan != null and ZoneDefs.has_def(plan.zone_id) and not ZoneDefs.get_def(plan.zone_id).flag_mini_cleared.is_empty():
+		return ZoneDefs.get_def(plan.zone_id).flag_mini_cleared
+	return &"town_vault_cleared"
+
+
+## The flag a side dungeon's quest sets when it is done: the dungeon's entrance only opens once it is set.
+static func side_unlock_flag(dungeon_id: String) -> StringName:
+	return DungeonCatalog.side_unlock_flag(dungeon_id)
+
+
+func side_unlocked(dungeon_id: String) -> bool:
+	return flag(side_unlock_flag(dungeon_id))
+
+
+## The state changes of leaving the side dungeon (no scene change, so tests can run it).
 func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
-	var result: Dictionary = {"kind": "mini", "cleared": cleared, "failed": failed}
+	var result: Dictionary = {"kind": "mini", "cleared": cleared, "failed": failed, "dungeon": dungeon_key}
 	if zone_run != null and run != null:
 		zone_run.hp = run.hp
-	var def: ZoneDef = zone_def()
-	if cleared and not flag(def.flag_mini_cleared):
-		set_flag(def.flag_mini_cleared)
-		var card: CardData = card_by_id(def.mini.reward_card_id)
-		if card != null:
-			add_cards([card] as Array[CardData])
-			result["card"] = card.display_name
-		result["first_clear"] = true
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(dungeon_key)
+	var dungeon: MainDungeonDef = MainDungeons.def(dungeon_key)
+	if cleared and plan != null:
+		if dungeon != null and not cleared_dungeons.has(dungeon.dungeon_name):
+			cleared_dungeons.append(dungeon.dungeon_name)
+		var cleared_flag: StringName = side_cleared_flag(plan)
+		if not flag(cleared_flag):
+			set_flag(cleared_flag)
+			var card: CardData = card_by_id(plan.reward_card_id())
+			if card != null:
+				add_cards([card] as Array[CardData])
+				result["card"] = card.display_name
+			result["first_clear"] = true
+		else:
+			var gold_reward: int = DungeonBuilder.SIDE_REWARD_GOLD
+			add_gold(gold_reward)
+			result["gold"] = gold_reward
+			var pack_id: String = plan.repeat_pack_id()
+			if not pack_id.is_empty() and PackCatalog.find(pack_id) != null:
+				add_pack(pack_id, 1)
+				result["packs"] = [PackRewards.entry(pack_id, 1)]
 	run = null
 	dungeon_map = null
 	mini_active = false
+	town_side_active = false
 	trial_finished = false
 	pending_reward = null
 	if zone_run != null and (failed or zone_run.is_down()):
-		result["fee"] = zone_wake_at_hub("sent home from %s" % zone_def().mini.dungeon_name)
+		result["fee"] = zone_wake_at_hub("sent home from %s" % (plan.dungeon_name if plan != null else "the dungeon"))
 		result["woke_at_hub"] = true
 	pending_zone_result = result
 	save_game()
 	return result
+
+
+## From the town: the Forgotten Vault under the old well (S-TOWN). A normal dungeon run at full HP; losing carries the party back to the town.
+func enter_town_side_dungeon() -> void:
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.side_for_zone("town")
+	if plan == null or profile == null:
+		return
+	dungeon_key = plan.id
+	dungeon_map = MainDungeons.build_map(plan.id)
+	run = DungeonRun.enter(profile, deck, [] as Array[ModifierSource])
+	mini_active = true
+	town_side_active = true
+	trial_finished = false
+	pending_reward = null
+	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 
 
 # ---- The zone's final dungeon (brief 9, Part E) -------------------------------------------
@@ -1490,6 +1555,7 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 func enter_main_dungeon() -> void:
 	if zone_run == null or not MainDungeons.has_def(zone_run.zone_id):
 		return
+	dungeon_key = zone_run.zone_id
 	dungeon_map = MainDungeons.build_map(zone_run.zone_id)
 	run = DungeonRun.enter(profile, deck, zone_run.run.dungeon_sources)
 	run.hp = clampi(zone_run.hp, 1, run.max_hp())
@@ -1527,6 +1593,10 @@ func resolve_main_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 			cleared_dungeons.append(dungeon.dungeon_name)
 		var first_clear: bool = not is_zone_completed(zone_id)
 		_grant_dungeon_packs(zone_id, first_clear, result)
+		if not first_clear:
+			# Repeat clears of a main dungeon pay its Path Pack (above) and gold.
+			add_gold(DungeonBuilder.MAIN_REPEAT_GOLD)
+			result["repeat_gold"] = DungeonBuilder.MAIN_REPEAT_GOLD
 		if not is_zone_completed(zone_id):
 			var arena_before: bool = arena_unlocked()
 			var alchemist_before: bool = alchemist_unlocked()
@@ -1572,6 +1642,9 @@ func _grant_dungeon_packs(zone_id: String, first_clear: bool, result: Dictionary
 	if path == Affinity.Type.NEUTRAL:
 		if zone_id == CapitalZone.ID and first_clear:
 			grant_cosmetic("cloak_royal", true)  # the Royal Mantle: the one thing Primm left behind that is worth wearing
+		if zone_id == CapitalZone.ID and not first_clear and profile != null and profile.postgame_unlocked:
+			add_pack(PackRules.PRISMATIC_ID, 1)
+			result["packs"] = [PackRewards.entry(PackRules.PRISMATIC_ID, 1)]
 		if zone_id == CapitalZone.ID and first_clear and config.primm_prismatic_packs > 0:
 			add_pack(PackRules.PRISMATIC_ID, config.primm_prismatic_packs)
 			result["packs"] = [PackRewards.entry(PackRules.PRISMATIC_ID, config.primm_prismatic_packs)]

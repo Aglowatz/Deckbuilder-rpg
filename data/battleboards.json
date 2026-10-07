@@ -20,6 +20,8 @@
 		"mini:beefcake": "BB-S-BEEF",
 		"mini:gourmand": "BB-S-GOUR",
 		"mini:necrocrat": "BB-S-NECRO",
-		"mini:refusemancer": "BB-S-REF"
+		"mini:refusemancer": "BB-S-REF",
+		"mini:final": "BB-S-CAP",
+		"mini:town": "BB-S-TOWN"
 	}
 }

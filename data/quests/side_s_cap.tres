@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_uqh2c"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_dh6fx"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_v33gy"]
+
+[sub_resource type="Resource" id="Resource_uhs7u"]
+script = ExtResource("2_dh6fx")
+key = "cap_hub_known"
+
+[sub_resource type="Resource" id="Resource_ahwkr"]
+script = ExtResource("1_uqh2c")
+text = "Reach the resistance hideout"
+condition = SubResource("Resource_uhs7u")
+
+[resource]
+script = ExtResource("3_v33gy")
+id = "side_s_cap"
+title = "The Older Way"
+summary = "There is an older way into the city. Meet the resistance in the Crease and ask about the tunnels."
+giver_npc = "Kestrel"
+turn_in_npc = "Kestrel"
+order = 360
+objectives = Array[ExtResource("1_uqh2c")]([SubResource("Resource_ahwkr")])
+reward_gold = 40
+reward_xp = 30
+reward_unlock_flags = Array[String](["side_unlocked_s_cap"])

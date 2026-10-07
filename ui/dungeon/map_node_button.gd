@@ -17,6 +17,7 @@ const KIND_ICONS: Dictionary = {
 	DungeonMap.Kind.ELITE: "skull",
 	DungeonMap.Kind.EVENT: "rune",
 	DungeonMap.Kind.TREASURE: "gems",
+	DungeonMap.Kind.RESCUE: "hp",
 }
 
 var map_node: DungeonMap.MapNode

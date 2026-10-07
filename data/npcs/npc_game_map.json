@@ -24,6 +24,12 @@
 		"dungeon.ha_boss": "NPC-VELLUM",
 		"dungeon.tk_boss": "NPC-DOPPEL",
 		"dungeon.rh_boss": "NPC-ROTHEART",
+		"dungeon.dg_s_beef_boss": "NPC-SPOTTER",
+		"dungeon.dg_s_gour_boss": "NPC-ITAMAE",
+		"dungeon.dg_s_necro_boss": "NPC-BETTY",
+		"dungeon.dg_s_ref_boss": "NPC-RACCOONKING",
+		"dungeon.dg_s_cap_boss": "NPC-SPOTLESS",
+		"dungeon.dg_s_town_boss": "NPC-AUTOMATON",
 		"dungeon.pc_boss": "NPC-PRIMM"
 	},
 	"sides": {}

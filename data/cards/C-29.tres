@@ -15,6 +15,7 @@ rules_text = "This unit gets +1/+1 for each different Path among Infrastructure 
 Whenever you play a multi-path card, draw a card."
 rarity = 2
 flavor_text = "Where am I? What happened? ...Why am I so good at this?"
+not_in_packs = true
 script_text = "static => selfstat(distinct_paths(infra.mine),distinct_paths(infra.mine))
 when(plays:mine:multipath) => draw(1)"
 rules_hash = "be7b74d07ec4"

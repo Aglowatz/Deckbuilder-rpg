@@ -240,6 +240,8 @@ func _anchors() -> void:
 	_anchor("spawn", 60.0, 89.0)
 	_anchor("exit", 60.0, 92.0)
 	_anchor("camp", 50.0, 88.0)
+	_anchor("kestrel", 41.0, 86.0)
+	_anchor("old_tunnels", 84.0, 87.0)
 	_anchor("gate_captain", 60.0, 67.0)
 	_anchor("guard_height", 52.0, 68.0)
 	_anchor("guard_queue", 68.0, 68.0)
@@ -695,6 +697,8 @@ func _outskirts() -> void:
 		_prop("barrier", pos.x - 3.0, pos.z + 1.0, 0.0, 1.0, 0.0)
 		_prop("barrier", pos.x + 3.0, pos.z + 1.0, 0.0, 1.0, 0.0)
 	_prop("campfire", 50.0, 88.0, 0.0, 1.0, 0.8)
+	_prop("manhole", 84.0, 87.0, 0.0, 1.0, 0.0)
+	_prop("tent", 38.0, 87.0, -15.0, 1.0, 1.4)
 	_prop("tent", 47.0, 87.0, 20.0, 1.0, 1.4)
 	for index: int in range(26):
 		var x: float = _rng.randf_range(4.0, 116.0)

@@ -26,7 +26,8 @@ static func make(first_event: DungeonEvent, zone: String) -> EventScreen:
 
 func _ready() -> void:
 	UIKit.full_rect(self)
-	_story = ZoneStoryText.for_zone(zone_id)
+	var dungeon: MainDungeonDef = MainDungeons.def(zone_id)
+	_story = ZoneStoryText.for_zone(dungeon.zone_id if dungeon != null else zone_id)
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.02, 0.01, 0.05, 0.84)
 	UIKit.full_rect(shade)

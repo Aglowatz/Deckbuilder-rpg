@@ -4,8 +4,9 @@ extends RefCounted
 ## Pure data + rules (no scene tree); the map screen only draws it.
 
 ## Part E (brief 9) appended ELITE (a harder battle with a card choice), EVENT (a story choice, see
-## `DungeonEvent`) and TREASURE (loot) for the four zone dungeons; the original five keep their ordinals.
-enum Kind { START, BATTLE, CHALLENGE, SHRINE, BOSS, ELITE, EVENT, TREASURE }
+## `DungeonEvent`) and TREASURE (loot) for the four zone dungeons; the original five keep their ordinals. RESCUE (dungeon list: a story event whose
+## outcome frees someone who then fights beside you, see `DungeonBuilder`) was added with the dungeon list import.
+enum Kind { START, BATTLE, CHALLENGE, SHRINE, BOSS, ELITE, EVENT, TREASURE, RESCUE }
 
 ## Part E: how much XP/gold an encounter is worth (`EncounterRewards`). Tutorial < Normal <
 ## Elite < Boss. Only Tutorial and Boss are used by any dungeon that actually exists yet (the
@@ -50,6 +51,11 @@ class MapNode:
 	## Brief 10: a side branch that dead-ends (a treasure, an encounter, an event, lore): once it is done the party doubles back to this
 	## node (the branch point it hangs off), where the other routes are still open. -1 = not a dead end.
 	var return_to: int = -1
+	## A node with no icon: the party marker stands there before the first real node (the side dungeons start on their first battle).
+	var hidden: bool = false
+	## Dungeon list: the number of the node in `data/source/dungeon_list.csv.csv` (1-based; id = number - 1) and the flag a RESCUE sets.
+	var number: int = 0
+	var rescue_flag: String = ""
 
 
 var dungeon_name: String = ""
@@ -205,7 +211,7 @@ func problems() -> Array[String]:
 		if candidate.return_to >= 0:
 			if not candidate.next.is_empty():
 				found.append("node %d (%s) is a dead-end branch but has nodes after it" % [candidate.id, candidate.title])
-			if candidate.return_to >= candidate.id or node(candidate.return_to) == null or not node(candidate.return_to).next.has(candidate.id):
+			if candidate.return_to >= candidate.id or node(candidate.return_to) == null or not reachable_from(candidate.return_to).has(candidate.id):
 				found.append("node %d (%s) must double back to the earlier node it hangs off" % [candidate.id, candidate.title])
 		elif candidate.kind != Kind.BOSS and candidate.next.is_empty():
 			found.append("node %d (%s) is a dead end" % [candidate.id, candidate.title])

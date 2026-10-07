@@ -484,7 +484,7 @@ func test_a_heap_battle_uses_the_zone_hp_and_the_refusemancer_deck() -> void:
 
 
 func test_heap_cards_and_equipment_exist() -> void:
-	for id: String in ZoneCards.HEAP_VENDOR_IDS + ["R-20", "R-33", "R-29"]:
+	for id: String in ZoneCards.HEAP_VENDOR_IDS + ["R-20", "R-33", "R-27"]:
 		assert_not_null(Session.content.card(id), "card %s exists" % id)
 		assert_eq(Session.content.card(id).color, Affinity.Type.REFUSEMANCER)
 	assert_not_null(Session.content.equipment_piece("seed_satchel"))
@@ -492,8 +492,9 @@ func test_heap_cards_and_equipment_exist() -> void:
 
 
 func test_mini_dungeon_is_three_battles_and_a_one_time_unique_card() -> void:
+	Session.dungeon_key = "S-REF"
 	assert_eq(def.mini.battles.size(), 3)
-	assert_eq(def.mini.reward_card_id, "R-29")
+	assert_eq(def.mini.reward_card_id, "R-27")
 	var map: DungeonMap = MiniDungeon.build_map(HeapZone.ID)
 	var battles: int = 0
 	for node: DungeonMap.MapNode in map.nodes:
@@ -503,9 +504,9 @@ func test_mini_dungeon_is_three_battles_and_a_one_time_unique_card() -> void:
 			assert_gt(deck.cards.size(), 20)
 	assert_eq(battles, 3)
 	Session.resolve_mini_dungeon(true)
-	assert_eq(Session.owned_count("R-29"), 1)
+	assert_eq(Session.owned_count("R-27"), 1)
 	Session.resolve_mini_dungeon(true)
-	assert_eq(Session.owned_count("R-29"), 1)
+	assert_eq(Session.owned_count("R-27"), 1)
 
 
 # ---- Story ---------------------------------------------------------------------------------------------------

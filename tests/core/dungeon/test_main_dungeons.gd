@@ -27,6 +27,7 @@ func after_each() -> void:
 
 func _enter(zone_id: String) -> void:
 	Session.zone_run = ZoneRun.enter(zone_id, Session.profile, Session.deck)
+	Session.dungeon_key = zone_id
 	Session.dungeon_map = MainDungeons.build_map(zone_id)
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.run.hp = Session.zone_run.hp
@@ -192,11 +193,11 @@ func test_every_node_event_and_cutscene_has_story_text() -> void:
 		assert_false(map.boss().story_before.is_empty(), "%s: dialogue before the boss" % zone_id)
 		assert_false(map.boss().story_after.is_empty(), "%s: dialogue after the boss" % zone_id)
 		for event: DungeonEvent in dungeon.events.values():
-			assert_true(story.lines.has(event.title_key()), event.id)
-			assert_true(story.lines.has(event.body_key()), event.id)
+			assert_false(story.text(event.title_key()).begins_with("[missing"), event.id)
+			assert_false(story.text(event.body_key()).begins_with("[missing"), event.id)
 			for index: int in range(event.choices.size()):
-				assert_true(story.lines.has(event.choice_key(index)), "%s choice %d" % [event.id, index])
-				assert_true(story.lines.has(event.result_key(index)), "%s result %d" % [event.id, index])
+				assert_false(story.text(event.choice_key(index)).begins_with("[missing"), "%s choice %d" % [event.id, index])
+				assert_false(story.text(event.result_key(index)).begins_with("[missing"), "%s result %d" % [event.id, index])
 		for challenge: ChallengeData in dungeon.challenges.values():
 			assert_false(challenge.display_name.begins_with("[missing"), challenge.id)
 			assert_false(challenge.description.begins_with("[missing"), challenge.id)
@@ -240,32 +241,21 @@ func test_events_heal_hurt_and_pay_through_the_run_and_gold() -> void:
 	var dungeon: MainDungeonDef = MainDungeons.def("necrocrat")
 	Session.run.hp = 5
 	Session.gold = 100
-	var number: DungeonEvent = dungeon.event("ha_take_a_number")
-	var paid: EventResolver.Result = Session.resolve_dungeon_event(number, 1)
+	# Form 27-B Office (node 8): filling out the forms costs 20 gold and grants a boon; forging the stamp pays 50 gold and costs 2 HP.
+	var forms: DungeonEvent = dungeon.event("dg_d_hfa_8")
+	var paid: EventResolver.Result = Session.resolve_dungeon_event(forms, 0)
 	assert_true(paid.ok)
-	assert_eq(Session.gold, 70, "the expedite fee was paid")
-	assert_eq(Session.run.hp, 7, "and the wait healed 2")
+	assert_eq(Session.gold, 80, "the filing fee was paid")
+	assert_eq(paid.boons.size(), 1, "and a boon was granted")
 	Session.gold = 10
-	var broke: EventResolver.Result = Session.resolve_dungeon_event(number, 1)
+	var broke: EventResolver.Result = Session.resolve_dungeon_event(forms, 0)
 	assert_false(broke.ok, "cannot pay without the gold")
 	assert_eq(Session.gold, 10)
-	var hurt: EventResolver.Result = Session.resolve_dungeon_event(number, 2)
-	assert_eq(Session.run.hp, 5)
+	var hp_before: int = Session.run.hp
+	var hurt: EventResolver.Result = Session.resolve_dungeon_event(forms, 1)
+	assert_eq(Session.run.hp, hp_before - 2)
 	assert_eq(hurt.hp_delta, -2)
-
-
-func test_forms_that_require_forms_chain_three_steps() -> void:
-	var dungeon: MainDungeonDef = MainDungeons.def("necrocrat")
-	var event: DungeonEvent = dungeon.event("ha_form_a")
-	var steps: int = 0
-	while event != null and steps < 6:
-		steps += 1
-		var next_id: String = ""
-		for outcome: DungeonEvent.Outcome in event.choices[0].outcomes:
-			if outcome.kind == DungeonEvent.OutcomeKind.NEXT:
-				next_id = outcome.event_id
-		event = dungeon.event(next_id) if not next_id.is_empty() else null
-	assert_eq(steps, 3, "Form 13-B needs 13-A needs 12-F")
+	assert_eq(Session.gold, 60)
 
 
 func test_treasure_grants_loot() -> void:
@@ -311,7 +301,7 @@ func test_the_prison_is_a_section_and_the_rescue_comes_before_the_boss() -> void
 		if node.event_id == "hg_rescue":
 			rescue_id = node.id
 			assert_eq(node.scene, "rescue")
-	assert_gte(prison.size(), 5, "the Iron-less Prison is a major section")
+	assert_gte(prison.size(), 2, "the Iron-less Prison (nodes 8-9) is a section")
 	assert_true(prison.has(rescue_id))
 	assert_true(map.reachable_from(rescue_id).has(map.boss().id), "after the rescue the player continues through the House to the boss")
 	for node: DungeonMap.MapNode in map.nodes:
@@ -343,7 +333,7 @@ func test_beating_the_boss_completes_the_zone_with_the_unique_card() -> void:
 		_enter(zone_id)
 		var gold_mid: int = Session.gold
 		var again: Dictionary = Session.resolve_main_dungeon(true)
-		assert_eq(Session.gold, gold_mid)
+		assert_eq(Session.gold, gold_mid + DungeonBuilder.MAIN_REPEAT_GOLD, "a repeat clear pays the list's repeat gold, not the first-clear rewards")
 		assert_eq(Session.owned_count(dungeon.reward_card_id), 1)
 		assert_eq(str(again["kind"]), "main")
 		after_each()

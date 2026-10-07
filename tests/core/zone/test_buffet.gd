@@ -516,6 +516,7 @@ func test_buffet_cards_equipment_and_items_exist() -> void:
 
 
 func test_mini_dungeon_is_three_battles_and_a_one_time_unique_gourmand_card() -> void:
+	Session.dungeon_key = "S-GOUR"
 	assert_eq(def.mini.battles.size(), 3)
 	assert_eq(def.mini.reward_card_id, "G-27")
 	var map: DungeonMap = MiniDungeon.build_map(BuffetZone.ID)

@@ -1,0 +1,1482 @@
+[
+	{
+		"id": "D-TUT",
+		"name": "Trial of the Hollow",
+		"type": "Tutorial",
+		"zone": "start",
+		"zone_text": "Starting Area (neutral)",
+		"theme": "A mossy, softly glowing cave beneath the forest where the player wakes: roots, ferns, glowing crystals and fireflies, ending at a dried-up ancient wellspring.",
+		"story": "The amnesiac player's first trial. Teaches battles, deck challenges, healing, and a boss. Clearing it lets the spring recognize the player and opens the road to town.",
+		"boss": "The Hollow Warden (a hulking moss-and-stone guardian)",
+		"buffs": "Gentle: base 10 HP; the node before the boss fully heals.",
+		"reward_first": "Choose 1 of 3 cards from your chosen Path after each battle (3 total); opens the road to town.",
+		"reward_repeat": "Small gold (replayable for practice).",
+		"hook": "Starts automatically after choosing your element (or skipped via the secret tunnel).",
+		"map_id": "MAP-TUT",
+		"battleboard_id": "BB-TUT",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "Cave Mouth",
+				"type": "start",
+				"note": "",
+				"x": 10,
+				"y": 80,
+				"next": [
+					2
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "Scavenger's Den",
+				"type": "battle",
+				"note": "",
+				"x": 28,
+				"y": 62,
+				"next": [
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "Hollow Well",
+				"type": "challenge",
+				"note": "",
+				"x": 45,
+				"y": 75,
+				"next": [
+					4
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 4,
+				"name": "Mossy Gallery",
+				"type": "battle",
+				"note": "",
+				"x": 60,
+				"y": 52,
+				"next": [
+					5
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 5,
+				"name": "Whispering Shrine",
+				"type": "heal",
+				"note": "",
+				"x": 75,
+				"y": 65,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 6,
+				"name": "Heart of the Hollow",
+				"type": "boss",
+				"note": "",
+				"x": 88,
+				"y": 30,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	},
+	{
+		"id": "D-HOG",
+		"name": "The House of Gains",
+		"type": "Main Dungeon",
+		"zone": "beefcake",
+		"zone_text": "The Gainlands (Beefcake)",
+		"theme": "A towering fortress-gym: marble columns wrapped in chains, propaganda banners of the regime, rubber-mat floors, giant dumbbell statues; beneath it, the bare stone Iron-less Prison with no equipment at all.",
+		"story": "The regime that overthrew the Beefcake leader rules from here. Deep below lies the Iron-less Prison where the original leader is held. Rescue him (optional branch) and he joins you; at the top, Chancellor Clench, Iron Regent waits. In the final confrontation the frail-looking leader throws off his robes to reveal he is still incredibly muscular: true strength comes from the heart and the mind.",
+		"boss": "Chancellor Clench, Iron Regent (regime ruler)",
+		"buffs": "Pump Iron: your Beefcake units enter with +1 attack. Iron-less Prison (nodes 8-9): Iron can't be used.",
+		"reward_first": "The Big Unit (B-32), a Gilded Beefcake Pack, bonus gold and XP; frees the Gainlands.",
+		"reward_repeat": "Beefcake Path Pack + gold.",
+		"hook": "Swole Station rumor: \"The old champion isn't dead. He's under the House.\"",
+		"map_id": "MAP-HOG",
+		"battleboard_id": "BB-HOG",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "Grand Entrance",
+				"type": "start",
+				"note": "",
+				"x": 8,
+				"y": 85,
+				"next": [
+					2,
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "Cardio Corridor",
+				"type": "battle",
+				"note": "",
+				"x": 22,
+				"y": 68,
+				"next": [
+					4
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "Free Weight Courtyard",
+				"type": "battle",
+				"note": "",
+				"x": 22,
+				"y": 88,
+				"next": [
+					5
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 4,
+				"name": "Protein Pantry",
+				"type": "treasure",
+				"note": "",
+				"x": 36,
+				"y": 60,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 5,
+				"name": "Locker Room of Legends",
+				"type": "event",
+				"note": "",
+				"x": 36,
+				"y": 84,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 6,
+				"name": "Regime Checkpoint",
+				"type": "elite",
+				"note": "",
+				"x": 50,
+				"y": 72,
+				"next": [
+					7
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 7,
+				"name": "Stairs to the Iron-less Prison",
+				"type": "event",
+				"note": "skipping 8-9 skips the rescue",
+				"x": 58,
+				"y": 52,
+				"next": [
+					8,
+					10
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 8,
+				"name": "Prison Block",
+				"type": "battle",
+				"note": "",
+				"x": 46,
+				"y": 38,
+				"next": [
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 9,
+				"name": "The Leader's Cell",
+				"type": "rescue",
+				"note": "Grandmaster Flex joins",
+				"x": 34,
+				"y": 24,
+				"next": [
+					10
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 10,
+				"name": "Meditation Garden",
+				"type": "heal",
+				"note": "",
+				"x": 56,
+				"y": 20,
+				"next": [
+					11,
+					12
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 11,
+				"name": "Hall of Trophies",
+				"type": "elite",
+				"note": "",
+				"x": 72,
+				"y": 34,
+				"next": [
+					13
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 12,
+				"name": "The Sauna of Truth",
+				"type": "challenge",
+				"note": "",
+				"x": 72,
+				"y": 12,
+				"next": [
+					13
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 13,
+				"name": "Throne of Gains",
+				"type": "boss",
+				"note": "",
+				"x": 88,
+				"y": 22,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	},
+	{
+		"id": "D-TTK",
+		"name": "The Test Kitchen",
+		"type": "Main Dungeon",
+		"zone": "gourmand",
+		"zone_text": "The Endless Buffet (Gourmand)",
+		"theme": "An experimental kitchen, food laboratory and ridiculous weapons-development center: gleaming steel counters, bubbling beakers of sauce, conveyor belts, blueprints, and enormous unfinished food-powered war machines.",
+		"story": "What looks like a thriving culinary R&D center is secretly a military-industrial complex. The doppelganger posing as the Gourmand leader uses corrupted food to bend the chefs into building war machines for the big bad. Clues along the way (the R&D Archives) reveal the impostor before the final fight.",
+		"boss": "The Doppelganger (posing as Grand Chef Escoffina)",
+		"buffs": "Experimental: at the start of each battle, a random unit on each side gains a random keyword. Corrupted Food: healing effects heal 1 less.",
+		"reward_first": "Grand Chef Escoffina (G-33), a Gilded Gourmand Pack, bonus gold and XP; frees the Endless Buffet.",
+		"reward_repeat": "Gourmand Path Pack + gold.",
+		"hook": "A nervous line cook in the Grand Pantry: \"Chef doesn't taste her own sauces anymore. Chef ALWAYS tastes.\"",
+		"map_id": "MAP-TTK",
+		"battleboard_id": "BB-TTK",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "Loading Dock",
+				"type": "start",
+				"note": "",
+				"x": 8,
+				"y": 50,
+				"next": [
+					2,
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "Prep Station",
+				"type": "battle",
+				"note": "",
+				"x": 22,
+				"y": 28,
+				"next": [
+					4
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "Walk-In Cooler",
+				"type": "battle",
+				"note": "",
+				"x": 22,
+				"y": 72,
+				"next": [
+					5
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 4,
+				"name": "Taste Test Lab",
+				"type": "challenge",
+				"note": "",
+				"x": 36,
+				"y": 18,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 5,
+				"name": "Spice Vault",
+				"type": "treasure",
+				"note": "",
+				"x": 36,
+				"y": 84,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 6,
+				"name": "Prototype Bay",
+				"type": "elite",
+				"note": "unfinished war machine",
+				"x": 48,
+				"y": 50,
+				"next": [
+					7,
+					8
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 7,
+				"name": "Corrupted Pantry",
+				"type": "event",
+				"note": "corrupted food: boon or curse",
+				"x": 60,
+				"y": 28,
+				"next": [
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 8,
+				"name": "Golem Assembly Line",
+				"type": "battle",
+				"note": "",
+				"x": 60,
+				"y": 72,
+				"next": [
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 9,
+				"name": "Staff Break Room",
+				"type": "heal",
+				"note": "",
+				"x": 70,
+				"y": 50,
+				"next": [
+					10,
+					11
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 10,
+				"name": "R&D Archives",
+				"type": "event",
+				"note": "discover the impostor",
+				"x": 78,
+				"y": 24,
+				"next": [
+					12
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 11,
+				"name": "Weapons Test Range",
+				"type": "elite",
+				"note": "",
+				"x": 78,
+				"y": 76,
+				"next": [
+					12
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 12,
+				"name": "The Head Chef's Pass",
+				"type": "battle",
+				"note": "",
+				"x": 86,
+				"y": 50,
+				"next": [
+					13
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 13,
+				"name": "The Grand Kitchen",
+				"type": "boss",
+				"note": "",
+				"x": 92,
+				"y": 26,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	},
+	{
+		"id": "D-HFA",
+		"name": "The Hall of Final Approvals",
+		"type": "Main Dungeon",
+		"zone": "necrocrat",
+		"zone_text": "The D.N.A. (Necrocrat)",
+		"theme": "The ultimate bureaucratic nightmare: an endless gray-green government complex of marble halls, filing-cabinet canyons, ticket kiosks, waiting rooms, rubber stamps, and floating ghostly paperwork.",
+		"story": "Authority over the Necrocrats was transferred to the big bad through perfectly valid paperwork, so the Necrocrats dutifully enforce absurd oppression. Navigate departments, waiting rooms, and regulations to reach the official who now holds that authority and get the paperwork reversed (by force).",
+		"boss": "Undersecretary Vellum, Acting Director of Final Approvals",
+		"buffs": "Processing Time: each player's first spell each turn costs 1 more. Red Tape Everywhere: start each battle with one Red Tape.",
+		"reward_first": "Mortimer Grimsby, CE-No (N-33), a Gilded Necrocrat Pack, bonus gold and XP; frees the D.N.A.",
+		"reward_repeat": "Necrocrat Path Pack + gold.",
+		"hook": "A ghost in the D.N.A. lobby holding a stack of denied appeals: \"I just want to finish dying properly.\"",
+		"map_id": "MAP-HFA",
+		"battleboard_id": "BB-HFA",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "Entrance Queue",
+				"type": "start",
+				"note": "",
+				"x": 8,
+				"y": 80,
+				"next": [
+					2
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "Take-a-Number Kiosk",
+				"type": "event",
+				"note": "",
+				"x": 20,
+				"y": 64,
+				"next": [
+					3,
+					4
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "Department of Intake",
+				"type": "battle",
+				"note": "",
+				"x": 32,
+				"y": 80,
+				"next": [
+					5
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 4,
+				"name": "Department of Returns",
+				"type": "battle",
+				"note": "",
+				"x": 32,
+				"y": 48,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 5,
+				"name": "Waiting Room of Eternity",
+				"type": "challenge",
+				"note": "",
+				"x": 45,
+				"y": 88,
+				"next": [
+					7
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 6,
+				"name": "Records Labyrinth",
+				"type": "treasure",
+				"note": "",
+				"x": 45,
+				"y": 38,
+				"next": [
+					7
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 7,
+				"name": "Notary Checkpoint",
+				"type": "elite",
+				"note": "",
+				"x": 55,
+				"y": 62,
+				"next": [
+					8,
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 8,
+				"name": "Form 27-B Office",
+				"type": "event",
+				"note": "fill out forms: boon or curse",
+				"x": 66,
+				"y": 80,
+				"next": [
+					10
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 9,
+				"name": "Resurrection Permits Desk",
+				"type": "battle",
+				"note": "",
+				"x": 66,
+				"y": 44,
+				"next": [
+					10
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 10,
+				"name": "Coffin Breakroom",
+				"type": "heal",
+				"note": "",
+				"x": 76,
+				"y": 62,
+				"next": [
+					11,
+					12
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 11,
+				"name": "Appeals Court",
+				"type": "elite",
+				"note": "",
+				"x": 82,
+				"y": 38,
+				"next": [
+					13
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 12,
+				"name": "The Shredding Room",
+				"type": "event",
+				"note": "shred a card for a reward",
+				"x": 84,
+				"y": 82,
+				"next": [
+					13
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 13,
+				"name": "Executive Elevator",
+				"type": "battle",
+				"note": "",
+				"x": 88,
+				"y": 58,
+				"next": [
+					14
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 14,
+				"name": "Office of Final Approval",
+				"type": "boss",
+				"note": "",
+				"x": 92,
+				"y": 22,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	},
+	{
+		"id": "D-ROT",
+		"name": "The Rotheart",
+		"type": "Main Dungeon",
+		"zone": "refusemancer",
+		"zone_text": "The Verdant Dump (Refusemancer)",
+		"theme": "The Verdant Dump's vibrant junkyard-farm turned unnaturally alive and twisted: choking vines, mutated glowing fungi, invasive roots splitting machinery, sickly purple-green light, pulsing roots leading to a giant corrupted heart-tree.",
+		"story": "The Refusemancer leader was corrupted through her own connection to nature, and the corruption spreads through the ecosystem. The deeper you go, the more warped the land becomes. At the Rotheart, the corrupted core, you face Compostella and sever the big bad's influence over the natural world. Severing the Heart Roots first weakens her.",
+		"boss": "Compostella, the Rotheart (the corrupted Refusemancer leader)",
+		"buffs": "Overgrowth: at the start of each turn, each unit gets a buff. Rot: at end of turn, units with 1 defense are destroyed.",
+		"reward_first": "Archdruid Compostella (R-33, cured), a Gilded Refusemancer Pack, bonus gold and XP; frees the Verdant Dump.",
+		"reward_repeat": "Refusemancer Path Pack + gold.",
+		"hook": "Druids at the Compost Grange: \"The Archdruid hasn't spoken in weeks. The compost... it's growing teeth.\"",
+		"map_id": "MAP-ROT",
+		"battleboard_id": "BB-ROT",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "Edge of the Blight",
+				"type": "start",
+				"note": "",
+				"x": 10,
+				"y": 85,
+				"next": [
+					2,
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "Overgrown Junkyard",
+				"type": "battle",
+				"note": "",
+				"x": 24,
+				"y": 72,
+				"next": [
+					4
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "Fungal Hollow",
+				"type": "battle",
+				"note": "",
+				"x": 24,
+				"y": 45,
+				"next": [
+					5
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 4,
+				"name": "Strangled Greenhouse",
+				"type": "challenge",
+				"note": "",
+				"x": 38,
+				"y": 85,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 5,
+				"name": "Spore Grotto",
+				"type": "treasure",
+				"note": "",
+				"x": 38,
+				"y": 32,
+				"next": [
+					6
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 6,
+				"name": "Root-Choked Mill",
+				"type": "elite",
+				"note": "",
+				"x": 50,
+				"y": 60,
+				"next": [
+					7,
+					8
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 7,
+				"name": "Weeping Compost Pool",
+				"type": "event",
+				"note": "corrupted boon",
+				"x": 62,
+				"y": 78,
+				"next": [
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 8,
+				"name": "Thorn Maze",
+				"type": "battle",
+				"note": "",
+				"x": 62,
+				"y": 40,
+				"next": [
+					9
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 9,
+				"name": "The Last Clean Spring",
+				"type": "heal",
+				"note": "",
+				"x": 72,
+				"y": 60,
+				"next": [
+					10,
+					11
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 10,
+				"name": "Hive of Mutant Bees",
+				"type": "elite",
+				"note": "",
+				"x": 80,
+				"y": 40,
+				"next": [
+					12
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 11,
+				"name": "Rot Tunnel",
+				"type": "battle",
+				"note": "",
+				"x": 80,
+				"y": 78,
+				"next": [
+					12
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 12,
+				"name": "The Heart Roots",
+				"type": "event",
+				"note": "sever the tendrils; weakens the boss",
+				"x": 88,
+				"y": 58,
+				"next": [
+					13
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 13,
+				"name": "The Rotheart",
+				"type": "boss",
+				"note": "",
+				"x": 88,
+				"y": 22,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	},
+	{
+		"id": "D-PC",
+		"name": "Primm's Castle",
+		"type": "Final Dungeon",
+		"zone": "final",
+		"zone_text": "The Capital (final zone)",
+		"theme": "A gleaming, perfectly symmetrical palace of white stone, gold trim, and mirrors everywhere, every surface reflecting Primm, while cracks, rifts, and corruption seep through behind the polish.",
+		"story": "The heart of Primm's rule. His Perfection believes he is improving the kingdom, but everything here reflects only him. Side wings show how he 'perfected' each faction; the Archive of Good Intentions reveals the tragedy of a man who meant well and became a tyrant. The final chamber is the Model Room, a giant scale model of the kingdom he rearranges by hand.",
+		"boss": "Primm, \"His Perfection\" (multi-phase final boss)",
+		"buffs": "The Capital's broken-services debuffs (one per faction whose zone isn't freed yet). Perfect Order: units can't have more than 2 keywords. Mirrors: the first card each player plays each game is copied for the opponent.",
+		"reward_first": "Reunion of the Paths (P4-02), bonus gold and XP, the ending, and the postgame unlock (all Paths can be combined).",
+		"reward_repeat": "Prismatic Pack + gold (postgame).",
+		"hook": "The resistance hideout: \"It ends where it began. The castle.\"",
+		"map_id": "MAP-PC",
+		"battleboard_id": "BB-PC",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "Castle Gate",
+				"type": "start",
+				"note": "",
+				"x": 6,
+				"y": 85,
+				"next": [
+					2
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "Courtyard of Perfect Hedges",
+				"type": "battle",
+				"note": "",
+				"x": 16,
+				"y": 70,
+				"next": [
+					3,
+					11
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "Grand Foyer",
+				"type": "event",
+				"note": "",
+				"x": 26,
+				"y": 78,
+				"next": [
+					4,
+					22
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 4,
+				"name": "Portrait Gallery",
+				"type": "battle",
+				"note": "",
+				"x": 36,
+				"y": 62,
+				"next": [
+					5,
+					12,
+					13
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 5,
+				"name": "Hall of Mirrors",
+				"type": "elite",
+				"note": "",
+				"x": 46,
+				"y": 70,
+				"next": [
+					6,
+					16,
+					17
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 6,
+				"name": "Ministry of Correction",
+				"type": "battle",
+				"note": "",
+				"x": 56,
+				"y": 55,
+				"next": [
+					7,
+					14,
+					15
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 7,
+				"name": "Resistance Safe Room",
+				"type": "heal",
+				"note": "",
+				"x": 66,
+				"y": 65,
+				"next": [
+					8,
+					18
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 8,
+				"name": "Archive of Good Intentions",
+				"type": "event",
+				"note": "Primm's journals",
+				"x": 74,
+				"y": 48,
+				"next": [
+					9,
+					19
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 9,
+				"name": "Royal Stair",
+				"type": "elite",
+				"note": "",
+				"x": 82,
+				"y": 60,
+				"next": [
+					10,
+					20
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 10,
+				"name": "The Model Room",
+				"type": "boss",
+				"note": "",
+				"x": 90,
+				"y": 30,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 11,
+				"name": "Gilded Pantry",
+				"type": "treasure",
+				"note": "",
+				"x": 14,
+				"y": 48,
+				"next": [],
+				"side": true,
+				"return_to": 2
+			},
+			{
+				"n": 12,
+				"name": "Gourmand Wing: the Doppelganger's Lab Notes",
+				"type": "event",
+				"note": "",
+				"x": 30,
+				"y": 40,
+				"next": [],
+				"side": true,
+				"return_to": 4
+			},
+			{
+				"n": 13,
+				"name": "Beefcake Wing: Coup Orders Barracks",
+				"type": "battle",
+				"note": "",
+				"x": 40,
+				"y": 38,
+				"next": [],
+				"side": true,
+				"return_to": 4
+			},
+			{
+				"n": 14,
+				"name": "Necrocrat Wing: Notarized Archives",
+				"type": "challenge",
+				"note": "",
+				"x": 52,
+				"y": 32,
+				"next": [],
+				"side": true,
+				"return_to": 6
+			},
+			{
+				"n": 15,
+				"name": "Refusemancer Wing: the Corrupted Seed Vault",
+				"type": "battle",
+				"note": "",
+				"x": 62,
+				"y": 30,
+				"next": [],
+				"side": true,
+				"return_to": 6
+			},
+			{
+				"n": 16,
+				"name": "Correction Ward Cells",
+				"type": "event",
+				"note": "free prisoners for a boon",
+				"x": 46,
+				"y": 90,
+				"next": [],
+				"side": true,
+				"return_to": 5
+			},
+			{
+				"n": 17,
+				"name": "Mirror Maze",
+				"type": "challenge",
+				"note": "",
+				"x": 56,
+				"y": 85,
+				"next": [],
+				"side": true,
+				"return_to": 5
+			},
+			{
+				"n": 18,
+				"name": "Royal Kitchens",
+				"type": "treasure",
+				"note": "",
+				"x": 72,
+				"y": 82,
+				"next": [],
+				"side": true,
+				"return_to": 7
+			},
+			{
+				"n": 19,
+				"name": "Primm's Private Gallery",
+				"type": "treasure",
+				"note": "",
+				"x": 74,
+				"y": 25,
+				"next": [],
+				"side": true,
+				"return_to": 8
+			},
+			{
+				"n": 20,
+				"name": "Clocktower Balcony",
+				"type": "elite",
+				"note": "",
+				"x": 86,
+				"y": 78,
+				"next": [
+					21
+				],
+				"side": true,
+				"return_to": 9
+			},
+			{
+				"n": 21,
+				"name": "Royal Vault",
+				"type": "treasure",
+				"note": "",
+				"x": 92,
+				"y": 88,
+				"next": [],
+				"side": true,
+				"return_to": 9
+			},
+			{
+				"n": 22,
+				"name": "Garden of Uniform Flowers",
+				"type": "event",
+				"note": "",
+				"x": 26,
+				"y": 92,
+				"next": [],
+				"side": true,
+				"return_to": 3
+			}
+		]
+	},
+	{
+		"id": "S-BEEF",
+		"name": "The Ascent of Mount Swolympus",
+		"type": "Side Dungeon",
+		"zone": "beefcake",
+		"zone_text": "The Gainlands (Beefcake)",
+		"theme": "A sunny, impossibly steep mountain climb with switchback trails, chalk-dusted ledges, ancient stone weights, and clouds below; a glowing altar at the summit.",
+		"story": "Legend says the Barbell of the Ancients rests atop Mount Swolympus and can only be lifted by the worthy. Climb past rival lifters to the summit and prove yourself to its ancient guardian.",
+		"boss": "The Ancient Spotter (a stone colossus who has been spotting the barbell for 1,000 years)",
+		"buffs": "Thin Air: units with Hustle get +1/+0.",
+		"reward_first": "Barbell of the Ancients (B-30).",
+		"reward_repeat": "Small gold and a Beefcake Path Pack.",
+		"hook": "A wheezing old hermit at the Swole Station: \"Only the worthy reach the top. Also bring water.\"",
+		"map_id": "MAP-S-BEEF",
+		"battleboard_id": "BB-S-BEEF",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "Base Camp Bros",
+				"type": "battle",
+				"note": "",
+				"x": 18,
+				"y": 75,
+				"next": [
+					2
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "The Squat Rack Pass",
+				"type": "battle",
+				"note": "",
+				"x": 50,
+				"y": 45,
+				"next": [
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "The Summit Altar",
+				"type": "boss",
+				"note": "",
+				"x": 82,
+				"y": 20,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	},
+	{
+		"id": "S-GOUR",
+		"name": "Omakase",
+		"type": "Side Dungeon",
+		"zone": "gourmand",
+		"zone_text": "The Endless Buffet (Gourmand)",
+		"theme": "A tiny, secret, impossibly exclusive sushi restaurant: hinoki-wood counter, paper lanterns, a koi pond, and conveyor belts that go much deeper than they should.",
+		"story": "There is no menu. You leave your fate to the chef. Survive three courses served by increasingly intense sushi chefs, ending with the Chef's Choice: a legendary bull made of toro.",
+		"boss": "The Itamae Supreme (and his masterpiece)",
+		"buffs": "Fresh Fish: tokens enter with +1/+1.",
+		"reward_first": "Toro Toro (G-27).",
+		"reward_repeat": "Small gold and a Gourmand Path Pack.",
+		"hook": "A golden reservation card hidden in the Endless Buffet: \"Seating: 1. Courses: 3. Survival: optional.\"",
+		"map_id": "MAP-S-GOUR",
+		"battleboard_id": "BB-S-GOUR",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "The Counter Seat",
+				"type": "battle",
+				"note": "",
+				"x": 18,
+				"y": 75,
+				"next": [
+					2
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "The Conveyor Gauntlet",
+				"type": "battle",
+				"note": "",
+				"x": 50,
+				"y": 45,
+				"next": [
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "Chef's Choice",
+				"type": "boss",
+				"note": "",
+				"x": 82,
+				"y": 20,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	},
+	{
+		"id": "S-NECRO",
+		"name": "The Waiting Room of Eternity",
+		"type": "Side Dungeon",
+		"zone": "necrocrat",
+		"zone_text": "The D.N.A. (Necrocrat)",
+		"theme": "An infinite gray waiting room: endless rows of chairs, flickering number displays, potted plants that died centuries ago, and a single desk at the far end.",
+		"story": "To get your form stamped you must reach the front of the line. The line is eternal. Fight your way past the receptionist, the queue, and finally Betty Bones herself, who is very sorry, but you'll need forms A through F.",
+		"boss": "Betty Bones, Surly Secretary",
+		"buffs": "Please Wait: units enter exhausted (both players).",
+		"reward_first": "Betty Bones, Surly Secretary (N-30).",
+		"reward_repeat": "Small gold and a Necrocrat Path Pack.",
+		"hook": "A ghost clutching a crumpled ticket: \"Number 4,000,212? They're on 3. Can you help?\"",
+		"map_id": "MAP-S-NECRO",
+		"battleboard_id": "BB-S-NECRO",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "Now Serving: Number 1",
+				"type": "battle",
+				"note": "",
+				"x": 18,
+				"y": 75,
+				"next": [
+					2
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "The Line",
+				"type": "battle",
+				"note": "",
+				"x": 50,
+				"y": 45,
+				"next": [
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "Betty's Desk",
+				"type": "boss",
+				"note": "",
+				"x": 82,
+				"y": 20,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	},
+	{
+		"id": "S-REF",
+		"name": "The Trash Panda Throne",
+		"type": "Side Dungeon",
+		"zone": "refusemancer",
+		"zone_text": "The Verdant Dump (Refusemancer)",
+		"theme": "A secret raccoon kingdom built under a giant dumpster: bottle-cap banners, pizza-box walls, soda-can towers, and a throne made of trash-can lids.",
+		"story": "The raccoons have a king, and he has a lot to answer for (and is sweating about it). Fight through the alley guards and the pizza crust court to the Throne of Lids.",
+		"boss": "His Majesty the Raccoon (sweating profusely)",
+		"buffs": "Midnight Snack: whenever a player eats garbage, they gain 1 HP.",
+		"reward_first": "Raccoon (R-27).",
+		"reward_repeat": "Small gold and a Refusemancer Path Pack.",
+		"hook": "A furious druid at the Compost Grange: \"Someone has been eating ALL the compost. Little paw prints. A tiny crown.\"",
+		"map_id": "MAP-S-REF",
+		"battleboard_id": "BB-S-REF",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "The Alley Gate",
+				"type": "battle",
+				"note": "",
+				"x": 18,
+				"y": 75,
+				"next": [
+					2
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "The Pizza Crust Court",
+				"type": "battle",
+				"note": "",
+				"x": 50,
+				"y": 45,
+				"next": [
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "The Throne of Lids",
+				"type": "boss",
+				"note": "",
+				"x": 82,
+				"y": 20,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	},
+	{
+		"id": "S-CAP",
+		"name": "The Old Service Tunnels",
+		"type": "Side Dungeon",
+		"zone": "final",
+		"zone_text": "The Capital (final zone)",
+		"theme": "Forgotten underground tunnels the four factions once built together: brick arches, rusty pipes, faded four-faction murals, and Primm's enforcers patrolling with lanterns.",
+		"story": "These tunnels connected the four factions' services back when they cooperated. Primm sealed and forgot them. Clearing them proves the old harmony still exists underneath his perfect city, and opens a secret way into the Capital.",
+		"boss": "Enforcer Captain Spotless",
+		"buffs": "Forgotten Harmony: multi-path cards cost 1 less.",
+		"reward_first": "The Wanderer (C-29).",
+		"reward_repeat": "Small gold and a General Pack.",
+		"hook": "A resistance scout: \"There's an older way into the city. Nobody remembers it. That's the point.\"",
+		"map_id": "MAP-S-CAP",
+		"battleboard_id": "BB-S-CAP",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "The Sewer Checkpoint",
+				"type": "battle",
+				"note": "",
+				"x": 18,
+				"y": 75,
+				"next": [
+					2
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "The Four-Faction Junction",
+				"type": "battle",
+				"note": "",
+				"x": 50,
+				"y": 45,
+				"next": [
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "The Grate Beneath the Plaza",
+				"type": "boss",
+				"note": "",
+				"x": 82,
+				"y": 20,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	},
+	{
+		"id": "S-TOWN",
+		"name": "The Forgotten Vault",
+		"type": "Side Dungeon",
+		"zone": "town",
+		"zone_text": "Main Town (neutral)",
+		"theme": "An ancient vault beneath the main town from the Old Kingdom: mossy stone halls, four faded faction banners, clockwork guardians, and a glowing four-colored core.",
+		"story": "Beneath the town lies a vault from the days when the four Paths marched as one. Its clockwork guardians still keep watch, waiting for someone worthy of the Old Kingdom's banner.",
+		"boss": "The Old Kingdom Automaton (Vault Guardian)",
+		"buffs": "Old Kingdom: colorless units get +1/+1.",
+		"reward_first": "Old Kingdom Banner (C-21).",
+		"reward_repeat": "Small gold and a General Pack.",
+		"hook": "An elder in the main town: \"There's a door under the old well that's been locked since before I was born.\"",
+		"map_id": "MAP-S-TOWN",
+		"battleboard_id": "BB-S-TOWN",
+		"nodes": [
+			{
+				"n": 1,
+				"name": "The Rusty Gate",
+				"type": "battle",
+				"note": "",
+				"x": 18,
+				"y": 75,
+				"next": [
+					2
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 2,
+				"name": "The Hall of Four Banners",
+				"type": "battle",
+				"note": "",
+				"x": 50,
+				"y": 45,
+				"next": [
+					3
+				],
+				"side": false,
+				"return_to": 0
+			},
+			{
+				"n": 3,
+				"name": "The Vault Core",
+				"type": "boss",
+				"note": "",
+				"x": 82,
+				"y": 20,
+				"next": [],
+				"side": false,
+				"return_to": 0
+			}
+		]
+	}
+]

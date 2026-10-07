@@ -54,6 +54,10 @@ func is_freed() -> bool:
 ## zone the `<key>.freed` variant wins when it exists.
 func get_lines(key: String) -> Array[String]:
 	var result: Array[String] = []
+	if DungeonCatalog.has_text(key):
+		for entry: String in DungeonCatalog.text_lines(key):
+			result.append(Villain.fill(entry))
+		return result
 	var raw: Variant = lines.get(key)
 	if is_freed() and lines.has(key + ".freed"):
 		raw = lines.get(key + ".freed")

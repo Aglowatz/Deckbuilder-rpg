@@ -757,7 +757,22 @@ func _greeting(npc_id: String) -> Array[String]:
 	if not Session.flag(flag_name):
 		Session.set_flag(flag_name)
 		return story.get_lines("npc.%s.intro" % npc_id)
-	return story.get_lines("npc.%s.return" % npc_id)
+	var lines: Array[String] = story.get_lines("npc.%s.return" % npc_id)
+	lines.append_array(_hook_lines(npc_id))
+	return lines
+
+
+## The quest hooks of the dungeon list that this NPC speaks (a main dungeon that is not cleared yet), as dialogue lines.
+func _hook_lines(npc_id: String) -> Array[String]:
+	var lines: Array[String] = []
+	var list_id: String = str(def.spot_def(npc_id).get("npc_id", ""))
+	if list_id.is_empty():
+		return lines
+	for hook: Dictionary in DungeonCatalog.hooks_for_npc(list_id):
+		var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(str(hook["dungeon"]))
+		if plan != null and not Session.is_zone_completed(plan.zone_id):
+			lines.append(str(hook["text"]))
+	return lines
 
 
 func _use_heal_spot(spot: ZoneSpot) -> void:
@@ -770,10 +785,20 @@ func _use_heal_spot(spot: ZoneSpot) -> void:
 
 func _ask_mini_dungeon(spot: ZoneSpot) -> void:
 	player.face(spot.position)
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.side_for_zone(def.id)
+	if plan == null:
+		return
+	# A side dungeon opens once its quest is done (`ZoneQuestDefinitions.SIDE_QUESTS`); until then the entrance only drops the hook.
+	if not Session.side_unlocked(plan.id):
+		hud.toast("%s is sealed. %s" % [plan.dungeon_name, plan.hook], Color("ffcf70"))
+		Audio.sfx(&"ui_error")
+		return
 	_locked = true
 	var cleared: bool = Session.flag(def.flag_mini_cleared)
-	var body: String = story.text("ui.mini.body_cleared" if cleared else "ui.mini.body")
-	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, def.mini.dungeon_name, body, story.text("ui.mini.button"), "Not yet")
+	var body: String = "%s
+
+%s" % [plan.story, "You have been here before: a repeat clear pays gold and a pack." if cleared else "First clear: a unique card."]
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, def.mini.dungeon_name, body, "Enter", "Not yet")
 	dialog.confirmed.connect(func() -> void:
 		var run: ZoneRun = Session.zone_run
 		run.return_position = spot.position + Vector3(0, 0, 1.0)
@@ -1000,7 +1025,7 @@ func _apply_pending_result() -> void:
 		if bool(result.get("first_clear", false)):
 			hud.toast("%s cleared! Unique card: %s" % [def.mini.dungeon_name, str(result.get("card", ""))], UIStyle.GOLD)
 		elif bool(result.get("cleared", false)):
-			hud.toast("%s survived again. HP carries over." % def.mini.dungeon_name, UIStyle.GOOD)
+			hud.toast("%s cleared again: +%d gold. HP carries over." % [def.mini.dungeon_name, int(result.get("gold", 0))], UIStyle.GOOD)
 		else:
 			hud.toast("You leave %s with %d HP." % [def.mini.dungeon_name, Session.zone_run.hp], Color("ffcf70"))
 		return

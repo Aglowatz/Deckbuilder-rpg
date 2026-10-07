@@ -12,32 +12,16 @@ extends RefCounted
 ## `challenge.pc_*`, `cutscene.primm_*`). The boss is `PrimmBoss` (three phases).
 
 const ZONE_ID: String = "final"
+const DUNGEON_ID: String = "D-PC"
 const REWARD_CARD_ID: String = "P4-02"
 const K := DungeonMap.Kind
 
 
 static func build_def() -> MainDungeonDef:
-	var def: MainDungeonDef = MainDungeonDef.new()
-	def.zone_id = ZONE_ID
-	def.dungeon_name = "Primm's Castle"
+	var def: MainDungeonDef = DungeonBuilder.build_def(DungeonCatalog.find(DUNGEON_ID))
 	def.backdrop = "castle"
-	def.reward_card_id = REWARD_CARD_ID
 	def.reward_gold = 500
 	def.reward_xp = 400
-	def.add_foe("Hall Guard", 14, "Balanced", EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), "delapouite/guards")
-	def.add_foe("Gallery Curator", 15, "Defensive", EnemyDecks.mixed("colorless_regime", 29, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), "delapouite/portrait")
-	def.add_foe("Mirror Knight", 16, "Aggressive", EnemyDecks.trimmed("necrocrat_beefcake", 30, 16), "delapouite/shinto-shrine-mirror")
-	def.add_foe("Ministry Clerk", 15, "Balanced", EnemyDecks.trimmed("gourmand_necrocrat", 30, 16), "delapouite/stamper")
-	def.add_foe("Chief Corrector", 21, "Aggressive", EnemyDecks.trimmed("necrocrat_beefcake", 32, 16), "cathelineau/nun-face")
-	def.add_foe("Doppelganger Technician", 17, "Balanced", EnemyDecks.trimmed("gourmand_necrocrat", 31, 16), "lorc/acid-blob")
-	def.add_foe("Regime Enforcer", 17, "Aggressive", EnemyDecks.trimmed("necrocrat_beefcake", 30, 16), "delapouite/viking-head")
-	def.add_foe("Notary Wraith", 17, "Defensive", EnemyDecks.trimmed("necro_control", 30, 16), "delapouite/stamper")
-	def.add_foe("Rotting Gardener", 17, "Balanced", EnemyDecks.trimmed("necrocrat_refusemancer", 30, 16), "cathelineau/tree-face")
-	def.add_foe("Servant Corps", 16, "Balanced", EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), "delapouite/guards")
-	def.add_foe("Archive Warden", 17, "Defensive", EnemyDecks.mixed("colorless_regime", 30, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), "delapouite/book-cover")
-	def.add_foe("Archive Automaton", 22, "Balanced", EnemyDecks.mixed("colorless_regime", 33, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), "delapouite/cyborg-face")
-	def.add_foe("Model Warden", 25, "Aggressive", EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 36, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT] as Array[Affinity.Type], 20), {"P4-01": 1}), "delapouite/castle")
-	def.add_foe(PrimmBoss.BOSS_FOE, PrimmBoss.phase(0).hp, "Balanced", PrimmBoss.phase(0).recipe, "cathelineau/old-king")
 	_challenges(def)
 	_events(def)
 	return def
@@ -97,95 +81,3 @@ static func _events(def: MainDungeonDef) -> void:
 	def.add_event(last)
 
 
-## Normalised x of a column of the map (14 columns, the boss in the last).
-static func _x(column: float) -> float:
-	return 0.04 + column * 0.0615
-
-
-static func build_map(def: MainDungeonDef) -> DungeonMap:
-	var map: DungeonMap = DungeonMap.new()
-	map.dungeon_name = def.dungeon_name
-	var hall: String = "the Great Hall"
-	var gallery: String = "the Portrait Gallery"
-	var mirrors: String = "the Hall of Mirrors"
-	var ministry: String = "the Ministry of Correction"
-	var wings: String = "the Four Wings"
-	var archive: String = "the Archive of Good Intentions"
-	var model: String = "the Scale Model Chamber"
-
-	# Column 0-1: the great doors and the hall.
-	var gate: DungeonMap.MapNode = def.node(map, K.START, "pc_gate", Vector2(_x(0.0), 0.46), hall)                                                       # 0
-	var great_hall: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_hall", Vector2(_x(1.0), 0.46), "Hall Guard", hall)                                # 1
-	# Column 2-4: the Portrait Gallery and the Hall of Mirrors.
-	var portraits: DungeonMap.MapNode = def.event_node(map, "pc_portraits", Vector2(_x(2.0), 0.28), "pc_improved_portraits", gallery)                    # 2
-	var curator: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_curator", Vector2(_x(2.0), 0.64), "Gallery Curator", gallery)                        # 3
-	var alcove: DungeonMap.MapNode = def.treasure_node(map, "pc_alcove", Vector2(_x(2.0), 0.1), {"gold": 90, "xp": 40, "item": "scroll_of_insight"}, gallery)  # 4 (dead end)
-	var mirror_knight: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_mirror_knight", Vector2(_x(3.0), 0.28), "Mirror Knight", mirrors)             # 5
-	var mirror_test: DungeonMap.MapNode = def.challenge_node(map, "pc_mirror_test", Vector2(_x(3.0), 0.64), "pc_mirror_test", mirrors)                    # 6
-	var honest: DungeonMap.MapNode = def.event_node(map, "pc_honest_mirror", Vector2(_x(3.0), 0.82), "pc_honest_mirror", mirrors)                       # 7 (dead end)
-	var mirror_shrine: DungeonMap.MapNode = def.shrine_node(map, "pc_mirror_shrine", Vector2(_x(4.0), 0.46), 6, mirrors)                                 # 8
-	# Column 5-7: the Ministry of Correction.
-	var desk: DungeonMap.MapNode = def.challenge_node(map, "pc_desk", Vector2(_x(5.0), 0.28), "pc_ministry_desk", ministry)                              # 9
-	var clerk: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_clerk", Vector2(_x(5.0), 0.64), "Ministry Clerk", ministry)                            # 10
-	var corrector: DungeonMap.MapNode = def.battle(map, K.ELITE, "pc_corrector", Vector2(_x(6.0), 0.46), "Chief Corrector", ministry)                    # 11
-	var corrected: DungeonMap.MapNode = def.event_node(map, "pc_corrected", Vector2(_x(6.0), 0.1), "pc_corrected_citizens", ministry)                  # 12 (dead end)
-	# Column 7-8: the junction of the four wings (each wing a dead-end branch) and two ways on.
-	var junction: DungeonMap.MapNode = def.event_node(map, "pc_junction", Vector2(_x(7.0), 0.46), "pc_four_wings", wings)                                 # 13
-	var wing_gourmand: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_wing_gourmand", Vector2(_x(7.0), 0.1), "Doppelganger Technician", "the Gourmand Wing")     # 14
-	var wing_beefcake: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_wing_beefcake", Vector2(_x(8.0), 0.1), "Regime Enforcer", "the Beefcake Wing")           # 15
-	var wing_necrocrat: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_wing_necrocrat", Vector2(_x(7.0), 0.82), "Notary Wraith", "the Necrocrat Wing")          # 16
-	var wing_refusemancer: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_wing_refusemancer", Vector2(_x(8.0), 0.82), "Rotting Gardener", "the Refusemancer Wing")  # 17
-	for wing: DungeonMap.MapNode in [wing_gourmand, wing_beefcake, wing_necrocrat, wing_refusemancer]:
-		wing.card_choices = 3
-		wing.gold_reward = 40
-	var servants: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_servants", Vector2(_x(8.0), 0.28), "Servant Corps", wings)                           # 18
-	var staircase: DungeonMap.MapNode = def.event_node(map, "pc_staircase", Vector2(_x(8.0), 0.64), "pc_grand_staircase", wings)                         # 19
-	var vault: DungeonMap.MapNode = def.treasure_node(map, "pc_vault", Vector2(_x(9.0), 0.46), {"gold": 100, "xp": 50, "card": "C-30"}, wings)     # 20
-	# Column 10-12: the Archive of Good Intentions.
-	var archive_gate: DungeonMap.MapNode = def.battle(map, K.BATTLE, "pc_archive_gate", Vector2(_x(10.0), 0.28), "Archive Warden", archive)             # 21
-	var journals: DungeonMap.MapNode = def.event_node(map, "pc_journals", Vector2(_x(10.0), 0.64), "pc_early_journals", archive)                         # 22
-	var reading_room: DungeonMap.MapNode = def.shrine_node(map, "pc_reading_room", Vector2(_x(11.0), 0.46), 6, archive)                                  # 23
-	var blueprints: DungeonMap.MapNode = def.treasure_node(map, "pc_blueprints", Vector2(_x(11.0), 0.1), {"gold": 110, "xp": 60, "item": "vitality_charm"}, archive)  # 24 (dead end)
-	var shelf: DungeonMap.MapNode = def.challenge_node(map, "pc_shelf", Vector2(_x(12.0), 0.28), "pc_escalation_shelf", archive)                          # 25
-	var automaton: DungeonMap.MapNode = def.battle(map, K.ELITE, "pc_automaton", Vector2(_x(12.0), 0.64), "Archive Automaton", archive)                  # 26
-	var last_journal: DungeonMap.MapNode = def.event_node(map, "pc_last_journal", Vector2(_x(13.0), 0.46), "pc_last_journal", archive)                   # 27
-	# The Scale Model Chamber and Primm.
-	var warden: DungeonMap.MapNode = def.battle(map, K.ELITE, "pc_model_warden", Vector2(_x(14.0), 0.46), "Model Warden", model)                         # 28
-	var boss: DungeonMap.MapNode = def.battle(map, K.BOSS, "pc_boss", Vector2(_x(15.0), 0.46), PrimmBoss.BOSS_FOE, model)                                 # 29
-	boss.scene = "primm_intro"
-	boss.after_scene = "primm_end"
-	# Dead-end side branches double back to the branch point they hang off.
-	for branch: Array in [[alcove, portraits], [honest, mirror_test], [corrected, corrector], [wing_gourmand, junction], [wing_beefcake, junction], [wing_necrocrat, junction],
-			[wing_refusemancer, junction], [blueprints, reading_room]]:
-		(branch[0] as DungeonMap.MapNode).return_to = (branch[1] as DungeonMap.MapNode).id
-	# The forward links (branching, rejoining, and the dead ends hanging off).
-	def.link(map, [gate.id], great_hall.id)
-	def.link(map, [great_hall.id], portraits.id)
-	def.link(map, [great_hall.id], curator.id)
-	def.link(map, [portraits.id], alcove.id)
-	def.link(map, [portraits.id], mirror_knight.id)
-	def.link(map, [curator.id], mirror_test.id)
-	def.link(map, [mirror_test.id], honest.id)
-	def.link(map, [mirror_knight.id, mirror_test.id], mirror_shrine.id)
-	def.link(map, [mirror_shrine.id], desk.id)
-	def.link(map, [mirror_shrine.id], clerk.id)
-	def.link(map, [desk.id, clerk.id], corrector.id)
-	def.link(map, [corrector.id], corrected.id)
-	def.link(map, [corrector.id], junction.id)
-	def.link(map, [junction.id], wing_gourmand.id)
-	def.link(map, [junction.id], wing_beefcake.id)
-	def.link(map, [junction.id], wing_necrocrat.id)
-	def.link(map, [junction.id], wing_refusemancer.id)
-	def.link(map, [junction.id], servants.id)
-	def.link(map, [junction.id], staircase.id)
-	def.link(map, [servants.id, staircase.id], vault.id)
-	def.link(map, [vault.id], archive_gate.id)
-	def.link(map, [vault.id], journals.id)
-	def.link(map, [archive_gate.id, journals.id], reading_room.id)
-	def.link(map, [reading_room.id], blueprints.id)
-	def.link(map, [reading_room.id], shelf.id)
-	def.link(map, [reading_room.id], automaton.id)
-	def.link(map, [shelf.id, automaton.id], last_journal.id)
-	def.link(map, [last_journal.id], warden.id)
-	def.link(map, [warden.id], boss.id)
-	return map

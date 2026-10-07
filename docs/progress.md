@@ -2689,3 +2689,34 @@ NPC-PELL, NPC-PLAYER, NPC-PRIMM, NPC-PUMP, NPC-RACCOONKING, NPC-RHONDA, NPC-RIP,
 V-ALEMBIC, V-BEETSWORTH, V-BENCHLEY, V-FENWICK, V-FIGSLY, V-GRISTLE, V-LEDGERBONE, V-MIREPOIX, V-SABLE, V-THREADWELL, V-TONIC
 (Ones whose NPC is not in the game yet and so never shows: NPC-HOB, NPC-KESTREL, NPC-SPOTTER, NPC-ITAMAE, NPC-BETTY, NPC-RACCOONKING, NPC-AUTOMATON, and NPC-WARDEN until the Hollow Warden gets lines.
 Vendor portraits V-* are imported but only used when the vendor talks; the vendor screens still have their own look.)
+
+
+## Dungeons and their map art (dungeon list)
+
+Source: `data/source/dungeon_list.csv.csv` (12 dungeons, not 13: D-TUT, the five main dungeons D-HOG / D-TTK / D-HFA / D-ROT / D-PC and the six side dungeons S-BEEF / S-GOUR / S-NECRO / S-REF / S-CAP / S-TOWN; 99 nodes).
+`bash tools/import_dungeons.sh` writes `data/dungeons/dungeons.json` (parsed node lists with types, links, CSV positions and D-PC's dead-end returns) and `docs/design/reward_cards.md` (generated from the sheet).
+`DungeonCatalog` (`core/dungeon/dungeon_catalog.gd`) reads it; `data/dungeons/dungeon_content.json` is the hand-written content (foes, events, challenges, loot, boss lines, quest dialogue);
+`DungeonBuilder` turns blueprint + content into the playable `MainDungeonDef` and `DungeonMap`.
+
+### Part A: dungeon data
+- **All 12 dungeons come from the CSV.** Names, story, nodes, node types, connections, bosses, rewards, battleboards. The five main dungeons and the six side dungeons are built by `DungeonBuilder` (the old hand-built maps of the
+  House of Gains, Test Kitchen, Hall of Final Approvals, Rotheart and Primm's Castle are gone; the classes only keep their special parts: the House of Gains' Flex boon and ally, the Rotheart's severed Heart Roots, the Castle's
+  legacy events/challenges that the CSV nodes reuse). D-TUT keeps its hand-tuned tutorial encounters; its names and positions come from the CSV.
+- **Routes and branches:** routes that split and rejoin, the optional House of Gains prison branch (node 7 -> 8 or 10; skipping 8-9 skips the rescue), and D-PC's 12 dead-end side branches that double back (node 20 continues to 21 before returning to
+  the Royal Stair; `DungeonMap.problems()` now accepts a dead end reached through a chain).
+- **New node type:** `RESCUE` (the Leader's Cell). Nodes can be `hidden` (the side dungeons start on their first battle: an invisible entrance node holds the party marker). Event/challenge/treasure/full-heal nodes all exist for every dungeon with
+  short placeholder text fitting the node (Form 27-B Office, the Corrupted Pantry, Primm's journals in the Archive of Good Intentions...).
+- **House of Gains:** the Leader's Cell rescue grants the Grandmaster Flex boon, which puts the Flex token (T-15) on your field in the boss fight; skipping the prison skips it. **Rotheart:** severing the Heart Roots (node 12) makes the boss start 6 HP lower.
+- **Bosses** use the Boss column (Chancellor Clench, Iron Regent; The Doppelganger; Undersecretary Vellum...; Primm keeps his three-phase fight). Boss pre/post-fight lines show the NPC portraits (the six side bosses got new short lines and portrait mappings;
+  the Hollow Warden still has none: the tutorial dungeon has no story beats).
+- **Dungeon buffs/debuffs** (`DungeonRules`): ACTIVE: Pump Iron (Beefcake units +1 attack, you only), Corrupted Food (healing heals 1 less), Red Tape Everywhere (start with 1 Red Tape), Please Wait (units enter exhausted), Old Kingdom (colorless units +1/+1).
+  The map screen can list the others, but they are NOT enforced yet because the engine has no modifier for them: Iron-less Prison (Iron can't be used), Experimental (random keyword), Processing Time (first spell costs 1 more), Overgrowth, Rot, Perfect Order, Mirrors, Thin Air, Fresh Fish, Midnight Snack, Forgotten Harmony.
+- **Rewards:** first victory grants the listed unique card (all 11 flagged `not_in_packs` in `card_overrides.csv`; N-30, R-27, C-29 and C-21 are newly flagged and C-29 left the black market for C-24) plus the existing first-clear bonuses
+  (Gilded Pack, bonus gold and XP, zone completion) for main dungeons. Repeat clears: the Path Pack (main dungeons already paid it) plus 100 gold, side dungeons 30 gold plus the listed pack (a Path Pack or the General Pack), Primm's Castle a
+  Prismatic Pack in the postgame. "gold" amounts in the sheet are placeholders (`DungeonBuilder.MAIN_REPEAT_GOLD`, `SIDE_REWARD_GOLD`). Capital Path quests still hand out B-30 too (Barbell of the Ancients), the same card as S-BEEF's reward.
+- **Side dungeons** replace the four old mini dungeons (Iron Cavern etc.): S-BEEF, S-GOUR, S-NECRO, S-REF are the zones' `mini_dungeon` entrances (3 battles, zone HP rules), S-CAP is new in the Capital (hatch at the east end of the Outskirts; Kestrel, the scout, was added there
+  as its quest giver; NPC-KESTREL had no in-game NPC before), S-TOWN is new in the town (an iron hatch beside the Wellspring; a normal full-HP run, losing carries you back to town).
+- **Quests:** each side dungeon is opened by a quest from its NPC (`ZoneQuestDefinitions.SIDE_QUESTS`, generated into `data/quests/side_s_*.tres`; finishing sets `side_unlocked_<id>`): Old Man Mountain (S-BEEF: buy a protein shake), Basil (S-GOUR: find a hidden stash),
+  Gerald (S-NECRO: process two roaming staff), Brother Bramble (S-REF: beat two scavengers), Kestrel (S-CAP: reach the resistance hideout), Elder Maren (S-TOWN: find a hidden chest in town). Until then the entrance only says it is sealed and quotes the hook. The five main
+  dungeon hooks became dialogue lines on the return visits of Old Man Mountain, Basil, Agnes Overdue, Brother Bramble and Wren while the dungeon is not cleared. (The four older zone quest files `cap_*.tres` differ from their definitions by equipment rewards; they were not regenerated.)
+- Tests: `tests/core/dungeon/test_dungeon_catalog.gd` (15), and the main dungeon, Primm's Castle, mini dungeon and zone tests were updated to the CSV maps. GUT: 1122 tests, all passing.

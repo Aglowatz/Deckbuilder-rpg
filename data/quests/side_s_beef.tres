@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_b3fxa"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_8o1jh"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_vti3s"]
+
+[sub_resource type="Resource" id="Resource_xh6gp"]
+script = ExtResource("2_8o1jh")
+kind = 9
+key = "gain_shakes_bought"
+
+[sub_resource type="Resource" id="Resource_3i5xd"]
+script = ExtResource("1_b3fxa")
+text = "Buy a protein shake"
+condition = SubResource("Resource_xh6gp")
+
+[resource]
+script = ExtResource("3_vti3s")
+id = "side_s_beef"
+title = "Water for the Hermit"
+summary = "Bring the hermit some water: buy a protein shake at the stand."
+giver_npc = "Old Man Mountain"
+turn_in_npc = "Old Man Mountain"
+order = 230
+objectives = Array[ExtResource("1_b3fxa")]([SubResource("Resource_3i5xd")])
+reward_gold = 40
+reward_xp = 30
+reward_unlock_flags = Array[String](["side_unlocked_s_beef"])

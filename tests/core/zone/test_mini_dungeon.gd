@@ -18,6 +18,7 @@ func after_each() -> void:
 
 
 func _enter() -> void:
+	Session.dungeon_key = "S-NECRO"
 	Session.dungeon_map = MiniDungeon.build_map()
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.run.hp = Session.zone_run.hp
@@ -34,7 +35,7 @@ func test_map_is_three_battles_in_a_row_ending_in_a_boss() -> void:
 			assert_gte(MiniDungeon.enemy_setup(Session.content, node).deck.size(), 24)
 		assert_ne(node.kind, DungeonMap.Kind.SHRINE, "nothing heals between meetings")
 	assert_eq(battles, MiniDungeon.BATTLE_COUNT)
-	assert_eq(map.boss().enemy_name, "The Quarterly Reviewer")
+	assert_eq(map.boss().enemy_name, "Betty Bones, Surly Secretary")
 	# A straight line: each node leads to exactly the next.
 	var node: DungeonMap.MapNode = map.node(map.current)
 	var steps: int = 0
@@ -52,7 +53,7 @@ func test_run_starts_at_the_zone_hp_and_battles_use_mini_decks() -> void:
 	var node: DungeonMap.MapNode = Session.dungeon_map.available()[0]
 	var context: BattleContext = Session.make_dungeon_battle(node)
 	assert_eq(context.game.players[0].hp, Session.zone_run.max_hp() - 4, "no heal on entry")
-	assert_eq(context.enemy_name, "Kickoff Facilitator")
+	assert_eq(context.enemy_name, "Receptionist of Number One")
 
 
 func test_clearing_grants_the_unique_card_exactly_once() -> void:
@@ -65,6 +66,8 @@ func test_clearing_grants_the_unique_card_exactly_once() -> void:
 	_enter()
 	var second: Dictionary = Session.resolve_mini_dungeon(true)
 	assert_false(second.has("first_clear"))
+	assert_eq(int(second.get("gold", 0)), DungeonBuilder.SIDE_REWARD_GOLD, "a repeat clear pays gold")
+	assert_eq(Session.pack_count("path_necrocrat"), 1, "and a Necrocrat Path Pack")
 	assert_eq(Session.owned_count(MiniDungeon.REWARD_CARD_ID), before + 1, "one-time reward")
 
 

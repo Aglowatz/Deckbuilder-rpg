@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_oh17s"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_bpliw"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_1vh3e"]
+
+[sub_resource type="Resource" id="Resource_l60bw"]
+script = ExtResource("2_bpliw")
+kind = 9
+key = "buf_chests_opened"
+
+[sub_resource type="Resource" id="Resource_0tbkw"]
+script = ExtResource("1_oh17s")
+text = "Find a hidden stash"
+condition = SubResource("Resource_l60bw")
+
+[resource]
+script = ExtResource("3_1vh3e")
+id = "side_s_gour"
+title = "The Golden Reservation"
+summary = "A golden reservation card is hidden somewhere in the Endless Buffet. Find it (it will be in a hidden stash)."
+giver_npc = "Basil"
+turn_in_npc = "Basil"
+order = 330
+objectives = Array[ExtResource("1_oh17s")]([SubResource("Resource_0tbkw")])
+reward_gold = 40
+reward_xp = 30
+reward_unlock_flags = Array[String](["side_unlocked_s_gour"])

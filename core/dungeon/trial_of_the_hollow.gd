@@ -65,7 +65,21 @@ static func build_map() -> DungeonMap:
 	map.connect_nodes(challenge.id, second.id)
 	map.connect_nodes(second.id, shrine.id)
 	map.connect_nodes(shrine.id, boss.id)
+	_apply_blueprint(map)
 	return map
+
+
+## Positions, numbers and names come from the dungeon list (D-TUT in `data/dungeons/dungeons.json`, fitted coordinates in `map_layout.json`); the encounters stay as built above.
+static func _apply_blueprint(map: DungeonMap) -> void:
+	var blueprint: DungeonCatalog.Blueprint = DungeonCatalog.find(DungeonCatalog.TUTORIAL_ID)
+	if blueprint == null:
+		return
+	for plan: DungeonCatalog.BlueprintNode in blueprint.nodes:
+		var map_node: DungeonMap.MapNode = map.node(plan.number - 1)
+		if map_node != null:
+			map_node.number = plan.number
+			map_node.position = plan.position
+			map_node.title = plan.node_name
 
 
 ## New brief (third), Part D: the total XP/gold the whole tutorial dungeon pays out (its 2

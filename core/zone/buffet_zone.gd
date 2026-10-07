@@ -165,30 +165,6 @@ static func _spot(id: String, title: String, anchor: String, offset: Vector3, ra
 	return entry
 
 
+## The zone's side dungeon (S-BEEF, S-NECRO...): everything comes from the dungeon list through `MiniDungeon.def_for`.
 static func _mini_def() -> ZoneDef.MiniDef:
-	var mini: ZoneDef.MiniDef = ZoneDef.MiniDef.new()
-	mini.dungeon_name = "The Walk-In Freezer: Three Courses"
-	mini.start_title = "Cold Open"
-	mini.start_blurb = "A heavy steel door, a puff of frost, and a sign that says 'Please do not lock yourself in.' Somebody has already done that."
-	mini.reward_card_id = "G-27"
-	mini.battles = [
-		_battle("Appetizer: Cold Cuts", "A tray of very opinionated deli meat guards the first shelf.", "Cold Cut Colossus", 12, "Balanced", false,
-			EnemyDecks.trimmed("gourmand_golems", 27, 15)),
-		_battle("Main Course: Frozen Dinner", "The Frozen Dinner has been in here since 1994. It has had a lot of time to think.", "Frozen Dinner Golem", 14, "Defensive", false,
-			EnemyDecks.trimmed("gourmand_control", 28, 15)),
-		_battle("Dessert: Baked Alaska", "The Baked Alaska is hot on the outside, cold on the inside, and furious all the way through.", "Baked Alaska Beast", 18, "Aggressive", true,
-			EnemyDecks.with_cards(EnemyDecks.trimmed("gourmand_golems", 31, 16), {"G-27": 1})),
-	]
-	return mini
-
-
-static func _battle(title: String, blurb: String, enemy: String, hp: int, ai: String, elite: bool, recipe: Dictionary) -> ZoneDef.MiniBattle:
-	var battle: ZoneDef.MiniBattle = ZoneDef.MiniBattle.new()
-	battle.title = title
-	battle.blurb = blurb
-	battle.enemy = enemy
-	battle.hp = hp
-	battle.ai_name = ai
-	battle.elite = elite
-	battle.recipe = recipe
-	return battle
+	return MiniDungeon.def_for(ID)

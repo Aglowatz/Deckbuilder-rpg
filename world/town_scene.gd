@@ -358,6 +358,8 @@ func _build_graveyard_mist() -> void:
 
 func _build_spots() -> void:
 	_add_spot("well", "Wellspring", town.anchors["well"] as Vector3, 1.7)
+	_add_spot("well_door", "The Iron Hatch", (town.anchors["well"] as Vector3) + Vector3(-2.2, 0.0, 0.6), 1.3)
+	_build_vault_hatch()
 	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, 1.5)
 	_add_spot("deck", "Deck Station", town.anchors["deck"] as Vector3, 1.6)
 	_add_spot("gate", "Trial of the Hollow", town.anchors["gate"] as Vector3, 1.7)
@@ -608,6 +610,8 @@ func _prompt_text(spot: Spot) -> String:
 	if spot.id in NPC_SPOT_IDS:
 		return "Talk"
 	match spot.id:
+		"well_door":
+			return "Open the iron hatch" if Session.side_unlocked("S-TOWN") else "Try the iron hatch"
 		"well":
 			return "Touch the Wellspring"
 		"deck":
@@ -703,6 +707,8 @@ func _interact(spot: Spot) -> void:
 	match spot.id:
 		"well":
 			_use_well()
+		"well_door":
+			_use_well_door()
 		"vendor":
 			_talk_vendor()
 		"deck":
@@ -710,7 +716,7 @@ func _interact(spot: Spot) -> void:
 		"gate":
 			_use_gate()
 		"elder":
-			_talk_npc("elder", "Elder Maren", _elder_lines())
+			_talk_elder()
 		"guard":
 			_talk_npc("guard", "Gatekeeper Brannoch", _guard_lines())
 		"codex":
@@ -754,6 +760,31 @@ func _face_npc(id: String) -> void:
 		var offset: Vector3 = player.position - npc.position
 		npc.rotation.y = atan2(offset.x, offset.z)
 	player.face((npc.position if npc != null else player.position))
+
+
+## Elder Maren: her greeting, and the quest that opens the Forgotten Vault under the old well (hand-in first, then the offer, then a reminder).
+func _talk_elder() -> void:
+	var elder: String = "Elder Maren"
+	var ready: Array[QuestData] = Session.quests_ready_for(elder)
+	if not ready.is_empty():
+		var finished_quest: QuestData = ready[0]
+		_talk_npc("elder", elder, DungeonCatalog.text_lines("quest.%s.ready" % finished_quest.id) as Array[String])
+		dialogue.finished.connect(func() -> void: Session.turn_in_quest(finished_quest.id), CONNECT_ONE_SHOT)
+		return
+	var offered: Array[QuestData] = Session.quests_offered_by(elder) if Session.flag(&"elder_greeted") else ([] as Array[QuestData])
+	if not offered.is_empty():
+		var offer: QuestData = offered[0]
+		var lines: Array[String] = _elder_lines()
+		lines.append_array(DungeonCatalog.text_lines("quest.%s.offer" % offer.id))
+		_talk_npc("elder", elder, lines)
+		dialogue.finished.connect(func() -> void: Session.start_quest(offer.id), CONNECT_ONE_SHOT)
+		return
+	for quest_id: String in Session.quest_log.active:
+		var active_quest: QuestData = QuestCatalog.find(quest_id)
+		if active_quest != null and active_quest.giver_npc == elder:
+			_talk_npc("elder", elder, DungeonCatalog.text_lines("quest.%s.active" % quest_id) as Array[String])
+			return
+	_talk_npc("elder", elder, _elder_lines())
 
 
 func _talk_npc(id: String, speaker: String, lines: Array[String]) -> void:
@@ -876,6 +907,58 @@ func _talk_vendor() -> void:
 		lines = StoryText.shared().get_lines("town.vendor.first")
 	dialogue.start("Sable", lines)
 	dialogue.finished.connect(_open_vendor, CONNECT_ONE_SHOT)
+
+
+## The iron hatch beside the old well: the way down to the Forgotten Vault (S-TOWN), once Elder Maren's quest has found the key.
+func _use_well_door() -> void:
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.side_for_zone("town")
+	if plan == null:
+		return
+	if not Session.side_unlocked(plan.id):
+		hud.toast("The hatch is locked tight. The Elder might know why.", Color("ffcf70"))
+		Audio.sfx(&"ui_error")
+		return
+	if not Session.deck_is_valid():
+		hud.toast("Your deck is not ready for the vault.", Color("ff8a85"))
+		Audio.sfx(&"ui_error")
+		return
+	_locked = true
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, plan.dungeon_name, "%s
+
+You are fully healed on entry. Lose a duel and you are carried back to town." % plan.story, "Descend", "Not yet")
+	dialog.confirmed.connect(func() -> void:
+		Audio.sfx(&"door")
+		Session.enter_town_side_dungeon())
+	dialog.cancelled.connect(func() -> void: _locked = false)
+
+
+## A low iron hatch with a gold rim next to the well (visual only; the spot above does the work).
+func _build_vault_hatch() -> void:
+	var center: Vector3 = (town.anchors["well"] as Vector3) + Vector3(-2.2, 0.04, 0.6)
+	var plate: MeshInstance3D = MeshInstance3D.new()
+	var disc: CylinderMesh = CylinderMesh.new()
+	disc.top_radius = 0.75
+	disc.bottom_radius = 0.75
+	disc.height = 0.1
+	plate.mesh = disc
+	var iron: StandardMaterial3D = StandardMaterial3D.new()
+	iron.albedo_color = Color("3b3a44")
+	iron.roughness = 0.8
+	plate.material_override = iron
+	plate.position = center
+	add_child(plate)
+	var rim: MeshInstance3D = MeshInstance3D.new()
+	var ring: TorusMesh = TorusMesh.new()
+	ring.inner_radius = 0.72
+	ring.outer_radius = 0.82
+	rim.mesh = ring
+	var gold: StandardMaterial3D = StandardMaterial3D.new()
+	gold.albedo_color = Color("c9a227")
+	gold.metallic = 0.4
+	gold.roughness = 0.5
+	rim.material_override = gold
+	rim.position = center + Vector3(0.0, 0.03, 0.0)
+	add_child(rim)
 
 
 ## The Wellspring choice used to happen here; the player now picks their element in the starting
@@ -1469,7 +1552,7 @@ func _screenshot_open(what: String) -> void:
 		"pack_vendor":
 			_open_pack_vendor()
 		"dialogue":
-			_talk_npc("elder", "Elder Maren", _elder_lines())
+			_talk_elder()
 		"gate":
 			_use_gate()
 		"codex":

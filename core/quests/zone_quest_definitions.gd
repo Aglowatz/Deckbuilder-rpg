@@ -28,7 +28,7 @@ static func build_all() -> Array[QuestData]:
 
 
 static func _build_unpacked() -> Array[QuestData]:
-	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend(), _heap_herd(), _heap_fert(), _heap_dam()] as Array[QuestData] + capital_quests()
+	return [_backlog(), _onboarding(), _audit(), _gain_power(), _gain_spot_me(), _gain_lanes(), _buf_pantry(), _buf_pie(), _buf_mend(), _heap_herd(), _heap_fert(), _heap_dam()] as Array[QuestData] + capital_quests() + side_quests()
 
 
 static func _backlog() -> QuestData:
@@ -323,4 +323,52 @@ static func _cap_untidy() -> QuestData:
 	quest.reward_card_ids = ["R-30"] as Array[String]
 	quest.reward_equipment_ids = ["bin_lid"] as Array[String]
 	quest.reward_unlock_flags = [str(CapitalZone.insight_flag("refusemancer"))] as Array[String]
+	return quest
+
+
+# ---- Side dungeon quests (the dungeon list's quest hooks) -------------------------------------------------------------------
+# Each side dungeon is unlocked by a quest from the NPC its hook names; finishing the quest sets `DungeonCatalog.side_unlock_flag(<dungeon id>)`, which opens
+# the dungeon's entrance. The hook line of the dungeon list is the quest's summary; the dialogue lives in the dungeon content file (`quest.<id>.*`).
+
+const SIDE_BEEF: String = "side_s_beef"
+const SIDE_GOUR: String = "side_s_gour"
+const SIDE_NECRO: String = "side_s_necro"
+const SIDE_REF: String = "side_s_ref"
+const SIDE_CAP: String = "side_s_cap"
+const SIDE_TOWN: String = "side_s_town"
+## Dungeon ID -> quest id.
+const SIDE_QUESTS: Dictionary = {
+	"S-BEEF": SIDE_BEEF, "S-GOUR": SIDE_GOUR, "S-NECRO": SIDE_NECRO, "S-REF": SIDE_REF, "S-CAP": SIDE_CAP, "S-TOWN": SIDE_TOWN,
+}
+
+
+static func side_quests() -> Array[QuestData]:
+	return [
+		_side(SIDE_BEEF, "S-BEEF", 230, "Water for the Hermit", GainlandsZone.NPC_BRENDA, "Bring the hermit some water: buy a protein shake at the stand.",
+			[QuestObjective.make("Buy a protein shake", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1))]),
+		_side(SIDE_GOUR, "S-GOUR", 330, "The Golden Reservation", BuffetZone.NPC_ODALYS, "A golden reservation card is hidden somewhere in the Endless Buffet. Find it (it will be in a hidden stash).",
+			[QuestObjective.make("Find a hidden stash", Condition.counter(BuffetZone.COUNTER_CHESTS, 1))]),
+		_side(SIDE_NECRO, "S-NECRO", 140, "Number 4,000,212", DnaZone.NPC_BARNABY, "Their number is 4,000,212 and they are on 3. Thin out the queue by processing two roaming staff members.",
+			[QuestObjective.make("Defeat roaming staff", Condition.counter("zone_enemies_defeated", 2))]),
+		_side(SIDE_REF, "S-REF", 240, "Who Ate the Compost?", HeapZone.NPC_MARIGOLD, "Little paw prints, a tiny crown, and no compost. Drive off two scavengers to follow the trail.",
+			[QuestObjective.make("Defeat scavengers", Condition.counter(HeapZone.COUNTER_ENEMIES, 2))]),
+		_side(SIDE_CAP, "S-CAP", 360, "The Older Way", CapitalZone.NPC_KESTREL, "There is an older way into the city. Meet the resistance in the Crease and ask about the tunnels.",
+			[QuestObjective.make("Reach the resistance hideout", Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)))]),
+		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "There is a door under the old well that has been locked since before the Elder was born. Find the key: look for a hidden chest in town.",
+			[QuestObjective.make("Find a hidden chest in town", Condition.secret_found("harbor_chest"))]),
+	] as Array[QuestData]
+
+
+static func _side(quest_id: String, dungeon_id: String, order: int, title: String, giver: String, summary: String, objectives: Array[QuestObjective]) -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = quest_id
+	quest.order = order
+	quest.title = title
+	quest.summary = summary
+	quest.giver_npc = giver
+	quest.turn_in_npc = giver
+	quest.objectives = objectives
+	quest.reward_gold = 40
+	quest.reward_xp = 30
+	quest.reward_unlock_flags = [str(DungeonCatalog.side_unlock_flag(dungeon_id))] as Array[String]
 	return quest

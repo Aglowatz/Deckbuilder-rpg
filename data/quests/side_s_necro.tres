@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_et51f"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_hylld"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_eh6p8"]
+
+[sub_resource type="Resource" id="Resource_cgnsg"]
+script = ExtResource("2_hylld")
+kind = 9
+key = "zone_enemies_defeated"
+amount = 2
+
+[sub_resource type="Resource" id="Resource_6ky6u"]
+script = ExtResource("1_et51f")
+text = "Defeat roaming staff"
+condition = SubResource("Resource_cgnsg")
+
+[resource]
+script = ExtResource("3_eh6p8")
+id = "side_s_necro"
+title = "Number 4,000,212"
+summary = "Their number is 4,000,212 and they are on 3. Thin out the queue by processing two roaming staff members."
+giver_npc = "Gerald"
+turn_in_npc = "Gerald"
+order = 140
+objectives = Array[ExtResource("1_et51f")]([SubResource("Resource_6ky6u")])
+reward_gold = 40
+reward_xp = 30
+reward_unlock_flags = Array[String](["side_unlocked_s_necro"])

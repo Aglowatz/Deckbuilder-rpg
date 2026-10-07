@@ -30,13 +30,13 @@ func test_the_castle_is_registered_and_sound() -> void:
 	assert_true(MainDungeons.has_def(CapitalZone.ID), "the Capital's main dungeon spot enters it")
 	assert_eq(_map.dungeon_name, "Primm's Castle")
 	assert_eq(_map.problems(), [] as Array[String], "a sound map")
-	assert_gte(_map.nodes.size(), 25, "20+ nodes")
+	assert_eq(_map.nodes.size(), 22, "the 22 nodes of the dungeon list")
 
 
-func test_heavy_branching_and_rejoining() -> void:
+func test_heavy_branching_and_dead_end_side_branches() -> void:
 	assert_gte(_map.branch_points().size(), 8, "many real route choices")
-	assert_gte(_map.rejoin_points().size(), 5, "routes rejoin")
-	assert_gte(_map.route_count(), 8, "several distinct routes from the doors to the boss")
+	assert_eq(_map.route_count(), 1, "one main road from the gate to the Model Room; everything else dead-ends")
+	assert_gte(_map.dead_ends().size(), 10, "the side branches")
 
 
 func test_dead_end_branches_double_back() -> void:
@@ -47,50 +47,45 @@ func test_dead_end_branches_double_back() -> void:
 		var node: DungeonMap.MapNode = _map.node(id)
 		assert_true(node.next.is_empty(), "%s leads nowhere forward" % node.title)
 		assert_lt(node.return_to, node.id)
-		assert_true(_map.node(node.return_to).next.has(id), "and hangs off %s" % _map.node(node.return_to).title)
+		assert_true(_map.reachable_from(node.return_to).has(id), "and hangs off %s" % _map.node(node.return_to).title)
 		kinds[node.kind] = true
 	assert_true(kinds.has(DungeonMap.Kind.TREASURE) and kinds.has(DungeonMap.Kind.EVENT) and kinds.has(DungeonMap.Kind.BATTLE), "dead ends of several kinds")
 
 
 func test_doubling_back_returns_to_the_branch_point_and_the_main_route_stays_open() -> void:
-	# Walk: doors -> hall -> portraits (a branch point) -> the alcove (a dead end) -> back at the portraits.
-	_map.complete(0)
-	_map.complete(1)
-	var portraits: DungeonMap.MapNode = _map.node(2)
-	assert_true(_map.is_available(portraits.id))
-	_map.complete(portraits.id)
-	var alcove: DungeonMap.MapNode = _map.node(4)
-	assert_eq(alcove.return_to, portraits.id)
-	assert_true(_map.is_available(alcove.id))
-	assert_true(_map.complete(alcove.id))
-	assert_eq(_map.current, portraits.id, "the party doubled back")
-	assert_eq(_map.last_cleared, alcove.id)
-	assert_true(_map.is_cleared(alcove.id))
+	# Walk: gate -> courtyard -> foyer (a branch point) -> the garden (a dead end) -> back at the foyer.
+	_map.complete(_by_number(2).id)
+	var foyer: DungeonMap.MapNode = _by_number(3)
+	assert_true(_map.complete(foyer.id))
+	var garden: DungeonMap.MapNode = _by_number(22)
+	assert_eq(garden.return_to, foyer.id)
+	assert_true(_map.is_available(garden.id))
+	assert_true(_map.complete(garden.id))
+	assert_eq(_map.current, foyer.id, "the party doubled back")
+	assert_eq(_map.last_cleared, garden.id)
+	assert_true(_map.is_cleared(garden.id))
 	var choices: Array[int] = []
 	for node: DungeonMap.MapNode in _map.available():
 		choices.append(node.id)
-	assert_false(choices.has(alcove.id), "the dead end is done")
-	assert_true(choices.has(5), "the way forward is still open")
+	assert_false(choices.has(garden.id), "the dead end is done")
+	assert_true(choices.has(_by_number(4).id), "the way forward is still open")
 
 
-func test_the_four_wings_can_all_be_visited_from_the_junction() -> void:
-	var junction: DungeonMap.MapNode = null
+func _by_number(number: int) -> DungeonMap.MapNode:
 	for node: DungeonMap.MapNode in _map.nodes:
-		if node.title == _story.text("dungeon.pc_junction.title"):
-			junction = node
-	assert_not_null(junction)
-	var wings: int = 0
-	for id: int in junction.next:
-		if _map.node(id).return_to == junction.id:
-			wings += 1
-	assert_eq(wings, 4, "one dead-end wing per Path")
-	_complete_path_to(_map, junction.id)
-	assert_eq(_map.current, junction.id)
-	for wing_id: int in junction.next.duplicate():
-		if _map.node(wing_id).return_to == junction.id:
-			assert_true(_map.complete(wing_id))
-			assert_eq(_map.current, junction.id)
-	assert_gte(_map.available().size(), 2, "the servants' corridor and the staircase are still open")
+		if node.number == number:
+			return node
+	return null
+
+
+func test_the_four_wings_are_dead_end_branches_one_per_path() -> void:
+	var wings: Array[int] = [12, 13, 14, 15]
+	for number: int in wings:
+		var wing: DungeonMap.MapNode = _by_number(number)
+		assert_true(wing.next.is_empty())
+		assert_gte(wing.return_to, 0, wing.title)
+	assert_eq(_by_number(12).section, "the Gourmand Wing")
+	assert_eq(_by_number(15).section, "the Refusemancer Wing")
 
 
 func test_sections_and_node_kinds() -> void:
@@ -99,8 +94,7 @@ func test_sections_and_node_kinds() -> void:
 	for node: DungeonMap.MapNode in _map.nodes:
 		sections[node.section] = true
 		kinds[node.kind] = true
-	for section: String in ["the Great Hall", "the Portrait Gallery", "the Hall of Mirrors", "the Ministry of Correction", "the Four Wings", "the Archive of Good Intentions", "the Scale Model Chamber",
-			"the Gourmand Wing", "the Beefcake Wing", "the Necrocrat Wing", "the Refusemancer Wing"]:
+	for section: String in ["the Gourmand Wing", "the Beefcake Wing", "the Necrocrat Wing", "the Refusemancer Wing"]:
 		assert_true(sections.has(section), section)
 	for kind: DungeonMap.Kind in [DungeonMap.Kind.BATTLE, DungeonMap.Kind.ELITE, DungeonMap.Kind.CHALLENGE, DungeonMap.Kind.EVENT, DungeonMap.Kind.SHRINE, DungeonMap.Kind.TREASURE, DungeonMap.Kind.BOSS]:
 		assert_true(kinds.has(kind), "node kind %d" % kind)
@@ -108,14 +102,14 @@ func test_sections_and_node_kinds() -> void:
 	for node: DungeonMap.MapNode in _map.nodes:
 		if node.kind == DungeonMap.Kind.CHALLENGE:
 			challenges += 1
-	assert_gte(challenges, 3, "deck challenges")
+	assert_gte(challenges, 2, "deck challenges")
 
 
 func test_the_final_chamber_and_the_boss() -> void:
 	var boss: DungeonMap.MapNode = _map.boss()
 	assert_not_null(boss)
 	assert_eq(boss.enemy_name, PrimmBoss.BOSS_FOE)
-	assert_eq(boss.section, "the Scale Model Chamber")
+	assert_eq(boss.title, "The Model Room")
 	assert_eq(boss.scene, "primm_intro")
 	assert_eq(boss.after_scene, "primm_end")
 	assert_true(CutsceneDefs.has_scene("primm_intro") and CutsceneDefs.has_scene("primm_p1") and CutsceneDefs.has_scene("primm_p2") and CutsceneDefs.has_scene("primm_end"))
@@ -318,7 +312,7 @@ func test_beating_primm_unlocks_the_postgame_and_sets_the_ending() -> void:
 	_start_castle_run()
 	var again: Dictionary = Session.resolve_main_dungeon(true, false)
 	assert_ne(again.get("kind"), "primm_defeated", "only the first time")
-	assert_eq(Session.pack_count(PackRules.PRISMATIC_ID), PackCatalog.config().primm_prismatic_packs, "only the first time")
+	assert_eq(Session.pack_count(PackRules.PRISMATIC_ID), PackCatalog.config().primm_prismatic_packs + 1, "a repeat clear in the postgame pays one more Prismatic Pack")
 
 
 func test_losing_a_phase_sends_you_home_and_resets_the_boss() -> void:
@@ -342,6 +336,7 @@ func _check(text: String, what: String, missing: Array[String]) -> void:
 
 func _start_castle_run() -> void:
 	Session.begin_zone_visit(CapitalZone.ID)
+	Session.dungeon_key = CapitalZone.ID
 	Session.dungeon_map = MainDungeons.build_map(CapitalZone.ID)
 	_map = Session.dungeon_map
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)

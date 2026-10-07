@@ -33,7 +33,9 @@ func screenshot_prepare(args: Dictionary) -> void:
 func _ready() -> void:
 	SceneManager.pause_allowed = true
 	Audio.play_music(&"map")
-	if not Session.in_dungeon() and _screenshot_args.has("main"):
+	if not Session.in_dungeon() and _screenshot_args.has("dungeon"):
+		_prepare_dungeon_for_screenshot()
+	elif not Session.in_dungeon() and _screenshot_args.has("main"):
 		_prepare_main_dungeon_for_screenshot()
 	elif not Session.in_dungeon() and _screenshot_args.has("mini"):
 		_prepare_mini_dungeon_for_screenshot()
@@ -48,12 +50,13 @@ func _ready() -> void:
 				Session.run.lose_hp(int(_screenshot_args["damage"]))
 	map = Session.dungeon_map
 	run = Session.run
+	if Session.main_dungeon_active or Session.mini_active:
+		_main_def = MainDungeons.def(Session.dungeon_key)
 	if Session.main_dungeon_active:
-		_main_def = MainDungeons.def(Session.zone_def().id)
 		add_child(DungeonBackdrop.make(_main_def.backdrop))
 	else:
 		var backdrop: ArenaBackdrop = ArenaBackdrop.new()
-		backdrop.zone_id = Session.zone_def().id if Session.mini_active else "hollow"
+		backdrop.zone_id = Session.zone_run.zone_id if (Session.mini_active and Session.zone_run != null) else "hollow"
 		add_child(backdrop)
 	var dim: ColorRect = ColorRect.new()
 	dim.color = Color(0.03, 0.02, 0.07, 0.25)
@@ -96,11 +99,43 @@ func _begin_boss_phase() -> void:
 		start.call()
 
 
+## Screenshot/dev only: enter any dungeon of the dungeon list by ID (`--dungeon=D-HOG`, `S-TOWN`... plus `--progress=N`); D-TUT is the Trial of the Hollow.
+func _prepare_dungeon_for_screenshot() -> void:
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(str(_screenshot_args["dungeon"]))
+	if plan == null:
+		return
+	Session.ensure_game()
+	if plan.type == DungeonCatalog.TYPE_TUTORIAL:
+		Session.dungeon_map = TrialOfTheHollow.build_map()
+		Session.run = DungeonRun.enter(Session.profile, Session.deck, [] as Array[ModifierSource])
+		for step: int in range(int(_screenshot_args.get("progress", 0))):
+			Session.dungeon_map.complete(Session.dungeon_map.available()[0].id)
+		return
+	if not plan.is_side():
+		_screenshot_args["main"] = plan.zone_id
+		_prepare_main_dungeon_for_screenshot()
+	elif ZoneDefs.has_def(plan.zone_id):
+		_screenshot_args["mini"] = plan.zone_id
+		_prepare_mini_dungeon_for_screenshot()
+	else:
+		Session.dungeon_key = plan.id
+		Session.dungeon_map = MainDungeons.build_map(plan.id)
+		Session.run = DungeonRun.enter(Session.profile, Session.deck, [] as Array[ModifierSource])
+		Session.mini_active = true
+		Session.town_side_active = true
+		for step: int in range(int(_screenshot_args.get("progress", 0))):
+			var choices: Array[DungeonMap.MapNode] = Session.dungeon_map.available()
+			if choices.is_empty():
+				break
+			Session.dungeon_map.complete(choices[0].id)
+
+
 ## Screenshot/dev only: enter a zone's mini dungeon directly (`--mini=<zone id> --progress=N`).
 func _prepare_mini_dungeon_for_screenshot() -> void:
 	Session.ensure_game()
 	var zone_id: String = str(_screenshot_args.get("mini", "necrocrat"))
 	Session.zone_run = ZoneRun.enter(zone_id, Session.profile, Session.deck)
+	Session.dungeon_key = DungeonCatalog.side_for_zone(zone_id).id
 	Session.dungeon_map = MiniDungeon.build_map(zone_id)
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.mini_active = true
@@ -116,6 +151,7 @@ func _prepare_main_dungeon_for_screenshot() -> void:
 	Session.ensure_game()
 	var zone_id: String = str(_screenshot_args.get("main", "beefcake"))
 	Session.zone_run = ZoneRun.enter(zone_id, Session.profile, Session.deck)
+	Session.dungeon_key = zone_id
 	Session.dungeon_map = MainDungeons.build_map(zone_id)
 	Session.run = DungeonRun.enter(Session.profile, Session.deck, Session.zone_run.run.dungeon_sources)
 	Session.main_dungeon_active = true
@@ -297,6 +333,8 @@ func _on_node_hovered(id: int) -> void:
 			text += "\n[b]%s[/b], %d HP.  Reward: %d gold and XP, %s." % [node.enemy_name, node.enemy_hp, node.gold_reward, prize]
 		DungeonMap.Kind.EVENT:
 			text += "\nA story event: choose how to deal with it."
+		DungeonMap.Kind.RESCUE:
+			text += "\nA rescue: free the prisoner and they fight beside you."
 		DungeonMap.Kind.TREASURE:
 			text += "\nTreasure: gold, XP and an item."
 		DungeonMap.Kind.CHALLENGE:
@@ -330,10 +368,10 @@ func _run_node(node: DungeonMap.MapNode) -> void:
 			_open_modal(ChallengeScreen.new(), node.id)
 		DungeonMap.Kind.SHRINE:
 			_open_modal(ShrineScreen.new(), node.id)
-		DungeonMap.Kind.EVENT:
+		DungeonMap.Kind.EVENT, DungeonMap.Kind.RESCUE:
 			var event: DungeonEvent = _main_def.event(node.event_id) if _main_def != null else null
 			if event != null:
-				_open_modal(EventScreen.make(event, Session.zone_def().id), node.id)
+				_open_modal(EventScreen.make(event, Session.dungeon_key), node.id)
 		DungeonMap.Kind.TREASURE:
 			_open_modal(TreasureScreen.make(node), node.id)
 
@@ -393,8 +431,8 @@ func _play_pending_after_story() -> void:
 func _build_dungeon_extras() -> void:
 	if _main_def == null and not Session.mini_active:
 		return
-	var zone_id: String = Session.zone_def().id
-	var effect: ZoneEffects.Effect = ZoneEffects.for_zone(zone_id)
+	var zone_id: String = Session.zone_run.zone_id if Session.zone_run != null else ""
+	var effect: ZoneEffects.Effect = ZoneEffects.for_zone(zone_id) if not zone_id.is_empty() else null
 	if effect != null:
 		var panel: ZoneEffectsPanel = ZoneEffectsPanel.make(effect, Session.zone_def().display_name, true)
 		panel.position = Vector2(34, 150)
@@ -481,7 +519,7 @@ func _open_from_screenshot(what: String) -> void:
 		"event":
 			var shown: DungeonEvent = _main_def.event(str(_screenshot_args.get("event_id", ""))) if _main_def != null else null
 			if shown != null:
-				_open_modal(EventScreen.make(shown, Session.zone_def().id), 1)
+				_open_modal(EventScreen.make(shown, Session.dungeon_key), 1)
 		"treasure":
 			for candidate: DungeonMap.MapNode in map.nodes:
 				if candidate.kind == DungeonMap.Kind.TREASURE:

@@ -173,30 +173,6 @@ static func _spot(id: String, title: String, anchor: String, offset: Vector3, ra
 	return entry
 
 
+## The zone's side dungeon (S-BEEF, S-NECRO...): everything comes from the dungeon list through `MiniDungeon.def_for`.
 static func _mini_def() -> ZoneDef.MiniDef:
-	var mini: ZoneDef.MiniDef = ZoneDef.MiniDef.new()
-	mini.dungeon_name = "The Landfill Depths: Three Levels"
-	mini.start_title = "Top of the Pile"
-	mini.start_blurb = "A rusted hatch in the heap, a ladder going down, and a sign that says 'Please do not dig deeper than the raccoons.' The raccoons are very deep."
-	mini.reward_card_id = "R-29"
-	mini.battles = [
-		_battle("Level 1: The Top Layer", "Fresh garbage, still warm. It has strong feelings about being thrown away.", "Bin Bag Brute", 12, "Balanced", false,
-			EnemyDecks.trimmed("refuse_rats", 27, 15)),
-		_battle("Level 2: The Compost Layer", "Warm, damp, and absolutely thriving. Something down here is composting very quickly.", "Compost Colossus", 14, "Defensive", false,
-			EnemyDecks.trimmed("refuse_garbage", 28, 15)),
-		_battle("Level 3: The Forgotten Layer", "Things nobody has thrown away since before the kingdom had a name. They are old. They are cross.", "Landfill Leviathan", 18, "Aggressive", true,
-			EnemyDecks.with_cards(EnemyDecks.trimmed("refuse_garbage", 31, 16), {"R-29": 1})),
-	]
-	return mini
-
-
-static func _battle(title: String, blurb: String, enemy: String, hp: int, ai: String, elite: bool, recipe: Dictionary) -> ZoneDef.MiniBattle:
-	var battle: ZoneDef.MiniBattle = ZoneDef.MiniBattle.new()
-	battle.title = title
-	battle.blurb = blurb
-	battle.enemy = enemy
-	battle.hp = hp
-	battle.ai_name = ai
-	battle.elite = elite
-	battle.recipe = recipe
-	return battle
+	return MiniDungeon.def_for(ID)

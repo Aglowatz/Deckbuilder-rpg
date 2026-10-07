@@ -1,0 +1,376 @@
+{
+	"_about": "Hand-written node content for the dungeons of data/dungeons/dungeons.json (the CSV import). Everything here is placeholder-grade text and numbers (balance is out of scope). Per dungeon: defaults (deck archetypes, icons, AIs cycled over its battles), boss (deck/hp/icon), foes (node number -> foe name, or an object {name, deck, size, hp, ai, icon, extra}), events / challenges / loot (node number -> content), blurbs, story_keys (node number -> story key `dungeon.<key>.before/.after`, in the zone story file or in `text` below), scenes (node number -> {before, after} cutscene ids). Event/challenge effects are tokens: heal:N damage:N gold:N pay:N lose:N card:ID boon:Name|max_hp=2,atk=1,def=1,start_hp=1 rescue sever. An event may be {ref: id} naming one the dungeon class still builds in code.",
+	"hook_speakers": {
+		"D-HOG": "NPC-MOUNTAIN",
+		"D-TTK": "NPC-BASIL",
+		"D-HFA": "NPC-AGNES",
+		"D-ROT": "NPC-BRAMBLE",
+		"D-PC": "NPC-WREN"
+	},
+	"dungeons": {
+		"D-HOG": {
+			"defaults": {
+				"archetypes": ["beefcake_rush", "beefcake_tools", "beefcake_bruisers"],
+				"icons": ["delapouite/viking-head", "lorc/muscle-up", "delapouite/strong-man", "delapouite/weight-lifting-up"],
+				"ais": ["Aggressive", "Defensive", "Aggressive"]
+			},
+			"boss": {"deck": "beefcake_bruisers", "extra": {}, "hp": 28, "icon": "delapouite/viking-head"},
+			"foes": {
+				"2": "Treadmill Sprinter",
+				"3": "Courtyard Lifter",
+				"6": {"name": "Regime Checkpoint Captain", "deck": "beefcake_bruisers", "size": 31, "hp": 19},
+				"8": "Cell Block Brawler",
+				"11": {"name": "Trophy Hall Honor Guard", "deck": "beefcake_bruisers", "size": 33, "hp": 22},
+				"13": "Chancellor Clench, Iron Regent"
+			},
+			"events": {
+				"5": {
+					"title": "Locker Room of Legends",
+					"body": "Rows of lockers hold the old champions' kit, every strap labelled by weight class. One locker has been left open, as if somebody wanted you to look.",
+					"choices": [
+						["Take the lucky towel", "It smells of victory and eucalyptus. You feel sturdier.", "boon:Lucky Towel|max_hp=2"],
+						["Raid the gym bag", "Mostly protein bars, but there is a roll of gold in the bottom.", "gold:45"],
+						["Stretch on the bench", "Nobody has sat here in years. Your shoulders thank you.", "heal:3"]
+					]
+				},
+				"7": {"ref": "hg_descent"},
+				"9": {"ref": "hg_rescue"}
+			},
+			"challenges": {
+				"12": {
+					"title": "The Sauna of Truth",
+					"text": "The steam asks one honest question: how hard do you lead?",
+					"kind": "first_unit_attack", "reveal": 0, "threshold": 3,
+					"success": ["boon:Steam-Cleansed|max_hp=2", "heal:2"],
+					"failure": ["lose:3"]
+				}
+			},
+			"loot": {"4": {"gold": 90, "xp": 40, "item": "sharpening_stone"}},
+			"story_keys": {"1": "hg_gates", "9": "hg_stretch", "13": "hg_boss"},
+			"sections": {"8": "prison", "9": "prison"},
+			"scenes": {"9": {"before": "rescue"}, "13": {"before": "flex"}}
+		},
+		"D-TTK": {
+			"defaults": {
+				"archetypes": ["gourmand_golems", "gourmand_control"],
+				"icons": ["delapouite/chef-toque", "delapouite/ice-golem", "delapouite/gingerbread-man", "lorc/bubbling-flask", "delapouite/pirate-cannon"],
+				"ais": ["Balanced", "Defensive", "Aggressive"]
+			},
+			"boss": {"deck": "gourmand_golems", "extra": {"G-33": 1}, "hp": 28, "icon": "delapouite/chef-toque"},
+			"foes": {
+				"2": "Prep Station Sous-Chef",
+				"3": "Frozen Line Cook",
+				"6": {"name": "Unfinished War Machine", "deck": "gourmand_golems", "size": 30, "hp": 20, "icon": "delapouite/pirate-cannon"},
+				"8": "Assembly Line Golem",
+				"11": {"name": "Cannon-Blender Gunner", "deck": "gourmand_golems", "size": 33, "hp": 22, "icon": "delapouite/pirate-cannon"},
+				"12": "Expediter of the Pass",
+				"13": "The Doppelganger"
+			},
+			"events": {
+				"7": {
+					"title": "The Corrupted Pantry",
+					"body": "Shelves of glowing, sickly-green food hum softly. A ladle is still stirring a pot that nobody is minding.",
+					"choices": [
+						["Eat the glowing stew", "It is delicious. It is probably cursed. You feel strong and slightly sticky.", "boon:Corrupted Feast|max_hp=3,atk=1", "damage:2"],
+						["Take only the sealed jars", "Some of the pantry is still clean.", "gold:40"],
+						["Back away slowly", "You leave the pantry unspoiled.", "heal:2"]
+					]
+				},
+				"10": {
+					"title": "R&D Archives",
+					"body": "Blueprints, recipe cards and signed memos fill the cabinets. Every handwritten note signed 'Escoffina' leans the wrong way.",
+					"choices": [
+						["Compare the handwriting", "The chef who wrote these has never held a ladle. The impostor is exposed.", "boon:Impostor Exposed|atk=1,def=1"],
+						["Photograph the blueprints", "Evidence, and a buyer for it.", "gold:50"]
+					]
+				}
+			},
+			"challenges": {
+				"4": {
+					"title": "Taste Test Lab",
+					"text": "Beakers, spoons and a very small flag: does your deck have the body for the panel?",
+					"kind": "type_units", "card_type": "unit", "reveal": 5, "threshold": 2,
+					"success": ["boon:Palate of the Panel|max_hp=3"],
+					"failure": ["lose:2"]
+				}
+			},
+			"loot": {"5": {"gold": 80, "xp": 40, "item": "healing_draught"}},
+			"story_keys": {"1": "tk_dock", "13": "tk_boss"},
+			"scenes": {"13": {"before": "reveal"}}
+		},
+		"D-HFA": {
+			"defaults": {
+				"archetypes": ["necro_zombies", "necro_control"],
+				"icons": ["delapouite/tie", "delapouite/shambling-zombie", "lorc/ghost", "delapouite/warlock-eye", "delapouite/full-folder", "delapouite/stamper"],
+				"ais": ["Balanced", "Defensive", "Aggressive"]
+			},
+			"boss": {"deck": "necro_control", "extra": {"N-33": 1, "N-32": 1}, "hp": 28, "icon": "delapouite/stamper"},
+			"foes": {
+				"3": "Intake Clerk",
+				"4": "Returns Clerk",
+				"7": {"name": "Notary Wraith", "deck": "necro_control", "size": 31, "hp": 19},
+				"9": "Resurrection Permits Zombie",
+				"11": {"name": "Appeals Court Judge", "deck": "necro_control", "size": 30, "hp": 20},
+				"13": "Executive Elevator Operator",
+				"14": "Undersecretary Vellum, Acting Director of Final Approvals"
+			},
+			"events": {
+				"2": {
+					"title": "Take-a-Number Kiosk",
+					"body": "A small grey machine offers you a ticket. The display above says NOW SERVING 3. Your number is 4,000,213.",
+					"choices": [
+						["Take a number", "You feel seen, and slightly worse.", "heal:2"],
+						["Take every number", "The machine jams. A handful of coins falls out.", "gold:30", "damage:1"],
+						["Skip the queue", "Nobody dares object. Yet.", "boon:Cut the Line|atk=1"]
+					]
+				},
+				"8": {
+					"title": "Form 27-B Office",
+					"body": "Form 27-B requires Form 27-C, which requires a stamp from the office you are standing in. A clerk slides a pen across the counter.",
+					"choices": [
+						["Fill out the forms", "Everything is in order. A boon is granted, and a small tax is levied.", "boon:Duly Authorized|max_hp=3", "pay:20"],
+						["Forge the stamp", "It works! Mostly. Something in the ceiling disapproves.", "gold:50", "damage:2"],
+						["Leave the office", "You are marked 'Pending'.", "nothing"]
+					]
+				},
+				"12": {
+					"title": "The Shredding Room",
+					"body": "Rows of paper shredders chew through the day's denied appeals. A sign reads: SHRED ONE THING, RECEIVE ONE THING.",
+					"choices": [
+						["Shred a spare appeal", "The shredder hums happily and pays out.", "gold:70", "damage:1"],
+						["Shred your own number", "Nothing is left of Number 4,000,213. You feel lighter.", "heal:4"],
+						["Do not feed the machine", "You keep your papers.", "nothing"]
+					]
+				}
+			},
+			"challenges": {
+				"5": {
+					"title": "Waiting Room of Eternity",
+					"text": "Row after row of chairs. Can your deck outwait the line?",
+					"kind": "infra", "reveal": 5, "threshold": 2,
+					"success": ["heal:4"],
+					"failure": ["lose:3"]
+				}
+			},
+			"loot": {"6": {"gold": 85, "xp": 40, "item": "scroll_of_insight"}},
+			"story_keys": {"1": "ha_lobby", "5": "ha_waiting", "14": "ha_boss"}
+		},
+		"D-ROT": {
+			"defaults": {
+				"archetypes": ["refuse_rats", "refuse_garbage"],
+				"icons": ["lorc/sprout", "delapouite/mushrooms-cluster", "delapouite/plant-roots", "delapouite/tree-roots", "lorc/root-tip", "cathelineau/tree-face"],
+				"ais": ["Balanced", "Aggressive", "Defensive"]
+			},
+			"boss": {"deck": "refuse_garbage", "extra": {"R-33": 1}, "hp": 28, "icon": "cathelineau/tree-face"},
+			"foes": {
+				"2": "Overgrown Scarecrow",
+				"3": "Mutant Mushroom Troop",
+				"6": {"name": "Rootbound Miller", "deck": "refuse_garbage", "size": 32, "hp": 19},
+				"8": "Thorn Maze Stalker",
+				"10": {"name": "Hive of Mutant Bees", "deck": "refuse_rats", "size": 30, "hp": 18, "icon": "lorc/bat-wing"},
+				"11": "Rot Tunnel Horror",
+				"13": "Compostella, the Rotheart"
+			},
+			"events": {
+				"7": {
+					"title": "Weeping Compost Pool",
+					"body": "The pool is the colour of a bruise and it is sobbing very quietly. Things float in it that used to be useful.",
+					"choices": [
+						["Drink from the pool", "It tastes of rain and regret. You feel hardier, and a little poisoned.", "boon:Compost Courage|max_hp=3", "damage:2"],
+						["Bottle some of it", "Somebody will pay for this.", "gold:40"],
+						["Walk around it", "You keep your boots dry.", "heal:2"]
+					]
+				},
+				"12": {
+					"title": "The Heart Roots",
+					"body": "Thick, pulsing roots run from every wall into the chamber beyond: the Rotheart's lifelines. You could cut them. It will hurt, her more than you.",
+					"choices": [
+						["Sever the Heart Roots", "The roots shriek and let go. Whatever waits ahead will be weaker for it.", "sever", "damage:2"],
+						["Leave them be", "The roots keep pulsing. The Rotheart keeps its strength.", "nothing"]
+					]
+				}
+			},
+			"challenges": {
+				"4": {
+					"title": "Strangled Greenhouse",
+					"text": "The vines are choosing who gets through. Can your deck keep its footing?",
+					"kind": "infra", "reveal": 5, "threshold": 2,
+					"success": ["heal:4"],
+					"failure": ["lose:3"]
+				}
+			},
+			"loot": {"5": {"gold": 85, "xp": 40, "item": "vitality_charm"}},
+			"story_keys": {"1": "rh_gate", "9": "rh_soil", "13": "rh_boss"},
+			"scenes": {"13": {"after": "sever"}}
+		},
+		"D-PC": {
+			"defaults": {
+				"archetypes": ["colorless_regime"],
+				"icons": ["delapouite/guards", "delapouite/portrait", "delapouite/shinto-shrine-mirror", "delapouite/stamper", "cathelineau/nun-face", "delapouite/book-cover"],
+				"ais": ["Balanced", "Defensive", "Aggressive"]
+			},
+			"boss": {"deck": "colorless_regime", "extra": {}, "hp": 28, "icon": "cathelineau/old-king"},
+			"foes": {
+				"2": {"name": "Hedge Trimmer Guard", "deck": "colorless_regime", "size": 28, "hp": 14, "mixed": ["necrocrat", "gourmand"]},
+				"4": {"name": "Gallery Curator", "deck": "colorless_regime", "size": 29, "hp": 15, "mixed": ["necrocrat", "gourmand"]},
+				"5": {"name": "Mirror Knight", "deck": "necrocrat_beefcake", "size": 30, "hp": 18, "icon": "delapouite/shinto-shrine-mirror"},
+				"6": {"name": "Ministry Clerk", "deck": "gourmand_necrocrat", "size": 30, "hp": 15, "icon": "delapouite/stamper"},
+				"9": {"name": "Royal Staircase Guard", "deck": "colorless_regime", "size": 33, "hp": 22, "mixed": ["necrocrat", "gourmand"]},
+				"13": {"name": "Coup Barracks Sergeant", "deck": "necrocrat_beefcake", "size": 30, "hp": 17},
+				"15": {"name": "Seed Vault Gardener", "deck": "necrocrat_refusemancer", "size": 30, "hp": 17},
+				"20": {"name": "Clocktower Sentinel", "deck": "colorless_regime", "size": 32, "hp": 21, "mixed": ["necrocrat", "gourmand"]},
+				"10": "PRIMM_BOSS"
+			},
+			"events": {
+				"3": {
+					"title": "Grand Foyer",
+					"body": "A portrait of a smiling ruler fills the wall. The floor is so polished you can see yourself, and he is standing behind you in every reflection.",
+					"choices": [
+						["Study the portrait", "The smile never changes. Neither, you realise, does anything else here.", "heal:3"],
+						["Pocket a gilded candlestick", "Heavier than it looks. Worth more than it should be.", "gold:50", "damage:1"],
+						["Move along", "You do not look back.", "nothing"]
+					]
+				},
+				"8": {"ref": "pc_early_journals"},
+				"12": {
+					"title": "The Doppelganger's Lab Notes",
+					"body": "A lab table of food notes: a shapeshifter's recipe for becoming a Grand Chef, with an entire page on how to smile like her.",
+					"choices": [
+						["Read the notes", "It explains everything, including why the sauce tastes of nothing.", "boon:Lab Notes|atk=1,def=1"],
+						["Take the samples", "Somebody downstairs will pay for them.", "gold:50"]
+					]
+				},
+				"16": {"ref": "pc_corrected_citizens"},
+				"22": {
+					"title": "Garden of Uniform Flowers",
+					"body": "A thousand identical flowers stand in identical rows. You count them twice. One of them is, very slightly, a different shade of yellow.",
+					"choices": [
+						["Pick the odd one out", "It tastes of dandelion. It feels like the first honest thing in the castle.", "heal:3"],
+						["Pick a handful of the rest", "They wilt in your hand and leave behind a few coins.", "gold:40"]
+					]
+				}
+			},
+			"challenges": {
+				"14": {"ref": "pc_ministry_desk"},
+				"17": {"ref": "pc_mirror_test"}
+			},
+			"loot": {
+				"11": {"gold": 70, "xp": 30, "item": "healing_draught"},
+				"18": {"gold": 80, "xp": 40, "item": "healing_draught"},
+				"19": {"gold": 110, "xp": 60, "item": "vitality_charm"},
+				"21": {"gold": 120, "xp": 60, "card": "C-30"}
+			},
+			"story_keys": {"1": "pc_gate", "8": "pc_archive_gate", "10": "pc_boss"},
+			"sections": {"12": "the Gourmand Wing", "13": "the Beefcake Wing", "14": "the Necrocrat Wing", "15": "the Refusemancer Wing", "20": "the Clocktower"},
+			"scenes": {"10": {"before": "primm_intro", "after": "primm_end"}}
+		},
+		"S-BEEF": {
+			"defaults": {
+				"archetypes": ["beefcake_rush", "beefcake_tools", "beefcake_bruisers"],
+				"icons": ["lorc/muscle-up", "delapouite/strong-man", "delapouite/mammoth"],
+				"ais": ["Balanced", "Defensive", "Aggressive"]
+			},
+			"boss": {"deck": "beefcake_bruisers", "extra": {"B-30": 1}, "hp": 20, "icon": "delapouite/mammoth"},
+			"foes": {"1": "Rival Lifter at Base Camp", "2": "Squat Rack Sentinel", "3": "The Ancient Spotter"},
+			"story_keys": {"3": "dg_s_beef_boss"}
+		},
+		"S-GOUR": {
+			"defaults": {
+				"archetypes": ["gourmand_golems", "gourmand_control"],
+				"icons": ["delapouite/chef-toque", "delapouite/fish-monster", "delapouite/charging-bull"],
+				"ais": ["Balanced", "Defensive", "Aggressive"]
+			},
+			"boss": {"deck": "gourmand_golems", "extra": {"G-27": 1}, "hp": 20, "icon": "delapouite/charging-bull"},
+			"foes": {"1": "Apprentice Itamae", "2": "Conveyor Belt Sushi Chef", "3": "The Itamae Supreme"},
+			"story_keys": {"3": "dg_s_gour_boss"}
+		},
+		"S-NECRO": {
+			"defaults": {
+				"archetypes": ["necro_zombies", "necro_control"],
+				"icons": ["delapouite/ticket", "lorc/ghost", "delapouite/files"],
+				"ais": ["Balanced", "Defensive", "Aggressive"]
+			},
+			"boss": {"deck": "necro_control", "extra": {"N-30": 1}, "hp": 20, "icon": "delapouite/files"},
+			"foes": {"1": "Receptionist of Number One", "2": "The Eternal Queue", "3": "Betty Bones, Surly Secretary"},
+			"story_keys": {"3": "dg_s_necro_boss"}
+		},
+		"S-REF": {
+			"defaults": {
+				"archetypes": ["refuse_rats", "refuse_garbage"],
+				"icons": ["delapouite/trash-can", "lorc/recycle", "delapouite/imperial-crown"],
+				"ais": ["Balanced", "Defensive", "Aggressive"]
+			},
+			"boss": {"deck": "refuse_rats", "extra": {"R-27": 1}, "hp": 20, "icon": "delapouite/imperial-crown"},
+			"foes": {"1": "Alley Gate Raccoon", "2": "Pizza Crust Courtier", "3": "His Majesty the Raccoon"},
+			"story_keys": {"3": "dg_s_ref_boss"}
+		},
+		"S-CAP": {
+			"defaults": {
+				"archetypes": ["colorless_regime"],
+				"icons": ["delapouite/guards", "delapouite/pipes", "lorc/visored-helm"],
+				"ais": ["Balanced", "Defensive", "Aggressive"]
+			},
+			"boss": {"deck": "colorless_regime", "extra": {}, "hp": 20, "icon": "lorc/visored-helm"},
+			"foes": {
+				"1": {"name": "Sewer Checkpoint Enforcer", "deck": "colorless_regime", "size": 27, "hp": 12, "mixed": ["necrocrat", "gourmand"]},
+				"2": {"name": "Junction Patrol", "deck": "colorless_regime", "size": 28, "hp": 14, "mixed": ["beefcake", "refusemancer"]},
+				"3": {"name": "Enforcer Captain Spotless", "deck": "colorless_regime", "size": 33, "hp": 20, "mixed": ["necrocrat", "gourmand", "beefcake", "refusemancer"]}
+			},
+			"story_keys": {"3": "dg_s_cap_boss"}
+		},
+		"S-TOWN": {
+			"defaults": {
+				"archetypes": ["colorless_militia"],
+				"icons": ["delapouite/cyborg-face", "delapouite/steampunk-goggles", "delapouite/castle"],
+				"ais": ["Balanced", "Defensive", "Aggressive"]
+			},
+			"boss": {"deck": "four_paths", "extra": {"C-21": 1}, "hp": 20, "icon": "delapouite/cyborg-face"},
+			"foes": {
+				"1": {"name": "Rusty Gate Clockwork", "deck": "colorless_militia", "size": 27, "hp": 12},
+				"2": {"name": "Banner Hall Guardian", "deck": "colorless_militia", "size": 29, "hp": 14},
+				"3": {"name": "The Old Kingdom Automaton", "deck": "four_paths", "size": 36, "hp": 20}
+			},
+			"story_keys": {"3": "dg_s_town_boss"}
+		}
+	},
+	"text": {
+		"quest.side_s_town.offer": ["There is a door under the old well that has been locked since before I was born.", "I always thought the key was lost. It was not. Somebody hid it in a chest in this very town. Find it, and we will see what the door is for."],
+		"quest.side_s_town.active": ["The key is in a hidden chest somewhere in town. Look in the odd corners."],
+		"quest.side_s_town.ready": ["You found it. The key to the old door. I am too old for stairs, but you are not."],
+		"quest.side_s_town.done": ["Go on, the iron hatch beside the well. What lies under it was the Old Kingdom's, not mine."],
+		"quest.side_s_beef.offer": ["Only the worthy reach the top. Also bring water.", "There is a mountain behind the station, and a barbell on top that is older than the regime. If you want to try for it, buy a protein shake and bring it back. I cannot climb on an empty cup."],
+		"quest.side_s_beef.active": ["Water, friend. A protein shake from the stand will do. Do not spill it."],
+		"quest.side_s_beef.ready": ["That is the best water I have ever seen. Thank you."],
+		"quest.side_s_beef.done": ["The way up the Ascent of Mount Swolympus is open. Take the trail behind the station. Mind the thin air."],
+		"quest.side_s_gour.offer": ["Psst. Over here. Have you ever been to a restaurant with no menu?", "There is a golden reservation card hidden in the Buffet: 'Seating: 1. Courses: 3. Survival: optional.' Somebody left it in a stash. Find it and I will tell you where to sit."],
+		"quest.side_s_gour.active": ["The card is in one of the hidden stashes. Golden. You will know it."],
+		"quest.side_s_gour.ready": ["That is the card! One seat, three courses, survival optional. How exciting."],
+		"quest.side_s_gour.done": ["The sliding door to Omakase is open. Leave your fate to the chef."],
+		"quest.side_s_necro.offer": ["Number 4,000,212? They are on 3. Can you help?", "There is a ghost in the Waiting Room of Eternity clutching a very old ticket. The queue is stuck. Thin out the roaming staff and I will get you in."],
+		"quest.side_s_necro.active": ["Two roaming staff members, processed. The queue will not move on its own."],
+		"quest.side_s_necro.ready": ["Two fewer. The queue is moving! Slightly."],
+		"quest.side_s_necro.done": ["The Waiting Room of Eternity will see you now. Take a number."],
+		"quest.side_s_ref.offer": ["Someone has been eating ALL the compost. Little paw prints. A tiny crown.", "Chase off two of the scavengers and the trail will lead you to the alley under the big dumpster."],
+		"quest.side_s_ref.active": ["Two scavengers. The paw prints are fresh."],
+		"quest.side_s_ref.ready": ["The paw prints lead to the big dumpster. I knew it."],
+		"quest.side_s_ref.done": ["Under the tipped-over dumpster there is a gate made of a bicycle wheel. That is the way to the Trash Panda Throne."],
+		"npc.kestrel.intro": ["Quiet. Primm's enforcers walk this road on the hour.", "I am Kestrel, scout for the resistance. If you are going into the city, there is an older way in than the gate."],
+		"npc.kestrel.return": ["The road is clear. For now."],
+		"quest.side_s_cap.offer": ["There is an older way into the city. Nobody remembers it. That is the point.", "The resistance remembers. Make your way inside and meet Wren in the Crease; she will tell you what the old tunnels are for, and I will show you the hatch."],
+		"quest.side_s_cap.active": ["Find the resistance hideout. Ask Wren about the tunnels."],
+		"quest.side_s_cap.ready": ["You found them. Good. Then you have earned this."],
+		"quest.side_s_cap.done": ["The hatch at the east end of the Outskirts leads down to the Old Service Tunnels. Mind the patrols."],
+		"dungeon.dg_s_beef_boss.before": ["A stone colossus sits at the summit with its hands out, palms up, as if waiting for a barbell to be placed in them. It has been spotting for a thousand years and it is very, very ready.", "\"Lift,\" it rumbles. \"I will catch it.\" It does not say what happens if you fail."],
+		"dungeon.dg_s_beef_boss.after": ["The Ancient Spotter lowers its hands and, for the first time in a thousand years, sets something down. The barbell on the altar is yours.", "\"Good form,\" it says. Then, quieter: \"Thank you for coming up.\""],
+		"dungeon.dg_s_gour_boss.before": ["The Itamae Supreme lifts a long knife and does not look up. \"There is no menu. You have trusted me with three courses. Now, the Chef's Choice.\"", "Behind him a bull made of toro lowers its horns, politely."],
+		"dungeon.dg_s_gour_boss.after": ["The Itamae bows, wipes his knife on a cloth and slides a small plate across the counter. \"Omakase,\" he says. \"I leave the rest to you.\""],
+		"dungeon.dg_s_necro_boss.before": ["A single desk under a single green lamp, buried in forms. Betty Bones looks up, very slowly, and sighs the sigh of the deceased.", "\"I am very sorry,\" she says, \"but you will need forms A through F.\""],
+		"dungeon.dg_s_necro_boss.after": ["Betty stamps one last form with a bony flourish. \"Fine. Number 4,000,212 is approved. Do not tell anyone I did this.\"", "Somewhere far down the line, a ghost with a crumpled ticket begins, very quietly, to cheer."],
+		"dungeon.dg_s_ref_boss.before": ["The Throne of Lids creaks. On it sits a very large raccoon in a very small crown, sweating profusely.", "\"I can explain the compost,\" His Majesty says, \"and I would like to do so after you leave.\""],
+		"dungeon.dg_s_ref_boss.after": ["The raccoon king abdicates with great dignity and a crust of pizza. The crown rolls under the throne. \"The compost,\" he says, \"was for the kingdom.\""],
+		"dungeon.dg_s_cap_boss.before": ["A metal grate lets in light from a perfect city. Beneath it stands Captain Spotless, polishing his shield with a sleeve he has polished before.", "\"These tunnels do not exist,\" he says. \"I cannot allow you to have found them.\""],
+		"dungeon.dg_s_cap_boss.after": ["The Captain sits down on a barrel and, for a moment, looks very tired. \"I remember when these tunnels were full of people,\" he says. \"Go on. The grate is not locked.\""],
+		"dungeon.dg_s_town_boss.before": ["A glowing four-coloured core hums at the heart of the vault. Beside it a clockwork guardian unfolds, with a sound like a very old clock remembering the hour.", "\"Identify,\" it says. \"The Old Kingdom's banner is not for just anyone.\""],
+		"dungeon.dg_s_town_boss.after": ["The Automaton clicks, whirs and lowers one knee. In its outstretched hand, folded neatly, is the Old Kingdom's banner.", "\"Four Paths,\" it says. \"One kingdom. Carry it well.\""]
+	}
+}

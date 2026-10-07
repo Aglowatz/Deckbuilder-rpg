@@ -10,4 +10,4 @@ const QUEST_REWARD_IDS: Array[String] = ["B-30", "G-31", "N-28", "R-30"]
 ## The card for toppling Primm: Reunion of the Paths.
 const FINAL_REWARD_ID: String = "P4-02"
 ## Sold at Fig Sly's black market (the rare ones, any Path).
-const BLACK_MARKET_CARD_IDS: Array[String] = ["N-27", "R-31", "G-29", "B-27", "C-30", "C-29", "NR-12", "GB-12"]
+const BLACK_MARKET_CARD_IDS: Array[String] = ["N-27", "R-31", "G-29", "B-27", "C-30", "C-24", "NR-12", "GB-12"]

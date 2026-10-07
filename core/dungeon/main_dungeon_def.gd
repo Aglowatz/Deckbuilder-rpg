@@ -17,6 +17,7 @@ class Foe:
 	var icon: String = "lorc/imp"
 
 
+var dungeon_id: String = ""
 var zone_id: String = ""
 var dungeon_name: String = ""
 ## Which dungeon backdrop the map screen builds ("kitchen", "house", "hall", "rotheart").

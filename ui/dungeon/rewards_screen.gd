@@ -155,7 +155,7 @@ func _after_rewards(continues: bool, was_boss: bool, first_clear: bool) -> void:
 ## Archdruid cut free from the Rotheart...), then the zone is freed (`Session.finish_main_dungeon`).
 func _main_boss_epilogue() -> void:
 	var boss: DungeonMap.MapNode = Session.dungeon_map.boss()
-	var story: ZoneStoryText = ZoneStoryText.for_zone(Session.zone_def().id)
+	var story: ZoneStoryText = ZoneStoryText.for_zone(MainDungeons.def(Session.dungeon_key).zone_id)
 	var finish: Callable = func() -> void: Session.finish_main_dungeon(true)
 	var after_scene: Callable = func() -> void:
 		if boss != null and not boss.after_scene.is_empty() and CutsceneDefs.has_scene(boss.after_scene):
