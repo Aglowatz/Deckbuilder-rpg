@@ -65,3 +65,20 @@ the files that match no ID.
   resource tray and the hand are opaque panels / cards, so nothing else is needed.
 - **Screenshots:** `bash tools/shot.sh res://scenes/battle.tscn <name> --ctx=<context key>` (or `--board=<Battleboard ID>`, plus `--bot=4
   --fast=true --wait=14` to play a few turns); `bash tools/battleboard_shots.sh` makes one per board into `_screenshots/bb_*.png`.
+
+## NPC dialogue portraits
+
+The visual-novel portraits that stand beside the dialogue box (`assets/art/portraits/<Portrait Image ID>.webp`, e.g. `NPC-ELDER.webp`). The designer's list is
+`data/source/npc_list.csv.csv`; `bash tools/import_npcs.sh` turns it into `data/npcs/npcs.json` (`NpcRegistry`: ID, name, role, location, Portrait Image ID, species,
+expressions). When you say **"import portraits"**, run `bash tools/import_portraits.sh` and report what was added, the Portrait Image IDs with no image and the files that match no ID.
+
+- **Source:** `data/source/art_config.cfg` `portrait_dir` (`G:/My Drive/Card Game Art/Approved_Characters`; override with env `PORTRAIT_SOURCE_DIR`). Read-only, like the other
+  importers: files are only copied (never moved, renamed or deleted). `data/source/portrait_import_manifest.csv` records each file's MD5, so a changed Drive file is replaced on the next run.
+- **Names:** `<Portrait Image ID>.png` (or webp/jpg), and optional expression variants `<ID>_<EXPRESSION>.png` (`NPC-PRIMM_ENRAGED.png`). A missing expression falls back to the base
+  portrait (`Portraits.texture_for(id, expression)`); a missing base means no portrait and the dialogue box shows no image.
+- **Transparency:** portraits are expected to have a transparent background. An image whose border is one opaque flat colour (e.g. plain light gray) instead gets its background removed
+  (flood fill from the border, then each antialiased edge pixel gets an alpha from its distance to the background colour and has the background un-mixed, so there is no halo); the
+  run lists those files as "Flat background removed". A gray patch inside the character is kept. All 71 current files already have real transparency.
+- **Format:** scaled to 768 px tall (never enlarged; 1024x1536 sources become 512x768), colours bled into transparent pixels before the resize (no dark fringe), lossy WebP (quality 92) with alpha.
+- **Status:** `docs/art/art_status.md` has a "Portraits" section (every NPC, whether its image exists, which expressions exist). The status writers keep each other's sections.
+- **Tests:** `tests/core/data/test_portraits.gd` (naming, background removal without a halo, scaling, import/manifest/unknown files, fallbacks, status) and `test_npc_registry.gd`.

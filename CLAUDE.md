@@ -80,3 +80,4 @@ The card set comes from the designer's Google Sheet (CSV export in `data/source/
 each card's rules text is a script in `data/scripts/`, and card art loads by convention from `assets/art/cards/<CardID>.webp`. Everything about
 the pipeline, the script vocabulary and the re-import workflow is in `docs/card_pipeline.md`.
 When the user says "import card art": run `bash tools/import_art.sh` and report what was added and what is still missing (`docs/art/art_pipeline.md`). Never create or fetch card art yourself.
+When the user says "import portraits": run `bash tools/import_portraits.sh` (NPC dialogue portraits from the Drive `Approved_Characters` folder, copy-only; `docs/art/art_pipeline.md`) and report what was added, the Portrait Image IDs still missing and files that match no ID. Never create or fetch portrait art yourself.

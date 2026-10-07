@@ -2629,3 +2629,14 @@ names and old titles still appear in some story lines (for example "Brenda", "Ma
 the shop names keep the old owners (Tiny Tony's Protein & Pasteboard, Dolcetta's Dessert & Deckery, Farmer Hob's Swap Shed, Wick's Supplies; vendor screens are out of scope); the zone villains and
 leaders still carry the old names in prose and battle (Commander Gristle = Chancellor Clench, the Registrar = Undersecretary Vellum, the False Aurelio = the Doppelganger, Archdruid Fernwick Loam =
 Compostella, the Rotheart, "Aurelio" / "Director Vellum" / "Fernwick" in lines). Dungeon boss beats show the list name on the plate, so plate and prose disagree until that prose is rewritten.
+
+### Part B: portrait import
+- `bash tools/import_portraits.sh` ("import portraits"): copies `G:\My Drive\Card Game Art\Approved_Characters` (path stored in `data/source/art_config.cfg` as `portrait_dir`; read-only, nothing there was
+  moved, renamed or deleted) into `assets/art/portraits/` as 768 px tall WebP with alpha (`Portraits`, `core/data/portraits.gd`). 71 files imported (58 base portraits + 13 expression variants:
+  NPC-ELDER_HAPPY / _WORRIED, NPC-GATEKEEPER_HAPPY / _STERN, NPC-PLAYER_CONFUSED / _DETERMINED, V-BEETSWORTH_PROUD, V-FENWICK_EXCITED, V-SABLE_PLEASED / _SCHEMING, V-THREADWELL_DELIGHTED,
+  V-TONIC_EXCITED / _OOPS); 11 MB in all. **No missing IDs, no unmatched files.** Every file already had a real transparent background, so the flat-background remover did not run on the real
+  art (it is covered by tests: flat gray to transparent with no halo, interior gray kept, gradients and transparent images untouched).
+- Verified on magenta contact sheets (`docs/art/screens/portraits/contact_sheet_*.png`): clean cut-outs, no gray or dark edges, all figures cropped flat at the waist with the head near the top.
+- Expression files use the `_EXPRESSION` suffix and fall back to the base portrait when an expression has no image. `docs/art/art_status.md` has a "Portraits" section; the card, battleboard and
+  portrait status writers now keep each other's sections (before, the battleboard writer cut everything after its heading).
+- Docs: `docs/art/art_pipeline.md` ("NPC dialogue portraits") and CLAUDE.md ("import portraits").

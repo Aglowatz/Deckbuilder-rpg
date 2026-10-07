@@ -263,14 +263,9 @@ static func status_markdown() -> String:
 	return "\n".join(lines) + "\n"
 
 
-## Rewrites the Battleboards section of `status_path` (keeps everything before the marker; appends it when absent).
+## Rewrites the Battleboards section of `status_path` (keeps every other section; appends it when absent).
 static func write_status(status_path: String) -> void:
 	var text: String = FileAccess.get_file_as_string(status_path) if FileAccess.file_exists(status_path) else ""
-	var cut: int = text.find(STATUS_MARKER)
-	if cut >= 0:
-		text = text.substr(0, cut)
-	if not text.is_empty() and not text.ends_with("\n\n"):
-		text += "\n" if text.ends_with("\n") else "\n\n"
 	var file: FileAccess = FileAccess.open(status_path, FileAccess.WRITE)
-	file.store_string(text + status_markdown())
+	file.store_string(Portraits.replace_section(text, STATUS_MARKER, status_markdown()))
 	file.close()
