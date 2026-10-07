@@ -33,8 +33,8 @@ procedural (`MusicSynth`) or from the existing Kenney packs.
 ## Pack types
 | Pack | Pool | Guarantee | Sold by | Stocked when |
 |---|---|---|---|---|
-| Path Pack x4 | that Path's pack-eligible cards + neutral | none | Pack Vendor | that zone's dungeon was cleared once |
-| Gilded Pack x4 | same | an Epic or Legendary | Black Market (Fig Sly, the Capital) | that zone's dungeon was cleared once |
+| Path Pack x4 | that Path's pack-eligible cards + neutral | at least one card from its Path | Pack Vendor | that zone's dungeon was cleared once |
+| Gilded Pack x4 | same | an Epic or Legendary and at least one card from its Path | Black Market (Fig Sly, the Capital) | that zone's dungeon was cleared once |
 | Prismatic Pack | any Path, neutral and all 24 multi-Path cards | a multi-Path card | Pack Vendor (hidden until then) | postgame unlocked |
 | General Pack, tier 1 | the town card vendor's base selection, Commons and Uncommons | none | Card Vendor (Sable) | from the start |
 | General Pack, tier 2 | the vendor's whole selection | none | Card Vendor | level 10 OR 2 zones freed |
@@ -51,3 +51,8 @@ procedural (`MusicSynth`) or from the existing Kenney packs.
   a back room after the postgame (hidden before). **Card vendor (Sable):** a "Card Packs" button: General tier 1, tier 2 once unlocked. **Black market (Fig Sly, the Crease):**
   a "Card Packs" button: the four Gilded Packs (each after its zone's first clear).
 - Dialogue and hints for all of them are in `data/story/intro_story.tres` (`town.pack_vendor.*`, `pack.*`).
+
+## Path guarantee (Brief 16, Group H)
+Path Packs and Gilded Packs (both Path-based) always contain **at least one card from their Path** (a multi-Path card of that Path counts), whatever the other slots rolled.
+After the normal slots and the Epic / multi-Path guarantees, `PackRoller._ensure_path_card` re-rolls one slot to a card of the Path when the pack has none - never the pack's only Epic/Legendary (Gilded) or its only multi-Path card
+(where the pack guarantees one); a one-card pack takes a card that satisfies every guarantee at once. Prismatic and General packs are not affected. Tests: `tests/core/data/test_pack_path_rule.gd`.

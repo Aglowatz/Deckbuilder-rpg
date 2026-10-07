@@ -61,7 +61,43 @@ static func roll(pack: PackData, content: ContentSet, rng: RandomNumberGenerator
 				if not strong_multipath.is_empty():
 					strong_cards = strong_multipath
 			picks[target] = _pick(pack, strong_cards, rng, picks)
+	_ensure_path_card(pack, cards, picks, rng)
 	return picks
+
+
+## Brief 16, Group H: a Path Pack or a Gilded Pack (both are Path-based) always holds at least one card from its Path (a multi-Path card of that Path counts). When the rolled
+## cards have none, one slot is re-rolled to a card of the Path - never the pack's only Epic/Legendary (Gilded) or its only multi-Path card (when the pack guarantees one), and a
+## one-card pack takes a card that satisfies every guarantee at once.
+static func _ensure_path_card(pack: PackData, cards: Array[CardData], picks: Array[CardData], rng: RandomNumberGenerator) -> void:
+	if not pack.is_path_pack() or pack.path == Affinity.Type.NEUTRAL or picks.is_empty():
+		return
+	var on_path: Callable = func(card: CardData) -> bool: return card.is_on_path(pack.path)
+	if _any(picks, on_path):
+		return
+	var candidates: Array[CardData] = cards.filter(on_path)
+	if candidates.is_empty():
+		return
+	var epic_count: int = picks.filter(_is_epic_plus).size()
+	var multi_count: int = picks.filter(_is_multipath).size()
+	var slots: Array[int] = []
+	for index: int in range(picks.size()):
+		var sole_epic: bool = pack.guarantee_epic_or_legendary and epic_count == 1 and _is_epic_plus(picks[index])
+		var sole_multi: bool = pack.guarantee_multipath and multi_count == 1 and _is_multipath(picks[index])
+		if not sole_epic and not sole_multi:
+			slots.append(index)
+	if slots.is_empty():
+		# Every slot carries a guarantee: the replacement has to carry them too.
+		var strong: Array[CardData] = candidates
+		if pack.guarantee_epic_or_legendary:
+			strong = strong.filter(_is_epic_plus)
+		if pack.guarantee_multipath:
+			var strong_multi: Array[CardData] = strong.filter(_is_multipath)
+			strong = strong_multi if not strong_multi.is_empty() else strong
+		if not strong.is_empty():
+			candidates = strong
+		picks[rng.randi_range(0, picks.size() - 1)] = _pick(pack, candidates, rng, picks)
+		return
+	picks[slots[rng.randi_range(0, slots.size() - 1)]] = _pick(pack, candidates, rng, picks)
 
 
 ## A random slot to re-roll for the multi-Path guarantee (preferring one that is not already the pack's Epic/Legendary).
