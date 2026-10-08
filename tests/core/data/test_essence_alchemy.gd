@@ -319,6 +319,7 @@ func test_a_dual_card_counts_as_both_paths_for_the_deck_limit() -> void:
 	for i: int in range(45):
 		padded.append(big.cards[i % 3])
 	var profile: PlayerProfile = PlayerProfile.new()
+	profile.zones_freed = 1
 	assert_true(DeckValidator.has_problem(DeckValidator.validate(_deck(padded), profile), DeckValidator.Problem.TOO_MANY_COLORS), "4 Paths exceed the 2-Path limit")
 	profile.postgame_unlocked = true
 	assert_false(DeckValidator.has_problem(DeckValidator.validate(_deck(padded), profile), DeckValidator.Problem.TOO_MANY_COLORS), "postgame allows 4")
@@ -326,6 +327,7 @@ func test_a_dual_card_counts_as_both_paths_for_the_deck_limit() -> void:
 
 func test_the_deck_builder_refuses_a_dual_card_that_would_break_the_path_limit() -> void:
 	var profile: PlayerProfile = Session.profile
+	profile.zones_freed = 1
 	var ab: CardData = _dual("owned_ab", A, B)
 	var cd: CardData = _dual("owned_cd", C, D)
 	var ad: CardData = _dual("owned_ad", A, D)
@@ -333,8 +335,8 @@ func test_the_deck_builder_refuses_a_dual_card_that_would_break_the_path_limit()
 	var deck: Deck = _deck([CardBuilder.infra(A), CardBuilder.infra(B)] as Array[CardData])
 	var editor: DeckEditor = DeckEditor.from(profile, deck, [CardBuilder.infra(A), CardBuilder.infra(B)] as Array[CardData])
 	assert_eq(editor.why_not_add(ab), "", "A/B fits a deck already on A and B")
-	assert_true(editor.why_not_add(cd).contains("both of its Paths"), "C/D needs two more Paths: " + editor.why_not_add(cd))
-	assert_true(editor.why_not_add(ad).contains("both of its Paths"), "A/D would add a third Path")
+	assert_true(editor.why_not_add(cd).contains("needs two Paths"), "C/D needs two more Paths: " + editor.why_not_add(cd))
+	assert_true(editor.why_not_add(ad).contains("two Paths"), "A/D would add a third Path")
 	assert_true(editor.add(ab))
 
 

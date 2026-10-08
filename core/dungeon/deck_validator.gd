@@ -3,10 +3,12 @@ extends RefCounted
 ## Deck construction rules: at least 45 cards (MIN_DECK_SIZE modifiers can lower this, e.g. the
 ## tutorial dungeon's starter-deck waiver), at most 4 copies of any non-infrastructure card at every level
 ## (infrastructure is unlimited), at most 2
-## infrastructure/color types (4 once postgame_unlocked; MAX_DECK_COLORS modifiers add more).
+## infrastructure/color types: ONE until the first zone is freed, TWO after that, FOUR once postgame_unlocked (Primm beaten and the throne taken);
+## MAX_DECK_COLORS modifiers add more. Story v2: the Wanderer is too weak to carry more at first (see `path_limit_hint`).
 
 const MIN_DECK_SIZE: int = 45
 const MAX_COPIES: int = 4
+const START_MAX_COLORS: int = 1
 const BASE_MAX_COLORS: int = 2
 const POSTGAME_MAX_COLORS: int = 4
 
@@ -20,9 +22,28 @@ class Issue:
 	var message: String = ""
 
 
+## The Path limit before modifiers: 1 at the start, 2 once a zone is freed, 4 in the postgame.
+static func base_max_colors(profile: PlayerProfile) -> int:
+	if profile.postgame_unlocked:
+		return POSTGAME_MAX_COLORS
+	if profile.zones_freed >= 1:
+		return BASE_MAX_COLORS
+	return START_MAX_COLORS
+
+
+## The themed line that explains the current Path limit (shown by the deck builder and in the validator's message).
+static func path_limit_hint(profile: PlayerProfile, modifiers: ModifierSet = null) -> String:
+	var limit: int = max_colors(profile, modifiers)
+	if limit <= 1:
+		return "You're still too weak to walk more than one Path. Free your first zone to walk a second."
+	if limit == 2 and not profile.postgame_unlocked:
+		return "Two Paths are all you can carry for now. Only the Pathwork Throne will let you walk more."
+	return "A deck may use only %d Paths." % limit
+
+
 ## How many infrastructure/color types a deck may use.
 static func max_colors(profile: PlayerProfile, modifiers: ModifierSet = null) -> int:
-	var limit: int = POSTGAME_MAX_COLORS if profile.postgame_unlocked else BASE_MAX_COLORS
+	var limit: int = base_max_colors(profile)
 	if modifiers != null:
 		limit += modifiers.sum(Modifier.Kind.MAX_DECK_COLORS)
 	return clampi(limit, 1, Affinity.colored_types().size())
@@ -63,7 +84,7 @@ static func validate(
 	var colors: int = deck.colors().size()
 	var limit: int = max_colors(profile, modifiers)
 	if colors > limit:
-		issues.append(_issue(Problem.TOO_MANY_COLORS, "", "Deck uses %d infrastructure types; limit is %d." % [colors, limit]))
+		issues.append(_issue(Problem.TOO_MANY_COLORS, "", "Deck uses %d Paths; limit is %d. %s" % [colors, limit, path_limit_hint(profile, modifiers)]))
 	if check_ownership:
 		var owned: Dictionary = {}
 		for card: CardData in profile.owned_cards:

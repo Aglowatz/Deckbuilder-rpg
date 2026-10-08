@@ -51,9 +51,10 @@ func why_not_add(card: CardData) -> String:
 		if not resulting.has(path):
 			resulting.append(path)
 	if resulting.size() > DeckValidator.max_colors(profile, modifiers) and resulting.size() > deck.colors().size():
+		var hint: String = DeckValidator.path_limit_hint(profile, modifiers)
 		if card.is_multipath():
-			return "%s needs both of its Paths, and a deck may use only %d Paths." % [card.display_name, DeckValidator.max_colors(profile, modifiers)]
-		return "A deck may use only %d Paths." % DeckValidator.max_colors(profile, modifiers)
+			return "%s needs two Paths. %s" % [card.display_name, hint]
+		return hint
 	return ""
 
 

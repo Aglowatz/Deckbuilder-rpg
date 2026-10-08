@@ -15,6 +15,8 @@ const DEFAULT_MAX_HAND_SIZE: int = 10
 @export var owned_cards: Array[CardData] = []
 ## Raises the deck color limit from 2 to 4.
 @export var postgame_unlocked: bool = false
+## How many zones have been freed (mirrors the zone flags; `Session` keeps it in sync). It sets how many Paths a deck may use (`DeckValidator.base_max_colors`).
+@export var zones_freed: int = 0
 ## The infrastructure color the player chose at the start (NEUTRAL = not chosen yet).
 @export var primary_affinity: Affinity.Type = Affinity.Type.NEUTRAL
 ## Set once the intro dungeon is cleared and the attunement reward has been granted.

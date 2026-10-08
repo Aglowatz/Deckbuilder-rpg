@@ -196,6 +196,7 @@ func _ready() -> void:
 	if Session.town_notice != "":
 		hud.toast(Session.town_notice, UIStyle.GOLD)
 		Session.town_notice = ""
+	_warn_path_limit.call_deferred()
 	_show_npc_result.call_deferred()
 	_show_graveyard_result.call_deferred()
 	_show_ninja_result.call_deferred()
@@ -206,6 +207,17 @@ func _ready() -> void:
 		GiantChestEvent.screenshot_run(self, str(_screenshot_args["ninja"]), town.harbor_chest_node, _screenshot_args)
 	Session.save_game()
 
+
+## Story v2: an old save may hold decks that walk more Paths than the Wanderer can carry yet. They are kept (and marked not legal in the deck picker), and the player is told to fix them.
+func _warn_path_limit() -> void:
+	if Session.profile == null or Session.deck_box == null:
+		return
+	var limit: int = DeckValidator.max_colors(Session.profile)
+	for index: int in range(Session.deck_box.size()):
+		var candidate: Deck = Session.deck_box.build(index, Session.deck_lookup())
+		if candidate.colors().size() > limit:
+			hud.toast("A saved deck walks more Paths than you can carry yet. Fix it at the Deck Station.", Color("ffcf70"))
+			return
 
 func _ensure_input_actions() -> void:
 	if not InputMap.has_action(&"interact"):

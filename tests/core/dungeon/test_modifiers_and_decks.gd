@@ -38,7 +38,7 @@ func _legal_deck(colors: Array[Affinity.Type]) -> Deck:
 
 
 func test_every_source_kind_flows_through_one_pipeline() -> void:
-	var profile: PlayerProfile = PlayerProfile.new()
+	var profile: PlayerProfile = _profile()
 	profile.equipment = [_source("Ring", ModifierSource.SourceKind.EQUIPMENT, [CardBuilder.modifier(Modifier.Kind.MAX_HP, 2)] as Array[Modifier])] as Array[ModifierSource]
 	profile.items = [_source("Charm", ModifierSource.SourceKind.ITEM, [CardBuilder.modifier(Modifier.Kind.MAX_HAND_SIZE, 1)] as Array[Modifier])] as Array[ModifierSource]
 	var zone: ModifierSource = _source("Swamp", ModifierSource.SourceKind.ZONE, [CardBuilder.modifier(Modifier.Kind.COST_CHANGE, -1, Affinity.Type.BEEFCAKE)] as Array[Modifier])
@@ -62,7 +62,7 @@ func test_every_source_kind_flows_through_one_pipeline() -> void:
 
 func test_max_traps_modifier_raises_the_trap_cap() -> void:
 	var dungeon: ModifierSource = _source("Warded Hollow", ModifierSource.SourceKind.DUNGEON, [CardBuilder.modifier(Modifier.Kind.MAX_TRAPS, 2)] as Array[Modifier])
-	var mods: ModifierSet = ModifierPipeline.build(PlayerProfile.new(), null, [dungeon] as Array[ModifierSource])
+	var mods: ModifierSet = ModifierPipeline.build(_profile(), null, [dungeon] as Array[ModifierSource])
 	var setup: PlayerSetup = PlayerSetup.new()
 	setup.deck = GameFactory.make_deck()
 	setup.modifiers = mods
@@ -130,32 +130,39 @@ func test_start_of_combat_effect_can_end_the_game() -> void:
 func test_legal_two_color_deck_passes() -> void:
 	var deck: Deck = _legal_deck([Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND] as Array[Affinity.Type])
 	assert_eq(deck.size(), 45)
-	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new()))
+	assert_true(DeckValidator.is_valid(deck, _profile()))
 
 
 func test_deck_with_too_few_cards_fails() -> void:
 	var deck: Deck = _legal_deck([Affinity.Type.BEEFCAKE] as Array[Affinity.Type])
 	deck.cards.pop_back()
-	var issues: Array[DeckValidator.Issue] = DeckValidator.validate(deck, PlayerProfile.new())
+	var issues: Array[DeckValidator.Issue] = DeckValidator.validate(deck, _profile())
 	assert_true(DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS))
 
 
 func test_more_than_four_copies_fails_but_basic_infrastructure_are_exempt() -> void:
 	var deck: Deck = _legal_deck([Affinity.Type.BEEFCAKE] as Array[Affinity.Type])
 	assert_true(deck.count_of("infrastructure_beefcake") > 3, "test deck has many basic infrastructure")
-	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new()), "basic infrastructure do not count against the limit")
+	assert_true(DeckValidator.is_valid(deck, _profile()), "basic infrastructure do not count against the limit")
 	var dupe: CardData = _card("dupe", Affinity.Type.BEEFCAKE)
 	for i: int in range(5):
 		deck.cards.append(dupe)
-	var issues: Array[DeckValidator.Issue] = DeckValidator.validate(deck, PlayerProfile.new())
+	var issues: Array[DeckValidator.Issue] = DeckValidator.validate(deck, _profile())
 	assert_true(DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES))
 	assert_eq(issues[0].card_id, "dupe")
 	deck.cards.pop_back()
-	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new()), "exactly four copies is fine")
+	assert_true(DeckValidator.is_valid(deck, _profile()), "exactly four copies is fine")
+
+
+## A profile that has freed one zone (two Paths allowed); `zones_freed` stays 0 only in the Path-lock tests.
+func _profile() -> PlayerProfile:
+	var profile: PlayerProfile = PlayerProfile.new()
+	profile.zones_freed = 1
+	return profile
 
 
 func test_color_limit_is_two_until_postgame_then_four() -> void:
-	var profile: PlayerProfile = PlayerProfile.new()
+	var profile: PlayerProfile = _profile()
 	var three: Deck = _legal_deck([Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER] as Array[Affinity.Type])
 	var four: Deck = _legal_deck([Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT] as Array[Affinity.Type])
 	assert_eq(DeckValidator.max_colors(profile), 2)
@@ -170,11 +177,11 @@ func test_neutral_cards_do_not_count_as_a_color() -> void:
 	var deck: Deck = _legal_deck([Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND] as Array[Affinity.Type])
 	for i: int in range(3):
 		deck.cards.append(_card("neutral_card", Affinity.Type.NEUTRAL))
-	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new()))
+	assert_true(DeckValidator.is_valid(deck, _profile()))
 
 
 func test_max_colors_modifier_raises_the_limit() -> void:
-	var profile: PlayerProfile = PlayerProfile.new()
+	var profile: PlayerProfile = _profile()
 	var mods: ModifierSet = ModifierSet.new()
 	mods.add(CardBuilder.modifier(Modifier.Kind.MAX_DECK_COLORS, 1))
 	assert_eq(DeckValidator.max_colors(profile, mods), 3)
@@ -189,11 +196,11 @@ func test_min_deck_size_modifier_lowers_the_minimum() -> void:
 	for i: int in range(5):
 		deck.cards.pop_back()
 	assert_eq(deck.size(), 40)
-	assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, PlayerProfile.new()), DeckValidator.Problem.TOO_FEW_CARDS))
+	assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, _profile()), DeckValidator.Problem.TOO_FEW_CARDS))
 	var mods: ModifierSet = ModifierSet.new()
 	mods.add(CardBuilder.modifier(Modifier.Kind.MIN_DECK_SIZE, -5))
 	assert_eq(DeckValidator.min_deck_size(mods), 40)
-	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new(), mods))
+	assert_true(DeckValidator.is_valid(deck, _profile(), mods))
 
 
 func test_min_deck_size_never_goes_below_one() -> void:
@@ -203,7 +210,7 @@ func test_min_deck_size_never_goes_below_one() -> void:
 
 
 func test_ownership_check() -> void:
-	var profile: PlayerProfile = PlayerProfile.new()
+	var profile: PlayerProfile = _profile()
 	var deck: Deck = _legal_deck([Affinity.Type.BEEFCAKE] as Array[Affinity.Type])
 	assert_true(DeckValidator.is_valid(deck, profile), "ownership is not checked by default")
 	assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, profile, null, true), DeckValidator.Problem.NOT_OWNED))
@@ -217,7 +224,7 @@ func test_ownership_check() -> void:
 
 
 func _run() -> DungeonRun:
-	return DungeonRun.enter(PlayerProfile.new(), GameFactory.make_deck())
+	return DungeonRun.enter(_profile(), GameFactory.make_deck())
 
 
 func _enemy() -> PlayerSetup:
@@ -235,7 +242,7 @@ func test_entering_a_dungeon_fully_heals() -> void:
 
 func test_max_hp_includes_dungeon_modifiers() -> void:
 	var boon: ModifierSource = _source("Blessing", ModifierSource.SourceKind.DUNGEON, [CardBuilder.modifier(Modifier.Kind.MAX_HP, 5)] as Array[Modifier])
-	var run: DungeonRun = DungeonRun.enter(PlayerProfile.new(), GameFactory.make_deck(), [boon] as Array[ModifierSource])
+	var run: DungeonRun = DungeonRun.enter(_profile(), GameFactory.make_deck(), [boon] as Array[ModifierSource])
 	assert_eq(run.max_hp(), 15)
 	assert_eq(run.hp, 15)
 
@@ -333,3 +340,28 @@ func test_lost_and_gained_cards_change_the_deck_for_the_dungeon_only() -> void:
 	var game: GameState = run.start_encounter(_enemy())
 	var total: int = game.players[0].deck.size() + game.players[0].hand.size()
 	assert_eq(total, base_size)
+
+
+## Story v2 Part D: one Path until the first zone is freed, two after that, four after the postgame unlock.
+func test_the_path_limit_grows_with_freed_zones_and_the_postgame() -> void:
+	var profile: PlayerProfile = PlayerProfile.new()
+	assert_eq(DeckValidator.max_colors(profile), 1, "one Path at the start")
+	var two: Deck = _legal_deck([Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND] as Array[Affinity.Type])
+	var issues: Array[DeckValidator.Issue] = DeckValidator.validate(two, profile)
+	assert_true(DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COLORS))
+	assert_true(issues[0].message.contains("too weak to walk more than one Path"), "the themed message")
+	profile.zones_freed = 1
+	assert_eq(DeckValidator.max_colors(profile), 2)
+	assert_true(DeckValidator.is_valid(two, profile))
+	profile.postgame_unlocked = true
+	assert_eq(DeckValidator.max_colors(profile), 4)
+
+
+func test_the_session_keeps_zones_freed_in_sync_with_the_zone_flags() -> void:
+	Session.save_enabled = false
+	Session.new_game()
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
+	assert_eq(Session.profile.zones_freed, 0)
+	Session.set_flag(ZoneCompletion.flag_name(ZoneDefs.ids()[0]))
+	assert_eq(Session.profile.zones_freed, 1)
+	assert_eq(DeckValidator.max_colors(Session.profile), 2)

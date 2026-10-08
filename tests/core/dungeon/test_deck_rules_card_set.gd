@@ -25,6 +25,7 @@ func _fill(deck: Deck, size: int) -> Deck:
 func _profile(postgame: bool = false) -> PlayerProfile:
 	var profile: PlayerProfile = PlayerProfile.new()
 	profile.postgame_unlocked = postgame
+	profile.zones_freed = 1  # the second Path is open once a zone is freed
 	return profile
 
 

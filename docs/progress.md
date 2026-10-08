@@ -2828,3 +2828,8 @@ Progress checklist: `docs/overnight_progress.md`. Judgment calls: `docs/design/o
 - The cave: renamed everywhere in display text, the Hollow Warden "smells familiar" lines, enemy decks no longer use Beefcake/Necrocrat.
 - Starting decks: each Path's 42-card starter has 8 Resource-synergy Commons of its own Path. Lists in `docs/design/starting_deck_and_affinity.md`.
 - E2E: `bash tools/run_prologue_smoke.sh` (human-style input, all checks pass). Screenshots in `_screenshots/storyv2/`.
+
+### Part D - Path progression lock
+- Decks use 1 Path until the first zone is freed, 2 after that, 4 (3+) once Primm is defeated. Themed messages in the deck editor, the validator and the deck builder rule list ("You're still too weak to walk more than one Path."). Dual-Path cards wait for the second Path.
+- `PlayerProfile.zones_freed` is kept in sync with the zone flags; old saves keep illegal decks (marked not legal) and get a toast in town.
+- Tests: Path-limit growth, session sync, dual-card refusal; older tests updated for one freed zone. GUT: 1211 tests passing.

@@ -9,6 +9,7 @@ var waiver: ModifierSet
 func before_each() -> void:
 	content = ContentLibrary.load_all()
 	profile = CampaignStart.new_profile(content, Affinity.Type.BEEFCAKE)
+	profile.zones_freed = 1
 	var infrastructure: Array[CardData] = []
 	for infra: Variant in content.infrastructure.values():
 		infrastructure.append(infra as CardData)
@@ -91,3 +92,15 @@ func test_basic_infrastructure_are_unlimited() -> void:
 	var infra: CardData = content.infrastructure[int(Affinity.Type.BEEFCAKE)] as CardData
 	for i: int in range(5):
 		assert_true(editor.add(infra))
+
+
+## Story v2 Part D: a dual-Path card cannot go in a deck while only one Path is allowed, and the refusal is themed.
+func test_dual_path_cards_wait_for_the_second_path() -> void:
+	profile.zones_freed = 0
+	var dual: CardData = CardBuilder.unit("dual_test", "Dual Test", Affinity.Type.BEEFCAKE, 1, [Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND] as Array[Affinity.Type], 2, 2)
+	dual.color2 = Affinity.Type.GOURMAND
+	profile.owned_cards.append(dual)
+	var reason: String = editor.why_not_add(dual)
+	assert_true(reason.contains("too weak to walk more than one Path"), reason)
+	profile.zones_freed = 1
+	assert_eq(editor.why_not_add(dual), "", "allowed once a zone is freed")

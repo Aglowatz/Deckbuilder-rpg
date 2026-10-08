@@ -128,6 +128,7 @@ func new_game() -> void:
 	playtime_seconds = 0.0
 	active_slot = 0
 	_sync_freed_stories()
+	sync_path_limit()
 	run = null
 	dungeon_map = null
 	gold_spent_total = 0
@@ -270,6 +271,7 @@ func complete_zone(zone_id: String) -> bool:
 		return false
 	flags[str(ZoneCompletion.flag_name(zone_id))] = true
 	_sync_freed_stories()
+	sync_path_limit()
 	refresh_quests()
 	EventBus.zone_completed.emit(zone_id)
 	save_game()
@@ -288,7 +290,14 @@ func flag(name: StringName) -> bool:
 
 func set_flag(name: StringName, value: bool = true) -> void:
 	flags[str(name)] = value
+	sync_path_limit()
 	refresh_quests()
+
+
+## Keeps `PlayerProfile.zones_freed` equal to the number of freed zones (it decides how many Paths a deck may use).
+func sync_path_limit() -> void:
+	if profile != null:
+		profile.zones_freed = ZoneCompletion.count(flags)
 
 
 ## Any card (spell, token or basic infrastructure) by its id.
@@ -764,6 +773,7 @@ func from_dict(data: Dictionary) -> bool:
 	flags = (data.get("flags", {}) as Dictionary).duplicate()
 	playtime_seconds = float(data.get("playtime", 0.0))
 	_sync_freed_stories()
+	sync_path_limit()
 	# Part A rename (Grave -> Necrocrat): old saves used the "grave" zone id.
 	if flags.has("grave_zone_unlocked") and not flags.has("necrocrat_zone_unlocked"):
 		flags["necrocrat_zone_unlocked"] = flags["grave_zone_unlocked"]
@@ -2459,6 +2469,7 @@ func grant_dev_packs(amount: int = 1) -> void:
 func dev_free_zone(zone_id: String) -> void:
 	flags[str(ZoneCompletion.flag_name(zone_id))] = true
 	_sync_freed_stories()
+	sync_path_limit()
 	refresh_quests()
 
 

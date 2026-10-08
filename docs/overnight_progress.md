@@ -5,7 +5,7 @@ Task file: docs/overnight_task.md. Check off a part only after tests pass, progr
 - [x] Part A: Story bible and global renames
 - [x] Part B: Crosspath town layout
 - [x] Part C: Prologue (forest, rescuer, starting deck, Forgotten Cave)
-- [ ] Part D: Path progression lock
+- [x] Part D: Path progression lock
 - [ ] Part E: Elder Maren and memory fragments
 - [ ] Part F: Zone story updates
 - [ ] Part G: Capital, Castle, finale

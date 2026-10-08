@@ -7,6 +7,7 @@ func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
 	Session.ensure_game(Affinity.Type.BEEFCAKE)
+	Session.profile.zones_freed = 1  # one zone freed: two Paths allowed
 
 
 func after_each() -> void:
