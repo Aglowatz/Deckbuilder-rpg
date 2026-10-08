@@ -25,7 +25,8 @@ func before_each() -> void:
 	_targets.clear()
 	for key: String in _town.anchors.keys():
 		# The spawn is the origin of the check; the sealed vault and the pitch-black dev shrine are reached on purpose, the rest must be.
-		if key == "spawn" or key.ends_with("_mouth") or key == "arena_gate" or key == "alchemist_door":
+		# "plaza" and "fountain" mark the solid fountain's centre; the plaza ring around it is covered by the spawn standing on it.
+		if key == "spawn" or key == "plaza" or key == "fountain" or key.ends_with("_mouth") or key == "arena_gate" or key == "alchemist_door":
 			continue
 		_targets[key] = _town.anchors[key]
 	# The Express frame is solid: the hero talks to it from its interact spot, just in front.

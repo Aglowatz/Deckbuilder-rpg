@@ -19,7 +19,7 @@ var _owned_labels: Dictionary = {}
 
 
 func _init() -> void:
-	screen_title = "Wick's Supplies"
+	screen_title = "Tilly Tonic's Supplies"
 	close_text = "Leave (Esc)"
 
 

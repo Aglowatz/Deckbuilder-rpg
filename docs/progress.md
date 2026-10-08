@@ -2816,3 +2816,9 @@ Progress checklist: `docs/overnight_progress.md`. Judgment calls: `docs/design/o
 - New `data/story/royal_family.tres` + `RoyalFamily` (tokens `{prince} {prince_full} {royal_house} {king} {queen} {rescuer} {kingdom} {town} {capital} {showcase}`), filled by `Villain.fill`.
 - NPC list and dungeon list re-imported from the updated sheet (63 NPCs; D-LAB skipped until Part H). Placeholder portraits for the king, queen, Rescuer and Dr. Siphon.
 - GUT: 1206 tests, all passing.
+
+### Part B - Crosspath town layout
+- New `TownLayout` (plan: plaza, two market streets, Gate Road, Champions' Road, grave and south roads, signposts, lamps) and `TownStreets` (paving, fountain with the four-Path crest, notice board, signposts, lamps, plaza benches and stalls). All vendors, the deck station, Elder Maren's home and the quest board are in the centre; the Grand Clashatorium is a 1.5x landmark at the end of Champions' Road.
+- Notice board opens the quest log. NPC wander areas and spots follow the new anchors; the item vendor is now "Tilly Tonic's Supplies".
+- Fixed typed-array errors in `TownStreets`, plinth icons (mask shader), and the walk test's fountain anchors. Screenshots: `_screenshots/storyv2/` (top-down, mid, street, plaza).
+- GUT: 1206 tests, all passing.

@@ -3,7 +3,7 @@
 Task file: docs/overnight_task.md. Check off a part only after tests pass, progress.md is updated, and it is committed and pushed.
 
 - [x] Part A: Story bible and global renames
-- [ ] Part B: Crosspath town layout
+- [x] Part B: Crosspath town layout
 - [ ] Part C: Prologue (forest, rescuer, starting deck, Forgotten Cave)
 - [ ] Part D: Path progression lock
 - [ ] Part E: Elder Maren and memory fragments
@@ -13,4 +13,4 @@ Task file: docs/overnight_task.md. Check off a part only after tests pass, progr
 - [ ] Part I: Final verification
 
 ## Notes / blocked
-- The CSV exports are named `data/source/npc_list.csv` and `dungeon_list.csv` (double extension); used as-is.
+- CSV exports renamed to `npc_list.csv` and `dungeon_list.csv` (references updated).

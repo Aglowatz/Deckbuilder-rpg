@@ -34,33 +34,40 @@ const MAP: Array[String] = [
 	"......M##R######T#TR#......",
 	"......##TM#T.##.###.#......",
 	"......###.###.##TT##R......",
-	"#.#T....MMTTM##MMTTMMR##T#T",
-	"#R#MT#..T#G#TT#TT##RT#MRM.#",
-	"##.####T#H#hF##T#Y#T##T###R",
-	"RR######K##D#T#T####T#####T",
-	"#######T##W##R#T##Z#T######",
-	"R##TTT..#C###T#T####T##.#.#",
-	"RTT#T#..R#S#T##T##T######T#",
-	"#T##T#..TT###TT##T....#TTMM",
-	"T#T#R#..T#####X###T..RTTT#.",
-	"M#####..MTTT#T#TTTM..#MM#.#",
-	"#.##T###T#TT##MM##T#T......",
-	"################.###M......",
-	"T#T#.TT#T######T..####R##..",
-	".......#T###.#T#####T......",
-	"......TM###M##R.##T#.......",
-	"......#T###########T#......",
+	"#.#T..##############MR##T#T",
+	"#R#MT###############T#MRM.#",
+	"##.###################T###R",
+	"RR##################T#####T",
+	"####################T######",
+	"R##TTT##############T##.#.#",
+	"RTT#T####################T#",
+	"#T##T#############....#TTMM",
+	"T#T#R##############..RTTT#.",
+	"M##################..#MM#.#",
+	"#.##T###############T......",
+	"####################M......",
+	"T#T#.TT###############R##..",
+	"......##############T......",
+	"......T#############.......",
+	"......###############......",
 	"......T#############T......",
-	"......##T###########T......",
+	"......##############T......",
 	"......T#############M......",
-	"......#T###########T#......",
+	"......###############......",
 	"......T#############T......",
-	"......#T#########T##R......",
-	"......M#T#######T#R#M......",
+	"......##############R......",
+	"......M#############M......",
 ]
 
 ## The town is spread out: every hex cell is SCALE times its tile size (tiles are scaled, props are not), so there are wide walkways between buildings.
 const SCALE: float = 1.8
+
+## Cells (col, row) planted with a clump of trees framing the town's centre, clear of every road of `TownLayout` and every storefront.
+const TREE_CLUMPS: Array[Vector2i] = [
+	Vector2i(1, 0), Vector2i(2, 0), Vector2i(1, 1), Vector2i(11, 0), Vector2i(13, 0), Vector2i(13, 1),
+	Vector2i(1, 8), Vector2i(0, 9), Vector2i(1, 10), Vector2i(13, 10), Vector2i(12, 11), Vector2i(13, 12),
+	Vector2i(2, 14), Vector2i(1, 15),
+]
 
 ## Where the original giant chest stands (hex cell, world coordinates): the end of the peninsula that reaches out from the south-east shore (see MAP row 17).
 const GIANT_CHEST_CELL: Vector2i = Vector2i(18, 12)
@@ -83,21 +90,61 @@ var clouds: Array[Node3D] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
+## The map after `_prepare_map`: MAP with the roads of `TownLayout` carved through anything that would block them.
+var _map: Array[String] = []
+
+
 func build(parent: Node3D, decorate_far: bool = true) -> void:
 	_rng.seed = 7
 	root = Node3D.new()
 	root.name = "Town"
 	parent.add_child(root)
+	_prepare_map()
 	_plan_connectors()
 	_build_water()
-	for row: int in range(MAP.size()):
-		var line: String = MAP[row]
+	for row: int in range(_map.size()):
+		var line: String = _map[row]
 		for col: int in range(line.length()):
 			_build_cell(col - COL_OFFSET, row - ROW_OFFSET, line[col])
 	if decorate_far:
 		_build_far_scenery()
 	_build_props()
 	_build_zone_portals()
+
+
+## Copies MAP and carves the town's roads through it: mountains, trees and rocks within 3 m of a road become plain grass, and so does water inside the
+## town centre (so a road never ends at a shore). Also plants the few decorative tree clumps framing the centre.
+func _prepare_map() -> void:
+	var rows: Array[PackedStringArray] = []
+	for line: String in MAP:
+		var chars: PackedStringArray = PackedStringArray()
+		for index: int in range(line.length()):
+			chars.append(line[index])
+		rows.append(chars)
+	for cell: Vector2i in TREE_CLUMPS:
+		var map_row: int = cell.y + ROW_OFFSET
+		var map_col: int = cell.x + COL_OFFSET
+		if map_row >= 0 and map_row < rows.size() and map_col >= 0 and map_col < rows[map_row].size() and rows[map_row][map_col] == "#":
+			rows[map_row][map_col] = "T"
+	for point: Vector3 in TownLayout.road_points(1.0):
+		var around: Vector2i = HexGrid.world_to_cell(point / SCALE)
+		for d_row: int in range(-2, 3):
+			for d_col: int in range(-2, 3):
+				var cell: Vector2i = Vector2i(around.x + d_col, around.y + d_row)
+				if cell_center(cell.x, cell.y).distance_to(point) > 3.0:
+					continue
+				var map_row: int = cell.y + ROW_OFFSET
+				var map_col: int = cell.x + COL_OFFSET
+				if map_row < 0 or map_row >= rows.size() or map_col < 0 or map_col >= rows[map_row].size():
+					continue
+				var symbol: String = rows[map_row][map_col]
+				if symbol == "M" or symbol == "T" or symbol == "R":
+					rows[map_row][map_col] = "#"
+				elif symbol == "." and cell.x >= 0 and cell.x <= 14 and cell.y >= -5 and cell.y <= 22:
+					rows[map_row][map_col] = "#"
+	_map.clear()
+	for chars: PackedStringArray in rows:
+		_map.append("".join(chars))
 
 
 func cell_center(col: int, row: int) -> Vector3:
@@ -114,7 +161,7 @@ func _build_water() -> void:
 		for col: int in range(-COL_OFFSET - WATER_PAD, MAP[0].length() - COL_OFFSET + WATER_PAD):
 			var map_row: int = row + ROW_OFFSET
 			var map_col: int = col + COL_OFFSET
-			var inside: bool = map_row >= 0 and map_row < MAP.size() and map_col >= 0 and map_col < MAP[0].length() and MAP[map_row][map_col] != "."
+			var inside: bool = map_row >= 0 and map_row < _map.size() and map_col >= 0 and map_col < _map[0].length() and _map[map_row][map_col] != "."
 			if inside:
 				continue
 			if _blocked_cells.has(Vector2i(col, row)) and _island_cells.has(Vector2i(col, row)):
@@ -189,49 +236,6 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 			var rock_pos: Vector3 = _scatter(center, 0.2 * SCALE, 0.7 * SCALE)
 			ModelKit.place(root, ModelKit.nature("rock_single_%s" % ["A", "B", "C", "D", "E"][_rng.randi() % 5]), rock_pos, _rng.randf() * 360.0, 1.3)
 			# Polish round: small decorative rocks never block the hero (OBSTACLE_ROCK is kept for the doc of what it used to be).
-		"K":
-			walkable[Vector2i(col, row)] = true
-			_building("market", center, 0.0, 1.25, 1.1)
-			anchors["market"] = center + Vector3(0, 0, 1.15)
-		"D":
-			walkable[Vector2i(col, row)] = true
-			_building("tavern", center, 0.0, 1.25, 0.95)
-			anchors["deck"] = center + Vector3(0, 0, 1.1)
-		"W":
-			walkable[Vector2i(col, row)] = true
-			_building("well", center, 0.0, 1.5, 0.6)
-			anchors["well"] = center + Vector3(0, 0, 0.9)
-		"G":
-			walkable[Vector2i(col, row)] = true
-			_building("mine", center, 0.0, 1.35, 1.0)
-			anchors["gate"] = center + Vector3(0, 0, 1.1)
-		"H":
-			walkable[Vector2i(col, row)] = true
-			_building("home_A", center, -15.0, 1.35, 0.7)
-		"h":
-			walkable[Vector2i(col, row)] = true
-			_building("home_B", center, 15.0, 1.35, 0.7)
-		"F":
-			walkable[Vector2i(col, row)] = true
-			_building("windmill", center, 0.0, 1.25, 0.8)
-		"C":
-			walkable[Vector2i(col, row)] = true
-			_building("church", center, 0.0, 1.2, 0.85)
-		"Y":
-			walkable[Vector2i(col, row)] = true
-			_building("tower_A", center, 0.0, 1.3, 0.85)
-			anchors["codex"] = center + Vector3(0, 0, 1.05)
-		"Z":
-			walkable[Vector2i(col, row)] = true
-			_building("blacksmith", center, 0.0, 1.25, 0.9)
-			anchors["hidden_vendor"] = center + Vector3(0, 0, 1.05)
-		"X":
-			walkable[Vector2i(col, row)] = true
-			_building("castle", center, 0.0, 1.1, 1.15)
-			anchors["vault"] = center + Vector3(0, 0, 1.3)
-		"S":
-			walkable[Vector2i(col, row)] = true
-			anchors["spawn"] = center
 		_:
 			walkable[Vector2i(col, row)] = true
 
@@ -275,66 +279,10 @@ func _build_far_scenery() -> void:
 
 
 func _build_props() -> void:
-	var market: Vector3 = anchors.get("market", Vector3.ZERO) as Vector3
-	_prop("crate_A_big", market + Vector3(-1.0, 0, -0.5), 20.0, 1.1, 0.3)
-	_prop("barrel", market + Vector3(1.1, 0, -0.4), 0.0, 1.1, 0.25)
-	_prop("sack", market + Vector3(0.9, 0, 0.3), 30.0, 1.1, 0.0)
-	var gate: Vector3 = anchors.get("gate", Vector3.ZERO) as Vector3
-	_prop("weaponrack", gate + Vector3(-1.2, 0, -0.3), 10.0, 1.2, 0.3)
-	_prop("flag_blue", gate + Vector3(1.0, 0, -0.2), 0.0, 1.3, 0.15)
-	var deck: Vector3 = anchors.get("deck", Vector3.ZERO) as Vector3
-	_prop("barrel", deck + Vector3(1.05, 0, -0.5), 0.0, 1.1, 0.25)
-	_prop("bucket_water", deck + Vector3(-1.0, 0, 0.0), 0.0, 1.2, 0.0)
-	var spawn: Vector3 = anchors.get("spawn", Vector3.ZERO) as Vector3
-	_prop("tent", spawn + Vector3(-1.6, 0, -0.8), 25.0, 1.1, 0.7)
-	_prop("wheelbarrow", spawn + Vector3(1.4, 0, -0.9), -30.0, 1.1, 0.3)
-	_prop("target", cell_center(6, 5) + Vector3(0.2, 0, 0.0), 200.0, 1.1, 0.35)
-	anchors["npc_well"] = (anchors.get("well", Vector3.ZERO) as Vector3) + Vector3(1.5, 0, 0.6)
-	anchors["npc_gate"] = gate + Vector3(-2.0, 0, 0.9)
-	anchors["npc_market"] = market + Vector3(0.1, 0, 0.55)
-	# Brief 10b: the Beefcake Rift Station, just east of where the hero arrives.
-	anchors["rift_station"] = spawn + Vector3(5.2, 0, 3.6)
-	anchors["npc_rift_station"] = spawn + Vector3(3.3, 0, 4.4)
-	# New brief, Part F: the item vendor's stall (Tilly Tonic), a short walk from the card vendor.
-	var item_vendor_center: Vector3 = cell_center(10, 5)
-	_building("barracks", item_vendor_center, -20.0, 1.2, 0.85)
-	anchors["item_vendor"] = item_vendor_center + Vector3(0, 0, 1.05)
-	anchors["npc_item_vendor"] = item_vendor_center + Vector3(1.0, 0, 0.6)
-	# New brief, Part C: the equipment vendor's stall, a short walk south of the item vendor.
-	var equipment_vendor_center: Vector3 = cell_center(10, 7)
-	_building("blacksmith", equipment_vendor_center, 20.0, 1.25, 0.9)
-	anchors["equipment_vendor"] = equipment_vendor_center + Vector3(0, 0, 1.05)
-	anchors["npc_equipment_vendor"] = equipment_vendor_center + Vector3(1.0, 0, 0.6)
-	# Brief 11: Foil Fenwick's Sealed Goods (the Pack Vendor), a market stall south-west of where the hero arrives.
-	var pack_vendor_center: Vector3 = cell_center(3, 8)
-	_building("market", pack_vendor_center, 15.0, 1.1, 0.9)
-	anchors["pack_vendor"] = pack_vendor_center + Vector3(0, 0, 1.05)
-	anchors["npc_pack_vendor"] = pack_vendor_center + Vector3(1.0, 0, 0.7)
-	# Brief 12, Part F: Thimble's Hats & Hems (the tailor), east of the Deck Station on the central square.
-	var tailor_center: Vector3 = cell_center(8, 3)
-	_building("market", tailor_center, 0.0, 1.2, 0.9)
-	anchors["tailor"] = tailor_center + Vector3(0, 0, 1.05)
-	anchors["npc_tailor"] = tailor_center + Vector3(1.0, 0, 0.75)
-	anchors["tailor_mannequin"] = tailor_center + Vector3(-1.05, 0, 0.8)
-	# Brief 9, Part F: Auntie Alembic's, the Alchemist's shop, on the Beefcake Flats' north edge, facing the open
-	# east-west corridor. It is always there (closed until two zones are free): the scene decorates it.
-	var alchemist_center: Vector3 = cell_center(1, 10)
-	_building("tower_B", alchemist_center, 0.0, 1.15, 0.95)
-	anchors["alchemist"] = alchemist_center + Vector3(0, 0, 1.15)
-	anchors["npc_alchemist"] = alchemist_center + Vector3(1.15, 0, 0.75)
-	anchors["alchemist_door"] = alchemist_center + Vector3(0, 0, 0.55)
-	# Brief 9, Part G: the Grand Clashatorium (the Arena), a colosseum south of the Beefcake Flats corridor. Its gate faces
-	# north onto the open corridor; the building itself is solid.
-	var arena_center: Vector3 = cell_center(5, 20)
-	ArenaBuilding.build(root, arena_center)
-	obstacles.append(Vector3(arena_center.x, arena_center.z, ArenaBuilding.RADIUS + 0.15))
-	anchors["arena"] = arena_center + Vector3(0, 0, -(ArenaBuilding.RADIUS + 0.95))
-	anchors["arena_gate"] = arena_center + Vector3(0, 0, -(ArenaBuilding.RADIUS + 0.2))
-	anchors["npc_arena"] = arena_center + Vector3(1.8, 0, -(ArenaBuilding.RADIUS + 0.9))
+	_build_centre()
 	# New brief, Part E: 4 corrupted NPCs, one per element district, close enough to their own
-	# district's edge gate to read as "belongs to that zone" without blocking the district's main
 	# path. Visual corruption (tint + particle effect) is TownScene's job, not the builder's.
-	anchors["npc_beefcake"] = cell_center(5, 10) + Vector3(0.3, 0, 0.4)
+	anchors["npc_beefcake"] = cell_center(6, 20) + Vector3(0.3, 0, 0.4)
 	anchors["npc_gourmand"] = cell_center(16, 3) + Vector3(-0.3, 0, 0.4)
 	anchors["npc_refusemancer"] = cell_center(-3, 2) + Vector3(0.3, 0, -0.3)
 	anchors["npc_necrocrat"] = cell_center(-3, 11) + Vector3(0.3, 0, 0.3)
@@ -360,6 +308,70 @@ func _build_props() -> void:
 	_build_graveyard()
 
 
+## The town's centre (`TownLayout`): every shop, civic building and the arena, with the anchors the scene and the tests use.
+func _build_centre() -> void:
+	anchors["plaza"] = TownLayout.PLAZA
+	anchors["spawn"] = TownLayout.SPAWN
+	for shop: TownLayout.Shop in TownLayout.shops():
+		_place_shop(shop)
+	# Beside the storefronts: a few crates and barrels (never in the street).
+	for shop: TownLayout.Shop in TownLayout.shops():
+		if shop.key in ["market", "deck", "gate", "equipment_vendor", "item_vendor"]:
+			_prop("crate_A_big", shop.center + shop.right() * (shop.radius + 0.55) - shop.front() * 0.3, 20.0, 1.1, 0.3)
+			_prop("barrel", shop.center - shop.right() * (shop.radius + 0.5) - shop.front() * 0.2, 0.0, 1.1, 0.25)
+	var gate_shop: TownLayout.Shop = _shop_for("gate")
+	_prop("weaponrack", gate_shop.center - gate_shop.front() * 1.1 + gate_shop.right() * 1.3, 10.0, 1.2, 0.3)
+	_prop("flag_blue", gate_shop.door_spot() - gate_shop.right() * 1.1, 0.0, 1.3, 0.15)
+	# Grand Clashatorium: a colosseum at the end of Champions' Road, its gate facing north onto the avenue.
+	var arena_center: Vector3 = TownLayout.ARENA_CENTER
+	ArenaBuilding.build(root, arena_center)
+	var arena_radius: float = ArenaBuilding.world_radius()
+	obstacles.append(Vector3(arena_center.x, arena_center.z, arena_radius + 0.15))
+	anchors["arena"] = arena_center + Vector3(0, 0, -(arena_radius + 0.95))
+	anchors["arena_gate"] = arena_center + Vector3(0, 0, -(arena_radius + 0.2))
+	anchors["npc_arena"] = arena_center + Vector3(1.8, 0, -(arena_radius + 0.9))
+
+
+func _shop_for(key: String) -> TownLayout.Shop:
+	for shop: TownLayout.Shop in TownLayout.shops():
+		if shop.key == key:
+			return shop
+	return null
+
+
+func _place_shop(shop: TownLayout.Shop) -> void:
+	var front: Vector3 = shop.front()
+	var right: Vector3 = shop.right()
+	match shop.kind:
+		"building":
+			_building(shop.model, shop.center, shop.yaw, shop.scale_value, shop.radius)
+	if shop.key.is_empty():
+		return
+	var spot: Vector3 = shop.door_spot()
+	anchors[shop.key] = spot
+	match shop.key:
+		"rift_station":
+			anchors["rift_station"] = shop.center
+			anchors["npc_rift_station"] = shop.center + Vector3(-2.0, 0.0, 0.9)
+		"tailor":
+			anchors["npc_tailor"] = shop.center + front * 1.6 + right * 0.8
+			anchors["tailor_mannequin"] = shop.center + front * 1.4 - right * 1.0
+		"alchemist":
+			anchors["npc_alchemist"] = shop.center + front * 1.0 + right * 1.15
+			anchors["alchemist_door"] = shop.center + front * 0.55
+		"gate":
+			anchors["npc_gate"] = shop.center + front * 1.6 + right * 1.9
+		"elder_home":
+			anchors["npc_elder"] = shop.center + front * 1.8
+			anchors["npc_well"] = anchors["npc_elder"]
+		"well":
+			anchors["well"] = shop.center + front * 0.9
+		"hidden_vendor", "vault", "church", "deck", "codex":
+			pass
+		_:
+			anchors["npc_%s" % shop.key] = shop.center + front * 1.75
+
+
 ## New brief (third), Part E: a debug-only "Dev Shrine" at the very bottom (south) edge of the
 ## town map, Beefcake Flats row - each interaction grants one level via the real level-up flow.
 ## Gated by DevTools.shrine_enabled() here, at the builder level, so it does not exist as a 3D
@@ -368,7 +380,7 @@ func _build_props() -> void:
 func _build_dev_shrine() -> void:
 	if not DevTools.shrine_enabled():
 		return
-	var pos: Vector3 = cell_center(10, 14)
+	var pos: Vector3 = cell_center(13, 14)
 	_building("tower_B", pos, 0.0, 1.1, 0.85)
 	# Row 14 is the map's southmost data row (open water beyond it) - approach from the north,
 	# the walkable side, not south like most buildings default to.

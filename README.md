@@ -32,7 +32,7 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
      **dungeon gate** (north) to replay the Trial for gold.
    - **The Harbor Quarter** (east, across the canal bridge near the market): the **Hall of
      Records** (the Codex - every card in the game, cards you have not yet owned, bought or faced
-     in battle show as a silhouette) and **Wick's Supplies** (buy consumable items with gold, then
+     in battle show as a silhouette) and **Tilly Tonic's Supplies** (buy consumable items with gold, then
      equip up to your item-slot limit from the Character screen to carry them into a fight).
    - **The Secluded Grove** (south of the spawn point): three placeholder secrets - a hidden chest
      behind the trees, a sealed vault and the easy-to-miss lever that opens it, and a hidden vendor

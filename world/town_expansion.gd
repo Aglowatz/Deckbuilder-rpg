@@ -40,17 +40,16 @@ static func sites() -> Array[Site]:
 		Site.make(Vector2i(16, 0), "building", "home_B", 1.25, 0.7, "Fisher's cottage"),
 		Site.make(Vector2i(14, 2), "building", "market", 1.1, 0.85, "Harbor bakery"),
 		Site.make(Vector2i(15, 6), "building", "lumbermill", 1.0, 0.8, "Net shed"),
-		Site.make(Vector2i(13, 6), "building", "home_A", 1.2, 0.7, "Dockhand's cottage"),
 		# Beefcake Flats: a farm, a training yard and cottages along the south road
 		Site.make(Vector2i(4, 13), "building", "lumbermill", 1.35, 0.95, "Flats barn"),
 		Site.make(Vector2i(2, 16), "building", "home_B", 1.25, 0.7, "Farmhouse"),
-		Site.make(Vector2i(9, 17), "building", "home_A", 1.25, 0.7, "Gatekeeper's cottage"),
+		Site.make(Vector2i(11, 17), "building", "home_A", 1.25, 0.7, "Gatekeeper's cottage"),
 		Site.make(Vector2i(11, 15), "building", "archeryrange", 1.1, 0.9, "Archery range"),
 		Site.make(Vector2i(10, 19), "building", "home_B", 1.2, 0.7, "Wayside cottage"),
 		Site.make(Vector2i(12, 12), "building", "barracks", 1.0, 0.8, "Watch shed"),
 		# Market stalls on the quiet edges of the central lanes
 		Site.make(Vector2i(0, 2), "stall", "cabbage", 1.5, 0.6, "Greengrocer's stall"),
-		Site.make(Vector2i(8, 1), "stall", "loaf", 1.5, 0.6, "Baker's stall"),
+		Site.make(Vector2i(11, 1), "stall", "loaf", 1.5, 0.6, "Baker's stall"),
 		Site.make(Vector2i(12, 1), "building", "well", 1.4, 0.55, "Codex-side well"),
 	]
 
@@ -58,7 +57,7 @@ static func sites() -> Array[Site]:
 ## Places every site under `root` and registers its footprint as an obstacle. Returns the world positions by label (for the tests and docs).
 static func build(root: Node3D, town: TownBuilder) -> Dictionary:
 	var placed: Dictionary = {}
-	var centre: Vector3 = town.cell_center(4, 4)
+	var centre: Vector3 = TownLayout.PLAZA
 	for site: Site in sites():
 		var pos: Vector3 = town.cell_center(site.cell.x, site.cell.y)
 		var yaw: float = site.yaw

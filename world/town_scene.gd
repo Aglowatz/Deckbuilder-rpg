@@ -159,6 +159,8 @@ func _ready() -> void:
 		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 	_build_camera()
 	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 0.0 if _screenshot_args.has("nocull") else 70.0)
+	if _screenshot_args.has("nofog"):
+		_strip_fog()
 	if style_rig != null and style_rig.ambience != null:
 		style_rig.ambience.focus(0.5, 1.2)
 	cloud_fader = CloudFader.new()
@@ -242,7 +244,7 @@ func _build_actors() -> void:
 	npc_hp.target = player
 	add_child(npc_hp)
 	_add_npc("vendor", "Rogue_Hooded", town.anchors["npc_market"] as Vector3, 200.0)
-	_add_npc("elder", "Mage", town.anchors["npc_well"] as Vector3, 250.0)
+	_add_npc("elder", "Mage", town.anchors["npc_elder"] as Vector3, -90.0)
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
 	if _secret_dealer_open():
 		_add_npc("hidden_vendor", "Rogue_Hooded", town.anchors["hidden_vendor"] as Vector3, 100.0)
@@ -389,7 +391,8 @@ func _build_spots() -> void:
 	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, 1.5)
 	_add_spot("deck", "Deck Station", town.anchors["deck"] as Vector3, 1.6)
 	_add_spot("gate", "The Forgotten Cave", town.anchors["gate"] as Vector3, 1.7)
-	_add_spot("elder", "Elder Maren", town.anchors["npc_well"] as Vector3, 1.4)
+	_add_spot("elder", "Elder Maren", town.anchors["npc_elder"] as Vector3, 1.4)
+	_add_spot("notice_board", "Notice Board", town.anchors["notice_board"] as Vector3, 1.7)
 	_add_spot("guard", "Gatekeeper Brannoch", town.anchors["npc_gate"] as Vector3, 1.4)
 	_add_spot("codex", "Hall of Records", town.anchors["codex"] as Vector3, 1.6)
 	_add_spot("chest", "A Hidden Chest", town.anchors["chest"] as Vector3, 1.3)
@@ -404,7 +407,7 @@ func _build_spots() -> void:
 	if _secret_dealer_open():
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
 	# New brief, Part F: the item vendor.
-	_add_spot("item_vendor", "Wick's Supplies", town.anchors["npc_item_vendor"] as Vector3, 1.5)
+	_add_spot("item_vendor", "Tilly Tonic's Supplies", town.anchors["npc_item_vendor"] as Vector3, 1.5)
 	# Fourth brief, Part C: the equipment vendor.
 	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, 1.5)
 	_add_spot("pack_vendor", StoryText.shared().text("town.pack_vendor.name"), town.anchors["npc_pack_vendor"] as Vector3, 1.5)
@@ -694,6 +697,8 @@ func _prompt_text(spot: Spot) -> String:
 			return "Enter the Forgotten Cave"
 		"codex":
 			return "Browse the Codex"
+		"notice_board":
+			return "Read the notice board (quests)"
 		"chest":
 			return "Open the chest"
 		"lever":
@@ -797,6 +802,8 @@ func _interact(spot: Spot) -> void:
 			_talk_npc("guard", "Gatekeeper Brannoch", _guard_lines())
 		"codex":
 			_open_codex()
+		"notice_board":
+			_open_quest_log()
 		"chest":
 			_open_chest()
 		"lever":
@@ -1553,7 +1560,7 @@ func _use_gate() -> void:
 const POI_KINDS: Dictionary = {
 	"well": MapPoi.Kind.HEAL, "vendor": MapPoi.Kind.VENDOR, "item_vendor": MapPoi.Kind.VENDOR,
 	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "tailor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.INTERACTABLE, "codex": MapPoi.Kind.INTERACTABLE,
-	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON,
+	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON, "notice_board": MapPoi.Kind.INTERACTABLE,
 	"graveyard_cairn": MapPoi.Kind.CHALLENGE,
 }
 
@@ -1833,3 +1840,14 @@ func _spot_is_named(id: String) -> bool:
 		"pack_vendor":
 			return Session.completed_zone_count() >= 1 or Session.flag(&"pack_vendor_seen")
 	return true
+
+
+## Screenshot helper (`--nofog=1`): clears fog and haze so a top-down overview from a very high camera stays readable.
+func _strip_fog() -> void:
+	for node: Node in find_children("*", "WorldEnvironment", true, false):
+		var env: Environment = (node as WorldEnvironment).environment
+		if env == null:
+			continue
+		env.fog_enabled = false
+		env.volumetric_fog_enabled = false
+		env.glow_enabled = false

@@ -5,6 +5,8 @@ extends RefCounted
 ## where the interaction spot and the dressing (chains / torches, see `TownDressing.arena_gate`) go.
 
 const RADIUS: float = 2.7
+## The colosseum is a landmark: the whole building is built at RADIUS and scaled up by this much.
+const SCALE: float = 1.5
 const SEGMENTS: int = 22
 
 
@@ -14,6 +16,7 @@ static func build(parent: Node3D, center: Vector3) -> Node3D:
 	root.name = "GrandClashatorium"
 	parent.add_child(root)
 	root.position = center
+	root.scale = Vector3.ONE * SCALE
 	var stone: StandardMaterial3D = _material(Color("d9c79a"), 0.85)
 	var dark: StandardMaterial3D = _material(Color("8a7650"), 0.9)
 	var sand: StandardMaterial3D = _material(Color("e8d6a2"), 1.0)
@@ -106,3 +109,8 @@ static func _cylinder(radius: float, height: float, material: Material, pos: Vec
 	instance.material_override = material
 	instance.position = pos
 	return instance
+
+
+## The colosseum's outer radius in the world (RADIUS times SCALE).
+static func world_radius() -> float:
+	return RADIUS * SCALE

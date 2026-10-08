@@ -353,7 +353,7 @@ func _refresh_items() -> void:
 	var profile: PlayerProfile = Session.profile
 	_items_note.text = "Equipped %d / %d. Equipped items are usable on your turn in battle; \"Use\" also works between fights/on the map." % [profile.equipped_item_ids.size(), profile.item_slots]
 	if profile.owned_items.is_empty():
-		_items_box.add_child(UIKit.label("No items yet - Wick's Supplies in town sells some.", &"MutedLabel", 18))
+		_items_box.add_child(UIKit.label("No items yet - Tilly Tonic's Supplies in town sells some.", &"MutedLabel", 18))
 		return
 	for owned_item: ItemData in profile.owned_items:
 		var row: HBoxContainer = UIKit.hbox(8)

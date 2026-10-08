@@ -463,7 +463,7 @@ func _shop_item(vendor: ItemVendorScreen) -> void:
 	for candidate: Node in vendor.find_children("*", "Control", true, false):
 		if candidate.has_meta("item_id") and str(candidate.get_meta("item_id")) == item.id:
 			tile = candidate as Control
-	_check(tile != null, "Wick's stock includes a starter item")
+	_check(tile != null, "Tilly's stock includes a starter item")
 	if tile != null:
 		await driver.click(driver.center_of_control(tile))
 	await driver.seconds(0.4)
