@@ -121,6 +121,15 @@ func _show_beat() -> void:
 	_fx(str(beat["fx"]))
 
 
+## The screen stops the mouse, which also keeps clicks away from `_unhandled_input`: handle the click here.
+func _gui_input(event: InputEvent) -> void:
+	if _done or _credits_running:
+		return
+	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
+		accept_event()
+		advance()
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if _done or _credits_running:
 		return

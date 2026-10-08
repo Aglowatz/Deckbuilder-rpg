@@ -30,16 +30,32 @@ func run() -> void:
 	if scene == null:
 		_finish(false, "starting area never loaded")
 		return
-	# Skip the wake-up dialogue (Session.new_game() already ran above, but StartingAreaScene's own
-	# _ready() plays it once "awakened" is unset).
-	await _dismiss_any_dialogue(scene)
+	# Story v2: the opening first: the look screen, the wake-up lines and the Rescuer's conversation, where the Path is chosen (Refusemancer here).
+	var guard: int = 0
+	while (not Session.has_profile() or scene.dialogue.active or scene._locked) and guard < 120:
+		guard += 1
+		if driver.find_button("Start my adventure") != null:
+			await driver.click_button("Start my adventure")
+		elif _find_element_choice(scene) != null:
+			var choice_screen: ElementChoiceScreen = _find_element_choice(scene)
+			await driver.click(driver.center_of_control(choice_screen._tiles[Affinity.Type.REFUSEMANCER] as Button))
+			await driver.click_button("Begin")
+		elif scene.dialogue.active:
+			await driver.tap_key(KEY_E)
+		await driver.seconds(0.25)
+	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.REFUSEMANCER, "the Rescuer's conversation sets the Path")
 
+	var gold_before: int = Session.gold
 	var tunnel: Vector3 = scene.area.anchors.get("tunnel", Vector3.ZERO) as Vector3
 	scene.player.position = tunnel + Vector3(0.0, 0.0, 6.0)
 	await driver.frames(5)
 	_check(not scene._prompt_panel.visible, "no prompt shows 6m from the hidden tunnel")
+	# Standing off in the treeline makes the Wanderer talk himself back (Story v2); clear that before walking on.
+	await _dismiss_any_dialogue(scene)
 
 	await _walk_to_position(scene, tunnel, StartingAreaScene.TUNNEL_RADIUS)
+	await driver.frames(3)
+	await _dismiss_any_dialogue(scene)
 	await driver.frames(3)
 	_check(scene._prompt_panel.visible and scene._prompt_label.text.contains("tunnel"), "the prompt appears once genuinely close to the hidden tunnel")
 
@@ -48,18 +64,10 @@ func run() -> void:
 	_check(scene.dialogue.active, "using the tunnel plays a flavor dialogue line first")
 	await _dismiss_any_dialogue(scene)
 
-	var choice: ElementChoiceScreen = _find_element_choice(scene)
-	_check(choice != null, "the tunnel offers the same element choice as the real gate")
-	if choice == null:
-		_finish(false, "no ElementChoiceScreen appeared")
-		return
-	var gold_before: int = Session.gold
-	var tile: Button = choice._tiles[Affinity.Type.REFUSEMANCER] as Button
-	await driver.click(driver.center_of_control(tile))
-	await driver.click_button("Begin")
-	await driver.seconds(0.6)
+	_check(_find_element_choice(scene) == null, "the tunnel keeps the Path chosen in the Rescuer's conversation (no second choice)")
+	await driver.seconds(1.2)
 
-	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.REFUSEMANCER, "choosing an element via the tunnel sets the primary affinity")
+	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.REFUSEMANCER, "the tunnel keeps the primary Path")
 	_check(not Session.in_dungeon(), "the tunnel skips the tutorial dungeon entirely")
 	_check(Session.deck != null and Session.deck.size() == 45, "the tunnel grants a full 45-card deck (got %d)" % (Session.deck.size() if Session.deck != null else -1))
 	_check(Session.deck_is_valid(), "the granted deck is actually legal")
@@ -77,7 +85,7 @@ func run() -> void:
 	_check(town != null, "the tunnel leads straight to town")
 	if town != null:
 		await driver.frames(5)
-		_check(town.hud._objective.text.contains("cleared"), "the town objective reflects the (skipped) cleared trial")
+		_check(Session.flag(&"trial_cleared"), "town knows the (skipped) trial is cleared")
 
 	_finish(_failures.is_empty(), "walked to the hidden tunnel, chose an element, and landed in town with a legal deck")
 

@@ -82,7 +82,7 @@ func _town_minimap_and_path(town: TownScene) -> void:
 	for spot: TownScene.Spot in town.spots:
 		if spot.id == "portal_beefcake":
 			label = spot.title
-	_check(label == "Beefcake Path", "the town exit is called the Beefcake Path (got '%s')" % label)
+	_check(label == "The Gainlands", "the town exit is called The Gainlands (got '%s')" % label)
 
 
 func _enter_the_gainlands(town: TownScene) -> GainlandsScene:

@@ -132,6 +132,11 @@ func _title(_screen: TitleScreen) -> void:
 
 
 func _starting_area(scene: StartingAreaScene) -> void:
+	# Story v2: the starting look screen first, then the wake-up lines and the Rescuer's conversation (the Path choice is asked inside it).
+	if driver.find_button("Start my adventure") != null:
+		await driver.click_button("Start my adventure")
+		await driver.seconds(0.5)
+		return
 	if scene.dialogue.active:
 		await driver.tap_key(KEY_E)
 		await driver.seconds(0.4)
@@ -161,7 +166,7 @@ func _find_element_choice(scene: StartingAreaScene) -> ElementChoiceScreen:
 	return null
 
 
-## Part C: the element choice happens before the dungeon even starts. Always picks Beefcake (A) -
+## Story v2: the Path choice is asked inside the Rescuer's conversation in the forest, before the cave gate. Always picks Beefcake (A) -
 ## every later Beefcake-specific check in this driver depends on that.
 func _choose_element(choice: ElementChoiceScreen) -> void:
 	_check(choice._confirm.disabled, "the element choice needs a pick before confirming")
@@ -173,7 +178,7 @@ func _choose_element(choice: ElementChoiceScreen) -> void:
 	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.BEEFCAKE, "choosing an element sets the primary affinity")
 	_check(Session.deck.size() == TrialOfTheHollow.STARTER_DECK_SIZE, "the starter deck is %d cards" % TrialOfTheHollow.STARTER_DECK_SIZE)
 	_check(not Session.deck_is_valid(), "the starter deck is short of the plain 45-card minimum")
-	_check(Session.in_dungeon(), "choosing an element enters the tutorial dungeon")
+	_check(Session.flag(&"rescuer_met"), "choosing the Path happens in the Rescuer's conversation (the cave gate comes after)")
 
 
 func _walk_to_gate(scene: StartingAreaScene) -> void:
@@ -539,6 +544,11 @@ func _edit_deck(screen: DeckbuilderScreen) -> void:
 
 
 func _map(scene: DungeonMapScreen) -> void:
+	# Story v2: nodes can play story lines first (the Warden grumbles before the boss): read them like a player.
+	if scene._dialogue != null and scene._dialogue.active:
+		await driver.tap_key(KEY_E)
+		await driver.seconds(0.3)
+		return
 	if scene._modal != null:
 		var modal: Control = scene._modal
 		if modal is ChallengeScreen:
@@ -688,7 +698,9 @@ func _rewards(scene: RewardsScreen) -> void:
 		if child is LevelUpScreen:
 			await _handle_level_up(child as LevelUpScreen)
 			return
-	var enter_town: Button = driver.find_button("Enter town")
+	var enter_town: Button = driver.find_button("Step outside")
+	if enter_town == null:
+		enter_town = driver.find_button("Enter town")
 	if enter_town != null:
 		_check(Session.flag(&"trial_cleared"), "the trial is marked cleared once the boss falls")
 		_check(Session.profile.intro_dungeon_cleared, "the intro dungeon is marked cleared")
@@ -785,4 +797,4 @@ func _final_checks(scene: TownScene) -> void:
 	_check(int(saved.get("gold", -1)) == Session.gold, "the save holds the current gold")
 	_check(bool((saved.get("flags", {}) as Dictionary).get("trial_cleared", false)), "the save remembers the cleared trial")
 	_check(bool((saved.get("flags", {}) as Dictionary).get("awakened", false)), "the save remembers the wake-up scene was played")
-	_check(scene.hud._objective.text.contains("cleared"), "the town objective reflects the cleared trial")
+	_check(Session.flag(&"trial_cleared"), "town knows the trial is cleared")

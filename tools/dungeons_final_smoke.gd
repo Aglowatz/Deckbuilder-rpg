@@ -323,7 +323,7 @@ func _after_battle(map: DungeonMap, boss: bool) -> void:
 			if not rewards._cards.is_empty() and rewards._selected < 0:
 				await driver.click(driver.center_of_control(rewards._cards[0]))
 				await driver.seconds(0.3)
-			for text: String in ["Take", "Continue", "Enter town"]:
+			for text: String in ["Take", "Continue", "Step outside", "Enter town"]:
 				var button: Button = driver.find_button(text, rewards)
 				if button != null:
 					await driver.click(driver.button_center(button))

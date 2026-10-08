@@ -8,22 +8,31 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
 1. Open the project in Godot 4.7.2 (or run it from the command line) and press **F5**.
    `res://scenes/title.tscn` is the main scene.
 2. **Title screen**: New Game / Continue / Settings / Quit.
-3. **The starting area**: you wake up alone in a small forest clearing outside town, with no deck
-   and no memory of how you got there (placeholder lines, easy to rewrite - see
-   `data/story/intro_story.tres`). Walk with **WASD** / arrow keys; the only way forward is the
-   cave mouth. **E**, **Space** or **left-click the object/person in range** all interact - watch
-   for the on-screen "[E] ..." prompt.
-4. **The Forgotten Cave**: entering the cave starts the tutorial dungeon with a fixed neutral
-   deck - a node map with two battles, a deck challenge, a healing shrine (a full heal, right
-   before the boss) and a boss. Life carries from node to node. The first battle is a guided
-   tutorial. Losing sends you back to the starting area to try again, not to a town you have not
-   reached yet.
-5. **Choosing a starting deck**: right after the boss, pick one of four decks (one per color -
-   Beefcake, Gourmand, Refusemancer, Necrocrat), each shown with its identity, playstyle and key cards. Every card in
-   the deck you pick joins your collection immediately, and the road to town opens.
-6. **Town** (same controls: **WASD**/arrows to move, **E**/**Space**/click to interact, **Esc** for
+3. **The forest (the prologue)**: pick a hat and cloak, then the Wanderer wakes alone in a small forest
+   clearing outside Crosspath with no memory of how they got there. A hooded **Rescuer** kneels
+   beside them, asks if they can still fight and pull energy from the Paths, and asks which Path they
+   walked the most: **this is where you choose your starting deck** (one of the four Paths, each shown
+   with its identity, playstyle and key cards). The Rescuer then points to the cave and vanishes into the
+   trees. Walk with **WASD** / arrow keys; **E**, **Space** or **left-click the object/person in range**
+   all interact - watch for the on-screen "[E] ..." prompt. Walking into the treeline makes the Wanderer
+   talk themselves back to the cave (all story text is in `data/story/intro_story.tres`).
+4. **The Forgotten Cave**: the cave gate starts the tutorial dungeon with your 42-card starter deck
+   (23 cards: colorless spells plus eight of your Path's own Resource cards, and 19 basic
+   Infrastructure) - a node map with two battles, a deck challenge, a healing shrine (a full heal, right
+   before the boss) and a boss, the Hollow Warden. The cave has no Beefcake or Necrocrat enemies or
+   Resources. Life carries from node to node. The first battle is a guided tutorial. Losing sends you back
+   to the forest to try again.
+5. **Elder Maren at the cave mouth**: after the boss, the three reward picks grow your deck to 45 cards,
+   and **Elder Maren** (a tortoise) is waiting outside. She takes you in, guarded and kind, and you
+   arrive in Crosspath.
+6. **Crosspath** (same controls: **WASD**/arrows to move, **E**/**Space**/click to interact, **Esc** for
    the pause menu, **B** to open the deck builder from anywhere, **C** for the character screen)
-   is about 3x the size of its original core, in several districts:
+   is laid out as a real town: a central plaza with a fountain bearing the royal crest (the four Path
+   symbols in a ring), a notice board (the quest log), West and East Market Streets (Sable's cards, Tilly
+   Tonic's items, Bertram Beetsworth's equipment, Pip Threadwell's clothing, Foil Fenwick's packs, Auntie Alembic's
+   alchemy, the Rift Express), the Gate Road north (Elder Maren's home, the Hall of Records, the Forgotten
+   Cave) and Champions' Road south (the chapel, the Deck Station, the Wellspring) ending at the Grand
+   Clashatorium, with signposts and lamps at every junction. Around it, in several districts:
    - **The original core**: **Elder Maren** and **Gatekeeper Brannoch** (story/advice), the
      **Wellspring** (now a flavor spot - it already recognizes your color), **Sable the Trader**
      (buy cards with gold - stock starts small and grows as you spend and explore, with locked
@@ -66,6 +75,27 @@ Everything is keyboard/mouse. Settings (volumes, fullscreen) are on the title sc
 Saves live in `user://save.json` (Continue on the title screen); the game saves in town and after each
 purchase, deck edit and dungeon result. Continuing a save from before the starting deck was chosen resumes
 at the starting area, not town (gold/cards earned so far are kept).
+
+### Story progression (story v2)
+
+- **One Path at first**: the Wanderer is too weak to walk more than one Path, so a deck may use **one Path** until
+  the first zone is freed, **two** after that, and **three or four** once Primm has fallen. Dual-Path cards wait
+  for the second Path. Old saves keep decks that become illegal (they are marked "not legal yet" and the town
+  tells you to fix them at the Deck Station).
+- **Memory fragments**: each freed zone (the Nth, in any order) returns a fragment, played the next time you
+  talk to **Elder Maren** (a dimmed screen with a four-colour vignette, then her answer). The first announces the
+  second Path; the fourth reveals who the Wanderer is, after which people address them by name. The "Fragments"
+  quest tracks them. If you rush the castle first, Primm tells you instead.
+- **The finale and after**: the Pathwork Throne restores your memory and every Path; the Capital becomes
+  **Pathordia**; Primm works under guard on infrastructure. Rip Tearson then opens a rift station in the forest
+  where it all began, and a hatch there leads to the postgame **Path-ology Lab** (extremely hard; placeholder
+  encounters and art).
+- Names that may change (the prince, the royal house, the Rescuer, place names) live in
+  `data/story/royal_family.tres` and are used by token (`{prince}`, `{town}`, `{capital}`, `{rescuer}`...).
+- End-to-end checks with human-style input: `bash tools/run_prologue_smoke.sh` (forest to Crosspath) and
+  `bash tools/run_story_v2_final_smoke.sh [--only=streets,deck,memory,hog,hall,reveal,ending,forest]` (Crosspath on foot,
+  the deck rule, Maren's memory, the House of Gains, the Hall, the Primm reveal, the ending, Rip's portal and the Lab).
+
 
 ## Project layout
 

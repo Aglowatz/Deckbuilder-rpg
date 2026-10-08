@@ -2860,3 +2860,41 @@ Progress checklist: `docs/overnight_progress.md`. Judgment calls: `docs/design/o
 - The forest in the postgame has Rip's station beside the cave, the glowing hatch and the freed Rescuer (hood down) with their own lines.
 - The Path-ology Lab: 14 nodes with branching, placeholder extremely hard encounters, the break-room notes, the prince's old cell (ten years of tally marks, the child's four-color drawing), the draining chamber, the Rescuer's cell (rescue boon), the quiet room and Dr. Ambrose Siphon as boss. Placeholder `MAP-LAB` and `BB-LAB` art, Siphon's Lens as first-clear equipment, gold and XP.
 - Tests in `tests/core/dungeon/test_pathology_lab.gd`; the dungeon-list tests now include D-LAB. GUT: 1239 passing.
+
+### Part I - Final verification
+- **Unit tests**: GUT 1239 tests, all passing (includes the compile-every-script test).
+- **E2E with human-style input** (injected keys and clicks, one Godot process each):
+  - `bash tools/run_prologue_smoke.sh`: new game -> look screen -> wake-up -> Rescuer conversation with the Path choice -> the Rescuer fades -> walking into the treeline makes the Wanderer talk himself back -> the cave gate walks into the Forgotten Cave with no second choice -> no Beefcake/Necrocrat on the enemy side -> Elder Maren at the cave mouth -> Crosspath.
+  - `bash tools/run_story_v2_final_smoke.sh`: from the plaza on foot (path-planned, no teleport) to every vendor and building -> the deck builder refuses a second Path (themed message) -> freeing a zone: Maren's memory 1 screen, then the second-Path announcement -> House of Gains: Stairs Down, the Iron-less Prison rescue and Flex's boon -> Hall of Final Approvals (Mortimer boss, Vellum elite, Agnes's vacancy scene) -> the Model Room with fewer than four zones (Primm's reveal) -> all 10 ending beats and the credits -> Rip's tip, the forest rift station, the hatch and the Path-ology Lab. All checks pass. `--only=<stages>` runs a subset.
+  - Bugs found by the e2e and fixed: cutscenes and the ending ignored mouse clicks (their full-screen STOP filter swallowed the click before `_unhandled_input`; keys worked, clicks did not); `Session.sync_story_tokens` was never called, so "Pathordia" never replaced the old capital name.
+  - Older e2e scripts updated for the new opening: `tools/e2e_demo.gd` (look screen, Path chosen in the Rescuer scene) and `tools/starting_area_tunnel_smoke.gd`.
+- Screenshots of every new or changed screen are in `_screenshots/storyv2/` (town overview and streets, Rescuer scene, Maren at the cave mouth, memory screen, second-Path popup, cutscenes, castle poster, ending beats, forest postgame, Lab map).
+- Old-name search (Part A's list): zero hits outside history (logs, the unchanged card list, the designer's battleboard sheet `data/source/battleboard_list.csv.csv`, and Queen Concordia).
+- **Older e2e flows re-run**: `tools/run_e2e.sh` now plays the new opening (look screen, Rescuer's Path choice, cave gate, the Warden's lines, "Step outside", Maren at the cave mouth) and the tutorial dungeon, then reaches town; it then loses its three tries against the corrupted NPC Brick Bronson with the bot's play (the bot plays "the most expensive card" and does not tune; balance is out of scope), so that flow stops at "defeating the corrupted NPC unlocked the Beefcake entrance". `tools/run_starting_area_tunnel_smoke.sh` passes with the new opening. `tools/run_sixth_brief_final_smoke.sh` (Gainlands) fails the same two checks it already failed before Story v2 (verified on the pre-Story-v2 commit in a separate worktree): the "Beefcake Path" town-exit label (stale expectation, now "The Gainlands": fixed in the script) and "M opens the full map" while a Rift Station unlock dialogue is still open; with the new starter deck its battle bot also stalls once in a Gainlands duel (60 steps without progress), which the baseline deck did not.
+
+## Story v2: summary
+
+**What changed (Parts A to I)**
+- A: story bible rewritten from `story_source_v2.md`, all renames, `data/story/royal_family.tres` (prince, royal house, Rescuer, place names as tokens).
+- B: Crosspath is a laid-out town: crest fountain plaza, market streets, Gate Road, Champions' Road to the Grand Clashatorium, signposts, lamps, notice board.
+- C: new prologue in the forest (Rescuer, in-conversation Path choice, bounded forest, hidden Lab entrance reserved), the Forgotten Cave (no Beefcake/Necrocrat enemies, the Warden "smells familiar"), Maren at the cave mouth, per-Path starter decks with eight Resource-synergy cards.
+- D: Path lock (1 Path, 2 after the first zone, 4 in the postgame), themed messages, old-save handling.
+- E: Maren the tortoise, the four memory fragments, the Fragments quest, name change after the reveal, the second-Path announcement.
+- F: Gainlands (Clench, Flex, the unrescued branch), Test Kitchen (wonder dish, Escoffina), D.N.A. (Mortimer boss, Vellum, Agnes, records, vacancy), Verdant Dump (the grief seed, "let it rot"), freed-leader lines.
+- G: lost-property posters, castle gallery and ward records, Primm's reveal, the finale beats, Pathordia, Primm under guard.
+- H: Rip's forest rift station, the hatch, the 14-node Path-ology Lab with placeholder art and Siphon's Lens.
+- I: this verification.
+
+**Blocked**: nothing was blocked after three attempts.
+
+**Questions for you** (also logged as SV-n in `docs/design/open_questions.md`)
+1. The Rescuer's name (still the `{rescuer}` placeholder in `royal_family.tres`).
+2. Cards (the card list is unchanged): which unique card should the Lab give (SV-42)? Does Mortimer's legendary N-33 become his boss card and Agnes get a new one, and does the Grand Chef's card drop "Escoffina" (SV-8)?
+3. The second Path opens the moment the first zone is freed, not when Maren's memory scene plays, so a player who skips her still has it (SV-23). Should it wait for the scene?
+4. The cave's "no Beefcake/Necrocrat" rule is applied to everything the cave owns, but the player's own starter Path may be either of them (SV-18). Confirm?
+5. Two Agneses in the D.N.A. when freed (front-desk quest giver and the new head of the Department); the lines joke about it (SV-32). Fine, or should the front desk go to Prudence?
+6. Primm's "locked workshop" is two NPCs in the Crease, not a building (SV-39).
+7. `data/source/battleboard_list.csv.csv` still has the double extension and still says "Trial of the Hollow (tutorial)"; you only asked for the two other sheets to be renamed.
+8. Art wanted: tortoise model for Maren, portraits for the Rescuer / Siphon / king / queen, MAP-LAB and BB-LAB, a hatch model (`docs/assets_wanted.md`).
+
+**Playtest first**: (1) new game: the forest, the Rescuer conversation and Path choice, the cave, Maren at the cave mouth; (2) walk Crosspath from the fountain to every shop and look at the plaza and market streets; (3) try to build a 2-Path deck, free a zone, talk to Maren (memory 1 and the second-Path popup); (4) the House of Gains with and without rescuing Flex; (5) rush the castle with fewer than four zones for Primm's reveal; (6) the ending and Rip's forest portal and the Lab (it is placeholder-hard).
