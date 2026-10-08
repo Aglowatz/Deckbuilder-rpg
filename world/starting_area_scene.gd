@@ -19,6 +19,8 @@ const CLICK_PICK_RADIUS: float = 90.0
 const TUNNEL_RADIUS: float = 1.5
 ## Polish round: the treeline nooks' hidden chests use the same tight radius.
 const CHEST_RADIUS: float = 1.5
+## Story v2: how close to the treeline the hero may get before talking themselves back to the cave.
+const EDGE_PROBE: float = 0.7
 
 var area: StartingAreaBuilder = StartingAreaBuilder.new()
 var player: TownPlayer
@@ -36,6 +38,10 @@ var _screenshot_args: Dictionary = {}
 var minimap: MinimapHud
 ## Polish round: the endless forest around the clearing (visual only).
 var forest: StartingForest
+var _rescuer: Node3D
+var _maren: Node3D
+var _self_talk_cooldown: float = 0.0
+var _self_talk_index: int = 0
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -65,9 +71,18 @@ func _ready() -> void:
 		for child: Node in get_children():
 			if child is CanvasLayer:
 				(child as CanvasLayer).visible = false
-	if not Session.flag(&"awakened") and not _screenshot_args.has("quiet"):
-		Session.set_flag(&"awakened")
-		Session.save_game()
+	# Screenshot helpers: show the Rescuer or Elder Maren without playing their scenes.
+	if str(_screenshot_args.get("show", "")) == "rescuer":
+		_spawn_rescuer()
+	elif str(_screenshot_args.get("show", "")) == "maren":
+		var mouth: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
+		_maren = ModelKit.character("Mage")
+		ModelKit.place(self, _maren, mouth + Vector3(0.0, 0.0, 2.3), 180.0, TownPlayer.MODEL_SCALE)
+		player.position = mouth + Vector3(0.0, 0.0, 0.5)
+	if Session.cave_exit_pending and Session.profile != null and not _screenshot_args.has("quiet"):
+		Session.cave_exit_pending = false
+		_begin_cave_exit.call_deferred()
+	elif not Session.flag(&"rescuer_met") and Session.profile == null and not _screenshot_args.has("quiet"):
 		_play_awakening.call_deferred()
 	Session.save_game()
 
@@ -192,9 +207,132 @@ func _choose_look() -> void:
 
 func _play_awakening_lines() -> void:
 	var story: StoryText = load(STORY_PATH) as StoryText
-	if story == null or story.awakening_lines.is_empty():
+	if story == null or story.awakening_lines.is_empty() or Session.flag(&"awakened"):
+		_start_rescuer_scene()
 		return
+	Session.set_flag(&"awakened")
+	Session.save_game()
 	dialogue.start("", story.awakening_lines, NpcRegistry.PLAYER_ID)
+	dialogue.finished.connect(_start_rescuer_scene, CONNECT_ONE_SHOT)
+
+
+# ---- Story v2 prologue: the Rescuer ------------------------------------------------------------------------------------------------------
+
+
+## A hooded Rescuer kneels beside the Wanderer, asks if they can still fight, has them choose the one Path they can carry (the starting deck), points to
+## the Forgotten Cave and slips back into the trees.
+func _start_rescuer_scene() -> void:
+	_locked = true
+	var rescuer_pos: Vector3 = _spawn_rescuer()
+	player.face(rescuer_pos)
+	_say_rescuer("prologue.rescuer.1", func() -> void:
+		_say_wanderer("prologue.wanderer.1", func() -> void:
+			_say_rescuer("prologue.rescuer.2", func() -> void:
+				_say_wanderer("prologue.wanderer.2", func() -> void:
+					_say_rescuer("prologue.rescuer.3", _choose_path_in_conversation)))))
+
+
+## The hooded Rescuer, kneeling a step from the spot where the Wanderer woke. Returns where.
+func _spawn_rescuer() -> Vector3:
+	var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
+	_rescuer = ModelKit.character("Rogue_Hooded")
+	ModelKit.tint(_rescuer, Color(0.62, 0.58, 0.7))
+	var rescuer_pos: Vector3 = spawn + Vector3(1.0, 0.0, -0.3)
+	ModelKit.place(self, _rescuer, rescuer_pos, rad_to_deg(atan2(spawn.x - rescuer_pos.x, spawn.z - rescuer_pos.z)), TownPlayer.MODEL_SCALE)
+	var animation: AnimationPlayer = ModelKit.animation_player(_rescuer)
+	if animation != null and animation.has_animation("Idle"):
+		animation.play("Idle")
+	return rescuer_pos
+
+
+func _say_rescuer(key: String, then: Callable) -> void:
+	dialogue.start(RoyalFamily.fill("{rescuer}"), StoryText.shared().get_lines(key), "NPC-RESCUER")
+	dialogue.finished.connect(then, CONNECT_ONE_SHOT)
+
+
+func _say_wanderer(key: String, then: Callable) -> void:
+	dialogue.start("", StoryText.shared().get_lines(key), NpcRegistry.PLAYER_ID)
+	dialogue.finished.connect(then, CONNECT_ONE_SHOT)
+
+
+## The starting deck choice (moved here from the cave gate): the same four-tile screen, now asked in the Rescuer's conversation.
+func _choose_path_in_conversation() -> void:
+	var choice: ElementChoiceScreen = ElementChoiceScreen.new()
+	_overlay_layer.add_child(choice)
+	choice.chosen.connect(func(color: Affinity.Type) -> void:
+		Audio.sfx(&"ui_confirm")
+		choice.queue_free()
+		Session.choose_starting_path(color)
+		_say_rescuer("prologue.rescuer.4", _rescuer_leaves))
+
+
+func _rescuer_leaves() -> void:
+	var fade: Tween = create_tween().set_parallel(true)
+	var away: Vector3 = _rescuer.position + Vector3(1.4, 0.0, -1.0)
+	fade.tween_property(_rescuer, "position", away, 1.6)
+	for node: Node in _rescuer.find_children("*", "GeometryInstance3D", true, false):
+		fade.tween_property(node, "transparency", 1.0, 1.4)
+	fade.finished.connect(func() -> void:
+		_rescuer.queue_free()
+		_rescuer = null
+		_say_wanderer("prologue.wanderer.3", func() -> void:
+			_locked = false))
+
+
+## Walking into the treeline (outside the nooks and the tunnel, which are secrets on purpose) makes the Wanderer talk themselves back to the cave. No exploring yet.
+func _check_forest_edge(delta: float) -> void:
+	_self_talk_cooldown = maxf(0.0, _self_talk_cooldown - delta)
+	if _self_talk_cooldown > 0.0 or _locked or dialogue.active or not Session.flag(&"rescuer_met") or Session.flag(&"trial_cleared"):
+		return
+	for key: String in area.anchors.keys():
+		if key.begins_with("hidden_chest_") or key == "tunnel":
+			var secret: Vector3 = area.anchors[key] as Vector3
+			if Vector2(player.position.x - secret.x, player.position.z - secret.z).length() < 2.2:
+				return
+	var at_edge: bool = false
+	for step: int in range(8):
+		var angle: float = TAU * float(step) / 8.0
+		var probe: Vector3 = player.position + Vector3(cos(angle), 0.0, sin(angle)) * EDGE_PROBE
+		if not area.is_floor_at(probe):
+			at_edge = true
+			break
+	if not at_edge:
+		return
+	_self_talk_cooldown = 9.0
+	var lines: Array[String] = StoryText.shared().get_lines("prologue.self_talk")
+	var line: String = lines[_self_talk_index % lines.size()]
+	_self_talk_index += 1
+	dialogue.start("", [line] as Array[String], NpcRegistry.PLAYER_ID)
+	# Turned gently back toward the cave.
+	var gate: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
+	var back: Vector3 = player.position.move_toward(Vector3(gate.x, player.position.y, gate.z + 1.2), 0.9)
+	if area.is_walkable(back):
+		player.position = back
+
+
+# ---- Story v2: Elder Maren waits at the cave mouth ----------------------------------------------------------------------------------------
+
+
+func _begin_cave_exit() -> void:
+	_locked = true
+	var gate: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
+	player.position = gate + Vector3(0.0, 0.0, 0.5)
+	_camera.position = player.position + _camera_offset * Settings.camera_zoom
+	var maren_pos: Vector3 = gate + Vector3(0.0, 0.0, 2.3)
+	_maren = ModelKit.character("Mage")
+	ModelKit.place(self, _maren, maren_pos, 180.0, TownPlayer.MODEL_SCALE)
+	player.face(maren_pos)
+	_say_maren("cave_mouth.maren", func() -> void:
+		_say_wanderer("cave_mouth.wanderer", func() -> void:
+			_say_maren("cave_mouth.maren_end", func() -> void:
+				Session.set_flag(&"maren_met")
+				Session.save_game()
+				SceneManager.go_to_town())))
+
+
+func _say_maren(key: String, then: Callable) -> void:
+	dialogue.start("Elder Maren", StoryText.shared().get_lines(key), "NPC-ELDER")
+	dialogue.finished.connect(then, CONNECT_ONE_SHOT)
 
 
 func _process(delta: float) -> void:
@@ -204,6 +342,7 @@ func _process(delta: float) -> void:
 		_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	else:
 		_camera.rotation_degrees = Vector3(-atan2(CAMERA_OFFSET.y, CAMERA_OFFSET.z) * 180.0 / PI, 0.0, 0.0)
+	_check_forest_edge(delta)
 	_update_prompt()
 	player.input_enabled = not _locked and not dialogue.active
 
@@ -223,7 +362,7 @@ func _update_prompt() -> void:
 	var was_near_gate: bool = _near_gate
 	_near_gate = gate_distance <= INTERACT_RADIUS
 	var near_tunnel_now: bool = false
-	if Session.profile == null and area.anchors.has("tunnel"):
+	if not Session.flag(&"trial_cleared") and area.anchors.has("tunnel"):
 		var tunnel: Vector3 = area.anchors["tunnel"] as Vector3
 		var tunnel_distance: float = Vector2(player.position.x - tunnel.x, player.position.z - tunnel.z).length()
 		near_tunnel_now = tunnel_distance <= TUNNEL_RADIUS
@@ -351,6 +490,11 @@ func _enter_tunnel() -> void:
 	_locked = true
 	dialogue.start("", StoryText.shared().get_lines("start.tunnel"), NpcRegistry.PLAYER_ID)
 	dialogue.finished.connect(func() -> void:
+		if Session.profile != null:
+			# The Path was already chosen in the Rescuer's conversation; the shortcut keeps it.
+			Session.skip_tutorial_via_secret_tunnel(Session.profile.primary_affinity)
+			SceneManager.go_to_town()
+			return
 		var choice: ElementChoiceScreen = ElementChoiceScreen.new()
 		_overlay_layer.add_child(choice)
 		choice.chosen.connect(func(color: Affinity.Type) -> void:

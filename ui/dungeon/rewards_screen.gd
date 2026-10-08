@@ -180,18 +180,22 @@ func _show_trial_complete(first_clear: bool) -> void:
 	for child: Node in _column.get_children():
 		child.queue_free()
 	Audio.sfx(&"victory")
-	_column.add_child(UIKit.label("Trial Complete", &"TitleLabel", 64, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var body_text: String = "The Hollow is quiet again. You gather what it offered and head back to town."
+	_column.add_child(UIKit.label("Through the Forgotten Cave", &"TitleLabel", 64, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	var body_text: String = "The Forgotten Cave is quiet again. You gather what it offered and head back to town."
 	if first_clear:
-		body_text = "The Hollow is cleared, and your deck is whole. Somewhere beyond it, the road to town is finally open."
+		body_text = "%s\n\nDaylight at last. Your deck is whole, and the way out is open." % "\n".join(StoryText.shared().get_lines("tutorial.warden.after"))
 		Session.town_notice = "The %s deck is yours. The road to town is open." % UIStyle.affinity_name(Session.profile.primary_affinity)
 	var text: Label = UIKit.label(body_text, &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.custom_minimum_size = Vector2(1100, 0)
 	_column.add_child(text)
-	var home: FancyButton = FancyButton.make("Enter town", &"PrimaryButton", Vector2(300, 62))
+	var home: FancyButton = FancyButton.make("Step outside" if first_clear else "Enter town", &"PrimaryButton", Vector2(300, 62))
 	home.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	home.pressed.connect(func() -> void:
-		SceneManager.go_to_town())
+		if first_clear:
+			Session.cave_exit_pending = true
+			SceneManager.go_to_start_area()
+		else:
+			SceneManager.go_to_town())
 	_column.add_child(home)
 	UIKit.pop_in(_panel)

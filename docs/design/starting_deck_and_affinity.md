@@ -111,3 +111,24 @@ Two flows came before this one:
 
 See git history / `open_questions.md` D4-D6, D31, D44 for the full reasoning behind each change.
 Flow (2) is fully superseded by the one above.
+
+## Story v2 Part C: the opening, the new starting decks and the Forgotten Cave
+
+**Flow now.** (1) Look screen (hat, cloak). (2) The Wanderer wakes in the forest clearing, says the old awakening lines. (3) A hooded **Rescuer** (`NPC-RESCUER`, name token `{rescuer}`, placeholder portrait) kneels beside them. After a short exchange ("can you still fight and pull energy from the Paths?", "you are weaker than I feared") the Rescuer asks which Path the Wanderer walked the most: **the starting deck choice (`ElementChoiceScreen`) happens here**, inside the conversation. It was removed from the cave gate. `Session.choose_starting_path` builds the profile and the 42-card starter at that moment. (4) The Rescuer points to the Forgotten Cave ("Crosspath is on the other side"), walks into the trees and fades out. (5) The clearing is bounded: pressing against the treeline (the secret nooks and the tunnel excepted) makes the Wanderer say a self-talk line ("I have to go through that cave...") and nudges them back. (6) The cave gate now only asks "Enter?" and walks into the Forgotten Cave. (7) The Hollow Warden grumbles the Wanderer "smells familiar" before the fight and lets them pass after. (8) Clearing the cave shows "Step outside": the cave-mouth scene where **Elder Maren** waits, then Crosspath. All text is in `data/story/intro_story.tres` (`prologue.*`, `tutorial.warden.*`, `cave_mouth.*`).
+
+**Secret tunnel.** Still works until the cave is cleared; it keeps the Path chosen in the Rescuer scene (a brand-new profile that somehow has none still shows the choice).
+
+**Hidden lab entrance.** An `L` cell in the south treeline of the clearing (anchor `lab`); built and blocked exactly like treeline until `StartingAreaBuilder.lab_open` (Part H).
+
+**Starter packages.** The colorless template (23 cards) gives up 8 cards (C-01 x2, C-04, C-05, C-10, C-12, C-16, C-19) to make room for 8 Common cards of the chosen Path that create and spend its Resource. 19 basic Infrastructure of the Path + 15 colorless + 8 package = 42; the 3 reward picks make 45. Never more than 3 copies of a card.
+
+| Path | Package (copies) | Resource role |
+| --- | --- | --- |
+| Beefcake | Hamster Wheel Runner B-05 (2), Gym Bro B-01 (2), Personal Trainer B-09, Millstone Pusher B-04, Dropped Weights B-03, Weight Belt B-14 | B-05 creates Iron, B-09 grows from using Iron |
+| Gourmand | Line Cook G-01 (2), Sushi Apprentice G-02 (2), Windowsill Herb Garden G-15, Kitchen Porter G-09, Meatloaf Mold G-12, The Recipe Engine G-10 | G-01/G-15/G-09 create Ingredients, G-02/G-12/G-10 spend them |
+| Refusemancer | Curbside Rat R-06 (2), Possum Prowler R-08 (2), Dumpster Diver R-02, Community Compost Bin R-10, Kidding Around R-05, Alley Scrap R-19 | R-06/R-02/R-10 create Garbage, R-08 eats it |
+| Necrocrat | Skeleton Clerk N-01 (2), Infernal Intern N-02 (2), Body-builder N-04, Red Tape Dispenser N-09, Corpseified Public Accountant N-05, Pink Slip N-15 | N-01/N-02/N-09/N-05 create Red Tape, N-04 spends it |
+
+Colorless remainder (15): Cannon Fodder, Village Militia x3, Watchtower Archer x2, Courier Pigeon, Traveling Brawler x2, Wandering Medic, Tavern Regular, Traveler's Sword, Rally the Village, Second Wind, Ambush Party.
+
+**The cave has no Beefcake or Necrocrat.** Enemy decks use Gourmand/Refusemancer infrastructure and colorless or G/R cards only (`TrialOfTheHollow.enemy_recipe`), the nodes and the Well challenge have no such cards, and rewards are the player's own Path (their choice, so a Beefcake or Necrocrat starter is their own, not the cave's).

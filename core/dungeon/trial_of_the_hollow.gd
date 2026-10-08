@@ -32,7 +32,7 @@ static func build_map() -> DungeonMap:
 	var map: DungeonMap = DungeonMap.new()
 	map.dungeon_name = DUNGEON_NAME
 	var start: DungeonMap.MapNode = _node(map, DungeonMap.Kind.START, "Cave Mouth", "The trial begins.", Vector2(0.09, 0.68))
-	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger, one of {villain}'s play-offs, guards the first chamber.", Vector2(0.27, 0.38))
+	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger, one of the cave's squatters, guards the first chamber.", Vector2(0.27, 0.38))
 	first.enemy_name = "Cave Scavenger"
 	first.enemy_hp = 3
 	first.ai_name = "Aggressive (tutorial)"
@@ -53,7 +53,7 @@ static func build_map() -> DungeonMap:
 	# Full heal: the node right before the boss (docs/design/open_questions.md D32). A plain
 	# large number is enough - DungeonRun.heal() already caps at max HP.
 	shrine.heal_amount = 999
-	var boss: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BOSS, "Heart of the Hollow", "{villain}'s warden wakes, set here to test anyone who wanders out of the old caves.", Vector2(0.92, 0.34))
+	var boss: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BOSS, "Heart of the Hollow", "An Old Kingdom guardian wakes in the dark. It grumbles that you smell familiar.", Vector2(0.92, 0.34))
 	boss.enemy_name = "Hollow Warden"
 	boss.enemy_hp = 3
 	boss.ai_name = "Balanced"
@@ -115,11 +115,11 @@ static func enemy_recipe(enemy_name: String) -> Dictionary:
 	# body or two - stronger, but still tuned to keep the whole dungeon's win rate above target.
 	match enemy_name:
 		"Cave Scavenger":
-			return {"BAS-B": 17, "C-01": 4, "C-02": 3, "C-03": 2, "C-04": 2, "C-06": 1}
+			return {"BAS-G": 17, "C-01": 4, "C-02": 3, "C-03": 2, "C-04": 2, "C-06": 1}
 		"Hollow Stalker":
 			return {"BAS-R": 11, "BAS-G": 8, "C-01": 3, "C-02": 3, "C-03": 2, "C-04": 2, "C-05": 1, "C-07": 1}
 		"Hollow Warden":
-			return {"BAS-N": 12, "BAS-R": 10, "C-02": 3, "C-06": 2, "C-08": 2, "C-09": 1, "N-01": 2, "N-02": 2, "N-15": 1}
+			return {"BAS-G": 12, "BAS-R": 10, "C-02": 3, "C-06": 2, "C-08": 2, "C-09": 1, "R-06": 2, "R-07": 2, "C-15": 1}
 	return {}
 
 

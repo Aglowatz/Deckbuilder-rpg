@@ -167,6 +167,21 @@ func ensure_game(color: Affinity.Type = Affinity.Type.BEEFCAKE) -> void:
 		choose_starting_look("hat_wide_brim", "cloak_short", 1, 0)  # screenshot/test launches skip the starting area: a default look
 
 
+## Story v2 (Part C): the Rescuer's conversation in the forest asks which Path the Wanderer walked the most. Creates the profile and the 42-card starter deck right away, so the
+## cave gate afterwards just walks into the dungeon. Does nothing once a profile exists.
+func choose_starting_path(color: Affinity.Type) -> void:
+	if profile != null or not CampaignStart.is_valid_choice(color):
+		return
+	profile = CampaignStart.new_profile(content, color)
+	deck = CampaignStart.starter_deck(content, color)
+	deck.deck_name = DECK_NAME
+	set_flag(&"rescuer_met")
+	save_game()
+
+
+## Set by the dungeon's last screen: the next starting-area visit is the scene at the cave mouth where Elder Maren waits (not saved).
+var cave_exit_pending: bool = false
+
 ## New brief (third), Part D: the hidden tunnel in the starting area's bottom-left corner - the
 ## player still picks their element (the same `ElementChoiceScreen`), then gets a real, legal
 ## 45-card deck (the 42-card starter + 3 *random* on-element cards, `CampaignStart.
@@ -178,9 +193,13 @@ const SECRET_TUNNEL_ID: String = "starting_area_tunnel"
 
 
 func skip_tutorial_via_secret_tunnel(color: Affinity.Type) -> void:
-	if profile != null:
+	if profile != null and profile.intro_dungeon_cleared:
 		return
-	profile = CampaignStart.new_profile(content, color)
+	if profile == null:
+		profile = CampaignStart.new_profile(content, color)
+	else:
+		# Story v2: the Path was already chosen in the Rescuer's conversation; the tunnel keeps that choice.
+		color = profile.primary_affinity
 	var picks: Array[CardData] = CampaignStart.random_element_cards(content, color, 3, rng)
 	profile.owned_cards.append_array(picks)
 	profile.intro_dungeon_cleared = true
@@ -928,7 +947,7 @@ func location_name() -> String:
 	if scene is TownScene:
 		return "Crosspath"
 	if scene is StartingAreaScene:
-		return "The Hollow's Edge"
+		return "The Forest Clearing"
 	return last_location
 
 
@@ -2335,7 +2354,7 @@ func complete_battle(context: BattleContext) -> void:
 		return
 	run.finish_encounter(context.game)
 	if not context.won or run.failed:
-		abandon_run("You were carried out of the Hollow. Your collection is safe.")
+		abandon_run("You were carried out of the Forgotten Cave. Your collection is safe.")
 		return
 	if context.boss_phase >= 0 and context.boss_phase < PrimmBoss.PHASES - 1:
 		boss_phase = context.boss_phase + 1

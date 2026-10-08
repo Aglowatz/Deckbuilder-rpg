@@ -30,7 +30,7 @@ func _ready() -> void:
 	var column: VBoxContainer = UIKit.vbox(16)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Choose your element", &"TitleLabel", 50, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	var intro: Label = UIKit.label("Before the Hollow, one of the four Wellsprings will answer you. It shapes the cards you draw to it as you explore - your kit otherwise starts the same either way.", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	var intro: Label = UIKit.label("You are too weak to carry more than one Path right now. Which Path did you walk the most? It will answer you, and shape the deck you carry through the cave.", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	intro.custom_minimum_size = Vector2(1200, 0)
 	column.add_child(intro)

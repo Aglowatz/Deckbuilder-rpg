@@ -411,6 +411,9 @@ func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 	var steps: Array[Callable] = []
 	if not node.story_before.is_empty() and _main_def != null:
 		steps.append(_show_story.bind(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(node.story_before), NpcRegistry.story_speaker(node.story_before)))
+	# The Forgotten Cave's guardian grumbles that the Wanderer smells familiar (the tutorial has no zone story file).
+	if _main_def == null and node.kind == DungeonMap.Kind.BOSS and map != null and map.dungeon_name == TrialOfTheHollow.DUNGEON_NAME:
+		steps.append(_show_story.bind(StoryText.shared().get_lines("tutorial.warden.before"), "NPC-WARDEN"))
 	if not node.scene.is_empty() and CutsceneDefs.has_scene(node.scene):
 		steps.append(_show_cutscene.bind(node.scene))
 	if _main_def != null and node.kind == DungeonMap.Kind.BOSS and _main_def.zone_id == CapitalZone.ID:

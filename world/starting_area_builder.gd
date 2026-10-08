@@ -11,13 +11,15 @@ extends WalkableArea
 ## New brief (third), Part D: 'H' is a hidden tunnel, tucked into the bottom-left corner of the
 ## treeline where a normal 'M' would be - no marker/glow, just a standard interact prompt once the
 ## player is genuinely close (see `docs/design/secrets.md`).
+## Story v2: 'L' is the Path-ology Lab's hidden entrance in the south treeline. While `lab_open` is false (until Rip opens the forest portal, postgame) it is built and
+## blocked exactly like a treeline cell, with nothing to see or to interact with; only the "lab" anchor says where it will be.
 ## Polish round: 'N' is a camouflaged nook in the treeline with a hidden chest in it (see HIDDEN_CHESTS).
 const MAP: Array[String] = [
 	"MMMNM",
 	"N#G#M",
 	"M#T#N",
 	"H#S#M",
-	"MMMMM",
+	"MMLMM",
 ]
 
 ## Polish round: 3 hidden chests in nooks of the treeline: id -> {cell, offset, gold}. Gold only, because the hero has no profile yet (no items, cards or equipment
@@ -36,6 +38,8 @@ var obstacles: Array[Vector3] = []
 var anchors: Dictionary = {}
 var root: Node3D
 var clouds: Array[Node3D] = []
+## Part H: true once the postgame has revealed the lab entrance (set before `build`).
+var lab_open: bool = false
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
@@ -58,6 +62,10 @@ func build(parent: Node3D) -> void:
 
 func _build_cell(col: int, row: int, symbol: String) -> void:
 	var center: Vector3 = HexGrid.cell_to_world(col, row)
+	if symbol == "L":
+		anchors["lab"] = center + Vector3(0, 0, -0.6)
+		if not lab_open:
+			symbol = "M"
 	ModelKit.place(root, ModelKit.tile("hex_grass"), center)
 	if symbol == "M":
 		# A dense treeline, close enough together to read as a wall without being walkable.

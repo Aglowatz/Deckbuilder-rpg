@@ -2822,3 +2822,9 @@ Progress checklist: `docs/overnight_progress.md`. Judgment calls: `docs/design/o
 - Notice board opens the quest log. NPC wander areas and spots follow the new anchors; the item vendor is now "Tilly Tonic's Supplies".
 - Fixed typed-array errors in `TownStreets`, plinth icons (mask shader), and the walk test's fountain anchors. Screenshots: `_screenshots/storyv2/` (top-down, mid, street, plaza).
 - GUT: 1206 tests, all passing.
+
+### Part C - Prologue
+- New opening in the forest: look -> wake up -> the Rescuer's conversation with the starting Path choice -> the Rescuer fades -> bounded forest with self-talk -> the Forgotten Cave -> Elder Maren at the cave mouth -> Crosspath. Hidden Path-ology Lab entrance reserved in the clearing (anchor `lab`, blocked until Part H).
+- The cave: renamed everywhere in display text, the Hollow Warden "smells familiar" lines, enemy decks no longer use Beefcake/Necrocrat.
+- Starting decks: each Path's 42-card starter has 8 Resource-synergy Commons of its own Path. Lists in `docs/design/starting_deck_and_affinity.md`.
+- E2E: `bash tools/run_prologue_smoke.sh` (human-style input, all checks pass). Screenshots in `_screenshots/storyv2/`.
