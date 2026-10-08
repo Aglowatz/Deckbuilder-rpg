@@ -148,7 +148,7 @@ func test_the_capital_is_changed_after_the_ending() -> void:
 	assert_ne(story.text("facade.citizen.2.approved"), "", "citizens have lines of their own")
 	assert_true(story.text("facade.citizen.2.approved").contains("bakery"), "and they are free")
 	var def: ZoneDef = ZoneDefs.get_def(CapitalZone.ID)
-	assert_eq(def.freed_npcs.size(), 4, "the freed leaders stand in the Crease")
+	assert_eq(def.freed_npcs.size(), 6, "the four freed leaders, Primm at work and his guard stand in the Crease")
 
 
 func test_a_free_capital_builds_and_the_facade_is_down() -> void:

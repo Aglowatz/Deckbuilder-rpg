@@ -200,6 +200,42 @@ func _fx(name: String) -> void:
 			_castle.texture = CardIcons.named("delapouite/castle-ruins")
 			(_castle.material as ShaderMaterial).set_shader_parameter("tint", Color("b8b0c8"))
 			Audio.sfx(&"hit_heavy", 0.0)
+		"throne":
+			_flash_screen(Color("ffe9a8"), 0.85)
+			(_castle.material as ShaderMaterial).set_shader_parameter("tint", Color(0.72, 0.69, 0.78, 0.2))
+			var seat: TextureRect = _icon("delapouite/imperial-crown", Color("f2c14e"), 300.0, Vector2(960, 540))
+			seat.modulate.a = 0.0
+			_extra.add_child(seat)
+			var glow: Tween = create_tween()
+			glow.tween_property(seat, "modulate:a", 1.0, 1.2)
+			for index: int in range(EndingDefs.PATH_ICONS.size()):
+				_burst(Vector2(660.0 + 200.0 * float(index), 560.0), Color(str(EndingDefs.PATH_ICONS[index]["color"])), 60)
+			Audio.sfx(&"victory", -4.0)
+		"primm_sees":
+			var mirror: TextureRect = _icon("delapouite/shinto-shrine-mirror", Color("cfc8d8"), 240.0, Vector2(960, 560))
+			mirror.modulate.a = 0.0
+			_extra.add_child(mirror)
+			var clear: Tween = create_tween()
+			clear.tween_property(mirror, "modulate:a", 1.0, 1.0)
+			clear.tween_property(mirror, "modulate:a", 0.0, 1.4)
+			Audio.sfx(&"heal", -4.0)
+		"stamp":
+			var mark: Label = UIKit.label("HEIR: ALIVE.\nFILE COMPLETE.", &"", 74, Color("d9402f"), HORIZONTAL_ALIGNMENT_CENTER)
+			mark.size = Vector2(900, 220)
+			mark.pivot_offset = mark.size * 0.5
+			mark.position = Vector2(960.0, 380.0) - mark.size * 0.5
+			mark.rotation_degrees = -9.0
+			mark.scale = Vector2(2.4, 2.4)
+			mark.modulate.a = 0.0
+			mark.z_index = 30
+			_extra.add_child(mark)
+			var slam: Tween = create_tween().set_parallel(true)
+			slam.tween_property(mark, "scale", Vector2.ONE, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+			slam.tween_property(mark, "modulate:a", 1.0, 0.18)
+			get_tree().create_timer(0.2, false).timeout.connect(func() -> void:
+				_shake(16.0, 0.4)
+				_burst(Vector2(960, 400), Color("d9402f"), 50))
+			Audio.sfx(&"hit_heavy", -2.0)
 		"facade":
 			_shake(10.0, 0.5)
 			var wall: TextureRect = _icon("delapouite/broken-wall", Color("e8e0d0"), 260.0, Vector2(560, 560))
@@ -263,6 +299,8 @@ func _apply_end_state(name: String) -> void:
 	match name:
 		"crumble":
 			_castle.texture = CardIcons.named("delapouite/castle-ruins")
+		"throne":
+			(_castle.material as ShaderMaterial).set_shader_parameter("tint", Color(0.72, 0.69, 0.78, 0.2))
 		"rifts":
 			for rift: TextureRect in _rifts:
 				rift.modulate.a = 0.0

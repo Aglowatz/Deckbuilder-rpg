@@ -43,7 +43,7 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"toppled_statue":
 			return toppled_statue()
 		"portrait":
-			return portrait(prop.variant, bool(ctx.get("final", false)))
+			return portrait(prop.variant, bool(ctx.get("final", false)), story)
 		"loudspeaker":
 			return loudspeaker(bool(ctx.get("final", false)))
 		"complaint_box":
@@ -300,8 +300,10 @@ static func portrait_texture(variant: int) -> Texture2D:
 	return texture
 
 
-static func portrait(variant: int, defaced_when_free: bool) -> Node3D:
+static func portrait(variant: int, defaced_when_free: bool, story: ZoneStoryText = null) -> Node3D:
 	var root: Node3D = Node3D.new()
+	if variant == 2 and story != null:
+		return lost_poster(story)
 	B.box(root, Vector3(1.5, 1.85, 0.14), M.shiny(M.GOLD, 0.3), Vector3(0, 2.2, 0))
 	var quad: MeshInstance3D = MeshInstance3D.new()
 	var mesh: QuadMesh = QuadMesh.new()
@@ -327,6 +329,23 @@ static func loudspeaker(silent: bool) -> Node3D:
 		var horn: MeshInstance3D = B.cylinder(root, 0.42, 0.1, 0.7, M.shiny(Color(0.85, 0.85, 0.9), 0.3), Vector3(side * 0.42, 3.1, 0.2), 12)
 		horn.rotation_degrees = Vector3(70.0, 0.0, -side * 90.0)
 	B.ball(root, 0.07, M.glow(Color(1.0, 0.2, 0.2) if not silent else Color(0.3, 0.3, 0.3), 2.5), Vector3(0, 3.5, 0))
+	return root
+
+
+## A lost-property notice for the "escaped Royal Asset" (Story v2): a pinned sheet that reads like a notice about a missing umbrella. Defacing it crosses out "Asset".
+static func lost_poster(story: ZoneStoryText) -> Node3D:
+	var root: Node3D = Node3D.new()
+	for side: float in [-1.0, 1.0]:
+		B.cylinder(root, 0.04, 0.04, 1.4, M.flat(M.STONE_DARK), Vector3(side * 0.55, 0.7, -0.05), 6)
+	B.box(root, Vector3(1.7, 2.1, 0.06), M.flat(Color(0.93, 0.9, 0.8)), Vector3(0, 1.9, 0))
+	var key: String = "prop.lost_poster.known" if Session.flag(MemoryDefs.FLAG_REVEALED) else "prop.lost_poster"
+	var lines: Array[String] = story.get_lines(key)
+	_text(root, lines[0], Vector3(0, 2.62, 0.05), 0.0038, Color(0.35, 0.1, 0.1), 1.5)
+	if lines.size() > 1:
+		_text(root, lines[1], Vector3(0, 1.95, 0.05), 0.0027, Color(0.15, 0.15, 0.2), 1.5)
+	var crossed: Node3D = _state_group(root, "Defaced", false)
+	B.box(crossed, Vector3(1.6, 0.06, 0.02), M.flat(Color(0.75, 0.1, 0.1)), Vector3(0, 1.9, 0.06), Vector3(0, 0, 32))
+	B.box(crossed, Vector3(1.6, 0.06, 0.02), M.flat(Color(0.75, 0.1, 0.1)), Vector3(0, 1.9, 0.06), Vector3(0, 0, -32))
 	return root
 
 

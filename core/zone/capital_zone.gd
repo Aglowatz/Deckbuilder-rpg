@@ -77,7 +77,7 @@ const CHEST_REWARDS: Dictionary = {
 
 ## Propaganda that can be defaced (spot ids) and the small reward for each.
 const DEFACE_REWARD: int = 12
-const DEFACE_SPOTS: Array[String] = ["portrait_f1", "portrait_f2", "portrait_f3", "portrait_a1", "portrait_a2", "portrait_a3"]
+const DEFACE_SPOTS: Array[String] = ["portrait_f1", "portrait_f2", "portrait_f3", "portrait_a1", "portrait_a2", "portrait_a3", "poster_f1", "poster_f2", "poster_a1"]
 
 ## The black market's items (id -> price).
 const BLACK_MARKET_ITEMS: Dictionary = {
@@ -134,6 +134,8 @@ static func build_def() -> ZoneDef:
 		{"id": "grandchef", "npc_id": "NPC-ESCOFFINA", "model": "Rogue", "offset": Vector3(-2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(1.2, 1.1, 0.8), "scale": 1.5, "name": "The Grand Chef", "speaker": "The Grand Chef"},
 		{"id": "agnes", "npc_id": "NPC-AGNES", "model": "Mage", "offset": Vector3(2.0, 0.0, -3.5), "yaw": 180.0, "tint": Color(0.85, 0.75, 1.2), "scale": 1.5, "name": "Agnes Overdue", "speaker": "Agnes Overdue"},
 		{"id": "compostella", "npc_id": "NPC-COMPOSTELLA", "model": "Mage", "offset": Vector3(6.0, 0.0, -3.0), "yaw": 180.0, "tint": Color(0.7, 1.1, 0.7), "scale": 1.6, "name": "Archdruid Compostella", "speaker": "Archdruid Compostella"},
+		{"id": "primm", "npc_id": "NPC-PRIMM", "model": "Knight", "offset": Vector3(10.5, 0.0, -3.4), "yaw": 180.0, "tint": Color(0.72, 0.72, 0.8), "scale": 1.45, "name": "Primm, at work", "speaker": "Primm"},
+		{"id": "primm_guard", "model": "Knight", "offset": Vector3(8.8, 0.0, -2.4), "yaw": 150.0, "tint": Color(0.85, 0.85, 0.95), "scale": 1.5, "name": "Primm's Guard", "speaker": "Guard"},
 	] as Array[Dictionary]
 	def.npcs = [
 		{"id": "wren", "npc_id": "NPC-WREN", "model": "Mage", "anchor": "wren", "yaw": 0.0, "tint": Color(0.85, 0.85, 1.1), "scale": 1.5},
@@ -193,7 +195,10 @@ static func _spots() -> Array[Dictionary]:
 	for index: int in range(1, 4):
 		spots.append(_spot("speaker_%d" % index, "A Cheerful Loudspeaker", "speaker_%d" % index, Vector3(0, 0, 0.8), 1.4, "Listen", "zone", {"act": "speaker", "n": index}))
 	for portrait: String in DEFACE_SPOTS:
-		spots.append(_spot(portrait, "A Portrait of His Perfection", portrait, Vector3(0, 0, 0.9), 1.4, "Deface the portrait", "zone", {"act": "deface"}))
+		if portrait.begins_with("poster_"):
+			spots.append(_spot(portrait, "A Lost-Property Poster", portrait, Vector3(0, 0, 0.9), 1.4, "Correct the poster", "zone", {"act": "deface"}))
+		else:
+			spots.append(_spot(portrait, "A Portrait of His Perfection", portrait, Vector3(0, 0, 0.9), 1.4, "Deface the portrait", "zone", {"act": "deface"}))
 	# The four districts: quest givers, quest objects.
 	spots.append(_spot("fern", "Old Fern, Banished Composter", "fern", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "fern", "npc_id": "NPC-FERN", "npc_name": NPC_FERN, "speaker": "Old Fern"}))
 	spots.append(_spot("pell", "Widow Pell", "pell", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "pell", "npc_id": "NPC-PELL", "npc_name": NPC_PELL, "speaker": "Widow Pell"}))

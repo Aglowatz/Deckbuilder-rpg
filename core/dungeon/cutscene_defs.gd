@@ -17,6 +17,8 @@ const SCENES: Dictionary = {
 	"vacancy": {"zone": "necrocrat", "beats": [[1, ""], [2, ""], [3, ""], [4, "crown"], [5, ""], [6, ""]]},
 	# Brief 10: Primm, before the fight, between its phases and after it (text in the Capital's story file).
 	"primm_intro": {"zone": "final", "beats": [[1, ""], [2, "crown"], [3, ""], [4, ""], [5, "shake"], [6, ""]]},
+	# Story v2: played before the fight when the Wanderer has not freed all four zones: Primm tells him who he is.
+	"primm_reveal": {"zone": "final", "beats": [[1, ""], [2, ""], [3, "shake"], [4, ""], [5, "crown"]]},
 	"primm_p1": {"zone": "final", "beats": [[1, "crack"], [2, ""], [3, ""], [4, "shake"]]},
 	"primm_p2": {"zone": "final", "beats": [[1, "mirror"], [2, ""], [3, ""], [4, "unravel"], [5, ""]]},
 	"primm_end": {"zone": "final", "beats": [[1, "crack"], [2, "crown_off"], [3, ""], [4, ""], [5, "shrink"], [6, ""], [7, ""], [8, "dove"]]},

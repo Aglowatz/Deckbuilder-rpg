@@ -45,6 +45,11 @@ const STAGES: Dictionary = {
 		"left": {"icon": "cathelineau/old-king", "color": Color("f2d070"), "scale": 1.1},
 		"right": {"icon": "lorc/pointy-hat", "color": Color("d9b86a"), "scale": 0.8},
 	},
+	"primm_reveal": {
+		"tint": Color(0.16, 0.1, 0.12),
+		"left": {"icon": "cathelineau/old-king", "color": Color("f2d070"), "scale": 1.1},
+		"right": {"icon": "lorc/pointy-hat", "color": Color("d9b86a"), "scale": 0.8},
+	},
 	"primm_p1": {
 		"tint": Color(0.14, 0.12, 0.12),
 		"left": {"icon": "cathelineau/old-king", "color": Color("f2d070"), "scale": 1.1},

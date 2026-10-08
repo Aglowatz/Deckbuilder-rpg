@@ -36,7 +36,8 @@ static func deface(spot_id: String) -> Dictionary:
 	Session.discover_secret(secret)
 	Session.add_gold(CapitalZone.DEFACE_REWARD)
 	Session.bump_counter(CapitalZone.COUNTER_DEFACED)
-	return {"ok": true, "key": "fx.deface", "gold": CapitalZone.DEFACE_REWARD}
+	var done_key: String = "fx.deface_poster" if spot_id.begins_with("poster_") else "fx.deface"
+	return {"ok": true, "key": done_key, "gold": CapitalZone.DEFACE_REWARD}
 
 
 # ---- The complaint box -------------------------------------------------------------------------------------------

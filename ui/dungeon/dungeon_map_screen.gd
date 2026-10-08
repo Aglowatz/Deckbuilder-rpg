@@ -419,10 +419,21 @@ func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 	var skip_flex: bool = node.scene == "flex" and _main_def != null and not HouseOfGainsDungeon.rescued(Session.run)
 	if not node.scene.is_empty() and CutsceneDefs.has_scene(node.scene) and not skip_flex:
 		steps.append(_show_cutscene.bind(node.scene))
+	# Rushing the castle: with fewer than four zones freed the Wanderer does not know who he is, so Primm tells him.
+	if _main_def != null and node.kind == DungeonMap.Kind.BOSS and _main_def.zone_id == CapitalZone.ID and Session.completed_zone_count() < ZoneCompletion.TOTAL_ZONES and not Session.flag(MemoryDefs.FLAG_REVEALED):
+		steps.append(_show_reveal)
 	if _main_def != null and node.kind == DungeonMap.Kind.BOSS and _main_def.zone_id == CapitalZone.ID:
 		steps.append(_show_leaders)
 	_run_steps(steps, then)
 
+
+## Primm tells the Wanderer who he is (`primm_reveal`), and the flag is set so the name, Maren and the posters all change.
+func _show_reveal(done: Callable) -> void:
+	var scene: CutsceneScreen = CutsceneScreen.make("primm_reveal")
+	add_child(scene)
+	scene.finished.connect(func() -> void:
+		Session.set_flag(MemoryDefs.FLAG_REVEALED)
+		done.call(), CONNECT_ONE_SHOT)
 
 ## The freed leaders join you before the final fight (each lends a boon: `PrimmBoss.leader_boon`).
 func _show_leaders(done: Callable) -> void:

@@ -261,7 +261,7 @@
 				"19": {"gold": 110, "xp": 60, "item": "vitality_charm"},
 				"21": {"gold": 120, "xp": 60, "card": "C-30"}
 			},
-			"story_keys": {"1": "pc_gate", "8": "pc_archive_gate", "10": "pc_boss"},
+			"story_keys": {"1": "pc_gate", "8": "pc_archive_gate", "10": "pc_boss", "16": "pc_ward", "19": "pc_gallery"},
 			"sections": {"12": "the Gourmand Wing", "13": "the Beefcake Wing", "14": "the Necrocrat Wing", "15": "the Refusemancer Wing", "20": "the Clocktower"},
 			"scenes": {"10": {"before": "primm_intro", "after": "primm_end"}}
 		},

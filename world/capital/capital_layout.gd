@@ -269,6 +269,8 @@ func _anchors() -> void:
 	_anchor("portrait_f1", 54.5, 42.0)
 	_anchor("portrait_f2", 62.5, 33.0)
 	_anchor("portrait_f3", 60.0, 18.0)
+	_anchor("poster_f1", 51.5, 42.0)
+	_anchor("poster_f2", 65.5, 33.0)
 	_anchor("speaker_1", 56.0, 36.0)
 	_anchor("speaker_2", 64.0, 26.0)
 	_anchor("speaker_3", 59.0, 43.0)
@@ -312,6 +314,7 @@ func _anchors() -> void:
 	_anchor("portrait_a1", 45.0, 8.0)
 	_anchor("portrait_a2", 75.0, 8.0)
 	_anchor("portrait_a3", 52.0, 12.0)
+	_anchor("poster_a1", 42.0, 8.0)
 	_anchor("approach_sign", 66.0, 12.0)
 	_anchor("ward_window", 101.0, 11.0)
 	_anchor("ward_patient", 110.0, 7.0)
@@ -528,6 +531,9 @@ func _facade() -> void:
 	for portrait: String in ["portrait_f1", "portrait_f2", "portrait_f3"]:
 		var anchor_pos: Vector3 = anchors[portrait] as Vector3
 		_prop("portrait", anchor_pos.x, anchor_pos.z, 0.0, 1.0, 0.45, 0)
+	for poster: String in ["poster_f1", "poster_f2"]:
+		var poster_pos: Vector3 = anchors[poster] as Vector3
+		_prop("portrait", poster_pos.x, poster_pos.z, 0.0, 1.0, 0.45, 2)
 	for speaker: String in ["speaker_1", "speaker_2", "speaker_3"]:
 		var speaker_pos: Vector3 = anchors[speaker] as Vector3
 		_prop("loudspeaker", speaker_pos.x, speaker_pos.z, 0.0, 1.0, 0.3)
@@ -662,6 +668,8 @@ func _approach() -> void:
 	for portrait: String in ["portrait_a1", "portrait_a2", "portrait_a3"]:
 		var pos: Vector3 = anchors[portrait] as Vector3
 		_prop("portrait", pos.x, pos.z, 0.0, 1.0, 0.45, 1)
+	var poster_a: Vector3 = anchors["poster_a1"] as Vector3
+	_prop("portrait", poster_a.x, poster_a.z, 0.0, 1.0, 0.45, 2)
 	for lamp_x: float in [48.0, 56.0, 64.0, 72.0]:
 		_prop("lamp_perfect", lamp_x, 12.0, 0.0, 1.0, 0.25)
 	_prop("manhole", 60.0, 10.0, 0.0, 1.0, 0.0)

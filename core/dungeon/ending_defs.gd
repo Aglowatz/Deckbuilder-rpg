@@ -5,13 +5,16 @@ extends RefCounted
 ## kingdom strong). Then placeholder credits, the postgame announcement and a return to the (changed) Capital. All text is in the Capital's
 ## story file under `ending.*`; `fx` names a visual the `EndingScreen` plays on that beat.
 
-## [{key, fx}] in order. The text of beat N is the story key `ending.beat.N` and its heading `ending.beat.N.title`.
+## [{n, fx}] in order (the numbers are story keys, not positions: beats 8-10 were added by Story v2). The text of beat N is the story key `ending.beat.N` and its heading `ending.beat.N.title`.
 const BEATS: Array[Dictionary] = [
 	{"n": 1, "fx": "crumble"},
+	{"n": 8, "fx": "throne"},
 	{"n": 2, "fx": "facade"},
 	{"n": 3, "fx": "rifts"},
+	{"n": 9, "fx": "primm_sees"},
 	{"n": 4, "fx": "wrinkles"},
 	{"n": 5, "fx": "reunion"},
+	{"n": 10, "fx": "stamp"},
 	{"n": 6, "fx": "unite"},
 	{"n": 7, "fx": "dove"},
 ]

@@ -1,7 +1,7 @@
 class_name RoyalFamily
 extends RefCounted
 ## Access to the royal family, rescuer and place names (`data/story/royal_family.tres`) and their token substitution.
-## Tokens: {prince} {prince_full} {royal_house} {king} {queen} {rescuer} {kingdom} {town} {capital} {showcase} {wanderer}.
+## Tokens: {prince} {prince_full} {royal_house} {king} {queen} {rescuer} {kingdom} {town} {capital} {showcase} {wanderer} {pathordia}.
 ## `{wanderer}` is how people address the player: "Wanderer" until the prince's identity is revealed, then the prince's name (`set_identity_revealed`).
 ## `{capital}` reads "Primm's Perfection" until Primm falls and "Pathordia" afterwards (`set_capital_liberated`).
 
@@ -55,4 +55,4 @@ static func fill(text: String) -> String:
 	return text.replace("{prince_full}", d.prince_full_name).replace("{prince}", d.prince_name) \
 		.replace("{royal_house}", d.royal_house).replace("{king}", d.king_name).replace("{queen}", d.queen_name) \
 		.replace("{rescuer}", d.rescuer_name).replace("{kingdom}", d.kingdom).replace("{town}", d.town) \
-		.replace("{capital}", capital_name()).replace("{showcase}", d.showcase).replace("{wanderer}", wanderer_name())
+		.replace("{capital}", capital_name()).replace("{showcase}", d.showcase).replace("{wanderer}", wanderer_name()).replace("{pathordia}", d.capital_liberated)

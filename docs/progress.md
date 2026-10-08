@@ -2847,3 +2847,10 @@ Progress checklist: `docs/overnight_progress.md`. Judgment calls: `docs/design/o
 - D.N.A.: Mortimer boss / Vellum Appeals Court elite (data from Part A), Agnes at several nodes, the Records Labyrinth transfer document with the heir clause, the vacancy cutscene, and the freed state (Prudence deputy, Gerald's number called, Mortimer behind Gerald).
 - Verdant Dump: the grief-seed backstory, the "let it rot" cure and Compostella's closing lines.
 - Tests in `tests/core/dungeon/test_zone_stories_v2.gd`. GUT: 1225 passing.
+
+### Part G - The Capital, the Castle and the finale
+- Capital: "escaped Royal Asset" lost-property posters (three, defaceable), Wren names Maren as the contact in Crosspath, Hesper and the rift sign explain Primm's failing hold, the capital name switches to Pathordia (token wiring fixed).
+- Castle: Primm's Private Gallery (the painted-over royal portrait, only the boy left), the Correction Ward records (the Subject, with Maren's early notes), journals as before.
+- Final fight: `primm_reveal` ("I kept your face") when fewer than four zones are freed, the Reflection line, the zone lessons in the fight scenes, leader boons for Flex / the Grand Chef / Agnes / Compostella.
+- Ending: the Pathwork Throne beat, Primm sees the damage, the HEIR: ALIVE. FILE COMPLETE. stamp and Maren calling him Tessar; Pathordia; Primm works under guard on infrastructure.
+- Tests in `tests/core/dungeon/test_finale_v2.gd`. GUT: 1232 passing. Screenshots in `_screenshots/storyv2/`.
