@@ -1,6 +1,6 @@
 class_name ArenaBuilding
 extends RefCounted
-## The Grand Clashatorium (Part G): a big colosseum in Concord Crossing, built from simple primitives (a ring of two
+## The Grand Clashatorium (Part G): a big colosseum in Crosspath, built from simple primitives (a ring of two
 ## tiers of arches, a sand floor with tiered seats inside, banners on the rim) with its main gate facing north (-z),
 ## where the interaction spot and the dressing (chains / torches, see `TownDressing.arena_gate`) go.
 

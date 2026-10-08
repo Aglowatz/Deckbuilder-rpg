@@ -11,7 +11,7 @@ var save_enabled: bool = true
 var save_path: String = SaveSystem.PATH
 ## Brief 16: seconds played (saved with the campaign, shown in the save slot list), the last place the hero was saved in and when the autosave thumbnail was last taken.
 var playtime_seconds: float = 0.0
-var last_location: String = "Concord Crossing"
+var last_location: String = "Crosspath"
 var _last_autosave_thumb_msec: int = -100000
 ## Which slot the game was last loaded from or saved to (0 = the autosave).
 var active_slot: int = 0
@@ -919,14 +919,14 @@ func slot_meta(save_name: String = "") -> Dictionary:
 	}
 
 
-## The place the hero is in, for the slot list ("Concord Crossing", "The Gainlands"...).
+## The place the hero is in, for the slot list ("Crosspath", "The Gainlands"...).
 func location_name() -> String:
 	var tree: SceneTree = get_tree()
 	var scene: Node = tree.current_scene if tree != null else null
 	if scene is ZoneScene and (scene as ZoneScene).def != null:
 		return (scene as ZoneScene).def.display_name
 	if scene is TownScene:
-		return "Concord Crossing"
+		return "Crosspath"
 	if scene is StartingAreaScene:
 		return "The Hollow's Edge"
 	return last_location
@@ -1040,7 +1040,7 @@ func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: i
 # ---- Dungeon flow -----------------------------------------------------------------------
 
 
-## Enters the Trial of the Hollow with the current deck (the player is fully healed). Used to
+## Enters the Forgotten Cave with the current deck (the player is fully healed). Used to
 ## replay it from town once it has already been cleared; the very first run is
 ## `begin_intro_trial(color)` instead.
 func begin_trial() -> void:
@@ -1049,7 +1049,7 @@ func begin_trial() -> void:
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
 
 
-## Enters the Trial of the Hollow for the very first time, from the starting area, right after
+## Enters the Forgotten Cave for the very first time, from the starting area, right after
 ## the player has chosen their element (`ElementChoiceScreen`, Part C): a fresh profile owning
 ## only the 23 neutral starter spells, and a 42-card starter deck (those spells plus 19 basic
 ## infrastructure of `color`) - short of the normal 45-card minimum until the 3 tutorial reward picks fill
@@ -1804,11 +1804,11 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	return context
 
 
-## The battleboard key of an overworld duel: the zone's board, or in the Capital the one outside the walls (the Gate Captain's exam, or before the
+## The battleboard key of an overworld duel: the zone's board, or in the Capital the one outside the walls (Captain Spotless's exam, or before the
 ## hero has gone through the gate) and the one inside.
 func _zone_board_key(zone_id: String, enemy_type: String) -> String:
 	if zone_id == CapitalZone.ID:
-		return "capital:in" if flag(CapitalZone.FLAG_INSIDE) and enemy_type != CapitalEnemies.GATE_CAPTAIN else "capital:out"
+		return "capital:in" if flag(CapitalZone.FLAG_INSIDE) and enemy_type != CapitalEnemies.SPOTLESS else "capital:out"
 	return "zone:%s" % zone_id
 
 
@@ -1832,9 +1832,9 @@ func _add_capital_enemy_rules(enemy: PlayerSetup, empowered: bool) -> void:
 		enemy.starting_hp += CapitalRifts.EMPOWER_HP
 
 
-## The Gate Captain's entry examination: the CHALLENGING card battle that opens the Capital's gate.
+## Captain Spotless's entry examination: the CHALLENGING card battle that opens the Capital's gate.
 func start_gate_battle() -> void:
-	start_zone_battle(CapitalEnemies.GATE_CAPTAIN, CapitalEnemies.GATE_CAPTAIN)
+	start_zone_battle(CapitalEnemies.SPOTLESS, CapitalEnemies.SPOTLESS)
 
 
 ## After a zone duel: HP carries over (no post-battle heal). A win removes that enemy for the rest
@@ -1859,7 +1859,7 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 		bump_counter("zone_enemies_defeated")
 		if zone_def().counter_enemies != "zone_enemies_defeated":
 			bump_counter(zone_def().counter_enemies)
-		if zone_def().id == CapitalZone.ID and context.zone_enemy_type == CapitalEnemies.GATE_CAPTAIN:
+		if zone_def().id == CapitalZone.ID and context.zone_enemy_type == CapitalEnemies.SPOTLESS:
 			set_flag(CapitalZone.FLAG_GATE_OPEN)
 			set_flag(CapitalZone.FLAG_INSIDE)
 			result["gate_opened"] = true
@@ -1879,7 +1879,7 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 var mini_active: bool = false
 ## True while inside a zone's main (final) dungeon (the Test Kitchen, the House of Gains, ...). Part E.
 var main_dungeon_active: bool = false
-## The dungeon being run, as a `MainDungeons` key: the zone id of a final dungeon ("beefcake"), the dungeon ID of a side dungeon ("S-BEEF"). "" in the Trial of the Hollow.
+## The dungeon being run, as a `MainDungeons` key: the zone id of a final dungeon ("beefcake"), the dungeon ID of a side dungeon ("S-BEEF"). "" in the Forgotten Cave.
 var dungeon_key: String = ""
 ## True while the town's side dungeon (the Forgotten Vault) is running: no zone visit, full HP, and the party is carried back to the town.
 var town_side_active: bool = false

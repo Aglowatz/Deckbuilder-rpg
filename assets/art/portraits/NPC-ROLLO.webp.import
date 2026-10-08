@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tfnds5kaqgww"
-path="res://.godot/imported/NPC-GUS.webp-e217dffea9840c928fcc4a0c79ca34f0.ctex"
+uid="uid://hgvgjr6c4h58"
+path="res://.godot/imported/NPC-ROLLO.webp-70d6f1c88d9514986a07e86c8759c81f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/portraits/NPC-GUS.webp"
-dest_files=["res://.godot/imported/NPC-GUS.webp-e217dffea9840c928fcc4a0c79ca34f0.ctex"]
+source_file="res://assets/art/portraits/NPC-ROLLO.webp"
+dest_files=["res://.godot/imported/NPC-ROLLO.webp-70d6f1c88d9514986a07e86c8759c81f.ctex"]
 
 [params]
 

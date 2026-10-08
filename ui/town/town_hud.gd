@@ -116,7 +116,7 @@ func add_panel(panel: Control) -> void:
 	_left_column.move_child(panel, 1)
 
 
-## The town's name and how many zones are free ("Concord Crossing - 1 of 4 zones free").
+## The town's name and how many zones are free ("Crosspath - 1 of 4 zones free").
 func set_location(town_name: String, progress: String) -> void:
 	_location.text = town_name
 	_location.get_parent().get_parent().visible = town_name != "" or progress != ""

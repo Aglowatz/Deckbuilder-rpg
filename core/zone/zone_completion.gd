@@ -7,7 +7,7 @@ extends RefCounted
 
 ## The Arena (The Grand Clashatorium) opens after this many zones are completed.
 const ARENA_UNLOCK_COUNT: int = 1
-## The Alchemist (Crucible & Co.) opens after this many zones are completed.
+## The Alchemist (Auntie Alembic's) opens after this many zones are completed.
 const ALCHEMIST_UNLOCK_COUNT: int = 2
 const TOTAL_ZONES: int = 4
 

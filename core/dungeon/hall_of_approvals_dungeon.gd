@@ -1,7 +1,7 @@
 class_name HallOfApprovalsDungeon
 extends RefCounted
 ## THE HALL OF FINAL APPROVALS (D-HFA, Necrocrats): the ultimate bureaucratic nightmare, a government complex where every aspect of death and
-## resurrection requires authorization. Boss: Undersecretary Vellum, Acting Director of Final Approvals. 14 nodes, three routes that split and rejoin.
+## resurrection requires authorization. Boss: Mortimer Grimsby, CE-No (Undersecretary Vellum is the elite at the Appeals Court). 14 nodes, three routes that split and rejoin.
 ## The map, nodes, foes, events and rewards come from `data/source/dungeon_list.csv.csv` through `DungeonBuilder`. Text: data/story/dna_story.tres
 ## and the content file.
 

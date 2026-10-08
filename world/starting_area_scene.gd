@@ -1,7 +1,7 @@
 class_name StartingAreaScene
 extends Node3D
 ## Where a new campaign begins: the hero wakes up alone in a small forest clearing, talks to
-## themselves, and the only way forward is the cave mouth into the Trial of the Hollow. Entering
+## themselves, and the only way forward is the cave mouth into the Forgotten Cave. Entering
 ## it for the first time asks which element (`ElementChoiceScreen`, Part C) before the dungeon
 ## actually starts. No town access from here - see docs/design/starting_deck_and_affinity.md.
 

@@ -150,7 +150,7 @@ func _prompt_for(spot: ZoneSpot) -> String:
 		"dispenser":
 			if Session.flag(CapitalZone.FLAG_PASTE_SPOILED):
 				return "The paste is spoiled"
-		"gate_captain":
+		"spotless":
 			if Session.flag(CapitalZone.FLAG_GATE_OPEN):
 				return "Talk"
 	return spot.prompt
@@ -269,8 +269,8 @@ func _travel_to(target: Vector3, message_key: String = "") -> void:
 func _interact_zone(spot: ZoneSpot) -> void:
 	var act: String = str(spot.data.get("act", ""))
 	match act:
-		"mabbit":
-			_talk_mabbit()
+		"wren":
+			_talk_wren()
 		"supplies":
 			_open_supplies()
 		"ladder":
@@ -279,8 +279,8 @@ func _interact_zone(spot: ZoneSpot) -> void:
 			_travel_to(builder.anchor("tunnel_in") + Vector3(0, 0, 2.2), "fx.tunnel_out")
 		"shaft":
 			_use_shaft(spot)
-		"gate_captain":
-			_talk_gate_captain()
+		"spotless":
+			_talk_spotless()
 		"guard":
 			var npc_id: String = str(spot.data["npc"])
 			_face_npc(npc_id)
@@ -309,7 +309,7 @@ func _interact_zone(spot: ZoneSpot) -> void:
 		"plot":
 			var plot: Dictionary = CapitalInteractables.lay_to_rest()
 			if bool(plot["ok"]):
-				capital.set_prop_state("family_plot", builder.anchor("marrow_plot"), true)
+				capital.set_prop_state("family_plot", builder.anchor("pell_plot"), true)
 			_report(plot)
 		"patch":
 			var patch: Dictionary = CapitalInteractables.plant_seed()
@@ -370,12 +370,12 @@ func _after_self_damage() -> void:
 		_faint("a stern reply from the Complaints Department")
 
 
-func _talk_mabbit() -> void:
-	_face_npc("mabbit")
-	var lines: Array[String] = _greeting("mabbit")
+func _talk_wren() -> void:
+	_face_npc("wren")
+	var lines: Array[String] = _greeting("wren")
 	var insights: int = CapitalInteractables.insight_count(Session.flags)
 	if insights > 0:
-		lines.append_array(story.get_lines("npc.mabbit.insight.%d" % insights))
+		lines.append_array(story.get_lines("npc.wren.insight.%d" % insights))
 	_say("Wren", lines)
 
 
@@ -398,12 +398,12 @@ func _use_shaft(spot: ZoneSpot) -> void:
 	_travel_to(builder.anchor("net_" + dest) + Vector3(0, 0, 1.0), "fx.shaft")
 
 
-func _talk_gate_captain() -> void:
-	_face_npc("gate_captain")
+func _talk_spotless() -> void:
+	_face_npc("spotless")
 	if Session.flag(CapitalZone.FLAG_GATE_OPEN) or Session.flag(CapitalZone.FLAG_FREED):
-		_say("Captain Spotless", story.get_lines("npc.gate_captain.open"))
+		_say("Captain Spotless", story.get_lines("npc.spotless.open"))
 		return
-	_say("Captain Spotless", _greeting("gate_captain"), _ask_gate_battle)
+	_say("Captain Spotless", _greeting("spotless"), _ask_gate_battle)
 
 
 func _ask_gate_battle() -> void:
@@ -538,7 +538,7 @@ func _apply_pending_result() -> void:
 		_say("", story.get_lines("fx.old_tunnels_way_in"), func() -> void: _travel_to(builder.anchor("crease_spawn")))
 		return
 	if bool(result.get("gate_opened", false)) and not bool(result.get("woke_at_hub", false)):
-		_say("Captain Spotless", story.get_lines("npc.gate_captain.defeated"))
+		_say("Captain Spotless", story.get_lines("npc.spotless.defeated"))
 	super()
 
 
@@ -625,6 +625,6 @@ func _cross_gate(now_inside: bool) -> void:
 		style_rig.set_preset(id)
 		Audio.play_music(&"capital_inside" if now_inside else &"capital_wasteland", 0.8)
 		Audio.sfx(&"heal" if now_inside else &"door")
-		hud.toast("Welcome to Neatropolis. Everything is perfectly fine." if now_inside else "Back out into the wastes.", UIStyle.GOLD))
+		hud.toast("Welcome to Primm's Perfection. Everything is perfectly fine." if now_inside else "Back out into the wastes.", UIStyle.GOLD))
 	tween.tween_property(veil, "color:a", 0.0, 0.9)
 	tween.tween_callback(veil.queue_free)

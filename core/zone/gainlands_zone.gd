@@ -82,7 +82,7 @@ static func build_def() -> ZoneDef:
 	def.puzzle_equipment_id = "swole_belt"
 	def.minigame_kind = "reps"
 	def.quest_npc_names = [NPC_BRENDA, NPC_GUS, NPC_TONY]
-	def.ruler_name = "Commander Gristle"
+	def.ruler_name = "Chancellor Clench"
 	def.ruler_tint = Color("8a1f1f")
 	def.gloom_tint = Color(0.5, 0.52, 0.58)
 	def.freed_npcs = [

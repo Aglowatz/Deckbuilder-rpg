@@ -56,9 +56,9 @@ the files that match no ID.
   Battleboard ID. `data/source/battleboard_import_manifest.csv` records each file's MD5 so a changed Drive file is replaced on the next run.
 - **Mapping (data, not code):** `data/battleboards.json` maps a battle **context key** to a Battleboard ID; edit it to reassign boards.
   Keys: `town` (corrupted path NPCs), `graveyard`, `arena`, `zone:<zone id>` (overworld battles of beefcake = Gainlands, necrocrat = D.N.A.,
-  gourmand = Endless Buffet, refusemancer = Verdant Dump), `capital:out` / `capital:in` (outside / inside the walls; the Gate Captain's exam is
+  gourmand = Endless Buffet, refusemancer = Verdant Dump), `capital:out` / `capital:in` (outside / inside the walls; the Captain Spotless's exam is
   outside), `dungeon:<zone id>` (the zone's main dungeon: House of Gains, Hall of Final Approvals, Test Kitchen, Rotheart, `final` = Primm's
-  Castle; `dungeon:hollow` = the Trial of the Hollow, which includes practice duels), `mini:<zone id>` (the zone's side dungeon) and
+  Castle; `dungeon:hollow` = the Forgotten Cave, which includes practice duels), `mini:<zone id>` (the zone's side dungeon) and
   `boss:final` (the Primm boss duel). The key is set on `BattleContext.board_key` by the `Session.make_*_battle` factories.
 - **Fallback:** an unmapped key or a missing image shows a neutral dark-slate placeholder board (`Battleboards.texture_for`).
 - **Readability:** the art keeps its centre calm; `BattleScreen._build_scene` adds only a 20% dark wash and the vignette. The HUD panels, the

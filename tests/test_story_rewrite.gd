@@ -26,14 +26,14 @@ func test_the_verdant_heap_is_now_the_verdant_dump_in_every_story_file() -> void
 
 func test_every_zone_text_mentions_its_oppression_and_the_ruler() -> void:
 	var gain: ZoneStoryText = ZoneStoryText.for_zone("beefcake")
-	assert_true(gain.text("sign.regime_rules").contains("GRISTLE"))
+	assert_true(gain.text("sign.regime_rules").contains("CLENCH"))
 	assert_true(gain.text("npc.brenda.intro").contains("Grandmaster Flex"))
 	var buffet: ZoneStoryText = ZoneStoryText.for_zone("gourmand")
 	assert_true(buffet.text("npc.odalys.intro").contains("Special Sauce"))
 	var dna: ZoneStoryText = ZoneStoryText.for_zone("necrocrat")
 	assert_true(dna.text("npc.dolores.intro").contains("the authorization is valid"))
 	var dump: ZoneStoryText = ZoneStoryText.for_zone("refusemancer")
-	assert_true(dump.text("npc.marigold.intro").contains("Fernwick Loam"))
+	assert_true(dump.text("npc.marigold.intro").contains("Compostella"))
 
 
 func test_corrupted_envoys_fit_each_factions_situation() -> void:
@@ -46,9 +46,9 @@ func test_corrupted_envoys_fit_each_factions_situation() -> void:
 
 func test_the_town_has_a_name_and_a_story_intro() -> void:
 	var story: StoryText = StoryText.shared()
-	assert_eq(story.text("town.name"), "Concord Crossing")
+	assert_eq(story.text("town.name"), "Crosspath")
 	assert_true(story.text("town.elder.first").contains("Primm"))
-	assert_true(story.text("town.elder.first").contains("Concordia"))
+	assert_true(story.text("town.elder.first").contains("Pathavia"))
 	for key: String in ["town.guard", "town.vendor.first", "town.alchemist.locked", "town.arena.locked"]:
 		assert_true(story.has_text(key), key)
 

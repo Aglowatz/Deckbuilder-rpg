@@ -1,5 +1,5 @@
 {
-	"_about": "Battle context key -> Battleboard ID (docs/art/art_pipeline.md). Edit freely; a key with no entry, or an ID with no image, shows the neutral placeholder board. Keys: town, graveyard, arena, zone:<zone id>, capital:out, capital:in, dungeon:<zone id> (the zone's main dungeon; dungeon:hollow is the Trial of the Hollow), mini:<zone id> (the zone's side dungeon), boss:final.",
+	"_about": "Battle context key -> Battleboard ID (docs/art/art_pipeline.md). Edit freely; a key with no entry, or an ID with no image, shows the neutral placeholder board. Keys: town, graveyard, arena, zone:<zone id>, capital:out, capital:in, dungeon:<zone id> (the zone's main dungeon; dungeon:hollow is the Forgotten Cave), mini:<zone id> (the zone's side dungeon), boss:final.",
 	"contexts": {
 		"dungeon:hollow": "BB-TUT",
 		"town": "BB-TOWN",

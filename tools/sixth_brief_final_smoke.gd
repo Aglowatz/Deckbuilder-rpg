@@ -9,7 +9,7 @@ extends Node
 ##   Godot --path . res://tools/sixth_brief_final_launcher.tscn
 ## (the D.N.A. regression is `tools/run_fifth_brief_final_smoke.sh`, run first by the runner script).
 ## Deliberate shortcuts (stated, like the earlier smokes): the Beefcake gate flag is set directly
-## (beating Torvin is covered by the corrupted-NPC smoke); long walks fall back to a short teleport when
+## (beating Brick Bronson is covered by the corrupted-NPC smoke); long walks fall back to a short teleport when
 ## the crude no-pathfinding mover gets stuck behind a prop; the player is placed near an enemy so it
 ## notices them quickly; the minigame presses are timed from the screen's own clock (a player watches
 ## the rings).

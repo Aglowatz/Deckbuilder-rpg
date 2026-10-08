@@ -86,13 +86,13 @@ Idle animation always on; NPCs get small flavour animations. Faces are simple; t
 
 | Zone | Mood | Key / fill / shadow | Fog | Accent | Particles | Signature |
 |---|---|---|---|---|---|---|
-| **Main town** (Concord Crossing) | warm, cozy, bustling, golden | key #ffd9a0 low, fill lavender, shadow violet | warm peach, light | banner reds/blues, flowers | dust motes, leaves, birds | lantern pools, market clutter |
+| **Main town** (Crosspath) | warm, cozy, bustling, golden | key #ffd9a0 low, fill lavender, shadow violet | warm peach, light | banner reds/blues, flowers | dust motes, leaves, birds | lantern pools, market clutter |
 | **Starting area** | soft, mysterious | pale moon-gold key, blue-lilac fill, indigo shadow | blue-violet mist, medium | glowing teal gate | fireflies, drifting spores | mist, soft glow |
 | **D.N.A.** | near-monochrome grays/blacks (ref_necro_grayscale) | cold white key, gray-blue fill, near-black blue shadow | gray floor mist | **red** | dust, paper scraps | colour only on the player, interactables, enemies, key objects |
 | **Gainlands** | bright, sunny, high-energy, big skies | bright white-gold key, sky-blue fill, teal shadow | very light, long | saturated cyan/magenta/orange | cloud streaks, petals, sparkles | big sky, strong rim light |
 | **Endless Buffet** | warm, saturated, appetizing | orange-yellow key, pink fill, raspberry shadow | warm cream steam | red/green/yellow food colours | steam, crumbs, sparkles | glossy highlights, steam |
 | **Verdant Dump** | earthy greens, rust orange, golden hour | low gold key, olive-teal fill, brown-purple shadow | golden haze | rust orange, rotten lime | motes, spores, ash | golden-hour rays, rust palette |
-| **The Capital** (Neatropolis) | facade: unnaturally clean pastel; outskirts: desaturated, unsettling, vivid rift colours | facade soft white-pink key, mint fill; outskirts dim gray-violet | facade none; outskirts thick violet | rift magenta/cyan | facade sparkles; outskirts ash, rift sparks | the contrast itself |
+| **The Capital** (Primm's Perfection) | facade: unnaturally clean pastel; outskirts: desaturated, unsettling, vivid rift colours | facade soft white-pink key, mint fill; outskirts dim gray-violet | facade none; outskirts thick violet | rift magenta/cyan | facade sparkles; outskirts ash, rift sparks | the contrast itself |
 
 **D.N.A. accent colour: red.** It matches ref_necro_grayscale and the zone's bureaucratic-menace theme. Interactables use the warm red-orange end, enemies the deep crimson end;
 the player keeps their own natural colours (the only fully natural colours in the frame).

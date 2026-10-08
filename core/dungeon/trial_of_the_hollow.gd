@@ -3,7 +3,7 @@ extends RefCounted
 ## The intro dungeon: a short cave trial that teaches the game. Two battles, a deck challenge,
 ## a healing shrine and a boss. Enemy decks are small hand-made lists of placeholder cards.
 
-const DUNGEON_NAME: String = "Trial of the Hollow"
+const DUNGEON_NAME: String = "The Forgotten Cave"
 const CHALLENGE_ID: String = "hollow_well"
 
 ## No dungeon-wide HP blessing any more (docs/design/open_questions.md D32): the tutorial run

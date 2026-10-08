@@ -30,6 +30,6 @@ static func full_title() -> String:
 
 
 static func fill(text: String) -> String:
-	if not text.contains("{villain"):
+	if not text.contains("{"):
 		return text
-	return text.replace("{villain_title}", title()).replace("{villain}", display_name())
+	return RoyalFamily.fill(text.replace("{villain_title}", title()).replace("{villain}", display_name()))

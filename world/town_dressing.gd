@@ -1,6 +1,6 @@
 class_name TownDressing
 extends RefCounted
-## Brief 9: the town's two new buildings change with the campaign. Crucible & Co. (the Alchemist) is shuttered with a
+## Brief 9: the town's two new buildings change with the campaign. Auntie Alembic's (the Alchemist) is shuttered with a
 ## sign until two zones are free, then glows with a bubbling cauldron; the Grand Clashatorium (the Arena) has its gate
 ## chained until the first zone is free, then burns torches and flies banners. Built from simple primitives, once, when
 ## the town scene is built (unlocking always happens in another scene, so it never needs to change live).

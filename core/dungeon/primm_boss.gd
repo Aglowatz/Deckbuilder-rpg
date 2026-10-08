@@ -11,7 +11,7 @@ extends RefCounted
 ##  3. UNRAVELING - his perfect rules break down: the arena cracks, his true selfishness shows. His units are stronger and he
 ##     draws more, but he loses 1 HP at the start of each of his turns as the rules he wrote stop working.
 ##
-## FREED LEADERS lend a boon: for every completed Path zone, that zone's freed leader (Grandmaster Flex, Aurelio, Vellum, Fernwick) stands
+## FREED LEADERS lend a boon: for every completed Path zone, that zone's freed leader (Grandmaster Flex, the Grand Chef, Agnes Overdue, Compostella) stands
 ## beside you when the boss is entered and adds a dungeon-wide boon (`leader_boon`) for the fight.
 ## All text: `data/story/capital_story.tres` (`boss.*`, `boon.<zone>.*`, `cutscene.primm_*`, `dungeon.primm_boss.*`).
 
@@ -123,7 +123,7 @@ static func player_rules(index: int) -> ModifierSource:
 
 ## Zone id -> the freed leader who lends the boon.
 const LEADERS: Dictionary = {
-	"beefcake": "Grandmaster Flex", "gourmand": "Grand Chef Escoffina", "necrocrat": "Mortimer Grimsby", "refusemancer": "Archdruid Compostella",
+	"beefcake": "Grandmaster Flex", "gourmand": "The Grand Chef", "necrocrat": "Agnes Overdue", "refusemancer": "Archdruid Compostella",
 }
 
 

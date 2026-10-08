@@ -115,7 +115,7 @@ static func build_def() -> ZoneDef:
 	def.ruler_tint = Color("5f7a1c")
 	def.gloom_tint = Color(0.62, 0.68, 0.38)
 	def.freed_npcs = [
-		{"id": "aurelio", "npc_id": "NPC-ESCOFFINA", "model": "Knight", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.95, 0.9), "scale": 1.2, "name": "Grand Chef Escoffina", "speaker": "Grand Chef Escoffina"},
+		{"id": "grandchef", "npc_id": "NPC-ESCOFFINA", "model": "Knight", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.95, 0.9), "scale": 1.2, "name": "The Grand Chef", "speaker": "The Grand Chef"},
 	]
 	def.mini = _mini_def()
 	def.npcs = [

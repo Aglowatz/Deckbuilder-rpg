@@ -23,6 +23,6 @@ const HEAP_VENDOR_IDS: Array[String] = ["R-02", "R-05", "R-06", "R-08", "R-10", 
 ## The Trash Panda Throne (S-REF)'s unique reward: Raccoon.
 const HEAP_MINI_REWARD_ID: String = "R-27"
 
-## Main-dungeon unique rewards: Grand Chef Escoffina (Test Kitchen), The Big Unit (House of Gains), Mortimer Grimsby, CE-No
+## Main-dungeon unique rewards: The Grand Chef (Test Kitchen), The Big Unit (House of Gains), the Necrocrat leader card
 ## (Hall of Final Approvals), Archdruid Compostella (Rotheart).
 const MAIN_DUNGEON_REWARD_IDS: Array[String] = ["G-33", "B-32", "N-33", "R-33"]

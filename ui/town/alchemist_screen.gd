@@ -1,6 +1,6 @@
 class_name AlchemistScreen
 extends OverlayScreen
-## Crucible & Co. (Part F): the Alchemist's crafting UI. Left: the player's Path essence (click up to two Paths
+## Auntie Alembic's (Part F): the Alchemist's crafting UI. Left: the player's Path essence (click up to two Paths
 ## that have enough to take part). Right: what the trade costs (ALL essence of both Paths plus gold), the four
 ## dual-Path cards it can produce with their odds, and the Craft button, which plays a short brewing animation
 ## (a bubbling cauldron, swirling motes in both Path colors) before the card is revealed. Rules: `Alchemy`.

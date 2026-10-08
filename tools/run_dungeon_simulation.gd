@@ -1,5 +1,5 @@
 extends SceneTree
-## Simulates many full runs through the Trial of the Hollow with each element's 42-card starter
+## Simulates many full runs through the Forgotten Cave with each element's 42-card starter
 ## deck (AI-controlled), the 3 tutorial reward picks added along the way exactly like a real
 ## playthrough (Part C), and reports the win rate per element plus overall - writing docs/
 ## balance_report.md's tutorial section. Also confirms the tutorial opponents actually attack
@@ -59,7 +59,7 @@ func _initialize() -> void:
 func _write_report(runs: int, per_element: Array[Dictionary], overall_rate: float, total_runs: int, total_wins: int, total_enemy_attacks: int) -> void:
 	var lines: PackedStringArray = []
 	lines.append(MARKER_START)
-	lines.append("## Tutorial dungeon (Trial of the Hollow) balance")
+	lines.append("## Tutorial dungeon (The Forgotten Cave) balance")
 	lines.append("")
 	lines.append("Simulated with the AI (balanced personality) playing each element's real 42-card starter")
 	lines.append("deck (23 neutral spells + 19 basic infrastructure, Part C) through the whole dungeon (both battles,")

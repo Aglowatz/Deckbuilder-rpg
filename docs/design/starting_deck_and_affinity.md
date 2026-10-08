@@ -76,7 +76,7 @@ everything).
 ## Why it makes sense in the story (placeholder lore)
 
 The Wanderer wakes up with no memory of how they got here. Before the only way out - a shallow
-cave, the **Trial of the Hollow** - one of the four **Wellsprings** already calls to them, faintly;
+cave, the **The Forgotten Cave** - one of the four **Wellsprings** already calls to them, faintly;
 they answer it, and carry a scavenged, ordinary kit steeped in that element's nature into the
 trial. Surviving it, and choosing their reward each time it offers one, is what actually attunes
 them to it - by the time they emerge, the calling has become a real technique. *Then* the road to

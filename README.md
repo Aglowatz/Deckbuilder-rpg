@@ -13,7 +13,7 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
    `data/story/intro_story.tres`). Walk with **WASD** / arrow keys; the only way forward is the
    cave mouth. **E**, **Space** or **left-click the object/person in range** all interact - watch
    for the on-screen "[E] ..." prompt.
-4. **The Trial of the Hollow**: entering the cave starts the tutorial dungeon with a fixed neutral
+4. **The Forgotten Cave**: entering the cave starts the tutorial dungeon with a fixed neutral
    deck - a node map with two battles, a deck challenge, a healing shrine (a full heal, right
    before the boss) and a boss. Life carries from node to node. The first battle is a guided
    tutorial. Losing sends you back to the starting area to try again, not to a town you have not

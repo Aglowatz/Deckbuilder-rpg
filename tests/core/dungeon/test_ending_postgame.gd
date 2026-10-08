@@ -31,7 +31,7 @@ func test_every_ending_text_key_exists() -> void:
 	for index: int in range(1, EndingDefs.POSTGAME_LINES + 1):
 		if story.get_lines("ending.postgame.line.%d" % index)[0].begins_with("[missing"):
 			missing.append("ending.postgame.line.%d" % index)
-	for key: String in ["ending.postgame.title", "ending.postgame.body", "ending.return", "fx.ending_return", "freed_npc.heartlift", "freed_npc.aurelio", "freed_npc.vellum", "freed_npc.fernwick"]:
+	for key: String in ["ending.postgame.title", "ending.postgame.body", "ending.return", "fx.ending_return", "freed_npc.heartlift", "freed_npc.grandchef", "freed_npc.agnes", "freed_npc.compostella"]:
 		if story.get_lines(key)[0].begins_with("[missing"):
 			missing.append(key)
 	assert_eq(missing, [] as Array[String], "missing ending text")
@@ -143,7 +143,7 @@ func test_the_capital_is_changed_after_the_ending() -> void:
 	assert_false(bool(state["dark"]))
 	var story: ZoneStoryText = ZoneStoryText.for_zone(CapitalZone.ID)
 	assert_true(story.text("sign.facade_smile").contains("ENCOURAGED"), "new signs")
-	assert_true(story.text("npc.mabbit.return").contains("mending"), "new dialogue")
+	assert_true(story.text("npc.wren.return").contains("mending"), "new dialogue")
 	assert_ne(story.text("facade.citizen.2.approved"), "", "citizens have lines of their own")
 	assert_true(story.text("facade.citizen.2.approved").contains("bakery"), "and they are free")
 	var def: ZoneDef = ZoneDefs.get_def(CapitalZone.ID)

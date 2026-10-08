@@ -36,13 +36,13 @@ func test_vendor_appears_when_gated() -> void:
 
 
 func test_graduated_stock_starts_small_and_grows_with_progress() -> void:
-	var gate: Condition = Condition.dungeon_cleared("Trial of the Hollow")
+	var gate: Condition = Condition.dungeon_cleared("The Forgotten Cave")
 	var vendor: VendorData = VendorData.graduated(content, [Affinity.Type.BEEFCAKE] as Array[Affinity.Type], gate)
 	assert_eq(vendor.entries.size(), content.cards.size(), "every card is a known entry")
 	var closed: UnlockState = UnlockState.new()
 	assert_true(vendor.available_card_ids(closed).is_empty(), "nothing is for sale before the gate")
 	var opened: UnlockState = UnlockState.new()
-	opened.cleared_dungeons.append("Trial of the Hollow")
+	opened.cleared_dungeons.append("The Forgotten Cave")
 	var early_stock: Array[String] = vendor.available_card_ids(opened)
 	assert_false(early_stock.is_empty())
 	for id: String in early_stock:
@@ -57,10 +57,10 @@ func test_graduated_stock_starts_small_and_grows_with_progress() -> void:
 ## Part E: reaching enough player level opens a rarity tier just as well as gold spent - either
 ## path unlocks it, so a "vendor unlock" level reward is a real mechanic.
 func test_graduated_stock_also_unlocks_by_player_level() -> void:
-	var gate: Condition = Condition.dungeon_cleared("Trial of the Hollow")
+	var gate: Condition = Condition.dungeon_cleared("The Forgotten Cave")
 	var vendor: VendorData = VendorData.graduated(content, [Affinity.Type.BEEFCAKE] as Array[Affinity.Type], gate)
 	var state: UnlockState = UnlockState.new()
-	state.cleared_dungeons.append("Trial of the Hollow")
+	state.cleared_dungeons.append("The Forgotten Cave")
 	var no_level: Array[String] = vendor.available_card_ids(state)
 	state.player_level = 21
 	var high_level: Array[String] = vendor.available_card_ids(state)

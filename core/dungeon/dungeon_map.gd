@@ -10,7 +10,7 @@ enum Kind { START, BATTLE, CHALLENGE, SHRINE, BOSS, ELITE, EVENT, TREASURE, RESC
 
 ## Part E: how much XP/gold an encounter is worth (`EncounterRewards`). Tutorial < Normal <
 ## Elite < Boss. Only Tutorial and Boss are used by any dungeon that actually exists yet (the
-## Trial of the Hollow); Normal/Elite are here so future dungeons have somewhere to plug in.
+## The Forgotten Cave); Normal/Elite are here so future dungeons have somewhere to plug in.
 enum Difficulty { TUTORIAL, NORMAL, ELITE, BOSS }
 
 

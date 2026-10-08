@@ -3,7 +3,7 @@ extends Node
 ## FINAL (brief 10): the Capital, the Castle, the boss and the ending with human-style input (real injected keys/clicks), end to end:
 ## 1 enter the Capital through the town's last gate (walk + E), 2 the SECRET ENTRANCE (a hidden hatch found by exploring: no marker, no map icon)
 ## which sneaks past the gate into the hideout and out into the city, 3 back out and the GATE BATTLE (Entry Examination) which opens the gate,
-## 4 Primm's Perfection (the facade) and its hollow citizens, 5 a RIFT hazard (contact damage), 6 one Path QUEST (the Necrocrat burial: offer, stamp,
+## 4 the Showcase Quarter (the facade) and its hollow citizens, 5 a RIFT hazard (contact damage), 6 one Path QUEST (the Necrocrat burial: offer, stamp,
 ## plot, hand-in, reward, insight, quest log), 7 the CASTLE run through a branch that dead-ends and doubles back to the boss's three phases,
 ## 8 the ENDING sequence (credits, the postgame announcement, the changed Capital), 9 a 3+ Path deck is legal after the unlock.
 ## Deliberate shortcuts (stated): duels are resolved by forcing the win (a human-played duel is covered by the earlier e2e flows), long walks
@@ -108,7 +108,7 @@ func _flow_secret_entrance() -> void:
 	_check(not Session.flag(CapitalZone.FLAG_GATE_OPEN), "without opening the gate: the player sneaked past it")
 	await _shot("04_the_crease_hideout")
 	# The hideout: heal spot, vendor, resistance NPCs; the shaft network is down (Blackout).
-	_check(_has_spot(zone, "heal") and _has_spot(zone, "fig") and _has_spot(zone, "mabbit"), "the hideout has a heal spot, a black market and resistance NPCs")
+	_check(_has_spot(zone, "heal") and _has_spot(zone, "fig") and _has_spot(zone, "wren"), "the hideout has a heal spot, a black market and resistance NPCs")
 	await _teleport(zone, zone.builder.anchor("shaft_plaza") + Vector3(0, 0, -0.9))
 	await driver.seconds(0.3)
 	await driver.tap_key(KEY_E)
@@ -140,20 +140,20 @@ func _flow_secret_entrance() -> void:
 
 func _flow_gate_battle() -> void:
 	var zone: CapitalScene = get_tree().current_scene as CapitalScene
-	var captain: Vector3 = zone.builder.anchor("gate_captain")
+	var captain: Vector3 = zone.builder.anchor("spotless")
 	await _teleport(zone, captain + Vector3(0, 0, 5.0))
 	await _walk_to(zone, captain + Vector3(0, 0, 1.0), 1.5)
 	await driver.seconds(0.4)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(zone.dialogue.active, "the Gate Captain states the absurd entry requirements")
-	await _shot("06_gate_captain_dialogue")
+	_check(zone.dialogue.active, "Captain Spotless states the absurd entry requirements")
+	await _shot("06_spotless_dialogue")
 	await _dismiss(zone.dialogue)
 	await driver.seconds(0.6)
 	await _shot("07_gate_battle_offer")
 	_check(await driver.click_button("Take the examination"), "the Entry Examination is a card battle")
 	var battle: BattleScreen = await _wait_for(BattleScreen) as BattleScreen
-	_check(battle != null and battle.context.zone_battle and battle.context.zone_enemy_type == CapitalEnemies.GATE_CAPTAIN, "the gate battle opened")
+	_check(battle != null and battle.context.zone_battle and battle.context.zone_enemy_type == CapitalEnemies.SPOTLESS, "the gate battle opened")
 	if battle == null:
 		return
 	await driver.seconds(1.5)
@@ -171,7 +171,7 @@ func _flow_gate_battle() -> void:
 	_check(zone.player.position.z < float(CapitalLayout.WALL_Z0), "the player walked through the gate into the city")
 
 
-# ---- 4: Primm's Perfection ---------------------------------------------------------------------------------------------
+# ---- 4: The Showcase Quarter ---------------------------------------------------------------------------------------------
 
 
 func _flow_facade() -> void:
@@ -237,24 +237,24 @@ func _flow_rift() -> void:
 
 func _flow_quest() -> void:
 	var zone: CapitalScene = get_tree().current_scene as CapitalScene
-	await _teleport(zone, zone.builder.anchor("tilda") + Vector3(0, 0, 1.2))
+	await _teleport(zone, zone.builder.anchor("pell") + Vector3(0, 0, 1.2))
 	await driver.seconds(0.3)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	await _shot("14_quest_offer_tilda")
+	await _shot("14_quest_offer_pell")
 	await _dismiss(zone.dialogue)
 	_check(Session.quest_log.active.has(CapitalZone.QUEST_BURIAL), "Widow Pell's quest was accepted")
 	await _teleport(zone, zone.builder.anchor("stamp") + Vector3(0, 0, 0.6))
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
 	_check(Session.flag(CapitalZone.FLAG_STAMP), "found the Stamp of Final Approval")
-	await _teleport(zone, zone.builder.anchor("marrow_plot") + Vector3(0, 0, 0.6))
+	await _teleport(zone, zone.builder.anchor("pell_plot") + Vector3(0, 0, 0.6))
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.6)
 	await _dismiss(zone.dialogue)
-	_check(Session.flag(CapitalZone.FLAG_LAID_TO_REST), "Grandfather Marrow was laid to rest")
+	_check(Session.flag(CapitalZone.FLAG_LAID_TO_REST), "Mr. Pell was laid to rest")
 	var gold: int = Session.gold
-	await _teleport(zone, zone.builder.anchor("tilda") + Vector3(0, 0, 1.2))
+	await _teleport(zone, zone.builder.anchor("pell") + Vector3(0, 0, 1.2))
 	await driver.seconds(0.3)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)

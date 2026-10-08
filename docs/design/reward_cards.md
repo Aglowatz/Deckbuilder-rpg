@@ -7,7 +7,7 @@ change the sheet and run `bash tools/import_dungeons.sh`. A unique first-victory
 
 | Dungeon | Name | Type | First victory | Unique card | Not in packs | Repeat clears |
 |---------|------|------|---------------|-------------|--------------|---------------|
-| D-TUT | Trial of the Hollow | Tutorial | Choose 1 of 3 cards from your chosen Path after each battle (3 total); opens the road to town. | (none) | (n/a) | Small gold (replayable for practice). |
+| D-TUT | The Forgotten Cave | Tutorial | Choose 1 of 3 cards from your chosen Path after each battle (3 total); opens the road to town. | (none) | (n/a) | Small gold (replayable for practice). |
 | D-HOG | The House of Gains | Main Dungeon | The Big Unit (B-32), a Gilded Beefcake Pack, bonus gold and XP; frees the Gainlands. | B-32 The Big Unit | yes | Beefcake Path Pack + gold. |
 | D-TTK | The Test Kitchen | Main Dungeon | Grand Chef Escoffina (G-33), a Gilded Gourmand Pack, bonus gold and XP; frees the Endless Buffet. | G-33 Grand Chef Escoffina | yes | Gourmand Path Pack + gold. |
 | D-HFA | The Hall of Final Approvals | Main Dungeon | Mortimer Grimsby, CE-No (N-33), a Gilded Necrocrat Pack, bonus gold and XP; frees the D.N.A. | N-33 Mortimer Grimsby, CE-No | yes | Necrocrat Path Pack + gold. |
@@ -19,5 +19,6 @@ change the sheet and run `bash tools/import_dungeons.sh`. A unique first-victory
 | S-REF | The Trash Panda Throne | Side Dungeon | Raccoon (R-27). | R-27 Raccoon | yes | Small gold and a Refusemancer Path Pack. |
 | S-CAP | The Old Service Tunnels | Side Dungeon | The Wanderer (C-29). | C-29 The Wanderer | yes | Small gold and a General Pack. |
 | S-TOWN | The Forgotten Vault | Side Dungeon | Old Kingdom Banner (C-21). | C-21 Old Kingdom Banner | yes | Small gold and a General Pack. |
+| D-LAB | The Path-ology Lab | Postgame Dungeon |  | (none) | (n/a) |  |
 
 Other reward-only cards (quests, chests, the black market, vendors) are defined in code and data: see `ZoneQuestDefinitions`, `CapitalContent`, `ZoneCards` and `data/source/card_overrides.csv`.

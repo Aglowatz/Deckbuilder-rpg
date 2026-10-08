@@ -1,7 +1,7 @@
 class_name CorruptedNpcSmoke
 extends Node
 ## New brief, Part E: a human-input e2e regression test for one corrupted-NPC encounter - talks
-## to Torvin (Beefcake), checks the pre-fight dialogue and that it actually starts a real battle
+## to Brick Bronson (Beefcake), checks the pre-fight dialogue and that it actually starts a real battle
 ## with the right opponent (name, HP, town_npc_id), plays the duel out for real with
 ## BattlePilot (a real, uncertain outcome - not scripted), then checks the town-side result
 ## (post-fight dialogue matches what actually happened, and only a win actually pays out/unlocks).

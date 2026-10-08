@@ -24,8 +24,10 @@ class Entry extends RefCounted:
 	## "left" (default) or "right": which side of the dialogue box the portrait stands on.
 	var side: String = "left"
 
-	## The name shown on the dialogue name plate ("Brick Bronson (corrupted)", "The Wanderer (player)": the bracket is a list annotation, not part of the name).
+	## The name shown on the dialogue name plate ("Brick Bronson (corrupted)", "The Wanderer: Prince Tessar Wayweaver (player)": the bracket is a list annotation; the player is only "The Wanderer" until the prince is revealed).
 	func plate_name() -> String:
+		if id == "NPC-PLAYER":
+			return "The Wanderer"
 		return name.replace(" (corrupted)", "").replace(" (player)", "").strip_edges()
 
 	## The name before a comma or a bracket ("Kyle (Deceased Since '09)" -> "Kyle"): what the game data (speaker labels, quest givers) calls the NPC.

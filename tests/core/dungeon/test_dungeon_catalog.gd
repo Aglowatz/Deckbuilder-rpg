@@ -27,7 +27,7 @@ func _map_of(blueprint: DungeonCatalog.Blueprint) -> DungeonMap:
 
 
 func test_every_dungeon_of_the_list_is_there() -> void:
-	assert_eq(DungeonCatalog.all().size(), 12)
+	assert_eq(DungeonCatalog.all().size(), 12, "the postgame Path-ology Lab has no nodes yet")
 	for id: String in NODE_COUNTS.keys():
 		var blueprint: DungeonCatalog.Blueprint = DungeonCatalog.find(id)
 		assert_not_null(blueprint, id)

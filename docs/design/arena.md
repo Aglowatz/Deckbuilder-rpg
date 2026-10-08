@@ -1,6 +1,6 @@
 # The Grand Clashatorium (brief 9, Part G)
 
-A colosseum in Concord Crossing (`world/arena_building.gd`, gate dressing in `world/town_dressing.gd`), chained until the first zone is completed
+A colosseum in Crosspath (`world/arena_building.gd`, gate dressing in `world/town_dressing.gd`), chained until the first zone is completed
 (`ZoneCompletion.ARENA_UNLOCK_COUNT`), then Marshal Vesna Tuskmore welcomes you and `ArenaScreen` lists the encounters.
 
 8 encounters in 3 tiers (`core/arena/arena_defs.gd`): battles with your own deck, restricted-deck battles (Gladiator's Kit, Spellslinger's Satchel),

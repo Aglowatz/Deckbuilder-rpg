@@ -19,14 +19,14 @@ key = "cap_laid_to_rest"
 
 [sub_resource type="Resource" id="Resource_d43l6"]
 script = ExtResource("1_ayw58")
-text = "Lay Grandfather Marrow to rest"
+text = "Lay Mr. Pell to rest"
 condition = SubResource("Resource_klqar")
 
 [resource]
 script = ExtResource("3_qcinw")
 id = "cap_burial"
 title = "Form 27-B/6: A Burial Permit"
-summary = "Widow Pell's grandfather has sat in the family parlor for three years because the permit loops forever. Find the Stamp of Final Approval in Grave Row, then lay him to rest."
+summary = "Widow Pell's husband has sat in the family parlor for three years because the permit loops forever. Find the Stamp of Final Approval in Grave Row, then lay him to rest."
 giver_npc = "Widow Pell"
 turn_in_npc = "Widow Pell"
 order = 510

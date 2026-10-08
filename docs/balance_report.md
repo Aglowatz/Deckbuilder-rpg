@@ -71,7 +71,7 @@ Drawn / unfinished games: 0. Illegal AI actions: 0.
 
 
 <!-- TUTORIAL_BALANCE_START -->
-## Tutorial dungeon (Trial of the Hollow) balance
+## Tutorial dungeon (The Forgotten Cave) balance
 
 Simulated with the AI (balanced personality) playing each element's real 42-card starter
 deck (23 neutral spells + 19 basic infrastructure, Part C) through the whole dungeon (both battles,
@@ -105,10 +105,10 @@ personality for its side. Target band: **55-70% player win rate**.
 
 | Corrupted NPC | vs Beefcake player | vs Gourmand player | vs Refusemancer player | vs Grave player | Overall | In target band? |
 |---|---:|---:|---:|---:|---:|:---:|
-| Torvin the Over-Pumped (beefcake) | 64.5% | 65.0% | 69.0% | 64.0% | **65.6%** | yes |
-| Maris the Over-Seasoned (tide) | 61.0% | 63.5% | 63.5% | 59.5% | **61.9%** | yes |
-| Old Thistlebark (root) | 67.5% | 69.5% | 73.0% | 58.0% | **67.0%** | yes |
-| Corwyn the Grave-Bound (grave) | 61.5% | 60.5% | 64.5% | 63.5% | **62.5%** | yes |
+| Brick Bronson (beefcake) | 64.5% | 65.0% | 69.0% | 64.0% | **65.6%** | yes |
+| Chef Fennel Gravois (tide) | 61.0% | 63.5% | 63.5% | 59.5% | **61.9%** | yes |
+| Moss Mulligan (root) | 67.5% | 69.5% | 73.0% | 58.0% | **67.0%** | yes |
+| Prudence Pallor (grave) | 61.5% | 60.5% | 64.5% | 63.5% | **62.5%** | yes |
 
 Simulated in 344.6s.
 <!-- corrupted-npc-report:end -->

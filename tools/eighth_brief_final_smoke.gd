@@ -10,7 +10,7 @@ extends Node
 ## its real quest turn-in (D.N.A., Gainlands, Endless Buffet). Screenshots to _screenshots/brief8/. Run windowed:
 ##   Godot --path . res://tools/eighth_brief_final_launcher.tscn
 ## (the D.N.A., Gainlands and Buffet regressions are run first by `tools/run_eighth_brief_final_smoke.sh`).
-## Deliberate shortcuts (stated, like the earlier smokes): the Refusemancer gate flag is set directly (beating Thistlebark
+## Deliberate shortcuts (stated, like the earlier smokes): the Refusemancer gate flag is set directly (beating Moss Mulligan
 ## is covered by the corrupted-NPC smoke); long walks fall back to a short teleport when the crude no-pathfinding mover gets
 ## stuck behind a prop; the player is placed near an enemy so it notices them; the other zones' equipment quests are
 ## completed by setting their objective counters/flags and then really turning the quest in.

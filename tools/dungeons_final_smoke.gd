@@ -1,7 +1,7 @@
 class_name DungeonsFinalSmoke
 extends Node
-## FINAL (dungeon list): walks dungeons start to boss through the real UI (human-style mouse and key input): (1) D-TUT, the Trial of the Hollow, from the first node to the boss
-## and "Enter town"; (2) D-HOG, the House of Gains, through the optional Iron-less Prison branch: the stairs, the prison block, the Leader's Cell rescue (Grandmaster Flex joins and
+## FINAL (dungeon list): walks dungeons start to boss through the real UI (human-style mouse and key input): (1) D-TUT, the Forgotten Cave, from the first node to the boss
+## and "Enter town"; (2) D-HOG, the House of Gains, through the optional Iron-less Prison branch: the stairs, the prison block, the Iron-less Prison rescue (Grandmaster Flex joins and
 ## stands on your field in the boss fight), the garden, the Sauna of Truth, the Throne of Gains boss, the epilogue and the freed Gainlands; (3) one side dungeon through its quest:
 ## Old Man Mountain gives and takes back the quest, the hatch opens, S-BEEF's three battles on the Mount Swolympus map, the unique card. Every battle checks that it uses the
 ## battleboard the dungeon list names. Screenshots to _screenshots/dungeons/. Run windowed:  bash tools/run_dungeons_final_smoke.sh
@@ -50,13 +50,13 @@ func _tutorial() -> void:
 		Session.begin_intro_trial(Affinity.Type.BEEFCAKE)
 		var map_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 		if map_screen == null:
-			_fail("the Trial of the Hollow never opened its map")
+			_fail("the Forgotten Cave never opened its map")
 			return
 		_boost()
 		await driver.seconds(1.0)
 		if attempt == 0:
 			_check(map_screen._art != null, "D-TUT shows its painted map (MAP-TUT)")
-			_check(map_screen.map.dungeon_name == "Trial of the Hollow", "the map is the Trial of the Hollow")
+			_check(map_screen.map.dungeon_name == "The Forgotten Cave", "the map is the Forgotten Cave")
 			await _shot("t_01_trial_map_start")
 		cleared = await _walk([2, 3, 4, 5, 6], "D-TUT", false, true)
 		if cleared:
@@ -85,7 +85,7 @@ func _house_of_gains() -> void:
 	_check(map_screen._art != null, "D-HOG shows its painted map (MAP-HOG)")
 	_check(map_screen.map.nodes.size() == 13, "D-HOG has the 13 nodes of the list")
 	await _shot("h_01_house_of_gains_map_start")
-	# Grand Entrance -> Cardio Corridor -> Protein Pantry -> Regime Checkpoint -> Stairs -> Prison Block -> Leader's Cell (rescue) -> Meditation Garden -> Sauna -> Throne.
+	# Grand Entrance -> Cardio Corridor -> Protein Pantry -> Regime Checkpoint -> Stairs -> Prison Block -> Iron-less Prison (rescue) -> Meditation Garden -> Sauna -> Throne.
 	await _walk([2, 4, 6, 7, 8, 9, 10, 12, 13], "D-HOG", true)
 	var zone: Node = await _wait_for(GainlandsScene)
 	_check(zone != null, "the dungeon leads back to the Gainlands")
@@ -219,7 +219,7 @@ func _walk(numbers: Array[int], dungeon_id: String, boosted: bool, allow_loss: b
 		else:
 			await _resolve_modal(map_screen)
 			if node.kind == DungeonMap.Kind.RESCUE:
-				_check(HouseOfGainsDungeon.rescued(Session.run), "D-HOG: the Leader's Cell rescue gave the Grandmaster Flex boon")
+				_check(HouseOfGainsDungeon.rescued(Session.run), "D-HOG: the Iron-less Prison rescue gave the Grandmaster Flex boon")
 		if number == numbers[numbers.size() / 2]:
 			var current: Node = get_tree().current_scene
 			if current is DungeonMapScreen:

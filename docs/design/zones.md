@@ -6,8 +6,8 @@ The whole world's story, factions and rulers are in `docs/design/story_bible.md`
 
 | Zone | Faction | Ruler / corruption | Final dungeon |
 |---|---|---|---|
-| The Gainlands | Beefcakes | Commander Gristle's regime; true leader Grandmaster Flex imprisoned in the Iron-less Prison | The House of Gains |
-| The Endless Buffet | Gourmands | A doppelgänger (the False Aurelio), corrupted food (the Special Sauce), a hidden war-machine R&D complex | The Test Kitchen |
+| The Gainlands | Beefcakes | Chancellor Clench's regime; true leader Grandmaster Flex imprisoned in the Iron-less Prison | The House of Gains |
+| The Endless Buffet | Gourmands | A doppelgänger (the Doppelganger), corrupted food (the Special Sauce), a hidden war-machine R&D complex | The Test Kitchen |
 | The D.N.A. | Necrocrats | Legally valid paperwork ("Yes, but the authorization is valid"), absurd bureaucracy | The Hall of Final Approvals |
 | The Verdant Dump | Refusemancers | The leader corrupted through nature itself; the ecosystem is unnaturally alive | The Rotheart |
 
@@ -23,7 +23,7 @@ Source of truth for zone rules. Code: `core/zone/`, `world/dna/`. Text: `core/da
 - At **0 HP** you wake at the hub at full HP and pay a **paperwork fee** (`ZoneRun.PAPERWORK_FEE` = 15 gold, never more than you have). Every fee is logged to `Session.zone_log` (saved) and shown on screen.
 - Defeated roaming enemies stay gone until the zone is re-entered.
 - The mini dungeon follows the same HP (see Part E in progress.md).
-- **Brief 11 rules:** the central town (Concord Crossing) is a **full heal**: arriving there (`Session.arrive_in_town`, called by the town scene however the hero got there) ends any zone visit. Entering **any zone from anywhere**
+- **Brief 11 rules:** the central town (Crosspath) is a **full heal**: arriving there (`Session.arrive_in_town`, called by the town scene however the hero got there) ends any zone visit. Entering **any zone from anywhere**
   (the town, another zone, the Rift Express) starts a new visit at full HP (`Session.begin_zone_visit`). Inside a zone nothing else changes: the rules above (HP persists, no healing after battles, healing spots, items,
   0 HP = the hub and the paperwork fee) apply, and dungeon HP rules are unchanged. **Gainlands portal rips are free** and always were: they have no gold or HP cost; only story/quest locks remain (the Delt Deck ripper needs the
   Colossal Hamster Wheel run, the Calf Cove ripper needs "Spot Me!", the return rippers are always open). `tests/core/zone/test_health_travel_rules.gd`.
@@ -61,7 +61,7 @@ A zone is mostly **data + layout**; everything reusable lives in the framework. 
 Adding a zone = a `ZoneDef` + a `ZoneMap` + a story `.tres` + a thin `ZoneScene` subclass, then register it in `ZoneDefs`.
 
 ## The Gainlands (brief 6, Part D)
-The Beefcake zone (`ZonePortals` id `beefcake`, reached from the town's **Beefcake Path**, still unlocked by defeating Torvin the Over-Pumped). The Beefcakes are huge, muscular people responsible for **energy** (pushing mills, running giant hamster wheels) and **transportation** (throwing people across distances, physically ripping open portals). Code: `core/zone/gainlands_*.gd`, `world/gainlands/`, `ui/zone/wheel_puzzle_screen.gd`, `rep_game_screen.gd`. All text: `data/story/gainlands_story.tres`.
+The Beefcake zone (`ZonePortals` id `beefcake`, reached from the town's **Beefcake Path**, still unlocked by defeating Brick Bronson). The Beefcakes are huge, muscular people responsible for **energy** (pushing mills, running giant hamster wheels) and **transportation** (throwing people across distances, physically ripping open portals). Code: `core/zone/gainlands_*.gd`, `world/gainlands/`, `ui/zone/wheel_puzzle_screen.gd`, `rep_game_screen.gd`. All text: `data/story/gainlands_story.tres`.
 
 - **Map** (`GainlandsLayout`, pure data): a rolling main land (wobbly ellipse ~4,700 m2, a bit bigger than the D.N.A.'s floor) with giant windmills (KayKit windmill at 3x, sails spinning), colossal hamster wheels, outdoor gym equipment built from boulders and logs, copper energy pipes with travelling pulses, a stage, signs and posters; plus **4 floating islands** (Pec Perch, Delt Deck, Glute Garden, Calf Cove) hovering high above a sea of clouds, outside the main land's footprint. Sunny bright lighting (`GainlandsLook`), wind-blown leaves, music track `gainlands` with wind and birds.
 - **Hub: The Swole Station** (south): Cooldown Hot Tub (heal), Tiny Tony's Protein & Pasteboard (10 placeholder advanced Beefcake cards, `ZoneCards.GAINLANDS_VENDOR_IDS`), Coach Brenda, Foreman Gus, Tiny Tony, the Beefcake Path arch, a protein shake stand and a flex mirror.
@@ -73,7 +73,7 @@ The Beefcake zone (`ZonePortals` id `beefcake`, reached from the town's **Beefca
 - **Mini dungeon** "The Iron Cavern: Three Sets" (3 battles, no healing between, one-time unique card **The Iron Titan**), **puzzle** "Power Routing" (`WheelPuzzle`: 6 hamster wheels, 3 machines, exactly one of 729 settings works; reward one-time **Gainsmith's Lifting Belt**), **quiz master** Professor Quad (4 questions on Beefcake energy and transport, every answer on a sign), **minigame** "Rep Counter" by Jazzy Jules (a timing/rhythm lifting game, `RepGame`; rewards by stars, one-time first-clear bonus), **7 hidden chests** (docs/design/secrets.md), **interactables**: hamster wheel (powers the grid), protein shake stand (random buff/heal), flex mirrors (heal), "spot me" Gary (visit buff), **main dungeon placeholder** "Closed for Leg Day".
 
 ## The Endless Buffet (brief 7, Part B)
-The Gourmand zone (`ZonePortals` id `gourmand`, reached from the town's **Path of the Gourmand**, still unlocked by defeating Maris the Over-Seasoned). The Gourmands are magical chefs who **feed the kingdom** and **protect it with food golems** they cook; golems answer every order with "Yes, Chef!". Code: `core/zone/buffet_*.gd`, `recipe_puzzle.gd`, `order_game.gd`, `world/buffet/`, `ui/zone/recipe_puzzle_screen.gd`, `order_game_screen.gd`. All text: `data/story/gourmand_story.tres`.
+The Gourmand zone (`ZonePortals` id `gourmand`, reached from the town's **Path of the Gourmand**, still unlocked by defeating Chef Fennel Gravois). The Gourmands are magical chefs who **feed the kingdom** and **protect it with food golems** they cook; golems answer every order with "Yes, Chef!". Code: `core/zone/buffet_*.gd`, `recipe_puzzle.gd`, `order_game.gd`, `world/buffet/`, `ui/zone/recipe_puzzle_screen.gd`, `order_game_screen.gd`. All text: `data/story/gourmand_story.tres`.
 
 - **Map** (`BuffetLayout`, pure data): a rounded-rectangle table (~6,400 m2, a bit bigger than the D.N.A.) of rolling mashed-potato hills, a **Gravy River** (hot brown soup) cutting it in two, broccoli forest (Kenney Food Kit broccoli as trees), a candy field of lollipops with a pink/mint checkerboard, a salt flat, layer-cake buildings, pancake / cheese / butter **mesas**, giant cutlery as a picket fence and pillars, a bread-hollow gazebo, a soup fountain, steam vents. The table rim is a stack of cheese / frosting / sponge layers hanging over a giant gingham tablecloth. Warm saturated lighting (`BuffetLook`), drifting sprinkles, synthesized music track `buffet`. Dressing: **Kenney Food Kit** (food) and **KayKit Restaurant Bits** (kitchen).
 - **Hub: The Grand Pantry** (south): a kitchen hall of counters/stoves, the Hearty Meal table (heal), Dolcetta's Dessert & Deckery (10 placeholder advanced Gourmand cards, `ZoneCards.BUFFET_VENDOR_IDS`), three chefs (**Head Chef Odalys**, **Sous-Chef Tarragon**, **Dolcetta Crumb**, all with toques), the Grand Oven, the Soup Fountain, a fortune-cookie dispenser, Old Meatloaf (a broken golem) and the arch back to the Path of the Gourmand.
@@ -90,7 +90,7 @@ The Gourmand zone (`ZonePortals` id `gourmand`, reached from the town's **Path o
 
 
 ## The Verdant Dump (brief 8, Part B)
-The Refusemancer zone (`ZonePortals` id `refusemancer`, reached from the town's **Path of the Refusemancer**, still unlocked by defeating Old Thistlebark the Over-Composted). The Refusemancers are druids responsible for **waste removal and agriculture**: they summon animals that eat the kingdom's garbage and turn it into fertilizer, and use magic to help crops grow. Code: `core/zone/heap_*.gd`, `growth_grid.gd`, `sort_game.gd`, `core/data/heap_content.gd`, `world/heap/`, `ui/zone/growth_grid_screen.gd`, `sort_game_screen.gd`. All text: `data/story/refusemancer_story.tres`.
+The Refusemancer zone (`ZonePortals` id `refusemancer`, reached from the town's **Path of the Refusemancer**, still unlocked by defeating Moss Mulligan). The Refusemancers are druids responsible for **waste removal and agriculture**: they summon animals that eat the kingdom's garbage and turn it into fertilizer, and use magic to help crops grow. Code: `core/zone/heap_*.gd`, `growth_grid.gd`, `sort_game.gd`, `core/data/heap_content.gd`, `world/heap/`, `ui/zone/growth_grid_screen.gd`, `sort_game_screen.gd`. All text: `data/story/refusemancer_story.tres`.
 
 - **Map** (`HeapLayout`, pure data): a rounded-rectangle stretch of farmland and junkyard (~6,400 m2, like the Buffet): patchwork fields, an appliance-ring druid grove, a county-fair ground, scrap barns and windmills, overgrown rusted car wrecks used as planters, junk piles, two **junk mountains** (Mount Scrapmore, Rust Peak), a **recycling stream** across the middle, two **compost pits**, a **scree field** and a **wall of tyres** with three gaps. Golden-hour lighting (`HeapLook`), fireflies, synthesized `heap` music. Dressing: Kenney **Nature Kit**, **Survival Kit**, **Car Kit** and **Cube Pets** (animated animals) plus the Food Kit for the harvest table.
 - **Hub: The Compost Grange** (south): Harvest Meal table (heal), Hob's Swap Shed (10 placeholder advanced Refusemancer cards, `ZoneCards.HEAP_VENDOR_IDS`), **Druid Marigold**, **Farmer Hob**, **Wren Muckfoot** (animal handler), the compost bin, a druid shrine, a feeding trough, a stable with **Boris the giant boar**, the arch back to the Path of the Refusemancer.
@@ -129,7 +129,7 @@ What changes in a freed zone (`ZoneScene._build_completion_state`):
 | Lighting (`ZoneCompletionLook`) | dimmer, desaturated, fog and sky pulled toward the ruler's gloom tint | brighter, warmer, clearer, fog lifts |
 | The ruler (`RulerPresence`) | a looming statue with a plaque and tall banners in the ruler's colors at the hub | the statue lies toppled with a new plaque, bunting where the banners were |
 | Signage | regime/permit/Special-Sauce/Rot signs | the same signs' `.freed` variants (rules abolished, notices revoked) |
-| NPCs | frightened/guarded dialogue | `.freed` dialogue; the freed leader (Grandmaster Flex / Grand Chef Aurelio / Director Vellum / Archdruid Fernwick) stands at the hub and talks (`freed_npc.<id>`) |
+| NPCs | frightened/guarded dialogue | `.freed` dialogue; the freed leader (Grandmaster Flex / The Grand Chef / Agnes Overdue / Archdruid Compostella) stands at the hub and talks (`freed_npc.<id>`) |
 | Announcement | - | a full-screen "THE X IS FREE!" screen with what just unlocked (`AnnouncementScreen`), then the zone |
 
 The quest *Free the Kingdom* tracks the four completions. Tests: `tests/core/zone/test_zone_completion.gd`.
@@ -142,10 +142,10 @@ New shared node kinds (appended to `DungeonMap.Kind`): **ELITE** (a harder battl
 
 | Dungeon (zone) | Nodes | Branches | Highlights |
 |---|---:|---|---|
-| **The Test Kitchen** (Buffet) | 12 | 3 (rejoin at the canteen, the armory, the boss) | taste-panel deck challenge, canteen shrine, food construct and Mk. IX elites, cannon-bay and whistleblower events, armory treasure; boss **The False Aurelio** with the **reveal** cutscene (the face slides off the doppelganger). Reward: **Aurelio, the True Chef** |
-| **The House of Gains** (Gainlands) | 13 | 2 | **The Iron-less Prison** section (descent event, cell block / calisthenics check, the Iron-less Warden elite), then **the rescue**: Grandmaster Flex, emaciated, joins as the dungeon-wide boon *Grandmaster Flex Fights Beside You* (+1/+1 to all your units, +3 max HP), a cell stretch shrine, barracks / gear-locker choice, honor guard elite, trophy hall; boss **Commander Gristle** with the **flex** cutscene (he throws off his outer clothing: still incredibly muscular; "true strength comes from the heart and the mind"). Reward: **Grandmaster Flex, the Unbroken** |
-| **The Hall of Final Approvals** (D.N.A.) | 14 | 3 | "take a number" wait event, **forms that require forms** (a 3-step chained event), waiting-room shrine, audit challenge, mailroom, lost-and-found treasure, compliance elite, appeals / notary choice, senior clerk elite; boss **The Registrar of Final Approvals** ("filed on a Tuesday"). Reward: **The Final Approval** |
-| **The Rotheart** (Dump) | 13 | 3 | sections that grow stranger (outskirts, grove, root tunnels, heartwood), whispering-mushrooms and pulsing-wall events, spore-gauntlet challenge, clean-soil shrine, seed-vault treasure, golem / treant elites; boss **Archdruid Fernwick Loam** with the **sever** cutscene (cutting the heart severs the big bad's influence). Reward: **Heart of the Dump** |
+| **The Test Kitchen** (Buffet) | 12 | 3 (rejoin at the canteen, the armory, the boss) | taste-panel deck challenge, canteen shrine, food construct and Mk. IX elites, cannon-bay and whistleblower events, armory treasure; boss **The Doppelganger** with the **reveal** cutscene (the face slides off the doppelganger). Reward: **the Grand Chef** |
+| **The House of Gains** (Gainlands) | 13 | 2 | **The Iron-less Prison** section (descent event, cell block / calisthenics check, the Iron-less Warden elite), then **the rescue**: Grandmaster Flex, emaciated, joins as the dungeon-wide boon *Grandmaster Flex Fights Beside You* (+1/+1 to all your units, +3 max HP), a cell stretch shrine, barracks / gear-locker choice, honor guard elite, trophy hall; boss **Chancellor Clench** with the **flex** cutscene (he throws off his outer clothing: still incredibly muscular; "true strength comes from the heart and the mind"). Reward: **Grandmaster Flex, the Unbroken** |
+| **The Hall of Final Approvals** (D.N.A.) | 14 | 3 | "take a number" wait event, **forms that require forms** (a 3-step chained event), waiting-room shrine, audit challenge, mailroom, lost-and-found treasure, compliance elite, appeals / notary choice, senior clerk elite; boss **Mortimer Grimsby, CE-No** ("filed on a Tuesday"). Reward: **The Final Approval** |
+| **The Rotheart** (Dump) | 13 | 3 | sections that grow stranger (outskirts, grove, root tunnels, heartwood), whispering-mushrooms and pulsing-wall events, spore-gauntlet challenge, clean-soil shrine, seed-vault treasure, golem / treant elites; boss **Archdruid Compostella** with the **sever** cutscene (cutting the heart severs the big bad's influence). Reward: **Heart of the Dump** |
 
 Code: `core/dungeon/main_dungeon_def.gd` (+ `main_dungeons.gd`, `test_kitchen_dungeon.gd`, `house_of_gains_dungeon.gd`, `hall_of_approvals_dungeon.gd`, `rotheart_dungeon.gd`, `dungeon_event.gd`, `event_resolver.gd`, `cutscene_defs.gd`), UI `ui/dungeon/` (`event_screen.gd`, `treasure_screen.gd`, `cutscene_screen.gd`), `world/dungeon_backdrop.gd`. All titles, blurbs, dialogue, events and cutscene lines are in the zone story files (`dungeon.<node key>.*`, `event.<id>.*`, `challenge.<id>.*`, `cutscene.<id>.<n>`). Tests: `tests/core/dungeon/test_main_dungeons.gd`.
 
@@ -161,21 +161,21 @@ the four (what `ZoneCompletion` counts), `ZoneDefs.all_ids()` adds the Capital.
   the road from town, abandoned checkpoints, rifts, a hidden service-tunnel hatch), the **city wall** with the **Approved Gate** (a 10 m
   opening closed by a barrier until the gate battle is won), **Checkpoint Plaza**, then inside the walls **the Reek** (Refusemancers) and
   **Grave Row** (Necrocrats) in the west, **the Transit Yards** (Beefcakes) and **the Hungry Quarter** (Gourmands) in the east,
-  **Primm's Perfection** (the facade town) in the middle behind its own low white wall, **the Castle Approach** (doors of Primm's Castle)
+  **the Showcase Quarter** (the facade town) in the middle behind its own low white wall, **the Castle Approach** (doors of Primm's Castle)
   and **the Correction Ward** and **Checkpoint Row** in the north. **The Crease** (the hideout hub) is a separate underground hall far to the
   south on its own visual layer (the sun does not light it), reached by ladder/hatch/shaft. Minimap + fog of war from the framework.
-- **Entry** is strictly controlled: the **Approved Gate Captain** (`CapitalEnemies.GATE_CAPTAIN`, a deliberately hard Necrocrat/Gourmand
+- **Entry** is strictly controlled: the **Captain Spotless** (`CapitalEnemies.GATE_CAPTAIN`, a deliberately hard Necrocrat/Gourmand
   deck, 24 HP) gives absurd entry requirements in dialogue and the **Entry Examination** is a card battle (`Session.start_gate_battle`);
   winning sets `cap_gate_open` + `cap_inside` and the barrier lifts. Losing = wake outside the gate with the **Correction fee** (20 gold,
   logged). Exits are controlled too (flavor): the Exit Interview booth, exit-control guards and signs.
 - **Secret entrance**: the **Old Joint Works** hatch in the south-west of the Outskirts (a `hidden` spot: no marker/plate/icon, an up-close
   prompt only) leads into the Crease and sneaks the player past the gate (`docs/design/secrets.md`).
 - **Hub: the Crease** (safe, no enemies): Nurse Hesper's **Tea of Dissent** (heal), **Fig Sly's** black market (rare cards:
-  `CapitalContent.BLACK_MARKET_CARD_IDS`, and a crate of supplies: `CapitalZone.BLACK_MARKET_ITEMS`), **Mabbit Quill** (the resistance's
+  `CapitalContent.BLACK_MARKET_CARD_IDS`, and a crate of supplies: `CapitalZone.BLACK_MARKET_ITEMS`), **Wren** (the resistance's
   keeper of records; reacts to your collected insights), the **service-shaft network** (six shafts to the six streets; **down while the Beefcake
   service is broken**), a ladder up to the plaza manhole and the tunnel back to the Outskirts. You wake here at 0 HP once you know it
   (`cap_hub_known`), otherwise outside the gate.
-- **Primm's Perfection** (the facade): 16 identical houses (2 are painted storefronts), regulation lawns/hedges, a fountain with a golden
+- **the Showcase Quarter** (the facade): 16 identical houses (2 are painted storefronts), regulation lawns/hedges, a fountain with a golden
   statue, loudspeakers (rotating cheerful announcements), portraits and statues of Primm, decree signs ("Approved Hat Sizes: 1",
   "Spontaneity by Permit Only", "Smiling Is Mandatory"), 9 citizens in matching clothes with fixed smiles (each says an approved phrase
   and, the next times you talk, slips up with a hint of fear), painted doors that do not open (4 `door` spots).
@@ -204,10 +204,10 @@ the four (what `ZoneCompletion` counts), `ZoneDefs.all_ids()` adds the Capital.
 - **9 hidden chests** (docs/design/secrets.md) and **interactables with real effects**: *deface propaganda* (6 portraits, +12 gold each, once),
   *seal a rift* (reward), the **Anonymous Complaint Box** (2 per visit; replies cycle: compensation gold, a heal, "noted", an Inspector
   who costs you 1 HP), plus the objects of the four Path quests (wheels, cable, paste dispenser, recipe cards, compost heaps, seed, stamp,
-  the Marrow plot, the Sick Patch).
+  the Pell plot, the Sick Patch).
 - **The four Path quests** (`ZoneQuestDefinitions.capital_quests`, tracked in the quest log; each pays gold, XP, a card, an item and a
-  **story insight** into Primm via `reward_unlock_flags`): *Form 27-B/6: A Burial Permit* (Tilda Marrow, Necrocrat), *The Wheel Never Stops*
-  (Bram Haulsworth, Beefcake), *The Recipe Box* (Odile Bisque, Gourmand), *Untidy* (Gus Peelings, Refusemancer).
+  **story insight** into Primm via `reward_unlock_flags`): *Form 27-B/6: A Burial Permit* (Widow Pell, Necrocrat), *The Wheel Never Stops*
+  (Rollo Spokes, Beefcake), *The Recipe Box* (Chef Marlo, Gourmand), *Untidy* (Old Fern, Refusemancer).
 - **Zone HP rules** as every zone; the fee is 20 gold ("Correction fee"). Famine lowers the visit's max HP, so the Capital is hard
   until the Paths are free; this is by design (and balance is out of scope).
 - **Dev/screenshot helpers**: `tools/shot.sh res://scenes/capital_zone.tscn <name> --at=<anchor> [--gate] [--hub] [--paths[=N]] [--freed]`.
@@ -249,7 +249,7 @@ simulated). The phases are three duels back to back (`Session.boss_phase`), HP c
 | 3. **Unraveling** | his units get +1/+1 and he draws extra, but loses 1 HP at the start of each of his turns | `STAT_CHANGE`, `EXTRA_DRAWS`, `START_OF_TURN_EFFECT` (lose HP) |
 
 The battle screen shows the phase's rule and the active broken services (`BattleHud.set_capital_panels`). **Freed leaders lend a boon**: for each
-completed zone its freed leader (Grandmaster Flex, Aurelio, Director Vellum, Fernwick) joins you when the boss is entered (dialogue, then a dungeon-wide
+completed zone its freed leader (Grandmaster Flex, the Grand Chef, Agnes Overdue, Compostella) joins you when the boss is entered (dialogue, then a dungeon-wide
 boon: +2 max HP and +1 attack to Beefcakes / +1 defense and bigger HP gain to Gourmands / Necrocrat cards 1 cheaper / +2 defense to
 Refusemancers; once per run). Dialogue is comedic self-importance first ("it has just been polished by seventeen people"), then real tragedy:
 he insists he did it all for the people, and the player's victory shows him (and the player) that his perfection was really about himself.
@@ -269,7 +269,7 @@ story variants), the four freed leaders stand in the Crease, the castle is open 
 
 ## Fast travel: the Beefcake Rift Express (brief 10b)
 
-Portals run by the Beefcakes. One station stands in Concord Crossing (open from the start, east of the spawn point); every zone has one beside its
+Portals run by the Beefcakes. One station stands in Crosspath (open from the start, east of the spawn point); every zone has one beside its
 hub (`rift_station` anchor in each layout: the D.N.A. lobby, the Swole Station, the Grand Pantry, the Compost Grange, and the Crease under the
 Capital). Reaching a zone's town the first time unlocks its station (flag `rift_station_<zone id>`, saved). Using a station: the operator talks
 (first time long), then the menu lists every station (locked ones are ???) with a "Rip me there!" button; a trip plays a rip shout, the rift tears
@@ -278,6 +278,6 @@ new one (full HP, enemies back). Code: `core/travel/fast_travel.gd` (rules), `wo
 `rift_portal.gdshader`), `world/travel/rift_trip.gd` (the sequence), `ui/town/fast_travel_screen.gd`, `Session.fast_travel_to`. Text: `travel.*` in
 `data/story/intro_story.tres`. Tests: `tests/core/travel/test_fast_travel.gd`; e2e: `tools/run_travel_smoke.sh`.
 
-The Capital is called **Neatropolis** (renamed from "Concordia Prime").
+The Capital is called **Primm's Perfection**, and **Pathordia** after Primm falls (old build: "Neatropolis"; its facade district is now "the Showcase Quarter").
 
 After any normal duel (a roaming zone enemy, a town NPC challenge, the Arena, the Graveyard) the hero stands exactly where the duel began.

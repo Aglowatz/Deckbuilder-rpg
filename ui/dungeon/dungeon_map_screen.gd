@@ -112,7 +112,7 @@ func _begin_boss_phase() -> void:
 		start.call()
 
 
-## Screenshot/dev only: enter any dungeon of the dungeon list by ID (`--dungeon=D-HOG`, `S-TOWN`... plus `--progress=N`); D-TUT is the Trial of the Hollow.
+## Screenshot/dev only: enter any dungeon of the dungeon list by ID (`--dungeon=D-HOG`, `S-TOWN`... plus `--progress=N`); D-TUT is the Forgotten Cave.
 func _prepare_dungeon_for_screenshot() -> void:
 	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(str(_screenshot_args["dungeon"]))
 	if plan == null:

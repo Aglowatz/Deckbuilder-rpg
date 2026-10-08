@@ -388,7 +388,7 @@ func _build_spots() -> void:
 	_build_vault_hatch()
 	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, 1.5)
 	_add_spot("deck", "Deck Station", town.anchors["deck"] as Vector3, 1.6)
-	_add_spot("gate", "Trial of the Hollow", town.anchors["gate"] as Vector3, 1.7)
+	_add_spot("gate", "The Forgotten Cave", town.anchors["gate"] as Vector3, 1.7)
 	_add_spot("elder", "Elder Maren", town.anchors["npc_well"] as Vector3, 1.4)
 	_add_spot("guard", "Gatekeeper Brannoch", town.anchors["npc_gate"] as Vector3, 1.4)
 	_add_spot("codex", "Hall of Records", town.anchors["codex"] as Vector3, 1.6)
@@ -691,7 +691,7 @@ func _prompt_text(spot: Spot) -> String:
 		"deck":
 			return "Open the Deck Station"
 		"gate":
-			return "Enter the Trial of the Hollow"
+			return "Enter the Forgotten Cave"
 		"codex":
 			return "Browse the Codex"
 		"chest":
@@ -709,7 +709,7 @@ func _prompt_text(spot: Spot) -> String:
 		"rift_station":
 			return StoryText.shared().text("travel.prompt")
 		"alchemist":
-			return "Browse Crucible & Co." if Session.alchemist_unlocked() else "Knock (the shop is closed)"
+			return "Browse Auntie Alembic's" if Session.alchemist_unlocked() else "Knock (the shop is closed)"
 		"arena":
 			return "Enter the Grand Clashatorium" if Session.arena_unlocked() else "The gates are chained shut"
 	if spot.id.begins_with("portal_"):
@@ -1390,14 +1390,14 @@ func _open_vendor() -> void:
 	EventBus.tutorial_event.emit(&"vendor_opened")
 
 
-## Brief 9, Part F: Crucible & Co. Locked until 2 zones are free: visible and shuttered, with a hint from the note on the
+## Brief 9, Part F: Auntie Alembic's Locked until 2 zones are free: visible and shuttered, with a hint from the note on the
 ## door. Open: Auntie Alembic greets you and the crafting screen opens.
 func _use_alchemist() -> void:
 	var story: StoryText = StoryText.shared()
 	if not Session.alchemist_unlocked():
 		_face_npc("alchemist")
 		dialogue.start(story.text("town.alchemist.name"), story.get_lines("town.alchemist.locked"))
-		hud.toast("%s (%d of %d zones free)" % ["Crucible & Co. is closed", Session.completed_zone_count(), ZoneCompletion.ALCHEMIST_UNLOCK_COUNT], Color("ffcf70"))
+		hud.toast("%s (%d of %d zones free)" % ["Auntie Alembic's is closed", Session.completed_zone_count(), ZoneCompletion.ALCHEMIST_UNLOCK_COUNT], Color("ffcf70"))
 		return
 	_face_npc("alchemist")
 	var lines: Array[String] = story.get_lines("town.alchemist.return" if Session.flag(&"alchemist_met") else "town.alchemist.intro")
@@ -1533,7 +1533,7 @@ func _use_gate() -> void:
 		Audio.sfx(&"ui_error")
 		return
 	var dialog: ConfirmDialog = ConfirmDialog.ask(
-		_overlay_layer, "Trial of the Hollow",
+		_overlay_layer, "The Forgotten Cave",
 		"Enter the cave? You are fully healed on entry, and your HP carries from fight to fight. Lose a duel and you are carried back to town.",
 		"Enter", "Not yet",
 	)
@@ -1707,7 +1707,7 @@ func _screenshot_slots(mode_name: String) -> void:
 	await get_tree().create_timer(1.5).timeout
 	var shot: Image = Session.capture_thumbnail()
 	Session.playtime_seconds = 5025.0
-	Session.last_location = "Concord Crossing"
+	Session.last_location = "Crosspath"
 	Session.save_to_slot(1, "Before the Dump", shot)
 	Session.gold = 340
 	Session.profile.level = 4

@@ -1,7 +1,7 @@
 class_name FastTravel
 extends RefCounted
 ## The Beefcake Rift Express (brief 10b): fast travel between the main town and the towns (hubs) of the zones. One station stands in
-## Concord Crossing from the start; reaching the hub of a zone for the first time unlocks that zone's station, and from then on every
+## Crosspath from the start; reaching the hub of a zone for the first time unlocks that zone's station, and from then on every
 ## station can rip a portal to every other unlocked one. Pure rules only: the scenes build the stations (`FastTravelStation`), the
 ## screen lists them (`FastTravelScreen`), `Session.fast_travel_to` moves the player. All text lives in the shared story file
 ## (`travel.*` keys in data/story/intro_story.tres).

@@ -2805,3 +2805,14 @@ Screenshots of everything below are in `docs/art/screens/brief16/` (1600x900 JPG
 6. **Where a loaded game resumes**: town (or the zone hub); position and zone HP are not saved. Acceptable for manual slots, or should I save the hero position too?
 7. **Secret Dealer** now appears after opening the original giant chest (it used to be the 60-gold Grove chest, which is now a joke chest). OK?
 8. **Old mini-dungeon smokes** (`fifth` / `sixth_brief_final_smoke`) still fail at the mini-dungeon step (old button text); shall I update them to the new side-dungeon quest flow?
+
+## Story v2 (overnight task, docs/overnight_task.md)
+
+Progress checklist: `docs/overnight_progress.md`. Judgment calls: `docs/design/open_questions.md` "Story v2" (SV-n).
+
+### Part A - Story bible and global renames
+- `docs/design/story_bible.md` rewritten from `story_source_v2.md`; zones/secrets/arena/alchemy/art docs renamed; old-name search is clean outside history (see SV-2/SV-3 for the two deliberate keeps).
+- Renames applied in code, story data, NPC data, quests, tests and tools (Crosspath, Pathavia, Primm's Perfection / the Showcase Quarter, Pathwork Throne, the Forgotten Cave, Iron-less Prison, Chancellor Clench, Grandmaster Flex, the Grand Chef / the Doppelganger, Mortimer (boss) / Vellum (Appeals Court elite) / Agnes Overdue (freed leader), Compostella, Wren, Widow Pell, Rollo Spokes (NPC-ROLLO, portrait file renamed), Chef Marlo, Old Fern, Captain Spotless, Auntie Alembic). Elder Maren, the Grand Chef and Compostella are she/her in the edited lines.
+- New `data/story/royal_family.tres` + `RoyalFamily` (tokens `{prince} {prince_full} {royal_house} {king} {queen} {rescuer} {kingdom} {town} {capital} {showcase}`), filled by `Villain.fill`.
+- NPC list and dungeon list re-imported from the updated sheet (63 NPCs; D-LAB skipped until Part H). Placeholder portraits for the king, queen, Rescuer and Dr. Siphon.
+- GUT: 1206 tests, all passing.

@@ -247,12 +247,12 @@ static func _cap_burial() -> QuestData:
 	quest.id = CapitalZone.QUEST_BURIAL
 	quest.order = 510
 	quest.title = "Form 27-B/6: A Burial Permit"
-	quest.summary = "Widow Pell's grandfather has sat in the family parlor for three years because the permit loops forever. Find the Stamp of Final Approval in Grave Row, then lay him to rest."
-	quest.giver_npc = CapitalZone.NPC_TILDA
-	quest.turn_in_npc = CapitalZone.NPC_TILDA
+	quest.summary = "Widow Pell's husband has sat in the family parlor for three years because the permit loops forever. Find the Stamp of Final Approval in Grave Row, then lay him to rest."
+	quest.giver_npc = CapitalZone.NPC_PELL
+	quest.turn_in_npc = CapitalZone.NPC_PELL
 	quest.objectives = [
 		QuestObjective.make("Find the Stamp of Final Approval", Condition.flag(str(CapitalZone.FLAG_STAMP))),
-		QuestObjective.make("Lay Grandfather Marrow to rest", Condition.flag(str(CapitalZone.FLAG_LAID_TO_REST))),
+		QuestObjective.make("Lay Mr. Pell to rest", Condition.flag(str(CapitalZone.FLAG_LAID_TO_REST))),
 	] as Array[QuestObjective]
 	quest.reward_gold = 150
 	quest.reward_xp = 120
@@ -269,8 +269,8 @@ static func _cap_wheels() -> QuestData:
 	quest.order = 520
 	quest.title = "The Wheel Never Stops"
 	quest.summary = "Beefcake crews have run the facade's energy wheels for ten years because nobody told them they could stop. Free the three crews in the Transit Yards and cut the cable that feeds the facade."
-	quest.giver_npc = CapitalZone.NPC_BRAM
-	quest.turn_in_npc = CapitalZone.NPC_BRAM
+	quest.giver_npc = CapitalZone.NPC_ROLLO
+	quest.turn_in_npc = CapitalZone.NPC_ROLLO
 	quest.objectives = [
 		QuestObjective.make("Free the wheel crews", Condition.counter(CapitalZone.COUNTER_WHEELS, 3)),
 		QuestObjective.make("Cut the facade's power cable", Condition.flag(str(CapitalZone.FLAG_CABLE_CUT))),
@@ -290,8 +290,8 @@ static func _cap_recipes() -> QuestData:
 	quest.order = 530
 	quest.title = "The Recipe Box"
 	quest.summary = "Everyone eats Primm's Perfect Nutrient Paste. Chef Marlo has hidden real recipes around the Hungry Quarter: recover three of them and spoil the paste dispenser."
-	quest.giver_npc = CapitalZone.NPC_ODILE
-	quest.turn_in_npc = CapitalZone.NPC_ODILE
+	quest.giver_npc = CapitalZone.NPC_MARLO
+	quest.turn_in_npc = CapitalZone.NPC_MARLO
 	quest.objectives = [
 		QuestObjective.make("Find the hidden recipe cards", Condition.counter(CapitalZone.COUNTER_RECIPES, 3)),
 		QuestObjective.make("Spoil the Perfect Nutrient Paste dispenser", Condition.flag(str(CapitalZone.FLAG_PASTE_SPOILED))),
@@ -311,8 +311,8 @@ static func _cap_untidy() -> QuestData:
 	quest.order = 540
 	quest.title = "Untidy"
 	quest.summary = "Composting is outlawed as untidy and the Capital's garbage is hidden behind the facade, so the land is sickening. Rescue three banished compost heaps in the Reek, find the old seed and plant it in the Sick Patch."
-	quest.giver_npc = CapitalZone.NPC_GUS
-	quest.turn_in_npc = CapitalZone.NPC_GUS
+	quest.giver_npc = CapitalZone.NPC_FERN
+	quest.turn_in_npc = CapitalZone.NPC_FERN
 	quest.objectives = [
 		QuestObjective.make("Rescue the banished compost heaps", Condition.counter(CapitalZone.COUNTER_COMPOST, 3)),
 		QuestObjective.make("Plant the old seed in the Sick Patch", Condition.flag(str(CapitalZone.FLAG_SEED_PLANTED))),

@@ -127,7 +127,7 @@ Added this run: T-01, T-02, T-03, T-04, T-05, T-06, T-07, T-08, T-09, T-10, T-11
 | G-30 | The Infinite Pantry | yes |
 | G-31 | Recipe for wonder | yes |
 | G-32 | The Eternal Banquet | yes |
-| G-33 | Grand Chef Escoffina | yes |
+| G-33 | The Grand Chef | yes |
 | GB-01 | Bulking Season Brute | yes |
 | GB-02 | Meathead Butcher | yes |
 | GB-03 | Cheat Day Champion | yes |
@@ -428,15 +428,15 @@ and falls back to the base portrait. An NPC without a portrait shows the dialogu
 | NPC-KESTREL | Kestrel | yes |  |
 | NPC-SPOTLESS | Captain Spotless | yes |  |
 | NPC-PELL | Widow Pell | yes |  |
-| NPC-GUS | Gus | yes |  |
+| NPC-ROLLO | Rollo Spokes | yes |  |
 | NPC-MARLO | Chef Marlo | yes |  |
 | NPC-FERN | Old Fern | yes |  |
 | NPC-CITIZEN | A Perfectly Happy Citizen | yes |  |
 | NPC-FLEX | Grandmaster Flex, the Unbroken | yes |  |
 | NPC-CLENCH | Chancellor Clench, Iron Regent | yes |  |
-| NPC-ESCOFFINA | Grand Chef Escoffina | yes |  |
+| NPC-ESCOFFINA | The Grand Chef | yes |  |
 | NPC-DOPPEL | The Doppelganger | yes |  |
-| NPC-VELLUM | Undersecretary Vellum, Acting Director of Final Approvals | yes |  |
+| NPC-VELLUM | Undersecretary Vellum | yes |  |
 | NPC-MORTIMER | Mortimer Grimsby, CE-No | yes |  |
 | NPC-COMPOSTELLA | Archdruid Compostella | yes |  |
 | NPC-ROTHEART | Compostella, the Rotheart | yes |  |
@@ -457,7 +457,7 @@ A dungeon with no map image keeps its placeholder map.
 
 | Map Image ID | Dungeon | Name | Image | Nodes |
 |--------------|---------|------|-------|-------|
-| MAP-TUT | D-TUT | Trial of the Hollow | yes | 6 |
+| MAP-TUT | D-TUT | The Forgotten Cave | yes | 6 |
 | MAP-HOG | D-HOG | The House of Gains | yes | 13 |
 | MAP-TTK | D-TTK | The Test Kitchen | yes | 13 |
 | MAP-HFA | D-HFA | The Hall of Final Approvals | yes | 14 |

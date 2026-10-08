@@ -78,7 +78,7 @@
 				},
 				"10": {
 					"title": "R&D Archives",
-					"body": "Blueprints, recipe cards and signed memos fill the cabinets. Every handwritten note signed 'Escoffina' leans the wrong way.",
+					"body": "Blueprints, recipe cards and signed memos fill the cabinets. Every handwritten note signed by the Grand Chef leans the wrong way.",
 					"choices": [
 						["Compare the handwriting", "The chef who wrote these has never held a ladle. The impostor is exposed.", "boon:Impostor Exposed|atk=1,def=1"],
 						["Photograph the blueprints", "Evidence, and a buyer for it.", "gold:50"]
@@ -110,9 +110,9 @@
 				"4": "Returns Clerk",
 				"7": {"name": "Notary Wraith", "deck": "necro_control", "size": 31, "hp": 19},
 				"9": "Resurrection Permits Zombie",
-				"11": {"name": "Appeals Court Judge", "deck": "necro_control", "size": 30, "hp": 20},
+				"11": {"name": "Undersecretary Vellum", "deck": "necro_control", "size": 30, "hp": 20},
 				"13": "Executive Elevator Operator",
-				"14": "Undersecretary Vellum, Acting Director of Final Approvals"
+				"14": "Mortimer Grimsby, CE-No"
 			},
 			"events": {
 				"2": {

@@ -21,9 +21,9 @@ above every scene) shows it ("Extra copy of Firebolt converted into 2 Beefcake e
 dungeons, the rewards screen and battles. Essence totals are shown on the **Character screen** ("Path essence: Beefcake 12,
 ...") and in the **Alchemist UI**. `PlayerProfile.essence` is saved (`"essence"` in the save).
 
-## The Alchemist (Crucible & Co., Zinnia Vex)
+## The Alchemist (Auntie Alembic)
 
-A crafting vendor in Concord Crossing, **locked until 2 zones are completed** (`ZoneCompletion.ALCHEMIST_UNLOCK_COUNT`):
+A crafting vendor in Crosspath, **locked until 2 zones are completed** (`ZoneCompletion.ALCHEMIST_UNLOCK_COUNT`):
 the building is visible, shuttered ("CLOSED (until two zones are free)") and the door gives a hint. When the player has
 at least **10 essence (`Alchemy.MIN_ESSENCE_PER_PATH`) of two different Paths** they may trade **ALL of their essence of
 those two Paths + 100 gold** for **one random dual-Path card** of those two Paths (4 cards per pair, one of each

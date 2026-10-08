@@ -197,7 +197,7 @@ the only tell is `[E] Open the chest` within `ZoneScene.HIDDEN_CHEST_RADIUS` (~1
 ### The secret entrance: the Old Joint Works
 
 A forgotten service tunnel the four Paths built together back when they cooperated. It is the only way past the Approved Gate
-that is not the Gate Captain's card battle. **No marker, no plate, no minimap icon** (it is a `hidden` spot, the same rules as a
+that is not the Captain Spotless's card battle. **No marker, no plate, no minimap icon** (it is a `hidden` spot, the same rules as a
 chest: only an up-close `[E] Squeeze through the gap` prompt, and only within 1.5 m).
 
 | Where | How it is tucked | Hint (only for those who read signs) | What it does |
@@ -224,7 +224,7 @@ a minimap kind, the tunnel spot hidden and not a POI, reachability from the road
 
 ## Brief 12, Part F: three special cosmetics (spoilers)
 
-None of these is sold by the tailor (Tilda Thimble hints at all three once the first zone is freed). Each is purely visual.
+None of these is sold by the tailor (Pip Threadwell hints at all three once the first zone is freed). Each is purely visual.
 
 | Cosmetic | Where | How |
 |---|---|---|
@@ -333,8 +333,8 @@ with the first save the cave creates.
 
 | id | Where (world x, z) | How it's tucked | Tier | Contents |
 |----|--------------------|-----------------|------|----------|
-| `chest_facade_back` | Primm's Perfection, (75.6, 16.8) | Behind the facade: against the back wall behind the last identical house | II | 100 gold + **Royal Audit** (card, Epic) |
-| `chest_facade_west` | Primm's Perfection, (43.8, 22.2) | Behind the facade: squeezed between the west wall and the first row of houses | II | 80 gold + **Ward Sigil** |
+| `chest_facade_back` | The Showcase Quarter, (75.6, 16.8) | Behind the facade: against the back wall behind the last identical house | II | 100 gold + **Royal Audit** (card, Epic) |
+| `chest_facade_west` | The Showcase Quarter, (43.8, 22.2) | Behind the facade: squeezed between the west wall and the first row of houses | II | 80 gold + **Ward Sigil** |
 | `chest_crease_e` | The Crease (through the tunnel or the manhole), (40.2, 100.8) | East end of the hideout | I | 60 gold + **General Pack** (expanded) |
 | `chest_crease_w` | The Crease, (4.8, 100.8) | West end, past the ladder | I | 70 gold + **Hearty Pie** |
 | `chest_ward_n` | The Correction Ward, (95.4, 8.4) | North side of the ward, beyond the rift | II | 120 gold + **Cheater's Dice** (advanced relic) |
@@ -362,7 +362,7 @@ he shouts **SMOKE BOMB!!!** and vanishes in a puff of smoke (synthesized `smoke_
 
 A 2 m wide gap through the city wall, **far along the LEFT-hand (west) side of the wall, at x = 22..23** (the wall's far-west stretch, about 37 m west of the Approved Gate), lets a player who sneaks along the wall slip into the main area (the Reek's north end, then Checkpoint Plaza) while the gate is still shut and its guards stand at the gate.
 No marker, no sign, no map icon, no prompt. The only hints are visual: two thin dark **cracks** climbing the wall face either side of the gap, a few **loose stones** fallen at its foot and three clumps of **dry scrub** half-hiding the opening (scrub does not block walking).
-Walking through sets the secret `capital_wall_passage` (toast: "You squeeze through a gap in the wall, right past the gate guards.") and the usual inside-the-walls changes (the bright Neatropolis look, the `cap_inside` flag) apply by position as for the gate.
+Walking through sets the secret `capital_wall_passage` (toast: "You squeeze through a gap in the wall, right past the gate guards.") and the usual inside-the-walls changes (the bright Primm's Perfection look, the `cap_inside` flag) apply by position as for the gate.
 It is separate from the Old Service Tunnels (S-CAP, which comes up in the Crease). Code: `CapitalLayout.PASSAGE_X0/PASSAGE_W`, props `wall_crack`, `loose_stones`, `scrub` (`world/capital/capital_props.gd`); tests: `tests/core/zone/test_capital_wall_passage.gd`.
 
 ## Brief 16, Group G: the Four-Lever Vault (spoilers)

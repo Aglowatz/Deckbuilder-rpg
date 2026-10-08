@@ -7,7 +7,7 @@ extends Node
 ## Screenshots every new area/screen to _screenshots/brief5/. Run windowed:
 ##   Godot --path . res://tools/fifth_brief_final_launcher.tscn
 ## Deliberate shortcuts (stated, like the earlier smokes): the Necrocrat gate flag is set directly
-## (beating Corwyn is covered by the corrupted-NPC smoke); long walks fall back to a short teleport
+## (beating Prudence Pallor is covered by the corrupted-NPC smoke); long walks fall back to a short teleport
 ## when the crude no-pathfinding mover gets stuck behind a wall; the player teleports next to an
 ## enemy so it notices them quickly.
 ## Exit code 0 = every check passed; 1 = a check failed.

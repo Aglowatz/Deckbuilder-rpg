@@ -55,7 +55,7 @@ func test_all_spots_hubs_chests_and_enemies_are_connected_to_the_spawn_through_t
 	var builder: CapitalBuilder = _builder()
 	builder.gate_open = true
 	var reached: Dictionary = _flood(builder, builder.anchor("spawn"))
-	for name_to_check: String in ["gate_inside", "gus", "tilda", "bram", "odile", "castle_door", "net_approach", "manhole", "facade_gate", "fountain", "ward_window", "castle_door"]:
+	for name_to_check: String in ["gate_inside", "fern", "pell", "rollo", "marlo", "castle_door", "net_approach", "manhole", "facade_gate", "fountain", "ward_window", "castle_door"]:
 		assert_true(_reaches(reached, builder.anchor(name_to_check)), "%s is reachable from the road" % name_to_check)
 	# The Crease (the underground hideout, z > 95) is reached through the manhole or the tunnel, so its chests are checked from its own arrival point.
 	var crease: Dictionary = _flood(builder, builder.anchor("crease_spawn"))
@@ -84,7 +84,7 @@ func test_the_closed_gate_stays_shut() -> void:
 func test_the_hideout_is_a_separate_underground_hall() -> void:
 	var builder: CapitalBuilder = _builder()
 	var hub: Dictionary = _flood(builder, builder.anchor("crease_spawn"))
-	for name_to_check: String in ["mabbit", "fig", "heal", "ladder_up", "tunnel_out", "fig_crate"]:
+	for name_to_check: String in ["wren", "fig", "heal", "ladder_up", "tunnel_out", "fig_crate"]:
 		assert_true(_reaches(hub, builder.anchor(name_to_check)), "%s is in the Crease" % name_to_check)
 	assert_false(_reaches(hub, builder.anchor("spawn")), "the Crease is not connected on foot to the city")
 	for destination: String in CapitalLayout.NETWORK_DESTINATIONS:
@@ -113,7 +113,7 @@ func test_districts_and_areas() -> void:
 	var titles: Array[String] = []
 	for area: CapitalLayout.Area in _layout.areas:
 		titles.append(area.title)
-	for expected: String in ["The Outskirts", "The Approved Gate", "Primm's Perfection", "The Reek", "Grave Row", "The Transit Yards", "The Hungry Quarter", "The Correction Ward", "The Castle Approach", "The Crease"]:
+	for expected: String in ["The Outskirts", "The Approved Gate", "The Showcase Quarter", "The Reek", "Grave Row", "The Transit Yards", "The Hungry Quarter", "The Correction Ward", "The Castle Approach", "The Crease"]:
 		assert_true(titles.has(expected), "area %s" % expected)
 
 
@@ -437,13 +437,13 @@ func test_enemy_types_use_the_framework_slow_battle_starters_and_fast_damagers()
 
 
 func test_the_gate_battle_is_challenging_and_winning_it_opens_the_gate() -> void:
-	var captain: ZoneEnemyInfo = ZoneEnemies.info(CapitalZone.ID, CapitalEnemies.GATE_CAPTAIN)
+	var captain: ZoneEnemyInfo = ZoneEnemies.info(CapitalZone.ID, CapitalEnemies.SPOTLESS)
 	var officer: ZoneEnemyInfo = ZoneEnemies.info(CapitalZone.ID, CapitalEnemies.OFFICER)
 	assert_gt(captain.hp, officer.hp, "tougher than a roamer")
 	assert_gt(captain.gold_reward, officer.gold_reward)
 	Session.begin_zone_visit(CapitalZone.ID)
 	assert_false(Session.flag(CapitalZone.FLAG_GATE_OPEN))
-	var context: BattleContext = Session.make_zone_battle(CapitalEnemies.GATE_CAPTAIN, CapitalEnemies.GATE_CAPTAIN)
+	var context: BattleContext = Session.make_zone_battle(CapitalEnemies.SPOTLESS, CapitalEnemies.SPOTLESS)
 	context.won = true
 	context.game.players[0].hp = 12
 	var result: Dictionary = Session.resolve_zone_battle(context)
@@ -454,7 +454,7 @@ func test_the_gate_battle_is_challenging_and_winning_it_opens_the_gate() -> void
 
 func test_a_lost_gate_battle_wakes_you_outside_with_a_fee() -> void:
 	Session.begin_zone_visit(CapitalZone.ID)
-	var context: BattleContext = Session.make_zone_battle(CapitalEnemies.GATE_CAPTAIN, CapitalEnemies.GATE_CAPTAIN)
+	var context: BattleContext = Session.make_zone_battle(CapitalEnemies.SPOTLESS, CapitalEnemies.SPOTLESS)
 	context.won = false
 	context.game.players[0].hp = 0
 	var gold: int = Session.gold
@@ -494,12 +494,12 @@ func test_every_text_key_the_capital_uses_exists() -> void:
 			var n: int = int(id.trim_prefix("citizen_"))
 			for variant: String in ["approved", "approved2", "slip"]:
 				_check(story, "facade.citizen.%d.%s" % [n, variant], missing)
-		elif ["mabbit", "fig", "hesper", "gus", "tilda", "bram", "odile", "gate_captain", "guard_height", "guard_queue", "guard_in_1", "guard_in_2", "exit_clerk", "patient"].has(id):
+		elif ["wren", "fig", "hesper", "fern", "pell", "rollo", "marlo", "spotless", "guard_height", "guard_queue", "guard_in_1", "guard_in_2", "exit_clerk", "patient"].has(id):
 			_check(story, "npc.%s.intro" % id, missing)
 			_check(story, "npc.%s.return" % id, missing)
 	for key: String in ["hud.objective", "hud.objective.inside", "hud.objective.freed", "ui.exit.title", "ui.exit.body", "ui.gate.title", "ui.gate.body", "ui.gate.button",
 			"ui.main.title", "ui.main.body", "ui.main.body_cleared", "ui.main.button", "fx.main_dungeon", "fx.heal_couch", "fx.heal_already", "fx.hit", "fx.wake", "fx.wake_outside", "fx.chest", "fx.inside",
-			"fx.no_travel", "fx.shaft", "fx.ladder", "fx.tunnel_out", "fx.tunnel_in", "fx.tunnel_found", "fx.manhole", "fx.manhole_first", "npc.gate_captain.open", "npc.gate_captain.defeated",
+			"fx.no_travel", "fx.shaft", "fx.ladder", "fx.tunnel_out", "fx.tunnel_in", "fx.tunnel_found", "fx.manhole", "fx.manhole_first", "npc.spotless.open", "npc.spotless.defeated",
 			"prop.facade_arch", "prop.complaint_box", "prop.compost_shack", "prop.parlor", "prop.permit_office", "prop.paste_dispenser", "fx.ward_window"]:
 		_check(story, key, missing)
 	for suffix: String in ["deface", "deface_again", "complaint_compensation", "complaint_tea", "complaint_noted", "complaint_inspector", "complaint_limit", "seal", "seal_guarded", "seal_done", "seal_cannot",
@@ -508,7 +508,7 @@ func test_every_text_key_the_capital_uses_exists() -> void:
 		_check(story, "fx." + suffix, missing)
 	for n: int in range(1, 5):
 		_check(story, "facade.door.%d" % n, missing)
-		_check(story, "npc.mabbit.insight.%d" % n, missing)
+		_check(story, "npc.wren.insight.%d" % n, missing)
 	for n: int in range(1, 4):
 		for index: int in range(3):
 			_check(story, "facade.speaker.%d.%d" % [n, index], missing)

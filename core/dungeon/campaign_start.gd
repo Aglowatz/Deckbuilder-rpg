@@ -3,7 +3,7 @@ extends RefCounted
 ## The start of a new campaign (Part C): the player picks their element BEFORE the tutorial
 ## dungeon, in the starting area (`ElementChoiceScreen`). `new_profile`/`starter_deck` then build
 ## the 42-card starter - 23 colorless spells + 19 basic infrastructure of the chosen element - the player
-## carries into the Trial of the Hollow. It is short of the normal 45-card minimum on purpose
+## carries into the Forgotten Cave. It is short of the normal 45-card minimum on purpose
 ## (`TrialOfTheHollow.deck_size_waiver()`); the 3 tutorial reward picks (one on-element card per
 ## battle) bring it up to a real, legal 45-card deck by the time the player reaches town.
 ## See docs/design/starting_deck_and_affinity.md for the story framing.

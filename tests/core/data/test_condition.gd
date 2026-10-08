@@ -20,9 +20,9 @@ func test_flag_set() -> void:
 
 
 func test_dungeon_cleared() -> void:
-	var condition: Condition = Condition.dungeon_cleared("Trial of the Hollow")
+	var condition: Condition = Condition.dungeon_cleared("The Forgotten Cave")
 	assert_false(Condition.met(condition, state))
-	state.cleared_dungeons.append("Trial of the Hollow")
+	state.cleared_dungeons.append("The Forgotten Cave")
 	assert_true(Condition.met(condition, state))
 
 

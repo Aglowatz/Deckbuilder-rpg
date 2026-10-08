@@ -110,7 +110,9 @@ static func _load() -> void:
 	if rows is Array:
 		for row: Variant in rows as Array:
 			if row is Dictionary:
-				_blueprints.append(_parse(row as Dictionary))
+				var parsed: Blueprint = _parse(row as Dictionary)
+				if not parsed.nodes.is_empty():
+					_blueprints.append(parsed)
 	var text: Variant = _content.get("text", {})
 	_text = (text as Dictionary).duplicate() if text is Dictionary else {}
 

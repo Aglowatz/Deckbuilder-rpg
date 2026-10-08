@@ -11,7 +11,7 @@
 		"Rhonda": "NPC-RIP",
 		"Ripley": "NPC-RIP",
 		"Raelynn": "NPC-RIP",
-		"Crucible & Co.": "V-ALEMBIC",
+		"Auntie Alembic's": "V-ALEMBIC",
 		"The Grand Clashatorium": "NPC-BELLOWS"
 	},
 	"speaker_prefixes": {
@@ -21,7 +21,8 @@
 	"story_keys": {
 		"dungeon.hg_boss": "NPC-CLENCH",
 		"dungeon.hg_stretch.after": "NPC-FLEX",
-		"dungeon.ha_boss": "NPC-VELLUM",
+		"dungeon.ha_boss": "NPC-MORTIMER",
+		"dungeon.ha_clerk": "NPC-VELLUM",
 		"dungeon.tk_boss": "NPC-DOPPEL",
 		"dungeon.rh_boss": "NPC-ROTHEART",
 		"dungeon.dg_s_beef_boss": "NPC-SPOTTER",

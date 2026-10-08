@@ -213,7 +213,7 @@ func _areas() -> void:
 	_add_area("crease", "The Crease", Rect2i(4, 100, 37, 21))
 	_add_area("gate", "The Approved Gate", Rect2i(GATE_X0 - 6, 56, 22, 12))
 	_add_area("plaza", "Checkpoint Plaza", Rect2i(42, 45, 37, 15))
-	_add_area("perfection", "Primm's Perfection", Rect2i(42, 15, 37, 30))
+	_add_area("perfection", "The Showcase Quarter", Rect2i(42, 15, 37, 30))
 	_add_area("reek", "The Reek", Rect2i(2, 36, 40, 24))
 	_add_area("grave", "Grave Row", Rect2i(2, 16, 40, 20))
 	_add_area("transit", "The Transit Yards", Rect2i(79, 36, 39, 24))
@@ -246,7 +246,7 @@ func _anchors() -> void:
 	_anchor("camp", 50.0, 88.0)
 	_anchor("kestrel", 41.0, 86.0)
 	_anchor("old_tunnels", 84.0, 87.0)
-	_anchor("gate_captain", 60.0, 67.0)
+	_anchor("spotless", 60.0, 67.0)
 	_anchor("guard_height", 52.0, 68.0)
 	_anchor("guard_queue", 68.0, 68.0)
 	_anchor("tunnel_in", 7.0, 72.0)
@@ -262,7 +262,7 @@ func _anchors() -> void:
 	_anchor("guard_in_1", 53.0, 57.0)
 	_anchor("guard_in_2", 67.0, 57.0)
 	_anchor("net_plaza", 55.0, 52.0)
-	# Primm's Perfection.
+	# The Showcase Quarter.
 	_anchor("facade_gate", 60.0, 44.5)
 	_anchor("fountain", 60.0, 30.0)
 	_anchor("complaint_2", 62.0, 41.0)
@@ -279,7 +279,7 @@ func _anchors() -> void:
 	_anchor("door_3", 49.0, 25.0)
 	_anchor("door_4", 71.0, 25.0)
 	# The Reek (Refusemancers).
-	_anchor("gus", 20.0, 44.0)
+	_anchor("fern", 20.0, 44.0)
 	_anchor("heap_1", 9.0, 40.0)
 	_anchor("heap_2", 31.0, 55.0)
 	_anchor("heap_3", 14.0, 56.5)
@@ -287,20 +287,20 @@ func _anchors() -> void:
 	_anchor("seed", 36.0, 49.0)
 	_anchor("net_reek", 35.0, 42.0)
 	# Grave Row (Necrocrats).
-	_anchor("tilda", 24.0, 29.0)
+	_anchor("pell", 24.0, 29.0)
 	_anchor("permit_window", 14.0, 23.0)
 	_anchor("stamp", 7.0, 18.0)
-	_anchor("marrow_plot", 32.0, 22.0)
+	_anchor("pell_plot", 32.0, 22.0)
 	_anchor("net_grave", 35.0, 27.0)
 	# The Transit Yards (Beefcakes).
-	_anchor("bram", 92.0, 50.0)
+	_anchor("rollo", 92.0, 50.0)
 	_anchor("wheel_1", 99.0, 42.0)
 	_anchor("wheel_2", 109.0, 53.0)
 	_anchor("wheel_3", 96.0, 57.0)
 	_anchor("cable", 112.0, 40.0)
 	_anchor("net_transit", 88.0, 44.0)
 	# The Hungry Quarter (Gourmands).
-	_anchor("odile", 96.0, 28.0)
+	_anchor("marlo", 96.0, 28.0)
 	_anchor("recipe_1", 86.0, 20.0)
 	_anchor("recipe_2", 111.0, 22.0)
 	_anchor("recipe_3", 101.0, 33.0)
@@ -320,7 +320,7 @@ func _anchors() -> void:
 	# The Crease (the hub): everything is underground, south of the world.
 	_anchor("crease_spawn", 22.0, 116.0)
 	_anchor("rift_station", 28.0, 112.0)
-	_anchor("mabbit", 14.0, 106.0)
+	_anchor("wren", 14.0, 106.0)
 	_anchor("fig", 31.0, 106.0)
 	_anchor("fig_crate", 36.0, 110.0)
 	_anchor("heal", 22.0, 104.0)
@@ -491,7 +491,7 @@ func _walls_and_gate() -> void:
 	_prop("gate_barrier", 60.0, float(WALL_Z0) + 1.0, 0.0, 1.0, 0.0)
 
 
-# ---- Primm's Perfection (the facade town) -------------------------------------------------------------------------
+# ---- The Showcase Quarter (the facade district) -------------------------------------------------------------------------
 
 
 func _facade() -> void:
@@ -562,8 +562,8 @@ func _reek() -> void:
 		_prop("compost_heap", pos.x, pos.z, 0.0, 1.0, 0.0, 0, "refusemancer")
 	var patch: Vector3 = anchors["sick_patch"] as Vector3
 	_prop("sick_patch", patch.x, patch.z, 0.0, 1.0, 0.0, 0, "refusemancer")
-	var gus_pos: Vector3 = anchors["gus"] as Vector3
-	_prop("stall_shack", gus_pos.x + 2.5, gus_pos.z - 1.0, 0.0, 1.0, 1.4)
+	var fern_pos: Vector3 = anchors["fern"] as Vector3
+	_prop("stall_shack", fern_pos.x + 2.5, fern_pos.z - 1.0, 0.0, 1.0, 1.4)
 	var seed_pos: Vector3 = anchors["seed"] as Vector3
 	_prop("seed_jar", seed_pos.x, seed_pos.z, 0.0, 1.0, 0.0)
 	_sign("sign.reek_main", 12.0, 38.0, 0.0, 1.1, "banner")
@@ -586,12 +586,12 @@ func _grave_row() -> void:
 			var z: float = 31.0 + float(row) * 1.6
 			if _clear_of_anchors(x - 0.4, z - 0.4, 0.8, 0.8, 1.6) and cell_at(int(x), int(z)) == Cell.GROUND:
 				_prop("grave", x, z, 0.0, 1.0, 0.45, (row + column) % 3, "necrocrat")
-	var tilda_pos: Vector3 = anchors["tilda"] as Vector3
-	_prop("parlor", tilda_pos.x + 3.0, tilda_pos.z - 1.5, 0.0, 1.0, 1.8)
+	var pell_pos: Vector3 = anchors["pell"] as Vector3
+	_prop("parlor", pell_pos.x + 3.0, pell_pos.z - 1.5, 0.0, 1.0, 1.8)
 	var permit: Vector3 = anchors["permit_window"] as Vector3
 	_prop("permit_office", permit.x, permit.z - 1.4, 0.0, 1.0, 1.6)
 	_prop("notary_booth", 7.0, 17.0, 0.0, 1.0, 0.9)
-	var plot: Vector3 = anchors["marrow_plot"] as Vector3
+	var plot: Vector3 = anchors["pell_plot"] as Vector3
 	_prop("family_plot", plot.x, plot.z, 0.0, 1.0, 0.0)
 	_prop("manhole", 35.0, 27.0, 0.0, 1.0, 0.0)
 	_sign("sign.grave_main", 12.0, 18.0, 0.0, 1.1, "banner")
@@ -610,7 +610,7 @@ func _transit_yards() -> void:
 	for wheel: String in ["wheel_1", "wheel_2", "wheel_3"]:
 		var pos: Vector3 = anchors[wheel] as Vector3
 		_prop("energy_wheel", pos.x, pos.z - 3.0, 0.0, 1.0, 2.6, 0, "beefcake")
-	var bram_pos: Vector3 = anchors["bram"] as Vector3
+	var bram_pos: Vector3 = anchors["rollo"] as Vector3
 	_prop("crate_stack", bram_pos.x - 2.0, bram_pos.z - 1.0, 0.0, 1.0, 1.0)
 	_building("tram", 92.0, 35.4, 12.0, 2.2, 2.8, 0.0, "beefcake", 0)
 	for pylon_x: float in [86.0, 94.0, 102.0, 110.0]:
@@ -633,8 +633,8 @@ func _hungry_quarter() -> void:
 	_block_grid(Rect2(84.0, 17.0, 32.0, 18.0), Vector2(11.0, 9.0), Vector2(6.0, 5.0), "stall", "gourmand", 0.3, Vector2(2.6, 4.0), 1.5)
 	var dispenser: Vector3 = anchors["dispenser"] as Vector3
 	_prop("paste_dispenser", dispenser.x, dispenser.z, 90.0, 1.0, 0.8, 0, "gourmand")
-	var odile_pos: Vector3 = anchors["odile"] as Vector3
-	_prop("kitchen_cart", odile_pos.x + 2.4, odile_pos.z - 1.0, 0.0, 1.0, 1.2, 0, "gourmand")
+	var marlo_pos: Vector3 = anchors["marlo"] as Vector3
+	_prop("kitchen_cart", marlo_pos.x + 2.4, marlo_pos.z - 1.0, 0.0, 1.0, 1.2, 0, "gourmand")
 	for recipe: String in ["recipe_1", "recipe_2", "recipe_3"]:
 		var pos: Vector3 = anchors[recipe] as Vector3
 		_prop("recipe_card", pos.x, pos.z, 0.0, 1.0, 0.0, 0, "gourmand")

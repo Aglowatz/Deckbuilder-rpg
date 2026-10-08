@@ -6,7 +6,7 @@ extends RefCounted
 ##    (nothing) and "an Inspector is dispatched" (a little damage).
 ##  - Rift-stones: seal a (sealable) rift once its guardian is beaten; pays the rift's reward; saved.
 ##  - Quest pickups and objects: recipe cards, banished compost heaps, the stamp, the seed (once each, saved), free a wheel
-##    crew, cut the cable, spoil the paste, lay Grandfather Marrow to rest, plant the seed in the sick patch.
+##    crew, cut the cable, spoil the paste, lay Mr. Pell to rest, plant the seed in the sick patch.
 ## Results are dictionaries: `ok` (the effect happened), `key` (the story text key of what to say) and extras.
 
 const COMPLAINT_LIMIT: int = 2

@@ -316,7 +316,7 @@ func _build_props() -> void:
 	anchors["tailor"] = tailor_center + Vector3(0, 0, 1.05)
 	anchors["npc_tailor"] = tailor_center + Vector3(1.0, 0, 0.75)
 	anchors["tailor_mannequin"] = tailor_center + Vector3(-1.05, 0, 0.8)
-	# Brief 9, Part F: Crucible & Co., the Alchemist's shop, on the Beefcake Flats' north edge, facing the open
+	# Brief 9, Part F: Auntie Alembic's, the Alchemist's shop, on the Beefcake Flats' north edge, facing the open
 	# east-west corridor. It is always there (closed until two zones are free): the scene decorates it.
 	var alchemist_center: Vector3 = cell_center(1, 10)
 	_building("tower_B", alchemist_center, 0.0, 1.15, 0.95)

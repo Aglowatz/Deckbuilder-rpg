@@ -8,8 +8,8 @@
 		],
 		"id": "NPC-PLAYER",
 		"location": "Everywhere",
-		"name": "The Wanderer (player)",
-		"notes": "Cosmetic hats/cloaks are not reflected in the portrait (default outfit).",
+		"name": "The Wanderer: Prince Tessar Wayweaver (player)",
+		"notes": "Cosmetic hats/cloaks are not reflected in the portrait (default outfit). Royal house: Wayweaver.",
 		"portrait_id": "NPC-PLAYER",
 		"role": "Player character",
 		"species": ""
@@ -22,11 +22,11 @@
 			"worried"
 		],
 		"id": "NPC-ELDER",
-		"location": "Main Town",
+		"location": "Main Town (Crosspath)",
 		"name": "Elder Maren",
-		"notes": "Species: tortoise (slow, ancient, has seen it all).",
+		"notes": "Species: tortoise (female). Update any in-game art or model still showing her as human.",
 		"portrait_id": "NPC-ELDER",
-		"role": "Town elder / quest giver",
+		"role": "Town elder / quest giver / resistance contact",
 		"species": "tortoise"
 	},
 	{
@@ -369,14 +369,15 @@
 		"art_status": "Needed",
 		"expressions": [
 			"neutral",
-			"exasperated"
+			"exasperated",
+			"resolute"
 		],
 		"id": "NPC-AGNES",
-		"location": "D.N.A. Lobby",
+		"location": "D.N.A. Lobby; Hall of Final Approvals",
 		"name": "Agnes Overdue",
-		"notes": "Undead: ghost.",
+		"notes": "Undead: ghost. Prudence Pallor becomes her deputy.",
 		"portrait_id": "NPC-AGNES",
-		"role": "Quest giver",
+		"role": "Quest giver; later Necrocrat leader (new head of the D.N.A.)",
 		"species": "ghost"
 	},
 	{
@@ -576,11 +577,11 @@
 			"exhausted",
 			"relieved"
 		],
-		"id": "NPC-GUS",
+		"id": "NPC-ROLLO",
 		"location": "Capital",
-		"name": "Gus",
-		"notes": "",
-		"portrait_id": "NPC-GUS",
+		"name": "Rollo Spokes",
+		"notes": "Renamed from Gus (NPC-GUS).",
+		"portrait_id": "NPC-ROLLO",
 		"role": "Path quest giver (Beefcake)",
 		"species": ""
 	},
@@ -665,8 +666,8 @@
 		],
 		"id": "NPC-ESCOFFINA",
 		"location": "Endless Buffet",
-		"name": "Grand Chef Escoffina",
-		"notes": "Human. Matches her card art; keep human.",
+		"name": "The Grand Chef (formerly Grand Chef Escoffina)",
+		"notes": "Human. Matches her card art; keep human. Card name may need updating.",
 		"portrait_id": "NPC-ESCOFFINA",
 		"role": "Gourmand leader",
 		"species": ""
@@ -679,7 +680,7 @@
 		],
 		"id": "NPC-DOPPEL",
 		"location": "Test Kitchen",
-		"name": "The Doppelganger",
+		"name": "The Doppelganger (later named Escoffina)",
 		"notes": "Shapeshifter. REVEALED expression (later): the disguise peeling away into a faceless, shifting silhouette in a chef's coat.",
 		"portrait_id": "NPC-DOPPEL",
 		"role": "Boss (Test Kitchen)",
@@ -694,10 +695,10 @@
 		],
 		"id": "NPC-VELLUM",
 		"location": "Hall of Final Approvals",
-		"name": "Undersecretary Vellum, Acting Director of Final Approvals",
+		"name": "Undersecretary Vellum",
 		"notes": "Undead.",
 		"portrait_id": "NPC-VELLUM",
-		"role": "Boss (Hall of Final Approvals)",
+		"role": "Elite (Hall of Final Approvals, Appeals Court)",
 		"species": ""
 	},
 	{
@@ -705,14 +706,14 @@
 		"expressions": [
 			"neutral",
 			"denying",
-			"approving"
+			"defeated"
 		],
 		"id": "NPC-MORTIMER",
-		"location": "D.N.A.",
+		"location": "D.N.A.; Hall of Final Approvals",
 		"name": "Mortimer Grimsby, CE-No",
-		"notes": "Undead: skeleton. Matches his card art.",
+		"notes": "Undead: skeleton. Matches his card art; his legendary card may become a boss card.",
 		"portrait_id": "NPC-MORTIMER",
-		"role": "Necrocrat leader",
+		"role": "Boss (Hall of Final Approvals)",
 		"species": "skeleton"
 	},
 	{
@@ -753,7 +754,7 @@
 			"broken"
 		],
 		"id": "NPC-PRIMM",
-		"location": "Capital, Primm's Castle",
+		"location": "Primm's Perfection (the Capital), Primm's Castle",
 		"name": "Primm, \"His Perfection\"",
 		"notes": "Human.",
 		"portrait_id": "NPC-PRIMM",
@@ -767,7 +768,7 @@
 			"approving"
 		],
 		"id": "NPC-WARDEN",
-		"location": "Trial of the Hollow",
+		"location": "The Forgotten Cave",
 		"name": "The Hollow Warden",
 		"notes": "Stone guardian.",
 		"portrait_id": "NPC-WARDEN",
@@ -842,6 +843,79 @@
 		"notes": "",
 		"portrait_id": "NPC-AUTOMATON",
 		"role": "Boss (Forgotten Vault)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"smug",
+			"laughing",
+			"defeated"
+		],
+		"id": "NPC-NINJA",
+		"location": "Giant chests: main town (middle of nowhere) + one in each Path zone",
+		"name": "Shiro Swindle, Master of the Oldest Trick",
+		"notes": "Human (ninja). New NPC added for the giant-chest prank questline.",
+		"portrait_id": "NPC-NINJA",
+		"role": "Prankster / secret boss",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"warm"
+		],
+		"id": "NPC-KING",
+		"location": "Memories; Primm's Private Gallery",
+		"name": "King Harmon Wayweaver",
+		"notes": "Human. Royal house: Wayweaver.",
+		"portrait_id": "NPC-KING",
+		"role": "Late king (memories and portraits)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"singing",
+			"protective"
+		],
+		"id": "NPC-QUEEN",
+		"location": "Memories; Primm's Private Gallery",
+		"name": "Queen Concordia Wayweaver",
+		"notes": "Human. Royal house: Wayweaver.",
+		"portrait_id": "NPC-QUEEN",
+		"role": "Late queen (memories and portraits)",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"hooded",
+			"revealed"
+		],
+		"id": "NPC-RESCUER",
+		"location": "Forest (prologue); Path-ology Lab (postgame)",
+		"name": "The Rescuer (name undecided)",
+		"notes": "Hood stays up until the postgame reveal.",
+		"portrait_id": "NPC-RESCUER",
+		"role": "Defected Path-ologist",
+		"species": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"fascinated",
+			"furious"
+		],
+		"id": "NPC-SIPHON",
+		"location": "Path-ology Lab",
+		"name": "Dr. Ambrose Siphon, Chief Path-ologist",
+		"notes": "Human. Placeholder name.",
+		"portrait_id": "NPC-SIPHON",
+		"role": "Boss (Path-ology Lab, postgame)",
 		"species": ""
 	}
 ]

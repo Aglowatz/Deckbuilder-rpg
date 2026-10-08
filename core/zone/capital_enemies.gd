@@ -7,14 +7,14 @@ extends RefCounted
 ##  - `tidybot`   Tidy-Bot             - FAST; 2 damage with knockback and a short invulnerability window; never starts a battle.
 ##  - `wretch`    Rift Wretch          - slow; spawned by a rift (the guardian of a sealable one); an aggressive battle.
 ##  - `swarm`     Shard Swarm          - FAST; rift-spawned; 2 damage with knockback; never starts a battle.
-##  - `gate_captain` The Approved Gate Captain - not a roamer: the CHALLENGING battle that opens the gate.
+##  - `spotless` Captain Spotless - not a roamer: the CHALLENGING battle that opens the gate.
 
 const OFFICER: String = "officer"
 const INSPECTOR: String = "inspector"
 const TIDYBOT: String = "tidybot"
 const WRETCH: String = "wretch"
 const SWARM: String = "swarm"
-const GATE_CAPTAIN: String = "gate_captain"
+const SPOTLESS: String = "spotless"
 const IDS: Array[String] = [OFFICER, INSPECTOR, TIDYBOT, WRETCH, SWARM]
 const FAST_DAMAGE: int = 2
 
@@ -104,8 +104,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.model = "capital:swarm"
 			made.model_scale = 1.0
 			made.hover = true
-		GATE_CAPTAIN:
-			made.display_name = "The Approved Gate Captain"
+		SPOTLESS:
+			made.display_name = "Captain Spotless"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
 			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 38, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), {"C-30": 1, "C-34": 1})
 			made.hp = 24
