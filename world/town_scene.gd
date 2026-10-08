@@ -257,6 +257,7 @@ func _build_actors() -> void:
 	add_child(npc_hp)
 	_add_npc("vendor", "Rogue_Hooded", town.anchors["npc_market"] as Vector3, 200.0)
 	_add_npc("elder", "Mage", town.anchors["npc_elder"] as Vector3, -90.0)
+	TortoiseKit.add_shell(_npcs["elder"] as Node3D)
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
 	if _secret_dealer_open():
 		_add_npc("hidden_vendor", "Rogue_Hooded", town.anchors["hidden_vendor"] as Vector3, 100.0)
@@ -862,6 +863,10 @@ func _face_npc(id: String) -> void:
 ## Elder Maren: her greeting, and the quest that opens the Forgotten Vault under the old well (hand-in first, then the offer, then a reminder).
 func _talk_elder() -> void:
 	var elder: String = "Elder Maren"
+	var pending_memory: int = Session.pending_memory()
+	if pending_memory > 0 and Session.flag(&"elder_greeted"):
+		_play_memory(pending_memory)
+		return
 	var ready: Array[QuestData] = Session.quests_ready_for(elder)
 	if not ready.is_empty():
 		var finished_quest: QuestData = ready[0]
@@ -977,6 +982,42 @@ func _show_graveyard_result() -> void:
 				_show_level_up(levels_gained), CONNECT_ONE_SHOT)
 
 
+## Elder Maren and a memory fragment: she asks what came back, the screen dims and the fragment plays, then she answers. Fragment 1 also announces the second Path;
+## fragment 4 reveals who the Wanderer is (`Session.recover_memory`).
+func _play_memory(number: int) -> void:
+	var story: StoryText = StoryText.shared()
+	var known: bool = number == MemoryDefs.COUNT and Session.flag(MemoryDefs.FLAG_REVEALED)
+	_face_npc("elder")
+	_locked = true
+	dialogue.start("Elder Maren", story.get_lines(MemoryDefs.key(number, "intro_known" if known else "intro")), "NPC-ELDER")
+	dialogue.finished.connect(func() -> void:
+		var screen: MemoryScreen = MemoryScreen.make(number, story.text(MemoryDefs.key(number, "title")), story.get_lines(MemoryDefs.key(number, "fragment")))
+		_overlay_layer.add_child(screen)
+		screen.finished.connect(func() -> void:
+			Session.recover_memory(number)
+			hud.toast("Fragment %d of %d recovered." % [number, MemoryDefs.COUNT], UIStyle.GOLD)
+			dialogue.start("Elder Maren", story.get_lines(MemoryDefs.key(number, "after_known" if known else "after")), "NPC-ELDER")
+			dialogue.finished.connect(func() -> void: _after_memory(number, known), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
+
+
+func _after_memory(number: int, known: bool) -> void:
+	var story: StoryText = StoryText.shared()
+	if number == MemoryDefs.COUNT and not known:
+		dialogue.start("", story.get_lines("memory.4.reply"), NpcRegistry.PLAYER_ID)
+		dialogue.finished.connect(func() -> void:
+			dialogue.start("Elder Maren", story.get_lines("memory.4.after2"), "NPC-ELDER")
+			dialogue.finished.connect(func() -> void: _locked = false, CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
+		return
+	if number == 1:
+		var popup: AnnouncementScreen = AnnouncementScreen.make(story.text("memory.1.announce_title"), story.text("memory.1.announce_body"), story.get_lines("memory.1.announce_line"), UIStyle.GOLD)
+		_overlay_layer.add_child(popup)
+		popup.finished.connect(func() -> void:
+			popup.queue_free()
+			_locked = false)
+		return
+	_locked = false
+
+
 func _elder_lines() -> Array[String]:
 	var story: StoryText = StoryText.shared()
 	if not Session.flag(&"elder_greeted"):
@@ -984,12 +1025,18 @@ func _elder_lines() -> Array[String]:
 		return story.get_lines("town.elder.first")
 	if Session.flag(&"primm_defeated"):
 		return story.get_lines("town.elder.postgame")
+	# Maren's mood follows the number of memory fragments recovered (guarded, warmer, resistance, her past, the prince).
+	var recovered: int = Session.memories_recovered()
+	if Session.flag(MemoryDefs.FLAG_REVEALED) and recovered < MemoryDefs.COUNT:
+		return story.get_lines("town.elder.known_early")
 	var freed: int = Session.completed_zone_count()
+	var lines: Array[String] = []
 	if freed > 0:
-		var lines: Array[String] = story.get_lines("town.elder.progress.%d" % mini(freed, 4))
+		lines.append_array(story.get_lines("town.elder.progress.%d" % mini(freed, 4)))
+	lines.append_array(story.get_lines("town.elder.stage.%d" % MemoryDefs.stage(recovered)))
+	if freed == 0:
 		lines.append_array(story.get_lines("town.elder.return"))
-		return lines
-	return story.get_lines("town.elder.return")
+	return lines
 
 
 func _guard_lines() -> Array[String]:
@@ -1771,6 +1818,10 @@ func _screenshot_open(what: String) -> void:
 			_open_arena()
 		"quests":
 			_open_quest_log()
+		"memory1":
+			_screenshot_memory(1)
+		"memory4":
+			_screenshot_memory(4)
 		"map":
 			_open_full_map()
 		"chest_popup":
@@ -1863,3 +1914,10 @@ func _strip_fog() -> void:
 		env.fog_enabled = false
 		env.volumetric_fog_enabled = false
 		env.glow_enabled = false
+
+
+## Screenshot helper (`--open=memory1`): the fragment screen over the town.
+func _screenshot_memory(number: int) -> void:
+	var story: StoryText = StoryText.shared()
+	var screen: MemoryScreen = MemoryScreen.make(number, story.text(MemoryDefs.key(number, "title")), story.get_lines(MemoryDefs.key(number, "fragment")))
+	_overlay_layer.add_child(screen)

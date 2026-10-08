@@ -6,7 +6,7 @@ Task file: docs/overnight_task.md. Check off a part only after tests pass, progr
 - [x] Part B: Crosspath town layout
 - [x] Part C: Prologue (forest, rescuer, starting deck, Forgotten Cave)
 - [x] Part D: Path progression lock
-- [ ] Part E: Elder Maren and memory fragments
+- [x] Part E: Elder Maren and memory fragments
 - [ ] Part F: Zone story updates
 - [ ] Part G: Capital, Castle, finale
 - [ ] Part H: Postgame (forest portal, Path-ology Lab)

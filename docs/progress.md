@@ -2833,3 +2833,10 @@ Progress checklist: `docs/overnight_progress.md`. Judgment calls: `docs/design/o
 - Decks use 1 Path until the first zone is freed, 2 after that, 4 (3+) once Primm is defeated. Themed messages in the deck editor, the validator and the deck builder rule list ("You're still too weak to walk more than one Path."). Dual-Path cards wait for the second Path.
 - `PlayerProfile.zones_freed` is kept in sync with the zone flags; old saves keep illegal decks (marked not legal) and get a toast in town.
 - Tests: Path-limit growth, session sync, dual-card refusal; older tests updated for one freed zone. GUT: 1211 tests passing.
+
+### Part E - Elder Maren and the memory fragments
+- Maren is a female tortoise everywhere (she/her; a code-drawn shell on the Mage model until a tortoise model exists: `docs/assets_wanted.md`).
+- Memory fragments: the Nth zone freed unlocks fragment N (any order), played the next time the player talks to Maren: she asks what came back, the screen dims with a four-color vignette (`MemoryScreen`), the lines appear one by one, then she answers. Fragment 1 announces the second Path, 2 admits the resistance (Wren), 3 admits her Path-ology past and the lab, 4 recognizes the prince. All text is in `data/story/intro_story.tres` (`memory.*`, `town.elder.stage.*`).
+- Maren's default lines follow the fragments recovered. If Primm already revealed the prince (`prince_revealed`), fragment 4 and her default line adapt.
+- After the reveal `{wanderer}` and the player's dialogue plate change from "Wanderer" to the prince's name; the capital name switch (Primm's Perfection / Pathordia) is now actually wired to the `primm_defeated` flag.
+- New "Fragments" quest tracks the four memories. Save/load via flags and a counter. Tests in `tests/core/data/test_memories.gd`. GUT: 1218 passing.

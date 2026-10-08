@@ -77,6 +77,7 @@ func _ready() -> void:
 	elif str(_screenshot_args.get("show", "")) == "maren":
 		var mouth: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
 		_maren = ModelKit.character("Mage")
+		TortoiseKit.add_shell(_maren)
 		ModelKit.place(self, _maren, mouth + Vector3(0.0, 0.0, 2.3), 180.0, TownPlayer.MODEL_SCALE)
 		player.position = mouth + Vector3(0.0, 0.0, 0.5)
 	if Session.cave_exit_pending and Session.profile != null and not _screenshot_args.has("quiet"):
@@ -320,6 +321,7 @@ func _begin_cave_exit() -> void:
 	_camera.position = player.position + _camera_offset * Settings.camera_zoom
 	var maren_pos: Vector3 = gate + Vector3(0.0, 0.0, 2.3)
 	_maren = ModelKit.character("Mage")
+	TortoiseKit.add_shell(_maren)
 	ModelKit.place(self, _maren, maren_pos, 180.0, TownPlayer.MODEL_SCALE)
 	player.face(maren_pos)
 	_say_maren("cave_mouth.maren", func() -> void:

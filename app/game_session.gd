@@ -129,6 +129,7 @@ func new_game() -> void:
 	active_slot = 0
 	_sync_freed_stories()
 	sync_path_limit()
+	sync_story_tokens()
 	run = null
 	dungeon_map = null
 	gold_spent_total = 0
@@ -291,6 +292,7 @@ func flag(name: StringName) -> bool:
 func set_flag(name: StringName, value: bool = true) -> void:
 	flags[str(name)] = value
 	sync_path_limit()
+	sync_story_tokens()
 	refresh_quests()
 
 
@@ -298,6 +300,32 @@ func set_flag(name: StringName, value: bool = true) -> void:
 func sync_path_limit() -> void:
 	if profile != null:
 		profile.zones_freed = ZoneCompletion.count(flags)
+
+
+## How many memory fragments the Wanderer has recovered (Story v2 Part E).
+func memories_recovered() -> int:
+	return int(counters.get(MemoryDefs.COUNTER, 0))
+
+
+## The fragment waiting to be played with Elder Maren (1..4), or 0.
+func pending_memory() -> int:
+	return MemoryDefs.pending(completed_zone_count(), memories_recovered())
+
+
+## Records fragment `number` as recovered. The fourth one reveals who the Wanderer is.
+func recover_memory(number: int) -> void:
+	if number != memories_recovered() + 1 or number > MemoryDefs.COUNT:
+		return
+	counters[MemoryDefs.COUNTER] = number
+	set_flag(MemoryDefs.flag_name(number))
+	if number == MemoryDefs.COUNT:
+		set_flag(MemoryDefs.FLAG_REVEALED)
+	save_game()
+
+## Story tokens that depend on the story flags: the capital's name (Primm's Perfection / Pathordia) and how the player is addressed (Wanderer / the prince).
+func sync_story_tokens() -> void:
+	RoyalFamily.set_capital_liberated(bool(flags.get("primm_defeated", false)))
+	RoyalFamily.set_identity_revealed(bool(flags.get("prince_revealed", false)))
 
 
 ## Any card (spell, token or basic infrastructure) by its id.
@@ -774,6 +802,7 @@ func from_dict(data: Dictionary) -> bool:
 	playtime_seconds = float(data.get("playtime", 0.0))
 	_sync_freed_stories()
 	sync_path_limit()
+	sync_story_tokens()
 	# Part A rename (Grave -> Necrocrat): old saves used the "grave" zone id.
 	if flags.has("grave_zone_unlocked") and not flags.has("necrocrat_zone_unlocked"):
 		flags["necrocrat_zone_unlocked"] = flags["grave_zone_unlocked"]

@@ -11,3 +11,6 @@ want to spend time on them:
 - **Recorded audio**: a real "boing", gravy "splash" and diner "ding" (OpenGameArt / Kenney Digital Audio; CC0) and a recorded
   kitchen-ambience loop. The zone currently uses sounds and music synthesized in code.
 - **A rounded display font** (e.g. Fredoka, Google Fonts, OFL) for the zone's signage, which currently uses the game's title font.
+
+## Elder Maren (tortoise)
+- A stylized upright **tortoise** character (female, elderly, kind, a shell with a patched cloth wrap, a kettle or a pie) in the KayKit-adventurers scale, with Idle/Walk animations. Until then Maren is the Mage model with a code-drawn shell (`world/tortoise_kit.gd`). Portrait NPC-ELDER already exists.

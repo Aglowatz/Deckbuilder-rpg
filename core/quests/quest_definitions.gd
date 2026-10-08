@@ -14,6 +14,7 @@ static func build_all() -> Array[QuestData]:
 	result.append(_meet_the_merchants())
 	result.append(_clear_the_paths())
 	result.append(_free_the_kingdom())
+	result.append(_fragments())
 	result.append(_oldest_trick())
 	result.append(_four_seals())
 	result.append_array(ZoneQuestDefinitions.build_all())
@@ -67,6 +68,24 @@ static func _free_the_kingdom() -> QuestData:
 	quest.objectives = objectives
 	quest.reward_gold = 300
 	quest.reward_xp = 250
+	return quest
+
+
+## Story v2 Part E: tracks the Wanderer's memory fragments (one returns per zone freed, played by talking to Elder Maren).
+static func _fragments() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = MemoryDefs.QUEST_ID
+	quest.order = 5
+	quest.title = "Fragments"
+	quest.summary = "Pieces of the Wanderer's lost memory return as each zone is freed. Talk to Elder Maren after every zone to hear what came back."
+	quest.auto_give = true
+	var names: Array[String] = ["Warmth", "The Cells", "The Coup", "A Name"]
+	var objectives: Array[QuestObjective] = []
+	for index: int in range(MemoryDefs.COUNT):
+		objectives.append(QuestObjective.make("Recover fragment %d: %s" % [index + 1, names[index]], Condition.flag(str(MemoryDefs.flag_name(index + 1)))))
+	quest.objectives = objectives
+	quest.reward_gold = 200
+	quest.reward_xp = 150
 	return quest
 
 

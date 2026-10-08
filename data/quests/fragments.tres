@@ -1,0 +1,52 @@
+[gd_resource type="Resource" script_class="QuestData" format=3]
+
+[ext_resource type="Script" path="res://core/quests/quest_objective.gd" id="1_m4po1"]
+[ext_resource type="Script" path="res://core/data/condition.gd" id="2_36xun"]
+[ext_resource type="Script" path="res://core/quests/quest_data.gd" id="3_gxidc"]
+
+[sub_resource type="Resource" id="Resource_tlvjt"]
+script = ExtResource("2_36xun")
+key = "memory_1"
+
+[sub_resource type="Resource" id="Resource_2ifpo"]
+script = ExtResource("1_m4po1")
+text = "Recover fragment 1: Warmth"
+condition = SubResource("Resource_tlvjt")
+
+[sub_resource type="Resource" id="Resource_ahgdo"]
+script = ExtResource("2_36xun")
+key = "memory_2"
+
+[sub_resource type="Resource" id="Resource_kybvy"]
+script = ExtResource("1_m4po1")
+text = "Recover fragment 2: The Cells"
+condition = SubResource("Resource_ahgdo")
+
+[sub_resource type="Resource" id="Resource_ox7c2"]
+script = ExtResource("2_36xun")
+key = "memory_3"
+
+[sub_resource type="Resource" id="Resource_tx7et"]
+script = ExtResource("1_m4po1")
+text = "Recover fragment 3: The Coup"
+condition = SubResource("Resource_ox7c2")
+
+[sub_resource type="Resource" id="Resource_25i82"]
+script = ExtResource("2_36xun")
+key = "memory_4"
+
+[sub_resource type="Resource" id="Resource_y7kkx"]
+script = ExtResource("1_m4po1")
+text = "Recover fragment 4: A Name"
+condition = SubResource("Resource_25i82")
+
+[resource]
+script = ExtResource("3_gxidc")
+id = "fragments"
+title = "Fragments"
+summary = "Pieces of the Wanderer's lost memory return as each zone is freed. Talk to Elder Maren after every zone to hear what came back."
+auto_give = true
+order = 5
+objectives = Array[ExtResource("1_m4po1")]([SubResource("Resource_2ifpo"), SubResource("Resource_kybvy"), SubResource("Resource_tx7et"), SubResource("Resource_y7kkx")])
+reward_gold = 200
+reward_xp = 150
