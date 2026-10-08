@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_oprte"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ou4yn"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_8ofnl"]
+
+[sub_resource type="Resource" id="Resource_8glss"]
+script = ExtResource("1_oprte")
+value = 2
+
+[sub_resource type="Resource" id="Resource_6omtt"]
+script = ExtResource("1_oprte")
+kind = 13
+value = 1
+
+[resource]
+script = ExtResource("3_8ofnl")
+id = "siphons_lens"
+description = "A glass lens from the draining chamber, ground to see all four Paths at once. Max HP +2, and you draw an extra card on your first turn."
+advanced = true
+flavor_text = "It was built to measure a boy. It works much better on someone who is allowed to look back."
+source_name = "Siphon's Lens"
+modifiers = Array[ExtResource("1_oprte")]([SubResource("Resource_8glss"), SubResource("Resource_6omtt")])

@@ -37,6 +37,7 @@ static func zone_equipment() -> Dictionary:
 	_add_zone_pieces(result)
 	_add_resource_gear(result)
 	_add_vault_gear(result)
+	_add_lab_gear(result)
 	ArenaContent.add_equipment(result)
 	return result
 
@@ -190,6 +191,16 @@ static func _add_zone_pieces(result: Dictionary) -> void:
 
 
 ## Brief 16, Group G: the exclusive reward of the Four-Seal Vault (never sold): a relic that holds one of each Path's Resources and a little extra life.
+## Story v2 Part H: the Path-ology Lab's first-clear equipment (placeholder numbers).
+static func _add_lab_gear(result: Dictionary) -> void:
+	var lens: EquipmentData = _piece("siphons_lens", "Siphon's Lens", EquipmentData.Slot.RELIC, "A glass lens from the draining chamber, ground to see all four Paths at once. Max HP +2, and you draw an extra card on your first turn.", [
+		_mod(K.MAX_HP, 2),
+		_mod(K.FIRST_TURN_EXTRA_DRAW, 1),
+	], true)
+	lens.flavor_text = "It was built to measure a boy. It works much better on someone who is allowed to look back."
+	_add(result, lens)
+
+
 static func _add_vault_gear(result: Dictionary) -> void:
 	var signet: EquipmentData = _piece("four_seal_signet", "Four-Seal Signet", EquipmentData.Slot.RELIC, "Max HP +3. Start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape.", [
 		_mod(K.MAX_HP, 3),

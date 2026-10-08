@@ -34,6 +34,8 @@
 		"dungeon.dg_s_ref_boss": "NPC-RACCOONKING",
 		"dungeon.dg_s_cap_boss": "NPC-SPOTLESS",
 		"dungeon.dg_s_town_boss": "NPC-AUTOMATON",
+		"dungeon.dg_lab_boss": "NPC-SIPHON",
+		"dungeon.dg_lab_rescue": "NPC-RESCUER",
 		"dungeon.pc_boss": "NPC-PRIMM"
 	},
 	"sides": {},

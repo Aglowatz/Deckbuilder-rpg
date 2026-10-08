@@ -1,0 +1,35 @@
+[
+	{
+		"id": "D-LAB",
+		"name": "The Path-ology Lab",
+		"type": "Postgame Dungeon",
+		"zone": "start",
+		"zone_text": "The forest outside Crosspath (via Rip's portal station)",
+		"theme": "A hidden laboratory beneath the forest: sterile white corridors cracked by roots, glass tanks glowing in four colors, draining apparatus, cells, and Path-ologist notes everywhere.",
+		"story": "Where Primm's Path-ologists held Prince Tessar for ten years and drained his power. After Primm falls, Rip Tearson opens a portal station in the forest. Free the captured rescuer, find the prince's old cell (ten years of tally marks), and stop the Chief Path-ologist, who is still running experiments.",
+		"boss": "Dr. Ambrose Siphon, Chief Path-ologist",
+		"buffs": "PLACEHOLDER: no dungeon-wide rule yet. Every enemy is built to be far harder than Primm's Castle (balance is not tuned).",
+		"reward_first": "Siphon's Lens (equipment), bonus gold and XP",
+		"reward_repeat": "Small gold and a Prismatic Pack",
+		"hook": "Rip Tearson: \"I was poking around the forest where you all started and found a hatch that was never there before. It smells like a hospital. Be careful.\"",
+		"map_id": "MAP-LAB",
+		"battleboard_id": "BB-LAB",
+		"_note": "A hand-made placeholder: the designer's sheet still says \"To be designed\" for D-LAB. When the sheet row gets a node list the import wins and this entry is ignored.",
+		"nodes": [
+			{"n": 1, "name": "The Hidden Hatch", "type": "start", "note": "", "x": 8, "y": 55, "next": [2, 3], "side": false, "return_to": 0},
+			{"n": 2, "name": "Decontamination Corridor", "type": "battle", "note": "", "x": 20, "y": 30, "next": [4], "side": false, "return_to": 0},
+			{"n": 3, "name": "Specimen Gallery", "type": "battle", "note": "", "x": 20, "y": 78, "next": [5], "side": false, "return_to": 0},
+			{"n": 4, "name": "The Path-ologists' Break Room", "type": "event", "note": "notes on the Subject", "x": 32, "y": 18, "next": [6], "side": false, "return_to": 0},
+			{"n": 5, "name": "The Failed Experiments", "type": "elite", "note": "", "x": 32, "y": 70, "next": [6, 7], "side": false, "return_to": 0},
+			{"n": 6, "name": "The Observation Ward", "type": "battle", "note": "", "x": 44, "y": 38, "next": [8], "side": false, "return_to": 0},
+			{"n": 7, "name": "The Prince's Old Cell", "type": "event", "note": "story: ten years of tally marks", "x": 44, "y": 86, "next": [9], "side": false, "return_to": 0},
+			{"n": 8, "name": "The Glass Tank Hall", "type": "challenge", "note": "", "x": 56, "y": 24, "next": [9, 10], "side": false, "return_to": 0},
+			{"n": 9, "name": "The Records Vault", "type": "treasure", "note": "", "x": 56, "y": 62, "next": [11], "side": false, "return_to": 0},
+			{"n": 10, "name": "The Draining Chamber", "type": "elite", "note": "story: where his power was drained", "x": 68, "y": 18, "next": [12], "side": false, "return_to": 0},
+			{"n": 11, "name": "Siphon's Annex", "type": "battle", "note": "", "x": 68, "y": 66, "next": [12], "side": false, "return_to": 0},
+			{"n": 12, "name": "The Rescuer's Cell", "type": "rescue", "note": "free the captured Rescuer", "x": 79, "y": 42, "next": [13], "side": false, "return_to": 0},
+			{"n": 13, "name": "The Last Quiet Room", "type": "heal", "note": "", "x": 86, "y": 66, "next": [14], "side": false, "return_to": 0},
+			{"n": 14, "name": "The Chief Path-ologist's Laboratory", "type": "boss", "note": "Dr. Ambrose Siphon", "x": 92, "y": 22, "next": [], "side": false, "return_to": 0}
+		]
+	}
+]

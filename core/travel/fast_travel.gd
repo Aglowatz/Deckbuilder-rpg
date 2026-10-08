@@ -8,6 +8,8 @@ extends RefCounted
 
 ## The station in the main town (always unlocked).
 const TOWN: String = "town"
+## Story v2 Part H: the postgame station in the forest where the Wanderer woke (Rip opens it after Primm falls); it has no zone behind it.
+const FOREST: String = "forest"
 ## How close to a zone's station the player must walk for that zone's station to unlock ("you reached the town").
 const UNLOCK_RADIUS: float = 9.0
 ## The anchor every zone layout names for its station.
@@ -20,6 +22,7 @@ const RIP_LINES: int = 4
 static func station_ids() -> Array[String]:
 	var result: Array[String] = [TOWN]
 	result.append_array(ZoneDefs.all_ids())
+	result.append(FOREST)
 	return result
 
 
@@ -34,6 +37,8 @@ static func unlock_flag(station_id: String) -> StringName:
 static func is_unlocked(flags: Dictionary, station_id: String) -> bool:
 	if station_id == TOWN:
 		return true
+	if station_id == FOREST:
+		return bool(flags.get(str(unlock_flag(FOREST)), false))
 	return is_zone_station(station_id) and bool(flags.get(str(unlock_flag(station_id)), false))
 
 

@@ -102,6 +102,8 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 				var tree: String = ["tree_single_A", "tree_single_B"][_rng.randi() % 2]
 				ModelKit.place(root, ModelKit.nature(tree), offset, _rng.randf() * 360.0, _rng.randf_range(1.1, 1.5))
 				obstacles.append(Vector3(offset.x, offset.z, OBSTACLE_TREE * 1.3))
+		"L":
+			_build_lab_hatch(center)
 		"S":
 			anchors["spawn"] = center
 
@@ -128,6 +130,53 @@ func _build_far_trees() -> void:
 		var cloud: Node3D = ModelKit.nature("cloud_small")
 		ModelKit.place(root, cloud, Vector3(_rng.randf_range(-4, 12), _rng.randf_range(16, 20), _rng.randf_range(-12, -4)), 0.0, 0.7)
 		clouds.append(cloud)
+
+
+## The Path-ology Lab's hatch (postgame, `lab_open`): a pale steel disc set in the forest floor with a cyan glow ring and a handle, the one thing in the clearing that is
+## too clean. Walkable; the scene's `lab` anchor is where the player stands to descend.
+func _build_lab_hatch(center: Vector3) -> void:
+	var hatch: Node3D = Node3D.new()
+	hatch.name = "LabHatch"
+	hatch.position = center + Vector3(0.0, 0.03, 0.0)
+	root.add_child(hatch)
+	var steel: StandardMaterial3D = StandardMaterial3D.new()
+	steel.albedo_color = Color("dfe8ea")
+	steel.roughness = 0.35
+	steel.metallic = 0.4
+	var disc: MeshInstance3D = MeshInstance3D.new()
+	var cylinder: CylinderMesh = CylinderMesh.new()
+	cylinder.top_radius = 0.8
+	cylinder.bottom_radius = 0.85
+	cylinder.height = 0.12
+	disc.mesh = cylinder
+	disc.material_override = steel
+	hatch.add_child(disc)
+	var glow: StandardMaterial3D = StandardMaterial3D.new()
+	glow.albedo_color = Color("74e8ff")
+	glow.emission_enabled = true
+	glow.emission = Color("74e8ff")
+	glow.emission_energy_multiplier = 1.6
+	var ring: MeshInstance3D = MeshInstance3D.new()
+	var torus: TorusMesh = TorusMesh.new()
+	torus.inner_radius = 0.72
+	torus.outer_radius = 0.84
+	ring.mesh = torus
+	ring.material_override = glow
+	ring.position = Vector3(0.0, 0.08, 0.0)
+	hatch.add_child(ring)
+	var handle: MeshInstance3D = MeshInstance3D.new()
+	var bar: BoxMesh = BoxMesh.new()
+	bar.size = Vector3(0.5, 0.08, 0.1)
+	handle.mesh = bar
+	handle.material_override = steel
+	handle.position = Vector3(0.0, 0.14, 0.0)
+	hatch.add_child(handle)
+	var light: OmniLight3D = OmniLight3D.new()
+	light.light_color = Color("74e8ff")
+	light.light_energy = 1.2
+	light.omni_range = 4.0
+	light.position = Vector3(0.0, 0.8, 0.0)
+	hatch.add_child(light)
 
 
 func _scatter(center: Vector3, min_radius: float, max_radius: float) -> Vector3:

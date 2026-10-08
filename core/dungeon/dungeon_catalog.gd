@@ -14,6 +14,9 @@ const TYPE_MAIN: String = "Main Dungeon"
 const TYPE_FINAL: String = "Final Dungeon"
 const TYPE_SIDE: String = "Side Dungeon"
 const TYPE_TUTORIAL: String = "Tutorial"
+const TYPE_POSTGAME: String = "Postgame Dungeon"
+## Hand-made dungeons the designer's sheet has no node list for yet (the Path-ology Lab). A sheet row that has nodes wins over an entry here.
+const EXTRA_PATH: String = "res://data/dungeons/postgame_dungeons.json"
 
 
 class BlueprintNode:
@@ -58,6 +61,9 @@ class Blueprint:
 
 	func is_side() -> bool:
 		return type == TYPE_SIDE
+
+	func is_postgame() -> bool:
+		return type == TYPE_POSTGAME
 
 	## The unique card of the first-victory reward text ("... (B-30)"), "" when none.
 	func reward_card_id() -> String:
@@ -113,6 +119,19 @@ static func _load() -> void:
 				var parsed: Blueprint = _parse(row as Dictionary)
 				if not parsed.nodes.is_empty():
 					_blueprints.append(parsed)
+	var extra: Variant = _read(EXTRA_PATH)
+	if extra is Array:
+		for row: Variant in extra as Array:
+			if row is Dictionary:
+				var extra_id: String = str((row as Dictionary).get("id", ""))
+				var present: bool = false
+				for known: Blueprint in _blueprints:
+					if known.id == extra_id:
+						present = true
+				if not present:
+					var added: Blueprint = _parse(row as Dictionary)
+					if not added.nodes.is_empty():
+						_blueprints.append(added)
 	var text: Variant = _content.get("text", {})
 	_text = (text as Dictionary).duplicate() if text is Dictionary else {}
 

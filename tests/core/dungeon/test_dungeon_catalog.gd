@@ -4,7 +4,7 @@ extends GutTest
 
 const NODE_COUNTS: Dictionary = {
 	"D-TUT": 6, "D-HOG": 13, "D-TTK": 13, "D-HFA": 14, "D-ROT": 13, "D-PC": 22,
-	"S-BEEF": 3, "S-GOUR": 3, "S-NECRO": 3, "S-REF": 3, "S-CAP": 3, "S-TOWN": 3,
+	"S-BEEF": 3, "S-GOUR": 3, "S-NECRO": 3, "S-REF": 3, "S-CAP": 3, "S-TOWN": 3, "D-LAB": 14,
 }
 const REWARD_CARDS: Dictionary = {
 	"D-HOG": "B-32", "D-TTK": "G-33", "D-HFA": "N-33", "D-ROT": "R-33", "D-PC": "P4-02",
@@ -23,11 +23,11 @@ func before_each() -> void:
 func _map_of(blueprint: DungeonCatalog.Blueprint) -> DungeonMap:
 	if blueprint.id == DungeonCatalog.TUTORIAL_ID:
 		return TrialOfTheHollow.build_map()
-	return MainDungeons.build_map(blueprint.id if blueprint.is_side() else blueprint.zone_id)
+	return MainDungeons.build_map(blueprint.id if (blueprint.is_side() or blueprint.is_postgame()) else blueprint.zone_id)
 
 
 func test_every_dungeon_of_the_list_is_there() -> void:
-	assert_eq(DungeonCatalog.all().size(), 12, "the postgame Path-ology Lab has no nodes yet")
+	assert_eq(DungeonCatalog.all().size(), 13, "the 12 dungeons of the sheet plus the hand-made postgame Path-ology Lab")
 	for id: String in NODE_COUNTS.keys():
 		var blueprint: DungeonCatalog.Blueprint = DungeonCatalog.find(id)
 		assert_not_null(blueprint, id)
@@ -168,7 +168,7 @@ func test_every_battle_has_a_real_enemy_deck() -> void:
 	for blueprint: DungeonCatalog.Blueprint in DungeonCatalog.all():
 		if blueprint.id == DungeonCatalog.TUTORIAL_ID:
 			continue
-		var key: String = blueprint.id if blueprint.is_side() else blueprint.zone_id
+		var key: String = blueprint.id if (blueprint.is_side() or blueprint.is_postgame()) else blueprint.zone_id
 		var map: DungeonMap = MainDungeons.build_map(key)
 		for node: DungeonMap.MapNode in map.nodes:
 			if not DungeonMap.is_battle_kind(node.kind):
@@ -182,7 +182,7 @@ func test_every_event_challenge_and_treasure_node_can_be_played() -> void:
 	for blueprint: DungeonCatalog.Blueprint in DungeonCatalog.all():
 		if blueprint.id == DungeonCatalog.TUTORIAL_ID:
 			continue
-		var key: String = blueprint.id if blueprint.is_side() else blueprint.zone_id
+		var key: String = blueprint.id if (blueprint.is_side() or blueprint.is_postgame()) else blueprint.zone_id
 		var def: MainDungeonDef = MainDungeons.def(key)
 		var story: ZoneStoryText = ZoneStoryText.for_zone(blueprint.zone_id)
 		for node: DungeonMap.MapNode in MainDungeons.build_map(key).nodes:

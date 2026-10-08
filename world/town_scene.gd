@@ -1678,6 +1678,12 @@ func _use_rift_station() -> void:
 	if not Session.flag(&"rift_met_town"):
 		Session.set_flag(&"rift_met_town")
 		lines = travel.get_lines("travel.intro.town")
+	# Story v2 Part H: after Primm falls, Rip tells the Wanderer about the forest and opens a station there.
+	if Session.flag(&"primm_defeated") and not Session.flag(&"rip_forest_tip"):
+		Session.set_flag(&"rip_forest_tip")
+		Session.set_flag(PathologyLab.FLAG_FOREST_OPEN)
+		Session.set_flag(PathologyLab.FLAG_REVEALED)
+		lines = travel.get_lines("travel.forest_tip")
 	dialogue.start(travel.text("travel.operator.town"), lines)
 	dialogue.finished.connect(_open_rift_screen, CONNECT_ONE_SHOT)
 

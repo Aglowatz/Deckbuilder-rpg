@@ -1756,6 +1756,11 @@ func fast_travel_to(destination: String) -> bool:
 		save_game()
 		SceneManager.go_to_town()
 		return true
+	if destination == FastTravel.FOREST:
+		zone_run = null
+		save_game()
+		SceneManager.go_to_start_area()
+		return true
 	begin_zone_visit(destination)
 	save_game()
 	SceneManager.change_scene(ZoneDefs.get_def(destination).scene_path)
@@ -1982,7 +1987,12 @@ func enter_mini_dungeon() -> void:
 ## first time grants the unique card, repeat clears pay gold and a pack. `failed` (0 HP) wakes the player at the hub with the fee.
 func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
 	var was_town: bool = town_side_active
+	var was_lab: bool = dungeon_key == PathologyLab.DUNGEON_ID
 	resolve_mini_dungeon(cleared, failed)
+	if was_lab:
+		arrive_at_station = false
+		SceneManager.go_to_start_area()
+		return
 	if was_town:
 		SceneManager.go_to_town()
 		return
@@ -1991,6 +2001,8 @@ func finish_mini_dungeon(cleared: bool, failed: bool = false) -> void:
 
 ## The flag a side dungeon sets on its first clear (zones keep theirs in their `ZoneDef`; the Forgotten Vault under the town has its own).
 func side_cleared_flag(plan: DungeonCatalog.Blueprint) -> StringName:
+	if plan != null and plan.id == PathologyLab.DUNGEON_ID:
+		return PathologyLab.FLAG_CLEARED
 	if plan != null and ZoneDefs.has_def(plan.zone_id) and not ZoneDefs.get_def(plan.zone_id).flag_mini_cleared.is_empty():
 		return ZoneDefs.get_def(plan.zone_id).flag_mini_cleared
 	return &"town_vault_cleared"
@@ -2021,6 +2033,9 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 			set_flag(CapitalZone.FLAG_HUB_KNOWN)
 			set_flag(CapitalZone.FLAG_INSIDE)
 			result["secret_way"] = true
+		if plan.id == PathologyLab.DUNGEON_ID and PathologyLab.rescued(run):
+			set_flag(PathologyLab.FLAG_RESCUER_FREED)
+			result["rescuer_freed"] = true
 		var cleared_flag: StringName = side_cleared_flag(plan)
 		if not flag(cleared_flag):
 			set_flag(cleared_flag)
@@ -2029,6 +2044,8 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 				add_cards([card] as Array[CardData])
 				result["card"] = card.display_name
 			result["first_clear"] = true
+			if plan.id == PathologyLab.DUNGEON_ID:
+				_grant_lab_first_clear(result)
 		else:
 			var gold_reward: int = DungeonBuilder.SIDE_REWARD_GOLD
 			add_gold(gold_reward)
@@ -2049,6 +2066,35 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 	pending_zone_result = result
 	save_game()
 	return result
+
+
+## From the forest's hidden hatch (postgame): the Path-ology Lab. A normal dungeon run at full HP, run like the town's side dungeon; losing carries the party back
+## to the forest.
+func enter_lab() -> void:
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(PathologyLab.DUNGEON_ID)
+	if plan == null or profile == null:
+		return
+	dungeon_key = plan.id
+	dungeon_map = MainDungeons.build_map(plan.id)
+	run = DungeonRun.enter(profile, deck, [] as Array[ModifierSource])
+	mini_active = true
+	town_side_active = true
+	main_dungeon_active = false
+	dungeon_story_seen = []
+	trial_finished = false
+	pending_reward = null
+	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
+
+
+## The Lab's first clear: Siphon's Lens (equipment), gold and XP on top of the unique card.
+func _grant_lab_first_clear(result: Dictionary) -> void:
+	var piece: EquipmentData = content.equipment_piece(PathologyLab.REWARD_EQUIPMENT_ID)
+	if piece != null and grant_equipment(piece):
+		result["equipment"] = piece.source_name
+	add_gold(PathologyLab.REWARD_GOLD)
+	add_xp(PathologyLab.REWARD_XP)
+	result["gold"] = PathologyLab.REWARD_GOLD
+	result["xp"] = PathologyLab.REWARD_XP
 
 
 ## From the town: the Forgotten Vault under the old well (S-TOWN). A normal dungeon run at full HP; losing carries the party back to the town.

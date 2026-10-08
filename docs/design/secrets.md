@@ -394,3 +394,7 @@ Losing changes nothing (retry any time).
 The town centre was rebuilt as a real town (`world/town_layout.gd`, `world/town_streets.gd`). Hidden chests, the graveyard (Old Hob), the ninja chest, the four-lever vault levers and the zone exits stayed where they were. Only two secret *buildings* moved onto the new layout:
 - **The Sealed Vault** (Forgotten Vault entrance) now stands at world (10.8, 31.2), just south-west of the Wellspring on Champions' Road. Its lever hint is unchanged.
 - **The back-alley smithy** (Secret Dealer, `hidden_vendor`) now stands at world (39.6, 24.9), a few steps off Champions' Road, still unmarked until the original chest is opened.
+
+## Story v2 Part H: the forest after Primm falls (postgame)
+- **The hidden Path-ology Lab hatch** is in the south treeline of the starting forest (cell `L`, anchor `lab`). Until Rip tells the Wanderer about the forest it is built exactly like a treeline cell (blocked, nothing to see); after his tip (`lab_revealed`) it is a walkable steel hatch with a cyan glow ring and the prompt "Descend into the Path-ology Lab".
+- Rip Tearson's **forest rift station** stands beside the cave and is on the Rift Express (station id `forest`, unlocked by the same tip, flag `rift_station_forest`).

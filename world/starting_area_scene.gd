@@ -42,6 +42,11 @@ var _rescuer: Node3D
 var _maren: Node3D
 var _self_talk_cooldown: float = 0.0
 var _self_talk_index: int = 0
+## Postgame (Story v2 Part H): Rip's forest station, the freed Rescuer and the Lab hatch.
+var _station: FastTravelStation
+var _rip: Node3D
+var _rescuer_npc: Node3D
+var _post_near: String = ""
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -55,6 +60,12 @@ func _ready() -> void:
 		Session.new_game()
 	elif Session.profile == null and not Session.flag(&"awakened"):
 		Session.new_game()
+	# Screenshot helper (`--postgame=1`): a finished game, Rip's forest open, the Lab revealed and the Rescuer freed.
+	if _screenshot_args.has("postgame"):
+		Session.ensure_game()
+		for name: StringName in [&"primm_defeated", &"rescuer_met", &"rip_forest_tip", PathologyLab.FLAG_FOREST_OPEN, PathologyLab.FLAG_REVEALED, PathologyLab.FLAG_RESCUER_FREED]:
+			Session.set_flag(name)
+	area.lab_open = Session.flag(PathologyLab.FLAG_REVEALED)
 	area.build(self)
 	if _screenshot_args.has("cam"):
 		var cam: PackedStringArray = str(_screenshot_args["cam"]).split(",")
@@ -62,6 +73,7 @@ func _ready() -> void:
 		_custom_camera = true
 	_build_actors()
 	_build_ui()
+	_build_postgame()
 	ChestKit.apply_saved(area.chest_nodes, StartingAreaScene._chest_secret)
 	if _screenshot_args.has("pos"):
 		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
@@ -358,6 +370,7 @@ func _update_prompt() -> void:
 		_near_gate = false
 		_near_tunnel = false
 		_chest_near = ""
+		_post_near = ""
 		return
 	var gate: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
 	var gate_distance: float = Vector2(player.position.x - gate.x, player.position.z - gate.z).length()
@@ -373,8 +386,11 @@ func _update_prompt() -> void:
 	if (_near_gate and not was_near_gate) or (_near_tunnel and not was_near_tunnel):
 		Audio.sfx(&"ui_tick", -10.0)
 	_chest_near = _find_chest_in_reach()
+	_post_near = _find_postgame_spot()
 	if _near_gate:
 		_prompt_label.text = "[E]  Enter the cave"
+	elif _post_near != "":
+		_prompt_label.text = _postgame_prompt(_post_near)
 	elif _chest_near != "":
 		_prompt_label.text = "[E]  Open the chest"
 	elif _near_tunnel:
@@ -406,6 +422,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _chest_near != "" and not _near_gate and (event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE)):
 		get_viewport().set_input_as_handled()
 		_open_chest(_chest_near)
+		return
+	if _post_near != "" and not _near_gate and (event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE)):
+		get_viewport().set_input_as_handled()
+		_use_postgame(_post_near)
 		return
 	if _near_tunnel and not _near_gate:
 		if event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE):
@@ -521,6 +541,9 @@ func _open_deck_builder() -> void:
 
 func _confirm_enter() -> void:
 	Audio.sfx(&"door")
+	if Session.flag(&"trial_cleared"):
+		Session.begin_trial()
+		return
 	if Session.has_profile():
 		Session.begin_intro_trial(Session.profile.primary_affinity)
 		return
@@ -530,6 +553,128 @@ func _confirm_enter() -> void:
 		Audio.sfx(&"ui_confirm")
 		choice.queue_free()
 		Session.begin_intro_trial(color))
+
+
+# ---- Story v2 Part H: the forest after Primm falls --------------------------------------------------------------------------------------
+
+
+func _postgame_anchor(id: String) -> Vector3:
+	match id:
+		"station":
+			return HexGrid.cell_to_world(3, 1) + Vector3(0.2, 0.0, 0.1)
+		"rescuer":
+			return HexGrid.cell_to_world(1, 3) + Vector3(0.1, 0.0, -0.1)
+	return area.anchors.get(id, Vector3.ZERO) as Vector3
+
+
+## Once Rip has opened the forest: his rift station beside the cave, the hatch to the Path-ology Lab and (when freed) the Rescuer with their hood down.
+func _build_postgame() -> void:
+	if not Session.flag(PathologyLab.FLAG_FOREST_OPEN) or _screenshot_args.has("plain"):
+		return
+	var travel: StoryText = StoryText.shared()
+	var pos: Vector3 = _postgame_anchor("station")
+	_station = FastTravelStation.new()
+	add_child(_station)
+	_station.position = pos
+	_station.scale = Vector3.ONE * 0.62
+	_station.build(travel.get_lines("travel.sign.forest"), true)
+	area.obstacles.append(Vector3(pos.x, pos.z, 0.8))
+	_rip = ModelKit.character("Barbarian")
+	ModelKit.tint(_rip, Color(1.0, 0.8, 0.65))
+	var rip_pos: Vector3 = pos + Vector3(1.2, 0.0, 0.5)
+	ModelKit.place(self, _rip, rip_pos, -40.0, TownPlayer.MODEL_SCALE * 1.2)
+	area.obstacles.append(Vector3(rip_pos.x, rip_pos.z, 0.3))
+	var animation: AnimationPlayer = ModelKit.animation_player(_rip)
+	if animation != null and animation.has_animation("Idle"):
+		animation.play("Idle")
+	area.anchors["station"] = pos + Vector3(0.0, 0.0, 1.0)
+	if Session.flag(PathologyLab.FLAG_RESCUER_FREED):
+		_rescuer_npc = ModelKit.character("Rogue")
+		ModelKit.tint(_rescuer_npc, Color(0.78, 0.76, 0.86))
+		var spot: Vector3 = _postgame_anchor("rescuer")
+		var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
+		ModelKit.place(self, _rescuer_npc, spot, rad_to_deg(atan2(spawn.x - spot.x, spawn.z - spot.z)), TownPlayer.MODEL_SCALE)
+		area.obstacles.append(Vector3(spot.x, spot.z, 0.3))
+		area.anchors["rescuer"] = spot
+
+
+## The postgame thing within reach: "station", "lab", "rescuer" or "".
+func _find_postgame_spot() -> String:
+	if not Session.flag(PathologyLab.FLAG_FOREST_OPEN):
+		return ""
+	var reach: Dictionary = {"station": 1.7, "lab": 1.6, "rescuer": 1.5}
+	for id: String in reach.keys():
+		if not area.anchors.has(id):
+			continue
+		var anchor: Vector3 = area.anchors[id] as Vector3
+		if Vector2(player.position.x - anchor.x, player.position.z - anchor.z).length() <= float(reach[id]):
+			if id == "lab" and not area.lab_open:
+				continue
+			return id
+	return ""
+
+
+func _postgame_prompt(id: String) -> String:
+	match id:
+		"station":
+			return "[E]  Talk to Rip (Rift Express)"
+		"lab":
+			return "[E]  Descend into the Path-ology Lab"
+		"rescuer":
+			return "[E]  Talk to %s" % RoyalFamily.fill("{rescuer}")
+	return ""
+
+
+func _use_postgame(id: String) -> void:
+	Audio.sfx(&"ui_select")
+	match id:
+		"station":
+			_use_station()
+		"lab":
+			_enter_lab()
+		"rescuer":
+			var key: String = "postgame.rescuer.cleared" if Session.flag(PathologyLab.FLAG_CLEARED) else "postgame.rescuer.freed"
+			player.face(area.anchors["rescuer"] as Vector3)
+			dialogue.start(RoyalFamily.fill("{rescuer}"), StoryText.shared().get_lines(key), "NPC-RESCUER")
+
+
+func _use_station() -> void:
+	var travel: StoryText = StoryText.shared()
+	var lines: Array[String] = travel.get_lines("travel.return.forest")
+	if not Session.flag(&"rift_met_forest"):
+		Session.set_flag(&"rift_met_forest")
+		lines = travel.get_lines("travel.intro.forest")
+	_locked = true
+	dialogue.start(travel.text("travel.operator.forest"), lines)
+	dialogue.finished.connect(func() -> void:
+		var screen: FastTravelScreen = FastTravelScreen.new()
+		screen.here = FastTravel.FOREST
+		screen.destination_chosen.connect(func(station_id: String) -> void:
+			screen.queue_free()
+			RiftTrip.run(self, _overlay_layer, dialogue, _station, travel.text("travel.operator.forest"), station_id))
+		screen.closed.connect(func() -> void:
+			screen.queue_free()
+			_locked = false)
+		_overlay_layer.add_child(screen), CONNECT_ONE_SHOT)
+
+
+func _enter_lab() -> void:
+	if not Session.any_deck_valid():
+		var problems: Array[DeckValidator.Issue] = Session.deck_issues()
+		var message: String = problems[0].message if not problems.is_empty() else "Your deck is not legal."
+		dialogue.start("", ["My deck is not ready for this. %s" % message] as Array[String], NpcRegistry.PLAYER_ID)
+		return
+	_locked = true
+	var dialog: ConfirmDialog = ConfirmDialog.ask(
+		_overlay_layer, "The Path-ology Lab",
+		"A clean steel hatch, and below it a white staircase. This is where the Wanderer was kept. The place is far deadlier than the castle, and nothing heals between fights except the one quiet room near the end. Go down?",
+		"Descend", "Not yet",
+	)
+	dialog.confirmed.connect(func() -> void:
+		DeckPicker.guard(_overlay_layer, func() -> void:
+			Audio.sfx(&"door")
+			Session.enter_lab(), func() -> void: _locked = false))
+	dialog.cancelled.connect(func() -> void: _locked = false)
 
 
 # ---- Screenshot helpers -----------------------------------------------------------------

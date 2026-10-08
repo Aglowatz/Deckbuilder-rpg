@@ -9,7 +9,7 @@ Task file: docs/overnight_task.md. Check off a part only after tests pass, progr
 - [x] Part E: Elder Maren and memory fragments
 - [x] Part F: Zone story updates
 - [x] Part G: Capital, Castle, finale
-- [ ] Part H: Postgame (forest portal, Path-ology Lab)
+- [x] Part H: Postgame (forest portal, Path-ology Lab)
 - [ ] Part I: Final verification
 
 ## Notes / blocked

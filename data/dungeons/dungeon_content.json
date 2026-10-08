@@ -319,6 +319,54 @@
 			},
 			"story_keys": {"3": "dg_s_cap_boss"}
 		},
+		"D-LAB": {
+			"defaults": {
+				"archetypes": ["necro_control", "gourmand_control", "refuse_garbage", "beefcake_bruisers"],
+				"icons": ["lorc/bubbling-flask", "delapouite/warlock-eye", "lorc/brainstorm", "delapouite/stamper", "delapouite/shambling-zombie"],
+				"ais": ["Aggressive", "Balanced", "Defensive"]
+			},
+			"boss": {"deck": "necro_control", "extra": {"N-33": 1, "B-32": 1, "G-33": 1, "R-33": 1, "C-30": 1, "C-31": 1}, "hp": 50, "icon": "delapouite/warlock-eye"},
+			"foes": {
+				"2": {"name": "Decontamination Technician", "deck": "necro_control", "size": 38, "hp": 30, "ai": "Aggressive"},
+				"3": {"name": "Escaped Specimen", "deck": "refuse_garbage", "size": 38, "hp": 30, "ai": "Aggressive", "mixed": ["refusemancer", "beefcake"]},
+				"5": {"name": "The Failed Experiment", "deck": "beefcake_bruisers", "size": 42, "hp": 36, "ai": "Aggressive", "mixed": ["beefcake", "necrocrat", "gourmand"], "extra": {"B-28": 1}},
+				"6": {"name": "Observation Ward Orderly", "deck": "gourmand_control", "size": 40, "hp": 32, "ai": "Balanced"},
+				"10": {"name": "The Drain Warden", "deck": "necro_control", "size": 42, "hp": 38, "ai": "Aggressive", "mixed": ["necrocrat", "refusemancer", "gourmand", "beefcake"], "extra": {"N-29": 1, "C-30": 1}},
+				"11": {"name": "Siphon's Research Assistant", "deck": "gourmand_control", "size": 40, "hp": 34, "ai": "Balanced", "mixed": ["gourmand", "necrocrat"]},
+				"14": "Dr. Ambrose Siphon, Chief Path-ologist"
+			},
+			"events": {
+				"4": {
+					"title": "The Path-ologists' Break Room",
+					"body": "A kettle, a cracked mug that says WORLD'S OKAYEST PATH-OLOGIST, and a corkboard of notes on one subject. Some of the oldest have been torn down. The newest are a count of days.",
+					"choices": [
+						["Read the notes on the Subject", "Drain cycles, power readings, a column labelled 'cooperative?' that someone has filled in with 'asks for his mother.' You put the notes down very carefully.", "boon:Know Your Enemy|atk=1"],
+						["Drink the Path-ologists' tea", "It is the first thing here that tastes like anything. You feel steadier.", "heal:4"],
+						["Rifle the lockers", "Keycards, a petty cash tin, and a half-written resignation letter.", "gold:80"]
+					]
+				},
+				"7": {
+					"title": "The Prince's Old Cell",
+					"body": "A white room, three paces by four. On the wall, in rows of five with a stroke through each, ten years of tally marks, scratched with a spoon handle. Low down, where a child could reach, a drawing in four colors: a small boy, a woman humming, a man with a crown, and a sun that is all four colors at once.",
+					"choices": [
+						["Run your fingers along the tally marks", "The marks are shallow at the start and deep at the end. Somebody counted every day. It was you. Something in your chest says: never again.", "boon:Counted Every Day|max_hp=3"],
+						["Look at the child's drawing", "Four colors, because he had them, and he drew them the way he remembered them. You take a long, slow breath and feel your lost warmth in it.", "heal:5"],
+						["Leave quietly", "Some rooms are not for lingering in. You close the door gently, as if somebody might still be asleep.", "nothing"]
+					]
+				}
+			},
+			"challenges": {
+				"8": {
+					"title": "The Glass Tank Hall",
+					"text": "Four tanks glow in four colors. A sensor asks whether your deck can carry more than one Path at a time.",
+					"kind": "infra", "reveal": 6, "threshold": 3,
+					"success": ["boon:Pathwalker|max_hp=2", "heal:3"],
+					"failure": ["lose:4"]
+				}
+			},
+			"loot": {"9": {"gold": 220, "xp": 120, "item": "scroll_of_insight"}},
+			"story_keys": {"1": "dg_lab_hatch", "10": "dg_lab_drain", "12": "dg_lab_rescue", "14": "dg_lab_boss"}
+		},
 		"S-TOWN": {
 			"defaults": {
 				"archetypes": ["colorless_militia"],
@@ -373,6 +421,14 @@
 		"dungeon.dg_s_cap_boss.before": ["A metal grate lets in light from a perfect city. Beneath it stands Captain Spotless, polishing his shield with a sleeve he has polished before.", "\"These tunnels do not exist,\" he says. \"I cannot allow you to have found them.\""],
 		"dungeon.dg_s_cap_boss.after": ["The Captain sits down on a barrel and, for a moment, looks very tired. \"I remember when these tunnels were full of people,\" he says. \"Go on. The grate is not locked.\""],
 		"dungeon.dg_s_town_boss.before": ["A glowing four-coloured core hums at the heart of the vault. Beside it a clockwork guardian unfolds, with a sound like a very old clock remembering the hour.", "\"Identify,\" it says. \"The Old Kingdom's banner is not for just anyone.\""],
-		"dungeon.dg_s_town_boss.after": ["The Automaton clicks, whirs and lowers one knee. In its outstretched hand, folded neatly, is the Old Kingdom's banner.", "\"Four Paths,\" it says. \"One kingdom. Carry it well.\""]
+		"dungeon.dg_s_town_boss.after": ["The Automaton clicks, whirs and lowers one knee. In its outstretched hand, folded neatly, is the Old Kingdom's banner.", "\"Four Paths,\" it says. \"One kingdom. Carry it well.\""],
+		"dungeon.dg_lab_hatch.before": ["The hatch opens on white light and a smell of disinfectant. A staircase of clean steel goes down through the roots of the forest where you woke up.", "Everything about this place is familiar in the way a bruise is familiar. You do not know why your hands are shaking. You go down anyway."],
+		"dungeon.dg_lab_drain.before": ["A round chamber, glass on every side, a chair at the center with straps worn pale. Cables run from the chair to four great tanks, each glowing a different color. This is where it was done.", "The tanks are still half full. Four colors of a boy's power, bottled, labelled and filed. A Path-ologist in a stained coat says, without looking up, \"Subject 1 is not to leave the chair.\""],
+		"dungeon.dg_lab_drain.after": ["The Drain Warden falls across the chair. The cables go slack, and the four tanks flicker, as if something in them has noticed you. The power is not yours to take back this way. It was never meant to be bottled at all."],
+		"dungeon.dg_lab_rescue.before": ["In a cell at the end of the corridor, a figure in a torn gray travelling cloak sits with their hands bound. They do not look up. The hood is a rag, the pin at the throat is bent.", "\"You came back,\" they say. \"I told them you would not. I told them nobody could be that stubborn.\""],
+		"dungeon.dg_lab_rescue.after": ["The lock gives way. The Rescuer pushes the hood down at last, and the face under it is tired and kind and unmistakable: the person who knelt beside you in the forest.", "\"I never told you my name,\" they say. \"I will, once you have taken this place apart. Go on. I will walk behind you.\""],
+		"dungeon.dg_lab_boss.before": ["Dr. Ambrose Siphon, Chief Path-ologist, looks up from a bench of humming glass. Neat, polite, enthusiastic, and not at all surprised.", "\"Subject 1! You have come back to us. And you've grown. Do you know how long I have waited to run the next cycle? Primm's rule was always a bit crude. I never needed a crown. I only needed the research.\"", "\"Please sit. This will only drain a little.\""],
+		"dungeon.dg_lab_boss.after": ["Siphon's equipment goes dark, tank by tank. He sags against a bench, and for once he does not look fascinated. \"You are not a Subject,\" he says, dazed. \"You were never a Subject. Maren said so, and I called it sentimentality.\"", "The tanks go clear. The four colors rise out of them, through the roof, and out into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone."],
+		"dungeon.dg_lab_boss.title": ["The Chief Path-ologist's Laboratory"]
 	}
 }

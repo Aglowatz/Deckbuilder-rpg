@@ -23,16 +23,22 @@ static func side_ids() -> Array[String]:
 
 
 static func has_def(key: String) -> bool:
-	return ids().has(key) or side_ids().has(key)
+	return ids().has(key) or side_ids().has(key) or is_postgame(key)
 
 
 static func is_side(key: String) -> bool:
 	return side_ids().has(key)
 
 
+## The postgame dungeon (the Path-ology Lab) is run like a side dungeon from the forest: full HP, the party is carried back to the forest.
+static func is_postgame(key: String) -> bool:
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(key)
+	return plan != null and plan.is_postgame()
+
+
 ## The blueprint behind a dungeon key.
 static func blueprint(key: String) -> DungeonCatalog.Blueprint:
-	return DungeonCatalog.find(key) if is_side(key) else DungeonCatalog.main_for_zone(key)
+	return DungeonCatalog.find(key) if (is_side(key) or is_postgame(key)) else DungeonCatalog.main_for_zone(key)
 
 
 static func def(key: String) -> MainDungeonDef:
@@ -48,6 +54,8 @@ static func def(key: String) -> MainDungeonDef:
 				_defs[key] = RotheartDungeon.build_def()
 			PrimmsCastleDungeon.ZONE_ID:
 				_defs[key] = PrimmsCastleDungeon.build_def()
+			PathologyLab.DUNGEON_ID:
+				_defs[key] = PathologyLab.build_def()
 			_:
 				if not is_side(key):
 					return null

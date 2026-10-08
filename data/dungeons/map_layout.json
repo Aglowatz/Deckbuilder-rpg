@@ -2,6 +2,7 @@
 	"_about": "Fitted node coordinates of the dungeon maps: dungeon ID -> node number -> [x, y] as a fraction (0..1) of the painted map image (x from the left, y from the top), the center of the node's painted landing spot. A node with no entry uses the CSV percentage. `paths` says how the paths between nodes are drawn over each map: full | subtle | highlight | none (docs/art/art_pipeline.md, 'Dungeon maps'). Re-fit with `bash tools/map_fit_sheet.sh <ID>` after a map is regenerated.",
 	"paths": {
 		"D-TUT": "highlight",
+		"D-LAB": "highlight",
 		"D-HOG": "highlight",
 		"D-TTK": "highlight",
 		"D-HFA": "highlight",
@@ -16,6 +17,22 @@
 	},
 	"D-TUT": {
 		"1": [0.098, 0.786], "2": [0.279, 0.552], "3": [0.456, 0.737], "4": [0.602, 0.479], "5": [0.762, 0.613], "6": [0.879, 0.293]
+	},
+	"D-LAB": {
+		"1": [0.08, 0.55],
+		"2": [0.20, 0.30],
+		"3": [0.20, 0.78],
+		"4": [0.32, 0.18],
+		"5": [0.32, 0.70],
+		"6": [0.44, 0.38],
+		"7": [0.44, 0.86],
+		"8": [0.56, 0.24],
+		"9": [0.56, 0.62],
+		"10": [0.68, 0.18],
+		"11": [0.68, 0.66],
+		"12": [0.79, 0.42],
+		"13": [0.86, 0.66],
+		"14": [0.92, 0.22]
 	},
 	"D-HOG": {
 		"1": [0.087, 0.859], "2": [0.217, 0.677], "3": [0.234, 0.877], "4": [0.376, 0.571], "5": [0.382, 0.832], "6": [0.522, 0.718], "7": [0.583, 0.520],

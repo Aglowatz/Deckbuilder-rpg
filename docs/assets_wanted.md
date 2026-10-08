@@ -14,3 +14,8 @@ want to spend time on them:
 
 ## Elder Maren (tortoise)
 - A stylized upright **tortoise** character (female, elderly, kind, a shell with a patched cloth wrap, a kettle or a pie) in the KayKit-adventurers scale, with Idle/Walk animations. Until then Maren is the Mage model with a code-drawn shell (`world/tortoise_kit.gd`). Portrait NPC-ELDER already exists.
+
+## Path-ology Lab (postgame)
+- **MAP-LAB** (3:2 painted dungeon map) and **BB-LAB** (16:9 battleboard): currently code-drawn placeholders (`tools/make_lab_placeholder_art.gd`). Replace the two files in `assets/art/maps/` and `assets/art/battleboards/` with the real art under the same IDs; re-fit the node coordinates in `data/dungeons/map_layout.json` (`D-LAB`) with `bash tools/map_fit_sheet.sh D-LAB`.
+- Portraits for **NPC-RESCUER** (hooded / revealed) and **NPC-SIPHON** (neutral / fascinated / furious) are still code-drawn silhouettes (`docs/art/` portraits list).
+- A hatch model for the forest entrance (currently a code-drawn steel disc with a cyan ring).

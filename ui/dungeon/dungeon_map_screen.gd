@@ -124,10 +124,10 @@ func _prepare_dungeon_for_screenshot() -> void:
 		for step: int in range(int(_screenshot_args.get("progress", 0))):
 			Session.dungeon_map.complete(Session.dungeon_map.available()[0].id)
 		return
-	if not plan.is_side():
+	if not plan.is_side() and not plan.is_postgame():
 		_screenshot_args["main"] = plan.zone_id
 		_prepare_main_dungeon_for_screenshot()
-	elif ZoneDefs.has_def(plan.zone_id):
+	elif ZoneDefs.has_def(plan.zone_id) and not plan.is_postgame():
 		_screenshot_args["mini"] = plan.zone_id
 		_prepare_mini_dungeon_for_screenshot()
 	else:

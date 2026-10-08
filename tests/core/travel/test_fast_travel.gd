@@ -15,7 +15,7 @@ func before_each() -> void:
 func test_there_is_a_station_in_town_and_one_per_zone() -> void:
 	var ids: Array[String] = FastTravel.station_ids()
 	assert_eq(ids[0], FastTravel.TOWN)
-	assert_eq(ids.size(), 1 + ZoneDefs.all_ids().size())
+	assert_eq(ids.size(), 2 + ZoneDefs.all_ids().size())  # the town, one per zone and the postgame forest
 	for zone_id: String in ZoneDefs.all_ids():
 		assert_true(ids.has(zone_id), "a station in %s" % zone_id)
 

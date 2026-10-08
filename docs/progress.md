@@ -2854,3 +2854,9 @@ Progress checklist: `docs/overnight_progress.md`. Judgment calls: `docs/design/o
 - Final fight: `primm_reveal` ("I kept your face") when fewer than four zones are freed, the Reflection line, the zone lessons in the fight scenes, leader boons for Flex / the Grand Chef / Agnes / Compostella.
 - Ending: the Pathwork Throne beat, Primm sees the damage, the HEIR: ALIVE. FILE COMPLETE. stamp and Maren calling him Tessar; Pathordia; Primm works under guard on infrastructure.
 - Tests in `tests/core/dungeon/test_finale_v2.gd`. GUT: 1232 passing. Screenshots in `_screenshots/storyv2/`.
+
+### Part H - Postgame (Rip's forest portal and the Path-ology Lab)
+- After Primm falls, Rip tells the Wanderer about the forest when talked to at the Rift Express: the forest is now a station on the network (travel there and back) and the Lab's hatch is revealed in the clearing.
+- The forest in the postgame has Rip's station beside the cave, the glowing hatch and the freed Rescuer (hood down) with their own lines.
+- The Path-ology Lab: 14 nodes with branching, placeholder extremely hard encounters, the break-room notes, the prince's old cell (ten years of tally marks, the child's four-color drawing), the draining chamber, the Rescuer's cell (rescue boon), the quiet room and Dr. Ambrose Siphon as boss. Placeholder `MAP-LAB` and `BB-LAB` art, Siphon's Lens as first-clear equipment, gold and XP.
+- Tests in `tests/core/dungeon/test_pathology_lab.gd`; the dungeon-list tests now include D-LAB. GUT: 1239 passing.
