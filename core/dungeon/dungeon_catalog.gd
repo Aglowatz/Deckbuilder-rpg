@@ -1,6 +1,6 @@
 class_name DungeonCatalog
 extends RefCounted
-## The designer's dungeon list as game data: `data/source/dungeon_list.csv.csv` is imported by `tools/import_dungeons` into `data/dungeons/dungeons.json`
+## The designer's dungeon list as game data: `data/source/dungeon_list.csv` is imported by `tools/import_dungeons` into `data/dungeons/dungeons.json`
 ## (IDs, names, story, boss, buffs, rewards, quest hooks, map and battleboard IDs and every node with its type, links and CSV position).
 ## `data/dungeons/map_layout.json` holds the FITTED node coordinates (normalized 0..1 on the map image, see docs/art/art_pipeline.md "Dungeon maps"); a node
 ## with no entry there uses the CSV percentage. `data/dungeons/dungeon_content.json` is the hand-written node content (foes, events, loot, challenges, text).

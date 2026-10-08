@@ -69,7 +69,7 @@ the files that match no ID.
 ## NPC dialogue portraits
 
 The visual-novel portraits that stand beside the dialogue box (`assets/art/portraits/<Portrait Image ID>.webp`, e.g. `NPC-ELDER.webp`). The designer's list is
-`data/source/npc_list.csv.csv`; `bash tools/import_npcs.sh` turns it into `data/npcs/npcs.json` (`NpcRegistry`: ID, name, role, location, Portrait Image ID, species,
+`data/source/npc_list.csv`; `bash tools/import_npcs.sh` turns it into `data/npcs/npcs.json` (`NpcRegistry`: ID, name, role, location, Portrait Image ID, species,
 expressions). When you say **"import portraits"**, run `bash tools/import_portraits.sh` and report what was added, the Portrait Image IDs with no image and the files that match no ID.
 
 - **Source:** `data/source/art_config.cfg` `portrait_dir` (`G:/My Drive/Card Game Art/Approved_Characters`; override with env `PORTRAIT_SOURCE_DIR`). Read-only, like the other
@@ -85,7 +85,7 @@ expressions). When you say **"import portraits"**, run `bash tools/import_portra
 
 ## Dungeon maps
 
-Every dungeon of the dungeon list (`data/source/dungeon_list.csv.csv`, imported by `bash tools/import_dungeons.sh`) has one painted 3:2 map, `assets/art/maps/<Map Image ID>.webp` (e.g. `MAP-HOG.webp`). When you say **"import maps"**, run
+Every dungeon of the dungeon list (`data/source/dungeon_list.csv`, imported by `bash tools/import_dungeons.sh`) has one painted 3:2 map, `assets/art/maps/<Map Image ID>.webp` (e.g. `MAP-HOG.webp`). When you say **"import maps"**, run
 `bash tools/import_maps.sh` and report what was added, the Map Image IDs with no image and the files that match no ID.
 
 - **Source:** `data/source/art_config.cfg` `map_dir` (`G:/My Drive/Card Game Art/Approved_Maps`; override with env `MAP_SOURCE_DIR`). Read-only like the other importers: files are only copied (never moved, renamed or deleted); `data/source/map_import_manifest.csv`

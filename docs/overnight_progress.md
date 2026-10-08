@@ -13,4 +13,4 @@ Task file: docs/overnight_task.md. Check off a part only after tests pass, progr
 - [ ] Part I: Final verification
 
 ## Notes / blocked
-- The CSV exports are named `data/source/npc_list.csv.csv` and `dungeon_list.csv.csv` (double extension); used as-is.
+- The CSV exports are named `data/source/npc_list.csv` and `dungeon_list.csv` (double extension); used as-is.

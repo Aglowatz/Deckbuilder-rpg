@@ -1,13 +1,13 @@
 class_name NpcRegistry
 extends RefCounted
-## The designer's NPC list (`data/source/npc_list.csv.csv`, imported into `data/npcs/npcs.json` by `tools/import_npcs`): every character
+## The designer's NPC list (`data/source/npc_list.csv`, imported into `data/npcs/npcs.json` by `tools/import_npcs`): every character
 ## with a dialogue portrait, keyed by NPC ID ("NPC-ELDER", "V-SABLE"). `data/npcs/npc_game_map.json` is hand-written and ties the game to
 ## the list: extra speaker aliases (the throwers, the rift technicians...), and which NPC speaks a dungeon story beat.
 ## In-game NPCs store their NPC ID in their data (zone defs, the town); a dialogue box finds the portrait through it.
 
 const NPC_PATH: String = "res://data/npcs/npcs.json"
 const MAP_PATH: String = "res://data/npcs/npc_game_map.json"
-const SOURCE_PATH: String = "res://data/source/npc_list.csv.csv"
+const SOURCE_PATH: String = "res://data/source/npc_list.csv"
 const PLAYER_ID: String = "NPC-PLAYER"
 
 

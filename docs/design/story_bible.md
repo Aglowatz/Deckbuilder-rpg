@@ -2,7 +2,7 @@
 
 Organized from `story_source_v2.md` (the designer-approved source of truth; where it conflicts with
 `story_source.md` or older content, v2 wins). Canonical names, roles and dungeon node layouts also
-live in `data/source/npc_list.csv.csv` and `data/source/dungeon_list.csv.csv`.
+live in `data/source/npc_list.csv` and `data/source/dungeon_list.csv`.
 
 All dialogue, signs and story text live in the story data files (`data/story/*.tres`,
 `core/data/story_text.gd` / `zone_story_text.gd` defaults), never in scene scripts. Names that may

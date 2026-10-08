@@ -2,7 +2,7 @@ class_name RotheartDungeon
 extends RefCounted
 ## THE ROTHEART (D-ROT, Refusemancers): the Verdant Dump's blight at its source. Boss: Compostella, the Rotheart, the corrupted Refusemancer
 ## leader. Severing the Heart Roots (the event before the boss) weakens her: she starts the duel with `SEVERED_HP_LOSS` less HP (cutscene "sever" after
-## the fight). 13 nodes, three routes that split and rejoin. The map, nodes, foes, events and rewards come from `data/source/dungeon_list.csv.csv`
+## the fight). 13 nodes, three routes that split and rejoin. The map, nodes, foes, events and rewards come from `data/source/dungeon_list.csv`
 ## through `DungeonBuilder`. Text: data/story/refusemancer_story.tres and the content file.
 
 const ZONE_ID: String = "refusemancer"

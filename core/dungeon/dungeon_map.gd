@@ -53,7 +53,7 @@ class MapNode:
 	var return_to: int = -1
 	## A node with no icon: the party marker stands there before the first real node (the side dungeons start on their first battle).
 	var hidden: bool = false
-	## Dungeon list: the number of the node in `data/source/dungeon_list.csv.csv` (1-based; id = number - 1) and the flag a RESCUE sets.
+	## Dungeon list: the number of the node in `data/source/dungeon_list.csv` (1-based; id = number - 1) and the flag a RESCUE sets.
 	var number: int = 0
 	var rescue_flag: String = ""
 

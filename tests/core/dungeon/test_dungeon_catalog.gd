@@ -1,5 +1,5 @@
 extends GutTest
-## The dungeon list (data/source/dungeon_list.csv.csv -> data/dungeons/dungeons.json): every dungeon, its nodes, links, types, bosses and rewards exist in the
+## The dungeon list (data/source/dungeon_list.csv -> data/dungeons/dungeons.json): every dungeon, its nodes, links, types, bosses and rewards exist in the
 ## game as the CSV says, every map is sound and every node has what it needs to be played.
 
 const NODE_COUNTS: Dictionary = {

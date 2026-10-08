@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The dungeon list importer (docs/art/art_pipeline.md): data/source/dungeon_list.csv.csv -> data/dungeons/dungeons.json.
+# The dungeon list importer (docs/art/art_pipeline.md): data/source/dungeon_list.csv -> data/dungeons/dungeons.json.
 GODOT="/c/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe"
 cd "$(dirname "$0")/.."
 "$GODOT" --headless --path . --import >/dev/null 2>&1

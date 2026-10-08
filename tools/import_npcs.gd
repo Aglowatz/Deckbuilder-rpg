@@ -1,5 +1,5 @@
 extends SceneTree
-## The NPC list importer: `bash tools/import_npcs.sh`. Reads the designer's CSV (data/source/npc_list.csv.csv; row 4 is the header, character
+## The NPC list importer: `bash tools/import_npcs.sh`. Reads the designer's CSV (data/source/npc_list.csv; row 4 is the header, character
 ## rows start with "NPC-" or "V-", the VENDOR SCREENS section is ignored) and writes data/npcs/npcs.json for `NpcRegistry`.
 
 const OUT_PATH: String = "res://data/npcs/npcs.json"

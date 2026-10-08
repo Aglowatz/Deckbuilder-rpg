@@ -2539,7 +2539,7 @@ Five groups, each finished with the full GUT run, screenshots, a commit and a pu
 
 ## NPC dialogue portraits
 
-Source list: `data/source/npc_list.csv.csv` (the file really is named `.csv.csv`, like the battleboard list; 58 character rows, the VENDOR SCREENS section is ignored).
+Source list: `data/source/npc_list.csv` (the file really is named `.csv.csv`, like the battleboard list; 58 character rows, the VENDOR SCREENS section is ignored).
 `bash tools/import_npcs.sh` turns it into `data/npcs/npcs.json`; `NpcRegistry` (`core/data/npc_registry.gd`) reads it. `data/npcs/npc_game_map.json` is the hand-written link to the game
 (extra speaker aliases, which NPC speaks a dungeon story beat, which side a portrait stands on).
 
@@ -2693,7 +2693,7 @@ Vendor portraits V-* are imported but only used when the vendor talks; the vendo
 
 ## Dungeons and their map art (dungeon list)
 
-Source: `data/source/dungeon_list.csv.csv` (12 dungeons, not 13: D-TUT, the five main dungeons D-HOG / D-TTK / D-HFA / D-ROT / D-PC and the six side dungeons S-BEEF / S-GOUR / S-NECRO / S-REF / S-CAP / S-TOWN; 99 nodes).
+Source: `data/source/dungeon_list.csv` (12 dungeons, not 13: D-TUT, the five main dungeons D-HOG / D-TTK / D-HFA / D-ROT / D-PC and the six side dungeons S-BEEF / S-GOUR / S-NECRO / S-REF / S-CAP / S-TOWN; 99 nodes).
 `bash tools/import_dungeons.sh` writes `data/dungeons/dungeons.json` (parsed node lists with types, links, CSV positions and D-PC's dead-end returns) and `docs/design/reward_cards.md` (generated from the sheet).
 `DungeonCatalog` (`core/dungeon/dungeon_catalog.gd`) reads it; `data/dungeons/dungeon_content.json` is the hand-written content (foes, events, challenges, loot, boss lines, quest dialogue);
 `DungeonBuilder` turns blueprint + content into the playable `MainDungeonDef` and `DungeonMap`.

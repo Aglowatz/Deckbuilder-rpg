@@ -6,7 +6,7 @@ extends RefCounted
 ## confrontation a short scene (cutscene "flex"): he throws off his outer clothing, still incredibly
 ## muscular, and explains that true strength comes from the heart and the mind. Boss: Chancellor Clench.
 ## 13 nodes: two routes that split and rejoin, and the optional Iron-less Prison branch (skipping nodes 8-9 skips the rescue). The map, nodes, foes and rewards come
-## from `data/source/dungeon_list.csv.csv` through `DungeonBuilder`.
+## from `data/source/dungeon_list.csv` through `DungeonBuilder`.
 ## Text: data/story/gainlands_story.tres (`dungeon.hg_*`, `event.hg_*`, `cutscene.rescue.*`, `cutscene.flex.*`).
 
 const ZONE_ID: String = "beefcake"

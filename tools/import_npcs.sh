@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The NPC list importer (docs/art/art_pipeline.md): data/source/npc_list.csv.csv -> data/npcs/npcs.json.
+# The NPC list importer (docs/art/art_pipeline.md): data/source/npc_list.csv -> data/npcs/npcs.json.
 GODOT="/c/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe"
 cd "$(dirname "$0")/.."
 "$GODOT" --headless --path . --import >/dev/null 2>&1
