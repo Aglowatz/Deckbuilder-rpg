@@ -12,6 +12,9 @@ const SCENES: Dictionary = {
 	"rescue": {"zone": "beefcake", "beats": [[1, ""], [2, ""], [3, "stand_up"]]},
 	"flex": {"zone": "beefcake", "beats": [[1, ""], [2, "coat_off"], [3, "muscle_reveal"], [4, "stagger"], [5, ""]]},
 	"sever": {"zone": "refusemancer", "beats": [[1, "shake"], [2, ""], [3, "roots_retract"], [4, "cleansed"]]},
+	# Story v2 Part F: the true chef's dish breaks the enchantment and she gives her name away; Agnes takes the vacant office.
+	"wonder": {"zone": "gourmand", "beats": [[1, ""], [2, ""], [3, ""], [4, "cleansed"], [5, "shake"], [6, ""], [7, ""]]},
+	"vacancy": {"zone": "necrocrat", "beats": [[1, ""], [2, ""], [3, ""], [4, "crown"], [5, ""], [6, ""]]},
 	# Brief 10: Primm, before the fight, between its phases and after it (text in the Capital's story file).
 	"primm_intro": {"zone": "final", "beats": [[1, ""], [2, "crown"], [3, ""], [4, ""], [5, "shake"], [6, ""]]},
 	"primm_p1": {"zone": "final", "beats": [[1, "crack"], [2, ""], [3, ""], [4, "shake"]]},

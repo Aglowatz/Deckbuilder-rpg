@@ -20,10 +20,19 @@ const ALLY_TOKEN_ID: String = "T-15"
 
 ## True when the player rescued the leader in this run (the rescue event grants the boon).
 static func rescued(run: DungeonRun) -> bool:
+	if run == null:
+		return false
 	for source: ModifierSource in run.dungeon_sources:
 		if source.source_name == BOON_NAME:
 			return true
 	return false
+
+
+## The boss node's story key for this run: when Flex was not rescued Clench faces the Wanderer alone (`_alone`) and after the duel Flex walks out of the prison on his own.
+static func boss_story_key(key: String, run: DungeonRun) -> String:
+	if (key == "dungeon.hg_boss.before" or key == "dungeon.hg_boss.after") and run != null and not rescued(run):
+		return key + "_alone"
+	return key
 
 
 ## Puts Grandmaster Flex, the Unbroken on the player's field (ready) at the start of the boss duel.

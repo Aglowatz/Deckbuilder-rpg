@@ -24,6 +24,16 @@ const STAGES: Dictionary = {
 		"left": {"icon": "delapouite/prisoner", "color": Color("b9a99a"), "scale": 0.9, "squash": 0.55, "coat": true},
 		"right": {"icon": "delapouite/viking-head", "color": Color("e2553f"), "scale": 1.15},
 	},
+	"wonder": {
+		"tint": Color(0.2, 0.15, 0.06),
+		"left": {"icon": "delapouite/chef-toque", "color": Color("f6e7b4"), "scale": 1.1},
+		"right": {"icon": "lorc/pointy-hat", "color": Color("d9b86a"), "scale": 0.8},
+	},
+	"vacancy": {
+		"tint": Color(0.08, 0.14, 0.14),
+		"left": {"icon": "lorc/ghost", "color": Color("cfe3e3"), "scale": 1.05},
+		"right": {"icon": "lorc/pointy-hat", "color": Color("d9b86a"), "scale": 0.8},
+	},
 	"sever": {
 		"tint": Color(0.1, 0.06, 0.14),
 		"left": {"icon": "cathelineau/tree-face", "color": Color("7bc86c"), "scale": 1.1, "roots": true},

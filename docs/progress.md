@@ -2840,3 +2840,10 @@ Progress checklist: `docs/overnight_progress.md`. Judgment calls: `docs/design/o
 - Maren's default lines follow the fragments recovered. If Primm already revealed the prince (`prince_revealed`), fragment 4 and her default line adapt.
 - After the reveal `{wanderer}` and the player's dialogue plate change from "Wanderer" to the prince's name; the capital name switch (Primm's Perfection / Pathordia) is now actually wired to the `primm_defeated` flag.
 - New "Fragments" quest tracks the four memories. Save/load via flags and a counter. Tests in `tests/core/data/test_memories.gd`. GUT: 1218 passing.
+
+### Part F - Zone story updates
+- Gainlands: Clench is Flex's star pupil (new before/after lines, Flex offers to train him from zero), Flex's lines to Clench and to the Wanderer, the Iron-less Prison scene reworked, and a no-rescue branch where Flex walks out of the prison on his own.
+- Endless Buffet: after the boss the true chef is found, bakes the wonder-filled dish that breaks the enchantment, and gives her name to the Doppelganger (new `wonder` cutscene); Escoffina stays in the kitchen as an apprentice.
+- D.N.A.: Mortimer boss / Vellum Appeals Court elite (data from Part A), Agnes at several nodes, the Records Labyrinth transfer document with the heir clause, the vacancy cutscene, and the freed state (Prudence deputy, Gerald's number called, Mortimer behind Gerald).
+- Verdant Dump: the grief-seed backstory, the "let it rot" cure and Compostella's closing lines.
+- Tests in `tests/core/dungeon/test_zone_stories_v2.gd`. GUT: 1225 passing.

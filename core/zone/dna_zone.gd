@@ -76,6 +76,8 @@ static func build_def() -> ZoneDef:
 	def.hub_anchor = "lobby_center"
 	def.freed_npcs = [
 		{"id": "agnes", "npc_id": "NPC-AGNES", "model": "Mage", "offset": Vector3(0.0, 0.0, 4.0), "yaw": 180.0, "tint": Color(0.85, 0.9, 1.0), "scale": 1.15, "name": "Agnes Overdue", "speaker": "Agnes Overdue"},
+		{"id": "prudence", "npc_id": "NPC-PALLOR", "model": "Rogue", "offset": Vector3(-2.6, 0.0, 4.4), "yaw": 160.0, "tint": Color(0.9, 1.0, 0.95), "scale": 1.1, "name": "Prudence Pallor", "speaker": "Prudence Pallor"},
+		{"id": "mortimer", "npc_id": "NPC-MORTIMER", "model": "Knight", "offset": Vector3(3.6, 0.0, 2.2), "yaw": 90.0, "tint": Color(0.75, 0.8, 0.8), "scale": 1.15, "name": "Mortimer Grimsby", "speaker": "Mortimer Grimsby"},
 	]
 	def.mini = _mini_def()
 	def.npcs = [

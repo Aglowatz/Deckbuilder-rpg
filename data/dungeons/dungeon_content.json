@@ -96,7 +96,7 @@
 			},
 			"loot": {"5": {"gold": 80, "xp": 40, "item": "healing_draught"}},
 			"story_keys": {"1": "tk_dock", "13": "tk_boss"},
-			"scenes": {"13": {"before": "reveal"}}
+			"scenes": {"13": {"before": "reveal", "after": "wonder"}}
 		},
 		"D-HFA": {
 			"defaults": {
@@ -153,7 +153,8 @@
 				}
 			},
 			"loot": {"6": {"gold": 85, "xp": 40, "item": "scroll_of_insight"}},
-			"story_keys": {"1": "ha_lobby", "5": "ha_waiting", "14": "ha_boss"}
+			"story_keys": {"1": "ha_lobby", "2": "ha_number", "5": "ha_waiting", "6": "ha_records", "8": "ha_forms", "11": "ha_clerk", "14": "ha_boss"},
+			"scenes": {"14": {"after": "vacancy"}}
 		},
 		"D-ROT": {
 			"defaults": {
@@ -200,7 +201,7 @@
 				}
 			},
 			"loot": {"5": {"gold": 85, "xp": 40, "item": "vitality_charm"}},
-			"story_keys": {"1": "rh_gate", "9": "rh_soil", "13": "rh_boss"},
+			"story_keys": {"1": "rh_gate", "7": "rh_pool", "9": "rh_soil", "12": "rh_roots", "13": "rh_boss"},
 			"scenes": {"13": {"after": "sever"}}
 		},
 		"D-PC": {
