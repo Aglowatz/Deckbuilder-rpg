@@ -13,6 +13,7 @@ var _tab_buttons: Dictionary = {}
 func _init() -> void:
 	screen_title = "Quest Log"
 	close_text = "Close (J)"
+	background_id = "UI-BG-QUESTLOG"
 
 
 func _build() -> void:

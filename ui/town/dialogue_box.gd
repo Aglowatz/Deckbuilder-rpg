@@ -12,9 +12,15 @@ const PLAIN_WIDTH: float = 1100.0
 const MIN_HEIGHT: float = 190.0
 const BOTTOM: float = 990.0
 const MIN_TEXT_HEIGHT: float = 84.0
+## UI art kit: the dialogue panel image has a name tab above its top edge; the visible edge sits this far below the control top, and the speaker name plate overlaps the tab.
+const ART_EDGE: float = 31.0
+const PLATE_POSITION: Vector2 = Vector2(30.0, -10.0)
+const PLATE_SIZE: Vector2 = Vector2(300.0, 66.0)
 
 var _portrait: PortraitView
 var _panel: PanelContainer
+var _plate: TextureRect
+var _art: bool = false
 var _speaker: Label
 var _text: Label
 var _hint: Label
@@ -35,7 +41,8 @@ func _ready() -> void:
 	visible = false
 	_portrait = PortraitView.new()
 	add_child(_portrait)
-	_panel = UIKit.panel()
+	_art = UiArt.has("UI-PANEL-DIALOGUE") and UiArt.has("UI-NAMEPLATE")
+	_panel = UIKit.panel(&"DialoguePanel" if _art else &"")
 	# Plain top-left anchoring (the Control default): a preset anchor combined with a manually
 	# set position/size fights the anchor's own offset math and pushes the panel off-screen.
 	add_child(_panel)
@@ -44,7 +51,10 @@ func _ready() -> void:
 	_speaker = UIKit.label("", &"HeadingLabel", 30)
 	_speaker.clip_text = true
 	_speaker.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	column.add_child(_speaker)
+	if _art:
+		_build_plate()
+	else:
+		column.add_child(_speaker)
 	_text = UIKit.label("", &"", 27, UIStyle.PARCHMENT)
 	_text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(_text)
@@ -52,6 +62,38 @@ func _ready() -> void:
 	column.add_child(_hint)
 	_panel.resized.connect(_anchor_panel)
 	_layout()
+
+
+## The name plate over the panel tab (UI-NAMEPLATE) holding the speaker label in dark ink.
+func _build_plate() -> void:
+	_plate = TextureRect.new()
+	_plate.texture = UiArt.texture("UI-NAMEPLATE")
+	_plate.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_plate.stretch_mode = TextureRect.STRETCH_SCALE
+	_plate.size = PLATE_SIZE
+	_plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_plate)
+	_speaker.theme_type_variation = &""
+	_speaker.add_theme_font_override("font", UIStyle.font_title())
+	_speaker.add_theme_font_size_override("font_size", 26)
+	_speaker.add_theme_color_override("font_color", Color("2b2233"))
+	_speaker.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
+	_speaker.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_speaker.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_speaker.position = Vector2(46, 8)
+	_speaker.size = Vector2(PLATE_SIZE.x - 92.0, PLATE_SIZE.y - 18.0)
+	_plate.add_child(_speaker)
+
+
+## Shrinks the speaker name until it fits the plate.
+func _fit_speaker() -> void:
+	if not _art:
+		return
+	var size_try: int = 26
+	while size_try > 14 and UIStyle.font_title().get_string_size(_speaker.text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_try).x > _speaker.size.x:
+		size_try -= 1
+	_speaker.add_theme_font_size_override("font_size", size_try)
+	_plate.visible = _speaker.text.strip_edges() != ""
 
 
 ## Starts a conversation. `speaker` is the name label; `speaker_npc_id` (an NPC ID of `NpcRegistry`) picks the portrait - when it is empty the speaker label is
@@ -76,14 +118,15 @@ func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -
 			npc_id = id
 			_portrait_id = entry.portrait_id
 			_right_side = entry.side == "right"
-	_speaker.text = _plate(speaker, entry)
+	_speaker.text = _plate_text(speaker, entry)
+	_fit_speaker()
 	_layout()
 	active = true
 	visible = true
 	_panel.visible = true
 	UIKit.pop_in(_panel)
 	if texture != null:
-		_portrait.present(Portraits.texture_for(_portrait_id, _expressions[0]), _right_side, _panel.position.y, _panel.position.x, _panel.position.x + _panel.size.x)
+		_portrait.present(Portraits.texture_for(_portrait_id, _expressions[0]), _right_side, _panel.position.y + _edge(), _panel.position.x, _panel.position.x + _panel.size.x)
 	else:
 		_portrait.dismiss()
 	Audio.sfx(&"ui_open", -6.0)
@@ -91,7 +134,7 @@ func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -
 
 
 ## The name plate: the list name for an NPC addressed by name (or with no speaker label at all), the label itself otherwise.
-func _plate(speaker: String, entry: NpcRegistry.Entry) -> String:
+func _plate_text(speaker: String, entry: NpcRegistry.Entry) -> String:
 	if entry == null:
 		return speaker
 	if speaker.strip_edges().is_empty() or NpcRegistry.resolve_name(speaker) == entry.id:
@@ -140,7 +183,13 @@ func _panel_margins() -> Vector2:
 func _anchor_panel() -> void:
 	_panel.position = Vector2((SCREEN_WIDTH - _panel.size.x) * 0.5, BOTTOM - _panel.size.y)
 	if _portrait != null:
-		_portrait.follow_panel_top(_panel.position.y)
+		_portrait.follow_panel_top(_panel.position.y + _edge())
+	if _plate != null:
+		_plate.position = _panel.position + PLATE_POSITION
+
+
+func _edge() -> float:
+	return ART_EDGE if _art else 0.0
 
 
 func _show_line() -> void:

@@ -25,6 +25,8 @@ var _subline: Label
 var _hint: Label
 var _age: float = 0.0
 var _enabled: bool = true
+## UI art kit: the reward panel (UI-PANEL-POPUP) has a red ribbon banner across its top; the title sits on the ribbon.
+var _art: bool = false
 
 
 ## `header` is the big word ("QUEST COMPLETE"), `icon` a `CardIcons.ui` name.
@@ -49,8 +51,9 @@ func _build(header_text: String, icon: String) -> void:
 	UIKit.full_rect(center)
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(center)
-	_panel = UIKit.panel()
-	_panel.custom_minimum_size = Vector2(PANEL_WIDTH, 0)
+	_art = UiArt.has("UI-PANEL-POPUP-DARK")
+	_panel = UIKit.panel(&"RewardPanel" if _art else &"")
+	_panel.custom_minimum_size = Vector2(PANEL_WIDTH + (60.0 if _art else 0.0), 0)
 	_panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	center.add_child(_panel)
 	_column = UIKit.vbox(12)
@@ -58,9 +61,12 @@ func _build(header_text: String, icon: String) -> void:
 	_header_row = UIKit.hbox(16)
 	_header_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	_column.add_child(_header_row)
-	_badge = CardIcons.glyph(CardIcons.ui(icon), accent, Vector2(60, 60))
+	_badge = CardIcons.glyph(CardIcons.ui(icon), UIStyle.PARCHMENT if _art else accent, Vector2(44, 44) if _art else Vector2(60, 60))
 	_header_row.add_child(_badge)
-	_header = UIKit.label(header_text, &"TitleLabel", 54, accent, HORIZONTAL_ALIGNMENT_CENTER)
+	_header = UIKit.label(header_text, &"TitleLabel", 38 if _art else 54, Color("fff3d6") if _art else accent, HORIZONTAL_ALIGNMENT_CENTER)
+	if _art:
+		_header.add_theme_color_override("font_outline_color", Color("5a1010"))
+		_header.add_theme_constant_override("outline_size", 6)
 	_header_row.add_child(_header)
 	_column.add_child(_divider())
 	_heading = UIKit.label("", &"HeadingLabel", 30, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)

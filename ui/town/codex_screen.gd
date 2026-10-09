@@ -14,6 +14,7 @@ var _seen_label: Label
 func _ready() -> void:
 	screen_title = "Codex"
 	close_text = "Close"
+	background_id = "UI-BG-DECKBUILDER"
 	super._ready()
 
 

@@ -35,6 +35,7 @@ var _prompt_layer: Control
 func _init() -> void:
 	screen_title = "Deck Station"
 	close_text = "Close (Esc)"
+	background_id = "UI-BG-DECKBUILDER"
 
 
 ## Overridable so the same screen can edit the dungeon run's current deck instead of the town

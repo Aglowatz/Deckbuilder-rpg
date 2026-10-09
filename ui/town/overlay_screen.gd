@@ -9,6 +9,8 @@ var body: VBoxContainer
 var header_extra: HBoxContainer
 var screen_title: String = ""
 var close_text: String = "Close"
+## A UI art kit background (UI-BG-...) drawn behind the screen; "" keeps the plain dark backdrop.
+var background_id: String = ""
 var _panel: PanelContainer
 var _close_button: FancyButton
 
@@ -16,13 +18,17 @@ var _close_button: FancyButton
 func _ready() -> void:
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.03, 0.02, 0.06, 0.94)
-	UIKit.full_rect(shade)
-	add_child(shade)
-	var glow: ColorRect = UIKit.gradient_background()
-	glow.modulate.a = 0.35
-	add_child(glow)
+	var backdrop: Control = UiSkin.screen_background(background_id)
+	if backdrop != null:
+		add_child(backdrop)
+	else:
+		var shade: ColorRect = ColorRect.new()
+		shade.color = Color(0.03, 0.02, 0.06, 0.94)
+		UIKit.full_rect(shade)
+		add_child(shade)
+		var glow: ColorRect = UIKit.gradient_background()
+		glow.modulate.a = 0.35
+		add_child(glow)
 	var margin: MarginContainer = UIKit.margin(VBoxContainer.new(), 34)
 	UIKit.full_rect(margin)
 	add_child(margin)
@@ -34,7 +40,7 @@ func _ready() -> void:
 	header.add_child(UIKit.filler())
 	header_extra = UIKit.hbox(14)
 	header.add_child(header_extra)
-	_close_button = FancyButton.make(close_text, &"", Vector2(170, 52))
+	_close_button = UiSkin.close_button(close_text) if UiArt.has("UI-BTN-CLOSE") else FancyButton.make(close_text, &"", Vector2(170, 52))
 	_close_button.pressed.connect(request_close)
 	header.add_child(_close_button)
 	body = UIKit.vbox(12)

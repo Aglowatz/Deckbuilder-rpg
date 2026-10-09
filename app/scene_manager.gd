@@ -13,6 +13,7 @@ var _pause_menu: PauseMenu
 
 func _ready() -> void:
 	layer = 100
+	UiSkin.apply()
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_fade = ColorRect.new()
 	_fade.color = Color(0.03, 0.02, 0.05, 1.0)

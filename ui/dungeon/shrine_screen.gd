@@ -41,6 +41,7 @@ func _ready() -> void:
 	_bar = ProgressBar.new()
 	_bar.custom_minimum_size = Vector2(0, 20)
 	_bar.show_percentage = false
+	UiSkin.skin_bar(_bar, "hp", 46.0, UIStyle.HP_RED)
 	column.add_child(_bar)
 	_button = FancyButton.make("Rest", &"PrimaryButton", Vector2(260, 60))
 	_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER

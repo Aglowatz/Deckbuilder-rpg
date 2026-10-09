@@ -20,6 +20,8 @@ const INPUT_EXTENSIONS: Array[String] = ["png", "webp", "jpg", "jpeg"]
 ## Alpha at or below which a pixel counts as empty when trimming the margin around a sprite.
 const TRIM_ALPHA: float = 0.06
 const TRIM_PAD: int = 2
+## Panels whose plain parchment centre is also saved darkened (<ID>-DARK.webp): the game text is light, so its big panels keep the brass and wood of the art but get a dark centre.
+const DARK_IDS: Array[String] = ["UI-PANEL-MAIN", "UI-PANEL-POPUP"]
 
 static var _textures: Dictionary = {}
 
@@ -60,21 +62,47 @@ static func reset() -> void:
 	_textures = {}
 
 
-## A 9-slice StyleBoxTexture of `id` with the margins (pixels of the stored image) on each side; null when there is no image. `content` is the content margin
-## (inner padding for text) on every side.
-static func nine(id: String, margin: Vector4, content: Vector4 = Vector4(-1, -1, -1, -1), draw_center: bool = true) -> StyleBoxTexture:
-	var image: Texture2D = texture(id)
+## `id` as a texture drawn at `factor` times its stored size (cached): 9-slice art is shrunk this way so its corners are as big as the game wants them, never stretched.
+static func scaled_texture(id: String, factor: float, grey: float = 0.0) -> Texture2D:
+	var key: String = "%s|%.3f|%.2f" % [id, factor, grey]
+	if _textures.has(key):
+		return _textures[key] as Texture2D
+	var source: Texture2D = texture(id)
+	if source == null:
+		return null
+	var image: Image = source.get_image()
+	if image.is_compressed():
+		image.decompress()
+	image.convert(Image.FORMAT_RGBA8)
+	if not is_equal_approx(factor, 1.0):
+		image.fix_alpha_edges()
+		image.resize(maxi(2, int(round(image.get_width() * factor))), maxi(2, int(round(image.get_height() * factor))), Image.INTERPOLATE_LANCZOS)
+	if grey > 0.0:
+		for y: int in range(image.get_height()):
+			for x: int in range(image.get_width()):
+				var pixel: Color = image.get_pixel(x, y)
+				if pixel.a > 0.0:
+					var luma: float = pixel.get_luminance()
+					image.set_pixel(x, y, Color(lerpf(pixel.r, luma, grey), lerpf(pixel.g, luma, grey), lerpf(pixel.b, luma, grey), pixel.a))
+	var result: ImageTexture = ImageTexture.create_from_image(image)
+	_textures[key] = result
+	return result
+
+
+## A 9-slice StyleBoxTexture of `id` drawn at `factor` times its size. `margin` is (left, top, right, bottom) as fractions of the stored image (so the corners and edges
+## the art decorates stay out of the stretched middle), `content` the inner padding in pixels, `tint` multiplies the colour (hover, pressed), `grey` desaturates.
+## Null when there is no image.
+static func nine(id: String, margin: Vector4, factor: float, content: Vector4 = Vector4(-1, -1, -1, -1), tint: Color = Color.WHITE, grey: float = 0.0) -> StyleBoxTexture:
+	var image: Texture2D = scaled_texture(id, factor, grey)
 	if image == null:
 		return null
 	var style: StyleBoxTexture = StyleBoxTexture.new()
 	style.texture = image
-	style.texture_margin_left = margin.x
-	style.texture_margin_top = margin.y
-	style.texture_margin_right = margin.z
-	style.texture_margin_bottom = margin.w
-	style.draw_center = draw_center
-	style.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_STRETCH
-	style.axis_stretch_vertical = StyleBoxTexture.AXIS_STRETCH_MODE_STRETCH
+	style.texture_margin_left = round(margin.x * image.get_width())
+	style.texture_margin_top = round(margin.y * image.get_height())
+	style.texture_margin_right = round(margin.z * image.get_width())
+	style.texture_margin_bottom = round(margin.w * image.get_height())
+	style.modulate_color = tint
 	if content.x >= 0.0:
 		style.content_margin_left = content.x
 		style.content_margin_top = content.y
@@ -143,7 +171,7 @@ static func import_from_source(source: String, out_dir: String, manifest_path: S
 		var target: String = _real(out_dir.path_join("%s.webp" % id))
 		var had: bool = FileAccess.file_exists(target)
 		rows[id] = PackedStringArray([id, file_name, str(_size(full_path)), hash])
-		if had and str(manifest.get(id, "")) == hash:
+		if had and str(manifest.get(id, "")) == hash and (not DARK_IDS.has(id) or FileAccess.file_exists(_real(out_dir.path_join("%s-DARK.webp" % id)))):
 			result.unchanged += 1
 			continue
 		var image: Image = Image.load_from_file(full_path)
@@ -162,6 +190,8 @@ static func import_from_source(source: String, out_dir: String, manifest_path: S
 			result.errors.append("%s: could not write (error %d)" % [file_name, error])
 			rows.erase(id)
 			continue
+		if DARK_IDS.has(id):
+			darken_parchment(image).save_webp(_real(out_dir.path_join("%s-DARK.webp" % id)), true, QUALITY)
 		result.added.append(id)
 		if had:
 			result.replaced.append(id)
@@ -201,6 +231,23 @@ static func trimmed(image: Image) -> Image:
 	right = mini(width - 1, right + TRIM_PAD)
 	bottom = mini(height - 1, bottom + TRIM_PAD)
 	return image.get_region(Rect2i(left, top, right - left + 1, bottom - top + 1))
+
+
+## A copy of `image` whose parchment (light, low-saturation, warm) pixels are a dark plum with the paper grain kept; brass, wood and ribbons are untouched.
+static func darken_parchment(image: Image) -> Image:
+	var result: Image = image.duplicate() as Image
+	for y: int in range(result.get_height()):
+		for x: int in range(result.get_width()):
+			var pixel: Color = result.get_pixel(x, y)
+			if pixel.a < 0.05:
+				continue
+			var weight: float = clampf((pixel.v - 0.46) / 0.1, 0.0, 1.0) * clampf((0.52 - pixel.s) / 0.1, 0.0, 1.0)
+			if weight <= 0.0:
+				continue
+			var dark: Color = Color.from_hsv(0.74, 0.3, 0.17 + (pixel.v - 0.6) * 0.3 if pixel.v > 0.6 else 0.15)
+			dark.a = pixel.a
+			result.set_pixel(x, y, pixel.lerp(dark, weight))
+	return result
 
 
 static func scaled(image: Image, max_side: int) -> Image:

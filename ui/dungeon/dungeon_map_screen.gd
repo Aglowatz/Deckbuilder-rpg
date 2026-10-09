@@ -293,6 +293,7 @@ func _build_hud() -> void:
 	_hp_bar = ProgressBar.new()
 	_hp_bar.custom_minimum_size = Vector2(0, 16)
 	_hp_bar.show_percentage = false
+	UiSkin.skin_bar(_hp_bar, "hp", 44.0, UIStyle.GOOD)
 	hp_column.add_child(_hp_bar)
 	hp_column.add_child(UIKit.label("HP carries from fight to fight.", &"MutedLabel", 18))
 	var gold_panel: PanelContainer = UIKit.panel(&"DarkPanel")
@@ -649,6 +650,7 @@ func _build_art_hud() -> void:
 	_hp_bar = ProgressBar.new()
 	_hp_bar.custom_minimum_size = Vector2(0, 12)
 	_hp_bar.show_percentage = false
+	UiSkin.skin_bar(_hp_bar, "hp", 36.0, UIStyle.GOOD)
 	hp_column.add_child(_hp_bar)
 	var gold_panel: PanelContainer = UIKit.panel(&"DarkPanel")
 	band.add_child(gold_panel)

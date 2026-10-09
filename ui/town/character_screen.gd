@@ -19,6 +19,20 @@ const EQUIP_SLOT_POSITIONS: Dictionary = {
 	EquipmentData.Slot.BOOTS: Vector2(142, 377),
 }
 
+## UI art kit: UI-BG-CHARACTER has a painted silhouette on its parchment (left) and a framed blank page (right). The five slots (UI-SLOT-EQUIP) sit on the painted
+## boxes around the figure, in screen units (the background is cover-fitted to 1920x1080: x * 1.25, y * 1.25 - 100): helm at the head, armor at the chest, weapon at one
+## hand, relic at the other, boots at the feet. Stats and items go in the right-hand frame.
+const ART_SLOT_SIZE: float = 124.0
+const ART_SLOT_CENTERS: Dictionary = {
+	EquipmentData.Slot.HELM: Vector2(419, 150),
+	EquipmentData.Slot.ARMOR: Vector2(975, 344),
+	EquipmentData.Slot.WEAPON: Vector2(394, 575),
+	EquipmentData.Slot.RELIC: Vector2(981, 581),
+	EquipmentData.Slot.BOOTS: Vector2(406, 775),
+}
+const ART_SILHOUETTE_WIDTH: float = 1010.0
+const ART_PANEL_WIDTH: float = 380.0
+var _art: bool = false
 var _xp_bar: ProgressBar
 var _xp_label: Label
 var _stats_box: VBoxContainer
@@ -34,15 +48,23 @@ var _picker: Control
 func _init() -> void:
 	screen_title = "Character"
 	close_text = "Close (Esc)"
+	background_id = "UI-BG-CHARACTER"
 
 
 func _build() -> void:
+	_art = UiArt.has("UI-BG-CHARACTER") and UiArt.has("UI-SLOT-EQUIP")
 	var split: HBoxContainer = UIKit.hbox(24)
 	split.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(split)
-	split.add_child(_build_stats_panel())
-	split.add_child(_build_equipment_panel())
-	split.add_child(_build_items_panel())
+	if _art:
+		split.add_child(UIKit.spacer(0, int(ART_SILHOUETTE_WIDTH)))
+		split.add_child(_build_stats_panel())
+		split.add_child(_build_items_panel())
+		_build_art_equipment()
+	else:
+		split.add_child(_build_stats_panel())
+		split.add_child(_build_equipment_panel())
+		split.add_child(_build_items_panel())
 	_toast = UIKit.label("", &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
 	_toast.add_theme_constant_override("outline_size", 8)
@@ -55,7 +77,7 @@ func _build() -> void:
 
 func _build_stats_panel() -> Control:
 	var panel: PanelContainer = UIKit.panel()
-	panel.custom_minimum_size = Vector2(420, 0)
+	panel.custom_minimum_size = Vector2(ART_PANEL_WIDTH if _art else 420.0, 0)
 	var column: VBoxContainer = UIKit.vbox(10)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Level", &"HeadingLabel", 28))
@@ -64,6 +86,7 @@ func _build_stats_panel() -> Control:
 	_xp_bar = ProgressBar.new()
 	_xp_bar.custom_minimum_size = Vector2(0, 18)
 	_xp_bar.show_percentage = false
+	UiSkin.skin_bar(_xp_bar, "xp", 44.0, UIStyle.GOLD)
 	column.add_child(_xp_bar)
 	column.add_child(UIKit.spacer(6))
 	_stats_box = UIKit.vbox(6)
@@ -71,9 +94,27 @@ func _build_stats_panel() -> Control:
 	return panel
 
 
+## The five slots drawn straight on the background, over its painted silhouette (no panel behind them).
+func _build_art_equipment() -> void:
+	_equipment_stage = Control.new()
+	_equipment_stage.name = "EquipmentStage"
+	_equipment_stage.position = Vector2.ZERO
+	_equipment_stage.size = Vector2(1920, 1080)
+	_equipment_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_equipment_stage)
+	for slot: EquipmentData.Slot in SLOT_ORDER:
+		var button: Button = _make_equipment_slot_button(slot)
+		var center: Vector2 = ART_SLOT_CENTERS[slot] as Vector2
+		button.custom_minimum_size = Vector2(ART_SLOT_SIZE, ART_SLOT_SIZE)
+		button.size = Vector2(ART_SLOT_SIZE, ART_SLOT_SIZE)
+		button.position = center - button.size * 0.5
+		_equipment_stage.add_child(button)
+		_equipment_slot_buttons[slot] = button
+
+
 func _build_equipment_panel() -> Control:
 	var panel: PanelContainer = UIKit.panel()
-	panel.custom_minimum_size = Vector2(420, 0)
+	panel.custom_minimum_size = Vector2(ART_PANEL_WIDTH if _art else 420.0, 0)
 	var column: VBoxContainer = UIKit.vbox(8)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Equipment", &"HeadingLabel", 28))
@@ -121,22 +162,26 @@ func _add_body_part(root: Control, rect: Rect2, radius: int, tint: Color) -> voi
 
 func _make_equipment_slot_button(slot: EquipmentData.Slot) -> Button:
 	var button: Button = Button.new()
-	button.custom_minimum_size = EQUIP_SLOT_SIZE
-	button.size = EQUIP_SLOT_SIZE
+	var slot_size: Vector2 = Vector2(ART_SLOT_SIZE, ART_SLOT_SIZE) if _art else EQUIP_SLOT_SIZE
+	button.custom_minimum_size = slot_size
+	button.size = slot_size
 	# Not flat: a flat Button only draws its stylebox on hover/press/disabled, but this slot's
 	# frame (locked/empty/equipped) must stay visible all the time.
 	button.focus_mode = Control.FOCUS_NONE
 	var icon: TextureRect = TextureRect.new()
-	icon.custom_minimum_size = EQUIP_SLOT_SIZE * 0.62
-	icon.size = EQUIP_SLOT_SIZE * 0.62
-	icon.position = EQUIP_SLOT_SIZE * 0.19
+	icon.custom_minimum_size = slot_size * 0.62
+	icon.size = slot_size * 0.62
+	icon.position = slot_size * 0.19
 	icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	button.add_child(icon)
-	var caption: Label = UIKit.label(EquipmentData.slot_name(slot), &"", 13, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
-	caption.position = Vector2(0, EQUIP_SLOT_SIZE.y + 2)
-	caption.size = Vector2(EQUIP_SLOT_SIZE.x, 18)
+	var caption: Label = UIKit.label(EquipmentData.slot_name(slot), &"", 17 if _art else 13, Color("2b2233") if _art else UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+	caption.position = Vector2(0, slot_size.y + (6 if _art else 2))
+	caption.size = Vector2(slot_size.x, 20)
+	if _art:
+		caption.add_theme_font_override("font", UIStyle.font_bold())
+		caption.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
 	caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	button.add_child(caption)
 	button.mouse_entered.connect(func() -> void: Audio.sfx(&"ui_hover", -10.0))
@@ -146,7 +191,7 @@ func _make_equipment_slot_button(slot: EquipmentData.Slot) -> Button:
 
 func _build_items_panel() -> Control:
 	var panel: PanelContainer = UIKit.panel()
-	panel.custom_minimum_size = Vector2(420, 0)
+	panel.custom_minimum_size = Vector2(ART_PANEL_WIDTH if _art else 420.0, 0)
 	var column: VBoxContainer = UIKit.vbox(8)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Items", &"HeadingLabel", 28))
@@ -154,7 +199,7 @@ func _build_items_panel() -> Control:
 	# bar, usable on your turn); the "Use" button below still works between fights/on the map.
 	_items_note = UIKit.label("", &"MutedLabel", 18)
 	_items_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_items_note.custom_minimum_size = Vector2(360, 0)
+	_items_note.custom_minimum_size = Vector2(ART_PANEL_WIDTH - 70.0 if _art else 360.0, 0)
 	column.add_child(_items_note)
 	_items_box = UIKit.vbox(6)
 	column.add_child(_items_box)
@@ -162,7 +207,7 @@ func _build_items_panel() -> Control:
 	column.add_child(UIKit.label("Card Packs", &"HeadingLabel", 28))
 	var packs_note: Label = UIKit.label("Unopened packs. Dungeons, quests and vendors give them.", &"MutedLabel", 18)
 	packs_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	packs_note.custom_minimum_size = Vector2(360, 0)
+	packs_note.custom_minimum_size = Vector2(ART_PANEL_WIDTH - 70.0 if _art else 360.0, 0)
 	column.add_child(packs_note)
 	_packs_box = UIKit.vbox(6)
 	column.add_child(_packs_box)
@@ -191,7 +236,7 @@ func _refresh() -> void:
 	_stat_row("Starting HP", str(profile.base_max_hp()))
 	_stat_row("Opening hand", str(profile.base_opening_hand()))
 	_stat_row("Item slots", "%d / %d" % [profile.item_slots, ProgressionTable.row(ProgressionTable.MAX_LEVEL).item_slots])
-	_stat_row("Deck copy limit", "%d per card (infrastructure unlimited)" % DeckValidator.MAX_COPIES)
+	_stat_row("Deck copy limit", "%d per card (infra: any)" % DeckValidator.MAX_COPIES)
 	_stat_row("Max hand size", str(profile.base_max_hand_size()))
 	_stat_row("Path essence", _essence_text(profile))
 	_refresh_equipment()
@@ -207,6 +252,16 @@ func _essence_text(profile: PlayerProfile) -> String:
 	return ", ".join(parts)
 
 func _stat_row(label: String, value: String) -> void:
+	if value.length() > 20:
+		# A long value (the Path essence line) goes under its label and wraps, so the panel keeps its width.
+		var block: VBoxContainer = UIKit.vbox(2)
+		block.add_child(UIKit.label(label, &"MutedLabel", 20))
+		var long_value: Label = UIKit.label(value, &"", 20, UIStyle.PARCHMENT)
+		long_value.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		long_value.custom_minimum_size = Vector2(ART_PANEL_WIDTH - 90.0, 0)
+		block.add_child(long_value)
+		_stats_box.add_child(block)
+		return
 	var row: HBoxContainer = UIKit.hbox(8)
 	row.add_child(UIKit.label(label, &"MutedLabel", 20))
 	row.add_child(UIKit.filler())
@@ -221,6 +276,9 @@ const SLOT_ORDER: Array[EquipmentData.Slot] = [
 
 
 func _refresh_equipment() -> void:
+	if _art:
+		_refresh_equipment_art()
+		return
 	var profile: PlayerProfile = Session.profile
 	for slot: EquipmentData.Slot in SLOT_ORDER:
 		var button: Button = _equipment_slot_buttons[slot] as Button
@@ -252,6 +310,34 @@ func _refresh_equipment() -> void:
 			button.add_theme_stylebox_override("normal", UIStyle.box(Color(0.16, 0.13, 0.08, 0.92), UIStyle.GOLD, 3, 10, 8))
 			button.add_theme_stylebox_override("hover", equipped_hover)
 			button.add_theme_stylebox_override("pressed", equipped_hover)
+			button.tooltip_text = equipped.tooltip_text()
+
+
+func _refresh_equipment_art() -> void:
+	var profile: PlayerProfile = Session.profile
+	var locked: StyleBoxTexture = UiSkin.equip_slot_style("locked", ART_SLOT_SIZE)
+	var empty: StyleBoxTexture = UiSkin.equip_slot_style("empty", ART_SLOT_SIZE)
+	var hover: StyleBoxTexture = UiSkin.equip_slot_style("hover", ART_SLOT_SIZE)
+	for slot: EquipmentData.Slot in SLOT_ORDER:
+		var button: Button = _equipment_slot_buttons[slot] as Button
+		var icon: TextureRect = button.get_child(0) as TextureRect
+		var owned: bool = profile.has_equipment_slot(slot)
+		var base: StyleBoxTexture = empty if owned else locked
+		for state: String in ["normal", "pressed", "disabled", "focus"]:
+			button.add_theme_stylebox_override(state, base)
+		button.add_theme_stylebox_override("hover", hover if owned else locked)
+		button.disabled = not owned
+		icon.modulate = Color(1, 1, 1, 1)
+		if not owned:
+			icon.texture = null
+			button.tooltip_text = "Locked - %s" % _equipment_unlock_hint()
+			continue
+		var equipped: EquipmentData = profile.equipped_in(slot)
+		if equipped == null:
+			icon.texture = null
+			button.tooltip_text = "Empty %s slot - click to equip." % EquipmentData.slot_name(slot)
+		else:
+			icon.texture = CardIcons.for_equipment(equipped)
 			button.tooltip_text = equipped.tooltip_text()
 
 
@@ -353,7 +439,7 @@ func _refresh_items() -> void:
 	var profile: PlayerProfile = Session.profile
 	_items_note.text = "Equipped %d / %d. Equipped items are usable on your turn in battle; \"Use\" also works between fights/on the map." % [profile.equipped_item_ids.size(), profile.item_slots]
 	if profile.owned_items.is_empty():
-		_items_box.add_child(UIKit.label("No items yet - Tilly Tonic's Supplies in town sells some.", &"MutedLabel", 18))
+		_items_box.add_child(_note("No items yet - Tilly Tonic's Supplies in town sells some."))
 		return
 	for owned_item: ItemData in profile.owned_items:
 		var row: HBoxContainer = UIKit.hbox(8)
@@ -449,9 +535,17 @@ func _refresh_packs() -> void:
 		row.add_child(open_button)
 		_packs_box.add_child(row)
 	if shown == 0:
-		_packs_box.add_child(UIKit.label("No unopened packs. The Pack Vendor in town sells some.", &"MutedLabel", 18))
+		_packs_box.add_child(_note("No unopened packs. The Pack Vendor in town sells some."))
 
 
 func _open_pack(pack_id: String) -> void:
 	Audio.sfx(&"ui_confirm")
 	PackOpeningScreen.open_from_inventory(self, pack_id, func() -> void: _refresh())
+
+
+## A muted, wrapping note that keeps the panel at its width.
+func _note(text: String) -> Label:
+	var note: Label = UIKit.label(text, &"MutedLabel", 18)
+	note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	note.custom_minimum_size = Vector2(ART_PANEL_WIDTH - 70.0 if _art else 360.0, 0)
+	return note

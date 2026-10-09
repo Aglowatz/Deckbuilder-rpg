@@ -25,6 +25,7 @@ func _ready() -> void:
 	_bar = ProgressBar.new()
 	_bar.custom_minimum_size = Vector2(0, 14)
 	_bar.show_percentage = false
+	UiSkin.skin_bar(_bar, "hp", 38.0, UIStyle.HP_RED)
 	column.add_child(_bar)
 	column.add_child(UIKit.label("Zone HP: no healing after battles.", &"MutedLabel", 16))
 	EventBus.zone_hp_changed.connect(set_hp)

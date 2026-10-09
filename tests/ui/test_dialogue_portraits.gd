@@ -106,7 +106,7 @@ func test_the_portrait_stands_behind_the_top_edge_and_never_reaches_the_text() -
 	var view: PortraitView = box.get("_portrait") as PortraitView
 	var panel: PanelContainer = box.get("_panel") as PanelContainer
 	var clip: Control = view.get("_clip") as Control
-	assert_almost_eq(clip.size.y, panel.position.y + PortraitView.CLIP_BELOW, 0.5, "the portrait is cut just below the box's top edge")
+	assert_almost_eq(clip.size.y, panel.position.y + box._edge() + PortraitView.CLIP_BELOW, 0.5, "the portrait is cut just below the box's top edge")
 	assert_lt(clip.position.x + PortraitView.SHADOW_PAD, panel.position.x, "on the left side, overhanging the box")
 	var image: TextureRect = view.get("_image") as TextureRect
 	assert_almost_eq(image.size.y, 1080.0 * PortraitView.HEIGHT_FRACTION, 0.5, "sized relative to the screen height")
