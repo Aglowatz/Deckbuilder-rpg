@@ -39,6 +39,8 @@ uniform vec4 layer_key[5];
 uniform vec4 layer_noise[5];
 // rgb = the colour the builder painted for this layer (vertex colour tint is the ratio vertex/ref), a = how much of the original hue is kept (0..1).
 uniform vec4 layer_ref[5];
+// x = 1 for oriented art (plowed rows, planks, tiles): the stochastic tiling then shifts the texture but never rotates it.
+uniform vec4 layer_extra[5];
 // Metres per texture repeat.
 uniform float layer_tile[5];
 uniform float cliff_tile = 4.0;
@@ -80,12 +82,12 @@ void vertex() {
 	v_up = normalize(mat3(MODEL_MATRIX) * NORMAL).y;
 }
 
-void sample_layer(sampler2D a, sampler2D n, Tri t, vec2 p, vec2 dpx, vec2 dpy, float tile, float dist_cam, bool want_normal, out vec3 col, out vec3 nr) {
+void sample_layer(sampler2D a, sampler2D n, Tri t, vec2 p, vec2 dpx, vec2 dpy, float tile, bool aligned, float dist_cam, bool want_normal, out vec3 col, out vec3 nr) {
 	nr = vec3(0.0, 0.0, 0.9);
 	if (dist_cam < stochastic_far) {
-		col = tri_color_grad(a, t, p, dpx, dpy, tile);
+		col = tri_color_grad(a, t, p, dpx, dpy, tile, aligned);
 		if (want_normal && dist_cam < normal_far) {
-			nr = tri_nr_grad(n, t, p, dpx, dpy, tile);
+			nr = tri_nr_grad(n, t, p, dpx, dpy, tile, aligned);
 		}
 	} else {
 		col = texture(a, p / tile).rgb;
@@ -151,15 +153,15 @@ void fragment() {
 		vec3 c;
 		vec3 n;
 		if (i == 0) {
-			sample_layer(l0_a, l0_n, tri, p, dpx, dpy, layer_tile[0], dist_cam, w > 0.35, c, n);
+			sample_layer(l0_a, l0_n, tri, p, dpx, dpy, layer_tile[0], layer_extra[0].x > 0.5, dist_cam, w > 0.35, c, n);
 		} else if (i == 1) {
-			sample_layer(l1_a, l1_n, tri, p, dpx, dpy, layer_tile[1], dist_cam, w > 0.35, c, n);
+			sample_layer(l1_a, l1_n, tri, p, dpx, dpy, layer_tile[1], layer_extra[1].x > 0.5, dist_cam, w > 0.35, c, n);
 		} else if (i == 2) {
-			sample_layer(l2_a, l2_n, tri, p, dpx, dpy, layer_tile[2], dist_cam, w > 0.35, c, n);
+			sample_layer(l2_a, l2_n, tri, p, dpx, dpy, layer_tile[2], layer_extra[2].x > 0.5, dist_cam, w > 0.35, c, n);
 		} else if (i == 3) {
-			sample_layer(l3_a, l3_n, tri, p, dpx, dpy, layer_tile[3], dist_cam, w > 0.35, c, n);
+			sample_layer(l3_a, l3_n, tri, p, dpx, dpy, layer_tile[3], layer_extra[3].x > 0.5, dist_cam, w > 0.35, c, n);
 		} else {
-			sample_layer(l4_a, l4_n, tri, p, dpx, dpy, layer_tile[4], dist_cam, w > 0.35, c, n);
+			sample_layer(l4_a, l4_n, tri, p, dpx, dpy, layer_tile[4], layer_extra[4].x > 0.5, dist_cam, w > 0.35, c, n);
 		}
 		// Keep the builder's hue: tint by vertex colour relative to the colour the builder painted for this layer.
 		vec3 ratio = clamp(vc / max(layer_ref[i].rgb, vec3(0.02)), vec3(0.55), vec3(1.7));

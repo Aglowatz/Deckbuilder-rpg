@@ -128,6 +128,8 @@ static func zone(scene: ZoneScene, preset_id: StringName) -> Dictionary:
 	match preset_id:
 		StylePresets.GAINLANDS:
 			context.merge(gainlands(scene), true)
+		StylePresets.HEAP:
+			context.merge(heap(scene), true)
 		StylePresets.BUFFET:
 			context.merge(buffet(scene), true)
 		StylePresets.DNA:
@@ -253,5 +255,42 @@ static func buffet(scene: ZoneScene) -> Dictionary:
 		"bounds": Rect2(0, 0, 100, 82),
 		"masks": {"path": path_mask, "forest": forest_mask, "sweet": sweet_mask, "cheese": cheese_mask, "food": food_mask},
 		"swaps": swaps,
+		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),
+	}
+
+
+## Largest soft disc mask over the props of the given kinds (`radius` round each).
+static func prop_cover(spots: Array[Vector3], p: Vector2) -> float:
+	var best: float = 0.0
+	for spot: Vector3 in spots:
+		best = maxf(best, disc_mask(p, Vector2(spot.x, spot.y), spot.z))
+	return best
+
+
+## The Verdant Dump: farm rows in the Patchwork Fields, compost round the heaps and in the Grange, junk gravel on the junk paths and round the scrap piles (and the landfill/rust/scree
+## yards), mossy dirt elsewhere; junk props get rusted metal (see the preset's specials and `atlas_override`).
+static func heap(scene: ZoneScene) -> Dictionary:
+	var builder: HeapBuilder = scene.builder as HeapBuilder
+	var layout: HeapLayout = builder.layout
+	var areas: Array = layout.areas
+	var junk_spots: Array[Vector3] = []
+	var compost_spots: Array[Vector3] = []
+	for prop: HeapLayout.Prop in layout.props:
+		match prop.kind:
+			"junk_pile", "car_husk", "appliance_pile", "tire_stack", "wall_tires", "fridge", "appliance_ring", "junk_dam":
+				junk_spots.append(Vector3(prop.pos.x, prop.pos.z, 3.0 * maxf(prop.model_scale, 0.8)))
+			"compost_heap", "compost_bin", "composting_door":
+				compost_spots.append(Vector3(prop.pos.x, prop.pos.z, 3.6))
+	var fields_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["fields"], p)
+	var junk_mask: Callable = func(p: Vector2) -> float:
+		return maxf(maxf(layout.path_weight(p.x, p.y) * 0.9, PaintedContexts.prop_cover(junk_spots, p)), PaintedContexts.area_cover(areas, ["landfill", "rust", "scree"], p) * 0.85)
+	var compost_mask: Callable = func(p: Vector2) -> float:
+		return maxf(PaintedContexts.prop_cover(compost_spots, p), 0.0)
+	var grass_mask: Callable = func(p: Vector2) -> float:
+		return 0.0 if float(fields_mask.call(p)) > 0.3 or float(junk_mask.call(p)) > 0.3 or float(compost_mask.call(p)) > 0.3 else 1.0
+	var path_mask: Callable = func(p: Vector2) -> float: return layout.path_weight(p.x, p.y)
+	return {
+		"bounds": Rect2(0, 0, 100, 82),
+		"masks": {"fields": fields_mask, "junk": junk_mask, "compost": compost_mask, "grass": grass_mask, "path": path_mask},
 		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),
 	}

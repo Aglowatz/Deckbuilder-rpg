@@ -8,6 +8,8 @@ const TEXTURES: String = "res://assets/art/textures/"
 const DECALS: String = "res://assets/art/decals/"
 const PRESETS_PATH: String = "res://data/art/texture_presets.json"
 const ARRAY_SIZE: int = 512
+## Layers whose painted colour is too loud under the toon bands are calmed (saturation factor) when the array is built.
+const LAYER_SATURATION: Dictionary = {"dump_rustmetal": 0.6, "gain_gymmat": 0.85}
 ## Layers darker than this average luminance are lifted towards it (max x1.8).
 const LUMA_TARGET: float = 0.4
 
@@ -104,6 +106,8 @@ static func material_array() -> Texture2DArray:
 					average += image.get_pixel(x, y).get_luminance()
 			average /= float((ARRAY_SIZE / 16) * (ARRAY_SIZE / 16))
 			var gain: float = clampf(LUMA_TARGET / maxf(average, 0.02), 1.0, 1.8)
+			if LAYER_SATURATION.has(name):
+				image.adjust_bcs(1.0, 1.0, float(LAYER_SATURATION[name]))
 			if gain > 1.01:
 				image.adjust_bcs(gain, 1.0, 1.0)
 			if OS.get_environment("PAINT_DEBUG") != "":

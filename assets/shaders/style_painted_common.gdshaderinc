@@ -79,7 +79,12 @@ Tri make_tri(vec2 p, float cell, float salt, float sharp) {
 // Corners whose (sharpened) weight is negligible are not sampled: most of a triangle is one tile, so this is usually one or two taps.
 const float SKIP = 0.02;
 
-vec3 tri_color_grad(sampler2D tex, Tri t, vec2 p, vec2 dpx, vec2 dpy, float tile) {
+vec3 tri_color_grad(sampler2D tex, Tri t, vec2 p, vec2 dpx, vec2 dpy, float tile, bool aligned) {
+	if (aligned) {
+		t.r0 = mat2(1.0);
+		t.r1 = mat2(1.0);
+		t.r2 = mat2(1.0);
+	}
 	vec3 sum = vec3(0.0);
 	float used = 0.0;
 	if (t.w.x > SKIP) {
@@ -98,7 +103,12 @@ vec3 tri_color_grad(sampler2D tex, Tri t, vec2 p, vec2 dpx, vec2 dpy, float tile
 }
 
 // Normal+roughness pack (R,G = tangent normal xy, B = roughness): returns vec3(slope x, slope z, roughness) after undoing each tile's rotation.
-vec3 tri_nr_grad(sampler2D tex, Tri t, vec2 p, vec2 dpx, vec2 dpy, float tile) {
+vec3 tri_nr_grad(sampler2D tex, Tri t, vec2 p, vec2 dpx, vec2 dpy, float tile, bool aligned) {
+	if (aligned) {
+		t.r0 = mat2(1.0);
+		t.r1 = mat2(1.0);
+		t.r2 = mat2(1.0);
+	}
 	vec3 sum = vec3(0.0);
 	float used = 0.0;
 	if (t.w.x > SKIP) {

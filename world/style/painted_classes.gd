@@ -17,7 +17,7 @@ const DEFAULT_TEXTURES: Dictionary = {
 const CLASS_SIZE: int = 128
 const META_NO_PAINT: StringName = &"no_paint"
 ## Atlas texture paths that are painted (substring match); hex tiles and water are excluded on purpose.
-const PAINTED_ATLASES: Array[String] = ["hexagons_medieval", "kenney-survival-kit", "kenney-graveyard-kit", "kenney-furniture-kit", "KayKit-Halloween-Bits", "KayKit-Restaurant-Bits", "kenney-car-kit", "chest_gold_dungeon"]
+const PAINTED_ATLASES: Array[String] = ["hexagons_medieval", "kenney-survival-kit", "kenney-graveyard-kit", "kenney-furniture-kit", "KayKit-Halloween-Bits", "KayKit-Restaurant-Bits", "chest_gold_dungeon"]
 const EXCLUDED_ATLASES: Array[String] = ["tiles/base", "water"]
 ## Share of buildings that get each roof: red, blue, thatch.
 const ROOF_SPLIT: Vector2 = Vector2(0.45, 0.75)
@@ -29,12 +29,15 @@ static var _atlas_cache: Dictionary = {}
 static var _count: int = 0
 ## Zone-specific flat colours bound to a zone material (preset "special": [{"color", "radius", "tex"}]): [colour (linear), radius, kind]. At most three.
 static var _specials: Array = []
+## Whole atlases a zone re-materials (preset "atlas_override": {path substring: texture}), e.g. the Dump turns every Kenney car into rusted scrap: path substring -> kind.
+static var _atlas_kinds: Dictionary = {}
 
 
 ## Called by `StyleRig` before it converts the zone's meshes: loads the zone's prop table. A zone without a painted preset leaves everything as it was.
 static func begin_zone(preset_id: StringName) -> void:
 	_atlas_cache.clear()
 	_specials.clear()
+	_atlas_kinds.clear()
 	_count = 0
 	var preset: Dictionary = PaintedLibrary.preset(preset_id)
 	active = not preset.is_empty() and OS.get_environment("NO_PAINT") == "" and not OS.get_environment("PAINT_SKIP").contains("props")
@@ -51,6 +54,13 @@ static func begin_zone(preset_id: StringName) -> void:
 		var kind_index: int = int(Kind.SPECIAL_A) + index
 		_table[kind_index] = maxi(PaintedLibrary.layer_index(str(entry.get("tex", ""))), 0)
 		_specials.append([PaintedLibrary.color_of(entry.get("color", "#ffffff")).srgb_to_linear(), float(entry.get("radius", 0.12)), kind_index])
+	var overrides_by_atlas: Dictionary = preset.get("atlas_override", {}) as Dictionary
+	for atlas_path: String in overrides_by_atlas.keys():
+		var slot: int = int(Kind.SPECIAL_A) + special_list.size() + _atlas_kinds.size()
+		if slot > int(Kind.SPECIAL_C):
+			break
+		_table[slot] = maxi(PaintedLibrary.layer_index(str(overrides_by_atlas[atlas_path])), 0)
+		_atlas_kinds[atlas_path] = slot
 
 
 static func painted_count() -> int:
@@ -152,10 +162,14 @@ static func configure(material: ShaderMaterial, standard: StandardMaterial3D) ->
 	var class_texture: Texture2D = null
 	if texture != null:
 		var path: String = texture.resource_path
-		if not is_painted_atlas(path):
+		for atlas_key: String in _atlas_kinds.keys():
+			if path.contains(atlas_key):
+				fixed = int(_atlas_kinds[atlas_key])
+		if fixed == 0 and not is_painted_atlas(path):
 			return false
-		class_texture = atlas_classes(texture, path.contains("buildings/"))
-		if class_texture == null:
+		if fixed == 0:
+			class_texture = atlas_classes(texture, path.contains("buildings/"))
+		if fixed == 0 and class_texture == null:
 			return false
 	else:
 		if standard.vertex_color_use_as_albedo or standard.emission_enabled:

@@ -31,6 +31,7 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 	var noises: PackedVector4Array = PackedVector4Array()
 	var refs: PackedVector4Array = PackedVector4Array()
 	var tiles: PackedFloat32Array = PackedFloat32Array()
+	var extras: PackedVector4Array = PackedVector4Array()
 	var count: int = 0
 	var masks: Dictionary = context.get("masks", {}) as Dictionary
 	var mask_callables: Array[Callable] = []
@@ -63,6 +64,7 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 		var ref: Color = PaintedLibrary.linear(PaintedLibrary.color_of(ref_value))
 		refs.append(Vector4(ref.r, ref.g, ref.b, float(layer.get("keep", 0.0))))
 		tiles.append(float(layer.get("tile", 6.0)))
+		extras.append(Vector4(1.0 if bool(layer.get("aligned", false)) else 0.0, 0.0, 0.0, 0.0))
 		count += 1
 	# Splat channel k of the mask texture belongs to the k-th mask layer; the shader reads channel (layer index - 1), so mask layers are remapped to their layer index.
 	while modes.size() < MAX_LAYERS:
@@ -71,6 +73,7 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 		noises.append(Vector4(0, 0, 0, 1))
 		refs.append(Vector4(1, 1, 1, 0))
 		tiles.append(6.0)
+		extras.append(Vector4.ZERO)
 	for slot_index: int in range(count, MAX_LAYERS):
 		result.set_shader_parameter("l%d_a" % slot_index, PaintedLibrary.white())
 		result.set_shader_parameter("l%d_n" % slot_index, PaintedLibrary.flat_nr())
@@ -80,6 +83,7 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 	result.set_shader_parameter("layer_noise", noises)
 	result.set_shader_parameter("layer_ref", refs)
 	result.set_shader_parameter("layer_tile", tiles)
+	result.set_shader_parameter("layer_extra", extras)
 	var cliff: Dictionary = preset.get("cliff", {}) as Dictionary
 	var cliff_texture: Texture2D = PaintedLibrary.albedo(str(cliff.get("tex", "mat_rock"))) if not cliff.is_empty() else null
 	result.set_shader_parameter("cliff_a", cliff_texture if cliff_texture != null else PaintedLibrary.white())
