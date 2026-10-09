@@ -43,13 +43,18 @@ var _legendary_rays: PackFx.Rays
 func _ready() -> void:
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.03, 0.02, 0.06, 0.97)
-	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	UIKit.full_rect(shade)
-	add_child(shade)
+	var backdrop: Control = UiSkin.screen_background("UI-BG-PACKOPEN", 0.12)
+	if backdrop != null:
+		# The painted velvet table under a spotlight (UI-BG-PACKOPEN); the glow layer is kept (a hidden rectangle) because the flashes and rays tint it.
+		add_child(backdrop)
+	else:
+		var shade: ColorRect = ColorRect.new()
+		shade.color = Color(0.03, 0.02, 0.06, 0.97)
+		shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		UIKit.full_rect(shade)
+		add_child(shade)
 	_glow = UIKit.gradient_background()
-	_glow.modulate.a = 0.5
+	_glow.modulate.a = 0.5 if backdrop == null else 0.0
 	add_child(_glow)
 	_stage = Control.new()
 	UIKit.full_rect(_stage)

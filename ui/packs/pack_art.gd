@@ -8,12 +8,41 @@ signal torn
 
 const SIZE: Vector2 = Vector2(300, 440)
 const SEAM: float = 86.0
+## With the UI art kit foil image the crimped top strip is shorter.
+const ART_SEAM: float = 66.0
+## The art image of each Path Pack and the centre of the medallion on the Gilded pack (fractions of its width and height) where the Path's own emblem is shown.
+const PATH_PACK_IDS: Dictionary = {
+	Affinity.Type.BEEFCAKE: "UI-PACK-B",
+	Affinity.Type.NECROCRAT: "UI-PACK-N",
+	Affinity.Type.GOURMAND: "UI-PACK-G",
+	Affinity.Type.REFUSEMANCER: "UI-PACK-R",
+}
+const MEDALLION_CENTER: Vector2 = Vector2(0.5, 0.427)
+const MEDALLION_RADIUS: float = 0.28
 
 var pack: PackData
 var _top_clip: Control
 var _body_clip: Control
 var _faces: Array[PackFace] = []
 var _tween: Tween
+var _seam: float = SEAM
+
+
+## The UI art kit image ID of a pack: Path Pack by Path, Gilded (tinted per Path), Prismatic, General tier 1 / 2; "" when the pack has none or its image is missing.
+static func art_id_for(pack_data: PackData) -> String:
+	if pack_data == null:
+		return ""
+	var id: String = ""
+	match pack_data.kind:
+		PackData.Kind.PATH:
+			id = str(PATH_PACK_IDS.get(pack_data.path, ""))
+		PackData.Kind.GILDED:
+			id = "UI-PACK-GILDED"
+		PackData.Kind.PRISMATIC:
+			id = "UI-PACK-PRISMATIC"
+		PackData.Kind.GENERAL:
+			id = "UI-PACK-GENERAL-2" if pack_data.general_tier >= 2 else "UI-PACK-GENERAL-1"
+	return id if id != "" and UiArt.has(id) else ""
 
 
 static func create(pack_data: PackData) -> PackArt:
@@ -27,11 +56,13 @@ func _ready() -> void:
 	size = SIZE
 	pivot_offset = SIZE * 0.5
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_body_clip = _make_clip(Rect2(0, SEAM, SIZE.x, SIZE.y - SEAM))
-	_top_clip = _make_clip(Rect2(0, 0, SIZE.x, SEAM + 1.5))
-	_add_face(_body_clip, Vector2(0, -SEAM))
+	if not art_id_for(pack).is_empty():
+		_seam = ART_SEAM
+	_body_clip = _make_clip(Rect2(0, _seam, SIZE.x, SIZE.y - _seam))
+	_top_clip = _make_clip(Rect2(0, 0, SIZE.x, _seam + 1.5))
+	_add_face(_body_clip, Vector2(0, -_seam))
 	_add_face(_top_clip, Vector2.ZERO)
-	_top_clip.pivot_offset = Vector2(SIZE.x * 0.5, SEAM)
+	_top_clip.pivot_offset = Vector2(SIZE.x * 0.5, _seam)
 
 
 func _make_clip(rect: Rect2) -> Control:
@@ -47,6 +78,7 @@ func _make_clip(rect: Rect2) -> Control:
 func _add_face(parent: Control, offset: Vector2) -> void:
 	var face: PackFace = PackFace.new()
 	face.pack = pack
+	face.seam = _seam
 	face.position = offset
 	face.size = SIZE
 	face.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -84,8 +116,15 @@ class PackFace:
 	var torn_open: bool = false
 	var _time: float = 0.0
 	var _icon: Texture2D
+	var seam: float = PackArt.SEAM
+	var _art: bool = false
 
 	func _ready() -> void:
+		var art_id: String = PackArt.art_id_for(pack)
+		if not art_id.is_empty():
+			_art = true
+			_build_art(art_id)
+			return
 		if pack != null and not pack.art_icon.is_empty():
 			_icon = CardIcons.named(pack.art_icon)
 			var glyph: TextureRect = CardIcons.glyph(_icon, Color(1.0, 0.96, 0.85, 0.95), Vector2(104, 104))
@@ -94,8 +133,41 @@ class PackFace:
 			add_child(glyph)
 
 	func _process(delta: float) -> void:
+		if _art:
+			return
 		_time += delta
 		queue_redraw()
+
+	## The UI art kit pack image (foil wrapper): drawn whole; a Gilded pack is tinted by its Path and carries that Path's own emblem medallion over its centre.
+	func _build_art(art_id: String) -> void:
+		var picture: TextureRect = TextureRect.new()
+		picture.texture = UiArt.texture(art_id)
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_SCALE
+		picture.size = PackArt.SIZE
+		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(picture)
+		if pack.kind == PackData.Kind.GILDED:
+			picture.modulate = Color.WHITE.lerp(pack.art_color.lightened(0.15), 0.4)
+			var emblem_id: String = str(PackArt.PATH_PACK_IDS.get(pack.path, ""))
+			var source: Texture2D = UiArt.texture(emblem_id) if not emblem_id.is_empty() else null
+			if source != null:
+				var atlas: AtlasTexture = AtlasTexture.new()
+				atlas.atlas = source
+				var half: float = float(source.get_width()) * PackArt.MEDALLION_RADIUS
+				atlas.region = Rect2(float(source.get_width()) * PackArt.MEDALLION_CENTER.x - half, float(source.get_height()) * PackArt.MEDALLION_CENTER.y - half, half * 2.0, half * 2.0)
+				var medallion: TextureRect = TextureRect.new()
+				medallion.texture = atlas
+				medallion.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+				medallion.stretch_mode = TextureRect.STRETCH_SCALE
+				var span: float = PackArt.SIZE.x * PackArt.MEDALLION_RADIUS * 2.0
+				medallion.size = Vector2(span, span)
+				medallion.position = Vector2(PackArt.SIZE.x * PackArt.MEDALLION_CENTER.x, PackArt.SIZE.y * PackArt.MEDALLION_CENTER.y) - medallion.size * 0.5
+				var crop: ShaderMaterial = ShaderMaterial.new()
+				crop.shader = load("res://ui/shaders/circle_crop.gdshader") as Shader
+				medallion.material = crop
+				medallion.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				add_child(medallion)
 
 	func _base_color() -> Color:
 		if pack == null:
@@ -105,6 +177,10 @@ class PackFace:
 		return pack.art_color
 
 	func _draw() -> void:
+		if _art:
+			if torn_open:
+				_draw_tear(Color("e8c25a") if pack.kind == PackData.Kind.GILDED else pack.art_color)
+			return
 		var base: Color = _base_color()
 		var width: float = PackArt.SIZE.x
 		var height: float = PackArt.SIZE.y
@@ -177,10 +253,31 @@ class PackFace:
 		var width: float = PackArt.SIZE.x
 		var points: PackedVector2Array = PackedVector2Array()
 		var teeth: int = 14
-		points.append(Vector2(6.0, PackArt.SEAM + 14.0))
+		# The foil image tapers at its top, so its torn edge is narrower than the drawn wrapper's.
+		var inset: float = 20.0 if _art else 6.0
+		points.append(Vector2(inset, seam + 14.0))
 		for tooth: int in range(teeth + 1):
-			var x: float = 6.0 + (width - 12.0) * float(tooth) / float(teeth)
-			points.append(Vector2(x, PackArt.SEAM + (-7.0 if tooth % 2 == 0 else 7.0)))
-		points.append(Vector2(width - 6.0, PackArt.SEAM + 14.0))
+			var x: float = inset + (width - inset * 2.0) * float(tooth) / float(teeth)
+			points.append(Vector2(x, seam + (-7.0 if tooth % 2 == 0 else 7.0)))
+		points.append(Vector2(width - inset, seam + 14.0))
 		draw_colored_polygon(points, base.lightened(0.55))
 		draw_polyline(points, Color(1, 1, 1, 0.9), 2.0, true)
+
+
+## A small pack icon for lists (the inventory): the pack art scaled to `scale_factor`, in a holder of that size. Falls back to the flat colour swatch when the pack has no art image.
+static func icon(pack_data: PackData, scale_factor: float) -> Control:
+	var holder: Control = Control.new()
+	holder.custom_minimum_size = SIZE * scale_factor
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if art_id_for(pack_data).is_empty():
+		var swatch: Panel = Panel.new()
+		swatch.size = holder.custom_minimum_size * Vector2(0.6, 0.7)
+		swatch.position = (holder.custom_minimum_size - swatch.size) * 0.5
+		swatch.add_theme_stylebox_override("panel", UIStyle.box(pack_data.art_color, pack_data.art_color.lightened(0.4), 2, 4, 0))
+		holder.add_child(swatch)
+		return holder
+	var art: PackArt = create(pack_data)
+	holder.add_child(art)
+	art.scale = Vector2.ONE * scale_factor
+	art.position = holder.custom_minimum_size * 0.5 - SIZE * 0.5
+	return holder

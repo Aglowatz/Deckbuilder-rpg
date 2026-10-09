@@ -29,9 +29,7 @@ func _ready() -> void:
 	UIKit.full_rect(self)
 	z_index = 150
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	var dim: ColorRect = ColorRect.new()
-	dim.color = Color(0.02, 0.01, 0.05, 0.85)
-	UIKit.full_rect(dim)
+	var dim: Control = UiSkin.menu_backdrop(Color(0.02, 0.01, 0.05, 0.85))
 	add_child(dim)
 	var center: CenterContainer = CenterContainer.new()
 	UIKit.full_rect(center)

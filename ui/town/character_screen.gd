@@ -523,10 +523,7 @@ func _refresh_packs() -> void:
 			continue
 		shown += 1
 		var row: HBoxContainer = UIKit.hbox(8)
-		var swatch: Panel = Panel.new()
-		swatch.custom_minimum_size = Vector2(18, 26)
-		swatch.add_theme_stylebox_override("panel", UIStyle.box(pack.art_color, pack.art_color.lightened(0.4), 2, 4, 0))
-		row.add_child(swatch)
+		row.add_child(PackArt.icon(pack, 0.17))
 		var name_label: Label = UIKit.label("%s  x%d" % [pack.display_name, count], &"", 20, UIStyle.PARCHMENT)
 		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(name_label)

@@ -158,9 +158,7 @@ func _show_overlay(builder: Callable) -> void:
 	_close_overlay()
 	_overlay = CenterContainer.new()
 	UIKit.full_rect(_overlay)
-	var dim: ColorRect = ColorRect.new()
-	dim.color = Color(0.02, 0.01, 0.04, 0.7)
-	UIKit.full_rect(dim)
+	var dim: Control = UiSkin.menu_backdrop(Color(0.02, 0.01, 0.04, 0.7))
 	dim.mouse_filter = Control.MOUSE_FILTER_STOP
 	add_child(dim)
 	dim.name = "OverlayDim"

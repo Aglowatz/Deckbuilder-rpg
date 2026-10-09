@@ -15,15 +15,13 @@ func _ready() -> void:
 	visible = false
 	_root = UIKit.layer_host(self)
 	_root.mouse_filter = Control.MOUSE_FILTER_STOP
-	var dim: ColorRect = ColorRect.new()
-	dim.color = Color(0.02, 0.01, 0.04, 0.72)
-	UIKit.full_rect(dim)
+	var dim: Control = UiSkin.menu_backdrop(Color(0.02, 0.01, 0.04, 0.72))
 	_root.add_child(dim)
 	var center: CenterContainer = CenterContainer.new()
 	UIKit.full_rect(center)
 	_root.add_child(center)
 	_menu = UIKit.panel()
-	_menu.custom_minimum_size = Vector2(420, 0)
+	_menu.custom_minimum_size = Vector2(480, 0)
 	center.add_child(_menu)
 	_build_menu()
 

@@ -33,6 +33,11 @@ static func apply() -> void:
 	if theme == null:
 		theme = UIStyle.theme()
 	_apply_panels(theme)
+	# Titles read over the painted backgrounds: a dark outline.
+	theme.set_color("font_outline_color", "TitleLabel", Color(0.06, 0.03, 0.08, 0.92))
+	theme.set_constant("outline_size", "TitleLabel", 9)
+	theme.set_color("font_outline_color", "HeadingLabel", Color(0.06, 0.03, 0.08, 0.8))
+	theme.set_constant("outline_size", "HeadingLabel", 4)
 	_apply_buttons(theme)
 	apply_cursors()
 
@@ -286,6 +291,16 @@ static func _slot_without_lock(scaled: Texture2D, px: float) -> Texture2D:
 	UiArt._textures[key] = result
 	return result
 
+
+## The backdrop of the pause menu, settings and save/load screens: UI-BG-MENU, or a flat dim of `fallback` when the image is missing.
+static func menu_backdrop(fallback: Color) -> Control:
+	var art: Control = screen_background("UI-BG-MENU", 0.0)
+	if art != null:
+		return art
+	var dim: ColorRect = ColorRect.new()
+	dim.color = fallback
+	UIKit.full_rect(dim)
+	return dim
 
 # ---- Cursors --------------------------------------------------------------------------------
 

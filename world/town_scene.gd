@@ -1830,6 +1830,14 @@ func _screenshot_open(what: String) -> void:
 			_screenshot_memory(4)
 		"map":
 			_open_full_map()
+		"pause":
+			SceneManager.get("_pause_menu").call("toggle")
+		"pause_settings":
+			SceneManager.get("_pause_menu").call("toggle")
+			SceneManager.get("_pause_menu").call("_show_settings")
+		"pause_load":
+			SceneManager.get("_pause_menu").call("toggle")
+			SceneManager.get("_pause_menu").call("_show_slots", SaveSlotsScreen.Mode.LOAD)
 		"chest_popup":
 			_show_reward_box(Session.grant_chest_reward({"gold": 80, "item": "healing_draught", "card": "C-29", "equipment": "hover_boots", "pack": "gilded_gourmand"}, "Hidden chest"))
 		"quest_popup":
