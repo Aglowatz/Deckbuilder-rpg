@@ -26,6 +26,19 @@ const SCALE_BF: float = 0.56
 const SCALE_INFRASTRUCTURE: float = 0.27
 const SCALE_TRAP: float = 0.32
 const SCALE_RESOURCE: float = 0.17
+## UI art kit: with UI-HUD-RESOURCES the coins are a little smaller so they sit in the tray sockets.
+const SCALE_RESOURCE_ART: float = 0.15
+## The resource tray lies on its side: top-left x, size, and the socket centres along its length (fractions measured on the image, first kind first).
+const ART_TRAY_X: float = 1610.0
+const ART_TRAY_SIZE: Vector2 = Vector2(280, 79)
+const ART_TRAY_SOCKETS: Array[float] = [0.232, 0.409, 0.586, 0.763]
+## Token tray (UI-HUD-TOKENS) centres for you and the enemy; Contract tiles line up inside it.
+const ART_TOKEN_TRAY_SIZE: Vector2 = Vector2(100, 97)
+const ART_TOKEN_CENTERS: Array[Vector2] = [Vector2(1688, 756), Vector2(1688, 80)]
+const SCALE_TOKEN_ART: float = 0.12
+## Where the first set trap sits (the next ones 62 px further left): clear of the deck piles in the corner.
+const TRAP_X: float = 1430.0
+const ART_TRAP_SLOT: Vector2 = Vector2(62, 58)
 const SCALE_TOKEN: float = 0.15
 ## Where each side's resource tray sits (centre of the first coin): the right-hand column, above the turn panel for the enemy and below it for you.
 const RESOURCE_ORIGIN: Array[Vector2] = [Vector2(1671, 668), Vector2(1671, 166)]
@@ -293,11 +306,40 @@ func _place_blockers() -> void:
 		blocker_target["z"] = 40
 
 
+## Empty set-trap slots (UI-HUD-SLOT) at the places set traps sit, one per trap the player may set; a set trap covers its slot.
+func _trap_slots(owner_index: int, y: float) -> void:
+	if not UiArt.has("UI-HUD-SLOT"):
+		return
+	var node_name: String = "TrapSlots%d" % owner_index
+	var holder: Control = get_node_or_null(node_name) as Control
+	if holder == null:
+		holder = Control.new()
+		holder.name = node_name
+		holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		holder.z_index = 3
+		add_child(holder)
+	var wanted: int = game.players[owner_index].max_traps
+	if holder.get_child_count() == wanted:
+		return
+	for child: Node in holder.get_children():
+		child.queue_free()
+	for index: int in range(wanted):
+		var slot: TextureRect = TextureRect.new()
+		slot.texture = UiArt.texture("UI-HUD-SLOT")
+		slot.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		slot.stretch_mode = TextureRect.STRETCH_SCALE
+		slot.size = ART_TRAP_SLOT
+		slot.position = Vector2(TRAP_X - float(index) * 62.0, y) - ART_TRAP_SLOT * 0.5
+		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		holder.add_child(slot)
+
+
 func _layout_traps(owner_index: int) -> void:
 	var cards: Array[int] = _cards_in(owner_index, Zone.TRAPS)
 	var y: float = PLAYER_INFRASTRUCTURE_Y if owner_index == human else ENEMY_INFRASTRUCTURE_Y
+	_trap_slots(owner_index, y)
 	for index: int in range(cards.size()):
-		_targets[cards[index]] = {"pos": Vector2(1500.0 - float(index) * 62.0, y), "rot": -6.0 + float(index) * 3.0, "scale": SCALE_TRAP, "z": 4 + index}
+		_targets[cards[index]] = {"pos": Vector2(TRAP_X - float(index) * 62.0, y), "rot": -6.0 + float(index) * 3.0, "scale": SCALE_TRAP, "z": 4 + index}
 
 
 ## The four resources sit in a fixed tray: one slot per kind (Iron, Red Tape, Ingredient, Garbage), each with a faint icon, a
@@ -311,14 +353,27 @@ func _layout_resources(owner_index: int) -> void:
 		var slot: int = kinds.find(kind as ResourceKind.Kind)
 		var stacked: int = int(counts.get(kind, 0))
 		counts[kind] = stacked + 1
-		var pos: Vector2 = RESOURCE_ORIGIN[owner_index] + Vector2(float(maxi(slot, 0)) * RESOURCE_SLOT_PITCH - 6.0 + minf(float(stacked), 5.0) * 2.5, -4.0 - minf(float(stacked), 5.0) * 1.5)
-		_targets[uid] = {"pos": pos, "rot": 0.0, "scale": SCALE_RESOURCE, "z": 30 + stacked}
+		var stack_offset: Vector2 = Vector2(minf(float(stacked), 5.0) * 2.5, -minf(float(stacked), 5.0) * 1.5)
+		var pos: Vector2 = _socket_center(owner_index, maxi(slot, 0)) + stack_offset + (Vector2.ZERO if _art_resources() else Vector2(-6.0, -4.0))
+		_targets[uid] = {"pos": pos, "rot": 0.0, "scale": SCALE_RESOURCE_ART if _art_resources() else SCALE_RESOURCE, "z": 30 + stacked}
 	var tray: Control = _tray(owner_index)
 	for slot_index: int in range(kinds.size()):
 		var count: int = int(counts.get(int(kinds[slot_index]), 0))
 		var label: Label = tray.get_node("Count%d" % slot_index) as Label
 		label.text = "x%d" % count
 		(tray.get_node("Icon%d" % slot_index) as TextureRect).modulate.a = 0.55 if count == 0 else 0.0
+
+
+func _art_resources() -> bool:
+	return UiArt.has("UI-HUD-RESOURCES")
+
+
+## The centre of resource socket `slot` of a player's tray (the old row of slots without the art).
+func _socket_center(owner_index: int, slot: int) -> Vector2:
+	if not _art_resources():
+		return RESOURCE_ORIGIN[owner_index] + Vector2(float(slot) * RESOURCE_SLOT_PITCH, 0.0)
+	var top: float = RESOURCE_ORIGIN[owner_index].y - ART_TRAY_SIZE.y * 0.5
+	return Vector2(ART_TRAY_X + ART_TRAY_SIZE.x * ART_TRAY_SOCKETS[slot], top + ART_TRAY_SIZE.y * 0.5)
 
 
 func _tray(owner_index: int) -> Control:
@@ -332,27 +387,39 @@ func _tray(owner_index: int) -> Control:
 	tray.z_index = 20
 	add_child(tray)
 	var kinds: Array[ResourceKind.Kind] = ResourceKind.all()
-	var origin: Vector2 = RESOURCE_ORIGIN[owner_index]
+	if _art_resources():
+		var frame: TextureRect = TextureRect.new()
+		frame.name = "TrayArt"
+		frame.texture = UiSkin.rotated_texture("UI-HUD-RESOURCES", ART_TRAY_SIZE)
+		frame.position = Vector2(ART_TRAY_X, RESOURCE_ORIGIN[owner_index].y - ART_TRAY_SIZE.y * 0.5)
+		frame.size = ART_TRAY_SIZE
+		frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		tray.add_child(frame)
 	for slot_index: int in range(kinds.size()):
 		var kind: ResourceKind.Kind = kinds[slot_index]
-		var center: Vector2 = origin + Vector2(float(slot_index) * RESOURCE_SLOT_PITCH, 0.0)
+		var center: Vector2 = _socket_center(owner_index, slot_index)
 		var slot: Panel = Panel.new()
 		slot.name = "Slot%d" % slot_index
 		slot.position = center - Vector2(RESOURCE_SLOT_PITCH * 0.5 - 3.0, 32.0)
 		slot.size = Vector2(RESOURCE_SLOT_PITCH - 6.0, 84.0)
-		slot.add_theme_stylebox_override("panel", UIStyle.box(Color(0.05, 0.03, 0.09, 0.55), Color(ResourceKind.COLORS[kind] as Color, 0.55), 2, 10))
+		if _art_resources():
+			slot.position = center - Vector2(24.0, 24.0)
+			slot.size = Vector2(48.0, 48.0)
+			slot.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+		else:
+			slot.add_theme_stylebox_override("panel", UIStyle.box(Color(0.05, 0.03, 0.09, 0.55), Color(ResourceKind.COLORS[kind] as Color, 0.55), 2, 10))
 		slot.mouse_filter = Control.MOUSE_FILTER_PASS
 		slot.tooltip_text = "%s (resource)\n%s" % [ResourceKind.display_name(kind), str(ResourceKind.DESCRIPTIONS[kind])]
 		tray.add_child(slot)
 		var icon: TextureRect = CardIcons.glyph(CardIcons.named(str(CardIcons.RESOURCE_ICONS[ResourceKind.Kind.keys()[kind]])), ResourceKind.COLORS[kind] as Color, Vector2(34, 34))
 		icon.name = "Icon%d" % slot_index
-		icon.position = center - Vector2(17, 21)
-		icon.size = Vector2(34, 34)
+		icon.position = center - (Vector2(15, 15) if _art_resources() else Vector2(17, 21))
+		icon.size = Vector2(30, 30) if _art_resources() else Vector2(34, 34)
 		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		tray.add_child(icon)
 		var count: Label = Label.new()
 		count.name = "Count%d" % slot_index
-		count.position = center + Vector2(-RESOURCE_SLOT_PITCH * 0.5 + 3.0, 28.0)
+		count.position = center + (Vector2(-RESOURCE_SLOT_PITCH * 0.5 + 3.0, 14.0) if _art_resources() else Vector2(-RESOURCE_SLOT_PITCH * 0.5 + 3.0, 28.0))
 		count.z_index = 45
 		count.size = Vector2(RESOURCE_SLOT_PITCH - 6.0, 22.0)
 		count.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -370,16 +437,42 @@ func _tray(owner_index: int) -> Control:
 func _layout_tokens(owner_index: int) -> void:
 	var cards: Array[int] = _cards_in(owner_index, Zone.TOKENS)
 	cards.sort()
+	var art: bool = UiArt.has("UI-HUD-TOKENS")
 	var step: float = minf(14.0, TOKEN_SPAN / float(maxi(cards.size(), 1)))
 	var origin: Vector2 = TOKEN_ORIGIN[owner_index]
+	if art:
+		_token_tray(owner_index)
+		step = minf(8.0, 24.0 / float(maxi(cards.size(), 1)))
+		origin = ART_TOKEN_CENTERS[owner_index] - Vector2(step * float(maxi(cards.size() - 1, 0)) * 0.5, 0.0)
 	for index: int in range(cards.size()):
-		_targets[cards[index]] = {"pos": origin + Vector2(float(index) * step, 0.0), "rot": 0.0, "scale": SCALE_TOKEN, "z": 30 + index}
+		_targets[cards[index]] = {"pos": origin + Vector2(float(index) * step, 0.0), "rot": 0.0, "scale": SCALE_TOKEN_ART if art else SCALE_TOKEN, "z": 30 + index}
 	var badge: Label = _token_badge(owner_index)
 	badge.visible = not cards.is_empty()
 	badge.text = "TOKENS\nContract x%d" % cards.size()
 	badge.tooltip_text = "Contract (token, not a resource)\n%s" % str(ResourceKind.DESCRIPTIONS[ResourceKind.Kind.CONTRACT])
 	badge.position = origin + Vector2(TOKEN_SPAN + 8.0, -17.0)
+	if art:
+		badge.position = ART_TOKEN_CENTERS[owner_index] + Vector2(ART_TOKEN_TRAY_SIZE.x * 0.5 + 6.0, -17.0)
 	badge.size = Vector2(150.0, 34.0)
+## The token tray (UI-HUD-TOKENS) under a player's Contracts; always drawn, so the area reads as the token area even when empty.
+func _token_tray(owner_index: int) -> Control:
+	var node_name: String = "TokenTray%d" % owner_index
+	var existing: Node = get_node_or_null(node_name)
+	if existing is Control:
+		return existing as Control
+	var tray: TextureRect = TextureRect.new()
+	tray.name = node_name
+	tray.texture = UiArt.texture("UI-HUD-TOKENS")
+	tray.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tray.stretch_mode = TextureRect.STRETCH_SCALE
+	tray.size = ART_TOKEN_TRAY_SIZE
+	tray.position = ART_TOKEN_CENTERS[owner_index] - ART_TOKEN_TRAY_SIZE * 0.5
+	tray.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tray.z_index = 20
+	add_child(tray)
+	return tray
+
+
 func _token_badge(owner_index: int) -> Label:
 	var node_name: String = "TokenBadge%d" % owner_index
 	var existing: Node = get_node_or_null(node_name)

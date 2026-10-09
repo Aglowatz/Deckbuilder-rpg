@@ -9,6 +9,9 @@ signal end_turn_pressed
 signal attack_all_pressed
 
 const PHASE_NAMES: Array[String] = ["Start", "Main", "Combat", "Main 2", "End"]
+## Where the two deck piles stand (player, opponent): left of the phase buttons and of the opponent hand column, clear of the hand, the board rows and the card preview.
+const END_TURN_SIZE: float = 112.0
+const DECK_PILE_POSITIONS: Array[Vector2] = [Vector2(1488, 884), Vector2(1488, 8)]
 
 var game: GameState
 var primary_button: FancyButton
@@ -21,6 +24,7 @@ var _turn_sub: Label
 var _prompt: RichTextLabel
 var _prompt_panel: PanelContainer
 var _counts: Array[Label] = []
+var _deck_piles: Array[DeckPile] = []
 var _preview_root: Control
 var _preview_card: CardView
 var _tooltip: PanelContainer
@@ -101,13 +105,13 @@ func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
 	player_panel.title = "You"
 	player_panel.icon_key = "lorc/pointy-hat"
 	player_panel.accent = UIStyle.GOLD
-	player_panel.position = Vector2(24, 884)
+	player_panel.position = Vector2(24, 884.0 - (10.0 if UiArt.has("UI-HUD-PLAYERPLATE") else 0.0))
 	add_child(player_panel)
 	var enemy_panel: Portrait = Portrait.new()
 	enemy_panel.title = enemy_name
 	enemy_panel.icon_key = enemy_icon
 	enemy_panel.accent = Color("d9534f")
-	enemy_panel.position = Vector2(24, 20)
+	enemy_panel.position = Vector2(24, 6 if UiArt.has("UI-HUD-PLAYERPLATE") else 20)
 	add_child(enemy_panel)
 	_portraits = [player_panel, enemy_panel]
 	for index: int in range(2):
@@ -143,8 +147,16 @@ func _build_side_panel() -> void:
 	_prompt.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_prompt.custom_minimum_size = Vector2(0, 96)
 	_prompt_panel.add_child(_prompt)
-	# Deck / graveyard counters.
+	# Deck counters: the deck pile art (UI-HUD-DECK) when it exists, the plain chip otherwise.
 	for index: int in range(2):
+		if DeckPile.available():
+			var pile: DeckPile = DeckPile.new()
+			add_child(pile)
+			pile.setup(index)
+			pile.position = DECK_PILE_POSITIONS[index]
+			_deck_piles.append(pile)
+			_counts.append(pile.count_label)
+			continue
 		var counter: PanelContainer = UIKit.panel(&"DarkPanel")
 		counter.size = Vector2(250, 60)
 		counter.position = Vector2(1640, 20) if index == 1 else Vector2(1640, 826)
@@ -159,7 +171,7 @@ func _build_side_panel() -> void:
 
 func _build_buttons() -> void:
 	attack_all_button = FancyButton.make("Select All Attackers", &"GhostButton", Vector2(250, 50))
-	attack_all_button.position = Vector2(1640, 768)
+	attack_all_button.position = Vector2(1640, 822.0 if UiArt.has("UI-BTN-ENDTURN") else 768.0)
 	attack_all_button.size = Vector2(250, 50)
 	attack_all_button.visible = false
 	attack_all_button.pressed.connect(func() -> void: attack_all_pressed.emit())
@@ -169,9 +181,15 @@ func _build_buttons() -> void:
 	primary_button.size = Vector2(250, 66)
 	primary_button.pressed.connect(func() -> void: primary_pressed.emit())
 	add_child(primary_button)
-	end_turn_button = FancyButton.make("End Turn", &"", Vector2(250, 56))
-	end_turn_button.position = Vector2(1640, 982)
-	end_turn_button.size = Vector2(250, 56)
+	if UiArt.has("UI-BTN-ENDTURN"):
+		end_turn_button = UiSkin.round_button("UI-BTN-ENDTURN", END_TURN_SIZE, "End\nTurn")
+		end_turn_button.position = Vector2(1700, 1076.0 - END_TURN_SIZE)
+		primary_button.position = Vector2(1640, 900)
+		primary_button.size = Vector2(250, 60)
+	else:
+		end_turn_button = FancyButton.make("End Turn", &"", Vector2(250, 56))
+		end_turn_button.position = Vector2(1640, 982)
+		end_turn_button.size = Vector2(250, 56)
 	end_turn_button.pressed.connect(func() -> void: end_turn_pressed.emit())
 	add_child(end_turn_button)
 
@@ -221,6 +239,13 @@ func refresh_all() -> void:
 func set_portrait_targets(player_ok: bool, enemy_ok: bool) -> void:
 	_portraits[0].set_targetable(player_ok)
 	_portraits[1].set_targetable(enemy_ok)
+
+
+## Where cards fly to and from the deck of `player_index`.
+func deck_center(player_index: int) -> Vector2:
+	if player_index < _deck_piles.size():
+		return _deck_piles[player_index].center()
+	return Vector2(1720, 858) if player_index == 0 else Vector2(1765, 84)
 
 
 func portrait_rect(player_index: int) -> Rect2:
@@ -339,8 +364,17 @@ class Portrait:
 	var _orbs: OrbRow
 	var _shown_hp: float = 10.0
 	var _tween: Tween
+	## UI art kit (UI-HUD-PLAYERPLATE): the plate with its round portrait socket and name/HP band, the HP bar frame under it and the energy orbs under that.
+	const PLATE_SIZE: Vector2 = Vector2(330, 126)
+	const STAGE_SIZE: Vector2 = Vector2(330, 202)
+	var _art: bool = false
+	var _ring: Panel
 
 	func _ready() -> void:
+		_art = UiArt.has("UI-HUD-PLAYERPLATE")
+		if _art:
+			_build_art()
+			return
 		custom_minimum_size = Vector2(300, 172)
 		size = Vector2(300, 172)
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -381,12 +415,87 @@ class Portrait:
 		_shown_hp = float(hp)
 		_apply_hp(_shown_hp)
 
+	func _build_art() -> void:
+		custom_minimum_size = STAGE_SIZE
+		size = STAGE_SIZE
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+		var stage: Control = Control.new()
+		stage.custom_minimum_size = STAGE_SIZE
+		stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(stage)
+		var plate: TextureRect = TextureRect.new()
+		plate.texture = UiArt.texture("UI-HUD-PLAYERPLATE")
+		plate.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		plate.stretch_mode = TextureRect.STRETCH_SCALE
+		plate.size = PLATE_SIZE
+		plate.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		stage.add_child(plate)
+		# The red ring that marks the plate as a legal target (the round portrait socket, the whole plate outline).
+		_ring = Panel.new()
+		_ring.size = PLATE_SIZE
+		_ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_ring.add_theme_stylebox_override("panel", UIStyle.box(Color(1, 0.2, 0.2, 0.12), Color("ff5a5a"), 5, 22, 14))
+		_ring.visible = false
+		stage.add_child(_ring)
+		var glyph: TextureRect = CardIcons.glyph(load(CardIcons.BASE + icon_key + ".svg") as Texture2D, accent.darkened(0.55), Vector2(50, 50))
+		glyph.position = Vector2(66, 62) - Vector2(25, 25)
+		glyph.size = Vector2(50, 50)
+		glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		stage.add_child(glyph)
+		var name_label: Label = UIKit.label(title, &"", 21, Color("2b2233"), HORIZONTAL_ALIGNMENT_LEFT)
+		name_label.add_theme_font_override("font", UIStyle.font_title())
+		name_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
+		name_label.position = Vector2(122, 38)
+		name_label.size = Vector2(100, 50)
+		name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		name_label.clip_text = true
+		name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		var name_size: int = 22
+		while name_size > 12 and UIStyle.font_title().get_multiline_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, name_label.size.x, name_size, -1, TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE | TextServer.BREAK_MANDATORY).y > name_label.size.y - 4.0:
+			name_size -= 1
+		name_label.add_theme_font_size_override("font_size", name_size)
+		name_label.tooltip_text = title
+		name_label.mouse_filter = Control.MOUSE_FILTER_PASS
+		stage.add_child(name_label)
+		var heart: HeartIcon = HeartIcon.new()
+		heart.custom_minimum_size = Vector2(34, 34)
+		heart.size = Vector2(34, 34)
+		heart.position = Vector2(226, 46)
+		heart.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		stage.add_child(heart)
+		_hp_label = UIKit.label(str(hp), &"", 34, Color("8f1f1f"))
+		_hp_label.add_theme_font_override("font", UIStyle.font_title())
+		_hp_label.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
+		_hp_label.position = Vector2(262, 40)
+		_hp_label.size = Vector2(46, 46)
+		_hp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		stage.add_child(_hp_label)
+		_bar = ProgressBar.new()
+		_bar.show_percentage = false
+		_bar.max_value = max_hp
+		_bar.value = hp
+		_bar.position = Vector2(8, 130)
+		_bar.size = Vector2(PLATE_SIZE.x - 16.0, 40)
+		UiSkin.skin_bar(_bar, "hp", 40.0, Color("6fbf73"))
+		stage.add_child(_bar)
+		_orbs = OrbRow.new()
+		_orbs.position = Vector2(14, 172)
+		_orbs.size = Vector2(PLATE_SIZE.x - 28.0, 26)
+		stage.add_child(_orbs)
+		_shown_hp = float(hp)
+		_apply_hp(_shown_hp)
+
 	func _frame(border: Color, width: int, shadow: int) -> StyleBoxFlat:
 		var style: StyleBoxFlat = UIStyle.box(Color(0.06, 0.04, 0.1, 0.9), border, width, 16, shadow)
 		style.set_content_margin_all(14)
 		return style
 
 	func set_targetable(active: bool) -> void:
+		if _art:
+			if _ring != null:
+				_ring.visible = active
+			return
 		var color: Color = Color("ff5a5a") if active else accent.darkened(0.2)
 		add_theme_stylebox_override("panel", _frame(color, 5 if active else 3, 18 if active else 12))
 
@@ -408,8 +517,7 @@ class Portrait:
 		_hp_label.text = str(roundi(value))
 		_bar.value = value
 		var ratio: float = value / maxf(float(max_hp), 1.0)
-		var fill: StyleBoxFlat = UIStyle.box(Color("6fbf73") if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.HP_RED), Color(0, 0, 0, 0), 0, 8)
-		_bar.add_theme_stylebox_override("fill", fill)
+		UiSkin.set_bar_fill(_bar, Color("6fbf73") if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.HP_RED))
 
 	func set_infrastructure(infrastructure: Array[CardInstance]) -> void:
 		if _orbs != null:

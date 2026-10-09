@@ -77,6 +77,14 @@ static func bar_frame(id: String, channel: Vector4, height: float) -> StyleBoxTe
 	return style
 
 
+## Sets the fill colour of a bar: an art bar redraws, a plain ProgressBar gets the flat fill style as before.
+static func set_bar_fill(bar: ProgressBar, color: Color) -> void:
+	if bar is ArtBar:
+		(bar as ArtBar).set_fill_color(color)
+	else:
+		bar.add_theme_stylebox_override("fill", UIStyle.box(color, Color(0, 0, 0, 0), 0, 8))
+
+
 ## Applies the HP or XP frame to a ProgressBar of height `height` (fill = the flat style the game already sets or this red/gold default).
 static func skin_bar(bar: ProgressBar, kind: String, height: float, fill_color: Color) -> void:
 	var id: String = "UI-BAR-HP" if kind == "hp" else "UI-BAR-XP"
@@ -84,8 +92,8 @@ static func skin_bar(bar: ProgressBar, kind: String, height: float, fill_color: 
 	if frame == null:
 		return
 	bar.custom_minimum_size = Vector2(bar.custom_minimum_size.x, height)
-	bar.add_theme_stylebox_override("background", frame)
-	bar.add_theme_stylebox_override("fill", UIStyle.box(fill_color, Color(0, 0, 0, 0), 0, 3))
+	bar.set_script(ArtBar)
+	(bar as ArtBar).setup(frame, fill_color)
 
 
 static func _apply_panels(theme: Theme) -> void:
@@ -187,6 +195,54 @@ static func screen_background(id: String, dim: float = 0.3) -> Control:
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	holder.add_child(shade)
 	return holder
+
+
+## A round art button (UI-BTN-ENDTURN, the gong with a plain amber centre) of `px` pixels with its label drawn over the centre. Hover is brighter, pressed darker, disabled
+## desaturated; FancyButton adds the small scale-up and scale-down.
+static func round_button(id: String, px: float, text: String) -> FancyButton:
+	var button: FancyButton = FancyButton.make(text)
+	button.custom_minimum_size = Vector2(px, px)
+	button.size = Vector2(px, px)
+	var source: Texture2D = UiArt.texture(id)
+	if source == null:
+		return button
+	var factor: float = px / float(source.get_width())
+	var plain: StyleBoxTexture = UiArt.nine(id, Vector4.ZERO, factor, Vector4(6, 6, 6, 10))
+	var hover: StyleBoxTexture = UiArt.nine(id, Vector4.ZERO, factor, Vector4(6, 6, 6, 10), HOVER_TINT)
+	var pressed: StyleBoxTexture = UiArt.nine(id, Vector4.ZERO, factor, Vector4(6, 8, 6, 8), PRESSED_TINT)
+	var disabled: StyleBoxTexture = UiArt.nine(id, Vector4.ZERO, factor, Vector4(6, 6, 6, 10), DISABLED_TINT, 0.85)
+	button.add_theme_stylebox_override("normal", plain)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+	button.add_theme_stylebox_override("hover_pressed", pressed)
+	button.add_theme_stylebox_override("disabled", disabled)
+	button.add_theme_font_size_override("font_size", int(px * 0.2))
+	button.add_theme_font_override("font", UIStyle.font_title())
+	for state: String in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+		button.add_theme_color_override(state, Color("2b1608"))
+	button.add_theme_color_override("font_disabled_color", Color(0.25, 0.2, 0.15, 0.7))
+	button.add_theme_constant_override("line_spacing", -4)
+	return button
+
+
+## `id` turned a quarter turn counter-clockwise and scaled to `size_px` (the vertical resource tray lying on its side along the right edge of the battle screen).
+static func rotated_texture(id: String, size_px: Vector2) -> Texture2D:
+	var key: String = "rot|%s|%.0fx%.0f" % [id, size_px.x, size_px.y]
+	if UiArt._textures.has(key):
+		return UiArt._textures[key] as Texture2D
+	var source: Texture2D = UiArt.texture(id)
+	if source == null:
+		return null
+	var image: Image = source.get_image()
+	if image.is_compressed():
+		image.decompress()
+	image.convert(Image.FORMAT_RGBA8)
+	image.rotate_90(COUNTERCLOCKWISE)
+	image.fix_alpha_edges()
+	image.resize(int(size_px.x), int(size_px.y), Image.INTERPOLATE_LANCZOS)
+	var result: ImageTexture = ImageTexture.create_from_image(image)
+	UiArt._textures[key] = result
+	return result
 
 
 # ---- Equipment slots ------------------------------------------------------------------------

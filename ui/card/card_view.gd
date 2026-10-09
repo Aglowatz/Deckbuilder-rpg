@@ -680,6 +680,11 @@ func frame_id() -> String:
 func back_id() -> String:
 	if bool(get_meta("opponent_back", false)):
 		return "UI-CARDBACK-C"
+	return player_back_id()
+
+
+## The back of the player's primary Path (the default back when there is none).
+static func player_back_id() -> String:
 	return str(PATH_BACKS.get(player_back_path(), "UI-CARDBACK-C"))
 
 

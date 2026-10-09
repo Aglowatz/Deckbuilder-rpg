@@ -26,6 +26,14 @@ var _usable: Array[bool] = []
 var _pulse_tween: Tween
 
 
+## The slot look: the UI art kit slot (UI-HUD-SLOT) tinted per state, the old flat box without it.
+func _slot_style(fill: Color, border: Color, border_width: int, shadow: int, tint: Color) -> StyleBox:
+	var art: StyleBoxTexture = UiArt.nine("UI-HUD-SLOT", Vector4.ZERO, SLOT_SIZE.x / 1024.0, Vector4(8, 8, 8, 8), tint) if UiArt.has("UI-HUD-SLOT") else null
+	if art != null:
+		return art
+	return UIStyle.box(fill, border, border_width, 12, shadow)
+
+
 func setup(game_state: GameState, profile: PlayerProfile) -> void:
 	game = game_state
 	_profile = profile
@@ -80,7 +88,7 @@ func refresh() -> void:
 			icon.modulate = Color(1, 1, 1, 0.22)
 			badge.text = ""
 			slot.tooltip_text = "Empty item slot"
-			slot.add_theme_stylebox_override("panel", UIStyle.box(EMPTY_FILL, EMPTY_BORDER, 2, 12))
+			slot.add_theme_stylebox_override("panel", _slot_style(EMPTY_FILL, EMPTY_BORDER, 2, 0, Color(0.7, 0.72, 0.85, 0.85)))
 			_usable[i] = false
 			continue
 		icon.texture = CardIcons.for_item(item)
@@ -93,10 +101,10 @@ func refresh() -> void:
 		_usable[i] = usable
 		slot.tooltip_text = item.tooltip_text()
 		if usable:
-			slot.add_theme_stylebox_override("panel", UIStyle.box(USABLE_FILL, UIStyle.GOLD, 3, 12, 10))
+			slot.add_theme_stylebox_override("panel", _slot_style(USABLE_FILL, UIStyle.GOLD, 3, 10, Color(1.35, 1.15, 0.8)))
 		else:
 			icon.modulate = Color(0.6, 0.6, 0.66, 0.85)
-			slot.add_theme_stylebox_override("panel", UIStyle.box(IDLE_FILL, IDLE_BORDER, 2, 12))
+			slot.add_theme_stylebox_override("panel", _slot_style(IDLE_FILL, IDLE_BORDER, 2, 0, Color.WHITE))
 	if any_usable_changed:
 		_restart_pulse()
 

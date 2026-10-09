@@ -332,7 +332,7 @@ func _refresh_hp() -> void:
 	_hp_bar.max_value = run.max_hp()
 	_hp_bar.value = run.hp
 	var ratio: float = float(run.hp) / float(maxi(run.max_hp(), 1))
-	_hp_bar.add_theme_stylebox_override("fill", UIStyle.box(UIStyle.GOOD if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.HP_RED), Color(0, 0, 0, 0), 0, 8))
+	UiSkin.set_bar_fill(_hp_bar, UIStyle.GOOD if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.HP_RED))
 
 
 # ---- Info panel -------------------------------------------------------------------------

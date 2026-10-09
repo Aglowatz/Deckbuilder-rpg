@@ -16,6 +16,7 @@ var _caption: Label
 var _hint: Label
 var _highlight: bool = false
 var _stack: Control
+var _has_base: bool = false
 
 
 func setup(index: int) -> void:
@@ -32,6 +33,17 @@ func setup(index: int) -> void:
 	_caption.size = Vector2(WIDGET_SIZE.x, 24)
 	_caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_caption)
+	if UiArt.has("UI-HUD-REFUSE"):
+		# The Refuse Pile base (UI-HUD-REFUSE): a tray under the stack; the whole widget stays clickable.
+		var base: TextureRect = TextureRect.new()
+		base.texture = UiArt.texture("UI-HUD-REFUSE")
+		base.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		base.stretch_mode = TextureRect.STRETCH_SCALE
+		base.size = Vector2(WIDGET_SIZE.x, WIDGET_SIZE.x * 0.6)
+		base.position = Vector2(0, WIDGET_SIZE.y - base.size.y - 4.0)
+		base.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(base)
+		_has_base = true
 	_stack = Control.new()
 	_stack.position = Vector2(8, 26)
 	_stack.size = Vector2(CardView.SIZE.x * CARD_SCALE, CardView.SIZE.y * CARD_SCALE)
@@ -79,11 +91,12 @@ func _rebuild_stack(top: CardInstance) -> void:
 	_top = null
 	var card_size: Vector2 = CardView.SIZE * CARD_SCALE
 	if top == null:
-		var slot: Panel = Panel.new()
-		slot.size = card_size
-		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		slot.add_theme_stylebox_override("panel", UIStyle.box(Color(0, 0, 0, 0.35), Color(UIStyle.GOLD, 0.45), 2, 10))
-		_stack.add_child(slot)
+		if not _has_base:
+			var slot: Panel = Panel.new()
+			slot.size = card_size
+			slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			slot.add_theme_stylebox_override("panel", UIStyle.box(Color(0, 0, 0, 0.35), Color(UIStyle.GOLD, 0.45), 2, 10))
+			_stack.add_child(slot)
 		var empty: Label = UIKit.label("empty", &"", 17, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
 		empty.size = card_size
 		empty.vertical_alignment = VERTICAL_ALIGNMENT_CENTER

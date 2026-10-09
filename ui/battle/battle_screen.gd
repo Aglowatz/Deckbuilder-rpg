@@ -234,6 +234,8 @@ func _build_scene() -> void:
 	if not context.arena_id.is_empty():
 		hud.set_arena_banner(context.arena_id)
 	board.portrait_anchor = [hud.portrait_center(0), hud.portrait_center(1)]
+	var deck_spots: Array[Vector2] = [hud.deck_center(0), hud.deck_center(1)]
+	board.deck_anchor = deck_spots
 	board.card_hovered.connect(_on_card_hovered)
 	board.card_unhovered.connect(_on_card_unhovered)
 	board.card_input.connect(_on_card_input)
@@ -518,6 +520,7 @@ func _refresh_ui() -> void:
 	hud.end_turn_button.visible = end_visible
 	hud.attack_all_button.visible = mode == Mode.ATTACK
 	hud.set_prompt(prompt)
+	UiSkin.set_targeting(mode == Mode.TARGETING)
 	_sync_pile_viewer()
 	_update_arrows()
 
@@ -1405,3 +1408,7 @@ func set_bot(bot: AIPlayer, until_turn: int = 100000) -> void:
 		_mulligan_panel = null
 	if not busy and mode != Mode.OVER:
 		_drive()
+
+
+func _exit_tree() -> void:
+	UiSkin.set_targeting(false)
