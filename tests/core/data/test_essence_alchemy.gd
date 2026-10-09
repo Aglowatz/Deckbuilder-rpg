@@ -390,6 +390,9 @@ func test_the_card_frame_shows_both_paths() -> void:
 	for child: Node in view.get_children():
 		if child is Panel and (child as Panel).size == Vector2(22, 22):
 			gems += 1
+	if UiArt.has(view.frame_id()):
+		assert_eq(view.frame_id(), "UI-FRAME-MULTI", "a multi-Path card wears the multi-Path frame")
+		return
 	assert_eq(gems, 2, "two Path gems on the art")
 
 

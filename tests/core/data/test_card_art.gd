@@ -112,7 +112,7 @@ func test_cards_without_art_use_the_placeholder_and_still_build() -> void:
 	for mode: CardView.Mode in [CardView.Mode.FULL, CardView.Mode.COMPACT, CardView.Mode.BACK]:
 		var view: CardView = CardView.create(card, mode)
 		add_child_autofree(view)
-		assert_gt(view.get_child_count(), 3)
+		assert_gt(view.get_child_count(), 0 if mode == CardView.Mode.BACK else 3)
 	assert_eq(CardView.SIZE.x / CardView.SIZE.y, CardArt.ASPECT, "the card frame is 2:3")
 
 
@@ -176,5 +176,5 @@ func test_art_picture_is_sized_to_the_card_not_to_the_texture() -> void:
 				picture = child as TextureRect
 				break
 		assert_not_null(picture, "the art picture exists")
-		assert_eq(picture.size, CardView.SIZE - Vector2(10, 10), "art is the card's size, never the texture's")
+		assert_eq(picture.size, view.art_rect().size, "art fills its window, never the texture size")
 	CardArt.clear_cache()

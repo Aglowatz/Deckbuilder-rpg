@@ -31,6 +31,45 @@ const RARITY_NAMES: Array[String] = ["Common", "Uncommon", "Epic", "Legendary"]
 const PARCHMENT_BG: Color = Color("eadfc4")
 const PARCHMENT_TEXT: Color = Color("2b2233")
 
+## The UI art kit frames (UiArt): by Path, and the card backs by the deck primary Path.
+const PATH_FRAMES: Dictionary = {
+	Affinity.Type.BEEFCAKE: "UI-FRAME-B",
+	Affinity.Type.NECROCRAT: "UI-FRAME-N",
+	Affinity.Type.GOURMAND: "UI-FRAME-G",
+	Affinity.Type.REFUSEMANCER: "UI-FRAME-R",
+	Affinity.Type.NEUTRAL: "UI-FRAME-C",
+}
+const PATH_BACKS: Dictionary = {
+	Affinity.Type.BEEFCAKE: "UI-CARDBACK-B",
+	Affinity.Type.NECROCRAT: "UI-CARDBACK-N",
+	Affinity.Type.GOURMAND: "UI-CARDBACK-G",
+	Affinity.Type.REFUSEMANCER: "UI-CARDBACK-R",
+	Affinity.Type.NEUTRAL: "UI-CARDBACK-C",
+}
+const RARITY_GEMS: Array[String] = ["UI-RARITY-C", "UI-RARITY-U", "UI-RARITY-E", "UI-RARITY-L"]
+## The cloth colours of the tinted frames (matching each Path own frame: Beefcake red, Necrocrat green, Gourmand cream-copper, Refusemancer rust-moss).
+const FRAME_CLOTH: Dictionary = {
+	Affinity.Type.BEEFCAKE: Color("d8392b"),
+	Affinity.Type.NECROCRAT: Color("5f9a62"),
+	Affinity.Type.GOURMAND: Color("e6a468"),
+	Affinity.Type.REFUSEMANCER: Color("9aa832"),
+}
+## Frame order of the four bands: top-left, top-right, bottom-left, bottom-right.
+const FRAME_PATH_ORDER: Array[Affinity.Type] = [Affinity.Type.BEEFCAKE, Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER]
+## Frame layout, in card units (the frame images are 2:3, laid out at 300x450 like the card; measured on the 1024x1536 originals):
+## the art window, the name bar interior, the cost socket, the rarity gem on the left rail, the rules panel and the attack/defense sockets.
+const FRAME_ART_RECT: Rect2 = Rect2(10, 11, 280, 428)
+const FRAME_NAME_RECT: Rect2 = Rect2(84, 22, 162, 28)
+const COMPACT_PLATE_RECT: Rect2 = Rect2(64, 4, 228, 52)
+const COMPACT_NAME_RECT: Rect2 = Rect2(86, 10, 186, 38)
+const FRAME_NAME_INK: Color = Color("2b2233")
+const FRAME_COST_CENTER: Vector2 = Vector2(39, 34.5)
+const FRAME_GEM_CENTER: Vector2 = Vector2(20.5, 166)
+const FRAME_RULES_UNIT: Rect2 = Rect2(40, 312, 222, 68)
+const FRAME_RULES_OTHER: Rect2 = Rect2(40, 312, 222, 94)
+const FRAME_ATTACK_CENTER: Vector2 = Vector2(225.5, 392.5)
+const FRAME_DEFENSE_CENTER: Vector2 = Vector2(265.0, 394.0)
+
 var data: CardData
 var instance_uid: int = 0
 var mode: Mode = Mode.FULL
@@ -43,6 +82,8 @@ var _frame: Panel
 var _glow: Control
 var _name_label: Label
 var _attack_label: Label
+var _defense_label: Label
+var _framed: bool = false
 var _plaque: PanelContainer
 var _badge_sick: Label
 var _damage_label: Label
@@ -113,6 +154,10 @@ func _build() -> void:
 		return
 	_base_attack = data.attack
 	_base_defense = data.defense
+	_framed = UiArt.has(frame_id())
+	if _framed:
+		_build_framed()
+		return
 	var rarity: int = int(data.rarity)
 	var border: Color = accent.darkened(0.15) if rarity == 0 else accent.darkened(0.15).lerp(RARITY_COLORS[rarity], 0.55)
 	_frame = _panel(Rect2(Vector2.ZERO, SIZE), UIStyle.box(Color("1c1526"), border, 6 if rarity < 3 else 8, 14, 10))
@@ -177,6 +222,10 @@ func _panel(rect: Rect2, style: StyleBox) -> Panel:
 
 
 func _build_back() -> void:
+	var back: Texture2D = UiArt.texture(back_id() if data != null else "UI-CARDBACK-C")
+	if back != null:
+		_build_back_framed(back)
+		return
 	var tint: Color = Color("5a3f7a") if data == null else accent.darkened(0.45)
 	_frame = _panel(Rect2(Vector2.ZERO, SIZE), UIStyle.box(Color("1c1526"), UIStyle.GOLD_DIM, 6, 20, 10))
 	add_child(_frame)
@@ -270,7 +319,7 @@ func _pips_width() -> float:
 func _fit_name(label: Label, max_size: int) -> void:
 	var available: float = label.size.x
 	var max_height: float = label.size.y - 2.0
-	var floor_size: int = MIN_WRAPPED_SIZE_FULL if mode == Mode.FULL else MIN_WRAPPED_SIZE_COMPACT
+	var floor_size: int = _wrapped_floor()
 	label.clip_contents = true
 	var candidates: Array[String] = [label.text]
 	if label.text.contains(","):
@@ -284,9 +333,22 @@ func _fit_name(label: Label, max_size: int) -> void:
 	label.add_theme_font_size_override("font_size", floor_size)
 
 
+## Smallest name sizes: the framed look has a narrower name bar (the compact look a bigger name plate over it).
+func _single_floor() -> int:
+	if _framed:
+		return 14 if mode == Mode.FULL else 18
+	return MIN_SINGLE_LINE_SIZE_FULL if mode == Mode.FULL else MIN_SINGLE_LINE_SIZE_COMPACT
+
+
+func _wrapped_floor() -> int:
+	if _framed:
+		return 10 if mode == Mode.FULL else 13
+	return MIN_WRAPPED_SIZE_FULL if mode == Mode.FULL else MIN_WRAPPED_SIZE_COMPACT
+
+
 func _try_fit_name(label: Label, text: String, max_size: int, floor_size: int, available: float, max_height: float) -> bool:
 	var font: Font = UIStyle.font_title()
-	var single_floor: int = MIN_SINGLE_LINE_SIZE_FULL if mode == Mode.FULL else MIN_SINGLE_LINE_SIZE_COMPACT
+	var single_floor: int = _single_floor()
 	label.text = text
 	label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	for size_try: int in range(max_size, single_floor - 1, -1):
@@ -314,6 +376,13 @@ func name_fits() -> bool:
 
 
 ## The art area: the whole card inside the frame border. Real art (assets/art/cards/<id>.webp) when it exists, the placeholder otherwise.
+## The area the art fills: inside the frame art window for the framed look, the whole card inside its border otherwise.
+func art_rect() -> Rect2:
+	if _framed:
+		return FRAME_ART_RECT
+	return Rect2(5, 5, SIZE.x - 10.0, SIZE.y - 10.0)
+
+
 func _build_art() -> void:
 	var rect: Rect2 = Rect2(5, 5, SIZE.x - 10.0, SIZE.y - 10.0)
 	var art_texture: Texture2D = null
@@ -488,7 +557,7 @@ func _rules_font_size() -> int:
 	return 11
 
 
-func _build_chips() -> void:
+func _chip_names() -> Array[String]:
 	var names: Array[String] = []
 	for keyword: CardEnums.Keyword in data.keywords:
 		names.append(KeywordInfo.keyword_name(keyword))
@@ -500,6 +569,11 @@ func _build_chips() -> void:
 		names.append(_type_text().split("-")[-1].strip_edges())
 	if names.is_empty() and data.rules_text != "":
 		names.append("Effect")
+	return names
+
+
+func _build_chips() -> void:
+	var names: Array[String] = _chip_names()
 	var y: float = 330.0
 	var x: float = 16.0
 	for chip_text: String in names:
@@ -586,6 +660,401 @@ func _build_overlays() -> void:
 		set_glow.call_deferred(_glow_kind)
 
 
+# ---- Framed look (the UI art kit card frames, docs/art/ui_art_kit.md) -------------------------
+
+
+## The frame overlay of this card: the Path frame, the multi-Path frame, Infrastructure, or Token ("" for a card with no data).
+func frame_id() -> String:
+	if data == null:
+		return ""
+	if data.is_token:
+		return "UI-FRAME-TOKEN"
+	if data.is_infrastructure():
+		return "UI-FRAME-INF"
+	if data.is_multipath():
+		return "UI-FRAME-MULTI"
+	return str(PATH_FRAMES.get(data.color, "UI-FRAME-C"))
+
+
+## The face-down image: the Path back for the human's own cards, the default back for opponents, colourless and mixed decks.
+func back_id() -> String:
+	if bool(get_meta("opponent_back", false)):
+		return "UI-CARDBACK-C"
+	return str(PATH_BACKS.get(player_back_path(), "UI-CARDBACK-C"))
+
+
+## The primary Path of the player deck (its card backs); NEUTRAL when there is no profile.
+static func player_back_path() -> Affinity.Type:
+	var loop: SceneTree = Engine.get_main_loop() as SceneTree
+	if loop == null:
+		return Affinity.Type.NEUTRAL
+	var session: Node = loop.root.get_node_or_null("Session")
+	if session == null or session.get("profile") == null:
+		return Affinity.Type.NEUTRAL
+	return (session.get("profile") as PlayerProfile).primary_affinity
+
+
+## The Path colours the cloth of a tinted frame takes (Beefcake red, Necrocrat green, Gourmand cream-copper, Refusemancer rust-moss).
+static func frame_cloth_color(path: Affinity.Type) -> Color:
+	return FRAME_CLOTH.get(path, Color("a09070")) as Color
+
+
+func _build_back_framed(back: Texture2D) -> void:
+	var picture: TextureRect = TextureRect.new()
+	picture.texture = back
+	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	picture.stretch_mode = TextureRect.STRETCH_SCALE
+	picture.size = SIZE
+	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(picture)
+
+
+func _build_framed() -> void:
+	_build_framed_art()
+	var rarity: int = int(data.rarity)
+	if rarity >= 2:
+		_build_framed_foil(rarity)
+	var texture_rect: TextureRect = TextureRect.new()
+	texture_rect.texture = UiArt.texture(frame_id())
+	texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	texture_rect.stretch_mode = TextureRect.STRETCH_SCALE
+	texture_rect.size = SIZE
+	texture_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_apply_frame_tint(texture_rect)
+	add_child(texture_rect)
+	_build_framed_name()
+	_build_framed_cost()
+	_build_framed_gem()
+	if mode == Mode.FULL:
+		_build_framed_type_line()
+		_build_framed_rules()
+	else:
+		_build_framed_chips()
+	_build_framed_stats()
+	_build_overlays()
+
+
+## Multi-Path, Infrastructure and Token frames take the card Path colours on their cloth.
+func _apply_frame_tint(texture_rect: TextureRect) -> void:
+	var paths: Array[Affinity.Type] = data.paths()
+	if paths.is_empty() and data.is_infrastructure() and data.produces_any:
+		paths = Affinity.colored_types()
+	var id: String = frame_id()
+	if paths.is_empty() or not (id == "UI-FRAME-MULTI" or id == "UI-FRAME-INF" or id == "UI-FRAME-TOKEN"):
+		return
+	var ordered: Array[Affinity.Type] = []
+	for path: Affinity.Type in FRAME_PATH_ORDER:
+		if paths.has(path):
+			ordered.append(path)
+	if ordered.is_empty():
+		return
+	var corners: Array[Color] = frame_corner_colors(ordered)
+	var material: ShaderMaterial = ShaderMaterial.new()
+	material.shader = load("res://ui/shaders/frame_tint.gdshader") as Shader
+	material.set_shader_parameter("top_left", corners[0])
+	material.set_shader_parameter("top_right", corners[1])
+	material.set_shader_parameter("bottom_left", corners[2])
+	material.set_shader_parameter("bottom_right", corners[3])
+	material.set_shader_parameter("cream_cloth", 1.0 if id == "UI-FRAME-MULTI" else 0.0)
+	texture_rect.material = material
+
+
+## The four corner colours (top-left, top-right, bottom-left, bottom-right) for a card Paths in frame order (B, N, G, R): one Path colours the whole
+## frame, two split it left/right, three and four give each corner its own band.
+static func frame_corner_colors(ordered: Array[Affinity.Type]) -> Array[Color]:
+	var colors: Array[Color] = []
+	for path: Affinity.Type in ordered:
+		colors.append(frame_cloth_color(path))
+	var result: Array[Color] = []
+	match colors.size():
+		1:
+			result = [colors[0], colors[0], colors[0], colors[0]]
+		2:
+			result = [colors[0], colors[1], colors[0], colors[1]]
+		3:
+			result = [colors[0], colors[1], colors[2], colors[1]]
+		_:
+			result = [colors[0], colors[1], colors[2], colors[3]]
+	return result
+
+
+func _build_framed_art() -> void:
+	var rect: Rect2 = FRAME_ART_RECT
+	add_child(_panel(rect, UIStyle.box(Color("1c1526"), Color(0, 0, 0, 0), 0, 10)))
+	var art_texture: Texture2D = null
+	if data.id != "":
+		art_texture = CardArt.compact(data.id) if mode == Mode.COMPACT else CardArt.texture(data.id)
+	if art_texture != null:
+		var picture: TextureRect = TextureRect.new()
+		picture.texture = art_texture
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		picture.clip_contents = true
+		picture.position = rect.position
+		picture.size = rect.size
+		picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(picture)
+	else:
+		_build_placeholder_art(rect)
+	# A soft dark ramp under the rules panel keeps text readable over any art.
+	var ramp: GradientTexture2D = GradientTexture2D.new()
+	var shade: Gradient = Gradient.new()
+	shade.set_color(0, Color(0, 0, 0, 0))
+	shade.set_color(1, Color(0.04, 0.02, 0.07, 0.7))
+	ramp.gradient = shade
+	ramp.fill_from = Vector2(0.0, 0.0)
+	ramp.fill_to = Vector2(0.0, 1.0)
+	var scrim: TextureRect = TextureRect.new()
+	scrim.texture = ramp
+	scrim.position = Vector2(rect.position.x, 270.0)
+	scrim.size = Vector2(rect.size.x, rect.end.y - 270.0)
+	scrim.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	scrim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(scrim)
+
+
+func _build_framed_foil(rarity: int) -> void:
+	var sheen: Gradient = Gradient.new()
+	sheen.offsets = PackedFloat32Array([0.0, 0.42, 0.5, 0.58, 1.0])
+	sheen.colors = PackedColorArray([Color(1, 1, 1, 0.0), Color(1, 1, 1, 0.0), Color(1, 1, 1, 0.16 if rarity == 2 else 0.24), Color(1, 1, 1, 0.0), Color(1, 1, 1, 0.0)])
+	var texture: GradientTexture2D = GradientTexture2D.new()
+	texture.gradient = sheen
+	texture.fill_from = Vector2(0.0, 0.0)
+	texture.fill_to = Vector2(1.0, 0.85)
+	var rect: TextureRect = TextureRect.new()
+	rect.texture = texture
+	rect.position = FRAME_ART_RECT.position
+	rect.size = FRAME_ART_RECT.size
+	rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(rect)
+
+
+func _build_framed_name() -> void:
+	var rect: Rect2 = FRAME_NAME_RECT
+	var plate: Texture2D = UiArt.texture("UI-NAMEPLATE") if mode == Mode.COMPACT else null
+	if plate != null:
+		var plate_rect: TextureRect = TextureRect.new()
+		plate_rect.texture = plate
+		plate_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		plate_rect.stretch_mode = TextureRect.STRETCH_SCALE
+		plate_rect.position = COMPACT_PLATE_RECT.position
+		plate_rect.size = COMPACT_PLATE_RECT.size
+		plate_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(plate_rect)
+		rect = COMPACT_NAME_RECT
+	_name_label = Label.new()
+	_name_label.clip_text = true
+	_name_label.custom_minimum_size = Vector2.ZERO
+	_name_label.text = _display_name()
+	_name_label.position = rect.position
+	_name_label.size = rect.size
+	_name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_name_label.add_theme_font_override("font", UIStyle.font_title())
+	_name_label.add_theme_color_override("font_color", FRAME_NAME_INK)
+	_name_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	_name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_fit_name(_name_label, 22 if mode == Mode.FULL else 26)
+	_name_label.add_theme_constant_override("line_spacing", -6)
+	add_child(_name_label)
+
+
+## The cost socket: the card total energy as a number; the coloured pips it needs sit just below it. Infrastructure shows its Path colour.
+func _build_framed_cost() -> void:
+	if data.is_infrastructure():
+		var path_colour: Color = UIStyle.affinity_color(data.color) if not data.produces_any else Color("e8d9b0")
+		add_child(_framed_pip_dot(FRAME_COST_CENTER, 11.0, path_colour))
+		return
+	if data.is_token and data.energy_value() == 0:
+		return
+	var label: Label = Label.new()
+	label.text = str(data.energy_value())
+	label.position = FRAME_COST_CENTER - Vector2(22, 22)
+	label.size = Vector2(44, 44)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_override("font", UIStyle.font_title())
+	label.add_theme_font_size_override("font_size", 28 if label.text.length() < 2 else 22)
+	label.add_theme_color_override("font_color", Color("ffffff"))
+	label.add_theme_color_override("font_outline_color", Color("1b1020"))
+	label.add_theme_constant_override("outline_size", 7)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(label)
+	var pips: Array[Affinity.Type] = data.colored_pips
+	var step: float = minf(19.0, 150.0 / float(maxi(pips.size(), 1)))
+	for index: int in range(pips.size()):
+		add_child(_framed_pip_dot(Vector2(40.0 + step * float(index), 70.0), 8.5, UIStyle.affinity_color(pips[index])))
+
+
+func _framed_pip_dot(center: Vector2, radius: float, color: Color) -> Control:
+	var dot: FramePip = FramePip.new()
+	dot.color = color
+	dot.radius = radius
+	dot.position = center - Vector2(radius + 2.0, radius + 2.0)
+	dot.size = Vector2(radius + 2.0, radius + 2.0) * 2.0
+	dot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	return dot
+
+
+## The rarity gem set into the left rail of the frame (the diamond ornament; every frame has one there).
+func _build_framed_gem() -> void:
+	var gem_texture: Texture2D = UiArt.texture(RARITY_GEMS[clampi(int(data.rarity), 0, 3)])
+	if gem_texture == null:
+		return
+	var gem: TextureRect = TextureRect.new()
+	gem.texture = gem_texture
+	gem.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	gem.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	var gem_size: float = 31.0 if int(data.rarity) < 3 else 35.0
+	gem.size = Vector2(gem_size, gem_size)
+	gem.position = FRAME_GEM_CENTER - gem.size * 0.5
+	gem.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(gem)
+
+
+func _build_framed_type_line() -> void:
+	var label: Label = Label.new()
+	label.text = _type_text()
+	label.position = Vector2(38, 293)
+	label.size = Vector2(224, 17)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.clip_text = true
+	label.add_theme_font_override("font", UIStyle.font_bold())
+	var type_size: int = 15
+	while type_size > 10 and UIStyle.font_bold().get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, type_size).x > label.size.x:
+		type_size -= 1
+	label.add_theme_font_size_override("font_size", type_size)
+	label.add_theme_color_override("font_color", UIStyle.GOLD)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(label)
+
+
+## The rules panel of the frame: light text on its dark panel; units leave the lower-right corner to the attack/defense sockets.
+func _build_framed_rules() -> void:
+	var rect: Rect2 = _framed_rules_rect()
+	var rules: RichTextLabel = RichTextLabel.new()
+	rules.bbcode_enabled = true
+	rules.position = rect.position
+	rules.size = rect.size
+	rules.scroll_active = false
+	rules.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	rules.add_theme_color_override("default_color", UIStyle.PARCHMENT)
+	var size_px: int = _rules_font_size_for(rect)
+	for key: String in ["normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size"]:
+		rules.add_theme_font_size_override(key, size_px)
+	var text: String = KeywordInfo.rules_bbcode(data, true)
+	if _shows_flavor():
+		text += "\n[i][color=#b9a9c4]%s[/color][/i]" % data.flavor_text
+	rules.text = text
+	add_child(rules)
+
+
+func _framed_rules_rect() -> Rect2:
+	return FRAME_RULES_UNIT if data.is_unit() else FRAME_RULES_OTHER
+
+
+func _shows_flavor() -> bool:
+	return data.flavor_text != "" and data.rules_text.length() < 40
+
+
+func _rules_font_size_for(rect: Rect2) -> int:
+	var plain: String = data.rules_text if data.rules_text != "" else (KeywordInfo.rules_bbcode(data) if data.is_infrastructure() else "")
+	if _shows_flavor():
+		plain += "\n" + data.flavor_text
+	var font: Font = UIStyle.font_bold()
+	for candidate: int in range(20, 10, -1):
+		var measured: Vector2 = font.get_multiline_string_size(plain, HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 2.0, candidate)
+		if measured.y <= rect.size.y:
+			return candidate
+	return 11
+
+
+## Compact look: keyword chips in the rules panel.
+func _build_framed_chips() -> void:
+	var names: Array[String] = _chip_names()
+	var y: float = 304.0
+	var x: float = 40.0
+	for chip_text: String in names:
+		var width: float = UIStyle.font_bold().get_string_size(chip_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + 18.0
+		if x + width > 262.0:
+			x = 40.0
+			y += 31.0
+		var chip: Panel = _panel(Rect2(x, y, width, 28), UIStyle.box(Color(0.05, 0.03, 0.08, 0.85), accent.lightened(0.15), 2, 14))
+		add_child(chip)
+		var label: Label = Label.new()
+		label.text = chip_text
+		label.position = Vector2(x, y)
+		label.size = Vector2(width, 28)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.add_theme_font_override("font", UIStyle.font_bold())
+		label.add_theme_font_size_override("font_size", 20)
+		label.add_theme_color_override("font_color", UIStyle.GOLD)
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(label)
+		x += width + 5.0
+
+
+## Attack and defense numbers in the frame own sockets (circle = attack, shield = defense). The compact look puts the stat plaque over them, bigger.
+func _build_framed_stats() -> void:
+	if not data.is_unit():
+		return
+	var attack_center: Vector2 = FRAME_ATTACK_CENTER
+	var defense_center: Vector2 = FRAME_DEFENSE_CENTER
+	var font_size: int = 25
+	if mode == Mode.COMPACT:
+		var plaque: Texture2D = UiArt.texture("UI-STAT-PLAQUE")
+		var plaque_size: Vector2 = Vector2(136, 48)
+		var center: Vector2 = Vector2(228, 391)
+		if plaque != null:
+			var rect: TextureRect = TextureRect.new()
+			rect.texture = plaque
+			rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			rect.stretch_mode = TextureRect.STRETCH_SCALE
+			rect.size = plaque_size
+			rect.position = center - plaque_size * 0.5
+			rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			add_child(rect)
+		attack_center = center + Vector2(-31, 0)
+		defense_center = center + Vector2(31, 0)
+		font_size = 34
+	_attack_label = _stat_label(attack_center, font_size)
+	_defense_label = _stat_label(defense_center, font_size)
+	_set_stats(data.attack, data.defense, 0)
+
+
+func _stat_label(center: Vector2, font_size: int) -> Label:
+	var label: Label = Label.new()
+	label.size = Vector2(40, 36)
+	label.position = center - label.size * 0.5
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_override("font", UIStyle.font_title())
+	label.add_theme_font_size_override("font_size", font_size)
+	label.add_theme_color_override("font_color", Color("ffffff"))
+	label.add_theme_color_override("font_outline_color", Color("1b1020"))
+	label.add_theme_constant_override("outline_size", 7)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(label)
+	return label
+
+
+## A round cost pip, drawn for the coloured requirements under the cost socket.
+class FramePip:
+	extends Control
+	var color: Color = Color.WHITE
+	var radius: float = 8.0
+
+	func _draw() -> void:
+		var center: Vector2 = size * 0.5
+		draw_circle(center + Vector2(0, 1.2), radius + 1.5, Color(0, 0, 0, 0.5))
+		draw_circle(center, radius + 1.0, color.darkened(0.55))
+		draw_circle(center, radius - 0.5, color)
+		draw_circle(center + Vector2(-radius * 0.28, -radius * 0.32), radius * 0.32, Color(1, 1, 1, 0.4))
+
+
 # ---- Live state (battle) ----------------------------------------------------------------
 
 
@@ -593,6 +1062,20 @@ func _set_stats(attack: int, defense: int, damage: int) -> void:
 	if _attack_label == null:
 		return
 	var shown_defense: int = defense - damage
+	var attack_color: Color = Color("ffffff") if _framed else UIStyle.PARCHMENT
+	var defense_color: Color = attack_color
+	if damage > 0 or defense < _base_defense:
+		defense_color = Color("ff8080")
+	elif defense > _base_defense:
+		defense_color = Color("9be49f")
+	if attack > _base_attack:
+		attack_color = Color("9be49f")
+	if _defense_label != null:
+		_attack_label.text = str(attack)
+		_defense_label.text = str(shown_defense)
+		_attack_label.add_theme_color_override("font_color", attack_color)
+		_defense_label.add_theme_color_override("font_color", defense_color)
+		return
 	_attack_label.text = "%d/%d" % [attack, shown_defense]
 	var color: Color = UIStyle.PARCHMENT
 	if damage > 0 or defense < _base_defense:

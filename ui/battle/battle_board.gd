@@ -119,6 +119,7 @@ func ensure_view(uid: int, zone: Zone, owner_index: int, from: Vector2 = Vector2
 	var view: CardView = CardView.create(data, CardView.Mode.BACK if hidden else _mode_for(zone))
 	view.instance_uid = uid
 	view.set_meta("owner", owner_index)
+	view.set_meta("opponent_back", owner_index != human)
 	view.set_meta("hidden", hidden)
 	view.hovered.connect(func(v: CardView) -> void: _on_hover(v))
 	view.unhovered.connect(func(v: CardView) -> void: _on_unhover(v))

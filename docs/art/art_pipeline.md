@@ -99,3 +99,8 @@ Every dungeon of the dungeon list (`data/source/dungeon_list.csv`, imported by `
 - **Paths between nodes:** `map_layout.json` key `paths` decides per map how the lines are drawn over the picture: `full` (the old look), `subtle` (thin dim lines for the paths not walked yet), `highlight` (only the walked and the next paths, straight lines that follow the painted path) or `none`.
   All maps except the Forgotten Vault use `highlight`: the painted paths are clear, so locked paths are not drawn over them. The Forgotten Vault uses `subtle` because its bridges are partly hidden behind walls.
 - **Tests:** `tests/core/data/test_map_art.gd` (importer, never crops, every dungeon has a 3:2 map and a fitted position for every node, nodes do not overlap, the screen shows the picture whole).
+
+## UI art kit
+
+When the user says **"import UI art"**, run `bash tools/import_ui_art.sh` (the Drive `Approved_UI` folder, copy-only; `docs/art/ui_art_kit.md`) and report what was added, the UI IDs of the kit still
+missing and the files that match no ID. Never create or fetch UI art yourself.

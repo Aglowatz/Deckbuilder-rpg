@@ -46,11 +46,11 @@ static func entries_for(card: CardData) -> Array[Array]:
 
 
 ## Turns card rules text into BBCode with keywords in bold gold.
-static func rules_bbcode(card: CardData) -> String:
+static func rules_bbcode(card: CardData, on_dark: bool = false) -> String:
 	var text: String = card.rules_text
 	if card.is_infrastructure() and text.is_empty():
 		text = "Exhaust: add one %s energy." % UIStyle.affinity_name(card.color)
-	var gold: String = UIStyle.GOLD.darkened(0.45).to_html(false)
+	var gold: String = (UIStyle.GOLD if on_dark else UIStyle.GOLD.darkened(0.45)).to_html(false)
 	var words: Array[String] = ["Trap"]
 	for keyword: CardEnums.Keyword in KEYWORD_TEXT.keys():
 		words.append(keyword_name(keyword))
