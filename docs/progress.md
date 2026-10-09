@@ -2898,3 +2898,23 @@ Progress checklist: `docs/overnight_progress.md`. Judgment calls: `docs/design/o
 8. Art wanted: tortoise model for Maren, portraits for the Rescuer / Siphon / king / queen, MAP-LAB and BB-LAB, a hatch model (`docs/assets_wanted.md`).
 
 **Playtest first**: (1) new game: the forest, the Rescuer conversation and Path choice, the cave, Maren at the cave mouth; (2) walk Crosspath from the fountain to every shop and look at the plaza and market streets; (3) try to build a 2-Path deck, free a zone, talk to Maren (memory 1 and the second-Path popup); (4) the House of Gains with and without rescuing Flex; (5) rush the castle with fewer than four zones for Primm's reveal; (6) the ending and Rip's forest portal and the Lab (it is placeholder-hard).
+
+## UI art kit (Parts A-E) - done
+
+All 55 images of the kit (`data/source/ui_art_kit.csv`) are imported from the Drive `Approved_UI` folder (copy-only; none missing, no file matched no ID, none needed flat-background removal)
+into `assets/art/ui/` by `bash tools/import_ui_art.sh` ("import UI art"; `docs/art/ui_art_kit.md`). Two derived files (`UI-PANEL-MAIN-DARK`, `UI-PANEL-POPUP-DARK`) keep the brass and
+wood but darken the parchment so the game's light text stays readable. Missing images keep the old code-drawn look everywhere.
+
+- **A, cards:** `CardView` draws the art in the frame window and the frame on top: Path frames B/N/G/R/C, MULTI (cloth recoloured per Path by `frame_tint.gdshader`), INF and TOKEN (tinted by
+  Path); name in the name bar, total cost in the socket with the coloured pips beneath, rarity gem on the left rail, type line and rules in the dark panel, attack/defense in the frame sockets.
+  Compact (battlefield) look: same frame, UI-NAMEPLATE over the name bar, keyword chips in the panel, UI-STAT-PLAQUE over the sockets. Card backs by the player's primary Path, default for
+  opponents. It applies everywhere `CardView` is used (hand, hover/zoom, battlefield, deck builder, collection, vendors, pack opening, rewards, codex).
+- **B, theme:** `UiSkin` (applied by `SceneManager`) puts 9-slice art on the project theme: main panel, `DarkPanel` = HUD chip, tooltip, reward popup, dialogue panel; secondary / primary / danger
+  buttons with generated hover, pressed and disabled states; HP and XP bar frames (`ArtBar` draws the game fill in the channel); minimap frame with a circular mask; round close button; both cursors.
+  NPC dialogue uses the dialogue panel and the name plate (portrait layout unchanged).
+- **C, battle HUD:** player plates, HP bars, resource tray (on its side), token tray, deck piles, Refuse Pile tray (still clickable), item and trap slots, round End Turn button.
+- **D, screens and packs:** backgrounds for character (five slots on the painted silhouette), deck builder/codex, quest log, world map, pack opening and menus (pause, settings, save/load); pack art
+  in vendors, rewards, inventory lists and the opening animation (the strip tears off), Gilded packs tinted per Path with the Path's emblem.
+- **E, verification:** `tools/ui_verify.sh` (every screen above at 1600x900 and a smaller window) and the sheets `tools/ui_gallery.gd`, `tools/ui_cards_review.gd`. GUT: 1245 tests pass (6 new in
+  `tests/test_ui_art.gd`; 4 older ones were updated for the framed card). The human-input battle smoke passes with the new End Turn button.
+- Judgment calls: `docs/design/open_questions.md`, "UI art kit" (UI-1 to UI-23).

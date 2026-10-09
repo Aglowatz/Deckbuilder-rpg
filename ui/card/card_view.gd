@@ -66,7 +66,7 @@ const FRAME_NAME_INK: Color = Color("2b2233")
 const FRAME_COST_CENTER: Vector2 = Vector2(39, 34.5)
 const FRAME_GEM_CENTER: Vector2 = Vector2(20.5, 166)
 const FRAME_RULES_UNIT: Rect2 = Rect2(40, 312, 222, 68)
-const FRAME_RULES_OTHER: Rect2 = Rect2(40, 312, 222, 94)
+const FRAME_RULES_OTHER: Rect2 = Rect2(40, 312, 222, 80)
 const FRAME_ATTACK_CENTER: Vector2 = Vector2(225.5, 392.5)
 const FRAME_DEFENSE_CENTER: Vector2 = Vector2(265.0, 394.0)
 

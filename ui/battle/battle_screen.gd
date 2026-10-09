@@ -1061,7 +1061,7 @@ func _toast(message: String) -> void:
 
 
 func _build_refuse_piles() -> void:
-	var spots: Array[Vector2] = [Vector2(340, 884), Vector2(520, 20)]
+	var spots: Array[Vector2] = [Vector2(372, 884), Vector2(520, 20)]
 	for index: int in range(2):
 		var widget: RefusePileWidget = RefusePileWidget.new()
 		_board_root.add_child(widget)

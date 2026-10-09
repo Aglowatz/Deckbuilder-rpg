@@ -61,8 +61,25 @@ func _show_level_popup() -> void:
 		label.custom_minimum_size = Vector2(640, 0)
 		bonus_row.add_child(label)
 		bonus_list.add_child(bonus_row)
+	_add_xp_bar(row)
 	_frame.animate_in()
 	Audio.sfx(&"level_up")
+
+
+## The XP bar (UI-BAR-XP) under the bonuses: how far the hero is toward the level after this one.
+func _add_xp_bar(row: LevelData) -> void:
+	if row.level >= ProgressionTable.MAX_LEVEL or Session.profile == null or not UiArt.has("UI-BAR-XP"):
+		return
+	var floor_xp: int = ProgressionTable.xp_to_reach(row.level)
+	var ceil_xp: int = ProgressionTable.xp_to_reach(row.level + 1)
+	var bar: ProgressBar = ProgressBar.new()
+	bar.show_percentage = false
+	bar.max_value = maxf(1.0, float(ceil_xp - floor_xp))
+	bar.value = clampf(float(Session.profile.xp - floor_xp), 0.0, bar.max_value)
+	bar.custom_minimum_size = Vector2(640, 0)
+	UiSkin.skin_bar(bar, "xp", 44.0, UIStyle.GOLD)
+	_frame.body.add_child(bar)
+	_frame.body.add_child(UIKit.label("XP toward level %d: %d / %d" % [row.level + 1, int(bar.value), int(bar.max_value)], &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 
 
 ## Bonuses gained at `row`, compared to the previous level's row (mirrors
