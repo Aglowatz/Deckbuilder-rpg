@@ -166,6 +166,20 @@
 	"capital_facade": {"inherit": "capital_outskirts"},
 	"capital_inside": {"inherit": "capital_outskirts"},
 	"capital_inside_dark": {"inherit": "capital_outskirts"},
+	"castle": {
+		"ground": "swap",
+		"seed": 61,
+		"macro": 0.1,
+		"tint": 0.2,
+		"normal": 0.35,
+		"sheen": 0.2,
+		"layers": [
+			{"tex": "castle_marble", "tile": 3.4, "mode": "base"},
+			{"tex": "castle_parquet", "tile": 2.6, "aligned": true, "mode": "mask", "mask": "gallery", "soft": 0.06, "warp": 0.0}
+		],
+		"cliff": {"tex": "castle_marble", "tile": 3.0, "keep": 0.1},
+		"props": {"plaster": "cap_whitewall"}
+	},
 	"town": {
 		"ground": "overlay",
 		"seed": 11,

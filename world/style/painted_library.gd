@@ -177,3 +177,42 @@ static func noise() -> Texture2D:
 				image.set_pixel(x, y, Color(value, value, value))
 		_textures["noise"] = ImageTexture.create_from_image(image)
 	return _textures["noise"] as Texture2D
+
+
+## Textures the game code uses directly (not through a preset): the Buffet's flowing gravy and the D.N.A.'s two-band walls.
+const CODE_USED: Array[String] = ["buff_gravy", "dna_paneling", "dna_wallpaper"]
+
+
+## Every texture and decal name (decals as "decal:<name>") the game uses: the presets' layers, variants, cliffs, specials, prop overrides and decals, the shared material
+## array and the textures the code uses directly. Sorted, without duplicates.
+static func catalog() -> PackedStringArray:
+	var found: Dictionary = {}
+	for name: String in MATERIAL_LAYERS:
+		found[name] = true
+	for name: String in CODE_USED:
+		found[name] = true
+	preset(&"town")
+	for id: Variant in _presets.keys():
+		if str(id).begins_with("_"):
+			continue
+		var data: Dictionary = preset(StringName(str(id)))
+		var scopes: Array[Dictionary] = [data]
+		for variant: Variant in (data.get("variants", {}) as Dictionary).values():
+			scopes.append(variant as Dictionary)
+		for scope: Dictionary in scopes:
+			for layer: Variant in scope.get("layers", []) as Array:
+				found[str((layer as Dictionary)["tex"])] = true
+		var cliff: Dictionary = data.get("cliff", {}) as Dictionary
+		if cliff.has("tex"):
+			found[str(cliff["tex"])] = true
+		for special: Variant in data.get("special", []) as Array:
+			found[str((special as Dictionary)["tex"])] = true
+		for value: Variant in (data.get("props", {}) as Dictionary).values() if data.get("props") is Dictionary else []:
+			found[str(value)] = true
+		for value: Variant in (data.get("atlas_override", {}) as Dictionary).values():
+			found[str(value)] = true
+		for decal: Variant in data.get("decals", []) as Array:
+			found["decal:%s" % str((decal as Dictionary)["id"])] = true
+	var names: PackedStringArray = PackedStringArray(found.keys())
+	names.sort()
+	return names

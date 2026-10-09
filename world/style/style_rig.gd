@@ -22,13 +22,15 @@ var quality_override: int = -1
 var cull_distance: float = 0.0
 ## A hand-tuned preset used instead of the one named by `preset_id` (the dungeon stages build theirs from their own colours).
 var preset_override: ZonePreset
+## The painted-texture preset (data/art/texture_presets.json) when it differs from the style preset (the dungeon stages share one style preset; only the castle is painted).
+var painted_id: StringName = &""
 
 var _scene_root: Node
 var _pending: Array[Node] = []
 var _flush_queued: bool = false
 
 
-static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_target: Node3D = null, cull: float = 0.0, preset_override: ZonePreset = null) -> StyleRig:
+static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_target: Node3D = null, cull: float = 0.0, preset_override: ZonePreset = null, painted_id: StringName = &"") -> StyleRig:
 	if OS.get_environment("NO_STYLE") != "":
 		return null
 	var rig: StyleRig = StyleRig.new()
@@ -38,6 +40,7 @@ static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_t
 	rig.follow = follow_target
 	rig.cull_distance = cull
 	rig.preset_override = preset_override
+	rig.painted_id = painted_id
 	scene.add_child(rig)
 	return rig
 
@@ -52,7 +55,7 @@ func quality() -> int:
 func _ready() -> void:
 	_scene_root = get_parent()
 	preset = preset_override if preset_override != null else StylePresets.get_preset(preset_id)
-	PaintedClasses.begin_zone(preset_id)
+	PaintedClasses.begin_zone(painted_id if painted_id != &"" else preset_id)
 	_remove_old_environment()
 	world_env = WorldEnvironment.new()
 	world_env.name = "StyleEnvironment"

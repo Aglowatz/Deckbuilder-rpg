@@ -25,6 +25,11 @@ var _time: float = 0.0
 var _pulse: Node3D
 var _preset: ZonePreset
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
+## The floor tiles of the stage (the castle paints them with the palace marble and parquet, docs/art/style_guide.md).
+var _floor_tiles: Array = []
+## Screenshot tooling: moves the swaying camera (tools/backdrop_preview.tscn).
+var camera_offset: Vector3 = Vector3.ZERO
+var painted_world: PaintedWorld
 
 
 static func make(theme_name: String) -> DungeonBackdrop:
@@ -52,6 +57,7 @@ func _ready() -> void:
 	add_child(_camera)
 	_camera.current = true
 	_install_style()
+	_paint_castle()
 	_update_camera()
 
 
@@ -64,7 +70,7 @@ func _process(delta: float) -> void:
 
 
 func _update_camera() -> void:
-	_camera.position = Vector3(sin(_time * 0.08) * 2.5, 11.0, 10.5)
+	_camera.position = Vector3(sin(_time * 0.08) * 2.5, 11.0, 10.5) + camera_offset
 	_camera.look_at(Vector3(0, 0.2, 0.5), Vector3.UP)
 
 
@@ -96,7 +102,7 @@ func _sun(color: Color, energy: float, rotation_deg: Vector3) -> void:
 
 
 func _install_style() -> void:
-	var rig: StyleRig = StyleRig.install(self, StylePresets.DUNGEON, _camera, null, 0.0, _preset)
+	var rig: StyleRig = StyleRig.install(self, StylePresets.DUNGEON, _camera, null, 0.0, _preset, &"castle" if theme == "castle" else &"")
 	rig.name = "StyleRig"
 
 
@@ -180,7 +186,7 @@ func _floor(width: int, depth: int, size: float, color_a: Color, color_b: Color,
 	for row: int in range(depth):
 		for col: int in range(width):
 			var pos: Vector3 = Vector3((float(col) - float(width - 1) * 0.5) * size, y, (float(row) - float(depth - 1) * 0.5) * size)
-			_box(Vector3(size * 0.98, 0.2, size * 0.98), material_a if (row + col) % 2 == 0 else material_b, pos)
+			_floor_tiles.append(_box(Vector3(size * 0.98, 0.2, size * 0.98), material_a if (row + col) % 2 == 0 else material_b, pos))
 
 
 func _steam(pos: Vector3, color: Color) -> void:
@@ -483,3 +489,13 @@ func _build_castle() -> void:
 	motes.mesh = mote_mesh
 	motes.material_override = _material(Color("ffe8b0"), 0.3, 2.0)
 	add_child(motes)
+
+
+## Primm's Castle: the hall floor becomes polished palace marble with a gold-parquet gallery down the middle (data/art/texture_presets.json, preset `castle`).
+func _paint_castle() -> void:
+	if theme != "castle" or _floor_tiles.is_empty():
+		return
+	var gallery: Rect2 = Rect2(-10.0, -4.2, 20.0, 8.4)
+	var gallery_mask: Callable = func(p: Vector2) -> float:
+		return PaintedContexts.rect_mask(p, gallery)
+	painted_world = PaintedWorld.apply(self, null, &"castle", {"bounds": Rect2(-12.0, -8.0, 24.0, 16.0), "masks": {"gallery": gallery_mask}, "terrain": _floor_tiles})

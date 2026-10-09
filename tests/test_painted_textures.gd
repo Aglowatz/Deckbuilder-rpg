@@ -107,3 +107,34 @@ func test_material_array_has_every_layer() -> void:
 	var array: Texture2DArray = PaintedLibrary.material_array()
 	assert_not_null(array)
 	assert_eq(array.get_layers(), PaintedLibrary.MATERIAL_LAYERS.size())
+
+
+func test_every_imported_texture_is_used_somewhere() -> void:
+	var used: PackedStringArray = PaintedLibrary.catalog()
+	var imported: PackedStringArray = PackedStringArray()
+	for file_name: String in DirAccess.get_files_at("res://assets/art/textures"):
+		if file_name.ends_with("_albedo.webp"):
+			imported.append(file_name.trim_suffix("_albedo.webp"))
+	for file_name: String in DirAccess.get_files_at("res://assets/art/decals"):
+		if file_name.ends_with(".webp"):
+			imported.append("decal:%s" % file_name.trim_suffix(".webp"))
+	for name: String in imported:
+		assert_true(used.has(name), "%s is imported but no zone preset, variant or code path uses it" % name)
+	for name: String in used:
+		assert_true(imported.has(name), "%s is used but not imported" % name)
+
+
+func test_variants_and_specials_name_existing_textures() -> void:
+	var file: FileAccess = FileAccess.open(PaintedLibrary.PRESETS_PATH, FileAccess.READ)
+	var data: Dictionary = JSON.parse_string(file.get_as_text()) as Dictionary
+	for id: String in data.keys():
+		if id.begins_with("_"):
+			continue
+		var preset: Dictionary = PaintedLibrary.preset(StringName(id))
+		for variant: Variant in (preset.get("variants", {}) as Dictionary).values():
+			for layer: Variant in (variant as Dictionary).get("layers", []) as Array:
+				assert_not_null(PaintedLibrary.albedo(str((layer as Dictionary)["tex"])), "%s variant layer" % id)
+		for special: Variant in preset.get("special", []) as Array:
+			assert_gte(PaintedLibrary.layer_index(str((special as Dictionary)["tex"])), 0, "%s special %s must be in the material array" % [id, (special as Dictionary)["tex"]])
+		assert_lte((preset.get("special", []) as Array).size() + (preset.get("atlas_override", {}) as Dictionary).size(), 3, "%s: at most three special kinds" % id)
+	assert_true(PaintedLibrary.missing.is_empty())
