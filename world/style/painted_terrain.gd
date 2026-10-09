@@ -64,7 +64,7 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 		var ref: Color = PaintedLibrary.linear(PaintedLibrary.color_of(ref_value))
 		refs.append(Vector4(ref.r, ref.g, ref.b, float(layer.get("keep", 0.0))))
 		tiles.append(float(layer.get("tile", 6.0)))
-		extras.append(Vector4(1.0 if bool(layer.get("aligned", false)) else 0.0, 0.0, 0.0, 0.0))
+		extras.append(Vector4(1.0 if bool(layer.get("aligned", false)) else 0.0, 1.0 if bool(layer.get("plain", false)) else 0.0, 0.0, 0.0))
 		count += 1
 	# Splat channel k of the mask texture belongs to the k-th mask layer; the shader reads channel (layer index - 1), so mask layers are remapped to their layer index.
 	while modes.size() < MAX_LAYERS:

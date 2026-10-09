@@ -128,6 +128,8 @@ static func zone(scene: ZoneScene, preset_id: StringName) -> Dictionary:
 	match preset_id:
 		StylePresets.GAINLANDS:
 			context.merge(gainlands(scene), true)
+		StylePresets.CAPITAL_FACADE, StylePresets.CAPITAL_OUTSKIRTS, StylePresets.CAPITAL_DARK, StylePresets.CAPITAL_FREED, StylePresets.CAPITAL_INSIDE, StylePresets.CAPITAL_INSIDE_DARK:
+			context.merge(capital(scene), true)
 		StylePresets.HEAP:
 			context.merge(heap(scene), true)
 		StylePresets.BUFFET:
@@ -292,5 +294,62 @@ static func heap(scene: ZoneScene) -> Dictionary:
 	return {
 		"bounds": Rect2(0, 0, 100, 82),
 		"masks": {"fields": fields_mask, "junk": junk_mask, "compost": compost_mask, "grass": grass_mask, "path": path_mask},
+		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),
+	}
+
+
+## The Capital: outside the walls ash gray ground, dead grass (dead/grass/soil cells) and cracked paving (roads, metal, tiles, hub); inside the walls pastel paving and a perfect striped
+## lawn. The masks come from the layout's own floor kinds; the two huge planes beyond the map get their own plain variants so no mask streaks run off the edge.
+static func capital(scene: ZoneScene) -> Dictionary:
+	var builder: CapitalBuilder = scene.builder as CapitalBuilder
+	var layout: CapitalLayout = builder.layout
+	var wall_z: float = float(CapitalLayout.WALL_Z0)
+	var kind_at: Callable = func(p: Vector2) -> int:
+		return int(layout.floor_at(int(floorf(p.x)), int(floorf(p.y))))
+	var inside: Callable = func(p: Vector2) -> bool: return p.y < wall_z
+	var paved_mask: Callable = func(p: Vector2) -> float:
+		if inside.call(p):
+			return 0.0
+		match int(kind_at.call(p)):
+			CapitalLayout.Floor.ROAD, CapitalLayout.Floor.GRAY, CapitalLayout.Floor.METAL, CapitalLayout.Floor.TILE, CapitalLayout.Floor.HUB, CapitalLayout.Floor.PLAZA:
+				return 1.0
+		return 0.0
+	var dead_mask: Callable = func(p: Vector2) -> float:
+		if inside.call(p):
+			return 0.0
+		match int(kind_at.call(p)):
+			CapitalLayout.Floor.DEAD, CapitalLayout.Floor.GRASS, CapitalLayout.Floor.SOIL:
+				return 1.0
+		return 0.0
+	var lawn_mask: Callable = func(p: Vector2) -> float:
+		if not inside.call(p):
+			return 0.0
+		match int(kind_at.call(p)):
+			CapitalLayout.Floor.LAWN, CapitalLayout.Floor.SOIL, CapitalLayout.Floor.GRASS:
+				return 1.0
+		return 0.0
+	var pastel_mask: Callable = func(p: Vector2) -> float:
+		if not inside.call(p) or int(layout.cell_at(int(floorf(p.x)), int(floorf(p.y)))) == int(CapitalLayout.Cell.VOID):
+			return 0.0
+		return 1.0 - float(lawn_mask.call(p))
+	var rift_spots: Array[Vector3] = []
+	for rift: CapitalLayout.Rift in layout.rifts:
+		rift_spots.append(Vector3(rift.pos.x, rift.pos.y, rift.radius + 2.0))
+	var rift_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.prop_cover(rift_spots, p)
+	var outside_mask: Callable = func(p: Vector2) -> float: return 0.0 if inside.call(p) else 1.0
+	var terrain: Array = []
+	var swaps: Array = []
+	for node: Node in builder.root.get_children():
+		if node.name == &"Ground" or node.name == &"CreaseGround":
+			terrain.append(node)
+		elif node.name == &"Wasteland":
+			swaps.append({"node": node, "variant": "wasteland"})
+		elif node.name == &"Meadow":
+			swaps.append({"node": node, "variant": "meadow"})
+	return {
+		"bounds": Rect2(0, 0, float(CapitalLayout.W), float(CapitalLayout.H)),
+		"masks": {"paved": paved_mask, "dead": dead_mask, "lawn": lawn_mask, "pastel": pastel_mask, "rift": rift_mask, "outside": outside_mask},
+		"terrain": terrain,
+		"swaps": swaps,
 		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),
 	}

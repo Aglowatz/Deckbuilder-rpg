@@ -82,7 +82,17 @@ void vertex() {
 	v_up = normalize(mat3(MODEL_MATRIX) * NORMAL).y;
 }
 
-void sample_layer(sampler2D a, sampler2D n, Tri t, vec2 p, vec2 dpx, vec2 dpy, float tile, bool aligned, float dist_cam, bool want_normal, out vec3 col, out vec3 nr) {
+void sample_layer(sampler2D a, sampler2D n, Tri t, vec2 p, vec2 dpx, vec2 dpy, float tile, bool aligned, bool plain, float dist_cam, bool want_normal, out vec3 col, out vec3 nr) {
+	if (plain) {
+		// Strictly regular art (checkers, stripes, tiles): one ordinary tap, no stochastic blending (it would smear the grid).
+		col = textureGrad(a, p / tile, dpx / tile, dpy / tile).rgb;
+		nr = vec3(0.0, 0.0, 0.8);
+		if (want_normal && dist_cam < normal_far) {
+			vec3 packed = textureGrad(n, p / tile, dpx / tile, dpy / tile).rgb;
+			nr = vec3((packed.xy * 2.0 - 1.0) * vec2(1.0, -1.0), packed.z);
+		}
+		return;
+	}
 	nr = vec3(0.0, 0.0, 0.9);
 	if (dist_cam < stochastic_far) {
 		col = tri_color_grad(a, t, p, dpx, dpy, tile, aligned);
@@ -153,15 +163,15 @@ void fragment() {
 		vec3 c;
 		vec3 n;
 		if (i == 0) {
-			sample_layer(l0_a, l0_n, tri, p, dpx, dpy, layer_tile[0], layer_extra[0].x > 0.5, dist_cam, w > 0.35, c, n);
+			sample_layer(l0_a, l0_n, tri, p, dpx, dpy, layer_tile[0], layer_extra[0].x > 0.5, layer_extra[0].y > 0.5, dist_cam, w > 0.35, c, n);
 		} else if (i == 1) {
-			sample_layer(l1_a, l1_n, tri, p, dpx, dpy, layer_tile[1], layer_extra[1].x > 0.5, dist_cam, w > 0.35, c, n);
+			sample_layer(l1_a, l1_n, tri, p, dpx, dpy, layer_tile[1], layer_extra[1].x > 0.5, layer_extra[1].y > 0.5, dist_cam, w > 0.35, c, n);
 		} else if (i == 2) {
-			sample_layer(l2_a, l2_n, tri, p, dpx, dpy, layer_tile[2], layer_extra[2].x > 0.5, dist_cam, w > 0.35, c, n);
+			sample_layer(l2_a, l2_n, tri, p, dpx, dpy, layer_tile[2], layer_extra[2].x > 0.5, layer_extra[2].y > 0.5, dist_cam, w > 0.35, c, n);
 		} else if (i == 3) {
-			sample_layer(l3_a, l3_n, tri, p, dpx, dpy, layer_tile[3], layer_extra[3].x > 0.5, dist_cam, w > 0.35, c, n);
+			sample_layer(l3_a, l3_n, tri, p, dpx, dpy, layer_tile[3], layer_extra[3].x > 0.5, layer_extra[3].y > 0.5, dist_cam, w > 0.35, c, n);
 		} else {
-			sample_layer(l4_a, l4_n, tri, p, dpx, dpy, layer_tile[4], layer_extra[4].x > 0.5, dist_cam, w > 0.35, c, n);
+			sample_layer(l4_a, l4_n, tri, p, dpx, dpy, layer_tile[4], layer_extra[4].x > 0.5, layer_extra[4].y > 0.5, dist_cam, w > 0.35, c, n);
 		}
 		// Keep the builder's hue: tint by vertex colour relative to the colour the builder painted for this layer.
 		vec3 ratio = clamp(vc / max(layer_ref[i].rgb, vec3(0.02)), vec3(0.55), vec3(1.7));

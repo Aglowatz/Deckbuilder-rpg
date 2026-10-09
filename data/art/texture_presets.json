@@ -34,7 +34,7 @@
 			{"tex": "gain_grass", "tile": 6.0, "mode": "base", "ref": "#5aa84e", "keep": 0.35},
 			{"tex": "gain_chalkdirt", "tile": 3.6, "mode": "key", "key": "#dbb875", "radius": 0.36, "soft": 0.6, "warp": 0.3, "ref": "#dbb875", "keep": 0.2},
 			{"tex": "gain_hay", "tile": 3.4, "mode": "mask", "mask": "hay", "soft": 0.2, "warp": 0.5},
-			{"tex": "gain_gymmat", "tile": 2.6, "aligned": true, "mode": "mask", "mask": "gym", "soft": 0.08, "warp": 0.15}
+			{"tex": "gain_gymmat", "tile": 2.6, "plain": true, "mode": "mask", "mask": "gym", "soft": 0.08, "warp": 0.15}
 		],
 		"cliff": {"tex": "gain_islandrock", "tile": 5.0, "tint": "#d8c8b4"},
 		"decals": [
@@ -57,10 +57,10 @@
 		"layers": [{"tex": "dna_carpet", "tile": 3.0, "mode": "base"}],
 		"variants": {
 			"carpet": {"layers": [{"tex": "dna_carpet", "tile": 3.0, "mode": "base", "bright": 1.15}]},
-			"tile": {"layers": [{"tex": "dna_marble", "tile": 4.5, "mode": "base", "bright": 0.82}, {"tex": "dna_checkertile", "tile": 4.0, "aligned": true, "mode": "mask", "mask": "inlay", "soft": 0.05, "warp": 0.0}]},
+			"tile": {"layers": [{"tex": "dna_marble", "tile": 4.5, "mode": "base", "bright": 0.82}, {"tex": "dna_checkertile", "tile": 4.0, "plain": true, "mode": "mask", "mask": "inlay", "soft": 0.05, "warp": 0.0}]},
 			"exec": {"color": "#b89896", "layers": [{"tex": "dna_marble", "tile": 4.5, "mode": "base", "bright": 0.82}]},
 			"lino": {"layers": [{"tex": "dna_linoleum", "tile": 3.5, "mode": "base"}]},
-			"concrete": {"layers": [{"tex": "dna_linoleum", "tile": 3.5, "mode": "base", "bright": 0.8}, {"tex": "dna_checkertile", "tile": 4.0, "aligned": true, "mode": "mask", "mask": "records", "soft": 0.05, "warp": 0.0}]}
+			"concrete": {"layers": [{"tex": "dna_linoleum", "tile": 3.5, "mode": "base", "bright": 0.8}, {"tex": "dna_checkertile", "tile": 4.0, "plain": true, "mode": "mask", "mask": "records", "soft": 0.05, "warp": 0.0}]}
 		},
 		"decals": [
 			{"id": "papers", "count": 46, "min": 0.55, "max": 0.95, "opacity": 0.95, "mask": "office", "mask_min": 0.6},
@@ -131,6 +131,41 @@
 			{"id": "scorch", "count": 3, "min": 1.0, "max": 1.6, "opacity": 0.7, "mask": "compost", "mask_min": 0.6}
 		]
 	},
+	"capital_outskirts": {
+		"ground": "swap",
+		"seed": 53,
+		"macro": 0.16,
+		"tint": 0.2,
+		"normal": 0.5,
+		"sheen": 0.1,
+		"layers": [
+			{"tex": "cap_ash", "tile": 6.0, "mode": "base", "bright": 1.15},
+			{"tex": "cap_crackedroad", "tile": 3.4, "mode": "mask", "mask": "paved", "soft": 0.1, "warp": 0.3, "bright": 1.4},
+			{"tex": "cap_deadgrass", "tile": 5.0, "mode": "mask", "mask": "dead", "soft": 0.2, "warp": 0.6},
+			{"tex": "cap_pastelplaza", "tile": 4.0, "plain": true, "mode": "mask", "mask": "pastel", "soft": 0.06, "warp": 0.0},
+			{"tex": "cap_perfectlawn", "tile": 6.0, "plain": true, "mode": "mask", "mask": "lawn", "soft": 0.06, "warp": 0.0}
+		],
+		"variants": {
+			"wasteland": {"layers": [{"tex": "cap_ash", "tile": 7.0, "mode": "base", "bright": 1.15}, {"tex": "cap_deadgrass", "tile": 6.0, "mode": "noise", "scale": 0.05, "threshold": 0.55, "soft": 0.25, "seed": 4.0}]},
+			"meadow": {"layers": [{"tex": "cap_perfectlawn", "tile": 6.0, "plain": true, "mode": "base"}]}
+		},
+		"cliff": {"tex": "cap_crackedroad", "tile": 4.0, "keep": 0.2},
+		"props": {"plaster": "cap_whitewall"},
+		"special": [
+			{"color": "#757585", "radius": 0.12, "tex": "mat_stonewall"},
+			{"color": "#6b4d47", "radius": 0.12, "tex": "mat_brick"}
+		],
+		"decals": [
+			{"id": "cracks", "count": 36, "min": 1.0, "max": 2.0, "opacity": 0.75, "mask": "outside", "mask_min": 0.5},
+			{"id": "scorch", "count": 8, "min": 1.0, "max": 1.8, "opacity": 0.8, "mask": "outside", "mask_min": 0.5},
+			{"id": "rift", "count": 22, "min": 1.4, "max": 2.6, "opacity": 0.85, "mask": "rift", "mask_min": 0.5}
+		]
+	},
+	"capital_dark": {"inherit": "capital_outskirts"},
+	"capital_freed": {"inherit": "capital_outskirts"},
+	"capital_facade": {"inherit": "capital_outskirts"},
+	"capital_inside": {"inherit": "capital_outskirts"},
+	"capital_inside_dark": {"inherit": "capital_outskirts"},
 	"town": {
 		"ground": "overlay",
 		"seed": 11,
