@@ -128,6 +128,8 @@ static func zone(scene: ZoneScene, preset_id: StringName) -> Dictionary:
 	match preset_id:
 		StylePresets.GAINLANDS:
 			context.merge(gainlands(scene), true)
+		StylePresets.BUFFET:
+			context.merge(buffet(scene), true)
 		StylePresets.DNA:
 			context.merge(dna(scene), true)
 	return context
@@ -217,4 +219,39 @@ static func dna(scene: ZoneScene) -> Dictionary:
 		"bounds": Rect2(0, 0, float(DnaLayout.W), float(DnaLayout.H)),
 		"masks": {"records": records_mask, "inlay": inlay_mask, "office": office_mask, "lino": lino_mask, "marble": marble_mask},
 		"swaps": swaps,
+	}
+
+
+## How much of `p` lies inside the named layout areas (soft edge), for the zones whose layout is a list of circular areas (Buffet, Dump).
+static func area_cover(areas: Array, ids: Array, p: Vector2) -> float:
+	var best: float = 0.0
+	for area: Variant in areas:
+		if str(area.id) in ids:
+			best = maxf(best, ramp(float(area.radius) - p.distance_to(area.center), 3.0))
+	return best
+
+
+## The Endless Buffet: biscuit on the paths and the Grand Pantry floor, crumb soil in the Broccoli Forest, frosting in the Candy Field and Layer-Cake Town, cheese on the cheddar
+## cliffs; the gravy river and ponds become the painted, gently flowing gravy.
+static func buffet(scene: ZoneScene) -> Dictionary:
+	var builder: BuffetBuilder = scene.builder as BuffetBuilder
+	var layout: BuffetLayout = builder.layout
+	var areas: Array = layout.areas
+	var path_mask: Callable = func(p: Vector2) -> float:
+		return maxf(layout.path_weight(p.x, p.y), PaintedContexts.area_cover(areas, ["hub"], p))
+	var forest_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["forest"], p)
+	var sweet_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["candy", "cake"], p)
+	var cheese_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["cheddar", "cheddar_top"], p)
+	var food_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["hub", "cake", "candy", "bank"], p)
+	var swaps: Array = []
+	var gravy: Material = PaintedFlow.material("buff_gravy", Vector2(1.0, 0.25), 0.2, 5.0, Color(0.82, 0.74, 0.64), 0.95)
+	if gravy != null:
+		for node: Node in builder.root.get_children():
+			if node.name == &"GravyRiver" or node.name == &"GravyPond":
+				swaps.append({"node": node, "material": gravy})
+	return {
+		"bounds": Rect2(0, 0, 100, 82),
+		"masks": {"path": path_mask, "forest": forest_mask, "sweet": sweet_mask, "cheese": cheese_mask, "food": food_mask},
+		"swaps": swaps,
+		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),
 	}

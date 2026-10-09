@@ -43,6 +43,7 @@ uniform vec4 layer_ref[5];
 uniform float layer_tile[5];
 uniform float cliff_tile = 4.0;
 uniform vec3 cliff_tint = vec3(1.0);
+uniform float cliff_keep = 0.25;
 uniform vec4 splat_rect = vec4(0.0, 0.0, 1.0, 1.0);
 
 uniform float macro_amount = 0.2;
@@ -174,7 +175,7 @@ void fragment() {
 		vec3 world_n = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
 		vec3 rock = triplanar_color(cliff_a, v_world, world_n, cliff_tile);
 		float vl = dot(vc, vec3(0.299, 0.587, 0.114));
-		rock *= cliff_tint * mix(vec3(1.0), clamp(vc / max(vl, 0.02), vec3(0.6), vec3(1.6)), 0.25) * clamp(0.55 + vl * 1.4, 0.6, 1.25);
+		rock *= cliff_tint * mix(vec3(1.0), clamp(vc / max(vl, 0.02), vec3(0.6), vec3(1.6)), cliff_keep) * clamp(0.55 + vl * 1.4, 0.6, 1.25);
 		col = mix(col, rock, cliff);
 		nr.xy *= ground;
 	}

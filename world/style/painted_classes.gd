@@ -6,9 +6,9 @@ extends RefCounted
 ## The original hue stays as a subtle tint (shader `paint_keep_hue`), so buildings keep their colour variety. Characters (skinned meshes), hex tiles and anything with the meta
 ## `no_paint` are never painted.
 
-enum Kind { NONE, WOOD, TIMBER, STONE, BRICK, PLASTER, ROOF, ROOF_BLUE, THATCH, METAL, ROCK, BARK, LEAVES }
+enum Kind { NONE, WOOD, TIMBER, STONE, BRICK, PLASTER, ROOF, ROOF_BLUE, THATCH, METAL, ROCK, BARK, LEAVES, SPECIAL_A, SPECIAL_B, SPECIAL_C }
 
-const KIND_NAMES: Array[String] = ["none", "wood", "timber", "stone", "brick", "plaster", "roof", "roof_blue", "thatch", "metal", "rock", "bark", "leaves"]
+const KIND_NAMES: Array[String] = ["none", "wood", "timber", "stone", "brick", "plaster", "roof", "roof_blue", "thatch", "metal", "rock", "bark", "leaves", "special_a", "special_b", "special_c"]
 ## Default texture per kind (a zone preset's "props" table overrides single entries).
 const DEFAULT_TEXTURES: Dictionary = {
 	"wood": "mat_woodplanks", "timber": "mat_timber", "stone": "mat_stonewall", "brick": "mat_brick", "plaster": "mat_plaster", "roof": "mat_roof_red",
@@ -27,11 +27,14 @@ static var active: bool = false
 static var _table: PackedInt32Array = PackedInt32Array()
 static var _atlas_cache: Dictionary = {}
 static var _count: int = 0
+## Zone-specific flat colours bound to a zone material (preset "special": [{"color", "radius", "tex"}]): [colour (linear), radius, kind]. At most three.
+static var _specials: Array = []
 
 
 ## Called by `StyleRig` before it converts the zone's meshes: loads the zone's prop table. A zone without a painted preset leaves everything as it was.
 static func begin_zone(preset_id: StringName) -> void:
 	_atlas_cache.clear()
+	_specials.clear()
 	_count = 0
 	var preset: Dictionary = PaintedLibrary.preset(preset_id)
 	active = not preset.is_empty() and OS.get_environment("NO_PAINT") == "" and not OS.get_environment("PAINT_SKIP").contains("props")
@@ -42,6 +45,12 @@ static func begin_zone(preset_id: StringName) -> void:
 	for index: int in range(KIND_NAMES.size()):
 		var name: String = str(overrides.get(KIND_NAMES[index], DEFAULT_TEXTURES.get(KIND_NAMES[index], "")))
 		_table.append(maxi(PaintedLibrary.layer_index(name), 0))
+	var special_list: Array = preset.get("special", []) as Array
+	for index: int in range(mini(special_list.size(), 3)):
+		var entry: Dictionary = special_list[index] as Dictionary
+		var kind_index: int = int(Kind.SPECIAL_A) + index
+		_table[kind_index] = maxi(PaintedLibrary.layer_index(str(entry.get("tex", ""))), 0)
+		_specials.append([PaintedLibrary.color_of(entry.get("color", "#ffffff")).srgb_to_linear(), float(entry.get("radius", 0.12)), kind_index])
 
 
 static func painted_count() -> int:
@@ -153,6 +162,8 @@ static func configure(material: ShaderMaterial, standard: StandardMaterial3D) ->
 			return false
 		var kind: Kind = classify_name(standard.resource_name)
 		if kind == Kind.NONE:
+			kind = classify_special(standard.albedo_color)
+		if kind == Kind.NONE:
 			kind = classify(standard.albedo_color, true)
 		if kind == Kind.NONE:
 			return false
@@ -192,3 +203,14 @@ static func allowed_for(mesh_instance: MeshInstance3D) -> bool:
 			return false
 		node = node.get_parent()
 	return true
+
+
+## The zone's special kind for a flat colour (cheese, frosting, rusted scrap ...), or NONE.
+static func classify_special(color: Color) -> Kind:
+	var linear: Color = color.srgb_to_linear()
+	for entry: Variant in _specials:
+		var item: Array = entry as Array
+		var key: Color = item[0] as Color
+		if Vector3(linear.r - key.r, linear.g - key.g, linear.b - key.b).length() <= float(item[1]):
+			return item[2] as Kind
+	return Kind.NONE

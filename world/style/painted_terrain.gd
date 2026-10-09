@@ -85,6 +85,7 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 	result.set_shader_parameter("cliff_a", cliff_texture if cliff_texture != null else PaintedLibrary.white())
 	result.set_shader_parameter("cliff_tile", float(cliff.get("tile", 4.0)))
 	result.set_shader_parameter("cliff_tint", PaintedLibrary.color_of(cliff.get("tint", "#ffffff")))
+	result.set_shader_parameter("cliff_keep", float(cliff.get("keep", 0.25)))
 	for param: String in ["macro", "tint", "brightness", "normal", "sheen", "flatten", "grain", "flow", "normal_far", "stochastic_far", "far_start", "far_end"]:
 		if preset.has(param):
 			var shader_name: String = {"macro": "macro_amount", "tint": "tint_amount", "normal": "normal_strength", "grain": "brush_grain", "flow": "flow_speed", "far_start": "far_blend_start", "far_end": "far_blend_end"}.get(param, param) as String

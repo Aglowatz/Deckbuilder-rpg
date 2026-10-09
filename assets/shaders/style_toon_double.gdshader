@@ -37,7 +37,7 @@ uniform bool paint_on = false;
 uniform sampler2DArray paint_layers : source_color, filter_linear_mipmap, repeat_enable;
 uniform sampler2D paint_class : filter_nearest;
 uniform int paint_fixed = 0;
-uniform int class_layer[13];
+uniform int class_layer[16];
 uniform ivec3 roof_layers = ivec3(5, 6, 7);
 uniform float paint_tile = 2.4;
 uniform float paint_keep_hue = 0.4;
@@ -103,7 +103,7 @@ void fragment() {
 		if (cls == 0) {
 			cls = int(texture(paint_class, uv).r * 255.0 + 0.5);
 		}
-		if (cls > 0 && cls < 13) {
+		if (cls > 0 && cls < 16) {
 			int layer = class_layer[cls];
 			if (cls == 6) {
 				layer = roof_variant < 0.45 ? roof_layers.x : (roof_variant < 0.75 ? roof_layers.y : roof_layers.z);
