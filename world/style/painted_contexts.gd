@@ -128,6 +128,8 @@ static func zone(scene: ZoneScene, preset_id: StringName) -> Dictionary:
 	match preset_id:
 		StylePresets.GAINLANDS:
 			context.merge(gainlands(scene), true)
+		StylePresets.DNA:
+			context.merge(dna(scene), true)
 	return context
 
 
@@ -169,4 +171,50 @@ static func gainlands(scene: ZoneScene) -> Dictionary:
 		"bounds": Rect2(-30, -30, 180, 150),
 		"masks": {"gym": gym_mask, "hay": hay_mask, "path": path_mask, "grass": grass_mask},
 		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),
+	}
+
+
+## Soft mask of an axis-aligned rectangle (x, z, width, depth): 1 well inside, 0 outside, 0.5 on the edge.
+static func rect_mask(p: Vector2, rect: Rect2) -> float:
+	var inside: float = minf(minf(p.x - rect.position.x, rect.end.x - p.x), minf(p.y - rect.position.y, rect.end.y - p.y))
+	return ramp(inside, 1.2)
+
+
+## The D.N.A.: every floor chunk's surfaces get the painted floor of their kind (carpet in the cubicle farms, marble in the lobby/mail/elevator bank, linoleum in the breakroom and the
+## filing maze, a checker inlay in the lobby and the records basement), the walls get dark paneling under drab wallpaper, partitions get wallpaper. Papers lie on the office floors.
+static func dna(scene: ZoneScene) -> Dictionary:
+	var builder: DnaBuilder = scene.builder as DnaBuilder
+	var kind_names: Dictionary = {
+		int(DnaLayout.Floor.CARPET): "carpet", int(DnaLayout.Floor.TILE): "tile", int(DnaLayout.Floor.CONCRETE): "concrete",
+		int(DnaLayout.Floor.EXEC): "exec", int(DnaLayout.Floor.LINO): "lino",
+	}
+	var swaps: Array = []
+	var walls: Material = PaintedTriplanar.wall_material("dna_paneling", "dna_wallpaper", 2.4, 0.55, Color("1c2b28"), Color("1f2a28"), 1.0)
+	var partitions: Material = PaintedTriplanar.material("dna_wallpaper", 2.2, Color(0.42, 0.56, 0.5), 0.1)
+	for chunk: Node in builder.chunks.values():
+		for child: Node in chunk.get_children():
+			if child.name == &"Floor" and child is MeshInstance3D:
+				var instance: MeshInstance3D = child as MeshInstance3D
+				for surface: int in range(instance.mesh.get_surface_count()):
+					for kind: int in kind_names.keys():
+						if instance.mesh.surface_get_material(surface) == DnaMaterials.floor_material(kind as DnaLayout.Floor):
+							swaps.append({"node": instance, "surface": surface, "variant": kind_names[kind]})
+			elif child.name == &"Walls" and walls != null:
+				swaps.append({"node": child, "material": walls})
+			elif child.name == &"Partitions" and partitions != null:
+				swaps.append({"node": child, "material": partitions})
+	var records: Rect2 = Rect2(56, 4, 32, 20)
+	var lobby_inlay: Rect2 = Rect2(41, 50, 10, 6)
+	var farms: Array[Rect2] = [Rect2(2, 26, 32, 18), Rect2(56, 26, 32, 18)]
+	var records_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.rect_mask(p, records)
+	var inlay_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.rect_mask(p, lobby_inlay)
+	var office_mask: Callable = func(p: Vector2) -> float:
+		return maxf(PaintedContexts.rect_mask(p, farms[0]), PaintedContexts.rect_mask(p, farms[1]))
+	var lino_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.rect_mask(p, Rect2(18, 48, 17, 12))
+	var marble_mask: Callable = func(p: Vector2) -> float:
+		return maxf(PaintedContexts.rect_mask(p, Rect2(36, 46, 20, 14)), PaintedContexts.rect_mask(p, Rect2(36, 2, 18, 12)))
+	return {
+		"bounds": Rect2(0, 0, float(DnaLayout.W), float(DnaLayout.H)),
+		"masks": {"records": records_mask, "inlay": inlay_mask, "office": office_mask, "lino": lino_mask, "marble": marble_mask},
+		"swaps": swaps,
 	}

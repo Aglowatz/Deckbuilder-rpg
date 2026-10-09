@@ -34,3 +34,29 @@ static func material(texture_name: String, tile: float = 4.0, flat_color: Color 
 
 static func clear_cache() -> void:
 	_cache.clear()
+
+
+## A two-band wall (the D.N.A.): `lower` below `split_y`, `upper` above it, a thin trim strip between and a plain cap on top faces. Null when a texture is missing.
+static func wall_material(lower: String, upper: String, tile: float, split_y: float, trim: Color, cap: Color, brightness: float = 1.0) -> ShaderMaterial:
+	var key: String = "wall|%s|%s|%s|%s|%s|%s|%s" % [lower, upper, tile, split_y, trim.to_html(), cap.to_html(), brightness]
+	if _cache.has(key):
+		return _cache[key] as ShaderMaterial
+	var lower_texture: Texture2D = PaintedLibrary.albedo(lower)
+	var upper_texture: Texture2D = PaintedLibrary.albedo(upper)
+	if lower_texture == null or upper_texture == null:
+		return null
+	if _shader == null:
+		_shader = load(SHADER_PATH) as Shader
+	var result: ShaderMaterial = ShaderMaterial.new()
+	result.shader = _shader
+	result.set_shader_parameter("albedo_tex", lower_texture)
+	result.set_shader_parameter("flat_tex", lower_texture)
+	result.set_shader_parameter("upper_tex", upper_texture)
+	result.set_shader_parameter("use_split", true)
+	result.set_shader_parameter("tile", tile)
+	result.set_shader_parameter("split_y", split_y)
+	result.set_shader_parameter("trim_color", trim)
+	result.set_shader_parameter("cap_color", cap)
+	result.set_shader_parameter("brightness", brightness)
+	_cache[key] = result
+	return result

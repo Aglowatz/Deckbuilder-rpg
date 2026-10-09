@@ -46,6 +46,31 @@
 			{"id": "leaves", "count": 10, "min": 0.7, "max": 1.2, "opacity": 0.85, "mask": "grass", "mask_min": 0.5}
 		]
 	},
+	"dna": {
+		"ground": "swap",
+		"seed": 23,
+		"macro": 0.16,
+		"tint": 0.3,
+		"color": "#8ba698",
+		"normal": 0.45,
+		"sheen": 0.12,
+		"layers": [{"tex": "dna_carpet", "tile": 3.0, "mode": "base"}],
+		"variants": {
+			"carpet": {"layers": [{"tex": "dna_carpet", "tile": 3.0, "mode": "base", "bright": 1.15}]},
+			"tile": {"layers": [{"tex": "dna_marble", "tile": 4.5, "mode": "base", "bright": 0.82}, {"tex": "dna_checkertile", "tile": 4.0, "mode": "mask", "mask": "inlay", "soft": 0.05, "warp": 0.0}]},
+			"exec": {"color": "#b89896", "layers": [{"tex": "dna_marble", "tile": 4.5, "mode": "base", "bright": 0.82}]},
+			"lino": {"layers": [{"tex": "dna_linoleum", "tile": 3.5, "mode": "base"}]},
+			"concrete": {"layers": [{"tex": "dna_linoleum", "tile": 3.5, "mode": "base", "bright": 0.8}, {"tex": "dna_checkertile", "tile": 4.0, "mode": "mask", "mask": "records", "soft": 0.05, "warp": 0.0}]}
+		},
+		"decals": [
+			{"id": "papers", "count": 46, "min": 0.55, "max": 0.95, "opacity": 0.95, "mask": "office", "mask_min": 0.6},
+			{"id": "papers", "count": 14, "min": 0.5, "max": 0.8, "opacity": 0.9, "mask": "records", "mask_min": 0.6},
+			{"id": "cracks", "count": 16, "min": 0.9, "max": 1.6, "opacity": 0.6, "mask": "marble", "mask_min": 0.6},
+			{"id": "puddle", "count": 6, "min": 0.8, "max": 1.4, "opacity": 0.8, "mask": "lino", "mask_min": 0.6},
+			{"id": "ectoplasm", "count": 12, "min": 0.8, "max": 1.4, "opacity": 0.8},
+			{"id": "mud", "count": 8, "min": 0.5, "max": 0.9, "opacity": 0.6, "mask": "office", "mask_min": 0.6}
+		]
+	},
 	"town": {
 		"ground": "overlay",
 		"seed": 11,

@@ -18,6 +18,12 @@ uniform float keep_hue = 0.0;
 uniform vec3 flat_color : source_color = vec3(0.6);
 uniform float gloss = 0.0;
 uniform float brightness = 1.0;
+// Wall mode (the D.N.A.): the lower band uses albedo_tex, the upper band upper_tex, a trim strip between them, a plain cap on top faces.
+uniform bool use_split = false;
+uniform sampler2D upper_tex : source_color, filter_linear_mipmap, repeat_enable;
+uniform float split_y = 0.55;
+uniform vec3 trim_color : source_color = vec3(0.12, 0.17, 0.16);
+uniform vec3 cap_color : source_color = vec3(0.12, 0.17, 0.16);
 
 instance uniform float colour_keep : hint_range(0.0, 1.0) = 0.0;
 instance uniform float occlusion_fade : hint_range(0.0, 1.0) = 0.0;
@@ -36,7 +42,16 @@ void fragment() {
 	if (occlusion_fade > 0.0 && (BAYER[(int(FRAGCOORD.y) % 4) * 4 + (int(FRAGCOORD.x) % 4)] + 0.5) / 16.0 < occlusion_fade) {
 		discard;
 	}
-	vec3 painted = triplanar_color(albedo_tex, v_world, normalize(v_normal), tile);
+	vec3 wn = normalize(v_normal);
+	vec3 painted = triplanar_color(albedo_tex, v_world, wn, tile);
+	if (use_split) {
+		if (wn.y > 0.5) {
+			painted = cap_color;
+		} else if (v_world.y > split_y) {
+			painted = triplanar_color(upper_tex, v_world, wn, tile);
+		}
+		painted = mix(painted, trim_color, step(abs(v_world.y - split_y), 0.03) * step(wn.y, 0.5));
+	}
 	float luma = dot(flat_color, vec3(0.299, 0.587, 0.114));
 	vec3 chroma = clamp(flat_color / max(luma, 0.03), vec3(0.6), vec3(1.6));
 	painted *= tint.rgb * mix(vec3(1.0), chroma, keep_hue) * brightness;

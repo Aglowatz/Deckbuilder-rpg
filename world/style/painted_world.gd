@@ -59,6 +59,21 @@ func _build(area: WalkableArea, context: Dictionary) -> bool:
 		if instance == null:
 			continue
 		_swaps.append({"mesh": instance, "old": instance.material_override, "new": _terrain_material_for(instance)})
+	var variant_cache: Dictionary = {}
+	for entry: Variant in context.get("swaps", []) as Array:
+		var info: Dictionary = entry as Dictionary
+		var target: GeometryInstance3D = info["node"] as GeometryInstance3D
+		var surface: int = int(info.get("surface", -1))
+		var replacement: Material = info.get("material") as Material
+		if replacement == null and info.has("variant"):
+			var variant_name: String = str(info["variant"])
+			if not variant_cache.has(variant_name):
+				variant_cache[variant_name] = _variant_material(variant_name, context)
+			replacement = variant_cache[variant_name] as Material
+		if target == null or replacement == null:
+			continue
+		var previous: Material = target.material_override if surface < 0 else (target as MeshInstance3D).get_surface_override_material(surface)
+		_swaps.append({"mesh": target, "surface": surface, "old": previous, "new": replacement})
 	for node: Variant in context.get("flat_hidden", []) as Array:
 		_flat_hidden.append(node as Node3D)
 	var entries: Array = preset.get("decals", []) as Array
@@ -90,7 +105,12 @@ func _apply_mode() -> void:
 	if overlay != null:
 		overlay.visible = painted
 	for swap: Dictionary in _swaps:
-		(swap["mesh"] as MeshInstance3D).material_override = (swap["new"] if painted else _flat_material(swap["old"] as Material)) as Material
+		var chosen: Material = (swap["new"] if painted else _flat_material(swap["old"] as Material)) as Material
+		var target: GeometryInstance3D = swap["mesh"] as GeometryInstance3D
+		if int(swap.get("surface", -1)) >= 0:
+			(target as MeshInstance3D).set_surface_override_material(int(swap["surface"]), chosen)
+		else:
+			target.material_override = chosen
 	for mesh: MeshInstance3D in decal_meshes:
 		mesh.visible = painted
 	for node: Node3D in _flat_hidden:
@@ -130,3 +150,14 @@ func _flat_material(old: Material) -> Material:
 		var toon: ShaderMaterial = StyleToon.toon_for(old, -1.0, false)
 		return toon if toon != null else old
 	return old
+
+
+## A terrain material built from one of the preset's `variants` (the base preset's tuning with that variant's layers), e.g. one per D.N.A. floor kind.
+func _variant_material(variant_name: String, context: Dictionary) -> ShaderMaterial:
+	var variants: Dictionary = preset.get("variants", {}) as Dictionary
+	if not variants.has(variant_name):
+		return null
+	var merged: Dictionary = preset.duplicate(true)
+	merged.erase("variants")
+	merged.merge(variants[variant_name] as Dictionary, true)
+	return PaintedTerrain.material(merged, context)
