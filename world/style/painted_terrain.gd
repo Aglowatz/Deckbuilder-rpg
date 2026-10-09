@@ -89,6 +89,9 @@ static func material(preset: Dictionary, context: Dictionary = {}) -> ShaderMate
 		if preset.has(param):
 			var shader_name: String = {"macro": "macro_amount", "tint": "tint_amount", "normal": "normal_strength", "grain": "brush_grain", "flow": "flow_speed", "far_start": "far_blend_start", "far_end": "far_blend_end"}.get(param, param) as String
 			result.set_shader_parameter(shader_name, float(preset[param]))
+	if preset.has("color"):
+		var mul: Color = PaintedLibrary.color_of(preset["color"])
+		result.set_shader_parameter("color_mul", Vector3(mul.r, mul.g, mul.b))
 	var overrides: Dictionary = context.get("overrides", {}) as Dictionary
 	for param: String in overrides.keys():
 		result.set_shader_parameter(param, overrides[param])

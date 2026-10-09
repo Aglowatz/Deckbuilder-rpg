@@ -67,7 +67,7 @@ static func _is_excluded(node: Node) -> bool:
 
 
 ## The toon version of `source`, or null when it should stay as it is. Cached per source material.
-static func toon_for(source: Material, wind: float = -1.0, paint: bool = false) -> ShaderMaterial:
+static func toon_for(source: Material, wind: float = -1.0, paint: bool = true) -> ShaderMaterial:
 	var standard: StandardMaterial3D = source as StandardMaterial3D
 	if standard == null:
 		return null

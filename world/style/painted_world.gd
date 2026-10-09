@@ -51,7 +51,7 @@ func _build(area: WalkableArea, context: Dictionary) -> bool:
 	var bounds: Rect2 = context.get("bounds", area.map_bounds() if area != null else Rect2(-30, -30, 60, 60)) as Rect2
 	if mode == "overlay" and area != null and not OS.get_environment("PAINT_SKIP").contains("ground"):
 		material.render_priority = -100
-		overlay = PaintedGroundOverlay.build(area, bounds, float(context.get("lift", OVERLAY_LIFT)), material)
+		overlay = PaintedGroundOverlay.build(area, bounds, float(context.get("lift", OVERLAY_LIFT)), material, context.get("cover", Callable()) as Callable)
 		if overlay != null:
 			_scene.add_child(overlay)
 	for mesh: Variant in context.get("terrain", []) as Array:
@@ -90,7 +90,7 @@ func _apply_mode() -> void:
 	if overlay != null:
 		overlay.visible = painted
 	for swap: Dictionary in _swaps:
-		(swap["mesh"] as MeshInstance3D).material_override = (swap["new"] if painted else swap["old"]) as Material
+		(swap["mesh"] as MeshInstance3D).material_override = (swap["new"] if painted else _flat_material(swap["old"] as Material)) as Material
 	for mesh: MeshInstance3D in decal_meshes:
 		mesh.visible = painted
 	for node: Node3D in _flat_hidden:
@@ -122,3 +122,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _exit_tree() -> void:
 	PaintedLibrary.set_enabled(true)
+
+
+## The flat look of a swapped mesh: a plain StandardMaterial3D that StyleRig had not converted yet becomes its toon version.
+func _flat_material(old: Material) -> Material:
+	if old is StandardMaterial3D:
+		var toon: ShaderMaterial = StyleToon.toon_for(old, -1.0, false)
+		return toon if toon != null else old
+	return old

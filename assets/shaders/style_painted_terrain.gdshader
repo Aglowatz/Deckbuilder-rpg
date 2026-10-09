@@ -51,6 +51,7 @@ uniform float normal_strength = 0.5;
 uniform float normal_far = 12.0;
 uniform float sheen = 0.1;
 uniform float brightness = 1.0;
+uniform vec3 color_mul = vec3(1.0);
 uniform float flatten = 0.85;
 uniform float far_blend_start = 22.0;
 uniform float far_blend_end = 46.0;
@@ -184,7 +185,7 @@ void fragment() {
 	col *= 1.0 + (macro - 0.5) * 2.0 * macro_amount * ground;
 	col *= mix(vec3(1.0), mix(vec3(1.07, 1.02, 0.9), vec3(0.92, 1.0, 1.08), tint_n), tint_amount * ground);
 	col *= 1.0 + (tnoise(p * 7.0) - 0.5) * 2.0 * brush_grain;
-	col *= brightness;
+	col *= brightness * color_mul;
 
 	float luma = dot(col, vec3(0.299, 0.587, 0.114));
 	col = mix(vec3(luma), col, mix(1.0, style_ground_sat, ground));

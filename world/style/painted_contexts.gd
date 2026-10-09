@@ -67,3 +67,45 @@ static func flat_overlays(_scene: Node, roots: Array) -> Array[Node3D]:
 			if in_dressing or pattern == int(GroundDecals.Pattern.MOSS) or at_plaza:
 				found.append(instance)
 	return found
+
+
+## Starting Area: the dirt path from the spawn to the cave gate (the same wobbling line the old worn-path decal followed), the forest floor everywhere else. The overlay covers every
+## cell of the 5x5 clearing (treeline cells too), the huge forest floor plane is painted with the same material, and the old flat blotches/worn path are hidden while painted.
+static func start(scene: StartingAreaScene) -> Dictionary:
+	var area: StartingAreaBuilder = scene.area
+	var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
+	var gate: Vector3 = (area.anchors.get("gate", Vector3.ZERO) as Vector3) + Vector3(0.0, 0.0, 0.6)
+	var line: PackedVector2Array = PackedVector2Array()
+	for i: int in range(7):
+		var t: float = float(i) / 6.0
+		var p: Vector3 = spawn.lerp(gate, t) + Vector3(sin(t * 6.0) * 0.25, 0.0, 0.0)
+		line.append(Vector2(p.x, p.z))
+	var path_mask: Callable = func(p: Vector2) -> float:
+		var best: float = 1.0e9
+		for index: int in range(line.size() - 1):
+			best = minf(best, p.distance_to(Geometry2D.get_closest_point_to_segment(p, line[index], line[index + 1])))
+		return PaintedContexts.ramp(0.85 - best, 1.4)
+	var off_path: Callable = func(p: Vector2) -> float:
+		return 1.0 - float(path_mask.call(p))
+	var cover: Callable = func(pos: Vector3) -> bool:
+		var cell: Vector2i = HexGrid.world_to_cell(pos)
+		return cell.x >= -1 and cell.y >= -1 and cell.x <= StartingAreaBuilder.MAP[0].length() and cell.y <= StartingAreaBuilder.MAP.size()
+	var terrain: Array = []
+	var hidden: Array[Node3D] = []
+	if scene.forest != null:
+		var floor_node: Node3D = scene.forest.get_node_or_null("ForestFloor") as Node3D
+		if floor_node != null:
+			terrain.append(floor_node)
+		hidden.append_array(flat_overlays(scene, [scene.forest, scene.get_node_or_null("ZoneDressing")]))
+	if scene._worn_path_node != null:
+		hidden.append(scene._worn_path_node)
+	var rect: Rect2 = HexGrid.bounds_of(_all_cells()).grow(3.0)
+	return {"bounds": rect, "masks": {"path": path_mask, "grass": off_path}, "terrain": terrain, "flat_hidden": hidden, "cover": cover, "floor": cover}
+
+
+static func _all_cells() -> Array:
+	var cells: Array = []
+	for row: int in range(StartingAreaBuilder.MAP.size()):
+		for col: int in range(StartingAreaBuilder.MAP[row].length()):
+			cells.append(Vector2i(col, row))
+	return cells

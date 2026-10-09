@@ -7,7 +7,7 @@ const CELL: float = 1.0
 
 
 ## `bounds` is the x/z rectangle to cover, `lift` the height above y = 0.
-static func build(area: WalkableArea, bounds: Rect2, lift: float, material: Material) -> MeshInstance3D:
+static func build(area: WalkableArea, bounds: Rect2, lift: float, material: Material, cover: Callable = Callable()) -> MeshInstance3D:
 	var vertices: PackedVector3Array = PackedVector3Array()
 	var normals: PackedVector3Array = PackedVector3Array()
 	var colors: PackedColorArray = PackedColorArray()
@@ -22,7 +22,8 @@ static func build(area: WalkableArea, bounds: Rect2, lift: float, material: Mate
 			var z0: float = float(iz)
 			var inside: bool = true
 			for point: Vector2 in [Vector2(0.5, 0.5), Vector2(0, 0), Vector2(1, 0), Vector2(0, 1), Vector2(1, 1)]:
-				if not area.is_floor_at(Vector3(x0 + point.x * CELL, 0.0, z0 + point.y * CELL)):
+				var corner: Vector3 = Vector3(x0 + point.x * CELL, 0.0, z0 + point.y * CELL)
+				if not (bool(cover.call(corner)) if cover.is_valid() else area.is_floor_at(corner)):
 					inside = false
 					break
 			if not inside:

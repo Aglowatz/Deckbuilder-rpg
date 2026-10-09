@@ -38,6 +38,9 @@ var _screenshot_args: Dictionary = {}
 var minimap: MinimapHud
 ## Polish round: the endless forest around the clearing (visual only).
 var forest: StartingForest
+## The painted texture look (data/art/texture_presets.json); Shift+T toggles it in debug builds.
+var painted_world: PaintedWorld
+var _worn_path_node: MeshInstance3D
 var _rescuer: Node3D
 var _maren: Node3D
 var _self_talk_cooldown: float = 0.0
@@ -146,6 +149,8 @@ func _build_actors() -> void:
 		for col: int in range(StartingAreaBuilder.MAP[row].length()):
 			cells.append(Vector2i(col, row))
 	forest = StartingForest.build(self, cells, spawn, Settings.graphics_quality)
+	if rig != null:
+		painted_world = PaintedWorld.apply(self, area, StylePresets.START, PaintedContexts.start(self))
 
 
 func _build_ui() -> void:
@@ -695,4 +700,4 @@ func _worn_path() -> void:
 		var p: Vector3 = spawn.lerp(gate, t) + Vector3(wobble, 0.0, 0.0)
 		p.y = area.height_at(p)
 		points.append(p)
-	GroundDecals.add_path(self, points, GroundDecals.Kind.WORN_PATH, 1.0, [Color("8a8470"), Color("6a6a60")], 3.0)
+	_worn_path_node = GroundDecals.add_path(self, points, GroundDecals.Kind.WORN_PATH, 1.0, [Color("8a8470"), Color("6a6a60")], 3.0)

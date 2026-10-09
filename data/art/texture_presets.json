@@ -1,5 +1,28 @@
 {
 	"_doc": "Per-zone painted texture presets (docs/art/style_guide.md, 'Painted textures'). Key = StylePresets id. layers: tex = texture name (assets/art/textures/<tex>_albedo.webp), tile = metres per repeat, mode = base|key|noise|mask (see PaintedTerrain). cliff = triplanar material for steep faces. decals: see PaintedDecals. ground = overlay (grid above hex tiles) | swap (zone's own terrain meshes).",
+	"start": {
+		"ground": "overlay",
+		"seed": 5,
+		"macro": 0.22,
+		"tint": 0.5,
+		"normal": 0.55,
+		"sheen": 0.06,
+		"color": "#90b8a8",
+		"layers": [
+			{"tex": "start_forestfloor", "tile": 5.0, "mode": "base", "bright": 1.35},
+			{"tex": "start_moss", "tile": 4.0, "mode": "noise", "scale": 0.11, "threshold": 0.5, "soft": 0.2, "seed": 9.0},
+			{"tex": "start_leaflitter", "tile": 4.5, "mode": "noise", "scale": 0.07, "threshold": 0.58, "soft": 0.2, "seed": 21.0},
+			{"tex": "start_dirtpath", "tile": 3.0, "mode": "mask", "mask": "path", "soft": 0.18, "warp": 0.45}
+		],
+		"cliff": {"tex": "mat_rock", "tile": 4.0},
+		"decals": [
+			{"id": "leaves", "count": 16, "min": 0.6, "max": 1.2, "opacity": 0.9, "mask": "grass", "mask_min": 0.5},
+			{"id": "moss", "count": 10, "min": 0.6, "max": 1.2, "opacity": 0.8, "mask": "grass", "mask_min": 0.5},
+			{"id": "mud", "count": 3, "min": 0.5, "max": 0.9, "opacity": 0.8, "mask": "path", "mask_min": 0.4},
+			{"id": "puddle", "count": 3, "min": 0.5, "max": 0.9, "opacity": 0.8, "mask": "path", "mask_min": 0.4},
+			{"id": "flowers", "count": 5, "min": 0.5, "max": 0.9, "opacity": 0.95, "mask": "grass", "mask_min": 0.5}
+		]
+	},
 	"town": {
 		"ground": "overlay",
 		"seed": 11,
