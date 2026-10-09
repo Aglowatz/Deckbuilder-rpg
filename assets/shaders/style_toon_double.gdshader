@@ -30,6 +30,20 @@ uniform float band_lit = 0.98;
 uniform float grain_amount = 0.05;
 uniform float gloss = 0.0;
 
+// Painted materials (docs/art/style_guide.md, "Painted textures"): the flat colour regions of the model (classified in PaintedClasses) are replaced by the shared painted material,
+// projected triplanar from the shared texture array, keeping the region hue as a subtle tint. `style_paint` is the debug toggle (and 0 where a zone has no painted preset).
+global uniform float style_paint;
+uniform bool paint_on = false;
+uniform sampler2DArray paint_layers : source_color, filter_linear_mipmap, repeat_enable;
+uniform sampler2D paint_class : filter_nearest;
+uniform int paint_fixed = 0;
+uniform int class_layer[13];
+uniform ivec3 roof_layers = ivec3(5, 6, 7);
+uniform float paint_tile = 2.4;
+uniform float paint_keep_hue = 0.4;
+uniform float paint_luma_follow = 0.35;
+instance uniform float roof_variant : hint_range(0.0, 1.0) = 0.0;
+
 instance uniform float colour_keep : hint_range(0.0, 1.0) = 0.0;
 instance uniform float accent_mix : hint_range(0.0, 1.0) = 0.0;
 instance uniform float occlusion_fade : hint_range(0.0, 1.0) = 0.0;
@@ -83,6 +97,42 @@ void fragment() {
 	// Walls and roofs between the camera and the hero dissolve in a 4x4 ordered dither (OcclusionFader), staying in the opaque pipeline.
 	if (occlusion_fade > 0.0 && (BAYER[(int(FRAGCOORD.y) % 4) * 4 + (int(FRAGCOORD.x) % 4)] + 0.5) / 16.0 < occlusion_fade) {
 		discard;
+	}
+	if (paint_on && style_paint > 0.5) {
+		int cls = paint_fixed;
+		if (cls == 0) {
+			cls = int(texture(paint_class, uv).r * 255.0 + 0.5);
+		}
+		if (cls > 0 && cls < 13) {
+			int layer = class_layer[cls];
+			if (cls == 6) {
+				layer = roof_variant < 0.45 ? roof_layers.x : (roof_variant < 0.75 ? roof_layers.y : roof_layers.z);
+			}
+			vec3 world_n = normalize((INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+			vec3 w = pow(abs(world_n), vec3(6.0));
+			w /= (w.x + w.y + w.z);
+			vec3 tex = vec3(0.0);
+			float used = 0.0;
+			float fl = float(layer);
+			if (w.x > 0.05) {
+				tex += texture(paint_layers, vec3(v_world.zy / paint_tile, fl)).rgb * w.x;
+				used += w.x;
+			}
+			if (w.y > 0.05) {
+				tex += texture(paint_layers, vec3(v_world.xz / paint_tile + 0.37, fl)).rgb * w.y;
+				used += w.y;
+			}
+			if (w.z > 0.05) {
+				tex += texture(paint_layers, vec3(v_world.xy / paint_tile + 0.71, fl)).rgb * w.z;
+				used += w.z;
+			}
+			tex /= max(used, 0.001);
+			float base_luma = dot(base.rgb, vec3(0.299, 0.587, 0.114));
+			vec3 chroma = clamp(base.rgb / max(base_luma, 0.03), vec3(0.6), vec3(1.6));
+			tex *= mix(vec3(1.0), chroma, paint_keep_hue);
+			tex *= mix(1.0, clamp(base_luma / 0.5, 0.6, 1.4), paint_luma_follow);
+			base.rgb = tex;
+		}
 	}
 	vec3 col = base.rgb;
 	float luma = dot(col, vec3(0.299, 0.587, 0.114));

@@ -36,8 +36,9 @@ static func apply_mesh(mesh_instance: MeshInstance3D, wind: float = -1.0) -> int
 	if mesh_instance.mesh == null or _is_excluded(mesh_instance):
 		return 0
 	var converted: int = 0
+	var paint: bool = PaintedClasses.active and PaintedClasses.allowed_for(mesh_instance)
 	if mesh_instance.material_override != null:
-		var override_toon: ShaderMaterial = toon_for(mesh_instance.material_override, wind_for(mesh_instance, wind))
+		var override_toon: ShaderMaterial = toon_for(mesh_instance.material_override, wind_for(mesh_instance, wind), paint)
 		if override_toon != null:
 			mesh_instance.material_override = override_toon
 			converted += 1
@@ -45,7 +46,9 @@ static func apply_mesh(mesh_instance: MeshInstance3D, wind: float = -1.0) -> int
 			return 0
 	for surface: int in range(mesh_instance.mesh.get_surface_count()):
 		var source: Material = mesh_instance.get_active_material(surface)
-		var toon: ShaderMaterial = toon_for(source, wind_for(mesh_instance, wind))
+		var toon: ShaderMaterial = toon_for(source, wind_for(mesh_instance, wind), paint)
+		if toon != null and paint and toon.get_shader_parameter("paint_on") == true:
+			mesh_instance.set_instance_shader_parameter("roof_variant", PaintedClasses.roof_value(mesh_instance))
 		if toon != null:
 			mesh_instance.set_surface_override_material(surface, toon)
 			converted += 1
@@ -64,7 +67,7 @@ static func _is_excluded(node: Node) -> bool:
 
 
 ## The toon version of `source`, or null when it should stay as it is. Cached per source material.
-static func toon_for(source: Material, wind: float = -1.0) -> ShaderMaterial:
+static func toon_for(source: Material, wind: float = -1.0, paint: bool = false) -> ShaderMaterial:
 	var standard: StandardMaterial3D = source as StandardMaterial3D
 	if standard == null:
 		return null
@@ -73,7 +76,7 @@ static func toon_for(source: Material, wind: float = -1.0) -> ShaderMaterial:
 	var scissor: bool = standard.transparency == BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
 	if standard.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED and not scissor:
 		return null
-	var key: String = "%d|%s" % [standard.get_instance_id(), str(wind)]
+	var key: String = "%d|%s|%s" % [standard.get_instance_id(), str(wind), str(paint)]
 	if _cache.has(key):
 		return _cache[key] as ShaderMaterial
 	var material: ShaderMaterial = ShaderMaterial.new()
@@ -96,6 +99,8 @@ static func toon_for(source: Material, wind: float = -1.0) -> ShaderMaterial:
 		material.set_shader_parameter("flat_up", true)
 	if standard.has_meta(META_GLOSS):
 		material.set_shader_parameter("gloss", float(standard.get_meta(META_GLOSS)))
+	if paint:
+		PaintedClasses.configure(material, standard)
 	if wind >= 0.0:
 		material.set_shader_parameter("wind_amount", wind)
 	_cache[key] = material

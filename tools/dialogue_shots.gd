@@ -134,6 +134,7 @@ func _capture(token: String) -> void:
 	var image: Image = root.get_texture().get_image()
 	DirAccess.make_dir_recursive_absolute("res://_screenshots/dialogue")
 	var file_name: String = token.replace(":", "_").replace(".", "_").replace("/", "_")
-	var path: String = "res://_screenshots/dialogue/%s_%s.png" % [_prefix, file_name]
-	var error: Error = image.save_png(ProjectSettings.globalize_path(path))
+	var jpg: bool = str(_args.get("jpg", "false")) == "true"
+	var path: String = "res://_screenshots/dialogue/%s_%s.%s" % [_prefix, file_name, "jpg" if jpg else "png"]
+	var error: Error = image.save_jpg(ProjectSettings.globalize_path(path), 0.9) if jpg else image.save_png(ProjectSettings.globalize_path(path))
 	print("screenshot saved: %s (%s) %dx%d" % [path, error_string(error), image.get_width(), image.get_height()])

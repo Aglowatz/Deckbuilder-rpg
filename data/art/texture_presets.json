@@ -1,0 +1,27 @@
+{
+	"_doc": "Per-zone painted texture presets (docs/art/style_guide.md, 'Painted textures'). Key = StylePresets id. layers: tex = texture name (assets/art/textures/<tex>_albedo.webp), tile = metres per repeat, mode = base|key|noise|mask (see PaintedTerrain). cliff = triplanar material for steep faces. decals: see PaintedDecals. ground = overlay (grid above hex tiles) | swap (zone's own terrain meshes).",
+	"town": {
+		"ground": "overlay",
+		"seed": 11,
+		"macro": 0.2,
+		"tint": 0.55,
+		"normal": 0.5,
+		"sheen": 0.1,
+		"layers": [
+			{"tex": "town_grass", "tile": 6.0, "mode": "base"},
+			{"tex": "town_wildflower", "tile": 6.5, "mode": "noise", "scale": 0.075, "threshold": 0.52, "soft": 0.18},
+			{"tex": "town_soil", "tile": 3.0, "mode": "mask", "mask": "soil", "soft": 0.2, "warp": 0.5, "bright": 1.7},
+			{"tex": "town_sand", "tile": 3.5, "mode": "mask", "mask": "sand", "soft": 0.2, "warp": 0.5},
+			{"tex": "town_stone", "tile": 3.2, "mode": "mask", "mask": "plaza", "soft": 0.1, "warp": 0.6}
+		],
+		"cliff": {"tex": "mat_rock", "tile": 4.0},
+		"decals": [
+			{"id": "moss", "count": 8, "min": 0.8, "max": 1.5, "opacity": 0.75, "mask": "plaza", "mask_min": 0.6},
+			{"id": "cracks", "count": 6, "min": 0.9, "max": 1.6, "opacity": 0.6, "mask": "plaza", "mask_min": 0.6},
+			{"id": "puddle", "count": 5, "min": 0.9, "max": 1.6, "opacity": 0.8, "mask": "paved", "mask_min": 0.6},
+			{"id": "leaves", "count": 10, "min": 0.7, "max": 1.3, "opacity": 0.9, "mask": "grass", "mask_min": 0.5},
+			{"id": "flowers", "count": 14, "min": 0.7, "max": 1.2, "opacity": 0.95, "mask": "grass", "mask_min": 0.5},
+			{"id": "mud", "count": 5, "min": 0.7, "max": 1.3, "opacity": 0.8, "mask": "soil", "mask_min": 0.5}
+		]
+	}
+}

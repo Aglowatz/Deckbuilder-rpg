@@ -52,6 +52,7 @@ func quality() -> int:
 func _ready() -> void:
 	_scene_root = get_parent()
 	preset = preset_override if preset_override != null else StylePresets.get_preset(preset_id)
+	PaintedClasses.begin_zone(preset_id)
 	_remove_old_environment()
 	world_env = WorldEnvironment.new()
 	world_env.name = "StyleEnvironment"

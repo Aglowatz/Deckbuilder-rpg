@@ -97,6 +97,10 @@ style_player_pos={
 "type": "vec3",
 "value": Vector3(0, -1000, 0)
 }
+style_paint={
+"type": "float",
+"value": 1.0
+}
 style_wind={
 "type": "float",
 "value": 1.0

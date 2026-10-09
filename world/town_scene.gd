@@ -77,6 +77,8 @@ var dialogue: DialogueBox
 var _camera: Camera3D
 var style_rig: StyleRig
 var square: TownSquare
+## The painted texture look (data/art/texture_presets.json); Shift+T toggles it in debug builds.
+var painted_world: PaintedWorld
 var _portal_toast_cooldown: float = 0.0
 var cloud_fader: CloudFader
 var npc_hp: NpcHp
@@ -174,6 +176,7 @@ func _ready() -> void:
 	var avoid: Array[Vector3] = [Vector3(square.center.x, square.center.z, square.meadow_radius)]
 	if style_rig != null:
 		ZoneDressing.build(self, town, StylePresets.TOWN, Settings.graphics_quality, avoid)
+		painted_world = PaintedWorld.apply(self, town, StylePresets.TOWN, PaintedContexts.town(self))
 	_build_ui()
 	if str(_screenshot_args.get("nohud", "false")) == "true":
 		for child: Node in get_children():
