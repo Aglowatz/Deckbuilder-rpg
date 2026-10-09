@@ -104,7 +104,7 @@ static func _paint_splat(result: ShaderMaterial, callables: Array[Callable], bou
 	if callables.is_empty():
 		result.set_shader_parameter("splat", PaintedLibrary.white())
 		return
-	var step: float = maxf(0.5, maxf(bounds.size.x, bounds.size.y) / 360.0)
+	var step: float = maxf(0.5, maxf(bounds.size.x, bounds.size.y) / 256.0)
 	var width: int = int(ceil(bounds.size.x / step))
 	var height: int = int(ceil(bounds.size.y / step))
 	var image: Image = Image.create(width, height, false, Image.FORMAT_RGBA8)

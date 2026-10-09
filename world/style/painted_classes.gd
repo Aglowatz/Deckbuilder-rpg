@@ -60,9 +60,9 @@ static func classify(color: Color, flat: bool, building_atlas: bool = false) -> 
 			return Kind.PLASTER
 		if v < 0.22:
 			return Kind.METAL
-		if color.b > color.r + 0.03 and v < 0.7:
+		if color.b > color.r + 0.03 and (flat or v < 0.7):
 			return Kind.METAL
-		return Kind.STONE
+		return Kind.ROCK if flat else Kind.STONE
 	if s < 0.24 and v > 0.72 and h > 0.04 and h < 0.17:
 		return Kind.PLASTER
 	if h < 0.03 or h > 0.96:

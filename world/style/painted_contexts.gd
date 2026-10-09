@@ -109,3 +109,64 @@ static func _all_cells() -> Array:
 		for col: int in range(StartingAreaBuilder.MAP[row].length()):
 			cells.append(Vector2i(col, row))
 	return cells
+
+
+## Every vertex-coloured terrain mesh of a zone (the zone builders' `StyleTerrain` meshes): the painted terrain material replaces them, the vertex colours are the painted masks.
+static func terrain_meshes(scene: Node) -> Array:
+	var found: Array = []
+	for node: Node in scene.find_children("*", "MeshInstance3D", true, false):
+		var instance: MeshInstance3D = node as MeshInstance3D
+		var shader_material: ShaderMaterial = instance.material_override as ShaderMaterial
+		if shader_material != null and shader_material.shader != null and shader_material.shader.resource_path.ends_with("style_terrain.gdshader"):
+			found.append(instance)
+	return found
+
+
+## Zone scenes (`ZoneScene`): dispatch by style preset id.
+static func zone(scene: ZoneScene, preset_id: StringName) -> Dictionary:
+	var context: Dictionary = {"terrain": terrain_meshes(scene)}
+	match preset_id:
+		StylePresets.GAINLANDS:
+			context.merge(gainlands(scene), true)
+	return context
+
+
+## Soft disc mask value 0..1 around `center` (x/z) with `radius`.
+static func disc_mask(p: Vector2, center: Vector2, radius: float) -> float:
+	return ramp(radius - p.distance_to(center), 1.6)
+
+
+## The Gainlands: gym mat under the gym equipment and the Swole Station, hay round the mills and hamster wheels, grass elsewhere on land (the dirt paths come from the vertex colours).
+static func gainlands(scene: ZoneScene) -> Dictionary:
+	var builder: GainlandsBuilder = scene.builder as GainlandsBuilder
+	var layout: GainlandsLayout = builder.layout
+	var gym_spots: Array[Vector3] = []
+	var hay_spots: Array[Vector3] = []
+	for prop: GainlandsLayout.Prop in layout.props:
+		match prop.kind:
+			"bench_press", "dumbbell_rack", "log_rack":
+				gym_spots.append(Vector3(prop.pos.x, prop.pos.z, 2.4))
+			"mill":
+				hay_spots.append(Vector3(prop.pos.x, prop.pos.z, 4.6 * prop.model_scale / 3.0 + 1.6))
+			"wheel":
+				hay_spots.append(Vector3(prop.pos.x, prop.pos.z, 3.2 * prop.model_scale))
+	gym_spots.append(Vector3(72.0, 68.0, 6.5))
+	var gym_mask: Callable = func(p: Vector2) -> float:
+		var best: float = 0.0
+		for spot: Vector3 in gym_spots:
+			best = maxf(best, PaintedContexts.disc_mask(p, Vector2(spot.x, spot.y), spot.z))
+		return best
+	var hay_mask: Callable = func(p: Vector2) -> float:
+		var best: float = 0.0
+		for spot: Vector3 in hay_spots:
+			best = maxf(best, PaintedContexts.disc_mask(p, Vector2(spot.x, spot.y), spot.z))
+		return best
+	var path_mask: Callable = func(p: Vector2) -> float:
+		return layout.path_weight(p.x, p.y)
+	var grass_mask: Callable = func(p: Vector2) -> float:
+		return 0.0 if layout.path_weight(p.x, p.y) > 0.2 or float(gym_mask.call(p)) > 0.2 else 1.0
+	return {
+		"bounds": Rect2(-30, -30, 180, 150),
+		"masks": {"gym": gym_mask, "hay": hay_mask, "path": path_mask, "grass": grass_mask},
+		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),
+	}

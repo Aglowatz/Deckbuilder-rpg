@@ -23,6 +23,29 @@
 			{"id": "flowers", "count": 5, "min": 0.5, "max": 0.9, "opacity": 0.95, "mask": "grass", "mask_min": 0.5}
 		]
 	},
+	"gainlands": {
+		"ground": "swap",
+		"seed": 17,
+		"macro": 0.22,
+		"tint": 0.45,
+		"normal": 0.5,
+		"sheen": 0.08,
+		"layers": [
+			{"tex": "gain_grass", "tile": 6.0, "mode": "base", "ref": "#5aa84e", "keep": 0.35},
+			{"tex": "gain_chalkdirt", "tile": 3.6, "mode": "key", "key": "#dbb875", "radius": 0.36, "soft": 0.6, "warp": 0.3, "ref": "#dbb875", "keep": 0.2},
+			{"tex": "gain_hay", "tile": 3.4, "mode": "mask", "mask": "hay", "soft": 0.2, "warp": 0.5},
+			{"tex": "gain_gymmat", "tile": 2.6, "mode": "mask", "mask": "gym", "soft": 0.08, "warp": 0.15}
+		],
+		"cliff": {"tex": "gain_islandrock", "tile": 5.0, "tint": "#d8c8b4"},
+		"decals": [
+			{"id": "chalk", "count": 18, "min": 0.8, "max": 1.6, "opacity": 0.85, "mask": "gym", "mask_min": 0.6},
+			{"id": "chalk", "count": 8, "min": 0.8, "max": 1.4, "opacity": 0.6, "mask": "path", "mask_min": 0.5},
+			{"id": "flowers", "count": 40, "min": 0.8, "max": 1.4, "opacity": 0.95, "mask": "grass", "mask_min": 0.5},
+			{"id": "moss", "count": 14, "min": 1.0, "max": 2.0, "opacity": 0.55, "mask": "grass", "mask_min": 0.5},
+			{"id": "mud", "count": 8, "min": 0.8, "max": 1.4, "opacity": 0.75, "mask": "path", "mask_min": 0.5},
+			{"id": "leaves", "count": 10, "min": 0.7, "max": 1.2, "opacity": 0.85, "mask": "grass", "mask_min": 0.5}
+		]
+	},
 	"town": {
 		"ground": "overlay",
 		"seed": 11,

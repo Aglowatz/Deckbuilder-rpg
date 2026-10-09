@@ -423,6 +423,7 @@ func _build_camera() -> void:
 		style_rig.ambience.focus(0.5, 1.6)
 	if style_rig != null:
 		_dress_zone()
+		_paint_zone()
 
 
 func _build_ui() -> void:
@@ -1330,6 +1331,14 @@ func _open_packs() -> void:
 	var screen: PacksScreen = PacksScreen.new()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
+
+
+## The painted texture look of the zone (data/art/texture_presets.json): ground, cliff and decals. Shift+T toggles it in debug builds.
+var painted_world: PaintedWorld
+
+
+func _paint_zone() -> void:
+	painted_world = PaintedWorld.apply(self, builder, style_rig.preset_id, PaintedContexts.zone(self, style_rig.preset_id))
 
 
 ## Generic foliage/clutter dressing for the zone's preset; a zone with two moods (the Capital) overrides it.
