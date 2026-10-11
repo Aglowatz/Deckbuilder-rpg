@@ -1,5 +1,5 @@
 {
-	"_about": "Hand-written node content for the dungeons of data/dungeons/dungeons.json (the CSV import). Everything here is placeholder-grade text and numbers (balance is out of scope). Per dungeon: defaults (deck archetypes, icons, AIs cycled over its battles), boss (deck/hp/icon), foes (node number -> foe name, or an object {name, deck, size, hp, ai, icon, extra}), events / challenges / loot (node number -> content), blurbs, story_keys (node number -> story key `dungeon.<key>.before/.after`, in the zone story file or in `text` below), scenes (node number -> {before, after} cutscene ids). Event/challenge effects are tokens: heal:N damage:N gold:N pay:N lose:N card:ID boon:Name|max_hp=2,atk=1,def=1,start_hp=1 rescue sever. An event may be {ref: id} naming one the dungeon class still builds in code.",
+	"_about": "Hand-written node content for the dungeons of data/dungeons/dungeons.json (the CSV import). Everything here is placeholder-grade text and numbers (balance is out of scope). Per dungeon: defaults (deck archetypes, icons, AIs cycled over its battles), boss (deck/hp/icon), foes (node number -> foe name, or an object {name, deck, size, hp, ai, icon, extra}), events / challenges / loot (node number -> content), blurbs, story_keys (node number -> story key `dungeon.<key>.before/.after`, in the zone story file or in `text` below), scenes (node number -> {before, after} cutscene ids). Event/challenge effects are tokens: heal:N damage:N gold:N pay:N lose:N card:ID boon:Name|max_hp=2,atk=1,def=1,start_hp=1 (curse:Name|max_hp=-1 is the same with negative numbers) rescue sever. An event may be {ref: id} naming one the dungeon class still builds in code.",
 	"hook_speakers": {
 		"D-HOG": "NPC-MOUNTAIN",
 		"D-TTK": "NPC-BASIL",
@@ -14,41 +14,82 @@
 				"icons": ["delapouite/viking-head", "lorc/muscle-up", "delapouite/strong-man", "delapouite/weight-lifting-up"],
 				"ais": ["Aggressive", "Defensive", "Aggressive"]
 			},
-			"boss": {"deck": "beefcake_bruisers", "extra": {}, "hp": 28, "icon": "delapouite/viking-head"},
+			"boss": {
+				"deck": "beefcake_bruisers",
+				"extra": {},
+				"hp": 28,
+				"icon": "delapouite/viking-head"
+			},
 			"foes": {
 				"2": "Treadmill Sprinter",
 				"3": "Courtyard Lifter",
-				"6": {"name": "Regime Checkpoint Captain", "deck": "beefcake_bruisers", "size": 31, "hp": 19},
+				"6": {
+					"name": "Regime Checkpoint Captain",
+					"deck": "beefcake_bruisers",
+					"size": 31,
+					"hp": 19
+				},
 				"8": "Cell Block Brawler",
-				"11": {"name": "Trophy Hall Honor Guard", "deck": "beefcake_bruisers", "size": 33, "hp": 22},
+				"11": {
+					"name": "Trophy Hall Honor Guard",
+					"deck": "beefcake_bruisers",
+					"size": 33,
+					"hp": 22
+				},
 				"13": "Chancellor Clench, Iron Regent"
 			},
 			"events": {
 				"5": {
 					"title": "Locker Room of Legends",
-					"body": "Rows of lockers hold the old champions' kit, every strap labelled by weight class. One locker has been left open, as if somebody wanted you to look.",
+					"body": "Rows of lockers hold the old champions' gear, every strap labelled by weight class. A laminated sign reads LOCKER 13 IS A STATE OF MIND. One door hangs ajar, humming the theme from a boxing movie.",
 					"choices": [
-						["Take the lucky towel", "It smells of victory and eucalyptus. You feel sturdier.", "boon:Lucky Towel|max_hp=2"],
-						["Raid the gym bag", "Mostly protein bars, but there is a roll of gold in the bottom.", "gold:45"],
-						["Stretch on the bench", "Nobody has sat here in years. Your shoulders thank you.", "heal:3"]
+						["Borrow the lucky towel", "It smells of victory, eucalyptus and somebody else's victory. It is also warm. You feel sturdier and very slightly watched.", "boon:Lucky Towel|max_hp=2", "damage:1"],
+						["Raid the gym bag", "Protein bars, a roll of gold and a note: 'Spotter knows.' Somewhere a whistle blows. You keep the gold and the shame.", "gold:60", "curse:Spotter Knows|max_hp=-1"],
+						["Do a set with the ghost of a champion", "He miscounts your reps on purpose, to be encouraging. You leave taller, if not stronger, and he presses a Gym Bro's number into your hand.", "heal:3", "card:B-01"]
 					]
 				},
-				"7": {"ref": "hg_descent"},
-				"9": {"ref": "hg_rescue"}
+				"7": {
+					"ref": "hg_descent"
+				},
+				"9": {
+					"ref": "hg_rescue"
+				}
 			},
 			"challenges": {
 				"12": {
 					"title": "The Sauna of Truth",
 					"text": "The steam asks one honest question: how hard do you lead?",
-					"kind": "first_unit_attack", "reveal": 0, "threshold": 3,
+					"kind": "first_unit_attack",
+					"reveal": 0,
+					"threshold": 3,
 					"success": ["boon:Steam-Cleansed|max_hp=2", "heal:2"],
 					"failure": ["lose:3"]
 				}
 			},
-			"loot": {"4": {"gold": 90, "xp": 40, "item": "sharpening_stone"}},
-			"story_keys": {"1": "hg_gates", "9": "hg_stretch", "13": "hg_boss"},
-			"sections": {"8": "prison", "9": "prison"},
-			"scenes": {"9": {"before": "rescue"}, "13": {"before": "flex"}}
+			"loot": {
+				"4": {
+					"gold": 90,
+					"xp": 40,
+					"item": "sharpening_stone"
+				}
+			},
+			"story_keys": {
+				"1": "hg_gates",
+				"9": "hg_stretch",
+				"13": "hg_boss"
+			},
+			"sections": {
+				"8": "prison",
+				"9": "prison"
+			},
+			"scenes": {
+				"9": {
+					"before": "rescue"
+				},
+				"13": {
+					"before": "flex"
+				}
+			}
 		},
 		"D-TTK": {
 			"defaults": {
@@ -56,32 +97,52 @@
 				"icons": ["delapouite/chef-toque", "delapouite/ice-golem", "delapouite/gingerbread-man", "lorc/bubbling-flask", "delapouite/pirate-cannon"],
 				"ais": ["Balanced", "Defensive", "Aggressive"]
 			},
-			"boss": {"deck": "gourmand_golems", "extra": {"G-33": 1}, "hp": 28, "icon": "delapouite/chef-toque"},
+			"boss": {
+				"deck": "gourmand_golems",
+				"extra": {
+					"G-33": 1
+				},
+				"hp": 28,
+				"icon": "delapouite/chef-toque"
+			},
 			"foes": {
 				"2": "Prep Station Sous-Chef",
 				"3": "Frozen Line Cook",
-				"6": {"name": "Unfinished War Machine", "deck": "gourmand_golems", "size": 30, "hp": 20, "icon": "delapouite/pirate-cannon"},
+				"6": {
+					"name": "Unfinished War Machine",
+					"deck": "gourmand_golems",
+					"size": 30,
+					"hp": 20,
+					"icon": "delapouite/pirate-cannon"
+				},
 				"8": "Assembly Line Golem",
-				"11": {"name": "Cannon-Blender Gunner", "deck": "gourmand_golems", "size": 33, "hp": 22, "icon": "delapouite/pirate-cannon"},
+				"11": {
+					"name": "Cannon-Blender Gunner",
+					"deck": "gourmand_golems",
+					"size": 33,
+					"hp": 22,
+					"icon": "delapouite/pirate-cannon"
+				},
 				"12": "Expediter of the Pass",
 				"13": "The Doppelganger"
 			},
 			"events": {
 				"7": {
 					"title": "The Corrupted Pantry",
-					"body": "Shelves of glowing, sickly-green food hum softly. A ladle is still stirring a pot that nobody is minding.",
+					"body": "Shelves of glowing, sickly-green food hum softly. A ladle is still stirring a pot that nobody is minding, and the pot has started to hum back.",
 					"choices": [
-						["Eat the glowing stew", "It is delicious. It is probably cursed. You feel strong and slightly sticky.", "boon:Corrupted Feast|max_hp=3,atk=1", "damage:2"],
-						["Take only the sealed jars", "Some of the pantry is still clean.", "gold:40"],
-						["Back away slowly", "You leave the pantry unspoiled.", "heal:2"]
+						["Eat the glowing stew", "It is delicious. It is probably cursed. You feel strong and slightly sticky, and your units will not stop smelling of gravy.", "boon:Corrupted Feast|max_hp=3,atk=1", "damage:2"],
+						["Take only the sealed jars", "Some of the pantry is still clean. The jars are labelled DO NOT OPEN, WE MEAN IT. You do not open them. You sell them.", "gold:40"],
+						["Ask the ladle to stop", "It has been stirring for ten years and nobody ever asked it to stop. It sighs, hands you a Sourdough Sentry out of gratitude, and finally rests.", "heal:1", "card:G-04"]
 					]
 				},
 				"10": {
 					"title": "R&D Archives",
-					"body": "Blueprints, recipe cards and signed memos fill the cabinets. Every handwritten note signed by the Grand Chef leans the wrong way.",
+					"body": "Blueprints, recipe cards and signed memos fill the cabinets. Every handwritten note signed by the Grand Chef leans the wrong way, as if written by someone who has only ever read about left-handedness.",
 					"choices": [
-						["Compare the handwriting", "The chef who wrote these has never held a ladle. The impostor is exposed.", "boon:Impostor Exposed|atk=1,def=1"],
-						["Photograph the blueprints", "Evidence, and a buyer for it.", "gold:50"]
+						["Compare the handwriting", "The chef who wrote these has never held a ladle. The impostor is exposed, and so is how little they have been cooking.", "boon:Impostor Exposed|atk=1,def=1"],
+						["Photograph the blueprints", "Evidence, and a buyer for it. The buyer asks no questions, which is the best kind of buyer.", "gold:50"],
+						["Pocket the recipe marked DO NOT SERVE", "It is one line long and ends with 'send it back.' You can see why it was classified.", "card:G-17"]
 					]
 				}
 			},
@@ -89,14 +150,31 @@
 				"4": {
 					"title": "Taste Test Lab",
 					"text": "Beakers, spoons and a very small flag: does your deck have the body for the panel?",
-					"kind": "type_units", "card_type": "unit", "reveal": 5, "threshold": 2,
+					"kind": "type_units",
+					"card_type": "unit",
+					"reveal": 5,
+					"threshold": 2,
 					"success": ["boon:Palate of the Panel|max_hp=3"],
 					"failure": ["lose:2"]
 				}
 			},
-			"loot": {"5": {"gold": 80, "xp": 40, "item": "healing_draught"}},
-			"story_keys": {"1": "tk_dock", "13": "tk_boss"},
-			"scenes": {"13": {"before": "reveal", "after": "wonder"}}
+			"loot": {
+				"5": {
+					"gold": 80,
+					"xp": 40,
+					"item": "healing_draught"
+				}
+			},
+			"story_keys": {
+				"1": "tk_dock",
+				"13": "tk_boss"
+			},
+			"scenes": {
+				"13": {
+					"before": "reveal",
+					"after": "wonder"
+				}
+			}
 		},
 		"D-HFA": {
 			"defaults": {
@@ -104,42 +182,60 @@
 				"icons": ["delapouite/tie", "delapouite/shambling-zombie", "lorc/ghost", "delapouite/warlock-eye", "delapouite/full-folder", "delapouite/stamper"],
 				"ais": ["Balanced", "Defensive", "Aggressive"]
 			},
-			"boss": {"deck": "necro_control", "extra": {"N-33": 1, "N-32": 1}, "hp": 28, "icon": "delapouite/stamper"},
+			"boss": {
+				"deck": "necro_control",
+				"extra": {
+					"N-33": 1,
+					"N-32": 1
+				},
+				"hp": 28,
+				"icon": "delapouite/stamper"
+			},
 			"foes": {
 				"3": "Intake Clerk",
 				"4": "Returns Clerk",
-				"7": {"name": "Notary Wraith", "deck": "necro_control", "size": 31, "hp": 19},
+				"7": {
+					"name": "Notary Wraith",
+					"deck": "necro_control",
+					"size": 31,
+					"hp": 19
+				},
 				"9": "Resurrection Permits Zombie",
-				"11": {"name": "Undersecretary Vellum", "deck": "necro_control", "size": 30, "hp": 20},
+				"11": {
+					"name": "Undersecretary Vellum",
+					"deck": "necro_control",
+					"size": 30,
+					"hp": 20
+				},
 				"13": "Executive Elevator Operator",
 				"14": "Mortimer Grimsby, CE-No"
 			},
 			"events": {
 				"2": {
 					"title": "Take-a-Number Kiosk",
-					"body": "A small grey machine offers you a ticket. The display above says NOW SERVING 3. Your number is 4,000,213.",
+					"body": "A small grey machine offers you a ticket. The display above says NOW SERVING 3. Your number is 4,000,213. A polite ghost behind you coughs, then apologises for coughing.",
 					"choices": [
-						["Take a number", "You feel seen, and slightly worse.", "heal:2"],
-						["Take every number", "The machine jams. A handful of coins falls out.", "gold:30", "damage:1"],
-						["Skip the queue", "Nobody dares object. Yet.", "boon:Cut the Line|atk=1"]
+						["Take a number and wait", "You wait. You wait some more. You feel seen, and slightly worse. A vending machine dispenses one sad cookie.", "heal:3"],
+						["Take every number", "The machine jams, apologises and coughs up coins and a written warning. You are now marked 'Difficult.'", "gold:35", "curse:Marked 'Difficult'|max_hp=-1"],
+						["Skip the queue", "Nobody dares object. Yet. Number 4,000,213 is quietly becoming a legend.", "boon:Cut the Line|atk=1"]
 					]
 				},
 				"8": {
 					"title": "Form 27-B Office",
-					"body": "Form 27-B requires Form 27-C, which requires a stamp from the office you are standing in. A clerk slides a pen across the counter.",
+					"body": "Form 27-B requires Form 27-C, which requires a stamp from the office you are standing in. A clerk slides a pen across the counter without looking up.",
 					"choices": [
-						["Fill out the forms", "Everything is in order. A boon is granted, and a small tax is levied.", "boon:Duly Authorized|max_hp=3", "pay:20"],
-						["Forge the stamp", "It works! Mostly. Something in the ceiling disapproves.", "gold:50", "damage:2"],
-						["Leave the office", "You are marked 'Pending'.", "nothing"]
+						["Fill out the forms", "Everything is in order. A boon is granted and a small tax is levied, in that order, by two different departments.", "boon:Duly Authorized|max_hp=3", "pay:20"],
+						["Forge the stamp", "It works! Mostly. Something in the ceiling disapproves, loudly, with a stapler.", "gold:50", "damage:2"],
+						["Ask the clerk what Form 27-C is", "The clerk looks up for the first time in decades. Nobody has ever asked. She slides you a Pink Slip 'for personal use' and, you swear, winks.", "card:N-15", "heal:1"]
 					]
 				},
 				"12": {
 					"title": "The Shredding Room",
-					"body": "Rows of paper shredders chew through the day's denied appeals. A sign reads: SHRED ONE THING, RECEIVE ONE THING.",
+					"body": "Rows of paper shredders chew through the day's denied appeals. A sign reads: SHRED ONE THING, RECEIVE ONE THING. Another, in smaller letters, reads: THINGS INCLUDE YOU.",
 					"choices": [
-						["Shred a spare appeal", "The shredder hums happily and pays out.", "gold:70", "damage:1"],
-						["Shred your own number", "Nothing is left of Number 4,000,213. You feel lighter.", "heal:4"],
-						["Do not feed the machine", "You keep your papers.", "nothing"]
+						["Shred a spare appeal", "The shredder hums happily and pays out in coins. It says 'denied' in a voice like a kettle.", "gold:70", "damage:1"],
+						["Shred your own number", "Nothing is left of Number 4,000,213. You feel lighter, and slightly nonexistent. The machine files you under 'Resolved.'", "heal:4"],
+						["Reach in for what it ate", "You pull out half of a lost appeal. It is, technically, a weapon. The machine takes a bite of you in exchange.", "card:N-17", "damage:2"]
 					]
 				}
 			},
@@ -147,14 +243,34 @@
 				"5": {
 					"title": "Waiting Room of Eternity",
 					"text": "Row after row of chairs. Can your deck outwait the line?",
-					"kind": "infra", "reveal": 5, "threshold": 2,
+					"kind": "infra",
+					"reveal": 5,
+					"threshold": 2,
 					"success": ["heal:4"],
 					"failure": ["lose:3"]
 				}
 			},
-			"loot": {"6": {"gold": 85, "xp": 40, "item": "scroll_of_insight"}},
-			"story_keys": {"1": "ha_lobby", "2": "ha_number", "5": "ha_waiting", "6": "ha_records", "8": "ha_forms", "11": "ha_clerk", "14": "ha_boss"},
-			"scenes": {"14": {"after": "vacancy"}}
+			"loot": {
+				"6": {
+					"gold": 85,
+					"xp": 40,
+					"item": "scroll_of_insight"
+				}
+			},
+			"story_keys": {
+				"1": "ha_lobby",
+				"2": "ha_number",
+				"5": "ha_waiting",
+				"6": "ha_records",
+				"8": "ha_forms",
+				"11": "ha_clerk",
+				"14": "ha_boss"
+			},
+			"scenes": {
+				"14": {
+					"after": "vacancy"
+				}
+			}
 		},
 		"D-ROT": {
 			"defaults": {
@@ -162,24 +278,42 @@
 				"icons": ["lorc/sprout", "delapouite/mushrooms-cluster", "delapouite/plant-roots", "delapouite/tree-roots", "lorc/root-tip", "cathelineau/tree-face"],
 				"ais": ["Balanced", "Aggressive", "Defensive"]
 			},
-			"boss": {"deck": "refuse_garbage", "extra": {"R-33": 1}, "hp": 28, "icon": "cathelineau/tree-face"},
+			"boss": {
+				"deck": "refuse_garbage",
+				"extra": {
+					"R-33": 1
+				},
+				"hp": 28,
+				"icon": "cathelineau/tree-face"
+			},
 			"foes": {
 				"2": "Overgrown Scarecrow",
 				"3": "Mutant Mushroom Troop",
-				"6": {"name": "Rootbound Miller", "deck": "refuse_garbage", "size": 32, "hp": 19},
+				"6": {
+					"name": "Rootbound Miller",
+					"deck": "refuse_garbage",
+					"size": 32,
+					"hp": 19
+				},
 				"8": "Thorn Maze Stalker",
-				"10": {"name": "Hive of Mutant Bees", "deck": "refuse_rats", "size": 30, "hp": 18, "icon": "lorc/bat-wing"},
+				"10": {
+					"name": "Hive of Mutant Bees",
+					"deck": "refuse_rats",
+					"size": 30,
+					"hp": 18,
+					"icon": "lorc/bat-wing"
+				},
 				"11": "Rot Tunnel Horror",
 				"13": "Compostella, the Rotheart"
 			},
 			"events": {
 				"7": {
 					"title": "Weeping Compost Pool",
-					"body": "The pool is the colour of a bruise and it is sobbing very quietly. Things float in it that used to be useful.",
+					"body": "The pool is the colour of a bruise and it is sobbing very quietly. Things float in it that used to be useful. A boot, mostly.",
 					"choices": [
 						["Drink from the pool", "It tastes of rain and regret. You feel hardier, and a little poisoned.", "boon:Compost Courage|max_hp=3", "damage:2"],
-						["Bottle some of it", "Somebody will pay for this.", "gold:40"],
-						["Walk around it", "You keep your boots dry.", "heal:2"]
+						["Bottle some of it", "Somebody will pay for this. Somebody always does. It is usually a hedgehog.", "gold:40"],
+						["Comfort the pool", "You tell it that it is doing great. It sobs harder, then gives you a very old Mulch Mole it was keeping safe, and a bit of its warmth.", "heal:2", "card:R-01"]
 					]
 				},
 				"12": {
@@ -195,14 +329,32 @@
 				"4": {
 					"title": "Strangled Greenhouse",
 					"text": "The vines are choosing who gets through. Can your deck keep its footing?",
-					"kind": "infra", "reveal": 5, "threshold": 2,
+					"kind": "infra",
+					"reveal": 5,
+					"threshold": 2,
 					"success": ["heal:4"],
 					"failure": ["lose:3"]
 				}
 			},
-			"loot": {"5": {"gold": 85, "xp": 40, "item": "vitality_charm"}},
-			"story_keys": {"1": "rh_gate", "7": "rh_pool", "9": "rh_soil", "12": "rh_roots", "13": "rh_boss"},
-			"scenes": {"13": {"after": "sever"}}
+			"loot": {
+				"5": {
+					"gold": 85,
+					"xp": 40,
+					"item": "vitality_charm"
+				}
+			},
+			"story_keys": {
+				"1": "rh_gate",
+				"7": "rh_pool",
+				"9": "rh_soil",
+				"12": "rh_roots",
+				"13": "rh_boss"
+			},
+			"scenes": {
+				"13": {
+					"after": "sever"
+				}
+			}
 		},
 		"D-PC": {
 			"defaults": {
@@ -210,60 +362,154 @@
 				"icons": ["delapouite/guards", "delapouite/portrait", "delapouite/shinto-shrine-mirror", "delapouite/stamper", "cathelineau/nun-face", "delapouite/book-cover"],
 				"ais": ["Balanced", "Defensive", "Aggressive"]
 			},
-			"boss": {"deck": "colorless_regime", "extra": {}, "hp": 28, "icon": "cathelineau/old-king"},
+			"boss": {
+				"deck": "colorless_regime",
+				"extra": {},
+				"hp": 28,
+				"icon": "cathelineau/old-king"
+			},
 			"foes": {
-				"2": {"name": "Hedge Trimmer Guard", "deck": "colorless_regime", "size": 28, "hp": 14, "mixed": ["necrocrat", "gourmand"]},
-				"4": {"name": "Gallery Curator", "deck": "colorless_regime", "size": 29, "hp": 15, "mixed": ["necrocrat", "gourmand"]},
-				"5": {"name": "Mirror Knight", "deck": "necrocrat_beefcake", "size": 30, "hp": 18, "icon": "delapouite/shinto-shrine-mirror"},
-				"6": {"name": "Ministry Clerk", "deck": "gourmand_necrocrat", "size": 30, "hp": 15, "icon": "delapouite/stamper"},
-				"9": {"name": "Royal Staircase Guard", "deck": "colorless_regime", "size": 33, "hp": 22, "mixed": ["necrocrat", "gourmand"]},
-				"13": {"name": "Coup Barracks Sergeant", "deck": "necrocrat_beefcake", "size": 30, "hp": 17},
-				"15": {"name": "Seed Vault Gardener", "deck": "necrocrat_refusemancer", "size": 30, "hp": 17},
-				"20": {"name": "Clocktower Sentinel", "deck": "colorless_regime", "size": 32, "hp": 21, "mixed": ["necrocrat", "gourmand"]},
-				"10": "PRIMM_BOSS"
+				"2": {
+					"name": "Hedge Trimmer Guard",
+					"deck": "colorless_regime",
+					"size": 28,
+					"hp": 14,
+					"mixed": ["necrocrat", "gourmand"]
+				},
+				"4": {
+					"name": "Gallery Curator",
+					"deck": "colorless_regime",
+					"size": 29,
+					"hp": 15,
+					"mixed": ["necrocrat", "gourmand"]
+				},
+				"5": {
+					"name": "Mirror Knight",
+					"deck": "necrocrat_beefcake",
+					"size": 30,
+					"hp": 18,
+					"icon": "delapouite/shinto-shrine-mirror"
+				},
+				"6": {
+					"name": "Ministry Clerk",
+					"deck": "gourmand_necrocrat",
+					"size": 30,
+					"hp": 15,
+					"icon": "delapouite/stamper"
+				},
+				"9": {
+					"name": "Royal Staircase Guard",
+					"deck": "colorless_regime",
+					"size": 33,
+					"hp": 22,
+					"mixed": ["necrocrat", "gourmand"]
+				},
+				"10": "PRIMM_BOSS",
+				"13": {
+					"name": "Coup Barracks Sergeant",
+					"deck": "necrocrat_beefcake",
+					"size": 30,
+					"hp": 17
+				},
+				"15": {
+					"name": "Seed Vault Gardener",
+					"deck": "necrocrat_refusemancer",
+					"size": 30,
+					"hp": 17
+				},
+				"20": {
+					"name": "Clocktower Sentinel",
+					"deck": "colorless_regime",
+					"size": 32,
+					"hp": 21,
+					"mixed": ["necrocrat", "gourmand"]
+				}
 			},
 			"events": {
 				"3": {
 					"title": "Grand Foyer",
 					"body": "A portrait of a smiling ruler fills the wall. The floor is so polished you can see yourself, and he is standing behind you in every reflection.",
 					"choices": [
-						["Study the portrait", "The smile never changes. Neither, you realise, does anything else here.", "heal:3"],
-						["Pocket a gilded candlestick", "Heavier than it looks. Worth more than it should be.", "gold:50", "damage:1"],
-						["Move along", "You do not look back.", "nothing"]
+						["Study the portrait", "The smile never changes. Neither, you realise, does anything else here. It is strangely restful.", "heal:3"],
+						["Pocket a gilded candlestick", "Heavier than it looks, worth more than it should be, and covered in your fingerprints in a building that remembers fingerprints.", "gold:50", "curse:Fingerprints Everywhere|max_hp=-1"],
+						["Count the reflections", "There is always one more than there should be. You wave. He waves second. You are, for a moment, a little less afraid of him.", "boon:Seen Him First|def=1"]
 					]
 				},
-				"8": {"ref": "pc_early_journals"},
+				"8": {
+					"ref": "pc_early_journals"
+				},
 				"12": {
 					"title": "The Doppelganger's Lab Notes",
-					"body": "A lab table of food notes: a shapeshifter's recipe for becoming a Grand Chef, with an entire page on how to smile like her.",
+					"body": "A lab table of food notes: a shapeshifter's recipe for becoming a Grand Chef, with an entire page on how to smile like her. The margins are full of practice smiles.",
 					"choices": [
-						["Read the notes", "It explains everything, including why the sauce tastes of nothing.", "boon:Lab Notes|atk=1,def=1"],
-						["Take the samples", "Somebody downstairs will pay for them.", "gold:50"]
+						["Read the notes", "It explains everything, including why the sauce tastes of nothing. There is no Grand Chef in here, only a very good understudy.", "boon:Lab Notes|atk=1,def=1"],
+						["Take the samples", "Somebody downstairs will pay for them. Nobody upstairs will miss them. That is the whole plan.", "gold:50"],
+						["Practise the smile in the mirror", "It is perfect. It is horrifying. Your face stays like that for a while, and the guards leave you alone.", "boon:Perfect Smile|def=1", "damage:1"]
 					]
 				},
-				"16": {"ref": "pc_corrected_citizens"},
+				"16": {
+					"ref": "pc_corrected_citizens"
+				},
 				"22": {
 					"title": "Garden of Uniform Flowers",
 					"body": "A thousand identical flowers stand in identical rows. You count them twice. One of them is, very slightly, a different shade of yellow.",
 					"choices": [
 						["Pick the odd one out", "It tastes of dandelion. It feels like the first honest thing in the castle.", "heal:3"],
-						["Pick a handful of the rest", "They wilt in your hand and leave behind a few coins.", "gold:40"]
+						["Pick a handful of the rest", "They wilt in your hand and leave behind a few coins, which is more than they should have been able to do.", "gold:40"],
+						["Plant something crooked", "You press a bent stem into the soil. The gardener will find it tomorrow and have to rethink everything. You walk on, lighter.", "boon:Crooked Little Hope|atk=1,def=1", "damage:1"]
 					]
 				}
 			},
 			"challenges": {
-				"14": {"ref": "pc_ministry_desk"},
-				"17": {"ref": "pc_mirror_test"}
+				"14": {
+					"ref": "pc_ministry_desk"
+				},
+				"17": {
+					"ref": "pc_mirror_test"
+				}
 			},
 			"loot": {
-				"11": {"gold": 70, "xp": 30, "item": "healing_draught"},
-				"18": {"gold": 80, "xp": 40, "item": "healing_draught"},
-				"19": {"gold": 110, "xp": 60, "item": "vitality_charm"},
-				"21": {"gold": 120, "xp": 60, "card": "C-30"}
+				"11": {
+					"gold": 70,
+					"xp": 30,
+					"item": "healing_draught"
+				},
+				"18": {
+					"gold": 80,
+					"xp": 40,
+					"item": "healing_draught"
+				},
+				"19": {
+					"gold": 110,
+					"xp": 60,
+					"item": "vitality_charm"
+				},
+				"21": {
+					"gold": 120,
+					"xp": 60,
+					"card": "C-30"
+				}
 			},
-			"story_keys": {"1": "pc_gate", "8": "pc_archive_gate", "10": "pc_boss", "16": "pc_ward", "19": "pc_gallery"},
-			"sections": {"12": "the Gourmand Wing", "13": "the Beefcake Wing", "14": "the Necrocrat Wing", "15": "the Refusemancer Wing", "20": "the Clocktower"},
-			"scenes": {"10": {"before": "primm_intro", "after": "primm_end"}}
+			"story_keys": {
+				"1": "pc_gate",
+				"8": "pc_archive_gate",
+				"10": "pc_boss",
+				"16": "pc_ward",
+				"19": "pc_gallery"
+			},
+			"sections": {
+				"12": "the Gourmand Wing",
+				"13": "the Beefcake Wing",
+				"14": "the Necrocrat Wing",
+				"15": "the Refusemancer Wing",
+				"20": "the Clocktower"
+			},
+			"scenes": {
+				"10": {
+					"before": "primm_intro",
+					"after": "primm_end"
+				}
+			}
 		},
 		"S-BEEF": {
 			"defaults": {
@@ -271,9 +517,22 @@
 				"icons": ["lorc/muscle-up", "delapouite/strong-man", "delapouite/mammoth"],
 				"ais": ["Balanced", "Defensive", "Aggressive"]
 			},
-			"boss": {"deck": "beefcake_bruisers", "extra": {"B-30": 1}, "hp": 20, "icon": "delapouite/mammoth"},
-			"foes": {"1": "Rival Lifter at Base Camp", "2": "Squat Rack Sentinel", "3": "The Ancient Spotter"},
-			"story_keys": {"3": "dg_s_beef_boss"}
+			"boss": {
+				"deck": "beefcake_bruisers",
+				"extra": {
+					"B-30": 1
+				},
+				"hp": 20,
+				"icon": "delapouite/mammoth"
+			},
+			"foes": {
+				"1": "Rival Lifter at Base Camp",
+				"2": "Squat Rack Sentinel",
+				"3": "The Ancient Spotter"
+			},
+			"story_keys": {
+				"3": "dg_s_beef_boss"
+			}
 		},
 		"S-GOUR": {
 			"defaults": {
@@ -281,9 +540,22 @@
 				"icons": ["delapouite/chef-toque", "delapouite/fish-monster", "delapouite/charging-bull"],
 				"ais": ["Balanced", "Defensive", "Aggressive"]
 			},
-			"boss": {"deck": "gourmand_golems", "extra": {"G-27": 1}, "hp": 20, "icon": "delapouite/charging-bull"},
-			"foes": {"1": "Apprentice Itamae", "2": "Conveyor Belt Sushi Chef", "3": "The Itamae Supreme"},
-			"story_keys": {"3": "dg_s_gour_boss"}
+			"boss": {
+				"deck": "gourmand_golems",
+				"extra": {
+					"G-27": 1
+				},
+				"hp": 20,
+				"icon": "delapouite/charging-bull"
+			},
+			"foes": {
+				"1": "Apprentice Itamae",
+				"2": "Conveyor Belt Sushi Chef",
+				"3": "The Itamae Supreme"
+			},
+			"story_keys": {
+				"3": "dg_s_gour_boss"
+			}
 		},
 		"S-NECRO": {
 			"defaults": {
@@ -291,9 +563,22 @@
 				"icons": ["delapouite/ticket", "lorc/ghost", "delapouite/files"],
 				"ais": ["Balanced", "Defensive", "Aggressive"]
 			},
-			"boss": {"deck": "necro_control", "extra": {"N-30": 1}, "hp": 20, "icon": "delapouite/files"},
-			"foes": {"1": "Receptionist of Number One", "2": "The Eternal Queue", "3": "Betty Bones, Surly Secretary"},
-			"story_keys": {"3": "dg_s_necro_boss"}
+			"boss": {
+				"deck": "necro_control",
+				"extra": {
+					"N-30": 1
+				},
+				"hp": 20,
+				"icon": "delapouite/files"
+			},
+			"foes": {
+				"1": "Receptionist of Number One",
+				"2": "The Eternal Queue",
+				"3": "Betty Bones, Surly Secretary"
+			},
+			"story_keys": {
+				"3": "dg_s_necro_boss"
+			}
 		},
 		"S-REF": {
 			"defaults": {
@@ -301,9 +586,22 @@
 				"icons": ["delapouite/trash-can", "lorc/recycle", "delapouite/imperial-crown"],
 				"ais": ["Balanced", "Defensive", "Aggressive"]
 			},
-			"boss": {"deck": "refuse_rats", "extra": {"R-27": 1}, "hp": 20, "icon": "delapouite/imperial-crown"},
-			"foes": {"1": "Alley Gate Raccoon", "2": "Pizza Crust Courtier", "3": "His Majesty the Raccoon"},
-			"story_keys": {"3": "dg_s_ref_boss"}
+			"boss": {
+				"deck": "refuse_rats",
+				"extra": {
+					"R-27": 1
+				},
+				"hp": 20,
+				"icon": "delapouite/imperial-crown"
+			},
+			"foes": {
+				"1": "Alley Gate Raccoon",
+				"2": "Pizza Crust Courtier",
+				"3": "His Majesty the Raccoon"
+			},
+			"story_keys": {
+				"3": "dg_s_ref_boss"
+			}
 		},
 		"S-CAP": {
 			"defaults": {
@@ -311,13 +609,38 @@
 				"icons": ["delapouite/guards", "delapouite/pipes", "lorc/visored-helm"],
 				"ais": ["Balanced", "Defensive", "Aggressive"]
 			},
-			"boss": {"deck": "colorless_regime", "extra": {}, "hp": 20, "icon": "lorc/visored-helm"},
-			"foes": {
-				"1": {"name": "Sewer Checkpoint Enforcer", "deck": "colorless_regime", "size": 27, "hp": 12, "mixed": ["necrocrat", "gourmand"]},
-				"2": {"name": "Junction Patrol", "deck": "colorless_regime", "size": 28, "hp": 14, "mixed": ["beefcake", "refusemancer"]},
-				"3": {"name": "Enforcer Captain Spotless", "deck": "colorless_regime", "size": 33, "hp": 20, "mixed": ["necrocrat", "gourmand", "beefcake", "refusemancer"]}
+			"boss": {
+				"deck": "colorless_regime",
+				"extra": {},
+				"hp": 20,
+				"icon": "lorc/visored-helm"
 			},
-			"story_keys": {"3": "dg_s_cap_boss"}
+			"foes": {
+				"1": {
+					"name": "Sewer Checkpoint Enforcer",
+					"deck": "colorless_regime",
+					"size": 27,
+					"hp": 12,
+					"mixed": ["necrocrat", "gourmand"]
+				},
+				"2": {
+					"name": "Junction Patrol",
+					"deck": "colorless_regime",
+					"size": 28,
+					"hp": 14,
+					"mixed": ["beefcake", "refusemancer"]
+				},
+				"3": {
+					"name": "Enforcer Captain Spotless",
+					"deck": "colorless_regime",
+					"size": 33,
+					"hp": 20,
+					"mixed": ["necrocrat", "gourmand", "beefcake", "refusemancer"]
+				}
+			},
+			"story_keys": {
+				"3": "dg_s_cap_boss"
+			}
 		},
 		"D-LAB": {
 			"defaults": {
@@ -325,14 +648,73 @@
 				"icons": ["lorc/bubbling-flask", "delapouite/warlock-eye", "lorc/brainstorm", "delapouite/stamper", "delapouite/shambling-zombie"],
 				"ais": ["Aggressive", "Balanced", "Defensive"]
 			},
-			"boss": {"deck": "necro_control", "extra": {"N-33": 1, "B-32": 1, "G-33": 1, "R-33": 1, "C-30": 1, "C-31": 1}, "hp": 50, "icon": "delapouite/warlock-eye"},
+			"boss": {
+				"deck": "necro_control",
+				"extra": {
+					"N-33": 1,
+					"B-32": 1,
+					"G-33": 1,
+					"R-33": 1,
+					"C-30": 1,
+					"C-31": 1
+				},
+				"hp": 50,
+				"icon": "delapouite/warlock-eye"
+			},
 			"foes": {
-				"2": {"name": "Decontamination Technician", "deck": "necro_control", "size": 38, "hp": 30, "ai": "Aggressive"},
-				"3": {"name": "Escaped Specimen", "deck": "refuse_garbage", "size": 38, "hp": 30, "ai": "Aggressive", "mixed": ["refusemancer", "beefcake"]},
-				"5": {"name": "The Failed Experiment", "deck": "beefcake_bruisers", "size": 42, "hp": 36, "ai": "Aggressive", "mixed": ["beefcake", "necrocrat", "gourmand"], "extra": {"B-28": 1}},
-				"6": {"name": "Observation Ward Orderly", "deck": "gourmand_control", "size": 40, "hp": 32, "ai": "Balanced"},
-				"10": {"name": "The Drain Warden", "deck": "necro_control", "size": 42, "hp": 38, "ai": "Aggressive", "mixed": ["necrocrat", "refusemancer", "gourmand", "beefcake"], "extra": {"N-29": 1, "C-30": 1}},
-				"11": {"name": "Siphon's Research Assistant", "deck": "gourmand_control", "size": 40, "hp": 34, "ai": "Balanced", "mixed": ["gourmand", "necrocrat"]},
+				"2": {
+					"name": "Decontamination Technician",
+					"deck": "necro_control",
+					"size": 38,
+					"hp": 30,
+					"ai": "Aggressive"
+				},
+				"3": {
+					"name": "Escaped Specimen",
+					"deck": "refuse_garbage",
+					"size": 38,
+					"hp": 30,
+					"ai": "Aggressive",
+					"mixed": ["refusemancer", "beefcake"]
+				},
+				"5": {
+					"name": "The Failed Experiment",
+					"deck": "beefcake_bruisers",
+					"size": 42,
+					"hp": 36,
+					"ai": "Aggressive",
+					"mixed": ["beefcake", "necrocrat", "gourmand"],
+					"extra": {
+						"B-28": 1
+					}
+				},
+				"6": {
+					"name": "Observation Ward Orderly",
+					"deck": "gourmand_control",
+					"size": 40,
+					"hp": 32,
+					"ai": "Balanced"
+				},
+				"10": {
+					"name": "The Drain Warden",
+					"deck": "necro_control",
+					"size": 42,
+					"hp": 38,
+					"ai": "Aggressive",
+					"mixed": ["necrocrat", "refusemancer", "gourmand", "beefcake"],
+					"extra": {
+						"N-29": 1,
+						"C-30": 1
+					}
+				},
+				"11": {
+					"name": "Siphon's Research Assistant",
+					"deck": "gourmand_control",
+					"size": 40,
+					"hp": 34,
+					"ai": "Balanced",
+					"mixed": ["gourmand", "necrocrat"]
+				},
 				"14": "Dr. Ambrose Siphon, Chief Path-ologist"
 			},
 			"events": {
@@ -359,13 +741,26 @@
 				"8": {
 					"title": "The Glass Tank Hall",
 					"text": "Four tanks glow in four colors. A sensor asks whether your deck can carry more than one Path at a time.",
-					"kind": "infra", "reveal": 6, "threshold": 3,
+					"kind": "infra",
+					"reveal": 6,
+					"threshold": 3,
 					"success": ["boon:Pathwalker|max_hp=2", "heal:3"],
 					"failure": ["lose:4"]
 				}
 			},
-			"loot": {"9": {"gold": 220, "xp": 120, "item": "scroll_of_insight"}},
-			"story_keys": {"1": "dg_lab_hatch", "10": "dg_lab_drain", "12": "dg_lab_rescue", "14": "dg_lab_boss"}
+			"loot": {
+				"9": {
+					"gold": 220,
+					"xp": 120,
+					"item": "scroll_of_insight"
+				}
+			},
+			"story_keys": {
+				"1": "dg_lab_hatch",
+				"10": "dg_lab_drain",
+				"12": "dg_lab_rescue",
+				"14": "dg_lab_boss"
+			}
 		},
 		"S-TOWN": {
 			"defaults": {
@@ -373,13 +768,37 @@
 				"icons": ["delapouite/cyborg-face", "delapouite/steampunk-goggles", "delapouite/castle"],
 				"ais": ["Balanced", "Defensive", "Aggressive"]
 			},
-			"boss": {"deck": "four_paths", "extra": {"C-21": 1}, "hp": 20, "icon": "delapouite/cyborg-face"},
-			"foes": {
-				"1": {"name": "Rusty Gate Clockwork", "deck": "colorless_militia", "size": 27, "hp": 12},
-				"2": {"name": "Banner Hall Guardian", "deck": "colorless_militia", "size": 29, "hp": 14},
-				"3": {"name": "The Old Kingdom Automaton", "deck": "four_paths", "size": 36, "hp": 20}
+			"boss": {
+				"deck": "four_paths",
+				"extra": {
+					"C-21": 1
+				},
+				"hp": 20,
+				"icon": "delapouite/cyborg-face"
 			},
-			"story_keys": {"3": "dg_s_town_boss"}
+			"foes": {
+				"1": {
+					"name": "Rusty Gate Clockwork",
+					"deck": "colorless_militia",
+					"size": 27,
+					"hp": 12
+				},
+				"2": {
+					"name": "Banner Hall Guardian",
+					"deck": "colorless_militia",
+					"size": 29,
+					"hp": 14
+				},
+				"3": {
+					"name": "The Old Kingdom Automaton",
+					"deck": "four_paths",
+					"size": 36,
+					"hp": 20
+				}
+			},
+			"story_keys": {
+				"3": "dg_s_town_boss"
+			}
 		}
 	},
 	"text": {

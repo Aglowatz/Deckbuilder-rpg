@@ -173,7 +173,8 @@ static func event_outcome(token: String, def: MainDungeonDef) -> DungeonEvent.Ou
 			return DungeonEvent.pay_gold(int(arg))
 		"card":
 			return DungeonEvent.card(arg)
-		"boon":
+		"boon", "curse":
+			# A curse is a boon with negative numbers: it lasts for the rest of the dungeon.
 			return DungeonEvent.boon(boon_from(arg))
 		"rescue":
 			return DungeonEvent.boon(def.boon)

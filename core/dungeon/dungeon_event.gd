@@ -29,13 +29,23 @@ class Outcome:
 			OutcomeKind.PAY_GOLD:
 				return "pay %d gold" % amount
 			OutcomeKind.BOON:
-				return "boon: %s" % (boon.source_name if boon != null else "?")
+				return "%s: %s" % ["curse" if _is_curse() else "boon", boon.source_name if boon != null else "?"]
 			OutcomeKind.CARD:
 				return "gain a card"
 			OutcomeKind.NEXT:
 				return "continue..."
 		return ""
 
+	## A boon whose numbers are all negative is a curse on the run (shown as one on the choice button).
+	func _is_curse() -> bool:
+		if boon == null:
+			return false
+		var below: bool = false
+		for modifier: Modifier in boon.modifiers:
+			if modifier.value > 0 or modifier.value2 > 0:
+				return false
+			below = below or modifier.value < 0 or modifier.value2 < 0
+		return below
 
 class Choice:
 	extends RefCounted

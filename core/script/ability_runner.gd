@@ -351,11 +351,16 @@ static func can_pay_costs(ctx: AbilityContext, costs: Array[CardAbility.Cost], p
 			"use":
 				if cost.x_count and ctx.x < 1:
 					return false
+				for kind: ResourceKind.Kind in cost.resource_kinds:
+					if cost.resource_kinds.size() == 1 and ResourceRules.blocked(state, kind):
+						return false
 				if cost.resource_kinds.size() == 1:
 					needed[int(cost.resource_kinds[0])] = int(needed.get(int(cost.resource_kinds[0]), 0)) + count
 				else:
 					var have: int = 0
 					for kind: ResourceKind.Kind in cost.resource_kinds:
+						if ResourceRules.blocked(state, kind):
+							continue
 						have += player.count_resource(kind)
 					if have < count:
 						return false

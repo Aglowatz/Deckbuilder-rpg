@@ -54,11 +54,22 @@ static func create(state: GameState, player_index: int, kind: ResourceKind.Kind,
 	return created
 
 
+## Whether a dungeon rule (Iron-less Prison) forbids using resources of `kind` right now.
+static func blocked(state: GameState, kind: ResourceKind.Kind) -> bool:
+	for player: PlayerState in state.players:
+		for modifier: Modifier in player.modifiers.modifiers:
+			if modifier.kind == Modifier.Kind.BLOCK_RESOURCE_USE and modifier.value == int(kind):
+				return true
+	return false
+
+
 ## Spends `count` resources of `kind` ("use"): removes them from the zone. False (and nothing happens) when there are too few.
 static func use(state: GameState, player_index: int, kind: ResourceKind.Kind, count: int = 1) -> bool:
 	var player: PlayerState = state.players[player_index]
 	if count <= 0:
 		return true
+	if blocked(state, kind):
+		return false
 	if player.count_resource(kind) < count:
 		return false
 	var removed: int = 0
@@ -81,11 +92,15 @@ static func use_any_of(state: GameState, player_index: int, kinds: Array[Resourc
 	var player: PlayerState = state.players[player_index]
 	var have: int = 0
 	for kind: ResourceKind.Kind in kinds:
+		if blocked(state, kind):
+			continue
 		have += player.count_resource(kind)
 	if have < count:
 		return false
 	var left: int = count
 	for kind: ResourceKind.Kind in kinds:
+		if blocked(state, kind):
+			continue
 		var take: int = mini(left, player.count_resource(kind))
 		if take > 0 and use(state, player_index, kind, take):
 			left -= take
@@ -139,6 +154,8 @@ static func use_targets(state: GameState, player_index: int, kind: ResourceKind.
 
 static func can_use_ability(state: GameState, player_index: int, kind: ResourceKind.Kind, target_uid: int) -> bool:
 	if not ResourceKind.has_use_ability(kind):
+		return false
+	if blocked(state, kind):
 		return false
 	if not state.in_main_phase() or player_index != state.active:
 		return false
@@ -199,6 +216,9 @@ static func eat(state: GameState, player_index: int, times: int = 1) -> bool:
 	for i: int in range(times):
 		state.emit_event(GameEvent.Type.GARBAGE_EATEN, player_index)
 		state.fire_game_event("eat", {"player": player_index})
+		var snack: int = state.players[player_index].modifiers.sum(Modifier.Kind.EAT_HP_GAIN)
+		if snack > 0:
+			state.gain_hp(player_index, snack)
 	return true
 
 

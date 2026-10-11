@@ -42,6 +42,11 @@ var tokens: Array[CardInstance] = []
 var pool: Array[int] = []
 ## Cards played so far this turn (any type), for "for each other card they've played this turn".
 var cards_played_this_turn: int = 0
+## Spells played this turn (the dungeon rule Processing Time taxes the first one).
+var spells_played_this_turn: int = 0
+## Dungeon rules: the Mirrors copy was made, and the Experimental keyword was handed out.
+var mirrored: bool = false
+var experiment_done: bool = false
 
 
 const POOL_ANY: int = -1
@@ -142,6 +147,9 @@ func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.scripted_summon_count = scripted_summon_count
 	copy.pool = pool.duplicate()
 	copy.cards_played_this_turn = cards_played_this_turn
+	copy.spells_played_this_turn = spells_played_this_turn
+	copy.mirrored = mirrored
+	copy.experiment_done = experiment_done
 	copy.resources = _clone_zone(resources)
 	copy.tokens = _clone_zone(tokens)
 	if deep_deck:

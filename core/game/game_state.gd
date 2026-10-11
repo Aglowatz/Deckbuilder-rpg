@@ -248,8 +248,12 @@ func get_attack(card: CardInstance) -> int:
 	if not card.data.is_unit():
 		return 0
 	var bonus: Vector2i = players[card.owner].modifiers.stat_bonus_for(card.data) + StaticEffects.stat_bonus(self, card)
+	var keyword_bonus: int = 0
+	for modifier: Modifier in players[card.owner].modifiers.modifiers:
+		if modifier.kind == Modifier.Kind.KEYWORD_STAT_CHANGE and unit_has_keyword(card, modifier.value2 as CardEnums.Keyword):
+			keyword_bonus += modifier.value
 	var base: int = card.set_attack if card.set_attack >= 0 else _base_stats(card).x
-	return maxi(0, base + card.attack_bonus + card.temp_attack + bonus.x)
+	return maxi(0, base + card.attack_bonus + card.temp_attack + bonus.x + keyword_bonus)
 
 
 func get_defense(card: CardInstance) -> int:
@@ -265,9 +269,46 @@ func get_defense(card: CardInstance) -> int:
 	return total
 
 
+## Whether any player has a dungeon rule of `kind` (rules that hit both sides, like Rot, are in both players' sets).
+func rule_active(kind: Modifier.Kind) -> bool:
+	for player: PlayerState in players:
+		if player.modifiers.has(kind):
+			return true
+	return false
+
+
+## The keyword cap of the dungeon rule Perfect Order (-1 = none).
+func keyword_cap() -> int:
+	var result: int = -1
+	for player: PlayerState in players:
+		var cap: int = player.modifiers.cap(Modifier.Kind.KEYWORD_CAP)
+		if cap >= 0:
+			result = cap if result < 0 else mini(result, cap)
+	return result
+
+
+## A unit's keywords in the order printed, granted, until-end-of-turn, then from auras and Tools, without repeats.
+func keywords_of(card: CardInstance) -> Array[CardEnums.Keyword]:
+	var result: Array[CardEnums.Keyword] = []
+	for keyword: CardEnums.Keyword in card.data.keywords:
+		if not result.has(keyword):
+			result.append(keyword)
+	for keyword: CardEnums.Keyword in card.granted_keywords + card.temp_keywords:
+		if not result.has(keyword):
+			result.append(keyword)
+	for keyword: CardEnums.Keyword in StaticEffects.extra_keywords(self, card):
+		if not result.has(keyword):
+			result.append(keyword)
+	return result
+
+
 ## Whether a unit has `keyword` right now: printed, granted, until-end-of-turn, or from an aura or attached Tool.
 func unit_has_keyword(card: CardInstance, keyword: CardEnums.Keyword) -> bool:
-	return card.has_keyword(keyword) or StaticEffects.has_extra_keyword(self, card, keyword)
+	var has: bool = card.has_keyword(keyword) or StaticEffects.has_extra_keyword(self, card, keyword)
+	var cap: int = keyword_cap()
+	if has and cap >= 0:
+		return keywords_of(card).find(keyword) < cap
+	return has
 
 
 ## A unit's base (attack, defense): its card's, unless a STANDARDIZE_UNITS rule is in force for
@@ -284,6 +325,10 @@ func _base_stats(card: CardInstance) -> Vector2i:
 func generic_cost_for(player_index: int, data: CardData, card: CardInstance = null) -> int:
 	var change: int = players[player_index].modifiers.sum_for_card(Modifier.Kind.COST_CHANGE, data)
 	change += StaticEffects.cost_increase(self, player_index, data)
+	if data.is_multipath():
+		change += players[player_index].modifiers.sum(Modifier.Kind.MULTIPATH_COST_CHANGE)
+	if data.type == CardEnums.CardType.SPELL and players[player_index].spells_played_this_turn == 0:
+		change += players[player_index].modifiers.sum(Modifier.Kind.FIRST_SPELL_COST_CHANGE)
 	var base: int = data.generic_cost
 	if card != null:
 		var override: Dictionary = StaticEffects.cost_override(self, player_index, card)
@@ -460,7 +505,10 @@ func play_card(
 	player.hand.erase(card)
 	player.non_infrastructure_plays_this_turn += 1
 	player.cards_played_this_turn += 1
+	if card.data.type == CardEnums.CardType.SPELL:
+		player.spells_played_this_turn += 1
 	emit_event(GameEvent.Type.CARD_PLAYED, player_index, uid, chosen, card.data.energy_value())
+	_mirror_first_card(player_index, card)
 	match card.data.type:
 		CardEnums.CardType.UNIT, CardEnums.CardType.WONDER, CardEnums.CardType.TOOL:
 			_enter_field(card, chosen, true, chosen_targets, seed_ctx)
@@ -580,6 +628,32 @@ func legal_targets(controller: int, effect: EffectData, _source_uid: int) -> Arr
 
 ## Puts a permanent onto the field under its owner's control and runs everything that happens when it enters.
 ## `targets` are the targets chosen for its enter ability; `seed_ctx` carries what was paid for it.
+## Mirrors: the first card a player plays in the duel is copied into the opponent's hand.
+func _mirror_first_card(player_index: int, card: CardInstance) -> void:
+	var player: PlayerState = players[player_index]
+	if player.mirrored or not player.modifiers.has(Modifier.Kind.MIRRORS):
+		return
+	player.mirrored = true
+	var other: PlayerState = players[1 - player_index]
+	var copy: CardInstance = create_instance(card.data, 1 - player_index)
+	other.hand.append(copy)
+	emit_event(GameEvent.Type.CARD_DRAWN, 1 - player_index, copy.uid, 0, 1, other.hand.size(), "mirror")
+
+
+## Experimental: the first unit a side puts onto the field gains a random keyword it does not have yet.
+func _experimental_keyword(card: CardInstance) -> void:
+	var player: PlayerState = players[card.owner]
+	if player.experiment_done or not player.modifiers.has(Modifier.Kind.EXPERIMENTAL_KEYWORD):
+		return
+	player.experiment_done = true
+	var options: Array[CardEnums.Keyword] = []
+	for keyword: CardEnums.Keyword in CardEnums.Keyword.values():
+		if keyword != CardEnums.Keyword.WALLFLOWER and not card.has_keyword(keyword):
+			options.append(keyword)
+	if not options.is_empty():
+		grant_keyword(card, options[rng.randi_range(0, options.size() - 1)], false)
+
+
 func _enter_field(card: CardInstance, chosen: int, played_from_hand: bool, targets: Array[int] = [] as Array[int], seed_ctx: AbilityContext = null) -> void:
 	var player: PlayerState = players[card.owner]
 	player.field.append(card)
@@ -591,6 +665,7 @@ func _enter_field(card: CardInstance, chosen: int, played_from_hand: bool, targe
 		_apply_static_equipment_grants(card, player)
 		if StaticEffects.enters_exhausted(self, card.owner):
 			card.exhausted = true
+		_experimental_keyword(card)
 	emit_event(GameEvent.Type.PERMANENT_ENTERED, card.owner, card.uid, 0, 0, player.field.size())
 	var entry_data: Dictionary = {"card": card, "player": card.owner, "hustle": card.has_keyword(CardEnums.Keyword.HUSTLE)}
 	if played_from_hand and card.data.is_unit():
@@ -699,6 +774,7 @@ func _begin_turn() -> void:
 	player.infrastructure_played = 0
 	player.non_infrastructure_plays_this_turn = 0
 	player.cards_played_this_turn = 0
+	player.spells_played_this_turn = 0
 	for infra: CardInstance in player.infrastructure:
 		_refresh(infra)
 	for card: CardInstance in player.field:
@@ -708,6 +784,10 @@ func _begin_turn() -> void:
 		card.used_abilities.clear()
 		card.targeted_this_turn.clear()
 	emit_event(GameEvent.Type.TURN_STARTED, active, 0, 0, turn)
+	if rule_active(Modifier.Kind.OVERGROWTH):
+		for each_player: PlayerState in players:
+			for unit: CardInstance in each_player.field.duplicate():
+				buff_unit(unit, 1)
 	_resolve_delayed(active)
 	if is_over():
 		return
@@ -867,6 +947,14 @@ func _end_phase() -> void:
 	_fire_modifier_effects(active, Modifier.Kind.END_OF_TURN_EFFECT)
 	if is_over():
 		return
+	if rule_active(Modifier.Kind.ROT):
+		for each_player: PlayerState in players:
+			for unit: CardInstance in each_player.field.duplicate():
+				if unit.data.is_unit() and get_defense(unit) == 1:
+					destroy_unit(unit)
+		check_state()
+		if is_over():
+			return
 	for player: PlayerState in players:
 		for card: CardInstance in player.field:
 			var had_damage: int = card.damage
@@ -1008,7 +1096,10 @@ func gain_hp(player_index: int, amount: int) -> void:
 	if amount <= 0 or is_over():
 		return
 	var player: PlayerState = players[player_index]
-	amount += maxi(0, player.modifiers.sum(Modifier.Kind.HP_GAIN_BONUS))
+	# Positive bonuses (the Head Chef's Toque) and the negative one of Corrupted Food (D-TTK: healing heals 1 less).
+	amount = maxi(0, amount + player.modifiers.sum(Modifier.Kind.HP_GAIN_BONUS))
+	if amount <= 0:
+		return
 	var new_hp: int = maxi(player.hp, mini(player.hp + amount, player.max_hp))
 	var delta: int = new_hp - player.hp
 	if delta > 0:
@@ -1513,6 +1604,10 @@ func activate_ability(player_index: int, uid: int, ability_index: int, targets: 
 func create_token(player_index: int, data: CardData, as_copy: bool = false) -> CardInstance:
 	var token: CardInstance = create_instance(data, player_index)
 	token.token_override = as_copy
+	for modifier: Modifier in players[player_index].modifiers.modifiers:
+		if modifier.kind == Modifier.Kind.TOKEN_STAT_CHANGE:
+			token.attack_bonus += modifier.value
+			token.defense_bonus += modifier.value2
 	emit_event(GameEvent.Type.TOKEN_CREATED, player_index, token.uid)
 	_enter_field(token, 0, false)
 	fire_game_event("token_created", {"card": token, "player": player_index})
@@ -1727,6 +1822,9 @@ func buff_unit(card: CardInstance, amount: int) -> bool:
 
 func grant_keyword(card: CardInstance, keyword: CardEnums.Keyword, until_end_of_turn: bool) -> void:
 	if card.has_keyword(keyword):
+		return
+	var cap: int = keyword_cap()
+	if cap >= 0 and keywords_of(card).size() >= cap:
 		return
 	if until_end_of_turn:
 		card.temp_keywords.append(keyword)

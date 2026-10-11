@@ -1182,9 +1182,9 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 	var zone_source: ModifierSource = ZoneEffects.source_for(effect_zone)
 	if main_dungeon_active or mini_active:
 		# The dungeon list's own buffs and debuffs, on top of the zone effects (`DungeonRules`).
-		zone_source = DungeonRules.with_shared(zone_source, dungeon_key)
+		zone_source = DungeonRules.with_shared(zone_source, dungeon_key, node.number)
 		if player_rules == null:
-			player_rules = DungeonRules.player_source(dungeon_key)
+			player_rules = DungeonRules.player_source(dungeon_key, node.number)
 	var game: GameState = run.start_encounter(enemy, zone_source, options, player_rules)
 	# Grandmaster Flex, the Unbroken fights beside you in the House of Gains boss duel if you rescued him in this run.
 	if main_dungeon_active and node.kind == DungeonMap.Kind.BOSS and dungeon_key == HouseOfGainsDungeon.ZONE_ID and HouseOfGainsDungeon.rescued(run):

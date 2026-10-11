@@ -106,6 +106,28 @@ enum Kind {
 	STARTING_RESOURCES,
 	## Brief 14: whenever the owner creates resources of kind `value2`, they create `value` extra.
 	RESOURCE_BONUS,
+	## Dungeon rule (Iron-less Prison): resources of kind `value` (a ResourceKind ordinal) cannot be used - their ability and costs - by either player while any player has it.
+	BLOCK_RESOURCE_USE,
+	## Dungeon rule (Processing Time): the owner's first spell each turn costs `value` more generic energy.
+	FIRST_SPELL_COST_CHANGE,
+	## Dungeon rule (Experimental): the first unit each side puts onto the field this duel gains a random keyword (presence).
+	EXPERIMENTAL_KEYWORD,
+	## Dungeon rule (Overgrowth): at the start of every turn every unit on either side gets +1/+1 for good (presence).
+	OVERGROWTH,
+	## Dungeon rule (Rot): at the end of every turn every unit with exactly 1 defense is destroyed (presence).
+	ROT,
+	## Dungeon rule (Perfect Order): a unit counts at most `value` keywords (the cap; the smallest wins).
+	KEYWORD_CAP,
+	## Dungeon rule (Mirrors): the first card the owner plays each duel is copied into the opponent's hand (presence).
+	MIRRORS,
+	## Dungeon rule (Thin Air): units of the owner with keyword `value2` get `value` attack.
+	KEYWORD_STAT_CHANGE,
+	## Dungeon rule (Fresh Fish): tokens the owner creates enter with +`value` attack and +`value2` defense.
+	TOKEN_STAT_CHANGE,
+	## Dungeon rule (Midnight Snack): whenever the owner eats garbage they gain `value` HP.
+	EAT_HP_GAIN,
+	## Dungeon rule (Forgotten Harmony): multi-Path cards cost `value` generic energy more (negative = less) for the owner.
+	MULTIPATH_COST_CHANGE,
 }
 
 ## `color` value meaning "matches every card".

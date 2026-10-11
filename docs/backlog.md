@@ -75,7 +75,7 @@ I did **not** run any windowed e2e smoke today and did not take fresh screenshot
 - Known limits: a loaded save resumes in town or the zone hub (position and zone HP are not saved); the ninja and Warden decks were tuned by eye, not simulated.
 
 ### Dungeon import: documented gaps
-- Not implemented: the 11 dungeon buffs and debuffs are shown on the Rules panel but not enforced. The Shredding Room pays gold instead of shredding a card. Dungeon node events and challenges are placeholder text and numbers. The Hollow Warden and the Trial have no boss lines.
+- **Fixed in Group 4:** all 11 buffs and debuffs are enforced (plus Corrupted Food, which was listed as active but did nothing) and the 11 inline Event nodes have real scenes with 2-3 choices (BL-8 to BL-10, `test_dungeon_rules.gd`, `test_dungeon_events.gd`). Still open: the Shredding Room pays gold instead of shredding a card; node challenges still use placeholder numbers; the Hollow Warden and the Trial have no boss lines.
 - D-TTK, D-HFA, D-ROT, D-PC and five side dungeons were checked on map screenshots and unit tests, not walked through the UI.
 
 ### Texture rollout: caveats
