@@ -208,6 +208,7 @@ func _ready() -> void:
 		_screenshot_slots.call_deferred(str(_screenshot_args["slots"]))
 	if _screenshot_args.has("ninja"):
 		GiantChestEvent.screenshot_run(self, str(_screenshot_args["ninja"]), town.harbor_chest_node, _screenshot_args)
+	ZoneTitleCard.show_in(self, Areas.TOWN, _screenshot_args.is_empty() or _screenshot_args.has("card"))
 	Session.save_game()
 
 

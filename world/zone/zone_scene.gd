@@ -203,6 +203,7 @@ func _ready() -> void:
 		GiantChestEvent.screenshot_run(self, def.id, giant_chest_node, _screenshot_args)
 	if _screenshot_args.has("lever") and vault_lever_node != null:
 		VaultLeverEvent.screenshot_run(self, def.id, vault_lever_node)
+	ZoneTitleCard.show_in(self, Areas.key_for_zone(def.id), _screenshot_args.is_empty() or _screenshot_args.has("card"))
 	Session.save_game()
 
 

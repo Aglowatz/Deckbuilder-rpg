@@ -100,6 +100,7 @@ func _ready() -> void:
 		_begin_cave_exit.call_deferred()
 	elif not Session.flag(&"rescuer_met") and Session.profile == null and not _screenshot_args.has("quiet"):
 		_play_awakening.call_deferred()
+	ZoneTitleCard.show_in(self, Areas.START, _screenshot_args.is_empty() or _screenshot_args.has("card"))
 	Session.save_game()
 
 

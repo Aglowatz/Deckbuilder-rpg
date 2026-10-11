@@ -16,6 +16,9 @@ var previous_area: String = ""
 ## Loading screens (LOAD-*) on entering an area; tools and tests can switch them off.
 var show_loading_screens: bool = true
 
+## Emitted when a scene change has finished (the fade or loading screen is gone), so something that belongs to the new scene can start.
+signal revealed
+
 
 func _ready() -> void:
 	layer = 100
@@ -91,6 +94,7 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 		await back.finished
 	_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	busy = false
+	revealed.emit()
 
 
 func _close_pause() -> void:
