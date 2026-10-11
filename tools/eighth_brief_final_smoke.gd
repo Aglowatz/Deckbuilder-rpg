@@ -360,7 +360,7 @@ func _beanstalk_puzzle_and_chute(zone: HeapScene) -> void:
 		_check(Session.flag(HeapZone.FLAG_PUZZLE_SOLVED), "the right plantings bloom the whole garden")
 		_check(Session.profile.owned_equipment.has(satchel), "solving rewards the Refusemancer Seed Satchel")
 		await _shot("h_28_seed_shrine_solved")
-		await driver.click_button("Leave")
+		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 	# The summit chest, then the trash chute down.
 	var chest: Vector3 = zone.builder.chest_positions()["chest_peak_b"] as Vector3
@@ -622,7 +622,7 @@ func _hub_heal(zone: HeapScene) -> void:
 			await driver.click_button("Buy")
 			await driver.seconds(0.4)
 		_check(Session.owned_count("R-22") == owned + 1, "buying adds the Refusemancer card")
-		await driver.click_button("Leave")
+		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 
 
@@ -660,7 +660,7 @@ func _quiz(zone: HeapScene) -> void:
 	await _shot("h_49_quiz_result")
 	_check(Session.flag(HeapZone.FLAG_QUIZ_DONE), "finishing the quiz sets the Dump's quiz flag")
 	_check(Session.gold > gold_before, "a perfect score paid out (%d -> %d gold)" % [gold_before, Session.gold])
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 
@@ -718,7 +718,7 @@ func _sort_it_out(zone: HeapScene) -> void:
 	_check(screen.game.stars() >= 2, "sorting nearly everything right earned stars (%d sorted, %d stars)" % [screen.game.correct_count(), screen.game.stars()])
 	_check(Session.gold > gold_before and Session.flag(HeapZone.FLAG_SORT_FIRST), "the run paid out with the one-time first-clear bonus")
 	await _shot("h_54_sort_it_out_result")
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 

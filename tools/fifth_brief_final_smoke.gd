@@ -62,7 +62,7 @@ func _quests_in_tracker(town: TownScene) -> void:
 	var tracker: QuestTracker = _find_node(town.hud, QuestTracker) as QuestTracker
 	_check(tracker != null and tracker.visible, "the quest tracker is on the town HUD")
 	var text: String = _all_label_text(tracker)
-	_check(text.contains("Meet the Merchants") or text.contains("Clear the Paths"), "the tracker lists the active quests (%s)" % text.replace("\n", " | ").left(80))
+	_check(text.contains("Meet the Merchants") or text.contains("Clear the Paths") or text.contains("Free the zone"), "the tracker lists the active quests (%s)" % text.replace("\n", " | ").left(80))
 	await _shot("e_01_town_quest_tracker")
 	await driver.tap_key(KEY_J)
 	await driver.seconds(0.4)
@@ -84,7 +84,7 @@ func _talk_to_a_vendor(town: TownScene) -> void:
 	await driver.seconds(0.4)
 	_check(town._overlay is VendorScreen, "talking to Sable opens the card vendor")
 	await driver.click_button("Got it")
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.4)
 	var after: int = Session.quest_log.objectives_met_count(quest, Session.unlock_state())
 	_check(after == before + 1, "talking to the card vendor advanced Meet the Merchants (%d -> %d)" % [before, after])
@@ -102,6 +102,8 @@ func _enter_the_dna(town: TownScene) -> DnaScene:
 	_check(zone != null, "the Necrocrat gate leads into the D.N.A.")
 	if zone != null:
 		await driver.seconds(1.0)
+		# The Rift Station unlock dialogue opens on arrival; open dialogue pauses enemy hits, so close it first.
+		await _dismiss_dialogue(zone.dialogue)
 		_check(Session.zone_run != null and Session.zone_run.hp == Session.zone_run.max_hp(), "entering starts at full zone HP")
 		await _shot("e_05_dna_lobby_arrival")
 	return zone
@@ -264,17 +266,17 @@ func _buy_a_necrocrat_card(zone: DnaScene) -> void:
 	if not (zone._overlay is VendorScreen):
 		return
 	await driver.click_button("Got it")
-	var tile: Control = _find_meta_tile(zone._overlay, "card_id", "N-06")
-	_check(tile != null, "Cubicle Zombie is for sale")
-	var owned_before: int = Session.owned_count("N-06")
+	var tile: Control = _find_meta_tile(zone._overlay, "card_id", "N-01")
+	_check(tile != null, "the first Requisitions card is for sale")
+	var owned_before: int = Session.owned_count("N-01")
 	if tile != null:
 		await driver.click(tile.get_global_rect().position + Vector2(60, 90))
 		await driver.seconds(0.3)
 		await _shot("e_14_vendor_buy_confirm")
 		await driver.click_button("Buy")
 		await driver.seconds(0.4)
-	_check(Session.owned_count("N-06") == owned_before + 1, "buying adds the Necrocrat card to the collection")
-	await driver.click_button("Leave")
+	_check(Session.owned_count("N-01") == owned_before + 1, "buying adds the Necrocrat card to the collection")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 
@@ -311,7 +313,7 @@ func _quiz_master(zone: DnaScene) -> void:
 	await _shot("e_16_quiz_result")
 	_check(Session.flag(DnaZone.FLAG_QUIZ_DONE), "finishing the quiz sets the quiz flag")
 	_check(Session.gold > gold_before, "a perfect score paid out (%d -> %d gold)" % [gold_before, Session.gold])
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 
@@ -354,7 +356,7 @@ func _matching_game(zone: DnaScene) -> void:
 	_check(game.is_won(), "all 8 pairs found within the move limit (%d moves)" % game.moves)
 	_check(Session.gold > gold_before and Session.flag(DnaZone.FLAG_MATCH_FIRST), "the win paid out with the one-time first-win bonus")
 	await _shot("e_21_matching_result")
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 
@@ -389,7 +391,7 @@ func _puzzle(zone: DnaScene) -> void:
 	_check(Session.flag(DnaZone.FLAG_PUZZLE_SOLVED), "the right setup solves the puzzle")
 	_check(Session.profile.owned_equipment.has(piece), "solving rewards the Soul Courier's Lanyard")
 	await _shot("e_25_puzzle_solved")
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 
@@ -424,14 +426,25 @@ func _mini_dungeon(zone: DnaScene) -> DnaScene:
 	await _shot("e_28_elevator_bank_mini_dungeon")
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
+	# Side dungeons are sealed until their quest is done: the entrance only drops the hook (dungeons_final_smoke plays a real unlock quest).
+	_check(not Session.side_unlocked("S-NECRO"), "the Waiting Room of Eternity starts sealed")
+	_check(zone._overlay == null, "a sealed side dungeon opens no confirm dialog")
+	Session.set_flag(DungeonCatalog.side_unlock_flag("S-NECRO"))
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.4)
 	await _shot("e_29_mini_dungeon_prompt")
 	var hp_at_entry: int = Session.zone_run.hp
-	await driver.click_button("Go down")
+	var entered: bool = await driver.click_button("Enter")
+	_check(entered, "the open entrance asks to enter")
 	var map_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 	_check(map_screen != null, "the mini dungeon opens the node map")
 	if map_screen == null:
 		return zone
 	_check(Session.mini_active and Session.run.hp == hp_at_entry, "the run starts at the zone's current HP (%d)" % hp_at_entry)
+	# The pilot often loses the fights; a stat boon lets the run reach the clear (the boost is applied after the HP check above).
+	Session.run.add_dungeon_source(MainDungeonDef.boon_source("Smoke-test might", [CardBuilder.modifier(Modifier.Kind.MAX_HP, 40), CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 4, Modifier.ANY_COLOR, 4)] as Array[Modifier]))
+	Session.run.hp = Session.run.max_hp()
+	await _dismiss_map_story(map_screen)
 	await driver.seconds(1.2)
 	await _shot("e_30_mini_dungeon_map")
 	var battles: int = 0
@@ -439,16 +452,23 @@ func _mini_dungeon(zone: DnaScene) -> DnaScene:
 	while battles < MiniDungeon.BATTLE_COUNT:
 		map_screen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 		if map_screen == null:
+			_note("mini dungeon: no map screen before battle %d" % (battles + 1))
 			break
 		await driver.seconds(0.6)
+		await _dismiss_map_story(map_screen)
 		var available: Array[DungeonMap.MapNode] = Session.dungeon_map.available()
 		if available.is_empty():
+			_note("mini dungeon: no node available after %d battle(s)" % battles)
 			break
 		var button: MapNodeButton = map_screen._buttons[available[0].id] as MapNodeButton
 		var hp_before: int = Session.run.hp
 		await driver.click(driver.center_of_control(button))
+		await driver.seconds(0.6)
+		await _dismiss_map_story(map_screen)
 		var battle: BattleScreen = await _wait_for(BattleScreen) as BattleScreen
 		if battle == null:
+			_note("mini dungeon: node click opened no battle (node %d, kind %s)" % [available[0].id, str(available[0].kind)])
+			await _shot("e_31b_mini_dungeon_no_battle")
 			break
 		battles += 1
 		_check(battle.game.players[0].hp == hp_before, "mini dungeon battle %d starts at the carried HP (%d)" % [battles, hp_before])
@@ -456,27 +476,41 @@ func _mini_dungeon(zone: DnaScene) -> DnaScene:
 			await _shot("e_31_mini_dungeon_battle_1")
 		await _play_battle(battle)
 		var won: bool = battle.context.won
+		_note("mini dungeon battle %d won=%s, run HP %d" % [battles, str(won), Session.run.hp])
 		await driver.click_button("Continue")
 		if not won:
 			left_dungeon = true
 			break
+		await driver.dismiss_reward_box(1.5)
 		var next: Node = await _wait_scene_either()
 		if next is RewardsScreen:
 			await driver.seconds(1.2)
 			if battles == MiniDungeon.BATTLE_COUNT:
 				await _shot("e_32_mini_dungeon_final_reward")
-			await driver.click_button("Continue")
+			if driver.find_button("Skip card", get_tree().current_scene) != null:
+				await driver.click_button("Skip card")
+			else:
+				await driver.click_button("Continue")
 			await driver.seconds(0.6)
+			# Levelling up shows a Level Up box over the rewards screen with its own Continue button.
+			for _extra: int in 4:
+				if get_tree().current_scene is RewardsScreen:
+					await _rewards_step()
 			if get_tree().current_scene is DnaScene:
 				left_dungeon = true
 				break
+	await _shot("e_32b_mini_dungeon_after_loop")
 	var settle: int = 0
 	while Session.mini_active and settle < 200:
 		settle += 1
 		await driver.frames(5)
+		if await driver.dismiss_reward_box(0.3):
+			continue
 		if get_tree().current_scene is BattleScreen:
 			await _play_battle(get_tree().current_scene as BattleScreen)
 			await driver.click_button("Continue")
+		elif get_tree().current_scene is RewardsScreen:
+			await _rewards_step()
 		elif driver.find_button("Continue", get_tree().current_scene) != null:
 			await driver.click_button("Continue")
 			await driver.seconds(0.4)
@@ -487,9 +521,39 @@ func _mini_dungeon(zone: DnaScene) -> DnaScene:
 	_note("mini end state: scene=%s active=%s" % [get_tree().current_scene, str(Session.mini_active)])
 	_check(not Session.mini_active, "the mini dungeon run ended and returned to the zone")
 	if Session.flag(DnaZone.FLAG_MINI_DUNGEON_CLEARED):
-		_check(Session.owned_count(MiniDungeon.REWARD_CARD_ID) == 1, "clearing it granted the unique Deceased CEO card")
+		_check(Session.owned_count(MiniDungeon.REWARD_CARD_ID) == 1, "clearing it granted the unique side dungeon's unique card")
 	_note("mini dungeon: %d battle(s) fought, cleared=%s (a loss wakes you at the hub; the clear path is unit-tested)" % [battles, str(Session.flag(DnaZone.FLAG_MINI_DUNGEON_CLEARED))])
 	return zone
+
+
+## One click through the rewards screen: a card offer (skip it), the equipment slot picker that a level-up opens (pick the first slot), or Continue.
+func _rewards_step() -> void:
+	var scene: Node = get_tree().current_scene
+	if driver.find_button("Skip card", scene) != null:
+		await driver.click_button("Skip card")
+	elif _find_node(scene, EquipmentSlotChoiceScreen) != null:
+		var picker: EquipmentSlotChoiceScreen = _find_node(scene, EquipmentSlotChoiceScreen) as EquipmentSlotChoiceScreen
+		await driver.click(driver.center_of_control(picker._tiles.values()[0] as Control))
+		await driver.seconds(0.3)
+		await driver.click_button("Choose")
+	else:
+		await driver.click_button("Continue")
+	await driver.seconds(0.6)
+
+
+## The side dungeon's story beats (dialogue or cutscene over the map): space until they are gone.
+func _dismiss_map_story(map_screen: Variant) -> void:
+	for _guard: int in 60:
+		if not is_instance_valid(map_screen):
+			return
+		var screen: DungeonMapScreen = map_screen as DungeonMapScreen
+		var busy: bool = screen._dialogue != null and screen._dialogue.active
+		for child: Node in screen.get_children():
+			busy = busy or child is CutsceneScreen
+		if not busy:
+			return
+		await driver.tap_key(KEY_SPACE)
+		await driver.seconds(0.25)
 
 
 func _final_state(zone: DnaScene) -> void:
@@ -532,7 +596,7 @@ func _wait_scene_either() -> Node:
 	var elapsed: float = 0.0
 	while elapsed < STALL_LIMIT:
 		var scene: Node = get_tree().current_scene
-		if scene != null and not SceneManager.busy and (scene is RewardsScreen or scene is DnaScene):
+		if scene != null and not SceneManager.busy and (scene is RewardsScreen or scene is DnaScene or scene is DungeonMapScreen):
 			return scene
 		await driver.frames(5)
 		elapsed += 5.0 / 60.0

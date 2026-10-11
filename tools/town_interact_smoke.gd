@@ -141,7 +141,7 @@ func _check_vendor_by_click() -> void:
 	await driver.seconds(0.3)
 	_check(scene._overlay is VendorScreen, "the vendor dialogue leads into the Vendor screen")
 	if scene._overlay is VendorScreen:
-		await driver.click_button("Leave")
+		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 	_check(scene._overlay == null, "closing the Vendor screen returns to the town")
 
@@ -172,7 +172,7 @@ func _check_item_vendor() -> void:
 		await driver.seconds(0.3)
 		_check(Session.gold < gold_before, "buying an item spends gold")
 		_check(Session.profile.owns_item(item), "the bought item is actually in the inventory")
-		await driver.click_button("Leave")
+		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 	_check(scene._overlay == null, "closing the Item Vendor screen returns to town")
 
@@ -213,7 +213,7 @@ func _check_equipment_vendor() -> void:
 		await driver.seconds(0.3)
 		_check(Session.gold < gold_before, "buying equipment spends gold")
 		_check(Session.profile.owned_equipment.has(piece), "the bought piece is actually owned")
-		await driver.click_button("Leave")
+		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 	# Meeting the third merchant finishes "Meet the Merchants": its Quest Complete box appears (polish round) and is dismissed with a click.
 	_check(await driver.dismiss_reward_box(), "finishing Meet the Merchants shows the Quest Complete box")

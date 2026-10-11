@@ -469,7 +469,7 @@ func _hub_heal(zone: GainlandsScene) -> void:
 			await driver.click_button("Buy")
 			await driver.seconds(0.4)
 		_check(Session.owned_count("B-01") == owned + 1, "buying adds the Beefcake card")
-		await driver.click_button("Leave")
+		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 
 
@@ -502,7 +502,7 @@ func _quiz(zone: GainlandsScene) -> void:
 	await _shot("f_36_quiz_result")
 	_check(Session.flag(GainlandsZone.FLAG_QUIZ_DONE), "finishing the quiz sets the Gainlands quiz flag")
 	_check(Session.gold > gold_before, "a perfect score paid out (%d -> %d gold)" % [gold_before, Session.gold])
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 
@@ -551,7 +551,7 @@ func _rep_counter(zone: GainlandsScene) -> void:
 	_check(game.stars() >= 1, "the set earned stars (%d)" % game.stars())
 	_check(Session.gold > gold_before and Session.flag(GainlandsZone.FLAG_REPS_FIRST), "the performance paid out with the one-time first-clear bonus")
 	await _shot("f_41_rep_counter_result")
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 
@@ -590,7 +590,7 @@ func _power_puzzle(zone: GainlandsScene) -> void:
 	_check(Session.flag(GainlandsZone.FLAG_PUZZLE_SOLVED), "the right setup solves the puzzle")
 	_check(Session.profile.owned_equipment.has(belt), "solving rewards the Gainsmith's Lifting Belt")
 	await _shot("f_45_power_puzzle_solved")
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 

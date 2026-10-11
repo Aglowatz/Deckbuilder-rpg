@@ -74,7 +74,7 @@ func _buy_wicked_dagger(town: TownScene) -> EquipmentData:
 			await driver.seconds(0.3)
 		_check(Session.profile.owned_equipment.has(piece), "buying it adds it to owned_equipment")
 		_shot(town, "final2_01_equipment_vendor_basic_purchase")
-		await driver.click_button("Leave")
+		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 	return piece
 
@@ -185,7 +185,7 @@ func _confirm_advanced_equipment_unlocked(town: TownScene) -> void:
 		var advanced_tile: Control = _find_equipment_tile(vendor, "flamethrower")
 		_check(advanced_tile != null, "an advanced piece (Flamethrower) now has a real, buyable tile")
 		_shot(town, "final2_07_equipment_vendor_advanced_unlocked")
-		await driver.click_button("Leave")
+		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 
 

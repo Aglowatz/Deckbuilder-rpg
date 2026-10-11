@@ -477,7 +477,7 @@ func _shop_item(vendor: ItemVendorScreen) -> void:
 	await driver.seconds(0.4)
 	_check(Session.profile.owns_item(item), "the bought item joins the inventory")
 	_check(Session.gold < before_gold, "the price is paid in gold")
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.4)
 
 
@@ -501,7 +501,7 @@ func _shop(vendor: VendorScreen) -> void:
 	await driver.seconds(0.4)
 	_check(Session.owned_count(card.id) == before_owned + 1, "the purchased card joins the collection")
 	_check(Session.gold == before_gold - Session.effective_price(CardPricing.price(card)), "the price is paid in gold")
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.4)
 
 

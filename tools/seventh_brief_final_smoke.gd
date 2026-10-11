@@ -597,7 +597,7 @@ func _hub_heal(zone: BuffetScene) -> void:
 			await driver.click_button("Buy")
 			await driver.seconds(0.4)
 		_check(Session.owned_count("G-02") == owned + 1, "buying adds the Gourmand card")
-		await driver.click_button("Leave")
+		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 	# Quest counters count from acceptance, so bake a second pie now (the pantry stock is topped up directly:
 	# each pickup is once per visit, which is covered above).
@@ -615,7 +615,7 @@ func _hub_heal(zone: BuffetScene) -> void:
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
 	if zone._overlay is VendorScreen:
-		await driver.click_button("Leave")
+		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 	await _clear_popups(zone)
 	_check(Session.quest_log.is_completed(BuffetZone.QUEST_PIE), "handing the pie in completes Bake Me a Pie")
@@ -651,7 +651,7 @@ func _quiz(zone: BuffetScene) -> void:
 	await _shot("g_47_quiz_result")
 	_check(Session.flag(BuffetZone.FLAG_QUIZ_DONE), "finishing the quiz sets the Buffet's quiz flag")
 	_check(Session.gold > gold_before, "a perfect score paid out (%d -> %d gold)" % [gold_before, Session.gold])
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 
@@ -702,7 +702,7 @@ func _order_up(zone: BuffetScene) -> void:
 	_check(screen.game.stars() >= 2, "assembling every dish in order earned stars (%d points, %d stars)" % [screen.game.points(), screen.game.stars()])
 	_check(Session.gold > gold_before and Session.flag(BuffetZone.FLAG_ORDER_FIRST), "the shift paid out with the one-time first-clear bonus")
 	await _shot("g_53_order_up_result")
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 
 
@@ -761,7 +761,7 @@ func _stew_puzzle(zone: BuffetScene) -> void:
 	_check(Session.flag(BuffetZone.FLAG_PUZZLE_SOLVED), "the right stew solves the puzzle")
 	_check(Session.profile.owned_equipment.has(ladle), "solving rewards the Head Chef's Ladle")
 	await _shot("g_58_stew_puzzle_solved")
-	await driver.click_button("Leave")
+	await driver.tap_key(KEY_ESCAPE)
 	await driver.seconds(0.3)
 	# The pad on top bounces you back down.
 	var back: BuffetLayout.Pad = zone.buf.layout.pads[5]

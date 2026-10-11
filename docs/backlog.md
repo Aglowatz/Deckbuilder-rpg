@@ -44,37 +44,24 @@ I did **not** run any windowed e2e smoke today and did not take fresh screenshot
 
 ## PARTIAL / BROKEN
 
-### D.N.A. mini-dungeon return: not confirmed
-- The return path exists. `rewards_screen.gd:144` handles the boss clear, `game_session.gd` ends the mini run (about line 2138), and GUT `test_hp_left_goes_back_to_the_zone` and `test_losing_wakes_at_the_hub_for_a_fee` pass.
-- **The D.N.A. e2e still fails.** `_screenshots/fifth_brief_final_smoke.log` (2026-10-08, the latest run) ends `FAILED`: 33 checks ok and 7 FAIL. They are the tracker listing, courier hit, invulnerability window, slow-enemy battle, "Cubicle Zombie is for sale", the buy check and "the mini dungeon opens the node map".
-- progress.md blames the last one on the smoke script still looking for the old "Chalk up" button, and the other six on script timing. That diagnosis was never confirmed with a re-run.
-- The sixth-brief Gainlands smoke fails the same mini-dungeon step.
-- **Left:** update or rerun the D.N.A. smoke against the new side-dungeon flow, then confirm in the game that finishing or losing the D.N.A. mini dungeon puts you back in the zone. Today the return is unit-tested, not played end to end.
+### D.N.A. mini-dungeon return: DONE (Group 3)
+- `tools/fifth_brief_final_smoke.gd` was updated (sealed side dungeon, "Enter", Level Up box, equipment-slot picker, card offer, dialogue on arrival) and run windowed: **58 checks ok, 0 FAIL**, including "the mini dungeon opens the node map", "the mini dungeon run ended and returned to the zone" and "clearing it granted the unique card (N-30)". No game bug was found; every failure was a stale script step (BL-7).
+- The Gainlands smoke still looks for the old "Chalk up" button at its mini-dungeon step; not updated.
 
 ### Dungeon map alignment: judgment calls
 - MAP-PC: node 10 (the Model Room) has no empty circle on the painted platform, so it sits at the foot of the red staircase, with node 9 on the landing before it. Confirmed in the screenshot. If you wanted it on the platform itself, that is still open.
 - D-LAB (the postgame Path-ology Lab) uses a placeholder map, with no painted art and hand-set coordinates.
 - Several maps have large mean fit offsets (S-GOUR 94 px, D-PC 75 px). That is the nodes being moved to the painted spots, not a defect.
 
-### NPC CSV mismatches
-- The Story v2 re-import (63 NPCs) fixed names and ids. These prose and data leftovers remain:
-  - **Granny Gristle introduces herself as "Hob Tillbury"**: `data/story/refusemancer_story.tres:113` and `:167`. The portrait name is Granny Gristle.
-  - **Shop and place names still use the old owners:** "Farmer Hob's Swap Shed" (`core/zone/heap_zone.gd:132`) and "Tiny Tony's Protein & Pasteboard" (4 files).
-  - **Old Man Mountain** says "Head Spotter of the Swole Station" (`gainlands_story.tres:91`). I could not tell from the data whether that is his intended title.
-  - progress.md also lists bare first names ("Brenda", "Mabbit", "Tilda") and he/she mismatches (Prudence Pallor, Brother Bramble). My grep found no "Mabbit", "Tilda" or "Coach Brenda" strings left in `core data world app ui`. I did not re-check the he/she lines.
-  - Placeholder portraits (king, queen, Rescuer, Dr. Siphon, NPC-NINJA, NPC-VAULTWARDEN) are code-drawn or placeholders until real art arrives.
-  - Some in-game NPCs have no list row and so show no portrait. 8 list NPCs do not exist in the game yet because their dungeons are not built (Hob, Kestrel, Warden, Spotter, Itamae, Betty, Raccoon King, Automaton).
+### NPC CSV mismatches: largely fixed in Group 2
+- Granny Gristle introduces herself as herself; shops are now Benchley's Protein & Pasteboard, Granny Gristle's Compost Grange and Mirepoix's Dessert & Deckery; "Head Spotter" and the fair judge were updated (BL-6).
+- Still open: placeholder portraits (king, queen, Rescuer, Dr. Siphon, NPC-NINJA, NPC-VAULTWARDEN); in-game NPCs with no list row (see the ART INVENTORY section); 8 list NPCs whose dungeons are not built (Hob, Kestrel, Warden, Spotter, Itamae, Betty, Raccoon King, Automaton).
 
-### Leftover old names
-- **"Wellspring" is still player-visible.** `TitleScreen.GAME_TITLE = "WELLSPRING"` (`ui/screens/title_screen.gd:5`). The town has a "The Wellspring" shop label (`world/town_layout.gd:107`), a "Wellspring" spot (`town_scene.gd:404`) and a "Touch the Wellspring" prompt (`town_scene.gd:709`). The README title is "Wellspring (working title)". No replacement title exists in `story_source_v2.md`.
-- **"Beefcake Path" as a place name survives in:**
-  - `data/story/capital_story.tres` (the `fx.no_travel` line);
-  - `data/story/intro_story.tres` (`beefcake_npc_intro_lines`);
-  - `data/npcs/npcs.json:174` (location "Main Town, Beefcake Path");
-  - `dungeons.json` `reward_repeat` text (2 entries), which `DungeonCatalog` parses into a pack id;
-  - code comments and README.
-  - "Beefcake" as the Path name is valid and not a leftover. Whether the story lines should say "the Gainlands" is your call.
-- "Verdant Heap" is clean in player-visible text (see DONE).
+### Leftover old names: fixed in Group 2 (judgment calls BL-2 to BL-6)
+- Title is "The Wayward Path" (title screen, README, export path and product name, window title set at runtime). The town well is "The Old Well". "Wellspring" now appears only in lore text about the in-world springs, code comments, and historical docs.
+- "Beefcake Path" as a place name is gone from story lines, NPC location and repeat-reward text. It remains only as the Path's own name (Rollo's quest row in `npc_list.csv`), history docs (`progress.md`, `open_questions.md`), a test assertion that accepts either name, and a code comment.
+- "Pathavia" is now "Pathwork" everywhere except the history line in `open_questions.md`.
+- Final search results are in the Group 2 report in `docs/progress.md`.
 
 ### Long card names
 - The test skips tokens and infrastructure cards. It also only exercises the plain layout. `use_card_frame_overlays=false` is the default, so the framed layout is not covered if you switch it back on.
@@ -107,10 +94,5 @@ I did **not** run any windowed e2e smoke today and did not take fresh screenshot
 
 - **3D-model species mismatches.** The world still uses the KayKit humanoids (Mage, Barbarian, Rogue, Rogue_Hooded, Knight) for NPCs whose portraits are tortoise, bear, fox, frog, walrus, ogre, minotaur, yeti, rhino, skeleton, ghosts, cat, otter and others. The full table is `docs/progress.md` lines 2593 to 2625. There are no new models in `assets/` (only KayKit and Kenney packs) and no commits that touch this.
 - ~~Papercraft test cleanup~~ — DONE (Group 1): tests, tools, art and docs removed; nothing else depended on them. `.import` files under `docs/` are now git-ignored and untracked.
-- **Game title and the "Wellspring" shop and spot names.** No new title has been chosen or applied (see PARTIAL).
 
 ---
-
-## Housekeeping noticed
-
-- Running Godot leaves untracked `.import` files under `docs/art/screens/*/` (for example `card_face_revert/`). I left them alone and did not commit them.
