@@ -66,7 +66,7 @@ I did **not** run any windowed e2e smoke today and did not take fresh screenshot
 ### Long card names
 - The test skips tokens and infrastructure cards. It also only exercises the plain layout. `use_card_frame_overlays=false` is the default, so the framed layout is not covered if you switch it back on.
 
-### Polish: town paths
+### Polish: town paths (fixed in Group 6, BL-12: streets are mown grass, stone only on the plaza)
 - Polish A removed the brown dirt ribbons. Story v2 Part B then rebuilt the town (`world/town_streets.gd`) with cream cobble ribbons edged by a tan dirt kerb. I did not look at a current town screenshot, so I cannot say whether you would read those as "brown paths" again. progress.md also lists "painted road ribbons in the town (still the old dirt/cobble ribbons)" as a later idea.
 
 ### Polish and feature round: how far "verified" goes
@@ -79,7 +79,7 @@ I did **not** run any windowed e2e smoke today and did not take fresh screenshot
 - D-TTK, D-HFA, D-ROT, D-PC and five side dungeons were checked on map screenshots and unit tests, not walked through the UI.
 
 ### Texture rollout: caveats
-- The Main Town (59 fps) and Starting Area (57) are a few frames under the 60 target on Medium, within the stated ±5 fps noise.
+- Main Town and Starting Area now hold 64 fps on Medium (Group 6, BL-13).
 - Not painted:
   - The Path-ology Lab zone and the town road ribbons.
   - The Gainlands trees (flat colour).

@@ -122,7 +122,7 @@ func apply() -> void:
 	var level: int = quality()
 	_apply_globals()
 	GraphicsQuality.apply_to_viewport(get_viewport(), level)
-	RenderingServer.directional_shadow_atlas_set_size(1536 if level < GraphicsQuality.Level.HIGH else 4096, true)
+	RenderingServer.directional_shadow_atlas_set_size(1024 if level < GraphicsQuality.Level.HIGH else 4096, true)
 	RenderingServer.environment_set_ssao_quality(RenderingServer.ENV_SSAO_QUALITY_LOW if level < GraphicsQuality.Level.HIGH else RenderingServer.ENV_SSAO_QUALITY_MEDIUM, true, 0.5, 2, 50, 300)
 	RenderingServer.directional_soft_shadow_filter_set_quality(RenderingServer.SHADOW_QUALITY_SOFT_LOW if level < GraphicsQuality.Level.HIGH else RenderingServer.SHADOW_QUALITY_SOFT_MEDIUM)
 	if OS.get_environment("STYLE_DEBUG") != "":
@@ -215,7 +215,7 @@ func _apply_lights(level: int) -> void:
 	sun.shadow_opacity = 0.62
 	sun.shadow_normal_bias = 1.6
 	sun.shadow_bias = 0.06
-	sun.directional_shadow_max_distance = 32.0 if detail < 2 else 48.0
+	sun.directional_shadow_max_distance = 26.0 if detail < 2 else 48.0
 	sun.directional_shadow_mode = DirectionalLight3D.SHADOW_ORTHOGONAL if detail < 2 else DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS
 	if sun_cull_mask_hint != 0:
 		sun.light_cull_mask = sun_cull_mask_hint

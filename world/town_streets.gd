@@ -7,7 +7,10 @@ extends RefCounted
 const WARM_LIGHT: Color = Color("ffb45a")
 const PAVING_LIGHT: Color = Color("e6d5ad")
 const PAVING_DARK: Color = Color("c9b186")
-const KERB: Color = Color("9d8a66")
+const KERB: Color = Color("a39b88")
+## The mown grass strip along each street.
+const MOWN_LIGHT: Color = Color("8fd262")
+const MOWN_DARK: Color = Color("6fb84c")
 ## Only this many lamps carry a real light (the rest glow); the style rig keeps the nearest few lit.
 const LAMPS_WITH_LIGHT: int = 10
 
@@ -40,8 +43,8 @@ static func build(parent: Node3D, builder: TownBuilder) -> TownStreets:
 
 
 func _roads() -> void:
-	var paving: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.COBBLE, PAVING_LIGHT, PAVING_DARK, KERB, GroundDecals.Shape.RIBBON, 1.3, 0.08, 3.0)
-	var kerb: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, KERB, Color("b39d76"), Color.BLACK, GroundDecals.Shape.RIBBON, 1.6, 0.2, 4.0)
+	# The streets are grass, not paving (stone is kept for the plaza): a lighter, evenly mown strip marks each walkway so it still reads from the camera.
+	var mown: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, MOWN_LIGHT, MOWN_DARK, Color.BLACK, GroundDecals.Shape.RIBBON, 2.6, 0.45, 3.0)
 	var all_roads: Dictionary = TownLayout.roads()
 	var index: int = 0
 	for id: String in all_roads.keys():
@@ -52,13 +55,12 @@ func _roads() -> void:
 				land.append(point)
 		if land.size() < 2:
 			continue
-		GroundDecals.ribbon(root, land, TownLayout.ROAD_WIDTH + 0.6, kerb, 0.001)
-		GroundDecals.ribbon(root, land, TownLayout.ROAD_WIDTH, paving, 0.004 + 0.0005 * float(index))
+		GroundDecals.ribbon(root, land, TownLayout.ROAD_WIDTH, mown, 0.004 + 0.0005 * float(index))
 		index += 1
 
 
 func _plaza() -> void:
-	var kerb: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, KERB, Color("b39d76"), Color.BLACK, GroundDecals.Shape.DISC, 1.6, 0.2, 4.0)
+	var kerb: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, KERB, Color("b4ac98"), Color.BLACK, GroundDecals.Shape.DISC, 1.6, 0.2, 4.0)
 	var paving: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.COBBLE, PAVING_LIGHT, PAVING_DARK, KERB, GroundDecals.Shape.DISC, 1.3, 0.06, 5.0)
 	var inner: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.COBBLE, Color("f0e4c4"), Color("d8c79c"), KERB, GroundDecals.Shape.DISC, 1.0, 0.05, 6.0)
 	GroundDecals.disc(root, TownLayout.PLAZA, TownLayout.PLAZA_RADIUS + 0.4, kerb, 1.0, 0.0, 0.0015)
