@@ -33,7 +33,7 @@ static func slot_label(slot: int) -> String:
 	return "Autosave" if slot == AUTOSAVE else "Slot %d" % slot
 
 
-## What the slot list shows: {} for an empty slot, else {slot, name, saved_at (unix), playtime (seconds), level, location, gold, thumbnail (bool), compatible (bool)}.
+## What the slot list shows: {} for an empty slot, else {slot, name, saved_at (unix), playtime (seconds), level, location, gold, thumbnail (bool), compatible (bool), postgame (bool)}.
 static func info(slot: int) -> Dictionary:
 	if not exists(slot):
 		return {}
@@ -50,6 +50,7 @@ static func info(slot: int) -> Dictionary:
 		"location": str(meta.get("location", "Unknown")),
 		"scene": str(meta.get("scene", "town")),
 		"gold": int(meta.get("gold", data.get("gold", 0))),
+		"postgame": bool(data.get("postgame", false)),
 		"thumbnail": FileAccess.file_exists(thumb_path(slot)),
 		"compatible": int(data.get("save_format", 1)) == Session.SAVE_FORMAT,
 	}

@@ -1,11 +1,25 @@
 class_name TitleScreen
 extends Control
-## Title menu: New Game / Continue / Settings / Quit, over a slowly turning 3D view of the town.
+## Title menu: New Game / Continue / Settings / Quit. The key art (TITLE-KEYART, or TITLE-KEYART-NIGHT once the final boss was beaten) fills the screen with a slow drift,
+## a gentle shimmer of light and drifting motes; the wordmark (LOGO-WORDMARK) sits in the open upper centre and the menu on the calmer right side. Without the art it falls back to
+## the turning 3D view of the town and the text title.
 
 const GAME_TITLE: String = "THE WAYWARD PATH"
+const ART_ID: String = "TITLE-KEYART"
+const NIGHT_ID: String = "TITLE-KEYART-NIGHT"
+const LOGO_ID: String = "LOGO-WORDMARK"
+## The art is drawn this much larger than the screen so the drift never shows an edge.
+const ART_ZOOM: float = 1.08
+const DRIFT_PIXELS: float = 26.0
+const LOGO_WIDTH: float = 760.0
 
 var _menu_column: VBoxContainer
 var _overlay: CenterContainer
+var _art: TextureRect
+var _glow: TextureRect
+var _logo: TextureRect
+var _night: bool = false
+var _postgame_arg: String = ""
 
 
 var _screenshot_open: String = ""
@@ -13,6 +27,7 @@ var _screenshot_open: String = ""
 
 func screenshot_prepare(args: Dictionary) -> void:
 	_screenshot_open = str(args.get("open", ""))
+	_postgame_arg = str(args.get("postgame", ""))
 
 
 func _ready() -> void:
@@ -27,6 +42,16 @@ func _ready() -> void:
 
 
 func _build_backdrop() -> void:
+	_night = (_postgame_arg == "true") if not _postgame_arg.is_empty() else TitleMeta.postgame_reached()
+	var picture: Texture2D = KeyArt.texture(NIGHT_ID if _night else ART_ID)
+	if picture == null:
+		_build_town_backdrop()
+	else:
+		_build_art_backdrop(picture)
+
+
+## Without the key art: the turning 3D town behind a dark band for the menu.
+func _build_town_backdrop() -> void:
 	var backdrop: TownBackdrop = TownBackdrop.new()
 	add_child(backdrop)
 	var vignette: ColorRect = UIKit.vignette(0.9)
@@ -53,21 +78,33 @@ func _build_backdrop() -> void:
 func _build_menu() -> void:
 	var margin: MarginContainer = MarginContainer.new()
 	UIKit.full_rect(margin)
-	margin.add_theme_constant_override("margin_left", 140)
-	margin.add_theme_constant_override("margin_top", 120)
-	margin.add_theme_constant_override("margin_bottom", 100)
 	add_child(margin)
 	_menu_column = UIKit.vbox(16)
-	margin.add_child(_menu_column)
-	var title: Label = UIKit.label(GAME_TITLE, &"TitleLabel", 104)
-	_menu_column.add_child(title)
-	var subtitle: Label = UIKit.label("A DECKBUILDER ROLE-PLAYING GAME", &"MutedLabel", 24)
-	subtitle.add_theme_color_override("font_color", UIStyle.PARCHMENT)
-	_menu_column.add_child(subtitle)
-	var version: Label = UIKit.label("v%s" % str(ProjectSettings.get_setting("application/config/version", "0.0.0")), &"MutedLabel", 20)
+	if _art != null:
+		# Over the key art: the wordmark carries the title, the menu stands on the calmer right side.
+		margin.add_theme_constant_override("margin_right", 120)
+		margin.add_theme_constant_override("margin_top", 400)
+		margin.add_theme_constant_override("margin_bottom", 70)
+		var row: HBoxContainer = UIKit.hbox(0)
+		row.add_child(UIKit.filler())
+		row.add_child(_menu_column)
+		margin.add_child(row)
+	else:
+		margin.add_theme_constant_override("margin_left", 140)
+		margin.add_theme_constant_override("margin_top", 120)
+		margin.add_theme_constant_override("margin_bottom", 100)
+		margin.add_child(_menu_column)
+		var title: Label = UIKit.label(GAME_TITLE, &"TitleLabel", 104)
+		_menu_column.add_child(title)
+		var subtitle: Label = UIKit.label("A DECKBUILDER ROLE-PLAYING GAME", &"MutedLabel", 24)
+		subtitle.add_theme_color_override("font_color", UIStyle.PARCHMENT)
+		_menu_column.add_child(subtitle)
+	var version_text: String = "v%s" % str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
+	var version: Label = UIKit.label(version_text, &"MutedLabel", 20)
 	version.name = "VersionLabel"
-	_menu_column.add_child(version)
-	_menu_column.add_child(UIKit.spacer(40))
+	if _art == null:
+		_menu_column.add_child(version)
+	_menu_column.add_child(UIKit.spacer(40 if _art == null else 6))
 	Session.discard_incompatible_save()
 	var has_saves: bool = SaveSlots.any_save()
 	if has_saves:
@@ -86,7 +123,14 @@ func _build_menu() -> void:
 		_menu_column.add_child(notice)
 		Session.save_reset_message = ""
 	_menu_column.add_child(UIKit.filler())
-	_menu_column.add_child(UIKit.label("Placeholder art and names. Press Esc in game for the pause menu.", &"MutedLabel", 18))
+	var footer: Label = UIKit.label("Press Esc in game for the pause menu." if _art == null else "%s   Press Esc in game for the pause menu." % version_text, &"MutedLabel", 18)
+	if _art != null:
+		footer.add_theme_color_override("font_color", Color(1, 1, 1, 0.75))
+		footer.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.8))
+		footer.add_theme_constant_override("outline_size", 5)
+	footer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	footer.custom_minimum_size = Vector2(360, 0)
+	_menu_column.add_child(footer)
 	for index: int in range(_menu_column.get_child_count()):
 		var child: Control = _menu_column.get_child(index) as Control
 		UIKit.pop_in(child, 0.1 * index)
@@ -179,3 +223,113 @@ func _close_overlay() -> void:
 	var dim: Node = get_node_or_null("OverlayDim")
 	if dim != null:
 		dim.queue_free()
+
+
+## The key art with its idle life: a slow drift and zoom, a warm light that breathes over the skyline, drifting motes, a dark fade on the right for the menu, the wordmark above.
+func _build_art_backdrop(picture: Texture2D) -> void:
+	var stage: Control = Control.new()
+	stage.name = "TitleArt"
+	UIKit.full_rect(stage)
+	stage.clip_contents = true
+	stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(stage)
+	_art = TextureRect.new()
+	_art.name = "KeyArt"
+	_art.texture = picture
+	_art.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_art.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	UIKit.full_rect(_art)
+	_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_art.scale = Vector2.ONE * ART_ZOOM
+	stage.add_child(_art)
+	stage.resized.connect(func() -> void: _art.pivot_offset = stage.size * 0.5)
+	_art.pivot_offset = stage.size * 0.5
+	# The light: a soft additive glow over the castle and the sky that slowly swells and fades (warmer and lower at sunrise).
+	_glow = TextureRect.new()
+	_glow.name = "LightShimmer"
+	var radial: Gradient = Gradient.new()
+	radial.colors = PackedColorArray([Color(1.0, 0.86, 0.55, 0.55), Color(1.0, 0.8, 0.5, 0.0)])
+	var glow_texture: GradientTexture2D = GradientTexture2D.new()
+	glow_texture.gradient = radial
+	glow_texture.fill = GradientTexture2D.FILL_RADIAL
+	glow_texture.fill_from = Vector2(0.5, 0.5)
+	glow_texture.fill_to = Vector2(1.0, 0.5)
+	glow_texture.width = 256
+	glow_texture.height = 256
+	_glow.texture = glow_texture
+	_glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_glow.stretch_mode = TextureRect.STRETCH_SCALE
+	_glow.anchor_left = 0.30
+	_glow.anchor_right = 0.86
+	_glow.anchor_top = -0.15
+	_glow.anchor_bottom = 0.62
+	_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var additive: CanvasItemMaterial = CanvasItemMaterial.new()
+	additive.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	_glow.material = additive
+	_glow.modulate.a = 0.35
+	stage.add_child(_glow)
+	var motes: TitleMotes = TitleMotes.new()
+	motes.name = "Motes"
+	motes.tint = Color(1.0, 0.78, 0.5) if _night else Color(1.0, 0.92, 0.65)
+	UIKit.full_rect(motes)
+	stage.add_child(motes)
+	# A dark fade on the right keeps the menu readable over the busy art; a light vignette frames the whole picture.
+	var side: TextureRect = TextureRect.new()
+	var gradient: Gradient = Gradient.new()
+	gradient.colors = PackedColorArray([Color(0.04, 0.02, 0.07, 0.0), Color(0.04, 0.02, 0.07, 0.78)])
+	var side_texture: GradientTexture2D = GradientTexture2D.new()
+	side_texture.gradient = gradient
+	side_texture.width = 512
+	side_texture.height = 4
+	side_texture.fill_from = Vector2(0, 0)
+	side_texture.fill_to = Vector2(1, 0)
+	side.texture = side_texture
+	side.stretch_mode = TextureRect.STRETCH_SCALE
+	side.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	side.set_anchors_preset(Control.PRESET_RIGHT_WIDE)
+	side.offset_left = -820
+	side.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stage.add_child(side)
+	stage.add_child(UIKit.vignette(0.35))
+	_build_logo(stage)
+	_start_idle_motion()
+
+
+func _build_logo(stage: Control) -> void:
+	var texture: Texture2D = KeyArt.texture(LOGO_ID)
+	if texture == null:
+		return
+	_logo = TextureRect.new()
+	_logo.name = "Wordmark"
+	_logo.texture = texture
+	_logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_logo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var height: float = LOGO_WIDTH * float(texture.get_height()) / float(texture.get_width())
+	_logo.anchor_left = 0.5
+	_logo.anchor_right = 0.5
+	_logo.offset_left = -LOGO_WIDTH * 0.5
+	_logo.offset_right = LOGO_WIDTH * 0.5
+	_logo.offset_top = 6
+	_logo.offset_bottom = 6 + height
+	stage.add_child(_logo)
+	_logo.modulate.a = 0.0
+	_logo.pivot_offset = Vector2(LOGO_WIDTH * 0.5, height * 0.4)
+	_logo.scale = Vector2(0.94, 0.94)
+	var intro: Tween = create_tween().set_parallel(true)
+	intro.tween_property(_logo, "modulate:a", 1.0, 1.2).set_delay(0.2)
+	intro.tween_property(_logo, "scale", Vector2.ONE, 1.4).set_delay(0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+
+## The idle motion: the picture glides sideways and slowly zooms (about 25 seconds a leg), the light breathes. Both loop forever and stay subtle.
+func _start_idle_motion() -> void:
+	var drift: Tween = create_tween().set_loops()
+	drift.tween_property(_art, "position:x", -DRIFT_PIXELS, 24.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	drift.tween_property(_art, "position:x", DRIFT_PIXELS, 24.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var zoom: Tween = create_tween().set_loops()
+	zoom.tween_property(_art, "scale", Vector2.ONE * (ART_ZOOM + 0.025), 20.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	zoom.tween_property(_art, "scale", Vector2.ONE * ART_ZOOM, 20.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var shimmer: Tween = create_tween().set_loops()
+	shimmer.tween_property(_glow, "modulate:a", 0.62 if _night else 0.5, 3.6).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	shimmer.tween_property(_glow, "modulate:a", 0.18, 4.4).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)

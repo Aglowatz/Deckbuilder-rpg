@@ -31,6 +31,17 @@ func _build_menu() -> void:
 		child.queue_free()
 	var column: VBoxContainer = UIKit.vbox(14)
 	_menu.add_child(column)
+	var emblem: Texture2D = KeyArt.texture("LOGO-EMBLEM")
+	if emblem != null:
+		# The small logo (the four Paths meeting at the crossroads stone) tops the pause menu.
+		var badge: TextureRect = TextureRect.new()
+		badge.name = "Emblem"
+		badge.texture = emblem
+		badge.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		badge.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		badge.custom_minimum_size = Vector2(112, 112)
+		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		column.add_child(badge)
 	column.add_child(UIKit.label("Paused", &"HeadingLabel", 38, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	column.add_child(UIKit.spacer(6))
 	var resume: FancyButton = FancyButton.make("Resume", &"PrimaryButton", Vector2(0, 54))

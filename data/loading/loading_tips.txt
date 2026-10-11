@@ -1,0 +1,52 @@
+# Loading screen tips (ui/screens/loading_screen.gd, core/data/loading_tips.gd). Edit freely.
+# One tip per line:  kind | text      kinds: hint (gameplay), keyword (what a keyword means), lore (the game's voice)
+# Blank lines and lines starting with # are ignored. Keep each tip to one or two short sentences. A random tip is shown each time.
+# Optional: put "@zone-id" before the kind to show a tip only on one loading screen, e.g.  @LOAD-DUNGEON hint | text   (ids: LOAD-TOWN, LOAD-GAINLANDS, LOAD-DNA, LOAD-BUFFET, LOAD-DUMP, LOAD-CAPITAL, LOAD-DUNGEON)
+
+hint | You activate an Infrastructure to gain one energy of its Path. Playing a card exhausts the Infrastructure that paid for it.
+hint | You may play one Infrastructure per turn. Choose wisely, or at least choose.
+hint | A deck needs at least 45 cards and may hold up to 4 copies of any card that is not Infrastructure.
+hint | In the main campaign a deck may use two Paths. A multi-Path card counts as both of its Paths.
+hint | Every copy of a card beyond your fourth turns into essence of its Path. Auntie Alembic would love to hear from you.
+hint | You can save anywhere except in a battle or a dungeon. Your autosave does the rest.
+hint | Hover a card to zoom it. Everything the card does is written on it, even the parts that hurt.
+hint | Traps are played face-down and spring on their own. You can only have three set at a time.
+hint | Zone HP does not come back after battles inside a zone. Mind it, and mind your snacks.
+hint | Your hand holds ten cards at most. Past that, the extras are tossed, and nobody gets a refund.
+hint | You get one free mulligan. Use it when the hand is mostly tools and regret.
+hint | Locked vendor items show as ??? with a hint. Level up, free a zone, or clear a dungeon to see more.
+hint | The Arena's first-clear prizes are worth the trip. The Announcer will tell you so. Loudly.
+
+keyword | Hustle: this unit can attack the turn it enters. No summoning sickness, no sympathy.
+keyword | Flying: can only be blocked by Flying or Swat units.
+keyword | Swat: can block Flying units. It is called "swatting" for a reason.
+keyword | Elusive: cannot be blocked at all. It simply walks past.
+keyword | Untouchable: the opponent's cards, abilities and resources cannot target it.
+keyword | Unbreakable: cannot be destroyed by damage or destroy effects. It can still be shredded, sent back, or sat on.
+keyword | Toxic: any damage from this unit destroys what it hits. Hospitality is not its thing.
+keyword | Nourish: damage this unit deals heals you. Dinner and a show.
+keyword | Bulldoze: excess damage goes straight to the player.
+keyword | Sucker Punch: deals its damage before the others. Manners are for the second round.
+keyword | Overtime: attacking does not exhaust this unit. It never clocks out.
+keyword | Wallflower: cannot attack. It supports you emotionally and sometimes mechanically.
+keyword | Peek X: look at the top X cards of your deck and put any of them on the bottom.
+keyword | Shred removes a card from the game for good. Toss is a discard. Bury X sends the top X cards of a deck to the Refuse Pile.
+
+lore | Pathwork has four Paths and exactly one crossroads. The signs all point to a bakery.
+lore | The Beefcake Path has no rest days. This is not a rule, it is a lifestyle.
+lore | The Necrocrats file everything in triplicate, including their own funerals.
+lore | The Gourmand Path believes every problem is a dinner problem. Surprisingly often, it is.
+lore | The Refusemancers will tell you one thing: nothing is trash if you squint.
+lore | Bertram Beetsworth, Assistant to the Regional Merchant, would like you to know that beets are also a weapon.
+lore | Somewhere there is a giant chest that insists it is not a trap. It has been wrong before.
+lore | Gatekeeper Brannoch keeps a notebook of every traveler's name. The gate has no lock. He is very proud of the notebook.
+lore | Old Hob the Gravedigger is cheerful about death. It is his job, after all, and he has a very nice shovel.
+lore | Complaints about the Complaints Department may be filed with the Complaints Department.
+lore | Tilly Tonic tests every potion on herself. Her hair changes color daily. The scorch marks do not.
+lore | Pathwork's four Paths once ruled together. It was not as relaxing as it sounds.
+lore | The Endless Buffet has never once been closed for a private event. It is the private event.
+lore | A raccoon in a trench coat is, legally speaking, a tax advisor.
+@LOAD-DUNGEON hint | HP carries over between a dungeon's encounters, and you are fully healed on entering. Plan your fights, not your fears.
+@LOAD-DUNGEON hint | Dungeon rules apply to every fight inside it. Read them before the first battle, not during the third.
+@LOAD-TOWN hint | Talk to everyone in Crosspath. Some of them even have something useful to say.
+@LOAD-CAPITAL lore | The Capital is perfectly clean. If you notice a crack, that was not on the brochure.

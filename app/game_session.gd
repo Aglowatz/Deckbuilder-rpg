@@ -2262,6 +2262,8 @@ func unlock_postgame() -> bool:
 	if profile == null or profile.postgame_unlocked:
 		return false
 	profile.postgame_unlocked = true
+	if save_enabled:
+		TitleMeta.mark_postgame()
 	EventBus.collection_changed.emit()
 	save_game()
 	return true
