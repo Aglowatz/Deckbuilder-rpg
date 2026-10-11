@@ -47,7 +47,7 @@
 			"location": "Main Town and the four Path zones (inside the giant chests)",
 			"portrait_id": "NPC-NINJA",
 			"species": "fox",
-			"notes": "Placeholder portrait is drawn in code (core/data/portrait_placeholders.gd) until real art is imported. Species is a suggestion: a smug fox in a ninja hood.",
+			"notes": "Real portrait art (NPC-NINJA) is imported; the code-drawn placeholder only shows if it is missing.",
 			"expressions": ["smug", "angry"]
 		},
 		{

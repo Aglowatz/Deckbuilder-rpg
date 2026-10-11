@@ -156,14 +156,13 @@ func test_progress_survives_a_save_round_trip() -> void:
 	assert_true(Session.quest_log.is_active(NinjaBoss.QUEST_ID))
 
 
-func test_the_npc_has_a_placeholder_portrait_until_art_exists() -> void:
+func test_the_npc_has_real_portrait_art() -> void:
 	NpcRegistry.reset()
 	Portraits.reset()
 	var entry: NpcRegistry.Entry = NpcRegistry.find(NinjaBoss.NPC_ID)
 	assert_not_null(entry)
 	assert_eq(entry.short_name(), "Shiro Swindle")
 	assert_eq(NpcRegistry.resolve_speaker("Shiro Swindle"), NinjaBoss.NPC_ID)
+	assert_true(Portraits.has_portrait(NinjaBoss.NPC_ID), "the imported art, not the code-drawn placeholder")
 	var texture: Texture2D = Portraits.texture_for(NinjaBoss.NPC_ID)
-	assert_not_null(texture, "a code-drawn placeholder")
-	assert_eq(texture.get_width(), PortraitPlaceholders.WIDTH * PortraitPlaceholders.SCALE)
-	assert_false(Portraits.has_portrait(NinjaBoss.NPC_ID), "the art pipeline still reports the real art as missing")
+	assert_not_null(texture)
