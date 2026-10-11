@@ -63,7 +63,7 @@ I did **not** run any windowed e2e smoke today and did not take fresh screenshot
 - "Pathavia" is now "Pathwork" everywhere except the history line in `open_questions.md`.
 - Final search results are in the Group 2 report in `docs/progress.md`.
 
-### Long card names
+### Long card names (Group 7: the fit test now also covers tokens, Infrastructure and the framed look; all pass)
 - The test skips tokens and infrastructure cards. It also only exercises the plain layout. `use_card_frame_overlays=false` is the default, so the framed layout is not covered if you switch it back on.
 
 ### Polish: town paths (fixed in Group 6, BL-12: streets are mown grass, stone only on the plaza)
@@ -92,7 +92,7 @@ I did **not** run any windowed e2e smoke today and did not take fresh screenshot
 
 ## NOT STARTED
 
-- **3D-model species mismatches.** The world still uses the KayKit humanoids (Mage, Barbarian, Rogue, Rogue_Hooded, Knight) for NPCs whose portraits are tortoise, bear, fox, frog, walrus, ogre, minotaur, yeti, rhino, skeleton, ghosts, cat, otter and others. The full table is `docs/progress.md` lines 2593 to 2625. There are no new models in `assets/` (only KayKit and Kenney packs) and no commits that touch this.
+- **3D-model species mismatches** (research and options written in Group 7: `docs/design/npc_models.md`; no remodel yet, your decision).** The world still uses the KayKit humanoids (Mage, Barbarian, Rogue, Rogue_Hooded, Knight) for NPCs whose portraits are tortoise, bear, fox, frog, walrus, ogre, minotaur, yeti, rhino, skeleton, ghosts, cat, otter and others. The full table is `docs/progress.md` lines 2593 to 2625. There are no new models in `assets/` (only KayKit and Kenney packs) and no commits that touch this.
 - ~~Papercraft test cleanup~~ — DONE (Group 1): tests, tools, art and docs removed; nothing else depended on them. `.import` files under `docs/` are now git-ignored and untracked.
 
 ---
