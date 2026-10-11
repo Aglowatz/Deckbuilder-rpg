@@ -23,7 +23,26 @@ const TRIM_PAD: int = 2
 ## Panels whose plain parchment centre is also saved darkened (<ID>-DARK.webp): the game text is light, so its big panels keep the brass and wood of the art but get a dark centre.
 const DARK_IDS: Array[String] = ["UI-PANEL-MAIN", "UI-PANEL-POPUP"]
 
+const UI_CONFIG_PATH: String = "res://data/ui_config.cfg"
+
 static var _textures: Dictionary = {}
+static var _frame_overlays: int = -1
+
+
+## Whether cards draw the UI art kit frame overlays (`use_card_frame_overlays` in data/ui_config.cfg; false = the original full-art look).
+static func use_card_frame_overlays() -> bool:
+	if _frame_overlays < 0:
+		var config: ConfigFile = ConfigFile.new()
+		var enabled: bool = false
+		if config.load(UI_CONFIG_PATH) == OK:
+			enabled = bool(config.get_value("cards", "use_card_frame_overlays", false))
+		_frame_overlays = 1 if enabled else 0
+	return _frame_overlays == 1
+
+
+## Overrides the config for this run (tests, comparison screenshots); null returns to the config file.
+static func set_card_frame_overlays(enabled: Variant) -> void:
+	_frame_overlays = -1 if enabled == null else (1 if bool(enabled) else 0)
 
 
 class Result extends RefCounted:

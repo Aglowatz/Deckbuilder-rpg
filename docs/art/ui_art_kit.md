@@ -16,3 +16,9 @@ Judgment calls: `docs/design/open_questions.md`, "UI art kit".
   type line and rules text on the dark panel, attack/defense numbers in the frame sockets. All positions are constants at the top of `card_view.gd`, measured on the 1024x1536 frames.
 - Compact (battlefield): the same frame with the UI-NAMEPLATE over the name bar, keyword chips in the panel and the UI-STAT-PLAQUE over the stat sockets.
 - Card backs: `CardView.back_id()`.
+
+## Card faces: frame overlays are off (Oct 2026)
+
+The kit's card frames looked too busy and shrank the art window, so cards are back to the original face: full art, thin Path-coloured border, name bar with the cost across the top, type line and rules text at the bottom, attack/defense badge, and the compact battlefield view.
+The framed code (UI-FRAME-*, UI-RARITY-*, UI-STAT-PLAQUE, UI-COST-SOCKET) is kept in `ui/card/card_view.gd` behind one setting, `use_card_frame_overlays` in `data/ui_config.cfg` (`UiArt.use_card_frame_overlays()`); set it to `true` to try a redesigned frame. The images stay in `assets/art/ui/`. Card backs (UI-CARDBACK-*) are separate and still in use.
+Before/after screenshots: `docs/art/screens/card_face_revert/`.

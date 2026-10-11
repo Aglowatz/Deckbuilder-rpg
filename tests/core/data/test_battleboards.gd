@@ -82,3 +82,22 @@ func test_factories_tag_their_battles() -> void:
 	assert_eq(Session.make_graveyard_battle().board_key, "graveyard")
 	assert_eq(Session.make_npc_challenge_battle("beefcake").board_key, "town")
 	assert_eq(Session.make_arena_battle(ArenaDefs.all()[0].id).board_key, "arena")
+
+
+func test_every_dungeon_blueprint_names_a_board_with_an_image() -> void:
+	for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
+		assert_ne(plan.battleboard_id, "", "%s names a battleboard" % plan.id)
+		assert_true(Battleboards.has_image(plan.battleboard_id), "%s: %s has an image" % [plan.id, plan.battleboard_id])
+
+
+func test_the_forgotten_cave_uses_the_tutorial_board_even_after_another_dungeon() -> void:
+	Session.ensure_game()
+	var context: BattleContext = null
+	Session.main_dungeon_active = true
+	Session.mini_active = true
+	Session.dungeon_key = "final"
+	Session.begin_trial()
+	context = Session.make_dungeon_battle(Session.dungeon_map.nodes[1])
+	assert_eq(Battleboards.board_for(context.board_key), "BB-TUT", "the tutorial cave fights on BB-TUT")
+	assert_false(Session.main_dungeon_active)
+	assert_false(Session.mini_active)

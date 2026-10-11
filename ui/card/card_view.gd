@@ -154,7 +154,7 @@ func _build() -> void:
 		return
 	_base_attack = data.attack
 	_base_defense = data.defense
-	_framed = UiArt.has(frame_id())
+	_framed = UiArt.use_card_frame_overlays() and UiArt.has(frame_id())
 	if _framed:
 		_build_framed()
 		return
@@ -516,7 +516,13 @@ func _type_text() -> String:
 			kind = "Trap"
 		CardEnums.CardType.WONDER:
 			kind = "Wonder"
-	if data.is_token:
+		CardEnums.CardType.TOOL:
+			kind = "Tool"
+		CardEnums.CardType.RESOURCE:
+			kind = "Resource"
+		CardEnums.CardType.TOKEN:
+			kind = "Token"
+	if data.is_token and data.type != CardEnums.CardType.TOKEN:
 		kind = "Token " + kind
 	if data.is_multipath():
 		return "%s + %s  -  %s" % [UIStyle.affinity_name(data.color), UIStyle.affinity_name(data.color2), kind]

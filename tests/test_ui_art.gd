@@ -45,3 +45,34 @@ func test_frame_corner_colours_split_by_path_count() -> void:
 	assert_ne(two[0], two[1])
 	var four: Array[Color] = CardView.frame_corner_colors(Affinity.colored_types())
 	assert_eq(four.size(), 4)
+
+
+func test_cards_use_the_original_full_art_face_unless_the_frame_overlays_are_on() -> void:
+	assert_false(UiArt.use_card_frame_overlays(), "data/ui_config.cfg ships with use_card_frame_overlays=false")
+	var card: CardData = Session.content.card("C-01")
+	var plain: CardView = CardView.create(card)
+	add_child_autofree(plain)
+	assert_false(plain._framed)
+	assert_eq(plain.art_rect().size, CardView.SIZE - Vector2(10, 10), "full art fills the card inside its thin border")
+	UiArt.set_card_frame_overlays(true)
+	var framed: CardView = CardView.create(card)
+	add_child_autofree(framed)
+	assert_true(framed._framed, "the overlays come back with the one setting")
+	UiArt.set_card_frame_overlays(null)
+
+
+func test_card_type_lines_name_every_card_type() -> void:
+	var expected: Dictionary = {
+		CardEnums.CardType.UNIT: "Unit", CardEnums.CardType.SPELL: "Spell", CardEnums.CardType.TRAP: "Trap",
+		CardEnums.CardType.WONDER: "Wonder", CardEnums.CardType.TOOL: "Tool", CardEnums.CardType.RESOURCE: "Resource",
+		CardEnums.CardType.TOKEN: "Token",
+	}
+	var every: Array = Session.content.cards.values() + Session.content.tokens.values() + Session.content.infrastructure.values()
+	for card: CardData in every:
+		var view: CardView = CardView.create(card)
+		var kind: String = view._type_text().split("  -  ")[-1]
+		if card.type == CardEnums.CardType.INFRASTRUCTURE:
+			assert_true(kind.ends_with("Infrastructure"), card.id)
+		else:
+			assert_true(kind.ends_with(str(expected[card.type])), "%s (%s) says %s" % [card.id, card.display_name, kind])
+		view.free()

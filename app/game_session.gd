@@ -1098,10 +1098,20 @@ func make_practice_battle(enemy_name: String = "Cave Scavenger", first_player: i
 # ---- Dungeon flow -----------------------------------------------------------------------
 
 
+## The Forgotten Cave is the tutorial dungeon: no main or side dungeon is active while it runs, so its battles keep the cave battleboard (BB-TUT)
+## and the cave's enemies, never those of a dungeon left over from an earlier visit.
+func _clear_dungeon_mode() -> void:
+	main_dungeon_active = false
+	mini_active = false
+	town_side_active = false
+	dungeon_key = ""
+
+
 ## Enters the Forgotten Cave with the current deck (the player is fully healed). Used to
 ## replay it from town once it has already been cleared; the very first run is
 ## `begin_intro_trial(color)` instead.
 func begin_trial() -> void:
+	_clear_dungeon_mode()
 	dungeon_map = TrialOfTheHollow.build_map()
 	run = DungeonRun.enter(profile, deck, [] as Array[ModifierSource])
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
@@ -1114,6 +1124,7 @@ func begin_trial() -> void:
 ## it out (`deck_size_waiver()`). Retrying after an abandoned first attempt reuses the same
 ## profile/color (still no real deck exists until this trial is actually cleared).
 func begin_intro_trial(color: Affinity.Type) -> void:
+	_clear_dungeon_mode()
 	if profile == null:
 		profile = CampaignStart.new_profile(content, color)
 	dungeon_map = TrialOfTheHollow.build_map()

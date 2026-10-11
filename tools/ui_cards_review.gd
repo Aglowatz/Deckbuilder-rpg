@@ -27,6 +27,7 @@ func _ready() -> void:
 	if token != null:
 		picks.append(token)
 	picks.append(content.infrastructure.values()[1] as CardData)
+	picks.append(content.card("C-12"))
 	var longest: CardData = picks[0]
 	for card: CardData in content.cards.values():
 		if card.display_name.length() > longest.display_name.length() and card.is_unit():
@@ -45,9 +46,11 @@ func _ready() -> void:
 	column.add_child(field)
 	for card: CardData in picks:
 		field.add_child(CardView.wrapped(card, 0.5, CardView.Mode.COMPACT))
-	var zoom: Control = CardView.wrapped(picks[5], 1.0)
-	zoom.position = Vector2(1280, 20)
-	add_child(zoom)
+	var zoom_picks: Array[CardData] = [picks[5], content.card("C-12"), picks[8]]
+	for index: int in range(zoom_picks.size()):
+		var zoom: Control = CardView.wrapped(zoom_picks[index], 1.0)
+		zoom.position = Vector2(20 + 330 * index, 420)
+		add_child(zoom)
 
 
 func _first(content: ContentSet, test: Callable) -> CardData:

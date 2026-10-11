@@ -5,7 +5,7 @@ extends VBoxContainer
 signal changed
 
 const COST_LABELS: Array[String] = ["Any cost", "0-1", "2", "3", "4+"]
-const TYPE_LABELS: Array[String] = ["All types", "Unit", "Spell", "Trap", "Wonder"]
+const TYPE_LABELS: Array[String] = ["All types", "Unit", "Spell", "Trap", "Wonder", "Tool"]
 
 var affinity_filter: int = -1
 var type_filter: int = -1
@@ -39,6 +39,8 @@ func _card_type_for(index: int) -> int:
 			return int(CardEnums.CardType.SPELL)
 		3:
 			return int(CardEnums.CardType.TRAP)
+		5:
+			return int(CardEnums.CardType.TOOL)
 	return int(CardEnums.CardType.WONDER)
 
 
