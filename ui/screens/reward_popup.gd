@@ -25,7 +25,7 @@ func _build() -> void:
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var is_quest: bool = summary.kind == RewardSummary.Kind.QUEST
-	frame = PopupFrame.make("QUEST COMPLETE" if is_quest else "CHEST OPENED", "level_badge" if is_quest else "gems", UIStyle.GOLD if is_quest else Color("f2c14e"))
+	frame = PopupFrame.make("QUEST COMPLETE" if is_quest else "CHEST OPENED", "ICON-CHECK" if is_quest else "ICON-GOLD", UIStyle.GOLD if is_quest else Color("f2c14e"))
 	frame.set_heading(summary.title, summary.subtitle)
 	add_child(frame)
 	_fill_body()
@@ -44,9 +44,9 @@ func _fill_body() -> void:
 	var currency: HBoxContainer = UIKit.hbox(46)
 	currency.alignment = BoxContainer.ALIGNMENT_CENTER
 	if summary.gold > 0:
-		currency.add_child(_counter("coins", "+%d gold" % summary.gold, UIStyle.GOLD))
+		currency.add_child(_counter("ICON-GOLD", "coins", "+%d gold" % summary.gold, UIStyle.GOLD))
 	if summary.xp > 0:
-		currency.add_child(_counter("level_badge", "+%d XP" % summary.xp, UIStyle.GOOD))
+		currency.add_child(_counter("ICON-XP", "level_badge", "+%d XP" % summary.xp, UIStyle.GOOD))
 	if currency.get_child_count() > 0:
 		body.add_child(currency)
 	# Things row: cards with their art, then items, equipment, packs, cosmetics.
@@ -60,7 +60,7 @@ func _fill_body() -> void:
 	for item: ItemData in summary.items:
 		things.add_child(_icon_tile(CardIcons.for_item(item), item.display_name, "Item", item.description))
 	for piece: EquipmentData in summary.equipment:
-		things.add_child(_icon_tile(CardIcons.for_equipment(piece), piece.source_name, "Equipment · %s" % EquipmentData.slot_name(piece.slot), piece.description))
+		things.add_child(_icon_tile(IconArt.equipment_texture(piece, 74.0), piece.source_name, "Equipment · %s" % EquipmentData.slot_name(piece.slot), piece.description, IconArt.has_equipment_icon(piece)))
 	for entry: Dictionary in summary.packs:
 		things.add_child(_pack_tile(entry))
 	for cosmetic: String in summary.cosmetics:
@@ -81,9 +81,9 @@ func _fill_body() -> void:
 		body.add_child(UIKit.label("You reach level %d!" % last, &"HeadingLabel", 24, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 
 
-func _counter(icon: String, text: String, color: Color) -> HBoxContainer:
+func _counter(icon_id: String, fallback: String, text: String, color: Color) -> HBoxContainer:
 	var row: HBoxContainer = UIKit.hbox(10)
-	row.add_child(CardIcons.glyph(CardIcons.ui(icon), color, Vector2(44, 44)))
+	row.add_child(IconArt.glyph_or(icon_id, CardIcons.ui(fallback), color, 44.0))
 	var label: Label = UIKit.label(text, &"", 38, color)
 	label.add_theme_font_override("font", UIStyle.font_title())
 	row.add_child(label)
@@ -110,12 +110,15 @@ func _card_tile(card: CardData) -> Control:
 	return holder
 
 
-func _icon_tile(texture: Texture2D, title: String, kind_text: String, description: String) -> Control:
+## `full_colour` shows the texture as it is (an icon) instead of a tinted silhouette.
+func _icon_tile(texture: Texture2D, title: String, kind_text: String, description: String, full_colour: bool = false) -> Control:
 	var tile: PanelContainer = _tile_box()
 	tile.custom_minimum_size = Vector2(TILE_WIDTH, 0)
 	var column: VBoxContainer = UIKit.vbox(4)
 	tile.add_child(UIKit.margin(column, 10))
 	var icon: TextureRect = CardIcons.glyph(texture, UIStyle.PARCHMENT, Vector2(74, 74))
+	if full_colour:
+		icon.material = null
 	icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(icon)
 	column.add_child(_wrapped(title, 20, UIStyle.GOLD))

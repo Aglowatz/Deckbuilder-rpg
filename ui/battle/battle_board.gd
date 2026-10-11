@@ -409,9 +409,9 @@ func _tray(owner_index: int) -> Control:
 		else:
 			slot.add_theme_stylebox_override("panel", UIStyle.box(Color(0.05, 0.03, 0.09, 0.55), Color(ResourceKind.COLORS[kind] as Color, 0.55), 2, 10))
 		slot.mouse_filter = Control.MOUSE_FILTER_PASS
-		slot.tooltip_text = "%s (resource)\n%s" % [ResourceKind.display_name(kind), str(ResourceKind.DESCRIPTIONS[kind])]
+		HoverTip.attach(slot, "%s (resource)" % ResourceKind.display_name(kind), str(ResourceKind.DESCRIPTIONS[kind]), ResourceKind.COLORS[kind] as Color, IconArt.resource_id(kind))
 		tray.add_child(slot)
-		var icon: TextureRect = CardIcons.glyph(CardIcons.named(str(CardIcons.RESOURCE_ICONS[ResourceKind.Kind.keys()[kind]])), ResourceKind.COLORS[kind] as Color, Vector2(34, 34))
+		var icon: TextureRect = IconArt.glyph_or(IconArt.resource_id(kind), CardIcons.named(str(CardIcons.RESOURCE_ICONS[ResourceKind.Kind.keys()[kind]])), ResourceKind.COLORS[kind] as Color, 34.0)
 		icon.name = "Icon%d" % slot_index
 		icon.position = center - (Vector2(15, 15) if _art_resources() else Vector2(17, 21))
 		icon.size = Vector2(30, 30) if _art_resources() else Vector2(34, 34)
@@ -449,10 +449,11 @@ func _layout_tokens(owner_index: int) -> void:
 	var badge: Label = _token_badge(owner_index)
 	badge.visible = not cards.is_empty()
 	badge.text = "TOKENS\nContract x%d" % cards.size()
-	badge.tooltip_text = "Contract (token, not a resource)\n%s" % str(ResourceKind.DESCRIPTIONS[ResourceKind.Kind.CONTRACT])
 	badge.position = origin + Vector2(TOKEN_SPAN + 8.0, -17.0)
 	if art:
 		badge.position = ART_TOKEN_CENTERS[owner_index] + Vector2(ART_TOKEN_TRAY_SIZE.x * 0.5 + 6.0, -17.0)
+	if IconArt.has(IconArt.resource_id(ResourceKind.Kind.CONTRACT)):
+		badge.position.x += TOKEN_ICON_ROOM
 	badge.size = Vector2(150.0, 34.0)
 ## The token tray (UI-HUD-TOKENS) under a player's Contracts; always drawn, so the area reads as the token area even when empty.
 func _token_tray(owner_index: int) -> Control:
@@ -473,6 +474,10 @@ func _token_tray(owner_index: int) -> Control:
 	return tray
 
 
+## Room left of the token caption for the Contract icon.
+const TOKEN_ICON_ROOM: float = 28.0
+
+
 func _token_badge(owner_index: int) -> Label:
 	var node_name: String = "TokenBadge%d" % owner_index
 	var existing: Node = get_node_or_null(node_name)
@@ -486,6 +491,11 @@ func _token_badge(owner_index: int) -> Label:
 	badge.add_theme_constant_override("outline_size", 6)
 	badge.mouse_filter = Control.MOUSE_FILTER_PASS
 	badge.z_index = 60
+	HoverTip.attach(badge, "Contract (token, not a resource)", str(ResourceKind.DESCRIPTIONS[ResourceKind.Kind.CONTRACT]), UIStyle.GOLD, IconArt.resource_id(ResourceKind.Kind.CONTRACT))
+	var contract_icon: TextureRect = IconArt.rect(IconArt.resource_id(ResourceKind.Kind.CONTRACT), 26.0)
+	if contract_icon != null:
+		contract_icon.position = Vector2(-TOKEN_ICON_ROOM, 4.0)
+		badge.add_child(contract_icon)
 	add_child(badge)
 	return badge
 

@@ -48,7 +48,7 @@ func _ready() -> void:
 	add_child(gold_panel)
 	var gold_row: HBoxContainer = UIKit.hbox(10)
 	gold_panel.add_child(gold_row)
-	gold_row.add_child(CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(34, 34)))
+	gold_row.add_child(IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 34.0))
 	_gold = UIKit.label("0", &"", 30, UIStyle.GOLD)
 	_gold.add_theme_font_override("font", UIStyle.font_title())
 	gold_row.add_child(_gold)
@@ -64,9 +64,10 @@ func _ready() -> void:
 	add_child(_menu_panel)
 	var menu_column: VBoxContainer = UIKit.vbox(6)
 	_menu_panel.add_child(menu_column)
-	for entry: Array in [["Character (C)", character_pressed], ["Deck (B)", deck_pressed], ["Quests (J)", quests_pressed], ["Packs (P)", packs_pressed], ["Wardrobe (T)", wardrobe_pressed]]:
-		var item: FancyButton = FancyButton.make(str(entry[0]), &"", Vector2(180, 48))
+	for entry: Array in [["Character (C)", character_pressed, "ICON-UI-CHARACTER"], ["Deck (B)", deck_pressed, "ICON-UI-DECK"], ["Quests (J)", quests_pressed, "ICON-UI-QUESTS"], ["Packs (P)", packs_pressed, "ICON-UI-PACKS"], ["Wardrobe (T)", wardrobe_pressed, "ICON-UI-WARDROBE"]]:
+		var item: FancyButton = FancyButton.make(str(entry[0]), &"", Vector2(200, 48))
 		item.name = "Menu_%s" % str(entry[0]).split(" ")[0]
+		IconArt.button_icon(item, str(entry[2]), 30.0)
 		var signal_ref: Signal = entry[1] as Signal
 		item.pressed.connect(func() -> void:
 			close_menu()

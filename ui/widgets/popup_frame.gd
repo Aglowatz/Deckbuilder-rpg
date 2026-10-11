@@ -61,7 +61,7 @@ func _build(header_text: String, icon: String) -> void:
 	_header_row = UIKit.hbox(16)
 	_header_row.alignment = BoxContainer.ALIGNMENT_CENTER
 	_column.add_child(_header_row)
-	_badge = CardIcons.glyph(CardIcons.ui(icon), UIStyle.PARCHMENT if _art else accent, Vector2(44, 44) if _art else Vector2(60, 60))
+	_badge = IconArt.glyph_for(icon, UIStyle.PARCHMENT if _art else accent, 44.0 if _art else 60.0)
 	_header_row.add_child(_badge)
 	_header = UIKit.label(header_text, &"TitleLabel", 38 if _art else 54, Color("fff3d6") if _art else accent, HORIZONTAL_ALIGNMENT_CENTER)
 	if _art:
@@ -102,7 +102,8 @@ func _divider() -> ColorRect:
 func set_header(text: String, icon: String = "") -> void:
 	_header.text = text
 	if not icon.is_empty():
-		_badge.texture = CardIcons.ui(icon)
+		if not IconArt.apply(_badge, IconArt.id_for_name(icon), 44.0):
+			_badge.texture = CardIcons.ui(icon)
 
 
 func set_heading(text: String, subline: String = "") -> void:

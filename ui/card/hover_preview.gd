@@ -36,9 +36,7 @@ func show_for(target: Control, card: CardData) -> void:
 	var entries: Array[Array] = KeywordInfo.entries_for(card)
 	_help.visible = not entries.is_empty()
 	for entry: Array in entries:
-		var title: Label = UIKit.label(str(entry[0]), &"", 21, UIStyle.GOLD)
-		title.add_theme_font_override("font", UIStyle.font_bold())
-		_help_box.add_child(title)
+		_help_box.add_child(KeywordInfo.title_row(str(entry[0]), str(entry[2]) if entry.size() > 2 else "", 21))
 		var body: Label = UIKit.label(str(entry[1]), &"", 18, UIStyle.PARCHMENT)
 		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		body.custom_minimum_size = Vector2(260, 0)

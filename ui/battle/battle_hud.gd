@@ -31,6 +31,8 @@ var _tooltip: PanelContainer
 var _tooltip_box: VBoxContainer
 var _banner: Label
 var _phase_index: int = 0
+var _processing_row: HBoxContainer
+var _processing_label: Label
 
 
 func setup(game_state: GameState, enemy_name: String, enemy_icon: String) -> void:
@@ -138,6 +140,7 @@ func _build_side_panel() -> void:
 		column.add_child(pill)
 		_phase_pills.append(pill)
 	column.add_child(UIKit.spacer(4))
+	_build_processing_tracker(column)
 	_prompt_panel = UIKit.panel()
 	_prompt_panel.add_theme_stylebox_override("panel", UIStyle.box(Color(0.0, 0.0, 0.0, 0.35), Color(UIStyle.GOLD, 0.35), 1, 10))
 	_prompt_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -167,6 +170,37 @@ func _build_side_panel() -> void:
 		var label: Label = UIKit.label("Deck 0", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 		row.add_child(label)
 		_counts.append(label)
+
+
+## The delayed-effect tracker (Processing X): the hourglass and how many delayed effects wait, hidden while none do.
+func _build_processing_tracker(column: VBoxContainer) -> void:
+	_processing_row = HBoxContainer.new()
+	_processing_row.name = "ProcessingTracker"
+	_processing_row.add_theme_constant_override("separation", 8)
+	_processing_row.alignment = BoxContainer.ALIGNMENT_CENTER
+	_processing_row.mouse_filter = Control.MOUSE_FILTER_PASS
+	_processing_row.visible = false
+	var hourglass: TextureRect = IconArt.rect("ICON-MECH-PROCESSING", 32.0)
+	if hourglass != null:
+		_processing_row.add_child(hourglass)
+	_processing_label = UIKit.label("", &"", 20, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_LEFT)
+	_processing_row.add_child(_processing_label)
+	column.add_child(_processing_row)
+
+
+func _refresh_processing() -> void:
+	if _processing_row == null:
+		return
+	var yours: int = 0
+	var theirs: int = 0
+	for entry: Dictionary in game.delayed:
+		if int(entry["player"]) == 0:
+			yours += 1
+		else:
+			theirs += 1
+	_processing_row.visible = yours + theirs > 0
+	_processing_label.text = "Processing  %d / %d" % [yours, theirs]
+	_processing_row.tooltip_text = "Processing: %d delayed effect(s) of yours and %d of the enemy's wait.\n%s" % [yours, theirs, str(KeywordInfo.GLOSSARY["Processing"])]
 
 
 func _build_buttons() -> void:
@@ -234,6 +268,7 @@ func refresh_all() -> void:
 	_turn_sub.text = ""
 	if game.stage == GameState.Stage.PLAYING:
 		_turn_sub.text = "Your turn" if game.active == 0 else "Enemy turn"
+	_refresh_processing()
 
 
 func set_portrait_targets(player_ok: bool, enemy_ok: bool) -> void:
@@ -334,9 +369,7 @@ func show_preview(view: CardView) -> void:
 		entries.append(["Summoning sickness", str(KeywordInfo.GLOSSARY["Summoning sickness"])])
 	_tooltip.visible = not entries.is_empty()
 	for entry: Array in entries:
-		var title: Label = UIKit.label(str(entry[0]), &"", 22, UIStyle.GOLD)
-		title.add_theme_font_override("font", UIStyle.font_bold())
-		_tooltip_box.add_child(title)
+		_tooltip_box.add_child(KeywordInfo.title_row(str(entry[0]), str(entry[2]) if entry.size() > 2 else "", 22))
 		var body: Label = UIKit.label(str(entry[1]), &"", 19, UIStyle.PARCHMENT)
 		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		body.custom_minimum_size = Vector2(270, 0)
@@ -547,6 +580,10 @@ class HeartIcon:
 	extends Control
 
 	func _draw() -> void:
+		var icon: Texture2D = IconArt.texture("ICON-STAT-HP", 34.0)
+		if icon != null:
+			draw_texture_rect(icon, Rect2(Vector2.ZERO, Vector2(34, 34)), false)
+			return
 		var points: PackedVector2Array = PackedVector2Array()
 		for step: int in range(40):
 			var a: float = TAU * float(step) / 40.0
@@ -569,6 +606,11 @@ class OrbRow:
 		var x: float = 11.0
 		for infra: CardInstance in infrastructure:
 			var color: Color = UIStyle.affinity_color(infra.data.color)
+			var orb: Texture2D = IconArt.texture("ICON-ENERGY-GENERIC" if infra.data.produces_any else IconArt.energy_id(infra.data.color), 24.0)
+			if orb != null:
+				draw_texture_rect(orb, Rect2(Vector2(x - 11.0, 2.0), Vector2(22, 22)), false, Color(0.35, 0.35, 0.4, 0.55) if infra.exhausted else Color.WHITE)
+				x += 22.0
+				continue
 			if infra.exhausted:
 				draw_arc(Vector2(x, 13.0), 8.0, 0.0, TAU, 20, color.darkened(0.3), 2.5, true)
 			else:

@@ -8,13 +8,13 @@ const WIDTH: float = 460.0
 
 
 ## `title` is bold, `body` explains exactly what the effect does. The control must be able to receive the mouse (STOP/PASS).
-static func attach(target: Control, title: String, body: String, accent: Color = UIStyle.GOLD) -> void:
+static func attach(target: Control, title: String, body: String, accent: Color = UIStyle.GOLD, icon_id: String = "") -> void:
 	if target.mouse_filter == Control.MOUSE_FILTER_IGNORE:
 		target.mouse_filter = Control.MOUSE_FILTER_PASS
 	var holder: Array = [null]
 	target.mouse_entered.connect(func() -> void:
 		_hide(holder)
-		holder[0] = _show(target, title, body, accent))
+		holder[0] = _show(target, title, body, accent, icon_id))
 	target.mouse_exited.connect(func() -> void: _hide(holder))
 	target.tree_exiting.connect(func() -> void: _hide(holder))
 
@@ -26,7 +26,7 @@ static func _hide(holder: Array) -> void:
 	holder[0] = null
 
 
-static func _show(target: Control, title: String, body: String, accent: Color) -> Control:
+static func _show(target: Control, title: String, body: String, accent: Color, icon_id: String = "") -> Control:
 	var panel: PanelContainer = PanelContainer.new()
 	panel.name = "HoverTip"
 	panel.theme_type_variation = &"DarkPanel"
@@ -39,7 +39,15 @@ static func _show(target: Control, title: String, body: String, accent: Color) -
 	panel.add_child(column)
 	var heading: Label = UIKit.label(title, &"HeadingLabel", 24, accent)
 	heading.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	column.add_child(heading)
+	var icon: TextureRect = IconArt.rect(icon_id, 36.0) if icon_id != "" else null
+	if icon != null:
+		var head_row: HBoxContainer = UIKit.hbox(8)
+		head_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		head_row.add_child(icon)
+		head_row.add_child(heading)
+		column.add_child(head_row)
+	else:
+		column.add_child(heading)
 	var text: Label = UIKit.label(body, &"", 20, UIStyle.PARCHMENT)
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.custom_minimum_size = Vector2(WIDTH - 40.0, 0)

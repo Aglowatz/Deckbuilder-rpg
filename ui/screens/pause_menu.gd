@@ -50,15 +50,18 @@ func _build_menu() -> void:
 	if Session.has_profile():
 		var save: FancyButton = FancyButton.make("Save Game", &"", Vector2(0, 54))
 		save.name = "SaveButton"
+		IconArt.button_icon(save, "ICON-UI-SAVE", 40.0)
 		save.disabled = not Session.can_save_now()
 		save.tooltip_text = "You can save anywhere except in a battle or a dungeon." if save.disabled else ""
 		save.pressed.connect(func() -> void: _show_slots(SaveSlotsScreen.Mode.SAVE))
 		column.add_child(save)
 	var load_button: FancyButton = FancyButton.make("Load Game", &"", Vector2(0, 54))
 	load_button.name = "LoadButton"
+	IconArt.button_icon(load_button, "ICON-UI-LOAD", 40.0)
 	load_button.pressed.connect(func() -> void: _show_slots(SaveSlotsScreen.Mode.LOAD))
 	column.add_child(load_button)
 	var settings: FancyButton = FancyButton.make("Settings", &"", Vector2(0, 54))
+	IconArt.button_icon(settings, "ICON-UI-SETTINGS", 40.0)
 	settings.pressed.connect(_show_settings)
 	column.add_child(settings)
 	var title: FancyButton = FancyButton.make("Quit to Title", &"", Vector2(0, 54))

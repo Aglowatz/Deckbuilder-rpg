@@ -54,7 +54,7 @@ func _build_rewards() -> void:
 	_column.add_child(UIKit.label("%s is defeated." % _offer.enemy_name, &"", 24, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
 	var gold_row: HBoxContainer = UIKit.hbox(12)
 	gold_row.alignment = BoxContainer.ALIGNMENT_CENTER
-	gold_row.add_child(CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(44, 44)))
+	gold_row.add_child(IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 44.0))
 	var gold_label: Label = UIKit.label("+0 gold", &"", 40, UIStyle.GOLD)
 	gold_label.add_theme_font_override("font", UIStyle.font_title())
 	gold_row.add_child(gold_label)

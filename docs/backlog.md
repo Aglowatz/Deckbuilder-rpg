@@ -257,3 +257,9 @@ Not in the game although in the sheet: Old Hob the Gravedigger (`NPC-HOB`), `NPC
 - Shop screens: vendor screens are generic panels (`VS-*` rows in the sheet have no art).
 - Dungeon node events, challenges and loot have no illustrations (text only).
 - Sound: all sound effects are Kenney CC0 packs; there is no per-zone music beyond what `assets/audio` holds.
+
+## Icons still missing (icon set integration)
+
+- **Equipment without an icon** (they keep their game-icons fallback; add `ICON-GEAR-*` rows to `data/source/icons.csv` and `IconArt.EQUIPMENT_IDS` when art arrives): Four-Seal Signet, Courier Lanyard, Swole Belt, Head Chef's Ladle, Seed Satchel, Compliance Clipboard, Spotter's Barbell, Head Chef's Toque, Compost Boots, Bin Lid, Bloodsand Boots, Champion's Laurels, Clerk's Stamp, Crowd-Pleaser's Cape, Gladiator's Net, Iron Knuckles, Pantry Apron, Siphon's Lens (all `data/equipment/zone/*.tres`).
+- **Items** (`ICON-ITEM-OTHERS`, 13 consumables in `CardIcons.BY_ITEM_ID`) and **hats and cloaks** (`ICON-HAT-OTHERS`, the wardrobe and tailor): placeholder rows only, no art supplied; the game-icons silhouettes stay.
+- No icon exists for: the "pay N" generic cost inside rules text, the Arena's puzzle/duel markers, the Sprout/Growth minimap points (they keep the lettered disc), the player's own HP in the old (non-art) portrait.

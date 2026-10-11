@@ -17,11 +17,12 @@ func _ready() -> void:
 	add_theme_constant_override("separation", 6)
 	var affinities: Array[Dictionary] = [{"label": "All colors", "value": -1}]
 	for type: Affinity.Type in [Affinity.Type.NEUTRAL, Affinity.Type.BEEFCAKE, Affinity.Type.GOURMAND, Affinity.Type.REFUSEMANCER, Affinity.Type.NECROCRAT]:
-		affinities.append({"label": UIStyle.affinity_name(type), "value": int(type), "color": UIStyle.affinity_color(type)})
+		affinities.append({"label": UIStyle.affinity_name(type), "value": int(type), "color": UIStyle.affinity_color(type), "icon": IconArt.energy_id(type)})
 	add_child(_row(0, affinities))
 	var types: Array[Dictionary] = []
 	for index: int in range(TYPE_LABELS.size()):
-		types.append({"label": TYPE_LABELS[index], "value": -1 if index == 0 else _card_type_for(index)})
+		var type_value: int = -1 if index == 0 else _card_type_for(index)
+		types.append({"label": TYPE_LABELS[index], "value": type_value, "icon": "" if index == 0 else IconArt.type_id(type_value as CardEnums.CardType)})
 	var costs: Array[Dictionary] = []
 	for index: int in range(COST_LABELS.size()):
 		costs.append({"label": COST_LABELS[index], "value": index})
@@ -49,6 +50,13 @@ func _row(group: int, options: Array[Dictionary]) -> HBoxContainer:
 	for option: Dictionary in options:
 		var chip: Button = Button.new()
 		chip.text = str(option["label"])
+		var chip_icon: String = str(option.get("icon", ""))
+		if chip_icon != "" and IconArt.has(chip_icon):
+			chip.icon = IconArt.texture(chip_icon, 24.0)
+			chip.add_theme_constant_override("icon_max_width", 24)
+			chip.add_theme_constant_override("h_separation", 6)
+			for icon_color: String in ["icon_normal_color", "icon_hover_color", "icon_pressed_color", "icon_hover_pressed_color", "icon_focus_color"]:
+				chip.add_theme_color_override(icon_color, Color.WHITE)
 		chip.toggle_mode = true
 		chip.focus_mode = Control.FOCUS_NONE
 		var tint: Color = option.get("color", UIStyle.GOLD) as Color

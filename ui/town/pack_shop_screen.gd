@@ -46,7 +46,7 @@ func _build() -> void:
 		_art_scale = STAGED_ART_SCALE
 		_tile_size = STAGED_TILE
 	var story: StoryText = StoryText.shared()
-	var coin: TextureRect = CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(38, 38))
+	var coin: TextureRect = IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 38.0)
 	header_extra.add_child(coin)
 	_gold_label = UIKit.label("", &"", 34, UIStyle.GOLD)
 	_gold_label.add_theme_font_override("font", UIStyle.font_title())
@@ -103,7 +103,7 @@ func _make_tile(pack: PackData, stocked: bool) -> Control:
 		cover.size = PackArt.SIZE * _art_scale + Vector2(8.0, 0.0)
 		art_holder.add_child(cover)
 	elif not stocked:
-		var lock: TextureRect = CardIcons.glyph(CardIcons.ui("lock"), Color(1, 1, 1, 0.85), Vector2(64, 64))
+		var lock: TextureRect = IconArt.glyph_or("ICON-PADLOCK", CardIcons.ui("lock"), Color(1, 1, 1, 0.85), 64.0)
 		lock.position = (PackArt.SIZE * _art_scale - Vector2(64, 64)) * 0.5 + Vector2(0, 40)
 		lock.size = Vector2(64, 64)
 		art_holder.add_child(lock)
@@ -157,7 +157,7 @@ func _refresh() -> void:
 		var pack: PackData = PackCatalog.find(str(pack_id))
 		var price: int = PackShop.price_for(pack, Session.profile)
 		var label: Label = _price_labels[pack_id] as Label
-		label.text = "%d gold" % price
+		IconArt.set_price(label, price)
 		var affordable: bool = Session.gold >= price
 		label.add_theme_color_override("font_color", UIStyle.GOLD if affordable else Color("e06a5a"))
 		(_count_labels[pack_id] as Label).text = "In your inventory: %d" % Session.pack_count(str(pack_id))

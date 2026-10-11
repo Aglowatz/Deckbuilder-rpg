@@ -9,6 +9,8 @@ var body: VBoxContainer
 var header_extra: HBoxContainer
 var screen_title: String = ""
 var close_text: String = "Close"
+## An icon (ICON-UI-*) shown before the title; "" for none (or when the icon is missing).
+var title_icon_id: String = ""
 ## A UI art kit background (UI-BG-...) drawn behind the screen; "" keeps the plain dark backdrop.
 var background_id: String = ""
 ## A Vendor Screen ID (VS-SABLE): the shop background, the vendor's portrait on the left, a dark panel behind the content on the right and a speech bubble (`VendorStage`). "" = the plain screen.
@@ -47,6 +49,9 @@ func _ready() -> void:
 	var header: HBoxContainer = UIKit.hbox(16)
 	root.add_child(header)
 
+	var title_icon: TextureRect = IconArt.rect(title_icon_id, 56.0) if title_icon_id != "" else null
+	if title_icon != null:
+		header.add_child(title_icon)
 	header.add_child(UIKit.label(screen_title, &"TitleLabel", _title_size()))
 	header.add_child(UIKit.filler())
 	header_extra = UIKit.hbox(14)

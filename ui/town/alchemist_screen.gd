@@ -22,6 +22,7 @@ var _gold_label: Label
 
 func _ready() -> void:
 	screen_title = StoryText.shared().text("town.alchemist.name")
+	title_icon_id = "ICON-UI-CRAFT"
 	vendor_screen_id = "VS-ALEMBIC"
 	vendor_inset = 500.0
 	super._ready()
@@ -65,7 +66,7 @@ func _build_essence_column() -> Control:
 		inner.offset_left = 14
 		inner.offset_right = -14
 		row.add_child(inner)
-		var orb: TextureRect = CardIcons.glyph(CardIcons.ui("gems"), UIStyle.affinity_color(path), Vector2(48, 48))
+		var orb: TextureRect = IconArt.glyph_or(IconArt.essence_id(path), CardIcons.ui("gems"), UIStyle.affinity_color(path), 48.0)
 		orb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		inner.add_child(orb)
 		var name_label: Label = UIKit.label("%s essence" % Affinity.display_name(path), &"", 26, UIStyle.PARCHMENT)

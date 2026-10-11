@@ -25,6 +25,7 @@ static func starter() -> WardrobeScreen:
 
 func _init() -> void:
 	screen_title = "Wardrobe"
+	title_icon_id = "ICON-UI-WARDROBE"
 	close_text = "Close (Esc)"
 
 

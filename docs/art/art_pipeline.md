@@ -121,6 +121,6 @@ missing and the files that match no ID. Never create or fetch UI art yourself.
 
 When the user says **"import icons"**, run `bash tools/import_icons.sh` (Drive `Approved_Icons`, key `icons_dir` in `data/source/art_config.cfg`, override `ICON_SOURCE_DIR`; copy-only, nothing in the Drive is moved, renamed or deleted).
 IDs come from `data/source/icons.csv` (rows starting `ICON-`; the `*-OTHERS` placeholders are skipped). Each icon is trimmed, centred on a square canvas, and saved as lossless WebP:
-`assets/art/icons/<ID>.webp` (256 px master) plus `<ID>_32/_64/_128.webp`, each downscaled from the full-size source with Lanczos so small icons stay crisp. Plain flat backgrounds are removed; transparent files are kept as they are.
+`assets/art/icons/<ID>.webp` (256 px master) plus `<ID>_24/_32/_48/_64/_96/_128.webp`, each downscaled from the full-size source with Lanczos so small icons stay crisp. Plain flat backgrounds are removed; transparent files are kept as they are.
 `IconArt.texture(id, px)` picks the smallest variant that is at least `px`; `IconArt.rect(id, px)` / `IconArt.bbcode(id, px)` build the node / rich-text tag. A missing icon returns null and the screen keeps its old look.
 Report the missing IDs and unmatched files. Contact sheet: `bash tools/shot.sh res://scenes/dev/icon_gallery.tscn icon_gallery`.

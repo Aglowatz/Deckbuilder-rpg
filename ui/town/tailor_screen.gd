@@ -23,7 +23,7 @@ func _init() -> void:
 
 func _build() -> void:
 	var story: StoryText = StoryText.shared()
-	var coin: TextureRect = CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(38, 38))
+	var coin: TextureRect = IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 38.0)
 	header_extra.add_child(coin)
 	_gold_label = UIKit.label("", &"", 34, UIStyle.GOLD)
 	_gold_label.add_theme_font_override("font", UIStyle.font_title())

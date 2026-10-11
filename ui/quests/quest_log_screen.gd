@@ -12,6 +12,7 @@ var _tab_buttons: Dictionary = {}
 
 func _init() -> void:
 	screen_title = "Quest Log"
+	title_icon_id = "ICON-UI-QUESTS"
 	close_text = "Close (J)"
 	background_id = "UI-BG-QUESTLOG"
 
@@ -77,6 +78,8 @@ func _refresh() -> void:
 		var met: int = Session.quest_log.objectives_met_count(quest, state)
 		var label: String = quest.title if not _tab_active else "%s   %d/%d" % [quest.title, met, quest.objectives.size()]
 		var button: FancyButton = FancyButton.make(label, &"PrimaryButton" if quest_id == _selected else &"GhostButton", Vector2(540, 56))
+		if not _tab_active:
+			IconArt.button_icon(button, "ICON-CHECK", 30.0)
 		button.pressed.connect(func() -> void:
 			_selected = quest_id
 			_refresh())
@@ -103,12 +106,20 @@ func _show_detail(state: UnlockState) -> void:
 	for index: int in range(quest.objectives.size()):
 		var progress: Vector2i = Session.quest_log.objective_progress(quest, index, state)
 		var done: bool = done_quest or progress.x >= progress.y
-		var text: String = "%s %s" % ["✔" if done else "○", quest.objectives[index].text]
+		var check: TextureRect = IconArt.rect("ICON-CHECK", 30.0) if done else null
+		var text: String = ("" if check != null else ("✔ " if done else "○ ")) + quest.objectives[index].text
 		if progress.y > 1:
 			text += "   %d/%d" % [progress.y if done_quest else progress.x, progress.y]
 		var row: Label = UIKit.label(text, &"", 24, UIStyle.GOOD if done else UIStyle.PARCHMENT)
 		row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		row.custom_minimum_size = Vector2(720, 0)
+		if check != null:
+			var done_row: HBoxContainer = UIKit.hbox(8)
+			done_row.add_child(check)
+			row.custom_minimum_size = Vector2(680, 0)
+			done_row.add_child(row)
+			_detail.add_child(done_row)
+			continue
 		_detail.add_child(row)
 	if _tab_active and not done_quest:
 		var tracked_now: bool = Session.quest_log.tracked_id() == quest.id

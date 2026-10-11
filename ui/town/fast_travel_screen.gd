@@ -11,6 +11,7 @@ var here: String = FastTravel.TOWN
 
 func _ready() -> void:
 	screen_title = StoryText.shared().text("travel.title")
+	title_icon_id = "ICON-MAP-TRAVEL"
 	close_text = StoryText.shared().text("travel.close")
 	super._ready()
 

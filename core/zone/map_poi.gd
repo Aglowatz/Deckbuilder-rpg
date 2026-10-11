@@ -23,6 +23,8 @@ enum Kind {
 	GATE,
 	STABLE,
 	GROWTH,
+	## Appended last: the Arena building in town.
+	ARENA,
 }
 
 var kind: Kind = Kind.VENDOR
@@ -32,6 +34,8 @@ var label: String = ""
 var quest_marker: bool = false
 ## Travel points: locked ones draw dimmed.
 var locked: bool = false
+## Quest givers with a marker: true when a quest is ready to hand in here (the turn-in marker), false when one is on offer (the available marker).
+var turn_in: bool = false
 
 
 static func make(poi_kind: Kind, position: Vector3, poi_label: String, marker: bool = false, is_locked: bool = false) -> MapPoi:
@@ -83,6 +87,8 @@ static func kind_name(poi_kind: Kind) -> String:
 			return "Stable (mounts)"
 		Kind.GROWTH:
 			return "Growing spot"
+		Kind.ARENA:
+			return "Arena"
 	return "?"
 
 
@@ -124,6 +130,8 @@ static func kind_glyph(poi_kind: Kind) -> String:
 			return "S"
 		Kind.GROWTH:
 			return "V"
+		Kind.ARENA:
+			return "A"
 	return "?"
 
 
@@ -161,4 +169,6 @@ static func kind_color(poi_kind: Kind) -> Color:
 			return Color("c89a5a")
 		Kind.GROWTH:
 			return Color("6fd05a")
+		Kind.ARENA:
+			return Color("e0a040")
 	return Color.WHITE

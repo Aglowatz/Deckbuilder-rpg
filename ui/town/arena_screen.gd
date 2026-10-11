@@ -13,6 +13,7 @@ var _rows: Dictionary = {}
 
 func _ready() -> void:
 	screen_title = StoryText.shared().text("town.arena.name")
+	title_icon_id = "ICON-MAP-ARENA"
 	vendor_screen_id = "VS-BELLOWS"
 	vendor_inset = 500.0
 	super._ready()

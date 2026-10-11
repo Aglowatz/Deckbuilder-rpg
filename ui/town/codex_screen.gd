@@ -13,6 +13,7 @@ var _seen_label: Label
 
 func _ready() -> void:
 	screen_title = "Codex"
+	title_icon_id = "ICON-UI-COLLECTION"
 	close_text = "Close"
 	background_id = "UI-BG-DECKBUILDER"
 	super._ready()
@@ -42,6 +43,12 @@ func _build() -> void:
 			seen_count += 1
 		grid.add_child(_make_tile(card, seen))
 	_seen_label.text = "Discovered %d / %d" % [seen_count, ids.size()]
+	if seen_count >= ids.size() and not ids.is_empty():
+		var done_icon: TextureRect = IconArt.rect("ICON-CHECK", 30.0, "Collection complete")
+		if done_icon != null and _seen_label.get_node_or_null("CompleteCheck") == null:
+			done_icon.name = "CompleteCheck"
+			done_icon.position = Vector2(-36.0, 0.0)
+			_seen_label.add_child(done_icon)
 
 
 func _make_tile(card: CardData, seen: bool) -> Control:

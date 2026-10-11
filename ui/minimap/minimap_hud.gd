@@ -75,6 +75,13 @@ func _add_frame() -> void:
 	add_child(frame)
 
 
+## Screenshot only: reveals the whole area (so every point of interest shows on the minimap and the full map).
+func reveal_all_for_screenshot() -> void:
+	if fog == null or _player == null:
+		return
+	raster.apply_reveal(fog.reveal(Vector2(_player.position.x, _player.position.z), 2000.0))
+
+
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 		accept_event()

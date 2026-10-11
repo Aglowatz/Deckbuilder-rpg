@@ -55,7 +55,7 @@ func _show_level_popup() -> void:
 	_frame.body.add_child(bonus_list)
 	for bonus: Bonus in _bonuses_for(row):
 		var bonus_row: HBoxContainer = UIKit.hbox(12)
-		bonus_row.add_child(CardIcons.glyph(CardIcons.ui(bonus.icon), UIStyle.PARCHMENT, Vector2(32, 32)))
+		bonus_row.add_child(IconArt.glyph_for(bonus.icon, UIStyle.PARCHMENT, 32.0))
 		var label: Label = UIKit.label(bonus.text, &"", 20, UIStyle.PARCHMENT)
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		label.custom_minimum_size = Vector2(640, 0)

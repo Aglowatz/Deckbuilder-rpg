@@ -7,6 +7,7 @@ var _list: VBoxContainer
 
 func _init() -> void:
 	screen_title = "Card Packs"
+	title_icon_id = "ICON-UI-PACKS"
 	close_text = "Close (Esc)"
 
 

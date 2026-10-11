@@ -29,7 +29,7 @@ func _init() -> void:
 func _build() -> void:
 	if stock == null:
 		stock = EquipmentVendorScreen.default_stock()
-	var coin: TextureRect = CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(38, 38))
+	var coin: TextureRect = IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 38.0)
 	header_extra.add_child(coin)
 	_gold_label = UIKit.label("", &"", 34, UIStyle.GOLD)
 	_gold_label.add_theme_font_override("font", UIStyle.font_title())
@@ -96,7 +96,9 @@ func _make_tile(piece: EquipmentData, price: int, locked: bool, teaser: String) 
 	column.add_child(slot_label)
 	var icon_row: CenterContainer = CenterContainer.new()
 	column.add_child(icon_row)
-	var icon: TextureRect = CardIcons.glyph(CardIcons.for_equipment(piece), Color(0.4, 0.4, 0.46) if locked else UIStyle.PARCHMENT, Vector2(64, 64))
+	var icon: TextureRect = IconArt.equipment_glyph(piece, Color(0.4, 0.4, 0.46) if locked else UIStyle.PARCHMENT, 64.0)
+	if locked and IconArt.has("ICON-PADLOCK"):
+		icon = IconArt.rect("ICON-PADLOCK", 64.0)
 	icon_row.add_child(icon)
 	var title: Label = UIKit.label("???" if locked else piece.source_name, &"", 20, UIStyle.PARCHMENT if not locked else UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
 	title.custom_minimum_size = Vector2(TILE_SIZE.x - 20, 0)
@@ -147,11 +149,11 @@ func _refresh() -> void:
 		var piece: EquipmentData = _pieces[id] as EquipmentData
 		var price_label: Label = _price_labels[id] as Label
 		if bool(_locked.get(id, false)):
-			price_label.text = "???"
+			IconArt.set_price_text(price_label, "???")
 			price_label.add_theme_color_override("font_color", UIStyle.MUTED)
 			continue
 		var price: int = Session.effective_price(stock.price_for(piece.id))
-		price_label.text = "%d gold" % price
+		IconArt.set_price(price_label, price)
 		var owned: bool = Session.profile.owned_equipment.has(piece)
 		price_label.add_theme_color_override("font_color", UIStyle.MUTED if owned else (UIStyle.GOLD if Session.gold >= price else Color("e06a5a")))
 		(_owned_labels[id] as Label).text = "Owned" if owned else "Not owned"

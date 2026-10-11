@@ -21,11 +21,32 @@ const KIND_ICONS: Dictionary = {
 	DungeonMap.Kind.RESCUE: "hp",
 }
 
+## The icon set's medallions (ICON-NODE-*); a node kind without one keeps the round token with its game-icons glyph.
+const NODE_ICONS: Dictionary = {
+	DungeonMap.Kind.START: "ICON-NODE-START",
+	DungeonMap.Kind.BATTLE: "ICON-NODE-BATTLE",
+	DungeonMap.Kind.CHALLENGE: "ICON-NODE-CHALLENGE",
+	DungeonMap.Kind.SHRINE: "ICON-NODE-HEAL",
+	DungeonMap.Kind.BOSS: "ICON-NODE-BOSS",
+	DungeonMap.Kind.ELITE: "ICON-NODE-ELITE",
+	DungeonMap.Kind.EVENT: "ICON-NODE-EVENT",
+	DungeonMap.Kind.TREASURE: "ICON-NODE-TREASURE",
+	DungeonMap.Kind.RESCUE: "ICON-NODE-RESCUE",
+}
+## Boss nodes are drawn this much larger than the others, around the same centre.
+const BOSS_SCALE: float = 1.35
+## The cleared and unreachable stamps are drawn this much of the medallion size, so the medallion still shows around the padlock.
+const DONE_STAMP_SCALE: float = 0.9
+const LOCKED_STAMP_SCALE: float = 0.66
+
 var map_node: DungeonMap.MapNode
 var available: bool = false
 var cleared: bool = false
 var _ring: Panel
 var _glyph: TextureRect
+var _medallion: TextureRect
+var _done_stamp: TextureRect
+var _locked_stamp: TextureRect
 var _name_label: Label
 var _plate: PanelContainer
 var _pulse: Tween
@@ -46,11 +67,15 @@ func _ready() -> void:
 	_ring.size = Vector2(DIAMETER, DIAMETER)
 	_ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_ring)
-	var icon_key: String = str(KIND_ICONS.get(map_node.kind, "map"))
-	_glyph = CardIcons.glyph(CardIcons.ui(icon_key), UIStyle.PARCHMENT, Vector2(60, 60))
-	_glyph.position = Vector2(DIAMETER - 60.0, DIAMETER - 60.0) * 0.5
-	_glyph.size = Vector2(60, 60)
-	add_child(_glyph)
+	var medallion_id: String = str(NODE_ICONS.get(map_node.kind, ""))
+	if IconArt.has(medallion_id):
+		_build_medallion(medallion_id)
+	else:
+		var icon_key: String = str(KIND_ICONS.get(map_node.kind, "map"))
+		_glyph = CardIcons.glyph(CardIcons.ui(icon_key), UIStyle.PARCHMENT, Vector2(60, 60))
+		_glyph.position = Vector2(DIAMETER - 60.0, DIAMETER - 60.0) * 0.5
+		_glyph.size = Vector2(60, 60)
+		add_child(_glyph)
 	_name_label = UIKit.label(map_node.title, &"", 20, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_name_label.add_theme_font_override("font", UIStyle.font_bold())
 	# Two short lines at most (an ellipsis after that), so neighbouring nodes never run their names together; the name sits on a small dark plate so it reads on any painted map.
@@ -82,6 +107,41 @@ func _ready() -> void:
 	refresh()
 
 
+## The medallion icon, with the cleared stamp and the unreachable padlock stamp (ICON-NODE-DONE / ICON-NODE-LOCKED) laid over it; all centred on the node.
+func _build_medallion(icon_id: String) -> void:
+	var side: float = DIAMETER * (BOSS_SCALE if map_node.kind == DungeonMap.Kind.BOSS else 1.0)
+	var middle: Vector2 = Vector2(DIAMETER, DIAMETER) * 0.5
+	_medallion = _icon_at(icon_id, side, middle)
+	_done_stamp = _icon_at("ICON-NODE-DONE", side * DONE_STAMP_SCALE, middle)
+	_locked_stamp = _icon_at("ICON-NODE-LOCKED", side * LOCKED_STAMP_SCALE, middle)
+
+
+func _icon_at(icon_id: String, side: float, middle: Vector2) -> TextureRect:
+	var icon: TextureRect = IconArt.rect(icon_id, side)
+	if icon == null:
+		return null
+	icon.size = Vector2(side, side)
+	icon.position = middle - icon.size * 0.5
+	add_child(icon)
+	return icon
+
+
+## Medallion states: available glows (a gold ring pulses around it), cleared wears the gold check stamp, unreachable is dimmed under the padlock stamp.
+func _apply_medallion_state(border: Color) -> void:
+	# The start node is where the hero came in: never shown as locked.
+	var unreachable: bool = not available and not cleared and map_node.kind != DungeonMap.Kind.START
+	_medallion.modulate = Color(0.62, 0.62, 0.68) if unreachable else Color.WHITE
+	if _done_stamp != null:
+		_done_stamp.visible = cleared
+	if _locked_stamp != null:
+		_locked_stamp.visible = unreachable
+	var radius: int = int(_medallion.size.x * 0.5)
+	var ring_style: StyleBoxFlat = UIStyle.box(Color(0, 0, 0, 0), border, 5, radius, 12) if available else UIStyle.box(Color(0, 0, 0, 0), Color(0, 0, 0, 0), 0, radius, 0)
+	_ring.add_theme_stylebox_override("panel", ring_style)
+	_ring.size = _medallion.size
+	_ring.position = _medallion.position
+
+
 func refresh() -> void:
 	var boss: bool = map_node.kind == DungeonMap.Kind.BOSS
 	var base: Color = Color("6b2f3a") if boss else (Color("5e3328") if map_node.kind == DungeonMap.Kind.ELITE else Color("3a2d55"))
@@ -96,8 +156,11 @@ func refresh() -> void:
 	else:
 		base = base.darkened(0.35)
 		glyph_color = Color(UIStyle.PARCHMENT, 0.45)
-	_ring.add_theme_stylebox_override("panel", UIStyle.box(base, border, 5 if available else 3, int(DIAMETER * 0.5), 12 if available else 4))
-	(_glyph.material as ShaderMaterial).set_shader_parameter("tint", glyph_color)
+	if _medallion != null:
+		_apply_medallion_state(border)
+	else:
+		_ring.add_theme_stylebox_override("panel", UIStyle.box(base, border, 5 if available else 3, int(DIAMETER * 0.5), 12 if available else 4))
+		(_glyph.material as ShaderMaterial).set_shader_parameter("tint", glyph_color)
 	_plate.modulate.a = 1.0 if (available or cleared) else 0.8
 	if _pulse != null and _pulse.is_valid():
 		_pulse.kill()

@@ -110,7 +110,7 @@ func _screenshot_give(spec: String) -> void:
 ## you every basic infrastructure, `--play=N-17` plays that hand card as the mouse would (opening the targeting viewer),
 ## `--pick=0` then chooses the Nth legal pile card, `--viewer=0|1` opens the browse viewer on that pile. Runs once the board has settled.
 func _screenshot_scenario() -> void:
-	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer"]
+	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark"]
 	var wanted: bool = false
 	for key: String in keys:
 		wanted = wanted or _screenshot_args.has(key)
@@ -128,6 +128,18 @@ func _screenshot_scenario() -> void:
 	for id: String in str(_screenshot_args.get("hand", "")).split(",", false):
 		var card: CardData = load("res://data/cards/%s.tres" % id) as CardData
 		game.players[0].hand.append(game.create_instance(card, 0))
+	for id: String in str(_screenshot_args.get("field", "")).split(",", false):
+		var unit: CardData = load("res://data/cards/%s.tres" % id) as CardData
+		game.players[0].field.append(game.create_instance(unit, 0))
+	## `--mark=exhaust:0,buff:1:3` exhausts your field unit 0 and gives field unit 1 three buffs (screenshots of the exhausted and buff badges).
+	for part: String in str(_screenshot_args.get("mark", "")).split(",", false):
+		var bits: PackedStringArray = part.split(":")
+		var target_index: int = int(bits[1]) if bits.size() > 1 else 0
+		if target_index < game.players[0].field.size():
+			if bits[0] == "exhaust":
+				game.players[0].field[target_index].exhausted = true
+			elif bits[0] == "buff":
+				game.players[0].field[target_index].buffs = int(bits[2]) if bits.size() > 2 else 1
 	if _screenshot_args.has("energy"):
 		for number: int in range(1, 12):
 			var infra: CardData = load("res://data/cards/INF-%02d.tres" % number) as CardData

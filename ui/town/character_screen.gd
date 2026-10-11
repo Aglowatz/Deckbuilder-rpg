@@ -47,6 +47,7 @@ var _picker: Control
 
 func _init() -> void:
 	screen_title = "Character"
+	title_icon_id = "ICON-UI-CHARACTER"
 	close_text = "Close (Esc)"
 	background_id = "UI-BG-CHARACTER"
 
@@ -80,9 +81,19 @@ func _build_stats_panel() -> Control:
 	panel.custom_minimum_size = Vector2(ART_PANEL_WIDTH if _art else 420.0, 0)
 	var column: VBoxContainer = UIKit.vbox(10)
 	panel.add_child(column)
-	column.add_child(UIKit.label("Level", &"HeadingLabel", 28))
+	var level_row: HBoxContainer = UIKit.hbox(10)
+	var level_icon: TextureRect = IconArt.rect("ICON-LEVEL", 40.0)
+	if level_icon != null:
+		level_row.add_child(level_icon)
+	level_row.add_child(UIKit.label("Level", &"HeadingLabel", 28))
+	column.add_child(level_row)
+	var xp_row: HBoxContainer = UIKit.hbox(8)
+	var xp_icon: TextureRect = IconArt.rect("ICON-XP", 30.0)
+	if xp_icon != null:
+		xp_row.add_child(xp_icon)
 	_xp_label = UIKit.label("", &"", 22, UIStyle.PARCHMENT)
-	column.add_child(_xp_label)
+	xp_row.add_child(_xp_label)
+	column.add_child(xp_row)
 	_xp_bar = ProgressBar.new()
 	_xp_bar.custom_minimum_size = Vector2(0, 18)
 	_xp_bar.show_percentage = false
@@ -194,7 +205,7 @@ func _build_items_panel() -> Control:
 	panel.custom_minimum_size = Vector2(ART_PANEL_WIDTH if _art else 420.0, 0)
 	var column: VBoxContainer = UIKit.vbox(8)
 	panel.add_child(column)
-	column.add_child(UIKit.label("Items", &"HeadingLabel", 28))
+	column.add_child(IconArt.heading_row("Items", "ICON-UI-INVENTORY"))
 	# New brief, Part F: equip up to your item-slot limit to carry items into a fight (the item
 	# bar, usable on your turn); the "Use" button below still works between fights/on the map.
 	_items_note = UIKit.label("", &"MutedLabel", 18)
@@ -204,7 +215,7 @@ func _build_items_panel() -> Control:
 	_items_box = UIKit.vbox(6)
 	column.add_child(_items_box)
 	column.add_child(UIKit.spacer(8))
-	column.add_child(UIKit.label("Card Packs", &"HeadingLabel", 28))
+	column.add_child(IconArt.heading_row("Card Packs", "ICON-UI-PACKS"))
 	var packs_note: Label = UIKit.label("Unopened packs. Dungeons, quests and vendors give them.", &"MutedLabel", 18)
 	packs_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	packs_note.custom_minimum_size = Vector2(ART_PANEL_WIDTH - 70.0 if _art else 360.0, 0)
@@ -233,15 +244,34 @@ func _refresh() -> void:
 		_xp_label.text += "  -  %d / %d XP to level %d" % [profile.xp - floor_xp, ceil_xp - floor_xp, next_level]
 	for child: Node in _stats_box.get_children():
 		child.queue_free()
-	_stat_row("Starting HP", str(profile.base_max_hp()))
+	_stat_row("Starting HP", str(profile.base_max_hp()), "ICON-STAT-HP")
 	_stat_row("Opening hand", str(profile.base_opening_hand()))
 	_stat_row("Item slots", "%d / %d" % [profile.item_slots, ProgressionTable.row(ProgressionTable.MAX_LEVEL).item_slots])
 	_stat_row("Deck copy limit", "%d per card (infra: any)" % DeckValidator.MAX_COPIES)
 	_stat_row("Max hand size", str(profile.base_max_hand_size()))
-	_stat_row("Path essence", _essence_text(profile))
+	_essence_rows(profile)
 	_refresh_equipment()
 	_refresh_items()
 	_refresh_packs()
+
+
+## The Path essence totals as a row of vial icons with their amounts (Alchemist currency); the plain text line when the icons are missing.
+func _essence_rows(profile: PlayerProfile) -> void:
+	if not IconArt.has(IconArt.essence_id(Affinity.Type.BEEFCAKE)):
+		_stat_row("Path essence", _essence_text(profile))
+		return
+	var block: VBoxContainer = UIKit.vbox(2)
+	block.name = "EssenceTotals"
+	block.add_child(UIKit.label("Path essence", &"MutedLabel", 20))
+	var flow: HBoxContainer = UIKit.hbox(14)
+	for path: Affinity.Type in Affinity.colored_types():
+		var cell: HBoxContainer = UIKit.hbox(4)
+		var vial: TextureRect = IconArt.rect(IconArt.essence_id(path), 34.0, "%s essence" % UIStyle.affinity_name(path))
+		cell.add_child(vial)
+		cell.add_child(UIKit.label(str(profile.essence_of(path)), &"", 24, UIStyle.affinity_color(path).lightened(0.35)))
+		flow.add_child(cell)
+	block.add_child(flow)
+	_stats_box.add_child(block)
 
 
 ## Part F: essence by Path ("Beefcake 12, Gourmand 0, ..."), the currency of the Alchemist.
@@ -251,7 +281,7 @@ func _essence_text(profile: PlayerProfile) -> String:
 		parts.append("%s %d" % [UIStyle.affinity_name(path), profile.essence_of(path)])
 	return ", ".join(parts)
 
-func _stat_row(label: String, value: String) -> void:
+func _stat_row(label: String, value: String, icon_id: String = "") -> void:
 	if value.length() > 20:
 		# A long value (the Path essence line) goes under its label and wraps, so the panel keeps its width.
 		var block: VBoxContainer = UIKit.vbox(2)
@@ -263,6 +293,9 @@ func _stat_row(label: String, value: String) -> void:
 		_stats_box.add_child(block)
 		return
 	var row: HBoxContainer = UIKit.hbox(8)
+	var row_icon: TextureRect = IconArt.rect(icon_id, 26.0) if icon_id != "" else null
+	if row_icon != null:
+		row.add_child(row_icon)
 	row.add_child(UIKit.label(label, &"MutedLabel", 20))
 	row.add_child(UIKit.filler())
 	row.add_child(UIKit.label(value, &"", 20, UIStyle.PARCHMENT))
@@ -284,8 +317,8 @@ func _refresh_equipment() -> void:
 		var button: Button = _equipment_slot_buttons[slot] as Button
 		var icon: TextureRect = button.get_child(0) as TextureRect
 		if not profile.has_equipment_slot(slot):
-			icon.texture = CardIcons.ui("lock")
-			icon.modulate = Color(0.55, 0.55, 0.62, 0.85)
+			icon.texture = IconArt.texture("ICON-PADLOCK", icon.size.x) if IconArt.has("ICON-PADLOCK") else CardIcons.ui("lock")
+			icon.modulate = Color(0.8, 0.8, 0.85, 0.9) if IconArt.has("ICON-PADLOCK") else Color(0.55, 0.55, 0.62, 0.85)
 			var locked_style: StyleBoxFlat = UIStyle.box(Color(0.06, 0.05, 0.09, 0.85), Color(0.35, 0.33, 0.4, 0.7), 2, 10)
 			button.add_theme_stylebox_override("normal", locked_style)
 			button.add_theme_stylebox_override("hover", locked_style)
@@ -297,14 +330,14 @@ func _refresh_equipment() -> void:
 		button.disabled = false
 		var equipped: EquipmentData = profile.equipped_in(slot)
 		if equipped == null:
-			icon.texture = null
+			_show_empty_slot(icon, slot)
 			var empty_hover: StyleBoxFlat = UIStyle.box(Color(0.14, 0.11, 0.2, 0.9), UIStyle.GOLD, 3, 10)
 			button.add_theme_stylebox_override("normal", UIStyle.box(Color(0.1, 0.08, 0.16, 0.85), UIStyle.GOLD_DIM, 2, 10))
 			button.add_theme_stylebox_override("hover", empty_hover)
 			button.add_theme_stylebox_override("pressed", empty_hover)
 			button.tooltip_text = "Empty %s slot - click to equip." % EquipmentData.slot_name(slot)
 		else:
-			icon.texture = CardIcons.for_equipment(equipped)
+			icon.texture = IconArt.equipment_texture(equipped, icon.size.x)
 			icon.modulate = Color(1, 1, 1, 1)
 			var equipped_hover: StyleBoxFlat = UIStyle.box(Color(0.2, 0.16, 0.1, 0.95), UIStyle.GOLD, 3, 10, 10)
 			button.add_theme_stylebox_override("normal", UIStyle.box(Color(0.16, 0.13, 0.08, 0.92), UIStyle.GOLD, 3, 10, 8))
@@ -329,16 +362,24 @@ func _refresh_equipment_art() -> void:
 		button.disabled = not owned
 		icon.modulate = Color(1, 1, 1, 1)
 		if not owned:
-			icon.texture = null
+			icon.texture = IconArt.texture("ICON-PADLOCK", icon.size.x)
+			icon.modulate = Color(1, 1, 1, 0.8)
 			button.tooltip_text = "Locked - %s" % _equipment_unlock_hint()
 			continue
 		var equipped: EquipmentData = profile.equipped_in(slot)
 		if equipped == null:
-			icon.texture = null
+			_show_empty_slot(icon, slot)
 			button.tooltip_text = "Empty %s slot - click to equip." % EquipmentData.slot_name(slot)
 		else:
-			icon.texture = CardIcons.for_equipment(equipped)
+			icon.texture = IconArt.equipment_texture(equipped, icon.size.x)
 			button.tooltip_text = equipped.tooltip_text()
+
+
+## The ghostly outline of what goes in an empty slot (ICON-EQUIP-*), or nothing when that icon is missing.
+func _show_empty_slot(icon: TextureRect, slot: EquipmentData.Slot) -> void:
+	var placeholder: Texture2D = IconArt.texture(IconArt.slot_id(slot), icon.size.x)
+	icon.texture = placeholder
+	icon.modulate = Color(1, 1, 1, 0.85) if placeholder != null else Color(1, 1, 1, 1)
 
 
 ## Equipment slots unlock one at a time, player's choice, at these levels (ProgressionTable) - no
@@ -387,7 +428,7 @@ func _open_equipment_picker(slot: EquipmentData.Slot) -> void:
 	for piece: EquipmentData in pieces:
 		var is_equipped: bool = piece == equipped
 		var row: HBoxContainer = UIKit.hbox(10)
-		row.add_child(CardIcons.glyph(CardIcons.for_equipment(piece), UIStyle.GOLD if is_equipped else UIStyle.PARCHMENT, Vector2(40, 40)))
+		row.add_child(IconArt.equipment_glyph(piece, UIStyle.GOLD if is_equipped else UIStyle.PARCHMENT, 40.0))
 		var info: Label = UIKit.label("%s%s\n%s" % [piece.source_name, " [equipped]" if is_equipped else "", piece.description], &"", 16, UIStyle.GOOD if is_equipped else UIStyle.PARCHMENT)
 		info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		info.size_flags_horizontal = Control.SIZE_EXPAND_FILL

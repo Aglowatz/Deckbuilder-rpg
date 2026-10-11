@@ -45,7 +45,7 @@ func _build() -> void:
 		header_extra.add_child(packs_button)
 	if stage != null:
 		_card_scale = STAGED_SCALE
-	var coin: TextureRect = CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(38, 38))
+	var coin: TextureRect = IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 38.0)
 	header_extra.add_child(coin)
 	_gold_label = UIKit.label("", &"", 34, UIStyle.GOLD)
 	_gold_label.add_theme_font_override("font", UIStyle.font_title())
@@ -106,6 +106,10 @@ func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
 	_decorate_tile(holder, view, card_area)
 	if locked:
 		view.modulate = Color(0.55, 0.55, 0.62)
+		var lock_icon: TextureRect = IconArt.rect("ICON-PADLOCK", 64.0)
+		if lock_icon != null:
+			lock_icon.position = card_area.position + (card_area.size - Vector2(64, 64)) * 0.5
+			holder.add_child(lock_icon)
 	else:
 		view.gui_event.connect(func(_v: CardView, event: InputEvent) -> void:
 			var click: InputEventMouseButton = event as InputEventMouseButton
@@ -172,13 +176,16 @@ func _refresh() -> void:
 		var card: CardData = _cards[id] as CardData
 		var price_label: Label = _price_labels[id] as Label
 		if bool(_locked.get(id, false)):
-			price_label.text = "???"
+			IconArt.set_price_text(price_label, "???")
 			price_label.add_theme_color_override("font_color", UIStyle.MUTED)
 			continue
 		var owned: int = Session.owned_count(card.id)
 		var for_sale: bool = CardPricing.is_for_sale(card, owned)
 		var price: int = Session.effective_price(CardPricing.price(card))
-		price_label.text = str(price) if for_sale else "Max"
+		if for_sale:
+			IconArt.set_price(price_label, price)
+		else:
+			IconArt.set_price_text(price_label, "Max")
 		var affordable: bool = Session.gold >= price
 		price_label.add_theme_color_override("font_color", UIStyle.GOLD if affordable and for_sale else (Color("e06a5a") if for_sale else UIStyle.MUTED))
 		(_owned_labels[id] as Label).text = "Own %d" % owned

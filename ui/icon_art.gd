@@ -1,6 +1,6 @@
 class_name IconArt
 extends RefCounted
-## The icon set (docs/art/art_pipeline.md, "import icons"): `assets/art/icons/<ICON ID>.webp` (256 px master) plus crisp pre-downscaled `<ID>_32/_64/_128.webp`.
+## The icon set (docs/art/art_pipeline.md, "import icons"): `assets/art/icons/<ICON ID>.webp` (256 px master) plus crisp pre-downscaled `<ID>_24/_32/_48/_64/_96/_128.webp`.
 ## Every screen asks for an icon by ID and size and keeps its old look when the image is missing (`texture` returns null), so any icon can arrive late.
 ## The importer copies from the read-only Drive folder in `art_config.cfg` (`icons_dir`), keeps transparency (or removes a plain flat background), trims the empty
 ## margin, centres the sprite on a square canvas and writes lossless WebP. Nothing in the Drive folder is moved, renamed or deleted.
@@ -14,7 +14,7 @@ const INPUT_EXTENSIONS: Array[String] = ["png", "webp", "jpg", "jpeg"]
 ## Placeholder rows of the CSV that are not icons yet.
 const PLACEHOLDER_IDS: Array[String] = ["ICON-GEAR-OTHERS", "ICON-ITEM-OTHERS", "ICON-HAT-OTHERS"]
 const MASTER_SIDE: int = 256
-const SIZES: Array[int] = [32, 64, 128]
+const SIZES: Array[int] = [24, 32, 48, 64, 96, 128]
 ## Fraction of the canvas left empty on each side so glow and outline do not touch the edge.
 const CANVAS_MARGIN: float = 0.03
 
@@ -90,6 +90,242 @@ static func bbcode(id: String, px: int) -> String:
 	if not has(id):
 		return ""
 	return "[img=%dx%d]%s[/img]" % [px, px, path_for(id, best_size(float(px)))]
+
+
+# ---- Which icon where --------------------------------------------------------------------------
+
+
+const ENERGY_IDS: Dictionary = {
+	Affinity.Type.BEEFCAKE: "ICON-ENERGY-B",
+	Affinity.Type.NECROCRAT: "ICON-ENERGY-N",
+	Affinity.Type.GOURMAND: "ICON-ENERGY-G",
+	Affinity.Type.REFUSEMANCER: "ICON-ENERGY-R",
+	Affinity.Type.NEUTRAL: "ICON-ENERGY-GENERIC",
+}
+const ESSENCE_IDS: Dictionary = {
+	Affinity.Type.BEEFCAKE: "ICON-ESSENCE-B",
+	Affinity.Type.NECROCRAT: "ICON-ESSENCE-N",
+	Affinity.Type.GOURMAND: "ICON-ESSENCE-G",
+	Affinity.Type.REFUSEMANCER: "ICON-ESSENCE-R",
+}
+## Resources and the Contract token (ResourceKind.Kind).
+const RESOURCE_IDS: Dictionary = {
+	ResourceKind.Kind.IRON: "ICON-RES-IRON",
+	ResourceKind.Kind.RED_TAPE: "ICON-RES-REDTAPE",
+	ResourceKind.Kind.CONTRACT: "ICON-TOKEN-CONTRACT",
+	ResourceKind.Kind.INGREDIENT: "ICON-RES-INGREDIENT",
+	ResourceKind.Kind.GARBAGE: "ICON-RES-GARBAGE",
+}
+const KEYWORD_IDS: Dictionary = {
+	CardEnums.Keyword.FLYING: "ICON-KW-FLYING",
+	CardEnums.Keyword.SWAT: "ICON-KW-SWAT",
+	CardEnums.Keyword.HUSTLE: "ICON-KW-HUSTLE",
+	CardEnums.Keyword.WALLFLOWER: "ICON-KW-WALLFLOWER",
+	CardEnums.Keyword.BULLDOZE: "ICON-KW-BULLDOZE",
+	CardEnums.Keyword.SUCKER_PUNCH: "ICON-KW-SUCKERPUNCH",
+	CardEnums.Keyword.NOURISH: "ICON-KW-NOURISH",
+	CardEnums.Keyword.OVERTIME: "ICON-KW-OVERTIME",
+	CardEnums.Keyword.ONE_TWO_PUNCH: "ICON-KW-ONETWO",
+	CardEnums.Keyword.TOXIC: "ICON-KW-TOXIC",
+	CardEnums.Keyword.ELUSIVE: "ICON-KW-ELUSIVE",
+	CardEnums.Keyword.UNTOUCHABLE: "ICON-KW-UNTOUCHABLE",
+	CardEnums.Keyword.UNBREAKABLE: "ICON-KW-UNBREAKABLE",
+}
+const TYPE_IDS: Dictionary = {
+	CardEnums.CardType.UNIT: "ICON-TYPE-UNIT",
+	CardEnums.CardType.SPELL: "ICON-TYPE-SPELL",
+	CardEnums.CardType.TRAP: "ICON-TYPE-TRAP",
+	CardEnums.CardType.TOOL: "ICON-TYPE-TOOL",
+	CardEnums.CardType.WONDER: "ICON-TYPE-WONDER",
+	CardEnums.CardType.INFRASTRUCTURE: "ICON-TYPE-INFRA",
+	CardEnums.CardType.TOKEN: "ICON-TYPE-TOKEN",
+}
+## Mechanic and token words in rules text and glossary entries -> icon.
+const WORD_IDS: Dictionary = {
+	"Exhaust": "ICON-MECH-EXHAUST", "Shred": "ICON-MECH-SHRED", "Reinstate": "ICON-MECH-REINSTATE", "Brawl": "ICON-MECH-BRAWL", "Plate": "ICON-MECH-PLATE",
+	"Peek": "ICON-MECH-PEEK", "Bury": "ICON-MECH-BURY", "Processing": "ICON-MECH-PROCESSING", "Buff": "ICON-MECH-BUFF", "Overexert": "ICON-MECH-OVEREXERT",
+	"Eat Garbage": "ICON-MECH-EATGARBAGE", "Send back": "ICON-MECH-SENDBACK",
+}
+## Words of card rules text that get a small icon in front of them: resource and token names (singular and plural).
+const RULES_WORD_IDS: Dictionary = {
+	"Iron": "ICON-RES-IRON", "Irons": "ICON-RES-IRON", "Red Tape": "ICON-RES-REDTAPE", "Ingredient": "ICON-RES-INGREDIENT", "Ingredients": "ICON-RES-INGREDIENT",
+	"Garbage": "ICON-RES-GARBAGE", "Contract": "ICON-TOKEN-CONTRACT", "Contracts": "ICON-TOKEN-CONTRACT", "Clause": "ICON-TOKEN-CLAUSE", "Clauses": "ICON-TOKEN-CLAUSE",
+}
+
+
+## The ten named equipment pieces that have their own icon (equipment id -> icon). Every other piece keeps its game-icons fallback (docs/backlog.md).
+const EQUIPMENT_IDS: Dictionary = {
+	"wicked_dagger": "ICON-GEAR-WICKEDDAGGER",
+	"flamethrower": "ICON-GEAR-FLAMETHROWER",
+	"extra_pocket": "ICON-GEAR-EXTRAPOCKET",
+	"cheaters_dice": "ICON-GEAR-CHEATERSDICE",
+	"travelers_boots": "ICON-GEAR-TRAVELERSBOOTS",
+	"hover_boots": "ICON-GEAR-HOVERBOOTS",
+	"solid_plate": "ICON-GEAR-SOLIDPLATE",
+	"thorned_loincloth": "ICON-GEAR-THORNEDLOINCLOTH",
+	"xray_goggles": "ICON-GEAR-XRAYGOGGLES",
+	"big_brain_beret": "ICON-GEAR-BIGBRAINBERET",
+}
+## The empty-slot placeholders of the character screen (EquipmentData.Slot).
+const SLOT_IDS: Dictionary = {
+	EquipmentData.Slot.HELM: "ICON-EQUIP-HELM",
+	EquipmentData.Slot.WEAPON: "ICON-EQUIP-WEAPON",
+	EquipmentData.Slot.ARMOR: "ICON-EQUIP-ARMOR",
+	EquipmentData.Slot.BOOTS: "ICON-EQUIP-BOOTS",
+	EquipmentData.Slot.RELIC: "ICON-EQUIP-RELIC",
+}
+
+
+static func equipment_id(piece: EquipmentData) -> String:
+	return str(EQUIPMENT_IDS.get(piece.id, ""))
+
+
+static func slot_id(slot: EquipmentData.Slot) -> String:
+	return str(SLOT_IDS.get(slot, ""))
+
+
+## True when `piece` shows its own icon (not the game-icons fallback).
+static func has_equipment_icon(piece: EquipmentData) -> bool:
+	var id: String = equipment_id(piece)
+	return id != "" and has(id)
+
+
+## The picture of an equipment piece for about `px` pixels: its own full-colour icon, else the game-icons fallback silhouette.
+static func equipment_texture(piece: EquipmentData, px: float) -> Texture2D:
+	if has_equipment_icon(piece):
+		return texture(equipment_id(piece), px)
+	return CardIcons.for_equipment(piece)
+
+
+## A TextureRect of the piece: its icon untinted, or the fallback silhouette tinted `tint`.
+static func equipment_glyph(piece: EquipmentData, tint: Color, px: float) -> TextureRect:
+	if has_equipment_icon(piece):
+		return rect(equipment_id(piece), px)
+	return CardIcons.glyph(CardIcons.for_equipment(piece), tint, Vector2(px, px))
+
+
+static func energy_id(path: Affinity.Type) -> String:
+	return str(ENERGY_IDS.get(path, "ICON-ENERGY-GENERIC"))
+
+
+static func essence_id(path: Affinity.Type) -> String:
+	return str(ESSENCE_IDS.get(path, ""))
+
+
+static func resource_id(kind: int) -> String:
+	return str(RESOURCE_IDS.get(kind, ""))
+
+
+static func keyword_id(keyword: CardEnums.Keyword) -> String:
+	return str(KEYWORD_IDS.get(keyword, ""))
+
+
+static func type_id(type: CardEnums.CardType) -> String:
+	return str(TYPE_IDS.get(type, ""))
+
+
+## The icon `id` (full colour, never tinted) at `px`, or - when it is missing - `fallback` as the old tinted glyph.
+static func glyph_or(id: String, fallback: Texture2D, tint: Color, px: float) -> TextureRect:
+	var icon: TextureRect = rect(id, px)
+	if icon != null:
+		return icon
+	return CardIcons.glyph(fallback, tint, Vector2(px, px))
+
+
+## Puts the icon `id` (full colour) in front of a Button's text. Does nothing when the icon is missing.
+static func button_icon(button: Button, id: String, px: float = 32.0) -> void:
+	var tex: Texture2D = texture(id, px)
+	if tex == null:
+		return
+	button.icon = tex
+	button.add_theme_constant_override("icon_max_width", int(px))
+	button.add_theme_constant_override("h_separation", 10)
+	for icon_color: String in ["icon_normal_color", "icon_hover_color", "icon_pressed_color", "icon_hover_pressed_color", "icon_focus_color", "icon_disabled_color"]:
+		button.add_theme_color_override(icon_color, Color.WHITE if icon_color != "icon_disabled_color" else Color(1, 1, 1, 0.45))
+
+
+## A section heading with its icon in front (`UIKit.label` HeadingLabel); just the label when the icon is missing.
+static func heading_row(text: String, icon_id: String, font_size: int = 28) -> Control:
+	var label: Label = UIKit.label(text, &"HeadingLabel", font_size)
+	var icon: TextureRect = rect(icon_id, float(font_size) + 12.0)
+	if icon == null:
+		return label
+	var row: HBoxContainer = UIKit.hbox(10)
+	row.add_child(icon)
+	row.add_child(label)
+	return row
+
+
+## Old `CardIcons.ui` names that now have a real icon.
+const UI_NAME_IDS: Dictionary = {
+	"coins": "ICON-GOLD", "lock": "ICON-PADLOCK", "hp": "ICON-STAT-HP", "attack": "ICON-STAT-ATTACK", "level_badge": "ICON-LEVEL", "card_choice": "ICON-DECKBOX",
+}
+
+
+## The icon id behind `name`: an icon id itself ("ICON-CHECK"), or an old `CardIcons.ui` name with a mapped icon; "" when there is none.
+static func id_for_name(name: String) -> String:
+	if name.begins_with("ICON-"):
+		return name
+	return str(UI_NAME_IDS.get(name, ""))
+
+
+## A glyph for `name` (an icon id or an old `CardIcons.ui` name): the icon untinted at `px`, else the old tinted silhouette.
+static func glyph_for(name: String, tint: Color, px: float) -> TextureRect:
+	var id: String = id_for_name(name)
+	var fallback: Texture2D = CardIcons.ui(name) if not name.begins_with("ICON-") else CardIcons.ui("magic")
+	return glyph_or(id, fallback, tint, px)
+
+
+## Shows `id` in an existing TextureRect (full colour); false (the rect keeps its texture and tint) when the icon is missing.
+static func apply(target: TextureRect, id: String, px: float) -> bool:
+	var tex: Texture2D = texture(id, px)
+	if tex == null:
+		return false
+	target.texture = tex
+	target.material = null
+	target.modulate = Color.WHITE
+	return true
+
+
+## Shows a price on a (centred) Label as the gold icon followed by the number; falls back to "<n> gold" when the icon is missing.
+static func set_price(label: Label, value: int) -> void:
+	var icon: TextureRect = _price_icon(label)
+	if icon == null:
+		label.text = "%d gold" % value
+		return
+	label.text = str(value)
+	icon.visible = true
+	_place_price_icon(label, icon)
+
+
+## Plain text in a price Label ("???", "Max", "Owned"): the gold icon hides.
+static func set_price_text(label: Label, text: String) -> void:
+	label.text = text
+	var icon: TextureRect = label.get_node_or_null("GoldIcon") as TextureRect
+	if icon != null:
+		icon.visible = false
+
+
+static func _price_icon(label: Label) -> TextureRect:
+	var existing: TextureRect = label.get_node_or_null("GoldIcon") as TextureRect
+	if existing != null:
+		return existing
+	var px: float = clampf(float(label.get_theme_font_size("font_size")) + 4.0, 20.0, 40.0)
+	var icon: TextureRect = rect("ICON-GOLD", px)
+	if icon == null:
+		return null
+	icon.name = "GoldIcon"
+	icon.size = Vector2(px, px)
+	label.add_child(icon)
+	label.resized.connect(func() -> void: _place_price_icon(label, icon))
+	return icon
+
+
+## The icon sits just left of the centred number, vertically centred in the label.
+static func _place_price_icon(label: Label, icon: TextureRect) -> void:
+	var font: Font = label.get_theme_font("font")
+	var text_width: float = font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, label.get_theme_font_size("font_size")).x
+	icon.position = Vector2(maxf(2.0, (label.size.x - text_width) * 0.5 - icon.size.x - 4.0), (label.size.y - icon.size.y) * 0.5)
 
 
 # ---- Import ---------------------------------------------------------------------------------

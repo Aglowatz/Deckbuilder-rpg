@@ -1624,7 +1624,7 @@ func _use_gate() -> void:
 const POI_KINDS: Dictionary = {
 	"well": MapPoi.Kind.HEAL, "vendor": MapPoi.Kind.VENDOR, "item_vendor": MapPoi.Kind.VENDOR,
 	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "tailor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.INTERACTABLE, "codex": MapPoi.Kind.INTERACTABLE,
-	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON, "notice_board": MapPoi.Kind.INTERACTABLE,
+	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON, "notice_board": MapPoi.Kind.INTERACTABLE, "arena": MapPoi.Kind.ARENA,
 	"graveyard_cairn": MapPoi.Kind.CHALLENGE,
 }
 
@@ -1823,6 +1823,9 @@ func _screenshot_open(what: String) -> void:
 			_open_wardrobe()
 		"character":
 			_open_character_screen()
+		"character_gear":
+			_screenshot_gear()
+			_open_character_screen()
 		"alchemist":
 			_open_alchemist()
 		"arena":
@@ -1835,6 +1838,10 @@ func _screenshot_open(what: String) -> void:
 			_screenshot_memory(4)
 		"map":
 			_open_full_map()
+		"reveal", "map_all":
+			minimap.reveal_all_for_screenshot()
+			if what == "map_all":
+				_open_full_map()
 		"pause":
 			SceneManager.get("_pause_menu").call("toggle")
 		"pause_settings":
@@ -1851,6 +1858,18 @@ func _screenshot_open(what: String) -> void:
 			_show_level_up(Session.grant_dev_level())
 
 
+
+## Screenshot only: unlocks every equipment slot, owns the ten named pieces and the zone ones, and wears the dagger, the plate and the boots (the character screen with gear).
+func _screenshot_gear() -> void:
+	for slot: EquipmentData.Slot in EquipmentData.Slot.values():
+		Session.profile.unlock_equipment_slot(slot)
+	for path: String in ["wicked_dagger", "solid_plate", "hover_boots", "xray_goggles", "extra_pocket"]:
+		var piece: EquipmentData = load("res://data/equipment/%s.tres" % path) as EquipmentData
+		Session.profile.owned_equipment.append(piece)
+		if path in ["wicked_dagger", "solid_plate", "hover_boots"]:
+			Session.profile.equip(piece)
+	var belt: EquipmentData = load("res://data/equipment/zone/swole_belt.tres") as EquipmentData
+	Session.profile.owned_equipment.append(belt)
 
 ## Screenshot only: a made-up finished quest for the Quest Complete box.
 func _sample_quest_summary() -> RewardSummary:

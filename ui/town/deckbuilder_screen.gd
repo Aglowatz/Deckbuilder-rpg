@@ -34,6 +34,7 @@ var _prompt_layer: Control
 
 func _init() -> void:
 	screen_title = "Deck Station"
+	title_icon_id = "ICON-UI-DECK"
 	close_text = "Close (Esc)"
 	background_id = "UI-BG-DECKBUILDER"
 
@@ -202,7 +203,11 @@ func _refresh_deck_bar() -> void:
 			label += "   [in use]"
 		if not Session.deck_warnings(index).is_empty():
 			label += "   [!]"
-		_deck_picker.add_item(label, index)
+		var slot_icon: Texture2D = IconArt.texture("ICON-DECKBOX", 32.0)
+		if slot_icon != null:
+			_deck_picker.add_icon_item(slot_icon, label, index)
+		else:
+			_deck_picker.add_item(label, index)
 	_deck_picker.select(_editing)
 	var capacity: int = Session.deck_capacity()
 	_new_button.disabled = Session.deck_box.is_full(capacity)

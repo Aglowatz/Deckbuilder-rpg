@@ -11,10 +11,12 @@ func test_known_ids_skip_placeholders() -> void:
 
 
 func test_best_size_picks_the_smallest_variant_that_fits() -> void:
-	assert_eq(IconArt.best_size(20.0), 32)
+	assert_eq(IconArt.best_size(20.0), 24)
 	assert_eq(IconArt.best_size(32.0), 32)
-	assert_eq(IconArt.best_size(40.0), 64)
+	assert_eq(IconArt.best_size(40.0), 48)
+	assert_eq(IconArt.best_size(60.0), 64)
 	assert_eq(IconArt.best_size(100.0), 128)
+	assert_eq(IconArt.best_size(90.0), 96)
 	assert_eq(IconArt.best_size(300.0), 0, "bigger than every variant uses the master")
 
 

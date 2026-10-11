@@ -73,6 +73,9 @@ func _row(index: int) -> Control:
 	panel.name = "Deck%d" % index
 	var row: HBoxContainer = UIKit.hbox(14)
 	panel.add_child(row)
+	var box_icon: TextureRect = IconArt.rect("ICON-DECKBOX", 56.0)
+	if box_icon != null:
+		row.add_child(box_icon)
 	var text: VBoxContainer = UIKit.vbox(2)
 	text.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(text)

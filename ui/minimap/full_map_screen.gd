@@ -20,6 +20,7 @@ func setup(area_id: String, map: WalkableArea, hero: TownPlayer, points: Array[M
 	_pois = points
 	_area_name = area_name
 	screen_title = "Map - %s" % area_name
+	title_icon_id = "ICON-UI-MAP"
 	close_text = "Close (M)"
 	background_id = "UI-BG-WORLDMAP"
 
@@ -70,6 +71,16 @@ func _legend() -> Control:
 	badge_row.add_child(badge)
 	badge_row.add_child(UIKit.label("Quest available", &"", 22))
 	column.add_child(badge_row)
+	if IconArt.has("ICON-MAP-TURNIN"):
+		var turn_row: HBoxContainer = UIKit.hbox(12)
+		var turn_badge: Control = Control.new()
+		turn_badge.custom_minimum_size = Vector2(34, 34)
+		var turn_sample: MapPoi = MapPoi.make(MapPoi.Kind.QUEST_GIVER, Vector3.ZERO, "", true)
+		turn_sample.turn_in = true
+		turn_badge.draw.connect(func() -> void: MapDraw.poi(turn_badge, Vector2(15, 19), turn_sample, 12.0))
+		turn_row.add_child(turn_badge)
+		turn_row.add_child(UIKit.label("Quest ready to hand in", &"", 22))
+		column.add_child(turn_row)
 	column.add_child(UIKit.label("Dark areas are unexplored. Walk around to reveal them.", &"MutedLabel", 18))
 	return panel
 

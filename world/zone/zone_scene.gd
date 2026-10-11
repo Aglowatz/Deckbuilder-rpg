@@ -1149,11 +1149,15 @@ func _collect_pois() -> Array[MapPoi]:
 			continue
 		var poi_kind: MapPoi.Kind = def.poi_kinds[spot.id] as MapPoi.Kind
 		var marker: bool = false
+		var turn_in: bool = false
 		if poi_kind == MapPoi.Kind.QUEST_GIVER:
 			var npc_name: String = str(spot.data.get("npc_name", ""))
 			marker = not Session.quests_ready_for(npc_name).is_empty() or not Session.quests_offered_by(npc_name).is_empty()
+			turn_in = not Session.quests_ready_for(npc_name).is_empty()
 		var label: String = spot.title
-		result.append(MapPoi.make(poi_kind, spot.position, label, marker))
+		var poi: MapPoi = MapPoi.make(poi_kind, spot.position, label, marker)
+		poi.turn_in = turn_in
+		result.append(poi)
 	for spot: ZoneSpot in spots:
 		if spot.id == "rift_station":
 			result.append(MapPoi.make(MapPoi.Kind.TRAVEL_PORTAL, spot.position, spot.title))
@@ -1288,6 +1292,10 @@ func _screenshot_open(what: String) -> void:
 			_open_minigame()
 		"map":
 			_open_full_map()
+		"reveal", "map_all":
+			minimap.reveal_all_for_screenshot()
+			if what == "map_all":
+				_open_full_map()
 		"dialogue":
 			for spot: ZoneSpot in spots:
 				if spot.kind == "quest_npc":

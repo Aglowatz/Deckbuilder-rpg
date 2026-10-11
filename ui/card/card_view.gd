@@ -86,6 +86,9 @@ var _defense_label: Label
 var _framed: bool = false
 var _plaque: PanelContainer
 var _badge_sick: Label
+var _exhaust_icon: TextureRect
+var _buff_badge: Control
+var _buff_label: Label
 var _damage_label: Label
 var _tint_overlay: ColorRect
 var _glow_tween: Tween
@@ -169,6 +172,7 @@ func _build() -> void:
 		add_child(_panel(Rect2(Vector2(3, 3), SIZE - Vector2(6, 6)), UIStyle.box(Color(0, 0, 0, 0), accent2.darkened(0.1), 4, 11)))
 	_build_name_bar()
 	if mode == Mode.FULL:
+		_build_keyword_badges(10.0, 60.0)
 		_build_type_line()
 		_build_rules()
 	else:
@@ -205,9 +209,10 @@ func _build_coin() -> void:
 		_build_overlays()
 		return
 	var icon_key: String = str(CardIcons.RESOURCE_ICONS.get(ResourceKind.Kind.keys()[kind], "lorc/magic-swirl"))
-	var glyph: TextureRect = CardIcons.glyph(CardIcons.named(icon_key), Color("1b1020"), Vector2(170, 170))
-	glyph.position = rect.position + (rect.size - Vector2(170, 170)) * 0.5
-	glyph.size = Vector2(170, 170)
+	var glyph_side: float = 200.0 if IconArt.has(IconArt.resource_id(kind)) else 170.0
+	var glyph: TextureRect = IconArt.glyph_or(IconArt.resource_id(kind), CardIcons.named(icon_key), Color("1b1020"), glyph_side)
+	glyph.position = rect.position + (rect.size - Vector2(glyph_side, glyph_side)) * 0.5
+	glyph.size = Vector2(glyph_side, glyph_side)
 	add_child(glyph)
 	_build_overlays()
 
@@ -478,11 +483,20 @@ func _build_type_line() -> void:
 	add_child(bar)
 	var label: Label = Label.new()
 	label.text = _type_text()
-	label.position = Vector2(22, 292)
-	label.size = Vector2(220, 28)
+	var type_icon: TextureRect = IconArt.rect(IconArt.type_id(data.type), 24.0)
+	var type_room: float = 28.0 if type_icon != null else 0.0
+	label.position = Vector2(22 + type_room, 292)
+	label.size = Vector2(220 - type_room, 28)
+	if type_icon != null:
+		type_icon.position = Vector2(22, 294)
+		type_icon.size = Vector2(24, 24)
+		add_child(type_icon)
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.add_theme_font_override("font", UIStyle.font_bold())
-	label.add_theme_font_size_override("font_size", 16 if dual else 19)
+	var line_size: int = 16 if dual else 19
+	while line_size > 12 and UIStyle.font_bold().get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, line_size).x > label.size.x:
+		line_size -= 1
+	label.add_theme_font_size_override("font_size", line_size)
 	label.add_theme_color_override("font_color", UIStyle.PARCHMENT)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(label)
@@ -541,7 +555,7 @@ func _build_rules() -> void:
 	var size_px: int = _rules_font_size()
 	for key: String in ["normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size"]:
 		rules.add_theme_font_size_override(key, size_px)
-	var text: String = KeywordInfo.rules_bbcode(data)
+	var text: String = KeywordInfo.rules_bbcode(data, false, size_px)
 	var flavor_ok: bool = data.flavor_text != "" and data.rules_text.length() < 40
 	if flavor_ok:
 		text += "\n[i][color=#6b5b73]%s[/color][/i]" % data.flavor_text
@@ -551,7 +565,7 @@ func _build_rules() -> void:
 
 ## The biggest rules font (20 down to 11) whose wrapped text, with the flavor line when it is shown, fits the 260x72 panel.
 func _rules_font_size() -> int:
-	var plain: String = data.rules_text if data.rules_text != "" else (KeywordInfo.rules_bbcode(data) if data.is_infrastructure() else "")
+	var plain: String = KeywordInfo.measure_text(data)
 	if data.flavor_text != "" and data.rules_text.length() < 40:
 		plain += "
 " + data.flavor_text
@@ -578,12 +592,43 @@ func _chip_names() -> Array[String]:
 	return names
 
 
+## The icon of a chip: a keyword chip shows its keyword icon, the Trap and card-type chips their type icon ("" for Ability / Effect).
+func _chip_icon(chip_text: String) -> String:
+	for keyword: CardEnums.Keyword in data.keywords:
+		if KeywordInfo.keyword_name(keyword) == chip_text:
+			return IconArt.keyword_id(keyword)
+	if chip_text == "Trap":
+		return IconArt.type_id(CardEnums.CardType.TRAP)
+	if data.type != CardEnums.CardType.UNIT and data.type != CardEnums.CardType.TRAP and chip_text == _type_text().split("-")[-1].strip_edges():
+		return IconArt.type_id(data.type)
+	return ""
+
+
+## Small round keyword badges down the left edge of the art (FULL look only; the compact chips carry the icon inline).
+func _build_keyword_badges(x: float, y: float) -> void:
+	var index: int = 0
+	for keyword: CardEnums.Keyword in data.keywords:
+		var id: String = IconArt.keyword_id(keyword)
+		if not IconArt.has(id):
+			continue
+		var center: Vector2 = Vector2(x + 18.0, y + 18.0 + 38.0 * float(index))
+		add_child(_panel(Rect2(center - Vector2(18, 18), Vector2(36, 36)), UIStyle.box(Color(0.06, 0.04, 0.1, 0.78), accent.lightened(0.2), 2, 18)))
+		var badge: TextureRect = IconArt.rect(id, 30.0)
+		badge.position = center - Vector2(15, 15)
+		badge.size = Vector2(30, 30)
+		add_child(badge)
+		index += 1
+
+
 func _build_chips() -> void:
 	var names: Array[String] = _chip_names()
 	var y: float = 330.0
 	var x: float = 16.0
 	for chip_text: String in names:
 		var width: float = UIStyle.font_bold().get_string_size(chip_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 21).x + 22.0
+		var chip_icon: String = _chip_icon(chip_text)
+		var icon_room: float = 26.0 if chip_icon != "" else 0.0
+		width += icon_room
 		if x + width > 288.0:
 			x = 16.0
 			y += 34.0
@@ -591,8 +636,8 @@ func _build_chips() -> void:
 		add_child(chip)
 		var label: Label = Label.new()
 		label.text = chip_text
-		label.position = Vector2(x, y)
-		label.size = Vector2(width, 30)
+		label.position = Vector2(x + icon_room, y)
+		label.size = Vector2(width - icon_room, 30)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.add_theme_font_override("font", UIStyle.font_bold())
@@ -600,20 +645,36 @@ func _build_chips() -> void:
 		label.add_theme_color_override("font_color", UIStyle.GOLD)
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(label)
+		if chip_icon != "":
+			var chip_badge: TextureRect = IconArt.rect(chip_icon, 24.0)
+			chip_badge.position = Vector2(x + 5.0, y + 3.0)
+			chip_badge.size = Vector2(24, 24)
+			add_child(chip_badge)
 		x += width + 6.0
 
 
 func _build_plaque() -> void:
 	if not data.is_unit():
 		return
+	var has_stat_icons: bool = IconArt.has("ICON-STAT-ATTACK") and IconArt.has("ICON-STAT-DEFENSE")
 	var width: float = 88.0 if mode == Mode.FULL else 118.0
 	var height: float = 40.0 if mode == Mode.FULL else 60.0
+	if has_stat_icons:
+		width += 40.0 if mode == Mode.FULL else 34.0
 	_plaque = PanelContainer.new()
 	_plaque.add_theme_stylebox_override("panel", UIStyle.box(Color("120d1a"), accent.lightened(0.2), 3, 14, 6))
 	_plaque.position = Vector2(SIZE.x - width - 12.0, SIZE.y - height - 8.0) if mode == Mode.FULL else Vector2((SIZE.x - width) * 0.5, SIZE.y - height - 8.0)
 	_plaque.size = Vector2(width, height)
 	_plaque.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_plaque)
+	if has_stat_icons:
+		var icon_px: float = 22.0 if mode == Mode.FULL else 30.0
+		var icon_y: float = _plaque.position.y + (height - icon_px) * 0.5
+		for stat: Array in [["ICON-STAT-ATTACK", _plaque.position.x + 7.0, "Attack"], ["ICON-STAT-DEFENSE", _plaque.position.x + width - 7.0 - icon_px, "Defense"]]:
+			var stat_icon: TextureRect = IconArt.rect(str(stat[0]), icon_px)
+			stat_icon.position = Vector2(float(stat[1]), icon_y)
+			stat_icon.size = Vector2(icon_px, icon_px)
+			add_child(stat_icon)
 	_attack_label = Label.new()
 	_attack_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_attack_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -642,6 +703,31 @@ func _build_overlays() -> void:
 	_badge_sick.visible = false
 	_badge_sick.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_badge_sick)
+	_exhaust_icon = IconArt.rect("ICON-MECH-EXHAUST", 56.0, "Exhausted: spent until it refreshes.")
+	if _exhaust_icon != null:
+		_exhaust_icon.position = Vector2(122, 112)
+		_exhaust_icon.size = Vector2(56, 56)
+		_exhaust_icon.visible = false
+		_exhaust_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(_exhaust_icon)
+	_buff_badge = Control.new()
+	_buff_badge.position = Vector2(12, 224)
+	_buff_badge.visible = false
+	_buff_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_buff_badge)
+	var buff_icon: TextureRect = IconArt.rect("ICON-MECH-BUFF", 44.0)
+	if buff_icon != null:
+		buff_icon.size = Vector2(44, 44)
+		_buff_badge.add_child(buff_icon)
+	_buff_label = Label.new()
+	_buff_label.position = Vector2(44, 2)
+	_buff_label.add_theme_font_override("font", UIStyle.font_title())
+	_buff_label.add_theme_font_size_override("font_size", 30)
+	_buff_label.add_theme_color_override("font_color", Color("ffe9a0"))
+	_buff_label.add_theme_color_override("font_outline_color", Color("1b1020"))
+	_buff_label.add_theme_constant_override("outline_size", 8)
+	_buff_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_buff_badge.add_child(_buff_label)
 	_damage_label = Label.new()
 	_damage_label.position = Vector2(20, 90)
 	_damage_label.add_theme_font_override("font", UIStyle.font_title())
@@ -737,6 +823,7 @@ func _build_framed() -> void:
 	_build_framed_cost()
 	_build_framed_gem()
 	if mode == Mode.FULL:
+		_build_keyword_badges(36.0, 62.0)
 		_build_framed_type_line()
 		_build_framed_rules()
 	else:
@@ -875,7 +962,7 @@ func _build_framed_name() -> void:
 func _build_framed_cost() -> void:
 	if data.is_infrastructure():
 		var path_colour: Color = UIStyle.affinity_color(data.color) if not data.produces_any else Color("e8d9b0")
-		add_child(_framed_pip_dot(FRAME_COST_CENTER, 11.0, path_colour))
+		add_child(_framed_pip_dot(FRAME_COST_CENTER, 11.0, path_colour, "ICON-ENERGY-GENERIC" if data.produces_any else IconArt.energy_id(data.color)))
 		return
 	if data.is_token and data.energy_value() == 0:
 		return
@@ -895,11 +982,12 @@ func _build_framed_cost() -> void:
 	var pips: Array[Affinity.Type] = data.colored_pips
 	var step: float = minf(19.0, 150.0 / float(maxi(pips.size(), 1)))
 	for index: int in range(pips.size()):
-		add_child(_framed_pip_dot(Vector2(40.0 + step * float(index), 70.0), 8.5, UIStyle.affinity_color(pips[index])))
+		add_child(_framed_pip_dot(Vector2(40.0 + step * float(index), 70.0), 8.5, UIStyle.affinity_color(pips[index]), IconArt.energy_id(pips[index])))
 
 
-func _framed_pip_dot(center: Vector2, radius: float, color: Color) -> Control:
+func _framed_pip_dot(center: Vector2, radius: float, color: Color, icon_id: String = "") -> Control:
 	var dot: FramePip = FramePip.new()
+	dot.icon_id = icon_id
 	dot.color = color
 	dot.radius = radius
 	dot.position = center - Vector2(radius + 2.0, radius + 2.0)
@@ -955,7 +1043,7 @@ func _build_framed_rules() -> void:
 	var size_px: int = _rules_font_size_for(rect)
 	for key: String in ["normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size"]:
 		rules.add_theme_font_size_override(key, size_px)
-	var text: String = KeywordInfo.rules_bbcode(data, true)
+	var text: String = KeywordInfo.rules_bbcode(data, true, size_px)
 	if _shows_flavor():
 		text += "\n[i][color=#b9a9c4]%s[/color][/i]" % data.flavor_text
 	rules.text = text
@@ -971,7 +1059,7 @@ func _shows_flavor() -> bool:
 
 
 func _rules_font_size_for(rect: Rect2) -> int:
-	var plain: String = data.rules_text if data.rules_text != "" else (KeywordInfo.rules_bbcode(data) if data.is_infrastructure() else "")
+	var plain: String = KeywordInfo.measure_text(data)
 	if _shows_flavor():
 		plain += "\n" + data.flavor_text
 	var font: Font = UIStyle.font_bold()
@@ -989,6 +1077,9 @@ func _build_framed_chips() -> void:
 	var x: float = 40.0
 	for chip_text: String in names:
 		var width: float = UIStyle.font_bold().get_string_size(chip_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + 18.0
+		var chip_icon: String = _chip_icon(chip_text)
+		var icon_room: float = 24.0 if chip_icon != "" else 0.0
+		width += icon_room
 		if x + width > 262.0:
 			x = 40.0
 			y += 31.0
@@ -996,8 +1087,8 @@ func _build_framed_chips() -> void:
 		add_child(chip)
 		var label: Label = Label.new()
 		label.text = chip_text
-		label.position = Vector2(x, y)
-		label.size = Vector2(width, 28)
+		label.position = Vector2(x + icon_room, y)
+		label.size = Vector2(width - icon_room, 28)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.add_theme_font_override("font", UIStyle.font_bold())
@@ -1005,6 +1096,11 @@ func _build_framed_chips() -> void:
 		label.add_theme_color_override("font_color", UIStyle.GOLD)
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(label)
+		if chip_icon != "":
+			var chip_badge: TextureRect = IconArt.rect(chip_icon, 22.0)
+			chip_badge.position = Vector2(x + 4.0, y + 3.0)
+			chip_badge.size = Vector2(22, 22)
+			add_child(chip_badge)
 		x += width + 5.0
 
 
@@ -1057,9 +1153,14 @@ class FramePip:
 	extends Control
 	var color: Color = Color.WHITE
 	var radius: float = 8.0
+	var icon_id: String = ""
 
 	func _draw() -> void:
 		var center: Vector2 = size * 0.5
+		var icon: Texture2D = IconArt.texture(icon_id, radius * 2.0 + 4.0) if icon_id != "" else null
+		if icon != null:
+			draw_texture_rect(icon, Rect2(center - Vector2(radius + 2.0, radius + 2.0), Vector2(radius + 2.0, radius + 2.0) * 2.0), false)
+			return
 		draw_circle(center + Vector2(0, 1.2), radius + 1.5, Color(0, 0, 0, 0.5))
 		draw_circle(center, radius + 1.0, color.darkened(0.55))
 		draw_circle(center, radius - 0.5, color)
@@ -1110,6 +1211,11 @@ func apply_instance(instance: CardInstance, game: GameState) -> void:
 		_badge_sick.visible = instance.summoning_sick and data.is_unit() and not instance.exhausted and not instance.has_keyword(CardEnums.Keyword.HUSTLE)
 	if _tint_overlay != null:
 		_tint_overlay.color = Color(0.05, 0.05, 0.12, 0.45) if instance.exhausted else Color(0, 0, 0, 0)
+	if _exhaust_icon != null:
+		_exhaust_icon.visible = instance.exhausted and data.is_unit()
+	if _buff_badge != null:
+		_buff_badge.visible = instance.buffs > 0 and IconArt.has("ICON-MECH-BUFF")
+		_buff_label.text = "x%d" % instance.buffs
 
 
 func set_glow(kind: Glow) -> void:
@@ -1158,14 +1264,23 @@ class PipRow:
 		# Right-aligned: colored pips first (from the right), generic on the left.
 		for index: int in range(pips.size() - 1, -1, -1):
 			x -= step
-			_pip(Vector2(x + 15.0, 15.0), UIStyle.affinity_color(pips[index]), "")
+			_pip(Vector2(x + 15.0, 15.0), UIStyle.affinity_color(pips[index]), "", IconArt.energy_id(pips[index]))
 		if data.generic_cost > 0:
 			x -= step
-			_pip(Vector2(x + 15.0, 15.0), Color("cdc5d6"), str(data.generic_cost))
+			_pip(Vector2(x + 15.0, 15.0), Color("cdc5d6"), str(data.generic_cost), "ICON-ENERGY-GENERIC")
 		elif pips.is_empty():
-			_pip(Vector2(size.x - 17.0, 15.0), Color("cdc5d6"), "0")
+			_pip(Vector2(size.x - 17.0, 15.0), Color("cdc5d6"), "0", "ICON-ENERGY-GENERIC")
 
-	func _pip(center: Vector2, color: Color, text: String) -> void:
+	func _pip(center: Vector2, color: Color, text: String, icon_id: String = "") -> void:
+		var icon: Texture2D = IconArt.texture(icon_id, 30.0) if icon_id != "" else null
+		if icon != null:
+			draw_texture_rect(icon, Rect2(center - Vector2(15, 15), Vector2(30, 30)), false)
+			if text != "":
+				var number_font: Font = UIStyle.font_title()
+				var number_size: Vector2 = number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20)
+				draw_string_outline(number_font, center + Vector2(-number_size.x * 0.5, 7.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, 6, Color("1b1424"))
+				draw_string(number_font, center + Vector2(-number_size.x * 0.5, 7.0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20, Color("ffffff"))
+			return
 		draw_circle(center + Vector2(0, 1.5), 14.0, Color(0, 0, 0, 0.45))
 		draw_circle(center, 14.0, color.darkened(0.45))
 		draw_circle(center, 12.0, color)
