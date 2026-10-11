@@ -15,6 +15,7 @@ var _scene: Node
 var _started: bool = false
 var _hovered: bool = false
 var _reacted: bool = false
+var _went: bool = false
 
 
 func _initialize() -> void:
@@ -71,6 +72,12 @@ func _process(delta: float) -> bool:
 		motion.global_position = motion.position
 		root.push_input(motion)
 		Input.warp_mouse(motion.position)
+	if _args.has("goto") and not _went and _elapsed >= 0.8:
+		# `--goto=res://scenes/x.tscn`: changes scene through SceneManager (fade, loading screen) so the transition itself can be photographed with --wait.
+		_went = true
+		var manager: Node = root.get_node_or_null("SceneManager")
+		if manager != null:
+			manager.call("change_scene", str(_args["goto"]))
 	if _args.has("react") and not _reacted and _elapsed >= _wait - 0.45:
 		# `--react=buy`: the open vendor screen reacts as after a purchase (speech line, stamp, shout...).
 		_reacted = true
@@ -80,6 +87,8 @@ func _process(delta: float) -> bool:
 	if _elapsed < _wait:
 		return false
 	if _scene.has_method("screenshot_ready") and not bool(_scene.call("screenshot_ready")) and _elapsed < _wait + 20.0:
+		return false
+	if _args.has("goto") and _elapsed < _wait + 0.0:
 		return false
 	var image: Image = root.get_texture().get_image()
 	DirAccess.make_dir_recursive_absolute("res://_screenshots")

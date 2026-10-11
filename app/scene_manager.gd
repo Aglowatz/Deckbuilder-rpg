@@ -9,6 +9,12 @@ var pause_allowed: bool = false
 
 var _fade: ColorRect
 var _pause_menu: PauseMenu
+## The area scene the player is in (`Areas` key; "" on the title): loading screens and zone title cards show when the destination is a different area.
+var current_area: String = ""
+## The area before the current one (the title counts as ""): a scene shows its zone title card when this differs from its own area.
+var previous_area: String = ""
+## Loading screens (LOAD-*) on entering an area; tools and tests can switch them off.
+var show_loading_screens: bool = true
 
 
 func _ready() -> void:
@@ -39,18 +45,50 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	busy = true
 	_close_pause()
 	_fade.mouse_filter = Control.MOUSE_FILTER_STOP
+	var area: String = Areas.key_for_scene(path)
+	var screen: LoadingScreen = null
+	if show_loading_screens and not area.is_empty() and area != current_area and DisplayServer.get_name() != "headless":
+		screen = LoadingScreen.make(area, Session.dungeon_key)
 	var out: Tween = create_tween()
 	out.tween_property(_fade, "modulate:a", 1.0, fade_time)
 	await out.finished
 	pause_allowed = false
+	var shown_at: int = Time.get_ticks_msec()
+	if screen != null:
+		screen.modulate.a = 0.0
+		add_child(screen)
+		var appear: Tween = create_tween().set_parallel(true)
+		appear.tween_property(screen, "modulate:a", 1.0, LoadingScreen.FADE_IN)
+		appear.tween_method(screen.set_progress, 0.0, 0.7, LoadingScreen.MIN_SECONDS)
+		await get_tree().process_frame
+		await get_tree().process_frame
+		await get_tree().process_frame
 	var error: Error = get_tree().change_scene_to_file(path)
 	if error != OK:
 		push_error("SceneManager: cannot load %s" % path)
+	if path == "res://scenes/title.tscn":
+		previous_area = ""
+		current_area = ""
+	elif not area.is_empty():
+		previous_area = current_area
+		current_area = area
 	await get_tree().process_frame
 	await get_tree().process_frame
-	var back: Tween = create_tween()
-	back.tween_property(_fade, "modulate:a", 0.0, fade_time)
-	await back.finished
+	if screen != null:
+		screen.set_progress(1.0)
+		# The loading screen stays a moment even when the scene was quick, so it never flashes.
+		var remaining: float = LoadingScreen.MIN_SECONDS - float(Time.get_ticks_msec() - shown_at) / 1000.0
+		if remaining > 0.0:
+			await get_tree().create_timer(remaining).timeout
+		_fade.modulate.a = 0.0
+		var vanish: Tween = create_tween()
+		vanish.tween_property(screen, "modulate:a", 0.0, LoadingScreen.FADE_OUT)
+		await vanish.finished
+		screen.queue_free()
+	else:
+		var back: Tween = create_tween()
+		back.tween_property(_fade, "modulate:a", 0.0, fade_time)
+		await back.finished
 	_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	busy = false
 
