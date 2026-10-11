@@ -82,6 +82,7 @@ var _tween: Tween
 var _shake_origin: Vector2 = Vector2.ZERO
 var _stage_root: Control
 var _done: bool = false
+var _still_up: bool = false
 
 
 static func make(scene: String) -> CutsceneScreen:
@@ -205,7 +206,7 @@ func _is_left_speaker(speaker: String) -> bool:
 
 ## The screen stops the mouse (so nothing behind it is clicked), which also keeps clicks away from `_unhandled_input`: handle the click here.
 func _gui_input(event: InputEvent) -> void:
-	if _done:
+	if _done or _still_up:
 		return
 	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 		accept_event()
@@ -213,7 +214,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _done:
+	if _done or _still_up:
 		return
 	var pressed: bool = false
 	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
@@ -246,7 +247,19 @@ func advance() -> void:
 # ---- Effects ----------------------------------------------------------------------------------
 
 
+## A beat whose effect is a story moment (Flex throwing off his coat, the impostor losing its face) first shows that moment as a story still, then plays the effect.
 func _fx(name: String) -> void:
+	var still: String = StoryStills.for_cutscene_fx(scene_id, name)
+	if still.is_empty():
+		_run_fx(name)
+		return
+	_still_up = true
+	StoryStillScreen.play(self, still, func() -> void:
+		_still_up = false
+		_run_fx(name))
+
+
+func _run_fx(name: String) -> void:
 	match name:
 		"shake":
 			_shake(14.0, 0.45)

@@ -24,6 +24,8 @@ var _flash: ColorRect
 var _tween: Tween
 var _done: bool = false
 var _credits_running: bool = false
+var _still_up: bool = false
+var _stills_shown: Dictionary = {}
 var _screenshot_args: Dictionary = {}
 
 
@@ -108,6 +110,15 @@ func _icon(key: String, color: Color, side: float, center: Vector2) -> TextureRe
 
 func _show_beat() -> void:
 	var beat: Dictionary = EndingDefs.BEATS[_index]
+	# The reunion of the four Paths opens with its story still (once).
+	var still: String = StoryStills.for_ending_fx(str(beat["fx"]))
+	if not still.is_empty() and not _stills_shown.has(still) and not _screenshot_args.has("nostill"):
+		_stills_shown[still] = true
+		_still_up = true
+		StoryStillScreen.play(self, still, func() -> void:
+			_still_up = false
+			_show_beat())
+		return
 	var n: int = int(beat["n"])
 	_heading.text = _story.text(EndingDefs.beat_title_key(n))
 	_text.text = "\n".join(_story.get_lines(EndingDefs.beat_key(n)))
@@ -123,7 +134,7 @@ func _show_beat() -> void:
 
 ## The screen stops the mouse, which also keeps clicks away from `_unhandled_input`: handle the click here.
 func _gui_input(event: InputEvent) -> void:
-	if _done or _credits_running:
+	if _done or _credits_running or _still_up:
 		return
 	if event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 		accept_event()
@@ -131,7 +142,7 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _done or _credits_running:
+	if _done or _credits_running or _still_up:
 		return
 	var pressed: bool = false
 	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:

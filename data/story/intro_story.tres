@@ -24,6 +24,13 @@ graveyard_victory_lines = Array[String](["The counting stops. For now.", "Whatev
 graveyard_defeat_lines = Array[String](["It is still counting.", "Come back when you have more turns to spare than it does."])
 quest_dialogue = {}
 texts = {
+"still.wake": ["You wake in a forest clearing with leaves in your hair and no name in your head.", "A faint glow of four colors fades from your hand, like a thought you almost had.", "Somewhere close, a cave is waiting. The birds are watching. They have seen this before."],
+"still.flex": ["Grandmaster Flex shrugged off his rags, and the throne room forgot how to breathe.", "Ten years of prison food had taken his meals. They had not taken his muscles.", "The ruler of the House of Gains took one step back. In this house, that is a scream."],
+"still.doppel": ["The chef's perfect smile slid off her face like glaze off a very bad cake.", "Underneath, nothing: a shifting shadow in a spotless white coat, wearing the best reviews in the kingdom.", "Behind it, the unfinished war machines waited. They had been simmering for a long time."],
+"still.approval": ["The great DENIED stamp cracked, and for the first time in the Department's long afterlife, it did not come down.", "Forms rose like startled doves. A thousand clerks looked up from their desks and remembered they had eyes.", "Somewhere, a very small pen stopped writing. Nobody filed a complaint."],
+"still.rotheart": ["The Rotheart split open, and light poured out as if it had been waiting all along.", "The purple vines withered. At the heart of the wound, the Archdruid knelt, free and breathing.", "Wildflowers followed the light outward. The Dump has seen worse mornings, but not many better."],
+"still.primm": ["The mirrors cracked one by one, and for the first time in ten years Primm saw himself in them.", "No crown. No perfect smile. Only a tired man kneeling above a very small kingdom.", "Light poured in through the broken glass. It did not feel like winning. It felt like the end of a long, quiet lie."],
+"still.reunion": ["In the Capital's square, the leaders of the four Paths clasped hands. Nobody tripped. Several people cried.", "Four banners flew from the same pole. It was a little crowded, and no one minded.", "At the edge of the crowd, a hooded traveler smiled, with leaves still in their hair. There is always another path."],
 "start.gate_title": ["The Forgotten Cave"],
 "start.gate_prompt": ["A cold draft rises from the dark, and it smells of old stone and older magic. The stranger said the town is on the other side. Go in?"],
 "prologue.rescuer.1": ["Easy. Easy now. Don't try to stand yet.", "...You're awake. Good. You're also cold, and lighter than a sack of feathers. How long has it been since you ate?"],

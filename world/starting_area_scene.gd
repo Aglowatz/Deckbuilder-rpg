@@ -207,6 +207,14 @@ func _open_full_map() -> void:
 
 
 func _play_awakening() -> void:
+	# A new game opens on the story still of the Wanderer waking up, before the hat and cloak choice and the first words.
+	if not Session.flag(StoryStills.FLAG_WAKE_SEEN) and not _screenshot_args.has("quiet"):
+		Session.set_flag(StoryStills.FLAG_WAKE_SEEN)
+		_locked = true
+		StoryStillScreen.play(self, StoryStills.WAKE, func() -> void:
+			_locked = false
+			_play_awakening())
+		return
 	if not Session.cosmetics.look_chosen:
 		_choose_look()
 		return

@@ -164,14 +164,22 @@ func _main_boss_epilogue() -> void:
 			scene.finished.connect(finish, CONNECT_ONE_SHOT)
 		else:
 			finish.call()
+	# The story still of the boss's fall (the stamp shatters, the Rotheart splits, Primm kneels) comes between his closing words and the aftermath scene.
+	var after_still: Callable = func() -> void:
+		var still: String = StoryStills.after_boss(Session.dungeon_key)
+		if still.is_empty():
+			after_scene.call()
+		else:
+			_panel.visible = false
+			StoryStillScreen.play(self, still, after_scene)
 	if boss != null and not boss.story_after.is_empty():
 		_panel.visible = false
 		var dialogue: DialogueBox = DialogueBox.new()
 		add_child(dialogue)
 		dialogue.start("", story.get_lines(HouseOfGainsDungeon.boss_story_key(boss.story_after, Session.run)), NpcRegistry.story_speaker(boss.story_after))
-		dialogue.finished.connect(after_scene, CONNECT_ONE_SHOT)
+		dialogue.finished.connect(after_still, CONNECT_ONE_SHOT)
 	else:
-		after_scene.call()
+		after_still.call()
 
 ## Part C: the boss reward is what actually completes the trial now - there is no separate
 ## deck-choice step (the starter deck already grew to 45 cards via the 3 on-element reward

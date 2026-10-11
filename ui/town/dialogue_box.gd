@@ -224,6 +224,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not pressed:
 		return
 	get_viewport().set_input_as_handled()
+	press()
+
+
+## What an advance key or click does: finishes the typewriter, or shows the next line (or closes after the last). A screen that covers the game (a story still) calls this itself for clicks.
+func press() -> void:
+	if not active:
+		return
 	if _text.visible_ratio < 1.0:
 		if _tween != null and _tween.is_valid():
 			_tween.kill()
