@@ -1,0 +1,114 @@
+d,"Paste before every Image Description: ""A single game icon for a whimsical, expressive young-adult indie RPG card game with painterly card art. One centered symbol with a bold, instantly readable silhouette that still reads at 32x32 pixels. Clean thick dark outline, limited palette, subtle painterly shading with soft light from the upper left, consistent stroke weight and lighting across the whole icon set. Filling about 80% of the canvas, centered. Fully transparent background (PNG with alpha). No text, no letters, no numbers, no frame or badge unless described. Square, 1024x1024."" Apply the Path accent if the row names a Path: Beefcake = gold and warm red; Necrocrat = gray and sickly green; Gourmand = cream and copper; Refusemancer = moss green and rust; Colorless = stone gray and parchment.",,,,,,
+HOW IT WORKS,Save each icon as its ID (e.g. ICON-KW-FLYING.png) and move approved icons to Card Game Art / Approved_Icons. Icons are generated large (1024) and the game downsizes them. Generate a whole category in one ChatGPT conversation so the set stays consistent.,,,,,,
+,,,,,,,
+ID,Asset Name,Category,In-Game Use,Size / Format,Image Description (paste the Icon Style Lock first),Notes,Art Status
+ICON-ENERGY-B,Energy: Beefcake (B),Energy symbols,"Cost pips on cards, energy display, Infrastructure.",1024x1024 PNG,A round coin-like energy symbol in gold and warm red with a flexing arm (bicep) emblem.,Must read clearly very small (cost pips).,Needed
+ICON-ENERGY-N,Energy: Necrocrat (N),Energy symbols,"Cost pips, energy display.",1024x1024 PNG,A round energy symbol in gray and sickly green with a small skull emblem.,,Needed
+ICON-ENERGY-G,Energy: Gourmand (G),Energy symbols,"Cost pips, energy display.",1024x1024 PNG,A round energy symbol in cream and copper with a chef's hat emblem.,,Needed
+ICON-ENERGY-R,Energy: Refusemancer (R),Energy symbols,"Cost pips, energy display.",1024x1024 PNG,A round energy symbol in moss green and rust with a leaf-and-recycle-arrow emblem.,,Needed
+ICON-ENERGY-GENERIC,Energy: Generic,Energy symbols,Generic cost (number drawn on top by the game).,1024x1024 PNG,A plain round stone-gray energy symbol with a smooth empty center.,Number drawn by the game.,Needed
+ICON-RES-IRON,Resource: Iron,Resources,"Resource tray, card text, tooltips.",1024x1024 PNG,A heavy iron weight plate with a gold rim and a warm red glint.,,Needed
+ICON-RES-REDTAPE,Resource: Red Tape,Resources,"Resource tray, card text.",1024x1024 PNG,"A coil of glowing red tape held by a small skull-shaped clasp, gray-green glow.",,Needed
+ICON-RES-INGREDIENT,Resource: Ingredient,Resources,"Resource tray, card text.",1024x1024 PNG,"A small bundle of fresh ingredients (a carrot, a herb sprig, and an egg) tied with copper twine.",,Needed
+ICON-RES-GARBAGE,Resource: Garbage,Resources,"Resource tray, card text.",1024x1024 PNG,"A tied, slightly lumpy trash bag with a fish bone and a wildflower poking out, moss-green and rust tones.",,Needed
+ICON-TOKEN-CONTRACT,Token: Contract,Tokens,"Token tray, card text.",1024x1024 PNG,A rolled ghostly parchment contract sealed with a green wax seal.,"Token, not a resource.",Needed
+ICON-TOKEN-CLAUSE,Token: Clause,Tokens,Clause tokens shown in decks/tooltips.,1024x1024 PNG,A tiny glowing curled scrap of fine-print paper with a sly little face in the ink.,,Needed
+ICON-KW-FLYING,Keyword: Flying,Keywords,Keyword badges on cards and tooltips.,1024x1024 PNG,A pair of spread feathered wings.,,Needed
+ICON-KW-SWAT,Keyword: Swat,Keywords,Keyword badge.,1024x1024 PNG,A raised open hand swatting upward at a small bird silhouette.,,Needed
+ICON-KW-HUSTLE,Keyword: Hustle,Keywords,Keyword badge.,1024x1024 PNG,A running sneaker with speed lines behind it.,,Needed
+ICON-KW-BULLDOZE,Keyword: Bulldoze,Keywords,Keyword badge.,1024x1024 PNG,"A charging bull's head smashing through a small wall, debris flying.",,Needed
+ICON-KW-SUCKERPUNCH,Keyword: Sucker Punch,Keywords,Keyword badge.,1024x1024 PNG,"A single fist with a small lightning spark, striking first.",,Needed
+ICON-KW-ONETWO,Keyword: One-Two Punch,Keywords,Keyword badge.,1024x1024 PNG,Two fists overlapping mid-punch with two impact stars.,,Needed
+ICON-KW-TOXIC,Keyword: Toxic,Keywords,Keyword badge.,1024x1024 PNG,A dripping green poison droplet with a tiny skull reflected in it.,,Needed
+ICON-KW-NOURISH,Keyword: Nourish,Keywords,Keyword badge.,1024x1024 PNG,A heart-shaped bowl of steaming soup.,,Needed
+ICON-KW-OVERTIME,Keyword: Overtime,Keywords,Keyword badge.,1024x1024 PNG,"A punch clock card with a small moon, showing late-night work.",,Needed
+ICON-KW-WALLFLOWER,Keyword: Wallflower,Keywords,Keyword badge.,1024x1024 PNG,A shy flower growing in front of a small brick wall.,,Needed
+ICON-KW-ELUSIVE,Keyword: Elusive,Keywords,Keyword badge.,1024x1024 PNG,A swirl of smoke with a fading silhouette slipping away.,,Needed
+ICON-KW-UNTOUCHABLE,Keyword: Untouchable,Keywords,Keyword badge.,1024x1024 PNG,A glowing bubble shield with a pointing finger bouncing off it.,,Needed
+ICON-KW-UNBREAKABLE,Keyword: Unbreakable,Keywords,Keyword badge.,1024x1024 PNG,A solid diamond-hard shield with a cracked hammer beside it.,,Needed
+ICON-MECH-EXHAUST,Mechanic: Exhaust,Mechanics,Exhausted state on cards; tooltips.,1024x1024 PNG,A small tired sweat drop over a sideways-tilted card.,,Needed
+ICON-MECH-SHRED,Mechanic: Shred,Mechanics,Tooltips and effects.,1024x1024 PNG,"A card being fed into a paper shredder, strips coming out.",,Needed
+ICON-MECH-REINSTATE,Mechanic: Reinstate,Mechanics,Tooltips.,1024x1024 PNG,A ghostly hand rising from a card pile holding a card up.,,Needed
+ICON-MECH-BRAWL,Mechanic: Brawl,Mechanics,Tooltips.,1024x1024 PNG,Two crossed fists in a cartoon dust cloud.,,Needed
+ICON-MECH-PLATE,Mechanic: Plate,Mechanics,Tooltips.,1024x1024 PNG,A silver serving cloche with a tiny dumpling under it.,,Needed
+ICON-MECH-PEEK,Mechanic: Peek,Mechanics,Tooltips.,1024x1024 PNG,An eye peeking over the top of a small stack of cards.,,Needed
+ICON-MECH-BURY,Mechanic: Bury,Mechanics,Tooltips.,1024x1024 PNG,A small shovel tipping cards into a pile.,,Needed
+ICON-MECH-PROCESSING,Mechanic: Processing,Mechanics,Delayed effects; tooltips and the delayed-effect tracker.,1024x1024 PNG,An hourglass with a rubber stamp beside it.,,Needed
+ICON-MECH-BUFF,Mechanic: Buff,Mechanics,Buff counters on units.,1024x1024 PNG,A small glowing upward arrow with a plus sign.,,Needed
+ICON-MECH-OVEREXERT,Mechanic: Overexert,Mechanics,Tooltips.,1024x1024 PNG,A straining bicep with a sweat burst and a tiny crack.,,Needed
+ICON-MECH-EATGARBAGE,Mechanic: Eat Garbage,Mechanics,Tooltips.,1024x1024 PNG,A tiny trash bag with a bite taken out of it.,,Needed
+ICON-MECH-SENDBACK,Mechanic: Send back,Mechanics,Tooltips.,1024x1024 PNG,A curved arrow returning a card to an open hand.,,Needed
+ICON-TYPE-UNIT,Card type: Unit,Card types,"Deck builder filters, card type line.",1024x1024 PNG,A crossed sword and shield.,,Needed
+ICON-TYPE-SPELL,Card type: Spell,Card types,Filters.,1024x1024 PNG,A sparkling magic scroll.,,Needed
+ICON-TYPE-TRAP,Card type: Trap,Card types,Filters; set-trap slots.,1024x1024 PNG,"A spring-loaded jaw trap, closed.",,Needed
+ICON-TYPE-TOOL,Card type: Tool,Card types,Filters.,1024x1024 PNG,A crossed wrench and hammer.,,Needed
+ICON-TYPE-WONDER,Card type: Wonder,Card types,Filters.,1024x1024 PNG,A small glowing monument or obelisk with a star above it.,,Needed
+ICON-TYPE-INFRA,Card type: Infrastructure,Card types,Filters.,1024x1024 PNG,A small sturdy tower building.,,Needed
+ICON-TYPE-TOKEN,Card type: Token,Card types,"Filters, token labels.",1024x1024 PNG,A round coin-like token with a dashed border.,,Needed
+ICON-STAT-ATTACK,Stat: Attack,Stats & currencies,"Attack value, stat displays.",1024x1024 PNG,A single sword pointing up.,,Needed
+ICON-STAT-DEFENSE,Stat: Defense,Stats & currencies,Defense value.,1024x1024 PNG,A round shield.,,Needed
+ICON-STAT-HP,Stat: HP,Stats & currencies,HP displays.,1024x1024 PNG,A plump red heart with a gold outline.,,Needed
+ICON-GOLD,Gold,Stats & currencies,"Gold counter, prices, rewards.",1024x1024 PNG,A small stack of shiny gold coins.,,Needed
+ICON-XP,Experience,Stats & currencies,"XP rewards, level-up.",1024x1024 PNG,A glowing golden star.,,Needed
+ICON-ESSENCE-B,Essence: Beefcake,Stats & currencies,"Essence totals (Alchemist, character screen).",1024x1024 PNG,A small glass vial of swirling gold-red glowing essence.,,Needed
+ICON-ESSENCE-N,Essence: Necrocrat,Stats & currencies,Essence totals.,1024x1024 PNG,A small glass vial of swirling gray-green glowing essence.,,Needed
+ICON-ESSENCE-G,Essence: Gourmand,Stats & currencies,Essence totals.,1024x1024 PNG,A small glass vial of swirling cream-copper glowing essence.,,Needed
+ICON-ESSENCE-R,Essence: Refusemancer,Stats & currencies,Essence totals.,1024x1024 PNG,A small glass vial of swirling moss-rust glowing essence.,,Needed
+ICON-LEVEL,Level,Stats & currencies,Player level display.,1024x1024 PNG,A shield-shaped badge with a laurel wreath (empty center for the number).,Number drawn by the game.,Needed
+ICON-DECKBOX,Deck box,Stats & currencies,"Deck slots, deck box expansion reward.",1024x1024 PNG,"An ornate wooden card deck box with a brass clasp, slightly open.",,Needed
+ICON-PADLOCK,Locked,UI states,"Locked slots, vendor stock, nodes, zones.",1024x1024 PNG,A sturdy brass padlock.,,Needed
+ICON-CHECK,Completed,UI states,"Completed quests, nodes, collections.",1024x1024 PNG,A bold green checkmark with a gold edge.,,Needed
+ICON-NODE-START,Dungeon node: Start,Dungeon nodes,Node icons on dungeon maps (sit on the painted landing spots).,1024x1024 PNG,A round medallion icon (all node icons share this round medallion base with a brass rim) showing an open doorway with light.,"All node icons: same round medallion base, readable over busy map art.",Needed
+ICON-NODE-BATTLE,Dungeon node: Battle,Dungeon nodes,Battle nodes.,1024x1024 PNG,Round brass-rimmed medallion with crossed swords on a red field.,,Needed
+ICON-NODE-ELITE,Dungeon node: Elite,Dungeon nodes,Elite battle nodes.,1024x1024 PNG,"Round medallion with crossed swords under a horned skull on a dark purple field, spiky rim.",,Needed
+ICON-NODE-BOSS,Dungeon node: Boss,Dungeon nodes,Boss nodes (larger on the map).,1024x1024 PNG,"Larger round medallion with a menacing crowned skull on a deep crimson field, ornate gold rim with spikes.",,Needed
+ICON-NODE-TREASURE,Dungeon node: Treasure,Dungeon nodes,Treasure nodes.,1024x1024 PNG,Round medallion with an open treasure chest spilling gold on a gold field.,,Needed
+ICON-NODE-EVENT,Dungeon node: Event,Dungeon nodes,Event nodes.,1024x1024 PNG,Round medallion with a large question mark made of a curling scroll on a teal field.,"The question-mark shape is allowed here (it's a symbol, not text).",Needed
+ICON-NODE-CHALLENGE,Dungeon node: Deck Challenge,Dungeon nodes,Deck challenge nodes.,1024x1024 PNG,Round medallion with a fanned hand of cards and a small lightning bolt on an orange field.,,Needed
+ICON-NODE-HEAL,Dungeon node: Full Heal / Shrine,Dungeon nodes,Heal and shrine nodes.,1024x1024 PNG,Round medallion with a glowing heart over a small shrine on a soft green field.,,Needed
+ICON-NODE-RESCUE,Dungeon node: Rescue Event,Dungeon nodes,Rescue nodes (e.g. the Leader's Cell).,1024x1024 PNG,Round medallion with a broken chain and a key on a sky-blue field.,,Needed
+ICON-NODE-DONE,Dungeon node: Completed overlay,Dungeon nodes,Overlay on cleared nodes.,1024x1024 PNG,A translucent gold checkmark stamp designed to sit over a node medallion.,,Needed
+ICON-NODE-LOCKED,Dungeon node: Unreachable overlay,Dungeon nodes,Overlay on unreachable nodes.,1024x1024 PNG,A translucent gray padlock stamp designed to sit over a node medallion.,,Needed
+ICON-MAP-PLAYER,Minimap: Player,Minimap,The player's arrow on the minimap and full map.,512x512 PNG,A bold golden arrowhead pointing up with a white outline.,Must rotate cleanly.,Needed
+ICON-MAP-VENDOR,Minimap: Vendor,Minimap,Vendors on the map.,512x512 PNG,A small coin purse with a gold coin.,,Needed
+ICON-MAP-HEAL,Minimap: Heal spot,Minimap,Heal spots.,512x512 PNG,A small red heart with a plus sign.,,Needed
+ICON-MAP-QUEST,Minimap: Quest available,Minimap,NPCs with an available quest.,512x512 PNG,A bold golden exclamation mark on a small round badge.,The exclamation shape is allowed (symbol).,Needed
+ICON-MAP-TURNIN,Minimap: Quest turn-in,Minimap,NPCs where a quest can be turned in.,512x512 PNG,A bold golden question mark on a small round badge.,,Needed
+ICON-MAP-DUNGEON,Minimap: Dungeon entrance,Minimap,Main dungeon entrances.,512x512 PNG,A small dark arched doorway with a skull keystone.,,Needed
+ICON-MAP-SIDEDUNGEON,Minimap: Side dungeon,Minimap,Side dungeon entrances.,512x512 PNG,A small arched doorway with a little star keystone.,,Needed
+ICON-MAP-PUZZLE,Minimap: Puzzle,Minimap,Puzzle encounters.,512x512 PNG,A single jigsaw puzzle piece.,,Needed
+ICON-MAP-QUIZ,Minimap: Quiz master,Minimap,Quiz masters.,512x512 PNG,A small graduation cap.,,Needed
+ICON-MAP-MINIGAME,Minimap: Minigame,Minimap,Minigame hosts.,512x512 PNG,A small pair of dice.,,Needed
+ICON-MAP-EXIT,Minimap: Zone exit,Minimap,Zone exits and passageways.,512x512 PNG,A small signpost with an arrow.,,Needed
+ICON-MAP-TRAVEL,Minimap: Travel point,Minimap,Throwers and portal rippers.,512x512 PNG,A small swirling purple portal.,,Needed
+ICON-MAP-ARENA,Minimap: Arena,Minimap,The Arena.,512x512 PNG,A small colosseum silhouette.,,Needed
+ICON-EQUIP-HELM,Equipment slot: Helm,Equipment slots,Empty helm slot on the character screen.,1024x1024 PNG,A faint ghostly outline of a helmet (meant as an empty-slot placeholder).,Slot placeholders are faint outlines.,Needed
+ICON-EQUIP-WEAPON,Equipment slot: Weapon,Equipment slots,Empty weapon slot.,1024x1024 PNG,A faint ghostly outline of a sword.,,Needed
+ICON-EQUIP-ARMOR,Equipment slot: Armor,Equipment slots,Empty armor slot.,1024x1024 PNG,A faint ghostly outline of a chest plate.,,Needed
+ICON-EQUIP-BOOTS,Equipment slot: Boots,Equipment slots,Empty boots slot.,1024x1024 PNG,A faint ghostly outline of a pair of boots.,,Needed
+ICON-EQUIP-RELIC,Equipment slot: Relic,Equipment slots,Empty relic slot.,1024x1024 PNG,A faint ghostly outline of a pendant amulet.,,Needed
+ICON-GEAR-WICKEDDAGGER,Equipment: Wicked Dagger,Equipment,"Equipment icon (vendor, character screen, tooltips).",1024x1024 PNG,A wicked curved dagger with a jagged edge and a purple-black hilt.,,Needed
+ICON-GEAR-FLAMETHROWER,Equipment: Flamethrower,Equipment,Equipment icon.,1024x1024 PNG,"A whimsical brass flamethrower with a small fuel tank, a burst of orange flame from the nozzle.",,Needed
+ICON-GEAR-EXTRAPOCKET,Equipment: Extra Pocket,Equipment,Equipment icon.,1024x1024 PNG,A sewn-on leather pocket with a few cards peeking out.,,Needed
+ICON-GEAR-CHEATERSDICE,Equipment: Cheater's Dice,Equipment,Equipment icon.,1024x1024 PNG,"A pair of dice both showing sixes, with a sly little wink of light on one.",,Needed
+ICON-GEAR-TRAVELERSBOOTS,Equipment: Traveler's Boots,Equipment,Equipment icon.,1024x1024 PNG,A pair of sturdy worn leather traveling boots.,,Needed
+ICON-GEAR-HOVERBOOTS,Equipment: Hover Boots,Equipment,Equipment icon.,1024x1024 PNG,A pair of boots floating above glowing blue hover discs.,,Needed
+ICON-GEAR-SOLIDPLATE,Equipment: Solid Plate,Equipment,Equipment icon.,1024x1024 PNG,"A thick, sturdy steel chest plate with rivets.",,Needed
+ICON-GEAR-THORNEDLOINCLOTH,Equipment: Thorned Loincloth,Equipment,Equipment icon.,1024x1024 PNG,A rugged leather loincloth with sharp thorny vines woven into it.,,Needed
+ICON-GEAR-XRAYGOGGLES,Equipment: X-Ray Goggles,Equipment,Equipment icon.,1024x1024 PNG,A pair of brass goggles with glowing green lenses showing faint card outlines.,,Needed
+ICON-GEAR-BIGBRAINBERET,Equipment: Big Brain Beret,Equipment,Equipment icon.,1024x1024 PNG,A jaunty beret with a cartoonishly large glowing brain bulging out from under it.,,Needed
+ICON-GEAR-OTHERS,"Equipment: zone, puzzle, and arena pieces",Equipment,Remaining equipment added during development.,1024x1024 PNG,"Ask Claude Code to export the full equipment list (names + effects) and add one row per piece here, using the same ICON-GEAR-<NAME> pattern.",Placeholder row: the names of these pieces live in the game data.,Needed
+ICON-ITEM-OTHERS,Consumable items (10+),Items,"Item icons (inventory, item vendor, battle item slots).",1024x1024 PNG,"Ask Claude Code to export the consumable item list (names + effects) and add one row per item here, using an ICON-ITEM-<NAME> pattern. Item icons should look like potions, scrolls, snacks, and gadgets.",Placeholder row: item names live in the game data.,Needed
+ICON-HAT-OTHERS,Cosmetics: hats and cloaks,Cosmetics,Wardrobe and clothing vendor icons.,1024x1024 PNG,"Ask Claude Code to export the cosmetic list and add one row per hat/cloak (e.g. wizard hat, wide-brim hat, beanie, tricorn, crown of leaves, chef's hat, bowler, hood, short cape, tattered cloak, royal mantle, patchwork cloak) using ICON-COS-<NAME>.",Placeholder row: cosmetic names live in the game data.,Needed
+ICON-UI-SETTINGS,Menu: Settings,Menu icons,Settings buttons.,512x512 PNG,A brass gear cog.,,Needed
+ICON-UI-SAVE,Menu: Save,Menu icons,Save buttons and the save screen.,512x512 PNG,A small leather journal with a quill.,,Needed
+ICON-UI-LOAD,Menu: Load,Menu icons,Load buttons.,512x512 PNG,An open journal with a ribbon bookmark.,,Needed
+ICON-UI-DECK,Menu: Deck builder,Menu icons,HUD button for the deck builder (B).,512x512 PNG,A neat stack of cards with a small hammer.,,Needed
+ICON-UI-COLLECTION,Menu: Collection / Codex,Menu icons,Collection and codex.,512x512 PNG,An open binder of cards.,,Needed
+ICON-UI-QUESTS,Menu: Quest log,Menu icons,HUD button for the quest log (J).,512x512 PNG,A rolled scroll with a wax seal.,,Needed
+ICON-UI-CHARACTER,Menu: Character,Menu icons,HUD button for the character screen (C).,512x512 PNG,A traveler's hooded silhouette bust.,,Needed
+ICON-UI-MAP,Menu: Map,Menu icons,HUD button for the map (M).,512x512 PNG,A folded parchment map.,,Needed
+ICON-UI-PACKS,Menu: Packs,Menu icons,HUD button for unopened packs.,512x512 PNG,A small sealed card pack with a sparkle.,,Needed
+ICON-UI-INVENTORY,Menu: Inventory,Menu icons,Inventory / items.,512x512 PNG,A leather satchel with a buckle.,,Needed
+ICON-UI-WARDROBE,Menu: Wardrobe,Menu icons,Wardrobe (hats and cloaks).,512x512 PNG,A wide-brimmed hat on a coat hanger.,,Needed
+ICON-UI-CRAFT,Menu: Crafting / Alchemist,Menu icons,Alchemist crafting.,512x512 PNG,A small bubbling round flask with four-colored smoke.,,Needed
