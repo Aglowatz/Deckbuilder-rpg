@@ -78,6 +78,7 @@ static func build_def() -> ZoneDef:
 	def.vendor_ids = ZoneCards.GAINLANDS_VENDOR_IDS
 	def.vendor_name = "Benchley's"
 	def.vendor_title = "Benchley's Protein & Pasteboard - Beefcake Issue"
+	def.vendor_screen_id = "VS-BENCHLEY"
 	def.puzzle_kind = "wheels"
 	def.puzzle_equipment_id = "swole_belt"
 	def.minigame_kind = "reps"

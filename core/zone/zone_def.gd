@@ -62,6 +62,8 @@ var chest_rewards: Dictionary = {}
 var vendor_ids: Array[String] = []
 var vendor_name: String = "Vendor"
 var vendor_title: String = "Vendor"
+## The Vendor Screen ID of this zone's shop (VS-GRISTLE): its background, the vendor's portrait and speech lines; "" = the plain screen.
+var vendor_screen_id: String = ""
 var mini: MiniDef
 ## Which puzzle and minigame screens this zone uses ("tube"/"wheels", "match"/"reps").
 var puzzle_kind: String = ""

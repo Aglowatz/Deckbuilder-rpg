@@ -1,0 +1,110 @@
+{
+	"VS-ALEMBIC": {
+		"art_direction": "A mystical alchemy laboratory with a large central cauldron swirling with four colors of glowing essence, copper pipes, alembics and flasks, star charts on the wall, and four colored crystal jars on the counter.",
+		"concept": "A mystical alchemy lab where four colored essences swirl into one cauldron.",
+		"goods": "Crafting: trade essence + gold for multi-path cards (tri-path after the postgame).",
+		"location": "Main Town",
+		"notes": "Shows essence totals per Path; choose two Paths; the crafting animation plays in the cauldron.",
+		"portrait_id": "V-ALEMBIC",
+		"vendor": "Auntie Alembic (Alchemist)"
+	},
+	"VS-BEETSWORTH": {
+		"art_direction": "A tidy, overly organized armory-office with a metal desk-counter, perfectly aligned weapon racks and armor stands, filing cabinets, a half-open desk drawer full of hidden blades, a framed blank certificate, and a window showing a beet farm.",
+		"concept": "A rigidly organized armory-office: labeled racks, a desk drawer of hidden blades, a beet farm through the window.",
+		"goods": "Equipment (basic; advanced unlocks by level).",
+		"location": "Main Town",
+		"notes": "Equipment grouped by slot (helm, weapon, armor, boots, relic) with compare-to-equipped tooltips.",
+		"portrait_id": "V-BEETSWORTH",
+		"vendor": "Bertram Beetsworth (equipment)"
+	},
+	"VS-BELLOWS": {
+		"art_direction": "An announcer's booth high in a colosseum, with a brass megaphone on the ledge, faction banners, a prize podium with gleaming trophies, and a sunny arena with a cheering crowd beyond.",
+		"concept": "An announcer's booth overlooking the arena sand: banners, a prize podium, a roaring crowd.",
+		"goods": "Arena encounter list and arena-exclusive prizes.",
+		"location": "Main Town (Arena)",
+		"notes": "Encounter list with rules, rewards, and completion status; prize showcase.",
+		"portrait_id": "NPC-BELLOWS",
+		"vendor": "Announcer Grand Bellows (Arena)"
+	},
+	"VS-BENCHLEY": {
+		"art_direction": "A bright gym pro shop with lockers, a trophy wall, stacked protein tubs, dumbbell racks, a whistle on a hook, and a sunny window looking out onto floating islands.",
+		"concept": "A gym pro shop: cards stacked like protein tubs, a trophy wall.",
+		"goods": "Advanced Beefcake cards; Beefcake Path Packs after unlock.",
+		"location": "Gainlands, Swole Station",
+		"notes": "Cards shown in 'supplement' tubs; purchases trigger a motivational shout.",
+		"portrait_id": "V-BENCHLEY",
+		"vendor": "Coach Brutus Benchley (Beefcake cards)"
+	},
+	"VS-FENWICK": {
+		"art_direction": "A small shop that feels like a shrine, with sealed card packs on velvet pedestals under spotlights, shimmering foil streamers, four pedestals with colored cloth covers, and a glass case of glittering foil cards.",
+		"concept": "A shrine to card packs: packs on velvet pedestals under spotlights, foil glinting everywhere.",
+		"goods": "Path Packs (each unlocks after that Path's dungeon is cleared).",
+		"location": "Main Town",
+		"notes": "Locked Path Packs shown as covered pedestals with a hint; pack opening plays right here.",
+		"portrait_id": "V-FENWICK",
+		"vendor": "Foil Fenwick (Path Packs)"
+	},
+	"VS-FIGSLY": {
+		"art_direction": "A secret smuggler's den behind a false bookshelf, unmarked crates, a coat rack hung with goods, glinting gilded card packs in an open hidden compartment, a single shielded candle, and a lookout slit in the wall.",
+		"concept": "A hidden smuggler's den: goods in secret compartments, a lookout slit, shielded candles.",
+		"goods": "Gilded Packs, rare cards, contraband.",
+		"location": "Capital, resistance hideout",
+		"notes": "Items revealed from 'hidden compartments' on hover.",
+		"portrait_id": "V-FIGSLY",
+		"vendor": "Fig Sly (black market)"
+	},
+	"VS-GRISTLE": {
+		"art_direction": "A rustic junk-trader's porch stall made from salvaged wood, jars and tin cans full of cards, a rocking chair, wind chimes made of spoons, hay bales, and wildflowers growing out of an old boot.",
+		"concept": "A junk-trader's porch stall: cards in tin cans and jars, raccoons rummaging.",
+		"goods": "Advanced Refusemancer cards; Refusemancer Path Packs after unlock.",
+		"location": "Verdant Dump, Compost Grange",
+		"notes": "Cards pulled out of tin cans; a raccoon occasionally peeks in (comedy only).",
+		"portrait_id": "V-GRISTLE",
+		"vendor": "Granny Gristle (Refusemancer cards)"
+	},
+	"VS-LEDGERBONE": {
+		"art_direction": "A gloomy government service counter with a glass partition, a service bell, trays of forms, a giant rubber stamp, filing cabinets behind, and a flickering green lamp.",
+		"concept": "A government service window: ticket display, forms in triplicate, a bell for service.",
+		"goods": "Advanced Necrocrat cards; Necrocrat Path Packs after unlock.",
+		"location": "D.N.A. Lobby",
+		"notes": "Purchases get a quick comedic 'stamp' animation (no extra steps).",
+		"portrait_id": "V-LEDGERBONE",
+		"vendor": "Clerk Ledgerbone (Necrocrat cards)"
+	},
+	"VS-MIREPOIX": {
+		"art_direction": "An elegant fine-dining room with a white-tablecloth counter, silver cloches, a sommelier cart, a chandelier, copper pots on the wall, and warm candlelight.",
+		"concept": "A fine-dining tasting menu: cards presented under silver cloches, candlelight.",
+		"goods": "Advanced Gourmand cards; Gourmand Path Packs after unlock.",
+		"location": "Endless Buffet, Grand Pantry",
+		"notes": "Each card is 'unveiled' from under a cloche on hover.",
+		"portrait_id": "V-MIREPOIX",
+		"vendor": "Madame Mirepoix (Gourmand cards)"
+	},
+	"VS-SABLE": {
+		"art_direction": "A plush velvet card salon with a polished dark-wood counter, glass display cases of glowing cards arranged like jewelry, framed rare cards on the walls, candle sconces, and a deep-red curtain behind the counter.",
+		"concept": "A glamorous velvet card salon: cards displayed like jewelry under glass, rare misprints framed on the wall.",
+		"goods": "Single cards; General Packs (Tier 1, Tier 2 after unlock).",
+		"location": "Main Town market",
+		"notes": "Cards shown as fanned rows; hover zooms the card; the Tier 2 shelf appears with a sparkle when unlocked.",
+		"portrait_id": "V-SABLE",
+		"vendor": "Sable (card dealer)"
+	},
+	"VS-THREADWELL": {
+		"art_direction": "A flamboyant boutique with towering hat stands, cloaks on mannequins, bolts of colorful fabric, a gilded full-length mirror under a spotlight, a small runway carpet, and scattered pins and ribbons on the counter.",
+		"concept": "A dramatic boutique: hat stands everywhere, a spotlit mirror, a tiny runway.",
+		"goods": "Hats, cloaks, and dyes (cosmetic).",
+		"location": "Main Town",
+		"notes": "Uses a live character preview so the player can try items on before buying.",
+		"portrait_id": "V-THREADWELL",
+		"vendor": "Pip Threadwell (clothing)"
+	},
+	"VS-TONIC": {
+		"art_direction": "A cozy, chaotic apothecary with a wooden counter covered in bubbling flasks and mortar-and-pestles, shelves of glowing colorful potions, hanging dried herbs, a scorch mark on the ceiling, and a small steaming cauldron in the corner.",
+		"concept": "A cluttered, bubbling apothecary: potions fizzing, a small explosion scorch mark on the ceiling.",
+		"goods": "Consumable items (basic half; advanced half unlocks by level).",
+		"location": "Main Town",
+		"notes": "Items shown as bottles on shelves; the locked advanced shelf sits behind a frosted glass door.",
+		"portrait_id": "V-TONIC",
+		"vendor": "Tilly Tonic (items)"
+	}
+}

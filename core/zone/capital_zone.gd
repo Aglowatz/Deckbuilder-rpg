@@ -122,6 +122,7 @@ static func build_def() -> ZoneDef:
 	def.vendor_ids = CapitalContent.BLACK_MARKET_CARD_IDS
 	def.vendor_name = "Fig Sly's Contraband & Curiosities"
 	def.vendor_title = "Fig Sly's Contraband & Curiosities - the Black Market"
+	def.vendor_screen_id = "VS-FIGSLY"
 	def.quest_npc_names = [NPC_FERN, NPC_PELL, NPC_ROLLO, NPC_MARLO, NPC_KESTREL]
 	def.mini = MiniDungeon.def_for(ID)
 	def.ruler_name = Villain.display_name()

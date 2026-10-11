@@ -867,6 +867,7 @@ func _open_vendor() -> void:
 	var screen: VendorScreen = VendorScreen.new()
 	screen.stock = data
 	screen.screen_title = def.vendor_title
+	screen.vendor_screen_id = def.vendor_screen_id
 	if def.id == CapitalZone.ID:
 		screen.pack_vendor_id = PackData.VENDOR_BLACK_MARKET
 		screen.pack_story_prefix = "pack.black_market"
@@ -1271,6 +1272,9 @@ func _screenshot_open(what: String) -> void:
 	match what:
 		"vendor":
 			_open_vendor()
+		"supplies":
+			if has_method("_open_supplies"):
+				call("_open_supplies")
 		"quests":
 			_open_quest_log()
 		"puzzle":

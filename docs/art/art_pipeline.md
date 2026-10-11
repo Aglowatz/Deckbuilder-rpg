@@ -104,3 +104,15 @@ Every dungeon of the dungeon list (`data/source/dungeon_list.csv`, imported by `
 
 When the user says **"import UI art"**, run `bash tools/import_ui_art.sh` (the Drive `Approved_UI` folder, copy-only; `docs/art/ui_art_kit.md`) and report what was added, the UI IDs of the kit still
 missing and the files that match no ID. Never create or fetch UI art yourself.
+
+## Vendor screens and key art ("import key art")
+
+`bash tools/import_key_art.sh` copies two read-only Drive folders (`vendor_dir` = `Approved_VendorScreens`, `keyart_dir` = `Approved_KeyArt` in `data/source/art_config.cfg`; override with `VENDOR_SOURCE_DIR` / `KEYART_SOURCE_DIR`). Nothing in the Drive is moved, renamed or deleted. IDs come from the VENDOR SCREENS section of `data/source/npc_list.csv` (`VS-*`) and the asset rows of `data/source/logo_title_art.csv` (header row `ID`).
+
+- `VS-*` -> `assets/art/vendors/<ID>.webp`, cropped to 16:9 (`KeyArt.crop_16x9`). `data/vendors/vendor_screens.json` is written from the sheet rows (portrait ID, interaction notes) so the exported game never reads the CSV.
+- `LOGO-*`, `ZONE-TITLE-*` keep their transparency (lossless WebP); `TITLE-*`, `LOAD-*`, `STORY-*` are cropped to 16:9 (loading screens keep the calm bottom, stills keep the upper part); all go to `assets/art/keyart/<ID>.webp`.
+- `APP-ICON` also writes `assets/icon/app_icon.png` (256), `.ico` (16-256) and `.icns` (128-1024) for the window and the Windows/macOS export presets.
+- `STEAM-*` and `ITCH-COVER` are store art: never imported (see `marketing/store_art/`).
+- Missing art keeps the fallback look: `KeyArt.texture(id)` returns null. Status table: `docs/art/art_status.md`, section "Vendor screens and key art".
+- Vendor speech lines: `data/vendors/vendor_lines.json` (open / buy / poor per Vendor Screen ID), edit freely. Code: `ui/town/vendor_stage.gd` (the shared layout), `ui/town/vendor_fx.gd` (cloches, tin cans, tubs, compartments, stamp, raccoon...). A shop opts in with `vendor_screen_id`.
+- Screenshots: `bash tools/vendor_shots.sh [WxH...]` -> `_screenshots/vendors/`; `tools/shot.sh ... --hover=x,y` and `--react=buy` show hover effects and the purchase flourish.

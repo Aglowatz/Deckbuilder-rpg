@@ -1,0 +1,194 @@
+{
+	"_about": "Speech lines for the vendor screens (ui/town/vendor_stage.gd). Key = Vendor Screen ID. open = said when the shop opens, buy = after a purchase, poor = when you cannot afford it, sold_out = when there is nothing left to sell. One is picked at random. Edit freely; add lines to any list.",
+	"VS-SABLE": {
+		"open": [
+			"Welcome, darling. Mind the glass. Everything in here has a history, and most of it is scandalous.",
+			"Ah, a customer with taste. Or at least a wallet. Let's find out which.",
+			"Look all you like. The misprints on the wall are not for sale. (They are, but you can't afford them.)"
+		],
+		"buy": [
+			"Mmm. A pleasure doing business. Do tell your friends. Do not tell my competitors.",
+			"Sold! Treat her well. She has a past.",
+			"Excellent choice. I'd say I'm surprised, but I'm never surprised."
+		],
+		"poor": [
+			"Oh, sweetie. Come back when the purse is heavier.",
+			"Gold first, glamour second. That's the rule."
+		]
+	},
+	"VS-TONIC": {
+		"open": [
+			"Welcome welcome WELCOME! Careful, the green one just got a bit... bouncy!",
+			"Oh! A customer! Don't mind the scorch mark, that was a Tuesday!",
+			"Everything on this shelf is tested! By me! Mostly on purpose!"
+		],
+		"buy": [
+			"Great choice! Drink responsibly! Or at least in the right order!",
+			"Oooh, that's my favorite! Just... don't shake it. Okay, maybe a little shake.",
+			"Thank you thank you! Please bring back the bottle! Or what's left of it!"
+		],
+		"poor": [
+			"Oops! Not enough gold! My hair is also blue today, so we're both disappointed!",
+			"Aww, a little short! Come back, I'll still be here! Probably!"
+		]
+	},
+	"VS-BEETSWORTH": {
+		"open": [
+			"State your business. Equipment is sorted by slot. Do not touch the drawer.",
+			"Welcome. Security protocol requires me to remind you that a beet is also a weapon. Do not ask me how.",
+			"Bertram Beetsworth, Assistant to the Regional Merchant. Please do not call me the assistant. It is Assistant TO the Regional Merchant."
+		],
+		"buy": [
+			"Transaction logged. Equipment issued. Please sign nothing.",
+			"Acceptable. Fact: bears eat beets. Fact: I do not care for bears.",
+			"Purchase complete. Good gear is like a good beet: sturdy, earthy, and underappreciated."
+		],
+		"poor": [
+			"Insufficient funds. A discount is not a thing that exists here.",
+			"Denied. Return with gold. Or beets. Mostly gold."
+		]
+	},
+	"VS-THREADWELL": {
+		"open": [
+			"Darling! A fresh canvas! Stand there. No, THERE. Don't move, I'm measuring.",
+			"Every hat tells a story. Yours is currently a short one. Let's fix that!",
+			"Try anything on! Everything! (Gasp.) Not that. Never that."
+		],
+		"buy": [
+			"Divine! You were born to wear it. Or at least to pay for it!",
+			"Oh, the drama! The silhouette! I could weep!",
+			"Wear it out. Turn heads. Tip the hat. Leave a legend."
+		],
+		"poor": [
+			"Oh, the tragedy! Fashion has a price, darling, and it is gold.",
+			"Not quite enough gold. Tragic. Come back, we'll make something of you yet."
+		]
+	},
+	"VS-FENWICK": {
+		"open": [
+			"Shh, shh, listen... can you hear that? That's the foil. It's whispering.",
+			"Welcome! Everything is sealed! Freshly sealed! Do you want to smell one? Just a sniff.",
+			"These pedestals are very sensitive. Do not breathe on the foil. Breathe near it. Politely."
+		],
+		"buy": [
+			"Ohhh, that one's a good pack. I can tell. Just by the... crinkle.",
+			"Foil! (Whispering.) Foil. Good luck. Please tell me what's inside.",
+			"Take it! Treat it gently! And if there's a shiny one, show me. I need to see."
+		],
+		"poor": [
+			"Oh no, oh no, not enough gold. I'll... I'll just hold the pack until you're back. Please come back.",
+			"A little short! A teeny bit! Come back and the foil will still be here. Probably."
+		]
+	},
+	"VS-ALEMBIC": {
+		"open": [
+			"Hello, dear. Pick two Paths and let the essence do the talking. It will, eventually.",
+			"The cauldron is warm today. It's been in a mood. Let's see what it makes of you.",
+			"Everything was healthiest when it was all mixed together. You'll see. They always do."
+		],
+		"buy": [
+			"Lovely. The flasks are pleased. They would say so, but flasks are rude.",
+			"Something new is born. Don't look so surprised. You did most of the work.",
+			"Mm, a fine blend. Mind the steam."
+		],
+		"poor": [
+			"Not enough essence or gold. The cauldron doesn't do charity. Neither do I.",
+			"Come back when you have more. It will keep. It's a cauldron."
+		]
+	},
+	"VS-FIGSLY": {
+		"open": [
+			"Keep your voice down. The bookshelf listens. Pick something and let's pretend this never happened.",
+			"Psst. You didn't hear this from me, but everything here fell off a very nice cart.",
+			"Open the compartments. Slowly. The good stuff doesn't like being stared at."
+		],
+		"buy": [
+			"Pleasure. Never seen you before. That's the idea.",
+			"A discreet transaction. Stow it, quick, before the candle notices.",
+			"Smart. Rare goods don't wait. Neither do I."
+		],
+		"poor": [
+			"No coin, no contraband. Even a smuggler has to eat.",
+			"Short on gold? Then you're short on luck. Come back."
+		]
+	},
+	"VS-BENCHLEY": {
+		"open": [
+			"HEY, CHAMP! Welcome to the pro shop! Grab a tub, pick a card, get GAINS!",
+			"Rest day? NO SUCH THING. Browse the tubs, athlete!",
+			"Protein, pasteboard, and positive vibes! What are we lifting today?"
+		],
+		"buy": [
+			"THAT'S WHAT I'M TALKING ABOUT! ONE MORE REP!",
+			"YEAH! Big move! Your deck just got JACKED!",
+			"BOOM! GAINS! Don't skip leg day! Or card day!"
+		],
+		"poor": [
+			"Not enough gold, champ! Go win some fights, then come BACK STRONGER!",
+			"Short on coin? Cardio, then cash! GO!"
+		]
+	},
+	"VS-LEDGERBONE": {
+		"open": [
+			"Next. Please take a number. Please take a pen. Please do not take the stamp.",
+			"Welcome to Requisitions. Fill out the form. In triplicate. In ink. In the correct order.",
+			"The window is open. The window is, in fact, always open. The window has opinions on this."
+		],
+		"buy": [
+			"Approved. Filed. Re-filed. Please retain your receipt for the rest of your afterlife.",
+			"Processed. You will be contacted. You will not be contacted. Both are normal.",
+			"Stamped. It is now official. Nothing can undo it, except Form 12-B, which we are out of."
+		],
+		"poor": [
+			"Application denied. Insufficient funds. See Form 12-C.",
+			"Your gold does not meet the minimum. Please return with more gold, in triplicate."
+		]
+	},
+	"VS-MIREPOIX": {
+		"open": [
+			"Bonsoir, mon cher. Tonight's menu is a selection of cards, presented as nature intended: under a lid.",
+			"Ah, a guest. Please, sit. Or stand and hover. We are not too formal.",
+			"Each card is plated with great care. Lift the cloche and appreciate. Do not poke."
+		],
+		"buy": [
+			"Exquisite. A fine pairing with whatever you were planning. Bon appétit.",
+			"Magnifique. May it serve you well. And may it never be overcooked.",
+			"Merci. I will have it boxed. By which I mean I will hand it to you directly."
+		],
+		"poor": [
+			"Alas, the bill exceeds your purse. A tragedy in three courses.",
+			"Non, non. Insufficient funds. Come back when your wallet is plump."
+		]
+	},
+	"VS-GRISTLE": {
+		"open": [
+			"Well, look what the compost dragged in. Pull up a stump, sugar, and dig around.",
+			"Everything in the cans is tried and true. Some of it's even clean. Ish.",
+			"Don't mind the raccoons. They rummage, but they pay in loose change."
+		],
+		"buy": [
+			"Ha! Good pickin'! That one was in the third can. Took me a week to find.",
+			"Sold to the one with sense. Mind the rust, it adds character.",
+			"There ya go, sugar. One man's trash is another man's trump card."
+		],
+		"poor": [
+			"Ain't enough gold in that pocket, sugar. Go scrounge some more.",
+			"Short a few coins, honey. Rummage somewhere else, then come back."
+		]
+	},
+	"VS-BELLOWS": {
+		"open": [
+			"LADIES AND GENTLEBEINGS! THE CHALLENGERS ARE ASSEMBLED! THE PRIZES ARE POLISHED! STEP UP TO THE BOOTH!",
+			"WELCOME BACK, CHAMPION! THE CROWD IS RESTLESS AND I AM MID-LUNCH! CHOOSE YOUR FIGHT!",
+			"THE GRAND CLASHATORIUM IS OPEN FOR BUSINESS! PICK YOUR BOUT!"
+		],
+		"buy": [
+			"A MAGNIFICENT CHOICE! THE CROWD GOES WILD!",
+			"AND THE CHALLENGER STEPS FORWARD! HEAR THEM ROAR!"
+		],
+		"poor": [
+			"THAT BOUT IS NOT YET YOURS! COME BACK STRONGER!",
+			"A LOCKED DOOR, CHAMPION! CLEAR MORE ZONES!"
+		]
+	}
+}

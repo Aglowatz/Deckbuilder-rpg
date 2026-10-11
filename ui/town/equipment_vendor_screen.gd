@@ -17,10 +17,12 @@ var _pieces: Dictionary = {}
 var _locked: Dictionary = {}
 var _price_labels: Dictionary = {}
 var _owned_labels: Dictionary = {}
+var _slot_rows: Dictionary = {}
 
 
 func _init() -> void:
 	screen_title = "Assistant to the Regional Merchant"
+	vendor_screen_id = "VS-BEETSWORTH"
 	close_text = "Leave (Esc)"
 
 
@@ -40,7 +42,22 @@ func _build() -> void:
 	_grid.columns = COLUMNS
 	_grid.add_theme_constant_override("h_separation", 16)
 	_grid.add_theme_constant_override("v_separation", 16)
-	scroll.add_child(_grid)
+	var slot_box: VBoxContainer = UIKit.vbox(14)
+	slot_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	if stage != null:
+		# The sheet: equipment grouped by slot (helm, weapon, armor, boots, relic), a row each.
+		scroll.add_child(slot_box)
+		_grid.free()
+		for slot: int in EquipmentData.SLOT_NAMES.keys():
+			var row: HBoxContainer = UIKit.hbox(16)
+			var heading: Label = UIKit.label(EquipmentData.slot_name(slot as EquipmentData.Slot), &"HeadingLabel", 26, UIStyle.GOLD)
+			heading.custom_minimum_size = Vector2(110, 0)
+			heading.name = "SlotHeading%d" % slot
+			row.add_child(heading)
+			slot_box.add_child(row)
+			_slot_rows[slot] = row
+	else:
+		scroll.add_child(_grid)
 	var state: UnlockState = Session.unlock_state()
 	var entries: Array[EquipmentVendorEntry] = stock.entries.duplicate()
 	entries.sort_custom(func(a: EquipmentVendorEntry, b: EquipmentVendorEntry) -> bool: return a.price < b.price)
@@ -50,7 +67,11 @@ func _build() -> void:
 			continue
 		_pieces[piece.id] = piece
 		_locked[piece.id] = not Condition.met(entry.unlock, state)
-		_grid.add_child(_make_tile(piece, Session.effective_price(entry.price), bool(_locked[piece.id]), stock.teaser_for(piece.id)))
+		var tile: Control = _make_tile(piece, Session.effective_price(entry.price), bool(_locked[piece.id]), stock.teaser_for(piece.id))
+		if stage != null:
+			(_slot_rows[int(piece.slot)] as HBoxContainer).add_child(tile)
+		else:
+			_grid.add_child(tile)
 	_toast = UIKit.label("", &"", 28, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_toast.add_theme_font_override("font", UIStyle.font_bold())
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
@@ -142,6 +163,7 @@ func _ask_to_buy(piece: EquipmentData, price: int) -> void:
 	if Session.gold < price:
 		Audio.sfx(&"ui_error", -4.0)
 		_say("Not enough gold: %s costs %d." % [piece.source_name, price], Color("ff8a85"))
+		vendor_react("poor")
 		return
 	var detail: String = "%d gold. You will have %d gold left." % [price, Session.gold - price]
 	var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Buy %s?" % piece.source_name, detail, "Buy", "Not now")
@@ -153,6 +175,7 @@ func _buy(piece: EquipmentData, price: int) -> void:
 		return
 	Audio.sfx(&"coins")
 	_say("Bought %s." % piece.source_name, UIStyle.GOOD)
+	vendor_react("buy")
 	_refresh()
 
 

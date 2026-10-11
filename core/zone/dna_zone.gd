@@ -66,6 +66,7 @@ static func build_def() -> ZoneDef:
 	def.vendor_ids = ZoneCards.VENDOR_IDS
 	def.vendor_name = "Requisitions"
 	def.vendor_title = "Requisitions - Necrocrat Issue"
+	def.vendor_screen_id = "VS-LEDGERBONE"
 	def.puzzle_kind = "tube"
 	def.puzzle_equipment_id = "courier_lanyard"
 	def.minigame_kind = "match"

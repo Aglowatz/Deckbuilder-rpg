@@ -1454,6 +1454,7 @@ func _open_vendor() -> void:
 	var screen: VendorScreen = VendorScreen.new()
 	screen.pack_vendor_id = PackData.VENDOR_CARD
 	screen.pack_story_prefix = "pack.card_vendor"
+	screen.vendor_screen_id = "VS-SABLE"
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 	EventBus.tutorial_event.emit(&"vendor_opened")

@@ -5,6 +5,11 @@ extends OverlayScreen
 ## button and the black market.
 
 const ART_SCALE: float = 0.62
+## With a vendor stage the row sits on the right: smaller tiles.
+const STAGED_ART_SCALE: float = 0.56
+const STAGED_TILE: Vector2 = Vector2(236, 500)
+## Vendor Screen ID per pack vendor.
+const VENDOR_SCREENS: Dictionary = {PackData.VENDOR_PACK: "VS-FENWICK", PackData.VENDOR_CARD: "VS-SABLE", PackData.VENDOR_BLACK_MARKET: "VS-FIGSLY"}
 
 ## Which vendor's packs to show (`PackData.VENDOR_*`).
 var vendor_id: String = PackData.VENDOR_PACK
@@ -18,6 +23,8 @@ var _count_labels: Dictionary = {}
 var _buy_buttons: Dictionary = {}
 var _open_buttons: Dictionary = {}
 var _price_labels: Dictionary = {}
+var _art_scale: float = ART_SCALE
+var _tile_size: Vector2 = Vector2(330, 620)
 
 
 ## The stall of one vendor (`PackData.VENDOR_*`); `prefix` picks its story keys ("<prefix>.title", "<prefix>.line").
@@ -26,6 +33,7 @@ static func make(vendor: String, prefix: String) -> PackShopScreen:
 	screen.vendor_id = vendor
 	screen.story_prefix = prefix
 	screen.screen_title = StoryText.shared().text("%s.title" % prefix)
+	screen.vendor_screen_id = str(VENDOR_SCREENS.get(vendor, ""))
 	return screen
 
 
@@ -34,6 +42,9 @@ func _init() -> void:
 
 
 func _build() -> void:
+	if stage != null:
+		_art_scale = STAGED_ART_SCALE
+		_tile_size = STAGED_TILE
 	var story: StoryText = StoryText.shared()
 	var coin: TextureRect = CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(38, 38))
 	header_extra.add_child(coin)
@@ -45,7 +56,7 @@ func _build() -> void:
 		var line: Label = UIKit.label(story.text(line_key), &"", 24, UIStyle.PARCHMENT)
 		line.add_theme_font_override("font", UIStyle.font_italic())
 		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		line.custom_minimum_size = Vector2(1500, 0)
+		line.custom_minimum_size = Vector2(1500.0 - (vendor_inset if stage != null else 0.0), 0)
 		body.add_child(line)
 	var center: CenterContainer = CenterContainer.new()
 	center.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -53,7 +64,7 @@ func _build() -> void:
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.custom_minimum_size = Vector2(1780, 640)
+	scroll.custom_minimum_size = Vector2(1780.0 - (vendor_inset if stage != null else 0.0), 640)
 	center.add_child(scroll)
 	_row = UIKit.hbox(26)
 	_row.alignment = BoxContainer.ALIGNMENT_CENTER
@@ -73,21 +84,27 @@ func _build() -> void:
 func _make_tile(pack: PackData, stocked: bool) -> Control:
 	var story: StoryText = StoryText.shared()
 	var tile: PanelContainer = UIKit.panel()
-	tile.custom_minimum_size = Vector2(330, 620)
+	tile.custom_minimum_size = _tile_size
 	var column: VBoxContainer = UIKit.vbox(8)
 	tile.add_child(column)
 	var art_holder: Control = Control.new()
-	art_holder.custom_minimum_size = PackArt.SIZE * ART_SCALE
+	art_holder.custom_minimum_size = PackArt.SIZE * _art_scale
 	art_holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var art: PackArt = PackArt.create(pack)
-	art.scale = Vector2.ONE * ART_SCALE
-	art.position = -PackArt.SIZE * (1.0 - ART_SCALE) * 0.5
+	art.scale = Vector2.ONE * _art_scale
+	art.position = -PackArt.SIZE * (1.0 - _art_scale) * 0.5
 	if not stocked:
 		art.modulate = Color(0.35, 0.35, 0.42)
 	art_holder.add_child(art)
-	if not stocked:
+	if not stocked and vendor_screen_id == "VS-FENWICK":
+		# The sheet: locked Path Packs are covered pedestals with a hint.
+		var cover: VendorFx.VelvetCover = VendorFx.velvet_cover(UIStyle.affinity_color(pack.path).darkened(0.45) if pack.kind == PackData.Kind.PATH else Color(0.4, 0.12, 0.2))
+		cover.position = Vector2(-4.0, 6.0)
+		cover.size = PackArt.SIZE * _art_scale + Vector2(8.0, 0.0)
+		art_holder.add_child(cover)
+	elif not stocked:
 		var lock: TextureRect = CardIcons.glyph(CardIcons.ui("lock"), Color(1, 1, 1, 0.85), Vector2(64, 64))
-		lock.position = (PackArt.SIZE * ART_SCALE - Vector2(64, 64)) * 0.5 + Vector2(0, 40)
+		lock.position = (PackArt.SIZE * _art_scale - Vector2(64, 64)) * 0.5 + Vector2(0, 40)
 		lock.size = Vector2(64, 64)
 		art_holder.add_child(lock)
 	var art_center: CenterContainer = CenterContainer.new()
@@ -97,11 +114,16 @@ func _make_tile(pack: PackData, stocked: bool) -> Control:
 	column.add_child(name_label)
 	var description: Label = UIKit.label(PackShop.describe(pack) if stocked else story.text("pack.hint.%s" % pack.id), &"", 19, UIStyle.PARCHMENT if stocked else UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	description.custom_minimum_size = Vector2(290, 84)
+	description.custom_minimum_size = Vector2(_tile_size.x - 40.0, 84)
 	column.add_child(description)
 	column.add_child(UIKit.filler())
 	if not stocked:
 		return tile
+	if pack.kind == PackData.Kind.GENERAL and pack.general_tier >= 2 and not Session.flag(_shelf_flag()):
+		# Sable's second shelf appears with a sparkle the first time it is open for business.
+		Session.set_flag(_shelf_flag())
+		var spot: Rect2 = Rect2(Vector2.ZERO, _tile_size)
+		tile.ready.connect(func() -> void: VendorFx.sparkle(tile, spot))
 	var price: Label = UIKit.label("", &"", 28, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	price.add_theme_font_override("font", UIStyle.font_title())
 	column.add_child(price)
@@ -125,6 +147,10 @@ func _make_tile(pack: PackData, stocked: bool) -> Control:
 	return tile
 
 
+func _shelf_flag() -> StringName:
+	return StringName("tier2_shelf_seen_%s" % vendor_id)
+
+
 func _refresh() -> void:
 	_gold_label.text = str(Session.gold)
 	for pack_id: Variant in _price_labels.keys():
@@ -142,12 +168,18 @@ func _buy(pack: PackData, open_now: bool) -> void:
 	var price: int = PackShop.price_for(pack, Session.profile)
 	if Session.gold < price:
 		Audio.sfx(&"ui_error", -4.0)
-		_say(_pick(story.get_lines("pack.vendor.poor")), Color("ff8a85"))
+		if stage != null:
+			vendor_react("poor")
+		else:
+			_say(_pick(story.get_lines("pack.vendor.poor")), Color("ff8a85"))
 		return
 	if not Session.buy_pack(pack):
 		return
 	Audio.sfx(&"coins")
-	_say(_pick(story.get_lines("pack.vendor.bought")), UIStyle.GOOD)
+	if stage != null:
+		vendor_react("buy")
+	else:
+		_say(_pick(story.get_lines("pack.vendor.bought")), UIStyle.GOOD)
 	_refresh()
 	if open_now:
 		PackOpeningScreen.open_from_inventory(self, pack.id, func() -> void: _refresh())

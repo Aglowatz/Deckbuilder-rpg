@@ -22,6 +22,8 @@ var _gold_label: Label
 
 func _ready() -> void:
 	screen_title = StoryText.shared().text("town.alchemist.name")
+	vendor_screen_id = "VS-ALEMBIC"
+	vendor_inset = 500.0
 	super._ready()
 
 
@@ -38,19 +40,19 @@ func _build() -> void:
 
 func _build_essence_column() -> Control:
 	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
-	panel.custom_minimum_size = Vector2(620, 0)
+	panel.custom_minimum_size = Vector2(620.0 - _narrow(), 0)
 	var column: VBoxContainer = UIKit.vbox(12)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Your Path essence", &"HeadingLabel", 32))
 	var blurb: Label = UIKit.label("Every copy of a card beyond the fourth turns into essence of its Path (more for rarer cards). Pick two Paths with at least %d essence each." % Alchemy.MIN_ESSENCE_PER_PATH, &"MutedLabel", 20)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	blurb.custom_minimum_size = Vector2(580, 0)
+	blurb.custom_minimum_size = Vector2(580.0 - _narrow(), 0)
 	column.add_child(blurb)
 	for path: Affinity.Type in Affinity.colored_types():
 		var row: Button = Button.new()
 		row.name = "EssenceRow%d" % int(path)
 		row.toggle_mode = true
-		row.custom_minimum_size = Vector2(580, 82)
+		row.custom_minimum_size = Vector2(580.0 - _narrow(), 82)
 		row.focus_mode = Control.FOCUS_NONE
 		row.add_theme_stylebox_override("normal", UIStyle.box(Color(1, 1, 1, 0.05), UIStyle.affinity_color(path).darkened(0.3), 2, 12))
 		row.add_theme_stylebox_override("hover", UIStyle.box(Color(1, 1, 1, 0.09), UIStyle.affinity_color(path), 3, 12))
@@ -67,11 +69,11 @@ func _build_essence_column() -> Control:
 		orb.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		inner.add_child(orb)
 		var name_label: Label = UIKit.label("%s essence" % Affinity.display_name(path), &"", 26, UIStyle.PARCHMENT)
-		name_label.custom_minimum_size = Vector2(250, 0)
+		name_label.custom_minimum_size = Vector2(250.0 - _narrow() * 0.2, 0)
 		name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		inner.add_child(name_label)
 		var bar: ProgressBar = ProgressBar.new()
-		bar.custom_minimum_size = Vector2(140, 18)
+		bar.custom_minimum_size = Vector2(140.0 - _narrow() * 0.8, 18)
 		bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		bar.show_percentage = false
 		bar.max_value = Alchemy.MIN_ESSENCE_PER_PATH
@@ -90,7 +92,7 @@ func _build_essence_column() -> Control:
 		var tri: Label = UIKit.label("TRI-PATH CRAFTING UNLOCKED: with Primm gone the Paths may mix freely, and the cauldron will take three. (No tri-Path recipes exist yet; the hook is ready.)", &"MutedLabel", 20)
 		tri.name = "TriPathHint"
 		tri.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		tri.custom_minimum_size = Vector2(580, 0)
+		tri.custom_minimum_size = Vector2(580.0 - _narrow(), 0)
 		column.add_child(tri)
 	return panel
 
@@ -269,6 +271,7 @@ func _reveal(result: Alchemy.Result) -> void:
 	_result_holder.add_child(caption)
 	_brewing = false
 	_selected.clear()
+	vendor_react("buy")
 	crafted.emit(result.card)
 	_refresh()
 	_cauldron.visible = false
@@ -280,3 +283,8 @@ func _clear_result() -> void:
 		_result_holder = null
 	if _cauldron != null:
 		_cauldron.visible = true
+
+
+## The essence column is this much narrower next to Auntie Alembic (the vendor stage takes the left side).
+func _narrow() -> float:
+	return 0.0 if stage == null else 100.0

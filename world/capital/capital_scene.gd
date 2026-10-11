@@ -386,6 +386,8 @@ func _open_supplies() -> void:
 		data.add(item_id, int(CapitalZone.BLACK_MARKET_ITEMS[item_id]))
 	var screen: ItemVendorScreen = ItemVendorScreen.new()
 	screen.stock = data
+	screen.vendor_screen_id = "VS-FIGSLY"
+	screen.screen_title = data.vendor_name
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 

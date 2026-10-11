@@ -13,6 +13,8 @@ var _args: Dictionary = {}
 var _elapsed: float = 0.0
 var _scene: Node
 var _started: bool = false
+var _hovered: bool = false
+var _reacted: bool = false
 
 
 func _initialize() -> void:
@@ -36,6 +38,16 @@ func _initialize() -> void:
 		session.set("save_enabled", false)
 
 
+func _find_vendor(node: Node) -> Node:
+	if node.has_method("vendor_react") and node.get("stage") != null:
+		return node
+	for child: Node in node.get_children():
+		var found: Node = _find_vendor(child)
+		if found != null:
+			return found
+	return null
+
+
 func _process(delta: float) -> bool:
 	if not _started:
 		_started = true
@@ -50,6 +62,21 @@ func _process(delta: float) -> bool:
 		root.add_child(_scene)
 		return false
 	_elapsed += delta
+	if _args.has("hover") and not _hovered and _elapsed >= _wait - 0.7:
+		# `--hover=x,y`: puts the mouse there (viewport pixels) shortly before the shot, so hover effects show.
+		_hovered = true
+		var xy: PackedStringArray = str(_args["hover"]).split(",")
+		var motion: InputEventMouseMotion = InputEventMouseMotion.new()
+		motion.position = Vector2(float(xy[0]), float(xy[1]))
+		motion.global_position = motion.position
+		root.push_input(motion)
+		Input.warp_mouse(motion.position)
+	if _args.has("react") and not _reacted and _elapsed >= _wait - 0.45:
+		# `--react=buy`: the open vendor screen reacts as after a purchase (speech line, stamp, shout...).
+		_reacted = true
+		var vendor: Node = _find_vendor(root)
+		if vendor != null:
+			vendor.call("vendor_react", str(_args["react"]))
 	if _elapsed < _wait:
 		return false
 	if _scene.has_method("screenshot_ready") and not bool(_scene.call("screenshot_ready")) and _elapsed < _wait + 20.0:

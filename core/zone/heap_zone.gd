@@ -108,6 +108,7 @@ static func build_def() -> ZoneDef:
 	def.vendor_ids = ZoneCards.HEAP_VENDOR_IDS
 	def.vendor_name = "Gristle's Grange"
 	def.vendor_title = "Granny Gristle's Compost Grange - Refusemancer Issue"
+	def.vendor_screen_id = "VS-GRISTLE"
 	def.puzzle_kind = "growth"
 	def.puzzle_equipment_id = "seed_satchel"
 	def.minigame_kind = "sort"

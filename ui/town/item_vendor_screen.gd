@@ -7,6 +7,7 @@ extends OverlayScreen
 
 const TILE_SIZE: Vector2 = Vector2(220, 230)
 const COLUMNS: int = 5
+const STAGED_COLUMNS: int = 4
 
 var stock: ItemVendorData
 var _grid: GridContainer
@@ -16,10 +17,12 @@ var _items: Dictionary = {}
 var _locked: Dictionary = {}
 var _price_labels: Dictionary = {}
 var _owned_labels: Dictionary = {}
+var _advanced_grid: GridContainer
 
 
 func _init() -> void:
 	screen_title = "Tilly Tonic's Supplies"
+	vendor_screen_id = "VS-TONIC"
 	close_text = "Leave (Esc)"
 
 
@@ -35,11 +38,23 @@ func _build() -> void:
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	body.add_child(scroll)
-	_grid = GridContainer.new()
-	_grid.columns = COLUMNS
-	_grid.add_theme_constant_override("h_separation", 16)
-	_grid.add_theme_constant_override("v_separation", 16)
-	scroll.add_child(_grid)
+	var shelves: VBoxContainer = UIKit.vbox(12)
+	shelves.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(shelves)
+	_grid = _make_grid()
+	var split_shelves: bool = vendor_screen_id == "VS-TONIC"
+	if split_shelves:
+		shelves.add_child(_shelf_heading("The shelf"))
+	shelves.add_child(_grid)
+	var advanced_holder: PanelContainer = null
+	if split_shelves:
+		# The sheet: items are bottles on shelves; the advanced shelf sits behind a frosted glass door until it unlocks.
+		shelves.add_child(_shelf_heading("The high shelf"))
+		advanced_holder = PanelContainer.new()
+		advanced_holder.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+		_advanced_grid = _make_grid()
+		advanced_holder.add_child(_advanced_grid)
+		shelves.add_child(advanced_holder)
 	var state: UnlockState = Session.unlock_state()
 	var entries: Array[ItemVendorEntry] = stock.entries.duplicate()
 	entries.sort_custom(func(a: ItemVendorEntry, b: ItemVendorEntry) -> bool: return a.price < b.price)
@@ -49,7 +64,10 @@ func _build() -> void:
 			continue
 		_items[item.id] = item
 		_locked[item.id] = not Condition.met(entry.unlock, state)
-		_grid.add_child(_make_tile(item, Session.effective_price(entry.price), bool(_locked[item.id]), stock.teaser_for(item.id)))
+		var target: GridContainer = _advanced_grid if _advanced_grid != null and entry.unlock != null else _grid
+		target.add_child(_make_tile(item, Session.effective_price(entry.price), bool(_locked[item.id]), stock.teaser_for(item.id)))
+	if advanced_holder != null and _all_locked(_advanced_grid):
+		advanced_holder.add_child(VendorFx.frosted_pane("Behind frosted glass: opens at level %d" % ProgressionTable.ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL))
 	_toast = UIKit.label("", &"", 28, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_toast.add_theme_font_override("font", UIStyle.font_bold())
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
@@ -61,6 +79,26 @@ func _build() -> void:
 	add_child(_toast)
 	_refresh()
 	TipPanel.show_once(self, &"tip_item_vendor", "Buying items", "Click an item to buy it. Buying one you already own tops up its uses instead of cluttering your bag with a duplicate. Equip up to your item-slot limit from the Character screen to use them in battle.", Vector2(560, 900))
+
+
+func _make_grid() -> GridContainer:
+	var grid: GridContainer = GridContainer.new()
+	grid.columns = STAGED_COLUMNS if stage != null else COLUMNS
+	grid.add_theme_constant_override("h_separation", 16)
+	grid.add_theme_constant_override("v_separation", 16)
+	return grid
+
+
+func _shelf_heading(text: String) -> Label:
+	var heading: Label = UIKit.label(text, &"HeadingLabel", 28, UIStyle.GOLD)
+	return heading
+
+
+func _all_locked(grid: GridContainer) -> bool:
+	for tile: Node in grid.get_children():
+		if not bool(_locked.get(str(tile.get_meta("item_id", "")), false)):
+			return false
+	return grid.get_child_count() > 0
 
 
 func _make_tile(item: ItemData, price: int, locked: bool, teaser: String) -> Control:
@@ -100,6 +138,14 @@ func _make_tile(item: ItemData, price: int, locked: bool, teaser: String) -> Con
 		button.mouse_filter = Control.MOUSE_FILTER_PASS
 		button.pressed.connect(func() -> void: _ask_to_buy(item, price))
 		holder.add_child(button)
+	if vendor_screen_id == "VS-FIGSLY":
+		# Fig Sly: the goods sit in hidden compartments that open when you hover them.
+		var wrapper: Control = Control.new()
+		wrapper.custom_minimum_size = TILE_SIZE
+		wrapper.add_child(holder)
+		UIKit.full_rect(holder)
+		VendorFx.add_compartment(wrapper, Rect2(Vector2.ZERO, TILE_SIZE))
+		return wrapper
 	return holder
 
 
@@ -123,6 +169,7 @@ func _ask_to_buy(item: ItemData, price: int) -> void:
 	if Session.gold < price:
 		Audio.sfx(&"ui_error", -4.0)
 		_say("Not enough gold: %s costs %d." % [item.display_name, price], Color("ff8a85"))
+		vendor_react("poor")
 		return
 	var owned: bool = Session.profile.owns_item(item)
 	var detail: String = "%d gold. You will have %d gold left." % [price, Session.gold - price]
@@ -137,6 +184,7 @@ func _buy(item: ItemData, price: int) -> void:
 		return
 	Audio.sfx(&"coins")
 	_say("Bought %s." % item.display_name, UIStyle.GOOD)
+	vendor_react("buy")
 	_refresh()
 
 

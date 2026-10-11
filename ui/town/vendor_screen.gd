@@ -6,6 +6,12 @@ extends OverlayScreen
 
 const CARD_SCALE: float = 0.68
 const COLUMNS: int = 8
+## With a vendor stage the grid sits on the right, so the cards are a little smaller and there are fewer columns.
+const STAGED_COLUMNS: int = 5
+const STAGED_SCALE: float = 0.64
+## Gristle's cans: how far a card hides in its can and rises on hover.
+const CAN_REST: float = 34.0
+const TUB_COLORS: Array[Color] = [Color(0.86, 0.36, 0.24), Color(0.25, 0.55, 0.78), Color(0.3, 0.65, 0.35), Color(0.8, 0.62, 0.2), Color(0.6, 0.35, 0.7)]
 
 var stock: VendorData
 ## When set (`PackData.VENDOR_*`), the header gets a "Card Packs" button opening that vendor's pack stall (`PackShopScreen`).
@@ -21,6 +27,7 @@ var _cards: Dictionary = {}
 var _locked: Dictionary = {}
 var _price_labels: Dictionary = {}
 var _owned_labels: Dictionary = {}
+var _card_scale: float = CARD_SCALE
 
 
 func _init() -> void:
@@ -36,6 +43,8 @@ func _build() -> void:
 		packs_button.name = "CardPacksButton"
 		packs_button.pressed.connect(_open_packs)
 		header_extra.add_child(packs_button)
+	if stage != null:
+		_card_scale = STAGED_SCALE
 	var coin: TextureRect = CardIcons.glyph(CardIcons.ui("coins"), UIStyle.GOLD, Vector2(38, 38))
 	header_extra.add_child(coin)
 	_gold_label = UIKit.label("", &"", 34, UIStyle.GOLD)
@@ -51,7 +60,7 @@ func _build() -> void:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	body.add_child(scroll)
 	_grid = GridContainer.new()
-	_grid.columns = COLUMNS
+	_grid.columns = STAGED_COLUMNS if stage != null else COLUMNS
 	_grid.add_theme_constant_override("h_separation", 12)
 	_grid.add_theme_constant_override("v_separation", 14)
 	scroll.add_child(_grid)
@@ -74,7 +83,7 @@ func _build() -> void:
 	_toast.add_theme_font_override("font", UIStyle.font_bold())
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
 	_toast.add_theme_constant_override("outline_size", 8)
-	_toast.position = Vector2(460, 1000)
+	_toast.position = Vector2(460.0 + (vendor_inset if stage != null else 0.0) * 0.5, 1000)
 	_toast.size = Vector2(1000, 40)
 	_toast.modulate.a = 0.0
 	_toast.z_index = 250
@@ -85,11 +94,16 @@ func _build() -> void:
 
 func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
 	var holder: Control = Control.new()
-	holder.custom_minimum_size = CardView.SIZE * CARD_SCALE + Vector2(0, 42)
+	var lift: float = CAN_REST if vendor_screen_id == "VS-GRISTLE" else 0.0
+	holder.custom_minimum_size = CardView.SIZE * _card_scale + Vector2(0, 42.0 + lift)
 	holder.set_meta("card_id", card.id)
 	var view: CardView = CardView.create(card, CardView.Mode.BACK if locked else CardView.Mode.FULL)
 	holder.add_child(view)
-	CardView.fit(view, CARD_SCALE)
+	CardView.fit(view, _card_scale)
+	var card_area: Rect2 = Rect2(Vector2(0.0, lift), CardView.SIZE * _card_scale)
+	if lift > 0.0:
+		view.position.y += lift
+	_decorate_tile(holder, view, card_area)
 	if locked:
 		view.modulate = Color(0.55, 0.55, 0.62)
 	else:
@@ -105,7 +119,7 @@ func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
 	var price: Label = UIKit.label("", &"", 24 if not locked else 15, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
 	price.add_theme_font_override("font", UIStyle.font_title() if not locked else UIStyle.font_body())
 	price.add_theme_stylebox_override("normal", UIStyle.box(Color(0.05, 0.03, 0.09, 0.95), UIStyle.GOLD_DIM, 2, 14))
-	price.position = Vector2(4, CardView.SIZE.y * CARD_SCALE + 6.0)
+	price.position = Vector2(4, CardView.SIZE.y * _card_scale + 6.0 + lift)
 	price.size = Vector2(104, 32)
 	price.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	price.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -114,8 +128,8 @@ func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
 	var owned: Label = UIKit.label("", &"", 18, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	owned.add_theme_font_override("font", UIStyle.font_bold())
 	owned.add_theme_stylebox_override("normal", UIStyle.box(Color(0.05, 0.03, 0.09, 0.9), Color(0, 0, 0, 0), 0, 10))
-	owned.position = Vector2(112, CardView.SIZE.y * CARD_SCALE + 8.0)
-	owned.size = Vector2(CardView.SIZE.x * CARD_SCALE - 116.0, 28)
+	owned.position = Vector2(112, CardView.SIZE.y * _card_scale + 8.0 + lift)
+	owned.size = Vector2(CardView.SIZE.x * _card_scale - 116.0, 28)
 	owned.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	owned.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if locked:
@@ -127,6 +141,25 @@ func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
 	_tiles.append(holder)
 	return holder
 
+
+
+## The sheet's per-vendor tile looks (docs: VENDOR SCREENS in the NPC list): Mirepoix's cloches, Gristle's tin cans, Benchley's supplement tubs, Fig Sly's hidden compartments and
+## Sable's gently fanned rows. Purely cosmetic.
+func _decorate_tile(holder: Control, view: CardView, area: Rect2) -> void:
+	match vendor_screen_id:
+		"VS-MIREPOIX":
+			VendorFx.add_cloche(holder, area)
+		"VS-GRISTLE":
+			VendorFx.add_stand(holder, area, VendorFx.Stand.CAN, Color(0.62, 0.66, 0.7))
+			VendorFx.add_pull_out(holder, view, view.position, CAN_REST)
+		"VS-BENCHLEY":
+			VendorFx.add_stand(holder, area, VendorFx.Stand.TUB, TUB_COLORS[_tiles.size() % TUB_COLORS.size()])
+		"VS-FIGSLY":
+			VendorFx.add_compartment(holder, area)
+		"VS-SABLE":
+			var columns: int = _grid.columns
+			holder.pivot_offset = Vector2(holder.custom_minimum_size.x * 0.5, holder.custom_minimum_size.y)
+			holder.rotation = (float(_tiles.size() % columns) - float(columns - 1) * 0.5) * 0.016
 
 func _apply_filter() -> void:
 	for tile: Control in _tiles:
@@ -165,6 +198,7 @@ func _ask_to_buy(card: CardData) -> void:
 	if Session.gold < price:
 		Audio.sfx(&"ui_error", -4.0)
 		_say("Not enough gold: %s costs %d." % [card.display_name, price], Color("ff8a85"))
+		vendor_react("poor")
 		return
 	var dialog: ConfirmDialog = ConfirmDialog.ask(
 		self, "Buy %s?" % card.display_name,
@@ -182,6 +216,7 @@ func _buy(card: CardData) -> void:
 	Session.save_game()
 	Audio.sfx(&"coins")
 	_say("Bought %s." % card.display_name, UIStyle.GOOD)
+	vendor_react("buy")
 	_refresh()
 
 

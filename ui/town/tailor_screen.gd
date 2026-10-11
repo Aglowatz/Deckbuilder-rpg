@@ -16,6 +16,8 @@ var _selected_label: Label
 
 func _init() -> void:
 	screen_title = StoryText.shared().text("town.tailor.title")
+	vendor_screen_id = "VS-THREADWELL"
+	vendor_inset = 470.0
 	close_text = "Leave (Esc)"
 
 
@@ -37,6 +39,8 @@ func _build() -> void:
 	row.add_child(preview_panel)
 	_preview = HeroPreview.new()
 	_preview.look = _look
+	if stage != null:
+		_preview.custom_minimum_size = Vector2(500, 620)
 	preview_panel.add_child(_preview)
 	var right: VBoxContainer = UIKit.vbox(10)
 	right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -44,10 +48,10 @@ func _build() -> void:
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.custom_minimum_size = Vector2(1080, 500)
+	scroll.custom_minimum_size = Vector2(1080 if stage == null else 720, 500)
 	right.add_child(scroll)
 	_grid = GridContainer.new()
-	_grid.columns = 3
+	_grid.columns = 3 if stage == null else 2
 	_grid.add_theme_constant_override("h_separation", 14)
 	_grid.add_theme_constant_override("v_separation", 14)
 	scroll.add_child(_grid)
@@ -83,7 +87,7 @@ func _populate() -> void:
 
 func _make_tile(item: CosmeticData, open: bool) -> Control:
 	var tile: PanelContainer = UIKit.panel()
-	tile.custom_minimum_size = Vector2(340, 150)
+	tile.custom_minimum_size = Vector2(340 if stage == null else 282, 150)
 	var column: VBoxContainer = UIKit.vbox(4)
 	tile.add_child(column)
 	var title: Label = UIKit.label(item.display_name if open else "???", &"HeadingLabel", 24, UIStyle.GOLD if open else UIStyle.MUTED)
@@ -92,7 +96,7 @@ func _make_tile(item: CosmeticData, open: bool) -> Control:
 	column.add_child(kind)
 	var blurb: Label = UIKit.label(item.description if open else StoryText.shared().text("tailor.locked"), &"", 17, UIStyle.PARCHMENT if open else UIStyle.MUTED)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	blurb.custom_minimum_size = Vector2(300, 46)
+	blurb.custom_minimum_size = Vector2(300 if stage == null else 244, 46)
 	column.add_child(blurb)
 	column.add_child(UIKit.filler())
 	if not open:
@@ -175,12 +179,20 @@ func _buy(item: CosmeticData) -> void:
 	_preview.play_once(&"Cheer")
 	Audio.sfx(&"coins", 0.0, 0.05)
 	_say(story.get_lines("tailor.bought"))
+	if stage != null:
+		stage.flourish("buy")
 	_refresh()
 
 
 func _say(lines: Array[String]) -> void:
-	if not lines.is_empty():
-		_quip.text = lines[randi() % lines.size()]
+	if lines.is_empty():
+		return
+	var line: String = lines[randi() % lines.size()]
+	if stage != null:
+		stage.say_text(line)
+		stage.nod(0.7)
+	else:
+		_quip.text = line
 
 
 func _refresh() -> void:

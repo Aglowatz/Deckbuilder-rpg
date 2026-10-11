@@ -107,6 +107,7 @@ static func build_def() -> ZoneDef:
 	def.vendor_ids = ZoneCards.BUFFET_VENDOR_IDS
 	def.vendor_name = "Mirepoix's"
 	def.vendor_title = "Mirepoix's Dessert & Deckery - Gourmand Issue"
+	def.vendor_screen_id = "VS-MIREPOIX"
 	def.puzzle_kind = "recipe"
 	def.puzzle_equipment_id = "head_chef_ladle"
 	def.minigame_kind = "order"
