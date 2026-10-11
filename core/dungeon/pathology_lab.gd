@@ -41,7 +41,7 @@ static func rescuer_boon() -> ModifierSource:
 
 static func build_def() -> MainDungeonDef:
 	var def: MainDungeonDef = DungeonBuilder.build_def(DungeonCatalog.find(DUNGEON_ID))
-	def.backdrop = "hall"
+	def.backdrop = "lab"
 	def.reward_gold = REWARD_GOLD
 	def.reward_xp = REWARD_XP
 	def.boon = rescuer_boon()

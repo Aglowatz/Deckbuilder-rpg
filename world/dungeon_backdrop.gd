@@ -10,6 +10,7 @@ extends Node3D
 ##   "hall"     - the Hall of Final Approvals: endless desks, cabinets, a queue of rope posts, fluorescent
 ##                strips, a NOW SERVING board.
 ##   "castle"   - Primm's Castle: marble, gold, endless portraits of its owner, mirrors, a scale model of the kingdom on a table.
+##   "lab"      - the Path-ology Lab: sterile tiled corridors cracked by roots, glass tanks glowing in the four Path colours, cells, a draining rig.
 ##   "rotheart" - the Rotheart: dark purple-green, giant mutant mushrooms, writhing roots and a pulsing
 ##                glowing heart in the middle.
 ## A slowly swaying camera looks down on it, like `ArenaBackdrop`; the map screen dims it.
@@ -48,6 +49,8 @@ func _ready() -> void:
 			_build_hall()
 		"castle":
 			_build_castle()
+		"lab":
+			_build_lab()
 		"rotheart":
 			_build_rotheart()
 		_:
@@ -57,7 +60,7 @@ func _ready() -> void:
 	add_child(_camera)
 	_camera.current = true
 	_install_style()
-	_paint_castle()
+	_paint_stage()
 	_update_camera()
 
 
@@ -102,7 +105,7 @@ func _sun(color: Color, energy: float, rotation_deg: Vector3) -> void:
 
 
 func _install_style() -> void:
-	var rig: StyleRig = StyleRig.install(self, StylePresets.DUNGEON, _camera, null, 0.0, _preset, &"castle" if theme == "castle" else &"")
+	var rig: StyleRig = StyleRig.install(self, StylePresets.DUNGEON, _camera, null, 0.0, _preset, &"castle" if theme == "castle" else (&"lab" if theme == "lab" else &""))
 	rig.name = "StyleRig"
 
 
@@ -360,6 +363,60 @@ func _build_hall() -> void:
 	_lamp(Color("ffc060"), 2.4, Vector3(6.0, 3.0, -4.0), 8.0)
 
 
+# ---- The Path-ology Lab -----------------------------------------------------------------------------
+
+
+## The hidden laboratory under the forest: white tile cracked by roots, four glass tanks that glow in the Path colours, a cell with bone-pale bars,
+## desks of notes and a draining rig where the prince's power was taken. Cold, clean and wrong.
+func _build_lab() -> void:
+	_environment(Color("0a1216"), Color("2c4650"), Color("e2f4ff"), Color("3a5a66"), 0.01, 1.2)
+	_sun(Color("e6f6ff"), 0.7, Vector3(-72, 10, 0))
+	_floor(16, 11, 1.4, Color("d2dde1"), Color("c4d1d6"))
+	var glass: StandardMaterial3D = _material(Color(0.7, 0.9, 1.0, 0.28), 0.1)
+	glass.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	var steel: StandardMaterial3D = _material(Color("9aa8ae"), 0.35)
+	# Four tanks, one per Path, each glowing in its Path colour.
+	var path_colors: Array[Color] = [Color("e0483c"), Color("e8b84a"), Color("7a4cc8"), Color("58b84c")]
+	for index: int in range(4):
+		var x: float = -7.5 + float(index) * 5.0
+		_cylinder(0.9, 3.4, glass, Vector3(x, 1.7, -5.2))
+		_cylinder(0.55, 3.0, _material(path_colors[index], 0.3, 1.8), Vector3(x, 1.6, -5.2))
+		_cylinder(1.05, 0.3, steel, Vector3(x, 0.15, -5.2))
+		_cylinder(1.05, 0.3, steel, Vector3(x, 3.45, -5.2))
+		_lamp(path_colors[index], 1.8, Vector3(x, 2.4, -4.2), 6.0)
+	# The draining rig in the middle: a cradle chair ringed with pipes and a fat glowing coil.
+	_box(Vector3(1.4, 0.4, 1.4), steel, Vector3(0, 0.3, 0.5))
+	_box(Vector3(1.0, 1.4, 0.3), steel, Vector3(0, 1.1, -0.1))
+	for pipe: int in range(4):
+		var pipe_angle: float = float(pipe) * TAU / 4.0 + 0.4
+		_cylinder(0.1, 3.0, steel, Vector3(cos(pipe_angle) * 1.6, 1.5, 0.5 + sin(pipe_angle) * 1.2), Vector3(0, 0, 70.0 * (1.0 if pipe % 2 == 0 else -1.0)))
+	_cylinder(0.5, 0.9, _material(Color("f4f8ff"), 0.3, 1.6), Vector3(0, 3.2, 0.5))
+	_lamp(Color("f4f8ff"), 2.2, Vector3(0, 3.6, 0.5), 7.0)
+	# A cell with bone-pale bars.
+	var bone: StandardMaterial3D = _material(Color("e6e0cc"), 0.5)
+	for bar: int in range(9):
+		_cylinder(0.07, 3.0, bone, Vector3(5.2 + float(bar) * 0.55, 1.5, 3.4))
+	_box(Vector3(5.0, 0.14, 0.2), bone, Vector3(7.4, 3.0, 3.4))
+	_box(Vector3(0.6, 0.35, 2.2), _material(Color("b8c2c6"), 0.7), Vector3(9.4, 0.3, 5.0))
+	# Desks of notes and a bank of records.
+	for desk: int in range(3):
+		var pos: Vector3 = Vector3(-9.0 + float(desk) * 3.2, 0, 4.2)
+		_model(FURNITURE + "desk.glb", pos, 0.0, 2.0)
+		_model(FURNITURE + "computerScreen.glb", pos + Vector3(0, 1.5, -0.2), 0.0, 2.0)
+		_model(FURNITURE + "chairDesk.glb", pos + Vector3(0, 0, 1.3), 180.0, 2.0)
+	for index: int in range(3):
+		_model(FURNITURE + "bookcaseClosedWide.glb", Vector3(-10.5 + float(index) * 4.2, 0, -8.0), 0.0, 2.4)
+	# Roots from the forest above push through the ceiling tiles and crawl across the floor.
+	var root_material: StandardMaterial3D = _material(Color("4a3626"), 0.9)
+	for root: int in range(10):
+		var root_angle: float = float(root) * TAU / 10.0 + 0.3
+		_cylinder(0.16, 3.6, root_material, Vector3(cos(root_angle) * 8.0, 0.3, sin(root_angle) * 4.6), Vector3(0, -rad_to_deg(root_angle), 90.0))
+	for strip: int in range(4):
+		_box(Vector3(5.0, 0.12, 0.4), _material(Color("e8fcff"), 0.2, 2.5), Vector3(-7.5 + float(strip) * 5.0, 5.5, 0.0))
+		_lamp(Color("d8f0ff"), 1.2, Vector3(-7.5 + float(strip) * 5.0, 5.0, 0.0), 9.0)
+	_label("PATH-OLOGY: SUBJECT 1", Vector3(0, 4.3, -6.6), Color("dff4ff"), 0.009)
+
+
 # ---- The Rotheart ---------------------------------------------------------------------------------
 
 
@@ -491,9 +548,18 @@ func _build_castle() -> void:
 	add_child(motes)
 
 
-## Primm's Castle: the hall floor becomes polished palace marble with a gold-parquet gallery down the middle (data/art/texture_presets.json, preset `castle`).
-func _paint_castle() -> void:
-	if theme != "castle" or _floor_tiles.is_empty():
+## Paints the stage floor (data/art/texture_presets.json): the castle becomes polished palace marble with a gold-parquet gallery down the middle (preset `castle`), the lab
+## sterile linoleum with a tiled inlay along its middle (preset `lab`).
+func _paint_stage() -> void:
+	if _floor_tiles.is_empty():
+		return
+	if theme == "lab":
+		var inlay: Rect2 = Rect2(-10.0, -1.6, 20.0, 3.2)
+		var inlay_mask: Callable = func(p: Vector2) -> float:
+			return PaintedContexts.rect_mask(p, inlay)
+		painted_world = PaintedWorld.apply(self, null, &"lab", {"bounds": Rect2(-12.0, -8.0, 24.0, 16.0), "masks": {"inlay": inlay_mask}, "terrain": _floor_tiles})
+		return
+	if theme != "castle":
 		return
 	var gallery: Rect2 = Rect2(-10.0, -4.2, 20.0, 8.4)
 	var gallery_mask: Callable = func(p: Vector2) -> float:
