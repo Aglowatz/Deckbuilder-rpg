@@ -96,3 +96,164 @@ I did **not** run any windowed e2e smoke today and did not take fresh screenshot
 - ~~Papercraft test cleanup~~ — DONE (Group 1): tests, tools, art and docs removed; nothing else depended on them. `.import` files under `docs/` are now git-ignored and untracked.
 
 ---
+
+---
+
+## ART INVENTORY
+
+Collected in Group 8 from the repo (`tools/dump_inventory.gd` for the item, equipment and cosmetic lists; file listings against `assets/art/` for the missing ids). "Art" here means bespoke imported art; library icons and code-drawn pictures count as placeholders.
+
+### 1. Cards and tokens with no art yet
+
+All 328 imported images in `assets/art/cards/` are real art. These **11** entries have none:
+
+| ID | Name | Kind |
+|---|---|---|
+| C-17 | Ambush Party | Colorless Trap |
+| NB-10 | The Afterlife Gym | Necrocrat/Beefcake multi-Path |
+| NR-09 | Plague of Rats | Necrocrat/Refusemancer multi-Path |
+| INF-08 | Bulk Barn | Infrastructure |
+| INF-09 | Market Garden | Infrastructure |
+| INF-10 | Scrapyard Mill | Infrastructure |
+| INF-11 | Old Kingdom Crossroads | Infrastructure |
+| JUNK-01 | Heap of Rubbish | Token (junk card) |
+| RES-IRON | Iron | Resource token |
+| RES-INGREDIENT | Ingredient | Resource token |
+| RES-GARBAGE | Garbage | Resource token (the other resource, Red Tape, has art) |
+
+(Source: `docs/art/art_status.md`; the three resource tokens draw as coins with icons on the table.)
+
+### 2. Other missing or placeholder art ids
+
+| Category | Status |
+|---|---|
+| **Battleboards** | All 22 boards in `battleboard_list.csv` have an image. `BB-LAB` (the Path-ology Lab) is **not in the sheet** and its image is a placeholder. `BB-S-CAP` and `BB-S-TOWN` exist but no battle context uses them yet. |
+| **Maps** | All 12 sheet maps are imported. `MAP-LAB` (not in the sheet) is a placeholder. |
+| **Portraits** | 58 base portraits (plus 13 expression variants) exist. **Missing (drawn in code by `portrait_placeholders.gd`):** `NPC-KING` (King Harmon Wayweaver), `NPC-QUEEN` (Queen Concordia Wayweaver), `NPC-RESCUER` (The Rescuer, name undecided), `NPC-SIPHON` (Dr. Ambrose Siphon). **Not in the sheet, also code-drawn:** `NPC-NINJA` (Shiro Swindle) and `NPC-VAULTWARDEN` (The Warden of the Four Seals). 13 expression variants exist (see `art_status.md`). |
+| **UI** | All 55 `UI-*` ids of `ui_art_kit.csv` are imported. |
+| **Icons** | Items, equipment, cosmetics and many enemy/foe icons use the game-icons.net library (`assets/icons/game-icons`), not bespoke icons. No ids are missing, but none of them is custom art. |
+| **Textures** | All 65 `TEX-`/`DEC-` ids of `textures.csv` are imported. **Wanted:** the 16-entry `TEX-PLAB-*` set for the Path-ology Lab (`docs/design/pathology_lab.md`). |
+| **3D models** | Wanted (also `docs/assets_wanted.md`): species models for the animal NPCs (`docs/design/npc_models.md`), a tortoise for Elder Maren, a hatch model for the Lab entrance. |
+
+### 3. Items, equipment and cosmetics
+
+**Consumable items (18).** The items sold or given in the game. (Three descriptions in the data are flavour only; their real effect is in brackets.)
+
+| Item | Effect |
+|---|---|
+| Bag of Rubbish | Create 3 Garbage. |
+| Binding Chains | Return an enemy unit to its owner's hand. |
+| Blank Form | Create 2 Red Tape. |
+| Field Bandage | Mend 3 damage from one of your units. |
+| Firebrand Charm | Deal 2 damage to an enemy unit. |
+| Grave Dust | The opponent buries their top 3 cards. |
+| Healing Draught | Heal 3 HP (3 uses). A common camp remedy. |
+| Healing Salve | Heal 4 HP. |
+| Hearty Pot Pie | Baked at the Grand Pantry oven. Heal 6 HP. |
+| Iron Ration | Create 2 Iron. |
+| Reckless Tonic | Heal 6 HP (single use). One big gulp: use it wisely, there is only one. |
+| Scroll of Insight | Draw a card. |
+| Sharpening Stone | Give a unit +2/+2 until end of turn. |
+| Silence Powder | The opponent tosses a random card. |
+| Spice Pouch | Create 2 Ingredients. |
+| Summoning Charm | Summon a 1/1 Militia token. |
+| Vitality Charm | Heal 2 HP (2 uses). A small, steady comfort. |
+| Ward Sigil | Give a unit Untouchable until end of turn. |
+
+**Equipment (28 pieces, all slots: Helm, Weapon, Armor, Boots, Relic).** Includes the zone pieces (one set per Path zone), the puzzle and arena prizes, the vault and Lab rewards.
+
+| Piece | Slot | Effect |
+|---|---|---|
+| Big Brain Beret | Helm | It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-infrastructure card per turn. |
+| Bin Lid Helm | Helm | Whenever you create Garbage, create 1 extra. |
+| Bloodsand Boots | Boots | Whenever you are dealt damage, draw a card. |
+| Champion's Laurels | Helm | At the start of the duel, gain 4 HP and draw a card. |
+| Cheater's Dice | Relic | They only ever land the way you need them to. You always go first, but your opening hand is 1 card smaller. |
+| Clerk's Stamp | Relic | Start every duel with 1 Red Tape and 1 Contract. |
+| Compliance Clipboard | Relic | At the end of your turn, the opponent loses 1 HP. |
+| Compost Boots | Boots | Whenever a unit of yours dies, your units get +0/+1 permanently. |
+| Soul Courier's Lanyard | Relic | Everything is routed exactly where you need it. Draw an extra card on your first turn, and max hand size +1. |
+| Crowd-Pleaser's Cape | Armor | Each time you declare attackers, gain 1 HP. |
+| Extra Pocket | Relic | Sewn in where no one thinks to look. Max hand size +1. |
+| Flamethrower | Weapon | Alchemist's fire in a backpack tank. At the start of your turn, deal 1 damage to each opposing unit. |
+| Four-Seal Signet | Relic | Max HP +3. Start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape. |
+| Gladiator's Net | Weapon | Whenever an enemy unit enters the field, it gets -1/-1 permanently. |
+| Head Chef's Ladle | Weapon | Heavy, battered and trusted by a hundred golems. At the start of your turn, gain 1 HP. |
+| Head Chef's Toque | Helm | Whenever you gain HP, gain 1 extra HP. |
+| Hover Boots | Boots | A finger's width of clearance, always. Your units have Flying but cannot block. |
+| Iron Knuckles | Weapon | Start every duel with 2 Iron. |
+| Pantry Apron | Armor | Start every duel with 2 Ingredients, and whenever you create Ingredients, create 1 extra. |
+| Refusemancer Seed Satchel | Relic | Every pocket holds something that wants to grow. At the start of your turn, your units get +0/+1 permanently. |
+| Siphon's Lens | Relic | A glass lens from the draining chamber, ground to see all four Paths at once. Max HP +2, and you draw an extra card on your first turn. |
+| Solid Plate | Armor | Unglamorous, unyielding. Your units get +1 defense. |
+| Spotter's Barbell | Weapon | Whenever a unit enters the field under your control, deal 1 damage to the opponent. |
+| Gainsmith's Lifting Belt | Armor | Brace the core, brace the deck. Max HP +3 and your units get +1 defense. |
+| Thorned Loincloth | Armor | Nobody enjoys being the one who has to remove this from a corpse. Max HP -5; whenever an enemy unit attacks you, it takes 1 damage. |
+| Traveler's Boots | Boots | Worn thin by roads longer than this one. Draw an extra card at the start of your first turn. |
+| Wicked Dagger | Weapon | A blade with a reputation it didn't earn honestly. Your units get +1 attack. |
+| X-Ray Goggles | Helm | Everything looks the same underneath. The opponent's hand is revealed to you - it doesn't see through a face-down trap, though. |
+
+**Cosmetics: hats (12) and cloaks (12).** Visual only, sold by Pip Threadwell or found.
+
+| Name | Slot | Description |
+|---|---|---|
+| Wizard Hat | Hat | Pointy, wide and slightly too big. Comes with a feeling of competence. |
+| Wide-Brim Hat | Hat | Shade for the head, drama for the walk. |
+| Bobble Beanie | Hat | Warm, round and topped with a pompom. |
+| Tricorn | Hat | Three corners, zero regrets. Arr, mostly. |
+| Crown of Leaves | Hat | Grown, not forged. Smells like a very good morning. |
+| Chef's Toque | Hat | Tall, white and full of opinions about seasoning. |
+| Bowler Hat | Hat | Respectable. Suspiciously respectable. |
+| Top Hat | Hat | For the hero who wishes to be a gentleman. |
+| Cat-Ear Band | Hat | Two ears, no tail. Purrfectly acceptable. |
+| Sun Straw Hat | Hat | Wide, floppy and ready for a picnic. |
+| Party Cone | Hat | Every fight is a celebration if you wear it right. |
+| Mushroom Cap | Hat | Spotted, squishy and very much alive. |
+| Short Cape | Cloak | A jaunty little cape, just for flapping. |
+| Traveler's Cloak | Cloak | Long, plain and made for roads. |
+| Poncho | Cloak | Stripes, a hole for your head, and zero stress. |
+| Hooded Cloak | Cloak | The hood stays down. For now. |
+| Patchwork Cloak | Cloak | Every patch has a story. Most of them involve a goat. |
+| Tattered Cloak | Cloak | Survived things. Would survive more. |
+| Royal Mantle | Cloak | Fur trim, gold clasp and a quiet sense of entitlement. |
+| Leaf Cloak | Cloak | Overlapping leaves that rustle when you walk. |
+| Starfall Cloak | Cloak | Night-blue with a scatter of tiny stars. |
+| Long Scarf-Cape | Cloak | A scarf that got ideas above its station. |
+| Cloak of the Four Seals | Cloak | Four sigils, one for every Path, stitched on a cloak that does not wrinkle. |
+
+**Dyes (12):** Crimson, Sunset, Gold, Meadow, Teal, Sky, Royal, Plum, Rose, Cream, Slate, Ink.
+
+### 4. NPCs, bosses and vendors in the game that are not in `npc_list.csv`
+
+| Name | Role | Where |
+|---|---|---|
+| Shiro Swindle, Master of the Oldest Trick (`NPC-NINJA`) | Trickster / giant-chest con artist, questline boss | Main Town and the four Path zones (inside the giant chests); registered in `npc_game_map.json`, portrait drawn in code |
+| The Warden of the Four Seals (`NPC-VAULTWARDEN`) | Vault guardian, hidden boss | The Four-Seal Vault, Main Town; registered in `npc_game_map.json`, portrait drawn in code |
+| A Secret Dealer | Hidden vendor (appears after opening the original giant chest) | Main Town |
+| Foreman Gus, Wheel Wrangler | Quest giver (Juice the Station) | Gainlands hub |
+| Gary, Currently Under a Barbell | "Spot Me!" quest NPC | Gainlands |
+| Sous-Chef Tarragon, Fetcher of Things | Quest giver | The Endless Buffet |
+| Brisket, Sir Loin, Colonel Casserole | Gate doormen / gate foes of the Cheese Cliffs | The Endless Buffet |
+| Old Meatloaf | The Grand Pantry's oldest golem (repair quest target) | The Endless Buffet |
+| Wren Muckfoot, Animal Handler | Quest giver | The Verdant Dump |
+| Druid Sorrel | Wants the herd rounded up (vine bridge quest) | The Verdant Dump |
+| Nurse Hesper Dray | Wake-up nurse | The Capital |
+| Gate Guards (Height Inspection, Queue Management, Exit Control x2) | Gate gags and checkpoints | The Capital gate |
+| The Exit Clerk | Exit Interview Booth clerk | The Capital |
+| Citizen 4471 (A Corrected Citizen) | Correction Ward patient | The Capital, Correction Ward |
+| The Hollow Warden | Tutorial boss (no dialogue) | The Forgotten Cave |
+| The Restless Cairn | Graveyard boss (a pile of stones, not a person) | Main Town graveyard |
+| Props that talk | Compost Bin, Sprout Mound, Fortune Cookie, Grand Oven, "Narrator", Mabbit's loudspeakers | Various zones |
+
+Not in the game although in the sheet: Old Hob the Gravedigger (`NPC-HOB`), `NPC-WARDEN`, `NPC-SPOTTER`, `NPC-ITAMAE`, `NPC-BETTY`, `NPC-RACCOONKING`, `NPC-AUTOMATON` (their dungeons' boss beats are not written).
+
+### 5. Everything else that uses placeholder art
+
+- Code-drawn portraits for the king, queen, Rescuer, Siphon, Shiro Swindle and the Four-Seal Warden (section 2).
+- `MAP-LAB` and `BB-LAB` for the Path-ology Lab, and the Lab's 3D stage (primitives plus the existing furniture kit, painted with existing D.N.A. textures; Group 5).
+- All NPC and vendor **3D models**: five KayKit humanoids stand in for every species (`docs/design/npc_models.md`); bosses have no 3D model.
+- The five giant chests, the vault, the Rift stations and most zone landmarks are primitives or recoloured kit pieces.
+- The Primm's Castle 3D stage only shows where a dungeon has no painted map (it has all of them today).
+- Shop screens: vendor screens are generic panels (`VS-*` rows in the sheet have no art).
+- Dungeon node events, challenges and loot have no illustrations (text only).
+- Sound: all sound effects are Kenney CC0 packs; there is no per-zone music beyond what `assets/audio` holds.
