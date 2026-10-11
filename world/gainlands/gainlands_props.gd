@@ -2,7 +2,7 @@ class_name GainlandsProps
 extends RefCounted
 ## Procedural props of the Gainlands, built from a handful of primitives and the shared palette
 ## (`GainlandsMaterials`): colossal hamster wheels, boulder-and-log gym equipment, the hot tub, the
-## vendor stalls, the arch back to the Beefcake Path, the Leg Day gate, the studio stage, the flex
+## vendor stalls, the arch back to the road to town, the Leg Day gate, the studio stage, the flex
 ## mirror, energy crystals. All dimensions are metres; every prop is built around its own origin on
 ## the ground, facing +z. Animated parts register themselves in the returned node's meta
 ## ("spinner", "screen", "bobber") for `GainlandsBuilder.animate`.

@@ -9,7 +9,7 @@ extends Node
 ## a hidden chest. Screenshots every new area and screen to _screenshots/brief7/. Run windowed:
 ##   Godot --path . res://tools/seventh_brief_final_launcher.tscn
 ## (the D.N.A. and Gainlands regressions are `tools/run_sixth_brief_final_smoke.sh`, run first by the runner script).
-## Deliberate shortcuts (stated, like the earlier smokes): the Gourmand gate flag is set directly (beating Maris
+## Deliberate shortcuts (stated, like the earlier smokes): the Gourmand gate flag is set directly (beating Chef Fennel Gravois
 ## is covered by the corrupted-NPC smoke); the quest and battle gates and the far districts are opened with flags
 ## and the player is placed at the foot of a pad / near an enemy (the real conditions are unit-tested and the
 ## ingredient gate is passed for real); long walks fall back to a short teleport when the crude no-pathfinding
@@ -573,7 +573,7 @@ func _hub_heal(zone: BuffetScene) -> void:
 	await driver.seconds(0.4)
 	_check(hurt < run.max_hp() and run.hp == run.max_hp(), "the Hearty Meal heals to full (%d -> %d)" % [hurt, run.hp])
 	await _shot("g_41_hub_heal_hearty_meal")
-	# The vendor sells Gourmand cards (and Dolcetta hands out Bake Me a Pie).
+	# The vendor sells Gourmand cards (and Mirepoix hands out Bake Me a Pie).
 	await _clear_popups(zone)
 	var dolcetta: ZoneSpot = _spot(zone, "dolcetta")
 	await _walk_to(zone, dolcetta.position, dolcetta.radius)
@@ -583,8 +583,8 @@ func _hub_heal(zone: BuffetScene) -> void:
 	await _shot("g_42_dolcetta_dialogue_and_quest_offer")
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
-	_check(Session.quest_log.is_active(BuffetZone.QUEST_PIE), "Dolcetta handed out Bake Me a Pie")
-	_check(zone._overlay is VendorScreen, "Dolcetta opens the Gourmand card vendor")
+	_check(Session.quest_log.is_active(BuffetZone.QUEST_PIE), "Mirepoix handed out Bake Me a Pie")
+	_check(zone._overlay is VendorScreen, "Mirepoix opens the Gourmand card vendor")
 	if zone._overlay is VendorScreen:
 		await driver.click_button("Got it")
 		await _shot("g_43_gourmand_vendor")

@@ -66,6 +66,8 @@ var pending_equipment_choices: int = 0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	# The window title is set here, not through application/config/name: that name also names the user:// save folder.
+	DisplayServer.window_set_title("The Wayward Path")
 	rng.randomize()
 	content = ContentLibrary.load_all()
 	toasts = ToastLayer.new()

@@ -401,7 +401,7 @@ func _build_graveyard_mist() -> void:
 
 
 func _build_spots() -> void:
-	_add_spot("well", "Wellspring", town.anchors["well"] as Vector3, 1.7)
+	_add_spot("well", "The Old Well", town.anchors["well"] as Vector3, 1.7)
 	_add_spot("well_door", "The Iron Hatch", (town.anchors["well"] as Vector3) + Vector3(-2.2, 0.0, 0.6), 1.3)
 	_build_vault_hatch()
 	_add_spot("vendor", "Card Vendor", town.anchors["npc_market"] as Vector3, 1.5)
@@ -706,7 +706,7 @@ func _prompt_text(spot: Spot) -> String:
 		"well_door":
 			return "Open the iron hatch" if Session.side_unlocked("S-TOWN") else "Try the iron hatch"
 		"well":
-			return "Touch the Wellspring"
+			return "Touch the Old Well"
 		"deck":
 			return "Open the Deck Station"
 		"gate":

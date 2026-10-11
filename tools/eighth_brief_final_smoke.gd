@@ -609,7 +609,7 @@ func _hub_heal(zone: HeapScene) -> void:
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
 	_check(Session.quest_log.is_active(HeapZone.QUEST_FERT), "Granny Gristle handed out Fertilizer Run")
-	_check(zone._overlay is VendorScreen, "Hob opens the Refusemancer card vendor")
+	_check(zone._overlay is VendorScreen, "Granny Gristle opens the Refusemancer card vendor")
 	if zone._overlay is VendorScreen:
 		await driver.click_button("Got it")
 		await _shot("h_46_refusemancer_vendor")

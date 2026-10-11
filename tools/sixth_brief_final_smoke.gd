@@ -1,6 +1,6 @@
 class_name SixthBriefFinalSmoke
 extends Node
-## FINAL (sixth brief): the Gainlands flow with human-style input, end to end: town -> Beefcake Path ->
+## FINAL (sixth brief): the Gainlands flow with human-style input, end to end: town -> road to the Gainlands ->
 ## the Gainlands, the minimap reveals as you explore and POIs appear (full map on M) -> run the hamster
 ## wheel -> get THROWN to a floating island (a chest up there) -> come back -> use a PORTAL (unlocked by the
 ## wheel) -> FALL off an island (respawn at the last safe spot, -1 zone HP, logged) -> slow-enemy battle
@@ -57,7 +57,7 @@ func run() -> void:
 	await _ground_chest(zone)
 	zone = await _mini_dungeon(zone)
 	await _final_state(zone)
-	_finish(_failures.is_empty(), "town -> Beefcake Path -> Gainlands: minimap reveal + POIs -> wheel -> throw to island + chest -> portal -> fall (-1 HP) -> slow battle -> fast hit -> hub heal -> quiz -> rep counter -> puzzle -> chest -> mini dungeon (%d screenshots)" % _shots)
+	_finish(_failures.is_empty(), "town -> road to the Gainlands -> Gainlands: minimap reveal + POIs -> wheel -> throw to island + chest -> portal -> fall (-1 HP) -> slow battle -> fast hit -> hub heal -> quiz -> rep counter -> puzzle -> chest -> mini dungeon (%d screenshots)" % _shots)
 
 
 # ---- Steps ------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ func _town_minimap_and_path(town: TownScene) -> void:
 func _enter_the_gainlands(town: TownScene) -> GainlandsScene:
 	await driver.tap_key(KEY_E)
 	var zone: GainlandsScene = await _wait_for(GainlandsScene) as GainlandsScene
-	_check(zone != null, "the Beefcake Path leads into the Gainlands")
+	_check(zone != null, "the road to the Gainlands leads into the Gainlands")
 	if zone != null:
 		await driver.seconds(1.2)
 		_check(Session.zone_run != null and Session.zone_run.zone_id == GainlandsZone.ID, "a zone visit starts for the Gainlands")
@@ -456,7 +456,7 @@ func _hub_heal(zone: GainlandsScene) -> void:
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.seconds(0.4)
 	_check(Session.quest_log.is_active(GainlandsZone.QUEST_LANES), "Coach Brutus Benchley handed out Clear the Lanes")
-	_check(zone._overlay is VendorScreen, "Tony opens the Beefcake card vendor")
+	_check(zone._overlay is VendorScreen, "Benchley opens the Beefcake card vendor")
 	if zone._overlay is VendorScreen:
 		await driver.click_button("Got it")
 		await _shot("f_33_beefcake_vendor")

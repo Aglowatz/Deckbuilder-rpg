@@ -1,7 +1,7 @@
 class_name GainlandsZone
 extends RefCounted
 ## Constants and the `ZoneDef` of the Gainlands: the big, bright Beefcake zone that the town's
-## Beefcake Path leads to. The Beefcakes are huge, muscular people responsible for energy (pushing
+## road out of town leads to. The Beefcakes are huge, muscular people responsible for energy (pushing
 ## mills, running giant hamster wheels) and transportation (throwing people across distances,
 ## physically ripping open portals). All text lives in `data/story/gainlands_story.tres`.
 
@@ -76,8 +76,8 @@ static func build_def() -> ZoneDef:
 	def.secret_prefix = "gain_"
 	def.chest_rewards = CHEST_REWARDS
 	def.vendor_ids = ZoneCards.GAINLANDS_VENDOR_IDS
-	def.vendor_name = "Tiny Tony's"
-	def.vendor_title = "Tiny Tony's Protein & Pasteboard - Beefcake Issue"
+	def.vendor_name = "Benchley's"
+	def.vendor_title = "Benchley's Protein & Pasteboard - Beefcake Issue"
 	def.puzzle_kind = "wheels"
 	def.puzzle_equipment_id = "swole_belt"
 	def.minigame_kind = "reps"
@@ -100,7 +100,7 @@ static func build_def() -> ZoneDef:
 	def.spots = [
 		_spot("brenda", "Old Man Mountain, Hermit of the Swole Station", "brenda", Vector3(0, 0, 1.0), 1.7, "Talk", "quest_npc", {"npc": "brenda", "npc_id": "NPC-MOUNTAIN", "npc_name": NPC_BRENDA, "speaker": "Old Man Mountain"}),
 		_spot("gus", "Foreman Gus, Wheel Wrangler", "gus", Vector3(0.9, 0, 0), 1.6, "Talk", "quest_npc", {"npc": "gus", "npc_name": NPC_GUS, "speaker": "Foreman Gus"}),
-		_spot("tony", "Tiny Tony's Protein & Pasteboard", "tony", Vector3(-0.8, 0, 0.5), 1.8, "Talk", "vendor_npc", {"npc": "tony", "npc_id": "V-BENCHLEY", "npc_name": NPC_TONY, "speaker": "Coach Brutus Benchley"}),
+		_spot("tony", "Benchley's Protein & Pasteboard", "tony", Vector3(-0.8, 0, 0.5), 1.8, "Talk", "vendor_npc", {"npc": "tony", "npc_id": "V-BENCHLEY", "npc_name": NPC_TONY, "speaker": "Coach Brutus Benchley"}),
 		_spot("heal", "Cooldown Hot Tub", "heal", Vector3(0, 0, 1.6), 1.9, "Soak in the tub (full heal)", "heal"),
 		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Iron Cavern", "mini_dungeon", Vector3(0, 0, 0.8), 1.7, "Enter the Iron Cavern: three sets", "mini_dungeon"),

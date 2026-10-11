@@ -12,7 +12,7 @@ A stolen prince with no memory reclaims a kingdom whose strength was always its 
 
 ## The Old Kingdom and the royal bloodline
 
-The kingdom of **Pathavia** ran on four Paths, each providing a vital service. They argued constantly and needed each other anyway.
+The kingdom of **Pathwork** ran on four Paths, each providing a vital service. They argued constantly and needed each other anyway.
 
 | Path | Service | Zone | Rival |
 | --- | --- | --- | --- |
@@ -274,7 +274,7 @@ No two characters may share a name.
 
 | Place | Name |
 | --- | --- |
-| Kingdom | Pathavia (old build: Concordia) |
+| Kingdom | Pathwork (old build: Concordia) |
 | Main town | Crosspath (old build: Concord Crossing) |
 | Capital | Primm's Perfection, renamed Pathordia after his fall (old build: Neatropolis / "The Capital") |
 | Facade district in the Capital | The Showcase Quarter (old build: "Primm's Perfection") |

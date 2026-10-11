@@ -29,7 +29,7 @@ lines = {
 "fx.wake_outside": ["You wake up in the dust outside the Approved Gate, under a sign that says STAND HERE. A guard is leaning over you, measuring your height with a long stick.", "'Fell over in the approved queue area. That is a minor offence: a fine. Please stand up to the approved height. You have shrunk, citizen.'"],
 "fx.chest": ["A hidden stash! Someone hid this where Primm's inspectors would not look: behind something untidy."],
 "fx.inside": ["You are through the walls. Somewhere a loudspeaker clears its throat. You are now, officially, a Visitor in Primm's Perfection, the Capital of {kingdom}."],
-"fx.no_travel": ["The service-tunnel network is down. Nobody has run the wheels that power the shaft lifts in ten years. 'No travel,' says a Wrinkle's note on the hatch. 'Free the Beefcake Path and we will get the lifts turning.'"],
+"fx.no_travel": ["The service-tunnel network is down. Nobody has run the wheels that power the shaft lifts in ten years. 'No travel,' says a Wrinkle's note on the hatch. 'Free the Gainlands and we will get the lifts turning.'"],
 "fx.shaft": ["You drop down the shaft, ride the lift through the dark and climb out somewhere else, smelling of rust."],
 "fx.ladder": ["You climb the ladder and push the manhole open. The Capital's cold light falls in."],
 "fx.tunnel_out": ["You crawl out through the old tunnel and push the rubble aside. The Outskirts again, and a long way from anybody's approved queue."],

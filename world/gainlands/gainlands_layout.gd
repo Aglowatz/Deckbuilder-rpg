@@ -349,7 +349,7 @@ func _prop(kind: String, x: float, z: float, yaw: float = 0.0, model_scale: floa
 
 
 func _features() -> void:
-	# The hub: the Station building, hot tub, vendor stall, the arch back to the Beefcake Path.
+	# The hub: the Station building, hot tub, vendor stall, the arch back to the road to town.
 	# The Station is the KayKit tavern at 2.5x: about 2.9 m wide and 3.3 m deep, so four 1 m colliders trace its real footprint (a single 4 m circle used to wall off the hub from the north fields).
 	_prop("station", 52.0, 53.5, 0.0, 1.0, 0.0)
 	for foot: Vector2 in [Vector2(-0.55, -0.9), Vector2(0.55, -0.9), Vector2(-0.55, 0.7), Vector2(0.55, 0.7)]:

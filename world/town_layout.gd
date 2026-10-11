@@ -1,7 +1,7 @@
 class_name TownLayout
 extends RefCounted
 ## The plan of Crosspath's centre: a royal-crest plaza where the roads cross, two shop-lined market streets (west and east), the Gate Road
-## north (the Forgotten Cave, Elder Maren's home, the Hall of Records), Champions' Road south (church, Deck Station, Wellspring) leading to the
+## north (the Forgotten Cave, Elder Maren's home, the Hall of Records), Champions' Road south (church, Deck Station, Old Well) leading to the
 ## Grand Clashatorium, and the roads out to every zone exit. All world coordinates (metres); the hex map under it is cleared by
 ## `TownBuilder` along these roads. Storefronts face the street they stand on (`yaw` 0 faces +z / south, 180 north, 90 east, -90 west).
 ##
@@ -12,7 +12,7 @@ extends RefCounted
 ##  (Tonic, Sable /        |  notice board                    (Express, Fenwick, Alembic)
 ##   Pip, Bertram)         |
 ##        Grave Road <-    |   Church | Deck Station
-##        (D.N.A.)         |   Wellspring
+##        (D.N.A.)         |   Old Well
 ##                         |
 ##                  Grand Clashatorium  (Champions' Road ends at its gate; the south road bends round it to the Gainlands)
 
@@ -101,10 +101,10 @@ static func shops() -> Array[Shop]:
 	list.append(_shop("gate", "mine", Vector3(west, 0.0, 2.5), 90.0, 1.35, 1.0, 1.1, "The Forgotten Cave"))
 	list.append(_shop("elder_home", "home_A", Vector3(east, 0.0, 2.5), -90.0, 1.4, 0.75, 1.0, "Elder Maren's home"))
 	list.append(_shop("codex", "tower_A", Vector3(east, 0.0, -3.5), -90.0, 1.3, 0.85, 1.05, "Hall of Records"))
-	# --- Champions' Road (south): the church, the Deck Station, the Wellspring ---
+	# --- Champions' Road (south): the church, the Deck Station, the Old Well ---
 	list.append(_shop("church", "church", Vector3(west, 0.0, 23.5), 90.0, 1.2, 0.85, 1.1, "Chapel of the Four Paths"))
 	list.append(_shop("deck", "tavern", Vector3(east, 0.0, 23.5), -90.0, 1.25, 0.95, 1.1, "The Deck Station"))
-	list.append(_shop("well", "well", Vector3(west + 0.6, 0.0, 29.5), 90.0, 1.5, 0.6, 0.9, "The Wellspring"))
+	list.append(_shop("well", "well", Vector3(west + 0.6, 0.0, 29.5), 90.0, 1.5, 0.6, 0.9, "The Old Well"))
 	# --- The secrets and the quiet corners ---
 	list.append(_shop("hidden_vendor", "blacksmith", Vector3(39.6, 0.0, 24.9), 0.0, 1.25, 0.9, 1.05, "A back-alley smithy"))
 	list.append(_shop("vault", "castle", Vector3(10.8, 0.0, 31.2), 0.0, 1.1, 1.15, 1.3, "The Sealed Vault"))

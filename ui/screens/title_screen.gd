@@ -2,7 +2,7 @@ class_name TitleScreen
 extends Control
 ## Title menu: New Game / Continue / Settings / Quit, over a slowly turning 3D view of the town.
 
-const GAME_TITLE: String = "WELLSPRING"
+const GAME_TITLE: String = "THE WAYWARD PATH"
 
 var _menu_column: VBoxContainer
 var _overlay: CenterContainer

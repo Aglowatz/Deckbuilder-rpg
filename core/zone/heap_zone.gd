@@ -106,8 +106,8 @@ static func build_def() -> ZoneDef:
 	def.secret_prefix = "heap_"
 	def.chest_rewards = CHEST_REWARDS
 	def.vendor_ids = ZoneCards.HEAP_VENDOR_IDS
-	def.vendor_name = "Hob's Swap Shed"
-	def.vendor_title = "Hob's Swap Shed - Refusemancer Issue"
+	def.vendor_name = "Gristle's Grange"
+	def.vendor_title = "Granny Gristle's Compost Grange - Refusemancer Issue"
 	def.puzzle_kind = "growth"
 	def.puzzle_equipment_id = "seed_satchel"
 	def.minigame_kind = "sort"
@@ -129,7 +129,7 @@ static func build_def() -> ZoneDef:
 	]
 	def.spots = [
 		_spot("marigold", "Brother Bramble, Warden of the Stream", "marigold", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "marigold", "npc_id": "NPC-BRAMBLE", "npc_name": NPC_MARIGOLD, "speaker": "Brother Bramble"}),
-		_spot("hob", "Farmer Hob's Swap Shed", "hob", Vector3(-1.6, 0, 0.2), 1.9, "Talk", "vendor_npc", {"npc": "hob", "npc_id": "V-GRISTLE", "npc_name": NPC_HOB, "speaker": "Granny Gristle"}),
+		_spot("hob", "Granny Gristle's Compost Grange", "hob", Vector3(-1.6, 0, 0.2), 1.9, "Talk", "vendor_npc", {"npc": "hob", "npc_id": "V-GRISTLE", "npc_name": NPC_HOB, "speaker": "Granny Gristle"}),
 		_spot("wren", "Wren Muckfoot, Animal Handler", "wren", Vector3(0.9, 0, 0), 1.7, "Talk", "quest_npc", {"npc": "wren", "npc_name": NPC_WREN, "speaker": "Wren Muckfoot"}),
 		_spot("heal", "The Harvest Meal", "heal", Vector3(0, 0, 1.6), 1.9, "Sit down to a fresh harvest meal (full heal)", "heal"),
 		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),

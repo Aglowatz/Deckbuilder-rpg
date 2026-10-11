@@ -127,7 +127,7 @@ static func _gain_lanes() -> QuestData:
 	quest.id = GainlandsZone.QUEST_LANES
 	quest.order = 230
 	quest.title = "Clear the Lanes"
-	quest.summary = "Tiny Tony's protein deliveries keep getting intercepted by roaming brutes, golems and sprites. Beat three of them."
+	quest.summary = "Benchley's protein deliveries keep getting intercepted by roaming brutes, golems and sprites. Beat three of them."
 	quest.giver_npc = GainlandsZone.NPC_TONY
 	quest.turn_in_npc = GainlandsZone.NPC_TONY
 	quest.objectives = [QuestObjective.make("Defeat roaming Gainlands enemies", Condition.counter(GainlandsZone.COUNTER_ENEMIES, 3))] as Array[QuestObjective]

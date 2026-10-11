@@ -72,7 +72,7 @@ class Blueprint:
 		var found: RegExMatch = regex.search(reward_first)
 		return found.get_string(1) if found != null else ""
 
-	## The pack id of the repeat-clear reward text ("Small gold and a Beefcake Path Pack" -> path_beefcake); "" when it names none.
+	## The pack id of the repeat-clear reward text ("Small gold and a Beefcake Pack" -> path_beefcake); "" when it names none.
 	func repeat_pack_id() -> String:
 		var lower: String = reward_repeat.to_lower()
 		for path_name: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:

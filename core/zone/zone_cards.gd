@@ -18,7 +18,7 @@ const BUFFET_VENDOR_IDS: Array[String] = ["G-01", "G-02", "G-05", "G-06", "G-07"
 ## Omakase (S-GOUR)'s one-time unique reward: Toro Toro.
 const BUFFET_MINI_REWARD_ID: String = "G-27"
 
-## The Verdant Dump (Refusemancer): sold by Granny Gristle at the Swap Shed.
+## The Verdant Dump (Refusemancer): sold by Granny Gristle at the Compost Grange.
 const HEAP_VENDOR_IDS: Array[String] = ["R-02", "R-05", "R-06", "R-08", "R-10", "R-14", "R-17", "R-19", "R-22", "R-25"]
 ## The Trash Panda Throne (S-REF)'s unique reward: Raccoon.
 const HEAP_MINI_REWARD_ID: String = "R-27"

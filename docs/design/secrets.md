@@ -392,7 +392,7 @@ Losing changes nothing (retry any time).
 
 ## Story v2 Part B: Crosspath's new centre (what moved)
 The town centre was rebuilt as a real town (`world/town_layout.gd`, `world/town_streets.gd`). Hidden chests, the graveyard (Old Hob), the ninja chest, the four-lever vault levers and the zone exits stayed where they were. Only two secret *buildings* moved onto the new layout:
-- **The Sealed Vault** (Forgotten Vault entrance) now stands at world (10.8, 31.2), just south-west of the Wellspring on Champions' Road. Its lever hint is unchanged.
+- **The Sealed Vault** (Forgotten Vault entrance) now stands at world (10.8, 31.2), just south-west of the Old Well on Champions' Road. Its lever hint is unchanged.
 - **The back-alley smithy** (Secret Dealer, `hidden_vendor`) now stands at world (39.6, 24.9), a few steps off Champions' Road, still unmarked until the original chest is opened.
 
 ## Story v2 Part H: the forest after Primm falls (postgame)

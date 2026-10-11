@@ -557,3 +557,16 @@ Judgment calls from the painted-texture brief (docs/art/style_guide.md, "Painted
 | TX-23 | City walls and facade buildings | Plain white flats (plaster) are bound to TEX-CAP-WHITEWALL for this zone (`props.plaster`); the ruined outskirts' stone-gray and dead-brick flats are bound to the shared stone wall and brick (`special`). | preset `capital_outskirts` |
 | TX-24 | "Primm's Castle grounds (3D areas)": where is the castle in 3D? | The only 3D castle is `DungeonBackdrop` (theme `castle`), the stage behind the main-dungeon map; the painted map art covers it in the game today, so it only shows for a map without art. It is painted anyway (palace marble floor, a gold-parquet gallery down the middle, white-gold plaster on the marble pillars) and previewed with `tools/backdrop_preview.tscn`. The Castle Approach in the Capital (its doors) is covered by the Capital preset. | `DungeonBackdrop._paint_castle`, preset `castle` |
 | TX-25 | The dungeon stages share one style preset, so painting props by style id would paint all five | `StyleRig.install` takes an optional `painted_id`; only the castle stage passes one. | `world/style/style_rig.gd` |
+
+## Backlog round (names, housekeeping, fixes)
+
+Judgment calls, in the order they were made.
+
+| # | Question | What I did |
+|---|---|---|
+| BL-1 | `.import` sidecars under `docs/` | `.gitignore` rule `/docs/**/*.import`; the 226 already-tracked ones were untracked (`git rm --cached`). Godot still creates them locally because `docs/` is inside the project; they are never committed. |
+| BL-2 | Kingdom name | "Pathavia" -> "Pathwork" in code, data, `npc_list.csv`, story docs and the test. "Concordia" stays only as the queen's name. |
+| BL-3 | Game title and the Wellspring | Title screen is "THE WAYWARD PATH"; the README heading and the export path and product name follow. The town well (shop label, spot name, "Touch the Old Well" prompt) is now "The Old Well". "Wellspring" stays only for the in-world magical springs in lore text. |
+| BL-4 | Window title vs `config/name` | `application/config/name` also names the `user://` save folder, so renaming it would orphan every existing save. The window title is set at runtime in `Session._ready` instead; `config/name` stays "Deckbuilder-RPG". |
+| BL-5 | "Beefcake Path" | Story lines now say "the road to the Gainlands" / "Free the Gainlands"; the NPC location is "Main Town, the road to the Gainlands"; repeat-reward text says "a Beefcake Pack" (the actual pack name; `repeat_pack_id()` still finds "beefcake"). |
+| BL-6 | Shop and NPC names | Gainlands shop = "Benchley's Protein & Pasteboard" (Coach Brutus Benchley), Dump shop = "Granny Gristle's Compost Grange" (location from the sheet), Buffet shop = "Mirepoix's Dessert & Deckery". Granny Gristle introduces herself as herself; "Head Spotter" became "resident hermit" (the sheet calls Old Man Mountain a hermit); the fair judge "Bev Pettigrew" became Recycle Rhonda. "the Head Chef" in the Buffet text is left (it is Basil's title). |

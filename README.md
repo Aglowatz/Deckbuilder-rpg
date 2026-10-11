@@ -1,4 +1,4 @@
-# Wellspring (working title)
+# The Wayward Path
 
 A single-player deckbuilder RPG built in **Godot 4.7.2** (Forward+), GDScript only. The rules
 engine lives in `core/` and is pure logic; the playable demo is a presentation layer on top of it.
@@ -31,10 +31,10 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
    symbols in a ring), a notice board (the quest log), West and East Market Streets (Sable's cards, Tilly
    Tonic's items, Bertram Beetsworth's equipment, Pip Threadwell's clothing, Foil Fenwick's packs, Auntie Alembic's
    alchemy, the Rift Express), the Gate Road north (Elder Maren's home, the Hall of Records, the Forgotten
-   Cave) and Champions' Road south (the chapel, the Deck Station, the Wellspring) ending at the Grand
+   Cave) and Champions' Road south (the chapel, the Deck Station, the Old Well) ending at the Grand
    Clashatorium, with signposts and lamps at every junction. Around it, in several districts:
    - **The original core**: **Elder Maren** and **Gatekeeper Brannoch** (story/advice), the
-     **Wellspring** (now a flavor spot - it already recognizes your color), **Sable the Trader**
+     **Old Well** (now a flavor spot - it already recognizes your color), **Sable the Trader**
      (buy cards with gold - stock starts small and grows as you spend and explore, with locked
      cards shown as "???"), the **Deck Station** (a flavorful way to reach the deck builder - the
      **B** hotkey/HUD button open the exact same screen from anywhere in town), and the
@@ -53,7 +53,7 @@ engine lives in `core/` and is pure logic; the playable demo is a presentation l
      1.5m. Each district ends at an edge entrance to a zone (placeholder "coming soon" areas for
      now); the 4 element entrances stay sealed behind a translucent barrier until their corrupted
      NPC falls, the final entrance is open from the start.
-   - **Zones**: the Necrocrat entrance leads into **The D.N.A.** (an office complex), the Beefcake Path into
+   - **Zones**: the Necrocrat entrance leads into **The D.N.A.** (an office complex), the road out of town into
      **The Gainlands** (a bright open land of mills, giant hamster wheels and outdoor boulder gyms, with
      floating islands you reach by being *thrown* by a Beefcake or through a *portal* one tears open by hand).
      The Gourmand entrance (the Path of the Gourmand) leads into **The Endless Buffet**, a whimsical land made of

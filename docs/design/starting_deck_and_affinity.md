@@ -41,7 +41,7 @@ the bottom for what changed and why.
 5. **Clearing the trial** (`Session.complete_trial`): the run's current deck (now 45 cards) becomes
    the player's real deck, `profile.intro_dungeon_cleared` and the `trial_cleared` flag are set -
    this is what unlocks the town. There is no separate deck-choice step any more.
-6. **Town** (`TownScene`) is only reachable after that. The Wellspring landmark still exists but is
+6. **Town** (`TownScene`) is only reachable after that. The town well (the Old Well, formerly "the Wellspring") still exists but is
    a flavor/lore spot only (see "Wellspring" below).
 
 If the player loses (or retreats from) the tutorial dungeon before finishing it, they are sent
@@ -102,7 +102,7 @@ offered to the player anywhere.
 
 Two flows came before this one:
 
-1. Originally the player picked their color at the town Wellspring before any dungeon, and got
+1. Originally the player picked their color at the town well before any dungeon, and got
    only the neutral deck plus that color's infrastructure to start; the intro dungeon then granted 5 cards
    of that color once cleared.
 2. That was replaced by clearing the tutorial with a *fixed neutral* deck first, then choosing one
