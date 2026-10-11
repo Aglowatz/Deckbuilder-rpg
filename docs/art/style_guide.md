@@ -106,7 +106,7 @@ restaurant, halloween; Kenney nature/food/furniture); add wind, particles, light
 Silhouettes are generic (kit repetition shows), there are few bespoke faces/expressions, and no baked lighting or authored surface detail (grain, stains, stitching).
 
 **Later custom assets (Blender / AI textures) would add:**
-- Hand-painted tiling textures (cobble, wood, plaster, moss, carpet) with grain, replacing the flat colours of the kits.
+- Hand-painted tiling textures (cobble, wood, plaster, moss, carpet) with grain, replacing the flat colours of the kits. (Done in the October 2026 texture roll-out: section 14.)
 - Bespoke hero props per zone (the Rift Express, the D.N.A. vault door, buffet counters, the dump heap).
 - A custom hero with facial expressions and modular hats/cloaks with painted detail.
 - Hand-authored decals (stains, cracks, leaf piles, chalk marks), banners and signage art.
@@ -153,3 +153,51 @@ Silhouettes are generic (kit repetition shows), there are few bespoke faces/expr
 | Battle table (generic) | 69 | 140 |
 
 High stays about 25 fps in the town on this machine (meant for stronger GPUs). Lessons: larger ambient particle quads cost about 2.5 fps in the town (overdraw); the light-pillar beacons cost nothing measurable; each ground-decal disc is a mesh, so keep them in the tens.
+
+
+## 14. Painted textures (texture roll-out, October 2026)
+
+Section 12 listed hand-painted tiling textures as the biggest missing piece. They now exist: 51 seamless textures (`TEX-`) and 14 decals (`DEC-`) from `data/source/textures.csv`, used by every zone. Visual only: no
+gameplay, collision or layout changed. Judgment calls are in `docs/design/open_questions.md` ("Painted textures roll-out", TX-1 to TX-25); before/after screenshots per zone are in `docs/art/screens/textures/<zone>/`
+(`before_{a,b,c,dialogue}.jpg`, `after_{a,b,c,dialogue}.jpg`).
+
+**Pipeline** (`bash tools/import_textures.sh [--only=ID,ID] [--skip-existing]`, "import textures"). Reads the CSV (rows whose first column starts with `TEX-` or `DEC-`), COPIES the PNGs from `texture_dir` in
+`data/source/art_config.cfg` (the Drive `Approved_Textures` folder; override with `TEXTURE_SOURCE_DIR`; nothing there is ever moved, renamed or deleted) and writes:
+- `assets/art/textures/<name>_albedo.webp` (1024 px, truly seamless: a half-offset cross-blend over a 6-16 % band along the edges, the painted middle untouched; VRAM-compressed on import),
+- `assets/art/textures/<name>_nr.webp` (512 px, R,G = normal from a soft blurred luminance height, B = roughness; lossless),
+- `assets/art/decals/<name>.webp` (512 px RGBA, transparency kept, a plain gray background is flood-removed when present, colour bled under the transparent area).
+`<name>` is the ID without `TEX-`/`DEC-`, lower case, `-` -> `_` (`TEX-MAT-ROOF-RED` -> `mat_roof_red`, `DEC-MOSS` -> `moss`). The run prints missing IDs and unmatched files and writes `data/source/texture_import_manifest.csv`
+(seam numbers before/after, 1.0 = invisible). `bash tools/texture_sheet.sh <name> <ids|all>` makes a 2x2-tiled contact sheet to eyeball seams; `bash tools/texture_status.sh` rewrites the "Painted textures" section of
+`docs/art/art_status.md` and prints the IDs in the game. A missing texture falls back to the zone's old flat look (`PaintedLibrary.missing`).
+
+**System** (all in `world/style/`, shaders in `assets/shaders/style_painted_*`):
+- `PaintedLibrary` loads textures by name, builds the shared 20-layer material array (the 12 `TEX-MAT-*` plus zone prop materials) and reads the presets. The global switch is `PaintedLibrary.set_enabled` (shader global `style_paint`).
+- `PaintedWorld.apply(scene, area, preset_id, context)` is called by each zone scene after its dressing (`TownScene`, `StartingAreaScene`, `ZoneScene._paint_zone`, `DungeonBackdrop._paint_castle`). It lays the painted ground (an
+  overlay grid above hex tiles, or swaps the zone's own vertex-coloured terrain meshes / single surfaces), scatters decals and owns the toggle. `PaintedContexts` supplies the zone's runtime masks (plaza, soil, shore, paths, fields,
+  floor kinds ...) from its own layout data.
+- **Terrain material** (`PaintedTerrain`, `style_painted_terrain.gdshader`): up to five layers, each masked by `base`, `key` (the vertex colour the builder painted), `noise`, or `mask` (a painted splat texture from a named mask);
+  triplanar cliff material on steep faces; toon bands; normals only lean the surface. Anti-tiling: stochastic triangle-grid (random rotation + offset per triangle, one lookup shared by all layers), large-scale value/tint
+  patches, a slow big copy blended in with distance, `aligned` (shift, never rotate: plowed rows) and `plain` (one ordinary tap: checkers, stripes) layer flags. Noise is one tap from a 64x64 lattice.
+- **Triplanar** (`PaintedTriplanar`, `style_painted_triplanar.gdshader`): rocks, island undersides, cheese, junk; `wall_material` is the two-band wall (paneling under wallpaper) of the D.N.A.
+- **Liquid** (`PaintedFlow`, `style_painted_flow.gdshader`): the Buffet's gravy, two layers drifting at different speeds.
+- **Building and prop materials** (`PaintedClasses` + `style_toon.gdshader`): the toon shader classifies each flat colour region (wood, timber, stone, brick, plaster, roof, thatch, metal, rock, bark, leaves) and projects the
+  shared material triplanar, keeping the region hue as a 40 % tint. Palette-atlas packs get a class lookup per atlas texel; flat materials are classed by name (Kenney `woodBark`, `leafsGreen`) or by unambiguous colour. Roofs vary
+  per building (45 % red, 30 % slate, 25 % thatch). Skinned characters, hex tiles/water and nodes with the meta `no_paint` are never painted (sign boards carry it so text stays readable). A zone binds up to three special
+  flat colours or whole atlases to its own material (`special`, `atlas_override`) and re-binds a kind (`props`).
+- **Decals** (`PaintedDecals`): `place` is pure and deterministic (unit tested), `build` makes one merged mesh per decal id. Entries have id, count, min/max radius, opacity, tint and a `mask` / `avoid_mask`; counts scale with
+  the graphics quality; each quad is tilted to the ground. `surface: "wall"` places decals on supplied wall segments.
+
+**Presets as data** (`data/art/texture_presets.json`, key = `StylePresets` id; `inherit` reuses another): `ground` (`overlay` or `swap`), `layers`, `variants` (a layer set per surface kind), `cliff`, `props`, `special`,
+`atlas_override`, `decals`, plus tuning (`macro`, `tint`, `normal`, `sheen`, `color`, `brightness`, `normal_far`, `stochastic_far`). Layer fields: `tex`, `tile` (metres per repeat), `mode`, `key`/`radius`, `mask`, `soft`,
+`warp`, `ref` + `keep` (keep the builder's hue), `bright`, `aligned`, `plain`. Presets: `town`, `start`, `gainlands`, `dna`, `buffet`, `heap` (the Verdant Dump), `capital_outskirts` (+5 that inherit it), `castle`.
+
+**Add a texture:** save `<ID>.png` into the Drive folder, add its row to `data/source/textures.csv`, run `bash tools/import_textures.sh --only=<ID>`, name it in a preset layer (or in `PaintedLibrary.MATERIAL_LAYERS` for a
+building/prop material), run `bash tools/texture_status.sh` and the tests (`tests/test_painted_textures.gd` checks that every imported texture is used and every named texture exists).
+**Add a zone:** add a preset, a `PaintedContexts` function for its masks, call `PaintedWorld.apply` after its dressing; `tools/paint_shots.sh` makes the before/after set.
+
+**Tools:** `bash tools/paint_shots.sh <scene> <zone> before|after [--dialogue=<token>] [shot args]` (3 angles + one with a dialogue portrait; "before" sets `NO_PAINT=1`, the true old look). Debug: **Shift+T** toggles painted
+vs flat in debug builds (T is the wardrobe), `--tex=0|1` in screenshot runs, `NO_PAINT=1` disables everything, `PAINT_SKIP=ground,decals,props` isolates a cost, `PAINT_DEBUG=1` prints the material array.
+
+**Performance (Medium, dev iGPU, `tools/fps.sh`, flat -> painted; run-to-run noise is about +-5 fps):** town 60 -> 59, starting area 64 -> 57, Gainlands 79 -> 68, D.N.A. 62 -> 65, Buffet 82 -> 75, Verdant Dump 77 -> 64,
+Capital outside 73 -> 65 and inside 70 -> 69, castle stage 93 -> 78. What mattered: hash-based noise was ALU-bound (the one-tap lattice took the town from 46 to 59), one shared triangle-grid lookup instead of one per layer,
+masks skipped when the splat value is zero, normals only within 12 m.

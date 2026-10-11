@@ -7,6 +7,8 @@
 		"tint": 0.5,
 		"normal": 0.55,
 		"sheen": 0.06,
+		"stochastic_far": 18.0,
+		"normal_far": 8.0,
 		"color": "#90b8a8",
 		"layers": [
 			{"tex": "start_forestfloor", "tile": 5.0, "mode": "base", "bright": 1.35},

@@ -2918,3 +2918,36 @@ wood but darken the parchment so the game's light text stays readable. Missing i
 - **E, verification:** `tools/ui_verify.sh` (every screen above at 1600x900 and a smaller window) and the sheets `tools/ui_gallery.gd`, `tools/ui_cards_review.gd`. GUT: 1245 tests pass (6 new in
   `tests/test_ui_art.gd`; 4 older ones were updated for the framed card). The human-input battle smoke passes with the new End Turn button.
 - Judgment calls: `docs/design/open_questions.md`, "UI art kit" (UI-1 to UI-23).
+
+
+## Painted textures roll-out (Parts A-D) - done
+
+All 65 images of `data/source/textures.csv` (51 `TEX-` textures, 14 `DEC-` decals) are imported from the Drive `Approved_Textures` folder (copy-only; **none missing, no file unmatched**; 63 were 1254 px, resized to 1024,
+all made seamless) and used by every zone. Visual only: no gameplay, collision or layout changed; `NO_PAINT=1` restores the exact old look. Docs: `docs/art/style_guide.md` section 14 (system, presets, how to add textures), judgment
+calls TX-1 to TX-25 in `docs/design/open_questions.md`, per-texture status in `docs/art/art_status.md` ("Painted textures"). GUT: 1257 tests pass (3 new groups in `tests/test_painted_textures.gd`: every CSV texture is imported and
+used, presets name real textures, deterministic/masked decal scatter, classifier, material array).
+
+- **A, system:** importer (`bash tools/import_textures.sh`), painted terrain material (5 masked layers, stochastic anti-tiling + large-scale variation + distance blend, triplanar cliffs, toon bands), triplanar and two-band wall
+  materials, flowing liquid, zone presets as data (`data/art/texture_presets.json`), decal scatter tool, debug toggle (**Shift+T**, because T is the wardrobe; `--tex=0|1` in screenshot runs).
+- **B, buildings and props:** the toon shader classifies flat colour regions and paints them with `TEX-MAT-*` (roofs vary per building), zone prop bindings (rusted metal in the Dump, frosting and cheese in the Buffet, white-gold walls in the
+  Capital, paneling and wallpaper in the D.N.A.). Characters, hex tiles and signs are left alone.
+- **C, zones** (commit per zone; screenshots are the same 3 angles before/after plus one with an NPC portrait open, all in `docs/art/screens/textures/<zone>/`):
+
+| Zone | Painted with | Screenshots | Medium fps flat -> painted |
+|---|---|---|---|
+| Main Town | grass, wildflower noise patches, stone plaza, soil round houses, shore sand, 6 decals | `town/` (dialogue: Elder Maren) | 60 -> 59 |
+| Starting Area | forest floor, moss, leaf litter, dirt path; the 900 m forest floor and every tree via bark/leaves | `start/` (dialogue: the Wanderer) | 64 -> 57 |
+| The Gainlands | sunny grass, chalk dirt, hay, gym mat, island rock cliffs/undersides, chalk decals | `gainlands/` (Professor Pump) | 79 -> 68 |
+| The D.N.A. | carpet, marble, linoleum, checker inlays, paneling + wallpaper walls, papers/ectoplasm | `dna/` (Director Ectomund) | 62 -> 65 |
+| The Endless Buffet | mashed potato, biscuit paths, crumb soil, frosting, cheese cliffs, flowing gravy, crumbs/sauce | `buffet/` (Professor Pate) | 82 -> 75 |
+| The Verdant Dump | mossy dirt, farm rows, compost, junk gravel, rusted metal junk and scrap cliffs, rust decals | `dump/` (Druid Thistlewick) | 77 -> 64 |
+| The Capital | outside: ash, dead grass, cracked road, rift decals; inside: pastel plaza, perfect lawn, white-gold walls | `capital/` (Wren), `capital_inside/` (a Citizen) | out 73 -> 65, in 70 -> 69 |
+| Primm's Castle | palace marble + gold parquet floor, white-gold pillars (the 3D stage behind the map screen) | `castle/` (Captain Spotless at the Castle Approach) | 93 -> 78 |
+
+  Every zone stays at or above 57 fps on Medium at its busiest spot on this iGPU PC; the town (59) and the Starting Area (57) are a few frames under the 60 target, within the run-to-run noise of about 5 fps (an earlier
+  run of the town was 60.1 flat). The costs that mattered are in style guide section 14 (one-tap noise lattice took the town from 46 to 59 fps).
+- **D, finish:** the test scene, its importer and the old ground shader are removed (`docs/art/texture_test.md` says where it all went), style guide and `tools/graphics_loop_prompt.md` describe the system and rules for future loops,
+  art status updated.
+- Caveats: the Castle stage is only visible where a dungeon has no painted map (the castle's map art covers it today); the Capital's districts outside the walls share one paving look (roads, metal, tile, hub); regular patterns are
+  `plain`/`aligned` layers, so oriented art never turns into a zig-zag but a faint checker ghost remains at the seam of `TEX-DNA-CHECKERTILE`.
+- Ideas for later: dedicated painted road ribbons in the town (they still use the old dirt/cobble ribbons), painted foliage on the Gainlands' flat-colour trees, wall decals through `surface: "wall"` (supported, no zone supplies wall segments yet).
