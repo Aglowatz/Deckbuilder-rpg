@@ -37,7 +37,7 @@ I did **not** run any windowed e2e smoke today and did not take fresh screenshot
 | **NPC dialogue portraits** | 71 portraits imported with no missing ids and no unmatched files. GUT portrait and NPC registry tests pass. The dialogue_shots tool and screenshots exist. |
 | **Dungeon and map import** | All 12 dungeons come from `dungeon_list.csv` and all 12 maps are imported. `_screenshots/dungeons_final_smoke.log` reports "OK - 0 check failure(s)". It covers D-TUT, D-HOG with the rescue, S-BEEF via its quest, and "the side dungeon leads back to the zone". |
 | **Side dungeon quests** | Covered by the same smoke and `test_mini_dungeon.gd` (`test_every_side_dungeon_is_sealed_until_its_quest_is_done`). |
-| **Kingdom rename** | `data/story/royal_family.tres` has `kingdom = "Pathavia"`. Tokens such as `{kingdom}` are used in the story data. "Concordia" survives only as the queen's name. |
+| **Kingdom rename** | `data/story/royal_family.tres` has `kingdom = "Pathwork"`. Tokens such as `{kingdom}` are used in the story data. "Concordia" survives only as the queen's name. |
 | **Texture rollout, per zone and building materials** | All 65 CSV textures and decals are imported. `data/art/texture_presets.json` has presets for Main Town, Starting Area, Gainlands, D.N.A., Buffet, Dump, Capital (outside and inside) and the Castle stage. Building and prop materials are classified through the toon shader (`TEX-MAT-*` and zone prop bindings). GUT `test_painted_textures.gd` checks that every CSV texture is imported and used, that presets name real textures, and the decal scatter. Per-zone fps is recorded in progress.md (lowest 57 on Medium). |
 
 ---
@@ -106,13 +106,7 @@ I did **not** run any windowed e2e smoke today and did not take fresh screenshot
 ## NOT STARTED
 
 - **3D-model species mismatches.** The world still uses the KayKit humanoids (Mage, Barbarian, Rogue, Rogue_Hooded, Knight) for NPCs whose portraits are tortoise, bear, fox, frog, walrus, ogre, minotaur, yeti, rhino, skeleton, ghosts, cat, otter and others. The full table is `docs/progress.md` lines 2593 to 2625. There are no new models in `assets/` (only KayKit and Kenney packs) and no commits that touch this.
-- **Papercraft test cleanup.** All of it is still in the repo:
-  - `tests/papercraft/` (`paper_character.gd`, `paper_cutout.gdshader`, `test_paper_character.gd`, `town_square_paper.gd`, `town_square_paper.tscn`);
-  - `tools/import_paper_test.gd` and `tools/import_paper_test.sh`;
-  - `assets/art/paper/` (about 1.4 MB);
-  - `docs/art/papercraft_test.md`;
-  - `docs/art/screens/papercraft/` (about 1.2 MB).
-  - Nothing removes or archives them. The texture test scene, by contrast, was retired in the painted-textures Part D (only `docs/art/texture_test.md` remains, as a pointer).
+- ~~Papercraft test cleanup~~ — DONE (Group 1): tests, tools, art and docs removed; nothing else depended on them. `.import` files under `docs/` are now git-ignored and untracked.
 - **Game title and the "Wellspring" shop and spot names.** No new title has been chosen or applied (see PARTIAL).
 
 ---

@@ -18,3 +18,6 @@
 
 # Graphics loop logs and lock (tools/run_graphics_loop.ps1)
 /_logs/
+
+# Godot import sidecars for images under docs/ (screenshots) are never committed
+/docs/**/*.import
