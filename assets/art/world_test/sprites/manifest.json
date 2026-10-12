@@ -1,0 +1,214 @@
+{
+	"ELDER": {
+		"bottom_pad": 16,
+		"canvas": [
+			312,
+			496
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 0.7,
+		"walk_dirs": []
+	},
+	"FENWICK": {
+		"bottom_pad": 16,
+		"canvas": [
+			384,
+			512
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 0.8,
+		"walk_dirs": []
+	},
+	"GATEKEEPER": {
+		"bottom_pad": 16,
+		"canvas": [
+			312,
+			504
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 1.35,
+		"walk_dirs": []
+	},
+	"PLAYER": {
+		"bottom_pad": 16,
+		"canvas": [
+			384,
+			512
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": false,
+		"rel_height": 1.0,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	},
+	"SABLE": {
+		"bottom_pad": 16,
+		"canvas": [
+			320,
+			504
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 0.95,
+		"walk_dirs": []
+	},
+	"TONIC": {
+		"bottom_pad": 16,
+		"canvas": [
+			256,
+			504
+		],
+		"dirs": [
+			"FRONT",
+			"SIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACK_IDLE",
+			"FRONT_IDLE",
+			"FRONT_TALK",
+			"SIDE_IDLE"
+		],
+		"has_talk": true,
+		"rel_height": 0.85,
+		"walk_dirs": []
+	},
+	"VILLAGER": {
+		"bottom_pad": 16,
+		"canvas": [
+			328,
+			512
+		],
+		"dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		],
+		"fig_h": 440,
+		"frames": [
+			"BACKSIDE_IDLE",
+			"BACKSIDE_WALK1",
+			"BACKSIDE_WALK2",
+			"BACKSIDE_WALK3",
+			"BACKSIDE_WALK4",
+			"BACK_IDLE",
+			"BACK_WALK1",
+			"BACK_WALK2",
+			"BACK_WALK3",
+			"BACK_WALK4",
+			"FRONTSIDE_IDLE",
+			"FRONTSIDE_WALK1",
+			"FRONTSIDE_WALK2",
+			"FRONTSIDE_WALK3",
+			"FRONTSIDE_WALK4",
+			"FRONT_IDLE",
+			"FRONT_WALK1",
+			"FRONT_WALK2",
+			"FRONT_WALK3",
+			"FRONT_WALK4",
+			"SIDE_IDLE",
+			"SIDE_WALK1",
+			"SIDE_WALK2",
+			"SIDE_WALK3",
+			"SIDE_WALK4"
+		],
+		"has_talk": false,
+		"rel_height": 0.85,
+		"walk_dirs": [
+			"FRONT",
+			"FRONTSIDE",
+			"SIDE",
+			"BACKSIDE",
+			"BACK"
+		]
+	}
+}

@@ -1,0 +1,26 @@
+Checklist rows with an ID: 69. Missing files: none
+PLAYER: canvas 384x512, 25 frames, relative height 1.00, source figure height (median idle) 1474 px -> 440 px; walk dirs: FRONT, FRONTSIDE, SIDE, BACKSIDE, BACK
+  frames: BACKSIDE_IDLE, BACKSIDE_WALK1, BACKSIDE_WALK2, BACKSIDE_WALK3, BACKSIDE_WALK4, BACK_IDLE, BACK_WALK1, BACK_WALK2, BACK_WALK3, BACK_WALK4, FRONTSIDE_IDLE, FRONTSIDE_WALK1, FRONTSIDE_WALK2, FRONTSIDE_WALK3, FRONTSIDE_WALK4, FRONT_IDLE, FRONT_WALK1, FRONT_WALK2, FRONT_WALK3, FRONT_WALK4, SIDE_IDLE, SIDE_WALK1, SIDE_WALK2, SIDE_WALK3, SIDE_WALK4
+ELDER: canvas 312x496, 4 frames, relative height 0.70, source figure height (median idle) 1467 px -> 440 px; walk dirs: none
+  frames: BACK_IDLE, FRONT_IDLE, FRONT_TALK, SIDE_IDLE
+GATEKEEPER: canvas 312x504, 4 frames, relative height 1.35, source figure height (median idle) 1468 px -> 440 px; walk dirs: none
+  frames: BACK_IDLE, FRONT_IDLE, FRONT_TALK, SIDE_IDLE
+SABLE: canvas 320x504, 4 frames, relative height 0.95, source figure height (median idle) 1493 px -> 440 px; walk dirs: none
+  frames: BACK_IDLE, FRONT_IDLE, FRONT_TALK, SIDE_IDLE
+TONIC: canvas 256x504, 4 frames, relative height 0.85, source figure height (median idle) 1487 px -> 440 px; walk dirs: none
+  frames: BACK_IDLE, FRONT_IDLE, FRONT_TALK, SIDE_IDLE
+FENWICK: canvas 384x512, 4 frames, relative height 0.80, source figure height (median idle) 1482 px -> 440 px; walk dirs: none
+  frames: BACK_IDLE, FRONT_IDLE, FRONT_TALK, SIDE_IDLE
+  NOTE VILLAGER FRONT walk: found 1 separate figures in the strip, cut it into four equal parts instead
+VILLAGER: canvas 328x512, 25 frames, relative height 0.85, source figure height (median idle) 1435 px -> 440 px; walk dirs: FRONT, FRONTSIDE, SIDE, BACKSIDE, BACK
+  frames: BACKSIDE_IDLE, BACKSIDE_WALK1, BACKSIDE_WALK2, BACKSIDE_WALK3, BACKSIDE_WALK4, BACK_IDLE, BACK_WALK1, BACK_WALK2, BACK_WALK3, BACK_WALK4, FRONTSIDE_IDLE, FRONTSIDE_WALK1, FRONTSIDE_WALK2, FRONTSIDE_WALK3, FRONTSIDE_WALK4, FRONT_IDLE, FRONT_WALK1, FRONT_WALK2, FRONT_WALK3, FRONT_WALK4, SIDE_IDLE, SIDE_WALK1, SIDE_WALK2, SIDE_WALK3, SIDE_WALK4
+Sky: sun { "w": 512, "h": 498 }; cloud_01 768x441; cloud_02 768x420; cloud_03 768x142; cloud_04 768x377; cloud_05 768x478; cloud_06 768x233
+  seam mismatch (sum over sampled rows): 12.73
+  seam mismatch (sum over sampled rows): 12.23
+  seam mismatch (sum over sampled rows): 8.94
+Backdrops: far_mountains 1280x320 (opaque from row 644 of 1024); mid_hills 1280x334 (opaque from row 627 of 1024); near_treeline 1280x405 (opaque from row 542 of 1024); landmark_gainlands 1280x465; landmark_dna 1280x468; landmark_buffet 1280x660; landmark_dump 1280x603; landmark_capital 1280x558
+TEX-TOWN-WATER -> tex/town_water.png 1024x1024
+DEC-SHOREFOAM -> dec/shorefoam.png 1250x560 (turned 21 degrees)
+Foliage atlas 3x2 of 384 px cells: FOL-GRASS-01: 376x364 in cell 0 (aspect w/h 1.03); FOL-GRASS-02: 376x317 in cell 1 (aspect w/h 1.19); FOL-FLOWERS-01: 376x359 in cell 2 (aspect w/h 1.05); FOL-FLOWERS-02: 276x376 in cell 3 (aspect w/h 0.73); FOL-BUSH-01: 376x316 in cell 4 (aspect w/h 1.19); FOL-FERN-01: 373x376 in cell 5 (aspect w/h 0.99)
+Files not in the checklist: none
+Files read but not used for a game asset (model sheets, reference): CHAR-REF.png, SPR-ELDER-REF.png, SPR-FENWICK-REF.png, SPR-GATEKEEPER-REF.png, SPR-SABLE-REF.png, SPR-TONIC-REF.png, SPR-VILLAGER-REF.png
