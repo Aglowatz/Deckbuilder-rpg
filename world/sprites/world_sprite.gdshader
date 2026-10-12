@@ -17,7 +17,7 @@ uniform float fade : hint_range(0.0, 1.0) = 1.0;
 // Light response.
 uniform float warm_gain = 1.0;
 uniform vec3 shade_color : source_color = vec3(0.34, 0.4, 0.62);
-uniform float shade_amount = 0.5;
+uniform float shade_amount = 0.9;
 uniform float floor_light : hint_range(0.0, 1.0) = 0.16;
 // Rim light: screen-space direction (x right, y up) towards the sun, strength, width in uv units.
 uniform vec2 rim_dir = vec2(-0.7, 0.7);
@@ -63,6 +63,6 @@ void light() {
 	DIFFUSE_LIGHT += LIGHT_COLOR * ATTENUATION * wrap * warm_gain * 0.98 / PI;
 	if (LIGHT_IS_DIRECTIONAL) {
 		// In the sun's shadow the card cools towards the shade colour instead of just darkening.
-		DIFFUSE_LIGHT += (1.0 - ATTENUATION) * shade_color * shade_amount * 0.35;
+		DIFFUSE_LIGHT += (1.0 - ATTENUATION) * shade_color * shade_amount * 0.5;
 	}
 }

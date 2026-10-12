@@ -21,6 +21,9 @@ var _bird_material: ShaderMaterial
 var _bird_quad: QuadMesh
 ## Strength of the shafts (the scene may dim them).
 var shaft_strength: float = 0.1
+## Light shafts are OFF by default: with the sun behind the north-facing camera they read as flat translucent strips with hard edges over the water (see docs/art/world_look_test.md).
+## Launch with `--shafts=1` to see them.
+var shafts_enabled: bool = false
 
 
 func setup(_scene: Node3D, _town: TownBuilder, cam: Camera3D, follow: Node3D, sun: Vector3) -> void:
@@ -30,7 +33,8 @@ func setup(_scene: Node3D, _town: TownBuilder, cam: Camera3D, follow: Node3D, su
 	_rng.seed = 77
 	_build_motes()
 	_build_leaves()
-	_build_shafts()
+	if shafts_enabled:
+		_build_shafts()
 	_bird_quad = QuadMesh.new()
 	_bird_quad.size = Vector2.ONE
 
@@ -68,9 +72,9 @@ func _build_motes() -> void:
 	_motes.gravity = Vector3(0.0, 0.015, 0.0)
 	_motes.scale_amount_min = 0.5
 	_motes.scale_amount_max = 1.5
-	_motes.color = Color(1.0, 0.93, 0.7, 0.6)
+	_motes.color = Color(1.0, 0.93, 0.7, 0.7)
 	var quad: QuadMesh = QuadMesh.new()
-	quad.size = Vector2(0.05, 0.05)
+	quad.size = Vector2(0.06, 0.06)
 	var material: StandardMaterial3D = StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA

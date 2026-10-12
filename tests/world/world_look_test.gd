@@ -131,6 +131,12 @@ func _find_sun() -> void:
 		_sun_direction = -style_rig.sun.global_basis.z
 	if style_rig != null and style_rig.world_env != null:
 		_env = style_rig.world_env.environment
+	# The town's own ambient particles (fireflies, motes) become big white balls under the low camera and the bloom; WorldAmbient makes the pollen, leaves and birds instead.
+	if style_rig != null and style_rig.ambience != null:
+		for child: Node in style_rig.ambience.get_children():
+			if child is GPUParticles3D:
+				(child as GPUParticles3D).emitting = false
+				(child as GPUParticles3D).visible = false
 
 
 # ---- Characters --------------------------------------------------------------------------------------------------------------------
@@ -203,6 +209,7 @@ func _build_world() -> void:
 	if style_rig != null and style_rig.preset != null:
 		_foliage.set_light(style_rig.preset.sun_color, style_rig.preset.ambient_color)
 	_ambient = WorldAmbient.new()
+	_ambient.shafts_enabled = _args.has("shafts")
 	add_child(_ambient)
 	_ambient.setup(self, town, _camera, player, _sun_direction)
 
@@ -325,6 +332,8 @@ func _apply_current() -> void:
 		_env.glow_bloom = 0.0
 		_env.glow_hdr_threshold = float(p["bloom_threshold"])
 		_env.glow_hdr_scale = 1.6
+		# Very bright small things (lamp glows, motes) would bloom into big white balls: cap how bright the glow source may be.
+		_env.glow_hdr_luminance_cap = 2.0
 		_env.glow_blend_mode = Environment.GLOW_BLEND_MODE_SCREEN
 		var spread: float = float(p["glow_spread"])
 		for level: int in range(0, 7):
@@ -506,6 +515,9 @@ func _run_shots() -> void:
 	# The wandering villager.
 	if _only("villager"):
 		await _villager_shots()
+	# The hero in the sun and in a building's shadow (the card is lit by the same sun and shadow map as the buildings).
+	if _only("shade"):
+		await _shade_shots()
 	if _only("panel"):
 		apply_preset(5, true)
 		_settle_at(SHOT_SPOTS["square"][0] as Vector3, 0)
@@ -518,11 +530,12 @@ func _run_shots() -> void:
 ## Walks the hero in four screen directions and saves a frame mid-stride for each.
 func _walk_shots() -> void:
 	apply_preset(5, true)
+	_settle_at(Vector3(25.0, 0.0, 16.0), 0)
 	var runs: Array[Array] = [
-		["walk_toward", &"move_down", _clear_start(Vector3(29.0, 0.0, 9.0), Vector3(0, 0, 1), 5.5)],
-		["walk_away", &"move_up", _clear_start(Vector3(29.0, 0.0, 19.0), Vector3(0, 0, -1), 5.5)],
-		["walk_left", &"move_left", _clear_start(Vector3(32.0, 0.0, 16.0), Vector3(-1, 0, 0), 5.5)],
-		["walk_right", &"move_right", _clear_start(Vector3(20.0, 0.0, 16.0), Vector3(1, 0, 0), 5.5)],
+		["walk_toward", &"move_down", _clear_start(Vector3(24.0, 0.0, 14.0), Vector3(0, 0, 1), 5.5)],
+		["walk_away", &"move_up", _clear_start(Vector3(24.0, 0.0, 21.0), Vector3(0, 0, -1), 5.5)],
+		["walk_left", &"move_left", _clear_start(Vector3(31.0, 0.0, 16.5), Vector3(-1, 0, 0), 5.5)],
+		["walk_right", &"move_right", _clear_start(Vector3(19.0, 0.0, 16.5), Vector3(1, 0, 0), 5.5)],
 	]
 	for run: Array in runs:
 		_settle_at(run[2] as Vector3, 0)
@@ -551,12 +564,28 @@ func _clear_start(around: Vector3, dir: Vector3, length: float) -> Vector3:
 			var start: Vector3 = around + Vector3(cos(angle), 0.0, sin(angle)) * float(ring) * 0.7
 			var clear: bool = true
 			for i: int in range(0, int(length / 0.4) + 1):
-				if not town.is_walkable(start + dir * 0.4 * float(i), 0.4):
+				var along: Vector3 = start + dir * 0.4 * float(i)
+				if not town.is_walkable(along, 0.4) or not _in_view(along):
 					clear = false
 					break
 			if clear:
 				return start
 	return around
+
+
+## True when no prop stands between the camera (at the current preset, view turned by the current yaw) and the ground point `p`.
+func _in_view(p: Vector3) -> bool:
+	var camera_ground: Vector3 = p + camera_offset * Settings.camera_zoom
+	camera_ground.y = 0.0
+	var flat_p: Vector2 = Vector2(p.x, p.z)
+	var flat_c: Vector2 = Vector2(camera_ground.x, camera_ground.z)
+	for obstacle: Vector3 in town.obstacles:
+		if obstacle.z < 0.14:
+			continue
+		var closest: Vector2 = Geometry2D.get_closest_point_to_segment(Vector2(obstacle.x, obstacle.y), flat_p, flat_c)
+		if closest.distance_to(Vector2(obstacle.x, obstacle.y)) < obstacle.z + 0.55 and flat_p.distance_to(Vector2(obstacle.x, obstacle.y)) > 0.1:
+			return false
+	return true
 
 
 func _talk_shots() -> void:
@@ -578,6 +607,30 @@ func _talk_shots() -> void:
 		await _wait(0.3)
 
 
+func _shade_shots() -> void:
+	apply_preset(5, true)
+	var travel: Vector3 = Vector3(_sun_direction.x, 0.0, _sun_direction.z).normalized()
+	var spot: Vector3 = Vector3(26.0, 0.0, 19.0)
+	# The view is turned to look south so the wall that casts the shadow (on the sun side of the hero) does not stand between the camera and the hero.
+	_settle_at(spot, 180)
+	await _wait(1.8)
+	await _save_shot("shade_in_sun")
+	var wall: MeshInstance3D = MeshInstance3D.new()
+	var box: BoxMesh = BoxMesh.new()
+	box.size = Vector3(4.2, 6.0, 0.4)
+	wall.mesh = box
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.albedo_color = Color("c9b8a0")
+	wall.material_override = material
+	wall.set_meta(StyleToon.META_NO_TOON, true)
+	add_child(wall)
+	wall.position = spot - travel * 2.0 + Vector3(0.0, 3.0, 0.0)
+	wall.rotation.y = atan2(travel.x, travel.z)
+	await _wait(1.8)
+	await _save_shot("shade_in_shadow")
+	wall.queue_free()
+
+
 func _chat_lines() -> Array[String]:
 	var result: Array[String] = ["Welcome to the Crosspath, traveller. Take a look around.", "The cards are fresh and the road is open."]
 	return result
@@ -585,7 +638,7 @@ func _chat_lines() -> Array[String]:
 
 func _villager_shots() -> void:
 	apply_preset(5, true)
-	_settle_at(Vector3(25.2, 0.0, 17.0), 0)
+	_settle_at(Vector3(27.8, 0.0, 14.6), 0)
 	var taken: int = 0
 	var seconds: float = 0.0
 	# Waits for the baker to be walking inside the picture a few times and saves a frame each.
