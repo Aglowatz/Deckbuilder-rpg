@@ -163,6 +163,7 @@ func _notice_board() -> void:
 	holder.position = pos
 	holder.rotation_degrees.y = yaw
 	root.add_child(holder)
+	holder.scale = Vector3.ONE * 0.72
 	var wood: StandardMaterial3D = _material(Color("6b4a2c"), 0.9)
 	var paper: StandardMaterial3D = _material(Color("f2e8c8"), 1.0)
 	for side: float in [-0.62, 0.62]:
@@ -179,22 +180,26 @@ func _notice_board() -> void:
 	town.anchors["notice_board"] = pos + toward.normalized() * 1.2
 
 
+## Town signposts are drawn at this fraction of their old size: at the low camera the old boards covered the plaza.
+const SIGN_SCALE: float = 0.68
+
+
 func _signposts() -> void:
 	var wood: StandardMaterial3D = _material(Color("7a5632"), 0.9)
 	var plank: StandardMaterial3D = _material(Color("c8a46a"), 0.85)
 	for sign_data: Dictionary in TownLayout.signposts():
 		var pos: Vector3 = sign_data["pos"] as Vector3
-		_cylinder(0.07, 2.6, wood, pos + Vector3(0, 1.3, 0))
+		_cylinder(0.06, 2.6 * SIGN_SCALE, wood, pos + Vector3(0, 1.3 * SIGN_SCALE, 0))
 		var boards: Array = sign_data["boards"] as Array
 		for index: int in range(boards.size()):
 			var board: Dictionary = boards[index] as Dictionary
-			var height: float = 2.25 - 0.5 * float(index)
+			var height: float = (2.25 - 0.5 * float(index)) * SIGN_SCALE
 			var text: String = "%s %s" % [TownLayout.arrow_for(str(board["dir"])), str(board["text"])]
-			var width: float = 0.9 + 0.09 * float(text.length())
+			var width: float = (0.9 + 0.09 * float(text.length())) * SIGN_SCALE
 			var pole_side: float = -1.0 if str(board["dir"]).contains("W") else 1.0
 			var offset_x: float = pole_side * width * 0.5
-			root.add_child(_box(Vector3(width, 0.36, 0.06), plank, pos + Vector3(offset_x * 0.3, height, 0.0)))
-			var label: Label3D = _label(text, pos + Vector3(offset_x * 0.3, height, 0.05), Color("2f1f12"), 0.0042)
+			root.add_child(_box(Vector3(width, 0.36 * SIGN_SCALE, 0.05), plank, pos + Vector3(offset_x * 0.3, height, 0.0)))
+			var label: Label3D = _label(text, pos + Vector3(offset_x * 0.3, height, 0.05), Color("2f1f12"), 0.0042 * SIGN_SCALE)
 			label.outline_size = 0
 			root.add_child(label)
 		town.obstacles.append(Vector3(pos.x, pos.z, 0.2))

@@ -9,6 +9,11 @@ extends SceneTree
 ## Run: Godot --headless --path . -s res://tools/world_test_import.gd
 
 const SRC: String = "res://_art_inbox/world_test/"
+## `--cosmetics`: the hats and cloak sets (tools/import_cosmetics.sh copies them here); the output goes to cosmetics_manifest.json and assets/art/cosmetics/hats/.
+const COS_SRC: String = "res://_art_inbox/cosmetics/"
+const COS_MANIFEST: String = "sprites/cosmetics_manifest.json"
+const HAT_OUT: String = "res://assets/art/cosmetics/hats/"
+const HAT_MAX_WIDTH: int = 640
 const OUT: String = "res://assets/art/world_test/"
 const CSV_PATH: String = "res://data/source/world_look_test.csv"
 const SHEETS: String = "res://_art_inbox/world_test_sheets/"
@@ -28,9 +33,14 @@ var _used: Dictionary = {}
 var _manifest: Dictionary = {}
 var _rel_height: Dictionary = {}
 var _ids: Array[String] = []
+var _src: String = SRC
 
 
 func _initialize() -> void:
+	if OS.get_cmdline_user_args().has("--cosmetics"):
+		_run_cosmetics()
+		quit()
+		return
 	for sub: String in ["sprites", "sky", "backdrop", "tex", "dec", "foliage"]:
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT + sub))
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SHEETS))
@@ -76,14 +86,14 @@ func _read_csv() -> void:
 				_rel_height[parts[1]] = float(row[6])
 	var missing: Array[String] = []
 	for id: String in _ids:
-		if not FileAccess.file_exists(SRC + id + ".png"):
+		if not FileAccess.file_exists(_src + id + ".png"):
 			missing.append(id)
 	_report.append("Checklist rows with an ID: %d. Missing files: %s" % [_ids.size(), ", ".join(missing) if not missing.is_empty() else "none"])
 
 
 func _unmatched() -> void:
 	var extra: Array[String] = []
-	for file_name: String in DirAccess.get_files_at(SRC):
+	for file_name: String in DirAccess.get_files_at(_src):
 		if file_name.get_extension() != "png":
 			continue
 		var id: String = file_name.get_basename()
@@ -91,14 +101,14 @@ func _unmatched() -> void:
 			extra.append(file_name)
 	_report.append("Files not in the checklist: %s" % (", ".join(extra) if not extra.is_empty() else "none"))
 	var unused: Array[String] = []
-	for file_name: String in DirAccess.get_files_at(SRC):
+	for file_name: String in DirAccess.get_files_at(_src):
 		if file_name.get_extension() == "png" and not _used.has(file_name.get_basename()):
 			unused.append(file_name)
 	_report.append("Files read but not used for a game asset (model sheets, reference): %s" % ", ".join(unused))
 
 
 func _load(id: String) -> Image:
-	var path: String = ProjectSettings.globalize_path(SRC + id + ".png")
+	var path: String = ProjectSettings.globalize_path(_src + id + ".png")
 	if not FileAccess.file_exists(path):
 		return null
 	var image: Image = Image.load_from_file(path)
@@ -344,7 +354,8 @@ func _do_character(character: String) -> void:
 		max_height = maxi(max_height, new_h)
 	var canvas_w: int = int(ceil((half_extent * 2.0 + 24.0) / 8.0)) * 8
 	var canvas_h: int = int(ceil(float(max_height + TOP_PAD + BOTTOM_PAD) / 8.0)) * 8
-	var folder: String = "sprites/" + character
+	var folder_name: String = character.replace("-", "_")
+	var folder: String = "sprites/" + folder_name
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT + folder))
 	var names: Array[String] = []
 	var sheet_items: Array[Image] = []
@@ -361,13 +372,13 @@ func _do_character(character: String) -> void:
 		sheet_items.append(canvas)
 	names.sort()
 	var rel: float = float(_rel_height.get(character, 1.0))
-	_manifest[character] = {
+	_manifest[folder_name] = {
 		"canvas": [canvas_w, canvas_h], "fig_h": FIG_H, "bottom_pad": BOTTOM_PAD, "rel_height": rel, "frames": names,
 		"dirs": dirs, "walk_dirs": walk_dirs, "has_talk": figures.has("FRONT_TALK"),
 	}
 	_report.append("%s: canvas %dx%d, %d frames, relative height %.2f, source figure height (median idle) %d px -> %d px; walk dirs: %s" % [
 		character, canvas_w, canvas_h, names.size(), rel, int(reference), FIG_H, ", ".join(walk_dirs) if not walk_dirs.is_empty() else "none"])
-	_contact_sheet(character, names, canvas_w, canvas_h)
+	_contact_sheet(folder_name, names, canvas_w, canvas_h)
 
 
 func _unpremultiply(image: Image) -> void:
@@ -597,3 +608,73 @@ func _clean_alpha(image: Image, floor_alpha: float) -> void:
 			data[i + 3] = mini(255, (a - cut) * 255 / (255 - cut))
 		i += 4
 	image.set_data(image.get_width(), image.get_height(), false, Image.FORMAT_RGBA8, data)
+
+
+# ---- Cosmetics (hats and cloak sets) ---------------------------------------------------------------------------------------------
+
+
+## `--cosmetics` mode. Cloaks: SPR-PLAYER-CLOAK-<NAME>-<DIR>_{IDLE,WALK} go through the same slicer as every character and become the character PLAYER_CLOAK_<NAME>.
+## Hats: COS-HAT-<NAME>-<DIR> are trimmed to their content and saved as assets/art/cosmetics/hats/<NAME>/<DIR>.png (bottom-centre of the image = where the hat meets the head).
+func _run_cosmetics() -> void:
+	_src = COS_SRC
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(OUT + "sprites"))
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(SHEETS))
+	var cloaks: Array[String] = []
+	var hats: Array[String] = []
+	for file_name: String in DirAccess.get_files_at(_src):
+		if file_name.get_extension() != "png":
+			continue
+		var id: String = file_name.get_basename()
+		if id.begins_with("SPR-PLAYER-CLOAK-"):
+			var cloak_name: String = id.trim_prefix("SPR-PLAYER-CLOAK-").get_slice("-", 0)
+			if not cloaks.has(cloak_name):
+				cloaks.append(cloak_name)
+		elif id.begins_with("COS-HAT-"):
+			var hat_name: String = id.trim_prefix("COS-HAT-").get_slice("-", 0)
+			if not hats.has(hat_name):
+				hats.append(hat_name)
+	cloaks.sort()
+	hats.sort()
+	var existing: Dictionary = {}
+	var manifest_file: FileAccess = FileAccess.open(OUT + COS_MANIFEST, FileAccess.READ)
+	if manifest_file != null:
+		var parsed: Variant = JSON.parse_string(manifest_file.get_as_text())
+		if parsed is Dictionary:
+			existing = parsed as Dictionary
+		manifest_file.close()
+	_manifest = existing
+	for cloak_name: String in cloaks:
+		_do_character("PLAYER-CLOAK-" + cloak_name)
+	var out: FileAccess = FileAccess.open(OUT + COS_MANIFEST, FileAccess.WRITE)
+	out.store_string(JSON.stringify(_manifest, "\t"))
+	out.close()
+	for hat_name: String in hats:
+		_do_hat(hat_name)
+	_report.append("Cosmetics inbox: %d cloak set(s) %s, %d hat(s) %s" % [cloaks.size(), str(cloaks), hats.size(), str(hats)])
+	print("\n".join(_report))
+
+
+func _do_hat(hat_name: String) -> void:
+	var found: Array[String] = []
+	var missing: Array[String] = []
+	for dir_name: String in DIRS:
+		var image: Image = _load("COS-HAT-%s-%s" % [hat_name, dir_name])
+		if image == null:
+			missing.append(dir_name)
+			continue
+		_clean_alpha(image, 0.04)
+		var box: Rect2i = _bbox(image, Rect2i(0, 0, image.get_width(), image.get_height()))
+		if box.size.x == 0:
+			missing.append(dir_name)
+			continue
+		var crop: Image = image.get_region(box.grow(2).intersection(Rect2i(0, 0, image.get_width(), image.get_height())))
+		if crop.get_width() > HAT_MAX_WIDTH:
+			var h: int = int(round(float(crop.get_height()) * float(HAT_MAX_WIDTH) / float(crop.get_width())))
+			crop.premultiply_alpha()
+			crop.resize(HAT_MAX_WIDTH, h, Image.INTERPOLATE_LANCZOS)
+			_unpremultiply(crop)
+		var folder: String = HAT_OUT + hat_name + "/"
+		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(folder))
+		crop.save_png(ProjectSettings.globalize_path(folder + dir_name + ".png"))
+		found.append(dir_name)
+	_report.append("COS-HAT-%s: directions %s%s" % [hat_name, ", ".join(found), ("   MISSING: " + ", ".join(missing)) if not missing.is_empty() else ""])

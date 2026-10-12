@@ -27,13 +27,27 @@ var moving: bool = false
 func setup(town_builder: WalkableArea, model_name: String, start: Vector3) -> void:
 	town = town_builder
 	position = start
-	model = HeroModel.build(Session.cosmetics) if model_name == "Hero" else ModelKit.character(model_name)
-	if model_name == "Hero" and not EventBus.cosmetics_changed.is_connected(_on_cosmetics_changed):
+	if model_name == "Hero":
+		model = _hero_model()
+	else:
+		model = ModelKit.character(model_name)
+	if model_name == "Hero" and model.has_meta("hero_model") and not EventBus.cosmetics_changed.is_connected(_on_cosmetics_changed):
 		EventBus.cosmetics_changed.connect(_on_cosmetics_changed)
 	add_child(model)
 	model.scale = Vector3.ONE * MODEL_SCALE
 	_animation = ModelKit.animation_player(model)
 	_play(&"Idle")
+
+
+## The hero is the painted 2.5D sprite (`SpriteActor`, docs/art/world_rollout.md); the 3D rogue is only the fallback when the sprite art is missing.
+func _hero_model() -> Node3D:
+	if SpriteLibrary.has_character("PLAYER"):
+		var actor: SpriteActor = SpriteActor.new()
+		actor.name = "HeroSprite"
+		actor.character = "PLAYER"
+		actor.natural_scale = MODEL_SCALE
+		return actor
+	return HeroModel.build(Session.cosmetics)
 
 
 func _process(delta: float) -> void:
@@ -102,7 +116,7 @@ func _play(animation_name: StringName) -> void:
 
 
 func _on_cosmetics_changed() -> void:
-	if model != null and is_instance_valid(model):
+	if model != null and is_instance_valid(model) and model.has_meta("hero_model"):
 		HeroModel.refresh(model, Session.cosmetics)
 
 

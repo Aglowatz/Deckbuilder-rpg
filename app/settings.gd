@@ -57,11 +57,15 @@ var reduce_flashing: bool = false
 var show_minimap: bool = true
 ## Low / Medium / High (`GraphicsQuality.Level`): outlines, volumetrics, SSAO, shadows, DOF, foliage density.
 var graphics_quality: int = GraphicsQuality.Level.MEDIUM
-## Optional subtle depth of field (never on Low).
-var depth_of_field: bool = false
+## Depth of field: the tilt-shift blur pass of the world look (WorldLookRig). Not on Low.
+var depth_of_field: bool = true
+## The bloom (glow) of the world look; the quality level still decides whether it is affordable.
+var bloom: bool = true
+## Fog quality: 0 off, 1 light, 2 full (the distance haze and, on High, the sparse volumetric shafts).
+var fog_quality: int = 2
 ## How far the 3D camera sits from the hero, as a multiple of each area's base offset (mouse wheel changes it; remembered).
 const ZOOM_MIN: float = 1.0
-const ZOOM_MAX: float = 2.3
+const ZOOM_MAX: float = 2.0
 const ZOOM_DEFAULT: float = 1.5
 var camera_zoom: float = ZOOM_DEFAULT
 
@@ -280,7 +284,9 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("video", "ui_scale", ui_scale)
 	config.set_value("video", "minimap", show_minimap)
 	config.set_value("video", "quality", graphics_quality)
-	config.set_value("video", "dof", depth_of_field)
+	config.set_value("video", "tilt_shift", depth_of_field)
+	config.set_value("video", "bloom", bloom)
+	config.set_value("video", "fog_quality", fog_quality)
 	config.set_value("video", "zoom", camera_zoom)
 	config.set_value("text", "dialogue", text_dialogue)
 	config.set_value("text", "cards", text_cards)
@@ -314,7 +320,9 @@ func load_settings(path: String = PATH) -> void:
 	ui_scale = clampf(float(config.get_value("video", "ui_scale", ui_scale)), UI_SCALE_MIN, UI_SCALE_MAX)
 	show_minimap = bool(config.get_value("video", "minimap", show_minimap))
 	graphics_quality = clampi(int(config.get_value("video", "quality", GraphicsQuality.recommended())), 0, 2)
-	depth_of_field = bool(config.get_value("video", "dof", depth_of_field))
+	depth_of_field = bool(config.get_value("video", "tilt_shift", depth_of_field))
+	bloom = bool(config.get_value("video", "bloom", bloom))
+	fog_quality = clampi(int(config.get_value("video", "fog_quality", fog_quality)), 0, 2)
 	camera_zoom = clampf(float(config.get_value("video", "zoom", camera_zoom)), ZOOM_MIN, ZOOM_MAX)
 	text_dialogue = clampi(int(config.get_value("text", "dialogue", text_dialogue)), 0, TEXT_SCALES.size() - 1)
 	text_cards = clampi(int(config.get_value("text", "cards", text_cards)), 0, TEXT_SCALES.size() - 1)
@@ -345,6 +353,9 @@ func reset_to_defaults() -> void:
 	reduce_shake = false
 	reduce_flashing = false
 	graphics_quality = GraphicsQuality.recommended()
+	depth_of_field = true
+	bloom = true
+	fog_quality = 2
 	apply()
 	text_changed.emit()
 	accessibility_changed.emit()

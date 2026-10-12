@@ -6,10 +6,11 @@ extends Node3D
 ## actually starts. No town access from here - see docs/design/starting_deck_and_affinity.md.
 
 const STORY_PATH: String = "res://data/story/intro_story.tres"
-const CAMERA_OFFSET: Vector3 = Vector3(0.0, 8.4, 7.0)
+const CAMERA_OFFSET: Vector3 = Vector3(0.0, 2.12, 5.83)
 
 ## Screenshot only: `--cam=x,y,z` replaces the camera offset and the camera then looks at the hero (any yaw).
-var _camera_offset: Vector3 = CAMERA_OFFSET
+var _camera_offset: Vector3 = WorldLookRig.base_offset()
+var look_rig: WorldLookRig
 var _custom_camera: bool = false
 const INTERACT_RADIUS: float = 1.7
 ## How close (in screen pixels) a click has to land to the gate's marker to count as clicking it.
@@ -134,6 +135,8 @@ func _build_actors() -> void:
 	_camera.position = player.position + _camera_offset * Settings.camera_zoom
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	var rig: StyleRig = StyleRig.install(self, StylePresets.START, _camera, player)
+	if rig != null:
+		look_rig = WorldLookRig.install(self, _camera, player, rig, area)
 	if rig != null and rig.ambience != null:
 		rig.ambience.focus(0.45, 1.5)
 	var fader: CloudFader = CloudFader.new()
@@ -207,7 +210,7 @@ func _open_full_map() -> void:
 
 
 func _play_awakening() -> void:
-	# A new game opens on the story still of the Wanderer waking up, before the hat and cloak choice and the first words.
+	# A new game opens on the story still of the Wanderer waking up, before the first words.
 	if not Session.flag(StoryStills.FLAG_WAKE_SEEN) and not _screenshot_args.has("quiet"):
 		Session.set_flag(StoryStills.FLAG_WAKE_SEEN)
 		_locked = true
@@ -215,21 +218,8 @@ func _play_awakening() -> void:
 			_locked = false
 			_play_awakening())
 		return
-	if not Session.cosmetics.look_chosen:
-		_choose_look()
-		return
 	_play_awakening_lines()
 
-
-## The new-game choice of a starting hat and cloak (a short, friendly screen before the first words of the story).
-func _choose_look() -> void:
-	_locked = true
-	var screen: WardrobeScreen = WardrobeScreen.starter()
-	_overlay_layer.add_child(screen)
-	screen.closed.connect(func() -> void:
-		screen.queue_free()
-		_locked = false
-		_play_awakening_lines())
 
 
 func _play_awakening_lines() -> void:

@@ -713,7 +713,7 @@ func _build_signs() -> void:
 				var board: Node3D = B.sign_post(width, height, "sign")
 				board.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so their text reads
 				node.add_child(board)
-		node.scale = Vector3.ONE * 0.6
+		node.scale = Vector3.ONE * 0.5  # smaller than the old high camera needed: at the low camera a signboard covers the hero
 		var text: Label3D = Label3D.new()
 		text.text = "\n".join(lines)
 		text.font = UIStyle.font_title()

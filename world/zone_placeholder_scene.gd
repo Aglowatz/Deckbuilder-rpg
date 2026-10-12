@@ -6,7 +6,7 @@ extends Node3D
 ## identical). Reusable: this whole scene is the template a real zone replaces later, not
 ## something a real zone extends.
 
-const CAMERA_OFFSET: Vector3 = Vector3(0.0, 7.0, 6.0)
+const CAMERA_OFFSET: Vector3 = Vector3(0.0, 2.12, 5.83)
 const INTERACT_RADIUS: float = 1.7
 const CLICK_PICK_RADIUS: float = 90.0
 

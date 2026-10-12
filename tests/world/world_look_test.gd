@@ -6,7 +6,7 @@ extends TownScene
 ##   F1 - F4 : the old character-test cameras   F5 : Recommended   F6 : My Preset (saved from the panel)
 ##   Tab     : live tuning panel      [ and ] : turn the camera view 30 degrees (to look towards each landmark)      mouse wheel : zoom
 ##   WASD / arrows walk, E talks to the nearest character.
-## Launch: Godot --path . res://tests/world/world_look_test.tscn   (see tools/world_shots.sh for the automated screenshot and fps runs)
+## Launch: Godot --path . res://world/look/world_look_test.tscn   (see tools/world_shots.sh for the automated screenshot and fps runs)
 
 const SHOT_DIR: String = "res://docs/art/world_look/"
 const SHOT_SIZE: Vector2i = Vector2i(1280, 720)
@@ -40,6 +40,11 @@ var _foliage: WorldFoliage
 var _ambient: WorldAmbient
 var _hold_dir: StringName = &""
 var _look_hash: int = 0
+
+
+## This bench builds its own copy of the look pieces (with the live tuning panel), so the game's rig stays out.
+func _install_look() -> WorldLookRig:
+	return null
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -201,6 +206,7 @@ func _build_world() -> void:
 	add_child(_sky)
 	_sky.setup(_camera, _env, _sun_direction)
 	_scenery = WorldScenery.new()
+	_scenery.hide_capital_blocks = true
 	add_child(_scenery)
 	_scenery.setup(self, town, _camera)
 	_foliage = WorldFoliage.new()
@@ -222,7 +228,7 @@ func _build_post_and_ui() -> void:
 	_post_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_post_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_post_material = ShaderMaterial.new()
-	_post_material.shader = load("res://tests/world/world_post.gdshader") as Shader
+	_post_material.shader = load("res://world/look/world_post.gdshader") as Shader
 	_post_rect.material = _post_material
 	layer.add_child(_post_rect)
 	var info_layer: CanvasLayer = CanvasLayer.new()

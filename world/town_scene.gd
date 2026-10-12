@@ -18,10 +18,10 @@ class Spot:
 	var named: bool = true
 
 
-## High-angle diorama framing (docs/art/style_guide.md, section 7).
-const CAMERA_OFFSET: Vector3 = Vector3(0.0, 11.0, 8.2)
-## Screenshots can override it (`--cam=x,y,z`).
-var camera_offset: Vector3 = CAMERA_OFFSET
+## The low cinematic framing of the world look (WorldLookRig: pitch 20, distance 6.2 before the zoom). Screenshots can override it (`--cam=x,y,z`).
+var camera_offset: Vector3 = WorldLookRig.base_offset()
+## The world look (post pass, sky, scenery, foliage); null with NO_STYLE.
+var look_rig: WorldLookRig
 ## New brief, Part E: corrupted-NPC dialogue lines live here, not hardcoded in this script.
 const STORY_PATH: String = "res://data/story/intro_story.tres"
 ## Three placeholder secrets proving the Condition system (docs/design/open_questions.md D38):
@@ -161,6 +161,7 @@ func _ready() -> void:
 		camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 	_build_camera()
 	style_rig = StyleRig.install(self, StylePresets.TOWN, _camera, player, 0.0 if _screenshot_args.has("nocull") else 70.0)
+	look_rig = _install_look()
 	if _screenshot_args.has("nofog"):
 		_strip_fog()
 	if style_rig != null and style_rig.ambience != null:
@@ -567,6 +568,13 @@ func _add_spot(id: String, title: String, position: Vector3, radius: float) -> v
 	add_child(plate)
 	spot.plate = plate
 	spots.append(spot)
+
+
+## The world look of this scene (the World Look Test builds its own copy of the pieces and returns null here).
+func _install_look() -> WorldLookRig:
+	if style_rig == null:
+		return null
+	return WorldLookRig.install(self, _camera, player, style_rig, town)
 
 
 func _build_camera() -> void:

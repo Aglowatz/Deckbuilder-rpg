@@ -9,6 +9,7 @@ uniform vec3 haze : source_color = vec3(0.96, 0.82, 0.64);
 uniform float haze_amount : hint_range(0.0, 1.0) = 0.3;
 uniform float opacity : hint_range(0.0, 1.0) = 0.95;
 uniform vec3 warm : source_color = vec3(1.0, 0.93, 0.82);
+uniform vec3 tint : source_color = vec3(1.0);
 
 void vertex() {
 	vec3 right = normalize(vec3(INV_VIEW_MATRIX[0].x, 0.0, INV_VIEW_MATRIX[0].z));
@@ -20,7 +21,7 @@ void vertex() {
 
 void fragment() {
 	vec4 c = texture(tex, UV);
-	vec3 col = c.rgb * warm;
+	vec3 col = c.rgb * warm * tint;
 	// The lower edge of the card melts into the haze (clouds sit in the same air as the mountains).
 	float low = 1.0 - smoothstep(0.0, 0.35, UV.y);
 	col = mix(col, haze, clamp(haze_amount + low * 0.15, 0.0, 1.0));

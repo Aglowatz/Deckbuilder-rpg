@@ -8,7 +8,6 @@ extends ZoneScene
 ## the Beefcake blackout darkens the world and slows you, Famine blocks healing items) and the four Path quests' objects.
 ## All text is in `data/story/capital_story.tres`.
 
-const CAMERA_NORMAL: Vector3 = Vector3(0.0, 13.5, 9.2)
 ## Light cull mask that skips layer 2 (the underground hideout) so the sun does not light it.
 const SUN_CULL_MASK: int = 0xFFFFF & ~2
 const SAFE_CHECK_INTERVAL: float = 0.25
@@ -45,7 +44,7 @@ func _build_environment() -> void:
 
 
 func _build_zone_extras() -> void:
-	camera_offset = CAMERA_NORMAL
+	camera_offset = WorldLookRig.base_offset()
 	player.speed_multiplier = CapitalDebuffs.speed_multiplier(Session.flags)
 	if CapitalDebuffs.darkness(Session.flags) and not Session.flag(CapitalZone.FLAG_FREED):
 		_dark_light = OmniLight3D.new()
@@ -625,6 +624,8 @@ func _cross_gate(now_inside: bool) -> void:
 	tween.tween_property(veil, "color:a", 1.0, 0.25)
 	tween.tween_callback(func() -> void:
 		style_rig.set_preset(id)
+		if look_rig != null:
+			look_rig.set_mood(id)
 		Audio.play_music(&"capital_inside" if now_inside else &"capital_wasteland", 0.8)
 		Audio.sfx(&"heal" if now_inside else &"door")
 		hud.toast("Welcome to Primm's Perfection. Everything is perfectly fine." if now_inside else "Back out into the wastes.", UIStyle.GOLD))

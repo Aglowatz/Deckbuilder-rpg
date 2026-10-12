@@ -10,7 +10,6 @@ extends ZoneScene
 const SAFE_INTERVAL: float = 0.2
 const SOUP_SAFE_DISTANCE: float = 2.0
 const PAD_COOLDOWN: float = 1.2
-const CAMERA_NORMAL: Vector3 = Vector3(0.0, 14.0, 9.4)
 
 ## The layout/map (typed access to the Buffet's own builder).
 var buf: BuffetBuilder
@@ -41,7 +40,7 @@ func _build_environment() -> void:
 
 
 func _build_zone_extras() -> void:
-	camera_offset = CAMERA_NORMAL
+	camera_offset = WorldLookRig.base_offset()
 	last_safe = player.position
 	_add_chef_hats()
 	_restore_gates()
@@ -398,10 +397,10 @@ func _bounce(pad: BuffetLayout.Pad) -> void:
 		p.y = lerpf(from.y, end.y, t) + apex * 4.0 * t * (1.0 - t)
 		player.position = p
 		player.model.rotation = Vector3(t * TAU * 1.0, yaw, 0.0), 0.0, 1.0, duration)
-	var wide: Vector3 = Vector3(0.0, 18.0, 11.0)
+	var wide: Vector3 = WorldLookRig.wide_offset(1.3)
 	var pull: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	pull.tween_property(self, "camera_offset", wide, duration * 0.45)
-	pull.tween_property(self, "camera_offset", CAMERA_NORMAL, duration * 0.55)
+	pull.tween_property(self, "camera_offset", WorldLookRig.base_offset(), duration * 0.55)
 	await fly.finished
 	_land(end, yaw)
 	Session.bump_counter(BuffetZone.COUNTER_BOUNCES)

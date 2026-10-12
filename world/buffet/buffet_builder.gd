@@ -674,7 +674,7 @@ func _build_signs() -> void:
 		var height: float = clampf(0.5 + 0.34 * float(wrapped) * sign.size, 0.9, 3.0)
 		var node: Node3D = P.sign_post(width, height, sign.style)
 		node.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so their text reads
-		node.scale = Vector3.ONE * 0.6
+		node.scale = Vector3.ONE * 0.5  # smaller than the old high camera needed: at the low camera a signboard covers the hero
 		var pos: Vector3 = _ground(sign.pos.x, sign.pos.z)
 		root.add_child(node)
 		node.position = pos

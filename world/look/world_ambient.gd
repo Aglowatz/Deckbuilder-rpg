@@ -3,8 +3,8 @@ extends Node3D
 ## Ambient life of the World Look Test (docs/art/world_look_test.md): drifting pollen and dust motes that glow in the sun, a few falling leaves, birds that now and then
 ## cross the sky in a loose flock, and warm light shafts. Everything follows the hero, so it is only ever made where it can be seen.
 
-const BIRD_SHADER: String = "res://tests/world/world_bird.gdshader"
-const SHAFT_SHADER: String = "res://tests/world/world_shaft.gdshader"
+const BIRD_SHADER: String = "res://world/look/world_bird.gdshader"
+const SHAFT_SHADER: String = "res://world/look/world_shaft.gdshader"
 const BIRD_INTERVAL: Vector2 = Vector2(22.0, 48.0)
 const SHAFT_COUNT: int = 5
 
@@ -24,15 +24,29 @@ var shaft_strength: float = 0.1
 ## Light shafts are OFF by default: with the sun behind the north-facing camera they read as flat translucent strips with hard edges over the water (see docs/art/world_look_test.md).
 ## Launch with `--shafts=1` to see them.
 var shafts_enabled: bool = false
+var _birds_enabled: bool = true
 
 
 func setup(_scene: Node3D, _town: TownBuilder, cam: Camera3D, follow: Node3D, sun: Vector3) -> void:
+	setup_area(cam, follow, sun, {})
+
+
+## `spec` (the mood's ambient block): `motes` (amount, 0 = none), `mote_color` (hex), `leaves` (false = none), `birds` (false = none).
+func setup_area(cam: Camera3D, follow: Node3D, sun: Vector3, spec: Dictionary) -> void:
 	camera = cam
 	target = follow
 	sun_travel = sun.normalized()
 	_rng.seed = 77
+	_birds_enabled = bool(spec.get("birds", true))
 	_build_motes()
 	_build_leaves()
+	_motes.amount = maxi(1, int(spec.get("motes", 110)))
+	_motes.visible = int(spec.get("motes", 110)) > 0
+	if spec.has("mote_color"):
+		_motes.color = Color.html(str(spec["mote_color"]))
+	_leaves.visible = bool(spec.get("leaves", true))
+	_leaves.emitting = _leaves.visible
+	_motes.emitting = _motes.visible
 	if shafts_enabled:
 		_build_shafts()
 	_bird_quad = QuadMesh.new()
@@ -213,6 +227,8 @@ func spawn_flock(count: int = 5, from_left: bool = true) -> void:
 		bird.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		bird.extra_cull_margin = 100.0
 		bird.set_meta(StyleToon.META_NO_TOON, true)
+		bird.set_meta(&"no_range_cull", true)
+		bird.set_meta(&"no_occlusion_fade", true)
 		add_child(bird)
 		var lag: float = float(i)
 		var offset: Vector3 = right * (-side) * (-lag * 5.5 - _rng.randf_range(0.0, 3.0)) + forward * _rng.randf_range(-9.0, 9.0) + Vector3(0.0, _rng.randf_range(-3.0, 3.0) + absf(lag - 2.0) * 1.3, 0.0)
@@ -222,7 +238,7 @@ func spawn_flock(count: int = 5, from_left: bool = true) -> void:
 
 func _update_birds(delta: float) -> void:
 	_bird_timer -= delta
-	if _bird_timer <= 0.0:
+	if _bird_timer <= 0.0 and _birds_enabled:
 		_bird_timer = _rng.randf_range(BIRD_INTERVAL.x, BIRD_INTERVAL.y)
 		spawn_flock(_rng.randi_range(3, 6), _rng.randf() > 0.5)
 	for index: int in range(_birds.size() - 1, -1, -1):

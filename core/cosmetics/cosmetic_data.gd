@@ -1,7 +1,6 @@
 class_name CosmeticData
 extends RefCounted
-## One purely visual hat or cloak. It never touches stats (equipment slots stay stat-only and are not drawn on the hero).
-## Meshes are built by `CosmeticMeshes` from `id` (procedural, or lifted from a KayKit model); `unlock` decides when the tailor sells it.
+## One wearable: a hat (a card laid on the head) or a cloak (a whole alternate sprite set). Purely visual.
 
 enum Slot { HAT, CLOAK }
 
@@ -9,25 +8,23 @@ var id: String = ""
 var display_name: String = ""
 var slot: Slot = Slot.HAT
 var description: String = ""
-## Gold price at the tailor; 0 = never sold (a secret or a reward).
 var price: int = 0
-## Offered at the start of a new game (the hero keeps the chosen one, the rest go on sale).
 var starter: bool = false
-## Shown in the shop only once this is met (null = from the start).
 var unlock: Condition
-## Where players find it when it is not sold (docs/design/secrets.md).
+## Where the item can also be found (shown in the wardrobe / shop as a hint), "" for none. A found item still has a shop price.
 var secret_hint: String = ""
-var default_dye: int = 0
+## The asset name: COS-HAT-<art_name>-<DIR> for a hat, SPR-PLAYER-CLOAK-<art_name>-<DIR>_<IDLE|WALK> for a cloak.
+var art_name: String = ""
 
 
-static func make(item_id: String, title: String, item_slot: Slot, blurb: String, item_price: int, default_dye_index: int = 0) -> CosmeticData:
+static func make(item_id: String, title: String, item_slot: Slot, blurb: String, item_price: int, art: String = "") -> CosmeticData:
 	var data: CosmeticData = CosmeticData.new()
 	data.id = item_id
 	data.display_name = title
 	data.slot = item_slot
 	data.description = blurb
 	data.price = item_price
-	data.default_dye = default_dye_index
+	data.art_name = art
 	return data
 
 
@@ -43,7 +40,6 @@ func unlocked_by(condition: Condition) -> CosmeticData:
 
 func found_at(hint: String) -> CosmeticData:
 	secret_hint = hint
-	price = 0
 	return self
 
 

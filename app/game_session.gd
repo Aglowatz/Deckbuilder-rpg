@@ -168,7 +168,6 @@ func ensure_game(color: Affinity.Type = Affinity.Type.BEEFCAKE) -> void:
 		deck.deck_name = DECK_NAME
 		cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)
 		set_flag(&"trial_cleared")
-		choose_starting_look("hat_wide_brim", "cloak_short", 1, 0)  # screenshot/test launches skip the starting area: a default look
 
 
 ## Story v2 (Part C): the Rescuer's conversation in the forest asks which Path the Wanderer walked the most. Creates the profile and the 42-card starter deck right away, so the
@@ -821,8 +820,11 @@ func from_dict(data: Dictionary) -> bool:
 	cosmetics = CosmeticState.new()
 	if data.has("cosmetics"):
 		cosmetics.from_dict(data["cosmetics"] as Dictionary)
-	else:
-		cosmetics.look_chosen = true  # a save from before cosmetics: nothing to choose
+		if cosmetics.legacy_refund > 0:
+			# An old save from the 3D wardrobe: the default look again, and what was bought comes back as gold.
+			gold += cosmetics.legacy_refund
+			town_notice = "The wardrobe was redone in paint: your old purchases were refunded (%d gold)." % cosmetics.legacy_refund
+			cosmetics.legacy_refund = 0
 	zone_log.assign(data.get("zone_log", []) as Array)
 	map_fog = (data.get("map_fog", {}) as Dictionary).duplicate(true)
 	_fog_live = {}
@@ -2585,6 +2587,8 @@ func buy_cosmetic(item_id: String) -> bool:
 		return false
 	if not Condition.met(item.unlock, unlock_state()):
 		return false
+	if not SpriteCosmetics.art_ready(item):
+		return false  # the art is not imported yet ("arriving soon")
 	if not spend_gold(item.price):
 		return false
 	cosmetics.grant(item_id)
@@ -2598,24 +2602,10 @@ func buy_cosmetic(item_id: String) -> bool:
 func apply_look(look: CosmeticState) -> void:
 	cosmetics.hat_id = look.hat_id if cosmetics.owns(look.hat_id) else ""
 	cosmetics.cloak_id = look.cloak_id if cosmetics.owns(look.cloak_id) else ""
-	cosmetics.hat_dye = Dye.clamp_index(look.hat_dye)
 	cosmetics.cloak_dye = Dye.clamp_index(look.cloak_dye)
 	EventBus.cosmetics_changed.emit()
 	save_game()
 
-
-## The new-game choice: grants and equips the chosen starter hat and cloak ("" for none) and marks the look as chosen.
-func choose_starting_look(hat_item: String, cloak_item: String, hat_dye_index: int, cloak_dye_index: int) -> void:
-	for item_id: String in [hat_item, cloak_item]:
-		if item_id != "":
-			cosmetics.grant(item_id)
-	cosmetics.equip(CosmeticData.Slot.HAT, hat_item)
-	cosmetics.equip(CosmeticData.Slot.CLOAK, cloak_item)
-	cosmetics.set_dye(CosmeticData.Slot.HAT, hat_dye_index)
-	cosmetics.set_dye(CosmeticData.Slot.CLOAK, cloak_dye_index)
-	cosmetics.look_chosen = true
-	EventBus.cosmetics_changed.emit()
-	save_game()
 
 
 # ---- Chest rewards (polish round) ---------------------------------------------------------------------------------------------------------

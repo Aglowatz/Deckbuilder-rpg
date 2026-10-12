@@ -85,6 +85,12 @@ func _ring(inner: float, outer: float, spacing: float, jitter: float) -> Array[V
 
 
 ## Tallest a tree may be at `p`: the strip of forest between the clearing and the camera (south of the hero) is kept low enough to look over.
+## The wedge between the hero and the low camera (south of the hero, widening away from him): nothing tall stands there, or the trees would fill the screen.
+func _in_camera_wedge(p: Vector2) -> bool:
+	var dz: float = p.y - spawn.y
+	return dz > 0.5 and dz < 24.0 and absf(p.x - spawn.x) < 5.0 + dz * 0.8
+
+
 func _height_cap(p: Vector2) -> float:
 	if p.y > spawn.y and absf(p.x - spawn.x) < 3.8:
 		return 1.0 + 0.9 * (p.y - spawn.y)
@@ -170,6 +176,8 @@ func _trees() -> void:
 func _tree_layer(layer: String, models: Array[Array], points: Array[Vector2], scale_range: Vector2, shadows: bool) -> void:
 	var by_model: Dictionary = {}
 	for p: Vector2 in points:
+		if _in_camera_wedge(p):
+			continue
 		var pick: int = _rng.randi() % models.size()
 		var model: String = str(models[pick][0])
 		var model_height: float = float(models[pick][1])
@@ -234,6 +242,9 @@ func _undergrowth() -> void:
 			var pos: Vector2 = center + Vector2(cos(angle), sin(angle) * 0.85) * distance
 			if keep_out.has_point(pos):
 				continue
+			var tall_group: bool = str(group["model"]).contains("bush") or str(group["model"]).contains("flatTall") or str(group["model"]).contains("stump") or str(group["model"]).contains("large")
+			if tall_group and _in_camera_wedge(pos):
+				continue
 			var range_scale: Vector2 = group["scale"] as Vector2
 			var s: float = _rng.randf_range(range_scale.x, range_scale.y)
 			transforms.append(Transform3D(Basis(Vector3.UP, _rng.randf() * TAU).scaled(Vector3.ONE * s), Vector3(pos.x, -0.05, pos.y)))
@@ -245,7 +256,7 @@ func _undergrowth() -> void:
 	while skirt.size() < int(110.0 * density) and skirt_tries < 1500:
 		skirt_tries += 1
 		var sp: Vector2 = Vector2(_rng.randf_range(skirt_ring.position.x, skirt_ring.end.x), _rng.randf_range(skirt_ring.position.y, skirt_ring.end.y))
-		if keep_out.has_point(sp):
+		if keep_out.has_point(sp) or _in_camera_wedge(sp):
 			continue
 		skirt.append(Transform3D(Basis(Vector3.UP, _rng.randf() * TAU).scaled(Vector3.ONE * _rng.randf_range(2.0, 3.4)), Vector3(sp.x, -0.05, sp.y)))
 	_add_multimesh(_toon_mesh("plant_bushLarge"), skirt, false)

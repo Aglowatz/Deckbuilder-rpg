@@ -58,7 +58,6 @@ func _build() -> void:
 	_populate()
 	_selected_label = UIKit.label("Hover or press Try to see it on you.", &"MutedLabel", 22)
 	right.add_child(_selected_label)
-	_add_dyes(right, CosmeticData.Slot.HAT, "Hat dye")
 	_add_dyes(right, CosmeticData.Slot.CLOAK, "Cloak dye")
 	_quip = UIKit.label("", &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_quip.add_theme_font_override("font", UIStyle.font_italic())
@@ -94,7 +93,8 @@ func _make_tile(item: CosmeticData, open: bool) -> Control:
 	column.add_child(title)
 	var kind: Label = UIKit.label("%s%s" % [item.slot_name(), "" if open else "   (%s)" % CosmeticCatalog.unlock_hint(item)], &"MutedLabel", 18)
 	column.add_child(kind)
-	var blurb: Label = UIKit.label(item.description if open else StoryText.shared().text("tailor.locked"), &"", 17, UIStyle.PARCHMENT if open else UIStyle.MUTED)
+	var ready_art: bool = SpriteCosmetics.art_ready(item)
+	var blurb: Label = UIKit.label(("%s%s" % [item.description, "" if ready_art else "  (Arriving soon: the art is still being painted.)"]) if open else StoryText.shared().text("tailor.locked"), &"", 17, UIStyle.PARCHMENT if open else UIStyle.MUTED)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	blurb.custom_minimum_size = Vector2(300 if stage == null else 244, 46)
 	column.add_child(blurb)
@@ -129,10 +129,12 @@ func _add_dyes(parent: VBoxContainer, slot: CosmeticData.Slot, title: String) ->
 	caption.custom_minimum_size = Vector2(130, 0)
 	dyes.add_child(caption)
 	var buttons: Array[Button] = []
-	for index: int in range(Dye.count()):
+	for index: int in range(Dye.NATURAL, Dye.count()):
 		var swatch: Button = Button.new()
 		swatch.name = "Dye_%s_%d" % [key, index]
 		swatch.custom_minimum_size = Vector2(42, 42)
+		if index == Dye.NATURAL:
+			swatch.text = "A"
 		swatch.tooltip_text = Dye.dye_name(index)
 		swatch.focus_mode = Control.FOCUS_NONE
 		swatch.pressed.connect(func() -> void:
@@ -201,19 +203,22 @@ func _refresh() -> void:
 		var item: CosmeticData = CosmeticCatalog.find(item_id)
 		var entry: Dictionary = _tiles[item_id] as Dictionary
 		var owned: bool = Session.cosmetics.owns(item_id)
-		(entry["price"] as Label).text = "Owned" if owned else "%dg" % item.price
+		var ready: bool = SpriteCosmetics.art_ready(item)
+		(entry["price"] as Label).text = "Owned" if owned else ("%dg" % item.price if ready else "Soon")
 		var buy: FancyButton = entry["buy"] as FancyButton
-		buy.disabled = owned
-		buy.text = "Worn" if owned and Session.cosmetics.equipped_id(item.slot) == item_id else ("Owned" if owned else "Buy")
+		buy.disabled = owned or not ready
+		buy.text = "Worn" if owned and Session.cosmetics.equipped_id(item.slot) == item_id else ("Owned" if owned else ("Buy" if ready else "Soon"))
+		(entry["try"] as FancyButton).disabled = not ready
 	for key: String in _dye_rows:
 		var slot: CosmeticData.Slot = CosmeticData.Slot.HAT if key == "hat" else CosmeticData.Slot.CLOAK
 		var buttons: Array = _dye_rows[key] as Array
-		for index: int in range(buttons.size()):
-			var swatch: Button = buttons[index] as Button
+		for position: int in range(buttons.size()):
+			var index: int = position + Dye.NATURAL
+			var swatch: Button = buttons[position] as Button
 			var selected: bool = _look.dye_index(slot) == index
 			for state_name: String in ["normal", "hover", "pressed", "focus"]:
 				var box: StyleBoxFlat = StyleBoxFlat.new()
-				box.bg_color = Dye.primary(index)
+				box.bg_color = Dye.primary(index) if index >= 0 else Color("3a3550")
 				box.set_corner_radius_all(10)
 				box.set_border_width_all(4 if selected else 2)
 				box.border_color = UIStyle.GOLD if selected else Color(0, 0, 0, 0.55)

@@ -7,15 +7,14 @@ extends Node3D
 ##  - the five BD-LANDMARK cards stand between the hills and the mountains in the real directions of their zone passageways;
 ##  - the hex wall of rocky mountains behind the town and the old 3D clouds are hidden here (the painted layers replace them).
 
-const WATER_SHADER: String = "res://tests/world/world_water.gdshader"
-const BACKDROP_SHADER: String = "res://tests/world/world_backdrop.gdshader"
-const FOAM_SHADER: String = "res://tests/world/world_shorefoam.gdshader"
-const FOAM_RING_SHADER: String = "res://tests/world/world_shorering.gdshader"
-const LAND_SHADER: String = "res://tests/world/world_land.gdshader"
+const WATER_SHADER: String = "res://world/look/world_water.gdshader"
+const BACKDROP_SHADER: String = "res://world/look/world_backdrop.gdshader"
+const FOAM_SHADER: String = "res://world/look/world_shorefoam.gdshader"
+const FOAM_RING_SHADER: String = "res://world/look/world_shorering.gdshader"
+const LAND_SHADER: String = "res://world/look/world_land.gdshader"
 const ART: String = "res://assets/art/world_test/"
 const WATER_Y: float = -0.36
 ## The middle of the whole town including its zone islands (metres); every ring is centred here.
-const CENTER: Vector3 = Vector3(25.2, 0.0, 26.0)
 const SHORE_INNER: float = 128.0
 const SHORE_OUTER: float = 165.0
 ## Ring layers, nearest first: file, radius, height (m), base y, haze, cool, render priority.
@@ -35,10 +34,18 @@ const LANDMARKS: Array[Dictionary] = [
 ]
 const HEX_STEP: float = 3.6
 
+## The middle every ring is centred on (the town: the whole town including its zone islands; a zone: the middle of its map).
+var center: Vector3 = Vector3(25.2, 0.0, 26.0)
 var camera: Camera3D
 var water_material: ShaderMaterial
 var _town: TownBuilder
 var _backdrops: Array[ShaderMaterial] = []
+## One entry per backdrop material: {"material", "haze", "cool", "base_haze"} (the design values; a mood scales them).
+var _backdrop_entries: Array[Dictionary] = []
+var _scale: float = 1.0
+var _mood: Dictionary = {}
+## The Capital island's ring of white wall prisms and castle block looked bare from behind in the test and were hidden; the game keeps them (docs/art/world_rollout.md).
+var hide_capital_blocks: bool = false
 var _haze: Color = Color("f2cfa4")
 var _foam_cards: int = 0
 var _water_tiles: int = 0
@@ -168,10 +175,11 @@ func _build_water_plane() -> void:
 	plane.size = Vector2(1600.0, 1600.0)
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.name = "WaterPlane"
+	instance.set_meta(&"look_role", &"water")
 	instance.mesh = plane
 	instance.material_override = water_material
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	instance.position = Vector3(CENTER.x, WATER_Y, CENTER.z)
+	instance.position = Vector3(center.x, WATER_Y, center.z)
 	instance.extra_cull_margin = 400.0
 	instance.set_meta(StyleToon.META_NO_TOON, true)
 	add_child(instance)
@@ -205,20 +213,21 @@ func _hide_old_scenery() -> void:
 	# The Capital island: the ring of bare white wall prisms and the plain castle block looked unfinished from the north and from behind. The gate towers, flags,
 	# bridge and island stay; the painted Capital card stands far beyond (see _build_landmarks).
 	var capital: Node3D = _town.root.get_node_or_null("Connector_final") as Node3D
-	if capital != null:
+	if capital != null and hide_capital_blocks:
 		for child: Node in capital.get_children():
 			if child.name.begins_with("WhiteWalls") or child.name.begins_with("building_castle"):
 				(child as Node3D).visible = false
 
 
 func _build_far_shore() -> void:
-	var land_mesh: ArrayMesh = _annulus(SHORE_INNER, SHORE_OUTER, 0.0, 160, 1.0)
+	var land_mesh: ArrayMesh = _annulus(SHORE_INNER * _scale, SHORE_OUTER * _scale, 0.0, 160, 1.0)
 	var material: ShaderMaterial = ShaderMaterial.new()
 	material.shader = load(LAND_SHADER) as Shader
 	material.set_shader_parameter("grass_tex", load("res://assets/art/textures/town_grass_albedo.webp"))
 	material.set_shader_parameter("sand_tex", load("res://assets/art/textures/town_sand_albedo.webp"))
 	var land: MeshInstance3D = MeshInstance3D.new()
 	land.name = "FarShore"
+	land.set_meta(&"look_role", &"shore")
 	land.mesh = land_mesh
 	land.material_override = material
 	land.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -226,13 +235,14 @@ func _build_far_shore() -> void:
 	land.set_meta(StyleToon.META_NO_TOON, true)
 	add_child(land)
 	# Foam ring along the water side of the shore.
-	var foam_mesh: ArrayMesh = _annulus(SHORE_INNER - 3.4, SHORE_INNER + 1.0, WATER_Y + 0.04, 160, 90.0)
+	var foam_mesh: ArrayMesh = _annulus(SHORE_INNER * _scale - 3.4, SHORE_INNER * _scale + 1.0, WATER_Y + 0.04, 160, 90.0)
 	var foam_material: ShaderMaterial = ShaderMaterial.new()
 	foam_material.shader = load(FOAM_RING_SHADER) as Shader
 	foam_material.set_shader_parameter("tex", load(ART + "dec/shorefoam.png"))
 	foam_material.render_priority = 1
 	var foam: MeshInstance3D = MeshInstance3D.new()
 	foam.name = "FarShoreFoam"
+	foam.set_meta(&"look_role", &"shore")
 	foam.mesh = foam_mesh
 	foam.material_override = foam_material
 	foam.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -251,10 +261,10 @@ func _annulus(inner: float, outer: float, y: float, segments: int, repeats: floa
 		var a1: float = float(i + 1) / float(segments) * TAU
 		var u0: float = float(i) / float(segments) * repeats
 		var u1: float = float(i + 1) / float(segments) * repeats
-		var p00: Vector3 = CENTER + Vector3(sin(a0) * inner, y, -cos(a0) * inner)
-		var p01: Vector3 = CENTER + Vector3(sin(a0) * outer, y, -cos(a0) * outer)
-		var p10: Vector3 = CENTER + Vector3(sin(a1) * inner, y, -cos(a1) * inner)
-		var p11: Vector3 = CENTER + Vector3(sin(a1) * outer, y, -cos(a1) * outer)
+		var p00: Vector3 = center + Vector3(sin(a0) * inner, y, -cos(a0) * inner)
+		var p01: Vector3 = center + Vector3(sin(a0) * outer, y, -cos(a0) * outer)
+		var p10: Vector3 = center + Vector3(sin(a1) * inner, y, -cos(a1) * inner)
+		var p11: Vector3 = center + Vector3(sin(a1) * outer, y, -cos(a1) * outer)
 		for corner: Array in [[p00, Vector2(u0, 0.0)], [p01, Vector2(u0, 1.0)], [p10, Vector2(u1, 0.0)], [p10, Vector2(u1, 0.0)], [p01, Vector2(u0, 1.0)], [p11, Vector2(u1, 1.0)]]:
 			surface.set_uv(corner[1] as Vector2)
 			surface.add_vertex(corner[0] as Vector3)
@@ -278,7 +288,7 @@ func _wall(radius: float, base: float, height: float, segments: int, repeats: fl
 		var top: float = base + height
 		for corner: Array in [[Vector3(x0, top, z0), Vector2(u0, 0.0)], [Vector3(x0, base, z0), Vector2(u0, 1.0)], [Vector3(x1, top, z1), Vector2(u1, 0.0)], [Vector3(x1, top, z1), Vector2(u1, 0.0)], [Vector3(x0, base, z0), Vector2(u0, 1.0)], [Vector3(x1, base, z1), Vector2(u1, 1.0)]]:
 			surface.set_uv(corner[1] as Vector2)
-			surface.add_vertex(CENTER + (corner[0] as Vector3))
+			surface.add_vertex(center + (corner[0] as Vector3))
 	return surface.commit()
 
 
@@ -292,18 +302,20 @@ func _backdrop_material(texture: Texture2D, ring: Dictionary) -> ShaderMaterial:
 	material.set_shader_parameter("haze", _haze)
 	material.render_priority = int(ring["priority"])
 	_backdrops.append(material)
+	_backdrop_entries.append({"material": material, "haze": float(ring["haze"]), "cool": float(ring["cool"]), "base_haze": float(ring["base_haze"])})
 	return material
 
 
 func _build_ring(ring: Dictionary) -> void:
 	var texture: Texture2D = load("%sbackdrop/%s.png" % [ART, str(ring["file"])]) as Texture2D
-	var radius: float = float(ring["radius"])
-	var height: float = float(ring["height"])
+	var radius: float = float(ring["radius"]) * _scale
+	var height: float = float(ring["height"]) * _scale
 	var tile_width: float = height * float(texture.get_width()) / float(texture.get_height())
 	var repeats: float = roundf(TAU * radius / tile_width)
 	var mesh: ArrayMesh = _wall(radius, float(ring["base"]), height, int(repeats) * 6, repeats)
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.name = "Ring_%s" % str(ring["file"])
+	instance.set_meta(&"look_role", &"rings")
 	instance.mesh = mesh
 	instance.material_override = _backdrop_material(texture, ring)
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -321,10 +333,10 @@ func _build_landmarks() -> void:
 		# The direction from the middle of the town to the island at the end of the bridge (the two western zones, the Dump and the D.N.A., stay 18 degrees apart this way;
 		# a ray straight out of each mouth would put them 4 degrees apart and the two cards on top of each other).
 		var plan: Dictionary = TownConnectors.plan(_town.cell_center(cell.x, cell.y), TownBuilder.PORTAL_OUT[zone_id] as Vector3)
-		var toward: Vector3 = (plan["center"] as Vector3) - CENTER
+		var toward: Vector3 = (plan["center"] as Vector3) - center
 		toward.y = 0.0
 		toward = toward.normalized()
-		var spot: Vector3 = CENTER + toward * LANDMARK_RADIUS
+		var spot: Vector3 = center + toward * LANDMARK_RADIUS
 		var texture: Texture2D = load("%sbackdrop/landmark_%s.png" % [ART, str(entry["file"])]) as Texture2D
 		var width: float = 2.0 * LANDMARK_RADIUS * tan(deg_to_rad(float(entry["width"]) * 0.5))
 		var height: float = width * float(texture.get_height()) / float(texture.get_width())
@@ -333,6 +345,7 @@ func _build_landmarks() -> void:
 		quad.center_offset = Vector3(0.0, height * 0.5, 0.0)
 		var card: MeshInstance3D = MeshInstance3D.new()
 		card.name = "Landmark_%s" % str(entry["file"])
+		card.set_meta(&"look_role", &"landmarks")
 		card.mesh = quad
 		card.material_override = _backdrop_material(texture, ring)
 		card.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -341,7 +354,7 @@ func _build_landmarks() -> void:
 		add_child(card)
 		card.position = Vector3(spot.x, 3.0, spot.z)
 		# The card front (+z) faces the town centre.
-		card.look_at(Vector3(CENTER.x, card.position.y, CENTER.z), Vector3.UP, true)
+		card.look_at(Vector3(center.x, card.position.y, center.z), Vector3.UP, true)
 		print("world_look: landmark %s toward %s (%.0f deg from north), card %.0f x %.0f m" % [str(entry["file"]), str(toward), rad_to_deg(atan2(toward.x, -toward.z)), width, height])
 
 
@@ -349,3 +362,103 @@ func set_haze_color(color: Color) -> void:
 	_haze = color
 	for material: ShaderMaterial in _backdrops:
 		material.set_shader_parameter("haze", color)
+
+
+# ---- Any other area (the zones, the starting area) and zone moods -----------------------------------------------------------------
+
+
+## The same sea, far shore and painted rings round a zone map: centred on the map's middle and pushed out so every ring clears the farthest corner of the map.
+## `spec` (the mood's scenery block): `water` (false: no sea, the ground meets the haze), `shore`, `rings`, `landmark_cards` (array of {file, angle in degrees from north, width}), `landmarks` (false hides them).
+func setup_generic(middle: Vector3, bounds: Rect2, cam: Camera3D, spec: Dictionary) -> void:
+	center = middle
+	camera = cam
+	var reach: float = Vector2(bounds.size.x, bounds.size.y).length() * 0.5
+	_scale = maxf(1.0, (reach + 85.0) / float(RINGS[0]["radius"]))
+	_build_water_material()
+	if bool(spec.get("water", true)):
+		_build_water_plane()
+	if bool(spec.get("shore", true)):
+		_build_far_shore()
+	if bool(spec.get("rings", true)):
+		for ring: Dictionary in RINGS:
+			_build_ring(ring)
+	for entry: Variant in spec.get("landmark_cards", []) as Array:
+		_build_landmark_at(entry as Dictionary)
+	if spec.get("apron") is Dictionary:
+		_build_apron(spec["apron"] as Dictionary)
+	print("world_look: generic scenery at %s, scale %.2f" % [str(middle), _scale])
+
+
+## A landmark card at a compass angle (degrees from north) from the middle.
+func _build_landmark_at(entry: Dictionary) -> void:
+	var angle: float = deg_to_rad(float(entry.get("angle", 0.0)))
+	var toward: Vector3 = Vector3(sin(angle), 0.0, -cos(angle))
+	var radius: float = LANDMARK_RADIUS * _scale
+	var texture: Texture2D = load("%sbackdrop/landmark_%s.png" % [ART, str(entry["file"])]) as Texture2D
+	if texture == null:
+		return
+	var width: float = 2.0 * radius * tan(deg_to_rad(float(entry.get("width", 19.0)) * 0.5))
+	var height: float = width * float(texture.get_height()) / float(texture.get_width())
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(width, height)
+	quad.center_offset = Vector3(0.0, height * 0.5, 0.0)
+	var card: MeshInstance3D = MeshInstance3D.new()
+	card.name = "Landmark_%s" % str(entry["file"])
+	card.set_meta(&"look_role", &"landmarks")
+	card.mesh = quad
+	card.material_override = _backdrop_material(texture, {"haze": 0.22, "cool": 0.12, "base_haze": 0.35, "priority": -8})
+	card.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	card.extra_cull_margin = 400.0
+	card.set_meta(StyleToon.META_NO_TOON, true)
+	add_child(card)
+	card.position = center + toward * radius + Vector3(0.0, 3.0, 0.0)
+	card.look_at(Vector3(center.x, card.position.y, center.z), Vector3.UP, true)
+
+
+## A zone's scenery mood: `tint` (hex) multiplies the rings, `cool` (hex) is the colour the distance is pulled towards, `haze_scale` / `cool_amount_scale` thicken or thin the
+## atmospheric perspective, `brightness`, and `water_tint` (hex) tints the sea. Layers a mood has no use for are hidden: `water`, `shore`, `rings`, `landmarks` (false).
+func set_mood(spec: Dictionary) -> void:
+	_mood = spec
+	var tint: Color = Color.html(str(spec.get("tint", "ffffff")))
+	var cool: Color = Color.html(str(spec.get("cool", "9aa8e0")))
+	var haze_scale: float = float(spec.get("haze_scale", 1.0))
+	var cool_scale: float = float(spec.get("cool_scale", 1.0))
+	var brightness: float = float(spec.get("brightness", 1.0))
+	for entry: Dictionary in _backdrop_entries:
+		var material: ShaderMaterial = entry["material"] as ShaderMaterial
+		material.set_shader_parameter("tint", tint)
+		material.set_shader_parameter("cool", cool)
+		material.set_shader_parameter("brightness", brightness)
+		material.set_shader_parameter("haze_amount", clampf(float(entry["haze"]) * haze_scale, 0.0, 1.0))
+		material.set_shader_parameter("cool_amount", clampf(float(entry["cool"]) * cool_scale, 0.0, 1.0))
+		material.set_shader_parameter("base_haze", clampf(float(entry["base_haze"]) * haze_scale, 0.0, 1.0))
+	if water_material != null and spec.has("water_tint"):
+		var water_tint: Color = Color.html(str(spec["water_tint"]))
+		water_material.set_shader_parameter("shallow_tint", water_tint.lerp(Color.WHITE, 0.55))
+		water_material.set_shader_parameter("deep_tint", water_tint)
+	for child: Node in get_children():
+		var role: StringName = child.get_meta(&"look_role", &"") as StringName
+		if role != &"" and child is Node3D:
+			var wanted: Variant = spec.get(str(role), true)
+			(child as Node3D).visible = wanted is Dictionary or bool(wanted)
+
+
+## A flat unlit ground that carries on from the map in every direction (the D.N.A.'s office floor, the wasteland outside the Capital): the scene fog dissolves it into the
+## background, so there is no edge of the world. `spec`: `color` (hex), `y` (height, default just under the floor top), `size` (metres, default 900).
+func _build_apron(spec: Dictionary) -> void:
+	var plane: PlaneMesh = PlaneMesh.new()
+	var size: float = float(spec.get("size", 900.0))
+	plane.size = Vector2(size, size)
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = Color.html(str(spec.get("color", "2a3440")))
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.name = "Apron"
+	instance.set_meta(&"look_role", &"apron")
+	instance.mesh = plane
+	instance.material_override = material
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.extra_cull_margin = 400.0
+	instance.position = Vector3(center.x, float(spec.get("y", -0.03)), center.z)
+	instance.set_meta(StyleToon.META_NO_TOON, true)
+	add_child(instance)

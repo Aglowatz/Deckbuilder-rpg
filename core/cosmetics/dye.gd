@@ -1,6 +1,9 @@
 class_name Dye
 extends RefCounted
-## The shared dye palette for hats and cloaks. A dye is an index into `PALETTE`; the secondary (trim) colour is derived from the primary.
+## The cloak dye palette: the cloak's own hue is recoloured to one of these (the sprite shader finds the cloak by its hue and keeps the painted shading). `NATURAL` (-1) is
+## the cloak as painted.
+
+const NATURAL: int = -1
 
 const PALETTE: Array[Dictionary] = [
 	{"name": "Crimson", "color": Color("d6403a")},
@@ -23,18 +26,21 @@ static func count() -> int:
 
 
 static func clamp_index(index: int) -> int:
-	return clampi(index, 0, PALETTE.size() - 1)
+	return clampi(index, NATURAL, PALETTE.size() - 1)
 
 
 static func dye_name(index: int) -> String:
+	if index < 0:
+		return "Natural"
 	return str(PALETTE[clamp_index(index)]["name"])
 
 
 static func primary(index: int) -> Color:
+	if index < 0:
+		return Color.WHITE
 	return PALETTE[clamp_index(index)]["color"] as Color
 
 
-## The trim colour that goes with a primary: lighter for dark dyes, deeper for light ones, nudged toward warm.
 static func secondary(index: int) -> Color:
 	var base: Color = primary(index)
 	var luma: float = base.r * 0.299 + base.g * 0.587 + base.b * 0.114

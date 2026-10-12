@@ -10,6 +10,7 @@ uniform vec3 light_color : source_color = vec3(1.0, 0.92, 0.78);
 uniform vec3 ambient_color : source_color = vec3(0.55, 0.6, 0.78);
 uniform float wind_strength = 0.09;
 uniform float wind_speed = 1.5;
+uniform vec3 mood_tint : source_color = vec3(1.0);
 
 varying float v_cell;
 varying float v_tint;
@@ -40,6 +41,6 @@ void fragment() {
 	float base = smoothstep(1.0, 0.55, UV.y);
 	vec3 tint = mix(vec3(0.93, 1.0, 0.92), vec3(1.06, 1.0, 0.9), v_tint);
 	vec3 lit = ambient_color * 0.55 + light_color * 0.62;
-	ALBEDO = c.rgb * tint * lit * mix(0.62, 1.0, base);
+	ALBEDO = c.rgb * tint * mood_tint * lit * mix(0.62, 1.0, base);
 	ALPHA = 1.0;
 }

@@ -3,10 +3,10 @@ extends Node3D
 ## The World Look Test's sky (docs/art/world_look_test.md): a painted gradient (sky shader on the town's own environment), the SKY-SUN glow card at the light's direction,
 ## the six SKY-CLOUD sprites in three depth layers drifting with parallax (slower the farther), and soft cloud shadows drifting over the ground.
 
-const SKY_SHADER: String = "res://tests/world/world_sky.gdshader"
-const CLOUD_SHADER: String = "res://tests/world/world_cloud.gdshader"
-const SUN_SHADER: String = "res://tests/world/world_sunglow.gdshader"
-const SHADOW_SHADER: String = "res://tests/world/world_cloud_shadow.gdshader"
+const SKY_SHADER: String = "res://world/look/world_sky.gdshader"
+const CLOUD_SHADER: String = "res://world/look/world_cloud.gdshader"
+const SUN_SHADER: String = "res://world/look/world_sunglow.gdshader"
+const SHADOW_SHADER: String = "res://world/look/world_cloud_shadow.gdshader"
 const SKY_DIR: String = "res://assets/art/world_test/sky/"
 const SUN_DISTANCE: float = 1500.0
 const SUN_CARD_MAX_ELEVATION: float = 9.0
@@ -29,6 +29,8 @@ var _shadow_plane: MeshInstance3D
 var _shadow_material: ShaderMaterial
 var _time: float = 0.0
 var _haze: Color = Color("f2cfa4")
+var _palette: Dictionary = {}
+var _palette_locked: bool = false
 ## Where the sun glow card hangs: the light's real compass direction, but never higher than SUN_CARD_MAX_ELEVATION so its glow can reach into the low camera's view.
 var _card_dir: Vector3 = Vector3(-0.42, 0.15, 0.67)
 
@@ -97,7 +99,8 @@ func _build_clouds() -> void:
 			material.set_shader_parameter("tex", texture)
 			material.set_shader_parameter("card_size", Vector2(width, height))
 			material.set_shader_parameter("haze_amount", float(layer["haze"]) + rng.randf_range(-0.05, 0.08))
-			material.set_shader_parameter("opacity", rng.randf_range(0.82, 0.97))
+			var opacity: float = rng.randf_range(0.82, 0.97)
+			material.set_shader_parameter("opacity", opacity)
 			material.render_priority = -10 - layer_index
 			var card: MeshInstance3D = MeshInstance3D.new()
 			card.mesh = quad
@@ -106,7 +109,7 @@ func _build_clouds() -> void:
 			card.extra_cull_margin = 2000.0
 			card.set_meta(StyleToon.META_NO_TOON, true)
 			add_child(card)
-			_clouds.append({"node": card, "material": material, "radius": radius, "angle": angle, "altitude": radius * tan(deg_to_rad(elevation)), "speed": float(layer["speed"]) * rng.randf_range(0.8, 1.25)})
+			_clouds.append({"node": card, "material": material, "radius": radius, "angle": angle, "altitude": radius * tan(deg_to_rad(elevation)), "speed": float(layer["speed"]) * rng.randf_range(0.8, 1.25), "opacity": opacity})
 		layer_index += 1
 	_place_clouds()
 
@@ -142,10 +145,50 @@ func set_cloud_speed(value: float) -> void:
 
 func set_haze_color(color: Color) -> void:
 	_haze = color
-	if _sky_material != null:
+	if _sky_material != null and not _palette_locked:
 		_sky_material.set_shader_parameter("horizon_color", color.lerp(Color(1.0, 0.95, 0.88), 0.25))
 	for entry: Dictionary in _clouds:
 		(entry["material"] as ShaderMaterial).set_shader_parameter("haze", color.lerp(Color(0.85, 0.88, 0.97), 0.3))
+
+
+## A zone mood's sky colours (hex strings, any of horizon, gold, mid, zenith, sun) and how much cloud and sun glow it keeps.
+func set_palette(palette: Dictionary) -> void:
+	_palette = palette
+	_palette_locked = palette.has("horizon")
+	_apply_palette()
+
+
+func _apply_palette() -> void:
+	if _sky_material == null:
+		return
+	for key: String in ["horizon", "gold", "mid", "zenith"]:
+		if _palette.has(key):
+			_sky_material.set_shader_parameter(key + "_color", Color.html(str(_palette[key])))
+	if _palette.has("sun"):
+		_sky_material.set_shader_parameter("sun_color", Color.html(str(_palette["sun"])))
+	if _sun_material != null:
+		_sun_material.set_shader_parameter("strength", float(_palette.get("sun_glow", 1.0)))
+	var cloud_tint: Color = Color.html(str(_palette["cloud_tint"])) if _palette.has("cloud_tint") else Color.WHITE
+	var cloud_opacity: float = float(_palette.get("cloud_opacity", 1.0))
+	if _shadow_material != null:
+		var shadow: float = float(_palette.get("cloud_shadow", 1.0))
+		_shadow_material.set_shader_parameter("strength", 0.16 * shadow)
+		_shadow_plane.visible = shadow > 0.01
+	for entry: Dictionary in _clouds:
+		var material: ShaderMaterial = entry["material"] as ShaderMaterial
+		material.set_shader_parameter("tint", cloud_tint)
+		material.set_shader_parameter("opacity", clampf(float(entry["opacity"]) * cloud_opacity, 0.0, 1.0))
+
+
+## Attaches the sky gradient to a (new) environment: the style rig makes a fresh one whenever the graphics settings change.
+func attach(env: Environment) -> void:
+	if env == null or _sky_material == null:
+		return
+	var sky: Sky = Sky.new()
+	sky.sky_material = _sky_material
+	sky.radiance_size = Sky.RADIANCE_SIZE_32
+	env.sky = sky
+	env.background_mode = Environment.BG_SKY
 
 
 func tick(delta: float) -> void:

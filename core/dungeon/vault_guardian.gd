@@ -33,7 +33,7 @@ const REWARD_PACKS_PER_PATH: int = 1
 const REWARD_ESSENCE_PER_PATH: int = 40
 const REWARD_XP: int = 600
 const REWARD_EQUIPMENT_ID: String = "four_seal_signet"
-const REWARD_COSMETIC_ID: String = "cloak_four_seals"
+const REWARD_COSMETIC_ID: String = "cloak_red_cape"
 
 const LEVER_LINES: Dictionary = {
 	"beefcake": "A rusted barbell stand with a lever bolted to its side, behind the farthest weight racks.",

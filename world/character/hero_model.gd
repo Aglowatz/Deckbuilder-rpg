@@ -97,12 +97,10 @@ const NPC_LOOKS: Dictionary = {
 
 static func npc_look(kind: String) -> CosmeticState:
 	var spec: Array = NPC_LOOKS.get(kind, ["", 0, "", 0]) as Array
+	# Set directly: these 3D pieces (top hat, scarf-cape, ...) are no longer in the wardrobe catalog, but the tailor and her mannequin still wear them.
 	var look: CosmeticState = CosmeticState.new()
-	for item_id: String in [str(spec[0]), str(spec[2])]:
-		if item_id != "":
-			look.grant(item_id)
-	look.equip(CosmeticData.Slot.HAT, str(spec[0]))
-	look.equip(CosmeticData.Slot.CLOAK, str(spec[2]))
-	look.set_dye(CosmeticData.Slot.HAT, int(spec[1]))
-	look.set_dye(CosmeticData.Slot.CLOAK, int(spec[3]))
+	look.hat_id = str(spec[0])
+	look.hat_dye = int(spec[1])
+	look.cloak_id = str(spec[2])
+	look.cloak_dye = int(spec[3])
 	return look

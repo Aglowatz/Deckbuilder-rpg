@@ -10,10 +10,11 @@ uniform float cool_amount : hint_range(0.0, 1.0) = 0.3;
 uniform float haze_amount : hint_range(0.0, 1.0) = 0.4;
 uniform float base_haze : hint_range(0.0, 1.0) = 0.35;
 uniform float brightness = 1.0;
+uniform vec3 tint : source_color = vec3(1.0);
 
 void fragment() {
 	vec4 c = texture(tex, UV);
-	vec3 col = c.rgb * brightness;
+	vec3 col = c.rgb * brightness * tint;
 	col = mix(col, cool, cool_amount);
 	// UV.y runs 0 at the top of the layer to 1 at its base.
 	float base = smoothstep(0.55, 1.0, UV.y) * base_haze;

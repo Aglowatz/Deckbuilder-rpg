@@ -101,7 +101,11 @@ func _build_display() -> void:
 	var quality: OptionButton = _options(quality_names, Settings.graphics_quality, _on_quality)
 	quality.name = "QualityOptions"
 	_body.add_child(_row("Graphics quality", quality))
-	_body.add_child(_check("Soft depth of field (Medium and High)", Settings.depth_of_field, _on_dof, "DofCheck"))
+	_body.add_child(_check("Depth of field (tilt-shift blur, Medium and High)", Settings.depth_of_field, _on_dof, "DofCheck"))
+	_body.add_child(_check("Bloom (soft glow around bright things)", Settings.bloom, _on_bloom, "BloomCheck"))
+	var fog: OptionButton = _options(["Off", "Light", "Full"], Settings.fog_quality, _on_fog_quality)
+	fog.name = "FogQualityOptions"
+	_body.add_child(_row("Fog quality", fog))
 	_body.add_child(_slider_row("UI scale", (Settings.ui_scale - Settings.UI_SCALE_MIN) / (Settings.UI_SCALE_MAX - Settings.UI_SCALE_MIN), _on_ui_scale, _scale_text(), "UiScaleSlider"))
 	_body.add_child(_slider_row("Camera distance", (Settings.camera_zoom - Settings.ZOOM_MIN) / (Settings.ZOOM_MAX - Settings.ZOOM_MIN), _on_zoom, "", "ZoomSlider"))
 	_body.add_child(_check("Show minimap", Settings.show_minimap, _on_minimap, "MinimapCheck"))
@@ -326,6 +330,20 @@ func _on_quality(index: int) -> void:
 func _on_dof(pressed: bool) -> void:
 	Audio.sfx(&"ui_toggle")
 	Settings.depth_of_field = pressed
+	Settings.graphics_changed.emit()
+	_saved()
+
+
+func _on_bloom(pressed: bool) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.bloom = pressed
+	Settings.graphics_changed.emit()
+	_saved()
+
+
+func _on_fog_quality(index: int) -> void:
+	Audio.sfx(&"ui_toggle")
+	Settings.fog_quality = index
 	Settings.graphics_changed.emit()
 	_saved()
 

@@ -72,7 +72,7 @@ const CHEST_REWARDS: Dictionary = {
 	"chest_crease_e": {"gold": 60, "pack": "general_2"},
 	"chest_crease_w": {"gold": 70, "item": "hearty_pie"},
 	"chest_ward_n": {"gold": 120, "equipment": "cheaters_dice"},
-	"chest_yard_corner": {"gold": 150, "cosmetic": "hat_top_hat"},
+	"chest_yard_corner": {"gold": 150, "cosmetic": "hat_bowler"},
 }
 
 ## Propaganda that can be defaced (spot ids) and the small reward for each.

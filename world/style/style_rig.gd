@@ -7,6 +7,9 @@ extends Node
 const OUTLINE_SHADER: String = "res://assets/shaders/style_outline.gdshader"
 const SKY_SHADER: String = "res://assets/shaders/style_sky.gdshader"
 
+## Emitted at the end of every `apply()` (a fresh Environment exists): the world look rig re-applies its sky, bloom and fog on top.
+signal applied
+
 var preset: ZonePreset
 var preset_id: StringName = &"town"
 var camera: Camera3D
@@ -62,6 +65,7 @@ func _ready() -> void:
 	add_child(world_env)
 	sun = DirectionalLight3D.new()
 	sun.name = "StyleSun"
+	sun.add_to_group(&"style_sun")
 	add_child(sun)
 	fill = DirectionalLight3D.new()
 	fill.name = "StyleFill"
@@ -137,6 +141,7 @@ func apply() -> void:
 	_apply_dof(level)
 	if ambience != null:
 		ambience.configure(preset, level)
+	applied.emit()
 
 
 func _apply_globals() -> void:
@@ -255,7 +260,7 @@ func _build_ambience() -> void:
 func _apply_dof(level: int) -> void:
 	if camera == null:
 		return
-	if Settings.depth_of_field and GraphicsQuality.dof_allowed(level):
+	if false and Settings.depth_of_field and GraphicsQuality.dof_allowed(level):  # replaced by the tilt-shift pass (WorldLookRig)
 		var attributes: CameraAttributesPractical = CameraAttributesPractical.new()
 		attributes.dof_blur_far_enabled = true
 		attributes.dof_blur_far_distance = preset.dof_distance
@@ -291,10 +296,11 @@ func _flush() -> void:
 
 
 func _limit_range(mesh_instance: MeshInstance3D) -> void:
-	if cull_distance > 0.0 and mesh_instance.get_parent() != camera:
+	if cull_distance > 0.0 and mesh_instance.get_parent() != camera and not mesh_instance.has_meta(&"no_range_cull"):
 		mesh_instance.visibility_range_end = cull_distance
-		mesh_instance.visibility_range_end_margin = 3.0
-		mesh_instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_DISABLED
+		# The far edge dissolves instead of popping (a dithered fade over the last few metres).
+		mesh_instance.visibility_range_end_margin = 6.0
+		mesh_instance.visibility_range_fade_mode = GeometryInstance3D.VISIBILITY_RANGE_FADE_SELF
 
 
 # ---- Light budget: only the nearest dressing lights stay on (the glow decals keep the pools visible) ---------------------------------

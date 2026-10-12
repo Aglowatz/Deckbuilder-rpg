@@ -1,17 +1,17 @@
 class_name HeroPreview
 extends SubViewportContainer
-## A rotating 3D preview of the hero wearing a `CosmeticState` (the wardrobe, the starting-look choice and the tailor's try-on). Own little world: warm key light,
-## cool fill, a round plinth; drag with the mouse to turn the hero, otherwise it turns slowly. `set_look` swaps the hat, cloak and dyes live.
+## A turning preview of the painted hero wearing a `CosmeticState` (the wardrobe and the tailor's try-on). Own little world: warm key light, cool fill, a round plinth, a
+## camera; the hero is the same `WorldSprite` the world uses (so hat, cloak set and dye look exactly as they will in the game, from every direction). Drag with the mouse to
+## turn the hero, otherwise it turns slowly. `set_look` swaps hat, cloak and dye live.
 
 var viewport: SubViewport
-var model: Node3D
+var sprite: WorldSprite
 var look: CosmeticState
-var spin_speed: float = 0.5
-var _pivot: Node3D
+var spin_speed: float = 0.6
 var _camera: Camera3D
 var _dragging: bool = false
-var _time: float = 0.0
-var _idle_hold: float = 0.0
+var _yaw: float = 0.0
+var _hop: float = 0.0
 
 
 func _init() -> void:
@@ -50,13 +50,11 @@ func _ready() -> void:
 	fill.rotation_degrees = Vector3(-20.0, 150.0, 0.0)
 	viewport.add_child(fill)
 	_camera = Camera3D.new()
-	_camera.fov = 30.0
-	_camera.position = Vector3(0.0, 1.9, 6.4)
+	_camera.fov = 26.0
+	_camera.position = Vector3(0.0, 1.0, 5.6)
 	viewport.add_child(_camera)
-	_camera.look_at(Vector3(0.0, 1.22, 0.0), Vector3.UP)
+	_camera.look_at(Vector3(0.0, 0.66, 0.0), Vector3.UP)
 	_camera.current = true
-	_pivot = Node3D.new()
-	viewport.add_child(_pivot)
 	var plinth: MeshInstance3D = MeshInstance3D.new()
 	var disc: CylinderMesh = CylinderMesh.new()
 	disc.top_radius = 0.82
@@ -69,51 +67,38 @@ func _ready() -> void:
 	plinth.position = Vector3(0.0, -0.06, 0.0)
 	viewport.add_child(plinth)
 	StyleToon.apply(plinth)
-	_rebuild()
+	sprite = WorldSprite.new()
+	sprite.turn_rate_degrees = 4000.0
+	viewport.add_child(sprite)
+	sprite.setup("PLAYER", _camera, Vector3(0.42, -0.62, -0.67))
+	sprite.set_body_scale(Vector2(1.25, 1.25))
+	_apply()
 
 
 func set_look(new_look: CosmeticState) -> void:
 	look = new_look
-	if model != null and is_instance_valid(model):
-		HeroModel.refresh(model, look)
-	else:
-		_rebuild()
+	_apply()
 
 
-func _rebuild() -> void:
-	if _pivot == null:
+func _apply() -> void:
+	if sprite == null:
 		return
-	if model != null and is_instance_valid(model):
-		model.queue_free()
-	model = HeroModel.build(look if look != null else Session.cosmetics)
-	_pivot.add_child(model)
-	model.scale = Vector3.ONE * 1.0
-	var player: AnimationPlayer = ModelKit.animation_player(model)
-	if player != null and player.has_animation("Idle"):
-		player.play("Idle")
+	SpriteCosmetics.apply(sprite, look if look != null else Session.cosmetics)
 
 
-## Plays a one-off animation (a wave when something is bought) and returns to idle.
-func play_once(animation_name: StringName) -> void:
-	var player: AnimationPlayer = ModelKit.animation_player(model)
-	if player == null or not player.has_animation(animation_name):
-		return
-	var animation: Animation = player.get_animation(animation_name)
-	animation.loop_mode = Animation.LOOP_NONE
-	player.play(animation_name, 0.15)
-	_idle_hold = animation.length
-	var tween: Tween = create_tween()
-	tween.tween_interval(animation.length)
-	tween.tween_callback(func() -> void:
-		if is_instance_valid(player):
-			player.play("Idle", 0.2))
+## A small hop (something was bought).
+func play_once(_animation_name: StringName = &"Cheer") -> void:
+	_hop = 1.0
 
 
 func _process(delta: float) -> void:
-	_time += delta
-	if _pivot != null and not _dragging:
-		_pivot.rotation.y += delta * spin_speed
-	_idle_hold = maxf(0.0, _idle_hold - delta)
+	if sprite == null:
+		return
+	if not _dragging:
+		_yaw += delta * spin_speed
+	_hop = maxf(0.0, _hop - delta * 2.2)
+	sprite.look_toward(Vector3(sin(_yaw), 0.0, cos(_yaw)))
+	sprite.follow(Vector3(0.0, sin(_hop * PI) * 0.22, 0.0), delta)
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -122,11 +107,6 @@ func _gui_input(event: InputEvent) -> void:
 		_dragging = button.pressed
 		accept_event()
 	var motion: InputEventMouseMotion = event as InputEventMouseMotion
-	if motion != null and _dragging and _pivot != null:
-		_pivot.rotation.y += motion.relative.x * 0.012
+	if motion != null and _dragging:
+		_yaw += motion.relative.x * 0.012
 		accept_event()
-
-
-func _exit_tree() -> void:
-	if model != null and is_instance_valid(model):
-		model.queue_free()

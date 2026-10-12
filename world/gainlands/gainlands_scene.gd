@@ -39,7 +39,7 @@ func _build_environment() -> void:
 
 
 func _build_zone_extras() -> void:
-	camera_offset = Vector3(0.0, 14.5, 8.7)
+	camera_offset = WorldLookRig.base_offset()
 	last_safe = player.position
 	gain.wheel_speed = 1.8 if Session.flag(GainlandsZone.FLAG_WHEEL_POWERED) else 0.45
 	dressing = GainlandsDressing.build(self, gain, Settings.graphics_quality)
@@ -195,10 +195,10 @@ func _start_throw(point: GainlandsTravel.Point) -> void:
 		p.y = lerpf(from.y, end.y, t) + apex * 4.0 * t * (1.0 - t)
 		player.position = p
 		player.model.rotation = Vector3(t * TAU * spin_turns, yaw, 0.0), 0.0, 1.0, duration)
-	var wide: Vector3 = Vector3(0.0, 20.0, 12.0)
+	var wide: Vector3 = WorldLookRig.wide_offset(1.4)
 	var pull: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	pull.tween_property(self, "camera_offset", wide, duration * 0.45)
-	pull.tween_property(self, "camera_offset", Vector3(0.0, 14.5, 8.7), duration * 0.55)
+	pull.tween_property(self, "camera_offset", WorldLookRig.base_offset(), duration * 0.55)
 	await fly.finished
 	_land(end, yaw)
 	if animation != null and animation.has_animation("Idle"):

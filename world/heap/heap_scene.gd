@@ -12,7 +12,6 @@ const SAFE_INTERVAL: float = 0.2
 const HAZARD_SAFE_DISTANCE: float = 2.0
 const CHUTE_COOLDOWN: float = 1.2
 const MOUNT_SPEED: float = 1.8
-const CAMERA_NORMAL: Vector3 = Vector3(0.0, 14.0, 9.4)
 
 var heap: HeapBuilder
 var last_safe: Vector3 = Vector3.ZERO
@@ -46,7 +45,7 @@ func _build_environment() -> void:
 
 
 func _build_zone_extras() -> void:
-	camera_offset = CAMERA_NORMAL
+	camera_offset = WorldLookRig.base_offset()
 	last_safe = player.position
 	_add_hats()
 	_restore_growth_and_barricades()
@@ -391,8 +390,8 @@ func _climb(growth: HeapGrowth.Growth, up: bool) -> void:
 		p.y = lerpf(start.y, finish.y, t) + sin(t * PI * 6.0) * 0.12
 		player.position = p, 0.0, 1.0, 2.6)
 	var wide: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	wide.tween_property(self, "camera_offset", Vector3(0.0, 17.0, 10.5), 1.2)
-	wide.tween_property(self, "camera_offset", CAMERA_NORMAL, 1.4)
+	wide.tween_property(self, "camera_offset", WorldLookRig.wide_offset(1.2), 1.2)
+	wide.tween_property(self, "camera_offset", WorldLookRig.base_offset(), 1.4)
 	await climb.finished
 	player.position = finish
 	player.airborne = false
@@ -588,8 +587,8 @@ func _slide(chute: HeapLayout.Chute) -> void:
 				break
 			walked += segment, 0.0, 1.0, duration)
 	var wide: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	wide.tween_property(self, "camera_offset", Vector3(0.0, 18.0, 11.5), duration * 0.4)
-	wide.tween_property(self, "camera_offset", CAMERA_NORMAL, duration * 0.6)
+	wide.tween_property(self, "camera_offset", WorldLookRig.wide_offset(1.3), duration * 0.4)
+	wide.tween_property(self, "camera_offset", WorldLookRig.base_offset(), duration * 0.6)
 	await slide.finished
 	player.position = end
 	player.model.rotation = Vector3.ZERO

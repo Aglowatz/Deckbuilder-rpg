@@ -5,7 +5,7 @@ extends Node3D
 ## a doorstep, and swaying in the wind (world_foliage.gdshader). The cards are camera-facing (they turn round the vertical axis): at low camera angles crossed quads
 ## showed their thin edge for half of all viewing angles, the facing cards always show the whole plant.
 
-const SHADER: String = "res://tests/world/world_foliage.gdshader"
+const SHADER: String = "res://world/look/world_foliage.gdshader"
 const ATLAS: String = "res://assets/art/world_test/foliage/atlas.png"
 const GRID_STEP: float = 0.8
 const ROAD_CLEARANCE: float = 1.75
@@ -192,3 +192,71 @@ func positions() -> Array[Vector3]:
 	for index: int in range(_instance.multimesh.instance_count):
 		result.append(_instance.multimesh.get_instance_transform(index).origin)
 	return result
+
+
+# ---- Any walkable area (the zones, the starting area) -----------------------------------------------------------------------------
+
+
+## Foliage over a zone map: wherever there is floor the hero can stand, a little denser towards the edges of the land, never where a spot, an NPC, an anchor or an obstacle is.
+## `spec` (the mood's foliage block): `density` (1 = the town's), `cells` (atlas cells allowed: 0 grass, 1 seed grass, 2 wildflowers, 3 tall flowers, 4 bush, 5 fern),
+## `tint` (hex multiplier), `step` (grid spacing in metres), `max` (instance cap).
+func setup_area(area: WalkableArea, scene: Node3D, spec: Dictionary) -> void:
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 91
+	var cells: Array[int] = []
+	for value: Variant in spec.get("cells", [0, 1, 2, 3, 4, 5]) as Array:
+		cells.append(int(value))
+	if cells.is_empty():
+		cells = [0, 1]
+	var step: float = float(spec.get("step", GRID_STEP))
+	var density: float = float(spec.get("density", 1.0)) * GraphicsQuality.foliage_density(Settings.graphics_quality)
+	var cap: int = int(spec.get("max", MAX_INSTANCES))
+	var blocked: Array[Vector3] = []
+	var raw_spots: Variant = scene.get("spots")
+	if raw_spots is Array:
+		for entry: Variant in raw_spots as Array:
+			if entry is Object and (entry as Object).get("position") is Vector3:
+				blocked.append((entry as Object).get("position") as Vector3)
+	var blocked_grid: Dictionary = _bucket_points(blocked, 3.0)
+	var bounds: Rect2 = area.map_bounds().grow(2.0)
+	var transforms: Array[Transform3D] = []
+	var datas: Array[Color] = []
+	var z: float = bounds.position.y
+	while z < bounds.end.y and transforms.size() < cap:
+		var x: float = bounds.position.x
+		while x < bounds.end.x:
+			var p: Vector3 = Vector3(x + rng.randf_range(-0.4, 0.4) * step / GRID_STEP, 0.0, z + rng.randf_range(-0.4, 0.4) * step / GRID_STEP)
+			x += step
+			if not area.is_floor_at(p) or not area.is_walkable(p, 0.45):
+				continue
+			if _near(blocked_grid, p, 3.0, 1.8):
+				continue
+			var off: int = 0
+			for i: int in range(6):
+				var angle: float = float(i) / 6.0 * TAU + 0.4
+				if not area.is_floor_at(p + Vector3(cos(angle), 0.0, sin(angle)) * 2.4):
+					off += 1
+			var edge: float = float(off) / 6.0
+			if rng.randf() > (0.2 + edge * 0.5) * density:
+				continue
+			var cell: int = _pick_cell(rng, edge, 0.0)
+			if not cells.has(cell):
+				cell = cells[rng.randi() % cells.size()]
+			var size_range: Vector2 = SIZES[cell]
+			var s: float = rng.randf_range(size_range.x, size_range.y) * 1.06
+			p.y = area.height_at(p)
+			transforms.append(Transform3D(Basis.from_scale(Vector3(s * (1.0 if rng.randf() > 0.5 else -1.0), s, 1.0)), p))
+			datas.append(Color(float(cell), rng.randf(), rng.randf(), 0.0))
+			if transforms.size() >= cap:
+				break
+		z += step
+	_build(transforms, datas)
+	if spec.has("tint") and _material != null:
+		_material.set_shader_parameter("mood_tint", Color.html(str(spec["tint"])))
+	print("world_look: area foliage %d cards" % instance_count)
+
+
+## The mood's colour multiplier.
+func set_tint(color: Color) -> void:
+	if _material != null:
+		_material.set_shader_parameter("mood_tint", color)

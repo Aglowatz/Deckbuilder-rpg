@@ -9,10 +9,13 @@ extends Node3D
 ##
 ## Subclasses override the `_zone_*` / `_make_*` hooks below.
 
-const CAMERA_OFFSET: Vector3 = Vector3(0.0, 10.5, 8.4)
+## The approved world-look framing (WorldLookRig.base_offset() for the F5 values: pitch 20, distance 6.2); scenes read the live value.
+const CAMERA_OFFSET: Vector3 = Vector3(0.0, 2.12, 5.83)
 const CLICK_PICK_RADIUS: float = 90.0
 const HIDDEN_CHEST_RADIUS: float = 1.5
 const SPAWN_GRACE: float = 2.0
+## Meshes farther than this from the (low) camera are not drawn: the low camera sees the whole map to the horizon, which the old high camera never did (docs/art/world_rollout.md).
+const CULL_DISTANCE: float = 48.0
 
 var def: ZoneDef
 var builder: ZoneMap
@@ -24,7 +27,9 @@ var minimap: MinimapHud
 var spots: Array[ZoneSpot] = []
 var enemies: Array[ZoneEnemy] = []
 var story: ZoneStoryText
-var camera_offset: Vector3 = CAMERA_OFFSET
+var camera_offset: Vector3 = WorldLookRig.base_offset()
+## The world look (post pass, sky, scenery, foliage); null with NO_STYLE.
+var look_rig: WorldLookRig
 var _camera: Camera3D
 var style_rig: StyleRig
 var _overlay_layer: Control
@@ -419,7 +424,9 @@ func _build_camera() -> void:
 	_camera.current = true
 	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
-	style_rig = StyleRig.install(self, _style_preset(), _camera, player)
+	style_rig = StyleRig.install(self, _style_preset(), _camera, player, CULL_DISTANCE)
+	if style_rig != null:
+		look_rig = WorldLookRig.install(self, _camera, player, style_rig, builder)
 	if style_rig != null and style_rig.ambience != null:
 		style_rig.ambience.focus(0.5, 1.6)
 	if style_rig != null:

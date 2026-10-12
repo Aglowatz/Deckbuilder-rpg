@@ -5,14 +5,21 @@ extends Node
 ## seconds): wide terrain and low ground pieces never qualify. When a candidate blocks the view the whole object it belongs to (its parent node: a building with
 ## its roof, trim and doors) dissolves together. Pure geometry: the segment camera -> hero is tested against each candidate's world AABB.
 
-const SCAN_INTERVAL: float = 3.0
-const MIN_HEIGHT: float = 1.8
-const MAX_EXTENT: float = 28.0
-const FADED: float = 0.82
+const SCAN_INTERVAL: float = 4.0
+const MIN_HEIGHT: float = 1.0
+const MAX_EXTENT: float = 400.0
+const FADED: float = 0.88
+## The camera is inside (or this close to) a solid piece: it is cut away completely so the lens never looks at back faces.
+const CUT_AWAY: float = 1.0
+const CAMERA_PADDING: float = 0.7
+## Anything this close to the lens (foreground clutter that covers the lower part of the picture) dissolves too.
+const NEAR_CAMERA: float = 6.5
 const SPEED: float = 7.0
 const HERO_LIFT: float = 0.9
 const PADDING: float = 0.15
 const MAX_GROUP_MESHES: int = 80
+## Meshes looked at per frame while a scan is under way.
+const SCAN_BATCH: int = 160
 
 var camera: Camera3D
 var hero: Node3D
@@ -22,55 +29,96 @@ var _candidates: Array[MeshInstance3D] = []
 ## Per candidate group key: the meshes that dissolve together (the candidate plus its siblings under the same parent).
 var _members: Dictionary = {}
 var _fade: Dictionary = {}
+var _dither_cache: Dictionary = {}
 var _scan_timer: float = 0.0
+## Cached at each scan: the world box of every candidate, the group each belongs to, and the list of groups.
+var _boxes: Array[AABB] = []
+var _box_keys: Array[int] = []
+var _group_keys: Array[int] = []
+var _pending: Array[Node] = []
+var _pending_index: int = 0
+var _next_candidates: Array[MeshInstance3D] = []
+var _next_members: Dictionary = {}
+var _next_boxes: Array[AABB] = []
+var _next_box_keys: Array[int] = []
+var _next_group_keys: Array[int] = []
 
 
 func _process(delta: float) -> void:
+	if OS.get_environment("OCCLUSION_OFF") != "":
+		return
 	if camera == null or hero == null or root == null:
 		return
-	_scan_timer -= delta
-	if _scan_timer <= 0.0:
-		_scan_timer = SCAN_INTERVAL
-		_scan()
+	if _pending_index < _pending.size():
+		_scan_step()
+	else:
+		_scan_timer -= delta
+		if _scan_timer <= 0.0:
+			_scan_timer = SCAN_INTERVAL
+			_scan()
 	var from: Vector3 = camera.global_position
 	var to: Vector3 = hero.global_position + Vector3(0.0, HERO_LIFT, 0.0)
+	var to_low: Vector3 = hero.global_position + Vector3(0.0, 0.35, 0.0)
 	var blocking_groups: Dictionary = {}
-	for mesh_instance: MeshInstance3D in _candidates:
-		if not is_instance_valid(mesh_instance) or not mesh_instance.is_visible_in_tree():
+	var cut_groups: Dictionary = {}
+	# Pure float maths over the boxes cached at the last scan (a static scene has thousands of candidates; no node is touched here).
+	for index: int in range(_boxes.size()):
+		var box: AABB = _boxes[index]
+		var key: int = _box_keys[index]
+		if cut_groups.has(key):
 			continue
-		var box: AABB = mesh_instance.global_transform * mesh_instance.get_aabb()
-		if _segment_hits(box.grow(PADDING), from, to):
-			blocking_groups[_group_key(mesh_instance)] = true
-	var seen: Dictionary = {}
-	for mesh_instance: MeshInstance3D in _candidates:
-		if not is_instance_valid(mesh_instance):
+		if box.grow(CAMERA_PADDING).has_point(from):
+			cut_groups[key] = true
+		elif blocking_groups.has(key):
 			continue
-		var key: int = _group_key(mesh_instance)
-		if seen.has(key):
-			continue
-		seen[key] = true
+		elif box.grow(NEAR_CAMERA).has_point(from) or _segment_hits(box.grow(PADDING), from, to) or _segment_hits(box.grow(PADDING), from, to_low):
+			blocking_groups[key] = true
+	for key: int in _group_keys:
 		var current: float = float(_fade.get(key, 0.0))
-		var target: float = FADED if blocking_groups.has(key) else 0.0
+		var target: float = CUT_AWAY if cut_groups.has(key) else (FADED if blocking_groups.has(key) else 0.0)
 		if absf(current - target) < 0.004:
 			continue
 		current = move_toward(current, target, delta * SPEED)
 		_fade[key] = current
-		for member: Variant in _members.get(key, [mesh_instance]) as Array:
+		for member: Variant in _members.get(key, []) as Array:
 			if is_instance_valid(member):
-				(member as MeshInstance3D).set_instance_shader_parameter("occlusion_fade", current)
+				var piece: MeshInstance3D = member as MeshInstance3D
+				if _dithers(piece):
+					piece.set_instance_shader_parameter("occlusion_fade", current)
+				else:
+					# Portals, light pillars and other see-through pieces have no dither uniform: they simply fade (the per-instance transparency).
+					piece.transparency = minf(current, 0.96)
 
 
 func _group_key(mesh_instance: MeshInstance3D) -> int:
 	var parent: Node = mesh_instance.get_parent()
-	if parent != null and parent != root and parent is Node3D and parent != camera:
+	# A building (a parent with a modest number of pieces) dissolves as one; a chunk or a whole-map holder with hundreds of children does not (one wall would take its
+	# neighbours with it, and only the first pieces of the group would ever fade).
+	if parent != null and parent != root and parent is Node3D and parent != camera and parent.get_child_count() <= MAX_GROUP_MESHES:
 		return parent.get_instance_id()
 	return mesh_instance.get_instance_id()
 
 
+## Starts a scan of the tree for candidates. The work is spread over frames (SCAN_BATCH meshes each): a big zone has thousands of meshes and one frame of scanning was a
+## visible hitch. The old candidate list keeps working until the new one is complete.
 func _scan() -> void:
-	_candidates.clear()
-	_members.clear()
-	for node: Node in root.find_children("*", "MeshInstance3D", true, false):
+	_pending = root.find_children("*", "MeshInstance3D", true, false)
+	_pending_index = 0
+	_next_candidates = []
+	_next_members = {}
+	_next_boxes = []
+	_next_box_keys = []
+	_next_group_keys = []
+	_scan_step()
+
+
+func _scan_step() -> void:
+	var end: int = mini(_pending_index + SCAN_BATCH, _pending.size())
+	while _pending_index < end:
+		var node: Node = _pending[_pending_index]
+		_pending_index += 1
+		if not is_instance_valid(node):
+			continue
 		var mesh_instance: MeshInstance3D = node as MeshInstance3D
 		if mesh_instance.mesh == null or mesh_instance.layers == 0 or mesh_instance.get_parent() == camera:
 			continue
@@ -79,9 +127,14 @@ func _scan() -> void:
 		var box: AABB = mesh_instance.global_transform * mesh_instance.get_aabb()
 		if box.size.y < MIN_HEIGHT or maxf(box.size.x, box.size.z) > MAX_EXTENT or box.size.y > 40.0:
 			continue
-		_candidates.append(mesh_instance)
+		if not mesh_instance.is_visible_in_tree():
+			continue
+		_next_candidates.append(mesh_instance)
 		var key: int = _group_key(mesh_instance)
-		if not _members.has(key):
+		_next_boxes.append(box)
+		_next_box_keys.append(key)
+		if not _next_members.has(key):
+			_next_group_keys.append(key)
 			var members: Array = []
 			var parent: Node = mesh_instance.get_parent()
 			if key != mesh_instance.get_instance_id() and parent != null:
@@ -90,7 +143,14 @@ func _scan() -> void:
 						members.append(sibling)
 			else:
 				members.append(mesh_instance)
-			_members[key] = members
+			_next_members[key] = members
+	if _pending_index >= _pending.size():
+		_candidates = _next_candidates
+		_members = _next_members
+		_boxes = _next_boxes
+		_box_keys = _next_box_keys
+		_group_keys = _next_group_keys
+		_pending = []
 
 
 ## True when the segment from -> to passes through `box` (slab test).
@@ -118,3 +178,19 @@ static func _segment_hits(box: AABB, from: Vector3, to: Vector3) -> bool:
 		if t_min > t_max:
 			return false
 	return true
+
+
+## True for a mesh drawn with the toon or painted-triplanar shader (they carry the dither uniform); false for anything else (translucent pieces).
+func _dithers(mesh_instance: MeshInstance3D) -> bool:
+	var key: int = mesh_instance.get_instance_id()
+	if _dither_cache.has(key):
+		return bool(_dither_cache[key])
+	var material: Material = mesh_instance.material_override
+	if material == null and mesh_instance.mesh != null and mesh_instance.mesh.get_surface_count() > 0:
+		material = mesh_instance.mesh.surface_get_material(0)
+	var result: bool = false
+	if material is ShaderMaterial:
+		var shader: Shader = (material as ShaderMaterial).shader
+		result = shader != null and (shader.resource_path.contains("style_toon") or shader.resource_path.contains("style_painted"))
+	_dither_cache[key] = result
+	return result
