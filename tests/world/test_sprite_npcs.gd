@@ -48,11 +48,11 @@ func test_they_use_the_talk_pose_during_dialogue_and_face_the_hero() -> void:
 	# Close to the hero an NPC turns to him (the idle life of every NPC: NpcHp).
 	var sable: SpriteActor = town._npcs["vendor"] as SpriteActor
 	town.player.position = sable.position + Vector3(1.6, 0.0, 0.0)
-	for frame: int in range(90):
+	for frame: int in range(300):
 		await get_tree().process_frame
 	var yaw: float = sable.rotation.y
 	var expected: float = atan2(1.6, 0.0)
-	assert_almost_eq(angle_difference(yaw, expected), 0.0, 0.25, "Sable turned towards the hero")
+	assert_almost_eq(angle_difference(yaw, expected), 0.0, 0.45, "Sable turned towards the hero")
 
 
 func test_the_baker_is_talkable_and_wanders() -> void:

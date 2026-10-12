@@ -3011,3 +3011,35 @@ Test only, no real game scene changed. `tests/characters/character_test.tscn` (`
 - **Art:** `tools/char_import.gd` cleans the 18 frames from `Character_Test` (copied to `_art_inbox/character_test/`, Drive untouched) into `assets/art/characters/{hd2d,painted}/` (pixel grid snap, one 40-colour palette, shared baseline; report in `character_test_report.txt`). Nothing was missing; the files were already transparent.
 - **Code:** `CharSprite` (billboard, direction from movement vs camera, IDLE-WALK1-IDLE-WALK2 cycle, scene-lit painted shader), `tilt_shift.gdshader`, `tools/character_shots.sh matrix|perf|one`. Test: `tests/characters/test_character_sprite.gd`.
 - **Write-up:** `docs/art/character_test.md` (3 x 4 matrix, walking and dialogue shots, per-camera world problems, perf, NPC and cosmetics effort). Launch: `Godot --path . res://tests/characters/character_test.tscn`.
+
+## World rollout (the approved World Look Test style, game-wide, and the painted hero)
+
+Write-up: `docs/art/world_rollout.md`; art needs per area: `docs/art/world_rollout_needs.md` (+ `.tsv` for the sheet); cosmetics: `docs/art/cosmetics.md`; judgment calls WR-1... in `docs/design/open_questions.md`. The World Look Test scene is unchanged (dev reference). Each part ended with the GUT run and a commit/push (final full run: see below).
+
+- **A, camera and post:** `WorldLookRig` in the town, starting area and every zone: approved F5 camera (no My Preset exists), tilt-shift, bloom, fog, grade; per-zone moods in `data/art/zone_looks.json`; the occlusion fader cuts away / dissolves anything between camera and hero or near the lens; signposts smaller; Settings: depth of field (tilt-shift), bloom, fog quality.
+- **B, sky, scenery, water, foliage:** every outdoor area, per mood; D.N.A. and the Capital outside get a ground that runs to the horizon; the Capital island in the town shows its walls and castle again.
+- **C, player:** painted sprite everywhere; no look-choice screen; hats (head-anchored overlay), cloak sets, cloak dyes; 6 hats and 4 cloaks at Pip Threadwell, "arriving soon" until the art is imported (`bash tools/import_cosmetics.sh`); old saves reset to the default look and refunded.
+- **D, NPCs:** Elder Maren, Brannoch, Sable, Tilly, Fenwick are sprites (face the hero, TALK pose); a wandering badger baker (Brindle) was added; everyone else is still 3D.
+- **E:** `docs/art/world_rollout_needs.md`, 63 rows, D.N.A. needs the most.
+- **F, verify:** `bash tools/run_world_rollout_smoke.sh` (human-style input, new game): OK. Screenshots of every area in `docs/art/world_rollout/` (jpg) and `_screenshots/rollout_smoke/`.
+
+| Area | fps (Medium, 1600x900, walking, vsync off) |
+|---|---|
+| Starting area | 57.3 |
+| Town square | 54.1 |
+| Gainlands | 58.0 |
+| D.N.A. | 60.0 (cap) |
+| Endless Buffet | 60.0 (cap) |
+| Verdant Dump | 55.1 |
+| Capital outside | 46.6 |
+| Capital inside | 52.3 |
+
+**Target 60 is not met in the town, the Dump and the Capital** (the low camera sees the whole map; the Capital went from 244 to ~740 draw calls after a 48 m draw distance). Numbers swing about +-8 fps run to run on this iGPU. Next levers: fewer cloud cards and a cheaper bloom on Medium, merging the Capital's wasteland dressing.
+
+**Not done / questions for you**
+1. The hat and cloak art does not exist yet, so hats, cloak sets and dyes were only checked with stand-in hats; fit values (`assets/art/cosmetics/hats/fit.json`) will need a pass when the art arrives.
+2. Hat dye was removed (only the cloak is dyeable). OK?
+3. I added a talkable badger baker, "Brindle the Baker", with three lines I wrote; rename or rewrite as you like.
+4. Should I spend the next step on the Medium fps gap (town, Capital) or on converting the remaining NPCs?
+5. The old 3D cosmetics code is kept only for the tailor and her mannequin; say if you want it removed.
+6. The old Brief 12 look-choice e2e smoke was deleted with the flow it tested.

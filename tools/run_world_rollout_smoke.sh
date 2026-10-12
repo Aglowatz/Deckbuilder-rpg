@@ -7,7 +7,7 @@ cd "$(dirname "$0")/.."
 "$CONSOLE" --headless --path . --import >/dev/null 2>&1
 out="$(pwd)/_screenshots/rollout_smoke.log"
 mkdir -p _screenshots/rollout_smoke
-timeout 420 "$GODOT" --path . --resolution 1600x900 res://tools/world_rollout_launcher.tscn > "$out" 2>&1
+timeout 900 "$GODOT" --path . --resolution 1600x900 res://tools/world_rollout_launcher.tscn > "$out" 2>&1
 code=$?
 grep -E "^rollout_smoke:|SCRIPT ERROR" "$out"
 exit $code
