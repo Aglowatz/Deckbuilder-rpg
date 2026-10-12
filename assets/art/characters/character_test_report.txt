@@ -1,0 +1,25 @@
+Missing files: none
+
+HD-2D grid detection (period in source px, phase x/y):
+  FRONT_IDLE: period 9.85 px (phase 9.50, 5.75), figure 520x1082 src px -> 53x110 pixel-art px
+  FRONT_WALK1: period 9.80 px (phase 0.00, 0.00), figure 529x1119 src px -> 54x114 pixel-art px
+  FRONT_WALK2: period 9.80 px (phase 1.25, 9.50), figure 550x1087 src px -> 56x111 pixel-art px
+  BACK_IDLE: period 9.80 px (phase 0.25, 0.25), figure 471x1076 src px -> 48x110 pixel-art px
+  BACK_WALK1: period 9.80 px (phase 0.25, 0.00), figure 549x1117 src px -> 56x114 pixel-art px
+  BACK_WALK2: period 9.75 px (phase 4.25, 5.50), figure 559x1088 src px -> 57x112 pixel-art px
+  SIDE_IDLE: period 9.80 px (phase 0.25, 0.00), figure 422x1107 src px -> 43x113 pixel-art px
+  SIDE_WALK1: period 9.80 px (phase 0.00, 9.00), figure 787x1090 src px -> 80x111 pixel-art px
+  SIDE_WALK2: period 9.80 px (phase 0.50, 9.00), figure 723x1049 src px -> 74x107 pixel-art px
+HD-2D shared palette: 40 colours
+HD-2D canvas 84x116, feet on the bottom row (baseline y=115)
+
+2.5D painted (canvas 384x576, mean figure height 536 px per direction, baseline y=560):
+  FRONT_IDLE: figure 754x1399 src px, scale 0.374
+  FRONT_WALK1: figure 841x1446 src px, scale 0.374
+  FRONT_WALK2: figure 839x1459 src px, scale 0.374
+  BACK_IDLE: figure 634x1454 src px, scale 0.374
+  BACK_WALK1: figure 712x1418 src px, scale 0.374
+  BACK_WALK2: figure 667x1432 src px, scale 0.374
+  SIDE_IDLE: figure 595x1483 src px, scale 0.375
+  SIDE_WALK1: figure 947x1427 src px, scale 0.375
+  SIDE_WALK2: figure 892x1383 src px, scale 0.375

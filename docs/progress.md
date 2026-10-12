@@ -3003,3 +3003,11 @@ Judgment calls SA-1 to SA-9 are in `docs/design/open_questions.md`. Tests: `test
 - **Audio:** master, music, effects and interface volumes (new UI bus) and mute when unfocused.
 - Everything applies at once and persists in `user://settings.cfg`. Screenshots: `_screenshots/settings/` (the five pages, colour-blind cards in a battle and the deck builder, UI scale 140-150% in the town, a battle and the settings screen, large dialogue text). New shot option: `--set=colorblind_symbols:true,ui_scale:1.3,text_cards:3` sets Settings values for a shot without saving them.
 - **Not done / for you:** the dungeon map HUD and the cutscenes ignore the UI scale; the HUD hint texts in tip popups still name the default keys; real fullscreen resolution switching (exclusive mode) is not offered, Fullscreen uses the desktop size.
+
+## Character look and camera test bench
+
+Test only, no real game scene changed. `tests/characters/character_test.tscn` (`CharacterTest extends TownScene`): keys 1/2/3 = 3D model / HD-2D pixel sprite / painted 2.5D sprite, F1-F4 = Current / Classic RPG / HD-2D (tilt-shift + bloom) / Low and cinematic camera, mouse-wheel zoom kept. The save is never written.
+
+- **Art:** `tools/char_import.gd` cleans the 18 frames from `Character_Test` (copied to `_art_inbox/character_test/`, Drive untouched) into `assets/art/characters/{hd2d,painted}/` (pixel grid snap, one 40-colour palette, shared baseline; report in `character_test_report.txt`). Nothing was missing; the files were already transparent.
+- **Code:** `CharSprite` (billboard, direction from movement vs camera, IDLE-WALK1-IDLE-WALK2 cycle, scene-lit painted shader), `tilt_shift.gdshader`, `tools/character_shots.sh matrix|perf|one`. Test: `tests/characters/test_character_sprite.gd`.
+- **Write-up:** `docs/art/character_test.md` (3 x 4 matrix, walking and dialogue shots, per-camera world problems, perf, NPC and cosmetics effort). Launch: `Godot --path . res://tests/characters/character_test.tscn`.
