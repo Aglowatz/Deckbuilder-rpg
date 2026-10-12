@@ -615,33 +615,33 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if not _locked and not dialogue.active and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
 		var code: Key = (event as InputEventKey).keycode
-		if code == KEY_C:
+		if event.is_action_pressed(&"open_character"):
 			get_viewport().set_input_as_handled()
 			_open_character_screen()
 			return
-		if code == KEY_B:
+		if event.is_action_pressed(&"open_deck"):
 			get_viewport().set_input_as_handled()
 			_open_deck_builder()
 			return
-		if code == KEY_P:
+		if event.is_action_pressed(&"open_packs"):
 			get_viewport().set_input_as_handled()
 			_open_packs()
 			return
-		if code == KEY_T:
+		if event.is_action_pressed(&"open_wardrobe"):
 			get_viewport().set_input_as_handled()
 			_open_wardrobe()
 			return
-		if code == KEY_J:
+		if event.is_action_pressed(&"open_quests"):
 			get_viewport().set_input_as_handled()
 			_open_quest_log()
 			return
-		if code == KEY_M:
+		if event.is_action_pressed(&"open_map"):
 			get_viewport().set_input_as_handled()
 			_open_full_map()
 			return
 	if _locked or dialogue.active:
 		return
-	var interact: bool = event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE)
+	var interact: bool = event.is_action_pressed(&"interact")
 	if interact:
 		if not _chest_near.is_empty() and (_near == null or _chest_closer_than(_near)):
 			get_viewport().set_input_as_handled()

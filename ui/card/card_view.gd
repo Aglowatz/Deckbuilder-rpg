@@ -95,6 +95,9 @@ var _glow_tween: Tween
 var _glow_kind: Glow = Glow.NONE
 var _base_attack: int = 0
 var _base_defense: int = 0
+## The last battle state shown (kept so a text size change can redraw the card and put the state back).
+var _last_instance: CardInstance
+var _last_game: GameState
 
 
 static func create(card: CardData, card_mode: Mode = Mode.FULL) -> CardView:
@@ -138,6 +141,8 @@ func _ready() -> void:
 		dual = data.is_multipath()
 		accent2 = UIStyle.affinity_color(data.color2) if dual else accent
 	_build()
+	Settings.text_changed.connect(refresh_text)
+	Settings.accessibility_changed.connect(refresh_text)
 	mouse_entered.connect(func() -> void: hovered.emit(self))
 	mouse_exited.connect(func() -> void: unhovered.emit(self))
 	gui_input.connect(func(event: InputEvent) -> void: gui_event.emit(self, event))
@@ -178,6 +183,7 @@ func _build() -> void:
 	else:
 		_build_chips()
 	_build_plaque()
+	_build_path_symbols()
 	_build_overlays()
 
 
@@ -493,7 +499,7 @@ func _build_type_line() -> void:
 		add_child(type_icon)
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.add_theme_font_override("font", UIStyle.font_bold())
-	var line_size: int = 16 if dual else 19
+	var line_size: int = _small_text(16 if dual else 19)
 	while line_size > 12 and UIStyle.font_bold().get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, line_size).x > label.size.x:
 		line_size -= 1
 	label.add_theme_font_size_override("font_size", line_size)
@@ -570,11 +576,21 @@ func _rules_font_size() -> int:
 		plain += "
 " + data.flavor_text
 	var font: Font = UIStyle.font_bold()
-	for candidate: int in range(20, 10, -1):
+	for candidate: int in range(_max_rules_font(), 10, -1):
 		var measured: Vector2 = font.get_multiline_string_size(plain, HORIZONTAL_ALIGNMENT_LEFT, 258.0, candidate)
 		if measured.y <= 72.0:
 			return candidate
 	return 11
+
+
+## The biggest rules font tried (20 at the normal card text size; the fit still keeps the text inside its panel).
+func _max_rules_font() -> int:
+	return maxi(11, int(round(20.0 * Settings.card_text_scale())))
+
+
+## Type line and chip text follow the card text size, up to 1.15x (their boxes have a fixed height).
+func _small_text(base: int) -> int:
+	return int(round(float(base) * clampf(Settings.card_text_scale(), 0.85, 1.15)))
 
 
 func _chip_names() -> Array[String]:
@@ -604,6 +620,23 @@ func _chip_icon(chip_text: String) -> String:
 	return ""
 
 
+## Colour-blind option: a round Path symbol (the Path energy emblem) for each Path of the card, over the top left corner, so the Path never depends on colour alone.
+func _build_path_symbols() -> void:
+	if not Settings.colorblind_symbols:
+		return
+	var y: float = -10.0
+	for path: Affinity.Type in data.paths():
+		var symbol: TextureRect = IconArt.rect(IconArt.energy_id(path), 28.0, "%s Path" % UIStyle.affinity_name(path))
+		if symbol == null:
+			continue
+		add_child(_panel(Rect2(-14, y, 34, 34), UIStyle.box(Color(0.05, 0.03, 0.08, 0.92), UIStyle.GOLD, 2, 17)))
+		symbol.position = Vector2(-11, y + 3)
+		symbol.size = Vector2(28, 28)
+		symbol.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(symbol)
+		y += 31.0
+
+
 ## Small round keyword badges down the left edge of the art (FULL look only; the compact chips carry the icon inline).
 func _build_keyword_badges(x: float, y: float) -> void:
 	var index: int = 0
@@ -625,7 +658,7 @@ func _build_chips() -> void:
 	var y: float = 330.0
 	var x: float = 16.0
 	for chip_text: String in names:
-		var width: float = UIStyle.font_bold().get_string_size(chip_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 21).x + 22.0
+		var width: float = UIStyle.font_bold().get_string_size(chip_text, HORIZONTAL_ALIGNMENT_LEFT, -1, _small_text(21)).x + 22.0
 		var chip_icon: String = _chip_icon(chip_text)
 		var icon_room: float = 26.0 if chip_icon != "" else 0.0
 		width += icon_room
@@ -641,7 +674,7 @@ func _build_chips() -> void:
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.add_theme_font_override("font", UIStyle.font_bold())
-		label.add_theme_font_size_override("font_size", 21)
+		label.add_theme_font_size_override("font_size", _small_text(21))
 		label.add_theme_color_override("font_color", UIStyle.GOLD)
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(label)
@@ -829,6 +862,7 @@ func _build_framed() -> void:
 	else:
 		_build_framed_chips()
 	_build_framed_stats()
+	_build_path_symbols()
 	_build_overlays()
 
 
@@ -1063,7 +1097,7 @@ func _rules_font_size_for(rect: Rect2) -> int:
 	if _shows_flavor():
 		plain += "\n" + data.flavor_text
 	var font: Font = UIStyle.font_bold()
-	for candidate: int in range(20, 10, -1):
+	for candidate: int in range(_max_rules_font(), 10, -1):
 		var measured: Vector2 = font.get_multiline_string_size(plain, HORIZONTAL_ALIGNMENT_LEFT, rect.size.x - 2.0, candidate)
 		if measured.y <= rect.size.y:
 			return candidate
@@ -1076,7 +1110,7 @@ func _build_framed_chips() -> void:
 	var y: float = 304.0
 	var x: float = 40.0
 	for chip_text: String in names:
-		var width: float = UIStyle.font_bold().get_string_size(chip_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + 18.0
+		var width: float = UIStyle.font_bold().get_string_size(chip_text, HORIZONTAL_ALIGNMENT_LEFT, -1, _small_text(20)).x + 18.0
 		var chip_icon: String = _chip_icon(chip_text)
 		var icon_room: float = 24.0 if chip_icon != "" else 0.0
 		width += icon_room
@@ -1092,7 +1126,7 @@ func _build_framed_chips() -> void:
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		label.add_theme_font_override("font", UIStyle.font_bold())
-		label.add_theme_font_size_override("font_size", 20)
+		label.add_theme_font_size_override("font_size", _small_text(20))
 		label.add_theme_color_override("font_color", UIStyle.GOLD)
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(label)
@@ -1199,6 +1233,8 @@ func _set_stats(attack: int, defense: int, damage: int) -> void:
 
 ## Refreshes attack/defense/damage/exhausted/summoning-sick from the rules engine.
 func apply_instance(instance: CardInstance, game: GameState) -> void:
+	_last_instance = instance
+	_last_game = game
 	instance_uid = instance.uid
 	if data == null or mode == Mode.BACK:
 		return
@@ -1340,6 +1376,16 @@ class Gem:
 			var r: float = outer if i % 2 == 0 else inner
 			points.append(center + Vector2(cos(a), sin(a)) * r)
 		return points
+
+
+## Redraws the card after a text size or accessibility setting changed (the battle state shown is kept).
+func refresh_text() -> void:
+	if data == null or not is_inside_tree():
+		return
+	_build()
+	if _last_instance != null and _last_game != null:
+		apply_instance(_last_instance, _last_game)
+	set_glow(_glow_kind)
 
 
 ## Switches between the FULL, COMPACT and BACK looks and rebuilds the visuals.

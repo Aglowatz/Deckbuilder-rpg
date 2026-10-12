@@ -82,6 +82,7 @@ static func sparkle_stream(parent: Node, at: Vector2, width: float, color: Color
 
 ## A full-screen colour flash that fades out. `host` must be a Control.
 static func flash(host: Control, color: Color, peak: float, duration: float) -> void:
+	peak *= Settings.flash_scale()
 	var overlay: ColorRect = ColorRect.new()
 	overlay.color = color
 	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE

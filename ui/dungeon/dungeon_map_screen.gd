@@ -320,7 +320,7 @@ func _build_hud() -> void:
 	retreat.position = Vector2(60, 960)
 	retreat.pressed.connect(_ask_retreat)
 	add_child(retreat)
-	var deck_button: FancyButton = FancyButton.make("Deck (B)", &"", Vector2(160, 56))
+	var deck_button: FancyButton = FancyButton.make("Deck (%s)" % Keybinds.first_key(&"open_deck"), &"", Vector2(160, 56))
 	deck_button.position = Vector2(60, 894)
 	deck_button.tooltip_text = "Edit your deck without leaving the dungeon (same rules as town)."
 	deck_button.pressed.connect(_open_deck_builder)
@@ -532,7 +532,7 @@ func _on_modal_finished(node_id: int) -> void:
 
 ## New brief, Part B: a B hotkey alongside the existing Deck button, matching town/zones.
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_B:
+	if event.is_action_pressed(&"open_deck"):
 		get_viewport().set_input_as_handled()
 		_open_deck_builder()
 
@@ -663,11 +663,11 @@ func _build_art_hud() -> void:
 	var buttons: VBoxContainer = UIKit.vbox(8)
 	buttons.position = Vector2(8.0, 1080.0 - 3.0 * 60.0 - 8.0)
 	add_child(buttons)
-	var rules_button: FancyButton = FancyButton.make("Rules (R)", &"", Vector2(134, 52))
+	var rules_button: FancyButton = FancyButton.make("Rules (%s)" % Keybinds.first_key(&"dungeon_rules"), &"", Vector2(134, 52))
 	rules_button.name = "RulesButton"
 	rules_button.pressed.connect(_toggle_rules)
 	buttons.add_child(rules_button)
-	var deck_button: FancyButton = FancyButton.make("Deck (B)", &"", Vector2(134, 52))
+	var deck_button: FancyButton = FancyButton.make("Deck (%s)" % Keybinds.first_key(&"open_deck"), &"", Vector2(134, 52))
 	deck_button.tooltip_text = "Edit your deck without leaving the dungeon (same rules as town)."
 	deck_button.pressed.connect(_open_deck_builder)
 	buttons.add_child(deck_button)
@@ -744,7 +744,6 @@ func _toggle_rules() -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	var key: InputEventKey = event as InputEventKey
-	if key != null and key.pressed and not key.echo and key.keycode == KEY_R and _rules_panel != null and _modal == null:
+	if event.is_action_pressed(&"dungeon_rules") and _rules_panel != null and _modal == null:
 		_toggle_rules()
 		get_viewport().set_input_as_handled()

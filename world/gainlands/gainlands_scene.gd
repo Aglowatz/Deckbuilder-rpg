@@ -93,7 +93,7 @@ func _zone_process(delta: float) -> void:
 		_streaks_added = true
 		_camera.add_child(GainlandsLook.wind_streaks())
 	if _shake > 0.0:
-		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _shake * 0.18
+		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _shake * 0.18 * Settings.shake_scale()
 		_shake = maxf(0.0, _shake - delta * 2.4)
 	if player.airborne or _falling or _fainting:
 		return

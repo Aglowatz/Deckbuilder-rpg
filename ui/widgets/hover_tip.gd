@@ -37,7 +37,7 @@ static func _show(target: Control, title: String, body: String, accent: Color, i
 	var column: VBoxContainer = UIKit.vbox(6)
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	panel.add_child(column)
-	var heading: Label = UIKit.label(title, &"HeadingLabel", 24, accent)
+	var heading: Label = UIKit.label(title, &"HeadingLabel", Settings.tooltip_font(24), accent)
 	heading.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var icon: TextureRect = IconArt.rect(icon_id, 36.0) if icon_id != "" else null
 	if icon != null:
@@ -48,7 +48,7 @@ static func _show(target: Control, title: String, body: String, accent: Color, i
 		column.add_child(head_row)
 	else:
 		column.add_child(heading)
-	var text: Label = UIKit.label(body, &"", 20, UIStyle.PARCHMENT)
+	var text: Label = UIKit.label(body, &"", Settings.tooltip_font(20), UIStyle.PARCHMENT)
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.custom_minimum_size = Vector2(WIDTH - 40.0, 0)
 	text.mouse_filter = Control.MOUSE_FILTER_IGNORE

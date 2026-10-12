@@ -56,6 +56,7 @@ func _ready() -> void:
 		_add_frame()
 	visible = Settings.show_minimap
 	Settings.minimap_toggled.connect(func(now: bool) -> void: visible = now)
+	UiScale.corner(self, [self] as Array[Control], TownHud.HUD_SCALE_STRENGTH)
 	gui_input.connect(_on_gui_input)
 
 

@@ -19,6 +19,12 @@ var _prompt_panel: PanelContainer
 var _prompt_label: Label
 var _toast: Label
 var _toast_tween: Tween
+var _gold_panel: PanelContainer
+
+## HUD panels take this much of the UI scale (the minimap above them takes the same), so the right column stays tidy at 150 percent.
+const HUD_SCALE_STRENGTH: float = 0.55
+## Where the right column sits at a scale of 100 percent: the minimap bottom (20 + 250), the gold panel, the Menu button and its list.
+const RIGHT_COLUMN_Y: Array[float] = [282.0, 346.0, 408.0]
 
 
 func _ready() -> void:
@@ -64,7 +70,7 @@ func _ready() -> void:
 	add_child(_menu_panel)
 	var menu_column: VBoxContainer = UIKit.vbox(6)
 	_menu_panel.add_child(menu_column)
-	for entry: Array in [["Character (C)", character_pressed, "ICON-UI-CHARACTER"], ["Deck (B)", deck_pressed, "ICON-UI-DECK"], ["Quests (J)", quests_pressed, "ICON-UI-QUESTS"], ["Packs (P)", packs_pressed, "ICON-UI-PACKS"], ["Wardrobe (T)", wardrobe_pressed, "ICON-UI-WARDROBE"]]:
+	for entry: Array in [["Character (%s)" % Keybinds.first_key(&"open_character"), character_pressed, "ICON-UI-CHARACTER"], ["Deck (%s)" % Keybinds.first_key(&"open_deck"), deck_pressed, "ICON-UI-DECK"], ["Quests (%s)" % Keybinds.first_key(&"open_quests"), quests_pressed, "ICON-UI-QUESTS"], ["Packs (%s)" % Keybinds.first_key(&"open_packs"), packs_pressed, "ICON-UI-PACKS"], ["Wardrobe (%s)" % Keybinds.first_key(&"open_wardrobe"), wardrobe_pressed, "ICON-UI-WARDROBE"]]:
 		var item: FancyButton = FancyButton.make(str(entry[0]), &"", Vector2(200, 48))
 		item.name = "Menu_%s" % str(entry[0]).split(" ")[0]
 		IconArt.button_icon(item, str(entry[2]), 30.0)
@@ -87,12 +93,16 @@ func _ready() -> void:
 	_toast.size = Vector2(1000, 44)
 	_toast.modulate.a = 0.0
 	add_child(_toast)
-	var hints: Label = UIKit.label("WASD / arrows: move      E / Space / Click: interact      Menu button: character, deck, quests, packs, wardrobe      M: map      Esc: menu", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	var hints: Label = UIKit.label("%s: move      %s / Click: interact      Menu button: character, deck, quests, packs, wardrobe      %s: map      %s: menu" % [_move_keys_text(), Keybinds.hint(&"interact"), Keybinds.first_key(&"open_map"), Keybinds.first_key(&"pause")], &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
 	hints.position = Vector2(960, 1030)
 	hints.size = Vector2(940, 30)
 	add_child(hints)
 	EventBus.gold_changed.connect(set_gold)
 	set_gold(Session.gold)
+	UiScale.corner(self, [left_column, gold_panel, _menu_button, _menu_panel] as Array[Control], HUD_SCALE_STRENGTH)
+	_gold_panel = gold_panel
+	Settings.ui_scale_changed.connect(_stack_right_column)
+	_stack_right_column()
 
 
 func set_gold(amount: int) -> void:
@@ -175,3 +185,28 @@ func toggle_menu() -> void:
 
 func close_menu() -> void:
 	_menu_panel.visible = false
+
+
+## The movement keys for the hint line: the primary keys as "W A S D", plus "arrows" when the secondary ones are the arrow keys.
+func _move_keys_text() -> String:
+	var primary: PackedStringArray = []
+	var secondary: PackedStringArray = []
+	for action: StringName in [&"move_up", &"move_left", &"move_down", &"move_right"]:
+		var keys: Array[int] = Keybinds.keys_of(action)
+		primary.append(Keybinds.key_text(keys[0]))
+		secondary.append(Keybinds.key_text(keys[1]))
+	var text: String = " ".join(primary)
+	if secondary != PackedStringArray(["Up", "Left", "Down", "Right"]):
+		return text + (" / " + " ".join(secondary) if secondary != PackedStringArray(["-", "-", "-", "-"]) else "")
+	return text + " / arrows"
+
+
+## Moves the gold counter, the Menu button and its list down by what the (scaled) minimap and the panels above them gained, so nothing overlaps.
+func _stack_right_column() -> void:
+	if _gold_panel == null or _menu_button == null or _menu_panel == null:
+		return
+	var factor: float = 1.0 + (Settings.ui_scale - 1.0) * HUD_SCALE_STRENGTH
+	var shift: float = 250.0 * (factor - 1.0)
+	_gold_panel.position.y = RIGHT_COLUMN_Y[0] + shift
+	_menu_button.position.y = RIGHT_COLUMN_Y[1] + shift + _gold_panel.size.y * (factor - 1.0)
+	_menu_panel.position.y = RIGHT_COLUMN_Y[2] + shift + (_gold_panel.size.y + _menu_button.size.y) * (factor - 1.0)

@@ -250,7 +250,7 @@ func _reveal(result: Alchemy.Result) -> void:
 	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(flash)
 	var flash_tween: Tween = flash.create_tween()
-	flash_tween.tween_property(flash, "color:a", 0.7, 0.1)
+	flash_tween.tween_property(flash, "color:a", 0.7 * Settings.flash_scale(), 0.1)
 	flash_tween.tween_property(flash, "color:a", 0.0, 0.5)
 	flash_tween.tween_callback(flash.queue_free)
 	_result_holder = Control.new()

@@ -55,6 +55,7 @@ func sfx(sound: StringName, volume_db: float = 0.0, pitch_jitter: float = 0.05) 
 	for player: AudioStreamPlayer in _pool:
 		if not player.playing:
 			player.stream = stream
+			player.bus = Settings.BUS_UI if String(sound).begins_with("ui_") else Settings.BUS_SFX
 			player.volume_db = volume_db
 			player.pitch_scale = 1.0 + _rng.randf_range(-pitch_jitter, pitch_jitter)
 			player.play()

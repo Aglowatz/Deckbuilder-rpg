@@ -175,7 +175,7 @@ func _build_ui() -> void:
 	# New brief, Part B: only shown once a deck actually exists (a returning profile - see
 	# docs/design/open_questions.md D64); a brand-new arrival has nothing to edit yet.
 	if Session.deck != null:
-		var deck_button: FancyButton = FancyButton.make("Deck (B)", &"", Vector2(180, 52))
+		var deck_button: FancyButton = FancyButton.make("Deck (%s)" % Keybinds.first_key(&"open_deck"), &"", Vector2(180, 52))
 		deck_button.position = Vector2(1650, 28)
 		deck_button.pressed.connect(_open_deck_builder)
 		host.add_child(deck_button)
@@ -421,11 +421,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	# New brief, Part B: the deck builder hotkey works here too, once a deck actually exists to
 	# edit (a returning profile after an abandoned run - a brand-new arrival has no deck yet,
 	# see docs/design/open_questions.md D64).
-	if not _locked and not dialogue.active and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_M:
+	if not _locked and not dialogue.active and event.is_action_pressed(&"open_map"):
 		get_viewport().set_input_as_handled()
 		_open_full_map()
 		return
-	if not _locked and not dialogue.active and Session.deck != null and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_B:
+	if not _locked and not dialogue.active and Session.deck != null and event.is_action_pressed(&"open_deck"):
 		get_viewport().set_input_as_handled()
 		_open_deck_builder()
 		return
@@ -433,16 +433,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	# New brief (third), Part D: the hidden tunnel - E/Space only, like the town's hidden chests
 	# (no marker to click on).
-	if _chest_near != "" and not _near_gate and (event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE)):
+	if _chest_near != "" and not _near_gate and (event.is_action_pressed(&"interact")):
 		get_viewport().set_input_as_handled()
 		_open_chest(_chest_near)
 		return
-	if _post_near != "" and not _near_gate and (event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE)):
+	if _post_near != "" and not _near_gate and (event.is_action_pressed(&"interact")):
 		get_viewport().set_input_as_handled()
 		_use_postgame(_post_near)
 		return
 	if _near_tunnel and not _near_gate:
-		if event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE):
+		if event.is_action_pressed(&"interact"):
 			get_viewport().set_input_as_handled()
 			_enter_tunnel()
 		return
@@ -452,11 +452,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_enter_gate()
 		return
-	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
-		if (event as InputEventKey).keycode == KEY_SPACE:
-			get_viewport().set_input_as_handled()
-			_enter_gate()
-			return
 	if event is InputEventMouseButton:
 		var click: InputEventMouseButton = event as InputEventMouseButton
 		if click.pressed and click.button_index == MOUSE_BUTTON_LEFT:

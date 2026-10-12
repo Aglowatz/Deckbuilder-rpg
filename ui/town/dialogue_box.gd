@@ -61,7 +61,17 @@ func _ready() -> void:
 	_hint = UIKit.label("E / Click to continue", &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
 	column.add_child(_hint)
 	_panel.resized.connect(_anchor_panel)
+	_apply_text_scale()
+	Settings.text_changed.connect(func() -> void:
+		_apply_text_scale()
+		_layout())
 	_layout()
+
+
+## The dialogue text size option: the line and the hint grow or shrink; the box is re-measured by `_layout`.
+func _apply_text_scale() -> void:
+	_text.add_theme_font_size_override("font_size", int(round(27.0 * Settings.dialogue_text_scale())))
+	_hint.add_theme_font_size_override("font_size", int(round(18.0 * Settings.dialogue_text_scale())))
 
 
 ## The name plate over the panel tab (UI-NAMEPLATE) holding the speaker label in dark ink.
@@ -201,7 +211,13 @@ func _show_line() -> void:
 		_portrait.set_talking(true)
 	if _tween != null and _tween.is_valid():
 		_tween.kill()
-	var duration: float = maxf(0.4, float(_lines[_index].length()) * 0.018)
+	var speed: float = Settings.dialogue_chars_per_second()
+	if speed <= 0.0:
+		# Instant: the whole line at once.
+		_text.visible_ratio = 1.0
+		_portrait.set_talking(false)
+		return
+	var duration: float = maxf(0.4 * 55.0 / speed, float(_lines[_index].length()) / speed)
 	_tween = create_tween()
 	_tween.tween_property(_text, "visible_ratio", 1.0, duration)
 	_tween.tween_callback(_portrait.set_talking.bind(false))

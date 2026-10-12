@@ -92,7 +92,7 @@ func _build_ui() -> void:
 	hints.size = Vector2(800, 30)
 	host.add_child(hints)
 	# New brief, Part B: the deck builder is reachable here too, not just in town/dungeon map.
-	var deck_button: FancyButton = FancyButton.make("Deck (B)", &"", Vector2(180, 52))
+	var deck_button: FancyButton = FancyButton.make("Deck (%s)" % Keybinds.first_key(&"open_deck"), &"", Vector2(180, 52))
 	deck_button.position = Vector2(1650, 100)
 	deck_button.pressed.connect(_open_deck_builder)
 	host.add_child(deck_button)
@@ -152,11 +152,11 @@ func _update_near_portal() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not _locked and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_M:
+	if not _locked and event.is_action_pressed(&"open_map"):
 		get_viewport().set_input_as_handled()
 		_open_full_map()
 		return
-	if not _locked and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_B:
+	if not _locked and event.is_action_pressed(&"open_deck"):
 		get_viewport().set_input_as_handled()
 		_open_deck_builder()
 		return
@@ -166,11 +166,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_return_to_town()
 		return
-	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
-		if (event as InputEventKey).keycode == KEY_SPACE:
-			get_viewport().set_input_as_handled()
-			_return_to_town()
-			return
 	if event is InputEventMouseButton:
 		var click: InputEventMouseButton = event as InputEventMouseButton
 		if click.pressed and click.button_index == MOUSE_BUTTON_LEFT:

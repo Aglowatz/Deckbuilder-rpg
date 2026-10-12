@@ -67,6 +67,11 @@ func _make_tile(offer: ElementChoice.Offer) -> Control:
 	inner.add_theme_constant_override("margin_top", 14)
 	tile.add_child(inner)
 	inner.add_child(UIKit.label(UIStyle.affinity_name(offer.affinity), &"HeadingLabel", 28, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	if Settings.colorblind_symbols:
+		var tile_symbol: TextureRect = IconArt.rect(IconArt.energy_id(offer.affinity), 56.0)
+		if tile_symbol != null:
+			tile_symbol.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			inner.add_child(tile_symbol)
 	var identity: Label = UIKit.label(offer.identity, &"", 17, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	identity.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	identity.custom_minimum_size = Vector2(260, 70)

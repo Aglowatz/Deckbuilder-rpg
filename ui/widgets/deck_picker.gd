@@ -28,6 +28,7 @@ static func guard(layer: Control, proceed: Callable, on_cancel: Callable = Calla
 func _ready() -> void:
 	name = "DeckPicker"
 	UIKit.full_rect(self)
+	UiScale.fit(self)
 	z_index = 210
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var shade: ColorRect = ColorRect.new()

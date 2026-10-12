@@ -2991,3 +2991,15 @@ Judgment calls IC-1 to IC-16 are in `docs/design/open_questions.md`. Source: `G:
 - **4, dungeon nodes and minimap:** medallion nodes with cleared and unreachable overlays (boss larger), minimap and full-map icons, the rotating player arrow, quest available and turn-in markers on NPCs, the Arena marker.
 - **Verify:** `bash tools/icon_verify.sh [WxH ...]` writes `_screenshots/icon_verify/<screen>_<WxH>.png` (battle with cost pips, trays, keyword badges, exhausted and buffed units and a tooltip; deck builder; character screen with and without gear; the three vendors; the Alchemist; reward, quest and level popups; pause menu; quest log; town and Gainlands minimap and full map; a dungeon map with cleared and locked nodes) at 1600x900 and 1024x768. Icons stayed crisp and readable at both sizes. New screenshot hooks: `--field=`, `--mark=exhaust:0,buff:1:3` on the battle; `--open=character_gear`, `reveal`, `map_all` in the town and zones.
 - **Not done / for you:** 18 zone equipment pieces, the 13 consumables and the hats and cloaks have no icon art and keep their game-icons silhouettes (`docs/backlog.md`). The Contract tile on the table keeps its card art. Icons are never tinted: on very light panels (the parchment cards) they sit on their own outlines, which read fine in the screenshots.
+
+## Settings and accessibility
+
+Judgment calls SA-1 to SA-9 are in `docs/design/open_questions.md`. Tests: `tests/test_settings_access.gd` (29), full run all passing.
+
+- **Display:** window mode (windowed / fullscreen / borderless), windowed resolution, VSync, frame cap, quality preset, UI scale 90-150% (per-screen `UiScale`, see SA-3), minimap, camera distance.
+- **Text:** card, dialogue and tooltip sizes (Small / Normal / Large / Extra large) and dialogue speed (Slow / Normal / Fast / Instant), with a live sample line.
+- **Accessibility:** Path symbols on cards, deck rows and Path choices; reduce screen shake; reduce flashing; "Reset all settings".
+- **Controls:** rebinding screen for 16 actions with two slots each, per-action and global reset; every overworld shortcut and the movement keys read the InputMap now (`Keybinds`), hints show the live keys.
+- **Audio:** master, music, effects and interface volumes (new UI bus) and mute when unfocused.
+- Everything applies at once and persists in `user://settings.cfg`. Screenshots: `_screenshots/settings/` (the five pages, colour-blind cards in a battle and the deck builder, UI scale 140-150% in the town, a battle and the settings screen, large dialogue text). New shot option: `--set=colorblind_symbols:true,ui_scale:1.3,text_cards:3` sets Settings values for a shot without saving them.
+- **Not done / for you:** the dungeon map HUD and the cutscenes ignore the UI scale; the HUD hint texts in tip popups still name the default keys; real fullscreen resolution switching (exclusive mode) is not offered, Fullscreen uses the desktop size.

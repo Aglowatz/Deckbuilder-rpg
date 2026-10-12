@@ -27,6 +27,7 @@ static func make(screen_mode: Mode, thumbnail: Image = null) -> SaveSlotsScreen:
 func _ready() -> void:
 	name = "SaveSlotsScreen"
 	UIKit.full_rect(self)
+	UiScale.fit(self)
 	z_index = 150
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var dim: Control = UiSkin.menu_backdrop(Color(0.02, 0.01, 0.05, 0.85))

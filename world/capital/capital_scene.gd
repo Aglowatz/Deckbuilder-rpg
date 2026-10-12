@@ -184,7 +184,7 @@ func _zone_process(delta: float) -> void:
 		_ash_added = true
 		_camera.add_child(CapitalLook.confetti() if Session.flag(CapitalZone.FLAG_FREED) else CapitalLook.ash())
 	if _shake > 0.0:
-		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _shake * 0.12
+		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _shake * 0.12 * Settings.shake_scale()
 		_shake = maxf(0.0, _shake - delta * 1.6)
 	if player.airborne or _fainting or _traveling:
 		return

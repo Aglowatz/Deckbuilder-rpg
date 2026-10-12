@@ -53,7 +53,7 @@ func _flash() -> void:
 	_label.add_theme_color_override("font_color", UIStyle.HP_RED)
 	var home: float = position.x
 	_shake = create_tween()
-	for i: int in range(6):
+	for i: int in range(0 if Settings.reduce_shake else 6):
 		_shake.tween_property(self, "position:x", home + (8.0 if i % 2 == 0 else -8.0), 0.04)
 	_shake.tween_property(self, "position:x", home, 0.04)
 	_shake.tween_callback(func() -> void: _label.add_theme_color_override("font_color", UIStyle.PARCHMENT))

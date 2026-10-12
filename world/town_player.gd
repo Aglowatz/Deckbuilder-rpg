@@ -66,13 +66,13 @@ func _process(delta: float) -> void:
 
 func _read_input() -> Vector2:
 	var result: Vector2 = Vector2.ZERO
-	if Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP):
+	if Input.is_action_pressed(&"move_up"):
 		result.y -= 1.0
-	if Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN):
+	if Input.is_action_pressed(&"move_down"):
 		result.y += 1.0
-	if Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT):
+	if Input.is_action_pressed(&"move_left"):
 		result.x -= 1.0
-	if Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT):
+	if Input.is_action_pressed(&"move_right"):
 		result.x += 1.0
 	return result.normalized()
 

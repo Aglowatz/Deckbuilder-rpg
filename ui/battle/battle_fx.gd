@@ -124,7 +124,7 @@ func flash_ring(pos: Vector2, color: Color, radius: float = 110.0) -> void:
 
 
 func shake(strength: float = 14.0, duration: float = 0.3) -> void:
-	if shake_target == null:
+	if shake_target == null or Settings.reduce_shake:
 		return
 	if _shake_tween != null and _shake_tween.is_valid():
 		_shake_tween.kill()

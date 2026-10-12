@@ -13,7 +13,7 @@ var _tab_buttons: Dictionary = {}
 func _init() -> void:
 	screen_title = "Quest Log"
 	title_icon_id = "ICON-UI-QUESTS"
-	close_text = "Close (J)"
+	close_text = "Close (%s)" % Keybinds.first_key(&"open_quests")
 	background_id = "UI-BG-QUESTLOG"
 
 
@@ -45,7 +45,7 @@ func _build() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_J:
+	if event.is_action_pressed(&"open_quests"):
 		get_viewport().set_input_as_handled()
 		request_close()
 		return

@@ -18,7 +18,7 @@ static func run(host: Node, overlay_layer: Control, dialogue: DialogueBox, stati
 	await host.get_tree().create_timer(0.35).timeout
 	Audio.sfx(&"hit_heavy")
 	var flash: ColorRect = ColorRect.new()
-	flash.color = Color(1.0, 1.0, 1.0, 0.0)
+	flash.color = Color(1.0, 1.0, 1.0, 0.0) if not Settings.reduce_flashing else Color(0.12, 0.1, 0.18, 0.0)
 	flash.mouse_filter = Control.MOUSE_FILTER_STOP
 	UIKit.full_rect(flash)
 	overlay_layer.add_child(flash)

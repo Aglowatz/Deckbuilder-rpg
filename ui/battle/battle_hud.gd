@@ -32,6 +32,7 @@ var _tooltip_box: VBoxContainer
 var _banner: Label
 var _phase_index: int = 0
 var _processing_row: HBoxContainer
+var _side_panel: PanelContainer
 var _processing_label: Label
 
 
@@ -45,6 +46,7 @@ func setup(game_state: GameState, enemy_name: String, enemy_icon: String) -> voi
 	_build_preview()
 	_build_banner()
 	refresh_all()
+	UiScale.corner(self, [_portraits[0], _portraits[1], _side_panel, primary_button, attack_all_button, end_turn_button] as Array[Control], 0.35)
 
 
 ## Part G: a banner at the top of an Arena duel: the fight's name and its rules/goal (a puzzle's goal is the whole point).
@@ -123,6 +125,7 @@ func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
 
 func _build_side_panel() -> void:
 	var panel: PanelContainer = UIKit.panel(&"DarkPanel")
+	_side_panel = panel
 	panel.position = Vector2(1640, 226)
 	panel.size = Vector2(250, 406)
 	add_child(panel)
@@ -369,8 +372,8 @@ func show_preview(view: CardView) -> void:
 		entries.append(["Summoning sickness", str(KeywordInfo.GLOSSARY["Summoning sickness"])])
 	_tooltip.visible = not entries.is_empty()
 	for entry: Array in entries:
-		_tooltip_box.add_child(KeywordInfo.title_row(str(entry[0]), str(entry[2]) if entry.size() > 2 else "", 22))
-		var body: Label = UIKit.label(str(entry[1]), &"", 19, UIStyle.PARCHMENT)
+		_tooltip_box.add_child(KeywordInfo.title_row(str(entry[0]), str(entry[2]) if entry.size() > 2 else "", Settings.tooltip_font(22)))
+		var body: Label = UIKit.label(str(entry[1]), &"", Settings.tooltip_font(19), UIStyle.PARCHMENT)
 		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		body.custom_minimum_size = Vector2(270, 0)
 		_tooltip_box.add_child(body)

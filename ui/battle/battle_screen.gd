@@ -526,7 +526,7 @@ func _refresh_ui() -> void:
 			primary_enabled = false
 	board.set_glows(glows)
 	if primary_enabled and _SPACE_ADVANCE_MODES.has(mode):
-		primary += "  [Space]"
+		primary += "  [%s]" % Keybinds.first_key(&"battle_advance")
 	hud.primary_button.text = primary
 	hud.primary_button.disabled = not primary_enabled
 	hud.end_turn_button.visible = end_visible
@@ -665,10 +665,12 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	var key: InputEventKey = event as InputEventKey
-	if key != null and key.pressed and not key.echo and key.keycode == KEY_SPACE:
+	if event.is_action_pressed(&"battle_advance"):
 		if not busy and _SPACE_ADVANCE_MODES.has(mode) and not hud.primary_button.disabled:
 			_on_primary()
+		return
+	if event.is_action_pressed(&"battle_end_turn"):
+		_on_end_turn()
 		return
 	var motion: InputEventMouseMotion = event as InputEventMouseMotion
 	if motion != null and _press_uid != 0 and mode == Mode.MAIN and not _dragging:

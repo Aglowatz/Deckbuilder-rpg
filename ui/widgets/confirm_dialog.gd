@@ -19,6 +19,7 @@ static func ask(parent: Node, title: String, message: String, confirm_text: Stri
 
 func _ready() -> void:
 	UIKit.full_rect(self)
+	UiScale.fit(self)
 	z_index = 200
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.02, 0.01, 0.05, 0.7)

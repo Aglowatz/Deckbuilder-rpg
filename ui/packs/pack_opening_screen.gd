@@ -79,7 +79,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if _shake > 0.01:
 		_shake = maxf(0.0, _shake - delta * 28.0)
-		_stage.position = _shake_origin + Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * _shake
+		_stage.position = _shake_origin + Vector2(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0)) * _shake * Settings.shake_scale()
 	elif _stage != null and _stage.position != _shake_origin:
 		_stage.position = _shake_origin
 

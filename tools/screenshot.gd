@@ -39,6 +39,25 @@ func _initialize() -> void:
 		session.set("save_enabled", false)
 
 
+## `--set=colorblind_symbols:true,ui_scale:1.3,text_cards:3` sets Settings values for the shot (never saved). Runs on the first frame, after the Settings autoload loaded the saved file.
+func _apply_settings_args() -> void:
+	var settings: Node = root.get_node_or_null("Settings")
+	if settings == null:
+		return
+	for pair: String in str(_args.get("set", "")).split(",", false):
+		var kv: PackedStringArray = pair.split(":")
+		if kv.size() != 2:
+			continue
+		var current: Variant = settings.get(kv[0])
+		if typeof(current) == TYPE_BOOL:
+			settings.set(kv[0], kv[1] == "true")
+		elif typeof(current) == TYPE_INT:
+			settings.set(kv[0], int(kv[1]))
+		elif typeof(current) == TYPE_FLOAT:
+			settings.set(kv[0], float(kv[1]))
+	settings.call("apply_tooltip_theme")
+
+
 func _find_vendor(node: Node) -> Node:
 	if node.has_method("vendor_react") and node.get("stage") != null:
 		return node
@@ -52,6 +71,7 @@ func _find_vendor(node: Node) -> Node:
 func _process(delta: float) -> bool:
 	if not _started:
 		_started = true
+		_apply_settings_args()
 		var packed: PackedScene = load(_scene_path) as PackedScene
 		if packed == null:
 			push_error("screenshot: cannot load %s" % _scene_path)

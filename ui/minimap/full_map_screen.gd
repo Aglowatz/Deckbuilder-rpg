@@ -21,7 +21,7 @@ func setup(area_id: String, map: WalkableArea, hero: TownPlayer, points: Array[M
 	_area_name = area_name
 	screen_title = "Map - %s" % area_name
 	title_icon_id = "ICON-UI-MAP"
-	close_text = "Close (M)"
+	close_text = "Close (%s)" % Keybinds.first_key(&"open_map")
 	background_id = "UI-BG-WORLDMAP"
 
 
@@ -104,7 +104,7 @@ func _draw_map() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_M:
+	if event.is_action_pressed(&"open_map"):
 		get_viewport().set_input_as_handled()
 		request_close()
 		return

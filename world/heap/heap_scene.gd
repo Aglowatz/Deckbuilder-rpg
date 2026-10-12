@@ -117,7 +117,7 @@ func _zone_process(delta: float) -> void:
 		_fireflies_added = true
 		_camera.add_child(HeapLook.fireflies())
 	if _shake > 0.0:
-		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _shake * 0.18
+		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _shake * 0.18 * Settings.shake_scale()
 		_shake = maxf(0.0, _shake - delta * 2.4)
 	if player.airborne or _falling or _fainting:
 		return
@@ -153,7 +153,7 @@ func _track_safe_spot() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_Q:
+	if event.is_action_pressed(&"dismount"):
 		if is_riding() and not _locked and not dialogue.active and not _fainting:
 			get_viewport().set_input_as_handled()
 			_dismount(true)

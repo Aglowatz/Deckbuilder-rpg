@@ -15,6 +15,7 @@ func _ready() -> void:
 	visible = false
 	_root = UIKit.layer_host(self)
 	_root.mouse_filter = Control.MOUSE_FILTER_STOP
+	UiScale.fit(_root)
 	var dim: Control = UiSkin.menu_backdrop(Color(0.02, 0.01, 0.04, 0.72))
 	_root.add_child(dim)
 	var center: CenterContainer = CenterContainer.new()

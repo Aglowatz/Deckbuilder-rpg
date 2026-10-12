@@ -229,7 +229,7 @@ static func smoke_puff(host: Node3D, at: Vector3) -> void:
 	var flash: OmniLight3D = OmniLight3D.new()
 	flash.position = at
 	flash.light_color = Color("fff4d8")
-	flash.light_energy = 6.0
+	flash.light_energy = 6.0 * Settings.flash_scale()
 	flash.omni_range = 5.0
 	host.add_child(flash)
 	var flash_tween: Tween = flash.create_tween()

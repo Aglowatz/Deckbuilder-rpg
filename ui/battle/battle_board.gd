@@ -872,9 +872,10 @@ func _on_damage(event: GameEvent) -> void:
 	if not on_player:
 		var target_view: CardView = view_for(event.other)
 		if target_view != null:
-			var flash: Tween = create_tween()
-			flash.tween_property(target_view, "modulate", Color(1.6, 0.6, 0.6), 0.06)
-			flash.tween_property(target_view, "modulate", Color.WHITE, 0.2)
+			if not Settings.reduce_flashing:
+				var flash: Tween = create_tween()
+				flash.tween_property(target_view, "modulate", Color(1.6, 0.6, 0.6), 0.06)
+				flash.tween_property(target_view, "modulate", Color.WHITE, 0.2)
 		_refresh_view(event.other)
 	await _wait(0.28)
 

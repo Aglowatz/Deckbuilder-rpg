@@ -192,9 +192,13 @@ func _show_beat() -> void:
 	_right.modulate = Color(0.6, 0.6, 0.66, 1) if speaks_left else Color(1, 1, 1, 1)
 	if _tween != null and _tween.is_valid():
 		_tween.kill()
-	var duration: float = maxf(0.5, float(_text.text.length()) * 0.016)
+	var duration: float = Settings.typewriter_time(maxf(0.5, float(_text.text.length()) * 0.016))
 	_tween = create_tween()
-	_tween.tween_property(_text, "visible_ratio", 1.0, duration)
+	if duration <= 0.0:
+		_text.visible_ratio = 1.0
+		_tween.kill()
+	else:
+		_tween.tween_property(_text, "visible_ratio", 1.0, duration)
 	Audio.sfx(&"dialogue", -10.0)
 	_fx(str(beat["fx"]))
 
@@ -309,6 +313,9 @@ func _run_fx(name: String) -> void:
 
 
 func _shake(strength: float, duration: float) -> void:
+	strength *= Settings.shake_scale()
+	if strength <= 0.0:
+		return
 	var shake: Tween = create_tween()
 	var steps: int = int(duration / 0.04)
 	for i: int in range(steps):
@@ -317,6 +324,7 @@ func _shake(strength: float, duration: float) -> void:
 
 
 func _flash_screen(color: Color, peak: float = 0.9) -> void:
+	peak *= Settings.flash_scale()
 	_flash.color = Color(color.r, color.g, color.b, 0.0)
 	var flash: Tween = create_tween()
 	flash.tween_property(_flash, "color:a", peak, 0.08)

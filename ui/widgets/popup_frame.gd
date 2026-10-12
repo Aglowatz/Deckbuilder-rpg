@@ -40,6 +40,7 @@ static func make(header: String, icon: String, accent_color: Color = UIStyle.GOL
 func _build(header_text: String, icon: String) -> void:
 	name = "PopupFrame"
 	UIKit.full_rect(self)
+	UiScale.fit(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.02, 0.02, 0.06, 0.82)

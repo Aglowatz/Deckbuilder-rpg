@@ -744,32 +744,32 @@ func _unhandled_input(event: InputEvent) -> void:
 	# The character screen (Part E) and the deck builder (new brief, Part B) are global
 	# shortcuts, not tied to a nearby spot - usable anywhere in town, not just at the station.
 	if not _locked and not dialogue.active and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
-		if (event as InputEventKey).keycode == KEY_C:
+		if event.is_action_pressed(&"open_character"):
 			get_viewport().set_input_as_handled()
 			_open_character_screen()
 			return
-		if (event as InputEventKey).keycode == KEY_B:
+		if event.is_action_pressed(&"open_deck"):
 			get_viewport().set_input_as_handled()
 			_open_deck_builder_anywhere()
 			return
-		if (event as InputEventKey).keycode == KEY_P:
+		if event.is_action_pressed(&"open_packs"):
 			get_viewport().set_input_as_handled()
 			_open_packs()
 			return
-		if (event as InputEventKey).keycode == KEY_T:
+		if event.is_action_pressed(&"open_wardrobe"):
 			get_viewport().set_input_as_handled()
 			_open_wardrobe()
 			return
-		if (event as InputEventKey).keycode == KEY_J:
+		if event.is_action_pressed(&"open_quests"):
 			get_viewport().set_input_as_handled()
 			_open_quest_log()
 			return
-		if (event as InputEventKey).keycode == KEY_M:
+		if event.is_action_pressed(&"open_map"):
 			get_viewport().set_input_as_handled()
 			_open_full_map()
 			return
 	if not _locked and not dialogue.active and _hidden_chest_near != "":
-		if event.is_action_pressed(&"interact") or (event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo and (event as InputEventKey).keycode == KEY_SPACE):
+		if event.is_action_pressed(&"interact"):
 			get_viewport().set_input_as_handled()
 			_open_hidden_chest(_hidden_chest_near)
 			return
@@ -779,11 +779,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_interact(_near)
 		return
-	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
-		if (event as InputEventKey).keycode == KEY_SPACE:
-			get_viewport().set_input_as_handled()
-			_interact(_near)
-			return
 	if event is InputEventMouseButton:
 		var click: InputEventMouseButton = event as InputEventMouseButton
 		if click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
@@ -1847,6 +1842,10 @@ func _screenshot_open(what: String) -> void:
 		"pause_settings":
 			SceneManager.get("_pause_menu").call("toggle")
 			SceneManager.get("_pause_menu").call("_show_settings")
+		"settings_display", "settings_text", "settings_access", "settings_controls", "settings_audio":
+			SceneManager.get("_pause_menu").call("toggle")
+			SceneManager.get("_pause_menu").call("_show_settings")
+			(SceneManager.get("_pause_menu").get("_settings") as SettingsPanel).show_page(["settings_display", "settings_text", "settings_access", "settings_controls", "settings_audio"].find(what))
 		"pause_load":
 			SceneManager.get("_pause_menu").call("toggle")
 			SceneManager.get("_pause_menu").call("_show_slots", SaveSlotsScreen.Mode.LOAD)
