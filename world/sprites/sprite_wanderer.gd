@@ -1,7 +1,8 @@
-class_name VillagerWalker
+class_name SpriteWanderer
 extends Node3D
-## The badger baker (WorldLookTest): a townsperson who wanders the plaza on a small graph of waypoints (a ring round the fountain plus the street mouths and a few
-## doorsteps), pausing now and then, drawn with the full walk set of `WorldSprite`.
+## A townsperson drawn as a painted sprite who wanders the plaza on a small graph of waypoints (a ring round the fountain plus the street mouths and a few doorsteps),
+## pausing now and then, with the full walk set of `WorldSprite` (the badger baker in the town; first built for the World Look Test). `character` is the sprite set.
+## `tick(delta, player_pos)` every frame; `world_position()` is where they stand (for a talk spot); `paused` is true while standing still, `frozen` stops them (dialogue).
 
 const SPEED: float = 1.15
 const RING_RADIUS: float = 4.6
@@ -9,6 +10,9 @@ const RING_POINTS: int = 14
 const PAUSE_CHANCE: float = 0.55
 
 var sprite: WorldSprite
+var character: String = "VILLAGER"
+## While true the wanderer stands still (the hero is talking to them).
+var frozen: bool = false
 var _town: TownBuilder
 var _points: Array[Vector3] = []
 var _links: Array[PackedInt32Array] = []
@@ -27,7 +31,7 @@ func setup(town: TownBuilder, plaza: Vector3, camera: Camera3D, sun_direction: V
 	_build_graph(plaza)
 	sprite = WorldSprite.new()
 	add_child(sprite)
-	sprite.setup("VILLAGER", camera, sun_direction)
+	sprite.setup(character, camera, sun_direction)
 	sprite.turn_rate_degrees = 420.0
 	_pos = _points[_at]
 	sprite.position = _pos
@@ -119,8 +123,20 @@ func _choose_next() -> void:
 	_next = pool[_rng.randi() % pool.size()]
 
 
+func world_position() -> Vector3:
+	return _pos
+
+
+## Turns the wanderer to face `position` (the hero who talks to them).
+func face(position: Vector3) -> void:
+	sprite.look_toward(position - _pos)
+
+
 func tick(delta: float, player_pos: Vector3) -> void:
 	_player_pos = player_pos
+	if frozen:
+		sprite.follow(_pos, delta)
+		return
 	if _pause > 0.0:
 		_pause -= delta
 		sprite.follow(_pos, delta)

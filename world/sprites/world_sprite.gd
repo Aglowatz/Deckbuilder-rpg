@@ -70,6 +70,7 @@ var _dye_color: Color = Color.WHITE
 var _dye_amount: float = 0.0
 var _body_scale: Vector2 = Vector2.ONE
 var _sun_world: Vector3 = Vector3(-0.42, 0.62, 0.67)
+var _sun_known: bool = false
 var _bob: float = 0.0
 
 
@@ -87,6 +88,7 @@ func setup(character_id: String, cam: Camera3D, sun_direction: Vector3 = Vector3
 	if not _load_character(character_id):
 		return false
 	set_sun(sun_direction)
+	_sun_known = sun_direction.length() > 0.01
 	_mesh = MeshInstance3D.new()
 	_mesh.mesh = quad
 	_mesh.material_override = _material
@@ -288,6 +290,12 @@ func set_body_scale(factor: Vector2) -> void:
 
 
 func _update(world_pos: Vector3, delta: float) -> void:
+	# The scene's own sun (the style rig puts its key light in the group `style_sun`), found once the sprite is in the tree.
+	if not _sun_known and is_inside_tree():
+		var sun: Node = get_tree().get_first_node_in_group(&"style_sun")
+		if sun is DirectionalLight3D:
+			set_sun(-(sun as DirectionalLight3D).global_basis.z)
+			_sun_known = true
 	if camera == null:
 		camera = get_viewport().get_camera_3d() if is_inside_tree() else null
 		if camera == null:

@@ -12,8 +12,6 @@ const SHOT_DIR: String = "res://docs/art/world_look/"
 const SHOT_SIZE: Vector2i = Vector2i(1280, 720)
 ## Standing spots used by the screenshot set.
 const SPOT_SQUARE: Vector3 = Vector3(26.8, 0.0, 15.2)
-## NPC id (TownScene._npcs) -> sprite character.
-const NPC_SPRITES: Dictionary = {"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK"}
 ## An NPC turns to face the hero when closer than this (metres).
 const NPC_NOTICE_RANGE: float = 4.2
 
@@ -26,8 +24,7 @@ var _yaw_steps: int = 0
 var _yaw: float = 0.0
 var _player_sprite: WorldSprite
 var _npc_sprites: Dictionary = {}
-var _talking_id: String = ""
-var _villager: VillagerWalker
+var _villager: SpriteWanderer
 var _sun_direction: Vector3 = Vector3(0.42, -0.62, -0.67)
 var _env: Environment
 var _post_material: ShaderMaterial
@@ -40,6 +37,11 @@ var _foliage: WorldFoliage
 var _ambient: WorldAmbient
 var _hold_dir: StringName = &""
 var _look_hash: int = 0
+
+
+## The bench draws its own wandering baker.
+func _build_baker() -> void:
+	pass
 
 
 ## This bench builds its own copy of the look pieces (with the live tuning panel), so the game's rig stays out.
@@ -165,14 +167,9 @@ func _build_sprites() -> void:
 		sprite.snap_heading(heading)
 		sprite.set_meta("home_heading", heading)
 		_npc_sprites[id] = sprite
-	_villager = VillagerWalker.new()
+	_villager = SpriteWanderer.new()
 	add_child(_villager)
 	_villager.setup(town, square.center, _camera, _sun_direction)
-
-
-func _face_npc(id: String) -> void:
-	_talking_id = id
-	super._face_npc(id)
 
 
 func _update_sprites(delta: float) -> void:

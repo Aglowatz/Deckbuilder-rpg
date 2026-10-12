@@ -30,9 +30,11 @@ const STORY_PATH: String = "res://data/story/intro_story.tres"
 const HIDDEN_CHEST_SECRET: String = "harbor_chest"
 const VAULT_LEVER_FLAG: StringName = &"vault_lever_pulled"
 const HIDDEN_VENDOR_SECRET: String = "harbor_chest"
+## The town NPCs that are painted sprites (docs/art/world_rollout.md, Part D): spot id -> sprite set. Everyone else is still a 3D model.
+const NPC_SPRITES: Dictionary = {"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK"}
 ## True for spots that are people to talk to, as opposed to objects/gates.
 const NPC_SPOT_IDS: Array[String] = [
-	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor",
+	"elder", "guard", "vendor", "hidden_vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "baker",
 	"npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat",
 ]
 ## The NPC ID (data/npcs, `NpcRegistry`) of each talkable town spot; spots without one (the secret dealer, the rift technician) show no portrait.
@@ -87,6 +89,10 @@ var _overlay: Control
 var _near: Spot
 var _time: float = 0.0
 var _npcs: Dictionary = {}
+## The NPC the hero is talking to (the sprite NPCs show their TALK pose while the dialogue is open).
+var _talking_id: String = ""
+## The wandering badger baker (a painted sprite that walks round the plaza; talk to him with E).
+var _baker: SpriteWanderer
 var _well_light: OmniLight3D
 var _well_particles: CPUParticles3D
 var _screenshot_args: Dictionary = {}
@@ -262,7 +268,8 @@ func _build_actors() -> void:
 	add_child(npc_hp)
 	_add_npc("vendor", "Rogue_Hooded", town.anchors["npc_market"] as Vector3, 200.0)
 	_add_npc("elder", "Mage", town.anchors["npc_elder"] as Vector3, -90.0)
-	TortoiseKit.add_shell(_npcs["elder"] as Node3D)
+	if not (_npcs["elder"] is SpriteActor):
+		TortoiseKit.add_shell(_npcs["elder"] as Node3D)
 	_add_npc("guard", "Barbarian", town.anchors["npc_gate"] as Vector3, 160.0)
 	if _secret_dealer_open():
 		_add_npc("hidden_vendor", "Rogue_Hooded", town.anchors["hidden_vendor"] as Vector3, 100.0)
@@ -278,6 +285,7 @@ func _build_actors() -> void:
 		_add_npc("alchemist", "Mage", town.anchors["npc_alchemist"] as Vector3, -80.0, Color(0.7, 1.0, 0.7))
 	if Session.arena_unlocked():
 		_add_npc("arena", "Barbarian", town.anchors["npc_arena"] as Vector3, 200.0, Color(1.0, 0.8, 0.6))
+	_build_baker()
 	# New brief, Part E: the 4 corrupted NPCs stay in town, and stay challengeable, even after
 	# being freed (D68) - only their dialogue changes on later visits, not their presence/look.
 	for npc_id: String in CorruptedNpcs.IDS:
@@ -317,9 +325,20 @@ func _build_actors() -> void:
 
 
 func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tint: Color = Color.WHITE) -> void:
-	var npc: Node3D = HeroModel.build(HeroModel.npc_look(model_name.substr(5))) if model_name.begins_with("hero:") else ModelKit.character(model_name)
-	if tint != Color.WHITE:
-		ModelKit.tint(npc, tint)
+	var npc: Node3D
+	var sprite_id: String = str(NPC_SPRITES.get(id, ""))
+	if sprite_id != "" and SpriteLibrary.has_character(sprite_id):
+		var actor: SpriteActor = SpriteActor.new()
+		actor.character = sprite_id
+		actor.follow_cosmetics = false
+		actor.natural_scale = TownPlayer.MODEL_SCALE
+		actor.turn_rate_degrees = 420.0
+		actor.name = "Sprite_%s" % id
+		npc = actor
+	else:
+		npc = HeroModel.build(HeroModel.npc_look(model_name.substr(5))) if model_name.begins_with("hero:") else ModelKit.character(model_name)
+		if tint != Color.WHITE:
+			ModelKit.tint(npc, tint)
 	ModelKit.place(self, npc, position, yaw, TownPlayer.MODEL_SCALE)
 	var animation: AnimationPlayer = ModelKit.animation_player(npc)
 	if animation != null and animation.has_animation("Idle"):
@@ -329,6 +348,15 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 	if npc_hp != null and id != "mannequin":
 		npc_hp.register(npc, yaw)
 	town.obstacles.append(Vector3(position.x, position.z, 0.3))
+
+
+## The badger baker: a townsperson who wanders the plaza (the World Look Test bench builds its own and overrides this).
+func _build_baker() -> void:
+	_baker = SpriteWanderer.new()
+	_baker.character = "VILLAGER"
+	_baker.name = "Baker"
+	add_child(_baker)
+	_baker.setup(town, square.center, null, Vector3.ZERO)
 
 
 ## New brief, Part E: the 4 corrupted NPCs - a dark, element-tinted character plus a slow,
@@ -430,6 +458,8 @@ func _build_spots() -> void:
 	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, 1.5)
 	_add_spot("pack_vendor", StoryText.shared().text("town.pack_vendor.name"), town.anchors["npc_pack_vendor"] as Vector3, 1.5)
 	_add_spot("tailor", StoryText.shared().text("town.tailor.name"), town.anchors["npc_tailor"] as Vector3, 1.5)
+	if _baker != null:
+		_add_spot("baker", "Brindle the Baker", _baker.world_position(), 1.4)
 	# Brief 9, Part F: the Alchemist (locked until two zones are free; visible and closed before that).
 	_add_spot("alchemist", StoryText.shared().text("town.alchemist.name"), town.anchors["alchemist"] as Vector3, 1.7)
 	# Brief 9, Part G: the Grand Clashatorium (chained until the first zone is free).
@@ -627,6 +657,7 @@ func _build_ui() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
+	_update_sprite_npcs(delta)
 	_passage_boost = lerpf(_passage_boost, _passage_boost_target(), 1.0 - exp(-1.8 * delta))
 	_update_passage_label()
 	_passage_dir = _passage_dir.lerp(_passage_dir_target, 1.0 - exp(-1.8 * delta))
@@ -840,6 +871,8 @@ func _interact(spot: Spot) -> void:
 			_talk_item_vendor()
 		"equipment_vendor":
 			_talk_equipment_vendor()
+		"baker":
+			_talk_baker()
 		"tailor":
 			_talk_tailor()
 		"pack_vendor":
@@ -860,6 +893,7 @@ func _interact(spot: Spot) -> void:
 
 
 func _face_npc(id: String) -> void:
+	_talking_id = id
 	var npc: Node3D = _npcs.get(id) as Node3D
 	if npc != null:
 		var offset: Vector3 = player.position - npc.position
@@ -1966,3 +2000,43 @@ func _screenshot_memory(number: int) -> void:
 	var story: StoryText = StoryText.shared()
 	var screen: MemoryScreen = MemoryScreen.make(number, story.text(MemoryDefs.key(number, "title")), story.get_lines(MemoryDefs.key(number, "fragment")))
 	_overlay_layer.add_child(screen)
+
+
+# ---- Sprite NPCs and the baker ---------------------------------------------------------------------------------------------------------
+
+
+## The painted NPCs show their TALK pose while the hero talks to them; the baker walks his round and his talk spot follows him.
+func _update_sprite_npcs(delta: float) -> void:
+	var talking: bool = dialogue != null and dialogue.active
+	if not talking:
+		_talking_id = ""
+	for id: Variant in _npcs.keys():
+		var actor: SpriteActor = _npcs[id] as SpriteActor
+		if actor != null:
+			actor.talking = talking and str(id) == _talking_id
+	if _baker == null or player == null:
+		return
+	_baker.frozen = talking and _talking_id == "baker"
+	_baker.tick(delta, player.position)
+	for spot: Spot in spots:
+		if spot.id == "baker":
+			spot.position = _baker.world_position()
+			spot.marker.position = spot.position + Vector3(0.0, 1.9, 0.0)
+			spot.plate.position = spot.marker.position + Vector3(0.0, 0.42, 0.0)
+
+
+const BAKER_LINES: Array[Array] = [
+	["Mind the flour! It gets everywhere. Into the bread, into the ledger, into my tea...", "Fresh loaves at dawn, sir, madam, traveller of unclear title."],
+	["I make the bread and the Crosspath eats the bread. It is a system and I am very proud of it.", "Try the seeded one. It has seeds in it. That is the whole recipe."],
+	["Heard the bridge to the Capital creaks at night. I wouldn't know; I'm asleep by nine. Dough waits for no badger.", "Take a roll for the road. No charge. (A small charge. Kidding.)"],
+]
+
+
+func _talk_baker() -> void:
+	var visits: int = int(Session.counters.get("baker_talks", 0))
+	Session.counters["baker_talks"] = visits + 1
+	var lines: Array[String] = []
+	lines.assign(BAKER_LINES[visits % BAKER_LINES.size()] as Array)
+	if _baker != null:
+		_baker.face(player.position)
+	_talk_npc("baker", "Brindle the Baker", lines)

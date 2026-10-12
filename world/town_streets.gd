@@ -189,7 +189,13 @@ func _signposts() -> void:
 	var plank: StandardMaterial3D = _material(Color("c8a46a"), 0.85)
 	for sign_data: Dictionary in TownLayout.signposts():
 		var pos: Vector3 = sign_data["pos"] as Vector3
-		_cylinder(0.06, 2.6 * SIGN_SCALE, wood, pos + Vector3(0, 1.3 * SIGN_SCALE, 0))
+		# One group per signpost, so the pole and its boards dissolve together when they stand between the camera and the hero.
+		var holder: Node3D = Node3D.new()
+		holder.name = "Signpost"
+		root.add_child(holder)
+		var pole: MeshInstance3D = _cylinder(0.06, 2.6 * SIGN_SCALE, wood, pos + Vector3(0, 1.3 * SIGN_SCALE, 0))
+		root.remove_child(pole)
+		holder.add_child(pole)
 		var boards: Array = sign_data["boards"] as Array
 		for index: int in range(boards.size()):
 			var board: Dictionary = boards[index] as Dictionary
@@ -198,10 +204,10 @@ func _signposts() -> void:
 			var width: float = (0.9 + 0.09 * float(text.length())) * SIGN_SCALE
 			var pole_side: float = -1.0 if str(board["dir"]).contains("W") else 1.0
 			var offset_x: float = pole_side * width * 0.5
-			root.add_child(_box(Vector3(width, 0.36 * SIGN_SCALE, 0.05), plank, pos + Vector3(offset_x * 0.3, height, 0.0)))
+			holder.add_child(_box(Vector3(width, 0.36 * SIGN_SCALE, 0.05), plank, pos + Vector3(offset_x * 0.3, height, 0.0)))
 			var label: Label3D = _label(text, pos + Vector3(offset_x * 0.3, height, 0.05), Color("2f1f12"), 0.0042 * SIGN_SCALE)
 			label.outline_size = 0
-			root.add_child(label)
+			holder.add_child(label)
 		town.obstacles.append(Vector3(pos.x, pos.z, 0.2))
 
 

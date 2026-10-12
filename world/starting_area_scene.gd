@@ -92,8 +92,7 @@ func _ready() -> void:
 		_spawn_rescuer()
 	elif str(_screenshot_args.get("show", "")) == "maren":
 		var mouth: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
-		_maren = ModelKit.character("Mage")
-		TortoiseKit.add_shell(_maren)
+		_maren = _make_maren()
 		ModelKit.place(self, _maren, mouth + Vector3(0.0, 0.0, 2.3), 180.0, TownPlayer.MODEL_SCALE)
 		player.position = mouth + Vector3(0.0, 0.0, 0.5)
 	if Session.cave_exit_pending and Session.profile != null and not _screenshot_args.has("quiet"):
@@ -336,8 +335,7 @@ func _begin_cave_exit() -> void:
 	player.position = gate + Vector3(0.0, 0.0, 0.5)
 	_camera.position = player.position + _camera_offset * Settings.camera_zoom
 	var maren_pos: Vector3 = gate + Vector3(0.0, 0.0, 2.3)
-	_maren = ModelKit.character("Mage")
-	TortoiseKit.add_shell(_maren)
+	_maren = _make_maren()
 	ModelKit.place(self, _maren, maren_pos, 180.0, TownPlayer.MODEL_SCALE)
 	player.face(maren_pos)
 	_say_maren("cave_mouth.maren", func() -> void:
@@ -348,6 +346,20 @@ func _begin_cave_exit() -> void:
 				SceneManager.go_to_town())))
 
 
+## Elder Maren: the painted tortoise sprite (TALK pose while she speaks); the Mage model with a shell stays as the fallback when the sprite art is missing.
+func _make_maren() -> Node3D:
+	if SpriteLibrary.has_character("ELDER"):
+		var actor: SpriteActor = SpriteActor.new()
+		actor.character = "ELDER"
+		actor.follow_cosmetics = false
+		actor.natural_scale = TownPlayer.MODEL_SCALE
+		actor.name = "Sprite_Maren"
+		return actor
+	var model: Node3D = ModelKit.character("Mage")
+	TortoiseKit.add_shell(model)
+	return model
+
+
 func _say_maren(key: String, then: Callable) -> void:
 	dialogue.start("Elder Maren", StoryText.shared().get_lines(key), "NPC-ELDER")
 	dialogue.finished.connect(then, CONNECT_ONE_SHOT)
@@ -355,6 +367,8 @@ func _say_maren(key: String, then: Callable) -> void:
 
 func _process(delta: float) -> void:
 	var target: Vector3 = player.position + _camera_offset * Settings.camera_zoom
+	if _maren is SpriteActor:
+		(_maren as SpriteActor).talking = dialogue != null and dialogue.active
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	if _custom_camera:
 		_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)

@@ -12,13 +12,16 @@ var follow_cosmetics: bool = true
 ## The scale the owning node applies to its model when nothing special happens (`TownPlayer.MODEL_SCALE`): a scale of this much is "natural".
 var natural_scale: float = 0.34
 var sprite: WorldSprite
-var _sun_found: bool = false
+## Shows the TALK pose while true (for characters that have one).
+var talking: bool = false
+## How fast the body swings round towards its yaw (the owner may smooth the yaw itself, as `NpcHp` does).
+var turn_rate_degrees: float = 3000.0
 
 
 func _ready() -> void:
 	sprite = WorldSprite.new()
 	sprite.local_mode = true
-	sprite.turn_rate_degrees = 3000.0
+	sprite.turn_rate_degrees = turn_rate_degrees
 	add_child(sprite)
 	sprite.setup(character, null, Vector3.ZERO)
 	sprite.snap_heading(Vector3(sin(rotation.y), 0.0, cos(rotation.y)))
@@ -41,11 +44,6 @@ func apply_cosmetics() -> void:
 func _process(delta: float) -> void:
 	if sprite == null:
 		return
-	if not _sun_found and is_inside_tree():
-		var sun: Node = get_tree().get_first_node_in_group(&"style_sun")
-		if sun is DirectionalLight3D:
-			sprite.set_sun(-(sun as DirectionalLight3D).global_basis.z)
-			_sun_found = true
 	# The card never inherits this node's scale (the contact shadow would shrink with it): the squash goes in through the shader instead.
 	var s: Vector3 = scale
 	if absf(s.x) > 0.0001 and absf(s.y) > 0.0001 and absf(s.z) > 0.0001:
@@ -53,6 +51,7 @@ func _process(delta: float) -> void:
 	var relative: float = 1.0 / maxf(natural_scale, 0.0001)
 	sprite.set_body_scale(Vector2(absf(s.x) * relative, absf(s.y) * relative))
 	sprite.roll_radians = rotation.x + rotation.z
+	sprite.talking = talking
 	sprite.look_toward(Vector3(sin(rotation.y), 0.0, cos(rotation.y)))
 	sprite.follow_parent(delta)
 	if absf(s.y) > 0.0001:
