@@ -22,7 +22,7 @@ uniform float floor_light : hint_range(0.0, 1.0) = 0.16;
 // Rim light: screen-space direction (x right, y up) towards the sun, strength, width in uv units.
 uniform vec2 rim_dir = vec2(-0.7, 0.7);
 uniform vec3 rim_color : source_color = vec3(1.0, 0.82, 0.55);
-uniform float rim_strength = 0.55;
+uniform float rim_strength = 0.42;
 uniform float rim_width = 0.012;
 
 void vertex() {

@@ -28,10 +28,10 @@ const SLIDERS: Array[Dictionary] = [
 
 ## F5 "Recommended". The final tuned numbers are logged in docs/art/world_look_test.md.
 const RECOMMENDED: Dictionary = {
-	"name": "F5 Recommended", "pitch": 20.0, "distance": 7.5, "fov": 42.0, "height": 1.0,
-	"focus": 0.6, "band": 0.12, "blur_far": 7.0, "blur_near": 6.0,
-	"bloom": 0.55, "bloom_threshold": 1.05, "glow_spread": 0.5,
-	"fog_density": 0.0035, "fog_color": "f2cfa4", "warmth": 0.35, "saturation": 1.1, "vignette": 0.28, "cloud_speed": 1.0,
+	"name": "F5 Recommended", "pitch": 20.0, "distance": 6.2, "fov": 44.0, "height": 0.9,
+	"focus": 0.62, "band": 0.13, "blur_far": 7.0, "blur_near": 6.0,
+	"bloom": 0.5, "bloom_threshold": 1.05, "glow_spread": 0.6,
+	"fog_density": 0.0035, "fog_color": "f2cfa4", "warmth": 0.3, "saturation": 1.1, "vignette": 0.28, "cloud_speed": 1.0,
 }
 
 ## F1 - F4: the old character-test cameras, expressed in the same parameters (look-up converted to a height offset).

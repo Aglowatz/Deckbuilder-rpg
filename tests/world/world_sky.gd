@@ -9,6 +9,7 @@ const SUN_SHADER: String = "res://tests/world/world_sunglow.gdshader"
 const SHADOW_SHADER: String = "res://tests/world/world_cloud_shadow.gdshader"
 const SKY_DIR: String = "res://assets/art/world_test/sky/"
 const SUN_DISTANCE: float = 1500.0
+const SUN_CARD_MAX_ELEVATION: float = 9.0
 ## Layers: orbit radius round the town (m), drift speed (m/s at cloud-speed 1.0), the clouds used (SKY-CLOUD-nn), their angular width (degrees), base elevation range (degrees), count.
 const LAYERS: Array[Dictionary] = [
 	{"radius": 1350.0, "speed": 3.5, "ids": [3, 6, 5, 1], "width": Vector2(14.0, 24.0), "elevation": Vector2(3.0, 9.0), "count": 11, "haze": 0.62},
@@ -28,11 +29,16 @@ var _shadow_plane: MeshInstance3D
 var _shadow_material: ShaderMaterial
 var _time: float = 0.0
 var _haze: Color = Color("f2cfa4")
+## Where the sun glow card hangs: the light's real compass direction, but never higher than SUN_CARD_MAX_ELEVATION so its glow can reach into the low camera's view.
+var _card_dir: Vector3 = Vector3(-0.42, 0.15, 0.67)
 
 
 func setup(cam: Camera3D, env: Environment, sun_travel: Vector3) -> void:
 	camera = cam
 	sun_toward = -sun_travel.normalized()
+	var flat: Vector2 = Vector2(sun_toward.x, sun_toward.z).normalized()
+	var elevation: float = minf(asin(clampf(sun_toward.y, -1.0, 1.0)), deg_to_rad(SUN_CARD_MAX_ELEVATION))
+	_card_dir = Vector3(flat.x * cos(elevation), sin(elevation), flat.y * cos(elevation))
 	if env != null:
 		_sky_material = ShaderMaterial.new()
 		_sky_material.shader = load(SKY_SHADER) as Shader
@@ -148,7 +154,7 @@ func tick(delta: float) -> void:
 		entry["angle"] = float(entry["angle"]) + _speed_scale * float(entry["speed"]) * delta / float(entry["radius"])
 	_place_clouds()
 	if camera != null:
-		_sun_card.global_position = camera.global_position + sun_toward * SUN_DISTANCE
+		_sun_card.global_position = camera.global_position + _card_dir * SUN_DISTANCE
 		_shadow_material.set_shader_parameter("follow_pos", camera.global_position)
 		_shadow_plane.global_position = Vector3(camera.global_position.x, 0.07, camera.global_position.z)
 

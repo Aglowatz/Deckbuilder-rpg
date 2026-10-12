@@ -20,7 +20,7 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _bird_material: ShaderMaterial
 var _bird_quad: QuadMesh
 ## Strength of the shafts (the scene may dim them).
-var shaft_strength: float = 0.16
+var shaft_strength: float = 0.1
 
 
 func setup(_scene: Node3D, _town: TownBuilder, cam: Camera3D, follow: Node3D, sun: Vector3) -> void:
@@ -68,9 +68,9 @@ func _build_motes() -> void:
 	_motes.gravity = Vector3(0.0, 0.015, 0.0)
 	_motes.scale_amount_min = 0.5
 	_motes.scale_amount_max = 1.5
-	_motes.color = Color(1.0, 0.93, 0.7, 0.85)
+	_motes.color = Color(1.0, 0.93, 0.7, 0.6)
 	var quad: QuadMesh = QuadMesh.new()
-	quad.size = Vector2(0.075, 0.075)
+	quad.size = Vector2(0.05, 0.05)
 	var material: StandardMaterial3D = StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA

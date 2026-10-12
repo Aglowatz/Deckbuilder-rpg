@@ -39,6 +39,7 @@ var _scenery: WorldScenery
 var _foliage: WorldFoliage
 var _ambient: WorldAmbient
 var _hold_dir: StringName = &""
+var _look_hash: int = 0
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -65,13 +66,38 @@ func _ready() -> void:
 	_find_sun()
 	_build_sprites()
 	_build_world()
+	for hidden_name: String in str(_args.get("hide", "")).split(",", false):
+		var piece: Node = _scenery.get_node_or_null(hidden_name)
+		if piece != null:
+			(piece as Node3D).visible = false
 	_build_post_and_ui()
+	for token: String in str(_args.get("off", "")).split(",", false):
+		match token:
+			"post":
+				_post_rect.visible = false
+			"foliage":
+				_foliage.visible = false
+			"ambient":
+				_ambient.visible = false
+			"scenery":
+				_scenery.visible = false
+			"sky":
+				_sky.visible = false
+			"sprites":
+				_player_sprite.visible = false
 	player.position = _spot_from_args()
 	_camera.position = player.position + camera_offset * Settings.camera_zoom
 	_yaw_steps = int(_args.get("yaw", 0)) / 30
 	_yaw = deg_to_rad(float(_yaw_steps) * 30.0)
 	player.move_yaw = _yaw
 	apply_preset(int(_args.get("preset", 5)), true)
+	for slider: Dictionary in LookParams.SLIDERS:
+		var key: String = str(slider["key"])
+		if _args.has(key):
+			_params[key] = float(_args[key])
+			_current[key] = float(_args[key])
+	if _args.has("zoom"):
+		Settings.camera_zoom = float(_args["zoom"])
 	if _shot_mode:
 		_hide_hud()
 		match str(_args["run"]):
@@ -81,6 +107,10 @@ func _ready() -> void:
 				_run_one.call_deferred()
 			"perf":
 				_run_perf.call_deferred()
+			"roundtrip":
+				_run_roundtrip.call_deferred()
+			"perfab":
+				_run_perfab.call_deferred()
 			"probe":
 				_run_probe.call_deferred()
 			"probe2":
@@ -207,6 +237,7 @@ func _build_post_and_ui() -> void:
 	_panel.save_pressed.connect(_save_my_preset)
 	_panel.reset_pressed.connect(func() -> void: apply_preset(5))
 	info_layer.add_child(_panel)
+	_panel.visible = _args.has("panel")
 	_place_panel.call_deferred()
 
 
@@ -258,7 +289,8 @@ func _blend_current(delta: float) -> void:
 	for key: Variant in _params.keys():
 		var target: Variant = _params[key]
 		if target is float or target is int:
-			_current[key] = lerpf(float(_current.get(key, target)), float(target), k)
+			var now: float = lerpf(float(_current.get(key, target)), float(target), k)
+			_current[key] = float(target) if absf(now - float(target)) < 0.0004 else now
 		elif key == "fog_color":
 			_current[key] = Color.html(str(_current.get(key, target))).lerp(Color.html(str(target)), k).to_html(false)
 		else:
@@ -272,6 +304,11 @@ func _apply_current() -> void:
 	var yawed: Vector3 = Vector3(0.0, sin(pitch_rad), cos(pitch_rad)) * dist
 	camera_offset = yawed.rotated(Vector3.UP, _yaw)
 	_camera.fov = float(p["fov"])
+	# The look (post pass, bloom, fog, sky, haze) is only pushed when a value really changed: touching the sky material every frame would redraw the sky cubemap every frame.
+	var look_hash: int = _current.hash()
+	if look_hash == _look_hash:
+		return
+	_look_hash = look_hash
 	if _post_material != null:
 		_post_material.set_shader_parameter("focus_y", float(p["focus"]))
 		_post_material.set_shader_parameter("band", float(p["band"]))
@@ -292,7 +329,7 @@ func _apply_current() -> void:
 		var spread: float = float(p["glow_spread"])
 		for level: int in range(0, 7):
 			var centre: float = spread * 5.0 + 0.5
-			_env.set_glow_level(level, clampf(1.0 - absf(float(level) - centre) * 0.32, 0.0, 1.0))
+			_env.set_glow_level(level, clampf(1.0 - absf(float(level) - centre) * 0.5, 0.0, 1.0))
 		_env.fog_enabled = true
 		_env.fog_density = float(p["fog_density"])
 		_env.fog_light_color = Color.html(str(p["fog_color"]))
@@ -333,6 +370,8 @@ func _process(delta: float) -> void:
 		_sky.tick(delta)
 	if _ambient != null:
 		_ambient.tick(delta)
+		# Light shafts only read from a low camera; from the high presets they would be big flat strips.
+		_ambient.set_shaft_strength(0.1 * clampf((38.0 - float(_current["pitch"])) / 10.0, 0.0, 1.0))
 	if _hold_dir != &"":
 		Input.action_press(_hold_dir)
 	_update_caption()
@@ -395,15 +434,209 @@ func _run_one() -> void:
 	get_tree().quit(0)
 
 
+## Where the documented shots stand: id -> [position, yaw degrees]. Yaw is how far the view is turned (0 looks north; 90 looks west; -90 looks east; 180 looks south).
+const SHOT_SPOTS: Dictionary = {
+	"square": [Vector3(26.8, 0.0, 15.2), 0],
+	"water": [Vector3(-18.0, 0.0, 12.5), 90],
+	"lm_capital": [Vector3(16.2, 0.0, -12.0), 0],
+	"lm_buffet": [Vector3(68.0, 0.0, 12.5), -90],
+	"lm_dump": [Vector3(-17.0, 0.0, 12.5), 90],
+	"lm_dna": [Vector3(-15.0, 0.0, 34.3), 90],
+	"lm_gainlands": [Vector3(25.2, 0.0, 64.0), 180],
+	"edge_north": [Vector3(25.2, 0.0, -16.0), 0],
+	"edge_west": [Vector3(-22.0, 0.0, 25.0), 90],
+	"edge_east": [Vector3(74.0, 0.0, 25.0), -90],
+	"edge_south": [Vector3(27.0, 0.0, 70.0), 180],
+}
+const PERF_PRESETS: Array[int] = [1, 2, 3, 4, 5]
+
+
+func _only(label: String) -> bool:
+	var filter: String = str(_args.get("only", ""))
+	if filter.is_empty():
+		return true
+	for part: String in filter.split(","):
+		if label.contains(part):
+			return true
+	return false
+
+
+func _go(spot_id: String, preset: int) -> void:
+	apply_preset(preset, true)
+	var spot: Array = SHOT_SPOTS[spot_id] as Array
+	_settle_at(spot[0] as Vector3, int(spot[1]))
+	await _wait(1.7)
+
+
+func _close_dialogue() -> void:
+	var guard: int = 0
+	while dialogue.active and guard < 80:
+		dialogue.press()
+		await get_tree().process_frame
+		guard += 1
+	_talking_id = ""
+
+
 func _run_shots() -> void:
+	print("world_look: recommended values: " + LookParams.describe(LookParams.recommended()))
+	await _wait(1.5)
+	_panel.visible = false
+	# The same spots at F1 - F5.
+	for spot_id: String in ["square", "water", "lm_capital", "lm_buffet", "lm_dump", "lm_dna", "lm_gainlands", "edge_north"]:
+		for preset: int in range(1, 6):
+			var label: String = "%s_f%d" % [spot_id, preset]
+			if not _only(label):
+				continue
+			await _go(spot_id, preset)
+			await _save_shot(label)
+	# The other edges at F4 and F5 (what the old test found at the low angles).
+	for spot_id: String in ["edge_west", "edge_east", "edge_south"]:
+		for preset: int in [4, 5]:
+			var label: String = "%s_f%d" % [spot_id, preset]
+			if not _only(label):
+				continue
+			await _go(spot_id, preset)
+			await _save_shot(label)
+	# Walking: towards the camera, away from it, and sideways, at F5 (mid-stride frames).
+	if _only("walk"):
+		await _walk_shots()
+	# Talking to each sprite NPC with the portrait open.
+	if _only("talk"):
+		await _talk_shots()
+	# The wandering villager.
+	if _only("villager"):
+		await _villager_shots()
+	if _only("panel"):
+		apply_preset(5, true)
+		_settle_at(SHOT_SPOTS["square"][0] as Vector3, 0)
+		_panel.visible = true
+		await _wait(1.5)
+		await _save_shot("panel_f5")
 	get_tree().quit(0)
 
 
+## Walks the hero in four screen directions and saves a frame mid-stride for each.
+func _walk_shots() -> void:
+	apply_preset(5, true)
+	var runs: Array[Array] = [
+		["walk_toward", &"move_down", _clear_start(Vector3(29.0, 0.0, 9.0), Vector3(0, 0, 1), 5.5)],
+		["walk_away", &"move_up", _clear_start(Vector3(29.0, 0.0, 19.0), Vector3(0, 0, -1), 5.5)],
+		["walk_left", &"move_left", _clear_start(Vector3(32.0, 0.0, 16.0), Vector3(-1, 0, 0), 5.5)],
+		["walk_right", &"move_right", _clear_start(Vector3(20.0, 0.0, 16.0), Vector3(1, 0, 0), 5.5)],
+	]
+	for run: Array in runs:
+		_settle_at(run[2] as Vector3, 0)
+		await _wait(1.3)
+		_hold_dir = run[1] as StringName
+		await _wait(0.7)
+		var guard: int = 0
+		while not _player_sprite.walking and guard < 90:
+			await get_tree().process_frame
+			guard += 1
+		print("world_look: %s frame=%s dir=%s flip=%s pos=%s" % [str(run[0]), _player_sprite.current_key, _player_sprite.current_dir, str(_player_sprite.current_flip), str(player.position)])
+		await _save_shot(str(run[0]))
+		Input.action_release(_hold_dir)
+		_hold_dir = &""
+		await _wait(0.3)
+	# A strip of eight frames of the walk towards the camera, taken on consecutive frames, for the doc's drift check.
+	_settle_at(Vector3(25.2, 0.0, 6.0), 0)
+	await _wait(1.0)
+
+
+## A start point near `around` from which the hero can walk `length` metres along `dir` (a unit ground vector) without meeting anything.
+func _clear_start(around: Vector3, dir: Vector3, length: float) -> Vector3:
+	for ring: int in range(0, 14):
+		for step: int in range(0, 12):
+			var angle: float = float(step) / 12.0 * TAU
+			var start: Vector3 = around + Vector3(cos(angle), 0.0, sin(angle)) * float(ring) * 0.7
+			var clear: bool = true
+			for i: int in range(0, int(length / 0.4) + 1):
+				if not town.is_walkable(start + dir * 0.4 * float(i), 0.4):
+					clear = false
+					break
+			if clear:
+				return start
+	return around
+
+
+func _talk_shots() -> void:
+	apply_preset(5, true)
+	var lines: Dictionary = {"elder": "Elder Maren", "guard": "Gatekeeper Brannoch", "vendor": "Sable", "item_vendor": "Tilly Tonic", "pack_vendor": "Foil Fenwick"}
+	for id: String in ["elder", "guard", "vendor", "item_vendor", "pack_vendor"]:
+		if not _only("talk_" + id):
+			continue
+		var npc: Node3D = _npcs[id] as Node3D
+		_settle_at(npc.position + Vector3(0.0, 0.0, 2.0), 0)
+		await _wait(1.6)
+		var before: String = (_npc_sprites[id] as WorldSprite).current_key
+		var chat: Array[String] = _elder_lines() if id == "elder" else _chat_lines()
+		_talk_npc(id, str(lines[id]), chat)
+		await _wait(1.5)
+		print("world_look: talk %s before=%s during=%s" % [id, before, (_npc_sprites[id] as WorldSprite).current_key])
+		await _save_shot("talk_" + id)
+		await _close_dialogue()
+		await _wait(0.3)
+
+
+func _chat_lines() -> Array[String]:
+	var result: Array[String] = ["Welcome to the Crosspath, traveller. Take a look around.", "The cards are fresh and the road is open."]
+	return result
+
+
+func _villager_shots() -> void:
+	apply_preset(5, true)
+	_settle_at(Vector3(25.2, 0.0, 17.0), 0)
+	var taken: int = 0
+	var seconds: float = 0.0
+	# Waits for the baker to be walking inside the picture a few times and saves a frame each.
+	while taken < 3 and seconds < 90.0:
+		await _wait(0.5)
+		seconds += 0.5
+		var sprite: WorldSprite = _villager.sprite
+		var on_screen: bool = not _camera.is_position_behind(sprite.position) and _camera.get_viewport().get_visible_rect().grow(-120.0).has_point(_camera.unproject_position(sprite.position))
+		if sprite.walking and on_screen and seconds > 1.0 + float(taken) * 6.0:
+			print("world_look: villager walking dir=%s key=%s pos=%s" % [sprite.current_dir, sprite.current_key, str(sprite.position)])
+			await _save_shot("villager_%d" % (taken + 1))
+			taken += 1
+
+
 func _run_perf() -> void:
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	Engine.max_fps = 0
+	await _wait(2.5)
+	_panel.visible = false
+	var presets: Array[int] = PERF_PRESETS.duplicate()
+	if _args.has("presets"):
+		presets = []
+		for part: String in str(_args["presets"]).split(","):
+			presets.append(int(part))
+	for spot_id: String in str(_args.get("spots", "square")).split(","):
+		for preset: int in presets:
+			apply_preset(preset, true)
+			var spot: Array = SHOT_SPOTS[spot_id] as Array
+			_settle_at(spot[0] as Vector3, int(spot[1]))
+			await _wait(1.5)
+			var frames: PackedFloat32Array = []
+			var elapsed: float = 0.0
+			while elapsed < 4.0:
+				await get_tree().process_frame
+				var dt: float = get_process_delta_time()
+				frames.append(dt)
+				elapsed += dt
+			var sorted: Array = Array(frames)
+			sorted.sort()
+			var total: float = 0.0
+			for value: float in frames:
+				total += value
+			var avg: float = total / float(frames.size())
+			var p95: float = float(sorted[int(float(sorted.size()) * 0.95)])
+			print("world_look: perf|%s|F%d|%.1f fps|%.2f ms avg|%.2f ms p95|%d draw calls|quality %d" % [spot_id, preset, 1.0 / avg, avg * 1000.0, p95 * 1000.0, int(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME)), Settings.graphics_quality])
 	get_tree().quit(0)
 
 
 func _run_walk() -> void:
+	await _wait(1.5)
+	await _walk_shots()
 	get_tree().quit(0)
 
 
@@ -447,3 +680,91 @@ func _run_probe2() -> void:
 			kinds[label] = int(kinds.get(label, 0)) + 1
 		print("world_look: connector %s children: %s" % [zone_id, str(kinds)])
 	get_tree().quit(0)
+
+
+## Switches one feature on or off for the A/B frame-time run.
+func _set_feature(token: String, enabled: bool) -> void:
+	match token:
+		"post":
+			_post_rect.visible = enabled
+		"foliage":
+			_foliage.visible = enabled
+		"ambient":
+			_ambient.visible = enabled
+		"scenery":
+			_scenery.visible = enabled
+		"sky":
+			_sky.visible = enabled
+		"sprites":
+			_player_sprite.visible = enabled
+		"bloom":
+			_env.glow_enabled = enabled
+		"outline":
+			style_rig.outline.visible = enabled
+		"fxaa":
+			get_viewport().screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if enabled else Viewport.SCREEN_SPACE_AA_DISABLED
+		"shadows":
+			style_rig.sun.shadow_enabled = enabled
+		"fog":
+			_env.fog_enabled = enabled
+		"scale":
+			get_viewport().scaling_3d_scale = 0.62 if enabled else 0.5
+		"cloudshadow":
+			_sky._shadow_plane.visible = enabled
+		"water":
+			(_scenery.get_node("WaterPlane") as Node3D).visible = enabled
+		"rings":
+			for ring_name: String in ["Ring_near_treeline", "Ring_mid_hills", "Ring_far_mountains"]:
+				(_scenery.get_node(ring_name) as Node3D).visible = enabled
+
+
+func _measure(seconds: float) -> Array[float]:
+	var frames: PackedFloat32Array = []
+	var elapsed: float = 0.0
+	while elapsed < seconds:
+		await get_tree().process_frame
+		var dt: float = get_process_delta_time()
+		frames.append(dt)
+		elapsed += dt
+	var total: float = 0.0
+	for value: float in frames:
+		total += value
+	return [1000.0 * total / float(frames.size())]
+
+
+## Frame time with each feature switched off in turn (same process, same minute, so thermal drift matters less); `--run=perfab`.
+func _run_perfab() -> void:
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	Engine.max_fps = 0
+	await _wait(2.5)
+	_panel.visible = false
+	apply_preset(int(_args.get("preset", 5)), true)
+	_settle_at(SHOT_SPOTS[str(_args.get("spot", "square"))][0] as Vector3, int(SHOT_SPOTS[str(_args.get("spot", "square"))][1]))
+	await _wait(6.0)
+	var rows: PackedStringArray = []
+	for token: String in str(_args.get("features", "post,bloom,foliage,ambient,sky,cloudshadow,water,rings,scenery,sprites")).split(","):
+		var before: Array[float] = await _measure(2.5)
+		_set_feature(token, false)
+		await _wait(0.4)
+		var result: Array[float] = await _measure(2.5)
+		_set_feature(token, true)
+		await _wait(0.4)
+		var line: String = "perfab|without %s|%.2f ms -> %.2f ms|saves %.2f ms" % [token, before[0], result[0], before[0] - result[0]]
+		rows.append(line)
+		print("world_look: " + line)
+	get_tree().quit(0)
+
+
+## `--run=roundtrip`: tweaks a value, saves My Preset, loads it with F6 and checks it came back (then removes the file again).
+func _run_roundtrip() -> void:
+	await _wait(1.0)
+	apply_preset(5, true)
+	_params["pitch"] = 27.5
+	_params["fog_color"] = "aabbcc"
+	_save_my_preset()
+	apply_preset(5, true)
+	apply_preset(6, true)
+	var ok: bool = is_equal_approx(float(_params["pitch"]), 27.5) and str(_params["fog_color"]) == "aabbcc" and str(_params["name"]) == "F6 My Preset"
+	print("world_look: roundtrip %s (pitch %.1f, fog %s)" % ["OK" if ok else "FAILED", float(_params["pitch"]), str(_params["fog_color"])])
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(LookParams.MY_PRESET_PATH))
+	get_tree().quit(0 if ok else 1)

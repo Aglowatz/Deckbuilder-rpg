@@ -3,7 +3,7 @@ render_mode unshaded, blend_add, depth_draw_never, cull_disabled, fog_disabled;
 // The sun glow card (SKY-SUN): additive, always facing the camera, parked at the sun's direction far away.
 
 uniform sampler2D tex : source_color, filter_linear_mipmap, repeat_disable;
-uniform float size = 700.0;
+uniform float size = 950.0;
 uniform float strength = 0.9;
 
 void vertex() {

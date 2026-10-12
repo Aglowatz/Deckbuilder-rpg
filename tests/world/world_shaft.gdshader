@@ -6,22 +6,26 @@ uniform vec3 axis = vec3(0.4, -0.65, -0.65);
 uniform float length_m = 9.0;
 uniform float width_m = 2.4;
 uniform vec3 color : source_color = vec3(1.0, 0.82, 0.5);
-uniform float strength = 0.16;
+uniform float strength = 0.1;
 uniform float seed = 0.0;
+
+varying float v_visible;
 
 void vertex() {
 	vec3 a = normalize(axis);
 	vec3 to_cam = normalize(INV_VIEW_MATRIX[3].xyz - MODEL_MATRIX[3].xyz);
 	vec3 side = normalize(cross(a, to_cam));
+	// Seen end-on (the sun behind the camera) a shaft has no width worth drawing: fade it out.
+	v_visible = smoothstep(0.4, 0.85, length(cross(a, to_cam)));
 	vec3 world = MODEL_MATRIX[3].xyz + side * (VERTEX.x * width_m) + a * (-VERTEX.y * length_m);
 	POSITION = PROJECTION_MATRIX * VIEW_MATRIX * vec4(world, 1.0);
 }
 
 void fragment() {
 	float across = 1.0 - abs(UV.x * 2.0 - 1.0);
-	across = smoothstep(0.0, 0.7, across);
+	across = pow(smoothstep(0.0, 1.0, across), 1.6);
 	float along = smoothstep(0.0, 0.18, UV.y) * (1.0 - smoothstep(0.55, 1.0, UV.y));
 	float shimmer = 0.78 + 0.22 * sin(TIME * 0.6 + seed * 6.28 + UV.y * 4.0);
-	ALBEDO = color * strength * across * along * shimmer;
+	ALBEDO = color * strength * across * along * shimmer * v_visible;
 	ALPHA = 1.0;
 }

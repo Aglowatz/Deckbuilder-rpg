@@ -20,7 +20,7 @@ const SHORE_INNER: float = 128.0
 const SHORE_OUTER: float = 165.0
 ## Ring layers, nearest first: file, radius, height (m), base y, haze, cool, render priority.
 const RINGS: Array[Dictionary] = [
-	{"file": "near_treeline", "radius": 146.0, "height": 9.5, "base": 0.0, "haze": 0.12, "cool": 0.06, "base_haze": 0.25, "priority": -6},
+	{"file": "near_treeline", "radius": 146.0, "height": 9.5, "base": 0.0, "haze": 0.1, "cool": 0.05, "base_haze": 0.0, "priority": -6},
 	{"file": "mid_hills", "radius": 215.0, "height": 17.0, "base": -0.4, "haze": 0.38, "cool": 0.28, "base_haze": 0.4, "priority": -7},
 	{"file": "far_mountains", "radius": 375.0, "height": 36.0, "base": -0.4, "haze": 0.58, "cool": 0.5, "base_haze": 0.45, "priority": -9},
 ]
@@ -167,6 +167,7 @@ func _build_water_plane() -> void:
 	var plane: PlaneMesh = PlaneMesh.new()
 	plane.size = Vector2(1600.0, 1600.0)
 	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.name = "WaterPlane"
 	instance.mesh = plane
 	instance.material_override = water_material
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -217,6 +218,7 @@ func _build_far_shore() -> void:
 	material.set_shader_parameter("grass_tex", load("res://assets/art/textures/town_grass_albedo.webp"))
 	material.set_shader_parameter("sand_tex", load("res://assets/art/textures/town_sand_albedo.webp"))
 	var land: MeshInstance3D = MeshInstance3D.new()
+	land.name = "FarShore"
 	land.mesh = land_mesh
 	land.material_override = material
 	land.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -230,6 +232,7 @@ func _build_far_shore() -> void:
 	foam_material.set_shader_parameter("tex", load(ART + "dec/shorefoam.png"))
 	foam_material.render_priority = 1
 	var foam: MeshInstance3D = MeshInstance3D.new()
+	foam.name = "FarShoreFoam"
 	foam.mesh = foam_mesh
 	foam.material_override = foam_material
 	foam.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -311,14 +314,17 @@ func _build_ring(ring: Dictionary) -> void:
 
 ## Each landmark card faces the town and stands where the zone passageway points: the direction from the town middle to the island at the end of its bridge.
 func _build_landmarks() -> void:
-	var ring: Dictionary = {"haze": 0.34, "cool": 0.22, "base_haze": 0.45, "priority": -8}
+	var ring: Dictionary = {"haze": 0.22, "cool": 0.12, "base_haze": 0.35, "priority": -8}
 	for entry: Dictionary in LANDMARKS:
 		var zone_id: String = str(entry["zone"])
 		var cell: Vector2i = TownBuilder.PORTAL_CELLS[zone_id] as Vector2i
+		# The direction from the middle of the town to the island at the end of the bridge (the two western zones, the Dump and the D.N.A., stay 18 degrees apart this way;
+		# a ray straight out of each mouth would put them 4 degrees apart and the two cards on top of each other).
 		var plan: Dictionary = TownConnectors.plan(_town.cell_center(cell.x, cell.y), TownBuilder.PORTAL_OUT[zone_id] as Vector3)
 		var toward: Vector3 = (plan["center"] as Vector3) - CENTER
 		toward.y = 0.0
 		toward = toward.normalized()
+		var spot: Vector3 = CENTER + toward * LANDMARK_RADIUS
 		var texture: Texture2D = load("%sbackdrop/landmark_%s.png" % [ART, str(entry["file"])]) as Texture2D
 		var width: float = 2.0 * LANDMARK_RADIUS * tan(deg_to_rad(float(entry["width"]) * 0.5))
 		var height: float = width * float(texture.get_height()) / float(texture.get_width())
@@ -333,7 +339,7 @@ func _build_landmarks() -> void:
 		card.extra_cull_margin = 400.0
 		card.set_meta(StyleToon.META_NO_TOON, true)
 		add_child(card)
-		card.position = CENTER + toward * LANDMARK_RADIUS + Vector3(0.0, 3.0, 0.0)
+		card.position = Vector3(spot.x, 3.0, spot.z)
 		# The card front (+z) faces the town centre.
 		card.look_at(Vector3(CENTER.x, card.position.y, CENTER.z), Vector3.UP, true)
 		print("world_look: landmark %s toward %s (%.0f deg from north), card %.0f x %.0f m" % [str(entry["file"]), str(toward), rad_to_deg(atan2(toward.x, -toward.z)), width, height])

@@ -182,3 +182,13 @@ func set_light(sun_color: Color, ambient: Color) -> void:
 		return
 	_material.set_shader_parameter("light_color", sun_color)
 	_material.set_shader_parameter("ambient_color", ambient)
+
+
+## Where every plant stands (for tests and tools).
+func positions() -> Array[Vector3]:
+	var result: Array[Vector3] = []
+	if _instance == null:
+		return result
+	for index: int in range(_instance.multimesh.instance_count):
+		result.append(_instance.multimesh.get_instance_transform(index).origin)
+	return result
