@@ -118,3 +118,32 @@ static func clumps(parent: Node3D, entries: Array[Dictionary], seed_value: int =
 static func clear_cache() -> void:
 	_materials.clear()
 	_card_cache.clear()
+
+
+## Many trees of one kind as ONE MultiMesh (one draw call and one shadow draw instead of one per tree). `entries`: [{"pos": Vector3, "scale": float}].
+static func tree_field(parent: Node3D, tree_kind: String, entries: Array[Dictionary], shadow: bool) -> MultiMeshInstance3D:
+	if entries.is_empty() or not TreeCards.KINDS.has(tree_kind):
+		return null
+	var data: Dictionary = TreeCards.KINDS[tree_kind] as Dictionary
+	var size: Vector2 = data["size"] as Vector2
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2.ONE
+	quad.center_offset = Vector3(0.0, 0.5, 0.0)
+	var multimesh: MultiMesh = MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	multimesh.mesh = quad
+	multimesh.instance_count = entries.size()
+	for index: int in range(entries.size()):
+		var s: float = float(entries[index].get("scale", 1.0))
+		multimesh.set_instance_transform(index, Transform3D(Basis.from_scale(Vector3(size.x * s, size.y * s, 1.0)), entries[index]["pos"] as Vector3))
+	var instance: MultiMeshInstance3D = MultiMeshInstance3D.new()
+	instance.name = "Trees_%s_%s" % [tree_kind, "shadow" if shadow else "far"]
+	instance.multimesh = multimesh
+	instance.material_override = card_material(str(data["id"]))
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if shadow else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.extra_cull_margin = 8.0
+	instance.set_meta(StyleToon.META_NO_TOON, true)
+	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	instance.set_meta("points", entries)
+	parent.add_child(instance)
+	return instance

@@ -68,13 +68,19 @@ static func edge_material(kind: String, seed_value: int = 0) -> ShaderMaterial:
 	return material_value
 
 
+static var _patch_cache: Dictionary = {}
+
+
 static func patch_material(kind: String, seed_value: int = 0) -> ShaderMaterial:
+	if _patch_cache.has(kind):
+		return _patch_cache[kind] as ShaderMaterial
 	var material_value: ShaderMaterial = surface_material(kind, seed_value)
 	material_value.set_shader_parameter("mode", 2)
 	material_value.set_shader_parameter("edge_tex", EnvKit.texture("DEC-WORNPATCH"))
 	material_value.set_shader_parameter("edge_rgb", EnvKit.has_art("DEC-WORNPATCH"))
 	material_value.set_shader_parameter("opacity", 0.9)
 	material_value.render_priority = -38
+	_patch_cache[kind] = material_value
 	return material_value
 
 

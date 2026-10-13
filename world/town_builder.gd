@@ -110,6 +110,7 @@ func build(parent: Node3D, decorate_far: bool = true) -> void:
 		_build_far_scenery()
 	_build_props()
 	_build_zone_portals()
+	_build_tree_fields()
 
 
 ## Copies MAP and carves the town's roads through it: mountains, trees and rocks within 3 m of a road become plain grass, and so does water inside the
@@ -239,11 +240,9 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 				# Nothing blocks a chest, a lever or a portal mouth: trees that would stand on or hug one are left out (they could cut it off).
 				if _near_special(offset, 1.9):
 					continue
-				var near: bool = Vector2(offset.x - TownLayout.PLAZA.x, offset.z - TownLayout.PLAZA.z).length() < 40.0
-				var card: Node3D = TreeCards.make(kind, 0.62 + 0.3 * (size_roll - 1.1) / 0.4, near)
-				card.position = offset
-				card.rotation_degrees.y = spin
-				root.add_child(card)
+				var near: bool = Vector2(offset.x - TownLayout.PLAZA.x, offset.z - TownLayout.PLAZA.z).length() < 26.0
+				_tree_entries.append({"kind": kind, "pos": offset, "scale": 0.62 + 0.3 * (size_roll - 1.1) / 0.4, "near": near})
+				var _spin: float = spin
 				obstacles.append(Vector3(offset.x, offset.z, OBSTACLE_TREE * 1.3))
 		"R":
 			walkable[Vector2i(col, row)] = true
@@ -606,3 +605,39 @@ func _near_special(pos: Vector3, radius: float) -> bool:
 
 
 var _special_points: Array[Vector3] = []
+
+
+## Painted trees, batched: every tree of a kind (near the square with shadows, far without) is one MultiMesh.
+var _tree_entries: Array[Dictionary] = []
+
+
+func _build_tree_fields() -> void:
+	var groups: Dictionary = {}
+	for entry: Dictionary in _tree_entries:
+		var key: String = "%s|%s" % [str(entry["kind"]), str(entry["near"])]
+		if not groups.has(key):
+			groups[key] = [] as Array[Dictionary]
+		(groups[key] as Array[Dictionary]).append(entry)
+	for key: String in groups.keys():
+		var parts: PackedStringArray = key.split("|")
+		KitFoliage.tree_field(root, parts[0], groups[key] as Array[Dictionary], parts[1] == "true")
+	_tree_entries.clear()
+
+
+# ---- batched ground pools (KitPools): AO skirts under buildings and props, warm light pools -------------------------------------
+
+
+var ao_pools: Array[Dictionary] = []
+var glow_pools: Array[Dictionary] = []
+
+
+func add_ao_footprint(center: Vector3, size: Vector2, yaw_degrees: float, strength: float = 0.42, margin: float = 1.1) -> void:
+	ao_pools.append({"pos": center, "size": size, "yaw": yaw_degrees, "strength": strength, "margin": margin})
+
+
+func add_ao_blob(pos: Vector3, radius: float, strength: float = 0.3, margin: float = 0.4) -> void:
+	ao_pools.append({"pos": pos, "radius": radius, "strength": strength, "margin": margin})
+
+
+func add_glow(pos: Vector3, radius: float, color: Color, strength: float) -> void:
+	glow_pools.append({"pos": pos, "radius": radius, "color": color, "strength": strength})

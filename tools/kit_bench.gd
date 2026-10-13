@@ -51,7 +51,7 @@ func _ready() -> void:
 	var clusters: PackedStringArray = str(_args.get("clusters", "")).split(",", false)
 	var cluster_x: float = -float(clusters.size()) * 3.0
 	for cluster_name: String in clusters:
-		var cluster: Node3D = PropClusters.make(cluster_name)
+		var cluster: Node3D = PropClusters.make(cluster_name, 0, true)
 		if cluster != null:
 			add_child(cluster)
 			cluster.position = Vector3(cluster_x, 0, 11.0)

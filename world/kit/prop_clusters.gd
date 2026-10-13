@@ -8,7 +8,12 @@ extends RefCounted
 const NAMES: Array[String] = ["doorstep", "crates", "market_set", "garden_bed", "bench_nook", "well_corner", "fence_garden", "banner_lamp", "barrel_pair"]
 
 
-static func make(cluster_name: String, seed_value: int = 0) -> Node3D:
+static var _ao_nodes: bool = false
+
+
+## `with_ao`: also lay a contact-shadow node under every solid piece (the kit bench; the town batches its pools in `TownKit.place_cluster`).
+static func make(cluster_name: String, seed_value: int = 0, with_ao: bool = false) -> Node3D:
+	_ao_nodes = with_ao
 	var root: Node3D = Node3D.new()
 	root.name = "Cluster_%s" % cluster_name
 	var circles: Array[Vector3] = []
@@ -115,4 +120,5 @@ static func _add(root: Node3D, prop: Node3D, pos: Vector3, yaw: float, circles: 
 	var radius: float = float(prop.get_meta("radius", 0.0))
 	if solid and radius > 0.0 and pos.y < 0.5:
 		circles.append(Vector3(pos.x, pos.z, radius))
-		KitAO.blob(root, pos, radius * 0.85, 0.3)
+		if _ao_nodes:
+			KitAO.blob(root, pos, radius * 0.85, 0.3)

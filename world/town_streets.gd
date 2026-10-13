@@ -168,7 +168,7 @@ func _notice_board() -> void:
 	root.add_child(board)
 	board.position = pos
 	board.rotation_degrees.y = rad_to_deg(atan2(toward.x, toward.z))
-	KitAO.blob(root, pos, 0.9, 0.3)
+	town.add_ao_blob(pos, 0.9, 0.3)
 	town.obstacles.append(Vector3(pos.x, pos.z, 1.1))
 	town.anchors["notice_board"] = pos + toward.normalized() * 1.4
 
@@ -195,7 +195,7 @@ func _signposts() -> void:
 		post.name = "Signpost"
 		root.add_child(post)
 		post.position = pos
-		KitAO.blob(root, pos, 0.35, 0.3)
+		town.add_ao_blob(pos, 0.35, 0.3)
 		town.obstacles.append(Vector3(pos.x, pos.z, 0.3))
 		town.anchors["signpost_%d" % index] = pos + Vector3(0.0, 0.0, 1.2)
 		signpost_positions.append(pos)
@@ -203,47 +203,76 @@ func _signposts() -> void:
 		index += 1
 
 
-## Lamp posts (4.2 m, a banner on every other one) along the roads and round the square, each with a real warm light; the style rig keeps the nearest few lit.
-var lamp_posts: Array[Node3D] = []
+## Lamp positions as {"pos": Vector3, "yaw": degrees} (the arm points at the road).
+var lamp_entries: Array[Dictionary] = []
 
 
+## Lamp posts (4.2 m, a banner on every other one) along the roads and round the square. They are two MultiMeshes (banner / plain: ten draws for thirty posts), each post with
+## a soft light pool; real lights only on the few nearest the spawn (the style rig keeps the nearest few lit).
 func _lamps() -> void:
 	var points: Array[Vector3] = TownLayout.lamps()
+	var road_samples: Array[Vector3] = TownLayout.road_points(1.5)
+	var transforms: Array = [[] as Array[Transform3D], [] as Array[Transform3D]]
 	var count: int = 0
 	for pos: Vector3 in points:
 		if not town.is_floor_at(pos) or TownLayout.in_footprint(pos, 0.9):
 			continue
-		var post: Node3D = PropKit.make("banner_post" if count % 2 == 0 else "lantern_post")
-		root.add_child(post)
-		post.position = pos
+		# the lamp that would stand right behind the hero at the spawn (between the lens and the hero: the posts are batched, so they cannot dissolve) is left out
+		if absf(pos.x - TownLayout.SPAWN.x) < 1.4 and pos.z > TownLayout.PLAZA.z + 3.0 and pos.z < TownLayout.SPAWN.z + 9.0:
+			continue
 		# the arm points towards the road so the lantern hangs over the paving
 		var road_side: Vector3 = Vector3.ZERO
 		var nearest: float = 1.0e9
-		for road_point: Vector3 in TownLayout.road_points(1.5):
+		for road_point: Vector3 in road_samples:
 			var d: float = Vector2(road_point.x - pos.x, road_point.z - pos.z).length()
 			if d < nearest:
 				nearest = d
 				road_side = road_point - pos
-		if nearest < 1.0e8:
-			post.rotation_degrees.y = rad_to_deg(atan2(-road_side.z, road_side.x))
+		var yaw: float = rad_to_deg(atan2(-road_side.z, road_side.x)) if nearest < 1.0e8 else 0.0
+		(transforms[count % 2] as Array[Transform3D]).append(Transform3D(Basis(Vector3.UP, deg_to_rad(yaw)), pos))
 		lamp_points.append(pos)
+		lamp_entries.append({"pos": pos, "yaw": yaw})
 		town.obstacles.append(Vector3(pos.x, pos.z, 0.26))
-		KitAO.blob(root, pos, 0.3, 0.3)
-		GroundDecals.glow(root, Vector3(pos.x, 0.0, pos.z), 2.8, WARM_LIGHT, 0.16)
-		lamp_posts.append(post)
+		town.add_ao_blob(pos, 0.3, 0.3)
+		town.add_glow(Vector3(pos.x, 0.0, pos.z), 2.8, WARM_LIGHT, 0.16)
 		count += 1
-	# Real lights only for the lamps nearest the spawn (the budget keeps the nearest few lit; the rest read through their glow pools and the bloom).
+	for variant: int in range(2):
+		var list: Array[Transform3D] = transforms[variant] as Array[Transform3D]
+		if list.is_empty():
+			continue
+		var prop: Node3D = PropKit.make("banner_post" if variant == 0 else "lantern_post")
+		var mesh: ArrayMesh = (prop.get_child(0) as MeshInstance3D).mesh as ArrayMesh
+		# the MultiMesh is not converted by the style rig (it only walks MeshInstance3D), so the toon materials are put on the surfaces here
+		for surface: int in range(mesh.get_surface_count()):
+			var standard: StandardMaterial3D = mesh.surface_get_material(surface) as StandardMaterial3D
+			var toon: ShaderMaterial = StyleToon.toon_for(standard, -1.0, false) if standard != null else null
+			if toon != null:
+				mesh.surface_set_material(surface, toon)
+		var multimesh: MultiMesh = MultiMesh.new()
+		multimesh.transform_format = MultiMesh.TRANSFORM_3D
+		multimesh.mesh = mesh
+		multimesh.instance_count = list.size()
+		for index: int in range(list.size()):
+			multimesh.set_instance_transform(index, list[index])
+		var instance: MultiMeshInstance3D = MultiMeshInstance3D.new()
+		instance.name = "LampPosts_%d" % variant
+		instance.multimesh = multimesh
+		instance.extra_cull_margin = 6.0
+		instance.set_meta(StyleToon.META_NO_TOON, true)
+		root.add_child(instance)
+		prop.free()
+	# Real lights only for the lamps nearest the spawn.
 	var spawn: Vector3 = TownLayout.SPAWN
-	lamp_posts.sort_custom(func(a: Node3D, b: Node3D) -> bool: return a.position.distance_squared_to(spawn) < b.position.distance_squared_to(spawn))
-	for index: int in range(mini(LAMPS_WITH_LIGHT, lamp_posts.size())):
-		var post: Node3D = lamp_posts[index]
+	lamp_entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return (a["pos"] as Vector3).distance_squared_to(spawn) < (b["pos"] as Vector3).distance_squared_to(spawn))
+	for index: int in range(mini(LAMPS_WITH_LIGHT, lamp_entries.size())):
+		var entry: Dictionary = lamp_entries[index]
 		var light: OmniLight3D = OmniLight3D.new()
 		light.light_color = WARM_LIGHT
 		light.light_energy = 2.2
 		light.omni_range = 7.5
 		light.omni_attenuation = 1.3
 		root.add_child(light)
-		light.position = post.position + Basis(Vector3.UP, deg_to_rad(post.rotation_degrees.y)) * Vector3(0.7, 3.4, 0.0)
+		light.position = (entry["pos"] as Vector3) + Basis(Vector3.UP, deg_to_rad(float(entry["yaw"]))) * Vector3(0.7, 3.4, 0.0)
 		lights.append(light)
 
 
@@ -266,7 +295,7 @@ func _plaza_furniture() -> void:
 		bench.position = pos
 		# the bench's open side is +z; turn it so that side faces the fountain
 		bench.rotation_degrees.y = rad_to_deg(atan2(toward.x, toward.z)) + 180.0
-		KitAO.blob(root, pos, 0.8, 0.28)
+		town.add_ao_blob(pos, 0.8, 0.28)
 		town.obstacles.append(Vector3(pos.x, pos.z, 0.55))
 	# A market stall with its barrels and sacks at the plaza's east rim, turned to face the fountain (a cart would sit in the camera's foreground).
 	var market_pos: Vector3 = Vector3(34.6, 0.0, 15.4)
@@ -278,7 +307,7 @@ func _plaza_furniture() -> void:
 		stall.position = market_pos
 		stall.rotation_degrees.y = stall_yaw
 		town.obstacles.append(Vector3(market_pos.x, market_pos.z, 1.6))
-		KitAO.blob(root, market_pos, 1.5, 0.3)
+		town.add_ao_blob(market_pos, 1.5, 0.3)
 		var pair: Node3D = PropClusters.make("barrel_pair", 2)
 		TownKit.place_cluster(root, town, pair, market_pos + Basis(Vector3.UP, deg_to_rad(stall_yaw)) * Vector3(2.7, 0.0, -0.4), stall_yaw)
 

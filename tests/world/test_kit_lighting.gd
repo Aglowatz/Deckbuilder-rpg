@@ -54,7 +54,7 @@ func test_ao_pools_exist_for_buildings_and_props() -> void:
 	assert_true(footprint.material_override is ShaderMaterial)
 	assert_true(blob.material_override is ShaderMaterial)
 	assert_eq(footprint.cast_shadow, GeometryInstance3D.SHADOW_CASTING_SETTING_OFF)
-	var cluster: Node3D = PropClusters.make("crates")
+	var cluster: Node3D = PropClusters.make("crates", 0, true)
 	add_child_autofree(cluster)
 	var pools: int = 0
 	for child: Node in cluster.get_children():

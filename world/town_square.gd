@@ -38,6 +38,9 @@ static func build(parent: Node3D, builder: TownBuilder, quality: int) -> TownSqu
 	square._meadow()
 	square._landmarks()
 	square._building_lights()
+	KitBatch.merge_static(square.root)
+	KitPools.build_ao(square.root, builder.ao_pools)
+	KitPools.build_glow(square.root, builder.glow_pools)
 	return square
 
 
@@ -227,7 +230,7 @@ func _framing() -> void:
 		var tree: Node3D = TreeCards.make(str(entry["kind"]), float(entry["scale"]), true)
 		root.add_child(tree)
 		tree.position = pos
-		KitAO.blob(root, pos, 0.5, 0.3)
+		town.add_ao_blob(pos, 0.5, 0.3)
 		town.obstacles.append(Vector3(pos.x, pos.z, 0.35))
 
 
@@ -235,13 +238,20 @@ func _framing() -> void:
 
 
 func _landmarks() -> void:
+	# Chimney smoke is CPU particles: only the six chimneys nearest the spawn smoke (the rest are out of the frame at the default camera).
 	var smoke: Color = Color(1.0, 0.9, 0.82, 0.5)
+	var points: Array[Vector3] = []
 	for building: Variant in town.kit_buildings.values():
 		var node: Node3D = building as Node3D
 		if node == null or not node.is_inside_tree():
 			continue
-		for point: Vector3 in TownKit.smoke_points(node):
-			StyleAmbience.chimney_smoke(root, point, smoke, [4, 6, 8][clampi(_quality, 0, 2)])
+		points.append_array(TownKit.smoke_points(node))
+	var spawn: Vector3 = TownLayout.SPAWN
+	points.sort_custom(func(a: Vector3, b: Vector3) -> bool: return a.distance_squared_to(spawn) < b.distance_squared_to(spawn))
+	for index: int in range(mini(points.size(), 6)):
+		StyleAmbience.chimney_smoke(root, points[index], smoke, [4, 6, 8][clampi(_quality, 0, 2)])
+
+
 
 
 # ---- door lanterns: a few real warm lights (the nearest to the spawn), a glow pool for every one ---------------------------------------
@@ -265,7 +275,7 @@ func _building_lights() -> void:
 	for index: int in range(found.size()):
 		var data: Dictionary = found[index]
 		var pos: Vector3 = data["pos"] as Vector3
-		GroundDecals.glow(root, Vector3(pos.x, 0.0, pos.z), 2.2, data["color"] as Color, 0.14)
+		town.add_glow(Vector3(pos.x, 0.0, pos.z), 2.2, data["color"] as Color, 0.14)
 		if index >= BUILDING_LIGHTS:
 			continue
 		var light: OmniLight3D = OmniLight3D.new()

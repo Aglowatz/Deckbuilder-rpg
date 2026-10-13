@@ -29,6 +29,10 @@ static func tile(model: String) -> Node3D:
 		StyleWater.apply(node)
 	if model == "hex_grass":
 		flatten(node, Color(0.43, 0.55, 0.26))
+	# Ground tiles are never "foreground clutter": the occlusion fader would dither the ones under the lens (a hole in the ground, and a discarding shader over a large
+	# part of the picture) - they are 1+ m deep at the town scale, so they passed its height test.
+	for child: Node in node.find_children("*", "MeshInstance3D", true, false):
+		child.set_meta(&"no_occlusion_fade", true)
 	return node
 
 

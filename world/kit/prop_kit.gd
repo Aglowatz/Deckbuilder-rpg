@@ -64,6 +64,12 @@ static func _finish(mesh: KitMesh, node_name: String, radius: float, lights: Arr
 	root.name = node_name
 	var body: MeshInstance3D = mesh.instance("Body")
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	# Small props (under 2 m) never hide the hero and are not worth a per-frame look by the occlusion fader; the tall ones (lamp posts, stalls, boards) still dissolve.
+	if body.mesh.get_aabb().size.y < 2.0:
+		body.set_meta("no_occlusion_fade", true)
+		body.set_meta("kit_static", true)
+	else:
+		body.set_meta("occlusion_near", 1.2)
 	root.add_child(body)
 	root.set_meta("radius", radius)
 	root.set_meta("lights", lights)
@@ -77,6 +83,8 @@ static func _rng(seed_value: int) -> RandomNumberGenerator:
 	return rng
 
 
+const SOIL: Color = Color("503824")
+const LEAF: Color = Color("4f8f3c")
 const BLOOM_COLORS: Array[Color] = [Color("e0483a"), Color("f0c03a"), Color("e87aa8"), Color("f4efe0"), Color("9a6ad8")]
 
 
@@ -130,19 +138,17 @@ static func sack(seed_value: int = 0) -> Node3D:
 static func flowerpot(seed_value: int = 0) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	mesh.set_material("pot", EnvKit.material("ENV-PROP-FLOWERPOTS"))
-	mesh.set_material("soil", EnvKit.flat(Color("503824"), "soil"))
-	mesh.set_material("leaf", EnvKit.flat(Color("4f8f3c"), "leaf"))
+	# one white slot, coloured per vertex: soil, leaves and every bloom are one draw call
+	mesh.set_material("plant", EnvKit.flat(Color.WHITE, "plant"))
 	var rng: RandomNumberGenerator = _rng(seed_value)
 	var profile: Array[Vector2] = [Vector2(0.0, 0.0), Vector2(0.14, 0.0), Vector2(0.17, 0.04), Vector2(0.27, 0.36), Vector2(0.3, 0.4), Vector2(0.3, 0.47), Vector2(0.25, 0.47)]
 	mesh.lathe("pot", Vector3.ZERO, profile, 14, 0.75)
-	mesh.lathe("soil", Vector3.ZERO, [Vector2(0.25, 0.43), Vector2(0.25, 0.44)], 12, 1.0, false, true)
-	mesh.blob("leaf", Vector3(0, 0.5, 0), Vector3(0.34, 0.22, 0.34), 4, 10)
+	mesh.lathe("plant", Vector3.ZERO, [Vector2(0.25, 0.43), Vector2(0.25, 0.44)], 12, 1.0, false, true, SOIL)
+	mesh.blob("plant", Vector3(0, 0.5, 0), Vector3(0.34, 0.22, 0.34), 4, 10, 1.0, LEAF)
 	for index: int in range(7):
-		var slot: String = "bloom_%d" % index
-		mesh.set_material(slot, EnvKit.flat(BLOOM_COLORS[rng.randi() % BLOOM_COLORS.size()], "bloom%d_%d" % [index, seed_value]))
 		var a: float = rng.randf() * TAU
 		var r: float = rng.randf_range(0.0, 0.22)
-		mesh.blob(slot, Vector3(cos(a) * r, 0.62 + rng.randf() * 0.16, sin(a) * r), Vector3(0.1, 0.09, 0.1), 4, 9)
+		mesh.blob("plant", Vector3(cos(a) * r, 0.62 + rng.randf() * 0.16, sin(a) * r), Vector3(0.1, 0.09, 0.1), 4, 9, 1.0, BLOOM_COLORS[rng.randi() % BLOOM_COLORS.size()])
 	return _finish(mesh, "Pot", 0.0)
 
 
@@ -150,18 +156,14 @@ static func flowerpot(seed_value: int = 0) -> Node3D:
 static func planter(length: float = 1.6, seed_value: int = 0) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	mesh.set_material("wood", EnvKit.material("ENV-PROP-FENCE"))
-	mesh.set_material("soil", EnvKit.flat(Color("503824"), "soil"))
-	mesh.set_material("leaf", EnvKit.flat(Color("4f8f3c"), "leaf"))
+	mesh.set_material("plant", EnvKit.flat(Color.WHITE, "plant"))
 	var rng: RandomNumberGenerator = _rng(seed_value + 40)
 	mesh.box("wood", Vector3(0, 0.22, 0), Vector3(length, 0.44, 0.6), Basis.IDENTITY, 0.04, 0.7)
-	mesh.box("soil", Vector3(0, 0.43, 0), Vector3(length - 0.12, 0.04, 0.48), Basis.IDENTITY, 0.0)
 	var count: int = maxi(3, int(length / 0.34))
 	for index: int in range(count):
 		var x: float = -length * 0.5 + 0.2 + (length - 0.4) * float(index) / float(maxi(count - 1, 1))
-		mesh.blob("leaf", Vector3(x, 0.52, rng.randf_range(-0.1, 0.1)), Vector3(0.24, 0.2, 0.24), 4, 9)
-		var slot: String = "bloom_%d" % index
-		mesh.set_material(slot, EnvKit.flat(BLOOM_COLORS[rng.randi() % BLOOM_COLORS.size()], "bloom_pl%d_%d" % [index, seed_value]))
-		mesh.blob(slot, Vector3(x + rng.randf_range(-0.05, 0.05), 0.66, rng.randf_range(-0.12, 0.12)), Vector3(0.16, 0.13, 0.16), 4, 9)
+		mesh.blob("plant", Vector3(x, 0.52, rng.randf_range(-0.1, 0.1)), Vector3(0.24, 0.2, 0.24), 4, 9, 1.0, LEAF)
+		mesh.blob("plant", Vector3(x + rng.randf_range(-0.05, 0.05), 0.66, rng.randf_range(-0.12, 0.12)), Vector3(0.16, 0.13, 0.16), 4, 9, 1.0, BLOOM_COLORS[rng.randi() % BLOOM_COLORS.size()])
 	return _finish(mesh, "Trough", 0.0)
 
 
@@ -368,8 +370,7 @@ static func stall(seed_value: int = 0) -> Node3D:
 	mesh.set_material("iron", EnvKit.flat(Color("3b3530"), "iron"))
 	mesh.set_material("glass", EnvKit.glow(LANTERN, 2.0))
 	var goods: Array[Color] = [Color("d9503a"), Color("e8b53a"), Color("7ab648"), Color("e87aa8")]
-	for index: int in range(4):
-		mesh.set_material("good_%d" % index, EnvKit.flat(goods[(index + seed_value) % goods.size()], "good%d_%d" % [index, seed_value]))
+	mesh.set_material("goods", EnvKit.flat(Color.WHITE, "goods"))
 	var half_w: float = 1.5
 	for sx: float in [-1.0, 1.0]:
 		mesh.box("beam", Vector3(sx * half_w, 1.5, 0.95), Vector3(0.16, 3.0, 0.16), Basis.IDENTITY, 0.03)
@@ -397,7 +398,7 @@ static func stall(seed_value: int = 0) -> Node3D:
 		var x: float = -1.05 + 0.7 * float(index)
 		mesh.box("wood", Vector3(x, 1.2, 0.72), Vector3(0.56, 0.22, 0.6), Basis.IDENTITY, 0.03)
 		for fruit: int in range(5):
-			mesh.blob("good_%d" % index, Vector3(x + rng.randf_range(-0.18, 0.18), 1.38 + rng.randf() * 0.08, 0.72 + rng.randf_range(-0.18, 0.18)), Vector3(0.11, 0.1, 0.11), 4, 9)
+			mesh.blob("goods", Vector3(x + rng.randf_range(-0.18, 0.18), 1.38 + rng.randf() * 0.08, 0.72 + rng.randf_range(-0.18, 0.18)), Vector3(0.11, 0.1, 0.11), 4, 9, 1.0, goods[(index + seed_value) % goods.size()])
 	for index: int in range(2):
 		mesh.box("sack", Vector3(half_w + 0.65 + 0.2 * float(index), 0.36, 0.45 - 0.4 * float(index)), Vector3(0.64, 0.7, 0.55), Basis(Vector3.UP, 0.3 * float(index)), 0.2, 0.75)
 	mesh.box("iron", Vector3(0.0, 2.75, 1.15), Vector3(0.22, 0.34, 0.22), Basis.IDENTITY, 0.04)

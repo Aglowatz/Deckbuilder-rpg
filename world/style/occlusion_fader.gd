@@ -34,6 +34,9 @@ var _scan_timer: float = 0.0
 ## Cached at each scan: the world box of every candidate, the group each belongs to, and the list of groups.
 var _boxes: Array[AABB] = []
 var _box_keys: Array[int] = []
+## Per box: how close to the lens it dissolves as foreground clutter (a mesh may set its own with the meta `occlusion_near`; kit buildings use a small value).
+var _box_near: Array[float] = []
+var _next_box_near: Array[float] = []
 var _group_keys: Array[int] = []
 var _pending: Array[Node] = []
 var _pending_index: int = 0
@@ -56,24 +59,15 @@ func _process(delta: float) -> void:
 		if _scan_timer <= 0.0:
 			_scan_timer = SCAN_INTERVAL
 			_scan()
-	var from: Vector3 = camera.global_position
-	var to: Vector3 = hero.global_position + Vector3(0.0, HERO_LIFT, 0.0)
-	var to_low: Vector3 = hero.global_position + Vector3(0.0, 0.35, 0.0)
-	var blocking_groups: Dictionary = {}
-	var cut_groups: Dictionary = {}
-	# Pure float maths over the boxes cached at the last scan (a static scene has thousands of candidates; no node is touched here).
-	for index: int in range(_boxes.size()):
-		var box: AABB = _boxes[index]
-		var key: int = _box_keys[index]
-		if cut_groups.has(key):
-			continue
-		if box.grow(CAMERA_PADDING).has_point(from):
-			cut_groups[key] = true
-		elif blocking_groups.has(key):
-			continue
-		elif box.grow(NEAR_CAMERA).has_point(from) or _segment_hits(box.grow(PADDING), from, to) or _segment_hits(box.grow(PADDING), from, to_low):
-			blocking_groups[key] = true
-	for key: int in _group_keys:
+	# The visibility tests are pure float maths over every cached box; the answer changes slowly (the hero walks, the camera glides), so they run about 16 times a second
+	# and the dissolve itself still advances every frame.
+	_test_timer -= delta
+	if _test_timer <= 0.0:
+		_test_timer = TEST_INTERVAL
+		_run_tests()
+	var blocking_groups: Dictionary = _blocking
+	var cut_groups: Dictionary = _cut
+	for key: int in _active_keys(blocking_groups, cut_groups):
 		var current: float = float(_fade.get(key, 0.0))
 		var target: float = CUT_AWAY if cut_groups.has(key) else (FADED if blocking_groups.has(key) else 0.0)
 		if absf(current - target) < 0.004:
@@ -108,6 +102,7 @@ func _scan() -> void:
 	_next_members = {}
 	_next_boxes = []
 	_next_box_keys = []
+	_next_box_near = []
 	_next_group_keys = []
 	_scan_step()
 
@@ -133,6 +128,7 @@ func _scan_step() -> void:
 		var key: int = _group_key(mesh_instance)
 		_next_boxes.append(box)
 		_next_box_keys.append(key)
+		_next_box_near.append(float(mesh_instance.get_meta(&"occlusion_near", NEAR_CAMERA)))
 		if not _next_members.has(key):
 			_next_group_keys.append(key)
 			var members: Array = []
@@ -149,6 +145,7 @@ func _scan_step() -> void:
 		_members = _next_members
 		_boxes = _next_boxes
 		_box_keys = _next_box_keys
+		_box_near = _next_box_near
 		_group_keys = _next_group_keys
 		_pending = []
 
@@ -196,3 +193,64 @@ func _dithers(mesh_instance: MeshInstance3D) -> bool:
 		result = shader != null and (shader.resource_path.contains("style_toon") or shader.resource_path.contains("style_painted"))
 	_dither_cache[key] = result
 	return result
+
+
+const TEST_INTERVAL: float = 0.06
+var _test_timer: float = 0.0
+var _blocking: Dictionary = {}
+var _cut: Dictionary = {}
+
+
+func _run_tests() -> void:
+	var from: Vector3 = camera.global_position
+	var to: Vector3 = hero.global_position + Vector3(0.0, HERO_LIFT, 0.0)
+	var to_low: Vector3 = hero.global_position + Vector3(0.0, 0.35, 0.0)
+	var blocking_groups: Dictionary = {}
+	var cut_groups: Dictionary = {}
+	# Pure float maths over the boxes cached at the last scan (a static scene has thousands of candidates; no node is touched here).
+	for index: int in range(_boxes.size()):
+		var box: AABB = _boxes[index]
+		var key: int = _box_keys[index]
+		if cut_groups.has(key):
+			continue
+		if box.grow(CAMERA_PADDING).has_point(from):
+			cut_groups[key] = true
+		elif blocking_groups.has(key):
+			continue
+		elif box.grow(_box_near[index]).has_point(from) or _segment_hits(box.grow(PADDING), from, to) or _segment_hits(box.grow(PADDING), from, to_low):
+			blocking_groups[key] = true
+	_blocking = blocking_groups
+	_cut = cut_groups
+	if OS.get_environment("OCCLUSION_DEBUG") != "" and Engine.get_process_frames() % 120 == 0:
+		print("occlusion: ", debug_summary())
+		print("occlusion blockers: ", "; ".join(debug_blockers()))
+
+
+## Only the groups that are fading, faded or about to fade need work this frame (the rest of a big scene's groups sit at zero).
+func _active_keys(blocking_groups: Dictionary, cut_groups: Dictionary) -> Array[int]:
+	var work: Dictionary = {}
+	for key: Variant in _fade.keys():
+		if float(_fade[key]) > 0.004:
+			work[int(key)] = true
+	for key: Variant in blocking_groups.keys():
+		work[int(key)] = true
+	for key: Variant in cut_groups.keys():
+		work[int(key)] = true
+	var result: Array[int] = []
+	for key: Variant in work.keys():
+		result.append(int(key))
+	return result
+
+
+func debug_summary() -> String:
+	return "boxes %d groups %d blocking %d cut %d fading %d" % [_boxes.size(), _group_keys.size(), _blocking.size(), _cut.size(), _fade.size()]
+
+
+func debug_blockers() -> PackedStringArray:
+	var names: PackedStringArray = PackedStringArray()
+	for key: Variant in _blocking.keys():
+		var members: Array = _members.get(int(key), []) as Array
+		if not members.is_empty() and is_instance_valid(members[0]):
+			var piece: MeshInstance3D = members[0] as MeshInstance3D
+			names.append("%s/%s %s" % [str(piece.get_parent().name), str(piece.name), str(piece.global_position.snapped(Vector3(0.1, 0.1, 0.1)))])
+	return names

@@ -16,19 +16,27 @@ static func place_building(parent: Node3D, town: TownBuilder, shop: TownLayout.S
 	for circle: Vector3 in BuildingKit.obstacle_circles(spec, 0.05):
 		var world: Vector3 = shop.center + basis * Vector3(circle.x, 0.0, circle.y)
 		town.obstacles.append(Vector3(world.x, world.z, circle.z))
-	dress(parent, building, spec)
+	dress(parent, building, spec, town)
 	return building
 
 
-## The ground treatment of a placed building: the AO skirt and warm pools of light in front of its lit ground-floor windows.
-static func dress(parent: Node3D, building: Node3D, spec: Dictionary) -> void:
+## The ground treatment of a placed building: the AO skirt and warm pools of light in front of its lit ground-floor windows. With `town` the pools are batched
+## (KitPools); without it (the kit bench) they are separate nodes.
+static func dress(parent: Node3D, building: Node3D, spec: Dictionary, town: TownBuilder = null) -> void:
 	var yaw: float = building.rotation_degrees.y
 	var basis: Basis = Basis(Vector3.UP, deg_to_rad(yaw))
-	KitAO.footprint(parent, building.position, Vector2(float(spec.get("width", 6.0)), float(spec.get("depth", 5.0))), yaw)
+	var size: Vector2 = Vector2(float(spec.get("width", 6.0)), float(spec.get("depth", 5.0)))
+	if town != null:
+		town.add_ao_footprint(building.position, size, yaw)
+	else:
+		KitAO.footprint(parent, building.position, size, yaw)
 	if building.has_meta("glows"):
 		for spot: Variant in building.get_meta("glows") as Array:
 			var world_point: Vector3 = building.position + basis * (spot as Vector3)
-			GroundDecals.glow(parent, Vector3(world_point.x, 0.0, world_point.z), 2.1, Color("ffb45a"), 0.1)
+			if town != null:
+				town.add_glow(Vector3(world_point.x, 0.0, world_point.z), 2.1, Color("ffb45a"), 0.1)
+			else:
+				GroundDecals.glow(parent, Vector3(world_point.x, 0.0, world_point.z), 2.1, Color("ffb45a"), 0.1)
 
 
 ## World position of a building's smoke points (chimney tops).
@@ -69,3 +77,4 @@ static func place_cluster(parent: Node3D, town: TownBuilder, cluster: Node3D, po
 		var local: Vector3 = circle as Vector3
 		var world: Vector3 = pos + basis * Vector3(local.x, 0.0, local.y)
 		town.obstacles.append(Vector3(world.x, world.z, local.z))
+		town.add_ao_blob(world, local.z * 0.85)

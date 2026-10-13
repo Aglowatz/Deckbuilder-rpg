@@ -97,16 +97,36 @@ func _assemble() -> Node3D:
 	for face: String in faces_data.keys():
 		for socket: Variant in faces_data[face] as Array:
 			_socket(face, socket as Dictionary)
+	# Shadows: the detailed body (a dozen surfaces) casts none; a plain proxy (the wall box and the roof, three surfaces) casts them instead, so a building costs the shadow pass
+	# a fraction of its draws. The proxy never dissolves with the body (shadows stay).
+	var saved_mesh: KitMesh = mesh
+	var triangles: int = mesh.triangle_count()
+	mesh = KitMesh.new()
+	var shadow_material: StandardMaterial3D = StandardMaterial3D.new()
+	shadow_material.set_meta(StyleToon.META_NO_TOON, true)
+	for slot: String in ["wall", "wall_upper", "roof", "eave"]:
+		mesh.set_material(slot, shadow_material)
+	mesh.box("wall", Vector3(0, wall_top * 0.5, 0), Vector3(hw * 2.0, wall_top, hd * 2.0))
+	_roof(roof_data)
+	var proxy: MeshInstance3D = mesh.instance("ShadowProxy")
+	mesh = saved_mesh
+	proxy.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_SHADOWS_ONLY
+	proxy.set_meta(StyleToon.META_NO_TOON, true)
+	proxy.set_meta("no_occlusion_fade", true)
 	var body: MeshInstance3D = mesh.instance("Body")
+	body.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	# A big building next to the camera is part of the picture (the paint-over has one at its right edge): it only dissolves as clutter when the lens is almost touching it.
+	body.set_meta("occlusion_near", 2.0)
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)
 	root.add_child(body)
+	root.add_child(proxy)
 	root.set_meta("height", ridge_y)
 	root.set_meta("footprint", Vector2(hw * 2.0, hd * 2.0))
 	root.set_meta("anchors", anchors)
 	root.set_meta("lights", lights)
 	root.set_meta("smoke", smoke_points)
 	root.set_meta("glows", glows)
-	root.set_meta("triangles", mesh.triangle_count())
+	root.set_meta("triangles", triangles)
 	return root
 
 
@@ -128,20 +148,21 @@ func _set_materials() -> void:
 	mesh.set_material("roof", EnvKit.material(str(roof_data.get("material", "ENV-ROOF-TILE-RED")), false, _tint if bool(roof_data.get("tinted", false)) else Color.WHITE))
 	mesh.set_material("plank", EnvKit.material("ENV-WALL-PLANK"))
 	mesh.set_material("glass", EnvKit.glow(GLASS_COLOR, 1.45))
-	mesh.set_material("iron", EnvKit.flat(Color("3a3430"), "iron"))
 	mesh.set_material("lantern", EnvKit.glow(LANTERN_COLOR, 2.0))
 	mesh.set_material("pot", EnvKit.material("ENV-PROP-FLOWERPOTS"))
-	mesh.set_material("soil", EnvKit.flat(Color("5a3f2a"), "soil"))
-	mesh.set_material("leaf", EnvKit.flat(Color("4f8f3c"), "leaf"))
-	for index: int in range(3):
-		mesh.set_material("flower_%d" % index, EnvKit.flat(FLOWERS[(index * 2 + int(hw * 3.0)) % FLOWERS.size()], "flower%d" % index))
 	mesh.set_material("awning_a", EnvKit.material("ENV-AWNING-01"))
 	mesh.set_material("awning_b", EnvKit.material("ENV-AWNING-02"))
 	for door: String in ["ENV-DOOR-01", "ENV-DOOR-02", "ENV-DOOR-03"]:
 		mesh.set_material(door, EnvKit.material(door, EnvKit.has_art(door)))
-	mesh.set_material("shutter", EnvKit.flat(Color.html(str(spec.get("shutter", "#5a8a6a"))), "shutter"))
-	mesh.set_material("shutter_dark", EnvKit.flat(Color("3f6a52"), "shutter_dark"))
-	mesh.set_material("cutout", EnvKit.flat(Color.WHITE, "cutout"))
+	# Flat-coloured details share ONE white surface and are coloured per vertex: iron, shutters, soil, leaves and blooms are a single draw call (not five or six).
+	mesh.set_material("flat", EnvKit.flat(Color.WHITE, "flat"))
+	mesh.alias("iron", "flat", Color("3a3430"))
+	mesh.alias("shutter", "flat", Color.html(str(spec.get("shutter", "#5a8a6a"))))
+	mesh.alias("shutter_dark", "flat", Color("3f6a52"))
+	mesh.alias("plant", "flat", Color.WHITE)
+	mesh.alias("cutout", "flat", Color.WHITE)
+	if _id("wall_upper", wall_id) == wall_id:
+		mesh.alias("wall_upper", "wall", Color.WHITE)
 
 
 # ---- frame of the face: where things attach -------------------------------------------------------------------------------------------
@@ -547,10 +568,10 @@ func _flowerbox(face: String, u: float, y: float, w: float) -> void:
 	_attach("pot", face, u, y, 0.3, Vector3(w, 0.3, 0.38), 0.04)
 	var count: int = maxi(3, int(w / 0.42))
 	for index: int in range(count):
-		var slot: String = "flower_%d" % ((index + _flower_index) % 3)
+		var bloom: Color = FLOWERS[(index + _flower_index + int(hw * 3.0)) % FLOWERS.size()]
 		var local_u: float = u - w * 0.5 + w * (float(index) + 0.5) / float(count)
-		mesh.blob(slot, _face_point("front" if face == "front" else face, local_u, y + 0.28, 0.32), Vector3(0.22, 0.2, 0.22), 4, 9)
-		mesh.blob("leaf", _face_point(face, local_u + 0.1, y + 0.22, 0.34), Vector3(0.2, 0.14, 0.2), 4, 9)
+		mesh.blob("plant", _face_point(face, local_u, y + 0.28, 0.32), Vector3(0.22, 0.2, 0.22), 4, 9, 1.0, bloom)
+		mesh.blob("plant", _face_point(face, local_u + 0.1, y + 0.22, 0.34), Vector3(0.2, 0.14, 0.2), 4, 9, 1.0, Color("4f8f3c"))
 	_flower_index += 1
 
 
@@ -564,8 +585,8 @@ func _pots(face: String, u: float, scale_value: float) -> void:
 		scaled.append(point * Vector2(scale_value * 1.6, scale_value * 1.6))
 	mesh.lathe("pot", base, scaled, 10, 0.85)
 	var top: float = 0.4 * scale_value * 1.6
-	mesh.blob("flower_%d" % (_flower_index % 3), base + Vector3(0, top + 0.2 * scale_value, 0), Vector3(0.36, 0.3, 0.36) * (scale_value * 1.8), 4, 9)
-	mesh.blob("leaf", base + Vector3(0.1, top + 0.08, 0.05) + n * 0.0, Vector3(0.3, 0.18, 0.3) * (scale_value * 1.8), 4, 9)
+	mesh.blob("plant", base + Vector3(0, top + 0.2 * scale_value, 0), Vector3(0.36, 0.3, 0.36) * (scale_value * 1.8), 4, 9, 1.0, FLOWERS[(_flower_index + int(hw * 3.0)) % FLOWERS.size()])
+	mesh.blob("plant", base + Vector3(0.1, top + 0.08, 0.05) + n * 0.0, Vector3(0.3, 0.18, 0.3) * (scale_value * 1.8), 4, 9, 1.0, Color("4f8f3c"))
 	_flower_index += 1
 
 

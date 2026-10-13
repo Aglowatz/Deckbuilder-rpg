@@ -82,14 +82,28 @@ func tri(slot: String, corners: Array[Vector3], outward: Vector3, colors: Array[
 
 ## Emits one triangle given in counter-clockwise (viewed from outside) order; Godot wants clockwise, so the vertices go out reversed.
 func _emit(slot: String, pts: Array, n: Vector3, cols: Array, tex: Array) -> void:
+	var tint: Color = Color.WHITE
+	if _aliases.has(slot):
+		var alias: Dictionary = _aliases[slot] as Dictionary
+		tint = alias["tint"] as Color
+		slot = str(alias["target"])
 	var st: SurfaceTool = _tool(slot)
 	for index: int in [0, 2, 1]:
 		var p: Vector3 = pts[index] as Vector3
 		st.set_normal(n)
-		st.set_color(cols[index] as Color if not cols.is_empty() else Color.WHITE)
+		st.set_color((cols[index] as Color if not cols.is_empty() else Color.WHITE) * tint)
 		st.set_uv(tex[index] as Vector2 if not tex.is_empty() else planar_uv(p, n))
 		st.add_vertex(p)
 	_triangles += 1
+
+
+## Folds one slot into another (fewer surfaces, fewer draw calls): everything emitted for `slot` goes to `target` with its vertex colours multiplied by `tint`. The target's
+## material should be a plain white one so the tint IS the colour.
+func alias(slot: String, target: String, tint: Color = Color.WHITE) -> void:
+	_aliases[slot] = {"target": target, "tint": tint}
+
+
+var _aliases: Dictionary = {}
 
 
 ## A box (optionally rotated by `basis` about `center`) with chamfered edges of width `bevel`; `ao` darkens the bottom vertices (1 = off).
@@ -156,7 +170,7 @@ func box(slot: String, center: Vector3, size: Vector3, basis: Basis = Basis.IDEN
 
 ## A lathed solid of revolution about the y axis through `center`: `profile` is a list of (radius, height) from the bottom up. Open top/bottom are capped by the first/last radius.
 ## UVs wrap once round (u in metres of circumference) and run up in metres.
-func lathe(slot: String, center: Vector3, profile: Array[Vector2], segments: int = 14, ao: float = 1.0, cap_bottom: bool = false, cap_top: bool = true) -> void:
+func lathe(slot: String, center: Vector3, profile: Array[Vector2], segments: int = 14, ao: float = 1.0, cap_bottom: bool = false, cap_top: bool = true, tint: Color = Color.WHITE) -> void:
 	var count: int = maxi(segments, 3)
 	for ring: int in range(profile.size() - 1):
 		var low: Vector2 = profile[ring]
@@ -175,7 +189,7 @@ func lathe(slot: String, center: Vector3, profile: Array[Vector2], segments: int
 			var shade_low: float = lerpf(ao, 1.0, clampf((low.y - profile[0].y) * 2.5, 0.0, 1.0))
 			var shade_high: float = lerpf(ao, 1.0, clampf((high.y - profile[0].y) * 2.5, 0.0, 1.0))
 			quad(slot, [center + d0 * low.x + Vector3(0, low.y, 0), center + d1 * low.x + Vector3(0, low.y, 0), center + d1 * high.x + Vector3(0, high.y, 0), center + d0 * high.x + Vector3(0, high.y, 0)], outward,
-				[Color(shade_low, shade_low, shade_low), Color(shade_low, shade_low, shade_low), Color(shade_high, shade_high, shade_high), Color(shade_high, shade_high, shade_high)],
+				[Color(shade_low, shade_low, shade_low) * tint, Color(shade_low, shade_low, shade_low) * tint, Color(shade_high, shade_high, shade_high) * tint, Color(shade_high, shade_high, shade_high) * tint],
 				[Vector2(u0, low.y), Vector2(u1, low.y), Vector2(u1, high.y), Vector2(u0, high.y)])
 	var first: Vector2 = profile[0]
 	var last: Vector2 = profile[profile.size() - 1]
@@ -184,10 +198,10 @@ func lathe(slot: String, center: Vector3, profile: Array[Vector2], segments: int
 		var a1: float = TAU * float(step + 1) / float(count)
 		if cap_top and last.x > 0.001:
 			var top: Vector3 = center + Vector3(0, last.y, 0)
-			tri(slot, [top, top + Vector3(cos(a0), 0, sin(a0)) * last.x, top + Vector3(cos(a1), 0, sin(a1)) * last.x], Vector3.UP)
+			tri(slot, [top, top + Vector3(cos(a0), 0, sin(a0)) * last.x, top + Vector3(cos(a1), 0, sin(a1)) * last.x], Vector3.UP, [tint, tint, tint])
 		if cap_bottom and first.x > 0.001:
 			var bottom: Vector3 = center + Vector3(0, first.y, 0)
-			tri(slot, [bottom, bottom + Vector3(cos(a0), 0, sin(a0)) * first.x, bottom + Vector3(cos(a1), 0, sin(a1)) * first.x], Vector3.DOWN)
+			tri(slot, [bottom, bottom + Vector3(cos(a0), 0, sin(a0)) * first.x, bottom + Vector3(cos(a1), 0, sin(a1)) * first.x], Vector3.DOWN, [tint, tint, tint])
 
 
 ## A straight cylinder (no bevel) between two points with `segments` sides; used for poles, hoops, rails.
@@ -214,7 +228,7 @@ func tube(slot: String, from: Vector3, to: Vector3, radius: float, segments: int
 
 
 ## An axis-aligned sphere-ish blob (a lat/long sphere) for lumps, bulbs and bushes.
-func blob(slot: String, center: Vector3, radii: Vector3, rings: int = 5, segments: int = 8, ao: float = 1.0) -> void:
+func blob(slot: String, center: Vector3, radii: Vector3, rings: int = 5, segments: int = 8, ao: float = 1.0, tint: Color = Color.WHITE) -> void:
 	var profile: Array[Vector2] = []
 	for ring: int in range(rings + 1):
 		var t: float = float(ring) / float(rings)
@@ -224,7 +238,7 @@ func blob(slot: String, center: Vector3, radii: Vector3, rings: int = 5, segment
 	var scaled: Array[Vector2] = []
 	for point: Vector2 in profile:
 		scaled.append(Vector2(point.x * radii.x, point.y * radii.y))
-	lathe(slot, center, scaled, segments, ao, true, true)
+	lathe(slot, center, scaled, segments, ao, true, true, tint)
 
 
 ## Commits the surfaces. The returned mesh's surface i uses the slot material registered for it.
