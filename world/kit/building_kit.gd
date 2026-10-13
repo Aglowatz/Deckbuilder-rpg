@@ -549,8 +549,8 @@ func _flowerbox(face: String, u: float, y: float, w: float) -> void:
 	for index: int in range(count):
 		var slot: String = "flower_%d" % ((index + _flower_index) % 3)
 		var local_u: float = u - w * 0.5 + w * (float(index) + 0.5) / float(count)
-		mesh.blob(slot, _face_point("front" if face == "front" else face, local_u, y + 0.28, 0.32), Vector3(0.22, 0.2, 0.22), 3, 6)
-		mesh.blob("leaf", _face_point(face, local_u + 0.1, y + 0.22, 0.34), Vector3(0.2, 0.14, 0.2), 3, 6)
+		mesh.blob(slot, _face_point("front" if face == "front" else face, local_u, y + 0.28, 0.32), Vector3(0.22, 0.2, 0.22), 4, 9)
+		mesh.blob("leaf", _face_point(face, local_u + 0.1, y + 0.22, 0.34), Vector3(0.2, 0.14, 0.2), 4, 9)
 	_flower_index += 1
 
 
@@ -564,8 +564,8 @@ func _pots(face: String, u: float, scale_value: float) -> void:
 		scaled.append(point * Vector2(scale_value * 1.6, scale_value * 1.6))
 	mesh.lathe("pot", base, scaled, 10, 0.85)
 	var top: float = 0.4 * scale_value * 1.6
-	mesh.blob("flower_%d" % (_flower_index % 3), base + Vector3(0, top + 0.2 * scale_value, 0), Vector3(0.36, 0.3, 0.36) * (scale_value * 1.8), 3, 7)
-	mesh.blob("leaf", base + Vector3(0.1, top + 0.08, 0.05) + n * 0.0, Vector3(0.3, 0.18, 0.3) * (scale_value * 1.8), 3, 7)
+	mesh.blob("flower_%d" % (_flower_index % 3), base + Vector3(0, top + 0.2 * scale_value, 0), Vector3(0.36, 0.3, 0.36) * (scale_value * 1.8), 4, 9)
+	mesh.blob("leaf", base + Vector3(0.1, top + 0.08, 0.05) + n * 0.0, Vector3(0.3, 0.18, 0.3) * (scale_value * 1.8), 4, 9)
 	_flower_index += 1
 
 

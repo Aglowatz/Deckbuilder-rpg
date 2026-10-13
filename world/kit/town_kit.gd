@@ -39,3 +39,33 @@ static func smoke_points(building: Node3D) -> Array[Vector3]:
 	for point: Variant in building.get_meta("smoke") as Array:
 		result.append(building.global_transform * (point as Vector3))
 	return result
+
+
+## The metres along the front face (to the viewer's right) at which a spec's door stands (0 when it has none).
+static func door_u(spec: Dictionary) -> float:
+	var faces: Dictionary = spec.get("faces", {}) as Dictionary
+	for socket: Variant in faces.get("front", []) as Array:
+		var data: Dictionary = socket as Dictionary
+		if str(data.get("type", "")) == "door":
+			return float(data.get("u", 0.0))
+	return 0.0
+
+
+## World position of a point given in a shop's building frame: `u` along the front face (right), `out` metres out in front of the front face.
+static func front_point(shop: TownLayout.Shop, u: float, out: float) -> Vector3:
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(shop.yaw))
+	return shop.center + basis * Vector3(u, 0.0, shop.footprint.y * 0.5 + out)
+
+
+## Sets a placed cluster (or any Node3D with "circles" meta) down at `pos` turned `yaw` degrees and registers its solid circles as obstacles on the town.
+static func place_cluster(parent: Node3D, town: TownBuilder, cluster: Node3D, pos: Vector3, yaw_degrees: float) -> void:
+	parent.add_child(cluster)
+	cluster.position = pos
+	cluster.rotation_degrees.y = yaw_degrees
+	if not cluster.has_meta("circles"):
+		return
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(yaw_degrees))
+	for circle: Variant in cluster.get_meta("circles") as Array:
+		var local: Vector3 = circle as Vector3
+		var world: Vector3 = pos + basis * Vector3(local.x, 0.0, local.y)
+		town.obstacles.append(Vector3(world.x, world.z, local.z))

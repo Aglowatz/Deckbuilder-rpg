@@ -136,14 +136,14 @@ static func flowerpot(seed_value: int = 0) -> Node3D:
 	var profile: Array[Vector2] = [Vector2(0.0, 0.0), Vector2(0.14, 0.0), Vector2(0.17, 0.04), Vector2(0.27, 0.36), Vector2(0.3, 0.4), Vector2(0.3, 0.47), Vector2(0.25, 0.47)]
 	mesh.lathe("pot", Vector3.ZERO, profile, 14, 0.75)
 	mesh.lathe("soil", Vector3.ZERO, [Vector2(0.25, 0.43), Vector2(0.25, 0.44)], 12, 1.0, false, true)
-	mesh.blob("leaf", Vector3(0, 0.5, 0), Vector3(0.34, 0.22, 0.34), 3, 9)
+	mesh.blob("leaf", Vector3(0, 0.5, 0), Vector3(0.34, 0.22, 0.34), 4, 10)
 	for index: int in range(7):
 		var slot: String = "bloom_%d" % index
 		mesh.set_material(slot, EnvKit.flat(BLOOM_COLORS[rng.randi() % BLOOM_COLORS.size()], "bloom%d_%d" % [index, seed_value]))
 		var a: float = rng.randf() * TAU
 		var r: float = rng.randf_range(0.0, 0.22)
-		mesh.blob(slot, Vector3(cos(a) * r, 0.62 + rng.randf() * 0.16, sin(a) * r), Vector3(0.1, 0.09, 0.1), 3, 6)
-	return _finish(mesh, "Flowerpot", 0.0)
+		mesh.blob(slot, Vector3(cos(a) * r, 0.62 + rng.randf() * 0.16, sin(a) * r), Vector3(0.1, 0.09, 0.1), 4, 9)
+	return _finish(mesh, "Pot", 0.0)
 
 
 ## A long planter box brimming with flowers.
@@ -158,11 +158,11 @@ static func planter(length: float = 1.6, seed_value: int = 0) -> Node3D:
 	var count: int = maxi(3, int(length / 0.34))
 	for index: int in range(count):
 		var x: float = -length * 0.5 + 0.2 + (length - 0.4) * float(index) / float(maxi(count - 1, 1))
-		mesh.blob("leaf", Vector3(x, 0.52, rng.randf_range(-0.1, 0.1)), Vector3(0.24, 0.2, 0.24), 3, 7)
+		mesh.blob("leaf", Vector3(x, 0.52, rng.randf_range(-0.1, 0.1)), Vector3(0.24, 0.2, 0.24), 4, 9)
 		var slot: String = "bloom_%d" % index
 		mesh.set_material(slot, EnvKit.flat(BLOOM_COLORS[rng.randi() % BLOOM_COLORS.size()], "bloom_pl%d_%d" % [index, seed_value]))
-		mesh.blob(slot, Vector3(x + rng.randf_range(-0.05, 0.05), 0.66, rng.randf_range(-0.12, 0.12)), Vector3(0.16, 0.13, 0.16), 3, 6)
-	return _finish(mesh, "Planter", 0.0)
+		mesh.blob(slot, Vector3(x + rng.randf_range(-0.05, 0.05), 0.66, rng.randf_range(-0.12, 0.12)), Vector3(0.16, 0.13, 0.16), 4, 9)
+	return _finish(mesh, "Trough", 0.0)
 
 
 # ---- bench, well, lanterns, signs -----------------------------------------------------------------------------------------------------
@@ -397,7 +397,7 @@ static func stall(seed_value: int = 0) -> Node3D:
 		var x: float = -1.05 + 0.7 * float(index)
 		mesh.box("wood", Vector3(x, 1.2, 0.72), Vector3(0.56, 0.22, 0.6), Basis.IDENTITY, 0.03)
 		for fruit: int in range(5):
-			mesh.blob("good_%d" % index, Vector3(x + rng.randf_range(-0.18, 0.18), 1.38 + rng.randf() * 0.08, 0.72 + rng.randf_range(-0.18, 0.18)), Vector3(0.11, 0.1, 0.11), 3, 6)
+			mesh.blob("good_%d" % index, Vector3(x + rng.randf_range(-0.18, 0.18), 1.38 + rng.randf() * 0.08, 0.72 + rng.randf_range(-0.18, 0.18)), Vector3(0.11, 0.1, 0.11), 4, 9)
 	for index: int in range(2):
 		mesh.box("sack", Vector3(half_w + 0.65 + 0.2 * float(index), 0.36, 0.45 - 0.4 * float(index)), Vector3(0.64, 0.7, 0.55), Basis(Vector3.UP, 0.3 * float(index)), 0.2, 0.75)
 	mesh.box("iron", Vector3(0.0, 2.75, 1.15), Vector3(0.22, 0.34, 0.22), Basis.IDENTITY, 0.04)

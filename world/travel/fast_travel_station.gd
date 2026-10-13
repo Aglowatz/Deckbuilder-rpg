@@ -10,6 +10,8 @@ const OPEN_WIDTH: float = 0.5
 const SEAM_WIDTH: float = 0.07
 
 var active: bool = false
+## The town square shows an icon on the sign instead of lettering (vertical slice: no readable text in the world); the zones keep the lettered sign.
+var icon_sign: bool = false
 var _rift_material: ShaderMaterial
 var _light: OmniLight3D
 var _sparks: CPUParticles3D
@@ -140,6 +142,17 @@ func _add_rift() -> void:
 
 
 func _add_sign(lines: Array[String]) -> void:
+	if icon_sign:
+		var quad: QuadMesh = QuadMesh.new()
+		quad.size = Vector2(1.1, 1.38)
+		var board: MeshInstance3D = MeshInstance3D.new()
+		board.name = "IconSign"
+		board.mesh = quad
+		board.material_override = EnvKit.material("ENV-SIGNPOST", true)
+		board.position = Vector3(0.0, 3.35, 0.12)
+		board.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		add_child(board)
+		return
 	var title: Label3D = Label3D.new()
 	title.text = lines[0] if not lines.is_empty() else ""
 	title.font = UIStyle.font_title()

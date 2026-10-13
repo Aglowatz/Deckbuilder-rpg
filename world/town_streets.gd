@@ -12,7 +12,7 @@ const KERB: Color = Color("a39b88")
 const MOWN_LIGHT: Color = Color("8fd262")
 const MOWN_DARK: Color = Color("6fb84c")
 ## Only this many lamps carry a real light (the rest glow); the style rig keeps the nearest few lit.
-const LAMPS_WITH_LIGHT: int = 10
+const LAMPS_WITH_LIGHT: int = 8
 
 var root: Node3D
 var town: TownBuilder
@@ -28,7 +28,7 @@ var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 static func build(parent: Node3D, builder: TownBuilder) -> TownStreets:
 	var streets: TownStreets = TownStreets.new()
 	streets.root = Node3D.new()
-	streets.root.name = "TownStreets"
+	streets.root.name = "TownPaving"
 	parent.add_child(streets.root)
 	streets.town = builder
 	streets._rng.seed = 909
@@ -164,152 +164,123 @@ func _crest() -> void:
 func _notice_board() -> void:
 	var pos: Vector3 = TownLayout.NOTICE_BOARD
 	var toward: Vector3 = TownLayout.PLAZA - pos
-	var yaw: float = rad_to_deg(atan2(toward.x, toward.z))
-	var holder: Node3D = Node3D.new()
-	holder.position = pos
-	holder.rotation_degrees.y = yaw
-	root.add_child(holder)
-	holder.scale = Vector3.ONE * 0.72
-	var wood: StandardMaterial3D = _material(Color("6b4a2c"), 0.9)
-	var paper: StandardMaterial3D = _material(Color("f2e8c8"), 1.0)
-	for side: float in [-0.62, 0.62]:
-		holder.add_child(_box(Vector3(0.12, 1.9, 0.12), wood, Vector3(side, 0.95, 0)))
-	holder.add_child(_box(Vector3(1.5, 1.0, 0.09), wood, Vector3(0, 1.35, 0)))
-	holder.add_child(_box(Vector3(1.6, 0.14, 0.2), wood, Vector3(0, 1.95, 0)))
-	for index: int in range(5):
-		var note: MeshInstance3D = _box(Vector3(0.26, 0.32, 0.02), paper, Vector3(-0.5 + 0.25 * float(index), 1.4 + 0.12 * float((index * 3) % 3 - 1), 0.06))
-		note.rotation_degrees.z = float(index * 7 % 11) - 5.0
-		holder.add_child(note)
-	var title: Label3D = _label("NOTICES", Vector3(0, 2.2, 0.12), Color("ffe6a8"), 0.0052)
-	holder.add_child(title)
-	town.obstacles.append(Vector3(pos.x, pos.z, 0.75))
-	town.anchors["notice_board"] = pos + toward.normalized() * 1.2
+	var board: Node3D = PropKit.notice_board()
+	root.add_child(board)
+	board.position = pos
+	board.rotation_degrees.y = rad_to_deg(atan2(toward.x, toward.z))
+	KitAO.blob(root, pos, 0.9, 0.3)
+	town.obstacles.append(Vector3(pos.x, pos.z, 1.1))
+	town.anchors["notice_board"] = pos + toward.normalized() * 1.4
 
 
-## Town signposts are drawn at this fraction of their old size: at the low camera the old boards covered the plaza.
-const SIGN_SCALE: float = 0.68
+## Signposts at the junctions: a post with arrow boards that carry the Path crest, no lettering. What the old boards said is read in a popup when the hero uses the post
+## (`signpost_lines`, shown by the scene).
+var signpost_positions: Array[Vector3] = []
+var signpost_lines: Array[Array] = []
 
 
 func _signposts() -> void:
-	var wood: StandardMaterial3D = _material(Color("7a5632"), 0.9)
-	var plank: StandardMaterial3D = _material(Color("c8a46a"), 0.85)
+	var index: int = 0
 	for sign_data: Dictionary in TownLayout.signposts():
 		var pos: Vector3 = sign_data["pos"] as Vector3
-		# One group per signpost, so the pole and its boards dissolve together when they stand between the camera and the hero.
-		var holder: Node3D = Node3D.new()
-		holder.name = "Signpost"
-		root.add_child(holder)
-		var pole: MeshInstance3D = _cylinder(0.06, 2.6 * SIGN_SCALE, wood, pos + Vector3(0, 1.3 * SIGN_SCALE, 0))
-		root.remove_child(pole)
-		holder.add_child(pole)
-		var boards: Array = sign_data["boards"] as Array
-		for index: int in range(boards.size()):
-			var board: Dictionary = boards[index] as Dictionary
-			var height: float = (2.25 - 0.5 * float(index)) * SIGN_SCALE
-			var text: String = "%s %s" % [TownLayout.arrow_for(str(board["dir"])), str(board["text"])]
-			var width: float = (0.9 + 0.09 * float(text.length())) * SIGN_SCALE
-			var pole_side: float = -1.0 if str(board["dir"]).contains("W") else 1.0
-			var offset_x: float = pole_side * width * 0.5
-			holder.add_child(_box(Vector3(width, 0.36 * SIGN_SCALE, 0.05), plank, pos + Vector3(offset_x * 0.3, height, 0.0)))
-			var label: Label3D = _label(text, pos + Vector3(offset_x * 0.3, height, 0.05), Color("2f1f12"), 0.0042 * SIGN_SCALE)
-			label.outline_size = 0
-			holder.add_child(label)
-		town.obstacles.append(Vector3(pos.x, pos.z, 0.2))
+		if not town.is_floor_at(pos):
+			continue
+		var directions: Array[float] = []
+		var lines: Array[String] = []
+		for board: Variant in sign_data["boards"] as Array:
+			var board_data: Dictionary = board as Dictionary
+			directions.append(TownLayout.yaw_for_direction(str(board_data["dir"])))
+			lines.append("%s: %s" % [TownLayout.direction_name(str(board_data["dir"])), str(board_data["text"])])
+		var post: Node3D = PropKit.signpost(directions)
+		post.name = "Signpost"
+		root.add_child(post)
+		post.position = pos
+		KitAO.blob(root, pos, 0.35, 0.3)
+		town.obstacles.append(Vector3(pos.x, pos.z, 0.3))
+		town.anchors["signpost_%d" % index] = pos + Vector3(0.0, 0.0, 1.2)
+		signpost_positions.append(pos)
+		signpost_lines.append(lines)
+		index += 1
+
+
+## Lamp posts (4.2 m, a banner on every other one) along the roads and round the square, each with a real warm light; the style rig keeps the nearest few lit.
+var lamp_posts: Array[Node3D] = []
 
 
 func _lamps() -> void:
 	var points: Array[Vector3] = TownLayout.lamps()
 	var count: int = 0
 	for pos: Vector3 in points:
-		if not town.is_floor_at(pos):
+		if not town.is_floor_at(pos) or TownLayout.in_footprint(pos, 0.9):
 			continue
-		_lamp_post(pos)
+		var post: Node3D = PropKit.make("banner_post" if count % 2 == 0 else "lantern_post")
+		root.add_child(post)
+		post.position = pos
+		# the arm points towards the road so the lantern hangs over the paving
+		var road_side: Vector3 = Vector3.ZERO
+		var nearest: float = 1.0e9
+		for road_point: Vector3 in TownLayout.road_points(1.5):
+			var d: float = Vector2(road_point.x - pos.x, road_point.z - pos.z).length()
+			if d < nearest:
+				nearest = d
+				road_side = road_point - pos
+		if nearest < 1.0e8:
+			post.rotation_degrees.y = rad_to_deg(atan2(-road_side.z, road_side.x))
 		lamp_points.append(pos)
-		town.obstacles.append(Vector3(pos.x, pos.z, 0.18))
-		GroundDecals.glow(root, pos, 2.6, WARM_LIGHT, 0.2)
-		var bulb: MeshInstance3D = MeshInstance3D.new()
-		var sphere: SphereMesh = SphereMesh.new()
-		sphere.radius = 0.09
-		sphere.height = 0.18
-		bulb.mesh = sphere
-		var glow_material: StandardMaterial3D = StandardMaterial3D.new()
-		glow_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		glow_material.albedo_color = Color(1.0, 0.82, 0.45)
-		bulb.material_override = glow_material
-		bulb.position = pos + Vector3(0.0, 1.27, 0.0)
-		bulb.set_meta(StyleToon.META_NO_TOON, true)
-		root.add_child(bulb)
-		if count < LAMPS_WITH_LIGHT:
-			var light: OmniLight3D = OmniLight3D.new()
-			light.position = pos + Vector3(0.0, 1.45, 0.0)
-			light.light_color = WARM_LIGHT
-			light.light_energy = 2.2
-			light.omni_range = 6.0
-			light.omni_attenuation = 1.3
-			root.add_child(light)
-			lights.append(light)
+		town.obstacles.append(Vector3(pos.x, pos.z, 0.26))
+		KitAO.blob(root, pos, 0.3, 0.3)
+		GroundDecals.glow(root, Vector3(pos.x, 0.0, pos.z), 2.8, WARM_LIGHT, 0.16)
+		lamp_posts.append(post)
 		count += 1
+	# Real lights only for the lamps nearest the spawn (the budget keeps the nearest few lit; the rest read through their glow pools and the bloom).
+	var spawn: Vector3 = TownLayout.SPAWN
+	lamp_posts.sort_custom(func(a: Node3D, b: Node3D) -> bool: return a.position.distance_squared_to(spawn) < b.position.distance_squared_to(spawn))
+	for index: int in range(mini(LAMPS_WITH_LIGHT, lamp_posts.size())):
+		var post: Node3D = lamp_posts[index]
+		var light: OmniLight3D = OmniLight3D.new()
+		light.light_color = WARM_LIGHT
+		light.light_energy = 2.2
+		light.omni_range = 7.5
+		light.omni_attenuation = 1.3
+		root.add_child(light)
+		light.position = post.position + Basis(Vector3.UP, deg_to_rad(post.rotation_degrees.y)) * Vector3(0.7, 3.4, 0.0)
+		lights.append(light)
 
 
-## An iron lamp post: a thin pole, a foot, a KayKit lantern on top.
-func _lamp_post(pos: Vector3) -> void:
-	var iron: StandardMaterial3D = _material(Color("3a3046"), 0.6)
-	var pole: MeshInstance3D = _cylinder(0.035, 1.15, iron, pos + Vector3(0.0, 0.575, 0.0))
-	pole.mesh.set("bottom_radius", 0.06)
-	_cylinder(0.1, 0.12, iron, pos + Vector3(0.0, 0.06, 0.0))
-	var lantern: Node3D = ModelKit.kit_model(ModelKit.HALLOWEEN, "lantern_standing")
-	ModelKit.place(root, lantern, pos + Vector3(0.0, 1.12, 0.0), _rng.randf() * 360.0, 0.42)
-
-
-# ---- benches, planters and market stalls round the plaza -----------------------------------------------------------------------------
+# ---- benches, planters and the market set round the plaza ---------------------------------------------------------------------------
 
 
 func _plaza_furniture() -> void:
 	var center: Vector3 = TownLayout.PLAZA
-	# Four benches on the diagonals, facing the fountain; flower planters between the road mouths.
+	# Four benches on the diagonals, facing the fountain, a lantern post and flowers tucked in beside each.
 	for index: int in range(4):
-		var angle: float = TAU * float(index) / 4.0 + PI / 4.0 + PI / 8.0 * 0.0
-		var pos: Vector3 = center + Vector3(cos(angle), 0.0, sin(angle)) * (TownLayout.PLAZA_RADIUS - 1.0)
-		if Vector2(pos.x - TownLayout.NOTICE_BOARD.x, pos.z - TownLayout.NOTICE_BOARD.z).length() < 2.4 or Vector2(pos.x - TownLayout.SPAWN.x, pos.z - TownLayout.SPAWN.z).length() < 2.2:
+		var angle: float = TAU * float(index) / 4.0 + PI / 4.0
+		var pos: Vector3 = center + Vector3(cos(angle), 0.0, sin(angle)) * (TownLayout.PLAZA_RADIUS - 0.9)
+		if Vector2(pos.x - TownLayout.NOTICE_BOARD.x, pos.z - TownLayout.NOTICE_BOARD.z).length() < 2.6 or Vector2(pos.x - TownLayout.SPAWN.x, pos.z - TownLayout.SPAWN.z).length() < 2.4:
 			continue
-		var toward: Vector3 = center - pos
-		var node: Node3D = ModelKit.kit_model(ModelKit.HALLOWEEN, "bench")
-		ModelKit.place(root, node, pos, rad_to_deg(atan2(toward.x, toward.z)), 0.5)
-		town.obstacles.append(Vector3(pos.x, pos.z, 0.4))
-	for index: int in range(4):
-		var angle: float = TAU * float(index) / 4.0
-		var pos: Vector3 = center + Vector3(cos(angle), 0.0, sin(angle)) * (TownLayout.PLAZA_RADIUS - 0.2)
-		if TownLayout.distance_to_roads(pos) < TownLayout.ROAD_WIDTH * 0.5 + 0.6:
-			continue
-		for flower: int in range(5):
-			var spot: Vector3 = pos + Vector3(_rng.randf_range(-0.5, 0.5), 0.0, _rng.randf_range(-0.5, 0.5))
-			var model: Node3D = ModelKit.kit_model(ModelKit.KENNEY_NATURE, ["flower_redA", "flower_yellowB", "flower_purpleA"][flower % 3])
-			ModelKit.place(root, model, spot, _rng.randf() * 360.0, 1.7)
-	# Two market stalls at the plaza's edge, either side of the south road.
-	for side: float in [-1.0, 1.0]:
-		var pos: Vector3 = center + Vector3(side * 7.0, 0.0, 6.6)
 		if not town.is_floor_at(pos):
 			continue
-		var goods: Array[String] = ["cabbage", "carrot", "broccoli"]
-		if side < 0.0:
-			goods = ["bread", "loaf", "cheese"]
-		_stall(pos, 0.0, goods)
-
-
-func _stall(pos: Vector3, yaw: float, goods: Array[String]) -> void:
-	var tent: Node3D = ModelKit.kit_model(ModelKit.KENNEY_NATURE, "tent_detailedOpen")
-	ModelKit.place(root, tent, pos, yaw, 1.6)
-	town.obstacles.append(Vector3(pos.x, pos.z, 0.6))
-	var forward: Vector3 = Vector3(sin(deg_to_rad(yaw)), 0.0, cos(deg_to_rad(yaw)))
-	var table_pos: Vector3 = pos + forward * 0.55
-	var table: Node3D = ModelKit.place(root, ModelKit.prop("crate_long_A"), table_pos, yaw, 2.1)
-	ModelKit.tint(table, Color(0.78, 0.6, 0.5))
-	var right: Vector3 = Vector3(forward.z, 0.0, -forward.x)
-	var index: int = 0
-	for good: String in goods:
-		var spot: Vector3 = table_pos + right * (float(index) - 1.0) * 0.38 + Vector3(0.0, 0.42, 0.0)
-		ModelKit.place(root, ModelKit.kit_model(ModelKit.KENNEY_FOOD, good), spot, _rng.randf() * 360.0, 0.6)
-		index += 1
+		var toward: Vector3 = center - pos
+		var bench: Node3D = PropKit.bench()
+		root.add_child(bench)
+		bench.position = pos
+		# the bench's open side is +z; turn it so that side faces the fountain
+		bench.rotation_degrees.y = rad_to_deg(atan2(toward.x, toward.z)) + 180.0
+		KitAO.blob(root, pos, 0.8, 0.28)
+		town.obstacles.append(Vector3(pos.x, pos.z, 0.55))
+	# A market stall with its barrels and sacks at the plaza's east rim, turned to face the fountain (a cart would sit in the camera's foreground).
+	var market_pos: Vector3 = Vector3(34.6, 0.0, 15.4)
+	if town.is_floor_at(market_pos):
+		var toward_plaza: Vector3 = center - market_pos
+		var stall_yaw: float = rad_to_deg(atan2(toward_plaza.x, toward_plaza.z))
+		var stall: Node3D = PropKit.stall(1)
+		root.add_child(stall)
+		stall.position = market_pos
+		stall.rotation_degrees.y = stall_yaw
+		town.obstacles.append(Vector3(market_pos.x, market_pos.z, 1.6))
+		KitAO.blob(root, market_pos, 1.5, 0.3)
+		var pair: Node3D = PropClusters.make("barrel_pair", 2)
+		TownKit.place_cluster(root, town, pair, market_pos + Basis(Vector3.UP, deg_to_rad(stall_yaw)) * Vector3(2.7, 0.0, -0.4), stall_yaw)
 
 
 # ---- small mesh helpers ---------------------------------------------------------------------------------------------------------------

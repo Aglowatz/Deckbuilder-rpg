@@ -56,7 +56,7 @@ static func card(id: String, size: Vector2, shadow: bool = true) -> MeshInstance
 
 ## Natural clumps of grass and flowers: every entry {"pos": Vector3, "radius": float, "count": int, "cells": Array} scatters `count` plants inside the circle.
 ## Returns the MultiMeshInstance3D (null when empty). Never uniform: sizes, spacing and flips vary.
-static func clumps(parent: Node3D, entries: Array[Dictionary], seed_value: int = 1) -> MultiMeshInstance3D:
+static func clumps(parent: Node3D, entries: Array[Dictionary], seed_value: int = 1, keep: Callable = Callable()) -> MultiMeshInstance3D:
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 5000 + seed_value
 	var transforms: Array[Transform3D] = []
@@ -74,6 +74,8 @@ static func clumps(parent: Node3D, entries: Array[Dictionary], seed_value: int =
 			var height: float = rng.randf_range(height_range.x, height_range.y) * (1.0 - 0.35 * (distance / maxf(radius, 0.01)))
 			var s: float = height * 1.06
 			var pos: Vector3 = center + Vector3(cos(angle) * distance, 0.0, sin(angle) * distance)
+			if keep.is_valid() and not bool(keep.call(pos)):
+				continue
 			transforms.append(Transform3D(Basis.from_scale(Vector3(s * (1.0 if rng.randf() > 0.5 else -1.0), s, 1.0)), pos))
 			datas.append(Color(float(cell), rng.randf(), rng.randf(), 0.0))
 	if transforms.is_empty():

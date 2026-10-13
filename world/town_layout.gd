@@ -46,8 +46,16 @@ class Shop:
 	## How far in front of the building's centre the interaction spot is.
 	var door: float = 1.1
 	var label: String = ""
-	## "building" (a KayKit building), "stall" (a tent with goods) or "bare" (nothing is built: the scene places the object itself).
+	## "building" (a KayKit building), "kit" (a BuildingKit preset), "stall" (a tent with goods) or "bare" (nothing is built: the scene places the object itself).
 	var kind: String = "building"
+	## Vertical slice: the BuildingKit preset, its overrides and a colour tint (kind "kit").
+	var preset: String = ""
+	var overrides: Dictionary = {}
+	var tint: Color = Color.WHITE
+	## Width x depth in metres (kit buildings): the footprint on the ground, front = +z in the building's own frame.
+	var footprint: Vector2 = Vector2.ZERO
+	## Metres along the front face (to the right) at which the door stands, so the door spot and the NPC stand in front of the door and not of the middle of the wall.
+	var door_offset: float = 0.0
 
 	## The unit vector the storefront faces.
 	func front() -> Vector3:
@@ -59,7 +67,22 @@ class Shop:
 		return Vector3(f.z, 0.0, -f.x)
 
 	func door_spot() -> Vector3:
-		return center + front() * door
+		return center + front() * door + right() * door_offset
+
+	## Where an NPC stands in front of the door (legacy buildings: 1.75 m from the centre).
+	func npc_offset() -> float:
+		return door + 0.65
+
+	## Half the footprint depth (kit buildings), 1.0 for the old small models.
+	func front_extent() -> float:
+		return footprint.y * 0.5 if kind == "kit" else 1.0
+
+	## True when `pos` (x / z) lies inside the building footprint grown by `margin` metres (kit buildings only).
+	func covers(pos: Vector3, margin: float = 0.0) -> bool:
+		if kind != "kit":
+			return false
+		var local: Vector3 = Basis(Vector3.UP, deg_to_rad(yaw)).inverse() * (pos - center)
+		return absf(local.x) <= footprint.x * 0.5 + margin and absf(local.z) <= footprint.y * 0.5 + margin
 
 
 static func _shop(key_value: String, model_value: String, center: Vector3, yaw_value: float, scale_value: float, radius_value: float, door_value: float, label_value: String, kind_value: String = "building") -> Shop:
@@ -76,39 +99,105 @@ static func _shop(key_value: String, model_value: String, center: Vector3, yaw_v
 	return shop
 
 
-## Every building of the centre. The `key`s are the town anchors (`TownBuilder.anchors`); fillers have an empty key.
+## A BuildingKit building. `x`/`z` is the centre of the footprint; the door spot is 0.9 m in front of the front face.
+static func _kit(key_value: String, preset_name: String, x: float, z: float, yaw_value: float, label_value: String, overrides: Dictionary = {}, tint_value: Color = Color.WHITE) -> Shop:
+	var spec: Dictionary = BuildingPresets.spec(preset_name, overrides)
+	var shop: Shop = Shop.new()
+	shop.key = key_value
+	shop.kind = "kit"
+	shop.preset = preset_name
+	shop.overrides = overrides
+	shop.tint = tint_value
+	shop.footprint = Vector2(float(spec.get("width", 6.0)), float(spec.get("depth", 5.0)))
+	shop.center = Vector3(x, 0.0, z)
+	shop.yaw = yaw_value
+	shop.scale_value = 1.0
+	shop.radius = maxf(shop.footprint.x, shop.footprint.y) * 0.5
+	shop.door = shop.footprint.y * 0.5 + 0.9
+	shop.door_offset = TownKit.door_u(spec)
+	shop.label = label_value
+	return shop
+
+
+## Street geometry used to seat buildings: a road half width plus a gap, so the front faces stand just off the paving.
+const STREET_HALF: float = 2.0
+const FRONT_GAP: float = 0.7
+
+
+## Every building of the centre. The `key`s are the town anchors (`TownBuilder.anchors`); fillers have an empty key. Vertical slice: the buildings are BuildingKit presets sized by
+## the scale rule (the hero reaches a third of the way up a door), so rows stand `STREET_HALF + FRONT_GAP + half depth` off the centre line of their street.
 static func shops() -> Array[Shop]:
-	var north: float = PLAZA.z - FLANK
-	var south: float = PLAZA.z + FLANK
-	var west: float = PLAZA.x - FLANK
-	var east: float = PLAZA.x + FLANK
 	var list: Array[Shop] = []
-	# --- West Market Street: two storefronts a side, a house at the end ---
-	list.append(_shop("item_vendor", "barracks", Vector3(14.2, 0.0, north), 0.0, 1.2, 0.85, 1.05, "Tilly Tonic's Supplies"))
-	list.append(_shop("market", "market", Vector3(8.7, 0.0, north), 0.0, 1.25, 1.1, 1.15, "Sable's Cards"))
-	list.append(_shop("", "home_B", Vector3(3.2, 0.0, north), 0.0, 1.3, 0.7, 1.0, "Row house"))
-	list.append(_shop("tailor", "market", Vector3(14.2, 0.0, south), 180.0, 1.2, 0.9, 1.05, "Pip Threadwell's Hats & Hems"))
-	list.append(_shop("equipment_vendor", "blacksmith", Vector3(8.7, 0.0, south), 180.0, 1.25, 0.9, 1.05, "Bertram Beetsworth's Smithy"))
-	list.append(_shop("", "home_A", Vector3(3.2, 0.0, south), 180.0, 1.3, 0.7, 1.0, "Row house"))
-	# --- East Market Street: the Rift Express hub, the pack stall, the Alchemist ---
-	list.append(_shop("rift_station", "", Vector3(36.2, 0.0, north), 0.0, 1.0, 1.3, 1.6, "Beefcake Rift Express", "bare"))
-	list.append(_shop("pack_vendor", "market", Vector3(41.7, 0.0, north), 0.0, 1.1, 0.9, 1.05, "Foil Fenwick's Sealed Goods"))
-	list.append(_shop("alchemist", "tower_B", Vector3(47.2, 0.0, north), 0.0, 1.15, 0.95, 1.15, "Auntie Alembic's"))
-	list.append(_shop("", "home_A", Vector3(36.2, 0.0, south), 180.0, 1.3, 0.7, 1.0, "Row house"))
-	list.append(_shop("", "home_B", Vector3(41.7, 0.0, south), 180.0, 1.3, 0.7, 1.0, "Row house"))
-	list.append(_shop("", "home_A", Vector3(47.2, 0.0, south), 180.0, 1.3, 0.7, 1.0, "Row house"))
+	var street_z: float = PLAZA.z
+	var off: float = STREET_HALF + FRONT_GAP
+	# --- West Market Street: the potion shop and the card shop on the north side, the clothier and the smithy on the south, houses at the end ---
+	var potion: Shop = _kit("item_vendor", "potion_shop", 14.6, 0.0, 0.0, "Tilly Tonic's Supplies")
+	potion.center.z = street_z - off - potion.footprint.y * 0.5
+	list.append(potion)
+	var cards: Shop = _kit("market", "card_shop", 7.2, 0.0, 0.0, "Sable's Cards")
+	cards.center.z = street_z - off - cards.footprint.y * 0.5
+	list.append(cards)
+	var house_w_n: Shop = _kit("", "home_a", -0.2, 0.0, 0.0, "Row house")
+	house_w_n.center.z = street_z - off - house_w_n.footprint.y * 0.5
+	list.append(house_w_n)
+	var clothier: Shop = _kit("tailor", "clothing_shop", 14.6, 0.0, 180.0, "Pip Threadwell's Hats & Hems")
+	clothier.center.z = street_z + off + clothier.footprint.y * 0.5
+	list.append(clothier)
+	var smithy: Shop = _kit("equipment_vendor", "equipment_shop", 6.8, 0.0, 180.0, "Bertram Beetsworth's Smithy")
+	smithy.center.z = street_z + off + smithy.footprint.y * 0.5
+	list.append(smithy)
+	var house_w_s: Shop = _kit("", "home_b", -0.8, 0.0, 180.0, "Row house")
+	house_w_s.center.z = street_z + off + house_w_s.footprint.y * 0.5
+	list.append(house_w_s)
+	# --- East Market Street: the Rift Express hub, the pack shop, the Alchemist; houses and a cottage opposite ---
+	list.append(_shop("rift_station", "", Vector3(36.2, 0.0, street_z - 4.5), 0.0, 1.0, 1.3, 1.6, "Beefcake Rift Express", "bare"))
+	var packs: Shop = _kit("pack_vendor", "pack_shop", 43.4, 0.0, 0.0, "Foil Fenwick's Sealed Goods")
+	packs.center.z = street_z - off - packs.footprint.y * 0.5
+	list.append(packs)
+	var alchemist: Shop = _kit("alchemist", "alchemist", 50.2, 0.0, 0.0, "Auntie Alembic's")
+	alchemist.center.z = street_z - off - alchemist.footprint.y * 0.5
+	list.append(alchemist)
+	var east_a: Shop = _kit("", "home_a", 40.0, 0.0, 180.0, "Row house")
+	east_a.center.z = street_z + off + east_a.footprint.y * 0.5
+	list.append(east_a)
+	var east_b: Shop = _kit("", "home_b", 47.2, 0.0, 180.0, "Row house")
+	east_b.center.z = street_z + off + east_b.footprint.y * 0.5
+	list.append(east_b)
+	var east_c: Shop = _kit("", "cottage", 54.0, 0.0, 180.0, "Cottage")
+	east_c.center.z = street_z + off + east_c.footprint.y * 0.5
+	list.append(east_c)
 	# --- Gate Road (north): the cave gate on the west, Elder Maren's home and the Hall of Records on the east ---
-	list.append(_shop("gate", "mine", Vector3(west, 0.0, 2.5), 90.0, 1.35, 1.0, 1.1, "The Forgotten Cave"))
-	list.append(_shop("elder_home", "home_A", Vector3(east, 0.0, 2.5), -90.0, 1.4, 0.75, 1.0, "Elder Maren's home"))
-	list.append(_shop("codex", "tower_A", Vector3(east, 0.0, -3.5), -90.0, 1.3, 0.85, 1.05, "Hall of Records"))
+	var road_x: float = PLAZA.x
+	var gate: Shop = _kit("gate", "stone_hut", 0.0, 3.0, 90.0, "The Forgotten Cave")
+	gate.center.x = road_x - off - gate.footprint.y * 0.5
+	list.append(gate)
+	var elder: Shop = _kit("elder_home", "home_a", 0.0, 3.6, -90.0, "Elder Maren's home", {"width": 6.4})
+	elder.center.x = road_x + off + elder.footprint.y * 0.5
+	list.append(elder)
+	var codex: Shop = _kit("codex", "hall", 0.0, -2.8, -90.0, "Hall of Records", {"width": 5.8, "depth": 5.6})
+	# the hall stands a little back from the road (the hex ground in front of its door and the uplands chest behind it both need room)
+	codex.center.x = road_x + off + 1.3 + codex.footprint.y * 0.5
+	list.append(codex)
 	# --- Champions' Road (south): the church, the Deck Station, the Old Well ---
-	list.append(_shop("church", "church", Vector3(west, 0.0, 23.5), 90.0, 1.2, 0.85, 1.1, "Chapel of the Four Paths"))
-	list.append(_shop("deck", "tavern", Vector3(east, 0.0, 23.5), -90.0, 1.25, 0.95, 1.1, "The Deck Station"))
-	list.append(_shop("well", "well", Vector3(west + 0.6, 0.0, 29.5), 90.0, 1.5, 0.6, 0.9, "The Old Well"))
+	var church: Shop = _kit("church", "chapel", 0.0, 31.8, 90.0, "Chapel of the Four Paths")
+	church.center.x = road_x - off - church.footprint.y * 0.5
+	list.append(church)
+	var inn: Shop = _kit("deck", "inn", 0.0, 25.0, -90.0, "The Deck Station")
+	inn.center.x = road_x + off + inn.footprint.y * 0.5
+	list.append(inn)
+	list.append(_shop("well", "", Vector3(6.2, 0.0, 23.6), 0.0, 1.5, 1.2, 0.9, "The Old Well", "bare"))
 	# --- The secrets and the quiet corners ---
-	list.append(_shop("hidden_vendor", "blacksmith", Vector3(39.6, 0.0, 24.9), 0.0, 1.25, 0.9, 1.05, "A back-alley smithy"))
-	list.append(_shop("vault", "castle", Vector3(10.8, 0.0, 31.2), 0.0, 1.1, 1.15, 1.3, "The Sealed Vault"))
+	list.append(_kit("hidden_vendor", "equipment_shop", 39.6, 25.6, 0.0, "A back-alley smithy", {"width": 6.0, "depth": 5.0}))
+	list.append(_kit("vault", "stone_hut", 9.6, 34.8, 0.0, "The Sealed Vault"))
 	return list
+
+
+## True when `pos` lies inside any kit building footprint grown by `margin` (lamp posts, props and plants keep out).
+static func in_footprint(pos: Vector3, margin: float = 0.0) -> bool:
+	for shop: Shop in shops():
+		if shop.covers(pos, margin):
+			return true
+	return false
 
 
 ## Every road as a polyline. The first and last points are the plaza ring and the zone exits' arrival anchors.
@@ -119,7 +208,7 @@ static func roads() -> Dictionary:
 		"gate_road": [Vector3(25.2, 0, 6.3), Vector3(25.2, 0, 0.0), Vector3(23.4, 0, -3.1), Vector3(19.8, 0, -9.3), Vector3(16.2, 0, -12.59)],
 		"champions": [Vector3(25.2, 0, 18.4), Vector3(25.2, 0, 30.0), Vector3(25.2, 0, 40.2)],
 		"south_road": [Vector3(25.2, 0, 31.5), Vector3(31.0, 0, 35.0), Vector3(35.5, 0, 40.0), Vector3(36.5, 0, 47.0), Vector3(33.5, 0, 54.0), Vector3(28.5, 0, 59.5), Vector3(25.2, 0, 63.0), Vector3(25.2, 0, 65.6)],
-		"grave_road": [Vector3(20.8, 0, 16.6), Vector3(14.0, 0, 22.0), Vector3(7.0, 0, 27.5), Vector3(1.0, 0, 32.0), Vector3(-6.0, 0, 34.3), Vector3(-16.8, 0, 34.3)],
+		"grave_road": [Vector3(21.4, 0, 17.5), Vector3(20.4, 0, 22.0), Vector3(14.5, 0, 25.6), Vector3(8.5, 0, 28.6), Vector3(1.0, 0, 32.0), Vector3(-6.0, 0, 34.3), Vector3(-16.8, 0, 34.3)],
 	}
 
 
@@ -202,11 +291,11 @@ static func lamps() -> Array[Vector3]:
 ## The text is flat and upright, readable from the town camera (which looks north), so the direction is an arrow prefix.
 static func signposts() -> Array[Dictionary]:
 	return [
-		{"pos": Vector3(18.0, 0, 9.4), "boards": [{"text": "Market Street", "dir": "W"}, {"text": "The Verdant Dump", "dir": "W"}]},
-		{"pos": Vector3(32.4, 0, 9.4), "boards": [{"text": "Market Street", "dir": "E"}, {"text": "The Endless Buffet", "dir": "E"}]},
-		{"pos": Vector3(28.4, 0, 7.6), "boards": [{"text": "The Capital", "dir": "N"}, {"text": "Elder Maren's home", "dir": "N"}, {"text": "The Forgotten Cave", "dir": "N"}]},
-		{"pos": Vector3(21.8, 0, 18.6), "boards": [{"text": "Grave Road: the D.N.A.", "dir": "SW"}, {"text": "The Grand Clashatorium", "dir": "S"}]},
-		{"pos": Vector3(22.6, 0, 32.4), "boards": [{"text": "The Grand Clashatorium", "dir": "S"}, {"text": "The Gainlands", "dir": "SE"}]},
+		{"pos": Vector3(19.3, 0, 8.8), "boards": [{"text": "Market Street", "dir": "W"}, {"text": "The Verdant Dump", "dir": "W"}]},
+		{"pos": Vector3(31.1, 0, 8.8), "boards": [{"text": "Market Street", "dir": "E"}, {"text": "The Endless Buffet", "dir": "E"}]},
+		{"pos": Vector3(28.8, 0, 7.0), "boards": [{"text": "The Capital", "dir": "N"}, {"text": "Elder Maren's home", "dir": "N"}, {"text": "The Forgotten Cave", "dir": "N"}]},
+		{"pos": Vector3(18.9, 0, 16.6), "boards": [{"text": "Grave Road: the D.N.A.", "dir": "SW"}, {"text": "The Grand Clashatorium", "dir": "S"}]},
+		{"pos": Vector3(23.0, 0, 35.5), "boards": [{"text": "The Grand Clashatorium", "dir": "S"}, {"text": "The Gainlands", "dir": "SE"}]},
 	]
 
 
@@ -234,3 +323,39 @@ static func road_kinds() -> Dictionary:
 		"market_west": "cobble", "market_east": "cobble", "gate_road": "cobble", "champions": "cobble",
 		"south_road": "dirt", "grave_road": "dirt",
 	}
+
+
+## The yaw (degrees, 0 = +z / south, 90 = +x / east) a signpost board points to for a direction code ("W", "E", "N", "S", "SW", "SE").
+static func yaw_for_direction(dir: String) -> float:
+	match dir:
+		"W":
+			return -90.0
+		"E":
+			return 90.0
+		"N":
+			return 180.0
+		"S":
+			return 0.0
+		"SW":
+			return -45.0
+		"SE":
+			return 45.0
+	return 0.0
+
+
+## The words a signpost popup uses for a direction code.
+static func direction_name(dir: String) -> String:
+	match dir:
+		"W":
+			return "West"
+		"E":
+			return "East"
+		"N":
+			return "North"
+		"S":
+			return "South"
+		"SW":
+			return "South-west"
+		"SE":
+			return "South-east"
+	return "Onward"

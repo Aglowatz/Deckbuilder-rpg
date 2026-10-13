@@ -216,6 +216,8 @@ func _build_connector_water() -> void:
 func _build_cell(col: int, row: int, symbol: String) -> void:
 	if symbol == ".":
 		return
+	# Vertical slice: every cell draws from its own seeded stream, so moving a road (which converts trees and rocks to grass round it) never reshuffles the rest of the island.
+	_rng.seed = 7 + (col + 40) * 1009 + (row + 40) * 7919
 	var center: Vector3 = cell_center(col, row)
 	ModelKit.place(root, ModelKit.tile("hex_grass"), center, 0.0, SCALE)
 	var yaw: float = float(_rng.randi_range(0, 5)) * 60.0
@@ -228,8 +230,20 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 			walkable[Vector2i(col, row)] = true
 			for i: int in range(3):
 				var offset: Vector3 = _scatter(center, 0.4 * SCALE, 0.85 * SCALE)
-				var tree: String = ["tree_single_A", "tree_single_B"][_rng.randi() % 2]
-				ModelKit.place(root, ModelKit.nature(tree), offset, _rng.randf() * 360.0, _rng.randf_range(1.1, 1.5))
+				# Vertical slice: painted tree cards (ENV-TREE-*) instead of the old cone-like KayKit trees; the random draws stay in the same order so nothing else on the island moves.
+				var kind_roll: int = _rng.randi() % 2
+				var spin: float = _rng.randf() * 360.0
+				var size_roll: float = _rng.randf_range(1.1, 1.5)
+				var kinds: Array[String] = ["oak", "pine", "birch", "fruit"]
+				var kind: String = kinds[(i + kind_roll + col + row) % kinds.size()]
+				# Nothing blocks a chest, a lever or a portal mouth: trees that would stand on or hug one are left out (they could cut it off).
+				if _near_special(offset, 1.9):
+					continue
+				var near: bool = Vector2(offset.x - TownLayout.PLAZA.x, offset.z - TownLayout.PLAZA.z).length() < 40.0
+				var card: Node3D = TreeCards.make(kind, 0.62 + 0.3 * (size_roll - 1.1) / 0.4, near)
+				card.position = offset
+				card.rotation_degrees.y = spin
+				root.add_child(card)
 				obstacles.append(Vector3(offset.x, offset.z, OBSTACLE_TREE * 1.3))
 		"R":
 			walkable[Vector2i(col, row)] = true
@@ -314,14 +328,6 @@ func _build_centre() -> void:
 	anchors["spawn"] = TownLayout.SPAWN
 	for shop: TownLayout.Shop in TownLayout.shops():
 		_place_shop(shop)
-	# Beside the storefronts: a few crates and barrels (never in the street).
-	for shop: TownLayout.Shop in TownLayout.shops():
-		if shop.key in ["market", "deck", "gate", "equipment_vendor", "item_vendor"]:
-			_prop("crate_A_big", shop.center + shop.right() * (shop.radius + 0.55) - shop.front() * 0.3, 20.0, 1.1, 0.3)
-			_prop("barrel", shop.center - shop.right() * (shop.radius + 0.5) - shop.front() * 0.2, 0.0, 1.1, 0.25)
-	var gate_shop: TownLayout.Shop = _shop_for("gate")
-	_prop("weaponrack", gate_shop.center - gate_shop.front() * 1.1 + gate_shop.right() * 1.3, 10.0, 1.2, 0.3)
-	_prop("flag_blue", gate_shop.door_spot() - gate_shop.right() * 1.1, 0.0, 1.3, 0.15)
 	# Grand Clashatorium: a colosseum at the end of Champions' Road, its gate facing north onto the avenue.
 	var arena_center: Vector3 = TownLayout.ARENA_CENTER
 	ArenaBuilding.build(root, arena_center)
@@ -342,9 +348,20 @@ func _shop_for(key: String) -> TownLayout.Shop:
 func _place_shop(shop: TownLayout.Shop) -> void:
 	var front: Vector3 = shop.front()
 	var right: Vector3 = shop.right()
+	var extent: float = shop.front_extent()
+	var base: Vector3 = shop.center + right * shop.door_offset
 	match shop.kind:
 		"building":
 			_building(shop.model, shop.center, shop.yaw, shop.scale_value, shop.radius)
+		"kit":
+			kit_buildings[shop.key if shop.key != "" else "row_%d" % kit_buildings.size()] = TownKit.place_building(root, self, shop)
+		"bare":
+			if shop.key == "well":
+				var well_cluster: Node3D = PropClusters.make("well_corner")
+				root.add_child(well_cluster)
+				well_cluster.position = shop.center
+				for circle: Variant in well_cluster.get_meta("circles") as Array:
+					obstacles.append(Vector3(shop.center.x + (circle as Vector3).x, shop.center.z + (circle as Vector3).y, (circle as Vector3).z))
 	if shop.key.is_empty():
 		return
 	var spot: Vector3 = shop.door_spot()
@@ -354,22 +371,22 @@ func _place_shop(shop: TownLayout.Shop) -> void:
 			anchors["rift_station"] = shop.center
 			anchors["npc_rift_station"] = shop.center + Vector3(-2.0, 0.0, 0.9)
 		"tailor":
-			anchors["npc_tailor"] = shop.center + front * 1.6 + right * 0.8
-			anchors["tailor_mannequin"] = shop.center + front * 1.4 - right * 1.0
+			anchors["npc_tailor"] = base + front * (shop.npc_offset() - 0.15) + right * 0.8
+			anchors["tailor_mannequin"] = base + front * (shop.npc_offset() - 0.35) - right * 1.2
 		"alchemist":
-			anchors["npc_alchemist"] = shop.center + front * 1.0 + right * 1.15
-			anchors["alchemist_door"] = shop.center + front * 0.55
+			anchors["npc_alchemist"] = base + front * (extent + 0.9) + right * 1.5
+			anchors["alchemist_door"] = base + front * (extent + 0.05)
 		"gate":
-			anchors["npc_gate"] = shop.center + front * 1.6 + right * 1.9
+			anchors["npc_gate"] = base + front * (shop.npc_offset() - 0.1) + right * 1.9
 		"elder_home":
-			anchors["npc_elder"] = shop.center + front * 1.8
+			anchors["npc_elder"] = base + front * (shop.npc_offset() + 0.15)
 			anchors["npc_well"] = anchors["npc_elder"]
 		"well":
 			anchors["well"] = shop.center + front * 0.9
 		"hidden_vendor", "vault", "church", "deck", "codex":
 			pass
 		_:
-			anchors["npc_%s" % shop.key] = shop.center + front * 1.75
+			anchors["npc_%s" % shop.key] = base + front * shop.npc_offset()
 
 
 ## New brief (third), Part E: a debug-only "Dev Shrine" at the very bottom (south) edge of the
@@ -481,6 +498,9 @@ var hidden_chest_nodes: Dictionary = {}
 var harbor_chest_node: Node3D
 ## Polish round: label -> world position of every added cottage, shed, stall and well (TownExpansion).
 var expansion: Dictionary = {}
+## Vertical slice: the BuildingKit buildings of the centre (anchor key, or "row_n" for the fillers) and their warm lights, registered with the style rig by the scene.
+var kit_buildings: Dictionary = {}
+var kit_lights: Array[OmniLight3D] = []
 
 
 func _build_hidden_chests() -> void:
@@ -564,3 +584,25 @@ func is_floor_at(pos: Vector3) -> bool:
 func map_bounds() -> Rect2:
 	var rect: Rect2 = HexGrid.bounds_of(walkable.keys())
 	return Rect2(rect.position * SCALE, rect.size * SCALE)
+
+
+## True when `pos` is within `radius` of a hidden chest, the giant chest, the lever, the Four-Seal Vault mouth, the graveyard cairn or a zone passage mouth.
+func _near_special(pos: Vector3, radius: float) -> bool:
+	if _special_points.is_empty():
+		for id: String in HIDDEN_CHEST_CELLS.keys():
+			var cell: Vector2i = HIDDEN_CHEST_CELLS[id] as Vector2i
+			_special_points.append(cell_center(cell.x, cell.y) + (HIDDEN_CHEST_OFFSETS[id] as Vector3))
+		_special_points.append(cell_center(GIANT_CHEST_CELL.x, GIANT_CHEST_CELL.y))
+		_special_points.append(cell_center(LEVER_CELL.x, LEVER_CELL.y))
+		_special_points.append(cell_center(FOUR_SEAL_CELL.x, FOUR_SEAL_CELL.y))
+		_special_points.append(cell_center(GRAVEYARD_CENTER_CELL.x, GRAVEYARD_CENTER_CELL.y))
+		for zone_id: String in PORTAL_CELLS.keys():
+			var portal: Vector2i = PORTAL_CELLS[zone_id] as Vector2i
+			_special_points.append(cell_center(portal.x, portal.y))
+	for point: Vector3 in _special_points:
+		if Vector2(pos.x - point.x, pos.z - point.z).length() < radius:
+			return true
+	return false
+
+
+var _special_points: Array[Vector3] = []

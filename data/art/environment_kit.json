@@ -25,7 +25,7 @@
 		{"id": "ENV-SIGN-FLASK", "group": "sign", "slot": "sign.flask", "placeholder": "gen:sign_flask", "tint": "#ffffff", "tile": 1.0, "desc": "Hanging shop sign: a bubbling alchemist's flask, no text, cut-out."},
 		{"id": "ENV-SIGN-INN", "group": "sign", "slot": "sign.inn", "placeholder": "gen:sign_inn", "tint": "#ffffff", "tile": 1.0, "desc": "Hanging tavern sign: a foaming tankard over a crescent bed, no text, cut-out."},
 		{"id": "ENV-SIGNPOST", "group": "sign", "slot": "sign.post", "placeholder": "gen:sign_path", "tint": "#ffffff", "tile": 1.0, "desc": "Signpost board carrying the Path symbol (the crest) and an arrow, no text, cut-out."},
-		{"id": "ENV-GROUND-DIRTPATH", "group": "ground", "slot": "ground.dirt", "placeholder": "tex:town_soil", "tint": "#ffffff", "tile": 3.0, "desc": "Packed dirt path ground, warm, calm, seamless, 3 m tile."},
+		{"id": "ENV-GROUND-DIRTPATH", "group": "ground", "slot": "ground.dirt", "placeholder": "tex:mat_plaster", "tint": "#cfb48c", "tile": 3.0, "desc": "Packed dirt path ground, warm, calm, seamless, 3 m tile."},
 		{"id": "ENV-GROUND-COBBLE", "group": "ground", "slot": "ground.cobble", "placeholder": "tex:town_stone", "tint": "#ffffff", "tile": 3.0, "desc": "Warm irregular cobblestones for the square, seamless, 3 m tile."},
 		{"id": "ENV-GROUND-GRASS-CALM", "group": "ground", "slot": "ground.grass", "placeholder": "tex:town_grass", "tint": "#ffffff", "tile": 4.0, "desc": "Calm, low-contrast meadow grass with no pattern, seamless, 4 m tile."},
 		{"id": "DEC-PATHEDGE", "group": "decal", "slot": "decal.pathedge", "placeholder": "gen:pathedge", "tint": "#ffffff", "tile": 1.0, "desc": "Soft irregular dirt-to-grass edge strip with grass tufts, alpha edge, tileable along its length."},

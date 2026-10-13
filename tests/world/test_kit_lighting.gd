@@ -21,11 +21,11 @@ func test_grade_is_per_area_data() -> void:
 		assert_eq(float(values.get("green_calm", 0.0)), 0.0, "%s keeps its own palette" % id)
 
 
-func test_only_the_town_has_light_shafts() -> void:
+func test_no_area_switches_light_shafts_on_by_default() -> void:
 	var moods: Dictionary = WorldLookRig.all_moods()
-	assert_true(bool(((moods["town"] as Dictionary)["ambient"] as Dictionary).get("shafts", false)))
+	# the shaft strips were tried in the town (VS-11) and read as flat translucent polygons close up: the feature stays, off
 	for id: Variant in moods.keys():
-		if str(id) == "town":
+		if false:
 			continue
 		var mood: Dictionary = WorldLookRig.mood_for(StringName(str(id)))
 		assert_false(bool((mood.get("ambient", {}) as Dictionary).get("shafts", false)), "%s has no shafts" % str(id))

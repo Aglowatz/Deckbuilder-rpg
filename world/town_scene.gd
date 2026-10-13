@@ -446,6 +446,8 @@ func _build_spots() -> void:
 	_add_spot("gate", "The Forgotten Cave", town.anchors["gate"] as Vector3, 1.7)
 	_add_spot("elder", "Elder Maren", town.anchors["npc_elder"] as Vector3, 1.4)
 	_add_spot("notice_board", "Notice Board", town.anchors["notice_board"] as Vector3, 1.7)
+	for sign_index: int in range(square.streets.signpost_positions.size()):
+		_add_spot("signpost_%d" % sign_index, "Signpost", town.anchors["signpost_%d" % sign_index] as Vector3, 1.5)
 	_add_spot("guard", "Gatekeeper Brannoch", town.anchors["npc_gate"] as Vector3, 1.4)
 	_add_spot("codex", "Hall of Records", town.anchors["codex"] as Vector3, 1.6)
 	_add_spot("chest", "A Hidden Chest", town.anchors["chest"] as Vector3, 1.3)
@@ -804,6 +806,8 @@ func _prompt_text(spot: Spot) -> String:
 			return "Browse Auntie Alembic's" if Session.alchemist_unlocked() else "Knock (the shop is closed)"
 		"arena":
 			return "Enter the Grand Clashatorium" if Session.arena_unlocked() else "The gates are chained shut"
+	if spot.id.begins_with("signpost_"):
+		return "Read the signpost"
 	if spot.id.begins_with("portal_"):
 		var zone_id: String = spot.id.trim_prefix("portal_")
 		return "Sealed - the corrupted guardian must fall first" if _portal_is_locked(zone_id) else "Enter"
@@ -867,6 +871,9 @@ func _screen_pos_of(spot: Spot) -> Vector2:
 
 func _interact(spot: Spot) -> void:
 	Audio.sfx(&"ui_select")
+	if spot.id.begins_with("signpost_"):
+		_read_signpost(int(spot.id.trim_prefix("signpost_")))
+		return
 	match spot.id:
 		"well":
 			_use_well()
@@ -1736,6 +1743,7 @@ func _build_rift_station() -> void:
 	_station = FastTravelStation.new()
 	add_child(_station)
 	_station.position = pos
+	_station.icon_sign = true
 	_station.build(travel.get_lines("travel.sign.town"), true)
 	town.obstacles.append(Vector3(pos.x, pos.z, 1.3))
 	var rip: Dictionary = NpcSprites.rift_operator()
@@ -2077,3 +2085,13 @@ func _talk_baker() -> void:
 	if _baker != null:
 		_baker.face(player.position)
 	_talk_npc("baker", "Brindle the Baker", lines)
+
+
+## Vertical slice: the signposts carry the Path crest and arrows, no lettering. Using one opens this popup with what the old boards said.
+func _read_signpost(index: int) -> void:
+	if index < 0 or index >= square.streets.signpost_lines.size():
+		return
+	var lines: Array[String] = []
+	for line: Variant in square.streets.signpost_lines[index]:
+		lines.append(str(line))
+	dialogue.start("Signpost", lines)

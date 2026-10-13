@@ -187,7 +187,9 @@ func _dithers(mesh_instance: MeshInstance3D) -> bool:
 		return bool(_dither_cache[key])
 	var material: Material = mesh_instance.material_override
 	if material == null and mesh_instance.mesh != null and mesh_instance.mesh.get_surface_count() > 0:
-		material = mesh_instance.mesh.surface_get_material(0)
+		material = mesh_instance.get_surface_override_material(0)
+		if material == null:
+			material = mesh_instance.mesh.surface_get_material(0)
 	var result: bool = false
 	if material is ShaderMaterial:
 		var shader: Shader = (material as ShaderMaterial).shader

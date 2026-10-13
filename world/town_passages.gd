@@ -86,20 +86,18 @@ static func _sign(root: Node3D, title: String, tint: Color) -> void:
 	mesh.box(Vector3(0.68, 1.95, 0.1), Vector3(0.16, 0.22, 0.05), tint)
 	mesh.box(Vector3(0, 1.28, 0.08), Vector3(0.9, 0.1, 0.05), WOOD_DARK)
 	sign_root.add_child(_holder(mesh, "Board"))
-	var label: Label3D = Label3D.new()
-	label.name = "SignText"
-	label.text = title
-	label.font = UIStyle.font_title()
-	label.font_size = 40
-	label.pixel_size = 0.0058
-	label.modulate = Color("3a2412")
-	label.outline_size = 0
-	label.width = 380.0
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.position = Vector3(0, 1.62, 0.172)
-	label.set_meta(StyleToon.META_NO_TOON, true)
-	sign_root.add_child(label)
+	# Vertical slice: no lettering on the board. The Path crest (ENV-SIGNPOST), tinted with the destination's colour, says "a way out"; the name is in the prompt and the plate
+	# that appear when the hero walks up (and `destination` is kept on the passage for them).
+	var icon: MeshInstance3D = MeshInstance3D.new()
+	icon.name = "SignIcon"
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(0.62, 0.78)
+	icon.mesh = quad
+	icon.material_override = EnvKit.material("ENV-SIGNPOST", true, tint.lerp(Color.WHITE, 0.3))
+	icon.position = Vector3(0, 1.62, 0.175)
+	icon.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	sign_root.add_child(icon)
+	root.set_meta("destination", title)
 
 
 static func _far_glow(root: Node3D, tint: Color, locked: bool) -> void:

@@ -217,7 +217,7 @@ func _apply_lights(level: int) -> void:
 	sun.shadow_enabled = detail > 0
 	# Soft, tinted shadows: translucent so the coloured ambient shows through (never a black cut-out), blurred edges.
 	sun.shadow_blur = 2.4 if detail < 2 else 1.8
-	sun.shadow_opacity = 0.62
+	sun.shadow_opacity = preset.shadow_opacity
 	sun.shadow_normal_bias = 1.6
 	sun.shadow_bias = 0.06
 	sun.directional_shadow_max_distance = 26.0 if detail < 2 else 48.0

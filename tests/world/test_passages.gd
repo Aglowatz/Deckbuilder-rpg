@@ -19,8 +19,9 @@ func test_every_zone_has_a_passage_with_its_name_and_a_clear_walk() -> void:
 	for info: ZonePortals.Info in ZonePortals.all():
 		var passage: Node3D = town.passage_nodes.get(info.id) as Node3D
 		assert_not_null(passage, "%s has a passage" % info.id)
-		var label: Label3D = passage.find_child("SignText", true, false) as Label3D
-		assert_eq(label.text, info.display_name, "the carved sign names the zone")
+		assert_not_null(passage.find_child("SignIcon", true, false), "the sign is an icon, not lettering")
+		assert_null(passage.find_child("SignText", true, false), "no readable text on the passage")
+		assert_eq(str(passage.get_meta("destination", "")), info.display_name, "the passage still knows where it goes")
 		var entry: Vector3 = town.anchors["portal_%s" % info.id] as Vector3
 		var mouth: Vector3 = town.anchors["portal_%s_mouth" % info.id] as Vector3
 		for step: int in range(21):

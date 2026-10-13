@@ -54,6 +54,8 @@ var desaturate: float = 0.0
 var wind: float = 1.0
 ## Saturation kept on up-facing ground surfaces (1 = untouched); the style guide wants the ground calmer than the props.
 var ground_sat: float = 0.85
+## Opacity of the sun shadows (0..1): lower lets the coloured ambient show through more.
+var shadow_opacity: float = 0.62
 var accent: Color = Color(0.92, 0.14, 0.1)
 
 # Ambient particles around the player: [{"kind": "motes"|"leaves"|"fireflies"|"steam"|"sparkles"|"ash"|"petals", "color": Color, "amount": int}]

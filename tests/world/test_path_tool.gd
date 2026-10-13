@@ -78,6 +78,6 @@ func test_the_town_roads_are_paths_and_the_ground_is_calm() -> void:
 	var moss_discs: int = 0
 	for child: Node in square.root.get_children():
 		var instance: MeshInstance3D = child as MeshInstance3D
-		if instance != null and instance.material_override is ShaderMaterial and int((instance.material_override as ShaderMaterial).get_shader_parameter("pattern")) == int(GroundDecals.Pattern.MOSS):
+		if instance != null and instance.material_override is ShaderMaterial and (instance.material_override as ShaderMaterial).get_shader_parameter("pattern") != null and int((instance.material_override as ShaderMaterial).get_shader_parameter("pattern")) == int(GroundDecals.Pattern.MOSS):
 			moss_discs += 1
 	assert_eq(moss_discs, 0, "no saturated moss patches on the ground any more")

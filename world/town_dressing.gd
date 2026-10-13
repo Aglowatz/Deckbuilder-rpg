@@ -6,7 +6,7 @@ extends RefCounted
 ## the town scene is built (unlocking always happens in another scene, so it never needs to change live).
 
 
-static func alchemist(parent: Node3D, anchors: Dictionary, unlocked: bool, story: StoryText) -> void:
+static func alchemist(parent: Node3D, anchors: Dictionary, unlocked: bool, _story: StoryText) -> void:
 	var door: Vector3 = anchors.get("alchemist_door", Vector3.ZERO) as Vector3
 	var root: Node3D = Node3D.new()
 	root.name = "AlchemistDressing"
@@ -18,9 +18,9 @@ static func alchemist(parent: Node3D, anchors: Dictionary, unlocked: bool, story
 			var board: MeshInstance3D = _box(Vector3(1.5, 0.16, 0.06), plank, Vector3(0, 0.45 + 0.34 * float(index), 0.5))
 			board.rotation_degrees.z = -14.0 + 14.0 * float(index)
 			root.add_child(board)
-		var note: Label3D = _label("CLOSED", Vector3(0, 1.6, 0.6), Color("f2e8c8"), 0.0042)
-		root.add_child(note)
-		root.add_child(_label("(not open yet)", Vector3(0, 1.18, 0.6), Color("b9d8a8"), 0.0032))
+		# a padlock on the boards instead of lettering: what the closed shop says is read in the dialogue when the hero knocks
+		root.add_child(_box(Vector3(0.36, 0.42, 0.14), _material(Color("2a2a30"), 0.4), Vector3(0, 0.95, 0.56)))
+		root.add_child(_cylinder(0.12, 0.2, _material(Color("2a2a30"), 0.4), Vector3(0, 1.22, 0.56)))
 		return
 	var iron: StandardMaterial3D = _material(Color("2a2a30"), 0.4)
 	var pot: MeshInstance3D = _cylinder(0.42, 0.36, iron, Vector3(0.9, 0.18, 0.7))
@@ -37,11 +37,10 @@ static func alchemist(parent: Node3D, anchors: Dictionary, unlocked: bool, story
 	light.position = Vector3(0.9, 0.9, 0.7)
 	root.add_child(light)
 	root.add_child(_bubbles(Vector3(0.9, 0.42, 0.7), Color("8fe86a")))
-	root.add_child(_label(story.text("town.alchemist.name"), Vector3(0, 1.9, 0.6), Color("b8f58f"), 0.0046))
 
 
 ## Chained gate and a "CLOSED" sign before the first zone is free; torches and banners after.
-static func arena_gate(parent: Node3D, anchors: Dictionary, unlocked: bool, story: StoryText) -> void:
+static func arena_gate(parent: Node3D, anchors: Dictionary, unlocked: bool, _story: StoryText) -> void:
 	var gate: Vector3 = anchors.get("arena_gate", Vector3.ZERO) as Vector3
 	var root: Node3D = Node3D.new()
 	root.name = "ArenaDressing"
@@ -54,8 +53,6 @@ static func arena_gate(parent: Node3D, anchors: Dictionary, unlocked: bool, stor
 			chain.rotation_degrees.z = 12.0 if index == 0 else -12.0
 			root.add_child(chain)
 		root.add_child(_box(Vector3(0.34, 0.4, 0.14), iron, Vector3(0, 1.0, 0.2)))
-		root.add_child(_label("CLOSED", Vector3(0, 2.6, 0.3), Color("f2e8c8"), 0.0058))
-		root.add_child(_label("(until the first zone is free)", Vector3(0, 2.05, 0.3), Color("ffcf70"), 0.0034))
 		return
 	for side: int in [-1, 1]:
 		var torch: Node3D = Node3D.new()
@@ -72,7 +69,6 @@ static func arena_gate(parent: Node3D, anchors: Dictionary, unlocked: bool, stor
 		torch.add_child(_bubbles(Vector3(0, 1.45, 0), Color("ffb060")))
 		var banner: MeshInstance3D = _box(Vector3(0.7, 1.7, 0.06), _material(Color("a8321f") if side < 0 else Color("1f4aa8"), 0.85), Vector3(float(side) * 2.2, 2.4, 0.1))
 		root.add_child(banner)
-	root.add_child(_label(story.text("town.arena.name"), Vector3(0, 3.1, 0.3), Color("ffd98a"), 0.0075))
 
 
 static func _material(color: Color, rough: float) -> StandardMaterial3D:

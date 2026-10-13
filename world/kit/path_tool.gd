@@ -10,7 +10,7 @@ extends RefCounted
 
 const SHADER: String = "res://world/kit/kit_path.gdshader"
 const KINDS: Dictionary = {
-	"dirt": {"id": "ENV-GROUND-DIRTPATH", "soft": 0.34, "noise": 0.42, "tint": Color(1.35, 1.25, 1.1)},
+	"dirt": {"id": "ENV-GROUND-DIRTPATH", "soft": 0.34, "noise": 0.42, "tint": Color(1.0, 0.96, 0.9)},
 	"cobble": {"id": "ENV-GROUND-COBBLE", "soft": 0.1, "noise": 0.16, "tint": Color(0.97, 0.93, 0.88)},
 }
 

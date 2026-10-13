@@ -37,10 +37,13 @@ func test_meadow_keeps_the_lanes_and_buildings_clear() -> void:
 	var square: TownSquare = built[0] as TownSquare
 	var town: TownBuilder = built[1] as TownBuilder
 	assert_gt(square.meadow_points.size(), 300)
-	var well: Vector3 = town.anchors["well"] as Vector3
+	var well: Vector3 = Vector3.ZERO
+	for shop: TownLayout.Shop in TownLayout.shops():
+		if shop.key == "well":
+			well = shop.center
 	for pos: Vector3 in square.meadow_points:
 		assert_true(town.is_floor_at(pos), "tufts only grow on land")
-		assert_gt(Vector2(pos.x - well.x, pos.z - well.z).length(), 0.8, "nothing grows on the well")
+		assert_gt(Vector2(pos.x - well.x, pos.z - well.z).length(), 1.0, "nothing grows on the well")
 
 
 func test_dressing_does_not_wall_off_the_anchors() -> void:

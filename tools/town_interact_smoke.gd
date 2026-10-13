@@ -277,7 +277,7 @@ func _check_deck_builder_anywhere() -> void:
 ## does not appear until very close, that opening actually grants the reward, that it is one-time,
 ## and (must_walk, on the far West Woods chest) that it is reachable at all through the bigger map.
 func _check_hidden_chests() -> void:
-	var near_anchor: Vector3 = scene.town.anchors["hidden_chest_ember_flats"] as Vector3
+	var near_anchor: Vector3 = scene.town.anchors["hidden_chest_beefcake_flats"] as Vector3
 	scene.player.position = near_anchor + Vector3(0.0, 0.0, 4.0)
 	await driver.frames(5)
 	_check(not scene.hud._prompt_panel.visible, "no prompt shows near a hidden chest from 4m away")
@@ -287,7 +287,7 @@ func _check_hidden_chests() -> void:
 	var items_before: int = Session.profile.owned_items.size()
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
-	_check(Session.found_secret("hidden_chest_ember_flats"), "opening a hidden chest marks its secret found")
+	_check(Session.found_secret("hidden_chest_beefcake_flats"), "opening a hidden chest marks its secret found")
 	await driver.dismiss_reward_box()
 	_check(Session.profile.owned_items.size() == items_before + 1, "opening the Beefcake Flats chest grants its item")
 	scene.player.position = near_anchor + Vector3(0.0, 0.0, 4.0)

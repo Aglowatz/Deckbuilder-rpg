@@ -1,0 +1,3 @@
+				# Nothing blocks a chest, a lever or a portal mouth: trees that would stand on or hug one are left out (they could cut it off).
+				if _near_special(offset, 1.9):
+					continue

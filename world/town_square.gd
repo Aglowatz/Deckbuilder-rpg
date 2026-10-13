@@ -37,6 +37,7 @@ static func build(parent: Node3D, builder: TownBuilder, quality: int) -> TownSqu
 	square._skirts()
 	square._meadow()
 	square._landmarks()
+	square._building_lights()
 	return square
 
 
@@ -117,7 +118,7 @@ func _meadow() -> void:
 			})
 	for entry: Dictionary in entries:
 		entry["count"] = maxi(1, int(round(float(entry["count"]) * density)))
-	var instance: MultiMeshInstance3D = KitFoliage.clumps(root, entries, 31)
+	var instance: MultiMeshInstance3D = KitFoliage.clumps(root, entries, 31, func(p: Vector3) -> bool: return _meadow_ok(p, true, -0.1))
 	if instance != null:
 		for point: Vector3 in instance.get_meta("points") as Array[Vector3]:
 			meadow_points.append(point)
@@ -162,50 +163,116 @@ func _multimesh(mesh: Mesh, transforms: Array[Transform3D]) -> void:
 	root.add_child(instance)
 
 
-# ---- building skirts: clustered clutter around the shops and along the lanes ------------------------------------------------------
+# ---- building skirts: dressed doorsteps, wall corners and framing pieces ---------------------------------------------------------------
 
 
-## Crates, barrels, sacks and buckets in clusters of three around every building and the market, never on a lane or inside an obstacle (ScatterTool keep-outs).
+## Vertical slice, Part E: instead of scattering crates round the shops, every kit building gets a doorstep cluster (pots, a planter, a barrel or crate), most get a stack of
+## crates and barrels against a wall corner, and a few get a fenced garden or a banner lamp. Worn earth lies at every doorstep. Everything is placed in the building's own frame
+## and checked against the footprints, the roads and the other obstacles.
 func _skirts() -> void:
-	var scatter: ScatterTool = ScatterTool.new()
-	scatter.seed_value = 4243
-	scatter.bounds = Rect2(center.x - 34.0, center.z - 22.0, 68.0, 84.0)
-	scatter.is_floor = func(pos: Vector3) -> bool: return town.is_floor_at(pos)
-	for point: Vector3 in _lane_points:
-		scatter.keep_out_circles.append(Vector3(point.x, point.z, 2.7))
-	for obstacle: Vector3 in town.obstacles:
-		scatter.keep_out_circles.append(Vector3(obstacle.x, obstacle.y, obstacle.z + 0.3))
-	scatter.keep_out_circles.append(Vector3(center.x, center.z, TownLayout.PLAZA_RADIUS + 0.5))
-	for key: String in ["npc_market", "npc_well", "npc_gate", "npc_tailor", "rift_station", "spawn"]:
-		scatter.keep_out_circles.append(Vector3(_anchor(key).x, _anchor(key).z, 1.5))
-	var skirt_points: Array[Vector3] = []
-	for key: String in ["market", "deck", "tailor", "alchemist", "item_vendor", "equipment_vendor", "pack_vendor", "gate"]:
-		if town.anchors.has(key):
-			skirt_points.append(_anchor(key))
-	var props: String = "decoration/props"
-	var entries: Array[ScatterTool.Entry] = [
-		ScatterTool.Entry.make(props, "crate_A_big", 1.0, 0.9, 1.1),
-		ScatterTool.Entry.make(props, "crate_B_small", 1.2, 0.9, 1.2),
-		ScatterTool.Entry.make(props, "barrel", 1.4, 0.9, 1.1),
-		ScatterTool.Entry.make(props, "sack", 1.2, 0.9, 1.2),
-		ScatterTool.Entry.make(props, "bucket_water", 0.8, 0.9, 1.1),
-		ScatterTool.Entry.make(props, "wheelbarrow", 0.3, 0.9, 1.0),
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 5151
+	var index: int = 0
+	for shop: TownLayout.Shop in TownLayout.shops():
+		if shop.kind != "kit":
+			continue
+		var spec: Dictionary = BuildingPresets.spec(shop.preset, shop.overrides)
+		var door_u: float = TownKit.door_u(spec)
+		var hw: float = shop.footprint.x * 0.5
+		# worn earth at the doorstep (DEC-WORNPATCH)
+		var step_pos: Vector3 = TownKit.front_point(shop, door_u, 0.9)
+		PathTool.patch(root, step_pos, 1.7, "dirt", shop.yaw + float(index * 37 % 90), 40 + index)
+		# the doorstep cluster: pots flank the door
+		var doorstep: Node3D = PropClusters.make("doorstep", index)
+		TownKit.place_cluster(root, town, doorstep, TownKit.front_point(shop, door_u, 0.3), shop.yaw)
+		# a stack of crates and barrels against the wall, on the side away from the door, only where it fits (clear of the neighbours, the street and the lane to the door)
+		var side: float = -1.0 if door_u > 0.0 else 1.0
+		if index % 3 != 2 and hw > 2.6:
+			var kind: String = "crates" if index % 2 == 0 else "barrel_pair"
+			var reach: Vector2 = Vector2(-1.5, 2.75) if kind == "crates" else Vector2(-0.8, 0.9)
+			for attempt: int in range(2):
+				var u_origin: float = side * (hw - reach.y - 0.45)
+				var fits: bool = true
+				for step: int in range(5):
+					# the cluster's +x runs towards the wall's end on the right (side +1) and, turned 180 degrees, towards the left end on the left
+					var along: float = lerpf(reach.x, reach.y, float(step) / 4.0)
+					var sample: Vector3 = TownKit.front_point(shop, u_origin + side * along, 0.8)
+					var blocked: bool = TownLayout.is_paved(sample, 0.1) or not town.is_floor_at(sample)
+					for other: TownLayout.Shop in TownLayout.shops():
+						if other != shop and other.covers(sample, 0.5):
+							blocked = true
+					if blocked:
+						fits = false
+						break
+				if fits:
+					var crates: Node3D = PropClusters.make(kind, index + 3)
+					TownKit.place_cluster(root, town, crates, TownKit.front_point(shop, u_origin, 0.45), shop.yaw + (180.0 if side < 0.0 else 0.0))
+					break
+				side = -side
+		index += 1
+	# framing pieces for the default view from the spawn: trees and a hedge at the foreground edges (the tilt-shift softens them)
+	_framing()
+
+
+func _framing() -> void:
+	var trees: Array[Dictionary] = [
+		{"kind": "oak", "pos": Vector3(21.6, 0.0, 26.4), "scale": 1.0},
+		{"kind": "birch", "pos": Vector3(18.4, 0.0, 10.6), "scale": 0.9},
+		{"kind": "pine", "pos": Vector3(33.4, 0.0, 9.4), "scale": 0.95},
 	]
-	var count: int = [8, 14, 33][clampi(_quality, 0, 2)]
-	for placement: ScatterTool.Placement in scatter.scatter("town_skirts", entries, count, 3, 0.9, 0.0, skirt_points, 2.8, 0.85):
-		var node: Node3D = ModelKit.hex_model(placement.folder, placement.model)
-		ModelKit.place(root, node, placement.position, rad_to_deg(placement.yaw), placement.scale * 1.6)
-		town.obstacles.append(Vector3(placement.position.x, placement.position.z, 0.35 * placement.scale * 1.6))
+	for entry: Dictionary in trees:
+		var pos: Vector3 = entry["pos"] as Vector3
+		if not town.is_floor_at(pos) or TownLayout.in_footprint(pos, 0.6) or TownLayout.distance_to_roads(pos) < TownLayout.ROAD_WIDTH * 0.5 + 0.5:
+			continue
+		var tree: Node3D = TreeCards.make(str(entry["kind"]), float(entry["scale"]), true)
+		root.add_child(tree)
+		tree.position = pos
+		KitAO.blob(root, pos, 0.5, 0.3)
+		town.obstacles.append(Vector3(pos.x, pos.z, 0.35))
 
 
-# ---- landmarks: chimney smoke and a beacon over the Rift Express ------------------------------------------------------------------
+# ---- landmarks: chimney smoke ---------------------------------------------------------------------------------------------------------
 
 
 func _landmarks() -> void:
 	var smoke: Color = Color(1.0, 0.9, 0.82, 0.5)
-	for key: String in ["tailor", "alchemist", "market", "item_vendor"]:
-		if not town.anchors.has(key):
+	for building: Variant in town.kit_buildings.values():
+		var node: Node3D = building as Node3D
+		if node == null or not node.is_inside_tree():
 			continue
-		var roof: Vector3 = _anchor(key) + Vector3(0.45, 2.3, -1.25)
-		StyleAmbience.chimney_smoke(root, roof, smoke, [4, 6, 8][clampi(_quality, 0, 2)])
+		for point: Vector3 in TownKit.smoke_points(node):
+			StyleAmbience.chimney_smoke(root, point, smoke, [4, 6, 8][clampi(_quality, 0, 2)])
 
+
+# ---- door lanterns: a few real warm lights (the nearest to the spawn), a glow pool for every one ---------------------------------------
+
+
+const BUILDING_LIGHTS: int = 4
+
+
+func _building_lights() -> void:
+	var found: Array[Dictionary] = []
+	for building: Variant in town.kit_buildings.values():
+		var node: Node3D = building as Node3D
+		if node == null or not node.is_inside_tree() or not node.has_meta("lights"):
+			continue
+		for item: Variant in node.get_meta("lights") as Array:
+			var data: Dictionary = item as Dictionary
+			var world: Vector3 = node.global_transform * (data["pos"] as Vector3)
+			found.append({"pos": world, "color": data.get("color", WARM_LIGHT) as Color, "energy": float(data.get("energy", 1.6)), "range": float(data.get("range", 6.0))})
+	var spawn: Vector3 = TownLayout.SPAWN
+	found.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return (a["pos"] as Vector3).distance_squared_to(spawn) < (b["pos"] as Vector3).distance_squared_to(spawn))
+	for index: int in range(found.size()):
+		var data: Dictionary = found[index]
+		var pos: Vector3 = data["pos"] as Vector3
+		GroundDecals.glow(root, Vector3(pos.x, 0.0, pos.z), 2.2, data["color"] as Color, 0.14)
+		if index >= BUILDING_LIGHTS:
+			continue
+		var light: OmniLight3D = OmniLight3D.new()
+		light.light_color = data["color"] as Color
+		light.light_energy = float(data["energy"])
+		light.omni_range = float(data["range"])
+		light.omni_attenuation = 1.3
+		root.add_child(light)
+		light.global_position = pos
+		lights.append(light)
