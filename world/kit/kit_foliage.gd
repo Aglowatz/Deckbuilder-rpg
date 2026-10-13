@@ -98,6 +98,13 @@ static func clumps(parent: Node3D, entries: Array[Dictionary], seed_value: int =
 		multimesh.set_instance_custom_data(index, datas[index])
 	var instance: MultiMeshInstance3D = MultiMeshInstance3D.new()
 	instance.name = "Clumps"
+	var points: Array[Vector3] = []
+	var heights: Array[float] = []
+	for transform_value: Transform3D in transforms:
+		points.append(transform_value.origin)
+		heights.append(transform_value.basis.get_scale().y)
+	instance.set_meta("points", points)
+	instance.set_meta("heights", heights)
 	instance.multimesh = multimesh
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	instance.extra_cull_margin = 4.0
