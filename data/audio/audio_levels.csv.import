@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://g03kxiu6w3o2"
+
+[deps]
+
+files=["res://data/audio/audio_levels.file.translation", "res://data/audio/audio_levels.loop.translation", "res://data/audio/audio_levels.frames.translation", "res://data/audio/audio_levels.registry.translation", "res://data/audio/audio_levels.lufs.translation", "res://data/audio/audio_levels.true.translation", "res://data/audio/audio_levels.lra.translation", "res://data/audio/audio_levels.click.translation", "res://data/audio/audio_levels.gap.translation", "res://data/audio/audio_levels.jump.translation", "res://data/audio/audio_levels.end.translation", "res://data/audio/audio_levels.start.translation", "res://data/audio/audio_levels.flags.translation"]
+
+source_file="res://data/audio/audio_levels.csv"
+dest_files=["res://data/audio/audio_levels.file.translation", "res://data/audio/audio_levels.loop.translation", "res://data/audio/audio_levels.frames.translation", "res://data/audio/audio_levels.registry.translation", "res://data/audio/audio_levels.lufs.translation", "res://data/audio/audio_levels.true.translation", "res://data/audio/audio_levels.lra.translation", "res://data/audio/audio_levels.click.translation", "res://data/audio/audio_levels.gap.translation", "res://data/audio/audio_levels.jump.translation", "res://data/audio/audio_levels.end.translation", "res://data/audio/audio_levels.start.translation", "res://data/audio/audio_levels.flags.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

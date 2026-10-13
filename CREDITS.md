@@ -137,3 +137,10 @@ No new third-party asset packs were needed. The Gainlands reuses packs that are 
   - Source: https://game-icons.net (repository https://github.com/game-icons/icons)
   - License: CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/)
   - Notes: attribution required: icons by Delapouite and Lorc via game-icons.net. Added 2026-10-04.
+
+## Music and stings (assets/audio/music, assets/audio/stings)
+
+- **assets/audio/music/** and **assets/audio/stings/** - the game's soundtrack: 123 music cues (loops, story cues, motif references) and 21 musical stings, original compositions for this game (catalogue: `data/source/music_list.csv`; ID registry: `data/audio/audio_registry.json`)
+  - Author: the project's composer (this repo's designer), rendered with LMMS 1.2.2 from selected sampled and modeled instruments
+  - Sample sources (all CC0 1.0): VSCO 2 Community Edition (Sam Gossner, Simon Dalzell; https://github.com/sgossner/VSCO-2-CE), Karoryfer and Virtuosity recordings, plus original modeled organ, banjo and synth patches. Pinned revisions, hashes and licenses: `DEPENDENCIES.md` and the manifests of the Drive folder `Approved_Audio`.
+  - License: the compositions are original; every sample set is CC0, so no attribution is required (listed here for provenance). Imported 2026-10-12 (copy-only from the Drive folder; long story cues converted to OGG).
