@@ -262,7 +262,7 @@ func _spawn_rescuer() -> Vector3:
 
 
 func _say_rescuer(key: String, then: Callable) -> void:
-	dialogue.start(RoyalFamily.fill("{rescuer}"), StoryText.shared().get_lines(key), "NPC-RESCUER")
+	dialogue.start(RoyalFamily.fill("{rescuer}"), StoryText.shared().get_lines(key), "NPC-ELOWEN")
 	dialogue.finished.connect(then, CONNECT_ONE_SHOT)
 
 
@@ -648,7 +648,7 @@ func _use_postgame(id: String) -> void:
 		"rescuer":
 			var key: String = "postgame.rescuer.cleared" if Session.flag(PathologyLab.FLAG_CLEARED) else "postgame.rescuer.freed"
 			player.face(area.anchors["rescuer"] as Vector3)
-			dialogue.start(RoyalFamily.fill("{rescuer}"), StoryText.shared().get_lines(key), "NPC-RESCUER")
+			dialogue.start(RoyalFamily.fill("{rescuer}"), StoryText.shared().get_lines(key), "NPC-ELOWEN")
 
 
 func _use_station() -> void:

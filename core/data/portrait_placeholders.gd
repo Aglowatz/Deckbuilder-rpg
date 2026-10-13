@@ -9,7 +9,7 @@ const HEIGHT: int = 384
 
 ## The silhouette is drawn at WIDTH x HEIGHT and smoothed up to SCALE times that.
 const SCALE: int = 2
-const IDS: Array[String] = ["NPC-NINJA", "NPC-VAULTWARDEN", "NPC-RESCUER", "NPC-KING", "NPC-QUEEN", "NPC-SIPHON"]
+const IDS: Array[String] = ["NPC-NINJA", "NPC-VAULTWARDEN", "NPC-ELOWEN", "NPC-KING", "NPC-QUEEN", "NPC-SIPHON"]
 
 static var _cache: Dictionary = {}
 
@@ -116,7 +116,7 @@ static func _warden() -> Image:
 	return image
 
 
-## A hooded rescuer (NPC-RESCUER): a muted travelling cloak, a deep hood and no face to speak of, a small four-colored clasp at the throat.
+## A hooded rescuer (NPC-ELOWEN): a muted travelling cloak, a deep hood and no face to speak of, a small four-colored clasp at the throat.
 static func _rescuer() -> Image:
 	var image: Image = Image.create(WIDTH, HEIGHT, false, Image.FORMAT_RGBA8)
 	image.fill(Color(0, 0, 0, 0))
@@ -177,7 +177,7 @@ static func _draw(portrait_id: String) -> Image:
 	match portrait_id:
 		"NPC-VAULTWARDEN":
 			return _warden()
-		"NPC-RESCUER":
+		"NPC-ELOWEN":
 			return _rescuer()
 		"NPC-KING":
 			return _royal(Color("6a2f8f"), Color("3a2a22"), false)

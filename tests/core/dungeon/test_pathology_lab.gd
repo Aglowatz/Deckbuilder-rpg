@@ -53,7 +53,7 @@ func test_the_story_nodes_have_their_text_and_speakers() -> void:
 	assert_true(cell_text.contains("four colors"), "the child's drawing of four colors")
 	assert_true("\n".join(story.get_lines("dungeon.dg_lab_drain.before")).contains("This is where it was done"))
 	assert_eq(NpcRegistry.story_speaker("dungeon.dg_lab_boss.before"), "NPC-SIPHON")
-	assert_eq(NpcRegistry.story_speaker("dungeon.dg_lab_rescue.after"), "NPC-RESCUER")
+	assert_eq(NpcRegistry.story_speaker("dungeon.dg_lab_rescue.after"), "NPC-ELOWEN")
 	assert_false(map.boss().story_before.is_empty())
 
 

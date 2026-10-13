@@ -10,9 +10,14 @@
 		"location": "Everywhere",
 		"name": "The Wanderer: Prince Tessar Wayweaver (player)",
 		"notes": "Cosmetic hats/cloaks are not reflected in the portrait (default outfit). Royal house: Wayweaver.",
+		"portrait_action": "Keep",
 		"portrait_id": "NPC-PLAYER",
+		"rel_height": 1.0,
 		"role": "Player character",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Done (SPR-PLAYER, World Look Test)",
+		"sprite_status": "Approved"
 	},
 	{
 		"art_status": "Needed",
@@ -25,9 +30,14 @@
 		"location": "Main Town (Crosspath)",
 		"name": "Elder Maren",
 		"notes": "Species: tortoise (female). Update any in-game art or model still showing her as human.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-ELDER",
+		"rel_height": 0.7,
 		"role": "Town elder / quest giver / resistance contact",
-		"species": "tortoise"
+		"species": "tortoise",
+		"species_type": "Animal: tortoise",
+		"sprite_set": "Done (World Look Test)",
+		"sprite_status": "Approved"
 	},
 	{
 		"art_status": "Needed",
@@ -40,9 +50,14 @@
 		"location": "Main Town",
 		"name": "Gatekeeper Brannoch",
 		"notes": "Species: bear.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-GATEKEEPER",
+		"rel_height": 1.35,
 		"role": "Guard / quest giver",
-		"species": "bear"
+		"species": "bear",
+		"species_type": "Animal: bear",
+		"sprite_set": "Done (World Look Test)",
+		"sprite_status": "Approved"
 	},
 	{
 		"art_status": "Needed",
@@ -55,9 +70,14 @@
 		"location": "Main Town market",
 		"name": "Sable",
 		"notes": "Species: fox. Name from the current game build.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-SABLE",
+		"rel_height": 0.95,
 		"role": "Vendor: cards (singles + General Packs)",
-		"species": "fox"
+		"species": "fox",
+		"species_type": "Animal: fox",
+		"sprite_set": "Done (World Look Test)",
+		"sprite_status": "Approved"
 	},
 	{
 		"art_status": "Needed",
@@ -70,9 +90,14 @@
 		"location": "Main Town",
 		"name": "Tilly Tonic",
 		"notes": "Species: frog (her skin changes color like her potions).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-TONIC",
+		"rel_height": 0.85,
 		"role": "Vendor: consumable items",
-		"species": "frog"
+		"species": "frog",
+		"species_type": "Animal: frog",
+		"sprite_set": "Done (World Look Test)",
+		"sprite_status": "Approved"
 	},
 	{
 		"art_status": "Needed",
@@ -85,9 +110,14 @@
 		"location": "Main Town",
 		"name": "Bertram Beetsworth, Assistant to the Regional Merchant",
 		"notes": "Must stay an original character (no TV names or quotes).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-BEETSWORTH",
+		"rel_height": 1.0,
 		"role": "Vendor: equipment",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -100,9 +130,14 @@
 		"location": "Main Town",
 		"name": "Pip Threadwell",
 		"notes": "Species: mouse (tiny tailor, huge hat).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-THREADWELL",
+		"rel_height": 0.45,
 		"role": "Vendor: clothing (hats and cloaks)",
-		"species": "mouse"
+		"species": "mouse",
+		"species_type": "Animal: mouse",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -115,9 +150,14 @@
 		"location": "Main Town",
 		"name": "Foil Fenwick",
 		"notes": "Species: magpie (obsessed with shiny foils). Name from the current game build.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-FENWICK",
+		"rel_height": 0.8,
 		"role": "Vendor: Path Packs",
-		"species": "magpie"
+		"species": "magpie",
+		"species_type": "Animal: magpie",
+		"sprite_set": "Done (World Look Test)",
+		"sprite_status": "Approved"
 	},
 	{
 		"art_status": "Needed",
@@ -130,9 +170,14 @@
 		"location": "Main Town",
 		"name": "Auntie Alembic",
 		"notes": "Species: otherworldly being (four arms, four-colored skin).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-ALEMBIC",
+		"rel_height": 1.2,
 		"role": "Vendor: the Alchemist (crafting)",
-		"species": "otherworldly being"
+		"species": "otherworldly being",
+		"species_type": "Otherworldly being",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -145,9 +190,14 @@
 		"location": "Main Town (Arena)",
 		"name": "Announcer Grand Bellows",
 		"notes": "Species: walrus (the mustache is real).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-BELLOWS",
+		"rel_height": 1.25,
 		"role": "Arena master",
-		"species": "walrus"
+		"species": "walrus",
+		"species_type": "Animal: walrus",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -157,12 +207,17 @@
 			"ominous"
 		],
 		"id": "NPC-HOB",
-		"location": "Main Town (Graveyard)",
-		"name": "Old Hob the Gravedigger",
+		"location": "Main Town (Graveyard); turns up everywhere",
+		"name": "Old Hob the Gravedigger (secretly Death)",
 		"notes": "Species: ghoul (undead, cheerful about it).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-HOB",
-		"role": "Ominous NPC",
-		"species": "ghoul"
+		"rel_height": 0.9,
+		"role": "Gravedigger / Death, between engagements",
+		"species": "ghoul",
+		"species_type": "Undead: ghoul",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -174,9 +229,14 @@
 		"location": "Main Town, Beefcake Path",
 		"name": "Brick Bronson (corrupted)",
 		"notes": "FREED expression: same man, normal skin, embarrassed smile.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-BRONSON",
+		"rel_height": 1.25,
 		"role": "Corrupted path NPC (Beefcake)",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -188,9 +248,14 @@
 		"location": "Main Town, Necrocrat Path",
 		"name": "Prudence Pallor (corrupted)",
 		"notes": "",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-PALLOR",
+		"rel_height": 1.0,
 		"role": "Corrupted path NPC (Necrocrat)",
-		"species": ""
+		"species": "",
+		"species_type": "Undead: skeleton",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -201,10 +266,15 @@
 		"id": "NPC-GRAVOIS",
 		"location": "Main Town, Gourmand Path",
 		"name": "Chef Fennel Gravois (corrupted)",
-		"notes": "Species: ogre.",
+		"notes": "Human (changed from ogre for a more even human/animal mix).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-GRAVOIS",
+		"rel_height": 1.1,
 		"role": "Corrupted path NPC (Gourmand)",
-		"species": "ogre"
+		"species": "",
+		"species_type": "Human (changed from ogre)",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -216,9 +286,14 @@
 		"location": "Main Town, Refusemancer Path",
 		"name": "Moss Mulligan (corrupted)",
 		"notes": "Species: faun.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-MULLIGAN",
+		"rel_height": 0.9,
 		"role": "Corrupted path NPC (Refusemancer)",
-		"species": "faun"
+		"species": "faun",
+		"species_type": "Creature: faun",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -231,9 +306,14 @@
 		"location": "Gainlands, Swole Station",
 		"name": "Coach Brutus Benchley",
 		"notes": "Species: minotaur.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-BENCHLEY",
+		"rel_height": 1.4,
 		"role": "Vendor: advanced Beefcake cards",
-		"species": "minotaur"
+		"species": "minotaur",
+		"species_type": "Animal: minotaur",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -245,9 +325,14 @@
 		"location": "Gainlands",
 		"name": "Big Hurl",
 		"notes": "Species: stone troll. Represents all Thrower NPCs.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-HURL",
+		"rel_height": 1.6,
 		"role": "Thrower (traversal)",
-		"species": "stone troll"
+		"species": "stone troll",
+		"species_type": "Creature: stone troll",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -259,9 +344,14 @@
 		"location": "Gainlands",
 		"name": "Rip Tearson",
 		"notes": "Represents all Portal Ripper NPCs.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-RIP",
+		"rel_height": 1.3,
 		"role": "Portal Ripper (traversal)",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -274,9 +364,14 @@
 		"location": "Gainlands",
 		"name": "Professor Pump",
 		"notes": "Species: rhinoceros.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-PUMP",
+		"rel_height": 1.35,
 		"role": "Quiz master",
-		"species": "rhinoceros"
+		"species": "rhinoceros",
+		"species_type": "Animal: rhinoceros",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -289,9 +384,14 @@
 		"location": "Gainlands",
 		"name": "Chet Thunderabs",
 		"notes": "",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-THUNDERABS",
+		"rel_height": 1.05,
 		"role": "Minigame host",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -303,9 +403,14 @@
 		"location": "Gainlands, Swole Station",
 		"name": "Old Man Mountain",
 		"notes": "Species: yeti.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-MOUNTAIN",
+		"rel_height": 0.6,
 		"role": "Hermit / quest giver",
-		"species": "yeti"
+		"species": "yeti",
+		"species_type": "Creature: yeti",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -318,9 +423,14 @@
 		"location": "D.N.A. Lobby",
 		"name": "Clerk Ledgerbone",
 		"notes": "Undead: skeleton.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-LEDGERBONE",
+		"rel_height": 0.95,
 		"role": "Vendor: advanced Necrocrat cards",
-		"species": "skeleton"
+		"species": "skeleton",
+		"species_type": "Undead: skeleton",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -332,9 +442,14 @@
 		"location": "D.N.A.",
 		"name": "Director Ectomund",
 		"notes": "Undead: ghost.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-ECTOMUND",
+		"rel_height": 1.0,
 		"role": "Quiz master",
-		"species": "ghost"
+		"species": "ghost",
+		"species_type": "Undead: ghost",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -347,9 +462,14 @@
 		"location": "D.N.A.",
 		"name": "Kyle (Deceased Since '09)",
 		"notes": "Undead: ghost.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-KYLE",
+		"rel_height": 1.0,
 		"role": "Minigame host",
-		"species": "ghost"
+		"species": "ghost",
+		"species_type": "Undead: ghost (human)",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -361,9 +481,14 @@
 		"location": "D.N.A.",
 		"name": "Gerald, Number 4,000,212",
 		"notes": "Undead: ghost.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-GERALD",
+		"rel_height": 1.0,
 		"role": "Quest giver",
-		"species": "ghost"
+		"species": "ghost",
+		"species_type": "Undead: ghost",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -376,9 +501,14 @@
 		"location": "D.N.A. Lobby; Hall of Final Approvals",
 		"name": "Agnes Overdue",
 		"notes": "Undead: ghost. Prudence Pallor becomes her deputy.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-AGNES",
+		"rel_height": 0.9,
 		"role": "Quest giver; later Necrocrat leader (new head of the D.N.A.)",
-		"species": "ghost"
+		"species": "ghost",
+		"species_type": "Undead: ghost",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -391,9 +521,14 @@
 		"location": "Endless Buffet, Grand Pantry",
 		"name": "Madame Mirepoix",
 		"notes": "Species: Persian cat.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-MIREPOIX",
+		"rel_height": 0.95,
 		"role": "Vendor: advanced Gourmand cards",
-		"species": "Persian cat"
+		"species": "Persian cat",
+		"species_type": "Animal: Persian cat",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -404,10 +539,15 @@
 		"id": "NPC-PATE",
 		"location": "Endless Buffet",
 		"name": "Professor Pate",
-		"notes": "Species: otter.",
+		"notes": "Human (changed from otter for a more even human/animal mix).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-PATE",
+		"rel_height": 0.95,
 		"role": "Quiz master",
-		"species": "otter"
+		"species": "",
+		"species_type": "Human (changed from otter)",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -420,9 +560,14 @@
 		"location": "Endless Buffet",
 		"name": "Chef Flambe Fontaine",
 		"notes": "",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-FLAMBE",
+		"rel_height": 1.05,
 		"role": "Minigame host",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -435,9 +580,14 @@
 		"location": "Endless Buffet, Grand Pantry",
 		"name": "Basil",
 		"notes": "Species: rabbit.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-BASIL",
+		"rel_height": 0.75,
 		"role": "Quest giver",
-		"species": "rabbit"
+		"species": "rabbit",
+		"species_type": "Animal: rabbit",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -450,9 +600,14 @@
 		"location": "Verdant Dump, Compost Grange",
 		"name": "Granny Gristle",
 		"notes": "Species: opossum.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-GRISTLE",
+		"rel_height": 0.8,
 		"role": "Vendor: advanced Refusemancer cards",
-		"species": "opossum"
+		"species": "opossum",
+		"species_type": "Animal: opossum",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -464,9 +619,14 @@
 		"location": "Verdant Dump",
 		"name": "Druid Thistlewick",
 		"notes": "Species: stag-headed druid.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-THISTLEWICK",
+		"rel_height": 1.2,
 		"role": "Quiz master",
-		"species": "stag-headed druid"
+		"species": "stag-headed druid",
+		"species_type": "Creature: stag-headed druid",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -478,9 +638,14 @@
 		"location": "Verdant Dump",
 		"name": "Recycle Rhonda",
 		"notes": "",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-RHONDA",
+		"rel_height": 1.0,
 		"role": "Minigame host",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -493,9 +658,14 @@
 		"location": "Verdant Dump, Compost Grange",
 		"name": "Brother Bramble",
 		"notes": "Species: hedgehog.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-BRAMBLE",
+		"rel_height": 0.7,
 		"role": "Quest giver",
-		"species": "hedgehog"
+		"species": "hedgehog",
+		"species_type": "Animal: hedgehog",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -508,9 +678,14 @@
 		"location": "Capital, resistance hideout",
 		"name": "Wren",
 		"notes": "Species: birdfolk (wren).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-WREN",
+		"rel_height": 0.95,
 		"role": "Resistance leader",
-		"species": "birdfolk"
+		"species": "birdfolk",
+		"species_type": "Animal: birdfolk (wren)",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -523,9 +698,14 @@
 		"location": "Capital, resistance hideout",
 		"name": "Fig Sly",
 		"notes": "Species: weasel. Name from the current game build.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "V-FIGSLY",
+		"rel_height": 0.85,
 		"role": "Vendor: black market (rare cards, Gilded Packs)",
-		"species": "weasel"
+		"species": "weasel",
+		"species_type": "Animal: weasel",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -537,9 +717,14 @@
 		"location": "Capital outskirts",
 		"name": "Kestrel",
 		"notes": "",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-KESTREL",
+		"rel_height": 0.95,
 		"role": "Resistance scout / quest giver",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -551,9 +736,14 @@
 		"location": "Capital gate / Old Service Tunnels",
 		"name": "Captain Spotless",
 		"notes": "",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-SPOTLESS",
+		"rel_height": 1.05,
 		"role": "Enforcer captain (boss)",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -566,9 +756,14 @@
 		"location": "Capital",
 		"name": "Widow Pell",
 		"notes": "Human, with her husband's ghost.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-PELL",
+		"rel_height": 1.0,
 		"role": "Path quest giver (Necrocrat)",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -581,9 +776,14 @@
 		"location": "Capital",
 		"name": "Rollo Spokes",
 		"notes": "Renamed from Gus (NPC-GUS).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-ROLLO",
+		"rel_height": 1.2,
 		"role": "Path quest giver (Beefcake)",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -595,9 +795,14 @@
 		"location": "Capital",
 		"name": "Chef Marlo",
 		"notes": "Species: mole (keeps recipes hidden underground).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-MARLO",
+		"rel_height": 0.75,
 		"role": "Path quest giver (Gourmand)",
-		"species": "mole"
+		"species": "mole",
+		"species_type": "Animal: mole",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -609,9 +814,14 @@
 		"location": "Capital",
 		"name": "Old Fern",
 		"notes": "Species: gnome.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-FERN",
+		"rel_height": 0.55,
 		"role": "Path quest giver (Refusemancer)",
-		"species": "gnome"
+		"species": "gnome",
+		"species_type": "Creature: gnome",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -623,9 +833,14 @@
 		"location": "Capital, Primm's Perfection",
 		"name": "A Perfectly Happy Citizen",
 		"notes": "Human (deliberately identical: Primm's uniformity).",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-CITIZEN",
+		"rel_height": 1.0,
 		"role": "Facade citizen (generic)",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Wanderer (11 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -638,9 +853,14 @@
 		"location": "House of Gains",
 		"name": "Grandmaster Flex, the Unbroken",
 		"notes": "Human. Matches his token art; keep human. REVEAL expression (NPC-FLEX_REVEAL, later): the same man tearing away his robes to reveal an enormous chiseled physique, glowing with calm light.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-FLEX",
+		"rel_height": 1.0,
 		"role": "Beefcake leader (ally token)",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -653,9 +873,14 @@
 		"location": "House of Gains",
 		"name": "Chancellor Clench, Iron Regent",
 		"notes": "Human.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-CLENCH",
+		"rel_height": 0.0,
 		"role": "Boss (House of Gains)",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -668,9 +893,14 @@
 		"location": "Endless Buffet",
 		"name": "The Grand Chef (formerly Grand Chef Escoffina)",
 		"notes": "Human. Matches her card art; keep human. Card name may need updating.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-ESCOFFINA",
+		"rel_height": 1.05,
 		"role": "Gourmand leader",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -682,9 +912,14 @@
 		"location": "Test Kitchen",
 		"name": "The Doppelganger (later named Escoffina)",
 		"notes": "Shapeshifter. REVEALED expression (later): the disguise peeling away into a faceless, shifting silhouette in a chef's coat.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-DOPPEL",
+		"rel_height": 0.0,
 		"role": "Boss (Test Kitchen)",
-		"species": ""
+		"species": "",
+		"species_type": "Shapeshifter",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -697,9 +932,14 @@
 		"location": "Hall of Final Approvals",
 		"name": "Undersecretary Vellum",
 		"notes": "Undead.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-VELLUM",
+		"rel_height": 0.0,
 		"role": "Elite (Hall of Final Approvals, Appeals Court)",
-		"species": ""
+		"species": "",
+		"species_type": "Undead",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -712,9 +952,14 @@
 		"location": "D.N.A.; Hall of Final Approvals",
 		"name": "Mortimer Grimsby, CE-No",
 		"notes": "Undead: skeleton. Matches his card art; his legendary card may become a boss card.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-MORTIMER",
+		"rel_height": 1.05,
 		"role": "Boss (Hall of Final Approvals)",
-		"species": "skeleton"
+		"species": "skeleton",
+		"species_type": "Undead: skeleton",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -727,9 +972,14 @@
 		"location": "Verdant Dump",
 		"name": "Archdruid Compostella",
 		"notes": "Matches her card art; keep as-is.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-COMPOSTELLA",
+		"rel_height": 1.05,
 		"role": "Refusemancer leader",
-		"species": ""
+		"species": "",
+		"species_type": "Human (druid)",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -741,9 +991,14 @@
 		"location": "The Rotheart",
 		"name": "Compostella, the Rotheart",
 		"notes": "Corrupted version of Compostella; keep consistent with her card art.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-ROTHEART",
+		"rel_height": 0.0,
 		"role": "Boss (Rotheart)",
-		"species": ""
+		"species": "",
+		"species_type": "Human (corrupted druid)",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -757,9 +1012,14 @@
 		"location": "Primm's Perfection (the Capital), Primm's Castle",
 		"name": "Primm, \"His Perfection\"",
 		"notes": "Human.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-PRIMM",
+		"rel_height": 0.0,
 		"role": "Final boss",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -771,9 +1031,14 @@
 		"location": "The Forgotten Cave",
 		"name": "The Hollow Warden",
 		"notes": "Stone guardian.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-WARDEN",
+		"rel_height": 0.0,
 		"role": "Boss (tutorial)",
-		"species": ""
+		"species": "",
+		"species_type": "Creature: stone guardian",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -785,9 +1050,14 @@
 		"location": "Mount Swolympus",
 		"name": "The Ancient Spotter",
 		"notes": "Stone colossus.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-SPOTTER",
+		"rel_height": 0.0,
 		"role": "Boss (Mount Swolympus)",
-		"species": ""
+		"species": "",
+		"species_type": "Creature: stone colossus",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -799,9 +1069,14 @@
 		"location": "Omakase",
 		"name": "The Itamae Supreme",
 		"notes": "Species: crane.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-ITAMAE",
+		"rel_height": 0.0,
 		"role": "Boss (Omakase)",
-		"species": "crane"
+		"species": "crane",
+		"species_type": "Animal: crane",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -813,9 +1088,14 @@
 		"location": "Waiting Room of Eternity",
 		"name": "Betty Bones, Surly Secretary",
 		"notes": "",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-BETTY",
+		"rel_height": 0.0,
 		"role": "Boss (Waiting Room of Eternity)",
-		"species": ""
+		"species": "",
+		"species_type": "Undead: skeleton",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -827,9 +1107,14 @@
 		"location": "Trash Panda Throne",
 		"name": "His Majesty the Raccoon",
 		"notes": "",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-RACCOONKING",
+		"rel_height": 0.0,
 		"role": "Boss (Trash Panda Throne)",
-		"species": ""
+		"species": "",
+		"species_type": "Animal: raccoon",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -841,9 +1126,14 @@
 		"location": "Forgotten Vault",
 		"name": "The Vault Guardian",
 		"notes": "",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-AUTOMATON",
+		"rel_height": 0.0,
 		"role": "Boss (Forgotten Vault)",
-		"species": ""
+		"species": "",
+		"species_type": "Construct",
+		"sprite_set": "None (dungeon/battle only)",
+		"sprite_status": "N/A"
 	},
 	{
 		"art_status": "Needed",
@@ -856,9 +1146,14 @@
 		"location": "Giant chests: main town (middle of nowhere) + one in each Path zone",
 		"name": "Shiro Swindle, Master of the Oldest Trick",
 		"notes": "Human (ninja). New NPC added for the giant-chest prank questline.",
+		"portrait_action": "Check / regenerate to match column I",
 		"portrait_id": "NPC-NINJA",
+		"rel_height": 1.0,
 		"role": "Prankster / secret boss",
-		"species": ""
+		"species": "",
+		"species_type": "Human",
+		"sprite_set": "Stationary (5 images)",
+		"sprite_status": "Needed"
 	},
 	{
 		"art_status": "Needed",
@@ -870,9 +1165,14 @@
 		"location": "Memories; Primm's Private Gallery",
 		"name": "King Harmon Wayweaver",
 		"notes": "Human. Royal house: Wayweaver.",
+		"portrait_action": "",
 		"portrait_id": "NPC-KING",
+		"rel_height": 0.0,
 		"role": "Late king (memories and portraits)",
-		"species": ""
+		"species": "",
+		"species_type": "",
+		"sprite_set": "",
+		"sprite_status": ""
 	},
 	{
 		"art_status": "Needed",
@@ -885,23 +1185,35 @@
 		"location": "Memories; Primm's Private Gallery",
 		"name": "Queen Concordia Wayweaver",
 		"notes": "Human. Royal house: Wayweaver.",
+		"portrait_action": "",
 		"portrait_id": "NPC-QUEEN",
+		"rel_height": 0.0,
 		"role": "Late queen (memories and portraits)",
-		"species": ""
+		"species": "",
+		"species_type": "",
+		"sprite_set": "",
+		"sprite_status": ""
 	},
 	{
 		"art_status": "Needed",
 		"expressions": [
-			"hooded",
-			"revealed"
+			"hopeful",
+			"doubtful",
+			"determined",
+			"soft"
 		],
-		"id": "NPC-RESCUER",
-		"location": "Forest (prologue); Path-ology Lab (postgame)",
-		"name": "The Rescuer (name undecided)",
-		"notes": "Hood stays up until the postgame reveal.",
-		"portrait_id": "NPC-RESCUER",
-		"role": "Defected Path-ologist",
-		"species": ""
+		"id": "NPC-ELOWEN",
+		"location": "Forest (prologue); the Cave Mouth outside Crosspath; Path-ology Lab (postgame)",
+		"name": "Elowen Vey",
+		"notes": "Human. Was NPC-RESCUER.",
+		"portrait_action": "",
+		"portrait_id": "NPC-ELOWEN",
+		"rel_height": 0.0,
+		"role": "The rescuer; childhood friend and love interest",
+		"species": "",
+		"species_type": "",
+		"sprite_set": "",
+		"sprite_status": ""
 	},
 	{
 		"art_status": "Needed",
@@ -914,8 +1226,117 @@
 		"location": "Path-ology Lab",
 		"name": "Dr. Ambrose Siphon, Chief Path-ologist",
 		"notes": "Human. Placeholder name.",
+		"portrait_action": "",
 		"portrait_id": "NPC-SIPHON",
-		"role": "Boss (Path-ology Lab, postgame)",
-		"species": ""
+		"rel_height": 0.0,
+		"role": "Boss (Path-ology Lab, postgame); Elowen's father",
+		"species": "",
+		"species_type": "",
+		"sprite_set": "",
+		"sprite_status": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"calculating",
+			"furious",
+			"defeated"
+		],
+		"id": "NPC-QUOTA",
+		"location": "Gainlands (cameos); Capital, Transit Yards",
+		"name": "Vivienne Quota, Minister of Efficiency",
+		"notes": "Human.",
+		"portrait_action": "",
+		"portrait_id": "NPC-QUOTA",
+		"rel_height": 0.0,
+		"role": "Beefcake lieutenant (one-off encounter)",
+		"species": "",
+		"species_type": "",
+		"sprite_set": "",
+		"sprite_status": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"barking",
+			"furious",
+			"defeated"
+		],
+		"id": "NPC-CRUMB",
+		"location": "Endless Buffet (cameos); Capital, the Paste Works",
+		"name": "Colonel Cornelius Crumb, Director of Culinary Defense",
+		"notes": "Human.",
+		"portrait_action": "",
+		"portrait_id": "NPC-CRUMB",
+		"rel_height": 0.0,
+		"role": "Gourmand lieutenant (mini-dungeon boss)",
+		"species": "",
+		"species_type": "",
+		"sprite_set": "",
+		"sprite_status": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"smarmy",
+			"spinning",
+			"panicked",
+			"defeated"
+		],
+		"id": "NPC-PLUME",
+		"location": "Everywhere (loudspeakers); D.N.A. (cameos); Primm's Castle",
+		"name": "Percival Plume, Deputy Minister of Good News",
+		"notes": "Human.",
+		"portrait_action": "",
+		"portrait_id": "NPC-PLUME",
+		"rel_height": 0.0,
+		"role": "Necrocrat lieutenant (Castle elite); the NPC everyone loves to hate",
+		"species": "",
+		"species_type": "",
+		"sprite_set": "",
+		"sprite_status": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"disapproving",
+			"furious",
+			"defeated"
+		],
+		"id": "NPC-CLIPWELL",
+		"location": "Verdant Dump (cameos); Capital, the Showcase Quarter lawn",
+		"name": "Hortensia Clipwell, Royal Groundskeeper",
+		"notes": "Human.",
+		"portrait_action": "",
+		"portrait_id": "NPC-CLIPWELL",
+		"rel_height": 0.0,
+		"role": "Refusemancer lieutenant (one-off encounter)",
+		"species": "",
+		"species_type": "",
+		"sprite_set": "",
+		"sprite_status": ""
+	},
+	{
+		"art_status": "Needed",
+		"expressions": [
+			"neutral",
+			"tearful",
+			"happy"
+		],
+		"id": "NPC-ISLA",
+		"location": "Capital (after it's freed); Crosspath gate",
+		"name": "Isla Brannoch",
+		"notes": "Human.",
+		"portrait_action": "",
+		"portrait_id": "NPC-ISLA",
+		"rel_height": 0.0,
+		"role": "Brannoch's daughter",
+		"species": "",
+		"species_type": "",
+		"sprite_set": "",
+		"sprite_status": ""
 	}
 ]

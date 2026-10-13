@@ -35,7 +35,7 @@
 		"dungeon.dg_s_cap_boss": "NPC-SPOTLESS",
 		"dungeon.dg_s_town_boss": "NPC-AUTOMATON",
 		"dungeon.dg_lab_boss": "NPC-SIPHON",
-		"dungeon.dg_lab_rescue": "NPC-RESCUER",
+		"dungeon.dg_lab_rescue": "NPC-ELOWEN",
 		"dungeon.pc_boss": "NPC-PRIMM"
 	},
 	"sides": {},
