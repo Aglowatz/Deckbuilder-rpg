@@ -33,6 +33,20 @@ func _ready() -> void:
 	music = MusicManager.new()
 	music.name = "MusicManager"
 	add_child(music)
+	_ensure_master_limiter()
+
+
+## A safety limiter on the Master bus (-1 dBFS ceiling): the music is levelled to sit under the effects, but a sting, a loud effect and the music can still add up
+## past full scale in a busy moment; the limiter keeps that from clipping. It does nothing to a normal mix.
+func _ensure_master_limiter() -> void:
+	for index: int in range(AudioServer.get_bus_effect_count(0)):
+		if AudioServer.get_bus_effect(0, index) is AudioEffectHardLimiter:
+			return
+	var limiter: AudioEffectHardLimiter = AudioEffectHardLimiter.new()
+	limiter.ceiling_db = -1.0
+	limiter.pre_gain_db = 0.0
+	limiter.release = 0.1
+	AudioServer.add_bus_effect(0, limiter)
 
 
 ## Plays a named sound effect. `pitch_jitter` randomizes pitch a little to avoid repetition.

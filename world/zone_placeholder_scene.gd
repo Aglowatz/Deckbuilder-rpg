@@ -30,7 +30,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 func _ready() -> void:
 	SceneManager.pause_allowed = true
-	Audio.play_music(&"map")
+	Audio.play_music(MusicDirector.town(Session.flags))
 	info = ZonePortals.find(Session.pending_zone_id)
 	if info == null:
 		info = ZonePortals.all()[0]

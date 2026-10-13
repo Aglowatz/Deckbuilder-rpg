@@ -50,8 +50,13 @@ static func warm_up() -> void:
 	_thread.start(_render_all)
 
 
+## Only the fallback track is rendered at startup: every cue of the game is a registry file (`AudioRegistry`); the synthesized tracks above are the safety net
+## (and `render` still makes any of them on demand, e.g. for tests).
+const WARM_TRACKS: Array[StringName] = [&"map"]
+
+
 static func _render_all() -> void:
-	for name: StringName in TRACKS.keys():
+	for name: StringName in WARM_TRACKS:
 		var stream: AudioStreamWAV = render(name)
 		if stream == null:
 			return

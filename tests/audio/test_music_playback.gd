@@ -254,3 +254,75 @@ func test_dialogue_ducks_the_music_a_little_and_releases() -> void:
 	assert_gt(_manager.duck_db(), MusicManager.DIALOGUE_DUCK_DB, "it eases back rather than snapping")
 	_manager.advance(1.0)
 	assert_almost_eq(_manager.duck_db(), 0.0, 0.01)
+
+
+func test_screens_name_their_own_music() -> void:
+	var screens: Dictionary = {
+		"MUS-DECK": [DeckbuilderScreen.new(), CodexScreen.new(), DungeonDeckbuilderScreen.new()],
+		"MUS-QUIZ": [QuizScreen.new()],
+		"MUS-MINIGAME-NECRO": [MatchGameScreen.new()],
+		"MUS-MINIGAME-GOUR": [OrderGameScreen.new()],
+		"MUS-MINIGAME-BEEF": [RepGameScreen.new()],
+		"MUS-MINIGAME-REF": [SortGameScreen.new()],
+	}
+	for cue: Variant in screens.keys():
+		for screen: Object in screens[cue] as Array:
+			assert_eq((screen as OverlayScreen).music_cue(), str(cue))
+			(screen as Node).free()
+	var plain: OverlayScreen = OverlayScreen.new()
+	assert_eq(plain.music_cue(), "", "a short overlay with no vendor keeps the area's music")
+	plain.vendor_screen_id = "VS-GRISTLE"
+	assert_eq(plain.music_cue(), "MUS-SHOP-GRISTLE")
+	plain.free()
+
+
+func test_story_scenes_map_to_their_cues() -> void:
+	assert_eq(MusicDirector.cutscene("rescue"), "MUS-BEEF-RELEASE")
+	assert_eq(MusicDirector.cutscene("wonder"), "MUS-GOUR-RELEASE")
+	assert_eq(MusicDirector.cutscene("vacancy"), "MUS-NECRO-RELEASE")
+	assert_eq(MusicDirector.cutscene("sever"), "MUS-REF-RELEASE")
+	assert_eq(MusicDirector.cutscene("primm_intro"), "MUS-PRIMM-BREAK")
+	assert_eq(MusicDirector.cutscene("primm_p2"), "MUS-PRIMM-BREAK")
+	assert_eq(MusicDirector.cutscene("primm_reveal"), "MUS-MEM-04")
+	assert_eq(MusicDirector.cutscene("primm_end"), "MUS-PRIMM-DEFEAT")
+	assert_eq(MusicDirector.cutscene("flex"), "", "the flex gag keeps the dungeon's music")
+	assert_eq(MusicDirector.story_node("dungeon.pc_gallery.before"), "MUS-GALLERY")
+	assert_eq(MusicDirector.story_node("pc_archive_gate"), "MUS-ARCHIVE")
+	assert_eq(MusicDirector.story_node("pc_early_journals"), "MUS-ARCHIVE")
+	assert_eq(MusicDirector.story_node("dg_d_lab_7"), "MUS-LAB-CELL")
+	assert_eq(MusicDirector.story_node("dg_lab_rescue"), "MUS-LAB-RESCUE")
+	assert_eq(MusicDirector.story_node("pc_gate"), "")
+	assert_eq(MusicDirector.memory(3), "MUS-MEM-03")
+	assert_eq(MusicDirector.quest_conclusion("fern"), "MUS-QUEST-FERN")
+	assert_eq(MusicDirector.quest_conclusion("rollo"), "MUS-QUEST-ROLLO")
+	assert_eq(MusicDirector.quest_conclusion("nobody"), "")
+	assert_eq(MusicDirector.ending_beat("throne"), "MUS-THRONE")
+	assert_eq(MusicDirector.ending_beat("reunion"), "MUS-REUNION")
+	assert_eq(MusicDirector.zone_freed_sting("necrocrat"), "STG-ZONE-NECRO")
+
+
+func test_every_dungeon_id_has_music_and_every_trigger_row_matches_the_registry() -> void:
+	for plan: DungeonCatalog.Blueprint in DungeonCatalog.all():
+		assert_true(MusicDirector.DUNGEONS.has(plan.id), "%s has dungeon music" % plan.id)
+	var file: FileAccess = FileAccess.open("res://data/source/music_triggers.csv", FileAccess.READ)
+	assert_not_null(file)
+	file.get_csv_line()
+	var rows: Dictionary = {}
+	while not file.eof_reached():
+		var row: PackedStringArray = file.get_csv_line()
+		if row.size() >= 3 and not row[0].is_empty():
+			rows[row[0]] = row[1]
+	for id: String in AudioRegistry.ids():
+		assert_true(rows.has(id), "%s has a trigger row" % id)
+	for id: Variant in rows.keys():
+		assert_true(AudioRegistry.has_id(str(id)), "%s is in the registry" % str(id))
+
+
+func test_master_bus_has_a_safety_limiter() -> void:
+	var found: bool = false
+	for index: int in range(AudioServer.get_bus_effect_count(0)):
+		var effect: AudioEffect = AudioServer.get_bus_effect(0, index)
+		if effect is AudioEffectHardLimiter:
+			found = true
+			assert_lte((effect as AudioEffectHardLimiter).ceiling_db, -0.5)
+	assert_true(found, "the Master bus carries a hard limiter against clipping")
