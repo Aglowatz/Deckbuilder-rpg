@@ -120,6 +120,10 @@ func _scan_step() -> void:
 		if mesh_instance.has_meta(&"no_occlusion_fade") or hero.is_ancestor_of(mesh_instance):
 			continue
 		var box: AABB = mesh_instance.global_transform * mesh_instance.get_aabb()
+		# Big kit buildings: only their core blocks the view (the eaves and the corners of a house at the lens edge are part of the picture, as in the paint-over).
+		if mesh_instance.has_meta(&"occlusion_shrink"):
+			var shrink: float = minf(float(mesh_instance.get_meta(&"occlusion_shrink")), minf(box.size.x, box.size.z) * 0.4)
+			box = AABB(box.position + Vector3(shrink, 0.0, shrink), box.size - Vector3(shrink * 2.0, 0.0, shrink * 2.0))
 		if box.size.y < MIN_HEIGHT or maxf(box.size.x, box.size.z) > MAX_EXTENT or box.size.y > 40.0:
 			continue
 		if not mesh_instance.is_visible_in_tree():

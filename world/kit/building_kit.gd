@@ -117,6 +117,7 @@ func _assemble() -> Node3D:
 	body.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	# A big building next to the camera is part of the picture (the paint-over has one at its right edge): it only dissolves as clutter when the lens is almost touching it.
 	body.set_meta("occlusion_near", 2.0)
+	body.set_meta("occlusion_shrink", 2.6)
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)
 	root.add_child(body)
 	root.add_child(proxy)
@@ -150,8 +151,8 @@ func _set_materials() -> void:
 	mesh.set_material("glass", EnvKit.glow(GLASS_COLOR, 1.45))
 	mesh.set_material("lantern", EnvKit.glow(LANTERN_COLOR, 2.0))
 	mesh.set_material("pot", EnvKit.material("ENV-PROP-FLOWERPOTS"))
-	mesh.set_material("awning_a", EnvKit.material("ENV-AWNING-01"))
-	mesh.set_material("awning_b", EnvKit.material("ENV-AWNING-02"))
+	mesh.set_material("awning_a", EnvKit.material("ENV-AWNING-01", EnvKit.has_art("ENV-AWNING-01")))
+	mesh.set_material("awning_b", EnvKit.material("ENV-AWNING-02", EnvKit.has_art("ENV-AWNING-02")))
 	for door: String in ["ENV-DOOR-01", "ENV-DOOR-02", "ENV-DOOR-03"]:
 		mesh.set_material(door, EnvKit.material(door, EnvKit.has_art(door)))
 	# Flat-coloured details share ONE white surface and are coloured per vertex: iron, shutters, soil, leaves and blooms are a single draw call (not five or six).
@@ -443,6 +444,9 @@ func _door(face: String, u: float, id: String, data: Dictionary) -> void:
 	var w: float = DOOR_W
 	var arched: bool = id == "ENV-DOOR-03"
 	var jamb: float = 0.2
+	if EnvKit.has_art(id):
+		_art_door(face, u, id, data)
+		return
 	# step
 	_attach("foundation", face, u, 0.14, 0.38, Vector3(w + 0.9, 0.28, 0.76), 0.05)
 	# the opening's dark reveal (slight inset): a dark quad behind the leaf so the frame reads as a recess
@@ -498,10 +502,12 @@ const WINDOW_SIZES: Dictionary = {
 
 func _window(face: String, u: float, y: float, id: String, data: Dictionary) -> void:
 	if EnvKit.has_art(id):
-		var size: float = float(data.get("w", 1.3))
+		var art_widths: Dictionary = {"ENV-WINDOW-01": 2.5, "ENV-WINDOW-02": 1.9, "ENV-WINDOW-03": 1.7, "ENV-WINDOW-04": 1.35, "ENV-WINDOW-05": 3.3}
+		var size: float = float(data.get("w", art_widths.get(id, 1.6)))
+		var half_h: float = size / EnvKit.aspect(id) * 0.5
 		var material_slot: String = "art_%s" % id
 		mesh.set_material(material_slot, EnvKit.material(id, true))
-		_face_quad(material_slot, face, u - size * 0.5, u + size * 0.5, y - size * 0.7, y + size * 0.7, 0.05, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+		_face_quad(material_slot, face, u - size * 0.5, u + size * 0.5, y - half_h, y + half_h, 0.05, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
 		if y < 4.0 and id != "ENV-WINDOW-03":
 			glows.append(_face_point(face, u, 0.0, 1.7))
 		return
@@ -592,6 +598,14 @@ func _flowerbox(face: String, u: float, y: float, w: float) -> void:
 func _pots(face: String, u: float, scale_value: float) -> void:
 	var data: Dictionary = FACES[face] as Dictionary
 	var n: Vector3 = data["n"] as Vector3
+	if EnvKit.has_art("ENV-PROP-FLOWERPOTS"):
+		# the painted pot cluster (lavender, daisies, herbs) as a card standing on the step
+		var card: float = 1.7 * scale_value + 0.3
+		var pots_slot: String = "pots_card"
+		mesh.set_material(pots_slot, EnvKit.material("ENV-PROP-FLOWERPOTS", true))
+		_face_quad(pots_slot, face, u - card * 0.5, u + card * 0.5, 0.05, 0.05 + card, 0.5, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+		_flower_index += 1
+		return
 	var base: Vector3 = _face_point(face, u, 0.0, 0.45)
 	var profile: Array[Vector2] = [Vector2(0.14, 0.0), Vector2(0.2, 0.04), Vector2(0.28, 0.3), Vector2(0.3, 0.42), Vector2(0.26, 0.42), Vector2(0.0, 0.4)]
 	var scaled: Array[Vector2] = []
@@ -606,6 +620,18 @@ func _pots(face: String, u: float, scale_value: float) -> void:
 
 func _awning(face: String, u: float, y: float, w: float, id: String) -> void:
 	var slot: String = "awning_a" if id == "ENV-AWNING-01" else "awning_b"
+	if EnvKit.has_art(id):
+		# the painted awning (rod, stripes, scalloped valance) is one slanted card: its top on the wall, its hem hanging out and down
+		w *= 0.85
+		var card_h: float = w / EnvKit.aspect(id)
+		var top_y: float = y + 0.45
+		var nn: Vector3 = (FACES[face] as Dictionary)["n"] as Vector3
+		var p_top0: Vector3 = _face_point(face, u - w * 0.5, top_y, 0.08)
+		var p_top1: Vector3 = _face_point(face, u + w * 0.5, top_y, 0.08)
+		var p_bot1: Vector3 = _face_point(face, u + w * 0.5, top_y - card_h * 0.92, 0.75)
+		var p_bot0: Vector3 = _face_point(face, u - w * 0.5, top_y - card_h * 0.92, 0.75)
+		mesh.quad(slot, [p_top0, p_top1, p_bot1, p_bot0], nn + Vector3.UP * 0.4, [], [Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1)])
+		return
 	var out: float = 1.25
 	var drop: float = 0.65
 	var n: Vector3 = (FACES[face] as Dictionary)["n"] as Vector3
@@ -625,6 +651,15 @@ func _sign(face: String, u: float, y: float, id: String, size: float) -> void:
 	var n: Vector3 = (FACES[face] as Dictionary)["n"] as Vector3
 	var slot: String = "sign_%s" % id
 	mesh.set_material(slot, EnvKit.material(id, true))
+	if EnvKit.has_art(id):
+		# the painted sign carries its own iron bracket: one card, its wall plate (the pivot) at (u, y), standing a hand off the wall
+		var card_h: float = size * 1.75
+		var card_w: float = card_h * EnvKit.aspect(id)
+		var pivot: Vector2 = EnvKit.pivot(id)
+		var top: float = y + pivot.y * card_h
+		var left: float = u - pivot.x * card_w
+		_face_quad(slot, face, left, left + card_w, top - card_h, top, 0.14, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+		return
 	var arm_out: float = 0.9
 	_attach("iron", face, u, y + size * 0.82 + 0.1, arm_out * 0.5, Vector3(0.1, 0.1, arm_out), 0.02)
 	var u_dir: Vector3 = (FACES[face] as Dictionary)["u"] as Vector3
@@ -673,3 +708,20 @@ func _wall_uvs(slot: String, half: float, storey: float) -> Array[Vector2]:
 	var u0: float = -half * per_metre
 	var u1: float = half * per_metre
 	return [Vector2(u0, tile_v), Vector2(u1, tile_v), Vector2(u1, 0.0), Vector2(u0, 0.0)]
+
+
+## A painted door (ENV-DOOR-01 stone arch, -02 glazed double door, -03 round hobbit door): the art carries its own frame, so it is one cut-out quad standing on a stone step, its
+## width from the trimmed art's aspect. The round door is a little shorter than the others.
+func _art_door(face: String, u: float, id: String, data: Dictionary) -> void:
+	var h: float = DOOR_H if id != "ENV-DOOR-03" else DOOR_H * 0.82
+	var w: float = h * EnvKit.aspect(id)
+	_attach("foundation", face, u, 0.12, 0.34, Vector3(w + 0.5, 0.24, 0.7), 0.05)
+	_face_quad(id, face, u - w * 0.5, u + w * 0.5, 0.2, 0.2 + h, 0.06, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+	anchors["door_%s_%s" % [face, str(u)]] = _face_point(face, u, 0.0, 0.9)
+	if bool(data.get("awning", false)):
+		_awning(face, u, h + 0.55, 2.6, str(data.get("awning_id", "ENV-AWNING-01")))
+	if bool(data.get("lantern", false)):
+		_wall_lantern(face, u + w * 0.5 + 0.7, 2.9, true)
+	if bool(data.get("pots", false)):
+		_pots(face, u - w * 0.5 - 0.7, 0.55)
+		_pots(face, u + w * 0.5 + 0.7, 0.4)

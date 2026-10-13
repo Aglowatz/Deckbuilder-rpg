@@ -46,7 +46,12 @@ static func card(id: String, size: Vector2, shadow: bool = true) -> MeshInstance
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = quad
 	instance.material_override = card_material(id)
-	instance.scale = Vector3(size.x, size.y, 1.0)
+	var final_size: Vector2 = size
+	if id.begins_with("ENV-TREE-") and EnvKit.has_art(id):
+		# painted trees keep their own proportions, with the trunk base (not the card centre) on the node origin
+		final_size.x = size.y * EnvKit.aspect(id)
+		instance.position.x = (0.5 - EnvKit.pivot(id).x) * final_size.x
+	instance.scale = Vector3(final_size.x, final_size.y, 1.0)
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if shadow else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	instance.extra_cull_margin = 2.0
 	instance.set_meta(StyleToon.META_NO_TOON, true)

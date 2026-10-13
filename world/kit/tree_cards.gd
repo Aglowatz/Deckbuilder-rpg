@@ -4,7 +4,7 @@ extends RefCounted
 ## KayKit cones. Sizes are metres (width x height) and follow the paint-over: a tree stands about three heroes tall.
 
 const KINDS: Dictionary = {
-	"oak": {"id": "ENV-TREE-OAK", "size": Vector2(4.6, 6.2), "radius": 0.35},
+	"oak": {"id": "ENV-TREE-OAK", "size": Vector2(4.6, 5.2), "radius": 0.35},
 	"fruit": {"id": "ENV-TREE-FRUIT", "size": Vector2(3.2, 4.3), "radius": 0.3},
 	"pine": {"id": "ENV-TREE-PINE", "size": Vector2(3.0, 6.6), "radius": 0.3},
 	"birch": {"id": "ENV-TREE-BIRCH", "size": Vector2(2.7, 5.6), "radius": 0.25},

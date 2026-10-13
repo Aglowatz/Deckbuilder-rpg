@@ -276,6 +276,15 @@ static func hanging_lantern() -> Node3D:
 ## A signpost whose boards carry the Path crest and an arrow tip (no text): `directions` are the yaw angles (degrees, 0 = +z, 90 = +x) the boards point to.
 static func signpost(directions: Array[float] = [90.0, -60.0]) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
+	if EnvKit.has_art("ENV-SIGNPOST"):
+		# the painted signpost (Path symbols on arrow boards, no text) as two crossed cards, post base on the origin
+		mesh.set_material("card", EnvKit.material("ENV-SIGNPOST", true))
+		var post_h: float = 2.5
+		var post_w: float = post_h * EnvKit.aspect("ENV-SIGNPOST")
+		var shift: float = (0.5 - EnvKit.pivot("ENV-SIGNPOST").x) * post_w
+		mesh.quad("card", [Vector3(shift - post_w * 0.5, 0, 0), Vector3(shift + post_w * 0.5, 0, 0), Vector3(shift + post_w * 0.5, post_h, 0), Vector3(shift - post_w * 0.5, post_h, 0)], Vector3(0, 0, 1), [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+		mesh.quad("card", [Vector3(0, 0, shift - post_w * 0.5), Vector3(0, 0, shift + post_w * 0.5), Vector3(0, post_h, shift + post_w * 0.5), Vector3(0, post_h, shift - post_w * 0.5)], Vector3(1, 0, 0), [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+		return _finish(mesh, "Signpost", 0.2)
 	mesh.set_material("wood", EnvKit.material("ENV-BEAM", false, Color(0.92, 0.84, 0.76)))
 	mesh.set_material("board", EnvKit.material("ENV-WALL-PLANK", false, Color(1.0, 0.92, 0.8)))
 	mesh.set_material("icon", EnvKit.material("ENV-SIGNPOST", true))
@@ -327,6 +336,17 @@ static func notice_board() -> Node3D:
 static func fence(length: float, picket: bool) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	var id: String = "ENV-PROP-FENCE" if picket else "ENV-PROP-FENCE-RAIL"
+	if EnvKit.has_art(id):
+		# painted fence cards (posts, rails and pickets are in the art), side by side along the run
+		mesh.set_material("card", EnvKit.material(id, true))
+		var card_h: float = 1.15
+		var natural: float = card_h * EnvKit.aspect(id)
+		var count: int = maxi(1, int(round(length / natural)))
+		var card_w: float = length / float(count)
+		for index: int in range(count):
+			var x0: float = -length * 0.5 + card_w * float(index)
+			mesh.quad("card", [Vector3(x0, 0.0, 0.0), Vector3(x0 + card_w, 0.0, 0.0), Vector3(x0 + card_w, card_h, 0.0), Vector3(x0, card_h, 0.0)], Vector3(0, 0, 1), [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+		return _finish(mesh, "Fence", 0.0)
 	mesh.set_material("wood", EnvKit.material(id))
 	mesh.set_material("post", EnvKit.material(id, false, Color(0.82, 0.78, 0.74)))
 	var posts: int = maxi(2, int(round(length / 1.4)) + 1)
@@ -430,8 +450,16 @@ static func stall(seed_value: int = 0) -> Node3D:
 			var xm: float = (x0 + x1) * 0.5
 			mesh.quad("canvas", [Vector3(x0, front_y, front_z), Vector3(x1, front_y, front_z), Vector3(x1, front_y - 0.18, front_z + 0.02), Vector3(x0, front_y - 0.18, front_z + 0.02)], Vector3(0, 0, 1), [], [Vector2(x0, 0), Vector2(x1, 0), Vector2(x1, 0.18), Vector2(x0, 0.18)])
 			mesh.tri("canvas", [Vector3(x0, front_y - 0.18, front_z + 0.02), Vector3(x1, front_y - 0.18, front_z + 0.02), Vector3(xm, front_y - 0.42, front_z + 0.03)], Vector3(0, 0, 1), [], [Vector2(x0, 0.18), Vector2(x1, 0.18), Vector2(xm, 0.42)])
+	var cloth: bool = seed_value % 2 == 1 and EnvKit.has_art("ENV-PROP-CLOTHGOODS")
+	if cloth:
+		mesh.set_material("cloth_card", EnvKit.material("ENV-PROP-CLOTHGOODS", true))
+		var cloth_w: float = 1.7
+		var cloth_h: float = cloth_w / EnvKit.aspect("ENV-PROP-CLOTHGOODS")
+		mesh.quad("cloth_card", [Vector3(-cloth_w * 0.5, 1.07, 0.9), Vector3(cloth_w * 0.5, 1.07, 0.9), Vector3(cloth_w * 0.5, 1.07 + cloth_h, 0.9), Vector3(-cloth_w * 0.5, 1.07 + cloth_h, 0.9)], Vector3(0, 0, 1), [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
 	var rng: RandomNumberGenerator = _rng(seed_value + 70)
 	for index: int in range(4):
+		if cloth and (index == 1 or index == 2):
+			continue
 		var x: float = -1.05 + 0.7 * float(index)
 		mesh.box("crate", Vector3(x, 1.2, 0.72), Vector3(0.56, 0.22, 0.6), Basis.IDENTITY, 0.03, 1.0, true)
 		for fruit: int in range(5):
