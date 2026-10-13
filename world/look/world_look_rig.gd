@@ -137,6 +137,8 @@ func _ready() -> void:
 	if style_rig != null and style_rig.sun != null:
 		_sun_travel = -style_rig.sun.global_basis.z
 	_build_post()
+	if style_rig != null and style_rig.preset != null:
+		KitFoliage.set_light(style_rig.preset.sun_color, style_rig.preset.ambient_color)
 	if _build_world and bool(mood.get("world", true)):
 		_build_pieces()
 	if style_rig != null:
