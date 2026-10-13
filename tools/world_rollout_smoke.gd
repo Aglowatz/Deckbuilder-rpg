@@ -1,7 +1,7 @@
 class_name WorldRolloutSmoke
 extends Node
 ## World rollout final e2e (docs/art/world_rollout.md, Part F) with human-style input (real injected keys and clicks): a NEW game (no character-design screen, the default look,
-## the hero is a painted sprite), a walk through the starting area, the town (talk to a sprite NPC and a 3D NPC, open the clothing vendor and see the items arriving soon),
+## the hero is a painted sprite), a walk through the starting area, the town (talk to painted NPCs of each kind with their portrait, open the clothing vendor and see the items arriving soon),
 ## every zone and both sides of the Capital; a screenshot of every area and the frame rate over a few seconds of walking in each. Deliberate shortcuts: the tutorial dungeon is
 ## not replayed (`Session.ensure_game()` after the starting area), zone scenes are opened directly instead of walking the bridges.
 ## Screenshots: _screenshots/rollout_smoke/.   Godot --path . res://tools/world_rollout_launcher.tscn
@@ -27,19 +27,20 @@ func run() -> void:
 			_finish(false, "the starting area never loaded")
 			return
 		await _flow_new_game(start)
-	var town: TownScene = await _go("res://scenes/town.tscn", TownScene) as TownScene
-	if town == null:
-		_finish(false, "town never loaded")
-		return
-	if only == "" or only == "town":
-		await _flow_town(town)
-	if only == "town":
-		_finish(_failures.is_empty(), "town only")
-		return
-	await _flow_zone("res://scenes/gainlands_zone.tscn", GainlandsScene, "gainlands")
-	await _flow_zone("res://scenes/dna_zone.tscn", DnaScene, "dna")
-	await _flow_zone("res://scenes/buffet_zone.tscn", BuffetScene, "buffet")
-	await _flow_zone("res://scenes/heap_zone.tscn", HeapScene, "heap")
+	if only != "zones":
+		var town: TownScene = await _go("res://scenes/town.tscn", TownScene) as TownScene
+		if town == null:
+			_finish(false, "town never loaded")
+			return
+		if only == "" or only == "town":
+			await _flow_town(town)
+		if only == "town":
+			_finish(_failures.is_empty(), "town only")
+			return
+	await _flow_zone("res://scenes/gainlands_zone.tscn", GainlandsScene, "gainlands", "brenda", "MOUNTAIN", "NPC-MOUNTAIN")
+	await _flow_zone("res://scenes/dna_zone.tscn", DnaScene, "dna", "barnaby", "GERALD", "NPC-GERALD")
+	await _flow_zone("res://scenes/buffet_zone.tscn", BuffetScene, "buffet", "odalys", "BASIL", "NPC-BASIL")
+	await _flow_zone("res://scenes/heap_zone.tscn", HeapScene, "heap", "marigold", "BRAMBLE", "NPC-BRAMBLE")
 	await _flow_capital()
 	print("%s: fps (Medium, window 1600x900, walking):" % TAG)
 	for row: String in _fps_rows:
@@ -95,18 +96,9 @@ func _flow_town(town: TownScene) -> void:
 	await _shot("b2_talk_sprite_npc")
 	await _dismiss(town.dialogue)
 	await driver.seconds(0.6)
-	# A 3D NPC: the Assistant to the Regional Merchant (equipment vendor).
-	var merchant: Node3D = town._npcs["equipment_vendor"] as Node3D
-	_check(merchant != null and not (merchant is SpriteActor), "the equipment vendor is still a 3D model")
-	await _walk_to(town, merchant.position + Vector3(0.0, 0.0, 0.95), 0.9)
-	await driver.seconds(0.4)
-	await driver.tap_key(KEY_E)
-	await driver.seconds(0.9)
-	_check(town.dialogue.active or _find(town, OverlayScreen) != null, "the 3D vendor talks")
-	await _shot("b3_talk_3d_npc")
-	await _dismiss(town.dialogue)
-	await driver.tap_key(KEY_ESCAPE)
-	await driver.seconds(0.5)
+	# Bertram Beetsworth (equipment vendor, a human) and a corrupted NPC (Brick Bronson): painted sprites whose portrait matches.
+	await _talk_town(town, "equipment_vendor", "BEETSWORTH", "V-BEETSWORTH", "b3_talk_human_vendor")
+	await _talk_town(town, "npc_beefcake", "BRONSON", "NPC-BRONSON", "b3b_talk_corrupted")
 	# The clothing vendor.
 	await _walk_to(town, (town.town.anchors["npc_tailor"] as Vector3) + Vector3(0.0, 0.0, 0.95), 0.9)
 	await driver.seconds(0.4)
@@ -130,6 +122,7 @@ func _flow_town(town: TownScene) -> void:
 		await driver.seconds(0.5)
 	await _walk_to(town, Vector3(26.0, 0.0, 14.0), 1.5)
 	# The baker walks his round.
+	_check(town._npcs["mannequin"] is Node3D and not (town._npcs["mannequin"] is SpriteActor), "the shop-window mannequin (no list NPC) is the only 3D figure left in the town")
 	_check(town._baker != null, "the badger baker wanders the plaza")
 	await _shot("b5_baker_and_plaza")
 
@@ -137,7 +130,7 @@ func _flow_town(town: TownScene) -> void:
 # ---- 3: zones ---------------------------------------------------------------------------------------------------------------------
 
 
-func _flow_zone(path: String, kind: Variant, label: String) -> void:
+func _flow_zone(path: String, kind: Variant, label: String, talk_spot: String = "", character: String = "", portrait: String = "") -> void:
 	var zone: ZoneScene = await _go(path, kind) as ZoneScene
 	if zone == null:
 		_check(false, "%s loaded" % label)
@@ -148,6 +141,8 @@ func _flow_zone(path: String, kind: Variant, label: String) -> void:
 	await _shot("c_%s_arrival" % label)
 	_fps_row(label, await _measure_fps_walking(zone, KEY_D, 4.0))
 	await _shot("c_%s_walk" % label)
+	if talk_spot != "":
+		await _talk_zone(zone, talk_spot, character, portrait, "c_%s_talk" % label)
 
 
 func _flow_capital() -> void:
@@ -169,10 +164,68 @@ func _flow_capital() -> void:
 	_check(capital._inside, "the hero is inside the walls")
 	_check(capital.look_rig != null and capital.look_rig.mood_id in [StylePresets.CAPITAL_INSIDE, StylePresets.CAPITAL_INSIDE_DARK, StylePresets.CAPITAL_FREED], "the look changed to the inside mood")
 	await _shot("d_capital_inside")
+	var citizen: SpriteStroller = capital._npcs.get("citizen_1") as SpriteStroller
+	_check(citizen != null and citizen.character == "CITIZEN", "the Capital's citizens are painted wanderers")
+	if citizen != null:
+		var before: Vector3 = citizen.world_position()
+		await driver.seconds(8.0)
+		_check(before.distance_to(citizen.world_position()) > 0.2 or citizen.sprite.walking, "a citizen strolled in eight seconds")
+		await _talk_zone(capital, "citizen_1", "CITIZEN", "NPC-CITIZEN", "d_capital_citizen_talk")
 	_fps_row("capital inside", await _measure_fps_walking(capital, KEY_D, 4.0))
 
 
 # ---- helpers ---------------------------------------------------------------------------------------------------------------------
+
+
+## Walk to a town NPC, talk, check the painted sprite, its TALK pose and that the portrait is the list NPC's.
+func _talk_town(town: TownScene, id: String, character: String, portrait: String, shot_name: String) -> void:
+	var npc: Node3D = town._npcs.get(id) as Node3D
+	_check(npc is SpriteActor and (npc as SpriteActor).character == character, "%s is the painted %s" % [id, character])
+	if npc == null:
+		return
+	await _walk_to(town, npc.position + Vector3(0.0, 0.0, 0.95), 0.9)
+	await driver.seconds(0.4)
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.9)
+	_check(town.dialogue.active, "%s talks" % id)
+	_check(town.dialogue.npc_id == portrait, "%s shows portrait %s (is '%s')" % [id, portrait, town.dialogue.npc_id])
+	var actor: SpriteActor = npc as SpriteActor
+	if actor != null:
+		_check(actor.sprite.current_key == "FRONT_TALK", "%s shows the TALK pose" % id)
+	await _shot(shot_name)
+	await _dismiss(town.dialogue)
+	await driver.tap_key(KEY_ESCAPE)
+	await driver.seconds(0.5)
+
+
+## The same in a zone: stand next to the NPC's talk spot, press E, check sprite, TALK pose and portrait.
+func _talk_zone(zone: ZoneScene, spot_id: String, character: String, portrait: String, shot_name: String) -> void:
+	var spot: ZoneSpot = null
+	for candidate: ZoneSpot in zone.spots:
+		if candidate.id == spot_id:
+			spot = candidate
+	if spot == null:
+		_check(false, "%s has a talk spot" % spot_id)
+		return
+	var npc: Node3D = zone._npcs.get(str(spot.data.get("npc", ""))) as Node3D
+	_check((npc is SpriteActor and (npc as SpriteActor).character == character) or (npc is SpriteStroller and (npc as SpriteStroller).character == character), "%s is the painted %s" % [spot_id, character])
+	await _dismiss(zone.dialogue)
+	zone.player.position = spot.position + Vector3(0.0, 0.0, 0.5)
+	await driver.seconds(0.7)
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.9)
+	_check(zone.dialogue.active, "%s talks" % spot_id)
+	_check(zone.dialogue.npc_id == portrait, "%s shows portrait %s (is '%s')" % [spot_id, portrait, zone.dialogue.npc_id])
+	var actor: SpriteActor = npc as SpriteActor
+	if actor != null:
+		_check(actor.sprite.current_key == "FRONT_TALK", "%s shows the TALK pose" % spot_id)
+	await _shot(shot_name)
+	await _dismiss(zone.dialogue)
+	await driver.seconds(0.4)
+	if _find(zone, OverlayScreen) != null:
+		await driver.tap_key(KEY_ESCAPE)
+		await driver.seconds(0.5)
+
 
 
 func _go(path: String, kind: Variant) -> Node:

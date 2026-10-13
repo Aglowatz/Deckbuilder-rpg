@@ -67,3 +67,15 @@ Closest existing assets stand in for zone-specific art (the Gainlands uses the t
 
 The low camera sees every zone to the horizon, which the old high camera never did: the Capital went from 244 to over 2,200 draw calls. Meshes beyond 48 m of the camera are
 now not drawn (a dithered fade over the last 6 m), the foliage and rings are single draws. Numbers are in `docs/progress.md` ("World rollout").
+
+## NPC sprites (the second rollout)
+
+Every list NPC with a world sprite set (the NPC list's "World Sprite Set" column, `data/source/npc_sprite_batch.csv`) is a painted sprite wherever the game places them. Import:
+`bash tools/import_npc_sprites.sh` copies `SPR-*` from the Drive `Approved_Sprites` (`sprites_dir` in `data/source/art_config.cfg`; read-only), cuts the figures out (a plain opaque
+background is removed), puts every pose on one foot baseline with one scale per character, and writes `assets/art/world_test/sprites/<KEY>/` plus `docs/art/npc_sprite_import_report.md`
+(missing and unmatched files). The world height of a character is its relative height x 1.25 m.
+
+Code: `NpcSprites` (list NPC ID -> sprite key; aliases, disguises, ghosts, the Rift operator), `SpriteActor` (a standing NPC: idle FRONT / SIDE / BACK by the angle between the
+figure and the camera, TALK pose during dialogue, breathing, contact shadow, scene tint and rim like the hero), `SpriteStroller` (the Capital's citizens), `WorldSprite.set_ghost` /
+`set_tint`. Zone defs list the NPC by `npc_id`; `ZoneScene._make_npc` builds the sprite or falls back to the 3D model. Judgment calls NS-1...NS-13 in
+`docs/design/open_questions.md`.
