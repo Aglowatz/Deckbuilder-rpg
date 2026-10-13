@@ -15,6 +15,9 @@ uniform float warmth = 0.25;
 uniform float saturation = 1.08;
 uniform float vignette = 0.28;
 uniform float contrast = 1.04;
+// Per-area palette (zone_looks.json "look"): soften the loudest greens and reds so nothing outshouts the characters. 0 = off.
+uniform float green_calm = 0.0;
+uniform float red_calm = 0.0;
 
 const int TAPS = 8;
 const float GOLDEN = 2.399963;
@@ -45,6 +48,27 @@ void fragment() {
 	col *= mix(vec3(1.0), warm, 0.6 + 0.4 * luma);
 	luma = dot(col, vec3(0.299, 0.587, 0.114));
 	col = mix(vec3(luma), col, saturation);
+	if (green_calm > 0.0 || red_calm > 0.0) {
+		float mx = max(col.r, max(col.g, col.b));
+		float mn = min(col.r, min(col.g, col.b));
+		float chroma = mx - mn;
+		float sat = chroma / max(mx, 0.001);
+		float hue = 0.0;
+		if (chroma > 0.001) {
+			if (mx == col.r) {
+				hue = mod((col.g - col.b) / chroma, 6.0) / 6.0;
+			} else if (mx == col.g) {
+				hue = ((col.b - col.r) / chroma + 2.0) / 6.0;
+			} else {
+				hue = ((col.r - col.g) / chroma + 4.0) / 6.0;
+			}
+		}
+		float w_green = smoothstep(0.17, 0.25, hue) * (1.0 - smoothstep(0.42, 0.5, hue));
+		float w_red = (1.0 - smoothstep(0.0, 0.05, hue)) + smoothstep(0.94, 1.0, hue);
+		float loud = smoothstep(0.35, 0.8, sat);
+		float calm = clamp((green_calm * w_green + red_calm * clamp(w_red, 0.0, 1.0)) * loud, 0.0, 0.9);
+		col = mix(col, vec3(dot(col, vec3(0.299, 0.587, 0.114))) * 1.02 + col * 0.0, calm);
+	}
 	col = (col - 0.5) * contrast + 0.5;
 	vec2 c = (uv - 0.5) * vec2(1.0, 0.8);
 	col *= 1.0 - vignette * smoothstep(0.28, 0.78, length(c));

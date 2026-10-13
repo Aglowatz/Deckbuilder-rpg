@@ -95,7 +95,7 @@ func setup(character_id: String, cam: Camera3D, sun_direction: Vector3 = Vector3
 	_mesh = MeshInstance3D.new()
 	_mesh.mesh = quad
 	_mesh.material_override = _material
-	_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	_mesh.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 	_mesh.set_meta(StyleToon.META_NO_TOON, true)
 	_mesh.set_meta(&"no_occlusion_fade", true)
 	_mesh.extra_cull_margin = 4.0

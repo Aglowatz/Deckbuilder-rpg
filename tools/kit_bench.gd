@@ -38,6 +38,7 @@ func _ready() -> void:
 		x += widths[index] * 0.5
 		nodes[index].position = Vector3(x, 0, 0)
 		nodes[index].rotation_degrees.y = yaw
+		TownKit.dress(self, nodes[index], BuildingPresets.spec(presets[index]))
 		x += widths[index] * 0.5 + 3.0
 	var props: PackedStringArray = str(_args.get("props", "")).split(",", false)
 	var prop_x: float = -float(props.size()) * 1.2
@@ -84,3 +85,4 @@ func _ready() -> void:
 	var rig: StyleRig = StyleRig.install(self, StylePresets.TOWN, _camera, _hero, 0.0)
 	if rig != null:
 		WorldLookRig.install(self, _camera, _hero, rig, null, false)
+	KitLights.attach(self, self, rig)

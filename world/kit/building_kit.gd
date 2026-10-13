@@ -16,7 +16,7 @@ extends RefCounted
 
 const DOOR_H: float = 3.4
 const DOOR_W: float = 1.7
-const GLASS_COLOR: Color = Color("ffbf66")
+const GLASS_COLOR: Color = Color("ffa447")
 const LANTERN_COLOR: Color = Color("ffb45a")
 const FLOWERS: Array[Color] = [Color("e0483a"), Color("f0c03a"), Color("e87aa8"), Color("f4efe0"), Color("9a6ad8")]
 
@@ -40,6 +40,8 @@ var ridge_y: float = 6.0
 var lights: Array[Dictionary] = []
 var anchors: Dictionary = {}
 var smoke_points: Array[Vector3] = []
+## Ground points in front of the ground-floor windows: a soft warm light pool is laid there (the lit glass itself only glows through the bloom).
+var glows: Array[Vector3] = []
 var _flower_index: int = 0
 var _tint: Color = Color.WHITE
 
@@ -103,6 +105,7 @@ func _assemble() -> Node3D:
 	root.set_meta("anchors", anchors)
 	root.set_meta("lights", lights)
 	root.set_meta("smoke", smoke_points)
+	root.set_meta("glows", glows)
 	root.set_meta("triangles", mesh.triangle_count())
 	return root
 
@@ -124,7 +127,7 @@ func _set_materials() -> void:
 	mesh.set_material("eave", EnvKit.material(_id("eave", "ENV-ROOF-EAVE")))
 	mesh.set_material("roof", EnvKit.material(str(roof_data.get("material", "ENV-ROOF-TILE-RED")), false, _tint if bool(roof_data.get("tinted", false)) else Color.WHITE))
 	mesh.set_material("plank", EnvKit.material("ENV-WALL-PLANK"))
-	mesh.set_material("glass", EnvKit.glow(GLASS_COLOR, 1.7))
+	mesh.set_material("glass", EnvKit.glow(GLASS_COLOR, 1.45))
 	mesh.set_material("iron", EnvKit.flat(Color("3a3430"), "iron"))
 	mesh.set_material("lantern", EnvKit.glow(LANTERN_COLOR, 2.0))
 	mesh.set_material("pot", EnvKit.material("ENV-PROP-FLOWERPOTS"))
@@ -513,6 +516,8 @@ func _window_style(face: String, u: float, y: float, style: String, off: float, 
 	if not arch:
 		_attach("beam", face, u, y + half_h + 0.07, off + 0.09, Vector3(w + frame * 2.0 + 0.1, 0.16, 0.18), 0.02)
 	_face_quad("glass", face, u - half_w, u + half_w, y - half_h, rect_top, off + 0.03)
+	if y < 4.0 and off == 0.0:
+		glows.append(_face_point(face, u, 0.0, 1.7))
 	if arch:
 		var c_a: Vector3 = _face_point(face, u, rect_top, off + 0.03)
 		for step: int in range(8):

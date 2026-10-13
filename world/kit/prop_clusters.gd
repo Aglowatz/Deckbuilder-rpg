@@ -115,3 +115,4 @@ static func _add(root: Node3D, prop: Node3D, pos: Vector3, yaw: float, circles: 
 	var radius: float = float(prop.get_meta("radius", 0.0))
 	if solid and radius > 0.0 and pos.y < 0.5:
 		circles.append(Vector3(pos.x, pos.z, radius))
+		KitAO.blob(root, pos, radius * 0.85, 0.3)

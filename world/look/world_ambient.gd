@@ -47,6 +47,7 @@ func setup_area(cam: Camera3D, follow: Node3D, sun: Vector3, spec: Dictionary) -
 	_leaves.visible = bool(spec.get("leaves", true))
 	_leaves.emitting = _leaves.visible
 	_motes.emitting = _motes.visible
+	shafts_enabled = shafts_enabled or bool(spec.get("shafts", false))
 	if shafts_enabled:
 		_build_shafts()
 	_bird_quad = QuadMesh.new()

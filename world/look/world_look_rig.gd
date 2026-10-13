@@ -326,6 +326,8 @@ func _apply(force: bool) -> void:
 		_post_material.set_shader_parameter("warmth", float(p["warmth"]))
 		_post_material.set_shader_parameter("saturation", float(p["saturation"]))
 		_post_material.set_shader_parameter("vignette", float(p["vignette"]))
+		_post_material.set_shader_parameter("green_calm", float(p.get("green_calm", 0.0)))
+		_post_material.set_shader_parameter("red_calm", float(p.get("red_calm", 0.0)))
 	if _env != null:
 		var bloom: float = float(p["bloom"])
 		_env.glow_enabled = bloom_on and bloom > 0.01
