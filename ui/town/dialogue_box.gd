@@ -140,6 +140,8 @@ func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -
 	else:
 		_portrait.dismiss()
 	Audio.sfx(&"ui_open", -6.0)
+	# The music sits a little lower under text-heavy scenes (MusicManager.DIALOGUE_DUCK_DB).
+	Audio.set_dialogue_duck(get_instance_id(), true)
 	_show_line()
 
 
@@ -258,6 +260,7 @@ func press() -> void:
 		active = false
 		_panel.visible = false
 		_portrait.dismiss()
+		Audio.set_dialogue_duck(get_instance_id(), false)
 		get_tree().create_timer(0.2).timeout.connect(_hide_when_idle)
 		finished.emit()
 	else:
@@ -281,5 +284,6 @@ func stand_behind(sibling: Node) -> void:
 
 
 func _exit_tree() -> void:
+	Audio.set_dialogue_duck(get_instance_id(), false)
 	if _portrait != null and is_instance_valid(_portrait) and _portrait.get_parent() != self:
 		_portrait.queue_free()

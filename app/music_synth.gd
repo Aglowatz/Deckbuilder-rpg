@@ -6,6 +6,8 @@ extends RefCounted
 ## `warm_up()` renders every track on a background thread at startup.
 
 const RATE: int = 22050
+## The level the synthesized tracks have always played at (the registry's tracks carry their own base volume).
+const LEGACY_DB: float = -6.0
 
 ## name -> {bpm, root (midi), progression [[semitone offset, minor?] per bar], layers}
 const TRACKS: Dictionary = {
