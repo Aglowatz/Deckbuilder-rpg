@@ -3043,3 +3043,13 @@ Write-up: `docs/art/world_rollout.md`; art needs per area: `docs/art/world_rollo
 4. Should I spend the next step on the Medium fps gap (town, Capital) or on converting the remaining NPCs?
 5. The old 3D cosmetics code is kept only for the tailor and her mannequin; say if you want it removed.
 6. The old Brief 12 look-choice e2e smoke was deleted with the flow it tested.
+
+## Music integration (Parts A-E)
+
+The approved soundtrack (123 music cues, 21 stings) is imported by stable ID (`bash tools/import_audio.sh`, folder `audio_dir` in `data/source/art_config.cfg`), registered in
+`data/audio/audio_registry.json`, played by `MusicManager` (crossfades, an override stack that resumes the area track, stings with ducking, dialogue duck) and mapped to the game by
+`MusicDirector`. Everything is in `docs/audio/music_integration.md` (every ID with file, trigger, status and loop check); judgment calls are MI-1..MI-13 in
+`docs/design/open_questions.md`; `bash tools/run_music_smoke.sh` is the end-to-end check; `docs/audio/sfx_inventory.md` (+ `.tsv`) is the sound-effects audit.
+
+**Needs your ear / the composer:** 23 loops have an audible wrap (silence of 0.4-0.6 s or a decayed ending, listed in the integration doc); dialogue ducking depth and the mix against
+effects are measured but not listened to; MUS-CREDITS (332 s) is longer than the placeholder credits.
