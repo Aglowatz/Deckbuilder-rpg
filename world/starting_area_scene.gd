@@ -592,10 +592,10 @@ func _build_postgame() -> void:
 	_station.scale = Vector3.ONE * 0.62
 	_station.build(travel.get_lines("travel.sign.forest"), true)
 	area.obstacles.append(Vector3(pos.x, pos.z, 0.8))
-	_rip = ModelKit.character("Barbarian")
-	ModelKit.tint(_rip, Color(1.0, 0.8, 0.65))
+	var rip: Dictionary = NpcSprites.rift_operator()
+	_rip = rip["node"] as Node3D
 	var rip_pos: Vector3 = pos + Vector3(1.2, 0.0, 0.5)
-	ModelKit.place(self, _rip, rip_pos, -40.0, TownPlayer.MODEL_SCALE * 1.2)
+	ModelKit.place(self, _rip, rip_pos, -40.0, TownPlayer.MODEL_SCALE * (1.0 if _rip is SpriteActor else 1.2))
 	area.obstacles.append(Vector3(rip_pos.x, rip_pos.z, 0.3))
 	var animation: AnimationPlayer = ModelKit.animation_player(_rip)
 	if animation != null and animation.has_animation("Idle"):

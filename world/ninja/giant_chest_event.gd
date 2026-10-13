@@ -114,8 +114,11 @@ static func play(host: Node3D, chest_id: String, chest: Node3D) -> void:
 
 ## The ninja leaps out of the open chest towards the hero and turns to face them.
 static func _pop_out(host: Node3D, chest: Node3D, hero_position: Vector3) -> Node3D:
-	var ninja: Node3D = ModelKit.character("Rogue_Hooded")
-	ModelKit.tint(ninja, NINJA_TINT)
+	# Shiro Swindle is his painted sprite (FRONT_TALK is his taunting pose); the tinted rogue model is the fallback when the art is missing.
+	var painted: bool = SpriteLibrary.has_character("NINJA")
+	var ninja: Node3D = NpcSprites.make_actor("NINJA") if painted else ModelKit.character("Rogue_Hooded")
+	if not painted:
+		ModelKit.tint(ninja, NINJA_TINT)
 	var start: Vector3 = chest.global_position + Vector3(0.0, 0.15, 0.0)
 	var toward: Vector3 = hero_position - chest.global_position
 	toward.y = 0.0
@@ -132,13 +135,15 @@ static func _pop_out(host: Node3D, chest: Node3D, hero_position: Vector3) -> Nod
 	Audio.sfx(&"boing", -6.0)
 	var tween: Tween = ninja.create_tween()
 	tween.set_parallel(true)
-	tween.tween_property(ninja, "scale", Vector3.ONE * TownPlayer.MODEL_SCALE * NINJA_SCALE, 0.3)
+	tween.tween_property(ninja, "scale", Vector3.ONE * TownPlayer.MODEL_SCALE * (1.0 if painted else NINJA_SCALE), 0.3)
 	tween.tween_property(ninja, "position:x", landing.x, 0.55).set_trans(Tween.TRANS_QUAD)
 	tween.tween_property(ninja, "position:z", landing.z, 0.55).set_trans(Tween.TRANS_QUAD)
 	var arc: Tween = ninja.create_tween()
 	arc.tween_property(ninja, "position:y", start.y + 1.15, 0.28).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	arc.tween_property(ninja, "position:y", landing.y, 0.27).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	arc.tween_callback(func() -> void:
+		if ninja is SpriteActor:
+			(ninja as SpriteActor).talking = true
 		if animation != null and animation.has_animation(&"Cheer"):
 			animation.play(&"Cheer"))
 	return ninja

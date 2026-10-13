@@ -71,6 +71,12 @@ func _dress_facade_citizens() -> void:
 		index += 1
 		if npc == null:
 			continue
+		if npc is SpriteStroller:
+			# Painted citizens: a coat a shade off each (subtle), and once Primm has fallen their own colours - no smile card, the art already smiles.
+			var freed_tints: Array[Color] = [Color(1.2, 0.7, 0.6), Color(0.7, 1.0, 0.8), Color(0.8, 0.8, 1.3), Color(1.3, 1.1, 0.6)]
+			var coat: Color = freed_tints[index % 4] if freed else NpcSprites.CITIZEN_TINTS[index % NpcSprites.CITIZEN_TINTS.size()]
+			(npc as SpriteStroller).sprite.set_tint(coat)
+			continue
 		if freed:
 			ModelKit.tint(npc, [Color(1.2, 0.7, 0.6), Color(0.7, 1.0, 0.8), Color(0.8, 0.8, 1.3), Color(1.3, 1.1, 0.6)][index % 4])
 			continue

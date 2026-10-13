@@ -1,8 +1,13 @@
 extends GutTest
-## Part D of the world rollout: the NPCs with approved sprites (Elder Maren, Gatekeeper Brannoch, Sable, Tilly Tonic, Foil Fenwick, the badger baker) are painted sprites in the
-## town: they turn to face the hero when he is near, use their TALK pose while the dialogue is open, and everyone else is still a 3D model.
+## Part D of the world rollout and the NPC sprite rollout: every town NPC of the list (Elder Maren, Gatekeeper Brannoch, Sable, Tilly Tonic, Foil Fenwick, Bertram Beetsworth,
+## Pip Threadwell, the four corrupted NPCs, the badger baker) is a painted sprite in the town: they turn to face the hero when he is near and use their TALK pose while the
+## dialogue is open; the shop-window mannequin and the Secret Dealer (no list NPC) are still 3D models.
 
-const SPRITE_NPCS: Dictionary = {"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK"}
+const SPRITE_NPCS: Dictionary = {
+	"elder": "ELDER", "guard": "GATEKEEPER", "vendor": "SABLE", "item_vendor": "TONIC", "pack_vendor": "FENWICK",
+	"equipment_vendor": "BEETSWORTH", "tailor": "THREADWELL",
+	"npc_beefcake": "BRONSON", "npc_gourmand": "GRAVOIS", "npc_refusemancer": "MULLIGAN", "npc_necrocrat": "PALLOR",
+}
 
 
 func _town() -> TownScene:
@@ -12,7 +17,7 @@ func _town() -> TownScene:
 	return scene
 
 
-func test_the_five_town_npcs_are_sprites_and_the_rest_are_models() -> void:
+func test_the_town_npcs_are_sprites_and_only_the_unnamed_ones_are_models() -> void:
 	var town: TownScene = _town()
 	await get_tree().process_frame
 	for id: String in SPRITE_NPCS.keys():
@@ -20,8 +25,8 @@ func test_the_five_town_npcs_are_sprites_and_the_rest_are_models() -> void:
 		assert_true(npc is SpriteActor, "%s is a painted sprite" % id)
 		assert_eq((npc as SpriteActor).character, SPRITE_NPCS[id])
 		assert_true(SpriteLibrary.info(str(SPRITE_NPCS[id])).get("has_talk", false), "%s has a TALK pose" % id)
-	for id: String in ["equipment_vendor", "tailor", "mannequin"]:
-		assert_false((town._npcs[id] as Node3D) is SpriteActor, "%s is still a 3D model" % id)
+	for id: String in ["mannequin"]:
+		assert_false((town._npcs[id] as Node3D) is SpriteActor, "%s is still a 3D model (a shop-window dummy, no list NPC)" % id)
 	assert_not_null(town._baker, "the badger baker walks the plaza")
 	assert_eq(town._baker.character, "VILLAGER")
 

@@ -12,7 +12,8 @@ class Spot:
 	var position: Vector3 = Vector3.ZERO
 	var radius: float = 1.6
 	var marker: Node3D
-	var label_height: float = 2.5
+	## Metres above the ground the marker / plate hover at (a painted NPC's height); 0 = the default for the kind of spot.
+	var label_height: float = 0.0
 	var plate: Label3D
 	## False: no name plate and no map icon (hidden chests and levers, and vendors whose stock is not open yet).
 	var named: bool = true
@@ -331,6 +332,8 @@ func _build_actors() -> void:
 func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tint: Color = Color.WHITE) -> void:
 	var npc: Node3D
 	var sprite_id: String = str(NPC_SPRITES.get(id, ""))
+	if sprite_id == "":
+		sprite_id = NpcSprites.character_for(str(NPC_IDS.get(id, "")))
 	if sprite_id != "" and SpriteLibrary.has_character(sprite_id):
 		var actor: SpriteActor = SpriteActor.new()
 		actor.character = sprite_id
@@ -584,8 +587,10 @@ func _add_spot(id: String, title: String, position: Vector3, radius: float) -> v
 	spot.radius = radius
 	# The golden floating gems were removed (they read as clutter): a plain anchor holds the name plate; unnamed spots get an empty plate.
 	spot.named = _spot_is_named(id)
+	var sprite_label: float = NpcSprites.label_height(_npcs.get(id) as Node, 0.0)
+	spot.label_height = sprite_label
 	var marker: Node3D = Node3D.new()
-	marker.position = position + Vector3(0, 1.9 if id in NPC_SPOT_IDS else 2.5, 0)
+	marker.position = position + Vector3(0, sprite_label if sprite_label > 0.0 else (1.9 if id in NPC_SPOT_IDS else 2.5), 0)
 	add_child(marker)
 	spot.marker = marker
 	var plate: Label3D = Label3D.new()
@@ -692,7 +697,7 @@ func _process(delta: float) -> void:
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.basis = Basis.looking_at(-camera_offset, Vector3.UP)
 	for spot: Spot in spots:
-		var base_y: float = 1.9 if spot.id in NPC_SPOT_IDS else 2.5
+		var base_y: float = spot.label_height if spot.label_height > 0.0 else (1.9 if spot.id in NPC_SPOT_IDS else 2.5)
 		spot.marker.position.y = base_y + sin(_time * 2.4 + spot.position.x) * 0.08
 		spot.marker.rotation_degrees.y += 60.0 * delta
 		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
@@ -1733,9 +1738,9 @@ func _build_rift_station() -> void:
 	_station.position = pos
 	_station.build(travel.get_lines("travel.sign.town"), true)
 	town.obstacles.append(Vector3(pos.x, pos.z, 1.3))
-	var operator: Node3D = ModelKit.character("Barbarian")
-	ModelKit.tint(operator, Color(1.0, 0.8, 0.65))
-	ModelKit.place(self, operator, town.anchors["npc_rift_station"] as Vector3, 40.0, TownPlayer.MODEL_SCALE * 1.3)
+	var rip: Dictionary = NpcSprites.rift_operator()
+	var operator: Node3D = rip["node"] as Node3D
+	ModelKit.place(self, operator, town.anchors["npc_rift_station"] as Vector3, 40.0, TownPlayer.MODEL_SCALE * float(rip["scale"]))
 	var animation: AnimationPlayer = ModelKit.animation_player(operator)
 	if animation != null and animation.has_animation("Idle"):
 		animation.play("Idle")
@@ -2053,7 +2058,7 @@ func _update_sprite_npcs(delta: float) -> void:
 	for spot: Spot in spots:
 		if spot.id == "baker":
 			spot.position = _baker.world_position()
-			spot.marker.position = spot.position + Vector3(0.0, 1.9, 0.0)
+			spot.marker.position = spot.position + Vector3(0.0, spot.label_height if spot.label_height > 0.0 else 1.9, 0.0)
 			spot.plate.position = spot.marker.position + Vector3(0.0, 0.42, 0.0)
 
 

@@ -14,6 +14,10 @@ uniform float feet_lift = 0.03;
 // Breathing / squash about the feet.
 uniform vec2 stretch = vec2(1.0, 1.0);
 uniform float fade : hint_range(0.0, 1.0) = 1.0;
+// Per-copy colour variety (a citizen's coat), and the alpha / scissor of a translucent character (a ghost keeps its soft edges).
+uniform vec3 tint : source_color = vec3(1.0);
+uniform float base_alpha : hint_range(0.0, 1.0) = 1.0;
+uniform float scissor : hint_range(0.0, 1.0) = 0.58;
 // Light response.
 uniform float warm_gain = 1.0;
 uniform vec3 shade_color : source_color = vec3(0.34, 0.4, 0.62);
@@ -77,9 +81,9 @@ void fragment() {
 		uv.x = 1.0 - uv.x;
 	}
 	vec4 c = texture(tex, uv);
-	ALPHA = c.a * fade;
-	ALPHA_SCISSOR_THRESHOLD = 0.58;
-	vec3 col = c.rgb;
+	ALPHA = c.a * fade * base_alpha;
+	ALPHA_SCISSOR_THRESHOLD = scissor;
+	vec3 col = c.rgb * tint;
 	if (dye_amount > 0.001) {
 		vec3 hsv = rgb2hsv(col);
 		float dh = abs(hsv.x - dye_hue);

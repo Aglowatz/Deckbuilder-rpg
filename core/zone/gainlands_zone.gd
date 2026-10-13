@@ -125,7 +125,8 @@ static func build_def() -> ZoneDef:
 	}
 	# The thrower / portal-ripper Beefcakes: one NPC and one spot each (handled by GainlandsScene).
 	for point: GainlandsTravel.Point in GainlandsTravel.points():
-		def.npcs.append({"id": point.id, "model": "Barbarian", "anchor": point.anchor, "yaw": 180.0, "tint": point.tint, "scale": 1.7})
+		# Big Hurl's painted set for every thrower, Rip Tearson's for every portal ripper (`sprite` keys of the SpriteLibrary; the Barbarian model is the fallback).
+		def.npcs.append({"id": point.id, "model": "Barbarian", "anchor": point.anchor, "yaw": 180.0, "tint": point.tint, "scale": 1.7, "sprite": "HURL" if point.kind == "throw" else "RIP"})
 		var verb: String = "Get thrown" if point.kind == "throw" else "Step through"
 		def.spots.append(_spot("travel_" + point.id, point.title, point.anchor, Vector3(0, 0, 1.1), 1.9, verb, "zone", {"npc": point.id, "travel": point.id}))
 	return def

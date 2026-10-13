@@ -39,6 +39,10 @@ var _banner: Label
 var _banner_tween: Tween
 var _near: ZoneSpot
 var _npcs: Dictionary = {}
+var _strollers: Array[SpriteStroller] = []
+var _talking_id: String = ""
+## Life for the painted NPCs (a gentle turn toward the hero when close).
+var npc_hp: NpcHp
 var _time: float = 0.0
 var _locked: bool = false
 var _invulnerable: float = 0.0
@@ -129,13 +133,7 @@ func _build_freed_npcs(hub: Vector3) -> void:
 	for entry: Dictionary in def.freed_npcs:
 		var pos: Vector3 = hub + (entry["offset"] as Vector3)
 		pos.y = builder.height_at(pos)
-		var npc: Node3D = ModelKit.character(str(entry["model"]))
-		ModelKit.tint(npc, entry["tint"] as Color)
-		ModelKit.place(self, npc, pos, float(entry["yaw"]), TownPlayer.MODEL_SCALE * float(entry.get("scale", 1.0)))
-		var animation: AnimationPlayer = ModelKit.animation_player(npc)
-		if animation != null and animation.has_animation("Idle"):
-			animation.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
-			animation.play("Idle")
+		var npc: Node3D = _make_npc(entry, pos, "Idle")
 		_npcs[str(entry["id"])] = npc
 		builder.add_blocker(pos, 0.4)
 		_add_spot("freed_%s" % str(entry["id"]), str(entry["name"]), pos, 1.9, "Talk", true, "freed_npc", {"npc": str(entry["id"]), "speaker": str(entry["speaker"]), "npc_id": str(entry.get("npc_id", ""))})
@@ -244,18 +242,68 @@ func _build_player() -> void:
 func _build_npcs() -> void:
 	for entry: Dictionary in def.npcs:
 		var pos: Vector3 = builder.anchor(str(entry["anchor"]))
-		var npc: Node3D = ModelKit.character(str(entry["model"]))
-		ModelKit.tint(npc, entry["tint"] as Color)
 		pos.y = builder.height_at(pos)
-		ModelKit.place(self, npc, pos, float(entry["yaw"]), TownPlayer.MODEL_SCALE * float(entry.get("scale", 1.0)))
-		var animation: AnimationPlayer = ModelKit.animation_player(npc)
-		var anim_name: String = str(entry.get("anim", "Idle"))
-		if animation != null and animation.has_animation(anim_name):
-			animation.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
-			animation.play(anim_name)
-			animation.seek(randf() * 1.5)
+		var npc: Node3D = _make_npc(entry, pos, str(entry.get("anim", "Idle")))
 		_npcs[str(entry["id"])] = npc
-		builder.add_blocker(pos, 0.3)
+		if not (npc is SpriteStroller):
+			builder.add_blocker(pos, 0.3)
+
+
+## One NPC of a zone entry: a painted sprite when its list NPC has a sprite set (`NpcSprites`; `wander` entries with a walking set stroll about their anchor), else the tinted
+## 3D model. Sprites take their size from the art's relative height, so the entry's model `scale` does not apply to them.
+func _make_npc(entry: Dictionary, pos: Vector3, anim_name: String) -> Node3D:
+	var character: String = NpcSprites.character_for_entry(entry)
+	if character != "":
+		var walk_dirs: Array = SpriteLibrary.info(character).get("walk_dirs", []) as Array
+		if bool(entry.get("wander", false)) and not walk_dirs.is_empty():
+			var stroller: SpriteStroller = SpriteStroller.new()
+			stroller.character = character
+			stroller.tint = entry.get("sprite_tint", Color.WHITE) as Color
+			stroller.name = "Stroller_%s" % str(entry["id"])
+			add_child(stroller)
+			stroller.setup(pos, func(p: Vector3) -> bool: return builder.is_walkable(p, 0.25), hash(str(entry["id"])))
+			_strollers.append(stroller)
+			return stroller
+		var actor: SpriteActor = NpcSprites.make_actor(character, entry.get("sprite_tint", Color.WHITE) as Color)
+		ModelKit.place(self, actor, pos, float(entry["yaw"]), TownPlayer.MODEL_SCALE)
+		if npc_hp == null:
+			npc_hp = NpcHp.new()
+			npc_hp.target = player
+			add_child(npc_hp)
+		npc_hp.register(actor, float(entry["yaw"]))
+		return actor
+	var npc: Node3D = ModelKit.character(str(entry["model"]))
+	ModelKit.tint(npc, entry["tint"] as Color)
+	ModelKit.place(self, npc, pos, float(entry["yaw"]), TownPlayer.MODEL_SCALE * float(entry.get("scale", 1.0)))
+	var animation: AnimationPlayer = ModelKit.animation_player(npc)
+	if animation != null and animation.has_animation(anim_name):
+		animation.get_animation(anim_name).loop_mode = Animation.LOOP_LINEAR
+		animation.play(anim_name)
+		animation.seek(randf() * 1.5)
+	return npc
+
+
+## Strollers walk and their talk spots follow them; a painted NPC shows its TALK pose while the hero talks to them.
+func _update_sprite_npcs(delta: float) -> void:
+	if npc_hp != null and npc_hp.target == null:
+		npc_hp.target = player
+	var talking: bool = dialogue != null and dialogue.active
+	if not talking:
+		_talking_id = ""
+	for id: Variant in _npcs.keys():
+		var actor: SpriteActor = _npcs[id] as SpriteActor
+		if actor != null:
+			actor.talking = talking and str(id) == _talking_id
+	for stroller: SpriteStroller in _strollers:
+		stroller.frozen = talking and _npcs.get(_talking_id) == stroller
+		stroller.tick(delta, player.position)
+	for spot: ZoneSpot in spots:
+		var moving: SpriteStroller = _npcs.get(str(spot.data.get("npc", ""))) as SpriteStroller
+		if moving != null:
+			spot.position = moving.world_position()
+			spot.marker.position.x = spot.position.x
+			spot.marker.position.z = spot.position.z
+			spot.plate.position = spot.marker.position + Vector3(0.0, 0.34, 0.0)
 
 
 func _add_spot(id: String, title: String, pos: Vector3, radius: float, prompt: String, npc: bool = false, kind: String = "zone", data: Dictionary = {}) -> ZoneSpot:
@@ -287,7 +335,8 @@ func _add_spot(id: String, title: String, pos: Vector3, radius: float, prompt: S
 	mesh.material = material
 	marker.mesh = mesh
 	marker.rotation_degrees.x = 180.0
-	marker.position = pos + Vector3(0, ground + (1.45 if npc else 1.7), 0)
+	spot.label_height = NpcSprites.label_height(_npcs.get(str(data.get("npc", ""))) as Node, 0.0) if npc else 0.0
+	marker.position = pos + Vector3(0, ground + (spot.label_height if spot.label_height > 0.0 else (1.45 if npc else 1.7)), 0)
 	add_child(marker)
 	spot.marker = marker
 	var plate: Label3D = Label3D.new()
@@ -335,10 +384,10 @@ func _build_fast_travel() -> void:
 	if _station_layer() == 1:
 		StyleBeacon.build(self, pos, _station_beacon_color(), 6.0, 0.18)
 	builder.add_blocker(pos, 1.3)
-	var operator: Node3D = ModelKit.character("Barbarian")
-	ModelKit.tint(operator, Color(1.0, 0.8, 0.65))
+	var rip: Dictionary = NpcSprites.rift_operator()
+	var operator: Node3D = rip["node"] as Node3D
 	var operator_pos: Vector3 = pos + Vector3(-2.4, 0.0, 0.8)
-	ModelKit.place(self, operator, operator_pos, 50.0, TownPlayer.MODEL_SCALE * 1.3)
+	ModelKit.place(self, operator, operator_pos, 50.0, TownPlayer.MODEL_SCALE * float(rip["scale"]))
 	var animation: AnimationPlayer = ModelKit.animation_player(operator)
 	if animation != null and animation.has_animation("Idle"):
 		animation.play("Idle")
@@ -510,13 +559,14 @@ func _process(delta: float) -> void:
 	for spot: ZoneSpot in spots:
 		if bool(spot.data.get("hidden", false)):
 			continue
-		var base_y: float = builder.height_at(spot.position) + (1.45 if spot.is_npc else 1.7)
+		var base_y: float = builder.height_at(spot.position) + (spot.label_height if spot.label_height > 0.0 else (1.45 if spot.is_npc else 1.7))
 		spot.marker.position.y = base_y + sin(_time * 2.4 + spot.position.x) * 0.07
 		spot.marker.rotation_degrees.y += 60.0 * delta
 		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
 		spot.plate.modulate.a = clampf(1.0 - (distance - 2.4) / 1.6, 0.0, 1.0)
 		spot.plate.outline_modulate.a = spot.plate.modulate.a
 		spot.plate.visible = spot.plate.modulate.a > 0.02
+	_update_sprite_npcs(delta)
 	_update_nearest()
 	_update_chest_prompt()
 	_update_area_banner()
@@ -740,7 +790,11 @@ func _open_minigame() -> void:
 
 func _face_npc(id: String) -> void:
 	var npc: Node3D = _npcs.get(id) as Node3D
-	if npc != null:
+	_talking_id = id
+	if npc is SpriteStroller:
+		(npc as SpriteStroller).face(player.position)
+		player.face((npc as SpriteStroller).world_position())
+	elif npc != null:
 		var offset: Vector3 = player.position - npc.position
 		npc.rotation.y = atan2(offset.x, offset.z)
 		player.face(npc.position)

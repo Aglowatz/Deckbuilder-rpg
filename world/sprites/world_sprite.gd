@@ -72,6 +72,9 @@ var _body_scale: Vector2 = Vector2.ONE
 var _sun_world: Vector3 = Vector3(-0.42, 0.62, 0.67)
 var _sun_known: bool = false
 var _bob: float = 0.0
+var _tint: Color = Color.WHITE
+var _hover: float = 0.0
+var _hover_amplitude: float = 0.0
 
 
 func setup(character_id: String, cam: Camera3D, sun_direction: Vector3 = Vector3.ZERO) -> bool:
@@ -321,8 +324,9 @@ func _update(world_pos: Vector3, delta: float) -> void:
 	_apply(key, _flip_for(best))
 	var stretch: Vector2 = _body_scale
 	_bob = 0.0
+	_bob = _hover + _hover_amplitude * (0.5 + 0.5 * sin(_time * 1.35 + _seed))
 	if moving:
-		_bob = 0.018 * world_height * (0.5 + 0.5 * cos(4.0 * PI * (_phase - 0.375)))
+		_bob += 0.018 * world_height * (0.5 + 0.5 * cos(4.0 * PI * (_phase - 0.375)))
 	else:
 		var breath: float = sin(_time * 1.9 + _seed)
 		stretch *= Vector2(1.0 - 0.005 * breath, 1.0 + 0.011 * breath)
@@ -415,3 +419,33 @@ func set_light_response(warm: float, shade: float, rim: float) -> void:
 			target.set_shader_parameter("warm_gain", warm)
 			target.set_shader_parameter("shade_amount", shade)
 			target.set_shader_parameter("rim_strength", rim)
+
+
+## A translucent, floating character (a ghost): `alpha` is the body's opacity, `hover` the height it floats above the ground (metres) and `bob` how far it drifts up and
+## down. The ground shadow fades with it and the contact blob stays on the ground.
+func set_ghost(alpha: float, hover: float, bob: float) -> void:
+	_hover = hover
+	_hover_amplitude = bob
+	for target: ShaderMaterial in _materials():
+		if target == _shadow_material:
+			target.set_shader_parameter("fade", clampf(alpha * 0.55, 0.0, 1.0))
+			continue
+		target.set_shader_parameter("base_alpha", alpha)
+		target.set_shader_parameter("scissor", 0.3 if alpha < 0.99 else 0.58)
+
+
+## Multiplies the card's colours (per-copy variety for a crowd of identical citizens). White = natural.
+func set_tint(color: Color) -> void:
+	_tint = color
+	for target: ShaderMaterial in [_material, _hat_material]:
+		if target != null:
+			target.set_shader_parameter("tint", Vector3(color.r, color.g, color.b))
+
+
+func tint_color() -> Color:
+	return _tint
+
+
+## The height of the top of the figure above the feet, in metres (plates and quest markers sit above this).
+func head_height() -> float:
+	return world_height + _hover + _hover_amplitude

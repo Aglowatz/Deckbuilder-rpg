@@ -177,6 +177,8 @@ func _start_throw(point: GainlandsTravel.Point) -> void:
 	grab.tween_property(player, "position", grab_point, 0.35)
 	Audio.sfx(&"ui_select")
 	await grab.finished
+	if thrower is SpriteActor:
+		(thrower as SpriteActor).hold_talk = true
 	if animation != null and animation.has_animation("Throw"):
 		animation.play("Throw")
 	await get_tree().create_timer(0.3).timeout
@@ -201,6 +203,8 @@ func _start_throw(point: GainlandsTravel.Point) -> void:
 	pull.tween_property(self, "camera_offset", WorldLookRig.base_offset(), duration * 0.55)
 	await fly.finished
 	_land(end, yaw)
+	if thrower is SpriteActor:
+		(thrower as SpriteActor).hold_talk = false
 	if animation != null and animation.has_animation("Idle"):
 		animation.play("Idle")
 	Session.bump_counter(GainlandsTravel.COUNTER_THROWS)
@@ -276,6 +280,8 @@ func _start_portal(point: GainlandsTravel.Point) -> void:
 	_busy_travel = true
 	_locked = true
 	var ripper: Node3D = _npcs.get(point.id) as Node3D
+	if ripper is SpriteActor:
+		(ripper as SpriteActor).hold_talk = true
 	var animation: AnimationPlayer = ModelKit.animation_player(ripper) if ripper != null else null
 	if animation != null and animation.has_animation("Interact"):
 		animation.play("Interact")
@@ -293,6 +299,8 @@ func _start_portal(point: GainlandsTravel.Point) -> void:
 	walk_in.tween_property(player.model, "scale", Vector3.ONE * 0.02, 0.55)
 	player.face(spot_pos)
 	await walk_in.finished
+	if ripper is SpriteActor:
+		(ripper as SpriteActor).hold_talk = false
 	_flash.color = Color(0.6, 1.0, 0.95, 1.0)
 	create_tween().tween_property(_flash, "color:a", 0.0, 0.6)
 	var dest: Vector3 = builder.anchor(point.dest_anchor)

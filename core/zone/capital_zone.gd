@@ -156,7 +156,7 @@ static func build_def() -> ZoneDef:
 		{"id": "patient", "model": "Rogue", "anchor": "ward_patient", "yaw": 180.0, "tint": Color(0.75, 0.75, 0.8), "scale": 1.4},
 	]
 	for index: int in range(1, 10):
-		def.npcs.append({"id": "citizen_%d" % index, "npc_id": "NPC-CITIZEN", "model": "Rogue", "anchor": "citizen_%d" % index, "yaw": 180.0 if index % 2 == 0 else 0.0, "tint": Color(1.25, 1.1, 1.05), "scale": 1.4, "facade": true})
+		def.npcs.append({"id": "citizen_%d" % index, "npc_id": "NPC-CITIZEN", "model": "Rogue", "anchor": "citizen_%d" % index, "yaw": 180.0 if index % 2 == 0 else 0.0, "tint": Color(1.25, 1.1, 1.05), "scale": 1.4, "facade": true, "wander": true})
 	def.spots = _spots()
 	def.poi_kinds = _poi_kinds()
 	return def

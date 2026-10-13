@@ -13,3 +13,5 @@ var kind: String = "zone"
 var data: Dictionary = {}
 var marker: Node3D
 var plate: Label3D
+## Metres above the ground the marker and plate hover at (a painted NPC's height); 0 = the default for the kind of spot.
+var label_height: float = 0.0

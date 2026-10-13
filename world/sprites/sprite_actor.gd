@@ -14,8 +14,12 @@ var natural_scale: float = 0.34
 var sprite: WorldSprite
 ## Shows the TALK pose while true (for characters that have one).
 var talking: bool = false
+## Keeps the TALK pose on whatever the dialogue does (a thrower winding up the throw).
+var hold_talk: bool = false
 ## How fast the body swings round towards its yaw (the owner may smooth the yaw itself, as `NpcHp` does).
 var turn_rate_degrees: float = 3000.0
+## Colour multiplier of this copy (a crowd of identical citizens each wear a slightly different coat).
+var tint: Color = Color.WHITE
 
 
 func _ready() -> void:
@@ -25,6 +29,11 @@ func _ready() -> void:
 	add_child(sprite)
 	sprite.setup(character, null, Vector3.ZERO)
 	sprite.snap_heading(Vector3(sin(rotation.y), 0.0, cos(rotation.y)))
+	var ghost: Dictionary = NpcSprites.ghost_style(character)
+	if not ghost.is_empty():
+		sprite.set_ghost(float(ghost["alpha"]), float(ghost["hover"]), float(ghost["bob"]))
+	if tint != Color.WHITE:
+		sprite.set_tint(tint)
 	if follow_cosmetics:
 		apply_cosmetics()
 		if not EventBus.cosmetics_changed.is_connected(apply_cosmetics):
@@ -51,8 +60,13 @@ func _process(delta: float) -> void:
 	var relative: float = 1.0 / maxf(natural_scale, 0.0001)
 	sprite.set_body_scale(Vector2(absf(s.x) * relative, absf(s.y) * relative))
 	sprite.roll_radians = rotation.x + rotation.z
-	sprite.talking = talking
+	sprite.talking = talking or hold_talk
 	sprite.look_toward(Vector3(sin(rotation.y), 0.0, cos(rotation.y)))
 	sprite.follow_parent(delta)
 	if absf(s.y) > 0.0001:
 		sprite.position.y /= s.y  # the walking bob is in world metres, the parent scales its children
+
+
+## Where the top of the figure is above the feet in world metres (the plate and quest marker sit above it).
+func head_height() -> float:
+	return sprite.head_height() if sprite != null else 1.25
