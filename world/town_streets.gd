@@ -18,6 +18,10 @@ var root: Node3D
 var town: TownBuilder
 var lights: Array[OmniLight3D] = []
 var lamp_points: Array[Vector3] = []
+## Part C: the PathTool paths, the plaza, and the clump entries along the path edges (TownSquare turns them into foliage).
+var paths: Array[Node3D] = []
+var plaza_node: Node3D
+var edge_clumps: Array[Dictionary] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
@@ -43,29 +47,31 @@ static func build(parent: Node3D, builder: TownBuilder) -> TownStreets:
 
 
 func _roads() -> void:
-	# The streets are grass, not paving (stone is kept for the plaza): a lighter, evenly mown strip marks each walkway so it still reads from the camera.
-	var mown: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, MOWN_LIGHT, MOWN_DARK, Color.BLACK, GroundDecals.Shape.RIBBON, 2.6, 0.45, 3.0)
+	# Part C: every road is a PathTool path (cobble streets round the square, dirt tracks out to the zones) with a soft irregular edge into the grass, worn patches at bends
+	# and natural clumps of grass and flowers along its edges, instead of the old evenly mown strips.
 	var all_roads: Dictionary = TownLayout.roads()
+	var kinds: Dictionary = TownLayout.road_kinds()
 	var index: int = 0
 	for id: String in all_roads.keys():
-		var points: Array[Vector3] = TownLayout.sample(all_roads[id] as Array, 0.9)
-		var land: Array[Vector3] = []
-		for point: Vector3 in points:
-			if town.is_floor_at(point):
-				land.append(point)
-		if land.size() < 2:
-			continue
-		GroundDecals.ribbon(root, land, TownLayout.ROAD_WIDTH, mown, 0.004 + 0.0005 * float(index))
+		var control: Array[Vector3] = []
+		for point: Variant in all_roads[id] as Array:
+			control.append(point as Vector3)
+		var is_floor: Callable = func(p: Vector3) -> bool: return town.is_floor_at(p)
+		var avoid: Callable = func(p: Vector3) -> bool:
+			return TownLayout.distance_to_roads(p) < TownLayout.ROAD_WIDTH * 0.5 + 0.2 or Vector2(p.x - TownLayout.PLAZA.x, p.z - TownLayout.PLAZA.z).length() < TownLayout.PLAZA_RADIUS + 0.6
+		var path: Node3D = PathTool.build(root, control, {
+			"width": TownLayout.ROAD_WIDTH - 0.3 if str(kinds.get(id, "dirt")) == "cobble" else TownLayout.ROAD_WIDTH - 0.6,
+			"kind": str(kinds.get(id, "dirt")), "seed": 11 + index, "is_floor": is_floor, "avoid": avoid, "clumps": 1.0,
+		})
+		paths.append(path)
+		for entry: Variant in path.get_meta("clumps") as Array:
+			edge_clumps.append(entry as Dictionary)
 		index += 1
 
 
 func _plaza() -> void:
-	var kerb: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, KERB, Color("b4ac98"), Color.BLACK, GroundDecals.Shape.DISC, 1.6, 0.2, 4.0)
-	var paving: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.COBBLE, PAVING_LIGHT, PAVING_DARK, KERB, GroundDecals.Shape.DISC, 1.3, 0.06, 5.0)
-	var inner: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.COBBLE, Color("f0e4c4"), Color("d8c79c"), KERB, GroundDecals.Shape.DISC, 1.0, 0.05, 6.0)
-	GroundDecals.disc(root, TownLayout.PLAZA, TownLayout.PLAZA_RADIUS + 0.4, kerb, 1.0, 0.0, 0.0015)
-	GroundDecals.disc(root, TownLayout.PLAZA, TownLayout.PLAZA_RADIUS, paving, 1.0, 0.0, 0.0045)
-	GroundDecals.disc(root, TownLayout.PLAZA, TownLayout.CREST_RING_RADIUS + 1.0, inner, 1.0, 0.0, 0.0055)
+	# The cobbled square (ENV-GROUND-COBBLE): one irregular-edged disc whose rim melts into the grass, replacing the old stack of flat discs.
+	plaza_node = PathTool.plaza(root, TownLayout.PLAZA, TownLayout.PLAZA_RADIUS, {"seed": 5})
 
 
 # ---- the fountain and the royal crest ------------------------------------------------------------------------------------------------

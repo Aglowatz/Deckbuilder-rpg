@@ -33,6 +33,9 @@ func setup(town: TownBuilder, _square: TownSquare, _camera: Camera3D, _sun: Vect
 		(obstacle_grid[obstacle_key] as Array[Vector3]).append(obstacle)
 	var bounds: Rect2 = town.map_bounds().grow(2.0)
 	var density_scale: float = GraphicsQuality.foliage_density(Settings.graphics_quality)
+	var patch_noise: FastNoiseLite = FastNoiseLite.new()
+	patch_noise.seed = 77
+	patch_noise.frequency = 1.0
 	var transforms: Array[Transform3D] = []
 	var datas: Array[Color] = []
 	var z: float = bounds.position.y
@@ -70,7 +73,9 @@ func setup(town: TownBuilder, _square: TownSquare, _camera: Camera3D, _sun: Vect
 				if not town.is_floor_at(p + Vector3(cos(angle), 0.0, sin(angle)) * 2.4):
 					off += 1
 			var edge: float = float(off) / 6.0
-			var chance: float = (0.26 + edge * 0.55 + garden * 0.32) * density_scale
+			# Part C: plants come in natural patches (low-frequency noise), not an even scatter; the rest of the lawn stays calm.
+			var patch: float = clampf((patch_noise.get_noise_2d(p.x * 0.2, p.z * 0.2) + 0.2) * 2.4, 0.0, 1.0)
+			var chance: float = (0.04 + patch * 0.5 + edge * 0.34 + garden * 0.3) * density_scale
 			if rng.randf() > chance:
 				continue
 			var cell: int = _pick_cell(rng, edge, garden)

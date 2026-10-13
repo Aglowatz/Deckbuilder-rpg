@@ -226,3 +226,11 @@ static func arrow_for(dir: String) -> String:
 		"SE":
 			return "v ->"
 	return "->"
+
+
+## Which surface each road gets (Part C): cobbled streets round the square and out along the Gate Road and Champions' Road, packed dirt on the tracks to the zones.
+static func road_kinds() -> Dictionary:
+	return {
+		"market_west": "cobble", "market_east": "cobble", "gate_road": "cobble", "champions": "cobble",
+		"south_road": "dirt", "grave_road": "dirt",
+	}

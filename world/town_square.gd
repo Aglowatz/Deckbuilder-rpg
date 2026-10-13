@@ -64,63 +64,69 @@ func _hex_prop(model: String, pos: Vector3, yaw: float = 0.0, scale_value: float
 
 
 func _ground() -> void:
+	# Part C: the ground is calm. The old saturated moss discs are gone: the painted grass shows through, paths and the square are PathTool surfaces (TownStreets).
 	_lane_points = TownLayout.road_points(1.5)
-	var grass_dark: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("4f9a58"), Color("3c8466"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 4.0)
-	var grass_light: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("86c066"), Color("6fae62"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.7, 5.0)
-	var moss: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.MOSS, Color("5f9a4a"), Color("7aa850"), Color.BLACK, GroundDecals.Shape.DISC, 1.0, 0.6, 6.0)
-	for i: int in range(40):
-		var angle: float = _rng.randf() * TAU
-		var distance: float = _rng.randf_range(plaza_radius + 3.0, meadow_radius + 6.0)
-		var pos: Vector3 = center + Vector3(cos(angle) * distance, 0.0, sin(angle) * distance)
-		if not town.is_floor_at(pos) or TownLayout.is_paved(pos, 1.5):
-			continue
-		var mat: ShaderMaterial = [grass_dark, grass_light, moss][i % 3]
-		GroundDecals.disc(root, pos, _rng.randf_range(1.6, 3.8), mat, _rng.randf_range(0.6, 1.0), _rng.randf() * 180.0, 0.0004 * float(i % 6))
 
 
-# ---- the meadow: sparse wind-swaying grass and just a few flowers (MultiMesh) -----------------------------------------------------
+# ---- the meadow: natural clumps of grass and flowers (KitFoliage cards), never an even scatter -------------------------------------
 
 
 func _meadow() -> void:
-	var groups: Array[Dictionary] = [
-		{"model": "grass_leafs", "count": 1400, "scale": Vector2(1.4, 2.4)},
-		{"model": "plant_flatShort", "count": 260, "scale": Vector2(1.3, 2.0)},
-		{"model": "plant_bush", "count": 36, "scale": Vector2(1.2, 1.8)},
-		{"model": "flower_redA", "count": 8, "scale": Vector2(1.2, 1.7)},
-		{"model": "flower_yellowA", "count": 8, "scale": Vector2(1.2, 1.7)},
-		{"model": "flower_purpleA", "count": 6, "scale": Vector2(1.2, 1.7)},
-	]
 	var density: float = GraphicsQuality.foliage_density(_quality)
-	for group: Dictionary in groups:
-		var mesh: Mesh = ModelKit.kit_mesh(ModelKit.KENNEY_NATURE, str(group["model"]))
-		if mesh == null:
+	var entries: Array[Dictionary] = []
+	# 1. along the path edges, at the irregular gaps the PathTool chose
+	for entry: Dictionary in streets.edge_clumps:
+		if _meadow_ok(entry["pos"] as Vector3, true, -0.2):
+			entries.append(entry)
+	# 2. patches: a Poisson-ish set of garden / meadow patches, most of them tucked against walls and props (that is where plants grow), a few out in the open
+	var centers: Array[Vector3] = []
+	var wanted: int = 46
+	var tries: int = 0
+	while centers.size() < wanted and tries < wanted * 60:
+		tries += 1
+		var angle: float = _rng.randf() * TAU
+		var distance: float = sqrt(_rng.randf()) * meadow_radius
+		var pos: Vector3 = center + Vector3(cos(angle) * distance, 0.0, sin(angle) * distance * 0.9)
+		if not _meadow_ok(pos, true):
 			continue
-		var is_grass: bool = StyleGrass.replaces(str(group["model"]))
-		var target: int = int(float(group["count"]) * density * (2.0 if is_grass else 1.0))
-		var transforms: Array[Transform3D] = []
-		var tries: int = 0
-		while transforms.size() < target and tries < target * 8:
-			tries += 1
-			var angle: float = _rng.randf() * TAU
-			var distance: float = sqrt(_rng.randf()) * meadow_radius
-			var pos: Vector3 = center + Vector3(cos(angle) * distance, 0.0, sin(angle) * distance * 0.9)
-			if not _meadow_ok(pos, str(group["model"]) in ["grass_leafs", "plant_flatShort"]):
+		var too_close: bool = false
+		for other: Vector3 in centers:
+			if Vector2(pos.x - other.x, pos.z - other.z).length() < 4.2:
+				too_close = true
+				break
+		if too_close:
+			continue
+		var near_solid: float = 99.0
+		for obstacle: Vector3 in town.obstacles:
+			near_solid = minf(near_solid, Vector2(pos.x - obstacle.x, pos.z - obstacle.y).length() - obstacle.z)
+		# against walls and props most of the time; open meadow patches are rarer
+		if near_solid > 2.6 and _rng.randf() > 0.22:
+			continue
+		centers.append(pos)
+	for pos: Vector3 in centers:
+		var pieces: int = _rng.randi_range(1, 3)
+		for piece: int in range(pieces):
+			var offset: Vector3 = Vector3(_rng.randf_range(-1.1, 1.1), 0.0, _rng.randf_range(-0.9, 0.9))
+			var spot: Vector3 = pos + offset
+			if not _meadow_ok(spot, true):
 				continue
-			var scale_range: Vector2 = group["scale"] as Vector2
-			var s: float = _rng.randf_range(scale_range.x, scale_range.y)
-			transforms.append(Transform3D(Basis(Vector3.UP, _rng.randf() * TAU).scaled(Vector3.ONE * s), pos))
-			meadow_points.append(pos)
-		if is_grass:
-			var grass: Array[Color] = StyleGrass.colors_for([Color("6fae62")])
-			root.add_child(StyleGrass.multimesh_instance(transforms, grass[0], grass[1]))
-			continue
-		_multimesh(mesh, transforms)
+			var flowery: bool = _rng.randf() < 0.55
+			entries.append({
+				"pos": spot, "radius": _rng.randf_range(0.6, 1.3), "count": _rng.randi_range(4, 9),
+				"cells": [2, 3, 0, 4] if flowery else [0, 1, 0, 5, 2],
+			})
+	for entry: Dictionary in entries:
+		entry["count"] = maxi(1, int(round(float(entry["count"]) * density)))
+	var instance: MultiMeshInstance3D = KitFoliage.clumps(root, entries, 31)
+	if instance != null:
+		for point: Vector3 in instance.get_meta("points") as Array[Vector3]:
+			meadow_points.append(point)
 
 
-func _meadow_ok(pos: Vector3, lane_ok: bool = false) -> bool:
+func _meadow_ok(pos: Vector3, lane_ok: bool = false, paved_margin: float = 0.35) -> bool:
 	if not town.is_floor_at(pos):
 		return false
-	if TownLayout.is_paved(pos, 0.35):  # the streets and the plaza stay clear of grass
+	if TownLayout.is_paved(pos, paved_margin):  # the streets and the plaza stay clear of grass
 		return false
 	if Vector2(pos.x - center.x, pos.z - center.z).length() < TownLayout.FOUNTAIN_RADIUS + 0.2:
 		return false
