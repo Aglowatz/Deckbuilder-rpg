@@ -722,3 +722,6 @@ Judgment calls from the first vertical slice (`docs/art/vertical_slice.md`): the
 - **EK-3** The seam repair (edge-band crossfade) is skipped for the structured patterns (timber walls, foundation): a crossfade ghosted their posts; the raw art tiles cleanly. It is applied only when it lowers the measured seam.
 - **EK-4** Normal and roughness maps are derived from the painted luminance (low strength, half resolution) and drive a soft sheen band in the toon shader; they do not change the flat toon look.
 - **EK-5** Well, stall and cart are re-modelled after the concept images and textured with kit surfaces; the concept images themselves are not used as textures.
+- **EK-6** (Part C) Grade matched by numbers against PAINTOVER-TOWN: town ambient 0.72 -> 0.86, contrast 1.1 -> 1.0, glow 0.1 -> 0.2, haze 0.0022 -> 0.0028, saturation 1.0 -> 1.06, exposure 0.82 -> 0.79 (shadow floor 16 -> 24 against 26, mean RGB within 8, saturation 0.55 against 0.58). Camera style and gameplay untouched.
+- **EK-7** Kit buildings dissolve only when the hero is behind their core (`occlusion_shrink` 2.6 m): the house at the lens edge is part of the paint-over's picture, not clutter.
+- **EK-8** Signposts shrank to 2.0 m crossed cards of ENV-SIGNPOST (Path symbols, no text); the four around the fountain are interaction points and stay.

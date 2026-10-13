@@ -279,7 +279,7 @@ static func signpost(directions: Array[float] = [90.0, -60.0]) -> Node3D:
 	if EnvKit.has_art("ENV-SIGNPOST"):
 		# the painted signpost (Path symbols on arrow boards, no text) as two crossed cards, post base on the origin
 		mesh.set_material("card", EnvKit.material("ENV-SIGNPOST", true))
-		var post_h: float = 2.5
+		var post_h: float = 2.0
 		var post_w: float = post_h * EnvKit.aspect("ENV-SIGNPOST")
 		var shift: float = (0.5 - EnvKit.pivot("ENV-SIGNPOST").x) * post_w
 		mesh.quad("card", [Vector3(shift - post_w * 0.5, 0, 0), Vector3(shift + post_w * 0.5, 0, 0), Vector3(shift + post_w * 0.5, post_h, 0), Vector3(shift - post_w * 0.5, post_h, 0)], Vector3(0, 0, 1), [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
