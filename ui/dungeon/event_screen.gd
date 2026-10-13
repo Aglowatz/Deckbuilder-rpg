@@ -14,6 +14,7 @@ var _column: VBoxContainer
 var _panel: PanelContainer
 var _buttons: Array[FancyButton] = []
 var _resolved: bool = false
+var _music_token: int = 0
 
 
 static func make(first_event: DungeonEvent, zone: String) -> EventScreen:
@@ -42,6 +43,16 @@ func _ready() -> void:
 	_panel.add_child(_column)
 	_show_event()
 	Audio.sfx(&"ui_open")
+	# The journals of the Archive, the prince's old cell: a few events carry a story cue over the dungeon's music.
+	var cue: String = MusicDirector.story_node(event.id)
+	if not cue.is_empty():
+		_music_token = Audio.push_music(StringName(cue), 1.2, false)
+
+
+func _exit_tree() -> void:
+	if _music_token != 0:
+		Audio.pop_music(_music_token, 1.5)
+		_music_token = 0
 
 
 func _show_event() -> void:

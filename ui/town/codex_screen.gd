@@ -19,6 +19,11 @@ func _ready() -> void:
 	super._ready()
 
 
+## The collection browser shares the deck station's theme.
+func music_cue() -> String:
+	return MusicDirector.deck_station()
+
+
 func _build() -> void:
 	_seen_label = UIKit.label("", &"", 26, UIStyle.GOLD)
 	header_extra.add_child(_seen_label)

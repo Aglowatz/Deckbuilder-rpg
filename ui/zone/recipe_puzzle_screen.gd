@@ -151,7 +151,7 @@ func _serve() -> void:
 		return
 	if RecipePuzzle.is_solved(order):
 		_status.text = _story.text("recipe.solved")
-		Audio.sfx(&"victory")
+		Audio.sting(&"STG-MINI-SUCCESS")
 		if not _already_solved:
 			_already_solved = true
 			solved.emit()

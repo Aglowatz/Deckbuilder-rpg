@@ -17,6 +17,9 @@ const WALL_PASSAGE_SECRET: String = "capital_wall_passage"
 var capital: CapitalBuilder
 var wasteland: CapitalWasteland
 var _inside: bool = false
+## The Capital area (`CapitalLayout` id) whose music is playing, and the check timer.
+var _music_area: String = ""
+var _music_timer: float = 0.0
 var _ash_added: bool = false
 var _shake: float = 0.0
 var _traveling: bool = false
@@ -173,8 +176,28 @@ func _destination_name(dest: String) -> String:
 # ---- Per-frame -------------------------------------------------------------------------------------------------------
 
 
+## The Capital's music follows the area the hero stands in (`CapitalLayout` areas) and the world state: outside the walls, the facade, each district
+## broken or restored by its own Path's completion flag, the Correction Ward, the Crease, the restored city after Primm.
+func _play_area_music(fade: float) -> void:
+	var area: CapitalLayout.Area = capital.layout.area_at(player.position.x, player.position.z) if capital != null and capital.layout != null else null
+	var area_id: String = area.id if area != null else ""
+	_music_area = area_id
+	Audio.play_music(StringName(MusicDirector.capital_area(area_id, Session.flags, _inside)), fade)
+
+
+func _update_area_music(delta: float) -> void:
+	_music_timer -= delta
+	if _music_timer > 0.0 or capital == null or capital.layout == null:
+		return
+	_music_timer = 0.5
+	var area: CapitalLayout.Area = capital.layout.area_at(player.position.x, player.position.z)
+	if area != null and area.id != _music_area:
+		_play_area_music(2.0)
+
+
 func _zone_process(delta: float) -> void:
 	capital.animate(delta)
+	_update_area_music(delta)
 	if not player.airborne and not _fainting and not _traveling and style_rig != null:
 		var inside_now: bool = _is_inside(player.position)
 		if inside_now != _inside:
@@ -495,7 +518,7 @@ func _seal_rift(spot: ZoneSpot) -> void:
 	var result: Dictionary = CapitalInteractables.seal_rift(Session.zone_run, rift_id)
 	if bool(result["ok"]):
 		capital.close_rift(rift_id)
-		Audio.sfx(&"chest_open")
+		Audio.sting(&"STG-RIFT")
 		hud.set_gold(Session.gold)
 		_shake = 0.6
 	_report(result)
@@ -588,7 +611,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 func _style_preset() -> StringName:
 	var state: Dictionary = CapitalBuilder.story_context()
 	_inside = _is_inside(player.position)
-	Audio.play_music(&"capital_inside" if _inside else &"capital_wasteland", 0.5)
+	_play_area_music(0.5)
 	if _inside:
 		return StylePresets.capital_inside(bool(state["dark"]), bool(state["final"]))
 	return StylePresets.capital(bool(state["dark"]), bool(state["final"]))
@@ -626,7 +649,7 @@ func _cross_gate(now_inside: bool) -> void:
 		style_rig.set_preset(id)
 		if look_rig != null:
 			look_rig.set_mood(id)
-		Audio.play_music(&"capital_inside" if now_inside else &"capital_wasteland", 0.8)
+		_play_area_music(0.8)
 		Audio.sfx(&"heal" if now_inside else &"door")
 		hud.toast("Welcome to Primm's Perfection. Everything is perfectly fine." if now_inside else "Back out into the wastes.", UIStyle.GOLD))
 	tween.tween_property(veil, "color:a", 0.0, 0.9)

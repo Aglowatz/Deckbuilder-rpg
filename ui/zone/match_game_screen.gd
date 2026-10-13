@@ -22,6 +22,10 @@ func _init() -> void:
 	close_text = "Leave (Esc)"
 
 
+func music_cue() -> String:
+	return MusicDirector.minigame("necrocrat")
+
+
 func _build() -> void:
 	_story = ZoneStoryText.current()
 	var center: CenterContainer = CenterContainer.new()
@@ -120,7 +124,7 @@ func _finish() -> void:
 	if bool(reward["first_win"]):
 		lines = _story.get_lines("match.first") + lines
 	_status.text = "\n".join(lines)
-	Audio.sfx(&"victory" if stars > 0 else &"defeat")
+	Audio.sting(&"STG-MINI-SUCCESS" if stars > 0 else &"STG-MINI-FAIL")
 	var parts: PackedStringArray = []
 	parts.append("%s  (%d moves)" % ["★".repeat(stars) + "☆".repeat(3 - stars) if stars > 0 else "Out of moves", game.moves])
 	if int(reward["gold"]) > 0:

@@ -88,6 +88,10 @@ var _overlay_layer: Control
 var _overlay: Control
 var _near: Spot
 var _time: float = 0.0
+## The Graveyard's music override (`Audio.push_music` token, 0 = not in the Graveyard) and its check timer.
+var _graveyard_music: int = 0
+var _music_timer: float = 0.0
+const GRAVEYARD_MUSIC_RADIUS: float = 6.0
 var _npcs: Dictionary = {}
 ## The NPC the hero is talking to (the sprite NPCs show their TALK pose while the dialogue is open).
 var _talking_id: String = ""
@@ -119,7 +123,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 func _ready() -> void:
 	SceneManager.pause_allowed = true
-	Audio.play_music(&"town")
+	Audio.play_music(MusicDirector.town(Session.flags))
 	if not _screenshot_args.is_empty():
 		if str(_screenshot_args.get("fresh", "false")) == "true":
 			Session.new_game()
@@ -655,8 +659,30 @@ func _build_ui() -> void:
 # ---- Frame update -----------------------------------------------------------------------
 
 
+## The Graveyard has its own theme: walking into its corner of town lays it over the town music, walking out hands back (with a margin so the edge does not flutter).
+func _update_music(delta: float) -> void:
+	_music_timer -= delta
+	if _music_timer > 0.0 or player == null or town == null:
+		return
+	_music_timer = 0.4
+	var cairn: Vector3 = town.anchors.get("graveyard_cairn", Vector3.ZERO) as Vector3
+	var distance: float = Vector2(player.position.x - cairn.x, player.position.z - cairn.z).length()
+	if _graveyard_music == 0 and distance < GRAVEYARD_MUSIC_RADIUS:
+		_graveyard_music = Audio.push_music(StringName(MusicDirector.graveyard()), 1.2, false)
+	elif _graveyard_music != 0 and distance > GRAVEYARD_MUSIC_RADIUS + 3.0:
+		Audio.pop_music(_graveyard_music, 1.2)
+		_graveyard_music = 0
+
+
+func _exit_tree() -> void:
+	if _graveyard_music != 0:
+		Audio.pop_music(_graveyard_music, 0.8)
+		_graveyard_music = 0
+
+
 func _process(delta: float) -> void:
 	_time += delta
+	_update_music(delta)
 	_update_sprite_npcs(delta)
 	_passage_boost = lerpf(_passage_boost, _passage_boost_target(), 1.0 - exp(-1.8 * delta))
 	_update_passage_label()
@@ -1026,6 +1052,8 @@ func _show_graveyard_result() -> void:
 ## Elder Maren and a memory fragment: she asks what came back, the screen dims and the fragment plays, then she answers. Fragment 1 also announces the second Path;
 ## fragment 4 reveals who the Wanderer is (`Session.recover_memory`).
 func _play_memory(number: int) -> void:
+	# Maren's story theme underlies her lines; the fragment itself has its own cue (`MemoryScreen`, MUS-MEM-0N) on top of it.
+	var maren_music: int = Audio.push_music(&"MUS-MAREN", 1.2, false)
 	var story: StoryText = StoryText.shared()
 	var known: bool = number == MemoryDefs.COUNT and Session.flag(MemoryDefs.FLAG_REVEALED)
 	_face_npc("elder")
@@ -1038,16 +1066,20 @@ func _play_memory(number: int) -> void:
 			Session.recover_memory(number)
 			hud.toast("Fragment %d of %d recovered." % [number, MemoryDefs.COUNT], UIStyle.GOLD)
 			dialogue.start("Elder Maren", story.get_lines(MemoryDefs.key(number, "after_known" if known else "after")), "NPC-ELDER")
-			dialogue.finished.connect(func() -> void: _after_memory(number, known), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
+			dialogue.finished.connect(func() -> void: _after_memory(number, known, maren_music), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
 
 
-func _after_memory(number: int, known: bool) -> void:
+func _after_memory(number: int, known: bool, maren_music: int) -> void:
 	var story: StoryText = StoryText.shared()
 	if number == MemoryDefs.COUNT and not known:
 		dialogue.start("", story.get_lines("memory.4.reply"), NpcRegistry.PLAYER_ID)
 		dialogue.finished.connect(func() -> void:
 			dialogue.start("Elder Maren", story.get_lines("memory.4.after2"), "NPC-ELDER")
-			dialogue.finished.connect(func() -> void: _locked = false, CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
+			dialogue.finished.connect(func() -> void:
+				_locked = false
+				Audio.pop_music(maren_music, 1.5), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
+	else:
+		Audio.pop_music(maren_music, 1.5)
 		return
 	if number == 1:
 		var popup: AnnouncementScreen = AnnouncementScreen.make(story.text("memory.1.announce_title"), story.text("memory.1.announce_body"), story.get_lines("memory.1.announce_line"), UIStyle.GOLD)

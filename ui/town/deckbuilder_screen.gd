@@ -58,6 +58,11 @@ func _write_back(edited: Deck) -> void:
 	Session.store_deck(_editing, edited)
 
 
+## The deck station is a long planning screen: it has its own theme (a short overlay would keep the area's music).
+func music_cue() -> String:
+	return MusicDirector.deck_station()
+
+
 func _build() -> void:
 	_editing = Session.deck_box.active
 	var infrastructure: Array[CardData] = []

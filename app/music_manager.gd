@@ -29,6 +29,10 @@ class Voice:
 	var one_shot: bool = false
 	var story: bool = false
 	var finished: bool = false
+	## Seconds played and the stream length (bookkeeping when there is no player: headless runs and tests).
+	var elapsed: float = 0.0
+	var length: float = 0.0
+	var level_db: float = -80.0
 
 
 var _voices: Array[Voice] = []
@@ -216,35 +220,38 @@ func _apply(wanted: String, fade: float) -> void:
 		_current = ""
 		_fade_out_all(fade)
 		return
-	if _headless:
-		_current = wanted
-		return
 	var actual: String = wanted if AudioRegistry.is_playable(wanted) else MusicDirector.fallback_id(wanted)
-	var stream: AudioStream = AudioRegistry.stream(actual) if AudioRegistry.is_playable(actual) else _synth_for(wanted)
-	if stream == null:
-		# Synth tracks render on a thread at startup: `_process` retries until the stream exists.
-		return
+	var found: AudioRegistry.Entry = AudioRegistry.entry(actual) if AudioRegistry.is_playable(actual) else null
+	var stream: AudioStream = null
+	if not _headless:
+		stream = AudioRegistry.stream(actual) if found != null else _synth_for(wanted)
+		if stream == null:
+			# Synth tracks render on a thread at startup: `_process` retries until the stream exists.
+			return
 	var resume_at: float = 0.0
 	if _positions.has(wanted):
 		resume_at = float(_positions[wanted])
 		_positions.erase(wanted)
 	_fade_out_all(fade)
 	var voice: Voice = Voice.new()
-	voice.player = AudioStreamPlayer.new()
-	voice.player.bus = Settings.BUS_MUSIC
-	voice.player.stream = stream
-	voice.player.volume_db = SILENT_DB
-	add_child(voice.player)
 	voice.id = wanted
-	var found: AudioRegistry.Entry = AudioRegistry.entry(actual) if AudioRegistry.is_playable(actual) else null
 	voice.base_db = found.volume_db if found != null else MusicSynth.LEGACY_DB
 	voice.one_shot = found != null and not found.loop
 	voice.story = found != null and (found.kind == AudioRegistry.Kind.STORY or found.kind == AudioRegistry.Kind.MOTIF)
+	voice.length = found.duration if found != null else 0.0
 	voice.gain = 0.0 if fade > 0.0 else 1.0
 	voice.target = 1.0
 	voice.rate = 1.0 / maxf(fade, 0.01)
+	if stream != null:
+		voice.length = stream.get_length()
+		voice.player = AudioStreamPlayer.new()
+		voice.player.bus = Settings.BUS_MUSIC
+		voice.player.stream = stream
+		voice.player.volume_db = SILENT_DB
+		add_child(voice.player)
+		voice.player.play(resume_at if resume_at < maxf(stream.get_length() - 1.0, 0.0) else 0.0)
+	voice.elapsed = resume_at
 	_voices.append(voice)
-	voice.player.play(resume_at if resume_at < maxf(stream.get_length() - 1.0, 0.0) else 0.0)
 	_current = wanted
 	_note("play %s%s%s" % [wanted, (" (fallback %s)" % actual) if actual != wanted else "", (" from %.1fs" % resume_at) if resume_at > 0.0 else ""])
 
@@ -278,18 +285,21 @@ func _in_stack(id: String) -> bool:
 
 
 func _position_of(voice: Voice) -> float:
-	if voice.player == null or not voice.player.playing:
-		return 0.0
-	var position: float = voice.player.get_playback_position() + AudioServer.get_time_since_last_mix()
-	var length: float = voice.player.stream.get_length() if voice.player.stream != null else 0.0
-	if length > 0.0:
-		position = fmod(position, length)
+	var position: float = voice.elapsed
+	if voice.player != null and voice.player.playing:
+		position = voice.player.get_playback_position() + AudioServer.get_time_since_last_mix()
+	if voice.length > 0.0:
+		position = fmod(position, voice.length)
 	return position
 
 
 func _process(delta: float) -> void:
-	if _headless:
-		return
+	advance(delta)
+
+
+## One step of the music: retarget when the wanted track changed, ease the duck, run every voice's fade and clean up the faded-out ones.
+## Public so a test can step time (headless has no players: voices are bookkeeping only).
+func advance(delta: float) -> void:
 	if _wanted() != _current:
 		_retarget(_base_fade)
 	# Ducking: fast attack, slow release, one combined amount.
@@ -304,17 +314,24 @@ func _process(delta: float) -> void:
 	var finished_voices: Array[Voice] = []
 	for voice: Voice in _voices:
 		voice.gain = move_toward(voice.gain, voice.target, voice.rate * delta)
+		voice.elapsed += delta
 		var amplitude: float = sin(voice.gain * PI * 0.5)
-		voice.player.volume_db = voice.base_db + _duck_current + linear_to_db(maxf(amplitude, 0.0001))
+		voice.level_db = voice.base_db + _duck_current + linear_to_db(maxf(amplitude, 0.0001))
+		if voice.player != null:
+			voice.player.volume_db = voice.level_db
 		if voice.target <= 0.0 and voice.gain <= 0.0:
 			finished_voices.append(voice)
-		elif voice.one_shot and not voice.finished and voice.target > 0.0 and not voice.player.playing and voice.gain > 0.0:
-			voice.finished = true
-			_one_shot_ended(voice)
+			continue
+		if voice.one_shot and not voice.finished and voice.target > 0.0 and voice.gain > 0.0:
+			var over: bool = (not voice.player.playing) if voice.player != null else (voice.length > 0.0 and voice.elapsed >= voice.length)
+			if over:
+				voice.finished = true
+				_one_shot_ended(voice)
 	for voice: Voice in finished_voices:
 		_voices.erase(voice)
-		voice.player.stop()
-		voice.player.queue_free()
+		if voice.player != null:
+			voice.player.stop()
+			voice.player.queue_free()
 
 
 ## A one-shot cue ran out: a story cue on the stack hands back to what was under it (gracefully, over a fade); a base one-shot just ends.
@@ -326,3 +343,11 @@ func _one_shot_ended(voice: Voice) -> void:
 			pop(int(top["token"]), 1.5)
 			return
 	_positions.erase(voice.id)
+
+
+## What is sounding, for tests and the music smoke: [{id, gain, level_db}] in start order.
+func voices() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for voice: Voice in _voices:
+		result.append({"id": voice.id, "gain": voice.gain, "target": voice.target, "level_db": voice.level_db})
+	return result

@@ -190,6 +190,7 @@ static func _say_smoke(host: Node3D, ninja: Node3D) -> void:
 ## A grey puff that swells and fades, with a flash and the smoke-bomb sound.
 static func smoke_puff(host: Node3D, at: Vector3) -> void:
 	Audio.sfx(&"smoke_bomb", -2.0, 0.03)
+	Audio.sting(&"STG-SHIRO")
 	var puff: CPUParticles3D = CPUParticles3D.new()
 	puff.position = at
 	puff.amount = 46

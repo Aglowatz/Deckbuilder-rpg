@@ -19,7 +19,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 func _ready() -> void:
 	SceneManager.pause_allowed = false
-	Audio.play_music(&"map")
+	Audio.play_music(StringName(MusicDirector.dungeon_exploration(MusicDirector.session_dungeon_id())))
 	if Session.pending_reward == null:
 		# Launched directly (screenshots): fake a boss reward.
 		Session.ensure_game()
@@ -46,7 +46,7 @@ func _ready() -> void:
 	_column = UIKit.vbox(14)
 	_panel.add_child(_column)
 	_build_rewards()
-	Audio.sfx(&"victory")
+	# The battle's own result already rang STG-VICTORY a moment ago; a second fanfare would stack on it.
 
 
 func _build_rewards() -> void:
@@ -187,7 +187,7 @@ func _main_boss_epilogue() -> void:
 func _show_trial_complete(first_clear: bool) -> void:
 	for child: Node in _column.get_children():
 		child.queue_free()
-	Audio.sfx(&"victory")
+	Audio.sting(&"STG-DUNGEON")
 	_column.add_child(UIKit.label("Through the Forgotten Cave", &"TitleLabel", 64, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	var body_text: String = "The Forgotten Cave is quiet again. You gather what it offered and head back to town."
 	if first_clear:

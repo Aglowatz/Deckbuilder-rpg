@@ -126,6 +126,7 @@ func _tear() -> void:
 	await rattle.finished
 	_pack_art.tear()
 	Audio.sfx(&"pack_whoosh", -4.0, 0.05)
+	Audio.sting(&"STG-PACK-COMMON")
 	_shake = 8.0
 	var colour: Color = opening.pack.art_color.lightened(0.3)
 	PackFx.flash(self, colour, 0.55, 0.5)
@@ -252,7 +253,7 @@ func _flair(index: int, holder: Control, colour: Color, quick: bool) -> void:
 			PackFx.burst(self, centre, colour, 26, 360.0, 0.9, true)
 			PackFx.ring(self, centre, colour, 260.0, 0.6)
 		2:
-			Audio.sfx(&"pack_chime_epic", -4.0)
+			Audio.sting(&"STG-PACK-RARE")
 			Audio.sfx(&"hit_metal", -8.0)
 			_shake = 7.0
 			PackFx.flash(self, colour, 0.3, 0.45)
@@ -261,7 +262,7 @@ func _flair(index: int, holder: Control, colour: Color, quick: bool) -> void:
 			PackFx.ring(self, centre, colour.lightened(0.4), 280.0, 0.5)
 			_rays_behind(holder, colour, 0.35, 1.4)
 		3:
-			Audio.sfx(&"pack_fanfare_legendary", -2.0)
+			Audio.sting(&"STG-PACK-LEGEND")
 			Audio.sfx(&"hit_heavy", -2.0)
 			Audio.sfx(&"turn_start", -4.0)
 			_shake = 18.0

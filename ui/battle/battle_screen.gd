@@ -16,6 +16,8 @@ const PLAY_LINE_Y: float = 720.0
 const _SPACE_ADVANCE_MODES: Array[Mode] = [Mode.MAIN, Mode.ATTACK, Mode.BLOCK]
 
 var context: BattleContext
+## The `Audio.push_music` token of the battle's song (0 once handed back).
+var _music_token: int = 0
 var game: GameState
 var ai: AIPlayer
 var board: BattleBoard
@@ -180,7 +182,7 @@ func _ready() -> void:
 			context = Session.make_practice_battle(str(_screenshot_args.get("enemy", "Cave Scavenger")))
 			context.zone_id = str(_screenshot_args.get("zone", ""))
 	Session.pending_battle = null
-	Audio.play_music(context.music)
+	_music_token = Audio.push_music(StringName(MusicDirector.for_battle(context, Session.flags)), 0.6, false)
 	game = context.game
 	ai = context.ai
 	_build_scene()
@@ -1342,6 +1344,8 @@ func _show_result() -> void:
 	if not context.arena_id.is_empty():
 		won = ArenaDefs.find(context.arena_id).player_won(game)
 	context.won = won
+	# The fight is over: the battle song gives way to the area's music, with the result sting over it.
+	_release_battle_music(0.5)
 	Audio.sfx(&"victory" if won else &"defeat")
 	await get_tree().create_timer(0.7, false).timeout
 	if tutorial != null:
@@ -1426,3 +1430,11 @@ func set_bot(bot: AIPlayer, until_turn: int = 100000) -> void:
 
 func _exit_tree() -> void:
 	UiSkin.set_targeting(false)
+	_release_battle_music(0.8)
+
+
+## The battle's song is an override over the area track: handing it back resumes the area's music where it left off.
+func _release_battle_music(fade: float) -> void:
+	if _music_token != 0:
+		Audio.pop_music(_music_token, fade)
+		_music_token = 0

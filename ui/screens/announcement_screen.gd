@@ -10,6 +10,8 @@ var title: String = ""
 var body: String = ""
 var extra_lines: Array[String] = []
 var accent: Color = UIStyle.GOLD
+## The registry sting played with the announcement (STG-ZONE-BEEF...); "" = the level-up fanfare.
+var sting: String = ""
 var _panel: PanelContainer
 
 
@@ -62,7 +64,10 @@ func _ready() -> void:
 	button.pressed.connect(_continue)
 	column.add_child(button)
 	_animate_in()
-	Audio.sfx(&"level_up")
+	if sting.is_empty():
+		Audio.sfx(&"level_up")
+	else:
+		Audio.sting(StringName(sting))
 
 
 func _continue() -> void:

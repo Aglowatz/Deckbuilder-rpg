@@ -369,6 +369,7 @@ func found_secret(id: String) -> bool:
 func discover_secret(id: String) -> void:
 	if not found_secrets.has(id):
 		found_secrets.append(id)
+		Audio.sting(&"STG-SECRET")
 		refresh_quests()
 		save_game()
 

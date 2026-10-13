@@ -181,7 +181,7 @@ func _send_all() -> void:
 	_running = false
 	if puzzle.is_solved():
 		_status.text = _story.text("puzzle.solved")
-		Audio.sfx(&"victory")
+		Audio.sting(&"STG-MINI-SUCCESS")
 		if not _already_solved:
 			_already_solved = true
 			solved.emit()

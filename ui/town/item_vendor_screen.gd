@@ -184,7 +184,7 @@ func _ask_to_buy(item: ItemData, price: int) -> void:
 func _buy(item: ItemData, price: int) -> void:
 	if not Session.buy_item(item, price):
 		return
-	Audio.sfx(&"coins")
+	Audio.sting(&"STG-PURCHASE")
 	_say("Bought %s." % item.display_name, UIStyle.GOOD)
 	vendor_react("buy")
 	_refresh()

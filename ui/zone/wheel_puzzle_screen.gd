@@ -146,7 +146,7 @@ func _engage() -> void:
 	var delivered: Array[int] = WheelPuzzle.delivered(switches)
 	if WheelPuzzle.is_solved(switches):
 		_status.text = _story.text("wheel.solved")
-		Audio.sfx(&"victory")
+		Audio.sting(&"STG-MINI-SUCCESS")
 		if not _already_solved:
 			_already_solved = true
 			solved.emit()

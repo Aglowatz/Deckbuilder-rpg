@@ -30,6 +30,10 @@ func _init() -> void:
 	close_text = "Leave (Esc)"
 
 
+func music_cue() -> String:
+	return MusicDirector.minigame("beefcake")
+
+
 func _build() -> void:
 	_story = ZoneStoryText.current()
 	var column: VBoxContainer = UIKit.vbox(10)
@@ -196,7 +200,7 @@ func _finish() -> void:
 	if bool(reward["first_win"]):
 		lines = _story.get_lines("reps.first") + lines
 	_status.text = "\n".join(lines)
-	Audio.sfx(&"victory" if stars > 0 else &"defeat")
+	Audio.sting(&"STG-MINI-SUCCESS" if stars > 0 else &"STG-MINI-FAIL")
 	var parts: PackedStringArray = []
 	parts.append("%s  (%d points)" % [("★".repeat(stars) + "☆".repeat(3 - stars)) if stars > 0 else "Set failed", game.points()])
 	if int(reward["gold"]) > 0:

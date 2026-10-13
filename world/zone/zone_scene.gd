@@ -150,7 +150,9 @@ func screenshot_prepare(args: Dictionary) -> void:
 func _ready() -> void:
 	def = ZoneDefs.get_def(_zone_id())
 	SceneManager.pause_allowed = true
-	Audio.play_music(def.music)
+	if def.id != CapitalZone.ID:
+		# A Path's zone: exploration, or the freed arrangement once its own completion flag is set (the Capital picks by district, `CapitalScene`).
+		Audio.play_music(MusicDirector.zone_area(def.id, Session.flags))
 	story = ZoneStoryText.for_zone(def.id)
 	if not _screenshot_args.is_empty():
 		Session.ensure_game()
@@ -759,7 +761,12 @@ func _talk_quest_npc(npc_id: String, npc_name: String, speaker: String, after: C
 	var ready: Array[QuestData] = Session.quests_ready_for(npc_name)
 	if not ready.is_empty():
 		var quest: QuestData = ready[0]
+		# A Capital Path NPC's major quest conclusion has its own cue (Pell, Rollo, Marlo, Fern) under the hand-in dialogue.
+		var cue: String = MusicDirector.quest_conclusion(npc_id) if def.id == CapitalZone.ID else ""
+		var cue_token: int = Audio.push_music(StringName(cue), 1.2, false) if not cue.is_empty() else 0
 		_say(speaker, story.get_lines("quest.%s.ready" % quest.id), func() -> void:
+			if cue_token != 0:
+				Audio.pop_music(cue_token, 2.0)
 			Session.turn_in_quest(quest.id)
 			if after.is_valid():
 				after.call(), portrait_npc)
@@ -1115,8 +1122,10 @@ func _apply_pending_result() -> void:
 		return
 	if str(result.get("kind", "")) == "mini":
 		if bool(result.get("first_clear", false)):
+			Audio.sting(&"STG-DUNGEON")
 			hud.toast("%s cleared! Unique card: %s" % [def.mini.dungeon_name, str(result.get("card", ""))], UIStyle.GOLD)
 		elif bool(result.get("cleared", false)):
+			Audio.sting(&"STG-DUNGEON")
 			hud.toast("%s cleared again: +%d gold. HP carries over." % [def.mini.dungeon_name, int(result.get("gold", 0))], UIStyle.GOOD)
 		else:
 			hud.toast("You leave %s with %d HP." % [def.mini.dungeon_name, Session.zone_run.hp], Color("ffcf70"))
@@ -1140,6 +1149,7 @@ func _show_zone_freed(result: Dictionary) -> void:
 		lines.append(story_text.text("town.alchemist.unlock_line"))
 	lines.append_array(PackRewards.dungeon_lines(result, story_text))
 	var screen: AnnouncementScreen = AnnouncementScreen.make(story_text.text("zone.complete.%s.title" % def.id), story_text.text("zone.complete.%s.body" % def.id), lines)
+	screen.sting = MusicDirector.zone_freed_sting(def.id)
 	_locked = true
 	_overlay_layer.add_child(screen)
 	screen.finished.connect(func() -> void: _locked = false)

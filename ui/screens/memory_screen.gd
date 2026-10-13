@@ -17,6 +17,7 @@ var _column: VBoxContainer
 var _hint: Label
 var _shown: int = 0
 var _closing: bool = false
+var _music_token: int = 0
 
 
 static func make(number_value: int, title_text: String, line_list: Array[String]) -> MemoryScreen:
@@ -57,6 +58,14 @@ func _ready() -> void:
 	_hint.add_theme_color_override("font_color", Color(0.8, 0.78, 0.9, 0.7))
 	fade_in.chain().tween_callback(_next_line)
 	Audio.sfx(&"ui_open", -8.0)
+	# The Nth fragment has its own cue (the Nth zone freed, whichever zone it was); it hands back to Maren's theme / the town when the screen ends.
+	_music_token = Audio.push_music(StringName(MusicDirector.memory(number)), 1.5, false)
+
+
+func _exit_tree() -> void:
+	if _music_token != 0:
+		Audio.pop_music(_music_token, 2.0)
+		_music_token = 0
 
 
 ## Four soft glows, one per Path in its own color, in the four corners.

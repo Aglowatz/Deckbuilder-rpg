@@ -17,6 +17,7 @@ func _ready() -> void:
 	vendor_screen_id = "VS-BELLOWS"
 	vendor_inset = 500.0
 	super._ready()
+	Audio.sting(&"STG-ARENA")
 
 
 func _build() -> void:

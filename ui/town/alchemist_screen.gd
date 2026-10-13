@@ -242,7 +242,8 @@ func _play_brew(first: Affinity.Type, second: Affinity.Type, result: Alchemy.Res
 
 
 func _reveal(result: Alchemy.Result) -> void:
-	Audio.sfx(&"victory")
+	# A three-Path (postgame) craft has its own sting.
+	Audio.sting(&"STG-CRAFT-POST" if result.paths.size() >= 3 else &"STG-CRAFT")
 	_cauldron.modulate = Color.WHITE
 	var flash: ColorRect = ColorRect.new()
 	flash.color = Color(1, 1, 1, 0.0)

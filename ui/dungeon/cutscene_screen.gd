@@ -83,6 +83,13 @@ var _shake_origin: Vector2 = Vector2.ZERO
 var _stage_root: Control
 var _done: bool = false
 var _still_up: bool = false
+var _music_token: int = 0
+
+
+func _exit_tree() -> void:
+	if _music_token != 0:
+		Audio.pop_music(_music_token, 1.5)
+		_music_token = 0
 
 
 static func make(scene: String) -> CutsceneScreen:
@@ -96,6 +103,10 @@ func _ready() -> void:
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 300
+	# A leader's release scene, Primm between his phases and after his fall have their own cues over the dungeon's music; the rest keep what plays.
+	var cue: String = MusicDirector.cutscene(scene_id)
+	if not cue.is_empty():
+		_music_token = Audio.push_music(StringName(cue), 1.0, false)
 	_story = ZoneStoryText.for_zone(CutsceneDefs.zone_of(scene_id))
 	_beats = CutsceneDefs.beats(scene_id)
 	var stage: Dictionary = STAGES.get(scene_id, STAGES["reveal"]) as Dictionary

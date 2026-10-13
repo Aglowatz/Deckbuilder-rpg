@@ -164,6 +164,9 @@ static func for_battle(context: BattleContext, flags: Dictionary = {}) -> String
 	if not context.arena_id.is_empty():
 		var encounter: ArenaEncounter = ArenaDefs.find(context.arena_id)
 		return "MUS-ARENA-ELITE" if encounter != null and encounter.tier >= ARENA_ELITE_TIER else "MUS-ARENA-BATTLE"
+	# The four corrupted gate envoys in the town fight to their Path's own combat song ("Four corrupted gate envoys can reuse their Path combat IDs").
+	if PATHS.has(context.town_npc_id):
+		return str((PATHS[context.town_npc_id] as Dictionary)["battle"])
 	var board: String = board_id(context)
 	if context.zone_id == CapitalZone.ID or board == "BB-CAP-OUT" or board == "BB-CAP-IN":
 		return _capital_battle(context, board)
@@ -176,8 +179,6 @@ static func for_battle(context: BattleContext, flags: Dictionary = {}) -> String
 		return "MUS-TUT-BATTLE"
 	if ZONE_BOARD.has(context.zone_id):
 		return str(BOARD_CUE[str(ZONE_BOARD[context.zone_id])])
-	if not context.town_npc_id.is_empty():
-		return "MUS-TOWN-BATTLE"
 	return "MUS-TOWN-BATTLE"
 
 

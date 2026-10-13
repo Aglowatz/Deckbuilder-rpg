@@ -175,7 +175,7 @@ func _buy(pack: PackData, open_now: bool) -> void:
 		return
 	if not Session.buy_pack(pack):
 		return
-	Audio.sfx(&"coins")
+	Audio.sting(&"STG-PURCHASE")
 	if stage != null:
 		vendor_react("buy")
 	else:

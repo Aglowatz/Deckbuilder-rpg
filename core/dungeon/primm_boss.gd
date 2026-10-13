@@ -36,7 +36,7 @@ class Phase:
 	var mirror: bool = false
 	var enemy_modifiers: Array[Modifier] = []
 	var player_modifiers: Array[Modifier] = []
-	var music: StringName = &"primm"
+	var music: StringName = &"MUS-PRIMM-01"
 
 	func title() -> String:
 		return ZoneStoryText.for_zone(PrimmBoss.ZONE_ID).text("boss.phase.%s.title" % key)
@@ -50,6 +50,8 @@ const ZONE_ID: String = "final"
 static func phase(index: int) -> Phase:
 	var made: Phase = Phase.new()
 	made.index = clampi(index, 0, PHASES - 1)
+	# Each phase has its own music slot (MUS-PRIMM-01..03): the cue follows the actual phase, never a timer.
+	made.music = StringName("MUS-PRIMM-%02d" % (made.index + 1))
 	made.key = PHASE_KEYS[made.index]
 	match made.index:
 		0:

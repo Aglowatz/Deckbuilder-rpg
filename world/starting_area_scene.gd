@@ -59,7 +59,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 func _ready() -> void:
 	SceneManager.pause_allowed = true
-	Audio.play_music(&"map")
+	Audio.play_music(MusicDirector.forest())
 	if not _screenshot_args.is_empty() and str(_screenshot_args.get("fresh", "false")) == "true":
 		Session.new_game()
 	elif Session.profile == null and not Session.flag(&"awakened"):

@@ -30,7 +30,10 @@ func _build() -> void:
 	add_child(frame)
 	_fill_body()
 	frame.confirmed.connect(_on_confirmed)
-	Audio.sfx(&"level_up" if is_quest else &"chest_open", -4.0)
+	if is_quest:
+		Audio.sting(&"STG-QUEST")
+	else:
+		Audio.sfx(&"chest_open", -4.0)
 
 
 func _fill_body() -> void:

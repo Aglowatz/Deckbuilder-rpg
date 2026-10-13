@@ -18,6 +18,10 @@ func _init() -> void:
 	close_text = "Leave (Esc)"
 
 
+func music_cue() -> String:
+	return MusicDirector.quiz()
+
+
 func _build() -> void:
 	_story = ZoneStoryText.current()
 	_rng.randomize()
@@ -78,7 +82,7 @@ func _finish() -> void:
 	_clear()
 	var correct: int = QuizRules.score(_story, _answers)
 	var reward: Dictionary = QuizRules.apply(_story, correct)
-	Audio.sfx(&"victory" if correct >= 3 else &"ui_confirm")
+	Audio.sting(&"STG-MINI-SUCCESS" if correct >= 3 else &"STG-MINI-FAIL")
 	_column.add_child(UIKit.label("%d / %d correct" % [correct, _story.quiz_questions.size()], &"TitleLabel", 70, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	var remark: Label = UIKit.label("\n".join(_story.get_lines("quiz.result.%d" % correct)), &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	remark.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

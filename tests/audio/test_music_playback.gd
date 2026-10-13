@@ -71,6 +71,13 @@ func test_battles_are_chosen_by_board() -> void:
 	assert_eq(MusicDirector.for_battle(_context("")), "MUS-TOWN-BATTLE", "an unknown board still gets a fight song")
 
 
+func test_gate_envoys_use_their_paths_combat_song() -> void:
+	for pair: Array in [["beefcake", "MUS-BEEF-BATTLE"], ["gourmand", "MUS-GOUR-BATTLE"], ["necrocrat", "MUS-NECRO-BATTLE"], ["refusemancer", "MUS-REF-BATTLE"]]:
+		var envoy: BattleContext = _context("town")
+		envoy.town_npc_id = str(pair[0])
+		assert_eq(MusicDirector.for_battle(envoy), str(pair[1]))
+
+
 func test_special_duels_have_their_own_cues() -> void:
 	var shiro: BattleContext = _context("town")
 	shiro.is_ninja_boss = true
@@ -187,3 +194,63 @@ func test_stings_duck_the_music_and_the_dialogue_duck_stacks() -> void:
 	_manager.set_dialogue_duck(1, false)
 	_manager.set_dialogue_duck(2, false)
 	assert_eq(_manager.overlay_ids(), [] as Array[String])
+
+
+func test_crossfade_keeps_its_loudness_and_ends_with_one_voice() -> void:
+	_manager.set_base("MUS-TOWN", 0.0)
+	_manager.advance(0.05)
+	_manager.set_base("MUS-BEEF-EXP", 2.0)
+	_manager.advance(0.0)
+	_manager.advance(1.0)
+	var voices: Array[Dictionary] = _manager.voices()
+	assert_eq(voices.size(), 2, "both tracks sound during the fade")
+	var power: float = 0.0
+	for voice: Dictionary in voices:
+		power += pow(sin(float(voice["gain"]) * PI * 0.5), 2.0)
+	assert_almost_eq(power, 1.0, 0.05, "equal-power: the sum of the two stays at full loudness")
+	_manager.advance(1.2)
+	assert_eq(_manager.voices().size(), 1)
+	assert_eq(str(_manager.voices()[0]["id"]), "MUS-BEEF-EXP")
+
+
+func test_the_area_track_resumes_where_it_left_off() -> void:
+	_manager.set_base("MUS-BEEF-EXP", 0.0)
+	for step: int in range(40):
+		_manager.advance(0.25)
+	var battle: int = _manager.push("MUS-BEEF-BATTLE", 0.5)
+	for step: int in range(8):
+		_manager.advance(0.25)
+	_manager.pop(battle, 0.5)
+	_manager.advance(0.1)
+	var resumed: String = ""
+	for line: String in _manager.event_log():
+		if line.contains("play MUS-BEEF-EXP from"):
+			resumed = line
+	assert_ne(resumed, "", "the area track came back from a saved position, not from the top")
+	assert_true(resumed.contains("from 10."), resumed)
+
+
+func test_a_story_cue_hands_back_when_it_ends() -> void:
+	_manager.set_base("MUS-TOWN", 0.0)
+	_manager.advance(0.05)
+	_manager.push("MUS-MEM-01", 0.5, true)
+	assert_eq(_manager.current_id(), "MUS-MEM-01")
+	for step: int in range(70):
+		_manager.advance(1.0)
+	assert_eq(_manager.current_id(), "MUS-TOWN", "the 64 s memory ended and the town music is back")
+	assert_eq(_manager.overlay_ids(), [] as Array[String])
+
+
+func test_dialogue_ducks_the_music_a_little_and_releases() -> void:
+	_manager.set_base("MUS-TOWN", 0.0)
+	_manager.advance(0.05)
+	_manager.set_dialogue_duck(7, true)
+	_manager.advance(0.5)
+	assert_almost_eq(_manager.duck_db(), MusicManager.DIALOGUE_DUCK_DB, 0.01)
+	assert_lt(MusicManager.DIALOGUE_DUCK_DB, -3.0)
+	assert_gt(MusicManager.DIALOGUE_DUCK_DB, -8.0, "slightly, not a mute")
+	_manager.set_dialogue_duck(7, false)
+	_manager.advance(0.1)
+	assert_gt(_manager.duck_db(), MusicManager.DIALOGUE_DUCK_DB, "it eases back rather than snapping")
+	_manager.advance(1.0)
+	assert_almost_eq(_manager.duck_db(), 0.0, 0.01)

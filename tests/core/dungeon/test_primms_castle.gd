@@ -203,7 +203,7 @@ func test_standardization_makes_every_unit_the_same_in_a_real_duel() -> void:
 	assert_eq(context.boss_phase, 0)
 	assert_true(context.enemy_name.contains("Standardization"))
 	assert_ne(context.rules_text, "")
-	assert_eq(context.music, &"primm")
+	assert_eq(context.music, &"MUS-PRIMM-01")
 	var game: GameState = context.game
 	var big: CardInstance = game.create_instance(Session.card_by_id("C-04"), 0)
 	var small: CardInstance = game.create_instance(Session.card_by_id("C-02"), 1)

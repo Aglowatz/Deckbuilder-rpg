@@ -20,6 +20,7 @@ var vendor_inset: float = VendorStage.INSET
 var stage: VendorStage
 var _panel: PanelContainer
 var _close_button: FancyButton
+var _music_token: int = 0
 
 
 func _ready() -> void:
@@ -67,6 +68,22 @@ func _ready() -> void:
 	if stage != null:
 		stage.attach_overlay(self)
 		stage.say("open")
+	# A vendor's theme (or the deck station's...) lies over the area's music while the screen is open and hands back when it closes. It is pushed once
+	# per screen, never per purchase; a short overlay with no cue of its own keeps the current music.
+	var cue: String = music_cue()
+	if not cue.is_empty():
+		_music_token = Audio.push_music(StringName(cue), 1.2, false)
+
+
+## The music this screen sets over the area's: a vendor's browsing theme by its Vendor Screen ID; "" (the default for a plain screen) keeps what plays.
+func music_cue() -> String:
+	return MusicDirector.shop(vendor_screen_id, Session.profile != null and Session.profile.postgame_unlocked)
+
+
+func _exit_tree() -> void:
+	if _music_token != 0:
+		Audio.pop_music(_music_token, 1.2)
+		_music_token = 0
 
 
 ## Subclasses fill `body` here.

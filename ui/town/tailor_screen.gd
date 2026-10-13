@@ -179,7 +179,7 @@ func _buy(item: CosmeticData) -> void:
 	_look.cloak_id = worn.cloak_id
 	_preview.set_look(_look)
 	_preview.play_once(&"Cheer")
-	Audio.sfx(&"coins", 0.0, 0.05)
+	Audio.sting(&"STG-PURCHASE")
 	_say(story.get_lines("tailor.bought"))
 	if stage != null:
 		stage.flourish("buy")

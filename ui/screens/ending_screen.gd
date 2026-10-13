@@ -35,7 +35,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 func _ready() -> void:
 	SceneManager.pause_allowed = false
-	Audio.play_music(&"ending")
+	Audio.play_music(StringName(MusicDirector.ending_beat("crumble")))
 	Session.ensure_game()
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -134,6 +134,10 @@ func _show_beat() -> void:
 	else:
 		_tween.tween_property(_text, "visible_ratio", 1.0, typing)
 	Audio.sfx(&"dialogue", -10.0)
+	# The throne (full memory and power return) and the reunion have their own cues; the other beats keep what plays.
+	var cue: String = MusicDirector.ending_beat(str(beat["fx"]))
+	if not cue.is_empty():
+		Audio.play_music(StringName(cue), 2.0)
 	_fx(str(beat["fx"]))
 
 
@@ -346,6 +350,7 @@ func _start_credits() -> void:
 		return
 	_credits_running = true
 	_done = true
+	Audio.play_music(StringName(MusicDirector.credits()), 2.5)
 	var shade: ColorRect = ColorRect.new()
 	shade.color = Color(0.02, 0.02, 0.05, 0.0)
 	UIKit.full_rect(shade)

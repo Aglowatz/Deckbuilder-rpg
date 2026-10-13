@@ -29,6 +29,8 @@ var _plan: DungeonCatalog.Blueprint
 var _art: Texture2D
 ## Where the painted map sits on the 1920x1080 screen: as large as fits, never cropped (3:2 art leaves a band at each side).
 var _art_rect: Rect2 = Rect2(0.0, 0.0, 1920.0, 1080.0)
+## The `Audio.push_music` token of a story node's cue (0 = none).
+var _story_music: int = 0
 var _info_panel: PanelContainer
 var _rules_panel: PanelContainer
 
@@ -39,7 +41,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 func _ready() -> void:
 	SceneManager.pause_allowed = true
-	Audio.play_music(&"map")
+	Audio.play_music(StringName(MusicDirector.dungeon_exploration(MusicDirector.session_dungeon_id())))
 	if not Session.in_dungeon() and _screenshot_args.has("dungeon"):
 		_prepare_dungeon_for_screenshot()
 	elif not Session.in_dungeon() and _screenshot_args.has("main"):
@@ -412,7 +414,12 @@ func _play_before(node: DungeonMap.MapNode, then: Callable) -> void:
 	var steps: Array[Callable] = []
 	if not node.story_before.is_empty() and _main_def != null:
 		var before_key: String = HouseOfGainsDungeon.boss_story_key(node.story_before, Session.run)
+		var story_cue: String = MusicDirector.story_node(node.story_before)
+		if not story_cue.is_empty():
+			steps.append(_push_story_cue.bind(story_cue))
 		steps.append(_show_story.bind(ZoneStoryText.for_zone(_main_def.zone_id).get_lines(before_key), NpcRegistry.story_speaker(node.story_before)))
+		if not story_cue.is_empty():
+			steps.append(_pop_story_cue)
 	# The Forgotten Cave's guardian grumbles that the Wanderer smells familiar (the tutorial has no zone story file).
 	if _main_def == null and node.kind == DungeonMap.Kind.BOSS and map != null and map.dungeon_name == TrialOfTheHollow.DUNGEON_NAME:
 		steps.append(_show_story.bind(StoryText.shared().get_lines("tutorial.warden.before"), "NPC-WARDEN"))
@@ -456,6 +463,24 @@ func _run_steps(steps: Array[Callable], then: Callable) -> void:
 func _show_story(done: Callable, lines: Array[String], speaker_npc_id: String = "") -> void:
 	_dialogue.start("", lines, speaker_npc_id)
 	_dialogue.finished.connect(done, CONNECT_ONE_SHOT)
+
+
+## A story node's own cue (the Archive, the Gallery, the Lab's cell and rescue) lies under its lines and hands back to the map's music after them.
+func _push_story_cue(done: Callable, cue: String) -> void:
+	_story_music = Audio.push_music(StringName(cue), 1.2, false)
+	done.call()
+
+
+func _pop_story_cue(done: Callable) -> void:
+	Audio.pop_music(_story_music, 1.5)
+	_story_music = 0
+	done.call()
+
+
+func _exit_tree() -> void:
+	if _story_music != 0:
+		Audio.pop_music(_story_music, 0.8)
+		_story_music = 0
 
 
 func _show_cutscene(done: Callable, scene_id: String) -> void:
