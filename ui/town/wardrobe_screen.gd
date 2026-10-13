@@ -64,6 +64,11 @@ func _add_section(parent: VBoxContainer, slot: CosmeticData.Slot, title: String)
 		var ready: bool = SpriteCosmetics.art_ready(item)
 		var button: FancyButton = FancyButton.make(item.display_name if ready else "%s (arriving soon)" % item.display_name, &"", Vector2(210 if ready else 300, 46))
 		button.name = "%s_%s" % [title, item.id]
+		var icon: Texture2D = SpriteLibrary.item_icon(slot == CosmeticData.Slot.HAT, item.art_name) if ready else null
+		if icon != null:
+			button.icon = icon
+			button.expand_icon = true
+			button.custom_minimum_size = Vector2(250, 58)
 		button.disabled = not ready
 		button.pressed.connect(func() -> void: _equip(slot, item.id))
 		button.mouse_entered.connect(func() -> void: _description.text = "%s: %s" % [item.display_name, item.description])

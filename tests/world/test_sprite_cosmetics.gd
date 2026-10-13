@@ -173,3 +173,19 @@ func test_the_actor_is_what_the_scenes_drive() -> void:
 	assert_almost_eq(actor.sprite.scale.x * actor.scale.x, 1.0, 0.001, "the card itself never inherits the squash (its contact shadow would shrink)")
 	actor.visible = false
 	assert_false(actor.sprite.is_visible_in_tree(), "blinking the model hides the card")
+
+
+func test_an_item_icon_is_found_by_slot_and_art_name() -> void:
+	var folder: String = ProjectSettings.globalize_path(SpriteLibrary.ICON_FOLDER)
+	DirAccess.make_dir_recursive_absolute(folder)
+	var image: Image = Image.create_empty(16, 16, false, Image.FORMAT_RGBA8)
+	image.fill(Color(0.4, 0.2, 0.7, 1.0))
+	var path: String = folder + "HAT_ZZICON.png"
+	image.save_png(path)
+	SpriteLibrary.reset()
+	assert_not_null(SpriteLibrary.item_icon(true, "ZZICON"), "a hat icon")
+	assert_null(SpriteLibrary.item_icon(false, "ZZICON"), "the cloak with that name has none")
+	assert_null(SpriteLibrary.item_icon(true, ""), "no art name, no icon")
+	DirAccess.remove_absolute(path)
+	DirAccess.remove_absolute(folder.get_base_dir()) if DirAccess.get_files_at(folder).is_empty() else null
+	SpriteLibrary.reset()

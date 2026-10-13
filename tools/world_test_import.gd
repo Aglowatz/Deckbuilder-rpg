@@ -657,6 +657,7 @@ func _run_cosmetics() -> void:
 	_manifest = existing
 	for cloak_name: String in cloaks:
 		_do_character("PLAYER-CLOAK-" + cloak_name)
+		_make_icon(OUT + "sprites/PLAYER_CLOAK_%s/FRONT_IDLE.png" % cloak_name, "CLOAK_" + cloak_name)
 	var out: FileAccess = FileAccess.open(OUT + COS_MANIFEST, FileAccess.WRITE)
 	out.store_string(JSON.stringify(_manifest, "\t"))
 	out.close()
@@ -689,6 +690,8 @@ func _do_hat(hat_name: String) -> void:
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(folder))
 		crop.save_png(ProjectSettings.globalize_path(folder + dir_name + ".png"))
 		found.append(dir_name)
+		if dir_name == "FRONT":
+			_make_icon(folder + "FRONT.png", "HAT_" + hat_name)
 	_report.append("COS-HAT-%s: directions %s%s" % [hat_name, ", ".join(found), ("   MISSING: " + ", ".join(missing)) if not missing.is_empty() else ""])
 
 
@@ -855,3 +858,31 @@ func _remove_flat_background(image: Image, label: String) -> void:
 		if py < h - 1:
 			stack.append(at + w)
 	_bg_removed.append(label)
+
+
+const ICON_OUT: String = "res://assets/art/cosmetics/icons/"
+const ICON_SIZE: int = 128
+
+
+## The shop / wardrobe icon: the picture (a hat's FRONT view, a cloak set's FRONT_IDLE) trimmed to its content, centred on a transparent square and scaled to ICON_SIZE.
+func _make_icon(source_path: String, icon_name: String) -> void:
+	var path: String = ProjectSettings.globalize_path(source_path)
+	if not FileAccess.file_exists(path):
+		return
+	var image: Image = Image.load_from_file(path)
+	if image == null:
+		return
+	image.convert(Image.FORMAT_RGBA8)
+	var box: Rect2i = _bbox(image, Rect2i(0, 0, image.get_width(), image.get_height()))
+	if box.size.x == 0:
+		return
+	var crop: Image = image.get_region(box)
+	var side: int = maxi(crop.get_width(), crop.get_height()) + 8
+	var square: Image = Image.create_empty(side, side, false, Image.FORMAT_RGBA8)
+	square.blit_rect(crop, Rect2i(Vector2i.ZERO, crop.get_size()), Vector2i((side - crop.get_width()) / 2, (side - crop.get_height()) / 2))
+	square.premultiply_alpha()
+	square.resize(ICON_SIZE, ICON_SIZE, Image.INTERPOLATE_LANCZOS)
+	_unpremultiply(square)
+	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(ICON_OUT))
+	square.save_png(ProjectSettings.globalize_path(ICON_OUT + icon_name + ".png"))
+	_report.append("icon %s" % icon_name)

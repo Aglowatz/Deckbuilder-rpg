@@ -89,8 +89,19 @@ func _make_tile(item: CosmeticData, open: bool) -> Control:
 	tile.custom_minimum_size = Vector2(340 if stage == null else 282, 150)
 	var column: VBoxContainer = UIKit.vbox(4)
 	tile.add_child(column)
+	var head: HBoxContainer = UIKit.hbox(8)
+	column.add_child(head)
+	var icon: Texture2D = SpriteLibrary.item_icon(item.slot == CosmeticData.Slot.HAT, item.art_name) if open else null
+	if icon != null:
+		var picture: TextureRect = TextureRect.new()
+		picture.name = "Icon_%s" % item.id
+		picture.texture = icon
+		picture.custom_minimum_size = Vector2(52, 52)
+		picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		head.add_child(picture)
 	var title: Label = UIKit.label(item.display_name if open else "???", &"HeadingLabel", 24, UIStyle.GOLD if open else UIStyle.MUTED)
-	column.add_child(title)
+	head.add_child(title)
 	var kind: Label = UIKit.label("%s%s" % [item.slot_name(), "" if open else "   (%s)" % CosmeticCatalog.unlock_hint(item)], &"MutedLabel", 18)
 	column.add_child(kind)
 	var ready_art: bool = SpriteCosmetics.art_ready(item)

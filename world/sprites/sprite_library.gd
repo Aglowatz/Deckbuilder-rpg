@@ -11,6 +11,7 @@ const FOLDER: String = "res://assets/art/world_test/sprites/"
 const COSMETICS_MANIFEST: String = "res://assets/art/world_test/sprites/cosmetics_manifest.json"
 const DEFAULT_HAT_FOLDER: String = "res://assets/art/cosmetics/hats/"
 const CLOAK_PREFIX: String = "PLAYER_CLOAK_"
+const ICON_FOLDER: String = "res://assets/art/cosmetics/icons/"
 const HAT_DIRS: Array[String] = ["FRONT", "FRONTSIDE", "SIDE", "BACKSIDE", "BACK"]
 
 static var _manifest: Dictionary = {}
@@ -122,6 +123,13 @@ static func has_cloak(art_name: String) -> bool:
 		if not (entry.get("dirs", []) as Array).has(dir_name):
 			return false
 	return true
+
+
+## The shop / wardrobe icon of an item (tools/import_cosmetics.sh makes it from the hat's FRONT view or the cloak set's FRONT_IDLE), null before the art is imported.
+static func item_icon(is_hat: bool, art_name: String) -> Texture2D:
+	if art_name == "":
+		return null
+	return _texture("%s%s_%s.png" % [ICON_FOLDER, "HAT" if is_hat else "CLOAK", art_name])
 
 
 static func has_hat(art_name: String) -> bool:
