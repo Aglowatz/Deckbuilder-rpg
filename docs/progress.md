@@ -3069,3 +3069,22 @@ fps (Medium, 1600x900): starting area 59.9, town 59.9-60, Gainlands 59.5-60 (50.
 **Still 3D:** NPC-ELOWEN (no sprite set), NPC-PRIMM at work and the gold statues (set "None"), the Secret Dealer and the mannequin (no list NPC), enemies. Portrait-only (set "None", no world presence): NPC-CLENCH, NPC-VELLUM, NPC-ROTHEART, NPC-WARDEN, NPC-SPOTTER, NPC-ITAMAE, NPC-BETTY, NPC-RACCOONKING, NPC-AUTOMATON.
 **Portraits re-imported:** NPC-BELLOWS, NPC-ELDER, NPC-GATEKEEPER, NPC-HOB, NPC-MULLIGAN, NPC-PALLOR, NPC-PATE, NPC-PELL, V-ALEMBIC, V-FENWICK, V-FIGSLY, V-GRISTLE, V-SABLE, V-THREADWELL, V-TONIC.
 **Cosmetic IDs in the game (art pending):** hat_wizard, hat_wide_brim, hat_tricorn, hat_leaf_crown, hat_chef, hat_bowler, cloak_red_cape, cloak_tattered, cloak_royal, cloak_patchwork.
+
+## Vertical slice: the town square (Parts A-F)
+
+The main town square is rebuilt from an Environment Kit to match `docs/art/paintovers/PAINTOVER-TOWN.png`; 1461 GUT tests pass. Everything: `docs/art/vertical_slice.md`
+(side-by-side shots, kit table by ID, what else would close the gap, fps, roll-out); judgment calls VS-1..VS-14 in `docs/design/open_questions.md`.
+
+- **A:** `BuildingKit` + 13 presets (`data/art/building_presets.json`): walls with material slots, foundation, posts, beams, gable / hip / thatch / spire roofs with overhangs and eave
+  trim, chimneys, dormers, door / window / awning / sign / lantern / ivy sockets, lit glass. Registry `data/art/environment_kit.json` (every sheet id -> slot -> placeholder).
+- **B:** `PropKit` (16 props), `PropClusters` (9 vignettes), painted tree cards, flower / grass clumps, `KitLights` (warm lights under the budget).
+- **C:** `PathTool` (dirt / cobble along curves, DEC-PATHEDGE, worn patches, irregular clumps); the square and every road use it; calm ground.
+- **D:** sun from the east (yaw 70), per-area `green_calm` / `red_calm` grade as data, baked-look AO (vertex AO + contact pools), window and lantern light pools.
+- **E:** 20 kit buildings on a re-laid-out square, banner lamp posts, icon signs (signposts open a popup), no readable text, painted tree cards island-wide, batched props.
+- **F:** `docs/art/vertical_slice.md`.
+
+**Not met:** Medium is 55-57 fps (59-60 before the slice; target 60). **Needs you:** the kit art is already in `Approved_EnvKit` (48 files): say "import env kit art" for the art
+pass (first adjustments are listed in the doc); the old `tools/run_town_interact_smoke.sh` was stale before the slice (UI and anchor renames) and is replaced by
+`tools/run_town_slice_smoke.sh`; the Medium gap.
+
+Tools: `tools/kit_bench.tscn`, `bash tools/import_env_kit.sh`, `tools/env_kit_status.gd`, `tools/env_kit_sync.gd`, `tools/side_by_side.gd`, `bash tools/run_town_slice_smoke.sh`.

@@ -14,7 +14,7 @@
 					{"type": "window", "id": "ENV-WINDOW-01", "u": 1.9, "floor": 1}
 				],
 				"right": [{"type": "window", "id": "ENV-WINDOW-01", "u": -0.8, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": 1.4, "floor": 1}, {"type": "ivy", "u": -1.7, "h": 6.0, "w": 1.5}],
-				"left": [{"type": "window", "id": "ENV-WINDOW-01", "u": 0.5, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": 0.5, "floor": 1}]
+				"left": [{"type": "window", "id": "ENV-WINDOW-03", "u": 0.5, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": 0.5, "floor": 1}]
 			}
 		},
 		"home_b": {
@@ -27,7 +27,7 @@
 					{"type": "door", "id": "ENV-DOOR-01", "u": 0.0, "awning": true, "awning_id": "ENV-AWNING-01", "pots": true},
 					{"type": "window", "id": "ENV-WINDOW-01", "u": -1.9, "floor": 0},
 					{"type": "window", "id": "ENV-WINDOW-01", "u": 1.9, "floor": 0},
-					{"type": "window", "id": "ENV-WINDOW-03", "u": 0.0, "floor": 1}
+					{"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 1}
 				],
 				"left": [{"type": "window", "id": "ENV-WINDOW-02", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 1}],
 				"right": [{"type": "window", "id": "ENV-WINDOW-01", "u": -1.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": 1.4, "floor": 1}]
@@ -75,7 +75,7 @@
 					{"type": "window", "id": "ENV-WINDOW-05", "u": 1.55, "floor": 0, "y": 2.35},
 					{"type": "sign", "id": "ENV-SIGN-CARDS", "u": 1.7, "y": 5.3, "size": 1.2},
 					{"type": "window", "id": "ENV-WINDOW-01", "u": -1.7, "floor": 1},
-					{"type": "window", "id": "ENV-WINDOW-03", "u": 1.7, "floor": 1, "y": 6.0}
+					{"type": "window", "id": "ENV-WINDOW-04", "u": 1.7, "floor": 1, "y": 6.0}
 				],
 				"right": [{"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 1}],
 				"left": [{"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 0}, {"type": "ivy", "u": 1.4, "h": 5.0, "w": 1.4}]
@@ -91,10 +91,10 @@
 					{"type": "door", "id": "ENV-DOOR-01", "u": 1.5, "awning": true, "awning_id": "ENV-AWNING-02", "pots": true},
 					{"type": "window", "id": "ENV-WINDOW-02", "u": -1.5, "floor": 0, "box": true},
 					{"type": "sign", "id": "ENV-SIGN-POTION", "u": -1.6, "y": 5.2, "size": 1.15},
-					{"type": "window", "id": "ENV-WINDOW-03", "u": 0.0, "floor": 1},
+					{"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 1},
 					{"type": "window", "id": "ENV-WINDOW-01", "u": 1.5, "floor": 1}
 				],
-				"right": [{"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-03", "u": 0.0, "floor": 1}],
+				"right": [{"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 1}],
 				"left": [{"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 0}]
 			}
 		},
@@ -154,13 +154,13 @@
 				"front": [
 					{"type": "door", "id": "ENV-DOOR-03", "u": 0.0, "lantern": true, "pots": true},
 					{"type": "sign", "id": "ENV-SIGN-FLASK", "u": 2.1, "y": 5.0, "size": 1.15},
-					{"type": "window", "id": "ENV-WINDOW-04", "u": -1.8, "floor": 1, "y": 5.9},
-					{"type": "window", "id": "ENV-WINDOW-03", "u": 0.0, "floor": 2},
+					{"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": -1.8, "floor": 1, "y": 5.9},
+					{"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 2},
 					{"type": "window", "id": "ENV-WINDOW-01", "u": 1.8, "floor": 1}
 				],
-				"right": [{"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-03", "u": 0.0, "floor": 2}],
-				"left": [{"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-03", "u": 0.0, "floor": 2}],
-				"back": [{"type": "window", "id": "ENV-WINDOW-03", "u": 0.0, "floor": 1}]
+				"right": [{"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 2}],
+				"left": [{"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 2}],
+				"back": [{"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 1}]
 			}
 		},
 		"stone_hut": {
@@ -169,7 +169,7 @@
 			"roof": {"style": "thatch", "pitch": 40, "overhang": 0.85, "material": "ENV-ROOF-THATCH"},
 			"chimney": {"x": 2.2, "z": -0.8, "w": 0.9, "height": 1.1},
 			"faces": {
-				"front": [{"type": "door", "id": "ENV-DOOR-03", "u": 0.0, "lantern": true}, {"type": "window", "id": "ENV-WINDOW-03", "u": -2.2, "floor": 0}],
+				"front": [{"type": "door", "id": "ENV-DOOR-03", "u": 0.0, "lantern": true}, {"type": "window", "id": "ENV-WINDOW-04", "u": -2.2, "floor": 0}],
 				"right": [{"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 0}],
 				"left": [{"type": "ivy", "u": 0.0, "h": 4.2, "w": 1.5}]
 			}
@@ -179,9 +179,9 @@
 			"wall": "ENV-WALL-FOUNDATION", "wall_upper": "ENV-WALL-TIMBER-WARM",
 			"roof": {"style": "gable", "pitch": 48, "overhang": 0.7, "material": "ENV-ROOF-TILE-BLUE", "gable_front": true},
 			"faces": {
-				"front": [{"type": "door", "id": "ENV-DOOR-03", "u": 0.0, "lantern": true}, {"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 1, "y": 7.2}],
-				"right": [{"type": "window", "id": "ENV-WINDOW-04", "u": -1.8, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-04", "u": 1.8, "floor": 0}],
-				"left": [{"type": "window", "id": "ENV-WINDOW-04", "u": -1.8, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-04", "u": 1.8, "floor": 0}]
+				"front": [{"type": "door", "id": "ENV-DOOR-03", "u": 0.0, "lantern": true}, {"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": 0.0, "floor": 1, "y": 7.2}],
+				"right": [{"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": -1.8, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": 1.8, "floor": 0}],
+				"left": [{"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": -1.8, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": 1.8, "floor": 0}]
 			}
 		},
 		"hall": {
@@ -190,9 +190,9 @@
 			"roof": {"style": "hip", "pitch": 38, "overhang": 0.8, "material": "ENV-ROOF-TILE-BLUE"},
 			"chimney": {"x": 2.0, "z": -1.0, "w": 1.0, "height": 1.0},
 			"faces": {
-				"front": [{"type": "door", "id": "ENV-DOOR-03", "u": 0.0, "lantern": true}, {"type": "window", "id": "ENV-WINDOW-04", "u": -2.2, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-04", "u": 2.2, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": -2.0, "floor": 1}, {"type": "window", "id": "ENV-WINDOW-01", "u": 2.0, "floor": 1}, {"type": "window", "id": "ENV-WINDOW-03", "u": 0.0, "floor": 2}],
-				"right": [{"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 1}],
-				"left": [{"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 1}]
+				"front": [{"type": "door", "id": "ENV-DOOR-03", "u": 0.0, "lantern": true}, {"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": -2.2, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": 2.2, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": -2.0, "floor": 1}, {"type": "window", "id": "ENV-WINDOW-01", "u": 2.0, "floor": 1}, {"type": "window", "id": "ENV-WINDOW-04", "u": 0.0, "floor": 2}],
+				"right": [{"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 1}],
+				"left": [{"type": "window", "id": "ENV-WINDOW-01", "style": "arch", "u": 0.0, "floor": 0}, {"type": "window", "id": "ENV-WINDOW-01", "u": 0.0, "floor": 1}]
 			}
 		}
 	}

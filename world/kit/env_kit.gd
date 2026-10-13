@@ -6,6 +6,7 @@ extends RefCounted
 
 const DATA_PATH: String = "res://data/art/environment_kit.json"
 const ART_DIR: String = "res://assets/art/env_kit/"
+## `ENV_KIT_ART_DIR` (an absolute folder or res:// path) previews art from another folder without committing it.
 
 static var _entries: Dictionary = {}
 static var _order: Array[String] = []
@@ -58,9 +59,17 @@ static func tile_size(id: String) -> float:
 
 ## The path of the real art file of `id`, or "" while it is still a placeholder.
 static func art_path(id: String) -> String:
+	var dir: String = OS.get_environment("ENV_KIT_ART_DIR")
+	if dir == "":
+		dir = ART_DIR
+	if not dir.ends_with("/"):
+		dir += "/"
 	for ext: String in ["webp", "png"]:
-		var path: String = "%s%s.%s" % [ART_DIR, id, ext]
-		if ResourceLoader.exists(path):
+		var path: String = "%s%s.%s" % [dir, id, ext]
+		if dir == ART_DIR:
+			if ResourceLoader.exists(path):
+				return path
+		elif FileAccess.file_exists(ProjectSettings.globalize_path(path)):
 			return path
 	return ""
 
@@ -80,7 +89,13 @@ static func status(id: String) -> String:
 static func texture(id: String) -> Texture2D:
 	var path: String = art_path(id)
 	if path != "":
-		return load(path) as Texture2D
+		if path.begins_with(ART_DIR):
+			return load(path) as Texture2D
+		var image: Image = Image.load_from_file(ProjectSettings.globalize_path(path))
+		if image != null and not image.is_empty():
+			image.generate_mipmaps()
+			return ImageTexture.create_from_image(image)
+		return null
 	var placeholder: String = str(entry(id).get("placeholder", ""))
 	if placeholder.begins_with("tex:"):
 		return PaintedLibrary.albedo(placeholder.trim_prefix("tex:"))

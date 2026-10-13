@@ -29,6 +29,8 @@ static func _generate(name: String) -> Image:
 	match name:
 		"stripes_red":
 			return _stripes(Color("d9573f"), Color("f3e4c6"))
+		"stripes_green":
+			return _stripes(Color("5b9a55"), Color("f1e8cf"))
 		"stripes_blue":
 			return _stripes(Color("4f7fc0"), Color("f1e6cc"))
 		"stripes_cream":

@@ -157,8 +157,9 @@ func _set_materials() -> void:
 	# Flat-coloured details share ONE white surface and are coloured per vertex: iron, shutters, soil, leaves and blooms are a single draw call (not five or six).
 	mesh.set_material("flat", EnvKit.flat(Color.WHITE, "flat"))
 	mesh.alias("iron", "flat", Color("3a3430"))
-	mesh.alias("shutter", "flat", Color.html(str(spec.get("shutter", "#5a8a6a"))))
+	mesh.alias("shutter", "flat", Color.html(str(spec.get("shutter", "#5a7fb0"))))
 	mesh.alias("shutter_dark", "flat", Color("3f6a52"))
+	mesh.alias("glass_dark", "flat", Color("2c3342"))
 	mesh.alias("plant", "flat", Color.WHITE)
 	mesh.alias("cutout", "flat", Color.WHITE)
 	if _id("wall_upper", wall_id) == wall_id:
@@ -486,7 +487,7 @@ func _door(face: String, u: float, id: String, data: Dictionary) -> void:
 
 ## Window styles of the kit (the geometry stand-ins of ENV-WINDOW-01..05): width, height.
 const WINDOW_SIZES: Dictionary = {
-	"cross": Vector2(1.25, 1.6), "wide": Vector2(2.0, 1.4), "round": Vector2(1.1, 1.1), "arch": Vector2(1.2, 2.5), "shop": Vector2(3.0, 1.7),
+	"cross": Vector2(1.25, 1.6), "wide": Vector2(2.0, 1.4), "round": Vector2(1.1, 1.1), "arch": Vector2(1.2, 2.5), "shop": Vector2(3.0, 1.7), "dark": Vector2(1.25, 1.6),
 }
 
 
@@ -498,7 +499,7 @@ func _window(face: String, u: float, y: float, id: String, data: Dictionary) -> 
 		_face_quad(material_slot, face, u - size * 0.5, u + size * 0.5, y - size * 0.7, y + size * 0.7, 0.05, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
 		return
 	var generator: String = EnvKit.generator(id)
-	var style: String = generator.trim_prefix("window_") if generator != "" else "cross"
+	var style: String = str(data.get("style", generator.trim_prefix("window_") if generator != "" else "cross"))
 	if not WINDOW_SIZES.has(style):
 		style = "cross"
 	_window_style(face, u, y, style, 0.0, bool(data.get("shutters", style == "cross")), bool(data.get("box", style == "wide")))
@@ -536,8 +537,8 @@ func _window_style(face: String, u: float, y: float, style: String, off: float, 
 	_attach("beam", face, u, y - half_h - 0.06, off + 0.12, Vector3(w + frame * 2.0 + 0.3, 0.16, 0.26), 0.03)
 	if not arch:
 		_attach("beam", face, u, y + half_h + 0.07, off + 0.09, Vector3(w + frame * 2.0 + 0.1, 0.16, 0.18), 0.02)
-	_face_quad("glass", face, u - half_w, u + half_w, y - half_h, rect_top, off + 0.03)
-	if y < 4.0 and off == 0.0:
+	_face_quad("glass_dark" if style == "dark" else "glass", face, u - half_w, u + half_w, y - half_h, rect_top, off + 0.03)
+	if y < 4.0 and off == 0.0 and style != "dark":
 		glows.append(_face_point(face, u, 0.0, 1.7))
 	if arch:
 		var c_a: Vector3 = _face_point(face, u, rect_top, off + 0.03)
@@ -555,7 +556,13 @@ func _window_style(face: String, u: float, y: float, style: String, off: float, 
 	_attach("beam", face, u, y + 0.1, off + 0.06, Vector3(w, 0.07, 0.06), 0.0)
 	if style == "shop":
 		_attach("beam", face, u, y - half_h - 0.28, off + 0.22, Vector3(w + 0.5, 0.14, 0.5), 0.03)
-	if shutters:
+	if style == "dark":
+		# a closed, unlit window: two shutters drawn across the glass
+		for side: float in [-1.0, 1.0]:
+			_attach("shutter", face, u + side * (half_w * 0.5), y, off + 0.1, Vector3(half_w + 0.02, h, 0.07), 0.02)
+			for slat: int in range(5):
+				_attach("shutter_dark", face, u + side * (half_w * 0.5), y - h * 0.4 + h * 0.2 * float(slat), off + 0.145, Vector3(half_w - 0.14, 0.05, 0.03), 0.0)
+	elif shutters:
 		for side: float in [-1.0, 1.0]:
 			_attach("shutter", face, u + side * (half_w + frame + 0.34), y, off + 0.07, Vector3(0.62, h + 0.1, 0.07), 0.02)
 			for slat: int in range(5):
