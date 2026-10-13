@@ -36,8 +36,8 @@ func test_placeholders_resolve_to_textures() -> void:
 		assert_not_null(EnvKit.texture(id), "%s has a placeholder texture" % id)
 
 
-func test_status_is_placeholder_until_art_exists() -> void:
-	assert_eq(EnvKit.status("ENV-WALL-TIMBER"), "placeholder")
+func test_status_follows_the_art_file() -> void:
+	assert_eq(EnvKit.status("ENV-WALL-TIMBER"), "art" if EnvKit.art_path("ENV-WALL-TIMBER") != "" else "placeholder")
 	assert_eq(EnvKit.status("ENV-NOPE"), "unknown")
 
 

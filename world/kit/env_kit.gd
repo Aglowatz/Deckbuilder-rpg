@@ -12,12 +12,18 @@ static var _entries: Dictionary = {}
 static var _order: Array[String] = []
 static var _loaded: bool = false
 static var _materials: Dictionary = {}
+static var _prep: Dictionary = {}
+const PREP_PATH: String = "res://data/art/env_kit_prep.json"
 
 
 static func _load() -> void:
 	if _loaded:
 		return
 	_loaded = true
+	var prep_text: String = FileAccess.get_file_as_string(PREP_PATH) if FileAccess.file_exists(PREP_PATH) else ""
+	var prep_parsed: Variant = JSON.parse_string(prep_text) if prep_text != "" else null
+	if prep_parsed is Dictionary:
+		_prep = (prep_parsed as Dictionary).get("items", {}) as Dictionary
 	var file: FileAccess = FileAccess.open(DATA_PATH, FileAccess.READ)
 	if file == null:
 		push_warning("EnvKit: %s missing" % DATA_PATH)
@@ -54,7 +60,46 @@ static func slot(id: String) -> String:
 
 
 static func tile_size(id: String) -> float:
+	_load()
+	var info: Dictionary = _prep.get(id, {}) as Dictionary
+	if has_art(id) and info.has("tile_u"):
+		return float(info["tile_u"])
 	return float(entry(id).get("tile", 2.0))
+
+
+## The vertical tile size in metres (a 1024x512 band is half as tall as it is wide at the one shared texel density).
+static func tile_size_v(id: String) -> float:
+	_load()
+	var info: Dictionary = _prep.get(id, {}) as Dictionary
+	if has_art(id) and info.has("tile_v"):
+		return float(info["tile_v"])
+	return tile_size(id)
+
+
+## Pivot of a prepared cut-out (0..1 of the trimmed image: doors / windows bottom centre, signs at their wall bracket, trees at the trunk base).
+static func pivot(id: String) -> Vector2:
+	_load()
+	var raw: Array = (_prep.get(id, {}) as Dictionary).get("pivot", [0.5, 1.0]) as Array
+	return Vector2(float(raw[0]), float(raw[1]))
+
+
+## Width / height of the trimmed art (1.0 for a placeholder).
+static func aspect(id: String) -> float:
+	_load()
+	var info: Dictionary = _prep.get(id, {}) as Dictionary
+	if has_art(id) and info.has("aspect"):
+		return float(info["aspect"])
+	var px: Array = info.get("px", [1, 1]) as Array
+	return float(px[0]) / maxf(float(px[1]), 1.0) if has_art(id) else 1.0
+
+
+## The sibling map `<ID>_n` / `<ID>_r` of a real surface, or null.
+static func map_texture(id: String, suffix: String) -> Texture2D:
+	var path: String = art_path(id)
+	if path == "" or not path.begins_with(ART_DIR):
+		return null
+	var map_path: String = path.get_basename() + "_" + suffix + ".webp"
+	return load(map_path) as Texture2D if ResourceLoader.exists(map_path) else null
 
 
 ## The path of the real art file of `id`, or "" while it is still a placeholder.
@@ -133,9 +178,18 @@ static func material(id: String, cut: bool = false, mul: Color = Color.WHITE) ->
 	# Vertex colours carry the baked ambient occlusion of the kit meshes (KitMesh).
 	material_value.vertex_color_use_as_albedo = true
 	var tile: float = tile_size(id)
+	var tile_v: float = tile_size_v(id)
 	if not cut and tile > 0.0:
 		# Kit meshes carry UVs in metres, so one texture repeat covers `tile` metres.
-		material_value.uv1_scale = Vector3(1.0 / tile, 1.0 / tile, 1.0)
+		material_value.uv1_scale = Vector3(1.0 / tile, 1.0 / tile_v, 1.0)
+		var normal_map: Texture2D = map_texture(id, "n")
+		if normal_map != null:
+			material_value.normal_enabled = true
+			material_value.normal_texture = normal_map
+			material_value.normal_scale = 0.7
+		var rough_map: Texture2D = map_texture(id, "r")
+		if rough_map != null:
+			material_value.roughness_texture = rough_map
 	if cut:
 		material_value.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
 		material_value.alpha_scissor_threshold = 0.5
@@ -179,7 +233,21 @@ static func glow(color: Color, energy: float = 1.6) -> StandardMaterial3D:
 
 static func clear_cache() -> void:
 	_materials.clear()
+	_prep.clear()
 	KitTextures.clear()
 	_loaded = false
 	_entries.clear()
 	_order.clear()
+
+
+## A material whose UVs are 0..1 over the whole image (one face of a crate, one wrap of a barrel): for props that are modelled with `fit_uv` and not tiled.
+static func fitted(id: String, mul: Color = Color.WHITE) -> StandardMaterial3D:
+	var key: String = "fit|%s|%s" % [id, mul.to_html()]
+	if _materials.has(key):
+		return _materials[key] as StandardMaterial3D
+	var material_value: StandardMaterial3D = material(id, false, mul).duplicate() as StandardMaterial3D
+	material_value.uv1_scale = Vector3.ONE
+	material_value.texture_repeat = false
+	material_value.set_meta(PaintedClasses.META_NO_PAINT, true)
+	_materials[key] = material_value
+	return material_value

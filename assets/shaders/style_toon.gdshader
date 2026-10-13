@@ -29,6 +29,13 @@ uniform float band_mid = 0.74;
 uniform float band_lit = 0.98;
 uniform float grain_amount = 0.05;
 uniform float gloss = 0.0;
+// Kit surfaces (Environment Kit, Part A): a painted-relief normal map and a roughness map that lets a soft sheen sit on varnished / wet / iron parts.
+uniform bool use_normal_tex = false;
+uniform sampler2D normal_tex : hint_normal, filter_linear_mipmap, repeat_enable;
+uniform float normal_strength = 0.8;
+uniform bool use_rough_tex = false;
+uniform sampler2D rough_tex : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform float kit_sheen = 0.0;
 uniform bool flat_up = false;
 
 // Painted materials (docs/art/style_guide.md, "Painted textures"): the flat colour regions of the model (classified in PaintedClasses) are replaced by the shared painted material,
@@ -81,6 +88,10 @@ void vertex() {
 
 void fragment() {
 	vec2 uv = UV * uv1_scale.xy + uv1_offset.xy;
+	if (use_normal_tex) {
+		NORMAL_MAP = texture(normal_tex, uv).rgb;
+		NORMAL_MAP_DEPTH = normal_strength;
+	}
 	vec4 base = albedo;
 	if (use_texture) {
 		base *= texture(albedo_tex, uv);
@@ -150,7 +161,7 @@ void fragment() {
 	float ground = smoothstep(0.8, 0.95, (INV_VIEW_MATRIX * vec4(NORMAL, 0.0)).y);
 	col = mix(col, vec3(dot(col, vec3(0.299, 0.587, 0.114))), ground * (1.0 - style_ground_sat) * (1.0 - colour_keep));
 	ALBEDO = col;
-	ROUGHNESS = 1.0;
+	ROUGHNESS = use_rough_tex ? texture(rough_tex, uv).r : 1.0;
 	METALLIC = 0.0;
 	SPECULAR = 0.0;
 	float fres = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 2.5);
@@ -170,6 +181,10 @@ void light() {
 	float level = band_mid * b1;
 	level = mix(level, band_lit, b2);
 	DIFFUSE_LIGHT += LIGHT_COLOR * level / PI * mix(vec3(1.0), style_highlight, b2);
+	if (kit_sheen > 0.0 && ROUGHNESS < 0.99) {
+		float sheen = smoothstep(0.9, 0.97, dot(NORMAL, normalize(LIGHT + VIEW))) * ATTENUATION * (1.0 - ROUGHNESS);
+		DIFFUSE_LIGHT += LIGHT_COLOR * sheen * kit_sheen / PI;
+	}
 	if (gloss > 0.0) {
 		// Optional glossy band (the Buffet): one hard-edged highlight, painted on top of the diffuse bands.
 		float spec = smoothstep(0.93, 0.96, dot(NORMAL, normalize(LIGHT + VIEW))) * ATTENUATION;

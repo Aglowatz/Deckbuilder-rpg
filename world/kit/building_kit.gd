@@ -218,6 +218,11 @@ func _foundation_and_walls() -> void:
 
 func _timber() -> void:
 	var mode: String = str(spec.get("timber", "upper"))
+	# The kit timber walls paint their own posts and braces: geometry studs on top would double them (corner posts and floor beams stay).
+	for wall_key: String in ["wall", "wall_upper"]:
+		var painted: String = _id(wall_key, "ENV-WALL-TIMBER")
+		if painted.begins_with("ENV-WALL-TIMBER") and EnvKit.has_art(painted):
+			mode = "none"
 	var post: float = 0.3
 	# corner posts, floor beams and the plate
 	for sx: float in [-1.0, 1.0]:
@@ -497,6 +502,8 @@ func _window(face: String, u: float, y: float, id: String, data: Dictionary) -> 
 		var material_slot: String = "art_%s" % id
 		mesh.set_material(material_slot, EnvKit.material(id, true))
 		_face_quad(material_slot, face, u - size * 0.5, u + size * 0.5, y - size * 0.7, y + size * 0.7, 0.05, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+		if y < 4.0 and id != "ENV-WINDOW-03":
+			glows.append(_face_point(face, u, 0.0, 1.7))
 		return
 	var generator: String = EnvKit.generator(id)
 	var style: String = str(data.get("style", generator.trim_prefix("window_") if generator != "" else "cross"))
@@ -652,3 +659,17 @@ func _stain(face: String, u: float, y: float) -> void:
 	var stain_material: StandardMaterial3D = EnvKit.material("DEC-WALLSTAIN", true)
 	mesh.set_material(slot, stain_material)
 	_face_quad(slot, face, u - 0.9, u + 0.9, y - 1.4, y + 0.2, 0.025, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+
+
+## A painted wall surface repeats once per floor: one tile is one storey tall (so beams and posts land on the floor lines) and 0.8 of that wide (the shared detail scale, a mild
+## stretch). v runs down the image. Placeholders keep the planar metres UVs.
+func _wall_uvs(slot: String, half: float, storey: float) -> Array[Vector2]:
+	var id: String = _id("wall", "ENV-WALL-TIMBER") if slot == "wall" else _id("wall_upper", _id("wall", "ENV-WALL-TIMBER"))
+	if not EnvKit.has_art(id):
+		return []
+	var tile_u: float = EnvKit.tile_size(id)
+	var tile_v: float = EnvKit.tile_size_v(id)
+	var per_metre: float = tile_u / maxf(0.8 * storey, 0.5)
+	var u0: float = -half * per_metre
+	var u1: float = half * per_metre
+	return [Vector2(u0, tile_v), Vector2(u1, tile_v), Vector2(u1, 0.0), Vector2(u0, 0.0)]

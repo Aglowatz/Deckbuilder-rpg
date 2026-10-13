@@ -37,7 +37,8 @@ static func planar_uv(p: Vector3, n: Vector3) -> Vector2:
 		return Vector2(p.x, p.z)
 	var tangent: Vector3 = Vector3.UP.cross(n).normalized()
 	var up: Vector3 = n.cross(tangent).normalized()
-	return Vector2(p.dot(tangent), p.dot(up))
+	# v runs DOWN the face (image space), so a painted wall is upright, not mirrored.
+	return Vector2(p.dot(tangent), -p.dot(up))
 
 
 ## One quad. `corners` has four points; `outward` is the side that must be the front. `colors` (optional, 4) are per-vertex multipliers (ambient occlusion). `uvs` (optional, 4) override the planar UVs.
@@ -107,7 +108,7 @@ var _aliases: Dictionary = {}
 
 
 ## A box (optionally rotated by `basis` about `center`) with chamfered edges of width `bevel`; `ao` darkens the bottom vertices (1 = off).
-func box(slot: String, center: Vector3, size: Vector3, basis: Basis = Basis.IDENTITY, bevel: float = 0.0, ao: float = 1.0) -> void:
+func box(slot: String, center: Vector3, size: Vector3, basis: Basis = Basis.IDENTITY, bevel: float = 0.0, ao: float = 1.0, fit_uv: bool = false) -> void:
 	var half: Vector3 = size * 0.5
 	var b: float = minf(bevel, minf(half.x, minf(half.y, half.z)) * 0.9)
 	var hi: Vector3 = half - Vector3(b, b, b)
@@ -131,7 +132,20 @@ func box(slot: String, center: Vector3, size: Vector3, basis: Basis = Basis.IDEN
 				local[v_axis] = hi[v_axis] * corner.y
 				pts.append(center + basis * local)
 				cols.append(corner_color.call(local) as Color)
-			quad(slot, pts, basis * normal, cols)
+			var fit: Array[Vector2] = []
+			if fit_uv:
+				for corner_index: int in range(4):
+					var c: Vector2 = [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)][corner_index] as Vector2
+					var local_pt: Vector3 = Vector3.ZERO
+					local_pt[u_axis] = hi[u_axis] * c.x
+					local_pt[v_axis] = hi[v_axis] * c.y
+					if axis == 1:
+						fit.append(Vector2(local_pt.x / size.x + 0.5, local_pt.z / size.z + 0.5))
+					else:
+						var h_axis: int = 0 if axis == 2 else 2
+						var flip: float = 1.0 if (axis == 2) == (sign_value > 0) else -1.0
+						fit.append(Vector2(0.5 + flip * local_pt[h_axis] / size[h_axis], 0.5 - local_pt.y / size.y))
+			quad(slot, pts, basis * normal, cols, fit)
 	if b <= 0.0001:
 		return
 	# twelve edge strips
@@ -170,7 +184,7 @@ func box(slot: String, center: Vector3, size: Vector3, basis: Basis = Basis.IDEN
 
 ## A lathed solid of revolution about the y axis through `center`: `profile` is a list of (radius, height) from the bottom up. Open top/bottom are capped by the first/last radius.
 ## UVs wrap once round (u in metres of circumference) and run up in metres.
-func lathe(slot: String, center: Vector3, profile: Array[Vector2], segments: int = 14, ao: float = 1.0, cap_bottom: bool = false, cap_top: bool = true, tint: Color = Color.WHITE) -> void:
+func lathe(slot: String, center: Vector3, profile: Array[Vector2], segments: int = 14, ao: float = 1.0, cap_bottom: bool = false, cap_top: bool = true, tint: Color = Color.WHITE, fit_uv: bool = false) -> void:
 	var count: int = maxi(segments, 3)
 	for ring: int in range(profile.size() - 1):
 		var low: Vector2 = profile[ring]
@@ -188,9 +202,15 @@ func lathe(slot: String, center: Vector3, profile: Array[Vector2], segments: int
 			var u1: float = circumference * float(step + 1) / float(count)
 			var shade_low: float = lerpf(ao, 1.0, clampf((low.y - profile[0].y) * 2.5, 0.0, 1.0))
 			var shade_high: float = lerpf(ao, 1.0, clampf((high.y - profile[0].y) * 2.5, 0.0, 1.0))
+			var lathe_uvs: Array[Vector2] = [Vector2(u0, low.y), Vector2(u1, low.y), Vector2(u1, high.y), Vector2(u0, high.y)]
+			if fit_uv:
+				var span: float = maxf(profile[profile.size() - 1].y - profile[0].y, 0.001)
+				var v_low: float = 1.0 - (low.y - profile[0].y) / span
+				var v_high: float = 1.0 - (high.y - profile[0].y) / span
+				lathe_uvs = [Vector2(float(step) / float(count), v_low), Vector2(float(step + 1) / float(count), v_low), Vector2(float(step + 1) / float(count), v_high), Vector2(float(step) / float(count), v_high)]
 			quad(slot, [center + d0 * low.x + Vector3(0, low.y, 0), center + d1 * low.x + Vector3(0, low.y, 0), center + d1 * high.x + Vector3(0, high.y, 0), center + d0 * high.x + Vector3(0, high.y, 0)], outward,
 				[Color(shade_low, shade_low, shade_low) * tint, Color(shade_low, shade_low, shade_low) * tint, Color(shade_high, shade_high, shade_high) * tint, Color(shade_high, shade_high, shade_high) * tint],
-				[Vector2(u0, low.y), Vector2(u1, low.y), Vector2(u1, high.y), Vector2(u0, high.y)])
+				lathe_uvs)
 	var first: Vector2 = profile[0]
 	var last: Vector2 = profile[profile.size() - 1]
 	for step: int in range(count):
@@ -247,6 +267,9 @@ func build() -> ArrayMesh:
 	for slot: String in _order:
 		var st: SurfaceTool = _tools[slot] as SurfaceTool
 		var before: int = mesh.get_surface_count()
+		var slot_material: StandardMaterial3D = _materials.get(slot) as StandardMaterial3D
+		if slot_material != null and slot_material.normal_texture != null:
+			st.generate_tangents()
 		st.commit(mesh)
 		if mesh.get_surface_count() > before:
 			var material: Material = _materials.get(slot) as Material

@@ -93,11 +93,11 @@ const BLOOM_COLORS: Array[Color] = [Color("e0483a"), Color("f0c03a"), Color("e87
 
 static func barrel(seed_value: int = 0) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
-	mesh.set_material("wood", EnvKit.material("ENV-PROP-BARREL", false, Color(1.0 - 0.04 * float(seed_value % 3), 1.0, 1.0)))
+	mesh.set_material("wood", EnvKit.fitted("ENV-PROP-BARREL", Color(1.0 - 0.04 * float(seed_value % 3), 1.0, 1.0)))
 	mesh.set_material("iron", EnvKit.flat(Color("3b3530"), "iron"))
 	var profile: Array[Vector2] = [Vector2(0.34, 0.0), Vector2(0.4, 0.1), Vector2(0.46, 0.38), Vector2(0.48, 0.55), Vector2(0.46, 0.72), Vector2(0.4, 1.0), Vector2(0.37, 1.1), Vector2(0.33, 1.1), Vector2(0.0, 1.07)]
-	mesh.lathe("wood", Vector3.ZERO, profile, 16, 0.7)
-	for hoop: float in [0.16, 0.38, 0.72, 0.94]:
+	mesh.lathe("wood", Vector3.ZERO, profile, 16, 0.7, false, true, Color.WHITE, EnvKit.has_art("ENV-PROP-BARREL"))
+	for hoop: float in ([] if EnvKit.has_art("ENV-PROP-BARREL") else [0.16, 0.38, 0.72, 0.94]):
 		var r: float = 0.4 + 0.08 * sin(clampf(hoop, 0.0, 1.0) * PI) + 0.012
 		var band: Array[Vector2] = [Vector2(r, hoop - 0.03), Vector2(r + 0.025, hoop - 0.025), Vector2(r + 0.025, hoop + 0.025), Vector2(r, hoop + 0.03)]
 		mesh.lathe("iron", Vector3.ZERO, band, 16, 1.0, false, false)
@@ -106,10 +106,13 @@ static func barrel(seed_value: int = 0) -> Node3D:
 
 static func crate(size: float = 1.0, seed_value: int = 0) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
-	mesh.set_material("wood", EnvKit.material("ENV-PROP-CRATE", false, Color(1.0 - 0.05 * float(seed_value % 3), 1.0, 1.0)))
+	mesh.set_material("wood", EnvKit.fitted("ENV-PROP-CRATE", Color(1.0 - 0.05 * float(seed_value % 3), 1.0, 1.0)))
 	mesh.set_material("trim", EnvKit.material("ENV-BEAM"))
 	var s: float = 0.9 * size
-	mesh.box("wood", Vector3(0, s * 0.5, 0), Vector3(s, s, s), Basis.IDENTITY, 0.045 * size, 0.7)
+	var painted_crate: bool = EnvKit.has_art("ENV-PROP-CRATE")
+	mesh.box("wood", Vector3(0, s * 0.5, 0), Vector3(s, s, s), Basis.IDENTITY, 0.045 * size, 0.7, painted_crate)
+	if painted_crate:
+		return _finish(mesh, "Crate", s * 0.6)
 	var edge: float = 0.1 * size
 	for sx: float in [-1.0, 1.0]:
 		for sz: float in [-1.0, 1.0]:
@@ -181,27 +184,48 @@ static func bench() -> Node3D:
 	return _finish(mesh, "Bench", 0.0)
 
 
+## The village well after the concept (ENV-PROP-WELL): a fat round fieldstone curb with a mossy lip, two timber posts, a crank on one side, a small red-tiled gable with an
+## overhang and a bucket on the rope. Textured with the kit surfaces (foundation stone, plank, red tile); the concept image itself is only the reference.
 static func well() -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
-	mesh.set_material("stone", EnvKit.material("ENV-PROP-WELL"))
-	mesh.set_material("wood", EnvKit.material("ENV-BEAM"))
+	mesh.set_material("stone", EnvKit.material("ENV-WALL-FOUNDATION"))
+	mesh.set_material("wood", EnvKit.material("ENV-WALL-PLANK", false, Color(0.92, 0.86, 0.8)))
+	mesh.set_material("beam", EnvKit.material("ENV-BEAM"))
 	mesh.set_material("roof", EnvKit.material("ENV-ROOF-TILE-RED"))
 	mesh.set_material("water", EnvKit.glow(Color("5fb8dc"), 0.5))
 	mesh.set_material("rope", EnvKit.flat(Color("6b5030"), "rope"))
-	var ring: Array[Vector2] = [Vector2(1.0, 0.0), Vector2(1.08, 0.08), Vector2(1.06, 0.8), Vector2(1.14, 0.9), Vector2(1.14, 1.0), Vector2(0.78, 1.0), Vector2(0.78, 0.35)]
-	mesh.lathe("stone", Vector3.ZERO, ring, 18, 0.7, false, false)
-	mesh.lathe("water", Vector3(0, 0.5, 0), [Vector2(0.78, 0.0), Vector2(0.78, 0.01)], 14, 1.0, false, true)
+	mesh.set_material("iron", EnvKit.flat(Color("3b3530"), "iron"))
+	mesh.set_material("moss", EnvKit.flat(Color("5f8f3c"), "moss"))
+	# the curb: a belly that swells below a thick flat lip
+	var ring: Array[Vector2] = [Vector2(1.08, 0.0), Vector2(1.18, 0.1), Vector2(1.2, 0.55), Vector2(1.14, 0.88), Vector2(1.24, 0.94), Vector2(1.24, 1.06), Vector2(0.82, 1.06), Vector2(0.82, 0.4)]
+	mesh.lathe("stone", Vector3.ZERO, ring, 20, 0.7, false, false)
+	mesh.lathe("water", Vector3(0, 0.62, 0), [Vector2(0.8, 0.0), Vector2(0.8, 0.01)], 14, 1.0, false, true)
+	mesh.blob("moss", Vector3(0.7, 0.16, 1.05), Vector3(0.34, 0.12, 0.2), 3, 8)
+	mesh.blob("moss", Vector3(-0.95, 0.12, -0.6), Vector3(0.3, 0.1, 0.22), 3, 8)
+	# posts, cross beam, roof
 	for side: float in [-1.0, 1.0]:
-		mesh.box("wood", Vector3(side * 0.95, 1.7, 0), Vector3(0.18, 1.5, 0.18), Basis.IDENTITY, 0.03)
-	mesh.box("wood", Vector3(0, 2.35, 0), Vector3(2.3, 0.2, 0.22), Basis.IDENTITY, 0.04)
-	mesh.tube("wood", Vector3(-0.2, 1.95, 0), Vector3(0.2, 1.95, 0), 0.1, 8)
+		mesh.box("beam", Vector3(side * 0.98, 1.8, 0), Vector3(0.2, 1.6, 0.2), Basis.IDENTITY, 0.03)
+		mesh.box("beam", Vector3(side * 0.98, 1.16, 0), Vector3(0.34, 0.14, 0.34), Basis.IDENTITY, 0.02)
+	mesh.box("beam", Vector3(0, 2.5, 0), Vector3(2.4, 0.22, 0.24), Basis.IDENTITY, 0.04)
+	mesh.tube("wood", Vector3(-0.3, 2.05, 0), Vector3(0.3, 2.05, 0), 0.1, 8)
+	# crank
+	mesh.tube("iron", Vector3(0.3, 2.05, 0), Vector3(1.28, 2.05, 0), 0.04, 6, true)
+	mesh.tube("iron", Vector3(1.28, 2.05, 0), Vector3(1.28, 1.6, 0), 0.04, 6, true)
+	mesh.box("wood", Vector3(1.28, 1.52, 0), Vector3(0.1, 0.16, 0.1), Basis.IDENTITY, 0.02)
+	var roof_y: float = 2.62
+	var half_depth: float = 1.15
+	var half_width: float = 1.55
+	var peak: float = 3.55
 	for side: float in [-1.0, 1.0]:
-		mesh.quad("roof", [Vector3(-1.45, 2.3, side * 1.1), Vector3(1.45, 2.3, side * 1.1), Vector3(1.2, 3.1, 0), Vector3(-1.2, 3.1, 0)], Vector3(0, 0.7, side * 0.7))
+		mesh.quad("roof", [Vector3(-half_width, roof_y, side * half_depth), Vector3(half_width, roof_y, side * half_depth), Vector3(half_width - 0.1, peak, 0), Vector3(-half_width + 0.1, peak, 0)], Vector3(0, 0.75, side * 0.7))
+		mesh.box("beam", Vector3(0, roof_y - 0.04, side * half_depth), Vector3(half_width * 2.0 + 0.06, 0.12, 0.1), Basis.IDENTITY, 0.02)
 	for end: float in [-1.0, 1.0]:
-		mesh.tri("wood", [Vector3(end * 1.2, 3.1, 0), Vector3(end * 1.45, 2.3, 1.1), Vector3(end * 1.45, 2.3, -1.1)], Vector3(end, 0, 0))
-	mesh.tube("rope", Vector3(0, 1.95, 0.0), Vector3(0, 1.3, 0.0), 0.02, 4, false)
-	mesh.lathe("wood", Vector3(0, 1.0, 0), [Vector2(0.16, 0.0), Vector2(0.2, 0.05), Vector2(0.2, 0.3), Vector2(0.17, 0.3)], 8, 1.0, true, false)
-	return _finish(mesh, "Well", 1.2)
+		mesh.tri("wood", [Vector3(end * (half_width - 0.2), roof_y, half_depth - 0.2), Vector3(end * (half_width - 0.2), roof_y, -half_depth + 0.2), Vector3(end * (half_width - 0.2), peak - 0.15, 0)], Vector3(end, 0, 0))
+	mesh.box("beam", Vector3(0, peak + 0.04, 0), Vector3(half_width * 2.0, 0.14, 0.18), Basis.IDENTITY, 0.03)
+	# rope and bucket
+	mesh.tube("rope", Vector3(0, 2.05, 0.0), Vector3(0, 1.45, 0.0), 0.02, 4, false)
+	mesh.lathe("wood", Vector3(0, 1.1, 0), [Vector2(0.17, 0.0), Vector2(0.22, 0.04), Vector2(0.24, 0.32), Vector2(0.2, 0.32)], 10, 1.0, true, false)
+	return _finish(mesh, "Well", 1.3)
 
 
 ## A tall post with a hanging lantern (a real warm light) and, optionally, a banner on a cross arm like the paint-over's.
@@ -359,14 +383,26 @@ static func bush(seed_value: int = 0) -> Node3D:
 # ---- market stall and merchant cart -----------------------------------------------------------------------------------------------------
 
 
-## A market stall: a counter with goods, four posts, a striped canvas roof with a scalloped valance, sacks and a lantern. Front faces +z; 3.2 x 2.4 m.
+## Painted awning geometry: a cut-out strip of ENV-AWNING-01/02 mapped over the sloped top (the flat striped part of the art) and a hanging valance (the scalloped part).
+static func _awning_cloth(mesh: KitMesh, slot: String, left: float, right: float, front: Vector3, back: Vector3, drop: float) -> void:
+	var out: Vector3 = back - front
+	var normal: Vector3 = Vector3(0, out.z, -out.y).normalized()
+	if normal.y < 0.0:
+		normal = -normal
+	mesh.quad(slot, [Vector3(left, front.y, front.z), Vector3(right, front.y, front.z), Vector3(right, back.y, back.z), Vector3(left, back.y, back.z)], normal, [Color(0.88, 0.88, 0.88), Color(0.88, 0.88, 0.88), Color.WHITE, Color.WHITE], [Vector2(0, 0.28), Vector2(1, 0.28), Vector2(1, 0.5), Vector2(0, 0.5)])
+	mesh.quad(slot, [Vector3(left, front.y, front.z + 0.03), Vector3(right, front.y, front.z + 0.03), Vector3(right, front.y - drop, front.z + 0.05), Vector3(left, front.y - drop, front.z + 0.05)], Vector3(0, 0.1, 1), [], [Vector2(0, 0.5), Vector2(1, 0.5), Vector2(1, 1.0), Vector2(0, 1.0)])
+
+
+## The market stall after the concept (ENV-PROP-STALL): plank counter with crates of produce in front, four timber posts, a striped scalloped awning, a hanging lantern and a
+## sack beside it. Awning art when it exists (otherwise the placeholder stripes), planks / beams / crate / sack kit surfaces.
 static func stall(seed_value: int = 0) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	var awning: String = "ENV-AWNING-01" if seed_value % 2 == 0 else "ENV-AWNING-02"
-	mesh.set_material("wood", EnvKit.material("ENV-PROP-STALL"))
+	mesh.set_material("wood", EnvKit.material("ENV-WALL-PLANK"))
 	mesh.set_material("beam", EnvKit.material("ENV-BEAM"))
-	mesh.set_material("canvas", EnvKit.material(awning))
+	mesh.set_material("canvas", EnvKit.material(awning, EnvKit.has_art(awning)))
 	mesh.set_material("sack", EnvKit.material("ENV-PROP-SACK"))
+	mesh.set_material("crate", EnvKit.fitted("ENV-PROP-CRATE"))
 	mesh.set_material("iron", EnvKit.flat(Color("3b3530"), "iron"))
 	mesh.set_material("glass", EnvKit.glow(LANTERN, 2.0))
 	var goods: Array[Color] = [Color("d9503a"), Color("e8b53a"), Color("7ab648"), Color("e87aa8")]
@@ -376,27 +412,28 @@ static func stall(seed_value: int = 0) -> Node3D:
 		mesh.box("beam", Vector3(sx * half_w, 1.5, 0.95), Vector3(0.16, 3.0, 0.16), Basis.IDENTITY, 0.03)
 		mesh.box("beam", Vector3(sx * half_w, 1.7, -0.95), Vector3(0.16, 3.4, 0.16), Basis.IDENTITY, 0.03)
 	mesh.box("wood", Vector3(0, 0.55, 0.7), Vector3(3.0, 0.9, 0.9), Basis.IDENTITY, 0.05, 0.7)
-	mesh.box("wood", Vector3(0, 1.02, 0.7), Vector3(3.2, 0.1, 1.1), Basis.IDENTITY, 0.03)
+	mesh.box("beam", Vector3(0, 1.02, 0.7), Vector3(3.2, 0.1, 1.1), Basis.IDENTITY, 0.03)
 	mesh.box("wood", Vector3(0, 0.6, -0.95), Vector3(3.0, 1.2, 0.1), Basis.IDENTITY, 0.03, 0.8)
 	var front_y: float = 3.0
 	var back_y: float = 3.5
 	var front_z: float = 1.4
 	var back_z: float = -1.15
 	var edge: float = half_w + 0.25
-	mesh.quad("canvas", [Vector3(-edge, front_y, front_z), Vector3(edge, front_y, front_z), Vector3(edge, back_y, back_z), Vector3(-edge, back_y, back_z)], Vector3(0, 0.9, 0.3), [Color(0.85, 0.85, 0.85), Color(0.85, 0.85, 0.85), Color.WHITE, Color.WHITE], [Vector2(-1.75, 0), Vector2(1.75, 0), Vector2(1.75, 2.8), Vector2(-1.75, 2.8)])
-	var scallops: int = 8
-	for index: int in range(scallops):
-		var x0: float = -edge + edge * 2.0 * float(index) / float(scallops)
-		var x1: float = -edge + edge * 2.0 * float(index + 1) / float(scallops)
-		var xm: float = (x0 + x1) * 0.5
-		mesh.quad("canvas", [Vector3(x0, front_y, front_z), Vector3(x1, front_y, front_z), Vector3(x1, front_y - 0.18, front_z + 0.02), Vector3(x0, front_y - 0.18, front_z + 0.02)], Vector3(0, 0, 1), [], [Vector2(x0, 0), Vector2(x1, 0), Vector2(x1, 0.18), Vector2(x0, 0.18)])
-		mesh.tri("canvas", [Vector3(x0, front_y - 0.18, front_z + 0.02), Vector3(x1, front_y - 0.18, front_z + 0.02), Vector3(xm, front_y - 0.42, front_z + 0.03)], Vector3(0, 0, 1), [], [Vector2(x0, 0.18), Vector2(x1, 0.18), Vector2(xm, 0.42)])
-	for sx: float in [-1.0, 1.0]:
-		mesh.tri("canvas", [Vector3(sx * edge, front_y, front_z), Vector3(sx * edge, back_y, back_z), Vector3(sx * edge, front_y - 0.2, back_z)], Vector3(sx, 0, 0))
+	if EnvKit.has_art(awning):
+		_awning_cloth(mesh, "canvas", -edge, edge, Vector3(0, front_y, front_z), Vector3(0, back_y, back_z), 0.5)
+	else:
+		mesh.quad("canvas", [Vector3(-edge, front_y, front_z), Vector3(edge, front_y, front_z), Vector3(edge, back_y, back_z), Vector3(-edge, back_y, back_z)], Vector3(0, 0.9, 0.3), [Color(0.85, 0.85, 0.85), Color(0.85, 0.85, 0.85), Color.WHITE, Color.WHITE], [Vector2(-1.75, 0), Vector2(1.75, 0), Vector2(1.75, 2.8), Vector2(-1.75, 2.8)])
+		var scallops: int = 8
+		for index: int in range(scallops):
+			var x0: float = -edge + edge * 2.0 * float(index) / float(scallops)
+			var x1: float = -edge + edge * 2.0 * float(index + 1) / float(scallops)
+			var xm: float = (x0 + x1) * 0.5
+			mesh.quad("canvas", [Vector3(x0, front_y, front_z), Vector3(x1, front_y, front_z), Vector3(x1, front_y - 0.18, front_z + 0.02), Vector3(x0, front_y - 0.18, front_z + 0.02)], Vector3(0, 0, 1), [], [Vector2(x0, 0), Vector2(x1, 0), Vector2(x1, 0.18), Vector2(x0, 0.18)])
+			mesh.tri("canvas", [Vector3(x0, front_y - 0.18, front_z + 0.02), Vector3(x1, front_y - 0.18, front_z + 0.02), Vector3(xm, front_y - 0.42, front_z + 0.03)], Vector3(0, 0, 1), [], [Vector2(x0, 0.18), Vector2(x1, 0.18), Vector2(xm, 0.42)])
 	var rng: RandomNumberGenerator = _rng(seed_value + 70)
 	for index: int in range(4):
 		var x: float = -1.05 + 0.7 * float(index)
-		mesh.box("wood", Vector3(x, 1.2, 0.72), Vector3(0.56, 0.22, 0.6), Basis.IDENTITY, 0.03)
+		mesh.box("crate", Vector3(x, 1.2, 0.72), Vector3(0.56, 0.22, 0.6), Basis.IDENTITY, 0.03, 1.0, true)
 		for fruit: int in range(5):
 			mesh.blob("goods", Vector3(x + rng.randf_range(-0.18, 0.18), 1.38 + rng.randf() * 0.08, 0.72 + rng.randf_range(-0.18, 0.18)), Vector3(0.11, 0.1, 0.11), 4, 9, 1.0, goods[(index + seed_value) % goods.size()])
 	for index: int in range(2):
@@ -407,29 +444,31 @@ static func stall(seed_value: int = 0) -> Node3D:
 	return _finish(mesh, "Stall", 1.6, lights)
 
 
-## A two-wheeled merchant cart with a canvas hood, sacks and handles. The handles point +x; 2.6 x 1.6 m.
+## The merchant cart after the concept (ENV-PROP-CART): a plank bed with raised sides, a big spoked wheel each side, a cream canvas hood over ribs at the back half, sacks and
+## a crate in the open front, two shafts. Textured with the kit surfaces (plank, canvas, sack, crate). The handles point +x; 2.6 x 1.6 m.
 static func cart(seed_value: int = 0) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
-	mesh.set_material("wood", EnvKit.material("ENV-PROP-CART"))
+	mesh.set_material("wood", EnvKit.material("ENV-WALL-PLANK", false, Color(0.9, 0.84, 0.78)))
 	mesh.set_material("beam", EnvKit.material("ENV-BEAM"))
 	mesh.set_material("canvas", EnvKit.material("ENV-PROP-CANVAS"))
 	mesh.set_material("sack", EnvKit.material("ENV-PROP-SACK"))
+	mesh.set_material("crate", EnvKit.fitted("ENV-PROP-CRATE"))
 	mesh.set_material("iron", EnvKit.flat(Color("3b3530"), "iron"))
 	mesh.box("wood", Vector3(0, 0.85, 0), Vector3(1.9, 0.18, 1.2), Basis.IDENTITY, 0.03)
 	for side: float in [-1.0, 1.0]:
 		mesh.box("wood", Vector3(0, 1.2, side * 0.62), Vector3(1.9, 0.62, 0.1), Basis.IDENTITY, 0.03, 0.8)
 		mesh.box("wood", Vector3(side * 0.95, 1.2, 0), Vector3(0.1, 0.62, 1.2), Basis.IDENTITY, 0.03, 0.8)
 		var wheel_z: float = side * 0.78
-		var segs: int = 16
+		var segs: int = 18
 		for step: int in range(segs):
 			var a0: float = TAU * float(step) / float(segs)
 			var a1: float = TAU * float(step + 1) / float(segs)
-			var p0: Vector3 = Vector3(cos(a0) * 0.55, 0.62 + sin(a0) * 0.55, wheel_z)
-			var p1: Vector3 = Vector3(cos(a1) * 0.55, 0.62 + sin(a1) * 0.55, wheel_z)
-			mesh.tube("wood", p0, p1, 0.07, 6, false)
-			if step % 2 == 0:
-				mesh.tube("wood", Vector3(0, 0.62, wheel_z), p0, 0.035, 5, false)
-		mesh.tube("iron", Vector3(0, 0.62, side * 0.6), Vector3(0, 0.62, side * 0.86), 0.09, 8, true)
+			var p0: Vector3 = Vector3(cos(a0) * 0.6, 0.66 + sin(a0) * 0.6, wheel_z)
+			var p1: Vector3 = Vector3(cos(a1) * 0.6, 0.66 + sin(a1) * 0.6, wheel_z)
+			mesh.tube("beam", p0, p1, 0.08, 6, false)
+			if step % 3 == 0:
+				mesh.tube("beam", Vector3(0, 0.66, wheel_z), p0, 0.04, 5, false)
+		mesh.tube("iron", Vector3(0, 0.66, side * 0.6), Vector3(0, 0.66, side * 0.86), 0.1, 8, true)
 	mesh.tube("beam", Vector3(0.9, 1.0, 0.45), Vector3(2.0, 0.7, 0.4), 0.05, 6, true)
 	mesh.tube("beam", Vector3(0.9, 1.0, -0.45), Vector3(2.0, 0.7, -0.4), 0.05, 6, true)
 	var arcs: int = 8
@@ -444,8 +483,9 @@ static func cart(seed_value: int = 0) -> Node3D:
 			var a0: float = PI * float(step) / float(arcs)
 			var a1: float = PI * float(step + 1) / float(arcs)
 			mesh.tube("beam", Vector3(rib, 1.5 + sin(a0) * 0.77, cos(a0) * 0.64), Vector3(rib, 1.5 + sin(a1) * 0.77, cos(a1) * 0.64), 0.035, 5, false)
-	for index: int in range(3):
-		mesh.box("sack", Vector3(0.55 + 0.05 * float(index % 2), 1.35, -0.3 + 0.3 * float(index)), Vector3(0.5, 0.55, 0.4), Basis(Vector3.UP, 0.4 * float(index)), 0.17, 0.75)
+	mesh.box("crate", Vector3(0.58, 1.34, 0.22), Vector3(0.5, 0.5, 0.5), Basis(Vector3.UP, 0.2), 0.03, 1.0, true)
+	for index: int in range(2):
+		mesh.box("sack", Vector3(0.52 + 0.1 * float(index), 1.35, -0.28 - 0.26 * float(index)), Vector3(0.5, 0.55, 0.4), Basis(Vector3.UP, 0.4 * float(index)), 0.17, 0.75)
 	var node: Node3D = _finish(mesh, "Cart", 1.2)
 	node.rotation_degrees.y = float(seed_value * 31 % 40) - 20.0
 	return node

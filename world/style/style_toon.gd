@@ -86,6 +86,15 @@ static func toon_for(source: Material, wind: float = -1.0, paint: bool = true) -
 	material.set_shader_parameter("use_texture", texture != null)
 	if texture != null:
 		material.set_shader_parameter("albedo_tex", texture)
+	material.set_shader_parameter("use_normal_tex", standard.normal_enabled and standard.normal_texture != null)
+	if standard.normal_enabled and standard.normal_texture != null:
+		material.set_shader_parameter("normal_tex", standard.normal_texture)
+		material.set_shader_parameter("normal_strength", standard.normal_scale)
+	var rough_texture: Texture2D = standard.roughness_texture
+	material.set_shader_parameter("use_rough_tex", rough_texture != null)
+	if rough_texture != null:
+		material.set_shader_parameter("rough_tex", rough_texture)
+		material.set_shader_parameter("kit_sheen", 0.35)
 	material.set_shader_parameter("use_vertex_color", standard.vertex_color_use_as_albedo)
 	material.set_shader_parameter("vertex_color_srgb", standard.vertex_color_is_srgb)
 	material.set_shader_parameter("uv1_scale", standard.uv1_scale)

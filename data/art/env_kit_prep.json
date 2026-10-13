@@ -1,0 +1,853 @@
+{
+	"_about": "Written by tools/import_env_kit.gd (env_kit_prep.gd): per kit id the prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, the seam error before / after the repair.",
+	"density": 400.0,
+	"items": {
+		"DEC-IVY": {
+			"aspect": 0.83,
+			"cleared_alpha": 89181.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				925.0,
+				1114.0
+			]
+		},
+		"DEC-PATHEDGE": {
+			"aspect": 4.188,
+			"cleared_alpha": 34418.0,
+			"from_px": [
+				1536.0,
+				512.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				1512.0,
+				361.0
+			]
+		},
+		"DEC-WALLSTAIN": {
+			"aspect": 0.957,
+			"cleared_alpha": 370240.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				927.0,
+				969.0
+			]
+		},
+		"DEC-WORNPATCH": {
+			"aspect": 1.024,
+			"cleared_alpha": 51539.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				966.0,
+				943.0
+			]
+		},
+		"ENV-AWNING-01": {
+			"aspect": 2.343,
+			"cleared_alpha": 20440.0,
+			"from_px": [
+				1536.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				1518.0,
+				648.0
+			]
+		},
+		"ENV-AWNING-02": {
+			"aspect": 2.109,
+			"cleared_alpha": 15972.0,
+			"from_px": [
+				1536.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				1489.0,
+				706.0
+			]
+		},
+		"ENV-BEAM": {
+			"aspect": 6.621,
+			"cleared_alpha": 24068.0,
+			"from_px": [
+				1536.0,
+				512.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				1.0
+			],
+			"px": [
+				1503.0,
+				227.0
+			]
+		},
+		"ENV-DOOR-01": {
+			"aspect": 0.67,
+			"cleared_alpha": 11026.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				1004.0,
+				1498.0
+			]
+		},
+		"ENV-DOOR-02": {
+			"aspect": 0.718,
+			"cleared_alpha": 19361.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				956.0,
+				1332.0
+			]
+		},
+		"ENV-DOOR-03": {
+			"aspect": 1.002,
+			"cleared_alpha": 11823.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				980.0,
+				978.0
+			]
+		},
+		"ENV-GROUND-COBBLE": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 0.99,
+					"before": 1.87
+				},
+				"y": {
+					"after": 0.67,
+					"before": 1.83
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true
+		},
+		"ENV-GROUND-DIRTPATH": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 0.93,
+					"before": 1.84
+				},
+				"y": {
+					"after": 0.93,
+					"before": 1.92
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true
+		},
+		"ENV-GROUND-GRASS-CALM": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 1.2,
+					"before": 1.8
+				},
+				"y": {
+					"after": 0.96,
+					"before": 2.17
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true
+		},
+		"ENV-HEDGE": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 0.96,
+					"before": 3.84
+				},
+				"y": {
+					"after": 1.07,
+					"before": 1.9
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true
+		},
+		"ENV-PROP-BARREL": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 2.16,
+					"before": 2.16
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": false
+		},
+		"ENV-PROP-CANVAS": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 0.84,
+					"before": 0.84
+				},
+				"y": {
+					"after": 1.02,
+					"before": 1.02
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true
+		},
+		"ENV-PROP-CART": {
+			"aspect": 0.915,
+			"cleared_alpha": 16314.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				999.0,
+				1092.0
+			]
+		},
+		"ENV-PROP-CLOTHGOODS": {
+			"aspect": 2.115,
+			"cleared_alpha": 34347.0,
+			"from_px": [
+				1536.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				1506.0,
+				712.0
+			]
+		},
+		"ENV-PROP-CRATE": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": false,
+			"tile_y": false
+		},
+		"ENV-PROP-FENCE": {
+			"aspect": 3.631,
+			"cleared_alpha": 35284.0,
+			"from_px": [
+				1536.0,
+				512.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				1.0
+			],
+			"px": [
+				1536.0,
+				423.0
+			]
+		},
+		"ENV-PROP-FENCE-RAIL": {
+			"aspect": 4.037,
+			"cleared_alpha": 26644.0,
+			"from_px": [
+				1536.0,
+				512.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				1.0
+			],
+			"px": [
+				1522.0,
+				377.0
+			]
+		},
+		"ENV-PROP-FLOWERPOTS": {
+			"aspect": 1.004,
+			"cleared_alpha": 35291.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				1009.0,
+				1005.0
+			]
+		},
+		"ENV-PROP-LANTERN": {
+			"aspect": 0.41,
+			"cleared_alpha": 8292.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				415.0,
+				1011.0
+			]
+		},
+		"ENV-PROP-SACK": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 1.15,
+					"before": 1.15
+				},
+				"y": {
+					"after": 1.48,
+					"before": 1.48
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true
+		},
+		"ENV-PROP-STALL": {
+			"aspect": 0.84,
+			"cleared_alpha": 23637.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				992.0,
+				1181.0
+			]
+		},
+		"ENV-PROP-WELL": {
+			"aspect": 0.652,
+			"cleared_alpha": 41900.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				976.0,
+				1496.0
+			]
+		},
+		"ENV-ROOF-EAVE": {
+			"aspect": 8.747,
+			"cleared_alpha": 11648.0,
+			"from_px": [
+				1536.0,
+				512.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				1.0
+			],
+			"px": [
+				1522.0,
+				174.0
+			]
+		},
+		"ENV-SIGN-CARDS": {
+			"aspect": 1.043,
+			"cleared_alpha": 32706.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				0.352
+			],
+			"px": [
+				998.0,
+				957.0
+			]
+		},
+		"ENV-SIGN-FLASK": {
+			"aspect": 0.933,
+			"cleared_alpha": 15790.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				0.283
+			],
+			"px": [
+				929.0,
+				996.0
+			]
+		},
+		"ENV-SIGN-INN": {
+			"aspect": 0.964,
+			"cleared_alpha": 15797.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				0.253
+			],
+			"px": [
+				978.0,
+				1015.0
+			]
+		},
+		"ENV-SIGN-NEEDLE": {
+			"aspect": 1.022,
+			"cleared_alpha": 28400.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				0.257
+			],
+			"px": [
+				1006.0,
+				984.0
+			]
+		},
+		"ENV-SIGN-PACK": {
+			"aspect": 0.972,
+			"cleared_alpha": 17770.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				0.32
+			],
+			"px": [
+				947.0,
+				974.0
+			]
+		},
+		"ENV-SIGN-POTION": {
+			"aspect": 0.968,
+			"cleared_alpha": 32436.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				0.371
+			],
+			"px": [
+				981.0,
+				1013.0
+			]
+		},
+		"ENV-SIGN-SHIELD": {
+			"aspect": 1.0,
+			"cleared_alpha": 28978.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.0,
+				0.344
+			],
+			"px": [
+				998.0,
+				998.0
+			]
+		},
+		"ENV-SIGNPOST": {
+			"aspect": 0.71,
+			"cleared_alpha": 8748.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.511,
+				1.0
+			],
+			"px": [
+				753.0,
+				1060.0
+			]
+		},
+		"ENV-TREE-BIRCH": {
+			"aspect": 0.666,
+			"cleared_alpha": 103494.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "TREE",
+			"pivot": [
+				0.529,
+				1.0
+			],
+			"px": [
+				1005.0,
+				1510.0
+			]
+		},
+		"ENV-TREE-FRUIT": {
+			"aspect": 0.681,
+			"cleared_alpha": 54675.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "TREE",
+			"pivot": [
+				0.546,
+				1.0
+			],
+			"px": [
+				975.0,
+				1432.0
+			]
+		},
+		"ENV-TREE-OAK": {
+			"aspect": 0.897,
+			"cleared_alpha": 38063.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "TREE",
+			"pivot": [
+				0.523,
+				1.0
+			],
+			"px": [
+				896.0,
+				999.0
+			]
+		},
+		"ENV-TREE-PINE": {
+			"aspect": 0.667,
+			"cleared_alpha": 67580.0,
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"lock": "TREE",
+			"pivot": [
+				0.534,
+				1.0
+			],
+			"px": [
+				1014.0,
+				1521.0
+			]
+		},
+		"ENV-WALL-FOUNDATION": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024,
+				512
+			],
+			"seam": {
+				"x": {
+					"after": 3.09,
+					"before": 3.09
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 1.28,
+			"tile_x": true,
+			"tile_y": false
+		},
+		"ENV-WALL-PLANK": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 1.45,
+					"before": 2.23
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": false
+		},
+		"ENV-WALL-TIMBER": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 2.0,
+					"before": 2.0
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": false
+		},
+		"ENV-WALL-TIMBER-WARM": {
+			"lock": "SURFACE",
+			"maps": true,
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 2.1,
+					"before": 2.1
+				}
+			},
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": false
+		},
+		"ENV-WINDOW-01": {
+			"aspect": 1.494,
+			"cleared_alpha": 18167.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				995.0,
+				666.0
+			]
+		},
+		"ENV-WINDOW-02": {
+			"aspect": 0.982,
+			"cleared_alpha": 28277.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				951.0,
+				968.0
+			]
+		},
+		"ENV-WINDOW-03": {
+			"aspect": 0.948,
+			"cleared_alpha": 16816.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				891.0,
+				940.0
+			]
+		},
+		"ENV-WINDOW-04": {
+			"aspect": 0.975,
+			"cleared_alpha": 10457.0,
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				952.0,
+				976.0
+			]
+		},
+		"ENV-WINDOW-05": {
+			"aspect": 1.485,
+			"cleared_alpha": 21414.0,
+			"from_px": [
+				1536.0,
+				1024.0
+			],
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				1387.0,
+				934.0
+			]
+		}
+	}
+}
