@@ -1,0 +1,15 @@
+{
+	"_about": "The Endless Buffet (Gourmand). Warm dinner-time evening, frosting, biscuit, copper and oven brick.",
+	"area": "buffet",
+	"name": "The Endless Buffet (Gourmand)",
+	"time_of_day": "Warm dinner-time evening; candle and oven glow, steam",
+	"palette": ["#F4D8B0", "#E07A5F", "#C98B3A", "#F6B8C4", "#6B8E3D", "#7A4A2A"],
+	"light": {"key_color": "#ffc878", "key_energy": 0.72, "key_pitch": -40, "key_yaw": -40, "ambient_color": "#c0507c", "ambient_energy": 0.55},
+	"fog": {"color": "#ffd8a0", "density": 0.0035},
+	"grade": {"warmth": 0.25, "saturation": 1.08, "contrast": 1.14, "post_saturation": 1.05},
+	"bloom": {"intensity": 0.5, "threshold": 1.05},
+	"vignette": 0.26,
+	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-TIMBER-WARM"},
+	"tint_strength": 0.7,
+	"tints": {"wall": "#F6B8C4", "trim": "#C98B3A", "roof": "#C98B3A", "ground": "#F4D8B0", "prop": "#E07A5F", "tree": "#6B8E3D"}
+}

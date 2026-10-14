@@ -725,3 +725,14 @@ Judgment calls from the first vertical slice (`docs/art/vertical_slice.md`): the
 - **EK-6** (Part C) Grade matched by numbers against PAINTOVER-TOWN: town ambient 0.72 -> 0.86, contrast 1.1 -> 1.0, glow 0.1 -> 0.2, haze 0.0022 -> 0.0028, saturation 1.0 -> 1.06, exposure 0.82 -> 0.79 (shadow floor 16 -> 24 against 26, mean RGB within 8, saturation 0.55 against 0.58). Camera style and gameplay untouched.
 - **EK-7** Kit buildings dissolve only when the hero is behind their core (`occlusion_shrink` 2.6 m): the house at the lens edge is part of the paint-over's picture, not clutter.
 - **EK-8** Signposts shrank to 2.0 m crossed cards of ENV-SIGNPOST (Path symbols, no text); the four around the fountain are interaction points and stay.
+
+## Overnight decisions
+
+Judgment calls made autonomously during the overnight run (storybook scale, camera system, sub-areas, zone expansion). Rule used: whatever best follows `docs/art/art_bible.md`.
+
+| ID | Question | Decision |
+|---|---|---|
+| OD-1 | The Path-ology Lab row of the Art Bible was TBD | Filled from `docs/design/pathology_lab.md` (see the end of `docs/art/art_bible.md`): palette whites, steel and four Path-colour glows, hub = Hatch Yard (the clearing hatch), sub-areas = the four dungeon wings. The Lab itself stays a 2D map dungeon; only the hatch yard antechamber is walkable. |
+| OD-2 | Where per-area light, fog, grade and tints live | `data/zone_styles/<area>.json` (`world/style/zone_styles.gd`). Files start from the numbers the game already used, so no area changed look when the system landed; the only new behaviour is the kit tints and swaps. Debug builds hot-reload (`ZoneStyleWatcher`). |
+| OD-3 | Palette tinting scope | A multiply on kit materials by group (wall, trim, roof, ground, prop, tree, decal ...) with a strength that blends toward white, plus a swap map (kit id -> kit id). It applies to real painted art as well as placeholders, so one neutral texture serves many zones (G-08 layer 2). |
+| OD-4 | Capital variants (dark, freed) | They keep their own light and fog; they share the kit tint of their area (outside or inside). |

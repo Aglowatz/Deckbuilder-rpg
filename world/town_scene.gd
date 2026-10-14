@@ -125,6 +125,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 func _ready() -> void:
 	SceneManager.pause_allowed = true
 	Audio.play_music(MusicDirector.town(Session.flags))
+	ZoneStyles.use_preset(StylePresets.TOWN)
 	if not _screenshot_args.is_empty():
 		if str(_screenshot_args.get("fresh", "false")) == "true":
 			Session.new_game()

@@ -1,0 +1,15 @@
+{
+	"_about": "Starting Forest. Early morning mist and god rays; stone and timber heavily mossed.",
+	"area": "starting_forest",
+	"name": "Starting Forest",
+	"time_of_day": "Early morning; mist and soft god rays through the canopy",
+	"palette": ["#3F5E3A", "#8DAA6B", "#C9B98A", "#6B4E3A", "#A8C3C9"],
+	"light": {"key_color": "#f4e2b4", "key_energy": 0.8, "key_pitch": -48, "key_yaw": -32, "ambient_color": "#4c5cc0", "ambient_energy": 0.75},
+	"fog": {"color": "#4c4494", "density": 0.006},
+	"grade": {"warmth": -0.1, "saturation": 1.1, "contrast": 1.06, "post_saturation": 1.05},
+	"bloom": {"intensity": 0.75, "threshold": 0.9},
+	"vignette": 0.42,
+	"material_swaps": {},
+	"tint_strength": 0.65,
+	"tints": {"wall": "#8DAA6B", "trim": "#6B4E3A", "roof": "#6E8B5A", "ground": "#8DAA6B", "prop": "#A8B890", "decal": "#8DAA6B"}
+}

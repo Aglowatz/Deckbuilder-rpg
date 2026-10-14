@@ -1,0 +1,15 @@
+{
+	"_about": "The Gainlands (Beefcake). Bright midday sun, sun-bleached wood, red brick and brass.",
+	"area": "gainlands",
+	"name": "The Gainlands (Beefcake)",
+	"time_of_day": "Bright midday sun; crisp shadows, saturated sky",
+	"palette": ["#F2C14E", "#D9483B", "#8BC34A", "#F7EBD3", "#7A5230", "#5FA8D3"],
+	"light": {"key_color": "#fff0c8", "key_energy": 1.0, "key_pitch": -52, "key_yaw": -25, "ambient_color": "#6aa8d0", "ambient_energy": 0.42},
+	"fog": {"color": "#cfeaff", "density": 0.003},
+	"grade": {"warmth": 0.12, "saturation": 1.04, "contrast": 1.12, "post_saturation": 1.16},
+	"bloom": {"intensity": 0.55, "threshold": 1.0},
+	"vignette": 0.2,
+	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-PLANK", "ENV-WALL-TIMBER-WARM": "ENV-WALL-PLANK"},
+	"tint_strength": 0.7,
+	"tints": {"wall": "#F7EBD3", "trim": "#7A5230", "roof": "#D9483B", "ground": "#E8D88A", "prop": "#F2C14E", "awning": "#D9483B"}
+}

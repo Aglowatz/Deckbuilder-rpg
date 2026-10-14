@@ -1,0 +1,15 @@
+{
+	"_about": "The Capital: Outside (Wasteland). Flat eerie overcast dusk, ashen kit, purple rift glow.",
+	"area": "capital_outside",
+	"name": "The Capital: Outside (Wasteland)",
+	"time_of_day": "Flat eerie overcast dusk; purple rift glow",
+	"palette": ["#8C8A86", "#5E5B57", "#B9B2A4", "#9B59D0", "#D8D0C0"],
+	"light": {"key_color": "#e0d0c0", "key_energy": 0.7, "key_pitch": -40, "key_yaw": -32, "ambient_color": "#8a80a8", "ambient_energy": 0.9},
+	"fog": {"color": "#8c7e9c", "density": 0.0085},
+	"grade": {"warmth": -0.2, "saturation": 0.74, "contrast": 1.05, "post_saturation": 0.72},
+	"bloom": {"intensity": 0.42, "threshold": 1.0},
+	"vignette": 0.46,
+	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-FOUNDATION", "ENV-WALL-TIMBER-WARM": "ENV-WALL-FOUNDATION"},
+	"tint_strength": 0.8,
+	"tints": {"wall": "#B9B2A4", "trim": "#5E5B57", "roof": "#8C8A86", "ground": "#8C8A86", "prop": "#B9B2A4", "tree": "#8C8A86", "decal": "#5E5B57"}
+}

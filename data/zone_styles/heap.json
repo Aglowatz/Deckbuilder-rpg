@@ -1,0 +1,15 @@
+{
+	"_about": "The Verdant Dump (Refusemancer). Golden-hour sunset, rusted metal, mossy wood, patchwork panels.",
+	"area": "heap",
+	"name": "The Verdant Dump (Refusemancer)",
+	"time_of_day": "Golden-hour sunset; warm haze, long shadows, fireflies",
+	"palette": ["#7C8F45", "#B5552D", "#E3A857", "#5C6B5E", "#8B6D4C", "#E9D8A6"],
+	"light": {"key_color": "#ffc884", "key_energy": 1.0, "key_pitch": -22, "key_yaw": -50, "ambient_color": "#6a6e8a", "ambient_energy": 0.62},
+	"fog": {"color": "#f0c890", "density": 0.0042},
+	"grade": {"warmth": 0.3, "saturation": 1.1, "contrast": 1.12, "post_saturation": 1.05},
+	"bloom": {"intensity": 0.5, "threshold": 1.05},
+	"vignette": 0.3,
+	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-PLANK", "ENV-WALL-TIMBER-WARM": "ENV-WALL-PLANK"},
+	"tint_strength": 0.7,
+	"tints": {"wall": "#8B6D4C", "trim": "#5C6B5E", "roof": "#B5552D", "ground": "#8B6D4C", "prop": "#B5552D", "tree": "#7C8F45", "decal": "#7C8F45"}
+}

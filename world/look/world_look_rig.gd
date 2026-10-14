@@ -82,6 +82,16 @@ static func all_moods() -> Dictionary:
 
 ## The mood of a style preset id (StylePresets): the town's entries with the zone's own on top; an unknown id gets the town's.
 static func mood_for(id: StringName) -> Dictionary:
+	var mood: Dictionary = _mood_base(id)
+	var style_look: Dictionary = ZoneStyles.look_overrides(id)
+	if not style_look.is_empty():
+		var look_block: Dictionary = (mood.get("look", {}) as Dictionary)
+		mood["look"] = look_block
+		_merge(look_block, style_look)
+	return mood
+
+
+static func _mood_base(id: StringName) -> Dictionary:
 	var moods: Dictionary = all_moods()
 	var result: Dictionary
 	if id == FALLBACK_MOOD or not moods.has(str(id)):
@@ -170,6 +180,16 @@ func set_mood(id: StringName) -> void:
 	if foliage != null:
 		foliage.visible = float((mood.get("foliage", {}) as Dictionary).get("density", 1.0)) > 0.0
 	_apply(false)
+
+
+## A style file changed on disk (debug hot reload): re-read the mood and let the blend carry the new numbers in.
+func refresh_style() -> void:
+	mood = mood_for(mood_id)
+	values = values_for(mood)
+	if style_rig != null and style_rig.preset != null:
+		KitFoliage.set_light(style_rig.preset.sun_color, style_rig.preset.ambient_color)
+	_look_hash = 0
+	_apply(true)
 
 
 func _on_style_applied() -> void:

@@ -1,0 +1,15 @@
+{
+	"_about": "The Department of Necrotic Affairs (Necrocrat). Perpetual 4:59 PM overcast gloom, gray stone and paneling.",
+	"area": "dna",
+	"name": "The Department of Necrotic Affairs (Necrocrat)",
+	"time_of_day": "Perpetual 4:59 PM overcast gloom; cold flat light with green ghost glows",
+	"palette": ["#6E7470", "#9BB59A", "#3D4A44", "#C9C6B8", "#4FBF7A", "#8A2E2E"],
+	"light": {"key_color": "#e8f0ff", "key_energy": 0.95, "key_pitch": -58, "key_yaw": -32, "ambient_color": "#465c7a", "ambient_energy": 0.6},
+	"fog": {"color": "#2e3a4a", "density": 0.016},
+	"grade": {"warmth": -0.35, "saturation": 0.92, "contrast": 1.14, "post_saturation": 0.85},
+	"bloom": {"intensity": 0.35, "threshold": 1.15},
+	"vignette": 0.4,
+	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-FOUNDATION", "ENV-WALL-TIMBER-WARM": "ENV-WALL-FOUNDATION", "ENV-ROOF-TILE-RED": "ENV-ROOF-TILE-BLUE"},
+	"tint_strength": 0.75,
+	"tints": {"wall": "#9BB59A", "trim": "#3D4A44", "roof": "#6E7470", "ground": "#6E7470", "prop": "#C9C6B8", "decal": "#9BB59A"}
+}

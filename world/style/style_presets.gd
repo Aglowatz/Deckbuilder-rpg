@@ -53,6 +53,12 @@ static func capital(dark: bool, freed: bool) -> StringName:
 
 
 static func get_preset(id: StringName) -> ZonePreset:
+	var built: ZonePreset = _build_preset(id)
+	ZoneStyles.apply_to_preset(built, id)
+	return built
+
+
+static func _build_preset(id: StringName) -> ZonePreset:
 	var p: ZonePreset = ZonePreset.new()
 	match id:
 		TOWN:

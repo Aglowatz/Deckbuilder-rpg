@@ -148,6 +148,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 func _ready() -> void:
 	def = ZoneDefs.get_def(_zone_id())
 	SceneManager.pause_allowed = true
+	ZoneStyles.use_preset(StylePresets.for_zone(def.id))
 	if def.id != CapitalZone.ID:
 		# A Path's zone: exploration, or the freed arrangement once its own completion flag is set (the Capital picks by district, `CapitalScene`).
 		Audio.play_music(MusicDirector.zone_area(def.id, Session.flags))

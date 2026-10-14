@@ -36,6 +36,7 @@ var _flush_queued: bool = false
 static func install(scene: Node, id: StringName, camera_node: Camera3D, follow_target: Node3D = null, cull: float = 0.0, preset_override: ZonePreset = null, painted_id: StringName = &"") -> StyleRig:
 	if OS.get_environment("NO_STYLE") != "":
 		return null
+	ZoneStyles.use_preset(id)
 	var rig: StyleRig = StyleRig.new()
 	rig.name = "StyleRig"
 	rig.preset_id = id
@@ -84,6 +85,11 @@ func _ready() -> void:
 		occlusion.hero = follow
 		occlusion.root = _scene_root
 		add_child(occlusion)
+	if OS.is_debug_build():
+		var watcher: ZoneStyleWatcher = ZoneStyleWatcher.new()
+		watcher.name = "ZoneStyleWatcher"
+		watcher.style_rig = self
+		add_child(watcher)
 	var label_fader: StyleLabelFader = StyleLabelFader.new()
 	label_fader.name = "StyleLabelFader"
 	label_fader.root = _scene_root

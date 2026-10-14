@@ -1,0 +1,15 @@
+{
+	"_about": "The Path-ology Lab. No sun: cold pre-dawn above, flat fluorescent white-blue below, four Path-colour glows. White tile, steel, glass, roots.",
+	"area": "pathology_lab",
+	"name": "The Path-ology Lab",
+	"time_of_day": "No sun: cold pre-dawn hush above; flat fluorescent white-blue below",
+	"palette": ["#E4EAEE", "#9FB4C4", "#4C5B66", "#8A5A3C", "#E0443A", "#E8C13A", "#8E5FD0", "#5FBF6A"],
+	"light": {"key_color": "#dce8f4", "key_energy": 0.9, "key_pitch": -62, "key_yaw": -20, "ambient_color": "#7a90b0", "ambient_energy": 0.7},
+	"fog": {"color": "#c8d4e0", "density": 0.004},
+	"grade": {"warmth": -0.3, "saturation": 0.9, "contrast": 1.1, "post_saturation": 0.88},
+	"bloom": {"intensity": 0.5, "threshold": 1.0},
+	"vignette": 0.34,
+	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-FOUNDATION", "ENV-WALL-TIMBER-WARM": "ENV-WALL-FOUNDATION", "ENV-ROOF-TILE-RED": "ENV-ROOF-TILE-BLUE"},
+	"tint_strength": 0.8,
+	"tints": {"wall": "#E4EAEE", "trim": "#4C5B66", "roof": "#9FB4C4", "ground": "#9FB4C4", "prop": "#C8D2DA", "decal": "#8A5A3C"}
+}

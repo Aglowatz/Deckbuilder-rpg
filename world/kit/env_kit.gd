@@ -162,7 +162,10 @@ static func tint(id: String) -> Color:
 ## A cached tileable material for `id`. `cut` makes it an alpha-scissor cut-out (signs, trees, ivy) drawn on both sides; `mul` multiplies the kit tint (grading per building).
 static func material(id: String, cut: bool = false, mul: Color = Color.WHITE) -> StandardMaterial3D:
 	_load()
-	var key: String = "%s|%s|%s" % [id, str(cut), mul.to_html()]
+	# Layer 2 of the Art Bible (G-08): the zone swaps a kit surface for another and tints neutral textures from its palette.
+	id = ZoneStyles.swap(id)
+	var zone_tint: Color = ZoneStyles.tint(tint_group(id))
+	var key: String = "%s|%s|%s|%s" % [id, str(cut), mul.to_html(), zone_tint.to_html()]
 	if _materials.has(key):
 		return _materials[key] as StandardMaterial3D
 	var material_value: StandardMaterial3D = StandardMaterial3D.new()
@@ -172,7 +175,11 @@ static func material(id: String, cut: bool = false, mul: Color = Color.WHITE) ->
 		material_value.albedo_texture = texture_value
 	var real: bool = has_art(id)
 	# A real painted asset keeps its own colours; only the placeholders are tinted.
-	material_value.albedo_color = (Color.WHITE if real else tint(id)) * mul
+	var base_color: Color = (Color.WHITE if real else tint(id)) * mul
+	material_value.albedo_color = base_color * zone_tint
+	material_value.set_meta(&"zone_base", base_color)
+	material_value.set_meta(&"zone_group", tint_group(id))
+	material_value.set_meta(&"zone_key", "%s|%s|%s" % [id, str(cut), mul.to_html()])
 	material_value.roughness = 1.0
 	material_value.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
 	# Vertex colours carry the baked ambient occlusion of the kit meshes (KitMesh).
@@ -242,12 +249,37 @@ static func clear_cache() -> void:
 
 ## A material whose UVs are 0..1 over the whole image (one face of a crate, one wrap of a barrel): for props that are modelled with `fit_uv` and not tiled.
 static func fitted(id: String, mul: Color = Color.WHITE) -> StandardMaterial3D:
-	var key: String = "fit|%s|%s" % [id, mul.to_html()]
+	var key: String = "fit|%s|%s|%s" % [id, mul.to_html(), ZoneStyles.current]
 	if _materials.has(key):
 		return _materials[key] as StandardMaterial3D
 	var material_value: StandardMaterial3D = material(id, false, mul).duplicate() as StandardMaterial3D
 	material_value.uv1_scale = Vector3.ONE
 	material_value.texture_repeat = false
+	material_value.set_meta(&"zone_key", "fit|%s|%s|%s" % [id, mul.to_html(), ZoneStyles.current])
 	material_value.set_meta(PaintedClasses.META_NO_PAINT, true)
 	_materials[key] = material_value
 	return material_value
+
+
+## The tint key of `id`: its slot's family ("awning" of "awning.a") when the style names it, else the sheet group ("trim", "wall"...).
+static func tint_group(id: String) -> String:
+	var slot_name: String = slot(id)
+	var family: String = slot_name.get_slice(".", 0)
+	var tints: Dictionary = ZoneStyles.style(ZoneStyles.current).get("tints", {}) as Dictionary
+	if family != "" and tints.has(family):
+		return family
+	return str(entry(id).get("group", family))
+
+
+## Re-tints every cached kit material for the current area (hot reload of a style file; no scene rebuild needed).
+static func retint() -> void:
+	var fresh: Dictionary = {}
+	for key: Variant in _materials.keys():
+		var m: StandardMaterial3D = _materials[key] as StandardMaterial3D
+		if m == null or not m.has_meta(&"zone_group"):
+			fresh[key] = _materials[key]
+			continue
+		var tint_now: Color = ZoneStyles.tint(str(m.get_meta(&"zone_group")))
+		m.albedo_color = (m.get_meta(&"zone_base") as Color) * tint_now
+		fresh["%s|%s" % [str(m.get_meta(&"zone_key")), tint_now.to_html()]] = m
+	_materials = fresh
