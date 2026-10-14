@@ -35,7 +35,7 @@ static func build(parent: Node3D, builder: GainlandsBuilder, quality: int) -> Ga
 	dressing._scatter("plates", int(3.0 * scale_factor), 7.0, 18.0)
 	dressing._scatter("tires", int(2.0 * scale_factor), 8.0, 20.0)
 	dressing._scatter("bag", 1, 9.0, 18.0)
-	dressing._scatter("sunflowers", int(7.0 * scale_factor), 5.0, 22.0)
+	dressing._scatter("sunflowers", int(8.0 * scale_factor), 5.0, 22.0)
 	dressing._kit_clusters(quality)
 	return dressing
 
@@ -85,6 +85,11 @@ func _free(pos: Vector3, clearance: float, spacing: float, solid: bool = true) -
 	if not _builder.is_walkable(pos, 0.5):
 		return false
 	if solid and _builder.layout.path_edge_distance(pos.x, pos.z) < GainlandsLayout.PATH_CLEARANCE:
+		return false
+	# the bridge head and the approach to the House of Gains gate stay open too (GC-8, GC-10)
+	if Vector2(pos.x - GainlandsLayout.BRIDGE_X, pos.z - GainlandsLayout.BRIDGE_Z0).length() < 6.0:
+		return false
+	if Vector2(pos.x - GainlandsLayout.HOUSE_OF_GAINS.x, pos.z - (GainlandsLayout.CAUSEWAY.position.y + GainlandsLayout.CAUSEWAY.size.y + 2.0)).length() < 8.0:
 		return false
 	# the central plaza stays empty (GC-7)
 	if Vector2(pos.x - _hub().x, pos.z - _hub().z).length() < GainlandsLayout.PLAZA_RADIUS + (1.0 if solid else 0.0):

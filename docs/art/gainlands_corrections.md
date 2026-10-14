@@ -106,3 +106,53 @@ Done (commit "Gainlands corrections, Part F"): see GC-12. New e2e `bash tools/ru
 
 fps (Medium): 60.0 at the hub, 60.0 at Brock. GUT: 1524 / 1525 (GC-6).
 
+## Part G: verify and report
+
+Done (commit "Gainlands corrections, Part G"). Two windowed e2e runs with real input, both passing:
+
+- `bash tools/run_gainlands_walk_smoke.sh` (about 3 minutes): arrival on the bridge and the walk north into the plaza; the House of Gains gate (prompt, no lettered plate, E asks to enter, Not yet gives the hero back); the locked Mount Swolympus gate (coming-soon prompt, E toasts and goes nowhere) and the sealed Iron Cavern (same); Proving Grounds -> Sky Garden -> Proving Grounds -> Mill Fields -> Proving Grounds -> hub (every gate and exit, every arrival on walkable ground); then south down the bridge and off its far end into town. One real bug found and fixed on the way (GC-13).
+- `bash tools/run_thrower_smoke.sh` (about 2 minutes): all ten thrower and ripper routes (Part F).
+- GUT: 1524 / 1525 (the one failure is GC-6, pre-existing and local to this PC); the walkability test (`tests/world/test_walkability_zones.gd`) and the sub-area gate test pass; `tests/world/test_gainlands_corrections.gd` adds 17 checks for this pass.
+
+| Spot (walk smoke, real input) | |
+|---|---|
+| Arrival on the bridge | ![](gainlands_corrections/g_01_arrival_on_the_bridge.jpg) |
+| The plaza, walked to from the bridge | ![](gainlands_corrections/g_02_the_plaza.jpg) |
+| The House of Gains gate asks to enter | ![](gainlands_corrections/g_04_house_of_gains_ask.jpg) |
+| The locked Swolympus gate, its prompt | ![](gainlands_corrections/g_05_swolympus_gate_locked.jpg) |
+| E at the locked gate: the toast | ![](gainlands_corrections/g_06_swolympus_gate_toast.jpg) |
+| Proving Grounds, Sky Garden, Mill Fields | ![](gainlands_corrections/g_09_proving_grounds.jpg) ![](gainlands_corrections/g_10_sky_garden.jpg) ![](gainlands_corrections/g_12_mill_fields.jpg) |
+| Leaving over the bridge | ![](gainlands_corrections/g_15_leaving_over_the_bridge.jpg) |
+
+### fps (Medium, 1600x900, `tools/fps.sh`, final pass)
+
+| Scene / spot | avg fps | min fps |
+|---|---|---|
+| Hub (plaza) | 60.0 | 60.0 |
+| Bridge (arrival) | 60.0 | 60.0 |
+| House of Gains gate | 60.0 | 60.0 |
+| Hamster Wheel Heights / locked corner | 60.0 | 58.8 |
+| Proving Grounds | 60.0 | 60.0 |
+| Mill Fields | 59.9 | 55.4 |
+| Sky Garden | 60.0 | 60.0 |
+| Swolympus Trailhead (data kept, not reachable) | 60.0 | 60.0 |
+
+The iGPU numbers move by a few fps run to run; every scene sat at the 60 cap in at least one run.
+
+## What changed (short list)
+
+1. **Declutter** (A): trees 150 -> 72 in groves and a rim band, rocks 40 -> 12, hub dressing to a third, flowers along path edges only, boards 30 -> 8, sub-area trees halved and belts loosened, roads 4.2-4.8 m wide with 2.4 m clear either side, 5.5 m open ground round every NPC, vendor, gate and travel point. Smooth transparency occlusion (no dither anywhere), tree cards fade themselves from the hero position, terrain never fades, clouds stay under the meadow, the meadow never dips under the water.
+2. **Hub** (B): an empty 8.5 m plaza with everything round its rim; the dungeon road skirts the Station platform.
+3. **Entrance** (C): the portal arch is gone; a timber-and-rope bridge from the south rim to a town-side landing, arrival on it facing the zone, leaving by walking off its end; the town passage leads onto the same bridge.
+4. **House of Gains** (D): a 48 x 34 x 30 m fortress-gym beyond the north rim (brick, iron, red-gold roofs, towers, portcullis gatehouse, dumbbells, flexing arms, banners, glowing windows, smoking chimneys), a lantern causeway onto the plateau with the entrance on it, no placeholder gate, no lettered plate.
+5. **Mount Swolympus** (E): postponed to the postgame: locked gate and sealed cavern in the north-east corner, the quest needs the postgame, no marker, the mountain in the distance, the Sky Garden off the Proving Grounds. Data intact (`docs/backlog.md`, "Later").
+6. **Throwers** (F): verified route by route with real input; one landing moved clear of the mill.
+
+## Things to look at
+
+- The causeway top shows the brass trim texture as a red-gold carpet into the gate, and the fortress rock cap reads like a plank deck at the gate (GC-10). Both are placeholders until GAIN-HERO-HOUSE-OF-GAINS concept art; say if either should be plain stone now.
+- The Sky Garden is reached from the Proving Grounds east exit while the trailhead is locked; the rock-lever secret that used to guard it is on hold with the trailhead (GC-11).
+- The pennant poles no longer sway (the toon wind bent the whole pole); only the flags would need a second mesh to sway again (GC-7).
+- Far objects still use the dithered visibility fade of the engine over the last 6 m before the 48 m cull (GC-9); it is not the between-camera-and-hero fade, but it is a dither.
+- The spot name plates (NPCs, the Iron Cavern, Back to Town) are still lettering near the hero, as before (the HUD vocabulary decision in `docs/backlog.md`); only the House of Gains plate was removed.
+- `test_the_rig_aims_the_camera_low_and_pushes_the_look` fails on this PC before and after this pass (FOV 42 vs 44, saved camera settings; GC-6).

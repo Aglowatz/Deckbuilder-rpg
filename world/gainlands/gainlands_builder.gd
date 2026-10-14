@@ -129,8 +129,8 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 		if GainlandsLayout.on_bridge(pos.x, pos.z):
 			# the deck between the rope rails; the far landing is the edge of the world (walking off it leaves for town, GainlandsScene)
 			return absf(pos.x - GainlandsLayout.BRIDGE_X) <= GainlandsLayout.BRIDGE_HALF_WIDTH - GainlandsLayout.BRIDGE_RAIL and not _hits_obstacle(pos, body_radius)
-		# the causeway to the House of Gains gate: its parapets are the edge
-		return GainlandsLayout.CAUSEWAY.grow(-0.3).has_point(Vector2(pos.x, pos.z)) and not _hits_obstacle(pos, body_radius)
+		# the causeway to the House of Gains gate: its parapets are the edge (only the sides shrink: the land end must join the meadow with no gap)
+		return absf(pos.x - GainlandsLayout.HOUSE_OF_GAINS.x) <= GainlandsLayout.CAUSEWAY.size.x * 0.5 - 0.3 and not _hits_obstacle(pos, body_radius)
 	if surface == GainlandsLayout.Surface.GROUND and layout.main_edge_distance(pos.x, pos.z) < 0.35:
 		return false
 	return not _hits_obstacle(pos, body_radius)
