@@ -40,7 +40,8 @@ static func build(zone_id: String, title: String, tint: Color, locked: bool) -> 
 			_rock_arch(dressing)
 	_path(dressing, tint)
 	_sign(root, title, tint)
-	_far_glow(root, tint, locked)
+	if zone_id != "beefcake":
+		_far_glow(root, tint, locked)  # the Gainlands way in is a plain bridge, no glow at the end of it (GC-8)
 	return root
 
 

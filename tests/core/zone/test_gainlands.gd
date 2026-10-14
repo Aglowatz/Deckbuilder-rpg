@@ -73,8 +73,10 @@ func test_every_anchor_chest_and_enemy_stands_on_real_ground() -> void:
 	for name: String in layout.anchors.keys():
 		var pos: Vector3 = layout.anchors[name] as Vector3
 		var surface: GainlandsLayout.Surface = layout.surface_at(pos.x, pos.z)
-		assert_true(surface == GainlandsLayout.Surface.GROUND or surface == GainlandsLayout.Surface.ISLAND, "anchor %s is on ground or an island" % name)
-		if surface == GainlandsLayout.Surface.GROUND:
+		assert_true(surface == GainlandsLayout.Surface.GROUND or surface == GainlandsLayout.Surface.ISLAND or surface == GainlandsLayout.Surface.BRIDGE, "anchor %s is on ground, an island or the bridge to town" % name)
+		if surface == GainlandsLayout.Surface.BRIDGE:
+			assert_true(name == "spawn" or name == "exit", "only the arrival and the exit stand on the bridge (%s)" % name)
+		elif surface == GainlandsLayout.Surface.GROUND:
 			assert_gt(GainlandsLayout.main_edge_distance(pos.x, pos.z), 1.0, "anchor %s is clear of the cliff edge" % name)
 		else:
 			var island: GainlandsLayout.Island = layout.island_at(pos.x, pos.z)

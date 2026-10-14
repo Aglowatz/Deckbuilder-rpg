@@ -32,7 +32,18 @@ const PATH_CLEARANCE: float = 2.4
 ## The hub plaza: open ground this far round the "hub" anchor; props, signs and dressing stand on its rim or beyond (GC-7).
 const PLAZA_RADIUS: float = 8.5
 
-enum Surface { VOID, GROUND, ISLAND, RIM }
+## The way in from town (GC-8): a timber-and-rope bridge from the plateau's south rim out over the water to the town side. The hero arrives at its far end and
+## walks across into the zone; walking off the far end leaves for town. Deck BRIDGE_HALF_WIDTH either side of x = BRIDGE_X, from z BRIDGE_Z0 (on the rim) to BRIDGE_Z1.
+const BRIDGE_X: float = 52.0
+const BRIDGE_HALF_WIDTH: float = 2.3
+const BRIDGE_Z0: float = 76.5
+const BRIDGE_Z1: float = 97.0
+## The deck arches up this much in the middle.
+const BRIDGE_RISE: float = 0.55
+## The rails: the walkable deck is the half width minus this.
+const BRIDGE_RAIL: float = 0.3
+
+enum Surface { VOID, GROUND, ISLAND, RIM, BRIDGE }
 
 
 class Island:
@@ -140,9 +151,22 @@ func island_at(x: float, z: float) -> Island:
 	return null
 
 
-## What is under (x, z): main ground, an island's top, the unfenced rim just past an island's edge
+## True on the bridge deck (rails included); the bridge overlaps the rim so the walk from grass to planks is seamless.
+static func on_bridge(x: float, z: float) -> bool:
+	return absf(x - BRIDGE_X) <= BRIDGE_HALF_WIDTH and z >= BRIDGE_Z0 and z <= BRIDGE_Z1
+
+
+## The deck's height at z: a gentle arch from the rim to the far landing.
+static func bridge_height(z: float) -> float:
+	var t: float = clampf((z - BRIDGE_Z0) / (BRIDGE_Z1 - BRIDGE_Z0), 0.0, 1.0)
+	return MIN_GROUND + 0.1 + BRIDGE_RISE * sin(PI * t)
+
+
+## What is under (x, z): the bridge, main ground, an island's top, the unfenced rim just past an island's edge
 ## (stepping there means falling), or nothing.
 func surface_at(x: float, z: float) -> Surface:
+	if on_bridge(x, z):
+		return Surface.BRIDGE
 	if is_main_ground(x, z):
 		return Surface.GROUND
 	var island: Island = island_at(x, z)
@@ -154,6 +178,8 @@ func surface_at(x: float, z: float) -> Surface:
 
 ## Rolling hills on the main land, flattened around buildings and the hub; flat on islands.
 func ground_height(x: float, z: float) -> float:
+	if on_bridge(x, z):
+		return bridge_height(z)
 	var island: Island = island_at(x, z)
 	if island != null and not is_main_ground(x, z):
 		return island.height
@@ -229,10 +255,11 @@ func _anchors() -> void:
 	# The Swole Station hub (south of the main land). Corrective pass (GC-7): an empty central plaza (PLAZA_RADIUS round "hub") with everything that
 	# matters spaced round its rim: the Station platform north, the hermit at its foot, Gus at the start of the east road, the vendor east, the protein
 	# stand south-east, the exit (the bridge to town) south, the Rift Express south-west, the tub and the mirror west, the sign boards north-west.
-	_at("spawn", 52.0, 69.0)
+	# The hero arrives on the bridge from town (GC-8) and walks north into the plaza; the exit is the bridge's far landing.
+	_at("spawn", BRIDGE_X, BRIDGE_Z1 - 6.0)
 	_at("rift_station", 45.0, 71.5)
 	_at("hub", 52.0, 64.0)
-	_at("exit", 52.0, 74.0)
+	_at("exit", BRIDGE_X, BRIDGE_Z1 - 2.0)
 	_at("heal", 42.0, 62.0)
 	_at("tony", 64.0, 62.5)
 	# Brief 16: Shiro Swindle's giant chest, tucked out west of the hub (see NinjaBoss).
@@ -386,7 +413,7 @@ func _features() -> void:
 		_prop("pylon", 52.0 + foot.x, 53.5 + foot.y, 0.0, 1.0, 1.0)
 	_prop("tub", 42.0, 62.0, 0.0, 1.0, 1.7)
 	_prop("stall", 66.0, 63.5, 200.0, 1.0, 1.4)
-	_prop("arch", 52.0, 75.0, 0.0, 1.0, 0.0)
+	# (the old portal arch at the exit is gone: the way in is the bridge, GC-8)
 	_prop("stall", 61.0, 72.0, 160.0, 0.9, 1.2, 1)
 	_prop("mirror", 41.0, 66.8, 90.0, 1.0, 0.7)
 	# Giant mills (west) - the KayKit windmill at 3x, sails spinning.
@@ -464,6 +491,10 @@ func keep_clear_spots() -> Array[Vector3]:
 		keep_clear.append(Vector3(home.x, home.z, 3.0))
 	for sign: Sign in signs:
 		keep_clear.append(Vector3(sign.pos.x, sign.pos.z, 2.5))
+	# the hub plaza and the bridge approach stay open (GC-7, GC-8)
+	var hub: Vector3 = anchors["hub"] as Vector3
+	keep_clear.append(Vector3(hub.x, hub.z, PLAZA_RADIUS + 2.5))
+	keep_clear.append(Vector3(BRIDGE_X, BRIDGE_Z0, 6.0))
 	return keep_clear
 
 

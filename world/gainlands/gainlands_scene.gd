@@ -53,6 +53,10 @@ func _build_zone_extras() -> void:
 		var npc: Node3D = _npcs.get(point.id) as Node3D
 		if npc != null:
 			npc.rotation.y = deg_to_rad(180.0)
+	# Arriving over the bridge (GC-8): the hero faces north so the zone opens up in front of them; the walk-off exit arms once they have stepped onto the deck proper.
+	if GainlandsLayout.on_bridge(player.position.x, player.position.z):
+		player.face(player.position + Vector3(0.0, 0.0, -2.0))
+		_bridge_exit_armed = player.position.z < GainlandsLayout.BRIDGE_Z1 - BRIDGE_EXIT_ARM
 
 
 func _make_puzzle_screen() -> OverlayScreen:
@@ -63,8 +67,33 @@ func _make_minigame_screen() -> OverlayScreen:
 	return RepGameScreen.new()
 
 
+## Waking after a faint: the plaza, not the bridge end.
 func _hub_spawn() -> Vector3:
-	return builder.anchor("spawn")
+	var pos: Vector3 = builder.anchor("hub") + Vector3(0.0, 0.0, 3.0)
+	pos.y = builder.height_at(pos)
+	return pos
+
+
+## The bridge's far landing is the way to town: walking off its end leaves the zone (no prompt needed; the E spot on the landing still asks). It arms only after the
+## hero has been this far up the deck, so a screenshot teleport onto the landing or the arrival itself never trips it.
+const BRIDGE_EXIT_ARM: float = 4.0
+var _bridge_exit_armed: bool = false
+
+
+func _update_bridge_exit() -> void:
+	if _locked or dialogue.active or _fainting or player.airborne or _busy_travel:
+		return
+	var pos: Vector3 = player.position
+	if not GainlandsLayout.on_bridge(pos.x, pos.z):
+		return
+	if pos.z < GainlandsLayout.BRIDGE_Z1 - BRIDGE_EXIT_ARM:
+		_bridge_exit_armed = true
+	elif _bridge_exit_armed and pos.z > GainlandsLayout.BRIDGE_Z1 - 1.0:
+		_bridge_exit_armed = false
+		_locked = true
+		player.input_enabled = false
+		Audio.sfx(&"door")
+		Session.leave_zone()
 
 
 func _prompt_for(spot: ZoneSpot) -> String:
@@ -86,6 +115,7 @@ func _extra_pois() -> Array[MapPoi]:
 
 func _zone_process(delta: float) -> void:
 	gain.animate(delta)
+	_update_bridge_exit()
 	var target_speed: float = 1.8 if Session.flag(GainlandsZone.FLAG_WHEEL_POWERED) else 0.45
 	if not player.airborne:
 		gain.wheel_speed = lerpf(gain.wheel_speed, target_speed, minf(delta * 1.5, 1.0))
@@ -538,3 +568,4 @@ func _teleport(anchor_name: String) -> void:
 	if anchor_name == "wheel_inside":
 		return
 	super._teleport(anchor_name)
+	_bridge_exit_armed = false  # a screenshot teleport onto the landing must not walk the hero off the end

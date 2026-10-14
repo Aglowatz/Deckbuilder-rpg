@@ -56,7 +56,10 @@ static func build(parent: Node3D, zone_id: String, mouth: Vector3, out: Vector3,
 	var theme: Dictionary = THEMES.get(zone_id, THEMES["final"]) as Dictionary
 	var center: Vector3 = plan_data["center"] as Vector3
 	_island_tiles(root, zone_id, theme, plan_data["cells"] as Array)
-	_bridge(root, zone_id, theme, mouth + out * BRIDGE_START, center - out * 8.6)
+	if zone_id == "beefcake":
+		_rope_bridge(root, mouth + out * BRIDGE_START, center - out * 8.6)  # the same timber-and-rope bridge the Gainlands side starts with (GC-8)
+	else:
+		_bridge(root, zone_id, theme, mouth + out * BRIDGE_START, center - out * 8.6)
 	var u: Vector3 = -out
 	var v: Vector3 = Vector3(u.z, 0.0, -u.x)
 	var frame: Transform3D = Transform3D(Basis(v, Vector3.UP, u), center)
@@ -300,3 +303,16 @@ static func _capital(root: Node3D, frame: Transform3D, u: Vector3) -> void:
 	glow.omni_range = 12.0
 	glow.position = frame * Vector3(0.0, 4.0, 1.0)
 	root.add_child(glow)
+
+
+## The Gainlands connector: the timber-and-rope bridge of `GainlandsLandmarks.rope_bridge`, so the town side and the zone side are one bridge (GC-8).
+static func _rope_bridge(root: Node3D, from: Vector3, to: Vector3) -> void:
+	var span: Vector3 = to - from
+	var length: float = span.length()
+	if length < 1.0:
+		return
+	var bridge: Node3D = GainlandsLandmarks.rope_bridge(length, GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0, 0.35, 0.0)
+	bridge.name = "Bridge"
+	root.add_child(bridge)
+	bridge.position = from
+	bridge.rotation.y = atan2(span.x, span.z)

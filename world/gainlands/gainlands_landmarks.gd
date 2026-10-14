@@ -503,3 +503,101 @@ static func _swole_station(root: Node3D, mesh: KitMesh, size: Vector3, circles: 
 	_tree_card(root, "GAIN-PROP-KETTLEBELL", Vector3(bag_x + 0.4, 0.0, 1.2), 0.9)
 	_tree_card(root, "GAIN-PLANT-SUNFLOWER", Vector3(stall_x + 1.9, 0.0, 1.0), 1.9)
 	_tree_card(root, "GAIN-PLANT-SUNFLOWER", Vector3(bag_x - 0.6, 0.0, -1.6), 1.7)
+
+
+# ---- The bridge to town (GC-8): a sturdy timber-and-rope bridge at storybook scale, built from the kit's bleached plank, brass and rope ----------------------------
+
+
+## A walkable bridge `length` metres long and `width` wide, origin at the near end on the ground, running along +z, its deck arching `rise` metres in the middle from a
+## base height of `base_y`. Chunky planks on two beams, rope rails on posts with gold finials, timber pillars down into the water every few metres, a tall gate with a
+## cross beam, lanterns and a hanging kit banner at the near end, and a landing with two banner posts at the far end. Meta "circles" (local x, z, radius) are the posts
+## that block; the deck itself is the layout's walkable surface. Shared with the town side (TownConnectors) so both halves match.
+static func rope_bridge(length: float, width: float, rise: float = 0.5, base_y: float = 0.0) -> Node3D:
+	var mesh: KitMesh = KitMesh.new()
+	_materials(mesh)
+	var circles: Array[Vector3] = []
+	var root: Node3D = Node3D.new()
+	root.name = "Bridge"
+	var half: float = width * 0.5
+	var deck_y: Callable = func(z: float) -> float: return base_y + rise * sin(PI * clampf(z / length, 0.0, 1.0))
+	# planks
+	var step: float = 0.56
+	var count: int = int(length / step)
+	for index: int in range(count):
+		var z: float = step * (float(index) + 0.5)
+		var slot: String = "bleach_dark" if index % 5 == 2 else "bleach"
+		mesh.box(slot, Vector3(0.0, float(deck_y.call(z)) + 0.08, z), Vector3(width, 0.16, step - 0.08), Basis.IDENTITY, 0.02, 0.9)
+	# the two beams under the planks and the cross ties
+	var segments: int = maxi(4, int(length / 2.5))
+	for index: int in range(segments):
+		var z0: float = length * float(index) / float(segments)
+		var z1: float = length * float(index + 1) / float(segments)
+		var mid: float = (z0 + z1) * 0.5
+		var y: float = float(deck_y.call(mid)) - 0.18
+		var slope: float = float(deck_y.call(z1)) - float(deck_y.call(z0))
+		var basis: Basis = Basis(Vector3(1, 0, 0), -atan2(slope, z1 - z0))
+		for side: float in [-1.0, 1.0]:
+			mesh.box("bleach_dark", Vector3(side * (half - 0.35), y, mid), Vector3(0.34, 0.34, z1 - z0 + 0.1), basis, 0.02)
+		mesh.box("bleach_dark", Vector3(0.0, y - 0.05, z0 + 0.3), Vector3(width + 0.5, 0.24, 0.26), Basis.IDENTITY, 0.02)
+	# rope rails on posts
+	var post_step: float = 2.6
+	var posts: int = maxi(2, int(round(length / post_step)))
+	var previous: Array[Vector3] = [Vector3.ZERO, Vector3.ZERO]
+	for index: int in range(posts + 1):
+		var z: float = length * float(index) / float(posts)
+		var y: float = float(deck_y.call(z)) + 0.16
+		for side_index: int in range(2):
+			var side: float = -1.0 if side_index == 0 else 1.0
+			var base: Vector3 = Vector3(side * (half - 0.14), y, z)
+			_post(mesh, base, 1.3, 0.11, "bleach_dark", true)
+			var top: Vector3 = base + Vector3(0, 1.22, 0)
+			var low: Vector3 = base + Vector3(0, 0.62, 0)
+			if index > 0:
+				_rope(mesh, previous[side_index], top, 0.16)
+				_rope(mesh, previous[side_index] - Vector3(0, 0.6, 0), low, 0.1)
+			previous[side_index] = top
+	# pillars down into the water every few metres, braced
+	var pillar_step: float = 6.0
+	var z_pillar: float = pillar_step * 0.5
+	while z_pillar < length - 1.0:
+		var top_y: float = float(deck_y.call(z_pillar)) - 0.3
+		for side: float in [-1.0, 1.0]:
+			mesh.tube("bleach_dark", Vector3(side * (half - 0.4), -2.6, z_pillar), Vector3(side * (half - 0.4), top_y, z_pillar), 0.2, 7, true)
+		mesh.box("bleach_dark", Vector3(0.0, top_y - 1.2, z_pillar), Vector3(width - 0.6, 0.18, 0.18), Basis(Vector3(0, 0, 1), 0.0), 0.0)
+		z_pillar += pillar_step
+	# the gate at the near end: two tall timbers, a cross beam, lanterns, a hanging banner
+	var gate_h: float = 4.6
+	for side: float in [-1.0, 1.0]:
+		var foot: Vector3 = Vector3(side * (half + 0.45), base_y, 0.3)
+		mesh.tube("bleach_dark", foot, foot + Vector3(0, gate_h, 0), 0.24, 8, true)
+		mesh.box("brass", foot + Vector3(0, 0.25, 0), Vector3(0.7, 0.5, 0.7), Basis.IDENTITY, 0.03)
+		mesh.blob("gold", foot + Vector3(0, gate_h + 0.3, 0), Vector3(0.36, 0.36, 0.36), 4, 8, 1.0)
+		_torch(mesh, foot + Vector3(side * 0.0, gate_h * 0.7, 0.42), [] as Array[Dictionary], 0.8)
+		circles.append(Vector3(foot.x, foot.z, 0.42))
+	mesh.box("bleach_dark", Vector3(0.0, base_y + gate_h - 0.3, 0.3), Vector3(width + 1.5, 0.42, 0.42), Basis.IDENTITY, 0.03)
+	mesh.box("brass", Vector3(0.0, base_y + gate_h - 0.05, 0.3), Vector3(width * 0.4, 0.18, 0.5), Basis.IDENTITY, 0.0)
+	_card(mesh, "GAIN-SHEET-BANNERS-01", Vector3(0.0, base_y + gate_h - 0.52, 0.56), 2.2, Vector3(0, 0, 1))
+	# the far landing: a square deck with two banner posts, where the way to town begins
+	var landing_y: float = base_y + 0.08
+	mesh.box("bleach", Vector3(0.0, landing_y, length + 1.6), Vector3(width + 1.2, 0.18, 3.6), Basis.IDENTITY, 0.02, 0.9)
+	mesh.box("bleach_dark", Vector3(0.0, landing_y - 0.2, length + 1.6), Vector3(width + 1.4, 0.26, 3.8), Basis.IDENTITY, 0.02)
+	for side: float in [-1.0, 1.0]:
+		var foot: Vector3 = Vector3(side * (half + 0.4), landing_y, length + 3.1)
+		mesh.tube("bleach_dark", foot, foot + Vector3(0, 3.2, 0), 0.16, 7, true)
+		mesh.blob("gold", foot + Vector3(0, 3.4, 0), Vector3(0.26, 0.26, 0.26), 4, 8, 1.0)
+		mesh.tube("brass", foot + Vector3(0, 2.9, 0), foot + Vector3(side * -0.9, 2.9, 0), 0.05, 5, true)
+		_card(mesh, "GAIN-SHEET-BANNERS-03" if side < 0.0 else "GAIN-SHEET-BANNERS-05", foot + Vector3(side * -0.5, 2.85, 0.08), 1.7, Vector3(0, 0, -1))
+		circles.append(Vector3(foot.x, foot.z, 0.3))
+		mesh.tube("bleach_dark", Vector3(side * (half + 0.2), -2.6, length + 1.6), Vector3(side * (half + 0.2), landing_y - 0.3, length + 1.6), 0.22, 7, true)
+	var body: MeshInstance3D = mesh.instance("Body")
+	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	body.set_meta(&"no_occlusion_fade", true)  # the hero walks on it: it must never dissolve under the feet
+	body.set_meta(&"no_range_cull", true)
+	root.set_meta(&"no_wind", true)
+	root.add_child(body)
+	root.set_meta("circles", circles)
+	root.set_meta("footprint", Vector2(width + 1.5, length + 3.6))
+	root.set_meta("height", gate_h + 0.5)
+	root.set_meta("kind", "bridge")
+	root.set_meta("triangles", mesh.triangle_count())
+	return root

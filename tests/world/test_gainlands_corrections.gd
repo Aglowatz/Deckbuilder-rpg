@@ -177,7 +177,7 @@ func test_the_hub_plaza_is_open_and_the_hub_things_stand_round_its_rim() -> void
 			inside.append(sign.key)
 	assert_eq(inside, [] as Array[String], "nothing solid and no board inside the plaza (%.1f m round the hub)" % GainlandsLayout.PLAZA_RADIUS)
 	# The important things are spread round the plaza, not bunched: every pair of hub anchors keeps 4 m apart.
-	var ring: Array[String] = ["rift_station", "heal", "tony", "brenda", "gus", "protein_stand", "flex_mirror", "exit"]
+	var ring: Array[String] = ["rift_station", "heal", "tony", "brenda", "gus", "protein_stand", "flex_mirror"]
 	for a: String in ring:
 		for b: String in ring:
 			if a < b:
@@ -197,3 +197,70 @@ func test_the_hub_plaza_is_open_and_the_hub_things_stand_round_its_rim() -> void
 	for child: Node in dressing.root.get_children():
 		var pos: Vector3 = (child as Node3D).position
 		assert_gte(Vector2(pos.x - hub.x, pos.z - hub.z).length(), GainlandsLayout.PLAZA_RADIUS - 0.01, "%s stays off the plaza" % child.name)
+
+
+func test_the_way_in_is_a_walkable_bridge_not_a_portal() -> void:
+	for prop: GainlandsLayout.Prop in layout.props:
+		assert_ne(prop.kind, "arch", "the portal arch at the exit is gone")
+	var spawn: Vector3 = layout.anchors["spawn"] as Vector3
+	var exit: Vector3 = layout.anchors["exit"] as Vector3
+	assert_eq(layout.surface_at(spawn.x, spawn.z), GainlandsLayout.Surface.BRIDGE, "the hero arrives on the bridge")
+	assert_eq(layout.surface_at(exit.x, exit.z), GainlandsLayout.Surface.BRIDGE, "the exit is the far end of the bridge")
+	assert_gt(exit.z, spawn.z, "the exit is behind the arriving hero (town side); the zone opens up ahead")
+	assert_gte((GainlandsLayout.BRIDGE_HALF_WIDTH - GainlandsLayout.BRIDGE_RAIL) * 2.0, 2.8, "the deck between the rails is four hero-widths")
+	assert_eq(layout.surface_at(GainlandsLayout.BRIDGE_X, GainlandsLayout.BRIDGE_Z0 + 0.5), GainlandsLayout.Surface.BRIDGE, "the deck overlaps the rim: no gap between grass and planks")
+	assert_true(GainlandsLayout.is_main_ground(GainlandsLayout.BRIDGE_X, GainlandsLayout.BRIDGE_Z0 + 0.5), "the near end stands on the plateau")
+	assert_false(GainlandsLayout.is_main_ground(GainlandsLayout.BRIDGE_X, GainlandsLayout.BRIDGE_Z1 - 1.0), "the far end is out over the water")
+	var builder: GainlandsBuilder = GainlandsBuilder.new()
+	builder.layout.build()
+	builder._index_obstacles()
+	assert_true(builder.is_walkable(spawn, 0.3), "the arrival point is walkable")
+	assert_true(builder.is_walkable(exit, 0.3), "the exit landing is walkable")
+	assert_false(builder.is_walkable(Vector3(GainlandsLayout.BRIDGE_X + GainlandsLayout.BRIDGE_HALF_WIDTH, 0.0, GainlandsLayout.BRIDGE_Z1 - 8.0), 0.3), "the rails hold the hero on the deck")
+	assert_true(builder.map_bounds().has_point(Vector2(exit.x, exit.z)), "the map bounds reach the far landing")
+	var can_stand: Callable = func(pos: Vector3) -> bool: return builder.is_walkable(pos, 0.3)
+	var hub: Vector3 = layout.anchors["hub"] as Vector3
+	var missing: Array[String] = WalkProbe.unreachable(can_stand, spawn, builder.map_bounds(), {"hub": hub, "exit": exit, "main_dungeon": layout.anchors["main_dungeon"]})
+	assert_eq(missing, [] as Array[String], "the bridge leads from the arrival point into the plaza and on to the dungeon road")
+	assert_almost_eq(builder.height_at(spawn), GainlandsLayout.bridge_height(spawn.z), 0.001, "the hero stands on the deck, not under it")
+	assert_gt(GainlandsLayout.bridge_height(spawn.z), WorldScenery.WATER_Y, "the deck is above the water")
+
+
+func test_the_bridge_model_stands_in_the_zone_and_on_the_town_side() -> void:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: GainlandsBuilder = GainlandsBuilder.new()
+	builder.build(host)
+	var bridge: Node3D = builder.root.find_child("Bridge", false, false) as Node3D
+	assert_not_null(bridge, "the zone builds the bridge")
+	if bridge != null:
+		assert_almost_eq(bridge.position.z, GainlandsLayout.BRIDGE_Z0, 0.01)
+		assert_gt((bridge.get_meta("circles", []) as Array).size(), 2, "its gate posts block")
+		assert_true((bridge.find_child("Body", true, false) as Node).has_meta(&"no_occlusion_fade"), "the deck never dissolves under the hero")
+	var scene: GainlandsScene = (load("res://scenes/gainlands_zone.tscn") as PackedScene).instantiate() as GainlandsScene
+	Session.new_game()
+	scene.screenshot_prepare({"nohud": "true"})
+	add_child(scene)
+	await get_tree().process_frame
+	assert_true(GainlandsLayout.on_bridge(scene.player.position.x, scene.player.position.z), "a fresh visit starts on the bridge")
+	assert_lt(scene.player.position.z, GainlandsLayout.BRIDGE_Z1 - 1.5, "the arrival point is well short of the walk-off end")
+	scene._update_bridge_exit()
+	assert_false(scene._locked, "arriving never trips the walk-off exit")
+	var wake: Vector3 = scene._hub_spawn()
+	assert_lt(Vector2(wake.x - 52.0, wake.z - 64.0).length(), GainlandsLayout.PLAZA_RADIUS, "waking after a faint puts the hero in the plaza, not on the bridge")
+	scene.queue_free()
+	await get_tree().process_frame
+	# The town side: the Gainlands passageway has no glow at its end and its connector is the same rope bridge.
+	var passage: Node3D = TownPassages.build("beefcake", "The Gainlands", Color.RED, false)
+	add_child_autofree(passage)
+	assert_null(passage.find_child("FarGlow", true, false), "no portal glow at the end of the Gainlands passage")
+	var other: Node3D = TownPassages.build("gourmand", "The Endless Buffet", Color.ORANGE, false)
+	add_child_autofree(other)
+	assert_not_null(other.find_child("FarGlow", true, false), "the other passages keep theirs")
+	var mouth: Vector3 = Vector3(10.0, 0.0, 10.0)
+	var out: Vector3 = Vector3(0.0, 0.0, 1.0)
+	var connector: Node3D = TownConnectors.build(host, "beefcake", mouth, out, TownConnectors.plan(mouth, out))
+	var town_bridge: Node3D = connector.find_child("Bridge", true, false) as Node3D
+	assert_not_null(town_bridge, "the town connector has the bridge")
+	if town_bridge != null:
+		assert_eq(str(town_bridge.get_meta("kind", "")), "bridge", "and it is the rope bridge, the same model as the zone side")

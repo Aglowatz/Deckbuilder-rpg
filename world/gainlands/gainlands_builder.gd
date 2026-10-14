@@ -41,6 +41,7 @@ func build(parent: Node3D) -> void:
 	parent.add_child(root)
 	_build_main_land()
 	_build_islands()
+	_build_bridge()
 	_build_clouds()
 	_build_props()
 	_build_pipes()
@@ -86,6 +87,7 @@ func area_at(pos: Vector3) -> Array[String]:
 
 func is_floor_at(pos: Vector3) -> bool:
 	var surface: GainlandsLayout.Surface = layout.surface_at(pos.x, pos.z)
+	# dressing, foliage and decals go on grass only: the bridge deck is walkable but not a floor to plant on
 	return surface == GainlandsLayout.Surface.GROUND or surface == GainlandsLayout.Surface.ISLAND
 
 
@@ -93,6 +95,7 @@ func map_bounds() -> Rect2:
 	var bounds: Rect2 = Rect2(GainlandsLayout.CENTER - GainlandsLayout.RADII * 1.1, GainlandsLayout.RADII * 2.2)
 	for island: GainlandsLayout.Island in layout.islands:
 		bounds = bounds.merge(Rect2(island.center - Vector2(island.radius, island.radius), Vector2(island.radius, island.radius) * 2.0))
+	bounds = bounds.merge(Rect2(GainlandsLayout.BRIDGE_X - GainlandsLayout.BRIDGE_HALF_WIDTH - 2.0, GainlandsLayout.BRIDGE_Z0 - 2.0, GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0 + 4.0, GainlandsLayout.BRIDGE_Z1 - GainlandsLayout.BRIDGE_Z0 + 6.0))
 	return bounds
 
 
@@ -119,6 +122,9 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 	var surface: GainlandsLayout.Surface = layout.surface_at(pos.x, pos.z)
 	if surface == GainlandsLayout.Surface.VOID:
 		return false
+	if surface == GainlandsLayout.Surface.BRIDGE:
+		# the deck between the rope rails; the far landing is the edge of the world (walking off it leaves for town, GainlandsScene)
+		return absf(pos.x - GainlandsLayout.BRIDGE_X) <= GainlandsLayout.BRIDGE_HALF_WIDTH - GainlandsLayout.BRIDGE_RAIL and not _hits_obstacle(pos, body_radius)
 	if surface == GainlandsLayout.Surface.GROUND and layout.main_edge_distance(pos.x, pos.z) < 0.35:
 		return false
 	return not _hits_obstacle(pos, body_radius)
@@ -256,6 +262,7 @@ func _build_main_land() -> void:
 	mesh_instance.set_meta(StyleToon.META_NO_TOON, true)  # the vertex-coloured terrain keeps its own material (the double-sided toon variant draws nothing on it)
 	mesh_instance.name = "MainLand"
 	mesh_instance.set_meta(&"no_occlusion_fade", true)  # terrain never dissolves (the island rock used to dither when the camera passed near it)
+	mesh_instance.set_meta(&"no_range_cull", true)  # one huge mesh: the 48 m range cull measured to its centre and hid the whole meadow from the bridge (GC-9)
 	root.add_child(mesh_instance)
 
 
@@ -311,7 +318,20 @@ func _build_islands() -> void:
 		instance.set_meta(StyleToon.META_NO_TOON, true)
 		instance.name = "Island_" + island.id
 		instance.set_meta(&"no_occlusion_fade", true)
+		instance.set_meta(&"no_range_cull", true)
 		root.add_child(instance)
+
+
+## The way in from town (GC-8): the timber-and-rope bridge from the south rim to its far landing. Its rails are the walkable edge (`is_walkable`), its gate posts block.
+func _build_bridge() -> void:
+	var length: float = GainlandsLayout.BRIDGE_Z1 - GainlandsLayout.BRIDGE_Z0
+	var bridge: Node3D = GainlandsLandmarks.rope_bridge(length, GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0, GainlandsLayout.BRIDGE_RISE, GainlandsLayout.MIN_GROUND + 0.1)
+	bridge.name = "Bridge"
+	root.add_child(bridge)
+	bridge.position = Vector3(GainlandsLayout.BRIDGE_X, 0.0, GainlandsLayout.BRIDGE_Z0)
+	for circle: Variant in bridge.get_meta("circles", []) as Array:
+		var local: Vector3 = circle as Vector3
+		_add_obstacle(Vector3(GainlandsLayout.BRIDGE_X + local.x, GainlandsLayout.BRIDGE_Z0 + local.y, local.z))
 
 
 ## The cloud models (adopted by a `CloudFader` so none can block the view).
