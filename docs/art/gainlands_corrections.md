@@ -80,3 +80,15 @@ Done (commit "Gainlands corrections, Part D"): see GC-10. The fortress-gym tower
 
 fps (Medium): 60.0 at the hub, 60.0 at the gate. GUT: 1521 / 1522 (GC-6).
 
+## Part E: Mount Swolympus postponed
+
+Done (commit "Gainlands corrections, Part E"): see GC-11 and `docs/backlog.md` ("Later"). The trailhead gate stands locked on the north-east rim beside the sealed Iron Cavern, the mountain shows in the distance beyond them, the quest and the side dungeon keep their data but are off until the postgame, and the Sky Garden hangs off the Proving Grounds.
+
+| Spot | Before | After |
+|---|---|---|
+| The trailhead gate: on the dungeon road (`--pos=45,27`); now locked on the north-east rim (`--pos=82,35`) | ![](gainlands_corrections/gc_before_swolympus_gate.jpg) | ![](gainlands_corrections/gc_e_after_swolympus_gate.jpg) |
+| The corner from Overview (`--pos=80,36`): the two wheels, the cavern, the locked gate | | ![](gainlands_corrections/gc_e_after_swolympus_overview.jpg) |
+| The sealed Iron Cavern (`--at=mini_dungeon`), the locked gate at its side, the mountain beyond | | ![](gainlands_corrections/gc_e_after_cavern.jpg) |
+
+fps (Medium): 59.9 at the hub, 60.0 at the wheel corner. GUT: 1523 / 1524 (GC-6).
+

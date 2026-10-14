@@ -345,7 +345,7 @@ const SIDE_QUESTS: Dictionary = {
 static func side_quests() -> Array[QuestData]:
 	return [
 		_side(SIDE_BEEF, "S-BEEF", 230, "Water for the Hermit", GainlandsZone.NPC_BRENDA, "Bring the hermit some water: buy a protein shake at the stand.",
-			[QuestObjective.make("Buy a protein shake", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1))]),
+			[QuestObjective.make("Buy a protein shake", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1))], Condition.postgame()),  # Mount Swolympus is a postgame bonus (GC-11): never offered in the main story
 		_side(SIDE_GOUR, "S-GOUR", 330, "The Golden Reservation", BuffetZone.NPC_ODALYS, "A golden reservation card is hidden somewhere in the Endless Buffet. Find it (it will be in a hidden stash).",
 			[QuestObjective.make("Find a hidden stash", Condition.counter(BuffetZone.COUNTER_CHESTS, 1))]),
 		_side(SIDE_NECRO, "S-NECRO", 140, "Number 4,000,212", DnaZone.NPC_BARNABY, "Their number is 4,000,212 and they are on 3. Thin out the queue by processing two roaming staff members.",
@@ -359,8 +359,9 @@ static func side_quests() -> Array[QuestData]:
 	] as Array[QuestData]
 
 
-static func _side(quest_id: String, dungeon_id: String, order: int, title: String, giver: String, summary: String, objectives: Array[QuestObjective]) -> QuestData:
+static func _side(quest_id: String, dungeon_id: String, order: int, title: String, giver: String, summary: String, objectives: Array[QuestObjective], prerequisite: Condition = null) -> QuestData:
 	var quest: QuestData = QuestData.new()
+	quest.prerequisite = prerequisite
 	quest.id = quest_id
 	quest.order = order
 	quest.title = title

@@ -117,7 +117,7 @@ static func build_def() -> ZoneDef:
 	]
 	def.poi_kinds = {
 		"brenda": MapPoi.Kind.QUEST_GIVER, "gus": MapPoi.Kind.QUEST_GIVER, "tony": MapPoi.Kind.VENDOR,
-		"heal": MapPoi.Kind.HEAL, "exit": MapPoi.Kind.EXIT, "mini_dungeon": MapPoi.Kind.MINI_DUNGEON,
+		"heal": MapPoi.Kind.HEAL, "exit": MapPoi.Kind.EXIT,  # (no mini_dungeon marker: the Iron Cavern up Mount Swolympus is sealed until the postgame, GC-11)
 		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.PUZZLE, "quiz": MapPoi.Kind.QUIZ,
 		"minigame": MapPoi.Kind.MINIGAME, "protein_stand": MapPoi.Kind.INTERACTABLE,
 		"flex_mirror": MapPoi.Kind.INTERACTABLE, "flex_mirror_pec": MapPoi.Kind.INTERACTABLE,

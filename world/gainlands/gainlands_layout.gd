@@ -289,7 +289,7 @@ func _anchors() -> void:
 	_at("puzzle", 77.0, 44.0)
 	_at("run_wheel", 86.0, 42.6)
 	_at("spot_me", 71.0, 68.0)
-	_at("mini_dungeon", 66.0, 25.0)
+	_at("mini_dungeon", 78.0, 27.0)  # the Iron Cavern (the way up Mount Swolympus, sealed until the postgame) in the north-east corner beside the locked gate (GC-11)
 	# the House of Gains gate: on the causeway in front of the fortress doors (GC-10)
 	_at("main_dungeon", 50.0, 10.0)
 	# Travel points on the main land.
@@ -390,7 +390,7 @@ func _paths_and_pipes() -> void:
 		PackedVector2Array([Vector2(82.0, 44.0), Vector2(79.0, 52.0), Vector2(74.0, 58.0), Vector2(66.0, 60.5), Vector2(58.0, 61.0)]),
 		PackedVector2Array([Vector2(46.0, 56.0), Vector2(38.0, 50.0), Vector2(28.0, 46.0), Vector2(22.0, 50.0)]),
 		PackedVector2Array([Vector2(28.0, 46.0), Vector2(30.0, 36.0), Vector2(32.0, 32.0)]),
-		PackedVector2Array([Vector2(86.0, 36.0), Vector2(80.0, 30.0), Vector2(72.0, 28.0)]),
+		PackedVector2Array([Vector2(86.0, 36.0), Vector2(79.0, 35.0), Vector2(73.0, 36.0)]),
 	]
 
 
@@ -399,7 +399,7 @@ func _flat_spots() -> void:
 		Vector3(52.0, 64.0, 13.0), Vector3(22.0, 40.0, 4.5), Vector3(69.0, 52.0, 5.5), Vector3(77.0, 44.0, 4.0),
 		Vector3(83.0, 38.0, 6.5), Vector3(72.0, 68.0, 8.0), Vector3(66.0, 25.0, 6.0), Vector3(50.0, 19.0, 7.0),
 		Vector3(32.0, 26.0, 3.5), Vector3(70.0, 26.0, 3.5), Vector3(88.0, 46.0, 3.5), Vector3(16.0, 48.0, 3.5),
-		Vector3(22.0, 52.0, 4.5), Vector3(30.0, 32.0, 4.5), Vector3(40.0, 46.0, 4.5), Vector3(78.0, 28.0, 5.5),
+		Vector3(22.0, 52.0, 4.5), Vector3(30.0, 32.0, 4.5), Vector3(40.0, 46.0, 4.5), Vector3(73.0, 36.0, 5.5), Vector3(78.0, 27.0, 5.0),
 		Vector3(90.0, 58.0, 5.0),
 	]
 
@@ -435,13 +435,13 @@ func _features() -> void:
 	_prop("mill", 40.0, 46.0, 200.0, 2.8, 2.8)
 	# Colossal hamster wheels (east), the first one is the one you can run.
 	_prop("wheel", 86.0, 38.0, 0.0, 1.0, 0.0, 0)
-	_prop("wheel", 78.0, 30.0, 0.0, 0.85, 0.0, 1)
+	_prop("wheel", 73.0, 36.0, 0.0, 0.85, 0.0, 1)
 	_prop("wheel", 92.0, 58.0, 0.0, 0.75, 0.0, 2)
 	# Wheel stands collide, the wheel itself is walk-through.
-	for stand: Vector3 in [Vector3(86.0, 36.2, 0.7), Vector3(86.0, 39.8, 0.7), Vector3(78.0, 28.5, 0.6), Vector3(78.0, 31.5, 0.6), Vector3(92.0, 56.7, 0.55), Vector3(92.0, 59.3, 0.55)]:
+	for stand: Vector3 in [Vector3(86.0, 36.2, 0.7), Vector3(86.0, 39.8, 0.7), Vector3(73.0, 34.5, 0.6), Vector3(73.0, 37.5, 0.6), Vector3(92.0, 56.7, 0.55), Vector3(92.0, 59.3, 0.55)]:
 		_prop("pylon", stand.x, stand.y, 0.0, 1.0, stand.z)
 	# Mini dungeon cavern, main dungeon gate, the studio stage.
-	_prop("cavern", 66.0, 22.0, 0.0, 1.0, 3.0)
+	_prop("cavern", 78.0, 24.5, 0.0, 1.0, 3.0)
 	# (the placeholder dungeon gate with its cones and tape is gone: the House of Gains fortress and its gatehouse stand beyond the north rim, GC-10)
 	_prop("stage", 69.0, 49.5, 0.0, 1.0, 2.2)
 	_prop("hut", 22.0, 37.0, 0.0, 1.0, 1.5)
@@ -481,7 +481,7 @@ func _signs() -> void:
 	_sign("sign.exit", 55.5, 73.0, 180.0)
 	_sign("sign.vendor", 68.0, 61.5, 200.0)
 	_sign("sign.ripper_rule", 67.5, 28.5, 200.0)
-	_sign("sign.mini_dungeon", 63.5, 26.5, 180.0)
+	_sign("sign.mini_dungeon", 74.5, 29.0, 180.0)
 	_sign("sign.main_dungeon", 54.4, 12.8, 180.0, 1.4)
 	_sign("sign.beefcake_poster", 46.5, 54.0, 160.0, 1.0, "poster")
 

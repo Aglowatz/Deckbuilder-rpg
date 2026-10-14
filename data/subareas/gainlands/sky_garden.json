@@ -5,7 +5,7 @@
 	"size": [56, 48],
 	"ground": {"kind": "grass"},
 	"spawn": [22, 18],
-	"entries": {"swolympus_trailhead": [22, 18]},
+	"entries": {"proving_grounds": [22, 18]},
 	"edge": {"kind": "oak", "kinds": ["oak", "fruit"], "spacing": 9.5, "scale": [1.0, 1.5]},
 	"paths": [
 		{"kind": "cobble", "width": 4.2, "points": [[26, 20], [14, 12], [4, 2], [-6, -6], [-14, -14]]}
@@ -39,6 +39,6 @@
 		{"id": "sg_view", "type": "vista", "pos": [20, -12], "title": "Above the Clouds", "lines": ["Below, the Gainlands are a toy: tiny mills, tiny wheels, a very small Swole Station. Up here nobody is counting reps."]}
 	],
 	"exits": [
-		{"id": "to_trailhead", "to": "swolympus_trailhead", "pos": [26, 22], "label": "Back down the mountain", "yaw": 0}
+		{"id": "to_proving", "to": "proving_grounds", "pos": [26, 22], "label": "Back down to the Proving Grounds", "yaw": 0}
 	]
 }

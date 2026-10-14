@@ -101,7 +101,20 @@ func _prompt_for(spot: ZoneSpot) -> String:
 		var point: GainlandsTravel.Point = GainlandsTravel.find(str(spot.data["travel"]))
 		if point != null and not GainlandsTravel.is_unlocked(point, Session.unlock_state()):
 			return "Ask %s about the ride (locked)" % point.speaker
+	if spot.kind == "mini_dungeon":
+		return SWOLYMPUS_PROMPT
 	return spot.prompt
+
+
+## Mount Swolympus is a postgame bonus (GC-11): the Iron Cavern (the way up, the S-BEEF side dungeon) stays sealed and says so in the UI, never in world text.
+const SWOLYMPUS_PROMPT: String = "The Iron Cavern: Mount Swolympus (coming soon)"
+const SWOLYMPUS_TOAST: String = "Coming soon: Mount Swolympus opens after the main story."
+
+
+func _ask_mini_dungeon(spot: ZoneSpot) -> void:
+	player.face(spot.position)
+	Audio.sfx(&"ui_error")
+	hud.toast(SWOLYMPUS_TOAST, UIStyle.PARCHMENT)
 
 
 func _extra_pois() -> Array[MapPoi]:

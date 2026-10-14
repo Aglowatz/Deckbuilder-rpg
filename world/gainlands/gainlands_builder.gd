@@ -43,6 +43,7 @@ func build(parent: Node3D) -> void:
 	_build_islands()
 	_build_bridge()
 	_build_house_of_gains()
+	_build_swolympus()
 	_build_clouds()
 	_build_props()
 	_build_pipes()
@@ -389,6 +390,24 @@ static func _smoke_curve() -> Curve:
 	curve.add_point(Vector2(0.5, 1.0))
 	curve.add_point(Vector2(1.0, 1.6))
 	return curve
+
+
+## Mount Swolympus in the distance (GC-11): the limestone mountain of the trailhead concept stands out in the void beyond the north-east rim, behind the locked gate
+## and the sealed Iron Cavern, so the postgame bonus is visible but never on the route.
+const SWOLYMPUS_DISTANT: Vector3 = Vector3(112.0, -4.0, 2.0)
+
+
+func _build_swolympus() -> void:
+	var mountain: Node3D = GainlandsLandmarks.build({"id": "GAIN-HERO-SWOLYMPUS", "kind": "mound", "size": [38.0, 30.0, 22.0], "color": "#8a7a68", "accent": "#f7ebd3"})
+	if mountain == null:
+		return
+	mountain.name = "DistantSwolympus"
+	root.add_child(mountain)
+	mountain.position = SWOLYMPUS_DISTANT
+	mountain.rotation_degrees.y = 215.0
+	for piece: Node in mountain.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)
+		piece.set_meta(&"no_occlusion_fade", true)
 
 
 ## The cloud models (adopted by a `CloudFader` so none can block the view).

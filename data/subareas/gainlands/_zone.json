@@ -8,7 +8,7 @@
 	"hub_scene": "res://scenes/gainlands_zone.tscn",
 	"subareas": ["proving_grounds", "mill_fields", "swolympus_trailhead", "sky_garden"],
 	"gates": [
-		{"id": "gate_proving", "sub": "proving_grounds", "label": "Proving Grounds", "icon": "ICON-MAP-MINIGAME", "pos": [38.0, 73.0], "yaw": 0.0, "return": [38.0, 70.0]},
-		{"id": "gate_trailhead", "sub": "swolympus_trailhead", "label": "Swolympus Trailhead", "icon": "ICON-MAP-DUNGEON", "pos": [86.0, 31.0], "yaw": -135.0, "return": [83.5, 33.5]}
+		{"id": "gate_proving", "sub": "proving_grounds", "label": "Proving Grounds", "icon": "ICON-MAP-MINIGAME", "pos": [38.0, 73.0], "yaw": 0.0, "return": [38.0, 70.0], "surface": "GAIN-WALL-BLEACH", "accent_surface": "GAIN-TRIM-BRASS"},
+		{"id": "gate_trailhead", "sub": "swolympus_trailhead", "label": "Mount Swolympus", "icon": "ICON-MAP-DUNGEON", "pos": [86.0, 31.0], "yaw": -135.0, "return": [83.5, 33.5], "locked": true, "locked_prompt": "Mount Swolympus (coming soon)", "locked_text": "Coming soon: Mount Swolympus opens after the main story.", "surface": "GAIN-WALL-BRICK", "accent_surface": "GAIN-WALL-IRON"}
 	]
 }

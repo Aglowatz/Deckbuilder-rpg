@@ -28,7 +28,7 @@
 		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "cfeaff", "fog_density": 0.003, "warmth": 0.12, "saturation": 1.16, "vignette": 0.2, "bloom": 0.55, "bloom_threshold": 1.0},
 		"sky": {"horizon": "dcf0ff", "gold": "fff0c8", "mid": "86c0f4", "zenith": "2f86e8", "sun": "fff0c0", "sun_glow": 1.0, "cloud_opacity": 1.0, "cloud_tint": "ffffff"},
 		"scenery": {"water": true, "shore": true, "rings": true, "landmarks": false, "tint": "e8f4ff", "cool": "8cb8f0", "haze_scale": 0.8, "cool_scale": 0.9, "brightness": 1.05, "water_tint": "78b8f0",
-			"kit_cards": [{"id": "GAIN-BD-MOUNT", "angle": -12, "width": 64, "ring": 2, "distance": 0.9, "lift": 0.0}, {"id": "GAIN-BD-ISLANDS", "angle": 150, "width": 70, "ring": 2, "distance": 0.95, "lift": 10.0}]},
+			"kit_cards": [{"id": "GAIN-BD-MOUNT", "angle": 53, "width": 64, "ring": 2, "distance": 0.9, "lift": 0.0}, {"id": "GAIN-BD-ISLANDS", "angle": 150, "width": 70, "ring": 2, "distance": 0.95, "lift": 10.0}]},
 		"foliage": {"density": 1.0, "cells": [0, 1, 2, 3, 5], "tint": "f2fff0"},
 		"ambient": {"enabled": true, "shafts": false, "motes": 90, "mote_color": "fff6c8", "leaves": false, "birds": true}
 	},
