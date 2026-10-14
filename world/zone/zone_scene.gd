@@ -79,6 +79,18 @@ func _build_environment() -> void:
 	pass
 
 
+## G-03: hub signs carry a pictogram only. Each sign in the builder's layout (`layout.signs`: key + pos) gets a hidden spot; using it reads the old words.
+func _build_sign_spots() -> void:
+	var layout: Object = builder.get("layout") as Object
+	if layout == null or not layout.get("signs") is Array:
+		return
+	var index: int = 0
+	for sign: Object in layout.get("signs") as Array:
+		var pos: Vector3 = sign.get("pos") as Vector3
+		_add_spot("sign_%d" % index, "Sign", Vector3(pos.x, 0.0, pos.z), 1.4, "Read the sign", false, "sign", {"hidden": true, "key": str(sign.get("key"))})
+		index += 1
+
+
 ## Called after the map, player, NPCs, spots and enemies exist (lights, ambience, extra props).
 func _build_zone_extras() -> void:
 	pass
@@ -182,6 +194,7 @@ func _ready() -> void:
 	_build_fast_travel()
 	ChestKit.apply_saved(builder.chest_nodes, _chest_secret)
 	_build_enemies()
+	_build_sign_spots()
 	_build_zone_extras()
 	SubAreaGates.install(self, SubAreaDefs.areas_of_scene(def.scene_path))
 	_build_completion_state()
@@ -748,7 +761,7 @@ func _interact(spot: ZoneSpot) -> void:
 		"freed_npc":
 			_face_npc(str(spot.data["npc"]))
 			_say(str(spot.data["speaker"]), story.get_lines("freed_npc.%s" % str(spot.data["npc"])), Callable(), str(spot.data.get("npc_id", "")))
-		"plaque":
+		"plaque", "sign":
 			_say("", story.get_lines(str(spot.data["key"])))
 		"vault_lever":
 			_pull_vault_lever()

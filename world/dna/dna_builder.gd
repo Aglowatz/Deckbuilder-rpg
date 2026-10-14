@@ -321,14 +321,13 @@ func _add_multimesh(key: Vector2i, mesh: Mesh, material: Material, transforms: A
 
 
 func _build_signs() -> void:
-	var story: ZoneStoryText = ZoneStoryText.shared()
+	# G-03: no readable text in the world. A wall board carries one pictogram; the words are read by using it (ZoneScene adds a "sign" spot).
 	for sign_spec: DnaLayout.Sign in layout.signs:
 		var holder: Node3D = Node3D.new()
 		holder.position = sign_spec.pos
 		holder.rotation_degrees.y = sign_spec.yaw
 		chunk_for(sign_spec.pos).add_child(holder)
-		var lines: Array[String] = story.get_lines(sign_spec.key)
-		var panel_size: Vector2 = Vector2(1.5, 0.28 + 0.2 * float(lines.size())) * sign_spec.size
+		var panel_size: Vector2 = Vector2(0.75, 0.75) * sign_spec.size
 		var board: MeshInstance3D = MeshInstance3D.new()
 		var quad: BoxMesh = BoxMesh.new()
 		quad.size = Vector3(panel_size.x, panel_size.y, 0.04)
@@ -339,23 +338,33 @@ func _build_signs() -> void:
 				board_material.albedo_color = Color(0.82, 0.8, 0.66)
 			"memo":
 				board_material.albedo_color = Color(0.9, 0.88, 0.5)
+				panel_size *= 0.7
 				board.scale = Vector3(0.7, 0.7, 1.0)
 			_:
 				board_material.albedo_color = Color(0.1, 0.16, 0.15)
 		board.material_override = board_material
 		holder.add_child(board)
-		var label: Label3D = Label3D.new()
-		label.text = "\n".join(lines)
-		label.font = UIStyle.font_title() if sign_spec.style == "sign" else UIStyle.font_body()
-		label.font_size = 36
-		label.pixel_size = 0.0036 * sign_spec.size * (0.7 if sign_spec.style == "memo" else 1.0)
-		label.outline_size = 0
-		label.modulate = Color(0.75, 1.0, 0.85) if sign_spec.style == "sign" else Color(0.14, 0.12, 0.1)
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.width = panel_size.x / label.pixel_size * 0.92
-		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.position = Vector3(0, 0, 0.03)
-		holder.add_child(label)
+		holder.add_child(IconSign.picture(panel_size * 0.8, sign_icon(sign_spec.key), Vector3(0, 0, 0.03)))
+
+
+## The icon id a sign shows (the keys are the D.N.A.'s `sign.*` / `poster.*` / `memo.*` story keys).
+const SIGN_ICONS: Dictionary = {
+	"sign.lobby_main": "ICON-ENERGY-N", "sign.motto": "ICON-ESSENCE-N", "sign.take_number": "ICON-RES-REDTAPE", "sign.now_serving": "ICON-RES-REDTAPE",
+	"sign.fun_day": "ICON-NODE-EVENT", "sign.requisitions": "ICON-MAP-VENDOR", "sign.exit": "ICON-MAP-EXIT", "poster.safety": "ICON-STAT-DEFENSE",
+	"poster.synergy": "ICON-ESSENCE-N", "sign.coffee": "ICON-MECH-BUFF", "memo.coffee": "ICON-TOKEN-CLAUSE", "memo.lunch": "ICON-TOKEN-CLAUSE",
+	"sign.heal_couch": "ICON-MAP-HEAL", "sign.time_clock": "ICON-MECH-OVEREXERT", "poster.wellness": "ICON-STAT-HP", "poster.hang_in_there": "ICON-ESSENCE-N",
+	"sign.suggestion_box": "ICON-TOKEN-CONTRACT", "memo.cubicle_coffin": "ICON-TOKEN-CLAUSE", "sign.cubicle_farm_a": "ICON-MAP-TRAVEL",
+	"poster.performance": "ICON-STAT-ATTACK", "memo.fun_day": "ICON-TOKEN-CLAUSE", "memo.hr": "ICON-TOKEN-CLAUSE", "sign.cubicle_farm_b": "ICON-MAP-TRAVEL",
+	"memo.motto": "ICON-TOKEN-CLAUSE", "memo.reorg": "ICON-TOKEN-CLAUSE", "memo.parking": "ICON-TOKEN-CLAUSE", "sign.quiz": "ICON-MAP-QUIZ",
+	"sign.printer": "ICON-MECH-PROCESSING", "sign.mailroom": "ICON-MAP-TRAVEL", "sign.puzzle": "ICON-MAP-PUZZLE", "sign.filing_maze": "ICON-MAP-TRAVEL",
+	"sign.matching": "ICON-MAP-MINIGAME", "sign.elevator_bank": "ICON-MAP-TRAVEL", "sign.elevator_rule": "ICON-NODE-LOCKED",
+	"sign.mini_dungeon": "ICON-MAP-SIDEDUNGEON", "memo.records": "ICON-TOKEN-CLAUSE", "sign.records": "ICON-MAP-TRAVEL", "sign.executive": "ICON-NODE-BOSS",
+	"sign.main_dungeon": "ICON-MAP-DUNGEON",
+}
+
+
+static func sign_icon(key: String) -> String:
+	return IconSign.icon_for(key, SIGN_ICONS)
 
 
 # ---- Set pieces (doors, elevators, time clock...) --------------------------------------------

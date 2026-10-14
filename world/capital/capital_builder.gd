@@ -683,22 +683,16 @@ func prop_at_anchor(kind: String, anchor_name: String) -> Node3D:
 
 
 func _build_signs() -> void:
+	# G-03: no readable text in the world. Primm's banners carry the ruler's emblem, boards and wall plaques one pictogram; the words are read by using
+	# the sign (ZoneScene adds a "sign" spot).
 	for sign_data: CapitalLayout.Sign in layout.signs:
-		var lines: Array[String] = story.get_lines(sign_data.key)
-		var longest: int = 0
-		for line: String in lines:
-			longest = maxi(longest, line.length())
-		var width: float = clampf(float(longest) * 0.07 * sign_data.size + 0.7, 1.8, 3.8)
-		var wrapped: int = 0
-		for line: String in lines:
-			wrapped += maxi(1, int(ceilf(float(line.length()) * 0.07 * sign_data.size / (width - 0.5))))
-		var height: float = clampf(0.5 + 0.34 * float(wrapped) * sign_data.size, 0.9, 3.0)
+		var width: float = 1.5 * sign_data.size
+		var height: float = 1.5 * sign_data.size
 		var node: Node3D = Node3D.new()
 		root.add_child(node)
 		node.position = sign_data.pos
 		node.rotation_degrees.y = sign_data.yaw + 180.0
 		var mid: float = 1.45 + height * 0.5
-		var text_color: Color = Color(0.22, 0.12, 0.05)
 		match sign_data.style:
 			"banner":
 				mid = 2.6 + height * 0.5
@@ -711,23 +705,44 @@ func _build_signs() -> void:
 				B.box(node, Vector3(width, height, 0.05), M.flat(Color(0.9, 0.88, 0.8)), Vector3(0, mid, 0))
 			_:
 				var board: Node3D = B.sign_post(width, height, "sign")
-				board.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so their text reads
+				board.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so the pictogram reads
 				node.add_child(board)
 		node.scale = Vector3.ONE * 0.5  # smaller than the old high camera needed: at the low camera a signboard covers the hero
-		var text: Label3D = Label3D.new()
-		text.text = "\n".join(lines)
-		text.font = UIStyle.font_title()
-		text.font_size = 40
-		text.pixel_size = 0.0058 * sign_data.size
-		text.modulate = text_color
-		text.outline_size = 0
-		text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		text.width = (width - 0.4) / text.pixel_size
-		text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		text.double_sided = false
-		text.position = Vector3(0, mid, 0.1)
-		node.add_child(text)
+		node.add_child(IconSign.picture(Vector2(width, height) * 0.8, sign_icon(sign_data.key), Vector3(0, mid, 0.1)))
+
+
+## The icon id a sign shows. Primm's official banners show the ruler's emblem (the same one as the zone rulers' banners); the Wrinkles' own signs do not.
+const SIGN_ICONS: Dictionary = {
+	"sign.gate_main": RulerPresence.EMBLEM_ICON, "sign.gate_requirements": "ICON-RES-REDTAPE", "sign.gate_exit": "ICON-MAP-EXIT",
+	"sign.gate_height": "ICON-STAT-DEFENSE", "sign.gate_inside": RulerPresence.EMBLEM_ICON, "sign.gate_exit_inside": "ICON-MAP-EXIT",
+	"sign.facade_welcome": RulerPresence.EMBLEM_ICON, "sign.facade_hats": "ICON-UI-WARDROBE", "sign.facade_spontaneity": "ICON-RES-REDTAPE",
+	"sign.facade_smile": "ICON-UI-CHARACTER", "sign.facade_lawns": "ICON-RES-REDTAPE", "sign.facade_hedges": "ICON-RES-REDTAPE",
+	"sign.facade_queue": "ICON-RES-REDTAPE", "sign.facade_loudspeaker": "ICON-NODE-EVENT", "sign.facade_shop_1": "ICON-RES-INGREDIENT",
+	"sign.facade_shop_2": "ICON-UI-COLLECTION", "sign.facade_back": "ICON-NODE-LOCKED",
+	"sign.reek_main": RulerPresence.EMBLEM_ICON, "sign.reek_untidy": "ICON-RES-GARBAGE", "sign.reek_compost_ban": "ICON-NODE-LOCKED",
+	"sign.reek_behind_facade": "ICON-RES-GARBAGE", "sign.reek_sick_patch": "ICON-NODE-ELITE", "sign.net_reek": "ICON-MAP-TRAVEL",
+	"sign.grave_main": RulerPresence.EMBLEM_ICON, "sign.grave_permit": "ICON-RES-REDTAPE", "sign.grave_queue": "ICON-RES-REDTAPE",
+	"sign.grave_waiting": "ICON-ESSENCE-N", "sign.grave_plot": "ICON-NODE-LOCKED", "sign.net_grave": "ICON-MAP-TRAVEL",
+	"sign.transit_main": RulerPresence.EMBLEM_ICON, "sign.transit_cardio": "ICON-ENERGY-B", "sign.transit_lines": "ICON-NODE-LOCKED",
+	"sign.transit_lights": "ICON-ENERGY-GENERIC", "sign.transit_cable": "ICON-NODE-ELITE", "sign.net_transit": "ICON-MAP-TRAVEL",
+	"sign.hungry_main": RulerPresence.EMBLEM_ICON, "sign.hungry_paste": "ICON-MECH-PLATE", "sign.hungry_closed": "ICON-NODE-LOCKED",
+	"sign.hungry_nutrition": "ICON-RES-REDTAPE", "sign.hungry_menu": "ICON-MECH-PLATE", "sign.net_hungry": "ICON-MAP-TRAVEL",
+	"sign.castle_main": RulerPresence.EMBLEM_ICON, "sign.castle_avenue": "ICON-MECH-PEEK", "sign.castle_warning": "ICON-NODE-ELITE",
+	"sign.net_approach": "ICON-MAP-TRAVEL",
+	"sign.yard_main": RulerPresence.EMBLEM_ICON, "sign.yard_abandoned": "ICON-NODE-DONE", "sign.yard_form": "ICON-RES-REDTAPE",
+	"sign.ward_main": RulerPresence.EMBLEM_ICON, "sign.ward_permit": "ICON-RES-REDTAPE", "sign.ward_rules": "ICON-RES-REDTAPE",
+	"sign.out_welcome": RulerPresence.EMBLEM_ICON, "sign.out_queue": "ICON-RES-REDTAPE", "sign.out_abandoned_a": "ICON-NODE-DONE",
+	"sign.out_abandoned_b": "ICON-NODE-DONE", "sign.out_rift": "ICON-NODE-ELITE", "sign.out_exit_rules": "ICON-MAP-EXIT",
+	"sign.out_tunnel_clue": "ICON-MAP-QUEST", "sign.out_old_works": "ICON-NODE-LOCKED",
+	"sign.plaza_main": RulerPresence.EMBLEM_ICON, "sign.plaza_exit_interview": "ICON-MAP-EXIT", "sign.plaza_complaints": "ICON-TOKEN-CONTRACT",
+	"sign.plaza_manhole": "ICON-MAP-QUEST", "sign.net_plaza": "ICON-MAP-TRAVEL",
+	"sign.crease_main": "ICON-UI-QUESTS", "sign.crease_wrinkle": "ICON-UI-CHARACTER", "sign.crease_network": "ICON-UI-MAP",
+	"sign.crease_rules": "ICON-TOKEN-CONTRACT",
+}
+
+
+static func sign_icon(key: String) -> String:
+	return IconSign.icon_for(key, SIGN_ICONS)
 
 
 func _rift_material(color: Color, alpha: float, energy: float) -> StandardMaterial3D:

@@ -520,11 +520,7 @@ func _build_pipes() -> void:
 func _build_signs() -> void:
 	for sign: GainlandsLayout.Sign in layout.signs:
 		# G-03: no readable text in the world. A board carries one pictogram (the minimap / icon set vocabulary); the words are read by using the sign (a talk popup).
-		var size: Vector2 = Vector2(1.5, 1.5) * sign.size
-		if sign.style == "memo":
-			size = Vector2(1.0, 1.0)
-		elif sign.style == "poster":
-			size = Vector2(1.7, 1.9)
+		var size: Vector2 = IconSign.board_size(sign.style, sign.size)
 		var node: Node3D = GainlandsProps.sign_post(size.x, size.y, sign.style)
 		node.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so the pictogram reads
 		node.scale = Vector3.ONE * 0.58  # smaller than the old high camera needed: at the low camera a signboard covers the hero
@@ -537,21 +533,7 @@ func _build_signs() -> void:
 			mid = 1.4 + size.y * 0.5
 		elif sign.style == "memo":
 			mid = 1.1 + size.y * 0.5
-		var picture: MeshInstance3D = MeshInstance3D.new()
-		picture.name = "SignIcon"
-		var quad: QuadMesh = QuadMesh.new()
-		quad.size = size * 0.78
-		picture.mesh = quad
-		var material: StandardMaterial3D = StandardMaterial3D.new()
-		material.albedo_texture = IconArt.texture(sign_icon(sign.key), 128.0)
-		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
-		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-		material.set_meta(StyleToon.META_NO_TOON, true)
-		picture.material_override = material
-		picture.set_meta(StyleToon.META_NO_TOON, true)
-		picture.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-		picture.position = Vector3(0, mid, 0.1)
-		node.add_child(picture)
+		node.add_child(IconSign.picture(size * 0.78, sign_icon(sign.key), Vector3(0, mid, 0.1)))
 
 
 ## The icon id a sign shows (minimap and icon-set pictograms; the keys are the `sign.*` story keys).
@@ -568,8 +550,7 @@ const SIGN_ICONS: Dictionary = {
 
 
 static func sign_icon(key: String) -> String:
-	var id: String = str(SIGN_ICONS.get(key, "ICON-MAP-QUEST"))
-	return id if IconArt.has(id) else "ICON-MAP-QUEST"
+	return IconSign.icon_for(key, SIGN_ICONS)
 
 
 var _chest_visible_count: int = 0

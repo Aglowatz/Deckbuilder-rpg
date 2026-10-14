@@ -663,44 +663,42 @@ func gate_open_position(gate_id: String) -> Vector3:
 
 func _build_signs() -> void:
 	for sign: BuffetLayout.Sign in layout.signs:
-		var lines: Array[String] = story.get_lines(sign.key)
-		var longest: int = 0
-		for line: String in lines:
-			longest = maxi(longest, line.length())
-		var width: float = clampf(float(longest) * 0.07 * sign.size + 0.7, 1.8, 3.8)
-		var wrapped: int = 0
-		for line: String in lines:
-			wrapped += maxi(1, int(ceilf(float(line.length()) * 0.07 * sign.size / (width - 0.5))))
-		var height: float = clampf(0.5 + 0.34 * float(wrapped) * sign.size, 0.9, 3.0)
-		var node: Node3D = P.sign_post(width, height, sign.style)
-		node.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so their text reads
+		# G-03: no readable text in the world. A board carries one pictogram; the words are read by using the sign (ZoneScene adds a "sign" spot).
+		var size: Vector2 = IconSign.board_size(sign.style, sign.size)
+		var node: Node3D = P.sign_post(size.x, size.y, sign.style)
+		node.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so the pictogram reads
 		node.scale = Vector3.ONE * 0.5  # smaller than the old high camera needed: at the low camera a signboard covers the hero
 		var pos: Vector3 = _ground(sign.pos.x, sign.pos.z)
 		root.add_child(node)
 		node.position = pos
 		node.rotation_degrees.y = sign.yaw + 180.0
-		var text_color: Color = Color(0.95, 0.95, 0.85) if sign.style == "menu" else Color(0.26, 0.12, 0.05)
-		var text: Label3D = Label3D.new()
-		text.text = "\n".join(lines)
-		text.font = UIStyle.font_title()
-		text.font_size = 40
-		text.pixel_size = 0.0058 * sign.size
-		text.modulate = text_color
-		text.outline_size = 0
-		text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		text.width = (width - 0.4) / text.pixel_size
-		text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		text.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		text.double_sided = false
-		var mid: float = 1.45 + height * 0.5
+		var mid: float = 1.45 + size.y * 0.5
 		if sign.style == "poster":
-			mid = 1.4 + height * 0.5
+			mid = 1.4 + size.y * 0.5
 		elif sign.style == "memo":
-			mid = 1.1 + height * 0.5
+			mid = 1.1 + size.y * 0.5
 		elif sign.style == "menu":
-			mid = 1.3 + height * 0.5
-		text.position = Vector3(0, mid, 0.1)
-		node.add_child(text)
+			mid = 1.3 + size.y * 0.5
+		node.add_child(IconSign.picture(size * 0.78, sign_icon(sign.key), Vector3(0, mid, 0.1)))
+
+
+## The icon id a sign shows (the keys are the `sign.*` story keys in the Buffet's story file).
+const SIGN_ICONS: Dictionary = {
+	"sign.hub_main": "ICON-ENERGY-G", "sign.hub_motto": "ICON-ESSENCE-G", "sign.exit": "ICON-MAP-EXIT", "sign.heal_table": "ICON-MAP-HEAL",
+	"sign.vendor": "ICON-MAP-VENDOR", "sign.oven": "ICON-RES-INGREDIENT", "sign.fountain": "ICON-MECH-PLATE", "sign.golem_oath": "ICON-NODE-BOSS",
+	"sign.cookie": "ICON-NODE-EVENT", "sign.old_meatloaf": "ICON-MAP-QUEST", "sign.forest": "ICON-RES-INGREDIENT", "sign.quiz": "ICON-MAP-QUIZ",
+	"sign.truffle_note": "ICON-NODE-TREASURE", "sign.candy": "ICON-RES-INGREDIENT", "sign.studio": "ICON-MAP-MINIGAME", "sign.taste_test": "ICON-MAP-PUZZLE",
+	"sign.salt": "ICON-RES-INGREDIENT", "sign.butte": "ICON-MAP-TRAVEL", "sign.pad_rule": "ICON-MAP-TRAVEL", "sign.river": "ICON-MAP-TRAVEL",
+	"sign.river_warning": "ICON-NODE-ELITE", "sign.raft_west": "ICON-MAP-TRAVEL", "sign.susan": "ICON-MAP-TRAVEL", "sign.raft_east": "ICON-MAP-TRAVEL",
+	"sign.bank": "ICON-MAP-TRAVEL", "sign.gate_ingredient": "ICON-RES-INGREDIENT", "sign.gate_quest": "ICON-MAP-QUEST", "sign.gate_battle": "ICON-NODE-BATTLE",
+	"sign.cheddar": "ICON-MAP-TRAVEL", "sign.cake_town": "ICON-MAP-TRAVEL", "sign.pancake": "ICON-MAP-TRAVEL", "sign.mini_dungeon": "ICON-MAP-SIDEDUNGEON",
+	"sign.main_dungeon": "ICON-MAP-DUNGEON", "sign.inspection_note": "ICON-NODE-ELITE", "sign.stew": "ICON-NODE-HEAL", "sign.golem_rule": "ICON-NODE-LOCKED",
+	"sign.cake_menu": "ICON-MECH-PLATE", "sign.cheese_note": "ICON-NODE-TREASURE",
+}
+
+
+static func sign_icon(key: String) -> String:
+	return IconSign.icon_for(key, SIGN_ICONS)
 
 
 func _build_chests() -> void:

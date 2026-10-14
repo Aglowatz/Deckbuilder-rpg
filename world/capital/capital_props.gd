@@ -152,10 +152,6 @@ static func _state_group(root: Node3D, group_name: String, visible_now: bool) ->
 	return group
 
 
-static func _text(parent: Node3D, text: String, pos: Vector3, pixel: float, color: Color, width_m: float = 0.0) -> Label3D:
-	return B.label(parent, text, pos, pixel, color, width_m, 4)
-
-
 # ---- The facade ---------------------------------------------------------------------------------
 
 
@@ -172,14 +168,14 @@ static func gate_barrier() -> Node3D:
 	return root
 
 
-static func facade_arch(story: ZoneStoryText) -> Node3D:
+static func facade_arch(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	for side: float in [-1.0, 1.0]:
 		B.box(root, Vector3(0.8, 4.2, 0.8), M.shiny(M.WHITE, 0.3), Vector3(side * 3.1, 2.1, 0))
 		B.ball(root, 0.55, M.shiny(M.GOLD, 0.25), Vector3(side * 3.1, 4.5, 0))
 	B.box(root, Vector3(7.2, 0.8, 0.8), M.shiny(M.WHITE, 0.3), Vector3(0, 4.2, 0))
 	B.box(root, Vector3(6.0, 0.35, 0.86), M.shiny(M.GOLD, 0.25), Vector3(0, 4.2, 0))
-	_text(root, story.text("prop.facade_arch"), Vector3(0, 4.2, 0.46), 0.011, Color(0.25, 0.1, 0.05), 5.4)
+	IconSign.attach(root, RulerPresence.EMBLEM_ICON, Vector3(0, 4.2, 0.46), 1.4)  # G-03: the ruler emblem, not lettering
 	return root
 
 
@@ -244,6 +240,7 @@ static func statue(statue_scale: float, toppled: bool) -> Node3D:
 	var height: float = 1.0 * statue_scale
 	B.box(root, Vector3(1.3 * statue_scale, height, 1.3 * statue_scale), M.shiny(M.WHITE, 0.3), Vector3(0, height * 0.5, 0))
 	B.box(root, Vector3(0.9 * statue_scale, 0.3, 0.06), M.shiny(M.GOLD, 0.3), Vector3(0, height * 0.55, 0.66 * statue_scale))
+	IconSign.attach(root, RulerPresence.EMBLEM_ICON, Vector3(0, height * 0.55, 0.7 * statue_scale), 0.5 * statue_scale)  # the ruler emblem on the plinth (G-03)
 	var figure: Node3D = _golden_figure(statue_scale)
 	root.add_child(figure)
 	figure.position = Vector3(0, height, 0)
@@ -333,28 +330,25 @@ static func loudspeaker(silent: bool) -> Node3D:
 
 
 ## A lost-property notice for the "escaped Royal Asset" (Story v2): a pinned sheet that reads like a notice about a missing umbrella. Defacing it crosses out "Asset".
-static func lost_poster(story: ZoneStoryText) -> Node3D:
+static func lost_poster(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	for side: float in [-1.0, 1.0]:
 		B.cylinder(root, 0.04, 0.04, 1.4, M.flat(M.STONE_DARK), Vector3(side * 0.55, 0.7, -0.05), 6)
 	B.box(root, Vector3(1.7, 2.1, 0.06), M.flat(Color(0.93, 0.9, 0.8)), Vector3(0, 1.9, 0))
-	var key: String = "prop.lost_poster.known" if Session.flag(MemoryDefs.FLAG_REVEALED) else "prop.lost_poster"
-	var lines: Array[String] = story.get_lines(key)
-	_text(root, lines[0], Vector3(0, 2.62, 0.05), 0.0038, Color(0.35, 0.1, 0.1), 1.5)
-	if lines.size() > 1:
-		_text(root, lines[1], Vector3(0, 1.95, 0.05), 0.0027, Color(0.15, 0.15, 0.2), 1.5)
+	# G-03: a face on the poster instead of lettering; the capital scene adds a spot that reads it (`prop.lost_poster` / `.known`).
+	IconSign.attach(root, "ICON-UI-CHARACTER", Vector3(0, 2.0, 0.05), 1.1)
 	var crossed: Node3D = _state_group(root, "Defaced", false)
 	B.box(crossed, Vector3(1.6, 0.06, 0.02), M.flat(Color(0.75, 0.1, 0.1)), Vector3(0, 1.9, 0.06), Vector3(0, 0, 32))
 	B.box(crossed, Vector3(1.6, 0.06, 0.02), M.flat(Color(0.75, 0.1, 0.1)), Vector3(0, 1.9, 0.06), Vector3(0, 0, -32))
 	return root
 
 
-static func complaint_box(story: ZoneStoryText) -> Node3D:
+static func complaint_box(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.cylinder(root, 0.07, 0.07, 0.9, M.flat(M.STONE_GRAY), Vector3(0, 0.45, 0), 6)
 	B.box(root, Vector3(0.7, 0.8, 0.5), M.shiny(Color(0.35, 0.55, 0.8), 0.3), Vector3(0, 1.3, 0))
 	B.box(root, Vector3(0.4, 0.05, 0.05), M.flat(Color(0.05, 0.05, 0.08)), Vector3(0, 1.55, 0.26))
-	_text(root, story.text("prop.complaint_box"), Vector3(0, 1.2, 0.27), 0.0055, Color(1, 1, 1), 0.6)
+	IconSign.attach(root, "ICON-TOKEN-CONTRACT", Vector3(0, 1.2, 0.27), 0.35)
 	return root
 
 
@@ -412,11 +406,11 @@ static func sick_patch() -> Node3D:
 	return root
 
 
-static func stall_shack(story: ZoneStoryText) -> Node3D:
+static func stall_shack(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(2.4, 2.0, 1.6), M.flat(M.WOOD_DARK), Vector3(0, 1.0, 0))
 	B.box(root, Vector3(2.8, 0.14, 2.0), M.flat(Color(0.3, 0.4, 0.25)), Vector3(0, 2.1, 0.1), Vector3(-8, 0, 0))
-	_text(root, story.text("prop.compost_shack"), Vector3(0, 1.3, 0.82), 0.0075, M.PAPER, 2.0)
+	IconSign.attach(root, "ICON-RES-GARBAGE", Vector3(0, 1.3, 0.82), 0.7)
 	return root
 
 
@@ -450,24 +444,24 @@ static func grave(variant: int, tidy: bool) -> Node3D:
 	return root
 
 
-static func parlor(story: ZoneStoryText) -> Node3D:
+static func parlor(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(3.2, 2.2, 2.6), M.flat(Color(0.56, 0.5, 0.5)), Vector3(0, 1.1, 0))
 	B.box(root, Vector3(3.6, 0.3, 3.0), M.flat(M.STONE_DARK), Vector3(0, 2.35, 0))
 	B.box(root, Vector3(0.7, 1.0, 0.06), M.glow(Color(1.0, 0.85, 0.5), 1.0), Vector3(0.7, 1.3, 1.32))
 	B.box(root, Vector3(1.0, 0.18, 0.5), M.flat(M.PAPER), Vector3(0.7, 0.6, 1.1))
-	_text(root, story.text("prop.parlor"), Vector3(-0.7, 1.4, 1.34), 0.0055, M.PAPER, 1.3)
+	IconSign.attach(root, "ICON-ESSENCE-N", Vector3(-0.7, 1.4, 1.34), 0.5)
 	return root
 
 
-static func permit_office(story: ZoneStoryText, closed_for_good: bool) -> Node3D:
+static func permit_office(_story: ZoneStoryText, closed_for_good: bool) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(3.0, 2.4, 2.2), M.flat(Color(0.5, 0.46, 0.38)), Vector3(0, 1.2, 0))
 	B.box(root, Vector3(1.4, 0.7, 0.06), M.flat(M.SOOT), Vector3(0, 1.4, 1.12))
 	B.box(root, Vector3(1.5, 0.08, 0.5), M.flat(M.WOOD), Vector3(0, 1.0, 1.3))
 	for index: int in range(6):
 		B.box(root, Vector3(0.3, 0.02 + 0.03 * float(index), 0.22), M.flat(M.PAPER), Vector3(-0.5 + 0.2 * float(index), 1.06, 1.3), Vector3(0, 12.0 * float(index), 0))
-	_text(root, story.text("prop.permit_office"), Vector3(0, 2.05, 1.14), 0.0065, M.PAPER, 2.6)
+	IconSign.attach(root, "ICON-RES-REDTAPE", Vector3(0, 2.05, 1.14), 0.7)
 	return root
 
 
@@ -556,12 +550,12 @@ static func power_cable() -> Node3D:
 # ---- The Hungry Quarter (Gourmands) ---------------------------------------------------------------
 
 
-static func paste_dispenser(story: ZoneStoryText, freed: bool) -> Node3D:
+static func paste_dispenser(_story: ZoneStoryText, freed: bool) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(1.6, 2.4, 1.0), M.shiny(Color(0.62, 0.64, 0.6), 0.4), Vector3(0, 1.2, 0))
 	B.box(root, Vector3(0.9, 0.5, 0.5), M.flat(Color(0.7, 0.66, 0.5)), Vector3(0, 0.55, 0.6))
 	B.cylinder(root, 0.12, 0.08, 0.3, M.flat(M.STONE_DARK), Vector3(0, 1.0, 0.6), 8)
-	_text(root, story.text("prop.paste_dispenser"), Vector3(0, 1.9, 0.52), 0.0058, Color(0.1, 0.1, 0.1), 1.4)
+	IconSign.attach(root, "ICON-MECH-PLATE", Vector3(0, 1.9, 0.52), 0.5)
 	var on: Node3D = _state_group(root, "On", false)
 	B.cylinder(on, 0.25, 0.25, 0.05, M.glow(Color(0.5, 1.0, 0.2), 1.4), Vector3(0, 0.05, 1.3), 10)
 	B.ball(on, 0.18, M.glow(Color(0.5, 1.0, 0.2), 1.6), Vector3(0, 0.3, 1.1))
@@ -770,12 +764,12 @@ static func tunnel_arch() -> Node3D:
 	return root
 
 
-static func shaft_door(index: int) -> Node3D:
+static func shaft_door(_index: int) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(1.5, 2.4, 0.2), M.shiny(M.STONE_DARK, 0.35), Vector3(0, 1.2, 0))
 	B.box(root, Vector3(1.1, 2.0, 0.08), M.flat(Color(0.14, 0.14, 0.18)), Vector3(0, 1.1, 0.08))
 	B.box(root, Vector3(0.4, 0.4, 0.06), M.glow(M.LANTERN, 1.2), Vector3(0, 2.05, 0.14))
-	_text(root, str(index + 1), Vector3(0, 2.05, 0.18), 0.012, Color(0.2, 0.1, 0.05))
+	IconSign.attach(root, "ICON-MAP-TRAVEL", Vector3(0, 2.05, 0.18), 0.36)  # G-03: a pictogram, not a door number (the prompt names the destination)
 	return root
 
 

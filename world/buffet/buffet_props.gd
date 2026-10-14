@@ -337,7 +337,7 @@ static func grand_oven() -> Node3D:
 	return root
 
 
-static func exit_arch(story: ZoneStoryText) -> Node3D:
+static func exit_arch(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	for side: float in [-1.0, 1.0]:
 		var post: Node3D = BuffetModels.food("utensil-fork")
@@ -348,11 +348,11 @@ static func exit_arch(story: ZoneStoryText) -> Node3D:
 	var top: MeshInstance3D = box(root, Vector3(6.6, 0.7, 0.5), M.flat(M.TOAST), Vector3(0, 3.7, 0))
 	top.name = "Lintel"
 	box(root, Vector3(6.2, 0.1, 0.52), M.flat(M.TOAST_DARK), Vector3(0, 3.38, 0))
-	label(root, story.text("prop.arch"), Vector3(0, 3.7, 0.28), 0.007, Color(1.0, 0.97, 0.88), 6.0)
+	IconSign.attach(root, "ICON-ENERGY-G", Vector3(0, 3.7, 0.28), 1.3)  # G-03: a pictogram, not lettering
 	return root
 
 
-static func dispenser(story: ZoneStoryText) -> Node3D:
+static func dispenser(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	cylinder(root, 0.55, 0.7, 1.1, M.flat(M.CLOTH_RED), Vector3(0, 0.55, 0), 14)
 	var globe: MeshInstance3D = ball(root, 0.8, M.translucent(Color(0.85, 0.95, 1.0), 0.35, 0.1, 0.05), Vector3(0, 1.75, 0))
@@ -362,12 +362,12 @@ static func dispenser(story: ZoneStoryText) -> Node3D:
 		BuffetModels.put_food(root, "cookie", Vector3(cos(angle) * 0.4, 1.45 + 0.12 * float(index % 3), sin(angle) * 0.4), float(index) * 40.0, 1.3)
 	ball(root, 0.2, M.flat(Color(1.0, 0.85, 0.3)), Vector3(0, 2.6, 0))
 	box(root, Vector3(0.5, 0.3, 0.3), M.flat(M.STEEL), Vector3(0, 0.3, 0.6))
-	label(root, story.text("prop.dispenser"), Vector3(0, 0.62, 0.72), 0.0035, Color(1, 1, 1), 1.0, 4)
+	IconSign.attach(root, "ICON-MECH-PLATE", Vector3(0, 0.62, 0.72), 0.4)
 	return root
 
 
 ## The broken golem: a slumped meatloaf with a detached arm, crossed-out eyes and a few sparks.
-static func broken_golem(story: ZoneStoryText) -> Node3D:
+static func broken_golem(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var body: Node3D = BuffetModels.food("loaf")
 	root.add_child(body)
@@ -381,7 +381,7 @@ static func broken_golem(story: ZoneStoryText) -> Node3D:
 	BuffetModels.put_food(root, "sausage", Vector3(1.8, 0.2, 0.9), 30.0, 3.0)
 	BuffetModels.put_food(root, "sausage", Vector3(-1.6, 0.18, 1.2), -20.0, 2.6)
 	BuffetModels.put_food(root, "egg", Vector3(0.6, 0.2, 1.7), 0.0, 3.0)
-	label(root, story.text("prop.broken_golem"), Vector3(0, 2.2, 0.9), 0.0045, Color(1.0, 0.85, 0.5), 2.4, 6)
+	IconSign.attach(root, "ICON-MAP-QUEST", Vector3(0, 2.2, 0.9), 0.7)
 	var sparks: CPUParticles3D = CPUParticles3D.new()
 	sparks.amount = 8
 	sparks.lifetime = 0.9
@@ -483,7 +483,7 @@ static func taste_station() -> Node3D:
 	return root
 
 
-static func chef_stage(story: ZoneStoryText) -> Node3D:
+static func chef_stage(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var backdrop: Node3D = BuffetModels.restaurant("wall_orderwindow_decorated")
 	root.add_child(backdrop)
@@ -496,7 +496,7 @@ static func chef_stage(story: ZoneStoryText) -> Node3D:
 		counter.position = Vector3(-1.4 + float(index) * 2.8, 0, 1.3)
 	var neon: MeshInstance3D = box(root, Vector3(5.2, 0.8, 0.12), M.glow(Color(1.0, 0.3, 0.6), 1.2), Vector3(0, 4.7, -0.3))
 	neon.name = "Neon"
-	label(root, story.text("prop.stage"), Vector3(0, 4.7, -0.22), 0.0075, Color(1.0, 0.97, 0.8), 5.0, 4)
+	IconSign.attach(root, "ICON-MAP-MINIGAME", Vector3(0, 4.7, -0.22), 1.1)
 	for index: int in range(7):
 		ball(root, 0.12, M.glow([Color(1.0, 0.4, 0.5), Color(1.0, 0.9, 0.3), Color(0.4, 0.9, 1.0)][index % 3], 1.8), Vector3(-2.4 + float(index) * 0.8, 5.25, -0.3))
 	BuffetModels.put_restaurant(root, "food_burger", Vector3(-1.4, 1.35, 1.3), 0.0, 1.0)
@@ -504,7 +504,7 @@ static func chef_stage(story: ZoneStoryText) -> Node3D:
 	return root
 
 
-static func freezer(story: ZoneStoryText) -> Node3D:
+static func freezer(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	box(root, Vector3(6.0, 4.6, 2.6), M.shiny(Color(0.84, 0.9, 0.95), 0.35), Vector3(0, 2.3, -0.6))
 	box(root, Vector3(2.8, 3.4, 0.25), M.shiny(Color(0.7, 0.8, 0.9), 0.3), Vector3(0, 1.8, 0.76))
@@ -514,7 +514,7 @@ static func freezer(story: ZoneStoryText) -> Node3D:
 	for index: int in range(7):
 		var cone: MeshInstance3D = cylinder(root, 0.0, 0.14, 0.7 - 0.06 * float(index % 3), M.translucent(Color(0.8, 0.95, 1.0), 0.8, 0.5), Vector3(-1.9 + float(index) * 0.65, 4.2, 0.9), 6)
 		cone.rotation_degrees.x = 180.0
-	label(root, story.text("prop.freezer"), Vector3(0, 4.05, 0.82), 0.0062, Color(0.1, 0.25, 0.5), 5.0, 0)
+	IconSign.attach(root, "ICON-RES-INGREDIENT", Vector3(0, 4.05, 0.82), 0.8)
 	var frost: CPUParticles3D = CPUParticles3D.new()
 	frost.amount = 14
 	frost.lifetime = 2.5
@@ -544,7 +544,7 @@ static func freezer(story: ZoneStoryText) -> Node3D:
 	return root
 
 
-static func closed_kitchen(story: ZoneStoryText) -> Node3D:
+static func closed_kitchen(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	box(root, Vector3(6.0, 4.6, 2.6), M.flat(Color(0.88, 0.8, 0.7)), Vector3(0, 2.3, -0.6))
 	box(root, Vector3(2.8, 3.4, 0.25), M.flat(M.WOOD_DARK), Vector3(0, 1.8, 0.76))
@@ -554,18 +554,18 @@ static func closed_kitchen(story: ZoneStoryText) -> Node3D:
 		box(root, Vector3(6.4, 0.2, 0.06), M.flat(Color(1.0, 0.85, 0.1)), Vector3(0, 1.3 + float(index) * 1.4, 1.0), Vector3(0, 0, 4.0 - float(index) * 8.0))
 	var plaque: MeshInstance3D = box(root, Vector3(2.6, 0.9, 0.08), M.flat(Color(0.95, 0.2, 0.2)), Vector3(0, 4.05, 0.72))
 	plaque.name = "Plaque"
-	label(root, story.text("prop.kitchen"), Vector3(0, 4.05, 0.78), 0.0058, Color(1, 1, 1), 2.6, 0)
+	IconSign.attach(root, "ICON-MECH-PLATE", Vector3(0, 4.05, 0.79), 0.8)
 	return root
 
 
-static func stew_pot(story: ZoneStoryText) -> Node3D:
+static func stew_pot(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var pot: Node3D = BuffetModels.food("pot-stew")
 	root.add_child(pot)
 	pot.scale = Vector3.ONE * 3.2
 	cylinder(root, 0.95, 0.95, 0.06, M.soup(Color(0.45, 0.75, 0.25)), Vector3(0, 1.1, 0), 18)
 	steam(root, Vector3(0, 1.4, 0), 14, 0.7, 1.3)
-	label(root, story.text("prop.stew"), Vector3(0, 2.4, 0.9), 0.0045, Color(1.0, 0.95, 0.75), 2.6, 6)
+	IconSign.attach(root, "ICON-NODE-HEAL", Vector3(0, 2.4, 0.9), 0.7)
 	return root
 
 

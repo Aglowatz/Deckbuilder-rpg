@@ -10,8 +10,8 @@ const OPEN_WIDTH: float = 0.5
 const SEAM_WIDTH: float = 0.07
 
 var active: bool = false
-## The town square shows an icon on the sign instead of lettering (vertical slice: no readable text in the world); the zones keep the lettered sign.
-var icon_sign: bool = false
+## Every station shows an icon on the sign instead of lettering (G-03: no readable text in the world); false brings back the old lettered title.
+var icon_sign: bool = true
 var _rift_material: ShaderMaterial
 var _light: OmniLight3D
 var _sparks: CPUParticles3D

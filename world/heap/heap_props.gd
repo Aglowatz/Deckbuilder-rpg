@@ -38,7 +38,7 @@ static func tinted(node: Node3D, color: Color) -> Node3D:
 # ---- The Compost Grange --------------------------------------------------------------------------
 
 
-static func barn(story: ZoneStoryText) -> Node3D:
+static func barn(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(7.0, 3.2, 4.4), H.flat(H.RUST), Vector3(0, 1.6, -0.2))
 	for index: int in range(7):
@@ -51,7 +51,7 @@ static func barn(story: ZoneStoryText) -> Node3D:
 	B.box(root, Vector3(2.5, 0.12, 0.26), H.flat(H.STRAW), Vector3(0, 1.2, 2.14), Vector3(0, 0, -40))
 	moss_patches(root, 10, 3.2, 3.8, 1)
 	flowers_on(root, 8, 3.0, 3.6)
-	B.label(root, story.text("prop.barn"), Vector3(0, 3.0, 2.2), 0.006, Color(1.0, 0.95, 0.8), 4.0, 6)
+	IconSign.attach(root, "ICON-ENERGY-R", Vector3(0, 3.0, 2.2), 1.0)  # G-03: a pictogram, not lettering
 	for index: int in range(3):
 		HeapModels.put(root, HeapModels.survival("barrel"), Vector3(-3.6 + float(index) * 0.5, 0.0, 2.6), float(index) * 40.0, 3.0)
 	return root
@@ -99,7 +99,7 @@ static func harvest_table() -> Node3D:
 	return root
 
 
-static func swap_shed(story: ZoneStoryText) -> Node3D:
+static func swap_shed(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var bench: Node3D = HeapModels.survival("workbench")
 	root.add_child(bench)
@@ -111,7 +111,7 @@ static func swap_shed(story: ZoneStoryText) -> Node3D:
 	HeapModels.put(root, HeapModels.survival("bucket"), Vector3(-1.1, 1.0, 0.4), 0.0, 4.0)
 	HeapModels.put(root, HeapModels.survival("box-large"), Vector3(1.2, 0.5, 0.0), 30.0, 3.0)
 	B.box(root, Vector3(1.2, 0.8, 0.06), H.flat(Color(0.95, 0.92, 0.8)), Vector3(0.2, 2.0, -0.3), Vector3(-10, 0, 0))
-	B.label(root, story.text("prop.swap_shed"), Vector3(0.2, 2.0, -0.24), 0.0034, Color(0.25, 0.12, 0.05), 1.1, 0)
+	IconSign.attach(root, "ICON-MAP-VENDOR", Vector3(0.2, 2.0, -0.24), 0.5)
 	return root
 
 
@@ -129,7 +129,7 @@ static func compost_bin() -> Node3D:
 	return root
 
 
-static func shrine(story: ZoneStoryText) -> Node3D:
+static func shrine(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.cylinder(root, 1.5, 1.7, 0.3, H.flat(H.STONE), Vector3(0, 0.15, 0), 14)
 	B.cylinder(root, 0.5, 0.6, 0.9, H.flat(H.MOSS.darkened(0.2)), Vector3(0, 0.75, 0), 8)
@@ -151,7 +151,7 @@ static func shrine(story: ZoneStoryText) -> Node3D:
 	light.omni_range = 5.0
 	light.position = Vector3(0, 1.8, 0)
 	root.add_child(light)
-	B.label(root, story.text("prop.shrine"), Vector3(0, 2.3, 0.2), 0.005, Color(1.0, 0.85, 0.95), 2.4, 6)
+	IconSign.attach(root, "ICON-NODE-HEAL", Vector3(0, 2.3, 0.2), 0.7)
 	return root
 
 
@@ -190,7 +190,7 @@ static func stable(kind: String) -> Node3D:
 	return root
 
 
-static func exit_arch(story: ZoneStoryText) -> Node3D:
+static func exit_arch(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	for side: float in [-1.0, 1.0]:
 		for index: int in range(4):
@@ -200,13 +200,13 @@ static func exit_arch(story: ZoneStoryText) -> Node3D:
 		B.box(root, Vector3(0.5, 1.4, 0.5), H.flat(H.METAL), Vector3(side * 2.9, 2.7, 0))
 	B.box(root, Vector3(6.8, 0.8, 0.5), H.flat(H.RUST), Vector3(0, 3.6, 0))
 	B.box(root, Vector3(6.4, 0.1, 0.52), H.flat(H.RUST_DARK), Vector3(0, 3.2, 0))
-	B.label(root, story.text("prop.arch"), Vector3(0, 3.6, 0.28), 0.0068, Color(1.0, 0.97, 0.85), 6.2)
+	IconSign.attach(root, "ICON-ENERGY-R", Vector3(0, 3.6, 0.28), 1.3)
 	moss_patches(root, 12, 3.4, 3.8, 2)
 	flowers_on(root, 10, 3.2, 3.9)
 	return root
 
 
-static func crop_plot(story: ZoneStoryText) -> Node3D:
+static func crop_plot(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(4.2, 0.16, 2.6), H.flat(H.DIRT_DARK), Vector3(0, 0.08, 0))
 	for row: int in range(3):
@@ -227,7 +227,7 @@ static func crop_plot(story: ZoneStoryText) -> Node3D:
 	ripe.visible = false
 	root.set_meta("sprout", sprout)
 	root.set_meta("ripe", ripe)
-	B.label(root, story.text("prop.crop_plot"), Vector3(0, 1.0, 1.2), 0.0034, Color(1.0, 0.95, 0.7), 1.4, 6)
+	IconSign.attach(root, "ICON-RES-INGREDIENT", Vector3(0, 1.0, 1.2), 0.5)
 	return root
 
 
@@ -275,7 +275,7 @@ static func scarecrow() -> Node3D:
 # ---- Fair, wrecks, junk ---------------------------------------------------------------------------
 
 
-static func fair_stage(story: ZoneStoryText) -> Node3D:
+static func fair_stage(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(5.0, 0.3, 3.0), H.flat(H.WOOD), Vector3(0, 0.15, 0))
 	for index: int in range(5):
@@ -292,7 +292,7 @@ static func fair_stage(story: ZoneStoryText) -> Node3D:
 		var flag: MeshInstance3D = B.box(root, Vector3(0.3, 0.3, 0.02), H.flat([Color(1.0, 0.4, 0.4), Color(1.0, 0.9, 0.3), Color(0.4, 0.8, 1.0), Color(0.6, 1.0, 0.5)][index % 4]), Vector3(-2.3 + float(index) * 0.66, 3.2 - 0.25 * sin(float(index) * 0.45), -1.2), Vector3(0, 0, 45))
 		flag.name = "Flag%d" % index
 	B.box(root, Vector3(5.2, 0.9, 0.1), H.flat(Color(0.2, 0.35, 0.8)), Vector3(0, 3.9, -1.25))
-	B.label(root, story.text("prop.fair"), Vector3(0, 3.9, -1.18), 0.0064, Color(1.0, 0.97, 0.85), 5.0, 4)
+	IconSign.attach(root, "ICON-MAP-MINIGAME", Vector3(0, 3.9, -1.18), 1.1)
 	return root
 
 
@@ -436,7 +436,7 @@ static func appliance_pile() -> Node3D:
 	return root
 
 
-static func landfill_gate(story: ZoneStoryText) -> Node3D:
+static func landfill_gate(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.ball(root, 3.4, H.flat(H.RUST_DARK.lerp(H.STONE, 0.4)), Vector3(0, 0, -0.8), Vector3(1.3, 0.9, 1.0), true)
 	B.cylinder(root, 1.3, 1.4, 0.3, H.flat(H.METAL_DARK), Vector3(0, 1.4, 1.2), 16).rotation_degrees.x = 90.0
@@ -447,7 +447,7 @@ static func landfill_gate(story: ZoneStoryText) -> Node3D:
 		B.box(root, Vector3(0.9, 0.08, 0.08), H.flat(H.RUST), Vector3(0, 0.7 + float(index) * 0.25, 1.5))
 	moss_patches(root, 10, 2.8, 2.6, 4)
 	flowers_on(root, 8, 2.8, 2.0)
-	B.label(root, story.text("prop.landfill"), Vector3(0, 3.3, 1.0), 0.006, Color(0.95, 0.95, 0.7), 4.2, 6)
+	IconSign.attach(root, "ICON-MAP-SIDEDUNGEON", Vector3(0, 3.3, 1.0), 1.0)
 	var light: OmniLight3D = OmniLight3D.new()
 	light.light_color = Color(0.5, 1.0, 0.4)
 	light.light_energy = 1.0
@@ -457,14 +457,14 @@ static func landfill_gate(story: ZoneStoryText) -> Node3D:
 	return root
 
 
-static func composting_door(story: ZoneStoryText) -> Node3D:
+static func composting_door(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	B.box(root, Vector3(6.0, 4.4, 2.4), H.flat(Color(0.58, 0.5, 0.4)), Vector3(0, 2.2, -0.6))
 	B.box(root, Vector3(2.8, 3.2, 0.25), H.flat(H.WOOD_DARK), Vector3(0, 1.6, 0.7))
 	for index: int in range(3):
 		B.box(root, Vector3(3.4, 0.28, 0.1), H.flat(H.WOOD), Vector3(0, 0.8 + float(index) * 0.9, 0.9), Vector3(0, 0, -8.0 + float(index) * 8.0))
 	B.box(root, Vector3(2.6, 0.9, 0.08), H.flat(H.MOSS.darkened(0.3)), Vector3(0, 3.8, 0.74))
-	B.label(root, story.text("prop.composting"), Vector3(0, 3.8, 0.8), 0.0058, Color(1, 0.95, 0.8), 2.6, 0)
+	IconSign.attach(root, "ICON-MECH-EATGARBAGE", Vector3(0, 3.8, 0.81), 0.8)
 	moss_patches(root, 10, 2.8, 3.4, 3)
 	steam(root)
 	return root
@@ -519,7 +519,7 @@ static func beanstalk(height: float) -> Node3D:
 	return root
 
 
-static func barricade(story: ZoneStoryText) -> Node3D:
+static func barricade(_story: ZoneStoryText) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 5
@@ -533,7 +533,7 @@ static func barricade(story: ZoneStoryText) -> Node3D:
 	for index: int in range(4):
 		B.cylinder(root, 0.65, 0.65, 0.5, H.flat(H.TIRE), Vector3(-1.5 + float(index) * 1.0, 0.25, 0.9), 14)
 	B.box(root, Vector3(2.0, 0.7, 0.08), H.flat(Color(0.95, 0.85, 0.2)), Vector3(0, 2.7, 0.9), Vector3(0, 0, 4))
-	B.label(root, story.text("prop.barricade"), Vector3(0, 2.7, 0.96), 0.0048, Color(0.15, 0.1, 0.05), 2.0, 0)
+	IconSign.attach(root, "ICON-NODE-LOCKED", Vector3(0, 2.7, 0.97), 0.6)
 	moss_patches(root, 8, 1.8, 1.8, 5)
 	return root
 

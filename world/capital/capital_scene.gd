@@ -58,6 +58,13 @@ func _build_zone_extras() -> void:
 		player.add_child(_dark_light)
 	_dress_facade_citizens()
 	_mark_empowered_enemies()
+	# The lost-property posters show a face, not lettering (G-03); using one reads it.
+	var poster_key: String = "prop.lost_poster.known" if Session.flag(MemoryDefs.FLAG_REVEALED) else "prop.lost_poster"
+	var poster_index: int = 0
+	for prop: CapitalLayout.Prop in capital.layout.props:
+		if prop.kind == "portrait" and prop.variant == 2:
+			_add_spot("lost_poster_%d" % poster_index, "Poster", prop.pos + Vector3(0.0, 0.0, 0.8), 1.4, "Read the poster", false, "plaque", {"hidden": true, "key": poster_key})
+			poster_index += 1
 
 
 ## The facade's citizens: identical clothes and a fixed smile; once Primm falls they are free (their own colours, no smile).
