@@ -35,7 +35,44 @@ static func build(parent: Node3D, builder: GainlandsBuilder, quality: int) -> Ga
 	dressing._scatter("tires", int(6.0 * scale_factor), 6.0, 20.0)
 	dressing._scatter("bag", int(4.0 * scale_factor), 6.0, 18.0)
 	dressing._scatter("sunflowers", int(16.0 * scale_factor), 4.0, 20.0)
+	dressing._kit_clusters(quality)
 	return dressing
+
+
+## Zone kit clusters (data/art/zone_kits/gainlands_clusters.json) where the Art Bible wants props: at the gym, the protein stand, the mills, the wheels and the hub's edges.
+## Each entry: cluster, anchor, offset (x, z), yaw; skipped when the spot is not free. All quality levels keep them (they carry the zone's read).
+const KIT_CLUSTERS: Array = [
+	["gym_rack", "spot_me", Vector2(-4.5, -3.0), 180.0], ["dumbbell_pile", "spot_me", Vector2(4.0, 3.5), 20.0], ["protein_corner", "protein_stand", Vector2(3.6, -3.4), 200.0],
+	["hay_stack", "quiz", Vector2(5.5, 4.0), 160.0], ["mill_yard", "thrower_west", Vector2(4.0, -4.5), 170.0], ["catapult_pit", "minigame", Vector2(-6.5, 4.0), 150.0],
+	["sunflower_fence", "heal", Vector2(-4.5, 3.5), 0.0], ["sunflower_bed", "flex_mirror", Vector2(3.5, -4.5), 180.0], ["hay_stack", "run_wheel", Vector2(-5.0, 4.5), 200.0],
+	["dumbbell_pile", "puzzle", Vector2(4.0, 3.0), 0.0], ["sunflower_fence", "tony", Vector2(3.5, 4.0), 10.0], ["gym_rack", "spawn", Vector2(-7.0, 2.5), 90.0],
+]
+
+
+func _kit_clusters(_quality: int) -> void:
+	var index: int = 0
+	for entry: Array in KIT_CLUSTERS:
+		index += 1
+		if not _builder.has_anchor(str(entry[1])):
+			continue
+		var offset: Vector2 = entry[2] as Vector2
+		var pos: Vector3 = _builder.anchor(str(entry[1])) + Vector3(offset.x, 0.0, offset.y)
+		if not _free(pos, 2.6, 2.0):
+			continue
+		var cluster: Node3D = PropClusters.make(str(entry[0]), 500 + index)
+		if cluster == null:
+			continue
+		pos.y = _builder.height_at(pos)
+		root.add_child(cluster)
+		cluster.position = pos
+		cluster.rotation_degrees.y = float(entry[3])
+		_placed.append(Vector2(pos.x, pos.z))
+		var basis: Basis = Basis(Vector3.UP, deg_to_rad(float(entry[3])))
+		for circle: Variant in cluster.get_meta("circles", []) as Array:
+			var local: Vector3 = circle as Vector3
+			var world: Vector3 = pos + basis * Vector3(local.x, 0.0, local.y)
+			_builder.add_blocker(Vector3(world.x, 0.0, world.z), local.z)
+		count += 1
 
 
 func _hub() -> Vector3:
@@ -136,6 +173,8 @@ func _pennant(index: int) -> Node3D:
 
 
 func _kettlebells() -> Node3D:
+	if EnvKit.has_art("GAIN-PROP-KETTLEBELL"):
+		return ZoneClusters.card_prop("GAIN-PROP-KETTLEBELL", 0.9)
 	var root_node: Node3D = Node3D.new()
 	root_node.name = "Kettlebells"
 	var tones: Array[Color] = [DARK, RED, Color("4a4a64")]
@@ -187,6 +226,8 @@ func _punching_bag() -> Node3D:
 
 
 func _sunflowers() -> Node3D:
+	if EnvKit.has_art("GAIN-PLANT-SUNFLOWER"):
+		return ZoneClusters.card_prop("GAIN-PLANT-SUNFLOWER", 1.7 + 0.5 * _rng.randf())
 	var root_node: Node3D = Node3D.new()
 	root_node.name = "SunflowerBed_flower"
 	for i: int in range(5):

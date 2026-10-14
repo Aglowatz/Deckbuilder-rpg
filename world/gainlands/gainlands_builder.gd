@@ -358,8 +358,10 @@ func _build_props() -> void:
 		var pos: Vector3 = _ground(prop.pos.x, prop.pos.z)
 		match prop.kind:
 			"tree":
-				var basis: Basis = Basis(Vector3.UP, deg_to_rad(prop.yaw)).scaled(Vector3.ONE * prop.model_scale * 1.15)
-				(tree_transforms[prop.variant % 2] as Array).append(Transform3D(basis, pos))
+				# painted tree cards of the zone kit (TreeCards "oak" / "pine" swap to GAIN-TREE-OAK / -PINE): 2.5 - 4 heroes tall (G-01)
+				var hub_distance: float = Vector2(pos.x - 52.0, pos.z - 64.0).length()
+				var near: float = clampf((hub_distance - 10.0) / 16.0, 0.0, 1.0)
+				(tree_transforms[prop.variant % 2] as Array).append({"pos": pos, "scale": lerpf(0.55, clampf(prop.model_scale * 0.72, 0.8, 1.15), near)})
 			"boulder":
 				var rock_scale: float = prop.model_scale * (1.9 if prop.radius > 0.9 else 1.35)
 				var rock_basis: Basis = Basis(Vector3.UP, deg_to_rad(prop.yaw)).scaled(Vector3.ONE * rock_scale)
@@ -367,7 +369,9 @@ func _build_props() -> void:
 			_:
 				_place_feature(prop, pos)
 	for variant: int in tree_transforms.keys():
-		_add_multimesh(KAYKIT_TREES[variant], "nature", tree_transforms[variant] as Array)
+		var entries: Array[Dictionary] = []
+		entries.assign(tree_transforms[variant] as Array)
+		KitFoliage.tree_field(root, "oak" if variant == 0 else "pine", entries, true)
 	for variant: int in rock_transforms.keys():
 		_add_multimesh(KAYKIT_ROCKS[variant], "nature", rock_transforms[variant] as Array)
 
@@ -406,8 +410,14 @@ func _place_feature(prop: GainlandsLayout.Prop, pos: Vector3) -> void:
 			if fan is Node3D:
 				_fans.append(fan as Node3D)
 		"station":
-			node = ModelKit.building("tavern")
-			kind_scale = 2.5
+			# the Swole Station platform modelled after GAIN-HERO-SWOLE-STATION (LandmarkKit -> HeroLandmarks); its posts, stall and bag block the hero
+			node = LandmarkKit.build({"id": "GAIN-HERO-SWOLE-STATION", "kind": "hut", "size": [10.0, 6.0, 8.0], "color": "#f7ebd3", "accent": "#d9483b"})
+			kind_scale = 1.0
+			var basis: Basis = Basis(Vector3.UP, deg_to_rad(prop.yaw))
+			for circle: Variant in node.get_meta("circles", []) as Array:
+				var local: Vector3 = circle as Vector3
+				var world: Vector3 = pos + basis * Vector3(local.x, 0.0, local.y)
+				_add_obstacle(Vector3(world.x, world.z, local.z))
 		"wheel":
 			node = GainlandsProps.wheel(4.2, prop.variant > 0)
 			var spinner: Node3D = node.get_meta("spinner") as Node3D

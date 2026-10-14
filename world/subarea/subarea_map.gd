@@ -16,6 +16,10 @@ const GROUND_KINDS: Dictionary = {
 	"grass": "ENV-GROUND-GRASS-CALM",
 	"dirt": "ENV-GROUND-DIRTPATH",
 	"cobble": "ENV-GROUND-COBBLE",
+	# zone grounds (the painted texture set through the zone kit aliases)
+	"chalkdirt": "TEX-GAIN-CHALKDIRT",
+	"gymmat": "TEX-GAIN-GYMMAT",
+	"hay": "TEX-GAIN-HAY",
 }
 
 var data: Dictionary = {}
@@ -103,6 +107,7 @@ func build(parent: Node3D) -> void:
 	_scatter()
 	_edge()
 	_flower_clumps()
+	_decals()
 
 
 func _ground() -> void:
@@ -394,6 +399,42 @@ func _scatter_ok(p: Vector3, gap: float, keep_clear: Array[Vector3], path_points
 		if Vector2(p.x - point.x, p.z - point.z).length() < path_gap:
 			return false
 	return true
+
+
+## Ground decals from the zone kit ("decals": [{id, pos [x, z], size (m), yaw}]): flat cut-out quads just above the ground (chalk, plates, sweat, wheel ruts), one surface per id.
+func _decals() -> void:
+	var by_id: Dictionary = {}
+	for item: Variant in data.get("decals", []) as Array:
+		var entry: Dictionary = item as Dictionary
+		var id: String = str(entry.get("id", ""))
+		if not EnvKit.has_art(id):
+			continue
+		if not by_id.has(id):
+			by_id[id] = []
+		(by_id[id] as Array).append(entry)
+	if by_id.is_empty():
+		return
+	var mesh: KitMesh = KitMesh.new()
+	for id: String in by_id.keys():
+		var material: StandardMaterial3D = EnvKit.material(id, true).duplicate() as StandardMaterial3D
+		material.render_priority = 4
+		material.cull_mode = BaseMaterial3D.CULL_BACK
+		mesh.set_material(id, material)
+		var aspect: float = EnvKit.aspect(id)
+		for item: Variant in by_id[id] as Array:
+			var entry: Dictionary = item as Dictionary
+			var pos: Vector3 = pos3(entry["pos"]) + Vector3(0, 0.05, 0)
+			var size: float = float(entry.get("size", 2.0))
+			var basis: Basis = Basis(Vector3.UP, deg_to_rad(float(entry.get("yaw", 0.0))))
+			var hw: float = size * 0.5 * (aspect if aspect > 1.0 else 1.0)
+			var hd: float = size * 0.5 * (1.0 / aspect if aspect < 1.0 else 1.0)
+			var corners: Array[Vector3] = [pos + basis * Vector3(-hw, 0, hd), pos + basis * Vector3(hw, 0, hd), pos + basis * Vector3(hw, 0, -hd), pos + basis * Vector3(-hw, 0, -hd)]
+			mesh.quad(id, corners, Vector3.UP, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])
+	var node: MeshInstance3D = mesh.instance("KitDecals")
+	node.set_meta(&"no_occlusion_fade", true)
+	node.set_meta(PaintedClasses.META_NO_PAINT, true)
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(node)
 
 
 func _flower_clumps() -> void:

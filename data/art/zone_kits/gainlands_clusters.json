@@ -1,0 +1,84 @@
+{
+	"_about": "Gainlands prop clusters (ZoneClusters, world/kit/zone_clusters.gd): vignettes of the zone kit's painted cards (GAIN-PROP-*, GAIN-PLANT-*) and shared kit props, placed by name in data/subareas/gainlands/*.json (clusters / scatter) and by GainlandsDressing in the hub. Local frame: origin on the ground, the wall or back is -z, the open side +z. Art Bible G-05: props gather at doorways, walls and junctions, never evenly scattered.",
+	"zone": "gainlands",
+	"clusters": {
+		"gym_rack": {
+			"length": 5.6, "depth": 1.8,
+			"pieces": [
+				{"card": "GAIN-PROP-RACK", "pos": [0.0, -0.2], "height": 1.9},
+				{"card": "GAIN-PROP-DUMBBELL", "pos": [1.9, 0.5], "height": 0.8, "yaw": 20},
+				{"card": "GAIN-PROP-KETTLEBELL", "pos": [-1.9, 0.4], "height": 0.9},
+				{"prop": "crate_small", "pos": [-2.9, -0.2], "yaw": 14}
+			],
+			"clumps": [{"pos": [2.9, 0.4], "radius": 0.7, "count": 6, "cells": [0, 1, 2]}]
+		},
+		"protein_corner": {
+			"length": 5.0, "depth": 2.0,
+			"pieces": [
+				{"card": "GAIN-PROP-PROTEIN", "pos": [0.0, 0.0], "height": 2.3},
+				{"prop": "barrel", "pos": [-2.0, 0.3]},
+				{"prop": "barrel", "pos": [-2.7, -0.3]},
+				{"card": "GAIN-PROP-KETTLEBELL", "pos": [2.0, 0.6], "height": 0.85, "flip": true},
+				{"card": "GAIN-PLANT-SUNFLOWER", "pos": [2.6, -0.6], "height": 2.0, "solid": false}
+			],
+			"clumps": [{"pos": [-0.4, 1.3], "radius": 0.8, "count": 7, "cells": [2, 0, 3]}]
+		},
+		"catapult_pit": {
+			"length": 6.0, "depth": 3.0,
+			"pieces": [
+				{"card": "GAIN-PROP-CATAPULT", "pos": [0.0, 0.0], "height": 2.6},
+				{"card": "GAIN-PLANT-HAY", "pos": [-2.8, 0.4], "height": 1.9},
+				{"card": "GAIN-PROP-KETTLEBELL", "pos": [2.4, 0.9], "height": 0.9},
+				{"card": "GAIN-PROP-DUMBBELL", "pos": [2.9, -0.5], "height": 0.8, "yaw": -30}
+			],
+			"clumps": [{"pos": [-1.0, 1.5], "radius": 0.6, "count": 5, "cells": [0, 1]}]
+		},
+		"hay_stack": {
+			"length": 4.4, "depth": 2.2,
+			"pieces": [
+				{"card": "GAIN-PLANT-HAY", "pos": [0.0, 0.0], "height": 2.0},
+				{"card": "GAIN-PLANT-HAY", "pos": [2.1, -0.5], "height": 1.6, "flip": true},
+				{"prop": "sack", "pos": [-1.7, 0.6], "yaw": 30},
+				{"prop": "sack", "pos": [-2.2, 0.1], "yaw": -20}
+			],
+			"clumps": [{"pos": [1.2, 1.1], "radius": 0.7, "count": 6, "cells": [0, 1, 2]}]
+		},
+		"sunflower_bed": {
+			"length": 4.6, "depth": 1.6,
+			"pieces": [
+				{"card": "GAIN-PLANT-SUNFLOWER", "pos": [-1.3, 0.0], "height": 2.1, "solid": false},
+				{"card": "GAIN-PLANT-SUNFLOWER", "pos": [0.3, -0.4], "height": 1.8, "flip": true, "solid": false},
+				{"card": "GAIN-PLANT-SUNFLOWER", "pos": [1.7, 0.1], "height": 2.0, "solid": false},
+				{"prop": "fence_rail", "pos": [0.2, -1.0], "length": 4.4, "solid": false}
+			],
+			"clumps": [{"pos": [0.0, 0.7], "radius": 1.4, "count": 10, "cells": [2, 0, 3, 2]}]
+		},
+		"sunflower_fence": {
+			"length": 5.0, "depth": 1.2,
+			"pieces": [
+				{"prop": "fence_rail", "pos": [0.0, -0.4], "length": 5.0, "solid": false},
+				{"card": "GAIN-PLANT-SUNFLOWER", "pos": [-1.6, 0.1], "height": 1.9, "solid": false},
+				{"card": "GAIN-PLANT-SUNFLOWER", "pos": [1.4, 0.2], "height": 2.1, "flip": true, "solid": false}
+			],
+			"clumps": [{"pos": [0.0, 0.5], "radius": 1.2, "count": 8, "cells": [0, 2, 1]}]
+		},
+		"dumbbell_pile": {
+			"length": 3.2, "depth": 1.4,
+			"pieces": [
+				{"card": "GAIN-PROP-DUMBBELL", "pos": [0.0, 0.0], "height": 0.95},
+				{"card": "GAIN-PROP-DUMBBELL", "pos": [1.2, 0.5], "height": 0.75, "yaw": 25, "flip": true},
+				{"card": "GAIN-PROP-KETTLEBELL", "pos": [-1.3, 0.3], "height": 0.85}
+			],
+			"clumps": []
+		},
+		"mill_yard": {
+			"length": 7.0, "depth": 2.4,
+			"pieces": [
+				{"card": "GAIN-PLANT-HAY", "pos": [-2.6, -0.3], "height": 2.0},
+				{"cluster": "crates", "pos": [1.2, 0.0], "yaw": 0},
+				{"card": "GAIN-PLANT-SUNFLOWER", "pos": [-0.6, 0.9], "height": 1.9, "solid": false}
+			],
+			"clumps": [{"pos": [3.6, 0.9], "radius": 0.7, "count": 6, "cells": [0, 2]}]
+		}
+	}
+}

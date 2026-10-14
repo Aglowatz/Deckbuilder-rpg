@@ -61,6 +61,45 @@ static func translucent(color: Color, alpha: float, energy: float = 0.8) -> Stan
 	return _cache[key] as StandardMaterial3D
 
 
+## Zone kit surfaces on the procedural props (one image fitted per primitive face, `EnvKit.fitted`); the flat colour when the art is missing.
+static func kit(id: String, fallback: Color, mul: Color = Color.WHITE) -> Material:
+	if EnvKit.has_art(id):
+		return EnvKit.fitted(id, mul)
+	return flat(fallback)
+
+
+static func wood() -> Material:
+	return kit("GAIN-WALL-BLEACH", WOOD)
+
+
+static func wood_dark() -> Material:
+	return kit("GAIN-WALL-BLEACH", WOOD_DARK, Color(0.7, 0.58, 0.48))
+
+
+static func brick() -> Material:
+	return kit("GAIN-WALL-BRICK", Color(0.72, 0.3, 0.24))
+
+
+static func iron() -> Material:
+	return kit("GAIN-WALL-IRON", METAL)
+
+
+static func brass() -> Material:
+	return kit("GAIN-TRIM-BRASS", COPPER)
+
+
+static func canvas() -> Material:
+	return kit("GAIN-ROOF-CANVAS", CLOTH_RED)
+
+
+static func stone() -> Material:
+	return kit("ENV-WALL-FOUNDATION", ROCK)
+
+
+static func stone_dark() -> Material:
+	return kit("ENV-WALL-FOUNDATION", ROCK_DARK, Color(0.7, 0.68, 0.7))
+
+
 ## Vertex-coloured, double-sided terrain material (the colours are painted per triangle).
 static func terrain() -> Material:
 	return StyleTerrain.material(0.2, 0.1)

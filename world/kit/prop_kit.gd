@@ -15,6 +15,9 @@ const LANTERN: Color = Color("ffb45a")
 
 ## Builds the prop `prop_name` (one of NAMES); `length` is used by the fences, hedges, walls and planters; `seed_value` varies colours slightly.
 static func make(prop_name: String, length: float = 3.2, seed_value: int = 0) -> Node3D:
+	# "card:<kit id>": a zone kit cut-out as a camera-facing card prop (GAIN-PROP-RACK ...); `length` is its height when above 0.
+	if prop_name.begins_with("card:"):
+		return ZoneClusters.card_prop(prop_name.trim_prefix("card:"), length if length < 3.0 else -1.0)
 	match prop_name:
 		"barrel":
 			return barrel(seed_value)

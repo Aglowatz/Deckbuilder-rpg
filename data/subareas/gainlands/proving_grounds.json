@@ -13,26 +13,39 @@
 	],
 	"plazas": [{"pos": [0, -8], "radius": 9.0}],
 	"buildings": [
-		{"preset": "hall", "pos": [-24, 12], "yaw": 90},
-		{"preset": "equipment_shop", "pos": [24, 16], "yaw": -90}
+		{"preset": "gain_gym_hall", "pos": [-1, -31.5], "yaw": 0},
+		{"preset": "gain_iron_shed", "pos": [24, 16], "yaw": -90}
 	],
 	"landmarks": [
 		{"id": "GAIN-HERO-CHAMPIONS-ARCH", "kind": "arch", "pos": [0, -25], "size": [12, 8, 1.6], "color": "#d9483b", "accent": "#f2c14e"},
-		{"id": "stand_w", "kind": "colonnade", "pos": [-18, -16], "size": [14, 4.6, 2.0], "color": "#f7ebd3", "accent": "#7a5230"},
-		{"id": "stand_e", "kind": "colonnade", "pos": [18, -18], "size": [14, 4.6, 2.0], "color": "#f7ebd3", "accent": "#7a5230"},
-		{"id": "rack_a", "kind": "box", "pos": [-11, 4], "size": [4, 1.5, 1.0], "color": "#3a3a40"},
-		{"id": "rack_b", "kind": "box", "pos": [11, 6], "size": [4, 1.5, 1.0], "color": "#3a3a40"},
-		{"id": "scoreboard", "kind": "tower", "pos": [-30, -12], "size": [3.2, 5.5, 1.2], "color": "#5fa8d3", "accent": "#f2c14e"}
+		{"id": "stand_w", "kind": "colonnade", "pos": [-18, -16], "size": [14, 4.6, 2.0], "color": "#f7ebd3", "accent": "#7a5230", "surface": "GAIN-WALL-BLEACH", "accent_surface": "GAIN-WALL-BRICK"},
+		{"id": "stand_e", "kind": "colonnade", "pos": [18, -18], "size": [14, 4.6, 2.0], "color": "#f7ebd3", "accent": "#7a5230", "surface": "GAIN-WALL-BLEACH", "accent_surface": "GAIN-WALL-BRICK"},
+		{"id": "scoreboard", "kind": "tower", "pos": [-30, -12], "size": [3.2, 5.5, 1.2], "color": "#5fa8d3", "accent": "#f2c14e", "surface": "GAIN-WALL-IRON", "accent_surface": "GAIN-TRIM-BRASS"}
 	],
 	"clusters": [
-		{"name": "market_set", "pos": [-12, 21], "yaw": 10},
-		{"name": "crates", "pos": [16, 24], "yaw": -8}
+		{"name": "protein_corner", "pos": [-12, 21], "yaw": 10},
+		{"name": "crates", "pos": [16, 24], "yaw": -8},
+		{"name": "gym_rack", "pos": [-11, 4], "yaw": 90},
+		{"name": "gym_rack", "pos": [11, 6], "yaw": -90},
+		{"name": "dumbbell_pile", "pos": [6, -15], "yaw": 20},
+		{"name": "catapult_pit", "pos": [-22, -3], "yaw": 60},
+		{"name": "sunflower_fence", "pos": [-18, -11], "yaw": 180},
+		{"name": "sunflower_fence", "pos": [18, -13], "yaw": 180},
+		{"name": "hay_stack", "pos": [25, -22], "yaw": 220},
+		{"name": "sunflower_bed", "pos": [-8, 12], "yaw": 180}
 	],
 	"scatter": [
-		{"kind": "tree", "name": "pine", "count": 18, "scale": [1.0, 1.5]},
-		{"kind": "tree", "name": "oak", "count": 7, "scale": [1.0, 1.4]},
-		{"kind": "prop", "name": "barrel", "count": 8, "grouped": true},
+		{"kind": "tree", "name": "pine", "count": 14, "scale": [1.0, 1.5]},
+		{"kind": "tree", "name": "oak", "count": 8, "scale": [1.0, 1.4]},
+		{"kind": "tree", "name": "sunflower", "count": 8, "scale": [0.9, 1.15], "gap": 1.2, "path_gap": 2.0},
+		{"kind": "prop", "name": "barrel", "count": 6, "grouped": true},
 		{"kind": "cluster", "name": "barrel_pair", "count": 3}
+	],
+	"decals": [
+		{"id": "GAIN-DEC-PLATES", "pos": [-9, 7], "size": 2.6, "yaw": 30}, {"id": "GAIN-DEC-PLATES", "pos": [10, 3], "size": 2.4, "yaw": 200}, {"id": "GAIN-DEC-PLATES", "pos": [4, -17], "size": 2.2, "yaw": 90},
+		{"id": "GAIN-DEC-SWEAT", "pos": [-3, -7], "size": 3.0, "yaw": 0}, {"id": "GAIN-DEC-SWEAT", "pos": [4, -10], "size": 2.6, "yaw": 140}, {"id": "GAIN-DEC-SWEAT", "pos": [-1, -3], "size": 2.4, "yaw": 260},
+		{"id": "DEC-CHALK", "pos": [0, -9], "size": 3.6, "yaw": 0}, {"id": "DEC-CHALK", "pos": [-5, -12], "size": 2.8, "yaw": 70}, {"id": "DEC-CHALK", "pos": [6, -5], "size": 2.6, "yaw": 160}, {"id": "DEC-CHALK", "pos": [-12, 1], "size": 2.4, "yaw": 20},
+		{"id": "GAIN-DEC-TREAD", "pos": [0, 20], "size": 3.4, "yaw": 0}, {"id": "GAIN-DEC-TREAD", "pos": [20, -10], "size": 3.0, "yaw": 90}
 	],
 	"poi": [
 		{"id": "pg_chest_a", "type": "chest", "pos": [-30, 8], "tier": "small", "title": "Gym Bag"},

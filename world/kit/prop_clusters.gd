@@ -102,7 +102,8 @@ static func make(cluster_name: String, seed_value: int = 0, with_ao: bool = fals
 			depth = 1.0
 		_:
 			root.free()
-			return null
+			# a zone kit's data-driven cluster (data/art/zone_kits/<zone>_clusters.json), or nothing
+			return ZoneClusters.make(cluster_name, seed_value)
 	if not clumps.is_empty():
 		KitFoliage.clumps(root, clumps, seed_value + 11)
 	root.set_meta("circles", circles)

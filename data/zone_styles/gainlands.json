@@ -1,15 +1,74 @@
 {
-	"_about": "The Gainlands (Beefcake). Bright midday sun, sun-bleached wood, red brick and brass.",
+	"_about": "The Gainlands (Beefcake). Bright midday sun, sun-bleached wood, red brick and brass. Material swaps point the shared kit at the zone kit (data/art/zone_kits/gainlands.json, imported by tools/import_zone_kit.sh); the zone art is painted in the palette and is not tinted.",
 	"area": "gainlands",
 	"name": "The Gainlands (Beefcake)",
 	"time_of_day": "Bright midday sun; crisp shadows, saturated sky",
-	"palette": ["#F2C14E", "#D9483B", "#8BC34A", "#F7EBD3", "#7A5230", "#5FA8D3"],
-	"light": {"key_color": "#fff0c8", "key_energy": 1.0, "key_pitch": -52, "key_yaw": -25, "ambient_color": "#6aa8d0", "ambient_energy": 0.42},
-	"fog": {"color": "#cfeaff", "density": 0.003},
-	"grade": {"warmth": 0.12, "saturation": 1.04, "contrast": 1.12, "post_saturation": 1.16},
-	"bloom": {"intensity": 0.55, "threshold": 1.0},
+	"palette": [
+		"#F2C14E",
+		"#D9483B",
+		"#8BC34A",
+		"#F7EBD3",
+		"#7A5230",
+		"#5FA8D3"
+	],
+	"light": {
+		"key_color": "#fff0c8",
+		"key_energy": 1,
+		"key_pitch": -52,
+		"key_yaw": -25,
+		"ambient_color": "#6aa8d0",
+		"ambient_energy": 0.42
+	},
+	"fog": {
+		"color": "#cfeaff",
+		"density": 0.003
+	},
+	"grade": {
+		"warmth": 0.12,
+		"saturation": 1.04,
+		"contrast": 1.12,
+		"post_saturation": 1.16
+	},
+	"bloom": {
+		"intensity": 0.55,
+		"threshold": 1
+	},
 	"vignette": 0.2,
-	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-PLANK", "ENV-WALL-TIMBER-WARM": "ENV-WALL-PLANK"},
+	"material_swaps": {
+		"ENV-WALL-TIMBER": "GAIN-WALL-BLEACH",
+		"ENV-WALL-TIMBER-WARM": "GAIN-WALL-BRICK",
+		"ENV-WALL-PLANK": "GAIN-WALL-BLEACH",
+		"ENV-ROOF-TILE-RED": "GAIN-ROOF-RED",
+		"ENV-ROOF-TILE-BLUE": "GAIN-ROOF-RED",
+		"ENV-ROOF-THATCH": "GAIN-ROOF-CANVAS",
+		"ENV-ROOF-EAVE": "GAIN-TRIM-BRASS",
+		"ENV-DOOR-01": "GAIN-SHEET-DOORS-01",
+		"ENV-DOOR-02": "GAIN-SHEET-DOORS-02",
+		"ENV-DOOR-03": "GAIN-SHEET-DOORS-03",
+		"ENV-WINDOW-01": "GAIN-SHEET-WINDOWS-02",
+		"ENV-WINDOW-02": "GAIN-SHEET-WINDOWS-05",
+		"ENV-WINDOW-03": "GAIN-SHEET-WINDOWS-04",
+		"ENV-WINDOW-04": "GAIN-SHEET-WINDOWS-01",
+		"ENV-WINDOW-05": "GAIN-SHEET-WINDOWS-06",
+		"ENV-SIGN-CARDS": "GAIN-SHEET-SIGNS-06",
+		"ENV-SIGN-POTION": "GAIN-SHEET-SIGNS-02",
+		"ENV-SIGN-SHIELD": "GAIN-SHEET-SIGNS-01",
+		"ENV-SIGN-NEEDLE": "GAIN-SHEET-SIGNS-05",
+		"ENV-SIGN-PACK": "GAIN-SHEET-SIGNS-04",
+		"ENV-SIGN-FLASK": "GAIN-SHEET-SIGNS-02",
+		"ENV-SIGN-INN": "GAIN-SHEET-SIGNS-02",
+		"ENV-GROUND-DIRTPATH": "GAIN-PATH-CHALK",
+		"ENV-GROUND-GRASS-CALM": "TEX-GAIN-GRASS",
+		"ENV-TREE-OAK": "GAIN-TREE-OAK",
+		"ENV-TREE-PINE": "GAIN-TREE-PINE",
+		"ENV-TREE-FRUIT": "GAIN-TREE-SKY",
+		"ENV-TREE-BIRCH": "GAIN-TREE-OAK"
+	},
 	"tint_strength": 0.7,
-	"tints": {"wall": "#F7EBD3", "trim": "#7A5230", "roof": "#D9483B", "ground": "#E8D88A", "prop": "#F2C14E", "awning": "#D9483B"}
+	"tints": {
+		"trim": "#7A5230",
+		"ground": "#E8D88A",
+		"prop": "#F2C14E",
+		"awning": "#D9483B"
+	}
 }

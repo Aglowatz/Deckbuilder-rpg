@@ -8,6 +8,10 @@ const KINDS: Dictionary = {
 	"fruit": {"id": "ENV-TREE-FRUIT", "size": Vector2(3.9, 4.4), "radius": 0.3},
 	"pine": {"id": "ENV-TREE-PINE", "size": Vector2(3.7, 6.6), "radius": 0.3},
 	"birch": {"id": "ENV-TREE-BIRCH", "size": Vector2(3.3, 5.7), "radius": 0.25},
+	# Zone kit plants (data/art/zone_kits/*.json): the Gainlands sunflower clump, hay stack and sky tree.
+	"sunflower": {"id": "GAIN-PLANT-SUNFLOWER", "size": Vector2(1.7, 2.1), "radius": 0.0, "plant": true},
+	"hay": {"id": "GAIN-PLANT-HAY", "size": Vector2(2.4, 1.95), "radius": 0.6, "plant": true},
+	"sky": {"id": "GAIN-TREE-SKY", "size": Vector2(5.2, 6.4), "radius": 0.4},
 }
 
 

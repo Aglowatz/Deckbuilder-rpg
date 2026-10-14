@@ -76,7 +76,8 @@ func test_trees_are_cards_with_kit_slots() -> void:
 		add_child_autofree(tree)
 		var card: MeshInstance3D = tree.get_child(0) as MeshInstance3D
 		assert_true(card.material_override is ShaderMaterial, "%s is a painted card" % tree_name)
-		assert_gt(card.scale.y, 3.0, "%s stands tall" % tree_name)
+		var plant: bool = bool((TreeCards.KINDS[tree_name] as Dictionary).get("plant", false))
+		assert_gt(card.scale.y, 1.2 if plant else 3.0, "%s stands tall" % tree_name)
 		var texture: Texture2D = (card.material_override as ShaderMaterial).get_shader_parameter("card_tex") as Texture2D
 		assert_not_null(texture, "%s has its placeholder painting" % tree_name)
 

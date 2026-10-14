@@ -3,7 +3,7 @@
 	"name": "Mount Swolympus Trailhead",
 	"mood": "Brave, windy, a long climb ahead and a gift shop at the bottom of it",
 	"size": [72, 72],
-	"ground": {"kind": "dirt"},
+	"ground": {"kind": "chalkdirt"},
 	"spawn": [-28, 8],
 	"entries": {"sky_garden": [26, -22], "proving_grounds": [-28, 8]},
 	"edge": {"kind": "pine", "kinds": ["pine"], "spacing": 6.0, "scale": [1.2, 1.8]},
@@ -14,18 +14,32 @@
 	"landmarks": [
 		{"id": "GAIN-HERO-SWOLYMPUS", "kind": "mound", "pos": [8, -48], "size": [38, 30, 22], "color": "#8a7a68", "accent": "#f7ebd3"},
 		{"id": "GAIN-HERO-TRAILHEAD-GATE", "kind": "arch", "pos": [10, -32], "size": [10, 7, 1.4], "color": "#f7ebd3", "accent": "#f2c14e"},
-		{"id": "statue_flex", "kind": "statue", "pos": [-6, -20], "size": [3.4, 7.0, 3.4], "color": "#d8c8a8", "accent": "#7a5230"},
-		{"id": "boulder_wall", "kind": "cliff", "pos": [30, -12], "size": [6, 4, 3], "color": "#8a7a68", "accent": "#a89a80", "barrier": "sky_boulder"},
-		{"id": "shack", "kind": "hut", "pos": [-22, -4], "size": [6, 4.2, 5], "color": "#d9483b", "accent": "#7a5230"}
+		{"id": "statue_flex", "kind": "statue", "pos": [-6, -20], "size": [3.4, 7.0, 3.4], "color": "#d8c8a8", "accent": "#7a5230", "surface": "ENV-WALL-FOUNDATION", "surface_tint": "#fff4e0", "accent_surface": "GAIN-TRIM-BRASS"},
+		{"id": "boulder_wall", "kind": "cliff", "pos": [30, -12], "size": [6, 4, 3], "color": "#8a7a68", "accent": "#a89a80", "barrier": "sky_boulder", "surface": "TEX-GAIN-ISLANDROCK", "accent_surface": "TEX-GAIN-GRASS"},
+		{"id": "shack", "kind": "hut", "pos": [-22, -4], "size": [6, 4.2, 5], "color": "#d9483b", "accent": "#7a5230", "surface": "GAIN-WALL-BRICK", "accent_surface": "GAIN-ROOF-RED"}
 	],
 	"clusters": [
 		{"name": "banner_lamp", "pos": [-12, 10], "yaw": 0},
-		{"name": "bench_nook", "pos": [-24, 14], "yaw": 0}
+		{"name": "bench_nook", "pos": [-24, 14], "yaw": 0},
+		{"name": "crates", "pos": [-10, 0], "yaw": 30},
+		{"name": "crates", "pos": [8, -14], "yaw": -40},
+		{"name": "sunflower_bed", "pos": [-16, -10], "yaw": 150},
+		{"name": "dumbbell_pile", "pos": [2, -26], "yaw": 10},
+		{"name": "hay_stack", "pos": [20, -18], "yaw": 220},
+		{"name": "sunflower_fence", "pos": [-2, 10], "yaw": 180}
 	],
 	"scatter": [
-		{"kind": "tree", "name": "pine", "count": 22, "scale": [1.1, 1.7]},
+		{"kind": "tree", "name": "pine", "count": 20, "scale": [1.1, 1.7]},
+		{"kind": "tree", "name": "sunflower", "count": 6, "scale": [0.9, 1.1], "gap": 1.2, "path_gap": 1.8},
 		{"kind": "prop", "name": "barrel", "count": 5, "grouped": true},
-		{"kind": "cluster", "name": "crates", "count": 3}
+		{"kind": "cluster", "name": "crates", "count": 2}
+	],
+	"flowers": [
+		{"pos": [-14, 2], "radius": 4.0, "cells": [2, 3, 0], "count": 26}, {"pos": [6, -4], "radius": 4.5, "cells": [2, 3], "count": 28}, {"pos": [16, -22], "radius": 3.5, "cells": [2, 0], "count": 20}
+	],
+	"decals": [
+		{"id": "GAIN-DEC-TREAD", "pos": [-22, 10], "size": 3.4, "yaw": 95}, {"id": "GAIN-DEC-TREAD", "pos": [-6, 4], "size": 3.2, "yaw": 50}, {"id": "GAIN-DEC-TREAD", "pos": [6, -14], "size": 3.4, "yaw": 15},
+		{"id": "GAIN-DEC-TREAD", "pos": [10, -26], "size": 3.0, "yaw": 0}, {"id": "DEC-CHALK", "pos": [-2, -18], "size": 2.6, "yaw": 30}
 	],
 	"poi": [
 		{"id": "th_chest", "type": "chest", "pos": [-30, -26], "tier": "medium", "title": "Hiker Pack"},

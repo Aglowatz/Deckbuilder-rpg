@@ -42,6 +42,7 @@ var _locked: bool = false
 var _near: int = -1
 var _time: float = 0.0
 var _barriers: Dictionary = {}
+var _spinners: Array[Dictionary] = []
 var _screenshot_args: Dictionary = {}
 
 
@@ -169,6 +170,10 @@ func _build_features() -> void:
 		_add_exit_visual(pos, exit_data)
 		_add_marker(spot)
 		spots.append(spot)
+	# Hero landmarks that turn (the Mill Fields wheel): meta "spinner" names the child, "spin_speed" the radians per second about its local z.
+	for landmark_node: Node in map.root.get_children():
+		if landmark_node.has_meta("spinner"):
+			_spinners.append({"node": landmark_node.get_meta("spinner"), "speed": float(landmark_node.get_meta("spin_speed", 0.3))})
 	# Barriers a lever can remove: landmark entries with "barrier": "<id>" (built by the map as landmarks; found here by name).
 	for landmark_node: Node in map.root.get_children():
 		if landmark_node.has_meta("barrier"):
@@ -343,6 +348,10 @@ func _teleport(token: String) -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
+	for spinner: Dictionary in _spinners:
+		var node: Node3D = spinner["node"] as Node3D
+		if node != null and is_instance_valid(node):
+			node.rotation.z += float(spinner["speed"]) * delta
 	if player == null:
 		return
 	var target: Vector3 = player.position + CameraRig.shape(camera_offset)

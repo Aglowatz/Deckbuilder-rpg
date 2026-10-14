@@ -62,7 +62,7 @@ static func wheel(radius: float = 4.2, with_hamster: bool = false) -> Node3D:
 	root.add_child(spinner)
 	root.set_meta("spinner", spinner)
 	root.set_meta("radius", radius)
-	var rim_material: StandardMaterial3D = M.flat(M.WOOD_DARK)
+	var rim_material: StandardMaterial3D = M.wood_dark()
 	for side: float in [-1.15, 1.15]:
 		var rim: TorusMesh = TorusMesh.new()
 		rim.inner_radius = radius - 0.34
@@ -74,19 +74,19 @@ static func wheel(radius: float = 4.2, with_hamster: bool = false) -> Node3D:
 		for spoke: int in range(8 if side < 0.0 else 0):
 			var angle: float = TAU * float(spoke) / 8.0
 			var length: float = radius - 0.3
-			_box(spinner, Vector3(0.22, length, 0.2), Vector3(sin(angle), cos(angle), 0.0) * length * 0.5 + Vector3(0, 0, side), M.flat(M.WOOD), Vector3(0, 0, -rad_to_deg(angle)))
+			_box(spinner, Vector3(0.22, length, 0.2), Vector3(sin(angle), cos(angle), 0.0) * length * 0.5 + Vector3(0, 0, side), M.wood(), Vector3(0, 0, -rad_to_deg(angle)))
 	for slat: int in range(22):
 		var angle: float = TAU * float(slat) / 22.0
-		_box(spinner, Vector3(0.34, 0.12, 2.5), Vector3(sin(angle), cos(angle), 0.0) * (radius - 0.18), M.flat(M.WOOD), Vector3(0, 0, -rad_to_deg(angle)))
-	_cylinder(spinner, 0.3, 3.2, Vector3.ZERO, M.flat(M.ROCK_DARK, 0.5), Vector3(90, 0, 0), 12)
-	_cylinder(spinner, 0.22, 0.6, Vector3(0, 0, 1.7), M.flat(M.COPPER), Vector3(90, 0, 0), 8)
+		_box(spinner, Vector3(0.34, 0.12, 2.5), Vector3(sin(angle), cos(angle), 0.0) * (radius - 0.18), M.wood(), Vector3(0, 0, -rad_to_deg(angle)))
+	_cylinder(spinner, 0.3, 3.2, Vector3.ZERO, M.stone_dark(), Vector3(90, 0, 0), 12)
+	_cylinder(spinner, 0.22, 0.6, Vector3(0, 0, 1.7), M.brass(), Vector3(90, 0, 0), 8)
 	# Stands: a post and a brace on each side, standing on the ground.
 	for side: float in [-1.7, 1.7]:
 		if side < 0.0:
-			_box(root, Vector3(0.5, axle_height + 0.2, 0.5), Vector3(0, (axle_height + 0.2) * 0.5, side), M.flat(M.WOOD))
+			_box(root, Vector3(0.5, axle_height + 0.2, 0.5), Vector3(0, (axle_height + 0.2) * 0.5, side), M.wood())
 		for lean: float in [-1.0, 1.0]:
-			_box(root, Vector3(0.36, axle_height * 1.05, 0.36), Vector3(lean * axle_height * 0.32, axle_height * 0.5, side), M.flat(M.WOOD_DARK), Vector3(0, 0, lean * 17.0))
-		_box(root, Vector3(axle_height * 1.0, 0.3, 0.8), Vector3(0, 0.15, side), M.flat(M.ROCK_DARK))
+			_box(root, Vector3(0.36, axle_height * 1.05, 0.36), Vector3(lean * axle_height * 0.32, axle_height * 0.5, side), M.wood_dark(), Vector3(0, 0, lean * 17.0))
+		_box(root, Vector3(axle_height * 1.0, 0.3, 0.8), Vector3(0, 0.15, side), M.stone_dark())
 	if with_hamster:
 		var hamster: Node3D = Node3D.new()
 		hamster.position = Vector3(0, 0.9, 0)
@@ -105,7 +105,7 @@ static func pipe_segment(parent: Node3D, a: Vector3, b: Vector3, radius: float =
 	if length < 0.01:
 		return
 	var mid: Vector3 = (a + b) * 0.5
-	var instance: MeshInstance3D = _cylinder(parent, radius, length, mid, M.flat(M.COPPER, 0.45), Vector3.ZERO, 8)
+	var instance: MeshInstance3D = _cylinder(parent, radius, length, mid, M.brass(), Vector3.ZERO, 8)
 	instance.basis = Basis(Quaternion(Vector3.UP, (b - a).normalized()))
 	# A glowing band mid-way so the line reads as "energy".
 	var band: MeshInstance3D = _cylinder(parent, radius * 1.12, minf(0.35, length * 0.4), mid, M.glow(M.ENERGY, 1.4), Vector3.ZERO, 8)
@@ -135,18 +135,18 @@ static func crystal() -> Node3D:
 
 
 static func barbell_bar(parent: Node3D, pos: Vector3, bar_length: float, plate_radius: float, plate_color: Color = M.ROCK) -> void:
-	_cylinder(parent, 0.07, bar_length, pos, M.flat(M.METAL, 0.4), Vector3(0, 0, 90), 8)
+	_cylinder(parent, 0.07, bar_length, pos, M.iron(), Vector3(0, 0, 90), 8)
 	for side: float in [-1.0, 1.0]:
 		boulder(parent, plate_radius, pos + Vector3(side * (bar_length * 0.5 - plate_radius * 0.6), -plate_radius * 0.78, 0.0), plate_color, 1.0)
 
 
 static func bench_press() -> Node3D:
 	var root: Node3D = Node3D.new()
-	_cylinder(root, 0.34, 2.6, Vector3(0, 0.62, 0), M.flat(M.WOOD), Vector3(0, 0, 90), 9)
+	_cylinder(root, 0.34, 2.6, Vector3(0, 0.62, 0), M.wood(), Vector3(0, 0, 90), 9)
 	for side: float in [-1.0, 1.0]:
 		boulder(root, 0.46, Vector3(side * 1.05, 0, 0), M.ROCK_DARK)
-		_box(root, Vector3(0.16, 1.5, 0.16), Vector3(side * 0.95, 1.05, -0.45), M.flat(M.WOOD_DARK))
-		_box(root, Vector3(0.16, 1.5, 0.16), Vector3(side * 0.95, 1.05, 0.45), M.flat(M.WOOD_DARK))
+		_box(root, Vector3(0.16, 1.5, 0.16), Vector3(side * 0.95, 1.05, -0.45), M.wood_dark())
+		_box(root, Vector3(0.16, 1.5, 0.16), Vector3(side * 0.95, 1.05, 0.45), M.wood_dark())
 	barbell_bar(root, Vector3(0, 1.7, 0), 3.4, 0.42, M.ROCK)
 	return root
 
@@ -154,23 +154,23 @@ static func bench_press() -> Node3D:
 static func log_rack() -> Node3D:
 	var root: Node3D = Node3D.new()
 	for side: float in [-1.0, 1.0]:
-		_cylinder(root, 0.2, 2.8, Vector3(side * 1.1, 1.4, 0), M.flat(M.WOOD), Vector3.ZERO, 8)
+		_cylinder(root, 0.2, 2.8, Vector3(side * 1.1, 1.4, 0), M.wood(), Vector3.ZERO, 8)
 		boulder(root, 0.38, Vector3(side * 1.1, 0, 0.0), M.ROCK_DARK)
-	_cylinder(root, 0.12, 2.5, Vector3(0, 2.7, 0), M.flat(M.WOOD_DARK), Vector3(0, 0, 90), 8)
-	_cylinder(root, 0.04, 0.9, Vector3(0.4, 2.2, 0), M.flat(M.METAL), Vector3.ZERO, 6)
+	_cylinder(root, 0.12, 2.5, Vector3(0, 2.7, 0), M.wood_dark(), Vector3(0, 0, 90), 8)
+	_cylinder(root, 0.04, 0.9, Vector3(0.4, 2.2, 0), M.iron(), Vector3.ZERO, 6)
 	boulder(root, 0.22, Vector3(0.4, 1.4, 0), M.ROCK, 1.0)
 	return root
 
 
 static func dumbbell_rack() -> Node3D:
 	var root: Node3D = Node3D.new()
-	_box(root, Vector3(3.0, 0.2, 0.9), Vector3(0, 0.6, 0), M.flat(M.WOOD))
+	_box(root, Vector3(3.0, 0.2, 0.9), Vector3(0, 0.6, 0), M.wood())
 	for leg: float in [-1.3, 1.3]:
-		_box(root, Vector3(0.2, 0.6, 0.7), Vector3(leg, 0.3, 0), M.flat(M.WOOD_DARK))
+		_box(root, Vector3(0.2, 0.6, 0.7), Vector3(leg, 0.3, 0), M.wood_dark())
 	for index: int in range(4):
 		var x: float = -1.05 + 0.7 * float(index)
 		var size: float = 0.16 + 0.05 * float(index)
-		_cylinder(root, 0.04, 0.5, Vector3(x, 0.9 + size * 0.5, 0), M.flat(M.METAL), Vector3(0, 0, 90), 6)
+		_cylinder(root, 0.04, 0.5, Vector3(x, 0.9 + size * 0.5, 0), M.iron(), Vector3(0, 0, 90), 6)
 		for side: float in [-0.22, 0.22]:
 			boulder(root, size, Vector3(x + side * 0.9, 0.7, 0.0), [M.ROCK, M.ROCK_DARK, M.COPPER, M.PINK][index], 1.0)
 	return root
@@ -187,12 +187,12 @@ static func lying_barbell() -> Node3D:
 
 static func tub() -> Node3D:
 	var root: Node3D = Node3D.new()
-	_cylinder(root, 1.7, 0.85, Vector3(0, 0.42, 0), M.flat(M.WOOD), Vector3.ZERO, 14)
+	_cylinder(root, 1.7, 0.85, Vector3(0, 0.42, 0), M.wood(), Vector3.ZERO, 14)
 	var water: MeshInstance3D = _cylinder(root, 1.5, 0.05, Vector3(0, 0.78, 0), M.translucent(M.WATER, 0.8, 0.5), Vector3.ZERO, 14)
 	root.set_meta("bobber", water)
 	for index: int in range(10):
 		var angle: float = TAU * float(index) / 10.0
-		_box(root, Vector3(0.22, 1.0, 0.32), Vector3(cos(angle), 0.45, sin(angle)) * 1.72 * Vector3(1, 1, 1), M.flat(M.WOOD_DARK), Vector3(0, -rad_to_deg(angle), 0))
+		_box(root, Vector3(0.22, 1.0, 0.32), Vector3(cos(angle), 0.45, sin(angle)) * 1.72 * Vector3(1, 1, 1), M.wood_dark(), Vector3(0, -rad_to_deg(angle), 0))
 	boulder(root, 0.4, Vector3(1.0, 0.7, -0.9), M.ROCK, 0.7)
 	_cylinder(root, 0.22, 1.0, Vector3(-2.2, 0.22, 0.6), M.flat(M.PINK), Vector3(0, 0, 90), 8)
 	var steam: CPUParticles3D = CPUParticles3D.new()
@@ -219,13 +219,17 @@ static func tub() -> Node3D:
 
 static func stall(awning_a: Color = M.CLOTH_RED, awning_b: Color = Color(1, 1, 1)) -> Node3D:
 	var root: Node3D = Node3D.new()
-	_box(root, Vector3(3.0, 1.0, 1.1), Vector3(0, 0.5, 0), M.flat(M.WOOD))
-	_box(root, Vector3(3.2, 0.12, 1.3), Vector3(0, 1.05, 0), M.flat(M.WOOD_DARK))
+	_box(root, Vector3(3.0, 1.0, 1.1), Vector3(0, 0.5, 0), M.wood())
+	_box(root, Vector3(3.2, 0.12, 1.3), Vector3(0, 1.05, 0), M.wood_dark())
 	for side: float in [-1.45, 1.45]:
-		_cylinder(root, 0.08, 2.6, Vector3(side, 1.3, -0.5), M.flat(M.WOOD_DARK), Vector3.ZERO, 6)
-	for stripe: int in range(8):
-		var color: Color = awning_a if stripe % 2 == 0 else awning_b
-		_box(root, Vector3(0.42, 0.08, 1.8), Vector3(-1.45 + 0.42 * float(stripe) + 0.2, 2.5 - 0.0, -0.1), M.flat(color), Vector3(-16, 0, 0))
+		_cylinder(root, 0.08, 2.6, Vector3(side, 1.3, -0.5), M.wood_dark(), Vector3.ZERO, 6)
+	# the striped canvas awning: the kit canvas surface on one slab (the flat stripes when the art is missing)
+	if EnvKit.has_art("GAIN-ROOF-CANVAS"):
+		_box(root, Vector3(3.4, 0.08, 1.8), Vector3(0.0, 2.5, -0.1), M.canvas(), Vector3(-16, 0, 0))
+	else:
+		for stripe: int in range(8):
+			var color: Color = awning_a if stripe % 2 == 0 else awning_b
+			_box(root, Vector3(0.42, 0.08, 1.8), Vector3(-1.45 + 0.42 * float(stripe) + 0.2, 2.5 - 0.0, -0.1), M.flat(color), Vector3(-16, 0, 0))
 	for index: int in range(5):
 		_cylinder(root, 0.16, 0.34, Vector3(-1.1 + 0.55 * float(index), 1.28, 0.0), M.flat([M.PINK, M.YELLOW, M.WATER, M.CLOTH_RED, M.GRASS_HIGH][index]), Vector3.ZERO, 8)
 	return root
@@ -234,10 +238,10 @@ static func stall(awning_a: Color = M.CLOTH_RED, awning_b: Color = Color(1, 1, 1
 static func arch() -> Node3D:
 	var root: Node3D = Node3D.new()
 	for side: float in [-1.0, 1.0]:
-		_cylinder(root, 0.4, 4.4, Vector3(side * 2.4, 2.2, 0), M.flat(M.WOOD), Vector3.ZERO, 9)
+		_cylinder(root, 0.4, 4.4, Vector3(side * 2.4, 2.2, 0), M.wood(), Vector3.ZERO, 9)
 		boulder(root, 0.9, Vector3(side * 2.4, 0, 0), M.ROCK_DARK)
-	_cylinder(root, 0.34, 6.2, Vector3(0, 4.4, 0), M.flat(M.WOOD_DARK), Vector3(0, 0, 90), 9)
-	_box(root, Vector3(1.4, 0.7, 0.3), Vector3(0, 5.1, 0.1), M.flat(M.COPPER))
+	_cylinder(root, 0.34, 6.2, Vector3(0, 4.4, 0), M.wood_dark(), Vector3(0, 0, 90), 9)
+	_box(root, Vector3(1.4, 0.7, 0.3), Vector3(0, 5.1, 0.1), M.brass())
 	var swirl: MeshInstance3D = _cylinder(root, 2.1, 0.06, Vector3(0, 2.3, 0), M.translucent(M.ENERGY, 0.55, 1.2), Vector3(90, 0, 0), 16)
 	root.set_meta("spinner_z", swirl)
 	return root
@@ -246,12 +250,12 @@ static func arch() -> Node3D:
 static func gate() -> Node3D:
 	var root: Node3D = Node3D.new()
 	for side: float in [-1.0, 1.0]:
-		_box(root, Vector3(2.2, 8.0, 2.2), Vector3(side * 4.1, 4.0, 0), M.flat(M.ROCK))
+		_box(root, Vector3(2.2, 8.0, 2.2), Vector3(side * 4.1, 4.0, 0), M.stone())
 		boulder(root, 1.4, Vector3(side * 4.1, 7.8, 0), M.ROCK_DARK, 0.8)
-	_box(root, Vector3(10.4, 1.6, 2.2), Vector3(0, 8.4, 0), M.flat(M.ROCK_DARK))
-	_box(root, Vector3(6.0, 7.2, 0.7), Vector3(0, 3.6, 0), M.flat(M.WOOD_DARK))
+	_box(root, Vector3(10.4, 1.6, 2.2), Vector3(0, 8.4, 0), M.stone_dark())
+	_box(root, Vector3(6.0, 7.2, 0.7), Vector3(0, 3.6, 0), M.wood_dark())
 	for plank: int in range(5):
-		_box(root, Vector3(6.2, 0.35, 0.2), Vector3(0, 1.0 + 1.3 * float(plank), 0.5), M.flat(M.WOOD))
+		_box(root, Vector3(6.2, 0.35, 0.2), Vector3(0, 1.0 + 1.3 * float(plank), 0.5), M.wood())
 	for tape: int in range(8):
 		_box(root, Vector3(0.9, 0.35, 0.12), Vector3(-3.4 + 0.97 * float(tape), 5.8, 0.65), M.flat(M.YELLOW if tape % 2 == 0 else Color(0.1, 0.1, 0.12)), Vector3(0, 0, 18))
 	for cone: float in [-2.6, 2.6]:
@@ -276,8 +280,8 @@ static func stage() -> Node3D:
 	root.set_meta("screen", screen)
 	for side: float in [-1.0, 1.0]:
 		_box(root, Vector3(0.9, 1.4, 0.8), Vector3(side * 2.7, 1.2, -0.9), M.flat(Color(0.15, 0.15, 0.2)))
-		_cylinder(root, 0.28, 0.1, Vector3(side * 2.7, 1.5, -0.46), M.flat(M.METAL), Vector3(90, 0, 0), 10)
-		_cylinder(root, 0.1, 3.4, Vector3(side * 2.9, 1.7, 1.5), M.flat(M.WOOD_DARK), Vector3.ZERO, 6)
+		_cylinder(root, 0.28, 0.1, Vector3(side * 2.7, 1.5, -0.46), M.iron(), Vector3(90, 0, 0), 10)
+		_cylinder(root, 0.1, 3.4, Vector3(side * 2.9, 1.7, 1.5), M.wood_dark(), Vector3.ZERO, 6)
 	for bulb: int in range(9):
 		var x: float = -2.9 + 0.72 * float(bulb)
 		var colour: Color = [M.YELLOW, M.PINK, M.ENERGY][bulb % 3]
@@ -295,20 +299,20 @@ static func stage() -> Node3D:
 
 static func mirror() -> Node3D:
 	var root: Node3D = Node3D.new()
-	_box(root, Vector3(2.0, 3.0, 0.2), Vector3(0, 1.7, 0), M.flat(M.WOOD_DARK))
+	_box(root, Vector3(2.0, 3.0, 0.2), Vector3(0, 1.7, 0), M.wood_dark())
 	_box(root, Vector3(1.7, 2.7, 0.06), Vector3(0, 1.7, 0.12), M.translucent(Color(0.7, 0.95, 1.0), 0.75, 0.6))
 	for side: float in [-0.8, 0.8]:
-		_cylinder(root, 0.08, 0.4, Vector3(side, 0.2, 0.0), M.flat(M.WOOD), Vector3.ZERO, 6)
+		_cylinder(root, 0.08, 0.4, Vector3(side, 0.2, 0.0), M.wood(), Vector3.ZERO, 6)
 	boulder(root, 0.3, Vector3(1.4, 0, 0.5), M.ROCK_DARK, 0.7)
 	return root
 
 
 static func lecture_log() -> Node3D:
 	var root: Node3D = Node3D.new()
-	_cylinder(root, 0.65, 3.4, Vector3(0, 0.65, 0), M.flat(M.WOOD), Vector3(0, 0, 90), 10)
-	_box(root, Vector3(1.2, 1.2, 0.8), Vector3(-1.9, 0.6, 1.4), M.flat(M.WOOD_DARK))
+	_cylinder(root, 0.65, 3.4, Vector3(0, 0.65, 0), M.wood(), Vector3(0, 0, 90), 10)
+	_box(root, Vector3(1.2, 1.2, 0.8), Vector3(-1.9, 0.6, 1.4), M.wood_dark())
 	for seat: int in range(3):
-		_cylinder(root, 0.4, 0.5, Vector3(-1.5 + 1.5 * float(seat), 0.25, 2.2), M.flat(M.WOOD_DARK), Vector3.ZERO, 8)
+		_cylinder(root, 0.4, 0.5, Vector3(-1.5 + 1.5 * float(seat), 0.25, 2.2), M.wood_dark(), Vector3.ZERO, 8)
 	_box(root, Vector3(1.4, 0.9, 0.12), Vector3(1.3, 1.9, -0.2), M.flat(Color(0.12, 0.3, 0.2)), Vector3(0, 0, 0))
 	return root
 
@@ -318,11 +322,11 @@ static func cavern_mouth() -> Node3D:
 	var root: Node3D = Node3D.new()
 	_box(root, Vector3(3.2, 3.0, 0.5), Vector3(0, 1.5, 0), M.flat(Color(0.05, 0.04, 0.07)))
 	for side: float in [-1.0, 1.0]:
-		_cylinder(root, 0.22, 3.4, Vector3(side * 1.8, 1.7, 0.3), M.flat(M.WOOD), Vector3.ZERO, 8)
-	_cylinder(root, 0.2, 4.0, Vector3(0, 3.3, 0.3), M.flat(M.WOOD_DARK), Vector3(0, 0, 90), 8)
+		_cylinder(root, 0.22, 3.4, Vector3(side * 1.8, 1.7, 0.3), M.wood(), Vector3.ZERO, 8)
+	_cylinder(root, 0.2, 4.0, Vector3(0, 3.3, 0.3), M.wood_dark(), Vector3(0, 0, 90), 8)
 	barbell_bar(root, Vector3(0, 3.9, 0.3), 3.6, 0.36, M.ROCK_DARK)
 	for torch: float in [-2.2, 2.2]:
-		_cylinder(root, 0.07, 1.6, Vector3(torch, 0.8, 0.9), M.flat(M.WOOD_DARK), Vector3.ZERO, 6)
+		_cylinder(root, 0.07, 1.6, Vector3(torch, 0.8, 0.9), M.wood_dark(), Vector3.ZERO, 6)
 		var flame: SphereMesh = SphereMesh.new()
 		flame.radius = 0.2
 		flame.height = 0.4
@@ -335,12 +339,12 @@ static func cavern_mouth() -> Node3D:
 ## A hanging post sign: a board on a post, text added by the builder.
 static func sign_post(width: float, height: float, style: String) -> Node3D:
 	var root: Node3D = Node3D.new()
-	var post_color: StandardMaterial3D = M.flat(M.WOOD_DARK)
+	var post_color: StandardMaterial3D = M.wood_dark()
 	match style:
 		"poster":
 			for side: float in [-1.0, 1.0]:
 				_cylinder(root, 0.07, height + 1.0, Vector3(side * (width * 0.5 + 0.1), (height + 1.0) * 0.5, 0), post_color, Vector3.ZERO, 6)
-			_box(root, Vector3(width + 0.14, height + 0.14, 0.08), Vector3(0, 1.4 + height * 0.5, 0), M.flat(M.COPPER))
+			_box(root, Vector3(width + 0.14, height + 0.14, 0.08), Vector3(0, 1.4 + height * 0.5, 0), M.brass())
 			_box(root, Vector3(width, height, 0.1), Vector3(0, 1.4 + height * 0.5, 0.01), M.flat(Color(0.98, 0.93, 0.8)))
 		"memo":
 			_cylinder(root, 0.06, 1.1, Vector3(0, 0.55, 0), post_color, Vector3.ZERO, 6)

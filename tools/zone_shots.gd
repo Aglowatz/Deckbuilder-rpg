@@ -1,6 +1,6 @@
 extends SceneTree
 ## Paint-over inputs and camera contact sheets for one area, in one windowed process (run alone, see docs/art/art_pipeline.md):
-##   Godot --path . --resolution 1600x900 -s res://tools/zone_shots.gd -- --area=gainlands [--mode=po|grid|both]
+##   Godot --path . --resolution 1600x900 -s res://tools/zone_shots.gd -- --area=gainlands [--mode=po|grid|both] [--out=res://_screenshots/gainlands_slice]|grid|both]
 ## po:   docs/art/paintover_inputs/<area>/PO-<AREA>-<SUB>.png, 1600x900, Cinematic / Normal, hero visible, no UI, no world labels.
 ## grid: docs/art/zone_plans_shots/<area>.png, the hub at the 9 angle x zoom combinations.
 
@@ -30,6 +30,7 @@ var _wait: float = 2.2
 var _grid: Array[Image] = []
 var _grid_index: int = 0
 var _phase: String = "po"
+var _out: String = ""
 
 
 func _initialize() -> void:
@@ -38,6 +39,8 @@ func _initialize() -> void:
 			_area = arg.trim_prefix("--area=")
 		if arg.begins_with("--mode="):
 			_mode = arg.trim_prefix("--mode=")
+		if arg.begins_with("--out="):
+			_out = arg.trim_prefix("--out=").trim_suffix("/")
 	var session: Node = root.get_node_or_null("Session")
 	if session != null:
 		session.set("save_enabled", false)
@@ -126,7 +129,7 @@ func _step_po(delta: float) -> bool:
 	if _elapsed < _wait + 0.3:
 		return false
 	var image: Image = root.get_texture().get_image()
-	var dir: String = "res://docs/art/paintover_inputs/%s" % _area
+	var dir: String = _out if _out != "" else "res://docs/art/paintover_inputs/%s" % _area
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir))
 	var path: String = "%s/%s.png" % [dir, str(_jobs[_job]["name"])]
 	image.save_png(ProjectSettings.globalize_path(path))
@@ -158,7 +161,7 @@ func _step_grid(delta: float) -> bool:
 		var sheet: Image = Image.create(2400, 1350, false, Image.FORMAT_RGB8)
 		for index: int in range(9):
 			sheet.blit_rect(_grid[index], Rect2i(0, 0, 800, 450), Vector2i((index % 3) * 800, (index / 3) * 450))
-		var dir: String = "res://docs/art/zone_plans_shots"
+		var dir: String = _out if _out != "" else "res://docs/art/zone_plans_shots"
 		DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(dir))
 		sheet.save_png(ProjectSettings.globalize_path("%s/%s.png" % [dir, _area]))
 		print("contact sheet saved for ", _area)

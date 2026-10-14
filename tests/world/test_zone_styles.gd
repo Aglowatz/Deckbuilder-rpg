@@ -32,12 +32,17 @@ func test_the_town_is_untouched_by_tinting() -> void:
 
 
 func test_a_zone_swaps_and_tints_neutral_kit_surfaces() -> void:
+	# The Gainlands has its own kit now (data/art/zone_kits/gainlands.json): the shared surfaces swap to the zone art, which is painted in the palette and not tinted;
+	# a neutral kit surface the zone does not swap (the cobble) still wears the zone palette. The Dump keeps the plain swap-and-tint path.
 	ZoneStyles.use_area("gainlands")
-	assert_eq(ZoneStyles.swap("ENV-WALL-TIMBER"), "ENV-WALL-PLANK")
-	var tinted: StandardMaterial3D = EnvKit.material("ENV-ROOF-TILE-RED")
+	assert_eq(ZoneStyles.swap("ENV-WALL-TIMBER"), "GAIN-WALL-BLEACH")
+	assert_eq(EnvKit.material("ENV-ROOF-TILE-RED").albedo_color, Color.WHITE, "zone kit art keeps its painted colours")
+	var tinted: StandardMaterial3D = EnvKit.material("ENV-GROUND-COBBLE")
 	ZoneStyles.use_area("main_town")
-	var plain: StandardMaterial3D = EnvKit.material("ENV-ROOF-TILE-RED")
-	assert_ne(tinted.albedo_color.to_html(), plain.albedo_color.to_html(), "the same kit roof wears the zone palette")
+	var plain: StandardMaterial3D = EnvKit.material("ENV-GROUND-COBBLE")
+	assert_ne(tinted.albedo_color.to_html(), plain.albedo_color.to_html(), "the same neutral kit ground wears the zone palette")
+	ZoneStyles.use_area("heap")
+	assert_ne(ZoneStyles.swap("ENV-WALL-TIMBER"), "ENV-WALL-TIMBER", "a zone without its own kit swaps within the shared kit")
 
 
 func test_retint_follows_a_changed_tint() -> void:
