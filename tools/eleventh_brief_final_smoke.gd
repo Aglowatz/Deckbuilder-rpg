@@ -538,7 +538,8 @@ func _shot(name: String) -> void:
 	await driver.frames(3)
 	DirAccess.make_dir_recursive_absolute(SHOT_DIR)
 	var image: Image = get_tree().root.get_texture().get_image()
-	image.save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, name]))
+	if image != null:  # headless runs have no frame to save
+		image.save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, name]))
 	print("%s: screenshot -> %s.png" % [TAG, name])
 
 

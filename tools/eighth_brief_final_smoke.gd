@@ -77,7 +77,8 @@ func _town_path(town: TownScene) -> void:
 	for spot: TownScene.Spot in town.spots:
 		if spot.id == "portal_refusemancer":
 			label = spot.title
-	_check(label == "Path of the Refusemancer", "the town exit is called the Path of the Refusemancer (got '%s')" % label)
+	# The town exits are named after the zone now (they used to read "Path of the Refusemancer").
+	_check(label == HeapZone.DISPLAY_NAME, "the town exit is called %s (got '%s')" % [HeapZone.DISPLAY_NAME, label])
 
 
 func _enter_the_heap(town: TownScene) -> HeapScene:
@@ -126,6 +127,9 @@ func _explore_and_reveal(zone: HeapScene) -> void:
 	_check(marker_found, "a quest giver with an available quest shows the '!' marker")
 	_chest_clear(zone)
 	await _shot("h_04_minimap_after_exploring_quiz")
+	# Exploring may finish a quest: its Quest Complete box holds the hero until it is clicked away.
+	await driver.dismiss_reward_box(0.5)
+	await _dismiss_dialogue(zone.dialogue)
 	await driver.tap_key(KEY_M)
 	await driver.seconds(0.4)
 	_check(zone._overlay is FullMapScreen, "M opens the full map in the Verdant Dump")
@@ -1020,7 +1024,8 @@ func _shot(name: String) -> void:
 	await driver.frames(3)
 	DirAccess.make_dir_recursive_absolute(SHOT_DIR)
 	var image: Image = get_tree().root.get_texture().get_image()
-	image.save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, name]))
+	if image != null:  # headless runs have no frame to save
+		image.save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, name]))
 	print("%s: screenshot -> %s.png" % [TAG, name])
 
 

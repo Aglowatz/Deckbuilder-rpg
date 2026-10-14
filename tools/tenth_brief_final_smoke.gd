@@ -74,7 +74,13 @@ func _flow_enter_capital(town: TownScene) -> void:
 	await driver.seconds(1.5)
 	_check(zone.hud.find_child("ServiceDebuffsPanel", true, false) != null, "the HUD shows the broken services")
 	var panel: Control = zone.hud.find_child("ServiceDebuffsPanel", true, false) as Control
-	_check(panel != null and panel.tooltip_text.length() > 10, "with a tooltip")
+	# Each service row carries a HoverTip now (the panel itself has no tooltip_text).
+	var hover_rows: int = 0
+	if panel != null:
+		for node: Node in panel.find_children("*", "Control", true, false):
+			if (node as Control).mouse_entered.get_connections().size() > 0:
+				hover_rows += 1
+	_check(hover_rows >= 4, "with a hover tip on each broken service (%d)" % hover_rows)
 	_check(CapitalDebuffs.active(Session.flags).size() == 4, "all four services are broken")
 	_check(not Session.flag(CapitalZone.FLAG_GATE_OPEN), "the gate is closed")
 	await _shot("02_capital_outskirts_and_debuffs")
@@ -185,7 +191,7 @@ func _flow_facade() -> void:
 	await driver.seconds(0.3)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
-	_check(zone.dialogue.active, "a facade citizen speaks")
+	_check(zone.dialogue.active, "a facade citizen speaks (%s)" % _state(zone))
 	var first_line: String = zone.dialogue._text.text
 	_check(first_line.contains("identical"), "with an approved phrase (%s)" % first_line.left(40))
 	await _dismiss(zone.dialogue)
@@ -243,7 +249,7 @@ func _flow_quest() -> void:
 	await driver.seconds(0.4)
 	await _shot("14_quest_offer_pell")
 	await _dismiss(zone.dialogue)
-	_check(Session.quest_log.active.has(CapitalZone.QUEST_BURIAL), "Widow Pell's quest was accepted")
+	_check(Session.quest_log.active.has(CapitalZone.QUEST_BURIAL), "Widow Pell's quest was accepted (%s)" % _state(zone))
 	await _teleport(zone, zone.builder.anchor("stamp") + Vector3(0, 0, 0.6))
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.5)
@@ -675,7 +681,8 @@ func _shot(name: String) -> void:
 	await driver.frames(3)
 	DirAccess.make_dir_recursive_absolute(SHOT_DIR)
 	var image: Image = get_tree().root.get_texture().get_image()
-	image.save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, name]))
+	if image != null:  # headless runs have no frame to save
+		image.save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, name]))
 	print("%s: screenshot -> %s.png" % [TAG, name])
 
 
@@ -695,3 +702,8 @@ func _finish(ok: bool, reason: String) -> void:
 
 func _note(message: String) -> void:
 	print("%s: note  %s" % [TAG, message])
+
+
+## What could swallow an E press (for failure messages): an overlay, the lock, an open dialogue, or the nearest spot being something else.
+func _state(zone: ZoneScene) -> String:
+	return "overlay %s, locked %s, dialogue %s, near %s, chest %s" % [str(zone._overlay), str(zone._locked), str(zone.dialogue.active), zone._near.id if zone._near != null else "none", zone._chest_near]

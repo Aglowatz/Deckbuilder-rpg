@@ -604,18 +604,32 @@ func _update_camera(delta: float) -> void:
 		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _cam_shake_power * 0.14 * minf(1.0, _cam_shake_time * 3.0)
 
 
+## Signs (G-03 read spots) count as this much farther away, so any other spot in range wins the E.
+const SIGN_YIELD: float = 3.0
+
+
+## The spot E would use from `pos`: the closest one in reach; a sign counts as SIGN_YIELD farther, so it never steals the E from a spot beside it.
+func _nearest_spot(pos: Vector3) -> ZoneSpot:
+	var best: ZoneSpot = null
+	var best_distance: float = 1e9
+	for spot: ZoneSpot in spots:
+		var distance: float = Vector2(pos.x - spot.position.x, pos.z - spot.position.z).length()
+		var reach: float = spot.radius * StorybookScale.INTERACT_FACTOR
+		if spot.kind == "sign":
+			distance += SIGN_YIELD
+			reach += SIGN_YIELD
+		if distance <= reach and distance < best_distance:
+			best = spot
+			best_distance = distance
+	return best
+
+
 func _update_nearest() -> void:
 	if _locked or dialogue.active or _fainting or player.airborne:
 		hud.hide_prompt()
 		_near = null
 		return
-	var best: ZoneSpot = null
-	var best_distance: float = 1e9
-	for spot: ZoneSpot in spots:
-		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
-		if distance <= spot.radius * StorybookScale.INTERACT_FACTOR and distance < best_distance:
-			best = spot
-			best_distance = distance
+	var best: ZoneSpot = _nearest_spot(player.position)
 	if best != _near:
 		_near = best
 		if best != null:

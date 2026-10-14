@@ -82,11 +82,9 @@ func _flow_passage(town: TownScene, zone_id: String, scene_class: String) -> Tow
 	var mouth: Vector3 = town.town.anchors["portal_%s_mouth" % zone_id] as Vector3
 	await _walk_to(town, entry, 1.2)
 	await driver.seconds(0.5)
-	var spot: TownScene.Spot = null
-	for candidate: TownScene.Spot in town.spots:
-		if candidate.id == "portal_%s" % zone_id:
-			spot = candidate
-	_check(spot != null and spot.plate.visible and spot.plate.modulate.a > 0.5, "%s: the zone name shows on approach (%s)" % [zone_id, info.display_name])
+	# Since the passageway rework (Group D) the destination name is the town's passage label, not the portal spot's plate.
+	var label: Label = town._passage_label
+	_check(label != null and label.text == info.display_name and label.modulate.a > 0.5, "%s: the zone name shows on approach (%s; label '%s' a %.2f)" % [zone_id, info.display_name, label.text if label != null else "", label.modulate.a if label != null else 0.0])
 	await _shot("g_passage_%s_approach" % zone_id)
 	if locked:
 		await _walk_to(town, mouth, 0.6)
@@ -184,7 +182,8 @@ func _shot(shot_name: String) -> void:
 	await driver.frames(3)
 	DirAccess.make_dir_recursive_absolute(SHOT_DIR)
 	var image: Image = get_tree().root.get_texture().get_image()
-	image.save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, shot_name]))
+	if image != null:  # headless runs have no frame to save
+		image.save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, shot_name]))
 	print("%s: screenshot -> %s.png" % [TAG, shot_name])
 
 

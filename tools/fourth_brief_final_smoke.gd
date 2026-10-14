@@ -93,7 +93,9 @@ func _dev_shrine_to_level_5_choosing_weapon(town: TownScene) -> void:
 
 func _dev_shrine_to_level_10_choosing_armor(town: TownScene) -> void:
 	await _dev_shrine_until(town, 10, EquipmentData.Slot.ARMOR, "final2_06_shrine_level10_popup")
-	_check(Session.profile.level >= ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL, "reached the equipment-vendor unlock level (10)")
+	# The advanced stock moved from level 10 to EQUIPMENT_VENDOR_UNLOCK_LEVEL (13) with the deck box rework; keep praying until then.
+	await _dev_shrine_until(town, ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL, EquipmentData.Slot.ARMOR, "final2_06b_shrine_vendor_unlock_popup")
+	_check(Session.profile.level >= ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL, "reached the equipment-vendor unlock level (%d)" % ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL)
 
 
 func _dev_shrine_until(town: TownScene, target_level: int, slot_to_choose: EquipmentData.Slot, shot_name: String) -> void:
@@ -337,7 +339,8 @@ func _shot(scene: Node, name: String) -> void:
 	await driver.frames(2)
 	DirAccess.make_dir_recursive_absolute("res://_screenshots")
 	var image: Image = get_tree().root.get_texture().get_image()
-	image.save_png(ProjectSettings.globalize_path("res://_screenshots/%s.png" % name))
+	if image != null:  # headless runs have no frame to save
+		image.save_png(ProjectSettings.globalize_path("res://_screenshots/%s.png" % name))
 	print("fourth_brief_final_smoke: screenshot -> %s.png" % name)
 
 

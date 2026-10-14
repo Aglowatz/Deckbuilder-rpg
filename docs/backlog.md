@@ -272,3 +272,27 @@ Not in the game although in the sheet: Old Hob the Gravedigger (`NPC-HOB`), `NPC
 |---|---|
 | **Split the existing hub regions into their own scenes** | Mill Meadow, the Capital districts and the other regions that still live inside a hub scene. Decided "later" in answer to overnight question 2. It needs a quest and save audit first (NPCs, quests, vendors, puzzles, chests and levers keep their anchors in the hub scenes today, OD-8). Sub-area scenes added overnight are new scenes; nothing was moved. |
 | **Icons for the remaining lettering** | Done (2026-10-14) for every hub sign, banner, plinth, poster, prop front, Rift station and sub-area gate. Left on purpose: the spot name plates (they fade in near the hero; converting them means a HUD decision: icon plates or prompt-only), feedback pop-ups, the Capital citizens' ":)" card. See progress.md, "Icon signs in every hub". |
+
+---
+
+## Stale smoke sweep (2026-10-14)
+
+Each older smoke run **once**, one Godot process at a time, headless where possible, with short caps to keep total e2e time near 20 minutes. Headless runs have no frame to save, so each brief smoke's screenshot helper now skips the save instead of raising a SCRIPT ERROR. "Capped" means my time limit stopped the run (their own limits are 9 to 30 minutes); steps after the cap did not run.
+
+| Smoke | Mode, time | Result | Stale steps updated | Real bugs |
+|---|---|---|---|---|
+| `battle_smoke` | headless, 14 s | **pass** (5 turns) | none | none |
+| `battle_item_smoke` | headless, 10 s | **pass** | none | none |
+| `battle_space_attackall_smoke` | headless, 11 s | **pass** | none | none |
+| `battle_human_turns_smoke` | headless 14 s, then windowed | headless **fail**, windowed **pass** | none | none: headless runs frames so fast that for one frame after "Attack with" the screen still shows ATTACK while the AI is choosing blocks. The script says to run windowed; nothing a player can hit. |
+| `music_smoke` | headless, 68 s | **pass** (worst crossfade step 0.44 dB) | none | none |
+| fourth brief | headless, 75 s, finished | 1 fail, stale | the equipment vendor's advanced stock unlocks at level 13 now (`ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL`, moved with the deck box rework), not 10: the smoke keeps using the dev shrine until 13 | none |
+| seventh brief (Buffet part; the sixth part passed in the last run) | headless, capped at 240 s | 89 ok, 8 fail | the town exit is named "The Endless Buffet" (was "Path of the Gourmand"); a Quest Complete box from exploring held the hero before M (same fix the sixth smoke got) | **yes, from part 1 of today:** the new hidden sign spots won the E over the spot beside them (soup fountain sign vs. the fountain). Fixed: `ZoneScene._nearest_spot` counts a sign 3 m farther (`SIGN_YIELD`), test `test_a_sign_never_steals_the_e_from_the_spot_beside_it`. Jelly pad / Butter Butte / bounce count: **not diagnosed** (probably the held hero; needs a rerun). |
+| eighth brief (Dump part) | headless, capped at 120 s | 34 ok, 4 fail | town exit named "The Verdant Dump" (was "Path of the Refusemancer"; passed after the update); Quest Complete box before M | Brother Bramble's quest / junk dam / objective: **not diagnosed** (follows the held-hero step; needs a rerun) |
+| ninth brief | headless, capped at 90 s | 7 ok, 1 fail | zone-effects tooltip is a `HoverTip` on each row now (no `tooltip_text`): check the row names and the hover instead | none seen |
+| tenth brief | headless, capped at 90 s | 35 ok, 7 fail | broken-services tooltip is a `HoverTip` per row now | facade citizen and Widow Pell: E after a teleport did nothing (no dialogue, quest not taken; 5 follow-on checks fail with it). **Not diagnosed:** the checks now print overlay / lock / dialogue / nearest spot so the next run shows what swallows the E. |
+| eleventh brief | headless, capped at 90 s | 59 ok, 0 fail before the cap | none | none seen |
+| twelfth brief | - | **no smoke exists** (`tools/` has none; brief 12's look / tailor / wardrobe flow is covered by the thirteenth) | - | - |
+| thirteenth brief | headless, capped at 90 s | ok except 1 stale check | since the passageway rework the zone name on approach is the town's passage label, not the portal spot's plate | none seen |
+
+**Updated and not rerun yet** (time budget): fourth, seventh, eighth, ninth, tenth, thirteenth. Next session: run seventh, eighth and tenth windowed in full (about 30 minutes in total) to confirm the updates and diagnose the jelly pad, the Bramble quest and the Capital E presses.

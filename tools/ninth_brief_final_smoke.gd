@@ -139,7 +139,16 @@ func _flow_zone_battle_effects() -> void:
 	var panel: Node = battle.find_child("ZoneEffectsPanel", true, false) if battle != null else null
 	_check(panel != null, "the battle shows the Gainlands zone effects panel")
 	if panel != null:
-		_check((panel as Control).tooltip_text.contains("Pump It Up") and (panel as Control).tooltip_text.contains("Processing Time"), "its tooltip names the buff and the debuff")
+		# The tooltip is a HoverTip on each row now (no tooltip_text): the rows name the buff and the debuff and carry the hover.
+		var texts: PackedStringArray = []
+		var hovers: int = 0
+		for node: Node in panel.find_children("*", "Control", true, false):
+			if node is Label:
+				texts.append((node as Label).text)
+			if (node as Control).mouse_entered.get_connections().size() > 0:
+				hovers += 1
+		var joined: String = " ".join(texts)
+		_check(joined.contains("Pump It Up") and joined.contains("Processing Time") and hovers >= 2, "its rows name the buff and the debuff, each with a hover tip")
 	await _shot("03_zone_effects_in_battle")
 	Session.pending_battle = null
 	Session.zone_run = null
@@ -491,7 +500,8 @@ func _shot(name: String) -> void:
 	await driver.frames(3)
 	DirAccess.make_dir_recursive_absolute(SHOT_DIR)
 	var image: Image = get_tree().root.get_texture().get_image()
-	image.save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, name]))
+	if image != null:  # headless runs have no frame to save
+		image.save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, name]))
 	print("%s: screenshot -> %s.png" % [TAG, name])
 
 

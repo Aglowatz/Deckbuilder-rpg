@@ -103,3 +103,29 @@ func test_players_see_the_verdant_dump_not_heap() -> void:
 			var text: String = str(line)
 			assert_false(text.contains("Verdant Heap"), "%s says Verdant Heap" % str(key))
 			assert_false(text.contains("the Heap") or text.contains("The Heap"), "%s calls the zone the Heap" % str(key))
+
+
+func test_a_sign_never_steals_the_e_from_the_spot_beside_it() -> void:
+	# The Buffet's soup-fountain sign stands next to the fountain itself: E must ladle soup, not read the sign.
+	Session.new_game()
+	var scene: ZoneScene = (load("res://scenes/buffet_zone.tscn") as PackedScene).instantiate() as ZoneScene
+	scene.call("screenshot_prepare", {"nohud": "true"})
+	add_child_autofree(scene)
+	await get_tree().process_frame
+	var fountain: ZoneSpot = null
+	for spot: ZoneSpot in scene.spots:
+		if spot.id == "soup_fountain":
+			fountain = spot
+	assert_not_null(fountain, "the soup fountain spot exists")
+	if fountain == null:
+		return
+	assert_eq(scene._nearest_spot(fountain.position + Vector3(0.0, 0.0, 0.6)), fountain, "the fountain wins over its sign")
+	var at_sign: ZoneSpot = scene._nearest_spot(Vector3(47.6, 0.0, 67.0))  # right at the fountain sign (BuffetLayout "sign.fountain")
+	assert_not_null(at_sign, "something is in reach at the sign")
+	var far_sign: ZoneSpot = null
+	for spot: ZoneSpot in scene.spots:
+		if spot.kind == "sign" and str(spot.data["key"]) == "sign.cheese_note":
+			far_sign = spot
+	assert_not_null(far_sign)
+	if far_sign != null:
+		assert_eq(scene._nearest_spot(far_sign.position), far_sign, "a sign on its own is still readable")
