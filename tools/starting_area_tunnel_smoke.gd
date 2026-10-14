@@ -32,10 +32,10 @@ func run() -> void:
 		return
 	# Story v2: the opening first: the look screen, the wake-up lines and the Rescuer's conversation, where the Path is chosen (Refusemancer here).
 	var guard: int = 0
-	while (not Session.has_profile() or scene.dialogue.active or scene._locked) and guard < 120:
+	while (not Session.has_profile() or scene.dialogue.active or scene._locked) and guard < 160:
 		guard += 1
-		if driver.find_button("Start my adventure") != null:
-			await driver.click_button("Start my adventure")
+		if get_tree().root.find_child("StoryStill", true, false) != null:
+			await driver.click(Vector2(800, 450))
 		elif _find_element_choice(scene) != null:
 			var choice_screen: ElementChoiceScreen = _find_element_choice(scene)
 			await driver.click(driver.center_of_control(choice_screen._tiles[Affinity.Type.REFUSEMANCER] as Button))

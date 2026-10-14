@@ -97,8 +97,8 @@ func _flow_town(town: TownScene) -> void:
 	await _dismiss(town.dialogue)
 	await driver.seconds(0.6)
 	# Bertram Beetsworth (equipment vendor, a human) and a corrupted NPC (Brick Bronson): painted sprites whose portrait matches.
-	await _talk_town(town, "equipment_vendor", "BEETSWORTH", "V-BEETSWORTH", "b3_talk_human_vendor")
-	await _talk_town(town, "npc_beefcake", "BRONSON", "NPC-BRONSON", "b3b_talk_corrupted")
+	town = await _talk_town(town, "equipment_vendor", "BEETSWORTH", "V-BEETSWORTH", "b3_talk_human_vendor")
+	town = await _talk_town(town, "npc_beefcake", "BRONSON", "NPC-BRONSON", "b3b_talk_corrupted")
 	# The clothing vendor.
 	await _walk_to(town, (town.town.anchors["npc_tailor"] as Vector3) + Vector3(0.0, 0.0, 0.95), 0.9)
 	await driver.seconds(0.4)
@@ -178,11 +178,12 @@ func _flow_capital() -> void:
 
 
 ## Walk to a town NPC, talk, check the painted sprite, its TALK pose and that the portrait is the list NPC's.
-func _talk_town(town: TownScene, id: String, character: String, portrait: String, shot_name: String) -> void:
+## Returns the town scene to carry on with: a corrupted NPC's last line starts its duel (by design), so the smoke then goes back to town.
+func _talk_town(town: TownScene, id: String, character: String, portrait: String, shot_name: String) -> TownScene:
 	var npc: Node3D = town._npcs.get(id) as Node3D
 	_check(npc is SpriteActor and (npc as SpriteActor).character == character, "%s is the painted %s" % [id, character])
 	if npc == null:
-		return
+		return town
 	await _walk_to(town, npc.position + Vector3(0.0, 0.0, 0.95), 0.9)
 	await driver.seconds(0.4)
 	await driver.tap_key(KEY_E)
@@ -194,8 +195,22 @@ func _talk_town(town: TownScene, id: String, character: String, portrait: String
 		_check(actor.sprite.current_key == "FRONT_TALK", "%s shows the TALK pose" % id)
 	await _shot(shot_name)
 	await _dismiss(town.dialogue)
-	await driver.tap_key(KEY_ESCAPE)
-	await driver.seconds(0.5)
+	if id.begins_with("npc_"):
+		await driver.seconds(1.5)
+	if id.begins_with("npc_"):
+		_check(get_tree().current_scene.scene_file_path == "res://scenes/battle.tscn", "%s: the last line starts the duel" % id)
+		Session.pending_battle = null
+		Session.zone_run = null
+		SceneManager.go_to_town()
+		var back: Node = await _wait_for(TownScene)
+		await driver.seconds(0.5)
+		return back as TownScene
+	# A vendor opens its shop after the lines: close that. ESC with nothing open would pause the game (and stall the smoke's timers).
+	await driver.seconds(0.8)
+	if town._locked:
+		await driver.tap_key(KEY_ESCAPE)
+		await driver.seconds(0.5)
+	return town
 
 
 ## The same in a zone: stand next to the NPC's talk spot, press E, check sprite, TALK pose and portrait.

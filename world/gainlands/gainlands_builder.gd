@@ -519,41 +519,57 @@ func _build_pipes() -> void:
 
 func _build_signs() -> void:
 	for sign: GainlandsLayout.Sign in layout.signs:
-		var lines: Array[String] = story.get_lines(sign.key)
-		var longest: int = 0
-		for line: String in lines:
-			longest = maxi(longest, line.length())
-		var width: float = clampf(float(longest) * 0.07 * sign.size + 0.7, 1.8, 3.8)
-		var wrapped: int = 0
-		for line: String in lines:
-			wrapped += maxi(1, int(ceilf(float(line.length()) * 0.07 * sign.size / (width - 0.5))))
-		var height: float = clampf(0.5 + 0.34 * float(wrapped) * sign.size, 0.9, 3.0)
-		var node: Node3D = GainlandsProps.sign_post(width, height, sign.style)
-		node.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so their text reads
+		# G-03: no readable text in the world. A board carries one pictogram (the minimap / icon set vocabulary); the words are read by using the sign (a talk popup).
+		var size: Vector2 = Vector2(1.5, 1.5) * sign.size
+		if sign.style == "memo":
+			size = Vector2(1.0, 1.0)
+		elif sign.style == "poster":
+			size = Vector2(1.7, 1.9)
+		var node: Node3D = GainlandsProps.sign_post(size.x, size.y, sign.style)
+		node.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so the pictogram reads
 		node.scale = Vector3.ONE * 0.58  # smaller than the old high camera needed: at the low camera a signboard covers the hero
 		var pos: Vector3 = _ground(sign.pos.x, sign.pos.z)
 		root.add_child(node)
 		node.position = pos
 		node.rotation_degrees.y = sign.yaw + 180.0
-		var label: Label3D = Label3D.new()
-		label.text = "\n".join(lines)
-		label.font = UIStyle.font_title()
-		label.font_size = 40
-		label.pixel_size = 0.0058 * sign.size
-		label.modulate = Color(0.2, 0.1, 0.04)
-		label.outline_size = 0
-		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.width = (width - 0.4) / label.pixel_size
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.double_sided = false
-		var mid: float = 1.45 + height * 0.5
+		var mid: float = 1.45 + size.y * 0.5
 		if sign.style == "poster":
-			mid = 1.4 + height * 0.5
+			mid = 1.4 + size.y * 0.5
 		elif sign.style == "memo":
-			mid = 1.1 + height * 0.5
-		label.position = Vector3(0, mid, 0.1)
-		node.add_child(label)
+			mid = 1.1 + size.y * 0.5
+		var picture: MeshInstance3D = MeshInstance3D.new()
+		picture.name = "SignIcon"
+		var quad: QuadMesh = QuadMesh.new()
+		quad.size = size * 0.78
+		picture.mesh = quad
+		var material: StandardMaterial3D = StandardMaterial3D.new()
+		material.albedo_texture = IconArt.texture(sign_icon(sign.key), 128.0)
+		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.set_meta(StyleToon.META_NO_TOON, true)
+		picture.material_override = material
+		picture.set_meta(StyleToon.META_NO_TOON, true)
+		picture.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		picture.position = Vector3(0, mid, 0.1)
+		node.add_child(picture)
+
+
+## The icon id a sign shows (minimap and icon-set pictograms; the keys are the `sign.*` story keys).
+const SIGN_ICONS: Dictionary = {
+	"sign.hub_main": "ICON-ENERGY-B", "sign.hub_power": "ICON-ENERGY-B", "sign.exit": "ICON-MAP-EXIT", "sign.heal_tub": "ICON-MAP-HEAL",
+	"sign.protein_stand": "ICON-MECH-BUFF", "sign.flex_mirror": "ICON-MECH-PEEK", "sign.vendor": "ICON-MAP-VENDOR", "sign.mills": "ICON-ENERGY-B",
+	"sign.quiz": "ICON-MAP-QUIZ", "sign.studio": "ICON-MAP-MINIGAME", "sign.puzzle": "ICON-MAP-PUZZLE", "sign.wheel": "ICON-MAP-PUZZLE",
+	"sign.gym": "ICON-MAP-MINIGAME", "sign.spot_me": "ICON-MAP-QUEST", "sign.thrower_rule": "ICON-MAP-TRAVEL", "sign.ripper_rule": "ICON-MAP-TRAVEL",
+	"sign.thrower_east": "ICON-MAP-TRAVEL", "sign.thrower_west": "ICON-MAP-TRAVEL", "sign.mini_dungeon": "ICON-MAP-SIDEDUNGEON",
+	"sign.main_dungeon": "ICON-MAP-DUNGEON", "sign.leg_day_note": "ICON-STAT-ATTACK", "sign.energy_poster": "ICON-ENERGY-B",
+	"sign.beefcake_poster": "ICON-ESSENCE-B", "sign.pec_perch": "ICON-ESSENCE-B", "sign.delt_deck": "ICON-ESSENCE-B", "sign.glute_garden": "ICON-ESSENCE-B",
+	"sign.calf_cove": "ICON-ESSENCE-B", "sign.edge_warning": "ICON-NODE-ELITE", "sign.hamster_fact": "ICON-MAP-QUEST",
+}
+
+
+static func sign_icon(key: String) -> String:
+	var id: String = str(SIGN_ICONS.get(key, "ICON-MAP-QUEST"))
+	return id if IconArt.has(id) else "ICON-MAP-QUEST"
 
 
 var _chest_visible_count: int = 0

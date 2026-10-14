@@ -16,6 +16,11 @@ static func outlines(level: int) -> bool:
 	return level >= Level.MEDIUM
 
 
+## The outline also reads the normal buffer for crease lines on High; Medium keeps depth edges only (cheaper: no normal-roughness pass).
+static func outline_normals(level: int) -> bool:
+	return level >= Level.HIGH
+
+
 static func volumetric_fog(level: int) -> bool:
 	return level >= Level.HIGH
 
@@ -107,6 +112,7 @@ static func table() -> Array[Dictionary]:
 			"shadows": shadow_detail(level),
 			"ssao": ssao(level),
 			"outlines": outlines(level),
+			"outline_normals": outline_normals(level),
 			"bloom": glow(level),
 			"volumetric_fog": volumetric_fog(level),
 			"foliage_density": foliage_density(level),

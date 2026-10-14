@@ -8,8 +8,8 @@
 	"hub_scene": "res://scenes/heap_zone.tscn",
 	"subareas": ["junk_mountains", "farm_rows", "wildflower_wetlands", "throne_approach"],
 	"gates": [
-		{"id": "gate_farm", "sub": "farm_rows", "label": "Farm Rows", "pos": [12.0, 62.0], "yaw": 90.0, "return": [15.0, 62.0]},
-		{"id": "gate_junk", "sub": "junk_mountains", "label": "Junk Mountains", "pos": [84.0, 62.0], "yaw": -90.0, "return": [81.0, 62.0]},
-		{"id": "gate_wetlands", "sub": "wildflower_wetlands", "label": "Wildflower Wetlands", "pos": [60.0, 54.0], "yaw": 0.0, "return": [60.0, 57.0]}
+		{"id": "gate_farm", "sub": "farm_rows", "label": "Farm Rows", "icon": "ICON-ENERGY-R", "pos": [12.0, 62.0], "yaw": 90.0, "return": [15.0, 62.0]},
+		{"id": "gate_junk", "sub": "junk_mountains", "label": "Junk Mountains", "icon": "ICON-RES-GARBAGE", "pos": [84.0, 62.0], "yaw": -90.0, "return": [81.0, 62.0]},
+		{"id": "gate_wetlands", "sub": "wildflower_wetlands", "label": "Wildflower Wetlands", "icon": "ICON-ESSENCE-R", "pos": [60.0, 54.0], "yaw": 0.0, "return": [60.0, 57.0]}
 	]
 }

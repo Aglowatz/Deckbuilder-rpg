@@ -8,8 +8,8 @@
 	"hub_scene": "res://scenes/buffet_zone.tscn",
 	"subareas": ["mashed_potato_hills", "broccoli_forest", "bakery_district", "omakase_cliffs"],
 	"gates": [
-		{"id": "gate_bakery", "sub": "bakery_district", "label": "Bakery District", "pos": [72.5, 71.5], "yaw": 0.0, "return": [72.5, 68.5]},
-		{"id": "gate_broccoli", "sub": "broccoli_forest", "label": "Broccoli Forest", "pos": [22.0, 66.0], "yaw": 90.0, "return": [25.0, 66.0]},
-		{"id": "gate_potato", "sub": "mashed_potato_hills", "label": "Mashed Potato Hills", "pos": [82.0, 56.0], "yaw": -90.0, "return": [78.5, 55.8]}
+		{"id": "gate_bakery", "sub": "bakery_district", "label": "Bakery District", "icon": "ICON-MAP-VENDOR", "pos": [72.5, 71.5], "yaw": 0.0, "return": [72.5, 68.5]},
+		{"id": "gate_broccoli", "sub": "broccoli_forest", "label": "Broccoli Forest", "icon": "ICON-RES-INGREDIENT", "pos": [22.0, 66.0], "yaw": 90.0, "return": [25.0, 66.0]},
+		{"id": "gate_potato", "sub": "mashed_potato_hills", "label": "Mashed Potato Hills", "icon": "ICON-ENERGY-G", "pos": [82.0, 56.0], "yaw": -90.0, "return": [78.5, 55.8]}
 	]
 }

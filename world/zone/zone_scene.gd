@@ -125,6 +125,9 @@ func _build_completion_state() -> void:
 	var hub: Vector3 = builder.anchor(def.hub_anchor)
 	hub.y = builder.height_at(hub)
 	RulerPresence.build(self, builder, def, story, hub, freed)
+	# The plaque has no lettering any more (G-03): using the statue reads it out.
+	var plinth: Vector3 = RulerPresence.statue_position(def, hub) + Vector3(0.0, 0.0, 1.2)
+	_add_spot("ruler_statue", "Statue", plinth, 1.8, "Read the plaque", false, "plaque", {"hidden": true, "key": "ruler.statue.freed" if freed else "ruler.statue"})
 	if freed:
 		_build_freed_npcs(hub)
 
@@ -745,6 +748,8 @@ func _interact(spot: ZoneSpot) -> void:
 		"freed_npc":
 			_face_npc(str(spot.data["npc"]))
 			_say(str(spot.data["speaker"]), story.get_lines("freed_npc.%s" % str(spot.data["npc"])), Callable(), str(spot.data.get("npc_id", "")))
+		"plaque":
+			_say("", story.get_lines(str(spot.data["key"])))
 		"vault_lever":
 			_pull_vault_lever()
 		"giant_chest":

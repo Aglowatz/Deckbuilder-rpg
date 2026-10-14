@@ -3,7 +3,10 @@ extends RefCounted
 ## Part D: the ruler's presence in a zone's hub. While the zone is oppressed: a looming statue of the
 ## ruler with a plaque, and tall banners in the ruler's colors. Once it is freed the ruler is gone: the
 ## statue lies toppled (with a new plaque), and cheerful bunting hangs where the banners were.
-## All plaque text lives in the zone's story file (`ruler.statue`, `ruler.statue.freed`).
+## G-03: no lettering in the world. The banners and the plinth carry the ruler's emblem (an icon); the plaque's words (`ruler.statue`, `ruler.statue.freed` in the zone's story file)
+## are read by using the statue (`ZoneScene` adds a "plaque" spot at `statue_position`).
+
+const EMBLEM_ICON: String = "ICON-NODE-BOSS"
 
 const STATUE_NAME: String = "RulerStatue"
 const BANNERS_NAME: String = "RulerBanners"
@@ -11,7 +14,7 @@ const BANNERS_NAME: String = "RulerBanners"
 
 ## Builds the statue and banners (oppressed) or the toppled statue and bunting (freed) around `hub`.
 static func build(parent: Node3D, builder: ZoneMap, zone_def: ZoneDef, story: ZoneStoryText, hub: Vector3, freed: bool) -> void:
-	var statue: Node3D = _statue(zone_def.ruler_tint, story.text("ruler.statue"), freed)
+	var statue: Node3D = _statue(zone_def.ruler_tint, freed)
 	statue.name = STATUE_NAME
 	var statue_pos: Vector3 = hub + zone_def.statue_offset
 	statue_pos.y = builder.height_at(statue_pos)
@@ -25,9 +28,14 @@ static func build(parent: Node3D, builder: ZoneMap, zone_def: ZoneDef, story: Zo
 	for offset: Vector3 in zone_def.banner_offsets:
 		var pos: Vector3 = hub + offset
 		pos.y = builder.height_at(pos)
-		var banner: Node3D = _bunting(zone_def.ruler_tint) if freed else _banner(zone_def.ruler_tint, zone_def.ruler_name)
+		var banner: Node3D = _bunting(zone_def.ruler_tint) if freed else _banner(zone_def.ruler_tint)
 		banners.add_child(banner)
 		banner.position = pos
+
+
+## Where the statue stands for a zone whose hub is `hub` (the plaque spot goes here).
+static func statue_position(zone_def: ZoneDef, hub: Vector3) -> Vector3:
+	return hub + zone_def.statue_offset
 
 
 ## True when `parent` currently has the oppressive ruler props (a test hook).
@@ -36,7 +44,7 @@ static func has_ruler_props(parent: Node) -> bool:
 	return statue != null and not bool(statue.get_meta("toppled", false))
 
 
-static func _statue(tint: Color, plaque_text: String, toppled: bool) -> Node3D:
+static func _statue(tint: Color, toppled: bool) -> Node3D:
 	var root: Node3D = Node3D.new()
 	root.set_meta("toppled", toppled)
 	var stone: StandardMaterial3D = _material(Color(0.42, 0.42, 0.45), 0.9)
@@ -68,11 +76,11 @@ static func _statue(tint: Color, plaque_text: String, toppled: bool) -> Node3D:
 	if toppled:
 		figure.rotation_degrees = Vector3(0, 20, 84)
 		figure.position = Vector3(1.2, 0.35, 1.0)
-	root.add_child(_plaque(plaque_text, Vector3(0, 0.55, 0.95)))
+	root.add_child(_emblem(Vector2(0.5, 0.5), Vector3(0, 0.38, 0.91)))
 	return root
 
 
-static func _banner(tint: Color, text: String) -> Node3D:
+static func _banner(tint: Color) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var pole: MeshInstance3D = _mesh(CylinderMesh.new(), _material(Color(0.2, 0.2, 0.22), 0.6))
 	(pole.mesh as CylinderMesh).top_radius = 0.07
@@ -86,17 +94,7 @@ static func _banner(tint: Color, text: String) -> Node3D:
 	var stripe: MeshInstance3D = _box(Vector3(1.3, 0.3, 0.07), _material(Color(0.05, 0.05, 0.06), 0.8))
 	stripe.position = Vector3(0.7, 3.6, 0)
 	root.add_child(stripe)
-	var label: Label3D = Label3D.new()
-	label.text = text.to_upper()
-	label.font = UIStyle.font_title()
-	label.font_size = 26
-	label.pixel_size = 0.0075
-	label.modulate = Color(0.96, 0.92, 0.8)
-	label.outline_size = 0
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.width = 150.0
-	label.position = Vector3(0.7, 2.7, 0.05)
-	root.add_child(label)
+	root.add_child(_emblem(Vector2(0.95, 0.95), Vector3(0.7, 2.7, 0.05)))
 	return root
 
 
@@ -118,19 +116,23 @@ static func _bunting(tint: Color) -> Node3D:
 	return root
 
 
-static func _plaque(text: String, pos: Vector3) -> Label3D:
-	var label: Label3D = Label3D.new()
-	label.text = text
-	label.font = UIStyle.font_title()
-	label.font_size = 28
-	label.pixel_size = 0.0058
-	label.modulate = Color(0.96, 0.92, 0.8)
-	label.outline_size = 8
-	label.outline_modulate = Color(0.05, 0.05, 0.06, 0.95)
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.width = 380.0
-	label.position = pos
-	return label
+## The ruler's emblem: an unshaded icon quad (no toon conversion), facing +z like the old lettering.
+static func _emblem(size: Vector2, pos: Vector3) -> MeshInstance3D:
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = size
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.albedo_texture = IconArt.texture(EMBLEM_ICON, 128.0)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.set_meta(StyleToon.META_NO_TOON, true)
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.name = "Emblem"
+	instance.mesh = quad
+	instance.material_override = material
+	instance.set_meta(StyleToon.META_NO_TOON, true)
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.position = pos
+	return instance
 
 
 static func _material(color: Color, roughness: float) -> StandardMaterial3D:

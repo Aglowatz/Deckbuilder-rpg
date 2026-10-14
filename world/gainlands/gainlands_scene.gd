@@ -49,6 +49,11 @@ func _build_zone_extras() -> void:
 	add_child(cloud_fader)
 	for cloud: Node3D in gain.cloud_nodes():
 		cloud_fader.adopt(cloud, 6.0)
+	# Signs carry a pictogram only (G-03); using one reads out what the old board said.
+	var sign_index: int = 0
+	for sign: GainlandsLayout.Sign in gain.layout.signs:
+		_add_spot("sign_%d" % sign_index, "Sign", sign.pos, 1.4, "Read the sign", false, "sign", {"hidden": true, "key": sign.key})
+		sign_index += 1
 	for point: GainlandsTravel.Point in GainlandsTravel.points():
 		var npc: Node3D = _npcs.get(point.id) as Node3D
 		if npc != null:
@@ -122,6 +127,9 @@ func _track_safe_spot() -> void:
 
 
 func _interact_zone(spot: ZoneSpot) -> void:
+	if spot.kind == "sign":
+		_say("", story.get_lines(str(spot.data["key"])))
+		return
 	if spot.data.has("travel"):
 		_use_travel(GainlandsTravel.find(str(spot.data["travel"])))
 		return

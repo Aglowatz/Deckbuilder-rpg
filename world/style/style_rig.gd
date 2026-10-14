@@ -5,6 +5,8 @@ extends Node
 ## to the toon material. Reacts to `Settings.graphics_changed`. One rig per scene: `StyleRig.install(self, StylePresets.TOWN, camera, player)`.
 
 const OUTLINE_SHADER: String = "res://assets/shaders/style_outline.gdshader"
+## Medium: depth edges only (no normal buffer, about 1.4 ms less on the development iGPU); High adds the normal creases.
+const OUTLINE_SHADER_DEPTH: String = "res://assets/shaders/style_outline_depth.gdshader"
 const SKY_SHADER: String = "res://assets/shaders/style_sky.gdshader"
 
 ## Emitted at the end of every `apply()` (a fresh Environment exists): the world look rig re-applies its sky, bloom and fog on top.
@@ -142,6 +144,9 @@ func apply() -> void:
 	if outline != null:
 		outline.visible = GraphicsQuality.outlines(level)
 		var material: ShaderMaterial = outline.material_override as ShaderMaterial
+		var wanted: Shader = load(OUTLINE_SHADER if GraphicsQuality.outline_normals(level) else OUTLINE_SHADER_DEPTH) as Shader
+		if material.shader != wanted:
+			material.shader = wanted
 		material.set_shader_parameter("line_color", preset.outline_color)
 		material.set_shader_parameter("strength", preset.outline_strength)
 	_apply_dof(level)

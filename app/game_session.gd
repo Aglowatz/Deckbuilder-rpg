@@ -1066,6 +1066,7 @@ var pending_resume_scene: String = "town"
 func resume_loaded_game() -> void:
 	var kind: String = pending_resume_scene
 	pending_resume_scene = "town"
+	pending_zone_id = ""
 	if not flag(&"trial_cleared"):
 		SceneManager.go_to_start_area()
 	elif kind.begins_with("zone:") and ZoneDefs.has_def(kind.trim_prefix("zone:")):
@@ -1755,6 +1756,8 @@ func enter_dna() -> void:
 ## Entering any zone (`ZoneDefs`) from town: a brand-new visit, always at full HP.
 func enter_zone(zone_id: String) -> void:
 	begin_zone_visit(zone_id)
+	# Walking back out puts the hero at this zone's entrance in town (read once by TownScene).
+	pending_zone_id = zone_id
 	pending_zone_result = {}
 	SceneManager.change_scene(ZoneDefs.get_def(zone_id).scene_path)
 
@@ -1786,6 +1789,7 @@ func fast_travel_to(destination: String) -> bool:
 	pending_zone_result = {}
 	if destination == FastTravel.TOWN:
 		zone_run = null
+		pending_zone_id = ""
 		save_game()
 		SceneManager.go_to_town()
 		return true

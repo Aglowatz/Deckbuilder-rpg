@@ -8,8 +8,8 @@
 	"hub_scene": "res://scenes/capital_zone.tscn",
 	"subareas": ["rift_fields", "ruined_outpost", "tunnel_entrance"],
 	"gates": [
-		{"id": "gate_rift", "sub": "rift_fields", "label": "Rift Fields", "pos": [28.9, 93.2], "yaw": 90.0, "return": [31.9, 93.2]},
-		{"id": "gate_outpost", "sub": "ruined_outpost", "label": "Ruined Outpost", "pos": [100.0, 92.0], "yaw": -90.0, "return": [97.0, 92.0]},
-		{"id": "gate_tunnel", "sub": "tunnel_entrance", "label": "Tunnel Entrance", "pos": [74.1, 93.4], "yaw": 0.0, "return": [75.2, 91.6]}
+		{"id": "gate_rift", "sub": "rift_fields", "label": "Rift Fields", "icon": "ICON-MAP-TRAVEL", "pos": [28.9, 93.2], "yaw": 90.0, "return": [31.9, 93.2]},
+		{"id": "gate_outpost", "sub": "ruined_outpost", "label": "Ruined Outpost", "icon": "ICON-MAP-QUEST", "pos": [100.0, 92.0], "yaw": -90.0, "return": [97.0, 92.0]},
+		{"id": "gate_tunnel", "sub": "tunnel_entrance", "label": "Tunnel Entrance", "icon": "ICON-MAP-SIDEDUNGEON", "pos": [74.1, 93.4], "yaw": 0.0, "return": [75.2, 91.6]}
 	]
 }

@@ -1,7 +1,7 @@
 class_name DungeonsFinalSmoke
 extends Node
 ## FINAL (dungeon list): walks dungeons start to boss through the real UI (human-style mouse and key input): (1) D-TUT, the Forgotten Cave, from the first node to the boss
-## and "Enter town"; (2) D-HOG, the House of Gains, through the optional Iron-less Prison branch: the stairs, the prison block, the Iron-less Prison rescue (Grandmaster Flex joins and
+## and "Step outside"; (2) D-HOG, the House of Gains, through the optional Iron-less Prison branch: the stairs, the prison block, the Iron-less Prison rescue (Grandmaster Flex joins and
 ## stands on your field in the boss fight), the garden, the Sauna of Truth, the Throne of Gains boss, the epilogue and the freed Gainlands; (3) one side dungeon through its quest:
 ## Old Man Mountain gives and takes back the quest, the hatch opens, S-BEEF's three battles on the Mount Swolympus map, the unique card. Every battle checks that it uses the
 ## battleboard the dungeon list names. Screenshots to _screenshots/dungeons/. Run windowed:  bash tools/run_dungeons_final_smoke.sh
@@ -64,8 +64,16 @@ func _tutorial() -> void:
 		# Lost: the run was abandoned and the starting area is up; try the Trial again.
 		await driver.seconds(2.0)
 	_check(cleared and Session.profile.intro_dungeon_cleared, "beating the Heart of the Hollow cleared the trial")
+	# First clear: "Step outside" opens the starting area, where Elder Maren waits at the cave mouth; her lines end in the town.
+	var outside: Node = await _wait_for(StartingAreaScene)
+	_check(outside != null and Session.flag(&"trial_cleared"), "'Step outside' leads to the starting area with the trial cleared")
+	var guard: int = 0
+	while not (get_tree().current_scene is TownScene) and guard < 60:
+		guard += 1
+		await driver.tap_key(KEY_E)
+		await driver.seconds(0.4)
 	var town: Node = await _wait_for(TownScene)
-	_check(town != null, "'Enter town' leads to the town")
+	_check(town != null and Session.flag(&"maren_met"), "Maren's cave-mouth lines lead to the town")
 	await driver.seconds(1.0)
 	await _shot("t_02_town_after_the_trial")
 
@@ -267,7 +275,7 @@ func _dismiss_story(map_screen: Variant) -> void:
 func _resolve_modal(map_screen: DungeonMapScreen) -> void:
 	var guard: int = 0
 	await driver.seconds(0.5)
-	while map_screen._modal != null and guard < 14:
+	while is_instance_valid(map_screen) and map_screen._modal != null and guard < 14:
 		guard += 1
 		var modal: Control = map_screen._modal
 		var choice: Button = modal.find_child("Choice0", true, false) as Button
@@ -283,7 +291,7 @@ func _resolve_modal(map_screen: DungeonMapScreen) -> void:
 				clicked = true
 				break
 		await driver.seconds(1.2 if clicked else 0.6)
-	if map_screen._modal != null:
+	if is_instance_valid(map_screen) and map_screen._modal != null:
 		_fail("a node screen did not close")
 
 
@@ -294,7 +302,7 @@ func _after_battle(map: DungeonMap, boss: bool) -> void:
 		guard += 1
 		await driver.seconds(0.6)
 		var scene: Node = get_tree().current_scene
-		if SceneManager.busy:
+		if SceneManager.busy or not is_instance_valid(scene):
 			continue
 		if scene is DungeonMapScreen and not boss:
 			return
@@ -305,6 +313,8 @@ func _after_battle(map: DungeonMap, boss: bool) -> void:
 			if proceed != null:
 				await driver.click(driver.button_center(proceed))
 				await driver.seconds(0.4)
+		if not is_instance_valid(scene):
+			continue
 		var slot_screens: Array[Node] = scene.find_children("*", "EquipmentSlotChoiceScreen", true, false)
 		if not slot_screens.is_empty():
 			var tiles: Dictionary = (slot_screens[0] as EquipmentSlotChoiceScreen)._tiles

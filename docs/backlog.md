@@ -263,3 +263,12 @@ Not in the game although in the sheet: Old Hob the Gravedigger (`NPC-HOB`), `NPC
 - **Equipment without an icon** (they keep their game-icons fallback; add `ICON-GEAR-*` rows to `data/source/icons.csv` and `IconArt.EQUIPMENT_IDS` when art arrives): Four-Seal Signet, Courier Lanyard, Swole Belt, Head Chef's Ladle, Seed Satchel, Compliance Clipboard, Spotter's Barbell, Head Chef's Toque, Compost Boots, Bin Lid, Bloodsand Boots, Champion's Laurels, Clerk's Stamp, Crowd-Pleaser's Cape, Gladiator's Net, Iron Knuckles, Pantry Apron, Siphon's Lens (all `data/equipment/zone/*.tres`).
 - **Items** (`ICON-ITEM-OTHERS`, 13 consumables in `CardIcons.BY_ITEM_ID`) and **hats and cloaks** (`ICON-HAT-OTHERS`, the wardrobe and tailor): placeholder rows only, no art supplied; the game-icons silhouettes stay.
 - No icon exists for: the "pay N" generic cost inside rules text, the Arena's puzzle/duel markers, the Sprout/Growth minimap points (they keep the lettered disc), the player's own HP in the old (non-art) portrait.
+
+---
+
+## Later (decided 2026-10-14)
+
+| Item | Note |
+|---|---|
+| **Split the existing hub regions into their own scenes** | Mill Meadow, the Capital districts and the other regions that still live inside a hub scene. Decided "later" in answer to overnight question 2. It needs a quest and save audit first (NPCs, quests, vendors, puzzles, chests and levers keep their anchors in the hub scenes today, OD-8). Sub-area scenes added overnight are new scenes; nothing was moved. |
+| **Icons for the other zones' remaining lettering** | Done for the Gainlands signs, the ruler banners and plinths (every zone) and the sub-area gates. Still readable text in the world: the D.N.A., Buffet, Heap and Capital hub signs (`*_builder.gd` `_build_signs`), vendor shop-front boards, and the spot name plates (they fade in near the hero). |

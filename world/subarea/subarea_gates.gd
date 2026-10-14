@@ -1,6 +1,6 @@
 class_name SubAreaGates
 extends Node3D
-## The gates a hub scene shows for its sub-areas (data `gates` of `data/subareas/<area>/_zone.json`): a stone arch with a soft light pillar and a name plate. Walking up and
+## The gates a hub scene shows for its sub-areas (data `gates` of `data/subareas/<area>/_zone.json`): a stone arch with a soft light pillar and a pictogram (G-03: no lettering in the world; the name shows in the HUD prompt when the hero is near). Walking up and
 ## pressing the interact key loads the sub-area scene (the hub is freed; zone state lives in the session). One node per hub scene: `SubAreaGates.install(scene, areas)`.
 ## It polls the hero's distance itself so the hub scenes need no interaction code of their own; it stays quiet while the hub is locked or a dialogue is open.
 
@@ -9,8 +9,11 @@ const RADIUS: float = 2.8
 var host: Node3D
 var gates: Array[Dictionary] = []
 
-var _plates: Array[Label3D] = []
+var _icons: Array[MeshInstance3D] = []
 var _near: int = -1
+var _prompting: bool = false
+
+const FALLBACK_ICON: String = "ICON-MAP-EXIT"
 
 
 ## Adds the gates of `area_ids` to `hub`. Returns the node (null when there is nothing to show).
@@ -45,20 +48,26 @@ func _ready() -> void:
 		arch.position = pos
 		arch.rotation_degrees.y = float(gate.get("yaw", 0.0))
 		StyleBeacon.build(self, pos, Color(0.8, 0.9, 1.0), 5.0, 0.07)
-		var plate: Label3D = Label3D.new()
-		plate.text = "[E]  %s" % str(gate.get("label", "Onward"))
-		plate.font = UIStyle.font_title()
-		plate.font_size = 46
-		plate.pixel_size = 0.0045
-		plate.outline_size = 14
-		plate.outline_modulate = Color(0.04, 0.07, 0.07, 0.95)
-		plate.modulate = UIStyle.PARCHMENT
-		plate.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		plate.no_depth_test = true
-		plate.position = pos + Vector3(0.0, 4.4, 0.0)
-		plate.modulate.a = 0.0
-		add_child(plate)
-		_plates.append(plate)
+		var icon_id: String = str(gate.get("icon", FALLBACK_ICON))
+		var picture: MeshInstance3D = MeshInstance3D.new()
+		picture.name = "GateIcon"
+		var quad: QuadMesh = QuadMesh.new()
+		quad.size = Vector2(1.5, 1.5)
+		picture.mesh = quad
+		var material: StandardMaterial3D = StandardMaterial3D.new()
+		material.albedo_texture = IconArt.texture(icon_id if IconArt.has(icon_id) else FALLBACK_ICON, 128.0)
+		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.billboard_mode = BaseMaterial3D.BILLBOARD_ENABLED
+		material.no_depth_test = true
+		material.albedo_color = Color(1, 1, 1, 0.0)
+		material.set_meta(StyleToon.META_NO_TOON, true)
+		picture.material_override = material
+		picture.set_meta(StyleToon.META_NO_TOON, true)
+		picture.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		picture.position = pos + Vector3(0.0, 4.6, 0.0)
+		add_child(picture)
+		_icons.append(picture)
 
 
 func _hero() -> Node3D:
@@ -82,12 +91,27 @@ func _process(_delta: float) -> void:
 		var pos: Vector3 = SubAreaMap.pos3(gates[index]["pos"])
 		var distance: float = Vector2(hero.position.x - pos.x, hero.position.z - pos.z).length()
 		var alpha: float = clampf(1.0 - (distance - RADIUS) / 4.0, 0.0, 1.0)
-		_plates[index].modulate.a = alpha
-		_plates[index].outline_modulate.a = alpha
+		((_icons[index].material_override) as StandardMaterial3D).albedo_color.a = alpha
 		if distance <= RADIUS and distance < best_distance:
 			best = index
 			best_distance = distance
 	_near = -1 if _busy() else best
+	_update_prompt()
+
+
+## The gate's name shows in the HUD prompt (never as 3D lettering). The hub clears its own prompt only when its nearest spot changes, so this one is cleared here.
+func _update_prompt() -> void:
+	var hud: Object = host.get("hud") as Object
+	if hud == null:
+		return
+	if _near >= 0:
+		hud.call("show_prompt", "[E]  %s" % str(gates[_near].get("label", "Onward")))
+		_prompting = true
+	elif _prompting:
+		_prompting = false
+		var hub_near: Variant = host.get("_near")
+		if hub_near == null or (hub_near is int and int(hub_near) < 0):
+			hud.call("hide_prompt")
 
 
 func _unhandled_input(event: InputEvent) -> void:

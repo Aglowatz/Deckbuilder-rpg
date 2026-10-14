@@ -134,9 +134,10 @@ func _explore_and_reveal(zone: GainlandsScene) -> void:
 	await _shot("f_06_minimap_after_exploring_quiz")
 	# Exploring may finish a quest: its Quest Complete box holds the hero until it is clicked away.
 	await driver.dismiss_reward_box(0.5)
+	await _dismiss_dialogue(zone.dialogue)
 	await driver.tap_key(KEY_M)
 	await driver.seconds(0.4)
-	_check(zone._overlay is FullMapScreen, "M opens the full map in the Gainlands")
+	_check(zone._overlay is FullMapScreen, "M opens the full map in the Gainlands (overlay %s, locked %s, dialogue %s)" % [str(zone._overlay), str(zone._locked), str(zone.dialogue.active)])
 	await _shot("f_07_gainlands_full_map_with_legend")
 	await driver.tap_key(KEY_M)
 	await driver.seconds(0.3)
@@ -416,7 +417,7 @@ func _fast_enemy_hit(zone: GainlandsScene) -> void:
 	while Session.zone_run.hp >= start_hp and waited < 12.0:
 		await driver.frames(3)
 		waited += 3.0 / 60.0
-	_check(Session.zone_run.hp == start_hp - GainlandsEnemies.SPRITE_DAMAGE, "the sprite hit for exactly 2 (HP %d -> %d)" % [start_hp, Session.zone_run.hp])
+	_check(Session.zone_run.hp == start_hp - GainlandsEnemies.SPRITE_DAMAGE, "the sprite hit for exactly 2 (HP %d -> %d; sprite %s at %s d=%.1f, player %s, locked %s, dialogue %s)" % [start_hp, Session.zone_run.hp, str(sprite.state), str(sprite.position), sprite.position.distance_to(zone.player.position), str(zone.player.position), str(zone._locked), str(zone.dialogue.active)])
 	_check(zone.hp_bar._last_hp == Session.zone_run.hp, "the HUD HP bar shows the new HP")
 	await driver.frames(4)
 	await _shot("f_30_sprite_hit_flash_and_HP")
@@ -460,15 +461,22 @@ func _hub_heal(zone: GainlandsScene) -> void:
 	if zone._overlay is VendorScreen:
 		await driver.click_button("Got it")
 		await _shot("f_33_beefcake_vendor")
-		var tile: Control = _find_meta_tile(zone._overlay, "card_id", "B-01")
-		_check(tile != null, "a Gym Rat is for sale")
-		var owned: int = Session.owned_count("B-01")
+		# The starter deck already holds three Gym Bros (the vendor shows MAX for them): buy the first card that is still under the three-copy limit.
+		var tile: Control = null
+		var card_id: String = ""
+		for node: Node in zone._overlay.find_children("*", "Control", true, false):
+			if node.has_meta("card_id") and Session.owned_count(str(node.get_meta("card_id"))) < 3:
+				tile = node as Control
+				card_id = str(node.get_meta("card_id"))
+				break
+		_check(tile != null, "a Beefcake card under the copy limit is for sale (%s)" % card_id)
+		var owned: int = Session.owned_count(card_id)
 		if tile != null:
 			await driver.click(tile.get_global_rect().position + Vector2(60, 90))
 			await driver.seconds(0.3)
 			await driver.click_button("Buy")
 			await driver.seconds(0.4)
-		_check(Session.owned_count("B-01") == owned + 1, "buying adds the Beefcake card")
+		_check(card_id != "" and Session.owned_count(card_id) == owned + 1, "buying adds the Beefcake card")
 		await driver.tap_key(KEY_ESCAPE)
 		await driver.seconds(0.3)
 
@@ -625,9 +633,17 @@ func _mini_dungeon(zone: GainlandsScene) -> GainlandsScene:
 	await _shot("f_48_iron_cavern_entrance")
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
+	await _shot("f_49_iron_cavern_sealed")
+	# A side dungeon is sealed until its quest is done: the first E only drops the hook.
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.side_for_zone("beefcake")
+	_check(plan != null and not Session.side_unlocked(plan.id) and not (zone._overlay_layer.find_children("*", "ConfirmDialog", true, false).size() > 0), "the Iron Cavern is sealed until its quest is done")
+	Session.set_flag(Session.side_unlock_flag(plan.id))
+	await driver.seconds(0.6)
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.4)
 	await _shot("f_49_iron_cavern_prompt")
 	var hp_at_entry: int = Session.zone_run.hp
-	await driver.click_button("Chalk up")
+	await driver.click_button("Enter")
 	var map_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 	_check(map_screen != null, "the mini dungeon opens the node map")
 	if map_screen == null:
@@ -672,7 +688,7 @@ func _mini_dungeon(zone: GainlandsScene) -> GainlandsScene:
 	await driver.seconds(1.0)
 	if zone != null:
 		await _shot("f_53_back_from_the_iron_cavern")
-	_check(not Session.mini_active, "the mini dungeon run ended and returned to the zone")
+	_check(not Session.mini_active, "the mini dungeon run ended and returned to the zone (scene %s, mini %s, key %s, run %s, battles %d)" % [str(get_tree().current_scene), str(Session.mini_active), Session.dungeon_key, str(Session.run), battles])
 	if Session.flag(GainlandsZone.FLAG_MINI_CLEARED):
 		_check(Session.owned_count("B-05") == 1, "clearing it granted the unique Iron Titan card")
 	_note("mini dungeon: %d battle(s) fought, cleared=%s (a loss wakes you at the hub; the clear path is unit-tested)" % [battles, str(Session.flag(GainlandsZone.FLAG_MINI_CLEARED))])
@@ -719,6 +735,9 @@ func _play_battle(battle: BattleScreen) -> void:
 			last_progress = steps
 		if steps - last_progress > 60:
 			break
+	if battle.mode != BattleScreen.Mode.OVER:
+		await _shot("f_26z_duel_stalled")
+		_note("duel stalled: mode %s busy %s turn %s active %s phase %s hp %s/%s hand %d" % [str(battle.mode), str(battle.busy), str(battle.game.turn), str(battle.game.active), str(battle.game.phase), str(battle.game.players[0].hp), str(battle.game.players[1].hp), battle.game.players[0].hand.size()])
 	_check(battle.mode == BattleScreen.Mode.OVER, "the duel actually finishes (%d steps)" % steps)
 
 

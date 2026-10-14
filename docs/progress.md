@@ -3092,3 +3092,30 @@ Tools: `tools/kit_bench.tscn`, `bash tools/import_env_kit.sh`, `tools/env_kit_st
 ## Playtest release v0.3.0
 
 Version 0.3.0 in `project.godot` and the export presets; new `FeedbackReport` / `FeedbackForm` (F8 and the pause menu: rating, notes, screenshot, game state, log copy to `user://feedback/`), version label in the pause menu, file logging on. Release checks: 1465 GUT tests pass; smokes passed: `tools/run_release_smoke.sh` (new: title, New Game, F8 report, pause menu, save/load), prologue, town slice, dungeons final, story v2 memory, world rollout, music. Bug fixed: the second-Path announcement after Maren's first memory never showed and the hero stayed locked. Debug features (Dev Shrine, Shift+T texture toggle) are gated by `OS.is_debug_build()`; the camera tuning panel and F1-F6 presets live only in `tests/`, which the export filter excludes. Windows release export is about 1.6 GB (textures are the bulk); the macOS template is not installed, so no Mac build.
+
+## E2E sweep, town 60 fps and icon signs (2026-10-14)
+
+Answers to the overnight questions: characters stay at 1.7 m; splitting the existing hub regions is later (`docs/backlog.md`, "Later"); sub-area gates use icons (OD-13..OD-17 in `docs/design/open_questions.md`).
+
+**Windowed smokes run one at a time** (1500 GUT tests pass):
+
+| Area | Smoke | Result |
+|---|---|---|
+| New game | `run_release_smoke.sh`, `run_prologue_smoke.sh` | pass |
+| Forest | `run_starting_area_tunnel_smoke.sh` | fixed (stale opening loop: the look screen is gone, the wake-up still wants a click), pass |
+| Town | `run_town_slice_smoke.sh` | pass |
+| Town + every hub's sub-areas, save/load inside one | **new** `run_subarea_smoke.sh` | pass: gate E, chest pays once, exit back near the gate, for the town, forest, Gainlands, D.N.A., Buffet, Heap and both Capital hubs; save in `gainlands/proving_grounds` resumes there with flags and the zone visit |
+| Zone hubs + Capital | `run_world_rollout_smoke.sh`, `run_zone_entrances_smoke.sh`, `run_sixth_brief_final_smoke.sh` (D.N.A. + Gainlands) | pass after the fixes below |
+| Dungeon | `run_dungeons_final_smoke.sh` (Forgotten Cave to the town, House of Gains, side dungeons) | fixed (first clear says "Step outside" and ends in the starting area with Maren), pass |
+
+**Real bug fixed:** walking out of a zone put the hero at the town's default spawn, 30 m from the zone's entrance (`Session.enter_zone` never recorded `pending_zone_id`; only the placeholder portal did). Now `enter_zone` records it and load / Rift travel clear it.
+
+**Stale smoke steps updated:** zone entrances lead to real zones, not `ZonePlaceholderScene`; the straight-line walker cannot path round buildings (reachability is `test_walkability_town`); world rollout: a corrupted NPC's last line starts its duel by design, and ESC with nothing open pauses the game (it stalled the smoke's timers); sixth brief: the starter deck holds three Gym Bros (vendor shows MAX), side dungeons are sealed until their quest, the button reads "Enter"; dungeons final: freed-instance races in the poll loops.
+
+**Known flaky (not product bugs as far as seen):** the sixth brief's pilot-played duels (one run stalled 60 steps without a game event, one mini-dungeon run ended with the run still open; both passed on the next run). `tools/sixth_brief_final_smoke.gd` now prints the state when either happens.
+
+**Town 60 fps on Medium (1600x900):** 57.0 avg before, **60.0 avg / min 57-60 after** (Capital outside 59.8, Gainlands 60.0). `tools/fps_toggles.gd` (new) switches categories off one at a time. Measured: glow 4 fps, the outline pass 1.4 fps (it reads the normal buffer), tilt-shift post 2 fps, the sun's shadow 3 fps; draw calls and mesh counts barely mattered (the iGPU is fill-rate bound). Two changes: `style_outline_depth.gdshader` on Medium (depth edges only, no normal buffer; High keeps creases) and `environment/glow/upscale_mode=0`. Looks the same at a glance (compare `_screenshots/town_medium_depth_outline.png`).
+
+**Icons instead of lettering (G-03):** Gainlands sign boards carry one pictogram (`GainlandsBuilder.SIGN_ICONS`), E reads the old words; ruler banners and the statue plinth in all four zones carry the ruler's emblem, E on the statue reads the plaque; sub-area gates carry an icon from their `_zone.json` and show the name only in the HUD prompt. Other zones' hub signs are still lettering (backlog).
+
+Tools: `bash tools/run_subarea_smoke.sh` (`SMOKE_ONLY=gainlands,save_load` limits it), `tools/fps_toggles.gd`.
