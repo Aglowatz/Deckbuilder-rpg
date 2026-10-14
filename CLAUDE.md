@@ -56,6 +56,10 @@ presentation.
 - **Credits:** every pack used needs a `CREDITS.md` entry: name, author, source URL,
   license, date.
 - **Always tell the user when a new pack has been added.**
+- **Build size:** the export budget is 800 MB (v0.3.1: 488 MB). Texture import settings per folder live in
+  `tools/art_import_rules.json` (`docs/build_size_policy.md`); the import scripts apply them. Run exports with
+  `bash tools/export_windows.sh`, which prints sizes by category and warns over budget. Working art stays in
+  `_art_inbox/` / `_art_source/` (never exported).
 
 ## Testing
 

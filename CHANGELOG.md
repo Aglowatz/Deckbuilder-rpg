@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.3.1 - smaller build
+
+Same game as v0.3.0, one third of the download: 477 MB instead of 1.63 GB, with no visible change in the art.
+
+- Textures are compressed (VRAM compressed for the world, lossy for painted 2D art) and right-sized; working art that was shipped by mistake is gone.
+- The window title and the executable are "The Wayward Path"; saves and settings are untouched.
+- Developer: `docs/build_size_policy.md`, `bash tools/export_windows.sh` warns above 800 MB and prints sizes by category.
+
 ## v0.3.0 - playtest build
 
 The new look, the new story and a lot of polish. Tester notes: `builds/RELEASE_NOTES_v0.3.0.md` (not committed).
