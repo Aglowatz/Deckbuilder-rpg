@@ -1,0 +1,49 @@
+{
+	"id": "lakeshore_docks",
+	"name": "Lakeshore and Docks",
+	"mood": "Golden and breezy: the lake takes the late sun and gives it back sideways",
+	"size": [76, 60],
+	"ground": {"kind": "dirt"},
+	"spawn": [-30, 4],
+	"entries": {"arena_district": [30, 22]},
+	"edge": {"kind": "oak", "kinds": ["oak", "birch"], "spacing": 7.0, "scale": [0.9, 1.2]},
+	"paths": [
+		{"kind": "cobble", "width": 3.0, "points": [[-34, 4], [-20, 4], [-6, 2], [8, -2], [20, -2]]},
+		{"kind": "dirt", "width": 2.2, "points": [[-6, 2], [-8, 14], [-2, 22], [14, 24], [28, 22]]}
+	],
+	"water": [
+		{"pos": [26, -16], "size": [40, 24], "color": "#6fa8d8"},
+		{"pos": [-4, -24], "size": [30, 10], "color": "#6fa8d8"}
+	],
+	"buildings": [
+		{"preset": "stone_hut", "pos": [-18, 14], "yaw": 0},
+		{"preset": "cottage", "pos": [10, 16], "yaw": 10}
+	],
+	"landmarks": [
+		{"id": "TOWN-HERO-DOCK", "kind": "bridge", "pos": [22, 6], "size": [18, 1.0, 3.0], "color": "#8a6a48", "accent": "#5b4636", "no_collide": true},
+		{"id": "lighthouse", "kind": "tower", "pos": [32, 12], "size": [4, 10, 4], "color": "#f2e3c6", "accent": "#c4573a"},
+		{"id": "boat", "kind": "hut", "pos": [-8, -12], "size": [6, 2.4, 2.4], "color": "#6f8fb0", "accent": "#5b4636"}
+	],
+	"clusters": [
+		{"name": "crates", "pos": [-22, 8], "yaw": 0},
+		{"name": "barrel_pair", "pos": [6, 8], "yaw": 0},
+		{"name": "market_set", "pos": [-4, 18], "yaw": 190}
+	],
+	"scatter": [
+		{"kind": "tree", "name": "birch", "count": 8, "scale": [0.9, 1.2]},
+		{"kind": "tree", "name": "oak", "count": 5, "scale": [0.9, 1.2]},
+		{"kind": "prop", "name": "barrel", "count": 6, "grouped": true},
+		{"kind": "prop", "name": "sack", "count": 5, "grouped": true}
+	],
+	"poi": [
+		{"id": "ld_chest", "type": "chest", "pos": [-20, -20], "tier": "medium", "title": "Tide Crate"},
+		{"id": "ld_chest2", "type": "chest", "pos": [34, 20], "tier": "small", "title": "Net Basket"},
+		{"id": "ld_angler", "type": "vignette", "pos": [14, 6], "title": "Angler", "model": "Rogue_Hooded", "tint": "#a8c0d8", "yaw": -60, "lines": ["Nothing is biting. That is not the fish being rude, that is the fish being correct.", "Sit. The lake does not mind you. That is the whole trick of it."]},
+		{"id": "ld_vista", "type": "vista", "pos": [30, 4], "title": "End of the Pier", "lines": ["Across the water the castle sits very small and very pink in the haze, like a sweet somebody put on a shelf."]},
+		{"id": "ld_note", "type": "lore", "pos": [-12, 8], "title": "Ferry Timetable", "lines": ["The ferry runs when the ferryman remembers. Departures: sometime, later, and then after that."]}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_docks", "pos": [-35, 4], "label": "Market Square", "yaw": 90},
+		{"id": "to_arena", "to": "arena_district", "pos": [34, 24], "label": "Arena District", "yaw": -90}
+	]
+}

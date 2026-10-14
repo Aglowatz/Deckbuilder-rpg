@@ -1,0 +1,39 @@
+{
+	"id": "mossy_hollow",
+	"name": "Mossy Hollow",
+	"mood": "Green and soft: a bowl in the ground where the fallen giant tree lies and everything grows on it",
+	"size": [64, 56],
+	"ground": {"kind": "grass"},
+	"spawn": [0, 22],
+	"entries": {"old_path": [-26, 4], "cave_mouth": [26, -10]},
+	"edge": {"kind": "oak", "kinds": ["oak", "pine"], "spacing": 5.5, "scale": [1.05, 1.25]},
+	"paths": [
+		{"kind": "dirt", "width": 2.6, "points": [[0, 26], [0, 12], [-8, 2], [-20, 2], [-29, 4]]},
+		{"kind": "dirt", "width": 2.4, "points": [[0, 12], [10, 4], [20, -6], [28, -10]]}
+	],
+	"landmarks": [
+		{"id": "START-HERO-FALLEN-GIANT", "kind": "cylinder", "pos": [-4, -14], "size": [5.0, 26, 5.0], "color": "#6b4e3a", "yaw": 90, "no_fade": true},
+		{"id": "root_ball", "kind": "mound", "pos": [-20, -14], "size": [9, 8, 9], "color": "#6b4e3a", "accent": "#3f5e3a"},
+		{"id": "mushroom_ring", "kind": "dome", "pos": [14, -12], "size": [3, 2.4, 3], "color": "#c9b98a", "accent": "#a85a4a"}
+	],
+	"scatter": [
+		{"kind": "tree", "name": "oak", "count": 10, "scale": [1.0, 1.25]},
+		{"kind": "tree", "name": "birch", "count": 6, "scale": [0.95, 1.2]},
+		{"kind": "prop", "name": "bush", "count": 9, "grouped": true}
+	],
+	"flowers": [
+		{"pos": [8, 14], "radius": 4.0, "cells": [5, 5, 0], "count": 30}, {"pos": [-12, 10], "radius": 4.0, "cells": [5, 1, 0], "count": 28}, {"pos": [6, -20], "radius": 4.0, "cells": [5, 0, 2], "count": 22}
+	],
+	"poi": [
+		{"id": "mh_chest", "type": "chest", "pos": [-24, -4], "tier": "medium", "title": "Hollow Trunk"},
+		{"id": "mh_note", "type": "lore", "pos": [10, 8], "title": "Ring of Mushrooms", "lines": ["The ring of caps is perfect, which the forest does not usually allow. Inside it the air is a degree warmer, and quieter."]},
+		{"id": "mh_deer", "type": "vignette", "pos": [18, 14], "title": "Hollow Hermit", "model": "Mage", "tint": "#a8c890", "yaw": 200, "lines": ["I live in the root-ball. It is bigger inside, if you do not count the walls.", "Leave the log alone, it is mid-sentence."]},
+		{"id": "mh_vista", "type": "vista", "pos": [-4, 2], "title": "On the Fallen Giant", "lines": ["Walk along the trunk and the whole forest tilts: the canopy comes down to meet you, and every leaf has a drop of light on it."]},
+		{"id": "mh_shrine", "type": "shrine", "pos": [-22, 18], "title": "Mossy Shrine", "color": "#8a9a7a", "glow": "#8daa6b"}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_hollow", "pos": [0, 27], "label": "The Clearing", "yaw": 0},
+		{"id": "to_old_path", "to": "old_path", "pos": [-30, 4], "label": "The Old Path", "yaw": 90},
+		{"id": "to_cave", "to": "cave_mouth", "pos": [30, -10], "label": "Cave Mouth", "yaw": -90}
+	]
+}

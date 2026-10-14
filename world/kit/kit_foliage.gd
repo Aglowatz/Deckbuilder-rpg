@@ -26,15 +26,17 @@ static func set_light(sun_color: Color, ambient_color: Color) -> void:
 
 ## The shared card material of a kit id (e.g. ENV-TREE-OAK): the real art when it exists, else the placeholder texture.
 static func card_material(id: String) -> ShaderMaterial:
-	if _card_cache.has(id):
-		return _card_cache[id] as ShaderMaterial
+	var cache_key: String = "%s|%s" % [id, ZoneStyles.current]
+	if _card_cache.has(cache_key):
+		return _card_cache[cache_key] as ShaderMaterial
 	var material_value: ShaderMaterial = ShaderMaterial.new()
 	material_value.shader = load(CARD_SHADER) as Shader
 	material_value.set_shader_parameter("card_tex", EnvKit.texture(id))
 	material_value.set_shader_parameter("light_color", _sun)
 	material_value.set_shader_parameter("ambient_color", _ambient)
+	material_value.set_shader_parameter("mood_tint", ZoneStyles.tint("tree"))
 	_materials.append(material_value)
-	_card_cache[id] = material_value
+	_card_cache[cache_key] = material_value
 	return material_value
 
 
@@ -118,6 +120,14 @@ static func clumps(parent: Node3D, entries: Array[Dictionary], seed_value: int =
 	instance.set_meta(StyleToon.META_NO_TOON, true)
 	parent.add_child(instance)
 	return instance
+
+
+## Re-tints the tree cards for the current area (hot reload of a style file).
+static func retint() -> void:
+	var tint: Color = ZoneStyles.tint("tree")
+	for material_value: ShaderMaterial in _materials:
+		if material_value != null:
+			material_value.set_shader_parameter("mood_tint", tint)
 
 
 static func clear_cache() -> void:

@@ -1,0 +1,49 @@
+{
+	"id": "residential_lanes",
+	"name": "Residential Lanes",
+	"mood": "Cozy and unhurried: washing lines, window boxes, somebody frying onions",
+	"size": [72, 60],
+	"ground": {"kind": "grass"},
+	"spawn": [28, 4],
+	"entries": {"chapel_hill": [28, -20]},
+	"edge": {"kind": "oak", "kinds": ["oak", "fruit"], "spacing": 6.5, "scale": [1.0, 1.25]},
+	"paths": [
+		{"kind": "cobble", "width": 3.2, "points": [[33, 6], [18, 6], [4, 4], [-10, 6], [-24, 4]]},
+		{"kind": "cobble", "width": 2.6, "points": [[4, 4], [2, -8], [6, -20], [20, -22], [28, -22]]},
+		{"kind": "dirt", "width": 2.0, "points": [[-10, 6], [-14, 16], [-8, 24]]}
+	],
+	"plazas": [{"pos": [4, 4], "radius": 4.5}],
+	"buildings": [
+		{"preset": "home_a", "pos": [14, -4], "yaw": 180},
+		{"preset": "home_b", "pos": [-6, -6], "yaw": 180},
+		{"preset": "cottage", "pos": [14, 17], "yaw": 0},
+		{"preset": "home_b", "pos": [-22, 15], "yaw": 20},
+		{"preset": "stone_hut", "pos": [-24, -12], "yaw": 160}
+	],
+	"landmarks": [
+		{"id": "TOWN-HERO-WASHING-TOWER", "kind": "tower", "pos": [-30, -4], "size": [4, 9, 4], "color": "#f2e3c6", "accent": "#c4573a"}
+	],
+	"clusters": [
+		{"name": "doorstep", "pos": [14, 0], "yaw": 180},
+		{"name": "garden_bed", "pos": [-6, -1.5], "yaw": 180},
+		{"name": "well_corner", "pos": [8, 10], "yaw": 0},
+		{"name": "bench_nook", "pos": [-16, 2], "yaw": 0}
+	],
+	"scatter": [
+		{"kind": "tree", "name": "fruit", "count": 10, "scale": [0.9, 1.2]},
+		{"kind": "tree", "name": "oak", "count": 6, "scale": [0.9, 1.2]},
+		{"kind": "cluster", "name": "fence_garden", "count": 3},
+		{"kind": "prop", "name": "flowerpot", "count": 8, "grouped": true}
+	],
+	"poi": [
+		{"id": "rl_chest", "type": "chest", "pos": [-28, 20], "tier": "small", "title": "Cellar Hatch"},
+		{"id": "rl_note", "type": "lore", "pos": [10, 4], "title": "Lane Notice", "lines": ["A notice about the washing lines: the lines are shared, the knots are not. Please take your own socks."]},
+		{"id": "rl_neighbour", "type": "vignette", "pos": [-12, 12], "title": "Neighbour", "model": "Mage", "tint": "#f2c6a0", "yaw": 20, "lines": ["You are not from the lanes. I can tell. Nobody here walks that purposefully.", "Take a plum. Take two. The tree does not know how to stop."]},
+		{"id": "rl_vista", "type": "vista", "pos": [26, -14], "title": "Rooftops", "lines": ["From the top of the lane every chimney is smoking in the same direction, which the town counts as a kind of agreement."]},
+		{"id": "rl_shrine", "type": "shrine", "pos": [-18, -20], "title": "Hearth Shrine", "color": "#f2e3c6", "glow": "#e8b86b"}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_lanes", "pos": [34, 6], "label": "Market Square", "yaw": 90},
+		{"id": "to_chapel", "to": "chapel_hill", "pos": [30, -22], "label": "Chapel Hill", "yaw": 90}
+	]
+}

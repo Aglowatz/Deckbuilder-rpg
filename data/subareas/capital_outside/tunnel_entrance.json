@@ -1,0 +1,43 @@
+{
+	"id": "tunnel_entrance",
+	"name": "Tunnel Entrance",
+	"mood": "Close and sullen: a service door in the wall of the world, rust, drip and a draught that smells of old machinery",
+	"size": [64, 56],
+	"ground": {"kind": "cobble"},
+	"spawn": [0, 22],
+	"entries": {"ruined_outpost": [-26, 4]},
+	"edge": {"kind": "none"},
+	"paths": [
+		{"kind": "cobble", "width": 3.2, "points": [[0, 27], [0, 12], [-4, -2], [0, -14], [0, -20]]},
+		{"kind": "cobble", "width": 2.4, "points": [[-4, -2], [-16, 2], [-28, 4]]}
+	],
+	"landmarks": [
+		{"id": "CAPO-HERO-SERVICE-TUNNEL", "kind": "arch", "pos": [0, -23], "size": [10, 8, 2.4], "color": "#5e5b57", "accent": "#d8d0c0"},
+		{"id": "great_wall", "kind": "gatewall", "pos": [0, -30], "size": [64, 16, 3], "color": "#d8d0c0", "accent": "#b9b2a4"},
+		{"id": "pipe_a", "kind": "cylinder", "pos": [-16, -14], "size": [1.4, 5, 1.4], "color": "#5e5b57"},
+		{"id": "pipe_b", "kind": "cylinder", "pos": [14, -16], "size": [1.4, 5, 1.4], "color": "#5e5b57"},
+		{"id": "slab_n", "kind": "cliff", "pos": [26, -10], "size": [9, 3.6, 1.6], "color": "#d8d0c0", "accent": "#b9b2a4", "barrier": "wall_slab"},
+		{"id": "slab_s", "kind": "cliff", "pos": [26, 2], "size": [9, 3.6, 1.6], "color": "#d8d0c0", "accent": "#b9b2a4", "barrier": "wall_slab"},
+		{"id": "slab_w", "kind": "cliff", "pos": [21.5, -4], "size": [1.6, 3.6, 12], "color": "#d8d0c0", "accent": "#b9b2a4", "barrier": "wall_slab"}
+	],
+	"clusters": [
+		{"name": "crates", "pos": [-14, 16], "yaw": 10}
+	],
+	"scatter": [
+		{"kind": "prop", "name": "crate", "count": 8, "grouped": true},
+		{"kind": "prop", "name": "barrel", "count": 6, "grouped": true}
+	],
+	"flora": "off",
+	"poi": [
+		{"id": "te_chest", "type": "chest", "pos": [-24, -16], "tier": "medium", "title": "Maintenance Chest"},
+		{"id": "te_chest2", "type": "chest", "pos": [27, -4], "tier": "large", "title": "Walled-up Cache"},
+		{"id": "te_lever", "type": "shortcut", "pos": [14, 14], "title": "Wall Lever", "opens": "wall_slab", "prompt": "Pull the lever on the wall"},
+		{"id": "te_plate", "type": "lore", "pos": [8, 8], "title": "Service Plate", "lines": ["Service plate: THIS DOOR IS FOR USE BY PERSONNEL. Beneath it, scratched with a key: and by anyone with a good reason and a better flashlight."]},
+		{"id": "te_shrine", "type": "shrine", "pos": [28, 14], "title": "Gear Shrine", "color": "#5e5b57", "glow": "#9b59d0"},
+		{"id": "te_vista", "type": "vista", "pos": [-8, -6], "title": "Foot of the Wall", "lines": ["Up close the wall has no seam, no join, no brick. Somebody made a mountain and then told it to be a wall."]}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_tunnel", "pos": [0, 26], "label": "The Gate Road", "yaw": 0},
+		{"id": "to_outpost", "to": "ruined_outpost", "pos": [-32, 4], "label": "Ruined Outpost", "yaw": 90}
+	]
+}

@@ -1,0 +1,16 @@
+{
+	"_about": "Main Town (Crosspath). Hub = the existing town scene (Market Square, the Arena, the harbor, the graveyard cairn stay in it). Four storybook sub-areas hang off it. Plan: docs/zone_plans/main_town.md",
+	"area": "main_town",
+	"zone_id": "",
+	"preset": "town",
+	"name": "Crosspath",
+	"hub_name": "Market Square",
+	"hub_scene": "res://scenes/town.tscn",
+	"subareas": ["residential_lanes", "lakeshore_docks", "chapel_hill", "arena_district"],
+	"gates": [
+		{"id": "gate_lanes", "sub": "residential_lanes", "label": "Residential Lanes", "pos": [4.0, 22.0], "yaw": 90.0, "return": [7.0, 22.0]},
+		{"id": "gate_docks", "sub": "lakeshore_docks", "label": "Lakeshore and Docks", "pos": [63.0, 24.0], "yaw": -90.0, "return": [60.0, 24.0]},
+		{"id": "gate_chapel", "sub": "chapel_hill", "label": "Chapel Hill", "pos": [-5.0, 38.0], "yaw": 90.0, "return": [-1.3, 38.7]},
+		{"id": "gate_arena", "sub": "arena_district", "label": "Arena District", "pos": [32.0, 47.0], "yaw": 0.0, "return": [32.0, 44.0]}
+	]
+}

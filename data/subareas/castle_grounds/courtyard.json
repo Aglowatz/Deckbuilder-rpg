@@ -1,0 +1,42 @@
+{
+	"id": "courtyard",
+	"name": "The Courtyard",
+	"mood": "Cold, crisp morning light on marble: a courtyard so clean the shadows look drawn on, and every window facing you",
+	"size": [76, 66],
+	"ground": {"kind": "cobble"},
+	"spawn": [0, 28],
+	"entries": {"mirror_colonnade": [-30, -4], "palace_approach": [0, 28]},
+	"edge": {"kind": "none"},
+	"paths": [
+		{"kind": "cobble", "width": 6.0, "points": [[0, 33], [0, 16], [0, 0], [0, -14], [0, -22]]},
+		{"kind": "cobble", "width": 3.0, "points": [[0, 4], [-14, 0], [-26, -4], [-33, -4]]}
+	],
+	"plazas": [{"pos": [0, 2], "radius": 9.0}],
+	"landmarks": [
+		{"id": "CAST-HERO-PALACE-FACADE", "kind": "facade", "pos": [0, -32], "size": [48, 24, 9], "color": "#ffffff", "accent": "#d4af37"},
+		{"id": "tower_w", "kind": "tower", "pos": [-28, -26], "size": [7, 24, 7], "color": "#ffffff", "accent": "#d4af37"},
+		{"id": "tower_e", "kind": "tower", "pos": [28, -26], "size": [7, 24, 7], "color": "#ffffff", "accent": "#d4af37"},
+		{"id": "fountain_mirror", "kind": "tiers", "pos": [0, 2], "size": [6, 5, 6], "color": "#b8b8c8", "accent": "#d4af37"},
+		{"id": "statue_w", "kind": "statue", "pos": [-14, 12], "size": [3.4, 8, 3.4], "color": "#ffffff", "accent": "#d4af37"},
+		{"id": "statue_e", "kind": "statue", "pos": [14, 12], "size": [3.4, 8, 3.4], "color": "#ffffff", "accent": "#d4af37"}
+	],
+	"clusters": [
+		{"name": "banner_lamp", "pos": [-8, 20], "yaw": 0},
+		{"name": "banner_lamp", "pos": [8, 20], "yaw": 0}
+	],
+	"scatter": [
+		{"kind": "prop", "name": "hedge", "count": 8, "length": 4.0},
+		{"kind": "prop", "name": "lantern_post", "count": 6}
+	],
+	"poi": [
+		{"id": "cy_chest", "type": "chest", "pos": [30, 22], "tier": "medium", "title": "Guard Locker"},
+		{"id": "cy_plaque", "type": "lore", "pos": [-12, 22], "title": "Dedication", "lines": ["Dedicated to the perfect subject, by his perfectly grateful ruler. The subject is not named. It is understood that there is only one."]},
+		{"id": "cy_guard", "type": "vignette", "pos": [10, -8], "title": "Gate Guard", "model": "Knight", "tint": "#d4af37", "yaw": 190, "lines": ["The castle is open to you. Please do not take that personally. It is open to everyone, in the way a trap is.", "Mind the floors. They are mirrors. Do not look up your own steps."]},
+		{"id": "cy_shrine", "type": "shrine", "pos": [-30, 20], "title": "Crown Shrine", "color": "#ffffff", "glow": "#d4af37"},
+		{"id": "cy_vista", "type": "vista", "pos": [28, 10], "title": "In the Reflection", "lines": ["The courtyard is paved with polished stone and the whole sky lies in it, so that you walk across a second, upside-down morning."]}
+	],
+	"exits": [
+		{"id": "to_palace", "to": "area:capital_inside/palace_approach", "pos": [0, 33], "label": "Palace Approach", "yaw": 0},
+		{"id": "to_colonnade", "to": "mirror_colonnade", "pos": [-36, -4], "label": "Mirror Colonnade", "yaw": 90}
+	]
+}

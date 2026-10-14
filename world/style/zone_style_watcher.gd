@@ -34,6 +34,7 @@ func _process(delta: float) -> void:
 	_stamp = stamp
 	ZoneStyles.reload()
 	EnvKit.retint()
+	KitFoliage.retint()
 	if style_rig != null:
 		style_rig.set_preset(style_rig.preset_id)
 		var look: WorldLookRig = style_rig.get_parent().get_node_or_null("WorldLookRig") as WorldLookRig

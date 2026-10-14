@@ -1,0 +1,41 @@
+{
+	"id": "transit_yards",
+	"name": "Transit Yards",
+	"mood": "Pristine and stalled: pastel trams that run to schedule and never leave, a tannoy announcing the weather that is already here",
+	"size": [80, 62],
+	"ground": {"kind": "cobble"},
+	"spawn": [-32, 6],
+	"entries": {"hungry_quarter": [34, -10]},
+	"edge": {"kind": "none"},
+	"paths": [
+		{"kind": "cobble", "width": 4.0, "points": [[-37, 6], [-22, 6], [-6, 2], [10, -4], [24, -8], [37, -10]]}
+	],
+	"plazas": [{"pos": [0, 2], "radius": 8.0}],
+	"landmarks": [
+		{"id": "CAPI-HERO-TRAM-SHED", "kind": "facade", "pos": [0, -26], "size": [36, 10, 8], "color": "#f7f3ea", "accent": "#a7c7e7"},
+		{"id": "tram_a", "kind": "box", "pos": [-16, -8], "size": [12, 3.2, 2.8], "color": "#bfe3d0", "accent": "#f5c6d0"},
+		{"id": "tram_b", "kind": "box", "pos": [18, 12], "size": [12, 3.2, 2.8], "color": "#f5c6d0", "accent": "#a7c7e7"},
+		{"id": "clock_tower", "kind": "tower", "pos": [-26, 20], "size": [3.2, 12, 3.2], "color": "#f7f3ea", "accent": "#e6c35c"}
+	],
+	"clusters": [
+		{"name": "bench_nook", "pos": [-8, 14], "yaw": 0},
+		{"name": "bench_nook", "pos": [8, 14], "yaw": 0},
+		{"name": "banner_lamp", "pos": [0, 8], "yaw": 0}
+	],
+	"scatter": [
+		{"kind": "tree", "name": "birch", "count": 8, "scale": [0.85, 1.05]},
+		{"kind": "prop", "name": "hedge", "count": 6, "length": 4.0},
+		{"kind": "prop", "name": "lantern_post", "count": 6}
+	],
+	"poi": [
+		{"id": "ty_chest", "type": "chest", "pos": [-30, -22], "tier": "small", "title": "Lost Umbrella Bin"},
+		{"id": "ty_board", "type": "lore", "pos": [-12, 16], "title": "Timetable", "lines": ["Every tram arrives on time. The timetable says so and the timetable does not lie. The trams themselves are less sure."]},
+		{"id": "ty_conductor", "type": "vignette", "pos": [10, -2], "title": "Conductor", "model": "Knight", "tint": "#f7f3ea", "yaw": 200, "lines": ["All aboard. We depart in a moment. We have been departing in a moment for some time.", "Your ticket is in order. It is the best ticket I have seen. It does not matter. We are not going."]},
+		{"id": "ty_shrine", "type": "shrine", "pos": [30, 18], "title": "Platform Shrine", "color": "#f7f3ea", "glow": "#e6c35c"},
+		{"id": "ty_vista", "type": "vista", "pos": [28, -22], "title": "Platform Nine", "lines": ["Platform nine is spotless. There is no litter anywhere in the Capital. You begin to wonder what the litter was made to feel."]}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_transit", "pos": [-38, 6], "label": "Gate Plaza", "yaw": 90},
+		{"id": "to_hungry", "to": "hungry_quarter", "pos": [38, -10], "label": "Hungry Quarter", "yaw": -90}
+	]
+}

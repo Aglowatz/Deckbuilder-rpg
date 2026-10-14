@@ -1,0 +1,37 @@
+{
+	"id": "mirror_colonnade",
+	"name": "Mirror Colonnade",
+	"mood": "A long hall without a roof: columns, mirrors, and your own steps repeating a half-second late",
+	"size": [74, 56],
+	"ground": {"kind": "cobble"},
+	"spawn": [-30, 4],
+	"entries": {"courtyard": [-30, 4], "grand_stair": [30, -8]},
+	"edge": {"kind": "none"},
+	"paths": [
+		{"kind": "cobble", "width": 5.0, "points": [[-35, 4], [-18, 2], [0, 0], [18, -4], [30, -8], [36, -8]]}
+	],
+	"landmarks": [
+		{"id": "CAST-HERO-MIRROR-COLONNADE", "kind": "colonnade", "pos": [0, -8], "size": [60, 8, 2.4], "color": "#ffffff", "accent": "#d4af37"},
+		{"id": "colonnade_south", "kind": "colonnade", "pos": [0, 12], "size": [60, 8, 2.4], "color": "#ffffff", "accent": "#d4af37"},
+		{"id": "mirror_a", "kind": "box", "pos": [-16, -20], "size": [6, 5, 0.4], "color": "#b8b8c8", "accent": "#d4af37"},
+		{"id": "mirror_b", "kind": "box", "pos": [8, -20], "size": [6, 5, 0.4], "color": "#b8b8c8", "accent": "#d4af37"},
+		{"id": "mirror_c", "kind": "box", "pos": [-30, -22], "size": [6, 5, 0.4], "color": "#b8b8c8", "accent": "#d4af37"},
+		{"id": "garden_gate", "kind": "box", "pos": [0, 21], "size": [70, 4.5, 1.4], "color": "#b8b8c8", "barrier": "garden_door"}
+	],
+	"scatter": [
+		{"kind": "prop", "name": "hedge", "count": 6, "length": 4.0},
+		{"kind": "prop", "name": "lantern_post", "count": 6}
+	],
+	"poi": [
+		{"id": "mc_chest", "type": "chest", "pos": [-28, -20], "tier": "small", "title": "Frame Case"},
+		{"id": "mc_lever", "type": "shortcut", "pos": [26, 18], "title": "Silvered Lever", "opens": "garden_door", "prompt": "Pull the silvered lever"},
+		{"id": "mc_reflect", "type": "lore", "pos": [-10, 4], "title": "Hand Mirror", "lines": ["Your reflection is a moment behind you. When you stop, it stops. When you leave, the reflection stays and looks pleased with your decision."]},
+		{"id": "mc_shrine", "type": "shrine", "pos": [28, -18], "title": "Glass Shrine", "color": "#b8b8c8", "glow": "#8e44ad"},
+		{"id": "mc_vista", "type": "vista", "pos": [0, -22], "title": "Looking Glass", "lines": ["In the long glass the colonnade goes on forever, and in each repeat one small figure is walking, slightly more tired than the last."]}
+	],
+	"exits": [
+		{"id": "to_courtyard", "to": "courtyard", "pos": [-36, 4], "label": "The Courtyard", "yaw": 90},
+		{"id": "to_stair", "to": "grand_stair", "pos": [36, -8], "label": "Grand Stair", "yaw": -90},
+		{"id": "to_gardens", "to": "palace_gardens", "pos": [10, 26], "label": "Palace Gardens", "yaw": 0, "requires": "sa_castle_grounds_mirror_colonnade_mc_lever", "locked_text": "The garden door is a mirror. It does not open."}
+	]
+}

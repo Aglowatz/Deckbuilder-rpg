@@ -180,6 +180,7 @@ func _ready() -> void:
 	ChestKit.apply_saved(builder.chest_nodes, _chest_secret)
 	_build_enemies()
 	_build_zone_extras()
+	SubAreaGates.install(self, SubAreaDefs.areas_of_scene(def.scene_path))
 	_build_completion_state()
 	_build_camera()
 	_build_ui()

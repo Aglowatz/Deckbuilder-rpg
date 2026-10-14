@@ -1,0 +1,14 @@
+{
+	"_about": "The Gainlands: hub = the existing Swole Station scene (mills, hamster wheels, gym, floating islands stay in it). Sub-areas below are separate scenes. Plan: docs/zone_plans/gainlands.md",
+	"area": "gainlands",
+	"zone_id": "beefcake",
+	"preset": "gainlands",
+	"name": "The Gainlands",
+	"hub_name": "Swole Station",
+	"hub_scene": "res://scenes/gainlands_zone.tscn",
+	"subareas": ["proving_grounds", "mill_fields", "swolympus_trailhead", "sky_garden"],
+	"gates": [
+		{"id": "gate_proving", "sub": "proving_grounds", "label": "Proving Grounds", "pos": [38.0, 73.0], "yaw": 0.0, "return": [38.0, 70.0]},
+		{"id": "gate_trailhead", "sub": "swolympus_trailhead", "label": "Swolympus Trailhead", "pos": [45.0, 24.0], "yaw": 0.0, "return": [45.0, 27.0]}
+	]
+}

@@ -77,6 +77,7 @@ func _ready() -> void:
 		_camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 		_custom_camera = true
 	_build_actors()
+	SubAreaGates.install(self, SubAreaDefs.areas_of_scene(Areas.START_SCENE))
 	_build_ui()
 	_build_postgame()
 	ChestKit.apply_saved(area.chest_nodes, StartingAreaScene._chest_secret)
@@ -107,6 +108,9 @@ func _ready() -> void:
 
 func _build_actors() -> void:
 	var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
+	if Session.has_start_return_position:
+		spawn = Session.start_return_position
+		Session.has_start_return_position = false
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(area, "Hero", spawn)

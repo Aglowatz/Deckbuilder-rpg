@@ -1,0 +1,46 @@
+{
+	"id": "arena_district",
+	"name": "Arena District",
+	"mood": "Loud and golden: banners, a drum somewhere, a stall selling things shaped like swords",
+	"size": [74, 62],
+	"ground": {"kind": "cobble"},
+	"spawn": [0, 24],
+	"entries": {"lakeshore_docks": [-30, -4]},
+	"edge": {"kind": "oak", "kinds": ["oak"], "spacing": 7.5, "scale": [0.9, 1.15]},
+	"paths": [
+		{"kind": "cobble", "width": 4.0, "points": [[0, 29], [0, 14], [0, -2], [0, -14]]},
+		{"kind": "dirt", "width": 2.4, "points": [[0, 8], [-14, 4], [-26, -4], [-32, -4]]}
+	],
+	"plazas": [{"pos": [0, 8], "radius": 8.0}],
+	"buildings": [
+		{"preset": "equipment_shop", "pos": [-20, 14], "yaw": 90},
+		{"preset": "inn", "pos": [22, 14], "yaw": -90},
+		{"preset": "hall", "pos": [-20, -14], "yaw": 90}
+	],
+	"landmarks": [
+		{"id": "TOWN-HERO-ARENA-FACADE", "kind": "facade", "pos": [0, -26], "size": [30, 12, 6], "color": "#f2e3c6", "accent": "#c4573a"},
+		{"id": "banner_w", "kind": "tower", "pos": [-9, -10], "size": [1.0, 8, 1.0], "color": "#5b4636", "accent": "#c4573a"},
+		{"id": "banner_e", "kind": "tower", "pos": [9, -10], "size": [1.0, 8, 1.0], "color": "#5b4636", "accent": "#c4573a"}
+	],
+	"clusters": [
+		{"name": "market_set", "pos": [-10, 22], "yaw": 5},
+		{"name": "crates", "pos": [12, 22], "yaw": -6},
+		{"name": "banner_lamp", "pos": [6, 4], "yaw": 0}
+	],
+	"scatter": [
+		{"kind": "tree", "name": "oak", "count": 8, "scale": [0.9, 1.15]},
+		{"kind": "prop", "name": "barrel", "count": 8, "grouped": true},
+		{"kind": "cluster", "name": "bench_nook", "count": 2}
+	],
+	"poi": [
+		{"id": "ad_chest", "type": "chest", "pos": [30, -22], "tier": "medium", "title": "Gladiator Locker"},
+		{"id": "ad_board", "type": "lore", "pos": [-6, 18], "title": "Fixture Board", "lines": ["Tonight: the Hollow Knight versus a man who says he is a rock. The rock is the underdog, which is the problem."]},
+		{"id": "ad_vendor", "type": "vignette", "pos": [14, 6], "title": "Sword Seller", "model": "Rogue_Hooded", "tint": "#ffd9a0", "yaw": 200, "lines": ["Foam swords! Real foam! No, the real ones are inside, I am not allowed near those.", "Every champion started with a stick. Most of them still have the stick, if you ask."]},
+		{"id": "ad_shrine", "type": "shrine", "pos": [-30, 20], "title": "Victor Shrine", "color": "#f2e3c6", "glow": "#e8b86b"},
+		{"id": "ad_vista", "type": "vista", "pos": [28, 24], "title": "Gate View", "lines": ["The Arena gates are the tallest thing in town, and they were built that way on purpose. Nobody wants to be talked down to by a door."]}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_arena", "pos": [0, 29], "label": "Market Square", "yaw": 0},
+		{"id": "to_docks", "to": "lakeshore_docks", "pos": [-34, -4], "label": "Lakeshore and Docks", "yaw": 90}
+	]
+}

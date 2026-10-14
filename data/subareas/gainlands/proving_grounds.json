@@ -1,0 +1,50 @@
+{
+	"id": "proving_grounds",
+	"name": "The Proving Grounds",
+	"mood": "Sunny, energetic: an open-air arena where everyone is mid-rep",
+	"size": [76, 64],
+	"ground": {"kind": "grass"},
+	"spawn": [0, 24],
+	"entries": {"swolympus_trailhead": [31, -8], "mill_fields": [-30, 20]},
+	"edge": {"kind": "pine", "kinds": ["pine", "oak"], "spacing": 6.5, "scale": [1.1, 1.6]},
+	"paths": [
+		{"kind": "dirt", "width": 3.8, "points": [[0, 29], [0, 16], [-3, 4], [0, -6]]},
+		{"kind": "dirt", "width": 3.0, "points": [[0, -6], [14, -10], [26, -10], [33, -8]]}
+	],
+	"plazas": [{"pos": [0, -8], "radius": 9.0}],
+	"buildings": [
+		{"preset": "hall", "pos": [-24, 12], "yaw": 90},
+		{"preset": "equipment_shop", "pos": [24, 16], "yaw": -90}
+	],
+	"landmarks": [
+		{"id": "GAIN-HERO-CHAMPIONS-ARCH", "kind": "arch", "pos": [0, -25], "size": [12, 8, 1.6], "color": "#d9483b", "accent": "#f2c14e"},
+		{"id": "stand_w", "kind": "colonnade", "pos": [-18, -16], "size": [14, 4.6, 2.0], "color": "#f7ebd3", "accent": "#7a5230"},
+		{"id": "stand_e", "kind": "colonnade", "pos": [18, -18], "size": [14, 4.6, 2.0], "color": "#f7ebd3", "accent": "#7a5230"},
+		{"id": "rack_a", "kind": "box", "pos": [-11, 4], "size": [4, 1.5, 1.0], "color": "#3a3a40"},
+		{"id": "rack_b", "kind": "box", "pos": [11, 6], "size": [4, 1.5, 1.0], "color": "#3a3a40"},
+		{"id": "scoreboard", "kind": "tower", "pos": [-30, -12], "size": [3.2, 5.5, 1.2], "color": "#5fa8d3", "accent": "#f2c14e"}
+	],
+	"clusters": [
+		{"name": "market_set", "pos": [-12, 21], "yaw": 10},
+		{"name": "crates", "pos": [16, 24], "yaw": -8}
+	],
+	"scatter": [
+		{"kind": "tree", "name": "pine", "count": 18, "scale": [1.0, 1.5]},
+		{"kind": "tree", "name": "oak", "count": 7, "scale": [1.0, 1.4]},
+		{"kind": "prop", "name": "barrel", "count": 8, "grouped": true},
+		{"kind": "cluster", "name": "barrel_pair", "count": 3}
+	],
+	"poi": [
+		{"id": "pg_chest_a", "type": "chest", "pos": [-30, 8], "tier": "small", "title": "Gym Bag"},
+		{"id": "pg_chest_b", "type": "chest", "pos": [30, -26], "tier": "medium", "title": "Trophy Crate"},
+		{"id": "pg_board", "type": "lore", "pos": [-8, 19], "title": "Record Board", "lines": ["The board lists every record ever set here. Most are crossed out by the next line.", "At the bottom, in chalk: DAY 1 OF NEVER SKIPPING. Day 1 has been crossed out forty times."]},
+		{"id": "pg_coach", "type": "vignette", "pos": [9, 2], "title": "Coach", "model": "Barbarian", "tint": "#ffd9a8", "yaw": 200, "lines": ["Form! Form! You are lifting like a person who eats in a hurry.", "Do not look at me. Look at the weight. The weight has done nothing to deserve your disrespect."]},
+		{"id": "pg_shrine", "type": "shrine", "pos": [29, 4], "title": "Pump Shrine", "color": "#f7ebd3", "glow": "#ff9a58"},
+		{"id": "pg_vista", "type": "vista", "pos": [-33, -28], "title": "Overlook", "lines": ["From the top of the stands the whole Gainlands lies out in the sun: the mills turning, the wheels spinning, a protein stand on every ridge."]}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_proving", "pos": [0, 29], "label": "Swole Station", "yaw": 0},
+		{"id": "to_trailhead", "to": "swolympus_trailhead", "pos": [34, -8], "label": "Swolympus Trailhead", "yaw": 90},
+		{"id": "to_mill", "to": "mill_fields", "pos": [-34, 20], "label": "Mill Fields", "yaw": 90}
+	]
+}

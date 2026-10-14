@@ -1,0 +1,43 @@
+{
+	"id": "palace_gardens",
+	"name": "Palace Gardens",
+	"mood": "A secret garden clipped to within an inch of its life: topiary cones, mirror ponds, one rose that is allowed to be crooked",
+	"size": [60, 52],
+	"ground": {"kind": "grass"},
+	"spawn": [0, 20],
+	"entries": {"mirror_colonnade": [0, 20]},
+	"edge": {"kind": "none"},
+	"paths": [
+		{"kind": "cobble", "width": 3.0, "points": [[0, 25], [0, 12], [-8, 0], [0, -10], [8, -16]]}
+	],
+	"water": [
+		{"pos": [-18, -4], "size": [10, 6], "color": "#a7c7e7"},
+		{"pos": [18, -4], "size": [10, 6], "color": "#a7c7e7"}
+	],
+	"landmarks": [
+		{"id": "CAST-HERO-CROOKED-ROSE", "kind": "shrine", "pos": [8, -18], "size": [2.2, 3.4, 2.2], "color": "#f5c6d0", "glow": "#f5c6d0", "accent": "#7fc97f"},
+		{"id": "topiary_a", "kind": "cylinder", "pos": [-12, 12], "size": [2.6, 4.4, 2.6], "color": "#7fc97f"},
+		{"id": "topiary_b", "kind": "cylinder", "pos": [12, 12], "size": [2.6, 4.4, 2.6], "color": "#7fc97f"},
+		{"id": "topiary_c", "kind": "cylinder", "pos": [-12, -12], "size": [2.6, 4.4, 2.6], "color": "#7fc97f"},
+		{"id": "topiary_d", "kind": "cylinder", "pos": [20, -14], "size": [2.6, 4.4, 2.6], "color": "#7fc97f"}
+	],
+	"clusters": [
+		{"name": "bench_nook", "pos": [0, 4], "yaw": 0}
+	],
+	"flowers": [
+		{"pos": [-6, 6], "radius": 3.0, "cells": [2], "count": 22}, {"pos": [6, -6], "radius": 3.0, "cells": [2], "count": 20}
+	],
+	"scatter": [
+		{"kind": "prop", "name": "hedge", "count": 6, "length": 3.6},
+		{"kind": "tree", "name": "fruit", "count": 4, "scale": [0.85, 1.05]}
+	],
+	"poi": [
+		{"id": "pg2_chest", "type": "chest", "pos": [-24, -16], "tier": "large", "title": "Gardener Strongbox"},
+		{"id": "pg2_note", "type": "lore", "pos": [10, 8], "title": "Gardener Note", "lines": ["One rose has grown crooked. I was ordered to cut it. I have been very busy since, you understand. For years."]},
+		{"id": "pg2_shrine", "type": "shrine", "pos": [-22, 6], "title": "Hidden Rose Shrine", "color": "#f5c6d0", "glow": "#f5c6d0"},
+		{"id": "pg2_vista", "type": "vista", "pos": [22, 6], "title": "Mirror Pond", "lines": ["In the still pond the palace stands upside down, and from here it looks a lot less certain of itself."]}
+	],
+	"exits": [
+		{"id": "to_colonnade", "to": "mirror_colonnade", "pos": [0, 24], "label": "Mirror Colonnade", "yaw": 0}
+	]
+}

@@ -1,0 +1,42 @@
+{
+	"id": "swolympus_trailhead",
+	"name": "Mount Swolympus Trailhead",
+	"mood": "Brave, windy, a long climb ahead and a gift shop at the bottom of it",
+	"size": [72, 72],
+	"ground": {"kind": "dirt"},
+	"spawn": [-28, 8],
+	"entries": {"sky_garden": [26, -22], "proving_grounds": [-28, 8]},
+	"edge": {"kind": "pine", "kinds": ["pine"], "spacing": 6.0, "scale": [1.2, 1.8]},
+	"paths": [
+		{"kind": "dirt", "width": 3.4, "points": [[-33, 8], [-20, 10], [-6, 4], [4, -8], [10, -22], [10, -30]]},
+		{"kind": "dirt", "width": 2.4, "points": [[4, -8], [16, -6], [26, -10]]}
+	],
+	"landmarks": [
+		{"id": "GAIN-HERO-SWOLYMPUS", "kind": "mound", "pos": [8, -48], "size": [38, 30, 22], "color": "#8a7a68", "accent": "#f7ebd3"},
+		{"id": "GAIN-HERO-TRAILHEAD-GATE", "kind": "arch", "pos": [10, -32], "size": [10, 7, 1.4], "color": "#f7ebd3", "accent": "#f2c14e"},
+		{"id": "statue_flex", "kind": "statue", "pos": [-6, -20], "size": [3.4, 7.0, 3.4], "color": "#d8c8a8", "accent": "#7a5230"},
+		{"id": "boulder_wall", "kind": "cliff", "pos": [30, -12], "size": [6, 4, 3], "color": "#8a7a68", "accent": "#a89a80", "barrier": "sky_boulder"},
+		{"id": "shack", "kind": "hut", "pos": [-22, -4], "size": [6, 4.2, 5], "color": "#d9483b", "accent": "#7a5230"}
+	],
+	"clusters": [
+		{"name": "banner_lamp", "pos": [-12, 10], "yaw": 0},
+		{"name": "bench_nook", "pos": [-24, 14], "yaw": 0}
+	],
+	"scatter": [
+		{"kind": "tree", "name": "pine", "count": 22, "scale": [1.1, 1.7]},
+		{"kind": "prop", "name": "barrel", "count": 5, "grouped": true},
+		{"kind": "cluster", "name": "crates", "count": 3}
+	],
+	"poi": [
+		{"id": "th_chest", "type": "chest", "pos": [-30, -26], "tier": "medium", "title": "Hiker Pack"},
+		{"id": "th_board", "type": "lore", "pos": [-14, 6], "title": "Trail Notice", "lines": ["TRAIL CLOSED FOR REPS. Reopens when the mountain finishes its set.", "Someone has added, in a different hand: the mountain has not done a rep in four thousand years."]},
+		{"id": "th_vendor", "type": "vignette", "pos": [-19, -2], "title": "Gift Shop Clerk", "model": "Rogue_Hooded", "tint": "#ffe0a0", "yaw": 180, "lines": ["Mountain-shaped foam hands, two for one. You will need them. For the summit. To point at things.", "No, there is no actual shop. I am just standing here. It is a vibe."]},
+		{"id": "th_lever", "type": "shortcut", "pos": [22, -6], "title": "Rock Lever", "opens": "sky_boulder", "prompt": "Pull the rock lever"},
+		{"id": "th_vista", "type": "vista", "pos": [4, -20], "title": "Foot of the Mountain", "lines": ["The mountain goes up, and up, and then there is a cloud with a dumbbell on it."]}
+	],
+	"exits": [
+		{"id": "to_proving", "to": "proving_grounds", "pos": [-34, 8], "label": "Proving Grounds", "yaw": 90},
+		{"id": "to_hub", "to": "hub", "gate": "gate_trailhead", "pos": [10, -36], "label": "Swole Station", "yaw": 0},
+		{"id": "to_sky", "to": "sky_garden", "pos": [30, -22], "label": "Sky Garden", "yaw": -90}
+	]
+}

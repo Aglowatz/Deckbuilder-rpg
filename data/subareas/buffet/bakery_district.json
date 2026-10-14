@@ -1,0 +1,48 @@
+{
+	"id": "bakery_district",
+	"name": "Bakery District",
+	"mood": "Warm, pink and golden: oven glow in every window, a queue of loaves that all look pleased with themselves",
+	"size": [76, 62],
+	"ground": {"kind": "cobble"},
+	"spawn": [0, 24],
+	"entries": {"mashed_potato_hills": [34, -2], "broccoli_forest": [-28, 20]},
+	"edge": {"kind": "oak", "kinds": ["fruit"], "spacing": 8.0, "scale": [0.9, 1.15]},
+	"paths": [
+		{"kind": "cobble", "width": 4.0, "points": [[0, 29], [0, 14], [0, -2], [0, -16]]},
+		{"kind": "cobble", "width": 2.8, "points": [[0, 14], [-16, 18], [-30, 20]]},
+		{"kind": "cobble", "width": 2.8, "points": [[0, -2], [16, -2], [30, -2], [36, -2]]}
+	],
+	"plazas": [{"pos": [0, 4], "radius": 8.0}],
+	"buildings": [
+		{"preset": "card_shop", "pos": [-18, 8], "yaw": 90},
+		{"preset": "potion_shop", "pos": [18, 10], "yaw": -90},
+		{"preset": "inn", "pos": [-22, -10], "yaw": 90},
+		{"preset": "clothing_shop", "pos": [22, -12], "yaw": -90}
+	],
+	"landmarks": [
+		{"id": "BUFF-HERO-CAKE-CATHEDRAL", "kind": "tiers", "pos": [0, -28], "size": [22, 26, 22], "color": "#f6b8c4", "accent": "#f4d8b0"},
+		{"id": "copper_dome", "kind": "dome", "pos": [26, 24], "size": [6, 6, 6], "color": "#c98b3a", "accent": "#7a4a2a"}
+	],
+	"clusters": [
+		{"name": "market_set", "pos": [-8, 20], "yaw": 5},
+		{"name": "crates", "pos": [10, 20], "yaw": -5},
+		{"name": "banner_lamp", "pos": [-4, 6], "yaw": 0}
+	],
+	"scatter": [
+		{"kind": "prop", "name": "barrel", "count": 8, "grouped": true},
+		{"kind": "prop", "name": "sack", "count": 6, "grouped": true},
+		{"kind": "tree", "name": "fruit", "count": 6, "scale": [0.9, 1.15]}
+	],
+	"poi": [
+		{"id": "bd_chest", "type": "chest", "pos": [32, 20], "tier": "medium", "title": "Proving Drawer"},
+		{"id": "bd_menu", "type": "lore", "pos": [-6, 12], "title": "Day Menu", "lines": ["Today: bread. Tomorrow: also bread, but with a different mood. Please ask the baker how the bread is feeling."]},
+		{"id": "bd_baker", "type": "vignette", "pos": [8, 2], "title": "Master Baker", "model": "Barbarian", "tint": "#f4d8b0", "yaw": 180, "lines": ["Flour on the hands, flour in the lungs, flour in the will. That is how you know it is a calling.", "Do not poke the dough. It has been through a lot."]},
+		{"id": "bd_shrine", "type": "shrine", "pos": [-28, -4], "title": "Rising Shrine", "color": "#f6b8c4", "glow": "#ffd890"},
+		{"id": "bd_vista", "type": "vista", "pos": [28, -22], "title": "Sugar Spires", "lines": ["The cathedral is every tier of a cake, one on another, each frosted by someone who loved the one below. At night the windows glow like a pastry case."]}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_bakery", "pos": [0, 29], "label": "Grand Dining Hall", "yaw": 0},
+		{"id": "to_potato", "to": "mashed_potato_hills", "pos": [37, -2], "label": "Mashed Potato Hills", "yaw": -90},
+		{"id": "to_broccoli", "to": "broccoli_forest", "pos": [-32, 20], "label": "Broccoli Forest", "yaw": 90}
+	]
+}

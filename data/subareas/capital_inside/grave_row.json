@@ -1,0 +1,45 @@
+{
+	"id": "grave_row",
+	"name": "Grave Row",
+	"mood": "Tidy to the point of grief: gleaming plots in perfect lines, every name polished, every flower the same flower",
+	"size": [72, 60],
+	"ground": {"kind": "grass"},
+	"spawn": [-28, 8],
+	"entries": {"hungry_quarter": [-30, 20], "palace_approach": [30, -10]},
+	"edge": {"kind": "none"},
+	"paths": [
+		{"kind": "cobble", "width": 3.6, "points": [[-33, 8], [-18, 6], [-2, 2], [12, -4], [24, -8], [30, -10]]},
+		{"kind": "cobble", "width": 2.4, "points": [[-18, 6], [-24, 14], [-30, 20]]}
+	],
+	"buildings": [
+		{"preset": "chapel", "pos": [0, -22], "yaw": 0}
+	],
+	"landmarks": [
+		{"id": "CAPI-HERO-GRAVE-ROW", "kind": "colonnade", "pos": [-8, 14], "size": [30, 2.4, 1.0], "color": "#f7f3ea", "accent": "#bfe3d0"},
+		{"id": "plot_a", "kind": "box", "pos": [-20, -6], "size": [1.2, 1.5, 0.4], "color": "#f7f3ea"},
+		{"id": "plot_b", "kind": "box", "pos": [-16, -6], "size": [1.2, 1.5, 0.4], "color": "#f7f3ea"},
+		{"id": "plot_c", "kind": "box", "pos": [-12, -6], "size": [1.2, 1.5, 0.4], "color": "#f7f3ea"},
+		{"id": "plot_d", "kind": "box", "pos": [-20, -12], "size": [1.2, 1.5, 0.4], "color": "#f7f3ea"},
+		{"id": "plot_e", "kind": "box", "pos": [-16, -12], "size": [1.2, 1.5, 0.4], "color": "#f7f3ea"},
+		{"id": "plot_f", "kind": "box", "pos": [-12, -12], "size": [1.2, 1.5, 0.4], "color": "#f7f3ea"}
+	],
+	"scatter": [
+		{"kind": "prop", "name": "hedge", "count": 8, "length": 4.0},
+		{"kind": "tree", "name": "birch", "count": 8, "scale": [0.85, 1.05]}
+	],
+	"flowers": [
+		{"pos": [-16, -9], "radius": 5.0, "cells": [2], "count": 26}, {"pos": [14, 10], "radius": 4.0, "cells": [2], "count": 18}
+	],
+	"poi": [
+		{"id": "gr_chest", "type": "chest", "pos": [30, 18], "tier": "medium", "title": "Wreath Box"},
+		{"id": "gr_name", "type": "lore", "pos": [-4, 8], "title": "Polished Name", "lines": ["The name is buffed so bright you can see your own face in it. Under the polish, very faintly, the carver had misspelled it."]},
+		{"id": "gr_keeper", "type": "vignette", "pos": [10, -10], "title": "Plot Keeper", "model": "Knight", "tint": "#f7f3ea", "yaw": 200, "lines": ["I keep the plots. I buff the names. Nobody visits, which is fine, they are very clean this way.", "Primm sends a wreath every year. The same wreath. I have stopped counting the years."]},
+		{"id": "gr_shrine", "type": "shrine", "pos": [-30, -20], "title": "Unwritten Shrine", "color": "#f7f3ea", "glow": "#bfe3d0"},
+		{"id": "gr_vista", "type": "vista", "pos": [26, 20], "title": "End of the Row", "lines": ["The rows run to the wall without a single weed, and the grass has been cut by someone who was afraid of it."]}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_grave", "pos": [-36, 8], "label": "Gate Plaza", "yaw": 90},
+		{"id": "to_hungry", "to": "hungry_quarter", "pos": [-34, 20], "label": "Hungry Quarter", "yaw": 90},
+		{"id": "to_palace", "to": "palace_approach", "pos": [34, -10], "label": "Palace Approach", "yaw": -90}
+	]
+}

@@ -1,0 +1,40 @@
+{
+	"id": "sky_garden",
+	"name": "The Sky Garden (secret)",
+	"mood": "Hushed and bright: a garden somebody grew with tweezers and patience, above the weather",
+	"size": [56, 48],
+	"ground": {"kind": "grass"},
+	"spawn": [22, 18],
+	"entries": {"swolympus_trailhead": [22, 18]},
+	"edge": {"kind": "oak", "kinds": ["oak", "fruit"], "spacing": 7.0, "scale": [1.0, 1.5]},
+	"paths": [
+		{"kind": "cobble", "width": 2.6, "points": [[26, 20], [14, 12], [4, 2], [-6, -6], [-14, -14]]}
+	],
+	"landmarks": [
+		{"id": "GAIN-HERO-SKY-TREE", "kind": "giant_tree", "pos": [-14, -20], "size": [18, 16, 18], "color": "#8bc34a", "accent": "#7a5230"},
+		{"id": "float_a", "kind": "island", "pos": [-24, 4], "size": [8, 3, 8], "color": "#8bc34a", "accent": "#7a5230", "lift": 5.0, "no_collide": true},
+		{"id": "float_b", "kind": "island", "pos": [8, -18], "size": [6, 2.5, 6], "color": "#8bc34a", "accent": "#7a5230", "lift": 7.0, "no_collide": true}
+	],
+	"clusters": [
+		{"name": "garden_bed", "pos": [14, 4], "yaw": 0},
+		{"name": "garden_bed", "pos": [-8, 8], "yaw": 180},
+		{"name": "fence_garden", "pos": [4, 16], "yaw": 0}
+	],
+	"scatter": [
+		{"kind": "tree", "name": "fruit", "count": 9, "scale": [0.9, 1.3]},
+		{"kind": "tree", "name": "oak", "count": 4, "scale": [1.0, 1.3]},
+		{"kind": "cluster", "name": "bench_nook", "count": 2}
+	],
+	"flowers": [
+		{"pos": [16, 6], "radius": 3.0, "count": 24}, {"pos": [-4, 0], "radius": 3.5, "count": 26}, {"pos": [-10, -10], "radius": 3.0, "count": 20}
+	],
+	"poi": [
+		{"id": "sg_chest", "type": "chest", "pos": [-20, -8], "tier": "large", "title": "Gardener Chest"},
+		{"id": "sg_shrine", "type": "shrine", "pos": [-6, -16], "title": "Rare Bloom Shrine", "color": "#f7ebd3", "glow": "#8bc34a"},
+		{"id": "sg_note", "type": "lore", "pos": [10, 10], "title": "Gardener Note", "lines": ["Whoever grew this left a note: Strength is patience with a spotter. The note is pressed between two pages of a seed catalogue."]},
+		{"id": "sg_view", "type": "vista", "pos": [20, -12], "title": "Above the Clouds", "lines": ["Below, the Gainlands are a toy: tiny mills, tiny wheels, a very small Swole Station. Up here nobody is counting reps."]}
+	],
+	"exits": [
+		{"id": "to_trailhead", "to": "swolympus_trailhead", "pos": [26, 22], "label": "Back down the mountain", "yaw": 0}
+	]
+}

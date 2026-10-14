@@ -1,0 +1,47 @@
+{
+	"id": "hungry_quarter",
+	"name": "Hungry Quarter",
+	"mood": "Immaculate and empty-bellied: a street of identical bakeries, every window gleaming, every shelf perfectly bare",
+	"size": [76, 60],
+	"ground": {"kind": "cobble"},
+	"spawn": [-30, 8],
+	"entries": {"transit_yards": [-30, 8], "grave_row": [30, -20]},
+	"edge": {"kind": "none"},
+	"paths": [
+		{"kind": "cobble", "width": 4.0, "points": [[-36, 8], [-20, 6], [-4, 2], [10, -6], [22, -14], [30, -20]]}
+	],
+	"buildings": [
+		{"preset": "card_shop", "pos": [-14, -8], "yaw": 180},
+		{"preset": "card_shop", "pos": [0, -12], "yaw": 180},
+		{"preset": "card_shop", "pos": [14, -16], "yaw": 180},
+		{"preset": "potion_shop", "pos": [-14, 18], "yaw": 0},
+		{"preset": "potion_shop", "pos": [4, 20], "yaw": 0},
+		{"preset": "potion_shop", "pos": [22, 18], "yaw": 0}
+	],
+	"landmarks": [
+		{"id": "CAPI-HERO-IDENTICAL-ROW", "kind": "facade", "pos": [0, -30], "size": [40, 8, 4], "color": "#f5c6d0", "accent": "#e6c35c"},
+		{"id": "statue_fountain", "kind": "statue", "pos": [0, 4], "size": [4, 7, 4], "color": "#f7f3ea", "accent": "#e6c35c"}
+	],
+	"clusters": [
+		{"name": "doorstep", "pos": [-14, -4], "yaw": 180},
+		{"name": "doorstep", "pos": [0, -8], "yaw": 180},
+		{"name": "doorstep", "pos": [14, -12], "yaw": 180}
+	],
+	"scatter": [
+		{"kind": "tree", "name": "birch", "count": 6, "scale": [0.85, 1.05]},
+		{"kind": "prop", "name": "lantern_post", "count": 6},
+		{"kind": "prop", "name": "flowerpot", "count": 8, "grouped": true}
+	],
+	"poi": [
+		{"id": "hq_chest", "type": "chest", "pos": [-32, -20], "tier": "medium", "title": "Empty Breadbox"},
+		{"id": "hq_menu", "type": "lore", "pos": [-8, 12], "title": "Window Menu", "lines": ["Every window displays the same loaf in the same dish. Up close the loaf is a very good painting of a loaf, and it is dusty."]},
+		{"id": "hq_resident", "type": "vignette", "pos": [10, 6], "title": "Resident", "model": "Mage", "tint": "#f5c6d0", "yaw": 180, "lines": ["I am delighted. We are all delighted. The bread is wonderful. I have not eaten, but it is wonderful.", "If you have a crumb about you, please leave it where I can see it. For decoration."]},
+		{"id": "hq_shrine", "type": "shrine", "pos": [30, 16], "title": "Plate Shrine", "color": "#f5c6d0", "glow": "#e6c35c"},
+		{"id": "hq_vista", "type": "vista", "pos": [-34, 22], "title": "Window Row", "lines": ["The windows on this row catch the noon in the same bright, even way, and show you only yourself walking, a little thinner each pane."]}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_hungry", "pos": [-38, 8], "label": "Gate Plaza", "yaw": 90},
+		{"id": "to_transit", "to": "transit_yards", "pos": [-38, 22], "label": "Transit Yards", "yaw": 90},
+		{"id": "to_grave", "to": "grave_row", "pos": [34, -22], "label": "Grave Row", "yaw": -90}
+	]
+}

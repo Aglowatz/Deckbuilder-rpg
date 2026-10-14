@@ -1,0 +1,16 @@
+{
+	"_about": "The Starting Forest. Hub = the existing Clearing scene (the Forgotten Cave gate, the waystone, the hatch to the Lab stay in it). The gates appear once the trial is cleared so the prologue is untouched. Plan: docs/zone_plans/starting_forest.md",
+	"area": "starting_forest",
+	"zone_id": "",
+	"preset": "start",
+	"name": "The Starting Forest",
+	"hub_name": "The Clearing",
+	"hub_scene": "res://scenes/starting_area.tscn",
+	"requires_flag": "trial_cleared",
+	"subareas": ["old_path", "mossy_hollow", "cave_mouth", "hidden_tunnel"],
+	"gates": [
+		{"id": "gate_old_path", "sub": "old_path", "label": "The Old Path", "pos": [7.9, 4.6], "yaw": -90.0, "return": [7.0, 4.6]},
+		{"id": "gate_hollow", "sub": "mossy_hollow", "label": "Mossy Hollow", "pos": [1.4, 3.6], "yaw": 90.0, "return": [2.2, 3.6]},
+		{"id": "gate_cave", "sub": "cave_mouth", "label": "Cave Mouth", "pos": [6.4, 0.0], "yaw": 0.0, "return": [7.1, 0.8]}
+	]
+}

@@ -1,0 +1,47 @@
+{
+	"id": "ruined_outpost",
+	"name": "Ruined Outpost",
+	"mood": "Cold, grey and empty: a guard post that was told to hold and held until there was nothing to hold, with a lamp still burning",
+	"size": [72, 60],
+	"ground": {"kind": "cobble"},
+	"spawn": [-28, 18],
+	"entries": {"rift_fields": [-30, 4], "tunnel_entrance": [28, -20]},
+	"edge": {"kind": "none"},
+	"paths": [
+		{"kind": "cobble", "width": 3.4, "points": [[-33, 18], [-18, 12], [-6, 4], [6, -6], [18, -14], [28, -20]]},
+		{"kind": "cobble", "width": 2.6, "points": [[-6, 4], [-18, 2], [-30, 4], [-34, 4]]}
+	],
+	"plazas": [{"pos": [0, 0], "radius": 6.5}],
+	"buildings": [
+		{"preset": "stone_hut", "pos": [-14, -12], "yaw": 20},
+		{"preset": "hall", "pos": [16, 10], "yaw": 190, "overrides": {"floors": 1}}
+	],
+	"landmarks": [
+		{"id": "CAPO-HERO-BROKEN-WATCHTOWER", "kind": "tower", "pos": [-4, -22], "size": [7, 16, 7], "color": "#8c8a86", "accent": "#5e5b57"},
+		{"id": "broken_wall", "kind": "gatewall", "pos": [24, -4], "size": [18, 5, 1.8], "color": "#b9b2a4", "accent": "#5e5b57"},
+		{"id": "cart_wreck", "kind": "hut", "pos": [-24, 10], "size": [4.4, 2.4, 2.6], "color": "#5e5b57", "accent": "#8c8a86"}
+	],
+	"clusters": [
+		{"name": "crates", "pos": [8, 22], "yaw": 190},
+		{"name": "barrel_pair", "pos": [-12, 20], "yaw": 0}
+	],
+	"scatter": [
+		{"kind": "prop", "name": "crate", "count": 8, "grouped": true},
+		{"kind": "prop", "name": "barrel", "count": 5, "grouped": true},
+		{"kind": "prop", "name": "stone_wall", "count": 4, "length": 3.5},
+		{"kind": "tree", "name": "birch", "count": 5, "scale": [0.85, 1.1]}
+	],
+	"flora": "off",
+	"poi": [
+		{"id": "ro_chest", "type": "chest", "pos": [30, 18], "tier": "small", "title": "Duty Locker"},
+		{"id": "ro_log", "type": "lore", "pos": [-12, 2], "title": "Watch Log", "lines": ["Watch log, final entry: nothing to report. Nothing to report. Nothing to report. The handwriting begins to look like someone else's."]},
+		{"id": "ro_guard", "type": "vignette", "pos": [6, -8], "title": "Last Sentry", "model": "Knight", "tint": "#8c8a86", "yaw": 180, "lines": ["I was told to stand here until relieved. No one has come. I assume the relief is on its way, in good order.", "Orders are orders. Even if the order was never about you."]},
+		{"id": "ro_shrine", "type": "shrine", "pos": [-26, -20], "title": "Soldier Shrine", "color": "#8c8a86", "glow": "#d8d0c0"},
+		{"id": "ro_vista", "type": "vista", "pos": [22, 20], "title": "Rooftop of the Hall", "lines": ["The old hall has no roof, so the sky gets in. The sky has not been shy about it."]}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_outpost", "pos": [-36, 18], "label": "The Gate Road", "yaw": 90},
+		{"id": "to_rift", "to": "rift_fields", "pos": [-36, 4], "label": "Rift Fields", "yaw": 90},
+		{"id": "to_tunnel", "to": "tunnel_entrance", "pos": [32, -20], "label": "Tunnel Entrance", "yaw": -90}
+	]
+}

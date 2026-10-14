@@ -1,0 +1,35 @@
+{
+	"id": "hidden_tunnel",
+	"name": "The Hidden Tunnel",
+	"mood": "Close and glowing: roots in the ceiling, old lamps, someone left a blanket",
+	"size": [48, 40],
+	"ground": {"kind": "dirt"},
+	"spawn": [-16, 12],
+	"entries": {"cave_mouth": [-16, 12]},
+	"edge": {"kind": "none"},
+	"paths": [
+		{"kind": "dirt", "width": 2.6, "points": [[-20, 12], [-8, 8], [2, 0], [12, -6], [18, -10]]}
+	],
+	"landmarks": [
+		{"id": "START-HERO-TUNNEL-ARCH", "kind": "arch", "pos": [18, -14], "size": [7, 5, 1.2], "color": "#6a5a48", "accent": "#a8c3c9"},
+		{"id": "wall_n", "kind": "box", "pos": [0, -18], "size": [44, 6, 2.0], "color": "#5a5248"},
+		{"id": "wall_s", "kind": "box", "pos": [0, 18], "size": [44, 6, 2.0], "color": "#5a5248"},
+		{"id": "wall_w", "kind": "box", "pos": [-22, 0], "size": [2.0, 6, 34], "color": "#5a5248"},
+		{"id": "wall_e", "kind": "box", "pos": [22, 0], "size": [2.0, 6, 34], "color": "#5a5248"}
+	],
+	"clusters": [
+		{"name": "crates", "pos": [-4, -10], "yaw": 0},
+		{"name": "barrel_pair", "pos": [8, 8], "yaw": 0}
+	],
+	"flowers": [{"pos": [6, -2], "radius": 2.5, "cells": [5, 5], "count": 16}],
+	"flora": "off",
+	"poi": [
+		{"id": "ht_chest", "type": "chest", "pos": [-14, -10], "tier": "large", "title": "Forgotten Strongbox"},
+		{"id": "ht_note", "type": "lore", "pos": [2, 6], "title": "Scratched Tally", "lines": ["Tally marks go along the wall in fives, thousands of them. Beside the last group someone has drawn a small, careful sun."]},
+		{"id": "ht_shrine", "type": "shrine", "pos": [14, 6], "title": "Lantern Shrine", "color": "#6a5a48", "glow": "#e8b86b"},
+		{"id": "ht_vista", "type": "vista", "pos": [8, -10], "title": "Glow Roots", "lines": ["The roots overhead hold a faint blue light, like a sky that decided to grow downward."]}
+	],
+	"exits": [
+		{"id": "to_cave", "to": "cave_mouth", "pos": [-20, 14], "label": "Cave Mouth", "yaw": 90}
+	]
+}

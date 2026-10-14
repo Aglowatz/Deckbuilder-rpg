@@ -1,0 +1,41 @@
+{
+	"id": "cave_mouth",
+	"name": "Cave Mouth",
+	"mood": "Cool and watchful: stone, ferns, a dark opening that breathes out",
+	"size": [60, 56],
+	"ground": {"kind": "dirt"},
+	"spawn": [0, 22],
+	"entries": {"mossy_hollow": [-24, 4]},
+	"edge": {"kind": "pine", "kinds": ["pine", "oak"], "spacing": 6.0, "scale": [1.05, 1.25]},
+	"paths": [
+		{"kind": "dirt", "width": 3.0, "points": [[0, 27], [0, 14], [2, 0], [0, -14]]},
+		{"kind": "dirt", "width": 2.4, "points": [[2, 0], [-12, 2], [-24, 4], [-28, 4]]}
+	],
+	"landmarks": [
+		{"id": "START-HERO-CAVE-MOUTH", "kind": "cliff", "pos": [0, -24], "size": [30, 12, 8], "color": "#7a7a70", "accent": "#3f5e3a"},
+		{"id": "cave_hole", "kind": "arch", "pos": [0, -18.5], "size": [8, 6, 1.0], "color": "#2a2a30", "accent": "#5a5a52"},
+		{"id": "ruined_shrine", "kind": "shrine", "pos": [-16, -8], "size": [2.4, 3.2, 2.4], "color": "#8a9a7a", "glow": "#a8c3c9", "accent": "#5a5a52"},
+		{"id": "boulder_a", "kind": "cliff", "pos": [-21, 13], "size": [18, 3.6, 2.4], "color": "#7a7a70", "accent": "#5a5a52", "barrier": "tunnel_rock"},
+		{"id": "boulder_b", "kind": "cliff", "pos": [-13, 21], "size": [2.4, 3.6, 16], "color": "#7a7a70", "accent": "#5a5a52", "barrier": "tunnel_rock"}
+	],
+	"scatter": [
+		{"kind": "tree", "name": "pine", "count": 14, "scale": [1.0, 1.25]},
+		{"kind": "tree", "name": "oak", "count": 6, "scale": [0.95, 1.2]},
+		{"kind": "prop", "name": "bush", "count": 8, "grouped": true}
+	],
+	"flowers": [
+		{"pos": [-8, 8], "radius": 4.0, "cells": [5, 5, 0], "count": 26}, {"pos": [12, -4], "radius": 4.0, "cells": [5, 1, 5], "count": 24}
+	],
+	"poi": [
+		{"id": "cm_chest", "type": "chest", "pos": [20, -12], "tier": "small", "title": "Pilgrim Cache"},
+		{"id": "cm_marker", "type": "lore", "pos": [8, 12], "title": "Cave Marker", "lines": ["Scratched into the stone, over and over by different hands: do not go in hungry. Do not go in alone. Do not go in angry."]},
+		{"id": "cm_lever", "type": "shortcut", "pos": [-8, 14], "title": "Hidden Lever", "opens": "tunnel_rock", "prompt": "Pull the hidden lever"},
+		{"id": "cm_vista", "type": "vista", "pos": [10, -8], "title": "Before the Dark", "lines": ["The cave breathes out, steady and cool, and your lamp flame leans toward the way in as if it wants to go first."]},
+		{"id": "cm_shrine", "type": "shrine", "pos": [-16, -14], "title": "Ruined Shrine", "color": "#8a9a7a", "glow": "#a8c3c9"}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_cave", "pos": [0, 27], "label": "The Clearing", "yaw": 0},
+		{"id": "to_hollow", "to": "mossy_hollow", "pos": [-30, 4], "label": "Mossy Hollow", "yaw": 90},
+		{"id": "to_tunnel", "to": "hidden_tunnel", "pos": [-26, 22], "label": "Hidden Tunnel", "yaw": 90, "requires": "sa_starting_forest_cave_mouth_cm_lever", "locked_text": "A boulder fills the gap."}
+	]
+}

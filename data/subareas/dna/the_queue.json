@@ -1,0 +1,40 @@
+{
+	"id": "the_queue",
+	"name": "The Queue",
+	"mood": "Patient to the point of geology: a line that began before the building and has no intention of finishing",
+	"size": [76, 56],
+	"ground": {"kind": "cobble"},
+	"spawn": [-28, 18],
+	"entries": {"cubicle_fields": [32, 6], "records_basement": [-34, 6]},
+	"edge": {"kind": "none"},
+	"paths": [
+		{"kind": "cobble", "width": 4.0, "points": [[-32, 18], [-16, 12], [0, 6], [16, 6], [32, 6]]}
+	],
+	"landmarks": [
+		{"id": "DNA-HERO-ENDLESS-QUEUE", "kind": "colonnade", "pos": [0, -14], "size": [56, 3.0, 2.0], "color": "#c9c6b8", "accent": "#8a2e2e"},
+		{"id": "rope_row_a", "kind": "colonnade", "pos": [0, 0], "size": [44, 1.2, 0.6], "color": "#8a2e2e", "accent": "#3d4a44"},
+		{"id": "window_wall", "kind": "facade", "pos": [30, -22], "size": [18, 9, 5], "color": "#6e7470", "accent": "#3d4a44"},
+		{"id": "ticket_machine", "kind": "box", "pos": [-20, 6], "size": [1.4, 2.0, 1.0], "color": "#8a2e2e"}
+	],
+	"clusters": [
+		{"name": "bench_nook", "pos": [-12, 22], "yaw": 0},
+		{"name": "bench_nook", "pos": [10, 20], "yaw": 0}
+	],
+	"scatter": [
+		{"kind": "prop", "name": "bush", "count": 6, "grouped": true},
+		{"kind": "prop", "name": "lantern_post", "count": 5}
+	],
+	"flora": "off",
+	"poi": [
+		{"id": "q_chest", "type": "chest", "pos": [-30, -18], "tier": "medium", "title": "Lost Property"},
+		{"id": "q_sign", "type": "lore", "pos": [-6, 12], "title": "Number Board", "lines": ["NOW SERVING: nobody. NEXT: nobody. PLEASE HOLD ON TO YOUR NUMBER. The board has been on 0 since before the board."]},
+		{"id": "q_waiter", "type": "vignette", "pos": [6, 2], "title": "Veteran of the Line", "model": "Knight", "tint": "#b8b8a8", "yaw": 180, "lines": ["I am number 4,008,113. The woman in front of me was number 3. She got to the front and waited some more.", "Do not let anyone tell you the Queue moves. It is us who move, slowly, in the right direction."]},
+		{"id": "q_shrine", "type": "shrine", "pos": [26, 18], "title": "Patience Shrine", "color": "#c9c6b8", "glow": "#9bb59a"},
+		{"id": "q_vista", "type": "vista", "pos": [-34, -4], "title": "End of the Line", "lines": ["Looking back along it you cannot see where it ends. Looking forward, you cannot see where it begins. You are somewhere in the middle, as ever."]}
+	],
+	"exits": [
+		{"id": "to_hub", "to": "hub", "gate": "gate_queue", "pos": [-36, 18], "label": "Lobby Plaza", "yaw": 90},
+		{"id": "to_cubicles", "to": "cubicle_fields", "pos": [36, 6], "label": "Cubicle Fields", "yaw": -90},
+		{"id": "to_records", "to": "records_basement", "pos": [-36, 6], "label": "Records Basement", "yaw": 90}
+	]
+}

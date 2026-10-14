@@ -992,6 +992,8 @@ func location_name() -> String:
 		return "Crosspath"
 	if scene is StartingAreaScene:
 		return "The Forest Clearing"
+	if scene is SubAreaScene and (scene as SubAreaScene).data.size() > 0:
+		return str((scene as SubAreaScene).data.get("name", last_location))
 	return last_location
 
 
@@ -1001,6 +1003,9 @@ func scene_kind() -> String:
 	var scene: Node = tree.current_scene if tree != null else null
 	if scene is ZoneScene and (scene as ZoneScene).def != null:
 		return "zone:%s" % (scene as ZoneScene).def.id
+	if scene is SubAreaScene and flag(&"trial_cleared"):
+		var sub_scene: SubAreaScene = scene as SubAreaScene
+		return SubAreaDefs.token(sub_scene.area_id, sub_scene.sub_id)
 	if scene is StartingAreaScene or not flag(&"trial_cleared"):
 		return "start"
 	return "town"
@@ -1014,7 +1019,7 @@ func can_save_now() -> bool:
 	var scene: Node = tree.current_scene if tree != null else null
 	if scene == null:
 		return true
-	return scene is TownScene or scene is ZoneScene or scene is StartingAreaScene or scene is ZonePlaceholderScene
+	return scene is TownScene or scene is ZoneScene or scene is StartingAreaScene or scene is ZonePlaceholderScene or scene is SubAreaScene
 
 
 ## A screenshot of the game for the slot list (null in a headless run).
@@ -1065,6 +1070,15 @@ func resume_loaded_game() -> void:
 		SceneManager.go_to_start_area()
 	elif kind.begins_with("zone:") and ZoneDefs.has_def(kind.trim_prefix("zone:")):
 		enter_zone(kind.trim_prefix("zone:"))
+	elif not SubAreaDefs.parse_token(kind).is_empty():
+		var parts: Array[String] = SubAreaDefs.parse_token(kind)
+		var sub_zone: String = SubAreaDefs.zone_id(parts[0])
+		if sub_zone != "" and ZoneDefs.has_def(sub_zone):
+			begin_zone_visit(sub_zone)
+			pending_zone_result = {}
+		else:
+			arrive_in_town()
+		SubAreaScene.enter(parts[0], parts[1], "")
 	else:
 		SceneManager.go_to_town()
 
@@ -1222,6 +1236,9 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 ## Where the hero stood in town when a duel started (an NPC challenge, the Graveyard, the Arena), so town puts them back there.
 var town_return_position: Vector3 = Vector3.ZERO
 var has_town_return_position: bool = false
+## The same for the starting forest: where a sub-area puts the hero back (read once by `StartingAreaScene`).
+var start_return_position: Vector3 = Vector3.ZERO
+var has_start_return_position: bool = false
 
 
 func start_battle(context: BattleContext) -> void:

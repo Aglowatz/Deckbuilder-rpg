@@ -1,0 +1,15 @@
+{
+	"_about": "The Endless Buffet. Hub = the existing Grand Dining Hall scene (the soup rivers, butte, cheddar cliffs, pancake meadow, gates stay in it). Four sub-area scenes. Plan: docs/zone_plans/buffet.md",
+	"area": "buffet",
+	"zone_id": "gourmand",
+	"preset": "buffet",
+	"name": "The Endless Buffet",
+	"hub_name": "Grand Dining Hall",
+	"hub_scene": "res://scenes/buffet_zone.tscn",
+	"subareas": ["mashed_potato_hills", "broccoli_forest", "bakery_district", "omakase_cliffs"],
+	"gates": [
+		{"id": "gate_bakery", "sub": "bakery_district", "label": "Bakery District", "pos": [72.5, 71.5], "yaw": 0.0, "return": [72.5, 68.5]},
+		{"id": "gate_broccoli", "sub": "broccoli_forest", "label": "Broccoli Forest", "pos": [22.0, 66.0], "yaw": 90.0, "return": [25.0, 66.0]},
+		{"id": "gate_potato", "sub": "mashed_potato_hills", "label": "Mashed Potato Hills", "pos": [82.0, 56.0], "yaw": -90.0, "return": [78.5, 55.8]}
+	]
+}
