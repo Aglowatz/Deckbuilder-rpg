@@ -295,8 +295,15 @@ static func _stair(mesh: KitMesh, size: Vector3, circles: Array[Vector3]) -> voi
 static func _island(mesh: KitMesh, size: Vector3, circles: Array[Vector3]) -> void:
 	var r: float = size.x * 0.5
 	var lift: float = size.y
-	mesh.lathe("main", Vector3(0, lift, 0), [Vector2(r, 0.0), Vector2(r * 0.92, -0.4), Vector2(r * 0.6, -size.y * 0.9), Vector2(r * 0.15, -size.y * 1.7)], 14, 0.9, false, false)
-	mesh.lathe("accent", Vector3(0, lift, 0), [Vector2(0.0, 0.0), Vector2(r, 0.0)], 14, 0.9, false, true)
+	mesh.lathe("main", Vector3(0, lift, 0), [Vector2(r, 0.0), Vector2(r * 0.96, -0.5), Vector2(r * 0.72, -size.y * 0.8), Vector2(r * 0.42, -size.y * 1.3), Vector2(r * 0.1, -size.y * 1.6)], 14, 0.9, false, false)
+	# a domed grass top, rock lumps round the rim and underneath, vines hanging off the edge
+	mesh.blob("accent", Vector3(0, lift - 0.2, 0), Vector3(r, 0.5, r), 3, 14, 1.0)
+	for index: int in range(6):
+		var a: float = float(index) * 1.05 + 0.4
+		mesh.blob("main", Vector3(cos(a) * r * 0.86, lift - 0.4 - float(index % 3) * 0.3, sin(a) * r * 0.86), Vector3(r * 0.26, r * 0.2, r * 0.24), 3, 7, 0.85)
+		var from: Vector3 = Vector3(cos(a + 0.5) * r * 0.95, lift - 0.1, sin(a + 0.5) * r * 0.95)
+		mesh.tube("accent", from, from - Vector3(0, 0.8 + float(index % 3) * 0.5, 0), 0.07, 4, true)
+	mesh.blob("main", Vector3(0, lift - size.y * 1.35, 0), Vector3(r * 0.3, r * 0.35, r * 0.3), 4, 8, 0.8)
 
 
 static func _cliff(mesh: KitMesh, size: Vector3, circles: Array[Vector3]) -> void:

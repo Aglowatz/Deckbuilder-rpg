@@ -21,8 +21,7 @@
 		{"name": "fence_garden", "pos": [4, 16], "yaw": 0},
 		{"name": "sunflower_bed", "pos": [-2, -12], "yaw": 160},
 		{"name": "sunflower_fence", "pos": [18, -6], "yaw": 200},
-		{"name": "sunflower_bed", "pos": [8, 8], "yaw": 20},
-		{"name": "banner_lamp", "pos": [10, 0], "yaw": 0}
+		{"name": "sunflower_bed", "pos": [8, 8], "yaw": 20}
 	],
 	"scatter": [
 		{"kind": "tree", "name": "fruit", "count": 9, "scale": [0.9, 1.3]},

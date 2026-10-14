@@ -289,9 +289,10 @@ static func _swolympus(root: Node3D, mesh: KitMesh, size: Vector3, circles: Arra
 		profile.append(Vector2(row.x * rx, row.y * size.y * 0.82))
 	var mountain: KitMesh = KitMesh.new()
 	_materials(mountain)
-	mountain.set_material("rock", EnvKit.material("TEX-GAIN-ISLANDROCK", false, Color(0.8, 0.84, 0.92)))
-	mountain.set_material("rock_dark", EnvKit.material("TEX-GAIN-ISLANDROCK", false, Color(0.56, 0.58, 0.68)))
-	mountain.set_material("rock_light", EnvKit.material("TEX-GAIN-ISLANDROCK", false, Color(0.96, 0.97, 1.0)))
+	# pale limestone like the concept: the kit fieldstone at a mountain-sized tile (one stone course per 7 m), cream in the sun, cool in the hollows
+	mountain.set_material("rock", _big_stone(Color(1.0, 0.97, 0.9), 12.0))
+	mountain.set_material("rock_dark", _big_stone(Color(0.72, 0.74, 0.84), 10.0))
+	mountain.set_material("rock_light", _big_stone(Color(1.0, 1.0, 0.98), 13.0))
 	mountain.lathe("rock", Vector3.ZERO, profile, 18, 0.8, true, true)
 	# big outcrops and shoulders break the cone; grassy ledges sit in the hollows between them; a grass skirt melts the foot into the meadow
 	for index: int in range(11):
@@ -366,6 +367,13 @@ static func _swolympus(root: Node3D, mesh: KitMesh, size: Vector3, circles: Arra
 	for side: float in [-1.0, 1.0]:
 		circles.append(Vector3(side * rx * 0.42, 0.0, rx * 0.3))
 	circles.append(Vector3(0.0, -rx * 0.3 * squash, rx * 0.4))
+
+
+static func _big_stone(tint: Color, tile: float) -> StandardMaterial3D:
+	var material: StandardMaterial3D = EnvKit.material("ENV-WALL-FOUNDATION", false, tint).duplicate() as StandardMaterial3D
+	material.uv1_scale = Vector3(1.0 / tile, 1.0 / (tile * 0.5), 1.0)
+	material.normal_scale = 0.4
+	return material
 
 
 # ---- The Trailhead Gate: cream stone towers with torches and bells, a stone arch, banners and rope posts ---------------------------------------------------------

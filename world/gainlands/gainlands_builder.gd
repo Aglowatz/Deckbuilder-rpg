@@ -360,8 +360,10 @@ func _build_props() -> void:
 			"tree":
 				# painted tree cards of the zone kit (TreeCards "oak" / "pine" swap to GAIN-TREE-OAK / -PINE): 2.5 - 4 heroes tall (G-01)
 				var hub_distance: float = Vector2(pos.x - 52.0, pos.z - 64.0).length()
-				var near: float = clampf((hub_distance - 10.0) / 16.0, 0.0, 1.0)
-				(tree_transforms[prop.variant % 2] as Array).append({"pos": pos, "scale": lerpf(0.55, clampf(prop.model_scale * 0.72, 0.8, 1.15), near)})
+				var near: float = clampf((hub_distance - 10.0) / 24.0, 0.0, 1.0)
+				# the paint-over keeps the hub open: small pines near the Station (whatever the layout variant), oaks and pines at full size out in the fields
+				var variant: int = 1 if hub_distance < 20.0 else prop.variant % 2
+				(tree_transforms[variant] as Array).append({"pos": pos, "scale": lerpf(0.5, clampf(prop.model_scale * 0.72, 0.8, 1.15), near)})
 			"boulder":
 				var rock_scale: float = prop.model_scale * (1.9 if prop.radius > 0.9 else 1.35)
 				var rock_basis: Basis = Basis(Vector3.UP, deg_to_rad(prop.yaw)).scaled(Vector3.ONE * rock_scale)
