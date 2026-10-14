@@ -3097,7 +3097,7 @@ Version 0.3.0 in `project.godot` and the export presets; new `FeedbackReport` / 
 
 Answers to the overnight questions: characters stay at 1.7 m; splitting the existing hub regions is later (`docs/backlog.md`, "Later"); sub-area gates use icons (OD-13..OD-17 in `docs/design/open_questions.md`).
 
-**Windowed smokes run one at a time** (1500 GUT tests pass):
+**Windowed smokes run one at a time** (1496 GUT tests pass; the commit message says 1501 by mistake):
 
 | Area | Smoke | Result |
 |---|---|---|
