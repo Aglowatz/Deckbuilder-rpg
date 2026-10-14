@@ -1,0 +1,1961 @@
+{
+	"_about": "Written by tools/import_zone_kit.gd from data/source/gainlands_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/Gainlands: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/gainlands/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
+	"density": 400,
+	"items": {
+		"DEC-CHALK": {
+			"id": "DEC-CHALK",
+			"zone": "gainlands",
+			"lock": "CUTOUT",
+			"group": "decal",
+			"slot": "decal.dec-chalk",
+			"placeholder": "dec:chalk",
+			"tinted": false,
+			"alias": true,
+			"aspect": 1,
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"desc": "Chalk marks (painted decal set)",
+			"asset": "Chalk marks",
+			"category": "Painted decal (alias)",
+			"sheet_status": "in game (data/source/textures.csv)"
+		},
+		"GAIN-BD-ISLANDS": {
+			"aspect": 3.556,
+			"asset": "Floating islands backdrop",
+			"category": "Sky / backdrop",
+			"desc": "Islands in the sky, transparent sky above.",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "GAIN-BD-ISLANDS",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				576
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG, transparent",
+			"slot": "backdrop.gain-bd-islands",
+			"tinted": false,
+			"transparent": true,
+			"use": "Backdrop ring (sky garden and hub)",
+			"zone": "gainlands"
+		},
+		"GAIN-BD-MOUNT": {
+			"aspect": 2.897,
+			"asset": "Mount Swolympus backdrop",
+			"category": "Sky / backdrop",
+			"desc": "Giant mountain with a dumbbell-shaped cloud, transparent sky above.",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "GAIN-BD-MOUNT",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				707
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG, transparent",
+			"slot": "backdrop.gain-bd-mount",
+			"tinted": false,
+			"transparent": true,
+			"use": "Backdrop ring (north)",
+			"zone": "gainlands"
+		},
+		"GAIN-DEC-PLATES": {
+			"aspect": 1.049,
+			"asset": "Dropped plates",
+			"category": "Decal",
+			"cleared_alpha": 17695,
+			"desc": "Scattered weight plates. Top-down, transparent soft edge.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "decal",
+			"id": "GAIN-DEC-PLATES",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"priority": "3",
+			"px": [
+				951,
+				907
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "decal.gain-dec-plates",
+			"tinted": false,
+			"use": "Ground decal",
+			"zone": "gainlands"
+		},
+		"GAIN-DEC-SWEAT": {
+			"aspect": 1.098,
+			"asset": "Sweat marks",
+			"category": "Decal",
+			"cleared_alpha": 59949,
+			"desc": "Dark mat stains. Top-down, transparent soft edge.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "decal",
+			"id": "GAIN-DEC-SWEAT",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"priority": "3",
+			"px": [
+				849,
+				773
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "decal.gain-dec-sweat",
+			"tinted": false,
+			"use": "Ground decal",
+			"zone": "gainlands"
+		},
+		"GAIN-DEC-TREAD": {
+			"aspect": 0.838,
+			"asset": "Tyre tread",
+			"category": "Decal",
+			"cleared_alpha": 55733,
+			"desc": "Tread marks in dirt. Top-down, transparent soft edge.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "decal",
+			"id": "GAIN-DEC-TREAD",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"priority": "3",
+			"px": [
+				804,
+				960
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "decal.gain-dec-tread",
+			"tinted": false,
+			"use": "Ground decal (wheel ruts)",
+			"zone": "gainlands"
+		},
+		"GAIN-HERO-CHAMPIONS-ARCH": {
+			"asset": "Hero landmark: Champions Arch",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-CHAMPIONS-ARCH.jpg",
+			"desc": "Concept art of the champions arch for The Proving Grounds, 3/4 view, about 12.0 x 8.0 x 1.6 m at storybook scale (a person is 1.7 m), clear silhouette.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-CHAMPIONS-ARCH",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.gain-hero-champions-arch",
+			"tinted": false,
+			"use": "Replaces the arch stand-in in proving_grounds",
+			"zone": "gainlands"
+		},
+		"GAIN-HERO-SKY-TREE": {
+			"asset": "Hero landmark: Sky Tree",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-SKY-TREE.jpg",
+			"desc": "Concept art of the sky tree for The Sky Garden (secret), 3/4 view, about 18.0 x 16.0 x 18.0 m at storybook scale (a person is 1.7 m), clear silhouette.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-SKY-TREE",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.gain-hero-sky-tree",
+			"tinted": false,
+			"use": "Replaces the giant_tree stand-in in sky_garden",
+			"zone": "gainlands"
+		},
+		"GAIN-HERO-SWOLE-STATION": {
+			"asset": "Hero landmark: Swole Station",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-SWOLE-STATION.jpg",
+			"desc": "Concept art of the Swole Station hub platform (rift platform, banner posts, lanterns, protein stall), 3/4 view, about 10.0 x 6.0 x 8.0 m at storybook scale (a person is 1.7 m), clear silhouette.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-SWOLE-STATION",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.gain-hero-swole-station",
+			"tinted": false,
+			"use": "Replaces the tavern stand-in in the Gainlands hub",
+			"zone": "gainlands"
+		},
+		"GAIN-HERO-SWOLYMPUS": {
+			"asset": "Hero landmark: Swolympus",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-SWOLYMPUS.jpg",
+			"desc": "Concept art of Mount Swolympus for the Trailhead, 3/4 view, about 38.0 x 30.0 x 22.0 m at storybook scale (a person is 1.7 m), clear silhouette.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-SWOLYMPUS",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.gain-hero-swolympus",
+			"tinted": false,
+			"use": "Replaces the mound stand-in in swolympus_trailhead",
+			"zone": "gainlands"
+		},
+		"GAIN-HERO-TRAILHEAD-GATE": {
+			"asset": "Hero landmark: Trailhead Gate",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-TRAILHEAD-GATE.jpg",
+			"desc": "Concept art of the trailhead gate, 3/4 view, about 10.0 x 7.0 x 1.4 m at storybook scale (a person is 1.7 m), clear silhouette.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-TRAILHEAD-GATE",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.gain-hero-trailhead-gate",
+			"tinted": false,
+			"use": "Replaces the arch stand-in in swolympus_trailhead",
+			"zone": "gainlands"
+		},
+		"GAIN-HERO-WHEEL": {
+			"asset": "Hero landmark: Wheel",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-WHEEL.jpg",
+			"desc": "Concept art of the wheel for Mill Fields, 3/4 view, about 14.0 x 14.0 x 6.0 m at storybook scale (a person is 1.7 m), clear silhouette.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-WHEEL",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.gain-hero-wheel",
+			"tinted": false,
+			"use": "Replaces the wheel stand-in in mill_fields (turns slowly)",
+			"zone": "gainlands"
+		},
+		"GAIN-PATH-CHALK": {
+			"asset": "Chalk track",
+			"category": "Surface",
+			"desc": "White chalk line track over dirt.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "ground",
+			"id": "GAIN-PATH-CHALK",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.13,
+					"before": 1.82
+				},
+				"y": {
+					"after": 1.24,
+					"before": 1.24
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "ground.gain-path-chalk",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (path)",
+			"zone": "gainlands"
+		},
+		"GAIN-PLANT-HAY": {
+			"aspect": 1.221,
+			"asset": "Hay bale stack",
+			"category": "Tree / plant",
+			"cleared_alpha": 17955,
+			"desc": "Round hay bales stacked.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "tree",
+			"id": "GAIN-PLANT-HAY",
+			"lock": "TREE",
+			"pivot": [
+				0.506,
+				1
+			],
+			"priority": "2",
+			"px": [
+				971,
+				795
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.gain-plant-hay",
+			"tinted": false,
+			"use": "Plant card near mills and wheels",
+			"zone": "gainlands",
+			"height": 1.9
+		},
+		"GAIN-PLANT-SUNFLOWER": {
+			"aspect": 0.804,
+			"asset": "Sunflower patch",
+			"category": "Tree / plant",
+			"cleared_alpha": 67170,
+			"desc": "Cluster of tall sunflowers.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "GAIN-PLANT-SUNFLOWER",
+			"lock": "TREE",
+			"pivot": [
+				0.586,
+				1
+			],
+			"priority": "2",
+			"px": [
+				1004,
+				1249
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.gain-plant-sunflower",
+			"tinted": false,
+			"use": "Plant card in clumps along paths and fences",
+			"zone": "gainlands",
+			"height": 2.1
+		},
+		"GAIN-PROP-CATAPULT": {
+			"aspect": 1.097,
+			"asset": "Throwing catapult",
+			"category": "Prop",
+			"cleared_alpha": 11975,
+			"desc": "Wooden catapult with a leather cradle.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-CATAPULT",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "3",
+			"px": [
+				982,
+				895
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.gain-prop-catapult",
+			"tinted": false,
+			"use": "Prop in clusters",
+			"zone": "gainlands",
+			"height": 2.6
+		},
+		"GAIN-PROP-DUMBBELL": {
+			"aspect": 1.824,
+			"asset": "Dumbbell",
+			"category": "Prop",
+			"cleared_alpha": 7547,
+			"desc": "Oversized iron dumbbell.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-DUMBBELL",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "3",
+			"px": [
+				1014,
+				556
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.gain-prop-dumbbell",
+			"tinted": false,
+			"use": "Prop in clusters",
+			"zone": "gainlands",
+			"height": 0.95
+		},
+		"GAIN-PROP-KETTLEBELL": {
+			"aspect": 0.959,
+			"asset": "Kettlebell cluster",
+			"category": "Prop",
+			"cleared_alpha": 12081,
+			"desc": "Kettlebells in red and black.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-KETTLEBELL",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "3",
+			"px": [
+				889,
+				927
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.gain-prop-kettlebell",
+			"tinted": false,
+			"use": "Prop in clusters",
+			"zone": "gainlands",
+			"height": 0.9
+		},
+		"GAIN-PROP-PROTEIN": {
+			"aspect": 1.111,
+			"asset": "Protein stand",
+			"category": "Prop",
+			"cleared_alpha": 28677,
+			"desc": "Cart stand with shakers.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-PROTEIN",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "3",
+			"px": [
+				1012,
+				911
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.gain-prop-protein",
+			"tinted": false,
+			"use": "Prop in clusters",
+			"zone": "gainlands",
+			"height": 2.3
+		},
+		"GAIN-PROP-RACK": {
+			"aspect": 1.085,
+			"asset": "Weight rack",
+			"category": "Prop",
+			"cleared_alpha": 16297,
+			"desc": "Weight rack with plates.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-RACK",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "3",
+			"px": [
+				991,
+				913
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.gain-prop-rack",
+			"tinted": false,
+			"use": "Prop in clusters",
+			"zone": "gainlands",
+			"height": 1.9
+		},
+		"GAIN-ROOF-CANVAS": {
+			"asset": "Striped canvas roof",
+			"category": "Surface",
+			"desc": "Red and cream striped canvas on rope.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "roof",
+			"id": "GAIN-ROOF-CANVAS",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.11,
+					"before": 7.61
+				},
+				"y": {
+					"after": 1.29,
+					"before": 1.7
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "roof.gain-roof-canvas",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (roof)",
+			"zone": "gainlands"
+		},
+		"GAIN-ROOF-RED": {
+			"asset": "Red-gold tile roof",
+			"category": "Surface",
+			"desc": "Red clay tiles with a gold ridge line.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "roof",
+			"id": "GAIN-ROOF-RED",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.23,
+					"before": 10.28
+				},
+				"y": {
+					"after": 0.59,
+					"before": 4.9
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "roof.gain-roof-red",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (roof)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-BANNERS": {
+			"asset": "Red-gold banners",
+			"category": "Cutout sheet",
+			"desc": "6 banners with bold emblem shapes (dumbbell, flexed arm, sun, laurel, fist, wheel), 3x2 grid.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "banner",
+			"id": "GAIN-SHEET-BANNERS",
+			"lock": "SHEET",
+			"parts": [
+				"GAIN-SHEET-BANNERS-01",
+				"GAIN-SHEET-BANNERS-02",
+				"GAIN-SHEET-BANNERS-03",
+				"GAIN-SHEET-BANNERS-04",
+				"GAIN-SHEET-BANNERS-05",
+				"GAIN-SHEET-BANNERS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent, grid",
+			"slot": "banner.gain-sheet-banners",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (banners)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-BANNERS-01": {
+			"aspect": 0.924,
+			"asset": "Red-gold banners 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 8566,
+			"desc": "6 banners with bold emblem shapes (dumbbell, flexed arm, sun, laurel, fist, wheel), 3x2 grid.",
+			"from_px": [
+				526,
+				569
+			],
+			"group": "banner",
+			"id": "GAIN-SHEET-BANNERS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				526,
+				569
+			],
+			"sheet_cell": [
+				93,
+				44,
+				526,
+				569
+			],
+			"slot": "banner.gain-sheet-banners-01",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (banners)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-BANNERS-02": {
+			"aspect": 0.925,
+			"asset": "Red-gold banners 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 8526,
+			"desc": "6 banners with bold emblem shapes (dumbbell, flexed arm, sun, laurel, fist, wheel), 3x2 grid.",
+			"from_px": [
+				529,
+				572
+			],
+			"group": "banner",
+			"id": "GAIN-SHEET-BANNERS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				529,
+				572
+			],
+			"sheet_cell": [
+				754,
+				46,
+				529,
+				572
+			],
+			"slot": "banner.gain-sheet-banners-02",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (banners)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-BANNERS-03": {
+			"aspect": 0.938,
+			"asset": "Red-gold banners 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 9620,
+			"desc": "6 banners with bold emblem shapes (dumbbell, flexed arm, sun, laurel, fist, wheel), 3x2 grid.",
+			"from_px": [
+				528,
+				563
+			],
+			"group": "banner",
+			"id": "GAIN-SHEET-BANNERS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				528,
+				563
+			],
+			"sheet_cell": [
+				1425,
+				46,
+				528,
+				563
+			],
+			"slot": "banner.gain-sheet-banners-03",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (banners)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-BANNERS-04": {
+			"aspect": 0.943,
+			"asset": "Red-gold banners 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 9423,
+			"desc": "6 banners with bold emblem shapes (dumbbell, flexed arm, sun, laurel, fist, wheel), 3x2 grid.",
+			"from_px": [
+				528,
+				560
+			],
+			"group": "banner",
+			"id": "GAIN-SHEET-BANNERS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				528,
+				560
+			],
+			"sheet_cell": [
+				93,
+				733,
+				528,
+				560
+			],
+			"slot": "banner.gain-sheet-banners-04",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (banners)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-BANNERS-05": {
+			"aspect": 0.952,
+			"asset": "Red-gold banners 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 9105,
+			"desc": "6 banners with bold emblem shapes (dumbbell, flexed arm, sun, laurel, fist, wheel), 3x2 grid.",
+			"from_px": [
+				532,
+				559
+			],
+			"group": "banner",
+			"id": "GAIN-SHEET-BANNERS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				532,
+				559
+			],
+			"sheet_cell": [
+				762,
+				734,
+				532,
+				559
+			],
+			"slot": "banner.gain-sheet-banners-05",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (banners)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-BANNERS-06": {
+			"aspect": 0.941,
+			"asset": "Red-gold banners 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 8907,
+			"desc": "6 banners with bold emblem shapes (dumbbell, flexed arm, sun, laurel, fist, wheel), 3x2 grid.",
+			"from_px": [
+				528,
+				561
+			],
+			"group": "banner",
+			"id": "GAIN-SHEET-BANNERS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-BANNERS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				528,
+				561
+			],
+			"sheet_cell": [
+				1425,
+				733,
+				528,
+				561
+			],
+			"slot": "banner.gain-sheet-banners-06",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (banners)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-DOORS": {
+			"asset": "Gym and mill doors",
+			"category": "Cutout sheet",
+			"desc": "6 sturdy doors in a 3x2 grid with clear gaps: iron-banded plank, double barn, brick arch, roll door, brass-studded, striped canvas flap.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "door",
+			"id": "GAIN-SHEET-DOORS",
+			"lock": "SHEET",
+			"parts": [
+				"GAIN-SHEET-DOORS-01",
+				"GAIN-SHEET-DOORS-02",
+				"GAIN-SHEET-DOORS-03",
+				"GAIN-SHEET-DOORS-04",
+				"GAIN-SHEET-DOORS-05",
+				"GAIN-SHEET-DOORS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent, grid",
+			"slot": "door.gain-sheet-doors",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (doors)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-DOORS-01": {
+			"aspect": 0.926,
+			"asset": "Gym and mill doors 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 10293,
+			"desc": "6 sturdy doors in a 3x2 grid with clear gaps: iron-banded plank, double barn, brick arch, roll door, brass-studded, striped canvas flap.",
+			"from_px": [
+				503,
+				543
+			],
+			"group": "door",
+			"id": "GAIN-SHEET-DOORS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				503,
+				543
+			],
+			"sheet_cell": [
+				79,
+				71,
+				503,
+				543
+			],
+			"slot": "door.gain-sheet-doors-01",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (doors)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-DOORS-02": {
+			"aspect": 1.232,
+			"asset": "Gym and mill doors 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 18229,
+			"desc": "6 sturdy doors in a 3x2 grid with clear gaps: iron-banded plank, double barn, brick arch, roll door, brass-studded, striped canvas flap.",
+			"from_px": [
+				674,
+				547
+			],
+			"group": "door",
+			"id": "GAIN-SHEET-DOORS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				674,
+				547
+			],
+			"sheet_cell": [
+				685,
+				66,
+				674,
+				547
+			],
+			"slot": "door.gain-sheet-doors-02",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (doors)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-DOORS-03": {
+			"aspect": 1.082,
+			"asset": "Gym and mill doors 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 11508,
+			"desc": "6 sturdy doors in a 3x2 grid with clear gaps: iron-banded plank, double barn, brick arch, roll door, brass-studded, striped canvas flap.",
+			"from_px": [
+				605,
+				559
+			],
+			"group": "door",
+			"id": "GAIN-SHEET-DOORS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				605,
+				559
+			],
+			"sheet_cell": [
+				1399,
+				63,
+				605,
+				559
+			],
+			"slot": "door.gain-sheet-doors-03",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (doors)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-DOORS-04": {
+			"aspect": 1.114,
+			"asset": "Gym and mill doors 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 11614,
+			"desc": "6 sturdy doors in a 3x2 grid with clear gaps: iron-banded plank, double barn, brick arch, roll door, brass-studded, striped canvas flap.",
+			"from_px": [
+				614,
+				551
+			],
+			"group": "door",
+			"id": "GAIN-SHEET-DOORS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				614,
+				551
+			],
+			"sheet_cell": [
+				53,
+				705,
+				614,
+				551
+			],
+			"slot": "door.gain-sheet-doors-04",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (doors)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-DOORS-05": {
+			"aspect": 0.924,
+			"asset": "Gym and mill doors 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 11259,
+			"desc": "6 sturdy doors in a 3x2 grid with clear gaps: iron-banded plank, double barn, brick arch, roll door, brass-studded, striped canvas flap.",
+			"from_px": [
+				508,
+				550
+			],
+			"group": "door",
+			"id": "GAIN-SHEET-DOORS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				508,
+				550
+			],
+			"sheet_cell": [
+				775,
+				702,
+				508,
+				550
+			],
+			"slot": "door.gain-sheet-doors-05",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (doors)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-DOORS-06": {
+			"aspect": 1.047,
+			"asset": "Gym and mill doors 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 16772,
+			"desc": "6 sturdy doors in a 3x2 grid with clear gaps: iron-banded plank, double barn, brick arch, roll door, brass-studded, striped canvas flap.",
+			"from_px": [
+				581,
+				555
+			],
+			"group": "door",
+			"id": "GAIN-SHEET-DOORS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				581,
+				555
+			],
+			"sheet_cell": [
+				1418,
+				702,
+				581,
+				555
+			],
+			"slot": "door.gain-sheet-doors-06",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (doors)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-SIGNS": {
+			"asset": "Icon signs",
+			"category": "Cutout sheet",
+			"desc": "6 hanging signs with icons only (dumbbell, apple, wheel, flame, boot, scroll) in a 3x2 grid.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "sign",
+			"id": "GAIN-SHEET-SIGNS",
+			"lock": "SHEET",
+			"parts": [
+				"GAIN-SHEET-SIGNS-01",
+				"GAIN-SHEET-SIGNS-02",
+				"GAIN-SHEET-SIGNS-03",
+				"GAIN-SHEET-SIGNS-04",
+				"GAIN-SHEET-SIGNS-05",
+				"GAIN-SHEET-SIGNS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent, grid",
+			"slot": "sign.gain-sheet-signs",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (signs)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-SIGNS-01": {
+			"aspect": 0.98,
+			"asset": "Icon signs 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 19131,
+			"desc": "6 hanging signs with icons only (dumbbell, apple, wheel, flame, boot, scroll) in a 3x2 grid.",
+			"from_px": [
+				594,
+				606
+			],
+			"group": "sign",
+			"id": "GAIN-SHEET-SIGNS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.493
+			],
+			"px": [
+				594,
+				606
+			],
+			"sheet_cell": [
+				37,
+				26,
+				594,
+				606
+			],
+			"slot": "sign.gain-sheet-signs-01",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (signs)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-SIGNS-02": {
+			"aspect": 0.998,
+			"asset": "Icon signs 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 20810,
+			"desc": "6 hanging signs with icons only (dumbbell, apple, wheel, flame, boot, scroll) in a 3x2 grid.",
+			"from_px": [
+				603,
+				604
+			],
+			"group": "sign",
+			"id": "GAIN-SHEET-SIGNS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.524
+			],
+			"px": [
+				603,
+				604
+			],
+			"sheet_cell": [
+				716,
+				27,
+				603,
+				604
+			],
+			"slot": "sign.gain-sheet-signs-02",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (signs)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-SIGNS-03": {
+			"aspect": 0.972,
+			"asset": "Icon signs 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 16999,
+			"desc": "6 hanging signs with icons only (dumbbell, apple, wheel, flame, boot, scroll) in a 3x2 grid.",
+			"from_px": [
+				588,
+				605
+			],
+			"group": "sign",
+			"id": "GAIN-SHEET-SIGNS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.52
+			],
+			"px": [
+				588,
+				605
+			],
+			"sheet_cell": [
+				1425,
+				29,
+				588,
+				605
+			],
+			"slot": "sign.gain-sheet-signs-03",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (signs)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-SIGNS-04": {
+			"aspect": 0.961,
+			"asset": "Icon signs 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 19422,
+			"desc": "6 hanging signs with icons only (dumbbell, apple, wheel, flame, boot, scroll) in a 3x2 grid.",
+			"from_px": [
+				585,
+				609
+			],
+			"group": "sign",
+			"id": "GAIN-SHEET-SIGNS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.5
+			],
+			"px": [
+				585,
+				609
+			],
+			"sheet_cell": [
+				36,
+				693,
+				585,
+				609
+			],
+			"slot": "sign.gain-sheet-signs-04",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (signs)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-SIGNS-05": {
+			"aspect": 0.987,
+			"asset": "Icon signs 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 20034,
+			"desc": "6 hanging signs with icons only (dumbbell, apple, wheel, flame, boot, scroll) in a 3x2 grid.",
+			"from_px": [
+				604,
+				612
+			],
+			"group": "sign",
+			"id": "GAIN-SHEET-SIGNS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.501
+			],
+			"px": [
+				604,
+				612
+			],
+			"sheet_cell": [
+				718,
+				691,
+				604,
+				612
+			],
+			"slot": "sign.gain-sheet-signs-05",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (signs)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-SIGNS-06": {
+			"aspect": 0.944,
+			"asset": "Icon signs 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 17974,
+			"desc": "6 hanging signs with icons only (dumbbell, apple, wheel, flame, boot, scroll) in a 3x2 grid.",
+			"from_px": [
+				574,
+				608
+			],
+			"group": "sign",
+			"id": "GAIN-SHEET-SIGNS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.532
+			],
+			"px": [
+				574,
+				608
+			],
+			"sheet_cell": [
+				1439,
+				700,
+				574,
+				608
+			],
+			"slot": "sign.gain-sheet-signs-06",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (signs)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-WINDOWS": {
+			"asset": "Gym windows",
+			"category": "Cutout sheet",
+			"desc": "6 oversized windows in a 3x2 grid: round porthole, wide shutter, brick arch, barred, awning, glass block.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "window",
+			"id": "GAIN-SHEET-WINDOWS",
+			"lock": "SHEET",
+			"parts": [
+				"GAIN-SHEET-WINDOWS-01",
+				"GAIN-SHEET-WINDOWS-02",
+				"GAIN-SHEET-WINDOWS-03",
+				"GAIN-SHEET-WINDOWS-04",
+				"GAIN-SHEET-WINDOWS-05",
+				"GAIN-SHEET-WINDOWS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent, grid",
+			"slot": "window.gain-sheet-windows",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (windows)",
+			"zone": "gainlands"
+		},
+		"GAIN-SHEET-WINDOWS-01": {
+			"aspect": 1.044,
+			"asset": "Gym windows 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 14797,
+			"desc": "6 oversized windows in a 3x2 grid: round porthole, wide shutter, brick arch, barred, awning, glass block.",
+			"from_px": [
+				618,
+				592
+			],
+			"group": "window",
+			"id": "GAIN-SHEET-WINDOWS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				618,
+				592
+			],
+			"sheet_cell": [
+				64,
+				67,
+				618,
+				592
+			],
+			"slot": "window.gain-sheet-windows-01",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (windows)",
+			"zone": "gainlands",
+			"width": 1.5
+		},
+		"GAIN-SHEET-WINDOWS-02": {
+			"aspect": 1.162,
+			"asset": "Gym windows 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 13030,
+			"desc": "6 oversized windows in a 3x2 grid: round porthole, wide shutter, brick arch, barred, awning, glass block.",
+			"from_px": [
+				683,
+				588
+			],
+			"group": "window",
+			"id": "GAIN-SHEET-WINDOWS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				683,
+				588
+			],
+			"sheet_cell": [
+				682,
+				85,
+				683,
+				588
+			],
+			"slot": "window.gain-sheet-windows-02",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (windows)",
+			"zone": "gainlands",
+			"width": 2.1
+		},
+		"GAIN-SHEET-WINDOWS-03": {
+			"aspect": 1.052,
+			"asset": "Gym windows 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 17199,
+			"desc": "6 oversized windows in a 3x2 grid: round porthole, wide shutter, brick arch, barred, awning, glass block.",
+			"from_px": [
+				630,
+				599
+			],
+			"group": "window",
+			"id": "GAIN-SHEET-WINDOWS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				630,
+				599
+			],
+			"sheet_cell": [
+				1365,
+				66,
+				630,
+				599
+			],
+			"slot": "window.gain-sheet-windows-03",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (windows)",
+			"zone": "gainlands",
+			"width": 1.6
+		},
+		"GAIN-SHEET-WINDOWS-04": {
+			"aspect": 0.996,
+			"asset": "Gym windows 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 13995,
+			"desc": "6 oversized windows in a 3x2 grid: round porthole, wide shutter, brick arch, barred, awning, glass block.",
+			"from_px": [
+				560,
+				562
+			],
+			"group": "window",
+			"id": "GAIN-SHEET-WINDOWS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				560,
+				562
+			],
+			"sheet_cell": [
+				63,
+				729,
+				560,
+				562
+			],
+			"slot": "window.gain-sheet-windows-04",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (windows)",
+			"zone": "gainlands",
+			"width": 1.7
+		},
+		"GAIN-SHEET-WINDOWS-05": {
+			"aspect": 0.967,
+			"asset": "Gym windows 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 15998,
+			"desc": "6 oversized windows in a 3x2 grid: round porthole, wide shutter, brick arch, barred, awning, glass block.",
+			"from_px": [
+				562,
+				581
+			],
+			"group": "window",
+			"id": "GAIN-SHEET-WINDOWS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				562,
+				581
+			],
+			"sheet_cell": [
+				746,
+				722,
+				562,
+				581
+			],
+			"slot": "window.gain-sheet-windows-05",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (windows)",
+			"zone": "gainlands",
+			"width": 2
+		},
+		"GAIN-SHEET-WINDOWS-06": {
+			"aspect": 1.134,
+			"asset": "Gym windows 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 16140,
+			"desc": "6 oversized windows in a 3x2 grid: round porthole, wide shutter, brick arch, barred, awning, glass block.",
+			"from_px": [
+				611,
+				539
+			],
+			"group": "window",
+			"id": "GAIN-SHEET-WINDOWS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "GAIN-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				611,
+				539
+			],
+			"sheet_cell": [
+				1395,
+				735,
+				611,
+				539
+			],
+			"slot": "window.gain-sheet-windows-06",
+			"tinted": false,
+			"use": "Sliced into kit cutouts (windows)",
+			"zone": "gainlands",
+			"width": 1.8
+		},
+		"GAIN-SKY-NOON": {
+			"aspect": 2,
+			"asset": "Midday sky",
+			"category": "Sky / backdrop",
+			"desc": "Saturated blue with white clouds. Wide, soft, no hard horizon objects in the middle.",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "GAIN-SKY-NOON",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG",
+			"slot": "backdrop.gain-sky-noon",
+			"tinted": false,
+			"transparent": false,
+			"use": "Zone sky",
+			"zone": "gainlands"
+		},
+		"GAIN-TREE-OAK": {
+			"aspect": 0.866,
+			"asset": "Gym-yard oak",
+			"category": "Tree / plant",
+			"cleared_alpha": 43082,
+			"desc": "Broad round oak, tyres hanging from a limb.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "GAIN-TREE-OAK",
+			"lock": "TREE",
+			"pivot": [
+				0.56,
+				1
+			],
+			"priority": "2",
+			"px": [
+				1024,
+				1182
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.gain-tree-oak",
+			"tinted": false,
+			"use": "Tree card in the zone",
+			"zone": "gainlands",
+			"height": 6.2
+		},
+		"GAIN-TREE-PINE": {
+			"aspect": 0.659,
+			"asset": "Sunny pine",
+			"category": "Tree / plant",
+			"cleared_alpha": 44900,
+			"desc": "Round bright pine in saturated greens.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "GAIN-TREE-PINE",
+			"lock": "TREE",
+			"pivot": [
+				0.513,
+				1
+			],
+			"priority": "2",
+			"px": [
+				935,
+				1419
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.gain-tree-pine",
+			"tinted": false,
+			"use": "Tree card in the zone",
+			"zone": "gainlands",
+			"height": 7
+		},
+		"GAIN-TREE-SKY": {
+			"aspect": 0.813,
+			"asset": "Sky tree",
+			"category": "Tree / plant",
+			"cleared_alpha": 34182,
+			"desc": "Bright impossibly green tree with golden fruit.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "GAIN-TREE-SKY",
+			"lock": "TREE",
+			"pivot": [
+				0.558,
+				1
+			],
+			"priority": "2",
+			"px": [
+				1014,
+				1247
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.gain-tree-sky",
+			"tinted": false,
+			"use": "Tree card in the Sky Garden",
+			"zone": "gainlands",
+			"height": 6.4
+		},
+		"GAIN-TRIM-BRASS": {
+			"asset": "Brass trim",
+			"category": "Surface",
+			"desc": "Brass fittings strip with red-gold banner stitching.",
+			"from_px": [
+				1024,
+				512
+			],
+			"group": "trim",
+			"id": "GAIN-TRIM-BRASS",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				512
+			],
+			"seam": {
+				"x": {
+					"after": 1.51,
+					"before": 1.51
+				},
+				"y": {
+					"after": 0.66,
+					"before": 6.13
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "trim.gain-trim-brass",
+			"tile_u": 2.56,
+			"tile_v": 1.28,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (trim)",
+			"zone": "gainlands"
+		},
+		"GAIN-WALL-BLEACH": {
+			"asset": "Sun-bleached plank wall",
+			"category": "Surface",
+			"desc": "Pale sun-bleached timber planks, rope lashings, chalk marks.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "wall",
+			"id": "GAIN-WALL-BLEACH",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.21,
+					"before": 1.21
+				},
+				"y": {
+					"after": 1.26,
+					"before": 2.04
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "wall.gain-wall-bleach",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (wall)",
+			"zone": "gainlands"
+		},
+		"GAIN-WALL-BRICK": {
+			"asset": "Red brick gym wall",
+			"category": "Surface",
+			"desc": "Bold red brick with cream mortar and a painted gold stripe.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "wall",
+			"id": "GAIN-WALL-BRICK",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.25,
+					"before": 1.25
+				},
+				"y": {
+					"after": 0.57,
+					"before": 6.57
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "wall.gain-wall-brick",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (wall)",
+			"zone": "gainlands"
+		},
+		"GAIN-WALL-IRON": {
+			"asset": "Riveted iron plate",
+			"category": "Surface",
+			"desc": "Brushed iron plates, bolts, a brass band.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "wall",
+			"id": "GAIN-WALL-IRON",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.25,
+					"before": 1.25
+				},
+				"y": {
+					"after": 1.53,
+					"before": 12.32
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "wall.gain-wall-iron",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (wall)",
+			"zone": "gainlands"
+		},
+		"TEX-GAIN-CHALKDIRT": {
+			"id": "TEX-GAIN-CHALKDIRT",
+			"zone": "gainlands",
+			"lock": "SURFACE",
+			"group": "ground",
+			"slot": "ground.tex-gain-chalkdirt",
+			"placeholder": "tex:gain_chalkdirt",
+			"tile": 3,
+			"tinted": false,
+			"alias": true,
+			"desc": "Chalk-dusted dirt (painted texture set)",
+			"asset": "Chalk-dusted dirt (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)"
+		},
+		"TEX-GAIN-GRASS": {
+			"id": "TEX-GAIN-GRASS",
+			"zone": "gainlands",
+			"lock": "SURFACE",
+			"group": "ground",
+			"slot": "ground.tex-gain-grass",
+			"placeholder": "tex:gain_grass",
+			"tile": 3,
+			"tinted": false,
+			"alias": true,
+			"desc": "Sunny meadow grass (painted texture set)",
+			"asset": "Sunny meadow grass (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)"
+		},
+		"TEX-GAIN-GYMMAT": {
+			"id": "TEX-GAIN-GYMMAT",
+			"zone": "gainlands",
+			"lock": "SURFACE",
+			"group": "ground",
+			"slot": "ground.tex-gain-gymmat",
+			"placeholder": "tex:gain_gymmat",
+			"tile": 2.6,
+			"tinted": false,
+			"alias": true,
+			"desc": "Gym mat (painted texture set)",
+			"asset": "Gym mat (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)"
+		},
+		"TEX-GAIN-HAY": {
+			"id": "TEX-GAIN-HAY",
+			"zone": "gainlands",
+			"lock": "SURFACE",
+			"group": "ground",
+			"slot": "ground.tex-gain-hay",
+			"placeholder": "tex:gain_hay",
+			"tile": 3,
+			"tinted": false,
+			"alias": true,
+			"desc": "Hay and straw ground (painted texture set)",
+			"asset": "Hay and straw ground (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)"
+		},
+		"TEX-GAIN-ISLANDROCK": {
+			"id": "TEX-GAIN-ISLANDROCK",
+			"zone": "gainlands",
+			"lock": "SURFACE",
+			"group": "wall",
+			"slot": "wall.tex-gain-islandrock",
+			"placeholder": "tex:gain_islandrock",
+			"tile": 4,
+			"tinted": false,
+			"alias": true,
+			"desc": "Floating island rock (painted texture set)",
+			"asset": "Floating island rock (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)"
+		},
+		"TEX-MAT-BARK": {
+			"id": "TEX-MAT-BARK",
+			"zone": "gainlands",
+			"lock": "SURFACE",
+			"group": "trim",
+			"slot": "trim.tex-mat-bark",
+			"placeholder": "tex:mat_bark",
+			"tile": 2,
+			"tinted": false,
+			"alias": true,
+			"desc": "Bark (shared painted material)",
+			"asset": "Bark (shared painted material)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)"
+		},
+		"TEX-MAT-LEAVES": {
+			"id": "TEX-MAT-LEAVES",
+			"zone": "gainlands",
+			"lock": "SURFACE",
+			"group": "tree",
+			"slot": "tree.tex-mat-leaves",
+			"placeholder": "tex:mat_leaves",
+			"tile": 2,
+			"tinted": false,
+			"alias": true,
+			"desc": "Leaves (shared painted material)",
+			"asset": "Leaves (shared painted material)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)"
+		}
+	},
+	"zone": "gainlands"
+}

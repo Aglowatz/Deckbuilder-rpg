@@ -45,7 +45,7 @@ static func smooth(control: Array[Vector3], step: float = 0.7) -> Array[Vector3]
 
 static func surface_material(kind: String, seed_value: int = 0) -> ShaderMaterial:
 	var data: Dictionary = KINDS.get(kind, KINDS["dirt"]) as Dictionary
-	var id: String = str(data["id"])
+	var id: String = ZoneStyles.swap(str(data["id"]))
 	var material_value: ShaderMaterial = ShaderMaterial.new()
 	material_value.shader = shader()
 	material_value.set_shader_parameter("mode", 0)

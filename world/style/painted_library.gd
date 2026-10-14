@@ -44,6 +44,8 @@ static func normal_rough(name: String) -> Texture2D:
 
 
 static func decal(name: String) -> Texture2D:
+	if name.contains("-") and EnvKit.has(name):
+		return EnvKit.texture(name)
 	return _load("%s%s.webp" % [DECALS, name], "decal:%s" % name)
 
 

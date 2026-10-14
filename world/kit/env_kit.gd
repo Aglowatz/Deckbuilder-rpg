@@ -14,6 +14,12 @@ static var _loaded: bool = false
 static var _materials: Dictionary = {}
 static var _prep: Dictionary = {}
 const PREP_PATH: String = "res://data/art/env_kit_prep.json"
+## Zone kits (tools/import_zone_kit.gd): data/art/zone_kits/<zone>.json registers every id of a zone's own kit (GAIN-WALL-BRICK ...) with its prep numbers in the entry
+## itself; the art lives in assets/art/zone_kits/<zone>/<ID>.webp. They resolve through the same calls as the Environment Kit ids and are the targets of a zone's material swaps.
+const ZONE_DIR: String = "res://data/art/zone_kits/"
+const ZONE_ART_DIR: String = "res://assets/art/zone_kits/"
+static var _zone_entries: Dictionary = {}
+static var _zone_order: Dictionary = {}
 
 
 static func _load() -> void:
@@ -37,6 +43,51 @@ static func _load() -> void:
 		if id != "":
 			_entries[id] = entry
 			_order.append(id)
+	_load_zones()
+
+
+static func _load_zones() -> void:
+	var dir: DirAccess = DirAccess.open(ZONE_DIR)
+	if dir == null:
+		return
+	var files: PackedStringArray = dir.get_files()
+	files.sort()
+	for file_name: String in files:
+		if file_name.get_extension() != "json" or file_name.ends_with("_clusters.json"):
+			continue
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(ZONE_DIR + file_name))
+		if not (parsed is Dictionary):
+			continue
+		var zone: String = str((parsed as Dictionary).get("zone", file_name.get_basename()))
+		var ids_of_zone: Array[String] = []
+		for key: Variant in ((parsed as Dictionary).get("items", {}) as Dictionary).keys():
+			var entry: Dictionary = ((parsed as Dictionary)["items"] as Dictionary)[key] as Dictionary
+			entry["zone"] = str(entry.get("zone", zone))
+			_zone_entries[str(key)] = entry
+			ids_of_zone.append(str(key))
+		_zone_order[zone] = ids_of_zone
+
+
+## The ids of one zone kit (data/art/zone_kits/<zone>.json), sheet order of the registry.
+static func zone_ids(zone: String) -> Array[String]:
+	_load()
+	var result: Array[String] = []
+	result.assign(_zone_order.get(zone, []) as Array)
+	return result
+
+
+## The zone a kit id belongs to ("" for the shared Environment Kit).
+static func zone_of(id: String) -> String:
+	_load()
+	return str((_zone_entries.get(id, {}) as Dictionary).get("zone", ""))
+
+
+## The prep numbers of `id` (trimmed size, pivot, tile, aspect): the env kit's prep file, or the zone entry itself.
+static func _info(id: String) -> Dictionary:
+	_load()
+	if _zone_entries.has(id):
+		return _zone_entries[id] as Dictionary
+	return _prep.get(id, {}) as Dictionary
 
 
 static func ids() -> Array[String]:
@@ -46,12 +97,14 @@ static func ids() -> Array[String]:
 
 static func has(id: String) -> bool:
 	_load()
-	return _entries.has(id)
+	return _entries.has(id) or _zone_entries.has(id)
 
 
 static func entry(id: String) -> Dictionary:
 	_load()
-	return _entries.get(id, {}) as Dictionary
+	if _entries.has(id):
+		return _entries[id] as Dictionary
+	return _zone_entries.get(id, {}) as Dictionary
 
 
 ## The slot name of `id` ("wall.main", "door.a" ...), "" for an unknown id.
@@ -60,8 +113,7 @@ static func slot(id: String) -> String:
 
 
 static func tile_size(id: String) -> float:
-	_load()
-	var info: Dictionary = _prep.get(id, {}) as Dictionary
+	var info: Dictionary = _info(id)
 	if has_art(id) and info.has("tile_u"):
 		return float(info["tile_u"])
 	return float(entry(id).get("tile", 2.0))
@@ -69,8 +121,7 @@ static func tile_size(id: String) -> float:
 
 ## The vertical tile size in metres (a 1024x512 band is half as tall as it is wide at the one shared texel density).
 static func tile_size_v(id: String) -> float:
-	_load()
-	var info: Dictionary = _prep.get(id, {}) as Dictionary
+	var info: Dictionary = _info(id)
 	if has_art(id) and info.has("tile_v"):
 		return float(info["tile_v"])
 	return tile_size(id)
@@ -78,15 +129,13 @@ static func tile_size_v(id: String) -> float:
 
 ## Pivot of a prepared cut-out (0..1 of the trimmed image: doors / windows bottom centre, signs at their wall bracket, trees at the trunk base).
 static func pivot(id: String) -> Vector2:
-	_load()
-	var raw: Array = (_prep.get(id, {}) as Dictionary).get("pivot", [0.5, 1.0]) as Array
+	var raw: Array = _info(id).get("pivot", [0.5, 1.0]) as Array
 	return Vector2(float(raw[0]), float(raw[1]))
 
 
 ## Width / height of the trimmed art (1.0 for a placeholder).
 static func aspect(id: String) -> float:
-	_load()
-	var info: Dictionary = _prep.get(id, {}) as Dictionary
+	var info: Dictionary = _info(id)
 	if has_art(id) and info.has("aspect"):
 		return float(info["aspect"])
 	var px: Array = info.get("px", [1, 1]) as Array
@@ -96,7 +145,7 @@ static func aspect(id: String) -> float:
 ## The sibling map `<ID>_n` / `<ID>_r` of a real surface, or null.
 static func map_texture(id: String, suffix: String) -> Texture2D:
 	var path: String = art_path(id)
-	if path == "" or not path.begins_with(ART_DIR):
+	if path == "" or not (path.begins_with(ART_DIR) or path.begins_with(ZONE_ART_DIR)):
 		return null
 	var map_path: String = path.get_basename() + "_" + suffix + ".webp"
 	return load(map_path) as Texture2D if ResourceLoader.exists(map_path) else null
@@ -104,6 +153,10 @@ static func map_texture(id: String, suffix: String) -> Texture2D:
 
 ## The path of the real art file of `id`, or "" while it is still a placeholder.
 static func art_path(id: String) -> String:
+	_load()
+	if _zone_entries.has(id):
+		var zone_path: String = "%s%s/%s.webp" % [ZONE_ART_DIR, str((_zone_entries[id] as Dictionary).get("zone", "")), id]
+		return zone_path if ResourceLoader.exists(zone_path) else ""
 	var dir: String = OS.get_environment("ENV_KIT_ART_DIR")
 	if dir == "":
 		dir = ART_DIR
@@ -134,7 +187,7 @@ static func status(id: String) -> String:
 static func texture(id: String) -> Texture2D:
 	var path: String = art_path(id)
 	if path != "":
-		if path.begins_with(ART_DIR):
+		if path.begins_with(ART_DIR) or path.begins_with(ZONE_ART_DIR):
 			return load(path) as Texture2D
 		var image: Image = Image.load_from_file(ProjectSettings.globalize_path(path))
 		if image != null and not image.is_empty():
@@ -144,6 +197,8 @@ static func texture(id: String) -> Texture2D:
 	var placeholder: String = str(entry(id).get("placeholder", ""))
 	if placeholder.begins_with("tex:"):
 		return PaintedLibrary.albedo(placeholder.trim_prefix("tex:"))
+	if placeholder.begins_with("dec:"):
+		return PaintedLibrary.decal(placeholder.trim_prefix("dec:"))
 	if placeholder.begins_with("gen:"):
 		return KitTextures.texture(placeholder.trim_prefix("gen:"))
 	return null
@@ -164,7 +219,8 @@ static func material(id: String, cut: bool = false, mul: Color = Color.WHITE) ->
 	_load()
 	# Layer 2 of the Art Bible (G-08): the zone swaps a kit surface for another and tints neutral textures from its palette.
 	id = ZoneStyles.swap(id)
-	var zone_tint: Color = ZoneStyles.tint(tint_group(id))
+	# A zone's own kit art is painted in the zone's palette already: no palette tint on top (the registry says `tinted: false`).
+	var zone_tint: Color = ZoneStyles.tint(tint_group(id)) if bool(entry(id).get("tinted", true)) else Color.WHITE
 	var key: String = "%s|%s|%s|%s" % [id, str(cut), mul.to_html(), zone_tint.to_html()]
 	if _materials.has(key):
 		return _materials[key] as StandardMaterial3D
@@ -241,6 +297,8 @@ static func glow(color: Color, energy: float = 1.6) -> StandardMaterial3D:
 static func clear_cache() -> void:
 	_materials.clear()
 	_prep.clear()
+	_zone_entries.clear()
+	_zone_order.clear()
 	KitTextures.clear()
 	_loaded = false
 	_entries.clear()

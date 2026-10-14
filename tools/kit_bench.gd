@@ -1,7 +1,7 @@
 extends Node3D
 ## Environment Kit bench: the building presets (and props / clusters / trees) in a row on a calm ground under the town style and the game's low camera, with a 1.25 m scale figure.
 ##   bash tools/shot.sh res://tools/kit_bench.tscn kit_a --presets=home_a,inn --nohud=true
-##   --props=barrel,crate,...   --clusters=doorstep,crates   --trees=oak,pine   --yaw=20   --zoom=1.0   --hero=x,z   --dist=14
+##   --props=barrel,crate,...   --clusters=doorstep,crates   --trees=oak,pine   --yaw=20   --zoom=1.0   --hero=x,z   --dist=14   --zone=gainlands (that area's swaps and tints)   --landmarks=GAIN-HERO-WHEEL:14x14x6 --dist=14 --lyaw=20 --kind=arch --surface=GAIN-WALL-BRICK
 
 var _args: Dictionary = {}
 var _camera: Camera3D
@@ -13,6 +13,9 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 
 func _ready() -> void:
+	# `--zone=gainlands`: the bench takes that area's material swaps and tints (ZoneStyles), so a zone kit can be checked on the shared presets.
+	if _args.has("zone"):
+		ZoneStyles.use_area(str(_args["zone"]))
 	var ground: MeshInstance3D = MeshInstance3D.new()
 	var plane: PlaneMesh = PlaneMesh.new()
 	plane.size = Vector2(160, 160)
@@ -56,6 +59,22 @@ func _ready() -> void:
 			add_child(cluster)
 			cluster.position = Vector3(cluster_x, 0, 11.0)
 		cluster_x += 6.0
+	# `--landmarks=GAIN-HERO-WHEEL:14x14x6,GAIN-HERO-CHAMPIONS-ARCH:12x8x1.6`: hero landmarks / stand-ins (LandmarkKit) in a row behind the presets, at the given w x h x d.
+	var landmarks: PackedStringArray = str(_args.get("landmarks", "")).split(",", false)
+	var landmark_x: float = -float(landmarks.size() - 1) * 10.0
+	for token: String in landmarks:
+		var parts: PackedStringArray = token.split(":")
+		var dims: PackedStringArray = (parts[1] if parts.size() > 1 else "10x8x6").split("x")
+		var size_list: Array = [float(dims[0]), float(dims[1]) if dims.size() > 1 else 8.0, float(dims[2]) if dims.size() > 2 else 6.0]
+		var spec: Dictionary = {"id": parts[0], "kind": str(_args.get("kind", "box")), "size": size_list, "color": "#d9483b", "accent": "#f2c14e"}
+		if _args.has("surface"):
+			spec["surface"] = str(_args["surface"])
+		var landmark: Node3D = LandmarkKit.build(spec)
+		add_child(landmark)
+		landmark.position = Vector3(landmark_x, 0, -float(_args.get("dist", 14.0)))
+		landmark.rotation_degrees.y = float(_args.get("lyaw", 0.0))
+		KitLights.attach(landmark, self, null, false)
+		landmark_x += 20.0
 	var trees: PackedStringArray = str(_args.get("trees", "")).split(",", false)
 	var tree_x: float = -float(trees.size()) * 3.0
 	for tree_name: String in trees:

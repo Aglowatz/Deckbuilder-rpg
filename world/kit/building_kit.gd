@@ -438,6 +438,7 @@ func _socket(face: String, data: Dictionary) -> void:
 
 
 func _door(face: String, u: float, id: String, data: Dictionary) -> void:
+	id = ZoneStyles.swap(id)
 	var y_mid: float = foundation + DOOR_H * 0.5 - 0.1
 	var bottom: float = 0.0
 	var h: float = DOOR_H
@@ -501,9 +502,10 @@ const WINDOW_SIZES: Dictionary = {
 
 
 func _window(face: String, u: float, y: float, id: String, data: Dictionary) -> void:
+	id = ZoneStyles.swap(id)
 	if EnvKit.has_art(id):
 		var art_widths: Dictionary = {"ENV-WINDOW-01": 2.5, "ENV-WINDOW-02": 1.9, "ENV-WINDOW-03": 1.7, "ENV-WINDOW-04": 1.35, "ENV-WINDOW-05": 3.3}
-		var size: float = float(data.get("w", art_widths.get(id, 1.6)))
+		var size: float = float(data.get("w", art_widths.get(id, float(EnvKit.entry(id).get("width", 1.6)))))
 		var half_h: float = size / EnvKit.aspect(id) * 0.5
 		var material_slot: String = "art_%s" % id
 		mesh.set_material(material_slot, EnvKit.material(id, true))
@@ -619,7 +621,12 @@ func _pots(face: String, u: float, scale_value: float) -> void:
 
 
 func _awning(face: String, u: float, y: float, w: float, id: String) -> void:
+	id = ZoneStyles.swap(id)
 	var slot: String = "awning_a" if id == "ENV-AWNING-01" else "awning_b"
+	if not (id == "ENV-AWNING-01" or id == "ENV-AWNING-02"):
+		slot = "awning_%s" % id
+		if not mesh.has_slot(slot):
+			mesh.set_material(slot, EnvKit.material(id, true))
 	if EnvKit.has_art(id):
 		# the painted awning (rod, stripes, scalloped valance) is one slanted card: its top on the wall, its hem hanging out and down
 		w *= 0.85
@@ -648,6 +655,7 @@ func _awning(face: String, u: float, y: float, w: float, id: String) -> void:
 
 
 func _sign(face: String, u: float, y: float, id: String, size: float) -> void:
+	id = ZoneStyles.swap(id)
 	var n: Vector3 = (FACES[face] as Dictionary)["n"] as Vector3
 	var slot: String = "sign_%s" % id
 	mesh.set_material(slot, EnvKit.material(id, true))
@@ -714,6 +722,8 @@ func _wall_uvs(slot: String, half: float, storey: float) -> Array[Vector2]:
 ## width from the trimmed art's aspect. The round door is a little shorter than the others.
 func _art_door(face: String, u: float, id: String, data: Dictionary) -> void:
 	var h: float = DOOR_H if id != "ENV-DOOR-03" else DOOR_H * 0.82
+	if not mesh.has_slot(id):
+		mesh.set_material(id, EnvKit.material(id, true))
 	var w: float = h * EnvKit.aspect(id)
 	_attach("foundation", face, u, 0.12, 0.34, Vector3(w + 0.5, 0.24, 0.7), 0.05)
 	_face_quad(id, face, u - w * 0.5, u + w * 0.5, 0.2, 0.2 + h, 0.06, [], [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)])

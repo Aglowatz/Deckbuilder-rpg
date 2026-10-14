@@ -26,6 +26,7 @@ static func set_light(sun_color: Color, ambient_color: Color) -> void:
 
 ## The shared card material of a kit id (e.g. ENV-TREE-OAK): the real art when it exists, else the placeholder texture.
 static func card_material(id: String) -> ShaderMaterial:
+	id = ZoneStyles.swap(id)
 	var cache_key: String = "%s|%s" % [id, ZoneStyles.current]
 	if _card_cache.has(cache_key):
 		return _card_cache[cache_key] as ShaderMaterial
@@ -42,6 +43,7 @@ static func card_material(id: String) -> ShaderMaterial:
 
 ## A one-card tree (or any card): `size` metres wide and tall, base at the node origin.
 static func card(id: String, size: Vector2, shadow: bool = true) -> MeshInstance3D:
+	id = ZoneStyles.swap(id)
 	var quad: QuadMesh = QuadMesh.new()
 	quad.size = Vector2.ONE
 	quad.center_offset = Vector3(0.0, 0.5, 0.0)
@@ -49,7 +51,7 @@ static func card(id: String, size: Vector2, shadow: bool = true) -> MeshInstance
 	instance.mesh = quad
 	instance.material_override = card_material(id)
 	var final_size: Vector2 = size
-	if id.begins_with("ENV-TREE-") and EnvKit.has_art(id):
+	if (id.begins_with("ENV-TREE-") or EnvKit.zone_of(id) != "") and EnvKit.has_art(id):
 		# painted trees keep their own proportions, with the trunk base (not the card centre) on the node origin
 		final_size.x = size.y * EnvKit.aspect(id)
 		instance.position.x = (0.5 - EnvKit.pivot(id).x) * final_size.x

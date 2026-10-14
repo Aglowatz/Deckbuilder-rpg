@@ -12,6 +12,10 @@ const KINDS: Array[String] = [
 
 
 static func build(spec: Dictionary) -> Node3D:
+	# A hero landmark modelled after its concept (HeroLandmarks) replaces the stand-in outright.
+	var hero: Node3D = HeroLandmarks.build(spec)
+	if hero != null:
+		return hero
 	var kind: String = str(spec.get("kind", "box"))
 	var size_array: Array = spec.get("size", [4.0, 4.0, 4.0]) as Array
 	var size: Vector3 = Vector3(float(size_array[0]), float(size_array[1]), float(size_array[2]))
@@ -21,10 +25,21 @@ static func build(spec: Dictionary) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	mesh.set_material("flat", EnvKit.flat(Color.WHITE, "landmark"))
 	mesh.set_material("glow", EnvKit.glow(glow, 1.7))
-	mesh.alias("main", "flat", main)
-	mesh.alias("accent", "flat", accent)
-	mesh.alias("dark", "flat", main.darkened(0.45))
-	mesh.alias("light", "flat", main.lightened(0.35))
+	# `surface` / `accent_surface`: a kit surface id (GAIN-WALL-BRICK ...) instead of a flat colour; the stand-in then reads in the zone's materials.
+	if spec.has("surface") and EnvKit.has(str(spec["surface"])):
+		mesh.set_material("main", EnvKit.material(str(spec["surface"]), false, Color.html(str(spec.get("surface_tint", "#ffffff")))))
+	else:
+		mesh.alias("main", "flat", main)
+	if spec.has("accent_surface") and EnvKit.has(str(spec["accent_surface"])):
+		mesh.set_material("accent", EnvKit.material(str(spec["accent_surface"])))
+	else:
+		mesh.alias("accent", "flat", accent)
+	if spec.has("surface") and EnvKit.has(str(spec["surface"])):
+		mesh.alias("dark", "main", Color(0.62, 0.6, 0.62))
+		mesh.alias("light", "main", Color(1.12, 1.1, 1.06))
+	else:
+		mesh.alias("dark", "flat", main.darkened(0.45))
+		mesh.alias("light", "flat", main.lightened(0.35))
 	mesh.alias("water", "flat", Color.html(str(spec.get("water", "#6fb0d8"))))
 	var circles: Array[Vector3] = []
 	match kind:

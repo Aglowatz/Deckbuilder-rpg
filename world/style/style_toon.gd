@@ -148,6 +148,9 @@ static func wind_for(mesh_instance: MeshInstance3D, wind: float) -> float:
 	var current: Node = mesh_instance
 	var depth: int = 0
 	while current != null and depth < 4:
+		# meta `no_wind`: a built landmark whose name happens to mention a foliage word (the Sky Tree) must not sway
+		if current.has_meta(&"no_wind"):
+			return -1.0
 		var lower: String = String(current.name).to_lower()
 		for word: String in ["mountain", "hill", "cliff", "rock", "stone", "building", "house"]:
 			if lower.contains(word):

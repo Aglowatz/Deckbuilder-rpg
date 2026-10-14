@@ -384,9 +384,41 @@ func setup_generic(middle: Vector3, bounds: Rect2, cam: Camera3D, spec: Dictiona
 			_build_ring(ring)
 	for entry: Variant in spec.get("landmark_cards", []) as Array:
 		_build_landmark_at(entry as Dictionary)
+	for entry: Variant in spec.get("kit_cards", []) as Array:
+		_build_kit_card(entry as Dictionary)
 	if spec.get("apron") is Dictionary:
 		_build_apron(spec["apron"] as Dictionary)
 	print("world_look: generic scenery at %s, scale %.2f" % [str(middle), _scale])
+
+
+## A backdrop card from a zone kit (GAIN-BD-MOUNT ...) standing in the rings: {id, angle (degrees from north), width (degrees), ring (0 near, 1 hills, 2 mountains; the card stands
+## just inside that ring), lift (m)}. Painted with the ring's haze and cool so it sits in the same air as the hills.
+func _build_kit_card(entry: Dictionary) -> void:
+	var id: String = str(entry.get("id", ""))
+	var texture: Texture2D = EnvKit.texture(id) if EnvKit.has(id) else null
+	if texture == null:
+		return
+	var ring_index: int = clampi(int(entry.get("ring", 1)), 0, RINGS.size() - 1)
+	var ring: Dictionary = RINGS[ring_index]
+	var angle: float = deg_to_rad(float(entry.get("angle", 0.0)))
+	var toward: Vector3 = Vector3(sin(angle), 0.0, -cos(angle))
+	var radius: float = float(ring["radius"]) * _scale * float(entry.get("distance", 0.93))
+	var width: float = 2.0 * radius * tan(deg_to_rad(float(entry.get("width", 40.0)) * 0.5))
+	var height: float = width * float(texture.get_height()) / float(texture.get_width())
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(width, height)
+	quad.center_offset = Vector3(0.0, height * 0.5, 0.0)
+	var card: MeshInstance3D = MeshInstance3D.new()
+	card.name = "KitCard_%s" % id
+	card.set_meta(&"look_role", &"rings")
+	card.mesh = quad
+	card.material_override = _backdrop_material(texture, {"haze": float(ring["haze"]) * 0.9, "cool": float(ring["cool"]) * 0.9, "base_haze": float(ring["base_haze"]) * 0.9, "priority": int(ring["priority"]) + 1})
+	card.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	card.extra_cull_margin = 600.0
+	card.set_meta(StyleToon.META_NO_TOON, true)
+	add_child(card)
+	card.position = center + toward * radius + Vector3(0.0, float(ring["base"]) + float(entry.get("lift", 0.0)), 0.0)
+	card.look_at(Vector3(center.x, card.position.y, center.z), Vector3.UP, true)
 
 
 ## A landmark card at a compass angle (degrees from north) from the middle.
