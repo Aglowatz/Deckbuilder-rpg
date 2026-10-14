@@ -6,10 +6,10 @@
 	"ground": {"kind": "chalkdirt"},
 	"spawn": [-28, 8],
 	"entries": {"sky_garden": [26, -22], "proving_grounds": [-28, 8]},
-	"edge": {"kind": "pine", "kinds": ["pine"], "spacing": 6.0, "scale": [1.2, 1.8]},
+	"edge": {"kind": "pine", "kinds": ["pine"], "spacing": 8.5, "scale": [1.2, 1.8]},
 	"paths": [
-		{"kind": "dirt", "width": 3.4, "points": [[-33, 8], [-20, 10], [-6, 4], [4, -8], [10, -22], [10, -30]]},
-		{"kind": "dirt", "width": 2.4, "points": [[4, -8], [16, -6], [26, -10]]}
+		{"kind": "dirt", "width": 4.2, "points": [[-33, 8], [-20, 10], [-6, 4], [4, -8], [10, -22], [10, -30]]},
+		{"kind": "dirt", "width": 3.4, "points": [[4, -8], [16, -6], [26, -10]]}
 	],
 	"landmarks": [
 		{"id": "GAIN-HERO-SWOLYMPUS", "kind": "mound", "pos": [8, -48], "size": [38, 30, 22], "color": "#8a7a68", "accent": "#f7ebd3"},
@@ -29,13 +29,13 @@
 		{"name": "sunflower_fence", "pos": [-2, 10], "yaw": 180}
 	],
 	"scatter": [
-		{"kind": "tree", "name": "pine", "count": 20, "scale": [1.1, 1.7]},
-		{"kind": "tree", "name": "sunflower", "count": 6, "scale": [0.9, 1.1], "gap": 1.2, "path_gap": 1.8},
-		{"kind": "prop", "name": "barrel", "count": 5, "grouped": true},
-		{"kind": "cluster", "name": "crates", "count": 2}
+		{"kind": "tree", "name": "pine", "count": 8, "scale": [1.1, 1.7], "path_gap": 3.2},
+		{"kind": "tree", "name": "sunflower", "count": 3, "scale": [0.9, 1.1], "gap": 1.2, "path_gap": 2.2},
+		{"kind": "prop", "name": "barrel", "count": 3, "grouped": true},
+		{"kind": "cluster", "name": "crates", "count": 1}
 	],
 	"flowers": [
-		{"pos": [-14, 2], "radius": 4.0, "cells": [2, 3, 0], "count": 26}, {"pos": [6, -4], "radius": 4.5, "cells": [2, 3], "count": 28}, {"pos": [16, -22], "radius": 3.5, "cells": [2, 0], "count": 20}
+		{"pos": [-14, 2], "radius": 3.0, "cells": [2, 3, 0], "count": 16}, {"pos": [6, -4], "radius": 3.0, "cells": [2, 3], "count": 16}, {"pos": [16, -22], "radius": 2.5, "cells": [2, 0], "count": 12}
 	],
 	"decals": [
 		{"id": "GAIN-DEC-TREAD", "pos": [-22, 10], "size": 3.4, "yaw": 95}, {"id": "GAIN-DEC-TREAD", "pos": [-6, 4], "size": 3.2, "yaw": 50}, {"id": "GAIN-DEC-TREAD", "pos": [6, -14], "size": 3.4, "yaw": 15},

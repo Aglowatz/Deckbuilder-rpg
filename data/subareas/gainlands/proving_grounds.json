@@ -6,10 +6,10 @@
 	"ground": {"kind": "grass"},
 	"spawn": [0, 24],
 	"entries": {"swolympus_trailhead": [31, -8], "mill_fields": [-30, 20]},
-	"edge": {"kind": "pine", "kinds": ["pine", "oak"], "spacing": 6.5, "scale": [1.1, 1.6]},
+	"edge": {"kind": "pine", "kinds": ["pine", "oak"], "spacing": 9.0, "scale": [1.1, 1.6]},
 	"paths": [
-		{"kind": "dirt", "width": 3.8, "points": [[0, 29], [0, 16], [-3, 4], [0, -6]]},
-		{"kind": "dirt", "width": 3.0, "points": [[0, -6], [14, -10], [26, -10], [33, -8]]}
+		{"kind": "dirt", "width": 4.4, "points": [[0, 29], [0, 16], [-3, 4], [0, -6]]},
+		{"kind": "dirt", "width": 3.6, "points": [[0, -6], [14, -10], [26, -10], [33, -8]]}
 	],
 	"plazas": [{"pos": [0, -8], "radius": 9.0}],
 	"buildings": [
@@ -35,11 +35,11 @@
 		{"name": "sunflower_bed", "pos": [-8, 12], "yaw": 180}
 	],
 	"scatter": [
-		{"kind": "tree", "name": "pine", "count": 14, "scale": [1.0, 1.5]},
-		{"kind": "tree", "name": "oak", "count": 8, "scale": [1.0, 1.4]},
-		{"kind": "tree", "name": "sunflower", "count": 8, "scale": [0.9, 1.15], "gap": 1.2, "path_gap": 2.0},
-		{"kind": "prop", "name": "barrel", "count": 6, "grouped": true},
-		{"kind": "cluster", "name": "barrel_pair", "count": 3}
+		{"kind": "tree", "name": "pine", "count": 6, "scale": [1.0, 1.5], "path_gap": 3.2},
+		{"kind": "tree", "name": "oak", "count": 4, "scale": [1.0, 1.4], "path_gap": 3.4},
+		{"kind": "tree", "name": "sunflower", "count": 4, "scale": [0.9, 1.15], "gap": 1.2, "path_gap": 2.2},
+		{"kind": "prop", "name": "barrel", "count": 3, "grouped": true},
+		{"kind": "cluster", "name": "barrel_pair", "count": 1}
 	],
 	"decals": [
 		{"id": "GAIN-DEC-PLATES", "pos": [-9, 7], "size": 2.6, "yaw": 30}, {"id": "GAIN-DEC-PLATES", "pos": [10, 3], "size": 2.4, "yaw": 200}, {"id": "GAIN-DEC-PLATES", "pos": [4, -17], "size": 2.2, "yaw": 90},

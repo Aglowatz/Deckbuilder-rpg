@@ -18,7 +18,7 @@ func test_the_rulers_banners_and_plinth_have_no_lettering() -> void:
 func test_every_gainlands_sign_has_a_pictogram() -> void:
 	var layout: GainlandsLayout = GainlandsLayout.new()
 	layout.build()
-	assert_gt(layout.signs.size(), 20)
+	assert_gte(layout.signs.size(), 8, "the Gainlands keeps the 8 boards that point somewhere or carry a quiz answer (corrective pass, GC-2)")
 	for sign: GainlandsLayout.Sign in layout.signs:
 		assert_true(IconArt.has(GainlandsBuilder.sign_icon(sign.key)), "%s has an icon" % sign.key)
 		assert_true(GainlandsBuilder.SIGN_ICONS.has(sign.key), "%s is mapped on purpose (not the fallback)" % sign.key)

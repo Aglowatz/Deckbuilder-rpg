@@ -65,6 +65,8 @@ func _process(delta: float) -> void:
 	if _test_timer <= 0.0:
 		_test_timer = TEST_INTERVAL
 		_run_tests()
+	# The painted tree cards fade themselves in their shader from the hero's position (KitFoliage / kit_card.gdshader): a MultiMesh field cannot be faded per tree from here.
+	KitFoliage.set_hero(hero.global_position)
 	var blocking_groups: Dictionary = _blocking
 	var cut_groups: Dictionary = _cut
 	for key: int in _active_keys(blocking_groups, cut_groups):
@@ -77,11 +79,9 @@ func _process(delta: float) -> void:
 		for member: Variant in _members.get(key, []) as Array:
 			if is_instance_valid(member):
 				var piece: MeshInstance3D = member as MeshInstance3D
-				if _dithers(piece):
-					piece.set_instance_shader_parameter("occlusion_fade", current)
-				else:
-					# Portals, light pillars and other see-through pieces have no dither uniform: they simply fade (the per-instance transparency).
-					piece.transparency = minf(current, 0.96)
+				# A smooth transparency fade for every piece (GC-4): Godot's per-instance `transparency` moves the piece to the transparent pass while it fades and keeps its
+				# shadow. The ordered dither (`occlusion_fade` in the toon shaders) is no longer driven: the checkerboard read as a glitch on the ground and on props.
+				piece.transparency = current
 
 
 func _group_key(mesh_instance: MeshInstance3D) -> int:

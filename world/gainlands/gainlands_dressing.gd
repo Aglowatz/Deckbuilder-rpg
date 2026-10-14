@@ -28,13 +28,14 @@ static func build(parent: Node3D, builder: GainlandsBuilder, quality: int) -> Ga
 	for key: String in ["spawn", "rift_station", "hub", "exit", "heal", "tony", "brenda", "gus", "station", "protein_stand", "flex_mirror", "quiz", "minigame", "puzzle", "run_wheel", "spot_me", "mini_dungeon", "main_dungeon"]:
 		if builder.has_anchor(key):
 			dressing._anchors.append(builder.anchor(key))
+	# Corrective pass (GC-1): a third of the old scatter; pennants only at the hub's rim, flowers only along path edges, every solid piece clear of the routes.
 	var scale_factor: float = GraphicsQuality.foliage_density(quality)
-	dressing._scatter_pennants(int(10.0 * scale_factor))
-	dressing._scatter("kettlebells", int(14.0 * scale_factor), 4.5, 17.0)
-	dressing._scatter("plates", int(8.0 * scale_factor), 5.0, 18.0)
-	dressing._scatter("tires", int(6.0 * scale_factor), 6.0, 20.0)
-	dressing._scatter("bag", int(4.0 * scale_factor), 6.0, 18.0)
-	dressing._scatter("sunflowers", int(16.0 * scale_factor), 4.0, 20.0)
+	dressing._scatter_pennants(int(4.0 * scale_factor))
+	dressing._scatter("kettlebells", int(5.0 * scale_factor), 6.0, 17.0)
+	dressing._scatter("plates", int(3.0 * scale_factor), 7.0, 18.0)
+	dressing._scatter("tires", int(2.0 * scale_factor), 8.0, 20.0)
+	dressing._scatter("bag", 1, 9.0, 18.0)
+	dressing._scatter("sunflowers", int(7.0 * scale_factor), 5.0, 22.0)
 	dressing._kit_clusters(quality)
 	return dressing
 
@@ -42,10 +43,10 @@ static func build(parent: Node3D, builder: GainlandsBuilder, quality: int) -> Ga
 ## Zone kit clusters (data/art/zone_kits/gainlands_clusters.json) where the Art Bible wants props: at the gym, the protein stand, the mills, the wheels and the hub's edges.
 ## Each entry: cluster, anchor, offset (x, z), yaw; skipped when the spot is not free. All quality levels keep them (they carry the zone's read).
 const KIT_CLUSTERS: Array = [
+	# GC-1: seven clusters (was twelve), each tucked behind or beside its landmark, none in the arrival area or on a route.
 	["gym_rack", "spot_me", Vector2(-4.5, -3.0), 180.0], ["dumbbell_pile", "spot_me", Vector2(4.0, 3.5), 20.0], ["protein_corner", "protein_stand", Vector2(3.6, -3.4), 200.0],
 	["hay_stack", "quiz", Vector2(5.5, 4.0), 160.0], ["mill_yard", "thrower_west", Vector2(4.0, -4.5), 170.0], ["catapult_pit", "minigame", Vector2(-6.5, 4.0), 150.0],
-	["sunflower_fence", "heal", Vector2(-4.5, 3.5), 0.0], ["sunflower_bed", "flex_mirror", Vector2(3.5, -4.5), 180.0], ["hay_stack", "run_wheel", Vector2(-5.0, 4.5), 200.0],
-	["dumbbell_pile", "puzzle", Vector2(4.0, 3.0), 0.0], ["sunflower_fence", "tony", Vector2(3.5, 4.0), 10.0], ["gym_rack", "spawn", Vector2(-7.0, 2.5), 90.0],
+	["sunflower_fence", "heal", Vector2(-4.5, 3.5), 0.0],
 ]
 
 
@@ -79,8 +80,11 @@ func _hub() -> Vector3:
 	return _builder.anchor("hub")
 
 
-func _free(pos: Vector3, clearance: float, spacing: float) -> bool:
+## Free ground for a piece of dressing: walkable, `clearance` from every anchor, `spacing` from the other pieces, and (solid pieces) clear of the routes.
+func _free(pos: Vector3, clearance: float, spacing: float, solid: bool = true) -> bool:
 	if not _builder.is_walkable(pos, 0.5):
+		return false
+	if solid and _builder.layout.path_edge_distance(pos.x, pos.z) < GainlandsLayout.PATH_CLEARANCE:
 		return false
 	for anchor: Vector3 in _anchors:
 		if Vector2(pos.x - anchor.x, pos.z - anchor.z).length() < clearance:
@@ -91,15 +95,24 @@ func _free(pos: Vector3, clearance: float, spacing: float) -> bool:
 	return true
 
 
+## Flowers go in small clumps along the path edges (0.4-2.2 m out from the edge), never scattered over the open ground (GC-1).
+const FLOWER_BAND: Vector2 = Vector2(0.4, 2.2)
+
+
 func _scatter(kind: String, amount: int, min_radius: float, max_radius: float) -> void:
 	var made: int = 0
 	var tries: int = 0
-	while made < amount and tries < amount * 40:
+	var flowers: bool = kind == "sunflowers"
+	while made < amount and tries < amount * 80:
 		tries += 1
 		var angle: float = _rng.randf() * TAU
 		var distance: float = _rng.randf_range(min_radius, max_radius)
 		var pos: Vector3 = _hub() + Vector3(cos(angle) * distance, 0.0, sin(angle) * distance * 0.8)
-		if not _free(pos, 3.2, 2.6):
+		if flowers:
+			var edge: float = _builder.layout.path_edge_distance(pos.x, pos.z)
+			if edge < FLOWER_BAND.x or edge > FLOWER_BAND.y:
+				continue
+		if not _free(pos, 4.5 if not flowers else 3.0, 3.2, not flowers):
 			continue
 		pos.y = _builder.height_at(pos)
 		var node: Node3D = _make(kind)

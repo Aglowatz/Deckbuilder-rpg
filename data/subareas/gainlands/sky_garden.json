@@ -6,9 +6,9 @@
 	"ground": {"kind": "grass"},
 	"spawn": [22, 18],
 	"entries": {"swolympus_trailhead": [22, 18]},
-	"edge": {"kind": "oak", "kinds": ["oak", "fruit"], "spacing": 7.0, "scale": [1.0, 1.5]},
+	"edge": {"kind": "oak", "kinds": ["oak", "fruit"], "spacing": 9.5, "scale": [1.0, 1.5]},
 	"paths": [
-		{"kind": "cobble", "width": 2.6, "points": [[26, 20], [14, 12], [4, 2], [-6, -6], [-14, -14]]}
+		{"kind": "cobble", "width": 4.2, "points": [[26, 20], [14, 12], [4, 2], [-6, -6], [-14, -14]]}
 	],
 	"landmarks": [
 		{"id": "GAIN-HERO-SKY-TREE", "kind": "giant_tree", "pos": [-14, -20], "size": [18, 16, 18], "color": "#8bc34a", "accent": "#7a5230"},
@@ -24,13 +24,13 @@
 		{"name": "sunflower_bed", "pos": [8, 8], "yaw": 20}
 	],
 	"scatter": [
-		{"kind": "tree", "name": "fruit", "count": 9, "scale": [0.9, 1.3]},
-		{"kind": "tree", "name": "oak", "count": 4, "scale": [1.0, 1.3]},
-		{"kind": "tree", "name": "sunflower", "count": 8, "scale": [0.85, 1.1], "gap": 1.1, "path_gap": 1.6},
-		{"kind": "cluster", "name": "bench_nook", "count": 2}
+		{"kind": "tree", "name": "fruit", "count": 5, "scale": [0.9, 1.3], "path_gap": 3.2},
+		{"kind": "tree", "name": "oak", "count": 2, "scale": [1.0, 1.3], "path_gap": 3.4},
+		{"kind": "tree", "name": "sunflower", "count": 4, "scale": [0.85, 1.1], "gap": 1.1, "path_gap": 2.2},
+		{"kind": "cluster", "name": "bench_nook", "count": 1}
 	],
 	"flowers": [
-		{"pos": [16, 6], "radius": 3.0, "count": 24}, {"pos": [-4, 0], "radius": 3.5, "count": 26}, {"pos": [-10, -10], "radius": 3.0, "count": 20}, {"pos": [4, -8], "radius": 3.5, "cells": [2, 3, 2], "count": 30}
+		{"pos": [16, 6], "radius": 2.5, "count": 16}, {"pos": [-4, 0], "radius": 2.5, "count": 16}, {"pos": [-10, -10], "radius": 2.5, "count": 12}, {"pos": [4, -8], "radius": 2.5, "cells": [2, 3, 2], "count": 18}
 	],
 	"poi": [
 		{"id": "sg_chest", "type": "chest", "pos": [-20, -8], "tier": "large", "title": "Gardener Chest"},

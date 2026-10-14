@@ -43,7 +43,7 @@ func _icons(hub: String) -> Dictionary:
 func test_every_hub_sign_is_mapped_to_an_existing_icon() -> void:
 	for hub: String in ["dna", "buffet", "heap", "capital"]:
 		var signs: Array = _signs(hub)
-		assert_gt(signs.size(), 20, "%s has its signs" % hub)
+		assert_gt(signs.size(), 5 if hub == "gainlands" else 20, "%s has its signs (the Gainlands keeps 8 after the corrective pass)" % hub)
 		var icons: Dictionary = _icons(hub)
 		var story: ZoneStoryText = ZoneStoryText.shared() if hub == "dna" else null
 		for sign: Object in signs:

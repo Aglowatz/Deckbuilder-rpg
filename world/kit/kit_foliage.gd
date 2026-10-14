@@ -10,9 +10,12 @@ const CLUMP_ATLAS: String = "res://assets/art/world_test/foliage/atlas.png"
 const CELL_HEIGHTS: Array[Vector2] = [Vector2(0.4, 0.7), Vector2(0.4, 0.7), Vector2(0.45, 0.7), Vector2(0.8, 1.15), Vector2(0.65, 1.0), Vector2(0.5, 0.8)]
 
 static var _materials: Array[ShaderMaterial] = []
+## The tree card materials only (they carry the hero-aware occlusion fade, GC-4).
+static var _card_materials: Array[ShaderMaterial] = []
 static var _sun: Color = Color(1.0, 0.92, 0.78)
 static var _ambient: Color = Color(0.55, 0.6, 0.78)
 static var _card_cache: Dictionary = {}
+static var _hero: Vector3 = Vector3(0.0, -1000.0, 0.0)
 
 
 static func set_light(sun_color: Color, ambient_color: Color) -> void:
@@ -22,6 +25,21 @@ static func set_light(sun_color: Color, ambient_color: Color) -> void:
 		if material_value != null:
 			material_value.set_shader_parameter("light_color", sun_color)
 			material_value.set_shader_parameter("ambient_color", ambient_color)
+
+
+## Where the hero stands (world): every tree card between the camera and this point fades to a ghost (`kit_card.gdshader`). OcclusionFader calls it each frame;
+## a y of -1000 (the default) switches the fade off.
+static func set_hero(pos: Vector3) -> void:
+	if pos.is_equal_approx(_hero):
+		return
+	_hero = pos
+	for material_value: ShaderMaterial in _card_materials:
+		if material_value != null:
+			material_value.set_shader_parameter("hero_pos", pos)
+
+
+static func hero_pos() -> Vector3:
+	return _hero
 
 
 ## The shared card material of a kit id (e.g. ENV-TREE-OAK): the real art when it exists, else the placeholder texture.
@@ -36,7 +54,9 @@ static func card_material(id: String) -> ShaderMaterial:
 	material_value.set_shader_parameter("light_color", _sun)
 	material_value.set_shader_parameter("ambient_color", _ambient)
 	material_value.set_shader_parameter("mood_tint", ZoneStyles.tint("tree"))
+	material_value.set_shader_parameter("hero_pos", _hero)
 	_materials.append(material_value)
+	_card_materials.append(material_value)
 	_card_cache[cache_key] = material_value
 	return material_value
 
@@ -60,6 +80,7 @@ static func card(id: String, size: Vector2, shadow: bool = true) -> MeshInstance
 	instance.extra_cull_margin = 2.0
 	instance.set_meta(StyleToon.META_NO_TOON, true)
 	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	instance.set_meta(&"no_occlusion_fade", true)  # the card shader fades itself (hero-aware, per card)
 	return instance
 
 
@@ -134,6 +155,7 @@ static func retint() -> void:
 
 static func clear_cache() -> void:
 	_materials.clear()
+	_card_materials.clear()
 	_card_cache.clear()
 
 
@@ -161,6 +183,7 @@ static func tree_field(parent: Node3D, tree_kind: String, entries: Array[Diction
 	instance.extra_cull_margin = 8.0
 	instance.set_meta(StyleToon.META_NO_TOON, true)
 	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	instance.set_meta(&"no_occlusion_fade", true)  # each card fades itself in the shader
 	instance.set_meta("points", entries)
 	parent.add_child(instance)
 	return instance

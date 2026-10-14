@@ -18,6 +18,17 @@ const FALL_MARGIN: float = 0.9
 const TERRAIN_STEP: float = 2.0
 ## Depth of the main land's cliff skirt below the grass.
 const CLIFF_DEPTH: float = 16.0
+## The lowest the meadow goes: above the look rig's water plane (-0.36), so no dip floods.
+const MIN_GROUND: float = -0.22
+## Corrective pass (GC-1): trees stand only in groves and along the rim, never on a route; half the old count.
+const TREE_COUNT: int = 72
+const ROCK_COUNT: int = 12
+const GROVE_COUNT: int = 9
+## Main walking routes are at least this wide (metres; the hero is about 0.7 m across, the brief asks for 4 hero-widths).
+const MAIN_PATH_WIDTH: float = 4.2
+const SIDE_PATH_WIDTH: float = 3.4
+## Nothing solid stands closer than this to a path edge.
+const PATH_CLEARANCE: float = 2.4
 
 enum Surface { VOID, GROUND, ISLAND, RIM }
 
@@ -151,7 +162,8 @@ func ground_height(x: float, z: float) -> float:
 		flat = minf(flat, smoothstep(spot.z * 0.7, spot.z * 1.3, distance))
 	# The very edge of the plateau rolls down a little so it reads as a cliff top.
 	var edge: float = clampf(main_edge_distance(x, z) / 5.0, 0.0, 1.0)
-	return hills * flat - (1.0 - edge) * 0.8
+	# Never below the look rig's water plane: the meadow's dips used to flood (the hero waded at the exit).
+	return maxf(hills * flat - (1.0 - edge) * 0.5, MIN_GROUND)
 
 
 func area_at(x: float, z: float) -> Area:
@@ -172,6 +184,18 @@ func path_weight(x: float, z: float) -> float:
 			var closest: Vector2 = Geometry2D.get_closest_point_to_segment(Vector2(x, z), line[i], line[i + 1])
 			var distance: float = closest.distance_to(Vector2(x, z))
 			best = maxf(best, 1.0 - smoothstep(half * 0.7, half * 1.2, distance))
+	return best
+
+
+## Metres from the nearest path EDGE (negative on the path itself, positive out in the grass): flowers go in the 0.4-2.2 m band, nothing solid inside PATH_CLEARANCE.
+func path_edge_distance(x: float, z: float) -> float:
+	var best: float = 1e9
+	for path: Dictionary in paths:
+		var line: PackedVector2Array = path["line"] as PackedVector2Array
+		var half: float = float(path["width"]) * 0.5
+		for i: int in range(line.size() - 1):
+			var closest: Vector2 = Geometry2D.get_closest_point_to_segment(Vector2(x, z), line[i], line[i + 1])
+			best = minf(best, closest.distance_to(Vector2(x, z)) - half)
 	return best
 
 
@@ -306,15 +330,16 @@ func _areas() -> void:
 
 func _paths_and_pipes() -> void:
 	var hub: Vector2 = Vector2(52.0, 62.0)
+	# Routes are wide and clear (GC-1): main roads MAIN_PATH_WIDTH, the spurs SIDE_PATH_WIDTH, nothing solid within PATH_CLEARANCE of their edges.
 	paths = [
-		{"line": PackedVector2Array([hub, Vector2(48.0, 52.0), Vector2(36.0, 42.0), Vector2(24.0, 40.0)]), "width": 2.4},
-		{"line": PackedVector2Array([hub, Vector2(62.0, 54.0), Vector2(72.0, 50.0), Vector2(80.0, 42.0)]), "width": 2.4},
-		{"line": PackedVector2Array([hub, Vector2(52.0, 44.0), Vector2(50.0, 30.0), Vector2(50.0, 20.0)]), "width": 2.4},
-		{"line": PackedVector2Array([Vector2(50.0, 30.0), Vector2(60.0, 26.0), Vector2(70.0, 26.0)]), "width": 2.0},
-		{"line": PackedVector2Array([Vector2(50.0, 30.0), Vector2(40.0, 27.0), Vector2(32.0, 26.0)]), "width": 2.0},
-		{"line": PackedVector2Array([hub, Vector2(64.0, 68.0), Vector2(71.0, 68.0)]), "width": 2.2},
-		{"line": PackedVector2Array([Vector2(80.0, 42.0), Vector2(86.0, 46.0), Vector2(88.0, 46.0)]), "width": 2.0},
-		{"line": PackedVector2Array([Vector2(24.0, 40.0), Vector2(18.0, 46.0), Vector2(16.0, 48.0)]), "width": 2.0},
+		{"line": PackedVector2Array([hub, Vector2(48.0, 52.0), Vector2(36.0, 42.0), Vector2(24.0, 40.0)]), "width": MAIN_PATH_WIDTH},
+		{"line": PackedVector2Array([hub, Vector2(62.0, 54.0), Vector2(72.0, 50.0), Vector2(80.0, 42.0)]), "width": MAIN_PATH_WIDTH},
+		{"line": PackedVector2Array([hub, Vector2(52.0, 44.0), Vector2(50.0, 30.0), Vector2(50.0, 20.0)]), "width": MAIN_PATH_WIDTH + 0.6},
+		{"line": PackedVector2Array([Vector2(50.0, 30.0), Vector2(60.0, 26.0), Vector2(70.0, 26.0)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(50.0, 30.0), Vector2(40.0, 27.0), Vector2(32.0, 26.0)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([hub, Vector2(64.0, 68.0), Vector2(71.0, 68.0)]), "width": MAIN_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(80.0, 42.0), Vector2(86.0, 46.0), Vector2(88.0, 46.0)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(24.0, 40.0), Vector2(18.0, 46.0), Vector2(16.0, 48.0)]), "width": SIDE_PATH_WIDTH},
 	]
 	pipes = [
 		PackedVector2Array([Vector2(82.0, 44.0), Vector2(79.0, 52.0), Vector2(74.0, 58.0), Vector2(66.0, 60.5), Vector2(58.0, 61.0)]),
@@ -402,80 +427,115 @@ func _sign(key: String, x: float, z: float, yaw: float = 0.0, size: float = 1.0,
 	signs.append(sign)
 
 
+## Corrective pass (GC-2): 8 boards instead of 30. Kept: the ones that point somewhere (exit, vendor, the two dungeons) and the three the quiz answers
+## are written on (hub_power, ripper_rule, main_dungeon) plus one poster. Dropped: boards that only labelled the NPC or prop standing beside them, island
+## name boards, edge memos and the hamster fact (their text stays in the story file).
 func _signs() -> void:
-	_sign("sign.hub_main", 52.0, 66.0, 180.0, 1.2)
-	_sign("sign.hub_power", 47.0, 59.0, 160.0)
-	_sign("sign.exit", 55.5, 73.0, 180.0)
-	_sign("sign.heal_tub", 45.5, 64.5, 180.0)
-	_sign("sign.protein_stand", 62.5, 67.5, 200.0)
-	_sign("sign.flex_mirror", 42.5, 65.5, 180.0)
-	_sign("sign.vendor", 64.5, 61.5, 200.0)
-	_sign("sign.mills", 27.0, 44.0, 90.0)
-	_sign("sign.quiz", 24.0, 41.5, 160.0)
-	_sign("sign.studio", 66.5, 55.5, 180.0)
-	_sign("sign.puzzle", 76.0, 46.5, 180.0)
-	_sign("sign.wheel", 83.0, 44.0, 180.0)
-	_sign("sign.gym", 70.0, 65.5, 180.0)
-	_sign("sign.spot_me", 75.5, 66.8, 180.0)
-	_sign("sign.thrower_rule", 34.6, 28.0, 150.0)
-	_sign("sign.ripper_rule", 66.8, 28.0, 200.0)
-	_sign("sign.thrower_east", 90.4, 47.8, 200.0)
-	_sign("sign.thrower_west", 13.6, 49.8, 160.0)
-	_sign("sign.mini_dungeon", 64.0, 26.5, 180.0)
-	_sign("sign.main_dungeon", 50.0, 18.0, 180.0, 1.6)
-	_sign("sign.leg_day_note", 54.0, 18.5, 180.0, 0.9, "memo")
-	_sign("sign.energy_poster", 48.0, 58.0, 200.0, 1.0, "poster")
-	_sign("sign.beefcake_poster", 56.5, 58.0, 160.0, 1.0, "poster")
-	_sign("sign.pec_perch", 15.0, 15.5, 180.0)
-	_sign("sign.delt_deck", 89.0, 11.5, 180.0)
-	_sign("sign.glute_garden", 108.0, 53.0, 180.0)
-	_sign("sign.calf_cove", -3.0, 57.5, 180.0)
-	_sign("sign.edge_warning", 17.0, 10.0, 200.0, 0.9, "memo")
-	_sign("sign.edge_warning", 87.0, 7.0, 200.0, 0.9, "memo")
-	_sign("sign.hamster_fact", 24.0, 49.0, 120.0, 0.9, "memo")
+	_sign("sign.hub_main", 47.0, 61.0, 160.0, 1.2)
+	_sign("sign.hub_power", 44.0, 57.5, 160.0)
+	_sign("sign.exit", 55.0, 72.5, 180.0)
+	_sign("sign.vendor", 65.5, 62.0, 200.0)
+	_sign("sign.ripper_rule", 67.5, 28.5, 200.0)
+	_sign("sign.mini_dungeon", 63.5, 26.5, 180.0)
+	_sign("sign.main_dungeon", 54.5, 17.5, 180.0, 1.6)
+	_sign("sign.beefcake_poster", 60.0, 59.0, 160.0, 1.0, "poster")
 
 
-## Trees and rocks scattered over the main land, kept clear of paths, anchors and features.
-func _scatter() -> void:
+## Where nothing solid may stand: round every anchor, chest, feature, enemy home and sign (radius in z).
+func keep_clear_spots() -> Array[Vector3]:
 	var keep_clear: Array[Vector3] = []
 	for key: Variant in anchors.keys():
 		var anchor: Vector3 = anchors[key] as Vector3
-		keep_clear.append(Vector3(anchor.x, anchor.z, 3.2))
+		keep_clear.append(Vector3(anchor.x, anchor.z, ANCHOR_CLEARANCE))
 	for chest_id: Variant in chests.keys():
 		var chest: Vector3 = chests[chest_id] as Vector3
-		keep_clear.append(Vector3(chest.x, chest.z, 1.1))
+		keep_clear.append(Vector3(chest.x, chest.z, 2.0))
 	for feature: Prop in props:
-		keep_clear.append(Vector3(feature.pos.x, feature.pos.z, 3.0 if feature.radius > 0.0 else 2.0))
+		if feature.kind == "tree" or feature.kind == "boulder":
+			continue
+		keep_clear.append(Vector3(feature.pos.x, feature.pos.z, 4.5 if feature.radius > 0.0 else 3.0))
 	for spawn: Dictionary in enemy_spawns:
 		var home: Vector3 = spawn["home"] as Vector3
-		keep_clear.append(Vector3(home.x, home.z, 2.5))
+		keep_clear.append(Vector3(home.x, home.z, 3.0))
+	for sign: Sign in signs:
+		keep_clear.append(Vector3(sign.pos.x, sign.pos.z, 2.5))
+	return keep_clear
+
+
+## Open ground round every anchor (NPCs, vendors, gates, travel points): nothing solid inside this radius.
+const ANCHOR_CLEARANCE: float = 5.5
+## Trees stand in groves (GROVE_COUNT clumps of 4-6.5 m radius) and in the rim band at the edge of the plateau, never on a route (GC-1).
+const RIM_BAND: Vector2 = Vector2(2.0, 9.0)
+
+
+## Trees and rocks on the main land: groves that frame the views and a band along the rim, kept clear of paths, anchors and features.
+func _scatter() -> void:
+	var keep_clear: Array[Vector3] = keep_clear_spots()
+	# Grove centres: well inside the plateau, away from everything that matters and from each other.
+	var groves: Array[Vector3] = []
+	var grove_tries: int = 0
+	while groves.size() < GROVE_COUNT and grove_tries < 800:
+		grove_tries += 1
+		var gx: float = _rng.randf_range(CENTER.x - RADII.x, CENTER.x + RADII.x)
+		var gz: float = _rng.randf_range(CENTER.y - RADII.y, CENTER.y + RADII.y)
+		var edge: float = main_edge_distance(gx, gz)
+		if edge < 6.0 or edge > 24.0 or path_edge_distance(gx, gz) < PATH_CLEARANCE + 3.0:
+			continue
+		var blocked: bool = false
+		for spot: Vector3 in keep_clear:
+			if Vector2(gx - spot.x, gz - spot.y).length() < spot.z + 1.0:
+				blocked = true
+				break
+		for other: Vector3 in groves:
+			if Vector2(gx - other.x, gz - other.y).length() < 11.0:
+				blocked = true
+				break
+		if blocked:
+			continue
+		groves.append(Vector3(gx, gz, _rng.randf_range(4.0, 6.5)))
 	var placed: int = 0
 	var attempts: int = 0
-	while placed < 150 and attempts < 4000:
+	while placed < TREE_COUNT and attempts < 8000:
 		attempts += 1
-		var x: float = _rng.randf_range(CENTER.x - RADII.x, CENTER.x + RADII.x)
-		var z: float = _rng.randf_range(CENTER.y - RADII.y, CENTER.y + RADII.y)
-		if main_edge_distance(x, z) < 1.8 or not _is_clear(x, z, keep_clear):
+		var x: float = 0.0
+		var z: float = 0.0
+		if placed % 5 < 2 or groves.is_empty():
+			# the rim band
+			x = _rng.randf_range(CENTER.x - RADII.x, CENTER.x + RADII.x)
+			z = _rng.randf_range(CENTER.y - RADII.y, CENTER.y + RADII.y)
+			var edge: float = main_edge_distance(x, z)
+			if edge < RIM_BAND.x or edge > RIM_BAND.y:
+				continue
+		else:
+			var grove: Vector3 = groves[_rng.randi() % groves.size()]
+			var angle: float = _rng.randf() * TAU
+			var distance: float = sqrt(_rng.randf()) * grove.z
+			x = grove.x + cos(angle) * distance
+			z = grove.y + sin(angle) * distance
+			if main_edge_distance(x, z) < RIM_BAND.x:
+				continue
+		if not _is_clear(x, z, keep_clear):
 			continue
 		_prop("tree", x, z, _rng.randf() * 360.0, _rng.randf_range(1.1, 1.8), 0.4, _rng.randi() % 2)
-		keep_clear.append(Vector3(x, z, 1.0))
+		keep_clear.append(Vector3(x, z, 2.4))
 		placed += 1
 	var rocks: int = 0
 	attempts = 0
-	while rocks < 40 and attempts < 2000:
+	while rocks < ROCK_COUNT and attempts < 3000:
 		attempts += 1
 		var rx: float = _rng.randf_range(CENTER.x - RADII.x, CENTER.x + RADII.x)
 		var rz: float = _rng.randf_range(CENTER.y - RADII.y, CENTER.y + RADII.y)
-		if main_edge_distance(rx, rz) < 1.5 or not _is_clear(rx, rz, keep_clear):
+		var edge: float = main_edge_distance(rx, rz)
+		if edge < 1.5 or edge > RIM_BAND.y + 2.0 or not _is_clear(rx, rz, keep_clear):
 			continue
 		_prop("boulder", rx, rz, _rng.randf() * 360.0, _rng.randf_range(0.8, 1.5), 0.0, _rng.randi() % 5)
-		keep_clear.append(Vector3(rx, rz, 1.2))
+		keep_clear.append(Vector3(rx, rz, 1.6))
 		rocks += 1
-	# A few trees and boulders on each island, away from the travel points and the chest.
+	# A tree and a boulder or two on each island, away from the travel points and the chests.
 	for island: Island in islands:
 		var on_island: int = 0
 		var tries: int = 0
-		while on_island < 5 and tries < 200:
+		while on_island < 3 and tries < 200:
 			tries += 1
 			var angle: float = _rng.randf() * TAU
 			var distance: float = _rng.randf_range(island.radius * 0.45, island.radius * 0.8)
@@ -484,7 +544,7 @@ func _scatter() -> void:
 			if not _is_clear(tx, tz, keep_clear):
 				continue
 			_prop("tree" if on_island % 2 == 0 else "boulder", tx, tz, _rng.randf() * 360.0, _rng.randf_range(1.0, 1.4), 0.4 if on_island % 2 == 0 else 0.0, _rng.randi() % 2)
-			keep_clear.append(Vector3(tx, tz, 1.2))
+			keep_clear.append(Vector3(tx, tz, 1.6))
 			on_island += 1
 
 
@@ -492,10 +552,4 @@ func _is_clear(x: float, z: float, keep_clear: Array[Vector3]) -> bool:
 	for spot: Vector3 in keep_clear:
 		if Vector2(x - spot.x, z - spot.y).length() < spot.z:
 			return false
-	for path: Dictionary in paths:
-		var line: PackedVector2Array = path["line"] as PackedVector2Array
-		for i: int in range(line.size() - 1):
-			var closest: Vector2 = Geometry2D.get_closest_point_to_segment(Vector2(x, z), line[i], line[i + 1])
-			if closest.distance_to(Vector2(x, z)) < float(path["width"]) * 0.5 + 1.0:
-				return false
-	return true
+	return path_edge_distance(x, z) >= PATH_CLEARANCE

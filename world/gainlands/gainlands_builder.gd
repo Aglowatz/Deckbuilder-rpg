@@ -255,6 +255,7 @@ func _build_main_land() -> void:
 	mesh_instance.material_override = M.terrain()
 	mesh_instance.set_meta(StyleToon.META_NO_TOON, true)  # the vertex-coloured terrain keeps its own material (the double-sided toon variant draws nothing on it)
 	mesh_instance.name = "MainLand"
+	mesh_instance.set_meta(&"no_occlusion_fade", true)  # terrain never dissolves (the island rock used to dither when the camera passed near it)
 	root.add_child(mesh_instance)
 
 
@@ -309,6 +310,7 @@ func _build_islands() -> void:
 		instance.material_override = M.terrain()
 		instance.set_meta(StyleToon.META_NO_TOON, true)
 		instance.name = "Island_" + island.id
+		instance.set_meta(&"no_occlusion_fade", true)
 		root.add_child(instance)
 
 
@@ -332,7 +334,7 @@ func _build_clouds() -> void:
 				blocked = true
 		if blocked:
 			continue
-		specs.append(Vector4(x, _rng.randf_range(-30.0, -4.0), z, _rng.randf_range(3.5, 7.0)))
+		specs.append(Vector4(x, _rng.randf_range(-38.0, -16.0), z, _rng.randf_range(3.5, 7.0)))  # well below the meadow: a drifting cloud used to poke up through the grass (GC-3)
 	# A thick layer well below the main land so the plateau floats in a sea of cloud.
 	for index: int in range(16):
 		var angle: float = TAU * float(index) / 16.0 + _rng.randf() * 0.3
