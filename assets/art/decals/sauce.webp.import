@@ -3,20 +3,21 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bd7scwv1kq7wa"
-path="res://.godot/imported/sauce.webp-ad9d85cd732b0cd9b01f598831bc27fb.ctex"
+path.bptc="res://.godot/imported/sauce.webp-ad9d85cd732b0cd9b01f598831bc27fb.bptc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/art/decals/sauce.webp"
-dest_files=["res://.godot/imported/sauce.webp-ad9d85cd732b0cd9b01f598831bc27fb.ctex"]
+dest_files=["res://.godot/imported/sauce.webp-ad9d85cd732b0cd9b01f598831bc27fb.bptc.ctex"]
 
 [params]
 
-compress/mode=0
-compress/high_quality=false
+compress/mode=2
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
@@ -36,5 +37,5 @@ process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
-process/size_limit=0
+process/size_limit=512
 detect_3d/compress_to=0

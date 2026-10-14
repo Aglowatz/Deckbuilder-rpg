@@ -1,0 +1,25 @@
+{
+	"_about": "Single source of truth for texture import settings per asset folder (build-size budget, docs/build_size.md). First matching rule wins. `apply_import_rules.js` rewrites the [params] of existing .import files; the import scripts call it after importing so new assets get the folder's settings. `size_limit` is Godot's own import-time downscale (max dimension in px): the full-size source stays in the project and only the packed texture shrinks, so raising a limit later re-exports at higher quality. mode: 0 lossless, 1 lossy WebP, 2 VRAM compressed (BC7 when hq). `lossy_over_px`: the lossy mode applies only to images whose longest side exceeds it (small UI pieces and icons stay lossless).",
+	"rules": [
+		{ "match": "assets/art/textures/*_nr.webp", "why": "normal (RG) + roughness (B): must stay RGB, so not the normal-map mode; half the colour texture's size", "mode": 2, "hq": true, "mipmaps": true, "normal_map": 0, "size_limit": 512 },
+		{ "match": "assets/art/textures/*", "why": "world ground and surface textures", "mode": 2, "hq": true, "mipmaps": true, "size_limit": 1024 },
+		{ "match": "assets/art/env_kit/*", "why": "kit building, prop and sign surfaces", "mode": 2, "hq": true, "size_limit": 1024 },
+		{ "match": "assets/art/decals/*", "why": "world decals", "mode": 2, "hq": true, "size_limit": 512 },
+		{ "match": "assets/art/world_test/tex/*", "mode": 2, "hq": true, "size_limit": 1024 },
+		{ "match": "assets/art/world_test/sprites/*", "why": "painted world sprites: lossy keeps the alpha edge lossless and transparent space costs almost nothing; NOT downscaled (head anchors, pivots and hat fits are in canvas pixels, see world/sprites/sprite_anchors.gd) and not trimmed or atlased for the same reason", "mode": 1, "quality": 0.9 },
+		{ "match": "assets/art/world_test/*", "why": "backdrops, sky, foliage sheets", "mode": 1, "quality": 0.88, "size_limit": 1280 },
+		{ "match": "assets/art/characters/hd2d/*", "mode": 0 },
+		{ "match": "assets/art/characters/painted/*", "mode": 1, "quality": 0.92 },
+		{ "match": "assets/art/cards/*", "why": "card art; drawn at most 300x450 px at 1080p", "mode": 1, "quality": 0.88, "size_limit": 768 },
+		{ "match": "assets/art/portraits/*", "why": "dialogue and vendor portraits (up to ~970 px tall in vendor stages)", "mode": 1, "quality": 0.9, "size_limit": 768 },
+		{ "match": "assets/art/battleboards/*", "mode": 1, "quality": 0.86, "size_limit": 1536 },
+		{ "match": "assets/art/maps/*", "mode": 1, "quality": 0.86, "size_limit": 1536 },
+		{ "match": "assets/art/keyart/*", "mode": 1, "quality": 0.88, "size_limit": 1920 },
+		{ "match": "assets/art/vendors/*", "mode": 1, "quality": 0.88, "size_limit": 1672 },
+		{ "match": "assets/art/ui/*", "mode": 1, "quality": 0.92, "lossy_over_px": 256 },
+		{ "match": "assets/art/icons/*", "mode": 0 },
+		{ "match": "assets/icons/*", "mode": 0 },
+		{ "match": "assets/Kay*/*", "why": "3D kit atlases", "mode": 2, "hq": true, "size_limit": 1024 },
+		{ "match": "assets/kenney*/*", "why": "3D kit atlases", "mode": 2, "hq": true, "size_limit": 1024 }
+	]
+}

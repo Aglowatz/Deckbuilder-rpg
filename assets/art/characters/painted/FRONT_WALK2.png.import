@@ -15,9 +15,9 @@ dest_files=["res://.godot/imported/FRONT_WALK2.png-79ae3fe7b16d94d257a90d8a072a9
 
 [params]
 
-compress/mode=0
+compress/mode=1
 compress/high_quality=false
-compress/lossy_quality=0.7
+compress/lossy_quality=0.92
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
