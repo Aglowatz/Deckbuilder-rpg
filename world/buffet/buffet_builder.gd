@@ -119,7 +119,7 @@ func add_blocker(pos: Vector3, radius: float) -> void:
 
 
 ## The player may wade into the soup (and fall in); never off the table or up a cliff.
-func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
+func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
 	var surface: BuffetLayout.Surface = layout.surface_at(pos.x, pos.z)
 	if surface == BuffetLayout.Surface.VOID or surface == BuffetLayout.Surface.CLIFF:
 		return false

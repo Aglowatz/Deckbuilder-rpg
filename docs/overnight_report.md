@@ -5,8 +5,8 @@ Started 2026-10-13. Status is updated after every step. Source of truth: `data/s
 ## Progress
 
 - [x] Step 1: Art Bible in the repo (`docs/art/art_bible.md`, `data/zone_styles/*.json`, palette tinting, hot reload, Path-ology Lab row)
-- [ ] Step 2: Storybook scale (G-01)
-- [ ] Step 3: Camera system (G-02)
+- [x] Step 2: Storybook scale (G-01), see docs/art/storybook_scale_and_camera.md
+- [x] Step 3: Camera system (G-02), same doc
 - [ ] Step 4: Sub-area architecture (G-07)
 - [ ] Step 5: Areas: Main Town, Starting Forest, Gainlands, D.N.A., Endless Buffet, Verdant Dump, Capital Outside, Capital Inside, Castle Grounds, Path-ology Lab
 - [ ] Step 6: Final report

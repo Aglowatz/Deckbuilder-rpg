@@ -185,7 +185,7 @@ func _scatter(center: Vector3, min_radius: float, max_radius: float) -> Vector3:
 	return center + Vector3(cos(angle), 0.0, sin(angle)) * distance
 
 
-func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
+func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
 	var cell: Vector2i = HexGrid.world_to_cell(pos)
 	if not walkable.has(cell):
 		return false

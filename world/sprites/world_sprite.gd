@@ -13,7 +13,7 @@ extends Node3D
 const SHADER: String = "res://world/sprites/world_sprite.gdshader"
 const SHADOW_SHADER: String = "res://world/sprites/world_sprite_shadow.gdshader"
 ## World height of a character whose relative height is 1.0 (the player), in metres.
-const PLAYER_HEIGHT: float = 1.25
+const PLAYER_HEIGHT: float = StorybookScale.HERO_HEIGHT
 ## One full walk cycle (two steps) covers this many character heights.
 const STRIDE_HEIGHTS: float = 1.5
 const MAX_CYCLES_PER_SECOND: float = 3.2

@@ -204,7 +204,7 @@ func _ready() -> void:
 	if _screenshot_args.has("pos"):
 		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
 		player.position = Vector3(float(pos[0]), 0.0, float(pos[1]))
-		_camera.position = player.position + camera_offset * Settings.camera_zoom
+		_camera.position = player.position + CameraRig.shape(camera_offset)
 	if _screenshot_args.has("at"):
 		_teleport(str(_screenshot_args["at"]))
 	if _screenshot_args.has("open"):
@@ -624,7 +624,7 @@ func _build_camera() -> void:
 	_camera.fov = 38.0
 	add_child(_camera)
 	_camera.current = true
-	_camera.position = player.position + camera_offset * Settings.camera_zoom
+	_camera.position = player.position + CameraRig.shape(camera_offset)
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 
 
@@ -696,7 +696,7 @@ func _process(delta: float) -> void:
 	_update_passage_label()
 	_passage_dir = _passage_dir.lerp(_passage_dir_target, 1.0 - exp(-1.8 * delta))
 	var look_ahead: Vector3 = _passage_dir * 9.0 * (_passage_boost - 1.0)
-	var target: Vector3 = player.position + look_ahead + camera_offset * Settings.camera_zoom * _passage_boost
+	var target: Vector3 = player.position + look_ahead + CameraRig.shape(camera_offset) * _passage_boost
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.basis = Basis.looking_at(-camera_offset, Vector3.UP)
 	for spot: Spot in spots:
@@ -732,7 +732,7 @@ func _update_nearest() -> void:
 	var best_distance: float = 1e9
 	for spot: Spot in spots:
 		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
-		if distance <= spot.radius and distance < best_distance:
+		if distance <= spot.radius * StorybookScale.INTERACT_FACTOR and distance < best_distance:
 			best = spot
 			best_distance = distance
 	if best != _near:
@@ -1850,12 +1850,12 @@ func _teleport(spot_id: String) -> void:
 	for spot: Spot in spots:
 		if spot.id == spot_id:
 			player.position = spot.position + Vector3(0.0, 0.0, 1.8)
-			_camera.position = player.position + camera_offset * Settings.camera_zoom
+			_camera.position = player.position + CameraRig.shape(camera_offset)
 			return
 	# Hidden chests (Part D) have no Spot - a dev-only screenshot convenience, not a gameplay path.
 	if town.anchors.has(spot_id):
 		player.position = (town.anchors[spot_id] as Vector3) + Vector3(0.0, 0.0, 1.8)
-		_camera.position = player.position + camera_offset * Settings.camera_zoom
+		_camera.position = player.position + CameraRig.shape(camera_offset)
 
 
 ## Screenshot helper (`--slots=save|load`): fills a few demo save slots in a throw-away folder and opens the slot list.

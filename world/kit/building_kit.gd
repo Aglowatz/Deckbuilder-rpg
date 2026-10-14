@@ -11,11 +11,11 @@ extends RefCounted
 ##   faces: {front|back|left|right: [socket, ...]} where a socket is {type door|window|awning|sign|lantern|ivy|stain|flowerbox|bench..., id: kit id, u: metres along the
 ##          face from its centre (right when looking at it), floor: 0.., y: explicit height}
 ##
-## The front face is +z (yaw 0 faces south, like the rest of the town). All sizes follow the scale rule: the hero (1.25 m) reaches about a third of the way up a door (DOOR_H).
+## The front face is +z (yaw 0 faces south, like the rest of the town). All sizes follow the scale rule: the hero (StorybookScale.HERO_HEIGHT) is 85-90% of a door (DOOR_H), one storey is 1.5 heroes (Art Bible G-01).
 ## Windows are lit with a warm emissive glass (bloom picks it up) and a few registered `lights` carry real OmniLights, budgeted by the caller.
 
-const DOOR_H: float = 3.4
-const DOOR_W: float = 1.7
+const DOOR_H: float = StorybookScale.DOOR_H
+const DOOR_W: float = StorybookScale.DOOR_W
 const GLASS_COLOR: Color = Color("ffa447")
 const LANTERN_COLOR: Color = Color("ffb45a")
 const FLOWERS: Array[Color] = [Color("e0483a"), Color("f0c03a"), Color("e87aa8"), Color("f4efe0"), Color("9a6ad8")]
@@ -32,11 +32,11 @@ var mesh: KitMesh = KitMesh.new()
 var hw: float = 3.0
 var hd: float = 2.5
 var floors: int = 1
-var ground_h: float = 4.0
-var floor_h: float = 3.2
-var foundation: float = 0.55
-var wall_top: float = 4.0
-var ridge_y: float = 6.0
+var ground_h: float = 2.56
+var floor_h: float = 2.05
+var foundation: float = 0.4
+var wall_top: float = 2.6
+var ridge_y: float = 4.5
 var lights: Array[Dictionary] = []
 var anchors: Dictionary = {}
 var smoke_points: Array[Vector3] = []
@@ -55,9 +55,9 @@ static func build(spec_value: Dictionary, tint: Color = Color.WHITE) -> Node3D:
 
 
 static func floor_top(spec_value: Dictionary, index: int) -> float:
-	var ground: float = float(spec_value.get("ground_height", spec_value.get("floor_height", 3.2)))
-	var upper: float = float(spec_value.get("floor_height", 3.2))
-	return float(spec_value.get("foundation", 0.55)) + ground + upper * float(maxi(index, 0))
+	var ground: float = float(spec_value.get("ground_height", spec_value.get("floor_height", 2.05)))
+	var upper: float = float(spec_value.get("floor_height", 2.05))
+	return float(spec_value.get("foundation", 0.4)) + ground + upper * float(maxi(index, 0))
 
 
 ## Circles (x offset, z offset, radius) in the building local frame that cover the footprint along its long axis (the town's obstacles are circles).
@@ -80,9 +80,9 @@ func _assemble() -> Node3D:
 	hw = float(spec.get("width", 6.0)) * 0.5
 	hd = float(spec.get("depth", 5.0)) * 0.5
 	floors = maxi(int(spec.get("floors", 1)), 1)
-	floor_h = float(spec.get("floor_height", 3.2))
+	floor_h = float(spec.get("floor_height", 2.05))
 	ground_h = float(spec.get("ground_height", floor_h))
-	foundation = float(spec.get("foundation", 0.55))
+	foundation = float(spec.get("foundation", 0.4))
 	wall_top = foundation + ground_h + floor_h * float(floors - 1)
 	var root: Node3D = Node3D.new()
 	root.name = str(spec.get("name", "Building"))
@@ -416,7 +416,7 @@ func _socket(face: String, data: Dictionary) -> void:
 			_door(face, u, str(data.get("id", "ENV-DOOR-01")), data)
 		"window":
 			var id: String = str(data.get("id", "ENV-WINDOW-01"))
-			var y: float = foundation + 2.3
+			var y: float = foundation + 1.5
 			if floor_index > 0:
 				y = floor_top(spec, floor_index - 1) + floor_h * 0.5 + 0.1
 			y = float(data.get("y", y))
@@ -424,15 +424,15 @@ func _socket(face: String, data: Dictionary) -> void:
 		"awning":
 			_awning(face, u, float(data.get("y", DOOR_H + 0.45)), float(data.get("w", DOOR_W + 1.4)), str(data.get("id", "ENV-AWNING-01")))
 		"sign":
-			_sign(face, u, float(data.get("y", DOOR_H + 1.2)), str(data.get("id", "ENV-SIGN-CARDS")), float(data.get("size", 1.1)))
+			_sign(face, u, float(data.get("y", DOOR_H + 0.8)), str(data.get("id", "ENV-SIGN-CARDS")), float(data.get("size", 1.1)))
 		"lantern":
-			_wall_lantern(face, u, float(data.get("y", 2.6)), bool(data.get("light", true)))
+			_wall_lantern(face, u, float(data.get("y", 1.8)), bool(data.get("light", true)))
 		"ivy":
-			_ivy(face, u, float(data.get("h", 2.8)), float(data.get("w", 1.3)))
+			_ivy(face, u, float(data.get("h", 1.8)), float(data.get("w", 1.3)))
 		"stain":
-			_stain(face, u, float(data.get("y", 2.0)))
+			_stain(face, u, float(data.get("y", 1.4)))
 		"flowerbox":
-			_flowerbox(face, u, float(data.get("y", 1.5)), float(data.get("w", 1.7)))
+			_flowerbox(face, u, float(data.get("y", 1.0)), float(data.get("w", 1.7)))
 		"shutters":
 			pass
 
@@ -481,14 +481,14 @@ func _door(face: String, u: float, id: String, data: Dictionary) -> void:
 		_attach("glass", face, u, h * 0.72, 0.045, Vector3(w - 0.4, 0.7, 0.03), 0.0)
 		_attach("beam", face, u, h * 0.72, 0.07, Vector3(w - 0.3, 0.06, 0.05), 0.0)
 	else:
-		for strap: float in [0.9, 2.4]:
+		for strap: float in [0.6, 1.5]:
 			_attach("iron", face, u, strap, 0.05, Vector3(w - 0.1, 0.12, 0.04), 0.01)
-	_attach("iron", face, u + w * 0.32, 1.7, 0.1, Vector3(0.12, 0.12, 0.1), 0.02)
+	_attach("iron", face, u + w * 0.32, 1.05, 0.1, Vector3(0.12, 0.12, 0.1), 0.02)
 	anchors["door_%s_%s" % [face, str(u)]] = _face_point(face, u, 0.0, 0.9)
 	if bool(data.get("awning", false)):
 		_awning(face, u, h + 0.5, w + 1.4, str(data.get("awning_id", "ENV-AWNING-01")))
 	if bool(data.get("lantern", false)):
-		_wall_lantern(face, u + w * 0.5 + 0.9, 2.9, true)
+		_wall_lantern(face, u + w * 0.5 + 0.9, 1.9, true)
 	if bool(data.get("pots", false)):
 		_pots(face, u - w * 0.5 - 0.8, 0.55)
 		_pots(face, u + w * 0.5 + 0.8, 0.4)
@@ -496,7 +496,7 @@ func _door(face: String, u: float, id: String, data: Dictionary) -> void:
 
 ## Window styles of the kit (the geometry stand-ins of ENV-WINDOW-01..05): width, height.
 const WINDOW_SIZES: Dictionary = {
-	"cross": Vector2(1.25, 1.6), "wide": Vector2(2.0, 1.4), "round": Vector2(1.1, 1.1), "arch": Vector2(1.2, 2.5), "shop": Vector2(3.0, 1.7), "dark": Vector2(1.25, 1.6),
+	"cross": Vector2(1.25, 1.6), "wide": Vector2(2.0, 1.4), "round": Vector2(1.1, 1.1), "arch": Vector2(1.2, 1.9), "shop": Vector2(3.0, 1.7), "dark": Vector2(1.25, 1.6),
 }
 
 
@@ -721,7 +721,7 @@ func _art_door(face: String, u: float, id: String, data: Dictionary) -> void:
 	if bool(data.get("awning", false)):
 		_awning(face, u, h + 0.55, 2.6, str(data.get("awning_id", "ENV-AWNING-01")))
 	if bool(data.get("lantern", false)):
-		_wall_lantern(face, u + w * 0.5 + 0.7, 2.9, true)
+		_wall_lantern(face, u + w * 0.5 + 0.7, 1.9, true)
 	if bool(data.get("pots", false)):
 		_pots(face, u - w * 0.5 - 0.7, 0.55)
 		_pots(face, u + w * 0.5 + 0.7, 0.4)

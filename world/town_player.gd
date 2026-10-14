@@ -3,8 +3,8 @@ extends Node3D
 ## The walkable hero: WASD / arrow movement on the town's hex tiles with simple circle
 ## collisions (TownBuilder.is_walkable), turning, idle/walk animations and footstep sounds.
 
-const SPEED: float = 3.4
-const MODEL_SCALE: float = 0.34
+const SPEED: float = StorybookScale.WALK_SPEED
+const MODEL_SCALE: float = StorybookScale.MODEL_SCALE
 
 var town: WalkableArea
 var input_enabled: bool = true

@@ -83,7 +83,7 @@ func _ready() -> void:
 	if _screenshot_args.has("pos"):
 		var pos: PackedStringArray = str(_screenshot_args["pos"]).split(",")
 		player.position = Vector3(float(pos[0]), 0.0, float(pos[1]))
-		_camera.position = player.position + _camera_offset * Settings.camera_zoom
+		_camera.position = player.position + CameraRig.shape(_camera_offset)
 	if str(_screenshot_args.get("nohud", "false")) == "true":
 		for child: Node in get_children():
 			if child is CanvasLayer:
@@ -132,7 +132,7 @@ func _build_actors() -> void:
 	_camera.fov = 40.0
 	add_child(_camera)
 	_camera.current = true
-	_camera.position = player.position + _camera_offset * Settings.camera_zoom
+	_camera.position = player.position + CameraRig.shape(_camera_offset)
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
 	var rig: StyleRig = StyleRig.install(self, StylePresets.START, _camera, player)
 	if rig != null:
@@ -334,7 +334,7 @@ func _begin_cave_exit() -> void:
 	_locked = true
 	var gate: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
 	player.position = gate + Vector3(0.0, 0.0, 0.5)
-	_camera.position = player.position + _camera_offset * Settings.camera_zoom
+	_camera.position = player.position + CameraRig.shape(_camera_offset)
 	var maren_pos: Vector3 = gate + Vector3(0.0, 0.0, 2.3)
 	_maren = _make_maren()
 	ModelKit.place(self, _maren, maren_pos, 180.0, TownPlayer.MODEL_SCALE)
@@ -367,7 +367,7 @@ func _say_maren(key: String, then: Callable) -> void:
 
 
 func _process(delta: float) -> void:
-	var target: Vector3 = player.position + _camera_offset * Settings.camera_zoom
+	var target: Vector3 = player.position + CameraRig.shape(_camera_offset)
 	if _maren is SpriteActor:
 		(_maren as SpriteActor).talking = dialogue != null and dialogue.active
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))

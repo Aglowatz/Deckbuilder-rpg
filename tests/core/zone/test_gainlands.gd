@@ -321,7 +321,7 @@ func test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer(
 	for id: String in [GainlandsEnemies.BRUTE, GainlandsEnemies.GOLEM]:
 		var info: ZoneEnemyInfo = GainlandsEnemies.info(id)
 		assert_eq(info.kind, ZoneEnemyInfo.Kind.BATTLE)
-		assert_lt(info.chase_speed, TownPlayer.SPEED, "%s is slower than the player" % id)
+		assert_lt(info.chase_speed, ZoneEnemies.PLAYER_SPEED, "%s is slower than the player" % id)
 		assert_true(ZoneEnemies.is_slow(GainlandsZone.ID, id))
 		var deck: Deck = ZoneEnemies.deck(Session.content, GainlandsZone.ID, id)
 		assert_gte(deck.size(), 24, "%s has a real deck" % id)
@@ -330,7 +330,7 @@ func test_three_enemy_designs_two_slow_battle_starters_and_a_fast_damage_dealer(
 	var sprite: ZoneEnemyInfo = GainlandsEnemies.info(GainlandsEnemies.SPRITE)
 	assert_eq(sprite.kind, ZoneEnemyInfo.Kind.DAMAGE)
 	assert_eq(sprite.damage, 2)
-	assert_gt(sprite.chase_speed, TownPlayer.SPEED)
+	assert_gt(sprite.chase_speed, ZoneEnemies.PLAYER_SPEED)
 
 
 func test_a_gainlands_battle_uses_the_zone_hp_and_the_beefcake_deck() -> void:

@@ -563,7 +563,7 @@ func _prop(model: String, position: Vector3, yaw: float, model_scale: float, rad
 
 
 ## True when a character may stand at `pos` (on a walkable cell and clear of obstacles).
-func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
+func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
 	var cell: Vector2i = HexGrid.world_to_cell(pos / SCALE)
 	if not walkable.has(cell):
 		return false

@@ -527,7 +527,7 @@ func add_blocker(pos: Vector3, radius: float) -> void:
 	_add_obstacle(Vector3(pos.x, pos.z, radius))
 
 
-func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
+func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
 	var r: float = body_radius * 0.75
 	for offset: Vector2 in [Vector2(r, r), Vector2(-r, r), Vector2(r, -r), Vector2(-r, -r)]:
 		var cell: Vector2i = DnaLayout.world_to_cell(Vector3(pos.x + offset.x, 0.0, pos.z + offset.y))

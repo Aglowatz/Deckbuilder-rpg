@@ -76,8 +76,8 @@ func test_slow_enemies_are_slower_than_the_player_and_courier_is_faster() -> voi
 	assert_true(DnaEnemies.is_slow(DnaEnemies.MANAGER))
 	assert_true(DnaEnemies.is_slow(DnaEnemies.INTERN))
 	assert_false(DnaEnemies.is_slow(DnaEnemies.COURIER))
-	assert_gt(DnaEnemies.info(DnaEnemies.COURIER).chase_speed, TownPlayer.SPEED)
-	assert_lt(DnaEnemies.info(DnaEnemies.MANAGER).chase_speed, TownPlayer.SPEED)
+	assert_gt(DnaEnemies.info(DnaEnemies.COURIER).chase_speed, ZoneEnemies.PLAYER_SPEED)
+	assert_lt(DnaEnemies.info(DnaEnemies.MANAGER).chase_speed, ZoneEnemies.PLAYER_SPEED)
 	assert_eq(DnaEnemies.COURIER_DAMAGE, 2)
 	assert_eq(DnaEnemies.info(DnaEnemies.COURIER).kind, ZoneEnemyInfo.Kind.DAMAGE)
 

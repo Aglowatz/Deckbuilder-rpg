@@ -306,7 +306,7 @@ func _start_portal(point: GainlandsTravel.Point) -> void:
 	var dest: Vector3 = builder.anchor(point.dest_anchor)
 	player.position = dest
 	player.model.rotation = Vector3(0.0, 0.0, 0.0)
-	_camera.position = player.position + camera_offset * Settings.camera_zoom
+	_camera.position = player.position + CameraRig.shape(camera_offset)
 	var out_portal: Node3D = _make_portal(dest + Vector3(0, 1.2, 0))
 	out_portal.scale = Vector3.ONE
 	Audio.sfx(&"spell", -3.0, 0.2)
@@ -405,7 +405,7 @@ func _fall_off(island: GainlandsLayout.Island) -> void:
 	await fall.finished
 	player.model.rotation = Vector3(0.0, 0.0, 0.0)
 	player.position = last_safe
-	_camera.position = player.position + camera_offset * Settings.camera_zoom
+	_camera.position = player.position + CameraRig.shape(camera_offset)
 	var run: ZoneRun = Session.zone_run
 	GainlandsInteractables.apply_fall(run, island.title, story.text("fx.fall_log"))
 	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
@@ -532,7 +532,7 @@ func _teleport(anchor_name: String) -> void:
 		player.airborne = true
 		player.forced_animation = &"Running_A"
 		player.model.rotation.y = PI
-		_camera.position = player.position + camera_offset * Settings.camera_zoom
+		_camera.position = player.position + CameraRig.shape(camera_offset)
 		_spawn_grace = 30.0
 		return
 	if anchor_name == "wheel_inside":

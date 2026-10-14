@@ -6,7 +6,7 @@ extends RefCounted
 
 
 ## True when a character may stand at `pos` (on a walkable cell and clear of obstacles).
-func is_walkable(_pos: Vector3, _body_radius: float = 0.22) -> bool:
+func is_walkable(_pos: Vector3, _body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
 	return false
 
 

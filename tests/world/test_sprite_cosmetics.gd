@@ -72,8 +72,8 @@ func test_a_hat_sits_on_the_head_and_mirrors_with_the_body() -> void:
 	assert_true(_sprite.hat_visible)
 	assert_eq(_sprite.current_dir, "FRONT")
 	var front_rect: Rect2 = _sprite.hat_rect
-	assert_gt(front_rect.position.y, 1.0, "the hat is above the shoulders of a 1.25 m hero")
-	assert_lt(front_rect.position.y, 1.5)
+	assert_gt(front_rect.position.y, 1.0 * StorybookScale.CHAR_FACTOR, "the hat is above the shoulders of the hero")
+	assert_lt(front_rect.position.y, 1.5 * StorybookScale.CHAR_FACTOR)
 	assert_gt(front_rect.size.x, 0.1)
 	# A side view pointing to the screen's right is the mirror of the one pointing left.
 	_sprite.snap_heading(Vector3(1.0, 0.0, 0.0))
@@ -108,7 +108,7 @@ func test_the_hat_follows_the_head_through_the_walk_cycle() -> void:
 		assert_eq(anchor.size(), 3)
 		# The hat's width is the head width of THIS frame times the fit, so it changes with the frame like the head does.
 		var fit: Dictionary = SpriteLibrary.hat_fit("TESTHAT", "SIDE")
-		var head_world: float = float(anchor[2]) * (1.25 / 440.0)
+		var head_world: float = float(anchor[2]) * (WorldSprite.PLAYER_HEIGHT / 440.0)
 		assert_almost_eq(rect.size.x, head_world * float(fit["width"]) * float(fit["scale"]), 0.002, "%s: sized from its own head" % key)
 	var low: float = heights.min()
 	var high: float = heights.max()

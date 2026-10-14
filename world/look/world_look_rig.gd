@@ -141,9 +141,12 @@ var _build_world: bool = true
 
 
 func _ready() -> void:
+	CameraRig.active_rigs += 1
+	CameraRig.reset_swivel()
 	mood = mood_for(mood_id)
 	values = values_for(mood)
 	_blend = values.duplicate()
+	_blend.merge(CameraRig.adjust(values), true)
 	if style_rig != null and style_rig.sun != null:
 		_sun_travel = -style_rig.sun.global_basis.z
 	_build_post()
@@ -162,6 +165,8 @@ func _ready() -> void:
 
 
 func _exit_tree() -> void:
+	CameraRig.active_rigs = maxi(0, CameraRig.active_rigs - 1)
+	CameraRig.reset_swivel()
 	if Settings.graphics_changed.is_connected(_on_settings_changed):
 		Settings.graphics_changed.disconnect(_on_settings_changed)
 
@@ -297,6 +302,8 @@ func _mark_no_cull(root: Node) -> void:
 func _process(delta: float) -> void:
 	if camera == null or follow == null:
 		return
+	CameraRig.read_input()
+	CameraRig.tick(delta)
 	_blend_values(delta)
 	_apply(false)
 	var offset: Vector3 = camera.global_position - follow.global_position
@@ -313,8 +320,10 @@ func _process(delta: float) -> void:
 
 func _blend_values(delta: float) -> void:
 	var k: float = 1.0 - exp(-4.0 * delta)
-	for key: Variant in values.keys():
-		var target: Variant = values[key]
+	var targets: Dictionary = values.duplicate()
+	targets.merge(CameraRig.adjust(values), true)
+	for key: Variant in targets.keys():
+		var target: Variant = targets[key]
 		if target is float or target is int:
 			var now: float = lerpf(float(_blend.get(key, target)), float(target), k)
 			_blend[key] = float(target) if absf(now - float(target)) < 0.0004 else now

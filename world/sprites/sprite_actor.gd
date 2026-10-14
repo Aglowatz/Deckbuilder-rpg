@@ -10,7 +10,7 @@ var character: String = "PLAYER"
 ## True for the hero: hat, cloak and dye follow `Session.cosmetics`.
 var follow_cosmetics: bool = true
 ## The scale the owning node applies to its model when nothing special happens (`TownPlayer.MODEL_SCALE`): a scale of this much is "natural".
-var natural_scale: float = 0.34
+var natural_scale: float = StorybookScale.MODEL_SCALE
 var sprite: WorldSprite
 ## Shows the TALK pose while true (for characters that have one).
 var talking: bool = false

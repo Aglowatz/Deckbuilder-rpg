@@ -320,9 +320,9 @@ func test_hazards_are_walkable_for_the_player_but_not_for_enemies_and_scree_need
 	assert_false(builder.is_enemy_walkable(water))
 	assert_true(builder.is_in_hazard(water))
 	var rough: Vector3 = Vector3(79.0, 0.0, 17.0)
-	assert_false(builder.is_walkable(rough), "on foot the scree is blocked")
+	assert_false(builder.is_walkable(rough, 0.22), "on foot the scree is blocked")
 	builder.mounted = true
-	assert_true(builder.is_walkable(rough), "mounted you cross it")
+	assert_true(builder.is_walkable(rough, 0.22), "mounted you cross it")
 	builder.mounted = false
 	assert_true(builder.is_enemy_walkable(Vector3(79.0, 0.0, 22.0)) or builder.is_enemy_walkable(Vector3(74.0, 0.0, 14.0)), "enemies roam the scree")
 	var peak: HeapLayout.Peak = layout.peaks[0]

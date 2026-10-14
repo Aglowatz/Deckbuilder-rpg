@@ -120,7 +120,7 @@ func add_blocker(pos: Vector3, radius: float) -> void:
 
 ## The player may wade into the water or a pit (and fall in); never off the land or up a cliff, and onto the scree only
 ## on a mount.
-func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
+func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
 	var surface: HeapLayout.Surface = layout.surface_at(pos.x, pos.z)
 	if surface == HeapLayout.Surface.VOID or surface == HeapLayout.Surface.CLIFF:
 		return false

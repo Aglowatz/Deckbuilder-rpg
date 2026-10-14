@@ -68,6 +68,9 @@ const ZOOM_MIN: float = 1.0
 const ZOOM_MAX: float = 2.0
 const ZOOM_DEFAULT: float = 1.5
 var camera_zoom: float = ZOOM_DEFAULT
+## Camera angle preset (CameraRig.ANGLE_NAMES): 0 Cinematic, 1 Classic, 2 Overview. Remembered in settings.cfg, never per save.
+var camera_angle: int = 0
+signal camera_changed
 
 var _focused: bool = true
 ## Screenshot and test runs keep their own window (set by `_ready`).
@@ -288,6 +291,7 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("video", "bloom", bloom)
 	config.set_value("video", "fog_quality", fog_quality)
 	config.set_value("video", "zoom", camera_zoom)
+	config.set_value("video", "camera_angle", camera_angle)
 	config.set_value("text", "dialogue", text_dialogue)
 	config.set_value("text", "cards", text_cards)
 	config.set_value("text", "tooltips", text_tooltips)
@@ -324,6 +328,7 @@ func load_settings(path: String = PATH) -> void:
 	bloom = bool(config.get_value("video", "bloom", bloom))
 	fog_quality = clampi(int(config.get_value("video", "fog_quality", fog_quality)), 0, 2)
 	camera_zoom = clampf(float(config.get_value("video", "zoom", camera_zoom)), ZOOM_MIN, ZOOM_MAX)
+	camera_angle = clampi(int(config.get_value("video", "camera_angle", camera_angle)), 0, 2)
 	text_dialogue = clampi(int(config.get_value("text", "dialogue", text_dialogue)), 0, TEXT_SCALES.size() - 1)
 	text_cards = clampi(int(config.get_value("text", "cards", text_cards)), 0, TEXT_SCALES.size() - 1)
 	text_tooltips = clampi(int(config.get_value("text", "tooltips", text_tooltips)), 0, TEXT_SCALES.size() - 1)
@@ -364,6 +369,13 @@ func reset_to_defaults() -> void:
 
 ## Mouse wheel zoom in every 3D scene (UI that scrolls swallows the wheel first, so lists still scroll).
 func _unhandled_input(event: InputEvent) -> void:
+	if CameraRig.active_rigs > 0 and event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
+		if InputMap.has_action(&"camera_angle") and event.is_action_pressed(&"camera_angle"):
+			cycle_camera_angle()
+			return
+		if InputMap.has_action(&"camera_zoom") and event.is_action_pressed(&"camera_zoom"):
+			cycle_camera_zoom()
+			return
 	var wheel: InputEventMouseButton = event as InputEventMouseButton
 	if wheel == null or not wheel.pressed:
 		return
@@ -379,6 +391,27 @@ func set_camera_zoom(value: float) -> void:
 		return
 	camera_zoom = clamped
 	_zoom_dirty = 0.6
+	camera_changed.emit()
+
+
+func set_camera_angle(index: int) -> void:
+	var clamped: int = clampi(index, 0, 2)
+	if clamped == camera_angle:
+		return
+	camera_angle = clamped
+	_zoom_dirty = 0.6
+	camera_changed.emit()
+
+
+## Cycles Cinematic -> Classic -> Overview.
+func cycle_camera_angle() -> void:
+	set_camera_angle((camera_angle + 1) % 3)
+
+
+## Cycles Close -> Normal -> Far (from the nearest preset).
+func cycle_camera_zoom() -> void:
+	var next: int = (CameraRig.zoom_index() + 1) % CameraRig.ZOOM_VALUES.size()
+	set_camera_zoom(CameraRig.ZOOM_VALUES[next])
 
 
 func _process(delta: float) -> void:

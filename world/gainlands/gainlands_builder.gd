@@ -115,7 +115,7 @@ func add_blocker(pos: Vector3, radius: float) -> void:
 	_add_obstacle(Vector3(pos.x, pos.z, radius))
 
 
-func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
+func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
 	var surface: GainlandsLayout.Surface = layout.surface_at(pos.x, pos.z)
 	if surface == GainlandsLayout.Surface.VOID:
 		return false

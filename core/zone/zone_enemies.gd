@@ -3,7 +3,7 @@ extends RefCounted
 ## Zone-independent access to roaming enemy data: dispatches on the zone id to that zone's enemy
 ## table and builds the decks/personalities/duel seats from the shared `ZoneEnemyInfo`.
 
-## The player walks at TownPlayer.SPEED (3.4). Slow types must stay clearly below it.
+## The design speed the enemy numbers were tuned against (3.4). The player now walks faster (TownPlayer.SPEED, storybook scale); `ZoneEnemy` multiplies enemy speeds by the same ratio so the relations (slow types below the player, couriers above) hold.
 const PLAYER_SPEED: float = 3.4
 ## Seconds of invulnerability after the player takes a hit, and the knockback shove (metres).
 const HIT_COOLDOWN: float = 1.6

@@ -63,7 +63,7 @@ func test_every_preset_builds_with_the_right_parts() -> void:
 		assert_gt(body.mesh.get_surface_count(), 5, "%s has material slots" % preset_name)
 		assert_gt(int(building.get_meta("triangles")), 200, "%s has real geometry" % preset_name)
 		assert_lt(int(building.get_meta("triangles")), 10000, "%s stays light" % preset_name)
-		assert_gt(float(building.get_meta("height")), 5.0, "%s towers over the hero" % preset_name)
+		assert_gt(float(building.get_meta("height")), StorybookScale.HERO_HEIGHT * 2.0, "%s towers over the hero" % preset_name)
 
 
 func test_preset_ids_are_all_in_the_kit() -> void:
@@ -72,10 +72,13 @@ func test_preset_ids_are_all_in_the_kit() -> void:
 			assert_true(EnvKit.has(id), "%s of %s is a kit id" % [id, preset_name])
 
 
-func test_scale_rule_hero_reaches_a_third_of_a_door() -> void:
-	var hero: float = 1.25
-	var ratio: float = hero / BuildingKit.DOOR_H
-	assert_between(ratio, 0.3, 0.42, "the hero reaches about a third of the door")
+func test_scale_rule_hero_is_most_of_a_door() -> void:
+	var ratio: float = StorybookScale.HERO_HEIGHT / BuildingKit.DOOR_H
+	assert_between(ratio, 0.85, 0.9, "G-01: the hero is 85-90% of a door")
+	for preset_name: String in BuildingPresets.names():
+		var spec: Dictionary = BuildingPresets.spec(preset_name)
+		var storey: float = float(spec.get("ground_height", 2.5))
+		assert_between(storey / StorybookScale.HERO_HEIGHT, 1.2, 1.9, "%s: a storey is about 1.5 heroes" % preset_name)
 
 
 func test_overrides_change_the_building() -> void:
@@ -93,7 +96,7 @@ func test_roof_styles_all_build() -> void:
 			var roof: Dictionary = {"style": style, "pitch": 40, "overhang": 0.7, "material": "ENV-ROOF-TILE-RED", "gable_front": front}
 			var node: Node3D = BuildingPresets.build("home_a", {"roof": roof})
 			add_child_autofree(node)
-			assert_gt(float(node.get_meta("height")), 4.0, "%s roof (front %s)" % [style, str(front)])
+			assert_gt(float(node.get_meta("height")), 2.8, "%s roof (front %s)" % [style, str(front)])
 
 
 func test_obstacle_circles_cover_the_footprint() -> void:

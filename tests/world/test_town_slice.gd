@@ -59,12 +59,12 @@ func test_buildings_do_not_overlap_each_other_or_the_streets() -> void:
 
 
 func test_door_height_follows_the_scale_rule() -> void:
-	assert_between(1.25 / BuildingKit.DOOR_H, 0.3, 0.42)
-	# the tallest props follow too: a lamp post is about three and a half heroes tall
+	assert_between(StorybookScale.HERO_HEIGHT / BuildingKit.DOOR_H, 0.85, 0.9)
+	# the tallest props follow too: a lamp post is two to three heroes tall
 	var post: Node3D = PropKit.lantern_post()
 	add_child_autofree(post)
 	var height: float = (post.get_child(0) as MeshInstance3D).mesh.get_aabb().size.y
-	assert_between(height / 1.25, 3.0, 4.2)
+	assert_between(height / StorybookScale.HERO_HEIGHT, 2.0, 3.0)
 
 
 func test_no_readable_text_in_the_world() -> void:

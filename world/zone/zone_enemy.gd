@@ -9,6 +9,9 @@ signal touched(enemy: ZoneEnemy)
 
 enum State { PATROL, CHASE, RETURN }
 
+## Enemy speeds were tuned against a hero that walked at 3.4; the storybook hero walks faster, so every enemy speed grows by the same ratio.
+const SPEED_RATIO: float = TownPlayer.SPEED / ZoneEnemies.PLAYER_SPEED
+
 var info: ZoneEnemyInfo
 var instance_id: String = ""
 var home: Vector3 = Vector3.ZERO
@@ -44,7 +47,7 @@ func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: flo
 	_rng.seed = hash(id)
 	_model = _make_model()
 	add_child(_model)
-	_model.scale = Vector3.ONE * info.model_scale
+	_model.scale = Vector3.ONE * info.model_scale * StorybookScale.CHAR_FACTOR
 	if info.tint != Color.WHITE:
 		ModelKit.tint(_model, info.tint)
 	if grade.is_valid():
@@ -68,7 +71,7 @@ func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: flo
 	_alert.outline_size = 12
 	_alert.billboard = BaseMaterial3D.BILLBOARD_ENABLED
 	_alert.no_depth_test = true
-	_alert.position = Vector3(0, 1.25, 0)
+	_alert.position = Vector3(0, StorybookScale.HERO_HEIGHT, 0)
 	_alert.visible = false
 	add_child(_alert)
 	_pick_patrol_target()
@@ -115,12 +118,12 @@ func _add_accessories() -> void:
 func _accessory(offset: Vector3, size: Vector3, color: Color) -> void:
 	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
 	var mesh: BoxMesh = BoxMesh.new()
-	mesh.size = size / maxf(info.model_scale, 0.1)
+	mesh.size = size / maxf(info.model_scale * StorybookScale.CHAR_FACTOR, 0.1)
 	mesh_instance.mesh = mesh
 	var material: StandardMaterial3D = StandardMaterial3D.new()
 	material.albedo_color = color
 	mesh_instance.material_override = material
-	mesh_instance.position = offset / maxf(info.model_scale, 0.1)
+	mesh_instance.position = offset / maxf(info.model_scale * StorybookScale.CHAR_FACTOR, 0.1)
 	_model.add_child(mesh_instance)
 
 
@@ -166,7 +169,7 @@ func _process(delta: float) -> void:
 				else:
 					_lost_sight += delta
 				moved = _walk_toward(player.position, info.chase_speed, delta)
-				if distance < info.touch_range and cooldown <= 0.0:
+				if distance < info.touch_range * StorybookScale.INTERACT_FACTOR and cooldown <= 0.0:
 					touched.emit(self)
 		State.RETURN:
 			moved = _walk_toward(home, info.patrol_speed * 1.6, delta)
@@ -222,6 +225,7 @@ func _walk_toward(goal: Vector3, speed: float, delta: float) -> bool:
 	if direction.length() < 0.05:
 		return false
 	direction = direction.normalized()
+	speed *= SPEED_RATIO
 	var step: Vector3 = direction * speed * delta
 	var before: Vector3 = position
 	if area.is_enemy_walkable(position + step, 0.25):

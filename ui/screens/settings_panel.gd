@@ -107,7 +107,12 @@ func _build_display() -> void:
 	fog.name = "FogQualityOptions"
 	_body.add_child(_row("Fog quality", fog))
 	_body.add_child(_slider_row("UI scale", (Settings.ui_scale - Settings.UI_SCALE_MIN) / (Settings.UI_SCALE_MAX - Settings.UI_SCALE_MIN), _on_ui_scale, _scale_text(), "UiScaleSlider"))
-	_body.add_child(_slider_row("Camera distance", (Settings.camera_zoom - Settings.ZOOM_MIN) / (Settings.ZOOM_MAX - Settings.ZOOM_MIN), _on_zoom, "", "ZoomSlider"))
+	var angle_options: OptionButton = _options(CameraRig.ANGLE_NAMES, Settings.camera_angle, _on_camera_angle)
+	angle_options.name = "CameraAngleOptions"
+	_body.add_child(_row("Camera angle", angle_options))
+	var zoom_options: OptionButton = _options(CameraRig.ZOOM_NAMES, CameraRig.zoom_index(), _on_camera_zoom_preset)
+	zoom_options.name = "CameraZoomOptions"
+	_body.add_child(_row("Camera zoom (the mouse wheel fine-tunes)", zoom_options))
 	_body.add_child(_check("Show minimap", Settings.show_minimap, _on_minimap, "MinimapCheck"))
 	_body.add_child(_note("UI scale resizes menus, popups and the HUD panels. Resolution applies to the windowed mode; Fullscreen and Borderless use your screen's size."))
 
@@ -355,6 +360,14 @@ func _on_ui_scale(value: float) -> void:
 
 func _on_zoom(value: float) -> void:
 	Settings.set_camera_zoom(lerpf(Settings.ZOOM_MIN, Settings.ZOOM_MAX, value))
+
+
+func _on_camera_angle(index: int) -> void:
+	Settings.set_camera_angle(index)
+
+
+func _on_camera_zoom_preset(index: int) -> void:
+	Settings.set_camera_zoom(CameraRig.ZOOM_VALUES[clampi(index, 0, CameraRig.ZOOM_VALUES.size() - 1)])
 
 
 func _on_minimap(pressed: bool) -> void:

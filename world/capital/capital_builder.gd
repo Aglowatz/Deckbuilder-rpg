@@ -110,7 +110,7 @@ func add_blocker(pos: Vector3, radius: float) -> void:
 	_add_obstacle(Vector3(pos.x, pos.z, radius))
 
 
-func is_walkable(pos: Vector3, body_radius: float = 0.22) -> bool:
+func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
 	for offset: Vector2 in [Vector2.ZERO, Vector2(body_radius, 0.0), Vector2(-body_radius, 0.0), Vector2(0.0, body_radius), Vector2(0.0, -body_radius)]:
 		var cell: Vector2i = layout.cell_of(pos.x + offset.x, pos.z + offset.y)
 		if layout.cell_at(cell.x, cell.y) != CapitalLayout.Cell.GROUND:
