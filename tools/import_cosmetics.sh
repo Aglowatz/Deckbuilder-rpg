@@ -33,3 +33,6 @@ for cloak in REDCAPE TATTERED ROYAL PATCHWORK; do
 	n=$(ls assets/art/world_test/sprites/PLAYER_CLOAK_$cloak/*_IDLE.png 2>/dev/null | wc -l)
 	if [ "$n" -ge 5 ]; then echo "cloak $cloak: ready"; else echo "cloak $cloak: arriving soon ($n of 5 idle directions)"; fi
 done
+
+# Folder import rules (docs/build_size.md): compression and right-sizing for the new art.
+node "$(dirname "$0")/apply_import_rules.js" && "/c/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe" --headless --path "$(dirname "$0")/.." --import >/dev/null 2>&1

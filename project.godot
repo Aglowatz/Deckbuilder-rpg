@@ -10,8 +10,10 @@ config_version=5
 
 [application]
 
-config/name="Deckbuilder-RPG"
-config/version="0.3.0"
+config/name="The Wayward Path"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Deckbuilder-RPG"
+config/version="0.3.1"
 run/main_scene="res://scenes/title.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://assets/icon/app_icon.png"
@@ -45,6 +47,13 @@ enabled=PackedStringArray("res://addons/gut/plugin.cfg")
 [gui]
 
 theme/custom="res://ui/game_theme.tres"
+
+[importer_defaults]
+
+texture={
+"compress/lossy_quality": 0.85,
+"compress/mode": 1
+}
 
 [input]
 

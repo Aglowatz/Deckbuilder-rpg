@@ -66,7 +66,7 @@ var pending_equipment_choices: int = 0
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	# The window title is set here, not through application/config/name: that name also names the user:// save folder.
+	# The project name is the window title too; the save folder keeps its old name through config/custom_user_dir_name.
 	DisplayServer.window_set_title("The Wayward Path")
 	rng.randomize()
 	content = ContentLibrary.load_all()
