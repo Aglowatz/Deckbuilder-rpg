@@ -92,3 +92,17 @@ Done (commit "Gainlands corrections, Part E"): see GC-11 and `docs/backlog.md` (
 
 fps (Medium): 59.9 at the hub, 60.0 at the wheel corner. GUT: 1523 / 1524 (GC-6).
 
+## Part F: throwers
+
+Done (commit "Gainlands corrections, Part F"): see GC-12. New e2e `bash tools/run_thrower_smoke.sh` (about 2 minutes, windowed): all ten travel routes with real input, 10 / 10 pass (apex, landing island and height, destination reach, walkable and open landing, control back, ways back down); GUT route test added. One real fix: the Pec Perch return landing moved clear of the windmill.
+
+| Spot | Before | After |
+|---|---|---|
+| Brock, Heavy Heaver, from the road (`--at=thrower_pec`): hidden by canopy before Part A | ![](gainlands_corrections/gc_before_thrower.jpg) | ![](gainlands_corrections/gc_after_thrower.jpg) |
+| Mid-flight to Pec Perch (thrower smoke, real input) | | ![](gainlands_corrections/thrower_pec_mid_air.jpg) |
+| Landing on Pec Perch (11 m) | | ![](gainlands_corrections/thrower_pec_landing.jpg) |
+| The return chuck's landing beside the mill, now clear | | ![](gainlands_corrections/thrower_pec_back_landing.jpg) |
+| Delt Deck to Glute Garden, landing | | ![](gainlands_corrections/thrower_glute_landing.jpg) |
+
+fps (Medium): 60.0 at the hub, 60.0 at Brock. GUT: 1524 / 1525 (GC-6).
+

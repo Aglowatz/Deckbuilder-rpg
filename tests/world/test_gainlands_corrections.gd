@@ -401,3 +401,37 @@ func test_the_sealed_cavern_says_coming_soon_in_the_hud() -> void:
 		assert_false(scene._locked, "E opens nothing (no confirm dialog, no dungeon)")
 	scene.queue_free()
 	await get_tree().process_frame
+
+
+func test_every_thrower_route_has_a_clear_landing_and_a_way_back_down() -> void:
+	var builder: GainlandsBuilder = GainlandsBuilder.new()
+	builder.layout.build()
+	builder._index_obstacles()
+	var throws: int = 0
+	for point: GainlandsTravel.Point in GainlandsTravel.points():
+		var at: Vector3 = builder.anchor(point.anchor)
+		var dest: Vector3 = builder.anchor(point.dest_anchor)
+		assert_true(builder.is_walkable(at + Vector3(0.0, 0.0, 1.1), 0.3), "%s: the Beefcake can be reached (its spot is walkable)" % point.id)
+		assert_true(builder.is_walkable(dest, 0.3), "%s: the landing spot %s is walkable" % [point.id, point.dest_anchor])
+		var open: int = 0
+		for step: int in range(8):
+			var angle: float = TAU * float(step) / 8.0
+			if builder.is_walkable(dest + Vector3(cos(angle) * 1.3, 0.0, sin(angle) * 1.3), 0.3):
+				open += 1
+		assert_gte(open, 6, "%s: open ground round the landing (%d of 8)" % [point.id, open])
+		if point.kind == "throw":
+			throws += 1
+			var distance: float = Vector2(dest.x - at.x, dest.z - at.z).length()
+			var apex: float = clampf(3.0 + distance * 0.28, 5.0, 16.0)
+			assert_gt(apex, 3.0, "%s: the arc rises well above both ends (apex %.1f m)" % [point.id, apex])
+			if point.dest_anchor.begins_with("arrive_") and GainlandsLayout.is_main_ground(at.x, at.z):
+				assert_gt(dest.y, at.y + 5.0, "%s: a throw from the main land lands well above the thrower (%.1f -> %.1f m)" % [point.id, at.y, dest.y])
+	assert_gte(throws, 5, "five or more thrower routes")
+	for island: GainlandsLayout.Island in builder.layout.islands:
+		var way_back: bool = false
+		for point: GainlandsTravel.Point in GainlandsTravel.points():
+			var at: Vector3 = builder.layout.anchors[point.anchor] as Vector3
+			var to: Vector3 = builder.layout.anchors[point.dest_anchor] as Vector3
+			if builder.layout.island_at(at.x, at.z) == island and point.lock == null and GainlandsLayout.is_main_ground(to.x, to.z):
+				way_back = true
+		assert_true(way_back, "%s has an always-open way back down" % island.title)

@@ -298,7 +298,7 @@ func _anchors() -> void:
 	_at("thrower_east", 88.0, 46.0)
 	_at("thrower_west", 16.0, 48.0)
 	# Landing spots on the main land (where throws and portals from the islands arrive).
-	_at("land_pec", 33.0, 29.0)
+	_at("land_pec", 35.0, 30.0)  # clear of the mill at (30, 32): the return chuck used to land against its footprint (GC-12)
 	_at("land_delt", 70.0, 29.0)
 	_at("land_glute", 85.0, 49.0)
 	_at("land_calf", 18.0, 51.0)
