@@ -373,6 +373,10 @@ func _add_spot(id: String, title: String, pos: Vector3, radius: float, prompt: S
 	if bool(data.get("hidden", false)):
 		marker.visible = false
 		plate.visible = false
+	if bool(data.get("no_plate", false)):
+		# a spot whose place carries its own pictogram (the House of Gains gate): the marker stays, the lettered plate never shows (the HUD prompt names it)
+		plate.visible = false
+		plate.modulate.a = 0.0
 	spots.append(spot)
 	return spot
 
@@ -580,6 +584,8 @@ func _process(delta: float) -> void:
 		var base_y: float = builder.height_at(spot.position) + (spot.label_height if spot.label_height > 0.0 else (1.45 if spot.is_npc else 1.7))
 		spot.marker.position.y = base_y + sin(_time * 2.4 + spot.position.x) * 0.07
 		spot.marker.rotation_degrees.y += 60.0 * delta
+		if bool(spot.data.get("no_plate", false)):
+			continue
 		var distance: float = Vector2(player.position.x - spot.position.x, player.position.z - spot.position.z).length()
 		spot.plate.modulate.a = clampf(1.0 - (distance - 2.4) / 1.6, 0.0, 1.0)
 		spot.plate.outline_modulate.a = spot.plate.modulate.a

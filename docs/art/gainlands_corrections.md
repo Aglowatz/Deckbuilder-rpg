@@ -65,3 +65,18 @@ Done (commit "Gainlands corrections, Part C"): see GC-8, GC-9. No portal: a timb
 
 fps (Medium): 60.0 at the hub and 60.0 on the bridge. GUT: 1519 / 1520 (GC-6).
 
+## Part D: the House of Gains
+
+Done (commit "Gainlands corrections, Part D"): see GC-10. The fortress-gym towers beyond the north rim and shows from the hub, the studio, the quiz corner and the roads; its gatehouse and causeway replaced the placeholder gate.
+
+| Spot | Before | After |
+|---|---|---|
+| From the hub (`--at=hub`) | ![](gainlands_corrections/gc_before_hog_from_hub.jpg) | ![](gainlands_corrections/gc_d_after_hog_from_hub.jpg) |
+| From the Station platform (`--at=station`) | ![](gainlands_corrections/gc_before_hog_from_station.jpg) | ![](gainlands_corrections/gc_d_after_hog_from_station.jpg) |
+| From Studio 3AM (`--at=minigame`) | ![](gainlands_corrections/gc_before_hog_from_studio.jpg) | ![](gainlands_corrections/gc_d_after_hog_from_studio.jpg) |
+| From the quiz corner (`--at=quiz`) | | ![](gainlands_corrections/gc_d_after_hog_from_quiz.jpg) |
+| The gate (`--at=main_dungeon`): white blocks, cone, boulders, tape and lettering; now the gatehouse, portcullis, causeway and icon board | ![](gainlands_corrections/gc_before_hog_gate.jpg) | ![](gainlands_corrections/gc_d_after_hog_gate.jpg) |
+| The gate, Overview | | ![](gainlands_corrections/gc_d_after_hog_gate_overview.jpg) |
+
+fps (Medium): 60.0 at the hub, 60.0 at the gate. GUT: 1521 / 1522 (GC-6).
+

@@ -75,7 +75,7 @@ func test_every_anchor_chest_and_enemy_stands_on_real_ground() -> void:
 		var surface: GainlandsLayout.Surface = layout.surface_at(pos.x, pos.z)
 		assert_true(surface == GainlandsLayout.Surface.GROUND or surface == GainlandsLayout.Surface.ISLAND or surface == GainlandsLayout.Surface.BRIDGE, "anchor %s is on ground, an island or the bridge to town" % name)
 		if surface == GainlandsLayout.Surface.BRIDGE:
-			assert_true(name == "spawn" or name == "exit", "only the arrival and the exit stand on the bridge (%s)" % name)
+			assert_true(name == "spawn" or name == "exit" or name == "main_dungeon", "only the arrival, the exit and the House of Gains gate (its causeway) stand on a deck (%s)" % name)
 		elif surface == GainlandsLayout.Surface.GROUND:
 			assert_gt(GainlandsLayout.main_edge_distance(pos.x, pos.z), 1.0, "anchor %s is clear of the cliff edge" % name)
 		else:

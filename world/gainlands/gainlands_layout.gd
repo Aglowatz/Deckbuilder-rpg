@@ -42,6 +42,11 @@ const BRIDGE_Z1: float = 97.0
 const BRIDGE_RISE: float = 0.55
 ## The rails: the walkable deck is the half width minus this.
 const BRIDGE_RAIL: float = 0.3
+## The House of Gains (GC-10): the fortress-gym stands on its own rock beyond the north rim, centred here, and a stone causeway (CAUSEWAY: x, z, w, d) runs from the
+## rim to its gate; the dungeon entrance spot is on the causeway in front of the doors.
+const HOUSE_OF_GAINS: Vector2 = Vector2(50.0, -8.0)
+const HOUSE_OF_GAINS_SIZE: Vector3 = Vector3(48.0, 34.0, 30.0)
+const CAUSEWAY: Rect2 = Rect2(47.3, 7.0, 5.4, 6.5)
 
 enum Surface { VOID, GROUND, ISLAND, RIM, BRIDGE }
 
@@ -162,10 +167,15 @@ static func bridge_height(z: float) -> float:
 	return MIN_GROUND + 0.1 + BRIDGE_RISE * sin(PI * t)
 
 
-## What is under (x, z): the bridge, main ground, an island's top, the unfenced rim just past an island's edge
+## True on the stone causeway to the House of Gains gate (walkable like the bridge, flat).
+static func on_causeway(x: float, z: float) -> bool:
+	return CAUSEWAY.has_point(Vector2(x, z))
+
+
+## What is under (x, z): the bridge or the causeway (both BRIDGE), main ground, an island's top, the unfenced rim just past an island's edge
 ## (stepping there means falling), or nothing.
 func surface_at(x: float, z: float) -> Surface:
-	if on_bridge(x, z):
+	if on_bridge(x, z) or on_causeway(x, z):
 		return Surface.BRIDGE
 	if is_main_ground(x, z):
 		return Surface.GROUND
@@ -180,6 +190,8 @@ func surface_at(x: float, z: float) -> Surface:
 func ground_height(x: float, z: float) -> float:
 	if on_bridge(x, z):
 		return bridge_height(z)
+	if on_causeway(x, z):
+		return MIN_GROUND + 0.1
 	var island: Island = island_at(x, z)
 	if island != null and not is_main_ground(x, z):
 		return island.height
@@ -278,7 +290,8 @@ func _anchors() -> void:
 	_at("run_wheel", 86.0, 42.6)
 	_at("spot_me", 71.0, 68.0)
 	_at("mini_dungeon", 66.0, 25.0)
-	_at("main_dungeon", 50.0, 19.0)
+	# the House of Gains gate: on the causeway in front of the fortress doors (GC-10)
+	_at("main_dungeon", 50.0, 10.0)
 	# Travel points on the main land.
 	_at("thrower_pec", 32.0, 26.0)
 	_at("ripper_delt", 70.0, 26.0)
@@ -429,7 +442,7 @@ func _features() -> void:
 		_prop("pylon", stand.x, stand.y, 0.0, 1.0, stand.z)
 	# Mini dungeon cavern, main dungeon gate, the studio stage.
 	_prop("cavern", 66.0, 22.0, 0.0, 1.0, 3.0)
-	_prop("gate", 50.0, 15.0, 0.0, 1.0, 0.0)
+	# (the placeholder dungeon gate with its cones and tape is gone: the House of Gains fortress and its gatehouse stand beyond the north rim, GC-10)
 	_prop("stage", 69.0, 49.5, 0.0, 1.0, 2.2)
 	_prop("hut", 22.0, 37.0, 0.0, 1.0, 1.5)
 	# Outdoor gym equipment, boulders and logs (south-east).
@@ -469,7 +482,7 @@ func _signs() -> void:
 	_sign("sign.vendor", 68.0, 61.5, 200.0)
 	_sign("sign.ripper_rule", 67.5, 28.5, 200.0)
 	_sign("sign.mini_dungeon", 63.5, 26.5, 180.0)
-	_sign("sign.main_dungeon", 54.5, 17.5, 180.0, 1.6)
+	_sign("sign.main_dungeon", 54.4, 12.8, 180.0, 1.4)
 	_sign("sign.beefcake_poster", 46.5, 54.0, 160.0, 1.0, "poster")
 
 
@@ -495,6 +508,11 @@ func keep_clear_spots() -> Array[Vector3]:
 	var hub: Vector3 = anchors["hub"] as Vector3
 	keep_clear.append(Vector3(hub.x, hub.z, PLAZA_RADIUS + 2.5))
 	keep_clear.append(Vector3(BRIDGE_X, BRIDGE_Z0, 6.0))
+	keep_clear.append(Vector3(HOUSE_OF_GAINS.x, CAUSEWAY.position.y + CAUSEWAY.size.y + 2.0, 8.0))  # the approach to the House of Gains gate (GC-10)
+	# the sub-area gates the hub shows (data/subareas/gainlands/_zone.json) need open ground too
+	for gate: Dictionary in SubAreaDefs.gates("gainlands"):
+		var gate_pos: Array = gate["pos"] as Array
+		keep_clear.append(Vector3(float(gate_pos[0]), float(gate_pos[1]), 4.5))
 	return keep_clear
 
 

@@ -6,7 +6,7 @@ extends RefCounted
 ## every model is built to fill that box. Origin on the ground at the centre, front +z. Same contract as `LandmarkKit` (meta circles / footprint / height); the Wheel
 ## also carries meta "spinner".
 
-const IDS: Array[String] = ["GAIN-HERO-WHEEL", "GAIN-HERO-CHAMPIONS-ARCH", "GAIN-HERO-SWOLYMPUS", "GAIN-HERO-TRAILHEAD-GATE", "GAIN-HERO-SKY-TREE", "GAIN-HERO-SWOLE-STATION"]
+const IDS: Array[String] = ["GAIN-HERO-WHEEL", "GAIN-HERO-CHAMPIONS-ARCH", "GAIN-HERO-SWOLYMPUS", "GAIN-HERO-TRAILHEAD-GATE", "GAIN-HERO-SKY-TREE", "GAIN-HERO-SWOLE-STATION", "GAIN-HERO-HOUSE-OF-GAINS"]
 const RED: Color = Color("d9483b")
 const GOLD: Color = Color("f2c14e")
 const CREAM: Color = Color("f7ebd3")
@@ -45,6 +45,8 @@ static func build(spec: Dictionary) -> Node3D:
 			_sky_tree(root, mesh, size, circles)
 		"GAIN-HERO-SWOLE-STATION":
 			_swole_station(root, mesh, size, circles, lights)
+		"GAIN-HERO-HOUSE-OF-GAINS":
+			GainlandsFortress.build(root, mesh, size, circles, lights)  # GC-10, world/gainlands/gainlands_fortress.gd
 	var body: MeshInstance3D = mesh.instance("Body")
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)
 	body.set_meta("occlusion_near", 2.0)

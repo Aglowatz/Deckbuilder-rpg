@@ -264,3 +264,57 @@ func test_the_bridge_model_stands_in_the_zone_and_on_the_town_side() -> void:
 	assert_not_null(town_bridge, "the town connector has the bridge")
 	if town_bridge != null:
 		assert_eq(str(town_bridge.get_meta("kind", "")), "bridge", "and it is the rope bridge, the same model as the zone side")
+
+
+func test_the_house_of_gains_towers_beyond_the_north_rim_and_its_gate_is_the_dungeon_entrance() -> void:
+	for prop: GainlandsLayout.Prop in layout.props:
+		assert_ne(prop.kind, "gate", "the placeholder gate (white blocks, cones, tape) is gone")
+	var entrance: Vector3 = layout.anchors["main_dungeon"] as Vector3
+	assert_true(GainlandsLayout.on_causeway(entrance.x, entrance.z), "the dungeon entrance stands on the causeway in front of the fortress doors")
+	assert_eq(layout.surface_at(entrance.x, entrance.z), GainlandsLayout.Surface.BRIDGE)
+	assert_false(GainlandsLayout.is_main_ground(GainlandsLayout.HOUSE_OF_GAINS.x, GainlandsLayout.HOUSE_OF_GAINS.y), "the fortress stands beyond the rim, on its own rock")
+	assert_gt(GainlandsLayout.HOUSE_OF_GAINS_SIZE.y, StorybookScale.TREE_MAX * 4.0, "it towers over the trees (castle-sized)")
+	var sign_pos: Vector3 = Vector3.ZERO
+	for sign: GainlandsLayout.Sign in layout.signs:
+		if sign.key == "sign.main_dungeon":
+			sign_pos = sign.pos
+	assert_lt(Vector2(sign_pos.x - entrance.x, sign_pos.z - entrance.z).length(), 6.0, "the icon board stands at the gate")
+	var builder: GainlandsBuilder = GainlandsBuilder.new()
+	builder.layout.build()
+	builder._index_obstacles()
+	assert_true(builder.is_walkable(entrance, 0.3), "the entrance spot is walkable")
+	var can_stand: Callable = func(pos: Vector3) -> bool: return builder.is_walkable(pos, 0.3)
+	var missing: Array[String] = WalkProbe.unreachable(can_stand, layout.anchors["spawn"] as Vector3, builder.map_bounds(), {"main_dungeon": entrance})
+	assert_eq(missing, [] as Array[String], "the causeway joins the plateau: the gate is reachable from the bridge")
+	var def: ZoneDef = GainlandsZone.build_def()
+	for spot: Dictionary in def.spots:
+		if str(spot["id"]) == "main_dungeon":
+			assert_true(bool(spot.get("no_plate", false)), "no lettered plate at the gate (the board carries the dungeon icon, the prompt the name)")
+			assert_eq(str(spot["kind"]), "main_dungeon", "the entrance interaction is unchanged")
+
+
+func test_the_fortress_model_builds_with_towers_chimneys_and_a_gate_that_blocks() -> void:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: GainlandsBuilder = GainlandsBuilder.new()
+	builder.build(host)
+	var house: Node3D = builder.root.find_child("Landmark_GAIN-HERO-HOUSE-OF-GAINS", false, false) as Node3D
+	assert_not_null(house, "the zone builds the House of Gains")
+	if house == null:
+		return
+	assert_almost_eq(house.position.x, GainlandsLayout.HOUSE_OF_GAINS.x, 0.01)
+	assert_almost_eq(house.position.z, GainlandsLayout.HOUSE_OF_GAINS.y, 0.01)
+	assert_gte(float(house.get_meta("height", 0.0)), 30.0, "castle-sized")
+	assert_eq((house.get_meta("chimneys", []) as Array).size(), 3, "three foundry chimneys")
+	var smokes: int = 0
+	for child: Node in builder.root.get_children():
+		if child is CPUParticles3D and child.name.begins_with("FoundrySmoke"):
+			smokes += 1
+	assert_eq(smokes, 3, "smoke rises from each")
+	assert_gte((house.get_meta("circles", []) as Array).size(), 2, "the gatehouse towers block")
+	var body: Node = house.find_child("Body", true, false)
+	assert_true(body != null and body.has_meta(&"no_range_cull"), "visible from the whole zone: never range-culled")
+	assert_true(GainlandsLandmarks.has_model("GAIN-HERO-HOUSE-OF-GAINS"), "a concept of that id will slot in later")
+	# a gatehouse tower is solid, the causeway between them is open
+	assert_false(builder.is_walkable(Vector3(GainlandsLayout.HOUSE_OF_GAINS.x + 7.7, 0.0, GainlandsLayout.HOUSE_OF_GAINS.y + 13.0), 0.3), "the east gatehouse tower blocks")
+	assert_true(builder.is_walkable(Vector3(GainlandsLayout.HOUSE_OF_GAINS.x, 0.0, GainlandsLayout.CAUSEWAY.position.y + 2.0), 0.3), "the causeway is open")

@@ -105,7 +105,7 @@ static func build_def() -> ZoneDef:
 		_spot("heal", "Cooldown Hot Tub", "heal", Vector3(0, 0, 1.6), 1.9, "Soak in the tub (full heal)", "heal"),
 		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
 		_spot("mini_dungeon", "The Iron Cavern", "mini_dungeon", Vector3(0, 0, 0.8), 1.7, "Enter the Iron Cavern: three sets", "mini_dungeon"),
-		_spot("main_dungeon", "The House of Gains", "main_dungeon", Vector3(0, 0, 0.6), 2.0, "Enter the House of Gains", "main_dungeon"),
+		_spot("main_dungeon", "The House of Gains", "main_dungeon", Vector3(0, 0, 0.6), 2.0, "Enter the House of Gains", "main_dungeon", {"no_plate": true}),  # the fortress gate carries an icon board, not lettering (GC-10)
 		_spot("puzzle", "Power Grid Control Panel", "puzzle", Vector3.ZERO, 1.8, "Route the power (puzzle)", "puzzle"),
 		_spot("quiz", "Professor Pump, Beefcake Scholar", "quiz", Vector3(0.9, 0, 0), 1.7, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-PUMP", "speaker": "Professor Pump"}),
 		_spot("minigame", "Chet Thunderabs, 3 AM Fitness Host", "minigame", Vector3(0, 0, 1.0), 1.8, "Talk", "minigame", {"npc": "minigame", "npc_id": "NPC-THUNDERABS", "speaker": "Chet Thunderabs"}),

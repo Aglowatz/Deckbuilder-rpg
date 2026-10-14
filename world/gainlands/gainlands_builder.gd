@@ -42,6 +42,7 @@ func build(parent: Node3D) -> void:
 	_build_main_land()
 	_build_islands()
 	_build_bridge()
+	_build_house_of_gains()
 	_build_clouds()
 	_build_props()
 	_build_pipes()
@@ -96,6 +97,7 @@ func map_bounds() -> Rect2:
 	for island: GainlandsLayout.Island in layout.islands:
 		bounds = bounds.merge(Rect2(island.center - Vector2(island.radius, island.radius), Vector2(island.radius, island.radius) * 2.0))
 	bounds = bounds.merge(Rect2(GainlandsLayout.BRIDGE_X - GainlandsLayout.BRIDGE_HALF_WIDTH - 2.0, GainlandsLayout.BRIDGE_Z0 - 2.0, GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0 + 4.0, GainlandsLayout.BRIDGE_Z1 - GainlandsLayout.BRIDGE_Z0 + 6.0))
+	bounds = bounds.merge(GainlandsLayout.CAUSEWAY.grow(2.0))
 	return bounds
 
 
@@ -123,8 +125,11 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 	if surface == GainlandsLayout.Surface.VOID:
 		return false
 	if surface == GainlandsLayout.Surface.BRIDGE:
-		# the deck between the rope rails; the far landing is the edge of the world (walking off it leaves for town, GainlandsScene)
-		return absf(pos.x - GainlandsLayout.BRIDGE_X) <= GainlandsLayout.BRIDGE_HALF_WIDTH - GainlandsLayout.BRIDGE_RAIL and not _hits_obstacle(pos, body_radius)
+		if GainlandsLayout.on_bridge(pos.x, pos.z):
+			# the deck between the rope rails; the far landing is the edge of the world (walking off it leaves for town, GainlandsScene)
+			return absf(pos.x - GainlandsLayout.BRIDGE_X) <= GainlandsLayout.BRIDGE_HALF_WIDTH - GainlandsLayout.BRIDGE_RAIL and not _hits_obstacle(pos, body_radius)
+		# the causeway to the House of Gains gate: its parapets are the edge
+		return GainlandsLayout.CAUSEWAY.grow(-0.3).has_point(Vector2(pos.x, pos.z)) and not _hits_obstacle(pos, body_radius)
 	if surface == GainlandsLayout.Surface.GROUND and layout.main_edge_distance(pos.x, pos.z) < 0.35:
 		return false
 	return not _hits_obstacle(pos, body_radius)
@@ -332,6 +337,58 @@ func _build_bridge() -> void:
 	for circle: Variant in bridge.get_meta("circles", []) as Array:
 		var local: Vector3 = circle as Vector3
 		_add_obstacle(Vector3(GainlandsLayout.BRIDGE_X + local.x, GainlandsLayout.BRIDGE_Z0 + local.y, local.z))
+
+
+## The House of Gains (GC-10): the fortress-gym on its own rock beyond the north rim, its causeway reaching onto the plateau, smoke from its foundry chimneys.
+## The gatehouse towers block; the causeway is a layout surface (walkable).
+func _build_house_of_gains() -> void:
+	var house: Node3D = GainlandsLandmarks.build({"id": "GAIN-HERO-HOUSE-OF-GAINS", "kind": "fortress", "size": [GainlandsLayout.HOUSE_OF_GAINS_SIZE.x, GainlandsLayout.HOUSE_OF_GAINS_SIZE.y, GainlandsLayout.HOUSE_OF_GAINS_SIZE.z]})
+	if house == null:
+		return
+	root.add_child(house)
+	house.position = Vector3(GainlandsLayout.HOUSE_OF_GAINS.x, 0.0, GainlandsLayout.HOUSE_OF_GAINS.y)
+	for piece: Node in house.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)  # the goal must show from the whole zone (the 48 m cull would hide it from the hub)
+		piece.set_meta(&"no_occlusion_fade", true)
+	for circle: Variant in house.get_meta("circles", []) as Array:
+		var local: Vector3 = circle as Vector3
+		_add_obstacle(Vector3(house.position.x + local.x, house.position.z + local.y, local.z))
+	var chimney_index: int = 0
+	for chimney: Variant in house.get_meta("chimneys", []) as Array:
+		chimney_index += 1
+		var top: Vector3 = house.position + (chimney as Vector3)
+		var smoke: CPUParticles3D = CPUParticles3D.new()
+		smoke.name = "FoundrySmoke%d" % chimney_index
+		smoke.amount = 18
+		smoke.lifetime = 6.0
+		smoke.preprocess = 6.0
+		smoke.direction = Vector3(0.35, 1.0, 0.1)
+		smoke.spread = 12.0
+		smoke.initial_velocity_min = 1.4
+		smoke.initial_velocity_max = 2.2
+		smoke.gravity = Vector3(0.6, 0.35, 0.0)
+		smoke.scale_amount_min = 1.2
+		smoke.scale_amount_max = 2.2
+		smoke.scale_amount_curve = _smoke_curve()
+		var puff: SphereMesh = SphereMesh.new()
+		puff.radius = 1.0
+		puff.height = 2.0
+		puff.radial_segments = 7
+		puff.rings = 4
+		smoke.mesh = puff
+		smoke.material_override = M.translucent(Color(0.42, 0.4, 0.44), 0.42, 0.0)
+		smoke.position = top
+		smoke.set_meta(&"no_occlusion_fade", true)
+		smoke.set_meta(&"no_range_cull", true)
+		root.add_child(smoke)
+
+
+static func _smoke_curve() -> Curve:
+	var curve: Curve = Curve.new()
+	curve.add_point(Vector2(0.0, 0.4))
+	curve.add_point(Vector2(0.5, 1.0))
+	curve.add_point(Vector2(1.0, 1.6))
+	return curve
 
 
 ## The cloud models (adopted by a `CloudFader` so none can block the view).
