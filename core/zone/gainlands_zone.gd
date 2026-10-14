@@ -91,8 +91,8 @@ static func build_def() -> ZoneDef:
 	]
 	def.mini = _mini_def()
 	def.npcs = [
-		{"id": "brenda", "npc_id": "NPC-MOUNTAIN", "model": "Barbarian", "anchor": "brenda", "yaw": 0.0, "tint": Color(1.0, 0.75, 0.85), "scale": 1.5},
-		{"id": "gus", "model": "Rogue_Hooded", "anchor": "gus", "yaw": 90.0, "tint": Color(1.0, 0.9, 0.6), "scale": 1.15},
+		{"id": "brenda", "npc_id": "NPC-MOUNTAIN", "model": "Barbarian", "anchor": "brenda", "yaw": 150.0, "tint": Color(1.0, 0.75, 0.85), "scale": 1.5},
+		{"id": "gus", "model": "Rogue_Hooded", "anchor": "gus", "yaw": 220.0, "tint": Color(1.0, 0.9, 0.6), "scale": 1.15},
 		{"id": "tony", "npc_id": "V-BENCHLEY", "model": "Barbarian", "anchor": "tony", "yaw": 200.0, "tint": Color(0.8, 0.9, 1.0), "scale": 1.9},
 		{"id": "quiz", "npc_id": "NPC-PUMP", "model": "Mage", "anchor": "quiz", "yaw": 90.0, "tint": Color(0.85, 0.95, 1.0), "scale": 1.1},
 		{"id": "minigame", "npc_id": "NPC-THUNDERABS", "model": "Rogue", "anchor": "minigame", "yaw": 180.0, "tint": Color(1.0, 0.45, 0.85), "scale": 1.1},

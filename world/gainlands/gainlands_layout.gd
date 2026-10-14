@@ -29,6 +29,8 @@ const MAIN_PATH_WIDTH: float = 4.2
 const SIDE_PATH_WIDTH: float = 3.4
 ## Nothing solid stands closer than this to a path edge.
 const PATH_CLEARANCE: float = 2.4
+## The hub plaza: open ground this far round the "hub" anchor; props, signs and dressing stand on its rim or beyond (GC-7).
+const PLAZA_RADIUS: float = 8.5
 
 enum Surface { VOID, GROUND, ISLAND, RIM }
 
@@ -224,21 +226,23 @@ func _at(name: String, x: float, z: float) -> void:
 
 
 func _anchors() -> void:
-	# The Swole Station hub (south of the main land).
-	_at("spawn", 52.0, 68.0)
-	_at("rift_station", 58.5, 66.0)
+	# The Swole Station hub (south of the main land). Corrective pass (GC-7): an empty central plaza (PLAZA_RADIUS round "hub") with everything that
+	# matters spaced round its rim: the Station platform north, the hermit at its foot, Gus at the start of the east road, the vendor east, the protein
+	# stand south-east, the exit (the bridge to town) south, the Rift Express south-west, the tub and the mirror west, the sign boards north-west.
+	_at("spawn", 52.0, 69.0)
+	_at("rift_station", 45.0, 71.5)
 	_at("hub", 52.0, 64.0)
 	_at("exit", 52.0, 74.0)
-	_at("heal", 44.0, 62.0)
-	_at("tony", 61.0, 63.0)
+	_at("heal", 42.0, 62.0)
+	_at("tony", 64.0, 62.5)
 	# Brief 16: Shiro Swindle's giant chest, tucked out west of the hub (see NinjaBoss).
 	_at("giant_chest", 24.0, 63.6)
 	# Brief 16: the hidden vault lever, far out on the east rim.
 	_at("vault_lever", 88.8, 55.2)
-	_at("brenda", 52.0, 59.5)
-	_at("gus", 45.0, 68.0)
+	_at("brenda", 47.0, 58.0)
+	_at("gus", 60.5, 57.5)
 	_at("station", 52.0, 55.0)
-	_at("protein_stand", 61.0, 69.0)
+	_at("protein_stand", 61.0, 70.5)
 	_at("flex_mirror", 41.0, 68.0)
 	# Fields.
 	_at("quiz", 22.0, 40.0)
@@ -334,7 +338,8 @@ func _paths_and_pipes() -> void:
 	paths = [
 		{"line": PackedVector2Array([hub, Vector2(48.0, 52.0), Vector2(36.0, 42.0), Vector2(24.0, 40.0)]), "width": MAIN_PATH_WIDTH},
 		{"line": PackedVector2Array([hub, Vector2(62.0, 54.0), Vector2(72.0, 50.0), Vector2(80.0, 42.0)]), "width": MAIN_PATH_WIDTH},
-		{"line": PackedVector2Array([hub, Vector2(52.0, 44.0), Vector2(50.0, 30.0), Vector2(50.0, 20.0)]), "width": MAIN_PATH_WIDTH + 0.6},
+		# the dungeon road leaves the plaza at its north-east corner and skirts the Station platform (GC-7), then runs straight north to the House of Gains
+		{"line": PackedVector2Array([hub, Vector2(59.0, 58.0), Vector2(57.0, 48.0), Vector2(53.0, 38.0), Vector2(50.0, 30.0), Vector2(50.0, 20.0)]), "width": MAIN_PATH_WIDTH + 0.6},
 		{"line": PackedVector2Array([Vector2(50.0, 30.0), Vector2(60.0, 26.0), Vector2(70.0, 26.0)]), "width": SIDE_PATH_WIDTH},
 		{"line": PackedVector2Array([Vector2(50.0, 30.0), Vector2(40.0, 27.0), Vector2(32.0, 26.0)]), "width": SIDE_PATH_WIDTH},
 		{"line": PackedVector2Array([hub, Vector2(64.0, 68.0), Vector2(71.0, 68.0)]), "width": MAIN_PATH_WIDTH},
@@ -379,10 +384,10 @@ func _features() -> void:
 	_prop("station", 52.0, 53.5, 0.0, 1.0, 0.0)
 	for foot: Vector2 in [Vector2(-0.55, -0.9), Vector2(0.55, -0.9), Vector2(-0.55, 0.7), Vector2(0.55, 0.7)]:
 		_prop("pylon", 52.0 + foot.x, 53.5 + foot.y, 0.0, 1.0, 1.0)
-	_prop("tub", 44.0, 62.0, 0.0, 1.0, 1.7)
-	_prop("stall", 63.0, 64.5, 200.0, 1.0, 1.4)
+	_prop("tub", 42.0, 62.0, 0.0, 1.0, 1.7)
+	_prop("stall", 66.0, 63.5, 200.0, 1.0, 1.4)
 	_prop("arch", 52.0, 75.0, 0.0, 1.0, 0.0)
-	_prop("stall", 61.0, 70.5, 160.0, 0.9, 1.2, 1)
+	_prop("stall", 61.0, 72.0, 160.0, 0.9, 1.2, 1)
 	_prop("mirror", 41.0, 66.8, 90.0, 1.0, 0.7)
 	# Giant mills (west) - the KayKit windmill at 3x, sails spinning.
 	_prop("mill", 22.0, 52.0, 20.0, 3.0, 3.0)
@@ -431,14 +436,14 @@ func _sign(key: String, x: float, z: float, yaw: float = 0.0, size: float = 1.0,
 ## are written on (hub_power, ripper_rule, main_dungeon) plus one poster. Dropped: boards that only labelled the NPC or prop standing beside them, island
 ## name boards, edge memos and the hamster fact (their text stays in the story file).
 func _signs() -> void:
-	_sign("sign.hub_main", 47.0, 61.0, 160.0, 1.2)
-	_sign("sign.hub_power", 44.0, 57.5, 160.0)
-	_sign("sign.exit", 55.0, 72.5, 180.0)
-	_sign("sign.vendor", 65.5, 62.0, 200.0)
+	_sign("sign.hub_main", 44.5, 56.5, 150.0, 1.2)
+	_sign("sign.hub_power", 42.5, 59.0, 150.0)
+	_sign("sign.exit", 55.5, 73.0, 180.0)
+	_sign("sign.vendor", 68.0, 61.5, 200.0)
 	_sign("sign.ripper_rule", 67.5, 28.5, 200.0)
 	_sign("sign.mini_dungeon", 63.5, 26.5, 180.0)
 	_sign("sign.main_dungeon", 54.5, 17.5, 180.0, 1.6)
-	_sign("sign.beefcake_poster", 60.0, 59.0, 160.0, 1.0, "poster")
+	_sign("sign.beefcake_poster", 46.5, 54.0, 160.0, 1.0, "poster")
 
 
 ## Where nothing solid may stand: round every anchor, chest, feature, enemy home and sign (radius in z).

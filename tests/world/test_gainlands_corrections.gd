@@ -162,3 +162,38 @@ func test_terrain_and_islands_never_dissolve() -> void:
 		assert_true(node != null and node.has_meta(&"no_occlusion_fade"), "%s never dithers when the camera passes near it" % island.id)
 	for cloud: Node3D in builder.cloud_nodes():
 		assert_lt(cloud.position.y, -8.0, "no cloud can poke up through the meadow")
+
+
+func test_the_hub_plaza_is_open_and_the_hub_things_stand_round_its_rim() -> void:
+	var hub: Vector3 = layout.anchors["hub"] as Vector3
+	var inside: Array[String] = []
+	for prop: GainlandsLayout.Prop in layout.props:
+		if prop.radius <= 0.0 and prop.kind != "tree":
+			continue
+		if Vector2(prop.pos.x - hub.x, prop.pos.z - hub.z).length() < GainlandsLayout.PLAZA_RADIUS:
+			inside.append("%s at (%.0f, %.0f)" % [prop.kind, prop.pos.x, prop.pos.z])
+	for sign: GainlandsLayout.Sign in layout.signs:
+		if Vector2(sign.pos.x - hub.x, sign.pos.z - hub.z).length() < GainlandsLayout.PLAZA_RADIUS:
+			inside.append(sign.key)
+	assert_eq(inside, [] as Array[String], "nothing solid and no board inside the plaza (%.1f m round the hub)" % GainlandsLayout.PLAZA_RADIUS)
+	# The important things are spread round the plaza, not bunched: every pair of hub anchors keeps 4 m apart.
+	var ring: Array[String] = ["rift_station", "heal", "tony", "brenda", "gus", "protein_stand", "flex_mirror", "exit"]
+	for a: String in ring:
+		for b: String in ring:
+			if a < b:
+				var pa: Vector3 = layout.anchors[a] as Vector3
+				var pb: Vector3 = layout.anchors[b] as Vector3
+				assert_gt(Vector2(pa.x - pb.x, pa.z - pb.z).length(), 4.0, "%s and %s have breathing room" % [a, b])
+	# ... and each stands on the plaza's rim: between the plaza edge and 15 m out.
+	for key: String in ring:
+		var pos: Vector3 = layout.anchors[key] as Vector3
+		var distance: float = Vector2(pos.x - hub.x, pos.z - hub.z).length()
+		assert_between(distance, GainlandsLayout.PLAZA_RADIUS - 2.0, 15.0, "%s stands round the plaza (%.1f m from the centre)" % [key, distance])
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: GainlandsBuilder = GainlandsBuilder.new()
+	builder.build(host)
+	var dressing: GainlandsDressing = GainlandsDressing.build(host, builder, GraphicsQuality.Level.HIGH)
+	for child: Node in dressing.root.get_children():
+		var pos: Vector3 = (child as Node3D).position
+		assert_gte(Vector2(pos.x - hub.x, pos.z - hub.z).length(), GainlandsLayout.PLAZA_RADIUS - 0.01, "%s stays off the plaza" % child.name)

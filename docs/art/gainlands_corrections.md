@@ -40,3 +40,14 @@ Done (commit "Gainlands corrections, Part A"): see GC-1 .. GC-6.
 
 fps (Medium, `tools/fps.sh res://scenes/gainlands_zone.tscn 1`): avg 60.0, 766 draw calls. GUT: 1516 / 1517 (the one failure is GC-6, pre-existing).
 
+## Part B: the hub
+
+Done (commit "Gainlands corrections, Part B"): see GC-7. The central plaza is empty; the rift station, vendor, protein stand, hermit, Gus, tub, mirror and the boards stand round its rim with breathing room; four pennants at the outer rim; the dungeon road skirts the Station platform.
+
+| Spot | Before | After |
+|---|---|---|
+| Hub, Cinematic / Normal | ![](gainlands_corrections/gc_before_hub.jpg) | ![](gainlands_corrections/gc_b_after_hub.jpg) |
+| Hub, Overview | ![](gainlands_corrections/gc_before_hub_overview.jpg) | ![](gainlands_corrections/gc_b_after_hub_overview.jpg) |
+
+The translucent disc under the hero is the entrance arch's portal swirl, removed in Part C. fps (Medium): 60.0 / 56.9 over two runs (the iGPU numbers move by several fps run to run). GUT: 1517 / 1518 (GC-6).
+

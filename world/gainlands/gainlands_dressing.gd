@@ -86,6 +86,9 @@ func _free(pos: Vector3, clearance: float, spacing: float, solid: bool = true) -
 		return false
 	if solid and _builder.layout.path_edge_distance(pos.x, pos.z) < GainlandsLayout.PATH_CLEARANCE:
 		return false
+	# the central plaza stays empty (GC-7)
+	if Vector2(pos.x - _hub().x, pos.z - _hub().z).length() < GainlandsLayout.PLAZA_RADIUS + (1.0 if solid else 0.0):
+		return false
 	for anchor: Vector3 in _anchors:
 		if Vector2(pos.x - anchor.x, pos.z - anchor.z).length() < clearance:
 			return false
@@ -182,7 +185,9 @@ func _pennant(index: int) -> Node3D:
 	mesh.facing(Vector3(0, 0, -1))
 	mesh.quad(Vector3(0.05, 3.1, 0), Vector3(1.3, 3.0, 0), Vector3(1.3, 2.45, 0), Vector3(0.05, 2.45, 0), flag.darkened(0.1))
 	mesh.tri(Vector3(1.3, 3.0, 0), Vector3(0.95, 2.72, 0), Vector3(1.3, 2.45, 0), flag.darkened(0.2))
-	return _holder(mesh, "flag_pole")
+	var pole: Node3D = _holder(mesh, "Pennant")  # not named like a flag: the toon wind used to bend the whole pole over (GC-7)
+	pole.set_meta(&"no_wind", true)
+	return pole
 
 
 func _kettlebells() -> Node3D:
