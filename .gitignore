@@ -21,3 +21,6 @@
 
 # Godot import sidecars for images under docs/ (screenshots) are never committed
 /docs/**/*.import
+
+# Release builds and tester notes (zips are shared outside git)
+/builds/

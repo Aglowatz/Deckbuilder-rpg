@@ -21,12 +21,14 @@ func run() -> void:
 		_finish(false, "starting area never loaded")
 		return
 	await driver.seconds(0.5)
-	_check(await driver.click_button("Start my adventure"), "the starting look screen appears first and can be confirmed")
+	# The look-choice screen was removed in the world rollout: a new game goes straight to the wake-up lines.
 	await driver.seconds(0.4)
 	# The wake-up lines, then the Rescuer.
 	var guard: int = 0
 	while _find_element_choice(scene) == null and guard < 60:
 		guard += 1
+		if get_tree().root.find_child("StoryStill", true, false) != null:
+			await driver.click(Vector2(800, 450))
 		if scene.dialogue.active:
 			await driver.tap_key(KEY_E)
 		await driver.seconds(0.2)
@@ -78,6 +80,8 @@ func run() -> void:
 				_check(id != "BAS-B" and id != "BAS-N", "%s has no Beefcake/Necrocrat infrastructure (%s)" % [node.enemy_name, id])
 
 	# Clear the cave and step out: Elder Maren is waiting.
+	while SceneManager.busy:
+		await driver.frames(5)
 	Session.complete_trial()
 	Session.cave_exit_pending = true
 	SceneManager.go_to_start_area()

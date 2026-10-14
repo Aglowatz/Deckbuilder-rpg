@@ -1,5 +1,34 @@
 # Changelog
 
+## v0.3.0 - playtest build
+
+The new look, the new story and a lot of polish. Tester notes: `builds/RELEASE_NOTES_v0.3.0.md` (not committed).
+
+### Look
+- New low cinematic camera with tilt-shift, bloom and a mood per area; sky, water, foliage and distant scenery everywhere.
+- Painted 2.5D hero and NPC sprites (talk poses; hats and cloaks wired in, art pending).
+- Crosspath town square rebuilt from an Environment Kit (20 buildings, props, paths, lighting).
+- Painted textures and decals on the ground and walls of every area.
+- New title screen, loading screens with tips, zone title cards, story stills, 12 painted vendor screens.
+- UI art kit: panels, buttons, card frames, icons for energy, resources, keywords, equipment and more.
+
+### Sound
+- 123 music tracks and 21 stings with crossfades and ducking; separate Master, Music, Effects and Interface volumes.
+
+### Story and gameplay
+- New prologue, Elder Maren as a tortoise, memory fragments, Path lock (1, then 2, then 4), the Path-ology Lab postgame, all 12 dungeons.
+- Five save slots plus autosave, saved decks, Refuse Pile viewer and targeting, Shiro Swindle and giant chests, four-lever vault, pack rule, gold-free level rewards.
+- Settings and accessibility: text sizes, colour-blind symbols, reduced shake and flashing, UI scale, key rebinding.
+- No character-creation screen: New Game goes straight into the forest.
+- Saves from an incompatible format are reset with a message on the title screen (the old file is kept as `.old`).
+
+### Playtest tools
+- F8 (or the pause menu's Send Feedback) saves a report with rating, notes, screenshot, game state and log to the feedback folder; Open feedback folder in the pause menu and the form.
+- The version shows on the title screen and in the pause menu; file logging is on in release builds.
+
+### Fixes
+- Elder Maren's first memory now shows the second-Path announcement and returns control to the hero.
+
 ## v0.2.0 - the big one
 
 Thanks for playing! Here is what's new since the last build you got.

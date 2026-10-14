@@ -65,12 +65,23 @@ func _build_menu() -> void:
 	IconArt.button_icon(settings, "ICON-UI-SETTINGS", 40.0)
 	settings.pressed.connect(_show_settings)
 	column.add_child(settings)
+	var feedback: FancyButton = FancyButton.make("Send Feedback (F8)", &"", Vector2(0, 54))
+	feedback.name = "FeedbackButton"
+	feedback.pressed.connect(SceneManager.open_feedback)
+	column.add_child(feedback)
+	var folder: FancyButton = FancyButton.make("Open feedback folder", &"", Vector2(0, 54))
+	folder.name = "OpenFeedbackFolderButton"
+	folder.pressed.connect(FeedbackReport.open_folder)
+	column.add_child(folder)
 	var title: FancyButton = FancyButton.make("Quit to Title", &"", Vector2(0, 54))
 	title.pressed.connect(_to_title)
 	column.add_child(title)
 	var quit: FancyButton = FancyButton.make("Quit Game", &"DangerButton", Vector2(0, 54))
 	quit.pressed.connect(SceneManager.quit_game)
 	column.add_child(quit)
+	var version: Label = UIKit.label("The Wayward Path  v%s" % FeedbackReport.version(), &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
+	version.name = "VersionLabel"
+	column.add_child(version)
 
 
 func toggle() -> void:

@@ -36,6 +36,11 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if key != null and key.pressed and not key.echo and key.keycode == KEY_F8:
+		open_feedback()
+		get_viewport().set_input_as_handled()
+		return
 	if event.is_action_pressed(&"pause") and pause_allowed and not busy:
 		_pause_menu.toggle()
 		get_viewport().set_input_as_handled()
@@ -95,6 +100,11 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	_fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	busy = false
 	revealed.emit()
+
+
+## The playtest feedback form (F8, or the pause menu button).
+func open_feedback() -> void:
+	FeedbackForm.open(self)
 
 
 func _close_pause() -> void:

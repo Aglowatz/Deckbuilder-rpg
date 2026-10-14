@@ -1090,9 +1090,8 @@ func _after_memory(number: int, known: bool, maren_music: int) -> void:
 			dialogue.finished.connect(func() -> void:
 				_locked = false
 				Audio.pop_music(maren_music, 1.5), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
-	else:
-		Audio.pop_music(maren_music, 1.5)
 		return
+	Audio.pop_music(maren_music, 1.5)
 	if number == 1:
 		var popup: AnnouncementScreen = AnnouncementScreen.make(story.text("memory.1.announce_title"), story.text("memory.1.announce_body"), story.get_lines("memory.1.announce_line"), UIStyle.GOLD)
 		_overlay_layer.add_child(popup)

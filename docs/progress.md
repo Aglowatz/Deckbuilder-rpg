@@ -3088,3 +3088,7 @@ pass (first adjustments are listed in the doc); the old `tools/run_town_interact
 `tools/run_town_slice_smoke.sh`; the Medium gap.
 
 Tools: `tools/kit_bench.tscn`, `bash tools/import_env_kit.sh`, `tools/env_kit_status.gd`, `tools/env_kit_sync.gd`, `tools/side_by_side.gd`, `bash tools/run_town_slice_smoke.sh`.
+
+## Playtest release v0.3.0
+
+Version 0.3.0 in `project.godot` and the export presets; new `FeedbackReport` / `FeedbackForm` (F8 and the pause menu: rating, notes, screenshot, game state, log copy to `user://feedback/`), version label in the pause menu, file logging on. Release checks: 1465 GUT tests pass; smokes passed: `tools/run_release_smoke.sh` (new: title, New Game, F8 report, pause menu, save/load), prologue, town slice, dungeons final, story v2 memory, world rollout, music. Bug fixed: the second-Path announcement after Maren's first memory never showed and the hero stayed locked. Debug features (Dev Shrine, Shift+T texture toggle) are gated by `OS.is_debug_build()`; the camera tuning panel and F1-F6 presets live only in `tests/`, which the export filter excludes. Windows release export is about 1.6 GB (textures are the bulk); the macOS template is not installed, so no Mac build.
