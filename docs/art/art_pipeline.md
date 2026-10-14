@@ -124,3 +124,24 @@ IDs come from `data/source/icons.csv` (rows starting `ICON-`; the `*-OTHERS` pla
 `assets/art/icons/<ID>.webp` (256 px master) plus `<ID>_24/_32/_48/_64/_96/_128.webp`, each downscaled from the full-size source with Lanczos so small icons stay crisp. Plain flat backgrounds are removed; transparent files are kept as they are.
 `IconArt.texture(id, px)` picks the smallest variant that is at least `px`; `IconArt.rect(id, px)` / `IconArt.bbcode(id, px)` build the node / rich-text tag. A missing icon returns null and the screen keeps its old look.
 Report the missing IDs and unmatched files. Contact sheet: `bash tools/shot.sh res://scenes/dev/icon_gallery.tscn icon_gallery`.
+
+## Zone kits ("import zone kit <zone>")
+
+Each zone's own art (Art Bible G-08: material swaps, cut-out sheets, trees and plants, props, decals, hero landmark concepts, sky and backdrop strips) lives on the Drive in
+`Approved_ZoneKits/<Zone>` (`zonekits_dir` in `data/source/art_config.cfg`, read-only), listed in `data/source/<zone>_kit.csv` (rows 1-7 the style target and locks, row 9
+the header `ID, Asset, Category, Lock, Image Description, Size / Format, In-Game Use, Priority, Status`, assets from row 10). `bash tools/import_zone_kit.sh <zone>` copies
+and prepares it (`tools/import_zone_kit.gd`, `tools/zone_kit_prep.gd`):
+
+| Lock | What happens | Where it lands |
+|---|---|---|
+| SURFACE | seam check and repair on the axes the sheet says tile, normal and roughness maps, one texel density with the town kit (400 px/m) | `assets/art/zone_kits/<zone>/<ID>.webp`, `<ID>_n.webp`, `<ID>_r.webp` |
+| CUTOUT, TREE | alpha cleanup, trim, pivot (base, bracket, trunk, decal centre) | `assets/art/zone_kits/<zone>/<ID>.webp` |
+| SHEET | sliced into six cut-outs by the transparent gaps, reading order, each registered as a door / window / sign / banner | `<SHEET-ID>-01.webp` .. `-06.webp` |
+| CONCEPT | reference only (the landmark is modelled in code, `HeroLandmarks`) | `docs/art/zone_kits/<zone>/concepts/<ID>.jpg` |
+| BACKDROP | full width kept, transparent rows trimmed, 2048 px wide at most | `assets/art/zone_kits/<zone>/<ID>.webp` |
+
+The registry `data/art/zone_kits/<zone>.json` (every id with its lock, family, pivot, tile size, sheet parts; hand-added keys such as `height`, `width`, `tile`,
+`placeholder` and alias entries survive a re-import) is read by `EnvKit`, so every zone id resolves like an Environment Kit id and is the target of the zone's
+`material_swaps` in `data/zone_styles/<zone>.json`. The report `docs/art/zone_kits/<zone>_import_report.md` lists what was imported, the ids still missing and the files
+that match no id. Options: `--only=ID,ID`, `--out=res://_art_inbox/zone_kit_preview/` (a preview folder; nothing registered). The whole recipe for a zone is
+`docs/art/zone_rollout_playbook.md`.
