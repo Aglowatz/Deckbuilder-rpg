@@ -4,17 +4,33 @@ extends ZoneMap
 ##
 ## Performance design (the zone is ~3x the town):
 ##  - The map is split into CHUNK x CHUNK cell chunks. Floors are one merged mesh per chunk and floor
-##    kind, walls and cabinets one MultiMesh per chunk, and every prop model is batched into one
-##    MultiMesh per (chunk, model part) - a whole cubicle farm is a handful of draw calls.
+##    kind, the balustrades one kit mesh per chunk, the cabinets and partitions one fading mesh per
+##    chunk (`DnaFadeMesh`: every piece fades on its own when it stands between the camera and the
+##    hero), every Kenney model part one MultiMesh per (chunk, part), every painted card id one
+##    MultiMesh for the whole map (`KitFoliage.tree_field`, the cards fade themselves).
 ##  - `update_visibility()` hides chunks beyond VIEW_RADIUS of the player each frame (on top of
-##    Godot's own frustum culling); the fog hides the cut-off.
+##    Godot's own frustum culling); the fog hides the cut-off. The Hall of Final Approvals, the gate
+##    and the approach bridge hang off the root and never cull: the goal shows from the whole zone.
 ##  - Real lights are pooled in `DnaScene` (a few OmniLights that hop between nearby fixtures)
 ##    instead of one per fixture.
+##
+## D.N.A. slice (docs/art/dna_slice.md): the walls are knee-high stone balustrades with brass caps (WALL_HEIGHT), so no wall ever hides the hero; the cabinets
+## are drawer stacks CABINET_HEIGHT tall and the cubicle partitions paneling PARTITION_HEIGHT tall, both fading per piece; the props are kit cards and
+## `DnaProps` pieces; the entrance is a gate onto the approach causeway (no elevator); the Hall of Final Approvals (`DnaLandmarks`) stands beyond the north edge.
 
 const CHUNK: int = 10
 const VIEW_RADIUS: float = 30.0
-const WALL_HEIGHT: float = 1.25
-const CABINET_HEIGHT: float = 1.15
+## The balustrades: knee-high (the hero is 0.68 m), never between the camera and the hero's body.
+const WALL_HEIGHT: float = 0.5
+const CABINET_HEIGHT: float = 1.0
+const PARTITION_HEIGHT: float = 0.6
+## Painted card props of the layout (kit ids) -> the TreeCards kind that draws them as one MultiMesh field.
+const CARD_KINDS: Dictionary = {
+	"DNA-PROP-GHOSTLAMP": "dna_lamp", "DNA-PROP-DESK": "dna_desk", "DNA-PLANT-OFFICE": "dna_plant", "DNA-PLANT-LILY": "dna_lily", "DNA-TREE-DEAD": "dna_topiary",
+	"DNA-PROP-PAPER": "dna_paper", "DNA-PROP-STAMP": "dna_stamp", "DNA-PROP-ROPE": "dna_rope",
+	"DNA-SHEET-CABINETS-01": "dna_cabinet_1", "DNA-SHEET-CABINETS-02": "dna_cabinet_2", "DNA-SHEET-CABINETS-03": "dna_cabinet_3",
+	"DNA-SHEET-CABINETS-04": "dna_cabinet_4", "DNA-SHEET-CABINETS-05": "dna_cabinet_5", "DNA-SHEET-CABINETS-06": "dna_cabinet_6",
+}
 
 const KENNEY_FURNITURE: String = "res://assets/kenney-furniture-kit/models/"
 const KENNEY_GRAVEYARD: String = "res://assets/kenney-graveyard-kit/models/"
@@ -24,6 +40,8 @@ var layout: DnaLayout = DnaLayout.new()
 var root: Node3D
 ## chunk (Vector2i) -> Node3D
 var chunks: Dictionary = {}
+## The Hall of Final Approvals node (the main dungeon's building), null until built.
+var hall: Node3D
 ## Circular obstacles bucketed by 2x2 cell: Vector2i -> Array[Vector3(x, z, radius)].
 var _buckets: Dictionary = {}
 ## Set by the scene: a cell that is temporarily blocked (e.g. a sealed door) -> true.
@@ -34,9 +52,10 @@ static var _part_cache: Dictionary = {}
 
 var _batches: Dictionary = {}
 var _floor_quads: Dictionary = {}
-var _wall_transforms: Dictionary = {}
-var _cabinet_transforms: Dictionary = {}
-var _light_transforms: Dictionary = {}
+var _wall_cells: Dictionary = {}
+var _cabinet_cells: Dictionary = {}
+var _partition_segments: Dictionary = {}
+var _card_entries: Dictionary = {}
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
@@ -48,11 +67,12 @@ func build(parent: Node3D) -> void:
 	parent.add_child(root)
 	_collect_cells()
 	_collect_props()
-	_collect_lights()
 	_collect_partitions()
 	_flush()
 	_build_signs()
 	_build_set_pieces()
+	_build_hall()
+	_build_entrance()
 	_index_obstacles()
 
 
@@ -122,7 +142,7 @@ func update_visibility(focus: Vector3) -> void:
 			node.visible = near
 
 
-# ---- Cells: floors, walls, cabinets ---------------------------------------------------------
+# ---- Cells: floors, balustrades, cabinets ----------------------------------------------------
 
 
 func _collect_cells() -> void:
@@ -134,10 +154,9 @@ func _collect_cells() -> void:
 			var center: Vector3 = cell_center(cx, cz)
 			var key: Vector2i = _chunk_key(center)
 			if cell == DnaLayout.Cell.WALL:
-				var list: Array = _wall_transforms.get(key, []) as Array
-				var xform: Transform3D = Transform3D(Basis.from_scale(Vector3(1.0, WALL_HEIGHT, 1.0)), center + Vector3(0, WALL_HEIGHT * 0.5, 0))
-				list.append(xform)
-				_wall_transforms[key] = list
+				var list: Array = _wall_cells.get(key, []) as Array
+				list.append(Vector2i(cx, cz))
+				_wall_cells[key] = list
 				continue
 			var floor_kind: DnaLayout.Floor = layout.floor_at(cx, cz)
 			if floor_kind == DnaLayout.Floor.NONE:
@@ -148,9 +167,9 @@ func _collect_cells() -> void:
 			quads[floor_kind] = cell_list
 			_floor_quads[key] = quads
 			if cell == DnaLayout.Cell.SOLID:
-				var cab_list: Array = _cabinet_transforms.get(key, []) as Array
-				cab_list.append(Transform3D(Basis.from_scale(Vector3(0.98, CABINET_HEIGHT, 0.98)), center + Vector3(0, CABINET_HEIGHT * 0.5, 0)))
-				_cabinet_transforms[key] = cab_list
+				var cab_list: Array = _cabinet_cells.get(key, []) as Array
+				cab_list.append(Vector2i(cx, cz))
+				_cabinet_cells[key] = cab_list
 
 
 # ---- Props (batched) -------------------------------------------------------------------------
@@ -200,46 +219,47 @@ static func model_parts(model: String) -> Array:
 
 func _collect_props() -> void:
 	for prop: DnaLayout.Prop in layout.props:
-		if prop.model.is_empty():
-			continue
-		var parts: Array = model_parts(prop.model)
-		var basis: Basis = Basis(Vector3.UP, deg_to_rad(prop.yaw)) * Basis.from_scale(Vector3.ONE * prop.model_scale)
-		var base: Transform3D = Transform3D(basis, prop.pos)
-		var key: Vector2i = _chunk_key(prop.pos)
-		for index: int in range(parts.size()):
-			var part: Dictionary = parts[index] as Dictionary
-			var batch_key: String = "%d,%d|%s|%d" % [key.x, key.y, prop.model, index]
-			if not _batches.has(batch_key):
-				_batches[batch_key] = {"chunk": key, "mesh": part["mesh"], "list": []}
-			((_batches[batch_key] as Dictionary)["list"] as Array).append(base * (part["xform"] as Transform3D))
+		match prop.kind:
+			"card":
+				var kind: String = str(CARD_KINDS.get(prop.model, ""))
+				if kind == "" or not TreeCards.KINDS.has(kind):
+					push_warning("DnaBuilder: no card kind for %s" % prop.model)
+					continue
+				var size: Vector2 = (TreeCards.KINDS[kind] as Dictionary)["size"] as Vector2
+				var entries: Array = _card_entries.get(kind, []) as Array
+				entries.append({"pos": prop.pos, "scale": prop.model_scale / maxf(size.y, 0.01)})
+				_card_entries[kind] = entries
+			"piece":
+				var node: Node3D = DnaProps.piece(prop.model, prop.model_scale)
+				if node == null:
+					push_warning("DnaBuilder: no piece %s" % prop.model)
+					continue
+				chunk_for(prop.pos).add_child(node)
+				node.position = prop.pos
+				node.rotation_degrees.y = prop.yaw
+			"model":
+				if prop.model.is_empty():
+					continue
+				var parts: Array = model_parts(prop.model)
+				var basis: Basis = Basis(Vector3.UP, deg_to_rad(prop.yaw)) * Basis.from_scale(Vector3.ONE * prop.model_scale)
+				var base: Transform3D = Transform3D(basis, prop.pos)
+				var key: Vector2i = _chunk_key(prop.pos)
+				for index: int in range(parts.size()):
+					var part: Dictionary = parts[index] as Dictionary
+					var batch_key: String = "%d,%d|%s|%d" % [key.x, key.y, prop.model, index]
+					if not _batches.has(batch_key):
+						_batches[batch_key] = {"chunk": key, "mesh": part["mesh"], "list": []}
+					((_batches[batch_key] as Dictionary)["list"] as Array).append(base * (part["xform"] as Transform3D))
 
 
-var _partition_transforms: Dictionary = {}
-
-
-## Cubicle partition panels: thin fabric boxes along each partition segment.
+## Cubicle partition panels: knee-high paneling along each partition segment, fading per panel.
 func _collect_partitions() -> void:
 	for seg: Vector4 in layout.partitions:
-		var a: Vector3 = Vector3(seg.x, 0.0, seg.y)
-		var b: Vector3 = Vector3(seg.z, 0.0, seg.w)
-		var mid: Vector3 = (a + b) * 0.5
-		var length: float = a.distance_to(b)
-		var angle: float = atan2(b.z - a.z, b.x - a.x)
-		var basis: Basis = Basis(Vector3.UP, -angle) * Basis.from_scale(Vector3(length, 0.78, 0.09))
+		var mid: Vector3 = Vector3((seg.x + seg.z) * 0.5, 0.0, (seg.y + seg.w) * 0.5)
 		var key: Vector2i = _chunk_key(mid)
-		var list: Array = _partition_transforms.get(key, []) as Array
-		list.append(Transform3D(basis, mid + Vector3(0, 0.39, 0)))
-		_partition_transforms[key] = list
-
-
-func _collect_lights() -> void:
-	for spot: DnaLayout.LightSpot in layout.lights:
-		var key: Vector2i = _chunk_key(spot.pos)
-		var index_key: String = "%d,%d|%d|%s" % [key.x, key.y, spot.group, spot.color.to_html()]
-		if not _light_transforms.has(index_key):
-			_light_transforms[index_key] = {"chunk": key, "group": spot.group, "color": spot.color, "list": []}
-		var xform: Transform3D = Transform3D(Basis.IDENTITY, spot.pos)
-		((_light_transforms[index_key] as Dictionary)["list"] as Array).append(xform)
+		var list: Array = _partition_segments.get(key, []) as Array
+		list.append(seg)
+		_partition_segments[key] = list
 
 
 func _flush() -> void:
@@ -263,35 +283,102 @@ func _flush() -> void:
 		var instance: MeshInstance3D = MeshInstance3D.new()
 		instance.mesh = mesh
 		instance.name = "Floor"
+		instance.set_meta(&"no_occlusion_fade", true)
 		chunk_node(key).add_child(instance)
-	for key: Vector2i in _wall_transforms.keys():
-		_add_multimesh(key, _box_mesh(), DnaMaterials.wall_material(), _wall_transforms[key] as Array, "Walls", false)
-	for key: Vector2i in _cabinet_transforms.keys():
-		_add_multimesh(key, _box_mesh(), DnaMaterials.cabinet_material(), _cabinet_transforms[key] as Array, "Cabinets", true)
-	for key: Vector2i in _partition_transforms.keys():
-		_add_multimesh(key, _box_mesh(), _partition_material(), _partition_transforms[key] as Array, "Partitions", true)
+	for key: Vector2i in _wall_cells.keys():
+		_build_balustrades(key, _wall_cells[key] as Array)
+	var fade_keys: Dictionary = {}
+	for key: Vector2i in _cabinet_cells.keys():
+		fade_keys[key] = true
+	for key: Vector2i in _partition_segments.keys():
+		fade_keys[key] = true
+	for key: Vector2i in fade_keys.keys():
+		_build_fading(key, _cabinet_cells.get(key, []) as Array, _partition_segments.get(key, []) as Array)
 	for batch_key: String in _batches.keys():
 		var batch: Dictionary = _batches[batch_key] as Dictionary
 		_add_multimesh(batch["chunk"] as Vector2i, batch["mesh"] as Mesh, null, batch["list"] as Array, "Props", true)
-	for entry: Variant in _light_transforms.values():
-		var data: Dictionary = entry as Dictionary
-		var tube: BoxMesh = BoxMesh.new()
-		tube.size = Vector3(0.9, 0.05, 0.16)
-		_add_multimesh(data["chunk"] as Vector2i, tube, DnaMaterials.glow_material(int(data["group"]), data["color"] as Color), data["list"] as Array, "Tubes", false)
+	for kind: String in _card_entries.keys():
+		var entries: Array[Dictionary] = []
+		entries.assign(_card_entries[kind] as Array)
+		var field: MultiMeshInstance3D = KitFoliage.tree_field(root, kind, entries, true)
+		if field != null:
+			field.name = "Cards_%s" % kind
+			# posts, desks and cabinets do not sway in the wind like plants
+			if not bool((TreeCards.KINDS[kind] as Dictionary).get("plant", false)) and field.material_override is ShaderMaterial:
+				var still: ShaderMaterial = (field.material_override as ShaderMaterial).duplicate() as ShaderMaterial
+				still.set_shader_parameter("sway", 0.0)
+				field.material_override = still
+
+
+## A knee-high stone balustrade on every wall cell of a chunk: a gray block with a brass cap, a post with a brass finial on the corners and every fourth cell.
+func _build_balustrades(key: Vector2i, wall_cells: Array) -> void:
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("grey", DnaLandmarks._surface("DNA-WALL-GREY", DnaLandmarks.GREY))
+	mesh.set_material("grey_light", DnaLandmarks._surface("DNA-WALL-GREY", DnaLandmarks.GREY, Color(1.1, 1.1, 1.08)))
+	mesh.set_material("brass", DnaLandmarks._surface("DNA-TRIM-BRASS", DnaLandmarks.BRASS))
+	mesh.set_material("flat", EnvKit.flat(Color.WHITE, "dna_props"))
+	mesh.alias("gold", "flat", DnaLandmarks.BRASS.srgb_to_linear())
+	for cell: Variant in wall_cells:
+		var c: Vector2i = cell as Vector2i
+		var center: Vector3 = cell_center(c.x, c.y)
+		mesh.box("grey", center + Vector3(0, WALL_HEIGHT * 0.5 - 0.1, 0), Vector3(1.0, WALL_HEIGHT + 0.2, 1.0), Basis.IDENTITY, 0.03, 0.82)
+		mesh.box("brass", center + Vector3(0, WALL_HEIGHT + 0.015, 0), Vector3(1.02, 0.04, 1.02), Basis.IDENTITY, 0.0)
+		var neighbours: int = 0
+		for step: Vector2i in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			if layout.cell_at(c.x + step.x, c.y + step.y) == DnaLayout.Cell.WALL:
+				neighbours += 1
+		var corner: bool = neighbours != 2 or (layout.cell_at(c.x + 1, c.y) == DnaLayout.Cell.WALL) != (layout.cell_at(c.x - 1, c.y) == DnaLayout.Cell.WALL)
+		if corner or (c.x + c.y) % 4 == 0:
+			mesh.box("grey_light", center + Vector3(0, 0.42, 0), Vector3(0.56, 0.84, 0.56), Basis.IDENTITY, 0.03, 0.9)
+			mesh.box("brass", center + Vector3(0, 0.86, 0), Vector3(0.62, 0.05, 0.62), Basis.IDENTITY, 0.0)
+			mesh.blob("gold", center + Vector3(0, 0.98, 0), Vector3(0.1, 0.11, 0.1), 3, 6, 1.0)
+	var instance: MeshInstance3D = mesh.instance("Parapets")
+	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	instance.set_meta(&"no_occlusion_fade", true)  # knee-high: never between the camera and the hero's body
+	chunk_node(key).add_child(instance)
+
+
+## The fading pieces of a chunk: filing cabinets on every solid cell (a drawer stack with brass handles on the sides that face the aisles) and the cubicle
+## partitions (paneling with a brass rail). Each piece fades on its own in the shader (DnaFadeMesh).
+func _build_fading(key: Vector2i, cabinet_cells: Array, segments: Array) -> void:
+	var mesh: DnaFadeMesh = DnaFadeMesh.new()
+	mesh.set_slot("cabinet", "", Color("6b7572"))
+	mesh.set_slot("cabinet_dark", "", Color("4e5856"))
+	mesh.set_slot("brass", "DNA-TRIM-BRASS", Color.WHITE)
+	mesh.set_slot("paneling", "TEX-DNA-PANELING", Color.WHITE)
+	for cell: Variant in cabinet_cells:
+		var c: Vector2i = cell as Vector2i
+		var center: Vector3 = cell_center(c.x, c.y)
+		var piece: Vector4 = Vector4(center.x, center.z, 0.5, CABINET_HEIGHT)
+		mesh.box("cabinet", piece, center + Vector3(0, CABINET_HEIGHT * 0.5, 0), Vector3(0.96, CABINET_HEIGHT, 0.96), Color.WHITE, 0.78)
+		mesh.box("cabinet_dark", piece, center + Vector3(0, CABINET_HEIGHT + 0.02, 0), Vector3(0.98, 0.04, 0.98))
+		for step: Vector2i in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			if not layout.is_floor(c.x + step.x, c.y + step.y):
+				continue
+			var normal: Vector3 = Vector3(float(step.x), 0.0, float(step.y))
+			for row: int in range(3):
+				var y: float = CABINET_HEIGHT * (float(row) + 0.5) / 3.0
+				var face: Vector3 = center + normal * 0.5 + Vector3(0, y, 0)
+				mesh.box("cabinet_dark", piece, face + normal * 0.02, Vector3(0.7, 0.2, 0.04) if step.y != 0 else Vector3(0.04, 0.2, 0.7))
+				mesh.box("brass", piece, face + normal * 0.05, Vector3(0.26, 0.04, 0.03) if step.y != 0 else Vector3(0.03, 0.04, 0.26))
+				if (c.x * 7 + c.y * 3 + row) % 5 == 0:
+					# a drawer left open with its papers
+					mesh.box("cabinet", piece, face + normal * 0.24, Vector3(0.66, 0.16, 0.44) if step.y != 0 else Vector3(0.44, 0.16, 0.66))
+					mesh.box("cabinet_dark", piece, face + normal * 0.24 + Vector3(0, 0.1, 0), Vector3(0.5, 0.05, 0.3) if step.y != 0 else Vector3(0.3, 0.05, 0.5), Color("c9c6b8").srgb_to_linear())
+	for seg: Variant in segments:
+		var s: Vector4 = seg as Vector4
+		var a: Vector3 = Vector3(s.x, 0.0, s.y)
+		var b: Vector3 = Vector3(s.z, 0.0, s.w)
+		var mid: Vector3 = (a + b) * 0.5
+		var length: float = a.distance_to(b)
+		var along_x: bool = absf(b.x - a.x) >= absf(b.z - a.z)
+		var piece: Vector4 = Vector4(mid.x, mid.z, length * 0.5, PARTITION_HEIGHT)
+		mesh.box("paneling", piece, mid + Vector3(0, PARTITION_HEIGHT * 0.5, 0), Vector3(length, PARTITION_HEIGHT, 0.08) if along_x else Vector3(0.08, PARTITION_HEIGHT, length), Color.WHITE, 0.85)
+		mesh.box("brass", piece, mid + Vector3(0, PARTITION_HEIGHT + 0.02, 0), Vector3(length + 0.04, 0.04, 0.12) if along_x else Vector3(0.12, 0.04, length + 0.04))
+	chunk_node(key).add_child(mesh.instance("Fading"))
 
 
 static var _unit_box: BoxMesh
-static var _partition_mat: StandardMaterial3D
-
-
-static func _partition_material() -> StandardMaterial3D:
-	if _partition_mat == null:
-		_partition_mat = StandardMaterial3D.new()
-		_partition_mat.albedo_color = Color(0.42, 0.56, 0.5)
-		_partition_mat.roughness = 1.0
-	return _partition_mat
-
-
 
 
 static func _box_mesh() -> BoxMesh:
@@ -321,30 +408,18 @@ func _add_multimesh(key: Vector2i, mesh: Mesh, material: Material, transforms: A
 
 
 func _build_signs() -> void:
-	# G-03: no readable text in the world. A wall board carries one pictogram; the words are read by using it (ZoneScene adds a "sign" spot).
+	# G-03: no readable text in the world. A board carries one pictogram (DnaProps.board: slate in a brass frame, parchment posters, memos); the words are read by
+	# using it (ZoneScene adds a "sign" spot).
 	for sign_spec: DnaLayout.Sign in layout.signs:
 		var holder: Node3D = Node3D.new()
 		holder.position = sign_spec.pos
 		holder.rotation_degrees.y = sign_spec.yaw
 		chunk_for(sign_spec.pos).add_child(holder)
 		var panel_size: Vector2 = Vector2(0.75, 0.75) * sign_spec.size
-		var board: MeshInstance3D = MeshInstance3D.new()
-		var quad: BoxMesh = BoxMesh.new()
-		quad.size = Vector3(panel_size.x, panel_size.y, 0.04)
-		board.mesh = quad
-		var board_material: StandardMaterial3D = StandardMaterial3D.new()
-		match sign_spec.style:
-			"poster":
-				board_material.albedo_color = Color(0.82, 0.8, 0.66)
-			"memo":
-				board_material.albedo_color = Color(0.9, 0.88, 0.5)
-				panel_size *= 0.7
-				board.scale = Vector3(0.7, 0.7, 1.0)
-			_:
-				board_material.albedo_color = Color(0.1, 0.16, 0.15)
-		board.material_override = board_material
-		holder.add_child(board)
-		holder.add_child(IconSign.picture(panel_size * 0.8, sign_icon(sign_spec.key), Vector3(0, 0, 0.03)))
+		if sign_spec.style == "memo":
+			panel_size *= 0.7
+		holder.add_child(DnaProps.board(panel_size, sign_spec.style))
+		holder.add_child(IconSign.picture(panel_size * 0.8, sign_icon(sign_spec.key), Vector3(0, 0, 0.04)))
 
 
 ## The icon id a sign shows (the keys are the D.N.A.'s `sign.*` / `poster.*` / `memo.*` story keys).
@@ -367,83 +442,25 @@ static func sign_icon(key: String) -> String:
 	return IconSign.icon_for(key, SIGN_ICONS)
 
 
-# ---- Set pieces (doors, elevators, time clock...) --------------------------------------------
+# ---- Set pieces (elevators, time clock, the tubes...) ------------------------------------------
 
 
-func _box(parent: Node3D, size: Vector3, pos: Vector3, color: Color, emissive: float = 0.0) -> MeshInstance3D:
-	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
-	var mesh: BoxMesh = BoxMesh.new()
-	mesh.size = size
-	mesh_instance.mesh = mesh
-	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.albedo_color = color
-	material.roughness = 0.7
-	if emissive > 0.0:
-		material.emission_enabled = true
-		material.emission = color
-		material.emission_energy_multiplier = emissive
-	mesh_instance.material_override = material
-	mesh_instance.position = pos
-	parent.add_child(mesh_instance)
-	return mesh_instance
+func _place_piece(node: Node3D, pos: Vector3, yaw: float = 0.0) -> void:
+	chunk_for(pos).add_child(node)
+	node.position = pos
+	node.rotation_degrees.y = yaw
 
 
 func _build_set_pieces() -> void:
-	# Elevators: a steel frame, two door leaves and an indicator lamp each.
+	# Elevators along the elevator bank's north wall; the live one is Sub-Basement 3.
 	for key: String in ["elevator_1", "elevator_2", "mini_dungeon", "elevator_4"]:
 		var pos: Vector3 = anchor(key)
-		var piece: Node3D = Node3D.new()
-		piece.position = Vector3(pos.x, 0.0, pos.z - 0.9)
-		chunk_for(pos).add_child(piece)
-		var live: bool = key == "mini_dungeon"
-		_box(piece, Vector3(1.9, 1.6, 0.18), Vector3(0, 0.8, 0.0), Color(0.18, 0.22, 0.22))
-		_box(piece, Vector3(0.78, 1.35, 0.1), Vector3(-0.41, 0.7, 0.1), Color(0.55, 0.62, 0.6))
-		_box(piece, Vector3(0.78, 1.35, 0.1), Vector3(0.41, 0.7, 0.1), Color(0.5, 0.57, 0.55))
-		_box(piece, Vector3(0.3, 0.1, 0.06), Vector3(0, 1.5, 0.12), Color(1.0, 0.55, 0.2) if live else Color(0.4, 0.5, 0.45), 2.0 if live else 0.2)
-	# The main dungeon's locked door on the executive floor: big double doors, taped shut.
-	var door_pos: Vector3 = anchor("main_dungeon")
-	var door: Node3D = Node3D.new()
-	door.position = Vector3(door_pos.x, 0.0, door_pos.z - 0.9)
-	chunk_for(door_pos).add_child(door)
-	_box(door, Vector3(3.0, 1.45, 0.2), Vector3(0, 0.72, 0.0), Color(0.2, 0.08, 0.08))
-	_box(door, Vector3(1.3, 1.25, 0.12), Vector3(-0.68, 0.65, 0.12), Color(0.34, 0.12, 0.1))
-	_box(door, Vector3(1.3, 1.25, 0.12), Vector3(0.68, 0.65, 0.12), Color(0.3, 0.11, 0.09))
-	var tape_a: MeshInstance3D = _box(door, Vector3(3.2, 0.1, 0.06), Vector3(0, 0.95, 0.2), Color(1.0, 0.8, 0.1), 0.5)
-	tape_a.rotation_degrees.z = 12.0
-	var tape_b: MeshInstance3D = _box(door, Vector3(3.2, 0.1, 0.06), Vector3(0, 0.6, 0.2), Color(1.0, 0.8, 0.1), 0.5)
-	tape_b.rotation_degrees.z = -10.0
-	# The surface elevator (zone exit) on the lobby's south wall.
-	var exit_pos: Vector3 = anchor("exit_door")
-	var exit_piece: Node3D = Node3D.new()
-	exit_piece.position = exit_pos + Vector3(0, 0, 0.0)
-	chunk_for(exit_pos).add_child(exit_piece)
-	_box(exit_piece, Vector3(1.9, 1.6, 0.18), Vector3(0, 0.8, -0.1), Color(0.18, 0.22, 0.22))
-	_box(exit_piece, Vector3(0.78, 1.35, 0.1), Vector3(-0.41, 0.7, -0.22), Color(0.6, 0.65, 0.5))
-	_box(exit_piece, Vector3(0.78, 1.35, 0.1), Vector3(0.41, 0.7, -0.22), Color(0.55, 0.6, 0.46))
-	_box(exit_piece, Vector3(0.3, 0.1, 0.06), Vector3(0, 1.5, -0.24), Color(0.9, 0.95, 0.5), 2.0)
-	# Time clock: a grey box with a glowing face on the breakroom's west wall.
+		_place_piece(DnaProps.elevator(key == "mini_dungeon"), Vector3(pos.x, 0.0, pos.z - 0.9))
+	# Time clock on the breakroom's west wall, the suggestion box by the lobby doorway, the haunted printer in farm B.
 	var clock_pos: Vector3 = anchor("time_clock")
-	var clock: Node3D = Node3D.new()
-	clock.position = Vector3(clock_pos.x - 0.35, 0.0, clock_pos.z)
-	chunk_for(clock_pos).add_child(clock)
-	_box(clock, Vector3(0.22, 0.55, 0.4), Vector3(0, 0.95, 0), Color(0.3, 0.33, 0.33))
-	_box(clock, Vector3(0.05, 0.3, 0.28), Vector3(0.12, 1.02, 0), Color(0.9, 1.0, 0.7), 1.6)
-	_box(clock, Vector3(0.1, 0.06, 0.34), Vector3(0.06, 0.78, 0), Color(0.1, 0.1, 0.1))
-	# Suggestion box: a locked wooden box with a slot.
-	var box_pos: Vector3 = anchor("suggestion")
-	var suggestion: Node3D = Node3D.new()
-	suggestion.position = Vector3(box_pos.x, 0.0, box_pos.z)
-	chunk_for(box_pos).add_child(suggestion)
-	_box(suggestion, Vector3(0.45, 0.7, 0.4), Vector3(0, 0.35, 0), Color(0.45, 0.3, 0.2))
-	_box(suggestion, Vector3(0.3, 0.04, 0.03), Vector3(0, 0.66, 0.21), Color(0.05, 0.03, 0.03))
-	# Printer: a grey body, a green status light and a paper tray (the haunted printer).
-	var printer_pos: Vector3 = anchor("printer")
-	var printer: Node3D = Node3D.new()
-	printer.position = Vector3(printer_pos.x, 0.0, printer_pos.z)
-	chunk_for(printer_pos).add_child(printer)
-	_box(printer, Vector3(0.7, 0.55, 0.55), Vector3(0, 0.28, 0), Color(0.36, 0.4, 0.4))
-	_box(printer, Vector3(0.6, 0.06, 0.45), Vector3(0, 0.58, 0), Color(0.5, 0.54, 0.52))
-	_box(printer, Vector3(0.06, 0.06, 0.06), Vector3(0.25, 0.5, 0.29), Color(0.4, 1.0, 0.5), 3.0)
+	_place_piece(DnaProps.time_clock(), Vector3(clock_pos.x - 0.35, 0.0, clock_pos.z))
+	_place_piece(DnaProps.suggestion_box(), anchor("suggestion"))
+	_place_piece(DnaProps.printer(), anchor("printer"), 90.0)
 	# Pneumatic tubes in the mail room: pipes along the north wall with capsules racing through.
 	_build_tube_network()
 	# Hidden chests (the same 1/4-scale gold chest as the town's secrets).
@@ -453,9 +470,9 @@ func _build_set_pieces() -> void:
 func _build_tube_network() -> void:
 	var parent: Node3D = chunk_for(anchor("mail_center"))
 	var pipe_material: StandardMaterial3D = StandardMaterial3D.new()
-	pipe_material.albedo_color = Color(0.55, 0.5, 0.35)
-	pipe_material.metallic = 0.4
-	pipe_material.roughness = 0.5
+	pipe_material.albedo_color = Color("9a8450")
+	pipe_material.metallic = 0.3
+	pipe_material.roughness = 0.55
 	var capsule_material: StandardMaterial3D = StandardMaterial3D.new()
 	capsule_material.albedo_color = Color(0.7, 1.0, 0.9)
 	capsule_material.emission_enabled = true
@@ -481,6 +498,7 @@ func _build_tube_network() -> void:
 		pipe.position = (a + b) * 0.5
 		var direction: Vector3 = (b - a).normalized()
 		pipe.transform.basis = Basis(Quaternion(Vector3.UP, direction))
+		pipe.set_meta(&"no_occlusion_fade", true)
 		parent.add_child(pipe)
 		var capsule: MeshInstance3D = MeshInstance3D.new()
 		var capsule_mesh: CapsuleMesh = CapsuleMesh.new()
@@ -496,7 +514,6 @@ func _build_tube_network() -> void:
 		travel.tween_interval(0.5 + _rng.randf())
 
 
-
 func _build_chests() -> void:
 	for id: String in layout.chests.keys():
 		var pos: Vector3 = layout.chests[id] as Vector3
@@ -509,6 +526,60 @@ func _build_chests() -> void:
 		chest_nodes[id] = chest
 		var obstacle: Vector3 = Vector3(pos.x, pos.z, 0.18)
 		_add_obstacle(obstacle)
+
+
+# ---- The Hall of Final Approvals and the way in ---------------------------------------------------
+
+
+## The main dungeon's building beyond the executive floor's north edge (DnaLayout.HALL_*): the hero model, never culled, never faded, its stair coming down to a
+## stone threshold at the floor's edge; its lamps join the pooled lights. The dungeon spot waits at the stair's foot.
+func _build_hall() -> void:
+	var size: Vector3 = DnaLayout.HALL_SIZE
+	hall = LandmarkKit.build({"id": "DNA-HERO-FINAL-APPROVALS", "kind": "facade", "size": [size.x, size.y, size.z], "color": "#6e7470", "accent": "#8a2e2e"})
+	if hall == null:
+		return
+	root.add_child(hall)
+	hall.position = Vector3(DnaLayout.HALL_CENTER.x, 0.0, DnaLayout.HALL_CENTER.y)
+	for piece: Node in hall.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)  # the goal must show from the whole zone (the 48 m cull would hide it from the lobby)
+		piece.set_meta(&"no_occlusion_fade", true)
+	for entry: Variant in hall.get_meta("lights", []) as Array:
+		var light: Dictionary = entry as Dictionary
+		var spot: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
+		spot.pos = hall.position + (light["pos"] as Vector3)
+		spot.color = light["color"] as Color
+		layout.lights.append(spot)
+	# the threshold slab between the stair's foot and the floor's edge
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("grey_dark", DnaLandmarks._surface("DNA-WALL-GREY", DnaLandmarks.GREY, Color(0.74, 0.76, 0.76)))
+	mesh.set_material("brass", DnaLandmarks._surface("DNA-TRIM-BRASS", DnaLandmarks.BRASS))
+	var stair_w: float = clampf(size.x * 0.2, 3.0, 12.0)
+	mesh.box("grey_dark", Vector3(DnaLayout.HALL_CENTER.x, -0.12, 1.6), Vector3(stair_w + 1.8, 0.24, 1.6), Basis.IDENTITY, 0.02)
+	mesh.box("brass", Vector3(DnaLayout.HALL_CENTER.x, 0.005, 2.3), Vector3(stair_w + 1.8, 0.02, 0.2), Basis.IDENTITY, 0.0)
+	var threshold: MeshInstance3D = mesh.instance("Threshold")
+	threshold.set_meta(&"no_occlusion_fade", true)
+	threshold.set_meta(&"no_range_cull", true)
+	root.add_child(threshold)
+
+
+## The gate in the lobby's south wall and the approach causeway's far landing with the bridge stub toward town (DnaLandmarks). Walking off the causeway's far
+## end leaves for town (DnaScene).
+func _build_entrance() -> void:
+	var width: float = float(DnaLayout.APPROACH_X1 - DnaLayout.APPROACH_X0)
+	var gate: Node3D = DnaLandmarks.entrance_gate(width)
+	root.add_child(gate)
+	gate.position = anchor("gate")
+	for piece: Node in gate.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)
+	for circle: Variant in gate.get_meta("circles", []) as Array:
+		var local: Vector3 = circle as Vector3
+		_add_obstacle(Vector3(gate.position.x + local.x, gate.position.z + local.y, local.z))
+	var bridge: Node3D = DnaLandmarks.approach_bridge(16.0, width)
+	root.add_child(bridge)
+	bridge.position = Vector3(float(DnaLayout.APPROACH_X0 + DnaLayout.APPROACH_X1) * 0.5, 0.0, float(DnaLayout.APPROACH_Z1))
+	for piece: Node in bridge.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)
+		piece.set_meta(&"no_occlusion_fade", true)
 
 
 # ---- Collision -----------------------------------------------------------------------------

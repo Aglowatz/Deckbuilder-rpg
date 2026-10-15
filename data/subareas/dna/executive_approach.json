@@ -22,8 +22,7 @@
 		{"name": "banner_lamp", "pos": [14, 8], "yaw": 0}
 	],
 	"scatter": [
-		{"kind": "prop", "name": "lantern_post", "count": 6},
-		{"kind": "prop", "name": "flowerpot", "count": 6, "grouped": true}
+		{"kind": "prop", "name": "flowerpot", "count": 3, "grouped": true, "path_gap": 2.6}
 	],
 	"flora": "off",
 	"poi": [

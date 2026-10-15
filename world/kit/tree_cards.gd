@@ -12,6 +12,21 @@ const KINDS: Dictionary = {
 	"sunflower": {"id": "GAIN-PLANT-SUNFLOWER", "size": Vector2(1.7, 2.1), "radius": 0.0, "plant": true},
 	"hay": {"id": "GAIN-PLANT-HAY", "size": Vector2(2.4, 1.95), "radius": 0.6, "plant": true},
 	"sky": {"id": "GAIN-TREE-SKY", "size": Vector2(5.2, 6.4), "radius": 0.4},
+	# The D.N.A. kit cards (DnaBuilder.CARD_KINDS): the plants sway, the posts, desks and cabinets stand still.
+	"dna_plant": {"id": "DNA-PLANT-OFFICE", "size": Vector2(1.05, 1.8), "radius": 0.3, "plant": true},
+	"dna_lily": {"id": "DNA-PLANT-LILY", "size": Vector2(0.68, 1.3), "radius": 0.2, "plant": true},
+	"dna_topiary": {"id": "DNA-TREE-DEAD", "size": Vector2(1.26, 2.2), "radius": 0.4, "plant": true},
+	"dna_lamp": {"id": "DNA-PROP-GHOSTLAMP", "size": Vector2(0.7, 2.6), "radius": 0.22, "prop": true},
+	"dna_desk": {"id": "DNA-PROP-DESK", "size": Vector2(1.63, 1.3), "radius": 0.5, "prop": true},
+	"dna_paper": {"id": "DNA-PROP-PAPER", "size": Vector2(1.35, 1.4), "radius": 0.35, "prop": true},
+	"dna_stamp": {"id": "DNA-PROP-STAMP", "size": Vector2(0.89, 1.0), "radius": 0.3, "prop": true},
+	"dna_rope": {"id": "DNA-PROP-ROPE", "size": Vector2(1.0, 1.0), "radius": 0.25, "prop": true},
+	"dna_cabinet_1": {"id": "DNA-SHEET-CABINETS-01", "size": Vector2(0.77, 1.6), "radius": 0.3, "prop": true},
+	"dna_cabinet_2": {"id": "DNA-SHEET-CABINETS-02", "size": Vector2(1.56, 1.3), "radius": 0.5, "prop": true},
+	"dna_cabinet_3": {"id": "DNA-SHEET-CABINETS-03", "size": Vector2(0.92, 1.6), "radius": 0.3, "prop": true},
+	"dna_cabinet_4": {"id": "DNA-SHEET-CABINETS-04", "size": Vector2(1.52, 1.3), "radius": 0.5, "prop": true},
+	"dna_cabinet_5": {"id": "DNA-SHEET-CABINETS-05", "size": Vector2(0.83, 1.4), "radius": 0.3, "prop": true},
+	"dna_cabinet_6": {"id": "DNA-SHEET-CABINETS-06", "size": Vector2(1.02, 1.2), "radius": 0.35, "prop": true},
 }
 
 

@@ -229,3 +229,25 @@ static func grade_node(node: Node, strength: float = 1.0) -> void:
 				var copy: StandardMaterial3D = (material as StandardMaterial3D).duplicate() as StandardMaterial3D
 				copy.albedo_color = copy.albedo_color.lerp(grade_color(copy.albedo_color), strength)
 				mesh_instance.set_surface_override_material(surface, copy)
+
+
+# ---- The per-piece occlusion fade (world/dna/dna_fade.gdshader) ------------------------------------------------------------------------
+
+
+static var _fade_materials: Array[ShaderMaterial] = []
+
+
+## DnaFadeMesh registers every material it makes so the scene can feed them the hero position each frame.
+static func register_fade_material(material: ShaderMaterial) -> void:
+	if not _fade_materials.has(material):
+		_fade_materials.append(material)
+
+
+## Where the hero stands (world): cabinets and partitions between the camera and this point fade out; y -1000 switches the fade off.
+static func set_hero_pos(pos: Vector3) -> void:
+	for material: ShaderMaterial in _fade_materials:
+		material.set_shader_parameter("hero_pos", pos)
+
+
+static func fade_materials() -> Array[ShaderMaterial]:
+	return _fade_materials

@@ -84,15 +84,16 @@ static func _materials(mesh: KitMesh) -> void:
 	mesh.set_material("marble", _surface("TEX-DNA-MARBLE", PARCHMENT.darkened(0.15)))
 	mesh.set_material("paneling", _surface("TEX-DNA-PANELING", SLATE.lightened(0.1)))
 	mesh.set_material("stone", _surface("ENV-WALL-FOUNDATION", GREY.darkened(0.2)))
+	# vertex colours are linear in Godot: the palette colours go in through srgb_to_linear so what shows is the palette, not a paler version of it
 	mesh.set_material("flat", EnvKit.flat(Color.WHITE, "dna_hero"))
-	mesh.alias("dark", "flat", SLATE)
-	mesh.alias("iron", "flat", IRON)
-	mesh.alias("red", "flat", RED)
-	mesh.alias("parchment", "flat", PARCHMENT)
-	mesh.alias("gold", "flat", BRASS)
-	mesh.alias("cabinet", "flat", CABINET)
-	mesh.alias("cabinet_dark", "flat", CABINET_DARK)
-	mesh.alias("sage", "flat", SAGE)
+	mesh.alias("dark", "flat", SLATE.srgb_to_linear())
+	mesh.alias("iron", "flat", IRON.srgb_to_linear())
+	mesh.alias("red", "flat", RED.srgb_to_linear())
+	mesh.alias("parchment", "flat", PARCHMENT.srgb_to_linear())
+	mesh.alias("gold", "flat", BRASS.srgb_to_linear())
+	mesh.alias("cabinet", "flat", CABINET.srgb_to_linear())
+	mesh.alias("cabinet_dark", "flat", CABINET_DARK.srgb_to_linear())
+	mesh.alias("sage", "flat", SAGE.srgb_to_linear())
 	mesh.set_material("glow", EnvKit.glow(GHOST, 2.2))
 	mesh.set_material("window_glow", EnvKit.glow(Color("a8ecb0"), 1.25))
 	mesh.set_material("warm_glow", EnvKit.glow(WARM, 1.4))
@@ -663,3 +664,88 @@ static func _records_stair(root: Node3D, mesh: KitMesh, size: Vector3, circles: 
 	var stair_cols: int = maxi(1, int(ceilf(stair_w / run)))
 	for index: int in range(stair_cols + 1):
 		circles.append(Vector3(-stair_w * 0.5 + stair_w * float(index) / float(stair_cols), half_d - run * 0.5, maxf(run * 0.5, 0.8)))
+
+
+# ---- The way in: the gate in the lobby's south wall and the approach bridge toward town --------------------------------------------------------
+
+
+## The entrance gate (the way into the D.N.A. is walked, not ridden): two gray stone pillars with brass caps and ghost lamps straddling an opening `width` wide, a
+## brass lintel carrying the stamp roundel, two iron gate leaves swung open against the pillars, red banners. Origin on the ground at the middle of the opening,
+## the lobby at -z. Meta "circles" blocks the pillars and the open leaves.
+static func entrance_gate(width: float) -> Node3D:
+	var mesh: KitMesh = KitMesh.new()
+	_materials(mesh)
+	var circles: Array[Vector3] = []
+	var lights: Array[Dictionary] = []
+	var half: float = width * 0.5
+	var pillar_h: float = 3.6
+	for side: float in [-1.0, 1.0]:
+		var x: float = side * (half + 0.5)
+		mesh.box("grey", Vector3(x, pillar_h * 0.5 - 0.2, 0), Vector3(1.0, pillar_h + 0.4, 1.0), Basis.IDENTITY, 0.04, 0.86)
+		mesh.box("brass", Vector3(x, pillar_h + 0.12, 0), Vector3(1.16, 0.12, 1.16), Basis.IDENTITY, 0.0)
+		mesh.box("grey_light", Vector3(x, pillar_h + 0.38, 0), Vector3(0.9, 0.4, 0.9), Basis.IDENTITY, 0.03)
+		_ghost_lamp(mesh, Vector3(x, pillar_h + 0.58, 0), lights, 0.5, 0.9)
+		_banner(mesh, Vector3(x, pillar_h - 0.2, 0.56), 1.8, Vector3(0, 0, 1), 0.7)
+		circles.append(Vector3(x, 0.0, 0.7))
+		# an iron gate leaf swung open against the pillar's inner face
+		var leaf_w: float = half * 0.9
+		var hinge: Vector3 = Vector3(side * half, 0.0, 0.35)
+		var tip: Vector3 = hinge + Vector3(0, 0, leaf_w)
+		for rail_y: float in [0.3, 1.1, 1.9]:
+			mesh.tube("iron", hinge + Vector3(0, rail_y, 0), tip + Vector3(0, rail_y, 0), 0.04, 5, true)
+		var bars: int = maxi(3, int(leaf_w / 0.35))
+		for bar: int in range(bars + 1):
+			var p: Vector3 = hinge.lerp(tip, float(bar) / float(bars))
+			mesh.tube("iron", p + Vector3(0, 0.1, 0), p + Vector3(0, 2.1, 0), 0.03, 4, true)
+			mesh.blob("gold", p + Vector3(0, 2.18, 0), Vector3(0.05, 0.07, 0.05), 3, 5, 1.0)
+		circles.append(Vector3(side * (half - leaf_w * 0.35), 0.35 + leaf_w * 0.5, 0.3))
+	mesh.box("brass", Vector3(0, pillar_h - 0.3, 0), Vector3(width + 2.0, 0.5, 0.7), Basis.IDENTITY, 0.03)
+	mesh.box("grey", Vector3(0, pillar_h - 0.75, 0), Vector3(width + 1.2, 0.4, 0.5), Basis.IDENTITY, 0.02)
+	_stamp(mesh, "gold", Vector3(0, pillar_h - 0.05, 0.1), 0.9)
+	_arch_ring(mesh, "gold", Vector3(0, pillar_h + 0.4, 0.05), 0.72, 0.1, 0.12, 8, true)
+	var root: Node3D = Node3D.new()
+	root.name = "EntranceGate"
+	var body: MeshInstance3D = mesh.instance("Body")
+	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	body.set_meta("occlusion_near", 1.2)
+	root.add_child(body)
+	root.set_meta(&"no_wind", true)
+	root.set_meta("circles", circles)
+	root.set_meta("lights", lights)
+	root.set_meta("triangles", mesh.triangle_count())
+	return root
+
+
+## The bridge stub beyond the approach causeway's far end: a stone-and-brass span `length` long and `width` wide running on toward town (+z) and into the fog, with
+## ghost lamps on its first posts. Purely visual: the hero leaves the zone at the causeway's end. Origin at the causeway's end, the span toward +z.
+static func approach_bridge(length: float, width: float) -> Node3D:
+	var mesh: KitMesh = KitMesh.new()
+	_materials(mesh)
+	var lights: Array[Dictionary] = []
+	var half: float = width * 0.5
+	mesh.box("grey_dark", Vector3(0, -0.3, length * 0.5), Vector3(width + 0.4, 0.5, length), Basis.IDENTITY, 0.03, 0.9)
+	mesh.box("marble", Vector3(0, -0.02, length * 0.5), Vector3(width, 0.06, length), Basis.IDENTITY, 0.0)
+	var piers: int = maxi(2, int(length / 5.0))
+	for index: int in range(piers):
+		var z: float = length * (float(index) + 0.5) / float(piers)
+		mesh.box("grey", Vector3(0, -2.4, z), Vector3(width * 0.7, 4.2, 1.6), Basis.IDENTITY, 0.05, 0.8)
+	for side: float in [-1.0, 1.0]:
+		var x: float = side * (half + 0.05)
+		mesh.box("grey_light", Vector3(x, 0.45, length * 0.5), Vector3(0.26, 0.12, length), Basis.IDENTITY, 0.02)
+		var balusters: int = int(length / 0.6)
+		for index: int in range(balusters):
+			var z: float = length * (float(index) + 0.5) / float(balusters)
+			mesh.tube("grey_light", Vector3(x, 0.0, z), Vector3(x, 0.42, z), 0.05, 5, false)
+		var posts: int = maxi(2, int(length / 4.0))
+		for index: int in range(posts + 1):
+			var z: float = length * float(index) / float(posts)
+			mesh.box("grey", Vector3(x, 0.4, z), Vector3(0.5, 0.8, 0.5), Basis.IDENTITY, 0.03)
+			mesh.blob("gold", Vector3(x, 0.9, z), Vector3(0.1, 0.11, 0.1), 3, 6, 1.0)
+	var root: Node3D = Node3D.new()
+	root.name = "ApproachBridge"
+	var body: MeshInstance3D = mesh.instance("Body")
+	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	root.add_child(body)
+	root.set_meta(&"no_wind", true)
+	root.set_meta("lights", lights)
+	return root

@@ -74,6 +74,8 @@ func _area_round_trip(area_id: String) -> void:
 	# Stand at the gate (the straight-line walk is not what this smoke tests: the walkability probe covers reachability) and press E.
 	player.position = Vector3(gate_pos.x - 1.0, 0.0, gate_pos.z + 1.2)
 	await driver.seconds(0.4)
+	# standing by the gate may put the hero inside the Rift Express unlock radius (the D.N.A. gates stand near its station): read that speech first
+	await _dismiss_dialogue(hub)
 	await _shot("%s_gate" % area_id)
 	await driver.tap_key(KEY_E)
 	var scene: SubAreaScene = await _wait_for_scene(SubAreaScene.SCENE_PATH) as SubAreaScene

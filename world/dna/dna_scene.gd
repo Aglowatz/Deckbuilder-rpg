@@ -30,6 +30,10 @@ func _build_environment() -> void:
 
 func _build_zone_extras() -> void:
 	_build_lights()
+	# Arriving on the approach causeway (DN-6): the hero faces the gate so the zone opens up ahead; the walk-off exit arms once they have been inside.
+	if DnaLayout.on_approach(player.position.x, player.position.z):
+		player.face(player.position + Vector3(0.0, 0.0, -2.0))
+		_exit_armed = false
 
 
 func _grade_enemy(model: Node3D) -> void:
@@ -58,6 +62,8 @@ func _interact_zone(spot: ZoneSpot) -> void:
 
 func _zone_process(delta: float) -> void:
 	_update_flicker()
+	DnaMaterials.set_hero_pos(player.position)
+	_update_causeway_exit()
 	_light_timer -= delta
 	if _light_timer <= 0.0:
 		_light_timer = 0.25
@@ -122,6 +128,35 @@ func _assign_lights() -> void:
 			light.set_meta("on", 1)
 		else:
 			light.set_meta("on", 0)
+
+
+## The way out is walked (DN-6): the causeway's last metre leaves for town by itself (the E spot on it still asks). It arms only once the hero has been
+## well inside the zone, so the arrival itself or a screenshot teleport onto the end never trips it.
+const EXIT_ARM_Z: float = 62.0
+var _exit_armed: bool = false
+
+
+func _update_causeway_exit() -> void:
+	if _locked or dialogue.active or _fainting:
+		return
+	var pos: Vector3 = player.position
+	if not DnaLayout.on_approach(pos.x, pos.z):
+		if pos.z < EXIT_ARM_Z:
+			_exit_armed = true
+		return
+	if pos.z < EXIT_ARM_Z:
+		_exit_armed = true
+	elif _exit_armed and pos.z > DnaLayout.EXIT_EDGE_Z:
+		_exit_armed = false
+		_locked = true
+		player.input_enabled = false
+		Audio.sfx(&"door")
+		Session.leave_zone()
+
+
+## No generic furniture scatter in the D.N.A. (DN-5): the hub is dressed by its layout and DnaDressing only.
+func _dress_zone() -> void:
+	pass
 
 
 ## The D.N.A. keeps its colour for the things that matter: the Rift Express beams crimson-red.

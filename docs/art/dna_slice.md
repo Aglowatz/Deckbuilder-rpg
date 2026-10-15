@@ -55,3 +55,31 @@ sky picture, not a ring strip; that is what the sheet asked for, and it is now w
 fps (Medium, `tools/fps.sh res://scenes/dna_zone.tscn 1`, the untouched hub with the new sky and backdrop): avg 60.0, min 60.0, 778 draw calls. GUT: 1528 / 1530 after
 the kit tests were added (one failure is GC-6, pre-existing and local to this PC; the other was the new test asking for art files of concept and sheet ids, fixed).
 The 9-camera contact sheet of the untouched hub is `dna_slice/a_before_grid.jpg`.
+
+## Part B: layout and declutter (the Gainlands lessons, before dressing)
+
+Done: see DN-5 .. DN-8. The office is an open-air plaza of courts under the overcast sky: every doorway 4-5 cells wide, knee-high balustrades with brass caps and ghost
+lamps on them instead of 1.25 m walls, cabinets and cubicle partitions that fade per piece when they stand between the camera and the hero, one kit desk per cubicle and
+a handful of kit pieces against the walls instead of the furniture scatter, 21 boards instead of 38, an empty lobby middle with Agnes, the Requisitions desk, the Rift
+Express and the gate round its rim. The way in is the approach causeway through the gate (arrival facing the gate, the exit at the far end, walking off leaves). The Hall
+of Final Approvals towers beyond the executive floor's north edge with its stair coming down to the floor; the dungeon spot waits at the foot, no placeholder door, no
+lettered plate. Sub-area data: main paths 4.2-4.4 m, spurs 3.6 m, scatter cut to three grouped pieces per scene, every poi, exit, entry, spawn and gate position unchanged.
+
+| Spot | Before | After |
+|---|---|---|
+| Arrival (`--at=spawn`): the old spawn in the lobby beside the elevator; now the approach causeway, the gate and the lobby ahead, the Hall at the far end | ![](dna_slice/b_before_hub.jpg) | ![](dna_slice/b_after_hub_spawn.jpg) |
+| The Lobby Plaza (`--at=lobby_center`) | ![](dna_slice/b_before_hub.jpg) | ![](dna_slice/b_after_hub_center.jpg) |
+| The Lobby Plaza, Overview | ![](dna_slice/b_before_hub_overview.jpg) | ![](dna_slice/b_after_hub_overview.jpg) |
+| The Hall of Final Approvals (`--at=main_dungeon`): a taped door; now the stair's foot under the Hall | ![](dna_slice/b_before_main_dungeon.jpg) | ![](dna_slice/b_after_main_dungeon.jpg) |
+| The Hall from the Mail Room and the Elevator Bank | ![](dna_slice/b_after_hall_from_mail.jpg) | ![](dna_slice/b_after_hall_from_bank.jpg) |
+| The way out (`--at=exit`): the elevator; now the causeway's far end, the gate (`--at=gate`) behind | ![](dna_slice/b_before_exit.jpg) | ![](dna_slice/b_after_exit.jpg) ![](dna_slice/b_after_gate.jpg) |
+| Cubicle Farm A (`--at=farm_a_aisle`): 72 desk sets, chairs, boxes, 1.25 m walls; now one kit desk per cubicle, knee-high paneling, balustrade lamps | ![](dna_slice/b_before_farm_a.jpg) | ![](dna_slice/b_after_farm_a.jpg) |
+| The Filing Department (`--at=chest_maze_0`): cabinets that fade piece by piece | ![](dna_slice/b_before_maze.jpg) | ![](dna_slice/b_after_maze.jpg) |
+| The Records Basement (`--at=records_center`) | ![](dna_slice/b_before_records.jpg) | ![](dna_slice/b_after_records.jpg) |
+| The Breakroom (`--at=coffee`): counter, coffee urn, table, bench; the clutter gone | ![](dna_slice/b_before_breakroom.jpg) | ![](dna_slice/b_after_breakroom.jpg) |
+
+fps (Medium, `tools/fps.sh`): 60.0 / 60.0 at the spawn, 60.0 at the Hall's stair, 60.0 in the maze; 458 draw calls (778 before). GUT: 1535 / 1537 (GC-6 pre-existing, plus
+one assertion of the new test that asked a chest's own cell to be walkable, fixed); `tests/world/test_dna_corrections.gd` adds 7 checks (doorway widths, wall heights,
+prop and board counts, the walked entrance, the Hall's placement and cull exemption, the open plaza). `SMOKE_ONLY=dna,save_load bash tools/run_subarea_smoke.sh` passes
+(it now reads the Rift Express unlock speech before pressing E at a gate, DN-9). The walkability probe (`tests/world/test_walkability_zones.gd`) reaches all 46 key
+locations with 0.7 m lanes.

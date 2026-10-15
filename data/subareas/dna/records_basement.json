@@ -8,8 +8,8 @@
 	"entries": {"the_queue": [-30, 8], "executive_approach": [30, -22]},
 	"edge": {"kind": "none"},
 	"paths": [
-		{"kind": "cobble", "width": 3.0, "points": [[0, 29], [0, 14], [-6, 2], [-14, -8], [-20, -20]]},
-		{"kind": "cobble", "width": 2.6, "points": [[-6, 2], [8, -4], [22, -14], [30, -22]]}
+		{"kind": "cobble", "width": 4.2, "points": [[0, 29], [0, 14], [-6, 2], [-14, -8], [-20, -20]]},
+		{"kind": "cobble", "width": 3.6, "points": [[-6, 2], [8, -4], [22, -14], [30, -22]]}
 	],
 	"landmarks": [
 		{"id": "DNA-HERO-RECORDS-STAIR", "kind": "stair", "pos": [-20, -26], "size": [9, 5, 8], "color": "#6e7470", "accent": "#3d4a44"},
@@ -25,8 +25,7 @@
 		{"name": "crates", "pos": [-26, 4], "yaw": 90}
 	],
 	"scatter": [
-		{"kind": "prop", "name": "crate", "count": 10, "grouped": true},
-		{"kind": "prop", "name": "sack", "count": 6, "grouped": true}
+		{"kind": "prop", "name": "crate", "count": 3, "grouped": true, "path_gap": 2.6}
 	],
 	"flora": "off",
 	"poi": [
