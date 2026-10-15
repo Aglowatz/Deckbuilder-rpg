@@ -1288,6 +1288,186 @@
 					}
 				]
 			}
+		},
+		"dna_office_block": {
+			"width": 9,
+			"depth": 7,
+			"floors": 2,
+			"ground_height": 3,
+			"floor_height": 2.4,
+			"timber": "none",
+			"wall": "DNA-WALL-GREY",
+			"wall_upper": "TEX-DNA-PANELING",
+			"foundation_wall": "ENV-WALL-FOUNDATION",
+			"eave": "DNA-TRIM-BRASS",
+			"roof": {
+				"style": "hip",
+				"pitch": 30,
+				"overhang": 0.7,
+				"material": "DNA-ROOF-SLATE"
+			},
+			"chimney": {
+				"x": 2.6,
+				"z": -1.4,
+				"w": 0.9,
+				"height": 1.2
+			},
+			"faces": {
+				"front": [
+					{
+						"type": "door",
+						"id": "DNA-SHEET-DOORS-01",
+						"u": 0,
+						"lantern": true
+					},
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-02",
+						"u": -2.8,
+						"floor": 0
+					},
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-03",
+						"u": 2.8,
+						"floor": 0
+					},
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-02",
+						"u": -1.6,
+						"floor": 1
+					},
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-02",
+						"u": 1.6,
+						"floor": 1
+					},
+					{
+						"type": "sign",
+						"id": "DNA-SHEET-SIGNS-04",
+						"u": 3.6,
+						"y": 2.5,
+						"size": 0.9
+					}
+				],
+				"right": [
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-03",
+						"u": 0,
+						"floor": 0
+					},
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-02",
+						"u": 0,
+						"floor": 1
+					}
+				],
+				"left": [
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-02",
+						"u": -1.2,
+						"floor": 0
+					},
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-03",
+						"u": 1.2,
+						"floor": 1
+					}
+				]
+			}
+		},
+		"dna_records_annex": {
+			"width": 7.4,
+			"depth": 6,
+			"floors": 1,
+			"ground_height": 3,
+			"timber": "none",
+			"wall": "TEX-DNA-PANELING",
+			"foundation_wall": "DNA-WALL-GREY",
+			"eave": "DNA-TRIM-BRASS",
+			"roof": {
+				"style": "gable",
+				"pitch": 32,
+				"overhang": 0.8,
+				"material": "DNA-ROOF-SLATE"
+			},
+			"faces": {
+				"front": [
+					{
+						"type": "door",
+						"id": "DNA-SHEET-DOORS-04",
+						"u": 0,
+						"lantern": true
+					},
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-03",
+						"u": 2.4,
+						"floor": 0
+					},
+					{
+						"type": "sign",
+						"id": "DNA-SHEET-SIGNS-04",
+						"u": -2.4,
+						"y": 2.3,
+						"size": 0.9
+					}
+				],
+				"right": [
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-03",
+						"u": 0,
+						"floor": 0
+					}
+				]
+			}
+		},
+		"dna_booth": {
+			"width": 4.6,
+			"depth": 3.8,
+			"floors": 1,
+			"ground_height": 2.8,
+			"timber": "none",
+			"wall": "DNA-WALL-GREY",
+			"foundation_wall": "ENV-WALL-FOUNDATION",
+			"eave": "DNA-TRIM-BRASS",
+			"roof": {
+				"style": "hip",
+				"pitch": 34,
+				"overhang": 0.7,
+				"material": "DNA-ROOF-SLATE"
+			},
+			"faces": {
+				"front": [
+					{
+						"type": "door",
+						"id": "DNA-SHEET-DOORS-05",
+						"u": 0
+					},
+					{
+						"type": "sign",
+						"id": "DNA-SHEET-SIGNS-01",
+						"u": 1.6,
+						"y": 2.2,
+						"size": 0.8
+					}
+				],
+				"left": [
+					{
+						"type": "window",
+						"id": "DNA-SHEET-WINDOWS-02",
+						"u": 0,
+						"floor": 0
+					}
+				]
+			}
 		}
 	}
 }

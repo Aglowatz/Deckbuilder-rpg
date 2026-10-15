@@ -12,13 +12,24 @@
 	],
 	"landmarks": [
 		{"id": "DNA-HERO-ENDLESS-QUEUE", "kind": "colonnade", "pos": [0, -14], "size": [56, 3.0, 2.0], "color": "#c9c6b8", "accent": "#8a2e2e"},
-		{"id": "rope_row_a", "kind": "colonnade", "pos": [0, 0], "size": [44, 1.2, 0.6], "color": "#8a2e2e", "accent": "#3d4a44"},
-		{"id": "window_wall", "kind": "facade", "pos": [30, -22], "size": [18, 9, 5], "color": "#6e7470", "accent": "#3d4a44"},
-		{"id": "ticket_machine", "kind": "box", "pos": [-20, 6], "size": [1.4, 2.0, 1.0], "color": "#8a2e2e"}
+		{"id": "rope_row_a", "kind": "colonnade", "pos": [0, 0], "size": [44, 1.2, 0.6], "color": "#8a2e2e", "accent": "#3d4a44", "surface": "DNA-TRIM-BRASS", "accent_surface": "DNA-WALL-GREY"},
+		{"id": "window_wall", "kind": "facade", "pos": [30, -22], "size": [18, 9, 5], "color": "#6e7470", "accent": "#3d4a44", "surface": "DNA-WALL-GREY", "accent_surface": "DNA-ROOF-SLATE"},
+		{"id": "ticket_machine", "kind": "box", "pos": [-20, 6], "size": [1.4, 2.0, 1.0], "color": "#8a2e2e", "surface": "DNA-WALL-GREY", "accent_surface": "DNA-TRIM-BRASS"}
+	],
+	"buildings": [
+		{"preset": "dna_booth", "pos": [-20, -24], "yaw": 0}
 	],
 	"clusters": [
-		{"name": "bench_nook", "pos": [-12, 22], "yaw": 0},
-		{"name": "bench_nook", "pos": [10, 20], "yaw": 0}
+		{"name": "lamp_planter", "pos": [-12, 22], "yaw": 180},
+		{"name": "paper_towers", "pos": [10, 20], "yaw": 180},
+		{"name": "queue_rope", "pos": [-12, -6], "yaw": 0},
+		{"name": "queue_rope", "pos": [12, -6], "yaw": 0},
+		{"name": "lily_nook", "pos": [20, -26], "yaw": 0}
+	],
+	"decals": [
+		{"id": "DNA-DEC-FOOT", "pos": [-28, 16], "size": 2.6, "yaw": 110}, {"id": "DNA-DEC-FOOT", "pos": [-12, 10], "size": 2.6, "yaw": 105}, {"id": "DNA-DEC-FOOT", "pos": [4, 6], "size": 2.6, "yaw": 90}, {"id": "DNA-DEC-FOOT", "pos": [20, 6], "size": 2.6, "yaw": 92},
+		{"id": "DNA-DEC-FOOT", "pos": [-8, -2], "size": 2.4, "yaw": 90}, {"id": "DNA-DEC-FOOT", "pos": [10, -2], "size": 2.4, "yaw": 88},
+		{"id": "DEC-ECTOPLASM", "pos": [-20, 2], "size": 1.6, "yaw": 30}, {"id": "DEC-ECTOPLASM", "pos": [14, 10], "size": 1.4, "yaw": 200}, {"id": "DEC-PAPERS", "pos": [-24, 10], "size": 1.6, "yaw": 50}
 	],
 	"scatter": [
 		{"kind": "prop", "name": "bush", "count": 3, "grouped": true, "path_gap": 2.6}

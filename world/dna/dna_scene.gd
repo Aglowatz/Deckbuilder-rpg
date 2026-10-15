@@ -154,9 +154,12 @@ func _update_causeway_exit() -> void:
 		Session.leave_zone()
 
 
-## No generic furniture scatter in the D.N.A. (DN-5): the hub is dressed by its layout and DnaDressing only.
+## No generic furniture scatter in the D.N.A. (DN-5): the hub is dressed by its layout and DnaDressing only (kit clusters at the walls, kit decals).
+var dressing: DnaDressing
+
+
 func _dress_zone() -> void:
-	pass
+	dressing = DnaDressing.build(self, dna, Settings.graphics_quality)
 
 
 ## The D.N.A. keeps its colour for the things that matter: the Rift Express beams crimson-red.

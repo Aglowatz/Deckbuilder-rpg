@@ -3,7 +3,7 @@
 	"name": "Executive Approach",
 	"mood": "Cold marble and a long, polite hush: the sort of corridor where you start to apologise before you are spoken to",
 	"size": [70, 64],
-	"ground": {"kind": "cobble"},
+	"ground": {"kind": "marble"},
 	"spawn": [-28, 22],
 	"entries": {"records_basement": [-28, 22]},
 	"edge": {"kind": "none"},
@@ -13,13 +13,20 @@
 	"plazas": [{"pos": [4, -14], "radius": 8.0}],
 	"landmarks": [
 		{"id": "DNA-HERO-FINAL-APPROVALS", "kind": "facade", "pos": [4, -36], "size": [32, 18, 7], "color": "#c9c6b8", "accent": "#8a2e2e"},
-		{"id": "col_w", "kind": "colonnade", "pos": [-12, -2], "size": [14, 5.5, 2.0], "color": "#c9c6b8", "accent": "#3d4a44"},
-		{"id": "col_e", "kind": "colonnade", "pos": [22, -2], "size": [14, 5.5, 2.0], "color": "#c9c6b8", "accent": "#3d4a44"},
-		{"id": "desk_reception", "kind": "box", "pos": [-14, 12], "size": [6, 1.2, 1.6], "color": "#3d4a44", "accent": "#8a2e2e"}
+		{"id": "col_w", "kind": "colonnade", "pos": [-12, -2], "size": [14, 5.5, 2.0], "color": "#c9c6b8", "accent": "#3d4a44", "surface": "DNA-WALL-GREY", "accent_surface": "DNA-TRIM-BRASS"},
+		{"id": "col_e", "kind": "colonnade", "pos": [22, -2], "size": [14, 5.5, 2.0], "color": "#c9c6b8", "accent": "#3d4a44", "surface": "DNA-WALL-GREY", "accent_surface": "DNA-TRIM-BRASS"},
+		{"id": "desk_reception", "kind": "box", "pos": [-14, 12], "size": [6, 1.2, 1.6], "color": "#3d4a44", "accent": "#8a2e2e", "surface": "TEX-DNA-PANELING", "accent_surface": "DNA-TRIM-BRASS"}
 	],
 	"clusters": [
-		{"name": "banner_lamp", "pos": [-6, 14], "yaw": 0},
-		{"name": "banner_lamp", "pos": [14, 8], "yaw": 0}
+		{"name": "lamp_planter", "pos": [-6, 14], "yaw": 0},
+		{"name": "lamp_planter", "pos": [14, 8], "yaw": 0},
+		{"name": "lily_nook", "pos": [-14, 10], "yaw": 0},
+		{"name": "lamp_planter", "pos": [-10, -22], "yaw": 0},
+		{"name": "lamp_planter", "pos": [18, -22], "yaw": 0}
+	],
+	"decals": [
+		{"id": "DNA-DEC-FOOT", "pos": [-24, 19], "size": 2.6, "yaw": 65}, {"id": "DNA-DEC-FOOT", "pos": [-10, 10], "size": 2.6, "yaw": 50}, {"id": "DNA-DEC-FOOT", "pos": [4, -4], "size": 2.6, "yaw": 10}, {"id": "DNA-DEC-FOOT", "pos": [4, -20], "size": 2.6, "yaw": 0},
+		{"id": "DEC-PAPERS", "pos": [-20, 0], "size": 1.5, "yaw": 20}, {"id": "DEC-PAPERS", "pos": [20, 10], "size": 1.4, "yaw": 190}
 	],
 	"scatter": [
 		{"kind": "prop", "name": "flowerpot", "count": 3, "grouped": true, "path_gap": 2.6}

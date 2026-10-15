@@ -1,0 +1,68 @@
+{
+	"_about": "D.N.A. prop clusters (ZoneClusters, world/kit/zone_clusters.gd): vignettes of the zone kit's painted cards (DNA-PROP-*, DNA-PLANT-*, the sliced cabinets) and shared kit props, placed by name in data/subareas/dna/*.json (clusters / scatter) and by DnaDressing in the hub. Local frame: origin on the ground, the wall or back is -z, the open side +z. Art Bible G-05 and GC-1: props gather at walls, doorways and junctions in a few tidy clusters, never scattered.",
+	"zone": "dna",
+	"clusters": {
+		"clerk_desk": {
+			"length": 3.4, "depth": 1.8,
+			"pieces": [
+				{"card": "DNA-PROP-DESK", "pos": [0.0, 0.0], "height": 1.3},
+				{"card": "DNA-SHEET-CABINETS-01", "pos": [-1.5, -0.5], "height": 1.6},
+				{"card": "DNA-PROP-PAPER", "pos": [1.5, 0.2], "height": 1.1}
+			],
+			"clumps": []
+		},
+		"cabinet_row": {
+			"length": 4.6, "depth": 1.0,
+			"pieces": [
+				{"card": "DNA-SHEET-CABINETS-01", "pos": [-1.8, -0.2], "height": 1.6},
+				{"card": "DNA-SHEET-CABINETS-03", "pos": [-0.9, -0.2], "height": 1.6, "flip": true},
+				{"card": "DNA-SHEET-CABINETS-02", "pos": [0.6, -0.2], "height": 1.3},
+				{"card": "DNA-SHEET-CABINETS-05", "pos": [1.9, -0.2], "height": 1.4}
+			],
+			"clumps": []
+		},
+		"paper_towers": {
+			"length": 3.0, "depth": 1.4,
+			"pieces": [
+				{"card": "DNA-PROP-PAPER", "pos": [0.0, 0.0], "height": 1.5},
+				{"card": "DNA-PROP-PAPER", "pos": [1.2, 0.4], "height": 1.1, "flip": true},
+				{"card": "DNA-PROP-STAMP", "pos": [-1.1, 0.3], "height": 0.9}
+			],
+			"clumps": []
+		},
+		"queue_rope": {
+			"length": 5.0, "depth": 0.8,
+			"pieces": [
+				{"card": "DNA-PROP-ROPE", "pos": [-2.0, 0.0], "height": 1.0},
+				{"card": "DNA-PROP-ROPE", "pos": [0.0, 0.0], "height": 1.0, "flip": true},
+				{"card": "DNA-PROP-ROPE", "pos": [2.0, 0.0], "height": 1.0}
+			],
+			"clumps": []
+		},
+		"lamp_planter": {
+			"length": 2.6, "depth": 1.2,
+			"pieces": [
+				{"card": "DNA-PROP-GHOSTLAMP", "pos": [0.0, 0.0], "height": 2.6},
+				{"card": "DNA-TREE-DEAD", "pos": [1.3, 0.2], "height": 2.0, "solid": false}
+			],
+			"clumps": []
+		},
+		"lily_nook": {
+			"length": 2.4, "depth": 1.0,
+			"pieces": [
+				{"card": "DNA-PLANT-LILY", "pos": [-0.7, 0.0], "height": 1.3, "solid": false},
+				{"card": "DNA-PLANT-OFFICE", "pos": [0.7, -0.1], "height": 1.8, "solid": false}
+			],
+			"clumps": []
+		},
+		"stamp_shrine": {
+			"length": 2.8, "depth": 1.4,
+			"pieces": [
+				{"card": "DNA-PROP-STAMP", "pos": [0.0, 0.0], "height": 1.3},
+				{"card": "DNA-PROP-GHOSTLAMP", "pos": [-1.2, -0.3], "height": 2.4},
+				{"card": "DNA-PROP-GHOSTLAMP", "pos": [1.2, -0.3], "height": 2.4}
+			],
+			"clumps": []
+		}
+	}
+}

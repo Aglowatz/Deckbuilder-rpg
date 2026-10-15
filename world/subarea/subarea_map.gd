@@ -20,6 +20,11 @@ const GROUND_KINDS: Dictionary = {
 	"chalkdirt": "TEX-GAIN-CHALKDIRT",
 	"gymmat": "TEX-GAIN-GYMMAT",
 	"hay": "TEX-GAIN-HAY",
+	"marble": "TEX-DNA-MARBLE",
+	"checkertile": "TEX-DNA-CHECKERTILE",
+	"carpet": "TEX-DNA-CARPET",
+	"lino": "TEX-DNA-LINOLEUM",
+	"queue": "DNA-PATH-QUEUE",
 }
 
 var data: Dictionary = {}

@@ -13,16 +13,28 @@
 	],
 	"landmarks": [
 		{"id": "DNA-HERO-RECORDS-STAIR", "kind": "stair", "pos": [-20, -26], "size": [9, 5, 8], "color": "#6e7470", "accent": "#3d4a44"},
-		{"id": "shelf_a", "kind": "tower", "pos": [-14, 16], "size": [14, 5.2, 1.6], "color": "#3d4a44", "accent": "#c9c6b8"},
-		{"id": "shelf_b", "kind": "tower", "pos": [14, 16], "size": [14, 5.2, 1.6], "color": "#3d4a44", "accent": "#c9c6b8"},
-		{"id": "shelf_c", "kind": "tower", "pos": [-14, -6], "size": [14, 5.2, 1.6], "color": "#3d4a44", "accent": "#c9c6b8"},
-		{"id": "shelf_d", "kind": "tower", "pos": [18, -6], "size": [14, 5.2, 1.6], "color": "#3d4a44", "accent": "#c9c6b8"},
-		{"id": "ghost_lamp_a", "kind": "tank", "pos": [-4, 20], "size": [0.8, 2.6, 0.8], "color": "#3d4a44", "glow": "#4fbf7a"},
-		{"id": "ghost_lamp_b", "kind": "tank", "pos": [6, -2], "size": [0.8, 2.6, 0.8], "color": "#3d4a44", "glow": "#4fbf7a"}
+		{"id": "shelf_a", "kind": "tower", "pos": [-14, 16], "size": [14, 5.2, 1.6], "color": "#3d4a44", "accent": "#c9c6b8", "surface": "TEX-DNA-PANELING", "accent_surface": "DNA-TRIM-BRASS"},
+		{"id": "shelf_b", "kind": "tower", "pos": [14, 16], "size": [14, 5.2, 1.6], "color": "#3d4a44", "accent": "#c9c6b8", "surface": "TEX-DNA-PANELING", "accent_surface": "DNA-TRIM-BRASS"},
+		{"id": "shelf_c", "kind": "tower", "pos": [-14, -6], "size": [14, 5.2, 1.6], "color": "#3d4a44", "accent": "#c9c6b8", "surface": "TEX-DNA-PANELING", "accent_surface": "DNA-TRIM-BRASS"},
+		{"id": "shelf_d", "kind": "tower", "pos": [18, -6], "size": [14, 5.2, 1.6], "color": "#3d4a44", "accent": "#c9c6b8", "surface": "TEX-DNA-PANELING", "accent_surface": "DNA-TRIM-BRASS"},
+		{"id": "ghost_lamp_a", "kind": "tank", "pos": [-4, 20], "size": [0.8, 2.6, 0.8], "color": "#3d4a44", "glow": "#4fbf7a", "surface": "DNA-WALL-GREY", "accent_surface": "DNA-TRIM-BRASS"},
+		{"id": "ghost_lamp_b", "kind": "tank", "pos": [6, -2], "size": [0.8, 2.6, 0.8], "color": "#3d4a44", "glow": "#4fbf7a", "surface": "DNA-WALL-GREY", "accent_surface": "DNA-TRIM-BRASS"}
+	],
+	"buildings": [
+		{"preset": "dna_records_annex", "pos": [20, 25], "yaw": 180}
 	],
 	"clusters": [
-		{"name": "crates", "pos": [24, 20], "yaw": 0},
-		{"name": "crates", "pos": [-26, 4], "yaw": 90}
+		{"name": "cabinet_row", "pos": [-14, 18.2], "yaw": 180},
+		{"name": "cabinet_row", "pos": [14, 18.2], "yaw": 180},
+		{"name": "paper_towers", "pos": [-26, 4], "yaw": 90},
+		{"name": "paper_towers", "pos": [18, -3.8], "yaw": 180},
+		{"name": "lily_nook", "pos": [-14, -3.8], "yaw": 180}
+	],
+	"decals": [
+		{"id": "DEC-PAPERS", "pos": [-8, 10], "size": 1.8, "yaw": 0}, {"id": "DEC-PAPERS", "pos": [10, 8], "size": 1.6, "yaw": 80}, {"id": "DEC-PAPERS", "pos": [-12, -12], "size": 1.7, "yaw": 150}, {"id": "DEC-PAPERS", "pos": [16, -12], "size": 1.5, "yaw": 220}, {"id": "DEC-PAPERS", "pos": [26, 12], "size": 1.6, "yaw": 300},
+		{"id": "DNA-DEC-COFFEE", "pos": [4, 16], "size": 1.0, "yaw": 20}, {"id": "DNA-DEC-COFFEE", "pos": [-20, 0], "size": 1.0, "yaw": 160},
+		{"id": "DEC-ECTOPLASM", "pos": [-10, 4], "size": 1.6, "yaw": 40}, {"id": "DEC-ECTOPLASM", "pos": [20, -10], "size": 1.5, "yaw": 210},
+		{"id": "DNA-DEC-FOOT", "pos": [0.3, 22], "size": 2.6, "yaw": 2}, {"id": "DNA-DEC-FOOT", "pos": [-10, -4], "size": 2.6, "yaw": 35}
 	],
 	"scatter": [
 		{"kind": "prop", "name": "crate", "count": 3, "grouped": true, "path_gap": 2.6}

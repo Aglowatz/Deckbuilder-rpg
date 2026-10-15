@@ -83,3 +83,24 @@ one assertion of the new test that asked a chest's own cell to be walkable, fixe
 prop and board counts, the walked entrance, the Hall's placement and cull exemption, the open plaza). `SMOKE_ONLY=dna,save_load bash tools/run_subarea_smoke.sh` passes
 (it now reads the Rift Express unlock speech before pressing E at a gate, DN-9). The walkability probe (`tests/world/test_walkability_zones.gd`) reaches all 46 key
 locations with 0.7 m lanes.
+
+## Part C: dress (playbook section 2)
+
+Done: see DN-10. Material swaps in `data/zone_styles/dna.json` (timber -> gray stone, plank -> paneling, every roof -> slate, eaves -> brass, the sliced doors, windows and
+plaques, dirt paths -> the queue lane, trees -> dead topiary, office plants and lilies); three presets (`dna_office_block`, `dna_records_annex`, `dna_booth`); seven zone
+clusters as data (`data/art/zone_kits/dna_clusters.json`); the stand-in landmarks and the hub's sub-area gates in kit surfaces; the sub-areas' ground kinds (marble under
+the Executive Approach), kit decals and a building or two each; the hub dressed by `DnaDressing` (eight clusters against walls, coffee rings and queue footprints) with the
+generic furniture scatter off. The decluttered layout of Part B is untouched: the dressing test checks the plaza middle, the forecourt, the causeway and every anchor's
+approach stay open.
+
+| Spot | Before (Part B) | After |
+|---|---|---|
+| The Lobby Plaza (`--at=lobby_center`) | ![](dna_slice/b_after_hub_center.jpg) | ![](dna_slice/c_after_hub_center.jpg) |
+| The Mail Room (`--at=mail_center`): cabinet rows at the wall, paper towers in a corner, the console | | ![](dna_slice/c_after_mail.jpg) |
+| Cubicle Fields (paint-over camera): paneled partitions with clerk desks, an office block, the Filing Tower | ![](dna_slice/a_after_cubicle_fields.jpg) | ![](dna_slice/c_after_cubicle_fields.jpg) |
+| The Queue (paint-over camera): the brass-and-rope line, the booth, planters and lamps | ![](dna_slice/a_after_the_queue.jpg) | ![](dna_slice/c_after_the_queue.jpg) |
+| Records Basement (paint-over camera): paneled shelving, the annex, lamps between the stacks | ![](dna_slice/a_after_records_basement.jpg) | ![](dna_slice/c_after_records_basement.jpg) |
+| Executive Approach (paint-over camera): marble court, lamp planters, the Hall | ![](dna_slice/a_after_executive_approach.jpg) | ![](dna_slice/c_after_executive_approach.jpg) |
+
+fps (Medium, `tools/fps.sh`): hub 60.0 / 60.0 (494 draw calls); Cubicle Fields 60.0 / 49.8; The Queue 60.0 / 52.9; Records Basement 60.0 / 59.7; Executive Approach 60.0 / 56.1
+(the minimums are the first frames after the scene opens). GUT: 1536 / 1537 (GC-6).

@@ -80,3 +80,50 @@ func test_the_mood_carries_the_sky_panorama_and_the_tower_skyline() -> void:
 	for card: Variant in cards:
 		assert_eq(str((card as Dictionary).get("id", "")), "DNA-BD-TOWERS")
 	assert_eq(WorldSky.new().get("_palette").size(), 0, "a fresh sky has no palette yet")
+
+
+func test_part_c_dressing_data_resolves() -> void:
+	ZoneStyles.use_preset(StylePresets.DNA)
+	assert_eq(ZoneStyles.swap("ENV-WALL-TIMBER"), "DNA-WALL-GREY", "timber walls become gray stone")
+	assert_eq(ZoneStyles.swap("ENV-DOOR-02"), "DNA-SHEET-DOORS-02")
+	assert_eq(ZoneStyles.swap("ENV-TREE-OAK"), "DNA-TREE-DEAD", "trees become dead topiary")
+	assert_eq(ZoneStyles.swap("ENV-GROUND-DIRTPATH"), "DNA-PATH-QUEUE", "dirt paths become queue lanes")
+	for cluster_name: String in ["clerk_desk", "cabinet_row", "paper_towers", "queue_rope", "lamp_planter", "lily_nook", "stamp_shrine"]:
+		assert_true(ZoneClusters.has(cluster_name), "%s is a D.N.A. cluster" % cluster_name)
+		var cluster: Node3D = PropClusters.make(cluster_name, 7)
+		assert_not_null(cluster, "%s builds" % cluster_name)
+		if cluster != null:
+			add_child_autofree(cluster)
+	for preset_name: String in ["dna_office_block", "dna_records_annex", "dna_booth"]:
+		var spec: Dictionary = BuildingPresets.spec(preset_name)
+		assert_eq(str(spec.get("wall", "")).begins_with("DNA-") or str(spec.get("wall", "")).begins_with("TEX-DNA-"), true, "%s is walled in the kit" % preset_name)
+		assert_between(float(spec.get("ground_height", 0.0)) / StorybookScale.HERO_HEIGHT, 1.2, 1.9, "%s: a storey is about 1.5 heroes" % preset_name)
+	for kind: String in ["marble", "checkertile", "carpet", "lino", "queue"]:
+		assert_true(SubAreaMap.GROUND_KINDS.has(kind), "%s is a sub-area ground kind" % kind)
+	ZoneStyles.use_preset(StylePresets.TOWN)
+
+
+func test_part_c_hub_dressing_keeps_clear() -> void:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: DnaBuilder = DnaBuilder.new()
+	builder.build(host)
+	var dressing: DnaDressing = DnaDressing.build(host, builder, GraphicsQuality.Level.HIGH)
+	assert_gt(dressing.count, 6, "the hub carries a few kit clusters and decals")
+	assert_lt(dressing.count, 40, "but stays uncluttered")
+	var centre: Vector3 = builder.anchor("lobby_center")
+	for child: Node in dressing.root.get_children():
+		if not child.name.begins_with("Cluster_"):
+			continue
+		var pos: Vector3 = (child as Node3D).position
+		assert_gt(Vector2(pos.x - centre.x, pos.z - centre.z).length(), 5.0, "the plaza middle stays open")
+		assert_false(DnaLayout.on_approach(pos.x, pos.z), "nothing on the causeway")
+		var room: DnaLayout.Room = builder.layout.room_at(pos)
+		assert_true(room != null and room.id != "exec", "nothing in the Hall's forecourt")
+		for key: String in ["dolores", "pip", "barnaby", "heal", "quiz", "matching", "puzzle", "main_dungeon", "mini_dungeon", "spawn", "exit"]:
+			var anchor: Vector3 = builder.anchor(key)
+			assert_gt(Vector2(pos.x - anchor.x, pos.z - anchor.z).length(), 2.3, "clear of %s" % key)
+	# where the hero stands to use each spot (Agnes and the clerk stand behind their counters: the hero is on the other side)
+	var stands: Dictionary = {"dolores": Vector3(0, 0, 2.0), "pip": Vector3(0, 0, -1.6), "heal": Vector3(0, 0, 1.2), "quiz": Vector3(0, 0, 1.2), "puzzle": Vector3(0, 0, 1.2), "coffee": Vector3(0, 0, 1.2), "main_dungeon": Vector3(0, 0, 1.2)}
+	for key: String in stands.keys():
+		assert_true(builder.is_walkable(builder.anchor(key) + (stands[key] as Vector3)), "the way up to %s is still open after dressing" % key)
