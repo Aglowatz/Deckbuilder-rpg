@@ -1,45 +1,37 @@
 # The Gainlands (Beefcake): zone plan
 
-Art Bible row: bright midday sun, crisp shadows; palette #F2C14E #D9483B #8BC34A #F7EBD3 #7A5230 #5FA8D3; energetic, sunny, comically macho; sturdy timber-and-brick mills and gym halls with rope and iron, red-gold banners; kit in sun-bleached wood, red brick, brass; gym-mat and chalk ground. Style file `data/zone_styles/gainlands.json`. Data `data/subareas/gainlands/`.
+Art Bible row: bright midday sun, crisp shadows; palette #F2C14E #D9483B #8BC34A #F7EBD3 #7A5230 #5FA8D3; energetic, sunny, comically macho; sturdy timber-and-brick mills and gym halls with rope and iron, red-gold banners; kit in sun-bleached wood, red brick, brass; gym-mat and chalk ground. Style file `data/zone_styles/gainlands.json`, kit `data/art/zone_kits/gainlands.json` (imported, `docs/art/gainlands_slice.md`), corrections `docs/art/gainlands_corrections.md`.
 
-## Structure (G-07)
+**One walkable area** (Art Bible G-07, `docs/design/subarea_removal.md`): the whole zone is the scene `gainlands_zone.tscn` (`GainlandsLayout` / `GainlandsBuilder` / `GainlandsDressing`). There are no sub-area scenes; variety comes from the regions below. Every dungeon is node-based from an entrance in the zone.
 
-| Place | Scene | Purpose | Mood | Hero landmark | Size |
-|---|---|---|---|---|---|
-| **Swole Station** (hub) | existing `gainlands_zone.tscn` | Arrival, healing, vendor, quest givers, rift station, every existing activity | Busy, sunny | Swole Station rift platform | 130 x 80 m (island map) |
-| Mill Meadow / Hamster Wheel Heights / Boulder Gym / Studio 3AM / Leg Day Ridge (regions of the hub) | stay in the hub | The existing mills, wheels, gym, studio and the main dungeon ridge | | Giant hamster-wheel mill (existing wheels) | |
-| Floating islands: Pec Perch, Delt Deck, Glute Garden, Calf Cove | stay in the hub (throw / rift travel) | Reward islands | | Floating islands | |
-| **Proving Grounds** | `proving_grounds` | The outdoor arena everyone trains in: coach, records, a shrine | Energetic, mid-rep | Champion's Arch (GAIN-HERO-CHAMPIONS-ARCH) | 76 x 64 |
-| **Mill Fields** | `mill_fields` | A quiet farm walk to the big wheel; hay, sunflowers | Golden, rhythmic | Giant hamster-wheel mill (GAIN-HERO-WHEEL) | 80 x 64 |
-| **Swolympus Trailhead** | `swolympus_trailhead` | Foot of the mountain: gift shop, rock lever to the secret | Brave, windy | Mount Swolympus + trailhead gate | 72 x 72 |
-| **Sky Garden** (secret) | `sky_garden` | Reward garden above the cloud | Hushed, bright | Sky tree + floating islets | 56 x 48 |
+## Regions
 
-Gates in the hub (data `_zone.json`): Proving Grounds at the south edge (38, 73), Swolympus Trailhead on the main dungeon road (45, 24). Mill Fields hangs off the Proving Grounds; the Sky Garden off the Trailhead.
+| Region | Where | What is there | Landmark |
+|---|---|---|---|
+| The rope bridge | south rim (BRIDGE_*) | Arrival from town facing north; walking off the far end leaves for town | `GainlandsLandmarks.rope_bridge` |
+| Swole Station (hub) | plaza round (52, 64), PLAZA_RADIUS 8.5 | Old Man Mountain, Foreman Gus, Benchley's (vendor), the hot tub, the flex mirror, the protein stand, the Rift Express, the quiz-answer boards | GAIN-HERO-SWOLE-STATION (modelled) |
+| Mill Meadow | west (mills at (22, 52), (30, 32), (40, 46)) | The three giant mills, the hero Wheel, Professor Pump's quiz (22, 40), the hut | GAIN-HERO-WHEEL (modelled, 9 m, turns) at (33, 55) |
+| The training field | between the mills and the dungeon road | The Champions Arch, the Record Board (lore sign), the Pump Shrine (one card from the zone table, once) | GAIN-HERO-CHAMPIONS-ARCH (modelled, 9 m) at (41, 36.5) |
+| Hamster Wheel Heights | east (wheels at (86, 38), (73, 36), (92, 58)) | The hamster wheels, the Colossal Hamster Wheel (run_wheel), the power-grid puzzle (77, 44), the vault lever on the east rim | the wheels (GainlandsProps) |
+| Studio 3 AM | (69, 49.5) | Chet Thunderabs and the reps minigame stage | the stage |
+| The Boulder Gym | south-east (62-80, 63-76) | Bench presses, racks, logs, boulders, Gary under a barbell (spot_me) | the gym |
+| The House of Gains causeway | north (50, 10) | The main dungeon entrance on the causeway in front of the fortress doors (no plate, icon board) | GAIN-HERO-HOUSE-OF-GAINS (fortress model, 48 x 34 x 30 m, beyond the north rim) |
+| The locked Swolympus rim | north-east (86, 31) | The closed trailhead gate ("Mount Swolympus (coming soon)", E toasts) and the sealed Iron Cavern beside it (78, 27) | GAIN-HERO-TRAILHEAD-GATE (modelled, closed) with GAIN-HERO-SWOLYMPUS in the distance at (112, 2) |
+| The floating islands | Pec Perch, Delt Deck, Glute Garden, Calf Cove | Thrower and ripper travel, island chests, the Pec Perch mirror | the islands |
+| The sky | north-west, high | A view: the Sky Tree on its own islet | GAIN-HERO-SKY-TREE (modelled) at (4, 15, -12) |
 
-## Points of interest (a 15-20 s walk is about 75-100 m at 4.9 m/s)
+## Dungeons (node maps)
 
-| Area | POIs in walking order |
+| Dungeon | Entrance in the zone |
 |---|---|
-| Proving Grounds | spawn at the gate -> record board (lore) -> racks and coach vignette (coach heckles) -> central plaza -> Pump Shrine (rare card) -> Trophy Crate chest behind the east stand -> Overlook vista on the west stand; Gym Bag chest on the west side |
-| Mill Fields | Miller log (lore) -> Wheel Keeper vignette under the wheel -> Millstone Cache chest east -> Harvest Shrine -> Grain Sack chest far NW |
-| Swolympus Trailhead | Trail notice -> Gift Shop clerk -> Foot of the Mountain vista -> Rock Lever (opens the boulder wall) -> Hiker Pack chest NW |
-| Sky Garden | Gardener note -> Rare Bloom Shrine -> Gardener Chest -> Above the Clouds vista |
+| Main: the House of Gains | the `main_dungeon` spot on the causeway (50, 10) |
+| Mini: the Iron Cavern | the `mini_dungeon` spot (78, 27), sealed until the postgame (GC-11): the prompt says coming soon |
+| Side: S-BEEF, the Ascent of Mount Swolympus | the same cavern once its quest ("Water for the Hermit", postgame) unlocks it |
 
-## Loops, shortcuts, secrets
+## What the removed sub-areas left behind (SR-7, SR-8)
 
-* Loop: hub gate (south) -> Proving Grounds -> east exit -> Trailhead -> hub gate (north). The Mill Fields branch returns through the Proving Grounds.
-* Shortcut: the Rock Lever at the Trailhead removes the boulder wall; the Sky Garden exit behind it connects back down.
-* Secrets: Sky Garden (lever), a second chest at the far NW of each sub-area behind a prop cluster.
-* No dead end without a reward: Mill Fields and Sky Garden each hold a chest and a shrine.
+Kept: the Wheel, the Champions Arch, the Sky Tree (views and region landmarks above), the Pump Shrine, the Record Board, the locked trailhead gate. Dropped: the Proving Grounds, Mill Fields, Swolympus Trailhead and Sky Garden scenes with their chests, vistas, vignettes, the rock lever and the other shrines and boards (their words stay in the audit, `docs/design/subarea_removal.md`).
 
-## Where existing content goes
+## Art status
 
-All stays in the hub scene (moving it would risk quests and saves): Brenda, Gus, Tony (vendor, Benchley's), the quiz master (Pump), Flex Mirror, the reps minigame studio, the wheels puzzle (swole belt), the mini dungeon entrance (66, 25), the main dungeon entrance (50, 19), Shiro Swindle's giant chest (24, 63.6), the vault lever (88.8, 55.2), the rift station, the heal spot, the zone exit (52, 74), 13 hidden chests, the four islands with throwers and rippers. The hub's own regions map to the Art Bible sub-areas Mill Fields (Mill Meadow), Floating Islands, and the Swolympus trailhead (Leg Day Ridge); the new scenes extend them.
-
-## New content
-
-12 points of interest per scene on average: 9 chests (tiers small / medium / large from the zone's own table), 4 shrines (cards from the zone table, once each), 6 lore pages, 5 vignettes, 4 vistas, 1 lever shortcut. Rewards come only from `ZoneDef.chest_rewards` (docs/design/progression.md is untouched).
-
-## Status
-
-Planned, blocked out, screenshots, asset list: see `docs/overnight_report.md`.
+Kit imported (33 ids), hub dressed and matched to the paint-overs (`docs/art/gainlands_slice.md`); paint-over input `docs/art/paintover_inputs/gainlands/PO-GAINLANDS-HUB.png`; contact sheet `docs/art/zone_plans_shots/gainlands.png`; asset list `docs/art/zone_kits/gainlands.md`. The PAINTOVER-GAINLANDS-* pictures in `docs/art/paintovers/` show regions of this one map.

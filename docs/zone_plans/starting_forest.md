@@ -1,34 +1,31 @@
 # The Starting Forest: zone plan
 
-Art Bible row: early morning; mist and soft god rays through the canopy; palette #3F5E3A, #8DAA6B, #C9B98A, #6B4E3A, #A8C3C9; mood quiet, mysterious, a fresh start; building language almost no buildings: a ruined shrine, an old waystone, a rope bridge, the cave mouth; material swaps stone and timber from the shared kit, heavily mossed. Style file `data/zone_styles/starting_forest.json`. Data `data/subareas/starting_forest/`.
+Art Bible row: early morning; mist and soft god rays through the canopy; palette #3F5E3A, #8DAA6B, #C9B98A, #6B4E3A, #A8C3C9; mood quiet, mysterious, a fresh start; building language almost no buildings: a ruined shrine, an old waystone, a rope bridge, the cave mouth; stone and timber from the shared kit, heavily mossed. Style file `data/zone_styles/starting_forest.json`. Kit: not yet imported (asset list `docs/art/zone_kits/starting_forest.md`).
 
-Hero landmarks (Art Bible): Ancient waystone, the Forgotten Cave entrance, a fallen giant tree, the secret tunnel.
+**One walkable area** (Art Bible G-07, `docs/design/subarea_removal.md`): the whole forest is the scene `starting_area.tscn` (`StartingAreaBuilder`). There are no sub-area scenes and no Lab antechamber; variety comes from the regions below. Every dungeon is node-based from an entrance in the clearing.
 
-## Structure (G-07)
+## Regions (all in the one scene)
 
-| Place | Scene | Mood | Hero landmark stand-in | Size (m) | Points of interest | Exits |
-|---|---|---|---|---|---|---|
-| **The Clearing** (hub) | the existing scene `starting_area.tscn` | existing | existing landmarks | existing | all existing content | gates to The Old Path, Mossy Hollow, Cave Mouth |
-| **The Old Path** | `old_path` | Misty and hushed: a track the forest has nearly taken back, with a rope bridge and a lot of light coming down in stripes | START-HERO-ROPE-BRIDGE | 72.0 x 64.0 | Hollow Stump (chest); The Rope Bridge (vista); Carved Marker (lore); Fellow Traveller (vignette); Wayside Shrine (shrine) | The Clearing, Mossy Hollow |
-| **Mossy Hollow** | `mossy_hollow` | Green and soft: a bowl in the ground where the fallen giant tree lies and everything grows on it | START-HERO-FALLEN-GIANT | 64.0 x 56.0 | Hollow Trunk (chest); Ring of Mushrooms (lore); Hollow Hermit (vignette); On the Fallen Giant (vista); Mossy Shrine (shrine) | The Clearing, The Old Path, Cave Mouth |
-| **Cave Mouth** | `cave_mouth` | Cool and watchful: stone, ferns, a dark opening that breathes out | START-HERO-CAVE-MOUTH | 60.0 x 56.0 | Pilgrim Cache (chest); Cave Marker (lore); Hidden Lever (shortcut); Before the Dark (vista); Ruined Shrine (shrine) | The Clearing, Mossy Hollow, Hidden Tunnel |
-| **The Hidden Tunnel** | `hidden_tunnel` | Close and glowing: roots in the ceiling, old lamps, someone left a blanket | START-HERO-TUNNEL-ARCH | 48.0 x 40.0 | Forgotten Strongbox (chest); Scratched Tally (lore); Lantern Shrine (shrine); Glow Roots (vista) | Cave Mouth |
+| Region | What is there | Hero landmark (concept needed) |
+|---|---|---|
+| The Clearing (hub) | the awakening and the rescuer, Elder Maren, the waystone | the ancient waystone (START-HERO-WAYSTONE-OLD) |
+| The cave mouth | the Forgotten Cave gate (the tutorial dungeon) | START-HERO-CAVE-MOUTH |
+| The hidden tunnel | the secret in the bottom-left corner and its three hidden chests | START-HERO-TUNNEL-ARCH |
+| The old path | the way to town | START-HERO-ROPE-BRIDGE |
+| The hollow | a fallen giant tree | START-HERO-FALLEN-GIANT |
+| The postgame corner | Rip's rift station, the Lab hatch (once revealed) and the freed Rescuer | LAB-HERO-HIDDEN-HATCH |
 
-A 15-20 second walk is about 75-100 m at the 4.9 m/s walking pace; each sub-area lists 4 or more points of interest placed in walking order along its paths (chests, vistas, vignettes, lore pages, a rare card shrine, a lever).
+## Dungeons (node maps)
 
-## Loops, shortcuts, secrets
+| Dungeon | Entrance in the clearing |
+|---|---|
+| D-TUT, the Trial of the Hollow (tutorial) | the Forgotten Cave gate |
+| D-LAB, the Path-ology Lab (postgame) | the hatch in the clearing (`StartingAreaScene._enter_lab`), revealed by Rip |
 
-* Loops: every sub-area has at least one exit besides the way in (or a chest / shrine as the reward for the dead end); the links are in the table above and in `data/subareas/starting_forest/`.
-* Shortcut / secret: Cave Mouth: Hidden Lever opens a barrier (tunnel_rock).
+## What the removed sub-areas left behind
 
-## Where existing content goes
+Nothing was kept: the Old Path, Mossy Hollow, Cave Mouth and Hidden Tunnel scenes and the five Lab antechamber scenes (Hatch Yard, Decontamination Corridor, Specimen Gallery, Records and Break Room, Glass Tank Hall) were stand-in blockouts (no modelled landmark); their chests, shrines, boards, vistas, vignettes and the hidden lever are listed in `docs/design/subarea_removal.md`. The forest's existing content is untouched.
 
-Everything stays in the Clearing scene: the awakening and the rescuer, Elder Maren, the Forgotten Cave gate and tutorial dungeon, the hidden tunnel secret and its three hidden chests, the Path-ology Lab hatch and the postgame Rift station and rescuer. The new scenes appear after the trial is cleared, so the prologue is untouched.
+## Art status
 
-## New content
-
-4 chests (rewards drawn from the zone's own chest tables: gold, items, cards), 4 card shrines, 4 lore pages, 2 vignettes, 4 vistas, 1 lever shortcuts. No new economy: `SubAreaRewards` reuses `ZoneDef.chest_rewards` and docs/design/progression.md is unchanged.
-
-## Status
-
-Planned, blocked out (scenes load from `data/subareas`), asset list `docs/art/zone_kits/starting_forest.md`, paint-over inputs `docs/art/paintover_inputs/starting_forest/`, camera contact sheet `docs/art/zone_plans_shots/starting_forest.png`. Details and numbers: `docs/overnight_report.md`.
+Paint-over input `docs/art/paintover_inputs/starting_forest/PO-STARTING-FOREST-HUB.png`; contact sheet `docs/art/zone_plans_shots/starting_forest.png`.

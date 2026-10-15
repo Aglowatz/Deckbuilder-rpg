@@ -1,5 +1,7 @@
 # The Gainlands: corrective pass (playtest feedback, 2026-10-14)
 
+Note (2026-10-15): the sub-areas mentioned below were removed by design (docs/design/subarea_removal.md); the locked Mount Swolympus gate is now a hub landmark (SR-4) and the walk smoke no longer has sub-area legs.
+
 Scope: the Gainlands only, nothing new added. Judgment calls are GC-1.. in `docs/design/open_questions.md`.
 
 ## What the Gainlands has (before this pass; nothing was added or removed from this list)

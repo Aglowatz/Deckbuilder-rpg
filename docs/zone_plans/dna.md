@@ -1,34 +1,36 @@
 # The Department of Necrotic Affairs: zone plan
 
-Art Bible row: perpetual 4:59 pm overcast gloom; cold flat light with green ghost glows; palette #6E7470, #9BB59A, #3D4A44, #C9C6B8, #4FBF7A, #8A2E2E; mood bureaucratic, gloomy, deadpan funny; building language gray stone office blocks, filing-cabinet towers, queue barriers, columned civic halls; material swaps shared kit in gray stone, dark paneling, wallpaper; carpet, marble, linoleum ground. Style file `data/zone_styles/dna.json`. Data `data/subareas/dna/`.
+Art Bible row: perpetual 4:59 pm overcast gloom; cold flat light with green ghost glows; palette #6E7470, #9BB59A, #3D4A44, #C9C6B8, #4FBF7A, #8A2E2E; mood bureaucratic, gloomy, deadpan funny; building language gray stone office blocks, filing-cabinet towers, queue barriers, columned civic halls. Style file `data/zone_styles/dna.json`, kit `data/art/zone_kits/dna.json` (imported, `docs/art/dna_slice.md`).
 
-Hero landmarks (Art Bible): Filing-cabinet tower, the endless queue, the Hall of Final Approvals facade, the Records Basement entrance.
+**One walkable area** (Art Bible G-07, `docs/design/subarea_removal.md`): the whole zone is the scene `dna_zone.tscn` (`DnaLayout` / `DnaBuilder` / `DnaDressing`): an open-air plaza of courts walled by knee-high balustrades, every doorway four cells wide. There are no sub-area scenes; variety comes from the courts below. Every dungeon is node-based from an entrance in the zone.
 
-## Structure (G-07)
+## Regions (courts of the one scene, grid 90 x 72 cells)
 
-| Place | Scene | Mood | Hero landmark stand-in | Size (m) | Points of interest | Exits |
-|---|---|---|---|---|---|---|
-| **Lobby Plaza** (hub) | the existing scene `dna_zone.tscn` | existing | existing landmarks | existing | all existing content | gates to Cubicle Fields, The Queue, Records Basement |
-| **Cubicle Fields** | `cubicle_fields` | Flat and endless: grey partitions to the horizon, one plant, a distant phone ringing for nobody | DNA-HERO-FILING-TOWER | 80.0 x 64.0 | Desk Drawer (chest); Memo (lore); Junior Associate (vignette); Overlook (vista); Approvals Shrine (shrine) | Lobby Plaza, The Queue |
-| **The Queue** | `the_queue` | Patient to the point of geology: a line that began before the building and has no intention of finishing | DNA-HERO-ENDLESS-QUEUE | 76.0 x 56.0 | Lost Property (chest); Number Board (lore); Veteran of the Line (vignette); Patience Shrine (shrine); End of the Line (vista) | Lobby Plaza, Cubicle Fields, Records Basement |
-| **Records Basement** | `records_basement` | Dim and enormous: shelving in canyons, a green ghost-lamp every forty feet, dust that has formed opinions | DNA-HERO-RECORDS-STAIR | 72.0 x 60.0 | Sealed Folder (chest); Cold Cabinet (chest); Filed Complaint (lore); Archivist (vignette); Stamp Shrine (shrine) | Lobby Plaza, The Queue, Executive Approach |
-| **Executive Approach** | `executive_approach` | Cold marble and a long, polite hush: the sort of corridor where you start to apologise before you are spoken to | DNA-HERO-FINAL-APPROVALS | 70.0 x 64.0 | Executive Safe (chest); Plaque (lore); Door Usher (vignette); Stamp of Approval (shrine); Under the Facade (vista) | Records Basement |
+| Court | Cells | What is there | Landmark |
+|---|---|---|---|
+| The approach causeway and gate | x 44-48, z 60-68 | Arrival facing the gate; walking off the far end leaves for town | `DnaLandmarks.entrance_gate`, the bridge stub |
+| The Lobby (hub) | 36-56 x 46-60 | Agnes Overdue (front desk), Clerk Ledgerbone's Requisitions (vendor), the Rift Express, an empty middle | the gate, the lamps |
+| The Breakroom | 18-35 x 48-60 | Gerald the barista, the coffee machine, the couch (heal), the time clock, the suggestion box | kit pieces |
+| Cubicle Farm A | 2-34 x 26-44 | Desks, the haunted printer, the giant chest, the vault lever on the far west | a view: the Filing Tower west of the Filing Department |
+| The Mail Room | 36-54 x 28-42 | The soul-routing puzzle terminal | the tubes |
+| Cubicle Farm B | 56-88 x 26-44 | Desks, Kyle's matching game, the quiz | a view: the Endless Queue along the east rim (95, 26) |
+| The Filing Department | 2-34 x 4-22 | The cabinet maze | DNA-HERO-FILING-TOWER (modelled) as a view at (-8, 13) |
+| The Elevator Bank | 36-54 x 16-24 | Sub-Basement 3 (the mini dungeon elevator) and the other elevators | the elevators |
+| The Records Basement | 56-88 x 4-24 | Shelving stacks, coffins, chests, the Records board and the Filed Complaint board (lore) | DNA-HERO-RECORDS-STAIR (modelled) as a view beyond the north parapet (72, -4.5) |
+| The Executive Floor | 36-54 x 2-14 | The forecourt of the Hall: the main dungeon spot at the stair foot (no plate, icon board), the Stamp of Approval shrine (one card from the zone table, once) at the east side | DNA-HERO-FINAL-APPROVALS (modelled, 64 x 40 x 24 m beyond the north edge) |
 
-A 15-20 second walk is about 75-100 m at the 4.9 m/s walking pace; each sub-area lists 4 or more points of interest placed in walking order along its paths (chests, vistas, vignettes, lore pages, a rare card shrine, a lever).
+## Dungeons (node maps)
 
-## Loops, shortcuts, secrets
+| Dungeon | Entrance in the zone |
+|---|---|
+| Main: the Hall of Final Approvals | the `main_dungeon` spot at the stair foot (45.5, 2.9) |
+| Mini: Sub-Basement 3 (Quarterly Reviews) | the `mini_dungeon` elevator in the Elevator Bank (48.5, 17.4) |
+| Side: S-NECRO, the Waiting Room of Eternity | unlocked by its quest; entered from the same elevator bank flow |
 
-* Loops: every sub-area has at least one exit besides the way in (or a chest / shrine as the reward for the dead end); the links are in the table above and in `data/subareas/dna/`.
-* Secrets: the shrines and the far-corner chests.
+## What the removed sub-areas left behind (SR-7, SR-8)
 
-## Where existing content goes
+Kept: the Filing Tower, the Endless Queue (30 m of it) and the Records Stair as views beyond the balustrades, the Stamp of Approval shrine, the Filed Complaint board. Dropped: the Cubicle Fields, The Queue, Records Basement and Executive Approach scenes with their chests, vistas, vignettes and the other shrines and boards (their words stay in `docs/design/subarea_removal.md`).
 
-Everything stays in the Lobby scene: Agnes, Prudence, Mortimer, Dolores and Barnaby (quests), Pip Ledgerbone's vendor, Ectomund's quiz, Kyle's matching minigame, the time clock, the suggestion box, the coffee machine, the mail-room puzzle, the Sub-Basement 3 mini dungeon, the Executive main dungeon at the north stair, Shiro Swindle's giant chest, the vault lever, the Rift station, the heal spot and the 14 hidden chests of the farms, maze, records and executive wing. Cubicle farms, the maze and the records wing in the hub are the Art Bible's Cubicle Fields, Records and Executive regions; the new scenes extend them.
+## Art status
 
-## New content
-
-5 chests (rewards drawn from the zone's own chest tables: gold, items, cards), 4 card shrines, 4 lore pages, 4 vignettes, 3 vistas, 0 lever shortcuts. No new economy: `SubAreaRewards` reuses `ZoneDef.chest_rewards` and docs/design/progression.md is unchanged.
-
-## Status
-
-Planned, blocked out (scenes load from `data/subareas`), asset list `docs/art/zone_kits/dna.md`, paint-over inputs `docs/art/paintover_inputs/dna/`, camera contact sheet `docs/art/zone_plans_shots/dna.png`. Details and numbers: `docs/overnight_report.md`.
+Kit imported (24 ids), the plaza dressed and matched to the paint-overs (`docs/art/dna_slice.md`); paint-over input `docs/art/paintover_inputs/dna/PO-DNA-HUB.png` (the lobby centre); contact sheet `docs/art/zone_plans_shots/dna.png`; asset list `docs/art/zone_kits/dna.md`. The PAINTOVER-DNA-* pictures in `docs/art/paintovers/` show regions of this one map.

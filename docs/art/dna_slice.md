@@ -1,5 +1,7 @@
 # The D.N.A. slice (Department of Necrotic Affairs)
 
+Note (2026-10-15): the four sub-area scenes this report dresses were removed by design (docs/design/subarea_removal.md); the hub, the kit, the swaps, the presets, the clusters and the four modelled landmarks stay (the Filing Tower, the Endless Queue and the Records Stair now stand as views beyond the balustrades, SR-8). The sub-area sections and the balustrade / ground keys are history.
+
 The D.N.A. hub (Lobby Plaza) and its four sub-areas remade with the approved zone kit (`G:\My Drive\Card Game Art\Approved_ZoneKits\DNA`, 24 ids, imported by
 `bash tools/import_zone_kit.sh dna`), following `docs/art/zone_rollout_playbook.md` step by step with the Gainlands corrections (`docs/art/gainlands_corrections.md`) applied
 from the start, and matched against the five paint-overs `docs/art/paintovers/PAINTOVER-DNA-{HUB,CUBICLE-FIELDS,THE-QUEUE,RECORDS-BASEMENT,EXECUTIVE-APPROACH}.png` from the

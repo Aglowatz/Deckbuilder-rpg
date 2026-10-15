@@ -1,5 +1,7 @@
 # The Gainlands slice
 
+Note (2026-10-15): the sub-area scenes this report dresses were removed by design (docs/design/subarea_removal.md); the hub, the kit, the material swaps, the clusters and the modelled landmarks stay, and the Wheel, the Champions Arch and the Sky Tree now stand in the hub (SR-8). The sub-area sections below are history.
+
 The Gainlands hub (Swole Station) and its four sub-areas (Mill Fields, the Proving Grounds, Mount Swolympus Trailhead, the Sky Garden) dressed with the approved zone kit
 (`G:\My Drive\Card Game Art\Approved_ZoneKits\Gainlands`, 33 ids, imported by `bash tools/import_zone_kit.sh gainlands`) and matched against the five paint-overs
 `docs/art/paintovers/PAINTOVER-GAINLANDS-{HUB,MILL-FIELDS,PROVING-GROUNDS,SKY-GARDEN,SWOLYMPUS-TRAILHEAD}.png` from the same camera positions (the paint-over inputs' cameras,

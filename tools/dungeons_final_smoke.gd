@@ -2,8 +2,8 @@ class_name DungeonsFinalSmoke
 extends Node
 ## FINAL (dungeon list): walks dungeons start to boss through the real UI (human-style mouse and key input): (1) D-TUT, the Forgotten Cave, from the first node to the boss
 ## and "Step outside"; (2) D-HOG, the House of Gains, through the optional Iron-less Prison branch: the stairs, the prison block, the Iron-less Prison rescue (Grandmaster Flex joins and
-## stands on your field in the boss fight), the garden, the Sauna of Truth, the Throne of Gains boss, the epilogue and the freed Gainlands; (3) one side dungeon through its quest:
-## Old Man Mountain gives and takes back the quest, the hatch opens, S-BEEF's three battles on the Mount Swolympus map, the unique card. Every battle checks that it uses the
+## stands on your field in the boss fight), the garden, the Sauna of Truth, the Throne of Gains boss, the epilogue and the freed Gainlands; (3) the Gainlands side dungeon:
+## sealed until the postgame (GC-11, SR-4): the cavern says coming soon, Old Man Mountain never offers the quest (the climb itself is off until it reopens). Every battle checks that it uses the
 ## battleboard the dungeon list names. Screenshots to _screenshots/dungeons/. Run windowed:  bash tools/run_dungeons_final_smoke.sh
 ## Deliberate shortcuts (stated, like the earlier smokes): the player is placed next to NPCs and entrances instead of walking there; the House of Gains and Mount Swolympus runs are
 ## boosted (+40 max HP, +4/+4 on every unit, a dungeon boon; the Trial too) so the simple battle pilot wins every duel, and a duel the pilot cannot finish (it gets stuck on an untargetable spell) is decided by decree and reported as a note; the quest's "buy a protein shake" objective is set by bumping its counter; the
@@ -124,49 +124,19 @@ func _side_dungeon_via_quest() -> void:
 	await driver.seconds(0.6)
 	await _shot("s_01_ascent_sealed")
 	_check(zone._overlay == null, "a sealed side dungeon opens no confirm dialog")
-	# Old Man Mountain: talk until the Water for the Hermit quest is accepted (he may offer Spot Me! first).
+	_check(str(zone.hud._toast.text).to_lower().contains("coming soon"), "the sealed cavern says coming soon")
+	# Mount Swolympus is a postgame bonus (GC-11, SR-4): Old Man Mountain never offers Water for the Hermit in the main story and the cavern never opens,
+	# so the quest-and-climb part of this leg is off until the postgame opens it (the data of S-BEEF, its map and its unique card are intact and GUT-tested).
 	var mountain: ZoneSpot = _spot(zone, "brenda")
-	var guard: int = 0
-	while not Session.quest_log.active.has(ZoneQuestDefinitions.SIDE_BEEF) and guard < 4:
-		guard += 1
-		await _stand_at(zone, mountain)
-		await driver.tap_key(KEY_E)
-		await driver.seconds(0.4)
-		if guard == 1:
-			await _shot("s_02_old_man_mountain")
-		await _dismiss_dialogue(zone.dialogue)
-		await _clear_zone(zone)
-	_check(Session.quest_log.active.has(ZoneQuestDefinitions.SIDE_BEEF), "Old Man Mountain gave the Water for the Hermit quest")
-	Session.bump_counter(GainlandsZone.COUNTER_SHAKES)
-	Session.refresh_quests()
 	await _stand_at(zone, mountain)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
+	await _shot("s_02_old_man_mountain")
 	await _dismiss_dialogue(zone.dialogue)
 	await _clear_zone(zone)
-	_check(Session.quest_log.is_completed(ZoneQuestDefinitions.SIDE_BEEF), "handing in the water completes the quest")
-	_check(Session.side_unlocked("S-BEEF"), "the quest unlocked the Ascent of Mount Swolympus")
-	await _stand_at(zone, entrance)
-	await driver.tap_key(KEY_E)
-	await driver.seconds(0.6)
-	await _shot("s_03_ascent_open")
-	var entered: bool = await driver.click_button("Enter")
-	_check(entered, "the open entrance asks to enter")
-	var map_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
-	if map_screen == null:
-		_fail("the side dungeon never opened its map")
-		return
-	_boost()
-	await driver.seconds(1.0)
-	_check(map_screen._art != null, "S-BEEF shows its painted map (MAP-S-BEEF)")
-	await _shot("s_04_ascent_map_start")
-	await _walk([1, 2, 3], "S-BEEF", true)
-	var back: Node = await _wait_for(GainlandsScene)
-	_check(back != null, "the side dungeon leads back to the zone")
-	_check(Session.owned_count("B-30") >= 1, "the unique reward Barbell of the Ancients (B-30) was granted")
-	_check(Session.flag(GainlandsZone.FLAG_MINI_CLEARED), "the first clear is recorded")
-	await driver.seconds(1.0)
-	await _shot("s_10_back_from_the_ascent")
+	_check(not Session.quest_log.active.has(ZoneQuestDefinitions.SIDE_BEEF), "Old Man Mountain does not offer Water for the Hermit before the postgame")
+	_check(not Session.side_unlocked("S-BEEF"), "the Ascent of Mount Swolympus stays sealed")
+	_check(DungeonCatalog.find("S-BEEF") != null, "S-BEEF is still in the dungeon list for the postgame")
 
 
 # ---- Walking a map -----------------------------------------------------------------------------------------
