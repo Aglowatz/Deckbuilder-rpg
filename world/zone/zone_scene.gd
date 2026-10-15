@@ -106,6 +106,28 @@ func _interact_zone(_spot: ZoneSpot) -> void:
 	pass
 
 
+## A shrine (SR-7): one offering per campaign, a card (or a little gold) from the zone's own chest table (`ZoneShrine`); afterwards it only speaks
+## (story key "shrine.used"). The same flow as a hidden chest: the reward popup, then the hero is given back.
+func _use_shrine(spot: ZoneSpot) -> void:
+	player.face(spot.position)
+	var used: StringName = ZoneShrine.flag(def.id, spot.id)
+	if Session.flag(used):
+		_say("", story.get_lines("shrine.used"))
+		return
+	Session.set_flag(used)
+	var reward: Dictionary = ZoneShrine.reward(def.chest_rewards, "%s:%s" % [def.id, spot.id])
+	var summary: RewardSummary = Session.grant_chest_reward(reward, spot.title)
+	hud.set_gold(Session.gold)
+	Session.save_game()
+	_locked = true
+	player.input_enabled = false
+	Audio.sfx(&"chest_open")
+	await get_tree().create_timer(0.5).timeout
+	var popup: RewardPopup = RewardPopup.make(summary)
+	_open_overlay(popup)
+	popup.finished.connect(_close_overlay)
+
+
 ## The puzzle screen of this zone (must have `closed` and `solved` signals).
 func _make_puzzle_screen() -> OverlayScreen:
 	return null
@@ -777,6 +799,8 @@ func _interact(spot: ZoneSpot) -> void:
 			_ask_mini_dungeon(spot)
 		"puzzle":
 			_open_puzzle(spot)
+		"shrine":
+			_use_shrine(spot)
 		"freed_npc":
 			_face_npc(str(spot.data["npc"]))
 			_say(str(spot.data["speaker"]), story.get_lines("freed_npc.%s" % str(spot.data["npc"])), Callable(), str(spot.data.get("npc_id", "")))

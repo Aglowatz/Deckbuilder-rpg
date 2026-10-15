@@ -10,6 +10,55 @@ extends GutTest
 var layout: GainlandsLayout
 
 
+## The region landmarks kept from the removed sub-areas (SR-7, SR-8): the Wheel, the Champions Arch and the Pump Shrine stand on the main land clear of every route
+## and anchor; the Sky Tree is a view off the land; the Record Board is a sign with a pictogram and words.
+func test_the_region_landmarks_stand_clear_and_the_sky_tree_is_a_view() -> void:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: GainlandsBuilder = GainlandsBuilder.new()
+	builder.build(host)
+	for node_name: String in ["HeroWheel", "ChampionsArch", "PumpShrine", "DistantSkyTree"]:
+		assert_not_null(builder.root.find_child(node_name, false, false), "%s stands in the hub" % node_name)
+	var wheel: Node3D = builder.root.find_child("HeroWheel", false, false) as Node3D
+	assert_true(wheel != null and wheel.has_meta("spinner"), "the Wheel turns")
+	var hub: Vector3 = layout.anchors["hub"] as Vector3
+	for entry: Array in [["HeroWheel", GainlandsLayout.HERO_WHEEL, GainlandsLayout.HERO_WHEEL_CLEARANCE], ["ChampionsArch", GainlandsLayout.CHAMPIONS_ARCH, GainlandsLayout.CHAMPIONS_ARCH_CLEARANCE]]:
+		var at: Vector2 = entry[1] as Vector2
+		var clearance: float = float(entry[2])
+		assert_true(GainlandsLayout.is_main_ground(at.x, at.y), "%s stands on the main land" % str(entry[0]))
+		for prop: GainlandsLayout.Prop in layout.props:
+			if prop.kind == "tree" or prop.kind == "boulder":
+				assert_gte(Vector2(at.x - prop.pos.x, at.y - prop.pos.z).length(), clearance - 0.01, "no scattered %s under the %s" % [prop.kind, str(entry[0])])
+		# every solid part of the model (its blocking circles) keeps off the routes, out of the plaza and clear of every anchor
+		var node: Node3D = builder.root.find_child(str(entry[0]), false, false) as Node3D
+		var circles: Array = node.get_meta("circles", []) as Array
+		assert_gt(circles.size(), 0, "%s blocks through its circles" % str(entry[0]))
+		for circle: Variant in circles:
+			var local: Vector3 = circle as Vector3
+			var world: Vector3 = node.position + node.basis * Vector3(local.x, 0.0, local.y)
+			assert_gte(layout.path_edge_distance(world.x, world.z) - local.z, GainlandsLayout.PATH_CLEARANCE - 0.01, "%s keeps off the routes" % str(entry[0]))
+			assert_gt(Vector2(world.x - hub.x, world.z - hub.z).length() - local.z, GainlandsLayout.PLAZA_RADIUS, "%s is outside the plaza" % str(entry[0]))
+			for key: Variant in layout.anchors.keys():
+				if str(key) == "shrine":
+					continue
+				var anchor: Vector3 = layout.anchors[key] as Vector3
+				assert_gte(Vector2(world.x - anchor.x, world.z - anchor.z).length() - local.z, GainlandsLayout.ANCHOR_CLEARANCE - 0.01, "%s keeps %s clear" % [str(entry[0]), str(key)])
+	var shrine: Vector3 = layout.anchors["shrine"] as Vector3
+	assert_true(builder.is_walkable(shrine, 0.3), "the hero can stand at the shrine")
+	assert_false(builder.is_walkable(shrine + GainlandsBuilder.SHRINE_OFFSET, 0.3), "the shrine itself is solid")
+	assert_gte(layout.path_edge_distance(shrine.x, shrine.z), GainlandsLayout.PATH_CLEARANCE, "the shrine is off the routes")
+	var tree: Node3D = builder.root.find_child("DistantSkyTree", false, false) as Node3D
+	assert_false(GainlandsLayout.is_main_ground(tree.position.x, tree.position.z), "the Sky Tree is off the land")
+	assert_null(layout.island_at(tree.position.x, tree.position.z), "and off every island")
+	assert_gt(tree.position.y, 8.0, "high in the sky")
+	var keys: Array[String] = []
+	for sign: GainlandsLayout.Sign in layout.signs:
+		keys.append(sign.key)
+	assert_has(keys, "sign.record_board", "the Record Board stands at the arch")
+	assert_true(GainlandsBuilder.SIGN_ICONS.has("sign.record_board"), "with a pictogram")
+	assert_false(ZoneStoryText.for_zone(GainlandsZone.ID).get_lines("sign.record_board").is_empty(), "and words to read")
+
+
 func test_mount_swolympus_is_a_locked_postgame_bonus() -> void:
 	# the hub gate: a landmark off the main route (north-east rim), closed, with a coming-soon prompt and no sub-area behind it (GC-11, SR-4)
 	assert_true(layout.anchors.has(GainlandsZone.SWOLYMPUS_GATE), "the trailhead gate has an anchor")

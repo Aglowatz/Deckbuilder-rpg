@@ -69,6 +69,8 @@ lines = {
 "sign.puzzle": ["POWER GRID CONTROL PANEL", "Six hamster wheels, three machines. Each wheel feeds two machines (or naps).", "Only five wheels may run at once. They get tired."],
 "sign.wheel": ["COLOSSAL HAMSTER WHEEL", "Run it to power the grid. No actual hamsters. Hamsters are on break."],
 "sign.gym": ["THE BOULDER GYM", "Equipment: boulders, logs, more boulders.", "Please re-rack your boulders."],
+"sign.record_board": ["THE RECORD BOARD", "Every record ever set on this field. Most are crossed out by the next line.", "At the bottom, in chalk: DAY 1 OF NEVER SKIPPING. Day 1 has been crossed out forty times."],
+"shrine.used": ["The Pump Shrine is spent. It flexes anyway, out of habit."],
 "sign.spot_me": ["SPOTTER WANTED", "Gary is under there. Gary has been under there since lunch."],
 "sign.thrower_rule": ["COURTESY CHUCKS", "FREE.", "Spotter mandatory. Landing not guaranteed. Dignity sold separately."],
 "sign.ripper_rule": ["PORTALS: TORN, NOT CAST", "Bare hands only. No spells, no tools.", "Warranty void if stretched."],

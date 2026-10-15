@@ -654,6 +654,7 @@ func _furnish_records() -> void:
 	var r: Rect2i = Rect2i(56, 4, 32, 20)
 	_lamp_ring(r, 10, Color(0.6, 0.95, 0.7), 1.0)
 	_sign("sign.records", Vector3(72.0, 1.8, 23.8), 180.0, "sign", 1.15)
+	_sign("sign.filed_complaint", Vector3(80.0, 1.8, 23.8), 180.0, "sign", 1.0)  # the Filed Complaint of the old Records Basement, on the same wall (SR-7)
 	# Long shelving rows (solid cabinet blocks) with gaps, like stacks in an archive.
 	for row_z: int in [8, 12, 16]:
 		for x0: int in [59, 71, 79]:
@@ -697,6 +698,8 @@ func _furnish_executive() -> void:
 		open_edges[Vector2i(cx, 1)] = true
 	chests["chest_exec"] = cell_center(36, 3) + Vector3(0.6, 0.0, 0.2)
 	anchors["exec_center"] = cell_center(45, 11)
+	# The Stamp of Approval (the shrine of the old Executive Approach, SR-7) at the forecourt's east side: the hero stands at the anchor, the stamp just east of it.
+	anchors["shrine"] = cell_center(51, 10)
 
 
 # ---- Enemies -------------------------------------------------------------------------------

@@ -2,7 +2,7 @@ class_name GainlandsLandmarks
 extends RefCounted
 ## The six hero landmarks of the Gainlands, modelled after their approved concepts (docs/art/zone_kits/gainlands/concepts/) and textured with the zone kit
 ## (data/art/zone_kits/gainlands.json): the Wheel (Mill Fields, turns slowly), the Champions Arch (Proving Grounds), Mount Swolympus and the Trailhead Gate
-## (Swolympus Trailhead), the Sky Tree (Sky Garden) and the Swole Station platform (the hub). Sizes come from the sub-area data (`spec.size` = w, h, d in metres);
+## (Swolympus Trailhead), the Sky Tree (Sky Garden) and the Swole Station platform (the hub). Sizes come from the caller (`spec.size` = w, h, d in metres);
 ## every model is built to fill that box. Origin on the ground at the centre, front +z. Same contract as `LandmarkKit` (meta circles / footprint / height); the Wheel
 ## also carries meta "spinner".
 

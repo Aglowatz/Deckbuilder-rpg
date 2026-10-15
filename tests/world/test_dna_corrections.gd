@@ -11,6 +11,39 @@ func before_all() -> void:
 	layout.build()
 
 
+## The hero landmarks kept from the removed sub-areas (SR-8) stand beyond the balustrades as views; the Stamp of Approval shrine (SR-7) stands on the executive
+## forecourt with open ground round the hero's spot; the Filed Complaint is a board with a pictogram and words.
+func test_the_far_landmarks_are_views_and_the_stamp_shrine_stands_clear() -> void:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: DnaBuilder = DnaBuilder.new()
+	builder.build(host)
+	for entry: Array in [["FilingTower", DnaBuilder.FILING_TOWER], ["EndlessQueue", DnaBuilder.ENDLESS_QUEUE], ["RecordsStair", DnaBuilder.RECORDS_STAIR]]:
+		var node: Node3D = builder.root.find_child(str(entry[0]), false, false) as Node3D
+		assert_not_null(node, "%s stands in the zone" % str(entry[0]))
+		var at: Vector3 = entry[1] as Vector3
+		var cell: Vector2i = Vector2i(int(floorf(at.x)), int(floorf(at.z)))
+		var inside: bool = cell.x >= 0 and cell.x < DnaLayout.W and cell.y >= 0 and cell.y < DnaLayout.H
+		assert_false(inside and builder.layout.cell_at(cell.x, cell.y) != DnaLayout.Cell.VOID, "%s stands off the floor" % str(entry[0]))
+		if node != null:
+			for piece: Node in node.find_children("*", "MeshInstance3D", true, false):
+				assert_true(piece.has_meta(&"no_range_cull") and piece.has_meta(&"no_occlusion_fade"), "%s never culls or fades" % str(entry[0]))
+	var shrine: Vector3 = builder.anchor("shrine")
+	assert_true(builder.is_walkable(shrine, 0.3), "the hero can stand at the stamp")
+	assert_false(builder.is_walkable(shrine + DnaBuilder.SHRINE_OFFSET, 0.3), "the stamp itself is solid")
+	for key: Variant in builder.layout.anchors.keys():
+		if str(key) in ["shrine", "exec_center"]:
+			continue
+		var anchor: Vector3 = builder.layout.anchors[key] as Vector3
+		assert_gte(Vector2(shrine.x - anchor.x, shrine.z - anchor.z).length(), 5.5, "the stamp keeps %s clear" % str(key))
+	var keys: Array[String] = []
+	for sign: DnaLayout.Sign in layout.signs:
+		keys.append(sign.key)
+	assert_has(keys, "sign.filed_complaint", "the Filed Complaint hangs in the archive")
+	assert_true(DnaBuilder.SIGN_ICONS.has("sign.filed_complaint"), "with a pictogram")
+	assert_false(ZoneStoryText.for_zone(DnaZone.ID).get_lines("sign.filed_complaint").is_empty(), "and words to read")
+
+
 func test_every_doorway_is_at_least_four_cells_wide() -> void:
 	# (x, z, w, d) of every link rect of the plan: all cells floor, the narrow side LINK_WIDTH or more
 	for rect: Rect2i in [Rect2i(35, 51, 1, 4), Rect2i(43, 42, 4, 4), Rect2i(23, 44, 5, 4), Rect2i(34, 32, 2, 5), Rect2i(54, 32, 2, 5), Rect2i(43, 24, 4, 4), Rect2i(14, 22, 5, 4), Rect2i(34, 16, 2, 5), Rect2i(54, 17, 2, 5), Rect2i(43, 14, 4, 2), Rect2i(69, 24, 5, 2), Rect2i(44, 60, 5, 8)]:

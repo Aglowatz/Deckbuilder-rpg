@@ -101,6 +101,8 @@ lines = {
 "sign.puzzle": ["PNEUMATIC SOUL ROUTING", "Set every junction. Send the souls. Do not send them to Accounts Payable."],
 "sign.quiz": ["COMPLIANCE TESTING", "Annual re-certification: 4 questions. Failure is not an option. It is a form."],
 "sign.records": ["RECORDS BASEMENT", "Every life, filed under 'Pending'."],
+"sign.filed_complaint": ["FILED COMPLAINT", "A complaint, filed in 1873, about the filing system. It is filed under C, for Complaint, and also under F, for Filing, and also under P, for Pending.", "The response is filed under R. The response is blank."],
+"shrine.used": ["The stamp has been used. The form is complete. Nothing else will be approved today, or any day."],
 "sign.requisitions": ["REQUISITIONS", "Cards, in triplicate. Souls, in quadruplicate."],
 "sign.suggestion_box": ["SUGGESTIONS", "All suggestions are read by a committee that has been dead since 1979."],
 "sign.take_number": ["DECEASED?", "TAKE A NUMBER.", "(You have been assigned a number. Your number is also a number.)"],

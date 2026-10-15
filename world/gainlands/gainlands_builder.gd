@@ -45,6 +45,7 @@ func build(parent: Node3D) -> void:
 	_build_house_of_gains()
 	_build_swolympus()
 	_build_swolympus_gate()
+	_build_region_landmarks()
 	_build_clouds()
 	_build_props()
 	_build_pipes()
@@ -455,6 +456,55 @@ func _build_swolympus_gate() -> void:
 		piece.set_meta(&"no_occlusion_fade", true)  # a landmark at the rim: its towers never dissolve beside the hero (nothing walkable behind it)
 
 
+## The region landmarks kept from the removed sub-areas (SR-8), placed by the declutter rules (open routes, breathing room, nothing in the plaza): the Wheel
+## (GAIN-HERO-WHEEL, turning like the hub's wheels) in the mill meadow west of the plaza, the Champions Arch (GAIN-HERO-CHAMPIONS-ARCH) on the open training
+## field between the mills and the dungeon road, the Sky Tree (GAIN-HERO-SKY-TREE) on its own islet high beyond the north-west rim as a view, and the Pump
+## Shrine (SR-7) beside the arch. Every model blocks through its circles; the sky tree stands off the land and never culls or fades.
+const SHRINE_OFFSET: Vector3 = Vector3(0.0, 0.0, -1.7)
+
+
+func _build_region_landmarks() -> void:
+	var wheel: Node3D = _place_landmark({"id": "GAIN-HERO-WHEEL", "kind": "wheel", "size": [9.0, 9.0, 4.0]}, "HeroWheel", Vector2(GainlandsLayout.HERO_WHEEL.x, GainlandsLayout.HERO_WHEEL.y), 25.0)
+	if wheel != null and wheel.has_meta("spinner"):
+		var spinner: Node3D = wheel.get_meta("spinner") as Node3D
+		spinner.set_meta("phase", 0.7)
+		spinner.set_meta("direction", 1.0)
+		_spinners.append(spinner)
+	_place_landmark({"id": "GAIN-HERO-CHAMPIONS-ARCH", "kind": "arch", "size": [9.0, 6.5, 1.4], "color": "#d9483b", "accent": "#f2c14e"}, "ChampionsArch", Vector2(GainlandsLayout.CHAMPIONS_ARCH.x, GainlandsLayout.CHAMPIONS_ARCH.y), 0.0)
+	var shrine_anchor: Vector3 = layout.anchors.get("shrine", Vector3.ZERO) as Vector3
+	var shrine_pos: Vector3 = shrine_anchor + SHRINE_OFFSET
+	_place_landmark({"id": "pump_shrine", "kind": "shrine", "size": [2.4, 3.2, 2.4], "color": "#f7ebd3", "accent": "#7a5230", "glow": "#ff9a58", "surface": "GAIN-WALL-BLEACH", "accent_surface": "GAIN-TRIM-BRASS"}, "PumpShrine", Vector2(shrine_pos.x, shrine_pos.z), 0.0)
+	# the Sky Garden's tree on a floating islet in the sky beyond the north-west rim: a view, never on a route
+	var tree: Node3D = GainlandsLandmarks.build({"id": "GAIN-HERO-SKY-TREE", "kind": "giant_tree", "size": [18.0, 16.0, 18.0]})
+	if tree != null:
+		tree.name = "DistantSkyTree"
+		root.add_child(tree)
+		tree.position = GainlandsLayout.SKY_TREE
+		tree.rotation_degrees.y = 140.0
+		for piece: Node in tree.find_children("*", "MeshInstance3D", true, false):
+			piece.set_meta(&"no_range_cull", true)
+			piece.set_meta(&"no_occlusion_fade", true)
+
+
+## A landmark model on the main land at (x, z) turned by `yaw`: added to the root (never chunk-culled, never faded), its circles made solid.
+func _place_landmark(spec: Dictionary, node_name: String, at: Vector2, yaw: float) -> Node3D:
+	var node: Node3D = LandmarkKit.build(spec)
+	if node == null:
+		return null
+	node.name = node_name
+	root.add_child(node)
+	node.position = Vector3(at.x, layout.ground_height(at.x, at.y), at.y)
+	node.rotation_degrees.y = yaw
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(yaw))
+	for circle: Variant in node.get_meta("circles", []) as Array:
+		var local: Vector3 = circle as Vector3
+		var world: Vector3 = node.position + basis * Vector3(local.x, 0.0, local.y)
+		_add_obstacle(Vector3(world.x, world.z, local.z))
+	for piece: Node in node.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)
+	return node
+
+
 ## The cloud models (adopted by a `CloudFader` so none can block the view).
 func cloud_nodes() -> Array[Node3D]:
 	return _clouds
@@ -700,7 +750,7 @@ const SIGN_ICONS: Dictionary = {
 	"sign.thrower_east": "ICON-MAP-TRAVEL", "sign.thrower_west": "ICON-MAP-TRAVEL", "sign.mini_dungeon": "ICON-MAP-SIDEDUNGEON",
 	"sign.main_dungeon": "ICON-MAP-DUNGEON", "sign.leg_day_note": "ICON-STAT-ATTACK", "sign.energy_poster": "ICON-ENERGY-B",
 	"sign.beefcake_poster": "ICON-ESSENCE-B", "sign.pec_perch": "ICON-ESSENCE-B", "sign.delt_deck": "ICON-ESSENCE-B", "sign.glute_garden": "ICON-ESSENCE-B",
-	"sign.calf_cove": "ICON-ESSENCE-B", "sign.edge_warning": "ICON-NODE-ELITE", "sign.hamster_fact": "ICON-MAP-QUEST",
+	"sign.calf_cove": "ICON-ESSENCE-B", "sign.edge_warning": "ICON-NODE-ELITE", "sign.hamster_fact": "ICON-MAP-QUEST", "sign.record_board": "ICON-MAP-MINIGAME",
 }
 
 

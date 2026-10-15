@@ -103,12 +103,13 @@ static func build_def() -> ZoneDef:
 		_spot("puzzle", "Soul Routing Terminal", "puzzle", Vector3.ZERO, 1.7, "Route the souls (puzzle)", "puzzle"),
 		_spot("quiz", "Director Ectomund, Compliance Examiner", "quiz", Vector3(0.9, 0, 0), 1.6, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-ECTOMUND", "speaker": "Director Ectomund"}),
 		_spot("matching", "Kyle, Last Employee of the Month", "matching", Vector3(0.0, 0, 0.9), 1.6, "Talk", "minigame", {"npc": "matching", "npc_id": "NPC-KYLE", "speaker": "Kyle"}),
+		_spot("shrine", "Stamp of Approval", "shrine", Vector3.ZERO, 1.5, "Press the Stamp of Approval", "shrine"),  # kept from the Executive Approach (SR-7): one card from the zone table, once
 	]
 	def.poi_kinds = {
 		"dolores": MapPoi.Kind.QUEST_GIVER, "barnaby": MapPoi.Kind.QUEST_GIVER, "pip": MapPoi.Kind.VENDOR,
 		"heal": MapPoi.Kind.HEAL, "exit": MapPoi.Kind.EXIT, "mini_dungeon": MapPoi.Kind.MINI_DUNGEON,
 		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.PUZZLE, "quiz": MapPoi.Kind.QUIZ,
-		"matching": MapPoi.Kind.MINIGAME,
+		"matching": MapPoi.Kind.MINIGAME, "shrine": MapPoi.Kind.INTERACTABLE,
 	}
 	return def
 

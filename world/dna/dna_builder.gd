@@ -73,6 +73,7 @@ func build(parent: Node3D) -> void:
 	_build_set_pieces()
 	_build_hall()
 	_build_entrance()
+	_build_region_landmarks()
 	_index_obstacles()
 
 
@@ -434,7 +435,7 @@ const SIGN_ICONS: Dictionary = {
 	"sign.printer": "ICON-MECH-PROCESSING", "sign.mailroom": "ICON-MAP-TRAVEL", "sign.puzzle": "ICON-MAP-PUZZLE", "sign.filing_maze": "ICON-MAP-TRAVEL",
 	"sign.matching": "ICON-MAP-MINIGAME", "sign.elevator_bank": "ICON-MAP-TRAVEL", "sign.elevator_rule": "ICON-NODE-LOCKED",
 	"sign.mini_dungeon": "ICON-MAP-SIDEDUNGEON", "memo.records": "ICON-TOKEN-CLAUSE", "sign.records": "ICON-MAP-TRAVEL", "sign.executive": "ICON-NODE-BOSS",
-	"sign.main_dungeon": "ICON-MAP-DUNGEON",
+	"sign.main_dungeon": "ICON-MAP-DUNGEON", "sign.filed_complaint": "ICON-RES-REDTAPE",
 }
 
 
@@ -560,6 +561,56 @@ func _build_hall() -> void:
 	threshold.set_meta(&"no_occlusion_fade", true)
 	threshold.set_meta(&"no_range_cull", true)
 	root.add_child(threshold)
+
+
+## The hero landmarks kept from the removed sub-areas (SR-8) as views beyond the balustrades, where they crowd nothing: the Filing Tower west of the Filing
+## Department, the Endless Queue along the east rim beside Cubicle Farm B and the Records Basement, the Records Stair beyond the archive's north parapet. Never
+## culled or faded, nothing walkable near them. The Stamp of Approval shrine (SR-7) stands on the executive forecourt and blocks through its circles.
+const FILING_TOWER: Vector3 = Vector3(-8.0, 0.0, 13.0)
+const ENDLESS_QUEUE: Vector3 = Vector3(95.0, 0.0, 26.0)
+const RECORDS_STAIR: Vector3 = Vector3(72.0, 0.0, -4.5)
+const SHRINE_OFFSET: Vector3 = Vector3(1.6, 0.0, 0.0)
+
+
+func _build_region_landmarks() -> void:
+	_far_landmark({"id": "DNA-HERO-FILING-TOWER", "kind": "tower", "size": [10.0, 22.0, 6.0]}, "FilingTower", FILING_TOWER, 90.0)
+	_far_landmark({"id": "DNA-HERO-ENDLESS-QUEUE", "kind": "colonnade", "size": [30.0, 3.0, 2.0]}, "EndlessQueue", ENDLESS_QUEUE, 90.0)
+	_far_landmark({"id": "DNA-HERO-RECORDS-STAIR", "kind": "stair", "size": [9.0, 5.0, 8.0]}, "RecordsStair", RECORDS_STAIR, 0.0)
+	var shrine_pos: Vector3 = anchor("shrine") + SHRINE_OFFSET
+	var shrine: Node3D = LandmarkKit.build({"id": "stamp_shrine", "kind": "shrine", "size": [2.2, 3.0, 2.2], "color": "#6e7470", "accent": "#b8945a", "glow": "#4fbf7a", "surface": "DNA-WALL-GREY", "accent_surface": "DNA-TRIM-BRASS"})
+	if shrine == null:
+		return
+	shrine.name = "StampShrine"
+	root.add_child(shrine)
+	shrine.position = shrine_pos
+	shrine.rotation_degrees.y = -90.0
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(-90.0))
+	for circle: Variant in shrine.get_meta("circles", []) as Array:
+		var local: Vector3 = circle as Vector3
+		var world: Vector3 = shrine.position + basis * Vector3(local.x, 0.0, local.y)
+		_add_obstacle(Vector3(world.x, world.z, local.z))
+	for piece: Node in shrine.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)
+
+
+## A landmark that stands beyond the walkable floor as a view: on the root, never culled or faded, nothing solid (nothing walks there).
+func _far_landmark(spec: Dictionary, node_name: String, at: Vector3, yaw: float) -> void:
+	var node: Node3D = LandmarkKit.build(spec)
+	if node == null:
+		return
+	node.name = node_name
+	root.add_child(node)
+	node.position = at
+	node.rotation_degrees.y = yaw
+	for piece: Node in node.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)
+		piece.set_meta(&"no_occlusion_fade", true)
+	for entry: Variant in node.get_meta("lights", []) as Array:
+		var light: Dictionary = entry as Dictionary
+		var spot: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
+		spot.pos = node.position + (light["pos"] as Vector3)
+		spot.color = light["color"] as Color
+		layout.lights.append(spot)
 
 
 ## The gate in the lobby's south wall and the approach causeway's far landing with the bridge stub toward town (DnaLandmarks). Walking off the causeway's far

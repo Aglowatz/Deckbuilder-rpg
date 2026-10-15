@@ -118,6 +118,7 @@ static func build_def() -> ZoneDef:
 		_spot("flex_mirror_pec", "Flex Mirror (Pec Perch)", "flex_mirror_pec", Vector3(0.9, 0, 0), 1.5, "Flex at the mirror", "zone"),
 		_spot("spot_me", "Gary, Currently Under a Barbell", "spot_me", Vector3(0.9, 0, 0), 1.7, "Talk", "zone", {"npc": "gary"}),
 		_spot("run_wheel", "Colossal Hamster Wheel", "run_wheel", Vector3.ZERO, 1.8, "Run the wheel", "zone"),
+		_spot("shrine", "Pump Shrine", "shrine", Vector3.ZERO, 1.6, "Make an offering at the Pump Shrine", "shrine"),  # kept from the Proving Grounds (SR-7): one card from the zone table, once
 	]
 	def.poi_kinds = {
 		"brenda": MapPoi.Kind.QUEST_GIVER, "gus": MapPoi.Kind.QUEST_GIVER, "tony": MapPoi.Kind.VENDOR,
@@ -125,7 +126,7 @@ static func build_def() -> ZoneDef:
 		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.PUZZLE, "quiz": MapPoi.Kind.QUIZ,
 		"minigame": MapPoi.Kind.MINIGAME, "protein_stand": MapPoi.Kind.INTERACTABLE,
 		"flex_mirror": MapPoi.Kind.INTERACTABLE, "flex_mirror_pec": MapPoi.Kind.INTERACTABLE,
-		"spot_me": MapPoi.Kind.INTERACTABLE, "run_wheel": MapPoi.Kind.INTERACTABLE,
+		"spot_me": MapPoi.Kind.INTERACTABLE, "run_wheel": MapPoi.Kind.INTERACTABLE, "shrine": MapPoi.Kind.INTERACTABLE,
 	}
 	# The thrower / portal-ripper Beefcakes: one NPC and one spot each (handled by GainlandsScene).
 	for point: GainlandsTravel.Point in GainlandsTravel.points():

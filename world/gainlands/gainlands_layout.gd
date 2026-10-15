@@ -29,6 +29,13 @@ const MAIN_PATH_WIDTH: float = 4.2
 const SIDE_PATH_WIDTH: float = 3.4
 ## Nothing solid stands closer than this to a path edge.
 const PATH_CLEARANCE: float = 2.4
+## The region landmarks kept from the removed sub-areas (SR-8): the Wheel in the mill meadow, the Champions Arch on the training field between the mills and the
+## dungeon road, the Sky Tree on its own islet high beyond the north-west rim (a view, never walked). Nothing solid stands within their clearance.
+const HERO_WHEEL: Vector2 = Vector2(33.0, 55.0)
+const HERO_WHEEL_CLEARANCE: float = 6.5
+const CHAMPIONS_ARCH: Vector2 = Vector2(41.0, 36.5)
+const CHAMPIONS_ARCH_CLEARANCE: float = 8.0
+const SKY_TREE: Vector3 = Vector3(4.0, 15.0, -12.0)
 ## The hub plaza: open ground this far round the "hub" anchor; props, signs and dressing stand on its rim or beyond (GC-7).
 const PLAZA_RADIUS: float = 8.5
 
@@ -291,6 +298,7 @@ func _anchors() -> void:
 	_at("spot_me", 71.0, 68.0)
 	_at("mini_dungeon", 78.0, 27.0)  # the Iron Cavern (the way up Mount Swolympus, sealed until the postgame) in the north-east corner beside the locked gate (GC-11)
 	_at("swolympus_gate", 86.0, 31.0)  # the locked trailhead gate to Mount Swolympus on the north-east rim: a coming-soon landmark, nothing walkable behind it (SR-4)
+	_at("shrine", 44.0, 41.0)  # the Pump Shrine on the training field beside the Champions Arch (SR-7): the hero stands here, the shrine itself is just north
 	# the House of Gains gate: on the causeway in front of the fortress doors (GC-10)
 	_at("main_dungeon", 50.0, 10.0)
 	# Travel points on the main land.
@@ -402,6 +410,7 @@ func _flat_spots() -> void:
 		Vector3(32.0, 26.0, 3.5), Vector3(70.0, 26.0, 3.5), Vector3(88.0, 46.0, 3.5), Vector3(16.0, 48.0, 3.5),
 		Vector3(22.0, 52.0, 4.5), Vector3(30.0, 32.0, 4.5), Vector3(40.0, 46.0, 4.5), Vector3(73.0, 36.0, 5.5), Vector3(78.0, 27.0, 5.0),
 		Vector3(90.0, 58.0, 5.0),
+		Vector3(HERO_WHEEL.x, HERO_WHEEL.y, 5.5), Vector3(CHAMPIONS_ARCH.x, CHAMPIONS_ARCH.y, 6.0), Vector3(44.0, 40.0, 3.5),  # the region landmarks and the shrine stand level (SR-8)
 	]
 
 
@@ -485,6 +494,7 @@ func _signs() -> void:
 	_sign("sign.mini_dungeon", 74.5, 29.0, 180.0)
 	_sign("sign.main_dungeon", 54.4, 12.8, 180.0, 1.4)
 	_sign("sign.beefcake_poster", 46.5, 54.0, 160.0, 1.0, "poster")
+	_sign("sign.record_board", 41.0, 33.5, 180.0)  # the Record Board of the old Proving Grounds, at the Champions Arch (SR-7)
 
 
 ## Where nothing solid may stand: round every anchor, chest, feature, enemy home and sign (radius in z).
@@ -510,6 +520,9 @@ func keep_clear_spots() -> Array[Vector3]:
 	keep_clear.append(Vector3(hub.x, hub.z, PLAZA_RADIUS + 2.5))
 	keep_clear.append(Vector3(BRIDGE_X, BRIDGE_Z0, 6.0))
 	keep_clear.append(Vector3(HOUSE_OF_GAINS.x, CAUSEWAY.position.y + CAUSEWAY.size.y + 2.0, 8.0))  # the approach to the House of Gains gate (GC-10)
+	# the region landmarks (SR-8) keep their own open ground
+	keep_clear.append(Vector3(HERO_WHEEL.x, HERO_WHEEL.y, HERO_WHEEL_CLEARANCE))
+	keep_clear.append(Vector3(CHAMPIONS_ARCH.x, CHAMPIONS_ARCH.y, CHAMPIONS_ARCH_CLEARANCE))
 	return keep_clear
 
 
