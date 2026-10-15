@@ -3166,3 +3166,9 @@ The Department of Necrotic Affairs remade with its approved zone kit by the play
 - The shrine rewards: a card from the zone's chest table (the Gainlands shrine gives B-04, B-24, B-21 or B-28 by hash; a duplicate of a chest card is possible). Say if a shrine should give something else or nothing.
 - The side-dungeon e2e now only checks the sealed Gainlands cavern; the open side dungeons (S-NECRO, S-GOUR, S-REF, S-CAP, S-TOWN) have no e2e of their own.
 - `data/source/buffet_kit.csv` (your new sheet export, untracked) already describes regions of one zone; it was left uncommitted. `project.godot` has an editor reorder diff that was also left alone.
+
+## Endless Buffet slice: the zone kit (2026-10-15)
+
+The Endless Buffet remade with its approved zone kit by the playbook (`docs/art/buffet_slice.md`, judgment calls BF-1 ...), one walkable zone with regions and node-based dungeons, the Gainlands and D.N.A. declutter rules applied from the start. Gameplay, quests, NPC logic, the entrances and the camera are untouched.
+
+- **Part A, import:** 28 of 28 ids (sheets sliced, surfaces with normal and roughness maps, trees and props with pivots and hand heights, the painted-texture aliases); the five hero landmarks modelled after the concepts (`world/buffet/buffet_landmarks.gd`: the Test Kitchen 60 x 30 x 34 m beyond the north rim with a flat forecourt at its gate, the Cake Cathedral in the cake square, Potato Peak as a view where the river leaves the table, the Broccoli Giant at the forest's west edge, the Omakase Pavilion over the Walk-In Freezer door, which is the Omakase's entrance); the freezer box and the taped kitchen door are gone; the dinner sky wraps the dome and the cake skyline rings the horizon; the sea plane that flooded the table is off. Tests: `tests/world/test_buffet_slice.gd`, the registry in `test_zone_kit.gd`. 60 fps Medium; the Buffet smoke passes.

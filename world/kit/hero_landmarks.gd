@@ -9,6 +9,7 @@ extends RefCounted
 const BUILDERS: Dictionary = {
 	"GAIN-HERO-": "res://world/gainlands/gainlands_landmarks.gd",
 	"DNA-HERO-": "res://world/dna/dna_landmarks.gd",
+	"BUFF-HERO-": "res://world/buffet/buffet_landmarks.gd",
 }
 
 static var _scripts: Dictionary = {}

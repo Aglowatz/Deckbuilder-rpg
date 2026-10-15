@@ -27,6 +27,16 @@ const KINDS: Dictionary = {
 	"dna_cabinet_4": {"id": "DNA-SHEET-CABINETS-04", "size": Vector2(1.52, 1.3), "radius": 0.5, "prop": true},
 	"dna_cabinet_5": {"id": "DNA-SHEET-CABINETS-05", "size": Vector2(0.83, 1.4), "radius": 0.3, "prop": true},
 	"dna_cabinet_6": {"id": "DNA-SHEET-CABINETS-06", "size": Vector2(1.02, 1.2), "radius": 0.35, "prop": true},
+	# The Endless Buffet kit cards (docs/art/buffet_slice.md): broccoli and cauliflower trees, herb and leek plants, the painted props.
+	"buff_broccoli": {"id": "BUFF-TREE-BROCCOLI", "size": Vector2(4.55, 5.5), "radius": 0.4},
+	"buff_cauli": {"id": "BUFF-TREE-CAULI", "size": Vector2(3.9, 4.8), "radius": 0.4},
+	"buff_herb": {"id": "BUFF-PLANT-HERB", "size": Vector2(1.27, 1.3), "radius": 0.0, "plant": true},
+	"buff_leek": {"id": "BUFF-PLANT-LEEK", "size": Vector2(1.26, 2.1), "radius": 0.2, "plant": true},
+	"buff_cloche": {"id": "BUFF-PROP-CLOCHE", "size": Vector2(1.25, 1.0), "radius": 0.45, "prop": true},
+	"buff_pot": {"id": "BUFF-PROP-POT", "size": Vector2(1.65, 1.6), "radius": 0.6, "prop": true},
+	"buff_cutlery": {"id": "BUFF-PROP-CUTLERY", "size": Vector2(1.62, 3.4), "radius": 0.35, "prop": true},
+	"buff_flour": {"id": "BUFF-PROP-FLOUR", "size": Vector2(1.28, 1.2), "radius": 0.5, "prop": true},
+	"buff_cakestand": {"id": "BUFF-PROP-CAKESTAND", "size": Vector2(1.15, 1.4), "radius": 0.4, "prop": true},
 }
 
 

@@ -904,3 +904,63 @@ Generated from `data/art/zone_kits/<zone>.json` (written by `bash tools/import_z
 | `DNA-TREE-DEAD` | TREE | tree | 857x1498 | 0.49,1.00 |  |
 | `DNA-TRIM-BRASS` | SURFACE | trim | 1024x512 |  | 2.56 m |
 | `DNA-WALL-GREY` | SURFACE | wall | 1024x1024 |  | 2.56 m |
+
+### The Endless Buffet
+
+**28 of 28** sheet ids imported (52 kit ids with the sheet parts, plus 8 painted-texture aliases), all in the game; missing: none; unmatched files: 6 (the five paint-overs, kept in `docs/art/paintovers/`, and a dusk mood reference). Report: `docs/art/zone_kits/buffet_import_report.md`; the slice: `docs/art/buffet_slice.md`.
+
+| Kit ID | Lock | Family | px | Pivot | Tile |
+|---|---|---|---|---|---|
+| `BUFF-BD-CAKE` | BACKDROP | backdrop | 2048x574 | 0.50,1.00 |  |
+| `BUFF-DEC-FLOUR` | CUTOUT | decal | 928x843 | 0.50,0.50 |  |
+| `BUFF-DEC-STEAM` | CUTOUT | decal | 926x954 | 0.50,0.50 |  |
+| `BUFF-HERO-BROCCOLI-GIANT` | CONCEPT | concept | 1536x1024 |  |  |
+| `BUFF-HERO-CAKE-CATHEDRAL` | CONCEPT | concept | 1536x1024 |  |  |
+| `BUFF-HERO-OMAKASE-PAVILION` | CONCEPT | concept | 1536x1024 |  |  |
+| `BUFF-HERO-POTATO-PEAK` | CONCEPT | concept | 1536x1024 |  |  |
+| `BUFF-HERO-TEST-KITCHEN` | CONCEPT | concept | 1536x1024 |  |  |
+| `BUFF-PATH-NOODLE` | SURFACE | ground | 1024x1024 |  | 2.56 m |
+| `BUFF-PLANT-HERB` | TREE | tree | 987x1006 | 0.52,1.00 |  |
+| `BUFF-PLANT-LEEK` | TREE | tree | 907x1507 | 0.49,1.00 |  |
+| `BUFF-PROP-CAKESTAND` | CUTOUT | prop | 747x906 | 0.50,1.00 |  |
+| `BUFF-PROP-CLOCHE` | CUTOUT | prop | 964x768 | 0.50,1.00 |  |
+| `BUFF-PROP-CUTLERY` | CUTOUT | prop | 690x1450 | 0.50,1.00 |  |
+| `BUFF-PROP-FLOUR` | CUTOUT | prop | 974x910 | 0.50,1.00 |  |
+| `BUFF-PROP-POT` | CUTOUT | prop | 991x962 | 0.50,1.00 |  |
+| `BUFF-ROOF-COPPER` | SURFACE | roof | 1024x1024 |  | 2.56 m |
+| `BUFF-ROOF-CRUST` | SURFACE | roof | 1024x1024 |  | 2.56 m |
+| `BUFF-SHEET-AWNINGS` | SHEET | sign | 2048x1365 |  |  |
+| `BUFF-SHEET-AWNINGS-01` | CUTOUT | sign | 630x365 | 0.00,0.69 |  |
+| `BUFF-SHEET-AWNINGS-02` | CUTOUT | sign | 612x382 | 0.00,0.66 |  |
+| `BUFF-SHEET-AWNINGS-03` | CUTOUT | sign | 640x371 | 0.00,0.67 |  |
+| `BUFF-SHEET-AWNINGS-04` | CUTOUT | sign | 634x389 | 0.00,0.58 |  |
+| `BUFF-SHEET-AWNINGS-05` | CUTOUT | sign | 623x360 | 0.00,0.62 |  |
+| `BUFF-SHEET-AWNINGS-06` | CUTOUT | sign | 631x384 | 0.00,0.60 |  |
+| `BUFF-SHEET-DOORS` | SHEET | door | 2048x1365 |  |  |
+| `BUFF-SHEET-DOORS-01` | CUTOUT | door | 511x617 | 0.50,1.00 |  |
+| `BUFF-SHEET-DOORS-02` | CUTOUT | door | 560x613 | 0.50,1.00 |  |
+| `BUFF-SHEET-DOORS-03` | CUTOUT | door | 539x625 | 0.50,1.00 |  |
+| `BUFF-SHEET-DOORS-04` | CUTOUT | door | 567x604 | 0.50,1.00 |  |
+| `BUFF-SHEET-DOORS-05` | CUTOUT | door | 523x609 | 0.50,1.00 |  |
+| `BUFF-SHEET-DOORS-06` | CUTOUT | door | 546x592 | 0.50,1.00 |  |
+| `BUFF-SHEET-SIGNS` | SHEET | sign | 2048x1365 |  |  |
+| `BUFF-SHEET-SIGNS-01` | CUTOUT | sign | 506x572 | 0.00,0.30 |  |
+| `BUFF-SHEET-SIGNS-02` | CUTOUT | sign | 531x568 | 0.00,0.29 |  |
+| `BUFF-SHEET-SIGNS-03` | CUTOUT | sign | 526x585 | 0.00,0.30 |  |
+| `BUFF-SHEET-SIGNS-04` | CUTOUT | sign | 526x619 | 0.00,0.29 |  |
+| `BUFF-SHEET-SIGNS-05` | CUTOUT | sign | 559x601 | 0.00,0.31 |  |
+| `BUFF-SHEET-SIGNS-06` | CUTOUT | sign | 546x619 | 0.00,0.31 |  |
+| `BUFF-SHEET-WINDOWS` | SHEET | window | 2048x1365 |  |  |
+| `BUFF-SHEET-WINDOWS-01` | CUTOUT | window | 528x544 | 0.50,1.00 |  |
+| `BUFF-SHEET-WINDOWS-02` | CUTOUT | window | 525x566 | 0.50,1.00 |  |
+| `BUFF-SHEET-WINDOWS-03` | CUTOUT | window | 566x569 | 0.50,1.00 |  |
+| `BUFF-SHEET-WINDOWS-04` | CUTOUT | window | 556x606 | 0.50,1.00 |  |
+| `BUFF-SHEET-WINDOWS-05` | CUTOUT | window | 596x612 | 0.50,1.00 |  |
+| `BUFF-SHEET-WINDOWS-06` | CUTOUT | window | 556x585 | 0.50,1.00 |  |
+| `BUFF-SKY-DINNER` | BACKDROP | backdrop | 2048x1024 | 0.50,1.00 |  |
+| `BUFF-TREE-BROCCOLI` | TREE | tree | 1006x1216 | 0.52,1.00 |  |
+| `BUFF-TREE-CAULI` | TREE | tree | 1000x1233 | 0.50,1.00 |  |
+| `BUFF-TRIM-CLOTH` | SURFACE | trim | 1024x512 |  | 2.56 m |
+| `BUFF-WALL-BISCUIT` | SURFACE | wall | 1024x1024 |  | 2.56 m |
+| `BUFF-WALL-OVEN` | SURFACE | wall | 1024x1024 |  | 2.56 m |
+

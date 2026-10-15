@@ -33,6 +33,25 @@ const FENCE_Z: float = 30.0
 const GATE_HALF_WIDTH: float = 2.5
 const GATE_BLOCKER_RADIUS: float = 2.2
 const GATE_XS: Array[float] = [22.0, 50.0, 78.0]
+## The hero landmarks (docs/art/buffet_slice.md, Part A): where each concept model stands and its size (w, h, d). The Test Kitchen towers beyond the north rim
+## behind the main_dungeon spot (its threshold slab reaches the FORECOURT, flat table ground); Potato Peak is a view beyond the west rim where the river leaves
+## the table; the Cake Cathedral stands in the bakery square, the Broccoli Giant at the forest's west edge, the Omakase Pavilion over the Walk-In Freezer door.
+const TEST_KITCHEN: Vector2 = Vector2(57.0, -14.5)
+const TEST_KITCHEN_SIZE: Vector3 = Vector3(60.0, 30.0, 34.0)
+const FORECOURT: Rect2 = Rect2(49.0, 4.0, 16.0, 10.0)
+const POTATO_PEAK: Vector2 = Vector2(-20.0, 46.0)
+const POTATO_PEAK_SIZE: Vector3 = Vector3(36.0, 22.0, 36.0)
+const CAKE_CATHEDRAL: Vector2 = Vector2(39.0, 22.0)
+const CAKE_CATHEDRAL_SIZE: Vector3 = Vector3(11.0, 24.0, 11.0)
+const BROCCOLI_GIANT: Vector2 = Vector2(6.8, 64.0)
+const BROCCOLI_GIANT_SIZE: Vector3 = Vector3(16.0, 18.0, 16.0)
+const OMAKASE_PAVILION: Vector2 = Vector2(48.5, 6.0)
+const OMAKASE_PAVILION_SIZE: Vector3 = Vector3(8.0, 7.0, 5.0)
+## Flat, kept-clear ground under the region landmarks: (x, z, radius).
+const LANDMARK_SPOTS: Array[Vector3] = [Vector3(39.0, 22.0, 7.4), Vector3(48.5, 6.0, 4.6), Vector3(6.8, 64.0, 3.0)]
+## What the region landmarks block, as layout data (x, z, radius), so a layout-only reader (the walkability probe, the chest scan) sees them too: the Cathedral's
+## plinth, the Pavilion's stone base in three circles, the Giant's trunk. The builder adds the models' own circles on top.
+const LANDMARK_BLOCKERS: Array[Vector3] = [Vector3(39.0, 22.0, 6.5), Vector3(46.5, 6.0, 2.15), Vector3(48.5, 6.0, 2.25), Vector3(50.5, 6.0, 2.15), Vector3(6.8, 64.0, 2.9)]
 
 enum Surface { VOID, GROUND, MESA, CLIFF, SOUP }
 
@@ -215,6 +234,9 @@ func ground_height(x: float, z: float) -> float:
 	var edge: float = edge_distance(x, z)
 	if edge < 0.0:
 		return -5.0 + edge * 0.6
+	if FORECOURT.has_point(Vector2(x, z)):
+		# the Test Kitchen's forecourt: level with its threshold slab (the rim's roll-off would dip under it)
+		return maxf(_base_height(x, z), 0.0)
 	for mesa: Mesa in mesas:
 		var distance: float = Vector2(x - mesa.center.x, z - mesa.center.y).length()
 		if distance <= mesa.radius:
@@ -521,6 +543,9 @@ func _flat_spots() -> void:
 		flat_spots.append(Vector3(pad.pos.x, pad.pos.y, 2.2))
 	for mesa: Mesa in mesas:
 		flat_spots.append(Vector3(mesa.center.x, mesa.center.y, mesa.radius + CLIFF_WIDTH + 1.0))
+	for spot: Vector3 in LANDMARK_SPOTS:
+		flat_spots.append(spot)
+	flat_spots.append(Vector3(57.0, 9.0, 6.0))
 	flat_spots.append(Vector3(22.0, 34.0, 5.0))
 	flat_spots.append(Vector3(50.0, 34.0, 5.0))
 	flat_spots.append(Vector3(78.0, 34.0, 5.0))
@@ -566,14 +591,11 @@ func _features() -> void:
 	# Butter Butte decoration.
 	_prop("butter_pat", 66.5, 55.6, 0.0, 1.0, 0.0)
 	# The north: Layer-Cake Town (buildings made of cake), the Walk-In Freezer, the shut Kitchen.
-	_prop("layer_cake", 39.5, 20.0, 0.0, 1.3, 2.6, 0)
 	_prop("layer_cake", 46.0, 24.5, 0.0, 1.0, 2.2, 1)
 	_prop("layer_cake", 56.0, 20.0, 0.0, 1.5, 2.9, 2)
 	_prop("layer_cake", 61.0, 25.5, 0.0, 1.1, 2.4, 3)
 	_prop("layer_cake", 62.0, 16.5, 0.0, 0.9, 2.0, 1)
-	_prop("layer_cake", 38.5, 12.5, 0.0, 1.0, 2.2, 3)
-	_prop("freezer", 44.0, 7.8, 0.0, 1.0, 3.0)
-	_prop("kitchen_door", 57.0, 7.8, 0.0, 1.0, 3.0)
+	# (the Walk-In Freezer stand-in and the taped kitchen door are gone: the Omakase Pavilion and the Test Kitchen hero models stand there, Part A)
 	# Cheddar Cliffs: wheels of cheese, a giant cheese wedge wall.
 	_prop("cheese_wheel", 29.5, 12.5, 20.0, 1.3, 2.7, 0)
 	_prop("cheese_wheel", 8.5, 24.0, 10.0, 1.2, 3.0, 2)
@@ -612,7 +634,9 @@ func _fence() -> void:
 	for divider_x: float in [36.0, 64.0]:
 		var z: float = 5.0
 		while z <= FENCE_Z - 1.0:
-			_prop("divider", divider_x, z, 0.0, 1.0, 0.55, int(z) % 3)
+			# the Cake Cathedral's solid plinth takes over the west divider where it stands (the posts just outside it keep the districts sealed)
+			if Vector2(divider_x - CAKE_CATHEDRAL.x, z - CAKE_CATHEDRAL.y).length() > CAKE_CATHEDRAL_SIZE.x * 0.5 + 1.0 - 0.1:
+				_prop("divider", divider_x, z, 0.0, 1.0, 0.55, int(z) % 3)
 			z += 1.0
 	for gate_x: float in GATE_XS:
 		var id: String = "ingredient" if gate_x < 30.0 else ("quest" if gate_x < 60.0 else "battle")
@@ -690,6 +714,8 @@ func _scatter() -> void:
 	for pad: Pad in pads:
 		keep_clear.append(Vector3(pad.pos.x, pad.pos.y, 3.0))
 	keep_clear.append(Vector3(50.0, 64.0, 13.0))
+	for spot: Vector3 in LANDMARK_SPOTS:
+		keep_clear.append(Vector3(spot.x, spot.y, spot.z + 1.0))
 	# Broccoli forest (dense, south-west) with cauliflower underbrush.
 	_scatter_kind("broccoli", Rect2(6.0, 50.0, 26.0, 24.0), 46, keep_clear, 1.1, 0.5, 1.0, 1.6)
 	_scatter_kind("cauliflower", Rect2(6.0, 50.0, 26.0, 24.0), 18, keep_clear, 1.0, 0.55, 0.9, 1.3)
@@ -748,3 +774,5 @@ func _index_obstacles() -> void:
 	for chest_id: Variant in chests.keys():
 		var chest: Vector3 = chests[chest_id] as Vector3
 		obstacles.append(Vector3(chest.x, chest.z, 0.18))
+	for blocker: Vector3 in LANDMARK_BLOCKERS:
+		obstacles.append(blocker)

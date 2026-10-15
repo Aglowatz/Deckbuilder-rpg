@@ -102,3 +102,21 @@ func test_gainlands_swaps_land_on_zone_art_untinted() -> void:
 	ZoneStyles.use_area(previous)
 	EnvKit.clear_cache()
 	KitFoliage.clear_cache()
+
+
+func test_buffet_registry_resolves_through_envkit() -> void:
+	var ids: Array[String] = EnvKit.zone_ids("buffet")
+	assert_gte(ids.size(), 28 + 24, "28 sheet ids, their 24 sheet parts and the painted-texture aliases")
+	for id: String in ["BUFF-WALL-BISCUIT", "BUFF-ROOF-COPPER", "BUFF-SHEET-DOORS-02", "BUFF-SHEET-SIGNS-05", "BUFF-SHEET-AWNINGS-03", "BUFF-TREE-BROCCOLI", "BUFF-PLANT-LEEK", "BUFF-PROP-POT", "BUFF-DEC-STEAM", "BUFF-BD-CAKE", "BUFF-SKY-DINNER"]:
+		assert_true(EnvKit.has(id), "%s is in the registry" % id)
+		assert_eq(EnvKit.zone_of(id), "buffet", "%s belongs to the Buffet" % id)
+		assert_true(EnvKit.has_art(id), "%s has its file" % id)
+	assert_almost_eq(EnvKit.tile_size("BUFF-WALL-BISCUIT"), 2.56, 0.01, "one texel density with the town kit (400 px/m)")
+	assert_not_null(EnvKit.map_texture("BUFF-WALL-OVEN", "n"), "surfaces carry a normal map")
+	assert_almost_eq(EnvKit.pivot("BUFF-SHEET-SIGNS-01").x, 0.0, 0.001, "sliced signs pivot at their bracket")
+	assert_almost_eq(EnvKit.pivot("BUFF-TREE-CAULI").y, 1.0, 0.001, "trees at the trunk base")
+	assert_almost_eq(EnvKit.pivot("BUFF-DEC-FLOUR").y, 0.5, 0.001, "decals are centred")
+	assert_eq(EnvKit.entry("BUFF-SHEET-AWNINGS").get("parts", []).size(), 6, "the awning sheet lists its six parts")
+	assert_eq(EnvKit.status("TEX-BUFF-MASHED"), "placeholder", "a painted texture alias has no kit file of its own")
+	assert_not_null(EnvKit.texture("TEX-BUFF-MASHED"), "but resolves to the painted texture")
+	assert_false(bool(EnvKit.entry("BUFF-WALL-BISCUIT").get("tinted", true)), "zone art is untinted")

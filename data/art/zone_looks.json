@@ -41,8 +41,8 @@
 	"buffet": {
 		"title": "Endless Buffet: warm, saturated, appetising",
 		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "ffd8a0", "fog_density": 0.0035, "warmth": 0.25, "saturation": 1.05, "vignette": 0.26, "bloom": 0.5, "bloom_threshold": 1.05},
-		"sky": {"horizon": "ffd8a0", "gold": "ffb870", "mid": "f4a07a", "zenith": "d86a4a", "sun": "ffc878", "sun_glow": 0.9, "cloud_opacity": 0.9, "cloud_tint": "ffd0b0"},
-		"scenery": {"water": true, "shore": true, "rings": true, "landmarks": false, "tint": "ffd8c0", "cool": "d89aa8", "haze_scale": 1.0, "cool_scale": 0.8, "brightness": 1.0, "water_tint": "e8a888"},
+		"sky": {"horizon": "ffd8a0", "gold": "ffb870", "mid": "f4a07a", "zenith": "d86a4a", "sun": "ffc878", "sun_glow": 0.9, "cloud_opacity": 0.9, "cloud_tint": "ffd0b0", "panorama": "BUFF-SKY-DINNER", "panorama_mix": 0.82, "panorama_stretch": 1.25},
+		"scenery": {"water": false, "shore": false, "rings": true, "landmarks": false, "tint": "ffd8c0", "cool": "d89aa8", "haze_scale": 1.0, "cool_scale": 0.8, "brightness": 1.0, "water_tint": "e8a888", "kit_cards": [{"id": "BUFF-BD-CAKE", "angle": 0, "width": 58, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "BUFF-BD-CAKE", "angle": 60, "width": 58, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "BUFF-BD-CAKE", "angle": 300, "width": 58, "ring": 2, "distance": 0.95, "lift": 0}]},
 		"foliage": {"density": 0.45, "cells": [0, 1, 4], "tint": "ffe8c0"},
 		"ambient": {"enabled": true, "shafts": false, "motes": 80, "mote_color": "ffe0a0", "leaves": false, "birds": false}
 	},

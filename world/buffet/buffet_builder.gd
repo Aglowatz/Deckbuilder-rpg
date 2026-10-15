@@ -49,6 +49,7 @@ func build(parent: Node3D) -> void:
 	_build_gates()
 	_build_signs()
 	_build_chests()
+	_build_landmarks()
 	_index_obstacles()
 
 
@@ -637,6 +638,58 @@ func _donut_arch() -> Node3D:
 	donut.rotation_degrees = Vector3(90, 0, 0)
 	donut.position = Vector3(0, 1.6, 0)
 	return holder
+
+
+# ---- Hero landmarks (docs/art/buffet_slice.md, Part A) --------------------------------------------------------
+
+
+## The Test Kitchen node (the main dungeon's building), null until built.
+var test_kitchen: Node3D
+## The region landmarks by id ("BUFF-HERO-CAKE-CATHEDRAL" ...), for the tests and the shots.
+var landmarks: Dictionary = {}
+
+
+## The five concept models from `BuffetLandmarks` (through `LandmarkKit` / `HeroLandmarks`): the Test Kitchen beyond the north rim and Potato Peak beyond the
+## west rim are views (never culled or faded, nothing walkable near them); the Cake Cathedral, the Broccoli Giant and the Omakase Pavilion stand on the table
+## on their flat kept-clear spots (`BuffetLayout.LANDMARK_SPOTS`) with their circles solid. Steam rises from the Test Kitchen's chimneys and the Peak's gravy.
+func _build_landmarks() -> void:
+	test_kitchen = _place_landmark("BUFF-HERO-TEST-KITCHEN", BuffetLayout.TEST_KITCHEN, BuffetLayout.TEST_KITCHEN_SIZE, 0.0, true)
+	_place_landmark("BUFF-HERO-POTATO-PEAK", BuffetLayout.POTATO_PEAK, BuffetLayout.POTATO_PEAK_SIZE, 20.0, true)
+	_place_landmark("BUFF-HERO-CAKE-CATHEDRAL", BuffetLayout.CAKE_CATHEDRAL, BuffetLayout.CAKE_CATHEDRAL_SIZE, 0.0, false)
+	_place_landmark("BUFF-HERO-BROCCOLI-GIANT", BuffetLayout.BROCCOLI_GIANT, BuffetLayout.BROCCOLI_GIANT_SIZE, 30.0, false)
+	_place_landmark("BUFF-HERO-OMAKASE-PAVILION", BuffetLayout.OMAKASE_PAVILION, BuffetLayout.OMAKASE_PAVILION_SIZE, 0.0, false)
+
+
+## A landmark model at (x, z) turned by `yaw`, hanging off the root (never chunk-culled): a view stands at y 0 off the table and never fades; a region landmark
+## stands on the (flat) ground with its circles solid. Returns the node (null when the model is missing).
+func _place_landmark(id: String, at: Vector2, size: Vector3, yaw: float, view: bool) -> Node3D:
+	var node: Node3D = LandmarkKit.build({"id": id, "kind": "facade", "size": [size.x, size.y, size.z]})
+	if node == null:
+		return null
+	node.name = id.trim_prefix("BUFF-HERO-").to_pascal_case()
+	root.add_child(node)
+	node.position = Vector3(at.x, 0.0 if view else layout.ground_height(at.x, at.y), at.y)
+	node.rotation_degrees.y = yaw
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(yaw))
+	if not view:
+		for circle: Variant in node.get_meta("circles", []) as Array:
+			var local: Vector3 = circle as Vector3
+			var world: Vector3 = node.position + basis * Vector3(local.x, 0.0, local.y)
+			_add_obstacle(Vector3(world.x, world.z, local.z))
+	for piece: Node in node.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)
+		if view:
+			piece.set_meta(&"no_occlusion_fade", true)
+	for point: Variant in node.get_meta("steam", []) as Array:
+		var world: Vector3 = node.position + basis * (point as Vector3)
+		var puff: CPUParticles3D = P.steam(root, world, 8, 1.6, 4.0)
+		puff.name = "Steam_%s_%d" % [node.name, root.get_child_count()]
+		puff.set_meta(&"no_range_cull", true)
+	# the kit lights of a landmark stay data (the lantern budget is the hub's): only the Pavilion's lanterns and the gate glow become real lights
+	if id != "BUFF-HERO-OMAKASE-PAVILION":
+		node.set_meta("lights", [] as Array[Dictionary])
+	landmarks[id] = node
+	return node
 
 
 # ---- Gates ----------------------------------------------------------------------------------------------

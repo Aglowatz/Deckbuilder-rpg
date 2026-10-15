@@ -814,8 +814,16 @@ func _mini_dungeon(zone: BuffetScene) -> BuffetScene:
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.4)
 	await _shot("g_62_walk_in_freezer_prompt")
+	# Side dungeons are sealed until their quest is done (the Golden Reservation): the freezer door only drops the hook; the unlock flag is set here
+	# (dungeons_final_smoke plays a real unlock quest) and the door asks to enter.
+	_check(not Session.side_unlocked("S-GOUR"), "the Omakase starts sealed behind the freezer door")
+	_check(zone._overlay == null, "a sealed side dungeon opens no confirm dialog")
+	Session.set_flag(DungeonCatalog.side_unlock_flag("S-GOUR"))
+	await driver.seconds(0.3)
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.5)
 	var hp_at_entry: int = Session.zone_run.hp
-	await driver.click_button("Open the door")
+	await driver.click_button("Enter")
 	var map_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 	_check(map_screen != null, "the mini dungeon opens the node map")
 	if map_screen == null:
