@@ -49,27 +49,27 @@ const BRIDGE_Z0: float = 74.0
 const BRIDGE_Z1: float = 92.0
 const BRIDGE_RAIL: float = 0.3
 ## The hero landmarks (docs/art/buffet_slice.md, Part A): where each concept model stands and its size (w, h, d). The Test Kitchen towers beyond the north rim
-## behind the main_dungeon spot (its threshold slab reaches the FORECOURT, flat table ground); Potato Peak is a view beyond the west rim where the river leaves
-## the table; the Cake Cathedral stands in the bakery square, the Broccoli Giant at the forest's west edge, the Omakase Pavilion over the Walk-In Freezer door.
+## behind the main_dungeon spot (its threshold slab reaches the FORECOURT, flat table ground); Potato Peak is a view beyond the north-west corner (the
+## hills and forest cameras look north and see it on the left, as the paint-overs do, BF-18); the Cake Cathedral stands in the bakery square, the Broccoli Giant at the forest's west edge, the Omakase Pavilion over the Walk-In Freezer door.
 const TEST_KITCHEN: Vector2 = Vector2(57.0, -14.5)
 const TEST_KITCHEN_SIZE: Vector3 = Vector3(60.0, 30.0, 34.0)
 const FORECOURT: Rect2 = Rect2(49.0, 4.0, 16.0, 10.0)
-const POTATO_PEAK: Vector2 = Vector2(-20.0, 46.0)
+const POTATO_PEAK: Vector2 = Vector2(-9.0, -3.0)
 const POTATO_PEAK_SIZE: Vector3 = Vector3(36.0, 22.0, 36.0)
-const CAKE_CATHEDRAL: Vector2 = Vector2(39.0, 22.0)
-const CAKE_CATHEDRAL_SIZE: Vector3 = Vector3(11.0, 24.0, 11.0)
+const CAKE_CATHEDRAL: Vector2 = Vector2(36.0, 22.0)
+const CAKE_CATHEDRAL_SIZE: Vector3 = Vector3(10.0, 20.0, 10.0)
 const BROCCOLI_GIANT: Vector2 = Vector2(6.8, 64.0)
 const BROCCOLI_GIANT_SIZE: Vector3 = Vector3(16.0, 18.0, 16.0)
 const OMAKASE_PAVILION: Vector2 = Vector2(48.5, 6.0)
 const OMAKASE_PAVILION_SIZE: Vector3 = Vector3(8.0, 7.0, 5.0)
 ## Where each region paint-over was painted from (the camera looks north): `bash tools/shot.sh res://scenes/buffet_zone.tscn <name> --at=po_<region>`.
 ## Not anchors: they are neither destinations of the walkability probe nor kept-clear ground.
-const PO_CAMERAS: Dictionary = {"po_hub": Vector2(50.0, 70.5), "po_hills": Vector2(22.0, 52.0), "po_forest": Vector2(11.0, 72.5), "po_bakery": Vector2(44.5, 33.0), "po_omakase": Vector2(46.0, 14.5)}
+const PO_CAMERAS: Dictionary = {"po_hub": Vector2(50.0, 70.5), "po_hills": Vector2(34.0, 52.0), "po_forest": Vector2(19.0, 73.0), "po_bakery": Vector2(44.5, 33.0), "po_omakase": Vector2(46.0, 14.5)}
 ## Flat, kept-clear ground under the region landmarks: (x, z, radius).
-const LANDMARK_SPOTS: Array[Vector3] = [Vector3(39.0, 22.0, 7.4), Vector3(48.5, 6.0, 4.6), Vector3(6.8, 64.0, 3.0)]
+const LANDMARK_SPOTS: Array[Vector3] = [Vector3(36.0, 22.0, 7.0), Vector3(48.5, 6.0, 4.6), Vector3(6.8, 64.0, 3.0)]
 ## What the region landmarks block, as layout data (x, z, radius), so a layout-only reader (the walkability probe, the chest scan) sees them too: the Cathedral's
 ## plinth, the Pavilion's stone base in three circles, the Giant's trunk. The builder adds the models' own circles on top.
-const LANDMARK_BLOCKERS: Array[Vector3] = [Vector3(39.0, 22.0, 6.5), Vector3(46.5, 6.0, 2.15), Vector3(48.5, 6.0, 2.25), Vector3(50.5, 6.0, 2.15), Vector3(6.8, 64.0, 2.9)]
+const LANDMARK_BLOCKERS: Array[Vector3] = [Vector3(36.0, 22.0, 6.6), Vector3(46.5, 6.0, 2.15), Vector3(48.5, 6.0, 2.25), Vector3(50.5, 6.0, 2.15), Vector3(6.8, 64.0, 2.9)]
 
 enum Surface { VOID, GROUND, MESA, CLIFF, SOUP, BRIDGE }
 
@@ -520,7 +520,7 @@ func _enemies() -> void:
 		{"type": "loaf", "home": Vector3(24.0, 0.0, 56.0), "patrol": 3.5},
 		{"type": "jelly", "home": Vector3(80.0, 0.0, 69.0), "patrol": 3.0},
 		{"type": "meatball", "home": Vector3(76.0, 0.0, 50.5), "patrol": 5.0},
-		{"type": "loaf", "home": Vector3(32.0, 0.0, 22.0), "patrol": 3.5},
+		{"type": "loaf", "home": Vector3(28.5, 0.0, 20.5), "patrol": 3.5},  # (was 32, 22: the Cake Cathedral stands there now, BF-20)
 		{"type": "jelly", "home": Vector3(50.0, 0.0, 20.0), "patrol": 3.0},
 		{"type": "meatball", "home": Vector3(72.0, 0.0, 16.0), "patrol": 4.0},
 		{"type": "meatball", "home": Vector3(40.0, 0.0, 34.0), "patrol": 4.0},

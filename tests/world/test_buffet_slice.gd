@@ -87,7 +87,8 @@ func test_the_test_kitchen_and_potato_peak_are_views_beyond_the_rim() -> void:
 	builder.build(host)
 	assert_not_null(builder.test_kitchen, "the Test Kitchen stands beyond the north rim")
 	assert_lt(BuffetLayout.TEST_KITCHEN.y, BuffetLayout.MIN_CORNER.y, "north of the table")
-	assert_lt(BuffetLayout.POTATO_PEAK.x + BuffetLayout.POTATO_PEAK_SIZE.x * 0.65, BuffetLayout.MIN_CORNER.x, "Potato Peak and its gravy pool lie west of the table")
+	assert_lt(BuffetLayout.POTATO_PEAK.x, BuffetLayout.MIN_CORNER.x, "Potato Peak lies beyond the west rim")
+	assert_lt(BuffetLayout.POTATO_PEAK.y, BuffetLayout.MIN_CORNER.y, "and beyond the north rim (the north-west corner is rounded away)")
 	for id: String in ["BUFF-HERO-TEST-KITCHEN", "BUFF-HERO-POTATO-PEAK"]:
 		var node: Node3D = builder.landmarks.get(id) as Node3D
 		assert_not_null(node)

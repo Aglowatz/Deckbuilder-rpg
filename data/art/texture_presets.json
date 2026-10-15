@@ -81,11 +81,11 @@
 		"normal": 0.55,
 		"sheen": 0.14,
 		"color": "#e4dacf",
-		"brightness": 0.88,
+		"brightness": 0.96,
 		"layers": [
-			{"tex": "buff_mashed", "tile": 6.0, "mode": "base", "ref": "#e6c880", "keep": 0.45},
+			{"tex": "buff_mashed", "tile": 6.0, "mode": "base", "ref": "#e6c880", "keep": 0.3, "bright": 1.08},
 			{"tex": "buff_biscuit", "tile": 3.2, "aligned": true, "mode": "mask", "mask": "path", "soft": 0.12, "warp": 0.35, "bright": 0.82},
-			{"tex": "buff_crumbsoil", "tile": 3.6, "mode": "mask", "mask": "forest", "soft": 0.2, "warp": 0.5},
+			{"tex": "buff_crumbsoil", "tile": 3.6, "mode": "mask", "mask": "forest", "soft": 0.2, "warp": 0.5, "bright": 1.45},
 			{"tex": "buff_frosting", "tile": 4.0, "mode": "mask", "mask": "sweet", "soft": 0.2, "warp": 0.5},
 			{"tex": "buff_cheese", "tile": 4.5, "mode": "mask", "mask": "cheese", "soft": 0.2, "warp": 0.5}
 		],

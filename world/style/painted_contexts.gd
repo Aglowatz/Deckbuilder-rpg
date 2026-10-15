@@ -241,10 +241,12 @@ static func buffet(scene: ZoneScene) -> Dictionary:
 	var builder: BuffetBuilder = scene.builder as BuffetBuilder
 	var layout: BuffetLayout = builder.layout
 	var areas: Array = layout.areas
+	# the paint-overs (docs/art/buffet_slice.md, Part D): biscuit cobbles on the routes, the Dining Hall plaza, the cake square and the show kitchen; crumb soil on the
+	# forest floor; mashed potato everywhere else; frosting nowhere on the ground (it is the Cathedral's)
 	var path_mask: Callable = func(p: Vector2) -> float:
-		return maxf(layout.path_weight(p.x, p.y), PaintedContexts.area_cover(areas, ["hub"], p))
+		return maxf(layout.path_weight(p.x, p.y), PaintedContexts.area_cover(areas, ["hub", "cake", "candy"], p))
 	var forest_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["forest"], p)
-	var sweet_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["candy", "cake"], p)
+	var sweet_mask: Callable = func(p: Vector2) -> float: return 0.0 * p.x
 	var cheese_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["cheddar", "cheddar_top"], p)
 	var food_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["hub", "cake", "candy", "bank"], p)
 	var swaps: Array = []
@@ -253,9 +255,15 @@ static func buffet(scene: ZoneScene) -> Dictionary:
 		for node: Node in builder.root.get_children():
 			if node.name == &"GravyRiver" or node.name == &"GravyPond":
 				swaps.append({"node": node, "material": gravy})
+	# the table itself takes the painted ground (the rim layers keep their cake colours)
+	var terrain: Array = []
+	var table: Node = builder.root.find_child("Table", false, false)
+	if table != null:
+		terrain.append(table)
 	return {
 		"bounds": Rect2(0, 0, 100, 82),
 		"masks": {"path": path_mask, "forest": forest_mask, "sweet": sweet_mask, "cheese": cheese_mask, "food": food_mask},
+		"terrain": terrain,
 		"swaps": swaps,
 		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),
 	}

@@ -491,7 +491,7 @@ static func _potato_peak(root: Node3D, mesh: KitMesh, size: Vector3, circles: Ar
 			previous = at
 		steam.append(Vector3(cos(angle) * r * 0.55, _peak_height(profile, r * 0.55) + 0.6, sin(angle) * r * 0.55))
 	# the gravy pool round the foot, biscuit bridges over it, cheese cubes and cauliflower on the shore
-	mesh.lathe("gravy", Vector3(0, -0.4, 0), [Vector2(r * 1.3, 0.0), Vector2(r * 1.28, 0.35), Vector2(0.0, 0.4)], 20, 1.0, false, true)
+	mesh.lathe("gravy", Vector3(0, -0.4, 0), [Vector2(r * 1.12, 0.0), Vector2(r * 1.1, 0.35), Vector2(0.0, 0.4)], 20, 1.0, false, true)
 	for bridge: Array in [[1.05, 1.1], [-2.0, 1.12], [2.75, 1.08]]:
 		var angle: float = float(bridge[0])
 		var at: Vector3 = Vector3(cos(angle) * r * float(bridge[1]), 0.0, sin(angle) * r * float(bridge[1]))
@@ -509,7 +509,7 @@ static func _potato_peak(root: Node3D, mesh: KitMesh, size: Vector3, circles: Ar
 		var radius: float = r * float(card[2])
 		var at: Vector3 = Vector3(cos(angle) * radius, _peak_height(profile, radius) if radius < r else 0.0, sin(angle) * radius)
 		_tree_card(root, str(card[0]), at, float(card[3]))
-	circles.append(Vector3(0.0, 0.0, r * 1.3))
+	circles.append(Vector3(0.0, 0.0, r * 1.12))
 
 
 ## The mound's height at `radius` from the centre, read off the lathe profile.

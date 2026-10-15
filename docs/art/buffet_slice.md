@@ -87,4 +87,66 @@ Material swaps, three presets, six zone clusters as data, `BuffetDressing` (clus
 
 Checks: 66 Buffet GUT tests (the swaps land on the zone art untinted, the presets and clusters build, the three buildings and the twelve dressing spots stay clear of routes, chests and anchors); `bash tools/fps.sh res://scenes/buffet_zone.tscn 1`: 60.0 fps Medium (444 draw calls); the walk smoke passes (85 checks).
 
+## Part D: match the paint-overs
+
+Three passes per region by the numbers (`tools/image_stats.gd`), each from the spot the painter stood (`BuffetLayout.PO_CAMERAS`, `--at=po_<region>`):
+
+1. **Composition and the ground** (BF-18): the painted ground had never shown: the table was one 92 x 72 m mesh that the 48 m range cull hid whole from the forest, the gate and the show kitchen (the flat tablecloth 26 m below showed through); the table, its rim, the river, the ponds, the moat and the cloth are never culled or faded now. The painted masks were redrawn for the paint-overs (biscuit cobbles on the routes, the plaza, the cake square and the show kitchen; crumb soil on the forest floor; mash everywhere else); Potato Peak moved to the north-west corner so the hills and forest cameras see it on the left; the cloud-shadow plane is off.
+2. **Palette** (BF-19): the magenta ambient and the 1.25 saturation went (saturation 0.78-0.84 against the paint-overs' 0.60-0.75); a warm cream ambient, a paler key, peach fog, saturation 0.9 / post 0.94, exposure 0.66, a soil apron under the rim.
+3. **Light and the ground's value**: the crumb soil lifted (1.45, the texture is dark), the mash brightened, vignette 0.3, the forest and hills cameras moved onto their roads; the Cathedral shrunk and moved for the frame rate (BF-20).
+
+| Region | Paint-over beside the result |
+|---|---|
+| The Grand Dining Hall (HUB) | ![](buffet_slice/compare_hub.jpg) |
+| Mashed Potato Hills | ![](buffet_slice/compare_hills.jpg) |
+| Broccoli Forest | ![](buffet_slice/compare_forest.jpg) |
+| Bakery District | ![](buffet_slice/compare_bakery.jpg) |
+| Omakase Cliffs | ![](buffet_slice/compare_omakase.jpg) |
+
+| Image | mean RGB | luma p5 / p50 / p95 | saturation |
+|---|---|---|---|
+| PAINTOVER-BUFFET-HUB | 169, 117, 68 | 51 / 127 / 206 | 0.60 |
+| the game, hub | 180, 125, 78 | 58 / 138 / 218 | 0.58 |
+| PAINTOVER-BUFFET-MASHED-POTATO-HILLS | 181, 110, 48 | 51 / 123 / 200 | 0.75 |
+| the game, hills | 167, 112, 67 | 34 / 128 / 204 | 0.63 |
+| PAINTOVER-BUFFET-BROCCOLI-FOREST | 164, 115, 57 | 47 / 126 / 199 | 0.67 |
+| the game, forest | 139, 102, 53 | 31 / 105 / 188 | 0.64 |
+| PAINTOVER-BUFFET-BAKERY-DISTRICT | 203, 120, 62 | 65 / 143 / 198 | 0.71 |
+| the game, bakery | 193, 132, 81 | 81 / 141 / 219 | 0.60 |
+| PAINTOVER-BUFFET-OMAKASE-CLIFFS | 193, 121, 80 | 44 / 149 / 204 | 0.61 |
+| the game, omakase | 187, 123, 76 | 75 / 132 / 223 | 0.61 |
+
+| The hub at the 9 camera combinations (rows Cinematic / Classic / Overview, columns Close / Normal / Far) | |
+|---|---|
+| ![](buffet_slice/d_buffet.jpg) | |
+
+| The Test Kitchen seen from... | |
+|---|---|
+| the hub (Cinematic, Far) ![](buffet_slice/d_kitchen_from_hub.jpg) | the Gravy Bank ![](buffet_slice/d_kitchen_from_bank_center.jpg) |
+| Sir Loin's gate ![](buffet_slice/d_kitchen_from_gate_quest.jpg) | the hills camera ![](buffet_slice/d_po_hills.jpg) |
+
+**fps per region (Medium, `tools/fps.sh --at=<anchor>`):** hub 60.0, the forest (quiz) 60.0, the show kitchen (minigame) 60.0, the Gravy Bank 60.0, Sir Loin's gate 60.0, the Walk-In Freezer door 60.0, the Test Kitchen gate 60.0, the Pancake Summit (puzzle) 60.0, the crust chest in the north-west corner 60.0. The fps probe prints the GPU and CPU render time now (`fps_probe_render`), and `BUFFET_HIDE=<piece>` / `BUFFET_NO_SHADOW` are frame-time A/B knobs.
+
+**What still does not match (the honest list):**
+- The hub paint-over's banquet terraces on both sides of the plaza (long tables under awnings, chefs serving) are one kit cluster each; the awning-roofed market stalls on the left and the copper-domed oven house on the right are the vendor stall and the Grand Oven (procedural, not kit). The fountain is the soup fountain (gravy, not water).
+- The hills: the paint-over's rolling mash hills with gravy streams and biscuit bridges are the flat table with Potato Peak as a view beyond the corner; the river is the zone's gravy river with its rafts (gameplay), crossed by landing stages, not bridges.
+- The forest: the paint-over's crossroads of biscuit roads through a broccoli-and-cauliflower wood with a windmill is the forest's one road to the quiz gazebo; the windmill is not matched (a Gainlands piece).
+- The bakery: the Cathedral is modelled, the bakery and cottages are kit presets, but the paint-over's row of pastel shops with striped awnings round a square needs three more presets and the square itself (the cake square is a gated district with a chest and an enemy).
+- The Omakase: the pavilion stands over the freezer door in the north-west corner of the cake square; the paint-over's white stone terrace, bonsai in pots, stone lanterns and the sea of rice have no room there (BF-2); the terrace is biscuit cobbles.
+- The Test Kitchen reads from the whole south half; from the hub it is partly behind the Dining Hall's wings (the hub paint-over has it on the skyline over the hall's roofs, which the low camera cannot see).
+- The grade is close in the numbers; the paint-overs' crisp long shadows and the steam over the kitchen's chimneys are softer in the game.
+
+**Sheet-ready: the extra assets that would close the gap**
+
+| ID | Asset | Category | Lock | Image Description | Size / Format | In-Game Use | Priority |
+|---|---|---|---|---|---|---|---|
+| BUFF-SHEET-STALLS | Market stalls | Cutout sheet | SHEET | 6 awning-roofed market stall fronts (pastry counter, bread rack, cheese stall, sweet jars, soup pot stall, fruit stall), striped and checked tablecloth awnings, viewed straight-on. | 2048x1365 PNG, transparent | The hub's terraces and the bakery square (card props) | 1 |
+| BUFF-PROP-BANQUET | Banquet table | Prop | CUTOUT | A long laid banquet table with cloches, roasts, cake stands and candles, from the low game camera. | 1536x1024 PNG, transparent | The Dining Hall's terraces | 1 |
+| BUFF-PROP-LANTERN | Stone lantern | Prop | CUTOUT | A white stone garden lantern with a warm paper light. | 1024x1536 PNG, transparent | The Omakase terrace | 2 |
+| BUFF-PROP-BONSAI | Bonsai pot | Prop | CUTOUT | A bonsai tree in a red glazed pot with paper lanterns hung from its limbs. | 1024x1536 PNG, transparent | The Omakase terrace | 2 |
+| BUFF-GROUND-STONE | White stone paving | Surface | SURFACE | Pale cream stone slabs with soft pink edges. | 1024x1024 PNG, tileable | The Omakase terrace ground | 2 |
+| BUFF-BD-HILLS | Mashed potato hills | Sky / backdrop | BACKDROP | Rolling mashed-potato hills with butter pats and gravy streams, hazy, transparent sky. | 2048x1024 PNG, transparent sky | Behind the hills region (the table is flat) | 2 |
+| BUFF-PROP-WINDMILL | Flour windmill | Prop | CUTOUT | A small stone flour mill with sail arms, from the low game camera. | 1024x1536 PNG, transparent | The forest's edge | 3 |
+| BUFF-PROP-GRAVYBRIDGE | Biscuit bridge | Prop | CUTOUT | A little arched biscuit bridge over a gravy stream. | 1024x1024 PNG, transparent | Dressing on Potato Peak's slopes | 3 |
+
 (Parts B-E follow below as they land.)

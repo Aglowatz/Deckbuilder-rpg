@@ -56,6 +56,11 @@ func build(parent: Node3D) -> void:
 	_build_moat()
 	_build_landing_stages()
 	_index_obstacles()
+	# BUFFET_HIDE=Table,TestKitchen,... hides named pieces of the root for frame-time A/B runs (tools/fps.sh), never in play
+	for hidden: String in OS.get_environment("BUFFET_HIDE").split(",", false):
+		var piece: Node3D = root.find_child(hidden, false, false) as Node3D
+		if piece != null:
+			piece.visible = false
 
 
 # ---- Queries (the ZoneMap interface) ------------------------------------------------------------
@@ -337,6 +342,7 @@ func _build_terrain() -> void:
 	instance.mesh = surface.commit()
 	instance.material_override = M.terrain()
 	instance.name = "Table"
+	_never_culled(instance)  # one huge mesh: the 48 m range cull measures to its centre and hid the whole table from the forest and the gate (BF-18, like GC-9)
 	root.add_child(instance)
 
 
@@ -370,6 +376,7 @@ func _build_table_rim() -> void:
 		instance.mesh = surface.commit()
 		instance.material_override = M.terrain()
 		instance.name = "RimLayer"
+		_never_culled(instance)
 		root.add_child(instance)
 
 
@@ -386,6 +393,12 @@ func _outline(inset: float) -> PackedVector2Array:
 			var angle: float = start + PI * 0.5 * float(step) / float(arc_steps)
 			points.append(corners[corner_index] + Vector2(cos(angle), sin(angle)) * radius)
 	return points
+
+
+## The ground the hero walks on never range-culls and never fades (the fader and the 48 m cull measure to a mesh centre: a table-sized mesh would vanish whole).
+func _never_culled(instance: MeshInstance3D) -> void:
+	instance.set_meta(&"no_range_cull", true)
+	instance.set_meta(&"no_occlusion_fade", true)
 
 
 # ---- Soup -------------------------------------------------------------------------------------------
@@ -416,6 +429,7 @@ func _build_soup() -> void:
 	river.mesh = surface.commit()
 	river.material_override = soup
 	river.name = "GravyRiver"
+	_never_culled(river)
 	root.add_child(river)
 	for pond: Vector3 in layout.ponds:
 		var disc: CylinderMesh = CylinderMesh.new()
@@ -428,6 +442,7 @@ func _build_soup() -> void:
 		instance.material_override = soup
 		instance.position = Vector3(pond.x, BuffetLayout.SOUP_LEVEL, pond.y)
 		instance.name = "GravyPond"
+		_never_culled(instance)
 		root.add_child(instance)
 		P.steam(root, Vector3(pond.x, 0.3, pond.y), 6, pond.z * 0.5, 0.8)
 	# Steam rising off the river here and there, and floating peas.
@@ -452,6 +467,7 @@ func _build_tablecloth() -> void:
 	instance.material_override = M.tablecloth()
 	instance.position = Vector3(50.0, -26.0, 40.0)
 	instance.name = "Tablecloth"
+	_never_culled(instance)
 	root.add_child(instance)
 
 

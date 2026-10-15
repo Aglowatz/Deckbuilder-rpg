@@ -94,10 +94,18 @@ var dressing: BuffetDressing
 func _dress_zone() -> void:
 	dressing = BuffetDressing.build(self, buf, Settings.graphics_quality)
 	# the few real lights of the zone: the Pavilion's paper lanterns and the bridge gate's lanterns (the oven glows are emissive only)
-	for id: String in ["BUFF-HERO-OMAKASE-PAVILION"]:
-		var node: Node3D = buf.landmarks.get(id) as Node3D
-		if node != null:
-			KitLights.attach(node, self, style_rig)
+	var pavilion: Node3D = buf.landmarks.get("BUFF-HERO-OMAKASE-PAVILION") as Node3D
+	if pavilion != null:
+		# three of its seven lanterns become real lights (the door's cold glow and the two front lanterns nearest it): Medium holds 60 fps at the door (BF-20)
+		var all_lights: Array = pavilion.get_meta("lights", []) as Array
+		var kept: Array[Dictionary] = []
+		for entry: Variant in all_lights:
+			var light: Dictionary = entry as Dictionary
+			if str(light.get("kind", "")) == "frost" or (kept.size() < 3 and (light["pos"] as Vector3).z > 1.0 and (light["pos"] as Vector3).x < 0.5):
+				kept.append(light)
+		pavilion.set_meta("lights", kept)
+		if OS.get_environment("NO_PAV_LIGHTS") == "":
+			KitLights.attach(pavilion, self, style_rig)
 	var bridge: Node3D = buf.root.find_child("Bridge", false, false) as Node3D
 	if bridge != null:
 		KitLights.attach(bridge, self, style_rig)

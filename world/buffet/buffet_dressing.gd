@@ -25,7 +25,7 @@ const KIT_CLUSTERS: Array = [
 	["banquet_corner", "minigame", Vector2(5.5, -3.0), 0.0],
 	["stock_pots", "taste_test", Vector2(3.5, -2.5), 200.0],
 	["herb_bed", "mini_dungeon", Vector2(-5.0, -1.5), 0.0],
-	["herb_bed", "", Vector2(44.5, 27.0), 180.0],
+	["herb_bed", "", Vector2(43.6, 27.4), 180.0],
 	["flour_store", "", Vector2(84.5, 20.5), 0.0],
 ]
 ## kit decal id, anchor ("" = world position), offset, size (m), yaw.

@@ -20,19 +20,19 @@ static func environment() -> WorldEnvironment:
 	env.background_mode = Environment.BG_SKY
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color("ffe4c2")
+	env.ambient_light_color = Color("f2dcc8")
 	env.ambient_light_energy = 0.42
 	env.tonemap_mode = Environment.TONE_MAPPER_ACES
-	env.tonemap_exposure = 0.72
+	env.tonemap_exposure = 0.66
 	env.glow_enabled = true
 	env.glow_intensity = 0.3
 	env.glow_strength = 0.9
 	env.glow_bloom = 0.12
 	env.glow_hdr_threshold = 1.0
 	env.adjustment_enabled = true
-	env.adjustment_saturation = 1.25
-	env.adjustment_contrast = 1.06
-	env.adjustment_brightness = 1.03
+	env.adjustment_saturation = 1.0
+	env.adjustment_contrast = 1.04
+	env.adjustment_brightness = 1.0
 	env.ssao_enabled = true
 	env.ssao_radius = 1.4
 	env.ssao_intensity = 1.1
@@ -49,7 +49,7 @@ static func sun() -> DirectionalLight3D:
 	light.light_color = Color("ffe3b0")
 	light.light_energy = 0.88
 	light.rotation_degrees = Vector3(-46, -32, 0)
-	light.shadow_enabled = true
+	light.shadow_enabled = OS.get_environment("BUFFET_NO_SHADOW") == ""  # the env is a frame-time A/B knob (tools/fps.sh)
 	light.directional_shadow_max_distance = 70.0
 	light.shadow_blur = 1.4
 	light.light_angular_distance = 1.2
