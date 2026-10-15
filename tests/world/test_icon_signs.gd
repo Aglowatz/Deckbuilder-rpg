@@ -62,22 +62,18 @@ func test_walking_out_of_a_zone_returns_to_its_entrance_in_town() -> void:
 	assert_true(body.contains("pending_zone_id = zone_id"), "enter_zone remembers the entrance for the way back")
 
 
-func test_every_sub_area_gate_has_an_icon_and_no_plate() -> void:
-	var count: int = 0
-	for area_id: String in ["main_town", "starting_forest", "gainlands", "dna", "buffet", "heap", "capital_outside", "capital_inside", "castle_grounds", "pathology_lab"]:
-		for gate: Dictionary in SubAreaDefs.gates(area_id):
-			count += 1
-			assert_true(gate.has("icon"), "%s/%s: the gate names an icon" % [area_id, str(gate["sub"])])
-			assert_true(IconArt.has(str(gate.get("icon", ""))), "%s/%s: the icon exists" % [area_id, str(gate["sub"])])
-	assert_gte(count, 26)
-	var hub: Node3D = Node3D.new()
-	add_child_autofree(hub)
-	Session.new_game()
-	Session.set_flag(&"trial_cleared")
-	var gates: SubAreaGates = SubAreaGates.install(hub, ["main_town"] as Array[String])
-	assert_not_null(gates)
-	await get_tree().process_frame
-	assert_eq(gates.find_children("*", "Label3D", true, false).size(), 0, "no 3D lettering on the gates")
-	assert_eq(gates._icons.size(), 4, "one pictogram per gate")
-	for icon: MeshInstance3D in gates._icons:
-		assert_not_null((icon.material_override as StandardMaterial3D).albedo_texture, "the pictogram has its icon texture")
+func test_the_closed_swolympus_gate_carries_no_lettering() -> void:
+	# the one closed gate left in the world (the sub-area gates are gone, docs/design/subarea_removal.md) is a landmark: its name shows only in the HUD prompt
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: GainlandsBuilder = GainlandsBuilder.new()
+	builder.build(host)
+	var gate: Node3D = builder.root.find_child("SwolympusGate", false, false) as Node3D
+	assert_not_null(gate)
+	if gate != null:
+		assert_eq(_labels(gate).size(), 0, "no Label3D on the trailhead gate")
+	for spot: Dictionary in GainlandsZone.build_def().spots:
+		if str(spot["id"]) == GainlandsZone.SWOLYMPUS_GATE:
+			assert_true(bool(spot.get("no_plate", false)), "the spot shows no lettered plate")
+
+

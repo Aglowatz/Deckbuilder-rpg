@@ -98,8 +98,6 @@ func test_part_c_dressing_data_resolves() -> void:
 		var spec: Dictionary = BuildingPresets.spec(preset_name)
 		assert_eq(str(spec.get("wall", "")).begins_with("DNA-") or str(spec.get("wall", "")).begins_with("TEX-DNA-"), true, "%s is walled in the kit" % preset_name)
 		assert_between(float(spec.get("ground_height", 0.0)) / StorybookScale.HERO_HEIGHT, 1.2, 1.9, "%s: a storey is about 1.5 heroes" % preset_name)
-	for kind: String in ["marble", "checkertile", "carpet", "lino", "queue"]:
-		assert_true(SubAreaMap.GROUND_KINDS.has(kind), "%s is a sub-area ground kind" % kind)
 	ZoneStyles.use_preset(StylePresets.TOWN)
 
 

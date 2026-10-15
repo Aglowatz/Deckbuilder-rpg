@@ -2,8 +2,8 @@ class_name GainlandsWalkSmoke
 extends Node
 ## Gainlands corrective pass, Part G: walk the whole zone with human-style input (real injected keys and clicks), windowed.
 ## Arrival over the bridge and the walk into the plaza; the House of Gains gate (the entrance still asks to enter); the locked Mount Swolympus gate
-## (coming soon, never opens) and the sealed Iron Cavern; every sub-area through its gates and exits (Proving Grounds -> Sky Garden -> back -> Mill Fields
-## -> back -> hub); then back out over the bridge to town by simply walking off its far end. Screenshots to _screenshots/gainlands_walk/.
+## (coming soon, never opens) and the sealed Iron Cavern; then back out over the bridge to town by simply walking off its far end (there are no
+## sub-area scenes: the zone is one walkable map, docs/design/subarea_removal.md). Screenshots to _screenshots/gainlands_walk/.
 ##   Godot --path . --resolution 1600x900 res://tools/gainlands_walk_smoke_launcher.tscn     (bash tools/run_gainlands_walk_smoke.sh)
 ## Deliberate shortcuts: long legs across the map are a teleport to a few metres short of the target, then real walking for the last stretch (the
 ## walkability probe covers the long routes); the thrower routes have their own smoke (tools/run_thrower_smoke.sh).
@@ -35,10 +35,8 @@ func run() -> void:
 	await _arrival_over_the_bridge(zone)
 	await _house_of_gains_gate(zone)
 	await _locked_swolympus(zone)
-	zone = await _every_sub_area(zone)
-	if zone != null:
-		await _back_out_over_the_bridge(zone)
-	_finish(_failures.is_empty(), "bridge -> plaza -> House of Gains gate -> locked Swolympus gate and cavern -> Proving Grounds -> Sky Garden -> Mill Fields -> hub -> bridge -> town (%d screenshots)" % _shots)
+	await _back_out_over_the_bridge(zone)
+	_finish(_failures.is_empty(), "bridge -> plaza -> House of Gains gate -> locked Swolympus gate and cavern -> bridge -> town (%d screenshots)" % _shots)
 
 
 # ---- Legs ----------------------------------------------------------------------------------------------------------
@@ -77,21 +75,18 @@ func _house_of_gains_gate(zone: GainlandsScene) -> void:
 
 
 func _locked_swolympus(zone: GainlandsScene) -> void:
-	var gates: SubAreaGates = zone.find_child("SubAreaGates", true, false) as SubAreaGates
-	_check(gates != null, "the hub shows its sub-area gates")
-	if gates == null:
+	var gate: ZoneSpot = null
+	for spot: ZoneSpot in zone.spots:
+		if spot.id == GainlandsZone.SWOLYMPUS_GATE:
+			gate = spot
+	_check(gate != null and zone.builder.root.find_child("SwolympusGate", false, false) != null, "Swolympus: the locked trailhead gate stands in the hub")
+	if gate == null:
 		return
-	var index: int = -1
-	for i: int in range(gates.gates.size()):
-		if str(gates.gates[i]["sub"]) == "swolympus_trailhead":
-			index = i
-	_check(index >= 0 and SubAreaGates.is_locked(gates.gates[index]), "Swolympus: the trailhead gate is in the hub and locked")
-	if index < 0:
-		return
-	var gate_pos: Vector3 = SubAreaMap.pos3(gates.gates[index]["pos"])
-	_teleport(zone, gate_pos + Vector3(-4.5, 0.0, 4.5))
-	await _walk_to(zone, gate_pos + Vector3(-1.4, 0.0, 1.4), 1.2, 8.0)
+	var gate_pos: Vector3 = zone.builder.anchor(GainlandsZone.SWOLYMPUS_GATE)
+	_teleport(zone, gate_pos + Vector3(-6.0, 0.0, 6.0))
+	await _walk_to(zone, gate.position, 1.2, 8.0)
 	await driver.frames(6)
+	_check(zone._near == gate, "Swolympus: the gate prompt is up (near %s)" % (zone._near.id if zone._near != null else "nothing"))
 	var prompt: String = str(zone.hud._prompt_label.text)
 	_check(prompt.to_lower().contains("coming soon"), "Swolympus: the gate prompt says coming soon (%s)" % prompt)
 	await _shot("g_05_swolympus_gate_locked")
@@ -120,84 +115,6 @@ func _locked_swolympus(zone: GainlandsScene) -> void:
 	await _shot("g_07_iron_cavern_sealed")
 
 
-func _every_sub_area(zone: GainlandsScene) -> GainlandsScene:
-	var gates: SubAreaGates = zone.find_child("SubAreaGates", true, false) as SubAreaGates
-	var proving: int = -1
-	for i: int in range(gates.gates.size()):
-		if str(gates.gates[i]["sub"]) == "proving_grounds":
-			proving = i
-	_check(proving >= 0, "the Proving Grounds gate is in the hub")
-	if proving < 0:
-		return zone
-	var gate_pos: Vector3 = SubAreaMap.pos3(gates.gates[proving]["pos"])
-	var hub_dir: Vector3 = (zone.builder.anchor("hub") - gate_pos)
-	hub_dir.y = 0.0
-	hub_dir = hub_dir.normalized()
-	_teleport(zone, gate_pos + hub_dir * 6.0)
-	await _walk_to(zone, gate_pos + hub_dir * 1.4, 1.4, 8.0)
-	await driver.frames(4)
-	await _shot("g_08_proving_grounds_gate")
-	await driver.tap_key(KEY_E)
-	var scene: SubAreaScene = await _wait_for(SubAreaScene) as SubAreaScene
-	_check(scene != null and scene.sub_id == "proving_grounds", "E at the gate loads the Proving Grounds")
-	if scene == null:
-		return null
-	await driver.seconds(0.8)
-	await _shot("g_09_proving_grounds")
-	scene = await _take_exit(scene, "sky_garden", "g_10_sky_garden")
-	if scene == null:
-		return null
-	scene = await _take_exit(scene, "proving_grounds", "g_11_back_in_the_proving_grounds")
-	if scene == null:
-		return null
-	scene = await _take_exit(scene, "mill_fields", "g_12_mill_fields")
-	if scene == null:
-		return null
-	scene = await _take_exit(scene, "proving_grounds", "g_13_proving_grounds_again")
-	if scene == null:
-		return null
-	# the way home
-	var exit_spot: Dictionary = _exit_to(scene, "hub")
-	_check(not exit_spot.is_empty(), "Proving Grounds: has an exit back to the hub")
-	if exit_spot.is_empty():
-		return null
-	var home_pos: Vector3 = exit_spot["pos"] as Vector3
-	var home_inward: Vector3 = _inward(home_pos)
-	_teleport_sub(scene, home_pos + home_inward * 5.0)
-	await _walk_to(scene, home_pos + home_inward * 1.8, 1.0, 8.0)
-	await driver.tap_key(KEY_E)
-	var back: GainlandsScene = await _wait_for(GainlandsScene) as GainlandsScene
-	_check(back != null, "the exit leads back to the hub")
-	if back != null:
-		await driver.seconds(0.6)
-		await _dismiss_dialogue(back.dialogue)
-		var pos: Vector3 = back.player.position
-		_check(Vector2(pos.x - gate_pos.x, pos.z - gate_pos.z).length() < 12.0, "back in the hub beside the Proving Grounds gate (%.1f m)" % Vector2(pos.x - gate_pos.x, pos.z - gate_pos.z).length())
-		await _shot("g_14_back_in_the_hub")
-	return back
-
-
-func _take_exit(scene: SubAreaScene, target: String, shot_name: String) -> SubAreaScene:
-	var from_id: String = scene.sub_id
-	var exit_spot: Dictionary = _exit_to(scene, target)
-	_check(not exit_spot.is_empty(), "%s: has an exit to %s" % [from_id, target])
-	if exit_spot.is_empty():
-		return null
-	var pos: Vector3 = exit_spot["pos"] as Vector3
-	var inward: Vector3 = _inward(pos)
-	_teleport_sub(scene, pos + inward * 5.0)
-	await _walk_to(scene, pos + inward * 1.8, 1.0, 8.0)
-	await driver.frames(4)
-	await driver.tap_key(KEY_E)
-	var next: SubAreaScene = await _wait_for_sub(target)
-	_check(next != null, "%s: E at the exit loads %s" % [from_id, target])
-	if next != null:
-		await driver.seconds(0.8)
-		_check(next.map.is_walkable(next.player.position, 0.3), "%s: the hero arrives on walkable ground" % target)
-		await _shot(shot_name)
-	return next
-
-
 func _back_out_over_the_bridge(zone: GainlandsScene) -> void:
 	var spawn: Vector3 = zone.builder.anchor("spawn")
 	_teleport(zone, Vector3(spawn.x, 0.0, GainlandsLayout.BRIDGE_Z0 + 3.0))
@@ -220,19 +137,6 @@ func _back_out_over_the_bridge(zone: GainlandsScene) -> void:
 # ---- Helpers -------------------------------------------------------------------------------------------------------
 
 
-## The way to approach an exit on a sub-area edge: from the middle of the map (an exit stands at the edge, the far side is outside the map).
-func _inward(pos: Vector3) -> Vector3:
-	var flat: Vector3 = Vector3(-pos.x, 0.0, -pos.z)
-	return flat.normalized() if flat.length() > 0.5 else Vector3(0.0, 0.0, -1.0)
-
-
-func _exit_to(scene: SubAreaScene, target: String) -> Dictionary:
-	for spot: Dictionary in scene.spots:
-		if str(spot["type"]) == "exit" and str((spot["data"] as Dictionary).get("to", "hub")) == target:
-			return spot
-	return {}
-
-
 func _teleport(zone: GainlandsScene, pos: Vector3) -> void:
 	pos.y = zone.builder.height_at(pos)
 	zone.player.position = pos
@@ -241,27 +145,12 @@ func _teleport(zone: GainlandsScene, pos: Vector3) -> void:
 	zone._camera.position = zone.player.position + CameraRig.shape(zone.camera_offset)
 
 
-func _teleport_sub(scene: SubAreaScene, pos: Vector3) -> void:
-	scene.player.position = pos
-
-
 func _wait_for(kind: Variant) -> Node:
 	var elapsed: float = 0.0
 	while elapsed < 25.0:
 		var scene: Node = get_tree().current_scene
 		if scene != null and is_instance_of(scene, kind) and not SceneManager.busy:
 			return scene
-		await driver.frames(5)
-		elapsed += 5.0 / 60.0
-	return null
-
-
-func _wait_for_sub(sub_id: String) -> SubAreaScene:
-	var elapsed: float = 0.0
-	while elapsed < 25.0:
-		var scene: Node = get_tree().current_scene
-		if scene is SubAreaScene and (scene as SubAreaScene).sub_id == sub_id and not SceneManager.busy:
-			return scene as SubAreaScene
 		await driver.frames(5)
 		elapsed += 5.0 / 60.0
 	return null

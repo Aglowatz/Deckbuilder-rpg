@@ -31,7 +31,7 @@ const PRESET_AREAS: Dictionary = {
 const VARIANTS: Array[String] = ["capital_dark", "capital_inside_dark", "capital_freed"]
 
 const AREAS: Array[String] = [
-	"main_town", "starting_forest", "gainlands", "dna", "buffet", "heap", "capital_outside", "capital_inside", "castle_grounds", "pathology_lab",
+	"main_town", "starting_forest", "gainlands", "dna", "buffet", "heap", "capital_outside", "capital_inside", "pathology_lab",
 ]
 
 static var _cache: Dictionary = {}

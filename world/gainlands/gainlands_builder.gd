@@ -44,6 +44,7 @@ func build(parent: Node3D) -> void:
 	_build_bridge()
 	_build_house_of_gains()
 	_build_swolympus()
+	_build_swolympus_gate()
 	_build_clouds()
 	_build_props()
 	_build_pipes()
@@ -408,6 +409,50 @@ func _build_swolympus() -> void:
 	for piece: Node in mountain.find_children("*", "MeshInstance3D", true, false):
 		piece.set_meta(&"no_range_cull", true)
 		piece.set_meta(&"no_occlusion_fade", true)
+
+
+## The locked trailhead gate to Mount Swolympus (SR-4): the trailhead gate model of the concept (GAIN-HERO-TRAILHEAD-GATE) stands on the north-east rim at the
+## `swolympus_gate` anchor facing the meadow, its opening closed by a plank-and-timber barrier (GC-11), with nothing walkable behind it. The towers and the
+## barrier block the hero; the spot in front of it says "coming soon" (GainlandsZone.SWOLYMPUS_GATE) and E only toasts.
+const SWOLYMPUS_GATE_SIZE: Vector3 = Vector3(10.0, 7.0, 1.4)
+const SWOLYMPUS_GATE_YAW: float = -45.0
+
+
+func _build_swolympus_gate() -> void:
+	var base: Vector3 = layout.anchors.get("swolympus_gate", Vector3.ZERO) as Vector3
+	var gate: Node3D = GainlandsLandmarks.build({"id": "GAIN-HERO-TRAILHEAD-GATE", "kind": "arch", "size": [SWOLYMPUS_GATE_SIZE.x, SWOLYMPUS_GATE_SIZE.y, SWOLYMPUS_GATE_SIZE.z]})
+	if gate == null:
+		return
+	gate.name = "SwolympusGate"
+	root.add_child(gate)
+	gate.position = Vector3(base.x, layout.ground_height(base.x, base.z), base.z)
+	gate.rotation_degrees.y = SWOLYMPUS_GATE_YAW
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(SWOLYMPUS_GATE_YAW))
+	for circle: Variant in gate.get_meta("circles", []) as Array:
+		var local: Vector3 = circle as Vector3
+		var world: Vector3 = gate.position + basis * Vector3(local.x, 0.0, local.y)
+		_add_obstacle(Vector3(world.x, world.z, local.z))
+	# the closed panel in the opening: bleached planks with two crossed timbers and an iron band, the width of the opening between the towers
+	var opening: float = SWOLYMPUS_GATE_SIZE.x * 0.6
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("plank", EnvKit.material("GAIN-WALL-BLEACH" if EnvKit.has("GAIN-WALL-BLEACH") else "ENV-WALL-PLANK", false, Color(0.8, 0.72, 0.6)))
+	mesh.set_material("iron", EnvKit.material("GAIN-WALL-IRON" if EnvKit.has("GAIN-WALL-IRON") else "ENV-WALL-FOUNDATION"))
+	mesh.box("plank", Vector3(0, 2.0, 0), Vector3(opening - 0.3, 4.0, 0.24), Basis.IDENTITY, 0.02, 0.9)
+	mesh.box("iron", Vector3(0, 3.85, 0.15), Vector3(opening - 0.2, 0.3, 0.1), Basis.IDENTITY, 0.0)
+	for sign_dir: float in [-1.0, 1.0]:
+		mesh.box("iron", Vector3(0, 2.0, 0.17), Vector3(0.36, opening * 0.95, 0.14), Basis(Vector3(0, 0, 1), sign_dir * 0.98), 0.0)
+	var panel: MeshInstance3D = mesh.instance("Barrier")
+	panel.set_meta(PaintedClasses.META_NO_PAINT, true)
+	var holder: Node3D = Node3D.new()
+	holder.name = "GateBarrier"
+	holder.add_child(panel)
+	gate.add_child(holder)
+	for step: float in [-1.0, 0.0, 1.0]:
+		var world: Vector3 = gate.position + basis * Vector3(step * opening * 0.3, 0.0, 0.0)
+		_add_obstacle(Vector3(world.x, world.z, opening * 0.2))
+	for piece: Node in gate.find_children("*", "MeshInstance3D", true, false):
+		piece.set_meta(&"no_range_cull", true)
+		piece.set_meta(&"no_occlusion_fade", true)  # a landmark at the rim: its towers never dissolve beside the hero (nothing walkable behind it)
 
 
 ## The cloud models (adopted by a `CloudFader` so none can block the view).

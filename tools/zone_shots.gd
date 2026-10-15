@@ -1,8 +1,9 @@
 extends SceneTree
 ## Paint-over inputs and camera contact sheets for one area, in one windowed process (run alone, see docs/art/art_pipeline.md):
 ##   Godot --path . --resolution 1600x900 -s res://tools/zone_shots.gd -- --area=gainlands [--mode=po|grid|both] [--out=res://_screenshots/gainlands_slice]|grid|both]
-## po:   docs/art/paintover_inputs/<area>/PO-<AREA>-<SUB>.png, 1600x900, Cinematic / Normal, hero visible, no UI, no world labels.
-## grid: docs/art/zone_plans_shots/<area>.png, the hub at the 9 angle x zoom combinations.
+## po:   docs/art/paintover_inputs/<area>/PO-<AREA>-HUB.png, 1600x900, Cinematic / Normal, hero visible, no UI, no world labels (one shot per area: there
+##       are no sub-area scenes, docs/design/subarea_removal.md; regions of a zone are shot with `bash tools/shot.sh <scene> <name> --at=<anchor>`).
+## grid: docs/art/zone_plans_shots/<area>.png, the area at the 9 angle x zoom combinations.
 
 const HUBS: Dictionary = {
 	"main_town": ["res://scenes/town.tscn", {"at": "spawn"}],
@@ -13,8 +14,6 @@ const HUBS: Dictionary = {
 	"heap": ["res://scenes/heap_zone.tscn", {"at": "spawn"}],
 	"capital_outside": ["res://scenes/capital_zone.tscn", {"at": "spawn"}],
 	"capital_inside": ["res://scenes/capital_zone.tscn", {"at": "gate_inside"}],
-	"castle_grounds": ["res://scenes/sub_area.tscn", {"area": "castle_grounds", "sub": "courtyard", "at": "0,14"}],
-	"pathology_lab": ["res://scenes/sub_area.tscn", {"area": "pathology_lab", "sub": "hatch_yard", "at": "0,10"}],
 }
 const ANGLES: Array[int] = [0, 1, 2]
 const ZOOMS: Array[float] = [1.2, 1.5, 1.9]
@@ -55,24 +54,14 @@ func _read(path: String) -> Dictionary:
 
 
 func _build_jobs() -> void:
+	if not HUBS.has(_area):
+		push_error("zone_shots: unknown area %s (one of %s)" % [_area, ", ".join(HUBS.keys())])
+		quit(1)
+		return
 	var hub: Array = HUBS[_area] as Array
-	if _area != "castle_grounds" and _area != "pathology_lab":
-		var args: Dictionary = (hub[1] as Dictionary).duplicate()
-		args["nohud"] = "true"
-		_jobs.append({"scene": hub[0], "args": args, "name": "PO-%s-HUB" % _area.to_upper().replace("_", "-")})
-	var zone: Dictionary = _read("res://data/subareas/%s/_zone.json" % _area)
-	for sub_id: Variant in zone.get("subareas", []) as Array:
-		var data: Dictionary = _read("res://data/subareas/%s/%s.json" % [_area, str(sub_id)])
-		var spawn: Array = data.get("spawn", [0, 0]) as Array
-		var target: Array = spawn
-		for item: Variant in data.get("landmarks", []) as Array:
-			if str((item as Dictionary).get("id", "")).contains("-HERO-"):
-				target = (item as Dictionary)["pos"] as Array
-				break
-		var x: float = lerpf(float(spawn[0]), float(target[0]), 0.4)
-		var z: float = lerpf(float(spawn[1]), float(target[1]), 0.4)
-		_jobs.append({"scene": "res://scenes/sub_area.tscn", "args": {"area": _area, "sub": str(sub_id), "at": "%.1f,%.1f" % [x, z], "nohud": "true"},
-			"name": "PO-%s-%s" % [_area.to_upper().replace("_", "-"), str(sub_id).to_upper().replace("_", "-")]})
+	var args: Dictionary = (hub[1] as Dictionary).duplicate()
+	args["nohud"] = "true"
+	_jobs.append({"scene": hub[0], "args": args, "name": "PO-%s-HUB" % _area.to_upper().replace("_", "-")})
 
 
 func _settings() -> Node:

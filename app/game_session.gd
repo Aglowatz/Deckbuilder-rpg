@@ -992,8 +992,6 @@ func location_name() -> String:
 		return "Crosspath"
 	if scene is StartingAreaScene:
 		return "The Forest Clearing"
-	if scene is SubAreaScene and (scene as SubAreaScene).data.size() > 0:
-		return str((scene as SubAreaScene).data.get("name", last_location))
 	return last_location
 
 
@@ -1003,9 +1001,6 @@ func scene_kind() -> String:
 	var scene: Node = tree.current_scene if tree != null else null
 	if scene is ZoneScene and (scene as ZoneScene).def != null:
 		return "zone:%s" % (scene as ZoneScene).def.id
-	if scene is SubAreaScene and flag(&"trial_cleared"):
-		var sub_scene: SubAreaScene = scene as SubAreaScene
-		return SubAreaDefs.token(sub_scene.area_id, sub_scene.sub_id)
 	if scene is StartingAreaScene or not flag(&"trial_cleared"):
 		return "start"
 	return "town"
@@ -1019,7 +1014,7 @@ func can_save_now() -> bool:
 	var scene: Node = tree.current_scene if tree != null else null
 	if scene == null:
 		return true
-	return scene is TownScene or scene is ZoneScene or scene is StartingAreaScene or scene is ZonePlaceholderScene or scene is SubAreaScene
+	return scene is TownScene or scene is ZoneScene or scene is StartingAreaScene or scene is ZonePlaceholderScene
 
 
 ## A screenshot of the game for the slot list (null in a headless run).
@@ -1063,24 +1058,31 @@ var pending_resume_scene: String = "town"
 
 
 ## Goes to the place a loaded save was made in (the zone's hub for a zone: the visit starts fresh), the starting area before the trial is cleared, otherwise town.
+## A save made inside one of the removed sub-area scenes ("sub:<area>/<sub>", docs/design/subarea_removal.md) loads into that area's main scene at the spot
+## where its gate stood (`LegacySubAreas`).
 func resume_loaded_game() -> void:
 	var kind: String = pending_resume_scene
 	pending_resume_scene = "town"
 	pending_zone_id = ""
+	var legacy: Dictionary = LegacySubAreas.resolve(kind)
+	if not legacy.is_empty():
+		kind = str(legacy["kind"])
 	if not flag(&"trial_cleared"):
 		SceneManager.go_to_start_area()
 	elif kind.begins_with("zone:") and ZoneDefs.has_def(kind.trim_prefix("zone:")):
 		enter_zone(kind.trim_prefix("zone:"))
-	elif not SubAreaDefs.parse_token(kind).is_empty():
-		var parts: Array[String] = SubAreaDefs.parse_token(kind)
-		var sub_zone: String = SubAreaDefs.zone_id(parts[0])
-		if sub_zone != "" and ZoneDefs.has_def(sub_zone):
-			begin_zone_visit(sub_zone)
-			pending_zone_result = {}
-		else:
-			arrive_in_town()
-		SubAreaScene.enter(parts[0], parts[1], "")
+		if legacy.has("position") and zone_run != null:
+			zone_run.return_position = legacy["position"] as Vector3
+			zone_run.has_return_position = true
+	elif kind == "start":
+		if legacy.has("position"):
+			start_return_position = legacy["position"] as Vector3
+			has_start_return_position = true
+		SceneManager.go_to_start_area()
 	else:
+		if legacy.has("position"):
+			town_return_position = legacy["position"] as Vector3
+			has_town_return_position = true
 		SceneManager.go_to_town()
 
 # ---- Battles ----------------------------------------------------------------------------

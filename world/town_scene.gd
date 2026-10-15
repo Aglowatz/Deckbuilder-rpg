@@ -161,7 +161,6 @@ func _ready() -> void:
 	_build_actors()
 	_build_spots()
 	_build_rift_station()
-	SubAreaGates.install(self, SubAreaDefs.areas_of_scene(Areas.TOWN_SCENE))
 	ChestKit.apply_saved(town.hidden_chest_nodes, TownScene._hidden_chest_secret)
 	GiantChestEvent.apply_look(town.harbor_chest_node, NinjaBoss.ORIGINAL_CHEST)
 	_build_portal_barriers()

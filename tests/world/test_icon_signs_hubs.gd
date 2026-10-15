@@ -96,7 +96,6 @@ func test_the_rift_stations_show_an_icon_not_a_title() -> void:
 
 func test_players_see_the_verdant_dump_not_heap() -> void:
 	assert_eq(HeapZone.DISPLAY_NAME, "The Verdant Dump")
-	assert_eq(str(SubAreaDefs.area("heap").get("name", "")), "The Verdant Dump")
 	var story: ZoneStoryText = ZoneStoryText.for_zone(HeapZone.ID)
 	for key: Variant in story.lines.keys():
 		for line: Variant in story.lines[key] as Array:

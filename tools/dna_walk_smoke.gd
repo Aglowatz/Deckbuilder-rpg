@@ -4,8 +4,8 @@ extends Node
 ## Arrival on the approach causeway and the walk through the gate into the Lobby Plaza; every quest NPC and the vendor (E opens their talk / shop); the coffee
 ## machine, the time clock, the suggestion box and the haunted printer; the quiz master, the matching game and the routing puzzle (E opens them); Sub-Basement 3
 ## (the mini dungeon asks to enter); the Hall of Final Approvals at the stair's foot (prompt, no lettered plate, E asks); the giant chest and the vault lever
-## (prompts up); every sub-area through its gates and exits (Cubicle Fields -> The Queue -> Records Basement -> Executive Approach -> Records Basement -> hub);
-## then back out down the causeway to town by simply walking off its end. Screenshots to _screenshots/dna_walk/.
+## (prompts up); then back out down the causeway to town by simply walking off its end (there are no sub-area scenes: the zone is one walkable map,
+## docs/design/subarea_removal.md). Screenshots to _screenshots/dna_walk/.
 ##   Godot --path . --resolution 1600x900 res://tools/dna_walk_smoke_launcher.tscn     (bash tools/run_dna_walk_smoke.sh)
 ## Deliberate shortcuts: long legs across the map are a teleport to a few metres short of the target, then real walking for the last stretch (the walkability probe
 ## covers the long routes); the battles, the quiz questions and the puzzle moves have their own smoke (tools/run_fifth_brief_final_smoke.sh).
@@ -40,10 +40,8 @@ func run() -> void:
 	await _the_games(zone)
 	await _the_dungeons(zone)
 	await _the_chest_and_the_lever(zone)
-	zone = await _every_sub_area(zone)
-	if zone != null:
-		await _back_out_down_the_causeway(zone)
-	_finish(_failures.is_empty(), "causeway -> gate -> lobby -> NPCs, vendor, interactables -> quiz, matching, puzzle -> Sub-Basement 3, the Hall -> giant chest, lever -> Cubicle Fields -> The Queue -> Records Basement -> Executive Approach -> Records Basement -> hub -> causeway -> town (%d screenshots)" % _shots)
+	await _back_out_down_the_causeway(zone)
+	_finish(_failures.is_empty(), "causeway -> gate -> lobby -> NPCs, vendor, interactables -> quiz, matching, puzzle -> Sub-Basement 3, the Hall -> giant chest, lever -> causeway -> town (%d screenshots)" % _shots)
 
 
 # ---- Legs ----------------------------------------------------------------------------------------------------------
@@ -130,89 +128,6 @@ func _the_chest_and_the_lever(zone: DnaScene) -> void:
 		await _shot("w_17_%s" % key)
 
 
-func _every_sub_area(zone: DnaScene) -> DnaScene:
-	var gates: SubAreaGates = zone.find_child("SubAreaGates", true, false) as SubAreaGates
-	_check(gates != null, "the hub shows its sub-area gates")
-	if gates == null:
-		return zone
-	var cubicles: int = -1
-	for i: int in range(gates.gates.size()):
-		if str(gates.gates[i]["sub"]) == "cubicle_fields":
-			cubicles = i
-	_check(cubicles >= 0, "the Cubicle Fields gate is in the hub")
-	if cubicles < 0:
-		return zone
-	var gate_pos: Vector3 = SubAreaMap.pos3(gates.gates[cubicles]["pos"])
-	var hub_dir: Vector3 = (zone.builder.anchor("lobby_center") - gate_pos)
-	hub_dir.y = 0.0
-	hub_dir = hub_dir.normalized()
-	_teleport(zone, gate_pos + hub_dir * 5.0)
-	await _walk_to(zone, gate_pos + hub_dir * 1.4, 1.4, 8.0)
-	await _dismiss_dialogue(zone.dialogue)
-	await driver.frames(4)
-	await _shot("w_18_cubicle_fields_gate")
-	await driver.tap_key(KEY_E)
-	var scene: SubAreaScene = await _wait_for(SubAreaScene) as SubAreaScene
-	_check(scene != null and scene.sub_id == "cubicle_fields", "E at the gate loads the Cubicle Fields")
-	if scene == null:
-		return null
-	await driver.seconds(0.8)
-	await _shot("w_19_cubicle_fields")
-	scene = await _take_exit(scene, "the_queue", "w_20_the_queue")
-	if scene == null:
-		return null
-	scene = await _take_exit(scene, "records_basement", "w_21_records_basement")
-	if scene == null:
-		return null
-	scene = await _take_exit(scene, "executive_approach", "w_22_executive_approach")
-	if scene == null:
-		return null
-	scene = await _take_exit(scene, "records_basement", "w_23_records_basement_again")
-	if scene == null:
-		return null
-	# the way home
-	var exit_spot: Dictionary = _exit_to(scene, "hub")
-	_check(not exit_spot.is_empty(), "Records Basement: has an exit back to the hub")
-	if exit_spot.is_empty():
-		return null
-	var home_pos: Vector3 = exit_spot["pos"] as Vector3
-	var home_inward: Vector3 = _inward(home_pos)
-	_teleport_sub(scene, home_pos + home_inward * 5.0)
-	await _walk_to(scene, home_pos + home_inward * 1.8, 1.0, 8.0)
-	await driver.tap_key(KEY_E)
-	var back: DnaScene = await _wait_for(DnaScene) as DnaScene
-	_check(back != null, "the exit leads back to the hub")
-	if back != null:
-		await driver.seconds(0.6)
-		await _dismiss_dialogue(back.dialogue)
-		var basement_gate: Vector3 = Vector3(70.5, 0.0, 24.5)
-		var pos: Vector3 = back.player.position
-		_check(Vector2(pos.x - basement_gate.x, pos.z - basement_gate.z).length() < 12.0, "back in the hub beside the Records Basement gate (%.1f m)" % Vector2(pos.x - basement_gate.x, pos.z - basement_gate.z).length())
-		await _shot("w_24_back_in_the_hub")
-	return back
-
-
-func _take_exit(scene: SubAreaScene, target: String, shot_name: String) -> SubAreaScene:
-	var from_id: String = scene.sub_id
-	var exit_spot: Dictionary = _exit_to(scene, target)
-	_check(not exit_spot.is_empty(), "%s: has an exit to %s" % [from_id, target])
-	if exit_spot.is_empty():
-		return null
-	var pos: Vector3 = exit_spot["pos"] as Vector3
-	var inward: Vector3 = _inward(pos)
-	_teleport_sub(scene, pos + inward * 5.0)
-	await _walk_to(scene, pos + inward * 1.8, 1.0, 8.0)
-	await driver.frames(4)
-	await driver.tap_key(KEY_E)
-	var next: SubAreaScene = await _wait_for_sub(target)
-	_check(next != null, "%s: E at the exit loads %s" % [from_id, target])
-	if next != null:
-		await driver.seconds(0.8)
-		_check(next.map.is_walkable(next.player.position, 0.3), "%s: the hero arrives on walkable ground" % target)
-		await _shot(shot_name)
-	return next
-
-
 func _back_out_down_the_causeway(zone: DnaScene) -> void:
 	var centre: Vector3 = zone.builder.anchor("lobby_center")
 	_teleport(zone, Vector3(centre.x + 1.0, 0.0, centre.z + 4.0))
@@ -295,19 +210,6 @@ func _spot(zone: DnaScene, id: String) -> ZoneSpot:
 	return null
 
 
-## The way to approach an exit on a sub-area edge: from the middle of the map (an exit stands at the edge, the far side is outside the map).
-func _inward(pos: Vector3) -> Vector3:
-	var flat: Vector3 = Vector3(-pos.x, 0.0, -pos.z)
-	return flat.normalized() if flat.length() > 0.5 else Vector3(0.0, 0.0, -1.0)
-
-
-func _exit_to(scene: SubAreaScene, target: String) -> Dictionary:
-	for spot: Dictionary in scene.spots:
-		if str(spot["type"]) == "exit" and str((spot["data"] as Dictionary).get("to", "hub")) == target:
-			return spot
-	return {}
-
-
 func _teleport(zone: DnaScene, pos: Vector3) -> void:
 	pos.y = zone.builder.height_at(pos)
 	zone.player.position = pos
@@ -316,27 +218,12 @@ func _teleport(zone: DnaScene, pos: Vector3) -> void:
 	zone._camera.position = zone.player.position + CameraRig.shape(zone.camera_offset)
 
 
-func _teleport_sub(scene: SubAreaScene, pos: Vector3) -> void:
-	scene.player.position = pos
-
-
 func _wait_for(kind: Variant) -> Node:
 	var elapsed: float = 0.0
 	while elapsed < 25.0:
 		var scene: Node = get_tree().current_scene
 		if scene != null and is_instance_of(scene, kind) and not SceneManager.busy:
 			return scene
-		await driver.frames(5)
-		elapsed += 5.0 / 60.0
-	return null
-
-
-func _wait_for_sub(sub_id: String) -> SubAreaScene:
-	var elapsed: float = 0.0
-	while elapsed < 25.0:
-		var scene: Node = get_tree().current_scene
-		if scene is SubAreaScene and (scene as SubAreaScene).sub_id == sub_id and not SceneManager.busy:
-			return scene as SubAreaScene
 		await driver.frames(5)
 		elapsed += 5.0 / 60.0
 	return null

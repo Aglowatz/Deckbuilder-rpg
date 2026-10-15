@@ -177,6 +177,11 @@ func _interact_zone(spot: ZoneSpot) -> void:
 			_use_spot_me()
 		"run_wheel":
 			_use_run_wheel(spot)
+		GainlandsZone.SWOLYMPUS_GATE:
+			# the closed trailhead gate (SR-4): like the sealed cavern, E only says when it opens
+			player.face(spot.position)
+			Audio.sfx(&"ui_error")
+			hud.toast(SWOLYMPUS_TOAST, UIStyle.PARCHMENT)
 
 
 # ---- Travel: throwers and portal rippers -------------------------------------------------------------

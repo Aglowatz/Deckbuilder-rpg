@@ -77,7 +77,6 @@ func _ready() -> void:
 		_camera_offset = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
 		_custom_camera = true
 	_build_actors()
-	SubAreaGates.install(self, SubAreaDefs.areas_of_scene(Areas.START_SCENE))
 	_build_ui()
 	_build_postgame()
 	ChestKit.apply_saved(area.chest_nodes, StartingAreaScene._chest_secret)

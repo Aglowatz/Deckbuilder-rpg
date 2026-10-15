@@ -290,6 +290,7 @@ func _anchors() -> void:
 	_at("run_wheel", 86.0, 42.6)
 	_at("spot_me", 71.0, 68.0)
 	_at("mini_dungeon", 78.0, 27.0)  # the Iron Cavern (the way up Mount Swolympus, sealed until the postgame) in the north-east corner beside the locked gate (GC-11)
+	_at("swolympus_gate", 86.0, 31.0)  # the locked trailhead gate to Mount Swolympus on the north-east rim: a coming-soon landmark, nothing walkable behind it (SR-4)
 	# the House of Gains gate: on the causeway in front of the fortress doors (GC-10)
 	_at("main_dungeon", 50.0, 10.0)
 	# Travel points on the main land.
@@ -509,10 +510,6 @@ func keep_clear_spots() -> Array[Vector3]:
 	keep_clear.append(Vector3(hub.x, hub.z, PLAZA_RADIUS + 2.5))
 	keep_clear.append(Vector3(BRIDGE_X, BRIDGE_Z0, 6.0))
 	keep_clear.append(Vector3(HOUSE_OF_GAINS.x, CAUSEWAY.position.y + CAUSEWAY.size.y + 2.0, 8.0))  # the approach to the House of Gains gate (GC-10)
-	# the sub-area gates the hub shows (data/subareas/gainlands/_zone.json) need open ground too
-	for gate: Dictionary in SubAreaDefs.gates("gainlands"):
-		var gate_pos: Array = gate["pos"] as Array
-		keep_clear.append(Vector3(float(gate_pos[0]), float(gate_pos[1]), 4.5))
 	return keep_clear
 
 

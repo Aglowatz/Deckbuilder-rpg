@@ -4,10 +4,65 @@ extends GutTest
 ##  - main routes at least 4 hero-widths wide with nothing solid inside their clearance, open ground round every anchor;
 ##  - few sign boards, each with a pictogram;
 ##  - the meadow never dips under the look rig's water plane;
-##  - the sub-area data keeps the same limits (tree counts, path widths, flower clumps);
+##  - Mount Swolympus stays a locked coming-soon landmark on the north-east rim with nothing walkable behind it (SR-4);
 ##  - the camera occlusion fade is a smooth transparency: tree cards fade in their own shader from the hero's position, the fader drives no dither.
 
 var layout: GainlandsLayout
+
+
+func test_mount_swolympus_is_a_locked_postgame_bonus() -> void:
+	# the hub gate: a landmark off the main route (north-east rim), closed, with a coming-soon prompt and no sub-area behind it (GC-11, SR-4)
+	assert_true(layout.anchors.has(GainlandsZone.SWOLYMPUS_GATE), "the trailhead gate has an anchor")
+	var gate_pos: Vector3 = layout.anchors[GainlandsZone.SWOLYMPUS_GATE] as Vector3
+	var road: Vector3 = layout.anchors["main_dungeon"] as Vector3
+	assert_gt(Vector2(gate_pos.x - road.x, gate_pos.z - road.z).length(), 25.0, "it stands well off the dungeon road")
+	var def: ZoneDef = GainlandsZone.build_def()
+	var gate_spot: Dictionary = {}
+	for spot: Dictionary in def.spots:
+		if str(spot["id"]) == GainlandsZone.SWOLYMPUS_GATE:
+			gate_spot = spot
+	assert_false(gate_spot.is_empty(), "the gate is a spot of the zone")
+	if not gate_spot.is_empty():
+		assert_true(str(gate_spot["prompt"]).to_lower().contains("coming soon"), "the prompt says coming soon")
+		assert_true(bool(gate_spot.get("no_plate", false)), "no lettered plate at the gate")
+		assert_eq(str(gate_spot["kind"]), "zone", "E is handled by the Gainlands scene (a toast, never a scene change)")
+	assert_false(def.poi_kinds.has(GainlandsZone.SWOLYMPUS_GATE), "no marker for a closed gate on the minimap")
+	var source: String = FileAccess.get_file_as_string("res://world/gainlands/gainlands_scene.gd")
+	var body: String = source.substr(source.find("GainlandsZone.SWOLYMPUS_GATE:"), 300)
+	assert_true(body.contains("SWOLYMPUS_TOAST"), "E at the gate toasts the coming-soon line")
+	assert_false(body.contains("change_scene"), "and loads nothing")
+	# the gate model stands in the hub, closed, and blocks the way through
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: GainlandsBuilder = GainlandsBuilder.new()
+	builder.build(host)
+	var gate: Node3D = builder.root.find_child("SwolympusGate", false, false) as Node3D
+	assert_not_null(gate, "the trailhead gate model stands in the hub")
+	if gate != null:
+		assert_not_null(gate.find_child("GateBarrier", false, false), "its opening is closed by the barrier")
+		assert_eq(gate.find_children("*", "Label3D", true, false).size(), 0, "no lettering on the gate")
+		assert_false(builder.is_walkable(Vector3(gate_pos.x, 0.0, gate_pos.z), 0.3), "the hero cannot walk through the closed arch")
+	var landing: Vector3 = gate_pos + Vector3(-2.5, 0.0, 2.5)
+	assert_true(builder.is_walkable(landing, 0.3), "the ground in front of the gate is open")
+	# the side dungeon: data intact, sealed, its quest never offered in the main story, no minimap marker
+	Session.new_game()
+	assert_not_null(DungeonCatalog.side_for_zone(GainlandsZone.ID), "S-BEEF is still in the dungeon list")
+	assert_false(Session.side_unlocked("S-BEEF"), "sealed")
+	var quest: QuestData = QuestCatalog.find(ZoneQuestDefinitions.SIDE_BEEF)
+	assert_not_null(quest)
+	assert_true(quest != null and quest.prerequisite != null and quest.prerequisite.kind == Condition.Kind.POSTGAME, "Water for the Hermit waits for the postgame (data file)")
+	var offered: Array[String] = []
+	for item: QuestData in Session.quests_offered_by(GainlandsZone.NPC_BRENDA):
+		offered.append(item.id)
+	assert_does_not_have(offered, ZoneQuestDefinitions.SIDE_BEEF, "Old Man Mountain does not offer it")
+	assert_false(def.poi_kinds.has("mini_dungeon"), "no cavern marker on the minimap")
+	var cavern: Vector3 = layout.anchors["mini_dungeon"] as Vector3
+	assert_lt(Vector2(cavern.x - gate_pos.x, cavern.z - gate_pos.z).length(), 12.0, "the sealed cavern stands beside the locked gate, one postponed corner")
+	# the mountain itself: in the distance, off the land
+	var mountain: Node3D = builder.root.find_child("DistantSwolympus", false, false) as Node3D
+	assert_not_null(mountain, "Mount Swolympus stands in the distance")
+	if mountain != null:
+		assert_false(GainlandsLayout.is_main_ground(mountain.position.x, mountain.position.z), "off the main land")
 
 
 func before_each() -> void:
@@ -102,26 +157,6 @@ func test_the_meadow_never_dips_under_the_water() -> void:
 		x += 2.0
 	assert_gte(lowest, GainlandsLayout.MIN_GROUND - 0.001, "no walkable cell below %.2f (lowest %.2f)" % [GainlandsLayout.MIN_GROUND, lowest])
 	assert_gt(lowest, WorldScenery.WATER_Y, "the hero never wades")
-
-
-func test_subarea_data_stays_open() -> void:
-	for sub_id: String in SubAreaDefs.sub_ids("gainlands"):
-		var data: Dictionary = SubAreaDefs.sub("gainlands", sub_id)
-		var trees: int = 0
-		for item: Variant in data.get("scatter", []) as Array:
-			var entry: Dictionary = item as Dictionary
-			if str(entry.get("kind", "")) == "tree" and str(entry.get("name", "")) != "sunflower" and str(entry.get("name", "")) != "hay":
-				trees += int(entry.get("count", 0))
-				assert_gte(float(entry.get("path_gap", 0.0)), 3.0, "%s: scattered %s stay %.1f m off the paths" % [sub_id, str(entry.get("name")), 3.0])
-		assert_lte(trees, 12, "%s: at most 12 scattered trees (half the old count)" % sub_id)
-		var paths: Array = data.get("paths", []) as Array
-		assert_gte(float((paths[0] as Dictionary).get("width", 0.0)), 4.2, "%s: the main path is 4 hero-widths wide" % sub_id)
-		for item: Variant in paths:
-			assert_gte(float((item as Dictionary).get("width", 0.0)), 3.4, "%s: every path is at least 3.4 m wide" % sub_id)
-		assert_gte(float((data.get("edge", {}) as Dictionary).get("spacing", 0.0)), 8.5, "%s: the edge belt is loose, not a fence" % sub_id)
-		for item: Variant in data.get("flowers", []) as Array:
-			assert_lte(int((item as Dictionary).get("count", 0)), 24, "%s: flowers in small clumps" % sub_id)
-			assert_lte(float((item as Dictionary).get("radius", 0.0)), 3.5, "%s: flower clumps are small" % sub_id)
 
 
 func test_tree_cards_fade_in_their_shader_from_the_hero_position() -> void:
@@ -318,70 +353,6 @@ func test_the_fortress_model_builds_with_towers_chimneys_and_a_gate_that_blocks(
 	# a gatehouse tower is solid, the causeway between them is open
 	assert_false(builder.is_walkable(Vector3(GainlandsLayout.HOUSE_OF_GAINS.x + 7.7, 0.0, GainlandsLayout.HOUSE_OF_GAINS.y + 13.0), 0.3), "the east gatehouse tower blocks")
 	assert_true(builder.is_walkable(Vector3(GainlandsLayout.HOUSE_OF_GAINS.x, 0.0, GainlandsLayout.CAUSEWAY.position.y + 2.0), 0.3), "the causeway is open")
-
-
-func test_mount_swolympus_is_a_locked_postgame_bonus() -> void:
-	# the hub gate: off the main route (north-east rim), locked, with a coming-soon prompt
-	var trailhead: Dictionary = {}
-	for gate: Dictionary in SubAreaDefs.gates("gainlands"):
-		if str(gate["sub"]) == "swolympus_trailhead":
-			trailhead = gate
-	assert_false(trailhead.is_empty(), "the trailhead gate is still in the data")
-	assert_true(SubAreaGates.is_locked(trailhead), "and locked")
-	assert_true(str(trailhead.get("locked_prompt", "")).to_lower().contains("coming soon"), "the prompt says coming soon")
-	var gate_pos: Vector3 = SubAreaMap.pos3(trailhead["pos"])
-	var road: Vector3 = layout.anchors["main_dungeon"] as Vector3
-	assert_gt(Vector2(gate_pos.x - road.x, gate_pos.z - road.z).length(), 25.0, "it stands well off the dungeon road")
-	assert_true(SubAreaDefs.sub("gainlands", "swolympus_trailhead").has("landmarks"), "the trailhead data is intact for later")
-	# E at the gate goes nowhere
-	var host: Node3D = Node3D.new()
-	add_child_autofree(host)
-	host.set_script(null)
-	var gates: SubAreaGates = SubAreaGates.new()
-	gates.host = host
-	gates.gates = [trailhead] as Array[Dictionary]
-	SubAreaScene.pending_sub = ""
-	gates.go(0)
-	assert_ne(SubAreaScene.pending_sub, "swolympus_trailhead", "a locked gate never loads its sub-area")
-	# the Sky Garden still hangs off a reachable sub-area
-	var to_sky: bool = false
-	for item: Variant in SubAreaDefs.sub("gainlands", "proving_grounds").get("exits", []) as Array:
-		if str((item as Dictionary).get("to", "")) == "sky_garden":
-			to_sky = true
-	assert_true(to_sky, "the Proving Grounds lead to the Sky Garden now")
-	var back: bool = false
-	for item: Variant in SubAreaDefs.sub("gainlands", "sky_garden").get("exits", []) as Array:
-		if str((item as Dictionary).get("to", "")) == "proving_grounds":
-			back = true
-	assert_true(back, "and the Sky Garden leads back")
-	# the side dungeon: data intact, sealed, its quest never offered in the main story, no minimap marker
-	Session.new_game()
-	assert_not_null(DungeonCatalog.side_for_zone(GainlandsZone.ID), "S-BEEF is still in the dungeon list")
-	assert_false(Session.side_unlocked("S-BEEF"), "sealed")
-	var quest: QuestData = QuestCatalog.find(ZoneQuestDefinitions.SIDE_BEEF)
-	assert_not_null(quest)
-	assert_true(quest != null and quest.prerequisite != null and quest.prerequisite.kind == Condition.Kind.POSTGAME, "Water for the Hermit waits for the postgame (data file)")
-	var defined: QuestData = null
-	for candidate: QuestData in ZoneQuestDefinitions.side_quests():
-		if candidate.id == ZoneQuestDefinitions.SIDE_BEEF:
-			defined = candidate
-	assert_true(defined != null and defined.prerequisite != null and defined.prerequisite.kind == Condition.Kind.POSTGAME, "and in the definitions")
-	var offered: Array[String] = []
-	for item: QuestData in Session.quests_offered_by(GainlandsZone.NPC_BRENDA):
-		offered.append(item.id)
-	assert_does_not_have(offered, ZoneQuestDefinitions.SIDE_BEEF, "Old Man Mountain does not offer it")
-	var def: ZoneDef = GainlandsZone.build_def()
-	assert_false(def.poi_kinds.has("mini_dungeon"), "no cavern marker on the minimap")
-	var cavern: Vector3 = layout.anchors["mini_dungeon"] as Vector3
-	assert_lt(Vector2(cavern.x - gate_pos.x, cavern.z - gate_pos.z).length(), 12.0, "the sealed cavern stands beside the locked gate, one postponed corner")
-	# the mountain itself: in the distance, off the land
-	var builder: GainlandsBuilder = GainlandsBuilder.new()
-	builder.build(host)
-	var mountain: Node3D = builder.root.find_child("DistantSwolympus", false, false) as Node3D
-	assert_not_null(mountain, "Mount Swolympus stands in the distance")
-	if mountain != null:
-		assert_false(GainlandsLayout.is_main_ground(mountain.position.x, mountain.position.z), "beyond the rim, never on the route")
-		assert_gt(mountain.position.x, gate_pos.x, "behind the locked gate")
 
 
 func test_the_sealed_cavern_says_coming_soon_in_the_hud() -> void:

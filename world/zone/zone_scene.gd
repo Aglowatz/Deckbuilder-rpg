@@ -196,7 +196,6 @@ func _ready() -> void:
 	_build_enemies()
 	_build_sign_spots()
 	_build_zone_extras()
-	SubAreaGates.install(self, SubAreaDefs.areas_of_scene(def.scene_path))
 	_build_completion_state()
 	_build_camera()
 	_build_ui()
