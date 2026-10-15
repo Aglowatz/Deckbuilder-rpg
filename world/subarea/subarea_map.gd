@@ -119,7 +119,7 @@ func _ground() -> void:
 	var kind: String = str((data.get("ground", {}) as Dictionary).get("kind", "grass"))
 	var id: String = str(GROUND_KINDS.get(kind, GROUND_KINDS["grass"]))
 	var mesh: KitMesh = KitMesh.new()
-	mesh.set_material("ground", EnvKit.material(id))
+	mesh.set_material("ground", EnvKit.material(id, false, Color.html(str((data.get("ground", {}) as Dictionary).get("tint", "#ffffff")))))
 	var tile: float = EnvKit.tile_size(ZoneStyles.swap(id))
 	var tile_v: float = EnvKit.tile_size_v(ZoneStyles.swap(id))
 	var rect: Array = [Vector2(-half.x, -half.y), Vector2(half.x, -half.y), Vector2(half.x, half.y), Vector2(-half.x, half.y)]
@@ -208,6 +208,11 @@ func _landmarks() -> void:
 		landmark.rotation_degrees.y = yaw
 		if not bool(entry.get("no_collide", false)):
 			_register_circles(landmark, pos, yaw)
+		if bool(entry.get("far", false)):
+			# a landmark standing beyond the map as the view's backdrop (the Hall of Final Approvals seen from the Cubicle Fields): never range-culled, never faded
+			for piece: Node in landmark.find_children("*", "MeshInstance3D", true, false):
+				piece.set_meta(&"no_range_cull", true)
+				piece.set_meta(&"no_occlusion_fade", true)
 
 
 func _clusters() -> void:
@@ -271,6 +276,9 @@ func _edge() -> void:
 	var edge: Dictionary = data.get("edge", {}) as Dictionary
 	var kind: String = str(edge.get("kind", "oak"))
 	if kind == "none":
+		return
+	if kind == "balustrade":
+		_balustrade_edge(edge)
 		return
 	var spacing: float = float(edge.get("spacing", 6.5))
 	var scale_range: Array = edge.get("scale", [1.1, 1.7]) as Array
@@ -455,3 +463,86 @@ func _flower_clumps() -> void:
 	if entries.is_empty() or str(data.get("flora", "on")) == "off":
 		return
 	KitFoliage.clumps(root, entries, hash(str(data.get("id", "sub"))) % 1000, func(pos: Vector3) -> bool: return is_walkable(pos, 0.0))
+
+
+## A knee-high stone balustrade round the edge instead of trees (the D.N.A.: every paint-over frames its plaza with one): blocks with a trim cap, a post with a finial
+## every `spacing` metres and a kit lamp card on every other post, open for 4 m either side of every exit and the spawn. `surface` / `accent` are kit ids
+## (default DNA-WALL-GREY / DNA-TRIM-BRASS), `lamp` the card id ("" for none), `height` the parapet height (0.5 m). Nothing fades: it never hides the hero.
+func _balustrade_edge(edge: Dictionary) -> void:
+	var surface: String = str(edge.get("surface", "DNA-WALL-GREY"))
+	var accent: String = str(edge.get("accent", "DNA-TRIM-BRASS"))
+	var lamp: String = str(edge.get("lamp", ""))
+	var spacing: float = float(edge.get("spacing", 6.0))
+	var height: float = float(edge.get("height", 0.5))
+	var inset: float = EDGE_MARGIN
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("wall", EnvKit.material(surface))
+	mesh.set_material("wall_light", EnvKit.material(surface, false, Color(1.1, 1.1, 1.08)))
+	mesh.set_material("cap", EnvKit.material(accent))
+	var clear_points: Array[Vector3] = [spawn()]
+	for item: Variant in data.get("exits", []) as Array:
+		clear_points.append(pos3((item as Dictionary)["pos"]))
+	for item: Variant in (data.get("entries", {}) as Dictionary).values():
+		clear_points.append(pos3(item))
+	var lamps: Array[Dictionary] = []
+	var corners: Array[Vector3] = [Vector3(-half.x + inset, 0, -half.y + inset), Vector3(half.x - inset, 0, -half.y + inset), Vector3(half.x - inset, 0, half.y - inset), Vector3(-half.x + inset, 0, half.y - inset)]
+	var post_index: int = 0
+	for side: int in range(4):
+		var a: Vector3 = corners[side]
+		var b: Vector3 = corners[(side + 1) % 4]
+		var length: float = a.distance_to(b)
+		var dir: Vector3 = (b - a) / length
+		var basis: Basis = Basis(Vector3.UP, atan2(dir.x, dir.z))
+		# the parapet in runs between the openings
+		var run_start: float = 0.0
+		var t: float = 0.0
+		while t <= length + 0.01:
+			var p: Vector3 = a + dir * t
+			var open: bool = false
+			for clear: Vector3 in clear_points:
+				if Vector2(p.x - clear.x, p.z - clear.z).length() < 4.0:
+					open = true
+			if open or t >= length - 0.01:
+				var run_end: float = t if open else length
+				if run_end - run_start > 0.6:
+					var mid: Vector3 = a + dir * ((run_start + run_end) * 0.5)
+					var run_length: float = run_end - run_start
+					mesh.box("wall", mid + Vector3(0, height * 0.5 - 0.1, 0), Vector3(0.8, height + 0.2, run_length), basis, 0.03, 0.82)
+					mesh.box("cap", mid + Vector3(0, height + 0.015, 0), Vector3(0.84, 0.04, run_length), basis, 0.0)
+					obstacles.append(Vector3(mid.x, mid.z, 0.0))
+					var count: int = maxi(1, int(ceilf(run_length / 1.6)))
+					for k: int in range(count + 1):
+						var q: Vector3 = a + dir * lerpf(run_start, run_end, float(k) / float(count))
+						obstacles.append(Vector3(q.x, q.z, 0.55))
+				run_start = t + 1.0
+			t += 1.0
+		# posts every `spacing` metres along the run (skipped at the openings), lamps on every other post
+		var s: float = 0.0
+		while s <= length + 0.01:
+			var p: Vector3 = a + dir * s
+			var open: bool = false
+			for clear: Vector3 in clear_points:
+				if Vector2(p.x - clear.x, p.z - clear.z).length() < 4.6:
+					open = true
+			if not open:
+				mesh.box("wall_light", p + Vector3(0, 0.42, 0), Vector3(0.56, 0.84, 0.56), basis, 0.03, 0.9)
+				mesh.box("cap", p + Vector3(0, 0.86, 0), Vector3(0.62, 0.05, 0.62), basis, 0.0)
+				if lamp != "" and post_index % 2 == 0:
+					lamps.append({"pos": p + Vector3(0, 0.88, 0), "scale": 1.0})
+				post_index += 1
+			s += spacing
+	var node: MeshInstance3D = mesh.instance("Balustrade")
+	node.set_meta(PaintedClasses.META_NO_PAINT, true)
+	node.set_meta(&"no_occlusion_fade", true)
+	root.add_child(node)
+	if not lamps.is_empty() and EnvKit.has(lamp):
+		var kind: String = ""
+		for key: Variant in TreeCards.KINDS.keys():
+			if str((TreeCards.KINDS[key] as Dictionary).get("id", "")) == lamp:
+				kind = str(key)
+		if kind != "":
+			var field: MultiMeshInstance3D = KitFoliage.tree_field(root, kind, lamps, true)
+			if field != null and field.material_override is ShaderMaterial:
+				var still: ShaderMaterial = (field.material_override as ShaderMaterial).duplicate() as ShaderMaterial
+				still.set_shader_parameter("sway", 0.0)
+				field.material_override = still

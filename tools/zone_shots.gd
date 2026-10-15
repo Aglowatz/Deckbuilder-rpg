@@ -8,7 +8,7 @@ const HUBS: Dictionary = {
 	"main_town": ["res://scenes/town.tscn", {"at": "spawn"}],
 	"starting_forest": ["res://scenes/starting_area.tscn", {"quiet": "true"}],
 	"gainlands": ["res://scenes/gainlands_zone.tscn", {"at": "spawn"}],
-	"dna": ["res://scenes/dna_zone.tscn", {"at": "spawn"}],
+	"dna": ["res://scenes/dna_zone.tscn", {"at": "lobby_center"}],  # the paint-over was made from the lobby (the spawn moved onto the approach causeway, DN-6)
 	"buffet": ["res://scenes/buffet_zone.tscn", {"at": "spawn"}],
 	"heap": ["res://scenes/heap_zone.tscn", {"at": "spawn"}],
 	"capital_outside": ["res://scenes/capital_zone.tscn", {"at": "spawn"}],

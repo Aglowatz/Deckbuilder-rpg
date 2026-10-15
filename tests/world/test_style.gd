@@ -12,7 +12,7 @@ func test_every_preset_id_resolves_with_a_coloured_shadow() -> void:
 
 func test_dna_is_the_monochrome_preset() -> void:
 	var dna: ZonePreset = StylePresets.get_preset(StylePresets.DNA)
-	assert_gt(dna.desaturate, 0.85, "near-monochrome")
+	assert_between(dna.desaturate, 0.3, 0.7, "cold and low-saturation, not monochrome: the kit keeps its sage, brass, red tape and ghost green (DN-11)")
 	assert_false(dna.use_sky, "no sky in the D.N.A.")
 	assert_gt(dna.accent.r, dna.accent.g * 3.0, "the accent is red")
 	assert_eq(StylePresets.get_preset(StylePresets.TOWN).desaturate, 0.0)

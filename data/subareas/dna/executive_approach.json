@@ -3,10 +3,10 @@
 	"name": "Executive Approach",
 	"mood": "Cold marble and a long, polite hush: the sort of corridor where you start to apologise before you are spoken to",
 	"size": [70, 64],
-	"ground": {"kind": "marble"},
+	"ground": {"kind": "marble", "tint": "#8e9693"},
 	"spawn": [-28, 22],
 	"entries": {"records_basement": [-28, 22]},
-	"edge": {"kind": "none"},
+	"edge": {"kind": "balustrade", "surface": "DNA-WALL-GREY", "accent": "DNA-TRIM-BRASS", "lamp": "DNA-PROP-GHOSTLAMP", "spacing": 6.0},
 	"paths": [
 		{"kind": "cobble", "width": 4.6, "points": [[-33, 22], [-18, 16], [-4, 4], [4, -10], [4, -24]]}
 	],

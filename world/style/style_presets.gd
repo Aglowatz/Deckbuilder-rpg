@@ -112,7 +112,7 @@ static func _build_preset(id: StringName) -> ZonePreset:
 		DNA:
 			p.with_id(id, "D.N.A.: near-monochrome, red accent")
 			p.use_sky = false
-			p.background_color = Color(0.04, 0.045, 0.05)
+			p.background_color = Color("5e6b66")
 			p.sun_color = Color("e8f0ff")
 			p.sun_energy = 0.95
 			p.sun_pitch = -58.0
@@ -131,7 +131,7 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.outline_strength = 0.7
 			p.rim_color = Color("b8c4d0")
 			p.highlight = Vector3(1.0, 1.0, 1.02)
-			p.desaturate = 0.97
+			p.desaturate = 0.45  # D.N.A. slice (DN-11): the palette has sage, brass, red tape and ghost green; near-monochrome lost them
 			p.wind = 0.2
 			p.accent = Color("e0221a")
 			p.particles = [{"kind": "motes", "color": Color(0.8, 0.85, 0.9, 0.6), "amount": 50}, {"kind": "paper", "color": Color(0.85, 0.85, 0.85, 1.0), "amount": 12}, {"kind": "steam", "color": Color(0.8, 0.86, 0.92, 0.35), "amount": 10}]

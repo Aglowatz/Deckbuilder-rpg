@@ -104,3 +104,69 @@ approach stay open.
 
 fps (Medium, `tools/fps.sh`): hub 60.0 / 60.0 (494 draw calls); Cubicle Fields 60.0 / 49.8; The Queue 60.0 / 52.9; Records Basement 60.0 / 59.7; Executive Approach 60.0 / 56.1
 (the minimums are the first frames after the scene opens). GUT: 1536 / 1537 (GC-6).
+
+## Part D: match the paint-overs (playbook section 3)
+
+Three passes per scene (DN-11, DN-12), numbers first (`tools/image_stats.gd`):
+
+1. **Composition and landmark size**: balustrade edges round every sub-area, the Hall of Final Approvals on the skyline of the Cubicle Fields, The Queue and the
+   Records Basement (a far landmark, never culled), the tower skyline brought in to about 100 m and the fog thinned so it shows; the hub paint-over camera moved to
+   the lobby centre where the painter stood.
+2. **Palette and buildings**: desaturation 0.97 -> 0.45 (the kit's sage, brass, red tape and ghost green come back; characters keep their colour and stay the clearest
+   thing on screen), the marble court tinted to the paint-over's mid grey, the far Hall sized down to 52-56 m so it sits on the horizon instead of filling it.
+3. **Light, shadows and haze**: key 0.95 -> 0.66, ambient 0.6 -> 0.4, contrast 1.16, vignette 0.4, the sky panorama blended at 0.72 over a darker gradient, the painted
+   floors of the hub 15-20% darker, fog colour, apron and sky foot matched so the horizon dissolves.
+
+### Grade (paint-over then result; mean RGB, luma p5 / p50 / p95, mean saturation, sky / mid / ground thirds)
+
+| image | mean RGB | luma p5 / p50 / p95 | saturation | sky / mid / ground |
+|---|---|---|---|---|
+| PAINTOVER-DNA-HUB | 80, 80, 78 | 27 / 73 / 158 | 0.17 | 85,91,97 / 88,87,80 / 67,62,57 |
+| result (lobby centre) | 83, 93, 87 | 27 / 91 / 150 | 0.17 | 92,104,98 / 78,86,78 / 80,90,83 |
+| PAINTOVER-DNA-CUBICLE-FIELDS | 83, 83, 83 | 37 / 77 / 146 | 0.14 | 90,93,98 / 81,78,74 / 80,77,76 |
+| result | 72, 78, 69 | 20 / 77 / 139 | 0.18 | 100,113,107 / 63,68,59 / 52,52,42 |
+| PAINTOVER-DNA-THE-QUEUE | 83, 83, 82 | 30 / 77 / 154 | 0.14 | 85,87,90 / 72,70,67 / 93,91,89 |
+| result | 78, 85, 76 | 27 / 88 / 141 | 0.17 | 100,113,107 / 62,69,62 / 72,71,59 |
+| PAINTOVER-DNA-RECORDS-BASEMENT | 63, 62, 57 | 22 / 55 / 133 | 0.16 | 55,57,55 / 67,66,61 / 67,62,56 |
+| result | 66, 71, 63 | 13 / 68 / 138 | 0.20 | 98,111,105 / 52,56,48 / 46,45,35 |
+| PAINTOVER-DNA-EXECUTIVE-APPROACH | 87, 82, 81 | 31 / 79 / 154 | 0.17 | 91,88,90 / 88,85,83 / 82,75,70 |
+| result | 79, 89, 84 | 32 / 88 / 139 | 0.15 | 95,107,101 / 77,87,82 / 65,72,67 |
+
+Before the passes the Executive Approach ran at luma 132 (its marble court near white) and every scene sat 10-15 points green of the paint-overs; now the medians are
+within 9-18 of the paint-overs (the Cubicle Fields exact), saturation within 0.04, and the remaining cast is the sky third (the painted sky picture is lighter and
+greener than the painter's sky, 100,113,107 against 85-91). The hub measured from the lobby centre matches the painting's mean within 3-13 per channel.
+
+### Paint-over beside the result (left the paint-over, right the game, same camera)
+
+| Scene | |
+|---|---|
+| **Lobby Plaza (hub)** | ![](dna_slice/compare_hub.jpg) |
+| **Cubicle Fields** | ![](dna_slice/compare_cubicle_fields.jpg) |
+| **The Queue** | ![](dna_slice/compare_the_queue.jpg) |
+| **Records Basement** | ![](dna_slice/compare_records_basement.jpg) |
+| **Executive Approach** | ![](dna_slice/compare_executive_approach.jpg) |
+
+Full-size results: `dna_slice/d_after_*.jpg`.
+
+### The hub at all nine camera combinations
+
+Rows: Cinematic, Classic, Overview. Columns: Close, Normal, Far (`tools/zone_shots.gd --mode=grid`, from the lobby centre).
+
+![](dna_slice/d_grid.jpg)
+
+### The Hall of Final Approvals from the hub and two other spots
+
+| From the causeway (`--at=spawn`) | From the Mail Room (`--at=mail_center`) | From the Elevator Bank (`--at=bank_center`) |
+|---|---|---|
+| ![](dna_slice/d_after_hub_spawn.jpg) | ![](dna_slice/d_after_hall_from_mail.jpg) | ![](dna_slice/d_after_hall_from_bank.jpg) |
+
+### fps (Medium, 1600x900, `tools/fps.sh`, after the passes)
+
+| Scene / spot | avg fps | min fps |
+|---|---|---|
+| Lobby Plaza (spawn) | 60.0 | 60.0 |
+| The Hall's stair foot | 60.0 | 58.6 |
+| Cubicle Fields | 60.0 | 60.0 |
+| The Queue | 60.0 | 60.0 |
+| Records Basement | 60.0 | 60.0 |
+| Executive Approach | 60.0 | 60.0 |
