@@ -422,7 +422,7 @@ func _furnish_breakroom() -> void:
 	_blockers(Vector3(20.1, 0, 49.4), Vector3(26.9, 0, 49.4), 0.4, 0.45)
 	_piece("coffee_machine", Vector3(22.5, 0.0, 49.3), 0.0)
 	anchors["coffee"] = cell_center(22, 50)
-	anchors["barnaby"] = cell_center(23, 50)
+	anchors["barnaby"] = cell_center(25, 50)  # 2.5 m east of the coffee machine so the two prompts never fight (open space round every interactable)
 	_sign("sign.coffee", Vector3(22.5, 1.5, 48.2), 0.0, "poster", 0.8)
 	# One round table in the middle, a bench (the healing couch) in the south-east corner under a lily.
 	_piece("round_table", cell_center(26, 54), 0.0)

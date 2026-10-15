@@ -170,3 +170,128 @@ Rows: Cinematic, Classic, Overview. Columns: Close, Normal, Far (`tools/zone_sho
 | The Queue | 60.0 | 60.0 |
 | Records Basement | 60.0 | 60.0 |
 | Executive Approach | 60.0 | 60.0 |
+
+## Part E: verify and report
+
+Two windowed e2e runs with real input, both passing (DN-13):
+
+- `bash tools/run_dna_walk_smoke.sh` (new, about 4 minutes): arrival on the approach causeway and the walk through the gate into the Lobby Plaza; Agnes, Clerk
+  Ledgerbone (the shop opens), Gerald; the coffee machine, the time clock, the suggestion box, the haunted printer, the couch; Director Ectomund's quiz, Kyle's matching
+  game, the Soul Routing Terminal (each opens on E and gives the hero back); Sub-Basement 3 (the elevator answers E); the Hall of Final Approvals at its stair foot
+  (prompt, no lettered plate, E asks to enter, Not yet gives the hero back); the giant chest and the vault lever (prompts up); Cubicle Fields -> The Queue -> Records
+  Basement -> Executive Approach -> Records Basement -> hub through every gate and exit, every arrival on walkable ground; then down the causeway and off its end into
+  town. 27 screenshots in `_screenshots/dna_walk/`.
+- `bash tools/run_fifth_brief_final_smoke.sh` (the D.N.A. smoke, about 8 minutes): town quests, vendor, the D.N.A., the courier hit, a battle, the couch, a card bought,
+  the quiz, the matching game, the puzzle, a chest, the mini dungeon with its battles and reward: 42 screenshots, every check ok. One stale step fixed (the heal step now
+  reads the Rift Express speech at the lobby centre, DN-13).
+- `SMOKE_ONLY=dna,save_load bash tools/run_subarea_smoke.sh`: the hub gates, a chest, the exit back, save and load inside a sub-area: passes.
+- The walkability probe (`tests/world/test_walkability_zones.gd`): all 46 key locations of the D.N.A. reachable from the spawn with 0.7 m lanes.
+
+| Spot (walk smoke, real input) | |
+|---|---|
+| Arrival on the causeway, the gate and the Hall ahead | ![](dna_slice/e_w_01_arrival_on_the_causeway.jpg) |
+| The Lobby Plaza, walked to through the gate | ![](dna_slice/e_w_02_the_lobby_plaza.jpg) |
+| Agnes at the front counter; Director Ectomund | ![](dna_slice/e_w_03_agnes.jpg) ![](dna_slice/e_w_11_quiz.jpg) |
+| Sub-Basement 3; the Hall of Final Approvals asks to enter | ![](dna_slice/e_w_14_sub_basement_3.jpg) ![](dna_slice/e_w_16_hall_ask.jpg) |
+| The giant chest and the vault lever | ![](dna_slice/e_w_17_giant_chest.jpg) ![](dna_slice/e_w_17_vault_lever.jpg) |
+| Cubicle Fields, The Queue, Records Basement, Executive Approach | ![](dna_slice/e_w_19_cubicle_fields.jpg) ![](dna_slice/e_w_20_the_queue.jpg) ![](dna_slice/e_w_21_records_basement.jpg) ![](dna_slice/e_w_22_executive_approach.jpg) |
+| Leaving down the causeway; back in town | ![](dna_slice/e_w_25_leaving_down_the_causeway.jpg) ![](dna_slice/e_w_26_back_in_town.jpg) |
+
+## What matches
+
+- **Materials**: every shared kit surface the zone uses is the zone's own art (gray stone, slate, brass trim, the queue lane, the six sliced doors, windows, plaques and
+  cabinets, the three plant cards, five prop cards, two decals) plus the painted textures the zone already had (carpet, marble, linoleum, checker tile, paneling,
+  wallpaper, papers, ectoplasm); the hub's balustrades, counters, consoles, elevators, gate and bridge wear the kit surfaces too.
+- **Landmarks** modelled to their concepts: the Hall (clock at 4:59, stamp relief, columns, wings, dome), the Filing Tower, the Endless Queue, the Records Stair.
+- **The goal you can see**: the Hall stands beyond the executive floor and shows from the causeway, the lobby, the mail room, the elevator bank and three sub-areas.
+- **Declutter and readability**: wide doorways, knee-high balustrades, per-piece fading cabinets and partitions, open plaza, a few tidy clusters at walls; the hero and
+  the NPCs keep their colour and read against every floor.
+- **No readable text**; **60 fps on Medium** in all five scenes.
+
+## What still does not match (honest list)
+
+1. **The painted sky**: DNA-SKY-GLOOM is a lighter, greener overcast than the painter's (sky thirds 95-100,107-113 against 85-91); it is blended at 0.72 over a darker
+   gradient and the horizon dissolves, but the paint-overs' heavy, nearly colourless cloud deck is not there.
+2. **The Hall's scale in the hub**: in the paint-over the Hall fills the top of the lobby picture with its stair reaching the plaza; in the game it stands 50 m beyond the
+   executive floor (the floor plan between the lobby and the Hall is gameplay: the mail room, the elevator bank and the executive floor), so from the lobby it is a
+   building on the skyline, not a backdrop wall.
+3. **The sub-area floors**: the paint-overs' Cubicle Fields and Queue floors are wet grey flagstones; the game's are the shared cobble (the kit has no office-floor
+   surface for outdoor sub-areas; the marble court is the only kit ground there). See the asset table.
+4. **The cubicle partitions in the sub-areas** are LandmarkKit boxes in paneling (1.1 m), not the paint-over's glass-and-brass desks with ghosts at them; the hub's
+   cubicles have the desks but no clerks (the roaming enemies are the staff).
+5. **The Endless Queue's citizens** are translucent blobs with clipboards, not painted ghosts; the paint-over's queue curls round the whole plaza, the model is one 56 m
+   serpentine.
+6. **Stand-ins remain**: the water cooler, the ticket machine, the window wall, the shelving towers, the colonnades, the reception desk and the shrines are kit-textured
+   LandmarkKit shapes.
+7. **The near-side framing** of every paint-over (topiary, a lamp, a balustrade at the lens edge) is only partly there (the balustrade edge and the lamp planters).
+8. **Hero size**: unchanged by design; the paint-overs draw the hero a little larger.
+
+## Extra assets that would close the gap (sheet-ready)
+
+| ID | Asset | Category | Lock | Image Description | Size / Format | In-Game Use | Priority |
+|---|---|---|---|---|---|---|---|
+| DNA-SKY-GLOOM-2 | Overcast sky strip | Sky / backdrop | BACKDROP | A heavy, almost colourless grey cloud deck, darker overhead and paler at the horizon, no objects, no green cast; a panorama strip that wraps (left and right edges match) | 2048x1024 PNG | The zone sky (replaces the blend over the gradient) | 1 |
+| DNA-GROUND-FLAGSTONE | Wet office flagstones | Surface | SURFACE | Large cool grey flagstones with narrow joints, faintly wet, seamless, flat light | 1024x1024 PNG, tileable | The Cubicle Fields and Queue ground (shared cobble now) | 1 |
+| DNA-PROP-CUBICLE | Clerk cubicle | Prop | CUTOUT | A glass-and-brass office cubicle with a desk, a lamp and a translucent ghost clerk at it, straight on | 1536x1024 PNG, transparent | Cubicle Fields rows (paneling boxes now) | 1 |
+| DNA-SHEET-CITIZENS | Queue citizens | Cutout sheet | SHEET | 6 patient citizens of the queue (ghosts and skeletons, clipboards, tickets, a hat), each straight on | 2048x1365 PNG, transparent | The Endless Queue and the hub's lobby (blobs now) | 2 |
+| DNA-PROP-COOLER | Water cooler | Prop | CUTOUT | A tall glass water cooler on a brass stand, a ghost bubble inside | 1024x1536 PNG, transparent | Cubicle Fields (stand-in now) | 3 |
+| DNA-PROP-TICKET | Take-a-number machine | Prop | CUTOUT | A red ticket dispenser on a brass post, a long paper tongue | 1024x1536 PNG, transparent | The Queue (stand-in now) | 3 |
+| DNA-PROP-SHELVING | Records shelving | Prop | CONCEPT | Concept of a 14 x 5 m paneled shelving canyon of files and boxes with a rolling ladder, 3/4 view | 1536x1024 PNG | Records Basement (stand-in now) | 3 |
+| DNA-WALL-WINDOWS | Office window wall | Surface | SURFACE | A wall of tall office windows with blinds, some green-lit, seamless left-right | 1024x1024 PNG, tileable horizontally | The Queue's window wall, the hub's office blocks | 3 |
+| DNA-DEC-TAPE | Red tape | Decal | CUTOUT | A tangle of red tape and a wax seal, top-down, soft edges | 1024x1024 PNG, transparent | The executive court and the Hall's forecourt | 3 |
+| DNA-BD-TOWERS-NIGHT | Tower skyline, lit | Sky / backdrop | BACKDROP | The office skyline with more green-lit windows and a darker haze, for the Records Basement side | 2048x1024 PNG, transparent sky | Backdrop ring, north and east | 3 |
+
+## Kit status (`data/art/zone_kits/dna.json`)
+
+The 24 sheet ids and the 24 sheet parts now in the game (the painted-texture aliases are listed in `docs/art/art_status.md`):
+
+| Kit ID | Lock | Family | px | Pivot | Tile |
+|---|---|---|---|---|---|
+| `DNA-BD-TOWERS` | BACKDROP | backdrop | 2048x680 | 0.50,1.00 |  |
+| `DNA-DEC-COFFEE` | CUTOUT | decal | 897x894 | 0.50,0.50 |  |
+| `DNA-DEC-FOOT` | CUTOUT | decal | 131x950 | 0.50,0.50 |  |
+| `DNA-HERO-ENDLESS-QUEUE` | CONCEPT | concept | 1536x1024 |  |  |
+| `DNA-HERO-FILING-TOWER` | CONCEPT | concept | 1536x1024 |  |  |
+| `DNA-HERO-FINAL-APPROVALS` | CONCEPT | concept | 1536x1024 |  |  |
+| `DNA-HERO-RECORDS-STAIR` | CONCEPT | concept | 1536x1024 |  |  |
+| `DNA-PATH-QUEUE` | SURFACE | ground | 1024x1024 |  | 2.56 m |
+| `DNA-PLANT-LILY` | TREE | tree | 784x1490 | 0.51,1.00 |  |
+| `DNA-PLANT-OFFICE` | TREE | tree | 866x1484 | 0.48,1.00 |  |
+| `DNA-PROP-DESK` | CUTOUT | prop | 1014x808 | 0.50,1.00 |  |
+| `DNA-PROP-GHOSTLAMP` | CUTOUT | prop | 402x1496 | 0.50,1.00 |  |
+| `DNA-PROP-PAPER` | CUTOUT | prop | 972x1005 | 0.50,1.00 |  |
+| `DNA-PROP-ROPE` | CUTOUT | prop | 961x964 | 0.50,1.00 |  |
+| `DNA-PROP-STAMP` | CUTOUT | prop | 884x996 | 0.50,1.00 |  |
+| `DNA-ROOF-SLATE` | SURFACE | roof | 1024x1024 |  | 2.56 m |
+| `DNA-SHEET-CABINETS` | SHEET | prop | 2048x1365 |  |  |
+| `DNA-SHEET-CABINETS-01` | CUTOUT | prop | 332x686 | 0.50,1.00 |  |
+| `DNA-SHEET-CABINETS-02` | CUTOUT | prop | 565x470 | 0.50,1.00 |  |
+| `DNA-SHEET-CABINETS-03` | CUTOUT | prop | 380x659 | 0.50,1.00 |  |
+| `DNA-SHEET-CABINETS-04` | CUTOUT | prop | 596x510 | 0.50,1.00 |  |
+| `DNA-SHEET-CABINETS-05` | CUTOUT | prop | 329x558 | 0.50,1.00 |  |
+| `DNA-SHEET-CABINETS-06` | CUTOUT | prop | 429x504 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS` | SHEET | door | 2048x1365 |  |  |
+| `DNA-SHEET-DOORS-01` | CUTOUT | door | 497x576 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS-02` | CUTOUT | door | 515x568 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS-03` | CUTOUT | door | 508x568 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS-04` | CUTOUT | door | 538x602 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS-05` | CUTOUT | door | 443x601 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS-06` | CUTOUT | door | 519x562 | 0.50,1.00 |  |
+| `DNA-SHEET-SIGNS` | SHEET | sign | 2048x1365 |  |  |
+| `DNA-SHEET-SIGNS-01` | CUTOUT | sign | 582x594 | 0.00,0.50 |  |
+| `DNA-SHEET-SIGNS-02` | CUTOUT | sign | 579x591 | 0.00,0.50 |  |
+| `DNA-SHEET-SIGNS-03` | CUTOUT | sign | 581x591 | 0.00,0.50 |  |
+| `DNA-SHEET-SIGNS-04` | CUTOUT | sign | 574x590 | 0.00,0.50 |  |
+| `DNA-SHEET-SIGNS-05` | CUTOUT | sign | 578x592 | 0.00,0.50 |  |
+| `DNA-SHEET-SIGNS-06` | CUTOUT | sign | 574x593 | 0.00,0.50 |  |
+| `DNA-SHEET-WINDOWS` | SHEET | window | 2048x1365 |  |  |
+| `DNA-SHEET-WINDOWS-01` | CUTOUT | window | 327x596 | 0.50,1.00 |  |
+| `DNA-SHEET-WINDOWS-02` | CUTOUT | window | 329x596 | 0.50,1.00 |  |
+| `DNA-SHEET-WINDOWS-03` | CUTOUT | window | 327x597 | 0.50,1.00 |  |
+| `DNA-SHEET-WINDOWS-04` | CUTOUT | window | 329x595 | 0.50,1.00 |  |
+| `DNA-SHEET-WINDOWS-05` | CUTOUT | window | 331x595 | 0.50,1.00 |  |
+| `DNA-SHEET-WINDOWS-06` | CUTOUT | window | 329x595 | 0.50,1.00 |  |
+| `DNA-SKY-GLOOM` | BACKDROP | backdrop | 2048x1024 | 0.50,1.00 |  |
+| `DNA-TREE-DEAD` | TREE | tree | 857x1498 | 0.49,1.00 |  |
+| `DNA-TRIM-BRASS` | SURFACE | trim | 1024x512 |  | 2.56 m |
+| `DNA-WALL-GREY` | SURFACE | wall | 1024x1024 |  | 2.56 m |

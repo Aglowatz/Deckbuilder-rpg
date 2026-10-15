@@ -849,3 +849,58 @@ Generated from `data/art/zone_kits/<zone>.json` (written by `bash tools/import_z
 | `GAIN-WALL-BLEACH` | SURFACE | wall | 1024x1024 |  | 2.56 m |
 | `GAIN-WALL-BRICK` | SURFACE | wall | 1024x1024 |  | 2.56 m |
 | `GAIN-WALL-IRON` | SURFACE | wall | 1024x1024 |  | 2.56 m |
+
+### The D.N.A.
+
+**24 of 24** sheet ids imported (48 kit ids with the sheet parts, plus 8 painted-texture aliases), all in the game; missing: none; unmatched files: 6 (the five paint-overs, kept in `docs/art/paintovers/`, and an interior reference). Report: `docs/art/zone_kits/dna_import_report.md`; the slice: `docs/art/dna_slice.md`.
+
+| Kit ID | Lock | Family | px | Pivot | Tile |
+|---|---|---|---|---|---|
+| `DNA-BD-TOWERS` | BACKDROP | backdrop | 2048x680 | 0.50,1.00 |  |
+| `DNA-DEC-COFFEE` | CUTOUT | decal | 897x894 | 0.50,0.50 |  |
+| `DNA-DEC-FOOT` | CUTOUT | decal | 131x950 | 0.50,0.50 |  |
+| `DNA-HERO-ENDLESS-QUEUE` | CONCEPT | concept | 1536x1024 |  |  |
+| `DNA-HERO-FILING-TOWER` | CONCEPT | concept | 1536x1024 |  |  |
+| `DNA-HERO-FINAL-APPROVALS` | CONCEPT | concept | 1536x1024 |  |  |
+| `DNA-HERO-RECORDS-STAIR` | CONCEPT | concept | 1536x1024 |  |  |
+| `DNA-PATH-QUEUE` | SURFACE | ground | 1024x1024 |  | 2.56 m |
+| `DNA-PLANT-LILY` | TREE | tree | 784x1490 | 0.51,1.00 |  |
+| `DNA-PLANT-OFFICE` | TREE | tree | 866x1484 | 0.48,1.00 |  |
+| `DNA-PROP-DESK` | CUTOUT | prop | 1014x808 | 0.50,1.00 |  |
+| `DNA-PROP-GHOSTLAMP` | CUTOUT | prop | 402x1496 | 0.50,1.00 |  |
+| `DNA-PROP-PAPER` | CUTOUT | prop | 972x1005 | 0.50,1.00 |  |
+| `DNA-PROP-ROPE` | CUTOUT | prop | 961x964 | 0.50,1.00 |  |
+| `DNA-PROP-STAMP` | CUTOUT | prop | 884x996 | 0.50,1.00 |  |
+| `DNA-ROOF-SLATE` | SURFACE | roof | 1024x1024 |  | 2.56 m |
+| `DNA-SHEET-CABINETS` | SHEET | prop | 2048x1365 |  |  |
+| `DNA-SHEET-CABINETS-01` | CUTOUT | prop | 332x686 | 0.50,1.00 |  |
+| `DNA-SHEET-CABINETS-02` | CUTOUT | prop | 565x470 | 0.50,1.00 |  |
+| `DNA-SHEET-CABINETS-03` | CUTOUT | prop | 380x659 | 0.50,1.00 |  |
+| `DNA-SHEET-CABINETS-04` | CUTOUT | prop | 596x510 | 0.50,1.00 |  |
+| `DNA-SHEET-CABINETS-05` | CUTOUT | prop | 329x558 | 0.50,1.00 |  |
+| `DNA-SHEET-CABINETS-06` | CUTOUT | prop | 429x504 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS` | SHEET | door | 2048x1365 |  |  |
+| `DNA-SHEET-DOORS-01` | CUTOUT | door | 497x576 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS-02` | CUTOUT | door | 515x568 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS-03` | CUTOUT | door | 508x568 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS-04` | CUTOUT | door | 538x602 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS-05` | CUTOUT | door | 443x601 | 0.50,1.00 |  |
+| `DNA-SHEET-DOORS-06` | CUTOUT | door | 519x562 | 0.50,1.00 |  |
+| `DNA-SHEET-SIGNS` | SHEET | sign | 2048x1365 |  |  |
+| `DNA-SHEET-SIGNS-01` | CUTOUT | sign | 582x594 | 0.00,0.50 |  |
+| `DNA-SHEET-SIGNS-02` | CUTOUT | sign | 579x591 | 0.00,0.50 |  |
+| `DNA-SHEET-SIGNS-03` | CUTOUT | sign | 581x591 | 0.00,0.50 |  |
+| `DNA-SHEET-SIGNS-04` | CUTOUT | sign | 574x590 | 0.00,0.50 |  |
+| `DNA-SHEET-SIGNS-05` | CUTOUT | sign | 578x592 | 0.00,0.50 |  |
+| `DNA-SHEET-SIGNS-06` | CUTOUT | sign | 574x593 | 0.00,0.50 |  |
+| `DNA-SHEET-WINDOWS` | SHEET | window | 2048x1365 |  |  |
+| `DNA-SHEET-WINDOWS-01` | CUTOUT | window | 327x596 | 0.50,1.00 |  |
+| `DNA-SHEET-WINDOWS-02` | CUTOUT | window | 329x596 | 0.50,1.00 |  |
+| `DNA-SHEET-WINDOWS-03` | CUTOUT | window | 327x597 | 0.50,1.00 |  |
+| `DNA-SHEET-WINDOWS-04` | CUTOUT | window | 329x595 | 0.50,1.00 |  |
+| `DNA-SHEET-WINDOWS-05` | CUTOUT | window | 331x595 | 0.50,1.00 |  |
+| `DNA-SHEET-WINDOWS-06` | CUTOUT | window | 329x595 | 0.50,1.00 |  |
+| `DNA-SKY-GLOOM` | BACKDROP | backdrop | 2048x1024 | 0.50,1.00 |  |
+| `DNA-TREE-DEAD` | TREE | tree | 857x1498 | 0.49,1.00 |  |
+| `DNA-TRIM-BRASS` | SURFACE | trim | 1024x512 |  | 2.56 m |
+| `DNA-WALL-GREY` | SURFACE | wall | 1024x1024 |  | 2.56 m |

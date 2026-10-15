@@ -243,6 +243,9 @@ func _heal_at_the_hub(zone: DnaScene) -> void:
 	var hurt: int = Session.zone_run.hp
 	zone.player.position = zone.builder.anchor("lobby_center")
 	zone._spawn_grace = 5.0
+	# the lobby centre is inside the Rift Express unlock radius (the arrival moved onto the approach causeway, DN-6): read the unlock speech before walking
+	await driver.frames(6)
+	await _dismiss_dialogue(zone.dialogue)
 	await _walk_to(zone, zone.builder.anchor("heal"), 1.5)
 	await driver.frames(4)
 	await driver.tap_key(KEY_E)

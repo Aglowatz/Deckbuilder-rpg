@@ -55,3 +55,25 @@ The rules that never change: gameplay, quests, NPC logic, sub-area connections a
 | Sub-areas | `data/subareas/<area>/*.json` |
 | Shots, grade, compare | `tools/zone_shots.gd`, `tools/image_stats.gd`, `tools/side_by_side.gd`, `tools/image_to_jpg.gd`, `tools/kit_bench.tscn` |
 | Checks | `bash tools/run_tests.sh`, `bash tools/fps.sh`, `bash tools/run_subarea_smoke.sh` |
+
+## 5. The declutter rules (apply from the start; learned in the Gainlands corrections and the D.N.A. slice)
+
+Every zone follows these before it is dressed (GC-1 .. GC-10, DN-5 .. DN-8); the tests of `tests/world/test_gainlands_corrections.gd` and `tests/world/test_dna_corrections.gd` are the pattern to copy.
+
+20. **Routes**: main routes at least four hero widths wide (4.2 m roads outdoors, `LINK_WIDTH` 4 cells in a grid plan) with nothing solid inside 2.4 m of an edge; spurs 3.4-3.6 m.
+21. **Breathing room**: 5.5 m of open ground round every NPC, vendor, gate, chest, puzzle, travel point and interactable; interactables at least 2.5 m from each other so their prompts never fight (the barista and the coffee machine, DN-13).
+22. **Clusters, never scatter**: props in a few tidy clusters at walls, doorways and junctions (`<zone>_clusters.json`, placed by the sub-area data and a `<Zone>Dressing` that refuses the plaza middle, the routes, the entrance and every anchor's reach); the generic `ZoneDressing` furniture scatter is off for a zone that has its own; flowers only in clumps along path edges; boards only where they label something (no posters, no memos).
+23. **The hub**: an empty central plaza (`PLAZA_RADIUS` outdoors, the lobby middle in a grid plan) with the hub's things spread round its rim, 4 m or more apart, each facing the plaza.
+24. **Camera occlusion**: smooth transparency, never a dither. Terrain, floors and knee-high walls carry `no_occlusion_fade`; painted cards fade themselves per card (`kit_card.gdshader`); hundreds of small solid pieces in one chunk mesh fade per piece in their own shader (`world/dna/dna_fade.gdshader`, `DnaFadeMesh`: the piece's centre, half width and top in CUSTOM0, the hero position set each frame); buildings fade as a group through `OcclusionFader`. An indoor-feeling area never hides the hero: walls there are knee-high (0.5 m) balustrades, cabinets about 1 m.
+25. **The entrance is walked**: a bridge or an approach causeway with a gate, arrival on it facing the zone, the exit spot at its far end and walking off the end leaves for town (armed only after the hero has been inside); the town passage has no far glow for that zone; no spinning disc anywhere.
+26. **The goal you can see**: the main dungeon is a huge hero model (the House of Gains 48 x 34 x 30 m, the Hall of Final Approvals 64 x 40 x 24 m) beyond the map's edge, hanging off the root (never chunk-culled) with every piece `no_range_cull` and `no_occlusion_fade`; a proper gate or stair at the spot, an icon board beside it, `no_plate` on the spot (the HUD prompt names it), no placeholder blocks, cones, boulders or lettering; it stands as a far landmark (`"far": true`, `no_collide`) behind the sub-areas that face it.
+27. **Every route walked**: the walkability probe (`tests/world/test_walkability_zones.gd`) and a windowed walk smoke with real input (`tools/run_gainlands_walk_smoke.sh`, `tools/run_dna_walk_smoke.sh`: arrival, hub, every NPC and interactable, the dungeon entrances, every sub-area and the way out), which reads any dialogue after a teleport and sidesteps when a straight walk is blocked.
+
+## 6. Keys added by the D.N.A. slice
+
+- Mood `sky.panorama` (+ `panorama_mix`, `panorama_stretch`): a kit SKY picture wrapped round the sky dome over the gradient (`world/look/world_sky.gd`).
+- Sub-area `edge.kind: "balustrade"` (`surface`, `accent`, `lamp`, `spacing`, `height`): a knee-high parapet with posts and lamp cards instead of a tree belt, open at every exit and entry.
+- Sub-area `ground.tint`; the ground kinds `marble`, `checkertile`, `carpet`, `lino`, `queue`.
+- Sub-area landmark `"far": true`: a backdrop landmark beyond the map, never culled or faded (with `no_collide`).
+- `TreeCards.KINDS` entries with `"prop": true`: hero-sized card props drawn as a MultiMesh field (the D.N.A. lamps, desks, cabinets), their sway off.
+- `tools/zone_kit_prep.gd`: a sheet whose use or asset text says "prop" or "cabinet" is sliced as ground props.
