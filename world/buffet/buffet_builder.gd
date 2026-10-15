@@ -50,6 +50,9 @@ func build(parent: Node3D) -> void:
 	_build_signs()
 	_build_chests()
 	_build_landmarks()
+	_build_bridge()
+	_build_moat()
+	_build_landing_stages()
 	_index_obstacles()
 
 
@@ -90,7 +93,8 @@ func is_floor_at(pos: Vector3) -> bool:
 
 
 func map_bounds() -> Rect2:
-	return Rect2(BuffetLayout.MIN_CORNER - Vector2(2, 2), BuffetLayout.MAX_CORNER - BuffetLayout.MIN_CORNER + Vector2(4, 4))
+	var bounds: Rect2 = Rect2(BuffetLayout.MIN_CORNER - Vector2(2, 2), BuffetLayout.MAX_CORNER - BuffetLayout.MIN_CORNER + Vector2(4, 4))
+	return bounds.expand(Vector2(BuffetLayout.BRIDGE_X, BuffetLayout.BRIDGE_Z1 + 4.0))
 
 
 ## The surface a rider stands on: a raft or the lazy susan, if (x, z) is on one right now.
@@ -124,6 +128,9 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 	var surface: BuffetLayout.Surface = layout.surface_at(pos.x, pos.z)
 	if surface == BuffetLayout.Surface.VOID or surface == BuffetLayout.Surface.CLIFF:
 		return false
+	if surface == BuffetLayout.Surface.BRIDGE:
+		# the way in (Part B): the deck between the kerbs; the kerbs are the edge
+		return absf(pos.x - BuffetLayout.BRIDGE_X) <= BuffetLayout.BRIDGE_HALF_WIDTH - BuffetLayout.BRIDGE_RAIL and not _hits_obstacle(pos, body_radius)
 	if BuffetLayout.edge_distance(pos.x, pos.z) < 0.35:
 		return false
 	return not _hits_obstacle(pos, body_radius) and not _hits_gate(pos, body_radius)
@@ -483,26 +490,30 @@ func _ground(x: float, z: float) -> Vector3:
 
 
 func _build_props() -> void:
-	var transforms: Dictionary = {}
+	# The broccoli and cauliflower are painted kit cards in one MultiMesh field each (they fade per card, Part B); the fence posts and the district dividers
+	# become one low biscuit wall (`BuffetLandmarks.district_walls`); everything else is a feature of the layout.
+	var trees: Dictionary = {"buff_broccoli": [], "buff_cauli": []}
+	var posts: Array[Vector3] = []
 	for prop: BuffetLayout.Prop in layout.props:
 		var pos: Vector3 = _ground(prop.pos.x, prop.pos.z)
 		match prop.kind:
 			"broccoli":
-				_collect(transforms, "broccoli", prop, pos, 4.4)
+				(trees["buff_broccoli"] as Array).append({"pos": pos, "scale": clampf(prop.model_scale * 0.78, 0.7, 1.1)})
 			"cauliflower":
-				_collect(transforms, "cauliflower", prop, pos, 3.8)
-			"cabbage":
-				_collect(transforms, "cabbage", prop, pos, 3.6)
-			"cupcake":
-				_collect(transforms, "cupcake", prop, pos, 3.4)
-			"muffin":
-				_collect(transforms, "muffin", prop, pos, 3.4)
-			"cheese_block":
-				_collect(transforms, "cheese", prop, pos, 2.0)
+				(trees["buff_cauli"] as Array).append({"pos": pos, "scale": clampf(prop.model_scale * 0.8, 0.7, 1.05)})
+			"fence_fork", "divider":
+				posts.append(pos)
 			_:
 				_place_feature(prop, pos)
-	for model: String in transforms.keys():
-		_add_multimesh(model, transforms[model] as Array)
+	for kind: String in trees.keys():
+		var entries: Array[Dictionary] = []
+		entries.assign(trees[kind] as Array)
+		KitFoliage.tree_field(root, kind, entries, true)
+	if not posts.is_empty():
+		var walls: Node3D = BuffetLandmarks.district_walls(posts)
+		root.add_child(walls)
+		for piece: Node in walls.find_children("*", "MeshInstance3D", true, false):
+			piece.set_meta(&"no_range_cull", true)
 
 
 func _collect(transforms: Dictionary, model: String, prop: BuffetLayout.Prop, pos: Vector3, base_scale: float) -> void:
@@ -546,6 +557,10 @@ func _place_feature(prop: BuffetLayout.Prop, pos: Vector3) -> void:
 	match prop.kind:
 		"cabinet":
 			node = P.kitchen_row(prop.variant if prop.pos.x < 50.0 else prop.variant + 1)
+		"hall_wing":
+			node = BuffetLandmarks.hall_wing(11.0, prop.variant)
+			_add_circles(node, pos, prop.yaw)
+			_add_steam(node, pos, prop.yaw)
 		"fountain":
 			node = P.soup_fountain()
 			if node.has_node("Stream"):
@@ -690,6 +705,68 @@ func _place_landmark(id: String, at: Vector2, size: Vector3, yaw: float, view: b
 		node.set_meta("lights", [] as Array[Dictionary])
 	landmarks[id] = node
 	return node
+
+
+## The blocking circles a built piece carries (meta "circles", local x, z, radius) at world position `pos` turned by `yaw` degrees.
+func _add_circles(node: Node3D, pos: Vector3, yaw: float) -> void:
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(yaw))
+	for circle: Variant in node.get_meta("circles", []) as Array:
+		var local: Vector3 = circle as Vector3
+		var world: Vector3 = pos + basis * Vector3(local.x, 0.0, local.y)
+		_add_obstacle(Vector3(world.x, world.z, local.z))
+
+
+## Steam from a piece's chimneys (meta "steam", local points).
+func _add_steam(node: Node3D, pos: Vector3, yaw: float) -> void:
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(yaw))
+	for point: Variant in node.get_meta("steam", []) as Array:
+		var world: Vector3 = pos + basis * (point as Vector3)
+		var puff: CPUParticles3D = P.steam(root, world, 6, 1.0, 3.0)
+		puff.name = "Steam_%s_%d" % [node.name, root.get_child_count()]
+
+
+# ---- The way in, the moat and the crossings (Part B) ------------------------------------------------------------------
+
+
+## The biscuit bridge from the table's south rim out over the gravy moat to its far landing (BF-8): the hero arrives on it and walks north into the Dining
+## Hall; its kerbs are the walkable edge (`is_walkable`), its posts block.
+func _build_bridge() -> void:
+	var length: float = BuffetLayout.BRIDGE_Z1 - BuffetLayout.BRIDGE_Z0
+	var bridge: Node3D = BuffetLandmarks.entrance_bridge(length, BuffetLayout.BRIDGE_HALF_WIDTH * 2.0)
+	bridge.name = "Bridge"
+	root.add_child(bridge)
+	bridge.position = Vector3(BuffetLayout.BRIDGE_X, 0.0, BuffetLayout.BRIDGE_Z0)
+	_add_circles(bridge, bridge.position, 0.0)
+
+
+## The gravy moat the bridge crosses: a glossy gravy plane south of the table, a little below the rim's top layer.
+func _build_moat() -> void:
+	var plane: PlaneMesh = PlaneMesh.new()
+	plane.size = Vector2(140.0, 60.0)
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.mesh = plane
+	instance.material_override = M.soup()
+	instance.position = Vector3(50.0, -2.6, BuffetLayout.MAX_CORNER.y + 30.0)
+	instance.name = "GravyMoat"
+	instance.set_meta(&"no_range_cull", true)
+	instance.set_meta(&"no_occlusion_fade", true)
+	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	root.add_child(instance)
+
+
+## A biscuit landing stage on both banks of each crossing (the two raft lanes and the lazy susan), so the way across is obvious (BF-10).
+func _build_landing_stages() -> void:
+	for x: float in [22.0, 50.0, 78.0]:
+		var rz: float = BuffetLayout.river_z(x)
+		for side: float in [-1.0, 1.0]:
+			var stage: Node3D = BuffetLandmarks.landing_stage(2.6, 4.0)
+			stage.name = "LandingStage_%d_%s" % [int(x), "s" if side > 0.0 else "n"]
+			root.add_child(stage)
+			stage.position = Vector3(x, 0.0, rz + side * 6.0)
+			stage.rotation_degrees.y = 0.0 if side > 0.0 else 180.0
+			_add_circles(stage, stage.position, stage.rotation_degrees.y)
+			for piece: Node in stage.find_children("*", "MeshInstance3D", true, false):
+				piece.set_meta(&"no_range_cull", true)
 
 
 # ---- Gates ----------------------------------------------------------------------------------------------

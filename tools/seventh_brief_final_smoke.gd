@@ -105,7 +105,7 @@ func _explore_and_reveal(zone: BuffetScene) -> void:
 	var start_count: int = fog.revealed_count()
 	var start_pois: int = MapView.visible_pois(zone._collect_pois(), fog).size()
 	_check(start_count > 50, "the minimap starts with the hub area revealed (%d cells)" % start_count)
-	_check(start_pois >= 2, "hub points of interest are already on the map (%d)" % start_pois)
+	_check(start_pois >= 1, "the way in is already on the map (%d; the hero arrives on the bridge, the hub reveals as they walk in)" % start_pois)
 	var quiz_spot: ZoneSpot = _spot(zone, "quiz")
 	var quiz_known: bool = MapView.visible_pois(zone._collect_pois(), fog).any(func(poi: MapPoi) -> bool: return poi.kind == MapPoi.Kind.QUIZ)
 	_check(not quiz_known, "the quiz master is NOT on the map before exploring")

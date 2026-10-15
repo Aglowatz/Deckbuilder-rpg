@@ -133,8 +133,8 @@ static func build_def() -> ZoneDef:
 		_spot("dolcetta", "Mirepoix's Dessert & Deckery", "dolcetta", Vector3(-1.6, 0, 0.2), 1.9, "Talk", "vendor_npc", {"npc": "dolcetta", "npc_id": "V-MIREPOIX", "npc_name": NPC_DOLCETTA, "speaker": "Madame Mirepoix"}),
 		_spot("heal", "The Hearty Meal", "heal", Vector3(0, 0, 1.6), 1.9, "Sit down for a hearty meal (full heal)", "heal"),
 		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
-		_spot("mini_dungeon", "The Walk-In Freezer", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Open the freezer door: three courses", "mini_dungeon"),
-		_spot("main_dungeon", "The Test Kitchen", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Enter the Test Kitchen", "main_dungeon"),
+		_spot("mini_dungeon", "The Walk-In Freezer", "mini_dungeon", Vector3(0, 0, 1.6), 1.8, "Open the freezer door: three courses", "mini_dungeon", {"no_plate": true}),  # the Pavilion's door carries an icon board, not lettering (Part B)
+		_spot("main_dungeon", "The Test Kitchen", "main_dungeon", Vector3(0, 0, 1.4), 2.0, "Enter the Test Kitchen", "main_dungeon", {"no_plate": true}),  # the Test Kitchen gate carries an icon board, not lettering (Part B)
 		_spot("puzzle", "The Mystery Stew Pot", "puzzle", Vector3(0, 0, 1.2), 1.9, "Work out the recipe (puzzle)", "puzzle"),
 		_spot("quiz", "Professor Pate, Keeper of the Cookbook", "quiz", Vector3(0.9, 0, 0), 1.8, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-PATE", "speaker": "Professor Pate"}),
 		_spot("minigame", "Chef Flambe Fontaine, Host of Dinner in a Dash", "minigame", Vector3(0, 0, 1.2), 1.9, "Talk", "minigame", {"npc": "minigame", "npc_id": "NPC-FLAMBE", "speaker": "Chef Flambe Fontaine"}),

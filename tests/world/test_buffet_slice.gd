@@ -139,3 +139,188 @@ func test_the_kit_cards_have_hand_heights() -> void:
 	for id: String in ["TEX-BUFF-MASHED", "TEX-BUFF-FROSTING", "TEX-BUFF-BISCUIT", "TEX-BUFF-CHEESE", "TEX-BUFF-GRAVY", "TEX-BUFF-CRUMBSOIL", "DEC-CRUMBS", "DEC-SAUCE"]:
 		assert_eq(EnvKit.zone_of(id), "buffet", "%s is an alias of the Buffet kit" % id)
 		assert_not_null(EnvKit.texture(id), "%s resolves to the painted texture" % id)
+
+
+# ---- Part B: layout and declutter (docs/art/buffet_slice.md) -----------------------------------------------------------------------------------------
+
+
+## The things that stand at an anchor (the fountain at the soup fountain, the stall at the vendor...): their own prop is not clutter round them.
+func _anchored_feature(prop: BuffetLayout.Prop) -> bool:
+	for key: Variant in layout.anchors.keys():
+		var anchor: Vector3 = layout.anchors[key] as Vector3
+		if Vector2(prop.pos.x - anchor.x, prop.pos.z - anchor.z).length() < 4.0:
+			return true
+	return false
+
+
+func test_routes_are_wide_and_nothing_solid_stands_on_them() -> void:
+	var hub: Vector2 = Vector2(50.0, 62.0)
+	for path: Dictionary in layout.paths:
+		var width: float = float(path["width"])
+		assert_gte(width, BuffetLayout.SIDE_PATH_WIDTH, "every route is at least %.1f m wide" % BuffetLayout.SIDE_PATH_WIDTH)
+		var line: PackedVector2Array = path["line"] as PackedVector2Array
+		if line[0] == hub and (line[-1].distance_to(hub) > 18.0 or line[-1].y < 50.0 or line[-1].y > 72.0):
+			assert_gte(width, BuffetLayout.MAIN_PATH_WIDTH, "a road out of the hub (to %s) is at least %.1f m wide (4 hero-widths)" % [str(line[-1]), BuffetLayout.MAIN_PATH_WIDTH])
+	var on_route: Array[String] = []
+	for prop: BuffetLayout.Prop in layout.props:
+		if prop.kind in ["fence_fork", "divider", "mill_pillar"] or _anchored_feature(prop):
+			continue
+		if prop.radius <= 0.0 and prop.kind not in ["broccoli", "cauliflower"]:
+			continue
+		if layout.path_edge_distance(prop.pos.x, prop.pos.z) < BuffetLayout.PATH_CLEARANCE - 0.01:
+			on_route.append("%s at (%.0f, %.0f)" % [prop.kind, prop.pos.x, prop.pos.z])
+	assert_eq(on_route, [] as Array[String], "nothing solid within %.1f m of a route edge" % BuffetLayout.PATH_CLEARANCE)
+
+
+func test_open_ground_round_every_anchor_and_chest() -> void:
+	var crowded: Array[String] = []
+	for key: Variant in layout.anchors.keys():
+		var anchor: Vector3 = layout.anchors[key] as Vector3
+		for prop: BuffetLayout.Prop in layout.props:
+			if prop.kind not in ["broccoli", "cauliflower"]:
+				continue
+			if Vector2(prop.pos.x - anchor.x, prop.pos.z - anchor.z).length() < BuffetLayout.ANCHOR_CLEARANCE - 0.01:
+				crowded.append("%s near %s" % [prop.kind, str(key)])
+	for id: Variant in layout.chests.keys():
+		var chest: Vector3 = layout.chests[id] as Vector3
+		for prop: BuffetLayout.Prop in layout.props:
+			if prop.kind in ["broccoli", "cauliflower"] and Vector2(prop.pos.x - chest.x, prop.pos.z - chest.z).length() < 1.9:
+				crowded.append("%s on chest %s" % [prop.kind, str(id)])
+	assert_eq(crowded, [] as Array[String], "every NPC, gate, pickup and chest can be reached without weaving round trees")
+
+
+func test_nothing_is_scattered_but_broccoli_and_cauliflower_at_the_edges() -> void:
+	var kinds: Dictionary = {}
+	for prop: BuffetLayout.Prop in layout.props:
+		kinds[prop.kind] = int(kinds.get(prop.kind, 0)) + 1
+	for gone: String in ["lollipop", "cabbage", "cupcake", "muffin", "cheese_block", "fork", "spoon", "knife", "donut_arch", "sundae", "hub_pot", "cabinet", "arch", "freezer", "kitchen_door"]:
+		assert_false(kinds.has(gone), "no scattered %s" % gone)
+	# outside the forest, every tree stands in a framing group at an edge: within 9 m of the table's rim, or within 3 m of two others
+	var outside: int = 0
+	for prop: BuffetLayout.Prop in layout.props:
+		if prop.kind not in ["broccoli", "cauliflower"] or Rect2(6.0, 50.0, 26.0, 24.0).has_point(Vector2(prop.pos.x, prop.pos.z)):
+			continue
+		outside += 1
+		var near: int = 0
+		for other: BuffetLayout.Prop in layout.props:
+			if other != prop and other.kind in ["broccoli", "cauliflower"] and Vector2(prop.pos.x - other.pos.x, prop.pos.z - other.pos.z).length() < 6.0:
+				near += 1
+		assert_true(BuffetLayout.edge_distance(prop.pos.x, prop.pos.z) < 9.0 or near >= 2, "%s at (%.0f, %.0f) frames an edge or stands in a group" % [prop.kind, prop.pos.x, prop.pos.z])
+	assert_lte(outside, 42, "a few framing groups, not a scatter (%d trees outside the forest)" % outside)
+
+
+func test_the_hub_plaza_is_open_and_the_hub_things_stand_round_its_rim() -> void:
+	var hub: Vector3 = layout.anchors["hub"] as Vector3
+	var inside: Array[String] = []
+	for prop: BuffetLayout.Prop in layout.props:
+		if prop.kind == "fountain":
+			continue  # the Soup Fountain is the plaza's centrepiece (an interactable at its own anchor)
+		if prop.radius <= 0.0 and prop.kind not in ["broccoli", "cauliflower"]:
+			continue
+		if Vector2(prop.pos.x - hub.x, prop.pos.z - hub.z).length() < BuffetLayout.PLAZA_RADIUS:
+			inside.append("%s at (%.0f, %.0f)" % [prop.kind, prop.pos.x, prop.pos.z])
+	for sign: BuffetLayout.Sign in layout.signs:
+		if sign.key != "sign.fountain" and Vector2(sign.pos.x - hub.x, sign.pos.z - hub.z).length() < BuffetLayout.PLAZA_RADIUS:
+			inside.append(sign.key)
+	assert_eq(inside, [] as Array[String], "nothing solid and no board inside the plaza (%.1f m round the hub) but the fountain" % BuffetLayout.PLAZA_RADIUS)
+	# the hub's things stand round the plaza, not bunched (Tarragon shares the Rift Express's corner: both are quest content and stay)
+	var ring: Array[String] = ["heal", "dolcetta", "oven", "fortune_cookie", "old_meatloaf", "odalys", "rift_station"]
+	for a: String in ring:
+		for b: String in ring:
+			if a < b:
+				var pa: Vector3 = layout.anchors[a] as Vector3
+				var pb: Vector3 = layout.anchors[b] as Vector3
+				assert_gt(Vector2(pa.x - pb.x, pa.z - pb.z).length(), 4.0, "%s and %s have breathing room" % [a, b])
+	# the Dining Hall's two wings stand north of the plaza with the road to the river between them
+	var wings: Array[float] = []
+	for prop: BuffetLayout.Prop in layout.props:
+		if prop.kind == "hall_wing":
+			wings.append(prop.pos.x)
+	assert_eq(wings.size(), 2, "two kitchen wings")
+	assert_true(wings.min() < 50.0 - BuffetLayout.MAIN_PATH_WIDTH and wings.max() > 50.0 + BuffetLayout.MAIN_PATH_WIDTH, "the road north runs between them")
+
+
+func test_few_sign_boards_each_with_a_pictogram() -> void:
+	assert_lte(layout.signs.size(), 12, "the boards that label something (was 37)")
+	var keys: Array[String] = []
+	for sign: BuffetLayout.Sign in layout.signs:
+		assert_true(BuffetBuilder.SIGN_ICONS.has(sign.key), "%s has an icon" % sign.key)
+		assert_ne(sign.style, "memo", "no memos (%s)" % sign.key)
+		keys.append(sign.key)
+	for needed: String in ["sign.hub_main", "sign.golem_oath", "sign.main_dungeon", "sign.mini_dungeon", "sign.exit", "sign.gate_quest"]:
+		assert_has(keys, needed, "%s stays (a quiz answer or a label)" % needed)
+
+
+func test_the_way_in_is_a_walkable_bridge_not_a_portal() -> void:
+	var spawn: Vector3 = layout.anchors["spawn"] as Vector3
+	var exit: Vector3 = layout.anchors["exit"] as Vector3
+	assert_eq(layout.surface_at(spawn.x, spawn.z), BuffetLayout.Surface.BRIDGE, "the hero arrives on the bridge")
+	assert_eq(layout.surface_at(exit.x, exit.z), BuffetLayout.Surface.BRIDGE, "the exit is the far end of the bridge")
+	assert_gt(exit.z, spawn.z, "the exit is behind the arriving hero (town side); the zone opens up ahead")
+	assert_gte((BuffetLayout.BRIDGE_HALF_WIDTH - BuffetLayout.BRIDGE_RAIL) * 2.0, 2.8, "the deck between the kerbs is four hero-widths")
+	assert_gt(BuffetLayout.edge_distance(BuffetLayout.BRIDGE_X, BuffetLayout.BRIDGE_Z0 + 0.5), 0.0, "the near end stands on the table")
+	assert_lt(BuffetLayout.edge_distance(BuffetLayout.BRIDGE_X, BuffetLayout.BRIDGE_Z1 - 1.0), 0.0, "the far end is out over the moat")
+	var builder: BuffetBuilder = BuffetBuilder.new()
+	builder.layout.build()
+	builder._index_obstacles()
+	assert_true(builder.is_walkable(spawn, 0.3), "the arrival point is walkable")
+	assert_true(builder.is_walkable(exit, 0.3), "the exit landing is walkable")
+	assert_false(builder.is_walkable(Vector3(BuffetLayout.BRIDGE_X + BuffetLayout.BRIDGE_HALF_WIDTH, 0.0, BuffetLayout.BRIDGE_Z1 - 8.0), 0.3), "the kerbs hold the hero on the deck")
+	assert_true(builder.map_bounds().has_point(Vector2(exit.x, exit.z)), "the map bounds reach the far landing")
+	for gate_id: String in ["ingredient", "quest", "battle"]:
+		builder.open_gate(gate_id)
+	var can_stand: Callable = func(pos: Vector3) -> bool: return builder.is_walkable(pos, 0.3)
+	var missing: Array[String] = WalkProbe.unreachable(can_stand, spawn, builder.map_bounds(), {"salt": layout.anchors["pickup_sea_salt"], "exit": exit, "main_dungeon": layout.anchors["main_dungeon"], "mini_dungeon": layout.anchors["mini_dungeon"], "quiz": layout.anchors["quiz"], "minigame": layout.anchors["minigame"]})
+	assert_eq(missing, [] as Array[String], "the bridge leads into the plaza and on to every region")
+	assert_almost_eq(builder.height_at(spawn), 0.0, 0.001, "the hero stands on the deck")
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var built: BuffetBuilder = BuffetBuilder.new()
+	built.build(host)
+	var bridge: Node3D = built.root.find_child("Bridge", false, false) as Node3D
+	assert_not_null(bridge, "the zone builds the bridge")
+	if bridge != null:
+		assert_gt((bridge.get_meta("circles", []) as Array).size(), 2, "its posts block")
+		assert_true((bridge.find_child("Body", true, false) as Node).has_meta(&"no_occlusion_fade"), "the deck never dissolves under the hero")
+	# the town side: the Buffet passageway has no glow at its end
+	var passage: Node3D = TownPassages.build("gourmand", "The Endless Buffet", Color.ORANGE, false)
+	add_child_autofree(passage)
+	assert_null(passage.find_child("FarGlow", true, false), "no portal glow at the end of the Buffet passage")
+
+
+func test_a_fresh_visit_starts_on_the_bridge_facing_the_hall() -> void:
+	var scene: BuffetScene = (load("res://scenes/buffet_zone.tscn") as PackedScene).instantiate() as BuffetScene
+	Session.new_game()
+	scene.screenshot_prepare({"nohud": "true"})
+	add_child(scene)
+	await get_tree().process_frame
+	assert_true(BuffetLayout.on_bridge(scene.player.position.x, scene.player.position.z), "a fresh visit starts on the bridge")
+	assert_lt(scene.player.position.z, BuffetLayout.BRIDGE_Z1 - 1.5, "the arrival point is well short of the walk-off end")
+	scene._update_bridge_exit()
+	assert_false(scene._locked, "arriving never trips the walk-off exit")
+	var wake: Vector3 = scene._hub_spawn()
+	assert_lt(Vector2(wake.x - 50.0, wake.z - 64.0).length(), BuffetLayout.PLAZA_RADIUS, "waking after a faint puts the hero in the plaza, not on the bridge")
+	for spot: ZoneSpot in scene.spots:
+		if spot.kind in ["main_dungeon", "mini_dungeon"]:
+			assert_false(spot.plate.visible, "%s: no lettered plate at the door (its board carries a pictogram)" % spot.id)
+	# the trees are painted cards (they fade per card) and the fence is one low wall, not a hundred fork poles
+	assert_not_null(scene.buf.root.find_child("Trees_buff_broccoli_shadow", false, false), "the broccoli are kit cards")
+	assert_not_null(scene.buf.root.find_child("DistrictWalls", false, false), "the fence and the dividers are one wall")
+	assert_null(scene.buf.root.find_child("MM_broccoli", false, false), "no Kenney broccoli multimesh")
+	scene.queue_free()
+	await get_tree().process_frame
+
+
+func test_the_district_wall_is_knee_high_and_the_gates_still_seal() -> void:
+	var walls: Node3D = BuffetLandmarks.district_walls([Vector3(10.0, 0.0, 30.0), Vector3(11.0, 0.0, 30.0), Vector3(12.0, 0.0, 30.0), Vector3(36.0, 0.0, 5.0), Vector3(36.0, 0.0, 6.0)])
+	add_child_autofree(walls)
+	var body: MeshInstance3D = walls.find_child("Body", true, false) as MeshInstance3D
+	assert_not_null(body)
+	if body != null:
+		assert_lte(body.get_aabb().size.y, 1.6, "a biscuit wall with a hedge never hides the hero")
+	var builder: BuffetBuilder = BuffetBuilder.new()
+	builder.layout.build()
+	builder._index_obstacles()
+	for x: float in [10.0, 30.0, 40.0, 60.0, 70.0, 90.0]:
+		assert_false(builder.is_walkable(Vector3(x, 0.0, BuffetLayout.FENCE_Z), 0.3), "the fence line blocks at x %.0f" % x)
+	assert_false(builder.is_walkable(Vector3(22.0, 0.0, BuffetLayout.FENCE_Z), 0.3), "the closed gate blocks its gap")

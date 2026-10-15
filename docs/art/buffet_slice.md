@@ -45,4 +45,31 @@ The "before" shots show the sea plane flooding the table (BF-3), the taped pink 
 
 Checks: 1544 GUT tests, 1541 passing (the one failure is GC-6, the local camera FOV, pre-existing); `bash tools/fps.sh res://scenes/buffet_zone.tscn 1`: 60.0 fps Medium (773 draw calls); `bash tools/run_seventh_brief_final_smoke.sh buffet`: passes (109 checks; its stale Walk-In Freezer step updated for the sealed side dungeon, BF-13).
 
+## Part B: layout and declutter
+
+The playbook's declutter rules (section 5) applied to the one zone before any dressing; every anchor, chest, pad, raft, mesa and gate stays where it was.
+
+- **The way in is walked** (BF-8): a biscuit bridge (`BuffetLandmarks.entrance_bridge`) from the table's south rim out over a gravy moat; a fresh visit starts on it facing north, the exit spot waits at the far landing, walking off the landing leaves for town (`BuffetScene._update_bridge_exit`), the fork arch and the light pillar are gone, and the Buffet's town passage lost its far glow. Waking after a faint puts the hero in the plaza.
+- **The hub** (BF-9): an empty plaza (8.5 m) round the Soup Fountain; the hub's things keep their rim positions; the Grand Dining Hall is two oven-brick kitchen wings (glowing oven arches, sliced sweet windows, copper domes, steaming chimneys, a banquet table under a tablecloth awning) north of the plaza with the road to the river between them; the five cabinets, the pot, the standing forks, the donut arches and the generic Kenney scatter are gone.
+- **Routes** (BF-12): main roads 4.2 m, spurs 3.6 m, nothing solid within 2.4 m of a route edge, 5.5 m of open ground round every anchor, every region on a loop.
+- **Trees and props** (BF-12): the forest keeps 30 broccoli and 12 cauliflower as painted kit cards (one MultiMesh field each, they fade per card); every other tree stands in a framing group at an edge; the lollipops, cabbages, cupcakes, muffins, cheese blocks, sundaes, standing cutlery and the layer-cake stand-ins are gone.
+- **The district walls** (BF-11): the 90 fork pickets and 50 divider posts are one knee-high biscuit wall with a herb hedge (`BuffetLandmarks.district_walls`); the blockers and the three gate gaps are unchanged.
+- **Boards** (BF-9): 37 -> 11, none a memo, every one with a pictogram; the two dungeon doors have no lettered plate (`no_plate`), their boards carry the icons.
+- **Crossings** (BF-10): biscuit landing stages with meringue posts and lanterns on both banks of the two raft lanes and the lazy susan; the rafts and the susan stay (gameplay).
+- **Occlusion**: the tree cards fade per card in their shader, the walls are knee-high and never fade, the wings, the pavilion and the stages fade as a group through the OcclusionFader (plain transparency, no dither), the bridge deck and the landmarks never dissolve.
+
+| Part B | After Part A | After Part B |
+|---|---|---|
+| The hub at the paint-over camera (the plaza, where the painter stood) | ![](buffet_slice/a_PO-BUFFET-HUB.jpg) | ![](buffet_slice/b_PO-BUFFET-HUB.jpg) |
+| The 9 camera combinations (the arrival on the bridge) | ![](buffet_slice/a_buffet.jpg) | ![](buffet_slice/b_buffet.jpg) |
+| The plaza from the fountain (hub) | | ![](buffet_slice/b_region_hub.jpg) |
+| The way in (exit) | | ![](buffet_slice/b_region_exit.jpg) |
+| The Test Kitchen gate (main_dungeon) | ![](buffet_slice/a_region_main_dungeon.jpg) | ![](buffet_slice/b_region_main_dungeon.jpg) |
+| The Walk-In Freezer door (mini_dungeon) | ![](buffet_slice/a_region_mini_dungeon.jpg) | ![](buffet_slice/b_region_mini_dungeon.jpg) |
+| Broccoli Forest (quiz) | ![](buffet_slice/a_region_quiz.jpg) | ![](buffet_slice/b_region_quiz.jpg) |
+| The Gravy Bank (bank_center) | ![](buffet_slice/a_region_bank_center.jpg) | ![](buffet_slice/b_region_bank_center.jpg) |
+| The show kitchen (minigame) | | ![](buffet_slice/b_region_minigame.jpg) |
+
+Checks: 1552 GUT tests, 1551 passing (GC-6 pre-existing); the walkability probe reaches every key location; `bash tools/fps.sh res://scenes/buffet_zone.tscn 1`: 60.0 fps Medium (432 draw calls, was 773); the new windowed walk smoke `bash tools/run_buffet_walk_smoke.sh` (about 4 minutes, real input: the bridge, the plaza, every NPC and the vendor, every interactable, the quiz, Dinner in a Dash, the taste test, the stew pot, the Walk-In Freezer sealed and unlocked, the Test Kitchen gate, the giant chest, the lever, the walk back out over the bridge to town) passes 85 checks; the long Buffet smoke found the two Part B regressions of BF-16 on its first run and its rerun was stopped by the machine's low-memory reaper, so it is rerun in Part E. Tests added in `tests/world/test_buffet_slice.gd` (routes, open ground, scatter, plaza, boards, the bridge, the fresh visit, the walls); `tests/core/zone/test_buffet.gd` lets the spawn and the exit stand on the bridge and floods as far as it.
+
 (Parts B-E follow below as they land.)

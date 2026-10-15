@@ -698,3 +698,239 @@ static func _pavilion(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array
 	circles.append(Vector3(0.0, 0.0, hd * 0.9))
 	circles.append(Vector3(hw * 0.5, 0.0, hd * 0.86))
 	circles.append(Vector3(stair_x, hd + 1.3, 1.3))
+
+
+# ---- The way in: the biscuit bridge over the gravy moat (Part B) ------------------------------------------------------------------------------------
+
+
+## The bridge from the table's south edge out over the gravy moat to its far landing: biscuit slabs on a crust deck with a tablecloth runner down the middle,
+## low biscuit kerbs (the walkable edge), cream meringue posts with strawberries along the sides, copper pillars down into the gravy, a gate of two meringue
+## posts with lanterns and a whisk sign at the near end, and a square landing with two posts at the far end where the way to town begins. Origin at the near
+## end on the rim, the deck toward +z. Meta circles (the posts), "lights" (the lanterns).
+static func entrance_bridge(length: float, width: float) -> Node3D:
+	var mesh: KitMesh = KitMesh.new()
+	_materials(mesh)
+	var circles: Array[Vector3] = []
+	var lights: Array[Dictionary] = []
+	var root: Node3D = Node3D.new()
+	root.name = "Bridge"
+	var half: float = width * 0.5
+	# the deck: crust beams, biscuit slabs, the runner
+	mesh.box("crust", Vector3(0.0, -0.36, length * 0.5), Vector3(width + 0.4, 0.42, length), Basis.IDENTITY, 0.03, 0.85)
+	var slab: float = 2.0
+	var count: int = int(ceilf(length / slab))
+	for index: int in range(count):
+		var z: float = slab * (float(index) + 0.5)
+		mesh.box("biscuit" if index % 3 != 1 else "biscuit_dark", Vector3(0.0, -0.08, minf(z, length - slab * 0.5)), Vector3(width, 0.16, slab - 0.12), Basis.IDENTITY, 0.03, 0.92)
+	mesh.box("cloth", Vector3(0.0, 0.012, length * 0.5), Vector3(width * 0.42, 0.024, length - 0.6), Basis.IDENTITY, 0.0)
+	# the kerbs: low biscuit lips the hero cannot step over (the layout's BRIDGE_RAIL)
+	for side: float in [-1.0, 1.0]:
+		mesh.box("biscuit_dark", Vector3(side * (half - 0.15), 0.12, length * 0.5), Vector3(0.3, 0.28, length), Basis.IDENTITY, 0.03)
+	# meringue posts with strawberries every few metres, copper pillars down into the gravy
+	var post_step: float = 3.6
+	var posts: int = maxi(2, int(round(length / post_step)))
+	for index: int in range(1, posts):
+		var z: float = length * float(index) / float(posts)
+		for side: float in [-1.0, 1.0]:
+			var base: Vector3 = Vector3(side * (half + 0.3), 0.0, z)
+			mesh.lathe("white", base, [Vector2(0.34, 0.0), Vector2(0.4, 0.3), Vector2(0.3, 0.7), Vector2(0.36, 1.0), Vector2(0.2, 1.3), Vector2(0.0, 1.45)], 10, 0.9, true, true)
+			_strawberry(mesh, base + Vector3(0, 1.35, 0), 0.5)
+		mesh.tube("copper_flat", Vector3(0.0, -3.2, z), Vector3(0.0, -0.3, z), 0.35, 8, true)
+		mesh.box("copper_flat", Vector3(0.0, -0.75, z), Vector3(width + 0.2, 0.22, 0.4), Basis.IDENTITY, 0.0)
+	# the gate at the near end: two tall meringue posts with lanterns, a whisk sign on the left one, bunting across
+	var gate_h: float = 3.8
+	for side: float in [-1.0, 1.0]:
+		var foot: Vector3 = Vector3(side * (half + 0.55), 0.0, 0.4)
+		mesh.lathe("white", foot, [Vector2(0.62, 0.0), Vector2(0.7, 0.5), Vector2(0.52, 1.4), Vector2(0.6, 2.4), Vector2(0.42, gate_h - 0.4), Vector2(0.0, gate_h)], 12, 0.88, true, true)
+		mesh.box("cloth", foot + Vector3(0, 0.1, 0), Vector3(1.5, 0.2, 1.5), Basis.IDENTITY, 0.02)
+		_strawberry(mesh, foot + Vector3(0, gate_h - 0.1, 0), 0.9)
+		_lantern(mesh, foot + Vector3(side * 0.9, gate_h * 0.62, 0.0), lights, 0.52)
+		mesh.tube("wood_dark", foot + Vector3(0, gate_h * 0.62 + 0.1, 0), foot + Vector3(side * 0.9, gate_h * 0.62 + 0.1, 0), 0.05, 5, true)
+		circles.append(Vector3(foot.x, foot.z, 0.75))
+	_card(mesh, "BUFF-SHEET-SIGNS-01", Vector3(-(half + 0.55) + 0.55, gate_h * 0.42, 0.95), 1.6, Vector3(0, 0, 1))
+	var from: Vector3 = Vector3(-(half + 0.55), gate_h - 0.3, 0.4)
+	var to: Vector3 = Vector3(half + 0.55, gate_h - 0.3, 0.4)
+	mesh.tube("wood_dark", from, to, 0.04, 4, false)
+	for index: int in range(1, 8):
+		var p: Vector3 = from.lerp(to, float(index) / 8.0) - Vector3(0, 0.25 * sin(PI * float(index) / 8.0), 0)
+		mesh.tri("tomato" if index % 2 == 0 else "herb", [p + Vector3(-0.3, 0.0, 0), p + Vector3(0.3, 0.0, 0), p + Vector3(0, -0.55, 0)], Vector3(0, 0, 1))
+	# the far landing: a biscuit square with two posts, where the way to town begins
+	var landing_z: float = length + 1.6
+	mesh.box("crust", Vector3(0.0, -0.36, landing_z), Vector3(width + 1.6, 0.42, 3.6), Basis.IDENTITY, 0.03, 0.85)
+	mesh.box("biscuit", Vector3(0.0, -0.08, landing_z), Vector3(width + 1.2, 0.16, 3.4), Basis.IDENTITY, 0.03, 0.92)
+	for side: float in [-1.0, 1.0]:
+		var foot: Vector3 = Vector3(side * (half + 0.4), 0.0, landing_z + 1.5)
+		mesh.lathe("white", foot, [Vector2(0.4, 0.0), Vector2(0.46, 0.4), Vector2(0.34, 1.6), Vector2(0.4, 2.4), Vector2(0.0, 2.9)], 10, 0.9, true, true)
+		_strawberry(mesh, foot + Vector3(0, 2.8, 0), 0.7)
+		circles.append(Vector3(foot.x, foot.z, 0.5))
+		mesh.tube("copper_flat", Vector3(side * (half + 0.2), -3.2, landing_z), Vector3(side * (half + 0.2), -0.3, landing_z), 0.3, 8, true)
+	var body: MeshInstance3D = mesh.instance("Body")
+	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	body.set_meta(&"no_occlusion_fade", true)  # the hero walks on it: it must never dissolve under the feet
+	body.set_meta(&"no_range_cull", true)
+	root.set_meta(&"no_wind", true)
+	root.add_child(body)
+	root.set_meta("circles", circles)
+	root.set_meta("lights", lights)
+	root.set_meta("footprint", Vector2(width + 1.6, length + 3.6))
+	root.set_meta("height", gate_h + 0.5)
+	root.set_meta("kind", "bridge")
+	root.set_meta("triangles", mesh.triangle_count())
+	return root
+
+
+# ---- The Grand Dining Hall's kitchen wings (Part B) ------------------------------------------------------------------------------------------------------
+
+
+## One wing of the Dining Hall north of the plaza: an oven-brick kitchen wall `width` long with glowing oven arches, a biscuit upper storey with sweet windows,
+## a tablecloth trim, a copper dome on the end nearest the road (variant 0 = the west wing, its dome at +x; 1 = the east wing, its dome at -x), a chimney
+## with steam (meta "steam") and a long banquet table under an awning along its front. Origin on the ground at the wall's centre, the front +z. Blocks
+## along its length (meta circles).
+static func hall_wing(width: float, variant: int) -> Node3D:
+	var mesh: KitMesh = KitMesh.new()
+	_materials(mesh)
+	var circles: Array[Vector3] = []
+	var lights: Array[Dictionary] = []
+	var steam: Array[Vector3] = []
+	var root: Node3D = Node3D.new()
+	root.name = "HallWing"
+	var half: float = width * 0.5
+	var depth: float = 3.2
+	var wall_h: float = 3.0
+	var upper_h: float = 2.2
+	var dome_side: float = 1.0 if variant == 0 else -1.0
+	# the oven-brick ground floor with three glowing arches, the biscuit upper floor with the sliced windows, the trim and a pie-crust roof
+	mesh.box("oven", Vector3(0, wall_h * 0.5 - 0.2, 0), Vector3(width, wall_h + 0.4, depth), Basis.IDENTITY, 0.05, 0.86)
+	mesh.box("cloth", Vector3(0, wall_h + 0.2, 0), Vector3(width + 0.3, 0.4, depth + 0.3), Basis.IDENTITY, 0.0)
+	mesh.box("biscuit", Vector3(0, wall_h + 0.4 + upper_h * 0.5, 0), Vector3(width - 0.4, upper_h, depth - 0.3), Basis.IDENTITY, 0.05, 0.9)
+	mesh.box("crust", Vector3(0, wall_h + 0.4 + upper_h + 0.3, 0), Vector3(width + 0.4, 0.6, depth + 0.6), Basis.IDENTITY, 0.04)
+	mesh.box("cloth", Vector3(0, wall_h + 0.4 + upper_h + 0.72, 0), Vector3(width + 0.5, 0.24, depth + 0.7), Basis.IDENTITY, 0.0)
+	var arches: int = maxi(2, int(width / 5.0))
+	for index: int in range(arches):
+		var x: float = -half + width * (float(index) + 0.5) / float(arches)
+		mesh.box("oven", Vector3(x, 1.4, depth * 0.5 + 0.12), Vector3(2.4, 2.6, 0.26), Basis.IDENTITY, 0.02)
+		mesh.box("glow", Vector3(x, 1.2, depth * 0.5 + 0.28), Vector3(1.6, 1.6, 0.08), Basis.IDENTITY, 0.0)
+		mesh.lathe("glow", Vector3(x, 2.0, depth * 0.5 + 0.28), [Vector2(0.8, 0.0), Vector2(0.0, 0.5)], 8, 1.0, false, true)
+		lights.append({"pos": Vector3(x, 1.3, depth * 0.5 + 1.0), "color": GLOW, "range": 5.0, "energy": 0.8, "kind": "oven"})
+		var window: String = "BUFF-SHEET-WINDOWS-%02d" % ((index + variant * 2) % 6 + 1)
+		_card(mesh, window, Vector3(x, wall_h + 0.6, depth * 0.5 - 0.1), 1.5, Vector3(0, 0, 1))
+	# the copper dome on a drum at the road end, the chimney at the far end
+	var dome_x: float = dome_side * (half - 2.6)
+	mesh.lathe("biscuit", Vector3(dome_x, wall_h + 0.4 + upper_h + 0.6, 0), [Vector2(2.4, 0.0), Vector2(2.4, 1.2)], 14, 0.9, false, true)
+	mesh.lathe("copper", Vector3(dome_x, wall_h + 0.4 + upper_h + 1.8, 0), [Vector2(2.7, 0.0), Vector2(2.7, 0.5), Vector2(2.4, 1.2), Vector2(1.5, 2.3), Vector2(0.0, 2.8)], 14, 0.92, false, true)
+	mesh.blob("butter", Vector3(dome_x, wall_h + 0.4 + upper_h + 4.9, 0), Vector3(0.4, 0.4, 0.4), 4, 8, 1.0)
+	var chimney_x: float = -dome_side * (half - 2.0)
+	steam.append(_chimney(mesh, Vector3(chimney_x, wall_h + 0.4 + upper_h + 0.6, -0.4), 3.2, 0.5))
+	# the banquet table along the front under a tablecloth awning on cream posts; cloches, cake stands and candles on it (painted card props)
+	var table_z: float = depth * 0.5 + 2.6
+	var table_w: float = width - 3.0
+	mesh.box("cloth", Vector3(0, 0.86, table_z), Vector3(table_w, 0.1, 1.6), Basis.IDENTITY, 0.0)
+	mesh.box("white", Vector3(0, 0.5, table_z), Vector3(table_w - 0.2, 0.62, 1.4), Basis.IDENTITY, 0.02, 0.85)
+	for index: int in range(3):
+		var x: float = -table_w * 0.35 + table_w * 0.35 * float(index)
+		_candle(mesh, Vector3(x, 0.92, table_z), 0.5, 0.06)
+		mesh.lathe("white", Vector3(x + 1.2, 0.9, table_z + 0.2), [Vector2(0.3, 0.0), Vector2(0.32, 0.05), Vector2(0.0, 0.08)], 8, 1.0, false, true)
+		mesh.blob("tomato" if index % 2 == 0 else "pink", Vector3(x + 1.2, 1.02, table_z + 0.2), Vector3(0.2, 0.1, 0.2), 3, 6, 1.0)
+	for side: float in [-1.0, 1.0]:
+		var post: Vector3 = Vector3(side * (table_w * 0.5 + 0.4), 0.0, table_z + 1.1)
+		mesh.tube("white", post, post + Vector3(0, 2.6, 0), 0.1, 6, true)
+		circles.append(Vector3(post.x, post.z, 0.25))
+	_card(mesh, "BUFF-SHEET-AWNINGS-%02d" % (variant * 3 + 1), Vector3(-table_w * 0.5 - 0.4, 2.55, table_z + 1.15), 1.5, Vector3(0, 0, 1))
+	_card(mesh, "BUFF-SHEET-AWNINGS-%02d" % (variant * 3 + 2), Vector3(-table_w * 0.5 - 0.4 + 2.6, 2.55, table_z + 1.15), 1.5, Vector3(0, 0, 1))
+	# the wall and the table block along their length
+	var steps: int = maxi(2, int(width / 2.4))
+	for index: int in range(steps + 1):
+		var x: float = -half + width * float(index) / float(steps)
+		circles.append(Vector3(x, 0.0, 1.9))
+		if index > 0 and index < steps:
+			circles.append(Vector3(x, table_z, 1.1))
+	var body: MeshInstance3D = mesh.instance("Body")
+	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	body.set_meta("occlusion_near", 2.0)
+	root.add_child(body)
+	root.set_meta(&"no_wind", true)
+	root.set_meta("circles", circles)
+	root.set_meta("lights", lights)
+	root.set_meta("steam", steam)
+	root.set_meta("height", wall_h + upper_h + 5.0)
+	root.set_meta("triangles", mesh.triangle_count())
+	return root
+
+
+# ---- The district walls (Part B) ---------------------------------------------------------------------------------------------------------------------------
+
+
+## The picket fence of giant forks and the baguette dividers as ONE low biscuit wall with a herb hedge on top (knee-high: it never hides the hero), built
+## from the layout's post positions: each post becomes a 1 m length of wall, so the blockers are unchanged and the gates' gaps stay open. `posts` are world
+## positions (x, 0, z); runs are broken where posts are more than 1.6 m apart.
+static func district_walls(posts: Array[Vector3]) -> Node3D:
+	var mesh: KitMesh = KitMesh.new()
+	_materials(mesh)
+	var root: Node3D = Node3D.new()
+	root.name = "DistrictWalls"
+	var sorted: Array[Vector3] = posts.duplicate()
+	sorted.sort_custom(func(a: Vector3, b: Vector3) -> bool: return a.x < b.x if absf(a.z - b.z) < 0.5 else a.z < b.z)
+	var index: int = 0
+	var hedge: int = 0
+	while index < sorted.size():
+		var run_start: int = index
+		while index + 1 < sorted.size() and sorted[index].distance_to(sorted[index + 1]) <= 1.6:
+			index += 1
+		var a: Vector3 = sorted[run_start]
+		var b: Vector3 = sorted[index]
+		var along: Vector3 = b - a
+		var length: float = along.length() + 1.0
+		var mid: Vector3 = (a + b) * 0.5
+		var basis: Basis = Basis.IDENTITY if along.length() < 0.01 else Basis.looking_at(along.normalized(), Vector3.UP)
+		mesh.box("biscuit", mid + Vector3(0, 0.25, 0), Vector3(0.7, 0.5, length), basis, 0.04, 0.86)
+		mesh.box("crust", mid + Vector3(0, 0.53, 0), Vector3(0.85, 0.08, length + 0.1), basis, 0.0)
+		var pieces: int = maxi(1, int(length / 1.4))
+		for piece: int in range(pieces):
+			var t: float = (float(piece) + 0.5) / float(pieces)
+			var at: Vector3 = a.lerp(b, t) if along.length() > 0.01 else a
+			hedge += 1
+			var s: float = 0.42 + 0.1 * float(hedge % 3)
+			mesh.blob("herb" if hedge % 4 != 0 else "broccoli_light", at + Vector3(0, 0.57 + s * 0.6, 0), Vector3(s * 1.1, s * 0.9, s * 1.1), 4, 7, 0.88)
+		index += 1
+	var body: MeshInstance3D = mesh.instance("Body")
+	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	body.set_meta(&"no_occlusion_fade", true)  # knee-high: nothing to hide
+	root.add_child(body)
+	root.set_meta(&"no_wind", true)
+	root.set_meta("triangles", mesh.triangle_count())
+	return root
+
+
+# ---- The river crossings (Part B) ---------------------------------------------------------------------------------------------------------------------------
+
+
+## A biscuit landing stage at a crossing: a slab from the bank down to the gravy's edge with two meringue posts and lanterns at its land end, so the raft lane
+## (or the lazy susan) reads as the way across. Origin on the bank at the slab's land end, the slab toward +z (the water side); `length` to the water.
+static func landing_stage(length: float, width: float) -> Node3D:
+	var mesh: KitMesh = KitMesh.new()
+	_materials(mesh)
+	var circles: Array[Vector3] = []
+	var lights: Array[Dictionary] = []
+	var root: Node3D = Node3D.new()
+	root.name = "LandingStage"
+	var half: float = width * 0.5
+	mesh.box("biscuit", Vector3(0, -0.1, length * 0.5), Vector3(width, 0.22, length), Basis.IDENTITY, 0.03, 0.9)
+	mesh.box("crust", Vector3(0, -0.3, length * 0.5), Vector3(width + 0.3, 0.2, length + 0.2), Basis.IDENTITY, 0.02)
+	mesh.box("cloth", Vector3(0, 0.012, length * 0.5), Vector3(width * 0.4, 0.024, length - 0.4), Basis.IDENTITY, 0.0)
+	for side: float in [-1.0, 1.0]:
+		var foot: Vector3 = Vector3(side * (half + 0.3), 0.0, 0.3)
+		mesh.lathe("white", foot, [Vector2(0.36, 0.0), Vector2(0.42, 0.3), Vector2(0.3, 1.2), Vector2(0.34, 2.0), Vector2(0.0, 2.4)], 10, 0.9, true, true)
+		_strawberry(mesh, foot + Vector3(0, 2.3, 0), 0.6)
+		_lantern(mesh, foot + Vector3(side * 0.7, 1.9, 0), lights, 0.42)
+		mesh.tube("wood_dark", foot + Vector3(0, 2.0, 0), foot + Vector3(side * 0.7, 2.0, 0), 0.04, 5, true)
+		circles.append(Vector3(foot.x, foot.z, 0.5))
+		mesh.tube("copper_flat", Vector3(side * (half - 0.3), -1.6, length - 0.4), Vector3(side * (half - 0.3), -0.2, length - 0.4), 0.2, 7, true)
+	var body: MeshInstance3D = mesh.instance("Body")
+	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	body.set_meta(&"no_occlusion_fade", true)
+	root.add_child(body)
+	root.set_meta(&"no_wind", true)
+	root.set_meta("circles", circles)
+	root.set_meta("lights", lights)
+	root.set_meta("triangles", mesh.triangle_count())
+	return root

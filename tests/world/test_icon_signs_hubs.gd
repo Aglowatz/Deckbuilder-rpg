@@ -43,7 +43,7 @@ func _icons(hub: String) -> Dictionary:
 func test_every_hub_sign_is_mapped_to_an_existing_icon() -> void:
 	for hub: String in ["dna", "buffet", "heap", "capital"]:
 		var signs: Array = _signs(hub)
-		assert_gt(signs.size(), 5 if hub == "gainlands" else 20, "%s has its signs (the Gainlands keeps 8 after the corrective pass)" % hub)
+		assert_gt(signs.size(), 5 if hub in ["gainlands", "buffet"] else 20, "%s has its signs (the Gainlands keeps 8 and the Buffet 11 after their declutter passes)" % hub)
 		var icons: Dictionary = _icons(hub)
 		var story: ZoneStoryText = ZoneStoryText.shared() if hub == "dna" else null
 		for sign: Object in signs:
@@ -123,7 +123,7 @@ func test_a_sign_never_steals_the_e_from_the_spot_beside_it() -> void:
 	assert_not_null(at_sign, "something is in reach at the sign")
 	var far_sign: ZoneSpot = null
 	for spot: ZoneSpot in scene.spots:
-		if spot.kind == "sign" and str(spot.data["key"]) == "sign.cheese_note":
+		if spot.kind == "sign" and str(spot.data["key"]) == "sign.gate_ingredient":
 			far_sign = spot
 	assert_not_null(far_sign)
 	if far_sign != null:

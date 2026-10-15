@@ -80,6 +80,9 @@ func test_every_anchor_chest_and_enemy_stands_on_real_ground() -> void:
 	for name: String in layout.anchors.keys():
 		var pos: Vector3 = layout.anchors[name] as Vector3
 		var surface: BuffetLayout.Surface = layout.surface_at(pos.x, pos.z)
+		if name in ["spawn", "exit"]:
+			assert_eq(surface, BuffetLayout.Surface.BRIDGE, "anchor %s is on the bridge (the way in, Part B of the slice)" % name)
+			continue
 		assert_true(surface == BuffetLayout.Surface.GROUND or surface == BuffetLayout.Surface.MESA, "anchor %s is on ground or a mesa top" % name)
 		assert_gt(BuffetLayout.edge_distance(pos.x, pos.z), 1.0, "anchor %s is clear of the table edge" % name)
 	for id: String in layout.chests.keys():
@@ -110,7 +113,7 @@ func test_ground_is_hilly_and_flat_at_the_hub_and_the_banks() -> void:
 
 func _walkable_cell(x: float, z: float) -> bool:
 	var surface: BuffetLayout.Surface = layout.surface_at(x, z)
-	if surface != BuffetLayout.Surface.GROUND and surface != BuffetLayout.Surface.MESA:
+	if surface != BuffetLayout.Surface.GROUND and surface != BuffetLayout.Surface.MESA and surface != BuffetLayout.Surface.BRIDGE:
 		return false
 	return builder.is_walkable(Vector3(x, 0.0, z))
 
@@ -152,7 +155,7 @@ func _reach(use_links: bool) -> Dictionary:
 			var next_key: int = _key(next.x, next.y)
 			if seen.has(next_key):
 				continue
-			if next.x < 0 or next.y < 0 or next.x > 170 or next.y > 135:
+			if next.x < 0 or next.y < 0 or next.x > 170 or next.y > int(BuffetLayout.BRIDGE_Z1 / STEP) + 2:
 				continue
 			if not _walkable_cell((float(next.x) + 0.5) * STEP, (float(next.y) + 0.5) * STEP):
 				continue

@@ -23,6 +23,10 @@ var _busy: bool = false
 var _pad_cooldown: float = 0.0
 var _riding: Dictionary = {}
 var _gate_dialogue_open: bool = false
+## The way in is walked (Part B, BF-8): the bridge's last metre leaves for town by itself; it arms only once the hero has been well inside, so the arrival
+## or a screenshot teleport onto the landing never trips it.
+const BRIDGE_EXIT_ARM: float = 4.0
+var _bridge_exit_armed: bool = false
 
 
 func _zone_id() -> String:
@@ -48,6 +52,10 @@ func _build_zone_extras() -> void:
 		var golem: Node3D = buf.gate_nodes.get(gate.id) as Node3D
 		if golem != null and not buf.is_gate_open(gate.id):
 			golem.rotation.y = 0.0
+	# Arriving over the bridge: the hero faces north so the Dining Hall opens up in front of them; the walk-off exit arms once they have stepped inside.
+	if BuffetLayout.on_bridge(player.position.x, player.position.z):
+		player.face(player.position + Vector3(0.0, 0.0, -2.0))
+		_bridge_exit_armed = player.position.z < BuffetLayout.BRIDGE_Z1 - BRIDGE_EXIT_ARM
 
 
 func _make_puzzle_screen() -> OverlayScreen:
@@ -58,8 +66,30 @@ func _make_minigame_screen() -> OverlayScreen:
 	return OrderGameScreen.new()
 
 
+## Waking after a faint puts the hero in the plaza, not back on the bridge.
 func _hub_spawn() -> Vector3:
-	return builder.anchor("spawn")
+	return builder.anchor("hub") + Vector3(-3.0, 0.0, 4.0)
+
+
+func _update_bridge_exit() -> void:
+	if _locked or dialogue.active or _fainting or player.airborne or _busy:
+		return
+	var pos: Vector3 = player.position
+	if not BuffetLayout.on_bridge(pos.x, pos.z):
+		return
+	if pos.z < BuffetLayout.BRIDGE_Z1 - BRIDGE_EXIT_ARM:
+		_bridge_exit_armed = true
+	elif _bridge_exit_armed and pos.z > BuffetLayout.BRIDGE_Z1 - 1.0:
+		_bridge_exit_armed = false
+		_locked = true
+		player.input_enabled = false
+		Audio.sfx(&"door")
+		Session.leave_zone()
+
+
+## No generic furniture scatter in the Buffet (BF-9): the zone is dressed by its layout (and `BuffetDressing`, Part C) only.
+func _dress_zone() -> void:
+	pass
 
 
 func _prompt_for(spot: ZoneSpot) -> String:
@@ -98,6 +128,7 @@ func _extra_pois() -> Array[MapPoi]:
 
 func _zone_process(delta: float) -> void:
 	_pad_cooldown = maxf(0.0, _pad_cooldown - delta)
+	_update_bridge_exit()
 	if not player.airborne and not _fainting:
 		_find_ride()
 	buf.animate(delta)
@@ -600,6 +631,7 @@ func _pickup_model(ingredient_id: String) -> Node3D:
 
 
 func _teleport(anchor_name: String) -> void:
+	_bridge_exit_armed = false  # a screenshot teleport onto the landing must not walk the hero off the end
 	if anchor_name == "raft_ride":
 		var raft: BuffetLayout.Raft = buf.layout.rafts[0]
 		var pos: Vector2 = buf.layout.raft_position(raft, buf.time)

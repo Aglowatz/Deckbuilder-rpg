@@ -6,9 +6,9 @@ extends RefCounted
 ## fence of giant forks with its three golem gates, anchors, hidden chests, enemy homes, props and signs.
 ## `BuffetBuilder` turns it into meshes; `BuffetScene` makes it playable.
 ##
-## Coordinates: metres, x east, z south, y up. The hub (The Grand Pantry) is in the south; the river cuts
-## the table in two; the three northern districts (Cheddar Cliffs, Layer-Cake Town, Pancake Plateau) lie
-## beyond the river AND behind a golem gate each.
+## Coordinates: metres, x east, z south, y up. The hub (The Grand Pantry, the Grand Dining Hall of the paint-overs) is in the south, reached over the biscuit
+## bridge from town; the river cuts the table in two; the three northern districts (Cheddar Cliffs, Layer-Cake Town, Pancake Plateau) lie beyond the river
+## AND behind a golem gate each. Laid out by the declutter rules of docs/art/zone_rollout_playbook.md section 5 (docs/art/buffet_slice.md, Part B).
 
 const MIN_CORNER: Vector2 = Vector2(4.0, 4.0)
 const MAX_CORNER: Vector2 = Vector2(96.0, 76.0)
@@ -33,6 +33,21 @@ const FENCE_Z: float = 30.0
 const GATE_HALF_WIDTH: float = 2.5
 const GATE_BLOCKER_RADIUS: float = 2.2
 const GATE_XS: Array[float] = [22.0, 50.0, 78.0]
+## The declutter rules (docs/art/zone_rollout_playbook.md section 5): main roads four hero-widths, spurs a little less, nothing solid near a route edge, open
+## ground round every anchor, an empty plaza round the hub with the hub's things on its rim.
+const MAIN_PATH_WIDTH: float = 4.2
+const SIDE_PATH_WIDTH: float = 3.6
+const PATH_CLEARANCE: float = 2.4
+const ANCHOR_CLEARANCE: float = 5.5
+const PLAZA_RADIUS: float = 8.5
+## The way in from town (Part B): a biscuit bridge over the gravy moat from the table's south edge to its far landing. The hero arrives on it and walks north
+## into the Grand Dining Hall; walking off the far end leaves for town. Deck BRIDGE_HALF_WIDTH either side of x = BRIDGE_X, z from BRIDGE_Z0 (on the rim) to
+## BRIDGE_Z1; the kerbs BRIDGE_RAIL wide hold the hero on the deck.
+const BRIDGE_X: float = 50.0
+const BRIDGE_HALF_WIDTH: float = 2.3
+const BRIDGE_Z0: float = 74.0
+const BRIDGE_Z1: float = 92.0
+const BRIDGE_RAIL: float = 0.3
 ## The hero landmarks (docs/art/buffet_slice.md, Part A): where each concept model stands and its size (w, h, d). The Test Kitchen towers beyond the north rim
 ## behind the main_dungeon spot (its threshold slab reaches the FORECOURT, flat table ground); Potato Peak is a view beyond the west rim where the river leaves
 ## the table; the Cake Cathedral stands in the bakery square, the Broccoli Giant at the forest's west edge, the Omakase Pavilion over the Walk-In Freezer door.
@@ -53,7 +68,7 @@ const LANDMARK_SPOTS: Array[Vector3] = [Vector3(39.0, 22.0, 7.4), Vector3(48.5, 
 ## plinth, the Pavilion's stone base in three circles, the Giant's trunk. The builder adds the models' own circles on top.
 const LANDMARK_BLOCKERS: Array[Vector3] = [Vector3(39.0, 22.0, 6.5), Vector3(46.5, 6.0, 2.15), Vector3(48.5, 6.0, 2.25), Vector3(50.5, 6.0, 2.15), Vector3(6.8, 64.0, 2.9)]
 
-enum Surface { VOID, GROUND, MESA, CLIFF, SOUP }
+enum Surface { VOID, GROUND, MESA, CLIFF, SOUP, BRIDGE }
 
 
 class Mesa:
@@ -180,6 +195,18 @@ func build() -> void:
 # ---- Ground ----------------------------------------------------------------------------------
 
 
+## Metres from the nearest route EDGE (negative on the route itself, positive out on the mash): nothing solid stands inside PATH_CLEARANCE.
+func path_edge_distance(x: float, z: float) -> float:
+	var best: float = 1e9
+	for path: Dictionary in paths:
+		var line: PackedVector2Array = path["line"] as PackedVector2Array
+		var half: float = float(path["width"]) * 0.5
+		for i: int in range(line.size() - 1):
+			var closest: Vector2 = Geometry2D.get_closest_point_to_segment(Vector2(x, z), line[i], line[i + 1])
+			best = minf(best, closest.distance_to(Vector2(x, z)) - half)
+	return best
+
+
 ## Metres from the table's edge (positive inside the rounded rectangle).
 static func edge_distance(x: float, z: float) -> float:
 	var center: Vector2 = (MIN_CORNER + MAX_CORNER) * 0.5
@@ -210,7 +237,14 @@ func mesa_at(x: float, z: float) -> Mesa:
 	return null
 
 
+## True on the bridge deck (kerbs included); the deck overlaps the rim so the walk from mash to biscuit is seamless.
+static func on_bridge(x: float, z: float) -> bool:
+	return absf(x - BRIDGE_X) <= BRIDGE_HALF_WIDTH and z >= BRIDGE_Z0 and z <= BRIDGE_Z1
+
+
 func surface_at(x: float, z: float) -> Surface:
+	if on_bridge(x, z):
+		return Surface.BRIDGE
 	if edge_distance(x, z) < 0.0:
 		return Surface.VOID
 	for mesa: Mesa in mesas:
@@ -231,6 +265,8 @@ func _hills(x: float, z: float) -> float:
 ## Rolling mashed-potato hills, flat around buildings and the hub, carved down in the river, a steep wall
 ## around each mesa, a rolled-down rim at the table's edge.
 func ground_height(x: float, z: float) -> float:
+	if on_bridge(x, z):
+		return 0.0
 	var edge: float = edge_distance(x, z)
 	if edge < 0.0:
 		return -5.0 + edge * 0.6
@@ -399,11 +435,13 @@ func _at(name: String, x: float, z: float) -> void:
 
 
 func _anchors() -> void:
-	# The Grand Pantry (hub, south centre).
-	_at("spawn", 50.0, 70.5)
+	# The Grand Dining Hall (hub, south centre). The hero arrives on the bridge from town (Part B) and walks north into the plaza; the exit is the
+	# bridge's far landing (walking off it leaves by itself).
+	_at("spawn", BRIDGE_X, BRIDGE_Z1 - 6.0)
 	_at("rift_station", 44.0, 67.0)
 	_at("hub", 50.0, 64.0)
-	_at("exit", 50.0, 74.2)
+	_at("plaza", 50.0, 70.5)  # where the hub paint-over was painted from (the old spawn): the zone_shots camera
+	_at("exit", BRIDGE_X, BRIDGE_Z1 - 2.0)
 	_at("heal", 41.0, 62.0)
 	_at("dolcetta", 60.5, 63.5)
 	# Brief 16: Shiro Swindle's giant chest, down at the table's front edge, west of the hub.
@@ -512,25 +550,29 @@ func _areas() -> void:
 
 
 func _paths() -> void:
+	# Routes are wide and clear (GC-1): main roads MAIN_PATH_WIDTH, spurs SIDE_PATH_WIDTH, nothing solid within PATH_CLEARANCE of their edges; every
+	# region hangs on a loop (hub - forest - west crossing - bank road - susan - hub; hub - show kitchen - east crossing - bank road).
 	var hub: Vector2 = Vector2(50.0, 62.0)
 	var wz: float = river_z(22.0)
 	var cz: float = river_z(50.0)
 	var ez: float = river_z(78.0)
 	paths = [
-		{"line": PackedVector2Array([hub, Vector2(36.0, 56.0), Vector2(24.0, 60.0), Vector2(19.0, 62.0)]), "width": 2.4},
-		{"line": PackedVector2Array([hub, Vector2(70.0, 62.0), Vector2(82.0, 62.0)]), "width": 2.4},
-		{"line": PackedVector2Array([hub, Vector2(50.0, 54.0), Vector2(50.0, cz + 4.0)]), "width": 2.4},
-		{"line": PackedVector2Array([Vector2(36.0, 56.0), Vector2(26.0, 52.0), Vector2(22.0, wz + 4.0)]), "width": 2.2},
-		{"line": PackedVector2Array([Vector2(70.0, 60.0), Vector2(76.0, 53.0), Vector2(78.0, ez + 4.0)]), "width": 2.2},
-		{"line": PackedVector2Array([Vector2(22.0, wz - 4.0), Vector2(22.0, 34.0), Vector2(50.0, 34.0), Vector2(78.0, 34.0), Vector2(78.0, ez - 4.0)]), "width": 2.2},
-		{"line": PackedVector2Array([Vector2(50.0, cz - 4.0), Vector2(50.0, 34.0)]), "width": 2.2},
-		{"line": PackedVector2Array([Vector2(22.0, 34.0), Vector2(22.0, 22.0), Vector2(23.0, 20.0)]), "width": 2.0},
-		{"line": PackedVector2Array([Vector2(50.0, 34.0), Vector2(50.0, 12.0)]), "width": 2.4},
-		{"line": PackedVector2Array([Vector2(44.0, 12.0), Vector2(57.0, 12.0)]), "width": 2.2},
-		{"line": PackedVector2Array([Vector2(78.0, 34.0), Vector2(78.0, 24.0), Vector2(73.0, 22.0)]), "width": 2.0},
-		{"line": PackedVector2Array([hub, Vector2(56.0, 60.0), Vector2(61.0, 58.5)]), "width": 2.0},
-		{"line": PackedVector2Array([hub, Vector2(58.0, 68.0), Vector2(65.0, 67.5)]), "width": 2.0},
-		{"line": PackedVector2Array([hub, Vector2(42.0, 68.0), Vector2(36.0, 68.0)]), "width": 2.0},
+		{"line": PackedVector2Array([hub, Vector2(50.0, 70.0), Vector2(50.0, 75.0)]), "width": MAIN_PATH_WIDTH},
+		{"line": PackedVector2Array([hub, Vector2(36.0, 56.0), Vector2(24.0, 60.0), Vector2(19.0, 62.0)]), "width": MAIN_PATH_WIDTH},
+		{"line": PackedVector2Array([hub, Vector2(70.0, 62.0), Vector2(82.0, 62.0)]), "width": MAIN_PATH_WIDTH},
+		{"line": PackedVector2Array([hub, Vector2(50.0, 54.0), Vector2(50.0, cz + 4.0)]), "width": MAIN_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(36.0, 56.0), Vector2(26.0, 52.0), Vector2(22.0, wz + 4.0)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(36.0, 56.0), Vector2(36.5, 53.5)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(70.0, 60.0), Vector2(76.0, 53.0), Vector2(78.0, ez + 4.0)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(22.0, wz - 4.0), Vector2(22.0, 34.0), Vector2(50.0, 34.0), Vector2(78.0, 34.0), Vector2(78.0, ez - 4.0)]), "width": MAIN_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(50.0, cz - 4.0), Vector2(50.0, 34.0)]), "width": MAIN_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(22.0, 34.0), Vector2(22.0, 22.0), Vector2(23.0, 20.0)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(50.0, 34.0), Vector2(50.0, 16.0), Vector2(57.0, 12.0), Vector2(57.0, 9.0)]), "width": MAIN_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(50.0, 16.0), Vector2(46.0, 12.5)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([Vector2(78.0, 34.0), Vector2(78.0, 24.0), Vector2(73.0, 22.0)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([hub, Vector2(56.0, 60.0), Vector2(61.0, 58.5)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([hub, Vector2(58.0, 68.0), Vector2(65.0, 67.5)]), "width": SIDE_PATH_WIDTH},
+		{"line": PackedVector2Array([hub, Vector2(42.0, 68.0), Vector2(36.0, 68.0)]), "width": SIDE_PATH_WIDTH},
 	]
 
 
@@ -566,37 +608,31 @@ func _prop(kind: String, x: float, z: float, yaw: float = 0.0, model_scale: floa
 
 
 func _features() -> void:
-	# The Grand Pantry: a kitchen hall of cabinets along the north wall, stalls, a table, the oven, the soup
-	# fountain and the arch back to the Path of the Gourmand.
-	for index: int in range(5):
-		_prop("cabinet", 41.0 + float(index) * 4.5, 55.2, 0.0, 1.0, 1.6, index % 2)
+	# The Grand Dining Hall: an empty plaza round the Soup Fountain with the hub's things on its rim (GC-7); the Dining Hall itself is two oven-brick kitchen
+	# wings north of the plaza with the road to the river running between them under the hall's arch (Part B, BF-8). No poles, cutlery or donut arches.
 	_prop("fountain", 50.0, 64.5, 0.0, 1.0, 1.9)
 	_prop("table", 41.0, 62.0, 90.0, 1.0, 1.5)
 	_prop("stall", 60.5, 65.4, 200.0, 1.0, 1.2)
 	_prop("oven", 58.0, 69.5, 180.0, 1.0, 1.6)
-	_prop("arch", 50.0, 75.4, 0.0, 1.0, 0.0)
 	_prop("dispenser", 65.0, 67.5, 200.0, 1.0, 0.8)
 	_prop("broken_golem", 36.0, 68.0, 20.0, 1.0, 1.3)
-	_prop("hub_pot", 38.0, 60.0, 0.0, 1.0, 0.0)
+	_prop("hall_wing", 40.0, 51.0, 0.0, 1.0, 0.0, 0)
+	_prop("hall_wing", 60.0, 51.0, 0.0, 1.0, 0.0, 1)
 	# Broccoli Forest: the hollowed bread loaf with the quiz master, a second loaf hiding a chest.
 	_prop("gazebo", 19.0, 59.2, 0.0, 1.0, 2.2)
 	_prop("bread_hollow", 11.5, 68.8, 20.0, 1.0, 0.0)
-	# Candy Field: the Dinner in a Dash set, the taste-test station, a giant candy jar.
+	# The show kitchen (the Candy Field): the Dinner in a Dash set, the taste-test station, a giant candy jar.
 	_prop("stage", 82.0, 58.6, 0.0, 1.0, 1.8)
 	_prop("taste_station", 88.0, 55.0, 0.0, 1.0, 1.1)
 	_prop("candy_jar", 75.4, 73.0, 0.0, 1.0, 1.2)
 	# The salt flats: a giant salt shaker hiding a chest.
-	_prop("shaker", 25.4, 53.8, 30.0, 1.0, 0.9, 0)
-	_prop("shaker", 30.2, 50.2, -20.0, 1.0, 0.9, 1)
+	_prop("shaker", 35.5, 50.4, 30.0, 1.0, 0.9, 0)
+	_prop("shaker", 41.0, 49.6, -20.0, 1.0, 0.9, 1)
 	# Butter Butte decoration.
 	_prop("butter_pat", 66.5, 55.6, 0.0, 1.0, 0.0)
-	# The north: Layer-Cake Town (buildings made of cake), the Walk-In Freezer, the shut Kitchen.
-	_prop("layer_cake", 46.0, 24.5, 0.0, 1.0, 2.2, 1)
-	_prop("layer_cake", 56.0, 20.0, 0.0, 1.5, 2.9, 2)
-	_prop("layer_cake", 61.0, 25.5, 0.0, 1.1, 2.4, 3)
-	_prop("layer_cake", 62.0, 16.5, 0.0, 0.9, 2.0, 1)
+	# The cake square (Layer-Cake Town): the layer-cake stand-ins are gone (they crowded the road and the chest); bakery presets come in Part C.
 	# (the Walk-In Freezer stand-in and the taped kitchen door are gone: the Omakase Pavilion and the Test Kitchen hero models stand there, Part A)
-	# Cheddar Cliffs: wheels of cheese, a giant cheese wedge wall.
+	# Cheddar Cliffs: wheels of cheese.
 	_prop("cheese_wheel", 29.5, 12.5, 20.0, 1.3, 2.7, 0)
 	_prop("cheese_wheel", 8.5, 24.0, 10.0, 1.2, 3.0, 2)
 	_prop("cheese_wheel", 31.0, 16.5, 0.0, 0.9, 2.3, 1)
@@ -605,17 +641,7 @@ func _features() -> void:
 	_prop("pancake_stack", 70.0, 10.0, 0.0, 1.0, 2.4, 0)
 	_prop("pancake_stack", 90.0, 28.0, 0.0, 0.9, 2.1, 1)
 	_prop("pancake_stack", 68.0, 26.0, 0.0, 0.8, 1.9, 2)
-	# Gravy Bank dressing: a spilled giant sundae and giant cutlery lying around.
-	_prop("sundae", 34.0, 36.0, 0.0, 1.0, 1.0)
-	_prop("sundae", 88.0, 36.0, 0.0, 0.9, 1.0)
-	# Giant cutlery standing as pillars and plates as paving: dressing along the roads.
-	_prop("fork", 44.0, 54.0, 20.0, 1.0, 0.0)
-	_prop("spoon", 56.0, 54.0, -25.0, 1.0, 0.0)
-	_prop("knife", 33.0, 40.0, 10.0, 1.0, 0.0)
-	_prop("fork", 66.0, 38.0, 0.0, 1.0, 0.0)
-	_prop("donut_arch", 22.0, 56.0, 90.0, 1.0, 0.0)
-	_prop("donut_arch", 70.0, 62.0, 0.0, 1.0, 0.0)
-	# The susan's central pillar (a giant pepper mill) and the ferries' posts.
+	# The susan's central pillar (a giant pepper mill).
 	_prop("mill_pillar", 50.0, river_z(50.0), 0.0, 1.0, SUSAN_PILLAR)
 
 
@@ -654,84 +680,76 @@ func _sign(key: String, x: float, z: float, yaw: float = 180.0, size: float = 1.
 
 
 func _signs() -> void:
-	_sign("sign.hub_main", 50.0, 67.6, 180.0, 1.2)
-	_sign("sign.hub_motto", 46.0, 58.0, 170.0, 1.0, "menu")
-	_sign("sign.exit", 54.0, 73.0, 180.0)
-	_sign("sign.heal_table", 43.5, 63.4, 180.0)
-	_sign("sign.vendor", 63.5, 62.5, 200.0)
-	_sign("sign.oven", 55.5, 71.5, 160.0)
+	# Boards only where they label something (GC-4, DN-5): the Dining Hall board and the Golem Oath on the hall's wings (the quiz answers), the exit at the
+	# bridge head, the fountain, the two dungeon doors, the three golem gates, the river crossing and the jelly pad. 37 -> 11; every other board's words
+	# stay in the story file.
+	_sign("sign.hub_main", 33.0, 57.0, 180.0, 1.2)
+	_sign("sign.golem_oath", 67.0, 57.0, 180.0, 1.0, "poster")
+	_sign("sign.exit", 53.4, 73.0, 180.0)
 	_sign("sign.fountain", 47.6, 67.0, 175.0)
-	_sign("sign.golem_oath", 54.5, 58.2, 190.0, 1.0, "poster")
-	_sign("sign.cookie", 66.8, 66.0, 200.0)
-	_sign("sign.old_meatloaf", 38.0, 66.5, 160.0, 0.9, "memo")
-	_sign("sign.forest", 24.5, 58.0, 150.0)
-	_sign("sign.quiz", 21.5, 63.6, 190.0)
-	_sign("sign.truffle_note", 10.8, 57.8, 190.0, 0.9, "memo")
-	_sign("sign.candy", 76.0, 58.5, 170.0)
-	_sign("sign.studio", 79.0, 64.5, 180.0)
-	_sign("sign.taste_test", 85.5, 55.5, 190.0)
-	_sign("sign.salt", 33.0, 55.0, 160.0)
-	_sign("sign.butte", 64.5, 59.6, 190.0)
-	_sign("sign.pad_rule", 57.6, 60.4, 180.0, 0.9, "memo")
-	_sign("sign.river", 26.0, 51.2, 190.0)
-	_sign("sign.river_warning", 46.0, 50.4, 180.0, 0.9, "memo")
-	_sign("sign.raft_west", 18.8, 50.0, 180.0)
-	_sign("sign.susan", 53.5, 50.2, 200.0)
-	_sign("sign.raft_east", 74.5, 49.0, 180.0)
-	_sign("sign.bank", 40.0, 37.0, 170.0)
+	_sign("sign.main_dungeon", 52.4, 8.6, 180.0, 1.5)
+	_sign("sign.mini_dungeon", 40.8, 10.6, 180.0)
 	_sign("sign.gate_ingredient", 26.0, 33.0, 170.0)
 	_sign("sign.gate_quest", 54.0, 33.0, 190.0)
 	_sign("sign.gate_battle", 74.0, 33.0, 170.0)
-	_sign("sign.cheddar", 18.0, 26.0, 180.0)
-	_sign("sign.cake_town", 46.0, 28.0, 180.0)
-	_sign("sign.pancake", 76.0, 28.0, 180.0)
-	_sign("sign.mini_dungeon", 47.5, 11.6, 180.0)
-	_sign("sign.main_dungeon", 57.0, 12.6, 180.0, 1.5)
-	_sign("sign.inspection_note", 60.0, 12.4, 190.0, 0.9, "memo")
-	_sign("sign.stew", 78.5, 14.6, 180.0)
-	_sign("sign.golem_rule", 50.0, 31.8, 180.0, 0.9, "memo")
-	_sign("sign.cake_menu", 52.0, 26.5, 180.0, 1.0, "menu")
-	_sign("sign.cheese_note", 24.0, 10.5, 190.0, 0.9, "memo")
+	_sign("sign.river", 53.5, 50.2, 200.0)
+	_sign("sign.butte", 64.5, 59.6, 190.0)
 
 
 ## Broccoli forest, candy lollipops, mashed-potato bushes and plates, kept clear of paths, anchors and features.
+## Broccoli and cauliflower: the forest itself (south-west, dense), and framing groups at the edges of spaces only (the table's rim bands, the plaza's
+## corners, the gate approaches); never on a route, never in the plaza, never within reach of an anchor (GC-1, GC-3). Nothing else is scattered.
 func _scatter() -> void:
+	var keep_clear: Array[Vector3] = keep_clear_spots()
+	_scatter_kind("broccoli", Rect2(6.0, 50.0, 26.0, 24.0), 30, keep_clear, 1.6, 0.5, 0.95, 1.4)
+	_scatter_kind("cauliflower", Rect2(6.0, 50.0, 26.0, 24.0), 12, keep_clear, 1.4, 0.55, 0.9, 1.2)
+	# the rim bands: the east and west edges of the middle band, the north edge of the cheese and pancake ends
+	_scatter_kind("broccoli", Rect2(5.0, 36.0, 5.0, 14.0), 4, keep_clear, 2.0, 0.5, 0.9, 1.3)
+	_scatter_kind("broccoli", Rect2(90.0, 36.0, 5.0, 14.0), 4, keep_clear, 2.0, 0.5, 0.9, 1.3)
+	_scatter_kind("cauliflower", Rect2(5.0, 5.0, 26.0, 4.0), 5, keep_clear, 2.0, 0.55, 0.9, 1.2)
+	_scatter_kind("broccoli", Rect2(66.0, 5.0, 28.0, 4.0), 5, keep_clear, 2.0, 0.5, 0.9, 1.3)
+	# framing groves: the plaza's south corners either side of the bridge head, the show kitchen's back, the bank road's junctions
+	_grove("broccoli", Vector2(38.0, 72.5), 3, 2.6, keep_clear)
+	_grove("broccoli", Vector2(62.0, 72.5), 3, 2.6, keep_clear)
+	_grove("cauliflower", Vector2(90.0, 66.0), 3, 2.4, keep_clear)
+	_grove("broccoli", Vector2(31.0, 40.0), 3, 2.6, keep_clear)
+	_grove("broccoli", Vector2(69.0, 40.0), 3, 2.6, keep_clear)
+	_grove("cauliflower", Vector2(12.0, 37.0), 3, 2.4, keep_clear)
+	_grove("cauliflower", Vector2(88.0, 26.0), 3, 2.4, keep_clear)
+
+
+## A tight group of count trees round center (the edge of a space), each kept clear of routes and anchors like the scatter.
+func _grove(kind: String, center: Vector2, count: int, radius: float, keep_clear: Array[Vector3]) -> void:
+	_scatter_kind(kind, Rect2(center - Vector2(radius, radius), Vector2(radius * 2.0, radius * 2.0)), count, keep_clear, 1.3, 0.5, 0.9, 1.3)
+
+
+## Where nothing scattered may stand: round every anchor, chest, feature, enemy home and sign, the plaza, the bridge head, the forecourt and the landmarks.
+func keep_clear_spots() -> Array[Vector3]:
 	var keep_clear: Array[Vector3] = []
 	for key: Variant in anchors.keys():
 		var anchor: Vector3 = anchors[key] as Vector3
-		keep_clear.append(Vector3(anchor.x, anchor.z, 3.4))
+		keep_clear.append(Vector3(anchor.x, anchor.z, ANCHOR_CLEARANCE))
 	for chest_id: Variant in chests.keys():
 		var chest: Vector3 = chests[chest_id] as Vector3
-		keep_clear.append(Vector3(chest.x, chest.z, 1.4))
+		keep_clear.append(Vector3(chest.x, chest.z, 2.0))
 	for feature: Prop in props:
 		if feature.kind == "fence_fork" or feature.kind == "divider":
 			keep_clear.append(Vector3(feature.pos.x, feature.pos.z, 1.2))
 		else:
-			keep_clear.append(Vector3(feature.pos.x, feature.pos.z, 3.0 if feature.radius > 0.0 else 2.0))
+			keep_clear.append(Vector3(feature.pos.x, feature.pos.z, 4.5 if feature.radius > 0.0 else 3.0))
 	for spawn: Dictionary in enemy_spawns:
 		var home: Vector3 = spawn["home"] as Vector3
 		keep_clear.append(Vector3(home.x, home.z, 3.0))
 	for pad: Pad in pads:
 		keep_clear.append(Vector3(pad.pos.x, pad.pos.y, 3.0))
-	keep_clear.append(Vector3(50.0, 64.0, 13.0))
+	for sign: Sign in signs:
+		keep_clear.append(Vector3(sign.pos.x, sign.pos.z, 2.5))
+	keep_clear.append(Vector3(50.0, 64.0, PLAZA_RADIUS + 2.5))
+	keep_clear.append(Vector3(BRIDGE_X, BRIDGE_Z0, 6.0))
+	keep_clear.append(Vector3(57.0, 9.0, 8.0))
 	for spot: Vector3 in LANDMARK_SPOTS:
 		keep_clear.append(Vector3(spot.x, spot.y, spot.z + 1.0))
-	# Broccoli forest (dense, south-west) with cauliflower underbrush.
-	_scatter_kind("broccoli", Rect2(6.0, 50.0, 26.0, 24.0), 46, keep_clear, 1.1, 0.5, 1.0, 1.6)
-	_scatter_kind("cauliflower", Rect2(6.0, 50.0, 26.0, 24.0), 18, keep_clear, 1.0, 0.55, 0.9, 1.3)
-	# A few broccoli trees elsewhere on the table.
-	_scatter_kind("broccoli", Rect2(34.0, 50.0, 56.0, 24.0), 14, keep_clear, 1.4, 0.5, 0.9, 1.4)
-	_scatter_kind("broccoli", Rect2(5.0, 31.0, 90.0, 10.0), 12, keep_clear, 1.4, 0.5, 0.9, 1.4)
-	_scatter_kind("broccoli", Rect2(6.0, 5.0, 28.0, 24.0), 8, keep_clear, 1.4, 0.5, 0.9, 1.3)
-	_scatter_kind("broccoli", Rect2(66.0, 5.0, 28.0, 24.0), 8, keep_clear, 1.4, 0.5, 0.9, 1.3)
-	# Candy field lollipops.
-	_scatter_kind("lollipop", Rect2(70.0, 50.0, 25.0, 24.0), 30, keep_clear, 1.4, 0.35, 0.9, 1.4)
-	# Cauliflower bushes and cabbages over the rest.
-	_scatter_kind("cauliflower", Rect2(34.0, 50.0, 56.0, 24.0), 14, keep_clear, 1.2, 0.55, 0.9, 1.2)
-	_scatter_kind("cabbage", Rect2(5.0, 31.0, 90.0, 12.0), 10, keep_clear, 1.2, 0.55, 0.9, 1.2)
-	_scatter_kind("cupcake", Rect2(37.0, 5.0, 26.0, 24.0), 8, keep_clear, 1.4, 0.55, 1.0, 1.5)
-	_scatter_kind("muffin", Rect2(66.0, 5.0, 28.0, 24.0), 7, keep_clear, 1.4, 0.55, 1.0, 1.4)
-	_scatter_kind("cheese_block", Rect2(6.0, 5.0, 28.0, 24.0), 9, keep_clear, 1.4, 0.8, 1.0, 1.5)
+	return keep_clear
 
 
 func _scatter_kind(kind: String, area: Rect2, count: int, keep_clear: Array[Vector3], gap: float, radius: float, scale_min: float, scale_max: float) -> void:
@@ -741,7 +759,7 @@ func _scatter_kind(kind: String, area: Rect2, count: int, keep_clear: Array[Vect
 		attempts += 1
 		var x: float = _rng.randf_range(area.position.x, area.end.x)
 		var z: float = _rng.randf_range(area.position.y, area.end.y)
-		if edge_distance(x, z) < 2.2 or soup_depth(x, z) > -1.6 or surface_at(x, z) != Surface.GROUND:
+		if edge_distance(x, z) < 2.2 or soup_depth(x, z) > -1.6 or surface_at(x, z) != Surface.GROUND or FORECOURT.has_point(Vector2(x, z)):
 			continue
 		if not _is_clear(x, z, keep_clear):
 			continue
@@ -758,7 +776,7 @@ func _is_clear(x: float, z: float, keep_clear: Array[Vector3]) -> bool:
 		var line: PackedVector2Array = path["line"] as PackedVector2Array
 		for i: int in range(line.size() - 1):
 			var closest: Vector2 = Geometry2D.get_closest_point_to_segment(Vector2(x, z), line[i], line[i + 1])
-			if closest.distance_to(Vector2(x, z)) < float(path["width"]) * 0.5 + 1.0:
+			if closest.distance_to(Vector2(x, z)) < float(path["width"]) * 0.5 + PATH_CLEARANCE:
 				return false
 	return true
 
