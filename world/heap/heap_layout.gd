@@ -81,8 +81,8 @@ const LANDMARK_BLOCKERS: Array[Vector3] = [
 ## Where each region paint-over is shot from (the camera looks north): `bash tools/shot.sh res://scenes/heap_zone.tscn <name> --at=po_<region>`.
 ## Not anchors: they are neither destinations of the walkability probe nor kept-clear ground (docs/art/heap_slice.md lists what each frames).
 const PO_CAMERAS: Dictionary = {
-	"po_hub": Vector2(44.0, 73.0), "po_junk_peaks": Vector2(80.0, 71.0), "po_farm_rows": Vector2(13.0, 72.0),
-	"po_stream": Vector2(50.0, 56.0), "po_wetlands": Vector2(50.0, 27.0), "po_throne_approach": Vector2(31.0, 24.0),
+	"po_hub": Vector2(50.0, 72.5), "po_junk_peaks": Vector2(80.0, 71.0), "po_farm_rows": Vector2(11.5, 70.0),
+	"po_stream": Vector2(50.0, 51.0), "po_wetlands": Vector2(50.0, 22.0), "po_throne_approach": Vector2(32.0, 17.0),
 }
 ## The six regions in reading order (ids of `areas`), for the docs and the tests.
 const REGION_IDS: Array[String] = ["commons", "farm", "peaks", "stream", "wetlands", "throne"]
@@ -497,7 +497,7 @@ func _enemies() -> void:
 		{"type": "golem", "home": Vector3(30.0, 0.0, 55.5), "patrol": 3.5},
 		{"type": "scarecrow", "home": Vector3(79.0, 0.0, 72.0), "patrol": 2.5},
 		{"type": "gulls", "home": Vector3(70.0, 0.0, 52.0), "patrol": 5.0},
-		{"type": "golem", "home": Vector3(31.0, 0.0, 19.0), "patrol": 3.0},
+		{"type": "golem", "home": Vector3(26.0, 0.0, 28.5), "patrol": 3.0},
 		{"type": "scarecrow", "home": Vector3(50.0, 0.0, 20.0), "patrol": 3.0},
 		{"type": "gulls", "home": Vector3(74.0, 0.0, 14.0), "patrol": 5.0},
 		{"type": "gulls", "home": Vector3(40.0, 0.0, 34.5), "patrol": 4.0},

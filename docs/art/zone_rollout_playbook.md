@@ -91,3 +91,12 @@ Every zone follows these before it is dressed (GC-1 .. GC-10, DN-5 .. DN-8); the
 36. **Moving the spawn onto a bridge changes what the smokes assume**: the core zone test's flood grid must reach the bridge, the "reachable" helper must accept the bridge surface, the minimap check at arrival sees the way in rather than the hub, and the paint-over camera becomes a named plaza anchor (`tools/zone_shots.gd`) (BF-16). A dressing piece that stands on a jelly pad (or any pad, chest, pickup) shows up only in the e2e smoke: keep the pads in the keep-clear list of every dressing table.
 37. **Side dungeons are sealed until their quest**: an e2e step that clicks the old "Open the door" button fails on the sealed toast; set the unlock flag like the D.N.A. smoke and click "Enter" (BF-13).
 38. **Paint-over cameras as layout data, not anchors** (`BuffetLayout.PO_CAMERAS`, `--at=po_<region>`): anchors are walkability destinations and keep-clear spots; a camera spot is neither.
+
+## 8. Lessons of the Verdant Dump layout pass (VD-1 ... in `docs/design/open_questions.md`)
+
+39. **Fix the layout before the kit exists.** A zone with no art yet still gets the whole of section 5 first: regions as layout data (`REGION_IDS`, several circles per region), the bridge, the plaza, the routes, the clusters, the boards, stand-ins of the planned sizes with their circles in `LANDMARK_BLOCKERS`, and a slice test that enforces every rule (`tests/world/test_heap_slice.gd` is the pattern); the paint-over inputs are then shot from `PO_CAMERAS` that the art pass reuses.
+40. **Count the dungeons again** (VD-1, as BF-2): the "mini dungeon" spot opens the side dungeon; the stand-in of the side dungeon's landmark stands over that spot.
+41. **A door may move to give a region its own ground** when the thing that really gates it is a quest flag, not the layout (VD-2): say so in the reachability tests.
+42. **The sea plane floods any zone whose land rolls below -0.36** (VD-4, BF-3): check `scenery.water` for every zone before shooting.
+43. **Camera spots are not interact spots** (VD-10): a paint-over camera stands a spot radius off every spot (the near-spot plate shows otherwise), out of the fade reach of the tall piece behind it, and off every enemy home; `tools/screenshot.gd --clean=true` hides the plates and markers.
+44. **The corruption gradient before the art is data** (VD-8): `corruption` in the zone style read by the layout (ground tint and darkening by position, flower density), not a second mood.

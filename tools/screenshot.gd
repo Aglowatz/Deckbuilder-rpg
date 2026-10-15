@@ -16,6 +16,7 @@ var _started: bool = false
 var _hovered: bool = false
 var _reacted: bool = false
 var _went: bool = false
+var _cleaned: bool = false
 
 
 func _initialize() -> void:
@@ -110,6 +111,15 @@ func _process(delta: float) -> bool:
 		return false
 	if _args.has("goto") and _elapsed < _wait + 0.0:
 		return false
+	if str(_args.get("clean", "false")) == "true" and not _cleaned:
+		_cleaned = true
+		# `--clean=true`: no world labels or spot markers in the picture (paint-over inputs, like tools/zone_shots.gd)
+		for label: Node in root.find_children("*", "Label3D", true, false):
+			(label as Label3D).visible = false
+		for mesh: Node in root.find_children("*", "MeshInstance3D", true, false):
+			if (mesh as MeshInstance3D).mesh is PrismMesh:
+				(mesh as MeshInstance3D).visible = false
+		return false  # one more frame so the hidden labels are gone from the picture
 	var image: Image = root.get_texture().get_image()
 	DirAccess.make_dir_recursive_absolute("res://_screenshots")
 	# `--jpg=true` writes a small JPEG instead (for the screenshots committed under docs/art/screens).

@@ -63,4 +63,23 @@ The "before" shot shows the sea plane flooding the land, the tyre arch and the s
 
 ## Part B: paint-over inputs
 
-(next)
+One clean shot per region at Cinematic / Normal, 1600 x 900, the hero visible, no UI, no world labels or spot markers (`bash tools/shot.sh res://scenes/heap_zone.tscn PO-DUMP-<REGION> --at=po_<region> --nohud=true --clean=true --wait=2.6 --set=camera_angle:0,camera_zoom:1.5`; `--clean` is new in `tools/screenshot.gd`, it hides the Label3D plates and the gold markers as `tools/zone_shots.gd` does). Saved to `docs/art/paintover_inputs/heap/` and copied to `G:\My Drive\Card Game Art\Paintover_Inputs\verdant_dump\` (nothing else in the Drive touched). The cameras are layout data (`HeapLayout.PO_CAMERAS`, the hero's standing spot; the camera looks north from behind), so the final art pass shoots the same views; each stands on open ground off every interact spot and enemy line (VD-10) and has the Rotheart in frame.
+
+| File | Camera spot (x, z) | What it frames |
+|---|---|---|
+| `PO-DUMP-HUB.png` | `po_hub` (50, 72.5), on the road just inside the entrance gate | the arrival: the tyre gate's pillars either side, the plaza and the greenhouse centrepiece ahead, the rift station and the boar stable left, the compost bin and the shed right, the Rotheart over the greenhouse |
+| `PO-DUMP-JUNK-PEAKS.png` | `po_junk_peaks` (80, 71), the secret corner by the fridge | Mount Scrapmore with its chute ahead, the fair at its foot left, the compost pit in front, Junk Mountain beyond the north-east corner right, the Rotheart far left |
+| `PO-DUMP-FARM-ROWS.png` | `po_farm_rows` (11.5, 70), the south-west corner by the compost heap | the rusty windmill left, the crop rows and the appliance grove ahead, the barn and the Commons beyond, the Rotheart top right |
+| `PO-DUMP-STREAM.png` | `po_stream` (50, 51), the south bank road at the plaza's north junction | the stream and the centre crossing ahead with Druid Sorrel, the dam and the barn left, the haybale right, the wetlands' junk clusters and the root gate beyond, the Rotheart centre |
+| `PO-DUMP-WETLANDS.png` | `po_wetlands` (50, 22), the wetlands road past the barricade | the reed beds, the junk clusters by the wall either side, the Rotheart's root gate with its hollow ahead and the trunk above; the barricade in the foreground |
+| `PO-DUMP-THRONE-APPROACH.png` | `po_throne_approach` (32, 17), the avenue | the Trash Panda Throne's dais, banners and steps ahead with the Landfill Depths board, Rust Peak's cliff left, the divider right, the Rotheart top right |
+
+| | |
+|---|---|
+| ![](heap_slice/b_PO-DUMP-HUB.jpg) HUB | ![](heap_slice/b_PO-DUMP-JUNK-PEAKS.jpg) JUNK-PEAKS |
+| ![](heap_slice/b_PO-DUMP-FARM-ROWS.jpg) FARM-ROWS | ![](heap_slice/b_PO-DUMP-STREAM.jpg) STREAM |
+| ![](heap_slice/b_PO-DUMP-WETLANDS.jpg) WETLANDS | ![](heap_slice/b_PO-DUMP-THRONE-APPROACH.jpg) THRONE-APPROACH |
+
+**The stand-ins in the pictures** (what the painter replaces): the greenhouse (glass house, 9 x 5.5 x 6.5 m), the Rotheart (giant tree, 44 x 46 x 44 m, pale through the haze at 80 m), its root gate (10 x 6 x 4 m, the violet hollow), Junk Mountain (mound, 48 x 28 x 26 m), the Trash Panda Throne (dumpster-lid dais on can towers, 18 x 14 x 12 m), the rusty windmill (5 x 12 x 5 m), the entrance bridge (16 m) and its tyre gate. The pale divider slabs between the north districts are the old posts (a knee-high wall as the Buffet's, BF-11, is for the art pass).
+
+**fps on Medium** at the six camera spots: 60.0 average and 60.0 minimum at every one (the Part A table above, same spots).
