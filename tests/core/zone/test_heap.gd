@@ -80,6 +80,9 @@ func test_every_anchor_chest_and_enemy_stands_on_real_ground() -> void:
 	for name: String in layout.anchors.keys():
 		var pos: Vector3 = layout.anchors[name] as Vector3
 		var surface: HeapLayout.Surface = layout.surface_at(pos.x, pos.z)
+		if name == "spawn" or name == "exit":
+			assert_eq(surface, HeapLayout.Surface.BRIDGE, "anchor %s is on the entrance bridge" % name)
+			continue
 		assert_true(surface == HeapLayout.Surface.GROUND or surface == HeapLayout.Surface.PEAK or surface == HeapLayout.Surface.ROUGH, "anchor %s is on ground, a summit or the scree" % name)
 		assert_gt(HeapLayout.edge_distance(pos.x, pos.z), 1.0, "anchor %s is clear of the edge" % name)
 	for id: String in layout.chests.keys():
@@ -103,7 +106,7 @@ func _walkable_cell(x: float, z: float) -> bool:
 	if surface == HeapLayout.Surface.HAZARD:
 		if not builder.on_grown_bridge(Vector3(x, 0.0, z)):
 			return false
-	elif surface != HeapLayout.Surface.GROUND and surface != HeapLayout.Surface.PEAK and surface != HeapLayout.Surface.ROUGH:
+	elif surface != HeapLayout.Surface.GROUND and surface != HeapLayout.Surface.PEAK and surface != HeapLayout.Surface.ROUGH and surface != HeapLayout.Surface.BRIDGE:
 		return false
 	return builder.is_walkable(Vector3(x, 0.0, z))
 
@@ -148,7 +151,7 @@ func _reach(bridges: Array[String], ladders: Array[String], mounted: bool, smash
 				neighbours.append(Vector2i(target % 1000, target / 1000))
 		for next: Vector2i in neighbours:
 			var next_key: int = _key(next.x, next.y)
-			if seen.has(next_key) or next.x < 0 or next.y < 0 or next.x > 170 or next.y > 135:
+			if seen.has(next_key) or next.x < 0 or next.y < 0 or next.x > 170 or next.y > 160:
 				continue
 			if not _walkable_cell((float(next.x) + 0.5) * STEP, (float(next.y) + 0.5) * STEP):
 				continue
@@ -196,9 +199,10 @@ func test_the_south_is_reachable_on_foot_and_the_north_and_the_summits_are_not()
 
 func test_a_grown_bridge_opens_the_north_bank_and_the_open_wall_gap_west_but_not_the_rest() -> void:
 	var seen: Dictionary = _reach(["bridge_center"] as Array[String], [] as Array[String], false, [] as Array[String])
-	for anchor: String in ["land_west", "land_center", "land_east", "stable_2", "pickup_bean_3", "pickup_fert_3", "pickup_junk_3", "barricade_dam", "mound_b", "chute_b_end"]:
+	# the Landfill Depths door (the side dungeon's, sealed by its quest) stands at the end of the throne avenue in the open north-west district (VD-2)
+	for anchor: String in ["land_west", "land_center", "land_east", "stable_2", "pickup_bean_3", "pickup_fert_3", "pickup_junk_3", "barricade_dam", "mound_b", "chute_b_end", "mini_dungeon"]:
 		assert_true(_reaches(seen, anchor), "%s is reachable over the centre bridge" % anchor)
-	for anchor: String in ["mini_dungeon", "main_dungeon", "puzzle", "ladder_b_top"]:
+	for anchor: String in ["main_dungeon", "puzzle", "ladder_b_top"]:
 		assert_false(_reaches(seen, anchor), "%s is behind the junk barricade or up Rust Peak" % anchor)
 	assert_true(_chest_reached(seen, "chest_hay"), "the haybale chest is on the north bank")
 	assert_true(_chest_reached(seen, "chest_log"), "the hollow-log chest is in the open west yards")
@@ -234,7 +238,7 @@ func test_the_wall_of_tires_leaves_only_three_gaps_and_the_barricade_plugs_the_m
 
 func test_the_barricade_opens_the_landfill_district_and_the_mount_opens_the_scree() -> void:
 	var seen: Dictionary = _reach(["bridge_center"] as Array[String], [] as Array[String], false, ["gate"] as Array[String])
-	for anchor: String in ["mini_dungeon", "main_dungeon"]:
+	for anchor: String in ["main_dungeon"]:
 		assert_true(_reaches(seen, anchor), "%s is reachable once the barricade is smashed" % anchor)
 	assert_true(_chest_reached(seen, "chest_car"))
 	assert_false(_reaches(seen, "puzzle"), "...but the Seed Shrine is up Rust Peak")

@@ -11,7 +11,7 @@ const HUBS: Dictionary = {
 	"gainlands": ["res://scenes/gainlands_zone.tscn", {"at": "spawn"}],
 	"dna": ["res://scenes/dna_zone.tscn", {"at": "lobby_center"}],  # the paint-over was made from the lobby (the spawn moved onto the approach causeway, DN-6)
 	"buffet": ["res://scenes/buffet_zone.tscn", {"at": "plaza"}],  # the paint-over was made from the plaza (the spawn moved onto the bridge, BF-8)
-	"heap": ["res://scenes/heap_zone.tscn", {"at": "spawn"}],
+	"heap": ["res://scenes/heap_zone.tscn", {"at": "po_hub"}],  # the paint-over is shot from the plaza (the spawn moved onto the entrance bridge, VD-3)
 	"capital_outside": ["res://scenes/capital_zone.tscn", {"at": "spawn"}],
 	"capital_inside": ["res://scenes/capital_zone.tscn", {"at": "gate_inside"}],
 }

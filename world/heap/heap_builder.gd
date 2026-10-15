@@ -25,6 +25,10 @@ var chute_nodes: Dictionary = {}
 ## How far each bridge has grown (0 = bare, 1 = done), by growth id.
 var bridge_progress: Dictionary = {}
 var ladder_progress: Dictionary = {}
+## The stand-in landmarks by id (HEAP-HERO-ROTHEART, HEAP-HERO-JUNK-MOUNTAIN, HEAP-HERO-TRASH-PANDA-THRONE, HEAP-HERO-RUSTY-WINDMILL,
+## HEAP-GREENHOUSE, HEAP-ROOT-GATE), see `_build_landmarks`.
+var landmarks: Dictionary = {}
+var rotheart: Node3D
 
 var _buckets: Dictionary = {}
 var _barricade_blockers: Dictionary = {}
@@ -45,6 +49,9 @@ func build(parent: Node3D) -> void:
 	_build_terrain()
 	_build_hazards()
 	_build_floor()
+	_build_overflow()
+	_build_entrance()
+	_build_landmarks()
 	_build_bridges()
 	_build_ladders()
 	_build_chutes()
@@ -88,11 +95,12 @@ func area_at(pos: Vector3) -> Array[String]:
 
 func is_floor_at(pos: Vector3) -> bool:
 	var surface: HeapLayout.Surface = layout.surface_at(pos.x, pos.z)
-	return surface == HeapLayout.Surface.GROUND or surface == HeapLayout.Surface.PEAK or surface == HeapLayout.Surface.ROUGH
+	return surface == HeapLayout.Surface.GROUND or surface == HeapLayout.Surface.PEAK or surface == HeapLayout.Surface.ROUGH or surface == HeapLayout.Surface.BRIDGE
 
 
 func map_bounds() -> Rect2:
-	return Rect2(HeapLayout.MIN_CORNER - Vector2(2, 2), HeapLayout.MAX_CORNER - HeapLayout.MIN_CORNER + Vector2(4, 4))
+	var bounds: Rect2 = Rect2(HeapLayout.MIN_CORNER - Vector2(2, 2), HeapLayout.MAX_CORNER - HeapLayout.MIN_CORNER + Vector2(4, 4))
+	return bounds.expand(Vector2(HeapLayout.ENTRANCE_X, HeapLayout.ENTRANCE_Z1 + 4.0))
 
 
 ## True when (x, z) lies on a stretch of vine bridge that has already grown.
@@ -104,7 +112,10 @@ func on_grown_bridge(pos: Vector3) -> bool:
 
 
 func height_at(pos: Vector3) -> float:
-	if layout.surface_at(pos.x, pos.z) == HeapLayout.Surface.HAZARD and on_grown_bridge(pos):
+	var surface: HeapLayout.Surface = layout.surface_at(pos.x, pos.z)
+	if surface == HeapLayout.Surface.BRIDGE:
+		return 0.0
+	if surface == HeapLayout.Surface.HAZARD and on_grown_bridge(pos):
 		return HeapLayout.BRIDGE_HEIGHT
 	return layout.ground_height(pos.x, pos.z)
 
@@ -122,6 +133,9 @@ func add_blocker(pos: Vector3, radius: float) -> void:
 ## on a mount.
 func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
 	var surface: HeapLayout.Surface = layout.surface_at(pos.x, pos.z)
+	if surface == HeapLayout.Surface.BRIDGE:
+		# the way in: the deck between the kerbs; the kerbs are the edge
+		return absf(pos.x - HeapLayout.ENTRANCE_X) <= HeapLayout.ENTRANCE_HALF_WIDTH - HeapLayout.ENTRANCE_RAIL and not _hits_obstacle(pos, body_radius)
 	if surface == HeapLayout.Surface.VOID or surface == HeapLayout.Surface.CLIFF:
 		return false
 	if surface == HeapLayout.Surface.ROUGH and not mounted:
@@ -280,26 +294,27 @@ func _terrain_color(centroid: Vector3) -> Color:
 	var area: HeapLayout.Area = layout.area_at(x, z)
 	if area != null:
 		match area.id:
-			"fields":
+			"farm":
 				var cell: int = (int(floorf(x / 4.0)) * 3 + int(floorf(z / 4.0)) * 5) % 4
 				color = [H.GOLD_FIELD, H.GRASS, H.DIRT, H.MEADOW][absi(cell)].lightened(jitter)
-			"hub":
-				color = H.DIRT.lerp(H.STRAW, 0.35 + _noise(floorf(x * 1.5), floorf(z * 1.5)) * 0.3)
-			"rust", "rust_top":
+			"peaks":
+				color = color.lerp(H.RUST if z > HeapLayout.WALL_Z else H.STONE.lerp(H.DIRT, _noise(x, z) * 0.6), 0.35)
+			"throne":
 				color = color.lerp(H.RUST, 0.3)
-			"landfill":
-				color = color.lerp(H.RUST_DARK, 0.45)
-			"scree":
-				color = H.STONE.lerp(H.DIRT, _noise(x, z) * 0.6).lightened(jitter)
-			"fair":
-				color = color.lerp(H.STRAW, 0.45)
+			"wetlands":
+				color = color.lerp(H.SLUDGE.lightened(0.15), 0.35 + 0.25 * _noise(floorf(x * 0.5), floorf(z * 0.5)))
 	if surface == HeapLayout.Surface.ROUGH:
 		color = H.STONE.lerp(H.DIRT, _noise(x * 1.3, z * 1.3) * 0.7).lightened(jitter)
 	if depth > -2.0:
 		color = color.lerp(H.DIRT_DARK, smoothstep(-2.0, -0.4, depth) * 0.7)
-	var hub_distance: float = Vector2(x - 50.0, z - 64.0).length()
-	if hub_distance < 12.5:
-		color = color.lerp(H.DIRT.lerp(H.STRAW, 0.4), 1.0 - smoothstep(9.0, 12.5, hub_distance))
+	# the corruption gradient (data/zone_styles/heap.json): violet and dark toward the Rotheart
+	var twist: float = layout.corruption_at(x, z)
+	if twist > 0.0:
+		var tint: Color = Color.html(str(layout.corruption.get("tint", "#5a2f6e")))
+		color = color.lerp(tint, twist * float(layout.corruption.get("ground", 0.5))).darkened(twist * float(layout.corruption.get("darken", 0.2)))
+	var plaza_distance: float = Vector2(x - HeapLayout.PLAZA_CENTER.x, z - HeapLayout.PLAZA_CENTER.y).length()
+	if plaza_distance < HeapLayout.PLAZA_RADIUS + 3.0:
+		color = color.lerp(H.DIRT.lerp(H.STRAW, 0.4 + _noise(floorf(x * 1.5), floorf(z * 1.5)) * 0.25), 1.0 - smoothstep(HeapLayout.PLAZA_RADIUS, HeapLayout.PLAZA_RADIUS + 3.0, plaza_distance))
 	var path: float = layout.path_weight(x, z)
 	if path > 0.0 and surface == HeapLayout.Surface.GROUND:
 		color = color.lerp(H.DIRT.lightened(0.1 + jitter), path * 0.85)
@@ -332,6 +347,8 @@ func _build_terrain() -> void:
 	instance.mesh = surface.commit()
 	instance.material_override = H.terrain()
 	instance.name = "Land"
+	instance.set_meta(&"no_range_cull", true)
+	instance.set_meta(&"no_occlusion_fade", true)
 	root.add_child(instance)
 
 
@@ -363,6 +380,8 @@ func _build_rim() -> void:
 		instance.mesh = surface.commit()
 		instance.material_override = H.terrain()
 		instance.name = "RimLayer"
+		instance.set_meta(&"no_range_cull", true)
+		instance.set_meta(&"no_occlusion_fade", true)
 		root.add_child(instance)
 
 
@@ -389,7 +408,86 @@ func _build_floor() -> void:
 	instance.material_override = H.flat(Color(0.22, 0.36, 0.2))
 	instance.position = Vector3(50.0, -26.0, 40.0)
 	instance.name = "FarGround"
+	instance.set_meta(&"no_range_cull", true)
+	instance.set_meta(&"no_occlusion_fade", true)
 	root.add_child(instance)
+
+
+# ---- The way in and the landmarks (docs/art/heap_slice.md, Part A) -------------------------------------------
+
+
+## The overflow pool the entrance bridge crosses: a sludge-green plane south of the rim, below the rim's top layer.
+func _build_overflow() -> void:
+	var plane: PlaneMesh = PlaneMesh.new()
+	plane.size = Vector2(140.0, 60.0)
+	var instance: MeshInstance3D = MeshInstance3D.new()
+	instance.mesh = plane
+	instance.material_override = StyleWater.material(Color("6a9a78"), Color("2a4a3a"))
+	instance.position = Vector3(50.0, -2.6, HeapLayout.MAX_CORNER.y + 30.0)
+	instance.name = "OverflowPool"
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.set_meta(&"no_range_cull", true)
+	instance.set_meta(&"no_occlusion_fade", true)
+	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	root.add_child(instance)
+
+
+## The plank bridge from the land's south rim out over the overflow pool to its far landing: the hero arrives on it and walks north into the
+## Commons; its kerbs are the walkable edge (`is_walkable`), its gate pillars and landing posts block.
+func _build_entrance() -> void:
+	var length: float = HeapLayout.ENTRANCE_Z1 - HeapLayout.ENTRANCE_Z0
+	var bridge: Node3D = HeapLandmarks.entrance_bridge(length, HeapLayout.ENTRANCE_HALF_WIDTH * 2.0)
+	root.add_child(bridge)
+	bridge.position = Vector3(HeapLayout.ENTRANCE_X, 0.0, HeapLayout.ENTRANCE_Z0)
+	_add_circles(bridge, bridge.position, 0.0)
+	_never_cull(bridge, true)
+
+
+## The stand-ins: the Rotheart and Junk Mountain as views beyond the rim (never culled or faded), the throne beyond the north-west rim with its
+## steps on the land, the root gate, the windmill and the greenhouse on flat kept-clear ground with their circles solid (the layout's
+## LANDMARK_BLOCKERS carry the same circles for the layout-only readers).
+func _build_landmarks() -> void:
+	rotheart = _place_landmark("HEAP-HERO-ROTHEART", HeapLandmarks.rotheart(HeapLayout.ROTHEART_SIZE), HeapLayout.ROTHEART, 0.0, true)
+	_place_landmark("HEAP-HERO-JUNK-MOUNTAIN", HeapLandmarks.junk_mountain(HeapLayout.JUNK_MOUNTAIN_SIZE), HeapLayout.JUNK_MOUNTAIN, 25.0, true)
+	_place_landmark("HEAP-HERO-TRASH-PANDA-THRONE", HeapLandmarks.throne(HeapLayout.THRONE_SIZE), HeapLayout.THRONE, 0.0, true)
+	_place_landmark("HEAP-ROOT-GATE", HeapLandmarks.root_gate(HeapLayout.ROOT_GATE_SIZE), HeapLayout.ROOT_GATE, 0.0, false)
+	var windmill: Node3D = _place_landmark("HEAP-HERO-RUSTY-WINDMILL", HeapLandmarks.windmill(HeapLayout.WINDMILL_SIZE), HeapLayout.WINDMILL, 0.0, false)
+	if windmill != null and windmill.has_meta("spinner"):
+		_spinners.append(windmill.get_meta("spinner") as Node3D)
+	_place_landmark("HEAP-GREENHOUSE", HeapLandmarks.greenhouse(HeapLayout.GREENHOUSE_SIZE), HeapLayout.GREENHOUSE, 0.0, false)
+
+
+## A landmark at (x, z) turned by `yaw`, hanging off the root (never chunk-culled): a view stands at y 0 off the land and never fades; a region
+## landmark stands on the (flat) ground with its circles solid.
+func _place_landmark(id: String, node: Node3D, at: Vector2, yaw: float, view: bool) -> Node3D:
+	if node == null:
+		return null
+	root.add_child(node)
+	node.position = Vector3(at.x, 0.0 if view else layout.ground_height(at.x, at.y), at.y)
+	node.rotation_degrees.y = yaw
+	_add_circles(node, node.position, yaw)
+	_never_cull(node, view)
+	landmarks[id] = node
+	return node
+
+
+## The blocking circles a built piece carries (meta "circles", local x, z, radius) at world position `pos` turned by `yaw` degrees.
+func _add_circles(node: Node3D, pos: Vector3, yaw: float) -> void:
+	var basis: Basis = Basis(Vector3.UP, deg_to_rad(yaw))
+	for circle: Variant in node.get_meta("circles", []) as Array:
+		var local: Vector3 = circle as Vector3
+		var world: Vector3 = pos + basis * Vector3(local.x, 0.0, local.y)
+		_add_obstacle(Vector3(world.x, world.z, local.z))
+
+
+## Every mesh of a piece opts out of the range cull (and of the camera fade when `never_fade`): the far views and the floor the hero walks on.
+func _never_cull(node: Node3D, never_fade: bool) -> void:
+	var pieces: Array[Node] = node.find_children("*", "MeshInstance3D", true, false)
+	pieces.append(node)
+	for piece: Node in pieces:
+		piece.set_meta(&"no_range_cull", true)
+		if never_fade:
+			piece.set_meta(&"no_occlusion_fade", true)
 
 
 # ---- Hazards ----------------------------------------------------------------------------------------
@@ -419,6 +517,8 @@ func _build_hazards() -> void:
 	stream.material_override = StyleWater.material(Color("62c0a4"), Color("1b6670"))
 	stream.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	stream.name = "RecyclingStream"
+	stream.set_meta(&"no_range_cull", true)
+	stream.set_meta(&"no_occlusion_fade", true)
 	root.add_child(stream)
 	for pit: Vector3 in layout.pits:
 		var disc: CylinderMesh = CylinderMesh.new()
@@ -431,6 +531,8 @@ func _build_hazards() -> void:
 		instance.material_override = H.sludge()
 		instance.position = Vector3(pit.x, HeapLayout.WATER_LEVEL, pit.y)
 		instance.name = "CompostPit"
+		instance.set_meta(&"no_range_cull", true)
+		instance.set_meta(&"no_occlusion_fade", true)
 		root.add_child(instance)
 		B.steam(root, Vector3(pit.x, 0.2, pit.y), 6, pit.z * 0.5, 0.7)
 		for index: int in range(5):
@@ -458,6 +560,7 @@ func _build_bridges() -> void:
 	for bridge: HeapLayout.Bridge in layout.bridges:
 		var node: Node3D = P.vine_bridge(2.0 * HeapLayout.BRIDGE_REACH)
 		node.name = bridge.id
+		_never_cull(node, true)
 		root.add_child(node)
 		node.position = Vector3(bridge.x, HeapLayout.BRIDGE_HEIGHT, HeapLayout.stream_z(bridge.x) + HeapLayout.BRIDGE_REACH)
 		bridge_nodes[bridge.id] = node
@@ -516,6 +619,7 @@ func _build_chutes() -> void:
 	for chute: HeapLayout.Chute in layout.chutes:
 		var node: Node3D = P.chute(chute_points(chute))
 		node.name = chute.id
+		_never_cull(node, false)
 		root.add_child(node)
 		chute_nodes[chute.id] = node
 

@@ -40,8 +40,8 @@ static func build(zone_id: String, title: String, tint: Color, locked: bool) -> 
 			_rock_arch(dressing)
 	_path(dressing, tint)
 	_sign(root, title, tint)
-	if zone_id != "beefcake" and zone_id != "gourmand":
-		_far_glow(root, tint, locked)  # the Gainlands and Buffet ways in are plain bridges, no glow at the end of them (GC-8, BF-8)
+	if zone_id != "beefcake" and zone_id != "gourmand" and zone_id != "refusemancer":
+		_far_glow(root, tint, locked)  # the Gainlands and Buffet ways in are plain bridges, no glow at the end of them (GC-8, BF-8, VD-3)
 	return root
 
 

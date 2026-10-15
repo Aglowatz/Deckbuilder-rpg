@@ -12,8 +12,12 @@ const SAFE_INTERVAL: float = 0.2
 const HAZARD_SAFE_DISTANCE: float = 2.0
 const CHUTE_COOLDOWN: float = 1.2
 const MOUNT_SPEED: float = 1.8
+## The way in is walked (VD-3): the entrance bridge's last metre leaves for town by itself; it arms only once the hero has been well inside, so the
+## arrival never trips it.
+const ENTRANCE_EXIT_ARM: float = 4.0
 
 var heap: HeapBuilder
+var _entrance_exit_armed: bool = false
 var last_safe: Vector3 = Vector3.ZERO
 var _safe_timer: float = 0.0
 var _falling: bool = false
@@ -50,6 +54,27 @@ func _build_zone_extras() -> void:
 	_add_hats()
 	_restore_growth_and_barricades()
 	_refresh_crops()
+	# Arriving over the entrance bridge: the hero faces north so the Commons opens up in front of them; the walk-off exit arms once they have stepped inside.
+	if HeapLayout.on_entrance(player.position.x, player.position.z):
+		player.face(player.position + Vector3(0.0, 0.0, -2.0))
+		_entrance_exit_armed = player.position.z < HeapLayout.ENTRANCE_Z1 - ENTRANCE_EXIT_ARM
+
+
+## Walking off the far end of the entrance bridge leaves for town (armed only after the hero has been well inside the zone).
+func _update_entrance_exit() -> void:
+	if _locked or dialogue.active or _fainting or player.airborne or _busy or _falling:
+		return
+	var pos: Vector3 = player.position
+	if not HeapLayout.on_entrance(pos.x, pos.z):
+		return
+	if pos.z < HeapLayout.ENTRANCE_Z1 - ENTRANCE_EXIT_ARM:
+		_entrance_exit_armed = true
+	elif _entrance_exit_armed and pos.z > HeapLayout.ENTRANCE_Z1 - 1.0:
+		_entrance_exit_armed = false
+		_locked = true
+		player.input_enabled = false
+		Audio.sfx(&"door")
+		Session.leave_zone()
 
 
 func _make_puzzle_screen() -> OverlayScreen:
@@ -60,8 +85,9 @@ func _make_minigame_screen() -> OverlayScreen:
 	return SortGameScreen.new()
 
 
+## Waking after a faint puts the hero in the plaza, not back on the entrance bridge.
 func _hub_spawn() -> Vector3:
-	return builder.anchor("spawn")
+	return builder.anchor("hub")
 
 
 func is_riding() -> bool:
@@ -107,6 +133,7 @@ func _zone_process(delta: float) -> void:
 	_chute_cooldown = maxf(0.0, _chute_cooldown - delta)
 	_barricade_hint_cooldown = maxf(0.0, _barricade_hint_cooldown - delta)
 	heap.animate(delta)
+	_update_entrance_exit()
 	_update_mount()
 	_crop_timer -= delta
 	if _crop_timer <= 0.0:
@@ -766,6 +793,14 @@ func _pickup_model(kind: String) -> Node3D:
 
 
 func _teleport(anchor_name: String) -> void:
+	_entrance_exit_armed = false  # a screenshot teleport onto the landing must not walk the hero off the end
+	if HeapLayout.PO_CAMERAS.has(anchor_name):
+		var at: Vector2 = HeapLayout.PO_CAMERAS[anchor_name] as Vector2
+		player.position = Vector3(at.x, heap.layout.ground_height(at.x, at.y), at.y)
+		player.face(player.position + Vector3(0.0, 0.0, -2.0))
+		_camera.position = player.position + CameraRig.shape(camera_offset)
+		_spawn_grace = 30.0
+		return
 	if anchor_name == "bridge_center_mid":
 		var zc: float = HeapLayout.stream_z(50.0)
 		player.position = Vector3(50.0, 0.12, zc)

@@ -338,7 +338,7 @@ func test_the_bridge_model_stands_in_the_zone_and_on_the_town_side() -> void:
 	var passage: Node3D = TownPassages.build("beefcake", "The Gainlands", Color.RED, false)
 	add_child_autofree(passage)
 	assert_null(passage.find_child("FarGlow", true, false), "no portal glow at the end of the Gainlands passage")
-	var other: Node3D = TownPassages.build("refusemancer", "The Verdant Dump", Color.ORANGE, false)
+	var other: Node3D = TownPassages.build("necrocrat", "The D.N.A.", Color.ORANGE, false)  # the Dump lost its glow too (VD-3)
 	add_child_autofree(other)
 	assert_not_null(other.find_child("FarGlow", true, false), "the other passages keep theirs")
 	var mouth: Vector3 = Vector3(10.0, 0.0, 10.0)

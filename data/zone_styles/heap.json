@@ -1,5 +1,5 @@
 {
-	"_about": "The Verdant Dump (Refusemancer). Golden-hour sunset, rusted metal, mossy wood, patchwork panels.",
+	"_about": "The Verdant Dump (Refusemancer). Golden-hour sunset, rusted metal, mossy wood, patchwork panels. The corruption block is the gradient toward the Rotheart (HeapLayout.corruption_at): the ground lerps toward the tint and darkens, flowers thin to the given share.",
 	"area": "heap",
 	"name": "The Verdant Dump (Refusemancer)",
 	"time_of_day": "Golden-hour sunset; warm haze, long shadows, fireflies",
@@ -9,6 +9,7 @@
 	"grade": {"warmth": 0.3, "saturation": 1.1, "contrast": 1.12, "post_saturation": 1.05},
 	"bloom": {"intensity": 0.5, "threshold": 1.05},
 	"vignette": 0.3,
+	"corruption": {"start_z": 36, "end_z": 10, "centre_x": 50, "spread": 30, "tint": "#5a2f6e", "ground": 0.5, "darken": 0.2, "flowers": 0.15},
 	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-PLANK", "ENV-WALL-TIMBER-WARM": "ENV-WALL-PLANK"},
 	"tint_strength": 0.7,
 	"tints": {"wall": "#8B6D4C", "trim": "#5C6B5E", "roof": "#B5552D", "ground": "#8B6D4C", "prop": "#B5552D", "tree": "#7C8F45", "decal": "#7C8F45"}

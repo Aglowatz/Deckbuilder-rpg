@@ -291,9 +291,9 @@ static func heap(scene: ZoneScene) -> Dictionary:
 				junk_spots.append(Vector3(prop.pos.x, prop.pos.z, 3.0 * maxf(prop.model_scale, 0.8)))
 			"compost_heap", "compost_bin", "composting_door":
 				compost_spots.append(Vector3(prop.pos.x, prop.pos.z, 3.6))
-	var fields_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["fields"], p)
+	var fields_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["farm"], p)
 	var junk_mask: Callable = func(p: Vector2) -> float:
-		return maxf(maxf(layout.path_weight(p.x, p.y) * 0.9, PaintedContexts.prop_cover(junk_spots, p)), PaintedContexts.area_cover(areas, ["landfill", "rust", "scree"], p) * 0.85)
+		return maxf(maxf(layout.path_weight(p.x, p.y) * 0.9, PaintedContexts.prop_cover(junk_spots, p)), PaintedContexts.area_cover(areas, ["peaks", "throne"], p) * 0.85)
 	var compost_mask: Callable = func(p: Vector2) -> float:
 		return maxf(PaintedContexts.prop_cover(compost_spots, p), 0.0)
 	var grass_mask: Callable = func(p: Vector2) -> float:
