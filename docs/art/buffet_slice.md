@@ -149,4 +149,22 @@ Three passes per region by the numbers (`tools/image_stats.gd`), each from the s
 | BUFF-PROP-WINDMILL | Flour windmill | Prop | CUTOUT | A small stone flour mill with sail arms, from the low game camera. | 1024x1536 PNG, transparent | The forest's edge | 3 |
 | BUFF-PROP-GRAVYBRIDGE | Biscuit bridge | Prop | CUTOUT | A little arched biscuit bridge over a gravy stream. | 1024x1024 PNG, transparent | Dressing on Potato Peak's slopes | 3 |
 
-(Parts B-E follow below as they land.)
+## Part E: verify and report
+
+- **The walk** (`bash tools/run_buffet_walk_smoke.sh`, about 4 minutes, real input, windowed, 85 checks): the arrival on the bridge and the walk north into the Grand Dining Hall; Basil, Tarragon and Madame Mirepoix (talk / shop); the Hearty Meal, the Grand Oven, the Soup Fountain, the fortune cookies, Old Meatloaf; Professor Pate's quiz, Chef Flambe's Dinner in a Dash, the Taste-Test Station, the Mystery Stew Pot; the Walk-In Freezer door sealed (the Omakase hook, no dialog) and unlocked (E asks to enter the Omakase node map); the Test Kitchen gate (prompt up, no lettered plate, E asks to enter); the giant chest and the vault lever (prompts up); the walk back out over the bridge to town. Passes.
+- **The Buffet smoke** (`bash tools/run_seventh_brief_final_smoke.sh buffet`, 109 checks: the minimap reveal, the jelly pads, the lazy susan, the rafts and a soup fall, the golem gates, the battles, every interactable, the hub heal, the quiz, Order Up!, the stew puzzle, a hidden chest, the Walk-In Freezer into the Omakase node map and back, the save's reveal): passes. Its stale steps (the sealed side dungeon's "Open the door", the two hub points of interest at arrival) were updated (BF-13, BF-16).
+- **Save and load**: the release smoke's manual save and load round trip passes; the Buffet smoke checks the fog reveal is in the save per zone.
+- **The walkability probe** (`tests/world/test_walkability_zones.gd` `test_buffet`): every anchor and chest reachable from the spawn on the bridge with the gates open, with the dressing's blockers in place; the lane width check holds.
+- **GUT**: 1556 tests, 1555 passing (the one failure is GC-6, the local camera FOV, pre-existing).
+- **fps** (Medium): 60.0 at every anchor (table above).
+
+### Kit status (`data/art/zone_kits/buffet.json`)
+
+28 of 28 sheet ids imported and in the game. In use: the five hero landmarks (modelled), BUFF-WALL-BISCUIT / -OVEN, BUFF-ROOF-COPPER / -CRUST, BUFF-PATH-NOODLE, BUFF-TRIM-CLOTH (the landmarks, the wings, the bridge, the walls, the presets, the swaps), the four sheets (doors, windows, signs and awnings on the presets, the wings and the gate), BUFF-TREE-BROCCOLI / -CAULI (the forest and the framing groups as card fields, the Peak's slopes), BUFF-PLANT-HERB / -LEEK and the five props (the six clusters), BUFF-DEC-FLOUR / -STEAM (the dressing's decals), BUFF-SKY-DINNER (the sky panorama), BUFF-BD-CAKE (the far ring). Reused: TEX-BUFF-MASHED / -BISCUIT / -CRUMBSOIL / -CHEESE (the painted ground and cliffs), TEX-BUFF-GRAVY (the river), TEX-BUFF-FROSTING (the presets' upper walls), DEC-CRUMBS / DEC-SAUCE (the painted decals), the shared ENV-* kit through the swaps.
+
+### Things to look at
+
+- The hub's terraces: one kit cluster each where the paint-over has laid banquet tables; the sheet-ready table above asks for a banquet-table card and a stalls sheet.
+- The Omakase terrace is biscuit cobbles round the pavilion in the cake square's corner; the paint-over's white stone and sea of rice want their own ground and props (the table above).
+- The Test Kitchen's whisk and ladle cranes read as copper arms from afar; closer concept detail (the war-machine silhouette) is not modelled.
+- Potato Peak's gravy streams end in its own pool; they do not join the Gravy River (the Peak stands at the north-west corner, the river leaves the table at the west rim).
