@@ -16,10 +16,16 @@
 		"ambient": {"enabled": true, "shafts": false, "motes": 70, "mote_color": "b8d8ff", "leaves": false, "birds": false}
 	},
 	"dna": {
-		"title": "D.N.A.: a cold, near-monochrome office",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "2e3a4a", "fog_density": 0.016, "warmth": -0.35, "saturation": 0.85, "vignette": 0.4, "bloom": 0.35, "bloom_threshold": 1.15, "glow_spread": 0.5},
-		"sky": {"enabled": true, "horizon": "2e3a4a", "gold": "2a3543", "mid": "232c38", "zenith": "1a212b", "sun": "6a7a8a", "sun_glow": 0.0, "cloud_opacity": 0.0, "cloud_shadow": 0.0},
-		"scenery": {"enabled": true, "water": false, "shore": false, "rings": false, "landmarks": false, "apron": {"color": "34404c", "y": -0.03}},
+		"title": "D.N.A.: perpetual 4:59 PM overcast, cold green ghost light",
+		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "4a5853", "fog_density": 0.012, "warmth": -0.3, "saturation": 0.9, "vignette": 0.34, "bloom": 0.35, "bloom_threshold": 1.1, "glow_spread": 0.5},
+		"sky": {"enabled": true, "horizon": "7d8a85", "gold": "76837e", "mid": "6a7773", "zenith": "5a6763", "sun": "8a948f", "sun_glow": 0.0, "cloud_opacity": 0.0, "cloud_shadow": 0.0, "panorama": "DNA-SKY-GLOOM", "panorama_mix": 1.0, "panorama_stretch": 1.25},
+		"scenery": {"enabled": true, "water": false, "shore": false, "rings": false, "landmarks": false, "tint": "9aa6a0", "cool": "66776f", "haze_scale": 1.1, "cool_scale": 1.0, "brightness": 0.9, "apron": {"color": "3a4642", "y": -0.03},
+			"kit_cards": [
+				{"id": "DNA-BD-TOWERS", "angle": 0, "width": 96, "ring": 1, "distance": 0.92, "lift": 0},
+				{"id": "DNA-BD-TOWERS", "angle": 90, "width": 96, "ring": 1, "distance": 0.92, "lift": 0},
+				{"id": "DNA-BD-TOWERS", "angle": 180, "width": 96, "ring": 1, "distance": 0.92, "lift": 0},
+				{"id": "DNA-BD-TOWERS", "angle": 270, "width": 96, "ring": 1, "distance": 0.92, "lift": 0}
+			]},
 		"foliage": {"density": 0.0},
 		"ambient": {"enabled": true, "shafts": false, "motes": 60, "mote_color": "c8d4e0", "leaves": false, "birds": false}
 	},

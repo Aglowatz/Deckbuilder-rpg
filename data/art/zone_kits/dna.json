@@ -1,0 +1,1687 @@
+{
+	"_about": "Written by tools/import_zone_kit.gd from data/source/dna_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/DNA: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/dna/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
+	"density": 400.0,
+	"items": {
+		"DEC-ECTOPLASM": {
+			"alias": true,
+			"aspect": 1.0,
+			"asset": "Ghostly goo (painted decal set)",
+			"category": "Painted decal (alias)",
+			"desc": "Ghostly goo (painted decal set)",
+			"group": "decal",
+			"id": "DEC-ECTOPLASM",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"placeholder": "dec:ectoplasm",
+			"sheet_status": "in game (painted texture set)",
+			"slot": "decal.dec-ectoplasm",
+			"tinted": false,
+			"zone": "dna"
+		},
+		"DEC-PAPERS": {
+			"alias": true,
+			"aspect": 1.0,
+			"asset": "Scattered paperwork (painted decal set)",
+			"category": "Painted decal (alias)",
+			"desc": "Scattered paperwork (painted decal set)",
+			"group": "decal",
+			"id": "DEC-PAPERS",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"placeholder": "dec:papers",
+			"sheet_status": "in game (painted texture set)",
+			"slot": "decal.dec-papers",
+			"tinted": false,
+			"zone": "dna"
+		},
+		"DNA-BD-TOWERS": {
+			"aspect": 3.012,
+			"asset": "Office tower skyline",
+			"category": "Sky / backdrop",
+			"desc": "A distant skyline of gray office towers with faint green-lit windows and filing-cabinet spires, hazy.",
+			"from_px": [
+				2048.0,
+				1024.0
+			],
+			"group": "backdrop",
+			"id": "DNA-BD-TOWERS",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048.0,
+				680.0
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG, transparent sky, tileable horizontally",
+			"slot": "backdrop.dna-bd-towers",
+			"tinted": false,
+			"transparent": true,
+			"use": "Distant backdrop",
+			"zone": "dna"
+		},
+		"DNA-DEC-COFFEE": {
+			"aspect": 1.003,
+			"asset": "Coffee rings",
+			"category": "Decal",
+			"cleared_alpha": 89141.0,
+			"desc": "Brown coffee cup rings seen from above, soft edges.",
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"group": "decal",
+			"id": "DNA-DEC-COFFEE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"priority": "3",
+			"px": [
+				897.0,
+				894.0
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "decal.dna-dec-coffee",
+			"tinted": false,
+			"use": "Desks and floors",
+			"zone": "dna"
+		},
+		"DNA-DEC-FOOT": {
+			"aspect": 0.138,
+			"asset": "Queue footprints",
+			"category": "Decal",
+			"cleared_alpha": 8628.0,
+			"desc": "Faint worn footprints in a line, seen from above, soft fading edges.",
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"group": "decal",
+			"id": "DNA-DEC-FOOT",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"priority": "3",
+			"px": [
+				131.0,
+				950.0
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "decal.dna-dec-foot",
+			"tinted": false,
+			"use": "Queue lanes",
+			"zone": "dna"
+		},
+		"DNA-HERO-ENDLESS-QUEUE": {
+			"asset": "The endless queue",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/dna/concepts/DNA-HERO-ENDLESS-QUEUE.jpg",
+			"desc": "A long winding line of patient ghost and skeleton citizens between brass queue posts and red rope, snaking into the distance toward a single tiny service window.",
+			"from_px": [
+				1536.0,
+				1024.0
+			],
+			"group": "concept",
+			"id": "DNA-HERO-ENDLESS-QUEUE",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536.0,
+				1024.0
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.dna-hero-endless-queue",
+			"tinted": false,
+			"use": "The Queue landmark",
+			"zone": "dna"
+		},
+		"DNA-HERO-FILING-TOWER": {
+			"asset": "Filing-cabinet tower",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/dna/concepts/DNA-HERO-FILING-TOWER.jpg",
+			"desc": "A teetering tower of stacked gray filing cabinets (about 22 m tall), drawers half open with papers fluttering, a ladder winding up it.",
+			"from_px": [
+				1536.0,
+				1024.0
+			],
+			"group": "concept",
+			"id": "DNA-HERO-FILING-TOWER",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536.0,
+				1024.0
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.dna-hero-filing-tower",
+			"tinted": false,
+			"use": "Cubicle Fields landmark",
+			"zone": "dna"
+		},
+		"DNA-HERO-FINAL-APPROVALS": {
+			"asset": "Hall of Final Approvals",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/dna/concepts/DNA-HERO-FINAL-APPROVALS.jpg",
+			"desc": "The main-dungeon goal: an enormous, imposing gray civic hall (about 32 m wide, towering) with tall columns, a giant clock frozen at 4:59, a colossal rubber-stamp relief over the doors, endless stairs, and green-lit windows. Must read from across the zone as THE place to go.",
+			"from_px": [
+				1536.0,
+				1024.0
+			],
+			"group": "concept",
+			"id": "DNA-HERO-FINAL-APPROVALS",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536.0,
+				1024.0
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.dna-hero-final-approvals",
+			"tinted": false,
+			"use": "Main dungeon goal, visible from the whole zone",
+			"zone": "dna"
+		},
+		"DNA-HERO-RECORDS-STAIR": {
+			"asset": "Records Basement entrance",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/dna/concepts/DNA-HERO-RECORDS-STAIR.jpg",
+			"desc": "A grand descending stone stair (about 9 m wide) flanked by ghost lamps, leading down into canyons of shelving; a heavy vault-style door frame at the top.",
+			"from_px": [
+				1536.0,
+				1024.0
+			],
+			"group": "concept",
+			"id": "DNA-HERO-RECORDS-STAIR",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536.0,
+				1024.0
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.dna-hero-records-stair",
+			"tinted": false,
+			"use": "Records Basement landmark",
+			"zone": "dna"
+		},
+		"DNA-PATH-QUEUE": {
+			"asset": "Queue lane",
+			"category": "Surface",
+			"desc": "Worn stone floor with faded painted queue lines and footprints.",
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"group": "ground",
+			"id": "DNA-PATH-QUEUE",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 0.17,
+					"before": 0.17
+				},
+				"y": {
+					"after": 0.88,
+					"before": 0.88
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "ground.dna-path-queue",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Queue paths",
+			"zone": "dna"
+		},
+		"DNA-PLANT-LILY": {
+			"aspect": 0.526,
+			"asset": "Ghostly lilies",
+			"category": "Tree / plant",
+			"cleared_alpha": 52319.0,
+			"desc": "Pale green glowing lilies in a tall stone vase.",
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"group": "tree",
+			"height": 1.3,
+			"id": "DNA-PLANT-LILY",
+			"lock": "TREE",
+			"pivot": [
+				0.509,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				784.0,
+				1490.0
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.dna-plant-lily",
+			"tinted": false,
+			"use": "Accent plants",
+			"zone": "dna"
+		},
+		"DNA-PLANT-OFFICE": {
+			"aspect": 0.584,
+			"asset": "Office plant",
+			"category": "Tree / plant",
+			"cleared_alpha": 48078.0,
+			"desc": "A tall, limp, slightly sad potted office plant.",
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"group": "tree",
+			"height": 1.8,
+			"id": "DNA-PLANT-OFFICE",
+			"lock": "TREE",
+			"pivot": [
+				0.476,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				866.0,
+				1484.0
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.dna-plant-office",
+			"tinted": false,
+			"use": "Plants (used sparingly)",
+			"zone": "dna"
+		},
+		"DNA-PROP-DESK": {
+			"aspect": 1.255,
+			"asset": "Office desk",
+			"category": "Prop",
+			"cleared_alpha": 17164.0,
+			"desc": "A gray office desk with neat paper stacks, an inkwell, and a desk lamp.",
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"group": "prop",
+			"height": 1.3,
+			"id": "DNA-PROP-DESK",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "3",
+			"px": [
+				1014.0,
+				808.0
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dna-prop-desk",
+			"tinted": false,
+			"use": "Prop clusters",
+			"zone": "dna"
+		},
+		"DNA-PROP-GHOSTLAMP": {
+			"aspect": 0.269,
+			"asset": "Ghost lamp",
+			"category": "Prop",
+			"cleared_alpha": 12725.0,
+			"desc": "An iron street lamp burning a soft green ghost flame.",
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"group": "prop",
+			"height": 2.6,
+			"id": "DNA-PROP-GHOSTLAMP",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "3",
+			"px": [
+				402.0,
+				1496.0
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "prop.dna-prop-ghostlamp",
+			"tinted": false,
+			"use": "Lighting",
+			"zone": "dna"
+		},
+		"DNA-PROP-PAPER": {
+			"aspect": 0.967,
+			"asset": "Paper towers",
+			"category": "Prop",
+			"cleared_alpha": 16782.0,
+			"desc": "Tall leaning stacks of paper tied with string.",
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"group": "prop",
+			"height": 1.4,
+			"id": "DNA-PROP-PAPER",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "3",
+			"px": [
+				972.0,
+				1005.0
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dna-prop-paper",
+			"tinted": false,
+			"use": "Prop clusters",
+			"zone": "dna"
+		},
+		"DNA-PROP-ROPE": {
+			"aspect": 0.997,
+			"asset": "Queue rope post",
+			"category": "Prop",
+			"cleared_alpha": 12408.0,
+			"desc": "A brass stanchion post with a red velvet rope.",
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"group": "prop",
+			"height": 1.0,
+			"id": "DNA-PROP-ROPE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "3",
+			"px": [
+				961.0,
+				964.0
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dna-prop-rope",
+			"tinted": false,
+			"use": "Queues",
+			"zone": "dna"
+		},
+		"DNA-PROP-STAMP": {
+			"aspect": 0.888,
+			"asset": "Giant rubber stamp",
+			"category": "Prop",
+			"cleared_alpha": 12536.0,
+			"desc": "An oversized wooden rubber stamp standing upright.",
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"group": "prop",
+			"height": 1.0,
+			"id": "DNA-PROP-STAMP",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "3",
+			"px": [
+				884.0,
+				996.0
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dna-prop-stamp",
+			"tinted": false,
+			"use": "Accent prop",
+			"zone": "dna"
+		},
+		"DNA-ROOF-SLATE": {
+			"asset": "Slate office roof",
+			"category": "Surface",
+			"desc": "Cold gray slates in neat rows with a copper flashing line.",
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"group": "roof",
+			"id": "DNA-ROOF-SLATE",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 1.3,
+					"before": 1.3
+				},
+				"y": {
+					"after": 1.26,
+					"before": 1.26
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "roof.dna-roof-slate",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Roofs",
+			"zone": "dna"
+		},
+		"DNA-SHEET-CABINETS": {
+			"asset": "Filing cabinets",
+			"category": "Cutout sheet",
+			"desc": "6 filing cabinets and card catalogs of different sizes, gray and olive, some drawers open.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "prop",
+			"id": "DNA-SHEET-CABINETS",
+			"lock": "SHEET",
+			"parts": [
+				"DNA-SHEET-CABINETS-01",
+				"DNA-SHEET-CABINETS-02",
+				"DNA-SHEET-CABINETS-03",
+				"DNA-SHEET-CABINETS-04",
+				"DNA-SHEET-CABINETS-05",
+				"DNA-SHEET-CABINETS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "prop.dna-sheet-cabinets",
+			"tinted": false,
+			"use": "Sliced into props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-CABINETS-01": {
+			"aspect": 0.484,
+			"asset": "Filing cabinets 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 1793,
+			"desc": "6 filing cabinets and card catalogs of different sizes, gray and olive, some drawers open.",
+			"from_px": [
+				332,
+				686
+			],
+			"group": "prop",
+			"height": 1.6,
+			"id": "DNA-SHEET-CABINETS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-CABINETS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				332,
+				686
+			],
+			"sheet_cell": [
+				216,
+				37,
+				332,
+				686
+			],
+			"slot": "prop.dna-sheet-cabinets-01",
+			"tinted": false,
+			"use": "Sliced into props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-CABINETS-02": {
+			"aspect": 1.202,
+			"asset": "Filing cabinets 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 3610,
+			"desc": "6 filing cabinets and card catalogs of different sizes, gray and olive, some drawers open.",
+			"from_px": [
+				565,
+				470
+			],
+			"group": "prop",
+			"height": 1.3,
+			"id": "DNA-SHEET-CABINETS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-CABINETS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				565,
+				470
+			],
+			"sheet_cell": [
+				750,
+				185,
+				565,
+				470
+			],
+			"slot": "prop.dna-sheet-cabinets-02",
+			"tinted": false,
+			"use": "Sliced into props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-CABINETS-03": {
+			"aspect": 0.577,
+			"asset": "Filing cabinets 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 5297,
+			"desc": "6 filing cabinets and card catalogs of different sizes, gray and olive, some drawers open.",
+			"from_px": [
+				380,
+				659
+			],
+			"group": "prop",
+			"height": 1.6,
+			"id": "DNA-SHEET-CABINETS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-CABINETS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				380,
+				659
+			],
+			"sheet_cell": [
+				1529,
+				38,
+				380,
+				659
+			],
+			"slot": "prop.dna-sheet-cabinets-03",
+			"tinted": false,
+			"use": "Sliced into props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-CABINETS-04": {
+			"aspect": 1.169,
+			"asset": "Filing cabinets 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4875,
+			"desc": "6 filing cabinets and card catalogs of different sizes, gray and olive, some drawers open.",
+			"from_px": [
+				596,
+				510
+			],
+			"group": "prop",
+			"height": 1.3,
+			"id": "DNA-SHEET-CABINETS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-CABINETS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				596,
+				510
+			],
+			"sheet_cell": [
+				83,
+				793,
+				596,
+				510
+			],
+			"slot": "prop.dna-sheet-cabinets-04",
+			"tinted": false,
+			"use": "Sliced into props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-CABINETS-05": {
+			"aspect": 0.59,
+			"asset": "Filing cabinets 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 1802,
+			"desc": "6 filing cabinets and card catalogs of different sizes, gray and olive, some drawers open.",
+			"from_px": [
+				329,
+				558
+			],
+			"group": "prop",
+			"height": 1.4,
+			"id": "DNA-SHEET-CABINETS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-CABINETS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				329,
+				558
+			],
+			"sheet_cell": [
+				880,
+				737,
+				329,
+				558
+			],
+			"slot": "prop.dna-sheet-cabinets-05",
+			"tinted": false,
+			"use": "Sliced into props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-CABINETS-06": {
+			"aspect": 0.851,
+			"asset": "Filing cabinets 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 5327,
+			"desc": "6 filing cabinets and card catalogs of different sizes, gray and olive, some drawers open.",
+			"from_px": [
+				429,
+				504
+			],
+			"group": "prop",
+			"height": 1.2,
+			"id": "DNA-SHEET-CABINETS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-CABINETS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				429,
+				504
+			],
+			"sheet_cell": [
+				1505,
+				803,
+				429,
+				504
+			],
+			"slot": "prop.dna-sheet-cabinets-06",
+			"tinted": false,
+			"use": "Sliced into props",
+			"zone": "dna"
+		},
+		"DNA-SHEET-DOORS": {
+			"asset": "Office doors",
+			"category": "Cutout sheet",
+			"desc": "6 gray office doors: frosted glass, double swing, plain with a number plate (no digits), vault, queue gate, cage elevator.",
+			"from_px": [
+				2048.0,
+				1365.0
+			],
+			"group": "door",
+			"id": "DNA-SHEET-DOORS",
+			"lock": "SHEET",
+			"parts": [
+				"DNA-SHEET-DOORS-01",
+				"DNA-SHEET-DOORS-02",
+				"DNA-SHEET-DOORS-03",
+				"DNA-SHEET-DOORS-04",
+				"DNA-SHEET-DOORS-05",
+				"DNA-SHEET-DOORS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048.0,
+				1365.0
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "door.dna-sheet-doors",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "dna"
+		},
+		"DNA-SHEET-DOORS-01": {
+			"aspect": 0.863,
+			"asset": "Office doors 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 7540.0,
+			"desc": "6 gray office doors: frosted glass, double swing, plain with a number plate (no digits), vault, queue gate, cage elevator.",
+			"from_px": [
+				497.0,
+				576.0
+			],
+			"group": "door",
+			"id": "DNA-SHEET-DOORS-01",
+			"index": 1.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				497.0,
+				576.0
+			],
+			"sheet_cell": [
+				135.0,
+				46.0,
+				497.0,
+				576.0
+			],
+			"slot": "door.dna-sheet-doors-01",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "dna"
+		},
+		"DNA-SHEET-DOORS-02": {
+			"aspect": 0.907,
+			"asset": "Office doors 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 6909.0,
+			"desc": "6 gray office doors: frosted glass, double swing, plain with a number plate (no digits), vault, queue gate, cage elevator.",
+			"from_px": [
+				515.0,
+				568.0
+			],
+			"group": "door",
+			"id": "DNA-SHEET-DOORS-02",
+			"index": 2.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				515.0,
+				568.0
+			],
+			"sheet_cell": [
+				768.0,
+				54.0,
+				515.0,
+				568.0
+			],
+			"slot": "door.dna-sheet-doors-02",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "dna"
+		},
+		"DNA-SHEET-DOORS-03": {
+			"aspect": 0.894,
+			"asset": "Office doors 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 6715.0,
+			"desc": "6 gray office doors: frosted glass, double swing, plain with a number plate (no digits), vault, queue gate, cage elevator.",
+			"from_px": [
+				508.0,
+				568.0
+			],
+			"group": "door",
+			"id": "DNA-SHEET-DOORS-03",
+			"index": 3.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				508.0,
+				568.0
+			],
+			"sheet_cell": [
+				1417.0,
+				54.0,
+				508.0,
+				568.0
+			],
+			"slot": "door.dna-sheet-doors-03",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "dna"
+		},
+		"DNA-SHEET-DOORS-04": {
+			"aspect": 0.894,
+			"asset": "Office doors 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 14715.0,
+			"desc": "6 gray office doors: frosted glass, double swing, plain with a number plate (no digits), vault, queue gate, cage elevator.",
+			"from_px": [
+				538.0,
+				602.0
+			],
+			"group": "door",
+			"id": "DNA-SHEET-DOORS-04",
+			"index": 4.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				538.0,
+				602.0
+			],
+			"sheet_cell": [
+				115.0,
+				677.0,
+				538.0,
+				602.0
+			],
+			"slot": "door.dna-sheet-doors-04",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "dna"
+		},
+		"DNA-SHEET-DOORS-05": {
+			"aspect": 0.737,
+			"asset": "Office doors 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 11953.0,
+			"desc": "6 gray office doors: frosted glass, double swing, plain with a number plate (no digits), vault, queue gate, cage elevator.",
+			"from_px": [
+				443.0,
+				601.0
+			],
+			"group": "door",
+			"id": "DNA-SHEET-DOORS-05",
+			"index": 5.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				443.0,
+				601.0
+			],
+			"sheet_cell": [
+				804.0,
+				675.0,
+				443.0,
+				601.0
+			],
+			"slot": "door.dna-sheet-doors-05",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "dna"
+		},
+		"DNA-SHEET-DOORS-06": {
+			"aspect": 0.923,
+			"asset": "Office doors 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 5969.0,
+			"desc": "6 gray office doors: frosted glass, double swing, plain with a number plate (no digits), vault, queue gate, cage elevator.",
+			"from_px": [
+				519.0,
+				562.0
+			],
+			"group": "door",
+			"id": "DNA-SHEET-DOORS-06",
+			"index": 6.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				519.0,
+				562.0
+			],
+			"sheet_cell": [
+				1411.0,
+				709.0,
+				519.0,
+				562.0
+			],
+			"slot": "door.dna-sheet-doors-06",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "dna"
+		},
+		"DNA-SHEET-SIGNS": {
+			"asset": "Icon plaques",
+			"category": "Cutout sheet",
+			"desc": "6 brass wall plaques with icon-only symbols: stamp, clock, arrow, folder, raised hand, ghost.",
+			"from_px": [
+				2048.0,
+				1365.0
+			],
+			"group": "sign",
+			"id": "DNA-SHEET-SIGNS",
+			"lock": "SHEET",
+			"parts": [
+				"DNA-SHEET-SIGNS-01",
+				"DNA-SHEET-SIGNS-02",
+				"DNA-SHEET-SIGNS-03",
+				"DNA-SHEET-SIGNS-04",
+				"DNA-SHEET-SIGNS-05",
+				"DNA-SHEET-SIGNS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048.0,
+				1365.0
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "sign.dna-sheet-signs",
+			"tinted": false,
+			"use": "Sliced into icon signs",
+			"zone": "dna"
+		},
+		"DNA-SHEET-SIGNS-01": {
+			"aspect": 0.98,
+			"asset": "Icon plaques 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 5365.0,
+			"desc": "6 brass wall plaques with icon-only symbols: stamp, clock, arrow, folder, raised hand, ghost.",
+			"from_px": [
+				582.0,
+				594.0
+			],
+			"group": "sign",
+			"id": "DNA-SHEET-SIGNS-01",
+			"index": 1.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-SIGNS",
+			"pivot": [
+				0.0,
+				0.501
+			],
+			"px": [
+				582.0,
+				594.0
+			],
+			"sheet_cell": [
+				60.0,
+				39.0,
+				582.0,
+				594.0
+			],
+			"slot": "sign.dna-sheet-signs-01",
+			"tinted": false,
+			"use": "Sliced into icon signs",
+			"zone": "dna"
+		},
+		"DNA-SHEET-SIGNS-02": {
+			"aspect": 0.98,
+			"asset": "Icon plaques 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4917.0,
+			"desc": "6 brass wall plaques with icon-only symbols: stamp, clock, arrow, folder, raised hand, ghost.",
+			"from_px": [
+				579.0,
+				591.0
+			],
+			"group": "sign",
+			"id": "DNA-SHEET-SIGNS-02",
+			"index": 2.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-SIGNS",
+			"pivot": [
+				0.0,
+				0.499
+			],
+			"px": [
+				579.0,
+				591.0
+			],
+			"sheet_cell": [
+				736.0,
+				46.0,
+				579.0,
+				591.0
+			],
+			"slot": "sign.dna-sheet-signs-02",
+			"tinted": false,
+			"use": "Sliced into icon signs",
+			"zone": "dna"
+		},
+		"DNA-SHEET-SIGNS-03": {
+			"aspect": 0.983,
+			"asset": "Icon plaques 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4660.0,
+			"desc": "6 brass wall plaques with icon-only symbols: stamp, clock, arrow, folder, raised hand, ghost.",
+			"from_px": [
+				581.0,
+				591.0
+			],
+			"group": "sign",
+			"id": "DNA-SHEET-SIGNS-03",
+			"index": 3.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-SIGNS",
+			"pivot": [
+				0.0,
+				0.501
+			],
+			"px": [
+				581.0,
+				591.0
+			],
+			"sheet_cell": [
+				1409.0,
+				42.0,
+				581.0,
+				591.0
+			],
+			"slot": "sign.dna-sheet-signs-03",
+			"tinted": false,
+			"use": "Sliced into icon signs",
+			"zone": "dna"
+		},
+		"DNA-SHEET-SIGNS-04": {
+			"aspect": 0.973,
+			"asset": "Icon plaques 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4587.0,
+			"desc": "6 brass wall plaques with icon-only symbols: stamp, clock, arrow, folder, raised hand, ghost.",
+			"from_px": [
+				574.0,
+				590.0
+			],
+			"group": "sign",
+			"id": "DNA-SHEET-SIGNS-04",
+			"index": 4.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-SIGNS",
+			"pivot": [
+				0.0,
+				0.501
+			],
+			"px": [
+				574.0,
+				590.0
+			],
+			"sheet_cell": [
+				63.0,
+				721.0,
+				574.0,
+				590.0
+			],
+			"slot": "sign.dna-sheet-signs-04",
+			"tinted": false,
+			"use": "Sliced into icon signs",
+			"zone": "dna"
+		},
+		"DNA-SHEET-SIGNS-05": {
+			"aspect": 0.976,
+			"asset": "Icon plaques 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 5040.0,
+			"desc": "6 brass wall plaques with icon-only symbols: stamp, clock, arrow, folder, raised hand, ghost.",
+			"from_px": [
+				578.0,
+				592.0
+			],
+			"group": "sign",
+			"id": "DNA-SHEET-SIGNS-05",
+			"index": 5.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-SIGNS",
+			"pivot": [
+				0.0,
+				0.502
+			],
+			"px": [
+				578.0,
+				592.0
+			],
+			"sheet_cell": [
+				732.0,
+				718.0,
+				578.0,
+				592.0
+			],
+			"slot": "sign.dna-sheet-signs-05",
+			"tinted": false,
+			"use": "Sliced into icon signs",
+			"zone": "dna"
+		},
+		"DNA-SHEET-SIGNS-06": {
+			"aspect": 0.968,
+			"asset": "Icon plaques 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4269.0,
+			"desc": "6 brass wall plaques with icon-only symbols: stamp, clock, arrow, folder, raised hand, ghost.",
+			"from_px": [
+				574.0,
+				593.0
+			],
+			"group": "sign",
+			"id": "DNA-SHEET-SIGNS-06",
+			"index": 6.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-SIGNS",
+			"pivot": [
+				0.0,
+				0.498
+			],
+			"px": [
+				574.0,
+				593.0
+			],
+			"sheet_cell": [
+				1412.0,
+				718.0,
+				574.0,
+				593.0
+			],
+			"slot": "sign.dna-sheet-signs-06",
+			"tinted": false,
+			"use": "Sliced into icon signs",
+			"zone": "dna"
+		},
+		"DNA-SHEET-WINDOWS": {
+			"asset": "Office windows",
+			"category": "Cutout sheet",
+			"desc": "6 tall narrow office windows with blinds, some lit with a cold green glow, some dark.",
+			"from_px": [
+				2048.0,
+				1365.0
+			],
+			"group": "window",
+			"id": "DNA-SHEET-WINDOWS",
+			"lock": "SHEET",
+			"parts": [
+				"DNA-SHEET-WINDOWS-01",
+				"DNA-SHEET-WINDOWS-02",
+				"DNA-SHEET-WINDOWS-03",
+				"DNA-SHEET-WINDOWS-04",
+				"DNA-SHEET-WINDOWS-05",
+				"DNA-SHEET-WINDOWS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048.0,
+				1365.0
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "window.dna-sheet-windows",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"zone": "dna"
+		},
+		"DNA-SHEET-WINDOWS-01": {
+			"aspect": 0.549,
+			"asset": "Office windows 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 3618.0,
+			"desc": "6 tall narrow office windows with blinds, some lit with a cold green glow, some dark.",
+			"from_px": [
+				327.0,
+				596.0
+			],
+			"group": "window",
+			"id": "DNA-SHEET-WINDOWS-01",
+			"index": 1.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				327.0,
+				596.0
+			],
+			"sheet_cell": [
+				232.0,
+				37.0,
+				327.0,
+				596.0
+			],
+			"slot": "window.dna-sheet-windows-01",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"width": 0.9,
+			"zone": "dna"
+		},
+		"DNA-SHEET-WINDOWS-02": {
+			"aspect": 0.552,
+			"asset": "Office windows 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 9237.0,
+			"desc": "6 tall narrow office windows with blinds, some lit with a cold green glow, some dark.",
+			"from_px": [
+				329.0,
+				596.0
+			],
+			"group": "window",
+			"id": "DNA-SHEET-WINDOWS-02",
+			"index": 2.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				329.0,
+				596.0
+			],
+			"sheet_cell": [
+				861.0,
+				38.0,
+				329.0,
+				596.0
+			],
+			"slot": "window.dna-sheet-windows-02",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"width": 0.9,
+			"zone": "dna"
+		},
+		"DNA-SHEET-WINDOWS-03": {
+			"aspect": 0.548,
+			"asset": "Office windows 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4359.0,
+			"desc": "6 tall narrow office windows with blinds, some lit with a cold green glow, some dark.",
+			"from_px": [
+				327.0,
+				597.0
+			],
+			"group": "window",
+			"id": "DNA-SHEET-WINDOWS-03",
+			"index": 3.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				327.0,
+				597.0
+			],
+			"sheet_cell": [
+				1489.0,
+				37.0,
+				327.0,
+				597.0
+			],
+			"slot": "window.dna-sheet-windows-03",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"width": 0.9,
+			"zone": "dna"
+		},
+		"DNA-SHEET-WINDOWS-04": {
+			"aspect": 0.553,
+			"asset": "Office windows 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 3248.0,
+			"desc": "6 tall narrow office windows with blinds, some lit with a cold green glow, some dark.",
+			"from_px": [
+				329.0,
+				595.0
+			],
+			"group": "window",
+			"id": "DNA-SHEET-WINDOWS-04",
+			"index": 4.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				329.0,
+				595.0
+			],
+			"sheet_cell": [
+				232.0,
+				729.0,
+				329.0,
+				595.0
+			],
+			"slot": "window.dna-sheet-windows-04",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"width": 0.9,
+			"zone": "dna"
+		},
+		"DNA-SHEET-WINDOWS-05": {
+			"aspect": 0.556,
+			"asset": "Office windows 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 7420.0,
+			"desc": "6 tall narrow office windows with blinds, some lit with a cold green glow, some dark.",
+			"from_px": [
+				331.0,
+				595.0
+			],
+			"group": "window",
+			"id": "DNA-SHEET-WINDOWS-05",
+			"index": 5.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				331.0,
+				595.0
+			],
+			"sheet_cell": [
+				859.0,
+				729.0,
+				331.0,
+				595.0
+			],
+			"slot": "window.dna-sheet-windows-05",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"width": 0.9,
+			"zone": "dna"
+		},
+		"DNA-SHEET-WINDOWS-06": {
+			"aspect": 0.553,
+			"asset": "Office windows 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 4451.0,
+			"desc": "6 tall narrow office windows with blinds, some lit with a cold green glow, some dark.",
+			"from_px": [
+				329.0,
+				595.0
+			],
+			"group": "window",
+			"id": "DNA-SHEET-WINDOWS-06",
+			"index": 6.0,
+			"lock": "CUTOUT",
+			"parent": "DNA-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"px": [
+				329.0,
+				595.0
+			],
+			"sheet_cell": [
+				1489.0,
+				729.0,
+				329.0,
+				595.0
+			],
+			"slot": "window.dna-sheet-windows-06",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"width": 0.9,
+			"zone": "dna"
+		},
+		"DNA-SKY-GLOOM": {
+			"aspect": 2.0,
+			"asset": "Overcast sky",
+			"category": "Sky / backdrop",
+			"desc": "A flat, gloomy gray-green overcast sky with soft low clouds (full image, no transparency).",
+			"from_px": [
+				2048.0,
+				1024.0
+			],
+			"group": "backdrop",
+			"id": "DNA-SKY-GLOOM",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048.0,
+				1024.0
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG",
+			"slot": "backdrop.dna-sky-gloom",
+			"tinted": false,
+			"transparent": false,
+			"use": "Zone sky",
+			"zone": "dna"
+		},
+		"DNA-TREE-DEAD": {
+			"aspect": 0.572,
+			"asset": "Dead topiary",
+			"category": "Tree / plant",
+			"cleared_alpha": 34860.0,
+			"desc": "A neatly clipped but dead gray-brown topiary ball in a stone planter.",
+			"from_px": [
+				1024.0,
+				1536.0
+			],
+			"group": "tree",
+			"height": 2.2,
+			"id": "DNA-TREE-DEAD",
+			"lock": "TREE",
+			"pivot": [
+				0.49,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				857.0,
+				1498.0
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.dna-tree-dead",
+			"tinted": false,
+			"use": "Outdoor plaza plants",
+			"zone": "dna"
+		},
+		"DNA-TRIM-BRASS": {
+			"asset": "Cold brass trim",
+			"category": "Surface",
+			"desc": "A horizontal strip of dull brass handrail and trim.",
+			"from_px": [
+				1024.0,
+				512.0
+			],
+			"group": "trim",
+			"id": "DNA-TRIM-BRASS",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024.0,
+				512.0
+			],
+			"seam": {
+				"x": {
+					"after": 1.7,
+					"before": 1.7
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x512 PNG, tileable horizontally",
+			"slot": "trim.dna-trim-brass",
+			"tile_u": 2.56,
+			"tile_v": 1.28,
+			"tile_x": true,
+			"tile_y": false,
+			"tinted": false,
+			"use": "Building trim",
+			"zone": "dna"
+		},
+		"DNA-WALL-GREY": {
+			"asset": "Gray stone office wall",
+			"category": "Surface",
+			"desc": "Flat gray cut stone blocks with tidy joints and a faint damp stain.",
+			"from_px": [
+				1024.0,
+				1024.0
+			],
+			"group": "wall",
+			"id": "DNA-WALL-GREY",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "1",
+			"px": [
+				1024.0,
+				1024.0
+			],
+			"seam": {
+				"x": {
+					"after": 0.72,
+					"before": 4.78
+				},
+				"y": {
+					"after": 1.35,
+					"before": 1.35
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "wall.dna-wall-grey",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Building walls",
+			"zone": "dna"
+		},
+		"TEX-DNA-CARPET": {
+			"alias": true,
+			"asset": "Office carpet (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Office carpet (painted texture set)",
+			"group": "ground",
+			"id": "TEX-DNA-CARPET",
+			"lock": "SURFACE",
+			"placeholder": "tex:dna_carpet",
+			"sheet_status": "in game (painted texture set)",
+			"slot": "ground.tex-dna-carpet",
+			"tile": 3.0,
+			"tinted": false,
+			"zone": "dna"
+		},
+		"TEX-DNA-CHECKERTILE": {
+			"alias": true,
+			"asset": "Checker tile (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Checker tile (painted texture set)",
+			"group": "ground",
+			"id": "TEX-DNA-CHECKERTILE",
+			"lock": "SURFACE",
+			"placeholder": "tex:dna_checkertile",
+			"sheet_status": "in game (painted texture set)",
+			"slot": "ground.tex-dna-checkertile",
+			"tile": 4.0,
+			"tinted": false,
+			"zone": "dna"
+		},
+		"TEX-DNA-LINOLEUM": {
+			"alias": true,
+			"asset": "Linoleum (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Linoleum (painted texture set)",
+			"group": "ground",
+			"id": "TEX-DNA-LINOLEUM",
+			"lock": "SURFACE",
+			"placeholder": "tex:dna_linoleum",
+			"sheet_status": "in game (painted texture set)",
+			"slot": "ground.tex-dna-linoleum",
+			"tile": 3.5,
+			"tinted": false,
+			"zone": "dna"
+		},
+		"TEX-DNA-MARBLE": {
+			"alias": true,
+			"asset": "Cracked marble (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Cracked marble (painted texture set)",
+			"group": "ground",
+			"id": "TEX-DNA-MARBLE",
+			"lock": "SURFACE",
+			"placeholder": "tex:dna_marble",
+			"sheet_status": "in game (painted texture set)",
+			"slot": "ground.tex-dna-marble",
+			"tile": 4.5,
+			"tinted": false,
+			"zone": "dna"
+		},
+		"TEX-DNA-PANELING": {
+			"alias": true,
+			"asset": "Office wood paneling (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Office wood paneling (painted texture set)",
+			"group": "wall",
+			"id": "TEX-DNA-PANELING",
+			"lock": "SURFACE",
+			"placeholder": "tex:dna_paneling",
+			"sheet_status": "in game (painted texture set)",
+			"slot": "wall.tex-dna-paneling",
+			"tile": 3.0,
+			"tinted": false,
+			"zone": "dna"
+		},
+		"TEX-DNA-WALLPAPER": {
+			"alias": true,
+			"asset": "Drab wallpaper (painted texture set)",
+			"category": "Painted texture (alias)",
+			"desc": "Drab wallpaper (painted texture set)",
+			"group": "wall",
+			"id": "TEX-DNA-WALLPAPER",
+			"lock": "SURFACE",
+			"placeholder": "tex:dna_wallpaper",
+			"sheet_status": "in game (painted texture set)",
+			"slot": "wall.tex-dna-wallpaper",
+			"tile": 3.0,
+			"tinted": false,
+			"zone": "dna"
+		}
+	},
+	"zone": "dna"
+}

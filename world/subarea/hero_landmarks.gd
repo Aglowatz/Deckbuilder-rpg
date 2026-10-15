@@ -8,6 +8,7 @@ extends RefCounted
 ## Kit id prefix -> the script with `static func build(spec: Dictionary) -> Node3D` (null when it has no model for that id).
 const BUILDERS: Dictionary = {
 	"GAIN-HERO-": "res://world/gainlands/gainlands_landmarks.gd",
+	"DNA-HERO-": "res://world/dna/dna_landmarks.gd",
 }
 
 static var _scripts: Dictionary = {}

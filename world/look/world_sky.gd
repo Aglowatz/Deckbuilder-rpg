@@ -166,6 +166,16 @@ func _apply_palette() -> void:
 			_sky_material.set_shader_parameter(key + "_color", Color.html(str(_palette[key])))
 	if _palette.has("sun"):
 		_sky_material.set_shader_parameter("sun_color", Color.html(str(_palette["sun"])))
+	# `panorama`: a zone kit SKY backdrop (DNA-SKY-GLOOM) painted round the dome over the gradient; `panorama_mix` how much of it shows (default all).
+	var panorama: Texture2D = null
+	if _palette.has("panorama") and EnvKit.has(str(_palette["panorama"])):
+		panorama = EnvKit.texture(str(_palette["panorama"]))
+	if panorama != null:
+		_sky_material.set_shader_parameter("panorama_tex", panorama)
+		_sky_material.set_shader_parameter("panorama_mix", float(_palette.get("panorama_mix", 1.0)))
+		_sky_material.set_shader_parameter("panorama_stretch", float(_palette.get("panorama_stretch", 1.25)))
+	else:
+		_sky_material.set_shader_parameter("panorama_mix", 0.0)
 	if _sun_material != null:
 		_sun_material.set_shader_parameter("strength", float(_palette.get("sun_glow", 1.0)))
 	var cloud_tint: Color = Color.html(str(_palette["cloud_tint"])) if _palette.has("cloud_tint") else Color.WHITE

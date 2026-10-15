@@ -8,6 +8,11 @@ uniform vec3 mid_color : source_color = vec3(0.66, 0.77, 0.92);
 uniform vec3 zenith_color : source_color = vec3(0.36, 0.55, 0.84);
 uniform vec3 sun_dir = vec3(-0.42, 0.62, 0.67);
 uniform vec3 sun_color : source_color = vec3(1.0, 0.86, 0.6);
+// A painted sky picture (a zone kit SKY backdrop such as DNA-SKY-GLOOM) wrapped round the dome: its bottom row at the horizon, its top row overhead, mirrored
+// twice round the compass so there is no seam. `panorama_mix` 0 keeps the gradient alone; the gradient still shows through the lowest sliver at the horizon.
+uniform sampler2D panorama_tex : source_color, filter_linear_mipmap, repeat_enable;
+uniform float panorama_mix : hint_range(0.0, 1.0) = 0.0;
+uniform float panorama_stretch = 1.25;
 
 float hash21(vec2 p) {
 	p = fract(p * vec2(123.34, 456.21));
@@ -36,5 +41,11 @@ void sky() {
 	// Warm glow on the sun's side of the sky.
 	float s = max(dot(d, normalize(sun_dir)), 0.0);
 	col += sun_color * (pow(s, 5.0) * 0.12 + pow(s, 40.0) * 0.18);
+	if (panorama_mix > 0.0) {
+		float u = abs(fract(az / 6.2831853 + 0.5) * 2.0 - 1.0);
+		float v = 1.0 - clamp(h * panorama_stretch, 0.0, 1.0);
+		vec3 pano = texture(panorama_tex, vec2(u, v)).rgb;
+		col = mix(col, pano, panorama_mix * smoothstep(0.0, 0.035, h));
+	}
 	COLOR = col;
 }

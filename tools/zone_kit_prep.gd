@@ -145,6 +145,9 @@ static func group_for(id: String, category: String, use: String, asset: String) 
 		for family: String in ["door", "window", "sign", "banner"]:
 			if text.contains(family):
 				return family
+		# a sheet of props (the D.N.A. filing cabinets): card props standing on the ground, not wall plaques
+		if text.contains("prop") or text.contains("cabinet"):
+			return "prop"
 		return "sign"
 	if cat.contains("prop"):
 		return "prop"
