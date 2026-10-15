@@ -324,3 +324,102 @@ func test_the_district_wall_is_knee_high_and_the_gates_still_seal() -> void:
 	for x: float in [10.0, 30.0, 40.0, 60.0, 70.0, 90.0]:
 		assert_false(builder.is_walkable(Vector3(x, 0.0, BuffetLayout.FENCE_Z), 0.3), "the fence line blocks at x %.0f" % x)
 	assert_false(builder.is_walkable(Vector3(22.0, 0.0, BuffetLayout.FENCE_Z), 0.3), "the closed gate blocks its gap")
+
+
+# ---- Part C: dress (docs/art/buffet_slice.md) ------------------------------------------------------------------------------------------------------
+
+
+func test_the_swaps_land_on_the_zone_art_untinted() -> void:
+	var previous: String = ZoneStyles.current
+	ZoneStyles.use_area("buffet")
+	assert_eq(ZoneStyles.swap("ENV-WALL-TIMBER"), "BUFF-WALL-BISCUIT")
+	assert_eq(ZoneStyles.swap("ENV-ROOF-TILE-RED"), "BUFF-ROOF-CRUST")
+	assert_eq(ZoneStyles.swap("ENV-DOOR-02"), "BUFF-SHEET-DOORS-02")
+	assert_eq(ZoneStyles.swap("ENV-TREE-OAK"), "BUFF-TREE-BROCCOLI")
+	var material: StandardMaterial3D = EnvKit.material("ENV-WALL-TIMBER")
+	assert_eq(material.resource_name, "BUFF-WALL-BISCUIT", "the material is the zone surface")
+	assert_not_null(material.albedo_texture, "and it is painted")
+	assert_eq(material.albedo_color, Color.WHITE, "zone art is untinted")
+	var card: ShaderMaterial = KitFoliage.card_material("ENV-TREE-OAK")
+	assert_eq((card.get_shader_parameter("card_tex") as Texture2D).resource_path.get_file(), "BUFF-TREE-BROCCOLI.webp", "tree cards swap to the zone trees")
+	ZoneStyles.use_area(previous)
+	EnvKit.clear_cache()
+	KitFoliage.clear_cache()
+
+
+func test_the_presets_and_clusters_build_from_the_kit() -> void:
+	for preset: String in BuffetBuilder.BUILDING_PRESETS:
+		assert_true(BuildingPresets.has(preset), "%s is a preset" % preset)
+		for id: String in BuildingPresets.kit_ids(preset):
+			assert_not_null(EnvKit.texture(id), "%s: %s is imported (or a painted alias)" % [preset, id])
+		var node: Node3D = BuildingPresets.build(preset)
+		assert_not_null(node, "%s builds" % preset)
+		if node != null:
+			node.free()
+	for cluster_name: String in ["banquet_corner", "stock_pots", "flour_store", "herb_bed", "cutlery_marker", "pastry_display"]:
+		assert_true(ZoneClusters.has(cluster_name), "%s is a Buffet cluster" % cluster_name)
+		var node: Node3D = ZoneClusters.make(cluster_name, 1)
+		assert_not_null(node, "%s builds" % cluster_name)
+		if node != null:
+			assert_gt(node.get_child_count(), 1, "%s has its pieces" % cluster_name)
+			node.free()
+
+
+func test_the_buildings_stand_clear_of_routes_chests_and_anchors() -> void:
+	var buildings: int = 0
+	for prop: BuffetLayout.Prop in layout.props:
+		if prop.kind != "building":
+			continue
+		buildings += 1
+		var preset: String = BuffetBuilder.BUILDING_PRESETS[prop.variant % BuffetBuilder.BUILDING_PRESETS.size()]
+		var basis: Basis = Basis(Vector3.UP, deg_to_rad(prop.yaw))
+		for circle: Vector3 in BuildingKit.obstacle_circles(BuildingPresets.spec(preset)):
+			var world: Vector3 = prop.pos + basis * Vector3(circle.x, 0.0, circle.y)
+			assert_gte(layout.path_edge_distance(world.x, world.z) - circle.z, BuffetLayout.PATH_CLEARANCE - 0.01, "%s at (%.0f, %.0f) keeps off the routes" % [preset, prop.pos.x, prop.pos.z])
+			for id: Variant in layout.chests.keys():
+				var chest: Vector3 = layout.chests[id] as Vector3
+				assert_gte(Vector2(world.x - chest.x, world.z - chest.z).length() - circle.z, 1.9, "%s leaves chest %s reachable" % [preset, str(id)])
+			for key: Variant in layout.anchors.keys():
+				var anchor: Vector3 = layout.anchors[key] as Vector3
+				assert_gte(Vector2(world.x - anchor.x, world.z - anchor.z).length() - circle.z, 3.0, "%s keeps %s clear" % [preset, str(key)])
+			for spawn: Dictionary in layout.enemy_spawns:
+				var home: Vector3 = spawn["home"] as Vector3
+				assert_gte(Vector2(world.x - home.x, world.z - home.z).length() - circle.z, 0.5, "%s leaves the enemy home at (%.0f, %.0f) on open ground" % [preset, home.x, home.z])
+	assert_eq(buildings, 3, "the bakery, the cake square's cottage and the pancake end's kitchen house")
+
+
+func test_the_dressing_keeps_the_plaza_the_routes_and_the_anchors_open() -> void:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: BuffetBuilder = BuffetBuilder.new()
+	builder.build(host)
+	var dressing: BuffetDressing = BuffetDressing.build(host, builder, GraphicsQuality.Level.HIGH)
+	assert_gte(dressing.count, 8, "the clusters and decals are placed (%d)" % dressing.count)
+	var hub: Vector3 = layout.anchors["hub"] as Vector3
+	var clusters: int = 0
+	var placed: PackedStringArray = PackedStringArray()
+	for child: Node in dressing.root.get_children():
+		if not child.name.contains("Cluster_"):
+			continue
+		clusters += 1
+		placed.append("%s (%.0f, %.0f)" % [child.name, (child as Node3D).position.x, (child as Node3D).position.z])
+		var pos: Vector3 = (child as Node3D).position
+		assert_gte(Vector2(pos.x - hub.x, pos.z - hub.z).length(), BuffetLayout.PLAZA_RADIUS - 0.01, "%s stays off the plaza" % child.name)
+		var solid: bool = not ((child as Node3D).get_meta("circles", []) as Array).is_empty()
+		if solid:
+			assert_gte(layout.path_edge_distance(pos.x, pos.z), BuffetLayout.PATH_CLEARANCE - 0.01, "%s stays off the routes" % child.name)
+		for key: Variant in layout.anchors.keys():
+			var anchor: Vector3 = layout.anchors[key] as Vector3
+			assert_gte(Vector2(pos.x - anchor.x, pos.z - anchor.z).length(), 3.0 - 0.01, "%s keeps %s clear" % [child.name, str(key)])
+		assert_false(BuffetLayout.on_bridge(pos.x, pos.z), "%s is not on the bridge" % child.name)
+	gut.p("placed: " + ", ".join(placed))
+	assert_gte(clusters, 8, "most of the clusters found free ground (%d: %s)" % [clusters, ", ".join(placed)])
+	# every key location still reachable with the dressing's blockers in place
+	for gate_id: String in ["ingredient", "quest", "battle"]:
+		builder.open_gate(gate_id)
+	var can_stand: Callable = func(pos: Vector3) -> bool: return builder.is_walkable(pos, 0.3)
+	var targets: Dictionary = {}
+	for key: String in ["odalys", "tarragon", "dolcetta", "quiz", "minigame", "pickup_sea_salt", "pickup_truffle", "pickup_basil", "pickup_saffron", "pickup_hot_pepper", "gate_quest", "main_dungeon", "mini_dungeon", "exit"]:
+		targets[key] = layout.anchors[key]
+	var missing: Array[String] = WalkProbe.unreachable(can_stand, layout.anchors["spawn"] as Vector3, builder.map_bounds(), targets)
+	assert_eq(missing, [] as Array[String], "the dressing blocks no way to a key location")

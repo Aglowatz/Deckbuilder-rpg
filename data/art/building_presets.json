@@ -1468,6 +1468,217 @@
 					}
 				]
 			}
+		},
+		"buffet_bakery": {
+			"width": 8,
+			"depth": 6,
+			"floors": 2,
+			"ground_height": 2.9,
+			"floor_height": 2.2,
+			"timber": "none",
+			"wall": "BUFF-WALL-BISCUIT",
+			"wall_upper": "TEX-BUFF-FROSTING",
+			"foundation_wall": "BUFF-WALL-OVEN",
+			"eave": "BUFF-TRIM-CLOTH",
+			"roof": {
+				"style": "gable",
+				"pitch": 36,
+				"overhang": 0.7,
+				"material": "BUFF-ROOF-CRUST"
+			},
+			"chimney": {
+				"x": 2.4,
+				"z": -1.2,
+				"w": 0.9,
+				"height": 1.4
+			},
+			"faces": {
+				"front": [
+					{
+						"type": "door",
+						"id": "BUFF-SHEET-DOORS-01",
+						"u": 0,
+						"lantern": true
+					},
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-04",
+						"u": -2.5,
+						"floor": 0
+					},
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-03",
+						"u": 2.5,
+						"floor": 0
+					},
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-01",
+						"u": -1.5,
+						"floor": 1
+					},
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-01",
+						"u": 1.5,
+						"floor": 1
+					},
+					{
+						"type": "sign",
+						"id": "BUFF-SHEET-SIGNS-03",
+						"u": 3.4,
+						"y": 2.6,
+						"size": 1
+					}
+				],
+				"right": [
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-05",
+						"u": 0,
+						"floor": 0
+					},
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-02",
+						"u": 0,
+						"floor": 1
+					}
+				],
+				"left": [
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-02",
+						"u": -1,
+						"floor": 0
+					},
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-05",
+						"u": 1,
+						"floor": 1
+					}
+				]
+			}
+		},
+		"buffet_kitchen": {
+			"width": 7,
+			"depth": 6,
+			"floors": 1,
+			"ground_height": 3.2,
+			"floor_height": 2.2,
+			"timber": "none",
+			"wall": "BUFF-WALL-OVEN",
+			"foundation_wall": "BUFF-WALL-OVEN",
+			"eave": "BUFF-TRIM-CLOTH",
+			"roof": {
+				"style": "hip",
+				"pitch": 30,
+				"overhang": 0.8,
+				"material": "BUFF-ROOF-COPPER"
+			},
+			"chimney": {
+				"x": 1.8,
+				"z": -1,
+				"w": 1.1,
+				"height": 1.8
+			},
+			"faces": {
+				"front": [
+					{
+						"type": "door",
+						"id": "BUFF-SHEET-DOORS-04",
+						"u": -1.2,
+						"lantern": true
+					},
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-04",
+						"u": 1.8,
+						"floor": 0
+					},
+					{
+						"type": "sign",
+						"id": "BUFF-SHEET-SIGNS-02",
+						"u": 3,
+						"y": 2.5,
+						"size": 0.95
+					}
+				],
+				"right": [
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-06",
+						"u": 0,
+						"floor": 0
+					}
+				],
+				"left": [
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-04",
+						"u": 0,
+						"floor": 0
+					}
+				]
+			}
+		},
+		"buffet_cottage": {
+			"width": 6,
+			"depth": 5,
+			"floors": 1,
+			"ground_height": 2.8,
+			"floor_height": 2,
+			"timber": "none",
+			"wall": "BUFF-WALL-BISCUIT",
+			"foundation_wall": "BUFF-WALL-OVEN",
+			"eave": "BUFF-TRIM-CLOTH",
+			"roof": {
+				"style": "gable",
+				"pitch": 40,
+				"overhang": 0.6,
+				"material": "BUFF-ROOF-CRUST"
+			},
+			"faces": {
+				"front": [
+					{
+						"type": "door",
+						"id": "BUFF-SHEET-DOORS-05",
+						"u": -0.9,
+						"lantern": true
+					},
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-06",
+						"u": 1.6,
+						"floor": 0
+					},
+					{
+						"type": "sign",
+						"id": "BUFF-SHEET-SIGNS-04",
+						"u": 2.6,
+						"y": 2.4,
+						"size": 0.9
+					}
+				],
+				"right": [
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-03",
+						"u": 0,
+						"floor": 0
+					}
+				],
+				"left": [
+					{
+						"type": "window",
+						"id": "BUFF-SHEET-WINDOWS-01",
+						"u": 0,
+						"floor": 0
+					}
+				]
+			}
 		}
 	}
 }

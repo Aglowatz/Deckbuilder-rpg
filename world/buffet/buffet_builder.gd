@@ -8,6 +8,8 @@ extends ZoneMap
 const M = preload("res://world/buffet/buffet_materials.gd")
 const P = preload("res://world/buffet/buffet_props.gd")
 const MOBS = preload("res://world/buffet/buffet_mobs.gd")
+## The kit presets a layout "building" prop picks by its variant (Part C).
+const BUILDING_PRESETS: Array[String] = ["buffet_bakery", "buffet_kitchen", "buffet_cottage"]
 
 var layout: BuffetLayout = BuffetLayout.new()
 var root: Node3D
@@ -557,6 +559,12 @@ func _place_feature(prop: BuffetLayout.Prop, pos: Vector3) -> void:
 	match prop.kind:
 		"cabinet":
 			node = P.kitchen_row(prop.variant if prop.pos.x < 50.0 else prop.variant + 1)
+		"building":
+			# a kit preset building (data/art/building_presets.json buffet_*): the bakery, the show kitchen's house, the cottages
+			var preset: String = BUILDING_PRESETS[prop.variant % BUILDING_PRESETS.size()]
+			node = BuildingPresets.build(preset)
+			node.set_meta("circles", BuildingKit.obstacle_circles(BuildingPresets.spec(preset)))
+			_add_circles(node, pos, prop.yaw)
 		"hall_wing":
 			node = BuffetLandmarks.hall_wing(11.0, prop.variant)
 			_add_circles(node, pos, prop.yaw)

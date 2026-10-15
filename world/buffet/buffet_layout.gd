@@ -62,6 +62,9 @@ const BROCCOLI_GIANT: Vector2 = Vector2(6.8, 64.0)
 const BROCCOLI_GIANT_SIZE: Vector3 = Vector3(16.0, 18.0, 16.0)
 const OMAKASE_PAVILION: Vector2 = Vector2(48.5, 6.0)
 const OMAKASE_PAVILION_SIZE: Vector3 = Vector3(8.0, 7.0, 5.0)
+## Where each region paint-over was painted from (the camera looks north): `bash tools/shot.sh res://scenes/buffet_zone.tscn <name> --at=po_<region>`.
+## Not anchors: they are neither destinations of the walkability probe nor kept-clear ground.
+const PO_CAMERAS: Dictionary = {"po_hub": Vector2(50.0, 70.5), "po_hills": Vector2(22.0, 52.0), "po_forest": Vector2(11.0, 72.5), "po_bakery": Vector2(44.5, 33.0), "po_omakase": Vector2(46.0, 14.5)}
 ## Flat, kept-clear ground under the region landmarks: (x, z, radius).
 const LANDMARK_SPOTS: Array[Vector3] = [Vector3(39.0, 22.0, 7.4), Vector3(48.5, 6.0, 4.6), Vector3(6.8, 64.0, 3.0)]
 ## What the region landmarks block, as layout data (x, z, radius), so a layout-only reader (the walkability probe, the chest scan) sees them too: the Cathedral's
@@ -616,7 +619,8 @@ func _features() -> void:
 	_prop("oven", 58.0, 69.5, 180.0, 1.0, 1.6)
 	_prop("dispenser", 65.0, 67.5, 200.0, 1.0, 0.8)
 	_prop("broken_golem", 36.0, 68.0, 20.0, 1.0, 1.3)
-	_prop("hall_wing", 40.0, 51.0, 0.0, 1.0, 0.0, 0)
+	# (the west wing stands west of the salt flat: the sea-salt pickup and the bank leave no room for a wall and a table beside the road, BF-17)
+	_prop("hall_wing", 30.0, 51.0, 0.0, 1.0, 0.0, 0)
 	_prop("hall_wing", 60.0, 51.0, 0.0, 1.0, 0.0, 1)
 	# Broccoli Forest: the hollowed bread loaf with the quiz master, a second loaf hiding a chest.
 	_prop("gazebo", 19.0, 59.2, 0.0, 1.0, 2.2)
@@ -624,13 +628,16 @@ func _features() -> void:
 	# The show kitchen (the Candy Field): the Dinner in a Dash set, the taste-test station, a giant candy jar.
 	_prop("stage", 82.0, 58.6, 0.0, 1.0, 1.8)
 	_prop("taste_station", 88.0, 55.0, 0.0, 1.0, 1.1)
-	_prop("candy_jar", 75.4, 73.0, 0.0, 1.0, 1.2)
-	# The salt flats: a giant salt shaker hiding a chest.
-	_prop("shaker", 35.5, 50.4, 30.0, 1.0, 0.9, 0)
+	_prop("candy_jar", 74.5, 74.0, 0.0, 1.0, 1.2)
+	# The salt flats: a giant salt shaker on the bank (its twin went: the west wing stands where it stood, BF-17).
 	_prop("shaker", 41.0, 49.6, -20.0, 1.0, 0.9, 1)
 	# Butter Butte decoration.
 	_prop("butter_pat", 66.5, 55.6, 0.0, 1.0, 0.0)
-	# The cake square (Layer-Cake Town): the layer-cake stand-ins are gone (they crowded the road and the chest); bakery presets come in Part C.
+	# The three gated districts (Part C): a cottage in the cake square facing the bank road, the bakery at the cheese end, an oven-brick kitchen house at the
+	# pancake end (the show kitchen's terrace is too full for a house: the cookie dispenser, the candy chest, the lever and the saffron leave no 8 m, BF-17).
+	_prop("building", 58.1, 26.0, 0.0, 1.0, 2.5, 2)
+	_prop("building", 30.6, 25.5, 0.0, 1.0, 3.0, 0)
+	_prop("building", 90.5, 23.0, -90.0, 1.0, 3.0, 1)
 	# (the Walk-In Freezer stand-in and the taped kitchen door are gone: the Omakase Pavilion and the Test Kitchen hero models stand there, Part A)
 	# Cheddar Cliffs: wheels of cheese.
 	_prop("cheese_wheel", 29.5, 12.5, 20.0, 1.3, 2.7, 0)
@@ -639,7 +646,7 @@ func _features() -> void:
 	# Pancake Plateau: stacks of pancakes and the mystery stew pot on the summit.
 	_prop("stew_pot", 82.0, 12.0, 0.0, 1.0, 1.9)
 	_prop("pancake_stack", 70.0, 10.0, 0.0, 1.0, 2.4, 0)
-	_prop("pancake_stack", 90.0, 28.0, 0.0, 0.9, 2.1, 1)
+	_prop("pancake_stack", 85.0, 27.5, 0.0, 0.9, 2.1, 1)
 	_prop("pancake_stack", 68.0, 26.0, 0.0, 0.8, 1.9, 2)
 	# The susan's central pillar (a giant pepper mill).
 	_prop("mill_pillar", 50.0, river_z(50.0), 0.0, 1.0, SUSAN_PILLAR)
@@ -715,7 +722,7 @@ func _scatter() -> void:
 	_grove("broccoli", Vector2(31.0, 40.0), 3, 2.6, keep_clear)
 	_grove("broccoli", Vector2(69.0, 40.0), 3, 2.6, keep_clear)
 	_grove("cauliflower", Vector2(12.0, 37.0), 3, 2.4, keep_clear)
-	_grove("cauliflower", Vector2(88.0, 26.0), 3, 2.4, keep_clear)
+	_grove("cauliflower", Vector2(92.0, 13.0), 3, 2.4, keep_clear)
 
 
 ## A tight group of count trees round center (the edge of a space), each kept clear of routes and anchors like the scatter.

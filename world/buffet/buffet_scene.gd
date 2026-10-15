@@ -87,9 +87,20 @@ func _update_bridge_exit() -> void:
 		Session.leave_zone()
 
 
-## No generic furniture scatter in the Buffet (BF-9): the zone is dressed by its layout (and `BuffetDressing`, Part C) only.
+## No generic furniture scatter in the Buffet (BF-9): the zone is dressed by its layout and `BuffetDressing` (kit clusters and decals, Part C) only.
+var dressing: BuffetDressing
+
+
 func _dress_zone() -> void:
-	pass
+	dressing = BuffetDressing.build(self, buf, Settings.graphics_quality)
+	# the few real lights of the zone: the Pavilion's paper lanterns and the bridge gate's lanterns (the oven glows are emissive only)
+	for id: String in ["BUFF-HERO-OMAKASE-PAVILION"]:
+		var node: Node3D = buf.landmarks.get(id) as Node3D
+		if node != null:
+			KitLights.attach(node, self, style_rig)
+	var bridge: Node3D = buf.root.find_child("Bridge", false, false) as Node3D
+	if bridge != null:
+		KitLights.attach(bridge, self, style_rig)
 
 
 func _prompt_for(spot: ZoneSpot) -> String:
@@ -632,6 +643,12 @@ func _pickup_model(ingredient_id: String) -> Node3D:
 
 func _teleport(anchor_name: String) -> void:
 	_bridge_exit_armed = false  # a screenshot teleport onto the landing must not walk the hero off the end
+	if BuffetLayout.PO_CAMERAS.has(anchor_name):
+		var at: Vector2 = BuffetLayout.PO_CAMERAS[anchor_name] as Vector2
+		player.position = Vector3(at.x, buf.layout.ground_height(at.x, at.y), at.y)
+		_camera.position = player.position + CameraRig.shape(camera_offset)
+		_spawn_grace = 30.0
+		return
 	if anchor_name == "raft_ride":
 		var raft: BuffetLayout.Raft = buf.layout.rafts[0]
 		var pos: Vector2 = buf.layout.raft_position(raft, buf.time)

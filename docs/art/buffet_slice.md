@@ -72,4 +72,19 @@ The playbook's declutter rules (section 5) applied to the one zone before any dr
 
 Checks: 1552 GUT tests, 1551 passing (GC-6 pre-existing); the walkability probe reaches every key location; `bash tools/fps.sh res://scenes/buffet_zone.tscn 1`: 60.0 fps Medium (432 draw calls, was 773); the new windowed walk smoke `bash tools/run_buffet_walk_smoke.sh` (about 4 minutes, real input: the bridge, the plaza, every NPC and the vendor, every interactable, the quiz, Dinner in a Dash, the taste test, the stew pot, the Walk-In Freezer sealed and unlocked, the Test Kitchen gate, the giant chest, the lever, the walk back out over the bridge to town) passes 85 checks; the long Buffet smoke found the two Part B regressions of BF-16 on its first run and its rerun was stopped by the machine's low-memory reaper, so it is rerun in Part E. Tests added in `tests/world/test_buffet_slice.gd` (routes, open ground, scatter, plaza, boards, the bridge, the fresh visit, the walls); `tests/core/zone/test_buffet.gd` lets the spawn and the exit stand on the bridge and floods as far as it.
 
+## Part C: dress
+
+Material swaps, three presets, six zone clusters as data, `BuffetDressing` (clusters at edges, kit decals), four preset buildings; the decluttered layout of Part B is kept (every cluster is refused on a route, in the plaza, at the bridge head or the forecourt, or within reach of an anchor or a chest, and tested so). BF-14, BF-15.
+
+| Part C | After Part B | After Part C |
+|---|---|---|
+| The hub at the paint-over camera | ![](buffet_slice/b_PO-BUFFET-HUB.jpg) | ![](buffet_slice/c_PO-BUFFET-HUB.jpg) |
+| The plaza from the fountain (hub) | ![](buffet_slice/b_region_hub.jpg) | ![](buffet_slice/c_region_hub.jpg) |
+| The cake square: the bakery and the Cathedral (gate_quest) | | ![](buffet_slice/c_region_gate_quest.jpg) |
+| The show kitchen (minigame) | ![](buffet_slice/b_region_minigame.jpg) | ![](buffet_slice/c_region_minigame.jpg) |
+| The Walk-In Freezer door (mini_dungeon) | ![](buffet_slice/b_region_mini_dungeon.jpg) | ![](buffet_slice/c_region_mini_dungeon.jpg) |
+| The kit bench: the three presets with the zone's swaps | | ![](buffet_slice/c_bench_presets.jpg) |
+
+Checks: 66 Buffet GUT tests (the swaps land on the zone art untinted, the presets and clusters build, the three buildings and the twelve dressing spots stay clear of routes, chests and anchors); `bash tools/fps.sh res://scenes/buffet_zone.tscn 1`: 60.0 fps Medium (444 draw calls); the walk smoke passes (85 checks).
+
 (Parts B-E follow below as they land.)

@@ -821,29 +821,16 @@ static func hall_wing(width: float, variant: int) -> Node3D:
 	mesh.blob("butter", Vector3(dome_x, wall_h + 0.4 + upper_h + 4.9, 0), Vector3(0.4, 0.4, 0.4), 4, 8, 1.0)
 	var chimney_x: float = -dome_side * (half - 2.0)
 	steam.append(_chimney(mesh, Vector3(chimney_x, wall_h + 0.4 + upper_h + 0.6, -0.4), 3.2, 0.5))
-	# the banquet table along the front under a tablecloth awning on cream posts; cloches, cake stands and candles on it (painted card props)
+	# the banquet table along the front under a tablecloth awning on cream posts; cloches, cake stands and candles on it (the east wing only: the road runs past the west one)
 	var table_z: float = depth * 0.5 + 2.6
 	var table_w: float = width - 3.0
-	mesh.box("cloth", Vector3(0, 0.86, table_z), Vector3(table_w, 0.1, 1.6), Basis.IDENTITY, 0.0)
-	mesh.box("white", Vector3(0, 0.5, table_z), Vector3(table_w - 0.2, 0.62, 1.4), Basis.IDENTITY, 0.02, 0.85)
-	for index: int in range(3):
-		var x: float = -table_w * 0.35 + table_w * 0.35 * float(index)
-		_candle(mesh, Vector3(x, 0.92, table_z), 0.5, 0.06)
-		mesh.lathe("white", Vector3(x + 1.2, 0.9, table_z + 0.2), [Vector2(0.3, 0.0), Vector2(0.32, 0.05), Vector2(0.0, 0.08)], 8, 1.0, false, true)
-		mesh.blob("tomato" if index % 2 == 0 else "pink", Vector3(x + 1.2, 1.02, table_z + 0.2), Vector3(0.2, 0.1, 0.2), 3, 6, 1.0)
-	for side: float in [-1.0, 1.0]:
-		var post: Vector3 = Vector3(side * (table_w * 0.5 + 0.4), 0.0, table_z + 1.1)
-		mesh.tube("white", post, post + Vector3(0, 2.6, 0), 0.1, 6, true)
-		circles.append(Vector3(post.x, post.z, 0.25))
-	_card(mesh, "BUFF-SHEET-AWNINGS-%02d" % (variant * 3 + 1), Vector3(-table_w * 0.5 - 0.4, 2.55, table_z + 1.15), 1.5, Vector3(0, 0, 1))
-	_card(mesh, "BUFF-SHEET-AWNINGS-%02d" % (variant * 3 + 2), Vector3(-table_w * 0.5 - 0.4 + 2.6, 2.55, table_z + 1.15), 1.5, Vector3(0, 0, 1))
-	# the wall and the table block along their length
+	if variant == 1:
+		_banquet_table(mesh, table_z, table_w, circles)
+	# the wall blocks along its length
 	var steps: int = maxi(2, int(width / 2.4))
 	for index: int in range(steps + 1):
 		var x: float = -half + width * float(index) / float(steps)
 		circles.append(Vector3(x, 0.0, 1.9))
-		if index > 0 and index < steps:
-			circles.append(Vector3(x, table_z, 1.1))
 	var body: MeshInstance3D = mesh.instance("Body")
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)
 	body.set_meta("occlusion_near", 2.0)
@@ -855,6 +842,26 @@ static func hall_wing(width: float, variant: int) -> Node3D:
 	root.set_meta("height", wall_h + upper_h + 5.0)
 	root.set_meta("triangles", mesh.triangle_count())
 	return root
+
+
+static func _banquet_table(mesh: KitMesh, table_z: float, table_w: float, circles: Array[Vector3]) -> void:
+	mesh.box("cloth", Vector3(0, 0.86, table_z), Vector3(table_w, 0.1, 1.6), Basis.IDENTITY, 0.0)
+	mesh.box("white", Vector3(0, 0.5, table_z), Vector3(table_w - 0.2, 0.62, 1.4), Basis.IDENTITY, 0.02, 0.85)
+	for index: int in range(3):
+		var x: float = -table_w * 0.35 + table_w * 0.35 * float(index)
+		_candle(mesh, Vector3(x, 0.92, table_z), 0.5, 0.06)
+		mesh.lathe("white", Vector3(x + 1.2, 0.9, table_z + 0.2), [Vector2(0.3, 0.0), Vector2(0.32, 0.05), Vector2(0.0, 0.08)], 8, 1.0, false, true)
+		mesh.blob("tomato" if index % 2 == 0 else "pink", Vector3(x + 1.2, 1.02, table_z + 0.2), Vector3(0.2, 0.1, 0.2), 3, 6, 1.0)
+	for side: float in [-1.0, 1.0]:
+		var post: Vector3 = Vector3(side * (table_w * 0.5 + 0.4), 0.0, table_z + 1.1)
+		mesh.tube("white", post, post + Vector3(0, 2.6, 0), 0.1, 6, true)
+		circles.append(Vector3(post.x, post.z, 0.25))
+	_card(mesh, "BUFF-SHEET-AWNINGS-04", Vector3(-table_w * 0.5 - 0.4, 2.55, table_z + 1.15), 1.5, Vector3(0, 0, 1))
+	_card(mesh, "BUFF-SHEET-AWNINGS-05", Vector3(-table_w * 0.5 - 0.4 + 2.6, 2.55, table_z + 1.15), 1.5, Vector3(0, 0, 1))
+	# the table blocks along its length
+	var pieces: int = maxi(2, int(table_w / 2.2))
+	for index: int in range(pieces + 1):
+		circles.append(Vector3(-table_w * 0.5 + table_w * float(index) / float(pieces), table_z, 1.1))
 
 
 # ---- The district walls (Part B) ---------------------------------------------------------------------------------------------------------------------------
