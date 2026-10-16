@@ -1,46 +1,40 @@
 class_name TutorialLayer
 extends CanvasLayer
-## Guided prompts for the first battle. A coach bubble points at the thing to click with a
-## pulsing highlight, and moves on by itself when the player does it. Skippable at any time.
-## It only watches the battle screen (mode, game state, events); it never touches the rules.
+## Guided prompts for a new player's first battles. A short coach bubble points at the thing it talks about with a pulsing
+## highlight, never on top of it, and moves on by itself when the player does it. Battle feel, Part D: one thing at a time,
+## each prompt once ever (a `tut_<id>` flag), and the later topics (traps, Tools, the Refuse Pile) wait until they first come
+## up, in whichever battle that is. "Skip tips" turns all of them off. It only watches the battle screen; it never touches the rules.
 
 const STEPS: Array[Dictionary] = [
-	{
-		"id": "intro", "title": "Your first duel",
-		"text": "Reduce your opponent's HP to 0 before they do the same to you. Each side starts with 5 cards. You may keep this hand, or take one free mulligan for a fresh 5.",
-		"info": true,
-	},
-	{
-		"id": "infrastructure", "title": "Play an infrastructure",
-		"text": "Infrastructure make the energy you spend on spells. [b]Click an infrastructure[/b] (or drag it onto the table). You can play [b]one infrastructure per turn[/b].",
-	},
-	{
-		"id": "cast", "title": "Play a card",
-		"text": "Cards [color=#ffd76a]glow gold[/color] when you can pay for them. Click one to play it. Units stay on the field; spells act once and are spent. Some spells ask you to choose a target.",
-	},
-	{
-		"id": "keywords", "title": "Keywords",
-		"text": "Words like [b]Flying[/b] or [b]Hustle[/b] change how a unit fights. [b]Hover any card[/b] to see it zoomed, with every keyword explained underneath.",
-		"info": true,
-	},
-	{
-		"id": "trap", "title": "Traps",
-		"text": "A [b]Trap[/b] is play face-down. It springs by itself when the opponent does what it watches for, such as attacking. The opponent cannot see what it is.",
-	},
-	{
-		"id": "end_turn", "title": "Ending your turn",
-		"text": "Nothing left to do? [b]To Combat[/b] moves on to attacking, and [b]End Turn[/b] passes the turn. Your infrastructure ready and you draw a card next turn.",
-		"info": true,
-	},
-	{
-		"id": "attack", "title": "Attack!",
-		"text": "[b]Click your units[/b] to send them at the opponent, then press [b]Attack[/b]. Attackers activate (they cannot block next turn) and units that just arrived cannot attack yet.",
-	},
-	{
-		"id": "block", "title": "Block!",
-		"text": "The opponent is attacking. [b]Click one of your units, then the attacker[/b] it should block. Unblocked attackers hit you. Then press [b]Confirm Blocks[/b].",
-	},
+	{"id": "intro", "title": "Your first duel", "info": true,
+		"text": "Bring the enemy's HP to 0 before they do it to you. Keep this hand, or take one free mulligan."},
+	{"id": "infrastructure", "title": "Play an Infrastructure",
+		"text": "[b]Click the glowing Infrastructure.[/b] It gives you energy. One per turn."},
+	{"id": "energy", "title": "Energy", "info": true,
+		"text": "Each Infrastructure is an [b]energy orb[/b] on your plate. Cards cost energy, and the orbs refill every turn."},
+	{"id": "unit", "title": "Play a unit",
+		"text": "Cards [color=#ffd76a]glow gold[/color] when you can pay for them. [b]Click a unit[/b] to put it on the field."},
+	{"id": "end_turn", "title": "Nothing left to play", "info": true,
+		"text": "[b]To Combat[/b] goes to attacking; [b]End Turn[/b] passes. You draw a card next turn."},
+	{"id": "attack", "title": "Attack!",
+		"text": "[b]Click your units[/b], then [b]Attack[/b]. The numbers show what each hit will do. New units wait a turn."},
+	{"id": "block", "title": "Block!",
+		"text": "[b]Click your unit, then the attacker[/b] it blocks. Unblocked attackers hit you. Then [b]Confirm Blocks[/b]."},
+	{"id": "trap", "title": "Traps",
+		"text": "A [b]Trap[/b] is set face-down and springs by itself on the enemy's turn. Click it to set it."},
+	{"id": "enemy_trap", "title": "A trap!", "info": true,
+		"text": "The enemy had a trap set. Hover their plate to see how many traps they still have set."},
+	{"id": "tool", "title": "Tools",
+		"text": "A [b]Tool[/b] stays on the table. Use its ability to attach it to one of your units."},
+	{"id": "refuse", "title": "The Refuse Pile", "info": true,
+		"text": "Spent spells and destroyed units go to the [b]Refuse Pile[/b]. Click it to look inside."},
+	{"id": "keywords", "title": "Keywords", "info": true,
+		"text": "Words like [b]Flying[/b] change how a unit fights. Hover one on a card to see what it does."},
 ]
+
+## Info prompts go away by themselves after this long, so a player who ignores them is never stuck with one.
+const INFO_SECONDS: float = 12.0
+const BUBBLE_WIDTH: float = 440.0
 
 var screen: BattleScreen
 var _host: Control
@@ -53,38 +47,58 @@ var _done: Dictionary = {}
 var _current: String = ""
 var _flags: Dictionary = {}
 var _time: float = 0.0
+var _shown_at: float = 0.0
 var _skipped: bool = false
+
+
+## Whether a battle should show tips at all: until they are skipped, while any prompt has not been seen.
+static func wanted() -> bool:
+	if Session.flag(&"tutorial_done"):
+		return false
+	for step: Dictionary in STEPS:
+		if not Session.flag(StringName("tut_%s" % str(step["id"]))):
+			return true
+	return false
 
 
 func setup(battle: BattleScreen) -> void:
 	screen = battle
 	layer = 30
+	for step: Dictionary in STEPS:
+		if Session.flag(StringName("tut_%s" % str(step["id"]))):
+			_done[str(step["id"])] = true
 	_host = UIKit.layer_host(self)
 	_overlay = Overlay.new()
 	_overlay.size = Vector2(1920, 1080)
 	_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_host.add_child(_overlay)
 	_bubble = UIKit.panel()
-	_bubble.custom_minimum_size = Vector2(520, 0)
-	_bubble.size = Vector2(520, 10)
+	_bubble.name = "TutorialBubble"
+	_bubble.custom_minimum_size = Vector2(BUBBLE_WIDTH, 0)
+	_bubble.size = Vector2(BUBBLE_WIDTH, 10)
 	_bubble.visible = false
 	_bubble.z_index = 5
+	# Clicks pass through the bubble (only its buttons take them), so it never blocks a card under it.
+	_bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_host.add_child(_bubble)
-	var column: VBoxContainer = UIKit.vbox(8)
+	var column: VBoxContainer = UIKit.vbox(6)
 	_bubble.add_child(column)
-	_title = UIKit.label("", &"HeadingLabel", 28)
+	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_title = UIKit.label("", &"HeadingLabel", 26)
 	column.add_child(_title)
-	_text = UIKit.rich("", 22)
-	_text.custom_minimum_size = Vector2(480, 0)
+	_text = UIKit.rich("", 21)
+	_text.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_text.custom_minimum_size = Vector2(BUBBLE_WIDTH - 40.0, 0)
 	column.add_child(_text)
 	var row: HBoxContainer = UIKit.hbox(10)
 	column.add_child(row)
-	_got_it = FancyButton.make("Got it", &"PrimaryButton", Vector2(150, 46))
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_got_it = FancyButton.make("Got it", &"PrimaryButton", Vector2(130, 42))
 	_got_it.pressed.connect(_on_got_it)
 	row.add_child(_got_it)
 	row.add_child(UIKit.filler())
-	var skip: FancyButton = FancyButton.make("Skip tutorial", &"GhostButton", Vector2(190, 46))
-	skip.add_theme_font_size_override("font_size", 20)
+	var skip: FancyButton = FancyButton.make("Skip tips", &"GhostButton", Vector2(150, 42))
+	skip.add_theme_font_size_override("font_size", 19)
 	skip.pressed.connect(skip_tutorial)
 	row.add_child(skip)
 
@@ -96,11 +110,26 @@ func skip_tutorial() -> void:
 	set_process(false)
 
 
+## The id of the prompt on screen ("" when none).
+func current_step() -> String:
+	return _current
+
+
+func bubble_rect() -> Rect2:
+	return Rect2(_bubble.position, _bubble.size) if _bubble.visible else Rect2()
+
+
 func _hide() -> void:
 	_bubble.visible = false
 	_overlay.target = Rect2()
 	_overlay.queue_redraw()
 	_current = ""
+
+
+## A prompt counts as seen once it has been shown and closed (done, dismissed or no longer relevant).
+func _mark_done(id: String) -> void:
+	_done[id] = true
+	Session.set_flag(StringName("tut_%s" % id))
 
 
 func on_battle_event(event: GameEvent) -> void:
@@ -111,16 +140,25 @@ func on_battle_event(event: GameEvent) -> void:
 		GameEvent.Type.CARD_PLAYED:
 			if event.player == 0:
 				_flags["cast"] = true
+				var card: CardInstance = screen.game.find_card(event.card)
+				if card != null and card.data.is_tool():
+					_flags["tool_played"] = true
+		GameEvent.Type.PERMANENT_ENTERED:
+			if event.player == 0:
+				_flags["unit_played"] = true
 		GameEvent.Type.TRAP_SET:
 			if event.player == 0:
 				_flags["trap_set"] = true
+		GameEvent.Type.TRAP_TRIGGERED:
+			if event.player != 0:
+				_flags["enemy_trap"] = event.card
 		GameEvent.Type.ATTACKERS_DECLARED:
 			if event.player == 0:
 				_flags["attacked"] = true
 		GameEvent.Type.BLOCKER_ASSIGNED:
 			_flags["blocked"] = true
-		GameEvent.Type.GAME_OVER:
-			Session.set_flag(&"tutorial_done")
+		GameEvent.Type.UNIT_DIED, GameEvent.Type.CARD_TOSSED:
+			_flags["refuse"] = true
 
 
 func on_mode_changed(_mode: int) -> void:
@@ -133,7 +171,7 @@ func on_attackers_changed(_count: int) -> void:
 
 func _on_got_it() -> void:
 	if _current != "":
-		_done[_current] = true
+		_mark_done(_current)
 		_hide()
 
 
@@ -151,8 +189,9 @@ func _process(delta: float) -> void:
 				_show(step)
 				break
 	else:
-		if _finished(_current) or not _still_relevant(_current):
-			_done[_current] = true
+		var info: bool = _is_info(_current)
+		if _finished(_current) or not _still_relevant(_current) or (info and _time - _shown_at > INFO_SECONDS):
+			_mark_done(_current)
 			_hide()
 			return
 		_place()
@@ -160,14 +199,24 @@ func _process(delta: float) -> void:
 	_overlay.queue_redraw()
 
 
+func _is_info(id: String) -> bool:
+	for step: Dictionary in STEPS:
+		if str(step["id"]) == id:
+			return bool(step.get("info", false))
+	return false
+
+
 func _show(step: Dictionary) -> void:
 	_current = str(step["id"])
+	_shown_at = _time
 	_title.text = str(step["title"])
 	_text.text = str(step["text"])
 	_got_it.visible = bool(step.get("info", false))
 	_bubble.visible = true
 	_bubble.reset_size()
-	_bubble.size = Vector2(520, _bubble.size.y)
+	_bubble.size = Vector2(BUBBLE_WIDTH, _bubble.size.y)
+	# The first placement is exact (no glide from wherever the last bubble was).
+	_bubble.position = _best_spot(_target_rect(_current), _avoid_rects(_current), _bubble.size)
 	Audio.sfx(&"ui_open", -8.0)
 	UIKit.pop_in(_bubble)
 
@@ -180,59 +229,73 @@ func _hand_cards() -> Array[CardInstance]:
 	return screen.game.players[0].hand
 
 
-func _castable() -> Array[int]:
+func _hand_where(test: Callable) -> Array[int]:
 	var result: Array[int] = []
 	for card: CardInstance in _hand_cards():
-		if not card.data.is_infrastructure() and screen.game.can_play_card(0, card.uid):
+		if bool(test.call(card)):
 			result.append(card.uid)
 	return result
+
+
+func _castable_units() -> Array[int]:
+	return _hand_where(func(card: CardInstance) -> bool: return card.data.is_unit() and screen.game.can_play_card(0, card.uid))
+
+
+func _castable() -> Array[int]:
+	return _hand_where(func(card: CardInstance) -> bool: return not card.data.is_infrastructure() and screen.game.can_play_card(0, card.uid))
 
 
 func _playable_infrastructure() -> Array[int]:
-	var result: Array[int] = []
-	for card: CardInstance in _hand_cards():
-		if card.data.is_infrastructure() and screen.game.can_play_infrastructure(0, card.uid):
-			result.append(card.uid)
-	return result
+	return _hand_where(func(card: CardInstance) -> bool: return card.data.is_infrastructure() and screen.game.can_play_infrastructure(0, card.uid))
 
 
 func _keyword_cards() -> Array[int]:
 	var result: Array[int] = []
-	for card: CardInstance in _hand_cards():
+	for card: CardInstance in screen.game.players[0].field:
 		if not card.data.keywords.is_empty():
 			result.append(card.uid)
 	return result
 
 
 func _trap_cards() -> Array[int]:
-	var result: Array[int] = []
-	for card: CardInstance in _hand_cards():
-		if card.data.type == CardEnums.CardType.TRAP and screen.game.can_play_card(0, card.uid):
-			result.append(card.uid)
-	return result
+	return _hand_where(func(card: CardInstance) -> bool: return card.data.type == CardEnums.CardType.TRAP and screen.game.can_play_card(0, card.uid))
+
+
+func _tool_cards() -> Array[int]:
+	return _hand_where(func(card: CardInstance) -> bool: return card.data.is_tool() and screen.game.can_play_card(0, card.uid))
 
 
 func _triggered(id: String) -> bool:
 	if screen.busy:
 		return false
 	var mode: BattleScreen.Mode = _mode()
+	var main: bool = mode == BattleScreen.Mode.MAIN
 	match id:
 		"intro":
 			return mode == BattleScreen.Mode.MULLIGAN
 		"infrastructure":
-			return mode == BattleScreen.Mode.MAIN and not _playable_infrastructure().is_empty()
-		"cast":
-			return mode == BattleScreen.Mode.MAIN and bool(_flags.get("infrastructure_played", false)) and not _castable().is_empty()
-		"keywords":
-			return mode == BattleScreen.Mode.MAIN and _done.has("cast") and not _keyword_cards().is_empty()
-		"trap":
-			return mode == BattleScreen.Mode.MAIN and _done.has("cast") and not _trap_cards().is_empty()
+			return main and not _playable_infrastructure().is_empty()
+		"energy":
+			return main and bool(_flags.get("infrastructure_played", false))
+		"unit":
+			return main and _done.has("energy") and not _castable_units().is_empty()
 		"end_turn":
-			return mode == BattleScreen.Mode.MAIN and bool(_flags.get("infrastructure_played", false)) and _castable().is_empty() and _playable_infrastructure().is_empty()
+			return main and _done.has("unit") and screen.game.phase == GameState.Phase.MAIN1 and _castable().is_empty() and _playable_infrastructure().is_empty()
 		"attack":
 			return mode == BattleScreen.Mode.ATTACK and not screen.game.possible_attackers(0).is_empty()
 		"block":
 			return mode == BattleScreen.Mode.BLOCK
+		"trap":
+			return main and _done.has("unit") and not _trap_cards().is_empty()
+		"enemy_trap":
+			return int(_flags.get("enemy_trap", 0)) > 0 and screen.board.view_for(int(_flags["enemy_trap"])) != null
+		"tool":
+			return main and _done.has("unit") and not _tool_cards().is_empty()
+		"refuse":
+			var fought: bool = _done.has("attack") or _done.has("block")
+			return main and fought and bool(_flags.get("refuse", false)) and not screen.game.players[0].refuse_pile.is_empty()
+		"keywords":
+			return main and _done.has("attack") and not _keyword_cards().is_empty()
 	return false
 
 
@@ -240,10 +303,12 @@ func _finished(id: String) -> bool:
 	match id:
 		"infrastructure":
 			return bool(_flags.get("infrastructure_played", false))
-		"cast":
-			return bool(_flags.get("cast", false))
+		"unit":
+			return bool(_flags.get("unit_played", false))
 		"trap":
 			return bool(_flags.get("trap_set", false))
+		"tool":
+			return bool(_flags.get("tool_played", false))
 		"attack":
 			return bool(_flags.get("attacked", false))
 		"block":
@@ -257,12 +322,14 @@ func _still_relevant(id: String) -> bool:
 	match id:
 		"intro":
 			return mode == BattleScreen.Mode.MULLIGAN
-		"infrastructure", "cast", "keywords", "trap", "end_turn":
+		"infrastructure", "energy", "unit", "trap", "tool", "end_turn", "keywords", "refuse":
 			return mode == BattleScreen.Mode.MAIN or mode == BattleScreen.Mode.TARGETING
 		"attack":
 			return mode == BattleScreen.Mode.ATTACK
 		"block":
 			return mode == BattleScreen.Mode.BLOCK
+		"enemy_trap":
+			return screen.board.view_for(int(_flags.get("enemy_trap", 0))) != null
 	return true
 
 
@@ -272,15 +339,23 @@ func _still_relevant(id: String) -> bool:
 func _target_rect(id: String) -> Rect2:
 	match id:
 		"intro":
-			return Rect2(700, 380, 540, 180)
+			return Rect2()
 		"infrastructure":
 			return _union(_playable_infrastructure())
-		"cast":
-			return _union(_castable())
+		"energy":
+			return screen.hud.portrait_rect(0)
+		"unit":
+			return _union(_castable_units())
 		"keywords":
 			return _union(_keyword_cards())
 		"trap":
 			return _union(_trap_cards())
+		"tool":
+			return _union(_tool_cards())
+		"enemy_trap":
+			return _union([int(_flags.get("enemy_trap", 0))] as Array[int])
+		"refuse":
+			return screen.refuse_widgets[0].get_global_rect() if not screen.refuse_widgets.is_empty() else Rect2()
 		"end_turn":
 			return screen.hud.primary_button.get_global_rect()
 		"attack":
@@ -291,6 +366,20 @@ func _target_rect(id: String) -> Rect2:
 		"block":
 			return _union(screen.game.attackers)
 	return Rect2()
+
+
+## Everything the bubble must not cover: the target, the hand while it talks about a hand card, and for a block also the
+## units that could block.
+func _avoid_rects(id: String) -> Array[Rect2]:
+	var rects: Array[Rect2] = [_target_rect(id)]
+	if id == "block":
+		var blockers: Array[int] = []
+		for card: CardInstance in screen.game.possible_blockers(0):
+			blockers.append(card.uid)
+		rects.append(_union(blockers))
+	if id in ["infrastructure", "unit", "trap", "tool"]:
+		rects.append(_union(_hand_where(func(_card: CardInstance) -> bool: return true)))
+	return rects
 
 
 func _union(uids: Array[int]) -> Rect2:
@@ -313,30 +402,50 @@ func _union(uids: Array[int]) -> Rect2:
 	return result
 
 
+## The first of above, left, right and below the target that stays on screen and covers nothing in `avoid`.
+func _best_spot(target: Rect2, avoid: Array[Rect2], size: Vector2) -> Vector2:
+	if target.size == Vector2.ZERO:
+		return Vector2((1920.0 - size.x) * 0.5, 300.0)
+	var gap: float = 36.0
+	var center: Vector2 = target.get_center()
+	var candidates: Array[Vector2] = [
+		Vector2(center.x - size.x * 0.5, target.position.y - size.y - gap),
+		Vector2(target.position.x - size.x - gap, center.y - size.y * 0.5),
+		Vector2(target.end.x + gap, center.y - size.y * 0.5),
+		Vector2(center.x - size.x * 0.5, target.end.y + gap),
+		# The open table edges: the left column beside the plates, then the strip left of the turn panel.
+		Vector2(16.0, 330.0),
+		Vector2(1620.0 - size.x, 330.0),
+	]
+	var fallback: Vector2 = Vector2.ZERO
+	var first: bool = true
+	for spot: Vector2 in candidates:
+		var clamped: Vector2 = Vector2(clampf(spot.x, 16.0, 1904.0 - size.x), clampf(spot.y, 120.0, 1064.0 - size.y))
+		var box: Rect2 = Rect2(clamped, size)
+		if first:
+			fallback = clamped
+			first = false
+		var clear: bool = true
+		for rect: Rect2 in avoid:
+			if rect.size != Vector2.ZERO and box.intersects(rect.grow(8.0)):
+				clear = false
+		if clear:
+			return clamped
+	return fallback
+
+
 func _place() -> void:
 	var target: Rect2 = _target_rect(_current)
 	_overlay.target = target
-	var size: Vector2 = _bubble.size
-	var x: float = 0.0
-	var y: float = 0.0
+	var spot: Vector2 = _best_spot(target, _avoid_rects(_current), _bubble.size)
+	_bubble.position = _bubble.position.lerp(spot, 0.35)
 	if target.size == Vector2.ZERO:
-		x = (1920.0 - size.x) * 0.5
-		y = 300.0
 		_overlay.arrow_from = Vector2.ZERO
-	else:
-		x = clampf(target.get_center().x - size.x * 0.5, 20.0, 1900.0 - size.x)
-		var above: float = target.position.y - size.y - 40.0
-		if above >= 130.0 and _current not in ["end_turn", "intro"]:
-			y = above
-			_overlay.arrow_from = Vector2(clampf(target.get_center().x, x + 30.0, x + size.x - 30.0), y + size.y)
-		elif _current == "end_turn":
-			x = target.position.x - size.x - 30.0
-			y = target.get_center().y - size.y * 0.5
-			_overlay.arrow_from = Vector2(x + size.x, target.get_center().y)
-		else:
-			y = minf(target.end.y + 40.0, 1060.0 - size.y)
-			_overlay.arrow_from = Vector2(clampf(target.get_center().x, x + 30.0, x + size.x - 30.0), y)
-	_bubble.position = _bubble.position.lerp(Vector2(x, y), 0.35)
+		return
+	# The arrow leaves the bubble's edge nearest the target.
+	var box: Rect2 = Rect2(spot, _bubble.size)
+	var tip: Vector2 = target.get_center()
+	_overlay.arrow_from = Vector2(clampf(tip.x, box.position.x + 30.0, box.end.x - 30.0), clampf(tip.y, box.position.y + 20.0, box.end.y - 20.0))
 
 
 class Overlay:
@@ -349,7 +458,7 @@ class Overlay:
 		if target.size == Vector2.ZERO:
 			return
 		var ring: Rect2 = target.grow(8.0 + pulse * 5.0)
-		draw_rect(ring, Color(1.0, 0.85, 0.35, 0.16 + pulse * 0.12), true)
+		draw_rect(ring, Color(1.0, 0.85, 0.35, 0.10 + pulse * 0.08), true)
 		draw_rect(ring, Color(1.0, 0.85, 0.35, 0.95), false, 4.0)
 		if arrow_from != Vector2.ZERO:
 			var tip: Vector2 = target.get_center()

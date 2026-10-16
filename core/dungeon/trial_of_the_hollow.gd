@@ -35,7 +35,7 @@ static func build_map() -> DungeonMap:
 	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger, one of the cave's squatters, guards the first chamber.", Vector2(0.27, 0.38))
 	first.enemy_name = "Cave Scavenger"
 	first.enemy_hp = 3
-	first.ai_name = "Aggressive (tutorial)"
+	first.ai_name = "First duel (tutorial)"
 	first.difficulty = DungeonMap.Difficulty.TUTORIAL
 	first.gold_reward = EncounterRewards.gold_for(first.difficulty)
 	first.card_choices = 3

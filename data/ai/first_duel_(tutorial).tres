@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AIPersonality" format=3]
+
+[ext_resource type="Script" path="res://core/ai/ai_personality.gd" id="1_cbi6h"]
+
+[resource]
+script = ExtResource("1_cbi6h")
+personality_name = "First duel (tutorial)"
+board_weight = 0.5
+enemy_board_weight = 0.3
+hand_weight = 0.4
+threat_weight = 0.05
+attack_bias = 0.8
+block_bias = -1.5

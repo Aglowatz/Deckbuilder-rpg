@@ -90,3 +90,15 @@ static func aggressive_dumb() -> AIPersonality:
 	p.attack_bias = 1.5
 	p.block_bias = -0.3
 	return p
+
+
+## Battle feel, Part D: the very first duel (Scavenger's Den) only. It still attacks, so blocking can be taught, but it
+## hardly ever blocks, so a new player's attacks reach its 3 HP within a few turns. Cards and decks are unchanged.
+static func first_duel() -> AIPersonality:
+	var p: AIPersonality = aggressive_dumb()
+	p.personality_name = "First duel (tutorial)"
+	p.attack_bias = 0.8
+	p.block_bias = -1.5
+	p.board_weight = 0.5
+	p.enemy_board_weight = 0.3
+	return p

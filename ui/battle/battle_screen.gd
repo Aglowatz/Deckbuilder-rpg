@@ -218,7 +218,9 @@ func _ready() -> void:
 		board.speed = 8.0
 	if _flag("force_tutorial"):
 		context.tutorial = true
-	if context.tutorial and not _flag("no_tutorial") and (not Session.flag(&"tutorial_done") or _flag("force_tutorial")):
+	# Battle feel, Part D: tips show in a new player's battles until each has been seen once (or they are skipped), so the
+	# later topics (traps, Tools, the Refuse Pile) appear in whichever early battle first has them. Dev practice duels only when forced.
+	if not _flag("no_tutorial") and (_flag("force_tutorial") or (not context.practice and TutorialLayer.wanted())):
 		tutorial = TutorialLayer.new()
 		add_child(tutorial)
 		tutorial.setup(self)

@@ -32,7 +32,9 @@ func test_tutorial_encounters_have_low_hp() -> void:
 func test_non_boss_opponents_use_the_aggressive_dumb_ai_the_boss_does_not() -> void:
 	var map: DungeonMap = TrialOfTheHollow.build_map()
 	for node: DungeonMap.MapNode in map.nodes:
-		if node.kind == DungeonMap.Kind.BATTLE:
+		if node.kind == DungeonMap.Kind.BATTLE and node.tutorial:
+			assert_eq(node.ai_name, "First duel (tutorial)", "the very first duel attacks but hardly blocks (battle feel, Part D)")
+		elif node.kind == DungeonMap.Kind.BATTLE:
 			assert_eq(node.ai_name, "Aggressive (tutorial)", "%s should attack readily" % node.title)
 		elif node.kind == DungeonMap.Kind.BOSS:
 			assert_ne(node.ai_name, "Aggressive (tutorial)", "the boss should play smarter than the tutorial mooks")

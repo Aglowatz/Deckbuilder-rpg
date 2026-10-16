@@ -17,7 +17,7 @@ static func build() -> ContentSet:
 			TokenRegistry.register(entry.data)
 	content.decks = build_decks(content)
 	content.challenges = ChallengeExamples.all(reward_pool(content))
-	content.personalities = [AIPersonality.balanced(), AIPersonality.aggressive(), AIPersonality.defensive(), AIPersonality.passive(), AIPersonality.aggressive_dumb()] as Array[AIPersonality]
+	content.personalities = [AIPersonality.balanced(), AIPersonality.aggressive(), AIPersonality.defensive(), AIPersonality.passive(), AIPersonality.aggressive_dumb(), AIPersonality.first_duel()] as Array[AIPersonality]
 	content.zone_equipment = ProgressionContent.zone_equipment()
 	content.equipment = ProgressionContent.equipment()
 	content.items = ProgressionContent.items(content.tokens)
