@@ -186,3 +186,59 @@ The decluttered layout is kept exactly (no new solid pieces on routes, in the pl
 **fps on Medium** after Part D (draw calls dropped with the fence: the wetlands 738 to 452): po_hub 60.0 (618 draw calls; one 20.9 fps hitch in the first probe, two re-runs steady at 60), po_junk_peaks 60.0 (461), po_farm_rows 60.0 (339), po_stream 60.0 (532), po_wetlands 60.0 (452), po_throne_approach 60.0 (335).
 
 **Checks**: `test_the_dressing_is_the_kit_in_tidy_clusters_off_the_routes`; 1572 GUT, 1571 passing (GC-6); the walk smoke passes at Cinematic (21 shots: the bridge, the plaza, every NPC and the vendor, the interactables, the boar, the quiz, the fair, the Seed Shrine, both dungeon doors, the giant chest, the lever, back to town).
+
+## Art Part E: match the paint-overs
+
+Four passes per region from the recorded cameras (`bash tools/heap_po_shots.sh <prefix>`), numbers first (`tools/image_stats.gd`), each pass re-shot and re-measured:
+
+1. **Composition and the land's tone**: the grade's violet now builds late (`corruption.grade_curve` 1.8: the stream and the throne approach stay golden with violet accents, the full grade is the roots'), and the full-strength grade itself was softened (lilac fog, saturation 0.98, a rose sun at -16 degrees); the painted ground brighter (clover 1.42, paths 2.4, vertex tint 0.3); the grass carpet keeps off the bridge, the routes and the vine bridges so the paths read clear; the rose window is warm glass, not a white disc; the gate's vines round.
+2. **Density and palette**: the throne approach is healthy in its paint-over (green oaks), so twisted trees begin at 0.62 and fungus at 0.6 (the throne approach sits near 0.5, the wetlands above 0.7); the terrain's overall brightness 1.3.
+3. **Light, shadows and haze**: the corrupted soil paints in late (`smoothstep(0.35, 0.95)` of the gradient), so the stream and the throne approach keep golden ground with only the odd vein; the ambient 0.78 for the paint-overs' soft shadows; more fireflies (40).
+4. **The farm rows**: the crop rows' soil brighter (1.5).
+
+The numbers after the four passes (paint-over above the game, Cinematic / Normal, 1600 x 900):
+
+| image | mean RGB | luma p5 / p50 / p95 | saturation | sky / mid / ground |
+|---|---|---|---|---|
+| PAINTOVER-DUMP-HUB | 146, 113, 67 | 46 / 114 / 194 | 0.58 | 165,122,86 / 132,103,50 / 140,113,66 |
+| game hub | 153, 120, 64 | 55 / 123 / 190 | 0.61 | 180,141,95 / 151,110,50 / 128,109,46 |
+| PAINTOVER-DUMP-JUNK-PEAKS | 135, 97, 45 | 43 / 97 / 182 | 0.68 | 147,109,74 / 123,92,31 / 136,91,30 |
+| game junk peaks | 135, 100, 50 | 46 / 99 / 173 | 0.66 | 164,129,86 / 129,91,39 / 114,78,25 |
+| PAINTOVER-DUMP-FARM-ROWS | 148, 103, 51 | 47 / 108 / 187 | 0.67 | 173,124,77 / 124,89,34 / 146,97,42 |
+| game farm rows | 133, 94, 46 | 55 / 94 / 170 | 0.68 | 155,119,76 / 130,90,38 / 115,74,25 |
+| PAINTOVER-DUMP-STREAM | 144, 113, 64 | 45 / 114 / 194 | 0.60 | 166,123,83 / 130,102,47 / 138,115,61 |
+| game stream | 143, 109, 54 | 47 / 113 / 181 | 0.65 | 174,135,92 / 129,101,46 / 127,92,24 |
+| PAINTOVER-DUMP-WETLANDS | 125, 92, 53 | 43 / 90 / 180 | 0.59 | 148,103,74 / 113,85,42 / 114,88,44 |
+| game wetlands | 126, 87, 59 | 35 / 89 / 178 | 0.57 | 167,126,103 / 109,71,45 / 101,63,30 |
+| PAINTOVER-DUMP-THRONE-APPROACH | 149, 107, 59 | 45 / 112 / 189 | 0.64 | 170,122,81 / 141,98,43 / 136,102,52 |
+| game throne approach | 122, 82, 56 | 39 / 83 / 172 | 0.59 | 160,118,97 / 101,63,39 / 104,66,32 |
+
+The hub, the junk peaks, the stream and the wetlands sit within a few points of their paint-overs on mean colour, median luma and saturation (they started 10 to 30 points off on the ground third and 0.13 off on the wetlands' saturation); the farm rows and the throne approach stay 10 to 20 % darker (the honest list, Part F). The game's ground third is still more orange (less blue) than the paint-overs everywhere.
+
+| Region | Paint-over beside the game after Part E |
+|---|---|
+| Hub | ![](heap_slice/e_compare_hub.jpg) |
+| Junk Peaks | ![](heap_slice/e_compare_junk_peaks.jpg) |
+| Farm Rows | ![](heap_slice/e_compare_farm_rows.jpg) |
+| Stream | ![](heap_slice/e_compare_stream.jpg) |
+| Wetlands | ![](heap_slice/e_compare_wetlands.jpg) |
+| Throne Approach | ![](heap_slice/e_compare_throne_approach.jpg) |
+
+**The hub at all 9 camera combinations** (`tools/zone_shots.gd --area=heap --mode=grid`; every combination reads finished):
+
+![](heap_slice/e_hub_grid.jpg)
+
+**fps on Medium** (VD-22): the stream camera was at 52 to 56 since Part D (the Part D table's 60 there was taken before the views and the woods were all in; re-measured at the Part D commit it is 52). The `HEAP_HIDE=<name,...>` knob (an exact name with `=`) found it: the camera trails the hero by about 12 m and 6 m up, so whenever the hero walks north of the plaza the greenhouse stands between them, and the fader dims it to a 12 % ghost that still covers a big part of the screen in the transparent pass (3.5 ms of GPU). Neither the views' shadows, nor the terrain's fifth layer, nor the tree fields, nor the grade, nor mipmaps were it (each was measured); a ghost that faint reads as nothing, so `HeapScene` hides the greenhouse outright while it blocks the lens-to-hero line, and the glass is its own mesh that never fades. The Dump's ground and path surfaces now import with mipmaps (they shimmered at a distance).
+
+| Spot | avg fps | min fps | GPU ms | draw calls |
+|---|---|---|---|---|
+| po_hub | 60.0 | 60.0 | 14.1 | 834 |
+| po_junk_peaks | 60.0 | 60.0 | 11.7 | 588 |
+| po_farm_rows | 60.0 | 60.0 | 11.6 | 491 |
+| po_stream | 60.0 | 60.0 | 12.9 | 692 |
+| po_wetlands | 60.0 | 60.0 | 11.8 | 434 |
+| po_throne_approach | 60.0 | 60.0 | 12.5 | 340 |
+| main_dungeon (the root gate) | 60.0 | 60.0 | 11.1 | 351 |
+| mini_dungeon (the throne's door) | 60.0 | 60.0 | 11.6 | 287 |
+
+**Checks**: 1572 GUT, all passing (GC-6 passed in this run).

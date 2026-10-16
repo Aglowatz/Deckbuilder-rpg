@@ -17,7 +17,7 @@
 		"key_pitch": -22,
 		"key_yaw": -50,
 		"ambient_color": "#7e8270",
-		"ambient_energy": 0.7
+		"ambient_energy": 0.78
 	},
 	"fog": {
 		"color": "#f4d2a4",
@@ -44,23 +44,24 @@
 		"darken": 0.14,
 		"flowers": 0.15,
 		"texture": 0.9,
-		"trees": 0.42,
-		"trees_band": 0.22,
-		"fungus": 0.4,
+		"trees": 0.62,
+		"trees_band": 0.2,
+		"fungus": 0.6,
 		"grade": {
-			"fog_color": "#d0b0d0",
-			"fog_density": 0.0048,
-			"saturation": 0.94,
-			"warmth": 0.06,
-			"vignette": 0.36
+			"fog_color": "#dcb8c0",
+			"fog_density": 0.0046,
+			"saturation": 0.98,
+			"warmth": 0.1,
+			"vignette": 0.34
 		},
 		"light": {
-			"sun_color": "#f0c0d0",
-			"sun_energy": 0.98,
-			"sun_pitch": -15,
-			"ambient_color": "#9a8cb0"
+			"sun_color": "#f6c4bc",
+			"sun_energy": 1,
+			"sun_pitch": -16,
+			"ambient_color": "#a494b0"
 		},
-		"freed": 0
+		"freed": 0,
+		"grade_curve": 1.8
 	},
 	"material_swaps": {
 		"ENV-WALL-TIMBER": "DUMP-WALL-MOSSWOOD",

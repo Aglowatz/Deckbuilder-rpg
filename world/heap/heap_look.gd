@@ -58,7 +58,7 @@ static func sun() -> DirectionalLight3D:
 ## Fireflies bobbing across the view (parent it to the camera): a cheap, always-on ambience.
 static func fireflies() -> CPUParticles3D:
 	var particles: CPUParticles3D = CPUParticles3D.new()
-	particles.amount = 26
+	particles.amount = 40
 	particles.lifetime = 5.5
 	particles.preprocess = 5.5
 	particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX

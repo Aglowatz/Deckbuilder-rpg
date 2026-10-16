@@ -301,7 +301,8 @@ static func heap(scene: ZoneScene) -> Dictionary:
 		var yard: float = PaintedContexts.area_cover(areas, ["peaks", "throne"], p) * 0.55
 		return maxf(PaintedContexts.prop_cover(junk_spots, p), yard) * (1.0 - float(path_mask.call(p)) * 0.8)
 	var compost_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.prop_cover(compost_spots, p)
-	var corrupt_mask: Callable = func(p: Vector2) -> float: return clampf(builder.twist_at(p.x, p.y) * texture * 1.25, 0.0, 1.0)
+	# the soil turns late: the throne approach and the stream keep golden ground with the odd vein, the wetlands toward the roots go over
+	var corrupt_mask: Callable = func(p: Vector2) -> float: return smoothstep(0.35, 0.95, builder.twist_at(p.x, p.y)) * texture
 	var grass_mask: Callable = func(p: Vector2) -> float:
 		if float(fields_mask.call(p)) > 0.3 or float(junk_mask.call(p)) > 0.3 or float(path_mask.call(p)) > 0.3:
 			return 0.0

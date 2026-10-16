@@ -443,16 +443,16 @@ static func _rotheart(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array
 		var tip: Vector3 = tips[index]
 		var big: float = (7.6 if tip.y > 26.0 * s else 6.2) * s * rng.randf_range(0.85, 1.15)
 		# a clump: a dark underside, a body of four to six overlapping lobes, light lobes on top where the low sun catches it
-		_ellipsoid(mesh, "leaf_dark", tip + Vector3(0, -0.6 * s, 0), Vector3(big * 1.0, big * 0.5, big * 0.95), 4, 14, -0.3)
+		_ellipsoid(mesh, "leaf_dark", tip + Vector3(0, -0.6 * s, 0), Vector3(big * 1.0, big * 0.5, big * 0.95), 3, 10, -0.3)
 		var lobes: int = 5 + index % 2
 		for lobe: int in range(lobes):
 			var a: float = TAU * float(lobe) / float(lobes) + rng.randf() * 0.5
 			var r: float = big * rng.randf_range(0.35, 0.7)
 			var lift: float = big * rng.randf_range(0.0, 0.3)
-			_ellipsoid(mesh, "leaf", tip + Vector3(cos(a) * r, lift, sin(a) * r * 0.9), Vector3(big * 0.6, big * 0.55, big * 0.56), 5, 12, -0.5)
+			_ellipsoid(mesh, "leaf", tip + Vector3(cos(a) * r, lift, sin(a) * r * 0.9), Vector3(big * 0.6, big * 0.55, big * 0.56), 4, 9, -0.5)
 		for lobe: int in range(3):
 			var a: float = TAU * float(lobe) / 3.0 + float(index)
-			_ellipsoid(mesh, "leaf_light", tip + Vector3(cos(a) * big * 0.3 - 0.8 * s, big * 0.42, sin(a) * big * 0.3 + 0.6 * s), Vector3(big * 0.42, big * 0.4, big * 0.4), 4, 10, -0.3)
+			_ellipsoid(mesh, "leaf_light", tip + Vector3(cos(a) * big * 0.3 - 0.8 * s, big * 0.42, sin(a) * big * 0.3 + 0.6 * s), Vector3(big * 0.42, big * 0.4, big * 0.4), 3, 8, -0.3)
 		# hanging moss under each clump, a little wisteria
 		for strand: int in range(9):
 			var a: float = rng.randf() * TAU
@@ -920,6 +920,10 @@ static func _raccoon(mesh: KitMesh, base: Vector3, height: float, side: float, k
 ## (meta "lights": the warm light the scene makes real), a gable front with a round rose window and a green arched door, a glass ridge roof on rafters with
 ## a little windmill on the ridge (meta "spinner"), a canvas awning, a rusty water tank and a compost crib at the east end, sunflowers and planters.
 static func _greenhouse(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vector3], lights: Array[Dictionary]) -> void:
+	# the glass is its own mesh that never fades (it is see-through already): fading it with the frame cost about 3.5 ms of GPU when a camera stood in
+	# its reach (VD-22)
+	var glass: KitMesh = KitMesh.new()
+	_materials(glass)
 	var w: float = size.x
 	var h: float = size.y
 	var d: float = size.z
@@ -936,16 +940,16 @@ static func _greenhouse(root: Node3D, mesh: KitMesh, size: Vector3, circles: Arr
 				mesh.blob("sunflower", Vector3(x + 0.2, plinth + 1.3, row * d * 0.22 + 0.2), Vector3(0.28, 0.28, 0.12), 3, 8, 1.0)
 	# the glass: side walls, the back, the gable front round the door, the two roof slopes
 	var top_y: float = plinth
-	mesh.quad("glass", [Vector3(-w * 0.5, top_y, d * 0.5), Vector3(-w * 0.5, top_y, -d * 0.5), Vector3(-w * 0.5, eave, -d * 0.5), Vector3(-w * 0.5, eave, d * 0.5)], Vector3(-1, 0, 0))
-	mesh.quad("glass", [Vector3(w * 0.5, top_y, -d * 0.5), Vector3(w * 0.5, top_y, d * 0.5), Vector3(w * 0.5, eave, d * 0.5), Vector3(w * 0.5, eave, -d * 0.5)], Vector3(1, 0, 0))
-	mesh.quad("glass", [Vector3(w * 0.5, top_y, -d * 0.5), Vector3(-w * 0.5, top_y, -d * 0.5), Vector3(-w * 0.5, eave, -d * 0.5), Vector3(w * 0.5, eave, -d * 0.5)], Vector3(0, 0, -1))
-	mesh.quad("glass", [Vector3(-w * 0.5, top_y, d * 0.5), Vector3(-0.8, top_y, d * 0.5), Vector3(-0.8, eave, d * 0.5), Vector3(-w * 0.5, eave, d * 0.5)], Vector3(0, 0, 1))
-	mesh.quad("glass", [Vector3(0.8, top_y, d * 0.5), Vector3(w * 0.5, top_y, d * 0.5), Vector3(w * 0.5, eave, d * 0.5), Vector3(0.8, eave, d * 0.5)], Vector3(0, 0, 1))
+	glass.quad("glass", [Vector3(-w * 0.5, top_y, d * 0.5), Vector3(-w * 0.5, top_y, -d * 0.5), Vector3(-w * 0.5, eave, -d * 0.5), Vector3(-w * 0.5, eave, d * 0.5)], Vector3(-1, 0, 0))
+	glass.quad("glass", [Vector3(w * 0.5, top_y, -d * 0.5), Vector3(w * 0.5, top_y, d * 0.5), Vector3(w * 0.5, eave, d * 0.5), Vector3(w * 0.5, eave, -d * 0.5)], Vector3(1, 0, 0))
+	glass.quad("glass", [Vector3(w * 0.5, top_y, -d * 0.5), Vector3(-w * 0.5, top_y, -d * 0.5), Vector3(-w * 0.5, eave, -d * 0.5), Vector3(w * 0.5, eave, -d * 0.5)], Vector3(0, 0, -1))
+	glass.quad("glass", [Vector3(-w * 0.5, top_y, d * 0.5), Vector3(-0.8, top_y, d * 0.5), Vector3(-0.8, eave, d * 0.5), Vector3(-w * 0.5, eave, d * 0.5)], Vector3(0, 0, 1))
+	glass.quad("glass", [Vector3(0.8, top_y, d * 0.5), Vector3(w * 0.5, top_y, d * 0.5), Vector3(w * 0.5, eave, d * 0.5), Vector3(0.8, eave, d * 0.5)], Vector3(0, 0, 1))
 	for gz: float in [-1.0, 1.0]:
-		mesh.tri("glass", [Vector3(-w * 0.5, eave, gz * d * 0.5), Vector3(w * 0.5, eave, gz * d * 0.5), Vector3(0, h, gz * d * 0.5)], Vector3(0, 0, gz))
+		glass.tri("glass", [Vector3(-w * 0.5, eave, gz * d * 0.5), Vector3(w * 0.5, eave, gz * d * 0.5), Vector3(0, h, gz * d * 0.5)], Vector3(0, 0, gz))
 	# the roof runs east-west: two slopes from the eaves (north and south) to the ridge
-	mesh.quad("glass", [Vector3(-w * 0.5 - 0.2, eave, d * 0.5 + 0.2), Vector3(w * 0.5 + 0.2, eave, d * 0.5 + 0.2), Vector3(w * 0.5 + 0.2, h, 0.0), Vector3(-w * 0.5 - 0.2, h, 0.0)], Vector3(0, 0.6, 0.8).normalized())
-	mesh.quad("glass", [Vector3(w * 0.5 + 0.2, eave, -d * 0.5 - 0.2), Vector3(-w * 0.5 - 0.2, eave, -d * 0.5 - 0.2), Vector3(-w * 0.5 - 0.2, h, 0.0), Vector3(w * 0.5 + 0.2, h, 0.0)], Vector3(0, 0.6, -0.8).normalized())
+	glass.quad("glass", [Vector3(-w * 0.5 - 0.2, eave, d * 0.5 + 0.2), Vector3(w * 0.5 + 0.2, eave, d * 0.5 + 0.2), Vector3(w * 0.5 + 0.2, h, 0.0), Vector3(-w * 0.5 - 0.2, h, 0.0)], Vector3(0, 0.6, 0.8).normalized())
+	glass.quad("glass", [Vector3(w * 0.5 + 0.2, eave, -d * 0.5 - 0.2), Vector3(-w * 0.5 - 0.2, eave, -d * 0.5 - 0.2), Vector3(-w * 0.5 - 0.2, h, 0.0), Vector3(w * 0.5 + 0.2, h, 0.0)], Vector3(0, 0.6, -0.8).normalized())
 	# the timber frame: corner posts, mullions, the eave beams, rafters and the ridge
 	for sx: float in [-1.0, 1.0]:
 		for sz: float in [-1.0, 1.0]:
@@ -963,7 +967,7 @@ static func _greenhouse(root: Node3D, mesh: KitMesh, size: Vector3, circles: Arr
 	# the rose window over the door: a lit disc, a rusty ring and spokes
 	var rose: Vector3 = Vector3(0, eave + (h - eave) * 0.42, d * 0.5 + 0.06)
 	var rose_r: float = minf(1.05, (h - eave) * 0.42)
-	mesh.tube("window_glow", rose - Vector3(0, 0, 0.03), rose + Vector3(0, 0, 0.0), rose_r, 16, true)
+	glass.tube("glass", rose - Vector3(0, 0, 0.03), rose + Vector3(0, 0, 0.0), rose_r, 16, true)
 	for spoke: int in range(8):
 		var a: float = TAU * float(spoke) / 8.0
 		mesh.tube("wood", rose + Vector3(0, 0, 0.05), rose + Vector3(cos(a), sin(a), 0) * rose_r + Vector3(0, 0, 0.05), 0.045, 4, false)
@@ -1017,10 +1021,15 @@ static func _greenhouse(root: Node3D, mesh: KitMesh, size: Vector3, circles: Arr
 	spinner.position = hub + Vector3(0, 0, 0.15)
 	root.add_child(spinner)
 	root.set_meta("spinner", spinner)
+	var panes: MeshInstance3D = glass.instance("Glass")
+	panes.set_meta(PaintedClasses.META_NO_PAINT, true)
+	panes.set_meta(&"no_occlusion_fade", true)
+	panes.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(panes)
 	# blocking: the stand-in's three circles along the footprint
 	var step: float = w / 3.0
 	for index: int in range(3):
-		circles.append(Vector3(-w * 0.5 + step * (float(index) + 0.5), 0.0, maxf(d * 0.5 - 0.6, step * 0.5)))
+		circles.append(Vector3(-w * 0.5 + step * (float(index) + 0.5), 0.0, 2.6))
 
 
 # ---- the Rotheart's root gate and the entrance bridge (static builders the zone builder places) -------------------------------------------------
@@ -1142,7 +1151,7 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 		mesh.box("mosswood", foot + Vector3(0.0, gate_h * 0.5, 0.0), Vector3(0.42, gate_h, 0.42), Basis(Vector3.UP, 0.2 * side), 0.03, 0.85)
 		mesh.lathe("tin", foot + Vector3(0.0, gate_h, 0.0), [Vector2(0.36, 0.0), Vector2(0.0, 0.4)], 6, 0.9, true, false)
 		for leaf: int in range(4):
-			mesh.blob("leaf" if leaf % 2 == 0 else "leaf_dark", foot + Vector3(0.18 * side, 0.9 + 0.65 * float(leaf), 0.22), Vector3(0.26, 0.32, 0.18), 3, 6, 0.95)
+			mesh.blob("leaf" if leaf % 2 == 0 else "leaf_dark", foot + Vector3(0.18 * side, 0.9 + 0.65 * float(leaf), 0.22), Vector3(0.26, 0.32, 0.18), 4, 10, 0.95)
 		circles.append(Vector3(foot.x, foot.z, 0.75))
 	var sag: int = 10
 	var previous_point: Vector3 = Vector3.ZERO

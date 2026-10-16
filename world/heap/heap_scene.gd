@@ -71,8 +71,17 @@ var dressing: HeapDressing
 ## The dressing, then the zone's few real lights: the greenhouse's warm lantern light inside, the windmill's lantern and the Rotheart heart's violet
 ## glow (pulsed by the builder); every other lantern is emissive only.
 func _dress_zone() -> void:
-	super._dress_zone()
+	# the grass carpet keeps off the entrance bridge, the routes and the vine bridges (the paths read clear, as in the paint-overs)
+	var layout: HeapLayout = heap.layout
+	var region: Callable = func(pos: Vector3) -> bool:
+		return not HeapLayout.on_entrance(pos.x, pos.z) and layout.path_weight(pos.x, pos.z) < 0.5 and layout.bridge_at(pos.x, pos.z) == null
+	ZoneDressing.build(self, builder, style_rig.preset_id, Settings.graphics_quality, [], region)
 	dressing = HeapDressing.build(self, heap, Settings.graphics_quality)
+	# HEAP_HIDE=<name,name>: hide the builder's top-level pieces whose names begin so (an fps A/B knob, like BUFFET_HIDE)
+	for prefix: String in OS.get_environment("HEAP_HIDE").split(",", false):
+		for child: Node in heap.root.get_children():
+			if (str(child.name) == prefix.trim_prefix("=") if prefix.begins_with("=") else str(child.name).begins_with(prefix)) and child is Node3D:
+				(child as Node3D).visible = false
 	for id: String in ["DUMP-HERO-COMMONS-GREENHOUSE", "DUMP-HERO-WINDMILL"]:
 		var node: Node3D = heap.landmarks.get(id) as Node3D
 		if node != null:
@@ -82,6 +91,25 @@ func _dress_zone() -> void:
 		if not lights.is_empty():
 			heap.heart_light = lights[0]
 			heap.heart_light.set_meta("base_energy", heap.heart_light.light_energy)
+
+
+## When the greenhouse stands between the camera and the hero (the camera trails the hero by about 12 m and 6 m up, so it does whenever the hero walks
+## north of the plaza, at the stream crossing for one), the fader dims it to a 12 % ghost that still covers a big part of the screen in the transparent
+## pass: about 3.5 ms of GPU at the stream camera (VD-22). A ghost that faint reads as nothing, so the greenhouse is hidden outright while it blocks the
+## line from the lens to the hero and shown again when it does not.
+func _hide_greenhouse_round_the_lens() -> void:
+	var greenhouse: Node3D = heap.landmarks.get("DUMP-HERO-COMMONS-GREENHOUSE") as Node3D
+	if greenhouse == null or _camera == null or player == null:
+		return
+	var box: AABB = AABB(Vector3(HeapLayout.GREENHOUSE.x, 0.0, HeapLayout.GREENHOUSE.y) - Vector3(HeapLayout.GREENHOUSE_SIZE.x * 0.5 + 1.5, 0.0, HeapLayout.GREENHOUSE_SIZE.z * 0.5 + 1.0), HeapLayout.GREENHOUSE_SIZE + Vector3(3.0, 1.5, 2.0))
+	var lens: Vector3 = _camera.global_position
+	var blocks: bool = box.has_point(lens)
+	for step: int in range(1, 12):
+		if blocks:
+			break
+		blocks = box.has_point(lens.lerp(player.position + Vector3(0.0, 0.9, 0.0), float(step) / 12.0))
+	if greenhouse.visible == blocks:
+		greenhouse.visible = not blocks
 
 
 # ---- The corruption gradient's grade (data/zone_styles/heap.json "corruption") ------------------------------------------------
@@ -110,8 +138,10 @@ func _update_corruption_grade(delta: float) -> void:
 	if absf(target - _grade_t) > 0.5:
 		_grade_t = target
 	_grade_t = lerpf(_grade_t, target, 1.0 - exp(-1.5 * delta))
+	# the grade builds late (`grade_curve`): the regions on the way stay golden with violet accents, the full grade is the roots'
+	var g: float = pow(_grade_t, float(c.get("grade_curve", 1.0)))
 	# the look rig blends the post and fog values itself: hand it a new target only every 5 % (each change redraws the sky's haze)
-	var step: float = snappedf(_grade_t, 0.05)
+	var step: float = snappedf(g, 0.05)
 	if step != _grade_step:
 		_grade_step = step
 		var grade: Dictionary = c.get("grade", {}) as Dictionary
@@ -124,12 +154,12 @@ func _update_corruption_grade(delta: float) -> void:
 				look_rig.values[key] = lerpf(float(_grade_base[key]), float(grade[key]), step)
 	var light: Dictionary = c.get("light", {}) as Dictionary
 	var sun: DirectionalLight3D = style_rig.sun
-	sun.light_color = (_sun_base["color"] as Color).lerp(Color.html(str(light.get("sun_color", "#ffffff"))), _grade_t)
-	sun.light_energy = lerpf(float(_sun_base["energy"]), float(light.get("sun_energy", _sun_base["energy"])), _grade_t)
-	sun.rotation_degrees.x = lerpf(float(_sun_base["pitch"]), float(light.get("sun_pitch", _sun_base["pitch"])), _grade_t)
+	sun.light_color = (_sun_base["color"] as Color).lerp(Color.html(str(light.get("sun_color", "#ffffff"))), g)
+	sun.light_energy = lerpf(float(_sun_base["energy"]), float(light.get("sun_energy", _sun_base["energy"])), g)
+	sun.rotation_degrees.x = lerpf(float(_sun_base["pitch"]), float(light.get("sun_pitch", _sun_base["pitch"])), g)
 	var environment: Environment = style_rig.world_env.environment if style_rig.world_env != null else null
 	if environment != null:
-		environment.ambient_light_color = (_sun_base["ambient"] as Color).lerp(Color.html(str(light.get("ambient_color", "#ffffff"))), _grade_t)
+		environment.ambient_light_color = (_sun_base["ambient"] as Color).lerp(Color.html(str(light.get("ambient_color", "#ffffff"))), g)
 
 
 ## Walking off the far end of the entrance bridge leaves for town (armed only after the hero has been well inside the zone).
@@ -206,6 +236,7 @@ func _zone_process(delta: float) -> void:
 	_barricade_hint_cooldown = maxf(0.0, _barricade_hint_cooldown - delta)
 	heap.animate(delta)
 	_update_corruption_grade(delta)
+	_hide_greenhouse_round_the_lens()
 	_update_entrance_exit()
 	_update_mount()
 	_crop_timer -= delta

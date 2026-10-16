@@ -26,6 +26,22 @@
 			"size_limit": 1024
 		},
 		{
+			"match": "assets/art/zone_kits/heap/*-GROUND-*",
+			"why": "the Verdant Dump's painted ground layers (the terrain samples them across the whole map: without mipmaps the far ground shimmers and costs about 4 ms of GPU at the stream camera, VD-22)",
+			"mode": 2,
+			"hq": true,
+			"mipmaps": true,
+			"size_limit": 1024
+		},
+		{
+			"match": "assets/art/zone_kits/heap/*-PATH-*",
+			"why": "the Verdant Dump's plank walks (long runs seen at a distance)",
+			"mode": 2,
+			"hq": true,
+			"mipmaps": true,
+			"size_limit": 1024
+		},
+		{
 			"match": "assets/art/zone_kits/*/*-BD-*",
 			"why": "zone backdrop ring strips: wide painted cards, lossy keeps the alpha edge",
 			"mode": 1,

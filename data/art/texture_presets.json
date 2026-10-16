@@ -106,22 +106,23 @@
 		"ground": "swap",
 		"seed": 41,
 		"macro": 0.2,
-		"tint": 0.4,
+		"tint": 0.3,
 		"normal": 0.55,
 		"sheen": 0.06,
-		"color": "#b8cc94",
+		"color": "#c8d49c",
+		"brightness": 1.3,
 		"layers": [
-			{"tex": "DUMP-GROUND-CLOVER", "tile": 4.2, "mode": "base", "bright": 1.12},
-			{"tex": "dump_farmrows", "tile": 4.0, "aligned": true, "mode": "mask", "mask": "fields", "soft": 0.12, "warp": 0.3, "bright": 1.1},
-			{"tex": "dump_mossydirt", "tile": 4.5, "mode": "mask", "mask": "path", "soft": 0.16, "warp": 0.45, "bright": 2.1},
+			{"tex": "DUMP-GROUND-CLOVER", "tile": 4.2, "mode": "base", "bright": 1.42},
+			{"tex": "dump_farmrows", "tile": 4.0, "aligned": true, "mode": "mask", "mask": "fields", "soft": 0.12, "warp": 0.3, "bright": 1.5},
+			{"tex": "dump_mossydirt", "tile": 4.5, "mode": "mask", "mask": "path", "soft": 0.16, "warp": 0.45, "bright": 2.4},
 			{"tex": "dump_junkgravel", "tile": 3.6, "mode": "mask", "mask": "junk", "soft": 0.2, "warp": 0.5, "bright": 1.15},
 			{"tex": "DUMP-GROUND-CORRUPT", "tile": 4.0, "mode": "mask", "mask": "corrupt", "soft": 0.3, "warp": 0.7, "bright": 1.05}
 		],
 		"variants": {
 			"freed": {"layers": [
-				{"tex": "DUMP-GROUND-CLOVER", "tile": 4.2, "mode": "base", "bright": 1.12},
-				{"tex": "dump_farmrows", "tile": 4.0, "aligned": true, "mode": "mask", "mask": "fields", "soft": 0.12, "warp": 0.3, "bright": 1.1},
-				{"tex": "dump_mossydirt", "tile": 4.5, "mode": "mask", "mask": "path", "soft": 0.16, "warp": 0.45, "bright": 2.1},
+				{"tex": "DUMP-GROUND-CLOVER", "tile": 4.2, "mode": "base", "bright": 1.42},
+				{"tex": "dump_farmrows", "tile": 4.0, "aligned": true, "mode": "mask", "mask": "fields", "soft": 0.12, "warp": 0.3, "bright": 1.5},
+				{"tex": "dump_mossydirt", "tile": 4.5, "mode": "mask", "mask": "path", "soft": 0.16, "warp": 0.45, "bright": 2.4},
 				{"tex": "dump_junkgravel", "tile": 3.6, "mode": "mask", "mask": "junk", "soft": 0.2, "warp": 0.5, "bright": 1.15},
 				{"tex": "dump_compost", "tile": 3.2, "mode": "mask", "mask": "compost", "soft": 0.2, "warp": 0.5, "bright": 1.7}
 			]}
