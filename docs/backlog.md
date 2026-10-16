@@ -329,3 +329,14 @@ How each district's broken / restored state works today (`docs/art/capital_slice
 | **The castle in the outside fog (CAP-11)** | The dark outside mood (fog 0.011) leaves the castle a pale silhouette from the rift fields, the camp and the outpost. A grade pass (fog density or a fog-free far layer for the castle) belongs to the Capital's art pass. |
 | **The Crease vs the resistance camp (CAP-1)** | A decision for a gameplay brief: whether the underground hall should open onto (or become) the walkable camp outside. |
 | **The tenth brief smoke walks the old Capital** | `tools/tenth_brief_final_smoke.gd` walks anchors (most moved with their names, so it follows), but its hard-coded hops (the facade gate, the plaza) predate this pass; it was not re-run here. `bash tools/run_capital_walk_smoke.sh` covers the new layout. |
+
+## The Capital art pass: follow-ups (2026-10-16)
+
+The Capital dressed with its kit (`docs/art/capital_slice.md`, "The art pass"); updates to the layout pass's list above: the restored districts now have kit models and props per state (Part E), the castle reads over the wall through its own haze (CAP-22), the Correction Ward wears the kit (still no restored state of its own).
+
+| Item | Note |
+|---|---|
+| **The district welcome is the light version** | The first return to a freed district (CAP-34): its lights flicker on, the Path's sting over its restored music, a burst of the Path's colours, four citizens in its colours cheer round the hero and go home. Not built (needs a story or gameplay brief): the concepts' working crews (the Beefcake wheel crews running the wheels, Gourmand cooks at the ovens, Necrocrat lantern keepers, Refusemancer gardeners) as standing NPCs of the restored districts, a line of dialogue from a citizen, a camera beat. |
+| **CAP-PATH-WHITE re-upload** | The Drive file is truncated (CAP-13); the game uses a tile mirrored from its readable half. Re-import with `bash tools/import_zone_kit.sh final --only=CAP-PATH-WHITE` once the painter re-uploads it. |
+| **The Correction Ward's restored state** | Still only Primm's fall changes it (the emblem covered, the gold dimmed); open doors, empty beds and a garden belong to a story brief. |
+| **The outside after Primm** | As before: the rifts close and the crystals dull; the wasteland's ground and ruins stay. |

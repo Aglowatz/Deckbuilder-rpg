@@ -176,3 +176,15 @@ func test_the_inside_rows_keep_off_the_routes_and_the_people() -> void:
 		doors = doors or body.mesh.surface_get_name(surface) == "card_CAP-SHEET-DOORS-01"
 	assert_true(doors, "the identical houses wear the doors sheet's door")
 	houses.free()
+
+
+func test_the_first_return_to_a_freed_district_is_welcomed_once() -> void:
+	# CapitalScene._welcome_district: only a freed district, only before Primm falls, once per save (a cosmetic flag nothing else reads)
+	for district: String in ["transit", "hungry", "grave", "reek"]:
+		var path: String = str(MusicDirector.CAPITAL_DISTRICTS[district])
+		assert_true(CapitalScene.WELCOME.has(path), "%s has its sting and colours" % path)
+		assert_true(str((CapitalScene.WELCOME[path] as Dictionary)["sting"]).begins_with("STG-ZONE-"), "the Path's own sting")
+		assert_eq(str(CapitalScene.welcome_flag(district)), "cap_welcome_%s" % district)
+	var source: String = FileAccess.get_file_as_string("res://world/capital/capital_scene.gd")
+	assert_true(source.contains("Session.flag(welcome_flag(area_id))"), "seen once")
+	assert_true(source.contains("Session.flag(CapitalZone.FLAG_FREED)"), "not after Primm has fallen")

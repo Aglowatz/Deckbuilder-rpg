@@ -51,39 +51,39 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"bench":
 			return kit_card_prop("CAP-PROP-BENCH", 1.0)
 		"junk_pile":
-			return junk_pile(prop.variant, _free(ctx, "refusemancer"))
+			return kit_junk(prop.variant, _free(ctx, "refusemancer"))
 		"compost_heap":
-			return compost_heap()
+			return kit_compost_heap()
 		"sick_patch":
 			return sick_patch()
 		"stall_shack":
-			return stall_shack(story)
+			return kit_fern_shack(_free(ctx, "refusemancer"))
 		"manhole":
 			return manhole()
 		"seed_jar":
 			return seed_jar()
 		"grave":
-			return grave(prop.variant, _free(ctx, "necrocrat"))
+			return kit_grave(prop.variant, _free(ctx, "necrocrat"))
 		"parlor":
-			return parlor(story)
+			return kit_parlor(_free(ctx, "necrocrat"))
 		"permit_office":
-			return permit_office(story, _free(ctx, "necrocrat"))
+			return kit_permit_office(_free(ctx, "necrocrat"))
 		"notary_booth":
-			return booth(Color(0.5, 0.42, 0.3), true)
+			return civic_kiosk(bool(ctx.get("final", false)))
 		"family_plot":
-			return family_plot()
+			return kit_family_plot()
 		"energy_wheel":
-			return energy_wheel(_free(ctx, "beefcake"))
+			return kit_energy_wheel(_free(ctx, "beefcake"))
 		"crate_stack":
-			return crate_stack()
+			return kit_crates()
 		"pylon":
-			return pylon(not bool(ctx.get("dark", false)) or bool(ctx.get("final", false)))
+			return kit_pylon(_free(ctx, "beefcake") or not bool(ctx.get("dark", false)))
 		"power_cable":
 			return power_cable()
 		"paste_dispenser":
-			return paste_dispenser(story, _free(ctx, "gourmand"))
+			return kit_paste_dispenser(_free(ctx, "gourmand"))
 		"kitchen_cart":
-			return kitchen_cart()
+			return kit_kitchen_cart(_free(ctx, "gourmand"))
 		"recipe_card":
 			return recipe_card()
 		"castle_door":
@@ -975,4 +975,290 @@ static func rift_crystals(variant: int, final_state: bool) -> Node3D:
 	for shard: Vector4 in [Vector4(0.0, -0.3, 4.2, 0.0), Vector4(-1.0, 0.2, 2.8, 1.0), Vector4(1.0, 0.3, 3.2, 0.0), Vector4(0.4, 0.9, 2.0, 1.0)]:
 		CapitalKit.card(mesh, "CAP-PLANT-CRYSTAL", Vector3(shard.x, 0.0, shard.y), shard.z, Vector3(0, 0, 1), shard.w > 0.5, mul)
 	CapitalLandmarks.finish(root, mesh, [], 4.2)
+	return root
+
+## A headstone of Grave Row (the concept): white marble with a rounded top, a gold rim and Primm's small gold face. Broken (the Necrocrats are not free):
+## it leans, unfiled paper lies at its foot and a restless ghost drifts over it; tidy (restored): upright, flowers at its foot and a calm green
+## lantern glow.
+static func kit_grave(variant: int, tidy: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.set_material("green_glow", EnvKit.glow(Color("8af0b0"), 1.6))
+	var lean: float = 0.0 if tidy else [-0.22, 0.14, 0.28][variant % 3]
+	var basis: Basis = Basis(Vector3(0, 0, 1), lean)
+	mesh.box("marble_shade", Vector3(0, 0.06, 0.05), Vector3(0.8, 0.12, 0.5), Basis.IDENTITY, 0.02)
+	mesh.box("marble", basis * Vector3(0, 0.5, 0), Vector3(0.6, 0.85, 0.16), basis, 0.03, 0.85)
+	var top: Vector3 = basis * Vector3(0, 0.92, 0)
+	for index: int in range(8):
+		var a0: float = PI * float(index) / 8.0
+		var a1: float = PI * float(index + 1) / 8.0
+		for face: float in [-1.0, 1.0]:
+			var n: Vector3 = basis * Vector3(0, 0, face)
+			var off: Vector3 = basis * Vector3(0, 0, face * 0.08)
+			mesh.tri("marble", [top + off, top + off + basis * Vector3(cos(a0) * 0.3, sin(a0) * 0.3, 0), top + off + basis * Vector3(cos(a1) * 0.3, sin(a1) * 0.3, 0)], n)
+		var r0: Vector3 = top + basis * Vector3(cos(a0) * 0.3, sin(a0) * 0.3, 0)
+		var r1: Vector3 = top + basis * Vector3(cos(a1) * 0.3, sin(a1) * 0.3, 0)
+		mesh.quad("gold", [r0 + basis * Vector3(0, 0, -0.09), r1 + basis * Vector3(0, 0, -0.09), r1 + basis * Vector3(0, 0, 0.09), r0 + basis * Vector3(0, 0, 0.09)], (r0 + r1) * 0.5 - top)
+	CapitalKit.emblem(mesh, basis * Vector3(0, 0.62, 0.085), 0.13, basis * Vector3(0, 0, 1))
+	if tidy:
+		mesh.blob("rose", Vector3(-0.18, 0.12, 0.3), Vector3(0.1, 0.08, 0.1), 3, 6)
+		mesh.blob("rose_white", Vector3(0.16, 0.12, 0.32), Vector3(0.1, 0.08, 0.1), 3, 6)
+		mesh.blob("green_glow", Vector3(0.36, 0.16, 0.25), Vector3(0.07, 0.09, 0.07), 3, 6)
+	else:
+		for paper: Vector3 in [Vector3(-0.35, 0.02, 0.45), Vector3(0.3, 0.02, 0.62)]:
+			mesh.quad("paper", [paper + Vector3(-0.14, 0, -0.1), paper + Vector3(0.14, 0, -0.12), paper + Vector3(0.15, 0.01, 0.1), paper + Vector3(-0.13, 0, 0.12)], Vector3.UP)
+	CapitalLandmarks.finish(root, mesh, [], 1.3)
+	if not tidy and variant % 2 == 0:
+		root.add_child(ghost(variant))
+	return root
+
+
+## A restless ghost of Grave Row's broken state: a pale mint, softly glowing wisp with a round head and a trailing tail, bobbing slowly (the "Bob"
+## child turns and rises in place; `CapitalBuilder.animate` drives it).
+static func ghost(variant: int) -> Node3D:
+	var bob: Node3D = Node3D.new()
+	bob.name = "Ghost"
+	bob.set_meta("bob", true)
+	bob.position = Vector3(0.2 * float(variant % 3 - 1), 1.55, 0.2)
+	var mesh: KitMesh = KitMesh.new()
+	var wisp: StandardMaterial3D = CapitalKit.own_glow(Color("b8ffe0"), 0.9, 0.55)
+	mesh.set_material("wisp", wisp)
+	mesh.blob("wisp", Vector3(0, 0.25, 0), Vector3(0.22, 0.24, 0.22), 5, 10)
+	mesh.lathe("wisp", Vector3(0, -0.45, 0), [Vector2(0.02, 0.0), Vector2(0.14, 0.3), Vector2(0.22, 0.6), Vector2(0.2, 0.7)], 10, 1.0, false, false)
+	for side: float in [-1.0, 1.0]:
+		mesh.blob("wisp", Vector3(side * 0.2, 0.05, 0.05), Vector3(0.06, 0.12, 0.06), 3, 6)
+	var node: MeshInstance3D = mesh.instance("Wisp")
+	node.set_meta(&"no_occlusion_fade", true)
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	bob.add_child(node)
+	return bob
+
+
+## An energy wheel of the Transit Yards (the tram shed concept's giant wheel): a white rim in gold, white spokes, a gold hub on white-and-gold
+## uprights on a plaster plinth. Restored (the Beefcakes are free): red-and-gold spokes and bunting, the hub glowing. The "Spin" child turns.
+static func kit_energy_wheel(freed: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.box("plaster", Vector3(0, 0.12, 0), Vector3(5.6, 0.24, 2.0), Basis.IDENTITY, 0.04, 0.85)
+	mesh.box("trim", Vector3(0, 0.2, 1.01), Vector3(5.6, 0.16, 0.04))
+	for side: float in [-1.0, 1.0]:
+		mesh.box("plaster", Vector3(0, 1.6, side * 0.8), Vector3(0.3, 3.2, 0.3), Basis.IDENTITY, 0.03)
+		mesh.box("gold", Vector3(0, 3.25, side * 0.8), Vector3(0.38, 0.12, 0.38))
+	mesh.box("gold", Vector3(0, 2.7, 0), Vector3(0.2, 0.2, 1.9))
+	CapitalLandmarks.finish(root, mesh, [], 5.2)
+	var spin: Node3D = Node3D.new()
+	spin.name = "Spin"
+	spin.position = Vector3(0, 2.7, 0)
+	spin.set_meta("spin_speed", 0.9 if not freed else 0.25)
+	root.add_child(spin)
+	var wheel: KitMesh = KitMesh.new()
+	CapitalKit.materials(wheel)
+	var segments: int = 24
+	for index: int in range(segments):
+		var a0: float = TAU * float(index) / float(segments)
+		var a1: float = TAU * float(index + 1) / float(segments)
+		for face: float in [-0.35, 0.35]:
+			wheel.quad("gold", [Vector3(cos(a0), sin(a0), 0) * 2.45 + Vector3(0, 0, face), Vector3(cos(a1), sin(a1), 0) * 2.45 + Vector3(0, 0, face), Vector3(cos(a1), sin(a1), 0) * 2.2 + Vector3(0, 0, face), Vector3(cos(a0), sin(a0), 0) * 2.2 + Vector3(0, 0, face)], Vector3(0, 0, signf(face)))
+		wheel.quad("plaster", [Vector3(cos(a0), sin(a0), 0) * 2.45 + Vector3(0, 0, -0.35), Vector3(cos(a1), sin(a1), 0) * 2.45 + Vector3(0, 0, -0.35), Vector3(cos(a1), sin(a1), 0) * 2.45 + Vector3(0, 0, 0.35), Vector3(cos(a0), sin(a0), 0) * 2.45 + Vector3(0, 0, 0.35)], Vector3(cos((a0 + a1) * 0.5), sin((a0 + a1) * 0.5), 0))
+	for index: int in range(8):
+		var angle: float = TAU * float(index) / 8.0
+		var slot: String = ("red_gold" if index % 2 == 0 else "gold") if freed else "plaster"
+		wheel.box(slot, Vector3(cos(angle), sin(angle), 0) * 1.15, Vector3(2.2, 0.14, 0.14), Basis(Vector3(0, 0, 1), angle), 0.02)
+	wheel.blob("gold", Vector3.ZERO, Vector3(0.38, 0.38, 0.38), 5, 10)
+	if freed:
+		wheel.set_material("hub_glow", EnvKit.glow(Color("ffcf70"), 1.6))
+		wheel.blob("hub_glow", Vector3(0, 0, 0.32), Vector3(0.18, 0.18, 0.1), 3, 8)
+	var wheel_node: MeshInstance3D = wheel.instance("Wheel")
+	wheel_node.set_meta(PaintedClasses.META_NO_PAINT, true)
+	spin.add_child(wheel_node)
+	return root
+
+
+## A power pylon of the yards: a white mast with a gold cross-arm and two insulators, lit blue once the Beefcakes are free.
+static func kit_pylon(lit: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.set_material("insulator", EnvKit.glow(Color(0.5, 0.85, 1.0), 2.0) if lit else EnvKit.flat(Color(0.25, 0.25, 0.28), "cap_insulator"))
+	mesh.box("plaster", Vector3(0, 2.5, 0), Vector3(0.24, 5.0, 0.24), Basis.IDENTITY, 0.02)
+	mesh.box("gold", Vector3(0, 4.6, 0), Vector3(2.4, 0.16, 0.16))
+	for side: float in [-1.0, 1.0]:
+		mesh.blob("insulator", Vector3(side * 1.1, 4.42, 0), Vector3(0.12, 0.14, 0.12), 3, 8)
+	CapitalKit.finial(mesh, Vector3(0, 5.0, 0), 0.5)
+	return CapitalLandmarks.finish(root, mesh, [], 5.2)
+
+
+## The yards' crates: the rubble sheet's scattered crates, stacked tidy.
+static func kit_crates() -> Node3D:
+	var root: Node3D = Node3D.new()
+	CapitalKit.tree_card(root, "CAP-SHEET-RUBBLE-06", Vector3.ZERO, 1.3)
+	return root
+
+
+## Widow Pell's parlour on Grave Row: a little white-and-gold house (a blue hipped roof, an arched door, a lit window, the Necrocrats' essence on
+## its gable); once the Necrocrats are free a calm green lantern by the door and roses.
+static func kit_parlor(free: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.set_material("green_glow", EnvKit.glow(Color("8af0b0"), 1.8))
+	mesh.box("plaster", Vector3(0, 1.1, 0), Vector3(3.2, 2.2, 2.6), Basis.IDENTITY, 0.03, 0.82)
+	mesh.box("trim", Vector3(0, 2.1, 0), Vector3(3.26, 0.22, 2.66))
+	CapitalCastle._hip_roof(mesh, Vector3(0, 2.2, 0), Vector2(3.6, 3.0), 1.2, "roof_blue")
+	CapitalKit.arched_window(mesh, Vector3(-0.7, 0.05, 1.31), 0.8, 1.8, Vector3(0, 0, 1), "gold")
+	CapitalKit.arched_window(mesh, Vector3(0.7, 0.8, 1.31), 0.7, 0.9, Vector3(0, 0, 1), "window_warm")
+	if free:
+		mesh.blob("green_glow", Vector3(-1.35, 1.5, 1.45), Vector3(0.12, 0.16, 0.12), 3, 8)
+		CapitalKit.card(mesh, "CAP-PLANT-ROSE", Vector3(1.0, 0.0, 1.55), 0.55, Vector3(0, 0, 1))
+	CapitalLandmarks.finish(root, mesh, [], 3.4)
+	IconSign.attach(root, "ICON-ESSENCE-N", Vector3(0, 1.75, 1.34), 0.45)
+	return root
+
+
+## The permit office on Grave Row: a white civic booth with a gold band, a service window heaped with unfiled papers and Primm's red tape; closed
+## for good once the Necrocrats are free (the window shuttered gold, the papers gone).
+static func kit_permit_office(closed_for_good: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.box("plaster", Vector3(0, 1.2, 0), Vector3(3.0, 2.4, 2.2), Basis.IDENTITY, 0.03, 0.82)
+	mesh.box("trim", Vector3(0, 2.25, 0), Vector3(3.06, 0.24, 2.26))
+	CapitalCastle._hip_roof(mesh, Vector3(0, 2.4, 0), Vector2(3.3, 2.5), 0.9, "roof_blue")
+	mesh.box("gold" if closed_for_good else "dark", Vector3(0, 1.4, 1.11), Vector3(1.4, 0.7, 0.04))
+	mesh.box("marble_shade", Vector3(0, 1.0, 1.3), Vector3(1.5, 0.08, 0.5))
+	if not closed_for_good:
+		for index: int in range(6):
+			mesh.box("paper", Vector3(-0.5 + 0.2 * float(index), 1.06 + 0.015 * float(index), 1.3), Vector3(0.3, 0.02 + 0.03 * float(index), 0.22), Basis(Vector3.UP, deg_to_rad(12.0 * float(index))))
+	CapitalLandmarks.finish(root, mesh, [], 3.3)
+	IconSign.attach(root, "ICON-RES-REDTAPE", Vector3(0, 2.0, 1.14), 0.55)
+	return root
+
+
+## The Pell family plot: a marble headstone in a low white kerb; Off the soil bare and the stone askew, On (laid to rest) a bed of flowers.
+static func kit_family_plot() -> Node3D:
+	var root: Node3D = Node3D.new()
+	for state: bool in [false, true]:
+		var group: Node3D = _state_group(root, "On" if state else "Off", not state)
+		var mesh: KitMesh = KitMesh.new()
+		CapitalKit.materials(mesh)
+		for side: float in [-1.0, 1.0]:
+			mesh.box("marble_shade", Vector3(side * 1.0, 0.12, 0), Vector3(0.12, 0.24, 2.2))
+			mesh.box("marble_shade", Vector3(0, 0.12, side * 1.1), Vector3(2.0, 0.24, 0.12))
+		mesh.box("marble", Vector3(0, 0.45, -0.9), Vector3(0.7, 0.9, 0.16), Basis(Vector3(0, 0, 1), 0.0 if state else 0.18), 0.03)
+		CapitalKit.emblem(mesh, Vector3(0, 0.55, -0.81), 0.14, Vector3(0, 0, 1))
+		if state:
+			mesh.box("lawn", Vector3(0, 0.08, 0.2), Vector3(1.8, 0.16, 1.4))
+			for index: int in range(7):
+				mesh.blob(["rose", "rose_white", "wildflower", "lavender"][index % 4], Vector3(-0.7 + 0.23 * float(index), 0.24, 0.2 + 0.25 * sin(float(index) * 1.7)), Vector3(0.1, 0.08, 0.1), 3, 6)
+		else:
+			mesh.box("soil", Vector3(0, 0.03, 0.15), Vector3(1.8, 0.06, 1.6))
+		CapitalLandmarks.finish(group, mesh, [], 1.0)
+	return root
+
+
+## The Reek's junk: black bags heaped against a grey bin (broken); once the Refusemancers are free, a tidy compost bin with greens and flowers
+## growing from it (restored).
+static func kit_junk(variant: int, tidied: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 100 + variant
+	if tidied:
+		mesh.box("wood", Vector3(0, 0.45, 0), Vector3(1.3, 0.9, 1.0), Basis.IDENTITY, 0.03, 0.75)
+		mesh.box("compost", Vector3(0, 0.88, 0), Vector3(1.15, 0.06, 0.85))
+		for slat: float in [0.2, 0.45, 0.7]:
+			mesh.box("wood_dark", Vector3(0, slat, 0.51), Vector3(1.32, 0.05, 0.03))
+		for index: int in range(6):
+			var p: Vector3 = Vector3(rng.randf_range(-0.45, 0.45), 0.9, rng.randf_range(-0.3, 0.3))
+			mesh.tube("leaf", p, p + Vector3(0, 0.35, 0), 0.02, 4)
+			mesh.blob(["wildflower", "rose", "leaf", "lavender"][index % 4], p + Vector3(0, 0.4, 0), Vector3(0.1, 0.08, 0.1), 3, 6)
+	else:
+		mesh.box("bin", Vector3(-0.3, 0.5, -0.2), Vector3(1.0, 1.0, 0.8), Basis(Vector3.UP, 0.2), 0.04, 0.6)
+		mesh.box("bin_dark", Vector3(-0.3, 1.05, -0.35), Vector3(1.05, 0.08, 0.85), Basis(Vector3.UP, 0.2) * Basis(Vector3.RIGHT, -0.4), 0.02)
+		for index: int in range(7):
+			mesh.blob("bag", Vector3(rng.randf_range(-0.9, 0.9), rng.randf_range(0.2, 0.9), rng.randf_range(-0.6, 0.7)), Vector3(0.38, 0.3, 0.34), 3, 8)
+		CapitalKit.card(mesh, "CAP-SHEET-RUBBLE-06", Vector3(0.6, 0.0, 0.6), 0.9, Vector3(0, 0, 1))
+	return CapitalLandmarks.finish(root, mesh, [], 1.4)
+
+
+## One of the Reek's three banished compost heaps (a pickup): a rich dark mound in a wooden ring, a faint healthy green glow on it.
+static func kit_compost_heap() -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.set_material("sprout", EnvKit.glow(Color("8ae070"), 1.1))
+	mesh.lathe("compost", Vector3.ZERO, [Vector2(0.95, 0.0), Vector2(0.85, 0.3), Vector2(0.5, 0.6), Vector2(0.0, 0.7)], 12, 0.8, false, true)
+	for index: int in range(8):
+		var angle: float = TAU * float(index) / 8.0
+		mesh.box("wood", Vector3(cos(angle), 0, sin(angle)) * 1.0 + Vector3(0, 0.18, 0), Vector3(0.12, 0.36, 0.7), Basis(Vector3.UP, -angle))
+	for index: int in range(5):
+		var angle: float = TAU * float(index) / 5.0
+		mesh.blob("sprout", Vector3(cos(angle) * 0.45, 0.52, sin(angle) * 0.45), Vector3(0.1, 0.12, 0.1), 3, 6)
+	return CapitalLandmarks.finish(root, mesh, [], 0.9)
+
+
+## Old Fern's shack in the Reek: a lean-to of salvaged boards with a moss-green roof and the Refusemancers' sign; once they are free, a warm lit
+## window and a flower box.
+static func kit_fern_shack(free: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.box("wood", Vector3(0, 1.0, 0), Vector3(2.4, 2.0, 1.6), Basis.IDENTITY, 0.03, 0.7)
+	for plank: int in range(6):
+		mesh.box("wood_dark", Vector3(-1.0 + 0.4 * float(plank), 1.0, 0.81), Vector3(0.05, 1.9, 0.03))
+	mesh.quad("moss", [Vector3(-1.4, 2.0, -1.0), Vector3(1.4, 2.0, -1.0), Vector3(1.4, 2.2, 1.1), Vector3(-1.4, 2.2, 1.1)], Vector3(0, 1, 0.1))
+	mesh.quad("moss", [Vector3(-1.4, 2.0, -1.0), Vector3(1.4, 2.0, -1.0), Vector3(1.4, 2.2, 1.1), Vector3(-1.4, 2.2, 1.1)], Vector3(0, -1, -0.1))
+	mesh.box("window_warm" if free else "dark", Vector3(0.65, 1.3, 0.82), Vector3(0.6, 0.5, 0.03))
+	if free:
+		for index: int in range(4):
+			mesh.blob(["wildflower", "rose", "lavender", "leaf"][index], Vector3(0.45 + 0.13 * float(index), 1.0, 0.9), Vector3(0.08, 0.07, 0.06), 3, 6)
+	CapitalLandmarks.finish(root, mesh, [], 2.4)
+	IconSign.attach(root, "ICON-RES-GARBAGE", Vector3(-0.5, 1.3, 0.84), 0.6)
+	return root
+
+
+## The Hungry Quarter's paste dispenser: a white-and-gold machine with Primm's face, its nozzle over a bowl of grey uniform paste; the "On" group (the
+## paste spoiled, a quest step) keeps its green slop. Once the Gourmands are free the bowl holds real colourful food.
+static func kit_paste_dispenser(freed: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.box("plaster", Vector3(0, 1.2, 0), Vector3(1.6, 2.4, 1.0), Basis.IDENTITY, 0.04, 0.82)
+	mesh.box("trim", Vector3(0, 2.3, 0), Vector3(1.66, 0.2, 1.06))
+	mesh.box("marble_shade", Vector3(0, 0.55, 0.6), Vector3(0.9, 0.5, 0.5))
+	mesh.tube("gold", Vector3(0, 1.25, 0.5), Vector3(0, 0.95, 0.6), 0.08, 8)
+	CapitalKit.emblem(mesh, Vector3(0, 1.75, 0.52), 0.3, Vector3(0, 0, 1))
+	mesh.lathe("marble", Vector3(0, 0.8, 0.6), [Vector2(0.16, 0.0), Vector2(0.24, 0.12)], 10, 1.0, true, false)
+	if freed:
+		mesh.blob("bread", Vector3(-0.06, 0.95, 0.6), Vector3(0.1, 0.06, 0.08), 3, 6)
+		mesh.blob("berry", Vector3(0.08, 0.95, 0.58), Vector3(0.06, 0.06, 0.06), 3, 6)
+	else:
+		mesh.lathe("food_grey", Vector3(0, 0.88, 0.6), [Vector2(0.2, 0.0), Vector2(0.0, 0.06)], 10, 1.0, false, false)
+	CapitalLandmarks.finish(root, mesh, [], 2.6)
+	var on: Node3D = _state_group(root, "On", false)
+	B.cylinder(on, 0.25, 0.25, 0.05, M.glow(Color(0.5, 1.0, 0.2), 1.4), Vector3(0, 0.05, 1.3), 10)
+	B.ball(on, 0.18, M.glow(Color(0.5, 1.0, 0.2), 1.6), Vector3(0, 0.3, 1.1))
+	return root
+
+
+## Chef Marlo's cart: a cream cart with copper pots; once the Gourmands are free, warm loaves and a cake on it and a little steam.
+static func kit_kitchen_cart(freed: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.box("cream", Vector3(0, 0.75, 0), Vector3(2.0, 0.9, 1.0), Basis.IDENTITY, 0.04, 0.8)
+	mesh.box("copper", Vector3(0, 1.22, 0), Vector3(2.06, 0.06, 1.06))
+	for side: float in [-1.0, 1.0]:
+		mesh.lathe("wood_dark", Vector3(side * 0.85, 0.35, 0.55), [Vector2(0.35, 0.0), Vector2(0.35, 0.08)], 12, 1.0, true, true)
+	mesh.lathe("copper", Vector3(-0.45, 1.25, 0), [Vector2(0.28, 0.0), Vector2(0.3, 0.35)], 12, 0.9, false, false)
+	mesh.lathe("copper", Vector3(0.4, 1.25, 0), [Vector2(0.22, 0.0), Vector2(0.24, 0.28)], 12, 0.9, false, false)
+	if freed:
+		mesh.blob("bread", Vector3(0.75, 1.35, 0.2), Vector3(0.22, 0.12, 0.14), 4, 8)
+		mesh.lathe("cake_pink", Vector3(0.75, 1.25, -0.25), [Vector2(0.18, 0.0), Vector2(0.18, 0.2), Vector2(0.0, 0.22)], 10, 1.0, false, true)
+	CapitalLandmarks.finish(root, mesh, [], 1.7)
+	if freed:
+		B.steam(root, Vector3(-0.45, 1.65, 0), 6, 0.15, 0.7)
 	return root

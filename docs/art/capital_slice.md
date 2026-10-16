@@ -242,3 +242,22 @@ Perfect but quietly wrong, per the six inside paint-overs:
 | after Part D | 212, 182, 170 | 139 / 195 / 224 | 0.24 |
 
 **fps on Medium**: the plaza 59.8, the Transit Yards 60.1, the Hungry Quarter 59.0, Grave Row, the Reek and the approach 60.0. **Checks**: 1596 GUT, all passing (new: the rows keep off the routes and the people, the identical houses wear the doors sheet).
+
+## Part E: the districts heal
+
+Each service district has two states on the same footprints (no route changes, tested), the broken one matching its paint-over and the left half of its concept, the restored one the right half: the Path's personality back in the perfect city, less uniform and more alive (CAP-16, CAP-35). The state follows the Path zone's freed flag; Primm's fall restores all four.
+
+| District (Path) | Broken | Restored |
+|---|---|---|
+| **The Transit Yards** (the Gainlands, the Beefcakes): the trams stalled grey in a dark arcade, pale still wheels, dead pylons, holes in the glass roof, dead shrubs, grime | ![](capital_slice/e_po_transit_yards.jpg) | ![](capital_slice/e_po_transit_yards_restored.jpg) red-and-gold spokes and bunting, the arcade's lanterns and globes lit, the trams in colour, lit pylons, roses |
+| **The Hungry Quarter** (the Endless Buffet, the Gourmands): cold ovens, empty shelves with bowls of grey paste, torn awnings, dark lanterns, the paste dispenser's grey slop | ![](capital_slice/e_po_hungry_quarter.jpg) | ![](capital_slice/e_po_hungry_quarter_restored.jpg) warm ovens glowing, cakes, loaves and berries on the shelves, copper pots, cream awnings, flowers, Marlo's cart with loaves, a cake and steam |
+| **Grave Row** (the D.N.A., the Necrocrats): leaning headstones, unfiled paper, restless ghosts drifting, mausoleum doors ajar on darkness, papers piled at the permit office | ![](capital_slice/e_po_grave_row.jpg) | ![](capital_slice/e_po_grave_row_restored.jpg) upright stones with flowers and calm green lanterns, the doors shut gold, topiaries, the permit office shuttered for good |
+| **The Reek** (the Verdant Dump, the Refusemancers): perfect painted screens hiding overflowing bins, black bags, grime and flies | ![](capital_slice/e_po_the_reek.jpg) | ![](capital_slice/e_po_the_reek_restored.jpg) the screens gone; clean compost bins, raised beds of flowers and greens, moss and vines on the walls, Fern's warm window |
+
+**The change, earned** (CAP-34): the first time the hero walks into a freed district (before Primm falls), its lights flicker on, the Path's sting rings over its restored music, a burst of the Path's colours, and four citizens in its colours gather beyond the hero and cheer, then go home. Once per save, no words, input never blocked. The fuller moment (the concepts' working crews as NPCs) is in `docs/backlog.md`.
+
+| The Transit Yards welcome | Grave Row welcome |
+|---|---|
+| ![](capital_slice/e_welcome_transit_yards.jpg) | ![](capital_slice/e_welcome_grave_row.jpg) |
+
+**fps on Medium**, broken / restored: the Transit Yards 59.3 / 60.0, the Hungry Quarter 59.6 / 60.1, Grave Row 60.0 / 60.0, the Reek 60.0 / 60.0. **Checks**: 1597 GUT, all passing (the welcome's rules, both states on the footprint).

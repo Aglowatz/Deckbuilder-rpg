@@ -24,6 +24,9 @@ var prop_nodes: Dictionary = {}
 ## The great wall's pieces and their boxes (`CapitalScene` hides a faded piece that blocks the lens, VD-22).
 var great_wall: Array[Node3D] = []
 var great_wall_boxes: Array[AABB] = []
+## The restored districts' lights (district area id -> Array of OmniLight3D): the first return to a freed district flickers them on
+## (`CapitalScene._welcome_district`).
+var district_lights: Dictionary = {}
 var rift_nodes: Dictionary = {}
 
 var _buckets: Dictionary = {}
@@ -417,6 +420,14 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 				# the ruined outpost's fallen guardhouses, from the kit (pale crumbling brick, a slumped broken roof, the outpost sheet's doors and windows)
 				node.add_child(CapitalLandmarks.ruined_house(w, h, d, building.lean, int(rect.position.x)))
 	node.rotation_degrees.y = 0.0
+	if free:
+		var area: CapitalLayout.Area = layout.area_at(center.x, center.z)
+		if area != null:
+			for model: Node in node.get_children():
+				for light: Variant in model.get_meta("lights", []) as Array:
+					var list: Array = district_lights.get(area.id, []) as Array
+					list.append(light)
+					district_lights[area.id] = list
 	if building.style in ["stall", "crypt", "ruin"]:
 		_batchable(node)
 	if building.style in ["wall", "tower"]:
@@ -674,6 +685,8 @@ var _castle_cracks: StandardMaterial3D
 var _rift_lights: Array[OmniLight3D] = []
 ## The camp fire's warm light (it flickers, `animate`).
 var _flickers: Array[OmniLight3D] = []
+## Grave Row's restless ghosts (broken state), drifting and bobbing (`animate`).
+var _ghosts: Array[Node3D] = []
 
 
 func _build_landmarks() -> void:
@@ -744,6 +757,9 @@ func _build_props() -> void:
 				_spinners.append(spin)
 		if node.has_meta("flicker"):
 			_flickers.append(node.get_meta("flicker") as OmniLight3D)
+		var ghost: Node3D = node.get_node_or_null("Ghost") as Node3D
+		if ghost != null:
+			_ghosts.append(ghost)
 	_apply_initial_states()
 
 
@@ -1065,6 +1081,11 @@ func animate(delta: float) -> void:
 		var flame: OmniLight3D = _flickers[index]
 		if is_instance_valid(flame):
 			flame.light_energy = 3.0 + 0.45 * sin(time * 9.0 + float(index)) + 0.25 * sin(time * 23.0)
+	for index: int in range(_ghosts.size()):
+		var ghost: Node3D = _ghosts[index]
+		if is_instance_valid(ghost):
+			ghost.position.y = 1.55 + 0.22 * sin(time * 1.3 + float(index) * 1.9)
+			ghost.rotation.y = 0.5 * sin(time * 0.6 + float(index))
 	if _castle_cracks != null:
 		# the castle's hairline cracks leak a slow, faint pulse of rift light
 		_castle_cracks.emission_energy_multiplier = 2.4 * (0.62 + 0.38 * (0.5 + 0.5 * sin(time * 0.7)))

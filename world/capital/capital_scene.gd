@@ -203,6 +203,98 @@ func _destination_name(dest: String) -> String:
 # ---- Per-frame -------------------------------------------------------------------------------------------------------
 
 
+# ---- The first return to a freed district (the art pass, Part E) -------------------------------------------------------------------------------
+
+## Each Path's sting and its colours for the welcome.
+const WELCOME: Dictionary = {
+	"beefcake": {"sting": &"STG-ZONE-BEEF", "colors": [Color("e0503a"), Color("f2c14a")]},
+	"gourmand": {"sting": &"STG-ZONE-GOUR", "colors": [Color("c47a3a"), Color("f2e2c0")]},
+	"necrocrat": {"sting": &"STG-ZONE-NECRO", "colors": [Color("8af0b0"), Color("c8f0ff")]},
+	"refusemancer": {"sting": &"STG-ZONE-REF", "colors": [Color("8ac04a"), Color("f0d050")]},
+}
+
+
+## The flag that marks a district's welcome as seen (cosmetic: nothing else reads it, CAP-34).
+static func welcome_flag(district: String) -> StringName:
+	return StringName("cap_welcome_%s" % district)
+
+
+## The first time the hero walks into a district whose Path has been freed (before Primm falls): the district's lights flicker on, the Path's
+## sting rings over the district's restored music (which the area music already switches to), a burst of the Path's colours, and four citizens
+## in the Path's colours gather round the hero and cheer for a few seconds, then go home. No words, no new story; marked once per save.
+func _welcome_district(area_id: String) -> void:
+	var path: String = str(MusicDirector.CAPITAL_DISTRICTS.get(area_id, ""))
+	if path == "" or not ZoneCompletion.is_completed(Session.flags, path) or Session.flag(CapitalZone.FLAG_FREED):
+		return
+	if Session.flag(welcome_flag(area_id)):
+		return
+	Session.set_flag(welcome_flag(area_id))
+	var look: Dictionary = WELCOME[path] as Dictionary
+	Audio.sting(look["sting"] as StringName)
+	for light: Variant in capital.district_lights.get(area_id, []) as Array:
+		var lamp: OmniLight3D = light as OmniLight3D
+		if lamp == null or not is_instance_valid(lamp):
+			continue
+		var full: float = lamp.light_energy
+		lamp.light_energy = 0.0
+		var tween: Tween = lamp.create_tween()
+		for step: Vector2 in [Vector2(0.6, 0.12), Vector2(0.05, 0.1), Vector2(0.9, 0.14), Vector2(0.2, 0.08), Vector2(1.0, 0.5)]:
+			tween.tween_property(lamp, "light_energy", full * step.x, step.y)
+	_welcome_burst(look["colors"] as Array)
+	_welcome_crowd(look["colors"] as Array)
+
+
+func _welcome_burst(colors: Array) -> void:
+	for index: int in range(colors.size()):
+		var burst: CPUParticles3D = CPUParticles3D.new()
+		burst.one_shot = true
+		burst.amount = 40
+		burst.lifetime = 2.2
+		burst.explosiveness = 0.85
+		burst.direction = Vector3.UP
+		burst.spread = 50.0
+		burst.initial_velocity_min = 3.0
+		burst.initial_velocity_max = 5.5
+		burst.gravity = Vector3(0, -3.5, 0)
+		var piece: QuadMesh = QuadMesh.new()
+		piece.size = Vector2(0.14, 0.09)
+		burst.mesh = piece
+		var material: StandardMaterial3D = StandardMaterial3D.new()
+		material.albedo_color = colors[index] as Color
+		material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		material.cull_mode = BaseMaterial3D.CULL_DISABLED
+		material.set_meta(StyleToon.META_NO_TOON, true)
+		burst.material_override = material
+		burst.position = player.position + Vector3(0, 1.4, 0)
+		add_child(burst)
+		burst.emitting = true
+		get_tree().create_timer(3.0).timeout.connect(burst.queue_free)
+
+
+func _welcome_crowd(colors: Array) -> void:
+	var placed: int = 0
+	# on the far side of the hero from the camera (north), never between them
+	for offset: float in [-0.55, 0.55, -1.2, 1.2, 0.0, -1.7, 1.7]:
+		if placed >= 4:
+			break
+		var angle: float = PI + offset
+		var spot: Vector3 = player.position + Vector3(sin(angle), 0, cos(angle)) * 3.2
+		if not builder.is_walkable(spot, 0.4):
+			continue
+		var tint: Color = (colors[placed % colors.size()] as Color).lerp(Color.WHITE, 0.35)
+		var citizen: SpriteActor = NpcSprites.make_actor("CITIZEN", tint)
+		ModelKit.place(self, citizen, spot, rad_to_deg(atan2(player.position.x - spot.x, player.position.z - spot.z)), TownPlayer.MODEL_SCALE)
+		var hop: Tween = citizen.create_tween()
+		hop.tween_interval(0.15 * float(placed))
+		for jump: int in range(4):
+			hop.tween_property(citizen, "position:y", 0.45, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			hop.tween_property(citizen, "position:y", 0.0, 0.18).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		hop.tween_interval(2.4)
+		hop.tween_property(citizen, "scale", Vector3.ONE * 0.01, 0.4)
+		hop.tween_callback(citizen.queue_free)
+		placed += 1
+
+
 ## The Capital's music follows the area the hero stands in (`CapitalLayout` areas) and the world state: outside the walls, the facade, each district
 ## broken or restored by its own Path's completion flag, the Correction Ward, the Crease, the restored city after Primm.
 func _play_area_music(fade: float) -> void:
@@ -220,6 +312,7 @@ func _update_area_music(delta: float) -> void:
 	var area: CapitalLayout.Area = capital.layout.area_at(player.position.x, player.position.z)
 	if area != null and area.id != _music_area:
 		_play_area_music(2.0)
+		_welcome_district(area.id)
 
 
 func _zone_process(delta: float) -> void:
