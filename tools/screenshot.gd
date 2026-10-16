@@ -84,7 +84,7 @@ func _process(delta: float) -> bool:
 		root.add_child(_scene)
 		return false
 	_elapsed += delta
-	if _args.has("hover") and not _hovered and _elapsed >= _wait - 0.7:
+	if _args.has("hover") and not _hovered and _elapsed >= _wait - 0.7 and str(_args["hover"]).contains(","):
 		# `--hover=x,y`: puts the mouse there (viewport pixels) shortly before the shot, so hover effects show.
 		_hovered = true
 		var xy: PackedStringArray = str(_args["hover"]).split(",")

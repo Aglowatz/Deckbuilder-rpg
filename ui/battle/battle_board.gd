@@ -1062,7 +1062,7 @@ func show_combat_preview(preview: Dictionary, note: String = "") -> void:
 		if amount > 0:
 			var lethal: bool = amount >= game.players[index].hp
 			plate.text = "-%d HP%s%s" % [amount, " " + note if not note.is_empty() else "", "  LETHAL!" if lethal else ""]
-			plate.add_theme_font_size_override("font_size", 28 if plate.text.length() < 18 else 22)
+			plate.add_theme_font_size_override("font_size", 28 if plate.text.length() < 18 else 19)
 			plate.add_theme_color_override("font_color", Color("ff4a3a") if lethal else Color("ff8a6a"))
 
 
@@ -1110,8 +1110,8 @@ func _player_preview_label(index: int) -> Label:
 	label.add_theme_constant_override("outline_size", 10)
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label.z_index = 160
-	label.size = Vector2(314, 46)
-	label.position = portrait_anchor[index] + Vector2(-157.0, 26.0)
+	label.size = Vector2(330, 46)
+	label.position = portrait_anchor[index] + Vector2(-165.0, 26.0)
 	label.visible = false
 	add_child(label)
 	return label

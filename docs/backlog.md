@@ -304,3 +304,12 @@ Each older smoke run **once**, one Godot process at a time, headless where possi
 - **The eighth-brief Verdant Dump smoke** (`bash tools/run_eighth_brief_final_smoke.sh heap`) is half updated for the layout pass: 115 checks pass, 8 fail. Not art: Brother Bramble's dialogue opens but Unblock the Stream is not handed out in that run (the two hand-in checks fail after it); the summit chest (chest_peak_b) is not found when the hero stands at it (the Seed Shrine's puzzle spot is beside it); the chute step's old approach does not launch the slide. `tools/run_heap_walk_smoke.sh` covers the same NPCs, doors, chest and lever and passes at both cameras.
 - **Kit ground surfaces have no mipmaps in the other zones** (GAIN-, DNA-, BUFF- ground and path ids import with `mipmaps/generate=false`): the Dump's got a heap-only import rule (VD-22) because the far ground shimmered; the other zones likely want the same rule.
 - The Dump's remaining procedural pieces (stables, harvest table, trough, shrine, crop plots, beanstalk mounds, dam, car husks, fair stage) want kit art (the extra-asset table in `docs/art/heap_slice.md`).
+
+
+## Battle feel (2026-10-16)
+
+- **Re-run the balance report** for the intro dungeon (`docs/balance_report.md`): the first duel now uses the "First duel (tutorial)" AI (BT-15), so its win rate should rise; the table there predates it.
+- **The boss at Very Fast:** the scripted new player in `tools/run_first_battles_smoke.sh` loses the Hollow Warden (it plays its first legal target, even its own unit); a real player is better, but worth a human playtest of the full Forgotten Cave after the tips.
+- **The zoomed card's keyword list** can reach down over your HP plate when a card has many keywords and the window is short (it closes when the mouse leaves the card). A two-column tooltip or a smaller card zoom would avoid it.
+- **AI announcements** name the move, not its target for abilities; abilities with targets could add "on X".
+- **Not done (out of scope or no art):** card-specific attack animations, a per-player "combat if blocked" preview of the AI's likely blocks (BT-1 explains why not), a Settings > Battle tab (the two battle settings sit on the Text page).
