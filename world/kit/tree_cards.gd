@@ -37,6 +37,13 @@ const KINDS: Dictionary = {
 	"buff_cutlery": {"id": "BUFF-PROP-CUTLERY", "size": Vector2(1.62, 3.4), "radius": 0.35, "prop": true},
 	"buff_flour": {"id": "BUFF-PROP-FLOUR", "size": Vector2(1.28, 1.2), "radius": 0.5, "prop": true},
 	"buff_cakestand": {"id": "BUFF-PROP-CAKESTAND", "size": Vector2(1.15, 1.4), "radius": 0.4, "prop": true},
+	# The Verdant Dump kit cards (docs/art/heap_slice.md, the art pass): vine oaks and tyre birches, the twisted trees toward the Rotheart, wildflower beds, reeds, the violet fungus.
+	"dump_oak": {"id": "DUMP-TREE-OAK", "size": Vector2(4.48, 6.2), "radius": 0.4},
+	"dump_birch": {"id": "DUMP-TREE-BIRCH", "size": Vector2(3.46, 5.4), "radius": 0.3},
+	"dump_twisted": {"id": "DUMP-TREE-TWISTED", "size": Vector2(4.02, 6.0), "radius": 0.4},
+	"dump_wild": {"id": "DUMP-PLANT-WILD", "size": Vector2(0.9, 1.2), "radius": 0.0, "plant": true},
+	"dump_reed": {"id": "DUMP-PLANT-REED", "size": Vector2(1.53, 2.2), "radius": 0.0, "plant": true},
+	"dump_fungus": {"id": "DUMP-PLANT-FUNGUS", "size": Vector2(1.34, 1.9), "radius": 0.0, "plant": true},
 }
 
 

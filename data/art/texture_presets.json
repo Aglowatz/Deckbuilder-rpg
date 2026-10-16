@@ -109,13 +109,23 @@
 		"tint": 0.4,
 		"normal": 0.55,
 		"sheen": 0.06,
-		"color": "#a8c88c",
+		"color": "#b8cc94",
 		"layers": [
-			{"tex": "dump_mossydirt", "tile": 6.0, "mode": "base", "bright": 1.9},
+			{"tex": "DUMP-GROUND-CLOVER", "tile": 4.2, "mode": "base", "bright": 1.12},
 			{"tex": "dump_farmrows", "tile": 4.0, "aligned": true, "mode": "mask", "mask": "fields", "soft": 0.12, "warp": 0.3, "bright": 1.1},
-			{"tex": "dump_compost", "tile": 3.2, "mode": "mask", "mask": "compost", "soft": 0.2, "warp": 0.5, "bright": 1.7},
-			{"tex": "dump_junkgravel", "tile": 3.6, "mode": "mask", "mask": "junk", "soft": 0.2, "warp": 0.5, "bright": 1.15}
+			{"tex": "dump_mossydirt", "tile": 4.5, "mode": "mask", "mask": "path", "soft": 0.16, "warp": 0.45, "bright": 2.1},
+			{"tex": "dump_junkgravel", "tile": 3.6, "mode": "mask", "mask": "junk", "soft": 0.2, "warp": 0.5, "bright": 1.15},
+			{"tex": "DUMP-GROUND-CORRUPT", "tile": 4.0, "mode": "mask", "mask": "corrupt", "soft": 0.3, "warp": 0.7, "bright": 1.05}
 		],
+		"variants": {
+			"freed": {"layers": [
+				{"tex": "DUMP-GROUND-CLOVER", "tile": 4.2, "mode": "base", "bright": 1.12},
+				{"tex": "dump_farmrows", "tile": 4.0, "aligned": true, "mode": "mask", "mask": "fields", "soft": 0.12, "warp": 0.3, "bright": 1.1},
+				{"tex": "dump_mossydirt", "tile": 4.5, "mode": "mask", "mask": "path", "soft": 0.16, "warp": 0.45, "bright": 2.1},
+				{"tex": "dump_junkgravel", "tile": 3.6, "mode": "mask", "mask": "junk", "soft": 0.2, "warp": 0.5, "bright": 1.15},
+				{"tex": "dump_compost", "tile": 3.2, "mode": "mask", "mask": "compost", "soft": 0.2, "warp": 0.5, "bright": 1.7}
+			]}
+		},
 		"cliff": {"tex": "dump_rustmetal", "tile": 3.5, "keep": 0.5},
 		"props": {"metal": "dump_rustmetal"},
 		"special": [
@@ -124,13 +134,16 @@
 		],
 		"atlas_override": {"kenney-car-kit": "dump_rustmetal"},
 		"decals": [
-			{"id": "rust", "count": 26, "min": 0.8, "max": 1.6, "opacity": 0.9, "mask": "junk", "mask_min": 0.6},
-			{"id": "mud", "count": 14, "min": 0.8, "max": 1.4, "opacity": 0.8, "mask": "path", "mask_min": 0.5},
-			{"id": "puddle", "count": 8, "min": 0.9, "max": 1.6, "opacity": 0.8, "mask": "compost", "mask_min": 0.5},
-			{"id": "leaves", "count": 16, "min": 0.7, "max": 1.3, "opacity": 0.9, "mask": "grass", "mask_min": 0.5},
-			{"id": "moss", "count": 20, "min": 0.9, "max": 1.8, "opacity": 0.7, "mask": "grass", "mask_min": 0.5},
-			{"id": "flowers", "count": 24, "min": 0.7, "max": 1.2, "opacity": 0.95, "mask": "grass", "mask_min": 0.5},
-			{"id": "scorch", "count": 3, "min": 1.0, "max": 1.6, "opacity": 0.7, "mask": "compost", "mask_min": 0.6}
+			{"id": "rust", "count": 20, "min": 0.8, "max": 1.6, "opacity": 0.9, "mask": "junk", "mask_min": 0.6},
+			{"id": "DUMP-DEC-OIL", "count": 8, "min": 1.0, "max": 1.7, "opacity": 0.75, "mask": "junk", "mask_min": 0.6},
+			{"id": "mud", "count": 10, "min": 0.8, "max": 1.4, "opacity": 0.7, "mask": "path", "mask_min": 0.5},
+			{"id": "puddle", "count": 6, "min": 0.9, "max": 1.6, "opacity": 0.8, "mask": "compost", "mask_min": 0.5},
+			{"id": "scorch", "count": 3, "min": 1.0, "max": 1.6, "opacity": 0.6, "mask": "compost", "mask_min": 0.6},
+			{"id": "leaves", "count": 12, "min": 0.7, "max": 1.3, "opacity": 0.9, "mask": "grass", "mask_min": 0.5},
+			{"id": "moss", "count": 16, "min": 0.9, "max": 1.8, "opacity": 0.7, "mask": "grass", "mask_min": 0.5},
+			{"id": "flowers", "count": 26, "min": 0.7, "max": 1.2, "opacity": 0.95, "mask": "grass", "mask_min": 0.6},
+			{"id": "DUMP-DEC-PETALS", "count": 26, "min": 0.8, "max": 1.4, "opacity": 0.9, "mask": "grass", "mask_min": 0.6},
+			{"id": "DUMP-DEC-CORRUPT", "count": 36, "min": 1.2, "max": 2.6, "opacity": 0.85, "mask": "corrupt", "mask_min": 0.4}
 		]
 	},
 	"capital_outskirts": {

@@ -40,6 +40,8 @@ func _zone_id() -> String:
 
 func _make_map() -> ZoneMap:
 	heap = HeapBuilder.new()
+	# the corruption recedes once the zone is freed (the ground, the trees, the grade and the Rotheart's glow)
+	heap.freed = Session.is_zone_completed(HeapZone.ID)
 	return heap
 
 
@@ -54,6 +56,8 @@ func _build_zone_extras() -> void:
 	_add_hats()
 	_restore_growth_and_barricades()
 	_refresh_crops()
+	HeapLandmarks.set_freed(heap.rotheart, heap.freed)
+	HeapLandmarks.set_freed(heap.landmarks.get("HEAP-ROOT-GATE") as Node3D, heap.freed)
 	# Arriving over the entrance bridge: the hero faces north so the Commons opens up in front of them; the walk-off exit arms once they have stepped inside.
 	if HeapLayout.on_entrance(player.position.x, player.position.z):
 		player.face(player.position + Vector3(0.0, 0.0, -2.0))
@@ -73,6 +77,54 @@ func _dress_zone() -> void:
 		if not lights.is_empty():
 			heap.heart_light = lights[0]
 			heap.heart_light.set_meta("base_energy", heap.heart_light.light_energy)
+
+
+# ---- The corruption gradient's grade (data/zone_styles/heap.json "corruption") ------------------------------------------------
+
+
+var _grade_base: Dictionary = {}
+var _grade_step: float = -1.0
+var _grade_t: float = 0.0
+var _sun_base: Dictionary = {}
+
+
+## The look follows the hero toward the Rotheart: the fog turns violet and thickens, saturation and warmth drop, the vignette closes (the look rig blends
+## `grade`), the sun sinks lower and violet so the shadows lengthen, and the ambient turns violet (`light`); all scaled by `HeapBuilder.twist_at` where the hero
+## stands, so it is a smooth gradient across the regions, never a line, and it recedes once the zone is freed.
+func _update_corruption_grade(delta: float) -> void:
+	if look_rig == null or style_rig == null or style_rig.sun == null or player == null:
+		return
+	var c: Dictionary = heap.layout.corruption
+	if _grade_base.is_empty():
+		_grade_base = look_rig.values.duplicate()
+		var env: Environment = style_rig.world_env.environment if style_rig.world_env != null else null
+		_sun_base = {"color": style_rig.sun.light_color, "energy": style_rig.sun.light_energy, "pitch": style_rig.sun.rotation_degrees.x, "ambient": env.ambient_light_color if env != null else Color.WHITE}
+		_grade_t = heap.twist_at(player.position.x, player.position.z)
+	var target: float = heap.twist_at(player.position.x, player.position.z)
+	# a teleport (a chute, waking at the hub) jumps the grade with it; walking eases it
+	if absf(target - _grade_t) > 0.5:
+		_grade_t = target
+	_grade_t = lerpf(_grade_t, target, 1.0 - exp(-1.5 * delta))
+	# the look rig blends the post and fog values itself: hand it a new target only every 5 % (each change redraws the sky's haze)
+	var step: float = snappedf(_grade_t, 0.05)
+	if step != _grade_step:
+		_grade_step = step
+		var grade: Dictionary = c.get("grade", {}) as Dictionary
+		for key: String in grade.keys():
+			if not _grade_base.has(key):
+				continue
+			if key == "fog_color":
+				look_rig.values[key] = Color.html(str(_grade_base[key])).lerp(Color.html(str(grade[key])), step).to_html(false)
+			else:
+				look_rig.values[key] = lerpf(float(_grade_base[key]), float(grade[key]), step)
+	var light: Dictionary = c.get("light", {}) as Dictionary
+	var sun: DirectionalLight3D = style_rig.sun
+	sun.light_color = (_sun_base["color"] as Color).lerp(Color.html(str(light.get("sun_color", "#ffffff"))), _grade_t)
+	sun.light_energy = lerpf(float(_sun_base["energy"]), float(light.get("sun_energy", _sun_base["energy"])), _grade_t)
+	sun.rotation_degrees.x = lerpf(float(_sun_base["pitch"]), float(light.get("sun_pitch", _sun_base["pitch"])), _grade_t)
+	var environment: Environment = style_rig.world_env.environment if style_rig.world_env != null else null
+	if environment != null:
+		environment.ambient_light_color = (_sun_base["ambient"] as Color).lerp(Color.html(str(light.get("ambient_color", "#ffffff"))), _grade_t)
 
 
 ## Walking off the far end of the entrance bridge leaves for town (armed only after the hero has been well inside the zone).
@@ -148,6 +200,7 @@ func _zone_process(delta: float) -> void:
 	_chute_cooldown = maxf(0.0, _chute_cooldown - delta)
 	_barricade_hint_cooldown = maxf(0.0, _barricade_hint_cooldown - delta)
 	heap.animate(delta)
+	_update_corruption_grade(delta)
 	_update_entrance_exit()
 	_update_mount()
 	_crop_timer -= delta

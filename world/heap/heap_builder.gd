@@ -31,6 +31,8 @@ var landmarks: Dictionary = {}
 var rotheart: Node3D
 ## The Rotheart heart's real light (made by the scene, `HeapScene._dress_zone`), pulsed with its glow in `animate`.
 var heart_light: OmniLight3D
+## The zone is freed (set by the scene before `build`): the corruption gradient recedes to `corruption.freed` of itself.
+var freed: bool = false
 
 var _buckets: Dictionary = {}
 var _barricade_blockers: Dictionary = {}
@@ -310,7 +312,7 @@ func _terrain_color(centroid: Vector3) -> Color:
 	if depth > -2.0:
 		color = color.lerp(H.DIRT_DARK, smoothstep(-2.0, -0.4, depth) * 0.7)
 	# the corruption gradient (data/zone_styles/heap.json): violet and dark toward the Rotheart
-	var twist: float = layout.corruption_at(x, z)
+	var twist: float = twist_at(x, z)
 	if twist > 0.0:
 		var tint: Color = Color.html(str(layout.corruption.get("tint", "#5a2f6e")))
 		color = color.lerp(tint, twist * float(layout.corruption.get("ground", 0.5))).darkened(twist * float(layout.corruption.get("darken", 0.2)))
@@ -635,31 +637,55 @@ func _build_chutes() -> void:
 # ---- Props ----------------------------------------------------------------------------------------------
 
 
+## The corruption where it shows (0 healthy .. 1 at the Rotheart's roots): the layout's gradient, scaled down once the zone is freed (data `corruption.freed`).
+func twist_at(x: float, z: float) -> float:
+	var t: float = layout.corruption_at(x, z)
+	return t * float(layout.corruption.get("freed", 0.0)) if freed else t
+
+
 func _ground(x: float, z: float) -> Vector3:
 	return Vector3(x, layout.ground_height(x, z), z)
 
 
 func _build_props() -> void:
+	# The trees and plants are the kit's painted cards in one MultiMesh field per kind (each card fades itself), chosen by the corruption gradient
+	# (data/zone_styles/heap.json): vine oaks and tyre birches where it is healthy giving way to twisted trees toward the Rotheart through a soft dithered
+	# band, wildflower beds to violet fungus, reeds where the ground is wet; the rocks stay Nature Kit models; everything else is a layout feature.
 	var transforms: Dictionary = {}
+	var cards: Dictionary = {}
 	var crop_index: int = 0
+	var c: Dictionary = layout.corruption
+	var tree_edge: float = float(c.get("trees", 0.42))
+	var tree_band: float = float(c.get("trees_band", 0.22))
+	var fungus_from: float = float(c.get("fungus", 0.4))
 	for prop: HeapLayout.Prop in layout.props:
 		var pos: Vector3 = _ground(prop.pos.x, prop.pos.z)
+		var t: float = twist_at(prop.pos.x, prop.pos.z)
+		var dither: float = _noise(prop.pos.x * 0.37, prop.pos.z * 0.37)
+		var area: HeapLayout.Area = layout.area_at(prop.pos.x, prop.pos.z)
+		var wet: bool = area != null and area.id in ["wetlands", "stream"]
 		match prop.kind:
 			"tree":
-				var models: Array[String] = ["tree_oak", "tree_default", "tree_detailed", "tree_fat"]
-				_collect(transforms, models[prop.variant % models.size()], prop, pos, 1.7)
+				var twisted: bool = smoothstep(tree_edge - tree_band * 0.5, tree_edge + tree_band * 0.5, t) > dither
+				var kind: String = "dump_twisted" if twisted else ("dump_oak" if prop.variant % 3 != 1 else "dump_birch")
+				_card_at(cards, kind, pos, clampf(prop.model_scale * 0.95, 0.8, 1.25))
 			"bush":
-				var bushes: Array[String] = ["plant_bush", "plant_bushLarge", "plant_bushDetailed", "plant_bushSmall"]
-				_collect(transforms, bushes[prop.variant % bushes.size()], prop, pos, 1.6)
+				if t > fungus_from and dither < smoothstep(fungus_from, fungus_from + 0.25, t):
+					_card_at(cards, "dump_fungus", pos, clampf(prop.model_scale * 0.9, 0.7, 1.2))
+				elif wet:
+					_card_at(cards, "dump_reed", pos, clampf(prop.model_scale, 0.8, 1.3))
+				else:
+					_card_at(cards, "dump_wild", pos, clampf(prop.model_scale * 1.1, 0.9, 1.4))
 			"flowers":
-				var flowers: Array[String] = ["flower_redA", "flower_yellowA", "flower_purpleA", "flower_redB"]
-				_collect(transforms, flowers[prop.variant % flowers.size()], prop, pos, 2.2)
+				if t > fungus_from + 0.1 and dither < 0.7:
+					_card_at(cards, "dump_fungus", pos, 0.55)
+				else:
+					_card_at(cards, "dump_wild", pos, clampf(prop.model_scale * 0.7, 0.6, 0.95))
+			"mushrooms":
+				_card_at(cards, "dump_fungus", pos, clampf(prop.model_scale * 0.7, 0.55, 0.95))
 			"rock":
 				var rocks: Array[String] = ["rock_largeA", "rock_largeC", "rock_tallA", "rock_largeE"]
 				_collect(transforms, rocks[prop.variant % rocks.size()], prop, pos, 1.6)
-			"mushrooms":
-				var shrooms: Array[String] = ["mushroom_redGroup", "mushroom_tanGroup", "mushroom_redTall", "mushroom_tanTall"]
-				_collect(transforms, shrooms[prop.variant % shrooms.size()], prop, pos, 2.6)
 			_:
 				var made: Node3D = _place_feature(prop, pos)
 				if prop.kind == "crop_plot" and made != null:
@@ -667,6 +693,18 @@ func _build_props() -> void:
 					crop_nodes[crop_index] = made
 	for model: String in transforms.keys():
 		_add_multimesh(model, transforms[model] as Array)
+	for kind: String in cards.keys():
+		var entries: Array[Dictionary] = []
+		entries.assign(cards[kind] as Array)
+		var field: MultiMeshInstance3D = KitFoliage.tree_field(root, kind, entries, not bool((TreeCards.KINDS[kind] as Dictionary).get("plant", false)))
+		if field != null:
+			field.set_meta(&"no_range_cull", true)
+
+
+func _card_at(cards: Dictionary, kind: String, pos: Vector3, scale: float) -> void:
+	var list: Array = cards.get(kind, []) as Array
+	list.append({"pos": pos, "scale": scale})
+	cards[kind] = list
 
 
 func _collect(transforms: Dictionary, model: String, prop: HeapLayout.Prop, pos: Vector3, base_scale: float) -> void:

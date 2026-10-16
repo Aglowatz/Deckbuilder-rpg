@@ -358,3 +358,43 @@ func test_the_rotheart_is_the_concept_model_with_a_living_heart() -> void:
 	var gate: Node3D = builder.landmarks["HEAP-ROOT-GATE"] as Node3D
 	assert_not_null(gate.find_child("Walk", false, false), "a plank walk leads in to the gate")
 	assert_not_null(gate.get_meta("heart", null), "the gate's doorway glows with the heart")
+
+
+func test_the_corruption_gradient_is_data_and_recedes_when_freed() -> void:
+	var c: Dictionary = ZoneStyles.style("heap").get("corruption", {}) as Dictionary
+	for key: String in ["trees", "fungus", "texture", "grade", "light", "freed"]:
+		assert_true(c.has(key), "the gradient's %s is data in data/zone_styles/heap.json" % key)
+	var layout: HeapLayout = HeapLayout.new()
+	layout.build()
+	# a smooth gradient across the regions, never a line: healthy at the hub and the farm, rising across the stream, strongest at the roots
+	var hub: float = layout.corruption_at(50.0, 70.0)
+	var stream: float = layout.corruption_at(50.0, 44.0)
+	var wetlands: float = layout.corruption_at(50.0, 20.0)
+	var roots: float = layout.corruption_at(50.0, 9.0)
+	assert_almost_eq(hub, 0.0, 0.001, "the Commons are healthy")
+	assert_almost_eq(layout.corruption_at(15.0, 62.0), 0.0, 0.001, "the farm rows are healthy")
+	assert_true(stream > hub and wetlands > stream and roots > wetlands, "it deepens toward the Rotheart (%.2f %.2f %.2f %.2f)" % [hub, stream, wetlands, roots])
+	var step: float = 0.0
+	for z: int in range(70, 8, -1):
+		step = maxf(step, absf(layout.corruption_at(50.0, float(z)) - layout.corruption_at(50.0, float(z) + 1.0)))
+	assert_lt(step, 0.08, "no hard line: at most %.2f per metre" % step)
+	# the builder: healthy trees in the south, twisted ones and fungus toward the roots; freed, they all come back healthy
+	for freed: bool in [false, true]:
+		var host: Node3D = Node3D.new()
+		add_child_autofree(host)
+		var builder: HeapBuilder = HeapBuilder.new()
+		builder.freed = freed
+		builder.build(host)
+		var twisted: MultiMeshInstance3D = builder.root.find_child("Trees_dump_twisted_shadow", false, false) as MultiMeshInstance3D
+		var oaks: MultiMeshInstance3D = builder.root.find_child("Trees_dump_oak_shadow", false, false) as MultiMeshInstance3D
+		assert_not_null(oaks, "vine oaks stand where it is healthy")
+		if freed:
+			assert_null(twisted, "freed: no twisted trees")
+			assert_almost_eq(builder.twist_at(50.0, 9.0), 0.0, 0.001, "freed: the corruption is gone")
+		else:
+			assert_not_null(twisted, "twisted trees toward the Rotheart")
+			if twisted != null:
+				for point: Variant in twisted.get_meta("points", []) as Array:
+					var at: Vector3 = (point as Dictionary)["pos"] as Vector3
+					assert_gt(layout.corruption_at(at.x, at.z), 0.15, "a twisted tree at (%.0f, %.0f) stands in the corruption" % [at.x, at.z])
+			assert_not_null(builder.root.find_child("Trees_dump_fungus_far", false, false), "violet fungus grows toward the roots")

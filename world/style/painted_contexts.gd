@@ -277,8 +277,9 @@ static func prop_cover(spots: Array[Vector3], p: Vector2) -> float:
 	return best
 
 
-## The Verdant Dump: farm rows in the Patchwork Fields, compost round the heaps and in the Grange, junk gravel on the junk paths and round the scrap piles (and the landfill/rust/scree
-## yards), mossy dirt elsewhere; junk props get rusted metal (see the preset's specials and `atlas_override`).
+## The Verdant Dump (the art pass, docs/art/heap_slice.md): clover everywhere (the kit's DUMP-GROUND-CLOVER), farm rows in the farm region, warm mossy dirt on the
+## routes and the plaza, junk gravel round the junk clusters and in the peaks' and throne's yards, and the corrupted soil (DUMP-GROUND-CORRUPT) painted in by the
+## corruption gradient (`HeapBuilder.twist_at`, scaled by `corruption.texture`; gone once the zone is freed); junk props get rusted metal (the preset's specials).
 static func heap(scene: ZoneScene) -> Dictionary:
 	var builder: HeapBuilder = scene.builder as HeapBuilder
 	var layout: HeapLayout = builder.layout
@@ -291,17 +292,30 @@ static func heap(scene: ZoneScene) -> Dictionary:
 				junk_spots.append(Vector3(prop.pos.x, prop.pos.z, 3.0 * maxf(prop.model_scale, 0.8)))
 			"compost_heap", "compost_bin", "composting_door":
 				compost_spots.append(Vector3(prop.pos.x, prop.pos.z, 3.6))
-	var fields_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["farm"], p)
+	var plaza: Vector2 = HeapLayout.PLAZA_CENTER
+	var texture: float = float(layout.corruption.get("texture", 0.9))
+	var fields_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["farm"], p) * (1.0 - layout.path_weight(p.x, p.y))
+	var path_mask: Callable = func(p: Vector2) -> float:
+		return maxf(layout.path_weight(p.x, p.y), PaintedContexts.disc_mask(p, plaza, HeapLayout.PLAZA_RADIUS + 0.5))
 	var junk_mask: Callable = func(p: Vector2) -> float:
-		return maxf(maxf(layout.path_weight(p.x, p.y) * 0.9, PaintedContexts.prop_cover(junk_spots, p)), PaintedContexts.area_cover(areas, ["peaks", "throne"], p) * 0.85)
-	var compost_mask: Callable = func(p: Vector2) -> float:
-		return maxf(PaintedContexts.prop_cover(compost_spots, p), 0.0)
+		var yard: float = PaintedContexts.area_cover(areas, ["peaks", "throne"], p) * 0.55
+		return maxf(PaintedContexts.prop_cover(junk_spots, p), yard) * (1.0 - float(path_mask.call(p)) * 0.8)
+	var compost_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.prop_cover(compost_spots, p)
+	var corrupt_mask: Callable = func(p: Vector2) -> float: return clampf(builder.twist_at(p.x, p.y) * texture * 1.25, 0.0, 1.0)
 	var grass_mask: Callable = func(p: Vector2) -> float:
-		return 0.0 if float(fields_mask.call(p)) > 0.3 or float(junk_mask.call(p)) > 0.3 or float(compost_mask.call(p)) > 0.3 else 1.0
-	var path_mask: Callable = func(p: Vector2) -> float: return layout.path_weight(p.x, p.y)
+		if float(fields_mask.call(p)) > 0.3 or float(junk_mask.call(p)) > 0.3 or float(path_mask.call(p)) > 0.3:
+			return 0.0
+		return 1.0 - float(corrupt_mask.call(p))
+	# freed, the land takes the "freed" variant: no corrupted soil, rich compost round the heaps instead
+	var swaps: Array = []
+	if builder.freed:
+		var land: Node = builder.root.find_child("Land", false, false)
+		if land != null:
+			swaps.append({"node": land, "variant": "freed"})
 	return {
 		"bounds": Rect2(0, 0, 100, 82),
-		"masks": {"fields": fields_mask, "junk": junk_mask, "compost": compost_mask, "grass": grass_mask, "path": path_mask},
+		"masks": {"fields": fields_mask, "path": path_mask, "junk": junk_mask, "corrupt": corrupt_mask, "compost": compost_mask, "grass": grass_mask},
+		"swaps": swaps,
 		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),
 	}
 

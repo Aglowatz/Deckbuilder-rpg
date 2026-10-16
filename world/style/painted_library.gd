@@ -35,11 +35,16 @@ static func set_enabled(value: bool) -> void:
 
 ## The albedo texture of `name` (e.g. "town_grass"), or null (reported once in `missing`).
 static func albedo(name: String) -> Texture2D:
+	# a zone kit surface (DUMP-GROUND-CLOVER) by its id, like the decals
+	if name.contains("-") and EnvKit.has(name):
+		return EnvKit.texture(name)
 	return _load("%s%s_albedo.webp" % [TEXTURES, name], name)
 
 
 ## The normal(RG)+roughness(B) pack of `name`, or null.
 static func normal_rough(name: String) -> Texture2D:
+	if name.contains("-") and EnvKit.has(name):
+		return null
 	return _load("%s%s_nr.webp" % [TEXTURES, name], name)
 
 
@@ -215,6 +220,10 @@ static func catalog() -> PackedStringArray:
 			found[str(value)] = true
 		for decal: Variant in data.get("decals", []) as Array:
 			found["decal:%s" % str((decal as Dictionary)["id"])] = true
+	# zone kit surfaces and decals named by id (DUMP-GROUND-CLOVER, decal:DUMP-DEC-CORRUPT) are the zone kit registry's, not painted texture sets
+	for key: Variant in found.keys():
+		if str(key).contains("-"):
+			found.erase(key)
 	var names: PackedStringArray = PackedStringArray(found.keys())
 	names.sort()
 	return names

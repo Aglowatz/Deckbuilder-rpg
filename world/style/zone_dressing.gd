@@ -73,7 +73,8 @@ static func recipe(preset_id: StringName) -> Dictionary:
 					# the grass carpet and low plants only: the Dump's junk stands in the layout's tidy clusters, never scattered (declutter, VD-5)
 					[NATURE, "grass_leafs", 26.0, 1.4, 2.3], [NATURE, "plant_flatShort", 6.0, 1.3, 2.0], [NATURE, "mushroom_tanGroup", 1.2, 1.4, 2.2],
 				],
-				"patches": [Color("8a7a3a"), Color("9a6a3a"), Color("6a8a3a")], "patch_pattern": GroundDecals.Pattern.DIRT, "density": 2.0, "scale": 1.6,
+				# meadow greens and gold (the paint-overs: lush grass, golden light); the grass blades take their colours from these
+				"patches": [Color("6e9a3c"), Color("8aa844"), Color("a8a848")], "patch_pattern": GroundDecals.Pattern.MOSS, "density": 1.4, "scale": 1.6,
 			}
 		StylePresets.CAPITAL_FACADE, StylePresets.CAPITAL_FREED:
 			return {

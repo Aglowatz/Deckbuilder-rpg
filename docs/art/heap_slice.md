@@ -134,3 +134,29 @@ The zone's centrepiece and the main dungeon's goal (`HeapLandmarks._rotheart`, `
 It reads in every view: the hollow's violet is the brightest accent under the crown from the hub, the stream and the wetlands; from the farm rows the windmill frames it on the left. Still to come: the ground and the old junk around it (Parts C, D) and the haze that turns the bark orange at 100 m (Part E).
 
 **Checks**: `test_the_rotheart_is_the_concept_model_with_a_living_heart` (the concept model, the pulsing glow, one light, the motes, the approach roots ending at the gate, freed and back, the walk and the doorway glow); 1570 GUT, 1569 passing (GC-6); 60 fps Medium at po_hub, po_wetlands and the main_dungeon spot.
+
+## Art Part C: the corruption gradient
+
+The Dump grows sick toward the Rotheart as one smooth gradient, all of it data in `data/zone_styles/heap.json` `corruption` (read by `HeapLayout.corruption_at`, scaled by `HeapBuilder.twist_at`):
+
+- **The shape**: from the plaza's north edge (`start_z` 54) to the roots (`end_z` 8), smoothstepped and strongest in the centre district (`centre_x` 50, `spread` 30): 0 at the hub and the farm rows, about 0.1 to 0.3 across the stream, 0.6 to 0.9 in the wetlands, 1 at the root gate; never more than 0.08 per metre (no hard line, tested).
+- **The ground** (`PaintedContexts.heap`, the `heap` texture preset): the kit's DUMP-GROUND-CLOVER is the base everywhere, the farm rows paint the farm, warm mossy dirt the routes and the plaza, junk gravel the junk yards, and DUMP-GROUND-CORRUPT paints in by the gradient (`texture` 0.9); the vertex tint toward the Rot's violet is lighter now (`ground` 0.22) since the soil itself carries it. Painted layers can name zone kit surfaces by id now (`PaintedLibrary.albedo`), as decals could. Decals by the same masks: DUMP-DEC-CORRUPT veins (36) where it is corrupted, DUMP-DEC-PETALS and the flower and moss decals only where it is healthy, DUMP-DEC-OIL and rust on the junk ground.
+- **The plants** (`HeapBuilder._build_props`, painted kit cards, one MultiMesh field per kind): vine oaks and tyre birches where it is healthy give way to DUMP-TREE-TWISTED through a dithered band (`trees` 0.42, `trees_band` 0.22); bushes become wildflower beds where it is healthy, reeds where it is wet (the stream and the wetlands) and DUMP-PLANT-FUNGUS (its own soft violet glow) above `fungus` 0.4; the flower clumps thin to 15 % toward the roots (the prep pass) and turn to small fungus there. The generic dressing's grass carpet was brown (its patch colours); it is meadow green and gold now.
+- **The grade** (`HeapScene._update_corruption_grade`): where the hero stands, the look rig's targets move toward `grade` (fog lilac and a little thicker, saturation 0.94, warmth 0.06, vignette 0.36) in 5 % steps (the rig blends them; each step redraws the sky's haze), and the sun sinks from -22 to -15 degrees and turns rose (longer shadows) while the ambient turns lilac (`light`), eased over a second or two, jumping only on a teleport. Violet is the accent (the hollow, the veins, the fungus, the soil's veins), never a wash: the full-strength grade was lifted after the first pass made the gate a dark violet murk (VD-17).
+- **The base grade** moved toward the paint-overs at the same time: warmth 0.3 to 0.12, saturation 1.1 to 1.02, a lighter peach fog (0.0034), a warmer ambient; the fine matching is Part E.
+- **Freed** (VD-18): the game has the state (`Session.is_zone_completed`), so it is built rather than logged: `HeapBuilder.freed` (set by the scene before the build) scales the whole gradient by `corruption.freed` (0): no corrupted soil (the land takes the preset's "freed" variant, rich compost round the heaps instead), healthy trees and flowers everywhere, the grade stays golden, and `HeapLandmarks.set_freed` turns the Rotheart's heart, veins, fungi and wisteria and the gate's doorway a soft warm green.
+
+The gradient from the hub to the root gate (`bash tools/heap_gradient_shots.sh <prefix>`: po_hub, po_stream, the north bank, po_wetlands, the main_dungeon spot):
+
+![](heap_slice/c_gradient.jpg)
+
+| Region | Paint-over beside the game after Part C |
+|---|---|
+| Hub | ![](heap_slice/c_compare_hub.jpg) |
+| Junk Peaks | ![](heap_slice/c_compare_junk_peaks.jpg) |
+| Farm Rows | ![](heap_slice/c_compare_farm_rows.jpg) |
+| Stream | ![](heap_slice/c_compare_stream.jpg) |
+| Wetlands | ![](heap_slice/c_compare_wetlands.jpg) |
+| Throne Approach | ![](heap_slice/c_compare_throne_approach.jpg) |
+
+**Checks**: `test_the_corruption_gradient_is_data_and_recedes_when_freed` (the data keys, healthy hub and farm, rising to the roots, no step above 0.08 per metre, twisted trees only in the corruption, fungus toward the roots, freed: no twisted trees and no corruption); 1571 GUT, 1570 passing (GC-6); 60 fps Medium at po_hub (709 draw calls), po_stream, po_wetlands.
