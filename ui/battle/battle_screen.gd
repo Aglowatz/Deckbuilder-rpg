@@ -62,6 +62,7 @@ var _chain_done: Callable = Callable()
 var _toast_label: Label
 var refuse_widgets: Array[RefusePileWidget] = []
 var refuse_viewer: RefusePileViewer
+var battle_log: BattleLog
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -112,7 +113,7 @@ func _screenshot_give(spec: String) -> void:
 ## you every basic infrastructure, `--play=N-17` plays that hand card as the mouse would (opening the targeting viewer),
 ## `--pick=0` then chooses the Nth legal pile card, `--viewer=0|1` opens the browse viewer on that pile. Runs once the board has settled.
 func _screenshot_scenario() -> void:
-	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark", "efield", "combat"]
+	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark", "efield", "combat", "endturn"]
 	var wanted: bool = false
 	for key: String in keys:
 		wanted = wanted or _screenshot_args.has(key)
@@ -168,6 +169,8 @@ func _screenshot_scenario() -> void:
 		if nth >= 0 and nth < _target_options.size():
 			_finish_targeting(_target_options[nth])
 		await get_tree().create_timer(1.5).timeout
+	if _screenshot_args.has("endturn"):
+		_on_end_turn()
 	## `--combat=all` goes to combat and selects every attacker (the combat preview); `--combat=1` selects only the first.
 	if _screenshot_args.has("combat") and mode == Mode.MAIN:
 		_on_primary()
@@ -206,6 +209,11 @@ func _ready() -> void:
 	if bot_turns > 0:
 		human_bot = AIPlayer.new(AIPersonality.balanced())
 		bot_until_turn = bot_turns
+	board.speed = Settings.battle_speed_scale()
+	if _screenshot_args.has("speed"):
+		Settings.battle_speed = clampi(int(_screenshot_args["speed"]), 0, Settings.BATTLE_SPEEDS.size() - 1)
+		board.speed = Settings.battle_speed_scale()
+		hud.set_speed_label()
 	if _flag("fast"):
 		board.speed = 8.0
 	if _flag("force_tutorial"):
@@ -268,6 +276,7 @@ func _build_scene() -> void:
 	hud.primary_pressed.connect(_on_primary)
 	hud.end_turn_pressed.connect(_on_end_turn)
 	hud.attack_all_pressed.connect(_on_attack_all)
+	hud.speed_pressed.connect(_on_speed_pressed)
 	# New brief, Part F: the equipped-items row, next to the player's own portrait.
 	if Session.profile != null and Session.profile.item_slots > 0:
 		item_bar = ItemBar.new()
@@ -276,6 +285,13 @@ func _build_scene() -> void:
 		item_bar.setup(game, Session.profile)
 		item_bar.item_pressed.connect(_on_item_pressed)
 	_build_refuse_piles()
+	battle_log = BattleLog.new()
+	_board_root.add_child(battle_log)
+	battle_log.setup(game, context.enemy_name, board.card_data)
+	battle_log.position = Vector2(24, 646)
+	battle_log.z_index = 50
+	if _flag("log"):
+		battle_log.toggle()
 	_overlay_layer = Control.new()
 	UIKit.full_rect(_overlay_layer)
 	_overlay_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -361,6 +377,7 @@ func _play_new_events() -> void:
 		var event: GameEvent = game.events[_event_cursor]
 		_event_cursor += 1
 		hud.on_event(event)
+		battle_log.add_event(event)
 		_refresh_piles()
 		await board.present(event)
 		if tutorial != null:
@@ -371,6 +388,11 @@ func _play_new_events() -> void:
 func _ai_step() -> void:
 	await get_tree().create_timer(0.35 / board.speed, false).timeout
 	var action: GameAction = ai.choose_action(game)
+	var line: String = _describe_ai_action(action)
+	if not line.is_empty():
+		# Battle feel, Part B: the opponent's move is named for a moment before it resolves, at every speed.
+		hud.announce(line, 0.7 / board.speed)
+		await get_tree().create_timer(0.5 / board.speed, false).timeout
 	if not game.apply_action(action):
 		if not game.apply_action(GameAction.pass_phase(1)):
 			push_error("BattleScreen: AI produced no legal action")
@@ -648,11 +670,14 @@ func _process(_delta: float) -> void:
 
 
 func _on_primary() -> void:
-	if busy:
+	if busy or _confirm_open:
 		return
 	match mode:
 		Mode.MAIN:
-			_submit(GameAction.pass_phase(0))
+			if game.phase == GameState.Phase.MAIN2:
+				_confirm_end_turn(func() -> void: _submit(GameAction.pass_phase(0)))
+			else:
+				_submit(GameAction.pass_phase(0))
 		Mode.ATTACK:
 			var action: GameAction = GameAction.make(GameAction.Type.DECLARE_ATTACKERS, 0)
 			for uid: int in _selected_attackers:
@@ -675,11 +700,123 @@ func _on_primary() -> void:
 
 
 func _on_end_turn() -> void:
-	if busy or not (mode == Mode.MAIN or mode == Mode.ATTACK):
+	if busy or not (mode == Mode.MAIN or mode == Mode.ATTACK) or _confirm_open:
 		return
-	_fast_end_turn = true
-	_clear_selection_state()
-	_submit(GameAction.pass_phase(0))
+	_confirm_end_turn(func() -> void:
+		_fast_end_turn = true
+		_clear_selection_state()
+		_submit(GameAction.pass_phase(0))
+	)
+
+
+var _confirm_open: bool = false
+
+
+## Battle feel, Part B: ending the turn while cards could still be played (in this main phase, or the second one when you end
+## it from combat) or abilities used asks first, with "don't ask again" (Settings.confirm_end_turn). Bots never ask.
+func _confirm_end_turn(end: Callable) -> void:
+	var moves: Vector2i = _moves_left()
+	var left: int = moves.x + moves.y
+	if not Settings.confirm_end_turn or human_bot != null or left == 0:
+		end.call()
+		return
+	_confirm_open = true
+	var parts: PackedStringArray = []
+	if moves.x > 0:
+		parts.append("play %d card%s" % [moves.x, "" if moves.x == 1 else "s"])
+	if moves.y > 0:
+		parts.append("use %d abilit%s" % [moves.y, "y" if moves.y == 1 else "ies"])
+	var message: String = "You can still %s this turn." % " and ".join(parts)
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, "End your turn?", message, "End Turn", "Keep playing", false, "Don't ask again")
+	dialog.name = "EndTurnConfirm"
+	var remember: Callable = func() -> void:
+		_confirm_open = false
+		if dialog.check != null and dialog.check.button_pressed:
+			Settings.confirm_end_turn = false
+			Settings.save_settings()
+	dialog.confirmed.connect(func() -> void:
+		remember.call()
+		end.call()
+	)
+	dialog.cancelled.connect(remember)
+
+
+## How many hand cards could still be played this turn (on a clone that skips ahead to the second main phase when you are in
+## combat) and the abilities you could use now, as (cards, abilities). One infrastructure counts at most once.
+func _moves_left() -> Vector2i:
+	if game.active != 0 or game.stage != GameState.Stage.PLAYING:
+		return Vector2i.ZERO
+	var trial: GameState = game.clone(false, 1)
+	var guard: int = 0
+	while not trial.in_main_phase() and trial.active == 0 and guard < 3 and not trial.is_over():
+		trial.apply_action(GameAction.pass_phase(0))
+		guard += 1
+	if not trial.in_main_phase() or trial.active != 0:
+		return Vector2i.ZERO
+	var count: int = 0
+	var infrastructure: int = 0
+	var abilities: int = 0
+	for card: CardInstance in trial.players[0].hand:
+		if card.data.is_infrastructure():
+			infrastructure = 1 if trial.can_play_infrastructure(0, card.uid) else infrastructure
+		elif trial.can_play_card(0, card.uid):
+			count += 1
+	if mode == Mode.MAIN:
+		for card: CardInstance in game.players[0].field + game.players[0].infrastructure:
+			if _usable_ability(card) >= 0 or not _usable_abilities(card).is_empty():
+				abilities += 1
+	return Vector2i(count + infrastructure, abilities)
+
+
+func _on_speed_pressed() -> void:
+	Settings.battle_speed = (Settings.battle_speed + 1) % Settings.BATTLE_SPEEDS.size()
+	Settings.save_settings()
+	if not _flag("fast"):
+		board.speed = Settings.battle_speed_scale()
+	hud.set_speed_label()
+	Audio.sfx(&"ui_tick")
+
+
+## The line the opponent's move is announced with ("" for passes and other bookkeeping).
+func _describe_ai_action(action: GameAction) -> String:
+	var who: String = context.enemy_name
+	match action.type:
+		GameAction.Type.PLAY:
+			var card: CardInstance = game.find_card(action.card_uid)
+			if card == null:
+				return ""
+			if card.data.type == CardEnums.CardType.TRAP:
+				return "%s sets a trap" % who
+			var target: String = ""
+			if action.target != 0:
+				target = " on %s" % _ref_name(action.target)
+			return "%s plays %s%s" % [who, card.data.display_name, target]
+		GameAction.Type.PLAY_INFRASTRUCTURE:
+			var infra: CardInstance = game.find_card(action.card_uid)
+			return "%s plays %s" % [who, infra.data.display_name] if infra != null else ""
+		GameAction.Type.ACTIVATE, GameAction.Type.ACTIVATE_ABILITY:
+			var source: CardInstance = game.find_card(action.card_uid)
+			return "%s uses %s" % [who, source.data.display_name] if source != null else ""
+		GameAction.Type.USE_RESOURCE:
+			return "%s uses a %s on %s" % [who, ResourceKind.display_name(action.effect_index as ResourceKind.Kind), _ref_name(action.target)]
+		GameAction.Type.DECLARE_ATTACKERS:
+			if action.uids.is_empty():
+				return ""
+			var first: CardInstance = game.find_card(action.uids[0])
+			var lead: String = first.data.display_name if first != null else "a unit"
+			return "%s attacks with %s%s" % [who, lead, "" if action.uids.size() == 1 else " and %d more" % (action.uids.size() - 1)]
+		GameAction.Type.DECLARE_BLOCKERS:
+			if action.blocks.is_empty():
+				return ""
+			return "%s blocks with %d unit%s" % [who, action.blocks.size(), "" if action.blocks.size() == 1 else "s"]
+	return ""
+
+
+func _ref_name(ref: int) -> String:
+	if Targets.is_player(ref):
+		return "you" if Targets.player_index(ref) == 0 else "itself"
+	var card: CardInstance = game.find_card(ref)
+	return card.data.display_name if card != null else "a card"
 
 
 # ---- Card interaction -------------------------------------------------------------------

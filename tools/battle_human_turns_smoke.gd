@@ -26,6 +26,7 @@ var screen: BattleScreen
 var _steps: int = 0
 var _turns_with_main: Dictionary = {}
 var _failures: PackedStringArray = []
+var _confirms: int = 0
 
 
 func _ready() -> void:
@@ -44,7 +45,7 @@ func _run() -> void:
 		_steps += 1
 		_observe()
 		if _turns_with_main.size() >= MIN_HUMAN_TURNS:
-			_finish(true, "saw %d human turns, each with a MAIN decision point" % _turns_with_main.size())
+			_finish(true, "saw %d human turns, each with a MAIN decision point (%d end-turn confirms)" % [_turns_with_main.size(), _confirms])
 			return
 		if screen.mode == BattleScreen.Mode.OVER:
 			_finish(false, "the battle ended before %d human turns were seen (only %d)" % [MIN_HUMAN_TURNS, _turns_with_main.size()])
@@ -72,6 +73,14 @@ func _view_center(uid: int) -> Vector2:
 ## as explained above.
 func _act() -> void:
 	var game: GameState = screen.game
+	# Battle feel, Part B: ending a turn with moves left asks first; the smoke confirms (it ends turns on purpose).
+	var confirm: Node = screen.find_child("EndTurnConfirm", true, false)
+	if confirm != null:
+		var buttons: Array[Node] = confirm.find_children("*", "FancyButton", true, false)
+		if not buttons.is_empty():
+			await driver.click(driver.button_center(buttons[0] as Button))
+			_confirms += 1
+		return
 	var use_shortcut: bool = game.turn % 4 == 1
 	match screen.mode:
 		BattleScreen.Mode.MULLIGAN:

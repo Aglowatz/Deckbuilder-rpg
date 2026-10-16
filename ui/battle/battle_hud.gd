@@ -7,6 +7,7 @@ extends Control
 signal primary_pressed
 signal end_turn_pressed
 signal attack_all_pressed
+signal speed_pressed
 
 const PHASE_NAMES: Array[String] = ["Start", "Main", "Combat", "Main 2", "End"]
 ## Where the two deck piles stand (player, opponent): left of the phase buttons and of the opponent hand column, clear of the hand, the board rows and the card preview.
@@ -17,6 +18,8 @@ var game: GameState
 var primary_button: FancyButton
 var end_turn_button: FancyButton
 var attack_all_button: FancyButton
+var speed_button: FancyButton
+var _announce: Label
 var _portraits: Array[Portrait] = []
 var _phase_pills: Array[Label] = []
 var _turn_label: Label
@@ -132,15 +135,22 @@ func _build_side_panel() -> void:
 	panel.position = Vector2(1640, 226)
 	panel.size = Vector2(250, 406)
 	add_child(panel)
-	var column: VBoxContainer = UIKit.vbox(8)
+	var column: VBoxContainer = UIKit.vbox(5)
 	panel.add_child(column)
 	_turn_label = UIKit.label("Turn 1", &"HeadingLabel", 30, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(_turn_label)
 	_turn_sub = UIKit.label("", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	column.add_child(_turn_sub)
+	# Battle feel, Part B: the battle speed toggle (the same setting as in Settings, remembered between sessions).
+	speed_button = FancyButton.make("", &"GhostButton", Vector2(0, 34))
+	speed_button.name = "SpeedToggle"
+	speed_button.add_theme_font_size_override("font_size", 17)
+	speed_button.pressed.connect(func() -> void: speed_pressed.emit())
+	column.add_child(speed_button)
+	set_speed_label()
 	for phase_name: String in PHASE_NAMES:
 		var pill: Label = UIKit.label(phase_name, &"", 21, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
-		pill.custom_minimum_size = Vector2(0, 30)
+		pill.custom_minimum_size = Vector2(0, 27)
 		pill.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		pill.add_theme_stylebox_override("normal", UIStyle.box(Color(1, 1, 1, 0.04), Color(0, 0, 0, 0), 0, 8))
 		column.add_child(pill)
@@ -251,6 +261,17 @@ func _build_preview() -> void:
 
 
 func _build_banner() -> void:
+	_announce = UIKit.label("", &"", 26, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	_announce.name = "Announce"
+	_announce.add_theme_font_override("font", UIStyle.font_bold())
+	_announce.add_theme_stylebox_override("normal", UIStyle.box(Color(0.08, 0.03, 0.05, 0.9), Color("e06a5a"), 3, 14))
+	_announce.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_announce.position = Vector2(345, 470)
+	_announce.size = Vector2(500, 60)
+	_announce.modulate.a = 0.0
+	_announce.z_index = 390
+	_announce.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_announce)
 	_banner = UIKit.label("", &"TitleLabel", 92, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
 	_banner.set_anchors_preset(Control.PRESET_CENTER)
 	_banner.custom_minimum_size = Vector2(1200, 120)
@@ -352,6 +373,24 @@ func show_banner(text: String, color: Color) -> void:
 	tween.parallel().tween_property(_banner, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_interval(0.5)
 	tween.tween_property(_banner, "modulate:a", 0.0, 0.3)
+
+
+func set_speed_label() -> void:
+	speed_button.text = "Speed: %s" % Settings.BATTLE_SPEED_NAMES[clampi(Settings.battle_speed, 0, Settings.BATTLE_SPEEDS.size() - 1)]
+
+
+## Battle feel, Part B: names what the opponent is about to do, for `seconds`, before it resolves (AI turns stay readable at any speed).
+func announce(text: String, seconds: float) -> void:
+	_announce.text = text
+	_announce.add_theme_font_size_override("font_size", 26 if text.length() < 34 else 21)
+	var previous: Variant = _announce.get_meta("tween") if _announce.has_meta("tween") else null
+	if previous is Tween and (previous as Tween).is_valid():
+		(previous as Tween).kill()
+	var tween: Tween = create_tween()
+	tween.tween_property(_announce, "modulate:a", 1.0, 0.08)
+	tween.tween_interval(maxf(seconds, 0.2))
+	tween.tween_property(_announce, "modulate:a", 0.0, 0.2)
+	_announce.set_meta("tween", tween)
 
 
 func set_hp_display(player_index: int, hp: int, max_hp: int) -> void:

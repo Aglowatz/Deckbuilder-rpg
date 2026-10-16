@@ -25,6 +25,9 @@ const TEXT_SCALE_NAMES: Array[String] = ["Small", "Normal", "Large", "Extra larg
 ## Characters per second of the dialogue typewriter (0 = the whole line at once).
 const DIALOGUE_SPEEDS: Array[float] = [24.0, 55.0, 110.0, 0.0]
 const DIALOGUE_SPEED_NAMES: Array[String] = ["Slow", "Normal", "Fast", "Instant"]
+## Battle feel, Part B: how fast AI turns and battle animations play (a multiplier on every battle wait and tween).
+const BATTLE_SPEEDS: Array[float] = [1.0, 1.7, 2.8]
+const BATTLE_SPEED_NAMES: Array[String] = ["Normal", "Fast", "Very Fast"]
 const UI_SCALE_MIN: float = 0.9
 const UI_SCALE_MAX: float = 1.5
 ## Windowed sizes offered by the resolution list (the ones that do not fit the screen are left out).
@@ -49,6 +52,9 @@ var text_dialogue: int = 1
 var text_cards: int = 1
 var text_tooltips: int = 1
 var dialogue_speed: int = 1
+var battle_speed: int = 0
+## Ask before ending a turn while cards or abilities could still be used (the prompt's "don't ask again" turns it off).
+var confirm_end_turn: bool = true
 ## Adds a Path symbol wherever a Path is shown only by its colour.
 var colorblind_symbols: bool = false
 var reduce_shake: bool = false
@@ -252,6 +258,11 @@ func dialogue_chars_per_second() -> float:
 	return DIALOGUE_SPEEDS[clampi(dialogue_speed, 0, DIALOGUE_SPEEDS.size() - 1)]
 
 
+## The battle speed multiplier (1 = Normal).
+func battle_speed_scale() -> float:
+	return BATTLE_SPEEDS[clampi(battle_speed, 0, BATTLE_SPEEDS.size() - 1)]
+
+
 ## A typewriter duration written for the Normal speed, converted to the chosen dialogue speed (0.0 = instant).
 func typewriter_time(normal_seconds: float) -> float:
 	var cps: float = dialogue_chars_per_second()
@@ -296,6 +307,8 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("text", "cards", text_cards)
 	config.set_value("text", "tooltips", text_tooltips)
 	config.set_value("text", "dialogue_speed", dialogue_speed)
+	config.set_value("battle", "speed", battle_speed)
+	config.set_value("battle", "confirm_end_turn", confirm_end_turn)
 	config.set_value("access", "colorblind_symbols", colorblind_symbols)
 	config.set_value("access", "reduce_shake", reduce_shake)
 	config.set_value("access", "reduce_flashing", reduce_flashing)
@@ -333,6 +346,8 @@ func load_settings(path: String = PATH) -> void:
 	text_cards = clampi(int(config.get_value("text", "cards", text_cards)), 0, TEXT_SCALES.size() - 1)
 	text_tooltips = clampi(int(config.get_value("text", "tooltips", text_tooltips)), 0, TEXT_SCALES.size() - 1)
 	dialogue_speed = clampi(int(config.get_value("text", "dialogue_speed", dialogue_speed)), 0, DIALOGUE_SPEEDS.size() - 1)
+	battle_speed = clampi(int(config.get_value("battle", "speed", battle_speed)), 0, BATTLE_SPEEDS.size() - 1)
+	confirm_end_turn = bool(config.get_value("battle", "confirm_end_turn", confirm_end_turn))
 	colorblind_symbols = bool(config.get_value("access", "colorblind_symbols", colorblind_symbols))
 	reduce_shake = bool(config.get_value("access", "reduce_shake", reduce_shake))
 	reduce_flashing = bool(config.get_value("access", "reduce_flashing", reduce_flashing))
@@ -356,6 +371,8 @@ func reset_to_defaults() -> void:
 	dialogue_speed = 1
 	colorblind_symbols = false
 	reduce_shake = false
+	battle_speed = 0
+	confirm_end_turn = true
 	reduce_flashing = false
 	graphics_quality = GraphicsQuality.recommended()
 	depth_of_field = true

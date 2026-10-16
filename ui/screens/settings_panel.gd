@@ -136,6 +136,10 @@ func _build_text() -> void:
 	var speed: OptionButton = _options(speed_names, Settings.dialogue_speed, _on_dialogue_speed)
 	speed.name = "DialogueSpeedOptions"
 	_body.add_child(_row("Dialogue text speed", speed))
+	var battle: OptionButton = _options(Settings.BATTLE_SPEED_NAMES.duplicate(), Settings.battle_speed, _on_battle_speed)
+	battle.name = "BattleSpeedOptions"
+	_body.add_child(_row("Battle speed", battle))
+	_body.add_child(_check("Ask before ending a turn with moves left", Settings.confirm_end_turn, _on_confirm_end_turn, "ConfirmEndTurnCheck"))
 	_sample = UIKit.label("", &"", 27, UIStyle.PARCHMENT)
 	_sample.name = "DialogueSample"
 	_sample.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -397,6 +401,16 @@ func _on_text_tooltips(index: int) -> void:
 	Settings.text_tooltips = index
 	Settings.text_changed.emit()
 	Settings.apply_tooltip_theme()
+	_saved()
+
+
+func _on_battle_speed(index: int) -> void:
+	Settings.battle_speed = index
+	_saved()
+
+
+func _on_confirm_end_turn(pressed: bool) -> void:
+	Settings.confirm_end_turn = pressed
 	_saved()
 
 

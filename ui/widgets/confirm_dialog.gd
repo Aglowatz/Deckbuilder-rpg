@@ -5,14 +5,18 @@ extends Control
 signal confirmed
 signal cancelled
 
+## Set when the dialog was asked with a `check_text` (e.g. "Don't ask again"): read it in the confirmed/cancelled handlers.
+var check: CheckBox
 
-static func ask(parent: Node, title: String, message: String, confirm_text: String = "Yes", cancel_text: String = "Cancel", danger: bool = false) -> ConfirmDialog:
+
+static func ask(parent: Node, title: String, message: String, confirm_text: String = "Yes", cancel_text: String = "Cancel", danger: bool = false, check_text: String = "") -> ConfirmDialog:
 	var dialog: ConfirmDialog = ConfirmDialog.new()
 	dialog.set_meta("title", title)
 	dialog.set_meta("message", message)
 	dialog.set_meta("confirm_text", confirm_text)
 	dialog.set_meta("cancel_text", cancel_text)
 	dialog.set_meta("danger", danger)
+	dialog.set_meta("check_text", check_text)
 	parent.add_child(dialog)
 	return dialog
 
@@ -38,6 +42,13 @@ func _ready() -> void:
 	text.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	text.custom_minimum_size = Vector2(500, 0)
 	column.add_child(text)
+	if str(get_meta("check_text", "")) != "":
+		check = CheckBox.new()
+		check.name = "DontAskCheck"
+		check.text = str(get_meta("check_text"))
+		check.add_theme_font_size_override("font_size", 20)
+		check.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		column.add_child(check)
 	var row: HBoxContainer = UIKit.hbox(16)
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_child(row)
