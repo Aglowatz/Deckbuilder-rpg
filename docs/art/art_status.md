@@ -1028,3 +1028,84 @@ Generated from `data/art/zone_kits/<zone>.json` (written by `bash tools/import_z
 | `DUMP-TRIM-ROPE` | SURFACE | trim | 1024x512 |  | 2.56 m |
 | `DUMP-WALL-DOORS` | SURFACE | wall | 1024x1024 |  | 2.56 m |
 | `DUMP-WALL-MOSSWOOD` | SURFACE | wall | 1024x1024 |  | 2.56 m |
+
+### The Capital (zone `final`)
+
+**40 of 40** sheet ids (CAP-PATH-WHITE rebuilt from its truncated Drive file, CAP-13) plus 4 derived tiles (CAP-14), 74 kit ids with the sheet parts, all in the game; unmatched files: the ten paint-overs (copied to `docs/art/paintovers/`). Report: `docs/art/zone_kits/final_import_report.md`; the slice: `docs/art/capital_slice.md` ("The art pass").
+
+| Kit ID | Lock | px | Pivot | Where in the game |
+|---|---|---|---|---|
+| `CAP-BD-CITY` | BACKDROP | 2048x839 | 0.50,1.00 | inside far ring |
+| `CAP-BD-WASTELAND` | BACKDROP | 2048x533 | 0.50,1.00 | outside far ring |
+| `CAP-DEC-ASH` | CUTOUT | 938x768 | 0.50,0.50 | ash drifts |
+| `CAP-DEC-SHINE` | CUTOUT | 570x242 | 0.50,0.50 | plaza and avenue shine |
+| `CAP-GROUND-RIFT` | SURFACE | 1024x1024 |  | round every rift and crystal cluster |
+| `CAP-HERO-CORRECTION-WARD` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-GRAVE-ROW` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-GREAT-WALL-GATE` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-IDENTICAL-ROW` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-PRIMM-FOUNTAIN` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-PRIMMS-CASTLE` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-RESISTANCE-CAMP` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-RIFT` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-SERVICE-TUNNEL` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-THE-REEK` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-TRAM-SHED` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-HERO-WATCHTOWER` | CONCEPT | 1536x1024 |  | hero model (CapitalLandmarks / CapitalCastle / CapitalDistricts) |
+| `CAP-PATH-WHITE` | SURFACE | 1024x1024 |  | the white roads (CAP-13: rebuilt) |
+| `CAP-PLANT-CRYSTAL` | TREE | 954x1393 | 0.55,1.00 | rifts, crystal clusters, tunnel |
+| `CAP-PLANT-ROSE` | TREE | 988x980 | 0.50,1.00 | rows, fountain, castle, houses, districts |
+| `CAP-PROP-BENCH` | CUTOUT | 1002x689 | 0.50,1.00 | plaza, rows |
+| `CAP-PROP-CAMPFIRE` | CUTOUT | 914x941 | 0.50,1.00 | the camp fire |
+| `CAP-PROP-LAMP` | CUTOUT | 307x1494 | 0.50,1.00 | plaza, avenue, rows, castle stair |
+| `CAP-PROP-TRAM` | CUTOUT | 1524x976 | 0.50,1.00 | tram shed |
+| `CAP-ROOF-BROKEN` | SURFACE | 1024x1024 |  | outpost houses, checkpoints |
+| `CAP-ROOF-PASTEL` | SURFACE | 1024x1024 |  | castle, Ward, mausoleums, tram shed, kiosks |
+| `CAP-ROOF-PASTEL-PINK` | SURFACE | 1024x1024 |  | identical houses, the row, the Reek |
+| `CAP-SHEET-BANNERS` | SHEET | 2048x1365 |  | sliced |
+| `CAP-SHEET-BANNERS-01` | CUTOUT | 479x621 | 0.50,0.03 | walls, towers, castle, banners, tram shed |
+| `CAP-SHEET-BANNERS-02` | CUTOUT | 468x627 | 0.50,0.03 | walls, towers, castle, banners, tram shed |
+| `CAP-SHEET-BANNERS-03` | CUTOUT | 519x566 | 0.50,0.03 | walls, towers, castle, banners, tram shed |
+| `CAP-SHEET-BANNERS-04` | CUTOUT | 496x650 | 0.50,0.03 | walls, towers, castle, banners, tram shed |
+| `CAP-SHEET-BANNERS-05` | CUTOUT | 466x655 | 0.50,0.03 | walls, towers, castle, banners, tram shed |
+| `CAP-SHEET-BANNERS-06` | CUTOUT | 472x659 | 0.50,0.03 | walls, towers, castle, banners, tram shed |
+| `CAP-SHEET-DOORS` | SHEET | 2048x1365 |  | sliced |
+| `CAP-SHEET-DOORS-01` | CUTOUT | 559x590 | 0.50,1.00 | houses, storefronts |
+| `CAP-SHEET-DOORS-02` | CUTOUT | 557x590 | 0.50,1.00 | houses, storefronts |
+| `CAP-SHEET-DOORS-03` | CUTOUT | 555x591 | 0.50,1.00 | houses, storefronts |
+| `CAP-SHEET-DOORS-04` | CUTOUT | 559x590 | 0.50,1.00 | houses, storefronts |
+| `CAP-SHEET-DOORS-05` | CUTOUT | 556x590 | 0.50,1.00 | houses, storefronts |
+| `CAP-SHEET-DOORS-06` | CUTOUT | 555x589 | 0.50,1.00 | houses, storefronts |
+| `CAP-SHEET-OUTPOST` | SHEET | 2048x1365 |  | sliced |
+| `CAP-SHEET-OUTPOST-01` | CUTOUT | 593x611 | 0.50,1.00 | watchtower, tunnel, ruins, checkpoints |
+| `CAP-SHEET-OUTPOST-02` | CUTOUT | 548x599 | 0.50,1.00 | watchtower, tunnel, ruins, checkpoints |
+| `CAP-SHEET-OUTPOST-03` | CUTOUT | 536x618 | 0.50,1.00 | watchtower, tunnel, ruins, checkpoints |
+| `CAP-SHEET-OUTPOST-04` | CUTOUT | 552x611 | 0.50,1.00 | watchtower, tunnel, ruins, checkpoints |
+| `CAP-SHEET-OUTPOST-05` | CUTOUT | 561x615 | 0.50,1.00 | watchtower, tunnel, ruins, checkpoints |
+| `CAP-SHEET-OUTPOST-06` | CUTOUT | 448x614 | 0.50,1.00 | watchtower, tunnel, ruins, checkpoints |
+| `CAP-SHEET-RUBBLE` | SHEET | 2048x1365 |  | sliced |
+| `CAP-SHEET-RUBBLE-01` | CUTOUT | 641x479 | 0.50,1.00 | wasteland, camp, outpost, crates |
+| `CAP-SHEET-RUBBLE-02` | CUTOUT | 596x416 | 0.50,1.00 | wasteland, camp, outpost, crates |
+| `CAP-SHEET-RUBBLE-03` | CUTOUT | 631x415 | 0.50,1.00 | wasteland, camp, outpost, crates |
+| `CAP-SHEET-RUBBLE-04` | CUTOUT | 620x370 | 0.50,1.00 | wasteland, camp, outpost, crates |
+| `CAP-SHEET-RUBBLE-05` | CUTOUT | 600x509 | 0.50,1.00 | wasteland, camp, outpost, crates |
+| `CAP-SHEET-RUBBLE-06` | CUTOUT | 614x422 | 0.50,1.00 | wasteland, camp, outpost, crates |
+| `CAP-SHEET-SIGNS` | SHEET | 2048x1365 |  | sliced |
+| `CAP-SHEET-SIGNS-01` | CUTOUT | 599x635 | 0.50,1.00 | district plaques, the castle door |
+| `CAP-SHEET-SIGNS-02` | CUTOUT | 600x635 | 0.50,1.00 | district plaques, the castle door |
+| `CAP-SHEET-SIGNS-03` | CUTOUT | 599x635 | 0.50,1.00 | district plaques, the castle door |
+| `CAP-SHEET-SIGNS-04` | CUTOUT | 599x636 | 0.50,1.00 | district plaques, the castle door |
+| `CAP-SHEET-SIGNS-05` | CUTOUT | 600x635 | 0.50,1.00 | district plaques, the castle door |
+| `CAP-SHEET-SIGNS-06` | CUTOUT | 599x636 | 0.50,1.00 | district plaques, the castle door |
+| `CAP-SKY-DUSK` | BACKDROP | 2048x1024 | 0.50,1.00 | outside sky panorama |
+| `CAP-SKY-NOON` | BACKDROP | 2048x1024 | 0.50,1.00 | inside sky panorama |
+| `CAP-TREE-DEAD` | TREE | 980x1500 | 0.68,1.00 | wasteland, watchtower, tunnel, broken districts |
+| `CAP-TREE-TOPIARY` | TREE | 667x1470 | 0.49,1.00 | rows, castle gardens, districts |
+| `CAP-TRIM-GOLD` | SURFACE | 1024x512 |  | every eave and band |
+| `CAP-WALL-ASH` | SURFACE | 1024x1024 |  | watchtower, tunnel mouth, ruins, edges |
+| `CAP-WALL-PASTEL` | SURFACE | 1024x1024 |  | source of the three bands |
+| `CAP-WALL-PASTEL-BLUE` | SURFACE | 1024x410 |  | storefronts |
+| `CAP-WALL-PASTEL-MINT` | SURFACE | 1024x410 |  | identical houses band |
+| `CAP-WALL-PASTEL-PINK` | SURFACE | 1024x410 |  | storefronts |
+| `CAP-WALL-PLASTER` | SURFACE | 1024x1024 |  | castle, great wall, city wall, houses, Ward, districts |
+| `CAP-WALL-RUIN` | SURFACE | 1024x1024 |  | outpost houses, camp ruins |

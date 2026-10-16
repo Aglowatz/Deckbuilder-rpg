@@ -1062,9 +1062,11 @@ func _set_layers(node: Node, layer: int) -> void:
 func animate(delta: float) -> void:
 	time += delta
 	for spin: Node3D in _spinners:
-		spin.rotation.z += float(spin.get_meta("spin_speed", 0.8)) * delta
+		if is_instance_valid(spin):
+			spin.rotation.z += float(spin.get_meta("spin_speed", 0.8)) * delta
 	for orbit: Node3D in _orbits:
-		orbit.rotation.y += 0.6 * delta
+		if is_instance_valid(orbit):  # a sealed rift is freed with its shards
+			orbit.rotation.y += 0.6 * delta
 	for index: int in range(_rift_discs.size()):
 		var disc: MeshInstance3D = _rift_discs[index]
 		if is_instance_valid(disc):

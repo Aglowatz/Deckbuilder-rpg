@@ -10,7 +10,7 @@ cd "$(dirname "$0")/.."
 camera="${1:-}"
 out="$(pwd)/_screenshots/capital_walk_smoke${camera:+_cam$camera}.log"
 mkdir -p _screenshots/capital_walk
-CAPITAL_WALK_CAMERA="$camera" timeout 600 "$GODOT" --path . --resolution 1600x900 res://tools/capital_walk_smoke_launcher.tscn > "$out" 2>&1
+CAPITAL_WALK_CAMERA="$camera" timeout ${CAPITAL_WALK_TIMEOUT:-600} "$GODOT" --path . --resolution 1600x900 res://tools/capital_walk_smoke_launcher.tscn > "$out" 2>&1
 code=$?
 grep -E "^capital_walk_smoke:|SCRIPT ERROR" "$out"
 if grep -q "SCRIPT ERROR" "$out"; then echo "capital_walk_smoke: script errors found"; code=1; fi

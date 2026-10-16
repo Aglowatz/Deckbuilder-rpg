@@ -3233,3 +3233,16 @@ The Capital prepared for its art pass by the rollout playbook, layout first (rep
 - Ten clean region shots at Cinematic / Normal, 1600 x 900, the hero visible, no UI or plates, the gate open, every district broken: `docs/art/paintover_inputs/capital/PO-CAP-{GATE-ROAD, RESISTANCE-CAMP, RIFT-FIELDS, RUINED-OUTPOST, GATE-PLAZA, TRANSIT-YARDS, HUNGRY-QUARTER, GRAVE-ROW, THE-REEK, PALACE-APPROACH}.png`, copied to the Drive's `Paintover_Inputs/capital/`.
 - The cameras are layout data (`CapitalLayout.PO_CAMERAS`, `--at=po_<region>`), reshot with `bash tools/capital_po_shots.sh PO`; each has Primm's Castle in frame. Report: `docs/art/capital_slice.md` Part B.
 - 1587 GUT, all passing.
+
+## The Capital art pass, Parts A-G (2026-10-16)
+
+The Capital (zone `final`) dressed with its approved kit and matched to its ten paint-overs by the rollout playbook (report `docs/art/capital_slice.md` "The art pass", calls CAP-12..CAP-38, playbook section 11, backlog "The Capital art pass: follow-ups"):
+- A: "import zone kit final" (folder and sheet mappings), CAP-PATH-WHITE truncated on the Drive (rebuilt; re-upload needed), derived pastel tiles; every stand-in replaced by a hero model from its concept (`CapitalLandmarks`, `CapitalCastle`, `CapitalDistricts`, `CapitalKit`); skies and backdrops.
+- B: Primm's Castle, the face of the finale: white and gold, eighteen blue-coned towers, the colossal emblem, mirrored glass, pulsing rift-light cracks, a grand entrance with the crown sign at the stair's foot; its own haze so it reads over the wall; the fallen state (dark cracks, dim gold, covered emblem, warm windows; the freed preset's exposure fixed).
+- C: the outside from the kit (ruins, rubble, the gate, dead lamps), the camp the only warm light, the grade from grey to the paint-overs' mauve dusk.
+- D: the inside: sixteen identical kit houses, white roads with gold lines, exact rows of topiaries, roses, lamps and benches, kit banners and civic signs, a flat shadowless noon.
+- E: every district in two states from the kit on the same footprints, and a welcome on the first return to a freed district (lights, the Path's sting, cheering citizens).
+- F: three match passes per region (grade numbers and side-by-sides); 59.6-60.1 fps on Medium at all ten cameras.
+- G: the walk smoke grows (outpost, a rift sealed, save/load, the restored districts) and passes at Cinematic and Overview; the music smoke passes; the 9-combination hub sheets.
+
+Try this: free the Gainlands, walk into the Capital's Transit Yards (the lights flicker on, the Beefcake sting, citizens cheer); walk the avenue to the castle door; finish Primm and come back to the plaza.

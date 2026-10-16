@@ -340,3 +340,4 @@ The Capital dressed with its kit (`docs/art/capital_slice.md`, "The art pass"); 
 | **CAP-PATH-WHITE re-upload** | The Drive file is truncated (CAP-13); the game uses a tile mirrored from its readable half. Re-import with `bash tools/import_zone_kit.sh final --only=CAP-PATH-WHITE` once the painter re-uploads it. |
 | **The Correction Ward's restored state** | Still only Primm's fall changes it (the emblem covered, the gold dimmed); open doors, empty beds and a garden belong to a story brief. |
 | **The outside after Primm** | As before: the rifts close and the crystals dull; the wasteland's ground and ruins stay. |
+| **GC-6's cause (CAP-39)** | The camera-FOV test reads the saved camera angle; a smoke run at angle 2 leaves it at Overview and the test fails until a camera-0 run. Fix: the test (or the smokes) should not depend on, or should restore, the user's saved angle. |

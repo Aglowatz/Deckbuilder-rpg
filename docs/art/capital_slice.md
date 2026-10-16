@@ -305,3 +305,46 @@ Paint-over (left) beside the result (right), all ten regions:
 | po_palace_approach | 60.0 | 60.0 | 466 |
 
 The Transit Yards and the Reek, which hitched in the layout pass, hold 60; the draw calls fell by about 100 per camera since Part A (the kit's merged district models and shared materials, the lens gone). **Checks**: 1597 GUT, all passing (the look rig's mood test caught the outside's post saturation passing the inside's; the inside's was raised).
+
+## Part G: verify and report
+
+**The walk** (`bash tools/run_capital_walk_smoke.sh 0|2`, real input, windowed; ~3.5 minutes, 35 screenshots, **132 checks, passing at the Cinematic (0) and the Overview (2) camera**): the arrival on the Gate Road, the gate captain and a guard, Kestrel at the camp, the Old Service Tunnels' door, the ruined outpost, a rift-stone and **a rift sealed** (its guardian counted as beaten; the tear collapses), the hidden shaft's prompt, through the wall passage on foot with the gate shut, the Gate Plaza's booth and box, a citizen, a perfect door, a loudspeaker, a portrait, every district's quest giver and objects (Fern, Widow Pell and the permit window, Rollo and a wheel crew, Chef Marlo), the Correction Ward's window and patient, a hidden chest, the castle door (E asks to enter Primm's Castle: the node map), **save and load** in the Capital, back out through the open gate and home to town, then **back with the four Paths freed**: every district built restored and its first visit welcomed. New in the smoke: the outpost, the seal, save/load and the restored visit (`CAPITAL_WALK_ONLY=restored` runs only the last; it closes the level-up screens with keys, since ESC on one opens the pause menu and the driver's timers stop while paused). The giant chest and the vault lever are not in the Capital (the four Path zones only), so they are not walked. **The music smoke** (`bash tools/run_music_smoke.sh`) passes: each district's restored cue, with the Path's welcome sting over it. **The walkability probe** (`test_walkability_zones`, in GUT) reaches every key location of the Capital. The tenth-brief smoke still walks the old layout (backlog, unchanged).
+
+| | | |
+|---|---|---|
+| ![](capital_slice/w_01_arrival_on_the_gate_road.jpg) arrival | ![](capital_slice/w_05_kestrel_at_the_camp.jpg) Kestrel at the camp | ![](capital_slice/w_06b_the_ruined_outpost.jpg) the outpost |
+| ![](capital_slice/w_07b_a_rift_sealed.jpg) a rift sealed | ![](capital_slice/w_08_through_the_wall_passage.jpg) the wall passage | ![](capital_slice/w_09_the_gate_plaza.jpg) the plaza |
+| ![](capital_slice/w_22_the_correction_ward.jpg) the Ward | ![](capital_slice/w_25_the_castle_door.jpg) the castle door | ![](capital_slice/w_26_enter_primms_castle.jpg) enter Primm's Castle |
+
+**The hubs at all 9 camera combinations** (`tools/zone_shots.gd --mode=grid`, angle x zoom; every one finished, G-02):
+
+![](capital_slice/g_grid_outside.jpg)
+![](capital_slice/g_grid_inside.jpg)
+
+**The castle from both halves and over the wall**: Part B's table (approach, plaza, Gate Road, rift fields, camp, outpost, districts, broken and fallen). **Every district broken vs restored**: Part E's table. **fps per region**: Part F's table (59.6-60.1 on Medium).
+
+### What still doesn't match
+
+- **Framing** (CAP-36): several paint-overs are painted from a different place than their recorded camera (the Gate Plaza from inside the gate, the Gate Road from further back and higher, the Hungry Quarter and the approach closer and lower, the camp looking up a road to a ruined arch). The cameras and the camera system are unchanged, so those compositions cannot match; the castle shows only its lower half from the approach (the Cinematic frame's top is about 16 m up there).
+- **Greenery**: the paint-overs' inside is full of tall cypress and round trees behind every wall and along the castle's terraces; the kit has topiary cones and rose beds but no tall tree, so the inside reads whiter and barer (a TREE asset below).
+- **The inside's ground** is 10-15 levels brighter and pinker than the paint-overs' warm cream paving (TEX-CAP-PASTELPLAZA is a pink-and-mint checker); p5 sits at 120-140 against 80-95 because the city has few dark accents (the paint-overs' dark green trees). A cream paving texture would close it.
+- **The outside's sky** is a flat mauve; the paint-overs paint heavy storm clouds with violet rifts tearing the sky. CAP-SKY-DUSK is used as the panorama but reads flat under the fog.
+- **The resistance camp** has no gateway arch (it would stand on the south road) and its tents are simple A-frames; the paint-over's camp is denser, with stalls and drying lines.
+- **Primm's Castle** is built from primitives: the concept's carved detail (the many small spires, the ornate gold tracery) is suggested, not modelled. The stair's foot reads well; the upper storeys read as large white masses with mirrored windows.
+- **The Correction Ward** keeps the layout's walled compound (CAP-17); the concept's palace stands on its north wall, so from the cameras only its dome and towers show.
+- **The districts' crews**: the restored concepts show people at work (wheel crews, cooks, lantern keepers, gardeners); only the four cheering citizens of the welcome appear (backlog).
+- **CAP-PATH-WHITE** is a mirrored half-tile until the painter re-uploads it (CAP-13).
+- **The giant chest and the vault lever** asked for in the walk are not in the Capital: they belong to the four Path zones only (`NinjaBoss.is_chest_id`), so nothing was added.
+
+### Extra assets that would close the gap (sheet-ready)
+
+| ID | Asset | Category | Lock | Image Description (paste STYLE TARGET + the Lock first) | Size / Format | In-Game Use | Priority |
+|---|---|---|---|---|---|---|---|
+| CAP-TREE-CYPRESS | Perfect cypress | Tree / plant | TREE | INSIDE. A tall, perfectly clipped dark-green cypress column, identical to all the others. | 1024x1536 PNG, transparent | Behind the inside walls, the castle terraces, the plaza rim (the paint-overs' dark accents) | 1 |
+| CAP-TREE-ROUND | Round clipped tree | Tree / plant | TREE | INSIDE. A small tree with a perfectly round clipped crown on a straight trunk in a gold-banded white planter. | 1024x1536 PNG, transparent | Rows along the avenue and the boulevards | 2 |
+| CAP-GROUND-CREAM | Warm cream paving | Surface | SURFACE | INSIDE. Large warm cream flagstones with thin gold joints, a few soft pastel tiles in a regular pattern. | 1024x1024 PNG, tileable | The plaza, the avenue, the lanes (the paint-overs' warm ground) | 1 |
+| CAP-SKY-STORM | Storm sky over the wasteland | Sky / backdrop | BACKDROP | OUTSIDE. Heavy dark overcast clouds at dusk with bright violet rifts tearing across them, darker toward the top (full image, no transparency). | 2048x1024 PNG | The outside sky panorama (CAP-SKY-DUSK reads flat under the fog) | 1 |
+| CAP-HERO-CAMP-GATE | The camp's ruined gateway | Hero landmark | CONCEPT | OUTSIDE. A broken stone gateway of the old kingdom with a torn banner of the four Paths, a lantern hung under it, rubble at its feet. | 1536x1024 PNG | Beside the camp, off the south road | 2 |
+| CAP-SHEET-CAMP | Camp clutter | Cutout sheet | SHEET | OUTSIDE. 6 pieces: a drying line with patched clothes, a cooking stall, stacked bedrolls, a barrel of salvaged tools, a lantern post, a crate of apples. | 2048x1365 PNG, transparent | Dressing the resistance camp | 2 |
+| CAP-SHEET-CREWS | District crews (sprites) | Cutout sheet | SHEET | INSIDE. 6 standing workers: a Beefcake wheel runner, a Gourmand baker, a Necrocrat lantern keeper, a Refusemancer gardener, a tram driver, a street sweeper. | 2048x1365 PNG, transparent | The restored districts' life (needs a brief for their place in the game) | 3 |
+| CAP-DEC-GOLDLINE | Gold inlay | Decal | CUTOUT | INSIDE. A thin polished gold inlay line with a small crown at its middle, seen from above. | 1024x256 PNG, transparent | The avenue's centre line and the plaza's ring | 3 |

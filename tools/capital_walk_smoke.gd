@@ -32,6 +32,11 @@ func run() -> void:
 	print("%s: camera angle %d" % [TAG, Settings.camera_angle])
 	driver = UiDriver.new(get_tree())
 	await driver.frames(5)
+	if OS.get_environment("CAPITAL_WALK_ONLY") == "restored":
+		# CAPITAL_WALK_ONLY=restored: just the second visit (a quicker check of the districts restored)
+		await _the_districts_restored()
+		_finish(_failures.is_empty(), "the districts restored (%d screenshots)" % _shots)
+		return
 	Session.enter_zone(CapitalZone.ID)
 	var zone: CapitalScene = await _wait_for(CapitalScene) as CapitalScene
 	if zone == null:
@@ -47,8 +52,10 @@ func run() -> void:
 	await _through_the_passage(zone)
 	await _inside(zone)
 	await _the_castle_door(zone)
+	await _save_and_load()
 	await _back_out_through_the_gate(zone)
-	_finish(_failures.is_empty(), "Gate Road -> gate, camp, tunnels, rift fields -> the wall passage -> plaza, approach, the five districts, the Ward -> the castle door -> through the gate -> town (%d screenshots)" % _shots)
+	await _the_districts_restored()
+	_finish(_failures.is_empty(), "Gate Road -> gate, camp, tunnels, outpost, rift fields (a rift sealed) -> the wall passage -> plaza, approach, the five districts, the Ward -> the castle door -> save/load -> through the gate -> town -> back with the four Paths freed: every district restored and welcomed (%d screenshots)" % _shots)
 
 
 # ---- Legs ----------------------------------------------------------------------------------------------------------
@@ -79,6 +86,24 @@ func _outside(zone: CapitalScene) -> void:
 		await driver.frames(4)
 		_check(zone._near == stone, "the rift-stone: its prompt is up (near %s)" % (zone._near.id if zone._near != null else "nothing"))
 		await _shot("w_07_rift_stone")
+	# sealing a rift (the art pass): its guardian counted as beaten (the battles have their own smokes), E at the stone seals it and the tear collapses
+	if stone != null:
+		var rift_id: String = str(stone.data.get("rift", "out_a"))
+		Session.zone_run.mark_defeated(CapitalLayout.guardian_id(rift_id))
+		await _walk_to(zone, stone.position + Vector3(0.0, 0.0, 0.8), 0.9, 4.0)
+		await driver.frames(4)
+		await driver.tap_key(KEY_E)
+		await driver.seconds(1.4)
+		_check(CapitalRifts.is_sealed(Session.flags, rift_id), "the rift-stone: E seals rift %s once its guardian is beaten" % rift_id)
+		_check(not zone.capital.rift_nodes.has(rift_id), "the sealed rift's tear collapses")
+		await _shot("w_07b_a_rift_sealed")
+		await _close_everything(zone)
+	# the ruined outpost: the broken watchtower with the four Paths' banner
+	_teleport(zone, Vector3(92.0, 0.0, 112.0))
+	await _walk_to(zone, Vector3(92.0, 0.0, 108.5), 1.0, 6.0)
+	var outpost: CapitalLayout.Area = zone.capital.layout.area_at(zone.player.position.x, zone.player.position.z)
+	_check(outpost != null and outpost.id == "outpost", "the ruined outpost: walked to the watchtower")
+	await _shot("w_06b_the_ruined_outpost")
 	# the hidden service shaft: no plate, but the prompt comes up when the hero stands on it (E is not pressed: it leads to the Crease)
 	var shaft: ZoneSpot = _spot(zone, "tunnel_in")
 	if shaft != null:
@@ -175,7 +200,75 @@ func _back_out_through_the_gate(zone: CapitalScene) -> void:
 		await _shot("w_29_back_in_town")
 
 
-# ---- Helpers -------------------------------------------------------------------------------------------------------
+## A manual save in the Capital (a slot in a throwaway folder) and the load back: the gold and the flags come back as saved.
+func _save_and_load() -> void:
+	SaveSlots.dir = "%s/capital_walk_smoke_saves/" % OS.get_user_data_dir()
+	var gold: int = Session.gold
+	_check(Session.save_to_slot(3, "capital walk smoke"), "save/load: a manual save in the Capital")
+	Session.gold = gold + 321
+	Session.set_flag("capital_walk_smoke_after_save")
+	_check(Session.load_from_slot(3), "save/load: the slot loads back")
+	_check(Session.gold == gold and not Session.flag(&"capital_walk_smoke_after_save"), "save/load: the gold (%d) and the flags are as saved" % Session.gold)
+	await driver.frames(10)
+
+
+## Back in the Capital with the four Paths freed (debug flags): each district is built restored and its first visit is welcomed (the lights, the
+## Path's sting, the citizens), once.
+func _the_districts_restored() -> void:
+	# the completion flags only (debug flags: Session.complete_zone also plays the town's own freed-zone events, which held the smoke in town)
+	for path: String in ["beefcake", "gourmand", "necrocrat", "refusemancer"]:
+		Session.set_flag(ZoneCompletion.flag_name(path))
+	Session.set_flag(CapitalZone.FLAG_GATE_OPEN)
+	Session.enter_zone(CapitalZone.ID)
+	var zone: CapitalScene = await _wait_for(CapitalScene) as CapitalScene
+	_check(zone != null, "the Capital again, the four Paths freed")
+	if zone == null:
+		return
+	await driver.frames(200)
+	# a reward box (the level gained from the sealed rift) pauses the game on arrival: the driver's timers stop while paused, so it is closed with keys
+	# and frame waits (it takes Enter / Space / E)
+	await _unpause()
+	_check(not get_tree().paused, "back in the Capital: nothing holds the game paused")
+	await _close_everything(zone)
+	await _dismiss_dialogue(zone.dialogue)
+	await _close_everything(zone)
+	print("%s: note  back in the Capital (dialogue %s, locked %s)" % [TAG, str(zone.dialogue.active), str(zone._locked)])
+	for enemy: ZoneEnemy in zone.enemies:
+		enemy.process_mode = Node.PROCESS_MODE_DISABLED
+	var cameras: Dictionary = {"transit": "po_transit_yards", "hungry": "po_hungry_quarter", "grave": "po_grave_row", "reek": "po_the_reek"}
+	for district: String in cameras.keys():
+		await _unpause()
+		await _close_everything(zone)
+		var at: Vector2 = CapitalLayout.PO_CAMERAS[cameras[district]] as Vector2
+		_teleport(zone, Vector3(at.x, 0.0, at.y + 3.0))
+		await _walk_to(zone, Vector3(at.x, 0.0, at.y), 0.8, 6.0)
+		await driver.seconds(1.2)
+		_check(Session.flag(CapitalScene.welcome_flag(district)), "%s restored: the first visit is welcomed" % district)
+		await _shot("w_30_%s_restored" % district)
+		await driver.seconds(2.6)
+		await _dismiss_dialogue(zone.dialogue)
+	_check(not zone.capital.district_lights.is_empty(), "the restored districts have their lights")
+
+
+# ---- Helpers ----------------------------------------------------------------------------------------------------
+
+
+## Closes the reward boxes that hold the game on arrival (the level-up screens come one after another, "1 of 3 levels gained"; ESC on one
+## opens the pause menu): Enter while one is up or the game is paused, frame waits only (the driver's timers stop while paused), until the game has
+## run free for a full second or about twenty seconds have passed.
+func _unpause() -> void:
+	var calm: int = 0
+	var frames: int = 0
+	while calm < 60 and frames < 1200:
+		frames += 1
+		if get_tree().paused or driver.find_button("Continue") != null:
+			calm = 0
+			if frames % 20 == 0:
+				await driver.tap_key(KEY_ENTER)
+				continue
+		else:
+			calm += 1
+		await driver.frames(1)
 
 
 ## Walk up to a spot, check its prompt, press E, then close whatever opened (a talk, a shop, a confirm box, a toast) and check the hero is free again.

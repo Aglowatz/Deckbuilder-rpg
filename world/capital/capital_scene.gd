@@ -302,6 +302,8 @@ func _play_area_music(fade: float) -> void:
 	var area_id: String = area.id if area != null else ""
 	_music_area = area_id
 	Audio.play_music(StringName(MusicDirector.capital_area(area_id, Session.flags, _inside)), fade)
+	# every way into a district changes the area music (walking, the gate crossing, the wall passage straight into the Reek, a teleport)
+	_welcome_district.call_deferred(area_id)
 
 
 func _update_area_music(delta: float) -> void:
@@ -312,7 +314,6 @@ func _update_area_music(delta: float) -> void:
 	var area: CapitalLayout.Area = capital.layout.area_at(player.position.x, player.position.z)
 	if area != null and area.id != _music_area:
 		_play_area_music(2.0)
-		_welcome_district(area.id)
 
 
 func _zone_process(delta: float) -> void:
