@@ -119,6 +119,9 @@ func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
 	add_child(enemy_panel)
 	_portraits = [player_panel, enemy_panel]
 	for index: int in range(2):
+		var seat: int = index
+		HoverTip.attach_dynamic(_portraits[index], "You" if index == 0 else enemy_name, func() -> String: return plate_summary(seat), UIStyle.GOLD if index == 0 else Color("e06a5a"))
+	for index: int in range(2):
 		_portraits[index].max_hp = game.players[index].max_hp
 		_portraits[index].hp = game.players[index].hp
 
@@ -234,10 +237,11 @@ func _build_buttons() -> void:
 func _build_preview() -> void:
 	_preview_root = Control.new()
 	_preview_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_preview_root.z_index = 300
 	_preview_root.visible = false
 	add_child(_preview_root)
 	_tooltip = UIKit.panel(&"DarkPanel")
-	_tooltip.position = Vector2(22, 640)
+	_tooltip.position = Vector2(22, 656)
 	_tooltip.custom_minimum_size = Vector2(302, 0)
 	_tooltip.size = Vector2(302, 10)
 	_tooltip.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -272,6 +276,13 @@ func refresh_all() -> void:
 	if game.stage == GameState.Stage.PLAYING:
 		_turn_sub.text = "Your turn" if game.active == 0 else "Enemy turn"
 	_refresh_processing()
+
+
+## Battle feel, Part A: what hovering a player's HP plate tells you.
+func plate_summary(player_index: int) -> String:
+	var player: PlayerState = game.players[player_index]
+	var cards: Callable = func(count: int) -> String: return "%d card%s" % [count, "" if count == 1 else "s"]
+	return "HP %d / %d\nDeck: %s\nRefuse Pile: %s\nTraps set: %d of %d" % [player.hp, player.max_hp, cards.call(player.deck.size()), cards.call(player.refuse_pile.size()), player.traps.size(), player.max_traps]
 
 
 func set_portrait_targets(player_ok: bool, enemy_ok: bool) -> void:
@@ -351,7 +362,7 @@ func set_hp_display(player_index: int, hp: int, max_hp: int) -> void:
 # ---- Card preview -----------------------------------------------------------------------
 
 
-func show_preview(view: CardView) -> void:
+func show_preview(view: CardView, note: String = "") -> void:
 	if view == null or view.data == null or bool(view.get_meta("hidden", false)) or view.mode == CardView.Mode.BACK:
 		hide_preview()
 		return
@@ -367,10 +378,16 @@ func show_preview(view: CardView) -> void:
 	_preview_root.visible = true
 	for child: Node in _tooltip_box.get_children():
 		child.queue_free()
+	if not note.is_empty():
+		var why: Label = UIKit.label(note, &"", Settings.tooltip_font(21), Color("ff9a8a"))
+		why.name = "WhyNot"
+		why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		why.custom_minimum_size = Vector2(270, 0)
+		_tooltip_box.add_child(why)
 	var entries: Array[Array] = KeywordInfo.entries_for(view.data)
 	if card != null and card.summoning_sick and card.data.is_unit() and game.players[card.owner].field.has(card):
 		entries.append(["Summoning sickness", str(KeywordInfo.GLOSSARY["Summoning sickness"])])
-	_tooltip.visible = not entries.is_empty()
+	_tooltip.visible = not entries.is_empty() or not note.is_empty()
 	for entry: Array in entries:
 		_tooltip_box.add_child(KeywordInfo.title_row(str(entry[0]), str(entry[2]) if entry.size() > 2 else "", Settings.tooltip_font(22)))
 		var body: Label = UIKit.label(str(entry[1]), &"", Settings.tooltip_font(19), UIStyle.PARCHMENT)
@@ -378,7 +395,7 @@ func show_preview(view: CardView) -> void:
 		body.custom_minimum_size = Vector2(270, 0)
 		_tooltip_box.add_child(body)
 	_tooltip.size = Vector2(302, 10)
-	_tooltip.position = Vector2(22, 632)
+	_tooltip.position = Vector2(22, 656)
 
 
 func hide_preview() -> void:
@@ -550,7 +567,7 @@ class Portrait:
 
 	func _apply_hp(value: float) -> void:
 		_shown_hp = value
-		_hp_label.text = str(roundi(value))
+		_hp_label.text = str(maxi(0, roundi(value)))
 		_bar.value = value
 		var ratio: float = value / maxf(float(max_hp), 1.0)
 		UiSkin.set_bar_fill(_bar, Color("6fbf73") if ratio > 0.6 else (Color("e0b03a") if ratio > 0.3 else UIStyle.HP_RED))

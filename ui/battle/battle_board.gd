@@ -935,3 +935,96 @@ func set_glows(glows: Dictionary) -> void:
 	for uid: int in views.keys():
 		var view: CardView = views[uid] as CardView
 		view.set_glow(int(glows.get(uid, CardView.Glow.NONE)) as CardView.Glow)
+
+
+## Battle feel, Part A: cards in `dims` (uid -> true) are shown slightly darker (unplayable hand cards, cards that are not a
+## legal target). Only the colour changes; the alpha the layout tweens is kept.
+const DIM_COLOR: Color = Color(0.55, 0.53, 0.6)
+
+
+func set_dims(dims: Dictionary) -> void:
+	for uid: int in views.keys():
+		var view: CardView = views[uid] as CardView
+		var wanted: Color = DIM_COLOR if dims.has(uid) else Color.WHITE
+		view.modulate = Color(wanted.r, wanted.g, wanted.b, view.modulate.a)
+		view.set_meta("dimmed", dims.has(uid))
+
+
+## Battle feel, Part A: the combat preview from CombatPreview.predict - a badge on every unit that would take damage (a skull when
+## it would die) and, by each player's plate, how much damage reaches that player. `note` is the line under the player number
+## ("if unblocked" while attackers are chosen). An empty or invalid preview clears everything.
+func show_combat_preview(preview: Dictionary, note: String = "") -> void:
+	var units: Dictionary = preview.get("units", {}) as Dictionary
+	var valid: bool = bool(preview.get("valid", false))
+	for uid: int in views.keys():
+		var view: CardView = views[uid] as CardView
+		var badge: Control = view.get_node_or_null("PreviewBadge") as Control
+		var entry: Dictionary = units.get(uid, {}) as Dictionary
+		if not valid or entry.is_empty() or zones.get(uid) != Zone.FIELD:
+			if badge != null:
+				badge.queue_free()
+			continue
+		if badge != null:
+			badge.free()
+		view.add_child(_preview_badge(int(entry["damage"]), bool(entry["dies"])))
+	var players: Array = preview.get("players", [0, 0]) as Array
+	for index: int in range(2):
+		var plate: Label = _player_preview_label(index)
+		var amount: int = int(players[index]) if valid else 0
+		plate.visible = amount > 0
+		if amount > 0:
+			var lethal: bool = amount >= game.players[index].hp
+			plate.text = "-%d HP%s%s" % [amount, " " + note if not note.is_empty() else "", "  LETHAL!" if lethal else ""]
+			plate.add_theme_font_size_override("font_size", 28 if plate.text.length() < 18 else 22)
+			plate.add_theme_color_override("font_color", Color("ff4a3a") if lethal else Color("ff8a6a"))
+
+
+func clear_combat_preview() -> void:
+	show_combat_preview({})
+
+
+func _preview_badge(damage: int, dies: bool) -> Control:
+	var badge: PanelContainer = PanelContainer.new()
+	badge.name = "PreviewBadge"
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.add_theme_stylebox_override("panel", UIStyle.box(Color(0.12, 0.02, 0.03, 0.92), Color("ff5a4a") if dies else Color("f1b04a"), 4, 22))
+	badge.z_index = 30
+	var row: HBoxContainer = UIKit.hbox(6)
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	badge.add_child(row)
+	if dies:
+		var skull: TextureRect = CardIcons.glyph(load(CardIcons.BASE + "lorc/skull-crossed-bones.svg") as Texture2D, Color("ffd9cf"), Vector2(54, 54))
+		skull.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		row.add_child(skull)
+	var label: Label = UIKit.label("-%d" % damage, &"", 52, Color("ffd9cf") if dies else Color("ffcf7a"), HORIZONTAL_ALIGNMENT_CENTER)
+	label.add_theme_font_override("font", UIStyle.font_title())
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	row.add_child(label)
+	badge.reset_size()
+	badge.custom_minimum_size = Vector2(150, 72) if dies else Vector2(110, 72)
+	badge.size = badge.custom_minimum_size
+	badge.position = Vector2((CardView.SIZE.x - badge.size.x) * 0.5, -36.0)
+	return badge
+
+
+## The damage line over a player's HP bar (the HP it would lose sits on the bar it comes off).
+func _player_preview_label(index: int) -> Label:
+	var node_name: String = "PreviewHit%d" % index
+	var existing: Label = get_node_or_null(node_name) as Label
+	if existing != null:
+		return existing
+	var label: Label = UIKit.label("", &"", 28, Color("ff8a6a"), HORIZONTAL_ALIGNMENT_CENTER)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_stylebox_override("normal", UIStyle.box(Color(0.1, 0.02, 0.03, 0.88), Color("ff5a4a"), 3, 12))
+	label.name = node_name
+	label.add_theme_font_override("font", UIStyle.font_title())
+	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.95))
+	label.add_theme_constant_override("outline_size", 10)
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.z_index = 160
+	label.size = Vector2(314, 46)
+	label.position = portrait_anchor[index] + Vector2(-157.0, 26.0)
+	label.visible = false
+	add_child(label)
+	return label

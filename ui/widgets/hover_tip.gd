@@ -19,6 +19,18 @@ static func attach(target: Control, title: String, body: String, accent: Color =
 	target.tree_exiting.connect(func() -> void: _hide(holder))
 
 
+## Like `attach`, but the body is built when the tip opens (`body_fn` returns a String), for numbers that change (battle plates).
+static func attach_dynamic(target: Control, title: String, body_fn: Callable, accent: Color = UIStyle.GOLD, icon_id: String = "") -> void:
+	if target.mouse_filter == Control.MOUSE_FILTER_IGNORE:
+		target.mouse_filter = Control.MOUSE_FILTER_PASS
+	var holder: Array = [null]
+	target.mouse_entered.connect(func() -> void:
+		_hide(holder)
+		holder[0] = _show(target, title, str(body_fn.call()), accent, icon_id))
+	target.mouse_exited.connect(func() -> void: _hide(holder))
+	target.tree_exiting.connect(func() -> void: _hide(holder))
+
+
 static func _hide(holder: Array) -> void:
 	var tip: Variant = holder[0]
 	if tip != null and is_instance_valid(tip):

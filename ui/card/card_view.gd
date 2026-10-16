@@ -608,6 +608,19 @@ func _chip_names() -> Array[String]:
 	return names
 
 
+## Battle feel, Part A: hovering a keyword chip or badge explains the keyword in one line (Trap too). Other chips stay plain.
+func _keyword_tip(target: Control, chip_text: String) -> void:
+	var body: String = ""
+	for keyword: CardEnums.Keyword in data.keywords:
+		if KeywordInfo.keyword_name(keyword) == chip_text:
+			body = KeywordInfo.keyword_description(keyword)
+	if chip_text == "Trap":
+		body = str(KeywordInfo.GLOSSARY["Trap"])
+	if body.is_empty():
+		return
+	HoverTip.attach(target, chip_text, body, UIStyle.GOLD, _chip_icon(chip_text))
+
+
 ## The icon of a chip: a keyword chip shows its keyword icon, the Trap and card-type chips their type icon ("" for Ability / Effect).
 func _chip_icon(chip_text: String) -> String:
 	for keyword: CardEnums.Keyword in data.keywords:
@@ -645,7 +658,9 @@ func _build_keyword_badges(x: float, y: float) -> void:
 		if not IconArt.has(id):
 			continue
 		var center: Vector2 = Vector2(x + 18.0, y + 18.0 + 38.0 * float(index))
-		add_child(_panel(Rect2(center - Vector2(18, 18), Vector2(36, 36)), UIStyle.box(Color(0.06, 0.04, 0.1, 0.78), accent.lightened(0.2), 2, 18)))
+		var badge_back: Panel = _panel(Rect2(center - Vector2(18, 18), Vector2(36, 36)), UIStyle.box(Color(0.06, 0.04, 0.1, 0.78), accent.lightened(0.2), 2, 18))
+		add_child(badge_back)
+		_keyword_tip(badge_back, KeywordInfo.keyword_name(keyword))
 		var badge: TextureRect = IconArt.rect(id, 30.0)
 		badge.position = center - Vector2(15, 15)
 		badge.size = Vector2(30, 30)
@@ -667,6 +682,7 @@ func _build_chips() -> void:
 			y += 34.0
 		var chip: Panel = _panel(Rect2(x, y, width, 30), UIStyle.box(Color(0.05, 0.03, 0.08, 0.85), accent.lightened(0.15), 2, 15))
 		add_child(chip)
+		_keyword_tip(chip, chip_text)
 		var label: Label = Label.new()
 		label.text = chip_text
 		label.position = Vector2(x + icon_room, y)
@@ -1119,6 +1135,7 @@ func _build_framed_chips() -> void:
 			y += 31.0
 		var chip: Panel = _panel(Rect2(x, y, width, 28), UIStyle.box(Color(0.05, 0.03, 0.08, 0.85), accent.lightened(0.15), 2, 14))
 		add_child(chip)
+		_keyword_tip(chip, chip_text)
 		var label: Label = Label.new()
 		label.text = chip_text
 		label.position = Vector2(x + icon_room, y)

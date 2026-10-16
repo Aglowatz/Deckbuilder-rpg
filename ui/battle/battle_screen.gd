@@ -112,7 +112,7 @@ func _screenshot_give(spec: String) -> void:
 ## you every basic infrastructure, `--play=N-17` plays that hand card as the mouse would (opening the targeting viewer),
 ## `--pick=0` then chooses the Nth legal pile card, `--viewer=0|1` opens the browse viewer on that pile. Runs once the board has settled.
 func _screenshot_scenario() -> void:
-	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark"]
+	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark", "efield", "combat"]
 	var wanted: bool = false
 	for key: String in keys:
 		wanted = wanted or _screenshot_args.has(key)
@@ -133,6 +133,9 @@ func _screenshot_scenario() -> void:
 	for id: String in str(_screenshot_args.get("field", "")).split(",", false):
 		var unit: CardData = load("res://data/cards/%s.tres" % id) as CardData
 		game.players[0].field.append(game.create_instance(unit, 0))
+	for id: String in str(_screenshot_args.get("efield", "")).split(",", false):
+		var enemy_unit: CardData = load("res://data/cards/%s.tres" % id) as CardData
+		game.players[1].field.append(game.create_instance(enemy_unit, 1))
 	## `--mark=exhaust:0,buff:1:3` exhausts your field unit 0 and gives field unit 1 three buffs (screenshots of the exhausted and buff badges).
 	for part: String in str(_screenshot_args.get("mark", "")).split(",", false):
 		var bits: PackedStringArray = part.split(":")
@@ -165,6 +168,15 @@ func _screenshot_scenario() -> void:
 		if nth >= 0 and nth < _target_options.size():
 			_finish_targeting(_target_options[nth])
 		await get_tree().create_timer(1.5).timeout
+	## `--combat=all` goes to combat and selects every attacker (the combat preview); `--combat=1` selects only the first.
+	if _screenshot_args.has("combat") and mode == Mode.MAIN:
+		_on_primary()
+		await get_tree().create_timer(1.2).timeout
+		if mode == Mode.ATTACK:
+			if str(_screenshot_args["combat"]) == "all":
+				_on_attack_all()
+			elif not game.possible_attackers(0).is_empty():
+				_toggle_attacker(game.possible_attackers(0)[0].uid)
 	if _screenshot_args.has("viewer"):
 		var piles: Array[int] = [int(_screenshot_args["viewer"])]
 		refuse_viewer.open_browse(piles)
@@ -527,6 +539,8 @@ func _refresh_ui() -> void:
 			primary = "..."
 			primary_enabled = false
 	board.set_glows(glows)
+	board.set_dims(_dims())
+	_refresh_combat_preview()
 	if primary_enabled and _SPACE_ADVANCE_MODES.has(mode):
 		primary += "  [%s]" % Keybinds.first_key(&"battle_advance")
 	hud.primary_button.text = primary
@@ -543,6 +557,51 @@ func _is_playable(card: CardInstance) -> bool:
 	if card.data.is_infrastructure():
 		return game.can_play_infrastructure(0, card.uid)
 	return game.can_play_card(0, card.uid)
+
+
+## Battle feel, Part A: which cards are shown dimmed. Your hand cards you can't play right now (in every mode but the
+## mulligan and the toss), and while choosing a target every card that is not a legal target.
+func _dims() -> Dictionary:
+	var dims: Dictionary = {}
+	if mode == Mode.TARGETING:
+		for uid: int in board.views.keys():
+			if not _target_options.has(uid) and uid != _target_source:
+				dims[uid] = true
+		return dims
+	if mode in [Mode.MAIN, Mode.ATTACK, Mode.BLOCK, Mode.WAITING]:
+		for card: CardInstance in game.players[0].hand:
+			if mode != Mode.MAIN or not _is_playable(card):
+				dims[card.uid] = true
+	return dims
+
+
+## Battle feel, Part A: the live combat preview while you choose attackers (assuming no blocks) or blockers.
+func _refresh_combat_preview() -> void:
+	if mode == Mode.ATTACK and not _selected_attackers.is_empty():
+		board.show_combat_preview(CombatPreview.predict(game, 0, _selected_attackers, {}), "if unblocked")
+	elif mode == Mode.BLOCK:
+		board.show_combat_preview(CombatPreview.predict(game, 0, [] as Array[int], _block_assign))
+	else:
+		board.clear_combat_preview()
+
+
+## The short line on the hover preview of your hand card that can't be played now ("" when it can, or is not yours).
+func _hover_note(view: CardView) -> String:
+	var card: CardInstance = game.players[0].find_hand(view.instance_uid)
+	if card == null or mode == Mode.MULLIGAN or mode == Mode.TOSS or mode == Mode.OVER:
+		return ""
+	if game.active != 0:
+		return "Not your turn"
+	if not game.in_main_phase():
+		return "Wrong phase: play cards in a main phase"
+	if _is_playable(card):
+		return ""
+	if card.data.is_infrastructure():
+		return "One infrastructure per turn"
+	var pips: Array[Affinity.Type] = game.pips_for(0, card.data, card)
+	if not game.can_pay_energy(0, game.generic_cost_for(0, card.data, card), pips):
+		return "Not enough energy"
+	return "No legal target (or its extra cost can't be paid)"
 
 
 ## Index of the first activated ability the player can use on this permanent, or -1.
@@ -566,8 +625,19 @@ func _update_arrows() -> void:
 
 
 func _process(_delta: float) -> void:
-	if mode == Mode.TARGETING and _target_source != 0:
-		var arrows: Array[Dictionary] = [{"from": board.center_of(_target_source), "to": get_global_mouse_position(), "color": Color("ff5a5a")}]
+	if mode == Mode.TARGETING:
+		# The line runs from the card (or your plate, for items and resources) and snaps onto a legal target under the mouse.
+		var aim: Vector2 = get_global_mouse_position()
+		var on_target: bool = false
+		if _hovered_view != null and _target_options.has(_hovered_view.instance_uid):
+			aim = board.center_of(_hovered_view.instance_uid)
+			on_target = true
+		for index: int in range(2):
+			if hud.portrait_rect(index).has_point(aim) and _target_options.has(Targets.player(index)):
+				aim = hud.portrait_center(index)
+				on_target = true
+		var from: Vector2 = board.center_of(_target_source) if _target_source != 0 else hud.portrait_center(0)
+		var arrows: Array[Dictionary] = [{"from": from, "to": aim, "color": Color("ff3a3a") if on_target else Color("ff8a7a")}]
 		fx.set_arrows(arrows)
 	if _dragging and board.drag_uid != 0:
 		board.drag_center = get_global_mouse_position()
@@ -617,7 +687,7 @@ func _on_end_turn() -> void:
 
 func _on_card_hovered(view: CardView) -> void:
 	_hovered_view = view
-	hud.show_preview(view)
+	hud.show_preview(view, _hover_note(view))
 	if view.get_meta("owner", 0) == 0 and board.zones.get(view.instance_uid) == BattleBoard.Zone.HAND:
 		Audio.sfx(&"card_hover", -12.0)
 
