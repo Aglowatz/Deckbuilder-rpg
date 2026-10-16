@@ -586,13 +586,23 @@ func _rock_wall(from: Vector3, to: Vector3) -> void:
 	var length: float = from.distance_to(to)
 	var along: Vector3 = (to - from).normalized()
 	var distance: float = 0.0
+	# eight-metre runs, each its own kit mesh (one may fade when it stands between the lens and the hero)
 	while distance < length:
-		var size: Vector3 = Vector3(rng.randf_range(1.6, 3.4), rng.randf_range(0.4, 1.0), rng.randf_range(1.4, 2.6))
-		var tone: float = rng.randf_range(0.2, 0.34)
-		var color: Color = Color(tone, tone * 0.95, tone * 1.2)
-		var pos: Vector3 = from + along * distance + Vector3(0.0, size.y * 0.5 - 0.2, rng.randf_range(-0.5, 0.5))
-		_box(root, size, M.flat(color), pos, Vector3(rng.randf_range(-6.0, 6.0), rng.randf_range(-35.0, 35.0), rng.randf_range(-8.0, 8.0)))
-		distance += size.x * 0.8
+		var run: KitMesh = KitMesh.new()
+		CapitalKit.materials(run)
+		var run_end: float = minf(distance + 8.0, length)
+		var start: Vector3 = from + along * distance
+		while distance < run_end:
+			var size: Vector3 = Vector3(rng.randf_range(1.4, 3.0), rng.randf_range(0.35, 0.9), rng.randf_range(1.2, 2.2))
+			var pos: Vector3 = from + along * distance + Vector3(0.0, size.y * 0.5 - 0.15, rng.randf_range(-0.5, 0.5))
+			var basis: Basis = Basis.from_euler(Vector3(deg_to_rad(rng.randf_range(-6.0, 6.0)), deg_to_rad(rng.randf_range(-35.0, 35.0)), deg_to_rad(rng.randf_range(-8.0, 8.0))))
+			run.box("ash" if rng.randf() < 0.6 else "ruin", pos - start, size, basis, 0.08, 0.6)
+			distance += size.x * 0.8
+		var node: Node3D = Node3D.new()
+		node.name = "RubbleEdge"
+		node.position = start
+		root.add_child(node)
+		CapitalLandmarks.finish(node, run, [], 1.0)
 
 
 func _build_boundaries() -> void:
@@ -622,7 +632,19 @@ func _build_boundaries() -> void:
 	var out_top: float = float(CapitalLayout.WALL_Z1 + 1)
 	var out_depth: float = float(CapitalLayout.OUT_Z1) + 1.0 - out_top
 	for side_x: float in [0.5, 119.5]:
-		_box(root, Vector3(2.5, 3.0, out_depth), M.flat(Color(0.18, 0.17, 0.2)), Vector3(side_x, 1.5, out_top + out_depth * 0.5))
+		# the outside's side edges: a low broken wall of ash-blackened stone (the kit), not a black slab
+		var edge: Node3D = Node3D.new()
+		edge.name = "AshEdge"
+		edge.position = Vector3(side_x, 0.0, out_top + out_depth * 0.5)
+		root.add_child(edge)
+		var stones: KitMesh = KitMesh.new()
+		CapitalKit.materials(stones)
+		var steps: int = int(out_depth / 1.4)
+		for index: int in range(steps):
+			var z: float = -out_depth * 0.5 + (float(index) + 0.5) * out_depth / float(steps)
+			var h: float = 1.6 + 1.4 * absf(sin(float(index) * 1.7))
+			stones.box("ash", Vector3(0, h * 0.5, z), Vector3(2.4, h, out_depth / float(steps) + 0.05), Basis.IDENTITY, 0.06, 0.6)
+		CapitalLandmarks.finish(edge, stones, [], 3.0)
 	_rock_wall(Vector3(0.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8), Vector3(56.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8))
 	_rock_wall(Vector3(64.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8), Vector3(120.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8))
 	# The Crease's walls (inside layer 2).
@@ -638,6 +660,8 @@ var landmarks: Dictionary = {}
 ## The castle's rift-light cracks (pulsed slowly in `animate`; null once Primm has fallen).
 var _castle_cracks: StandardMaterial3D
 var _rift_lights: Array[OmniLight3D] = []
+## The camp fire's warm light (it flickers, `animate`).
+var _flickers: Array[OmniLight3D] = []
 
 
 func _build_landmarks() -> void:
@@ -706,6 +730,8 @@ func _build_props() -> void:
 			var spin: Node3D = node.get_node_or_null("Spin") as Node3D
 			if spin != null:
 				_spinners.append(spin)
+		if node.has_meta("flicker"):
+			_flickers.append(node.get_meta("flicker") as OmniLight3D)
 	_apply_initial_states()
 
 
@@ -977,6 +1003,10 @@ func animate(delta: float) -> void:
 		var light: OmniLight3D = _rift_lights[index]
 		if is_instance_valid(light):
 			light.light_energy = 2.8 * (0.8 + 0.2 * sin(time * 1.6 + float(index) * 1.3))
+	for index: int in range(_flickers.size()):
+		var flame: OmniLight3D = _flickers[index]
+		if is_instance_valid(flame):
+			flame.light_energy = 3.0 + 0.45 * sin(time * 9.0 + float(index)) + 0.25 * sin(time * 23.0)
 	if _castle_cracks != null:
 		# the castle's hairline cracks leak a slow, faint pulse of rift light
 		_castle_cracks.emission_energy_multiplier = 2.4 * (0.62 + 0.38 * (0.5 + 0.5 * sin(time * 0.7)))

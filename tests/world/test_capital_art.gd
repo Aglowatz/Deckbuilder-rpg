@@ -122,3 +122,20 @@ func test_the_castle_door_is_a_grand_entrance_that_stays_off_the_forecourt() -> 
 			crown_slot = true
 	assert_true(crown_slot, "the crown in its gold frame is the door's icon sign")
 	castle.free()
+
+
+func test_outside_lights_leave_the_warmth_to_the_camp() -> void:
+	# the Gate Road's lamps, when lit (the Beefcakes are free), give Primm's cold white light; the camp fire is warm and flickers
+	var lamp: Node3D = CapitalProps.street_lamp(true)
+	for light: Node in lamp.find_children("*", "OmniLight3D", true, false):
+		var color: Color = (light as OmniLight3D).light_color
+		assert_gte(color.b, color.r, "a street lamp's light is cold")
+	lamp.free()
+	var fire: Node3D = CapitalProps.campfire()
+	assert_true(fire.has_meta("flicker"), "the camp fire's light flickers")
+	var flame: OmniLight3D = fire.get_meta("flicker") as OmniLight3D
+	assert_gt(flame.light_color.r, flame.light_color.b, "and is warm")
+	fire.free()
+	for node: Node3D in [CapitalProps.checkpoint_booth(), CapitalProps.fallen_statue(), CapitalProps.gate_barrier(), CapitalLandmarks.ruin_fragment(4.0, 2.4, 3), CapitalLandmarks.ruined_house(6.0, 4.0, 4.0, 5.0, 1)]:
+		assert_gt(int(node.get_meta("triangles", 0)), 20, "%s is built from the kit" % node.name)
+		node.free()

@@ -243,18 +243,20 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.sun_pitch = -40.0
 			p.ambient_color = Color("8a80a8")
 			p.ambient_energy = 0.9
-			p.exposure = 0.92
-			p.fog_color = Color("8c7e9c")
-			p.fog_density = 0.013
-			p.volumetric_density = 0.02
-			p.volumetric_color = Color("9a967e")
-			p.saturation = 0.74
+			p.exposure = 1.0
+			p.fog_color = Color("9c8a98")
+			p.fog_density = 0.009
+			p.volumetric_density = 0.015
+			p.volumetric_color = Color("a8988e")
+			p.saturation = 0.78
 			p.contrast = 1.05
 			p.glow_intensity = 0.5
 			p.outline_color = Color("1c1a16")
 			p.outline_strength = 0.7
 			p.rim_color = Color("e060ff")
-			p.desaturate = 0.35
+			# the art pass: the outside paint-overs are a mauve-brown overcast dusk at mid tone (median luma about 100, saturation 0.23), not the near-grey
+			# the layout pass shot; the rifts' violet stays the strongest colour
+			p.desaturate = 0.22
 			p.wind = 0.6
 			p.accent = Color("ff3aa8")
 			p.particles = [{"kind": "ash", "color": Color(0.7, 0.68, 0.62, 0.8), "amount": 80}, {"kind": "motes", "color": Color(0.8, 0.76, 0.62, 0.6), "amount": 40}, {"kind": "rift", "color": Color("ff50d0"), "amount": 12}, {"kind": "rift", "color": Color("40e0ff"), "amount": 8}]
@@ -264,12 +266,12 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.sky_top = Color("4a4e48")
 			p.sky_horizon = Color("8a8670")
 			p.ground_horizon = Color("6a6652")
-			p.sun_energy = 0.4
-			p.ambient_color = Color("727868")
-			p.ambient_energy = 0.7
-			p.exposure = 0.7
-			p.fog_color = Color("6a6a5c")
-			p.fog_density = 0.016
+			p.sun_energy = 0.45
+			p.ambient_color = Color("847a88")
+			p.ambient_energy = 0.8
+			p.exposure = 0.92
+			p.fog_color = Color("8a7c88")
+			p.fog_density = 0.011
 		CAPITAL_INSIDE:
 			p.with_id(id, "Capital inside the walls: idyllic, bright, blue sky")
 			p.sky_top = Color("3f8fe6")

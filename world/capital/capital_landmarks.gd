@@ -587,26 +587,31 @@ static func camp() -> Node3D:
 		var at: Vector2 = CapitalLayout.CAMP_TENTS[index]
 		var base: Vector3 = Vector3(at.x, 0, at.y)
 		var look: Array = canvases[index]
+		# an A-frame tent whose ridge runs east-west, its open end toward the fire, its long south slope (the side the camera sees) patched
+		var open: float = signf(CapitalLayout.CAMP_FIRE.x - at.x)
 		var ridge: float = 2.1
 		var half: float = 1.5
 		var long: float = 1.6
 		for side: float in [-1.0, 1.0]:
-			var corners: Array[Vector3] = [base + Vector3(side * half, 0.05, -long), base + Vector3(side * half, 0.05, long), base + Vector3(0, ridge, long), base + Vector3(0, ridge, -long)]
-			mesh.quad(str(look[0]), corners, Vector3(side, 0.7, 0))
-			mesh.quad(str(look[0]), corners, Vector3(-side, -0.7, 0))
-		mesh.tri(str(look[0]), [base + Vector3(-half, 0.05, -long), base + Vector3(half, 0.05, -long), base + Vector3(0, ridge, -long)], Vector3(0, 0, -1))
+			var corners: Array[Vector3] = [base + Vector3(-long, 0.05, side * half), base + Vector3(long, 0.05, side * half), base + Vector3(long, ridge, 0), base + Vector3(-long, ridge, 0)]
+			mesh.quad(str(look[0]), corners, Vector3(0, 0.7, side))
+			mesh.quad(str(look[0]), corners, Vector3(0, -0.7, -side))
+		var back: float = -open * long
+		mesh.tri(str(look[0]), [base + Vector3(back, 0.05, -half), base + Vector3(back, 0.05, half), base + Vector3(back, ridge, 0)], Vector3(-open, 0, 0))
+		mesh.tri("dark", [base + Vector3(back + open * 0.05, 0.06, -half * 0.9), base + Vector3(back + open * 0.05, 0.06, half * 0.9), base + Vector3(back + open * 0.05, ridge * 0.92, 0)], Vector3(open, 0, 0))
 		for end: float in [-long - 0.05, long + 0.05]:
-			mesh.tube("wood_dark", base + Vector3(0, 0, end), base + Vector3(0, ridge + 0.35, end), 0.06, 5)
-		mesh.tube("wood_dark", base + Vector3(0, ridge + 0.02, -long - 0.1), base + Vector3(0, ridge + 0.02, long + 0.1), 0.05, 5)
-		# the patch of the second Path's colour stitched to the side facing the fire, the two essences on the tent
-		var facing: float = 1.0 if index == 0 else -1.0
-		var patch_c: Vector3 = base + Vector3(facing * half * 0.5, ridge * 0.5 + 0.05, 0.15)
-		mesh.quad(str(look[1]), [patch_c + Vector3(-facing * 0.25, -0.45, -0.55), patch_c + Vector3(-facing * 0.25, -0.45, 0.55), patch_c + Vector3(facing * 0.25, 0.45, 0.55), patch_c + Vector3(facing * 0.25, 0.45, -0.55)], Vector3(facing, 0.7, 0))
-		icon(root, PATH_ICONS[int(look[2])], base + Vector3(facing * 0.55, 1.35, 1.0), 0.55, 90.0 * facing)
-		icon(root, PATH_ICONS[int(look[3])], patch_c + Vector3(facing * 0.08, 0.0, 0.0), 0.5, 90.0 * facing)
-		mesh.box("crate", base + Vector3(-facing * 2.1, 0.35, 0.9), Vector3(0.7, 0.7, 0.7), Basis(Vector3.UP, 0.3), 0.03, 0.8)
-		mesh.box("crate", base + Vector3(-facing * 2.0, 0.95, 0.9), Vector3(0.5, 0.5, 0.5), Basis(Vector3.UP, -0.2), 0.03, 0.8)
-		mesh.lathe("wood", base + Vector3(-facing * 1.9, 0, -1.2), [Vector2(0.32, 0.0), Vector2(0.38, 0.45), Vector2(0.32, 0.9)], 10, 0.8, false, true)
+			mesh.tube("wood_dark", base + Vector3(end, 0, 0), base + Vector3(end, ridge + 0.35, 0), 0.06, 5)
+		mesh.tube("wood_dark", base + Vector3(-long - 0.1, ridge + 0.02, 0), base + Vector3(long + 0.1, ridge + 0.02, 0), 0.05, 5)
+		# the second Path's patch stitched on the south slope, both Paths' essences on it, a warm lantern hung at the open end
+		var slope: Vector3 = Vector3(0, ridge * 0.5, half * 0.5)
+		mesh.quad(str(look[1]), [base + slope + Vector3(-0.2, -0.4, 0.31), base + slope + Vector3(0.9, -0.4, 0.31), base + slope + Vector3(0.9, 0.35, -0.22), base + slope + Vector3(-0.2, 0.35, -0.22)], Vector3(0, 0.7, 1))
+		icon(root, PATH_ICONS[int(look[2])], base + Vector3(-0.75, 1.05, 0.82), 0.55)
+		icon(root, PATH_ICONS[int(look[3])], base + Vector3(0.35, 1.05, 0.86), 0.5)
+		mesh.box("lantern", base + Vector3(open * (long + 0.05), ridge - 0.1, 0.0), Vector3(0.18, 0.24, 0.18))
+		# crates and a barrel by the back end
+		mesh.box("crate", base + Vector3(back - open * 0.6, 0.35, 1.3), Vector3(0.7, 0.7, 0.7), Basis(Vector3.UP, 0.3), 0.03, 0.8)
+		mesh.box("crate", base + Vector3(back - open * 0.55, 0.95, 1.3), Vector3(0.5, 0.5, 0.5), Basis(Vector3.UP, -0.2), 0.03, 0.8)
+		mesh.lathe("wood", base + Vector3(back - open * 0.5, 0, -1.4), [Vector2(0.32, 0.0), Vector2(0.38, 0.45), Vector2(0.32, 0.9)], 10, 0.8, false, true)
 	# the lean-to: a Gourmand-copper canvas roof on salvaged planks, bedrolls under it
 	var lean: Vector3 = Vector3(CapitalLayout.CAMP_LEAN_TO.x, 0, CapitalLayout.CAMP_LEAN_TO.y)
 	for side: float in [-1.0, 1.0]:
@@ -625,8 +630,8 @@ static func camp() -> Node3D:
 	mesh.quad("canvas_green", cloth, Vector3(0, 0, -1))
 	icon(root, PATH_ICONS[3], pole + Vector3(0.7, 3.25, 0.03), 0.6)
 	# the rope of warm lanterns between the tents' north poles, and the light they give
-	var a: Vector3 = Vector3(CapitalLayout.CAMP_TENTS[0].x, 2.4, CapitalLayout.CAMP_TENTS[0].y - 1.65)
-	var b: Vector3 = Vector3(CapitalLayout.CAMP_TENTS[1].x, 2.4, CapitalLayout.CAMP_TENTS[1].y - 1.65)
+	var a: Vector3 = Vector3(CapitalLayout.CAMP_TENTS[0].x + 1.65, 2.4, CapitalLayout.CAMP_TENTS[0].y)
+	var b: Vector3 = Vector3(CapitalLayout.CAMP_TENTS[1].x - 1.65, 2.4, CapitalLayout.CAMP_TENTS[1].y)
 	var previous: Vector3 = a
 	for index: int in range(1, 13):
 		var t: float = float(index) / 12.0
@@ -638,8 +643,8 @@ static func camp() -> Node3D:
 	var glow: OmniLight3D = OmniLight3D.new()
 	glow.name = "LanternLight"
 	glow.light_color = Color("ffb060")
-	glow.light_energy = 0.9
-	glow.omni_range = 7.5
+	glow.light_energy = 1.5
+	glow.omni_range = 9.0
 	glow.position = a.lerp(b, 0.5) - Vector3(0, 0.9, 0)
 	root.add_child(glow)
 	# the old stone ruins the camp shelters in (the concept): crumbling pale walls with jagged tops, broken pillars at their ends, fallen blocks

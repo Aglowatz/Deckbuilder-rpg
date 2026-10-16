@@ -65,7 +65,7 @@
 	"capital_facade": {"title": "Capital facade (unused)", "look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "fff0f6", "fog_density": 0.002, "warmth": 0.05, "saturation": 1.0, "vignette": 0.18}, "ambient": {"shafts": false}},
 	"capital_outskirts": {
 		"title": "Capital outside: bleak grey wasteland",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "8c7e9c", "fog_density": 0.0085, "warmth": -0.2, "saturation": 0.72, "vignette": 0.46, "bloom": 0.42, "bloom_threshold": 1.0, "cloud_speed": 0.7},
+		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "9c8a98", "fog_density": 0.0065, "warmth": 0.08, "saturation": 1.1, "vignette": 0.4, "bloom": 0.42, "bloom_threshold": 1.0, "cloud_speed": 0.7},
 		"sky": {"horizon": "b8b296", "gold": "a89e88", "mid": "8c8c86", "zenith": "6c7266", "sun": "e0d0c0", "sun_glow": 0.35, "cloud_opacity": 0.9, "cloud_tint": "b0a898", "panorama": "CAP-SKY-DUSK", "panorama_mix": 0.85, "panorama_stretch": 1.2},
 		"scenery": {"water": false, "shore": false, "rings": true, "landmarks": false, "apron": {"color": "5e5a54", "y": -0.03}, "tint": "8a8678", "cool": "7a7a82", "haze_scale": 1.4, "cool_scale": 1.0, "brightness": 0.8, "kit_cards": [{"id": "CAP-BD-WASTELAND", "angle": 0, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 60, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 120, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 180, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 240, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 300, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}]},
 		"foliage": {"density": 0.0},
@@ -74,7 +74,7 @@
 	"capital_dark": {
 		"extends": "capital_outskirts",
 		"title": "Capital outside, service down: darker",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "6a6a5c", "fog_density": 0.011, "warmth": -0.3, "saturation": 0.65, "vignette": 0.55, "bloom": 0.4},
+		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "8a7c88", "fog_density": 0.0075, "warmth": 0.06, "saturation": 1.12, "vignette": 0.42, "bloom": 0.4},
 		"sky": {"horizon": "8a8670", "gold": "7a7662", "mid": "5e605a", "zenith": "4a4e48", "sun": "c8c0b0", "sun_glow": 0.15, "cloud_opacity": 0.9, "cloud_tint": "8a8678"},
 		"scenery": {"tint": "6a685c", "brightness": 0.7}
 	},

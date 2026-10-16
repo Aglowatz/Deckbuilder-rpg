@@ -37,11 +37,11 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"lamp_perfect":
 			return lamp(true, true, M.WHITE)
 		"lamp_street":
-			return lamp(not bool(ctx.get("dark", false)) or bool(ctx.get("final", false)), false, M.STONE_DARK)
+			return street_lamp(not bool(ctx.get("dark", false)) or bool(ctx.get("final", false)))
 		"statue_primm":
 			return statue(prop.model_scale, bool(ctx.get("final", false)))
 		"toppled_statue":
-			return toppled_statue()
+			return fallen_statue()
 		"portrait":
 			return portrait(prop.variant, bool(ctx.get("final", false)), story)
 		"loudspeaker":
@@ -91,7 +91,7 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"barrier":
 			return barrier()
 		"booth":
-			return booth([Color(0.55, 0.6, 0.7), Color(0.62, 0.5, 0.45), Color(0.9, 0.9, 0.9)][prop.variant % 3], false)
+			return checkpoint_booth() if prop.variant % 3 == 1 else civic_kiosk(bool(ctx.get("final", false)))
 		"bed":
 			return bed()
 		"window_booth":
@@ -113,7 +113,7 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"scrub":
 			return scrub(prop.variant)
 		"wreck", "wreck_stack":
-			return wreck(prop.kind == "wreck_stack")
+			return kit_wreck(prop.kind == "wreck_stack")
 		"queue_post":
 			return queue_post()
 		"tunnel_hatch_cover":
@@ -157,7 +157,29 @@ static func _state_group(root: Node3D, group_name: String, visible_now: bool) ->
 # ---- The facade ---------------------------------------------------------------------------------
 
 
+## The great gate itself (CAP-HERO-GREAT-WALL-GATE): two tall white leaves in gold frames with gold lattice and Primm's emblem where they meet,
+## closing the 10 m opening until the gate battle is won (then it slides up out of sight, `CapitalBuilder.open_gate`).
 static func gate_barrier() -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	for side: float in [-1.0, 1.0]:
+		var cx: float = side * 2.5
+		mesh.box("plaster", Vector3(cx, 3.6, 0), Vector3(4.9, 7.2, 0.3), Basis.IDENTITY, 0.02, 0.85)
+		for face: float in [-1.0, 1.0]:
+			var z: float = face * 0.16
+			for edge: Array in [[Vector3(cx - 2.4, 0.1, z), Vector3(cx + 2.4, 0.1, z)], [Vector3(cx - 2.4, 7.1, z), Vector3(cx + 2.4, 7.1, z)], [Vector3(cx - 2.4, 0.1, z), Vector3(cx - 2.4, 7.1, z)], [Vector3(cx + 2.4, 0.1, z), Vector3(cx + 2.4, 7.1, z)]]:
+				CapitalLandmarks.band(mesh, "gold", edge[0] as Vector3, edge[1] as Vector3, 0.22, Vector3(0, 0, face))
+			for index: int in range(4):
+				var y: float = 1.2 + float(index) * 1.6
+				CapitalLandmarks.band(mesh, "gold", Vector3(cx - 2.2, y, z), Vector3(cx + 2.2, y + 1.2, z), 0.09, Vector3(0, 0, face))
+				CapitalLandmarks.band(mesh, "gold", Vector3(cx + 2.2, y, z), Vector3(cx - 2.2, y + 1.2, z), 0.09, Vector3(0, 0, face))
+	CapitalKit.emblem(mesh, Vector3(0, 4.4, 0.2), 0.9, Vector3(0, 0, 1))
+	CapitalKit.emblem(mesh, Vector3(0, 4.4, -0.2), 0.9, Vector3(0, 0, -1))
+	return CapitalLandmarks.finish(root, mesh, [], 7.2)
+
+
+static func gate_barrier_old() -> Node3D:
 	var root: Node3D = Node3D.new()
 	for index: int in range(13):
 		var x: float = -5.0 + float(index) * 0.83
@@ -628,7 +650,45 @@ static func _prism(width: float, height: float, depth: float) -> PrismMesh:
 	return prism
 
 
+## The resistance camp's fire (CAP-PROP-CAMPFIRE, the kettle on its tripod over a ring of stones): the painted card, a lick of flames and the camp's
+## warm, flickering light (meta "flicker", turned by `CapitalBuilder.animate`): the only warm light outside the walls.
 static func campfire() -> Node3D:
+	var root: Node3D = Node3D.new()
+	CapitalKit.tree_card(root, "CAP-PROP-CAMPFIRE", Vector3.ZERO, 1.3)
+	var flames: CPUParticles3D = CPUParticles3D.new()
+	flames.name = "Flames"
+	flames.amount = 18
+	flames.lifetime = 0.8
+	flames.preprocess = 0.8
+	flames.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	flames.emission_sphere_radius = 0.18
+	flames.direction = Vector3.UP
+	flames.spread = 12.0
+	flames.initial_velocity_min = 0.5
+	flames.initial_velocity_max = 1.0
+	flames.gravity = Vector3(0, 0.4, 0)
+	flames.scale_amount_min = 0.6
+	flames.scale_amount_max = 1.2
+	var flame: SphereMesh = SphereMesh.new()
+	flame.radius = 0.07
+	flame.height = 0.16
+	flame.radial_segments = 6
+	flame.rings = 3
+	flames.mesh = flame
+	flames.material_override = EnvKit.glow(Color("ffa040"), 3.0)
+	flames.position = Vector3(0, 0.35, 0.05)
+	root.add_child(flames)
+	var light: OmniLight3D = OmniLight3D.new()
+	light.light_color = Color(1.0, 0.6, 0.3)
+	light.light_energy = 3.0
+	light.omni_range = 10.5
+	light.position = Vector3(0, 1.0, 0)
+	root.add_child(light)
+	root.set_meta("flicker", light)
+	return root
+
+
+static func campfire_old() -> Node3D:
 	var root: Node3D = Node3D.new()
 	for index: int in range(6):
 		var angle: float = TAU * float(index) / 6.0
@@ -670,6 +730,80 @@ static func wreck(stack: bool) -> Node3D:
 	if stack:
 		B.box(root, Vector3(1.6, 0.8, 1.3), M.flat(M.STONE_GRAY), Vector3(-1.0, 0.4, 1.2), Vector3(0, 25, 6))
 		B.box(root, Vector3(1.2, 0.9, 1.1), M.flat(M.BRICK_DEAD), Vector3(1.0, 0.45, -1.1), Vector3(0, -20, -5))
+	return root
+
+
+## A dead street lamp of the Gate Road: an iron post with a crooked arm and a lantern of cracked glass; lit (the Beefcakes are free) it gives a cold
+## white light, Primm's, never warm (the camp keeps the only warm light outside).
+static func street_lamp(lit: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.set_material("glass", EnvKit.glow(Color("dfe8f0"), 1.6) if lit else EnvKit.flat(Color("3a3c44"), "cap_lamp_dead"))
+	mesh.lathe("iron_dark", Vector3.ZERO, [Vector2(0.18, 0.0), Vector2(0.14, 0.3), Vector2(0.07, 0.4)], 8, 0.8, false, false)
+	mesh.tube("iron", Vector3(0, 0.3, 0), Vector3(0, 3.5, 0), 0.06, 6)
+	mesh.tube("iron", Vector3(0, 3.4, 0), Vector3(0.45, 3.65, 0), 0.04, 5)
+	mesh.box("iron_dark", Vector3(0.5, 3.75, 0), Vector3(0.34, 0.06, 0.34))
+	mesh.box("glass", Vector3(0.5, 3.52, 0), Vector3(0.24, 0.4, 0.24))
+	mesh.box("iron_dark", Vector3(0.5, 3.3, 0), Vector3(0.3, 0.05, 0.3))
+	CapitalLandmarks.finish(root, mesh, [], 3.9)
+	if lit:
+		var light: OmniLight3D = OmniLight3D.new()
+		light.light_color = Color(0.85, 0.9, 1.0)
+		light.light_energy = 0.9
+		light.omni_range = 7.0
+		light.position = Vector3(0.5, 3.4, 0)
+		root.add_child(light)
+	return root
+
+
+## The toppled statue by the hidden shaft (the rift fields): the rubble sheet's broken marble head of Primm, a slab of his gold-banded plinth and
+## a heap of white rubble.
+static func fallen_statue() -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.box("marble", Vector3(-0.6, 0.35, 0.0), Vector3(1.6, 0.7, 1.1), Basis(Vector3.UP, 0.4) * Basis(Vector3.FORWARD, 0.12), 0.06, 0.75)
+	mesh.box("gold", Vector3(-0.6, 0.62, 0.0), Vector3(1.64, 0.1, 1.14), Basis(Vector3.UP, 0.4) * Basis(Vector3.FORWARD, 0.12))
+	CapitalKit.card(mesh, "CAP-SHEET-RUBBLE-05", Vector3(0.5, 0.0, 0.5), 1.6, Vector3(0, 0, 1))
+	CapitalKit.card(mesh, "CAP-SHEET-RUBBLE-01", Vector3(-1.2, 0.0, 0.8), 1.1, Vector3(0, 0, 1))
+	return CapitalLandmarks.finish(root, mesh, [], 1.6)
+
+
+## An abandoned checkpoint booth outside the walls: a shack of grey boards under a broken roof, its window boarded up (the outpost sheet).
+static func checkpoint_booth() -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	mesh.box("wood_dark", Vector3(0, 1.1, 0), Vector3(1.6, 2.2, 1.4), Basis(Vector3.FORWARD, 0.04), 0.03, 0.7)
+	for plank: int in range(5):
+		mesh.box("wood", Vector3(-0.64 + 0.32 * float(plank), 1.1, 0.71), Vector3(0.26, 2.1, 0.03), Basis(Vector3.FORWARD, 0.04 + 0.02 * float(plank % 2)))
+	mesh.quad("roof_broken", [Vector3(-1.0, 2.15, -0.9), Vector3(1.0, 2.35, -0.9), Vector3(1.0, 2.5, 0.95), Vector3(-1.0, 2.3, 0.95)], Vector3(0, 1, 0.1))
+	mesh.quad("roof_broken", [Vector3(-1.0, 2.15, -0.9), Vector3(1.0, 2.35, -0.9), Vector3(1.0, 2.5, 0.95), Vector3(-1.0, 2.3, 0.95)], Vector3(0, -1, -0.1))
+	CapitalKit.card(mesh, "CAP-SHEET-OUTPOST-05", Vector3(0.1, 0.9, 0.74), 0.9, Vector3(0, 0, 1))
+	return CapitalLandmarks.finish(root, mesh, [], 2.6)
+
+
+## A civic kiosk inside the walls (the exit interview booth): white plaster, a gold band, a mirrored window you cannot see into, a little blue
+## hipped roof with a gold finial.
+static func civic_kiosk(final_state: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh, Color(0.62, 0.57, 0.5) if final_state else Color.WHITE)
+	mesh.box("plaster", Vector3(0, 1.1, 0), Vector3(1.6, 2.2, 1.4), Basis.IDENTITY, 0.03, 0.82)
+	mesh.box("trim", Vector3(0, 2.05, 0), Vector3(1.66, 0.22, 1.46))
+	CapitalKit.arched_window(mesh, Vector3(0, 0.9, 0.71), 0.9, 1.0, Vector3(0, 0, 1), "mirror")
+	CapitalCastle._hip_roof(mesh, Vector3(0, 2.2, 0), Vector2(1.9, 1.7), 0.8, "roof_blue")
+	CapitalKit.finial(mesh, Vector3(0, 2.95, 0), 0.5)
+	return CapitalLandmarks.finish(root, mesh, [], 3.4)
+
+
+## The wreck in the camp's far corner: the rubble sheet's broken cart, and with `stack` its scattered crates beside it.
+static func kit_wreck(stack: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	CapitalKit.tree_card(root, "CAP-SHEET-RUBBLE-02", Vector3.ZERO, 1.7)
+	if stack:
+		CapitalKit.tree_card(root, "CAP-SHEET-RUBBLE-06", Vector3(-1.1, 0, 1.0), 1.2)
 	return root
 
 

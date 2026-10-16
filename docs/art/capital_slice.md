@@ -189,3 +189,29 @@ The face of the finale, matched to its concept and to PAINTOVER-CAP-PALACE-APPRO
 | From the districts: the Transit Yards, Grave Row | ![](capital_slice/b_po_transit_yards.jpg) | ![](capital_slice/b_po_grave_row.jpg) |
 
 Also in Part B: the rift's tear keeps its HDR only in its rim (a brighter tear bloomed over its own dark heart). **fps on Medium**: the approach 59.9, the plaza, the Gate Road and the rift fields 60.0. **Checks**: 1594 GUT, all passing (the castle never reaches onto the forecourt, the crown sign; a stray backup of the builder in an ignored folder broke the compile-all test once and was removed).
+
+## Part C: outside
+
+Bleak but readable, per the five outside paint-overs:
+
+- **Ground**: the painted terrain of earlier batches (TEX-CAP-ASH, -DEADGRASS, -CRACKEDROAD), the kit's rift-scorched earth (CAP-GROUND-RIFT) and crystals (CAP-PLANT-CRYSTAL) only round the rifts, soft ash drifts (CAP-DEC-ASH) over the open ground and under the clusters, the painted scorch and crack decals.
+- **Ruins and wreckage**: the outpost's fallen houses (pale crumbling CAP-WALL-RUIN, slumped CAP-ROOF-BROKEN, charred timbers, the outpost sheet's splintered and barred doors and broken windows), the abandoned checkpoints as board shacks with boarded windows, the wasteland's edge clusters of dead trees (CAP-TREE-DEAD), ash-stone ruins and the rubble sheet's pieces, the toppled statue as Primm's broken marble head on a gold-banded plinth slab, the camp's wreck as the broken cart and scattered crates, the map's south and side edges as kit rubble and ash stone (they were boulders the painted binding drew as red brick).
+- **The rifts**: bright purple, the strongest colour outside, each with a real light pulsing gently (reach 4-6 m, Part A).
+- **The great wall**: flawless and pristine against the ruin, the gold-trimmed gate (two white leaves in gold lattice with Primm's emblem, CAP-29) under the radiant sun-emblem, a few hairline cracks.
+- **The resistance camp**: the only warm light outside (the flickering fire, the lantern rope, the tents' lanterns, CAP-26, CAP-28), the four Paths' colours and essences on its canvas, sheltered by its ruins.
+- **Grade** (CAP-27): from near-grey to the paint-overs' mauve-brown overcast dusk; median luma now 96-110 (paint-overs 82-109, the layout pass 60-69), the hero the clearest thing on screen.
+
+| | |
+|---|---|
+| ![](capital_slice/c_po_gate_road.jpg) GATE-ROAD | ![](capital_slice/c1_gate_closed.jpg) the gate closed (before the gate battle) |
+| ![](capital_slice/c_po_resistance_camp.jpg) RESISTANCE-CAMP | ![](capital_slice/c_po_rift_fields.jpg) RIFT-FIELDS |
+| ![](capital_slice/c_po_ruined_outpost.jpg) RUINED-OUTPOST | |
+
+| image | mean RGB | luma p5 / p50 / p95 | saturation |
+|---|---|---|---|
+| PAINTOVER-CAP-GATE-ROAD | 116, 97, 92 | 40 / 101 / 172 | 0.25 |
+| after Part C | 132, 117, 116 | 56 / 105 / 199 | 0.15 |
+| PAINTOVER-CAP-RESISTANCE-CAMP | 101, 83, 81 | 33 / 82 / 163 | 0.23 |
+| after Part C | 132, 114, 114 | 55 / 110 / 197 | 0.17 |
+
+**fps on Medium**: 60.0 at all four outside cameras. **Checks**: 1595 GUT; the outskirts' presets stay "sickly" and the blackout darker (two art tests caught the first pass and the colour moved into the post grade), the outside lights test added.
