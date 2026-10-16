@@ -111,3 +111,26 @@ The zone kit (`Approved_ZoneKits/VerdantDump`, 33 files, and the six paint-overs
 **What the Part A shots show** (the list for the next parts): the land floats over a flat beige plane (the far ground 26 m down, through the fog) where the paint-overs have land, forest and mountains to the horizon; the ground is one dark brown where they have green clover, orange paths and flowers; the old rusty junk models, the white tyre-wall slabs and the pale divider posts are still there; the Rotheart stands dead centre and too near in every view where the paint-overs set it upper right, far and whole.
 
 **fps on Medium** after Part A: po_hub 59.9 (min 55.4, 726 draw calls), po_wetlands 60.0, po_farm_rows 60.0.
+
+## Art Part B: the Rotheart
+
+The zone's centrepiece and the main dungeon's goal (`HeapLandmarks._rotheart`, `root_gate`), modelled after DUMP-HERO-ROTHEART and the WETLANDS paint-over.
+
+- **Where and how big** (VD-14): on the zone's centre line beyond the north rim at (50, -30), 76 x 46 x 56 m. The Cinematic camera shows only about 11 degrees of sky, so from the hub (100 m) a tall crown sat wholly above the frame and every view saw a bare trunk; the paint-overs show the canopy. Pushing the tree hundreds of metres out would have cut it off from its gate. Instead the crown is low and wide: a trunk to 20 m, nine long arms weeping outward from 16 m, a canopy about 70 m across whose underside and hanging moss fringe the top of the hub, stream and wetlands views like the wetlands paint-over, with the trunk and its glowing hollow framed under it. The paint-overs each set it upper right; one tree cannot be upper right from six cameras 70 m apart and still stand over its door at the centre, so it stays centred (its gate is the end of the wetlands road).
+- **The model**: a broad trunk with eleven root strands twisting round it and moss on them; the heart-shaped hollow framed by two great strands that part round it and meet over it like lips, two thinner strands crossing its foot; inside, one gradient glow (bright core low in the middle, dark violet rim) on an unshaded material whose colour pulses, never a flat icon (VD-15: soft lobes first made a face in the doorway); violet motes drifting out; fourteen veins cracking out across the bark; thirteen mutated fungi (some in pairs) on the strands, the arms and the roots; doors half sunk in the bark, a spoked wagon wheel, pipes threading the strands, a treehouse lookout with a lit window and a rag flag in the crown; green-and-gold canopy clumps (a dark underside, five or six lobes, light lobes on top where the low sun catches them) with tapering moss drapes and a little wisteria; arching roots at the sides like the concept, short ones behind, and four long approach roots with violet veins and fungi running south over the corrupted mound to the root gate (meta `approach`).
+- **The heart's light**: one real violet OmniLight in front of the hollow (range 30 m), pulsed with the glow (a gentle double beat about every five seconds, `HeapBuilder._pulse_heart`); the root gate's doorway pulses in step.
+- **The root gate** (the main dungeon's door, `HEAP-ROOT-GATE` at (50, 5.5), its blocking circles unchanged): the approach roots end in two great roots rising either side and arching round over a heart-shaped doorway lit violet from within, a thinner violet strand twisting round each, side roots spreading back to the rim (never south), fungi and moss; the way in invites: a plank walk (DUMP-PATH-PLANK) from the wetlands road to the threshold between two warm lanterns on posts (thin and not solid, VD-16); the icon board (ICON-MAP-DUNGEON) beside it, no lettering, no placeholder shapes. The main_dungeon spot and its interaction are unchanged.
+- **Freed**: `HeapLandmarks.set_freed` turns the heart, the veins, the fungi, the wisteria and the gate's doorway a soft green and dims them (wired to the zone's freed state in Part C).
+
+| | |
+|---|---|
+| The Rotheart alone (kit bench, 85 m) | ![](heap_slice/rh_front.jpg) |
+| The root gate from the main_dungeon spot | ![](heap_slice/b_gate.jpg) |
+| From the hub | ![](heap_slice/b_compare_hub.jpg) |
+| From the farm rows | ![](heap_slice/b_compare_farm_rows.jpg) |
+| From the stream | ![](heap_slice/b_compare_stream.jpg) |
+| From the wetlands | ![](heap_slice/b_compare_wetlands.jpg) |
+
+It reads in every view: the hollow's violet is the brightest accent under the crown from the hub, the stream and the wetlands; from the farm rows the windmill frames it on the left. Still to come: the ground and the old junk around it (Parts C, D) and the haze that turns the bark orange at 100 m (Part E).
+
+**Checks**: `test_the_rotheart_is_the_concept_model_with_a_living_heart` (the concept model, the pulsing glow, one light, the motes, the approach roots ending at the gate, freed and back, the walk and the doorway glow); 1570 GUT, 1569 passing (GC-6); 60 fps Medium at po_hub, po_wetlands and the main_dungeon spot.

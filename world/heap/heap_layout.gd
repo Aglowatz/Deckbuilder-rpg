@@ -56,8 +56,8 @@ const ENTRANCE_RAIL: float = 0.3
 ## the north rim, seen from the whole zone, with its root gate on the land where the main_dungeon spot stands; Junk Mountain is a view beyond the
 ## north-east corner over the scree; the Trash Panda Throne (the side dungeon's door) stands beyond the north-west rim at the end of the avenue; the
 ## windmill stands at the farm rows' west edge; the greenhouse is the Commons' centrepiece.
-const ROTHEART: Vector2 = Vector2(50.0, -16.0)
-const ROTHEART_SIZE: Vector3 = Vector3(44.0, 46.0, 44.0)
+const ROTHEART: Vector2 = Vector2(50.0, -30.0)
+const ROTHEART_SIZE: Vector3 = Vector3(76.0, 46.0, 56.0)
 const ROOT_GATE: Vector2 = Vector2(50.0, 5.5)
 const ROOT_GATE_SIZE: Vector3 = Vector3(10.0, 6.0, 4.0)
 const JUNK_MOUNTAIN: Vector2 = Vector2(108.0, -6.0)

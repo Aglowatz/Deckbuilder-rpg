@@ -20,8 +20,8 @@ const SLATE: Color = Color("5c6b5e")
 const BARK: Color = Color("8b6d4c")
 const CREAM: Color = Color("e9d8a6")
 ## The Rotheart's bark (the concept's warm mauve-brown), its shadow side and its sickly violet.
-const ROT_BARK: Color = Color("94664f")
-const ROT_BARK_DARK: Color = Color("5e3c38")
+const ROT_BARK: Color = Color("7e5848")
+const ROT_BARK_DARK: Color = Color("4c3036")
 const ROT_VIOLET: Color = Color("6e4468")
 const LEAF: Color = Color("7c8f45")
 const LEAF_LIGHT: Color = Color("b4b84c")
@@ -34,7 +34,7 @@ const FREED_GREEN: Color = Color("9ee070")
 const WARM: Color = Color("ffc070")
 const CARD_UVS: Array[Vector2] = [Vector2(0, 1), Vector2(1, 1), Vector2(1, 0), Vector2(0, 0)]
 ## The Rotheart trunk's radius profile (radius, height) in metres at 46 m tall; the hollow, the strands and the veins sit on it.
-const TRUNK: Array[Vector2] = [Vector2(9.0, 0.0), Vector2(7.2, 2.5), Vector2(5.9, 7.0), Vector2(5.3, 13.0), Vector2(4.8, 18.0), Vector2(5.4, 21.0), Vector2(4.0, 24.0)]
+const TRUNK: Array[Vector2] = [Vector2(11.0, 0.0), Vector2(9.0, 3.0), Vector2(7.6, 7.0), Vector2(7.0, 11.0), Vector2(6.6, 14.5), Vector2(7.6, 17.0), Vector2(5.4, 20.0)]
 
 
 static func has_model(id: String) -> bool:
@@ -147,7 +147,7 @@ static func _materials(mesh: KitMesh) -> void:
 	mesh.set_material("window_glow", EnvKit.glow(Color("ffc070"), 1.3))
 	mesh.set_material("fungus", own_glow(Color("c080f0"), 0.55))
 	mesh.set_material("veins", own_glow(VIOLET, 1.6))
-	mesh.set_material("heart", own_glow(VIOLET, 2.6))
+	mesh.set_material("heart", heart_glow(Color(1.15, 0.55, 1.55)))
 	mesh.set_material("hollow", own_glow(VIOLET_DEEP, 0.9))
 	mesh.set_material("wisteria", own_glow(Color("a070e0"), 0.45))
 
@@ -218,6 +218,16 @@ static func _ellipsoid(mesh: KitMesh, slot: String, center: Vector3, radii: Vect
 				mesh.quad(slot, corners, outward)
 
 
+## A drape of hanging moss: two crossed strips tapering from `width` at the top to a point `length` below (both faces), turned by `yaw`.
+static func _drape(mesh: KitMesh, slot: String, top: Vector3, length: float, width: float, yaw: float) -> void:
+	for turn: float in [0.0, PI * 0.5]:
+		var across: Vector3 = Vector3(cos(yaw + turn), 0, sin(yaw + turn)) * width * 0.5
+		var normal: Vector3 = Vector3.UP.cross(across).normalized()
+		var tip: Vector3 = top - Vector3(0, length, 0) + across * 0.3
+		mesh.tri(slot, [top - across, top + across, tip], normal)
+		mesh.tri(slot, [top + across, top - across, tip], -normal)
+
+
 ## A mushroom: a pale stem and a glowing cap (the Rot's mutated fungi). `up` tilts it off the surface it grows from.
 static func _mushroom(mesh: KitMesh, base: Vector3, size: float, up: Vector3 = Vector3.UP) -> void:
 	var top: Vector3 = base + up.normalized() * size * 0.75
@@ -241,6 +251,41 @@ static func _heart(mesh: KitMesh, slot: String, center: Vector3, w: float, h: fl
 		previous = point
 
 
+## The light inside a heart-shaped hollow: a heart fan whose vertex colour runs from bright at a core low in the middle to dark at the rim, on an unshaded
+## glow (`heart_glow`), so it reads as light deep in a hollow rather than a flat icon; the material's colour sets the hue and pulses.
+static func _glow_heart(mesh: KitMesh, slot: String, center: Vector3, w: float, h: float, normal: Vector3) -> void:
+	var right: Vector3 = Vector3.UP.cross(normal).normalized() * -1.0
+	var steps: int = 32
+	var core: Vector3 = center + Vector3(0, -h * 0.12, 0) + normal * 0.02
+	var bright: Color = Color(1.0, 1.0, 1.0)
+	var dark: Color = Color(0.04, 0.02, 0.06)
+	var mid_ring: Array[Vector3] = []
+	var rim_ring: Array[Vector3] = []
+	for index: int in range(steps + 1):
+		var t: float = TAU * float(index) / float(steps)
+		var sx: float = 16.0 * pow(sin(t), 3.0)
+		var sy: float = 13.0 * cos(t) - 5.0 * cos(2.0 * t) - 2.0 * cos(3.0 * t) - cos(4.0 * t)
+		var point: Vector3 = center + right * (sx / 32.0 * w) + Vector3(0, (sy + 2.5) / 29.0 * h, 0)
+		rim_ring.append(point)
+		mid_ring.append(core.lerp(point, 0.45))
+	var middle: Color = Color(0.42, 0.3, 0.48)
+	for index: int in range(1, steps + 1):
+		mesh.tri(slot, [core, mid_ring[index - 1], mid_ring[index]], normal, [bright, middle, middle])
+		mesh.quad(slot, [mid_ring[index - 1], mid_ring[index], rim_ring[index], rim_ring[index - 1]], normal, [middle, middle, dark, dark])
+
+
+## The unshaded vertex-coloured glow of a heart hollow (its colour is the hue; the builder pulses it, `set_freed` turns it green).
+static func heart_glow(color: Color) -> StandardMaterial3D:
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.vertex_color_use_as_albedo = true
+	material.albedo_color = color
+	material.set_meta("base_color", color)
+	material.set_meta(PaintedClasses.META_NO_PAINT, true)
+	material.set_meta(StyleToon.META_NO_TOON, true)
+	return material
+
+
 ## The Rotheart trunk's radius at height `y` (metres, the 46 m profile scaled by `s`).
 static func _trunk_r(y: float, s: float) -> float:
 	var local: float = y / s
@@ -261,160 +306,224 @@ static func _on_trunk(angle: float, y: float, s: float, out: float = 0.0) -> Vec
 # ---- the Rotheart -----------------------------------------------------------------------------------------------------------------------
 
 
-## The main dungeon's goal (DUMP-HERO-ROTHEART): a colossal knot of twisting root strands round a trunk, a heart-shaped hollow in its front with a slow
-## violet pulse (meta "heart": its glow material; the builder animates it and its real light), mutated fungi climbing it, hanging moss and wisteria under
-## a wide umbrella canopy, swallowed scrap (doors, a wheel, pipes, a treehouse in the crown), and roots spilling outward over a corrupted mound toward
-## the player's approach. It was once beautiful: the canopy is still green and gold, the violet is the sickness in it. A view beyond the north rim.
+## The main dungeon's goal (DUMP-HERO-ROTHEART), after the concept and the WETLANDS paint-over: a colossal knot of root strands twisting round a broad
+## trunk; a heart-shaped hollow in its front, layered dark rim to deep violet to a bright heart, with violet motes drifting out and a slow pulse (meta
+## "heart": its glow material, the builder animates it and its real light); violet veins cracking out across the bark; mutated fungi climbing the strands,
+## the arms and the roots; a wide umbrella canopy of green and gold clumps on long twisting arms with hanging moss and a little wisteria; swallowed
+## scrap (doors, a wagon wheel, pipes, a treehouse lookout in the crown); arching roots and long approach roots spilling outward over a corrupted mound
+## toward the player's approach (meta "approach": the local point the longest ones reach, where the root gate stands). Awe and sadness, not menace: the
+## canopy is still green and gold, the violet is the sickness in it. A view beyond the north rim (nothing blocks).
 static func _rotheart(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vector3], lights: Array[Dictionary]) -> void:
 	var s: float = size.y / 46.0
+	var wide: float = size.x / 44.0 * 0.75
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 1201
 	var front: float = PI * 0.5
-	# the mound it grows from: corrupted soil sinking under the land's north rim
-	_ellipsoid(mesh, "corrupt_ground", Vector3(0, -5.6 * s, 2.0 * s), Vector3(size.x * 0.62, 6.4 * s, size.z * 0.54), 5, 20, 0.0)
-	for index: int in range(9):
+	# the mound it grows from: corrupted soil sinking under the land's north rim, moss and violet lumps on it
+	_ellipsoid(mesh, "corrupt_ground", Vector3(0, -6.0 * s, 4.0 * s), Vector3(size.x * 0.66, 6.8 * s, size.z * 0.7), 5, 22, 0.0)
+	for index: int in range(14):
 		var a: float = rng.randf() * TAU
-		var r: float = rng.randf_range(10.0, 20.0) * s
-		mesh.blob("leaf_dark" if index % 2 == 0 else "bark_violet", Vector3(cos(a) * r, 0.2 * s, sin(a) * r + 2.0 * s), Vector3(2.6, 0.9, 2.2) * s, 3, 8, 0.85)
+		var r: float = rng.randf_range(11.0, 24.0) * s
+		_ellipsoid(mesh, ["leaf_dark", "bark_violet", "leaf"][index % 3], Vector3(cos(a) * r, -0.2 * s, sin(a) * r + 4.0 * s), Vector3(3.0, 1.0, 2.4) * s * rng.randf_range(0.7, 1.3), 3, 9, 0.0)
 	# the trunk core and the strands twisting round it (none across the hollow in front)
-	mesh.lathe("bark", Vector3.ZERO, _scaled(TRUNK, s), 16, 0.8, false, true)
-	for index: int in range(9):
-		var a0: float = front + deg_to_rad(48.0 + 33.0 * float(index))
-		var twist: float = 0.9 if a0 - front < PI else -0.9
+	mesh.lathe("bark", Vector3.ZERO, _scaled(TRUNK, s), 18, 0.75, false, true)
+	for index: int in range(11):
+		var a0: float = front + deg_to_rad(44.0 + 27.0 * float(index))
+		var twist: float = 1.0 if a0 - front < PI else -1.0
 		var points: Array[Vector3] = []
-		for step: int in range(6):
-			var t: float = float(step) / 5.0
-			var y: float = t * 23.0 * s
-			var a: float = a0 + twist * t * t
-			points.append(_on_trunk(a, y, s, (1.3 - t * 0.5) * s) + Vector3(0, 0, 0))
-		points[0] = Vector3(cos(a0) * 8.2 * s, 0.4 * s, sin(a0) * 8.2 * s)
-		_limb(mesh, "bark" if index % 3 != 1 else "bark_dark", points, 2.3 * s, 1.4 * s, 8)
-	# the heart-shaped hollow: two great strands parting round it and meeting over it like lips, a dark rim, the deep violet, the glowing heart
-	var heart_y: float = 10.5 * s
+		for step: int in range(7):
+			var t: float = float(step) / 6.0
+			var y: float = t * 19.5 * s
+			var a: float = a0 + twist * t * t * 1.1
+			points.append(_on_trunk(a, y, s, (1.5 - t * 0.6) * s))
+		points[0] = Vector3(cos(a0) * 10.5 * s, 0.3 * s, sin(a0) * 10.5 * s)
+		_limb(mesh, ["bark", "bark_dark", "bark", "bark_violet"][index % 4], points, 2.6 * s, 1.5 * s, 9)
+	# moss on the bark: flat green patches on the strands
+	for index: int in range(16):
+		var a: float = front + deg_to_rad(rng.randf_range(40.0, 320.0))
+		var y: float = rng.randf_range(2.0, 18.0) * s
+		_ellipsoid(mesh, "leaf" if index % 2 == 0 else "leaf_dark", _on_trunk(a, y, s, 1.6 * s), Vector3(1.8, 1.1, 1.8) * s, 3, 8, 0.0)
+	# the heart-shaped hollow: two great strands parting round it and meeting over it like lips; the rim, the deep violet, the bright heart, motes
+	var heart_y: float = 9.8 * s
 	var heart_z: float = _trunk_r(heart_y, s)
 	for side: float in [-1.0, 1.0]:
 		var lip: Array[Vector3] = [
-			Vector3(side * 4.6 * s, 0.4 * s, 5.6 * s), Vector3(side * 4.9 * s, 5.0 * s, heart_z + 0.5 * s), Vector3(side * 4.7 * s, 10.0 * s, heart_z + 0.9 * s),
-			Vector3(side * 3.0 * s, 15.0 * s, heart_z + 0.7 * s), Vector3(side * 0.6 * s, 17.4 * s, heart_z - 0.2 * s), Vector3(-side * 1.6 * s, 20.0 * s, heart_z - 1.4 * s),
+			Vector3(side * 6.6 * s, 0.3 * s, 7.6 * s), Vector3(side * 6.4 * s, 4.0 * s, heart_z + 0.9 * s), Vector3(side * 6.2 * s, 9.0 * s, heart_z + 1.3 * s),
+			Vector3(side * 4.6 * s, 14.0 * s, heart_z + 1.1 * s), Vector3(side * 1.2 * s, 16.5 * s, heart_z + 0.2 * s), Vector3(-side * 2.0 * s, 19.0 * s, heart_z - 1.4 * s),
 		]
-		_limb(mesh, "bark", lip, 1.9 * s, 1.3 * s, 9)
-	_heart(mesh, "bark_dark", Vector3(0, heart_y, heart_z + 0.35 * s), 8.2 * s, 9.2 * s, Vector3(0, 0, 1))
-	_heart(mesh, "hollow", Vector3(0, heart_y + 0.1 * s, heart_z + 0.5 * s), 6.8 * s, 7.9 * s, Vector3(0, 0, 1))
-	_heart(mesh, "heart", Vector3(0, heart_y + 0.4 * s, heart_z + 0.62 * s), 3.6 * s, 4.2 * s, Vector3(0, 0, 1))
+		_limb(mesh, "bark", lip, 2.3 * s, 1.5 * s, 10)
+		# a root strand crossing the bottom of the hollow, as in the concept
+		_limb(mesh, "bark_dark", [Vector3(side * 5.4 * s, 4.0 * s, heart_z + 1.0 * s), Vector3(side * 2.0 * s, 6.2 * s, heart_z + 1.2 * s), Vector3(-side * 1.0 * s, 5.0 * s, heart_z + 1.4 * s)], 0.9 * s, 0.5 * s, 7)
+	_heart(mesh, "bark_dark", Vector3(0, heart_y, heart_z + 0.4 * s), 11.5 * s, 13.0 * s, Vector3(0, 0, 1))
+	_glow_heart(mesh, "heart", Vector3(0, heart_y + 0.2 * s, heart_z + 0.55 * s), 9.8 * s, 11.2 * s, Vector3(0, 0, 1))
+	var motes: CPUParticles3D = CPUParticles3D.new()
+	motes.name = "HeartMotes"
+	motes.amount = 18
+	motes.lifetime = 7.0
+	motes.preprocess = 7.0
+	motes.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+	motes.emission_box_extents = Vector3(3.0, 3.5, 0.5) * s
+	motes.direction = Vector3(0.0, 0.6, 1.0)
+	motes.spread = 35.0
+	motes.initial_velocity_min = 0.4
+	motes.initial_velocity_max = 1.2
+	motes.gravity = Vector3(0, 0.05, 0)
+	motes.scale_amount_min = 0.6
+	motes.scale_amount_max = 1.4
+	var mote_mesh: SphereMesh = SphereMesh.new()
+	mote_mesh.radius = 0.14 * s
+	mote_mesh.height = 0.28 * s
+	mote_mesh.radial_segments = 6
+	mote_mesh.rings = 3
+	motes.mesh = mote_mesh
+	motes.material_override = mesh_material(mesh, "veins")
+	motes.position = Vector3(0, heart_y, heart_z + 1.2 * s)
+	root.add_child(motes)
 	# violet veins cracking out from the hollow across the bark
-	for index: int in range(10):
-		var a: float = front + deg_to_rad(rng.randf_range(-70.0, 70.0))
-		var y0: float = heart_y + rng.randf_range(-3.0, 3.0) * s
+	for index: int in range(14):
+		var a: float = front + deg_to_rad(rng.randf_range(-80.0, 80.0))
+		var y0: float = heart_y + rng.randf_range(-4.0, 4.0) * s
 		var points: Array[Vector3] = []
-		for step: int in range(4):
-			var t: float = float(step) / 3.0
-			var aa: float = lerpf(front + (a - front) * 0.35, a, t)
-			points.append(_on_trunk(aa, y0 + (rng.randf_range(-1.0, 1.0) + (t * 6.0 if index % 2 == 0 else -t * 5.0)) * s, s, 0.25 * s))
-		_limb(mesh, "veins", points, 0.16 * s, 0.07 * s, 4)
-	# swallowed scrap: doors half sunk in the bark, a wagon wheel, pipes threading the strands
-	for index: int in range(5):
-		var a: float = front + deg_to_rad([-95.0, 80.0, 150.0, -150.0, 115.0][index])
-		var y: float = [6.0, 14.0, 4.0, 11.0, 19.0][index] * s
-		var at: Vector3 = _on_trunk(a, y, s, 0.2 * s)
-		var basis: Basis = Basis.looking_at(Vector3(cos(a), 0, sin(a)), Vector3.UP).rotated(Vector3(cos(a), 0, sin(a)), rng.randf_range(-0.4, 0.4))
-		mesh.box("doors", at, Vector3(1.8, 3.2, 0.3) * s, basis, 0.03, 0.9)
-	var wheel_at: Vector3 = _on_trunk(front + deg_to_rad(-60.0), 4.0 * s, s, 0.6 * s)
-	var wheel_axis: Vector3 = Vector3(cos(front - deg_to_rad(60.0)), 0.0, sin(front - deg_to_rad(60.0)))
-	mesh.tube("rust", wheel_at, wheel_at + wheel_axis * 0.35 * s, 1.7 * s, 14, true)
-	mesh.tube("metal_dark", wheel_at + wheel_axis * 0.2 * s, wheel_at + wheel_axis * 0.6 * s, 0.4 * s, 8, true)
+		for step: int in range(5):
+			var t: float = float(step) / 4.0
+			var aa: float = lerpf(front + (a - front) * 0.3, a, t)
+			points.append(_on_trunk(aa, y0 + (rng.randf_range(-1.0, 1.0) + (t * 7.0 if index % 2 == 0 else -t * 6.0)) * s, s, 0.3 * s))
+		_limb(mesh, "veins", points, 0.2 * s, 0.07 * s, 4)
+	# swallowed scrap: doors half sunk in the bark, a wagon wheel, pipes threading the strands (none across the hollow)
+	for index: int in range(6):
+		var a: float = front + deg_to_rad([-100.0, 95.0, 150.0, -150.0, 125.0, -125.0][index])
+		var y: float = [6.0, 13.0, 4.0, 11.0, 17.0, 15.5][index] * s
+		var at: Vector3 = _on_trunk(a, y, s, 0.4 * s)
+		var basis: Basis = Basis.looking_at(Vector3(cos(a), 0, sin(a)), Vector3.UP).rotated(Vector3(cos(a), 0, sin(a)), rng.randf_range(-0.5, 0.5))
+		mesh.box("doors", at, Vector3(2.0, 3.6, 0.35) * s, basis, 0.03, 0.9)
+	var wheel_a: float = front + deg_to_rad(-62.0)
+	var wheel_axis: Vector3 = Vector3(cos(wheel_a), 0.0, sin(wheel_a))
+	var wheel_at: Vector3 = _on_trunk(wheel_a, 4.5 * s, s, 0.8 * s)
+	mesh.tube("rust", wheel_at, wheel_at + wheel_axis * 0.4 * s, 1.9 * s, 16, true)
+	mesh.tube("wood_dark", wheel_at + wheel_axis * 0.2 * s, wheel_at + wheel_axis * 0.7 * s, 0.45 * s, 8, true)
+	for spoke: int in range(6):
+		var a: float = TAU * float(spoke) / 6.0
+		var out: Vector3 = (Vector3.UP.cross(wheel_axis).normalized() * cos(a) + Vector3.UP * sin(a)) * 1.7 * s
+		mesh.tube("wood_dark", wheel_at + wheel_axis * 0.45 * s, wheel_at + wheel_axis * 0.45 * s + out, 0.12 * s, 4, false)
 	for index: int in range(3):
-		var a: float = front + deg_to_rad(-140.0 + 120.0 * float(index))
-		var p0: Vector3 = _on_trunk(a, (3.0 + 6.0 * float(index)) * s, s, 1.2 * s)
-		var p1: Vector3 = _on_trunk(a + 0.5, (7.0 + 6.0 * float(index)) * s, s, 1.8 * s)
-		mesh.tube("rust_dark", p0, p1, 0.45 * s, 8, true)
-	# the crown: a central leader and six arms, sub-branches, the canopy clusters at their ends
-	var crown_base: float = 21.0 * s
+		var a: float = front + deg_to_rad(-150.0 + 110.0 * float(index))
+		var p0: Vector3 = _on_trunk(a, (3.0 + 7.0 * float(index)) * s, s, 1.6 * s)
+		var p1: Vector3 = _on_trunk(a + 0.45, (8.0 + 7.0 * float(index)) * s, s, 2.2 * s)
+		mesh.tube("rust_dark", p0, p1, 0.5 * s, 8, true)
+	# the crown: a central leader and seven long twisting arms, sub-branches, the canopy clumps at their ends
+	var crown_base: float = 16.0 * s
 	var tips: Array[Vector3] = []
-	var arms: Array[Vector3] = [Vector3(0.0, 17.0, 0.42), Vector3(180.0, 17.5, 0.4), Vector3(35.0, 14.0, 0.55), Vector3(145.0, 14.5, 0.55), Vector3(235.0, 13.0, 0.5), Vector3(305.0, 13.0, 0.5)]
+	var arms: Array[Vector3] = [Vector3(-6.0, 27.0, 0.2), Vector3(186.0, 27.0, 0.2), Vector3(28.0, 26.0, 0.24), Vector3(152.0, 26.0, 0.24), Vector3(60.0, 18.0, 0.3), Vector3(120.0, 18.0, 0.3), Vector3(228.0, 22.0, 0.28), Vector3(312.0, 22.0, 0.28), Vector3(270.0, 15.0, 0.4)]
 	for arm: Vector3 in arms:
 		var a: float = deg_to_rad(arm.x)
 		var direction: Vector3 = Vector3(cos(a), 0, sin(a))
-		var length: float = arm.y * s
-		var start: Vector3 = Vector3(direction.x * 3.0 * s, crown_base, direction.z * 3.0 * s)
-		var mid: Vector3 = start + direction * length * 0.5 + Vector3(0, length * arm.z * 0.9, 0)
-		var end: Vector3 = start + direction * length + Vector3(0, length * arm.z * 0.75, 0)
-		_limb(mesh, "bark", [start, start + direction * length * 0.22 + Vector3(0, length * 0.3, 0), mid, end], 2.2 * s, 0.7 * s, 8)
-		var side: Vector3 = Vector3(-direction.z, 0, direction.x) * (1.0 if int(arm.x) % 2 == 0 else -1.0)
-		var sub_end: Vector3 = mid + (direction * 0.4 + side * 0.6).normalized() * 6.5 * s + Vector3(0, 4.5 * s, 0)
-		_limb(mesh, "bark_dark", [mid, mid + (sub_end - mid) * 0.5 + Vector3(0, 1.0 * s, 0), sub_end], 0.9 * s, 0.45 * s, 6)
+		var side: Vector3 = Vector3(-direction.z, 0, direction.x)
+		var length: float = arm.y * s * wide
+		var start: Vector3 = Vector3(direction.x * 3.5 * s, crown_base, direction.z * 3.5 * s)
+		var bend: float = rng.randf_range(-2.5, 2.5) * s
+		var p1: Vector3 = start + direction * length * 0.25 + Vector3(0, length * arm.z * 0.8, 0) + side * bend
+		var p2: Vector3 = start + direction * length * 0.55 + Vector3(0, length * arm.z * 0.95, 0) - side * bend
+		var end: Vector3 = start + direction * length + Vector3(0, length * arm.z * 0.45, 0)
+		_limb(mesh, "bark", [start, p1, p2, end], 2.6 * s, 0.8 * s, 9)
+		var sub_side: Vector3 = side * (1.0 if int(arm.x) % 2 == 0 else -1.0)
+		var sub_end: Vector3 = p2 + (direction * 0.35 + sub_side * 0.65).normalized() * 8.0 * s + Vector3(0, 5.0 * s, 0)
+		_limb(mesh, "bark_dark", [p2, p2 + (sub_end - p2) * 0.5 + Vector3(0, 1.2 * s, 0), sub_end], 1.1 * s, 0.5 * s, 7)
 		tips.append(end)
 		tips.append(sub_end)
-	var leader_top: Vector3 = Vector3(0.5 * s, 35.0 * s, -1.5 * s)
-	_limb(mesh, "bark", [Vector3(0, crown_base, -0.5 * s), Vector3(-1.0 * s, 27.0 * s, -1.0 * s), Vector3(1.0 * s, 31.0 * s, -1.2 * s), leader_top], 2.4 * s, 1.0 * s, 8)
+		tips.append(p1 + Vector3(0, 3.0 * s, 0) - side * 2.0 * s)
+	var leader_top: Vector3 = Vector3(0.5 * s, 30.0 * s, -2.0 * s)
+	_limb(mesh, "bark", [Vector3(0, crown_base, -0.5 * s), Vector3(-1.4 * s, 22.0 * s, -1.0 * s), Vector3(1.2 * s, 26.5 * s, -1.5 * s), leader_top], 2.8 * s, 1.1 * s, 9)
 	tips.append(leader_top)
-	tips.append(Vector3(-7.0 * s, 33.0 * s, 1.0 * s))
-	tips.append(Vector3(7.5 * s, 32.5 * s, -2.5 * s))
-	tips.append(Vector3(0.0 * s, 31.5 * s, 6.0 * s))
+	tips.append(Vector3(-9.0 * s, 28.0 * s, 2.0 * s))
+	tips.append(Vector3(9.5 * s, 27.0 * s, -3.0 * s))
+	tips.append(Vector3(0.0 * s, 25.0 * s, 9.0 * s))
+	tips.append(Vector3(-3.0 * s, 33.0 * s, -6.0 * s))
+	tips.append(Vector3(14.0 * s, 24.0 * s, 8.0 * s))
+	tips.append(Vector3(-14.0 * s, 24.0 * s, 8.0 * s))
 	for index: int in range(tips.size()):
 		var tip: Vector3 = tips[index]
-		var big: float = (7.5 if tip.y > 30.0 * s else 5.2) * s
-		mesh.blob("leaf_dark", tip + Vector3(0, -0.8 * s, 0), Vector3(big * 1.05, big * 0.5, big * 0.95), 4, 12, 0.85)
-		mesh.blob("leaf", tip + Vector3(0, 0.6 * s, 0), Vector3(big, big * 0.55, big * 0.9), 4, 12, 0.95)
-		for puff: int in range(4):
-			var a: float = TAU * float(puff) / 4.0 + float(index)
-			var offset: Vector3 = Vector3(cos(a) * big * 0.62, big * 0.28 + float(puff % 2) * big * 0.12, sin(a) * big * 0.55)
-			mesh.blob("leaf_light" if puff % 2 == 0 else "leaf", tip + offset, Vector3(big * 0.5, big * 0.36, big * 0.46), 3, 10, 1.0)
-		# hanging moss and a little wisteria under each cluster
-		for strand: int in range(7):
+		var big: float = (7.6 if tip.y > 26.0 * s else 6.2) * s * rng.randf_range(0.85, 1.15)
+		# a clump: a dark underside, a body of four to six overlapping lobes, light lobes on top where the low sun catches it
+		_ellipsoid(mesh, "leaf_dark", tip + Vector3(0, -0.6 * s, 0), Vector3(big * 1.0, big * 0.5, big * 0.95), 4, 14, -0.3)
+		var lobes: int = 5 + index % 2
+		for lobe: int in range(lobes):
+			var a: float = TAU * float(lobe) / float(lobes) + rng.randf() * 0.5
+			var r: float = big * rng.randf_range(0.35, 0.7)
+			var lift: float = big * rng.randf_range(0.0, 0.3)
+			_ellipsoid(mesh, "leaf", tip + Vector3(cos(a) * r, lift, sin(a) * r * 0.9), Vector3(big * 0.6, big * 0.55, big * 0.56), 5, 12, -0.5)
+		for lobe: int in range(3):
+			var a: float = TAU * float(lobe) / 3.0 + float(index)
+			_ellipsoid(mesh, "leaf_light", tip + Vector3(cos(a) * big * 0.3 - 0.8 * s, big * 0.42, sin(a) * big * 0.3 + 0.6 * s), Vector3(big * 0.42, big * 0.4, big * 0.4), 4, 10, -0.3)
+		# hanging moss under each clump, a little wisteria
+		for strand: int in range(9):
 			var a: float = rng.randf() * TAU
-			var r: float = rng.randf_range(0.3, 0.9) * big
-			var length: float = rng.randf_range(2.0, 6.0) * s
-			var top_point: Vector3 = tip + Vector3(cos(a) * r, -big * 0.35, sin(a) * r)
-			mesh.box("hanging_moss" if strand % 4 != 0 else "wisteria", top_point - Vector3(0, length * 0.5, 0), Vector3(0.32 * s, length, 0.32 * s), Basis.IDENTITY, 0.0, 0.9)
+			var r: float = rng.randf_range(0.3, 1.0) * big
+			var length: float = rng.randf_range(2.0, 7.0) * s
+			var top_point: Vector3 = tip + Vector3(cos(a) * r, -big * 0.3, sin(a) * r)
+			_drape(mesh, "hanging_moss" if strand % 5 != 0 else "wisteria", top_point, length, rng.randf_range(0.5, 1.1) * s, rng.randf() * PI)
 	# the fungi climbing it: on the strands, the lips of the hollow, the arms and the roots
 	var shrooms: Array[Vector4] = [
-		Vector4(-75.0, 3.0, 1.0, 2.6), Vector4(70.0, 6.0, 0.9, 2.0), Vector4(-35.0, 15.5, 1.0, 1.8), Vector4(42.0, 17.0, 1.0, 2.2), Vector4(120.0, 12.0, 1.2, 1.6),
-		Vector4(-120.0, 8.0, 1.2, 1.9), Vector4(18.0, 1.2, 1.4, 1.5), Vector4(-18.0, 1.0, 1.6, 1.2), Vector4(170.0, 20.0, 1.2, 2.4), Vector4(-60.0, 22.0, 2.0, 2.8),
-		Vector4(60.0, 23.0, 2.0, 2.4), Vector4(95.0, 4.5, 1.0, 1.4),
+		Vector4(-78.0, 3.0, 1.4, 3.0), Vector4(72.0, 7.0, 1.3, 2.3), Vector4(-42.0, 15.0, 1.4, 2.1), Vector4(44.0, 16.0, 1.4, 2.5), Vector4(118.0, 13.0, 1.6, 1.8),
+		Vector4(-118.0, 9.0, 1.6, 2.1), Vector4(28.0, 1.4, 2.6, 1.7), Vector4(-26.0, 1.2, 2.8, 1.4), Vector4(170.0, 17.0, 1.6, 2.6), Vector4(-62.0, 18.5, 2.4, 3.2),
+		Vector4(62.0, 19.0, 2.4, 2.8), Vector4(98.0, 5.0, 1.4, 1.6), Vector4(-95.0, 15.0, 1.6, 1.5),
 	]
 	for shroom: Vector4 in shrooms:
 		var a: float = front + deg_to_rad(shroom.x)
 		var base: Vector3 = _on_trunk(a, shroom.y * s, s, shroom.z * s)
 		_mushroom(mesh, base, shroom.w * s, Vector3(cos(a) * 0.5, 1.0, sin(a) * 0.5))
-	# the treehouse in the crown (the concept's lookout): a mossy plank shack on a platform with a tin roof and a lit window
-	var house: Vector3 = Vector3(5.5 * s, 27.0 * s, -3.0 * s)
-	mesh.box("plank", house + Vector3(0, -0.2 * s, 0), Vector3(5.0, 0.4, 4.4) * s, Basis.IDENTITY, 0.03)
-	mesh.box("mosswood", house + Vector3(0, 1.6 * s, 0), Vector3(3.4, 3.2, 3.0) * s, Basis.IDENTITY, 0.03, 0.85)
+		if int(shroom.x) % 3 == 0:
+			_mushroom(mesh, base + Vector3(cos(a + 0.3), 0.2, sin(a + 0.3)) * shroom.w * 0.6 * s, shroom.w * 0.55 * s, Vector3(cos(a) * 0.8, 1.0, sin(a) * 0.8))
+	# the treehouse lookout in the crown: a mossy plank shack on a platform with a tin roof, a lit window and a rag flag
+	var house: Vector3 = Vector3(7.0 * s, 22.5 * s, -4.5 * s)
+	mesh.box("plank", house + Vector3(0, -0.2 * s, 0), Vector3(5.6, 0.4, 5.0) * s, Basis.IDENTITY, 0.03)
+	mesh.box("mosswood", house + Vector3(0, 1.7 * s, 0), Vector3(3.6, 3.4, 3.2) * s, Basis.IDENTITY, 0.03, 0.85)
 	for sz: float in [-1.0, 1.0]:
-		mesh.box("tin", house + Vector3(0, 3.8 * s, sz * 0.9 * s), Vector3(4.0 * s, 0.15 * s, 2.2 * s), Basis(Vector3.RIGHT, sz * 0.5), 0.0)
-	mesh.box("window_glow", house + Vector3(0, 1.8 * s, 1.52 * s), Vector3(1.0, 0.9, 0.06) * s, Basis.IDENTITY, 0.0)
-	mesh.tube("wood_dark", house + Vector3(1.8 * s, 0, 2.0 * s), house + Vector3(1.8 * s, 6.0 * s, 2.0 * s), 0.12 * s, 5, true)
-	mesh.box("cloth_cream", house + Vector3(2.4 * s, 5.4 * s, 2.0 * s), Vector3(1.2, 0.8, 0.05) * s, Basis.IDENTITY, 0.0)
-	# the roots spilling outward: wide toward the player's approach (the front), arching loops at the sides, shorter behind
+		mesh.box("tin", house + Vector3(0, 4.0 * s, sz * 0.95 * s), Vector3(4.2 * s, 0.15 * s, 2.3 * s), Basis(Vector3.RIGHT, sz * 0.5), 0.0)
+	mesh.box("window_glow", house + Vector3(0, 1.9 * s, 1.62 * s), Vector3(1.1, 1.0, 0.06) * s, Basis.IDENTITY, 0.0)
+	mesh.tube("wood_dark", house + Vector3(2.2 * s, 0, 2.2 * s), house + Vector3(2.2 * s, 6.5 * s, 2.2 * s), 0.13 * s, 5, true)
+	mesh.box("cloth_cream", house + Vector3(2.9 * s, 5.8 * s, 2.2 * s), Vector3(1.4, 0.9, 0.05) * s, Basis.IDENTITY, 0.0)
+	# the roots: arching loops at the sides like the concept, short ones behind, and the long approach roots running south over the mound toward the gate
 	var roots: Array[Vector4] = [
-		Vector4(60.0, 22.0, 0.0, 2.1), Vector4(78.0, 24.0, 0.0, 1.9), Vector4(102.0, 24.0, 0.0, 1.9), Vector4(120.0, 22.0, 0.0, 2.1),
-		Vector4(25.0, 18.0, 4.5, 2.2), Vector4(155.0, 18.0, 4.5, 2.2), Vector4(-5.0, 20.0, 0.0, 2.0), Vector4(185.0, 20.0, 0.0, 2.0),
-		Vector4(40.0, 16.0, 0.0, 1.6), Vector4(140.0, 16.0, 0.0, 1.6), Vector4(-60.0, 14.0, 0.0, 1.8), Vector4(240.0, 14.0, 0.0, 1.8),
+		Vector4(22.0, 21.0, 5.5, 2.4), Vector4(158.0, 21.0, 5.5, 2.4), Vector4(48.0, 18.0, 3.0, 2.0), Vector4(132.0, 18.0, 3.0, 2.0),
+		Vector4(-6.0, 22.0, 0.0, 2.2), Vector4(186.0, 22.0, 0.0, 2.2), Vector4(-58.0, 15.0, 0.0, 1.9), Vector4(238.0, 15.0, 0.0, 1.9),
+		Vector4(-90.0, 13.0, 0.0, 1.8), Vector4(10.0, 26.0, 0.0, 1.6), Vector4(170.0, 26.0, 0.0, 1.6),
 	]
 	for spec: Vector4 in roots:
 		var a: float = deg_to_rad(spec.x)
 		var direction: Vector3 = Vector3(cos(a), 0, sin(a))
 		var side: Vector3 = Vector3(-direction.z, 0, direction.x)
-		var length: float = spec.y * s
-		var wiggle: float = rng.randf_range(-1.6, 1.6) * s
+		var length: float = spec.y * s * wide
+		var wiggle: float = rng.randf_range(-1.8, 1.8) * s
 		var points: Array[Vector3] = [
-			direction * 6.0 * s + Vector3(0, 3.2 * s, 0), direction * 9.5 * s + Vector3(0, 1.4 * s, 0),
-			direction * length * 0.55 + side * wiggle + Vector3(0, 0.5 * s + spec.z * s, 0),
-			direction * length * 0.8 - side * wiggle * 0.6 + Vector3(0, 0.7 * s + spec.z * 0.4 * s, 0), direction * length + Vector3(0, -0.6 * s, 0),
+			direction * 7.5 * s + Vector3(0, 3.6 * s, 0), direction * 11.5 * s + Vector3(0, 1.4 * s, 0),
+			direction * length * 0.55 + side * wiggle + Vector3(0, 0.4 * s + spec.z * s, 0),
+			direction * length * 0.8 - side * wiggle * 0.6 + Vector3(0, 0.6 * s + spec.z * 0.35 * s, 0), direction * length + Vector3(0, -0.8 * s, 0),
 		]
-		_limb(mesh, "bark" if int(spec.x) % 2 == 0 else "bark_violet", points, spec.w * s, 0.45 * s, 8)
-		# a vein of violet down the top of the near roots and a mushroom on some
-		if spec.z == 0.0 and spec.x > 50.0 and spec.x < 130.0:
-			var vein: Array[Vector3] = []
-			for point: Vector3 in points.slice(1):
-				vein.append(point + Vector3(0, spec.w * s * 0.55, 0))
-			_limb(mesh, "veins", vein, 0.14 * s, 0.06 * s, 4)
-			_mushroom(mesh, points[2] + Vector3(0, spec.w * s * 0.6, 0), 1.3 * s)
-	# the heart's light (made real by the scene, pulsed by the builder)
-	lights.append({"pos": Vector3(0, heart_y, heart_z + 5.0 * s), "color": VIOLET, "range": 26.0 * s, "energy": 2.2, "kind": "heart"})
+		_limb(mesh, "bark" if int(spec.x) % 2 == 0 else "bark_violet", points, spec.w * s, 0.5 * s, 9)
+	var approach: Vector3 = Vector3(0, 0, size.z * 0.5 + 4.5 * s)
+	root.set_meta("approach", approach)
+	for index: int in range(4):
+		var side: float = -1.0 if index % 2 == 0 else 1.0
+		var spread: float = (2.2 if index < 2 else 7.5) * side * s
+		var start: Vector3 = Vector3(side * (4.0 + float(index >> 1) * 3.0) * s, 2.6 * s, 8.5 * s)
+		var points: Array[Vector3] = [start]
+		for step: int in range(1, 6):
+			var t: float = float(step) / 5.0
+			var z: float = lerpf(start.z, approach.z + (2.0 if index < 2 else -1.0) * s, t)
+			var x: float = lerpf(start.x, spread, t) + sin(t * PI * 2.0 + float(index)) * 1.4 * s
+			var hump: float = (sin(t * PI * 2.5 + float(index) * 0.7) * 0.9 + 0.3) * s
+			points.append(Vector3(x, maxf(hump, -0.2 * s) + (1.0 - t) * 1.0 * s, z))
+		_limb(mesh, "bark" if index < 2 else "bark_dark", points, (2.0 if index < 2 else 1.5) * s, 0.7 * s, 9)
+		var vein: Array[Vector3] = []
+		for point: Vector3 in points.slice(1):
+			vein.append(point + Vector3(0, (1.4 if index < 2 else 1.0) * s, 0))
+		_limb(mesh, "veins", vein, 0.15 * s, 0.07 * s, 4)
+		_mushroom(mesh, points[2] + Vector3(0, 1.4 * s, 0), 1.4 * s)
+		_mushroom(mesh, points[4] + Vector3(side * 0.6 * s, 1.0 * s, 0), 0.9 * s)
+	# the heart's light (made real by the scene, pulsed by the builder) and a softer fill under the canopy
+	lights.append({"pos": Vector3(0, heart_y, heart_z + 6.0 * s), "color": VIOLET, "range": 30.0 * s, "energy": 2.4, "kind": "heart"})
 	root.set_meta("heart", mesh_material(mesh, "heart"))
 	root.set_meta("corruption", {"heart": mesh_material(mesh, "heart"), "veins": mesh_material(mesh, "veins"), "fungus": mesh_material(mesh, "fungus"), "hollow": mesh_material(mesh, "hollow"), "wisteria": mesh_material(mesh, "wisteria")})
-	# a view: nothing blocks (it stands beyond the rim)
 	circles.clear()
 
 
@@ -436,7 +545,7 @@ static func set_freed(node: Node3D, freed: bool) -> void:
 		return
 	var glows: Dictionary = node.get_meta("corruption") as Dictionary
 	var colors: Dictionary = {
-		"heart": [FREED_GREEN, 1.2] if freed else [VIOLET, 2.6], "veins": [FREED_GREEN.darkened(0.2), 0.5] if freed else [VIOLET, 1.6],
+		"veins": [FREED_GREEN.darkened(0.2), 0.5] if freed else [VIOLET, 1.6],
 		"fungus": [Color("d8e8a0"), 0.25] if freed else [Color("c080f0"), 0.55], "hollow": [Color("3a5a2a"), 0.5] if freed else [VIOLET_DEEP, 0.9],
 		"wisteria": [Color("f0d8f0"), 0.2] if freed else [Color("a070e0"), 0.45],
 	}
@@ -449,6 +558,11 @@ static func set_freed(node: Node3D, freed: bool) -> void:
 		material.emission = pair[0] as Color
 		material.emission_energy_multiplier = float(pair[1])
 		material.set_meta("base_energy", float(pair[1]))
+	var heart: StandardMaterial3D = glows.get("heart") as StandardMaterial3D
+	if heart != null:
+		var hue: Color = Color(0.75, 1.5, 0.6) if freed else Color(1.15, 0.55, 1.55)
+		heart.albedo_color = hue
+		heart.set_meta("base_color", hue)
 	node.set_meta("freed", freed)
 
 
@@ -925,8 +1039,10 @@ static func _finish(mesh: KitMesh, root_name: String, circles: Array[Vector3], s
 	return root
 
 
-## The Rotheart's root gate on the land at the foot of the tree (the main dungeon's door): two great roots arching over a heart-shaped hollow lit violet,
-## roots spreading out to the sides and back, fungi on them. The main_dungeon spot stands in front of the hollow (south).
+## The Rotheart's root gate on the land at the end of its approach roots (the main dungeon's door): two great roots rising from the ground and arching
+## over a heart-shaped doorway lit violet from within (its glow pulses with the heart, meta "heart"), a bark lintel, side roots spreading back to the
+## rim, fungi and moss on them; in front an inviting way in: a plank walk from the wetlands road to the threshold between two warm lanterns. The
+## main_dungeon spot stands on the walk in front of the doorway (south); nothing here carries lettering (the icon board stands beside it).
 static func root_gate(size: Vector3) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	_materials(mesh)
@@ -934,22 +1050,51 @@ static func root_gate(size: Vector3) -> Node3D:
 	var w: float = size.x
 	var h: float = size.y
 	var span: float = w * 0.35
+	var arch_top: float = h + 0.8
+	# the back mass the doorway is cut into: a low knot of bark sinking toward the rim
+	_ellipsoid(mesh, "bark_dark", Vector3(0, -0.4, -1.8), Vector3(span + 1.6, h * 0.82, 2.4), 5, 14, 0.0)
+	# the doorway: dark rim, deep violet, the soft glow low in it
+	_heart(mesh, "bark_dark", Vector3(0, h * 0.4, 0.62), span * 1.55, h * 0.86, Vector3(0, 0, 1))
+	_glow_heart(mesh, "heart", Vector3(0, h * 0.42, 0.72), span * 1.32, h * 0.74, Vector3(0, 0, 1))
+	# the two great roots: up from the ground either side of the door and over it, meeting at the top
 	for side: float in [-1.0, 1.0]:
-		var foot: Vector3 = Vector3(side * span, 0.0, 0.0)
-		_limb(mesh, "bark", [foot + Vector3(side * 0.8, 0.0, 0.6), foot + Vector3(0, h * 0.45, 0), foot + Vector3(-side * 0.6, h * 0.85, -0.3), Vector3(side * 0.6, h, -0.6)], 1.5, 0.8, 9)
-		for index: int in range(4):
-			var a: float = PI * (0.1 + 0.27 * float(index))
+		var foot: Vector3 = Vector3(side * (span + 0.4), 0.0, 0.9)
+		_limb(mesh, "bark", [foot + Vector3(side * 1.4, -0.2, -1.6), foot + Vector3(side * 0.3, 0.3, 0.2), foot + Vector3(0, h * 0.45, 0.4), foot + Vector3(-side * 0.5, h * 0.8, 0.2), foot + Vector3(-side * (span * 0.55), h * 1.04, 0.1), Vector3(side * 0.3, arch_top, 0.0)], 1.25, 0.75, 10)
+		# a thinner strand twisting round the big one
+		_limb(mesh, "bark_violet", [foot + Vector3(side * 0.9, 0.0, 1.0), foot + Vector3(-side * 0.5, h * 0.3, 1.0), foot + Vector3(side * 0.4, h * 0.6, 0.9), foot + Vector3(-side * 0.6, h * 0.92, 0.6)], 0.4, 0.22, 7)
+		# side roots spreading back to the rim (never south, where the hero walks)
+		for index: int in range(3):
+			var a: float = PI * (0.12 + 0.3 * float(index))
 			var direction: Vector3 = Vector3(side * cos(a), 0.0, -sin(a))
-			_limb(mesh, "bark_violet" if index % 2 == 0 else "bark", [foot + Vector3(0, 0.6, 0), foot + direction * 2.2 + Vector3(0, 0.5, 0), foot + direction * (3.6 + float(index % 2) * 1.4) + Vector3(0, -0.2, 0)], 0.55, 0.25, 6)
-		_mushroom(mesh, foot + Vector3(side * 1.2, h * 0.42, 1.0), 0.9, Vector3(side * 0.6, 1.0, 0.4))
-		_mushroom(mesh, foot + Vector3(side * 1.9, 0.0, 1.2), 0.7)
-	mesh.lathe("bark_dark", Vector3(0.0, 0.0, -1.6), [Vector2(2.4, 0.0), Vector2(2.2, h * 0.6), Vector2(1.2, h * 0.92)], 12, 0.85, true, true)
-	_heart(mesh, "hollow", Vector3(0, h * 0.42, 0.75), span * 1.25, h * 0.68, Vector3(0, 0, 1))
-	_heart(mesh, "heart", Vector3(0, h * 0.45, 0.8), span * 0.55, h * 0.3, Vector3(0, 0, 1))
+			_limb(mesh, "bark" if index % 2 == 0 else "bark_dark", [foot + Vector3(0, 0.5, -0.4), foot + direction * 2.4 + Vector3(0, 0.6, -0.4), foot + direction * (4.2 + float(index % 2) * 1.2) + Vector3(0, -0.2, -0.4)], 0.6, 0.25, 7)
+		_mushroom(mesh, foot + Vector3(side * 0.9, h * 0.5, 1.3), 1.0, Vector3(side * 0.7, 1.0, 0.5))
+		_mushroom(mesh, foot + Vector3(side * 2.2, 0.0, 0.4), 0.8)
+		_mushroom(mesh, foot + Vector3(side * 2.8, 0.0, -0.4), 0.55)
+		_ellipsoid(mesh, "leaf", foot + Vector3(-side * 0.5, h * 0.7, 1.0), Vector3(0.9, 0.5, 0.6), 3, 8, 0.0)
+		# a warm lantern on a post either side of the walk: the way in should invite
+		var post: Vector3 = Vector3(side * 2.6, 0.0, 3.4)
+		mesh.tube("wood_dark", post, post + Vector3(0, 2.0, 0), 0.09, 5, true)
+		mesh.tube("wood_dark", post + Vector3(0, 2.0, 0), post + Vector3(-side * 0.45, 2.0, 0), 0.05, 4, false)
+		mesh.box("lantern", post + Vector3(-side * 0.45, 1.72, 0), Vector3(0.32, 0.42, 0.32), Basis.IDENTITY, 0.04)
+	# veins of violet from the doorway along the great roots
+	for side: float in [-1.0, 1.0]:
+		_limb(mesh, "veins", [Vector3(side * span * 0.9, h * 0.25, 1.15), Vector3(side * (span + 0.4), h * 0.55, 1.55), Vector3(side * span * 0.6, h * 0.95, 1.1)], 0.08, 0.04, 4)
+	# the plank walk in: from the wetlands road to the threshold (flat, walked on, never fades)
+	var walk: KitMesh = KitMesh.new()
+	_materials(walk)
+	for index: int in range(7):
+		var z: float = 1.4 + float(index) * 0.75
+		walk.box("plank", Vector3(0, 0.1, z), Vector3(3.2 - float(index % 2) * 0.2, 0.14, 0.66), Basis(Vector3.UP, 0.04 * float(index % 3 - 1)), 0.01, 0.95)
 	circles.append(Vector3(-span, 0.0, 1.8))
 	circles.append(Vector3(0.0, -1.5, 2.0))
 	circles.append(Vector3(span, 0.0, 1.8))
 	var root: Node3D = _finish(mesh, "RootGate", circles, size, false)
+	var walk_node: MeshInstance3D = walk.instance("Walk")
+	walk_node.set_meta(PaintedClasses.META_NO_PAINT, true)
+	walk_node.set_meta(&"no_occlusion_fade", true)
+	walk_node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	root.add_child(walk_node)
+	root.set_meta("heart", mesh_material(mesh, "heart"))
 	root.set_meta("corruption", {"heart": mesh_material(mesh, "heart"), "veins": mesh_material(mesh, "veins"), "fungus": mesh_material(mesh, "fungus"), "hollow": mesh_material(mesh, "hollow")})
 	return root
 

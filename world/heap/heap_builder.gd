@@ -860,14 +860,13 @@ func animate(delta: float) -> void:
 	H.water().emission_energy_multiplier = 0.1 + 0.05 * sin(time * 1.3)
 
 
-## The Rotheart's slow heartbeat: its glow and its light swell and ease about once every five seconds (a double beat, gentle).
+## The Rotheart's slow heartbeat (and its root gate's, in step): the glows and the light swell and ease about once every five seconds (a double beat, gentle).
 func _pulse_heart() -> void:
-	if rotheart == null:
-		return
 	var beat: float = 0.5 + 0.5 * sin(time * 1.25)
 	beat = beat * beat * (0.8 + 0.2 * sin(time * 2.5 + 0.6))
-	var material: StandardMaterial3D = rotheart.get_meta("heart", null) as StandardMaterial3D
-	if material != null:
-		material.emission_energy_multiplier = float(material.get_meta("base_energy", 2.6)) * (0.7 + 0.5 * beat)
+	for node: Node3D in [rotheart, landmarks.get("HEAP-ROOT-GATE") as Node3D]:
+		var material: StandardMaterial3D = node.get_meta("heart", null) as StandardMaterial3D if node != null else null
+		if material != null:
+			material.albedo_color = (material.get_meta("base_color", Color.WHITE) as Color) * (0.72 + 0.42 * beat)
 	if heart_light != null:
 		heart_light.light_energy = float(heart_light.get_meta("base_energy", 2.2)) * (0.65 + 0.55 * beat)

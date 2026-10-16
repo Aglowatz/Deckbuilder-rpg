@@ -328,3 +328,33 @@ func test_the_occlusion_fader_uses_a_smooth_transparency() -> void:
 	var source: String = FileAccess.get_file_as_string("res://world/style/occlusion_fader.gd")
 	assert_false(source.contains("set_instance_shader_parameter(\"occlusion_fade\""), "the fader no longer drives the ordered dither")
 	assert_true(source.contains("piece.transparency = "), "every faded piece uses the per-instance transparency")
+
+
+func test_the_rotheart_is_the_concept_model_with_a_living_heart() -> void:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: HeapBuilder = HeapBuilder.new()
+	builder.build(host)
+	var tree: Node3D = builder.rotheart
+	assert_eq(str(tree.get_meta("hero_id", "")), "DUMP-HERO-ROTHEART", "the Rotheart is the concept model, not a stand-in")
+	assert_not_null(tree.get_meta("heart", null), "its hollow has a glow the builder pulses")
+	var lights: Array = tree.get_meta("lights", []) as Array
+	assert_eq(lights.size(), 1, "one real light: the heart's")
+	assert_not_null(tree.find_child("HeartMotes", true, false), "violet motes drift out of the hollow")
+	# the long roots run from the trunk to the root gate on the land (the way in is at its base)
+	var approach: Vector3 = tree.get_meta("approach", Vector3.ZERO) as Vector3
+	var reach_z: float = HeapLayout.ROTHEART.y + approach.z
+	assert_almost_eq(reach_z, HeapLayout.ROOT_GATE.y - HeapLayout.ROOT_GATE_SIZE.z * 0.5, 2.0, "the approach roots end at the back of the root gate")
+	# the pulse moves the glow; freeing the zone turns it green and back
+	var heart: StandardMaterial3D = tree.get_meta("heart") as StandardMaterial3D
+	var before: Color = heart.albedo_color
+	builder.animate(1.3)
+	assert_ne(heart.albedo_color, before, "the heart pulses")
+	HeapLandmarks.set_freed(tree, true)
+	var freed_hue: Color = heart.get_meta("base_color") as Color
+	assert_gt(freed_hue.g, freed_hue.r, "freed, the heart glows green")
+	HeapLandmarks.set_freed(tree, false)
+	assert_gt((heart.get_meta("base_color") as Color).b, (heart.get_meta("base_color") as Color).g, "the Rot is violet again")
+	var gate: Node3D = builder.landmarks["HEAP-ROOT-GATE"] as Node3D
+	assert_not_null(gate.find_child("Walk", false, false), "a plank walk leads in to the gate")
+	assert_not_null(gate.get_meta("heart", null), "the gate's doorway glows with the heart")
