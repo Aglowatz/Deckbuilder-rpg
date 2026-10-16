@@ -102,11 +102,11 @@ static func water() -> StandardMaterial3D:
 static func sludge() -> StandardMaterial3D:
 	if not _cache.has("sludge"):
 		var material: StandardMaterial3D = StandardMaterial3D.new()
-		material.albedo_color = Color(SLUDGE.r, SLUDGE.g, SLUDGE.b, 0.95)
+		material.albedo_color = Color(0.25, 0.23, 0.12, 0.96)
 		material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 		material.roughness = 0.25
 		material.emission_enabled = true
-		material.emission = Color(0.4, 0.6, 0.1)
-		material.emission_energy_multiplier = 0.2
+		material.emission = Color(0.3, 0.34, 0.1)
+		material.emission_energy_multiplier = 0.12
 		_cache["sludge"] = material
 	return _cache["sludge"] as StandardMaterial3D

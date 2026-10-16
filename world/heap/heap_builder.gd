@@ -53,6 +53,7 @@ func build(parent: Node3D) -> void:
 	_build_terrain()
 	_build_hazards()
 	_build_floor()
+	_build_woods()
 	_build_overflow()
 	_build_entrance()
 	_build_landmarks()
@@ -406,15 +407,50 @@ func _outline(inset: float) -> PackedVector2Array:
 
 func _build_floor() -> void:
 	var plane: PlaneMesh = PlaneMesh.new()
-	plane.size = Vector2(420.0, 420.0)
+	plane.size = Vector2(620.0, 620.0)
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = plane
-	instance.material_override = H.flat(Color(0.22, 0.36, 0.2))
-	instance.position = Vector3(50.0, -26.0, 40.0)
+	# the land goes on to the horizon (the paint-overs: meadows and woods beyond the Dump), just under the rim's grass lip, not a sea 26 m down
+	instance.material_override = H.flat(Color(0.4, 0.52, 0.24))
+	instance.position = Vector3(50.0, -0.95, 40.0)
 	instance.name = "FarGround"
 	instance.set_meta(&"no_range_cull", true)
 	instance.set_meta(&"no_occlusion_fade", true)
 	root.add_child(instance)
+
+
+## The woods beyond the Dump (the paint-overs' tree line): vine oaks and tyre birches in a band 5 to 24 m outside the west, north and east rims (never the
+## south, where the cameras stand), kept off the Rotheart's mound and roots, the throne's dais and Junk Mountain; painted cards in two MultiMesh fields, no shadows.
+func _build_woods() -> void:
+	var entries: Dictionary = {"dump_oak": [] as Array[Dictionary], "dump_birch": [] as Array[Dictionary]}
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 4242
+	var outline: PackedVector2Array = _outline(-6.0)
+	for index: int in range(outline.size()):
+		var a: Vector2 = outline[index]
+		var b: Vector2 = outline[(index + 1) % outline.size()]
+		var steps: int = int(a.distance_to(b) / 3.2) + 1
+		for step: int in range(steps):
+			var base: Vector2 = a.lerp(b, float(step) / float(steps))
+			var outward: Vector2 = (base - Vector2(50.0, 40.0)).normalized()
+			for row: int in range(3):
+				var p: Vector2 = base + outward * (float(row) * 6.0 + rng.randf_range(-1.5, 2.5)) + Vector2(rng.randf_range(-1.2, 1.2), rng.randf_range(-1.2, 1.2))
+				# never south of the land's middle on the sides, never along the south rim: the cameras stand there looking north
+				if p.y > 56.0:
+					continue
+				if p.y < HeapLayout.MIN_CORNER.y + 2.0 and absf(p.x - HeapLayout.ROTHEART.x) < 34.0:
+					continue
+				if p.y < HeapLayout.MIN_CORNER.y + 2.0 and absf(p.x - HeapLayout.THRONE.x) < 13.0:
+					continue
+				if p.distance_to(HeapLayout.JUNK_MOUNTAIN) < 30.0:
+					continue
+				var kind: String = "dump_birch" if rng.randf() < 0.35 else "dump_oak"
+				(entries[kind] as Array[Dictionary]).append({"pos": Vector3(p.x, -0.95, p.y), "scale": rng.randf_range(1.1, 1.6) + float(row) * 0.15})
+	for kind: String in entries.keys():
+		var field: MultiMeshInstance3D = KitFoliage.tree_field(root, kind, entries[kind] as Array[Dictionary], false)
+		if field != null:
+			field.name = "Woods_%s" % kind
+			field.set_meta(&"no_range_cull", true)
 
 
 # ---- The way in and the landmarks (docs/art/heap_slice.md, Part A) -------------------------------------------
@@ -423,11 +459,11 @@ func _build_floor() -> void:
 ## The overflow pool the entrance bridge crosses: a sludge-green plane south of the rim, below the rim's top layer.
 func _build_overflow() -> void:
 	var plane: PlaneMesh = PlaneMesh.new()
-	plane.size = Vector2(140.0, 60.0)
+	plane.size = Vector2(24.0, 30.0)
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = plane
 	instance.material_override = StyleWater.material(Color("6a9a78"), Color("2a4a3a"))
-	instance.position = Vector3(50.0, -2.6, HeapLayout.MAX_CORNER.y + 30.0)
+	instance.position = Vector3(HeapLayout.ENTRANCE_X, -0.75, HeapLayout.MAX_CORNER.y + 13.0)
 	instance.name = "OverflowPool"
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	instance.set_meta(&"no_range_cull", true)
@@ -544,6 +580,9 @@ func _build_hazards() -> void:
 		instance.set_meta(&"no_range_cull", true)
 		instance.set_meta(&"no_occlusion_fade", true)
 		root.add_child(instance)
+		var rim: Node3D = HeapKitProps.pit_rim(pit.z)
+		root.add_child(rim)
+		rim.position = Vector3(pit.x, layout.ground_height(pit.x + pit.z + 1.0, pit.y), pit.y)
 		B.steam(root, Vector3(pit.x, 0.2, pit.y), 6, pit.z * 0.5, 0.7)
 		for index: int in range(5):
 			var angle: float = float(index) * 1.3
@@ -568,7 +607,7 @@ func _build_hazards() -> void:
 
 func _build_bridges() -> void:
 	for bridge: HeapLayout.Bridge in layout.bridges:
-		var node: Node3D = P.vine_bridge(2.0 * HeapLayout.BRIDGE_REACH)
+		var node: Node3D = HeapKitProps.bridge(2.0 * HeapLayout.BRIDGE_REACH)
 		node.name = bridge.id
 		_never_cull(node, true)
 		root.add_child(node)
@@ -653,6 +692,7 @@ func _build_props() -> void:
 	# band, wildflower beds to violet fungus, reeds where the ground is wet; the rocks stay Nature Kit models; everything else is a layout feature.
 	var transforms: Dictionary = {}
 	var cards: Dictionary = {}
+	var fence: Array[Vector3] = []
 	var crop_index: int = 0
 	var c: Dictionary = layout.corruption
 	var tree_edge: float = float(c.get("trees", 0.42))
@@ -683,6 +723,14 @@ func _build_props() -> void:
 					_card_at(cards, "dump_wild", pos, clampf(prop.model_scale * 0.7, 0.6, 0.95))
 			"mushrooms":
 				_card_at(cards, "dump_fungus", pos, clampf(prop.model_scale * 0.7, 0.55, 0.95))
+			"wall_tires", "divider":
+				fence.append(pos)
+			"junk_pile":
+				_kit_cards(prop, pos, ["DUMP-PROP-SCRAPPILE", "DUMP-PROP-TYRE", "DUMP-PROP-SCRAPPILE"], prop.radius)
+			"tire_stack":
+				_kit_cards(prop, pos, ["DUMP-PROP-TYRE"], 0.0)
+			"compost_heap", "compost_bin":
+				_kit_cards(prop, pos, ["DUMP-PROP-COMPOST"], 0.0)
 			"rock":
 				var rocks: Array[String] = ["rock_largeA", "rock_largeC", "rock_tallA", "rock_largeE"]
 				_collect(transforms, rocks[prop.variant % rocks.size()], prop, pos, 1.6)
@@ -693,12 +741,42 @@ func _build_props() -> void:
 					crop_nodes[crop_index] = made
 	for model: String in transforms.keys():
 		_add_multimesh(model, transforms[model] as Array)
+	if not fence.is_empty():
+		root.add_child(HeapKitProps.scrap_fence(fence, func(x: float, z: float) -> float: return layout.ground_height(x, z)))
+	root.add_child(HeapKitProps.walks(_walk_lines(), 2.6, func(x: float, z: float) -> float: return layout.ground_height(x, z)))
 	for kind: String in cards.keys():
 		var entries: Array[Dictionary] = []
 		entries.assign(cards[kind] as Array)
 		var field: MultiMeshInstance3D = KitFoliage.tree_field(root, kind, entries, not bool((TreeCards.KINDS[kind] as Dictionary).get("plant", false)))
 		if field != null:
 			field.set_meta(&"no_range_cull", true)
+
+
+## Painted kit props standing in for an old procedural piece (the junk piles, tyre stacks and compost): one card per id, spread over the piece's blocking
+## circle (`spread`) so the picture fills the ground the layout keeps solid.
+func _kit_cards(prop: HeapLayout.Prop, pos: Vector3, ids: Array, spread: float) -> void:
+	for index: int in range(ids.size()):
+		var id: String = str(ids[index])
+		if not EnvKit.has(id):
+			continue
+		var height: float = float(EnvKit.entry(id).get("height", 1.5)) * clampf(prop.model_scale, 0.8, 1.3) * (1.25 if spread > 0.0 else 1.0)
+		var card: MeshInstance3D = KitFoliage.card(id, Vector2(height * EnvKit.aspect(id), height), true)
+		card.name = "Kit_%s_%d" % [prop.kind, index]
+		root.add_child(card)
+		var a: float = deg_to_rad(prop.yaw) + TAU * float(index) / float(maxi(ids.size(), 1))
+		var offset: Vector3 = Vector3(cos(a), 0.0, sin(a)) * spread * 0.45 if ids.size() > 1 else Vector3.ZERO
+		card.position = _ground(pos.x + offset.x, pos.z + offset.z)
+
+
+## The stretches of the main routes laid with planks (DUMP-PATH-PLANK): the way in from the bridge to the plaza, the road north to the stream, the
+## wetlands road to the root gate and the throne avenue's last stretch (the plaza and the crossings stay ground).
+func _walk_lines() -> Array:
+	var lines: Array = []
+	lines.append(PackedVector2Array([Vector2(50.0, HeapLayout.ENTRANCE_Z0 + 0.5), Vector2(50.0, 73.6)]))
+	lines.append(PackedVector2Array([Vector2(50.0, 54.4), Vector2(50.0, HeapLayout.stream_z(50.0) + 4.2)]))
+	lines.append(PackedVector2Array([Vector2(50.0, 33.0), Vector2(50.0, 12.2)]))
+	lines.append(PackedVector2Array([Vector2(31.0, 20.0), Vector2(31.0, 12.5)]))
+	return lines
 
 
 func _card_at(cards: Dictionary, kind: String, pos: Vector3, scale: float) -> void:
@@ -751,7 +829,8 @@ func _place_feature(prop: HeapLayout.Prop, pos: Vector3) -> Node3D:
 	var node: Node3D = null
 	match prop.kind:
 		"barn":
-			node = P.barn(story)
+			node = HeapKitProps.shack(Vector3(7.0, 4.8, 4.6), 0 if prop.pos.z > 40.0 else 1, "ICON-ENERGY-R")
+			node.name = "Shack_%d_%d" % [int(prop.pos.x), int(prop.pos.z)]
 		"windmill":
 			node = P.windmill()
 			if node.has_meta("spinner"):
@@ -759,7 +838,7 @@ func _place_feature(prop: HeapLayout.Prop, pos: Vector3) -> Node3D:
 		"harvest_table":
 			node = P.harvest_table()
 		"swap_shed":
-			node = P.swap_shed(story)
+			node = HeapKitProps.stall()
 		"compost_bin":
 			node = P.compost_bin()
 		"shrine":
@@ -774,7 +853,7 @@ func _place_feature(prop: HeapLayout.Prop, pos: Vector3) -> Node3D:
 		"crop_plot":
 			node = P.crop_plot(story)
 		"appliance_ring":
-			node = P.appliance_ring()
+			node = HeapKitProps.appliance_grove()
 		"compost_heap":
 			node = P.compost_heap()
 		"scarecrow":
@@ -782,7 +861,7 @@ func _place_feature(prop: HeapLayout.Prop, pos: Vector3) -> Node3D:
 		"fair_stage":
 			node = P.fair_stage(story)
 		"fridge":
-			node = P.fridge()
+			node = HeapKitProps.fridge()
 		"haybale":
 			node = P.haybale(prop.variant)
 		"beanstalk_mound":
@@ -837,7 +916,7 @@ func _build_signs() -> void:
 	for sign: HeapLayout.Sign in layout.signs:
 		# G-03: no readable text in the world. A board carries one pictogram; the words are read by using the sign (ZoneScene adds a "sign" spot).
 		var size: Vector2 = IconSign.board_size(sign.style, sign.size)
-		var node: Node3D = P.sign_post(size.x, size.y, sign.style)
+		var node: Node3D = HeapKitProps.board(size.x, size.y) if sign.style == "sign" else P.sign_post(size.x, size.y, sign.style)
 		node.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so the pictogram reads
 		node.scale = Vector3.ONE * 0.5  # smaller than the old high camera needed: at the low camera a signboard covers the hero
 		var pos: Vector3 = _ground(sign.pos.x, sign.pos.z)

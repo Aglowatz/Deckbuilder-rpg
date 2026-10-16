@@ -398,3 +398,36 @@ func test_the_corruption_gradient_is_data_and_recedes_when_freed() -> void:
 					var at: Vector3 = (point as Dictionary)["pos"] as Vector3
 					assert_gt(layout.corruption_at(at.x, at.z), 0.15, "a twisted tree at (%.0f, %.0f) stands in the corruption" % [at.x, at.z])
 			assert_not_null(builder.root.find_child("Trees_dump_fungus_far", false, false), "violet fungus grows toward the roots")
+
+
+func test_the_dressing_is_the_kit_in_tidy_clusters_off_the_routes() -> void:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: HeapBuilder = HeapBuilder.new()
+	builder.build(host)
+	var dressing: HeapDressing = HeapDressing.build(host, builder, 1)
+	assert_gte(dressing.count, 14, "the kit clusters, reeds and fungus are placed where they fit (%d)" % dressing.count)
+	var layout: HeapLayout = builder.layout
+	for child: Node in dressing.root.get_children():
+		var pos: Vector3 = (child as Node3D).position
+		var solid: bool = not ((child as Node3D).get_meta("circles", []) as Array).is_empty()
+		if solid:
+			assert_gte(layout.path_edge_distance(pos.x, pos.z), HeapLayout.PATH_CLEARANCE - 0.01, "%s keeps off the routes" % child.name)
+		assert_gte(Vector2(pos.x - HeapLayout.PLAZA_CENTER.x, pos.z - HeapLayout.PLAZA_CENTER.y).length(), HeapLayout.PLAZA_RADIUS, "%s keeps out of the plaza" % child.name)
+		for key: Variant in layout.anchors.keys():
+			var anchor: Vector3 = layout.anchors[key] as Vector3
+			assert_gte(Vector2(pos.x - anchor.x, pos.z - anchor.z).length(), 2.0, "%s keeps off %s" % [child.name, key])
+	# the old pieces are kit pieces now: one fence for the tyre wall and the dividers, the walks, the sturdy bridges, the shacks and the stall
+	var fence: Node3D = builder.root.find_child("ScrapFence", false, false) as Node3D
+	assert_not_null(fence, "the tyre wall and the dividers are one scrap fence")
+	assert_lte(fence.get_child_count(), 2, "the fence is one mesh, not ninety tyre stacks")
+	assert_not_null(builder.root.find_child("PlankWalks", false, false), "plank walks on the main routes")
+	var shacks: int = 0
+	for child: Node in builder.root.get_children():
+		if child.find_child("Body", false, false) != null and str(child.name).contains("Shack"):
+			shacks += 1
+	assert_eq(shacks, 2, "the two barns are patched shacks")
+	assert_not_null(builder.root.find_child("SwapStall", true, false), "Gristle's stall")
+	for id: String in builder.bridge_nodes.keys():
+		assert_not_null((builder.bridge_nodes[id] as Node3D).get_node_or_null("Seg0"), "the %s bridge still grows segment by segment" % id)
+	assert_not_null(builder.root.find_child("Woods_dump_oak", false, false), "woods stand beyond the rim")

@@ -160,3 +160,29 @@ The gradient from the hub to the root gate (`bash tools/heap_gradient_shots.sh <
 | Throne Approach | ![](heap_slice/c_compare_throne_approach.jpg) |
 
 **Checks**: `test_the_corruption_gradient_is_data_and_recedes_when_freed` (the data keys, healthy hub and farm, rising to the roots, no step above 0.08 per metre, twisted trees only in the corruption, fungus toward the roots, freed: no twisted trees and no corruption); 1571 GUT, 1570 passing (GC-6); 60 fps Medium at po_hub (709 draw calls), po_stream, po_wetlands.
+
+## Art Part D: dress
+
+The decluttered layout is kept exactly (no new solid pieces on routes, in the plaza or round anchors; the layout's obstacles unchanged): the old procedural pieces became kit pieces in place, and the kit's clusters went only to doorways, walls and junctions.
+
+- **Material swaps** (`data/zone_styles/heap.json`): every shared kit id the zone could use points at the Dump kit (timber and plank walls to DUMP-WALL-MOSSWOOD / -DOORS, the roofs to DUMP-ROOF-TIN / -REED, the eave trim to DUMP-TRIM-ROPE, doors, windows and signs to the sliced sheets, the dirt path to DUMP-PATH-PLANK, the calm grass to DUMP-GROUND-CLOVER, the trees to the Dump's oaks, birches and twisted trees).
+- **Buildings** (`world/heap/heap_kit_props.gd`, VD-20): the two barns are patched shacks (mossy planks with tin patches under a tin roof in the Commons; old doors under a reed roof on the scree), with rope trim, a sliced door and two windows, rag bunting to a pole, flower crates and a lantern by the door, the icon over it; Granny Gristle's swap shed is a stall (an old-door back wall, a plank counter with a kettle and jars, shelves, a striped awning under tin, the vendor icon, a lantern, a tyre garden). No `building_presets.json` entries: the Dump has no BuildingKit buildings in its layout, so presets would have nothing to dress.
+- **The walls**: the tyre wall (about ninety tyre stacks of several meshes each) and the two district dividers (pale panel slabs) are one knee-high scrap fence per run (old-door and tin panels on posts, a rope rail, a tyre stack at each end, moss), drawn from the same post positions; the blocking is the layout's, unchanged.
+- **The ground pieces**: the junk piles are DUMP-PROP-SCRAPPILE and -TYRE cards spread over their blocking circles; the tyre stacks are tyre gardens; the compost bin and heap are the kit's compost heap; the druid's appliance grove is rusted tin and old-door appliances under vines with wildflower crates between; the secret corner's fridge is a faded green retro fridge with rust blooms and its door hanging open; the compost pits are dark compost with a ring of leaning plank stakes and reeds; the sign boards are salvaged planks tied to two posts.
+- **Plank walks** (DUMP-PATH-PLANK): the way in from the bridge to the plaza, the road north to the stream, the wetlands road to the root gate and the throne avenue's last stretch, boards 2.6 m wide following the ground (one flat mesh, walked on, never fades).
+- **The bridges**: the three vine bridges are sturdy plank bridges (a 3.1 m deck on two beams, posts, rope rails, vines and blooms), still grown segment by segment; the walk is the layout's strip, unchanged. The entrance gate lost its heavy tyre pillars and rusty beam: two mossy posts on a pair of tyres with vines, a sagging rope of rag bunting, the icon on the left post, so the Commons shows through it from the arrival.
+- **Clusters** (`data/art/zone_kits/heap_clusters.json`, `HeapDressing`): tyre gardens, bottle walls, compost corners, sorted scrap, the goat on its cart, reed banks along both sides of the stream and fungus patches in the wetlands (tyre gardens instead once freed); 15 of 30 candidate spots pass the free-ground rules (off routes, plaza, entrance, landmark spots, 4 m from anchors for solid ones, 2 m from chests, 2.5 m apart); solid pieces register blockers.
+- **The land goes on** (VD-21): the far ground came up from 26 m down to just under the rim's grass lip, green, so the Dump sits in meadows instead of over a beige sea; vine oaks and tyre birches stand in a band beyond the west, north and east rims (never the south, where the cameras stand, and off the Rotheart's mound, the throne and Junk Mountain); the overflow pool is only under the entrance bridge; Junk Mountain's foot and the throne's plinth reach down to the new ground.
+
+| Region | Paint-over beside the game after Part D |
+|---|---|
+| Hub | ![](heap_slice/d_compare_hub.jpg) |
+| Junk Peaks | ![](heap_slice/d_compare_junk_peaks.jpg) |
+| Farm Rows | ![](heap_slice/d_compare_farm_rows.jpg) |
+| Stream | ![](heap_slice/d_compare_stream.jpg) |
+| Wetlands | ![](heap_slice/d_compare_wetlands.jpg) |
+| Throne Approach | ![](heap_slice/d_compare_throne_approach.jpg) |
+
+**fps on Medium** after Part D (draw calls dropped with the fence: the wetlands 738 to 452): po_hub 60.0 (618 draw calls; one 20.9 fps hitch in the first probe, two re-runs steady at 60), po_junk_peaks 60.0 (461), po_farm_rows 60.0 (339), po_stream 60.0 (532), po_wetlands 60.0 (452), po_throne_approach 60.0 (335).
+
+**Checks**: `test_the_dressing_is_the_kit_in_tidy_clusters_off_the_routes`; 1572 GUT, 1571 passing (GC-6); the walk smoke passes at Cinematic (21 shots: the bridge, the plaza, every NPC and the vendor, the interactables, the boar, the quiz, the fair, the Seed Shrine, both dungeon doors, the giant chest, the lever, back to town).

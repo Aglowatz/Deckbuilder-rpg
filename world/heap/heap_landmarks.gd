@@ -10,7 +10,6 @@ extends RefCounted
 ## root gate on the land and the entrance bridge are static builders here too. Nothing carries readable text (Art Bible G-03).
 
 const H = preload("res://world/heap/heap_materials.gd")
-const P = preload("res://world/heap/heap_props.gd")
 
 const IDS: Array[String] = ["DUMP-HERO-ROTHEART", "DUMP-HERO-JUNK-MOUNTAIN", "DUMP-HERO-WINDMILL", "DUMP-HERO-TRASH-PANDA-THRONE", "DUMP-HERO-COMMONS-GREENHOUSE"]
 const MOSS: Color = Color("7c8f45")
@@ -679,7 +678,8 @@ static func _cone(mesh: KitMesh, slot: String, rx: float, ry: float, rz: float, 
 			var corners: Array[Vector3] = []
 			for pair: Vector2 in [Vector2(v0, b0), Vector2(v0, b1), Vector2(v1, b1), Vector2(v1, b0)]:
 				var k: float = _cone_k(pair.x)
-				corners.append(Vector3(cos(pair.y) * rx * k, pair.x * ry, sin(pair.y) * rz * k))
+				# the foot ring sinks 1.6 m so the cone meets the ground beyond the rim (the far ground lies just under the land)
+				corners.append(Vector3(cos(pair.y) * rx * k, pair.x * ry if pair.x > 0.0 else -1.6, sin(pair.y) * rz * k))
 			var mid: float = (b0 + b1) * 0.5
 			mesh.quad(slot, corners, Vector3(cos(mid) / rx, 0.35 / ry * rx * 0.1, sin(mid) / rz).normalized())
 	var top: float = _cone_k(1.0)
@@ -784,6 +784,8 @@ static func _throne(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[V
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 3303
 	var tiers: Array[Vector3] = [Vector3(w, 2.2, d), Vector3(w * 0.72, 2.2, d * 0.72), Vector3(w * 0.46, 2.0, d * 0.46)]
+	# a plinth of packed soil to the ground beyond the rim
+	mesh.box("stone_dark", Vector3(0, -1.0, 0), Vector3(w + 0.6, 2.0, d + 0.6), Basis.IDENTITY, 0.05, 0.85)
 	var y: float = 0.0
 	var back: float = -d * 0.5
 	for index: int in range(tiers.size()):
@@ -1112,7 +1114,7 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 	var count: int = int(ceilf(length / plank))
 	for index: int in range(count):
 		var z: float = plank * (float(index) + 0.5)
-		mesh.box("wood" if index % 3 != 1 else "wood_dark", Vector3(0.0, -0.08, minf(z, length - plank * 0.5)), Vector3(width, 0.16, plank - 0.1), Basis.IDENTITY, 0.02, 0.92)
+		mesh.box("plank" if index % 3 != 1 else "wood_dark", Vector3(0.0, -0.08, minf(z, length - plank * 0.5)), Vector3(width, 0.16, plank - 0.1), Basis.IDENTITY, 0.02, 0.92)
 	for side: float in [-1.0, 1.0]:
 		mesh.box("tyre", Vector3(side * (half - 0.15), 0.12, length * 0.5), Vector3(0.3, 0.3, length), Basis.IDENTITY, 0.04)
 	# posts with rope between them, girder pillars down into the pool
@@ -1130,20 +1132,30 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 			previous[side] = base
 		mesh.tube("rust_dark", Vector3(0.0, -4.0, z), Vector3(0.0, -0.3, z), 0.32, 8, true)
 		mesh.box("rust_dark", Vector3(0.0, -0.75, z), Vector3(width + 0.2, 0.22, 0.4), Basis.IDENTITY, 0.0)
-	# the gate at the land end: stacked-tyre pillars with a rusty beam, moss and flowers on it
-	var gate_h: float = 3.8
+	# the gate at the land end (the art pass: open, so the Commons shows through it): two mossy plank posts on a pair of tyres, vines up them, a sagging
+	# rope of rag bunting between their tops
+	var gate_h: float = 3.4
 	for side: float in [-1.0, 1.0]:
 		var foot: Vector3 = Vector3(side * (half + 0.55), 0.0, 0.4)
-		for index: int in range(5):
-			mesh.lathe("tyre", foot + Vector3(0.0, float(index) * 0.5, 0.0), [Vector2(0.78, 0.0), Vector2(0.82, 0.25), Vector2(0.78, 0.5)], 12, 0.9, true, true)
-			mesh.lathe("metal_dark", foot + Vector3(0.0, float(index) * 0.5, 0.0), [Vector2(0.34, 0.0), Vector2(0.34, 0.52)], 8, 0.9, false, true)
-		mesh.box("metal", foot + Vector3(0.0, 2.5 + 0.7, 0.0), Vector3(0.5, 1.4, 0.5), Basis.IDENTITY, 0.03)
+		for index: int in range(2):
+			mesh.lathe("tyre", foot + Vector3(0.0, float(index) * 0.32, 0.0), [Vector2(0.62, 0.0), Vector2(0.66, 0.16), Vector2(0.62, 0.32)], 12, 0.9, true, true)
+		mesh.box("mosswood", foot + Vector3(0.0, gate_h * 0.5, 0.0), Vector3(0.42, gate_h, 0.42), Basis(Vector3.UP, 0.2 * side), 0.03, 0.85)
+		mesh.lathe("tin", foot + Vector3(0.0, gate_h, 0.0), [Vector2(0.36, 0.0), Vector2(0.0, 0.4)], 6, 0.9, true, false)
+		for leaf: int in range(4):
+			mesh.blob("leaf" if leaf % 2 == 0 else "leaf_dark", foot + Vector3(0.18 * side, 0.9 + 0.65 * float(leaf), 0.22), Vector3(0.26, 0.32, 0.18), 3, 6, 0.95)
 		circles.append(Vector3(foot.x, foot.z, 0.75))
-	mesh.box("rust", Vector3(0.0, gate_h, 0.4), Vector3(width + 2.6, 0.7, 0.5), Basis.IDENTITY, 0.03)
-	mesh.box("rust_dark", Vector3(0.0, gate_h - 0.45, 0.4), Vector3(width + 2.2, 0.12, 0.52), Basis.IDENTITY, 0.0)
-	for index: int in range(1, 6):
-		var x: float = -(half + 0.55) + (width + 1.1) * float(index) / 6.0
-		mesh.tri("cap_red" if index % 2 == 0 else "cap_yellow", [Vector3(x - 0.25, gate_h - 0.52, 0.7), Vector3(x + 0.25, gate_h - 0.52, 0.7), Vector3(x, gate_h - 1.0, 0.7)], Vector3(0.0, 0.0, 1.0))
+	var sag: int = 10
+	var previous_point: Vector3 = Vector3.ZERO
+	for index: int in range(sag + 1):
+		var t: float = float(index) / float(sag)
+		var point: Vector3 = Vector3(lerpf(-(half + 0.55), half + 0.55, t), gate_h - 0.15 - sin(t * PI) * 0.7, 0.5)
+		if index > 0:
+			mesh.tube("rope", previous_point, point, 0.04, 4, false)
+			var at: Vector3 = (previous_point + point) * 0.5
+			var tint: String = ["cloth_red", "cloth_cream", "cloth_teal", "cloth_green", "cloth_rust"][index % 5]
+			mesh.tri(tint, [at + Vector3(-0.2, 0, 0), at + Vector3(0.2, 0, 0), at + Vector3(0, -0.5, 0)], Vector3(0, 0, 1))
+			mesh.tri(tint, [at + Vector3(0.2, 0, 0), at + Vector3(-0.2, 0, 0), at + Vector3(0, -0.5, 0)], Vector3(0, 0, -1))
+		previous_point = point
 	# the far landing: a plank square with two rag-flag posts, where the way to town begins
 	var landing_z: float = length + 1.6
 	mesh.box("rust", Vector3(0.0, -0.36, landing_z), Vector3(width + 1.6, 0.42, 3.6), Basis.IDENTITY, 0.03, 0.85)
@@ -1157,7 +1169,5 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 		mesh.tube("rust_dark", Vector3(side * (half + 0.2), -4.0, landing_z), Vector3(side * (half + 0.2), -0.3, landing_z), 0.3, 8, true)
 	var root: Node3D = _finish(mesh, "Bridge", circles, Vector3(width, gate_h, length), true)
 	(root.get_child(0) as MeshInstance3D).set_meta(&"no_range_cull", true)
-	IconSign.attach(root, "ICON-ENERGY-R", Vector3(0.0, gate_h, 0.7), 1.2)
-	P.moss_patches(root, 10, 3.6, gate_h + 0.2, 2)
-	P.flowers_on(root, 8, 3.4, gate_h + 0.3)
+	IconSign.attach(root, "ICON-ENERGY-R", Vector3(-(half + 0.55), 2.3, 0.66), 0.8)
 	return root

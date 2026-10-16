@@ -64,10 +64,15 @@ func _build_zone_extras() -> void:
 		_entrance_exit_armed = player.position.z < HeapLayout.ENTRANCE_Z1 - ENTRANCE_EXIT_ARM
 
 
-## The zone's few real lights: the greenhouse's warm lantern light inside, the windmill's lantern and the Rotheart heart's violet glow (pulsed by the
-## builder); every other lantern is emissive only.
+## The kit clusters, reeds and fungus (`HeapDressing`, Art Part D) over the generic grass carpet.
+var dressing: HeapDressing
+
+
+## The dressing, then the zone's few real lights: the greenhouse's warm lantern light inside, the windmill's lantern and the Rotheart heart's violet
+## glow (pulsed by the builder); every other lantern is emissive only.
 func _dress_zone() -> void:
 	super._dress_zone()
+	dressing = HeapDressing.build(self, heap, Settings.graphics_quality)
 	for id: String in ["DUMP-HERO-COMMONS-GREENHOUSE", "DUMP-HERO-WINDMILL"]:
 		var node: Node3D = heap.landmarks.get(id) as Node3D
 		if node != null:
