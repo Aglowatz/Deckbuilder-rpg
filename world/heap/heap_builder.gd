@@ -25,10 +25,12 @@ var chute_nodes: Dictionary = {}
 ## How far each bridge has grown (0 = bare, 1 = done), by growth id.
 var bridge_progress: Dictionary = {}
 var ladder_progress: Dictionary = {}
-## The stand-in landmarks by id (HEAP-HERO-ROTHEART, HEAP-HERO-JUNK-MOUNTAIN, HEAP-HERO-TRASH-PANDA-THRONE, HEAP-HERO-RUSTY-WINDMILL,
-## HEAP-GREENHOUSE, HEAP-ROOT-GATE), see `_build_landmarks`.
+## The hero landmarks by id (DUMP-HERO-ROTHEART, DUMP-HERO-JUNK-MOUNTAIN, DUMP-HERO-TRASH-PANDA-THRONE, DUMP-HERO-WINDMILL,
+## DUMP-HERO-COMMONS-GREENHOUSE, HEAP-ROOT-GATE), see `_build_landmarks`.
 var landmarks: Dictionary = {}
 var rotheart: Node3D
+## The Rotheart heart's real light (made by the scene, `HeapScene._dress_zone`), pulsed with its glow in `animate`.
+var heart_light: OmniLight3D
 
 var _buckets: Dictionary = {}
 var _barricade_blockers: Dictionary = {}
@@ -443,18 +445,24 @@ func _build_entrance() -> void:
 	_never_cull(bridge, true)
 
 
-## The stand-ins: the Rotheart and Junk Mountain as views beyond the rim (never culled or faded), the throne beyond the north-west rim with its
-## steps on the land, the root gate, the windmill and the greenhouse on flat kept-clear ground with their circles solid (the layout's
-## LANDMARK_BLOCKERS carry the same circles for the layout-only readers).
+## The hero models (`HeapLandmarks` through `HeroLandmarks`, the approved concepts): the Rotheart, Junk Mountain and the Trash Panda Throne are views
+## beyond the rim (never culled or faded; the throne's stair reaches the land and its circles block there), the windmill and the greenhouse stand on flat
+## kept-clear ground with their circles solid, the root gate is the Rotheart's door on the land (the layout's LANDMARK_BLOCKERS carry the same circles
+## for the layout-only readers). Spinners turn in `animate`; the Rotheart's heart pulses.
 func _build_landmarks() -> void:
-	rotheart = _place_landmark("HEAP-HERO-ROTHEART", HeapLandmarks.rotheart(HeapLayout.ROTHEART_SIZE), HeapLayout.ROTHEART, 0.0, true)
-	_place_landmark("HEAP-HERO-JUNK-MOUNTAIN", HeapLandmarks.junk_mountain(HeapLayout.JUNK_MOUNTAIN_SIZE), HeapLayout.JUNK_MOUNTAIN, 25.0, true)
-	_place_landmark("HEAP-HERO-TRASH-PANDA-THRONE", HeapLandmarks.throne(HeapLayout.THRONE_SIZE), HeapLayout.THRONE, 0.0, true)
+	rotheart = _place_landmark("DUMP-HERO-ROTHEART", _hero("DUMP-HERO-ROTHEART", HeapLayout.ROTHEART_SIZE), HeapLayout.ROTHEART, 0.0, true)
+	_place_landmark("DUMP-HERO-JUNK-MOUNTAIN", _hero("DUMP-HERO-JUNK-MOUNTAIN", HeapLayout.JUNK_MOUNTAIN_SIZE), HeapLayout.JUNK_MOUNTAIN, -48.0, true)
+	_place_landmark("DUMP-HERO-TRASH-PANDA-THRONE", _hero("DUMP-HERO-TRASH-PANDA-THRONE", HeapLayout.THRONE_SIZE), HeapLayout.THRONE, 0.0, true)
 	_place_landmark("HEAP-ROOT-GATE", HeapLandmarks.root_gate(HeapLayout.ROOT_GATE_SIZE), HeapLayout.ROOT_GATE, 0.0, false)
-	var windmill: Node3D = _place_landmark("HEAP-HERO-RUSTY-WINDMILL", HeapLandmarks.windmill(HeapLayout.WINDMILL_SIZE), HeapLayout.WINDMILL, 0.0, false)
-	if windmill != null and windmill.has_meta("spinner"):
-		_spinners.append(windmill.get_meta("spinner") as Node3D)
-	_place_landmark("HEAP-GREENHOUSE", HeapLandmarks.greenhouse(HeapLayout.GREENHOUSE_SIZE), HeapLayout.GREENHOUSE, 0.0, false)
+	_place_landmark("DUMP-HERO-WINDMILL", _hero("DUMP-HERO-WINDMILL", HeapLayout.WINDMILL_SIZE), HeapLayout.WINDMILL, 0.0, false)
+	_place_landmark("DUMP-HERO-COMMONS-GREENHOUSE", _hero("DUMP-HERO-COMMONS-GREENHOUSE", HeapLayout.GREENHOUSE_SIZE), HeapLayout.GREENHOUSE, 0.0, false)
+	for node: Variant in landmarks.values():
+		if (node as Node3D).has_meta("spinner"):
+			_spinners.append((node as Node3D).get_meta("spinner") as Node3D)
+
+
+func _hero(id: String, size: Vector3) -> Node3D:
+	return LandmarkKit.build({"id": id, "kind": "facade", "size": [size.x, size.y, size.z]})
 
 
 ## A landmark at (x, z) turned by `yaw`, hanging off the root (never chunk-culled): a view stands at y 0 off the land and never fades; a region
@@ -844,8 +852,22 @@ func _build_chests() -> void:
 func animate(delta: float) -> void:
 	time += delta
 	for hub: Node3D in _spinners:
-		hub.rotation.z += 0.5 * delta
+		hub.rotation.z += 0.35 * delta
+	_pulse_heart()
 	for node: Node3D in _bobbers:
 		var phase: float = float(node.get_meta("phase", 0.0))
 		node.position.y = HeapLayout.WATER_LEVEL + 0.08 + sin(time * 1.6 + phase) * 0.04
 	H.water().emission_energy_multiplier = 0.1 + 0.05 * sin(time * 1.3)
+
+
+## The Rotheart's slow heartbeat: its glow and its light swell and ease about once every five seconds (a double beat, gentle).
+func _pulse_heart() -> void:
+	if rotheart == null:
+		return
+	var beat: float = 0.5 + 0.5 * sin(time * 1.25)
+	beat = beat * beat * (0.8 + 0.2 * sin(time * 2.5 + 0.6))
+	var material: StandardMaterial3D = rotheart.get_meta("heart", null) as StandardMaterial3D
+	if material != null:
+		material.emission_energy_multiplier = float(material.get_meta("base_energy", 2.6)) * (0.7 + 0.5 * beat)
+	if heart_light != null:
+		heart_light.light_energy = float(heart_light.get_meta("base_energy", 2.2)) * (0.65 + 0.55 * beat)

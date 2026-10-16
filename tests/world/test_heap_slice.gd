@@ -221,7 +221,7 @@ func test_the_landmarks_stand_clear_or_beyond_the_rim() -> void:
 	add_child_autofree(host)
 	var builder: HeapBuilder = HeapBuilder.new()
 	builder.build(host)
-	for id: String in ["HEAP-HERO-ROTHEART", "HEAP-HERO-JUNK-MOUNTAIN", "HEAP-HERO-TRASH-PANDA-THRONE", "HEAP-HERO-RUSTY-WINDMILL", "HEAP-GREENHOUSE", "HEAP-ROOT-GATE"]:
+	for id: String in ["DUMP-HERO-ROTHEART", "DUMP-HERO-JUNK-MOUNTAIN", "DUMP-HERO-TRASH-PANDA-THRONE", "DUMP-HERO-WINDMILL", "DUMP-HERO-COMMONS-GREENHOUSE", "HEAP-ROOT-GATE"]:
 		var node: Node3D = builder.landmarks.get(id) as Node3D
 		assert_not_null(node, "%s stands in the zone" % id)
 		if node == null:
@@ -229,7 +229,7 @@ func test_the_landmarks_stand_clear_or_beyond_the_rim() -> void:
 		assert_eq(node.get_parent(), builder.root, "%s hangs off the root, never a chunk" % id)
 		for piece: Node in node.find_children("*", "MeshInstance3D", true, false):
 			assert_true(piece.has_meta(&"no_range_cull"), "%s never culls" % id)
-			if id in ["HEAP-HERO-ROTHEART", "HEAP-HERO-JUNK-MOUNTAIN", "HEAP-HERO-TRASH-PANDA-THRONE"]:
+			if id in ["DUMP-HERO-ROTHEART", "DUMP-HERO-JUNK-MOUNTAIN", "DUMP-HERO-TRASH-PANDA-THRONE"]:
 				assert_true(piece.has_meta(&"no_occlusion_fade"), "%s never fades" % id)
 	assert_not_null(builder.rotheart)
 	assert_almost_eq(float(builder.rotheart.get_meta("height", 0.0)), HeapLayout.ROTHEART_SIZE.y, 0.01, "the Rotheart stand-in is the planned height")
@@ -240,7 +240,7 @@ func test_the_landmarks_stand_clear_or_beyond_the_rim() -> void:
 	var door: Vector3 = layout.anchors["mini_dungeon"] as Vector3
 	assert_true(builder.is_walkable(door + Vector3(0.0, 0.0, 1.6), 0.3), "the hero can stand at the throne's steps")
 	assert_false(builder.is_walkable(Vector3(HeapLayout.WINDMILL.x, 0.0, HeapLayout.WINDMILL.y), 0.1), "the windmill's tower is solid")
-	assert_true((builder.landmarks["HEAP-HERO-RUSTY-WINDMILL"] as Node3D).has_meta("spinner"), "the windmill's sails turn")
+	assert_true((builder.landmarks["DUMP-HERO-WINDMILL"] as Node3D).has_meta("spinner"), "the windmill's sails turn")
 	for key: String in ["crop_1", "quiz", "pickup_bean_1", "pickup_fert_1"]:
 		var anchor: Vector3 = layout.anchors[key] as Vector3
 		assert_gte(Vector2(anchor.x - HeapLayout.WINDMILL.x, anchor.z - HeapLayout.WINDMILL.y).length() - HeapLayout.WINDMILL_SIZE.x * 0.5, 3.0, "the windmill keeps %s clear" % key)

@@ -1,0 +1,1987 @@
+{
+	"_about": "Written by tools/import_zone_kit.gd from data/source/heap_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/VerdantDump: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/heap/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
+	"density": 400,
+	"items": {
+		"DUMP-BD-JUNK": {
+			"aspect": 6.99,
+			"asset": "Junk hills backdrop",
+			"category": "Sky / backdrop",
+			"desc": "Distant mossy junk hills in haze along the bottom, transparent sky.",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "DUMP-BD-JUNK",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				293
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG, transparent sky, tileable horizontally",
+			"slot": "backdrop.dump-bd-junk",
+			"tinted": false,
+			"transparent": true,
+			"use": "Distant backdrop",
+			"zone": "heap"
+		},
+		"DUMP-DEC-CORRUPT": {
+			"aspect": 0.981,
+			"asset": "Corruption veins",
+			"category": "Decal",
+			"cleared_alpha": 364058,
+			"desc": "Violet root veins spreading over the ground.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "decal",
+			"id": "DUMP-DEC-CORRUPT",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"priority": "3",
+			"px": [
+				981,
+				1000
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "decal.dump-dec-corrupt",
+			"tinted": false,
+			"use": "Ground decal toward the Rotheart",
+			"zone": "heap"
+		},
+		"DUMP-DEC-OIL": {
+			"aspect": 1.054,
+			"asset": "Oil sheen",
+			"category": "Decal",
+			"cleared_alpha": 27823,
+			"desc": "Rainbow oil puddle.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "decal",
+			"id": "DUMP-DEC-OIL",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"priority": "3",
+			"px": [
+				950,
+				901
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "decal.dump-dec-oil",
+			"tinted": false,
+			"use": "Ground decal",
+			"zone": "heap"
+		},
+		"DUMP-DEC-PETALS": {
+			"aspect": 1.192,
+			"asset": "Wild petals",
+			"category": "Decal",
+			"cleared_alpha": 71444,
+			"desc": "Scattered colourful petals.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "decal",
+			"id": "DUMP-DEC-PETALS",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"priority": "3",
+			"px": [
+				975,
+				818
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "decal.dump-dec-petals",
+			"tinted": false,
+			"use": "Ground decal",
+			"zone": "heap"
+		},
+		"DUMP-GROUND-CLOVER": {
+			"asset": "Overgrown clover",
+			"category": "Surface",
+			"desc": "Clover and weeds pushing through stones and rubble, a lost cog.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "ground",
+			"id": "DUMP-GROUND-CLOVER",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 0.86,
+					"before": 1.72
+				},
+				"y": {
+					"after": 1.43,
+					"before": 1.43
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "ground.dump-ground-clover",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (ground)",
+			"zone": "heap"
+		},
+		"DUMP-GROUND-CORRUPT": {
+			"asset": "Corrupted soil",
+			"category": "Surface",
+			"desc": "Dark soil threaded with violet root veins and sickly moss.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "ground",
+			"id": "DUMP-GROUND-CORRUPT",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.42,
+					"before": 1.42
+				},
+				"y": {
+					"after": 1.24,
+					"before": 1.24
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "ground.dump-ground-corrupt",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (ground) toward the Rotheart",
+			"zone": "heap"
+		},
+		"DUMP-HERO-COMMONS-GREENHOUSE": {
+			"asset": "Commons greenhouse",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/heap/concepts/DUMP-HERO-COMMONS-GREENHOUSE.jpg",
+			"desc": "A salvaged glass-and-timber greenhouse with a round rose window, sunflowers, an awning, a rusty water tank and lantern light glowing warm inside.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "DUMP-HERO-COMMONS-GREENHOUSE",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.dump-hero-commons-greenhouse",
+			"tinted": false,
+			"use": "Hub centrepiece of Compost Commons",
+			"zone": "heap"
+		},
+		"DUMP-HERO-JUNK-MOUNTAIN": {
+			"asset": "Junk Mountain",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/heap/concepts/DUMP-HERO-JUNK-MOUNTAIN.jpg",
+			"desc": "A towering mound of doors, wheels, tins and crates overgrown with flowers, a plank stair zig-zagging to a lantern-lit shack with a little windmill on the summit.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "DUMP-HERO-JUNK-MOUNTAIN",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.dump-hero-junk-mountain",
+			"tinted": false,
+			"use": "Landmark of the junk peaks region (a view beyond the north-east corner)",
+			"zone": "heap"
+		},
+		"DUMP-HERO-ROTHEART": {
+			"asset": "The Rotheart",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/heap/concepts/DUMP-HERO-ROTHEART.jpg",
+			"desc": "The main-dungeon goal: a castle-scale knot of twisting roots and swallowed scrap, a heart-shaped hollow with a violet glow, mutated fungi climbing it, hanging moss, roots spilling outward across the ground. Awe-inspiring and sad: it was once beautiful.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "DUMP-HERO-ROTHEART",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.dump-hero-rotheart",
+			"tinted": false,
+			"use": "Main dungeon goal beyond the wetlands, visible from the whole zone",
+			"zone": "heap"
+		},
+		"DUMP-HERO-TRASH-PANDA-THRONE": {
+			"asset": "Trash Panda Throne",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/heap/concepts/DUMP-HERO-TRASH-PANDA-THRONE.jpg",
+			"desc": "A stepped dais of bins, barrels and crates with a crowned raccoon king statue on top, raccoon guard statues on the stairs, rag pennants, lanterns and a little doorway at the base.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "DUMP-HERO-TRASH-PANDA-THRONE",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.dump-hero-trash-panda-throne",
+			"tinted": false,
+			"use": "Entrance landmark for the Trash Panda Throne side dungeon (node-based)",
+			"zone": "heap"
+		},
+		"DUMP-HERO-WINDMILL": {
+			"asset": "Rusty windmill",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/heap/concepts/DUMP-HERO-WINDMILL.jpg",
+			"desc": "A patched windmill of tin and planks with four patchwork cloth sails, flower boxes, an awning porch and a violet root creeping up one side.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "DUMP-HERO-WINDMILL",
+			"lock": "CONCEPT",
+			"priority": "1",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG",
+			"slot": "concept.dump-hero-windmill",
+			"tinted": false,
+			"use": "Landmark of the farm rows region (sails turning slowly)",
+			"zone": "heap"
+		},
+		"DUMP-PATH-PLANK": {
+			"asset": "Plank walkway",
+			"category": "Surface",
+			"desc": "Salvaged planks and pallets laid as a path, clover between.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "ground",
+			"id": "DUMP-PATH-PLANK",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 0.77,
+					"before": 1.88
+				},
+				"y": {
+					"after": 1.51,
+					"before": 1.51
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "ground.dump-path-plank",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (path)",
+			"zone": "heap"
+		},
+		"DUMP-PLANT-FUNGUS": {
+			"aspect": 0.708,
+			"asset": "Mutated fungus",
+			"category": "Tree / plant",
+			"cleared_alpha": 56340,
+			"desc": "Violet glowing mushrooms on a mossy stump.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "DUMP-PLANT-FUNGUS",
+			"lock": "TREE",
+			"pivot": [
+				0.536,
+				1
+			],
+			"priority": "2",
+			"px": [
+				975,
+				1378
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.dump-plant-fungus",
+			"tinted": false,
+			"use": "Plant card toward the Rotheart (soft violet glow)",
+			"zone": "heap",
+			"height": 1.9
+		},
+		"DUMP-PLANT-REED": {
+			"aspect": 0.694,
+			"asset": "Reed bed",
+			"category": "Tree / plant",
+			"cleared_alpha": 118107,
+			"desc": "Tall reeds with cattails.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "DUMP-PLANT-REED",
+			"lock": "TREE",
+			"pivot": [
+				0.502,
+				1
+			],
+			"priority": "2",
+			"px": [
+				1005,
+				1449
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.dump-plant-reed",
+			"tinted": false,
+			"use": "Plant card along the stream and wetlands",
+			"zone": "heap",
+			"height": 2.2
+		},
+		"DUMP-PLANT-WILD": {
+			"aspect": 0.754,
+			"asset": "Wildflower crate",
+			"category": "Tree / plant",
+			"cleared_alpha": 53126,
+			"desc": "Wildflowers in an old crate.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "DUMP-PLANT-WILD",
+			"lock": "TREE",
+			"pivot": [
+				0.473,
+				1
+			],
+			"priority": "2",
+			"px": [
+				1004,
+				1332
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.dump-plant-wild",
+			"tinted": false,
+			"use": "Plant card along path edges",
+			"zone": "heap",
+			"height": 1.2
+		},
+		"DUMP-PROP-BOTTLES": {
+			"aspect": 1.917,
+			"asset": "Bottle wall",
+			"category": "Prop",
+			"cleared_alpha": 44194,
+			"desc": "Glass bottles set in a low mud and plank wall.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "DUMP-PROP-BOTTLES",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "3",
+			"px": [
+				1524,
+				795
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.dump-prop-bottles",
+			"tinted": false,
+			"use": "Prop in clusters",
+			"zone": "heap",
+			"height": 1.3
+		},
+		"DUMP-PROP-CARGOAT": {
+			"aspect": 1.446,
+			"asset": "Goat on a cart",
+			"category": "Prop",
+			"cleared_alpha": 58080,
+			"desc": "A white goat standing on an old wooden cart.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "DUMP-PROP-CARGOAT",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "3",
+			"px": [
+				1413,
+				977
+			],
+			"sheet_status": "Approved",
+			"size": "1536x1024 PNG, transparent",
+			"slot": "prop.dump-prop-cargoat",
+			"tinted": false,
+			"use": "Prop in clusters",
+			"zone": "heap",
+			"height": 2.2
+		},
+		"DUMP-PROP-COMPOST": {
+			"aspect": 1.01,
+			"asset": "Compost heap",
+			"category": "Prop",
+			"cleared_alpha": 46386,
+			"desc": "Steaming compost heap in a plank bin with a pitchfork.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "DUMP-PROP-COMPOST",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "3",
+			"px": [
+				978,
+				968
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dump-prop-compost",
+			"tinted": false,
+			"use": "Prop in clusters",
+			"zone": "heap",
+			"height": 1.8
+		},
+		"DUMP-PROP-SCRAPPILE": {
+			"aspect": 1.32,
+			"asset": "Sorted scrap pile",
+			"category": "Prop",
+			"cleared_alpha": 36022,
+			"desc": "A tidy pile of kettles, cogs, wheels and pipes with flowers.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "DUMP-PROP-SCRAPPILE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "3",
+			"px": [
+				995,
+				754
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dump-prop-scrappile",
+			"tinted": false,
+			"use": "Prop in clusters",
+			"zone": "heap",
+			"height": 1.7
+		},
+		"DUMP-PROP-TYRE": {
+			"aspect": 1.064,
+			"asset": "Tyre garden",
+			"category": "Prop",
+			"cleared_alpha": 25443,
+			"desc": "Stacked tyres planted with vegetables.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "DUMP-PROP-TYRE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "3",
+			"px": [
+				980,
+				921
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "prop.dump-prop-tyre",
+			"tinted": false,
+			"use": "Prop in clusters",
+			"zone": "heap",
+			"height": 1.5
+		},
+		"DUMP-ROOF-REED": {
+			"asset": "Reed and bottle roof",
+			"category": "Surface",
+			"desc": "Reed thatch studded with green glass bottles, tied with rope.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "roof",
+			"id": "DUMP-ROOF-REED",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 0.98,
+					"before": 0.98
+				},
+				"y": {
+					"after": 1.46,
+					"before": 1.46
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "roof.dump-roof-reed",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (roof)",
+			"zone": "heap"
+		},
+		"DUMP-ROOF-TIN": {
+			"asset": "Tin and tarp roof",
+			"category": "Surface",
+			"desc": "Rusty corrugated tin sheets and canvas patches with ivy.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "roof",
+			"id": "DUMP-ROOF-TIN",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.04,
+					"before": 2.31
+				},
+				"y": {
+					"after": 0.82,
+					"before": 1.62
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "roof.dump-roof-tin",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (roof)",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-DOORS": {
+			"asset": "Salvaged doors",
+			"category": "Cutout sheet",
+			"desc": "6 mismatched salvaged doors: green arched, screen, wheel shed, plank, round porthole, barn.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "door",
+			"id": "DUMP-SHEET-DOORS",
+			"lock": "SHEET",
+			"parts": [
+				"DUMP-SHEET-DOORS-01",
+				"DUMP-SHEET-DOORS-02",
+				"DUMP-SHEET-DOORS-03",
+				"DUMP-SHEET-DOORS-04",
+				"DUMP-SHEET-DOORS-05",
+				"DUMP-SHEET-DOORS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "door.dump-sheet-doors",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-DOORS-01": {
+			"aspect": 0.955,
+			"asset": "Salvaged doors 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 30750,
+			"desc": "6 mismatched salvaged doors: green arched, screen, wheel shed, plank, round porthole, barn.",
+			"from_px": [
+				597,
+				625
+			],
+			"group": "door",
+			"id": "DUMP-SHEET-DOORS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				597,
+				625
+			],
+			"sheet_cell": [
+				55,
+				20,
+				597,
+				625
+			],
+			"slot": "door.dump-sheet-doors-01",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-DOORS-02": {
+			"aspect": 0.9,
+			"asset": "Salvaged doors 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 28946,
+			"desc": "6 mismatched salvaged doors: green arched, screen, wheel shed, plank, round porthole, barn.",
+			"from_px": [
+				570,
+				633
+			],
+			"group": "door",
+			"id": "DUMP-SHEET-DOORS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				570,
+				633
+			],
+			"sheet_cell": [
+				742,
+				24,
+				570,
+				633
+			],
+			"slot": "door.dump-sheet-doors-02",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-DOORS-03": {
+			"aspect": 0.947,
+			"asset": "Salvaged doors 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 26082,
+			"desc": "6 mismatched salvaged doors: green arched, screen, wheel shed, plank, round porthole, barn.",
+			"from_px": [
+				592,
+				625
+			],
+			"group": "door",
+			"id": "DUMP-SHEET-DOORS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				592,
+				625
+			],
+			"sheet_cell": [
+				1398,
+				26,
+				592,
+				625
+			],
+			"slot": "door.dump-sheet-doors-03",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-DOORS-04": {
+			"aspect": 0.965,
+			"asset": "Salvaged doors 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 25011,
+			"desc": "6 mismatched salvaged doors: green arched, screen, wheel shed, plank, round porthole, barn.",
+			"from_px": [
+				607,
+				629
+			],
+			"group": "door",
+			"id": "DUMP-SHEET-DOORS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				607,
+				629
+			],
+			"sheet_cell": [
+				41,
+				679,
+				607,
+				629
+			],
+			"slot": "door.dump-sheet-doors-04",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-DOORS-05": {
+			"aspect": 1.141,
+			"asset": "Salvaged doors 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 25281,
+			"desc": "6 mismatched salvaged doors: green arched, screen, wheel shed, plank, round porthole, barn.",
+			"from_px": [
+				630,
+				552
+			],
+			"group": "door",
+			"id": "DUMP-SHEET-DOORS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				630,
+				552
+			],
+			"sheet_cell": [
+				706,
+				760,
+				630,
+				552
+			],
+			"slot": "door.dump-sheet-doors-05",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-DOORS-06": {
+			"aspect": 0.998,
+			"asset": "Salvaged doors 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 36128,
+			"desc": "6 mismatched salvaged doors: green arched, screen, wheel shed, plank, round porthole, barn.",
+			"from_px": [
+				624,
+				625
+			],
+			"group": "door",
+			"id": "DUMP-SHEET-DOORS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-DOORS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				624,
+				625
+			],
+			"sheet_cell": [
+				1392,
+				694,
+				624,
+				625
+			],
+			"slot": "door.dump-sheet-doors-06",
+			"tinted": false,
+			"use": "Sliced into door cutouts",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-FLAGS": {
+			"asset": "Rag flags",
+			"category": "Cutout sheet",
+			"desc": "6 rag flags and bunting strips.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "banner",
+			"id": "DUMP-SHEET-FLAGS",
+			"lock": "SHEET",
+			"parts": [
+				"DUMP-SHEET-FLAGS-01",
+				"DUMP-SHEET-FLAGS-02",
+				"DUMP-SHEET-FLAGS-03",
+				"DUMP-SHEET-FLAGS-04",
+				"DUMP-SHEET-FLAGS-05",
+				"DUMP-SHEET-FLAGS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "banner.dump-sheet-flags",
+			"tinted": false,
+			"use": "Sliced into banner bunting",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-FLAGS-01": {
+			"aspect": 1.538,
+			"asset": "Rag flags 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 42145,
+			"desc": "6 rag flags and bunting strips.",
+			"from_px": [
+				635,
+				413
+			],
+			"group": "banner",
+			"id": "DUMP-SHEET-FLAGS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-FLAGS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				635,
+				413
+			],
+			"sheet_cell": [
+				24,
+				143,
+				635,
+				413
+			],
+			"slot": "banner.dump-sheet-flags-01",
+			"tinted": false,
+			"use": "Sliced into banner bunting",
+			"zone": "heap",
+			"width": 3
+		},
+		"DUMP-SHEET-FLAGS-02": {
+			"aspect": 1.516,
+			"asset": "Rag flags 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 36653,
+			"desc": "6 rag flags and bunting strips.",
+			"from_px": [
+				632,
+				417
+			],
+			"group": "banner",
+			"id": "DUMP-SHEET-FLAGS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-FLAGS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				632,
+				417
+			],
+			"sheet_cell": [
+				714,
+				150,
+				632,
+				417
+			],
+			"slot": "banner.dump-sheet-flags-02",
+			"tinted": false,
+			"use": "Sliced into banner bunting",
+			"zone": "heap",
+			"width": 3
+		},
+		"DUMP-SHEET-FLAGS-03": {
+			"aspect": 1.836,
+			"asset": "Rag flags 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 33055,
+			"desc": "6 rag flags and bunting strips.",
+			"from_px": [
+				628,
+				342
+			],
+			"group": "banner",
+			"id": "DUMP-SHEET-FLAGS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-FLAGS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				628,
+				342
+			],
+			"sheet_cell": [
+				1395,
+				152,
+				628,
+				342
+			],
+			"slot": "banner.dump-sheet-flags-03",
+			"tinted": false,
+			"use": "Sliced into banner bunting",
+			"zone": "heap",
+			"width": 3
+		},
+		"DUMP-SHEET-FLAGS-04": {
+			"aspect": 1.224,
+			"asset": "Rag flags 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 51936,
+			"desc": "6 rag flags and bunting strips.",
+			"from_px": [
+				635,
+				519
+			],
+			"group": "banner",
+			"id": "DUMP-SHEET-FLAGS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-FLAGS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				635,
+				519
+			],
+			"sheet_cell": [
+				28,
+				708,
+				635,
+				519
+			],
+			"slot": "banner.dump-sheet-flags-04",
+			"tinted": false,
+			"use": "Sliced into banner bunting",
+			"zone": "heap",
+			"width": 3
+		},
+		"DUMP-SHEET-FLAGS-05": {
+			"aspect": 1.474,
+			"asset": "Rag flags 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 52301,
+			"desc": "6 rag flags and bunting strips.",
+			"from_px": [
+				647,
+				439
+			],
+			"group": "banner",
+			"id": "DUMP-SHEET-FLAGS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-FLAGS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				647,
+				439
+			],
+			"sheet_cell": [
+				702,
+				745,
+				647,
+				439
+			],
+			"slot": "banner.dump-sheet-flags-05",
+			"tinted": false,
+			"use": "Sliced into banner bunting",
+			"zone": "heap",
+			"width": 3
+		},
+		"DUMP-SHEET-FLAGS-06": {
+			"aspect": 1.282,
+			"asset": "Rag flags 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 48958,
+			"desc": "6 rag flags and bunting strips.",
+			"from_px": [
+				646,
+				504
+			],
+			"group": "banner",
+			"id": "DUMP-SHEET-FLAGS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-FLAGS",
+			"pivot": [
+				0.5,
+				0.03
+			],
+			"px": [
+				646,
+				504
+			],
+			"sheet_cell": [
+				1378,
+				723,
+				646,
+				504
+			],
+			"slot": "banner.dump-sheet-flags-06",
+			"tinted": false,
+			"use": "Sliced into banner bunting",
+			"zone": "heap",
+			"width": 3
+		},
+		"DUMP-SHEET-SIGNS": {
+			"asset": "Icon scrap signs",
+			"category": "Cutout sheet",
+			"desc": "6 scrap signs with icons only: leaf, bottle, goat, wheel, gear, sun.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "sign",
+			"id": "DUMP-SHEET-SIGNS",
+			"lock": "SHEET",
+			"parts": [
+				"DUMP-SHEET-SIGNS-01",
+				"DUMP-SHEET-SIGNS-02",
+				"DUMP-SHEET-SIGNS-03",
+				"DUMP-SHEET-SIGNS-04",
+				"DUMP-SHEET-SIGNS-05",
+				"DUMP-SHEET-SIGNS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "sign.dump-sheet-signs",
+			"tinted": false,
+			"use": "Sliced into shop signs",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-SIGNS-01": {
+			"aspect": 0.861,
+			"asset": "Icon scrap signs 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 28883,
+			"desc": "6 scrap signs with icons only: leaf, bottle, goat, wheel, gear, sun.",
+			"from_px": [
+				562,
+				653
+			],
+			"group": "sign",
+			"id": "DUMP-SHEET-SIGNS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.342
+			],
+			"px": [
+				562,
+				653
+			],
+			"sheet_cell": [
+				67,
+				45,
+				562,
+				653
+			],
+			"slot": "sign.dump-sheet-signs-01",
+			"tinted": false,
+			"use": "Sliced into shop signs",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-SIGNS-02": {
+			"aspect": 0.889,
+			"asset": "Icon scrap signs 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 30826,
+			"desc": "6 scrap signs with icons only: leaf, bottle, goat, wheel, gear, sun.",
+			"from_px": [
+				536,
+				603
+			],
+			"group": "sign",
+			"id": "DUMP-SHEET-SIGNS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.084
+			],
+			"px": [
+				536,
+				603
+			],
+			"sheet_cell": [
+				752,
+				92,
+				536,
+				603
+			],
+			"slot": "sign.dump-sheet-signs-02",
+			"tinted": false,
+			"use": "Sliced into shop signs",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-SIGNS-03": {
+			"aspect": 0.956,
+			"asset": "Icon scrap signs 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 25473,
+			"desc": "6 scrap signs with icons only: leaf, bottle, goat, wheel, gear, sun.",
+			"from_px": [
+				592,
+				619
+			],
+			"group": "sign",
+			"id": "DUMP-SHEET-SIGNS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.404
+			],
+			"px": [
+				592,
+				619
+			],
+			"sheet_cell": [
+				1409,
+				85,
+				592,
+				619
+			],
+			"slot": "sign.dump-sheet-signs-03",
+			"tinted": false,
+			"use": "Sliced into shop signs",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-SIGNS-04": {
+			"aspect": 0.894,
+			"asset": "Icon scrap signs 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 43080,
+			"desc": "6 scrap signs with icons only: leaf, bottle, goat, wheel, gear, sun.",
+			"from_px": [
+				534,
+				597
+			],
+			"group": "sign",
+			"id": "DUMP-SHEET-SIGNS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.512
+			],
+			"px": [
+				534,
+				597
+			],
+			"sheet_cell": [
+				80,
+				715,
+				534,
+				597
+			],
+			"slot": "sign.dump-sheet-signs-04",
+			"tinted": false,
+			"use": "Sliced into shop signs",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-SIGNS-05": {
+			"aspect": 0.909,
+			"asset": "Icon scrap signs 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 32900,
+			"desc": "6 scrap signs with icons only: leaf, bottle, goat, wheel, gear, sun.",
+			"from_px": [
+				539,
+				593
+			],
+			"group": "sign",
+			"id": "DUMP-SHEET-SIGNS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.105
+			],
+			"px": [
+				539,
+				593
+			],
+			"sheet_cell": [
+				741,
+				729,
+				539,
+				593
+			],
+			"slot": "sign.dump-sheet-signs-05",
+			"tinted": false,
+			"use": "Sliced into shop signs",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-SIGNS-06": {
+			"aspect": 1.028,
+			"asset": "Icon scrap signs 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 30247,
+			"desc": "6 scrap signs with icons only: leaf, bottle, goat, wheel, gear, sun.",
+			"from_px": [
+				597,
+				581
+			],
+			"group": "sign",
+			"id": "DUMP-SHEET-SIGNS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-SIGNS",
+			"pivot": [
+				0,
+				0.379
+			],
+			"px": [
+				597,
+				581
+			],
+			"sheet_cell": [
+				1401,
+				726,
+				597,
+				581
+			],
+			"slot": "sign.dump-sheet-signs-06",
+			"tinted": false,
+			"use": "Sliced into shop signs",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-WINDOWS": {
+			"asset": "Patched windows",
+			"category": "Cutout sheet",
+			"desc": "6 windows of odd glass and frames, some lit warm.",
+			"from_px": [
+				2048,
+				1365
+			],
+			"group": "window",
+			"id": "DUMP-SHEET-WINDOWS",
+			"lock": "SHEET",
+			"parts": [
+				"DUMP-SHEET-WINDOWS-01",
+				"DUMP-SHEET-WINDOWS-02",
+				"DUMP-SHEET-WINDOWS-03",
+				"DUMP-SHEET-WINDOWS-04",
+				"DUMP-SHEET-WINDOWS-05",
+				"DUMP-SHEET-WINDOWS-06"
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1365
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1365 PNG, transparent",
+			"slot": "window.dump-sheet-windows",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"zone": "heap"
+		},
+		"DUMP-SHEET-WINDOWS-01": {
+			"aspect": 0.934,
+			"asset": "Patched windows 1",
+			"category": "Cutout sheet",
+			"cleared_alpha": 29711,
+			"desc": "6 windows of odd glass and frames, some lit warm.",
+			"from_px": [
+				581,
+				622
+			],
+			"group": "window",
+			"id": "DUMP-SHEET-WINDOWS-01",
+			"index": 1,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				581,
+				622
+			],
+			"sheet_cell": [
+				62,
+				46,
+				581,
+				622
+			],
+			"slot": "window.dump-sheet-windows-01",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"zone": "heap",
+			"width": 1.4
+		},
+		"DUMP-SHEET-WINDOWS-02": {
+			"aspect": 0.924,
+			"asset": "Patched windows 2",
+			"category": "Cutout sheet",
+			"cleared_alpha": 25020,
+			"desc": "6 windows of odd glass and frames, some lit warm.",
+			"from_px": [
+				595,
+				644
+			],
+			"group": "window",
+			"id": "DUMP-SHEET-WINDOWS-02",
+			"index": 2,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				595,
+				644
+			],
+			"sheet_cell": [
+				752,
+				36,
+				595,
+				644
+			],
+			"slot": "window.dump-sheet-windows-02",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"zone": "heap",
+			"width": 1.4
+		},
+		"DUMP-SHEET-WINDOWS-03": {
+			"aspect": 0.887,
+			"asset": "Patched windows 3",
+			"category": "Cutout sheet",
+			"cleared_alpha": 22962,
+			"desc": "6 windows of odd glass and frames, some lit warm.",
+			"from_px": [
+				566,
+				638
+			],
+			"group": "window",
+			"id": "DUMP-SHEET-WINDOWS-03",
+			"index": 3,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				566,
+				638
+			],
+			"sheet_cell": [
+				1429,
+				44,
+				566,
+				638
+			],
+			"slot": "window.dump-sheet-windows-03",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"zone": "heap",
+			"width": 1.4
+		},
+		"DUMP-SHEET-WINDOWS-04": {
+			"aspect": 1.025,
+			"asset": "Patched windows 4",
+			"category": "Cutout sheet",
+			"cleared_alpha": 16190,
+			"desc": "6 windows of odd glass and frames, some lit warm.",
+			"from_px": [
+				611,
+				596
+			],
+			"group": "window",
+			"id": "DUMP-SHEET-WINDOWS-04",
+			"index": 4,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				611,
+				596
+			],
+			"sheet_cell": [
+				71,
+				714,
+				611,
+				596
+			],
+			"slot": "window.dump-sheet-windows-04",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"zone": "heap",
+			"width": 1.4
+		},
+		"DUMP-SHEET-WINDOWS-05": {
+			"aspect": 1.135,
+			"asset": "Patched windows 5",
+			"category": "Cutout sheet",
+			"cleared_alpha": 25559,
+			"desc": "6 windows of odd glass and frames, some lit warm.",
+			"from_px": [
+				683,
+				602
+			],
+			"group": "window",
+			"id": "DUMP-SHEET-WINDOWS-05",
+			"index": 5,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				683,
+				602
+			],
+			"sheet_cell": [
+				682,
+				723,
+				683,
+				602
+			],
+			"slot": "window.dump-sheet-windows-05",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"zone": "heap",
+			"width": 1.4
+		},
+		"DUMP-SHEET-WINDOWS-06": {
+			"aspect": 0.915,
+			"asset": "Patched windows 6",
+			"category": "Cutout sheet",
+			"cleared_alpha": 29350,
+			"desc": "6 windows of odd glass and frames, some lit warm.",
+			"from_px": [
+				590,
+				645
+			],
+			"group": "window",
+			"id": "DUMP-SHEET-WINDOWS-06",
+			"index": 6,
+			"lock": "CUTOUT",
+			"parent": "DUMP-SHEET-WINDOWS",
+			"pivot": [
+				0.5,
+				1
+			],
+			"px": [
+				590,
+				645
+			],
+			"sheet_cell": [
+				1365,
+				682,
+				590,
+				645
+			],
+			"slot": "window.dump-sheet-windows-06",
+			"tinted": false,
+			"use": "Sliced into window cutouts",
+			"zone": "heap",
+			"width": 1.4
+		},
+		"DUMP-SKY-SUNSET": {
+			"aspect": 2,
+			"asset": "Golden-hour sky",
+			"category": "Sky / backdrop",
+			"desc": "A gold and peach sunset sky with soft clouds (full image, no transparency).",
+			"from_px": [
+				2048,
+				1024
+			],
+			"group": "backdrop",
+			"id": "DUMP-SKY-SUNSET",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				1024
+			],
+			"sheet_status": "Approved",
+			"size": "2048x1024 PNG",
+			"slot": "backdrop.dump-sky-sunset",
+			"tinted": false,
+			"transparent": false,
+			"use": "Zone sky",
+			"zone": "heap"
+		},
+		"DUMP-TREE-BIRCH": {
+			"aspect": 0.641,
+			"asset": "Tyre birch",
+			"category": "Tree / plant",
+			"cleared_alpha": 101346,
+			"desc": "Birch growing through an old tyre with lupins.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "DUMP-TREE-BIRCH",
+			"lock": "TREE",
+			"pivot": [
+				0.47,
+				1
+			],
+			"priority": "2",
+			"px": [
+				968,
+				1511
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.dump-tree-birch",
+			"tinted": false,
+			"use": "Tree card in the healthy regions",
+			"zone": "heap",
+			"height": 5.4,
+			"pivot_hand": [
+				0.47,
+				1
+			]
+		},
+		"DUMP-TREE-OAK": {
+			"aspect": 0.723,
+			"asset": "Vine oak",
+			"category": "Tree / plant",
+			"cleared_alpha": 84175,
+			"desc": "Oak draped in vines and hanging bottle lanterns.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "DUMP-TREE-OAK",
+			"lock": "TREE",
+			"pivot": [
+				0.519,
+				1
+			],
+			"priority": "2",
+			"px": [
+				1023,
+				1415
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.dump-tree-oak",
+			"tinted": false,
+			"use": "Tree card in the healthy regions",
+			"zone": "heap",
+			"height": 6.2
+		},
+		"DUMP-TREE-TWISTED": {
+			"aspect": 0.671,
+			"asset": "Twisted tree",
+			"category": "Tree / plant",
+			"cleared_alpha": 136685,
+			"desc": "A twisted tree with violet-veined bark, hanging moss and a little fungus.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "tree",
+			"id": "DUMP-TREE-TWISTED",
+			"lock": "TREE",
+			"pivot": [
+				0.53,
+				1
+			],
+			"priority": "2",
+			"px": [
+				1010,
+				1506
+			],
+			"sheet_status": "Approved",
+			"size": "1024x1536 PNG, transparent",
+			"slot": "tree.dump-tree-twisted",
+			"tinted": false,
+			"use": "Tree card toward the Rotheart",
+			"zone": "heap",
+			"height": 6
+		},
+		"DUMP-TRIM-ROPE": {
+			"asset": "Rope and rag trim",
+			"category": "Surface",
+			"desc": "Frayed rope wound with vines, rag ties and little flowers.",
+			"from_px": [
+				1024,
+				512
+			],
+			"group": "trim",
+			"id": "DUMP-TRIM-ROPE",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				512
+			],
+			"seam": {
+				"x": {
+					"after": 1.26,
+					"before": 1.26
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x512 PNG, tileable horizontally",
+			"slot": "trim.dump-trim-rope",
+			"tile_u": 2.56,
+			"tile_v": 1.28,
+			"tile_x": true,
+			"tile_y": false,
+			"tinted": false,
+			"use": "Building trim (trim)",
+			"zone": "heap"
+		},
+		"DUMP-WALL-DOORS": {
+			"asset": "Old doors wall",
+			"category": "Surface",
+			"desc": "Doors of every colour nailed edge to edge, peeling paint, vines.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "wall",
+			"id": "DUMP-WALL-DOORS",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.46,
+					"before": 2.05
+				},
+				"y": {
+					"after": 0.98,
+					"before": 1.69
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "wall.dump-wall-doors",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (wall)",
+			"zone": "heap"
+		},
+		"DUMP-WALL-MOSSWOOD": {
+			"asset": "Mossy plank wall",
+			"category": "Surface",
+			"desc": "Grey planks furred with moss, rust patches, little white flowers.",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "wall",
+			"id": "DUMP-WALL-MOSSWOOD",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "1",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {
+				"x": {
+					"after": 1.48,
+					"before": 1.48
+				},
+				"y": {
+					"after": 1.4,
+					"before": 1.4
+				}
+			},
+			"sheet_status": "Approved",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "wall.dump-wall-mosswood",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": true,
+			"tile_y": true,
+			"tinted": false,
+			"use": "Kit material swap for this zone (wall)",
+			"zone": "heap"
+		},
+		"TEX-DUMP-MOSSYDIRT": {
+			"id": "TEX-DUMP-MOSSYDIRT",
+			"zone": "heap",
+			"lock": "SURFACE",
+			"group": "ground",
+			"slot": "ground.tex-dump-mossydirt",
+			"placeholder": "tex:dump_mossydirt",
+			"tinted": true,
+			"alias": true,
+			"desc": "Mossy dirt (painted texture set)",
+			"asset": "Mossy dirt (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"tile": 3.6
+		},
+		"TEX-DUMP-JUNKGRAVEL": {
+			"id": "TEX-DUMP-JUNKGRAVEL",
+			"zone": "heap",
+			"lock": "SURFACE",
+			"group": "ground",
+			"slot": "ground.tex-dump-junkgravel",
+			"placeholder": "tex:dump_junkgravel",
+			"tinted": true,
+			"alias": true,
+			"desc": "Junk gravel (painted texture set)",
+			"asset": "Junk gravel (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"tile": 3.2
+		},
+		"TEX-DUMP-COMPOST": {
+			"id": "TEX-DUMP-COMPOST",
+			"zone": "heap",
+			"lock": "SURFACE",
+			"group": "ground",
+			"slot": "ground.tex-dump-compost",
+			"placeholder": "tex:dump_compost",
+			"tinted": true,
+			"alias": true,
+			"desc": "Compost soil (painted texture set)",
+			"asset": "Compost soil (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"tile": 3
+		},
+		"TEX-DUMP-FARMROWS": {
+			"id": "TEX-DUMP-FARMROWS",
+			"zone": "heap",
+			"lock": "SURFACE",
+			"group": "ground",
+			"slot": "ground.tex-dump-farmrows",
+			"placeholder": "tex:dump_farmrows",
+			"tinted": true,
+			"alias": true,
+			"desc": "Farm rows (painted texture set)",
+			"asset": "Farm rows (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"tile": 4
+		},
+		"TEX-DUMP-RUSTMETAL": {
+			"id": "TEX-DUMP-RUSTMETAL",
+			"zone": "heap",
+			"lock": "SURFACE",
+			"group": "wall",
+			"slot": "wall.tex-dump-rustmetal",
+			"placeholder": "tex:dump_rustmetal",
+			"tinted": true,
+			"alias": true,
+			"desc": "Rusty metal (painted texture set)",
+			"asset": "Rusty metal (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"tile": 3
+		},
+		"DEC-RUST": {
+			"id": "DEC-RUST",
+			"zone": "heap",
+			"lock": "CUTOUT",
+			"group": "decal",
+			"slot": "decal.dec-rust",
+			"placeholder": "dec:rust",
+			"tinted": true,
+			"alias": true,
+			"desc": "Rust stain decal (painted texture set)",
+			"asset": "Rust stain decal (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"pivot": [
+				0.5,
+				0.5
+			]
+		},
+		"DEC-MOSS": {
+			"id": "DEC-MOSS",
+			"zone": "heap",
+			"lock": "CUTOUT",
+			"group": "decal",
+			"slot": "decal.dec-moss",
+			"placeholder": "dec:moss",
+			"tinted": true,
+			"alias": true,
+			"desc": "Moss patch decal (painted texture set)",
+			"asset": "Moss patch decal (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"pivot": [
+				0.5,
+				0.5
+			]
+		},
+		"DEC-FLOWERS": {
+			"id": "DEC-FLOWERS",
+			"zone": "heap",
+			"lock": "CUTOUT",
+			"group": "decal",
+			"slot": "decal.dec-flowers",
+			"placeholder": "dec:flowers",
+			"tinted": true,
+			"alias": true,
+			"desc": "Flower scatter decal (painted texture set)",
+			"asset": "Flower scatter decal (painted texture set)",
+			"category": "Painted texture (alias)",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"pivot": [
+				0.5,
+				0.5
+			]
+		}
+	},
+	"zone": "heap"
+}

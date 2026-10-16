@@ -109,7 +109,7 @@ func _the_dungeons(zone: HeapScene) -> void:
 		await driver.frames(4)
 		_check(zone._near == door, "the Landfill Depths: the door prompt is up (near %s)" % (zone._near.id if zone._near != null else "nothing"))
 		_check(not door.plate.visible, "the Landfill Depths: no lettered plate (the board carries the icon)")
-		_check(zone.heap.landmarks.has("HEAP-HERO-TRASH-PANDA-THRONE"), "the Trash Panda Throne stands over the door")
+		_check(zone.heap.landmarks.has("DUMP-HERO-TRASH-PANDA-THRONE"), "the Trash Panda Throne stands over the door")
 		await _shot("w_14_landfill_depths_door")
 		await driver.tap_key(KEY_E)
 		await driver.seconds(0.6)

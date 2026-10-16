@@ -120,3 +120,18 @@ func test_buffet_registry_resolves_through_envkit() -> void:
 	assert_eq(EnvKit.status("TEX-BUFF-MASHED"), "placeholder", "a painted texture alias has no kit file of its own")
 	assert_not_null(EnvKit.texture("TEX-BUFF-MASHED"), "but resolves to the painted texture")
 	assert_false(bool(EnvKit.entry("BUFF-WALL-BISCUIT").get("tinted", true)), "zone art is untinted")
+
+
+func test_heap_registry_resolves_through_envkit() -> void:
+	# the Verdant Dump kit (Approved_ZoneKits/VerdantDump via zonekit_folders, the sheet reconstructed: VD-11)
+	for id: String in ["DUMP-WALL-DOORS", "DUMP-ROOF-TIN", "DUMP-GROUND-CORRUPT", "DUMP-PATH-PLANK", "DUMP-SHEET-DOORS-01", "DUMP-SHEET-FLAGS-04", "DUMP-TREE-TWISTED", "DUMP-PLANT-FUNGUS", "DUMP-PROP-CARGOAT", "DUMP-DEC-CORRUPT", "DUMP-BD-JUNK", "DUMP-SKY-SUNSET"]:
+		assert_true(EnvKit.has(id), "%s is in the registry" % id)
+		assert_eq(EnvKit.zone_of(id), "heap", "%s belongs to the Verdant Dump" % id)
+		assert_true(EnvKit.has_art(id), "%s has its file" % id)
+	assert_almost_eq(EnvKit.tile_size("DUMP-WALL-MOSSWOOD"), 2.56, 0.01, "one texel density with the town kit (400 px/m)")
+	assert_almost_eq(EnvKit.pivot("DUMP-TREE-BIRCH").x, 0.47, 0.01, "the birch's hand pivot (a stray leaf pulled the measured one to 0.79) survives")
+	assert_eq(EnvKit.entry("DUMP-SHEET-SIGNS").get("parts", []).size(), 6, "the sign sheet lists its six parts")
+	assert_not_null(EnvKit.texture("TEX-DUMP-MOSSYDIRT"), "the reused painted textures resolve")
+	for id: String in HeapLandmarks.IDS:
+		assert_true(HeroLandmarks.has_model(id), "%s is modelled from its concept" % id)
+		assert_true(FileAccess.file_exists("res://docs/art/zone_kits/heap/concepts/%s.jpg" % id), "%s has its concept reference" % id)

@@ -18,6 +18,11 @@ func has_slot(slot: String) -> bool:
 	return _tools.has(slot)
 
 
+## The material registered for `slot` (null when none).
+func material_of(slot: String) -> Material:
+	return _materials.get(slot) as Material
+
+
 func triangle_count() -> int:
 	return _triangles
 

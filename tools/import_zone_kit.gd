@@ -42,7 +42,7 @@ func _initialize() -> void:
 	config.load(CONFIG)
 	var root_dir: String = OS.get_environment("ZONEKIT_SOURCE_DIR")
 	if root_dir == "":
-		root_dir = str(config.get_value("", "zonekits_dir", "G:/My Drive/Card Game Art/Approved_ZoneKits"))
+		root_dir = str(config.get_value("art", "zonekits_dir", "G:/My Drive/Card Game Art/Approved_ZoneKits"))
 	for forbidden: String in ["Pending Review", "Superseded"]:
 		if root_dir.contains(forbidden):
 			print("import_zone_kit: refusing to read from %s" % forbidden)
@@ -143,8 +143,13 @@ func _initialize() -> void:
 	quit(0)
 
 
-## The Drive folder of this zone: a sub-folder of zonekits_dir whose name matches the zone id (case and underscores ignored), else the capitalised id.
+## The Drive folder of this zone: zonekit_folders[zone] in art_config.cfg when set, else a sub-folder of zonekits_dir whose name matches the zone id (case and underscores ignored), else the capitalised id.
 func _zone_folder(root_dir: String) -> String:
+	var config: ConfigFile = ConfigFile.new()
+	config.load(CONFIG)
+	var mapped: Dictionary = config.get_value("art", "zonekit_folders", {})
+	if mapped.has(_zone):
+		return "%s/%s" % [root_dir, str(mapped[_zone])]
 	var wanted: String = _zone.replace("_", "")
 	var dir: DirAccess = DirAccess.open(root_dir)
 	if dir != null:
@@ -196,6 +201,9 @@ func _merge_item(items: Dictionary, id: String, entry: Dictionary) -> void:
 	var merged: Dictionary = (items.get(id, {}) as Dictionary).duplicate()
 	for key: Variant in entry.keys():
 		merged[key] = entry[key]
+	# a hand pivot (a stray leaf at the base pulls the measured trunk centre off) wins over the measured one
+	if merged.has("pivot_hand"):
+		merged["pivot"] = merged["pivot_hand"]
 	items[id] = merged
 
 

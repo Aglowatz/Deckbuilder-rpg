@@ -101,7 +101,13 @@ func _ready() -> void:
 	var offset: Vector3 = WorldLookRig.base_offset() * float(_args.get("zoom", 1.5))
 	_camera.position = _hero.position + offset
 	_camera.look_at(_hero.position + Vector3(0, 0.4, 0), Vector3.UP)
+	# --cam=x,y,z --look=x,y,z: a free camera for a landmark too big for the hero framing (the Rotheart, Junk Mountain)
+	if _args.has("cam"):
+		var cam: PackedStringArray = str(_args["cam"]).split(",")
+		var look: PackedStringArray = str(_args.get("look", "0,10,-40")).split(",")
+		_camera.position = Vector3(float(cam[0]), float(cam[1]), float(cam[2]))
+		_camera.look_at(Vector3(float(look[0]), float(look[1]), float(look[2])), Vector3.UP)
 	var rig: StyleRig = StyleRig.install(self, StylePresets.TOWN, _camera, _hero, 0.0)
-	if rig != null:
+	if rig != null and not _args.has("cam"):
 		WorldLookRig.install(self, _camera, _hero, rig, null, false)
 	KitLights.attach(self, self, rig)
