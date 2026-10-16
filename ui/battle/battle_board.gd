@@ -692,6 +692,11 @@ func present(event: GameEvent) -> void:
 			await _wait(0.16)
 		GameEvent.Type.STATS_CHANGED:
 			_refresh_view(event.card)
+			if event.amount > 0 or event.value > 0:
+				Audio.sfx(&"spell", -12.0)
+				fx.burst(center_of(event.card), Color("9be49f"), 10, 120.0)
+			else:
+				Audio.sfx(&"hit_light", -10.0)
 			fx.floating_text(center_of(event.card), "%+d/%+d" % [event.amount, event.value], Color("9be49f"), 36)
 			await _wait(0.25)
 		GameEvent.Type.KEYWORD_GRANTED:
@@ -702,6 +707,10 @@ func present(event: GameEvent) -> void:
 			_refresh_view(event.card)
 			fx.floating_text(center_of(event.card), "+%d" % event.amount, Color("7be08a"), 40)
 			await _wait(0.25)
+		GameEvent.Type.RESOURCE_CREATED:
+			_on_resource(event, true)
+		GameEvent.Type.RESOURCE_USED:
+			_on_resource(event, false)
 		GameEvent.Type.DAMAGE_CLEARED:
 			_refresh_view(event.card)
 		GameEvent.Type.PHASE_CHANGED:
@@ -784,6 +793,8 @@ func _on_cast(event: GameEvent) -> void:
 	var view: CardView = view_for(event.card)
 	if view == null:
 		return
+	if _lift(view):
+		await _wait(0.08)
 	zones[event.card] = Zone.CENTER
 	view.set_mode(CardView.Mode.FULL)
 	_center_uid = event.card
@@ -804,8 +815,56 @@ func _on_entered(event: GameEvent) -> void:
 	layout()
 	var view: CardView = view_for(event.card)
 	if view != null:
+		await _wait(0.24)
+		_land(view, SCALE_BF)
 		fx.flash_ring(center_of(event.card), UIStyle.affinity_color(view.data.color), 60.0)
-	await _wait(0.3)
+	await _wait(0.16)
+
+
+## Battle feel, Part C: a card about to fly to the middle lifts off first (hand cards only; an enemy card is already up top).
+func _lift(view: CardView) -> bool:
+	if zones.get(view.instance_uid) != Zone.HAND or int(view.get_meta("owner", 0)) != human:
+		return false
+	var previous: Variant = view.get_meta("tween") if view.has_meta("tween") else null
+	if previous is Tween and (previous as Tween).is_valid():
+		(previous as Tween).kill()
+	var tween: Tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(view, "position:y", view.position.y - 46.0, 0.07 / speed)
+	tween.tween_property(view, "scale", view.scale * 1.08, 0.07 / speed)
+	tween.tween_property(view, "rotation_degrees", 0.0, 0.07 / speed)
+	return true
+
+
+## Battle feel, Part C: a unit lands on the field: a quick squash and settle, a puff of dust and a thud.
+func _land(view: CardView, rest_scale: float) -> void:
+	if not is_instance_valid(view):
+		return
+	var previous: Variant = view.get_meta("tween") if view.has_meta("tween") else null
+	if previous is Tween and (previous as Tween).is_valid():
+		(previous as Tween).kill()
+	var tween: Tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(view, "scale", Vector2(rest_scale * 1.1, rest_scale * 0.94), 0.05 / speed)
+	tween.tween_property(view, "scale", Vector2.ONE * rest_scale, 0.12 / speed)
+	view.set_meta("tween", tween)
+	Audio.sfx(&"land_play", -5.0)
+	var foot: Vector2 = view.position + Vector2(CardView.SIZE.x * 0.5, CardView.SIZE.y) * rest_scale
+	fx.burst(foot, Color("d8c8a8"), 10, 110.0)
+
+
+## Battle feel, Part C: a resource coin is gained (a gold pop and coins) or spent (a ring and a click) at its tray socket.
+func _on_resource(event: GameEvent, gained: bool) -> void:
+	var kinds: Array[ResourceKind.Kind] = ResourceKind.all()
+	var slot: int = kinds.find(event.value as ResourceKind.Kind)
+	var owner_index: int = clampi(event.player, 0, 1)
+	var spot: Vector2 = _socket_center(owner_index, maxi(slot, 0)) if slot >= 0 else TOKEN_ORIGIN[owner_index]
+	var color: Color = ResourceKind.COLORS[event.value] as Color if ResourceKind.COLORS.has(event.value) else UIStyle.GOLD
+	if gained:
+		Audio.sfx(&"coins", -8.0)
+		fx.burst(spot, color, 10, 140.0)
+		fx.floating_text(spot + Vector2(0, -30), "+%d" % maxi(event.amount, 1), color.lightened(0.3), 28)
+	else:
+		Audio.sfx(&"ui_select", -6.0)
+		fx.flash_ring(spot, color, 44.0)
 
 
 func _on_trap_set(event: GameEvent) -> void:
@@ -825,11 +884,19 @@ func _on_trap_triggered(event: GameEvent) -> void:
 	zones[event.card] = Zone.CENTER
 	view.set_mode(CardView.Mode.FULL)
 	_center_uid = event.card
+	# Battle feel, Part C: the trap flips up dramatically: it swings up edge-on from its slot and turns face-up in the middle.
+	view.pivot_offset = CardView.SIZE * 0.5
+	view.rotation_degrees = -28.0
+	view.scale = Vector2(0.04, SCALE_TRAP)
 	Audio.sfx(&"trap")
-	fx.flash_ring(CENTER_POINT, UIStyle.GOLD, 160.0)
-	fx.shake(8.0, 0.25)
+	Audio.sfx(&"hit_metal", -6.0)
 	layout()
-	await _wait(0.8)
+	fx.flash_ring(CENTER_POINT, UIStyle.GOLD, 160.0)
+	await _wait(0.12)
+	fx.flash_ring(CENTER_POINT, Color("ff9c4a"), 230.0)
+	fx.floating_text(CENTER_POINT + Vector2(0, -230), "TRAP!", UIStyle.GOLD, 64)
+	fx.shake(6.0, 0.22)
+	await _wait(0.68)
 
 
 func _on_token(event: GameEvent) -> void:
@@ -867,8 +934,8 @@ func _on_damage(event: GameEvent) -> void:
 	if event.amount > 0:
 		fx.floating_text(target_center, "-%d" % event.amount, Color("ff6a5a"), 52 if heavy else 44)
 		fx.burst(target_center, Color("ff8a5a"), 12 + event.amount * 3, 240.0)
-	if heavy or (on_player and event.amount >= 2):
-		fx.shake(minf(8.0 + float(event.amount) * 3.0, 26.0), 0.32)
+	if event.amount >= 4 or (on_player and event.amount >= 3):
+		fx.shake(minf(4.0 + float(event.amount) * 2.0, 18.0), 0.26)
 	if not on_player:
 		var target_view: CardView = view_for(event.other)
 		if target_view != null:
@@ -899,7 +966,27 @@ func _on_died(event: GameEvent) -> void:
 	order.erase(event.card)
 	Audio.sfx(&"death")
 	var color: Color = UIStyle.affinity_color(view.data.color) if view.data != null else Color.WHITE
-	fx.dissolve(view, color, 0.6)
+	var pile_owner: int = int(view.get_meta("owner", 0))
+	var dead: CardInstance = game.find_card(event.card)
+	if dead != null:
+		pile_owner = dead.real_owner
+	var to_pile: bool = view.data != null and not view.data.is_token
+	var crack: Tween = create_tween()
+	view.pivot_offset = CardView.SIZE * 0.5
+	crack.tween_property(view, "rotation_degrees", view.rotation_degrees + 5.0, 0.04 / speed)
+	crack.parallel().tween_property(view, "modulate", Color(1.7, 0.55, 0.5, view.modulate.a), 0.04 / speed)
+	crack.tween_property(view, "rotation_degrees", view.rotation_degrees - 5.0, 0.05 / speed)
+	crack.tween_property(view, "rotation_degrees", view.rotation_degrees, 0.04 / speed)
+	await crack.finished
+	fx.burst(center_of(event.card), Color("ffd2b0"), 16, 220.0)
+	fx.dissolve(view, color, 0.55 / speed)
+	if to_pile:
+		var slide: Tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		var pile_scale: float = RefusePileWidget.CARD_SCALE
+		slide.tween_property(view, "global_position", grave_anchor[pile_owner] - CardView.SIZE * 0.5 * pile_scale, 0.45 / speed)
+		slide.tween_property(view, "scale", Vector2.ONE * pile_scale, 0.45 / speed)
+		slide.tween_property(view, "rotation_degrees", 0.0, 0.45 / speed)
+		Audio.sfx(&"card_discard", -6.0)
 	layout()
 	await _wait(0.4)
 

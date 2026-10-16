@@ -375,6 +375,18 @@ func show_banner(text: String, color: Color) -> void:
 	tween.tween_property(_banner, "modulate:a", 0.0, 0.3)
 
 
+## Battle feel, Part C: the losing player's plate is knocked out at the end of a battle (a jolt, then it greys and sinks).
+func knock_out(player_index: int) -> void:
+	var plate: Portrait = _portraits[player_index]
+	var home: Vector2 = plate.position
+	var tween: Tween = create_tween()
+	for step: int in range(4):
+		var jolt: float = (10.0 - float(step) * 2.0) * (1.0 if step % 2 == 0 else -1.0)
+		tween.tween_property(plate, "position", home + Vector2(jolt, 0.0), 0.04)
+	tween.tween_property(plate, "position", home + Vector2(0.0, 6.0), 0.12)
+	tween.parallel().tween_property(plate, "modulate", Color(0.45, 0.42, 0.48, 0.9), 0.35)
+
+
 func set_speed_label() -> void:
 	speed_button.text = "Speed: %s" % Settings.BATTLE_SPEED_NAMES[clampi(Settings.battle_speed, 0, Settings.BATTLE_SPEEDS.size() - 1)]
 
@@ -603,6 +615,24 @@ class Portrait:
 			_tween.kill()
 		_tween = create_tween()
 		_tween.tween_method(_apply_hp, _shown_hp, float(value), 0.5)
+		_flash_bar(float(value) < _shown_hp)
+
+	## Battle feel, Part C: a red flash on the HP bar when hit, a green shimmer when healed (softer with Reduce flashing).
+	func _flash_bar(hurt: bool) -> void:
+		if _bar == null:
+			return
+		var strength: float = 0.35 if Settings.reduce_flashing else 1.0
+		var peak: Color = Color(1.0 + 0.9 * strength, 1.0 - 0.5 * strength, 1.0 - 0.5 * strength) if hurt else Color(1.0 - 0.3 * strength, 1.0 + 0.6 * strength, 1.0 - 0.1 * strength)
+		var flash: Tween = create_tween()
+		var pulses: int = 1 if hurt else 2
+		for pulse: int in range(pulses):
+			flash.tween_property(_bar, "modulate", peak, 0.06 if hurt else 0.14)
+			flash.tween_property(_bar, "modulate", Color.WHITE, 0.22 if hurt else 0.18)
+		if hurt and _hp_label != null:
+			_hp_label.pivot_offset = _hp_label.size * 0.5
+			var bump: Tween = create_tween()
+			bump.tween_property(_hp_label, "scale", Vector2(1.3, 1.3), 0.06)
+			bump.tween_property(_hp_label, "scale", Vector2.ONE, 0.18)
 
 	func _apply_hp(value: float) -> void:
 		_shown_hp = value

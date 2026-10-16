@@ -1554,7 +1554,17 @@ func _show_result() -> void:
 	# The fight is over: the battle song gives way to the area's music, with the result sting over it.
 	_release_battle_music(0.5)
 	Audio.sfx(&"victory" if won else &"defeat")
-	await get_tree().create_timer(0.7, false).timeout
+	# Battle feel, Part C: a short end sequence before the result panel: the banner, the losing plate knocked out, and a
+	# gold shower on a win. Fast and Very Fast shorten it.
+	hud.show_banner("Victory!" if won else ("Draw" if game.is_draw else "Defeat"), UIStyle.GOLD if won else Color("e06a5a"))
+	if not game.is_draw and game.winner >= 0:
+		hud.knock_out(1 - game.winner)
+		fx.burst(hud.portrait_center(1 - game.winner), Color("ff8a5a"), 30, 320.0)
+		fx.shake(10.0, 0.3)
+	if won:
+		for i: int in range(3):
+			fx.burst(Vector2(600 + i * 380, 380), UIStyle.GOLD, 22, 340.0)
+	await get_tree().create_timer(1.2 / maxf(board.speed, 1.0), false).timeout
 	if tutorial != null:
 		tutorial.queue_free()
 		tutorial = null
