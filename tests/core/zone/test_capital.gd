@@ -55,13 +55,13 @@ func test_all_spots_hubs_chests_and_enemies_are_connected_to_the_spawn_through_t
 	var builder: CapitalBuilder = _builder()
 	builder.gate_open = true
 	var reached: Dictionary = _flood(builder, builder.anchor("spawn"))
-	for name_to_check: String in ["gate_inside", "fern", "pell", "rollo", "marlo", "castle_door", "net_approach", "manhole", "facade_gate", "fountain", "ward_window", "castle_door"]:
+	for name_to_check: String in ["gate_inside", "fern", "pell", "rollo", "marlo", "castle_door", "net_approach", "manhole", "facade_gate", "ward_window", "exit_booth"]:
 		assert_true(_reaches(reached, builder.anchor(name_to_check)), "%s is reachable from the road" % name_to_check)
-	# The Crease (the underground hideout, z > 95) is reached through the manhole or the tunnel, so its chests are checked from its own arrival point.
+	# The Crease (the underground hideout, south of CREASE_Z) is reached through the manhole or the tunnel, so its chests are checked from its own arrival point.
 	var crease: Dictionary = _flood(builder, builder.anchor("crease_spawn"))
 	for chest_id: Variant in builder.chest_positions().keys():
 		var chest_pos: Vector3 = builder.chest_positions()[chest_id] as Vector3
-		assert_true(_reaches(crease if chest_pos.z > 95.0 else reached, chest_pos), "chest %s is reachable" % str(chest_id))
+		assert_true(_reaches(crease if chest_pos.z > CapitalBuilder.CREASE_Z else reached, chest_pos), "chest %s is reachable" % str(chest_id))
 	for spawn: Dictionary in builder.enemy_spawns():
 		assert_true(builder.is_walkable(spawn["home"] as Vector3, 0.25), "enemy home %s is on open ground" % str(spawn["home"]))
 		assert_true(_reaches(reached, spawn["home"] as Vector3), "enemy home %s is reachable" % str(spawn["home"]))
@@ -71,7 +71,7 @@ func test_the_closed_gate_stays_shut() -> void:
 	var builder: CapitalBuilder = _builder()
 	builder.gate_open = false
 	var reached: Dictionary = _flood(builder, builder.anchor("spawn"))
-	assert_false(builder.is_walkable(Vector3(60.0, 0.0, 61.0), 0.3), "the barrier closes the 10 m opening")
+	assert_false(builder.is_walkable(Vector3(60.0, 0.0, float(CapitalLayout.WALL_Z0) + 1.0), 0.3), "the barrier closes the 10 m opening")
 	# Brief 16: the city is still reachable on foot, but only through the hidden gap in the left-hand wall (see test_capital_wall_passage.gd).
 	assert_true(_reaches(reached, builder.anchor("wall_passage")))
 	assert_true(_reaches(reached, builder.anchor("tunnel_in")), "the secret shaft is reachable from the road")
@@ -101,7 +101,7 @@ func test_the_hub_has_a_heal_a_vendor_and_resistance_npcs_and_no_enemies() -> vo
 	assert_true(kinds.has("heal"))
 	assert_true(kinds.has("vendor_npc"))
 	for spawn: Dictionary in _layout.enemy_spawns:
-		assert_lt((spawn["home"] as Vector3).z, 96.0, "no enemies in the underground hideout")
+		assert_lt((spawn["home"] as Vector3).z, CapitalBuilder.CREASE_Z, "no enemies in the underground hideout")
 	assert_gt(def.vendor_ids.size(), 4, "a black market of rare cards")
 	for card_id: String in def.vendor_ids:
 		assert_not_null(Session.card_by_id(card_id), "black market card %s exists" % card_id)
@@ -113,7 +113,7 @@ func test_districts_and_areas() -> void:
 	var titles: Array[String] = []
 	for area: CapitalLayout.Area in _layout.areas:
 		titles.append(area.title)
-	for expected: String in ["The Outskirts", "The Approved Gate", "The Showcase Quarter", "The Reek", "Grave Row", "The Transit Yards", "The Hungry Quarter", "The Correction Ward", "The Castle Approach", "The Crease"]:
+	for expected: String in ["The Gate Road", "The Resistance Camp", "The Rift Fields", "The Ruined Outpost", "The Old Service Tunnels", "The Wall Passage", "The Gate Plaza", "The Palace Approach", "The Reek", "Grave Row", "The Transit Yards", "The Hungry Quarter", "The Correction Ward", "The Crease"]:
 		assert_true(titles.has(expected), "area %s" % expected)
 
 
@@ -311,7 +311,7 @@ func test_some_rifts_can_be_sealed_for_a_reward_after_their_guardian_falls() -> 
 	assert_true(bool(result["ok"]))
 	assert_gt(Session.gold, gold_before, "the reward")
 	assert_true(CapitalRifts.is_sealed(Session.flags, "out_a"))
-	assert_true(CapitalRifts.touching(Session.flags, Vector2(30, 78)).is_empty(), "a sealed rift no longer hurts")
+	assert_true(CapitalRifts.touching(Session.flags, Vector2(float(CapitalRifts.find("out_a")["x"]), float(CapitalRifts.find("out_a")["z"]))).is_empty(), "a sealed rift no longer hurts")
 	assert_false(CapitalInteractables.seal_rift(run, "out_a")["ok"], "only once")
 
 

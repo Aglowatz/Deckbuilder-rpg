@@ -25,11 +25,11 @@ func test_the_gap_is_on_the_left_hand_side_and_two_metres_wide() -> void:
 func test_the_hero_can_walk_from_the_spawn_into_the_city_with_the_gate_closed() -> void:
 	var capital: CapitalBuilder = _builder()
 	var spawn: Vector3 = capital.anchor("spawn")
-	var inside: Vector3 = Vector3(23.0, 0.0, 55.0)
+	var inside: Vector3 = Vector3(23.0, 0.0, float(CapitalLayout.WALL_Z0) - 6.0)
 	var can: Callable = func(pos: Vector3) -> bool: return capital.is_walkable(pos, 0.3)
 	assert_eq(WalkProbe.unreachable(can, spawn, capital.map_bounds(), {"inside": inside}), [] as Array[String], "through the gap past the closed gate")
 	var gate_inside: Vector3 = capital.anchor("gate_inside")
-	assert_false(capital.is_walkable(Vector3(60.0, 0.0, 61.0), 0.3), "the gate itself stays shut")
+	assert_false(capital.is_walkable(Vector3(60.0, 0.0, float(CapitalLayout.WALL_Z0) + 1.0), 0.3), "the gate itself stays shut")
 	assert_eq(WalkProbe.unreachable(can, spawn, capital.map_bounds(), {"plaza": gate_inside}), [] as Array[String], "the plaza is reachable through the passage too")
 
 
@@ -37,7 +37,7 @@ func test_no_sign_or_marker_names_the_passage() -> void:
 	var layout: CapitalLayout = CapitalLayout.new()
 	layout.build()
 	for sign: CapitalLayout.Sign in layout.signs:
-		assert_false(absf(sign.pos.x - 23.0) < 4.0 and sign.pos.z > 58.0 and sign.pos.z < 68.0, "no sign by the gap: %s" % sign.key)
+		assert_false(absf(sign.pos.x - 23.0) < 4.0 and sign.pos.z > float(CapitalLayout.WALL_Z0) - 2.0 and sign.pos.z < float(CapitalLayout.WALL_Z1) + 5.0, "no sign by the gap: %s" % sign.key)
 	var hints: int = 0
 	for prop: CapitalLayout.Prop in layout.props:
 		if prop.kind in ["wall_crack", "loose_stones", "scrub"]:

@@ -10,7 +10,7 @@ const P = preload("res://world/capital/capital_props.gd")
 const B = preload("res://world/buffet/buffet_props.gd")
 const DISTORTION: Shader = preload("res://world/capital/rift_distortion.gdshader")
 ## Everything south of this z is the underground hideout: it lives on visual layer 2 so the sun does not light it.
-const CREASE_Z: float = 96.0
+const CREASE_Z: float = 128.0
 const CREASE_LAYER: int = 2
 
 var layout: CapitalLayout = CapitalLayout.new()
@@ -22,6 +22,9 @@ var gate_open: bool = false
 ## The story state the look depends on (read from the Session when built).
 var ctx: Dictionary = {}
 var prop_nodes: Dictionary = {}
+## The great wall's pieces and their boxes (`CapitalScene` hides a faded piece that blocks the lens, VD-22).
+var great_wall: Array[Node3D] = []
+var great_wall_boxes: Array[AABB] = []
 var rift_nodes: Dictionary = {}
 
 var _buckets: Dictionary = {}
@@ -45,7 +48,7 @@ func build(parent: Node3D) -> void:
 	_build_ground()
 	_build_buildings()
 	_build_boundaries()
-	_build_castle()
+	_build_landmarks()
 	_build_props()
 	_build_signs()
 	_build_rifts()
@@ -286,7 +289,8 @@ func _build_ground() -> void:
 	_build_ground_mesh(Rect2i(0, 0, CapitalLayout.W, int(CREASE_Z)), 1, "Ground")
 	_build_ground_mesh(Rect2i(0, int(CREASE_Z), CapitalLayout.W, CapitalLayout.H - int(CREASE_Z)), CREASE_LAYER, "CreaseGround")
 	# Beyond the map: dusty wasteland south of the wall, lush meadow north of it (so the void is never the sky and each side keeps its mood to the horizon).
-	for half: Array in [["Wasteland", Color(0.6, 0.55, 0.44), 60.0, 340.0], ["Meadow", Color(0.3, 0.7, 0.28), -280.0, 340.0]]:
+	var wall: float = float(CapitalLayout.WALL_Z0)
+	for half: Array in [["Wasteland", Color(0.6, 0.55, 0.44), wall, 340.0], ["Meadow", Color(0.3, 0.7, 0.28), wall - 340.0, 340.0]]:
 		var plane: MeshInstance3D = MeshInstance3D.new()
 		var mesh: PlaneMesh = PlaneMesh.new()
 		mesh.size = Vector2(700.0, float(half[3]))
@@ -294,6 +298,8 @@ func _build_ground() -> void:
 		plane.material_override = M.flat(half[1] as Color)
 		plane.position = Vector3(60.0, -0.4, float(half[2]) + float(half[3]) * 0.5)
 		plane.name = str(half[0])
+		plane.set_meta(&"no_range_cull", true)
+		plane.set_meta(&"no_occlusion_fade", true)
 		root.add_child(plane)
 
 
@@ -323,6 +329,9 @@ func _build_ground_mesh(rect: Rect2i, layer: int, node_name: String) -> void:
 	instance.material_override = M.terrain()
 	instance.name = node_name
 	instance.layers = layer
+	# one mesh for the whole floor: the zone's 48 m range cull measures to its centre, so it never culls or fades
+	instance.set_meta(&"no_range_cull", true)
+	instance.set_meta(&"no_occlusion_fade", true)
 	root.add_child(instance)
 
 
@@ -343,6 +352,9 @@ func _build_buildings() -> void:
 		if node != null:
 			node.name = "Building_%s" % building.style
 			root.add_child(node)
+			if building.style in ["wall", "tower"] and building.district != "facade":
+				great_wall.append(node)
+				great_wall_boxes.append(AABB(Vector3(building.rect.position.x, 0.0, building.rect.position.y), Vector3(building.rect.size.x, building.height + 1.5, building.rect.size.y)).grow(0.6))
 	_build_houses(houses)
 
 
@@ -364,10 +376,13 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 			_box(node, Vector3(w, h, d), M.shiny(Color(0.52, 0.4, 0.46), 0.4), Vector3(0, h * 0.5, 0))
 			_box(node, Vector3(w + 0.4, 0.5, d + 0.4), M.shiny(M.GOLD, 0.3), Vector3(0, h, 0))
 		"ward":
-			_box(node, Vector3(w, h, d), M.flat(Color(0.34, 0.34, 0.38)), Vector3(0, h * 0.5, 0))
-			_box(node, Vector3(w + 0.3, 0.3, d + 0.3), M.flat(M.STONE_DARK), Vector3(0, h, 0))
+			# the Correction Ward stand-in: clinical white walls with a pale teal band
+			_box(node, Vector3(w, h, d), M.flat(Color(0.86, 0.88, 0.9)), Vector3(0, h * 0.5, 0))
+			_box(node, Vector3(w + 0.3, 0.3, d + 0.3), M.flat(Color(0.55, 0.72, 0.72)), Vector3(0, h, 0))
 		"tram":
 			_tram(node, w, d, h)
+		"shed":
+			node.add_child(CapitalLandmarks.tram_shed(w, d, h, free or not bool(ctx.get("dark", false))))
 		"shop":
 			_shop(node, building)
 		"stall":
@@ -381,6 +396,9 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 		_:
 			_ruined(node, w, d, h, building.lean, M.BRICK_DEAD if building.variant % 2 == 0 else M.STONE_GRAY, free)
 	node.rotation_degrees.y = 0.0
+	if building.style in ["wall", "tower"]:
+		# the great wall dominates every outside view: its long pieces never range-cull (they still fade when they hide the hero)
+		CapitalLandmarks.mark_view(node, true)
 	return node
 
 
@@ -536,7 +554,7 @@ func _rock_wall(from: Vector3, to: Vector3) -> void:
 	var along: Vector3 = (to - from).normalized()
 	var distance: float = 0.0
 	while distance < length:
-		var size: Vector3 = Vector3(rng.randf_range(1.6, 3.4), rng.randf_range(0.8, 2.2), rng.randf_range(1.4, 2.6))
+		var size: Vector3 = Vector3(rng.randf_range(1.6, 3.4), rng.randf_range(0.4, 1.0), rng.randf_range(1.4, 2.6))
 		var tone: float = rng.randf_range(0.2, 0.34)
 		var color: Color = Color(tone, tone * 0.95, tone * 1.2)
 		var pos: Vector3 = from + along * distance + Vector3(0.0, size.y * 0.5 - 0.2, rng.randf_range(-0.5, 0.5))
@@ -546,56 +564,54 @@ func _rock_wall(from: Vector3, to: Vector3) -> void:
 
 func _build_boundaries() -> void:
 	var wall_color: StandardMaterial3D = M.flat(Color(0.3, 0.29, 0.36))
-	# The city's outer walls (north, west, east).
-	var north_a: Node3D = Node3D.new()
-	root.add_child(north_a)
-	north_a.position = Vector3(23.0, 0.0, 0.0)
-	_box(north_a, Vector3(44.0, 9.0, 3.0), wall_color, Vector3(0, 4.5, 0))
-	var north_b: Node3D = Node3D.new()
-	root.add_child(north_b)
-	north_b.position = Vector3(97.0, 0.0, 0.0)
-	_box(north_b, Vector3(44.0, 9.0, 3.0), wall_color, Vector3(0, 4.5, 0))
+	var top: float = float(CapitalLayout.WALL_Z0)
+	# The city's outer walls: north either side of the castle hill, west and east down to the great wall.
+	var hill: Rect2i = CapitalLayout.HILL
+	for span: Vector2 in [Vector2(0.0, float(hill.position.x)), Vector2(float(hill.end.x), 120.0)]:
+		var north: Node3D = Node3D.new()
+		north.name = "CityWallNorth"
+		root.add_child(north)
+		north.position = Vector3((span.x + span.y) * 0.5, 0.0, 0.5)
+		_box(north, Vector3(span.y - span.x, 9.0, 3.0), wall_color, Vector3(0, 4.5, 0))
+		CapitalLandmarks.mark_view(north, true)
 	for side_x: float in [0.0, 119.0]:
-		_box(root, Vector3(2.5, 9.0, 62.0), wall_color, Vector3(side_x, 4.5, 31.0))
-	# The Outskirts' edge: broken fence and low black rock.
+		var side: Node3D = Node3D.new()
+		side.name = "CityWallSide"
+		root.add_child(side)
+		side.position = Vector3(side_x, 0.0, top * 0.5)
+		_box(side, Vector3(2.5, 9.0, top), wall_color, Vector3(0, 4.5, 0))
+		CapitalLandmarks.mark_view(side, true)
+	# The outside's edge: broken fence and low black rock.
+	var out_top: float = float(CapitalLayout.WALL_Z1 + 1)
+	var out_depth: float = float(CapitalLayout.OUT_Z1) + 1.0 - out_top
 	for side_x: float in [0.5, 119.5]:
-		_box(root, Vector3(2.5, 3.0, 32.0), M.flat(Color(0.18, 0.17, 0.2)), Vector3(side_x, 1.5, 79.0))
-	_rock_wall(Vector3(0.0, 0.0, 94.8), Vector3(120.0, 0.0, 94.8))
+		_box(root, Vector3(2.5, 3.0, out_depth), M.flat(Color(0.18, 0.17, 0.2)), Vector3(side_x, 1.5, out_top + out_depth * 0.5))
+	_rock_wall(Vector3(0.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8), Vector3(56.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8))
+	_rock_wall(Vector3(64.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8), Vector3(120.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8))
 	# The Crease's walls (inside layer 2).
-	for rect: Rect2 in [Rect2(3.0, 99.0, 39.0, 1.0), Rect2(3.0, 121.0, 39.0, 1.0), Rect2(3.0, 99.0, 1.0, 23.0), Rect2(41.0, 99.0, 1.0, 23.0)]:
+	var dz: float = float(CapitalLayout.CREASE_Z0 - 100)
+	for rect: Rect2 in [Rect2(3.0, 99.0 + dz, 39.0, 1.0), Rect2(3.0, 121.0 + dz, 39.0, 1.0), Rect2(3.0, 99.0 + dz, 1.0, 23.0), Rect2(41.0, 99.0 + dz, 1.0, 23.0)]:
 		var wall: Vector3 = Vector3(rect.position.x + rect.size.x * 0.5, 2.6, rect.position.y + rect.size.y * 0.5)
 		_box(root, Vector3(rect.size.x, 5.2, rect.size.y), M.flat(M.BRICK_DEAD.darkened(0.3)), wall)
 
 
-## The castle: a huge dark-and-gold palace looming beyond the north wall.
-func _build_castle() -> void:
-	var castle: Node3D = Node3D.new()
-	castle.name = "Castle"
-	root.add_child(castle)
-	castle.position = Vector3(60.0, 0.0, -2.0)
-	var stone: StandardMaterial3D = M.shiny(Color(0.22, 0.2, 0.28), 0.4)
-	_box(castle, Vector3(48.0, 22.0, 20.0), stone, Vector3(0, 11.0, -12.0))
-	_box(castle, Vector3(18.0, 40.0, 14.0), stone, Vector3(0, 20.0, -14.0))
-	B.mesh_at(castle, P._prism(20.0, 14.0, 16.0), M.shiny(M.GOLD, 0.3), Vector3(0, 47.0, -14.0))
-	for side: float in [-1.0, 1.0]:
-		B.cylinder(castle, 4.0, 4.4, 30.0, stone, Vector3(side * 25.0, 15.0, -8.0), 12)
-		B.mesh_at(castle, P._prism(9.0, 10.0, 9.0), M.shiny(M.GOLD, 0.3), Vector3(side * 25.0, 35.0, -8.0))
-	var windows: MultiMesh = _multimesh(BoxMesh.new(), 54, false)
-	var window_index: int = 0
-	for row: int in range(3):
-		for column: int in range(18):
-			var x: float = -21.0 + float(column) * 2.5
-			windows.set_instance_transform(window_index, Transform3D(Basis.IDENTITY.scaled(Vector3(0.9, 1.6, 0.1)), castle.position + Vector3(x, 6.0 + float(row) * 5.0, -1.9)))
-			window_index += 1
-	_add_multimesh(windows, M.glow(Color(1.0, 0.8, 0.45), 1.6), "CastleWindows")
-	# A banner with the portrait over the great door.
-	var banner: MeshInstance3D = MeshInstance3D.new()
-	var quad: QuadMesh = QuadMesh.new()
-	quad.size = Vector2(4.0, 5.0)
-	banner.mesh = quad
-	banner.material_override = M.textured(P.portrait_texture(1))
-	banner.position = Vector3(60.0, 12.0, -1.7)
-	root.add_child(banner)
+## The stand-in landmarks (`CapitalLandmarks`): Primm's Castle on its hill at the city's heart, the great gate's arch, the broken watchtower, the
+## Old Service Tunnels' mouth in the wall. Each is one node off the root, so the art pass can swap it in place.
+var landmarks: Dictionary = {}
+
+
+func _build_landmarks() -> void:
+	var final_state: bool = bool(ctx.get("final", false))
+	_place_landmark("castle", CapitalLandmarks.castle(final_state), Vector3.ZERO)
+	_place_landmark("watchtower", CapitalLandmarks.watchtower(), Vector3(CapitalLayout.WATCHTOWER.x, 0.0, CapitalLayout.WATCHTOWER.y))
+	_place_landmark("camp", CapitalLandmarks.camp(), Vector3.ZERO)
+	_place_landmark("tunnel_mouth", CapitalLandmarks.tunnel_mouth(), Vector3(CapitalLayout.TUNNEL_MOUTH.x, 0.0, CapitalLayout.TUNNEL_MOUTH.y))
+
+
+func _place_landmark(id: String, node: Node3D, pos: Vector3) -> void:
+	root.add_child(node)
+	node.position = pos
+	landmarks[id] = node
 
 
 # ---- Props, signs, rifts ----------------------------------------------------------------------------------
@@ -880,7 +896,7 @@ func _build_chests() -> void:
 ## Everything in the underground hideout is moved onto visual layer 2 (the sun does not light it).
 func _finish_layers() -> void:
 	for child: Node in root.get_children():
-		if child is Node3D and (child as Node3D).position.z >= CREASE_Z and (child as Node3D).position.z < 140.0:
+		if child is Node3D and (child as Node3D).position.z >= CREASE_Z and (child as Node3D).position.z < float(CapitalLayout.H) + 4.0:
 			_set_layers(child, CREASE_LAYER)
 
 

@@ -3217,3 +3217,13 @@ Battles are clearer, faster and more satisfying. No new art or audio; card rules
 6. Open "Battle log" (bottom left) after a fight: hits, blocks and what destroyed what.
 7. Watch a unit die (it slides into the Refuse Pile), a trap spring (flips up with TRAP!), and the HP bars flash red / shimmer green.
 8. Start a new game: the Forgotten Cave's first duel shows one short tip at a time and should be an easy win.
+
+## The Capital layout pass, Part A: regions and layout (2026-10-16)
+
+The Capital prepared for its art pass by the rollout playbook, layout first (report `docs/art/capital_slice.md`, calls CAP-1... in `docs/design/open_questions.md`, playbook section 10):
+- Thirteen regions as layout data in the one scene: OUTSIDE the Gate Road (hub), the resistance camp, the rift fields, the ruined outpost, the Old Service Tunnels, the wall passage; INSIDE the Gate Plaza (hub), the palace approach (the Showcase's sixteen identical houses either side of a straight grand avenue), the Reek, Grave Row, the Transit Yards, the Hungry Quarter, the Correction Ward. The wall moved 12 m south, the outside grew to 46 m; every anchor, chest, rift and enemy re-placed, the Crease unchanged (CAP-1).
+- Routes as data (`CapitalLayout.routes`), the declutter rules tested (`tests/world/test_capital_slice.gd`); signs 68 -> 46; the generic scatter only on lawns inside and off the roads outside; the wasteland in twelve edge clusters.
+- Stand-ins (`world/capital/capital_landmarks.gd`): Primm's Castle on its hill at the city's heart (78 m wide), the 9 m great wall and 14 m gate towers, the Primm statue fountain, rift crystals, the broken watchtower, the tunnel mouth, the camp, the tram shed; the identical row, the Grave Row lane, the Reek's back lane and the Correction Ward from the layout's buildings.
+- A faded great-wall piece that blocks the lens is hidden (Transit Yards 53 -> 60 fps on Medium); 60 fps average at all ten paint-over spots.
+- New tools: `tools/capital_plan.gd` (top-down plan), `bash tools/run_capital_walk_smoke.sh [camera]` (passes at Cinematic and Overview), `bash tools/capital_po_shots.sh <prefix>`.
+- 1587 GUT, all passing in the last run (GC-6, the local camera-FOV test, flips).

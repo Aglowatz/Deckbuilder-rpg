@@ -98,6 +98,8 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 			return booth(Color(0.7, 0.72, 0.78), false)
 		"tent":
 			return tent()
+		"rift_crystals":
+			return rift_crystals(prop.variant, bool(ctx.get("final", false)))
 		"campfire":
 			return campfire()
 		"rock":
@@ -809,4 +811,16 @@ static func scrub(variant: int) -> Node3D:
 	for index: int in range(6):
 		var shade: Color = Color(0.36, 0.34, 0.2).lerp(Color(0.5, 0.42, 0.24), rng.randf())
 		B.ball(root, rng.randf_range(0.28, 0.5), M.flat(shade), Vector3(rng.randf_range(-0.45, 0.45), rng.randf_range(0.25, 0.7), rng.randf_range(-0.3, 0.3)), Vector3(1.0, 0.9, 1.0))
+	return root
+
+
+## A cluster of tall violet rift crystals (the rift fields' stand-in for CAPO-HERO-RIFT-A / -B): five shards, 2 to 4.5 m, glowing faintly; dull
+## grey glass once Primm has fallen.
+static func rift_crystals(variant: int, final_state: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var glow: StandardMaterial3D = M.flat(Color(0.5, 0.5, 0.56)) if final_state else M.glow(M.RIFT_VIOLET.lerp(M.RIFT_CYAN, 0.15 * float(variant)), 1.1)
+	var shards: Array[Vector4] = [Vector4(0.0, 0.0, 4.5, 0.0), Vector4(0.9, 0.4, 3.0, 18.0), Vector4(-0.8, 0.5, 2.6, -22.0), Vector4(0.3, -0.9, 2.2, 14.0), Vector4(-0.5, -0.6, 3.4, -10.0)]
+	for shard: Vector4 in shards:
+		var piece: MeshInstance3D = B.cylinder(root, 0.02, 0.42, shard.z, glow, Vector3(shard.x, shard.z * 0.5, shard.y), 5)
+		piece.rotation_degrees = Vector3(shard.w * 0.6, shard.w * 3.0, shard.w)
 	return root

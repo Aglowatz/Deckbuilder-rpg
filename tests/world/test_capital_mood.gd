@@ -31,8 +31,8 @@ func test_wasteland_dressing_keeps_the_road_clear() -> void:
 	var builder: CapitalBuilder = CapitalBuilder.new()
 	builder.build(host)
 	var wasteland: CapitalWasteland = CapitalWasteland.build(host, builder, builder.layout, GraphicsQuality.Level.HIGH)
-	assert_gt(wasteland.count, 40, "dead trees, ruins and debris")
+	assert_gt(wasteland.count, 30, "dead trees, ruins and debris, in the edge clusters")
 	for child: Node in wasteland.root.get_children():
 		if child is Node3D and not child is MeshInstance3D:
 			var pos: Vector3 = (child as Node3D).position
-			assert_false(pos.x > CapitalWasteland.ROAD_X0 and pos.x < CapitalWasteland.ROAD_X1 and pos.z < CapitalWasteland.Z_MAX, "the road stays clear")
+			assert_gte(builder.layout.route_edge_distance(pos.x, pos.z), CapitalLayout.ROUTE_CLEARANCE - 0.01, "the roads stay clear")

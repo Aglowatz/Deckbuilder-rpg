@@ -49,6 +49,9 @@ func _build_environment() -> void:
 func _build_zone_extras() -> void:
 	camera_offset = WorldLookRig.base_offset()
 	player.speed_multiplier = CapitalDebuffs.speed_multiplier(Session.flags)
+	# Arriving by the Gate Road: the hero faces north, up the road to the great gate and the castle over it.
+	if player.position.distance_to(builder.anchor("spawn")) < 1.0:
+		player.face(player.position + Vector3(0.0, 0.0, -2.0))
 	if CapitalDebuffs.darkness(Session.flags) and not Session.flag(CapitalZone.FLAG_FREED):
 		_dark_light = OmniLight3D.new()
 		_dark_light.light_color = Color(1.0, 0.85, 0.6)
@@ -210,6 +213,7 @@ func _update_area_music(delta: float) -> void:
 
 func _zone_process(delta: float) -> void:
 	capital.animate(delta)
+	_hide_wall_round_the_lens()
 	_update_area_music(delta)
 	if not player.airborne and not _fainting and not _traveling and style_rig != null:
 		var inside_now: bool = _is_inside(player.position)
@@ -255,7 +259,7 @@ func _track_progress() -> void:
 			Session.set_flag(CapitalZone.FLAG_HUB_KNOWN)
 		return
 	var passage_x: float = float(CapitalLayout.PASSAGE_X0) + float(CapitalLayout.PASSAGE_W) * 0.5
-	if not Session.found_secret(WALL_PASSAGE_SECRET) and z < float(CapitalLayout.WALL_Z0) and z > 40.0 and absf(player.position.x - passage_x) < 3.0:
+	if not Session.found_secret(WALL_PASSAGE_SECRET) and z < float(CapitalLayout.WALL_Z0) and z > float(CapitalLayout.WALL_Z0) - 20.0 and absf(player.position.x - passage_x) < 3.0:
 		Session.discover_secret(WALL_PASSAGE_SECRET)
 		hud.toast("You squeeze through a gap in the wall, right past the gate guards.", Color("ffcf70"))
 	if not Session.flag(CapitalZone.FLAG_INSIDE) and z < float(CapitalLayout.WALL_Z0) and z > 2.0:
@@ -638,12 +642,38 @@ func _is_inside(pos: Vector3) -> bool:
 
 func _dress_zone() -> void:
 	var quality: int = Settings.graphics_quality
-	var north: Callable = func(pos: Vector3) -> bool: return pos.z < float(CapitalLayout.WALL_Z0) - 1.0
-	var south: Callable = func(pos: Vector3) -> bool: return pos.z > float(CapitalLayout.WALL_Z1) + 1.0
-	# inside: lawns, flowers and shrubs (the facade recipe); outside: the generic wasteland scatter plus dead trees, ruins and debris
-	ZoneDressing.build(self, builder, StylePresets.CAPITAL_FACADE, quality, [], north, 0.45)
-	ZoneDressing.build(self, builder, StylePresets.CAPITAL_OUTSKIRTS, quality, [], south, 0.2)
-	wasteland = CapitalWasteland.build(self, capital, capital.layout, quality)
+	var layout: CapitalLayout = capital.layout
+	# Declutter (the playbook's section 5): inside, the facade recipe only on the approach's lawns, never on a street, a plaza or a route's
+	# kerb; outside, the low wasteland scatter only well off the roads and the people. The wasteland's dead trees, ruins and debris stand in the
+	# layout's few edge clusters (`CapitalWasteland`).
+	var anchors: Array[Vector3] = []
+	for key: Variant in layout.anchors.keys():
+		anchors.append(layout.anchors[key] as Vector3)
+	var clear_of_anchors: Callable = func(pos: Vector3) -> bool:
+		for anchor: Vector3 in anchors:
+			if absf(anchor.x - pos.x) < 3.0 and absf(anchor.z - pos.z) < 3.0:
+				return false
+		return true
+	var north: Callable = func(pos: Vector3) -> bool:
+		var cell: Vector2i = layout.cell_of(pos.x, pos.z)
+		return pos.z < float(CapitalLayout.WALL_Z0) - 1.0 and layout.floor_at(cell.x, cell.y) == CapitalLayout.Floor.LAWN and layout.route_edge_distance(pos.x, pos.z) > 1.2 and clear_of_anchors.call(pos)
+	var south: Callable = func(pos: Vector3) -> bool:
+		return pos.z > float(CapitalLayout.WALL_Z1) + 1.0 and layout.route_edge_distance(pos.x, pos.z) > 2.4 and clear_of_anchors.call(pos)
+	ZoneDressing.build(self, builder, StylePresets.CAPITAL_FACADE, quality, [], north, 0.15)
+	ZoneDressing.build(self, builder, StylePresets.CAPITAL_OUTSKIRTS, quality, [], south, 0.12)
+	wasteland = CapitalWasteland.build(self, capital, layout, quality)
+
+
+## `--at=po_<region>` stands the hero on a recorded paint-over camera spot (`CapitalLayout.PO_CAMERAS`), facing north.
+func _teleport(anchor_name: String) -> void:
+	if CapitalLayout.PO_CAMERAS.has(anchor_name):
+		var at: Vector2 = CapitalLayout.PO_CAMERAS[anchor_name] as Vector2
+		player.position = Vector3(at.x, 0.0, at.y)
+		player.face(player.position + Vector3(0.0, 0.0, -2.0))
+		_camera.position = player.position + CameraRig.shape(camera_offset)
+		_spawn_grace = 30.0
+		return
+	super._teleport(anchor_name)
 
 
 ## The gate crossing: a flash, the whole look and the music change at once.
@@ -667,3 +697,34 @@ func _cross_gate(now_inside: bool) -> void:
 		hud.toast("Welcome to Primm's Perfection. Everything is perfectly fine." if now_inside else "Back out into the wastes.", UIStyle.GOLD))
 	tween.tween_property(veil, "color:a", 0.0, 0.9)
 	tween.tween_callback(veil.queue_free)
+
+
+## When the hero walks just inside the great wall, the camera trails behind it, outside: the fader dims the piece between them to a ghost that still
+## covers a third of the screen in the transparent pass (Transit Yards 53 fps, the Reek 56 on Medium). As with the Dump's greenhouse (VD-22), a ghost
+## that faint reads as nothing, so once a piece has faded (85 % or more) while it blocks the line from the lens to the hero it is hidden outright, and
+## shown again (the fader then fades it back in) when it no longer blocks: no pop, no ghost.
+func _hide_wall_round_the_lens() -> void:
+	if _camera == null or player == null or capital == null:
+		return
+	var lens: Vector3 = _camera.global_position
+	var hero: Vector3 = player.position + Vector3(0.0, 0.9, 0.0)
+	for index: int in range(capital.great_wall.size()):
+		var piece: Node3D = capital.great_wall[index]
+		var box: AABB = capital.great_wall_boxes[index]
+		var blocks: bool = box.has_point(lens)
+		for step: int in range(1, 12):
+			if blocks:
+				break
+			blocks = box.has_point(lens.lerp(hero, float(step) / 12.0))
+		if blocks and piece.visible and _faded(piece) >= 0.85:
+			piece.visible = false
+		elif not blocks and not piece.visible:
+			piece.visible = true
+
+
+## How far the occlusion fader has faded a piece (its first mesh's per-instance transparency).
+static func _faded(piece: Node3D) -> float:
+	for child: Node in piece.get_children():
+		if child is GeometryInstance3D:
+			return (child as GeometryInstance3D).transparency
+	return 0.0

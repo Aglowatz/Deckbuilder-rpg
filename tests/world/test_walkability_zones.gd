@@ -6,7 +6,7 @@ extends GutTest
 ## Body radius every reachable target must still admit (a lane at least 0.7 m wide).
 const MIN_LANE_RADIUS: float = 0.35
 ## Anchors that are not places to walk to (camera marks, decorative anchors that sit inside solid scenery).
-const NOT_A_DESTINATION: Array[String] = ["spawn", "fountain"]  # the Capital fountain anchor is the statue prop itself: scenery, no prompt
+const NOT_A_DESTINATION: Array[String] = ["spawn", "fountain", "plaza_statue"]  # the Capital fountain anchor is the statue prop itself: scenery, no prompt
 ## An interact spot is reachable when the hero can stand this close (the biggest props - a stable, a fountain - are about 2 m in radius).
 const SPOT_SLACK: float = 2.5
 

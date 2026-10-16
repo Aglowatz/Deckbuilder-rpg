@@ -1,17 +1,19 @@
 class_name CapitalWasteland
 extends RefCounted
-## The decrepit outskirts (Brief 13, Part D): south of the city wall the land is barren and cracked. This adds what the layout does not: dead trees (bare trunks and
-## branches), ruined walls, rubble and debris piles, cracked dark ground patches, stumps and broken carts, scattered where the hero can walk but away from the road,
-## the anchors and the abandoned checkpoints. Seeded, quality scaled, built from `ProcMesh` primitives.
+## The decrepit outside (Brief 13, Part D; decluttered in the Capital layout pass): south of the city wall the land is barren and cracked. This adds
+## what the layout does not: dead trees (bare trunks and branches), ruined walls, rubble and debris piles, cracked dark ground patches, stumps and
+## broken carts, gathered in the layout's few edge clusters (`CapitalLayout.wasteland_clusters`), never on a road or round the people. Seeded,
+## quality scaled, built from `ProcMesh` primitives.
 
-const Z_MIN: float = 66.0
-const Z_MAX: float = 93.0
-const ROAD_X0: float = 50.0
-const ROAD_X1: float = 70.0
+const Z_MIN: float = float(CapitalLayout.WALL_Z1) + 2.0
+const Z_MAX: float = float(CapitalLayout.OUT_Z1)
+## The pieces of one cluster at full density, in this order.
+const CLUSTER_KINDS: Array[String] = ["dead_tree", "ruin", "debris", "stump", "debris", "cart"]
 
 var root: Node3D
 var count: int = 0
 var _builder: CapitalBuilder
+var _layout: CapitalLayout
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _placed: Array[Vector2] = []
 var _anchors: Array[Vector3] = []
@@ -23,22 +25,33 @@ static func build(parent: Node3D, builder: CapitalBuilder, layout: CapitalLayout
 	wasteland.root.name = "Wasteland"
 	parent.add_child(wasteland.root)
 	wasteland._builder = builder
+	wasteland._layout = layout
 	wasteland._rng.seed = 1313
 	for key: Variant in layout.anchors.keys():
 		wasteland._anchors.append(layout.anchors[key] as Vector3)
 	var share: float = GraphicsQuality.foliage_density(quality)
-	wasteland._cracks(int(26.0 * share))
-	wasteland._scatter("dead_tree", int(34.0 * share), 4.5)
-	wasteland._scatter("ruin", int(14.0 * share), 7.0)
-	wasteland._scatter("debris", int(30.0 * share), 3.0)
-	wasteland._scatter("stump", int(14.0 * share), 3.0)
-	wasteland._scatter("cart", int(4.0 * share), 6.0)
+	wasteland._cracks(int(18.0 * share))
+	for spot: Vector3 in layout.wasteland_clusters:
+		wasteland._cluster(spot, maxi(2, int(round(float(CLUSTER_KINDS.size()) * share))))
 	return wasteland
 
 
+## Up to `amount` pieces round one cluster centre (x, z, radius), each where the ground is free.
+func _cluster(spot: Vector3, amount: int) -> void:
+	for index: int in range(mini(amount, CLUSTER_KINDS.size())):
+		var kind: String = CLUSTER_KINDS[index]
+		for attempt: int in range(12):
+			var angle: float = _rng.randf() * TAU
+			var reach: float = 0.0 if index == 0 else _rng.randf_range(0.4, 1.0) * spot.z
+			var pos: Vector3 = Vector3(spot.x + cos(angle) * reach, 0.0, spot.y + sin(angle) * reach)
+			if _free(pos, 1.6):
+				_place(kind, pos)
+				break
+
+
 func _free(pos: Vector3, spacing: float) -> bool:
-	if pos.x > ROAD_X0 and pos.x < ROAD_X1 and pos.z < Z_MAX:
-		return false  # the road from town stays clear
+	if _layout.route_edge_distance(pos.x, pos.z) < CapitalLayout.ROUTE_CLEARANCE:
+		return false  # the roads stay clear
 	if not _builder.is_walkable(pos, 0.6):
 		return false
 	for anchor: Vector3 in _anchors:
@@ -54,25 +67,17 @@ func _random_pos() -> Vector3:
 	return Vector3(_rng.randf_range(3.0, 116.0), 0.0, _rng.randf_range(Z_MIN, Z_MAX))
 
 
-func _scatter(kind: String, amount: int, spacing: float) -> void:
-	var made: int = 0
-	var tries: int = 0
-	while made < amount and tries < amount * 40:
-		tries += 1
-		var pos: Vector3 = _random_pos()
-		if not _free(pos, spacing):
-			continue
-		var node: Node3D = _make(kind)
-		node.position = pos
-		node.rotation_degrees.y = _rng.randf() * 360.0
-		root.add_child(node)
-		_placed.append(Vector2(pos.x, pos.z))
-		if kind == "ruin" or kind == "cart":
-			_builder.add_blocker(pos, 1.2)
-		elif kind == "dead_tree" or kind == "stump":
-			_builder.add_blocker(pos, 0.3)
-		made += 1
-		count += 1
+func _place(kind: String, pos: Vector3) -> void:
+	var node: Node3D = _make(kind)
+	node.position = pos
+	node.rotation_degrees.y = _rng.randf() * 360.0
+	root.add_child(node)
+	_placed.append(Vector2(pos.x, pos.z))
+	if kind == "ruin" or kind == "cart":
+		_builder.add_blocker(pos, 1.2)
+	elif kind == "dead_tree" or kind == "stump":
+		_builder.add_blocker(pos, 0.3)
+	count += 1
 
 
 func _cracks(amount: int) -> void:
@@ -82,7 +87,7 @@ func _cracks(amount: int) -> void:
 	while made < amount and tries < amount * 20:
 		tries += 1
 		var pos: Vector3 = _random_pos()
-		if not _builder.is_floor_at(pos) or (pos.x > ROAD_X0 and pos.x < ROAD_X1):
+		if not _builder.is_floor_at(pos) or _layout.route_edge_distance(pos.x, pos.z) < 0.5:
 			continue
 		GroundDecals.disc(root, pos, _rng.randf_range(1.5, 3.4), material, _rng.randf_range(0.4, 0.9), _rng.randf() * 180.0, 0.001 * float(made))
 		made += 1

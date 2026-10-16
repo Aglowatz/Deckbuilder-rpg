@@ -176,7 +176,7 @@ static func _spots() -> Array[Dictionary]:
 	# The Outskirts.
 	spots.append(_spot("exit", "The Road Back to Crosspath", "exit", Vector3(0, 0, 0.0), 1.9, "Walk back to town (full heal)", "exit"))
 	spots.append(_spot("kestrel", "Kestrel, Resistance Scout", "kestrel", Vector3(0, 0, 1.0), 1.8, "Talk", "quest_npc", {"npc": "kestrel", "npc_id": "NPC-KESTREL", "npc_name": NPC_KESTREL, "speaker": "Kestrel"}))
-	spots.append(_spot("old_tunnels", "The Old Service Tunnels", "old_tunnels", Vector3(0, 0, 0.0), 1.8, "Enter the Old Service Tunnels", "mini_dungeon"))
+	spots.append(_spot("old_tunnels", "The Old Service Tunnels", "old_tunnels", Vector3(0, 0, 0.0), 1.8, "Enter the Old Service Tunnels", "mini_dungeon", {"no_plate": true}))  # the tunnel mouth is the sign
 	spots.append(_spot("spotless", "Captain Spotless", "spotless", Vector3(0, 0, 1.0), 1.9, "Talk", "zone", {"npc": "spotless", "npc_id": "NPC-SPOTLESS", "speaker": "Captain Spotless", "act": "spotless"}))
 	spots.append(_spot("guard_height", "Gate Guard (Height Inspection)", "guard_height", Vector3(0, 0, 1.0), 1.7, "Talk", "zone", {"npc": "guard_height", "speaker": "Gate Guard", "act": "guard"}))
 	spots.append(_spot("guard_queue", "Gate Guard (Queue Management)", "guard_queue", Vector3(0, 0, 1.0), 1.7, "Talk", "zone", {"npc": "guard_queue", "speaker": "Gate Guard", "act": "guard"}))
@@ -220,7 +220,7 @@ static func _spots() -> Array[Dictionary]:
 	# Ward, castle.
 	spots.append(_spot("ward_window", "The Spontaneity Permit Window", "ward_window", Vector3(0, 0, 1.0), 1.6, "Request a spontaneity permit", "zone", {"act": "ward_window"}))
 	spots.append(_spot("ward_patient", "A Corrected Citizen", "ward_patient", Vector3(0, 0, 1.0), 1.6, "Talk", "zone", {"npc": "patient", "speaker": "Citizen 4471", "act": "patient"}))
-	spots.append(_spot("castle_door", "Primm's Castle", "castle_door", Vector3(0, 0, 0.0), 2.4, "Enter Primm's Castle", "main_dungeon"))
+	spots.append(_spot("castle_door", "Primm's Castle", "castle_door", Vector3(0, 0, 0.0), 2.4, "Enter Primm's Castle", "main_dungeon", {"no_plate": true}))  # the castle itself is the sign (G-03)
 	return spots
 
 

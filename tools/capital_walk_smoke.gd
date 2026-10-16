@@ -1,0 +1,363 @@
+class_name CapitalWalkSmoke
+extends Node
+## The Capital layout pass (docs/art/capital_slice.md): walk the whole zone with human-style input (real injected keys), windowed.
+## OUTSIDE: arrival on the Gate Road facing north and the walk up the road toward the great gate (the castle over it); the gate captain and his
+## guards, Kestrel at the resistance camp, the Old Service Tunnels' mouth (E asks to enter the mini dungeon), the rift fields (a rift-stone and the
+## hidden service shaft's prompt), then through the secret wall passage on foot with the gate shut. INSIDE: the Gate Plaza's booth and complaint
+## box, the palace approach's citizen, door, loudspeaker and portrait, every district's quest giver and objects (Fern, Widow Pell and the permit
+## window, Rollo and a wheel crew, Chef Marlo, the Correction Ward's window and patient), the castle door at the stair's foot (E asks to enter
+## Primm's Castle, node-based), a hidden chest; then, the gate open, back out through it and down the Gate Road to the way home.
+## Screenshots to _screenshots/capital_walk/. CAPITAL_WALK_CAMERA=0|1|2 picks the camera angle (Cinematic, Classic, Overview).
+##   Godot --path . --resolution 1600x900 res://tools/capital_walk_smoke_launcher.tscn     (bash tools/run_capital_walk_smoke.sh [camera])
+## Deliberate shortcuts: long legs across the map are a teleport to a few metres short of the target, then real walking for the last stretch (the
+## walkability probe covers the long routes); the battles, the quests' steps and the hideout have their own tests and smokes.
+
+const SHOT_DIR: String = "res://_screenshots/capital_walk/"
+const TAG: String = "capital_walk_smoke"
+
+var driver: UiDriver
+var _failures: PackedStringArray = []
+var _held_keys: Dictionary = {}
+var _shots: int = 0
+
+
+func run() -> void:
+	Session.save_enabled = false
+	SceneManager.show_loading_screens = false
+	Session.new_game()
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
+	var camera: String = OS.get_environment("CAPITAL_WALK_CAMERA")
+	if camera != "":
+		Settings.set_camera_angle(int(camera))
+	print("%s: camera angle %d" % [TAG, Settings.camera_angle])
+	driver = UiDriver.new(get_tree())
+	await driver.frames(5)
+	Session.enter_zone(CapitalZone.ID)
+	var zone: CapitalScene = await _wait_for(CapitalScene) as CapitalScene
+	if zone == null:
+		_finish(false, "the Capital never loaded")
+		return
+	await driver.seconds(3.5)  # the zone title card
+	await _dismiss_dialogue(zone.dialogue)
+	# the roaming enemies hold still at their homes (they bumped the hero off the scripted lines; the battles have their own smokes)
+	for enemy: ZoneEnemy in zone.enemies:
+		enemy.process_mode = Node.PROCESS_MODE_DISABLED
+	await _arrival_on_the_gate_road(zone)
+	await _outside(zone)
+	await _through_the_passage(zone)
+	await _inside(zone)
+	await _the_castle_door(zone)
+	await _back_out_through_the_gate(zone)
+	_finish(_failures.is_empty(), "Gate Road -> gate, camp, tunnels, rift fields -> the wall passage -> plaza, approach, the five districts, the Ward -> the castle door -> through the gate -> town (%d screenshots)" % _shots)
+
+
+# ---- Legs ----------------------------------------------------------------------------------------------------------
+
+
+func _arrival_on_the_gate_road(zone: CapitalScene) -> void:
+	var pos: Vector3 = zone.player.position
+	var area: CapitalLayout.Area = zone.capital.layout.area_at(pos.x, pos.z)
+	_check(area != null and area.id == "gate", "arrival: the hero starts on the Gate Road (%.0f, %.0f)" % [pos.x, pos.z])
+	_check(zone.capital.landmarks.has("castle") and (zone.capital.landmarks["castle"] as Node3D).visible, "arrival: Primm's Castle stands at the city's heart")
+	await _shot("w_01_arrival_on_the_gate_road")
+	await _walk_to(zone, Vector3(60.0, 0.0, 86.0), 2.0, 22.0)
+	await _shot("w_02_up_the_road_to_the_gate")
+	_check(not zone._is_inside(zone.player.position), "the closed gate keeps the hero outside")
+
+
+func _outside(zone: CapitalScene) -> void:
+	await _use_spot(zone, "spotless", "w_03_captain_spotless")
+	await _use_spot(zone, "guard_height", "w_04_height_inspection")
+	await _use_spot(zone, "kestrel", "w_05_kestrel_at_the_camp")
+	await _use_spot(zone, "old_tunnels", "w_06_old_service_tunnels")
+	# the rift-stone: its prompt comes up (E would start the guardian fight while the guardian stands; sealing is unit-tested)
+	var stone: ZoneSpot = _spot(zone, "seal_out_a")
+	if stone != null:
+		_teleport(zone, stone.position + Vector3(0.0, 0.0, 3.0))
+		await _walk_to(zone, stone.position + Vector3(0.0, 0.0, 0.8), 0.9, 6.0)
+		await _dismiss_dialogue(zone.dialogue)
+		await driver.frames(4)
+		_check(zone._near == stone, "the rift-stone: its prompt is up (near %s)" % (zone._near.id if zone._near != null else "nothing"))
+		await _shot("w_07_rift_stone")
+	# the hidden service shaft: no plate, but the prompt comes up when the hero stands on it (E is not pressed: it leads to the Crease)
+	var shaft: ZoneSpot = _spot(zone, "tunnel_in")
+	if shaft != null:
+		_teleport(zone, shaft.position + Vector3(2.5, 0.0, 0.0))
+		await _walk_to(zone, shaft.position + Vector3(0.6, 0.0, 0.0), 0.9, 6.0)
+		await driver.frames(4)
+		_check(zone._near == shaft, "the hidden shaft: its prompt comes up on the spot (near %s)" % (zone._near.id if zone._near != null else "nothing"))
+
+
+func _through_the_passage(zone: CapitalScene) -> void:
+	var passage: Vector3 = zone.builder.anchor("wall_passage")
+	_teleport(zone, Vector3(passage.x, 0.0, float(CapitalLayout.WALL_Z1) + 6.0))
+	await driver.frames(4)
+	await _walk_to(zone, Vector3(passage.x, 0.0, float(CapitalLayout.WALL_Z0) - 4.0), 1.2, 14.0)
+	await driver.seconds(1.4)
+	_check(zone._is_inside(zone.player.position), "the wall passage: walked into the city with the gate shut")
+	_check(Session.found_secret(CapitalScene.WALL_PASSAGE_SECRET), "the wall passage: the secret is found")
+	await _dismiss_dialogue(zone.dialogue)
+	await _shot("w_08_through_the_wall_passage")
+
+
+func _inside(zone: CapitalScene) -> void:
+	_teleport(zone, Vector3(CapitalLayout.PLAZA_CENTER.x - 6.0, 0.0, CapitalLayout.PLAZA_CENTER.y + 8.0))
+	await driver.seconds(1.0)
+	await _shot("w_09_the_gate_plaza")
+	await _use_spot(zone, "exit_booth", "w_10_exit_interview_booth")
+	await _use_spot(zone, "complaint_1", "w_11_complaint_box")
+	await _use_spot(zone, "citizen_1", "w_12_a_citizen")
+	await _use_spot(zone, "door_1", "w_13_a_perfect_door")
+	await _use_spot(zone, "speaker_1", "w_14_a_loudspeaker")
+	await _use_spot(zone, "portrait_f1", "w_15_a_portrait")
+	await _use_spot(zone, "fern", "w_16_old_fern_in_the_reek")
+	await _use_spot(zone, "pell", "w_17_widow_pell_in_grave_row")
+	await _use_spot(zone, "permit_window", "w_18_the_permit_window")
+	await _use_spot(zone, "rollo", "w_19_rollo_in_the_transit_yards")
+	await _use_spot(zone, "wheel_2", "w_20_a_wheel_crew")
+	await _use_spot(zone, "marlo", "w_21_chef_marlo_in_the_hungry_quarter")
+	await _use_spot(zone, "ward_window", "w_22_the_correction_ward")
+	await _use_spot(zone, "ward_patient", "w_23_a_corrected_citizen")
+	# a hidden chest: the prompt comes up beside it
+	var chest: Vector3 = zone.capital.layout.chests["chest_facade_back"] as Vector3
+	_teleport(zone, chest + Vector3(0.0, 0.0, 3.0))
+	await _walk_to(zone, chest + Vector3(0.0, 0.0, 1.0), 0.8, 6.0)
+	await driver.frames(4)
+	_check(str(zone.hud._prompt_label.text) != "", "a hidden chest: its prompt comes up beside it (%s)" % str(zone.hud._prompt_label.text))
+	await _shot("w_24_a_hidden_chest")
+
+
+func _the_castle_door(zone: CapitalScene) -> void:
+	var door: Vector3 = zone.builder.anchor("castle_door")
+	_teleport(zone, Vector3(door.x, 0.0, door.z + 14.0))
+	await _walk_to(zone, door + Vector3(0.0, 0.0, 1.0), 1.4, 12.0)
+	await _dismiss_dialogue(zone.dialogue)
+	await driver.frames(4)
+	_check(zone._near != null and zone._near.kind == "main_dungeon", "the castle door: the prompt is up at the stair's foot (near %s)" % (zone._near.id if zone._near != null else "nothing"))
+	await _shot("w_25_the_castle_door")
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.7)
+	var asked: bool = driver.find_button("Not yet") != null or zone.dialogue.active or zone._overlay != null
+	_check(asked, "the castle door: E asks to enter Primm's Castle (its node map)")
+	await _shot("w_26_enter_primms_castle")
+	await _close_everything(zone)
+	_check(not zone._locked and not zone.dialogue.active, "the castle door: the hero is given back")
+
+
+func _back_out_through_the_gate(zone: CapitalScene) -> void:
+	Session.set_flag(CapitalZone.FLAG_GATE_OPEN)
+	zone.capital.open_gate()
+	await driver.seconds(1.6)
+	_teleport(zone, Vector3(60.0, 0.0, 64.0))
+	await driver.frames(4)
+	await _walk_to(zone, Vector3(60.0, 0.0, 84.0), 1.6, 18.0)
+	await driver.seconds(1.4)
+	_check(not zone._is_inside(zone.player.position), "the open gate: walked back out onto the Gate Road")
+	await _dismiss_dialogue(zone.dialogue)
+	await _shot("w_27_out_through_the_gate")
+	var exit: ZoneSpot = _spot(zone, "exit")
+	_teleport(zone, exit.position + Vector3(0.0, 0.0, -6.0))
+	await _walk_to(zone, exit.position + Vector3(0.0, 0.0, -0.6), 0.9, 10.0)
+	await _dismiss_dialogue(zone.dialogue)
+	await driver.frames(4)
+	_check(zone._near == exit, "the way home: the prompt is up at the road's end")
+	await _shot("w_28_the_road_home")
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.6)
+	var leave: Button = driver.find_button("Leave")
+	_check(leave != null, "the way home: E asks to leave (Leave / Stay)")
+	if leave != null:
+		await driver.click_button("Leave")
+	var town: TownScene = await _wait_for(TownScene) as TownScene
+	_check(town != null, "the road home leads back to town")
+	if town != null:
+		await driver.seconds(0.8)
+		await _shot("w_29_back_in_town")
+
+
+# ---- Helpers -------------------------------------------------------------------------------------------------------
+
+
+## Walk up to a spot, check its prompt, press E, then close whatever opened (a talk, a shop, a confirm box, a toast) and check the hero is free again.
+func _use_spot(zone: CapitalScene, id: String, shot_name: String) -> void:
+	var spot: ZoneSpot = _spot(zone, id)
+	_check(spot != null, "%s: the spot exists" % id)
+	if spot == null:
+		return
+	var stand: Vector3 = spot.position
+	var start: Vector3 = spot.position
+	for dir: Vector3 in [Vector3(0, 0, 1), Vector3(0, 0, -1), Vector3(1, 0, 0), Vector3(-1, 0, 0)]:
+		var near: Vector3 = spot.position + dir * maxf(spot.radius - 0.3, 0.8)
+		if zone.builder.is_walkable(near):
+			stand = near
+			start = near + dir * 3.5
+			if not zone.builder.is_walkable(start):
+				start = near + dir * 1.5
+			if not zone.builder.is_walkable(start):
+				start = near
+			break
+	_teleport(zone, start)
+	await _walk_to(zone, stand, 0.9, 8.0)
+	await _dismiss_dialogue(zone.dialogue)
+	await driver.frames(4)
+	# the facade citizens stroll within 3 m of their spot: if one has wandered off, follow it
+	var tries: int = 0
+	while zone._near != spot and tries < 4 and zone._npcs.has(id):
+		tries += 1
+		await _walk_to(zone, spot.position + Vector3(0.0, 0.0, 0.9), 1.0, 4.0)
+		await driver.frames(4)
+	_check(zone._near == spot, "%s: the prompt is up (near %s)" % [id, zone._near.id if zone._near != null else "nothing"])
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.7)
+	var opened: bool = zone.dialogue.active or zone._overlay != null or str(zone.hud._toast.text) != "" or zone._locked or driver.find_button("Not yet") != null
+	_check(opened, "%s: E does something (a talk, a screen, a box or a toast)" % id)
+	await _shot(shot_name)
+	await _close_everything(zone)
+	_check(not zone._locked and zone._overlay == null and not zone.dialogue.active, "%s: the hero is given back" % id)
+
+
+func _close_everything(zone: CapitalScene) -> void:
+	var guard: int = 0
+	while (zone.dialogue.active or zone._overlay != null or zone._locked or driver.find_button("Not yet") != null) and guard < 16:
+		guard += 1
+		var cancel: Button = null
+		for label: String in ["Not yet", "Close", "Leave it", "Not now", "No", "Cancel"]:
+			cancel = driver.find_button(label)
+			if cancel != null:
+				break
+		if cancel != null:
+			await driver.click_button(cancel.text)
+			await driver.seconds(0.3)
+			continue
+		if zone._overlay != null:
+			await driver.tap_key(KEY_ESCAPE)
+			await driver.seconds(0.35)
+			continue
+		await driver.tap_key(KEY_E)
+		await driver.seconds(0.2)
+	await driver.dismiss_reward_box(0.3)
+	await driver.seconds(0.3)
+
+
+func _spot(zone: CapitalScene, id: String) -> ZoneSpot:
+	for spot: ZoneSpot in zone.spots:
+		if spot.id == id:
+			return spot
+	return null
+
+
+func _teleport(zone: CapitalScene, pos: Vector3) -> void:
+	pos.y = zone.builder.height_at(pos)
+	zone.player.position = pos
+	zone._spawn_grace = 100000.0
+	zone._invulnerable = 100000.0
+	zone._camera.position = zone.player.position + CameraRig.shape(zone.camera_offset)
+
+
+func _wait_for(kind: Variant) -> Node:
+	var elapsed: float = 0.0
+	while elapsed < 25.0:
+		var scene: Node = get_tree().current_scene
+		if scene != null and is_instance_of(scene, kind) and not SceneManager.busy:
+			return scene
+		await driver.frames(5)
+		elapsed += 5.0 / 60.0
+	return null
+
+
+func _dismiss_dialogue(dialogue: DialogueBox) -> void:
+	await driver.frames(5)
+	var guard: int = 0
+	while dialogue.active and guard < 30:
+		guard += 1
+		await driver.tap_key(KEY_E)
+		await driver.seconds(0.15)
+
+
+func _walk_to(scene: Node, target: Vector3, radius: float, limit: float) -> void:
+	var player: Node3D = scene.player
+	var elapsed: float = 0.0
+	var last_pos: Vector3 = player.position
+	var stuck_for: float = 0.0
+	var sidestep: float = 0.0
+	var side: float = 1.0
+	while elapsed < limit:
+		var offset: Vector3 = target - player.position
+		offset.y = 0.0
+		if offset.length() < radius * 0.55:
+			break
+		if sidestep > 0.0:
+			var across: Vector3 = Vector3(-offset.z, 0.0, offset.x).normalized() * side
+			await _hold(KEY_W, across.z < -0.35)
+			await _hold(KEY_S, across.z > 0.35)
+			await _hold(KEY_A, across.x < -0.35)
+			await _hold(KEY_D, across.x > 0.35)
+			await driver.frames(2)
+			elapsed += 2.0 / 60.0
+			sidestep -= 2.0 / 60.0
+			continue
+		if player.position.distance_to(last_pos) < 0.02:
+			stuck_for += 2.0 / 60.0
+			if stuck_for > 0.4:
+				stuck_for = 0.0
+				sidestep = 0.5
+				side *= -1.0
+		else:
+			stuck_for = 0.0
+		last_pos = player.position
+		if "dialogue" in scene and (scene.dialogue as DialogueBox).active:
+			for key: Key in [KEY_W, KEY_A, KEY_S, KEY_D]:
+				await _hold(key, false)
+			await driver.tap_key(KEY_E)
+			await driver.seconds(0.2)
+			continue
+		await _hold(KEY_W, offset.z < -0.35)
+		await _hold(KEY_S, offset.z > 0.35)
+		await _hold(KEY_A, offset.x < -0.35)
+		await _hold(KEY_D, offset.x > 0.35)
+		await driver.frames(2)
+		elapsed += 2.0 / 60.0
+	for key: Key in [KEY_W, KEY_A, KEY_S, KEY_D]:
+		await _hold(key, false)
+	var off: float = Vector2(player.position.x - target.x, player.position.z - target.z).length()
+	_check(off < radius, "walked to (%.0f, %.0f) on foot (%.1f m off)" % [target.x, target.z, off])
+	if off >= radius:
+		print("%s: note  stuck at (%.1f, %.1f)" % [TAG, player.position.x, player.position.z])
+		player.position = target
+		await driver.frames(3)
+
+
+func _hold(key: Key, down: bool) -> void:
+	if bool(_held_keys.get(key, false)) != down:
+		_held_keys[key] = down
+		await driver.key(key, down)
+
+
+func _shot(name: String) -> void:
+	_shots += 1
+	await driver.frames(2)
+	DirAccess.make_dir_recursive_absolute(SHOT_DIR)
+	var texture: Texture2D = get_tree().root.get_texture()
+	if texture == null:
+		return
+	texture.get_image().save_png(ProjectSettings.globalize_path("%s%s.png" % [SHOT_DIR, name]))
+	print("%s: screenshot -> %s.png" % [TAG, name])
+
+
+func _check(condition: bool, message: String) -> void:
+	if condition:
+		print("%s: ok    %s" % [TAG, message])
+	else:
+		_fail(message)
+
+
+func _fail(message: String) -> void:
+	_failures.append(message)
+	print("%s: FAIL  %s" % [TAG, message])
+	push_error("%s: %s" % [TAG, message])
+
+
+func _finish(ok: bool, reason: String) -> void:
+	print("%s: %s - %s" % [TAG, "OK" if ok else "FAILED", reason])
+	await driver.frames(3)
+	get_tree().quit(0 if ok else 1)

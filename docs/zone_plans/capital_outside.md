@@ -8,8 +8,8 @@ Art Bible row: flat eerie overcast dusk; purple rift glow; palette #8C8A86, #5E5
 
 | Region | What is there | Hero landmark (concept needed) |
 |---|---|---|
-| The Gate Road (hub) | the checkpoints, Wren and the other hub NPCs, the heal spot, the Rift Express | the great white walls and gate (CAPO-HERO-SERVICE-TUNNEL's wall) |
-| The Resistance camp | Kestrel, Fig's vendor | |
+| The Gate Road (hub) | the arrival from town and the way home, Captain Spotless and the gate guards, the queue | the great wall (9 m) and the Approved Gate (14 m towers); Primm's Castle over it |
+| The Resistance camp | Kestrel, the fire, two tents, a lean-to, a lantern rope (the Crease, with Wren, Fig's black market, the heal and the station, stays the underground hall: CAP-1) | the camp stand-in |
 | The rift fields | open rifts and crystals | CAPO-HERO-RIFT-A / RIFT-B (region landmarks when their art exists) |
 | The ruined outpost | the old guard post | CAPO-HERO-BROKEN-WATCHTOWER |
 | The Old Service Tunnels entrance | the mini dungeon door in the wall | CAPO-HERO-SERVICE-TUNNEL |
@@ -26,6 +26,10 @@ Art Bible row: flat eerie overcast dusk; purple rift glow; palette #8C8A86, #5E5
 ## What the removed sub-areas left behind
 
 Nothing was kept: the Rift Fields, Ruined Outpost and Tunnel Entrance scenes were stand-in blockouts (no modelled landmark); their chests, shrines, boards, vistas, vignettes and the wall lever are listed in `docs/design/subarea_removal.md`. The zone's existing content is untouched.
+
+## Layout
+
+Fixed by the Capital layout pass (`docs/art/capital_slice.md`): routes, regions, clearances and stand-ins; paint-over inputs `docs/art/paintover_inputs/capital/PO-CAP-*.png` from `CapitalLayout.PO_CAMERAS`.
 
 ## Art status
 

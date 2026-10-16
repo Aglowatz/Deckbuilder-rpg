@@ -8,13 +8,13 @@ Art Bible row: flat, shadowless, unnaturally perfect noon; palette #F7F3EA, #E6C
 
 | Region | What is there | Hero landmark (concept needed) |
 |---|---|---|
-| Gate Plaza (hub) | the facade gate, the Primm statue fountain, Spotless | the Primm statue fountain |
+| Gate Plaza (hub) | the gate, the exit-control guards, the exit interview booth, the complaint box, the manholes, the Primm statue fountain | the Primm statue fountain |
 | The Transit Yards | Rollo and the wheel crews (quest) | CAPI-HERO-TRAM-SHED (a region landmark when its art exists) |
 | The Hungry Quarter | Marlo and the recipes (quest) | CAPI-HERO-IDENTICAL-ROW |
 | Grave Row | Pell and the burial permit (quest) | CAPI-HERO-GRAVE-ROW |
-| The Reek | Fern (quest) | |
-| The Correction Ward | | |
-| The palace approach | the castle door (the main dungeon spot, `castle_door`) | CAPI-HERO-PALACE-FACADE (the castle seen from the approach) |
+| The Reek | Fern (quest), the compost heaps, the seed, the back lane from the wall passage | the back lane |
+| The Correction Ward | the permit window, the corrected citizen | the ward |
+| The palace approach | the grand avenue between the sixteen identical houses of the Showcase (citizens, perfect doors, loudspeakers, portraits), the castle door at the stair's foot (`castle_door`) | Primm's Castle on its hill at the city's heart (CAPI-HERO-PALACE-FACADE) |
 
 ## Dungeons (node maps)
 
@@ -26,6 +26,10 @@ Art Bible row: flat, shadowless, unnaturally perfect noon; palette #F7F3EA, #E6C
 ## What the removed sub-areas left behind
 
 Nothing was kept: the Transit Yards, Hungry Quarter, Grave Row and Palace Approach scenes and the four Castle Grounds scenes (Courtyard, Mirror Colonnade, Grand Stair, Palace Gardens) were stand-in blockouts (no modelled landmark); their chests, shrines, boards, vistas, vignettes and the silvered lever are listed in `docs/design/subarea_removal.md`. The districts and quests of the hub share the old names and are untouched.
+
+## Layout
+
+Fixed by the Capital layout pass (`docs/art/capital_slice.md`): routes, regions, clearances and stand-ins; paint-over inputs `docs/art/paintover_inputs/capital/PO-CAP-*.png` from `CapitalLayout.PO_CAMERAS`.
 
 ## Art status
 

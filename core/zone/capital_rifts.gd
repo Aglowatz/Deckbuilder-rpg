@@ -12,18 +12,18 @@ const EMPOWER_HP: int = 3
 const EMPOWER_STAT: int = 1
 
 
-## [{id, x, z, radius, big, sealable, reward}] in the order the map places them.
+## [{id, x, z, radius, big, sealable, reward}] in the order the map places them (positions from the Capital layout pass, docs/art/capital_slice.md).
 static func all() -> Array[Dictionary]:
 	return [
-		{"id": "out_a", "x": 30.0, "z": 78.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 70, "item": "healing_draught"}},
-		{"id": "out_b", "x": 92.0, "z": 74.0, "radius": 2.4, "big": false, "sealable": false, "reward": {}},
-		{"id": "reek", "x": 22.0, "z": 51.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "card": "R-26"}},
-		{"id": "grave", "x": 20.0, "z": 25.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "item": "grave_dust"}},
-		{"id": "transit", "x": 105.0, "z": 47.0, "radius": 3.2, "big": true, "sealable": false, "reward": {}},
-		{"id": "hungry", "x": 106.0, "z": 27.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "item": "hearty_pie"}},
-		{"id": "approach_w", "x": 38.0, "z": 8.0, "radius": 3.2, "big": true, "sealable": false, "reward": {}},
-		{"id": "approach_e", "x": 82.0, "z": 8.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 90, "item": "vitality_charm"}},
-		{"id": "ward", "x": 104.0, "z": 4.0, "radius": 1.8, "big": false, "sealable": false, "reward": {}},
+		{"id": "out_a", "x": 24.0, "z": 92.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 70, "item": "healing_draught"}},
+		{"id": "out_b", "x": 35.0, "z": 95.5, "radius": 2.4, "big": false, "sealable": false, "reward": {}},
+		{"id": "reek", "x": 9.5, "z": 46.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "card": "R-26"}},
+		{"id": "grave", "x": 30.0, "z": 16.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "item": "grave_dust"}},
+		{"id": "transit", "x": 90.5, "z": 51.5, "radius": 3.2, "big": true, "sealable": false, "reward": {}},
+		{"id": "hungry", "x": 105.5, "z": 32.0, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 60, "item": "hearty_pie"}},
+		{"id": "approach_w", "x": 41.5, "z": 6.5, "radius": 3.2, "big": true, "sealable": false, "reward": {}},
+		{"id": "approach_e", "x": 79.0, "z": 6.5, "radius": 2.0, "big": false, "sealable": true, "reward": {"gold": 90, "item": "vitality_charm"}},
+		{"id": "ward", "x": 95.0, "z": 9.5, "radius": 1.8, "big": false, "sealable": false, "reward": {}},
 	] as Array[Dictionary]
 
 

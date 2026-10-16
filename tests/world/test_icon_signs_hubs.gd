@@ -55,12 +55,16 @@ func test_every_hub_sign_is_mapped_to_an_existing_icon() -> void:
 
 
 func test_capital_banners_carry_the_ruler_emblem() -> void:
-	var banners: int = 0
+	# Primm's decrees: every banner, and the plaques that name his gate and his districts (the layout pass hung most of them flat on walls, not on posts)
+	var decrees: int = 0
 	for sign: CapitalLayout.Sign in _signs("capital"):
-		if sign.style == "banner" and not sign.key.begins_with("sign.crease"):
-			banners += 1
+		if sign.key.begins_with("sign.crease"):
+			continue
+		if sign.style == "banner":
 			assert_eq(CapitalBuilder.sign_icon(sign.key), RulerPresence.EMBLEM_ICON, "%s is one of Primm's banners" % sign.key)
-	assert_gte(banners, 8)
+		if sign.style in ["banner", "wall"] and CapitalBuilder.sign_icon(sign.key) == RulerPresence.EMBLEM_ICON:
+			decrees += 1
+	assert_gte(decrees, 8)
 	var statue: Node3D = CapitalProps.statue(1.0, false)
 	add_child_autofree(statue)
 	assert_eq(statue.find_children(IconSign.NODE_NAME, "MeshInstance3D", true, false).size(), 1, "the statue plinth carries the emblem")

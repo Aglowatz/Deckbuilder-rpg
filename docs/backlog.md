@@ -313,3 +313,19 @@ Each older smoke run **once**, one Godot process at a time, headless where possi
 - **The zoomed card's keyword list** can reach down over your HP plate when a card has many keywords and the window is short (it closes when the mouse leaves the card). A two-column tooltip or a smaller card zoom would avoid it.
 - **AI announcements** name the move, not its target for abilities; abilities with targets could add "on X".
 - **Not done (out of scope or no art):** card-specific attack animations, a per-player "combat if blocked" preview of the AI's likely blocks (BT-1 explains why not), a Settings > Battle tab (the two battle settings sit on the Text page).
+
+---
+
+## The Capital layout pass: restoration and follow-ups (2026-10-16)
+
+How each district's broken / restored state works today (`docs/art/capital_slice.md`, "District states"), and what the restoration does not do yet. Each district follows its Path zone's freed flag (`ZoneCompletion.is_completed`, read once when the scene builds through `CapitalBuilder.story_context`); everything turns restored when Primm falls (`zone_final_completed`).
+
+| Item | Note |
+|---|---|
+| **Restored districts are tints and toggles, not new art** | A freed district's floor warms (the Reek's lawn greener), its buildings stand upright and lit (`_ruined` repaired, `_stall` opens with goods and lanterns, `_factory` and the tram shed light up, `_crypt` glows warm), the junk piles tidy, the graves tidy, the wheels and the dispenser switch to their freed look, the permit office closes for good. Not built: restored-state models or kit art per district (repaired roofs and gardens in the Reek, a moving tram and lit pylons in the Transit Yards, open market stalls with crowds in the Hungry Quarter, a quiet garden cemetery in Grave Row); the restored music already plays per district. The layout leaves room for both states (the same footprints; nothing in a restored state may stand on a route). |
+| **The Correction Ward has no restored state** | Only Primm's fall changes it (its loudspeaker goes silent); the ward building, its beds and its patient stay. A freed ward (open doors, empty beds, a garden) is for the art pass or a story brief. |
+| **The palace approach and the Gate Plaza restore only when Primm falls** | The facade crumbles (the identical houses as leaning ruins), the fountain's golden statue lies in the basin, the citizens take their own colours. The castle stand-in only dims its gold and darkens its windows; a ruined or opened castle is not built. |
+| **The outside after Primm** | The rifts close and their crystals turn to dull glass; the wasteland's ground, ruins and fog stay as they are (no "healing" of the outside is implemented). |
+| **The castle in the outside fog (CAP-11)** | The dark outside mood (fog 0.011) leaves the castle a pale silhouette from the rift fields, the camp and the outpost. A grade pass (fog density or a fog-free far layer for the castle) belongs to the Capital's art pass. |
+| **The Crease vs the resistance camp (CAP-1)** | A decision for a gameplay brief: whether the underground hall should open onto (or become) the walkable camp outside. |
+| **The tenth brief smoke walks the old Capital** | `tools/tenth_brief_final_smoke.gd` walks anchors (most moved with their names, so it follows), but its hard-coded hops (the facade gate, the plaza) predate this pass; it was not re-run here. `bash tools/run_capital_walk_smoke.sh` covers the new layout. |

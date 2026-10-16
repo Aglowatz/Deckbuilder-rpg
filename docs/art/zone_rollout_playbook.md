@@ -113,3 +113,13 @@ Every zone follows these before it is dressed (GC-1 .. GC-10, DN-5 .. DN-8); the
 52. **The land must go on** (VD-21): a far ground 26 m down reads as a sea; put it just under the rim and grow woods beyond the sides, never on the south rim where the cameras stand.
 53. **Measure fps by hiding, not guessing** (`HEAP_HIDE=<name,...>`, `OCCLUSION_OFF`, the probe's GPU ms): readings near 16.7 ms are bimodal, so a single A/B can mislead; the Dump's 3.5 ms was a faded ghost of the greenhouse between the trailing camera and the hero, fixed by hiding it while it blocks (VD-22). Kit ground surfaces need mipmaps (an import rule).
 54. **Smokes go stale with the layout**: re-run the old zone smoke after a layout pass and either update it or log what is left (the eighth-brief Dump smoke, `docs/backlog.md`).
+
+## 10. Lessons of the Capital layout pass (CAP-1 ... in `docs/design/open_questions.md`)
+
+55. **Count what the camera can see above the horizon before sizing walls and goals.** The Cinematic camera (pitch 20, FOV 44) sees only about 6 degrees above the horizon: a 12 m wall 45 m away hides everything behind it. Work out the visible band at the goal's distance (camera height about 7.5 m plus distance x tan of the frame top) and put the goal's silhouette there; keep a near wall under it (the Capital: a 9 m wall, the castle's crenellations and cone roofs at 10-25 m) (CAP-4).
+56. **A gameplay hub is not a region.** A hall reached by teleports (the Crease) keeps its gating (when it is found, where you wake); a brief's "camp" region is built as the walkable refuge it describes, and folding the two together is a gameplay brief (CAP-1).
+57. **Routes as segments with widths** (`CapitalLayout.routes`, `route_edge_distance`, `rect_route_distance`) let a cell-grid zone be tested like the Dump: nothing solid on a route, buildings 2.4 m off, rifts and hazards 0.5 m off.
+58. **A top-down plan is the fastest layout check** (`tools/capital_plan.gd`): cells, routes, circles, anchors, chests, cameras in one picture before any 3D is built. Load the layout with `load()` inside `_initialize`, not as a typed class: a `-s` script compiles before the autoloads exist.
+59. **A long wall the camera trails behind**: fade it, then hide it once faded while it blocks the lens (`CapitalScene._hide_wall_round_the_lens`); the ghost cost 3.5 ms at the Transit Yards (VD-22 again).
+60. **Strollers and prompts**: a wandering NPC's spot follows it, so keep each wanderer's home 5 m or more from other interact spots (the alley citizens and the perfect doors), and have smokes follow the spot, not the anchor.
+61. **Walk smokes hold the roaming enemies still** when they bump the hero off scripted lines; the battles have their own smokes.
