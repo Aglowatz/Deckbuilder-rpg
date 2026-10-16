@@ -106,7 +106,8 @@ func _explore_and_reveal(zone: HeapScene) -> void:
 	var start_count: int = fog.revealed_count()
 	var start_pois: int = MapView.visible_pois(zone._collect_pois(), fog).size()
 	_check(start_count > 50, "the minimap starts with the hub area revealed (%d cells)" % start_count)
-	_check(start_pois >= 2, "hub points of interest are already on the map (%d)" % start_pois)
+	# a fresh visit starts on the entrance bridge (VD-3): the minimap at arrival shows the way in, not the whole hub (playbook 36)
+	_check(start_pois >= 1, "points of interest near the arrival are already on the map (%d)" % start_pois)
 	var quiz_spot: ZoneSpot = _spot(zone, "quiz")
 	var quiz_known: bool = MapView.visible_pois(zone._collect_pois(), fog).any(func(poi: MapPoi) -> bool: return poi.kind == MapPoi.Kind.QUIZ)
 	_check(not quiz_known, "the quiz master is NOT on the map before exploring")
@@ -369,6 +370,10 @@ func _beanstalk_puzzle_and_chute(zone: HeapScene) -> void:
 	# The summit chest, then the trash chute down.
 	var chest: Vector3 = zone.builder.chest_positions()["chest_peak_b"] as Vector3
 	var gold_before: int = Session.gold
+	# the summit was re-laid by the layout pass: start beside the chest on the summit and walk the last steps
+	zone.player.position = chest + Vector3(0.0, 0.0, 1.2)
+	zone.player.position.y = zone.builder.height_at(zone.player.position)
+	await driver.frames(4)
 	await _walk_to(zone, chest, HeapScene.HIDDEN_CHEST_RADIUS)
 	await driver.frames(4)
 	await driver.tap_key(KEY_E)
@@ -379,6 +384,9 @@ func _beanstalk_puzzle_and_chute(zone: HeapScene) -> void:
 	await _clear_popups(zone)
 	var chute: HeapLayout.Chute = zone.heap.layout.chutes[1]
 	var slides_before: int = int(Session.counters.get(HeapZone.COUNTER_SLIDES, 0))
+	zone.player.position = Vector3(chute.pos.x - 3.0, 0.0, chute.pos.y)
+	zone.player.position.y = zone.builder.height_at(zone.player.position)
+	await driver.frames(4)
 	await _walk_to(zone, Vector3(chute.pos.x - 3.0, 0.0, chute.pos.y), 0.8)
 	await _shot("h_29_trash_chute_before")
 	await _hold(KEY_D, true)
@@ -765,7 +773,13 @@ func _mini_dungeon(zone: HeapScene) -> HeapScene:
 	await driver.seconds(0.4)
 	await _shot("h_58_landfill_depths_prompt")
 	var hp_at_entry: int = Session.zone_run.hp
-	await driver.click_button("Climb in")
+	# the side dungeon is sealed until its quest (BF-13, VD-1): unlock it as the quest would, then Enter
+	if driver.find_button("Enter") == null:
+		Session.set_flag(DungeonCatalog.side_unlock_flag("S-REF"))
+		await _clear_popups(zone)
+		await driver.tap_key(KEY_E)
+		await driver.seconds(0.6)
+	await driver.click_button("Enter")
 	var map_screen: DungeonMapScreen = await _wait_for(DungeonMapScreen) as DungeonMapScreen
 	_check(map_screen != null, "the mini dungeon opens the node map")
 	if map_screen == null:
@@ -972,7 +986,7 @@ func _wait_for(kind: Variant) -> Node:
 func _dismiss_dialogue(dialogue: DialogueBox) -> void:
 	await driver.frames(5)
 	var guard: int = 0
-	while dialogue.active and guard < 30:
+	while dialogue.active and guard < 80:
 		guard += 1
 		await driver.tap_key(KEY_E)
 		await driver.seconds(0.15)

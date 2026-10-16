@@ -242,3 +242,46 @@ The hub, the junk peaks, the stream and the wetlands sit within a few points of 
 | mini_dungeon (the throne's door) | 60.0 | 60.0 | 11.6 | 287 |
 
 **Checks**: 1572 GUT, all passing (GC-6 passed in this run).
+
+## Art Part F: verify and report
+
+**Walked** (`bash tools/run_heap_walk_smoke.sh <camera>`, windowed, human-style input; passes at the default Cinematic camera (0) and at Overview (2), 21 screenshots each): the arrival on the entrance bridge, the plaza and the greenhouse, every quest NPC (Brother Bramble, Wren Muckfoot, Granny Gristle and her vendor screen, Druid Sorrel and the growth druids), every interactable (the Harvest Meal, the compost bin, the trough, the druid shrine, the crop plots, the stables and the boar mounted and dismounted), Druid Thistlewick's quiz, Recycle Rhonda's fair, the Seed Shrine, the Landfill Depths door at the Trash Panda Throne (sealed until its quest; unlocked, E asks to enter its node map), the Rotheart's root gate (E asks to enter the Rotheart; "Not yet" gives the hero back), the giant chest, the lever, **a save and load round trip in the Dump** (new: the gold and the flags come back as saved), and the walk back out over the bridge to town. The walkability probe (`tests/world/test_walkability_zones.gd`) reaches every key location; 1572 GUT, 1571 passing (GC-6, the local camera FOV test, flips between runs: it passed in the Part E run and failed here).
+
+**The eighth-brief Verdant Dump smoke** (`bash tools/run_eighth_brief_final_smoke.sh heap`, written before the layout pass) was stale: 109 checks passed and 10 failed on steps from before the bridge arrival, the sealed side dungeon and the re-laid summit. Updated where the cause was clear (the POIs on the minimap at the bridge arrival, the Landfill Depths unlocked and entered with Enter, the summit chest and chute approached from beside them, a longer dialogue guard): 115 pass, 8 fail. What fails is not art: Brother Bramble's dialogue opens but Unblock the Stream is not handed out in that run (and the two hand-in checks after it), the summit chest is not found when the hero stands at it (the Seed Shrine's puzzle spot is beside it), the chute step does not launch from its old approach. Logged in `docs/backlog.md` for the next smoke sweep; the walk smoke above covers the same NPCs, doors, chest and lever and passes.
+
+**The Rotheart seen across the zone** (Part B and E shots): from the hub (its crown's underside fringes the top of the frame over the greenhouse, the violet hollow the brightest accent), from the farm rows (framed by the windmill on the left), from the stream (centred over the root gate, its roots running to the land), from the wetlands (the crown overhead, the gate at the road's end) and from the throne approach (on the right of the throne).
+
+**The corruption gradient from the hub to the root gate** (po_hub, po_stream, the north bank, po_wetlands, the main_dungeon spot):
+
+![](heap_slice/f_gradient.jpg)
+
+**fps per region**: the Part E table (60.0 average and minimum on Medium at all six paint-over cameras and both dungeon doors).
+
+### What still does not match the paint-overs (the honest list)
+
+- **The farm rows and the throne approach are 10 to 20 % darker** than their paint-overs (mean 133 / 122 against 148 / 149): the crop rows' soil, Rust Peak's rusty cliff and the dark tree cards in the throne's grove; the ground third everywhere is more orange and less blue than the painted ground.
+- **The Rotheart sits at the centre, not upper right**, and its canopy is a fringe across the top rather than the whole silhouette the paint-overs show (VD-14: the camera's narrow sky); it reads as a crown of puffy clumps, not the concept's layered, sunlit leaf masses, and the trunk is smoother than the concept's carved roots.
+- **Junk Mountain and the hill with the summit shack**: the paint-overs put that hill in the middle distance of the hub, farm, stream and throne views; in the game it is Junk Mountain beyond the north-east corner (and Mount Scrapmore, a walkable peak with its chute, keeps its old rust-and-moss look).
+- **Old pieces still procedural**: the hub's stables, the harvest table, the trough, the shrine, the crop plots, the beanstalk mounds, the dam, the car husks, the scarecrows and the fair stage keep their procedural or Kenney looks (not from the kit); the rift station and the boar board are as before.
+- **No foreground flowers**: every paint-over frames its view with big lupins and bluebells in the near foreground; the cameras stand on open ground (VD-10) and the kit has no foreground flower card.
+- **Water**: the stream and the bridge pool are the shared stylised water (white flecks), the paint-overs paint calm golden water with lily pads and reflections; there is no waterfall at the dam.
+- **The kit sky** is a strong orange band in the panorama; the paint-overs' skies are paler and softer near the horizon.
+- **The greenhouse** reads as a lit glass box; the concept's sunflower-heavy, overgrown silhouette and its round-roofed wing are simplified.
+
+### Extra assets that would close the gap (sheet-ready)
+
+| ID | Asset | Category | Lock | Image Description (for ChatGPT) | Size / Format | In-Game Use | Priority |
+|---|---|---|---|---|---|---|---|
+| DUMP-PLANT-LUPIN | Lupin and bluebell clump | Tree / plant | TREE | A big clump of purple lupins, blue bluebells and yellow daisies with broad leaves, seen from low; painted, soft cel shading, warm sunset light from the upper left. Transparent background, base at the bottom centre. No text. | 1024x1536 PNG, transparent | Foreground framing flowers along path edges in the healthy regions | 1 |
+| DUMP-PLANT-LILY | Lily pads and reeds | Tree / plant | TREE | A cluster of round lily pads with two pale flowers and short reeds, for still water's edge; seen from low, warm light. Transparent. | 1024x1024 PNG, transparent | The stream banks, the bridge pool, the wetland ponds | 1 |
+| DUMP-SURF-WATER | Golden still water | Surface | SURFACE | Calm stream water catching golden sunset light, soft reflections of green, a few ripples; seamless, tileable, flat even light. | 1024x1024 PNG, tileable | The recycling stream and the pools (a painted water layer) | 1 |
+| DUMP-PROP-WATERFALL | Plank dam waterfall | Prop | CUTOUT | Water spilling over a dam of old planks and doors in three short falls, white foam, painted; straight-on. Transparent. | 1536x1024 PNG, transparent | The junk dam (barricade_dam) once smashed / the stream's weirs | 2 |
+| DUMP-TREE-CANOPY | Rotheart canopy masses | Cutout sheet | SHEET | 6 large leaf masses of an ancient tree in green and gold with hanging moss, lit by a low sun from the left, seen from below; 3x2 grid, transparent, clear gaps. | 2048x1365 PNG, transparent, grid | Cards on the Rotheart's crown (the concept's layered canopy) | 2 |
+| DUMP-SKY-SUNSET-SOFT | Soft golden-hour sky | Sky / backdrop | BACKDROP | A pale gold and peach sunset sky with soft lilac-tinged clouds, lighter near the horizon, no hard band of orange (full image, no transparency). | 2048x1024 PNG | The zone sky (the current one is too strong at the horizon) | 2 |
+| DUMP-WALL-SCRAP | Scrap metal wall | Surface | SURFACE | Patchwork of rusty corrugated sheets with rivets and moss; seamless, tileable, flat even light, no letters. | 1024x1024 PNG, tileable | The stables, the fair stage and the junk barricades re-skinned from the kit | 2 |
+| DUMP-HERO-SCRAPMORE | Mount Scrapmore | Hero landmark | CONCEPT | The walkable junk hill of the junk peaks: a rounded mound of doors, tyres and crates under grass and flowers, a slide chute of tin down one side, a sprout mound at its foot; 3/4 view, about 12 m tall, a 1.7 m person for scale. | 1536x1024 PNG | Re-dressing the walkable peak (the paint-overs' middle-distance hill) | 2 |
+| DUMP-PROP-STABLE | Patched animal stable | Prop | CUTOUT | A lean-to stable of mossy planks and a reed roof with a hay rack and a water trough, painted, straight-on. Transparent. | 1536x1024 PNG, transparent | The boar and goat stables | 3 |
+
+## The kit status
+
+All 33 sheet ids are in the game (`docs/art/art_status.md`, "The Verdant Dump"): five hero models, ten surfaces (with the reused painted textures as aliases), four sliced sheets (24 doors, windows, icon signs and rag flags), six tree and plant cards, five prop cards, three decals, the sky and the backdrop.

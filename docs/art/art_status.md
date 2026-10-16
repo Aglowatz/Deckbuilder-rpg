@@ -964,3 +964,67 @@ Generated from `data/art/zone_kits/<zone>.json` (written by `bash tools/import_z
 | `BUFF-WALL-BISCUIT` | SURFACE | wall | 1024x1024 |  | 2.56 m |
 | `BUFF-WALL-OVEN` | SURFACE | wall | 1024x1024 |  | 2.56 m |
 
+
+### The Verdant Dump
+
+**33 of 33** sheet ids imported (57 kit ids with the sheet parts, plus 8 painted-texture aliases: TEX-DUMP-MOSSYDIRT / -JUNKGRAVEL / -COMPOST / -FARMROWS / -RUSTMETAL, DEC-RUST / -MOSS / -FLOWERS), all in the game; missing: none; unmatched files: 6 (the six paint-overs, kept in `docs/art/paintovers/`). The sheet `data/source/heap_kit.csv` was rebuilt from the delivered files (VD-11); the Drive folder is `VerdantDump` (`zonekit_folders`). Report: `docs/art/zone_kits/heap_import_report.md`; the slice: `docs/art/heap_slice.md` ("The art pass").
+
+| Kit ID | Lock | Family | px | Pivot | Tile |
+|---|---|---|---|---|---|
+| `DUMP-BD-JUNK` | BACKDROP | backdrop | 2048x293 | 0.50,1.00 |  |
+| `DUMP-DEC-CORRUPT` | CUTOUT | decal | 981x1000 | 0.50,0.50 |  |
+| `DUMP-DEC-OIL` | CUTOUT | decal | 950x901 | 0.50,0.50 |  |
+| `DUMP-DEC-PETALS` | CUTOUT | decal | 975x818 | 0.50,0.50 |  |
+| `DUMP-GROUND-CLOVER` | SURFACE | ground | 1024x1024 |  | 2.56 m |
+| `DUMP-GROUND-CORRUPT` | SURFACE | ground | 1024x1024 |  | 2.56 m |
+| `DUMP-HERO-COMMONS-GREENHOUSE` | CONCEPT | concept | 1536x1024 |  |  |
+| `DUMP-HERO-JUNK-MOUNTAIN` | CONCEPT | concept | 1536x1024 |  |  |
+| `DUMP-HERO-ROTHEART` | CONCEPT | concept | 1536x1024 |  |  |
+| `DUMP-HERO-TRASH-PANDA-THRONE` | CONCEPT | concept | 1536x1024 |  |  |
+| `DUMP-HERO-WINDMILL` | CONCEPT | concept | 1536x1024 |  |  |
+| `DUMP-PATH-PLANK` | SURFACE | ground | 1024x1024 |  | 2.56 m |
+| `DUMP-PLANT-FUNGUS` | TREE | tree | 975x1378 | 0.54,1.00 |  |
+| `DUMP-PLANT-REED` | TREE | tree | 1005x1449 | 0.50,1.00 |  |
+| `DUMP-PLANT-WILD` | TREE | tree | 1004x1332 | 0.47,1.00 |  |
+| `DUMP-PROP-BOTTLES` | CUTOUT | prop | 1524x795 | 0.50,1.00 |  |
+| `DUMP-PROP-CARGOAT` | CUTOUT | prop | 1413x977 | 0.50,1.00 |  |
+| `DUMP-PROP-COMPOST` | CUTOUT | prop | 978x968 | 0.50,1.00 |  |
+| `DUMP-PROP-SCRAPPILE` | CUTOUT | prop | 995x754 | 0.50,1.00 |  |
+| `DUMP-PROP-TYRE` | CUTOUT | prop | 980x921 | 0.50,1.00 |  |
+| `DUMP-ROOF-REED` | SURFACE | roof | 1024x1024 |  | 2.56 m |
+| `DUMP-ROOF-TIN` | SURFACE | roof | 1024x1024 |  | 2.56 m |
+| `DUMP-SHEET-DOORS` | SHEET | door | 2048x1365 |  |  |
+| `DUMP-SHEET-DOORS-01` | CUTOUT | door | 597x625 | 0.50,1.00 |  |
+| `DUMP-SHEET-DOORS-02` | CUTOUT | door | 570x633 | 0.50,1.00 |  |
+| `DUMP-SHEET-DOORS-03` | CUTOUT | door | 592x625 | 0.50,1.00 |  |
+| `DUMP-SHEET-DOORS-04` | CUTOUT | door | 607x629 | 0.50,1.00 |  |
+| `DUMP-SHEET-DOORS-05` | CUTOUT | door | 630x552 | 0.50,1.00 |  |
+| `DUMP-SHEET-DOORS-06` | CUTOUT | door | 624x625 | 0.50,1.00 |  |
+| `DUMP-SHEET-FLAGS` | SHEET | banner | 2048x1365 |  |  |
+| `DUMP-SHEET-FLAGS-01` | CUTOUT | banner | 635x413 | 0.50,0.03 |  |
+| `DUMP-SHEET-FLAGS-02` | CUTOUT | banner | 632x417 | 0.50,0.03 |  |
+| `DUMP-SHEET-FLAGS-03` | CUTOUT | banner | 628x342 | 0.50,0.03 |  |
+| `DUMP-SHEET-FLAGS-04` | CUTOUT | banner | 635x519 | 0.50,0.03 |  |
+| `DUMP-SHEET-FLAGS-05` | CUTOUT | banner | 647x439 | 0.50,0.03 |  |
+| `DUMP-SHEET-FLAGS-06` | CUTOUT | banner | 646x504 | 0.50,0.03 |  |
+| `DUMP-SHEET-SIGNS` | SHEET | sign | 2048x1365 |  |  |
+| `DUMP-SHEET-SIGNS-01` | CUTOUT | sign | 562x653 | 0.00,0.34 |  |
+| `DUMP-SHEET-SIGNS-02` | CUTOUT | sign | 536x603 | 0.00,0.08 |  |
+| `DUMP-SHEET-SIGNS-03` | CUTOUT | sign | 592x619 | 0.00,0.40 |  |
+| `DUMP-SHEET-SIGNS-04` | CUTOUT | sign | 534x597 | 0.00,0.51 |  |
+| `DUMP-SHEET-SIGNS-05` | CUTOUT | sign | 539x593 | 0.00,0.10 |  |
+| `DUMP-SHEET-SIGNS-06` | CUTOUT | sign | 597x581 | 0.00,0.38 |  |
+| `DUMP-SHEET-WINDOWS` | SHEET | window | 2048x1365 |  |  |
+| `DUMP-SHEET-WINDOWS-01` | CUTOUT | window | 581x622 | 0.50,1.00 |  |
+| `DUMP-SHEET-WINDOWS-02` | CUTOUT | window | 595x644 | 0.50,1.00 |  |
+| `DUMP-SHEET-WINDOWS-03` | CUTOUT | window | 566x638 | 0.50,1.00 |  |
+| `DUMP-SHEET-WINDOWS-04` | CUTOUT | window | 611x596 | 0.50,1.00 |  |
+| `DUMP-SHEET-WINDOWS-05` | CUTOUT | window | 683x602 | 0.50,1.00 |  |
+| `DUMP-SHEET-WINDOWS-06` | CUTOUT | window | 590x645 | 0.50,1.00 |  |
+| `DUMP-SKY-SUNSET` | BACKDROP | backdrop | 2048x1024 | 0.50,1.00 |  |
+| `DUMP-TREE-BIRCH` | TREE | tree | 968x1511 | 0.47,1.00 |  |
+| `DUMP-TREE-OAK` | TREE | tree | 1023x1415 | 0.52,1.00 |  |
+| `DUMP-TREE-TWISTED` | TREE | tree | 1010x1506 | 0.53,1.00 |  |
+| `DUMP-TRIM-ROPE` | SURFACE | trim | 1024x512 |  | 2.56 m |
+| `DUMP-WALL-DOORS` | SURFACE | wall | 1024x1024 |  | 2.56 m |
+| `DUMP-WALL-MOSSWOOD` | SURFACE | wall | 1024x1024 |  | 2.56 m |

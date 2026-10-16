@@ -156,6 +156,15 @@ func _the_chest_and_the_lever(zone: HeapScene) -> void:
 		var prompt: String = str(zone.hud._prompt_label.text)
 		_check(prompt != "", "%s: a prompt is up when the hero walks up (%s)" % [key, prompt])
 		await _shot("w_18_%s" % key)
+	# save and load in the Dump (a slot in a throwaway folder): the run's gold, flags and the zone visit come back
+	SaveSlots.dir = "%s/heap_walk_smoke_saves/" % OS.get_user_data_dir()
+	var gold: int = Session.gold
+	_check(Session.save_to_slot(3, "heap walk smoke"), "save/load: a manual save in the Verdant Dump")
+	Session.gold = gold + 321
+	Session.set_flag("heap_walk_smoke_after_save")
+	_check(Session.load_from_slot(3), "save/load: the slot loads back")
+	_check(Session.gold == gold and not Session.flag(&"heap_walk_smoke_after_save"), "save/load: the gold (%d) and the flags are as saved" % Session.gold)
+	await driver.frames(10)
 
 
 func _back_out_over_the_bridge(zone: HeapScene) -> void:

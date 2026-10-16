@@ -297,3 +297,10 @@ Each older smoke run **once**, one Godot process at a time, headless where possi
 | thirteenth brief | headless, capped at 90 s | ok except 1 stale check | since the passageway rework the zone name on approach is the town's passage label, not the portal spot's plate | none seen |
 
 **Updated and not rerun yet** (time budget): fourth, seventh, eighth, ninth, tenth, thirteenth. Next session: run seventh, eighth and tenth windowed in full (about 30 minutes in total) to confirm the updates and diagnose the jelly pad, the Bramble quest and the Capital E presses.
+
+
+## Verdant Dump art pass (2026-10-15)
+
+- **The eighth-brief Verdant Dump smoke** (`bash tools/run_eighth_brief_final_smoke.sh heap`) is half updated for the layout pass: 115 checks pass, 8 fail. Not art: Brother Bramble's dialogue opens but Unblock the Stream is not handed out in that run (the two hand-in checks fail after it); the summit chest (chest_peak_b) is not found when the hero stands at it (the Seed Shrine's puzzle spot is beside it); the chute step's old approach does not launch the slide. `tools/run_heap_walk_smoke.sh` covers the same NPCs, doors, chest and lever and passes at both cameras.
+- **Kit ground surfaces have no mipmaps in the other zones** (GAIN-, DNA-, BUFF- ground and path ids import with `mipmaps/generate=false`): the Dump's got a heap-only import rule (VD-22) because the far ground shimmered; the other zones likely want the same rule.
+- The Dump's remaining procedural pieces (stables, harvest table, trough, shrine, crop plots, beanstalk mounds, dam, car husks, fair stage) want kit art (the extra-asset table in `docs/art/heap_slice.md`).
