@@ -261,3 +261,47 @@ Each service district has two states on the same footprints (no route changes, t
 | ![](capital_slice/e_welcome_transit_yards.jpg) | ![](capital_slice/e_welcome_grave_row.jpg) |
 
 **fps on Medium**, broken / restored: the Transit Yards 59.3 / 60.0, the Hungry Quarter 59.6 / 60.1, Grave Row 60.0 / 60.0, the Reek 60.0 / 60.0. **Checks**: 1597 GUT, all passing (the welcome's rules, both states on the footprint).
+
+## Part F: match the paint-overs
+
+Three passes per region from its recorded camera (`bash tools/capital_po_shots.sh f1|f2|f3`), numbers first (`tools/image_stats.gd`), then by eye (`tools/side_by_side.gd`). Composition and landmark size were set in Parts A-D (the castle's band, the gate's crown, the camp's ruins and tents); here: (1) the ground and the dressing per district (Grave Row a lawn cemetery with paved lanes, the Reek a paved lane, CAP-37; planters along every district lane and flowers on Grave Row's lawns, CAP-38), (2) the palette (the outside from grey to the paint-overs' mauve-brown, more colour in the post grade, warmth), (3) light and haze (darker mauve fog and sky outside, the castle's own haze darker, the pastel paving a touch darker, inside contrast up and saturation above the outside's). The rift glow stays the strongest colour outside and the hero the clearest thing on screen.
+
+| Region | luma p50 paint-over / layout pass / pass 1 / pass 3 | saturation paint-over / pass 3 |
+|---|---|---|
+| Gate Road | 101 / 66 / 106 / 86 | 0.25 / 0.23 |
+| Resistance Camp | 82 / 69 / 109 / 88 | 0.23 / 0.27 |
+| Rift Fields | 106 / 68 / 106 / 86 | 0.23 / 0.24 |
+| Ruined Outpost | 109 / 60 / 96 / 76 | 0.22 / 0.25 |
+| Gate Plaza | 179 / - / 197 / 198 | 0.25 / 0.29 |
+| Transit Yards | 197 / - / 184 / 184 | 0.29 / 0.27 |
+| Hungry Quarter | 192 / - / 196 / 199 | 0.31 / 0.27 |
+| Grave Row | 177 / - / 190 / 188 | 0.35 / 0.30 |
+| The Reek | 189 / - / 171 / 187 | 0.28 / 0.25 |
+| Palace Approach | 202 / - / 192 / 193 | 0.28 / 0.30 |
+
+Paint-over (left) beside the result (right), all ten regions:
+
+| | |
+|---|---|
+| ![](capital_slice/compare_gate_road.jpg) | ![](capital_slice/compare_resistance_camp.jpg) |
+| ![](capital_slice/compare_rift_fields.jpg) | ![](capital_slice/compare_ruined_outpost.jpg) |
+| ![](capital_slice/compare_gate_plaza.jpg) | ![](capital_slice/compare_palace_approach.jpg) |
+| ![](capital_slice/compare_transit_yards.jpg) | ![](capital_slice/compare_hungry_quarter.jpg) |
+| ![](capital_slice/compare_grave_row.jpg) | ![](capital_slice/compare_the_reek.jpg) |
+
+**fps on Medium** (`bash tools/capital_fps.sh 1`, the gate open, enemies held, the dev iGPU, 60 is the cap):
+
+| Camera | avg fps | min fps | draw calls |
+|---|---|---|---|
+| po_gate_road | 59.9 | 28.0 (one hitch) | 447 |
+| po_resistance_camp | 60.0 | 60.0 | 443 |
+| po_rift_fields | 60.0 | 60.0 | 456 |
+| po_ruined_outpost | 60.0 | 60.0 | 349 |
+| po_gate_plaza | 60.1 | 60.0 | 426 |
+| po_transit_yards | 60.0 (53.0 in the layout pass before the wall fix) | 60.0 | 429 |
+| po_hungry_quarter | 59.6 | 53.3 | 494 |
+| po_grave_row | 60.0 | 60.0 | 414 |
+| po_the_reek | 60.0 (59.6 in the layout pass) | 60.0 | 308 |
+| po_palace_approach | 60.0 | 60.0 | 466 |
+
+The Transit Yards and the Reek, which hitched in the layout pass, hold 60; the draw calls fell by about 100 per camera since Part A (the kit's merged district models and shared materials, the lens gone). **Checks**: 1597 GUT, all passing (the look rig's mood test caught the outside's post saturation passing the inside's; the inside's was raised).

@@ -344,9 +344,18 @@ static func capital(scene: ZoneScene) -> Dictionary:
 			CapitalLayout.Floor.DEAD, CapitalLayout.Floor.GRASS, CapitalLayout.Floor.SOIL:
 				return 1.0
 		return 0.0
+	# the art pass (Part F): Grave Row is a lawn cemetery with paved lanes and the Reek a paved back lane (their paint-overs), whatever the cells' floor kinds
+	var district_at: Callable = func(p: Vector2) -> String:
+		var area: CapitalLayout.Area = layout.area_at(p.x, p.y)
+		return area.id if area != null else ""
 	var lawn_mask: Callable = func(p: Vector2) -> float:
 		if not inside.call(p):
 			return 0.0
+		match str(district_at.call(p)):
+			"grave":
+				return 0.0 if layout.route_edge_distance(p.x, p.y) < 0.2 else 1.0
+			"reek":
+				return 0.0
 		match int(kind_at.call(p)):
 			CapitalLayout.Floor.LAWN, CapitalLayout.Floor.SOIL, CapitalLayout.Floor.GRASS:
 				return 1.0

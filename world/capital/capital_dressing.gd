@@ -17,6 +17,11 @@ const ROW_OFFSET: float = 2.9
 const ROW_STEP: float = 4.0
 const ROW_CLEAR: float = 5.5
 const JUNCTION_CLEAR: float = 6.0
+## The district lanes (pastel paving, their paint-overs line them with planters): rose beds close along the kerb (LANE_LOW_OFFSET off the edge,
+## LANE_STEP apart: low and not solid) and a topiary cone behind every second one (ROW_OFFSET, solid).
+const LANE_ROUTES: Array[String] = ["reek_lane", "grave_lane", "hungry_lane", "transit_lane"]
+const LANE_LOW_OFFSET: float = 0.9
+const LANE_STEP: float = 3.0
 ## The repeating pattern along a row (card kind per slot); every eighth slot is a bench instead.
 const PATTERN: Array[String] = ["cap_topiary", "cap_rose", "cap_topiary", "cap_lamp"]
 ## Low, non-solid pieces (the rose beds) keep this much room round a spot; the solid ones keep ROW_CLEAR (the playbook's 5.5 m).
@@ -35,6 +40,8 @@ static func build(parent: Node3D, builder: CapitalBuilder, keep_clear: Array[Vec
 	parent.add_child(dressing.root)
 	dressing._roads(builder.layout)
 	dressing._rows(builder, keep_clear)
+	dressing._lanes(builder, keep_clear)
+	dressing._grave_flowers(builder, keep_clear)
 	dressing._shine()
 	for kind: String in dressing.fields.keys():
 		KitFoliage.tree_field(dressing.root, kind, dressing.fields[kind] as Array[Dictionary], kind != "cap_rose")
@@ -110,7 +117,7 @@ func _rows(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> void:
 			for side: float in [-1.0, 1.0]:
 				var q: Vector2 = a + along * (float(index) * ROW_STEP) + across * side * (float(route["width"]) * 0.5 + ROW_OFFSET)
 				var radius: float = float((TreeCards.KINDS[kind] as Dictionary).get("radius", 0.0))
-				var reason: String = _row_refusal(builder, q, junctions, keep_clear, ROW_CLEAR if radius > 0.0 else LOW_CLEAR)
+				var reason: String = _row_refusal(builder, q, junctions, keep_clear, ROW_CLEAR if radius > 0.0 else LOW_CLEAR, radius > 0.0)
 				if reason != "":
 					refused[reason] = int(refused.get(reason, 0)) + 1
 					continue
@@ -121,14 +128,69 @@ func _rows(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> void:
 					builder.add_blocker(Vector3(q.x, 0.0, q.y), radius)
 
 
+## The district lanes' planters: rose beds along both kerbs, a topiary cone behind every second one.
+func _lanes(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> void:
+	var layout: CapitalLayout = builder.layout
+	var junctions: Array[Vector2] = []
+	for route: Dictionary in layout.routes:
+		junctions.append(route["a"] as Vector2)
+		junctions.append(route["b"] as Vector2)
+	for route: Dictionary in layout.routes:
+		if not str(route["id"]) in LANE_ROUTES:
+			continue
+		var a: Vector2 = route["a"] as Vector2
+		var b: Vector2 = route["b"] as Vector2
+		var along: Vector2 = (b - a).normalized()
+		var across: Vector2 = Vector2(-along.y, along.x)
+		var half: float = float(route["width"]) * 0.5
+		for index: int in range(1, int(a.distance_to(b) / LANE_STEP)):
+			for side: float in [-1.0, 1.0]:
+				var base: Vector2 = a + along * (float(index) * LANE_STEP)
+				var pieces: Array[Array] = [["cap_rose", base + across * side * (half + LANE_LOW_OFFSET)]]
+				if index % 2 == 0:
+					pieces.append(["cap_topiary", base + across * side * (half + ROW_OFFSET)])
+				for piece: Array in pieces:
+					var kind: String = str(piece[0])
+					var q: Vector2 = piece[1] as Vector2
+					var radius: float = float((TreeCards.KINDS[kind] as Dictionary).get("radius", 0.0))
+					var reason: String = _row_refusal(builder, q, junctions, keep_clear, ROW_CLEAR if radius > 0.0 else LOW_CLEAR, radius > 0.0)
+					if reason != "":
+						refused[reason] = int(refused.get(reason, 0)) + 1
+						continue
+					if not fields.has(kind):
+						fields[kind] = [] as Array[Dictionary]
+					(fields[kind] as Array[Dictionary]).append({"pos": Vector3(q.x, 0.0, q.y), "scale": 1.0})
+					if radius > 0.0:
+						builder.add_blocker(Vector3(q.x, 0.0, q.y), radius)
+
+
+## Grave Row's lawns full of flowers (its paint-over): clumps of wildflowers and foxgloves between the headstone rows and the walls, never on a lane
+## or round a spot.
+func _grave_flowers(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> void:
+	var layout: CapitalLayout = builder.layout
+	var entries: Array[Dictionary] = []
+	for spot: Vector2 in [Vector2(8.0, 11.0), Vector2(9.5, 19.0), Vector2(7.0, 27.0), Vector2(11.0, 31.5), Vector2(29.0, 15.5), Vector2(31.5, 23.0), Vector2(28.0, 29.0), Vector2(33.0, 9.5)]:
+		entries.append({"pos": Vector3(spot.x, 0.0, spot.y), "radius": 2.2, "count": 12, "cells": [2, 3, 2]})
+	var keep: Callable = func(pos: Vector3) -> bool:
+		if layout.route_edge_distance(pos.x, pos.z) < 0.6 or not builder.is_walkable(pos, 0.3):
+			return false
+		for spot: Vector3 in keep_clear:
+			if Vector2(spot.x - pos.x, spot.z - pos.z).length() < LOW_CLEAR:
+				return false
+		return true
+	var field: MultiMeshInstance3D = KitFoliage.clumps(root, entries, 77, keep)
+	if field != null:
+		field.name = "GraveFlowers"
+
+
 ## Why a row slot is refused, or "" when the piece may stand there.
-func _row_refusal(builder: CapitalBuilder, q: Vector2, junctions: Array[Vector2], keep_clear: Array[Vector3], room: float) -> String:
+func _row_refusal(builder: CapitalBuilder, q: Vector2, junctions: Array[Vector2], keep_clear: Array[Vector3], room: float, solid: bool = true) -> String:
 	var layout: CapitalLayout = builder.layout
 	var cell: Vector2i = layout.cell_of(q.x, q.y)
 	# the lawns, the districts' pastel paving and the sidewalks (the route itself is kept clear by the next rule); never the plaza
 	if layout.cell_at(cell.x, cell.y) != CapitalLayout.Cell.GROUND or layout.floor_at(cell.x, cell.y) in [CapitalLayout.Floor.PLAZA, CapitalLayout.Floor.NONE]:
 		return "floor"
-	if layout.route_edge_distance(q.x, q.y) < CapitalLayout.ROUTE_CLEARANCE + 0.4:
+	if layout.route_edge_distance(q.x, q.y) < (CapitalLayout.ROUTE_CLEARANCE + 0.4 if solid else 0.6):
 		return "route"
 	if not builder.is_walkable(Vector3(q.x, 0.0, q.y), 0.8):
 		return "blocked"

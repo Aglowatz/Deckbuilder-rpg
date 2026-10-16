@@ -161,7 +161,9 @@ func test_the_inside_rows_keep_off_the_routes_and_the_people() -> void:
 		for entry: Dictionary in dressing.fields[kind]:
 			total += 1
 			var p: Vector3 = entry["pos"] as Vector3
-			assert_gte(layout.route_edge_distance(p.x, p.z), CapitalLayout.ROUTE_CLEARANCE, "%s at (%.1f, %.1f) keeps off the routes" % [kind, p.x, p.z])
+			var solid: bool = float((TreeCards.KINDS[kind] as Dictionary).get("radius", 0.0)) > 0.0
+			# nothing solid within the routes' clearance; the low rose beds along a lane's kerb stay off the lane itself
+			assert_gte(layout.route_edge_distance(p.x, p.z), CapitalLayout.ROUTE_CLEARANCE if solid else 0.59, "%s at (%.1f, %.1f) keeps off the routes" % [kind, p.x, p.z])
 			assert_lt(p.z, float(CapitalLayout.WALL_Z0), "the rows are inside the walls")
 			var room: float = CapitalDressing.ROW_CLEAR if float((TreeCards.KINDS[kind] as Dictionary).get("radius", 0.0)) > 0.0 else CapitalDressing.LOW_CLEAR
 			for anchor: Vector3 in keep:

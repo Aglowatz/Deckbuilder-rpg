@@ -243,8 +243,8 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.sun_pitch = -40.0
 			p.ambient_color = Color("8a80a8")
 			p.ambient_energy = 0.9
-			p.exposure = 1.0
-			p.fog_color = Color("9c8a98")
+			p.exposure = 0.88
+			p.fog_color = Color("7e6e78")
 			p.fog_density = 0.009
 			p.volumetric_density = 0.015
 			p.volumetric_color = Color("a8988e")
@@ -269,8 +269,8 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.sun_energy = 0.45
 			p.ambient_color = Color("847a88")
 			p.ambient_energy = 0.8
-			p.exposure = 0.92
-			p.fog_color = Color("8a7c88")
+			p.exposure = 0.82
+			p.fog_color = Color("76666e")
 			p.fog_density = 0.011
 		CAPITAL_INSIDE:
 			p.with_id(id, "Capital inside the walls: idyllic, bright, blue sky")
@@ -289,7 +289,7 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.fog_density = 0.0016
 			p.saturation = 1.02
 			p.ground_sat = 0.8
-			p.contrast = 1.14
+			p.contrast = 1.2
 			p.glow_intensity = 0.25
 			p.outline_color = Color("5a6aa0")
 			p.outline_strength = 0.4
