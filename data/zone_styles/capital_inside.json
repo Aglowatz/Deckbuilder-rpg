@@ -6,11 +6,11 @@
 	"palette": ["#F7F3EA", "#E6C35C", "#F5C6D0", "#BFE3D0", "#A7C7E7", "#7FC97F"],
 	"light": {"key_color": "#ffe8c0", "key_energy": 0.8, "key_pitch": -46, "key_yaw": -30, "ambient_color": "#9a90d8", "ambient_energy": 0.5},
 	"fog": {"color": "#d8ecff", "density": 0.0016},
-	"grade": {"warmth": 0.08, "saturation": 1.02, "contrast": 1.14, "post_saturation": 1.14},
+	"grade": {"warmth": 0.15, "saturation": 1.04, "contrast": 1.12, "post_saturation": 1.22},
 	"bloom": {"intensity": 0.7, "threshold": 0.95},
 	"vignette": 0.14,
 	"far_haze": {"_about": "Primm's Castle's own haze inside the walls (CAP-22)", "color": "#e4eef8", "density": 0.0012},
 	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-TIMBER-WARM", "ENV-ROOF-TILE-RED": "ENV-ROOF-TILE-BLUE"},
 	"tint_strength": 0.75,
-	"tints": {"wall": "#F7F3EA", "trim": "#E6C35C", "roof": "#A7C7E7", "ground": "#BFE3D0", "prop": "#F5C6D0", "tree": "#7FC97F"}
+	"tints": {"wall": "#F7F3EA", "trim": "#E6C35C", "roof": "#A7C7E7", "ground": "#BFE3D0", "prop": "#F5C6D0", "tree": "#ffffff"}
 }

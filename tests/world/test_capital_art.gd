@@ -139,3 +139,40 @@ func test_outside_lights_leave_the_warmth_to_the_camp() -> void:
 	for node: Node3D in [CapitalProps.checkpoint_booth(), CapitalProps.fallen_statue(), CapitalProps.gate_barrier(), CapitalLandmarks.ruin_fragment(4.0, 2.4, 3), CapitalLandmarks.ruined_house(6.0, 4.0, 4.0, 5.0, 1)]:
 		assert_gt(int(node.get_meta("triangles", 0)), 20, "%s is built from the kit" % node.name)
 		node.free()
+
+
+func test_the_inside_rows_keep_off_the_routes_and_the_people() -> void:
+	# the perfect city's exact rows (CapitalDressing): along the white roads on the lawns, never within the routes' clearance or 5.5 m of a person
+	var layout: CapitalLayout = CapitalLayout.new()
+	layout.build()
+	var builder: CapitalBuilder = CapitalBuilder.new()
+	builder.layout = layout
+	builder._index_obstacles()
+	builder.gate_open = true
+	var parent: Node3D = Node3D.new()
+	add_child_autofree(parent)
+	var keep: Array[Vector3] = []
+	for key: Variant in layout.anchors.keys():
+		keep.append(layout.anchors[key] as Vector3)
+	var dressing: CapitalDressing = CapitalDressing.build(parent, builder, keep)
+	gut.p("rows refused: %s" % str(dressing.refused))
+	var total: int = 0
+	for kind: String in dressing.fields.keys():
+		for entry: Dictionary in dressing.fields[kind]:
+			total += 1
+			var p: Vector3 = entry["pos"] as Vector3
+			assert_gte(layout.route_edge_distance(p.x, p.z), CapitalLayout.ROUTE_CLEARANCE, "%s at (%.1f, %.1f) keeps off the routes" % [kind, p.x, p.z])
+			assert_lt(p.z, float(CapitalLayout.WALL_Z0), "the rows are inside the walls")
+			var room: float = CapitalDressing.ROW_CLEAR if float((TreeCards.KINDS[kind] as Dictionary).get("radius", 0.0)) > 0.0 else CapitalDressing.LOW_CLEAR
+			for anchor: Vector3 in keep:
+				assert_gte(Vector2(anchor.x - p.x, anchor.z - p.z).length(), room - 0.01, "%s leaves the people their room" % kind)
+	assert_gt(total, 16, "rows of topiaries, roses, lamps and benches line the white roads (%d)" % total)
+	assert_gt(dressing.count("cap_topiary"), 0)
+	assert_not_null(parent.find_child("WhiteRoads", true, false), "the white roads with their gold lines")
+	var houses: Node3D = CapitalDistricts.facade_houses([Rect2(43.5, 19.5, 4.0, 4.0), Rect2(49.5, 19.5, 4.0, 4.0)], [3.4, 3.4])
+	var body: MeshInstance3D = houses.get_node("Body") as MeshInstance3D
+	var doors: bool = false
+	for surface: int in range(body.mesh.get_surface_count()):
+		doors = doors or body.mesh.surface_get_name(surface) == "card_CAP-SHEET-DOORS-01"
+	assert_true(doors, "the identical houses wear the doors sheet's door")
+	houses.free()

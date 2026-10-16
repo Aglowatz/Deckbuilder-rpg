@@ -80,7 +80,7 @@
 	},
 	"capital_inside": {
 		"title": "Capital inside the walls: idyllic, bright, eerily perfect",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "d8ecff", "fog_density": 0.0016, "warmth": 0.08, "saturation": 1.14, "vignette": 0.14, "bloom": 0.7, "bloom_threshold": 0.95, "glow_spread": 0.65, "cloud_speed": 0.6},
+		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "d8ecff", "fog_density": 0.0016, "warmth": 0.15, "saturation": 1.22, "vignette": 0.14, "bloom": 0.7, "bloom_threshold": 0.95, "glow_spread": 0.65, "cloud_speed": 0.6},
 		"sky": {"horizon": "e4f2ff", "gold": "fff2d8", "mid": "96c8f8", "zenith": "3f8fe6", "sun": "ffe8c0", "sun_glow": 1.0, "cloud_opacity": 0.0, "cloud_tint": "ffffff", "panorama": "CAP-SKY-NOON", "panorama_mix": 0.75, "panorama_stretch": 1.0},
 		"scenery": {"water": true, "shore": true, "rings": true, "landmarks": false, "tint": "f0f6ff", "cool": "a8c8f8", "haze_scale": 0.7, "cool_scale": 0.8, "brightness": 1.08, "water_tint": "8cc8f8", "kit_cards": [{"id": "CAP-BD-CITY", "angle": 0, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 60, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 120, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 180, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 240, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 300, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}]},
 		"foliage": {"density": 1.0, "cells": [0, 2, 3, 4], "tint": "f6fff4"},
@@ -89,7 +89,7 @@
 	"capital_inside_dark": {
 		"extends": "capital_inside",
 		"title": "Capital inside, service down: the idyll at dusk",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "c0d4f0", "fog_density": 0.002, "warmth": 0.0, "saturation": 1.04, "vignette": 0.26, "bloom": 0.6},
+		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "c0d4f0", "fog_density": 0.002, "warmth": 0.13, "saturation": 1.2, "vignette": 0.18, "bloom": 0.6},
 		"sky": {"horizon": "c0d4f0", "gold": "e8d8c8", "mid": "7ca8e0", "zenith": "3a74c8", "sun_glow": 0.7},
 		"scenery": {"brightness": 0.92}
 	},

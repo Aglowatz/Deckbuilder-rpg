@@ -215,3 +215,30 @@ Bleak but readable, per the five outside paint-overs:
 | after Part C | 132, 114, 114 | 55 / 110 / 197 | 0.17 |
 
 **fps on Medium**: 60.0 at all four outside cameras. **Checks**: 1595 GUT; the outskirts' presets stay "sickly" and the blackout darker (two art tests caught the first pass and the colour moved into the post grade), the outside lights test added.
+
+## Part D: inside
+
+Perfect but quietly wrong, per the six inside paint-overs:
+
+- **Walls and roofs**: pristine plaster (CAP-WALL-PLASTER), the pastel bands (CAP-WALL-PASTEL as three tiles), pastel roofs (blue and the derived pink), gold trim (CAP-TRIM-GOLD) on every eave; the Showcase's sixteen identical houses as one kit mesh with the doors sheet's door (one in sixteen with a heart, CAP-31), the two painted storefronts, the identical row of the Hungry Quarter (Part A), the Correction Ward cheerful outside and sinister in detail (barred mirrored windows, the smiling sign, an empty lawn).
+- **Roads**: white roads with their gold centre line and gold kerbs (CAP-PATH-WHITE) along the ring streets, boulevards, separators and the forecourt; the avenue, the plaza and the lanes keep the pastel plaza paving and the perfect lawn of the paint-overs.
+- **Rows** (CAP-30): topiary cones in gold pots, identical rose beds, identical lampposts and benches in exact rows; the lamps and benches of the plaza and the avenue are the kit's cards; the polish shine on the plaza and down the avenue.
+- **Banners and signs** (CAP-32): Primm's white-and-gold banners on gold poles, the civic sign sheet's icons on the district plaques, white-and-gold boards.
+- **The tram**: the pastel tram in each bay of the tram shed (Part A).
+- **Symmetry**: the layout pass's mirrored rows kept; the rows follow the roads on both sides alike.
+- **Light** (CAP-33): flat, nearly shadowless noon (shadows at 0.3), a warmer post grade; the fountain crisp and gleaming at the plaza's centre.
+
+| | |
+|---|---|
+| ![](capital_slice/d_po_gate_plaza.jpg) GATE-PLAZA | ![](capital_slice/d_po_palace_approach.jpg) PALACE-APPROACH |
+| ![](capital_slice/d_po_hungry_quarter.jpg) HUNGRY-QUARTER | ![](capital_slice/d_po_transit_yards.jpg) TRANSIT-YARDS |
+| ![](capital_slice/d_po_grave_row.jpg) GRAVE-ROW | ![](capital_slice/d_po_the_reek.jpg) THE-REEK |
+
+| image | mean RGB | luma p5 / p50 / p95 | saturation |
+|---|---|---|---|
+| PAINTOVER-CAP-GATE-PLAZA | 192, 174, 153 | 95 / 179 / 236 | 0.25 |
+| after Part D | 208, 185, 168 | 124 / 197 / 224 | 0.26 |
+| PAINTOVER-CAP-HUNGRY-QUARTER | 198, 178, 157 | 82 / 192 / 234 | 0.31 |
+| after Part D | 212, 182, 170 | 139 / 195 / 224 | 0.24 |
+
+**fps on Medium**: the plaza 59.8, the Transit Yards 60.1, the Hungry Quarter 59.0, Grave Row, the Reek and the approach 60.0. **Checks**: 1596 GUT, all passing (new: the rows keep off the routes and the people, the identical houses wear the doors sheet).

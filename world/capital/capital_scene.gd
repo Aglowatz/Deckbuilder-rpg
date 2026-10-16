@@ -662,9 +662,9 @@ func _is_inside(pos: Vector3) -> bool:
 func _dress_zone() -> void:
 	var quality: int = Settings.graphics_quality
 	var layout: CapitalLayout = capital.layout
-	# Declutter (the playbook's section 5): inside, the facade recipe only on the approach's lawns, never on a street, a plaza or a route's
-	# kerb; outside, the low wasteland scatter only well off the roads and the people. The wasteland's dead trees, ruins and debris stand in the
-	# layout's few edge clusters (`CapitalWasteland`).
+	# Declutter (the playbook's section 5): inside, the kit's exact rows along the white roads (CapitalDressing), never on a street, a plaza or
+	# a route's kerb; outside, the low wasteland scatter only well off the roads and the people. The wasteland's dead trees, ruins and debris
+	# stand in the layout's few edge clusters (`CapitalWasteland`).
 	var anchors: Array[Vector3] = []
 	for key: Variant in layout.anchors.keys():
 		anchors.append(layout.anchors[key] as Vector3)
@@ -673,12 +673,16 @@ func _dress_zone() -> void:
 			if absf(anchor.x - pos.x) < 3.0 and absf(anchor.z - pos.z) < 3.0:
 				return false
 		return true
-	var north: Callable = func(pos: Vector3) -> bool:
-		var cell: Vector2i = layout.cell_of(pos.x, pos.z)
-		return pos.z < float(CapitalLayout.WALL_Z0) - 1.0 and layout.floor_at(cell.x, cell.y) == CapitalLayout.Floor.LAWN and layout.route_edge_distance(pos.x, pos.z) > 1.2 and clear_of_anchors.call(pos)
 	var south: Callable = func(pos: Vector3) -> bool:
 		return pos.z > float(CapitalLayout.WALL_Z1) + 1.0 and layout.route_edge_distance(pos.x, pos.z) > 2.4 and clear_of_anchors.call(pos)
-	ZoneDressing.build(self, builder, StylePresets.CAPITAL_FACADE, quality, [], north, 0.15)
+	# inside, the kit's own exact rows replace the generic facade scatter (unsettling through sameness, CapitalDressing)
+	var keep_clear: Array[Vector3] = anchors.duplicate()
+	for sign_data: CapitalLayout.Sign in layout.signs:
+		keep_clear.append(sign_data.pos)
+	for prop: CapitalLayout.Prop in layout.props:
+		if prop.radius > 0.0:
+			keep_clear.append(prop.pos)
+	CapitalDressing.build(self, capital, keep_clear)
 	ZoneDressing.build(self, builder, StylePresets.CAPITAL_OUTSKIRTS, quality, [], south, 0.12)
 	wasteland = CapitalWasteland.build(self, capital, layout, quality)
 

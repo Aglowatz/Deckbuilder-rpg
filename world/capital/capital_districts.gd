@@ -485,3 +485,60 @@ static func _ward_front(mesh: KitMesh, w: float, h: float, d: float, final_state
 	for side: float in [-1.0, 1.0]:
 		K.spire(mesh, Vector3(side * 4.2, 0, front - 0.6), 1.0, body_h + 4.0, 3.2, "roof_blue", false)
 		K.spire(mesh, Vector3(side * (w * 0.5 - 0.6), 0, 0), 1.4, body_h + 1.0, 3.6)
+
+
+# ---- the palace approach: the identical houses ---------------------------------------------------------------------------------------------
+
+
+## The palace approach's identical houses as ONE mesh (the Showcase: sixteen of them, the same 4 m square, the same everything): pristine white
+## plaster with a pastel band (CAP-WALL-PASTEL-MINT) under a gold eave trim, a pink tiled hipped roof with a gold ridge, the same pastel door with its
+## shuttered windows from the doors sheet (one house in sixteen has the door with the heart, the only difference), window boxes of identical roses.
+## `rects` are the layout houses' footprints (world), `heights` their walls; doors on their south (+z) faces, where the perfect doors' spots are.
+static func facade_houses(rects: Array[Rect2], heights: Array[float]) -> Node3D:
+	var root: Node3D = Node3D.new()
+	root.name = "FacadeHouses"
+	var mesh: KitMesh = KitMesh.new()
+	K.materials(mesh)
+	for index: int in range(rects.size()):
+		var rect: Rect2 = rects[index]
+		var h: float = heights[index]
+		var c: Vector3 = Vector3(rect.get_center().x, 0, rect.get_center().y)
+		var w: float = rect.size.x
+		var d: float = rect.size.y
+		mesh.box("plaster", c + Vector3(0, h * 0.5, 0), Vector3(w, h, d), Basis.IDENTITY, 0.03, 0.82)
+		mesh.box("pastel_mint", c + Vector3(0, 0.45, 0), Vector3(w + 0.04, 0.9, d + 0.04))
+		mesh.box("trim", c + Vector3(0, h - 0.15, 0), Vector3(w + 0.1, 0.32, d + 0.1))
+		CapitalCastle._hip_roof(mesh, c + Vector3(0, h, 0), Vector2(w + 0.5, d + 0.5), 1.7, "roof_pink")
+		var door: String = "CAP-SHEET-DOORS-05" if index == 6 else "CAP-SHEET-DOORS-01"
+		K.card(mesh, door, c + Vector3(0, 0.02, d * 0.5 + 0.03), 2.5, Vector3(0, 0, 1))
+		for side: float in [-1.0, 1.0]:
+			# the side walls' windows: the same shuttered window boxes, roses on the sill
+			K.arched_window(mesh, c + Vector3(side * (w * 0.5 + 0.01), 1.2, 0), 0.8, 1.2, Vector3(side, 0, 0), "mirror")
+		K.card(mesh, "CAP-PLANT-ROSE", c + Vector3(-w * 0.36, 0.02, d * 0.5 + 0.35), 0.55, Vector3(0, 0, 1))
+		K.card(mesh, "CAP-PLANT-ROSE", c + Vector3(w * 0.36, 0.02, d * 0.5 + 0.35), 0.55, Vector3(0, 0, 1))
+	return L.finish(root, mesh, [], 6.0)
+
+
+## One of the approach's two painted storefronts (doors that do not open): the same white house with a pastel blue or pink front, a striped awning,
+## a display window and the painted door from the doors sheet.
+static func storefront(size: Vector3, variant: int, final_state: bool) -> Node3D:
+	var root: Node3D = Node3D.new()
+	root.name = "Storefront"
+	var mesh: KitMesh = KitMesh.new()
+	K.materials(mesh, Color(0.62, 0.57, 0.5) if final_state else Color.WHITE)
+	var w: float = size.x
+	var d: float = size.z
+	var h: float = size.y
+	var front: String = "pastel_blue" if variant % 2 == 1 else "pastel_pink"
+	mesh.box("plaster", Vector3(0, h * 0.5, 0), Vector3(w, h, d), Basis.IDENTITY, 0.03, 0.82)
+	mesh.box(front, Vector3(0, h * 0.45, d * 0.5 + 0.02), Vector3(w, h * 0.9, 0.06))
+	mesh.box("trim", Vector3(0, h - 0.15, 0), Vector3(w + 0.1, 0.32, d + 0.1))
+	CapitalCastle._hip_roof(mesh, Vector3(0, h, 0), Vector2(w + 0.5, d + 0.5), 1.7, "roof_blue" if variant % 2 == 1 else "roof_pink")
+	K.card(mesh, "CAP-SHEET-DOORS-03" if variant % 2 == 1 else "CAP-SHEET-DOORS-02", Vector3(-w * 0.22, 0.02, d * 0.5 + 0.06), 2.4, Vector3(0, 0, 1))
+	K.arched_window(mesh, Vector3(w * 0.25, 0.6, d * 0.5 + 0.06), 1.3, 1.8, Vector3(0, 0, 1), "mirror")
+	for index: int in range(8):
+		var x0: float = -w * 0.5 + w * float(index) / 8.0
+		var x1: float = -w * 0.5 + w * float(index + 1) / 8.0
+		var colour: String = ("door_blue" if variant % 2 == 1 else "rose") if index % 2 == 0 else "cream"
+		mesh.quad(colour, [Vector3(x0, 2.7, d * 0.5 + 0.08), Vector3(x1, 2.7, d * 0.5 + 0.08), Vector3(x1, 2.35, d * 0.5 + 0.85), Vector3(x0, 2.35, d * 0.5 + 0.85)], Vector3(0, 0.8, 1))
+	return L.finish(root, mesh, [], h + 1.7)

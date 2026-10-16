@@ -295,6 +295,8 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.outline_strength = 0.4
 			p.rim_color = Color("fff6d8")
 			p.highlight = Vector3(1.05, 1.02, 0.94)
+			# the art pass: a flat, nearly shadowless noon (the inside paint-overs): faint shadows, the coloured ambient shows through
+			p.shadow_opacity = 0.3
 			p.particles = [{"kind": "sparkles", "color": Color(1.0, 0.95, 0.7, 1.0), "amount": 22}, {"kind": "petals", "color": Color("ffb0d0"), "amount": 16}]
 		CAPITAL_INSIDE_DARK:
 			p = get_preset(CAPITAL_INSIDE)

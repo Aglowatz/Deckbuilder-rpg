@@ -44,6 +44,12 @@ const KINDS: Dictionary = {
 	"dump_wild": {"id": "DUMP-PLANT-WILD", "size": Vector2(0.9, 1.2), "radius": 0.0, "plant": true},
 	"dump_reed": {"id": "DUMP-PLANT-REED", "size": Vector2(1.53, 2.2), "radius": 0.0, "plant": true},
 	"dump_fungus": {"id": "DUMP-PLANT-FUNGUS", "size": Vector2(1.34, 1.9), "radius": 0.0, "plant": true},
+	# The Capital kit cards (docs/art/capital_slice.md, the art pass): the perfect city's topiary cones, identical rose beds, lampposts and benches, in exact rows;
+	# none of them sways (sameness, not life).
+	"cap_topiary": {"id": "CAP-TREE-TOPIARY", "size": Vector2(1.09, 2.4), "radius": 0.35, "prop": true},
+	"cap_rose": {"id": "CAP-PLANT-ROSE", "size": Vector2(0.95, 0.95), "radius": 0.0, "prop": true},
+	"cap_lamp": {"id": "CAP-PROP-LAMP", "size": Vector2(0.74, 3.6), "radius": 0.2, "prop": true},
+	"cap_bench": {"id": "CAP-PROP-BENCH", "size": Vector2(1.45, 1.0), "radius": 0.5, "prop": true},
 }
 
 

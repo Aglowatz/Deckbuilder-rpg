@@ -35,7 +35,7 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"hedge":
 			return hedge()
 		"lamp_perfect":
-			return lamp(true, true, M.WHITE)
+			return kit_card_prop("CAP-PROP-LAMP", 3.6)
 		"lamp_street":
 			return street_lamp(not bool(ctx.get("dark", false)) or bool(ctx.get("final", false)))
 		"statue_primm":
@@ -49,7 +49,7 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"complaint_box":
 			return complaint_box(story)
 		"bench":
-			return bench()
+			return kit_card_prop("CAP-PROP-BENCH", 1.0)
 		"junk_pile":
 			return junk_pile(prop.variant, _free(ctx, "refusemancer"))
 		"compost_heap":
@@ -804,6 +804,13 @@ static func kit_wreck(stack: bool) -> Node3D:
 	CapitalKit.tree_card(root, "CAP-SHEET-RUBBLE-02", Vector3.ZERO, 1.7)
 	if stack:
 		CapitalKit.tree_card(root, "CAP-SHEET-RUBBLE-06", Vector3(-1.1, 0, 1.0), 1.2)
+	return root
+
+
+## One of the perfect city's identical props as the kit's painted card (the lamppost, the bench), base at the origin, facing the camera.
+static func kit_card_prop(id: String, height: float) -> Node3D:
+	var root: Node3D = Node3D.new()
+	CapitalKit.tree_card(root, id, Vector3.ZERO, height)
 	return root
 
 

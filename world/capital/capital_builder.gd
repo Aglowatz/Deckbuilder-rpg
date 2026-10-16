@@ -8,7 +8,6 @@ extends ZoneMap
 const M = preload("res://world/capital/capital_materials.gd")
 const P = preload("res://world/capital/capital_props.gd")
 const B = preload("res://world/buffet/buffet_props.gd")
-const DISTORTION: Shader = preload("res://world/capital/rift_distortion.gdshader")
 ## Everything south of this z is the underground hideout: it lives on visual layer 2 so the sun does not light it.
 const CREASE_Z: float = 128.0
 const CREASE_LAYER: int = 2
@@ -396,7 +395,7 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 		"shed":
 			node.add_child(CapitalLandmarks.build({"id": "CAP-HERO-TRAM-SHED", "size": [w, h, d], "state": state}))
 		"shop":
-			_shop(node, building)
+			node.add_child(CapitalDistricts.storefront(Vector3(w, h, d), building.variant, final_state))
 		"stall":
 			# the identical row faces its lane: the west row looks east, the east row west (the model's front is its local +z)
 			var house: Node3D = CapitalLandmarks.build({"id": "CAP-HERO-IDENTICAL-ROW", "size": [d, h, w], "state": state})
@@ -501,6 +500,19 @@ func _shop(node: Node3D, building: CapitalLayout.Building) -> void:
 
 
 func _build_houses(houses: Array[CapitalLayout.Building]) -> void:
+	if houses.is_empty():
+		return
+	# the Showcase's identical houses from the kit (CapitalDistricts.facade_houses): one mesh for all sixteen
+	var rects: Array[Rect2] = []
+	var heights: Array[float] = []
+	for house: CapitalLayout.Building in houses:
+		rects.append(house.rect)
+		heights.append(house.height)
+	root.add_child(CapitalDistricts.facade_houses(rects, heights))
+
+
+## The layout pass's stand-in houses (kept for reference; the kit houses replaced them in the art pass).
+func _build_houses_stand_in(houses: Array[CapitalLayout.Building]) -> void:
 	if houses.is_empty():
 		return
 	var bodies: MultiMesh = _multimesh(BoxMesh.new(), houses.size(), false)
@@ -792,32 +804,93 @@ func prop_at_anchor(kind: String, anchor_name: String) -> Node3D:
 
 
 func _build_signs() -> void:
-	# G-03: no readable text in the world. Primm's banners carry the ruler's emblem, boards and wall plaques one pictogram; the words are read by using
-	# the sign (ZoneScene adds a "sign" spot).
+	# G-03: no readable text in the world. Primm's banners carry the ruler's face, boards and wall plaques one pictogram; the words are read by
+	# using the sign (ZoneScene adds a "sign" spot). The art pass: Primm's banners are the kit's white-and-gold banners on gold poles, the
+	# districts' plaques the civic sign sheet's gold-framed icons (CIVIC_SIGNS), the boards inside the walls white and gold; the wasteland keeps
+	# its weathered wooden boards. Each sign's picture is its pictogram node (IconSign.NODE_NAME).
 	for sign_data: CapitalLayout.Sign in layout.signs:
 		var width: float = 1.5 * sign_data.size
 		var height: float = 1.5 * sign_data.size
+		var inside: bool = sign_data.pos.z < float(CapitalLayout.WALL_Z0) and sign_data.pos.z < CREASE_Z
 		var node: Node3D = Node3D.new()
 		root.add_child(node)
 		node.position = sign_data.pos
 		node.rotation_degrees.y = sign_data.yaw + 180.0
 		var mid: float = 1.45 + height * 0.5
+		var civic: String = str(CIVIC_SIGNS.get(sign_data.key, ""))
 		match sign_data.style:
 			"banner":
 				mid = 2.6 + height * 0.5
+				var pole_mesh: KitMesh = KitMesh.new()
+				CapitalKit.materials(pole_mesh)
 				for side: float in [-1.0, 1.0]:
-					B.cylinder(node, 0.07, 0.09, 2.6 + height, M.flat(M.STONE_DARK), Vector3(side * (width * 0.5 + 0.1), (2.6 + height) * 0.5, 0), 6)
-				B.box(node, Vector3(width + 0.5, 0.12, 0.14), M.shiny(M.GOLD, 0.3), Vector3(0, 2.6 + height, 0))
-				B.box(node, Vector3(width, height, 0.06), M.flat(Color(0.88, 0.8, 0.62)), Vector3(0, mid, 0))
+					pole_mesh.tube("gold", Vector3(side * (width * 0.5 + 0.1), 0, 0), Vector3(side * (width * 0.5 + 0.1), 2.6 + height + 0.3, 0), 0.07, 6)
+					CapitalKit.finial(pole_mesh, Vector3(side * (width * 0.5 + 0.1), 2.6 + height + 0.3, 0), 0.5)
+				pole_mesh.tube("gold", Vector3(-width * 0.5 - 0.1, 2.6 + height + 0.1, 0), Vector3(width * 0.5 + 0.1, 2.6 + height + 0.1, 0), 0.05, 6)
+				CapitalLandmarks.finish(node, pole_mesh, [], 2.6 + height)
+				node.add_child(_kit_picture("CAP-SHEET-BANNERS-%02d" % (1 + absi(sign_data.key.hash()) % 4), Vector2(width, height * 1.3), Vector3(0, mid, 0.05)))
+				node.scale = Vector3.ONE * 0.5
+				continue
 			"wall":
 				mid = 1.8 + height * 0.5
-				B.box(node, Vector3(width, height, 0.05), M.flat(Color(0.9, 0.88, 0.8)), Vector3(0, mid, 0))
+				if civic != "":
+					node.add_child(_kit_picture(civic, Vector2(width, height) * 1.05, Vector3(0, mid, 0.06)))
+					node.scale = Vector3.ONE * 0.5
+					continue
+				if inside:
+					var plaque: KitMesh = KitMesh.new()
+					CapitalKit.materials(plaque)
+					plaque.box("plaster", Vector3(0, mid, 0), Vector3(width, height, 0.08))
+					plaque.box("gold", Vector3(0, mid, 0.01), Vector3(width + 0.12, height + 0.12, 0.06))
+					CapitalLandmarks.finish(node, plaque, [], mid + height * 0.5)
+				else:
+					B.box(node, Vector3(width, height, 0.05), M.flat(Color(0.9, 0.88, 0.8)), Vector3(0, mid, 0))
 			_:
-				var board: Node3D = B.sign_post(width, height, "sign")
-				board.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so the pictogram reads
-				node.add_child(board)
+				if inside:
+					var board: KitMesh = KitMesh.new()
+					CapitalKit.materials(board)
+					for side: float in [-1.0, 1.0]:
+						board.tube("gold", Vector3(side * width * 0.42, 0, 0), Vector3(side * width * 0.42, 1.45, 0), 0.05, 6)
+					board.box("plaster", Vector3(0, mid, -0.02), Vector3(width, height, 0.08))
+					board.box("gold", Vector3(0, mid, -0.03), Vector3(width + 0.14, height + 0.14, 0.06))
+					CapitalKit.finial(board, Vector3(0, mid + height * 0.5 + 0.05, -0.02), 0.4)
+					CapitalLandmarks.finish(node, board, [], mid + height * 0.5)
+				else:
+					var post: Node3D = B.sign_post(width, height, "sign")
+					post.set_meta(PaintedClasses.META_NO_PAINT, true)  # signs stay plain so the pictogram reads
+					node.add_child(post)
 		node.scale = Vector3.ONE * 0.5  # smaller than the old high camera needed: at the low camera a signboard covers the hero
 		node.add_child(IconSign.picture(Vector2(width, height) * 0.8, sign_icon(sign_data.key), Vector3(0, mid, 0.1)))
+
+
+## The districts' plaques that are the civic sign sheet's gold-framed icons (CAP-SHEET-SIGNS-01 tram, -02 loaf, -03 grave, -04 wheel, -05 crown,
+## -06 raised hand); the words are still read by using the sign.
+const CIVIC_SIGNS: Dictionary = {
+	"sign.transit_main": "CAP-SHEET-SIGNS-01", "sign.hungry_main": "CAP-SHEET-SIGNS-02", "sign.grave_main": "CAP-SHEET-SIGNS-03",
+	"sign.transit_cardio": "CAP-SHEET-SIGNS-04", "sign.castle_warning": "CAP-SHEET-SIGNS-05", "sign.ward_main": "CAP-SHEET-SIGNS-06",
+}
+
+
+## A kit card as a sign's pictogram: an unshaded quad of the painted sign or banner, named like IconSign.picture (it IS the sign's pictogram).
+static func _kit_picture(id: String, size: Vector2, pos: Vector3) -> MeshInstance3D:
+	var node: MeshInstance3D = MeshInstance3D.new()
+	node.name = IconSign.NODE_NAME
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(size.y * EnvKit.aspect(id), size.y)
+	node.mesh = quad
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.albedo_texture = EnvKit.texture(id)
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
+	material.alpha_scissor_threshold = 0.5
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.set_meta(StyleToon.META_NO_TOON, true)
+	material.set_meta(PaintedClasses.META_NO_PAINT, true)
+	node.material_override = material
+	node.set_meta(StyleToon.META_NO_TOON, true)
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	node.position = pos
+	return node
 
 
 ## The icon id a sign shows. Primm's official banners show the ruler's emblem (the same one as the zone rulers' banners); the Wrinkles' own signs do not.
@@ -887,22 +960,7 @@ func _make_rift(entry: Dictionary) -> Node3D:
 	if orbit != null:
 		_orbits.append(orbit)
 	var scale_factor: float = float(node.get_meta("size", 1.0))
-	# Warped light: a lens of rippling screen around the tear.
-	var lens: MeshInstance3D = MeshInstance3D.new()
-	var lens_mesh: SphereMesh = SphereMesh.new()
-	lens_mesh.radius = 1.3 * scale_factor
-	lens_mesh.height = 3.6 * scale_factor
-	lens_mesh.radial_segments = 24
-	lens_mesh.rings = 12
-	lens.mesh = lens_mesh
-	var lens_material: ShaderMaterial = ShaderMaterial.new()
-	lens_material.shader = DISTORTION
-	lens_material.render_priority = 5
-	lens.material_override = lens_material
-	lens.position = Vector3(0, 0.35 * scale_factor + 1.6 * scale_factor, 0)
-	lens.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	lens.name = "Lens"
-	node.add_child(lens)
+	# (the layout pass's warped-light lens is gone: it drew a pale oval round every rift in the bright city, and the concept has none, CAP-20)
 	var light: OmniLight3D = OmniLight3D.new()
 	light.light_color = M.RIFT_VIOLET
 	light.light_energy = 2.8
