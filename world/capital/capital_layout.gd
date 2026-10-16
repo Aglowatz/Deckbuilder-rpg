@@ -73,7 +73,7 @@ const LANDMARK_BLOCKERS: Array[Vector3] = [
 const PO_CAMERAS: Dictionary = {
 	"po_gate_road": Vector2(60.0, 101.0), "po_resistance_camp": Vector2(34.5, 115.6), "po_rift_fields": Vector2(30.0, 101.5),
 	"po_ruined_outpost": Vector2(92.0, 109.5), "po_gate_plaza": Vector2(54.0, 53.0), "po_transit_yards": Vector2(96.0, 64.0),
-	"po_hungry_quarter": Vector2(100.0, 41.0), "po_grave_row": Vector2(22.0, 34.0), "po_the_reek": Vector2(19.0, 66.0),
+	"po_hungry_quarter": Vector2(100.0, 41.0), "po_grave_row": Vector2(22.0, 34.0), "po_the_reek": Vector2(17.5, 64.0),
 	"po_palace_approach": Vector2(60.0, 35.5),
 }
 

@@ -3227,3 +3227,9 @@ The Capital prepared for its art pass by the rollout playbook, layout first (rep
 - A faded great-wall piece that blocks the lens is hidden (Transit Yards 53 -> 60 fps on Medium); 60 fps average at all ten paint-over spots.
 - New tools: `tools/capital_plan.gd` (top-down plan), `bash tools/run_capital_walk_smoke.sh [camera]` (passes at Cinematic and Overview), `bash tools/capital_po_shots.sh <prefix>`.
 - 1587 GUT, all passing in the last run (GC-6, the local camera-FOV test, flips).
+
+## The Capital layout pass, Part B: paint-over inputs (2026-10-16)
+
+- Ten clean region shots at Cinematic / Normal, 1600 x 900, the hero visible, no UI or plates, the gate open, every district broken: `docs/art/paintover_inputs/capital/PO-CAP-{GATE-ROAD, RESISTANCE-CAMP, RIFT-FIELDS, RUINED-OUTPOST, GATE-PLAZA, TRANSIT-YARDS, HUNGRY-QUARTER, GRAVE-ROW, THE-REEK, PALACE-APPROACH}.png`, copied to the Drive's `Paintover_Inputs/capital/`.
+- The cameras are layout data (`CapitalLayout.PO_CAMERAS`, `--at=po_<region>`), reshot with `bash tools/capital_po_shots.sh PO`; each has Primm's Castle in frame. Report: `docs/art/capital_slice.md` Part B.
+- 1587 GUT, all passing.
