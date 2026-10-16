@@ -525,7 +525,7 @@
 			"id": "CAP-PLANT-ROSE",
 			"lock": "TREE",
 			"pivot": [
-				0.796,
+				0.5,
 				1
 			],
 			"priority": "2",
@@ -538,7 +538,11 @@
 			"slot": "tree.cap-plant-rose",
 			"tinted": false,
 			"use": "Inside gardens",
-			"zone": "final"
+			"zone": "final",
+			"pivot_hand": [
+				0.5,
+				1
+			]
 		},
 		"CAP-PROP-BENCH": {
 			"aspect": 1.454,
@@ -1748,8 +1752,8 @@
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
-				0,
-				0.553
+				0.5,
+				1
 			],
 			"px": [
 				599,
@@ -1764,7 +1768,11 @@
 			"slot": "sign.cap-sheet-signs-01",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final"
+			"zone": "final",
+			"pivot_hand": [
+				0.5,
+				1
+			]
 		},
 		"CAP-SHEET-SIGNS-02": {
 			"aspect": 0.945,
@@ -1782,8 +1790,8 @@
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
-				0,
-				0.553
+				0.5,
+				1
 			],
 			"px": [
 				600,
@@ -1798,7 +1806,11 @@
 			"slot": "sign.cap-sheet-signs-02",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final"
+			"zone": "final",
+			"pivot_hand": [
+				0.5,
+				1
+			]
 		},
 		"CAP-SHEET-SIGNS-03": {
 			"aspect": 0.943,
@@ -1816,8 +1828,8 @@
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
-				0,
-				0.553
+				0.5,
+				1
 			],
 			"px": [
 				599,
@@ -1832,7 +1844,11 @@
 			"slot": "sign.cap-sheet-signs-03",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final"
+			"zone": "final",
+			"pivot_hand": [
+				0.5,
+				1
+			]
 		},
 		"CAP-SHEET-SIGNS-04": {
 			"aspect": 0.942,
@@ -1850,8 +1866,8 @@
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
-				0,
-				0.551
+				0.5,
+				1
 			],
 			"px": [
 				599,
@@ -1866,7 +1882,11 @@
 			"slot": "sign.cap-sheet-signs-04",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final"
+			"zone": "final",
+			"pivot_hand": [
+				0.5,
+				1
+			]
 		},
 		"CAP-SHEET-SIGNS-05": {
 			"aspect": 0.945,
@@ -1884,8 +1904,8 @@
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
-				0,
-				0.552
+				0.5,
+				1
 			],
 			"px": [
 				600,
@@ -1900,7 +1920,11 @@
 			"slot": "sign.cap-sheet-signs-05",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final"
+			"zone": "final",
+			"pivot_hand": [
+				0.5,
+				1
+			]
 		},
 		"CAP-SHEET-SIGNS-06": {
 			"aspect": 0.942,
@@ -1918,8 +1942,8 @@
 			"lock": "CUTOUT",
 			"parent": "CAP-SHEET-SIGNS",
 			"pivot": [
-				0,
-				0.551
+				0.5,
+				1
 			],
 			"px": [
 				599,
@@ -1934,7 +1958,11 @@
 			"slot": "sign.cap-sheet-signs-06",
 			"tinted": false,
 			"use": "Sliced into icon signs",
-			"zone": "final"
+			"zone": "final",
+			"pivot_hand": [
+				0.5,
+				1
+			]
 		},
 		"CAP-SKY-DUSK": {
 			"aspect": 2,

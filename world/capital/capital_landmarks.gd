@@ -174,12 +174,12 @@ static func gate_arch(final_state: bool) -> Node3D:
 	K.materials(mesh, Color(0.62, 0.57, 0.5) if final_state else Color.WHITE)
 	var span: float = 10.0
 	var depth: float = 4.4
-	mesh.box("plaster", Vector3(0, 10.6, 0), Vector3(span + 0.4, 3.2, depth), Basis.IDENTITY, 0.05, 0.85)
+	mesh.box("plaster", Vector3(0, 10.3, 0), Vector3(span + 0.4, 2.6, depth), Basis.IDENTITY, 0.05, 0.85)
 	for face: float in [-1.0, 1.0]:
 		var normal: Vector3 = Vector3(0, 0, face)
 		var z: float = face * (depth * 0.5 + 0.04)
 		mesh.box("trim", Vector3(0, 9.25, z), Vector3(span + 0.4, 0.5, 0.08))
-		mesh.box("trim", Vector3(0, 11.95, z), Vector3(span + 0.4, 0.5, 0.08))
+		mesh.box("trim", Vector3(0, 11.35, z), Vector3(span + 0.4, 0.5, 0.08))
 		var steps: int = 9
 		var previous: Vector3 = Vector3(-span * 0.5, 4.2, z)
 		for index: int in range(1, steps + 1):
@@ -191,15 +191,15 @@ static func gate_arch(final_state: bool) -> Node3D:
 		band(mesh, "gold", Vector3(-span * 0.5, 0.2, z), Vector3(-span * 0.5, 4.2, z), 0.32, normal)
 		band(mesh, "gold", Vector3(span * 0.5, 0.2, z), Vector3(span * 0.5, 4.2, z), 0.32, normal)
 	# the crest over the lintel, the sun-emblem in it outside, the plain emblem inside
-	var crest: Array[Vector3] = [Vector3(-3.6, 12.2, 0), Vector3(3.6, 12.2, 0), Vector3(0, 15.6, 0)]
+	var crest: Array[Vector3] = [Vector3(-3.2, 11.6, 0), Vector3(3.2, 11.6, 0), Vector3(0, 13.6, 0)]
 	for face: float in [-1.0, 1.0]:
 		var z: float = face * (depth * 0.5 - 0.6)
 		mesh.tri("plaster", [crest[0] + Vector3(0, 0, z), crest[1] + Vector3(0, 0, z), crest[2] + Vector3(0, 0, z)], Vector3(0, 0, face))
-	mesh.box("plaster", Vector3(0, 13.4, 0), Vector3(5.0, 2.4, depth - 1.2))
-	K.finial(mesh, Vector3(0, 15.4, 0), 2.2)
-	K.sun_emblem(mesh, Vector3(0, 12.4, depth * 0.5 + 0.1), 1.25, Vector3(0, 0, 1))
-	K.emblem(mesh, Vector3(0, 12.4, -depth * 0.5 - 0.1), 1.1, Vector3(0, 0, -1), final_state, final_state)
-	return finish(root, mesh, [], 17.0)
+	mesh.box("plaster", Vector3(0, 12.3, 0), Vector3(4.2, 1.4, depth - 1.2))
+	K.finial(mesh, Vector3(0, 13.4, 0), 1.6)
+	K.sun_emblem(mesh, Vector3(0, 11.0, depth * 0.5 + 0.1), 1.05, Vector3(0, 0, 1))
+	K.emblem(mesh, Vector3(0, 11.0, -depth * 0.5 - 0.1), 0.95, Vector3(0, 0, -1), final_state, final_state)
+	return finish(root, mesh, [], 15.0)
 
 
 # ---- the Primm statue fountain (CAP-HERO-PRIMM-FOUNTAIN) ---------------------------------------------------------------------------------------
@@ -325,7 +325,7 @@ static func rift(seed_value: int, radius: float, big: bool) -> Node3D:
 	root.add_child(tear)
 	var tear_mesh: KitMesh = KitMesh.new()
 	var tear_material: StandardMaterial3D = K.own_glow(Color(1, 1, 1), 1.0, 1.0, true)
-	tear_material.albedo_color = Color(1.7, 1.7, 1.7)
+	tear_material.albedo_color = Color.WHITE  # the HDR lives only in the rim's vertex colour (a brighter tear bloomed over its own dark heart)
 	tear_material.emission_enabled = false  # the vertex colours carry it: bright violet edges, a near-black heart
 	tear_material.cull_mode = BaseMaterial3D.CULL_DISABLED
 	tear_mesh.set_material("tear", tear_material)
@@ -355,7 +355,8 @@ static func rift(seed_value: int, radius: float, big: bool) -> Node3D:
 	return root
 
 
-## One jagged tear: a fan of triangles from a dark core to a bright, jittered rim, `h` tall and `w` wide, turned by `yaw` about the vertical.
+## One jagged tear: a dark heart (a fan out to 70 % of the way) inside a band that brightens to a jittered violet rim, `h` tall and `w` wide,
+## turned by `yaw` about the vertical: dark inside, bright purple at its edges (the concept).
 static func _tear(mesh: KitMesh, rng: RandomNumberGenerator, h: float, w: float, yaw: float) -> void:
 	var basis: Basis = Basis(Vector3.UP, yaw)
 	var normal: Vector3 = basis * Vector3(0, 0, 1)
@@ -366,10 +367,16 @@ static func _tear(mesh: KitMesh, rng: RandomNumberGenerator, h: float, w: float,
 		var t: float = TAU * float(index) / float(steps)
 		var jag: float = rng.randf_range(0.72, 1.12)
 		rim.append(basis * Vector3(sin(t) * w * 0.5 * jag * (0.55 + 0.45 * absf(cos(t * 0.5))), h * 0.5 + cos(t) * h * 0.5 * rng.randf_range(0.92, 1.04), 0.0))
-	var bright: Color = Color(0.72, 0.36, 1.0)
-	var deep: Color = Color(0.06, 0.01, 0.12)
+	var bright: Color = Color(0.95, 0.5, 1.3)
+	var deep: Color = Color(0.02, 0.0, 0.05)
+	var inner: Color = Color(0.22, 0.05, 0.42)
 	for index: int in range(steps):
-		mesh.tri("tear", [core, rim[index], rim[(index + 1) % steps]], normal, [deep, bright, bright])
+		var a: Vector3 = rim[index]
+		var b: Vector3 = rim[(index + 1) % steps]
+		var ia: Vector3 = core.lerp(a, 0.7)
+		var ib: Vector3 = core.lerp(b, 0.7)
+		mesh.tri("tear", [core, ia, ib], normal, [deep, inner, inner])
+		mesh.quad("tear", [ia, ib, b, a], normal, [inner, inner, bright, bright])
 
 
 ## A floating shard: a long double pyramid `length` tall about `center`, turned by `basis`.

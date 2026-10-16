@@ -170,3 +170,22 @@ The ten cameras after Part A (`bash tools/capital_po_shots.sh a`: now with `--st
 **fps on Medium after Part A** (`bash tools/capital_fps.sh 1`, a new wrapper of `tools/fps.sh` over the ten cameras with the gate open and the enemies held): 60.0 average at the gate road (59.9), the camp, the rift fields, the outpost, the plaza, Grave Row, the Reek and the approach; the Hungry Quarter 55.2 and the Transit Yards 58.3 at first. A/B with the new knobs (`CAPITAL_HIDE=<name,...>`, `CAPITAL_NO_SHADOW=1`): the rifts' lights were the cost (an 8-12 m reach where several rifts share a view); their reach is now 4-6 m, round the tear and its scorched ground: 58.2 and 58.7. Readings near 16.7 ms are bimodal (VD-22); the rest is Part F's. The repeated district models (the identical row, the mausoleums, the Reek's yards, the outpost ruins) and the shared gold, mirror and water materials are set up for `KitBatch`.
 
 **Checks**: 1593 GUT tests, all passing (new: `tests/world/test_capital_art.gd`, the Capital's registry in `test_zone_kit.gd`).
+
+## Part B: Primm's Castle
+
+The face of the finale, matched to its concept and to PAINTOVER-CAP-PALACE-APPROACH (`world/capital/capital_castle.gd`): immense (about 82 m across, its spire 56 m up on the 7 m hill), gleaming white plaster and rich gold, perfectly symmetric about the grand avenue, eighteen towers with blue cone roofs and gold finials (a back row and a tall pair added so the cones fill the band seen over the wall), the keep's portal with its great arched doors of mirrored glass in gold frames, the colossal smiling emblem under a gold-edged gable, two wings of tall mirrored windows with Primm's great banners, balustrades along both terraces with rose planters, clipped hedges, topiaries, lamps, the grand stair with its gold rail, the marble Primm on the landing, and hairline cracks up the portal, the keep, a wing and the front towers leaking a faint violet light that pulses slowly (`CapitalBuilder.animate`).
+
+- **The castle door** (CAP-25): a white-and-gold gateway over the stair's foot, two banded piers with finials and lamps, a gold arch, and Primm's crown in its gold frame (the civic sign sheet) on the crest: the main dungeon door's icon sign. Everything stands on the hill, off the forecourt (tested); the door spot still opens the node map.
+- **Seen from both halves and over the wall** (CAP-22, CAP-23): never culled or faded; its own lighter haze in place of the outside fog reads its cones, keep and spire over the great wall from every outside camera, and the gate's crown was lowered so the Gate Road sees the keep over it. Inside, from the plaza the whole face reads (doors, emblem, gable, crown sign); from the approach the frame's top (about 16 m up at 40 m) shows the doors and the emblem's smile.
+- **When Primm falls** (CAP-24): the cracks go dark, the gold dims, the emblem cracks and hangs under a dark cloth, the mirrored panes become warm lit windows, the crown sign dims; the freed preset's exposure fixed so the light is warm and honest, not glare.
+
+| | Broken (as it stands) | Primm has fallen (`--flags=zone_final_completed`) |
+|---|---|---|
+| The palace approach | ![](capital_slice/b_po_palace_approach.jpg) | ![](capital_slice/bf_po_palace_approach.jpg) |
+| The Gate Plaza | ![](capital_slice/b_po_gate_plaza.jpg) | ![](capital_slice/bf_po_gate_plaza.jpg) |
+| Over the wall: the Gate Road | ![](capital_slice/b_po_gate_road.jpg) | ![](capital_slice/bf_po_gate_road.jpg) |
+| Over the wall: the rift fields | ![](capital_slice/b_po_rift_fields.jpg) | ![](capital_slice/bf_po_rift_fields.jpg) |
+| Over the wall: the camp, the outpost | ![](capital_slice/b_po_resistance_camp.jpg) | ![](capital_slice/b_po_ruined_outpost.jpg) |
+| From the districts: the Transit Yards, Grave Row | ![](capital_slice/b_po_transit_yards.jpg) | ![](capital_slice/b_po_grave_row.jpg) |
+
+Also in Part B: the rift's tear keeps its HDR only in its rim (a brighter tear bloomed over its own dark heart). **fps on Medium**: the approach 59.9, the plaza, the Gate Road and the rift fields 60.0. **Checks**: 1594 GUT, all passing (the castle never reaches onto the forecourt, the crown sign; a stray backup of the builder in an ignored folder broke the compile-all test once and was removed).

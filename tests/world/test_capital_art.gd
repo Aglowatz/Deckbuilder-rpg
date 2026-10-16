@@ -106,3 +106,19 @@ func test_the_camp_holds_the_only_warm_lights_outside() -> void:
 	var tunnel: Node3D = CapitalLandmarks.build({"id": "CAP-HERO-SERVICE-TUNNEL"})
 	assert_eq(tunnel.find_children("*", "Light3D", true, false).size(), 0, "the tunnel's lantern is dim and casts no warm light")
 	tunnel.free()
+
+
+func test_the_castle_door_is_a_grand_entrance_that_stays_off_the_forecourt() -> void:
+	# the entrance over the stair's foot, its lamps and banners stand on the hill (z 12 or less): nothing of the castle on the forecourt or its kerb
+	var castle: Node3D = CapitalCastle.build(false)
+	var box: AABB = _bounds(castle)
+	assert_lte(box.end.z, float(CapitalLayout.HILL.end.y) + 0.3, "the castle ends at the hill's edge (%.2f)" % box.end.z)
+	var door: Vector3 = CapitalLayout.new().anchors.get("castle_door", Vector3(60, 0, 13)) as Vector3
+	assert_almost_eq(door.x, CapitalCastle.AXIS, 0.1, "the door spot is on the castle's axis, at the stair's foot")
+	var crown_slot: bool = false
+	var body: MeshInstance3D = castle.get_node("Body") as MeshInstance3D
+	for surface: int in range(body.mesh.get_surface_count()):
+		if body.mesh.surface_get_name(surface) == "card_CAP-SHEET-SIGNS-05":
+			crown_slot = true
+	assert_true(crown_slot, "the crown in its gold frame is the door's icon sign")
+	castle.free()

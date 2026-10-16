@@ -57,7 +57,7 @@ static func own_glow(color: Color, energy: float, alpha: float = 1.0, unshaded: 
 
 
 ## Mirrored glass: pale sky-blue, glossy and metallic so it throws back the sky (the castle's and the Ward's "mirrored windows").
-static func mirror(tint: Color = Color("c8dcf0")) -> StandardMaterial3D:
+static func mirror(tint: Color = Color("8cb2e2")) -> StandardMaterial3D:
 	var key: String = "mirror|%s" % tint.to_html()
 	if _cache.has(key):
 		return _cache[key] as StandardMaterial3D
@@ -68,8 +68,8 @@ static func mirror(tint: Color = Color("c8dcf0")) -> StandardMaterial3D:
 	material.metallic_specular = 0.9
 	material.roughness = 0.12
 	material.emission_enabled = true
-	material.emission = tint.darkened(0.35)
-	material.emission_energy_multiplier = 0.35
+	material.emission = tint.darkened(0.45)
+	material.emission_energy_multiplier = 0.3
 	material.vertex_color_use_as_albedo = true
 	material.set_meta(PaintedClasses.META_NO_PAINT, true)
 	return material
@@ -140,7 +140,8 @@ static func _gold(mul: Color) -> StandardMaterial3D:
 	var material: StandardMaterial3D = StandardMaterial3D.new()
 	_cache[key] = material
 	material.resource_name = key
-	material.albedo_color = GOLD * mul
+	# a richer gold than the trim's pale band, so the frames, finials and the emblem read against the white plaster at noon
+	material.albedo_color = Color("dcac3c") * mul
 	material.metallic = 0.55 if mul == Color.WHITE else 0.2
 	material.metallic_specular = 0.7
 	material.roughness = 0.32 if mul == Color.WHITE else 0.7

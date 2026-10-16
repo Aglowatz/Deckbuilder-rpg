@@ -96,7 +96,7 @@
 	"capital_freed": {
 		"extends": "capital_inside",
 		"title": "Capital freed: bright and warm",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "f0e0c0", "fog_density": 0.0025, "warmth": 0.35, "saturation": 1.18, "vignette": 0.22, "bloom": 0.6},
+		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "f0dcc0", "fog_density": 0.0028, "warmth": 0.22, "saturation": 1.06, "vignette": 0.26, "bloom": 0.28, "bloom_threshold": 1.1},
 		"sky": {"horizon": "ffe4b0", "gold": "ffd890", "mid": "a8c4e8", "zenith": "6fa8e0", "sun": "ffe6b0", "sun_glow": 1.0, "cloud_opacity": 0.8, "panorama_mix": 0.35},
 		"scenery": {"water": true, "shore": true, "rings": true, "landmarks": false, "tint": "fff0d8", "cool": "b0b8e0", "brightness": 1.0},
 		"foliage": {"density": 1.0, "cells": [0, 1, 2, 3, 4], "tint": "ffffe8"}

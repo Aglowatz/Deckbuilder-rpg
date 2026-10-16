@@ -315,7 +315,11 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.fog_color = Color("f0e0c0")
 			p.fog_density = 0.002
 			p.ambient_energy = 0.5
-			p.saturation = 1.18
+			# warm and honest, not blinding: the inside's exposure (0.5) a touch up, where the default of 1.0 blew the white city out (the art pass)
+			p.exposure = 0.58
+			p.saturation = 1.1
+			p.contrast = 1.08
+			p.glow_intensity = 0.25
 			p.particles = [{"kind": "sparkles", "color": Color(1.0, 0.95, 0.7, 1.0), "amount": 30}, {"kind": "petals", "color": Color("ffb0d0"), "amount": 18}]
 		BATTLE:
 			p.with_id(id, "Battle backdrop: warm key, rich shadows")

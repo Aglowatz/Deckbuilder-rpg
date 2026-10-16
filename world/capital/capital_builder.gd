@@ -659,7 +659,7 @@ func _build_landmarks() -> void:
 	_place_landmark("gate", arch, Vector3(gate_x, 0.0, gate_z))
 	CapitalLandmarks.mark_view(arch, true)
 	great_wall.append(arch)
-	great_wall_boxes.append(AABB(Vector3(gate_x - 5.2, 8.8, gate_z - 2.4), Vector3(10.4, 8.4, 4.8)).grow(0.6))
+	great_wall_boxes.append(AABB(Vector3(gate_x - 5.2, 8.8, gate_z - 2.4), Vector3(10.4, 6.4, 4.8)).grow(0.6))
 
 
 ## The castle's own distance haze for the half the hero stands in (data/zone_styles/capital_outside.json / capital_inside.json "far_haze", CAP-22): a

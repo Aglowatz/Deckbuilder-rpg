@@ -26,6 +26,8 @@ const STAIR_TOP: float = 4.0
 const TOWERS: Array[Array] = [
 	[10.6, -2.6, 1.8, 22.0, 8.0], [18.0, -3.6, 2.2, 17.0, 7.0], [28.5, -5.0, 3.8, 16.0, 9.0], [36.5, -8.0, 2.2, 11.0, 6.0],
 	[6.0, -17.0, 2.4, 30.0, 10.0], [17.0, -13.0, 2.8, 24.0, 9.0], [25.0, -18.0, 2.4, 20.0, 8.0], [33.0, -15.0, 2.0, 15.0, 7.0],
+	# the outer pair and a tall pair between the wings, whose cones show over the great wall beside the gate's crown from the Gate Road
+	[41.0, -5.0, 2.6, 14.0, 7.5], [22.5, -9.5, 2.2, 22.0, 9.0],
 ]
 
 
@@ -48,6 +50,13 @@ static func build(final_state: bool) -> Node3D:
 			K.spire(mesh, Vector3(AXIS + side * float(tower[0]), TOP, float(tower[1])), float(tower[2]), float(tower[3]), float(tower[4]))
 	_cracks(mesh)
 	_gardens(mesh)
+	_entrance(mesh, final_state)
+	_terrace_balustrades(mesh)
+	if not final_state:
+		# Primm's great banners on the wings' fronts, either side of the keep
+		for side: float in [-1.0, 1.0]:
+			K.card(mesh, "CAP-SHEET-BANNERS-03", Vector3(AXIS + side * 14.0, TOP + 12.4, -3.94), 5.6, Vector3(0, 0, 1))
+			K.card(mesh, "CAP-SHEET-BANNERS-01", Vector3(AXIS + side * 23.0, TOP + 12.4, -3.94), 4.6, Vector3(0, 0, 1))
 	var body: MeshInstance3D = mesh.instance("Body")
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)
 	# the castle reads over the great wall through the outside's thick fog: its own materials take a lighter haze of their own (`StyleToon.META_FAR_HAZE`,
@@ -126,11 +135,9 @@ static func _stair(mesh: KitMesh, final_state: bool) -> void:
 			K.post(mesh, Vector3(x, y, z), Vector3(0.3, 1.0, 0.3), index % 3 == 0)
 		mesh.quad("gold", [Vector3(x - 0.18, 1.12, STAIR_FOOT), Vector3(x + 0.18, 1.12, STAIR_FOOT), Vector3(x + 0.18, TOP + 1.12, STAIR_TOP), Vector3(x - 0.18, TOP + 1.12, STAIR_TOP)], Vector3.UP)
 		# the big gold-capped plinths at the foot, a lamp on each, a banner hung between it and the door
-		K.post(mesh, Vector3(AXIS + side * 5.4, 0.0, STAIR_FOOT + 0.6), Vector3(1.0, 1.6, 1.0), true)
-		K.card(mesh, "CAP-PROP-LAMP", Vector3(AXIS + side * 5.4, 1.75, STAIR_FOOT + 0.6), 3.2, Vector3(0, 0, 1))
 		K.card(mesh, "CAP-PROP-LAMP", Vector3(AXIS + side * 4.6, TOP, STAIR_TOP - 0.4), 3.0, Vector3(0, 0, 1))
 		if not final_state:
-			K.card(mesh, "CAP-SHEET-BANNERS-02", Vector3(AXIS + side * 6.6, 4.6, STAIR_FOOT + 0.25), 3.4, Vector3(0, 0, 1))
+			K.card(mesh, "CAP-SHEET-BANNERS-02", Vector3(AXIS + side * 7.4, CapitalLayout.HILL_HEIGHT * 0.5 - 0.1, STAIR_FOOT + 0.05), 2.6, Vector3(0, 0, 1))
 	# the Primm statue on the landing in front of the doors (the concept's and the paint-over's centrepiece), on a gold-banded plinth
 	K.post(mesh, Vector3(AXIS, TOP, 1.4), Vector3(2.0, 1.2, 2.0), false)
 	K.primm_statue(mesh, Vector3(AXIS, TOP + 1.3, 1.4), 3.8, Vector3(0, 0, 1), final_state)
@@ -243,6 +250,52 @@ static func _hip_roof(mesh: KitMesh, center: Vector3, size: Vector2, rise: float
 	mesh.box("gold", (ridge_a + ridge_b) * 0.5 + Vector3(0, 0.1, 0), Vector3(ridge_a.distance_to(ridge_b) + 0.4, 0.25, 0.3))
 
 
+# ---- the grand entrance and the terraces' balustrades ---------------------------------------------------------------------------------------
+
+
+## The grand entrance at the stair's foot (the castle door spot, "castle_door" at (60, 13)): a white-and-gold gateway on the hill's edge over the first
+## steps, two tall gold-banded piers with finials, a gold arch between them under a white crest, and on the crest Primm's crown in its gold frame (the
+## civic sign sheet's crown, CAP-SHEET-SIGNS-05): the icon sign of the main dungeon's door (the spot carries no lettered plate). It stands on the hill
+## (z 12 or less), off the forecourt and its kerb; the way up the stair stays open between the piers.
+static func _entrance(mesh: KitMesh, final_state: bool) -> void:
+	var z: float = STAIR_FOOT - 0.5
+	var half: float = (STAIR_X1 - STAIR_X0) * 0.5 + 0.6
+	for side: float in [-1.0, 1.0]:
+		var x: float = AXIS + side * half
+		mesh.box("plaster", Vector3(x, 3.6, z), Vector3(1.0, 7.2, 0.9), Basis.IDENTITY, 0.05, 0.82)
+		mesh.box("trim", Vector3(x, 0.45, z), Vector3(1.08, 0.4, 0.98))
+		mesh.box("trim", Vector3(x, 6.95, z), Vector3(1.12, 0.45, 1.0))
+		K.finial(mesh, Vector3(x, 7.2, z), 1.6)
+		K.card(mesh, "CAP-PROP-LAMP", Vector3(x + side * 1.1, 0.0, z + 0.3), 3.4, Vector3(0, 0, 1))
+	var previous: Vector3 = Vector3(AXIS - half + 0.5, 6.0, z + 0.47)
+	for step: int in range(1, 13):
+		var t: float = float(step) / 12.0
+		var point: Vector3 = Vector3(AXIS - half + 0.5 + (half - 0.5) * 2.0 * t, 6.0 + 1.6 * sin(t * PI), z + 0.47)
+		CapitalLandmarks.band(mesh, "gold", previous, point, 0.32, Vector3(0, 0, 1))
+		mesh.quad("plaster", [previous + Vector3(0, 0.1, -0.03), point + Vector3(0, 0.1, -0.03), Vector3(point.x, 8.3, z + 0.44), Vector3(previous.x, 8.3, z + 0.44)], Vector3(0, 0, 1))
+		previous = point
+	mesh.box("plaster", Vector3(AXIS, 8.5, z), Vector3(half * 2.0 + 1.0, 0.5, 0.9))
+	mesh.box("trim", Vector3(AXIS, 8.5, z + 0.47), Vector3(half * 2.0 + 1.0, 0.4, 0.04))
+	# the crown sign standing on the crest (its gold dims with the rest once Primm has fallen)
+	K.card(mesh, "CAP-SHEET-SIGNS-05", Vector3(AXIS, 8.75, z + 0.1), 2.3, Vector3(0, 0, 1), false, Color(0.7, 0.66, 0.6) if final_state else Color.WHITE)
+
+
+## White balustrades with gold-capped posts along the edges of both terraces either side of the stair, a rose planter on every fourth post.
+static func _terrace_balustrades(mesh: KitMesh) -> void:
+	var hill: Rect2i = CapitalLayout.HILL
+	for side: float in [-1.0, 1.0]:
+		var inner: float = AXIS + side * ((STAIR_X1 - STAIR_X0) * 0.5 + 2.4)
+		var outer: float = float(hill.position.x) + 0.4 if side < 0.0 else float(hill.end.x) - 0.4
+		for edge: Vector2 in [Vector2(STAIR_FOOT - 0.25, CapitalLayout.HILL_HEIGHT * 0.5), Vector2(8.75, TOP)]:
+			_balustrade(mesh, Vector3(minf(inner, outer), edge.y, edge.x), Vector3(maxf(inner, outer), edge.y, edge.x))
+			var count: int = int(absf(outer - inner) / 4.0)
+			for index: int in range(count + 1):
+				var x: float = lerpf(inner, outer, float(index) / float(maxi(count, 1)))
+				K.post(mesh, Vector3(x, edge.y, edge.x), Vector3(0.45, 1.25, 0.45), index % 2 == 0)
+				if index % 2 == 1:
+					K.card(mesh, "CAP-PLANT-ROSE", Vector3(x, edge.y + 1.35, edge.x), 0.7, Vector3(0, 0, 1))
+
+
 # ---- the cracks and the gardens ----------------------------------------------------------------------------------------------------------
 
 
@@ -279,7 +332,7 @@ static func _cracks(mesh: KitMesh) -> void:
 ## in white planters in perfect rows, all painted cards facing the avenue.
 static func _gardens(mesh: KitMesh) -> void:
 	for side: float in [-1.0, 1.0]:
-		for edge: Vector2 in [Vector2(STAIR_FOOT - 1.6, CapitalLayout.HILL_HEIGHT * 0.5), Vector2(8.3, TOP)]:
+		for edge: Vector2 in [Vector2(STAIR_FOOT - 1.6, CapitalLayout.HILL_HEIGHT * 0.5), Vector2(7.6, TOP)]:
 			var x0: float = AXIS + side * 4.8
 			var x1: float = AXIS + side * 13.0
 			mesh.box("hedge", Vector3((x0 + x1) * 0.5, edge.y + 0.45, edge.x), Vector3(absf(x1 - x0), 0.9, 0.9), Basis.IDENTITY, 0.2, 0.7)
