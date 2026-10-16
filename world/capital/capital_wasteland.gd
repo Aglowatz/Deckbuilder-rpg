@@ -1,14 +1,19 @@
 class_name CapitalWasteland
 extends RefCounted
-## The decrepit outside (Brief 13, Part D; decluttered in the Capital layout pass): south of the city wall the land is barren and cracked. This adds
-## what the layout does not: dead trees (bare trunks and branches), ruined walls, rubble and debris piles, cracked dark ground patches, stumps and
-## broken carts, gathered in the layout's few edge clusters (`CapitalLayout.wasteland_clusters`), never on a road or round the people. Seeded,
-## quality scaled, built from `ProcMesh` primitives.
+## The decrepit outside (Brief 13, Part D; decluttered in the Capital layout pass; dressed from the zone kit in the art pass): south of the city wall
+## the land is barren and cracked. This adds what the layout does not: dead trees (CAP-TREE-DEAD), ruined walls of ash-blackened stone with the outpost
+## sheet's broken and boarded windows, rubble and wreckage from the rubble sheet (the white stone pile, the broken cart, the fallen striped barrier, the
+## toppled lamppost, the broken statue head, the scattered crates) and soft ash drifts (CAP-DEC-ASH), gathered in the layout's few edge clusters
+## (`CapitalLayout.wasteland_clusters`), never on a road or round the people. Seeded and quality scaled; the cards are the kit's painted cut-outs.
 
+const K = preload("res://world/capital/capital_kit.gd")
 const Z_MIN: float = float(CapitalLayout.WALL_Z1) + 2.0
 const Z_MAX: float = float(CapitalLayout.OUT_Z1)
 ## The pieces of one cluster at full density, in this order.
 const CLUSTER_KINDS: Array[String] = ["dead_tree", "ruin", "debris", "stump", "debris", "cart"]
+## The rubble sheet's pieces that lie loose round a cluster (01 the white stone pile, 03 the fallen barrier, 04 the toppled lamppost, 05 the broken statue
+## head, 06 the scattered crates) and their heights in metres; 02, the broken cart, is the cluster's "cart".
+const DEBRIS: Array[Array] = [["CAP-SHEET-RUBBLE-01", 1.2], ["CAP-SHEET-RUBBLE-03", 0.9], ["CAP-SHEET-RUBBLE-04", 0.8], ["CAP-SHEET-RUBBLE-05", 1.1], ["CAP-SHEET-RUBBLE-06", 1.0]]
 
 var root: Node3D
 var count: int = 0
@@ -17,6 +22,7 @@ var _layout: CapitalLayout
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _placed: Array[Vector2] = []
 var _anchors: Array[Vector3] = []
+var _ground: KitMesh
 
 
 static func build(parent: Node3D, builder: CapitalBuilder, layout: CapitalLayout, quality: int) -> CapitalWasteland:
@@ -29,15 +35,24 @@ static func build(parent: Node3D, builder: CapitalBuilder, layout: CapitalLayout
 	wasteland._rng.seed = 1313
 	for key: Variant in layout.anchors.keys():
 		wasteland._anchors.append(layout.anchors[key] as Vector3)
+	wasteland._ground = KitMesh.new()
+	K.materials(wasteland._ground)
 	var share: float = GraphicsQuality.foliage_density(quality)
-	wasteland._cracks(int(18.0 * share))
+	wasteland._drifts(int(16.0 * share))
 	for spot: Vector3 in layout.wasteland_clusters:
 		wasteland._cluster(spot, maxi(2, int(round(float(CLUSTER_KINDS.size()) * share))))
+	var drifts: MeshInstance3D = wasteland._ground.instance("AshDrifts")
+	drifts.set_meta(&"no_occlusion_fade", true)
+	drifts.set_meta(&"no_range_cull", true)
+	drifts.set_meta(PaintedClasses.META_NO_PAINT, true)
+	drifts.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	wasteland.root.add_child(drifts)
 	return wasteland
 
 
-## Up to `amount` pieces round one cluster centre (x, z, radius), each where the ground is free.
+## Up to `amount` pieces round one cluster centre (x, z, radius), each where the ground is free; an ash drift under the cluster.
 func _cluster(spot: Vector3, amount: int) -> void:
+	K.ground_card(_ground, "CAP-DEC-ASH", Vector3(spot.x, 0.04, spot.y), spot.z * 1.6 + 2.0, _rng.randf() * TAU)
 	for index: int in range(mini(amount, CLUSTER_KINDS.size())):
 		var kind: String = CLUSTER_KINDS[index]
 		for attempt: int in range(12):
@@ -70,7 +85,6 @@ func _random_pos() -> Vector3:
 func _place(kind: String, pos: Vector3) -> void:
 	var node: Node3D = _make(kind)
 	node.position = pos
-	node.rotation_degrees.y = _rng.randf() * 360.0
 	root.add_child(node)
 	_placed.append(Vector2(pos.x, pos.z))
 	if kind == "ruin" or kind == "cart":
@@ -80,8 +94,8 @@ func _place(kind: String, pos: Vector3) -> void:
 	count += 1
 
 
-func _cracks(amount: int) -> void:
-	var material: ShaderMaterial = GroundDecals.material(GroundDecals.Pattern.DIRT, Color("5a5044"), Color("3e362e"), Color("1c1814"), GroundDecals.Shape.DISC, 1.0, 0.45, 9.0)
+## Soft ash drifts over the open wasteland (never on a road), the kit's CAP-DEC-ASH lying flat.
+func _drifts(amount: int) -> void:
 	var made: int = 0
 	var tries: int = 0
 	while made < amount and tries < amount * 20:
@@ -89,90 +103,28 @@ func _cracks(amount: int) -> void:
 		var pos: Vector3 = _random_pos()
 		if not _builder.is_floor_at(pos) or _layout.route_edge_distance(pos.x, pos.z) < 0.5:
 			continue
-		GroundDecals.disc(root, pos, _rng.randf_range(1.5, 3.4), material, _rng.randf_range(0.4, 0.9), _rng.randf() * 180.0, 0.001 * float(made))
+		K.ground_card(_ground, "CAP-DEC-ASH", Vector3(pos.x, 0.035 + 0.001 * float(made), pos.z), _rng.randf_range(2.2, 4.0), _rng.randf() * TAU)
 		made += 1
 
 
 func _make(kind: String) -> Node3D:
+	var node: Node3D = Node3D.new()
 	match kind:
 		"dead_tree":
-			return _dead_tree()
-		"ruin":
-			return _ruin()
-		"debris":
-			return _debris()
+			node.name = "DeadTree"
+			K.tree_card(node, "CAP-TREE-DEAD", Vector3.ZERO, _rng.randf_range(3.0, 4.6))
 		"stump":
-			return _stump()
-	return _cart()
-
-
-func _holder(mesh: ProcMesh, node_name: String) -> Node3D:
-	var node: Node3D = Node3D.new()
-	node.name = node_name
-	node.add_child(mesh.build("Mesh"))
+			node.name = "DeadTreeSmall"
+			K.tree_card(node, "CAP-TREE-DEAD", Vector3.ZERO, _rng.randf_range(1.6, 2.3))
+		"debris":
+			node.name = "Debris"
+			var piece: Array = DEBRIS[_rng.randi() % DEBRIS.size()]
+			K.tree_card(node, str(piece[0]), Vector3.ZERO, float(piece[1]) * _rng.randf_range(0.9, 1.2))
+		"ruin":
+			node.name = "Ruin"
+			node.add_child(CapitalLandmarks.ruin_fragment(_rng.randf_range(3.0, 5.5), _rng.randf_range(1.6, 3.0), _rng.randi() % 1000))
+			node.rotation_degrees.y = _rng.randf() * 360.0
+		_:
+			node.name = "BrokenCart"
+			K.tree_card(node, "CAP-SHEET-RUBBLE-02", Vector3.ZERO, _rng.randf_range(1.4, 1.7))
 	return node
-
-
-func _dead_tree() -> Node3D:
-	var mesh: ProcMesh = ProcMesh.new()
-	var bark: Color = Color("4a4038").lerp(Color("2e2824"), _rng.randf())
-	var height: float = _rng.randf_range(2.6, 4.6)
-	mesh.frustum(0.0, height, 0.26, 0.07, 7, bark)
-	for i: int in range(_rng.randi_range(3, 5)):
-		var y: float = height * _rng.randf_range(0.45, 0.9)
-		var tilt: float = _rng.randf_range(35.0, 70.0)
-		var yaw: float = _rng.randf() * 360.0
-		var length: float = _rng.randf_range(0.9, 1.7) * (1.2 - y / height * 0.5)
-		var xform: Transform3D = Transform3D(Basis(Vector3.UP, deg_to_rad(yaw)) * Basis(Vector3(0, 0, 1), deg_to_rad(-tilt)), Vector3(0, y, 0))
-		mesh.frustum(0.0, length, 0.07, 0.015, 5, bark.darkened(0.08), xform)
-		var twig: Transform3D = Transform3D(xform.basis * Basis(Vector3(0, 0, 1), deg_to_rad(-30.0)), xform * Vector3(0, length * 0.7, 0))
-		mesh.frustum(0.0, length * 0.5, 0.04, 0.01, 4, bark, twig)
-	return _holder(mesh, "DeadTree")
-
-
-func _ruin() -> Node3D:
-	var mesh: ProcMesh = ProcMesh.new()
-	var stone: Color = Color("6a665e").lerp(Color("4a4640"), _rng.randf())
-	var brick: Color = Color("6a4a42").lerp(Color("4a3a36"), _rng.randf())
-	var length: float = _rng.randf_range(3.0, 5.5)
-	var height: float = _rng.randf_range(1.4, 3.0)
-	# a broken wall: a base slab, a jagged top of stepped blocks, and a window where the bricks fell out
-	mesh.box(Vector3(0, height * 0.3, 0), Vector3(length, height * 0.6, 0.5), brick)
-	var blocks: int = int(length / 0.5)
-	for i: int in range(blocks):
-		var top: float = height * _rng.randf_range(0.65, 1.0) if i % 3 != 1 else height * 0.62
-		mesh.box(Vector3((float(i) - float(blocks) * 0.5 + 0.5) * 0.5, top * 0.5, 0), Vector3(0.5, top, 0.5), brick if i % 2 == 0 else stone)
-	mesh.box(Vector3(length * 0.2, height * 0.45, 0.28), Vector3(0.7, 0.9, 0.1), Color("1c1a1e"))
-	for i: int in range(5):
-		var size: float = _rng.randf_range(0.2, 0.5)
-		mesh.box(Vector3(_rng.randf_range(-length * 0.5, length * 0.5), size * 0.4, _rng.randf_range(0.5, 1.3)), Vector3(size, size * 0.8, size), stone)
-	return _holder(mesh, "Ruin")
-
-
-func _debris() -> Node3D:
-	var mesh: ProcMesh = ProcMesh.new()
-	var tones: Array[Color] = [Color("5a5650"), Color("6a4a42"), Color("48443e"), Color("7a6a58")]
-	for i: int in range(_rng.randi_range(4, 8)):
-		var size: float = _rng.randf_range(0.15, 0.5)
-		mesh.box(Vector3(_rng.randf_range(-0.7, 0.7), size * 0.4, _rng.randf_range(-0.7, 0.7)), Vector3(size * 1.4, size, size), tones[i % tones.size()])
-	if _rng.randf() > 0.5:
-		mesh.box(Vector3(0.0, 0.3, 0.0), Vector3(1.2, 0.08, 0.2), Color("4a3a2e"))
-	return _holder(mesh, "Debris")
-
-
-func _stump() -> Node3D:
-	var mesh: ProcMesh = ProcMesh.new()
-	var height: float = _rng.randf_range(0.4, 1.1)
-	mesh.frustum(0.0, height, 0.3, 0.22, 7, Color("4a4038"), Transform3D.IDENTITY, true, false, 1.0, Color("6a5a48"))
-	mesh.frustum(0.0, 0.3, 0.38, 0.3, 7, Color("3e342c"))
-	return _holder(mesh, "Stump")
-
-
-func _cart() -> Node3D:
-	var mesh: ProcMesh = ProcMesh.new()
-	var wood: Color = Color("4a3a2e")
-	mesh.box(Vector3(0, 0.55, 0), Vector3(1.8, 0.12, 1.1), wood)
-	mesh.box(Vector3(0, 0.8, 0.55), Vector3(1.8, 0.4, 0.08), wood.darkened(0.1))
-	mesh.frustum(-0.3, 0.3, 0.45, 0.45, 10, Color("2c2824"), Transform3D(Basis(Vector3(1, 0, 0), PI * 0.5), Vector3(-0.5, 0.45, 0.62)), true, true)
-	mesh.box(Vector3(1.4, 0.35, 0.0), Vector3(1.2, 0.08, 0.1), wood.darkened(0.2))
-	return _holder(mesh, "BrokenCart")

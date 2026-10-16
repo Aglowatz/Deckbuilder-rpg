@@ -33,13 +33,15 @@ func _initialize() -> void:
 		print("import_zone_kit: --zone=<area id> is required (data/source/<zone>_kit.csv)")
 		quit(1)
 		return
-	var csv_path: String = "res://data/source/%s_kit.csv" % _zone
+	var config: ConfigFile = ConfigFile.new()
+	config.load(CONFIG)
+	# A zone whose sheet is not named after its area id (the Capital is zone "final", its sheet capital_kit.csv): zonekit_sheets in art_config.cfg.
+	var sheet_name: String = str((config.get_value("art", "zonekit_sheets", {}) as Dictionary).get(_zone, _zone))
+	var csv_path: String = "res://data/source/%s_kit.csv" % sheet_name
 	if not FileAccess.file_exists(csv_path):
 		print("import_zone_kit: %s missing" % csv_path)
 		quit(1)
 		return
-	var config: ConfigFile = ConfigFile.new()
-	config.load(CONFIG)
 	var root_dir: String = OS.get_environment("ZONEKIT_SOURCE_DIR")
 	if root_dir == "":
 		root_dir = str(config.get_value("art", "zonekits_dir", "G:/My Drive/Card Game Art/Approved_ZoneKits"))

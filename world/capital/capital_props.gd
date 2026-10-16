@@ -31,7 +31,7 @@ static func _make(prop: CapitalLayout.Prop, ctx: Dictionary, story: ZoneStoryTex
 		"facade_arch":
 			return facade_arch(story)
 		"fountain":
-			return fountain(ctx)
+			return CapitalLandmarks.build({"id": "CAP-HERO-PRIMM-FOUNTAIN", "final": bool(ctx.get("final", false))})
 		"hedge":
 			return hedge()
 		"lamp_perfect":
@@ -816,11 +816,22 @@ static func scrub(variant: int) -> Node3D:
 
 ## A cluster of tall violet rift crystals (the rift fields' stand-in for CAPO-HERO-RIFT-A / -B): five shards, 2 to 4.5 m, glowing faintly; dull
 ## grey glass once Primm has fallen.
+## A cluster of rift crystals breaking out of scorched ground (the kit's CAP-PLANT-CRYSTAL, painted cards of mixed heights on a CAP-GROUND-RIFT patch);
+## greyed and dead once Primm has fallen.
 static func rift_crystals(variant: int, final_state: bool) -> Node3D:
 	var root: Node3D = Node3D.new()
-	var glow: StandardMaterial3D = M.flat(Color(0.5, 0.5, 0.56)) if final_state else M.glow(M.RIFT_VIOLET.lerp(M.RIFT_CYAN, 0.15 * float(variant)), 1.1)
-	var shards: Array[Vector4] = [Vector4(0.0, 0.0, 4.5, 0.0), Vector4(0.9, 0.4, 3.0, 18.0), Vector4(-0.8, 0.5, 2.6, -22.0), Vector4(0.3, -0.9, 2.2, 14.0), Vector4(-0.5, -0.6, 3.4, -10.0)]
-	for shard: Vector4 in shards:
-		var piece: MeshInstance3D = B.cylinder(root, 0.02, 0.42, shard.z, glow, Vector3(shard.x, shard.z * 0.5, shard.y), 5)
-		piece.rotation_degrees = Vector3(shard.w * 0.6, shard.w * 3.0, shard.w)
+	var mesh: KitMesh = KitMesh.new()
+	CapitalKit.materials(mesh)
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 610 + variant
+	var ring: Array[Vector3] = []
+	for index: int in range(12):
+		var angle: float = TAU * float(index) / 12.0
+		ring.append(Vector3(cos(angle), 0.03, sin(angle)) * rng.randf_range(1.8, 2.4))
+	for index: int in range(12):
+		mesh.tri("rift_ground", [Vector3(0, 0.035, 0), ring[index], ring[(index + 1) % 12]], Vector3.UP)
+	var mul: Color = Color(0.55, 0.55, 0.6) if final_state else Color.WHITE
+	for shard: Vector4 in [Vector4(0.0, -0.3, 4.2, 0.0), Vector4(-1.0, 0.2, 2.8, 1.0), Vector4(1.0, 0.3, 3.2, 0.0), Vector4(0.4, 0.9, 2.0, 1.0)]:
+		CapitalKit.card(mesh, "CAP-PLANT-CRYSTAL", Vector3(shard.x, 0.0, shard.y), shard.z, Vector3(0, 0, 1), shard.w > 0.5, mul)
+	CapitalLandmarks.finish(root, mesh, [], 4.2)
 	return root

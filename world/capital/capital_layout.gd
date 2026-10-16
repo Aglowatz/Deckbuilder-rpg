@@ -66,7 +66,12 @@ const LANDMARK_BLOCKERS: Array[Vector3] = [
 	Vector3(29.0, 116.5, 1.6),    # the camp: the west tent
 	Vector3(40.5, 116.5, 1.6),    # the east tent
 	Vector3(23.5, 116.5, 1.4),    # the lean-to
+	# the camp's ruined flank walls (the art pass, CAP-HERO-RESISTANCE-CAMP: the camp shelters in old stone ruins), x 19 and x 45.5, z 112..119
+	Vector3(19.0, 112.4, 0.75), Vector3(19.0, 113.7, 0.75), Vector3(19.0, 115.0, 0.75), Vector3(19.0, 116.3, 0.75), Vector3(19.0, 117.6, 0.75), Vector3(19.0, 118.9, 0.75),
+	Vector3(45.5, 112.4, 0.75), Vector3(45.5, 113.7, 0.75), Vector3(45.5, 115.0, 0.75), Vector3(45.5, 116.3, 0.75), Vector3(45.5, 117.6, 0.75), Vector3(45.5, 118.9, 0.75),
 ]
+## The camp's ruined walls (CapitalLandmarks.camp): the two flank walls on the floor (their circles above) and the back wall beyond the floor's south edge.
+const CAMP_RUINS: Array[Rect2] = [Rect2(18.6, 112.0, 0.8, 7.3), Rect2(45.1, 112.0, 0.8, 7.3), Rect2(6.0, 122.2, 38.0, 0.8)]
 
 ## Where each region paint-over is shot from (the hero's standing spot; the camera looks north from behind):
 ## `bash tools/capital_po_shots.sh`. Camera spots, not anchors (VD-10): each stands off every spot and enemy home.

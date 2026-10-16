@@ -66,8 +66,8 @@
 	"capital_outskirts": {
 		"title": "Capital outside: bleak grey wasteland",
 		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "8c7e9c", "fog_density": 0.0085, "warmth": -0.2, "saturation": 0.72, "vignette": 0.46, "bloom": 0.42, "bloom_threshold": 1.0, "cloud_speed": 0.7},
-		"sky": {"horizon": "b8b296", "gold": "a89e88", "mid": "8c8c86", "zenith": "6c7266", "sun": "e0d0c0", "sun_glow": 0.35, "cloud_opacity": 0.9, "cloud_tint": "b0a898"},
-		"scenery": {"water": false, "shore": false, "rings": true, "landmarks": false, "apron": {"color": "5e5a54", "y": -0.03}, "tint": "8a8678", "cool": "7a7a82", "haze_scale": 1.4, "cool_scale": 1.0, "brightness": 0.8},
+		"sky": {"horizon": "b8b296", "gold": "a89e88", "mid": "8c8c86", "zenith": "6c7266", "sun": "e0d0c0", "sun_glow": 0.35, "cloud_opacity": 0.9, "cloud_tint": "b0a898", "panorama": "CAP-SKY-DUSK", "panorama_mix": 0.85, "panorama_stretch": 1.2},
+		"scenery": {"water": false, "shore": false, "rings": true, "landmarks": false, "apron": {"color": "5e5a54", "y": -0.03}, "tint": "8a8678", "cool": "7a7a82", "haze_scale": 1.4, "cool_scale": 1.0, "brightness": 0.8, "kit_cards": [{"id": "CAP-BD-WASTELAND", "angle": 0, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 60, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 120, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 180, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 240, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-WASTELAND", "angle": 300, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}]},
 		"foliage": {"density": 0.0},
 		"ambient": {"enabled": true, "shafts": false, "motes": 60, "mote_color": "c8c0a0", "leaves": false, "birds": false}
 	},
@@ -81,8 +81,8 @@
 	"capital_inside": {
 		"title": "Capital inside the walls: idyllic, bright, eerily perfect",
 		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "d8ecff", "fog_density": 0.0016, "warmth": 0.08, "saturation": 1.14, "vignette": 0.14, "bloom": 0.7, "bloom_threshold": 0.95, "glow_spread": 0.65, "cloud_speed": 0.6},
-		"sky": {"horizon": "e4f2ff", "gold": "fff2d8", "mid": "96c8f8", "zenith": "3f8fe6", "sun": "ffe8c0", "sun_glow": 1.0, "cloud_opacity": 1.0, "cloud_tint": "ffffff"},
-		"scenery": {"water": true, "shore": true, "rings": true, "landmarks": false, "tint": "f0f6ff", "cool": "a8c8f8", "haze_scale": 0.7, "cool_scale": 0.8, "brightness": 1.08, "water_tint": "8cc8f8"},
+		"sky": {"horizon": "e4f2ff", "gold": "fff2d8", "mid": "96c8f8", "zenith": "3f8fe6", "sun": "ffe8c0", "sun_glow": 1.0, "cloud_opacity": 0.0, "cloud_tint": "ffffff", "panorama": "CAP-SKY-NOON", "panorama_mix": 0.75, "panorama_stretch": 1.0},
+		"scenery": {"water": true, "shore": true, "rings": true, "landmarks": false, "tint": "f0f6ff", "cool": "a8c8f8", "haze_scale": 0.7, "cool_scale": 0.8, "brightness": 1.08, "water_tint": "8cc8f8", "kit_cards": [{"id": "CAP-BD-CITY", "angle": 0, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 60, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 120, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 180, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 240, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}, {"id": "CAP-BD-CITY", "angle": 300, "width": 60, "ring": 2, "distance": 0.95, "lift": 0}]},
 		"foliage": {"density": 1.0, "cells": [0, 2, 3, 4], "tint": "f6fff4"},
 		"ambient": {"enabled": true, "shafts": false, "motes": 90, "mote_color": "fff8d8", "leaves": false, "birds": true}
 	},
@@ -97,7 +97,7 @@
 		"extends": "capital_inside",
 		"title": "Capital freed: bright and warm",
 		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "f0e0c0", "fog_density": 0.0025, "warmth": 0.35, "saturation": 1.18, "vignette": 0.22, "bloom": 0.6},
-		"sky": {"horizon": "ffe4b0", "gold": "ffd890", "mid": "a8c4e8", "zenith": "6fa8e0", "sun": "ffe6b0", "sun_glow": 1.0},
+		"sky": {"horizon": "ffe4b0", "gold": "ffd890", "mid": "a8c4e8", "zenith": "6fa8e0", "sun": "ffe6b0", "sun_glow": 1.0, "cloud_opacity": 0.8, "panorama_mix": 0.35},
 		"scenery": {"water": true, "shore": true, "rings": true, "landmarks": false, "tint": "fff0d8", "cool": "b0b8e0", "brightness": 1.0},
 		"foliage": {"density": 1.0, "cells": [0, 1, 2, 3, 4], "tint": "ffffe8"}
 	}

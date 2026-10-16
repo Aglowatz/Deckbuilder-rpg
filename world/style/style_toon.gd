@@ -9,10 +9,14 @@ const META_NO_TOON: StringName = &"no_toon"
 ## Set on a StandardMaterial3D (float 0..1) to give its toon version the glossy highlight band.
 const META_GLOSS: StringName = &"toon_gloss"
 const META_FLAT_UP: StringName = &"toon_flat_up"
+## Set on a StandardMaterial3D to give its toon version its own distance haze instead of the world fog (`far_haze_shader`): a far landmark that must read
+## through a thick mood fog (Primm's Castle over the great wall). The haze is the instance uniform `far_haze` on the mesh (rgb its colour, a its density per metre).
+const META_FAR_HAZE: StringName = &"far_haze"
 
 static var _shader: Shader
 static var _shader_double: Shader
 static var _cache: Dictionary = {}
+static var _haze_shaders: Dictionary = {}
 
 
 static func shader() -> Shader:
@@ -81,6 +85,8 @@ static func toon_for(source: Material, wind: float = -1.0, paint: bool = true) -
 		return _cache[key] as ShaderMaterial
 	var material: ShaderMaterial = ShaderMaterial.new()
 	material.shader = double_sided_shader() if (standard.cull_mode == BaseMaterial3D.CULL_DISABLED) else shader()
+	if standard.has_meta(META_FAR_HAZE):
+		material.shader = far_haze_shader(standard.cull_mode == BaseMaterial3D.CULL_DISABLED)
 	material.set_shader_parameter("albedo", PALETTE_FIX.get(standard.resource_name, standard.albedo_color) if standard.albedo_texture == null else standard.albedo_color)
 	var texture: Texture2D = standard.albedo_texture
 	material.set_shader_parameter("use_texture", texture != null)
@@ -129,6 +135,18 @@ static func keep_colour(node: Node, accent: float = 0.0) -> void:
 
 static func clear_cache() -> void:
 	_cache.clear()
+
+
+## The toon shader (or its double-sided twin) with its own distance haze in place of the world fog: the fragment writes FOG (which replaces the built-in
+## fog) from the instance uniform `far_haze`. Built once from the shader's own source, so it never drifts from the toon look.
+static func far_haze_shader(double_sided: bool) -> Shader:
+	if not _haze_shaders.has(double_sided):
+		var code: String = (double_sided_shader() if double_sided else shader()).code
+		code = code.replace("void fragment() {", "instance uniform vec4 far_haze : source_color = vec4(0.6, 0.6, 0.65, 0.0);\n\nvoid fragment() {\n\tFOG = vec4(far_haze.rgb, 1.0 - exp(-far_haze.a * length(VERTEX)));")
+		var haze: Shader = Shader.new()
+		haze.code = code
+		_haze_shaders[double_sided] = haze
+	return _haze_shaders[double_sided] as Shader
 
 
 ## The same shader with back faces drawn (leaves, cloth, flags).

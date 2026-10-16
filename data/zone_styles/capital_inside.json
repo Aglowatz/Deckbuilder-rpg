@@ -9,6 +9,7 @@
 	"grade": {"warmth": 0.08, "saturation": 1.02, "contrast": 1.14, "post_saturation": 1.14},
 	"bloom": {"intensity": 0.7, "threshold": 0.95},
 	"vignette": 0.14,
+	"far_haze": {"_about": "Primm's Castle's own haze inside the walls (CAP-22)", "color": "#e4eef8", "density": 0.0012},
 	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-TIMBER-WARM", "ENV-ROOF-TILE-RED": "ENV-ROOF-TILE-BLUE"},
 	"tint_strength": 0.75,
 	"tints": {"wall": "#F7F3EA", "trim": "#E6C35C", "roof": "#A7C7E7", "ground": "#BFE3D0", "prop": "#F5C6D0", "tree": "#7FC97F"}

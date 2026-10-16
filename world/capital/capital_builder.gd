@@ -31,7 +31,7 @@ var _buckets: Dictionary = {}
 var _spinners: Array[Node3D] = []
 var _orbits: Array[Node3D] = []
 var _rift_discs: Array[MeshInstance3D] = []
-var _rift_cores: Array[MeshInstance3D] = []
+var _rift_cores: Array[Node3D] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _barrier: Node3D
 
@@ -56,6 +56,9 @@ func build(parent: Node3D) -> void:
 	_build_chests()
 	_finish_layers()
 	_index_obstacles()
+	# the repeated kit models (the identical row, the mausoleums, the Reek's yards, the ruins, the rifts' ground, the crystals) merge by material
+	# and 16 m cell: a few dozen draw calls instead of hundreds (the iGPU is bound by draw calls); they cast no shadow, which the flat noon wants
+	KitBatch.merge_static(root)
 
 
 ## The world state the look depends on, from the Session's flags.
@@ -358,6 +361,12 @@ func _build_buildings() -> void:
 	_build_houses(houses)
 
 
+## Flags the kit model's main mesh under `node` for `KitBatch.merge_static` (built once, never changed at run time).
+static func _batchable(node: Node) -> void:
+	for mesh: Node in node.find_children("Body", "MeshInstance3D", true, false):
+		mesh.set_meta(&"kit_static", true)
+
+
 func _building_node(building: CapitalLayout.Building) -> Node3D:
 	var node: Node3D = Node3D.new()
 	var rect: Rect2 = building.rect
@@ -367,39 +376,63 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 	var d: float = rect.size.y
 	var h: float = building.height
 	var free: bool = _district_free(int(center.x), int(center.z))
+	var final_state: bool = bool(ctx.get("final", false))
+	var state: String = "restored" if free else "broken"
 	match building.style:
 		"wall":
-			_wall(node, w, d, h, building.district == "facade")
+			if building.district == "facade":
+				_wall(node, w, d, h, true)
+			else:
+				node.add_child(CapitalLandmarks.wall_piece(w, h, d, int(rect.position.x)))
 		"tower":
-			_tower(node, w, d, h)
+			node.add_child(CapitalLandmarks.gate_tower(w, h, d))
 		"castle":
 			_box(node, Vector3(w, h, d), M.shiny(Color(0.52, 0.4, 0.46), 0.4), Vector3(0, h * 0.5, 0))
 			_box(node, Vector3(w + 0.4, 0.5, d + 0.4), M.shiny(M.GOLD, 0.3), Vector3(0, h, 0))
 		"ward":
-			# the Correction Ward stand-in: clinical white walls with a pale teal band
-			_box(node, Vector3(w, h, d), M.flat(Color(0.86, 0.88, 0.9)), Vector3(0, h * 0.5, 0))
-			_box(node, Vector3(w + 0.3, 0.3, d + 0.3), M.flat(Color(0.55, 0.72, 0.72)), Vector3(0, h, 0))
+			node.add_child(CapitalLandmarks.build({"id": "CAP-HERO-CORRECTION-WARD", "size": [w, h, d], "piece": _ward_piece(rect), "final": final_state}))
 		"tram":
 			_tram(node, w, d, h)
 		"shed":
-			node.add_child(CapitalLandmarks.tram_shed(w, d, h, free or not bool(ctx.get("dark", false))))
+			node.add_child(CapitalLandmarks.build({"id": "CAP-HERO-TRAM-SHED", "size": [w, h, d], "state": state}))
 		"shop":
 			_shop(node, building)
 		"stall":
-			_stall(node, w, d, h, free)
+			# the identical row faces its lane: the west row looks east, the east row west (the model's front is its local +z)
+			var house: Node3D = CapitalLandmarks.build({"id": "CAP-HERO-IDENTICAL-ROW", "size": [d, h, w], "state": state})
+			house.rotation_degrees.y = 90.0 if center.x < 100.0 else -90.0
+			node.add_child(house)
 		"factory":
 			_factory(node, w, d, h, free or not bool(ctx.get("dark", false)))
 		"crypt":
-			_crypt(node, w, d, h, free)
+			node.add_child(CapitalLandmarks.build({"id": "CAP-HERO-GRAVE-ROW", "size": [w, h, d], "state": state}))
 		"house":
 			_ruined(node, w, d, h * 0.6, building.lean + 6.0, Color(0.9, 0.86, 0.84), true)
 		_:
-			_ruined(node, w, d, h, building.lean, M.BRICK_DEAD if building.variant % 2 == 0 else M.STONE_GRAY, free)
+			if building.district == "refusemancer":
+				# the Reek's back yards face the back lane (x 17..21)
+				var yard: Node3D = CapitalLandmarks.build({"id": "CAP-HERO-THE-REEK", "size": [d, h, w], "state": state, "seed": int(rect.position.x * 7.0 + rect.position.y)})
+				yard.rotation_degrees.y = 90.0 if center.x < 19.0 else -90.0
+				node.add_child(yard)
+			else:
+				# the ruined outpost's fallen guardhouses, from the kit (pale crumbling brick, a slumped broken roof, the outpost sheet's doors and windows)
+				node.add_child(CapitalLandmarks.ruined_house(w, h, d, building.lean, int(rect.position.x)))
 	node.rotation_degrees.y = 0.0
+	if building.style in ["stall", "crypt", "ruin"]:
+		_batchable(node)
 	if building.style in ["wall", "tower"]:
 		# the great wall dominates every outside view: its long pieces never range-cull (they still fade when they hide the hero)
 		CapitalLandmarks.mark_view(node, true)
 	return node
+
+
+## Which piece of the Correction Ward's compound a "ward" wall is (`CapitalDistricts.ward_piece`): the long north one is the Ward's front.
+static func _ward_piece(rect: Rect2) -> String:
+	if rect.size.x >= 20.0:
+		return "north"
+	if rect.size.x > rect.size.y:
+		return "south_w" if rect.get_center().x < 101.0 else "south_e"
+	return "side_w" if rect.get_center().x < 101.0 else "side_e"
 
 
 ## A crumbling building: leaning walls, a bite out of the top, dark windows, rubble. A freed district is upright and lit.
@@ -563,23 +596,27 @@ func _rock_wall(from: Vector3, to: Vector3) -> void:
 
 
 func _build_boundaries() -> void:
-	var wall_color: StandardMaterial3D = M.flat(Color(0.3, 0.29, 0.36))
 	var top: float = float(CapitalLayout.WALL_Z0)
-	# The city's outer walls: north either side of the castle hill, west and east down to the great wall.
+	# The city's outer walls: north either side of the castle hill, west and east down to the great wall; the same flawless white kit wall as the
+	# great wall (CAP-HERO-GREAT-WALL-GATE), one wall round the whole city.
 	var hill: Rect2i = CapitalLayout.HILL
 	for span: Vector2 in [Vector2(0.0, float(hill.position.x)), Vector2(float(hill.end.x), 120.0)]:
 		var north: Node3D = Node3D.new()
 		north.name = "CityWallNorth"
 		root.add_child(north)
 		north.position = Vector3((span.x + span.y) * 0.5, 0.0, 0.5)
-		_box(north, Vector3(span.y - span.x, 9.0, 3.0), wall_color, Vector3(0, 4.5, 0))
+		var piece: Node3D = CapitalLandmarks.wall_piece(span.y - span.x, 9.0, 3.0, int(span.x) + 1)
+		piece.rotation_degrees.y = 180.0
+		north.add_child(piece)
 		CapitalLandmarks.mark_view(north, true)
 	for side_x: float in [0.0, 119.0]:
 		var side: Node3D = Node3D.new()
 		side.name = "CityWallSide"
 		root.add_child(side)
 		side.position = Vector3(side_x, 0.0, top * 0.5)
-		_box(side, Vector3(2.5, 9.0, top), wall_color, Vector3(0, 4.5, 0))
+		var side_piece: Node3D = CapitalLandmarks.wall_piece(2.5, 9.0, top, int(side_x) + 3)
+		side_piece.rotation_degrees.y = 180.0 if side_x < 60.0 else 0.0  # the cracks start on the outer face, never inside the city
+		side.add_child(side_piece)
 		CapitalLandmarks.mark_view(side, true)
 	# The outside's edge: broken fence and low black rock.
 	var out_top: float = float(CapitalLayout.WALL_Z1 + 1)
@@ -595,17 +632,47 @@ func _build_boundaries() -> void:
 		_box(root, Vector3(rect.size.x, 5.2, rect.size.y), M.flat(M.BRICK_DEAD.darkened(0.3)), wall)
 
 
-## The stand-in landmarks (`CapitalLandmarks`): Primm's Castle on its hill at the city's heart, the great gate's arch, the broken watchtower, the
-## Old Service Tunnels' mouth in the wall. Each is one node off the root, so the art pass can swap it in place.
+## The hero landmarks (`CapitalLandmarks`, modelled after the kit's concepts): Primm's Castle on its hill at the city's heart, the great gate's
+## crown between its towers, the broken watchtower, the resistance camp, the Old Service Tunnels' mouth in the wall. Each is one node off the root.
 var landmarks: Dictionary = {}
+## The castle's rift-light cracks (pulsed slowly in `animate`; null once Primm has fallen).
+var _castle_cracks: StandardMaterial3D
+var _rift_lights: Array[OmniLight3D] = []
 
 
 func _build_landmarks() -> void:
 	var final_state: bool = bool(ctx.get("final", false))
-	_place_landmark("castle", CapitalLandmarks.castle(final_state), Vector3.ZERO)
-	_place_landmark("watchtower", CapitalLandmarks.watchtower(), Vector3(CapitalLayout.WATCHTOWER.x, 0.0, CapitalLayout.WATCHTOWER.y))
-	_place_landmark("camp", CapitalLandmarks.camp(), Vector3.ZERO)
-	_place_landmark("tunnel_mouth", CapitalLandmarks.tunnel_mouth(), Vector3(CapitalLayout.TUNNEL_MOUTH.x, 0.0, CapitalLayout.TUNNEL_MOUTH.y))
+	var castle: Node3D = CapitalLandmarks.build({"id": "CAP-HERO-PRIMMS-CASTLE", "final": final_state})
+	_place_landmark("castle", castle, Vector3.ZERO)
+	_castle_cracks = castle.get_meta("cracks") as StandardMaterial3D if castle.has_meta("cracks") else null
+	_place_landmark("watchtower", CapitalLandmarks.build({"id": "CAP-HERO-WATCHTOWER"}), Vector3(CapitalLayout.WATCHTOWER.x, 0.0, CapitalLayout.WATCHTOWER.y))
+	CapitalLandmarks.mark_view(landmarks["watchtower"] as Node3D, true)
+	_place_landmark("camp", CapitalLandmarks.build({"id": "CAP-HERO-RESISTANCE-CAMP"}), Vector3.ZERO)
+	# one low mesh round the hero's standing ground: its box crosses the lens line, so the fader would ghost the whole camp (the tents stay low)
+	CapitalLandmarks.mark_view(landmarks["camp"] as Node3D)
+	_place_landmark("tunnel_mouth", CapitalLandmarks.build({"id": "CAP-HERO-SERVICE-TUNNEL"}), Vector3(CapitalLayout.TUNNEL_MOUTH.x, 0.0, CapitalLayout.TUNNEL_MOUTH.y))
+	CapitalLandmarks.mark_view(landmarks["tunnel_mouth"] as Node3D, true)
+	# the gate's crown over the opening, between the towers: part of the great wall (it fades, and hides round the lens, like the wall)
+	var gate_x: float = float(CapitalLayout.GATE_X0 + CapitalLayout.GATE_X1 + 1) * 0.5
+	var gate_z: float = float(CapitalLayout.WALL_Z0 + CapitalLayout.WALL_Z1 + 1) * 0.5
+	var arch: Node3D = CapitalLandmarks.build({"id": "CAP-HERO-GREAT-WALL-GATE", "final": final_state})
+	_place_landmark("gate", arch, Vector3(gate_x, 0.0, gate_z))
+	CapitalLandmarks.mark_view(arch, true)
+	great_wall.append(arch)
+	great_wall_boxes.append(AABB(Vector3(gate_x - 5.2, 8.8, gate_z - 2.4), Vector3(10.4, 8.4, 4.8)).grow(0.6))
+
+
+## The castle's own distance haze for the half the hero stands in (data/zone_styles/capital_outside.json / capital_inside.json "far_haze", CAP-22): a
+## lighter haze than the mood's fog, so the castle reads over the great wall from every outside region and the same from both halves.
+func set_castle_haze(inside: bool) -> void:
+	var castle: Node3D = landmarks.get("castle") as Node3D
+	if castle == null:
+		return
+	var haze: Dictionary = ZoneStyles.style("capital_inside" if inside else "capital_outside").get("far_haze", {}) as Dictionary
+	var value: Color = Color.html(str(haze.get("color", "#a8a0b4")))
+	value.a = float(haze.get("density", 0.002))
+	for mesh: Node in castle.find_children("*", "GeometryInstance3D", true, false):
+		(mesh as GeometryInstance3D).set_instance_shader_parameter("far_haze", value)
 
 
 func _place_landmark(id: String, node: Node3D, pos: Vector3) -> void:
@@ -628,8 +695,8 @@ func _build_props() -> void:
 			continue
 		root.add_child(node)
 		node.position = prop.pos
-		node.rotation_degrees.y = prop.yaw
-		if prop.kind != "statue_primm" and prop.model_scale != 1.0:
+		node.rotation_degrees.y = prop.yaw if prop.kind != "rift_crystals" else 0.0  # painted crystal cards face the camera side
+		if not prop.kind in ["statue_primm", "fountain"] and prop.model_scale != 1.0:
 			node.scale = Vector3.ONE * prop.model_scale
 		prop_nodes[_prop_key(prop.kind, prop.pos)] = node
 		if prop.kind == "gate_barrier":
@@ -779,47 +846,26 @@ func _build_rifts() -> void:
 func _make_rift(entry: Dictionary) -> Node3D:
 	var radius: float = float(entry["radius"])
 	var big: bool = bool(entry["big"])
-	var node: Node3D = Node3D.new()
-	node.name = "Rift_%s" % str(entry["id"])
-	var scale_factor: float = 1.6 if big else 1.0
-	# The hazard disc on the ground.
-	var disc: MeshInstance3D = MeshInstance3D.new()
-	var disc_mesh: CylinderMesh = CylinderMesh.new()
-	disc_mesh.top_radius = radius
-	disc_mesh.bottom_radius = radius
-	disc_mesh.height = 0.04
-	disc_mesh.radial_segments = 24
-	disc.mesh = disc_mesh
-	disc.material_override = M.translucent(M.RIFT_VIOLET, 0.45, 1.0)
-	disc.position = Vector3(0, 0.05, 0)
-	disc.name = "Disc"
-	node.add_child(disc)
-	_rift_discs.append(disc)
-	# The tear itself: a tall bright sliver in a violet shell.
-	var core: MeshInstance3D = B.ball(node, 0.5, M.glow(Color(1.0, 0.95, 1.0), 4.0), Vector3(0, 1.5 * scale_factor, 0), Vector3(0.22, 1.5 * scale_factor, 0.08))
-	core.name = "Core"
-	_rift_cores.append(core)
-	B.ball(node, 0.5, M.translucent(M.RIFT_VIOLET, 0.55, 2.2), Vector3(0, 1.5 * scale_factor, 0), Vector3(0.6, 1.9 * scale_factor, 0.35))
-	# Orbiting debris.
-	var orbit: Node3D = Node3D.new()
-	orbit.name = "Orbit"
-	node.add_child(orbit)
-	_orbits.append(orbit)
-	for index: int in range(10 if big else 6):
-		var shard: MeshInstance3D = MeshInstance3D.new()
-		var prism: PrismMesh = PrismMesh.new()
-		prism.size = Vector3(0.16, _rng.randf_range(0.3, 0.7), 0.08)
-		shard.mesh = prism
-		shard.material_override = M.glow(M.RIFT_CYAN if index % 2 == 0 else M.RIFT_VIOLET, 1.8)
-		var angle: float = TAU * float(index) / float(10 if big else 6)
-		shard.position = Vector3(cos(angle) * radius * 0.85, 0.8 + _rng.randf_range(0.0, 1.8), sin(angle) * radius * 0.85)
-		shard.rotation_degrees = Vector3(_rng.randf_range(0, 360), _rng.randf_range(0, 360), _rng.randf_range(0, 360))
-		orbit.add_child(shard)
+	var rift_id: String = str(entry["id"])
+	# The kit's rift (CAP-HERO-RIFT): the scorched ground, the glowing rim at the hazard's reach, the jagged tear and its floating shards, each
+	# copy varied by its id.
+	var node: Node3D = CapitalLandmarks.build({"id": "CAP-HERO-RIFT", "seed": rift_id.hash() % 1000, "radius": radius, "big": big})
+	node.name = "Rift_%s" % rift_id
+	var rim: MeshInstance3D = node.get_node_or_null("Rim") as MeshInstance3D
+	if rim != null:
+		_rift_discs.append(rim)
+	var tear: Node3D = node.get_node_or_null("Tear") as Node3D
+	if tear != null:
+		_rift_cores.append(tear)
+	var orbit: Node3D = node.get_node_or_null("Orbit") as Node3D
+	if orbit != null:
+		_orbits.append(orbit)
+	var scale_factor: float = float(node.get_meta("size", 1.0))
 	# Warped light: a lens of rippling screen around the tear.
 	var lens: MeshInstance3D = MeshInstance3D.new()
 	var lens_mesh: SphereMesh = SphereMesh.new()
-	lens_mesh.radius = radius * 1.5
-	lens_mesh.height = radius * 3.0
+	lens_mesh.radius = 1.3 * scale_factor
+	lens_mesh.height = 3.6 * scale_factor
 	lens_mesh.radial_segments = 24
 	lens_mesh.rings = 12
 	lens.mesh = lens_mesh
@@ -827,16 +873,17 @@ func _make_rift(entry: Dictionary) -> Node3D:
 	lens_material.shader = DISTORTION
 	lens_material.render_priority = 5
 	lens.material_override = lens_material
-	lens.position = Vector3(0, 1.0, 0)
+	lens.position = Vector3(0, 0.35 * scale_factor + 1.6 * scale_factor, 0)
 	lens.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	lens.name = "Lens"
 	node.add_child(lens)
 	var light: OmniLight3D = OmniLight3D.new()
 	light.light_color = M.RIFT_VIOLET
-	light.light_energy = 2.4
-	light.omni_range = radius * 3.0 + 4.0
-	light.position = Vector3(0, 1.6, 0)
+	light.light_energy = 2.8
+	light.omni_range = radius * 1.4 + 2.5  # round the tear and its scorched ground (a wider reach cost 2-3 ms on Medium where several rifts share a view)
+	light.position = Vector3(0, 1.8 * scale_factor, 0)
 	node.add_child(light)
+	_rift_lights.append(light)
 	var sparks: CPUParticles3D = CPUParticles3D.new()
 	sparks.amount = 20
 	sparks.lifetime = 2.0
@@ -921,8 +968,15 @@ func animate(delta: float) -> void:
 	for index: int in range(_rift_discs.size()):
 		var disc: MeshInstance3D = _rift_discs[index]
 		if is_instance_valid(disc):
-			disc.scale = Vector3.ONE * (1.0 + 0.04 * sin(time * 3.0 + float(index)))
+			disc.scale = Vector3.ONE * (1.0 + 0.03 * sin(time * 2.0 + float(index)))
 	for index: int in range(_rift_cores.size()):
-		var core: MeshInstance3D = _rift_cores[index]
-		if is_instance_valid(core):
-			core.scale.x = 0.22 + 0.07 * sin(time * 7.0 + float(index) * 2.0)
+		var tear: Node3D = _rift_cores[index]
+		if is_instance_valid(tear):
+			tear.scale = Vector3(1.0 + 0.06 * sin(time * 2.3 + float(index) * 2.0), 1.0 + 0.03 * sin(time * 1.7 + float(index)), 1.0)
+	for index: int in range(_rift_lights.size()):
+		var light: OmniLight3D = _rift_lights[index]
+		if is_instance_valid(light):
+			light.light_energy = 2.8 * (0.8 + 0.2 * sin(time * 1.6 + float(index) * 1.3))
+	if _castle_cracks != null:
+		# the castle's hairline cracks leak a slow, faint pulse of rift light
+		_castle_cracks.emission_energy_multiplier = 2.4 * (0.62 + 0.38 * (0.5 + 0.5 * sin(time * 0.7)))

@@ -9,6 +9,7 @@
 	"grade": {"warmth": -0.2, "saturation": 0.74, "contrast": 1.05, "post_saturation": 0.72},
 	"bloom": {"intensity": 0.42, "threshold": 1.0},
 	"vignette": 0.46,
+	"far_haze": {"_about": "Primm's Castle's own haze (StyleToon.META_FAR_HAZE): lighter than the fog so it reads over the great wall (CAP-22)", "color": "#a8a0b4", "density": 0.0024},
 	"material_swaps": {"ENV-WALL-TIMBER": "ENV-WALL-FOUNDATION", "ENV-WALL-TIMBER-WARM": "ENV-WALL-FOUNDATION"},
 	"tint_strength": 0.8,
 	"tints": {"wall": "#B9B2A4", "trim": "#5E5B57", "roof": "#8C8A86", "ground": "#8C8A86", "prop": "#B9B2A4", "tree": "#8C8A86", "decal": "#5E5B57"}

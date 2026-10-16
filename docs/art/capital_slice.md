@@ -127,3 +127,46 @@ One clean shot per region at Cinematic / Normal, 1600 x 900, the hero visible, n
 **The stand-ins in the pictures** (what the painter replaces): Primm's Castle and its hill and stair (78 x 46 x 44 m on a 7 m hill), the great wall (9 m) and the gate towers (14 m), the Primm statue fountain (7 m across), the rift crystals (two clusters to 4.5 m), the broken watchtower (about 14 m), the tunnel mouth (9 x 7 m in the wall's face), the camp (two tents, a lean-to, a lantern rope), the tram shed (10 x 6.5 x 6 m), and, from the layout's own buildings, the identical row, the Grave Row lane's crypts and headstones, the Reek's leaning ruins and the Correction Ward's walls. The painted-texture binding paints many of the plain stand-ins brick (the wheels, the shed, the ruins); the outside's fog leaves the castle a pale silhouette (CAP-11). Enemies stand where they roam (by the rifts outside, the swarm in the Transit Yards). No PO shot is taken of the Correction Ward, the Old Service Tunnels or the wall passage (not asked; the walk smoke's `w_22`, `w_06` and `w_08` show them).
 
 **fps on Medium** at the ten camera spots: the Part A table above (60 fps average everywhere but the Reek's final spot at 59.6).
+
+# The art pass
+
+The Capital dressed with its approved zone kit (`Approved_ZoneKits/Capital`, the sheet `data/source/capital_kit.csv`) and matched to its ten paint-overs (`docs/art/paintovers/PAINTOVER-CAP-*.png`) by the rollout playbook, on the layout above: routes, regions, positions, the wall and the passage, the castle's placement and the ten cameras are unchanged. Judgment calls are CAP-12... in `docs/design/open_questions.md`.
+
+## Part A: import
+
+- **The kit** (`bash tools/import_zone_kit.sh final`, CAP-12): the Capital is zone `final`, its folder and its sheet mapped in `data/source/art_config.cfg` (`zonekit_folders`, the new `zonekit_sheets`). 39 of the sheet's 40 ids imported first time; **CAP-PATH-WHITE is truncated on the Drive** (546 of 1024 rows, no end chunk) and was rebuilt from its readable half (CAP-13: ask the painter to re-upload it). The ten paint-overs sat in the kit folder (unmatched files, as expected) and were copied to `docs/art/paintovers/`. Two notes: the two skies are opaque pictures (used as sky panoramas, as the Dump's). Report: `docs/art/zone_kits/final_import_report.md`; registry `data/art/zone_kits/final.json` (with aliases for the reused TEX-CAP-* textures and DEC-RIFT / -CRACKS / -SCORCH).
+- **Slices and pivots**: all six sheets cut cleanly (doors, outpost doors and windows, rubble, banners, civic signs); pivots read right (the bench, the lamp, the tram, the campfire at their feet; the trees at their trunks). Nothing reads as pixel art (CAP-15). Derived tiles: the three bands of CAP-WALL-PASTEL as their own tiles and a pink CAP-ROOF-PASTEL (CAP-14, `tools/capital_kit_derive.gd`).
+- **Hero landmarks** (`world/capital/capital_landmarks.gd`, `capital_castle.gd`, `capital_districts.gd`, shared pieces in `capital_kit.gd`; "CAP-HERO-" in `HeroLandmarks.BUILDERS`): every stand-in replaced in place by a model built from its concept with the kit's painted surfaces, one mesh per model.
+
+| Concept | Model | Where |
+|---|---|---|
+| CAP-HERO-PRIMMS-CASTLE | the white-and-gold palace on its terraced hill: the keep's portal with the great arched doors of mirrored glass and the colossal smiling emblem under a gold gable, two long wings of mirrored windows, sixteen round towers with blue cone roofs and gold finials, the central spire, the grand stair with its balustrades, lamps and banners, the marble Primm on the landing, hedges, topiaries and rose beds; hairline cracks leaking a slowly pulsing rift light | the city's heart (Part B) |
+| CAP-HERO-GREAT-WALL-GATE | the great wall and the city wall as one flawless white wall (plaster, gold band, pilasters with finials, Primm's banners, crenellations, a few hairline cracks outside), the two gate towers (gold spires, the sun-faced banners), the gate's crown (lintel, gold arch outline, the radiant sun-emblem) | rows z 72-75 and round the city |
+| CAP-HERO-PRIMM-FOUNTAIN | the marble basin with its gold rim and rose planters, the middle tier with face medallions and four gold spouts, the marble Primm, arms spread; mist; dry and toppled once Primm falls | the Gate Plaza's centre |
+| CAP-HERO-RIFT | scorched rift ground, a glowing rim at the hazard's reach, the jagged tear (bright violet edges, a near-black heart), floating stone and crystal shards turning, crystals at its foot; every copy varied by its id (size, turn, lean); the distortion lens fitted to the tear and edgeless (CAP-20) | every rift, outside and in |
+| CAP-HERO-WATCHTOWER | the ash-blackened tower with its jagged broken crown and timbers, the arrow slit and splintered door from the outpost sheet, the four Paths' tattered banner with their four essences, rubble and the fallen crown | the ruined outpost |
+| CAP-HERO-SERVICE-TUNNEL | the stone arch in the wall's foot, the iron hatch from the outpost sheet, a dim cold lantern, dead branches, rift crystals | the Old Service Tunnels |
+| CAP-HERO-RESISTANCE-CAMP | the patched tents in Beefcake red and Necrocrat teal with Gourmand and Refusemancer patches and all four essences, the copper lean-to, the green rag banner, the warm lantern rope and its light, crates and barrels, the old stone ruins it shelters in (CAP-19) | the camp |
+| CAP-HERO-TRAM-SHED | the white-and-gold arcade of three arched bays, a pastel tram in each under a Primm banner, the slate-blue glass roof; broken / restored | the Transit Yards |
+| CAP-HERO-IDENTICAL-ROW | six identical half-timbered bakeries (gold frame, pink roof, striped awning, display windows, a pink door with Primm's face); broken / restored | the Hungry Quarter |
+| CAP-HERO-GRAVE-ROW | the white-and-gold mausoleums (blue roof, gable emblem, arched gold door, lanterns); broken / restored | Grave Row |
+| CAP-HERO-THE-REEK | the back yards: a perfect painted screen hiding the bins, bags and stink (broken); compost bins, a raised bed of flowers, moss and vines (restored) | the Reek |
+| CAP-HERO-CORRECTION-WARD | the compound's white walls with barred mirrored windows and turrets, the palace front with its dome and Primm's sign over the gold door (CAP-17) | the Correction Ward |
+
+- **Skies and backdrops** (`data/art/zone_looks.json`): CAP-SKY-DUSK wrapped round the sky outside, CAP-SKY-NOON inside (no clouds: unnaturally even), the CAP-BD-WASTELAND horizon on the far ring outside and the CAP-BD-CITY skyline inside (six cards each at 60 degrees, BF-7).
+- Also replaced: the rift crystal clusters (the kit's crystals on rift ground), the wasteland's dead trees, ruins and rubble (the kit's dead tree, ash-stone ruins with the outpost sheet's windows, the rubble sheet's pieces, ash drifts) and the outpost's fallen guardhouses (kit ruined houses).
+- The kit on a checker (`tools/kit_contact_sheet.gd`): ![](capital_slice/cap_kit_sheet.jpg)
+
+The ten cameras after Part A (`bash tools/capital_po_shots.sh a`: now with `--still=true`, CAP-21; the Tidy-Bot still visible ahead of the hero on the Gate Road is at its home there, layout data):
+
+| | |
+|---|---|
+| ![](capital_slice/a_po_gate_road.jpg) GATE-ROAD: the white great wall, the gate's crown, the castle's cones over the wall | ![](capital_slice/a_po_resistance_camp.jpg) RESISTANCE-CAMP |
+| ![](capital_slice/a_po_rift_fields.jpg) RIFT-FIELDS: the kit's rifts and crystals | ![](capital_slice/a_po_ruined_outpost.jpg) RUINED-OUTPOST: the watchtower, a kit ruin |
+| ![](capital_slice/a_po_gate_plaza.jpg) GATE-PLAZA: the fountain, the castle at the avenue's end | ![](capital_slice/a_po_palace_approach.jpg) PALACE-APPROACH |
+| ![](capital_slice/a_po_transit_yards.jpg) TRANSIT-YARDS: the tram shed | ![](capital_slice/a_po_hungry_quarter.jpg) HUNGRY-QUARTER: the identical row |
+| ![](capital_slice/a_po_grave_row.jpg) GRAVE-ROW: the mausoleums | ![](capital_slice/a_po_the_reek.jpg) THE-REEK: the screens and bins |
+
+**fps on Medium after Part A** (`bash tools/capital_fps.sh 1`, a new wrapper of `tools/fps.sh` over the ten cameras with the gate open and the enemies held): 60.0 average at the gate road (59.9), the camp, the rift fields, the outpost, the plaza, Grave Row, the Reek and the approach; the Hungry Quarter 55.2 and the Transit Yards 58.3 at first. A/B with the new knobs (`CAPITAL_HIDE=<name,...>`, `CAPITAL_NO_SHADOW=1`): the rifts' lights were the cost (an 8-12 m reach where several rifts share a view); their reach is now 4-6 m, round the tear and its scorched ground: 58.2 and 58.7. Readings near 16.7 ms are bimodal (VD-22); the rest is Part F's. The repeated district models (the identical row, the mausoleums, the Reek's yards, the outpost ruins) and the shared gold, mirror and water materials are set up for `KitBatch`.
+
+**Checks**: 1593 GUT tests, all passing (new: `tests/world/test_capital_art.gd`, the Capital's registry in `test_zone_kit.gd`).

@@ -11,6 +11,7 @@ const BUILDERS: Dictionary = {
 	"DNA-HERO-": "res://world/dna/dna_landmarks.gd",
 	"BUFF-HERO-": "res://world/buffet/buffet_landmarks.gd",
 	"DUMP-HERO-": "res://world/heap/heap_landmarks.gd",
+	"CAP-HERO-": "res://world/capital/capital_landmarks.gd",
 }
 
 static var _scripts: Dictionary = {}

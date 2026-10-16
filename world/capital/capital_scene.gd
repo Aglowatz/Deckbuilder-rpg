@@ -25,6 +25,8 @@ var _shake: float = 0.0
 var _traveling: bool = false
 var _dark_light: OmniLight3D
 var _inside_timer: float = 0.0
+## `--still=true` (paint-over and match shots): the roaming enemies are held at their homes on the first frame.
+var _hold_still: bool = false
 
 
 func _zone_id() -> String:
@@ -61,6 +63,15 @@ func _build_zone_extras() -> void:
 		player.add_child(_dark_light)
 	_dress_facade_citizens()
 	_mark_empowered_enemies()
+	# CAPITAL_HIDE=<name,name>: hide the builder's top-level pieces whose names begin so ("=name" exact), an fps A/B knob like HEAP_HIDE;
+	# CAPITAL_NO_SHADOW=1 turns the sun's shadows off
+	for prefix: String in OS.get_environment("CAPITAL_HIDE").split(",", false):
+		for child: Node in capital.root.get_children():
+			if (str(child.name) == prefix.trim_prefix("=") if prefix.begins_with("=") else str(child.name).begins_with(prefix)) and child is Node3D:
+				(child as Node3D).visible = false
+	if OS.get_environment("CAPITAL_NO_SHADOW") == "1":
+		for light: Node in find_children("*", "DirectionalLight3D", true, false):
+			(light as DirectionalLight3D).shadow_enabled = false
 	# The lost-property posters show a face, not lettering (G-03); using one reads it.
 	var poster_key: String = "prop.lost_poster.known" if Session.flag(MemoryDefs.FLAG_REVEALED) else "prop.lost_poster"
 	var poster_index: int = 0
@@ -213,6 +224,10 @@ func _update_area_music(delta: float) -> void:
 
 func _zone_process(delta: float) -> void:
 	capital.animate(delta)
+	if _hold_still and not enemies.is_empty():
+		_hold_still = false
+		for enemy: ZoneEnemy in enemies:
+			enemy.process_mode = Node.PROCESS_MODE_DISABLED
 	_hide_wall_round_the_lens()
 	_update_area_music(delta)
 	if not player.airborne and not _fainting and not _traveling and style_rig != null:
@@ -622,12 +637,16 @@ func screenshot_prepare(args: Dictionary) -> void:
 	if args.has("flags"):
 		for flag_name: String in str(args["flags"]).split(","):
 			Session.set_flag(StringName(flag_name))
+	if str(args.get("still", "false")) == "true":
+		# paint-over and match shots: the roaming enemies hold still at their homes (a Tidy-Bot walking up to the hero hid it in the outside shots)
+		_hold_still = true
 
 
 ## Outside the wall is the wasteland, inside is the idyllic city (Brief 13): the preset follows where the hero stands.
 func _style_preset() -> StringName:
 	var state: Dictionary = CapitalBuilder.story_context()
 	_inside = _is_inside(player.position)
+	capital.set_castle_haze(_inside)
 	_play_area_music(0.5)
 	if _inside:
 		return StylePresets.capital_inside(bool(state["dark"]), bool(state["final"]))
@@ -690,6 +709,7 @@ func _cross_gate(now_inside: bool) -> void:
 	tween.tween_property(veil, "color:a", 1.0, 0.25)
 	tween.tween_callback(func() -> void:
 		style_rig.set_preset(id)
+		capital.set_castle_haze(now_inside)
 		if look_rig != null:
 			look_rig.set_mood(id)
 		_play_area_music(0.8)
@@ -722,9 +742,8 @@ func _hide_wall_round_the_lens() -> void:
 			piece.visible = true
 
 
-## How far the occlusion fader has faded a piece (its first mesh's per-instance transparency).
+## How far the occlusion fader has faded a piece (its first mesh's per-instance transparency; the kit pieces hold it one level down).
 static func _faded(piece: Node3D) -> float:
-	for child: Node in piece.get_children():
-		if child is GeometryInstance3D:
-			return (child as GeometryInstance3D).transparency
+	for child: Node in piece.find_children("*", "GeometryInstance3D", true, false):
+		return (child as GeometryInstance3D).transparency
 	return 0.0

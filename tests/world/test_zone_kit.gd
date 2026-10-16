@@ -135,3 +135,22 @@ func test_heap_registry_resolves_through_envkit() -> void:
 	for id: String in HeapLandmarks.IDS:
 		assert_true(HeroLandmarks.has_model(id), "%s is modelled from its concept" % id)
 		assert_true(FileAccess.file_exists("res://docs/art/zone_kits/heap/concepts/%s.jpg" % id), "%s has its concept reference" % id)
+
+
+func test_capital_registry_resolves_through_envkit() -> void:
+	# the Capital kit: zone "final" (the area id), Approved_ZoneKits/Capital via zonekit_folders, the sheet data/source/capital_kit.csv via zonekit_sheets
+	for id: String in ["CAP-WALL-PLASTER", "CAP-WALL-ASH", "CAP-ROOF-PASTEL", "CAP-PATH-WHITE", "CAP-TRIM-GOLD", "CAP-SHEET-DOORS-01", "CAP-SHEET-BANNERS-04", "CAP-SHEET-SIGNS-06", "CAP-SHEET-OUTPOST-01", "CAP-SHEET-RUBBLE-05", "CAP-TREE-TOPIARY", "CAP-PLANT-CRYSTAL", "CAP-PROP-TRAM", "CAP-DEC-SHINE", "CAP-BD-CITY", "CAP-SKY-DUSK"]:
+		assert_true(EnvKit.has(id), "%s is in the registry" % id)
+		assert_eq(EnvKit.zone_of(id), "final", "%s belongs to the Capital" % id)
+		assert_true(EnvKit.has_art(id), "%s has its file" % id)
+	# the derived tiles: the pastel bands cropped one per tile, the pink roof turned from the blue (CAP-12)
+	for id: String in ["CAP-WALL-PASTEL-PINK", "CAP-WALL-PASTEL-MINT", "CAP-WALL-PASTEL-BLUE", "CAP-ROOF-PASTEL-PINK"]:
+		assert_true(EnvKit.has_art(id), "%s is derived" % id)
+		assert_ne(str(EnvKit.entry(id).get("derived_from", "")), "", "%s names its source" % id)
+	assert_almost_eq(EnvKit.tile_size("CAP-WALL-PLASTER"), 2.56, 0.01, "one texel density with the town kit (400 px/m)")
+	for id: String in ["TEX-CAP-ASH", "TEX-CAP-CRACKEDROAD", "TEX-CAP-PERFECTLAWN", "DEC-RIFT"]:
+		assert_true(EnvKit.has(id), "%s: the reused painted art is aliased" % id)
+	assert_not_null(EnvKit.texture("TEX-CAP-ASH"), "the reused painted textures resolve")
+	for id: String in CapitalLandmarks.IDS:
+		assert_true(HeroLandmarks.has_model(id), "%s is modelled from its concept" % id)
+		assert_true(FileAccess.file_exists("res://docs/art/zone_kits/final/concepts/%s.jpg" % id), "%s has its concept reference" % id)
