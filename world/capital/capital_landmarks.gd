@@ -231,6 +231,87 @@ static func _wall_tower(mesh: KitMesh, basis: Basis, sized: Callable, offset: fl
 	K.finial(mesh, basis * Vector3(offset, top + 3.0, center_z), 1.0)
 
 
+## The stretch of the city's west wall over the hidden hole (the Capital pass, Part D): `length` along z (the hole's width), `thick` along x, `h`
+## the wall's height, the hole `opening` high at its foot. Origin at the hole's middle on the ground. Over the hole the wall runs on as the rest of
+## it does (plaster, the gold band, the cornice, the parapet and its merlons); round the opening the stones have fallen out of the wall's foot: a
+## ragged edge of broken blocks on both faces, cracks running up from it, dark reveals and a dark roof so the eye reads a hole only up close, a
+## little rubble along its floor's sides (never in the way).
+static func hole_piece(length: float, h: float, thick: float, opening: float) -> Node3D:
+	var root: Node3D = Node3D.new()
+	root.name = "WallHole"
+	var mesh: KitMesh = KitMesh.new()
+	K.materials(mesh)
+	var half_l: float = length * 0.5
+	var half_t: float = thick * 0.5
+	mesh.box("plaster", Vector3(0, (opening + h) * 0.5, 0), Vector3(thick, h - opening, length), Basis.IDENTITY, 0.0, 0.85)
+	for face: float in [-1.0, 1.0]:
+		mesh.box("plaster", Vector3(face * (half_t + 0.14), h - 0.75, 0), Vector3(0.28, 0.3, length), Basis.IDENTITY, 0.04)
+		mesh.box("trim", Vector3(face * (half_t + 0.05), h - 0.45, 0), Vector3(0.1, 0.36, length))
+	mesh.box("plaster", Vector3(0, h + 0.3, 0), Vector3(thick + 0.2, 0.6, length), Basis.IDENTITY, 0.03)
+	mesh.box("plaster", Vector3(0, h + 0.95, 0), Vector3(thick + 0.2, 0.7, length * 0.45), Basis.IDENTITY, 0.04)
+	mesh.box("gold", Vector3(0, h + 1.33, 0), Vector3(thick + 0.26, 0.08, length * 0.48))
+	# the reveals (the tunnel's sides) and its roof, dark
+	for side: float in [-1.0, 1.0]:
+		mesh.quad("stone_dark", [Vector3(-half_t, 0.0, side * half_l), Vector3(half_t, 0.0, side * half_l), Vector3(half_t, opening, side * half_l), Vector3(-half_t, opening, side * half_l)], Vector3(0, 0, -side), [Color(0.45, 0.45, 0.45), Color(0.45, 0.45, 0.45), Color(0.3, 0.3, 0.3), Color(0.3, 0.3, 0.3)])
+	mesh.quad("dark", [Vector3(-half_t, opening, -half_l), Vector3(half_t, opening, -half_l), Vector3(half_t, opening, half_l), Vector3(-half_t, opening, half_l)], Vector3.DOWN)
+	# the ragged edge: broken blocks round the opening on both faces, the stones that held on
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 5757
+	for face: float in [-1.0, 1.0]:
+		var x: float = face * (half_t + 0.04)
+		for index: int in range(9):
+			var t: float = float(index) / 8.0
+			var angle: float = lerpf(PI, 0.0, t)
+			var edge: Vector3 = Vector3(x, opening * 0.5 + sin(angle) * opening * 0.55, cos(angle) * (half_l + 0.1))
+			mesh.box("ash_flat" if index % 2 == 0 else "stone", edge, Vector3(0.18, rng.randf_range(0.22, 0.36), rng.randf_range(0.34, 0.55)), Basis(Vector3.RIGHT, rng.randf_range(-0.4, 0.4)), 0.03, 0.85)
+		# cracks running up the plaster from the opening's crown
+		for crack: int in range(2):
+			var points: Array[Vector3] = [Vector3(face * (half_t + 0.02), opening + 0.05, (float(crack) * 2.0 - 1.0) * half_l * 0.5)]
+			for step: int in range(4):
+				points.append(points[points.size() - 1] + Vector3(0.0, rng.randf_range(0.35, 0.6), rng.randf_range(-0.25, 0.25) + (float(crack) * 2.0 - 1.0) * 0.1))
+			for index: int in range(points.size() - 1):
+				band(mesh, "stone_dark", points[index], points[index + 1], 0.05, Vector3(face, 0, 0))
+	for side: float in [-1.0, 1.0]:
+		for index: int in range(2):
+			mesh.box("ash", Vector3(-half_t * 0.6 + float(index) * thick * 0.6, 0.08, side * (half_l - 0.18)), Vector3(0.3, 0.16, 0.26), Basis(Vector3.UP, rng.randf() * TAU), 0.03, 0.8)
+	return finish(root, mesh, [], h + 1.4)
+
+
+## What tucks the hidden hole away (world space; `at` = the opening's middle on the ground at the wall's west face): a heap of the rubble sheet's
+## stones and a dead bush either side of its mouth (off the way in), and the one hint for the curious: a faint draft of ash breathing out of it.
+static func hole_dressing(at: Vector3) -> Node3D:
+	var root: Node3D = Node3D.new()
+	root.name = "HoleDressing"
+	var mesh: KitMesh = KitMesh.new()
+	K.materials(mesh)
+	K.card(mesh, "CAP-SHEET-RUBBLE-01", at + Vector3(-0.9, 0.0, -1.8), 1.3, Vector3(0, 0, 1))
+	K.card(mesh, "CAP-TREE-DEAD", at + Vector3(-0.9, 0.0, 1.9), 2.0, Vector3(0, 0, 1), true)
+	K.card(mesh, "CAP-SHEET-RUBBLE-06", at + Vector3(-1.6, 0.0, 2.6), 0.9, Vector3(0, 0, 1))
+	finish(root, mesh, [], 2.0)
+	var draft: CPUParticles3D = CPUParticles3D.new()
+	draft.name = "AshDraft"
+	draft.amount = 6
+	draft.lifetime = 2.6
+	draft.preprocess = 2.6
+	draft.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+	draft.emission_box_extents = Vector3(0.05, 0.5, 0.6)
+	draft.direction = Vector3(-1, 0.25, 0)
+	draft.spread = 18.0
+	draft.initial_velocity_min = 0.25
+	draft.initial_velocity_max = 0.5
+	draft.gravity = Vector3(0, -0.05, 0)
+	var mote: SphereMesh = SphereMesh.new()
+	mote.radius = 0.035
+	mote.height = 0.07
+	mote.radial_segments = 4
+	mote.rings = 2
+	draft.mesh = mote
+	draft.material_override = EnvKit.flat(Color(0.62, 0.6, 0.58), "cap_ash_mote")
+	draft.position = at + Vector3(0.2, 0.7, 0.0)
+	root.add_child(draft)
+	return root
+
+
 ## A gold-capped white pinnacle: a square shaft with a gold band and a gold pyramid with a finial, `width` square and `height` tall from `base`.
 static func pinnacle(mesh: KitMesh, base: Vector3, width: float, height: float) -> void:
 	mesh.box("plaster", base + Vector3(0, height * 0.32, 0), Vector3(width, height * 0.64, width), Basis.IDENTITY, 0.04)

@@ -13,7 +13,7 @@ Art Bible row: flat eerie overcast dusk; purple rift glow; palette #8C8A86, #5E5
 | The rift fields | open rifts and crystals | CAPO-HERO-RIFT-A / RIFT-B (region landmarks when their art exists) |
 | The ruined outpost | the old guard post | CAPO-HERO-BROKEN-WATCHTOWER |
 | The Old Service Tunnels entrance | the mini dungeon door in the wall | CAPO-HERO-SERVICE-TUNNEL |
-| The wall passage | the secret way inside | |
+| (hidden) | a secret way inside: see `docs/design/secrets.md` | |
 
 ## Dungeons (node maps)
 

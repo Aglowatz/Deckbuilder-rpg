@@ -342,7 +342,7 @@ static func capital(scene: ZoneScene) -> Dictionary:
 	var wall_z: float = float(CapitalLayout.WALL_Z0)
 	var kind_at: Callable = func(p: Vector2) -> int:
 		return int(layout.floor_at(int(floorf(p.x)), int(floorf(p.y))))
-	var inside: Callable = func(p: Vector2) -> bool: return p.y < wall_z
+	var inside: Callable = func(p: Vector2) -> bool: return p.y < wall_z and p.x > CapitalLayout.CITY_WEST_X
 	var paved_mask: Callable = func(p: Vector2) -> float:
 		if inside.call(p):
 			return 0.0
@@ -395,7 +395,7 @@ static func capital(scene: ZoneScene) -> Dictionary:
 		elif node.name == &"Meadow":
 			swaps.append({"node": node, "variant": "meadow"})
 	return {
-		"bounds": Rect2(0, 0, float(CapitalLayout.W), float(CapitalLayout.H)),
+		"bounds": Rect2(float(CapitalLayout.GRID_X0), 0, float(CapitalLayout.W), float(CapitalLayout.H)),
 		"masks": {"paved": paved_mask, "dead": dead_mask, "lawn": lawn_mask, "pastel": pastel_mask, "rift": rift_mask, "outside": outside_mask},
 		"terrain": terrain,
 		"swaps": swaps,

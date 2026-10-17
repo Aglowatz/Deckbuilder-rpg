@@ -29,7 +29,7 @@ both() {
 # top-down plans (no fog, nothing culled)
 shot "plan_outside" --top=60,97,70 --plan=true --nofog=true --gate=true --set=depth_of_field:false
 shot "plan_inside" --top=60,36,74 --plan=true --nofog=true --gate=true --set=depth_of_field:false
-shot "plan_west" --top=12,66,30 --plan=true --nofog=true --set=depth_of_field:false
+shot "plan_west" --top=4,66,30 --plan=true --nofog=true --set=depth_of_field:false
 # the ten paint-over cameras
 for r in gate_road resistance_camp rift_fields ruined_outpost gate_plaza transit_yards hungry_quarter grave_row the_reek palace_approach; do
 	both "po_$r" --at=po_$r --gate=true
@@ -43,8 +43,11 @@ both "wall_front_west" --pos=30,84
 both "wall_front_east" --pos=88,84
 shot "gate_closed_default" --pos=60,86 --set=$DEFAULT
 both "west_edge_south" --pos=4,90
-both "west_strip" --pos=2.2,70
-both "hole_inside" --pos=9,60 --gate=true
+both "west_strip" --pos=-3.5,70
+shot "hole_far_default" --pos=8,88 --set=$DEFAULT
+shot "hole_close_default" --pos=-3.5,61.5 --set=$DEFAULT
+shot "hole_close_overview" --pos=-3.5,60.5 --set=$OVERVIEW
+both "hole_inside" --pos=5,62 --gate=true
 both "castle_outside" --pos=60,92 --gate=true
 both "castle_side_west" --pos=36,16 --gate=true
 both "castle_side_east" --pos=84,16 --gate=true

@@ -14,18 +14,32 @@ extends RefCounted
 ## (section 5) can be tested. The resistance hideout, the Crease, is a separate underground hall far to the south
 ## (reached by hatches and ladders, never walked to). Region table: docs/art/capital_slice.md.
 
-const W: int = 120
+const W: int = 128
 const H: int = 157
+## The Capital pass (Part D): the grid starts 8 m west of x 0, so the narrow outside strip along the city's west wall is ground like the rest.
+const GRID_X0: int = -8
 ## The y (z) of the great wall's rows and the gate opening's x range (inclusive cells).
 const WALL_Z0: int = 72
 const WALL_Z1: int = 75
 const GATE_X0: int = 55
 const GATE_X1: int = 64
-## Brief 16, Group C: the secret passage through the wall, far along the LEFT-hand side of the city wall (cells, 2 m wide). No sign points to it.
-const PASSAGE_X0: int = 22
-const PASSAGE_W: int = 2
+## The hidden way in (the Capital pass, Part D; it replaced the old gap in the front wall): a narrow strip of outside ground runs north along the
+## city's west wall (cells STRIP_X0..STRIP_X1, from the rift fields' north-west corner up to STRIP_Z0) between the wall and the dead hills, and a
+## small hole low in that wall (rows HOLE_Z0..HOLE_Z0 + HOLE_W - 1, through the wall's cells x -2..1) comes out behind the Reek's west yards.
+## No sign, no marker, no map icon, no prompt; the front wall has no way through but the gate.
+const STRIP_X0: int = -5
+const STRIP_X1: int = -3
+const STRIP_Z0: int = 52
+const HOLE_Z0: int = 57
+const HOLE_W: int = 2
+## The hole's opening in the wall (metres): as wide as its two rows, a little taller than the hero.
+const HOLE_HEIGHT: float = 2.0
+## The middle of the city's west wall (x): east of it is inside the city.
+const CITY_WEST_X: float = 0.0
 ## The last row of the outside (the Gate Road leaves the map south of it, toward town).
 const OUT_Z1: int = 121
+## The strip ends (its last row) where it meets the rift fields' corner.
+const OUT_Z0_STRIP_END: int = 80
 ## The road on to Crosspath beyond the outside's south edge: VOID cells drawn as road (a view floor; `CapitalRim` carries it on between the hills).
 const ROAD_BEYOND: Rect2i = Rect2i(57, OUT_Z1 + 1, 6, 6)
 ## The underground hideout's first row (its own light layer, far south of the outside).
@@ -43,7 +57,7 @@ const PLAZA_CENTER: Vector2 = Vector2(60.0, 58.0)
 const PLAZA_RADIUS: float = 10.5
 
 ## Region ids (several rects may share one id), outside then inside, in reading order.
-const OUTSIDE_REGIONS: Array[String] = ["gate", "camp", "rifts", "outpost", "tunnels", "passage"]
+const OUTSIDE_REGIONS: Array[String] = ["gate", "camp", "rifts", "outpost", "tunnels"]
 const INSIDE_REGIONS: Array[String] = ["plaza", "approach", "reek", "grave", "transit", "hungry", "ward"]
 
 ## The stand-in landmarks (positions and sizes w x h x d), built by `CapitalLandmarks`; the art pass replaces each in place.
@@ -60,7 +74,7 @@ const CAMP_TENTS: Array[Vector2] = [Vector2(29.0, 116.5), Vector2(40.5, 116.5)]
 const CAMP_LEAN_TO: Vector2 = Vector2(23.5, 116.5)
 ## The Capital pass (Part B): the square towers standing out from the great wall's outer face (their x; 4 m wide, `CapitalLandmarks.WALL_TOWER_OUT` out),
 ## off the gate, the Old Service Tunnels' mouth and the corners. The row in front of each is solid.
-const WALL_TOWERS: Array[float] = [9.0, 37.0, 83.0, 109.0]
+const WALL_TOWERS: Array[float] = [9.0, 23.0, 37.0, 83.0, 109.0]
 ## Blocking circles of the stand-ins that stand on walkable ground (x, z, radius), for the layout-only readers (walkability, tests). The
 ## fountain and the crystals are props with these circles; the watchtower and the camp are only circles (their models are landmarks).
 const LANDMARK_BLOCKERS: Array[Vector3] = [
@@ -208,19 +222,24 @@ func build() -> void:
 
 
 func in_bounds(cx: int, cz: int) -> bool:
-	return cx >= 0 and cz >= 0 and cx < W and cz < H
+	return cx >= GRID_X0 and cz >= 0 and cx < GRID_X0 + W and cz < H
+
+
+## The index of cell (cx, cz) in the grid's arrays.
+func _at(cx: int, cz: int) -> int:
+	return cz * W + (cx - GRID_X0)
 
 
 func cell_at(cx: int, cz: int) -> Cell:
 	if not in_bounds(cx, cz):
 		return Cell.VOID
-	return cells[cz * W + cx] as Cell
+	return cells[_at(cx, cz)] as Cell
 
 
 func floor_at(cx: int, cz: int) -> Floor:
 	if not in_bounds(cx, cz):
 		return Floor.NONE
-	return floors[cz * W + cx] as Floor
+	return floors[_at(cx, cz)] as Floor
 
 
 func is_ground_cell(cx: int, cz: int) -> bool:
@@ -235,26 +254,26 @@ func _set_cells(rect: Rect2i, cell: Cell, floor_kind: Floor = Floor.NONE) -> voi
 	for cz: int in range(rect.position.y, rect.end.y):
 		for cx: int in range(rect.position.x, rect.end.x):
 			if in_bounds(cx, cz):
-				cells[cz * W + cx] = cell
+				cells[_at(cx, cz)] = cell
 				if floor_kind != Floor.NONE:
-					floors[cz * W + cx] = floor_kind
+					floors[_at(cx, cz)] = floor_kind
 				elif cell == Cell.VOID:
-					floors[cz * W + cx] = Floor.NONE  # (a void cell shows no floor unless it is a view floor)
+					floors[_at(cx, cz)] = Floor.NONE  # (a void cell shows no floor unless it is a view floor)
 
 
 ## Floor drawn on VOID cells (seen, never walked: the road beyond the map's edge).
 func _view_floor(rect: Rect2i, floor_kind: Floor) -> void:
 	for cz: int in range(rect.position.y, rect.end.y):
 		for cx: int in range(rect.position.x, rect.end.x):
-			if in_bounds(cx, cz) and cells[cz * W + cx] == Cell.VOID:
-				floors[cz * W + cx] = floor_kind
+			if in_bounds(cx, cz) and cells[_at(cx, cz)] == Cell.VOID:
+				floors[_at(cx, cz)] = floor_kind
 
 
 func _floor_rect(rect: Rect2i, floor_kind: Floor) -> void:
 	for cz: int in range(rect.position.y, rect.end.y):
 		for cx: int in range(rect.position.x, rect.end.x):
-			if in_bounds(cx, cz) and cells[cz * W + cx] != Cell.VOID:
-				floors[cz * W + cx] = floor_kind
+			if in_bounds(cx, cz) and cells[_at(cx, cz)] != Cell.VOID:
+				floors[_at(cx, cz)] = floor_kind
 
 
 func walkable_cell_count() -> int:
@@ -270,9 +289,9 @@ static func is_inside_z(z: float) -> bool:
 	return z < float(WALL_Z0)
 
 
-## True inside the city: north of the great wall and east of the middle of its west wall (x 0); the land west of that wall is outside.
+## True inside the city: north of the great wall and east of the middle of its west wall (x 0); the strip west of that wall is outside.
 static func is_inside(x: float, z: float) -> bool:
-	return z < float(WALL_Z0) and x > 0.0
+	return z < float(WALL_Z0) and x > CITY_WEST_X
 
 
 # ---- Routes --------------------------------------------------------------------------------------------
@@ -344,7 +363,9 @@ func _ground() -> void:
 	_set_cells(Rect2i(2, WALL_Z1 + 1, 116, OUT_Z1 - WALL_Z1), Cell.GROUND, Floor.GRAVEL)  # the outside (z 76..121)
 	_set_cells(Rect2i(2, 2, 115, WALL_Z0 - 2), Cell.GROUND, Floor.ROAD)                   # the city inside the wall (x 2..116, z 2..71; the walls' battered feet beyond)
 	_set_cells(Rect2i(GATE_X0, WALL_Z0, GATE_X1 - GATE_X0 + 1, WALL_Z1 - WALL_Z0 + 1), Cell.GROUND, Floor.ROAD)  # the gate
-	_set_cells(Rect2i(PASSAGE_X0, WALL_Z0, PASSAGE_W, WALL_Z1 - WALL_Z0 + 1), Cell.GROUND, Floor.GRAVEL)  # the secret passage through the wall
+	_set_cells(Rect2i(STRIP_X0, STRIP_Z0, STRIP_X1 - STRIP_X0 + 1, OUT_Z0_STRIP_END - STRIP_Z0), Cell.GROUND, Floor.GRAVEL)  # the hidden strip along the west wall
+	_set_cells(Rect2i(STRIP_X0, WALL_Z1 + 1, 2 - STRIP_X0, 4), Cell.GROUND, Floor.GRAVEL)  # its corner joining the rift fields (z 76..79)
+	_set_cells(Rect2i(STRIP_X1 + 1, HOLE_Z0, 1 - STRIP_X1, HOLE_W), Cell.GROUND, Floor.ROAD)  # the hole through the west wall (x -2..1)
 	_set_cells(HILL, Cell.VOID)                                                           # the castle hill (the stair climbs it)
 	_view_floor(ROAD_BEYOND, Floor.ROAD)                                                  # the road on to Crosspath, seen, never walked
 	_set_cells(Rect2i(4, CREASE_Z0, 37, 21), Cell.GROUND, Floor.HUB)                      # the Crease (x 4..40, z 134..154)
@@ -363,7 +384,7 @@ func _ground() -> void:
 	for cz: int in range(44, WALL_Z0):
 		for cx: int in range(41, 80):
 			if Vector2(float(cx) + 0.5, float(cz) + 0.5).distance_to(PLAZA_CENTER) <= PLAZA_RADIUS + 2.5 or cz >= 66:
-				floors[cz * W + cx] = Floor.PLAZA
+				floors[_at(cx, cz)] = Floor.PLAZA
 
 
 func _paint_route(route: Dictionary) -> void:
@@ -373,11 +394,11 @@ func _paint_route(route: Dictionary) -> void:
 	var box: Rect2 = Rect2(a, Vector2.ZERO).expand(b).grow(half + 1.0)
 	for cz: int in range(int(box.position.y), int(box.end.y) + 1):
 		for cx: int in range(int(box.position.x), int(box.end.x) + 1):
-			if not in_bounds(cx, cz) or cells[cz * W + cx] != Cell.GROUND:
+			if not in_bounds(cx, cz) or cells[_at(cx, cz)] != Cell.GROUND:
 				continue
 			var p: Vector2 = Vector2(float(cx) + 0.5, float(cz) + 0.5)
 			if p.distance_to(Geometry2D.get_closest_point_to_segment(p, a, b)) <= half:
-				floors[cz * W + cx] = Floor.ROAD
+				floors[_at(cx, cz)] = Floor.ROAD
 
 
 func _add_area(id: String, title: String, rect: Rect2i) -> void:
@@ -401,7 +422,7 @@ func _areas() -> void:
 	_add_area("hungry", "The Hungry Quarter", Rect2i(80, 23, 38, 24))
 	_add_area("transit", "The Transit Yards", Rect2i(80, 47, 38, WALL_Z0 - 47))
 	# Outside (the gate opening counts as the Gate Road).
-	_add_area("passage", "The Wall Passage", Rect2i(16, WALL_Z0, 14, 7))
+	_add_area("rifts", "The Rift Fields", Rect2i(GRID_X0, STRIP_Z0 - 4, 2 - GRID_X0, WALL_Z1 + 6 - STRIP_Z0))  # the hidden strip, the hole's outer half
 	_add_area("gate", "The Gate Road", Rect2i(44, WALL_Z0, 32, OUT_Z1 - WALL_Z0 + 1))
 	_add_area("rifts", "The Rift Fields", Rect2i(2, WALL_Z1 + 1, 42, 26))
 	_add_area("camp", "The Resistance Camp", Rect2i(2, 102, 42, OUT_Z1 - 101))
@@ -628,11 +649,10 @@ func _row(style: String, x: float, z: float, w: float, d: float, height: float, 
 
 func _walls_and_gate() -> void:
 	# The great wall (9 m, five hero-heights: the Cinematic camera sees about 6 degrees above the horizon, so a taller wall would hide the castle from
-	# every outside view): rows WALL_Z0..WALL_Z1 across the whole width except the gate opening; two 14 m towers frame the gate. The left-hand
-	# wall is two pieces with a 2 m gap between them (the secret passage).
+	# every outside view): rows WALL_Z0..WALL_Z1 across the whole width except the gate opening; two 14 m towers frame the gate. No other way through
+	# (the Capital pass, Part D: the old gap at x 22 is closed; the corner towers close the ends).
 	var depth: float = float(WALL_Z1 - WALL_Z0 + 1)
-	_building("wall", 2.0, float(WALL_Z0), float(PASSAGE_X0 - 2), depth, 9.0, 0.0, "", 0)
-	_building("wall", float(PASSAGE_X0 + PASSAGE_W), float(WALL_Z0), float(GATE_X0 - 5 - PASSAGE_X0 - PASSAGE_W), depth, 9.0, 0.0, "", 0)
+	_building("wall", 2.0, float(WALL_Z0), float(GATE_X0 - 5 - 2), depth, 9.0, 0.0, "", 0)
 	_building("wall", float(GATE_X1 + 6), float(WALL_Z0), float(118 - GATE_X1 - 6), depth, 9.0, 0.0, "", 0)
 	_building("tower", float(GATE_X0 - 5), float(WALL_Z0) - 0.5, 5.0, depth + 1.0, 14.0, 0.0, "", 0)
 	_building("tower", float(GATE_X1 + 1), float(WALL_Z0) - 0.5, 5.0, depth + 1.0, 14.0, 0.0, "", 1)
@@ -647,16 +667,8 @@ func _walls_and_gate() -> void:
 	_sign("sign.gate_requirements", 65.8, 85.0, 270.0, 1.0, "sign")
 	_sign("sign.gate_height", 47.0, 77.5, 0.0, 0.9, "sign")
 	_sign("sign.gate_exit_inside", 72.5, 66.5, 180.0, 0.9, "sign")
-	# The secret passage: only a subtle hint from the outside - a crack up the wall beside a gap half-hidden by dry scrub and a few loose stones.
-	var passage_x: float = float(PASSAGE_X0) + float(PASSAGE_W) * 0.5
-	_prop("wall_crack", float(PASSAGE_X0) - 0.15, float(WALL_Z1) + 1.02, 0.0, 1.0, 0.0)
-	_prop("wall_crack", float(PASSAGE_X0 + PASSAGE_W) + 0.4, float(WALL_Z1) + 1.02, 0.0, 0.7, 0.0, 1)
-	_prop("loose_stones", passage_x - 0.5, float(WALL_Z1) + 1.7, 20.0, 1.0, 0.0)
-	_prop("loose_stones", passage_x + 1.1, float(WALL_Z1) + 2.2, 80.0, 0.8, 0.0, 1)
-	_prop("scrub", passage_x - 1.3, float(WALL_Z1) + 1.7, 0.0, 1.0, 0.0)
-	_prop("scrub", passage_x + 0.2, float(WALL_Z1) + 1.5, 40.0, 1.15, 0.0, 1)
-	_prop("scrub", passage_x + 1.4, float(WALL_Z1) + 1.8, 110.0, 0.9, 0.0, 2)
-	anchors["wall_passage"] = Vector3(passage_x, 0.0, float(WALL_Z0) + 2.0)
+	# The hidden way in: the hole's inside end, behind the Reek's west yards (no prop, sign or spot marks it; `CapitalLandmarks.hole_piece` is the wall).
+	anchors["wall_passage"] = Vector3(3.0, 0.0, float(HOLE_Z0) + float(HOLE_W) * 0.5)
 	_prop("gate_barrier", 60.0, float(WALL_Z0) + 1.0, 0.0, 1.0, 0.0)
 	# the towers on the wall's outer face stand on the first row outside it
 	for tower_x: float in WALL_TOWERS:

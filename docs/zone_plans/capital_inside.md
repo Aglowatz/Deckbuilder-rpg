@@ -12,7 +12,7 @@ Art Bible row: flat, shadowless, unnaturally perfect noon; palette #F7F3EA, #E6C
 | The Transit Yards | Rollo and the wheel crews (quest) | CAPI-HERO-TRAM-SHED (a region landmark when its art exists) |
 | The Hungry Quarter | Marlo and the recipes (quest) | CAPI-HERO-IDENTICAL-ROW |
 | Grave Row | Pell and the burial permit (quest) | CAPI-HERO-GRAVE-ROW |
-| The Reek | Fern (quest), the compost heaps, the seed, the back lane from the wall passage | the back lane |
+| The Reek | Fern (quest), the compost heaps, the seed, the back lane | the back lane |
 | The Correction Ward | the permit window, the corrected citizen | the ward |
 | The palace approach | the grand avenue between the sixteen identical houses of the Showcase (citizens, perfect doors, loudspeakers, portraits), the castle door at the stair's foot (`castle_door`) | Primm's Castle on its hill at the city's heart (CAPI-HERO-PALACE-FACADE) |
 

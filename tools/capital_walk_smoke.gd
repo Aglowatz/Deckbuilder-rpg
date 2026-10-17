@@ -3,7 +3,7 @@ extends Node
 ## The Capital layout pass (docs/art/capital_slice.md): walk the whole zone with human-style input (real injected keys), windowed.
 ## OUTSIDE: arrival on the Gate Road facing north and the walk up the road toward the great gate (the castle over it); the gate captain and his
 ## guards, Kestrel at the resistance camp, the Old Service Tunnels' mouth (E asks to enter the mini dungeon), the rift fields (a rift-stone and the
-## hidden service shaft's prompt), then through the secret wall passage on foot with the gate shut. INSIDE: the Gate Plaza's booth and complaint
+## hidden service shaft's prompt), then along the outside's west edge and through the hidden hole in the west wall on foot with the gate shut. INSIDE: the Gate Plaza's booth and complaint
 ## box, the palace approach's citizen, door, loudspeaker and portrait, every district's quest giver and objects (Fern, Widow Pell and the permit
 ## window, Rollo and a wheel crew, Chef Marlo, the Correction Ward's window and patient), the castle door at the stair's foot (E asks to enter
 ## Primm's Castle, node-based), a hidden chest; then, the gate open, back out through it and down the Gate Road to the way home.
@@ -55,7 +55,7 @@ func run() -> void:
 	await _save_and_load()
 	await _back_out_through_the_gate(zone)
 	await _the_districts_restored()
-	_finish(_failures.is_empty(), "Gate Road -> gate, camp, tunnels, outpost, rift fields (a rift sealed) -> the wall passage -> plaza, approach, the five districts, the Ward -> the castle door -> save/load -> through the gate -> town -> back with the four Paths freed: every district restored and welcomed (%d screenshots)" % _shots)
+	_finish(_failures.is_empty(), "Gate Road -> gate, camp, tunnels, outpost, rift fields (a rift sealed) -> the west strip and the hidden hole -> plaza, approach, the five districts, the Ward -> the castle door -> save/load -> through the gate -> town -> back with the four Paths freed: every district restored and welcomed (%d screenshots)" % _shots)
 
 
 # ---- Legs ----------------------------------------------------------------------------------------------------------
@@ -113,16 +113,23 @@ func _outside(zone: CapitalScene) -> void:
 		_check(zone._near == shaft, "the hidden shaft: its prompt comes up on the spot (near %s)" % (zone._near.id if zone._near != null else "nothing"))
 
 
+## The hidden way in (the Capital pass, Part D): from the rift fields round the front wall's west end, north up the narrow strip along the city's
+## west wall and through the small hole at its foot, all on foot with the gate shut.
 func _through_the_passage(zone: CapitalScene) -> void:
-	var passage: Vector3 = zone.builder.anchor("wall_passage")
-	_teleport(zone, Vector3(passage.x, 0.0, float(CapitalLayout.WALL_Z1) + 6.0))
+	var hole_z: float = float(CapitalLayout.HOLE_Z0) + float(CapitalLayout.HOLE_W) * 0.5
+	_teleport(zone, Vector3(6.0, 0.0, 84.0))
 	await driver.frames(4)
-	await _walk_to(zone, Vector3(passage.x, 0.0, float(CapitalLayout.WALL_Z0) - 4.0), 1.2, 14.0)
+	for leg: Vector3 in [Vector3(3.0, 0.0, 78.0), Vector3(-3.5, 0.0, 78.0), Vector3(-3.5, 0.0, 66.0)]:
+		await _walk_to(zone, leg, 0.9, 12.0)
+	_check(not zone._is_inside(zone.player.position) and zone.player.position.z < float(CapitalLayout.WALL_Z0), "the west edge: walked up the strip outside the city's west wall")
+	await _shot("w_08a_the_west_strip")
+	await _walk_to(zone, Vector3(-3.5, 0.0, hole_z), 0.7, 10.0)
+	await _walk_to(zone, Vector3(4.0, 0.0, hole_z), 0.9, 10.0)
 	await driver.seconds(1.4)
-	_check(zone._is_inside(zone.player.position), "the wall passage: walked into the city with the gate shut")
-	_check(Session.found_secret(CapitalScene.WALL_PASSAGE_SECRET), "the wall passage: the secret is found")
+	_check(zone._is_inside(zone.player.position), "the hidden hole: walked into the city with the gate shut")
+	_check(Session.found_secret(CapitalScene.WALL_PASSAGE_SECRET), "the hidden hole: the secret is found")
 	await _dismiss_dialogue(zone.dialogue)
-	await _shot("w_08_through_the_wall_passage")
+	await _shot("w_08_through_the_hidden_hole")
 
 
 func _inside(zone: CapitalScene) -> void:

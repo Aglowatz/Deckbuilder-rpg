@@ -49,7 +49,7 @@ func test_the_thirteen_regions_are_the_brief_regions() -> void:
 	assert_eq(str(titles.get("approach", "")), "The Palace Approach")
 	var expect: Dictionary = {
 		"spawn": "gate", "spotless": "gate", "kestrel": "camp", "camp": "camp", "rift_out_a": "rifts", "rift_out_b": "rifts", "tunnel_in": "rifts",
-		"old_tunnels": "tunnels", "checkpoint_b": "outpost", "wall_passage": "passage", "gate_inside": "plaza", "exit_booth": "plaza", "fountain": "plaza",
+		"old_tunnels": "tunnels", "checkpoint_b": "outpost", "wall_passage": "reek", "gate_inside": "plaza", "exit_booth": "plaza", "fountain": "plaza",
 		"castle_door": "approach", "door_1": "approach", "citizen_1": "approach", "fern": "reek", "heap_2": "reek", "pell": "grave", "stamp": "grave",
 		"rollo": "transit", "wheel_2": "transit", "marlo": "hungry", "dispenser": "hungry", "ward_window": "ward", "ward_patient": "ward",
 	}

@@ -72,7 +72,7 @@ func test_the_closed_gate_stays_shut() -> void:
 	builder.gate_open = false
 	var reached: Dictionary = _flood(builder, builder.anchor("spawn"))
 	assert_false(builder.is_walkable(Vector3(60.0, 0.0, float(CapitalLayout.WALL_Z0) + 1.0), 0.3), "the barrier closes the 10 m opening")
-	# Brief 16: the city is still reachable on foot, but only through the hidden gap in the left-hand wall (see test_capital_wall_passage.gd).
+	# the city is still reachable on foot with the gate shut, but only through the hidden hole in the west wall (see test_capital_wall_passage.gd)
 	assert_true(_reaches(reached, builder.anchor("wall_passage")))
 	assert_true(_reaches(reached, builder.anchor("tunnel_in")), "the secret shaft is reachable from the road")
 	assert_true(_reaches(reached, builder.anchor("exit")))
@@ -113,7 +113,7 @@ func test_districts_and_areas() -> void:
 	var titles: Array[String] = []
 	for area: CapitalLayout.Area in _layout.areas:
 		titles.append(area.title)
-	for expected: String in ["The Gate Road", "The Resistance Camp", "The Rift Fields", "The Ruined Outpost", "The Old Service Tunnels", "The Wall Passage", "The Gate Plaza", "The Palace Approach", "The Reek", "Grave Row", "The Transit Yards", "The Hungry Quarter", "The Correction Ward", "The Crease"]:
+	for expected: String in ["The Gate Road", "The Resistance Camp", "The Rift Fields", "The Ruined Outpost", "The Old Service Tunnels", "The Gate Plaza", "The Palace Approach", "The Reek", "Grave Row", "The Transit Yards", "The Hungry Quarter", "The Correction Ward", "The Crease"]:
 		assert_true(titles.has(expected), "area %s" % expected)
 
 

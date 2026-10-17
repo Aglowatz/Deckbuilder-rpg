@@ -136,7 +136,7 @@ func surface_at(pos: Vector3) -> StringName:
 
 
 func map_bounds() -> Rect2:
-	return Rect2(0.0, 0.0, float(CapitalLayout.W), float(CapitalLayout.H))
+	return Rect2(float(CapitalLayout.GRID_X0), 0.0, float(CapitalLayout.W), float(CapitalLayout.H))
 
 
 func add_blocker(pos: Vector3, radius: float) -> void:
@@ -254,7 +254,7 @@ func _district_free(cx: int, cz: int) -> bool:
 func _floor_color(kind: CapitalLayout.Floor, cx: int, cz: int) -> Color:
 	var n: float = 0.5 + 0.5 * sin(float(cx) * 0.21 + sin(float(cz) * 0.17) * 2.0) * sin(float(cz) * 0.19 + float(cx) * 0.05)
 	var checker: bool = (cx + cz) % 2 == 0
-	var inside: bool = cz < CapitalLayout.WALL_Z0
+	var inside: bool = CapitalLayout.is_inside(float(cx) + 0.5, float(cz) + 0.5)
 	var color: Color = M.ROAD
 	if inside and kind != CapitalLayout.Floor.HUB:
 		return _inside_color(kind, cx, cz, n, checker)
@@ -316,8 +316,8 @@ func _inside_color(kind: CapitalLayout.Floor, cx: int, cz: int, n: float, checke
 
 
 func _build_ground() -> void:
-	_build_ground_mesh(Rect2i(0, 0, CapitalLayout.W, int(CREASE_Z)), 1, "Ground")
-	_build_ground_mesh(Rect2i(0, int(CREASE_Z), CapitalLayout.W, CapitalLayout.H - int(CREASE_Z)), CREASE_LAYER, "CreaseGround")
+	_build_ground_mesh(Rect2i(CapitalLayout.GRID_X0, 0, CapitalLayout.W, int(CREASE_Z)), 1, "Ground")
+	_build_ground_mesh(Rect2i(CapitalLayout.GRID_X0, int(CREASE_Z), CapitalLayout.W, CapitalLayout.H - int(CREASE_Z)), CREASE_LAYER, "CreaseGround")
 	# Beyond the map: dusty wasteland south of the wall, lush meadow north of it (so the void is never the sky and each side keeps its mood to the horizon).
 	var wall: float = float(CapitalLayout.WALL_Z0)
 	# (the Capital pass: west of the city, where the hidden strip runs along its wall, is the wasteland too)
@@ -651,15 +651,26 @@ func _build_boundaries() -> void:
 		piece.rotation_degrees.y = 180.0
 		north.add_child(piece)
 		CapitalLandmarks.mark_view(north, true)
-	for side_x: float in [0.0, 119.0]:
+	# the west wall runs whole down the city's west side but for the small hidden hole at its foot (CapitalLayout.HOLE_Z0, the Capital pass, Part D)
+	var hole_z0: float = float(CapitalLayout.HOLE_Z0)
+	var hole_z1: float = hole_z0 + float(CapitalLayout.HOLE_W)
+	for run: Vector3 in [Vector3(0.0, 0.0, hole_z0), Vector3(0.0, hole_z1, top), Vector3(119.0, 0.0, top)]:
 		var side: Node3D = Node3D.new()
 		side.name = "CityWallSide"
 		root.add_child(side)
-		side.position = Vector3(side_x, 0.0, top * 0.5)
-		var side_piece: Node3D = CapitalLandmarks.wall_piece(2.5, 9.0, top, int(side_x) + 3, [] as Array[float], Vector2(0.3, 0.75))
-		side_piece.rotation_degrees.y = 180.0 if side_x < 60.0 else 0.0  # the cracks start on the outer face, never inside the city
+		side.position = Vector3(run.x, 0.0, (run.y + run.z) * 0.5)
+		var side_piece: Node3D = CapitalLandmarks.wall_piece(2.5, 9.0, run.z - run.y, int(run.x + run.y) + 3, [] as Array[float], Vector2(0.3, 0.75))
+		side_piece.rotation_degrees.y = 180.0 if run.x < 60.0 else 0.0  # the cracks start on the outer face, never inside the city
 		side.add_child(side_piece)
-		CapitalLandmarks.mark_view(side, true)
+		# the west wall never stands between the trailing camera and the hero: it never fades (a ghosted wall would show the hidden strip and hole)
+		CapitalLandmarks.mark_view(side, run.x > 60.0)
+	var hole: Node3D = CapitalLandmarks.hole_piece(hole_z1 - hole_z0, 9.0, 2.5, CapitalLayout.HOLE_HEIGHT)
+	root.add_child(hole)
+	hole.position = Vector3(0.0, 0.0, (hole_z0 + hole_z1) * 0.5)
+	CapitalLandmarks.mark_view(hole)
+	var tucked: Node3D = CapitalLandmarks.hole_dressing(Vector3(-1.4, 0.0, (hole_z0 + hole_z1) * 0.5))
+	root.add_child(tucked)
+	CapitalLandmarks.mark_view(tucked)
 	for corner_x: float in CORNER_TOWERS:
 		var corner: Node3D = CapitalLandmarks.corner_tower(4.0, 9.0)
 		corner.name = "CornerTower"

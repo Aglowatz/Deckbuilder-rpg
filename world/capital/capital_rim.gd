@@ -33,6 +33,8 @@ var rocks: int = 0
 var trees: int = 0
 var rubble: int = 0
 var heights: Dictionary = {}
+## Where the rocks, rubble and trees stand (x, z): the visible blockers the boundary tests look for.
+var blockers: Array[Vector2] = []
 var _dist: PackedFloat32Array = PackedFloat32Array()
 var _north: PackedFloat32Array = PackedFloat32Array()
 
@@ -53,6 +55,7 @@ static func build(parent: Node3D, layout: CapitalLayout) -> CapitalRim:
 	dressing.set_material("rim_road", _ground_material("TEX-CAP-CRACKEDROAD", 3.4))
 	rim._road(dressing)
 	rim._dressing(dressing)
+	rim._edge_row(dressing)
 	node.add_child(_finish(dressing.instance("RimDressing")))
 	return rim
 
@@ -279,18 +282,45 @@ func _dressing(mesh: KitMesh) -> void:
 				var r: float = minf(rng.randf_range(0.45, 0.95), room * 0.8)
 				rock(mesh, ["ash", "ash_flat", "stone_dark"][rng.randi() % 3], Vector3(px, ground - r * 0.35, pz), Vector3(r * rng.randf_range(1.0, 1.4), r * rng.randf_range(0.55, 0.8), r), rng.randi())
 				rocks += 1
+				blockers.append(Vector2(px, pz))
 			elif distance < 5.0 and pick < 0.6:
 				var height: float = minf(rng.randf_range(0.9, 1.4), room)
 				K.card(mesh, ["CAP-SHEET-RUBBLE-01", "CAP-SHEET-RUBBLE-04", "CAP-SHEET-RUBBLE-06"][rng.randi() % 3], Vector3(px, ground - 0.1, pz), height, Vector3(0, 0, 1), rng.randf() < 0.5)
 				rubble += 1
+				blockers.append(Vector2(px, pz))
 			elif distance >= 2.5 and room >= TREE_ROOM and pick < 0.9:
 				K.card(mesh, "CAP-TREE-DEAD", Vector3(px, ground - 0.15, pz), rng.randf_range(3.2, 5.0), Vector3(0, 0, 1), rng.randf() < 0.5)
 				trees += 1
+				blockers.append(Vector2(px, pz))
 			elif distance >= 3.0 and room >= 2.0:
 				var r2: float = rng.randf_range(0.8, 1.4)
 				rock(mesh, ["ash", "stone_dark"][rng.randi() % 2], Vector3(px, ground - r2 * 0.35, pz), Vector3(r2 * 1.3, r2 * 0.7, r2), rng.randi())
 				rocks += 1
+				blockers.append(Vector2(px, pz))
 		z += step
+
+
+## Where the rim is kept low for the camera (walkable ground just north of it: the south edge, beside the road, the strip's corner), a row of
+## low half-sunk boulders and rubble right along the walkable edge, one every two cells: the blocker you see where no ridge stands.
+func _edge_row(mesh: KitMesh) -> void:
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 7272
+	for cz: int in range(AREA.position.y, AREA.end.y):
+		for cx: int in range(AREA.position.x, AREA.end.x):
+			var distance: float = _dist[_index(cx, cz)]
+			if distance < 0.9 or distance > 1.5 or _in_city(cx, cz) or ROAD.has_point(Vector2i(cx, cz)) or (cx + cz) % 2 != 0:
+				continue
+			if north_cap(cx, cz) >= TREE_ROOM:
+				continue  # a full ridge rises here
+			var p: Vector3 = Vector3(float(cx) + rng.randf_range(0.3, 0.7), 0.0, float(cz) + rng.randf_range(0.4, 0.8))
+			if rng.randf() < 0.65:
+				var r: float = rng.randf_range(0.42, 0.62)
+				rock(mesh, ["ash", "ash_flat", "stone_dark"][rng.randi() % 3], p + Vector3(0, -r * 0.3, 0), Vector3(r * 1.3, r * 0.7, r), rng.randi())
+				rocks += 1
+			else:
+				K.card(mesh, ["CAP-SHEET-RUBBLE-01", "CAP-SHEET-RUBBLE-06"][rng.randi() % 2], p, rng.randf_range(0.8, 1.1), Vector3(0, 0, 1), rng.randf() < 0.5)
+				rubble += 1
+			blockers.append(Vector2(p.x, p.z))
 
 
 ## An irregular rock: a lumpy lat-long boulder whose radius wobbles per vertex (seeded, no two alike), flat-shaded facets, darker underneath.

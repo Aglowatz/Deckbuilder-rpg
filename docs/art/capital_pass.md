@@ -206,3 +206,41 @@ Shots (from here on 10-12 key views per part at 1280x720, to spare memory): `doc
   and only in clusters, square chests).
 
 **fps on Medium** after Part C: 59.7-60.0 average at all ten cameras. **Checks**: GUT 1697/1698 (pre-existing CP-2).
+
+## Part D: the wall, the gate and the hidden passage
+
+Shots: `docs/art/capital_pass/part_d/`.
+
+| | |
+|---|---|
+| ![](capital_pass/part_d/wall_front_west_default.jpg) the front wall where the old gap was: solid, a tower now | ![](capital_pass/part_d/gate_closed_default.jpg) the gate shut: the only opening |
+| ![](capital_pass/part_d/hole_far_default.jpg) the rift fields' north-west corner: nothing gives the strip away | ![](capital_pass/part_d/west_edge_south_overview.jpg) the west edge from Overview |
+| ![](capital_pass/part_d/west_strip_default.jpg) up the strip along the west wall (default camera) | ![](capital_pass/part_d/west_strip_overview.jpg) the strip from Overview |
+| ![](capital_pass/part_d/hole_close_default.jpg) right by the hole, default camera: the wall is seen edge-on, the hole hard to spot | ![](capital_pass/part_d/hole_close_overview.jpg) the same from Overview |
+| ![](capital_pass/part_d/hole_from_the_west.jpg) the hole up close (a debug camera from the west the game never uses) | ![](capital_pass/part_d/hole_inside_overview.jpg) the inside end, behind a Reek yard: the wall never fades |
+| ![](capital_pass/part_d/plan_west.jpg) plan: the strip (green) along the west wall, the hole at its foot | |
+
+- **The front wall** (rows z 72-75) is one piece from the west corner tower to the gate's tower and another from the gate's other tower to the
+  east corner: no gap, crack or walk-through spot but the gate, which keeps its rules (closed until the gate battle is won). The old passage's
+  cells, cracks, loose stones and scrub are gone; a fifth wall tower (x 23) stands where it was. Tested: every front-wall cell is solid but the gate's,
+  and no point along the wall is walkable with the gate shut.
+- **The west side wall** runs whole from the north wall to the front wall's corner tower (it was already there; it now takes the hole).
+- **The grid grew 8 m west** (`CapitalLayout.GRID_X0` = -8, `W` 128): the strip of outside ground (x -5..-2, 3 m wide) runs north from the rift
+  fields' north-west corner past the corner tower to z 52, between the west wall and the dead hills (the rim rises in full on its west side; it
+  ends in rubble at its north end). It counts as the Rift Fields (no new place name shows as you walk it).
+- **The hole** (`HOLE_Z0` 57, 2 m wide, `HOLE_HEIGHT` 2 m in the 9 m wall, `CapitalLandmarks.hole_piece`): the wall carries on over it; round the
+  opening the stones have fallen out (a ragged edge of broken blocks, cracks running up, dark reveals and roof), a little rubble along its floor's
+  sides. Outside a rubble heap and a dead bush flank its mouth (`hole_dressing`); the one hint for the curious is a faint draft of ash breathing
+  out of it. It faces west, so the trailing camera only ever sees it edge-on, and the west wall never fades (it can never stand between the camera
+  and the hero; a ghosted wall showed the strip from inside). Inside it comes out behind the Reek's west yards, its floor paved like the street.
+  The hero just walks in: crossing the wall's middle switches the look as at the gate (`CapitalLayout.is_inside` and `CapitalScene._is_inside`
+  now read x too), the first time sets the secret with a toast.
+- **No sign, no marker, no map icon, no prompt**: none within 6 m of the hole; nothing solid in the strip; no spot of its own.
+- **Quests, saves, text**: the passage's anchor (`wall_passage`) moved to the hole's inside end; the secret id is unchanged, so old saves keep it;
+  the fog of war carries over (the map's origin moved; `FogOfWar.from_dict` copies the overlap). The only text that named the old place was the toast
+  and the secrets doc (both updated); the objective still says "or find another way", which stays vague. The zone plans no longer name it.
+- **Tests**: `tests/core/zone/test_capital_wall_passage.gd` rewritten (the front wall solid but for the gate, the west wall whole but for one small
+  low hole, the route from the arrival round the corner tower, up the strip and through the hole walkable end to end with the gate shut, the
+  strip narrow and nameless, nothing near the hole). The walk smoke now walks the strip and the hole.
+
+**fps on Medium**: 60.0-60.1 at the Gate Road, the rift fields, the Reek, the Transit Yards and the plaza. **Checks**: GUT 1702/1703 (pre-existing CP-2).
