@@ -132,3 +132,37 @@ Shots: `docs/art/crosspath_pass/part_b/` (same spots as `before/`).
 - **Lamps.** Only the cobbled streets and the square carry lamps; the ten posts along the dirt tracks in the fields are gone. Test:
   `test_lamps_stand_only_on_the_cobbled_streets`.
 - Town on Medium: 60.0 fps average, minimum 60 (draw calls 712 -> 670). GUT 1672 passing (the one failure is CP-2).
+
+## Part C: the town square and the vendors
+
+Shots: `docs/art/crosspath_pass/part_c/` (the old spots, plus `vendors_north_default`, `vendors_west_default`, `vendors_east_default` from inside
+the square and `alley_close_default`).
+
+- **The square** is now a 23 m cobbled circle (radius 11.5, was 6.2) with a bigger kit-stone fountain at its centre (a 2.6 m basin with a moulded
+  rim, a fluted pedestal, two spilling bowls and a finial; it was plain flat-coloured cylinders), the four Path plinths of the royal crest in kit
+  stone round it, four lamps on the diagonals and four benches facing the fountain. Nothing else stands on it: it is crossed in a straight line
+  round the fountain.
+- **All six shop vendors stand round it**, each in their own storefront facing the fountain, 12.6 m from its centre: Tilly Tonic and Foil Fenwick
+  on the north side either side of the Gate Road (their fronts face the camera), Sable and Bertram on the west side, Pip Threadwell and Auntie
+  Alembic on the east side, either side of the market streets. Every vendor's spot is at least 5 m from the next and 2.5 m from any other prompt
+  (signposts, the notice board, the Rift Express). Their icon signs, awnings and doorstep clusters come with their presets; the doorstep clusters
+  are trimmed to each shop's own frontage (a barrel and crate used to spill round a corner into a street mouth). The south side stays open and low
+  (the notice board on the south-west corner, the Rift Express on the south-east corner, the Grave Road running past), so the camera sees across
+  the square and the shop fronts are never hidden. The old decorative stall on the east rim is gone: the shops are the market.
+- **Streets**: every street into the square is 5.2 m wide (four hero widths are 4.2 m) with nothing solid on it near the square; signposts stand
+  just off the paving at each mouth. The Grave Road now branches off Champions' Road just south of the square, so it never squeezes past a shop.
+  The Gate Road runs straight north between the two north shops, then bends to the Capital passage; Champions' Road runs south between the
+  chapel and the Deck Station to the Undercroft cottage.
+- **The Secret Dealer's alley** (`TownLayout.ALLEY`): a 2.4 m lane off the square's north-east corner between Fenwick's shop and the north-east
+  house, running north. Trodden dirt and soft shade pools on the ground, no street lamp; one small lantern hangs under the eave at its mouth with a
+  stack of crates and a barrel on the corner as the hint; the dealer stands at a crate counter halfway up (once the giant chest has been opened)
+  and has no floating name. The camera looks straight up the alley from the square, so nothing between the lens and the dealer needs to fade.
+  The old back-alley smithy behind the east row is gone.
+- **The rest of the centre**: the Hall of Records moved to the east street's north side; Elder Maren's home and the Forgotten Cave stand along the
+  Gate Road beyond the north shops; the chapel and the Deck Station flank Champions' Road; the Old Well has its own yard off the west street.
+  Anchors, the minimap's points and the quest markers follow the new spots on their own (they read the anchors); no dialogue named the old ones
+  (the one location line, "the abandoned cottage at the end of Champions' Road", is still true).
+- Tests: `tests/world/test_crosspath_square.gd` (the square's size, every vendor's storefront round it facing in and reachable, 5 m between
+  vendors and 2.5 m to other prompts, the streets clear across four hero widths, only low things on the square, the alley narrow, dim, reachable
+  with a 1 m body and opening off the square); the town walkability test still reaches every key location with a 1.1 m body.
+- Town on Medium: 60.0 fps average, p95 16.7 ms (one 24 fps hitch while the scene settles; 733 draw calls). GUT 1678 passing (CP-2 aside).

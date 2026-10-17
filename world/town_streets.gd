@@ -79,22 +79,31 @@ func _plaza() -> void:
 
 func _fountain() -> void:
 	var center: Vector3 = TownLayout.PLAZA
-	var stone: StandardMaterial3D = _material(Color("d8cdb4"), 0.85)
-	var dark: StandardMaterial3D = _material(Color("9d917a"), 0.9)
-	var water: StandardMaterial3D = _material(Color("6fd0ea"), 0.15)
-	water.emission_enabled = true
-	water.emission = Color("4fb8dc")
-	water.emission_energy_multiplier = 0.5
-	# basin: a ring of stone blocks, water inside, a pedestal and two bowls
-	_cylinder(TownLayout.FOUNTAIN_RADIUS, 0.5, stone, center + Vector3(0, 0.25, 0))
-	_cylinder(TownLayout.FOUNTAIN_RADIUS - 0.22, 0.04, water, center + Vector3(0, 0.51, 0))
-	_cylinder(0.32, 1.5, dark, center + Vector3(0, 1.0, 0))
-	_cylinder(0.85, 0.18, stone, center + Vector3(0, 1.45, 0))
-	_cylinder(0.72, 0.03, water, center + Vector3(0, 1.55, 0))
-	_cylinder(0.14, 0.9, dark, center + Vector3(0, 2.0, 0))
-	_cylinder(0.45, 0.12, stone, center + Vector3(0, 2.4, 0))
+	# Crosspath pass, Part C: the square's fountain, bigger with the square and built from kit stone (it was plain flat-coloured cylinders): a wide round
+	# basin with a thick moulded rim to sit on, a fluted pedestal, two bowls spilling into each other and a finial; lit water in the basin and bowls.
+	var radius: float = TownLayout.FOUNTAIN_RADIUS
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("stone", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(1.0, 0.97, 0.9)))
+	mesh.set_material("rim", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(0.86, 0.82, 0.74)))
+	mesh.set_material("water", EnvKit.glow(Color("6fd0ea"), 0.45))
+	# the basin wall: a belly under a rounded lip, hollow inside
+	mesh.lathe("stone", Vector3.ZERO, [Vector2(radius + 0.12, 0.0), Vector2(radius + 0.2, 0.12), Vector2(radius + 0.1, 0.5), Vector2(radius + 0.24, 0.58), Vector2(radius + 0.24, 0.72), Vector2(radius - 0.32, 0.72), Vector2(radius - 0.32, 0.2)], 28, 0.75, false, false)
+	mesh.lathe("water", Vector3(0, 0.52, 0), [Vector2(radius - 0.32, 0.0), Vector2(radius - 0.32, 0.01)], 24, 1.0, false, true)
+	# pedestal, lower bowl, stem, upper bowl, finial
+	mesh.lathe("rim", Vector3.ZERO, [Vector2(0.62, 0.0), Vector2(0.62, 0.3), Vector2(0.42, 0.42), Vector2(0.36, 1.25), Vector2(0.5, 1.4)], 16, 0.8, false, false)
+	mesh.lathe("stone", Vector3(0, 1.38, 0), [Vector2(0.3, 0.0), Vector2(1.15, 0.22), Vector2(1.25, 0.34), Vector2(1.05, 0.36)], 22, 0.85, true, false)
+	mesh.lathe("water", Vector3(0, 1.66, 0), [Vector2(1.05, 0.0), Vector2(1.05, 0.01)], 18, 1.0, false, true)
+	mesh.lathe("rim", Vector3(0, 1.7, 0), [Vector2(0.22, 0.0), Vector2(0.16, 0.7), Vector2(0.28, 0.82)], 12, 0.85, false, false)
+	mesh.lathe("stone", Vector3(0, 2.5, 0), [Vector2(0.16, 0.0), Vector2(0.62, 0.16), Vector2(0.66, 0.26), Vector2(0.52, 0.28)], 16, 0.9, true, false)
+	mesh.lathe("water", Vector3(0, 2.74, 0), [Vector2(0.5, 0.0), Vector2(0.5, 0.01)], 14, 1.0, false, true)
+	mesh.lathe("rim", Vector3(0, 2.76, 0), [Vector2(0.1, 0.0), Vector2(0.1, 0.3), Vector2(0.18, 0.42), Vector2(0.0, 0.62)], 10, 0.9, false, true)
+	var fountain: MeshInstance3D = mesh.instance("FountainStone")
+	fountain.position = center
+	fountain.set_meta(&"no_wind", true)
+	fountain.set_meta(&"occlusion_near", 1.2)
+	root.add_child(fountain)
 	var jet: CPUParticles3D = CPUParticles3D.new()
-	jet.position = center + Vector3(0, 2.5, 0)
+	jet.position = center + Vector3(0, 3.3, 0)
 	jet.amount = 24
 	jet.lifetime = 1.2
 	jet.direction = Vector3.UP
@@ -124,13 +133,16 @@ func _crest() -> void:
 		var angle: float = TAU * float(step) / 40.0
 		ring.append(center + Vector3(cos(angle), 0.0, sin(angle)) * TownLayout.CREST_RING_RADIUS)
 	GroundDecals.ribbon(root, ring, 0.28, gold, 0.007)
-	var stone: StandardMaterial3D = _material(Color("cbbf9f"), 0.85)
+	var plinth: KitMesh = KitMesh.new()
+	plinth.set_material("stone", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(0.95, 0.92, 0.84)))
 	for index: int in range(EndingDefs.PATH_ICONS.size()):
 		var spec: Dictionary = EndingDefs.PATH_ICONS[index]
 		var angle: float = TAU * float(index) / 4.0 + PI / 4.0
 		var pos: Vector3 = center + Vector3(cos(angle), 0.0, sin(angle)) * TownLayout.CREST_RING_RADIUS
-		_cylinder(0.34, 0.5, stone, pos + Vector3(0, 0.25, 0))
-		_cylinder(0.42, 0.1, stone, pos + Vector3(0, 0.55, 0))
+		# a kit-stone plinth: a square foot, a turned shaft and a cap (Crosspath pass, Part C)
+		var local: Vector3 = pos - center
+		plinth.box("stone", local + Vector3(0, 0.08, 0), Vector3(0.8, 0.16, 0.8), Basis(Vector3.UP, angle), 0.03, 0.75)
+		plinth.lathe("stone", local + Vector3(0, 0.16, 0), [Vector2(0.32, 0.0), Vector2(0.26, 0.1), Vector2(0.24, 0.42), Vector2(0.4, 0.5), Vector2(0.4, 0.58)], 12, 0.85, false, true)
 		var tint: Color = Color(str(spec["color"]))
 		var glow: StandardMaterial3D = _material(tint, 0.3)
 		glow.emission_enabled = true
@@ -156,6 +168,9 @@ func _crest() -> void:
 		icon.position = pos + Vector3(0, 1.35, 0)
 		root.add_child(icon)
 		town.obstacles.append(Vector3(pos.x, pos.z, 0.4))
+	var plinths: MeshInstance3D = plinth.instance("CrestPlinths")
+	plinths.position = center
+	root.add_child(plinths)
 
 
 # ---- notice board, signposts, lamps --------------------------------------------------------------------------------------------------
@@ -297,19 +312,7 @@ func _plaza_furniture() -> void:
 		bench.rotation_degrees.y = rad_to_deg(atan2(toward.x, toward.z)) + 180.0
 		town.add_ao_blob(pos, 0.8, 0.28)
 		town.obstacles.append(Vector3(pos.x, pos.z, 0.55))
-	# A market stall with its barrels and sacks at the plaza's east rim, turned to face the fountain (a cart would sit in the camera's foreground).
-	var market_pos: Vector3 = Vector3(34.6, 0.0, 15.4)
-	if town.is_floor_at(market_pos):
-		var toward_plaza: Vector3 = center - market_pos
-		var stall_yaw: float = rad_to_deg(atan2(toward_plaza.x, toward_plaza.z))
-		var stall: Node3D = PropKit.stall(1)
-		root.add_child(stall)
-		stall.position = market_pos
-		stall.rotation_degrees.y = stall_yaw
-		town.obstacles.append(Vector3(market_pos.x, market_pos.z, 1.6))
-		town.add_ao_blob(market_pos, 1.5, 0.3)
-		var pair: Node3D = PropClusters.make("barrel_pair", 2)
-		TownKit.place_cluster(root, town, pair, market_pos + Basis(Vector3.UP, deg_to_rad(stall_yaw)) * Vector3(2.7, 0.0, -0.4), stall_yaw)
+	# Crosspath pass, Part C: the old decorative market stall on the east rim is gone: the six shops round the square are the market.
 
 
 # ---- small mesh helpers ---------------------------------------------------------------------------------------------------------------

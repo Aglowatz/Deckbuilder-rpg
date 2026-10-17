@@ -1,37 +1,40 @@
 class_name TownLayout
 extends RefCounted
-## The plan of Crosspath's centre: a royal-crest plaza where the roads cross, two shop-lined market streets (west and east), the Gate Road
-## north (the Forgotten Cave, Elder Maren's home, the Hall of Records), Champions' Road south (church, Deck Station, Old Well) leading to the
-## Grand Clashatorium, and the roads out to every zone exit. All world coordinates (metres); the hex map under it is cleared by
-## `TownBuilder` along these roads. Storefronts face the street they stand on (`yaw` 0 faces +z / south, 180 north, 90 east, -90 west).
+## The plan of Crosspath's centre. Crosspath pass, Part C: one big round market square where the roads cross, with all six shop vendors round it,
+## each in its own storefront facing the fountain; the square's south side stays open and low so the camera (which looks north) sees across it.
+## Streets leave it at the four points of the compass, every one five metres wide. All world coordinates (metres). Storefronts face the square or
+## the street they stand on (`yaw` 0 faces +z / south, 180 north, 90 east, -90 west).
 ##
-##                      N: Gate Road -> The Capital
-##        Forgotten Cave   |   Elder Maren's home
-##                         |   Hall of Records
-##   W: Market Street --- PLAZA (fountain with the royal crest) --- Market Street :E
-##  (Tonic, Sable /        |  notice board                    (Express, Fenwick, Alembic)
-##   Pip, Bertram)         |
-##        Grave Road <-    |   Church | Deck Station
-##        (D.N.A.)         |   Old Well
-##                         |
-##                  Grand Clashatorium  (Champions' Road ends at its gate; the south road bends round it to the Gainlands)
+##                         N: Gate Road -> the Capital (the Forgotten Cave, Elder Maren's home)
+##              NW house   Tilly Tonic | Foil Fenwick  ' alley (the Secret Dealer)   NE house
+##      Sable's Cards                                                       Pip Threadwell
+##   W: Market Street ---------------- SQUARE (the fountain) ---------------- Market Street :E (the Hall of Records)
+##      Bertram's Smithy                                                    Auntie Alembic
+##              notice board          (open, low south side)          Rift Express
+##                         S: Champions' Road (the Chapel | the Deck Station; the Grave Road branches west)
+##                                     the Undercroft cottage; the meadow road bends round it to the Gainlands
 
 const PLAZA: Vector3 = Vector3(25.2, 0.0, 12.47)
-const PLAZA_RADIUS: float = 6.2
-## Roads are paved 4 m wide; buildings stand 4.5 m off the street's centre line (the door spot just outside the paving).
-const ROAD_WIDTH: float = 4.0
+## The paved square (it was 6.2 m before the Crosspath pass).
+const PLAZA_RADIUS: float = 11.5
+## Storefronts round the square stand with their front faces this far from its centre (north, west and east sides).
+const FRONT_RING: float = 12.6
+## Streets are paved 5.2 m wide (more than four hero widths); buildings stand 0.8 m off a street's edge.
+const ROAD_WIDTH: float = 5.2
 const FLANK: float = 4.5
-## Where the hero arrives (on the plaza's south side, facing the fountain).
-const SPAWN: Vector3 = Vector3(25.2, 0.0, 17.2)
-## The notice board (it opens the quest log), on the plaza's south-east edge facing the fountain.
-const NOTICE_BOARD: Vector3 = Vector3(29.6, 0.0, 16.6)
-## The Grand Clashatorium stands at the end of Champions' Road.
+## Where the hero arrives (on the square's open south side, facing the fountain).
+const SPAWN: Vector3 = Vector3(25.2, 0.0, 19.6)
+## The notice board (it opens the quest log), on the square's south-west corner facing the fountain.
+const NOTICE_BOARD: Vector3 = Vector3(16.0, 0.0, 22.4)
+## The Undercroft's abandoned cottage stands at the end of Champions' Road (the Grand Clashatorium stood here once).
 const ARENA_CENTER: Vector3 = Vector3(25.2, 0.0, 46.5)
 ## The fountain basin and the ring of four Path plinths around it.
-const FOUNTAIN_RADIUS: float = 1.9
-const CREST_RING_RADIUS: float = 3.5
+const FOUNTAIN_RADIUS: float = 2.6
+const CREST_RING_RADIUS: float = 4.9
 ## Spacing of street lamps along the roads.
 const LAMP_SPACING: float = 8.0
+## The black-market alley off the square's north-east corner, between Fenwick's shop and the north-east house: x from / to, z from (the square end) / to.
+const ALLEY: Rect2 = Rect2(34.6, -6.6, 2.4, 6.5)
 
 
 ## One building (or stall) on a street: where, which way it faces and what it is.
@@ -119,76 +122,62 @@ static func _kit(key_value: String, preset_name: String, x: float, z: float, yaw
 	return shop
 
 
+## A kit building whose front face stands `front` metres from the square's centre on one side ("n", "w", "e"), centred `along` the side
+## (x for the north side, z for the west and east sides), facing the square.
+static func _round_square(key_value: String, preset_name: String, side: String, along: float, label_value: String, overrides: Dictionary = {}) -> Shop:
+	var spec: Dictionary = BuildingPresets.spec(preset_name, overrides)
+	var half_depth: float = float(spec.get("depth", 5.0)) * 0.5
+	match side:
+		"n":
+			return _kit(key_value, preset_name, along, PLAZA.z - FRONT_RING - half_depth, 0.0, label_value, overrides)
+		"w":
+			return _kit(key_value, preset_name, PLAZA.x - FRONT_RING - half_depth, along, 90.0, label_value, overrides)
+	return _kit(key_value, preset_name, PLAZA.x + FRONT_RING + half_depth, along, -90.0, label_value, overrides)
+
+
 ## Street geometry used to seat buildings: a road half width plus a gap, so the front faces stand just off the paving.
-const STREET_HALF: float = 2.0
-const FRONT_GAP: float = 0.7
+const STREET_HALF: float = 2.6
+const FRONT_GAP: float = 0.8
 
 
-## Every building of the centre. The `key`s are the town anchors (`TownBuilder.anchors`); fillers have an empty key. Vertical slice: the buildings are BuildingKit presets sized by
-## the scale rule (the hero reaches a third of the way up a door), so rows stand `STREET_HALF + FRONT_GAP + half depth` off the centre line of their street.
+## Every building of the centre. The `key`s are the town anchors (`TownBuilder.anchors`); fillers have an empty key. The buildings are BuildingKit presets
+## sized by the scale rule (the hero reaches a third of the way up a door). Crosspath pass, Part C: the six shops stand round the square.
 static func shops() -> Array[Shop]:
 	var list: Array[Shop] = []
 	var street_z: float = PLAZA.z
 	var off: float = STREET_HALF + FRONT_GAP
-	# --- West Market Street: the potion shop and the card shop on the north side, the clothier and the smithy on the south, houses at the end ---
-	var potion: Shop = _kit("item_vendor", "potion_shop", 14.6, 0.0, 0.0, "Tilly Tonic's Supplies")
-	potion.center.z = street_z - off - potion.footprint.y * 0.5
-	list.append(potion)
-	var cards: Shop = _kit("market", "card_shop", 7.2, 0.0, 0.0, "Sable's Cards")
-	cards.center.z = street_z - off - cards.footprint.y * 0.5
-	list.append(cards)
-	var house_w_n: Shop = _kit("", "home_a", -0.2, 0.0, 0.0, "Row house")
-	house_w_n.center.z = street_z - off - house_w_n.footprint.y * 0.5
-	list.append(house_w_n)
-	var clothier: Shop = _kit("tailor", "clothing_shop", 14.6, 0.0, 180.0, "Pip Threadwell's Hats & Hems")
-	clothier.center.z = street_z + off + clothier.footprint.y * 0.5
-	list.append(clothier)
-	var smithy: Shop = _kit("equipment_vendor", "equipment_shop", 6.8, 0.0, 180.0, "Bertram Beetsworth's Smithy")
-	smithy.center.z = street_z + off + smithy.footprint.y * 0.5
-	list.append(smithy)
-	var house_w_s: Shop = _kit("", "home_b", -0.8, 0.0, 180.0, "Row house")
-	house_w_s.center.z = street_z + off + house_w_s.footprint.y * 0.5
-	list.append(house_w_s)
-	# --- East Market Street: the Rift Express hub, the pack shop, the Alchemist; houses and a cottage opposite ---
-	list.append(_shop("rift_station", "", Vector3(36.2, 0.0, street_z - 4.5), 0.0, 1.0, 1.3, 1.6, "Beefcake Rift Express", "bare"))
-	var packs: Shop = _kit("pack_vendor", "pack_shop", 43.4, 0.0, 0.0, "Foil Fenwick's Sealed Goods")
-	packs.center.z = street_z - off - packs.footprint.y * 0.5
-	list.append(packs)
-	var alchemist: Shop = _kit("alchemist", "alchemist", 50.2, 0.0, 0.0, "Auntie Alembic's")
-	alchemist.center.z = street_z - off - alchemist.footprint.y * 0.5
-	list.append(alchemist)
-	var east_a: Shop = _kit("", "home_a", 40.0, 0.0, 180.0, "Row house")
-	east_a.center.z = street_z + off + east_a.footprint.y * 0.5
-	list.append(east_a)
-	var east_b: Shop = _kit("", "home_b", 47.2, 0.0, 180.0, "Row house")
-	east_b.center.z = street_z + off + east_b.footprint.y * 0.5
-	list.append(east_b)
-	var east_c: Shop = _kit("", "cottage", 54.0, 0.0, 180.0, "Cottage")
-	east_c.center.z = street_z + off + east_c.footprint.y * 0.5
-	list.append(east_c)
-	# --- Gate Road (north): the cave gate on the west, Elder Maren's home and the Hall of Records on the east ---
-	var road_x: float = PLAZA.x
-	var gate: Shop = _kit("gate", "stone_hut", 0.0, 3.0, 90.0, "The Forgotten Cave")
-	gate.center.x = road_x - off - gate.footprint.y * 0.5
-	list.append(gate)
-	var elder: Shop = _kit("elder_home", "home_a", 0.0, 3.6, -90.0, "Elder Maren's home", {"width": 6.4})
-	elder.center.x = road_x + off + elder.footprint.y * 0.5
-	list.append(elder)
-	var codex: Shop = _kit("codex", "hall", 0.0, -2.8, -90.0, "Hall of Records", {"width": 5.8, "depth": 5.6})
-	# the hall stands a little back from the road (the hex ground in front of its door and the uplands chest behind it both need room)
-	codex.center.x = road_x + off + 1.3 + codex.footprint.y * 0.5
-	list.append(codex)
-	# --- Champions' Road (south): the church, the Deck Station, the Old Well ---
-	var church: Shop = _kit("church", "chapel", 0.0, 31.8, 90.0, "Chapel of the Four Paths")
-	church.center.x = road_x - off - church.footprint.y * 0.5
-	list.append(church)
-	var inn: Shop = _kit("deck", "inn", 0.0, 25.0, -90.0, "The Deck Station")
-	inn.center.x = road_x + off + inn.footprint.y * 0.5
-	list.append(inn)
-	list.append(_shop("well", "", Vector3(6.2, 0.0, 23.6), 0.0, 1.5, 1.2, 0.9, "The Old Well", "bare"))
-	# --- The secrets and the quiet corners ---
-	list.append(_kit("hidden_vendor", "equipment_shop", 39.6, 25.6, 0.0, "A back-alley smithy", {"width": 6.0, "depth": 5.0}))
-	list.append(_kit("vault", "stone_hut", 9.6, 34.8, 0.0, "The Sealed Vault"))
+	# --- the square: north side (either side of the Gate Road), west and east sides (either side of the market streets) ---
+	list.append(_round_square("item_vendor", "potion_shop", "n", 18.8, "Tilly Tonic's Supplies"))
+	list.append(_round_square("pack_vendor", "pack_shop", "n", 31.6, "Foil Fenwick's Sealed Goods"))
+	list.append(_round_square("market", "card_shop", "w", 5.8, "Sable's Cards"))
+	list.append(_round_square("equipment_vendor", "equipment_shop", "w", 19.6, "Bertram Beetsworth's Smithy"))
+	list.append(_round_square("tailor", "clothing_shop", "e", 6.1, "Pip Threadwell's Hats & Hems"))
+	list.append(_round_square("alchemist", "alchemist", "e", 18.7, "Auntie Alembic's"))
+	# the corners of the square's north side: a house each, the black-market alley between Fenwick's and the north-east house
+	var north_face: float = PLAZA.z - FRONT_RING
+	list.append(_kit("", "home_b", 12.3, north_face - 3.4, 0.0, "Row house"))
+	list.append(_kit("", "home_a", 40.5, north_face - 3.0, 0.0, "Row house"))
+	# --- West Market Street ---
+	list.append(_kit("", "home_b", 1.4, street_z - off - 3.4, 0.0, "Row house"))
+	list.append(_kit("", "home_a", -7.6, street_z - off - 3.0, 0.0, "Row house"))
+	list.append(_kit("", "home_b", -6.6, street_z + off + 3.4, 180.0, "Row house"))
+	# --- East Market Street: the Hall of Records and the houses opposite the lake ---
+	list.append(_kit("codex", "hall", 47.2, street_z - off - 2.8, 0.0, "Hall of Records", {"width": 5.8, "depth": 5.6}))
+	list.append(_kit("", "home_b", 54.2, street_z - off - 3.4, 0.0, "Row house"))
+	list.append(_kit("", "cottage", 61.6, street_z - off - 2.4, 0.0, "Cottage"))
+	list.append(_kit("", "home_a", 49.0, street_z + off + 3.0, 180.0, "Row house"))
+	# --- the Rift Express on the square's south-east corner ---
+	list.append(_shop("rift_station", "", Vector3(34.4, 0.0, 23.0), 0.0, 1.0, 1.3, 1.6, "Beefcake Rift Express", "bare"))
+	# --- Gate Road (north): the cave gate beyond the north-west house, Elder Maren's home facing the road ---
+	list.append(_kit("gate", "stone_hut", 7.4, -12.0, 90.0, "The Forgotten Cave"))
+	list.append(_kit("elder_home", "home_a", 31.6, -10.6, -90.0, "Elder Maren's home", {"width": 6.4}))
+	# --- Champions' Road (south): the chapel and the Deck Station; the Old Well in its yard off the west street ---
+	list.append(_kit("church", "chapel", 17.3, 33.3, 90.0, "Chapel of the Four Paths"))
+	list.append(_kit("deck", "inn", 32.1, 31.5, -90.0, "The Deck Station"))
+	list.append(_shop("well", "", Vector3(2.4, 0.0, 21.0), 0.0, 1.5, 1.2, 0.9, "The Old Well", "bare"))
+	# --- the Secret Dealer's alley and the sealed vault ---
+	list.append(_shop("hidden_vendor", "", Vector3(ALLEY.get_center().x, 0.0, -3.6), 180.0, 1.0, 0.6, 0.0, "The Secret Dealer's nook", "bare"))
+	list.append(_kit("vault", "stone_hut", 5.0, 37.0, 0.0, "The Sealed Vault"))
 	return list
 
 
@@ -200,15 +189,15 @@ static func in_footprint(pos: Vector3, margin: float = 0.0) -> bool:
 	return false
 
 
-## Every road as a polyline. The first and last points are the plaza ring and the zone exits' arrival anchors.
+## Every road as a polyline. The first and last points are the square's rim and the zone exits' arrival anchors.
 static func roads() -> Dictionary:
 	return {
-		"market_west": [Vector3(-18.6, 0, 12.47), Vector3(-6.0, 0, 12.47), Vector3(6.0, 0, 12.47), Vector3(19.0, 0, 12.47)],
-		"market_east": [Vector3(31.4, 0, 12.47), Vector3(45.0, 0, 12.47), Vector3(60.0, 0, 12.47), Vector3(69.0, 0, 12.47)],
-		"gate_road": [Vector3(25.2, 0, 6.3), Vector3(25.2, 0, 0.0), Vector3(23.4, 0, -3.1), Vector3(19.8, 0, -9.3), Vector3(16.2, 0, -12.59)],
-		"champions": [Vector3(25.2, 0, 18.4), Vector3(25.2, 0, 30.0), Vector3(25.2, 0, 40.2)],
-		"south_road": [Vector3(25.2, 0, 31.5), Vector3(31.0, 0, 35.0), Vector3(35.5, 0, 40.0), Vector3(36.5, 0, 47.0), Vector3(33.5, 0, 54.0), Vector3(28.5, 0, 59.5), Vector3(25.2, 0, 63.0), Vector3(25.2, 0, 65.6)],
-		"grave_road": [Vector3(21.4, 0, 17.5), Vector3(20.4, 0, 22.0), Vector3(14.5, 0, 25.6), Vector3(8.5, 0, 28.6), Vector3(1.0, 0, 32.0), Vector3(-6.0, 0, 34.3), Vector3(-16.8, 0, 34.3)],
+		"market_west": [Vector3(-18.6, 0, 12.47), Vector3(-6.0, 0, 12.47), Vector3(6.0, 0, 12.47), Vector3(14.2, 0, 12.47)],
+		"market_east": [Vector3(36.2, 0, 12.47), Vector3(45.0, 0, 12.47), Vector3(60.0, 0, 12.47), Vector3(69.0, 0, 12.47)],
+		"gate_road": [Vector3(25.2, 0, 1.4), Vector3(25.2, 0, -7.5), Vector3(19.8, 0, -11.6), Vector3(16.2, 0, -12.59)],
+		"champions": [Vector3(25.2, 0, 23.6), Vector3(25.2, 0, 30.0), Vector3(25.2, 0, 41.0)],
+		"south_road": [Vector3(25.2, 0, 41.0), Vector3(31.0, 0, 43.6), Vector3(34.4, 0, 50.0), Vector3(31.6, 0, 57.4), Vector3(27.2, 0, 62.4), Vector3(25.2, 0, 64.4), Vector3(25.2, 0, 65.6)],
+		"grave_road": [Vector3(25.2, 0, 26.7), Vector3(8.0, 0, 26.7), Vector3(-2.0, 0, 31.0), Vector3(-8.0, 0, 34.3), Vector3(-16.8, 0, 34.3)],
 	}
 
 
@@ -255,13 +244,13 @@ static func is_paved(pos: Vector3, margin: float = 0.0) -> bool:
 	return distance_to_roads(pos) <= ROAD_WIDTH * 0.5 + margin
 
 
-## Street lamp positions: along the cobbled town streets, alternating sides, plus a ring round the plaza. Crosspath pass, Part B: no lamps along the dirt
-## tracks out in the fields (they lit nothing and stood alone in the meadow).
+## Street lamp positions: along the cobbled town streets, alternating sides, plus four round the fountain on the square's diagonals. Crosspath pass,
+## Part B: no lamps along the dirt tracks out in the fields (they lit nothing and stood alone in the meadow).
 static func lamps() -> Array[Vector3]:
 	var result: Array[Vector3] = []
-	for index: int in range(6):
-		var angle: float = TAU * (float(index) + 0.5) / 6.0
-		result.append(PLAZA + Vector3(cos(angle), 0.0, sin(angle)) * (PLAZA_RADIUS - 0.5))
+	for index: int in range(4):
+		var angle: float = TAU * (float(index) + 0.5) / 4.0
+		result.append(PLAZA + Vector3(cos(angle), 0.0, sin(angle)) * 7.6)
 	var all_roads: Dictionary = roads()
 	var kinds: Dictionary = road_kinds()
 	for id: String in all_roads.keys():
@@ -285,21 +274,21 @@ static func lamps() -> Array[Vector3]:
 			var normal: Vector3 = Vector3(-tangent.z, 0.0, tangent.x)
 			var pos: Vector3 = point + normal * side * (ROAD_WIDTH * 0.5 + 0.5)
 			side = -side
-			if Vector2(pos.x - PLAZA.x, pos.z - PLAZA.z).length() < PLAZA_RADIUS + 1.0:
+			if Vector2(pos.x - PLAZA.x, pos.z - PLAZA.z).length() < PLAZA_RADIUS + 2.0:
 				continue
 			result.append(pos)
 	return result
 
 
 ## The signposts at the junctions: position, and the boards (text and the way the board points on screen: "W", "E", "N", "S", "SW"...).
-## The text is flat and upright, readable from the town camera (which looks north), so the direction is an arrow prefix.
+## The words are never drawn: the boards carry the Path crest, and the post's popup reads the lines.
 static func signposts() -> Array[Dictionary]:
 	return [
-		{"pos": Vector3(19.3, 0, 8.8), "boards": [{"text": "Market Street", "dir": "W"}, {"text": "The Verdant Dump", "dir": "W"}]},
-		{"pos": Vector3(31.1, 0, 8.8), "boards": [{"text": "Market Street", "dir": "E"}, {"text": "The Endless Buffet", "dir": "E"}]},
-		{"pos": Vector3(28.8, 0, 7.0), "boards": [{"text": "The Capital", "dir": "N"}, {"text": "Elder Maren's home", "dir": "N"}, {"text": "The Forgotten Cave", "dir": "N"}]},
-		{"pos": Vector3(18.9, 0, 16.6), "boards": [{"text": "Grave Road: the D.N.A.", "dir": "SW"}, {"text": "The Grand Clashatorium", "dir": "S"}]},
-		{"pos": Vector3(23.0, 0, 35.5), "boards": [{"text": "The Grand Clashatorium", "dir": "S"}, {"text": "The Gainlands", "dir": "SE"}]},
+		{"pos": Vector3(13.6, 0, 15.5), "boards": [{"text": "Market Street", "dir": "W"}, {"text": "The Verdant Dump", "dir": "W"}]},
+		{"pos": Vector3(36.8, 0, 15.5), "boards": [{"text": "Market Street", "dir": "E"}, {"text": "The Endless Buffet", "dir": "E"}]},
+		{"pos": Vector3(28.3, 0, 0.9), "boards": [{"text": "The Capital", "dir": "N"}, {"text": "Elder Maren's home", "dir": "N"}, {"text": "The Forgotten Cave", "dir": "N"}]},
+		{"pos": Vector3(22.0, 0, 23.8), "boards": [{"text": "Grave Road: the D.N.A.", "dir": "SW"}, {"text": "The Undercroft", "dir": "S"}]},
+		{"pos": Vector3(28.6, 0, 39.6), "boards": [{"text": "The Undercroft", "dir": "S"}, {"text": "The Gainlands", "dir": "SE"}]},
 	]
 
 
@@ -321,7 +310,7 @@ static func arrow_for(dir: String) -> String:
 	return "->"
 
 
-## Which surface each road gets (Part C): cobbled streets round the square and out along the Gate Road and Champions' Road, packed dirt on the tracks to the zones.
+## Which surface each road gets: cobbled streets round the square and out along the Gate Road and Champions' Road, packed dirt on the tracks to the zones.
 static func road_kinds() -> Dictionary:
 	return {
 		"market_west": "cobble", "market_east": "cobble", "gate_road": "cobble", "champions": "cobble",

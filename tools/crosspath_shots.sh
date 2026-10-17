@@ -39,6 +39,11 @@ both "lakeshore" --pos=50,40
 both "uplands" --pos=12,-8
 both "alley" --at=hidden_vendor --found=harbor_chest
 both "undercroft" --at=arena --zones=1
+# Part C: the vendors round the square, seen from inside it
+shot "vendors_north_default" --pos=25.2,7.5 --set=$DEFAULT
+shot "vendors_west_default" --pos=19.0,15.5 --set=$DEFAULT
+shot "vendors_east_default" --pos=31.4,15.5 --set=$DEFAULT
+shot "alley_close_default" --pos=35.8,1.6 --found=harbor_chest --set=$DEFAULT
 for z in refusemancer necrocrat beefcake gourmand final; do
 	shot "gate_${z}_locked" --at=npc_$( [ "$z" = final ] && echo gate || echo $z ) --set=$DEFAULT
 	[ "$z" != final ] && shot "gate_${z}_open" --at=npc_$z --gates=open --set=$DEFAULT

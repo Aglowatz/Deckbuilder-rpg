@@ -35,6 +35,8 @@ static func region(town: TownBuilder) -> Callable:
 static func grows_at(town: TownBuilder, noise: FastNoiseLite, buckets: Dictionary, pos: Vector3) -> bool:
 	if noise.get_noise_2d(pos.x, pos.z) < CLUMP_THRESHOLD:
 		return false
+	if Vector2(pos.x - TownLayout.PLAZA.x, pos.z - TownLayout.PLAZA.z).length() < TownLayout.PLAZA_RADIUS + 0.4:
+		return false  # the square's cobbles stay clean
 	var road: float = TownLayout.distance_to_roads(pos) - TownLayout.ROAD_WIDTH * 0.5
 	if road < PATH_EDGE.x:
 		return false

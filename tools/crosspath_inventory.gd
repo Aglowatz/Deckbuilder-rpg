@@ -32,4 +32,12 @@ func _ready() -> void:
 	for p: Vector3 in square.streets.lamp_points:
 		print("  lamp (%.1f, %.1f) floor=%s paved=%s" % [p.x, p.z, str(town.is_floor_at(p)), str(TownLayout.is_paved(p, 1.2))])
 	print("obstacles %d walkable cells %d bounds %s" % [town.obstacles.size(), town.walkable.size(), str(town.map_bounds())])
+	# CP_RECT=x0,z0,x1,z1 lists the solid circles inside that rectangle
+	var rect_text: String = OS.get_environment("CP_RECT")
+	if rect_text != "":
+		var v: PackedStringArray = rect_text.split(",")
+		var r: Rect2 = Rect2(float(v[0]), float(v[1]), float(v[2]) - float(v[0]), float(v[3]) - float(v[1]))
+		for circle: Vector3 in town.obstacles:
+			if r.grow(circle.z).has_point(Vector2(circle.x, circle.y)):
+				print("  circle (%.2f, %.2f) r %.2f" % [circle.x, circle.y, circle.z])
 	get_tree().quit()

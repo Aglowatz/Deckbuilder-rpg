@@ -127,12 +127,17 @@ func _prepare_map() -> void:
 		var map_col: int = cell.x + COL_OFFSET
 		if map_row >= 0 and map_row < rows.size() and map_col >= 0 and map_col < rows[map_row].size() and rows[map_row][map_col] == "#":
 			rows[map_row][map_col] = "T"
-	for point: Vector3 in TownLayout.road_points(1.0):
+	# Crosspath pass, Part C: the ground in front of every door is cleared like the roads (the Forgotten Cave's door faced a rocky cell).
+	var carve: Array[Vector3] = TownLayout.road_points(1.0)
+	for shop: TownLayout.Shop in TownLayout.shops():
+		if shop.kind == "kit":
+			carve.append(shop.door_spot())
+	for point: Vector3 in carve:
 		var around: Vector2i = HexGrid.world_to_cell(point / SCALE)
 		for d_row: int in range(-2, 3):
 			for d_col: int in range(-2, 3):
 				var cell: Vector2i = Vector2i(around.x + d_col, around.y + d_row)
-				if cell_center(cell.x, cell.y).distance_to(point) > 3.0:
+				if cell_center(cell.x, cell.y).distance_to(point) > 3.8:
 					continue
 				var map_row: int = cell.y + ROW_OFFSET
 				var map_col: int = cell.x + COL_OFFSET
@@ -252,6 +257,9 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 				# Nothing blocks a chest, a lever or a portal mouth: trees that would stand on or hug one are left out (they could cut it off).
 				if _near_special(offset, 1.9):
 					continue
+				# Crosspath pass, Part C: never inside a building, on the square or on a street
+				if hub_land and (TownLayout.is_paved(offset, 0.8) or TownLayout.in_footprint(offset, 1.0) or _in_outskirt(offset, 1.0) or TownLayout.ALLEY.grow(1.2).has_point(Vector2(offset.x, offset.z))):
+					continue
 				var near: bool = Vector2(offset.x - TownLayout.PLAZA.x, offset.z - TownLayout.PLAZA.z).length() < 26.0
 				_tree_entries.append({"kind": kind, "pos": offset, "scale": 0.62 + 0.3 * (size_roll - 1.1) / 0.4, "near": near})
 				var _spin: float = spin
@@ -352,6 +360,7 @@ func _build_centre() -> void:
 	anchors["spawn"] = TownLayout.SPAWN
 	for shop: TownLayout.Shop in TownLayout.shops():
 		_place_shop(shop)
+	_build_alley()
 	# Grand Clashatorium: a colosseum at the end of Champions' Road, its gate facing north onto the avenue. Oct 16: in the hub the Arena went
 	# underground (The Undercroft): an abandoned cottage with a cellar hatch stands there instead.
 	var arena_center: Vector3 = TownLayout.ARENA_CENTER
@@ -367,6 +376,35 @@ func _build_centre() -> void:
 	anchors["arena"] = arena_center + Vector3(0, 0, -(arena_radius + 0.95))
 	anchors["arena_gate"] = arena_center + Vector3(0, 0, -(arena_radius + 0.2))
 	anchors["npc_arena"] = arena_center + Vector3(1.8, 0, -(arena_radius + 0.9))
+
+
+## Crosspath pass, Part C: the Secret Dealer's alley off the square's north-east corner (`TownLayout.ALLEY`): a narrow lane of trodden dirt between
+## Fenwick's shop and the north-east house, darker than the square (soft shade pools on the ground, no street lamp), a crate counter at the far end where
+## the dealer stands once the giant chest has been opened, one small lantern under the eaves at the mouth and a stack of crates beside it as the hint.
+func _build_alley() -> void:
+	var alley: Rect2 = TownLayout.ALLEY
+	var x: float = alley.get_center().x
+	for index: int in range(3):
+		var z: float = alley.end.y - 1.2 - float(index) * 2.2
+		PathTool.patch(root, Vector3(x, 0.0, z), 1.5, "dirt", float(index) * 40.0, 70 + index)
+		add_ao_blob(Vector3(x, 0.0, z), 1.7, 0.5, 0.3)
+	# the dealer's counter: two crates and a sack against the far end
+	var counter_z: float = alley.position.y + 1.0
+	for item: Array in [["crate", Vector3(x - 0.62, 0, counter_z), 8.0], ["crate_small", Vector3(x + 0.55, 0, counter_z + 0.1), -12.0], ["sack", Vector3(x + 0.85, 0, counter_z + 0.75), 30.0]]:
+		var prop: Node3D = PropKit.make(str(item[0]), 3.2, 5)
+		ModelKit.place(root, prop, item[1] as Vector3, float(item[2]), 1.0)
+		obstacles.append(Vector3((item[1] as Vector3).x, (item[1] as Vector3).z, 0.42))
+	# the hint: a stack of crates and a barrel on the corner by the mouth, and one lantern hanging under the north-east house's eave
+	var mouth: Vector3 = Vector3(alley.end.x + 0.35, 0.0, alley.end.y + 1.0)
+	for item: Array in [["crate", mouth, 15.0], ["crate_small", mouth + Vector3(0.05, 0.86, 0.0), -20.0], ["barrel", mouth + Vector3(0.1, 0, 1.1), 0.0]]:
+		var prop: Node3D = PropKit.make(str(item[0]), 3.2, 9)
+		ModelKit.place(root, prop, item[1] as Vector3, float(item[2]), 1.0)
+	obstacles.append(Vector3(mouth.x, mouth.z, 0.5))
+	obstacles.append(Vector3(mouth.x + 0.1, mouth.z + 1.1, 0.42))
+	var lantern: Node3D = PropKit.hanging_lantern()
+	ModelKit.place(root, lantern, Vector3(alley.end.x - 0.35, 2.55, alley.end.y - 0.6), 0.0, 0.85)
+	add_glow(Vector3(alley.end.x - 0.4, 0.0, alley.end.y - 0.8), 1.6, Color("ffb45a"), 0.12)
+	add_glow(Vector3(x, 0.0, counter_z + 1.4), 1.3, Color("ffb45a"), 0.06)
 
 
 func _shop_for(key: String) -> TownLayout.Shop:
@@ -689,6 +727,16 @@ func _near_special(pos: Vector3, radius: float) -> bool:
 
 
 var _special_points: Array[Vector3] = []
+var _outskirt_rows: Array[TownLayout.Shop] = []
+
+
+func _in_outskirt(pos: Vector3, margin: float) -> bool:
+	if _outskirt_rows.is_empty():
+		_outskirt_rows = TownExpansion.shops()
+	for shop: TownLayout.Shop in _outskirt_rows:
+		if shop.covers(pos, margin):
+			return true
+	return false
 
 
 ## Painted trees, batched: every tree of a kind (near the square with shadows, far without) is one MultiMesh.

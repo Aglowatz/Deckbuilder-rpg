@@ -187,6 +187,7 @@ func _skirts() -> void:
 		PathTool.patch(root, step_pos, 1.7, "dirt", shop.yaw + float(index * 37 % 90), 40 + index)
 		# the doorstep cluster: pots flank the door
 		var doorstep: Node3D = PropClusters.make("doorstep", index)
+		_trim_to_frontage(doorstep, door_u, hw)
 		TownKit.place_cluster(root, town, doorstep, TownKit.front_point(shop, door_u, 0.3), shop.yaw)
 		# a stack of crates and barrels against the wall, on the side away from the door, only where it fits (clear of the neighbours, the street and the lane to the door)
 		var side: float = -1.0 if door_u > 0.0 else 1.0
@@ -200,7 +201,8 @@ func _skirts() -> void:
 					# the cluster's +x runs towards the wall's end on the right (side +1) and, turned 180 degrees, towards the left end on the left
 					var along: float = lerpf(reach.x, reach.y, float(step) / 4.0)
 					var sample: Vector3 = TownKit.front_point(shop, u_origin + side * along, 0.8)
-					var blocked: bool = TownLayout.is_paved(sample, 0.1) or not town.is_floor_at(sample)
+					# (Crosspath pass, Part C: never in the Secret Dealer's alley or across its mouth)
+					var blocked: bool = TownLayout.is_paved(sample, 0.1) or not town.is_floor_at(sample) or TownLayout.ALLEY.grow(1.6).has_point(Vector2(sample.x, sample.z))
 					for other: TownLayout.Shop in TownLayout.shops():
 						if other != shop and other.covers(sample, 0.5):
 							blocked = true
@@ -217,15 +219,32 @@ func _skirts() -> void:
 	_framing()
 
 
+## Crosspath pass, Part C: the doorstep cluster is seven metres wide, so a door near a corner pushed its barrel and crate past the building into a street
+## mouth or the alley. Pieces (and their solid circles) beyond the building's own frontage are left out.
+func _trim_to_frontage(cluster: Node3D, door_u: float, half_width: float) -> void:
+	var limit: float = half_width - 0.25
+	for child: Node in cluster.get_children():
+		var piece: Node3D = child as Node3D
+		if piece != null and absf(door_u + piece.position.x) > limit:
+			cluster.remove_child(piece)
+			piece.free()
+	if cluster.has_meta("circles"):
+		var kept: Array[Vector3] = []
+		for circle: Variant in cluster.get_meta("circles") as Array:
+			if absf(door_u + (circle as Vector3).x) <= limit:
+				kept.append(circle as Vector3)
+		cluster.set_meta("circles", kept)
+
+
 func _framing() -> void:
 	var trees: Array[Dictionary] = [
-		{"kind": "oak", "pos": Vector3(21.6, 0.0, 26.4), "scale": 1.0},
-		{"kind": "birch", "pos": Vector3(18.4, 0.0, 10.6), "scale": 0.9},
-		{"kind": "pine", "pos": Vector3(33.4, 0.0, 9.4), "scale": 0.95},
+		# Crosspath pass, Part C: off the bigger square, at its outer corners (the old birch and pine stood where the square is now)
+		{"kind": "fruit", "pos": Vector3(4.6, 0.0, 24.2), "scale": 0.95},
+		{"kind": "oak", "pos": Vector3(44.6, 0.0, 24.6), "scale": 1.0},
 	]
 	for entry: Dictionary in trees:
 		var pos: Vector3 = entry["pos"] as Vector3
-		if not town.is_floor_at(pos) or TownLayout.in_footprint(pos, 0.6) or TownLayout.distance_to_roads(pos) < TownLayout.ROAD_WIDTH * 0.5 + 0.5:
+		if not town.is_floor_at(pos) or TownLayout.in_footprint(pos, 0.6) or TownLayout.is_paved(pos, 0.5):
 			continue
 		var tree: Node3D = TreeCards.make(str(entry["kind"]), float(entry["scale"]), true)
 		root.add_child(tree)
