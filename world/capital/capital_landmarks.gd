@@ -89,10 +89,12 @@ static func band(mesh: KitMesh, slot: String, a: Vector3, b: Vector3, width: flo
 # ---- the great wall and its gate (CAP-HERO-GREAT-WALL-GATE) ---------------------------------------------------------------------------------
 
 
-## A piece of the great wall (`w` x `h` x `d`, centred, the outside face +z): flawless white plaster on a darker plinth, a gold band under the
-## crenellations, proud pilasters with gold capitals and finials, Primm's white-and-gold banners hung in every other bay on both faces, and a few
-## hairline cracks starting on the outer face (`seed_value` places them). Pristine against the ruin.
-static func wall_piece(w: float, h: float, d: float, seed_value: int) -> Node3D:
+## A piece of the great wall (`w` x `h` x `d`, centred, the outside face +z): flawless white plaster in ashlar courses on a battered stone plinth, a
+## cornice and crenellations with gold copings, deep pilasters every bay rising into gold-capped pinnacles over the parapet, Primm's white-and-gold
+## banners in every other bay on both faces, and (`towers`, offsets along the piece) square towers standing out from the outer face, each with
+## corner pinnacles, a gold spire and a tall dark sun banner (the concept and every outside paint-over). A few hairline cracks start on the outer
+## face (`seed_value` places them). `batter` is how far the plinth steps out at the ground (outer face, inner face). Pristine against the ruin.
+static func wall_piece(w: float, h: float, d: float, seed_value: int, towers: Array[float] = [], batter: Vector2 = Vector2(0.3, 0.3)) -> Node3D:
 	var root: Node3D = Node3D.new()
 	var mesh: KitMesh = KitMesh.new()
 	K.materials(mesh)
@@ -101,42 +103,161 @@ static func wall_piece(w: float, h: float, d: float, seed_value: int) -> Node3D:
 	var depth: float = d if along_x else w
 	var basis: Basis = Basis.IDENTITY if along_x else Basis(Vector3.UP, PI * 0.5)
 	var sized: Callable = func(x: float, y: float, z: float) -> Vector3: return Vector3(x, y, z) if along_x else Vector3(z, y, x)
-	mesh.box("plaster", Vector3(0, h * 0.5, 0), sized.call(length, h, depth), Basis.IDENTITY, 0.0, 0.82)
+	var plinth_h: float = 1.6
+	mesh.box("plaster", Vector3(0, h * 0.5, 0), sized.call(length, h, depth), Basis.IDENTITY, 0.0, 0.8)
 	for face: float in [-1.0, 1.0]:
 		var normal: Vector3 = basis * Vector3(0, 0, face)
 		var z: float = face * (depth * 0.5)
-		mesh.box("marble_shade", basis * Vector3(0, 0.35, z + face * 0.06), sized.call(length, 0.7, 0.14))
-		mesh.box("trim", basis * Vector3(0, h - 0.55, z + face * 0.03), sized.call(length, 0.6, 0.08))
+		var out: float = batter.x if face > 0.0 else batter.y
+		# the battered plinth: a sloping stone skirt from the ground up to a moulded band
+		var foot: float = z + face * out
+		var skirt: Array[Vector3] = [basis * Vector3(-length * 0.5, 0.0, foot), basis * Vector3(length * 0.5, 0.0, foot), basis * Vector3(length * 0.5, plinth_h, z + face * 0.02), basis * Vector3(-length * 0.5, plinth_h, z + face * 0.02)]
+		mesh.quad("marble_shade", skirt, normal + Vector3(0, out / plinth_h, 0), [Color(0.72, 0.72, 0.72), Color(0.72, 0.72, 0.72), Color.WHITE, Color.WHITE])
+		mesh.box("marble_shade", basis * Vector3(0, plinth_h + 0.1, z + face * 0.08), sized.call(length, 0.2, 0.16), Basis.IDENTITY, 0.03)
+		# ashlar courses: thin joints every course, the vertical joints staggered course to course
+		var course: float = 1.25
+		var y: float = plinth_h + course
+		var row: int = 0
+		while y < h - 1.2:
+			mesh.quad("marble_shade", [basis * Vector3(-length * 0.5, y - 0.025, z + face * 0.012), basis * Vector3(length * 0.5, y - 0.025, z + face * 0.012), basis * Vector3(length * 0.5, y + 0.025, z + face * 0.012), basis * Vector3(-length * 0.5, y + 0.025, z + face * 0.012)], normal)
+			var joint: float = -length * 0.5 + (1.3 if row % 2 == 0 else 0.0)
+			while joint < length * 0.5:
+				if joint > -length * 0.5 + 0.1:
+					mesh.quad("marble_shade", [basis * Vector3(joint - 0.02, y - course + 0.03, z + face * 0.012), basis * Vector3(joint + 0.02, y - course + 0.03, z + face * 0.012), basis * Vector3(joint + 0.02, y - 0.03, z + face * 0.012), basis * Vector3(joint - 0.02, y - 0.03, z + face * 0.012)], normal)
+				joint += 2.6
+			y += course
+			row += 1
+		# the cornice under the parapet: a gold band over a projecting moulding
+		mesh.box("plaster", basis * Vector3(0, h - 0.75, z + face * 0.14), sized.call(length, 0.3, 0.28), Basis.IDENTITY, 0.04)
+		mesh.box("trim", basis * Vector3(0, h - 0.45, z + face * 0.05), sized.call(length, 0.36, 0.1))
+		# pilasters every bay: a stone base, a deep white shaft, a gold capital, a pinnacle over the parapet
 		var bays: int = maxi(1, int(round(length / 6.0)))
 		for index: int in range(bays + 1):
-			var x: float = clampf(-length * 0.5 + length * float(index) / float(bays), -length * 0.5 + 0.5, length * 0.5 - 0.5)
-			mesh.box("plaster", basis * Vector3(x, h * 0.5, z + face * 0.2), sized.call(0.9, h, 0.4), Basis.IDENTITY, 0.03, 0.85)
-			mesh.box("gold", basis * Vector3(x, h - 0.15, z + face * 0.25), sized.call(1.1, 0.3, 0.5))
+			var x: float = clampf(-length * 0.5 + length * float(index) / float(bays), -length * 0.5 + 0.55, length * 0.5 - 0.55)
+			mesh.box("marble_shade", basis * Vector3(x, plinth_h * 0.5, z + face * (out + 0.3) * 0.5), sized.call(1.25, plinth_h, out + 0.3), Basis.IDENTITY, 0.04, 0.8)
+			mesh.box("plaster", basis * Vector3(x, h * 0.5, z + face * 0.28), sized.call(0.95, h, 0.56), Basis.IDENTITY, 0.05, 0.82)
+			mesh.box("gold", basis * Vector3(x, h - 0.2, z + face * 0.32), sized.call(1.15, 0.32, 0.66), Basis.IDENTITY, 0.03)
 			if face > 0.0:
-				K.finial(mesh, basis * Vector3(x, h + 0.85, 0.0), 1.3)
+				pinnacle(mesh, basis * Vector3(x, h + 0.6, 0.0), 0.8, 2.0)
 			if index < bays and (index + seed_value) % 2 == 0:
 				var mid: float = x + length / float(bays) * 0.5
-				var banner: String = ["CAP-SHEET-BANNERS-01", "CAP-SHEET-BANNERS-04", "CAP-SHEET-BANNERS-02"][(index + seed_value) % 3]
-				K.card(mesh, banner, basis * Vector3(mid, h - 1.0, z + face * 0.08), 3.6, normal)
-	# crenellations along the top, every fourth merlon gold-capped
-	var count: int = maxi(2, int(length / 1.6))
+				var banner: String = ["CAP-SHEET-BANNERS-01", "CAP-SHEET-BANNERS-04", "CAP-SHEET-BANNERS-03"][(index + seed_value) % 3]
+				var near_tower: bool = false
+				for offset: float in towers:
+					near_tower = near_tower or (face > 0.0 and absf(offset - mid) < 3.2)
+				if near_tower:
+					continue
+				if face > 0.0:
+					# the outer face: the dark sun banners of the paint-overs, the white wall's contrast
+					sun_banner(mesh, basis * Vector3(mid, h - 0.9, z + 0.02), 1.7, 4.6, normal)
+				else:
+					K.card(mesh, banner, basis * Vector3(mid, h - 1.1, z + face * 0.08), 3.6, normal)
+	# the parapet: the breastwork and the crenellations, every merlon gold-capped
+	mesh.box("plaster", Vector3(0, h + 0.3, 0), sized.call(length, 0.6, depth + 0.2), Basis.IDENTITY, 0.03)
+	var count: int = maxi(2, int(length / 1.5))
 	for index: int in range(count):
 		if index % 2 == 1:
 			continue
 		var x: float = -length * 0.5 + (float(index) + 0.5) * length / float(count)
-		mesh.box("plaster", basis * Vector3(x, h + 0.4, 0.0), sized.call(length / float(count), 0.8, depth + 0.1), Basis.IDENTITY, 0.02)
-		if index % 4 == 0:
-			mesh.box("gold", basis * Vector3(x, h + 0.84, 0.0), sized.call(length / float(count) + 0.06, 0.08, depth + 0.16))
+		mesh.box("plaster", basis * Vector3(x, h + 0.95, 0.0), sized.call(length / float(count) * 0.95, 0.7, depth + 0.2), Basis.IDENTITY, 0.04)
+		mesh.box("gold", basis * Vector3(x, h + 1.33, 0.0), sized.call(length / float(count), 0.08, depth + 0.26))
+	# the towers standing out from the outer face, each with its tall dark sun banner
+	for offset: float in towers:
+		_wall_tower(mesh, basis, sized, offset, h, depth, batter.x)
+		sun_banner(mesh, basis * Vector3(offset, h + 1.4, depth * 0.5 + WALL_TOWER_OUT + 0.02), 2.4, 7.2, basis * Vector3(0, 0, 1))
 	# a few hairline cracks starting on the outer face (dark, not glowing: the rift light lives in the castle)
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 7700 + seed_value
-	for crack: int in range(maxi(1, int(length / 14.0))):
-		var points: Array[Vector3] = [Vector3(rng.randf_range(-length * 0.4, length * 0.4), rng.randf_range(0.8, 2.0), depth * 0.5 + 0.03)]
-		for step: int in range(5):
-			points.append(points[points.size() - 1] + Vector3(rng.randf_range(-0.5, 0.5), rng.randf_range(0.6, 1.2), 0.0))
+	for crack: int in range(maxi(1, int(length / 18.0))):
+		var points: Array[Vector3] = [Vector3(rng.randf_range(-length * 0.4, length * 0.4), rng.randf_range(1.9, 2.6), depth * 0.5 + 0.03)]
+		for step: int in range(4):
+			points.append(points[points.size() - 1] + Vector3(rng.randf_range(-0.4, 0.4), rng.randf_range(0.5, 1.0), 0.0))
 		for index: int in range(points.size() - 1):
-			band(mesh, "stone_dark", basis * points[index], basis * points[index + 1], 0.07, basis * Vector3(0, 0, 1))
-	return finish(root, mesh, [], h)
+			band(mesh, "stone_dark", basis * points[index], basis * points[index + 1], 0.06, basis * Vector3(0, 0, 1))
+	return finish(root, mesh, [], h + 5.0)
+
+
+## The great wall's dark sun banner (every outside paint-over: the contrast on the white wall): a long navy cloth with a swallow-tailed hem and a
+## gold border, the radiant smiling sun in gold on it, hung from a gold rod with finials. `top` is the rod's middle, `normal` the face it hangs on.
+static func sun_banner(mesh: KitMesh, top: Vector3, width: float, length: float, normal: Vector3) -> void:
+	var right: Vector3 = Vector3.UP.cross(normal).normalized() * -1.0
+	var out: Vector3 = normal * 0.05
+	var half: float = width * 0.5
+	var hem: float = length - width * 0.35
+	var a: Vector3 = top - right * half + out
+	var b: Vector3 = top + right * half + out
+	var notch: Vector3 = top + out - Vector3(0, hem - width * 0.2, 0)
+	mesh.quad("canvas_navy", [a - Vector3(0, hem, 0), b - Vector3(0, hem, 0), b, a], normal, [Color(0.72, 0.72, 0.8), Color(0.72, 0.72, 0.8), Color.WHITE, Color.WHITE])
+	var tip_l: Vector3 = top + out - Vector3(0, length, 0) - right * half * 0.85
+	var tip_r: Vector3 = top + out - Vector3(0, length, 0) + right * half * 0.85
+	mesh.tri("canvas_navy", [a - Vector3(0, hem, 0), notch, tip_l], normal)
+	mesh.tri("canvas_navy", [notch, b - Vector3(0, hem, 0), tip_r], normal)
+	var edge: float = width * 0.05
+	for side: float in [-1.0, 1.0]:
+		band(mesh, "gold", top + right * side * (half - edge) + out * 1.2, top + right * side * (half - edge) + out * 1.2 - Vector3(0, hem, 0), edge, normal)
+	K.sun_emblem(mesh, top + out * 1.6 - Vector3(0, length * 0.36, 0), width * 0.24, normal)
+	var rod_a: Vector3 = top - right * (half + 0.25) + out * 2.0 + Vector3(0, 0.08, 0)
+	var rod_b: Vector3 = top + right * (half + 0.25) + out * 2.0 + Vector3(0, 0.08, 0)
+	mesh.tube("gold", rod_a, rod_b, 0.07, 6)
+	for end: Vector3 in [rod_a, rod_b]:
+		mesh.blob("gold", end, Vector3(0.12, 0.12, 0.12), 3, 6)
+
+
+## How far a wall tower stands out from the wall's outer face (the layout keeps that strip solid, `CapitalLayout.WALL_TOWERS`).
+const WALL_TOWER_OUT: float = 0.7
+const WALL_TOWER_WIDTH: float = 4.0
+
+
+## One square tower standing out from the wall's outer face at `offset` along it (the wall's own frame: `basis`, `sized`): a battered stone base,
+## the shaft with gold bands, a cornice, a crenellated top with four corner pinnacles and a gold spire.
+static func _wall_tower(mesh: KitMesh, basis: Basis, sized: Callable, offset: float, h: float, depth: float, batter: float) -> void:
+	var width: float = WALL_TOWER_WIDTH
+	var top: float = h + 2.4
+	var back: float = -depth * 0.5 + 0.4
+	var front: float = depth * 0.5 + WALL_TOWER_OUT
+	var center_z: float = (back + front) * 0.5
+	var span: float = front - back
+	mesh.box("marble_shade", basis * Vector3(offset, 0.9, center_z + batter * 0.5), sized.call(width + batter * 2.0, 1.8, span + batter), Basis.IDENTITY, 0.06, 0.75)
+	mesh.box("plaster", basis * Vector3(offset, top * 0.5, center_z), sized.call(width, top, span), Basis.IDENTITY, 0.06, 0.8)
+	for corner: float in [-1.0, 1.0]:
+		mesh.box("plaster", basis * Vector3(offset + corner * (width * 0.5 - 0.15), top * 0.5, front - 0.1), sized.call(0.5, top, 0.4), Basis.IDENTITY, 0.04, 0.85)
+	for y: float in [2.0, h * 0.55, top - 0.6]:
+		mesh.box("trim", basis * Vector3(offset, y, center_z), sized.call(width + 0.12, 0.32, span + 0.12))
+	mesh.box("plaster", basis * Vector3(offset, top + 0.2, center_z), sized.call(width + 0.5, 0.4, span + 0.5), Basis.IDENTITY, 0.04)
+	for cx: float in [-1.0, 1.0]:
+		for cz: float in [-1.0, 1.0]:
+			pinnacle(mesh, basis * Vector3(offset + cx * (width * 0.5 - 0.1), top + 0.4, center_z + cz * (span * 0.5 - 0.1)), 0.7, 1.9)
+	mesh.lathe("gold", basis * Vector3(offset, top + 0.4, center_z), [Vector2(0.8, 0.0), Vector2(0.45, 1.3), Vector2(0.0, 3.2)], 8, 1.0, false, false)
+	K.finial(mesh, basis * Vector3(offset, top + 3.0, center_z), 1.0)
+
+
+## A gold-capped white pinnacle: a square shaft with a gold band and a gold pyramid with a finial, `width` square and `height` tall from `base`.
+static func pinnacle(mesh: KitMesh, base: Vector3, width: float, height: float) -> void:
+	mesh.box("plaster", base + Vector3(0, height * 0.32, 0), Vector3(width, height * 0.64, width), Basis.IDENTITY, 0.04)
+	mesh.box("gold", base + Vector3(0, height * 0.64, 0), Vector3(width * 1.12, 0.12, width * 1.12))
+	mesh.lathe("gold", base + Vector3(0, height * 0.7, 0), [Vector2(width * 0.62, 0.0), Vector2(0.0, height * 0.42)], 4, 1.0, false, false)
+	K.finial(mesh, base + Vector3(0, height * 1.08, 0), width * 0.6)
+
+
+## A corner tower where two runs of the great wall meet (the front wall and a side wall): a square white tower a little wider than the wall, its
+## battered base, gold bands, crenellated top, corner pinnacles and a gold spire; a sun banner on its outer (south) face.
+static func corner_tower(size: float, h: float) -> Node3D:
+	var root: Node3D = Node3D.new()
+	var mesh: KitMesh = KitMesh.new()
+	K.materials(mesh)
+	var top: float = h + 3.0
+	mesh.box("marble_shade", Vector3(0, 0.9, 0), Vector3(size + 0.5, 1.8, size + 0.5), Basis.IDENTITY, 0.06, 0.75)
+	mesh.box("plaster", Vector3(0, top * 0.5, 0), Vector3(size, top, size), Basis.IDENTITY, 0.06, 0.8)
+	for y: float in [2.0, h * 0.55, top - 0.6]:
+		mesh.box("trim", Vector3(0, y, 0), Vector3(size + 0.12, 0.32, size + 0.12))
+	mesh.box("plaster", Vector3(0, top + 0.2, 0), Vector3(size + 0.5, 0.4, size + 0.5), Basis.IDENTITY, 0.04)
+	for cx: float in [-1.0, 1.0]:
+		for cz: float in [-1.0, 1.0]:
+			pinnacle(mesh, Vector3(cx * (size * 0.5 - 0.1), top + 0.4, cz * (size * 0.5 - 0.1)), 0.75, 2.0)
+	mesh.lathe("gold", Vector3(0, top + 0.4, 0), [Vector2(0.9, 0.0), Vector2(0.5, 1.5), Vector2(0.0, 3.6)], 8, 1.0, false, false)
+	K.finial(mesh, Vector3(0, top + 3.4, 0), 1.1)
+	sun_banner(mesh, Vector3(0, h + 0.6, size * 0.5 + 0.02), 2.2, 6.4, Vector3(0, 0, 1))
+	return finish(root, mesh, [], top + 4.0)
 
 
 ## A gate tower (`w` x `h` x `d`): a square white tower with gold bands and corner pilasters, a parapet, gold finials on its corners and a gold
@@ -146,19 +267,20 @@ static func gate_tower(w: float, h: float, d: float) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	K.materials(mesh)
 	mesh.box("plaster", Vector3(0, h * 0.5, 0), Vector3(w, h, d), Basis.IDENTITY, 0.06, 0.8)
+	mesh.box("marble_shade", Vector3(0, 0.9, 0), Vector3(w + 0.6, 1.8, d + 0.6), Basis.IDENTITY, 0.06, 0.75)
 	for y: float in [0.6, h * 0.5, h - 0.6]:
 		mesh.box("trim", Vector3(0, y, 0), Vector3(w + 0.12, 0.5, d + 0.12))
 	for corner: Vector2 in [Vector2(-1, -1), Vector2(1, -1), Vector2(1, 1), Vector2(-1, 1)]:
 		var c: Vector3 = Vector3(corner.x * (w * 0.5), 0, corner.y * (d * 0.5))
 		mesh.box("plaster", c + Vector3(0, h * 0.5 + 0.6, 0), Vector3(1.0, h + 1.2, 1.0), Basis.IDENTITY, 0.04, 0.85)
-		K.finial(mesh, c + Vector3(0, h + 1.2, 0), 2.0)
+		pinnacle(mesh, c + Vector3(0, h + 1.2, 0), 0.9, 2.6)
 	for side: Vector3 in [Vector3(0, 0, 1), Vector3(0, 0, -1), Vector3(1, 0, 0), Vector3(-1, 0, 0)]:
 		var reach: float = (d if side.x == 0.0 else w) * 0.5
 		var span: float = (w if side.x == 0.0 else d)
 		mesh.box("plaster", side * reach + Vector3(0, h + 0.45, 0), Vector3(span + 0.3, 0.9, 0.4) if side.x == 0.0 else Vector3(0.4, 0.9, span + 0.3))
 	mesh.lathe("gold", Vector3(0, h, 0), [Vector2(w * 0.32, 0.0), Vector2(w * 0.2, 2.5), Vector2(0.0, 6.0)], 4, 1.0, false, false)
 	K.finial(mesh, Vector3(0, h + 5.6, 0), 1.4)
-	K.card(mesh, "CAP-SHEET-BANNERS-02", Vector3(0, h - 1.4, d * 0.5 + 0.06), 6.4, Vector3(0, 0, 1))
+	sun_banner(mesh, Vector3(0, h - 0.8, d * 0.5 + 0.02), 3.0, 8.4, Vector3(0, 0, 1))
 	K.card(mesh, "CAP-SHEET-BANNERS-03", Vector3(0, h - 1.4, -d * 0.5 - 0.06), 5.0, Vector3(0, 0, -1))
 	return finish(root, mesh, [], h + 6.0)
 
@@ -441,33 +563,156 @@ static func watchtower() -> Node3D:
 	return finish(root, mesh, [Vector3(0, 0, 3.4)], 14.0)
 
 
-## A crumbling wall of pale old brick (CAP-WALL-RUIN) filling `rect` on the ground: a jagged stepped top, a broken pillar at each end, a few fallen
-## blocks at its foot.
+## A crumbling wall of the old kingdom's pale stone filling `rect` on the ground (the camp's shelter): stacked blocks under a ragged top, a broken
+## pier standing taller at each end, fallen blocks at its foot (`masonry`).
 static func _ruin_wall(mesh: KitMesh, rect: Rect2, seed_value: int) -> void:
+	var along_x: bool = rect.size.x >= rect.size.y
+	var thick: float = rect.size.y if along_x else rect.size.x
+	var a: Vector3 = Vector3(rect.position.x, 0, rect.get_center().y) if along_x else Vector3(rect.get_center().x, 0, rect.position.y)
+	var b: Vector3 = Vector3(rect.end.x, 0, rect.get_center().y) if along_x else Vector3(rect.get_center().x, 0, rect.end.y)
+	masonry(mesh, PALE_STONE, a, b, thick, 3.4, seed_value, 0.6)
+	for end: Vector3 in [a, b]:
+		masonry(mesh, PALE_STONE, end + Vector3(-0.45, 0, 0), end + Vector3(0.45, 0, 0), thick + 0.35, 4.0, seed_value + int(end.z), 0.15, false)
+
+
+## The stone the ruins are stacked from: the old kingdom's pale blocks (the camp, the outpost) and the wasteland's ash-blackened ones; each block
+## takes one of its set (a painted surface and two plain tones), so a wall never reads as one cut box.
+const PALE_STONE: Array[String] = ["ruin", "stone", "ash_flat", "stone"]
+const ASH_STONE: Array[String] = ["ash", "ash_flat", "stone_dark", "ash"]
+
+
+## A crumbling wall of stacked stone blocks from `a` to `b` on the ground, `thick` deep and up to `height` tall (the concepts' ruins): bevelled
+## blocks in staggered courses, each column stopping at its own course under a ragged top (`ragged` 0..1, how much of the height the gaps bite),
+## the top blocks a little askew, fallen blocks at its foot on both sides. `slots` are the stone's surfaces, one picked per block.
+static func masonry(mesh: KitMesh, slots: Array[String], a: Vector3, b: Vector3, thick: float, height: float, seed_value: int, ragged: float = 0.55, fallen: bool = true) -> void:
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = seed_value
-	var along_x: bool = rect.size.x >= rect.size.y
-	var length: float = rect.size.x if along_x else rect.size.y
-	var thick: float = rect.size.y if along_x else rect.size.x
-	var steps: int = maxi(2, int(length / 1.1))
-	for index: int in range(steps):
-		var t0: float = length * float(index) / float(steps)
-		var t1: float = length * float(index + 1) / float(steps)
-		var h: float = rng.randf_range(1.0, 3.0)
-		var mid: float = (t0 + t1) * 0.5
-		var center: Vector3 = Vector3(rect.position.x + mid, h * 0.5, rect.get_center().y) if along_x else Vector3(rect.get_center().x, h * 0.5, rect.position.y + mid)
-		var size: Vector3 = Vector3(t1 - t0 + 0.02, h, thick) if along_x else Vector3(thick, h, t1 - t0 + 0.02)
-		mesh.box("ruin", center, size, Basis.IDENTITY, 0.04, 0.7)
-	for end: float in [0.0, length]:
-		var p: Vector3 = Vector3(rect.position.x + end, 0, rect.get_center().y) if along_x else Vector3(rect.get_center().x, 0, rect.position.y + end)
-		var h: float = rng.randf_range(3.2, 4.2)
-		mesh.box("ruin", p + Vector3(0, h * 0.5, 0), Vector3(thick + 0.4, h, thick + 0.4), Basis(Vector3.UP, rng.randf_range(-0.1, 0.1)), 0.05, 0.7)
-		mesh.box("ruin", p + Vector3(rng.randf_range(-0.2, 0.2), h + 0.3, 0), Vector3(thick + 0.2, 0.6, thick + 0.5), Basis(Vector3.FORWARD, rng.randf_range(-0.25, 0.25)), 0.05)
-	for index: int in range(4):
-		var t: float = rng.randf_range(0.1, 0.9) * length
-		var side: float = rng.randf_range(0.8, 1.4) * (1.0 if index % 2 == 0 else -1.0)
-		var p: Vector3 = Vector3(rect.position.x + t, 0.22, rect.get_center().y + side) if along_x else Vector3(rect.get_center().x + side, 0.22, rect.position.y + t)
-		mesh.box("ruin", p, Vector3(0.6, 0.44, 0.45), Basis(Vector3.UP, rng.randf() * TAU) * Basis(Vector3.RIGHT, rng.randf_range(-0.3, 0.3)), 0.04, 0.75)
+	var along: Vector3 = b - a
+	along.y = 0.0
+	var length: float = along.length()
+	if length < 0.2:
+		return
+	var dir: Vector3 = along / length
+	var side: Vector3 = Vector3(-dir.z, 0.0, dir.x)
+	var basis: Basis = Basis(Vector3.UP, atan2(-dir.z, dir.x))
+	var course: float = rng.randf_range(0.42, 0.52)
+	var courses: int = maxi(1, int(height / course))
+	# the top's outline: a slow wave biting into the middle, the ends standing longest
+	var phase: float = rng.randf() * TAU
+	var top_at: Callable = func(t: float) -> float:
+		var u: float = t / length
+		var wave: float = 0.5 + 0.5 * sin(u * 5.1 + phase) * cos(u * 2.3 + phase * 0.7)
+		var ends: float = maxf(smoothstep(0.22, 0.0, u), smoothstep(0.78, 1.0, u))
+		return height * clampf(1.0 - ragged * wave * (1.0 - ends * 0.8), 0.18, 1.0)
+	for k: int in range(courses):
+		var y: float = float(k) * course
+		var t: float = -rng.randf_range(0.0, 0.5) if k % 2 == 1 else 0.0
+		while t < length:
+			var block: float = rng.randf_range(0.55, 0.95)
+			var t0: float = maxf(t, 0.0)
+			var t1: float = minf(t + block, length)
+			t += block
+			if t1 - t0 < 0.2:
+				continue
+			var mid: float = (t0 + t1) * 0.5
+			if y + course * 0.5 > float(top_at.call(mid)):
+				continue
+			var tilt: Basis = Basis.IDENTITY
+			var shift: Vector3 = Vector3.ZERO
+			if y + course * 1.5 > float(top_at.call(mid)):
+				tilt = Basis(Vector3.UP, rng.randf_range(-0.12, 0.12)) * Basis(Vector3.RIGHT, rng.randf_range(-0.08, 0.08))
+				shift = side * rng.randf_range(-0.06, 0.06)
+			var center: Vector3 = a + dir * mid + Vector3(0.0, y + course * 0.5, 0.0) + shift
+			mesh.box(slots[rng.randi() % slots.size()], center, Vector3(t1 - t0 - 0.05, course - 0.04, thick * rng.randf_range(0.88, 1.0)), basis * tilt, 0.05, 0.78 if k == 0 else 0.92)
+	if not fallen:
+		return
+	for index: int in range(maxi(2, int(length / 1.3))):
+		var t: float = rng.randf_range(0.05, 0.95) * length
+		var away: float = (thick * 0.5 + rng.randf_range(0.3, 1.1)) * (1.0 if index % 2 == 0 else -1.0)
+		var size: Vector3 = Vector3(rng.randf_range(0.45, 0.8), rng.randf_range(0.3, 0.45), thick * rng.randf_range(0.6, 0.95))
+		var spin: Basis = Basis(Vector3.UP, rng.randf() * TAU) * Basis(Vector3.RIGHT, rng.randf_range(-0.35, 0.35)) * Basis(Vector3.FORWARD, rng.randf_range(-0.25, 0.25))
+		mesh.box(slots[rng.randi() % slots.size()], a + dir * t + side * away + Vector3(0.0, size.y * 0.42, 0.0), size, spin, 0.05, 0.8)
+
+
+## A wooden crate of planks (the camp's, the yards'): a box with darker edge battens and a diagonal brace on its two long faces, turned by `yaw`.
+static func crate(mesh: KitMesh, base: Vector3, size: Vector3, yaw: float) -> void:
+	var basis: Basis = Basis(Vector3.UP, yaw)
+	var center: Vector3 = base + Vector3(0, size.y * 0.5, 0)
+	mesh.box("crate", center, size, basis, 0.03, 0.8)
+	var t: float = 0.07
+	for sx: float in [-1.0, 1.0]:
+		for sz: float in [-1.0, 1.0]:
+			mesh.box("wood_dark", center + basis * Vector3(sx * (size.x * 0.5 - t * 0.3), 0, sz * (size.z * 0.5 - t * 0.3)), Vector3(t, size.y + 0.02, t), basis)
+		for y: float in [-1.0, 1.0]:
+			mesh.box("wood_dark", center + basis * Vector3(sx * (size.x * 0.5 - t * 0.3), y * (size.y * 0.5 - t * 0.3), 0), Vector3(t, t, size.z + 0.02), basis)
+			mesh.box("wood_dark", center + basis * Vector3(0, y * (size.y * 0.5 - t * 0.3), sx * (size.z * 0.5 - t * 0.3)), Vector3(size.x + 0.02, t, t), basis)
+	for face: float in [-1.0, 1.0]:
+		var normal: Vector3 = basis * Vector3(0, 0, face)
+		var z: float = face * (size.z * 0.5 + 0.012)
+		band(mesh, "wood_dark", center + basis * Vector3(-size.x * 0.4, -size.y * 0.4, z), center + basis * Vector3(size.x * 0.4, size.y * 0.4, z), 0.08, normal)
+
+
+## A barrel: bulging staves, two iron hoops, a lid.
+static func barrel(mesh: KitMesh, base: Vector3, height: float = 0.95) -> void:
+	var r: float = height * 0.36
+	mesh.lathe("wood", base, [Vector2(r * 0.86, 0.0), Vector2(r, height * 0.25), Vector2(r * 1.06, height * 0.5), Vector2(r, height * 0.75), Vector2(r * 0.86, height)], 12, 0.8, false, true)
+	for y: float in [0.16, 0.84]:
+		mesh.lathe("iron_dark", base + Vector3(0, height * y - 0.04, 0), [Vector2(r * 0.97 + 0.03, 0.0), Vector2(r * 0.97 + 0.03, 0.08)], 12, 1.0, false, false)
+
+
+## A tent of the camp (CAP-HERO-RESISTANCE-CAMP): patched canvas draped over a ridge pole on two poles, its open end toward `facing` (horizontal
+## unit), the canvas sagging between the poles and flaring at the hem, pegged out with guy ropes, its back closed. `look` = [canvas, patch slot,
+## icon a, icon b]. Turned three-quarters to the camera: a slope and the closed back read as a tent, not a flat sheet.
+static func tent(root: Node3D, mesh: KitMesh, base: Vector3, facing: Vector3, look: Array) -> void:
+	var length: float = 2.8
+	var half: float = 1.3
+	var ridge: float = 2.05
+	var fwd: Vector3 = facing.normalized()
+	var right: Vector3 = Vector3(fwd.z, 0, -fwd.x)
+	var at: Callable = func(along: float, across: float, y: float) -> Vector3: return base + fwd * along + right * across + Vector3(0, y, 0)
+	var canvas: String = str(look[0])
+	var light: Color = Color(1, 1, 1)
+	var shade: Color = Color(0.8, 0.8, 0.8)
+	var hem: Color = Color(0.64, 0.64, 0.64)
+	var steps: int = 4
+	for sgn: float in [-1.0, 1.0]:
+		for i: int in range(steps):
+			var a0: float = -length * 0.5 + length * float(i) / float(steps)
+			var a1: float = -length * 0.5 + length * float(i + 1) / float(steps)
+			var sag0: float = 0.16 * sin(PI * float(i) / float(steps))
+			var sag1: float = 0.16 * sin(PI * float(i + 1) / float(steps))
+			var top0: Vector3 = at.call(a0, 0.0, ridge - sag0)
+			var top1: Vector3 = at.call(a1, 0.0, ridge - sag1)
+			var mid0: Vector3 = at.call(a0, sgn * half * 0.55, ridge * 0.5 - sag0 * 0.5 + 0.05)
+			var mid1: Vector3 = at.call(a1, sgn * half * 0.55, ridge * 0.5 - sag1 * 0.5 + 0.05)
+			var hem0: Vector3 = at.call(a0, sgn * (half + 0.12), 0.06)
+			var hem1: Vector3 = at.call(a1, sgn * (half + 0.12), 0.06)
+			var out: Vector3 = right * sgn + Vector3(0, 0.8, 0)
+			for face: float in [1.0, -1.0]:
+				mesh.quad(canvas, [top0, top1, mid1, mid0], out * face, [light, light, shade, shade])
+				mesh.quad(canvas, [mid0, mid1, hem1, hem0], out * face, [shade, shade, hem, hem])
+	var back: float = -length * 0.5
+	for face: float in [1.0, -1.0]:
+		mesh.tri(canvas, [at.call(back, -half - 0.12, 0.06), at.call(back, half + 0.12, 0.06), at.call(back, 0.0, ridge)], -fwd * face, [hem, hem, light])
+	var front: float = length * 0.5
+	mesh.tri("dark", [at.call(front - 0.08, -half * 0.8, 0.05), at.call(front - 0.08, half * 0.8, 0.05), at.call(front - 0.08, 0.0, ridge * 0.92)], fwd)
+	for sgn: float in [-1.0, 1.0]:
+		var flap: Array[Vector3] = [at.call(front, 0.0, ridge), at.call(front + 0.35, sgn * half * 0.9, 0.3), at.call(front, sgn * (half + 0.12), 0.06)]
+		mesh.tri(canvas, flap, fwd + right * sgn)
+		mesh.tri(canvas, flap, -fwd - right * sgn)
+	for end: float in [back - 0.06, front + 0.06]:
+		mesh.tube("wood_dark", at.call(end, 0.0, 0.0), at.call(end, 0.0, ridge + 0.3), 0.06, 6)
+		var peg: Vector3 = at.call(end + signf(end) * 0.9, 0.0, 0.0)
+		mesh.tube("rope", at.call(end, 0.0, ridge + 0.2), peg + Vector3(0, 0.15, 0), 0.015, 4, false)
+		mesh.tube("wood_dark", peg, peg + Vector3(0, 0.22, 0), 0.03, 4)
+	mesh.tube("wood_dark", at.call(back - 0.1, 0.0, ridge + 0.02), at.call(front + 0.1, 0.0, ridge + 0.02), 0.05, 6)
+	# the second Path's patch stitched on the slope the camera sees, both Paths' essences on it, a warm lantern at the open end
+	var near: float = 1.0 if right.z >= 0.0 else -1.0
+	mesh.quad(str(look[1]), [at.call(-0.65, near * half * 0.22, ridge * 0.8 + 0.02), at.call(0.55, near * half * 0.22, ridge * 0.8 + 0.02), at.call(0.55, near * half * 0.82, ridge * 0.36 + 0.02), at.call(-0.65, near * half * 0.82, ridge * 0.36 + 0.02)], right * near + Vector3(0, 0.8, 0))
+	var yaw: float = rad_to_deg(atan2(right.x * near, right.z * near))
+	icon(root, PATH_ICONS[int(look[2])], at.call(-0.3, near * (half * 0.62 + 0.25), ridge * 0.55), 0.5, yaw)
+	icon(root, PATH_ICONS[int(look[3])], at.call(0.4, near * (half * 0.62 + 0.25), ridge * 0.55), 0.42, yaw)
+	mesh.box("lantern", at.call(front + 0.06, 0.0, ridge - 0.25), Vector3(0.18, 0.24, 0.18))
 
 
 ## A free-standing ruined wall of the wasteland's clusters, `length` x about `height`: ash-blackened stone (CAP-WALL-ASH) with a jagged stepped top,
@@ -476,18 +721,9 @@ static func ruin_fragment(length: float, height: float, seed_value: int) -> Node
 	var root: Node3D = Node3D.new()
 	var mesh: KitMesh = KitMesh.new()
 	K.materials(mesh)
-	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	rng.seed = 4400 + seed_value
-	var steps: int = maxi(3, int(length / 0.7))
-	for index: int in range(steps):
-		var x0: float = -length * 0.5 + length * float(index) / float(steps)
-		var x1: float = -length * 0.5 + length * float(index + 1) / float(steps)
-		var h: float = height * (rng.randf_range(0.45, 1.0) if index % 3 != 1 else 0.5)
-		mesh.box("ash" if seed_value % 2 == 0 else "ruin", Vector3((x0 + x1) * 0.5, h * 0.5, 0), Vector3(x1 - x0 + 0.02, h, 0.55), Basis.IDENTITY, 0.04, 0.65)
-	K.card(mesh, "CAP-SHEET-OUTPOST-04" if seed_value % 3 != 0 else "CAP-SHEET-OUTPOST-05", Vector3(length * 0.18, height * 0.22, 0.29), minf(1.3, height * 0.55), Vector3(0, 0, 1))
-	for index: int in range(4):
-		var p: Vector3 = Vector3(rng.randf_range(-length * 0.5, length * 0.5), 0.2, rng.randf_range(0.5, 1.3) * (1.0 if index % 2 == 0 else -1.0))
-		mesh.box("ash", p, Vector3(0.5, 0.4, 0.42), Basis(Vector3.UP, rng.randf() * TAU) * Basis(Vector3.RIGHT, rng.randf_range(-0.3, 0.3)), 0.04, 0.75)
+	var stone: Array[String] = ASH_STONE if seed_value % 2 == 0 else PALE_STONE
+	masonry(mesh, stone, Vector3(-length * 0.5, 0, 0), Vector3(length * 0.5, 0, 0), 0.55, height, 4400 + seed_value, 0.65)
+	K.card(mesh, "CAP-SHEET-OUTPOST-04" if seed_value % 3 != 0 else "CAP-SHEET-OUTPOST-05", Vector3(-length * 0.22, height * 0.2, 0.29), minf(1.1, height * 0.45), Vector3(0, 0, 1))
 	return finish(root, mesh, [], height)
 
 
@@ -500,19 +736,15 @@ static func ruined_house(w: float, h: float, d: float, lean: float, seed_value: 
 	K.materials(mesh)
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 4800 + seed_value
-	var t: float = 0.4
-	for side: Array in [[Vector3(0, 0, d * 0.5 - t * 0.5), w, true], [Vector3(0, 0, -d * 0.5 + t * 0.5), w, true], [Vector3(-w * 0.5 + t * 0.5, 0, 0), d, false], [Vector3(w * 0.5 - t * 0.5, 0, 0), d, false]]:
-		var center: Vector3 = side[0] as Vector3
-		var length: float = float(side[1])
-		var along_x: bool = bool(side[2])
-		var steps: int = maxi(3, int(length / 0.8))
-		for index: int in range(steps):
-			var a: float = -length * 0.5 + length * float(index) / float(steps)
-			var b: float = -length * 0.5 + length * float(index + 1) / float(steps)
-			var hh: float = h * rng.randf_range(0.55, 1.0)
-			var mid: float = (a + b) * 0.5
-			var pos: Vector3 = center + (Vector3(mid, hh * 0.5, 0) if along_x else Vector3(0, hh * 0.5, mid))
-			mesh.box("ruin", pos, Vector3(b - a + 0.02, hh, t) if along_x else Vector3(t, hh, b - a + 0.02), Basis.IDENTITY, 0.03, 0.7)
+	var t: float = 0.45
+	# the four walls stacked from the old kingdom's pale blocks: the back and the left (gable) end stand nearly whole, the front and the right end
+	# are bitten down; the gable end's stub still carries the roof
+	var hw: float = w * 0.5 - t * 0.5
+	var hd: float = d * 0.5 - t * 0.5
+	masonry(mesh, PALE_STONE, Vector3(-w * 0.5, 0, -hd), Vector3(w * 0.5, 0, -hd), t, h, 4800 + seed_value, 0.25, false)
+	masonry(mesh, PALE_STONE, Vector3(-hw, 0, -d * 0.5 + t), Vector3(-hw, 0, d * 0.5 - t), t, h, 4810 + seed_value, 0.1, false)
+	masonry(mesh, PALE_STONE, Vector3(-w * 0.5, 0, hd), Vector3(w * 0.5, 0, hd), t, h * 0.9, 4820 + seed_value, 0.6)
+	masonry(mesh, PALE_STONE, Vector3(hw, 0, -d * 0.5 + t), Vector3(hw, 0, d * 0.5 - t), t, h * 0.8, 4830 + seed_value, 0.7)
 	# the gable end still standing on the left, the roof slumped from it into the house
 	var gable: Array[Vector3] = [Vector3(-w * 0.5, h, -d * 0.5), Vector3(-w * 0.5, h, d * 0.5), Vector3(-w * 0.5, h + d * 0.4, 0)]
 	mesh.tri("ruin", gable, Vector3(-1, 0, 0))
@@ -581,46 +813,41 @@ static func camp() -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	K.materials(mesh)
 	mesh.set_material("lantern", EnvKit.glow(Color("ffbe6a"), 2.6))
-	# tent 0: Beefcake red with a Gourmand copper patch; tent 1: Necrocrat teal with a Refusemancer green patch
+	# tent 0: Beefcake red with a Gourmand copper patch; tent 1: Necrocrat teal with a Refusemancer green patch; each turned so its open end looks
+	# at the fire (the camera sees a slope and the closed back at three-quarters, as in the concept)
 	var canvases: Array[Array] = [["canvas_red", "canvas_copper", 0, 1], ["canvas_teal", "canvas_green", 2, 3]]
+	var fire: Vector3 = Vector3(CapitalLayout.CAMP_FIRE.x, 0, CapitalLayout.CAMP_FIRE.y)
 	for index: int in range(CapitalLayout.CAMP_TENTS.size()):
 		var at: Vector2 = CapitalLayout.CAMP_TENTS[index]
 		var base: Vector3 = Vector3(at.x, 0, at.y)
-		var look: Array = canvases[index]
-		# an A-frame tent whose ridge runs east-west, its open end toward the fire, its long south slope (the side the camera sees) patched
-		var open: float = signf(CapitalLayout.CAMP_FIRE.x - at.x)
-		var ridge: float = 2.1
-		var half: float = 1.5
-		var long: float = 1.6
-		for side: float in [-1.0, 1.0]:
-			var corners: Array[Vector3] = [base + Vector3(-long, 0.05, side * half), base + Vector3(long, 0.05, side * half), base + Vector3(long, ridge, 0), base + Vector3(-long, ridge, 0)]
-			mesh.quad(str(look[0]), corners, Vector3(0, 0.7, side))
-			mesh.quad(str(look[0]), corners, Vector3(0, -0.7, -side))
-		var back: float = -open * long
-		mesh.tri(str(look[0]), [base + Vector3(back, 0.05, -half), base + Vector3(back, 0.05, half), base + Vector3(back, ridge, 0)], Vector3(-open, 0, 0))
-		mesh.tri("dark", [base + Vector3(back + open * 0.05, 0.06, -half * 0.9), base + Vector3(back + open * 0.05, 0.06, half * 0.9), base + Vector3(back + open * 0.05, ridge * 0.92, 0)], Vector3(open, 0, 0))
-		for end: float in [-long - 0.05, long + 0.05]:
-			mesh.tube("wood_dark", base + Vector3(end, 0, 0), base + Vector3(end, ridge + 0.35, 0), 0.06, 5)
-		mesh.tube("wood_dark", base + Vector3(-long - 0.1, ridge + 0.02, 0), base + Vector3(long + 0.1, ridge + 0.02, 0), 0.05, 5)
-		# the second Path's patch stitched on the south slope, both Paths' essences on it, a warm lantern hung at the open end
-		var slope: Vector3 = Vector3(0, ridge * 0.5, half * 0.5)
-		mesh.quad(str(look[1]), [base + slope + Vector3(-0.2, -0.4, 0.31), base + slope + Vector3(0.9, -0.4, 0.31), base + slope + Vector3(0.9, 0.35, -0.22), base + slope + Vector3(-0.2, 0.35, -0.22)], Vector3(0, 0.7, 1))
-		icon(root, PATH_ICONS[int(look[2])], base + Vector3(-0.75, 1.05, 0.82), 0.55)
-		icon(root, PATH_ICONS[int(look[3])], base + Vector3(0.35, 1.05, 0.86), 0.5)
-		mesh.box("lantern", base + Vector3(open * (long + 0.05), ridge - 0.1, 0.0), Vector3(0.18, 0.24, 0.18))
-		# crates and a barrel by the back end
-		mesh.box("crate", base + Vector3(back - open * 0.6, 0.35, 1.3), Vector3(0.7, 0.7, 0.7), Basis(Vector3.UP, 0.3), 0.03, 0.8)
-		mesh.box("crate", base + Vector3(back - open * 0.55, 0.95, 1.3), Vector3(0.5, 0.5, 0.5), Basis(Vector3.UP, -0.2), 0.03, 0.8)
-		mesh.lathe("wood", base + Vector3(back - open * 0.5, 0, -1.4), [Vector2(0.32, 0.0), Vector2(0.38, 0.45), Vector2(0.32, 0.9)], 10, 0.8, false, true)
+		tent(root, mesh, base, fire - base, canvases[index])
+		# crates and a barrel tucked behind each tent, against the ruins
+		var away: Vector3 = (base - fire).normalized()
+		var tuck: Vector3 = base + away * 2.0
+		crate(mesh, tuck + Vector3(0, 0, 0.9), Vector3(0.75, 0.7, 0.7), 0.25)
+		crate(mesh, tuck + Vector3(0, 0.7, 0.9), Vector3(0.55, 0.5, 0.55), -0.3)
+		barrel(mesh, tuck + Vector3(0, 0, -0.5))
+	# log seats round the fire (the concept), on the far side from the camera
+	for angle: float in [-2.2, -1.57, -0.94]:
+		var seat: Vector3 = fire + Vector3(cos(angle), 0, sin(angle)) * 1.6
+		var tangent: Vector3 = Vector3(-sin(angle), 0, cos(angle)) * 0.5
+		mesh.tube("wood", seat - tangent + Vector3(0, 0.2, 0), seat + tangent + Vector3(0, 0.2, 0), 0.2, 8)
 	# the lean-to: a Gourmand-copper canvas roof on salvaged planks, bedrolls under it
 	var lean: Vector3 = Vector3(CapitalLayout.CAMP_LEAN_TO.x, 0, CapitalLayout.CAMP_LEAN_TO.y)
 	for side: float in [-1.0, 1.0]:
 		mesh.tube("wood_dark", lean + Vector3(0.9, 0, side * 1.4), lean + Vector3(0.9, 2.1, side * 1.4), 0.07, 5)
-	var roof: Array[Vector3] = [lean + Vector3(0.9, 2.1, -1.6), lean + Vector3(0.9, 2.1, 1.6), lean + Vector3(-1.1, 0.9, 1.6), lean + Vector3(-1.1, 0.9, -1.6)]
-	mesh.quad("canvas_copper", roof, Vector3(0.5, 1, 0))
-	mesh.quad("canvas_copper", roof, Vector3(-0.5, -1, 0))
+		mesh.tube("wood_dark", lean + Vector3(-1.1, 0, side * 1.4), lean + Vector3(-1.1, 0.95, side * 1.4), 0.06, 5)
+	for step: int in range(3):
+		var y0: float = 2.1 - 1.2 * float(step) / 3.0
+		var y1: float = 2.1 - 1.2 * float(step + 1) / 3.0
+		var x0: float = 0.9 - 2.0 * float(step) / 3.0
+		var x1: float = 0.9 - 2.0 * float(step + 1) / 3.0
+		var sag: float = 0.08 * sin(PI * (float(step) + 0.5) / 3.0)
+		var strip: Array[Vector3] = [lean + Vector3(x0, y0, -1.6), lean + Vector3(x0, y0, 1.6), lean + Vector3(x1, y1 - sag, 1.6), lean + Vector3(x1, y1 - sag, -1.6)]
+		mesh.quad("canvas_copper", strip, Vector3(0.5, 1, 0))
+		mesh.quad("canvas_copper", strip, Vector3(-0.5, -1, 0))
 	for z: float in [-0.7, 0.7]:
-		mesh.box("canvas_tan", lean + Vector3(0.0, 0.1, z), Vector3(1.7, 0.2, 0.75), Basis.IDENTITY, 0.05)
+		mesh.tube("canvas_tan", lean + Vector3(-0.75, 0.16, z), lean + Vector3(0.75, 0.16, z), 0.16, 8)
 	icon(root, PATH_ICONS[1], lean + Vector3(0.92, 1.6, 0.0), 0.6, 90.0)
 	# the rag banner: a Refusemancer-green cloth on a pole, the leaf Path's essence on it
 	var pole: Vector3 = lean + Vector3(0.0, 0, -2.2)

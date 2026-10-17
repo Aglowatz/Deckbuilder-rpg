@@ -26,6 +26,8 @@ const PASSAGE_X0: int = 22
 const PASSAGE_W: int = 2
 ## The last row of the outside (the Gate Road leaves the map south of it, toward town).
 const OUT_Z1: int = 121
+## The road on to Crosspath beyond the outside's south edge: VOID cells drawn as road (a view floor; `CapitalRim` carries it on between the hills).
+const ROAD_BEYOND: Rect2i = Rect2i(57, OUT_Z1 + 1, 6, 6)
 ## The underground hideout's first row (its own light layer, far south of the outside).
 const CREASE_Z0: int = 134
 ## The castle hill: no ground here, the hill and Primm's Castle stand on it (cells).
@@ -56,6 +58,9 @@ const RIFT_CRYSTALS: Array[Vector2] = [Vector2(40.0, 89.5), Vector2(21.0, 99.0)]
 const CAMP_FIRE: Vector2 = Vector2(34.5, 113.5)
 const CAMP_TENTS: Array[Vector2] = [Vector2(29.0, 116.5), Vector2(40.5, 116.5)]
 const CAMP_LEAN_TO: Vector2 = Vector2(23.5, 116.5)
+## The Capital pass (Part B): the square towers standing out from the great wall's outer face (their x; 4 m wide, `CapitalLandmarks.WALL_TOWER_OUT` out),
+## off the gate, the Old Service Tunnels' mouth and the corners. The row in front of each is solid.
+const WALL_TOWERS: Array[float] = [9.0, 37.0, 83.0, 109.0]
 ## Blocking circles of the stand-ins that stand on walkable ground (x, z, radius), for the layout-only readers (walkability, tests). The
 ## fountain and the crystals are props with these circles; the watchtower and the camp are only circles (their models are landmarks).
 const LANDMARK_BLOCKERS: Array[Vector3] = [
@@ -69,6 +74,8 @@ const LANDMARK_BLOCKERS: Array[Vector3] = [
 	# the camp's ruined flank walls (the art pass, CAP-HERO-RESISTANCE-CAMP: the camp shelters in old stone ruins), x 19 and x 45.5, z 112..119
 	Vector3(19.0, 112.4, 0.75), Vector3(19.0, 113.7, 0.75), Vector3(19.0, 115.0, 0.75), Vector3(19.0, 116.3, 0.75), Vector3(19.0, 117.6, 0.75), Vector3(19.0, 118.9, 0.75),
 	Vector3(45.5, 112.4, 0.75), Vector3(45.5, 113.7, 0.75), Vector3(45.5, 115.0, 0.75), Vector3(45.5, 116.3, 0.75), Vector3(45.5, 117.6, 0.75), Vector3(45.5, 118.9, 0.75),
+	# the crates and barrels tucked behind each tent (the Capital pass: plank crates, not plain boxes)
+	Vector3(27.2, 117.9, 0.8), Vector3(42.3, 117.9, 0.8),
 ]
 ## The camp's ruined walls (CapitalLandmarks.camp): the two flank walls on the floor (their circles above). No back wall: the camp's camera stands
 ## south of the hero, where it would fill the lens.
@@ -230,6 +237,16 @@ func _set_cells(rect: Rect2i, cell: Cell, floor_kind: Floor = Floor.NONE) -> voi
 				cells[cz * W + cx] = cell
 				if floor_kind != Floor.NONE:
 					floors[cz * W + cx] = floor_kind
+				elif cell == Cell.VOID:
+					floors[cz * W + cx] = Floor.NONE  # (a void cell shows no floor unless it is a view floor)
+
+
+## Floor drawn on VOID cells (seen, never walked: the road beyond the map's edge).
+func _view_floor(rect: Rect2i, floor_kind: Floor) -> void:
+	for cz: int in range(rect.position.y, rect.end.y):
+		for cx: int in range(rect.position.x, rect.end.x):
+			if in_bounds(cx, cz) and cells[cz * W + cx] == Cell.VOID:
+				floors[cz * W + cx] = floor_kind
 
 
 func _floor_rect(rect: Rect2i, floor_kind: Floor) -> void:
@@ -250,6 +267,11 @@ func walkable_cell_count() -> int:
 ## True north of the great wall (inside the city).
 static func is_inside_z(z: float) -> bool:
 	return z < float(WALL_Z0)
+
+
+## True inside the city: north of the great wall and east of the middle of its west wall (x 0); the land west of that wall is outside.
+static func is_inside(x: float, z: float) -> bool:
+	return z < float(WALL_Z0) and x > 0.0
 
 
 # ---- Routes --------------------------------------------------------------------------------------------
@@ -319,10 +341,11 @@ func rect_route_distance(rect: Rect2) -> float:
 
 func _ground() -> void:
 	_set_cells(Rect2i(2, WALL_Z1 + 1, 116, OUT_Z1 - WALL_Z1), Cell.GROUND, Floor.GRAVEL)  # the outside (z 76..121)
-	_set_cells(Rect2i(2, 2, 116, WALL_Z0 - 2), Cell.GROUND, Floor.ROAD)                   # the city inside the wall (z 2..71)
+	_set_cells(Rect2i(2, 2, 115, WALL_Z0 - 2), Cell.GROUND, Floor.ROAD)                   # the city inside the wall (x 2..116, z 2..71; the walls' battered feet beyond)
 	_set_cells(Rect2i(GATE_X0, WALL_Z0, GATE_X1 - GATE_X0 + 1, WALL_Z1 - WALL_Z0 + 1), Cell.GROUND, Floor.ROAD)  # the gate
 	_set_cells(Rect2i(PASSAGE_X0, WALL_Z0, PASSAGE_W, WALL_Z1 - WALL_Z0 + 1), Cell.GROUND, Floor.GRAVEL)  # the secret passage through the wall
 	_set_cells(HILL, Cell.VOID)                                                           # the castle hill (the stair climbs it)
+	_view_floor(ROAD_BEYOND, Floor.ROAD)                                                  # the road on to Crosspath, seen, never walked
 	_set_cells(Rect2i(4, CREASE_Z0, 37, 21), Cell.GROUND, Floor.HUB)                      # the Crease (x 4..40, z 134..154)
 	# District floors (inside every floor is painted idyllic; the kinds keep each district's tone).
 	_floor_rect(Rect2i(2, 2, 37, 33), Floor.GRAY)                       # Grave Row
@@ -634,6 +657,9 @@ func _walls_and_gate() -> void:
 	_prop("scrub", passage_x + 1.4, float(WALL_Z1) + 1.8, 110.0, 0.9, 0.0, 2)
 	anchors["wall_passage"] = Vector3(passage_x, 0.0, float(WALL_Z0) + 2.0)
 	_prop("gate_barrier", 60.0, float(WALL_Z0) + 1.0, 0.0, 1.0, 0.0)
+	# the towers on the wall's outer face stand on the first row outside it
+	for tower_x: float in WALL_TOWERS:
+		_set_cells(Rect2i(int(tower_x) - 2, WALL_Z1 + 1, 4, 1), Cell.SOLID)
 
 
 # ---- The Gate Plaza (the inside hub) ----------------------------------------------------------------------------------------
@@ -813,7 +839,7 @@ func _ward() -> void:
 func _gate_road() -> void:
 	# The road from town runs straight at the gate; a rope queue lines its west kerb, the height post stands by the height inspector.
 	for index: int in range(6):
-		_prop("queue_post", 54.4, 90.0 + float(index) * 2.0, 0.0, 1.0, 0.0)
+		_prop("queue_post", 54.4, 90.0 + float(index) * 2.0, 0.0, 1.0, 0.0, 1 if index == 5 else 0)  # the last post has no rope on
 	_prop("height_post", 48.5, 76.8, 0.0, 1.0, 0.25)
 	_sign("sign.out_welcome", 65.6, 110.0, 270.0, 1.1, "banner")
 	_sign("sign.out_queue", 53.5, 88.0, 90.0, 0.9, "sign")

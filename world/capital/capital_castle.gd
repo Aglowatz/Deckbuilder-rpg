@@ -47,7 +47,13 @@ static func build(final_state: bool) -> Node3D:
 	_wings(mesh)
 	for tower: Array in TOWERS:
 		for side: float in [-1.0, 1.0]:
-			K.spire(mesh, Vector3(AXIS + side * float(tower[0]), TOP, float(tower[1])), float(tower[2]), float(tower[3]), float(tower[4]))
+			var base: Vector3 = Vector3(AXIS + side * float(tower[0]), TOP, float(tower[1]))
+			K.spire(mesh, base, float(tower[2]), float(tower[3]), float(tower[4]))
+			if float(tower[2]) >= 2.0:
+				# a ring of gold-capped pinnacles round the big towers' eaves, the concept's crown of little spires
+				for index: int in range(4):
+					var angle: float = PI * 0.25 + PI * 0.5 * float(index)
+					CapitalLandmarks.pinnacle(mesh, base + Vector3(cos(angle), 0, sin(angle)) * float(tower[2]) * 1.12 + Vector3(0, float(tower[3]) - 0.6, 0), 0.5, 2.4)
 	_cracks(mesh)
 	_gardens(mesh)
 	_entrance(mesh, final_state)
@@ -108,6 +114,19 @@ static func _hill(mesh: KitMesh) -> void:
 			var x: float = span.x + width * float(index) / float(count)
 			mesh.box("marble_shade", Vector3(x, half_h * 0.5, STAIR_FOOT + 0.08), Vector3(0.5, half_h, 0.16))
 			mesh.box("marble_shade", Vector3(x, TOP * 0.75, 9.08), Vector3(0.5, half_h, 0.16))
+	# the terraces' outer ends (seen from the forecourt's side pockets): pilasters, the gold band and the balustrades turning the corner
+	for end_x: float in [float(hill.position.x), float(hill.end.x)]:
+		var out: float = -1.0 if end_x < AXIS else 1.0
+		for z: float in [0.6, 3.6, 6.6, 9.6, 11.6]:
+			var wall_top: float = TOP if z < 9.0 else half_h
+			mesh.box("marble_shade", Vector3(end_x + out * 0.08, wall_top * 0.5, z), Vector3(0.16, wall_top, 0.5))
+		mesh.box("gold", Vector3(end_x + out * 0.01, half_h - 0.55, 10.5), Vector3(0.04, 0.12, 3.0))
+		mesh.box("gold", Vector3(end_x + out * 0.01, TOP - 0.55, 4.5), Vector3(0.04, 0.12, 9.0))
+		mesh.box("trim", Vector3(end_x, TOP + 0.12, 4.5), Vector3(0.3, 0.24, 9.0))
+		mesh.box("trim", Vector3(end_x, half_h + 0.12, 10.5), Vector3(0.3, 0.24, 3.0))
+		_balustrade(mesh, Vector3(end_x - out * 0.3, TOP, 0.3), Vector3(end_x - out * 0.3, TOP, 8.6))
+		_balustrade(mesh, Vector3(end_x - out * 0.3, half_h, 9.2), Vector3(end_x - out * 0.3, half_h, 11.7))
+		K.card(mesh, "ENV-TREE-PINE", Vector3(end_x - out * 1.4, TOP, 3.0), 3.4, Vector3(0, 0, 1), false, Color(0.82, 0.9, 0.82))
 	# the stair's landing under the keep's terrace
 	mesh.box("plaster", Vector3(AXIS, TOP * 0.5, STAIR_TOP * 0.5), Vector3(STAIR_X1 - STAIR_X0, TOP, STAIR_TOP), Basis.IDENTITY, 0.0, 0.85)
 	# the hill body beyond the map: a 7 m white terrace wall at z 0 and the lawn on top, back to the palace
@@ -183,10 +202,10 @@ static func _keep(mesh: KitMesh, final_state: bool) -> void:
 	K.emblem(mesh, Vector3(AXIS, TOP + 10.2, portal_front + 0.05), 2.25, Vector3(0, 0, 1), final_state, final_state)
 	# the keep's upper storey: three tall mirrored windows either side of the gable, the balustrade and the hipped roof
 	for column: float in [-7.4, 7.4]:
-		K.arched_window(mesh, Vector3(AXIS + column, TOP + 4.0, front + 0.01), 2.2, 6.0, Vector3(0, 0, 1), "mirror")
-		K.arched_window(mesh, Vector3(AXIS + column, TOP + 15.0, front + 0.01), 2.0, 5.0, Vector3(0, 0, 1), "mirror")
+		K.lancet_window(mesh, Vector3(AXIS + column, TOP + 4.0, front + 0.01), 2.2, 6.0, Vector3(0, 0, 1), "mirror")
+		K.lancet_window(mesh, Vector3(AXIS + column, TOP + 15.0, front + 0.01), 2.0, 5.0, Vector3(0, 0, 1), "mirror")
 	for column: float in [-3.4, 0.0, 3.4]:
-		K.arched_window(mesh, Vector3(AXIS + column, TOP + 18.0, front + 0.01), 1.6, 4.0, Vector3(0, 0, 1), "mirror")
+		K.lancet_window(mesh, Vector3(AXIS + column, TOP + 18.0, front + 0.01), 1.6, 4.0, Vector3(0, 0, 1), "mirror")
 	_balustrade(mesh, Vector3(AXIS - half_w, eave, front - 0.2), Vector3(AXIS + half_w, eave, front - 0.2))
 	_hip_roof(mesh, Vector3(AXIS, eave, (front + back) * 0.5), Vector2(half_w * 2.0 - 1.0, front - back - 1.0), 7.0, "roof_blue")
 	# the central spire on the roof ridge
@@ -207,9 +226,11 @@ static func _wings(mesh: KitMesh) -> void:
 			mesh.box("trim", Vector3(mid, y, front + 0.04), Vector3(absf(x1 - x0) + 0.1, 0.45, 0.1))
 		for index: int in range(5):
 			var x: float = x0 + side * (2.2 + float(index) * 3.4)
-			K.arched_window(mesh, Vector3(x, TOP + 1.4, front + 0.01), 1.5, 4.0, Vector3(0, 0, 1), "mirror")
-			K.arched_window(mesh, Vector3(x, TOP + 7.4, front + 0.01), 1.4, 4.0, Vector3(0, 0, 1), "mirror")
-			K.finial(mesh, Vector3(x, eave + 1.1, front - 0.2), 1.0)
+			K.lancet_window(mesh, Vector3(x, TOP + 1.4, front + 0.01), 1.5, 4.0, Vector3(0, 0, 1), "mirror")
+			K.lancet_window(mesh, Vector3(x, TOP + 7.4, front + 0.01), 1.4, 4.0, Vector3(0, 0, 1), "mirror")
+			# a pinnacle over every bay and a pilaster between the bays (the concept's many small spires)
+			CapitalLandmarks.pinnacle(mesh, Vector3(x, eave + 0.95, front - 0.1), 0.55, 2.4)
+			mesh.box("plaster", Vector3(x + side * 1.7, (TOP + eave) * 0.5, front + 0.12), Vector3(0.5, eave - TOP, 0.25), Basis.IDENTITY, 0.03, 0.85)
 		_balustrade(mesh, Vector3(minf(x0, x1), eave, front - 0.2), Vector3(maxf(x0, x1), eave, front - 0.2))
 		_hip_roof(mesh, Vector3(mid, eave, (front + back) * 0.5), Vector2(absf(x1 - x0) - 0.6, front - back - 0.6), 5.0, "roof_blue")
 		# a low curtain wall out to the outer towers, its balustrade on top
@@ -223,7 +244,8 @@ static func _wings(mesh: KitMesh) -> void:
 ## A balustrade along a wall top from `a` to `b` (same y and z): a white rail on small gold-capped posts.
 static func _balustrade(mesh: KitMesh, a: Vector3, b: Vector3) -> void:
 	var length: float = a.distance_to(b)
-	mesh.box("plaster", (a + b) * 0.5 + Vector3(0, 0.95, 0), Vector3(length, 0.18, 0.4))
+	var along_x: bool = absf(b.x - a.x) >= absf(b.z - a.z)
+	mesh.box("plaster", (a + b) * 0.5 + Vector3(0, 0.95, 0), Vector3(length, 0.18, 0.4) if along_x else Vector3(0.4, 0.18, length))
 	var count: int = maxi(2, int(length / 1.1))
 	for index: int in range(count + 1):
 		var p: Vector3 = a.lerp(b, float(index) / float(count))
@@ -339,6 +361,10 @@ static func _gardens(mesh: KitMesh) -> void:
 			for index: int in range(4):
 				var x: float = AXIS + side * (5.6 + float(index) * 2.4)
 				K.card(mesh, "CAP-TREE-TOPIARY" if index % 2 == 0 else "CAP-PLANT-ROSE", Vector3(x, edge.y, edge.x + 0.7), 2.0 if index % 2 == 0 else 1.1, Vector3(0, 0, 1))
+		# cypress columns behind the balustrades of both terraces, spaced exactly (the paint-overs' dark accents)
+		for edge: Vector2 in [Vector2(STAIR_FOOT - 2.4, CapitalLayout.HILL_HEIGHT * 0.5), Vector2(6.8, TOP)]:
+			for index: int in range(4):
+				K.card(mesh, "ENV-TREE-PINE", Vector3(AXIS + side * (7.6 + float(index) * 1.6), edge.y, edge.x), 3.2, Vector3(0, 0, 1), index % 2 == 1, Color(0.82, 0.9, 0.82))
 		# the keep's terrace: two rows of topiaries between the stair head and the wings
 		for index: int in range(3):
 			K.card(mesh, "CAP-TREE-TOPIARY", Vector3(AXIS + side * (6.2 + float(index) * 3.0), TOP, 1.0), 2.6, Vector3(0, 0, 1))

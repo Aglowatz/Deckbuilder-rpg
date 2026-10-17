@@ -79,6 +79,12 @@ func _build_zone_extras() -> void:
 		player.add_child(_dark_light)
 	_dress_facade_citizens()
 	_mark_empowered_enemies()
+	# CAP-41: places carry no floating lettered plate (the HUD prompt names them, as in town); people keep their names
+	for spot: ZoneSpot in spots:
+		if not spot.is_npc and spot.plate != null:
+			spot.data = spot.data.duplicate()
+			spot.data["no_plate"] = true
+			spot.plate.visible = false
 	# CAPITAL_HIDE=<name,name>: hide the builder's top-level pieces whose names begin so ("=name" exact), an fps A/B knob like HEAP_HIDE;
 	# CAPITAL_NO_SHADOW=1 turns the sun's shadows off
 	for prefix: String in OS.get_environment("CAPITAL_HIDE").split(",", false):

@@ -387,8 +387,11 @@ static func capital(scene: ZoneScene) -> Dictionary:
 	for node: Node in builder.root.get_children():
 		if node.name == &"Ground" or node.name == &"CreaseGround":
 			terrain.append(node)
-		elif node.name == &"Wasteland":
+		elif str(node.name).begins_with("Wasteland"):
 			swaps.append({"node": node, "variant": "wasteland"})
+		elif node.name == &"Rim":
+			# the Capital pass: the land round the map takes the far plain's painted wasteland, so the walkable edge never shows a seam
+			swaps.append({"node": node.get_node("RimGround"), "variant": "wasteland"})
 		elif node.name == &"Meadow":
 			swaps.append({"node": node, "variant": "meadow"})
 	return {

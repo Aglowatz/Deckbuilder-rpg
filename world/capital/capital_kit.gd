@@ -240,6 +240,42 @@ static func arched_window(mesh: KitMesh, bottom: Vector3, width: float, height: 
 	mesh.box("gold", bottom + Vector3(0, spring * 0.55, 0) + normal * 0.045, Vector3(frame * 0.6, spring * 1.1, frame * 0.6), Basis(Vector3.UP, atan2(normal.x, normal.z)))
 
 
+## A tall pointed (lancet) window, the castle's (its concept): `slot` glass under a pointed arch of two arcs, a gold frame with a moulded sill, a
+## central mullion and a gold trefoil in the head; its bottom centre at `bottom`, facing `normal`.
+static func lancet_window(mesh: KitMesh, bottom: Vector3, width: float, height: float, normal: Vector3, slot: String) -> void:
+	var right: Vector3 = Vector3.UP.cross(normal).normalized() * -1.0
+	var half: float = width * 0.5
+	var spring: float = height - width * 0.85
+	var out: Vector3 = normal * 0.03
+	mesh.quad(slot, [bottom - right * half + out, bottom + right * half + out, bottom + right * half + Vector3(0, spring, 0) + out, bottom - right * half + Vector3(0, spring, 0) + out], normal)
+	# the pointed head: each side an arc centred on the opposite jamb's springing (an equilateral arch)
+	var steps: int = 6
+	var apex: Vector3 = bottom + Vector3(0, height, 0) + out
+	var left_arc: Array[Vector3] = []
+	var right_arc: Array[Vector3] = []
+	for index: int in range(steps + 1):
+		var t: float = float(index) / float(steps)
+		var angle: float = t * acos(0.5)
+		left_arc.append(bottom + right * (half - cos(angle) * width) + Vector3(0, spring + sin(angle) * width * 0.98, 0) + out)
+		right_arc.append(bottom - right * (half - cos(angle) * width) + Vector3(0, spring + sin(angle) * width * 0.98, 0) + out)
+	var base_mid: Vector3 = bottom + Vector3(0, spring, 0) + out
+	for index: int in range(steps):
+		mesh.tri(slot, [base_mid, left_arc[index], left_arc[index + 1]], normal)
+		mesh.tri(slot, [base_mid, right_arc[index + 1], right_arc[index]], normal)
+	mesh.tri(slot, [base_mid, left_arc[steps], apex], normal)
+	mesh.tri(slot, [base_mid, apex, right_arc[steps]], normal)
+	var frame: float = maxf(width * 0.08, 0.06)
+	var turn: Basis = Basis(Vector3.UP, atan2(normal.x, normal.z))
+	for side: float in [-1.0, 1.0]:
+		mesh.box("gold", bottom + right * side * (half + frame * 0.5) + Vector3(0, spring * 0.5, 0) + normal * 0.04, Vector3(frame, spring, frame), turn)
+		var arc: Array[Vector3] = left_arc if side < 0.0 else right_arc
+		for index: int in range(steps):
+			CapitalLandmarks.band(mesh, "gold", arc[index] + normal * 0.02 - right * side * frame * 0.0, arc[index + 1] + normal * 0.02, frame, normal)
+	mesh.box("gold", bottom + normal * 0.06 - Vector3(0, frame * 0.5, 0), Vector3(width + frame * 3.0, frame, frame * 2.0), turn)
+	mesh.box("gold", bottom + Vector3(0, spring * 0.5, 0) + normal * 0.045, Vector3(frame * 0.6, spring, frame * 0.6), turn)
+	_disc(mesh, "gold", bottom + Vector3(0, spring + width * 0.42, 0) + normal * 0.05, width * 0.16, normal)
+
+
 ## Primm's smiling emblem, the face on every banner (no letters): a gold ring, a cream disc, two eyes and a smile in gold, facing `normal`.
 ## `broken` cracks it in two (one half slipped down), `covered` hangs a dark cloth over it (the fallen state).
 static func emblem(mesh: KitMesh, center: Vector3, radius: float, normal: Vector3, broken: bool = false, covered: bool = false) -> void:

@@ -115,3 +115,64 @@ The front wall has a 2 m walk-through gap at x 22-23 hinted by two cracks, loose
 city's west side wall stands on the map's west edge (x 0), with nothing outside it. Part D closes the gap and moves the secret round the corner.
 
 **fps on Medium before the pass** (`bash tools/capital_fps.sh 1`): see the table in Part B.
+
+## Part B: the blocky objects replaced
+
+Shots: `docs/art/capital_pass/part_b/` (same spots as `before/`).
+
+| | Before | After Part B |
+|---|---|---|
+| The Gate Road | ![](capital_pass/before/po_gate_road_default.jpg) | ![](capital_pass/part_b/po_gate_road_default.jpg) |
+| The camp | ![](capital_pass/before/po_resistance_camp_default.jpg) | ![](capital_pass/part_b/po_resistance_camp_default.jpg) |
+| The outpost | ![](capital_pass/before/po_ruined_outpost_default.jpg) | ![](capital_pass/part_b/po_ruined_outpost_default.jpg) |
+| The outside's west edge (Overview) | ![](capital_pass/before/west_edge_south_overview.jpg) | ![](capital_pass/part_b/west_edge_south_overview.jpg) |
+| The south edge (Overview) | ![](capital_pass/before/edge_south_overview.jpg) | ![](capital_pass/part_b/edge_south_overview.jpg) |
+| The castle's west side | ![](capital_pass/before/castle_side_west_default.jpg) | ![](capital_pass/part_b/castle_side_west_default.jpg) |
+
+- **The great wall** (`CapitalLandmarks.wall_piece`) is a wall, not a slab: a battered stone plinth (it steps out at the foot on the outer face),
+  ashlar courses with staggered joints, deep pilasters on stone bases with gold capitals rising into gold-capped pinnacles over a parapet of
+  gold-coped merlons, a cornice under it, and on the outer face the dark navy sun banners of the concept and every outside paint-over (a
+  swallow-tailed cloth with a gold border and the radiant sun, `sun_banner`; the pale kit banners stay on the city face). Four square towers stand
+  out from the front wall's outer face (`CapitalLayout.WALL_TOWERS`, x 9, 37, 83, 109: off the gate, the tunnel mouth and the corners; their
+  row in front is solid), each with a battered base, gold bands, a crenellated top, four corner pinnacles, a gold spire and a long sun banner.
+  Corner towers (`corner_tower`) close the two corners where the front wall met the side walls (an open slot before). The gate towers gained
+  pinnacles on their corner posts and a stone plinth.
+- **The rim** (`CapitalRim`, new): the stepped box walls along the outside's sides and the cut-box rubble along its south edge are gone. One ring of
+  rough ground round the whole outside: its height comes from a distance field on the layout's grid (flush with the floor at the last walkable
+  cell, a ridge 4-5 m up a few metres out, rolling with a slow noise, falling back to the plain under the haze at 26 m), painted with the
+  wasteland's own painted ground so the edge has no seam. Rocks (irregular faceted boulders, no two alike), the rubble sheet's piles and dead
+  trees stand on it: the blockers you see. Because the camera always trails south of the hero, wherever walkable ground lies just north of the
+  rim (the south edge) the rise is capped under the camera's line to the hero and carries no trees, so the hills climb out of the frame, never into
+  it (tested). The road from Crosspath runs on south between the hills (a view floor of road cells, then a road strip). The far planes moved to
+  meet it (`WastelandWest` under the city's west side). Beyond the city's other walls a belt of dark pines on the meadow and the castle hill
+  (the paint-overs' dark accents over the white walls).
+- **The camp** (`CapitalLandmarks.camp`): the two A-frame "sheets" are draped tents (canvas sagging between two poles and flaring at the hem, the
+  back closed, the front flaps tied back, guy ropes and pegs, the patch and both Paths' essences on the slope the camera sees), each turned three
+  quarters so its open end looks at the fire, as in the concept. Plank crates with edge battens and braces, banded barrels behind each tent, log
+  seats round the fire, the lean-to a sagging canvas on four posts over rolled bedrolls. The ruins it shelters in are stacked stone.
+- **Ruins as masonry** (`CapitalLandmarks.masonry`): every ruin is stacked bevelled blocks in staggered courses under a ragged top (the ends stand
+  longest), a block or two askew at the top, fallen blocks at its foot, mixed from a set of stone tones (`PALE_STONE`, `ASH_STONE`): the camp's
+  walls, the wasteland's ruined walls, the outpost's fallen guardhouses (and the identical houses once Primm has fallen, which were box ruins).
+- **Props** (`CapitalProps`), each a kit mesh now: the Gate Road's lamps (a turned iron post, a curled arm, a cage lantern), the queue (turned gold
+  posts and a sagging velvet rope), the height post, the checkpoints (plank shacks on a stone footing with a caved-in gabled roof and a boarded
+  window; `plank_walls`), Fern's shack (the same planks under a mossy lean-to roof and a stovepipe), the shaft's cover (a heaved road slab and a
+  rubble card), the complaint boxes (a pastel post box on a turned pedestal), the loudspeakers (a turned pole and two flared gold horns), the
+  portraits (a moulded gold frame with Primm's crest on an easel), the lost-property poster, the manholes (an iron grate in a gold ring; the
+  painted binding drew them as red brick), the paste dispenser (a rounded machine with a hopper, pipes and a dial), the Ward's beds (white iron
+  frames), its window (the civic kiosk), the sick patch (a kerbed bed of dead stalks or flowers), the power cable, the seed jar, the recipe cards.
+  A test builds every prop the layout places and finds no raw box, cylinder or sphere in any of them.
+- **The castle** (`CapitalCastle`): pointed lancet windows in place of the round-headed ones on the keep and the wings, a gold-capped pinnacle over
+  every wing bay and pilasters between them, a ring of four pinnacles round each big tower's eaves (the concept's crown of little spires), cypress
+  columns behind the terraces' balustrades, and the terraces' outer ends dressed like their fronts (pilasters, gold bands, balustrades turning
+  the corner, a cypress) instead of blank slabs.
+- **No floating plaques**: a "wall" plaque with no wall behind it stands on its own posts (`CapitalBuilder.sign_backed`, `_sign_stand`).
+- **The outside scatter**: the generic recipe for the outskirts keeps only dry grass (no Kenney crates, barrels, logs, panels, planks, stones,
+  stumps or mushrooms: the red "brick" wedges and boxes are gone); the sway log now lists only that grass. Nothing rigid sways (a test applies the
+  toon shader to every prop, the wall, the towers, the camp, the ruins and the castle and finds none swaying).
+- **Readable world text**: the place spots' lettered plates are hidden in the Capital (CAP-41); people keep their names.
+- **The city floor** ends where the east wall's foot begins (x 116; it ran 0.25 m into the wall).
+
+Shots: 51 of the 56 spots (the run was stopped for low memory before the Ward and tunnel-mouth views; skipped). **fps on Medium**
+(`bash tools/capital_fps.sh 1`): 59.7-60.1 average at all ten cameras (the Gate Road 59.7, the camp 60.0, the rift fields 60.1, the outpost 59.9,
+the plaza 59.8, the Transit Yards, the Hungry Quarter, Grave Row and the Reek 60.0, the approach 59.8). **Checks**: GUT 1693/1694 (the one failure is
+the pre-existing camera-FOV test, CP-2); new `tests/world/test_capital_pass.gd`; `test_zone_dressing` allows the outside's grass-only recipe.

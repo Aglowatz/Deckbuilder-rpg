@@ -28,6 +28,10 @@ var great_wall_boxes: Array[AABB] = []
 ## (`CapitalScene._welcome_district`).
 var district_lights: Dictionary = {}
 var rift_nodes: Dictionary = {}
+## The land round the map (CapitalRim): its distance field and its dressing counts (tests, the report).
+var rim: CapitalRim
+## The x of the two corner towers where the great wall meets the city's side walls.
+const CORNER_TOWERS: Array[float] = [0.5, 119.5]
 
 var _buckets: Dictionary = {}
 var _spinners: Array[Node3D] = []
@@ -316,13 +320,16 @@ func _build_ground() -> void:
 	_build_ground_mesh(Rect2i(0, int(CREASE_Z), CapitalLayout.W, CapitalLayout.H - int(CREASE_Z)), CREASE_LAYER, "CreaseGround")
 	# Beyond the map: dusty wasteland south of the wall, lush meadow north of it (so the void is never the sky and each side keeps its mood to the horizon).
 	var wall: float = float(CapitalLayout.WALL_Z0)
-	for half: Array in [["Wasteland", Color(0.6, 0.55, 0.44), wall, 340.0], ["Meadow", Color(0.3, 0.7, 0.28), wall - 340.0, 340.0]]:
+	# (the Capital pass: west of the city, where the hidden strip runs along its wall, is the wasteland too)
+	var west: float = -1.3
+	for half: Array in [["Wasteland", Color(0.6, 0.55, 0.44), Rect2(-290.0, wall, 700.0, 340.0)], ["WastelandWest", Color(0.6, 0.55, 0.44), Rect2(-290.0, wall - 340.0, west + 290.0, 340.0)], ["Meadow", Color(0.3, 0.7, 0.28), Rect2(west, wall - 340.0, 410.0 - west, 340.0)]]:
+		var area: Rect2 = half[2] as Rect2
 		var plane: MeshInstance3D = MeshInstance3D.new()
 		var mesh: PlaneMesh = PlaneMesh.new()
-		mesh.size = Vector2(700.0, float(half[3]))
+		mesh.size = area.size
 		plane.mesh = mesh
 		plane.material_override = M.flat(half[1] as Color)
-		plane.position = Vector3(60.0, -0.4, float(half[2]) + float(half[3]) * 0.5)
+		plane.position = Vector3(area.get_center().x, -0.4, area.get_center().y)
 		plane.name = str(half[0])
 		plane.set_meta(&"no_range_cull", true)
 		plane.set_meta(&"no_occlusion_fade", true)
@@ -335,9 +342,9 @@ func _build_ground_mesh(rect: Rect2i, layer: int, node_name: String) -> void:
 	surface.set_smooth_group(-1)
 	for cz: int in range(rect.position.y, rect.end.y):
 		for cx: int in range(rect.position.x, rect.end.x):
-			if layout.cell_at(cx, cz) == CapitalLayout.Cell.VOID:
-				continue
 			var kind: CapitalLayout.Floor = layout.floor_at(cx, cz)
+			if layout.cell_at(cx, cz) == CapitalLayout.Cell.VOID and kind == CapitalLayout.Floor.NONE:
+				continue  # (a void cell with a floor is a view floor: the road beyond the edge)
 			var color: Color = _floor_color(kind, cx, cz)
 			var x: float = float(cx)
 			var z: float = float(cz)
@@ -380,7 +387,8 @@ func _build_buildings() -> void:
 			root.add_child(node)
 			if building.style in ["wall", "tower"] and building.district != "facade":
 				great_wall.append(node)
-				great_wall_boxes.append(AABB(Vector3(building.rect.position.x, 0.0, building.rect.position.y), Vector3(building.rect.size.x, building.height + 1.5, building.rect.size.y)).grow(0.6))
+				# (the towers stand out a metre to the south and 2.4 m over the wall, their spires higher)
+				great_wall_boxes.append(AABB(Vector3(building.rect.position.x, 0.0, building.rect.position.y), Vector3(building.rect.size.x, building.height + 3.0, building.rect.size.y + 1.0)).grow(0.6))
 	_build_houses(houses)
 
 
@@ -406,7 +414,12 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 			if building.district == "facade":
 				_wall(node, w, d, h, true)
 			else:
-				node.add_child(CapitalLandmarks.wall_piece(w, h, d, int(rect.position.x)))
+				# the front wall's pieces carry the towers on their outer face; its city face drops straight to the plaza's paving
+				var towers: Array[float] = []
+				for tower_x: float in CapitalLayout.WALL_TOWERS:
+					if tower_x > rect.position.x + 3.0 and tower_x < rect.end.x - 3.0:
+						towers.append(tower_x - center.x)
+				node.add_child(CapitalLandmarks.wall_piece(w, h, d, int(rect.position.x), towers, Vector2(0.3, 0.0)))
 		"tower":
 			node.add_child(CapitalLandmarks.gate_tower(w, h, d))
 		"castle":
@@ -430,7 +443,8 @@ func _building_node(building: CapitalLayout.Building) -> Node3D:
 		"crypt":
 			node.add_child(CapitalLandmarks.build({"id": "CAP-HERO-GRAVE-ROW", "size": [w, h, d], "state": state}))
 		"house":
-			_ruined(node, w, d, h * 0.6, building.lean + 6.0, Color(0.9, 0.86, 0.84), true)
+			# Primm has fallen: the identical houses stand as the old kingdom's ruins they were built over (kit masonry, a slumped roof)
+			node.add_child(CapitalLandmarks.ruined_house(w, h, d, building.lean + 4.0, int(rect.position.x + rect.position.y)))
 		_:
 			if building.district == "refusemancer":
 				# the Reek's back yards face the back lane (x 17..21)
@@ -622,44 +636,18 @@ func _add_multimesh(multimesh: MultiMesh, material: Material, node_name: String)
 # ---- Boundaries and the castle ---------------------------------------------------------------------------
 
 
-## A broken wall of lumpy charcoal-violet boulders along a line (rotated, mixed sizes and tones) instead of one long black box: the south edge of the Outskirts no longer
-## reads as a black band across the screen.
-func _rock_wall(from: Vector3, to: Vector3) -> void:
-	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
-	rng.seed = int(from.x * 31.0 + from.z * 17.0)
-	var length: float = from.distance_to(to)
-	var along: Vector3 = (to - from).normalized()
-	var distance: float = 0.0
-	# eight-metre runs, each its own kit mesh (one may fade when it stands between the lens and the hero)
-	while distance < length:
-		var run: KitMesh = KitMesh.new()
-		CapitalKit.materials(run)
-		var run_end: float = minf(distance + 8.0, length)
-		var start: Vector3 = from + along * distance
-		while distance < run_end:
-			var size: Vector3 = Vector3(rng.randf_range(1.4, 3.0), rng.randf_range(0.35, 0.9), rng.randf_range(1.2, 2.2))
-			var pos: Vector3 = from + along * distance + Vector3(0.0, size.y * 0.5 - 0.15, rng.randf_range(-0.5, 0.5))
-			var basis: Basis = Basis.from_euler(Vector3(deg_to_rad(rng.randf_range(-6.0, 6.0)), deg_to_rad(rng.randf_range(-35.0, 35.0)), deg_to_rad(rng.randf_range(-8.0, 8.0))))
-			run.box("ash" if rng.randf() < 0.6 else "ruin", pos - start, size, basis, 0.08, 0.6)
-			distance += size.x * 0.8
-		var node: Node3D = Node3D.new()
-		node.name = "RubbleEdge"
-		node.position = start
-		root.add_child(node)
-		CapitalLandmarks.finish(node, run, [], 1.0)
-
-
 func _build_boundaries() -> void:
 	var top: float = float(CapitalLayout.WALL_Z0)
 	# The city's outer walls: north either side of the castle hill, west and east down to the great wall; the same flawless white kit wall as the
-	# great wall (CAP-HERO-GREAT-WALL-GATE), one wall round the whole city.
+	# great wall (CAP-HERO-GREAT-WALL-GATE), one wall round the whole city. Their battered feet reach the city's paving on the inside (the hero
+	# stops at the wall, never short of it) and the corner towers close the corners where they meet the great wall.
 	var hill: Rect2i = CapitalLayout.HILL
 	for span: Vector2 in [Vector2(0.0, float(hill.position.x)), Vector2(float(hill.end.x), 120.0)]:
 		var north: Node3D = Node3D.new()
 		north.name = "CityWallNorth"
 		root.add_child(north)
 		north.position = Vector3((span.x + span.y) * 0.5, 0.0, 0.5)
-		var piece: Node3D = CapitalLandmarks.wall_piece(span.y - span.x, 9.0, 3.0, int(span.x) + 1)
+		var piece: Node3D = CapitalLandmarks.wall_piece(span.y - span.x, 9.0, 3.0, int(span.x) + 1, [] as Array[float], Vector2(0.3, 0.0))
 		piece.rotation_degrees.y = 180.0
 		north.add_child(piece)
 		CapitalLandmarks.mark_view(north, true)
@@ -668,29 +656,20 @@ func _build_boundaries() -> void:
 		side.name = "CityWallSide"
 		root.add_child(side)
 		side.position = Vector3(side_x, 0.0, top * 0.5)
-		var side_piece: Node3D = CapitalLandmarks.wall_piece(2.5, 9.0, top, int(side_x) + 3)
+		var side_piece: Node3D = CapitalLandmarks.wall_piece(2.5, 9.0, top, int(side_x) + 3, [] as Array[float], Vector2(0.3, 0.75))
 		side_piece.rotation_degrees.y = 180.0 if side_x < 60.0 else 0.0  # the cracks start on the outer face, never inside the city
 		side.add_child(side_piece)
 		CapitalLandmarks.mark_view(side, true)
-	# The outside's edge: broken fence and low black rock.
-	var out_top: float = float(CapitalLayout.WALL_Z1 + 1)
-	var out_depth: float = float(CapitalLayout.OUT_Z1) + 1.0 - out_top
-	for side_x: float in [0.5, 119.5]:
-		# the outside's side edges: a low broken wall of ash-blackened stone (the kit), not a black slab
-		var edge: Node3D = Node3D.new()
-		edge.name = "AshEdge"
-		edge.position = Vector3(side_x, 0.0, out_top + out_depth * 0.5)
-		root.add_child(edge)
-		var stones: KitMesh = KitMesh.new()
-		CapitalKit.materials(stones)
-		var steps: int = int(out_depth / 1.4)
-		for index: int in range(steps):
-			var z: float = -out_depth * 0.5 + (float(index) + 0.5) * out_depth / float(steps)
-			var h: float = 1.6 + 1.4 * absf(sin(float(index) * 1.7))
-			stones.box("ash", Vector3(0, h * 0.5, z), Vector3(2.4, h, out_depth / float(steps) + 0.05), Basis.IDENTITY, 0.06, 0.6)
-		CapitalLandmarks.finish(edge, stones, [], 3.0)
-	_rock_wall(Vector3(0.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8), Vector3(56.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8))
-	_rock_wall(Vector3(64.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8), Vector3(120.0, 0.0, float(CapitalLayout.OUT_Z1) + 1.8))
+	for corner_x: float in CORNER_TOWERS:
+		var corner: Node3D = CapitalLandmarks.corner_tower(4.0, 9.0)
+		corner.name = "CornerTower"
+		root.add_child(corner)
+		corner.position = Vector3(corner_x, 0.0, float(CapitalLayout.WALL_Z1 + 1) - 2.0)
+		CapitalLandmarks.mark_view(corner, true)
+	# The land round the map (the Capital pass, Part B): rough ash ground rising from the walkable edge to ridges of rock, rubble and dead trees and
+	# falling back to the plain under the haze, the road running on to Crosspath between the hills; dark pines beyond the city's other walls.
+	rim = CapitalRim.build(root, layout)
+	CapitalRim.pines(root)
 	# The Crease's walls (inside layer 2).
 	var dz: float = float(CapitalLayout.CREASE_Z0 - 100)
 	for rect: Rect2 in [Rect2(3.0, 99.0 + dz, 39.0, 1.0), Rect2(3.0, 121.0 + dz, 39.0, 1.0), Rect2(3.0, 99.0 + dz, 1.0, 23.0), Rect2(41.0, 99.0 + dz, 1.0, 23.0)]:
@@ -870,6 +849,9 @@ func _build_signs() -> void:
 				continue
 			"wall":
 				mid = 1.8 + height * 0.5
+				if not sign_backed(sign_data):
+					# a plaque with no wall behind it stands on its own posts (the Capital pass: none floats in the air)
+					_sign_stand(node, width, height, mid, inside)
 				if civic != "":
 					node.add_child(_kit_picture(civic, Vector2(width, height) * 1.05, Vector3(0, mid, 0.06)))
 					node.scale = Vector3.ONE * 0.5
@@ -898,6 +880,34 @@ func _build_signs() -> void:
 					node.add_child(post)
 		node.scale = Vector3.ONE * 0.5  # smaller than the old high camera needed: at the low camera a signboard covers the hero
 		node.add_child(IconSign.picture(Vector2(width, height) * 0.8, sign_icon(sign_data.key), Vector3(0, mid, 0.1)))
+
+
+## Whether a "wall" sign has a wall at its back: a building of the layout (walls, towers and the Ward included) or the city's own walls within a
+## metre of it.
+func sign_backed(sign_data: CapitalLayout.Sign) -> bool:
+	var p: Vector2 = Vector2(sign_data.pos.x, sign_data.pos.z)
+	if p.y < 2.6 or p.x < 2.6 or p.x > 116.4 or (p.y > float(CapitalLayout.WALL_Z0) - 1.2 and p.y < float(CapitalLayout.WALL_Z1) + 2.0):
+		return true
+	for building: CapitalLayout.Building in layout.buildings:
+		if building.rect.grow(1.0).has_point(p):
+			return true
+	return false
+
+
+## The stand of a free-standing plaque: two posts with finials (white and gold inside the walls, weathered wood outside), a cross bar and a backing
+## board behind the picture, in the sign's own frame (it faces local +z; the node is scaled by half afterwards).
+static func _sign_stand(node: Node3D, width: float, height: float, mid: float, inside: bool) -> void:
+	var stand: KitMesh = KitMesh.new()
+	CapitalKit.materials(stand)
+	var post: String = "gold" if inside else "wood_dark"
+	var top: float = mid + height * 0.5 + 0.25
+	for side: float in [-1.0, 1.0]:
+		stand.tube(post, Vector3(side * (width * 0.5 + 0.12), 0, -0.06), Vector3(side * (width * 0.5 + 0.12), top, -0.06), 0.07, 8)
+		if inside:
+			CapitalKit.finial(stand, Vector3(side * (width * 0.5 + 0.12), top, -0.06), 0.4)
+	stand.box("plaster" if inside else "wood", Vector3(0, mid, -0.05), Vector3(width + 0.1, height + 0.1, 0.06), Basis.IDENTITY, 0.02)
+	stand.box(post, Vector3(0, mid + height * 0.5 + 0.12, -0.06), Vector3(width + 0.4, 0.1, 0.1))
+	CapitalLandmarks.finish(node, stand, [], top)
 
 
 ## The districts' plaques that are the civic sign sheet's gold-framed icons (CAP-SHEET-SIGNS-01 tram, -02 loaf, -03 grave, -04 wheel, -05 crown,
