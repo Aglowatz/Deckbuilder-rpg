@@ -66,7 +66,7 @@ func _visit(id: String) -> void:
 	var opened: bool = scene.dialogue.active or scene._overlay != null
 	_check(opened, "%s: E opens a dialogue or a screen" % id)
 	var guard: int = 0
-	while guard < 12:
+	while guard < 30:  # Oct 16: long intros are split into more, shorter boxes now
 		guard += 1
 		if await driver.dismiss_reward_box(0.25):
 			continue

@@ -124,6 +124,6 @@ the colosseum stood (ON-27); the dialogue pass kept what was already good (ON-29
 ## Smokes run tonight
 - `bash tools/run_quest_smoke.sh`: OK. `bash tools/run_hub_walk_smoke.sh`: OK. `bash tools/run_story_playthrough.sh`: 73/73 (one earlier run had a
   leftover announcement block a gatekeeper talk; the bot now clears overlays first).
-- `bash tools/run_town_slice_smoke.sh`: 2 failures at the equipment vendor / pack vendor stop (a dialogue is still up when it checks; the same
-  stop the backlog lists as stale for the town interaction smoke, SFX-26). Not chased further tonight.
+- `bash tools/run_town_slice_smoke.sh`: PASSED (14 spots) after raising its dialogue guard: Bertram's long intro is now split into more,
+  shorter boxes and outlasted the old 12-press limit. Older smokes with a short dialogue guard may need the same nudge.
 - GUT: 1664 tests, all passing.
