@@ -55,11 +55,11 @@ All sound effects are from Kenney (https://kenney.nl), license CC0 (each pack fo
 - **assets/audio/kenney_music-jingles/** - Music Jingles (Kenney) - https://kenney.nl/assets/music-jingles (victory and defeat stingers)
 
 <!-- sfx-credits:start (written by tools/sfx_build.js) -->
-**assets/audio/sfx/** - the sound-effects pass (2026-10-16): 74 files, every one CC0, processed (trimmed, filtered, levelled, looped) by `tools/sfx_build.js`; the per-file source, author and licence are in `docs/audio/sfx_sources.md`.
+**assets/audio/sfx/** - the sound-effects pass (2026-10-16): 191 files, every one CC0, processed (trimmed, filtered, levelled, looped) by `tools/sfx_build.js`; the per-file source, author and licence are in `docs/audio/sfx_sources.md`.
 
 - Kenney (https://kenney.nl), CC0: casino-audio (https://kenney.nl/assets/casino-audio), impact-sounds (https://kenney.nl/assets/impact-sounds), rpg-audio (https://kenney.nl/assets/rpg-audio), ui-audio (https://kenney.nl/assets/ui-audio).
-- Freesound (https://freesound.org), sounds released under Creative Commons 0 (CC0 1.0), by: (none).
-- 3 sounds generated with ffmpeg for this game (original, CC0).
+- Freesound (https://freesound.org), sounds released under Creative Commons 0 (CC0 1.0), by: _natiKatz (freesound.org/s/223375); ani_music (freesound.org/s/632477); applauseav (freesound.org/s/239639); beatmad (freesound.org/s/201936); Breviceps (freesound.org/s/447918); brktkrgll (freesound.org/s/856167, freesound.org/s/856169); brokenmachinery (freesound.org/s/730078); bsmacbride (freesound.org/s/108524); Dalesome (freesound.org/s/352719); deathpie (freesound.org/s/19245); eddies2000 (freesound.org/s/448474); EminYILDIRIM (freesound.org/s/535361); eyesonlegs (freesound.org/s/464302); I.fekry (freesound.org/s/470710); kev_durr (freesound.org/s/383226); keweldog (freesound.org/s/181773); Kodack (freesound.org/s/256307); ludde44 (freesound.org/s/170311); MilkyGacha (freesound.org/s/467721); Nightflame (freesound.org/s/368615); philberts (freesound.org/s/71513); qubodup (freesound.org/s/59988, freesound.org/s/59995, freesound.org/s/60013); roboroo (freesound.org/s/436791); SomeoneCool15 (freesound.org/s/423767); Valenspire (freesound.org/s/699494).
+- 11 sounds generated with ffmpeg for this game (original, CC0).
 <!-- sfx-credits:end -->
 
 Town, battle and title music are generated in code by `app/music_synth.gd` (original, no third-party audio).

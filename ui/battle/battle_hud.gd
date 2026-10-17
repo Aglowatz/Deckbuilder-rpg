@@ -331,15 +331,28 @@ func portrait_center(player_index: int) -> Vector2:
 	return _portraits[player_index].position + _portraits[player_index].size * 0.5
 
 
+var _low_hp_warned: bool = false
+
+
+## Sound pass, Part B: a heartbeat the moment the hero drops to a third of their HP or below (once until they climb back above it).
+func _check_low_hp(hp: int) -> void:
+	var low: bool = hp > 0 and float(hp) <= float(game.players[0].max_hp) / 3.0
+	if low and not _low_hp_warned:
+		Audio.sfx(&"low_hp")
+	_low_hp_warned = low
+
+
 func on_event(event: GameEvent) -> void:
 	match event.type:
 		GameEvent.Type.HP_CHANGED:
 			_portraits[event.player].set_hp(event.value, true)
+			if event.player == 0:
+				_check_low_hp(event.value)
 		GameEvent.Type.TURN_STARTED:
 			_turn_label.text = "Turn %d" % event.value
 			_turn_sub.text = "Your turn" if event.player == 0 else "Enemy turn"
 			show_banner("Your Turn" if event.player == 0 else "Enemy Turn", UIStyle.GOLD if event.player == 0 else Color("e06a5a"))
-			Audio.sfx(&"turn_start", -10.0)
+			Audio.sfx(&"turn_start_player" if event.player == 0 else &"turn_start_enemy")
 		GameEvent.Type.PHASE_CHANGED:
 			_set_phase(event.value)
 		GameEvent.Type.ENERGY_SPENT, GameEvent.Type.INFRASTRUCTURE_PLAYED:

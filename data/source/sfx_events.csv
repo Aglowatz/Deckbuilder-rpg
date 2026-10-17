@@ -17,10 +17,66 @@ coins,UI,ui/coins,-2,4,2,45,2,90,,,,coins in a pouch
 card_hover,Battle,card/fan,-6,6,2,10,2,70,,,,
 card_draw,Battle,card/slide,-2,5,2,40,3,45,,,,
 card_play,Battle,card/snap+card/thud@12:-4+card/dust@40:-10,0,4,2,60,3,40,,,,paper snap + wooden thud + soft dust
-card_discard,Battle,card/shove,-2,5,2,40,3,40,,,,
+card_discard,Battle,card/shove+card/dust@60:-12,-2,5,2,40,3,40,,,,
 card_shuffle,Battle,card/shuffle,-2,3,1.5,40,1,400,,,,
 land_play,Battle,card/thud+card/dust@25:-8,-2,5,2,50,3,40,,,,
-hit_light,Battle,hit/light,-2,5,2,60,3,40,,,,
-hit_heavy,Battle,hit/heavy+card/dust@30:-6,0,4,1.5,75,2,60,,,-3,
+hit_light,Battle,hit/light+hit/soft:-6,-2,5,2,60,3,40,,,,
+hit_heavy,Battle,hit/heavy+hit/boom:-2+card/dust@30:-8,0,4,1.5,75,2,60,,,-3,
 hit_metal,Battle,hit/metal,-3,5,2,55,2,50,,,,
 turn_start,Battle,hit/bell,-10,3,1,50,1,300,,,,a softer warm bell
+# ---- Part B: battle ----
+card_pickup,Battle,card/pickup,-3,5,1.5,35,2,60,,,,a card lifted to drag
+card_play_cheap,Battle,card/snap:-1+card/dust@30:-12,0,5,2,55,3,40,,,,a cheap card: a light paper snap
+card_play_heavy,Battle,card/snap+card/thud_heavy@14+card/dust@50:-5,0,3,1.5,70,2,60,,,-2,an expensive card lands with weight
+spell_cast,Battle,card/whoosh+glass/tap@120~1.5:-9+air/breath@60:-10,-1,4,1.5,55,2,60,,,,a spell released: paper whoosh and a glint
+spell_cast_big,Battle,card/whoosh:1+glass/tap@100~1.2:-4+glass/tap@220~1.6:-6+air/breath@40:-6,0,3,1.5,65,2,80,,,-2,an expensive spell
+summon_beefcake,Battle,beef/plate+card/dust@30:-6+hit/boom:-12,-2,4,1.5,60,2,50,,,,Beefcake: a heavy gym plate set down
+summon_necrocrat,Battle,card/whoosh:-3+necro/ghost@80:-2+card/snap:-8,-1,4,1.5,60,2,50,,,,Necrocrat: papery and ghostly
+summon_gourmand,Battle,gour/pan+gour/sizzle@60:-4+card/snap:-8,-2,4,1.5,60,2,50,,,,Gourmand: a pan clatter and a sizzle
+summon_refusemancer,Battle,ref/tin+ref/rustle@40:-1+card/snap:-8,-2,4,1.5,60,2,50,,,,Refusemancer: a can and a rustle of junk
+summon_neutral,Battle,card/thud+card/dust@25:-8,-1,5,2,55,2,50,,,,
+attack_declare,Battle,swing/cloth:-3+card/snap@30:-12,-2,5,1.5,45,3,60,,,,attackers step up
+attack_lunge,Battle,swing/whoosh+swing/cloth:-8,-2,6,1.5,55,3,50,,,,the lunge before the hit
+hit_medium,Battle,hit/heavy:-4+hit/soft:-4,0,4,1.5,68,3,50,,,,
+hit_player,Battle,hit/soft+hit/heavy:-6+hit/boom:-6,0,4,1.5,75,2,70,,,-3,a blow to the hero or the opponent
+block,Battle,hit/block+swing/cloth:-10,-2,5,1.5,60,2,60,,,,a blocker catches the blow
+death_neutral,Battle,death/tear+card/dust@60:-4+glass/tap@120~0.7:-14,-1,4,1.5,70,2,80,,,-2,a unit dies: the card tears and turns to dust
+death_beefcake,Battle,death/tear+beef/metal@80:-8+card/dust@60:-4,-1,4,1.5,70,2,80,,,-2,
+death_necrocrat,Battle,death/tear+necro/ghost@80:-4+card/dust@60:-6,-1,4,1.5,70,2,80,,,-2,
+death_gourmand,Battle,death/tear+gour/sizzle@60:-6+card/dust@60:-6,-1,4,1.5,70,2,80,,,-2,
+death_refusemancer,Battle,death/tear+ref/cans@60:-6+card/dust@60:-6,-1,4,1.5,70,2,80,,,-2,
+buff,Battle,glass/tap+glass/tap@85~1.335:-2,-4,2,1.5,40,2,70,,,,a rising two-note sparkle
+debuff,Battle,glass/tap~0.9+glass/tap@85~0.75:-2+air/breath:-14,-4,2,1.5,40,2,70,,,,the falling version
+keyword_gain,Battle,glass/tap~1.5:-4+air/breath:-12,-4,3,1.5,35,2,70,,,,
+heal,Battle,glass/tap~1.2+glass/tap@90~1.5:-3+air/breath:-6,-3,2,1.5,45,2,80,,,,a warm rising chime with a breath of air
+iron_gain,Battle,beef/iron,-3,4,1.5,45,3,40,,,,Iron: a dumbbell plate clank
+iron_spend,Battle,beef/iron~0.85:-6,-3,4,1.5,35,3,40,,,,
+redtape_gain,Battle,necro/stamp+necro/rip@110:-3,-3,4,1.5,45,3,40,,,,Red Tape: stamp and rip
+redtape_spend,Battle,necro/rip:-2,-3,4,1.5,35,3,40,,,,
+contract_gain,Battle,necro/quill+card/snap:-12,-2,4,1.5,45,3,40,,,,Contract: a quill scratch
+contract_spend,Battle,necro/quill~1.1:-4,-3,4,1.5,35,3,40,,,,
+ingredient_gain,Battle,gour/sizzle+gour/pan:-14,-3,4,1.5,45,3,40,,,,Ingredient: a sizzle
+ingredient_spend,Battle,gour/sizzle:-6,-3,4,1.5,35,3,40,,,,
+garbage_gain,Battle,ref/cans+ref/tin:-10,-3,4,1.5,45,3,40,,,,Garbage: a rattle of cans
+garbage_spend,Battle,ref/tin:-6,-3,4,1.5,35,3,40,,,,
+resource_gain,Battle,ui/coins:-4,-3,4,1.5,40,3,40,,,,a resource with no Path sound
+energy_tick,Battle,glass/tap~1.8:-10,-4,3,1,25,4,15,,,,one tick per energy point paid
+energy_gain,Battle,glass/tap~1.4+glass/tap@60~1.8:-4,-5,3,1.5,30,2,60,,,,
+trap_set,Battle,trap/latch+trap/creak@60:-6,-2,4,1.5,55,2,80,,,,a latch and a hidden creak
+trap_spring,Battle,trap/snap+hit/block@20:-4+swing/whoosh:-6+hit/boom@20:-6,0,3,1,85,1,200,,,-4,the trap springs
+tool_attach,Battle,tool/leather+tool/clink@60:-2,-2,4,1.5,55,2,80,,,,leather and a clink
+wonder_play,Battle,wonder/gong+glass/tap@150~1.5:-6+air/breath:-4,-1,2,1,80,1,300,,,-3,a Wonder rises
+token_create,Battle,card/snap~1.2:-4+air/breath:-10+glass/tap@40~1.6:-12,-2,5,1.5,45,3,50,,,,a small poof
+card_return,Battle,card/slide~0.9+air/breath:-12,-1,5,1.5,45,3,50,,,,a unit sent back to the hand
+card_shred,Battle,death/tear:-2,0,4,1.5,55,2,60,,,,
+turn_start_player,Battle,hit/bell:-8+turn/knock:-10,-6,2,1,50,1,400,,,,your turn: a warm bell
+turn_start_enemy,Battle,hit/bell~0.84:-10,-7,2,1,50,1,400,,,,the enemy turn: lower
+turn_end,Battle,turn/knock+turn/knock@70~1.15:-4+card/snap:-12,-2,3,1,50,1,300,,,,a card-stack tap
+preview_tick,Battle,ui/paper_tick:-2,-3,4,1,20,1,120,,,,the combat preview appears
+preview_lethal,Battle,turn/knock~0.8+heart/beat:-6,-4,2,1,40,1,600,,,,the preview shows a lethal blow
+low_hp,Battle,heart/beat,-4,1,1,60,1,3000,,,,a heartbeat once the hero is below a third
+victory_layer,Battle,card/fan:4+glass/tap@100~1.5:-4+glass/tap@230~2.0:-6+air/breath:-6,-4,1,1,90,1,1000,,,,under the victory sting
+defeat_layer,Battle,hit/boom+card/shove@60~0.8+swing/cloth@80:-6,-4,1,1,90,1,1000,,,,under the defeat sting
+battle_start,Battle,card/riffle_long:-2+swing/whoosh:-8,-2,2,1,70,1,1000,,,,cards riffled as the battle begins
+refuse_open,UI,card/shove~0.9+ui/book_open@40:-6,-2,3,1.5,35,1,200,,,,the Refuse Pile opens
+coin_flip,Battle,ui/coins:-4+glass/tap@200~1.3:-10,-2,4,1.5,45,1,200,,,,

@@ -34,6 +34,8 @@ var picker: SfxVariantPicker = SfxVariantPicker.new()
 var history: Array[String] = []
 ## Names asked for that have no sound, with how often (the verify pass lists them).
 var missing_log: Dictionary = {}
+## How often each name was asked for this run (the smokes print it).
+var play_counts: Dictionary = {}
 
 var _catalog: Dictionary = AudioCatalog.sounds()
 var _cache: Dictionary = {}
@@ -122,6 +124,7 @@ func play(sound: StringName, opts: Dictionary = {}) -> void:
 			return
 	var event_name: String = str(sound)
 	history.append(event_name)
+	play_counts[event_name] = int(play_counts.get(event_name, 0)) + 1
 	if history.size() > HISTORY_SIZE:
 		history.remove_at(0)
 	if not bank.has_event(event_name):

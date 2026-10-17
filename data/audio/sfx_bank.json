@@ -92,7 +92,10 @@
 			"res://assets/audio/sfx/card/fan_02.wav"
 		],
 		"card/shuffle": [
-			"res://assets/audio/sfx/card/shuffle_01.ogg"
+			"res://assets/audio/sfx/card/shuffle_01.ogg",
+			"res://assets/audio/sfx/card/shuffle_02.ogg",
+			"res://assets/audio/sfx/card/shuffle_03.ogg",
+			"res://assets/audio/sfx/card/shuffle_04.ogg"
 		],
 		"hit/light": [
 			"res://assets/audio/sfx/hit/light_01.wav",
@@ -118,6 +121,182 @@
 			"res://assets/audio/sfx/hit/bell_01.ogg",
 			"res://assets/audio/sfx/hit/bell_02.ogg",
 			"res://assets/audio/sfx/hit/bell_03.ogg"
+		],
+		"card/pickup": [
+			"res://assets/audio/sfx/card/pickup_01.wav",
+			"res://assets/audio/sfx/card/pickup_02.wav",
+			"res://assets/audio/sfx/card/pickup_03.wav"
+		],
+		"card/whoosh": [
+			"res://assets/audio/sfx/card/whoosh_01.ogg",
+			"res://assets/audio/sfx/card/whoosh_02.ogg",
+			"res://assets/audio/sfx/card/whoosh_03.ogg"
+		],
+		"card/riffle_long": [
+			"res://assets/audio/sfx/card/riffle_long_01.ogg"
+		],
+		"swing/whoosh": [
+			"res://assets/audio/sfx/swing/whoosh_01.wav",
+			"res://assets/audio/sfx/swing/whoosh_02.wav",
+			"res://assets/audio/sfx/swing/whoosh_03.wav",
+			"res://assets/audio/sfx/swing/whoosh_04.wav"
+		],
+		"swing/cloth": [
+			"res://assets/audio/sfx/swing/cloth_01.wav",
+			"res://assets/audio/sfx/swing/cloth_02.wav",
+			"res://assets/audio/sfx/swing/cloth_03.wav",
+			"res://assets/audio/sfx/swing/cloth_04.wav"
+		],
+		"hit/boom": [
+			"res://assets/audio/sfx/hit/boom_01.wav",
+			"res://assets/audio/sfx/hit/boom_02.wav",
+			"res://assets/audio/sfx/hit/boom_03.wav"
+		],
+		"hit/soft": [
+			"res://assets/audio/sfx/hit/soft_01.wav",
+			"res://assets/audio/sfx/hit/soft_02.wav",
+			"res://assets/audio/sfx/hit/soft_03.wav",
+			"res://assets/audio/sfx/hit/soft_04.wav",
+			"res://assets/audio/sfx/hit/soft_05.wav"
+		],
+		"hit/block": [
+			"res://assets/audio/sfx/hit/block_01.wav",
+			"res://assets/audio/sfx/hit/block_02.wav",
+			"res://assets/audio/sfx/hit/block_03.wav",
+			"res://assets/audio/sfx/hit/block_04.wav"
+		],
+		"glass/tap": [
+			"res://assets/audio/sfx/glass/tap_01.wav",
+			"res://assets/audio/sfx/glass/tap_02.wav",
+			"res://assets/audio/sfx/glass/tap_03.wav",
+			"res://assets/audio/sfx/glass/tap_04.wav",
+			"res://assets/audio/sfx/glass/tap_05.wav"
+		],
+		"air/breath": [
+			"res://assets/audio/sfx/air/breath_01.wav",
+			"res://assets/audio/sfx/air/breath_02.wav",
+			"res://assets/audio/sfx/air/breath_03.wav"
+		],
+		"death/tear": [
+			"res://assets/audio/sfx/death/tear_01.ogg",
+			"res://assets/audio/sfx/death/tear_02.ogg",
+			"res://assets/audio/sfx/death/tear_03.ogg",
+			"res://assets/audio/sfx/death/tear_04.ogg"
+		],
+		"beef/plate": [
+			"res://assets/audio/sfx/beef/plate_01.wav",
+			"res://assets/audio/sfx/beef/plate_02.wav",
+			"res://assets/audio/sfx/beef/plate_03.wav",
+			"res://assets/audio/sfx/beef/plate_04.wav",
+			"res://assets/audio/sfx/beef/plate_05.wav"
+		],
+		"beef/iron": [
+			"res://assets/audio/sfx/beef/iron_01.wav",
+			"res://assets/audio/sfx/beef/iron_02.wav",
+			"res://assets/audio/sfx/beef/iron_03.wav",
+			"res://assets/audio/sfx/beef/iron_04.wav",
+			"res://assets/audio/sfx/beef/iron_05.wav"
+		],
+		"beef/metal": [
+			"res://assets/audio/sfx/beef/metal_01.wav",
+			"res://assets/audio/sfx/beef/metal_02.wav",
+			"res://assets/audio/sfx/beef/metal_03.wav"
+		],
+		"necro/ghost": [
+			"res://assets/audio/sfx/necro/ghost_01.ogg",
+			"res://assets/audio/sfx/necro/ghost_02.ogg",
+			"res://assets/audio/sfx/necro/ghost_03.ogg"
+		],
+		"necro/stamp": [
+			"res://assets/audio/sfx/necro/stamp_01.wav",
+			"res://assets/audio/sfx/necro/stamp_02.wav",
+			"res://assets/audio/sfx/necro/stamp_03.wav",
+			"res://assets/audio/sfx/necro/stamp_04.wav",
+			"res://assets/audio/sfx/necro/stamp_05.wav"
+		],
+		"necro/rip": [
+			"res://assets/audio/sfx/necro/rip_01.wav",
+			"res://assets/audio/sfx/necro/rip_02.wav",
+			"res://assets/audio/sfx/necro/rip_03.wav"
+		],
+		"necro/quill": [
+			"res://assets/audio/sfx/necro/quill_01.wav",
+			"res://assets/audio/sfx/necro/quill_02.wav",
+			"res://assets/audio/sfx/necro/quill_03.wav",
+			"res://assets/audio/sfx/necro/quill_04.wav",
+			"res://assets/audio/sfx/necro/quill_05.wav"
+		],
+		"gour/pan": [
+			"res://assets/audio/sfx/gour/pan_01.wav",
+			"res://assets/audio/sfx/gour/pan_02.wav",
+			"res://assets/audio/sfx/gour/pan_03.wav"
+		],
+		"gour/sizzle": [
+			"res://assets/audio/sfx/gour/sizzle_01.ogg",
+			"res://assets/audio/sfx/gour/sizzle_02.ogg",
+			"res://assets/audio/sfx/gour/sizzle_03.ogg",
+			"res://assets/audio/sfx/gour/sizzle_04.ogg",
+			"res://assets/audio/sfx/gour/sizzle_05.ogg"
+		],
+		"ref/cans": [
+			"res://assets/audio/sfx/ref/cans_01.ogg",
+			"res://assets/audio/sfx/ref/cans_02.ogg",
+			"res://assets/audio/sfx/ref/cans_03.ogg",
+			"res://assets/audio/sfx/ref/cans_04.ogg",
+			"res://assets/audio/sfx/ref/cans_05.ogg"
+		],
+		"ref/rustle": [
+			"res://assets/audio/sfx/ref/rustle_01.ogg",
+			"res://assets/audio/sfx/ref/rustle_02.ogg",
+			"res://assets/audio/sfx/ref/rustle_03.ogg",
+			"res://assets/audio/sfx/ref/rustle_04.ogg"
+		],
+		"ref/tin": [
+			"res://assets/audio/sfx/ref/tin_01.wav",
+			"res://assets/audio/sfx/ref/tin_02.wav",
+			"res://assets/audio/sfx/ref/tin_03.wav",
+			"res://assets/audio/sfx/ref/tin_04.wav",
+			"res://assets/audio/sfx/ref/tin_05.wav"
+		],
+		"trap/latch": [
+			"res://assets/audio/sfx/trap/latch_01.wav",
+			"res://assets/audio/sfx/trap/latch_02.wav",
+			"res://assets/audio/sfx/trap/latch_03.wav"
+		],
+		"trap/creak": [
+			"res://assets/audio/sfx/trap/creak_01.ogg",
+			"res://assets/audio/sfx/trap/creak_02.ogg",
+			"res://assets/audio/sfx/trap/creak_03.ogg"
+		],
+		"trap/snap": [
+			"res://assets/audio/sfx/trap/snap_01.wav",
+			"res://assets/audio/sfx/trap/snap_02.wav",
+			"res://assets/audio/sfx/trap/snap_03.wav"
+		],
+		"tool/leather": [
+			"res://assets/audio/sfx/tool/leather_01.wav",
+			"res://assets/audio/sfx/tool/leather_02.wav",
+			"res://assets/audio/sfx/tool/leather_03.wav",
+			"res://assets/audio/sfx/tool/leather_04.wav"
+		],
+		"tool/clink": [
+			"res://assets/audio/sfx/tool/clink_01.wav",
+			"res://assets/audio/sfx/tool/clink_02.wav",
+			"res://assets/audio/sfx/tool/clink_03.wav",
+			"res://assets/audio/sfx/tool/clink_04.wav"
+		],
+		"wonder/gong": [
+			"res://assets/audio/sfx/wonder/gong_01.ogg",
+			"res://assets/audio/sfx/wonder/gong_02.ogg"
+		],
+		"turn/knock": [
+			"res://assets/audio/sfx/turn/knock_01.wav",
+			"res://assets/audio/sfx/turn/knock_02.wav",
+			"res://assets/audio/sfx/turn/knock_03.wav"
+		],
+		"heart/beat": [
+			"res://assets/audio/sfx/heart/beat_01.wav",
+			"res://assets/audio/sfx/heart/beat_02.wav"
 		]
 	},
 	"loops": [],
@@ -478,6 +657,11 @@
 					"set": "card/shove",
 					"delay": 0,
 					"gain": 0
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.06,
+					"gain": -12
 				}
 			],
 			"volume": -2,
@@ -540,6 +724,11 @@
 					"set": "hit/light",
 					"delay": 0,
 					"gain": 0
+				},
+				{
+					"set": "hit/soft",
+					"delay": 0,
+					"gain": -6
 				}
 			],
 			"volume": -2,
@@ -561,9 +750,14 @@
 					"gain": 0
 				},
 				{
+					"set": "hit/boom",
+					"delay": 0,
+					"gain": -2
+				},
+				{
 					"set": "card/dust",
 					"delay": 0.03,
-					"gain": -6
+					"gain": -8
 				}
 			],
 			"volume": 0,
@@ -610,6 +804,1408 @@
 			"priority": 50,
 			"max": 1,
 			"cooldown": 0.3,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"card_pickup": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/pickup",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -3,
+			"pitch": 0.05,
+			"vol_jitter": 1.5,
+			"priority": 35,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"card_play_cheap": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/snap",
+					"delay": 0,
+					"gain": -1
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.03,
+					"gain": -12
+				}
+			],
+			"volume": 0,
+			"pitch": 0.05,
+			"vol_jitter": 2,
+			"priority": 55,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"card_play_heavy": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/snap",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "card/thud_heavy",
+					"delay": 0.014,
+					"gain": 0
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.05,
+					"gain": -5
+				}
+			],
+			"volume": 0,
+			"pitch": 0.03,
+			"vol_jitter": 1.5,
+			"priority": 70,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": -2
+		},
+		"spell_cast": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/whoosh",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.12,
+					"gain": -9,
+					"pitch": 1.5
+				},
+				{
+					"set": "air/breath",
+					"delay": 0.06,
+					"gain": -10
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 55,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"spell_cast_big": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/whoosh",
+					"delay": 0,
+					"gain": 1
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.1,
+					"gain": -4,
+					"pitch": 1.2
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.22,
+					"gain": -6,
+					"pitch": 1.6
+				},
+				{
+					"set": "air/breath",
+					"delay": 0.04,
+					"gain": -6
+				}
+			],
+			"volume": 0,
+			"pitch": 0.03,
+			"vol_jitter": 1.5,
+			"priority": 65,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": -2
+		},
+		"summon_beefcake": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "beef/plate",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.03,
+					"gain": -6
+				},
+				{
+					"set": "hit/boom",
+					"delay": 0,
+					"gain": -12
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 60,
+			"max": 2,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"summon_necrocrat": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/whoosh",
+					"delay": 0,
+					"gain": -3
+				},
+				{
+					"set": "necro/ghost",
+					"delay": 0.08,
+					"gain": -2
+				},
+				{
+					"set": "card/snap",
+					"delay": 0,
+					"gain": -8
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 60,
+			"max": 2,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"summon_gourmand": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "gour/pan",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "gour/sizzle",
+					"delay": 0.06,
+					"gain": -4
+				},
+				{
+					"set": "card/snap",
+					"delay": 0,
+					"gain": -8
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 60,
+			"max": 2,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"summon_refusemancer": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "ref/tin",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ref/rustle",
+					"delay": 0.04,
+					"gain": -1
+				},
+				{
+					"set": "card/snap",
+					"delay": 0,
+					"gain": -8
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 60,
+			"max": 2,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"summon_neutral": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/thud",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.025,
+					"gain": -8
+				}
+			],
+			"volume": -1,
+			"pitch": 0.05,
+			"vol_jitter": 2,
+			"priority": 55,
+			"max": 2,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"attack_declare": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "swing/cloth",
+					"delay": 0,
+					"gain": -3
+				},
+				{
+					"set": "card/snap",
+					"delay": 0.03,
+					"gain": -12
+				}
+			],
+			"volume": -2,
+			"pitch": 0.05,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 3,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"attack_lunge": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "swing/whoosh",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "swing/cloth",
+					"delay": 0,
+					"gain": -8
+				}
+			],
+			"volume": -2,
+			"pitch": 0.06,
+			"vol_jitter": 1.5,
+			"priority": 55,
+			"max": 3,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"hit_medium": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "hit/heavy",
+					"delay": 0,
+					"gain": -4
+				},
+				{
+					"set": "hit/soft",
+					"delay": 0,
+					"gain": -4
+				}
+			],
+			"volume": 0,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 68,
+			"max": 3,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"hit_player": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "hit/soft",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "hit/heavy",
+					"delay": 0,
+					"gain": -6
+				},
+				{
+					"set": "hit/boom",
+					"delay": 0,
+					"gain": -6
+				}
+			],
+			"volume": 0,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 75,
+			"max": 2,
+			"cooldown": 0.07,
+			"spatial": false,
+			"range": 0,
+			"duck": -3
+		},
+		"block": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "hit/block",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "swing/cloth",
+					"delay": 0,
+					"gain": -10
+				}
+			],
+			"volume": -2,
+			"pitch": 0.05,
+			"vol_jitter": 1.5,
+			"priority": 60,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"death_neutral": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "death/tear",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.06,
+					"gain": -4
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.12,
+					"gain": -14,
+					"pitch": 0.7
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 70,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": -2
+		},
+		"death_beefcake": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "death/tear",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "beef/metal",
+					"delay": 0.08,
+					"gain": -8
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.06,
+					"gain": -4
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 70,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": -2
+		},
+		"death_necrocrat": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "death/tear",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "necro/ghost",
+					"delay": 0.08,
+					"gain": -4
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.06,
+					"gain": -6
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 70,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": -2
+		},
+		"death_gourmand": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "death/tear",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "gour/sizzle",
+					"delay": 0.06,
+					"gain": -6
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.06,
+					"gain": -6
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 70,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": -2
+		},
+		"death_refusemancer": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "death/tear",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ref/cans",
+					"delay": 0.06,
+					"gain": -6
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.06,
+					"gain": -6
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 70,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": -2
+		},
+		"buff": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "glass/tap",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.085,
+					"gain": -2,
+					"pitch": 1.335
+				}
+			],
+			"volume": -4,
+			"pitch": 0.02,
+			"vol_jitter": 1.5,
+			"priority": 40,
+			"max": 2,
+			"cooldown": 0.07,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"debuff": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "glass/tap",
+					"delay": 0,
+					"gain": 0,
+					"pitch": 0.9
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.085,
+					"gain": -2,
+					"pitch": 0.75
+				},
+				{
+					"set": "air/breath",
+					"delay": 0,
+					"gain": -14
+				}
+			],
+			"volume": -4,
+			"pitch": 0.02,
+			"vol_jitter": 1.5,
+			"priority": 40,
+			"max": 2,
+			"cooldown": 0.07,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"keyword_gain": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "glass/tap",
+					"delay": 0,
+					"gain": -4,
+					"pitch": 1.5
+				},
+				{
+					"set": "air/breath",
+					"delay": 0,
+					"gain": -12
+				}
+			],
+			"volume": -4,
+			"pitch": 0.03,
+			"vol_jitter": 1.5,
+			"priority": 35,
+			"max": 2,
+			"cooldown": 0.07,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"heal": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "glass/tap",
+					"delay": 0,
+					"gain": 0,
+					"pitch": 1.2
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.09,
+					"gain": -3,
+					"pitch": 1.5
+				},
+				{
+					"set": "air/breath",
+					"delay": 0,
+					"gain": -6
+				}
+			],
+			"volume": -3,
+			"pitch": 0.02,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"iron_gain": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "beef/iron",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"iron_spend": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "beef/iron",
+					"delay": 0,
+					"gain": -6,
+					"pitch": 0.85
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 35,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"redtape_gain": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "necro/stamp",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "necro/rip",
+					"delay": 0.11,
+					"gain": -3
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"redtape_spend": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "necro/rip",
+					"delay": 0,
+					"gain": -2
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 35,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"contract_gain": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "necro/quill",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "card/snap",
+					"delay": 0,
+					"gain": -12
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"contract_spend": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "necro/quill",
+					"delay": 0,
+					"gain": -4,
+					"pitch": 1.1
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 35,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ingredient_gain": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "gour/sizzle",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "gour/pan",
+					"delay": 0,
+					"gain": -14
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ingredient_spend": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "gour/sizzle",
+					"delay": 0,
+					"gain": -6
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 35,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"garbage_gain": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "ref/cans",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ref/tin",
+					"delay": 0,
+					"gain": -10
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"garbage_spend": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "ref/tin",
+					"delay": 0,
+					"gain": -6
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 35,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"resource_gain": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "ui/coins",
+					"delay": 0,
+					"gain": -4
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 40,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"energy_tick": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "glass/tap",
+					"delay": 0,
+					"gain": -10,
+					"pitch": 1.8
+				}
+			],
+			"volume": -4,
+			"pitch": 0.03,
+			"vol_jitter": 1,
+			"priority": 25,
+			"max": 4,
+			"cooldown": 0.015,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"energy_gain": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "glass/tap",
+					"delay": 0,
+					"gain": 0,
+					"pitch": 1.4
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.06,
+					"gain": -4,
+					"pitch": 1.8
+				}
+			],
+			"volume": -5,
+			"pitch": 0.03,
+			"vol_jitter": 1.5,
+			"priority": 30,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"trap_set": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "trap/latch",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "trap/creak",
+					"delay": 0.06,
+					"gain": -6
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 55,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"trap_spring": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "trap/snap",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "hit/block",
+					"delay": 0.02,
+					"gain": -4
+				},
+				{
+					"set": "swing/whoosh",
+					"delay": 0,
+					"gain": -6
+				},
+				{
+					"set": "hit/boom",
+					"delay": 0.02,
+					"gain": -6
+				}
+			],
+			"volume": 0,
+			"pitch": 0.03,
+			"vol_jitter": 1,
+			"priority": 85,
+			"max": 1,
+			"cooldown": 0.2,
+			"spatial": false,
+			"range": 0,
+			"duck": -4
+		},
+		"tool_attach": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "tool/leather",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "tool/clink",
+					"delay": 0.06,
+					"gain": -2
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 55,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"wonder_play": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "wonder/gong",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.15,
+					"gain": -6,
+					"pitch": 1.5
+				},
+				{
+					"set": "air/breath",
+					"delay": 0,
+					"gain": -4
+				}
+			],
+			"volume": -1,
+			"pitch": 0.02,
+			"vol_jitter": 1,
+			"priority": 80,
+			"max": 1,
+			"cooldown": 0.3,
+			"spatial": false,
+			"range": 0,
+			"duck": -3
+		},
+		"token_create": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/snap",
+					"delay": 0,
+					"gain": -4,
+					"pitch": 1.2
+				},
+				{
+					"set": "air/breath",
+					"delay": 0,
+					"gain": -10
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.04,
+					"gain": -12,
+					"pitch": 1.6
+				}
+			],
+			"volume": -2,
+			"pitch": 0.05,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 3,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"card_return": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/slide",
+					"delay": 0,
+					"gain": 0,
+					"pitch": 0.9
+				},
+				{
+					"set": "air/breath",
+					"delay": 0,
+					"gain": -12
+				}
+			],
+			"volume": -1,
+			"pitch": 0.05,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 3,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"card_shred": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "death/tear",
+					"delay": 0,
+					"gain": -2
+				}
+			],
+			"volume": 0,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 55,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"turn_start_player": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "hit/bell",
+					"delay": 0,
+					"gain": -8
+				},
+				{
+					"set": "turn/knock",
+					"delay": 0,
+					"gain": -10
+				}
+			],
+			"volume": -6,
+			"pitch": 0.02,
+			"vol_jitter": 1,
+			"priority": 50,
+			"max": 1,
+			"cooldown": 0.4,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"turn_start_enemy": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "hit/bell",
+					"delay": 0,
+					"gain": -10,
+					"pitch": 0.84
+				}
+			],
+			"volume": -7,
+			"pitch": 0.02,
+			"vol_jitter": 1,
+			"priority": 50,
+			"max": 1,
+			"cooldown": 0.4,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"turn_end": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "turn/knock",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "turn/knock",
+					"delay": 0.07,
+					"gain": -4,
+					"pitch": 1.15
+				},
+				{
+					"set": "card/snap",
+					"delay": 0,
+					"gain": -12
+				}
+			],
+			"volume": -2,
+			"pitch": 0.03,
+			"vol_jitter": 1,
+			"priority": 50,
+			"max": 1,
+			"cooldown": 0.3,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"preview_tick": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "ui/paper_tick",
+					"delay": 0,
+					"gain": -2
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1,
+			"priority": 20,
+			"max": 1,
+			"cooldown": 0.12,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"preview_lethal": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "turn/knock",
+					"delay": 0,
+					"gain": 0,
+					"pitch": 0.8
+				},
+				{
+					"set": "heart/beat",
+					"delay": 0,
+					"gain": -6
+				}
+			],
+			"volume": -4,
+			"pitch": 0.02,
+			"vol_jitter": 1,
+			"priority": 40,
+			"max": 1,
+			"cooldown": 0.6,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"low_hp": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "heart/beat",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -4,
+			"pitch": 0.01,
+			"vol_jitter": 1,
+			"priority": 60,
+			"max": 1,
+			"cooldown": 3,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"victory_layer": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/fan",
+					"delay": 0,
+					"gain": 4
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.1,
+					"gain": -4,
+					"pitch": 1.5
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.23,
+					"gain": -6,
+					"pitch": 2
+				},
+				{
+					"set": "air/breath",
+					"delay": 0,
+					"gain": -6
+				}
+			],
+			"volume": -4,
+			"pitch": 0.01,
+			"vol_jitter": 1,
+			"priority": 90,
+			"max": 1,
+			"cooldown": 1,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"defeat_layer": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "hit/boom",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "card/shove",
+					"delay": 0.06,
+					"gain": 0,
+					"pitch": 0.8
+				},
+				{
+					"set": "swing/cloth",
+					"delay": 0.08,
+					"gain": -6
+				}
+			],
+			"volume": -4,
+			"pitch": 0.01,
+			"vol_jitter": 1,
+			"priority": 90,
+			"max": 1,
+			"cooldown": 1,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"battle_start": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/riffle_long",
+					"delay": 0,
+					"gain": -2
+				},
+				{
+					"set": "swing/whoosh",
+					"delay": 0,
+					"gain": -8
+				}
+			],
+			"volume": -2,
+			"pitch": 0.02,
+			"vol_jitter": 1,
+			"priority": 70,
+			"max": 1,
+			"cooldown": 1,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"refuse_open": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "card/shove",
+					"delay": 0,
+					"gain": 0,
+					"pitch": 0.9
+				},
+				{
+					"set": "ui/book_open",
+					"delay": 0.04,
+					"gain": -6
+				}
+			],
+			"volume": -2,
+			"pitch": 0.03,
+			"vol_jitter": 1.5,
+			"priority": 35,
+			"max": 1,
+			"cooldown": 0.2,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"coin_flip": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "ui/coins",
+					"delay": 0,
+					"gain": -4
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.2,
+					"gain": -10,
+					"pitch": 1.3
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 1,
+			"cooldown": 0.2,
 			"spatial": false,
 			"range": 0,
 			"duck": 0

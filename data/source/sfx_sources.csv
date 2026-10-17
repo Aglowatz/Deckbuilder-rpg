@@ -1,4 +1,4 @@
-set,out,source,start,end,filters,category,channels,format,loop,notes
+set,out,source,start,end,filters,category,channels,format,loop,notes,fades
 # ---- UI family: paper, card stock, wood (Part A base; Part D refines) ----
 ui/hover,01,kenney:casino-audio/card-fan-1.ogg,,,"highpass=f=500,lowpass=f=6000",ui_hover,1,wav,,a breath of card edge
 ui/hover,02,kenney:casino-audio/card-fan-2.ogg,,,"highpass=f=500,lowpass=f=6000",ui_hover,1,wav,,
@@ -76,3 +76,124 @@ hit/metal,04,kenney:impact-sounds/impactMetal_medium_003.ogg,,,lowpass=f=8000,hi
 hit/bell,01,kenney:impact-sounds/impactBell_heavy_000.ogg,,,lowpass=f=5000,accent,1,ogg,,
 hit/bell,02,kenney:impact-sounds/impactBell_heavy_001.ogg,,,lowpass=f=5000,accent,1,ogg,,
 hit/bell,03,kenney:impact-sounds/impactBell_heavy_002.ogg,,,lowpass=f=5000,accent,1,ogg,,
+# ---- Part B: battle ----
+card/pickup,01,kenney:casino-audio/cards-pack-take-out-1.ogg,,0.22,"highpass=f=400,lowpass=f=8000",card_light,1,wav,,a card lifted off the table
+card/pickup,02,kenney:casino-audio/cards-pack-take-out-2.ogg,,0.22,"highpass=f=400,lowpass=f=8000",card_light,1,wav,,
+card/pickup,03,kenney:casino-audio/card-slide-8.ogg,,0.2,"highpass=f=500,lowpass=f=8000,asetrate=44100*1.1,aresample=44100",card_light,1,wav,,
+card/whoosh,01,fs:699494,,,"highpass=f=250,lowpass=f=7000",card,1,ogg,,a paper whoosh (spells; the Necrocrat summon)
+card/whoosh,02,fs:464302,,0.9,"highpass=f=250,lowpass=f=7000",card,1,ogg,,
+card/whoosh,03,fs:730078,,,"highpass=f=250,lowpass=f=7000",card,1,ogg,,
+card/shuffle,02,fs:19245,0.15,,lowpass=f=9000,card,1,ogg,,
+card/shuffle,03,fs:447918,0.15,,lowpass=f=9000,card,1,ogg,,
+card/shuffle,04,fs:423767,0.45,1.25,lowpass=f=9000,card,1,ogg,,
+card/riffle_long,01,fs:423767,0.45,2.3,lowpass=f=9000,card,1,ogg,,the opening shuffle
+swing/whoosh,01,fs:60013,,,"highpass=f=200,lowpass=f=7000",card,1,wav,,the attack lunge
+swing/whoosh,02,fs:59988,,,"highpass=f=200,lowpass=f=7000",card,1,wav,,
+swing/whoosh,03,fs:59995,,,"highpass=f=200,lowpass=f=7000",card,1,wav,,
+swing/whoosh,04,fs:352719,,,"highpass=f=200,lowpass=f=7000",card,1,wav,,
+swing/cloth,01,kenney:rpg-audio/cloth1.ogg,,,lowpass=f=6000,card_light,1,wav,,cloth under the lunge
+swing/cloth,02,kenney:rpg-audio/cloth2.ogg,,,lowpass=f=6000,card_light,1,wav,,
+swing/cloth,03,kenney:rpg-audio/cloth3.ogg,,,lowpass=f=6000,card_light,1,wav,,
+swing/cloth,04,kenney:rpg-audio/cloth4.ogg,,,lowpass=f=6000,card_light,1,wav,,
+hit/boom,01,"synth:aevalsrc=sin(2*PI*(92*t-70*t*t))*exp(-9*t):d=0.4:s=44100",,,lowpass=f=240,hit_heavy,1,wav,,a low thump under heavy hits (generated)
+hit/boom,02,"synth:aevalsrc=sin(2*PI*(80*t-55*t*t))*exp(-8*t):d=0.45:s=44100",,,lowpass=f=220,hit_heavy,1,wav,,
+hit/boom,03,"synth:aevalsrc=sin(2*PI*(100*t-80*t*t))*exp(-10*t):d=0.35:s=44100",,,lowpass=f=260,hit_heavy,1,wav,,
+hit/soft,01,kenney:impact-sounds/impactSoft_heavy_000.ogg,,,lowpass=f=4000,hit_light,1,wav,,the cloth-and-body layer of a hit
+hit/soft,02,kenney:impact-sounds/impactSoft_heavy_001.ogg,,,lowpass=f=4000,hit_light,1,wav,,
+hit/soft,03,kenney:impact-sounds/impactSoft_heavy_002.ogg,,,lowpass=f=4000,hit_light,1,wav,,
+hit/soft,04,kenney:impact-sounds/impactSoft_heavy_003.ogg,,,lowpass=f=4000,hit_light,1,wav,,
+hit/soft,05,kenney:impact-sounds/impactSoft_heavy_004.ogg,,,lowpass=f=4000,hit_light,1,wav,,
+hit/block,01,kenney:impact-sounds/impactPlate_medium_000.ogg,,,lowpass=f=7000,hit_medium,1,wav,,a shield or pan catching the blow
+hit/block,02,kenney:impact-sounds/impactPlate_medium_001.ogg,,,lowpass=f=7000,hit_medium,1,wav,,
+hit/block,03,kenney:impact-sounds/impactPlate_medium_002.ogg,,,lowpass=f=7000,hit_medium,1,wav,,
+hit/block,04,kenney:impact-sounds/impactPlate_medium_003.ogg,,,lowpass=f=7000,hit_medium,1,wav,,
+glass/tap,01,kenney:impact-sounds/impactGlass_light_000.ogg,,,lowpass=f=8000,accent_soft,1,wav,,glassy taps for sparkles and buffs and heals and energy
+glass/tap,02,kenney:impact-sounds/impactGlass_light_001.ogg,,,lowpass=f=8000,accent_soft,1,wav,,
+glass/tap,03,kenney:impact-sounds/impactGlass_light_002.ogg,,,lowpass=f=8000,accent_soft,1,wav,,
+glass/tap,04,kenney:impact-sounds/impactGlass_light_003.ogg,,,lowpass=f=8000,accent_soft,1,wav,,
+glass/tap,05,kenney:impact-sounds/impactGlass_light_004.ogg,,,lowpass=f=8000,accent_soft,1,wav,,
+air/breath,01,"synth:anoisesrc=d=0.9:c=pink:a=0.5:seed=5",,,"bandpass=f=1400:width_type=o:w=1.6,afade=t=in:d=0.35:curve=qsin,afade=t=out:st=0.4:d=0.5:curve=qsin",accent_soft,1,wav,,a soft breath of air (generated)
+air/breath,02,"synth:anoisesrc=d=1.0:c=pink:a=0.5:seed=9",,,"bandpass=f=1100:width_type=o:w=1.8,afade=t=in:d=0.4:curve=qsin,afade=t=out:st=0.45:d=0.55:curve=qsin",accent_soft,1,wav,,
+air/breath,03,"synth:anoisesrc=d=0.8:c=pink:a=0.5:seed=17",,,"bandpass=f=1700:width_type=o:w=1.5,afade=t=in:d=0.3:curve=qsin,afade=t=out:st=0.35:d=0.45:curve=qsin",accent_soft,1,wav,,
+death/tear,01,fs:181773,,,"highpass=f=200,lowpass=f=8000",accent,1,ogg,,a card torn as a unit dies
+death/tear,02,fs:170311,,,"highpass=f=200,lowpass=f=8000",accent,1,ogg,,
+death/tear,03,fs:535361,0.6,,"highpass=f=200,lowpass=f=8000",accent,1,ogg,,
+death/tear,04,fs:256307,,,"highpass=f=200,lowpass=f=8000",accent,1,ogg,,
+# The four Paths: summons and resources
+beef/plate,01,kenney:impact-sounds/impactPlate_heavy_000.ogg,,,lowpass=f=7000,card_heavy,1,wav,,Beefcake: a heavy gym plate (summon)
+beef/plate,02,kenney:impact-sounds/impactPlate_heavy_001.ogg,,,lowpass=f=7000,card_heavy,1,wav,,
+beef/plate,03,kenney:impact-sounds/impactPlate_heavy_002.ogg,,,lowpass=f=7000,card_heavy,1,wav,,
+beef/plate,04,kenney:impact-sounds/impactPlate_heavy_003.ogg,,,lowpass=f=7000,card_heavy,1,wav,,
+beef/plate,05,kenney:impact-sounds/impactPlate_heavy_004.ogg,,,lowpass=f=7000,card_heavy,1,wav,,
+beef/iron,01,kenney:impact-sounds/impactPlate_light_000.ogg,,,lowpass=f=7500,accent,1,wav,,Iron: a dumbbell plate clank
+beef/iron,02,kenney:impact-sounds/impactPlate_light_001.ogg,,,lowpass=f=7500,accent,1,wav,,
+beef/iron,03,kenney:impact-sounds/impactPlate_light_002.ogg,,,lowpass=f=7500,accent,1,wav,,
+beef/iron,04,kenney:impact-sounds/impactPlate_light_003.ogg,,,lowpass=f=7500,accent,1,wav,,
+beef/iron,05,kenney:impact-sounds/impactPlate_light_004.ogg,,,lowpass=f=7500,accent,1,wav,,
+beef/metal,01,kenney:impact-sounds/impactMetal_heavy_000.ogg,,,lowpass=f=6000,hit_medium,1,wav,,heavy metal (Beefcake deaths and blocks)
+beef/metal,02,kenney:impact-sounds/impactMetal_heavy_001.ogg,,,lowpass=f=6000,hit_medium,1,wav,,
+beef/metal,03,kenney:impact-sounds/impactMetal_heavy_002.ogg,,,lowpass=f=6000,hit_medium,1,wav,,
+necro/ghost,01,fs:856169,,1.6,"highpass=f=200,lowpass=f=6500",accent_soft,1,ogg,,Necrocrat: a ghostly breath (summon tail),,
+necro/ghost,02,fs:368615,,,"highpass=f=200,lowpass=f=6000,asetrate=44100*0.9,aresample=44100",accent_soft,1,ogg,,
+necro/ghost,03,fs:856169,1.2,2.8,"highpass=f=200,lowpass=f=6500",accent_soft,1,ogg,,,60/300
+necro/stamp,01,fs:448474,0.05,0.45,"highpass=f=80,lowpass=f=8000",accent,1,wav,,Red Tape: a rubber stamp
+necro/stamp,02,fs:448474,1.07,1.45,"highpass=f=80,lowpass=f=8000",accent,1,wav,,
+necro/stamp,03,fs:448474,3.02,3.5,"highpass=f=80,lowpass=f=8000",accent,1,wav,,
+necro/stamp,04,fs:448474,3.79,4.2,"highpass=f=80,lowpass=f=8000",accent,1,wav,,
+necro/stamp,05,fs:470710,0.45,0.95,"highpass=f=80,lowpass=f=8000",accent,1,wav,,
+necro/rip,01,fs:223375,,,"highpass=f=300,lowpass=f=8000",accent_soft,1,wav,,Red Tape: the tape ripped
+necro/rip,02,fs:467721,0.4,,"highpass=f=300,lowpass=f=8000",accent_soft,1,wav,,
+necro/rip,03,fs:256307,0.2,0.65,"highpass=f=300,lowpass=f=8000",accent_soft,1,wav,,
+necro/quill,01,fs:856167,1.2,1.8,"highpass=f=500,lowpass=f=8500",accent_soft,1,wav,,Contract: a quill scratch,10/60
+necro/quill,02,fs:856167,1.95,2.35,"highpass=f=500,lowpass=f=8500",accent_soft,1,wav,,,10/60
+necro/quill,03,fs:856167,3.05,3.45,"highpass=f=500,lowpass=f=8500",accent_soft,1,wav,,,10/60
+necro/quill,04,fs:856167,5.25,5.6,"highpass=f=500,lowpass=f=8500",accent_soft,1,wav,,,10/60
+necro/quill,05,fs:632477,,,"highpass=f=500,lowpass=f=8500",accent_soft,1,wav,,,10/60
+gour/pan,01,kenney:rpg-audio/metalPot1.ogg,,,lowpass=f=8000,card,1,wav,,Gourmand: pans and pot lids (summon)
+gour/pan,02,kenney:rpg-audio/metalPot2.ogg,,,lowpass=f=8000,card,1,wav,,
+gour/pan,03,kenney:rpg-audio/metalPot3.ogg,,,lowpass=f=8000,card,1,wav,,
+gour/sizzle,01,fs:436791,,,"highpass=f=600,lowpass=f=9000",accent,1,ogg,,Ingredient: a sizzle,5/120
+gour/sizzle,02,fs:201936,1.0,1.7,"highpass=f=600,lowpass=f=9000",accent,1,ogg,,,60/250
+gour/sizzle,03,fs:201936,4.0,4.8,"highpass=f=600,lowpass=f=9000",accent,1,ogg,,,60/250
+gour/sizzle,04,fs:239639,2.0,2.8,"highpass=f=600,lowpass=f=9000",accent,1,ogg,,,60/250
+gour/sizzle,05,fs:239639,7.0,7.7,"highpass=f=600,lowpass=f=9000",accent,1,ogg,,,60/250
+ref/cans,01,fs:383226,4.68,5.3,"highpass=f=200,lowpass=f=8000",accent,1,ogg,,Garbage: cans and bottles rattle,20/150
+ref/cans,02,fs:383226,5.64,6.3,"highpass=f=200,lowpass=f=8000",accent,1,ogg,,,20/150
+ref/cans,03,fs:383226,12.87,13.5,"highpass=f=200,lowpass=f=8000",accent,1,ogg,,,20/150
+ref/cans,04,fs:383226,20.74,21.4,"highpass=f=200,lowpass=f=8000",accent,1,ogg,,,20/150
+ref/cans,05,fs:383226,22.49,23.1,"highpass=f=200,lowpass=f=8000",accent,1,ogg,,,20/150
+ref/rustle,01,fs:71513,2.0,2.9,"highpass=f=250,lowpass=f=7000",accent_soft,1,ogg,,Refusemancer: junk and leaves rustle (summon),80/300
+ref/rustle,02,fs:71513,8.0,8.9,"highpass=f=250,lowpass=f=7000",accent_soft,1,ogg,,,80/300
+ref/rustle,03,fs:71513,15.0,15.9,"highpass=f=250,lowpass=f=7000",accent_soft,1,ogg,,,80/300
+ref/rustle,04,fs:71513,20.0,20.9,"highpass=f=250,lowpass=f=7000",accent_soft,1,ogg,,,80/300
+ref/tin,01,kenney:impact-sounds/impactTin_medium_000.ogg,,,lowpass=f=8000,card,1,wav,,a tin can knocked (Refusemancer summon)
+ref/tin,02,kenney:impact-sounds/impactTin_medium_001.ogg,,,lowpass=f=8000,card,1,wav,,
+ref/tin,03,kenney:impact-sounds/impactTin_medium_002.ogg,,,lowpass=f=8000,card,1,wav,,
+ref/tin,04,kenney:impact-sounds/impactTin_medium_003.ogg,,,lowpass=f=8000,card,1,wav,,
+ref/tin,05,kenney:impact-sounds/impactTin_medium_004.ogg,,,lowpass=f=8000,card,1,wav,,
+# Traps, Tools, Wonders, energy
+trap/latch,01,kenney:rpg-audio/metalLatch.ogg,,,lowpass=f=8000,accent,1,wav,,a trap set: a latch
+trap/latch,02,kenney:rpg-audio/metalClick.ogg,,,lowpass=f=8000,accent,1,wav,,
+trap/latch,03,kenney:rpg-audio/beltHandle2.ogg,,,lowpass=f=8000,accent,1,wav,,
+trap/creak,01,kenney:rpg-audio/creak1.ogg,,,lowpass=f=6000,accent_soft,1,ogg,,a hidden mechanism creaks
+trap/creak,02,kenney:rpg-audio/creak2.ogg,,,lowpass=f=6000,accent_soft,1,ogg,,
+trap/creak,03,kenney:rpg-audio/creak3.ogg,,,lowpass=f=6000,accent_soft,1,ogg,,
+trap/snap,01,fs:108524,1.0,1.3,lowpass=f=9000,big,1,wav,,the trap springs
+trap/snap,02,fs:108524,1.0,1.3,"lowpass=f=8000,asetrate=44100*0.86,aresample=44100",big,1,wav,,
+trap/snap,03,fs:108524,1.0,1.3,"lowpass=f=9000,asetrate=44100*1.12,aresample=44100",big,1,wav,,
+tool/leather,01,kenney:rpg-audio/beltHandle1.ogg,,,lowpass=f=7000,accent,1,wav,,a Tool attached: leather and a buckle
+tool/leather,02,kenney:rpg-audio/handleSmallLeather.ogg,,,lowpass=f=7000,accent,1,wav,,
+tool/leather,03,kenney:rpg-audio/handleSmallLeather2.ogg,,,lowpass=f=7000,accent,1,wav,,
+tool/leather,04,kenney:rpg-audio/clothBelt.ogg,,,lowpass=f=7000,accent,1,wav,,
+tool/clink,01,kenney:impact-sounds/impactMetal_light_000.ogg,,,lowpass=f=8000,accent,1,wav,,a metal clink
+tool/clink,02,kenney:impact-sounds/impactMetal_light_001.ogg,,,lowpass=f=8000,accent,1,wav,,
+tool/clink,03,kenney:impact-sounds/impactMetal_light_002.ogg,,,lowpass=f=8000,accent,1,wav,,
+tool/clink,04,kenney:impact-sounds/impactMetal_light_003.ogg,,,lowpass=f=8000,accent,1,wav,,
+wonder/gong,01,kenney:impact-sounds/impactBell_heavy_003.ogg,,,"asetrate=44100*0.62,aresample=44100,lowpass=f=3500",big,1,ogg,,a Wonder: a deep bell
+wonder/gong,02,kenney:impact-sounds/impactBell_heavy_004.ogg,,,"asetrate=44100*0.62,aresample=44100,lowpass=f=3500",big,1,ogg,,
+# Turns, preview, warnings
+turn/knock,01,kenney:impact-sounds/impactWood_medium_003.ogg,,,"lowpass=f=4000,highpass=f=100",accent,1,wav,,end turn: a card-stack tap
+turn/knock,02,kenney:impact-sounds/impactWood_medium_004.ogg,,,"lowpass=f=4000,highpass=f=100",accent,1,wav,,
+turn/knock,03,kenney:impact-sounds/impactWood_light_002.ogg,,,"lowpass=f=4000,highpass=f=100",accent,1,wav,,
+heart/beat,01,"synth:aevalsrc=sin(2*PI*58*t)*exp(-16*t)*lt(t\,0.26)+0.75*sin(2*PI*52*(t-0.3))*exp(-16*(t-0.3))*gte(t\,0.3):d=0.8:s=44100",,,lowpass=f=180,accent,1,wav,,low HP: a heartbeat (generated)
+heart/beat,02,"synth:aevalsrc=sin(2*PI*55*t)*exp(-15*t)*lt(t\,0.28)+0.7*sin(2*PI*50*(t-0.32))*exp(-15*(t-0.32))*gte(t\,0.32):d=0.85:s=44100",,,lowpass=f=170,accent,1,wav,,

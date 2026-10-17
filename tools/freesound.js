@@ -79,12 +79,12 @@ async function fetchOne(id, meta) {
 	const url = preview || (lq ? lq.replace("-lq.ogg", "-hq.ogg") : null);
 	if (!url) throw new Error(`no preview for ${id}`);
 	const pageUrl = (page.match(/og:url" content="([^"]*)"/) || [])[1] || `https://freesound.org/s/${id}/`;
-	const author = (pageUrl.match(/people\/([^/]+)\//) || [])[1] || title.split(" by ").pop();
+	const author = decodeURIComponent((pageUrl.match(/people\/([^/]+)\//) || [])[1] || title.split(" by ").pop());
 	fs.mkdirSync(CACHE, { recursive: true });
 	const data = await get(url, true);
 	fs.writeFileSync(out, data);
 	meta[id] = {
-		title: title.replace(new RegExp(` by ${author}$`), ""),
+		title: title.endsWith(` by ${author}`) ? title.slice(0, -(` by ${author}`).length) : title,
 		author,
 		license: "CC0 1.0",
 		url: `https://freesound.org/s/${id}/`,

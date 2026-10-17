@@ -210,9 +210,12 @@ function buildRow(row) {
 	const encode = () => {
 		const post = [`volume=${gain.toFixed(2)}dB`];
 		if (!loop) {
-			const fadeOut = Math.min(0.012, len * 0.2);
 			// The trim starts where the sound rises past -55 dB, so a 0.3 ms fade-in is enough against a click and leaves the transient untouched.
-			post.push(`afade=t=in:d=0.0003`, `afade=t=out:st=${Math.max(0, len - fadeOut).toFixed(4)}:d=${fadeOut.toFixed(4)}`);
+			// A slice cut out of a continuous recording (a sizzle, a rustle) names longer fades in the `fades` column: "in_ms/out_ms".
+			const [fadeInMs, fadeOutMs] = (row.fades || "").split("/").map(Number);
+			const fadeIn = fadeInMs > 0 ? Math.min(fadeInMs / 1000, len * 0.45) : 0.0003;
+			const fadeOut = fadeOutMs > 0 ? Math.min(fadeOutMs / 1000, len * 0.5) : Math.min(0.012, len * 0.2);
+			post.push(`afade=t=in:d=${fadeIn.toFixed(4)}`, `afade=t=out:st=${Math.max(0, len - fadeOut).toFixed(4)}:d=${fadeOut.toFixed(4)}`);
 		}
 		run(["-y", "-i", source, "-af", post.join(","), ...codec, "-map_metadata", "-1", target]);
 		return measure(target, long);

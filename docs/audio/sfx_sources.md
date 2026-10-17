@@ -79,7 +79,124 @@ Every file is CC0 (Kenney's packs, freesound sounds filtered to Creative Commons
 | `hit/bell_01.ogg` | [Kenney impact sounds (impactBell_heavy_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
 | `hit/bell_02.ogg` | [Kenney impact sounds (impactBell_heavy_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
 | `hit/bell_03.ogg` | [Kenney impact sounds (impactBell_heavy_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `card/pickup_01.wav` | [Kenney casino audio (cards-pack-take-out-1.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | 0-0.22 s, filtered, card_light |
+| `card/pickup_02.wav` | [Kenney casino audio (cards-pack-take-out-2.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | 0-0.22 s, filtered, card_light |
+| `card/pickup_03.wav` | [Kenney casino audio (card-slide-8.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | 0-0.2 s, filtered, card_light |
+| `card/whoosh_01.ogg` | [freesound 699494: UI_Menu_Whosh](https://freesound.org/s/699494/) | Valenspire | CC0 1.0 | filtered, card |
+| `card/whoosh_02.ogg` | [freesound 464302: PaperSlide.wav](https://freesound.org/s/464302/) | eyesonlegs | CC0 1.0 | 0-0.9 s, filtered, card |
+| `card/whoosh_03.ogg` | [freesound 730078: paper-slide](https://freesound.org/s/730078/) | brokenmachinery | CC0 1.0 | filtered, card |
+| `card/shuffle_02.ogg` | [freesound 19245: shuffle.wav](https://freesound.org/s/19245/) | deathpie | CC0 1.0 | 0.15-end s, filtered, card |
+| `card/shuffle_03.ogg` | [freesound 447918: Shuffle cards](https://freesound.org/s/447918/) | Breviceps | CC0 1.0 | 0.15-end s, filtered, card |
+| `card/shuffle_04.ogg` | [freesound 423767: Card shuffling.mp3](https://freesound.org/s/423767/) | SomeoneCool15 | CC0 1.0 | 0.45-1.25 s, filtered, card |
+| `card/riffle_long_01.ogg` | [freesound 423767: Card shuffling.mp3](https://freesound.org/s/423767/) | SomeoneCool15 | CC0 1.0 | 0.45-2.3 s, filtered, card |
+| `swing/whoosh_01.wav` | [freesound 60013: Whoosh](https://freesound.org/s/60013/) | qubodup | CC0 1.0 | filtered, card |
+| `swing/whoosh_02.wav` | [freesound 59988: SWOSH-01 44.1kHz](https://freesound.org/s/59988/) | qubodup | CC0 1.0 | filtered, card |
+| `swing/whoosh_03.wav` | [freesound 59995: swosh-08.flac - "stick cutting air"](https://freesound.org/s/59995/) | qubodup | CC0 1.0 | filtered, card |
+| `swing/whoosh_04.wav` | [freesound 352719: Woosh (stick swung in the air)](https://freesound.org/s/352719/) | Dalesome | CC0 1.0 | filtered, card |
+| `swing/cloth_01.wav` | [Kenney rpg audio (cloth1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, card_light |
+| `swing/cloth_02.wav` | [Kenney rpg audio (cloth2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, card_light |
+| `swing/cloth_03.wav` | [Kenney rpg audio (cloth3.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, card_light |
+| `swing/cloth_04.wav` | [Kenney rpg audio (cloth4.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, card_light |
+| `hit/boom_01.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, hit_heavy |
+| `hit/boom_02.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, hit_heavy |
+| `hit/boom_03.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, hit_heavy |
+| `hit/soft_01.wav` | [Kenney impact sounds (impactSoft_heavy_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_light |
+| `hit/soft_02.wav` | [Kenney impact sounds (impactSoft_heavy_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_light |
+| `hit/soft_03.wav` | [Kenney impact sounds (impactSoft_heavy_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_light |
+| `hit/soft_04.wav` | [Kenney impact sounds (impactSoft_heavy_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_light |
+| `hit/soft_05.wav` | [Kenney impact sounds (impactSoft_heavy_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_light |
+| `hit/block_01.wav` | [Kenney impact sounds (impactPlate_medium_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_medium |
+| `hit/block_02.wav` | [Kenney impact sounds (impactPlate_medium_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_medium |
+| `hit/block_03.wav` | [Kenney impact sounds (impactPlate_medium_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_medium |
+| `hit/block_04.wav` | [Kenney impact sounds (impactPlate_medium_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_medium |
+| `glass/tap_01.wav` | [Kenney impact sounds (impactGlass_light_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent_soft |
+| `glass/tap_02.wav` | [Kenney impact sounds (impactGlass_light_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent_soft |
+| `glass/tap_03.wav` | [Kenney impact sounds (impactGlass_light_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent_soft |
+| `glass/tap_04.wav` | [Kenney impact sounds (impactGlass_light_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent_soft |
+| `glass/tap_05.wav` | [Kenney impact sounds (impactGlass_light_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent_soft |
+| `air/breath_01.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, accent_soft |
+| `air/breath_02.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, accent_soft |
+| `air/breath_03.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, accent_soft |
+| `death/tear_01.ogg` | [freesound 181773: tearing paper4.wav](https://freesound.org/s/181773/) | keweldog | CC0 1.0 | filtered, accent |
+| `death/tear_02.ogg` | [freesound 170311: Tearing paper](https://freesound.org/s/170311/) | ludde44 | CC0 1.0 | filtered, accent |
+| `death/tear_03.ogg` | [freesound 535361: Paper Ripping](https://freesound.org/s/535361/) | EminYILDIRIM | CC0 1.0 | 0.6-end s, filtered, accent |
+| `death/tear_04.ogg` | [freesound 256307: Short Ripping Sound](https://freesound.org/s/256307/) | Kodack | CC0 1.0 | filtered, accent |
+| `beef/plate_01.wav` | [Kenney impact sounds (impactPlate_heavy_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, card_heavy |
+| `beef/plate_02.wav` | [Kenney impact sounds (impactPlate_heavy_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, card_heavy |
+| `beef/plate_03.wav` | [Kenney impact sounds (impactPlate_heavy_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, card_heavy |
+| `beef/plate_04.wav` | [Kenney impact sounds (impactPlate_heavy_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, card_heavy |
+| `beef/plate_05.wav` | [Kenney impact sounds (impactPlate_heavy_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, card_heavy |
+| `beef/iron_01.wav` | [Kenney impact sounds (impactPlate_light_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `beef/iron_02.wav` | [Kenney impact sounds (impactPlate_light_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `beef/iron_03.wav` | [Kenney impact sounds (impactPlate_light_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `beef/iron_04.wav` | [Kenney impact sounds (impactPlate_light_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `beef/iron_05.wav` | [Kenney impact sounds (impactPlate_light_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `beef/metal_01.wav` | [Kenney impact sounds (impactMetal_heavy_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_medium |
+| `beef/metal_02.wav` | [Kenney impact sounds (impactMetal_heavy_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_medium |
+| `beef/metal_03.wav` | [Kenney impact sounds (impactMetal_heavy_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, hit_medium |
+| `necro/ghost_01.ogg` | [freesound 856169: Spectral Ghost Whisper Breeze Whoosh](https://freesound.org/s/856169/) | brktkrgll | CC0 1.0 | 0-1.6 s, filtered, accent_soft |
+| `necro/ghost_02.ogg` | [freesound 368615: breath_01.wav](https://freesound.org/s/368615/) | Nightflame | CC0 1.0 | filtered, accent_soft |
+| `necro/ghost_03.ogg` | [freesound 856169: Spectral Ghost Whisper Breeze Whoosh](https://freesound.org/s/856169/) | brktkrgll | CC0 1.0 | 1.2-2.8 s, filtered, accent_soft |
+| `necro/stamp_01.wav` | [freesound 448474: es-stamp.wav](https://freesound.org/s/448474/) | eddies2000 | CC0 1.0 | 0.05-0.45 s, filtered, accent |
+| `necro/stamp_02.wav` | [freesound 448474: es-stamp.wav](https://freesound.org/s/448474/) | eddies2000 | CC0 1.0 | 1.07-1.45 s, filtered, accent |
+| `necro/stamp_03.wav` | [freesound 448474: es-stamp.wav](https://freesound.org/s/448474/) | eddies2000 | CC0 1.0 | 3.02-3.5 s, filtered, accent |
+| `necro/stamp_04.wav` | [freesound 448474: es-stamp.wav](https://freesound.org/s/448474/) | eddies2000 | CC0 1.0 | 3.79-4.2 s, filtered, accent |
+| `necro/stamp_05.wav` | [freesound 470710: traditional stamp.wav](https://freesound.org/s/470710/) | I.fekry | CC0 1.0 | 0.45-0.95 s, filtered, accent |
+| `necro/rip_01.wav` | [freesound 223375: Duct Tape 1](https://freesound.org/s/223375/) | _natiKatz | CC0 1.0 | filtered, accent_soft |
+| `necro/rip_02.wav` | [freesound 467721: Free Tape Ripping Sound](https://freesound.org/s/467721/) | MilkyGacha | CC0 1.0 | 0.4-end s, filtered, accent_soft |
+| `necro/rip_03.wav` | [freesound 256307: Short Ripping Sound](https://freesound.org/s/256307/) | Kodack | CC0 1.0 | 0.2-0.65 s, filtered, accent_soft |
+| `necro/quill_01.wav` | [freesound 856167: Ink Quill Writing on Parchment ASMR](https://freesound.org/s/856167/) | brktkrgll | CC0 1.0 | 1.2-1.8 s, filtered, accent_soft |
+| `necro/quill_02.wav` | [freesound 856167: Ink Quill Writing on Parchment ASMR](https://freesound.org/s/856167/) | brktkrgll | CC0 1.0 | 1.95-2.35 s, filtered, accent_soft |
+| `necro/quill_03.wav` | [freesound 856167: Ink Quill Writing on Parchment ASMR](https://freesound.org/s/856167/) | brktkrgll | CC0 1.0 | 3.05-3.45 s, filtered, accent_soft |
+| `necro/quill_04.wav` | [freesound 856167: Ink Quill Writing on Parchment ASMR](https://freesound.org/s/856167/) | brktkrgll | CC0 1.0 | 5.25-5.6 s, filtered, accent_soft |
+| `necro/quill_05.wav` | [freesound 632477: Pencil writing on paper (4 strokes)](https://freesound.org/s/632477/) | ani_music | CC0 1.0 | filtered, accent_soft |
+| `gour/pan_01.wav` | [Kenney rpg audio (metalPot1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, card |
+| `gour/pan_02.wav` | [Kenney rpg audio (metalPot2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, card |
+| `gour/pan_03.wav` | [Kenney rpg audio (metalPot3.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, card |
+| `gour/sizzle_01.ogg` | [freesound 436791: Sizzle](https://freesound.org/s/436791/) | roboroo | CC0 1.0 | filtered, accent |
+| `gour/sizzle_02.ogg` | [freesound 201936: sizzling_frypan.WAV](https://freesound.org/s/201936/) | beatmad | CC0 1.0 | 1.0-1.7 s, filtered, accent |
+| `gour/sizzle_03.ogg` | [freesound 201936: sizzling_frypan.WAV](https://freesound.org/s/201936/) | beatmad | CC0 1.0 | 4.0-4.8 s, filtered, accent |
+| `gour/sizzle_04.ogg` | [freesound 239639: BACON FRYING SIZZLE POP.wav](https://freesound.org/s/239639/) | applauseav | CC0 1.0 | 2.0-2.8 s, filtered, accent |
+| `gour/sizzle_05.ogg` | [freesound 239639: BACON FRYING SIZZLE POP.wav](https://freesound.org/s/239639/) | applauseav | CC0 1.0 | 7.0-7.7 s, filtered, accent |
+| `ref/cans_01.ogg` | [freesound 383226: Aluminum Cans.wav](https://freesound.org/s/383226/) | kev_durr | CC0 1.0 | 4.68-5.3 s, filtered, accent |
+| `ref/cans_02.ogg` | [freesound 383226: Aluminum Cans.wav](https://freesound.org/s/383226/) | kev_durr | CC0 1.0 | 5.64-6.3 s, filtered, accent |
+| `ref/cans_03.ogg` | [freesound 383226: Aluminum Cans.wav](https://freesound.org/s/383226/) | kev_durr | CC0 1.0 | 12.87-13.5 s, filtered, accent |
+| `ref/cans_04.ogg` | [freesound 383226: Aluminum Cans.wav](https://freesound.org/s/383226/) | kev_durr | CC0 1.0 | 20.74-21.4 s, filtered, accent |
+| `ref/cans_05.ogg` | [freesound 383226: Aluminum Cans.wav](https://freesound.org/s/383226/) | kev_durr | CC0 1.0 | 22.49-23.1 s, filtered, accent |
+| `ref/rustle_01.ogg` | [freesound 71513: trash_rustling.wav](https://freesound.org/s/71513/) | philberts | CC0 1.0 | 2.0-2.9 s, filtered, accent_soft |
+| `ref/rustle_02.ogg` | [freesound 71513: trash_rustling.wav](https://freesound.org/s/71513/) | philberts | CC0 1.0 | 8.0-8.9 s, filtered, accent_soft |
+| `ref/rustle_03.ogg` | [freesound 71513: trash_rustling.wav](https://freesound.org/s/71513/) | philberts | CC0 1.0 | 15.0-15.9 s, filtered, accent_soft |
+| `ref/rustle_04.ogg` | [freesound 71513: trash_rustling.wav](https://freesound.org/s/71513/) | philberts | CC0 1.0 | 20.0-20.9 s, filtered, accent_soft |
+| `ref/tin_01.wav` | [Kenney impact sounds (impactTin_medium_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, card |
+| `ref/tin_02.wav` | [Kenney impact sounds (impactTin_medium_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, card |
+| `ref/tin_03.wav` | [Kenney impact sounds (impactTin_medium_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, card |
+| `ref/tin_04.wav` | [Kenney impact sounds (impactTin_medium_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, card |
+| `ref/tin_05.wav` | [Kenney impact sounds (impactTin_medium_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, card |
+| `trap/latch_01.wav` | [Kenney rpg audio (metalLatch.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `trap/latch_02.wav` | [Kenney rpg audio (metalClick.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `trap/latch_03.wav` | [Kenney rpg audio (beltHandle2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `trap/creak_01.ogg` | [Kenney rpg audio (creak1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent_soft |
+| `trap/creak_02.ogg` | [Kenney rpg audio (creak2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent_soft |
+| `trap/creak_03.ogg` | [Kenney rpg audio (creak3.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent_soft |
+| `trap/snap_01.wav` | [freesound 108524: Snap Trap.wav](https://freesound.org/s/108524/) | bsmacbride | CC0 1.0 | 1.0-1.3 s, filtered, big |
+| `trap/snap_02.wav` | [freesound 108524: Snap Trap.wav](https://freesound.org/s/108524/) | bsmacbride | CC0 1.0 | 1.0-1.3 s, filtered, big |
+| `trap/snap_03.wav` | [freesound 108524: Snap Trap.wav](https://freesound.org/s/108524/) | bsmacbride | CC0 1.0 | 1.0-1.3 s, filtered, big |
+| `tool/leather_01.wav` | [Kenney rpg audio (beltHandle1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `tool/leather_02.wav` | [Kenney rpg audio (handleSmallLeather.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `tool/leather_03.wav` | [Kenney rpg audio (handleSmallLeather2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `tool/leather_04.wav` | [Kenney rpg audio (clothBelt.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `tool/clink_01.wav` | [Kenney impact sounds (impactMetal_light_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `tool/clink_02.wav` | [Kenney impact sounds (impactMetal_light_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `tool/clink_03.wav` | [Kenney impact sounds (impactMetal_light_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `tool/clink_04.wav` | [Kenney impact sounds (impactMetal_light_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `wonder/gong_01.ogg` | [Kenney impact sounds (impactBell_heavy_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, big |
+| `wonder/gong_02.ogg` | [Kenney impact sounds (impactBell_heavy_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, big |
+| `turn/knock_01.wav` | [Kenney impact sounds (impactWood_medium_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `turn/knock_02.wav` | [Kenney impact sounds (impactWood_medium_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `turn/knock_03.wav` | [Kenney impact sounds (impactWood_light_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
+| `heart/beat_01.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, accent |
+| `heart/beat_02.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, accent |
 
 ## Freesound authors
 
-(none yet)
+_natiKatz (223375); ani_music (632477); applauseav (239639); beatmad (201936); Breviceps (447918); brktkrgll (856167, 856169); brokenmachinery (730078); bsmacbride (108524); Dalesome (352719); deathpie (19245); eddies2000 (448474); EminYILDIRIM (535361); eyesonlegs (464302); I.fekry (470710); kev_durr (383226); keweldog (181773); Kodack (256307); ludde44 (170311); MilkyGacha (467721); Nightflame (368615); philberts (71513); qubodup (59988, 59995, 60013); roboroo (436791); SomeoneCool15 (423767); Valenspire (699494)

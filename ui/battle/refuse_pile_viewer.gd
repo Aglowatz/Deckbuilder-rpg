@@ -85,7 +85,7 @@ func open_browse(piles: Array[int]) -> void:
 	_prompt_text = "Hover a card to read it. Click anywhere outside, press Esc or Close to go back."
 	_rebuild()
 	visible = true
-	Audio.sfx(&"ui_open", -6.0)
+	Audio.sfx(&"refuse_open")
 
 
 ## Targeting mode: `options` are the legal card uids, `picked` the ones already chosen ("up to X" effects keep the viewer open
@@ -106,7 +106,7 @@ func open_targeting(options: Array[int], picked: Array[int], max_count: int, pro
 				break
 	_rebuild()
 	visible = true
-	Audio.sfx(&"ui_open", -6.0)
+	Audio.sfx(&"refuse_open")
 
 
 func close() -> void:

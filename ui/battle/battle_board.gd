@@ -656,7 +656,17 @@ func present(event: GameEvent) -> void:
 			await _on_infrastructure_played(event)
 		GameEvent.Type.ENERGY_SPENT:
 			_refresh_view(event.card)
+			_energy_ticks(event.amount)
 			layout()
+		GameEvent.Type.ENERGY_ADDED:
+			_sfx(&"energy_gain")
+		GameEvent.Type.UNIT_ATTACHED:
+			_sfx(&"tool_attach")
+			_pulse(event.other)
+		GameEvent.Type.CARD_SHREDDED:
+			_sfx(&"card_shred")
+		GameEvent.Type.COIN_FLIPPED:
+			_sfx(&"coin_flip")
 		GameEvent.Type.CARD_PLAYED:
 			await _on_cast(event)
 		GameEvent.Type.PERMANENT_ENTERED:
@@ -669,12 +679,12 @@ func present(event: GameEvent) -> void:
 			await _on_token(event)
 		GameEvent.Type.ATTACKERS_DECLARED:
 			attacking[event.card] = true
-			Audio.sfx(&"attack")
+			_sfx(&"attack_declare")
 			layout()
 			await _wait(0.16)
 		GameEvent.Type.BLOCKER_ASSIGNED:
 			blockers[event.card] = event.other
-			Audio.sfx(&"card_play", -4.0)
+			_sfx(&"block")
 			layout()
 			await _wait(0.3)
 		GameEvent.Type.DAMAGE_DEALT:
@@ -693,18 +703,20 @@ func present(event: GameEvent) -> void:
 		GameEvent.Type.STATS_CHANGED:
 			_refresh_view(event.card)
 			if event.amount > 0 or event.value > 0:
-				Audio.sfx(&"spell", -12.0)
+				_sfx(&"buff")
 				fx.burst(center_of(event.card), Color("9be49f"), 10, 120.0)
 			else:
-				Audio.sfx(&"hit_light", -10.0)
+				_sfx(&"debuff")
 			fx.floating_text(center_of(event.card), "%+d/%+d" % [event.amount, event.value], Color("9be49f"), 36)
 			await _wait(0.25)
 		GameEvent.Type.KEYWORD_GRANTED:
 			_refresh_view(event.card)
+			_sfx(&"keyword_gain")
 			fx.floating_text(center_of(event.card), KeywordInfo.keyword_name(event.value as CardEnums.Keyword), UIStyle.GOLD, 34)
 			await _wait(0.25)
 		GameEvent.Type.DAMAGE_HEALED:
 			_refresh_view(event.card)
+			_sfx(&"heal")
 			fx.floating_text(center_of(event.card), "+%d" % event.amount, Color("7be08a"), 40)
 			await _wait(0.25)
 		GameEvent.Type.RESOURCE_CREATED:
@@ -739,8 +751,8 @@ func _on_drawn(event: GameEvent) -> void:
 	var view: CardView = ensure_view(event.card, Zone.HAND, event.player)
 	if view == null:
 		return
-	Audio.sfx(&"card_draw", -4.0)
 	var opening: bool = event.detail == "opening"
+	_sfx(&"card_draw", -6.0 if opening else (-2.0 if event.player == human else -5.0))
 	layout()
 	await _wait(0.1 if opening else 0.3)
 
@@ -752,7 +764,35 @@ func _on_mulligan(event: GameEvent) -> void:
 		zones.erase(uid)
 		order.erase(uid)
 		view.queue_free()
-	Audio.sfx(&"card_shuffle")
+	_sfx(&"card_shuffle")
+
+
+## Sound pass, Part B: a battle sound on this board's beat; its layer delays shrink with the board's speed so it stays on the animation.
+func _sfx(sound: StringName, volume_db: float = 0.0) -> void:
+	Audio.play(sound, {"volume": volume_db, "speed": speed})
+
+
+var _preview_signature: String = ""
+var _energy_burst: int = 0
+var _energy_burst_at: int = -1000
+
+
+## One glassy tick per energy point paid, a little apart and rising, so a 4-cost card reads as four ticks (several infrastructure tapped for one card
+## arrive as separate events within a frame; they join one run).
+func _energy_ticks(points: int) -> void:
+	var now: int = Time.get_ticks_msec()
+	if now - _energy_burst_at > 300:
+		_energy_burst = 0
+	_energy_burst_at = now
+	for i: int in range(clampi(points, 1, 8)):
+		var step: int = mini(_energy_burst, 8)
+		_energy_burst += 1
+		var delay: float = 0.07 * float(step) / maxf(speed, 0.1)
+		var pitch: float = 1.0 + 0.045 * float(step)
+		if delay <= 0.0:
+			Audio.play(&"energy_tick", {"pitch_scale": pitch})
+		else:
+			get_tree().create_timer(delay).timeout.connect(func() -> void: Audio.play(&"energy_tick", {"pitch_scale": pitch}))
 
 
 func _reveal(uid: int) -> void:
@@ -770,7 +810,7 @@ func _on_infrastructure_played(event: GameEvent) -> void:
 		ensure_view(event.card, Zone.HAND, event.player, Vector2(CENTER_X, ENEMY_HAND_Y), SCALE_ENEMY_HAND)
 	_reveal(event.card)
 	set_zone(event.card, Zone.INFRASTRUCTURE)
-	Audio.sfx(&"land_play")
+	_sfx(&"land_play")
 	layout()
 	await _wait(0.35)
 
@@ -786,7 +826,7 @@ func _on_cast(event: GameEvent) -> void:
 	# the player who is setting them.
 	if data != null and data.type == CardEnums.CardType.TRAP and event.player != human:
 		layout()
-		Audio.sfx(&"card_play")
+		_sfx(&"card_play_cheap", -2.0)
 		await _wait(0.2)
 		return
 	_reveal(event.card)
@@ -798,9 +838,7 @@ func _on_cast(event: GameEvent) -> void:
 	zones[event.card] = Zone.CENTER
 	view.set_mode(CardView.Mode.FULL)
 	_center_uid = event.card
-	Audio.sfx(&"card_play")
-	if view.data != null and view.data.type == CardEnums.CardType.SPELL:
-		Audio.sfx(&"spell", -6.0)
+	_sfx(BattleSounds.play(view.data))
 	layout()
 	await _wait(0.55)
 
@@ -846,7 +884,7 @@ func _land(view: CardView, rest_scale: float) -> void:
 	tween.tween_property(view, "scale", Vector2(rest_scale * 1.1, rest_scale * 0.94), 0.05 / speed)
 	tween.tween_property(view, "scale", Vector2.ONE * rest_scale, 0.12 / speed)
 	view.set_meta("tween", tween)
-	Audio.sfx(&"land_play", -5.0)
+	_sfx(BattleSounds.summon(view.data))
 	var foot: Vector2 = view.position + Vector2(CardView.SIZE.x * 0.5, CardView.SIZE.y) * rest_scale
 	fx.burst(foot, Color("d8c8a8"), 10, 110.0)
 
@@ -859,11 +897,11 @@ func _on_resource(event: GameEvent, gained: bool) -> void:
 	var spot: Vector2 = _socket_center(owner_index, maxi(slot, 0)) if slot >= 0 else TOKEN_ORIGIN[owner_index]
 	var color: Color = ResourceKind.COLORS[event.value] as Color if ResourceKind.COLORS.has(event.value) else UIStyle.GOLD
 	if gained:
-		Audio.sfx(&"coins", -8.0)
+		_sfx(BattleSounds.resource(event.value, true))
 		fx.burst(spot, color, 10, 140.0)
 		fx.floating_text(spot + Vector2(0, -30), "+%d" % maxi(event.amount, 1), color.lightened(0.3), 28)
 	else:
-		Audio.sfx(&"ui_select", -6.0)
+		_sfx(BattleSounds.resource(event.value, false))
 		fx.flash_ring(spot, color, 44.0)
 
 
@@ -871,7 +909,7 @@ func _on_trap_set(event: GameEvent) -> void:
 	if _center_uid == event.card:
 		_center_uid = 0
 	set_zone(event.card, Zone.TRAPS)
-	Audio.sfx(&"trap", -6.0)
+	_sfx(&"trap_set")
 	layout()
 	await _wait(0.3)
 
@@ -888,8 +926,7 @@ func _on_trap_triggered(event: GameEvent) -> void:
 	view.pivot_offset = CardView.SIZE * 0.5
 	view.rotation_degrees = -28.0
 	view.scale = Vector2(0.04, SCALE_TRAP)
-	Audio.sfx(&"trap")
-	Audio.sfx(&"hit_metal", -6.0)
+	_sfx(&"trap_spring")
 	layout()
 	fx.flash_ring(CENTER_POINT, UIStyle.GOLD, 160.0)
 	await _wait(0.12)
@@ -904,7 +941,7 @@ func _on_token(event: GameEvent) -> void:
 	if view == null:
 		return
 	set_zone(event.card, Zone.FIELD)
-	Audio.sfx(&"card_play", -4.0)
+	_sfx(&"token_create")
 	layout()
 	fx.burst(center_of(event.card), UIStyle.affinity_color(view.data.color), 14, 160.0)
 	await _wait(0.3)
@@ -925,12 +962,14 @@ func _on_damage(event: GameEvent) -> void:
 		var origin: Vector2 = attacker_view.position
 		var lunge: Vector2 = (target_center - center_of(event.card)).limit_length(120.0)
 		var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD)
+		_sfx(&"attack_lunge")
 		tween.tween_property(attacker_view, "position", origin + lunge, 0.09 / speed).set_ease(Tween.EASE_IN)
 		tween.tween_property(attacker_view, "position", origin, 0.16 / speed).set_ease(Tween.EASE_OUT)
 		await tween.finished
 	elif attacker_view != null and zones.get(event.card) == Zone.CENTER:
 		fx.flash_ring(target_center, UIStyle.affinity_color(attacker_view.data.color), 90.0)
-	Audio.sfx(&"hit_heavy" if heavy else &"hit_light")
+	# A blow that does nothing (all of it prevented) clanks like a block.
+	_sfx(BattleSounds.hit(event.amount, on_player) if event.amount > 0 else &"block")
 	if event.amount > 0:
 		fx.floating_text(target_center, "-%d" % event.amount, Color("ff6a5a"), 52 if heavy else 44)
 		fx.burst(target_center, Color("ff8a5a"), 12 + event.amount * 3, 240.0)
@@ -949,12 +988,12 @@ func _on_damage(event: GameEvent) -> void:
 
 func _on_hp(event: GameEvent) -> void:
 	if event.amount > 0:
-		Audio.sfx(&"heal")
+		_sfx(&"heal")
 		fx.floating_text(portrait_anchor[event.player], "+%d" % event.amount, Color("7be08a"), 48)
 		fx.burst(portrait_anchor[event.player], Color("7be08a"), 14, 200.0)
 	elif event.sequence != _last_damage_seq + 1 and event.amount < 0:
 		fx.floating_text(portrait_anchor[event.player], "%d" % event.amount, Color("ff6a5a"), 48)
-		Audio.sfx(&"hit_light")
+		_sfx(&"hit_player", -3.0)
 
 
 func _on_died(event: GameEvent) -> void:
@@ -964,7 +1003,7 @@ func _on_died(event: GameEvent) -> void:
 	views.erase(event.card)
 	zones.erase(event.card)
 	order.erase(event.card)
-	Audio.sfx(&"death")
+	_sfx(BattleSounds.death(view.data))
 	var color: Color = UIStyle.affinity_color(view.data.color) if view.data != null else Color.WHITE
 	var pile_owner: int = int(view.get_meta("owner", 0))
 	var dead: CardInstance = game.find_card(event.card)
@@ -986,7 +1025,7 @@ func _on_died(event: GameEvent) -> void:
 		slide.tween_property(view, "global_position", grave_anchor[pile_owner] - CardView.SIZE * 0.5 * pile_scale, 0.45 / speed)
 		slide.tween_property(view, "scale", Vector2.ONE * pile_scale, 0.45 / speed)
 		slide.tween_property(view, "rotation_degrees", 0.0, 0.45 / speed)
-		Audio.sfx(&"card_discard", -6.0)
+		_sfx(&"card_discard", -7.0)
 	layout()
 	await _wait(0.4)
 
@@ -995,7 +1034,7 @@ func _on_returned(event: GameEvent) -> void:
 	if not views.has(event.card):
 		ensure_view(event.card, Zone.FIELD, event.player)
 	set_zone(event.card, Zone.HAND)
-	Audio.sfx(&"card_draw", -4.0)
+	_sfx(&"card_return")
 	layout()
 	await _wait(0.3)
 
@@ -1008,7 +1047,7 @@ func _on_discarded(event: GameEvent) -> void:
 	views.erase(event.card)
 	zones.erase(event.card)
 	order.erase(event.card)
-	Audio.sfx(&"card_discard")
+	_sfx(&"card_discard")
 	fx.dissolve(view, UIStyle.affinity_color(view.data.color) if view.data != null else Color.WHITE, 0.45)
 	layout()
 	await _wait(0.25)
@@ -1055,6 +1094,19 @@ func show_combat_preview(preview: Dictionary, note: String = "") -> void:
 			badge.free()
 		view.add_child(_preview_badge(int(entry["damage"]), bool(entry["dies"])))
 	var players: Array = preview.get("players", [0, 0]) as Array
+	# Sound pass, Part B: a soft paper tick when a new preview appears, a low knock and a heartbeat when it shows a lethal blow.
+	var signature: String = ""
+	var any_lethal: bool = false
+	if valid:
+		for uid: Variant in units.keys():
+			signature += "%s:%s;" % [uid, str(units[uid])]
+		signature += str(players)
+		for index: int in range(2):
+			any_lethal = any_lethal or (int(players[index]) > 0 and int(players[index]) >= game.players[index].hp)
+	if signature != _preview_signature:
+		_preview_signature = signature
+		if not signature.is_empty():
+			_sfx(&"preview_lethal" if any_lethal else &"preview_tick")
 	for index: int in range(2):
 		var plate: Label = _player_preview_label(index)
 		var amount: int = int(players[index]) if valid else 0

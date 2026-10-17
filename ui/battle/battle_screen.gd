@@ -198,6 +198,9 @@ func _ready() -> void:
 			context.zone_id = str(_screenshot_args.get("zone", ""))
 	Session.pending_battle = null
 	_music_token = Audio.push_music(StringName(MusicDirector.for_battle(context, Session.flags)), 0.6, false)
+	# Sound pass: the place's ambience gives way to the table, and the cards are riffled as the battle begins.
+	Audio.set_ambience("none", 0.6)
+	Audio.sfx(&"battle_start")
 	game = context.game
 	ai = context.ai
 	_build_scene()
@@ -705,6 +708,7 @@ func _on_end_turn() -> void:
 	if busy or not (mode == Mode.MAIN or mode == Mode.ATTACK) or _confirm_open:
 		return
 	_confirm_end_turn(func() -> void:
+		Audio.sfx(&"turn_end")
 		_fast_end_turn = true
 		_clear_selection_state()
 		_submit(GameAction.pass_phase(0))
@@ -828,7 +832,7 @@ func _on_card_hovered(view: CardView) -> void:
 	_hovered_view = view
 	hud.show_preview(view, _hover_note(view))
 	if view.get_meta("owner", 0) == 0 and board.zones.get(view.instance_uid) == BattleBoard.Zone.HAND:
-		Audio.sfx(&"card_hover", -12.0)
+		Audio.sfx(&"card_hover", -3.0)
 
 
 func _on_card_unhovered(view: CardView) -> void:
@@ -887,6 +891,7 @@ func _input(event: InputEvent) -> void:
 	if motion != null and _press_uid != 0 and mode == Mode.MAIN and not _dragging:
 		if (get_global_mouse_position() - _press_pos).length() > DRAG_START_DISTANCE:
 			_dragging = true
+			Audio.sfx(&"card_pickup")
 			board.drag_uid = _press_uid
 			board.hover_uid = 0
 			hud.hide_preview()

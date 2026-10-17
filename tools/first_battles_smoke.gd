@@ -224,6 +224,8 @@ func _fail(message: String) -> void:
 func _finish(ok: bool) -> void:
 	for line: String in _report:
 		print("first_battles_smoke: ", line)
+	print("first_battles_smoke: sounds %s" % str(Audio.play_counts))
+	print("first_battles_smoke: missing sounds %s" % str(Audio.missing_log))
 	print("first_battles_smoke: %s" % ("OK" if ok else "FAILED"))
 	for failure: String in _failures:
 		print("first_battles_smoke: FAIL - ", failure)
