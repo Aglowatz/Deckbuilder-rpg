@@ -125,6 +125,10 @@ const PASSAGE_ZOOM_FAR: float = 13.0
 const PASSAGE_ZOOM_MAX: float = 0.12
 
 
+## Crosspath pass, Part E: the kit vignettes round the outskirts (and what was refused, for tuning).
+var outskirt_dressing: OutskirtDressing
+
+
 func screenshot_prepare(args: Dictionary) -> void:
 	_screenshot_args = args
 
@@ -172,6 +176,9 @@ func _ready() -> void:
 	add_child(WorldLook.sun(&"day"))
 	town.build(self)
 	square = TownSquare.build(self, town, Settings.graphics_quality)
+	if town.hub_land:
+		# Crosspath pass, Part E: the outskirts dressed with the town kit (walls, corners, field edges)
+		outskirt_dressing = OutskirtDressing.build(self, town)
 	AmbientBirds.spawn(self, square.center, 4, Color("f4ecd8"))
 	_build_actors()
 	_build_spots()

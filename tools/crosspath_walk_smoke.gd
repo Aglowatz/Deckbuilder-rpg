@@ -127,7 +127,10 @@ func _lake(town: TownScene) -> void:
 	var chest: Vector3 = town.town.anchors["chest"] as Vector3
 	_teleport(town, Vector3(54.0, 0.0, 37.0))
 	await driver.frames(4)
-	await _walk_to(town, chest, 0.9, 6.0)
+	# along the middle of the narrow peninsula, then round the chest to its front
+	await _walk_to(town, Vector3(61.0, 0.0, 37.3), 0.7, 5.0)
+	await _walk_to(town, Vector3(63.4, 0.0, 37.6), 0.7, 3.0)
+	await _walk_to(town, chest, 0.9, 4.0)
 	_check(Vector2(town.player.position.x - chest.x, town.player.position.z - chest.z).length() < 1.6, "the lake: out along the peninsula to the old chest")
 	await _shot("c_lake_peninsula")
 

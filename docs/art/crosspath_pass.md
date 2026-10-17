@@ -220,3 +220,49 @@ Shots: `docs/art/crosspath_pass/part_d/` (`edge_<kind>_*` one per kind of bounda
   pantry gate's wing (pulled back 4 m); the debug-only Dev Shrine is a kit-stone plinth with a crystal.
 - Town on Medium: 60.0 fps average and minimum at the spawn and at the lakeshore (774 / 561 draw calls; one 59.7 run with a load hitch).
   GUT 1684 passing (CP-2 aside).
+
+## Part E: polish and verify
+
+Final shots: `docs/art/crosspath_pass/final/` (every spot of `tools/crosspath_shots.sh`); before / after pairs: `docs/art/crosspath_pass/compare/`
+(before on the left, `bash tools/crosspath_compare.sh`).
+
+- **Dressing the outskirts** (`OutskirtDressing`, town kit only): a delivery corner of crates inside the orchard wall, a woodpile of crates
+  behind the north row, barrels behind Tilly's, a bench nook over the lake, a garden bed in the west woods clearing, a low wall behind the
+  graveyard, a cart by the meadow road, hay bales in the farmhouse's field, a bench looking over the gorge and bush clumps along the gorge
+  lip as foreground framing. Every piece is checked against the lane, the roads, the buildings, every spot (2.5 m) and the edge; none was
+  refused at the final positions, and the loop and every out-of-town spot stay reachable (test).
+- **Walked** (windowed, real keyboard input, about 7 minutes in all):
+  - `bash tools/run_crosspath_walk_smoke.sh`: the full loop round the town (37 legs, none stuck, never out of town), all six vendors walked up
+    to from the square (prompt, E opens, closes), the Secret Dealer up the alley (prompt, opens the black market), out on the dock and never
+    into the water, along the peninsula to the old chest, round the abandoned cottage to the Undercroft hatch. **OK.**
+  - `bash tools/run_hub_walk_smoke.sh`: every zone road blocked (the obstacle stops the hero, the toast names the gatekeeper), then cleared
+    with the debug flags, walked into each zone and back onto the same road, the Capital road, the Undercroft chained and open. **OK.**
+  - `bash tools/run_town_slice_smoke.sh`: the keyboard walk and 14 spots (vendors, the Deck Station, the elder, Brannoch, the Hall of Records,
+    the notice board, signposts, the hatch). **OK.**
+- **fps on Medium** (`tools/fps.sh`, quality 1): spawn 59.8 average (p95 16.7 ms, one 38 fps load hitch), the alley 60.0, the lakeshore
+  60.0, the pantry gate 60.0 (minimum 60 at the last three).
+- GUT 1685 passing; the one failure (`test_world_look_rig`'s FOV check) is pre-existing and comes from the dev PC's saved zoom (CP-2).
+
+### Before and after
+
+| Fix | Before / after |
+|---|---|
+| The fields (toy huts, polka-dot clutter -> farmhouse, garden, calm grass) | `compare/fields.jpg`, `compare/fields_overview.jpg` |
+| The well and every rigid prop stand still | (motion: `--windlog` lists only plants; `test_rigid_kit_props_have_no_sway`) |
+| Floating beams and boards (barge boards, plates through the thatch) | `compare/beams.jpg`, `compare/beams_thatch.jpg` |
+| The square with the vendors | `compare/square.jpg`, `compare/square_default.jpg`, `compare/vendors_west.jpg`, `final/vendors_north_default.jpg`, `final/vendors_east_default.jpg` |
+| The black-market alley | `compare/alley.jpg`, `final/alley_close_default.jpg` |
+| The whole hub from above (walkable ground green) | `compare/plan.jpg` |
+| A boundary of each kind | `final/edge_ridge_*`, `edge_forest_*`, `edge_orchard_*`, `edge_thorns_*`, `edge_wall_*`, `edge_hedge_*`, `edge_gorge_*`, `lake_dock_*` |
+| The graveyard (KayKit rocks -> kit stone) | `compare/graveyard.jpg` |
+| The lakeshore | `compare/lakeshore.jpg` |
+| Each zone entrance, locked and open | `compare/gate_<zone>_locked.jpg`, `compare/gate_<zone>_open.jpg` (refusemancer, necrocrat, beefcake, gourmand; the Capital road `compare/gate_final_locked.jpg`) |
+
+### Still not right / next
+
+- The checkpoint's striped arm is hard to see from the default camera once the booth turned to face it (it reads from Overview).
+- The ridge boulders, the walls and the gatehouse are kit-textured geometry; a painted cliff/ridge card set and a pantry-gatehouse concept would
+  bring them up to the painted trees (CP-13). Sheet-ready rows: `HUB-ROCK-RIDGE` (CUTOUT, 3-4 boulder silhouettes, 2-3 m), `HUB-CLIFF-FACE`
+  (SURFACE, layered rock, 400 px/m), `HUB-GATEHOUSE` (CONCEPT, pantry gate in an orchard wall, storybook scale).
+- The square's south side is open by design (CP-6); if it feels empty, two low market stalls on its south-west and south-east corners would fill
+  it without hiding a vendor.

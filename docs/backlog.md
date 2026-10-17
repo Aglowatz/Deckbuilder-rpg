@@ -355,3 +355,8 @@ The Capital dressed with its kit (`docs/art/capital_slice.md`, "The art pass"); 
 - **Hub graphics pass, regions**: the roads, edges, lakes, obstacles and the Undercroft got their pass; the lakeshore docks, the graveyard and the
   chapel hill were left as they were (see docs/art/hub_world.md).
 - **Quest system next steps**: per-step dialogue for the zone main lines (they use the existing NPC lines), and markers inside dungeon node maps.
+
+## Crosspath pass (Oct 17)
+- `test_world_look_rig.gd: test_the_rig_aims_the_camera_low_and_pushes_the_look` reads the dev PC's saved settings (zoom 2.0 -> FOV 46, expects 44): make it reset `Settings.camera_zoom` first (CP-2).
+- Painted art for the hub boundaries: `HUB-ROCK-RIDGE`, `HUB-CLIFF-FACE`, `HUB-GATEHOUSE` (CP-13).
+- The D.N.A. checkpoint's barrier arm reads poorly from the default camera since the east/west obstacles turn towards it.

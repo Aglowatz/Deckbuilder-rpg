@@ -138,3 +138,24 @@ func test_the_lake_has_natural_shores_and_no_water_patches() -> void:
 		assert_true(_town.is_floor_at(pond), "the pond at %s is grass now" % str(pond))
 	assert_true(_town.is_walkable(Vector3(TownBounds.DOCK.get_center().x, 0.0, TownBounds.DOCK.get_center().y), 0.3), "the dock can be walked")
 	assert_false(_town.is_floor_at(Vector3(75.0, 0.0, 40.0)), "the lake cannot")
+
+
+func test_the_outskirts_dressing_keeps_the_lane_and_every_spot_clear() -> void:
+	var dressing: OutskirtDressing = OutskirtDressing.build(_town.root, _town)
+	gut.p("outskirt pieces refused: %s" % str(dressing.refused))
+	assert_lte(dressing.refused.size(), 4, "most vignettes fit where they were planned")
+	var loop: PackedVector2Array = TownBounds.LOOP
+	for index: int in range(loop.size()):
+		var a: Vector2 = loop[index]
+		var b: Vector2 = loop[(index + 1) % loop.size()]
+		var steps: int = maxi(1, int(ceil(a.distance_to(b) / 0.5)))
+		for i: int in range(steps):
+			var p: Vector2 = a.lerp(b, float(i) / float(steps))
+			assert_true(_town.is_walkable(Vector3(p.x, 0.0, p.y), 0.45), "the loop is still open at %s" % str(p))
+	var spawn: Vector3 = _town.anchors["spawn"] as Vector3
+	var targets: Dictionary = {}
+	for key: String in _town.anchors.keys():
+		if key.begins_with("hidden_chest_") or key in ["lever", "dev_shrine", "graveyard_cairn", "chest"]:
+			targets[key] = _town.anchors[key]
+	var can: Callable = func(p: Vector3) -> bool: return _town.is_walkable(p, 0.3)
+	assert_eq(WalkProbe.unreachable(can, spawn, _town.map_bounds(), targets), [] as Array[String], "every out-of-town spot still reached")

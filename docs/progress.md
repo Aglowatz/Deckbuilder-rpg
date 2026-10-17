@@ -3320,3 +3320,41 @@ Start tag `pre-overnight-oct16`. Report for the morning: `docs/overnight_report.
   on the fps probe.
 - **Hitches**: the Capital's district music and ambience now load on background threads as the Capital opens, and its ash / confetti no longer
   pre-simulate 6-7 seconds on the first frame: min fps 60 at the gate plaza, the Transit Yards and the Reek (was 18.5, 31.4 and 14.8).
+
+
+## Crosspath pass (2026-10-17): graphics and staging of the main town and the hub
+
+Report with before / after pictures: `docs/art/crosspath_pass.md` (shots in `docs/art/crosspath_pass/<phase>/`, pairs in `compare/`). Decisions
+CP-1..CP-14 in `docs/design/open_questions.md`. Commits "Crosspath pass, Part A..E".
+
+- **A, audit**: every off-style object, swaying rigid thing, floating trim, readable plate, invisible edge and stray lamp, with positions.
+- **B, cleanup**: the toy KayKit huts, wells, towers, tents, rocks and the 1206 hidden water tiles gone; kit farmhouse, wayside cottage, fisher's
+  cottage and boat shed placed with purpose; nothing rigid sways (whole-word foliage names, rigid words win); gable-front barge boards, wall
+  plates and corner posts sit on their roofs; no floating plates over places; field clutter in clumps along edges; lamps only on cobbled streets.
+- **C, the square**: a 23 m square with a kit-stone fountain, all six shop vendors round it in their own storefronts facing in, open south side,
+  5.2 m streets; the Secret Dealer in a dim alley off the north-east corner.
+- **D, the edges**: the hub's walkable ground is data with a visible blocker on every edge (ridge, woods, orchard wall, lake shore, gorge,
+  hedge, field wall, fence, thorn woods); a loop lane round the outside of the town; each zone road the only way through its obstacle; the
+  pantry door rebuilt as a carved door in a stone gatehouse; one natural lake with a bank, shallows, reeds, a dock and a waterfall.
+- **E, polish**: outskirts dressing at walls and corners; the Crosspath walk smoke (loop, vendors, alley, lake, Undercroft), the hub walk smoke
+  (every road locked and open), the town slice smoke; fps.
+- Tools: `bash tools/crosspath_shots.sh <phase> [prefixes]`, top-down plan shots (`--top`, `--plan`), `--windlog`, `tools/crosspath_inventory.tscn`,
+  `bash tools/run_crosspath_walk_smoke.sh`, `bash tools/crosspath_compare.sh`.
+
+### Check these (Crosspath pass)
+
+1. **The square** from the spawn and at Overview: are the six storefronts easy to read and reach, and does the open south side feel like a square
+   or like a missing row? (CP-6)
+2. **The Secret Dealer's alley** (open the giant chest first, or `--found=harbor_chest` on a shot): hidden enough, findable enough? The lantern and the
+   crate stack at the mouth are the only hints.
+3. **Walk the loop lane** right round the town (the dirt lane behind the north row, past the orchard wall, along the lake, south over the meadows,
+   up through the woods). Any spot that looks open but stops you, or a blocker that looks thin?
+4. **The pantry door** locked and open (`--gates=open`): does it read as a giant locked door built into the orchard wall, turned towards the camera
+   (CP-12)? Same for the checkpoint's wall and fence, the thorn woods and the gorge either side of the bridge.
+5. **The lake**: the bank and shallows instead of hard water edges, the dock, the peninsula to the old chest, the waterfall into the gorge.
+6. **The fields**: calm grass between clumps now (ground dressing and the world foliage layer both follow the clump rule, CP-5 / CP-9). Too bare
+   anywhere?
+7. **Name plates**: places lost their floating names; people keep theirs (CP-3). Want those gone too?
+8. **The rock ridge** either side of the Capital road and the gatehouse are built from kit textures, not painted art (CP-13): worth a painted cliff
+   set and a gatehouse concept?
+9. **The D.N.A. checkpoint**: its striped arm is hard to see from the default camera now that the booth faces the camera; fine, or turn it back?

@@ -1,22 +1,21 @@
 class_name OutskirtDressing
 extends RefCounted
 ## Crosspath pass, Part E: the outskirts dressed with the town kit like the square, so the new walkable ground looks finished: small purposeful
-## vignettes at the walls, the lane's corners and the field edges (a delivery corner inside the orchard wall by the pantry gate, a woodpile behind
-## the north row, barrels behind Tilly's, a bench over the lake, a garden in the west woods clearing, a low wall round the graveyard, a cart by the
+## vignettes at the walls, the lane's corners and the field edges (a delivery corner inside the orchard wall south of the pantry gate, a woodpile behind
+## the north row, barrels behind Tilly's, a bench over the lake, a garden in the west woods clearing, a low wall behind the graveyard, a cart by the
 ## meadow road, hay in the farmhouse's field, a bench looking over the gorge) and soft bush clumps along the gorge lip in the foreground.
 ## Every piece keeps off the loop lane, the roads, the buildings, the spots and the edge; what does not fit is left out and listed in `refused`.
 
 ## [kind, name, x, z, yaw, size]: kind "cluster" (PropClusters), "prop" (PropKit, size = length for walls), "card" (TreeCards kind, size = scale).
 const PIECES: Array = [
-	["cluster", "crates", 71.0, 4.8, 90.0, 0.0],
+	["cluster", "crates", 70.6, 19.4, 90.0, 0.0],
 	["cluster", "crates", 39.0, -14.4, 0.0, 0.0],
 	["cluster", "barrel_pair", 16.4, -8.2, 0.0, 0.0],
 	["cluster", "bench_nook", 50.6, 36.2, 90.0, 0.0],
 	["cluster", "garden_bed", -12.6, 25.8, 0.0, 0.0],
-	["cluster", "crates", -20.2, -2.2, 90.0, 0.0],
+	["cluster", "crates", -21.4, -2.2, 90.0, 0.0],
 	["cluster", "bench_nook", 40.4, 67.4, 180.0, 0.0],
-	["prop", "stone_wall", -10.8, 28.4, 0.0, 5.0],
-	["prop", "stone_wall", -7.4, 31.4, 90.0, 4.0],
+	["prop", "stone_wall", -10.0, 28.4, 0.0, 3.6],
 	["prop", "cart", 38.8, 46.4, 30.0, 0.0],
 	["card", "hay", 4.4, 58.4, 0.0, 1.0],
 	["card", "hay", 8.0, 60.2, 0.0, 0.9],
@@ -24,7 +23,7 @@ const PIECES: Array = [
 ]
 ## Bush clumps along the gorge lip (x), kept off the bridge.
 const LIP_BUSHES: Array[float] = [-1.0, 6.0, 13.0, 34.0, 43.0, 51.0]
-const LIP_Z: float = 70.2
+const LIP_Z: float = 69.6
 
 var refused: Array[String] = []
 
