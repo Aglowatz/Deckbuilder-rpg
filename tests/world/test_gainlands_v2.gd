@@ -74,3 +74,81 @@ func test_clear_sightlines_from_the_entrance_to_the_three_path_heads() -> void:
 		var anchor: Vector3 = layout.anchors[key] as Vector3
 		assert_gt(Vector2(anchor.x - hub.x, anchor.z - hub.z).length(), GainlandsLayout.PLAZA_RADIUS + 3.0, "%s stands at the plaza's edge" % key)
 		assert_gt(absf(anchor.x - GainlandsLayout.BRIDGE_X), 8.0, "%s is off the line from the bridge" % key)
+
+
+# ---- Part D: scale, gym-first decoration, trees, power lines ---------------------------------------------------------------
+
+
+func test_the_windmills_are_proper_multi_storey_mills() -> void:
+	var mills: int = 0
+	for child: Node in builder.root.get_children():
+		if child.name.begins_with("TowerMill"):
+			mills += 1
+			assert_gte(float(child.get_meta("height", 0.0)), StorybookScale.STOREY_H * 4.0, "%s stands four storeys and more (the KayKit mill was 4.4 m)" % child.name)
+			assert_true(child.has_meta("spinner"), "its sails turn")
+	assert_eq(mills, 3, "three tower mills in the mill lands")
+	for prop: GainlandsLayout.Prop in layout.props:
+		if prop.kind == "mill":
+			assert_eq(GainlandsLayout.level_at(prop.pos.x, prop.pos.z), 1, "each mill stands on the plateau")
+	assert_lt(float(GainlandsBuilder.SCALE_FIX["bench_press"]), 0.8, "the bench press shrank to storybook size (was a 3.8 m bar)")
+	assert_gt(float(GainlandsBuilder.SCALE_FIX["stall"]), 1.0, "the stalls grew to a door's height and more")
+
+
+func test_gym_equipment_is_the_decoration_in_yards_off_the_routes() -> void:
+	assert_gte(layout.yards.size(), 6, "lifting yards at the path edges and in the side pockets")
+	var kinds: Dictionary = {}
+	for yard: Dictionary in layout.yards:
+		var rect: Rect2 = Rect2((yard["center"] as Vector2) - (yard["size"] as Vector2) * 0.5, yard["size"] as Vector2)
+		assert_eq(GainlandsLayout.level_at(rect.get_center().x, rect.get_center().y), 1, "%s stands on the plateau" % str(yard["id"]))
+		for item: Variant in yard["items"] as Array:
+			var data: Dictionary = item as Dictionary
+			kinds[str(data["kind"])] = true
+			var pos: Vector3 = data["pos"] as Vector3
+			var radius: float = float(data["radius"])
+			assert_gte(layout.path_edge_distance(pos.x, pos.z) - radius, 0.5, "%s in %s keeps off the paving" % [str(data["kind"]), str(yard["id"])])
+			# the middle road proper: the ridge from behind the gym hall to the stairs, where the fights are
+			var ridge: Vector2 = Geometry2D.get_closest_point_to_segment(Vector2(pos.x, pos.z), Vector2(56.0, 55.6), Vector2(56.0, 9.0))
+			assert_gt(ridge.distance_to(Vector2(pos.x, pos.z)), 8.0, "no yard on the middle road (%s)" % str(yard["id"]))
+		assert_true(builder.root.find_child("Yard_%s" % str(yard["id"]), false, false) != null, "%s is built" % str(yard["id"]))
+	for kind: String in ["squat_rack", "bench", "dumbbell_rack", "kettlebell_rack", "atlas_stones", "tire_pair", "sled_track", "pullup_frame", "rope_station", "plate_stack", "chalk_bucket"]:
+		assert_true(kinds.has(kind), "the yards have a %s" % kind)
+	assert_eq(layout.yard_rects().size(), layout.yards.size(), "each yard has its rubber mat (the painted gym mask)")
+
+
+func test_few_hardy_trees_and_no_flowers() -> void:
+	var trees: int = 0
+	for prop: GainlandsLayout.Prop in layout.props:
+		if prop.kind == "tree" and GainlandsLayout.is_main_ground(prop.pos.x, prop.pos.z):
+			trees += 1
+	assert_lte(trees, GainlandsLayout.TREE_COUNT, "a few hardy trees (was 74)")
+	assert_not_null(builder.root.find_child("HardyTrees0", false, false), "wind-bent trees")
+	assert_not_null(builder.root.find_child("HardyTrees1", false, false), "cypress accents")
+	for item: Variant in ZoneDressing.recipe(StylePresets.GAINLANDS)["items"] as Array:
+		var model: String = str((item as Array)[1])
+		assert_false(model.begins_with("flower") or model.begins_with("mushroom"), "no %s in the Gainlands scatter (dry scrub only)" % model)
+
+
+func test_power_lines_cross_the_zone_on_believable_pylons() -> void:
+	assert_gte(layout.power_lines.size(), 2, "power lines across the zone")
+	var crosses_middle: bool = false
+	var middle: PackedVector2Array = layout.route("middle")
+	for line: Variant in layout.power_lines:
+		var points: Array = line as Array
+		assert_gte(points.size(), 3, "a line of several towers")
+		for point: Variant in points:
+			var base: Vector3 = point as Vector3
+			assert_false(GainlandsLayout.is_main_ground(base.x, base.z) and not GainlandsLayout.CAVE_CLIFF.has_point(Vector2(base.x, base.z)), "every tower stands off the walkable land (on a sandstone stack or the cave's cliff)")
+		for i: int in range(points.size() - 1):
+			var a: Vector3 = points[i] as Vector3
+			var b: Vector3 = points[i + 1] as Vector3
+			assert_between(Vector2(b.x - a.x, b.z - a.z).length(), 12.0, 60.0, "a believable span")
+			for k: int in range(middle.size() - 1):
+				if Geometry2D.segment_intersects_segment(Vector2(a.x, a.z), Vector2(b.x, b.z), middle[k], middle[k + 1]) != null:
+					crosses_middle = true
+	assert_true(crosses_middle, "a line crosses the canyons and the middle road")
+	assert_between(GainlandsStructures.PYLON_H, StorybookScale.HERO_HEIGHT * 8.0, StorybookScale.HERO_HEIGHT * 11.0, "towers tower over the hero without dwarfing the fortress")
+	for index: int in range(1, layout.power_lines.size() + 1):
+		var cables: Node = builder.root.find_child("Cables%d" % index, false, false)
+		assert_not_null(cables, "line %d has its cables" % index)
+		for sag: Variant in cables.get_meta("sag", []) as Array:
+			assert_gt(float(sag), 0.5, "the cables sag naturally")

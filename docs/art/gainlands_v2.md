@@ -185,3 +185,18 @@ The shared fix (Part E) goes into the toon shader's wind for cloth: a banner han
 
 - **GL2-08** The ruler's statue and banners (oppressed state) moved from the hub's default offsets, which now fall on the open square, to the plaza's south corners beside the gateway: the first thing the arriving hero passes.
 - **GL2-09** "Clear sightline to the path heads": the left and right heads and both lanes round the gym hall are in a clear line from the gateway; the middle road itself starts behind the hall (GL2-06), marked by its lamp posts and the fortress above.
+
+## Part D: props, scale and gym-first decoration (done)
+
+- **Scale fixes** (the Part A audit): the three windmills are four-storey tower mills now (`GainlandsStructures.windmill`, STANDIN: sandstone ground storey, brick and plaster above, a gallery, a red cap, lattice sails 11 m across, about 13.9 m to the cap; the KayKit mill was 4.4 m); `GainlandsBuilder.SCALE_FIX` shrinks the bench press (0.62), the lying barbell (0.68), the log rack (0.75) and the dumbbell rack (0.75) and grows the stalls (1.12); kettlebells are knee-high (0.45 m, were 0.9 m) and the plate stacks 0.62x. Lamps (4.2 m posts) and the wheels were already right.
+- **Gym equipment is the decoration** (`GainlandsGym`, layout `yards`): seven lifting yards on their own rubber mats at path edges and in side pockets, none on the middle road and none in the plaza (the gym hall is the plaza's gym): west strongman (by Shiro's giant chest), west rig, west lifting, east strongman, east lifting, east rig and Gary's yard right of the entrance. Pieces: squat racks with loaded bars, benches, two-tier dumbbell racks, kettlebell racks, atlas stones on plinths, tyre piles, a sled track with its sled, pull-up frames, rope stations, plate stacks, chalk buckets (and a leg press for the Iron Cave, Part F). Each yard is one mesh; every piece is a solid "gym:<kind>" prop in the layout, so the walkability probe sees it.
+- **Trees cut to a few hardy ones**: 16 on the plateau (was 74): wind-bent dry-land trees leaning with the zone's wind and cypress accents (`GainlandsStructures.windbent_mesh`, `cypress_mesh`, two MultiMesh fields), only near the rims; no flowers or mushrooms anywhere (the generic scatter is dry scrub and stones).
+- **Power lines** (new, GL2-02): three lines of 16 m lattice towers with three sagging cables per span (catenaries, sag 5.5 % of the span): down the west rim to the Iron Cave's cliff and the left canyon's mouth, down the east rim past the overlook to the right canyon's mouth, and one across the whole zone from the west sea over both canyons (towers on canyon stacks) and the middle road to the east sea. Every tower stands on a sandstone stack off the walkable land (or on the cave's cliff), so none blocks a route.
+- **fps** (Medium, 10-12 s): hub 60.0, ridge mouth 60.0, forecourt 59.9, left lands 59.9, market row 60.0, overlook 59.3.
+- `GAIN_HIDE=<name,...>` hides root pieces by name for fps hunting (like HEAP_HIDE).
+
+### Judgment calls (Part D)
+
+- **GL2-10** Gary's yard keeps its equipment within 3-4 m of Gary's spot: Gary is "currently under a barbell", the yard is his. Every other anchor keeps 5.5 m.
+- **GL2-11** The legacy return points of the removed Gainlands sub-areas (old saves) land in the plaza and at the overlook now (the old point stood where a tower mill is).
+- **GL2-12** fps probes on the middle road must stand outside the guards' reach: a probe 2.5 m from a guard measured the battle screen (54 fps). Measured spots: the ridge mouth and the forecourt.

@@ -45,6 +45,11 @@ func _build_zone_extras() -> void:
 	last_safe = player.position
 	gain.wheel_speed = 1.8 if Session.flag(GainlandsZone.FLAG_WHEEL_POWERED) else 0.45
 	roads = GainlandsRoads.build(self, gain)
+	# fps hunting (as HEAP_HIDE in the Dump): GAIN_HIDE=Pylons,Waterfall,... hides the Gainlands root's children whose names start with any of the words
+	for word: String in OS.get_environment("GAIN_HIDE").split(",", false):
+		for child: Node in gain.root.get_children() + get_children():
+			if child is Node3D and String(child.name).begins_with(word):
+				(child as Node3D).visible = false
 	dressing = GainlandsDressing.build(self, gain, Settings.graphics_quality)
 	cloud_fader = CloudFader.new()
 	cloud_fader.camera = _camera

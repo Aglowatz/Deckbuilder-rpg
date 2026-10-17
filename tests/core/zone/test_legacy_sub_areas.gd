@@ -16,8 +16,8 @@ func test_every_removed_sub_area_resolves_to_its_main_area() -> void:
 
 
 func test_the_landing_spots_are_the_old_gate_positions() -> void:
-	assert_eq(LegacySubAreas.resolve("sub:gainlands/proving_grounds")["position"], Vector3(38.0, 0.0, 70.0), "the Proving Grounds gate stood south of the Swole Station plaza")
-	assert_eq(LegacySubAreas.resolve("sub:gainlands/sky_garden")["position"], Vector3(38.0, 0.0, 70.0), "the Sky Garden hung off the Proving Grounds")
+	assert_eq(LegacySubAreas.resolve("sub:gainlands/proving_grounds")["position"], Vector3(50.0, 0.0, 78.0), "the old Proving Grounds gate returns to the plaza (Gainlands v2 moved the hub)")
+	assert_eq(LegacySubAreas.resolve("sub:gainlands/sky_garden")["position"], Vector3(50.0, 0.0, 78.0), "the Sky Garden hung off the Proving Grounds: the plaza too")
 	assert_eq(LegacySubAreas.resolve("sub:dna/executive_approach")["position"], Vector3(70.5, 0.0, 27.5), "the Executive Approach hung off the Records Basement gate")
 	assert_eq(LegacySubAreas.resolve("sub:castle_grounds/grand_stair")["kind"], "zone:final", "the castle grounds were reached from the Capital")
 	assert_eq(LegacySubAreas.resolve("sub:castle_grounds/grand_stair")["position"], Vector3(59.3, 0.0, 20.3), "at the Palace Approach gate")

@@ -197,13 +197,13 @@ func _pennant(index: int) -> Node3D:
 
 func _kettlebells() -> Node3D:
 	if EnvKit.has_art("GAIN-PROP-KETTLEBELL"):
-		return ZoneClusters.card_prop("GAIN-PROP-KETTLEBELL", 0.9)
+		return ZoneClusters.card_prop("GAIN-PROP-KETTLEBELL", 0.45)  # knee-high (was 0.9 m, Part A audit)
 	var root_node: Node3D = Node3D.new()
 	root_node.name = "Kettlebells"
 	var tones: Array[Color] = [DARK, RED, Color("4a4a64")]
 	for i: int in range(3):
 		var mesh: ProcMesh = ProcMesh.new()
-		var s: float = 0.28 + 0.06 * float(i)
+		var s: float = 0.14 + 0.03 * float(i)  # knee-high kettlebells (Part A audit)
 		mesh.sphere(Vector3(0, s, 0), s, 4, 8, tones[(i + int(_rng.randf() * 3.0)) % 3], Transform3D.IDENTITY, 0.9)
 		mesh.box(Vector3(-s * 0.55, s * 2.0 + 0.05, 0), Vector3(0.05, 0.16, 0.06), DARK)
 		mesh.box(Vector3(s * 0.55, s * 2.0 + 0.05, 0), Vector3(0.05, 0.16, 0.06), DARK)
@@ -225,7 +225,9 @@ func _plates() -> Node3D:
 		mesh.frustum(height, height + thickness + 0.005, 0.12, 0.12, 8, DARK)
 		height += thickness
 	mesh.frustum(0.0, height + 0.5, 0.06, 0.06, 6, Color("9aa0b0"))
-	return _holder(mesh, "PlateStack")
+	var stack: Node3D = _holder(mesh, "PlateStack")
+	stack.scale = Vector3.ONE * 0.62  # plates 0.6 m across, a 0.65 m stack (was 1.0 m tall, Part A audit)
+	return stack
 
 
 func _tires() -> Node3D:

@@ -49,6 +49,8 @@ func build(parent: Node3D) -> void:
 	_build_region_landmarks()
 	_build_clouds()
 	_build_props()
+	_build_yards()
+	_build_power()
 	_build_pipes()
 	_build_signs()
 	_build_chests()
@@ -552,12 +554,9 @@ func _build_props() -> void:
 		var pos: Vector3 = _ground(prop.pos.x, prop.pos.z)
 		match prop.kind:
 			"tree":
-				# painted tree cards of the zone kit (TreeCards "oak" / "pine" swap to GAIN-TREE-OAK / -PINE): 2.5 - 4 heroes tall (G-01)
-				var hub_distance: float = Vector2(pos.x - 52.0, pos.z - 64.0).length()
-				var near: float = clampf((hub_distance - 10.0) / 24.0, 0.0, 1.0)
-				# the paint-over keeps the hub open: small pines near the Station (whatever the layout variant), oaks and pines at full size out in the fields
-				var variant: int = 1 if hub_distance < 20.0 else prop.variant % 2
-				(tree_transforms[variant] as Array).append({"pos": pos, "scale": lerpf(0.5, clampf(prop.model_scale * 0.72, 0.8, 1.15), near)})
+				# Gainlands v2, Part D: a few hardy trees (variant 0 wind-bent, 1 cypress), leaning with the zone's one wind (towards +x) give or take the yaw
+				var tree_basis: Basis = Basis(Vector3.UP, deg_to_rad(prop.yaw)).scaled(Vector3.ONE * prop.model_scale)
+				(tree_transforms[prop.variant % 2] as Array).append(Transform3D(tree_basis, pos - Vector3(0, 0.05, 0)))
 			"boulder":
 				var rock_scale: float = prop.model_scale * (1.9 if prop.radius > 0.9 else 1.35)
 				var rock_basis: Basis = Basis(Vector3.UP, deg_to_rad(prop.yaw)).scaled(Vector3.ONE * rock_scale)
@@ -565,11 +564,27 @@ func _build_props() -> void:
 			_:
 				_place_feature(prop, pos)
 	for variant: int in tree_transforms.keys():
-		var entries: Array[Dictionary] = []
-		entries.assign(tree_transforms[variant] as Array)
-		KitFoliage.tree_field(root, "oak" if variant == 0 else "pine", entries, true)
+		_mesh_field(GainlandsStructures.windbent_mesh() if variant == 0 else GainlandsStructures.cypress_mesh(), "HardyTrees%d" % variant, tree_transforms[variant] as Array)
 	for variant: int in rock_transforms.keys():
 		_add_multimesh(KAYKIT_ROCKS[variant], "nature", rock_transforms[variant] as Array)
+
+
+## One built mesh drawn many times (the hardy trees): rigid (no toon wind: a trunk must not bend), never faded or culled one by one.
+func _mesh_field(mesh: Mesh, node_name: String, transforms: Array) -> void:
+	if transforms.is_empty():
+		return
+	var multimesh: MultiMesh = MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	multimesh.mesh = mesh
+	multimesh.instance_count = transforms.size()
+	for index: int in range(transforms.size()):
+		multimesh.set_instance_transform(index, transforms[index] as Transform3D)
+	var holder: MultiMeshInstance3D = MultiMeshInstance3D.new()
+	holder.multimesh = multimesh
+	holder.name = node_name
+	holder.set_meta(&"no_wind", true)
+	holder.set_meta(&"no_range_cull", true)
+	root.add_child(holder)
 
 
 ## One shared mesh drawn many times (trees, rocks): a MultiMesh built from a KayKit model's mesh.
@@ -595,16 +610,25 @@ func _add_multimesh(model: String, folder: String, transforms: Array) -> void:
 	source.queue_free()
 
 
+var _mill_count: int = 0
+
+
+## Storybook scale fixes of the Part A audit (docs/art/gainlands_v2.md): the procedural props that were built too big or too small.
+const SCALE_FIX: Dictionary = {"stall": 1.12, "bench_press": 0.62, "barbell": 0.68, "log_rack": 0.75, "dumbbell_rack": 0.75}
+
+
 func _place_feature(prop: GainlandsLayout.Prop, pos: Vector3) -> void:
+	if prop.kind.begins_with("gym:"):
+		return  # built with its yard (_build_yards)
 	var node: Node3D = null
-	var kind_scale: float = prop.model_scale
+	var kind_scale: float = prop.model_scale * float(SCALE_FIX.get(prop.kind, 1.0))
 	match prop.kind:
 		"mill":
-			node = ModelKit.building("windmill")
-			ModelKit.tint(node, Color(1.05, 1.0, 0.9))
-			var fan: Node = node.find_child("building_windmill_top_fan_blue", true, false)
-			if fan is Node3D:
-				_fans.append(fan as Node3D)
+			# Gainlands v2, Part D: a four-storey tower mill (about 13 m to the cap; the KayKit windmill was 4.4 m), its sails turning
+			node = GainlandsStructures.windmill()
+			_mill_count += 1
+			node.name = "TowerMill%d" % _mill_count  # unique: Godot renames duplicate siblings to @Node3D@N
+			_fans.append(node.get_meta("spinner") as Node3D)
 		"station":
 			# the Swole Station platform modelled after GAIN-HERO-SWOLE-STATION (LandmarkKit -> HeroLandmarks); its posts, stall and bag block the hero
 			node = LandmarkKit.build({"id": "GAIN-HERO-SWOLE-STATION", "kind": "hut", "size": [10.0, 6.0, 8.0], "color": "#f7ebd3", "accent": "#d9483b"})
@@ -675,6 +699,34 @@ func _place_feature(prop: GainlandsLayout.Prop, pos: Vector3) -> void:
 		node.scale = Vector3.ONE * kind_scale
 	else:
 		node.scale = Vector3.ONE * (kind_scale if kind_scale != 1.0 else 1.0)
+
+
+# ---- Lifting yards and power lines (Part D) -------------------------------------------------------------
+
+
+func _build_yards() -> void:
+	for yard: Dictionary in layout.yards:
+		var centre: Vector2 = yard["center"] as Vector2
+		var origin: Vector3 = Vector3(centre.x, layout.ground_height(centre.x, centre.y), centre.y)
+		root.add_child(GainlandsGym.yard(yard["items"] as Array, origin, "Yard_%s" % str(yard["id"])))
+
+
+func _build_power() -> void:
+	var index: int = 0
+	for stack: Vector4 in layout.stacks:
+		index += 1
+		root.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(stack.x, stack.y), Vector2(stack.z, stack.z), 8, float(index) * 2.9), stack.w, "PylonStack%d" % index))
+	index = 0
+	for line: Variant in layout.power_lines:
+		index += 1
+		var points: Array[Vector3] = []
+		points.assign(line as Array)
+		var towers: MeshInstance3D = GainlandsStructures.pylons(points)
+		towers.name = "Pylons%d" % index
+		root.add_child(towers)
+		var wires: MeshInstance3D = GainlandsStructures.cables(points)
+		wires.name = "Cables%d" % index
+		root.add_child(wires)
 
 
 # ---- Energy pipes -----------------------------------------------------------------------------------

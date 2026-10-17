@@ -146,6 +146,13 @@ var paths: Array[Dictionary] = []
 var flat_spots: Array[Vector3] = []
 ## Axis-aligned solid rectangles (x, z, w, d): the gym hall and other buildings with straight walls.
 var blocker_rects: Array[Rect2] = []
+## The lifting yards (Part D): [{id, center, size, items: [{kind, pos, yaw, radius}]}]; every item is also a solid "gym:<kind>" prop.
+var yards: Array[Dictionary] = []
+## The power lines (Part D): each an Array[Vector3] of tower bases (x, base height, z) in cable order; the towers stand on sandstone stacks off the
+## walkable land (in the sea by the rims, in the canyons, on the Iron Cave's cliff), so they never block a route.
+var power_lines: Array = []
+## The sandstone stacks the towers stand on: Vector4(x, z, radius, top height).
+var stacks: Array[Vector4] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 
@@ -470,7 +477,7 @@ func _anchors() -> void:
 	# Left lands: the mill lands (tall windmills, the Hero Wheel, Professor Pump's lecture log), the Iron Cave in the north-west cliff, the Champions Arch and
 	# the Pump Shrine on the north rim, the throwers west and north.
 	_at("quiz", 22.0, 68.0)
-	_at("giant_chest", 12.0, 72.0)  # Brief 16: Shiro Swindle's giant chest, beside the west lifting yard
+	_at("giant_chest", 14.0, 72.0)  # Brief 16: Shiro Swindle's giant chest, beside the west lifting yard ("a giant chest next to a gym")
 	_at("thrower_west", 9.0, 47.0)
 	_at("land_west", 12.0, 54.0)
 	_at("land_calf", 11.0, 60.0)
@@ -520,7 +527,7 @@ func _chests() -> void:
 	# Side paths carry the loot (brief): two in the left lands' pockets, two in the right lands', one on the mesa beside the fortress; the rest on the islands.
 	chests = {
 		"chest_ground_0": Vector3(9.5, 0.0, 64.0),
-		"chest_ground_1": Vector3(103.0, 0.0, 76.0),
+		"chest_ground_1": Vector3(104.5, 0.0, 68.5),
 		"chest_ground_2": Vector3(43.0, 0.0, -4.0),
 		"chest_ground_3": Vector3(97.5, 0.0, 13.5),
 		"chest_ground_4": Vector3(33.0, 0.0, 15.5),
@@ -548,9 +555,9 @@ func _enemies() -> void:
 		{"type": "golem", "home": Vector3(NARROWS[1].x, 0.0, NARROWS[1].y), "patrol": 0.0, "id": "guard_mid_2", "guard": GUARD_RADIUS, "escorts": 1},
 		{"type": "brute", "home": Vector3(NARROWS[2].x, 0.0, NARROWS[2].y), "patrol": 0.0, "id": "guard_mid_3", "guard": GUARD_RADIUS, "escorts": 2},
 		# the side roads: optional roamers off the road (they can be walked round)
-		{"type": "golem", "home": Vector3(20.0, 0.0, 38.0), "patrol": 3.5},
-		{"type": "sprite", "home": Vector3(38.0, 0.0, 50.0), "patrol": 5.0},
-		{"type": "brute", "home": Vector3(83.0, 0.0, 47.0), "patrol": 4.0},
+		{"type": "golem", "home": Vector3(33.0, 0.0, 52.0), "patrol": 3.5},
+		{"type": "sprite", "home": Vector3(22.0, 0.0, 34.0), "patrol": 5.0},
+		{"type": "brute", "home": Vector3(84.0, 0.0, 40.0), "patrol": 4.0},
 		{"type": "sprite", "home": Vector3(94.0, 0.0, 31.0), "patrol": 5.0},
 	]
 
@@ -646,9 +653,9 @@ func _features() -> void:
 	_prop("stall", 83.0, 56.5, -10.0, 1.0, 1.4, 1)
 	_prop("stage", 90.0, 75.5, 180.0, 1.0, 2.2)
 	# Tall windmills in the mill lands (Part D makes them proper multi-storey mills), their sails turning.
-	_prop("mill", 32.0, 74.0, 20.0, 3.0, 3.0)
-	_prop("mill", 39.0, 40.0, 200.0, 3.0, 3.0)
-	_prop("mill", 19.5, 77.0, -30.0, 3.0, 3.0)
+	_prop("mill", 36.0, 68.0, 20.0, 1.0, 3.2)
+	_prop("mill", 39.0, 40.0, 200.0, 1.0, 3.2)
+	_prop("mill", 30.0, 79.0, -30.0, 1.0, 3.2)
 	_prop("hut", 22.0, 64.5, 0.0, 1.0, 1.5)
 	# Colossal hamster wheels at the wheel works (the first one is the one you can run); the stands collide, the wheel itself is walk-through.
 	_prop("wheel", 99.0, 37.0, 0.0, 1.0, 0.0, 0)
@@ -658,11 +665,8 @@ func _features() -> void:
 		_prop("pylon", stand.x, stand.y, 0.0, 1.0, stand.z)
 	# The Iron Cave mouth in the north-west cliff face (Part F builds the cave).
 	_prop("cavern", 15.0, 21.3, 0.0, 1.0, 2.2)
-	# The lifting yard right of the entrance (Gary's), kept as the model for the yards of Part D.
-	_prop("bench_press", 75.0, 84.5, 10.0, 1.0, 1.0)
-	_prop("bench_press", 82.0, 84.0, -10.0, 1.0, 1.0)
-	_prop("dumbbell_rack", 85.0, 78.5, 90.0, 1.0, 1.1)
-	_prop("barbell", 78.0, 85.0, 0.0, 1.0, 0.0)
+	_yards()
+	_power()
 	# Island dressing: crystals, the mirror on Pec Perch.
 	for crystal: Array in [["pec", -2.0, 0.0], ["delt", 2.0, 1.0], ["glute", -1.0, -1.0], ["calf", 1.0, 1.0]]:
 		var at: Vector3 = _island_point(str(crystal[0]), float(crystal[1]), float(crystal[2]))
@@ -696,7 +700,80 @@ func _signs() -> void:
 
 ## The lifting yards' ground (gym mat in the painted terrain): x, z, w, d.
 func yard_rects() -> Array[Rect2]:
-	return [Rect2(72.0, 76.0, 15.0, 10.0)] as Array[Rect2]
+	var result: Array[Rect2] = []
+	for yard: Dictionary in yards:
+		var size: Vector2 = yard["size"] as Vector2
+		result.append(Rect2((yard["center"] as Vector2) - size * 0.5, size))
+	return result
+
+
+## Yard presets: [kind, local x, local z, yaw, blocking radius]. Storybook scale (GainlandsGym); every solid piece blocks through its circle.
+const YARD_PRESETS: Dictionary = {
+	"lifting": {"size": Vector2(8.0, 5.0), "items": [["squat_rack", -2.4, -0.6, 0.0, 1.25], ["bench", 0.4, 0.4, 90.0, 0.75], ["dumbbell_rack", 2.5, -1.4, 0.0, 1.15], ["plate_stack", -3.3, 1.6, 0.0, 0.45], ["chalk_bucket", 1.7, 1.7, 0.0, 0.3]]},
+	"strongman": {"size": Vector2(9.0, 6.0), "items": [["atlas_stones", -1.5, -1.8, 0.0, 1.8], ["tire_pair", 2.8, 0.8, 0.0, 1.4], ["sled_track", -1.0, 1.8, 0.0, 0.0], ["chalk_bucket", 3.8, -2.2, 0.0, 0.3]]},
+	"rig": {"size": Vector2(7.0, 4.0), "items": [["pullup_frame", -1.6, -0.4, 0.0, 1.2], ["rope_station", 1.8, -0.6, 0.0, 0.8], ["kettlebell_rack", 1.0, 1.2, 0.0, 0.9], ["plate_stack", -3.0, 1.3, 0.0, 0.45]]},
+}
+
+
+## Gainlands v2, Part D: gym equipment is the decoration. Small yards at the path edges and in the side pockets (none on the middle road, where the fights
+## are, none in the plaza: the gym hall is the plaza's gym), each on its own rubber mat; Gary's yard right of the entrance is the biggest.
+func _yards() -> void:
+	_yard("west_strongman", "strongman", Vector2(21.0, 76.0))
+	_yard("west_rig", "rig", Vector2(36.0, 47.5))
+	_yard("west_lifting", "lifting", Vector2(38.5, 53.0))
+	_yard("east_strongman", "strongman", Vector2(100.0, 74.5))
+	_yard("east_lifting", "lifting", Vector2(93.0, 79.5))
+	_yard("east_rig", "rig", Vector2(78.0, 44.0))
+	# Gary's yard, right of the entrance (the Boulder Gym): a full set round the spot where Gary lies under his bar
+	var gary: Array = [
+		["squat_rack", 74.5, 79.0, 0.0, 1.25], ["bench", 77.0, 83.6, 90.0, 0.75], ["dumbbell_rack", 74.6, 84.4, 0.0, 1.15], ["atlas_stones", 84.2, 78.6, 0.0, 1.8],
+		["tire_pair", 85.0, 83.0, 0.0, 1.4], ["kettlebell_rack", 82.0, 77.4, 0.0, 0.9], ["plate_stack", 72.6, 77.0, 0.0, 0.45], ["chalk_bucket", 81.4, 84.6, 0.0, 0.3],
+	]
+	var items: Array = []
+	for entry: Array in gary:
+		items.append(_yard_item(str(entry[0]), Vector2(float(entry[1]), float(entry[2])), float(entry[3]), float(entry[4])))
+	yards.append({"id": "gary", "center": Vector2(79.5, 81.0), "size": Vector2(15.0, 9.0), "items": items})
+
+
+func _yard(id: String, preset: String, center: Vector2, yaw: float = 0.0) -> void:
+	var data: Dictionary = YARD_PRESETS[preset] as Dictionary
+	var turn: Basis = Basis(Vector3.UP, deg_to_rad(yaw))
+	var items: Array = []
+	for entry: Array in (data["items"] as Array):
+		var local: Vector3 = turn * Vector3(float(entry[1]), 0.0, float(entry[2]))
+		items.append(_yard_item(str(entry[0]), center + Vector2(local.x, local.z), float(entry[3]) + yaw, float(entry[4])))
+	var size: Vector2 = data["size"] as Vector2
+	if absf(fposmod(yaw, 180.0) - 90.0) < 1.0:
+		size = Vector2(size.y, size.x)
+	yards.append({"id": id, "center": center, "size": size, "items": items})
+
+
+func _yard_item(kind: String, at: Vector2, yaw: float, radius: float) -> Dictionary:
+	if kind != "sled_track" and kind != "chalk_bucket":
+		flat_spots.append(Vector3(at.x, at.y, maxf(radius, 1.0) + 0.6))
+	_prop("gym:" + kind, at.x, at.y, yaw, 1.0, radius)
+	return {"kind": kind, "pos": Vector3(at.x, 0.0, at.y), "yaw": yaw, "radius": radius}
+
+
+## Gainlands v2, Part D: the power lines. Tall lattice towers on sandstone stacks: one line down the west rim to the Iron Cave's cliff and the left canyon's
+## mouth, one down the east rim past the Swolympus overlook to the right canyon's mouth, and one across the whole zone from the west sea over both canyons and
+## the middle road to the east sea. Heights: the stacks' tops (the cliff's top for the tower on it).
+const STACK_TOP: float = PLATEAU_Y + 0.6
+const CANYON_STACK_TOP: float = PLATEAU_Y - 0.9
+
+
+func _power() -> void:
+	stacks = [
+		Vector4(-1.5, 74.0, 2.8, STACK_TOP), Vector4(-2.5, 46.0, 2.8, STACK_TOP), Vector4(37.5, 3.0, 2.4, STACK_TOP),
+		Vector4(113.0, 78.0, 2.8, STACK_TOP), Vector4(113.5, 46.0, 2.8, STACK_TOP), Vector4(113.0, 18.0, 2.8, STACK_TOP), Vector4(74.5, 3.0, 2.4, STACK_TOP),
+		Vector4(47.7, 40.5, 2.1, CANYON_STACK_TOP), Vector4(64.3, 40.5, 2.1, CANYON_STACK_TOP), Vector4(-3.0, 30.0, 2.6, STACK_TOP), Vector4(114.5, 32.0, 2.6, STACK_TOP),
+	]
+	var top: Callable = func(index: int) -> Vector3: return Vector3(stacks[index].x, stacks[index].w, stacks[index].y)
+	power_lines = [
+		[top.call(0), top.call(1), Vector3(24.0, CAVE_CLIFF_TOP, 15.0), top.call(2)] as Array[Vector3],
+		[top.call(3), top.call(4), top.call(5), top.call(6)] as Array[Vector3],
+		[top.call(9), top.call(7), top.call(8), top.call(10)] as Array[Vector3],
+	]
 
 
 ## Where nothing solid may stand: round every anchor, chest, feature, enemy home and sign (radius in z).
@@ -750,7 +827,8 @@ func _scatter() -> void:
 		var edge: float = main_edge_distance(x, z)
 		if edge < RIM_BAND.x + 0.6 or edge > RIM_BAND.y or not _is_clear(x, z, keep_clear):
 			continue
-		_prop("tree", x, z, _rng.randf() * 360.0, _rng.randf_range(0.9, 1.3), 0.4, _rng.randi() % 2)
+		# variant 0: a wind-bent dry-land tree, 1: a cypress accent (GainlandsStructures)
+		_prop("tree", x, z, _rng.randf_range(-15.0, 15.0), _rng.randf_range(0.9, 1.2), 0.4, _rng.randi() % 2)
 		keep_clear.append(Vector3(x, z, 6.0))
 		placed += 1
 	var rocks: int = 0
