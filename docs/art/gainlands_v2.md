@@ -172,3 +172,16 @@ The shared fix (Part E) goes into the toon shader's wind for cloth: a banner han
 - **GL2-05** The old cloud layer under the meadow is gone: with the plateau 4 m over the sea it sat under the water plane (34 clouds drawn for nothing).
 - **GL2-06** The gym hall fills the plaza's north half (Part C), so the middle road's head sits behind it; it reads by the lane round each side, the lamp posts and the fortress straight above. The left and right heads are in clear view from the gateway.
 - **GL2-07** The fortress keeps its model and size class (40 x 34 x 26 m now, was 48 wide) so it sits on its rock behind a 32 m wide mesa; its causeway is off (`causeway: false`).
+
+## Part C: entrance and centre (done)
+
+- **Gateway** (`GainlandsPlaza.gateway`): the rope bridge arrives at two dressed sandstone pillars with gold orbs, iron arms with hanging kit banners, torches and a low parapet off each side along the rim; the bridge's own timber gate is gone (`rope_bridge(..., near_gate = false)`; the town side keeps its gate).
+- **Plaza**: an open paved square round the hub; Benchley's stall and the hot tub on its east edge, the Rift Station portal, the mirror and the hermit on its west edge, the ruler's statue and banners in the south corners beside the gateway (`statue_offset`, `banner_offsets` in `GainlandsZone`). No pennants, sunflowers or loose weights on the square (the dressing's gym kit starts beyond it).
+- **Gym hall** (`GainlandsPlaza.gym_hall`, STANDIN for a painted concept): replaces the round Swole Station platform. 13 x 8.5 m, brick side and back walls with lit windows, an open front of four cream-stone pillars with half-height parapets between the outer pairs, a red gable roof (ridge about 8 m), a gold dumbbell emblem in the gable, kit banners on the outer pillars; inside, in view: a two-tier dumbbell rack, a barbell rack, plate trees, a squat rack with a loaded bar and a bench on a rubber floor. The layout's `GYM_HALL` rectangle is solid (`GainlandsBuilder.add_rect_blocker`); lanes go round both sides and behind it.
+- Cliff walls meet at the polygons' corners with mitred normals (no more slivers of sky at the corners).
+- Tests: `tests/world/test_gainlands_v2.gd` (gateway, hall solid with open lanes, emblem and no lettering, the platform gone, clear lines from the gateway to the three path heads).
+
+### Judgment calls (Part C)
+
+- **GL2-08** The ruler's statue and banners (oppressed state) moved from the hub's default offsets, which now fall on the open square, to the plaza's south corners beside the gateway: the first thing the arriving hero passes.
+- **GL2-09** "Clear sightline to the path heads": the left and right heads and both lanes round the gym hall are in a clear line from the gateway; the middle road itself starts behind the hall (GL2-06), marked by its lamp posts and the fortress above.

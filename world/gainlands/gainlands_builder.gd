@@ -42,6 +42,7 @@ func build(parent: Node3D) -> void:
 	_build_land()
 	_build_islands()
 	_build_bridge()
+	_build_plaza()
 	_build_house_of_gains()
 	_build_swolympus()
 	_build_swolympus_gate()
@@ -334,13 +335,34 @@ func _build_islands() -> void:
 ## The way in from town (GC-8): the timber-and-rope bridge from the south rim to its far landing. Its rails are the walkable edge (`is_walkable`), its gate posts block.
 func _build_bridge() -> void:
 	var length: float = GainlandsLayout.BRIDGE_Z1 - GainlandsLayout.BRIDGE_Z0
-	var bridge: Node3D = GainlandsLandmarks.rope_bridge(length, GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0, GainlandsLayout.BRIDGE_RISE, GainlandsLayout.PLATEAU_Y + 0.05)
+	var bridge: Node3D = GainlandsLandmarks.rope_bridge(length, GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0, GainlandsLayout.BRIDGE_RISE, GainlandsLayout.PLATEAU_Y + 0.05, false)
 	bridge.name = "Bridge"
 	root.add_child(bridge)
 	bridge.position = Vector3(GainlandsLayout.BRIDGE_X, 0.0, GainlandsLayout.BRIDGE_Z0)
 	for circle: Variant in bridge.get_meta("circles", []) as Array:
 		var local: Vector3 = circle as Vector3
 		_add_obstacle(Vector3(GainlandsLayout.BRIDGE_X + local.x, GainlandsLayout.BRIDGE_Z0 + local.y, local.z))
+
+
+## Gainlands v2, Part C: the stone gateway at the bridge head (pillars and banners) and the gym hall in the plaza (GYM_HALL: the layout's rectangle blocks it).
+func _build_plaza() -> void:
+	var gateway: Node3D = GainlandsPlaza.gateway(GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0)
+	root.add_child(gateway)
+	gateway.position = Vector3(GainlandsLayout.BRIDGE_X, GainlandsLayout.PLATEAU_Y, GATEWAY_Z)
+	for circle: Variant in gateway.get_meta("circles", []) as Array:
+		var local: Vector3 = circle as Vector3
+		_add_obstacle(Vector3(gateway.position.x + local.x, gateway.position.z + local.y, local.z))
+	var hall_rect: Rect2 = GainlandsLayout.GYM_HALL
+	var hall: Node3D = GainlandsPlaza.gym_hall(Vector3(hall_rect.size.x, GYM_HALL_HEIGHT, hall_rect.size.y))
+	hall.set_meta("standin", "GAIN-HERO-GYM-HALL")  # STANDIN: built from the kit until the gym hall concept is painted (docs/art/zone_kits/gainlands_v2_requests.md)
+	root.add_child(hall)
+	hall.position = Vector3(hall_rect.get_center().x, GainlandsLayout.PLATEAU_Y, hall_rect.get_center().y)
+
+
+## Where the gateway's pillars stand: just inside the south rim at the bridge head.
+const GATEWAY_Z: float = 87.3
+## The gym hall's wall height to the eaves (about two storeys of the storybook scale).
+const GYM_HALL_HEIGHT: float = 4.6
 
 
 ## The House of Gains (GC-10): the fortress-gym on its own rock beyond the north rim, its causeway reaching onto the plateau, smoke from its foundry chimneys.

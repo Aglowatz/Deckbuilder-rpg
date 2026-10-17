@@ -89,6 +89,9 @@ static func build_def() -> ZoneDef:
 	def.ruler_name = "Chancellor Clench"
 	def.ruler_tint = Color("8a1f1f")
 	def.gloom_tint = Color(0.5, 0.52, 0.58)
+	# Gainlands v2: the ruler's statue and banners stand in the plaza's free south-west corner beside the gateway (the square's middle is open, its edges taken)
+	def.statue_offset = Vector3(-6.5, 0.0, 6.0)
+	def.banner_offsets = [Vector3(-10.5, 0.0, 7.5), Vector3(9.5, 0.0, 8.5)] as Array[Vector3]
 	def.freed_npcs = [
 		{"id": "heartlift", "npc_id": "NPC-FLEX", "model": "Barbarian", "offset": Vector3(0.0, 0.0, 7.0), "yaw": 180.0, "tint": Color(1.0, 0.85, 0.7), "scale": 2.1, "name": "Grandmaster Flex", "speaker": "Grandmaster Flex"},
 	]

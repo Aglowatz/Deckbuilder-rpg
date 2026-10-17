@@ -30,12 +30,10 @@ static func build(parent: Node3D, builder: GainlandsBuilder, quality: int) -> Ga
 			dressing._anchors.append(builder.anchor(key))
 	# Corrective pass (GC-1): a third of the old scatter; pennants only at the hub's rim, flowers only along path edges, every solid piece clear of the routes.
 	var scale_factor: float = GraphicsQuality.foliage_density(quality)
-	dressing._scatter_pennants(int(4.0 * scale_factor))
-	dressing._scatter("kettlebells", int(5.0 * scale_factor), 6.0, 17.0)
-	dressing._scatter("plates", int(3.0 * scale_factor), 7.0, 18.0)
-	dressing._scatter("tires", int(2.0 * scale_factor), 8.0, 20.0)
-	dressing._scatter("bag", 1, 9.0, 18.0)
-	dressing._scatter("sunflowers", int(8.0 * scale_factor), 5.0, 22.0)
+	# Gainlands v2, Part C: the plaza is clean (no pennants, sunflowers or loose weights on the square); gym kit stands beyond the paved square
+	dressing._scatter("kettlebells", int(5.0 * scale_factor), GainlandsLayout.PLAZA_RADIUS + 6.0, 24.0)
+	dressing._scatter("plates", int(3.0 * scale_factor), GainlandsLayout.PLAZA_RADIUS + 6.0, 24.0)
+	dressing._scatter("tires", int(2.0 * scale_factor), GainlandsLayout.PLAZA_RADIUS + 7.0, 26.0)
 	dressing._kit_clusters(quality)
 	return dressing
 
@@ -46,7 +44,6 @@ const KIT_CLUSTERS: Array = [
 	# GC-1: seven clusters (was twelve), each tucked behind or beside its landmark, none in the arrival area or on a route.
 	["gym_rack", "spot_me", Vector2(-4.5, -3.0), 180.0], ["dumbbell_pile", "spot_me", Vector2(4.0, 3.5), 20.0], ["protein_corner", "protein_stand", Vector2(3.6, -3.4), 200.0],
 	["hay_stack", "quiz", Vector2(5.5, 4.0), 160.0], ["mill_yard", "thrower_west", Vector2(4.0, -4.5), 170.0], ["catapult_pit", "minigame", Vector2(-6.5, 4.0), 150.0],
-	["sunflower_fence", "heal", Vector2(-4.5, 3.5), 0.0],
 ]
 
 

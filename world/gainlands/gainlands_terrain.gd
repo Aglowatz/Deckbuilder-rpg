@@ -126,6 +126,19 @@ static func _top_tri(surface: SurfaceTool, layout: GainlandsLayout, a: Vector2, 
 
 
 ## The cliff walls of one polygon: every edge piece whose outside is open (the sea, a canyon, a lower level) hangs a ragged sandstone face to CLIFF_BOTTOM.
+## The outward normal of edge i (right of the edge for a counter-clockwise polygon) and the mitred normal at each corner, so the faces of two edges meet
+## at a corner with no gap.
+static func _edge_normal(polygon: PackedVector2Array, i: int, clockwise: bool) -> Vector2:
+	var along: Vector2 = (polygon[(i + 1) % polygon.size()] - polygon[i]).normalized()
+	return Vector2(along.y, -along.x) if not clockwise else Vector2(-along.y, along.x)
+
+
+static func _corner_normal(polygon: PackedVector2Array, i: int, clockwise: bool) -> Vector2:
+	var count: int = polygon.size()
+	var sum: Vector2 = _edge_normal(polygon, (i - 1 + count) % count, clockwise) + _edge_normal(polygon, i, clockwise)
+	return sum.normalized() if sum.length() > 0.01 else _edge_normal(polygon, i, clockwise)
+
+
 static func _walls(surface: SurfaceTool, layout: GainlandsLayout, polygon: PackedVector2Array, level: int) -> void:
 	var clockwise: bool = Geometry2D.is_polygon_clockwise(polygon)
 	var count: int = polygon.size()
@@ -135,9 +148,7 @@ static func _walls(surface: SurfaceTool, layout: GainlandsLayout, polygon: Packe
 		var length: float = a.distance_to(b)
 		if length < 0.01:
 			continue
-		var along: Vector2 = (b - a) / length
-		# outward normal: right of the edge for a counter-clockwise polygon (y down in the xz plane flips it)
-		var outward: Vector2 = Vector2(along.y, -along.x) if not clockwise else Vector2(-along.y, along.x)
+		var outward: Vector2 = _edge_normal(polygon, i, clockwise)
 		var pieces: int = maxi(1, int(ceilf(length / 1.6)))
 		for k: int in range(pieces):
 			var p0: Vector2 = a.lerp(b, float(k) / float(pieces))
@@ -148,7 +159,9 @@ static func _walls(surface: SurfaceTool, layout: GainlandsLayout, polygon: Packe
 			var beyond: int = GainlandsLayout.level_at(mid.x, mid.y)
 			if beyond >= level:
 				continue  # a shared edge (the land goes on) or the foot of something higher
-			_wall_piece(surface, layout, p0, p1, outward)
+			var out0: Vector2 = _corner_normal(polygon, i, clockwise) if k == 0 else outward
+			var out1: Vector2 = _corner_normal(polygon, (i + 1) % count, clockwise) if k == pieces - 1 else outward
+			_wall_piece(surface, layout, p0, p1, out0, out1, outward)
 
 
 ## Wall layers: the lip, the upper face, a ledge, the lower face, the talus at the waterline; each pushed in or out by its own noise (overhangs and shelves).
@@ -175,9 +188,9 @@ static func _strata(y: float, x: float, z: float) -> Color:
 	return color
 
 
-static func _wall_piece(surface: SurfaceTool, layout: GainlandsLayout, p0: Vector2, p1: Vector2, outward: Vector2) -> void:
-	var left: Array[Vector3] = _wall_column(layout, p0, outward)
-	var right: Array[Vector3] = _wall_column(layout, p1, outward)
+static func _wall_piece(surface: SurfaceTool, layout: GainlandsLayout, p0: Vector2, p1: Vector2, out0: Vector2, out1: Vector2, outward: Vector2) -> void:
+	var left: Array[Vector3] = _wall_column(layout, p0, out0)
+	var right: Array[Vector3] = _wall_column(layout, p1, out1)
 	for layer: int in range(left.size() - 1):
 		var a: Vector3 = left[layer]
 		var b: Vector3 = right[layer]
@@ -231,6 +244,7 @@ static func rock(points: PackedVector2Array, top: float, node_name: String, top_
 			surface.add_vertex(p3)
 	var clockwise: bool = Geometry2D.is_polygon_clockwise(points)
 	var drops: Array[float] = [0.0, 1.4, 3.4, 4.0, 7.0, 999.0]
+	var count: int = points.size()
 	var pushes: Array[float] = [0.0, 0.4, 0.2, 1.0, 0.8, 2.2]
 	for i: int in range(points.size()):
 		var a: Vector2 = points[i]
@@ -238,18 +252,22 @@ static func rock(points: PackedVector2Array, top: float, node_name: String, top_
 		var length: float = a.distance_to(b)
 		if length < 0.01:
 			continue
-		var along: Vector2 = (b - a) / length
-		var outward: Vector2 = Vector2(along.y, -along.x) if not clockwise else Vector2(-along.y, along.x)
+		var outward: Vector2 = _edge_normal(points, i, clockwise)
 		var pieces: int = maxi(1, int(ceilf(length / 2.2)))
 		for k: int in range(pieces):
 			var columns: Array = []
 			for end: int in range(2):
 				var p: Vector2 = a.lerp(b, float(k + end) / float(pieces))
+				var push_dir: Vector2 = outward
+				if k + end == 0:
+					push_dir = _corner_normal(points, i, clockwise)
+				elif k + end == pieces:
+					push_dir = _corner_normal(points, (i + 1) % count, clockwise)
 				var column: Array[Vector3] = []
 				for layer: int in range(drops.size()):
 					var jitter: float = (_noise(p.x * 0.5 + float(layer) * 2.3, p.y * 0.5) - 0.5) * 1.1 if layer > 0 else 0.0
 					var push: float = pushes[layer] + jitter
-					column.append(Vector3(p.x + outward.x * push, maxf(top - drops[layer], CLIFF_BOTTOM), p.y + outward.y * push))
+					column.append(Vector3(p.x + push_dir.x * push, maxf(top - drops[layer], CLIFF_BOTTOM), p.y + push_dir.y * push))
 				columns.append(column)
 			var left: Array[Vector3] = columns[0] as Array[Vector3]
 			var right: Array[Vector3] = columns[1] as Array[Vector3]

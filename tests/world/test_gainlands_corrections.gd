@@ -299,7 +299,7 @@ func test_the_bridge_model_stands_in_the_zone_and_on_the_town_side() -> void:
 	assert_not_null(bridge, "the zone builds the bridge")
 	if bridge != null:
 		assert_almost_eq(bridge.position.z, GainlandsLayout.BRIDGE_Z0, 0.01)
-		assert_gt((bridge.get_meta("circles", []) as Array).size(), 2, "its gate posts block")
+		assert_gte((bridge.get_meta("circles", []) as Array).size(), 2, "its landing posts block (the near end is the stone gateway, Gainlands v2)")
 		assert_true((bridge.find_child("Body", true, false) as Node).has_meta(&"no_occlusion_fade"), "the deck never dissolves under the hero")
 	var scene: GainlandsScene = (load("res://scenes/gainlands_zone.tscn") as PackedScene).instantiate() as GainlandsScene
 	Session.new_game()

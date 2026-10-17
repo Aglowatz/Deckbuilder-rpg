@@ -514,7 +514,8 @@ static func _swole_station(root: Node3D, mesh: KitMesh, size: Vector3, circles: 
 ## base height of `base_y`. Chunky planks on two beams, rope rails on posts with gold finials, timber pillars down into the water every few metres, a tall gate with a
 ## cross beam, lanterns and a hanging kit banner at the near end, and a landing with two banner posts at the far end. Meta "circles" (local x, z, radius) are the posts
 ## that block; the deck itself is the layout's walkable surface. Shared with the town side (TownConnectors) so both halves match.
-static func rope_bridge(length: float, width: float, rise: float = 0.5, base_y: float = 0.0) -> Node3D:
+## `near_gate` false (Gainlands v2): no timber gate at the near end; the zone side has a stone gateway there instead (GainlandsPlaza).
+static func rope_bridge(length: float, width: float, rise: float = 0.5, base_y: float = 0.0, near_gate: bool = true) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	_materials(mesh)
 	var circles: Array[Vector3] = []
@@ -568,17 +569,18 @@ static func rope_bridge(length: float, width: float, rise: float = 0.5, base_y: 
 		mesh.box("bleach_dark", Vector3(0.0, top_y - 1.2, z_pillar), Vector3(width - 0.6, 0.18, 0.18), Basis(Vector3(0, 0, 1), 0.0), 0.0)
 		z_pillar += pillar_step
 	# the gate at the near end: two tall timbers, a cross beam, lanterns, a hanging banner
-	var gate_h: float = 4.6
-	for side: float in [-1.0, 1.0]:
+	var gate_h: float = 4.6 if near_gate else 0.0
+	for side: float in ([-1.0, 1.0] if near_gate else []):
 		var foot: Vector3 = Vector3(side * (half + 0.45), base_y, 0.3)
 		mesh.tube("bleach_dark", foot, foot + Vector3(0, gate_h, 0), 0.24, 8, true)
 		mesh.box("brass", foot + Vector3(0, 0.25, 0), Vector3(0.7, 0.5, 0.7), Basis.IDENTITY, 0.03)
 		mesh.blob("gold", foot + Vector3(0, gate_h + 0.3, 0), Vector3(0.36, 0.36, 0.36), 4, 8, 1.0)
 		_torch(mesh, foot + Vector3(side * 0.0, gate_h * 0.7, 0.42), [] as Array[Dictionary], 0.8)
 		circles.append(Vector3(foot.x, foot.z, 0.42))
-	mesh.box("bleach_dark", Vector3(0.0, base_y + gate_h - 0.3, 0.3), Vector3(width + 1.5, 0.42, 0.42), Basis.IDENTITY, 0.03)
-	mesh.box("brass", Vector3(0.0, base_y + gate_h - 0.05, 0.3), Vector3(width * 0.4, 0.18, 0.5), Basis.IDENTITY, 0.0)
-	_card(mesh, "GAIN-SHEET-BANNERS-01", Vector3(0.0, base_y + gate_h - 0.52, 0.56), 2.2, Vector3(0, 0, 1))
+	if near_gate:
+		mesh.box("bleach_dark", Vector3(0.0, base_y + gate_h - 0.3, 0.3), Vector3(width + 1.5, 0.42, 0.42), Basis.IDENTITY, 0.03)
+		mesh.box("brass", Vector3(0.0, base_y + gate_h - 0.05, 0.3), Vector3(width * 0.4, 0.18, 0.5), Basis.IDENTITY, 0.0)
+		_card(mesh, "GAIN-SHEET-BANNERS-01", Vector3(0.0, base_y + gate_h - 0.52, 0.56), 2.2, Vector3(0, 0, 1))
 	# the far landing: a square deck with two banner posts, where the way to town begins
 	var landing_y: float = base_y + 0.08
 	mesh.box("bleach", Vector3(0.0, landing_y, length + 1.6), Vector3(width + 1.2, 0.18, 3.6), Basis.IDENTITY, 0.02, 0.9)
@@ -599,7 +601,7 @@ static func rope_bridge(length: float, width: float, rise: float = 0.5, base_y: 
 	root.add_child(body)
 	root.set_meta("circles", circles)
 	root.set_meta("footprint", Vector2(width + 1.5, length + 3.6))
-	root.set_meta("height", gate_h + 0.5)
+	root.set_meta("height", maxf(gate_h, 3.4) + 0.5)
 	root.set_meta("kind", "bridge")
 	root.set_meta("triangles", mesh.triangle_count())
 	return root
