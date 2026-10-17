@@ -10,6 +10,13 @@ var completed: Array[String] = []
 var baselines: Dictionary = {}
 ## The quest shown in the HUD tracker (chosen in the Quest Log); a newly started quest becomes the tracked one.
 var tracked: String = ""
+## Overnight Oct 16: milestone rewards already paid ("<quest id>#<objective index>"), the last seen progress per active quest (recency), and the
+## save format version (1 = before categories and milestones; `QuestMigration` upgrades it).
+var milestones_paid: Array[String] = []
+var progress_seen: Dictionary = {}
+var version: int = VERSION
+
+const VERSION: int = 2
 
 
 func is_active(quest_id: String) -> bool:
@@ -89,7 +96,7 @@ func auto_completable(catalog: Array[QuestData], state: UnlockState) -> Array[St
 
 
 func to_dict() -> Dictionary:
-	return {"active": active, "completed": completed, "baselines": baselines, "tracked": tracked}
+	return {"active": active, "completed": completed, "baselines": baselines, "tracked": tracked, "milestones_paid": milestones_paid, "progress_seen": progress_seen, "version": version}
 
 
 func from_dict(data: Dictionary) -> void:
@@ -97,6 +104,9 @@ func from_dict(data: Dictionary) -> void:
 	completed.assign(data.get("completed", []) as Array)
 	baselines = (data.get("baselines", {}) as Dictionary).duplicate()
 	tracked = str(data.get("tracked", ""))
+	milestones_paid.assign(data.get("milestones_paid", []) as Array)
+	progress_seen = (data.get("progress_seen", {}) as Dictionary).duplicate()
+	version = int(data.get("version", 1))
 
 
 func reset() -> void:
@@ -104,6 +114,9 @@ func reset() -> void:
 	completed.clear()
 	baselines.clear()
 	tracked = ""
+	milestones_paid.clear()
+	progress_seen.clear()
+	version = VERSION
 
 
 static func _baseline_key(quest_id: String, counter_key: String) -> String:
@@ -123,3 +136,100 @@ func track(quest_id: String) -> bool:
 		return false
 	tracked = quest_id
 	return true
+
+
+# ---- Overnight Oct 16: ordered objectives, milestones, recency, cycling ----------------------------------------------------------
+
+## Index of the current step: the first objective not yet met (objectives are ordered). `objectives.size()` when every one is met.
+func current_index(quest: QuestData, state: UnlockState) -> int:
+	for index: int in range(quest.objectives.size()):
+		if not objective_met(quest, index, state):
+			return index
+	return quest.objectives.size()
+
+
+## The current step's objective (null when all are met).
+func current_objective(quest: QuestData, state: UnlockState) -> QuestObjective:
+	var index: int = current_index(quest, state)
+	return quest.objectives[index] if index < quest.objectives.size() else null
+
+
+## Sum of every objective's progress - grows whenever the quest moves forward (the tracker's "most recently updated" rule).
+func progress_value(quest: QuestData, state: UnlockState) -> int:
+	var total: int = 0
+	for index: int in range(quest.objectives.size()):
+		total += objective_progress(quest, index, state).x
+	return total
+
+
+## Active quests whose progress grew since the last call (oldest first), remembering the new values. A quest seen for the first time
+## records its value without counting as an update (starting a quest already makes it the tracked one).
+func take_updates(catalog: Array[QuestData], state: UnlockState) -> Array[String]:
+	var result: Array[String] = []
+	for quest: QuestData in catalog:
+		if not is_active(quest.id):
+			continue
+		var value: int = progress_value(quest, state)
+		if progress_seen.has(quest.id) and value > int(progress_seen[quest.id]):
+			result.append(quest.id)
+		progress_seen[quest.id] = value
+	return result
+
+
+## (quest, objective index) pairs whose milestone reward is due: the objective is met, the quest is active and it was not paid before.
+## Marks them paid; the caller pays them.
+func take_due_milestones(catalog: Array[QuestData], state: UnlockState) -> Array[Array]:
+	var result: Array[Array] = []
+	for quest: QuestData in catalog:
+		if not is_active(quest.id):
+			continue
+		for index: int in range(quest.objectives.size()):
+			var objective: QuestObjective = quest.objectives[index]
+			if objective.milestone == null or milestones_paid.has(_milestone_key(quest.id, index)):
+				continue
+			if objective_met(quest, index, state):
+				milestones_paid.append(_milestone_key(quest.id, index))
+				result.append([quest, index])
+	return result
+
+
+## Marks every milestone of `quest` that is already met as paid without paying it (old saves that got there before milestones existed).
+func settle_milestones(quest: QuestData, state: UnlockState) -> void:
+	for index: int in range(quest.objectives.size()):
+		if quest.objectives[index].milestone != null and objective_met(quest, index, state) and not milestones_paid.has(_milestone_key(quest.id, index)):
+			milestones_paid.append(_milestone_key(quest.id, index))
+
+
+func milestone_paid(quest_id: String, index: int) -> bool:
+	return milestones_paid.has(_milestone_key(quest_id, index))
+
+
+static func _milestone_key(quest_id: String, index: int) -> String:
+	return "%s#%d" % [quest_id, index]
+
+
+## Active quests in the order the tracker toggles through them: MAIN before SIDE, then by `order`.
+func cycle_order(catalog: Array[QuestData]) -> Array[String]:
+	var quests: Array[QuestData] = []
+	for quest: QuestData in catalog:
+		if is_active(quest.id):
+			quests.append(quest)
+	quests.sort_custom(func(a: QuestData, b: QuestData) -> bool:
+		if a.category != b.category:
+			return a.category < b.category
+		return a.order < b.order)
+	var ids: Array[String] = []
+	for quest: QuestData in quests:
+		ids.append(quest.id)
+	return ids
+
+
+## Tracks the next (`step` 1) or previous (-1) active quest and returns its id ("" with none active).
+func cycle(catalog: Array[QuestData], step: int) -> String:
+	var ids: Array[String] = cycle_order(catalog)
+	if ids.is_empty():
+		return ""
+	var at: int = ids.find(tracked_id())
+	var next: int = posmod((at if at >= 0 else 0) + (step if at >= 0 else 0), ids.size())
+	tracked = ids[next]
+	return tracked

@@ -8,7 +8,7 @@ extends RefCounted
 static func visible_pois(pois: Array[MapPoi], fog: FogOfWar) -> Array[MapPoi]:
 	var result: Array[MapPoi] = []
 	for poi: MapPoi in pois:
-		if fog.is_revealed(Vector2(poi.pos.x, poi.pos.z)):
+		if poi.objective or fog.is_revealed(Vector2(poi.pos.x, poi.pos.z)):
 			result.append(poi)
 	return result
 

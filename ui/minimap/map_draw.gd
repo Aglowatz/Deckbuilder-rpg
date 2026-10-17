@@ -30,6 +30,9 @@ static func icon_id(kind: MapPoi.Kind) -> String:
 ## A POI icon: the icon (on a dark backing so it reads on any ground), or a coloured disc with a one-letter glyph; quest givers with a quest get the
 ## "available" or "turn in" icon above their head; locked travel points are dimmed.
 static func poi(canvas: CanvasItem, centre: Vector2, point: MapPoi, radius: float) -> void:
+	if point.objective:
+		objective_ring(canvas, centre, radius)
+		return
 	var icon: String = icon_id(point.kind)
 	if icon != "":
 		_poi_icon(canvas, centre, icon, radius, point.locked)
@@ -71,6 +74,15 @@ static func _quest_badge(canvas: CanvasItem, badge: Vector2, radius: float, turn
 	canvas.draw_circle(badge, radius * 0.62, Color(0, 0, 0, 0.9))
 	canvas.draw_circle(badge, radius * 0.5, Color("ffe14d"))
 	canvas.draw_string(font, badge + Vector2(-radius * 0.18, radius * 0.3), "!", HORIZONTAL_ALIGNMENT_LEFT, -1, int(radius * 0.95), Color(0.1, 0.05, 0.0))
+
+
+## The tracked quest's objective: a pulsing golden ring with a bright centre.
+static func objective_ring(canvas: CanvasItem, centre: Vector2, radius: float) -> void:
+	var pulse: float = 0.5 + 0.5 * sin(Time.get_ticks_msec() * 0.005)
+	var gold: Color = Color("ffd25a")
+	canvas.draw_arc(centre, radius * (1.3 + 0.5 * pulse), 0.0, TAU, 28, Color(gold, 0.9 - 0.5 * pulse), 3.0)
+	canvas.draw_circle(centre, radius * 0.75, Color(0.08, 0.05, 0.02, 0.9))
+	canvas.draw_circle(centre, radius * 0.5, gold)
 
 
 ## The player arrow pointing where the hero faces. `yaw` is the model's rotation.y (0 = facing +z,

@@ -23,6 +23,8 @@ const ACTIONS: Array[Dictionary] = [
 	{"id": &"open_packs", "label": "Card packs", "group": GROUP_OVERWORLD, "keys": [KEY_P, 0]},
 	{"id": &"open_wardrobe", "label": "Wardrobe", "group": GROUP_OVERWORLD, "keys": [KEY_T, 0]},
 	{"id": &"open_quests", "label": "Quest log", "group": GROUP_OVERWORLD, "keys": [KEY_J, 0]},
+	{"id": &"quest_prev", "label": "Tracked quest: previous", "group": GROUP_OVERWORLD, "keys": [KEY_BRACKETLEFT, KEY_COMMA], "pad": JOY_BUTTON_LEFT_SHOULDER},
+	{"id": &"quest_next", "label": "Tracked quest: next", "group": GROUP_OVERWORLD, "keys": [KEY_BRACKETRIGHT, KEY_PERIOD], "pad": JOY_BUTTON_RIGHT_SHOULDER},
 	{"id": &"open_map", "label": "Map", "group": GROUP_OVERWORLD, "keys": [KEY_M, 0]},
 	{"id": &"dungeon_rules", "label": "Dungeon rules", "group": GROUP_OVERWORLD, "keys": [KEY_R, 0]},
 	{"id": &"dismount", "label": "Dismount (rafts and mounts)", "group": GROUP_OVERWORLD, "keys": [KEY_Q, 0]},
@@ -136,6 +138,11 @@ static func apply_to_input_map() -> void:
 			var event: InputEventKey = InputEventKey.new()
 			event.physical_keycode = code as Key
 			InputMap.action_add_event(action, event)
+		# Controller buttons are fixed (not rebindable): the bumpers toggle the tracked quest.
+		if entry(action).has("pad"):
+			var pad: InputEventJoypadButton = InputEventJoypadButton.new()
+			pad.button_index = int(entry(action)["pad"]) as JoyButton
+			InputMap.action_add_event(action, pad)
 
 
 ## The text of a physical keycode as the player's keyboard layout shows it ("W", "Up", "Space").
@@ -144,7 +151,13 @@ static func key_text(code: int) -> String:
 		return "-"
 	var shown: Key = DisplayServer.keyboard_get_keycode_from_physical(code as Key) if DisplayServer.get_name() != "headless" else (code as Key)
 	var text: String = OS.get_keycode_string(shown)
-	return text if not text.is_empty() else OS.get_keycode_string(code as Key)
+	if text.is_empty():
+		text = OS.get_keycode_string(code as Key)
+	return str(PUNCTUATION.get(text, text))
+
+
+## Engine names of punctuation keys -> the character on the key.
+const PUNCTUATION: Dictionary = {"BracketLeft": "[", "BracketRight": "]", "BraceLeft": "[", "BraceRight": "]", "Comma": ",", "Period": ".", "Slash": "/", "Semicolon": ";", "Apostrophe": "'", "Minus": "-", "Equal": "=", "QuoteLeft": "`", "Backslash": "\\"}
 
 
 ## The keys of an action as one string for hints and buttons: "E / Space".

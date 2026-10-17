@@ -24,8 +24,9 @@ func _build() -> void:
 	name = "RewardPopup"
 	UIKit.full_rect(self)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var is_quest: bool = summary.kind == RewardSummary.Kind.QUEST
-	frame = PopupFrame.make("QUEST COMPLETE" if is_quest else "CHEST OPENED", "ICON-CHECK" if is_quest else "ICON-GOLD", UIStyle.GOLD if is_quest else Color("f2c14e"))
+	var is_quest: bool = summary.kind == RewardSummary.Kind.QUEST or summary.kind == RewardSummary.Kind.QUEST_STEP
+	var header: String = "QUEST COMPLETE" if summary.kind == RewardSummary.Kind.QUEST else ("STEP REWARD" if is_quest else "CHEST OPENED")
+	frame = PopupFrame.make(header, "ICON-CHECK" if is_quest else "ICON-GOLD", UIStyle.GOLD if is_quest else Color("f2c14e"))
 	frame.set_heading(summary.title, summary.subtitle)
 	add_child(frame)
 	_fill_body()

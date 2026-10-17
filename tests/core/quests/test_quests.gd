@@ -15,18 +15,20 @@ func before_each() -> void:
 
 func test_starter_quests_exist_with_the_right_objectives() -> void:
 	var merchants: QuestData = QuestCatalog.find(QuestDefinitions.MERCHANTS)
-	var paths: QuestData = QuestCatalog.find(QuestDefinitions.PATHS)
 	assert_not_null(merchants)
-	assert_not_null(paths)
 	assert_eq(merchants.objectives.size(), 3, "card, item and equipment vendor")
-	assert_eq(paths.objectives.size(), 4, "the four corrupted path NPCs")
-	assert_true(merchants.auto_give and paths.auto_give)
+	assert_true(merchants.auto_give)
+	assert_null(QuestCatalog.find(QuestDefinitions.RETIRED_PATHS), "Clear the Paths is retired: each zone's MAIN line starts at its gatekeeper")
+	for zone_id: String in Gatekeepers.IDS:
+		var main: QuestData = QuestCatalog.find(QuestDefinitions.zone_main_id(zone_id))
+		assert_not_null(main, zone_id)
+		assert_true(main.auto_give and main.is_main())
 
 
 func test_auto_quests_are_given_once() -> void:
 	Session.offer_auto_quests()
 	assert_true(Session.quest_log.is_active(QuestDefinitions.MERCHANTS))
-	assert_true(Session.quest_log.is_active(QuestDefinitions.PATHS))
+	assert_true(Session.quest_log.is_active(QuestDefinitions.zone_main_id("beefcake")))
 	var count: int = Session.quest_log.active.size()
 	Session.offer_auto_quests()
 	assert_eq(Session.quest_log.active.size(), count, "no duplicates on re-entry")
@@ -48,13 +50,20 @@ func test_merchants_quest_progresses_per_vendor_and_completes_with_rewards() -> 
 	assert_true(Condition.met(Condition.quest_completed(quest.id), Session.unlock_state()))
 
 
-func test_clear_the_paths_needs_all_four() -> void:
+func test_beating_a_gatekeeper_moves_its_main_line_and_pays_the_pack_once() -> void:
 	Session.offer_auto_quests()
-	for npc_id: String in ["beefcake", "gourmand", "refusemancer"]:
-		Session.set_flag(CorruptedNpcs.unlock_flag(npc_id))
-	assert_true(Session.quest_log.is_active(QuestDefinitions.PATHS))
-	Session.set_flag(CorruptedNpcs.unlock_flag("necrocrat"))
-	assert_true(Session.quest_log.is_completed(QuestDefinitions.PATHS))
+	var quest: QuestData = QuestCatalog.find(QuestDefinitions.zone_main_id("beefcake"))
+	var state: UnlockState = Session.unlock_state()
+	assert_eq(Session.quest_log.current_index(quest, state), 0, "the gatekeeper first")
+	var packs_before: int = Session.profile.pack_count("path_beefcake")
+	Session.set_flag(CorruptedNpcs.unlock_flag("beefcake"))
+	state = Session.unlock_state()
+	assert_eq(Session.quest_log.current_index(quest, state), 1, "then cross in")
+	assert_true(Session.quest_log.milestone_paid(quest.id, 0))
+	assert_eq(Session.quest_log.tracked_id(), quest.id, "the tracker follows the quest that just moved")
+	Session.set_flag(CorruptedNpcs.unlock_flag("beefcake"))
+	assert_eq(Session.pending_popups.size(), 1, "the milestone is paid once")
+	assert_eq(Session.profile.pack_count("path_beefcake"), packs_before + 1, "the gatekeeper pays a Path Pack")
 
 
 func test_quest_xp_reward_queues_level_ups() -> void:
@@ -129,3 +138,90 @@ func test_old_saves_with_only_completed_quests_still_load() -> void:
 	data["completed_quests"] = ["legacy_quest"]
 	assert_true(Session.from_dict(data))
 	assert_true(Session.completed_quests.has("legacy_quest"))
+
+
+func test_objectives_are_ordered_and_the_current_one_is_the_first_not_done() -> void:
+	var quest: QuestData = QuestData.new()
+	quest.id = "t_order"
+	quest.objectives = [QuestObjective.make("One", Condition.flag("t_one")), QuestObjective.make("Two", Condition.flag("t_two"))] as Array[QuestObjective]
+	assert_true(Session.quest_log.start(quest, Session.unlock_state()))
+	assert_eq(Session.quest_log.current_index(quest, Session.unlock_state()), 0)
+	Session.flags["t_one"] = true
+	assert_eq(Session.quest_log.current_objective(quest, Session.unlock_state()).text, "Two")
+	Session.flags["t_two"] = true
+	assert_null(Session.quest_log.current_objective(quest, Session.unlock_state()), "all done")
+
+
+func test_every_quest_has_a_category_name_summary_and_named_objectives() -> void:
+	var mains: int = 0
+	for quest: QuestData in QuestCatalog.all():
+		assert_false(quest.title.is_empty(), quest.id)
+		assert_false(quest.summary.is_empty(), quest.id)
+		assert_false(quest.objectives.is_empty(), quest.id)
+		for objective: QuestObjective in quest.objectives:
+			assert_false(objective.text.is_empty(), "%s has a named objective" % quest.id)
+		if quest.is_main():
+			mains += 1
+	assert_gte(mains, 6, "fragments, free the four zones and the four zone lines")
+
+
+func test_each_zone_main_line_pays_two_path_packs_and_midpoint_gear() -> void:
+	for zone_id: String in Gatekeepers.IDS:
+		var quest: QuestData = QuestCatalog.find(QuestDefinitions.zone_main_id(zone_id))
+		assert_eq(quest.all_pack_ids().count("path_%s" % zone_id), 2, "%s: gatekeeper + dungeon" % zone_id)
+		assert_eq(quest.all_equipment_ids().size(), 1, "%s: midpoint gear" % zone_id)
+		assert_eq(quest.objectives[0].target_id, "npc_%s" % zone_id, "the gatekeeper is the first target")
+
+
+func test_tracker_cycles_through_active_quests_main_first() -> void:
+	Session.offer_auto_quests()
+	var order: Array[String] = Session.quest_log.cycle_order(QuestCatalog.all())
+	assert_gt(order.size(), 2)
+	assert_true(QuestCatalog.find(order[0]).is_main())
+	assert_false(QuestCatalog.find(order[order.size() - 1]).is_main(), "Meet the Merchants (side) last")
+	Session.quest_log.track(order[0])
+	assert_eq(Session.quest_log.cycle(QuestCatalog.all(), 1), order[1])
+	assert_eq(Session.quest_log.cycle(QuestCatalog.all(), -1), order[0])
+	assert_eq(Session.quest_log.cycle(QuestCatalog.all(), -1), order[order.size() - 1], "wraps round")
+
+
+func test_migration_of_an_old_save_retires_clear_the_paths_and_never_double_pays() -> void:
+	var data: Dictionary = Session.to_dict()
+	data["quests"] = {"active": ["clear_the_paths", "meet_the_merchants"], "completed": [], "baselines": {}, "tracked": "clear_the_paths"}
+	var flags: Dictionary = data["flags"] as Dictionary
+	flags[str(CorruptedNpcs.unlock_flag("beefcake"))] = true
+	flags[str(FastTravel.unlock_flag("beefcake"))] = true
+	var gold_before: int = int(data.get("gold", 0))
+	assert_true(Session.from_dict(JSON.parse_string(JSON.stringify(data)) as Dictionary))
+	var qlog: QuestLog = Session.quest_log
+	assert_eq(qlog.version, QuestLog.VERSION)
+	assert_false(qlog.is_active("clear_the_paths"))
+	var main: QuestData = QuestCatalog.find(QuestDefinitions.zone_main_id("beefcake"))
+	assert_true(qlog.is_active(main.id), "the new MAIN line starts")
+	assert_true(Session.flag(Gatekeepers.entered_flag("beefcake")), "a zone with its station is already entered")
+	assert_eq(qlog.current_index(main, Session.unlock_state()), 2, "gatekeeper and crossing already done")
+	assert_true(qlog.milestone_paid(main.id, 0), "settled, not paid")
+	Session.refresh_quests()
+	assert_eq(Session.gold, gold_before, "no retroactive payout")
+	assert_eq(Session.profile.pack_count("path_beefcake"), 0)
+
+
+func test_migration_files_a_finished_line_as_completed_silently() -> void:
+	var data: Dictionary = Session.to_dict()
+	data["quests"] = {"active": [], "completed": ["free_the_kingdom"], "baselines": {}}
+	var flags: Dictionary = data["flags"] as Dictionary
+	for key: String in [str(CorruptedNpcs.unlock_flag("gourmand")), str(Gatekeepers.entered_flag("gourmand")), str(ZoneCompletion.flag_name("gourmand")), "buf_pie_done_marker"]:
+		flags[key] = true
+	data["quests"]["completed"].append("buf_pie")
+	assert_true(Session.from_dict(JSON.parse_string(JSON.stringify(data)) as Dictionary))
+	assert_true(Session.quest_log.is_completed(QuestDefinitions.zone_main_id("gourmand")))
+	assert_eq(Session.pending_popups.size(), 0, "no reward box")
+
+
+func test_new_saves_are_current_and_round_trip_milestones() -> void:
+	Session.offer_auto_quests()
+	Session.set_flag(CorruptedNpcs.unlock_flag("necrocrat"))
+	var json: Dictionary = JSON.parse_string(JSON.stringify(Session.to_dict())) as Dictionary
+	assert_true(Session.from_dict(json))
+	assert_eq(Session.quest_log.version, QuestLog.VERSION)
+	assert_true(Session.quest_log.milestone_paid(QuestDefinitions.zone_main_id("necrocrat"), 0))

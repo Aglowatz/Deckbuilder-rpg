@@ -4,7 +4,7 @@ extends RefCounted
 ## items, equipment, unopened packs, cosmetics, and for quests what the completion unlocked or opened up. Built by `Session` when the reward is
 ## granted; the UI only reads it.
 
-enum Kind { CHEST, QUEST }
+enum Kind { CHEST, QUEST, QUEST_STEP }
 
 var kind: Kind = Kind.CHEST
 ## The quest's name, or the chest's label ("Hidden chest").

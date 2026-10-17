@@ -24,6 +24,8 @@ var hud: TownHud
 var hp_bar: ZoneHpBar
 var dialogue: DialogueBox
 var minimap: MinimapHud
+## Overnight Oct 16: "!" / "?" over quest givers and the tracked quest's objective marker (with its edge-of-screen pointer).
+var quest_markers: QuestMarkerLayer
 var spots: Array[ZoneSpot] = []
 var enemies: Array[ZoneEnemy] = []
 var story: ZoneStoryText
@@ -577,6 +579,7 @@ func _build_ui() -> void:
 	host.add_child(minimap)
 	minimap.setup(def.id, builder, player, _collect_pois)
 	minimap.full_map_requested.connect(_open_full_map)
+	quest_markers = QuestMarkerLayer.install(self, def.id, _camera, func(spot_id: String) -> Dictionary: return QuestMarkerLayer.resolve_in(spots, spot_id), host)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)
@@ -987,6 +990,9 @@ func _use_main_dungeon(spot: ZoneSpot) -> void:
 	_locked = true
 	var cleared: bool = Session.is_zone_completed(def.id)
 	var body: String = story.text("ui.main.body_cleared" if cleared else "ui.main.body")
+	if def.id == CapitalZone.ID and not CapitalDebuffs.active(Session.flags).is_empty() and not Session.flag(&"primm_defeated"):
+		# Oct 16: the Capital is open from the start, but storming the castle with services still broken is a speedrunner's dare.
+		body = "%s\n\n%s (%d of 4 services still broken.)" % [StoryText.shared().text("capital.castle.warning"), body, CapitalDebuffs.active(Session.flags).size()]
 	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, story.text("ui.main.title"), body, story.text("ui.main.button"), "Not yet")
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
@@ -1312,6 +1318,8 @@ func _collect_pois() -> Array[MapPoi]:
 		if spot.id == "rift_station":
 			result.append(MapPoi.make(MapPoi.Kind.TRAVEL_PORTAL, spot.position, spot.title))
 	result.append_array(_extra_pois())
+	if quest_markers != null:
+		quest_markers.add_map_pois(result)
 	return result
 
 

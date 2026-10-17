@@ -10,10 +10,8 @@ signal packs_pressed
 
 var _menu_button: FancyButton
 var _menu_panel: PanelContainer
-var _location: Label
 var _left_column: VBoxContainer
 var _effects_panel: ZoneEffectsPanel
-var _progress: Label
 var _gold: Label
 var _prompt_panel: PanelContainer
 var _prompt_label: Label
@@ -34,21 +32,9 @@ func _ready() -> void:
 	left_column.position = Vector2(30, 28)
 	left_column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(left_column)
-	var objective_panel: PanelContainer = UIKit.panel(&"DarkPanel")
-	objective_panel.name = "LocationPanel"
-	objective_panel.custom_minimum_size = Vector2(300, 0)
-	objective_panel.visible = false  # shown once a location is set: no empty box
-	left_column.add_child(objective_panel)
 	_left_column = left_column
+	# Oct 16: the quest tracker is the only headline (the "Crosspath - N of 4 zones free" box is gone); zone effects sit under it as a chip.
 	left_column.add_child(QuestTracker.new())
-	var column: VBoxContainer = UIKit.vbox(4)
-	objective_panel.add_child(column)
-	_location = UIKit.label("", &"HeadingLabel", 26)
-	_location.name = "LocationLabel"
-	column.add_child(_location)
-	_progress = UIKit.label("", &"MutedLabel", 18)
-	_progress.name = "ZoneProgressLabel"
-	column.add_child(_progress)
 	var gold_panel: PanelContainer = UIKit.panel(&"DarkPanel")
 	gold_panel.position = Vector2(1650, 282)
 	add_child(gold_panel)
@@ -112,26 +98,24 @@ func set_gold(amount: int) -> void:
 ## Part C: the active zone's buff and debuff, shown under the objective while in a zone.
 func show_zone_effects(effect: ZoneEffects.Effect, zone_title: String) -> void:
 	if _effects_panel != null:
-		_effects_panel.queue_free()
+		var old_chip: Node = _effects_panel.get_parent().get_parent() if _effects_panel.get_parent() != null else null
+		(old_chip if old_chip is HudChip else _effects_panel).queue_free()
 		_effects_panel = null
 	if effect == null:
 		return
-	_effects_panel = ZoneEffectsPanel.make(effect, zone_title, true)
-	_left_column.add_child(_effects_panel)
-	_left_column.move_child(_effects_panel, 1)
+	_effects_panel = ZoneEffectsPanel.make(effect, zone_title, false)
+	var chip: HudChip = HudChip.wrap("zone_effects", "+ %s   - %s" % [effect.buff_name(), effect.debuff_name()], UIStyle.PARCHMENT, _effects_panel, "%s: zone buff and debuff (click for details)" % zone_title)
+	_left_column.add_child(chip)
 
 
 ## Any extra panel under the objective (the Capital's broken services).
 func add_panel(panel: Control) -> void:
 	_left_column.add_child(panel)
-	_left_column.move_child(panel, 1)
 
 
-## The town's name and how many zones are free ("Crosspath - 1 of 4 zones free").
-func set_location(town_name: String, progress: String) -> void:
-	_location.text = town_name
-	_location.get_parent().get_parent().visible = town_name != "" or progress != ""
-	_progress.text = progress
+## Removed Oct 16 (the location and zone-progress header cluttered the HUD; the title card names the place). Kept so scenes can still call it.
+func set_location(_town_name: String, _progress: String) -> void:
+	pass
 
 
 ## The objective box was removed (the quest tracker replaces it); kept so scenes can still call it.

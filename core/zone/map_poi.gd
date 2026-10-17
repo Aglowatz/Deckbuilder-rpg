@@ -36,6 +36,8 @@ var quest_marker: bool = false
 var locked: bool = false
 ## Quest givers with a marker: true when a quest is ready to hand in here (the turn-in marker), false when one is on offer (the available marker).
 var turn_in: bool = false
+## Overnight Oct 16: the tracked quest's objective (a pulsing golden ring; drawn even under the fog of war).
+var objective: bool = false
 
 
 static func make(poi_kind: Kind, position: Vector3, poi_label: String, marker: bool = false, is_locked: bool = false) -> MapPoi:

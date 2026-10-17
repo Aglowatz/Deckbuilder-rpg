@@ -80,7 +80,7 @@ func test_factories_tag_their_battles() -> void:
 	Session.ensure_game()
 	assert_eq(Session.make_practice_battle().board_key, "dungeon:hollow")
 	assert_eq(Session.make_graveyard_battle().board_key, "graveyard")
-	assert_eq(Session.make_npc_challenge_battle("beefcake").board_key, "town")
+	assert_eq(Session.make_npc_challenge_battle("beefcake").board_key, "zone:beefcake", "a gatekeeper fights on its own zone's board (Oct 16)")
 	assert_eq(Session.make_arena_battle(ArenaDefs.all()[0].id).board_key, "arena")
 
 

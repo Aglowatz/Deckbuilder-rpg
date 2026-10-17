@@ -9,22 +9,83 @@ const ONBOARDING: String = "dna_onboarding"
 const AUDIT: String = "dna_audit"
 
 
-## Brief 11: which quests also pay a Path Pack (quest id -> pack id): two per zone, plus a minigame prize each (`ZoneDef.minigame_pack`).
+## Brief 11: which quests also pay a Path Pack (quest id -> pack id): one per zone since Oct 16 (the zone's MAIN line pays two more), plus a minigame prize each (`ZoneDef.minigame_pack`).
 ## All numbers/ids are placeholders: edit here (then regenerate the quest files) or in `data/quests/*.tres`.
 const PACK_REWARDS: Dictionary = {
-	"dna_backlog": "path_necrocrat", "dna_audit": "path_necrocrat",
-	"gain_spot_me": "path_beefcake", "gain_lanes": "path_beefcake",
-	"buf_pantry": "path_gourmand", "buf_mend": "path_gourmand",
-	"heap_fert": "path_refusemancer", "heap_dam": "path_refusemancer",
+	"dna_audit": "path_necrocrat", "gain_spot_me": "path_beefcake", "buf_mend": "path_gourmand", "heap_dam": "path_refusemancer",
 }
+
+
+## Overnight Oct 16: each zone's three hub favours (the zone MAIN quest's midpoint), where every NPC quest's giver stands (area, spot id; the
+## giver also takes it back), each objective's target ([kind, area, spot id, where-to-go hint]; "" spot = no world marker) and extra rewards.
+const FAVOURS: Dictionary = {
+	"beefcake": ["gain_power", "gain_spot_me", "gain_lanes"], "necrocrat": ["dna_backlog", "dna_onboarding", "dna_audit"],
+	"gourmand": ["buf_pantry", "buf_pie", "buf_mend"], "refusemancer": ["heap_herd", "heap_fert", "heap_dam"],
+}
+const GIVERS: Dictionary = {
+	"dna_backlog": ["necrocrat", "dolores"], "dna_onboarding": ["necrocrat", "barnaby"], "dna_audit": ["necrocrat", "pip"],
+	"gain_power": ["beefcake", "gus"], "gain_spot_me": ["beefcake", "brenda"], "gain_lanes": ["beefcake", "tony"],
+	"buf_pantry": ["gourmand", "tarragon"], "buf_pie": ["gourmand", "dolcetta"], "buf_mend": ["gourmand", "odalys"],
+	"heap_herd": ["refusemancer", "wren"], "heap_fert": ["refusemancer", "hob"], "heap_dam": ["refusemancer", "marigold"],
+	"cap_burial": ["final", "pell"], "cap_wheels": ["final", "rollo"], "cap_recipes": ["final", "marlo"], "cap_untidy": ["final", "fern"],
+	"side_s_beef": ["beefcake", "brenda"], "side_s_gour": ["gourmand", "odalys"], "side_s_necro": ["necrocrat", "barnaby"],
+	"side_s_ref": ["refusemancer", "marigold"], "side_s_cap": ["final", "kestrel"], "side_s_town": ["town", "elder"],
+}
+const TARGETS: Dictionary = {
+	"dna_backlog": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Roaming staff wander every floor of the D.N.A."]],
+	"dna_onboarding": [[QuestObjective.TargetKind.SPOT, "necrocrat", "time_clock", "The time clock by the front desk"], [QuestObjective.TargetKind.SPOT, "necrocrat", "coffee", "The breakroom coffee machine"]],
+	"dna_audit": [[QuestObjective.TargetKind.NPC, "necrocrat", "quiz", "Director Ectomund, Compliance Examiner"], [QuestObjective.TargetKind.SPOT, "necrocrat", "", "Hidden stashes lurk in the filing mazes"]],
+	"gain_power": [[QuestObjective.TargetKind.SPOT, "beefcake", "run_wheel", "The Colossal Hamster Wheel"], [QuestObjective.TargetKind.SPOT, "beefcake", "protein_stand", "The protein shake stand"]],
+	"gain_spot_me": [[QuestObjective.TargetKind.NPC, "beefcake", "spot_me", "Gary, under a barbell (again)"], [QuestObjective.TargetKind.SPOT, "beefcake", "flex_mirror", "A Flex Mirror"]],
+	"gain_lanes": [[QuestObjective.TargetKind.BATTLE, "beefcake", "", "Brutes, golems and sprites roam the Gainlands"]],
+	"buf_pantry": [[QuestObjective.TargetKind.ITEM_COUNT, "gourmand", "", "Ingredients sparkle all over the Buffet"]],
+	"buf_pie": [[QuestObjective.TargetKind.SPOT, "gourmand", "oven", "The Grand Oven"]],
+	"buf_mend": [[QuestObjective.TargetKind.SPOT, "gourmand", "old_meatloaf", "Old Meatloaf, out of order in the Grand Pantry"]],
+	"heap_herd": [[QuestObjective.TargetKind.SPOT, "refusemancer", "", "Escaped animals graze out in the fields"]],
+	"heap_fert": [[QuestObjective.TargetKind.ITEM_COUNT, "refusemancer", "", "Fertilizer sacks lie around the Dump"]],
+	"heap_dam": [[QuestObjective.TargetKind.SPOT, "refusemancer", "stable_1", "Borrow a charging mount from the stables"]],
+	"cap_burial": [[QuestObjective.TargetKind.SPOT, "final", "permit_window", "Grave Row"], [QuestObjective.TargetKind.SPOT, "final", "pell_plot", "The Pell family plot"]],
+	"cap_wheels": [[QuestObjective.TargetKind.SPOT, "final", "", "The wheel crews of the Transit Yards"], [QuestObjective.TargetKind.SPOT, "final", "cable", "The main power cable"]],
+	"cap_recipes": [[QuestObjective.TargetKind.ITEM_COUNT, "final", "", "Recipe cards hidden around the Hungry Quarter"], [QuestObjective.TargetKind.SPOT, "final", "dispenser", "The Perfect Nutrient Paste dispenser"]],
+	"cap_untidy": [[QuestObjective.TargetKind.SPOT, "final", "", "Banished compost heaps in the Reek"], [QuestObjective.TargetKind.SPOT, "final", "sick_patch", "The Sick Patch"]],
+	"side_s_beef": [[QuestObjective.TargetKind.SPOT, "beefcake", "protein_stand", "The protein shake stand"]],
+	"side_s_gour": [[QuestObjective.TargetKind.SPOT, "gourmand", "", "Hidden stashes around the Buffet"]],
+	"side_s_necro": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Roaming staff on the D.N.A. floors"]],
+	"side_s_ref": [[QuestObjective.TargetKind.BATTLE, "refusemancer", "", "Scavengers prowl the Dump"]],
+	"side_s_cap": [[QuestObjective.TargetKind.NPC, "final", "wren", "The resistance hideout in the Crease"]],
+	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", "", "A hidden chest somewhere in Crosspath"]],
+}
+## Quest id -> {"equipment": [ids]} paid on top of the quest's own rewards (Block 2's pieces).
+const EXTRA_REWARDS: Dictionary = {}
 
 
 static func build_all() -> Array[QuestData]:
 	var quests: Array[QuestData] = _build_unpacked()
 	for quest: QuestData in quests:
+		quest.category = QuestData.Category.SIDE
 		if PACK_REWARDS.has(quest.id):
-			quest.reward_pack_ids = [str(PACK_REWARDS[quest.id])] as Array[String]
+			quest.reward_pack_ids.append(str(PACK_REWARDS[quest.id]))
+		var where: Array = GIVERS.get(quest.id, []) as Array
+		if where.size() == 2:
+			quest.giver_area = str(where[0])
+			quest.giver_spot = str(where[1])
+			quest.turn_in_area = quest.giver_area
+			quest.turn_in_spot = quest.giver_spot
+		var targets: Array = TARGETS.get(quest.id, []) as Array
+		for index: int in range(mini(targets.size(), quest.objectives.size())):
+			var target: Array = targets[index] as Array
+			quest.objectives[index].at(int(target[0]) as QuestObjective.TargetKind, str(target[1]), str(target[2]), str(target[3]))
+		for extra: Variant in (EXTRA_REWARDS.get(quest.id, {}) as Dictionary).get("equipment", []):
+			quest.reward_equipment_ids.append(str(extra))
 	return quests
+
+
+## A zone's three hub favours (its MAIN quest's midpoint is finishing any one of them).
+static func favours_of(zone_id: String) -> Array[String]:
+	var ids: Array[String] = []
+	for quest_id: Variant in FAVOURS.get(zone_id, []) as Array:
+		ids.append(str(quest_id))
+	return ids
 
 
 static func _build_unpacked() -> Array[QuestData]:

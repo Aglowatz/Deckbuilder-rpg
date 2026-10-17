@@ -43,10 +43,10 @@ procedural (`MusicSynth`) or from the existing Kenney packs.
 - **Zone dungeons:** every clear of a zone's main dungeon pays that Path's Path Pack (`PackConfig.dungeon_pack_count`). The **first** clear also pays a Gilded Pack of that Path,
   150 gold and 100 XP (on top of the unique card, gold and XP it already gave) and unlocks that Path's pack at the Pack Vendor (his stock follows the zone-completed flag).
   Beating Primm (the first time) pays a Prismatic Pack; it is announced after the ending. Code: `Session._grant_dungeon_packs`.
-- **Quests:** two per zone pay that Path's Path Pack (`ZoneQuestDefinitions.PACK_REWARDS`: `dna_backlog`, `dna_audit`, `gain_spot_me`, `gain_lanes`, `buf_pantry`, `buf_mend`,
-  `heap_fert`, `heap_dam`; the field is `QuestData.reward_pack_ids`).
+- **Quests (Oct 16):** each zone's MAIN line pays its Path Pack at the gatekeeper (a step reward) and on completion; one favour per zone pays one
+  (`ZoneQuestDefinitions.PACK_REWARDS`: `dna_audit`, `gain_spot_me`, `buf_mend`, `heap_dam`). Table: docs/design/quests.md.
 - **Minigames:** the first win of each zone's minigame pays the Path Pack (`PackRewards.grant_minigame_prize`; the match/reps/order/sort result lines show it).
-  So each zone gives at least 3 Path Packs (2 quests + the minigame) plus the dungeon's.
+  So each zone gives at least 4 Path Packs (the main line's 2, a favour, the minigame) plus the dungeon's.
 - **Pack Vendor (Foil Fenwick, town, a market stall south-west of the spawn):** Path Packs (teasers with a hint until the zone's dungeon is cleared); the Prismatic Pack in
   a back room after the postgame (hidden before). **Card vendor (Sable):** a "Card Packs" button: General tier 1, tier 2 once unlocked. **Black market (Fig Sly, the Crease):**
   a "Card Packs" button: the four Gilded Packs (each after its zone's first clear).

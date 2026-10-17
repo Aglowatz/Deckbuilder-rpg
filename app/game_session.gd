@@ -817,6 +817,7 @@ func from_dict(data: Dictionary) -> bool:
 		seen_cards[str(id)] = true
 	found_secrets.assign(data.get("found_secrets", []) as Array)
 	quest_log.from_dict(data.get("quests", {"completed": data.get("completed_quests", [])}) as Dictionary)
+	quest_migration_pending = quest_log.version < QuestLog.VERSION
 	counters = (data.get("counters", {}) as Dictionary).duplicate()
 	cosmetics = CosmeticState.new()
 	if data.has("cosmetics"):
@@ -833,6 +834,9 @@ func from_dict(data: Dictionary) -> bool:
 	pending_level_ups = []
 	pending_popups = []
 	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
+	if quest_migration_pending:
+		QuestMigration.migrate(quest_log, QuestCatalog.all(), flags, unlock_state())
+		quest_migration_pending = false
 	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
 		rebuild_starter_deck()
 	return true
@@ -1278,7 +1282,7 @@ func make_npc_challenge_battle(id: String) -> BattleContext:
 	context.ai = AIPlayer.new(CorruptedNpcs.personality(content, id))
 	context.enemy_name = CorruptedNpcs.display_name(id)
 	context.town_npc_id = id
-	context.board_key = "town"
+	context.board_key = Gatekeepers.board_key(id)
 	return context
 
 
@@ -1560,6 +1564,8 @@ func apply_vault_win() -> Dictionary:
 # ---- Quests (brief 5, Part B) -------------------------------------------------------------
 
 var _refreshing_quests: bool = false
+## Set by `from_dict` when the save's quest log predates Oct 16 (`QuestMigration` runs once everything else is loaded).
+var quest_migration_pending: bool = false
 
 
 ## Adds `amount` to a named progress counter (Condition.COUNTER) and re-checks active quests.
@@ -1573,11 +1579,12 @@ func counter(key: String) -> int:
 
 
 ## Starts a quest if it exists, is not active/completed and its prerequisite is met.
-func start_quest(quest_id: String) -> bool:
+func start_quest(quest_id: String, announce: bool = true) -> bool:
 	var quest: QuestData = QuestCatalog.find(quest_id)
 	if quest == null or not quest_log.start(quest, unlock_state()):
 		return false
-	EventBus.quest_notice.emit("New quest: %s" % quest.title, true)
+	if announce:
+		EventBus.quest_notice.emit("New quest: %s" % quest.title, true)
 	EventBus.quest_changed.emit()
 	save_game()
 	refresh_quests()
@@ -1588,9 +1595,25 @@ func start_quest(quest_id: String) -> bool:
 func offer_auto_quests() -> void:
 	if profile == null:
 		return
+	var tracked_before: String = quest_log.tracked_id()
+	var started: Array[String] = []
 	for quest: QuestData in QuestCatalog.all():
-		if quest.auto_give:
-			start_quest(quest.id)
+		if quest.auto_give and start_quest(quest.id, false):
+			started.append(quest.id)
+	# A batch of new quests (the first time in town) tracks the first of them by order (the first zone line), not the last one started;
+	# a quest the player was already following stays tracked.
+	if started.size() == 1:
+		EventBus.quest_notice.emit("New quest: %s" % QuestCatalog.find(started[0]).title, true)
+	elif started.size() > 1:
+		EventBus.quest_notice.emit("%d new quests in your Quest Log (%s)" % [started.size(), Keybinds.first_key(&"open_quests")], true)
+	if not started.is_empty():
+		var pick: String = started[0]
+		for quest_id: String in started:
+			if QuestCatalog.find(quest_id).is_main():
+				pick = quest_id
+				break
+		quest_log.track(tracked_before if quest_log.is_active(tracked_before) else pick)
+		EventBus.quest_changed.emit()
 
 
 ## Completes any active quest whose objectives are all met and that needs no turn-in, and tells
@@ -1600,6 +1623,12 @@ func refresh_quests() -> void:
 		return
 	_refreshing_quests = true
 	var state: UnlockState = unlock_state()
+	for due: Array in quest_log.take_due_milestones(QuestCatalog.all(), state):
+		_pay_milestone(due[0] as QuestData, int(due[1]))
+	var updated: Array[String] = quest_log.take_updates(QuestCatalog.all(), state)
+	if not updated.is_empty():
+		# The tracker follows the quest that moved forward last (Oct 16: "defaults to the most recently updated quest").
+		quest_log.track(updated[updated.size() - 1])
 	for quest_id: String in quest_log.auto_completable(QuestCatalog.all(), state):
 		complete_quest(quest_id)
 	_refreshing_quests = false
@@ -1662,6 +1691,61 @@ func complete_quest(quest_id: String) -> bool:
 	EventBus.quest_changed.emit()
 	save_game()
 	return true
+
+
+## Pays one objective's milestone reward (a quest line's gatekeeper pack, its midpoint gear) with a toast and a reward box.
+func _pay_milestone(quest: QuestData, index: int) -> void:
+	var reward: QuestReward = quest.objectives[index].milestone
+	if reward == null or reward.is_empty():
+		return
+	var summary: RewardSummary = RewardSummary.new()
+	summary.kind = RewardSummary.Kind.QUEST_STEP
+	summary.title = quest.title
+	summary.subtitle = "Step done: %s" % quest.objectives[index].text
+	pay_quest_reward(reward, summary)
+	pending_popups.append(summary)
+	EventBus.quest_notice.emit("%s: %s" % [quest.title, reward.summary()], false)
+	save_game()
+
+
+## Pays a reward bundle into the save and records it on `summary` (null = no box). Shared by quest milestones and anything else that pays a QuestReward.
+func pay_quest_reward(reward: QuestReward, summary: RewardSummary = null) -> void:
+	if reward.gold > 0:
+		add_gold(reward.gold)
+		if summary != null:
+			summary.gold += reward.gold
+	for item_id: String in reward.item_ids:
+		var item: ItemData = content.item(item_id)
+		add_item(item)
+		if item != null and summary != null:
+			summary.items.append(item)
+	var cards: Array[CardData] = []
+	for card_id: String in reward.card_ids:
+		var card: CardData = card_by_id(card_id)
+		if card != null:
+			cards.append(card)
+	if not cards.is_empty():
+		add_cards(cards)
+		if summary != null:
+			summary.cards.append_array(cards)
+	for pack_id: String in reward.pack_ids:
+		if add_pack(pack_id) and summary != null:
+			var pack: PackData = PackCatalog.find(pack_id)
+			summary.add_pack(pack_id, pack.display_name if pack != null else pack_id)
+	for equipment_id: String in reward.equipment_ids:
+		var piece: EquipmentData = content.equipment_piece(equipment_id)
+		grant_equipment(piece)
+		if piece != null and summary != null:
+			summary.equipment.append(piece)
+	for flag_name: String in reward.unlock_flags:
+		flags[flag_name] = true
+	if reward.xp > 0:
+		var gained: Array[LevelData] = add_xp(reward.xp)
+		pending_level_ups.append_array(gained)
+		if summary != null:
+			summary.xp += reward.xp
+			for row: LevelData in gained:
+				summary.levels_reached.append(row.level)
 
 
 ## Quest id -> title for every quest that could be started right now (the "what this opened up" diff of a finished quest).
@@ -1810,6 +1894,8 @@ func fast_travel_to(destination: String) -> bool:
 ## here, so they apply to every duel and to the zone HP (Famine lowers max HP).
 func begin_zone_visit(zone_id: String) -> ZoneRun:
 	zone_run = ZoneRun.enter(zone_id, profile, deck)
+	if Gatekeepers.has(zone_id) and not flag(Gatekeepers.entered_flag(zone_id)):
+		set_flag(Gatekeepers.entered_flag(zone_id))
 	if zone_id == CapitalZone.ID:
 		var debuffs: ModifierSource = CapitalDebuffs.player_source(flags, content)
 		if debuffs != null:

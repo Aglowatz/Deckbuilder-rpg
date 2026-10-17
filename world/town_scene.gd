@@ -75,6 +75,10 @@ var town: TownBuilder = TownBuilder.new()
 var player: TownPlayer
 var spots: Array[Spot] = []
 var minimap: MinimapHud
+## Overnight Oct 16: "!" / "?" over quest givers and the tracked quest's objective marker (with its edge-of-screen pointer).
+var quest_markers: QuestMarkerLayer
+## Emitted when a gatekeeper is beaten for the first time (the hub plays the obstacle clearing).
+signal gate_cleared(zone_id: String)
 var hud: TownHud
 var dialogue: DialogueBox
 var _camera: Camera3D
@@ -115,7 +119,8 @@ var _passage_dir_target: Vector3 = Vector3.ZERO
 var _passage_label: Label
 const PASSAGE_ZOOM_NEAR: float = 5.0
 const PASSAGE_ZOOM_FAR: float = 13.0
-const PASSAGE_ZOOM_MAX: float = 1.0
+## Oct 16: only a slight pull-back (12 percent) near a road's end, not the old 2.2x zoom-out.
+const PASSAGE_ZOOM_MAX: float = 0.12
 
 
 func screenshot_prepare(args: Dictionary) -> void:
@@ -552,7 +557,7 @@ func _update_passage_label() -> void:
 	_passage_label.modulate.a = lerpf(_passage_label.modulate.a, wanted, 0.2)
 
 
-## 1.0 normally; up to 2.2 within a few metres of a passageway mouth, so the bridge and the land beyond come into view.
+## 1.0 normally; up to 1.12 within a few metres of a road's end (Oct 16: a slight, brief pull-back instead of the old far zoom-out).
 func _passage_boost_target() -> float:
 	if _locked or dialogue.active or player.airborne:
 		return 1.0
@@ -565,7 +570,7 @@ func _passage_boost_target() -> float:
 			nearest = distance
 			_passage_dir_target = TownBuilder.PORTAL_OUT.get(info.id, Vector3.ZERO) as Vector3
 	var t: float = clampf((PASSAGE_ZOOM_FAR - nearest) / (PASSAGE_ZOOM_FAR - PASSAGE_ZOOM_NEAR), 0.0, 1.0)
-	return 1.0 + 1.2 * smoothstep(0.0, 1.0, t) * PASSAGE_ZOOM_MAX
+	return 1.0 + PASSAGE_ZOOM_MAX * smoothstep(0.0, 1.0, t)
 
 
 ## Walking down a passageway takes it: an open one changes scene (the same call the E prompt makes), a sealed one stops the hero and says why.
@@ -661,6 +666,7 @@ func _build_ui() -> void:
 	host.add_child(minimap)
 	minimap.setup("town", town, player, _collect_pois)
 	minimap.full_map_requested.connect(_open_full_map)
+	quest_markers = QuestMarkerLayer.install(self, "town", _camera, func(spot_id: String) -> Dictionary: return QuestMarkerLayer.resolve_in(spots, spot_id), host)
 	var overlay_canvas: CanvasLayer = CanvasLayer.new()
 	overlay_canvas.layer = 8
 	add_child(overlay_canvas)
@@ -695,10 +701,10 @@ func _process(delta: float) -> void:
 	_time += delta
 	_update_music(delta)
 	_update_sprite_npcs(delta)
-	_passage_boost = lerpf(_passage_boost, _passage_boost_target(), 1.0 - exp(-1.8 * delta))
+	_passage_boost = lerpf(_passage_boost, _passage_boost_target(), 1.0 - exp(-3.0 * delta))
 	_update_passage_label()
 	_passage_dir = _passage_dir.lerp(_passage_dir_target, 1.0 - exp(-1.8 * delta))
-	var look_ahead: Vector3 = _passage_dir * 9.0 * (_passage_boost - 1.0)
+	var look_ahead: Vector3 = _passage_dir * 12.0 * (_passage_boost - 1.0)
 	var target: Vector3 = player.position + look_ahead + CameraRig.shape(camera_offset) * _passage_boost
 	_camera.position = _camera.position.lerp(target, 1.0 - exp(-5.0 * delta))
 	_camera.basis = Basis.looking_at(-camera_offset, Vector3.UP)
@@ -710,7 +716,7 @@ func _process(delta: float) -> void:
 		var fade_start: float = 14.0 if spot.id.begins_with("portal_") else 2.6
 		spot.plate.modulate.a = clampf(1.0 - (distance - fade_start) / 1.6, 0.0, 1.0)
 		if spot.id.begins_with("portal_"):
-			spot.plate.pixel_size = 0.0075 * _passage_boost
+			spot.plate.pixel_size = 0.0075
 		spot.plate.outline_modulate.a = spot.plate.modulate.a
 		spot.plate.visible = spot.plate.modulate.a > 0.02
 	_well_light.light_energy = 1.4 + sin(_time * 1.7) * 0.35
@@ -892,7 +898,7 @@ func _interact(spot: Spot) -> void:
 		"elder":
 			_talk_elder()
 		"guard":
-			_talk_npc("guard", "Gatekeeper Brannoch", _guard_lines())
+			_talk_guard()
 		"codex":
 			_open_codex()
 		"notice_board":
@@ -995,8 +1001,12 @@ func _show_npc_result() -> void:
 	var lines: Array[String] = [] as Array[String]
 	if story != null:
 		lines = story.npc_victory_lines(id) if won else story.npc_defeat_lines(id)
+	if bool(result.get("first_win", false)) and Gatekeepers.has(id):
+		# Oct 16: the gatekeeper clears the obstacle on the road (the bridge lowers, the barrier rises, the door swings open, the thorns wither).
+		lines.append_array(StoryText.shared().get_lines("gate.%s.cleared" % id))
+		gate_cleared.emit(id)
 	_face_npc("npc_%s" % id)
-	dialogue.start(CorruptedNpcs.display_name(id), lines)
+	dialogue.start(Gatekeepers.full_title(id), lines)
 	if bool(result.get("first_win", false)):
 		var reward_text: String = "+%d gold, +%d XP" % [CorruptedNpcs.reward_gold(), CorruptedNpcs.reward_xp()]
 		var item_name: String = str(result.get("item_name", ""))
@@ -1023,7 +1033,7 @@ func _talk_corrupted_npc(id: String) -> void:
 	var lines: Array[String] = [] as Array[String]
 	if story != null:
 		lines = story.npc_victory_lines(id) if defeated else story.npc_intro_lines(id)
-	dialogue.start(CorruptedNpcs.display_name(id), lines)
+	dialogue.start(Gatekeepers.full_title(id), lines)
 	dialogue.finished.connect(func() -> void: Session.challenge_corrupted_npc(id), CONNECT_ONE_SHOT)
 
 
@@ -1129,6 +1139,23 @@ func _elder_lines() -> Array[String]:
 
 func _guard_lines() -> Array[String]:
 	return StoryText.shared().get_lines("town.guard")
+
+
+## Overnight Oct 16: Gatekeeper Brannoch stands on the imperial road and gives the Capital's main quest, "Free the Four Zones": the four
+## broken services, their debuffs, and that freeing each zone lifts one. Afterwards he reminds, then cheers once all four are free.
+func _talk_guard() -> void:
+	var speaker: String = QuestDefinitions.BRANNOCH
+	var story: StoryText = StoryText.shared()
+	if not Session.quests_offered_by(speaker).is_empty():
+		var offer: QuestData = Session.quests_offered_by(speaker)[0]
+		_talk_npc("guard", speaker, story.get_lines("town.guard.capital_offer"))
+		dialogue.finished.connect(func() -> void: Session.start_quest(offer.id), CONNECT_ONE_SHOT)
+		return
+	if Session.quest_log.is_active(QuestDefinitions.FREE_ZONES):
+		var key: String = "town.guard.capital_done" if ZoneCompletion.count(Session.flags) >= ZoneCompletion.TOTAL_ZONES else "town.guard.capital_active"
+		_talk_npc("guard", speaker, story.get_lines(key))
+		return
+	_talk_npc("guard", speaker, _guard_lines())
 
 
 func _talk_vendor() -> void:
@@ -1669,7 +1696,8 @@ func _use_zone_portal(zone_id: String) -> void:
 		return
 	player.face(town.anchors["portal_%s_mouth" % zone_id] as Vector3)
 	if _portal_is_locked(zone_id):
-		hud.toast("The way to %s is sealed. Defeat its corrupted guardian to open it." % info.display_name, info.tint.lightened(0.35))
+		var blocked: String = StoryText.shared().text("gate.%s.blocked" % zone_id) if Gatekeepers.has(zone_id) else "The way to %s is sealed." % info.display_name
+		hud.toast("%s Beat %s to open it." % [blocked, Gatekeepers.display_name(zone_id)] if Gatekeepers.has(zone_id) else blocked, info.tint.lightened(0.35))
 		Audio.sfx(&"ui_error")
 		return
 	Audio.sfx(&"portal_enter")
@@ -1724,6 +1752,8 @@ func _collect_pois() -> Array[MapPoi]:
 			result.append(MapPoi.make(MapPoi.Kind.CHALLENGE, spot.position, spot.title))
 		elif spot.id.begins_with("portal_"):
 			result.append(MapPoi.make(MapPoi.Kind.EXIT, spot.position, spot.title, false, _portal_is_locked(spot.id.trim_prefix("portal_"))))
+	if quest_markers != null:
+		quest_markers.add_map_pois(result)
 	return result
 
 

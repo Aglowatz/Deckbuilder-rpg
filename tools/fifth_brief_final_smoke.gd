@@ -58,7 +58,7 @@ func run() -> void:
 
 func _quests_in_tracker(town: TownScene) -> void:
 	_check(Session.quest_log.is_active(QuestDefinitions.MERCHANTS), "Meet the Merchants was auto-given on first town entry")
-	_check(Session.quest_log.is_active(QuestDefinitions.PATHS), "Clear the Paths was auto-given on first town entry")
+	_check(Session.quest_log.is_active(QuestDefinitions.zone_main_id("beefcake")), "the zone main lines were auto-given on first town entry")
 	var tracker: QuestTracker = _find_node(town.hud, QuestTracker) as QuestTracker
 	_check(tracker != null and tracker.visible, "the quest tracker is on the town HUD")
 	var text: String = _all_label_text(tracker)

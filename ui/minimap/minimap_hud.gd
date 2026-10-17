@@ -124,6 +124,8 @@ func _draw() -> void:
 	for poi: MapPoi in MapView.visible_pois(pois, fog):
 		var offset: Vector2 = (Vector2(poi.pos.x, poi.pos.z) - centre_xz) * scale_px
 		var at: Vector2 = SIZE * 0.5 + offset
+		if poi.objective:
+			at = at.clamp(Vector2(12, 12), SIZE - Vector2(12, 12))
 		if at.x < 8.0 or at.y < 8.0 or at.x > SIZE.x - 8.0 or at.y > SIZE.y - 8.0:
 			continue
 		MapDraw.poi(self, at, poi, 8.0)
@@ -143,6 +145,8 @@ func _draw_framed() -> void:
 	draw_texture_rect_region(raster.texture, window, Rect2(centre_px - half, half * 2.0))
 	for poi: MapPoi in MapView.visible_pois(pois, fog):
 		var offset: Vector2 = (Vector2(poi.pos.x, poi.pos.z) - centre_xz) * scale_px
+		if poi.objective:
+			offset = offset.limit_length(FRAME_RADIUS - 12.0)
 		if offset.length() > FRAME_RADIUS - 8.0:
 			continue
 		MapDraw.poi(self, FRAME_CENTER + offset, poi, 8.0)
