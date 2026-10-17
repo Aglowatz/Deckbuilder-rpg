@@ -57,4 +57,7 @@ both "inside_west_wall" --pos=10,20 --gate=true
 both "inside_north_wall" --pos=100,6 --gate=true
 both "ward" --pos=101,18 --gate=true
 both "tunnel_mouth" --pos=96,82
+# Part E: the end of the hidden strip and the road out
+shot "strip_end_default" --pos=-3.5,54.5 --set=$DEFAULT
+shot "road_out_overview" --pos=60,119 --set=$OVERVIEW
 ls "$out" | wc -l

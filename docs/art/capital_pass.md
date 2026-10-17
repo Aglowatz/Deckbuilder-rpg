@@ -244,3 +244,31 @@ Shots: `docs/art/capital_pass/part_d/`.
   strip narrow and nameless, nothing near the hole). The walk smoke now walks the strip and the hole.
 
 **fps on Medium**: 60.0-60.1 at the Gate Road, the rift fields, the Reek, the Transit Yards and the plaza. **Checks**: GUT 1702/1703 (pre-existing CP-2).
+
+## Part E: boundaries
+
+Shots: `docs/art/capital_pass/part_e/`.
+
+| | |
+|---|---|
+| ![](capital_pass/part_e/plan_outside.jpg) plan, outside: green = where the hero can stand | ![](capital_pass/part_e/edge_east_default.jpg) the east edge: the ash ridge, dead trees and rocks |
+| ![](capital_pass/part_e/edge_east_overview.jpg) the east edge from Overview | ![](capital_pass/part_e/edge_south_default.jpg) the south edge: low rocks and rubble along it (the ridge rises out of the frame) |
+| ![](capital_pass/part_e/road_out_overview.jpg) the road's end, the way home | ![](capital_pass/part_e/strip_end_default.jpg) the hidden strip's dead end: the ridge closes in |
+| ![](capital_pass/part_e/castle_side_east_default.jpg) inside: the castle hill's terraces | ![](capital_pass/part_e/inside_north_wall_default.jpg) inside: the north wall |
+| ![](capital_pass/part_e/inside_west_wall_default.jpg) inside: the west wall | ![](capital_pass/part_e/tunnel_mouth_default.jpg) the tunnel mouth in the front wall |
+
+- **A blocker you can see everywhere the hero stops**: the great wall and its towers, the city's walls (their battered feet meet the paving; the
+  floor no longer stops short of the west wall or runs into the east one), the castle hill's dressed terraces, the buildings and props, and outside
+  the rim's rising ground with its rocks, rubble and dead trees. Where the rim is kept low for the camera (the south edge, beside the road, the
+  strip's corner) a row of low half-sunk boulders and rubble runs right along the walkable edge (`CapitalRim._edge_row`). No invisible wall stands
+  in open-looking ground: the old outside edges (an invisible stop before a stepped box wall, a flat plain beyond) are gone.
+- **No open-looking ground the hero cannot enter**: beyond the walkable edge the land rises at once (a ridge 4-5 m up within a few metres), so
+  nothing past the edge reads as more of the same floor; the road on beyond the south edge is the way home (its exit spot), between hills.
+- **The walkable area grew where it logically should**: the hidden strip and its corner (Part D), the inner city floor up to the west wall's foot.
+- **The road from Crosspath is the only way into the outside half**: nothing is walkable beyond the south edge; the road's end is the exit spot;
+  hills rise either side of the road beyond it, as on the Crosspath side.
+- **Checks** (`tests/world/test_capital_bounds.gd`, new): a flood from the arrival over a 0.5 m lattice with the gate open reaches only the intended
+  ground (the outside, the strip and its corner, the hole, the gate's opening, the city); every walkable cell's non-walkable neighbour is a wall,
+  a building, the hill, a wall tower, the rising rim or a rim rock / rubble / tree; the road is the only way out. The walkability probe
+  (`test_walkability_zones`) still reaches every key location, and the west route to the hidden hole is walked end to end in
+  `test_capital_wall_passage`. GUT 1702/1703 (pre-existing CP-2).
