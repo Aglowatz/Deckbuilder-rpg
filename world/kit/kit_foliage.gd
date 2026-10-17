@@ -43,9 +43,10 @@ static func hero_pos() -> Vector3:
 
 
 ## The shared card material of a kit id (e.g. ENV-TREE-OAK): the real art when it exists, else the placeholder texture.
-static func card_material(id: String) -> ShaderMaterial:
+## `still`: a rigid card prop (a rack, a sign, a crate) that must never bend in the wind (Crosspath pass, Part B); trees and plants sway.
+static func card_material(id: String, still: bool = false) -> ShaderMaterial:
 	id = ZoneStyles.swap(id)
-	var cache_key: String = "%s|%s" % [id, ZoneStyles.current]
+	var cache_key: String = "%s|%s|%s" % [id, ZoneStyles.current, str(still)]
 	if _card_cache.has(cache_key):
 		return _card_cache[cache_key] as ShaderMaterial
 	var material_value: ShaderMaterial = ShaderMaterial.new()
@@ -55,6 +56,8 @@ static func card_material(id: String) -> ShaderMaterial:
 	material_value.set_shader_parameter("ambient_color", _ambient)
 	material_value.set_shader_parameter("mood_tint", ZoneStyles.tint("tree"))
 	material_value.set_shader_parameter("hero_pos", _hero)
+	if still:
+		material_value.set_shader_parameter("sway", 0.0)
 	_materials.append(material_value)
 	_card_materials.append(material_value)
 	_card_cache[cache_key] = material_value
@@ -62,14 +65,14 @@ static func card_material(id: String) -> ShaderMaterial:
 
 
 ## A one-card tree (or any card): `size` metres wide and tall, base at the node origin.
-static func card(id: String, size: Vector2, shadow: bool = true) -> MeshInstance3D:
+static func card(id: String, size: Vector2, shadow: bool = true, still: bool = false) -> MeshInstance3D:
 	id = ZoneStyles.swap(id)
 	var quad: QuadMesh = QuadMesh.new()
 	quad.size = Vector2.ONE
 	quad.center_offset = Vector3(0.0, 0.5, 0.0)
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = quad
-	instance.material_override = card_material(id)
+	instance.material_override = card_material(id, still)
 	var final_size: Vector2 = size
 	if (id.begins_with("ENV-TREE-") or EnvKit.zone_of(id) != "") and EnvKit.has_art(id):
 		# painted trees keep their own proportions, with the trunk base (not the card centre) on the node origin

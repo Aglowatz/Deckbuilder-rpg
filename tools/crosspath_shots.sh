@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Crosspath pass (Oct 17): the same audit spots before and after each part, from the default camera (Cinematic, Normal) and Overview (Far),
 # plus the top-down plan with the walkable ground, the blockers and the anchors. One Godot at a time (each shot is its own run).
-# Usage: bash tools/crosspath_shots.sh <phase> [only-prefix]   ->  docs/art/crosspath_pass/<phase>/<name>.jpg
+# Usage: bash tools/crosspath_shots.sh <phase> [prefix,prefix,...]  (only the shots whose names start with one of the prefixes)   ->  docs/art/crosspath_pass/<phase>/<name>.jpg
 cd "$(dirname "$0")/.."
 phase="${1:-before}"
 only="${2:-}"
@@ -11,7 +11,12 @@ DEFAULT="camera_angle:0,camera_zoom:1.5"
 OVERVIEW="camera_angle:2,camera_zoom:1.9"
 shot() {
 	local name="$1"; shift
-	if [ -n "$only" ] && [[ "$name" != $only* ]]; then return; fi
+	if [ -n "$only" ]; then
+		local hit=""
+		IFS="," read -ra prefixes <<< "$only"
+		for prefix in "${prefixes[@]}"; do [[ "$name" == $prefix* ]] && hit=1; done
+		[ -z "$hit" ] && return
+	fi
 	timeout 300 bash tools/shot.sh res://scenes/town.tscn "cp_$name" --nohud=true --jpg=true --wait=5 "$@" 2>&1 | grep -E "saved|SCRIPT ERROR"
 	[ -f "_screenshots/cp_$name.jpg" ] && mv "_screenshots/cp_$name.jpg" "$out/$name.jpg"
 }

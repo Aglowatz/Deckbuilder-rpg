@@ -207,7 +207,11 @@ func _ready() -> void:
 		style_rig.register_lights(square.lights)
 	var avoid: Array[Vector3] = [Vector3(square.center.x, square.center.z, square.meadow_radius)]
 	if style_rig != null:
-		ZoneDressing.build(self, town, StylePresets.TOWN, Settings.graphics_quality, avoid)
+		# Crosspath pass, Part B: in the hub the dressing clumps along paths, walls and field edges with open grass between (TownClutter), at about half the old count.
+		if town.hub_land:
+			ZoneDressing.build(self, town, StylePresets.TOWN, Settings.graphics_quality, avoid, TownClutter.region(town), 0.5)
+		else:
+			ZoneDressing.build(self, town, StylePresets.TOWN, Settings.graphics_quality, avoid)
 		painted_world = PaintedWorld.apply(self, town, StylePresets.TOWN, PaintedContexts.town(self))
 	_build_ui()
 	if str(_screenshot_args.get("nohud", "false")) == "true":
@@ -625,7 +629,7 @@ func _add_spot(id: String, title: String, position: Vector3, radius: float) -> v
 	add_child(marker)
 	spot.marker = marker
 	var plate: Label3D = Label3D.new()
-	plate.text = title if spot.named else ""
+	plate.text = title if _spot_has_plate(id) else ""
 	plate.font = UIStyle.font_title()
 	plate.font_size = 46
 	plate.pixel_size = 0.0055
@@ -2086,6 +2090,14 @@ func _spot_is_named(id: String) -> bool:
 		"pack_vendor":
 			return Session.completed_zone_count() >= 1 or Session.flag(&"pack_vendor_seen")
 	return true
+
+
+## Crosspath pass, Part B: no lettering in the world (G-03). Places (the passages, the well, the hatch, the gate, the boards, the signposts, the vault...)
+## carry no floating plate (the minimap still lists them, the HUD prompt and the dialogue name them); only people keep a name over their head (CP-3).
+func _spot_has_plate(id: String) -> bool:
+	if id == "hidden_vendor":
+		return false  # the black-market alley stays a discovery
+	return _spot_is_named(id) and id in NPC_SPOT_IDS
 
 
 ## Screenshot helper (`--nofog=1`): clears fog and haze so a top-down overview from a very high camera stays readable.

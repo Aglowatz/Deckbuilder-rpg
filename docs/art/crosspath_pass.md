@@ -103,3 +103,32 @@ The walkable ground was the old hex map (515 cells, x -21.6..72, z -15.6..68.6) 
 - The plaza is a 6.2 m circle; the six shop vendors stand along two narrow market streets (Tilly and Sable on the west street's north side,
   Pip and Bertram opposite, Fenwick and Auntie Alembic on the east street), each behind a tight row of roofs (`west_street_default.jpg`).
 - The secret dealer stands in front of a full second smithy behind the east row (`alley_default.jpg`), not hidden at all.
+
+## Part B: cleanup and fixes
+
+Shots: `docs/art/crosspath_pass/part_b/` (same spots as `before/`).
+
+- **Old objects.** `TownExpansion` no longer places the seventeen KayKit huts, wells, towers and tents; it places storybook-scale kit buildings with a
+  purpose: a thatched farmhouse with a fenced vegetable garden and barrels at the edge of the south-west field (12.4, 50.2) and a wayside cottage
+  facing the meadow road with its garden and a bench nook (42.2, 55.4). The fisher's cottage and the boat shed by the dock come with the new
+  lakeshore (Part D). The hub builds no KayKit water tiles (1206 hidden tiles) and no KayKit rocks; the Restless Cairn is a dark stack of kit
+  fieldstones with five worn headstones and two twisted trees (`HubRelics`), the old lever a lever in a stone block. (`fields_south_*`, `fields_west_*`)
+- **Motion.** The toon shader decides what sways by the names of the mesh and its parents. It now matches whole words only (`StyleToon.name_words`),
+  and a rigid word (well, lamp, post, fence, barrel, crate, door, wall, roof, sign, rock, chest...) on the mesh or a nearer parent always wins:
+  the Old Well and its barrel, crate and sack stand still, so do the pantry door's leaves. Painted card props from the zone kits that are not plants
+  (racks, signs, crates) get a still card material. `test_crosspath_cleanup.gd`: every PropKit prop, every PropClusters cluster, every building
+  preset and the relics stay still under full wind; a flower still sways. (`--windlog` on a town shot lists every swaying mesh: only trees and plants.)
+- **Floating pieces.** Three causes, all in `BuildingKit`: (1) gable-front barge boards were turned with `swap * rot * swap`, so their length lay
+  across the gable (two-metre boards hovering in the air at the clothier, the chapel and both `home_b` houses); (2) the top wall plate and (3) the
+  corner posts reached the wall top and poked a few centimetres through every roof just outside the wall (the dark line across each thatch). The
+  Undercroft cottage's boards now cover its real door and windows (two crosses floated above the wall and showed through the thatch). Test: every
+  preset stripped of its sockets stays inside its footprint plus its overhang. (`west_street_default.jpg`, `fields_south_default.jpg`)
+- **Readable text.** Places carry no floating plate any more (the five passages, the well, the hatch, the cave, the hall, the deck station, the boards,
+  the signposts, the vault, the cairn): the minimap still lists them, the HUD prompt and the dialogue name them. People keep their name (CP-3).
+  The shop signs, awnings and doors were already pictures. (`gate_beefcake_locked.jpg`, `gate_gourmand_locked.jpg`)
+- **Ground clutter.** The town recipe is thinned (grass 22 -> 12 per 100 m2, no mushrooms or stumps, fewer flowers and pebbles) and in the hub it
+  grows only where a slow noise allows a clump AND the spot is at a path edge, at the foot of a wall, fence, building or prop, or at a field's
+  edge (`TownClutter`); about a third of the fields carries dressing, the rest is calm grass. (`fields_*`)
+- **Lamps.** Only the cobbled streets and the square carry lamps; the ten posts along the dirt tracks in the fields are gone. Test:
+  `test_lamps_stand_only_on_the_cobbled_streets`.
+- Town on Medium: 60.0 fps average, minimum 60 (draw calls 712 -> 670). GUT 1672 passing (the one failure is CP-2).

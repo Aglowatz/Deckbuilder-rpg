@@ -22,9 +22,9 @@ static func recipe(preset_id: StringName) -> Dictionary:
 		StylePresets.TOWN:
 			return {
 				"items": [
-					[NATURE, "grass_leafs", 22.0, 1.4, 2.3], [NATURE, "plant_flatShort", 4.0, 1.3, 2.0], [NATURE, "flower_redA", 0.8, 1.2, 1.8],
-					[NATURE, "flower_yellowA", 0.8, 1.2, 1.8], [NATURE, "flower_purpleA", 0.6, 1.2, 1.8], [NATURE, "mushroom_redGroup", 0.8, 1.4, 2.0],
-					[NATURE, "stone_smallA", 1.2, 1.5, 2.4], [NATURE, "stump_round", 0.5, 1.5, 2.2],
+					# Crosspath pass, Part B: thinned (grass 22 -> 12, no mushrooms or stumps); the hub limits it to clumps along edges (TownClutter)
+					[NATURE, "grass_leafs", 12.0, 1.4, 2.3], [NATURE, "plant_flatShort", 2.6, 1.3, 2.0], [NATURE, "flower_redA", 0.6, 1.2, 1.8],
+					[NATURE, "flower_yellowA", 0.6, 1.2, 1.8], [NATURE, "flower_purpleA", 0.5, 1.2, 1.8], [NATURE, "stone_smallA", 0.5, 1.5, 2.4],
 				],
 				"patches": [Color("6fae62"), Color("86c066"), Color("5a9a5a")], "patch_pattern": GroundDecals.Pattern.MOSS,
 			}
@@ -197,10 +197,7 @@ static func _make_multimesh(root: Node3D, chunk: Dictionary) -> void:
 
 
 static func _is_foliage(model: String) -> bool:
-	for word: String in StyleToon.FOLIAGE_WORDS:
-		if model.to_lower().contains(word):
-			return true
-	return false
+	return StyleToon.is_foliage_name(model) and not StyleToon.is_rigid_name(model)
 
 
 static func _patches(root: Node3D, area: WalkableArea, bounds: Rect2, data: Dictionary, rng: RandomNumberGenerator, quality: int, region: Callable = Callable()) -> void:

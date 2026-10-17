@@ -71,7 +71,10 @@ static func card_prop(id: String, height: float = -1.0, shadow: bool = true) -> 
 		return null
 	var h: float = height if height > 0.0 else card_height(id)
 	var w: float = h * EnvKit.aspect(id)
-	var card: MeshInstance3D = KitFoliage.card(id, Vector2(w, h), shadow)
+	# Crosspath pass, Part B: only plant and tree cards bend in the wind; a rack, a sign or a crate card stands still.
+	var entry: Dictionary = EnvKit.entry(id)
+	var living: bool = str(entry.get("lock", "")) == "TREE" or str(entry.get("group", "")).contains("plant") or str(entry.get("group", "")).contains("tree")
+	var card: MeshInstance3D = KitFoliage.card(id, Vector2(w, h), shadow, not living)
 	card.name = "Body"
 	card.set_meta("no_occlusion_fade", true)
 	var root: Node3D = Node3D.new()

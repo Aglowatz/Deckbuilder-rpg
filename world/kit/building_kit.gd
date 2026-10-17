@@ -225,16 +225,18 @@ func _timber() -> void:
 		if painted.begins_with("ENV-WALL-TIMBER") and EnvKit.has_art(painted):
 			mode = "none"
 	var post: float = 0.3
-	# corner posts, floor beams and the plate
+	# corner posts, floor beams and the plate. Crosspath pass, Part B: the posts and the top plate stop under the eave (they used to reach the wall top and
+	# poke a few centimetres through every roof just outside the wall, a dark line along each eave).
+	var post_top: float = wall_top - 0.22
 	for sx: float in [-1.0, 1.0]:
 		for sz: float in [-1.0, 1.0]:
-			mesh.box("beam", Vector3(sx * hw, (foundation + wall_top) * 0.5, sz * hd), Vector3(post, wall_top - foundation, post), Basis.IDENTITY, 0.03, 0.85)
+			mesh.box("beam", Vector3(sx * hw, (foundation + post_top) * 0.5, sz * hd), Vector3(post, post_top - foundation, post), Basis.IDENTITY, 0.03, 0.85)
 	for index: int in range(floors):
 		var y: float = floor_top(spec, index)
 		var thickness: float = 0.26
 		for face: String in FACES.keys():
 			var half: float = _face_half(face)
-			_attach("beam", face, 0.0, y - (0.0 if index < floors - 1 else 0.12), 0.07, Vector3(half * 2.0 + 0.2, thickness, 0.14), 0.03)
+			_attach("beam", face, 0.0, y - (0.0 if index < floors - 1 else 0.36), 0.07, Vector3(half * 2.0 + 0.2, thickness, 0.14), 0.03)
 	_attach("beam", "front", 0.0, foundation + 0.08, 0.06, Vector3(hw * 2.0, 0.18, 0.12), 0.03)
 	if mode == "none":
 		return
@@ -357,9 +359,12 @@ func _roof(roof_data: Dictionary) -> void:
 func _map_basis(rot: Basis, gable_front: bool) -> Basis:
 	if not gable_front:
 		return rot
-	# the frame swaps x and z: reflect the basis through the plane x = z
+	# The frame swaps x and z: map the box's own axes into the building (the length stays along the rake, the thickness off the slope). The old `swap * rot * swap`
+	# also swapped the box's length into its depth, so every gable-front barge board lay across its roof or stuck out into the air (Crosspath pass, Part B).
 	var swap: Basis = Basis(Vector3(0, 0, 1), Vector3(0, 1, 0), Vector3(1, 0, 0))
-	return swap * rot * swap
+	var x_axis: Vector3 = swap * rot.x
+	var y_axis: Vector3 = swap * rot.y
+	return Basis(x_axis, y_axis, x_axis.cross(y_axis).normalized())
 
 
 func _chimney(data: Dictionary) -> void:

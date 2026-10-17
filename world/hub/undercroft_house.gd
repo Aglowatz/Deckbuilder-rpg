@@ -47,11 +47,20 @@ func _build(town: TownBuilder, center: Vector3) -> void:
 	wood.albedo_texture = load("res://assets/art/textures/mat_woodplanks_albedo.webp") as Texture2D
 	wood.albedo_color = Color(0.7, 0.58, 0.46)
 	wood.uv1_triplanar = true
-	for spot: Vector2 in [Vector2(-width * 0.3, 1.25), Vector2(width * 0.3, 1.25), Vector2(-width * 0.25, 2.75), Vector2(width * 0.25, 2.75), Vector2(0.0, 0.95)]:
+	# Crosspath pass, Part B: the boards cover the real door and windows of the cottage (two of them used to float above the wall top and show through the thatch).
+	var spots: Array[Vector2] = []
+	for socket: Variant in ((spec.get("faces", {}) as Dictionary).get("front", []) as Array):
+		var data: Dictionary = socket as Dictionary
+		var foundation: float = float(spec.get("foundation", 0.4))
+		if str(data.get("type", "")) == "door":
+			spots.append(Vector2(float(data.get("u", 0.0)), foundation + BuildingKit.DOOR_H * 0.45))
+		elif str(data.get("type", "")) == "window":
+			spots.append(Vector2(float(data.get("u", 0.0)), float(data.get("y", foundation + 1.5))))
+	for spot: Vector2 in spots:
 		for tilt: float in [24.0, -21.0]:
 			var board: MeshInstance3D = MeshInstance3D.new()
 			var box: BoxMesh = BoxMesh.new()
-			box.size = Vector3(1.35 if spot.y > 1.0 else 1.6, 0.16, 0.05)
+			box.size = Vector3(1.2, 0.16, 0.05)
 			board.mesh = box
 			board.material_override = wood
 			board.position = Vector3(center.x + spot.x, spot.y, front_z + 0.03)

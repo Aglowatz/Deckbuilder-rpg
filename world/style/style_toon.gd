@@ -156,10 +156,54 @@ static func double_sided_shader() -> Shader:
 	return _shader_double
 
 
-const FOLIAGE_WORDS: PackedStringArray = ["tree", "bush", "grass", "flower", "plant", "leaf", "leaves", "hanging", "moss", "crop", "lily", "cactus", "banner", "flag", "cloth", "reed", "wheat", "corn", "fern", "mushroom_x"]
+const FOLIAGE_WORDS: PackedStringArray = ["tree", "bush", "grass", "flower", "plant", "leaf", "leafs", "leaves", "hanging", "moss", "crop", "lily", "cactus", "banner", "flag", "cloth", "reed", "wheat", "corn", "fern", "vine", "ivy", "sunflower", "hay"]
+## Crosspath pass, Part B: rigid things never sway, whatever else their name says (a "well_corner" cluster swayed for the "corn" in "corner", the pantry
+## door's "DoorLeaves" for its "leaves"). A rigid word on the mesh or on a nearer ancestor than any foliage word wins.
+const RIGID_WORDS: PackedStringArray = [
+	"mountain", "hill", "cliff", "rock", "stone", "boulder", "ridge", "building", "house", "cottage", "hut", "shop", "hall", "chapel", "tower", "mill", "shed",
+	"well", "lamp", "lantern", "post", "pole", "fence", "rail", "wall", "gate", "door", "roof", "beam", "barrel", "crate", "sack", "box", "cart", "bench", "stall",
+	"sign", "signpost", "board", "chest", "bridge", "booth", "barrier", "statue", "fountain", "pot", "flowerpot", "planter", "table", "dock", "pier", "frame", "arch",
+	"lever", "ladder", "cairn", "vault", "hatch", "boundary",
+]
 
 
-## Only foliage and cloth sways: a mesh whose own name or one of its ancestors up to the model root mentions a foliage word.
+## The words of a node name: split at underscores, dashes, spaces, digits, "@" and lower-to-upper case changes, lower-cased ("tree_pineTallA2" -> tree, pine, tall, a).
+static func name_words(node_name: String) -> PackedStringArray:
+	var words: PackedStringArray = []
+	var current: String = ""
+	var previous_lower: bool = false
+	for index: int in range(node_name.length()):
+		var ch: String = node_name[index]
+		var is_letter: bool = (ch >= "a" and ch <= "z") or (ch >= "A" and ch <= "Z")
+		var is_upper: bool = ch >= "A" and ch <= "Z"
+		if not is_letter or (is_upper and previous_lower):
+			if current != "":
+				words.append(current.to_lower())
+			current = ""
+		if is_letter:
+			current += ch
+		previous_lower = is_letter and not is_upper
+	if current != "":
+		words.append(current.to_lower())
+	return words
+
+
+## True when one word of `node_name` is a foliage word (whole words only: "corner" is not "corn").
+static func is_foliage_name(node_name: String) -> bool:
+	for word: String in name_words(node_name):
+		if FOLIAGE_WORDS.has(word) or FOLIAGE_WORDS.has(word.trim_suffix("s")):
+			return true
+	return false
+
+
+static func is_rigid_name(node_name: String) -> bool:
+	for word: String in name_words(node_name):
+		if RIGID_WORDS.has(word) or RIGID_WORDS.has(word.trim_suffix("s")) or RIGID_WORDS.has(word.trim_suffix("es")):
+			return true
+	return false
+
+
+## Only foliage and cloth sways: the nearest of the mesh and its ancestors (up to the model root) whose name says what it is decides; rigid wins ties.
 static func wind_for(mesh_instance: MeshInstance3D, wind: float) -> float:
 	if wind <= 0.0:
 		return -1.0
@@ -169,13 +213,11 @@ static func wind_for(mesh_instance: MeshInstance3D, wind: float) -> float:
 		# meta `no_wind`: a built landmark whose name happens to mention a foliage word (the Sky Tree) must not sway
 		if current.has_meta(&"no_wind"):
 			return -1.0
-		var lower: String = String(current.name).to_lower()
-		for word: String in ["mountain", "hill", "cliff", "rock", "stone", "building", "house"]:
-			if lower.contains(word):
-				return -1.0
-		for word: String in FOLIAGE_WORDS:
-			if lower.contains(word):
-				return wind
+		var node_name: String = String(current.name)
+		if is_rigid_name(node_name):
+			return -1.0
+		if is_foliage_name(node_name):
+			return wind
 		current = current.get_parent()
 		depth += 1
 	return -1.0

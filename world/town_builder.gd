@@ -158,6 +158,9 @@ const WATER_PAD: int = 5
 
 
 func _build_water() -> void:
+	# Crosspath pass, Part B: in the one-country hub the painted land and the lake (BoundaryKit) are the ground; the 1200 KayKit water tiles under it are gone.
+	if hub_land:
+		return
 	for row: int in range(-ROW_OFFSET - WATER_PAD, MAP.size() - ROW_OFFSET + WATER_PAD):
 		for col: int in range(-COL_OFFSET - WATER_PAD, MAP[0].length() - COL_OFFSET + WATER_PAD):
 			var map_row: int = row + ROW_OFFSET
@@ -256,7 +259,11 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 		"R":
 			walkable[Vector2i(col, row)] = true
 			var rock_pos: Vector3 = _scatter(center, 0.2 * SCALE, 0.7 * SCALE)
-			ModelKit.place(root, ModelKit.nature("rock_single_%s" % ["A", "B", "C", "D", "E"][_rng.randi() % 5]), rock_pos, _rng.randf() * 360.0, 1.3)
+			var rock_model: int = _rng.randi() % 5
+			var rock_spin: float = _rng.randf() * 360.0
+			# Crosspath pass, Part B: the blocky KayKit rocks stay out of the hub (the random draws are kept so nothing else moves).
+			if not hub_land:
+				ModelKit.place(root, ModelKit.nature("rock_single_%s" % ["A", "B", "C", "D", "E"][rock_model]), rock_pos, rock_spin, 1.3)
 			# Polish round: small decorative rocks never block the hero (OBSTACLE_ROCK is kept for the doc of what it used to be).
 		_:
 			walkable[Vector2i(col, row)] = true
@@ -324,7 +331,8 @@ func _build_props() -> void:
 	anchors["chest"] = chest_pos + Vector3(0.0, 0, 1.5)
 	# Brief 16: the old vault's lever now sits far from it (the south-west of the long southern strip), where only an explorer finds it.
 	var lever_pos: Vector3 = cell_center(LEVER_CELL.x, LEVER_CELL.y) + Vector3(0.3, 0, 0.2)
-	ModelKit.place(root, ModelKit.prop("ladder"), lever_pos, 90.0, 1.0)
+	# Crosspath pass, Part B: a lever in a stone block (the old KayKit ladder stood in for it).
+	ModelKit.place(root, HubRelics.lever() if hub_land else ModelKit.prop("ladder"), lever_pos, 90.0, 1.0)
 	obstacles.append(Vector3(lever_pos.x, lever_pos.z, 0.2))
 	anchors["lever"] = lever_pos + Vector3(0.4, 0, 0.2)
 	# Brief 16: the Four-Seal Vault - a door in the south face of the mountain at FOUR_SEAL_CELL, reached from the open ground south of it.
@@ -439,6 +447,9 @@ const GRAVEYARD_CENTER_CELL: Vector2i = Vector2i(-3, 10)
 
 func _build_graveyard() -> void:
 	var center: Vector3 = cell_center(GRAVEYARD_CENTER_CELL.x, GRAVEYARD_CENTER_CELL.y)
+	if hub_land:
+		_build_kit_graveyard(center)
+		return
 	var cairn: Node3D = Node3D.new()
 	cairn.name = "RestlessCairn"
 	# First tint pass (0.35, 0.35, 0.38) still read as a plain yellowish rock at a real distance,
@@ -481,6 +492,28 @@ func _build_graveyard() -> void:
 	for offset: Vector3 in [Vector3(-1.15, 0, 0.05), Vector3(1.15, 0, 0.05)]:
 		var pos: Vector3 = center + offset
 		ModelKit.place(root, ModelKit.nature("tree_single_A_cut"), pos, _rng.randf() * 360.0, 1.2)
+		obstacles.append(Vector3(pos.x, pos.z, 0.35))
+
+
+
+## Crosspath pass, Part B: the same graveyard (same spots, same solid circles, the south approach to the cairn kept clear) from kit stone: the cairn a
+## dark stack of fieldstones, the markers worn headstones in two short rows behind it, the dead trees twisted painted ones.
+func _build_kit_graveyard(center: Vector3) -> void:
+	var cairn: Node3D = HubRelics.cairn()
+	ModelKit.place(root, cairn, center, 20.0, 1.0)
+	obstacles.append(Vector3(center.x, center.z, 0.45))
+	anchors["graveyard_cairn"] = center + Vector3(0.0, 0, 1.1)
+	var marker_offsets: Array[Vector3] = [
+		Vector3(-0.9, 0, -0.3), Vector3(0.9, 0, -0.3), Vector3(-0.6, 0, -0.95),
+		Vector3(0.6, 0, -0.95), Vector3(0.0, 0, -1.25),
+	]
+	for index: int in range(marker_offsets.size()):
+		var pos: Vector3 = center + marker_offsets[index] * 1.25
+		ModelKit.place(root, HubRelics.headstone(index), pos, float(index * 7 % 11) - 5.0, 1.0)
+		obstacles.append(Vector3(pos.x, pos.z, 0.3))
+	for offset: Vector3 in [Vector3(-1.6, 0, 0.05), Vector3(1.6, 0, 0.05)]:
+		var pos: Vector3 = center + offset
+		_tree_entries.append({"kind": "dump_twisted", "pos": pos, "scale": 0.7, "near": false})
 		obstacles.append(Vector3(pos.x, pos.z, 0.35))
 
 

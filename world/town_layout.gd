@@ -255,14 +255,18 @@ static func is_paved(pos: Vector3, margin: float = 0.0) -> bool:
 	return distance_to_roads(pos) <= ROAD_WIDTH * 0.5 + margin
 
 
-## Street lamp positions: along every road, alternating sides, plus a ring round the plaza.
+## Street lamp positions: along the cobbled town streets, alternating sides, plus a ring round the plaza. Crosspath pass, Part B: no lamps along the dirt
+## tracks out in the fields (they lit nothing and stood alone in the meadow).
 static func lamps() -> Array[Vector3]:
 	var result: Array[Vector3] = []
 	for index: int in range(6):
 		var angle: float = TAU * (float(index) + 0.5) / 6.0
 		result.append(PLAZA + Vector3(cos(angle), 0.0, sin(angle)) * (PLAZA_RADIUS - 0.5))
 	var all_roads: Dictionary = roads()
+	var kinds: Dictionary = road_kinds()
 	for id: String in all_roads.keys():
+		if str(kinds.get(id, "dirt")) != "cobble":
+			continue
 		var points: Array[Vector3] = sample(all_roads[id] as Array, 0.5)
 		var run: float = 0.0
 		var side: float = 1.0
