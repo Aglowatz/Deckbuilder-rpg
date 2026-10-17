@@ -176,3 +176,33 @@ Shots: 51 of the 56 spots (the run was stopped for low memory before the Ward an
 (`bash tools/capital_fps.sh 1`): 59.7-60.1 average at all ten cameras (the Gate Road 59.7, the camp 60.0, the rift fields 60.1, the outpost 59.9,
 the plaza 59.8, the Transit Yards, the Hungry Quarter, Grave Row and the Reek 60.0, the approach 59.8). **Checks**: GUT 1693/1694 (the one failure is
 the pre-existing camera-FOV test, CP-2); new `tests/world/test_capital_pass.gd`; `test_zone_dressing` allows the outside's grass-only recipe.
+
+## Part C: organized
+
+Shots (from here on 10-12 key views per part at 1280x720, to spare memory): `docs/art/capital_pass/part_c/`.
+
+| | |
+|---|---|
+| ![](capital_pass/part_c/po_gate_road_default.jpg) the Gate Road: the wasteland's vignettes square to the road | ![](capital_pass/part_c/po_rift_fields_default.jpg) the rift fields |
+| ![](capital_pass/part_c/po_resistance_camp_overview.jpg) the camp from Overview | ![](capital_pass/part_c/po_ruined_outpost_default.jpg) the outpost |
+| ![](capital_pass/part_c/po_gate_plaza_default.jpg) the Gate Plaza | ![](capital_pass/part_c/po_palace_approach_default.jpg) the palace approach |
+| ![](capital_pass/part_c/castle_side_west_default.jpg) the west ring street: lamps and benches in an exact line | ![](capital_pass/part_c/plan_inside.jpg) plan, inside |
+| ![](capital_pass/part_c/restored_transit_yards.jpg) the Transit Yards restored | ![](capital_pass/part_c/restored_hungry_quarter.jpg) the Hungry Quarter restored |
+| ![](capital_pass/part_c/restored_grave_row.jpg) Grave Row restored | ![](capital_pass/part_c/restored_the_reek.jpg) the Reek restored |
+
+- **Outside, bleak but deliberate** (`CapitalWasteland`): each of the twelve edge clusters is one composed vignette instead of pieces dropped at random
+  angles round a centre: a stretch of ruined wall square to its nearest road (its length along the road), a dead tree behind it, debris and a
+  stump at its foot, a broken cart beside it, an ash drift under it, each piece only where the ground is free and off the roads. The loose ash
+  drifts lie along the roads' kerbs (blown against them), not scattered over open ground. Chests outside take a quarter turn, never a random one.
+- **Inside, eerily perfect**: the ring streets carry lampposts and benches in exact lines down their inner kerbs (`CapitalLayout._ring_rows`, a lamp
+  every 6 m and a bench midway between each pair), the west street's mirrored exactly on the east street about the avenue; a slot stands
+  only if its twin does. The kit rows along the white roads (`CapitalDressing._rows`) are now placed in mirrored pairs too (a slot on a
+  mirrored street stands only if its twin across the avenue does), so a refusal on one side is a refusal on both. Chests inside stand square.
+  The avenue's verge lines, the identical houses, the identical row, the headstones and the plaza's lamps were already exact rows (tested in the
+  layout pass) and are unchanged.
+- **The districts**: both states keep their footprints (tested in the art pass); the restored shots above, broken in Part B's set. The broken
+  disorder (leaning headstones, the Reek's bins and bags, the shuttered stalls) stays inside the broken districts only.
+- **Tests**: `tests/world/test_capital_order.gd` (the mirrored rows, the ring streets' exact spacing, the wasteland vignettes square to their road
+  and only in clusters, square chests).
+
+**fps on Medium** after Part C: 59.7-60.0 average at all ten cameras. **Checks**: GUT 1697/1698 (pre-existing CP-2).

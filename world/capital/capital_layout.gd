@@ -197,6 +197,7 @@ func build() -> void:
 	_tunnels()
 	_outpost()
 	_crease()
+	_ring_rows()
 	_enemies()
 	_cracks()
 	_clusters()
@@ -918,6 +919,52 @@ func _crease() -> void:
 	_sign("sign.crease_wrinkle", 31.0, 102.5 + fz, 0.0, 0.8, "wall")
 	_sign("sign.crease_network", 22.0, 119.2 + fz, 0.0, 1.0, "wall")
 	_sign("sign.crease_rules", 12.0, 100.8 + fz, 0.0, 0.8, "wall")
+
+
+# ---- The ring streets' rows (the Capital pass, Part C) ----------------------------------------------------------------------------------
+
+
+## Lampposts in exact lines down the inner kerbs of the two ring streets with a bench midway between every second pair, the west street's and
+## the east street's mirrored about the avenue (x 60): one spacing, one offset, nothing turned. A slot stands only if it and its twin are both
+## clear (off the junctions, 2.5 m off every spot, sign and solid prop, on ground).
+const RING_ROW_STEP: float = 6.0
+const RING_ROW_KERB: float = 2.8
+
+
+func _ring_rows() -> void:
+	var x: float = 38.5 + RING_ROW_KERB
+	var z: float = 19.0
+	var index: int = 0
+	while z < 69.0:
+		var kind: String = "lamp_perfect" if index % 2 == 0 else "bench"
+		if _row_slot_clear(Vector2(x, z)) and _row_slot_clear(Vector2(120.0 - x, z)):
+			_prop(kind, x, z, 270.0 if kind == "bench" else 0.0, 1.0, 0.25 if kind == "lamp_perfect" else 0.0)
+			_prop(kind, 120.0 - x, z, 90.0 if kind == "bench" else 0.0, 1.0, 0.25 if kind == "lamp_perfect" else 0.0)
+		z += RING_ROW_STEP * 0.5
+		index += 1
+
+
+func _row_slot_clear(p: Vector2) -> bool:
+	var cell: Vector2i = cell_of(p.x, p.y)
+	if cell_at(cell.x, cell.y) != Cell.GROUND or route_edge_distance(p.x, p.y) < 0.5:
+		return false
+	for junction: float in [15.0, 35.0, 58.0]:
+		if absf(p.y - junction) < 4.0:
+			return false
+	for key: Variant in anchors.keys():
+		var at: Vector3 = anchors[key] as Vector3
+		if Vector2(at.x, at.z).distance_to(p) < 2.6:
+			return false
+	for sign_data: Sign in signs:
+		if Vector2(sign_data.pos.x, sign_data.pos.z).distance_to(p) < 2.6:
+			return false
+	for prop: Prop in props:
+		if prop.radius > 0.0 and Vector2(prop.pos.x, prop.pos.z).distance_to(p) < prop.radius + 1.5:
+			return false
+	for building: Building in buildings:
+		if building.rect.grow(1.0).has_point(p):
+			return false
+	return true
 
 
 # ---- Enemies ---------------------------------------------------------------------------------------------------------------------------------

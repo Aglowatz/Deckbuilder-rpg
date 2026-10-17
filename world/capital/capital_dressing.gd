@@ -95,37 +95,70 @@ static func _road_material() -> StandardMaterial3D:
 	return material
 
 
+## The routes whose rows are mirrored about the grand avenue's axis (x 60): the west street's slots are made and each placed with its twin across
+## the city, or neither. The forecourt is its own mirror (its slots run out from the axis both ways).
+const MIRRORED: Dictionary = {"ring_w": "ring_e", "boulevard_w": "boulevard_e", "forecourt": "forecourt"}
+const AXIS_X: float = 60.0
+
+
 ## Exact rows along the white roads on the lawn either side: the pattern every ROW_STEP, ROW_OFFSET out from the edge, never within ROW_CLEAR of a
-## person, a spot or a sign, nor JUNCTION_CLEAR of a junction, only on lawn and only where the ground is free; the solid pieces block.
+## person, a spot or a sign, nor JUNCTION_CLEAR of a junction, only on lawn and only where the ground is free; the solid pieces block. The city is
+## perfect: a slot stands only if its twin does (across the avenue for the mirrored streets, across its own road for the others), so a refusal
+## on one side is a refusal on both and the rows stay symmetric.
 func _rows(builder: CapitalBuilder, keep_clear: Array[Vector3]) -> void:
 	var layout: CapitalLayout = builder.layout
 	var junctions: Array[Vector2] = []
 	for route: Dictionary in layout.routes:
 		junctions.append(route["a"] as Vector2)
 		junctions.append(route["b"] as Vector2)
+	var twins: Array[String] = []
+	for key: Variant in MIRRORED.keys():
+		twins.append(str(MIRRORED[key]))
 	for route: Dictionary in layout.routes:
-		if not str(route["id"]) in WHITE_ROUTES:
-			continue
+		var id: String = str(route["id"])
+		if not id in WHITE_ROUTES or (id in twins and not MIRRORED.has(id)):
+			continue  # an east twin is placed from its west street
 		var a: Vector2 = route["a"] as Vector2
 		var b: Vector2 = route["b"] as Vector2
 		var along: Vector2 = (b - a).normalized()
 		var across: Vector2 = Vector2(-along.y, along.x)
-		var length: float = a.distance_to(b)
-		var count_slots: int = int(length / ROW_STEP)
-		for index: int in range(1, count_slots):
+		var half: float = float(route["width"]) * 0.5
+		var stations: Array[float] = []
+		if MIRRORED.get(id, "") == id:
+			# its own mirror: run out from the axis both ways
+			var mid: float = (AXIS_X - a.x) / along.x if absf(along.x) > 0.5 else a.distance_to(b) * 0.5
+			var t: float = mid + ROW_STEP * 0.5
+			while t < a.distance_to(b):
+				stations.append(t)
+				t += ROW_STEP
+		else:
+			for index: int in range(1, int(a.distance_to(b) / ROW_STEP)):
+				stations.append(float(index) * ROW_STEP)
+		for index: int in range(stations.size()):
 			var kind: String = "cap_bench" if index % 8 == 5 else PATTERN[index % PATTERN.size()]
+			var radius: float = float((TreeCards.KINDS[kind] as Dictionary).get("radius", 0.0))
+			var room: float = ROW_CLEAR if radius > 0.0 else LOW_CLEAR
+			# each side of the road on its own, paired (for a mirrored street) with its twin across the avenue: both stand or neither
 			for side: float in [-1.0, 1.0]:
-				var q: Vector2 = a + along * (float(index) * ROW_STEP) + across * side * (float(route["width"]) * 0.5 + ROW_OFFSET)
-				var radius: float = float((TreeCards.KINDS[kind] as Dictionary).get("radius", 0.0))
-				var reason: String = _row_refusal(builder, q, junctions, keep_clear, ROW_CLEAR if radius > 0.0 else LOW_CLEAR, radius > 0.0)
+				var q0: Vector2 = a + along * stations[index] + across * side * (half + ROW_OFFSET)
+				var group: Array[Vector2] = [q0]
+				if MIRRORED.has(id) and absf(q0.x - AXIS_X) > 0.05:
+					group.append(Vector2(2.0 * AXIS_X - q0.x, q0.y))
+				var reason: String = ""
+				for q: Vector2 in group:
+					var why: String = _row_refusal(builder, q, junctions, keep_clear, room, radius > 0.0)
+					if why != "":
+						reason = why
+						break
 				if reason != "":
-					refused[reason] = int(refused.get(reason, 0)) + 1
+					refused[reason] = int(refused.get(reason, 0)) + group.size()
 					continue
-				if not fields.has(kind):
-					fields[kind] = [] as Array[Dictionary]
-				(fields[kind] as Array[Dictionary]).append({"pos": Vector3(q.x, 0.0, q.y), "scale": 1.0})
-				if radius > 0.0:
-					builder.add_blocker(Vector3(q.x, 0.0, q.y), radius)
+				for q: Vector2 in group:
+					if not fields.has(kind):
+						fields[kind] = [] as Array[Dictionary]
+					(fields[kind] as Array[Dictionary]).append({"pos": Vector3(q.x, 0.0, q.y), "scale": 1.0})
+					if radius > 0.0:
+						builder.add_blocker(Vector3(q.x, 0.0, q.y), radius)
 
 
 ## The district lanes' planters: rose beds along both kerbs, a topiary cone behind every second one.

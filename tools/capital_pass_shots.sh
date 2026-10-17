@@ -18,7 +18,7 @@ shot() {
 		for prefix in "${prefixes[@]}"; do [[ "$name" == $prefix* ]] && hit=1; done
 		[ -z "$hit" ] && return
 	fi
-	timeout 300 bash tools/shot.sh res://scenes/capital_zone.tscn "cpp_$name" --nohud=true --clean=true --jpg=true --wait=3 --still=true "$@" 2>&1 | grep -E "saved|SCRIPT ERROR"
+	SHOT_RES=1280x720 timeout 300 bash tools/shot.sh res://scenes/capital_zone.tscn "cpp_$name" --size=1280x720 --nohud=true --clean=true --jpg=true --wait=3 --still=true "$@" 2>&1 | grep -E "saved|SCRIPT ERROR"
 	[ -f "_screenshots/cpp_$name.jpg" ] && mv "_screenshots/cpp_$name.jpg" "$out/$name.jpg"
 }
 both() {

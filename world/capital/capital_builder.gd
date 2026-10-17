@@ -1066,7 +1066,9 @@ func _build_chests() -> void:
 		var chest: Node3D = ModelKit.dungeon_prop("chest_gold")
 		root.add_child(chest)
 		chest.position = layout.chests[id] as Vector3
-		chest.rotation_degrees.y = _rng.randf() * 360.0
+		# square to the streets inside (perfection), a quarter turn at most outside; never at random
+		var at: Vector3 = layout.chests[id] as Vector3
+		chest.rotation_degrees.y = 0.0 if CapitalLayout.is_inside(at.x, at.z) else [0.0, 90.0, 180.0, 270.0][absi(str(id).hash()) % 4]
 		chest.scale = Vector3.ONE * 0.225
 		chest_nodes[str(id)] = chest
 
