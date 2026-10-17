@@ -26,6 +26,8 @@ static func town(scene: TownScene) -> Dictionary:
 			nearest = minf(nearest, p.distance_to(Vector2(shop.center.x, shop.center.z)) - shop.radius * 1.2)
 		return PaintedContexts.ramp(1.0 - nearest, 1.6) if nearest < 1.4 else 0.0
 	var sand_mask: Callable = func(p: Vector2) -> float:
+		if town.hub_land:
+			return 0.0  # Oct 16: the town sits in one country, not on an island: no beach round its edge
 		var here: Vector3 = Vector3(p.x, 0.0, p.y)
 		if not town.is_floor_at(here):
 			return 0.0

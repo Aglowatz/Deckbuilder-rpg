@@ -31,6 +31,7 @@ func test_every_island_stands_in_the_water_and_the_bridge_starts_at_the_mouth() 
 	var root: Node3D = Node3D.new()
 	add_child_autofree(root)
 	var town: TownBuilder = TownBuilder.new()
+	town.hub_land = false  # the islands survive only in the title backdrop (Oct 16: the hub is one country, test_hub_world.gd)
 	town.build(root, false)
 	for zone_id: String in TownBuilder.PORTAL_CELLS.keys():
 		var plan: Dictionary = town._connector_plans[zone_id] as Dictionary

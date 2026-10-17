@@ -406,7 +406,8 @@ func test_the_colosseum_is_built_with_a_gate_and_spot_in_the_town() -> void:
 	assert_true(town.anchors.has("arena") and town.anchors.has("arena_gate") and town.anchors.has("alchemist"))
 	var gate: Vector3 = town.anchors["arena_gate"] as Vector3
 	assert_true(town.is_walkable(town.anchors["arena"] as Vector3, 0.3), "the spot in front of the gate can be reached")
-	assert_false(town.is_walkable(gate + Vector3(0, 0, 1.6), 0.3), "the colosseum itself is solid")
+	assert_false(town.is_walkable(TownLayout.ARENA_CENTER, 0.3), "the building itself is solid (the Undercroft cottage in the hub, Oct 16)")
+	assert_true(gate != Vector3.ZERO)
 
 
 func test_the_arena_screen_lists_every_encounter_with_status_and_prize() -> void:

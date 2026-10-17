@@ -79,6 +79,8 @@ var minimap: MinimapHud
 var quest_markers: QuestMarkerLayer
 ## Emitted when a gatekeeper is beaten for the first time (the hub plays the obstacle clearing).
 signal gate_cleared(zone_id: String)
+## Overnight Oct 16: the obstacles on the four zone roads (and their clearing animations).
+var hub_obstacles: HubObstacles
 var hud: TownHud
 var dialogue: DialogueBox
 var _camera: Camera3D
@@ -139,6 +141,11 @@ func _ready() -> void:
 			Session.new_game()
 		else:
 			Session.ensure_game()
+		# Oct 16: `--gates=open` shows every road cleared (the four gatekeepers beaten), `--gates=beefcake,gourmand` some of them.
+		if _screenshot_args.has("gates"):
+			for gate_id: String in Gatekeepers.IDS:
+				if str(_screenshot_args["gates"]) == "open" or str(_screenshot_args["gates"]).contains(gate_id):
+					Session.set_flag(CorruptedNpcs.unlock_flag(gate_id))
 		for found_id: String in str(_screenshot_args.get("found", "")).split(",", false):
 			Session.discover_secret(found_id)
 		var zone_count: int = int(_screenshot_args.get("zones", 0))
@@ -172,8 +179,12 @@ func _ready() -> void:
 	ChestKit.apply_saved(town.hidden_chest_nodes, TownScene._hidden_chest_secret)
 	GiantChestEvent.apply_look(town.harbor_chest_node, NinjaBoss.ORIGINAL_CHEST)
 	_build_portal_barriers()
+	if town.hub_land:
+		hub_obstacles = HubObstacles.build(self, town, Session.flags)
+		gate_cleared.connect(func(zone_id: String) -> void: hub_obstacles.play_cleared(zone_id))
 	TownDressing.alchemist(self, town.anchors, Session.alchemist_unlocked(), StoryText.shared())
-	TownDressing.arena_gate(self, town.anchors, Session.arena_unlocked(), StoryText.shared())
+	if not town.hub_land:
+		TownDressing.arena_gate(self, town.anchors, Session.arena_unlocked(), StoryText.shared())
 	_announce_new_unlocks.call_deferred()
 	_show_pending_arena_result.call_deferred()
 	if _screenshot_args.has("cam"):
@@ -297,7 +308,7 @@ func _build_actors() -> void:
 	_add_npc("mannequin", "hero:mannequin", town.anchors["tailor_mannequin"] as Vector3, 40.0)
 	if Session.alchemist_unlocked():
 		_add_npc("alchemist", "Mage", town.anchors["npc_alchemist"] as Vector3, -80.0, Color(0.7, 1.0, 0.7))
-	if Session.arena_unlocked():
+	if Session.arena_unlocked() and not town.hub_land:  # Oct 16: Grand Bellows runs the ring underground now (The Undercroft)
 		_add_npc("arena", "Barbarian", town.anchors["npc_arena"] as Vector3, 200.0, Color(1.0, 0.8, 0.6))
 	_build_baker()
 	# New brief, Part E: the 4 corrupted NPCs stay in town, and stay challengeable, even after
@@ -517,6 +528,10 @@ func _build_portal_barriers() -> void:
 			continue
 		var mouth: Vector3 = town.anchors.get("portal_%s_mouth" % info.id, Vector3.ZERO) as Vector3
 		var out: Vector3 = TownBuilder.PORTAL_OUT.get(info.id, Vector3(0, 0, -1)) as Vector3
+		if town.hub_land and Gatekeepers.has(info.id):
+			# Oct 16: the road is blocked by its own obstacle (HubObstacles: the bridge, the barrier, the pantry door, the thorns), not a glowing pane.
+			town.obstacles.append(Vector3(mouth.x, mouth.z, 1.55))
+			continue
 		var barrier: MeshInstance3D = MeshInstance3D.new()
 		barrier.name = "Barrier_%s" % info.id
 		var mesh: BoxMesh = BoxMesh.new()
@@ -699,6 +714,8 @@ func _exit_tree() -> void:
 
 func _process(delta: float) -> void:
 	_time += delta
+	if town.undercroft != null:
+		town.undercroft.update(player.position, delta)
 	_update_music(delta)
 	_update_sprite_npcs(delta)
 	_passage_boost = lerpf(_passage_boost, _passage_boost_target(), 1.0 - exp(-3.0 * delta))
@@ -815,6 +832,8 @@ func _prompt_text(spot: Spot) -> String:
 		"alchemist":
 			return "Browse Auntie Alembic's" if Session.alchemist_unlocked() else "Knock (the shop is closed)"
 		"arena":
+			if town.hub_land:
+				return "Climb down the cellar hatch" if Session.arena_unlocked() else "The cellar hatch is chained shut"
 			return "Enter the Grand Clashatorium" if Session.arena_unlocked() else "The gates are chained shut"
 	if spot.id.begins_with("signpost_"):
 		return "Read the signpost"
@@ -1602,7 +1621,8 @@ func _use_arena() -> void:
 	var story: StoryText = StoryText.shared()
 	if not Session.arena_unlocked():
 		dialogue.start(story.text("town.arena.name"), story.get_lines("town.arena.locked"))
-		hud.toast("The Arena is closed (%d of %d zones free)" % [Session.completed_zone_count(), ZoneCompletion.ARENA_UNLOCK_COUNT], Color("ffcf70"))
+		if not town.hub_land:
+			hud.toast("The Arena is closed (%d of %d zones free)" % [Session.completed_zone_count(), ZoneCompletion.ARENA_UNLOCK_COUNT], Color("ffcf70"))
 		return
 	_face_npc("arena")
 	var lines: Array[String] = story.get_lines("town.arena.return" if Session.flag(&"arena_met") else "town.arena.intro")

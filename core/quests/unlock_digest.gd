@@ -43,7 +43,7 @@ func lines_since(before: UnlockDigest) -> Array[String]:
 		if not before.open_entrances.has(zone_id):
 			lines.append("The %s entrance is now open" % str(open_entrances[zone_id]).trim_prefix("The "))
 	if arena_open and not before.arena_open:
-		lines.append("The Grand Clashatorium (the Arena) is now open")
+		lines.append("The Undercroft (the underground Arena) is now open")
 	if alchemist_open and not before.alchemist_open:
 		lines.append("The Alchemist is now available")
 	for next_level: int in range(before.level + 1, level + 1):

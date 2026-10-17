@@ -49,16 +49,24 @@ var hide_capital_blocks: bool = false
 var _haze: Color = Color("f2cfa4")
 var _foam_cards: int = 0
 var _water_tiles: int = 0
+## Overnight Oct 16: the town is one country, not an island (`HubLand`): no sea, no far shore or foam; land to the horizon with lakes.
+var land_mode: bool = true
+var hub_land: HubLand
 
 
 func setup(_scene: TownScene, town: TownBuilder, cam: Camera3D) -> void:
 	camera = cam
 	_town = town
 	_build_water_material()
-	_replace_tile_water()
-	_hide_old_scenery()
-	_build_water_plane()
-	_build_far_shore()
+	if land_mode:
+		_hide_tile_water()
+		_hide_old_scenery()
+		hub_land = HubLand.build(self, town, water_material)
+	else:
+		_replace_tile_water()
+		_hide_old_scenery()
+		_build_water_plane()
+		_build_far_shore()
 	for ring: Dictionary in RINGS:
 		_build_ring(ring)
 	_build_landmarks()
@@ -89,6 +97,16 @@ func _replace_tile_water() -> void:
 		centres[_key(c)] = Vector3(c.x, WATER_Y, c.z)
 		_water_tiles += 1
 	_build_shore_foam(centres)
+
+
+## Land mode: the hex water tiles are not drawn at all (HubLand's ground runs under them; the town lake is its own water).
+func _hide_tile_water() -> void:
+	var shared: ShaderMaterial = StyleWater.material()
+	for node: Node in _town.root.find_children("*", "MeshInstance3D", true, false):
+		var mesh_instance: MeshInstance3D = node as MeshInstance3D
+		if mesh_instance.material_override == shared:
+			mesh_instance.visible = false
+			_water_tiles += 1
 
 
 func _key(p: Vector3) -> Vector2i:
@@ -337,6 +355,12 @@ func _build_landmarks() -> void:
 		toward.y = 0.0
 		toward = toward.normalized()
 		var spot: Vector3 = center + toward * LANDMARK_RADIUS
+		var entry_ring: Dictionary = ring
+		if land_mode and zone_id == "final":
+			# Oct 16: the Capital sits at the far end of the imperial road, on its axis, a hazy wall and castle on the horizon.
+			var mouth: Vector3 = _town.anchors.get("portal_final_mouth", center) as Vector3
+			spot = mouth + (TownBuilder.PORTAL_OUT[zone_id] as Vector3) * LANDMARK_RADIUS
+			entry_ring = {"haze": 0.5, "cool": 0.3, "base_haze": 0.62, "priority": -8}
 		var texture: Texture2D = load("%sbackdrop/landmark_%s.png" % [ART, str(entry["file"])]) as Texture2D
 		var width: float = 2.0 * LANDMARK_RADIUS * tan(deg_to_rad(float(entry["width"]) * 0.5))
 		var height: float = width * float(texture.get_height()) / float(texture.get_width())
@@ -347,7 +371,7 @@ func _build_landmarks() -> void:
 		card.name = "Landmark_%s" % str(entry["file"])
 		card.set_meta(&"look_role", &"landmarks")
 		card.mesh = quad
-		card.material_override = _backdrop_material(texture, ring)
+		card.material_override = _backdrop_material(texture, entry_ring)
 		card.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		card.extra_cull_margin = 400.0
 		card.set_meta(StyleToon.META_NO_TOON, true)

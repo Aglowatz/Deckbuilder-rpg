@@ -14,6 +14,7 @@ var _time: float = 0.0
 
 
 func _ready() -> void:
+	town.hub_land = false  # the title backdrop keeps the old island-in-the-sea picture
 	town.build(self)
 	_center = town.cell_center(4, 4) + Vector3(0.6, 0.6, 0.0)
 	_camera = Camera3D.new()

@@ -13,7 +13,8 @@
 		"Ripley": "NPC-RIP",
 		"Raelynn": "NPC-RIP",
 		"Auntie Alembic's": "V-ALEMBIC",
-		"The Grand Clashatorium": "NPC-BELLOWS"
+		"The Grand Clashatorium": "NPC-BELLOWS",
+		"The Undercroft": "NPC-BELLOWS"
 	},
 	"speaker_prefixes": {
 		"Rip Tearson": "NPC-RIP",

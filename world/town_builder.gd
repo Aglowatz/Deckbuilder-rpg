@@ -220,10 +220,18 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 	# Vertical slice: every cell draws from its own seeded stream, so moving a road (which converts trees and rocks to grass round it) never reshuffles the rest of the island.
 	_rng.seed = 7 + (col + 40) * 1009 + (row + 40) * 7919
 	var center: Vector3 = cell_center(col, row)
-	ModelKit.place(root, ModelKit.tile("hex_grass"), center, 0.0, SCALE)
+	if not (hub_land and symbol == "M"):
+		ModelKit.place(root, ModelKit.tile("hex_grass"), center, 0.0, SCALE)
 	var yaw: float = float(_rng.randi_range(0, 5)) * 60.0
 	match symbol:
 		"M":
+			if hub_land:
+				# Oct 16: in the one-country hub the old rocky rim blocks become a dense clump of trees (still not walkable).
+				for i: int in range(3):
+					var spot: Vector3 = _scatter(center, 0.3 * SCALE, 0.8 * SCALE)
+					if not _near_special(spot, 1.9) and not _hides_town(spot):
+						_tree_entries.append({"kind": ["pine", "oak", "birch"][(i + col + row) % 3], "pos": spot, "scale": 0.8 + 0.1 * float(i), "near": false})
+				return
 			var mountain: String = ["mountain_A_grass_trees", "mountain_B_grass_trees", "mountain_C_grass_trees"][_rng.randi() % 3]
 			ModelKit.place(root, ModelKit.nature(mountain), center, yaw, SCALE)
 			return
@@ -251,6 +259,14 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 			# Polish round: small decorative rocks never block the hero (OBSTACLE_ROCK is kept for the doc of what it used to be).
 		_:
 			walkable[Vector2i(col, row)] = true
+
+
+## A tall tree at `spot` would hide walkable town from the camera (which looks north): walkable ground lies just north of it.
+func _hides_town(spot: Vector3) -> bool:
+	for d: float in [2.0, 4.5, 7.0, 9.5]:
+		if walkable.has(HexGrid.world_to_cell((spot + Vector3(0.0, 0.0, -d)) / SCALE)):
+			return true
+	return false
 
 
 func _building(model: String, center: Vector3, yaw: float, model_scale: float, radius: float) -> void:
@@ -327,8 +343,15 @@ func _build_centre() -> void:
 	anchors["spawn"] = TownLayout.SPAWN
 	for shop: TownLayout.Shop in TownLayout.shops():
 		_place_shop(shop)
-	# Grand Clashatorium: a colosseum at the end of Champions' Road, its gate facing north onto the avenue.
+	# Grand Clashatorium: a colosseum at the end of Champions' Road, its gate facing north onto the avenue. Oct 16: in the hub the Arena went
+	# underground (The Undercroft): an abandoned cottage with a cellar hatch stands there instead.
 	var arena_center: Vector3 = TownLayout.ARENA_CENTER
+	if hub_land:
+		undercroft = UndercroftHouse.build(root, self, arena_center, Session.arena_unlocked())
+		anchors["arena"] = undercroft.hatch_spot
+		anchors["arena_gate"] = undercroft.hatch_spot
+		anchors["npc_arena"] = undercroft.hatch_spot + Vector3(1.4, 0, -0.3)
+		return
 	ArenaBuilding.build(root, arena_center)
 	var arena_radius: float = ArenaBuilding.world_radius()
 	obstacles.append(Vector3(arena_center.x, arena_center.z, arena_radius + 0.15))
@@ -537,6 +560,10 @@ const PORTAL_ENTRY: float = 3.0
 const PORTAL_TRIGGER: float = 0.9
 ## id -> the passage's root node (the scene dims the far glow of locked ones).
 var passage_nodes: Dictionary = {}
+## Overnight Oct 16: the town is part of one country (`HubLand`): no visual islands and bridges beyond the passages. The title backdrop keeps them.
+var hub_land: bool = true
+## The abandoned cottage over The Undercroft (hub only).
+var undercroft: UndercroftHouse
 
 
 func _build_zone_portals() -> void:
@@ -547,13 +574,21 @@ func _build_zone_portals() -> void:
 		var passage: Node3D = TownPassages.build(info.id, info.display_name, info.tint, false)
 		ModelKit.place(root, passage, center, TownPassages.yaw_for(out), 1.0)
 		passage_nodes[info.id] = passage
-		TownConnectors.build(root, info.id, center, out, _connector_plans[info.id] as Dictionary)
+		if not hub_land:
+			TownConnectors.build(root, info.id, center, out, _connector_plans[info.id] as Dictionary)
 		var right: Vector3 = Vector3(-out.z, 0.0, out.x)
 		for side: float in [-1.0, 1.0]:
 			var post: Vector3 = center + right * side * (TownPassages.OPENING + 0.55)
 			obstacles.append(Vector3(post.x, post.z, 0.55))
 		anchors["portal_%s" % info.id] = center - out * PORTAL_ENTRY
 		anchors["portal_%s_mouth" % info.id] = center
+		if hub_land:
+			# Oct 16: each gatekeeper stands at its obstacle, beside the road just in front of it; Brannoch keeps the imperial road.
+			var keeper: Vector3 = center - out * 3.3 + right * 1.3
+			if Gatekeepers.has(info.id):
+				anchors["npc_%s" % info.id] = keeper
+			elif info.id == ZonePortals.FINAL_ID:
+				anchors["npc_gate"] = keeper
 
 
 func _prop(model: String, position: Vector3, yaw: float, model_scale: float, radius: float) -> void:
