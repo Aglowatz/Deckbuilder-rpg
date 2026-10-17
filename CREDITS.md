@@ -54,6 +54,14 @@ All sound effects are from Kenney (https://kenney.nl), license CC0 (each pack fo
 - **assets/audio/kenney_casino-audio/** - Casino Audio (Kenney) - https://kenney.nl/assets/casino-audio (card sounds)
 - **assets/audio/kenney_music-jingles/** - Music Jingles (Kenney) - https://kenney.nl/assets/music-jingles (victory and defeat stingers)
 
+<!-- sfx-credits:start (written by tools/sfx_build.js) -->
+**assets/audio/sfx/** - the sound-effects pass (2026-10-16): 74 files, every one CC0, processed (trimmed, filtered, levelled, looped) by `tools/sfx_build.js`; the per-file source, author and licence are in `docs/audio/sfx_sources.md`.
+
+- Kenney (https://kenney.nl), CC0: casino-audio (https://kenney.nl/assets/casino-audio), impact-sounds (https://kenney.nl/assets/impact-sounds), rpg-audio (https://kenney.nl/assets/rpg-audio), ui-audio (https://kenney.nl/assets/ui-audio).
+- Freesound (https://freesound.org), sounds released under Creative Commons 0 (CC0 1.0), by: (none).
+- 3 sounds generated with ffmpeg for this game (original, CC0).
+<!-- sfx-credits:end -->
+
 Town, battle and title music are generated in code by `app/music_synth.gd` (original, no third-party audio).
 
 ## Fonts

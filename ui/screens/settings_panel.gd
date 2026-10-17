@@ -197,8 +197,10 @@ func _build_audio() -> void:
 	_body.add_child(_slider_row("Music volume", Settings.music_volume, _on_music, _percent(Settings.music_volume), "MusicSlider"))
 	_body.add_child(_slider_row("Effects volume", Settings.sfx_volume, _on_sfx, _percent(Settings.sfx_volume), "SfxSlider"))
 	_body.add_child(_slider_row("Interface sounds volume", Settings.ui_volume, _on_ui_volume, _percent(Settings.ui_volume), "UiSlider"))
+	_body.add_child(_slider_row("Ambience volume", Settings.ambience_volume, _on_ambience_volume, _percent(Settings.ambience_volume), "AmbienceSlider"))
+	_body.add_child(_slider_row("Dialogue voices volume", Settings.voice_volume, _on_voice_volume, _percent(Settings.voice_volume), "VoiceSlider"))
 	_body.add_child(_check("Mute when the game window loses focus", Settings.mute_unfocused, _on_mute_unfocused, "MuteFocusCheck"))
-	_body.add_child(_note("Effects are the game sounds (hits, spells, footsteps); interface sounds are the clicks, hovers and menu sounds. The master slider scales all three."))
+	_body.add_child(_note("Effects are the game sounds (hits, spells, footsteps) and include the interface sounds (clicks, hovers, menus), which have their own slider too. Ambience is each place's background (wind, birds, hum); dialogue voices are the little blips as characters talk. The master slider scales everything."))
 
 
 # ---- Building blocks ------------------------------------------------------------------------
@@ -590,6 +592,18 @@ func _on_sfx(value: float) -> void:
 
 func _on_ui_volume(value: float) -> void:
 	Settings.ui_volume = value
+	Settings.apply_audio()
+	_saved()
+
+
+func _on_ambience_volume(value: float) -> void:
+	Settings.ambience_volume = value
+	Settings.apply_audio()
+	_saved()
+
+
+func _on_voice_volume(value: float) -> void:
+	Settings.voice_volume = value
 	Settings.apply_audio()
 	_saved()
 

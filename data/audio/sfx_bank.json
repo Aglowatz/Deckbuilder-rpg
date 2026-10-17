@@ -1,0 +1,618 @@
+{
+	"generated": "tools/sfx_build.js from data/source/sfx_sources.csv + sfx_events.csv",
+	"sets": {
+		"ui/hover": [
+			"res://assets/audio/sfx/ui/hover_01.wav",
+			"res://assets/audio/sfx/ui/hover_02.wav",
+			"res://assets/audio/sfx/ui/hover_03.wav"
+		],
+		"ui/tap": [
+			"res://assets/audio/sfx/ui/tap_01.wav",
+			"res://assets/audio/sfx/ui/tap_02.wav",
+			"res://assets/audio/sfx/ui/tap_03.wav",
+			"res://assets/audio/sfx/ui/tap_04.wav",
+			"res://assets/audio/sfx/ui/tap_05.wav"
+		],
+		"ui/paper_tick": [
+			"res://assets/audio/sfx/ui/paper_tick_01.wav",
+			"res://assets/audio/sfx/ui/paper_tick_02.wav",
+			"res://assets/audio/sfx/ui/paper_tick_03.wav",
+			"res://assets/audio/sfx/ui/paper_tick_04.wav"
+		],
+		"ui/slide_away": [
+			"res://assets/audio/sfx/ui/slide_away_01.wav",
+			"res://assets/audio/sfx/ui/slide_away_02.wav",
+			"res://assets/audio/sfx/ui/slide_away_03.wav"
+		],
+		"ui/book_open": [
+			"res://assets/audio/sfx/ui/book_open_01.ogg"
+		],
+		"ui/book_close": [
+			"res://assets/audio/sfx/ui/book_close_01.ogg"
+		],
+		"ui/page": [
+			"res://assets/audio/sfx/ui/page_01.ogg",
+			"res://assets/audio/sfx/ui/page_02.ogg",
+			"res://assets/audio/sfx/ui/page_03.ogg"
+		],
+		"ui/knock": [
+			"res://assets/audio/sfx/ui/knock_01.wav",
+			"res://assets/audio/sfx/ui/knock_02.wav",
+			"res://assets/audio/sfx/ui/knock_03.wav"
+		],
+		"ui/switch": [
+			"res://assets/audio/sfx/ui/switch_01.wav",
+			"res://assets/audio/sfx/ui/switch_02.wav",
+			"res://assets/audio/sfx/ui/switch_03.wav"
+		],
+		"ui/coins": [
+			"res://assets/audio/sfx/ui/coins_01.ogg",
+			"res://assets/audio/sfx/ui/coins_02.ogg",
+			"res://assets/audio/sfx/ui/coins_03.ogg"
+		],
+		"card/slide": [
+			"res://assets/audio/sfx/card/slide_01.wav",
+			"res://assets/audio/sfx/card/slide_02.wav",
+			"res://assets/audio/sfx/card/slide_03.wav",
+			"res://assets/audio/sfx/card/slide_04.wav",
+			"res://assets/audio/sfx/card/slide_05.wav",
+			"res://assets/audio/sfx/card/slide_06.wav"
+		],
+		"card/snap": [
+			"res://assets/audio/sfx/card/snap_01.wav",
+			"res://assets/audio/sfx/card/snap_02.wav",
+			"res://assets/audio/sfx/card/snap_03.wav",
+			"res://assets/audio/sfx/card/snap_04.wav"
+		],
+		"card/thud": [
+			"res://assets/audio/sfx/card/thud_01.wav",
+			"res://assets/audio/sfx/card/thud_02.wav",
+			"res://assets/audio/sfx/card/thud_03.wav",
+			"res://assets/audio/sfx/card/thud_04.wav"
+		],
+		"card/thud_heavy": [
+			"res://assets/audio/sfx/card/thud_heavy_01.wav",
+			"res://assets/audio/sfx/card/thud_heavy_02.wav",
+			"res://assets/audio/sfx/card/thud_heavy_03.wav",
+			"res://assets/audio/sfx/card/thud_heavy_04.wav"
+		],
+		"card/dust": [
+			"res://assets/audio/sfx/card/dust_01.wav",
+			"res://assets/audio/sfx/card/dust_02.wav",
+			"res://assets/audio/sfx/card/dust_03.wav"
+		],
+		"card/shove": [
+			"res://assets/audio/sfx/card/shove_01.wav",
+			"res://assets/audio/sfx/card/shove_02.wav",
+			"res://assets/audio/sfx/card/shove_03.wav",
+			"res://assets/audio/sfx/card/shove_04.wav"
+		],
+		"card/fan": [
+			"res://assets/audio/sfx/card/fan_01.wav",
+			"res://assets/audio/sfx/card/fan_02.wav"
+		],
+		"card/shuffle": [
+			"res://assets/audio/sfx/card/shuffle_01.ogg"
+		],
+		"hit/light": [
+			"res://assets/audio/sfx/hit/light_01.wav",
+			"res://assets/audio/sfx/hit/light_02.wav",
+			"res://assets/audio/sfx/hit/light_03.wav",
+			"res://assets/audio/sfx/hit/light_04.wav",
+			"res://assets/audio/sfx/hit/light_05.wav"
+		],
+		"hit/heavy": [
+			"res://assets/audio/sfx/hit/heavy_01.wav",
+			"res://assets/audio/sfx/hit/heavy_02.wav",
+			"res://assets/audio/sfx/hit/heavy_03.wav",
+			"res://assets/audio/sfx/hit/heavy_04.wav",
+			"res://assets/audio/sfx/hit/heavy_05.wav"
+		],
+		"hit/metal": [
+			"res://assets/audio/sfx/hit/metal_01.wav",
+			"res://assets/audio/sfx/hit/metal_02.wav",
+			"res://assets/audio/sfx/hit/metal_03.wav",
+			"res://assets/audio/sfx/hit/metal_04.wav"
+		],
+		"hit/bell": [
+			"res://assets/audio/sfx/hit/bell_01.ogg",
+			"res://assets/audio/sfx/hit/bell_02.ogg",
+			"res://assets/audio/sfx/hit/bell_03.ogg"
+		]
+	},
+	"loops": [],
+	"events": {
+		"ui_hover": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/hover",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -4,
+			"pitch": 0.05,
+			"vol_jitter": 2,
+			"priority": 10,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ui_click": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/tap",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ui/paper_tick",
+					"delay": 0,
+					"gain": -4
+				}
+			],
+			"volume": 0,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 30,
+			"max": 2,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ui_select": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/tap",
+					"delay": 0,
+					"gain": 0,
+					"pitch": 1.12
+				},
+				{
+					"set": "ui/paper_tick",
+					"delay": 0,
+					"gain": -3
+				}
+			],
+			"volume": 0,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 30,
+			"max": 2,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ui_tick": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/paper_tick",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ui/tap",
+					"delay": 0,
+					"gain": -10
+				}
+			],
+			"volume": -2,
+			"pitch": 0.05,
+			"vol_jitter": 1.5,
+			"priority": 20,
+			"max": 2,
+			"cooldown": 0.035,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ui_confirm": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/tap",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ui/tap",
+					"delay": 0.07,
+					"gain": -2,
+					"pitch": 1.26
+				},
+				{
+					"set": "ui/paper_tick",
+					"delay": 0,
+					"gain": -6
+				}
+			],
+			"volume": 0,
+			"pitch": 0.03,
+			"vol_jitter": 1.5,
+			"priority": 40,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ui_back": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/slide_away",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ui/tap",
+					"delay": 0,
+					"gain": -8,
+					"pitch": 0.82
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 30,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ui_open": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/book_open",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ui/slide_away",
+					"delay": 0.02,
+					"gain": -8
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 35,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ui_close": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/book_close",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ui/slide_away",
+					"delay": 0,
+					"gain": -10
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 35,
+			"max": 2,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ui_toggle": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/switch",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ui/tap",
+					"delay": 0,
+					"gain": -12
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 30,
+			"max": 2,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"ui_error": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/knock",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ui/knock",
+					"delay": 0.095,
+					"gain": -3,
+					"pitch": 0.9
+				}
+			],
+			"volume": -1,
+			"pitch": 0.03,
+			"vol_jitter": 1.5,
+			"priority": 45,
+			"max": 1,
+			"cooldown": 0.14,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"book": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/page",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -1,
+			"pitch": 0.05,
+			"vol_jitter": 2,
+			"priority": 30,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"coins": {
+			"bus": "UI",
+			"layers": [
+				{
+					"set": "ui/coins",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 2,
+			"priority": 45,
+			"max": 2,
+			"cooldown": 0.09,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"card_hover": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/fan",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -6,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 10,
+			"max": 2,
+			"cooldown": 0.07,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"card_draw": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/slide",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.05,
+			"vol_jitter": 2,
+			"priority": 40,
+			"max": 3,
+			"cooldown": 0.045,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"card_play": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/snap",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "card/thud",
+					"delay": 0.012,
+					"gain": -4
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.04,
+					"gain": -10
+				}
+			],
+			"volume": 0,
+			"pitch": 0.04,
+			"vol_jitter": 2,
+			"priority": 60,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"card_discard": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/shove",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.05,
+			"vol_jitter": 2,
+			"priority": 40,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"card_shuffle": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/shuffle",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.03,
+			"vol_jitter": 1.5,
+			"priority": 40,
+			"max": 1,
+			"cooldown": 0.4,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"land_play": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "card/thud",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.025,
+					"gain": -8
+				}
+			],
+			"volume": -2,
+			"pitch": 0.05,
+			"vol_jitter": 2,
+			"priority": 50,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"hit_light": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "hit/light",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.05,
+			"vol_jitter": 2,
+			"priority": 60,
+			"max": 3,
+			"cooldown": 0.04,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"hit_heavy": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "hit/heavy",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.03,
+					"gain": -6
+				}
+			],
+			"volume": 0,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 75,
+			"max": 2,
+			"cooldown": 0.06,
+			"spatial": false,
+			"range": 0,
+			"duck": -3
+		},
+		"hit_metal": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "hit/metal",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -3,
+			"pitch": 0.05,
+			"vol_jitter": 2,
+			"priority": 55,
+			"max": 2,
+			"cooldown": 0.05,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"turn_start": {
+			"bus": "Battle",
+			"layers": [
+				{
+					"set": "hit/bell",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -10,
+			"pitch": 0.03,
+			"vol_jitter": 1,
+			"priority": 50,
+			"max": 1,
+			"cooldown": 0.3,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		}
+	}
+}

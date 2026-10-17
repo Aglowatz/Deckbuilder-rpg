@@ -29,6 +29,8 @@ func setup(town_builder: WalkableArea, model_name: String, start: Vector3) -> vo
 	position = start
 	if model_name == "Hero":
 		model = _hero_model()
+		# World sounds are heard from the hero (AudioManager places the listener here).
+		add_to_group(&"audio_hero")
 	else:
 		model = ModelKit.character(model_name)
 	if model_name == "Hero" and model.has_meta("hero_model") and not EventBus.cosmetics_changed.is_connected(_on_cosmetics_changed):

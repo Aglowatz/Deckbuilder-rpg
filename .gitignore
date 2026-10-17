@@ -24,3 +24,4 @@
 
 # Release builds and tester notes (zips are shared outside git)
 /builds/
+/_audio_source/

@@ -1,11 +1,16 @@
 extends Node
 ## Player settings, persisted to user://settings.cfg and applied the moment they change: display (window mode, resolution, VSync, frame cap, quality, UI scale), text sizes
-## and dialogue speed, accessibility (Path symbols, reduced shake and flashing), key bindings (`Keybinds`) and audio (master, music, effects and UI volumes, mute when unfocused).
+## and dialogue speed, accessibility (Path symbols, reduced shake and flashing), key bindings (`Keybinds`) and audio (master, music, effects, UI, ambience and dialogue-voice volumes, mute when unfocused).
 
 const PATH: String = "user://settings.cfg"
 const BUS_MUSIC: StringName = &"Music"
 const BUS_SFX: StringName = &"SFX"
 const BUS_UI: StringName = &"UI"
+## Sound pass, Part A: the rest of the bus tree (`AudioMix.ensure_layout`): Master > Music, SFX (World, Battle, UI), Ambience, Voice.
+const BUS_WORLD: StringName = &"World"
+const BUS_BATTLE: StringName = &"Battle"
+const BUS_AMBIENCE: StringName = &"Ambience"
+const BUS_VOICE: StringName = &"Voice"
 
 ## Emitted when the minimap setting changes (a live HUD hides or shows its minimap at once).
 signal minimap_toggled(visible_now: bool)
@@ -39,6 +44,9 @@ var master_volume: float = 0.8
 var music_volume: float = 0.6
 var sfx_volume: float = 0.8
 var ui_volume: float = 0.8
+## The ambience beds and their one-shots (birds, hum, wind) and the dialogue voice blips.
+var ambience_volume: float = 0.8
+var voice_volume: float = 0.8
 ## Silences the game while its window is not the focused one.
 var mute_unfocused: bool = false
 var window_mode: int = WindowMode.WINDOWED
@@ -95,23 +103,12 @@ var fullscreen: bool:
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	_ensure_bus(BUS_MUSIC)
-	_ensure_bus(BUS_SFX)
-	_ensure_bus(BUS_UI)
+	AudioMix.ensure_layout()
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--scene=") or arg.begins_with("--no-save"):
 			_window_locked = true
 	load_settings()
 	apply()
-
-
-func _ensure_bus(bus_name: StringName) -> void:
-	if AudioServer.get_bus_index(bus_name) >= 0:
-		return
-	AudioServer.add_bus()
-	var index: int = AudioServer.bus_count - 1
-	AudioServer.set_bus_name(index, bus_name)
-	AudioServer.set_bus_send(index, &"Master")
 
 
 ## Applies everything: audio, window, VSync, frame cap, UI scale.
@@ -128,6 +125,8 @@ func apply_audio() -> void:
 	_set_bus(BUS_MUSIC, music_volume)
 	_set_bus(BUS_SFX, sfx_volume)
 	_set_bus(BUS_UI, ui_volume)
+	_set_bus(BUS_AMBIENCE, ambience_volume)
+	_set_bus(BUS_VOICE, voice_volume)
 	var master: int = AudioServer.get_bus_index(&"Master")
 	if master >= 0 and is_muted_by_focus():
 		AudioServer.set_bus_mute(master, true)
@@ -288,6 +287,8 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("audio", "music", music_volume)
 	config.set_value("audio", "sfx", sfx_volume)
 	config.set_value("audio", "ui", ui_volume)
+	config.set_value("audio", "ambience", ambience_volume)
+	config.set_value("audio", "voice", voice_volume)
 	config.set_value("audio", "mute_unfocused", mute_unfocused)
 	config.set_value("video", "window_mode", window_mode)
 	config.set_value("video", "fullscreen", window_mode == WindowMode.FULLSCREEN)
@@ -326,6 +327,8 @@ func load_settings(path: String = PATH) -> void:
 	music_volume = float(config.get_value("audio", "music", music_volume))
 	sfx_volume = float(config.get_value("audio", "sfx", sfx_volume))
 	ui_volume = float(config.get_value("audio", "ui", ui_volume))
+	ambience_volume = float(config.get_value("audio", "ambience", ambience_volume))
+	voice_volume = float(config.get_value("audio", "voice", voice_volume))
 	mute_unfocused = bool(config.get_value("audio", "mute_unfocused", mute_unfocused))
 	var old_fullscreen: bool = bool(config.get_value("video", "fullscreen", false))
 	window_mode = clampi(int(config.get_value("video", "window_mode", WindowMode.FULLSCREEN if old_fullscreen else WindowMode.WINDOWED)), 0, 2)
@@ -360,6 +363,8 @@ func reset_to_defaults() -> void:
 	music_volume = 0.6
 	sfx_volume = 0.8
 	ui_volume = 0.8
+	ambience_volume = 0.8
+	voice_volume = 0.8
 	mute_unfocused = false
 	window_mode = WindowMode.WINDOWED
 	vsync = true
