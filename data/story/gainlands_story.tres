@@ -76,7 +76,7 @@ lines = {
 "sign.ripper_rule": ["PORTALS: TORN, NOT CAST", "Bare hands only. No spells, no tools.", "Warranty void if stretched."],
 "sign.thrower_east": ["CROSS-COUNTRY CHUCKS", "East to west. A courtesy chuck, the long way. Gym Rat card required for the long way."],
 "sign.thrower_west": ["CROSS-COUNTRY CHUCKS", "West to east. A courtesy chuck, the long way. Free. Aim is a rumor."],
-"sign.mini_dungeon": ["THE IRON CAVERN", "Three sets. Mandatory. Bring chalk.", "(Chalk sold at Benchley's. Chalk is a lie.)"],
+"sign.mini_dungeon": ["THE IRON CAVE", "Leg day. Every day. Bring chalk.", "(Chalk sold at Benchley's. Chalk is a lie.)"],
 "sign.main_dungeon": ["THE HOUSE OF GAINS", "The regime's stronghold. Authorized personnel only.", "Leg Day is mandatory. It never ends."],
 "sign.leg_day_note": ["NOTE FROM THE REGIME", "The House of Gains is closed to the public. Visitors will be given a pamphlet, a towel and a very long set of squats.", "Weights are not available. Leg Day, however, is."],
 "sign.energy_poster": ["GOT ENERGY? (THE REGIME DOES.)", "Ask a Beefcake. They have loads. The regime takes most of it."],

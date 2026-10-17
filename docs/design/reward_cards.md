@@ -14,6 +14,7 @@ change the sheet and run `bash tools/import_dungeons.sh`. A unique first-victory
 | D-ROT | The Rotheart | Main Dungeon | Archdruid Compostella (R-33, cured), a Gilded Refusemancer Pack, bonus gold and XP; frees the Verdant Dump. | R-33 Archdruid Compostella | yes | Refusemancer Path Pack + gold. |
 | D-PC | Primm's Castle | Final Dungeon | Reunion of the Paths (P4-02), bonus gold and XP, the ending, and the postgame unlock (all Paths can be combined). | P4-02 Reunion of the Paths | yes | Prismatic Pack + gold (postgame). |
 | S-BEEF | The Ascent of Mount Swolympus | Side Dungeon | Barbell of the Ancients (B-30). | B-30 Barbell of the Ancients | yes | Small gold and a Beefcake Pack. |
+| S-IRON | The Iron Cave | Side Dungeon (hand-made, Gainlands v2) | The Ultimate Cardio Machine (B-31). | B-31 The Ultimate Cardio Machine | yes | Small gold and a Beefcake Pack. |
 | S-GOUR | Omakase | Side Dungeon | Toro Toro (G-27). | G-27 Toro Toro | yes | Small gold and a Gourmand Path Pack. |
 | S-NECRO | The Waiting Room of Eternity | Side Dungeon | Betty Bones, Surly Secretary (N-30). | N-30 Betty Bones, Surly Secretary | yes | Small gold and a Necrocrat Path Pack. |
 | S-REF | The Trash Panda Throne | Side Dungeon | Raccoon (R-27). | R-27 Raccoon | yes | Small gold and a Refusemancer Path Pack. |

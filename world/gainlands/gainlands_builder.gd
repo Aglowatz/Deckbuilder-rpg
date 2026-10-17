@@ -247,13 +247,13 @@ func _build_land() -> void:
 	root.add_child(iron)
 	# the cave's cliff: a broad sandstone rock whose south face (the cave mouth's wall) stands right on the left lands' north rim, a narrower tier stacked on its back
 	iron.add_child(GainlandsTerrain.rock(PackedVector2Array([cliff.position, Vector2(cliff.end.x - 3.0, cliff.position.y - 1.0), Vector2(cliff.end.x + 1.0, cliff.position.y + 8.0),
-		Vector2(cliff.end.x, cliff.end.y), Vector2(cliff.position.x + 2.0, cliff.end.y), Vector2(cliff.position.x - 2.0, cliff.position.y + 10.0)]), GainlandsLayout.CAVE_CLIFF_TOP, "IronCliffBase"))
+		Vector2(cliff.end.x, cliff.end.y), Vector2(cliff.position.x + 2.0, cliff.end.y), Vector2(cliff.position.x - 2.0, cliff.position.y + 10.0)]), GainlandsLayout.CAVE_CLIFF_TOP, "IronCliffBase", GainlandsTerrain.SAND, true))
 	iron.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(cliff.get_center().x - 1.0, cliff.position.y + 6.0), Vector2(9.0, 5.0), 10, 7.7), GainlandsLayout.CAVE_CLIFF_TOP + 4.0, "IronCliffTop"))
 	var rock_x0: float = GainlandsLayout.HOUSE_OF_GAINS.x - GainlandsLayout.HOUSE_OF_GAINS_SIZE.x * 0.55
 	var rock_x1: float = GainlandsLayout.HOUSE_OF_GAINS.x + GainlandsLayout.HOUSE_OF_GAINS_SIZE.x * 0.55
 	var rock_z0: float = GainlandsLayout.HOUSE_OF_GAINS.y - GainlandsLayout.HOUSE_OF_GAINS_SIZE.z * 0.6
 	root.add_child(GainlandsTerrain.rock(PackedVector2Array([Vector2(rock_x0 + 3.0, rock_z0), Vector2(rock_x1 - 3.0, rock_z0), Vector2(rock_x1, rock_z0 + 6.0), Vector2(rock_x1 - 1.0, -6.4),
-		Vector2(rock_x0 + 1.0, -6.4), Vector2(rock_x0, rock_z0 + 6.0)]), GainlandsLayout.MESA_Y - 0.05, "FortressRock"))
+		Vector2(rock_x0 + 1.0, -6.4), Vector2(rock_x0, rock_z0 + 6.0)]), GainlandsLayout.MESA_Y - 0.05, "FortressRock", GainlandsTerrain.SAND, true))
 	var index: int = 0
 	for mesa: Vector4 in BACKGROUND_MESAS:
 		index += 1
@@ -421,7 +421,7 @@ static func _smoke_curve() -> Curve:
 
 ## Mount Swolympus in the distance (GC-11): the limestone mountain of the trailhead concept stands out in the void beyond the north-east rim, behind the locked gate
 ## and the sealed Iron Cavern, so the postgame bonus is visible but never on the route.
-const SWOLYMPUS_DISTANT: Vector3 = Vector3(142.0, -5.0, -16.0)
+const SWOLYMPUS_DISTANT: Vector3 = Vector3(126.0, -5.0, -30.0)
 
 
 func _build_swolympus() -> void:
@@ -435,11 +435,17 @@ func _build_swolympus() -> void:
 	for piece: Node in mountain.find_children("*", "MeshInstance3D", true, false):
 		piece.set_meta(&"no_range_cull", true)
 		piece.set_meta(&"no_occlusion_fade", true)
+	# Gainlands v2, Part F: the land bridge from the overlook (behind the sealed gate) toward the mountain, ending at a collapsed span over a chasm
+	root.add_child(GainlandsCave.swolympus_ridge(SWOLYMPUS_RIDGE[0], SWOLYMPUS_RIDGE[1], SWOLYMPUS_RIDGE[2], SWOLYMPUS_RIDGE[3], GainlandsLayout.PLATEAU_Y - 0.1))
+
+
+## The ridge to Mount Swolympus: its start just off the overlook's rim behind the gate, the near end of the collapse, the far side of the chasm, the mountain's foot.
+const SWOLYMPUS_RIDGE: Array[Vector2] = [Vector2(106.8, 16.2), Vector2(110.0, 6.5), Vector2(111.8, 2.0), Vector2(115.0, -6.0)]
 
 
 ## The locked trailhead gate to Mount Swolympus (SR-4): the trailhead gate model of the concept (GAIN-HERO-TRAILHEAD-GATE) stands on the north-east rim at the
 ## `swolympus_gate` anchor facing the meadow, its opening closed by a plank-and-timber barrier (GC-11), with nothing walkable behind it. The towers and the
-## barrier block the hero; the spot in front of it says "coming soon" (GainlandsZone.SWOLYMPUS_GATE) and E only toasts.
+## barrier block the hero; the spot in front of it says "sealed" (GainlandsZone.SWOLYMPUS_GATE), a padlock board hangs on the barrier and E only toasts.
 const SWOLYMPUS_GATE_SIZE: Vector3 = Vector3(10.0, 7.0, 1.4)
 const SWOLYMPUS_GATE_YAW: float = -45.0
 
@@ -472,6 +478,10 @@ func _build_swolympus_gate() -> void:
 	var holder: Node3D = Node3D.new()
 	holder.name = "GateBarrier"
 	holder.add_child(panel)
+	# a padlock board on the barrier (an icon, no lettering): sealed until the end game (GL2-F2)
+	var lock: MeshInstance3D = IconSign.picture(Vector2(1.3, 1.3), "ICON-NODE-LOCKED", Vector3(0, 2.3, 0.32))
+	lock.name = "LockIcon"
+	holder.add_child(lock)
 	gate.add_child(holder)
 	for step: float in [-1.0, 0.0, 1.0]:
 		var world: Vector3 = gate.position + basis * Vector3(step * opening * 0.3, 0.0, 0.0)
@@ -667,9 +677,9 @@ func _place_feature(prop: GainlandsLayout.Prop, pos: Vector3) -> void:
 		"gate":
 			node = GainlandsProps.gate()
 		"cavern":
-			# the mouth in the Iron Cave's cliff face (the cliff itself is GainlandsTerrain's IronCliff rock)
-			node = GainlandsProps.cavern_mouth()
-			node.position = pos
+			# the Iron Cave's mouth in the north-west cliff face (the cliff itself is the IronCliff rock; its leg-day kit is the "cave" lifting yard)
+			node = GainlandsCave.mouth()
+			node.position = Vector3(pos.x, GainlandsLayout.PLATEAU_Y, GainlandsLayout.CAVE_CLIFF.end.y + 0.3)
 			root.add_child(node)
 			return
 		"stage":

@@ -4,7 +4,7 @@ extends GutTest
 ##  - main routes at least 4 hero-widths wide with nothing solid inside their clearance, open ground round every anchor;
 ##  - few sign boards, each with a pictogram;
 ##  - the plateau stands well above the look rig's water plane (the canyons drop to it);
-##  - Mount Swolympus stays a locked coming-soon landmark on the north-east rim with nothing walkable behind it (SR-4);
+##  - Mount Swolympus stays a sealed landmark at the north-east overlook with nothing walkable behind it (SR-4, Gainlands v2);
 ##  - the camera occlusion fade is a smooth transparency: tree cards fade in their own shader from the hero's position, the fader drives no dither.
 
 var layout: GainlandsLayout
@@ -396,24 +396,26 @@ func test_the_fortress_model_builds_with_towers_chimneys_and_a_gate_that_blocks(
 	assert_true(builder.is_walkable(layout.anchors["main_dungeon"] as Vector3, 0.3), "the mesa top in front of the gate is open")
 
 
-func test_the_sealed_cavern_says_coming_soon_in_the_hud() -> void:
+## Gainlands v2, Part F: the zone's side-dungeon door is the Iron Cave (S-IRON), open from the start; it opens the side-dungeon dialog, never a "coming soon".
+func test_the_iron_cave_opens_from_the_start() -> void:
 	var scene: GainlandsScene = (load("res://scenes/gainlands_zone.tscn") as PackedScene).instantiate() as GainlandsScene
 	Session.new_game()
 	scene.screenshot_prepare({"nohud": "true"})
 	add_child(scene)
 	await get_tree().process_frame
-	var cavern: ZoneSpot = null
+	var cave: ZoneSpot = null
 	for spot: ZoneSpot in scene.spots:
 		if spot.kind == "mini_dungeon":
-			cavern = spot
-	assert_not_null(cavern, "the Iron Cavern spot still exists")
-	if cavern != null:
-		assert_true(scene._prompt_for(cavern).to_lower().contains("coming soon"), "its prompt says coming soon")
-		scene._ask_mini_dungeon(cavern)
-		assert_false(scene._locked, "E opens nothing (no confirm dialog, no dungeon)")
+			cave = spot
+	assert_not_null(cave, "the Iron Cave spot exists")
+	if cave != null:
+		assert_false(scene._prompt_for(cave).to_lower().contains("coming soon"), "no coming-soon prompt")
+		assert_true(scene._prompt_for(cave).contains("Iron Cave"), "the prompt names the Iron Cave")
+		assert_true(Session.side_unlocked("S-IRON"), "open from the start (no quest)")
+		scene._ask_mini_dungeon(cave)
+		assert_true(scene._locked, "E opens the side-dungeon dialog")
 	scene.queue_free()
 	await get_tree().process_frame
-
 
 func test_every_thrower_route_has_a_clear_landing_and_a_way_back_down() -> void:
 	var builder: GainlandsBuilder = GainlandsBuilder.new()

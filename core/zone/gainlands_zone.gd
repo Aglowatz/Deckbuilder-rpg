@@ -27,9 +27,10 @@ const FLAG_QUIZ_DONE: StringName = &"gain_quiz_done"
 const FLAG_QUIZ_PASSED: StringName = &"gain_quiz_passed"
 const FLAG_PUZZLE_SOLVED: StringName = &"gain_puzzle_solved"
 const FLAG_MINI_CLEARED: StringName = &"gain_mini_dungeon_cleared"
-## The locked trailhead gate to Mount Swolympus (a postgame bonus, GC-11 / SR-4): the spot id and anchor name, and what the HUD prompt says at it.
+## The locked trailhead gate to Mount Swolympus (the end-game climb S-BEEF, GC-11 / SR-4 / Gainlands v2): the spot id and anchor name, and what the HUD prompt
+## says at it (a padlock board on the gate, no "coming soon"; the unlock condition is an open question, GL2-F2).
 const SWOLYMPUS_GATE: String = "swolympus_gate"
-const SWOLYMPUS_GATE_PROMPT: String = "Mount Swolympus (coming soon)"
+const SWOLYMPUS_GATE_PROMPT: String = "Mount Swolympus (sealed)"
 const FLAG_REPS_FIRST: StringName = &"gain_reps_first_clear"
 const FLAG_WHEEL_POWERED: StringName = &"gain_wheel_powered"
 const FLAG_SPOTTED: StringName = &"gain_spotted_gary"
@@ -110,9 +111,9 @@ static func build_def() -> ZoneDef:
 		_spot("tony", "Benchley's Protein & Pasteboard", "tony", Vector3(-0.8, 0, 0.5), 1.8, "Talk", "vendor_npc", {"npc": "tony", "npc_id": "V-BENCHLEY", "npc_name": NPC_TONY, "speaker": "Coach Brutus Benchley"}),
 		_spot("heal", "Cooldown Hot Tub", "heal", Vector3(0, 0, 1.6), 1.9, "Soak in the tub (full heal)", "heal"),
 		_spot("exit", "Back to Town", "exit", Vector3(0, 0, -0.8), 1.8, "Walk back down to town (full heal)", "exit"),
-		_spot("mini_dungeon", "The Iron Cavern", "mini_dungeon", Vector3(0, 0, 0.8), 1.7, "Enter the Iron Cavern: three sets", "mini_dungeon"),
+		_spot("mini_dungeon", "The Iron Cave", "mini_dungeon", Vector3(0, 0, 0.8), 1.7, "Enter the Iron Cave: leg day", "mini_dungeon"),  # S-IRON, open from the start (Gainlands v2, Part F)
 		_spot("main_dungeon", "The House of Gains", "main_dungeon", Vector3(0, 0, 0.6), 2.0, "Enter the House of Gains", "main_dungeon", {"no_plate": true}),  # the fortress gate carries an icon board, not lettering (GC-10)
-		_spot(SWOLYMPUS_GATE, "Mount Swolympus", SWOLYMPUS_GATE, Vector3(-1.8, 0, 1.8), 2.2, SWOLYMPUS_GATE_PROMPT, "zone", {"no_plate": true}),  # the locked trailhead gate (coming soon): a closed arch with its own banners, no lettering, nothing walkable behind it (SR-4)
+		_spot(SWOLYMPUS_GATE, "Mount Swolympus", SWOLYMPUS_GATE, Vector3(-1.8, 0, 1.8), 2.2, SWOLYMPUS_GATE_PROMPT, "zone", {"no_plate": true}),  # the locked trailhead gate (sealed): a closed arch with its own banners, no lettering, nothing walkable behind it (SR-4)
 		_spot("puzzle", "Power Grid Control Panel", "puzzle", Vector3.ZERO, 1.8, "Route the power (puzzle)", "puzzle"),
 		_spot("quiz", "Professor Pump, Beefcake Scholar", "quiz", Vector3(0.9, 0, 0), 1.7, "Talk", "quiz", {"npc": "quiz", "npc_id": "NPC-PUMP", "speaker": "Professor Pump"}),
 		_spot("minigame", "Chet Thunderabs, 3 AM Fitness Host", "minigame", Vector3(0, 0, 1.0), 1.8, "Talk", "minigame", {"npc": "minigame", "npc_id": "NPC-THUNDERABS", "speaker": "Chet Thunderabs"}),
@@ -125,7 +126,7 @@ static func build_def() -> ZoneDef:
 	]
 	def.poi_kinds = {
 		"brenda": MapPoi.Kind.QUEST_GIVER, "gus": MapPoi.Kind.QUEST_GIVER, "tony": MapPoi.Kind.VENDOR,
-		"heal": MapPoi.Kind.HEAL, "exit": MapPoi.Kind.EXIT,  # (no mini_dungeon marker: the Iron Cavern up Mount Swolympus is sealed until the postgame, GC-11)
+		"heal": MapPoi.Kind.HEAL, "exit": MapPoi.Kind.EXIT, "mini_dungeon": MapPoi.Kind.MINI_DUNGEON,  # the Iron Cave (S-IRON) is open from the start
 		"main_dungeon": MapPoi.Kind.DUNGEON, "puzzle": MapPoi.Kind.PUZZLE, "quiz": MapPoi.Kind.QUIZ,
 		"minigame": MapPoi.Kind.MINIGAME, "protein_stand": MapPoi.Kind.INTERACTABLE,
 		"flex_mirror": MapPoi.Kind.INTERACTABLE, "flex_mirror_pec": MapPoi.Kind.INTERACTABLE,

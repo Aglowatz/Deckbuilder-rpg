@@ -52,6 +52,9 @@ class Blueprint:
 	var map_id: String = ""
 	var battleboard_id: String = ""
 	var nodes: Array[BlueprintNode] = []
+	## Gainlands v2: a side dungeon open from the start (no unlocking quest), and the one a zone's "mini dungeon" entrance opens when the zone has two.
+	var always_open: bool = false
+	var zone_side: bool = false
 
 	func node(number: int) -> BlueprintNode:
 		for candidate: BlueprintNode in nodes:
@@ -158,6 +161,8 @@ static func _parse(row: Dictionary) -> Blueprint:
 	blueprint.hook = str(row.get("hook", ""))
 	blueprint.map_id = str(row.get("map_id", ""))
 	blueprint.battleboard_id = str(row.get("battleboard_id", ""))
+	blueprint.always_open = bool(row.get("open", false))
+	blueprint.zone_side = bool(row.get("zone_side", false))
 	var fitted: Dictionary = _layout.get(blueprint.id, {}) as Dictionary
 	for entry: Variant in row.get("nodes", []) as Array:
 		var data: Dictionary = entry as Dictionary
@@ -206,12 +211,17 @@ static func main_for_zone(zone_id: String) -> Blueprint:
 	return null
 
 
-## The zone's side dungeon blueprint: "beefcake" -> S-BEEF, "final" -> S-CAP, "town" -> S-TOWN.
+## The zone's side dungeon blueprint (the one its entrance opens): "beefcake" -> S-IRON (flagged `zone_side`; Mount Swolympus S-BEEF is the
+## Gainlands' postgame climb behind its locked gate, Gainlands v2), "final" -> S-CAP, "town" -> S-TOWN.
 static func side_for_zone(zone_id: String) -> Blueprint:
+	var first: Blueprint = null
 	for blueprint: Blueprint in all():
 		if blueprint.zone_id == zone_id and blueprint.type == TYPE_SIDE:
-			return blueprint
-	return null
+			if blueprint.zone_side:
+				return blueprint
+			if first == null:
+				first = blueprint
+	return first
 
 
 ## The saved coordinates of `dungeon_id`'s nodes (number -> [x, y]) as the file has them (empty when the dungeon has none yet).

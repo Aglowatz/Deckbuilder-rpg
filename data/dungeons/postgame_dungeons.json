@@ -31,5 +31,29 @@
 			{"n": 13, "name": "The Last Quiet Room", "type": "heal", "note": "", "x": 86, "y": 66, "next": [14], "side": false, "return_to": 0},
 			{"n": 14, "name": "The Chief Path-ologist's Laboratory", "type": "boss", "note": "Dr. Ambrose Siphon", "x": 92, "y": 22, "next": [], "side": false, "return_to": 0}
 		]
+	},
+	{
+		"id": "S-IRON",
+		"name": "The Iron Cave",
+		"type": "Side Dungeon",
+		"zone": "beefcake",
+		"zone_text": "The Gainlands (Beefcake)",
+		"zone_side": true,
+		"open": true,
+		"theme": "A cave in the sandstone cliff above the Gainlands' mill lands, turned into a leg-day dungeon: squat racks bolted to the rock, a leg press carved into the wall, worn stone steps going down, chalk handprints and the echo of someone counting reps.",
+		"story": "The Beefcakes who never skip leg day train in the Iron Cave. Get through their calf raises and squats to the Leg Press Throne, where the cave's champion has not stood up in years.",
+		"boss": "Baron Quadzilla (the Leg Press Lord, who has not stood up in years)",
+		"buffs": "Never Skip Leg Day: Beefcake units get +0/+1.",
+		"reward_first": "The Ultimate Cardio Machine (B-31).",
+		"reward_repeat": "Small gold and a Beefcake Pack.",
+		"hook": "Old Man Mountain: \"There is a cave in the cliff past the mills where they only train legs. Go see if yours hold up.\"",
+		"map_id": "MAP-S-IRON",
+		"battleboard_id": "BB-S-BEEF",
+		"_note": "Gainlands v2 (docs/art/gainlands_v2.md, Part F): a hand-made early side dungeon, open from the start (no quest). The designer's sheet has no row for it yet; when it gets one the import wins and this entry is ignored. It borrows the Swolympus battleboard (BB-S-BEEF) and the House of Gains music until it has its own. Design gaps: docs/design/open_questions.md GL2-F1.",
+		"nodes": [
+			{"n": 1, "name": "The Calf Raise Crawl", "type": "battle", "note": "", "x": 20, "y": 72, "next": [2], "side": false, "return_to": 0},
+			{"n": 2, "name": "The Squat Rack Gallery", "type": "battle", "note": "", "x": 50, "y": 48, "next": [3], "side": false, "return_to": 0},
+			{"n": 3, "name": "The Leg Press Throne", "type": "boss", "note": "", "x": 80, "y": 22, "next": [], "side": false, "return_to": 0}
+		]
 	}
 ]

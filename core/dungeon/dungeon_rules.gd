@@ -100,6 +100,8 @@ static func _entries(dungeon_id: String) -> Array[Dictionary]:
 			]
 		"S-BEEF":
 			return [_rule("Thin Air", "Units with Hustle get +1/+0.", "both", [CardBuilder.modifier(Modifier.Kind.KEYWORD_STAT_CHANGE, 1, Modifier.ANY_COLOR, CardEnums.Keyword.HUSTLE)] as Array[Modifier])]
+		"S-IRON":
+			return [_rule("Never Skip Leg Day", "Beefcake units get +0/+1.", "both", [CardBuilder.modifier(Modifier.Kind.STAT_CHANGE, 0, Affinity.Type.BEEFCAKE, 1)] as Array[Modifier])]
 		"S-GOUR":
 			return [_rule("Fresh Fish", "Tokens enter with +1/+1.", "both", [CardBuilder.modifier(Modifier.Kind.TOKEN_STAT_CHANGE, 1, Modifier.ANY_COLOR, 1)] as Array[Modifier])]
 		"S-NECRO":

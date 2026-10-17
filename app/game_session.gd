@@ -2150,6 +2150,9 @@ static func side_unlock_flag(dungeon_id: String) -> StringName:
 
 
 func side_unlocked(dungeon_id: String) -> bool:
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.find(dungeon_id)
+	if plan != null and plan.always_open:
+		return true  # open from the start (the Iron Cave, Gainlands v2)
 	return flag(side_unlock_flag(dungeon_id))
 
 

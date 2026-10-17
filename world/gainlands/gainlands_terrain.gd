@@ -225,7 +225,8 @@ static func terraced(center: Vector2, radii: Vector2, top: float, tiers: int, no
 	return holder
 
 
-static func rock(points: PackedVector2Array, top: float, node_name: String, top_color: Color = SAND) -> MeshInstance3D:
+## `sheer`: a near-vertical face (the Iron Cave's cliff, the fortress rock: something stands against it), no talus bulging out at its foot.
+static func rock(points: PackedVector2Array, top: float, node_name: String, top_color: Color = SAND, sheer: bool = false) -> MeshInstance3D:
 	var surface: SurfaceTool = SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surface.set_smooth_group(-1)
@@ -246,6 +247,8 @@ static func rock(points: PackedVector2Array, top: float, node_name: String, top_
 	var drops: Array[float] = [0.0, 1.4, 3.4, 4.0, 7.0, 999.0]
 	var count: int = points.size()
 	var pushes: Array[float] = [0.0, 0.4, 0.2, 1.0, 0.8, 2.2]
+	if sheer:
+		pushes = [0.0, 0.15, 0.05, 0.25, 0.1, 0.3]
 	for i: int in range(points.size()):
 		var a: Vector2 = points[i]
 		var b: Vector2 = points[(i + 1) % points.size()]
@@ -265,7 +268,7 @@ static func rock(points: PackedVector2Array, top: float, node_name: String, top_
 					push_dir = _corner_normal(points, (i + 1) % count, clockwise)
 				var column: Array[Vector3] = []
 				for layer: int in range(drops.size()):
-					var jitter: float = (_noise(p.x * 0.5 + float(layer) * 2.3, p.y * 0.5) - 0.5) * 1.1 if layer > 0 else 0.0
+					var jitter: float = (_noise(p.x * 0.5 + float(layer) * 2.3, p.y * 0.5) - 0.5) * (0.3 if sheer else 1.1) if layer > 0 else 0.0
 					var push: float = pushes[layer] + jitter
 					column.append(Vector3(p.x + push_dir.x * push, maxf(top - drops[layer], CLIFF_BOTTOM), p.y + push_dir.y * push))
 				columns.append(column)

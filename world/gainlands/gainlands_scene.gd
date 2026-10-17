@@ -109,20 +109,12 @@ func _prompt_for(spot: ZoneSpot) -> String:
 		var point: GainlandsTravel.Point = GainlandsTravel.find(str(spot.data["travel"]))
 		if point != null and not GainlandsTravel.is_unlocked(point, Session.unlock_state()):
 			return "Ask %s about the ride (locked)" % point.speaker
-	if spot.kind == "mini_dungeon":
-		return SWOLYMPUS_PROMPT
 	return spot.prompt
 
 
-## Mount Swolympus is a postgame bonus (GC-11): the Iron Cavern (the way up, the S-BEEF side dungeon) stays sealed and says so in the UI, never in world text.
-const SWOLYMPUS_PROMPT: String = "The Iron Cavern: Mount Swolympus (coming soon)"
-const SWOLYMPUS_TOAST: String = "Coming soon: Mount Swolympus opens after the main story."
-
-
-func _ask_mini_dungeon(spot: ZoneSpot) -> void:
-	player.face(spot.position)
-	Audio.sfx(&"ui_error")
-	hud.toast(SWOLYMPUS_TOAST, UIStyle.PARCHMENT)
+## Mount Swolympus is the end-game climb (S-BEEF): its gate at the overlook is sealed and says so in the UI (a padlock board on the gate, never world text).
+## The Iron Cave's door (the zone's "mini dungeon", S-IRON) is open from the start and goes through ZoneScene's side-dungeon flow (Gainlands v2, Part F).
+const SWOLYMPUS_TOAST: String = "Sealed. The way to Mount Swolympus is closed for now."
 
 
 func _extra_pois() -> Array[MapPoi]:
@@ -186,7 +178,7 @@ func _interact_zone(spot: ZoneSpot) -> void:
 		"run_wheel":
 			_use_run_wheel(spot)
 		GainlandsZone.SWOLYMPUS_GATE:
-			# the closed trailhead gate (SR-4): like the sealed cavern, E only says when it opens
+			# the sealed trailhead gate (SR-4): E only says it is sealed (the unlock condition is an open question, GL2-F2)
 			player.face(spot.position)
 			Audio.sfx(&"ui_error")
 			hud.toast(SWOLYMPUS_TOAST, UIStyle.PARCHMENT)

@@ -445,7 +445,7 @@ func _island(id: String, title: String, center: Vector2, radius: float, height: 
 
 func _islands() -> void:
 	_island("pec", "Pec Perch", Vector2(-14.0, 0.0), 8.0, PLATEAU_Y + 8.0)
-	_island("delt", "Delt Deck", Vector2(100.0, -10.0), 7.0, PLATEAU_Y + 10.0)
+	_island("delt", "Delt Deck", Vector2(87.0, -15.0), 7.0, PLATEAU_Y + 10.0)
 	_island("glute", "Glute Garden", Vector2(124.0, 68.0), 7.0, PLATEAU_Y + 6.0)
 	_island("calf", "Calf Cove", Vector2(-15.0, 58.0), 6.5, PLATEAU_Y + 4.0)
 
@@ -733,6 +733,12 @@ func _yards() -> void:
 	for entry: Array in gary:
 		items.append(_yard_item(str(entry[0]), Vector2(float(entry[1]), float(entry[2])), float(entry[3]), float(entry[4])))
 	yards.append({"id": "gary", "center": Vector2(79.5, 81.0), "size": Vector2(15.0, 9.0), "items": items})
+	# the Iron Cave's leg-day kit round its mouth (Part F): two squat racks, a leg press, plates and chalk
+	var cave: Array = [["squat_rack", 9.8, 23.2, 15.0, 1.25], ["squat_rack", 20.0, 23.4, -15.0, 1.25], ["leg_press", 8.9, 27.2, 30.0, 1.5], ["plate_stack", 22.6, 22.2, 0.0, 0.45], ["chalk_bucket", 11.2, 26.6, 0.0, 0.3]]
+	var cave_items: Array = []
+	for entry: Array in cave:
+		cave_items.append(_yard_item(str(entry[0]), Vector2(float(entry[1]), float(entry[2])), float(entry[3]), float(entry[4])))
+	yards.append({"id": "cave", "center": Vector2(15.0, 24.5), "size": Vector2(15.0, 6.0), "items": cave_items})
 
 
 func _yard(id: String, preset: String, center: Vector2, yaw: float = 0.0) -> void:
@@ -765,7 +771,7 @@ const CANYON_STACK_TOP: float = PLATEAU_Y - 0.9
 func _power() -> void:
 	stacks = [
 		Vector4(-1.5, 74.0, 2.8, STACK_TOP), Vector4(-2.5, 46.0, 2.8, STACK_TOP), Vector4(37.5, 3.0, 2.4, STACK_TOP),
-		Vector4(113.0, 78.0, 2.8, STACK_TOP), Vector4(113.5, 46.0, 2.8, STACK_TOP), Vector4(113.0, 18.0, 2.8, STACK_TOP), Vector4(74.5, 3.0, 2.4, STACK_TOP),
+		Vector4(113.0, 78.0, 2.8, STACK_TOP), Vector4(113.5, 46.0, 2.8, STACK_TOP), Vector4(117.5, 24.0, 2.8, STACK_TOP), Vector4(74.5, 3.0, 2.4, STACK_TOP),
 		Vector4(47.7, 40.5, 2.1, CANYON_STACK_TOP), Vector4(64.3, 40.5, 2.1, CANYON_STACK_TOP), Vector4(-3.0, 30.0, 2.6, STACK_TOP), Vector4(114.5, 32.0, 2.6, STACK_TOP),
 	]
 	var top: Callable = func(index: int) -> Vector3: return Vector3(stacks[index].x, stacks[index].w, stacks[index].y)

@@ -28,18 +28,31 @@ class Result extends RefCounted:
 	var missing: Array[String] = []
 
 
+## STANDIN maps: a dungeon whose painted map is still to come shows another dungeon's map with the same node shape until its own file arrives (its own
+## file always wins). Gainlands v2: the Iron Cave borrows Mount Swolympus' three-node climb (MAP-S-IRON is on the art request list).
+const STANDIN_MAPS: Dictionary = {"MAP-S-IRON": "MAP-S-BEEF"}
+
+
+## The file a Map Image ID shows: its own when it exists, else its stand-in's.
+static func _file_for(map_id: String) -> String:
+	var own: String = OUT_DIR.path_join("%s.webp" % map_id)
+	if ResourceLoader.exists(own) or not STANDIN_MAPS.has(map_id):
+		return own
+	return OUT_DIR.path_join("%s.webp" % str(STANDIN_MAPS[map_id]))
+
+
 ## The map texture of a Map Image ID, null when the dungeon has no image yet.
 static func texture_for(map_id: String) -> Texture2D:
 	if map_id.is_empty():
 		return null
 	if not _textures.has(map_id):
-		var path: String = OUT_DIR.path_join("%s.webp" % map_id)
+		var path: String = _file_for(map_id)
 		_textures[map_id] = load(path) as Texture2D if ResourceLoader.exists(path) else null
 	return _textures[map_id] as Texture2D
 
 
 static func has_map(map_id: String) -> bool:
-	return not map_id.is_empty() and ResourceLoader.exists(OUT_DIR.path_join("%s.webp" % map_id))
+	return not map_id.is_empty() and ResourceLoader.exists(_file_for(map_id))
 
 
 static func reset() -> void:

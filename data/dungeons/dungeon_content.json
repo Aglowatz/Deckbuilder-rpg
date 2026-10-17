@@ -511,6 +511,21 @@
 				}
 			}
 		},
+		"S-IRON": {
+			"_note": "Gainlands v2, Part F: the Iron Cave, tuned for the start of the game (small decks, low HP).",
+			"defaults": {
+				"archetypes": ["beefcake_rush", "beefcake_tools"],
+				"icons": ["lorc/muscle-up", "delapouite/strong-man"],
+				"ais": ["Balanced", "Defensive"]
+			},
+			"boss": {"deck": "beefcake_rush", "extra": {"B-12": 2}, "hp": 16, "icon": "delapouite/mammoth"},
+			"foes": {
+				"1": {"name": "Calf Raise Crusher", "deck": "beefcake_rush", "hp": 11, "size": 24, "ai": "Aggressive", "icon": "lorc/muscle-up"},
+				"2": {"name": "Squat Rack Squatter", "deck": "beefcake_tools", "hp": 12, "size": 25, "ai": "Defensive", "icon": "delapouite/strong-man"},
+				"3": "Baron Quadzilla"
+			},
+			"story_keys": {"3": "dg_s_iron_boss"}
+		},
 		"S-BEEF": {
 			"defaults": {
 				"archetypes": ["beefcake_rush", "beefcake_tools", "beefcake_bruisers"],
@@ -829,6 +844,8 @@
 		"quest.side_s_cap.ready": ["You found them. Good. Then you have earned this."],
 		"fx.old_tunnels_way_in": ["The grate beneath the plaza lifts with a groan. Light from the perfect city pours in, and behind you the old tunnels run on: four factions' services, still connected.", "You climb up past the walls. Nobody is watching this way in. Nobody remembers it. That is the point."],
 		"quest.side_s_cap.done": ["The hatch at the east end of the Outskirts leads down to the Old Service Tunnels. Mind the patrols."],
+		"dungeon.dg_s_iron_boss.before": ["On a throne that is really a leg press, a Beefcake with thighs like mill wheels pushes a sled of plates up and down, up and down. He has not stood up in years. He does not need to.", "\"Nobody skips leg day in my cave,\" he says, between reps. \"Show me yours.\""],
+		"dungeon.dg_s_iron_boss.after": ["Baron Quadzilla racks the plates, stands, and wobbles. \"Huh,\" he says. \"I forgot about standing.\"", "He hands you a sweaty ribbon. \"Leg day survivor. Wear it with pride. And stretch.\""],
 		"dungeon.dg_s_beef_boss.before": ["A stone colossus sits at the summit with its hands out, palms up, as if waiting for a barbell to be placed in them. It has been spotting for a thousand years and it is very, very ready.", "\"Lift,\" it rumbles. \"I will catch it.\" It does not say what happens if you fail."],
 		"dungeon.dg_s_beef_boss.after": ["The Ancient Spotter lowers its hands and, for the first time in a thousand years, sets something down. The barbell on the altar is yours.", "\"Good form,\" it says. Then, quieter: \"Thank you for coming up.\""],
 		"dungeon.dg_s_gour_boss.before": ["The Itamae Supreme lifts a long knife and does not look up. \"There is no menu. You have trusted me with three courses. Now, the Chef's Choice.\"", "Behind him a bull made of toro lowers its horns, politely."],

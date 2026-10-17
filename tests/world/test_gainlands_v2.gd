@@ -152,3 +152,74 @@ func test_power_lines_cross_the_zone_on_believable_pylons() -> void:
 		assert_not_null(cables, "line %d has its cables" % index)
 		for sag: Variant in cables.get_meta("sag", []) as Array:
 			assert_gt(float(sag), 0.5, "the cables sag naturally")
+
+
+# ---- Part F: the dungeons -------------------------------------------------------------------------------------------------
+
+
+func test_the_iron_cave_is_an_open_leg_day_side_dungeon_on_the_left_path() -> void:
+	var plan: DungeonCatalog.Blueprint = DungeonCatalog.side_for_zone(GainlandsZone.ID)
+	assert_eq(plan.id, "S-IRON", "the Gainlands' side-dungeon door opens the Iron Cave")
+	assert_true(plan.always_open, "available from the start")
+	assert_eq(DungeonCatalog.find("S-BEEF").zone_id, GainlandsZone.ID, "Mount Swolympus stays in the data as the zone's end-game climb")
+	Session.new_game()
+	assert_true(Session.side_unlocked("S-IRON"), "no quest needed")
+	assert_false(Session.side_unlocked("S-BEEF"), "Swolympus stays sealed")
+	var map: DungeonMap = MainDungeons.build_map("S-IRON")
+	assert_eq(map.problems(), [] as Array[String], "a sound node map")
+	var mini: ZoneDef.MiniDef = MiniDungeon.def_for(GainlandsZone.ID)
+	assert_eq(mini.battles.size(), 3, "three sets: two battles and the boss")
+	for battle: ZoneDef.MiniBattle in mini.battles:
+		assert_lte(battle.hp, 16, "%s is tuned for the start of the game" % battle.enemy)
+	assert_eq(mini.reward_card_id, "B-31", "the first clear pays The Ultimate Cardio Machine (never skip leg day)")
+	var rules: Array = DungeonRules.rules("S-IRON")
+	assert_eq(rules.size(), 1, "one dungeon rule")
+	assert_true(str((rules[0] as Dictionary)["name"]).contains("Leg Day"), "a leg-day rule")
+	# the entrance: on the left road's cave spur, a mouth in the cliff with its leg-day kit
+	var cave: Vector3 = layout.anchors["mini_dungeon"] as Vector3
+	assert_true(Geometry2D.is_point_in_polygon(Vector2(cave.x, cave.z), PackedVector2Array(GainlandsLayout.SOUTH)), "on the plateau")
+	assert_lt(cave.x, 40.0, "on the left (west) side")
+	var spur_end: Vector2 = layout.route("left")[0]
+	var nearest: float = 99.0
+	for path: Dictionary in layout.paths:
+		var line: PackedVector2Array = path["line"] as PackedVector2Array
+		for i: int in range(line.size() - 1):
+			nearest = minf(nearest, Geometry2D.get_closest_point_to_segment(Vector2(cave.x, cave.z), line[i], line[i + 1]).distance_to(Vector2(cave.x, cave.z)))
+	assert_lt(nearest, 4.0, "a paved spur leads to it")
+	assert_ne(spur_end, Vector2.ZERO)
+	var mouth: Node3D = builder.root.find_child("IronCaveMouth", false, false) as Node3D
+	assert_not_null(mouth, "the cave mouth stands in the cliff face")
+	if mouth != null:
+		assert_almost_eq(mouth.position.z, GainlandsLayout.CAVE_CLIFF.end.y + 0.3, 0.01, "at the foot of the cliff")
+		assert_eq(mouth.find_children("*", "Label3D", true, false).size(), 0, "no lettering")
+	var kinds: Array[String] = []
+	for yard: Dictionary in layout.yards:
+		if str(yard["id"]) == "cave":
+			for item: Variant in yard["items"] as Array:
+				kinds.append(str((item as Dictionary)["kind"]))
+	assert_has(kinds, "squat_rack", "squat racks at the mouth")
+	assert_has(kinds, "leg_press", "and a leg press machine")
+	assert_true(GainlandsZone.build_def().poi_kinds.has("mini_dungeon"), "on the minimap")
+
+
+func test_mount_swolympus_is_seen_across_a_ridge_that_ends_at_a_collapse() -> void:
+	var ridge: Node3D = builder.root.find_child("SwolympusRidge", false, false) as Node3D
+	assert_not_null(ridge, "a land bridge runs toward the mountain")
+	if ridge == null:
+		return
+	assert_gt(float(ridge.get_meta("gap", 0.0)), 3.0, "it ends at a chasm the hero could never jump")
+	var points: Array[Vector2] = GainlandsBuilder.SWOLYMPUS_RIDGE
+	for point: Vector2 in points:
+		assert_false(builder.is_walkable(Vector3(point.x, 0.0, point.y), 0.3), "nothing on the ridge is walkable (%s)" % str(point))
+	var gate: Vector3 = layout.anchors[GainlandsZone.SWOLYMPUS_GATE] as Vector3
+	assert_lt(Vector2(gate.x, gate.z).distance_to(points[0]), 7.0, "the sealed gate stands where the ridge leaves the overlook")
+	var overlook: Vector2 = layout.route("right")[6]
+	assert_lt(overlook.distance_to(Vector2(gate.x, gate.z)), 8.0, "on the right road's overlook")
+	var mountain: Node3D = builder.root.find_child("DistantSwolympus", false, false) as Node3D
+	assert_gt(Vector2(mountain.position.x, mountain.position.z).distance_to(points[3]), 5.0, "the mountain beyond the ridge's far end")
+	var def: ZoneDef = GainlandsZone.build_def()
+	for spot: Dictionary in def.spots:
+		assert_false(str(spot["prompt"]).to_lower().contains("coming soon"), "no coming-soon prompt anywhere (%s)" % str(spot["id"]))
+	assert_false(GainlandsScene.SWOLYMPUS_TOAST.to_lower().contains("coming soon"), "the gate's toast says sealed")
+	var barrier: Node = builder.root.find_child("SwolympusGate", false, false).find_child("GateBarrier", false, false)
+	assert_not_null(barrier.find_child("LockIcon", false, false), "a padlock board on the gate (an icon, no lettering)")

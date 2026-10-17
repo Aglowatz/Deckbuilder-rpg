@@ -43,6 +43,7 @@ const DUNGEONS: Dictionary = {
 	"D-PC": {"exp": "MUS-CASTLE-EXP", "battle": "MUS-CASTLE-BATTLE", "boss": "MUS-PRIMM-01"},
 	"D-LAB": {"exp": "MUS-LAB-EXP", "battle": "MUS-LAB-BATTLE", "boss": "MUS-SIPHON-BOSS"},
 	"S-BEEF": {"exp": "MUS-SWOLY-EXP", "battle": "MUS-SWOLY-BATTLE", "boss": "MUS-SWOLY-BOSS"},
+	"S-IRON": {"exp": "MUS-BEEF-DUN-EXP", "battle": "MUS-BEEF-DUN-BATTLE", "boss": "MUS-BEEF-BOSS"},  # the Iron Cave borrows the House of Gains' cues until it has its own (GL2-F1)
 	"S-GOUR": {"exp": "MUS-OMAKASE-EXP", "battle": "MUS-OMAKASE-BATTLE", "boss": "MUS-OMAKASE-BOSS"},
 	"S-NECRO": {"exp": "MUS-WAIT-EXP", "battle": "MUS-WAIT-BATTLE", "boss": "MUS-WAIT-BOSS"},
 	"S-REF": {"exp": "MUS-PANDA-EXP", "battle": "MUS-PANDA-BATTLE", "boss": "MUS-PANDA-BOSS"},
