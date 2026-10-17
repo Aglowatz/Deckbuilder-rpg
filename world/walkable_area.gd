@@ -20,6 +20,12 @@ func is_floor_at(_pos: Vector3) -> bool:
 	return false
 
 
+## The footstep surface at `pos` (sound pass, Part C): grass, dirt, cobble, wood, carpet, stone, marble, tile, pastel, ash, mashed, junk, gravel or metal
+## (the bank's step_<surface> events). Areas override it from their own ground data.
+func surface_at(_pos: Vector3) -> StringName:
+	return &"grass"
+
+
 ## World-space xz rectangle covering everything walkable (the minimap's extent).
 func map_bounds() -> Rect2:
 	return Rect2()

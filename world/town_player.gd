@@ -26,6 +26,7 @@ var moving: bool = false
 
 func setup(town_builder: WalkableArea, model_name: String, start: Vector3) -> void:
 	town = town_builder
+	Audio.set_ground(town_builder)
 	position = start
 	if model_name == "Hero":
 		model = _hero_model()
@@ -65,10 +66,12 @@ func _process(delta: float) -> void:
 		var target_yaw: float = atan2(world_dir.x, world_dir.z)
 		model.rotation.y = lerp_angle(model.rotation.y, target_yaw, 1.0 - exp(-14.0 * delta))
 		_play(&"Walking_A")
-		_step_timer -= delta
-		if _step_timer <= 0.0:
-			_step_timer = 0.34
-			Audio.sfx(&"footstep", -12.0, 0.12)
+		# The painted hero steps on its walk cycle's foot contacts (WorldSprite); only the 3D fallback model keeps the old timer.
+		if not model is SpriteActor:
+			_step_timer -= delta
+			if _step_timer <= 0.0:
+				_step_timer = 0.34
+				Audio.footstep(position, true)
 	else:
 		_velocity = Vector3.ZERO
 		moving = false

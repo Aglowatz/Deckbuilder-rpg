@@ -58,7 +58,7 @@ func _on_button() -> void:
 		return
 	_opened = true
 	var granted: Dictionary = Session.apply_treasure(map_node)
-	Audio.sfx(&"chest_open")
+	Audio.sfx(&"chest_iron")
 	var pop: Tween = create_tween()
 	pop.tween_property(_chest, "scale", Vector2(1.35, 1.35), 0.14).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	pop.tween_property(_chest, "scale", Vector2.ONE, 0.2)

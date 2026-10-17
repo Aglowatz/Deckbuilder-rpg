@@ -96,6 +96,18 @@ func _build_zone_extras() -> void:
 	pass
 
 
+var _soundscape_timer: float = 0.0
+
+
+## Sound pass, Part C: the Verdant Dump grows eerier toward the Rotheart (a low drone and a heartbeat-like pulse rise with the corruption parameter).
+func _update_soundscape(delta: float) -> void:
+	_soundscape_timer -= delta
+	if _soundscape_timer > 0.0 or def == null or def.id != "refusemancer" or player == null:
+		return
+	_soundscape_timer = 0.5
+	Audio.ambience.set_param("corruption", ZoneSoundscape.heap_corruption(player.position))
+
+
 ## Per-frame zone-specific work (flicker, wind, falling checks).
 func _zone_process(_delta: float) -> void:
 	pass
@@ -189,6 +201,7 @@ func _ready() -> void:
 	if def.id != CapitalZone.ID:
 		# A Path's zone: exploration, or the freed arrangement once its own completion flag is set (the Capital picks by district, `CapitalScene`).
 		Audio.play_music(MusicDirector.zone_area(def.id, Session.flags))
+		Audio.set_ambience(ZoneSoundscape.zone_profile(def.id))
 	story = ZoneStoryText.for_zone(def.id)
 	if not _screenshot_args.is_empty():
 		Session.ensure_game()
@@ -218,6 +231,7 @@ func _ready() -> void:
 	_build_enemies()
 	_build_sign_spots()
 	_build_zone_extras()
+	ZoneSoundscape.add_emitters(self, def.id)
 	_build_completion_state()
 	_build_camera()
 	_build_ui()
@@ -579,6 +593,7 @@ func _process(delta: float) -> void:
 	_update_camera(delta)
 	builder.update_visibility(player.position)
 	_zone_process(delta)
+	_update_soundscape(delta)
 	var world_active: bool = _world_active()
 	if world_active and not Session.pending_popups.is_empty():
 		var popup: RewardPopup = RewardPopup.make(Session.pending_popups.pop_front() as RewardSummary)
@@ -805,6 +820,7 @@ func _interact(spot: ZoneSpot) -> void:
 			_face_npc(str(spot.data["npc"]))
 			_say(str(spot.data["speaker"]), story.get_lines("freed_npc.%s" % str(spot.data["npc"])), Callable(), str(spot.data.get("npc_id", "")))
 		"plaque", "sign":
+			Audio.sfx_at(&"sign_read", spot.position)
 			_say("", story.get_lines(str(spot.data["key"])))
 		"vault_lever":
 			_pull_vault_lever()
@@ -956,7 +972,7 @@ func _ask_mini_dungeon(spot: ZoneSpot) -> void:
 			var run: ZoneRun = Session.zone_run
 			run.return_position = spot.position + Vector3(0, 0, 1.0)
 			run.has_return_position = true
-			Audio.sfx(&"door")
+			Audio.sfx(&"dungeon_enter")
 			Session.enter_mini_dungeon(), func() -> void: _locked = false))
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
@@ -977,7 +993,7 @@ func _use_main_dungeon(spot: ZoneSpot) -> void:
 			var run: ZoneRun = Session.zone_run
 			run.return_position = spot.position + Vector3(0, 0, 1.4)
 			run.has_return_position = true
-			Audio.sfx(&"door")
+			Audio.sfx(&"dungeon_enter")
 			Session.enter_main_dungeon(), func() -> void: _locked = false))
 	dialog.cancelled.connect(func() -> void: _locked = false)
 

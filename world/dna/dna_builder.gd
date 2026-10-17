@@ -109,6 +109,19 @@ func is_floor_at(pos: Vector3) -> bool:
 	return layout.is_floor(cell.x, cell.y)
 
 
+## Footsteps by the floor kind: carpet in the offices, marble in the executive halls, tile and linoleum in the queues, stone outside.
+func surface_at(pos: Vector3) -> StringName:
+	var cell: Vector2i = DnaLayout.world_to_cell(pos)
+	match layout.floor_at(cell.x, cell.y):
+		DnaLayout.Floor.CARPET:
+			return &"carpet"
+		DnaLayout.Floor.EXEC:
+			return &"marble"
+		DnaLayout.Floor.TILE, DnaLayout.Floor.LINO:
+			return &"tile"
+	return &"stone"
+
+
 func map_bounds() -> Rect2:
 	return Rect2(0.0, 0.0, float(DnaLayout.W), float(DnaLayout.H))
 

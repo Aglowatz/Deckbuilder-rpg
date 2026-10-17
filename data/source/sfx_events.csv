@@ -21,7 +21,7 @@ card_discard,Battle,card/shove+card/dust@60:-12,-2,5,2,40,3,40,,,,
 card_shuffle,Battle,card/shuffle,-2,3,1.5,40,1,400,,,,
 land_play,Battle,card/thud+card/dust@25:-8,-2,5,2,50,3,40,,,,
 hit_light,Battle,hit/light+hit/soft:-6,-2,5,2,60,3,40,,,,
-hit_heavy,Battle,hit/heavy+hit/boom:-2+card/dust@30:-8,0,4,1.5,75,2,60,,,-3,
+hit_heavy,Battle,hit/heavy+hit/boom:-2+card/dust@30:-8,-2,4,1.5,75,2,60,,,-3,
 hit_metal,Battle,hit/metal,-3,5,2,55,2,50,,,,
 turn_start,Battle,hit/bell,-10,3,1,50,1,300,,,,a softer warm bell
 # ---- Part B: battle ----
@@ -63,7 +63,7 @@ resource_gain,Battle,ui/coins:-4,-3,4,1.5,40,3,40,,,,a resource with no Path sou
 energy_tick,Battle,glass/tap~1.8:-10,-4,3,1,25,4,15,,,,one tick per energy point paid
 energy_gain,Battle,glass/tap~1.4+glass/tap@60~1.8:-4,-5,3,1.5,30,2,60,,,,
 trap_set,Battle,trap/latch+trap/creak@60:-6,-2,4,1.5,55,2,80,,,,a latch and a hidden creak
-trap_spring,Battle,trap/snap+hit/block@20:-4+swing/whoosh:-6+hit/boom@20:-6,0,3,1,85,1,200,,,-4,the trap springs
+trap_spring,Battle,trap/snap+hit/block@20:-4+swing/whoosh:-6+hit/boom@20:-6,-4,3,1,85,1,200,,,-4,the trap springs
 tool_attach,Battle,tool/leather+tool/clink@60:-2,-2,4,1.5,55,2,80,,,,leather and a clink
 wonder_play,Battle,wonder/gong+glass/tap@150~1.5:-6+air/breath:-4,-1,2,1,80,1,300,,,-3,a Wonder rises
 token_create,Battle,card/snap~1.2:-4+air/breath:-10+glass/tap@40~1.6:-12,-2,5,1.5,45,3,50,,,,a small poof
@@ -80,3 +80,40 @@ defeat_layer,Battle,hit/boom+card/shove@60~0.8+swing/cloth@80:-6,-4,1,1,90,1,100
 battle_start,Battle,card/riffle_long:-2+swing/whoosh:-8,-2,2,1,70,1,1000,,,,cards riffled as the battle begins
 refuse_open,UI,card/shove~0.9+ui/book_open@40:-6,-2,3,1.5,35,1,200,,,,the Refuse Pile opens
 coin_flip,Battle,ui/coins:-4+glass/tap@200~1.3:-10,-2,4,1.5,45,1,200,,,,
+# ---- Part C: the world ----
+step_grass,World,step/grass,-2,6,2,15,4,60,3d,16,,footsteps on grass
+step_dirt,World,step/dirt,-2,6,2,15,4,60,3d,16,,
+step_cobble,World,step/cobble,-3,6,2,15,4,60,3d,16,,
+step_stone,World,step/stone,-2,6,2,15,4,60,3d,16,,
+step_wood,World,step/wood,-1,6,2,15,4,60,3d,16,,
+step_carpet,World,step/carpet,-1,6,2,15,4,60,3d,16,,
+step_marble,World,step/marble,-3,5,2,15,4,60,3d,18,,
+step_tile,World,step/tile,-2,6,2,15,4,60,3d,16,,
+step_pastel,World,step/tile~1.06,-3,3,1,15,4,60,3d,18,,the pastel plaza: cleaner and more even than it should be
+step_ash,World,step/ash,-3,6,2,15,4,60,3d,16,,
+step_mashed,World,step/mashed,-1,7,2,15,4,60,3d,16,,mashed potato: squelchy and funny
+step_junk,World,step/gravel+ref/tin:-20%0.25,-2,6,2,15,4,60,3d,16,,junk gravel with the odd can clink
+step_gravel,World,step/gravel,-2,6,2,15,4,60,3d,16,,
+step_metal,World,step/metal,-4,6,2,15,4,60,3d,16,,
+footstep,World,step/dirt,-4,6,2,20,3,80,,,,a token stepping along a map path
+chest_open,World,world/chest_wood+trap/latch:-8+glass/tap@260~1.4:-10,0,4,1.5,60,2,200,,,,a wooden chest: lid creak and latch and a glint
+chest_iron,World,world/chest_iron+glass/tap@260~1.4:-10,0,4,1.5,60,2,200,,,,an iron chest
+chest_giant,World,world/giant_creak+world/boing@700:-2+world/poof@1100:-2,0,2,1,70,1,600,,,,the giant chest: a big creak and a spring and a cheeky pop
+door,World,world/door_open,-1,4,1.5,55,2,200,,,,a door or an entrance
+door_close,World,world/door_close,-2,4,1.5,50,2,200,,,,
+gate_cross,World,world/gate_iron,-2,3,1.5,60,1,600,,,,passing through the Capital's gate
+gate_big,World,world/gate_big+hit/boom@2600:-2,0,2,1,80,1,3000,,,-3,the Capital's great gate winds open with a hollow boom
+lever_clunk,World,world/lever+tool/clink@80:-6,0,3,1,60,1,300,,,,an iron lever
+vault_grind,World,world/stone_slide+hit/boom@900:-4,0,2,1,70,1,800,,,-2,the vault's stone slab drags open
+smoke_bomb,World,world/poof+glass/tap@160~1.6:-8,0,3,1,65,1,400,,,,Shiro's smoke bomb: a poof and a ping
+splash,World,world/splash,-1,6,2,50,2,150,,,,
+boing,World,world/boing,-2,6,1.5,50,2,150,,,,
+sign_read,World,trap/creak~1.3:-8+ui/page:-4,-2,4,1.5,40,1,400,,,,a sign: a wooden creak and a page
+pickup,World,glass/tap~1.3+glass/tap@70~1.68:-3+tool/leather:-8,-2,3,1.5,55,2,150,,,,a pickup: a small chime and a bag rustle
+thrower_launch,World,swing/whoosh~0.8+card/thud_heavy:-4+world/whoosh_big@60:-8,0,4,1.5,70,1,400,,,,a thrower hurls the hero
+thrower_land,World,card/thud_heavy+hit/soft:-4+card/dust@20:-4,-3,4,1.5,70,1,400,,,-2,the landing
+rift_open,World,world/riser+amb/rift_crackle@600:-4,-1,4,1.5,65,1,600,,,,a rift tears open
+rift_seal,World,world/riser~1.4:-6+hit/boom@200+glass/tap@350~0.8:-8,0,3,1,75,1,800,,,-3,a rift implodes under the rift sting
+portal_enter,World,world/whoosh_big+world/riser:-8,-2,4,1.5,60,1,600,,,,stepping through a zone portal
+dungeon_enter,World,world/stone_slide:-3+world/whoosh_big@350:-6,-1,4,1.5,60,1,600,,,,a dungeon entrance
+zone_transition,World,world/whoosh_big,-6,6,1.5,40,1,800,,,,a gust between areas

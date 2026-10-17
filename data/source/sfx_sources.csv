@@ -197,3 +197,209 @@ turn/knock,02,kenney:impact-sounds/impactWood_medium_004.ogg,,,"lowpass=f=4000,h
 turn/knock,03,kenney:impact-sounds/impactWood_light_002.ogg,,,"lowpass=f=4000,highpass=f=100",accent,1,wav,,
 heart/beat,01,"synth:aevalsrc=sin(2*PI*58*t)*exp(-16*t)*lt(t\,0.26)+0.75*sin(2*PI*52*(t-0.3))*exp(-16*(t-0.3))*gte(t\,0.3):d=0.8:s=44100",,,lowpass=f=180,accent,1,wav,,low HP: a heartbeat (generated)
 heart/beat,02,"synth:aevalsrc=sin(2*PI*55*t)*exp(-15*t)*lt(t\,0.28)+0.7*sin(2*PI*50*(t-0.32))*exp(-15*(t-0.32))*gte(t\,0.32):d=0.85:s=44100",,,lowpass=f=170,accent,1,wav,,
+# ---- Part C: the world ----
+# Footsteps per surface
+step/grass,01,kenney:impact-sounds/footstep_grass_000.ogg,,,lowpass=f=7000,step,1,wav,,grass
+step/grass,02,kenney:impact-sounds/footstep_grass_001.ogg,,,lowpass=f=7000,step,1,wav,,
+step/grass,03,kenney:impact-sounds/footstep_grass_002.ogg,,,lowpass=f=7000,step,1,wav,,
+step/grass,04,kenney:impact-sounds/footstep_grass_003.ogg,,,lowpass=f=7000,step,1,wav,,
+step/grass,05,kenney:impact-sounds/footstep_grass_004.ogg,,,lowpass=f=7000,step,1,wav,,
+step/wood,01,kenney:impact-sounds/footstep_wood_000.ogg,,,lowpass=f=6000,step,1,wav,,wooden planks
+step/wood,02,kenney:impact-sounds/footstep_wood_001.ogg,,,lowpass=f=6000,step,1,wav,,
+step/wood,03,kenney:impact-sounds/footstep_wood_002.ogg,,,lowpass=f=6000,step,1,wav,,
+step/wood,04,kenney:impact-sounds/footstep_wood_003.ogg,,,lowpass=f=6000,step,1,wav,,
+step/wood,05,kenney:impact-sounds/footstep_wood_004.ogg,,,lowpass=f=6000,step,1,wav,,
+step/carpet,01,kenney:impact-sounds/footstep_carpet_000.ogg,,,lowpass=f=5000,step,1,wav,,carpet
+step/carpet,02,kenney:impact-sounds/footstep_carpet_001.ogg,,,lowpass=f=5000,step,1,wav,,
+step/carpet,03,kenney:impact-sounds/footstep_carpet_002.ogg,,,lowpass=f=5000,step,1,wav,,
+step/carpet,04,kenney:impact-sounds/footstep_carpet_003.ogg,,,lowpass=f=5000,step,1,wav,,
+step/carpet,05,kenney:impact-sounds/footstep_carpet_004.ogg,,,lowpass=f=5000,step,1,wav,,
+step/stone,01,kenney:impact-sounds/footstep_concrete_000.ogg,,,lowpass=f=7000,step,1,wav,,stone and concrete
+step/stone,02,kenney:impact-sounds/footstep_concrete_001.ogg,,,lowpass=f=7000,step,1,wav,,
+step/stone,03,kenney:impact-sounds/footstep_concrete_002.ogg,,,lowpass=f=7000,step,1,wav,,
+step/stone,04,kenney:impact-sounds/footstep_concrete_003.ogg,,,lowpass=f=7000,step,1,wav,,
+step/stone,05,kenney:impact-sounds/footstep_concrete_004.ogg,,,lowpass=f=7000,step,1,wav,,
+step/cobble,01,kenney:rpg-audio/footstep00.ogg,,,lowpass=f=6500,step,1,wav,,boots on cobbles
+step/cobble,02,kenney:rpg-audio/footstep02.ogg,,,lowpass=f=6500,step,1,wav,,
+step/cobble,03,kenney:rpg-audio/footstep04.ogg,,,lowpass=f=6500,step,1,wav,,
+step/cobble,04,kenney:rpg-audio/footstep06.ogg,,,lowpass=f=6500,step,1,wav,,
+step/cobble,05,kenney:rpg-audio/footstep08.ogg,,,lowpass=f=6500,step,1,wav,,
+step/dirt,01,fs:353799,0.3,0.72,"highpass=f=80,lowpass=f=7000",step,1,wav,,dry dirt with grit,3/60
+step/dirt,02,fs:353799,1.29,1.71,"highpass=f=80,lowpass=f=7000",step,1,wav,,,3/60
+step/dirt,03,fs:353799,2.26,2.7,"highpass=f=80,lowpass=f=7000",step,1,wav,,,3/60
+step/dirt,04,fs:353799,3.19,3.5,"highpass=f=80,lowpass=f=7000",step,1,wav,,,3/60
+step/dirt,05,fs:353799,4.16,4.52,"highpass=f=80,lowpass=f=7000",step,1,wav,,,3/60
+step/dirt,06,fs:353799,5.12,5.55,"highpass=f=80,lowpass=f=7000",step,1,wav,,,3/60
+step/gravel,01,fs:521588,0.08,0.4,"highpass=f=100,lowpass=f=8000",step,1,wav,,crunchy gravel,3/60
+step/gravel,02,fs:521588,0.84,1.14,"highpass=f=100,lowpass=f=8000",step,1,wav,,,3/60
+step/gravel,03,fs:521588,1.55,1.85,"highpass=f=100,lowpass=f=8000",step,1,wav,,,3/60
+step/gravel,04,fs:521588,2.22,2.5,"highpass=f=100,lowpass=f=8000",step,1,wav,,,3/60
+step/marble,01,fs:118985,0.9,1.25,"highpass=f=120,lowpass=f=8000",step,1,wav,,leather soles on marble,3/90
+step/marble,02,fs:118985,1.52,1.87,"highpass=f=120,lowpass=f=8000",step,1,wav,,,3/90
+step/marble,03,fs:118985,2.11,2.46,"highpass=f=120,lowpass=f=8000",step,1,wav,,,3/90
+step/marble,04,fs:118985,3.27,3.62,"highpass=f=120,lowpass=f=8000",step,1,wav,,,3/90
+step/marble,05,fs:118985,4.46,4.81,"highpass=f=120,lowpass=f=8000",step,1,wav,,,3/90
+step/marble,06,fs:118985,5.66,6.0,"highpass=f=120,lowpass=f=8000",step,1,wav,,,3/90
+step/tile,01,fs:170506,0.98,1.25,"highpass=f=150,lowpass=f=8500",step,1,wav,,clean tile (lino and the pastel plaza),3/60
+step/tile,02,fs:170506,1.64,1.91,"highpass=f=150,lowpass=f=8500",step,1,wav,,,3/60
+step/tile,03,fs:170506,2.32,2.59,"highpass=f=150,lowpass=f=8500",step,1,wav,,,3/60
+step/tile,04,fs:170506,2.94,3.21,"highpass=f=150,lowpass=f=8500",step,1,wav,,,3/60
+step/tile,05,fs:170506,3.62,3.89,"highpass=f=150,lowpass=f=8500",step,1,wav,,,3/60
+step/tile,06,fs:170506,4.28,4.55,"highpass=f=150,lowpass=f=8500",step,1,wav,,,3/60
+step/metal,01,fs:834029,0.59,0.82,"highpass=f=150,lowpass=f=8000",step,1,wav,,metal grating,2/60
+step/metal,02,fs:834029,1.1,1.33,"highpass=f=150,lowpass=f=8000",step,1,wav,,,2/60
+step/metal,03,fs:834029,1.6,1.83,"highpass=f=150,lowpass=f=8000",step,1,wav,,,2/60
+step/metal,04,fs:834029,2.18,2.41,"highpass=f=150,lowpass=f=8000",step,1,wav,,,2/60
+step/metal,05,fs:834029,3.76,3.99,"highpass=f=150,lowpass=f=8000",step,1,wav,,,2/60
+step/mashed,01,fs:369579,2.82,3.2,"highpass=f=90,lowpass=f=6000",step,1,wav,,mashed potato: a squelch,10/80
+step/mashed,02,fs:369579,4.33,4.72,"highpass=f=90,lowpass=f=6000",step,1,wav,,,10/80
+step/mashed,03,fs:369579,5.34,5.75,"highpass=f=90,lowpass=f=6000",step,1,wav,,,10/80
+step/mashed,04,fs:840086,3.42,3.78,"highpass=f=90,lowpass=f=6000",step,1,wav,,,10/80
+step/mashed,05,fs:840086,6.48,6.9,"highpass=f=90,lowpass=f=6000",step,1,wav,,,10/80
+step/ash,01,kenney:impact-sounds/footstep_snow_000.ogg,,,"lowpass=f=3800,asetrate=44100*0.92,aresample=44100",step,1,wav,,a soft ash crunch,
+step/ash,02,kenney:impact-sounds/footstep_snow_001.ogg,,,"lowpass=f=3800,asetrate=44100*0.92,aresample=44100",step,1,wav,,
+step/ash,03,kenney:impact-sounds/footstep_snow_002.ogg,,,"lowpass=f=3800,asetrate=44100*0.92,aresample=44100",step,1,wav,,
+step/ash,04,kenney:impact-sounds/footstep_snow_003.ogg,,,"lowpass=f=3800,asetrate=44100*0.92,aresample=44100",step,1,wav,,
+step/ash,05,kenney:impact-sounds/footstep_snow_004.ogg,,,"lowpass=f=3800,asetrate=44100*0.92,aresample=44100",step,1,wav,,
+# Ambience beds
+amb/forest_bed,01,fs:288899,10,,"highpass=f=60",amb_bed_lufs,2,ogg,50,the forest: wind in pines and birds
+amb/town_bed,01,fs:578072,,,"highpass=f=60",amb_bed_lufs,2,ogg,36,a medieval village murmur
+amb/meadow_wind,01,fs:639459,20,,"highpass=f=60",amb_bed_lufs,2,ogg,50,warm open wind over a meadow
+amb/office_hum,01,fs:203306,10,,"highpass=f=40",amb_bed_lufs,2,ogg,50,office room tone
+amb/fluoro_buzz,01,"synth:aevalsrc=0.3*sin(2*PI*120*t)+0.12*sin(2*PI*240*t)+0.06*sin(2*PI*360*t)+0.02*sin(2*PI*1080*t):d=36:s=44100",,,"highpass=f=90,lowpass=f=2500",amb_layer_lufs,1,ogg,30,a fluorescent hum (generated)
+amb/clock_tick,01,fs:211192,1.0,,"highpass=f=200",amb_layer_lufs,1,ogg,40:0.3,a clock ticking once a second
+amb/kitchen_bed,01,fs:66790,,,"highpass=f=60",amb_bed_lufs,2,ogg,36,distant kitchen bustle
+amb/sizzle_bed,01,fs:353124,1,,"highpass=f=300",amb_layer_lufs,2,ogg,21,a pan sizzling
+amb/crickets_bed,01,fs:333221,30,,"highpass=f=150",amb_bed_lufs,2,ogg,50,crickets at golden hour
+amb/eerie_drone,01,"synth:aevalsrc=0.25*sin(2*PI*55*t)*(0.6+0.4*sin(2*PI*0.08*t))+0.2*sin(2*PI*55.5*t)+0.15*sin(2*PI*82.5*t)*(0.5+0.5*sin(2*PI*0.05*t))+0.05*sin(2*PI*165*t):d=56:s=44100",,,lowpass=f=600,amb_layer_lufs,1,ogg,50,a low eerie drone near the Rotheart (generated)
+amb/waste_wind,01,fs:785818,5,,"highpass=f=50",amb_bed_lufs,2,ogg,55,hollow wasteland wind
+amb/ash_hiss,01,fs:370366,5,,"highpass=f=1200",amb_layer_lufs,2,ogg,50,a papery hiss of ash
+amb/perfect_quiet,01,"synth:anoisesrc=c=pink:d=46:a=0.2:seed=3",,,"highpass=f=400,lowpass=f=5000",amb_layer_lufs,1,ogg,40,an unnatural even quiet (generated)
+amb/dead_machine,01,"synth:aevalsrc=0.2*sin(2*PI*50*t)*(0.5+0.5*sin(2*PI*0.3*t))+0.1*sin(2*PI*100*t)*gt(sin(2*PI*0.1*t)\,0.3):d=42:s=44100",,,lowpass=f=900,amb_layer_lufs,1,ogg,36,a dead machine (generated)
+amb/machine_hum,01,"synth:aevalsrc=0.25*sin(2*PI*60*t)+0.15*sin(2*PI*120*t)+0.08*sin(2*PI*180*t)*(0.8+0.2*sin(2*PI*2*t)):d=34:s=44100",,,lowpass=f=1500,amb_layer_lufs,1,ogg,30,a working machine (generated)
+amb/flies,01,fs:46938,2,,"highpass=f=120",amb_layer_lufs,2,ogg,40,flies buzzing
+# Ambience one-shots
+amb/bird_song,01,fs:182500,0.35,1.6,"highpass=f=900",amb_oneshot,1,ogg,,birdsong,30/200
+amb/bird_song,02,fs:182500,4.7,7.3,"highpass=f=900",amb_oneshot,1,ogg,,,30/200
+amb/bird_song,03,fs:182500,8.75,11.1,"highpass=f=900",amb_oneshot,1,ogg,,,30/200
+amb/bird_song,04,fs:182500,16.55,19.6,"highpass=f=900",amb_oneshot,1,ogg,,,30/200
+amb/bird_song,05,fs:182500,20.0,22.0,"highpass=f=900",amb_oneshot,1,ogg,,,30/200
+amb/perfect_bird,01,fs:182500,4.7,6.0,"highpass=f=900",amb_oneshot,1,ogg,,the one birdsong the Capital repeats exactly,30/200
+amb/leaves_gust,01,fs:370366,10,13,"highpass=f=150",amb_oneshot,1,ogg,,a gust through leaves,300/700
+amb/leaves_gust,02,fs:370366,25,28,"highpass=f=150",amb_oneshot,1,ogg,,,300/700
+amb/leaves_gust,03,fs:370366,40,43,"highpass=f=150",amb_oneshot,1,ogg,,,300/700
+amb/woodpecker,01,fs:389304,0.78,2.4,"highpass=f=200",amb_oneshot,1,ogg,,a far woodpecker,10/150
+amb/woodpecker,02,fs:389304,6.58,8.55,"highpass=f=200",amb_oneshot,1,ogg,,,10/150
+amb/chatter,01,fs:653920,3.8,6.8,"highpass=f=150,lowpass=f=5000",amb_oneshot,1,ogg,,distant chatter,300/500
+amb/chatter,02,fs:653920,6.6,9.6,"highpass=f=150,lowpass=f=5000",amb_oneshot,1,ogg,,,300/500
+amb/chatter,03,fs:653920,12,15,"highpass=f=150,lowpass=f=5000",amb_oneshot,1,ogg,,,300/500
+amb/chatter,04,fs:653920,17,20,"highpass=f=150,lowpass=f=5000",amb_oneshot,1,ogg,,,300/500
+amb/wind_chime,01,fs:235463,0.5,4.5,,amb_oneshot,1,ogg,,wind chimes,5/800
+amb/wind_chime,02,fs:169855,,,,amb_oneshot,1,ogg,,,5/600
+amb/town_bell,01,fs:120833,,,lowpass=f=4000,amb_oneshot,1,ogg,,a far church bell,
+amb/grunt,01,fs:803168,0.12,0.5,"highpass=f=100,lowpass=f=5000",amb_oneshot,1,ogg,,a training grunt,10/80
+amb/grunt,02,fs:803168,1.62,1.95,"highpass=f=100,lowpass=f=5000",amb_oneshot,1,ogg,,,10/80
+amb/grunt,03,fs:803168,2.98,3.3,"highpass=f=100,lowpass=f=5000",amb_oneshot,1,ogg,,,10/80
+amb/grunt,04,fs:803168,4.22,4.6,"highpass=f=100,lowpass=f=5000",amb_oneshot,1,ogg,,,10/80
+amb/grunt,05,fs:803168,7.3,7.7,"highpass=f=100,lowpass=f=5000",amb_oneshot,1,ogg,,,10/80
+amb/cheer,01,fs:32260,,,"highpass=f=150,lowpass=f=6000",amb_oneshot,1,ogg,,a small crowd cheers,10/800
+amb/cheer,02,fs:182571,,4.0,"highpass=f=150,lowpass=f=6000",amb_oneshot,1,ogg,,,10/900
+amb/weights_clank,01,kenney:impact-sounds/impactPlate_light_000.ogg,,,lowpass=f=3200,amb_oneshot,1,ogg,,weights clanking far off
+amb/weights_clank,02,kenney:impact-sounds/impactPlate_medium_004.ogg,,,lowpass=f=3200,amb_oneshot,1,ogg,,
+amb/weights_clank,03,kenney:impact-sounds/impactMetal_heavy_003.ogg,,,lowpass=f=3200,amb_oneshot,1,ogg,,
+amb/typewriter,01,fs:138049,0,1.6,"highpass=f=200,lowpass=f=5000",amb_oneshot,1,ogg,,a far typewriter,10/150
+amb/typewriter,02,fs:138049,1.7,2.5,"highpass=f=200,lowpass=f=5000",amb_oneshot,1,ogg,,,10/150
+amb/typewriter,03,fs:138049,2.7,4.4,"highpass=f=200,lowpass=f=5000",amb_oneshot,1,ogg,,,10/150
+amb/stamp_far,01,built:necro/stamp_01.wav,,,lowpass=f=2500,amb_oneshot,1,ogg,,a far rubber stamp
+amb/stamp_far,02,built:necro/stamp_03.wav,,,lowpass=f=2500,amb_oneshot,1,ogg,,
+amb/stamp_far,03,built:necro/stamp_05.wav,,,lowpass=f=2500,amb_oneshot,1,ogg,,
+amb/whisper,01,fs:204966,0.5,2.2,"highpass=f=200,lowpass=f=6000",amb_oneshot,1,ogg,,ghostly whispers,200/500
+amb/whisper,02,fs:204966,2.2,4.2,"highpass=f=200,lowpass=f=6000",amb_oneshot,1,ogg,,,200/500
+amb/whisper,03,fs:856169,,,"highpass=f=200,lowpass=f=6000",amb_oneshot,1,ogg,,,
+amb/paper_shuffle,01,kenney:casino-audio/card-shove-1.ogg,,,lowpass=f=4000,amb_oneshot,1,ogg,,papers shuffled far off
+amb/paper_shuffle,02,kenney:casino-audio/card-shove-3.ogg,,,lowpass=f=4000,amb_oneshot,1,ogg,,
+amb/paper_shuffle,03,kenney:rpg-audio/bookFlip2.ogg,,,lowpass=f=4000,amb_oneshot,1,ogg,,
+amb/pot_clink,01,kenney:rpg-audio/metalPot1.ogg,,,lowpass=f=4500,amb_oneshot,1,ogg,,pots clinking
+amb/pot_clink,02,kenney:rpg-audio/metalPot2.ogg,,,lowpass=f=4500,amb_oneshot,1,ogg,,
+amb/pot_clink,03,kenney:rpg-audio/metalPot3.ogg,,,lowpass=f=4500,amb_oneshot,1,ogg,,
+amb/gravy_bubble,01,fs:343744,2,4,"lowpass=f=4000",amb_oneshot,1,ogg,,gravy bubbling,150/400
+amb/gravy_bubble,02,fs:343744,10,12,"lowpass=f=4000",amb_oneshot,1,ogg,,,150/400
+amb/gravy_bubble,03,fs:343744,20,22,"lowpass=f=4000",amb_oneshot,1,ogg,,,150/400
+amb/kitchen_bell,01,fs:221515,0.25,2.5,,amb_oneshot,1,ogg,,a kitchen service bell,0/600
+amb/goat,01,fs:581240,0.35,1.15,"highpass=f=150",amb_oneshot,1,ogg,,a goat,10/150
+amb/goat,02,fs:581240,2.1,2.9,"highpass=f=150",amb_oneshot,1,ogg,,,10/150
+amb/goat,03,fs:200333,1.37,2.12,"highpass=f=150",amb_oneshot,1,ogg,,,10/150
+amb/goat,04,fs:200333,4.78,5.45,"highpass=f=150",amb_oneshot,1,ogg,,,10/150
+amb/windmill_creak,01,fs:429130,0.55,1.95,"lowpass=f=5000,asetrate=44100*0.85,aresample=44100",amb_oneshot,1,ogg,,a rusty windmill creaks,20/300
+amb/windmill_creak,02,fs:429130,2.95,5.0,"lowpass=f=5000,asetrate=44100*0.85,aresample=44100",amb_oneshot,1,ogg,,,20/300
+amb/windmill_creak,03,fs:429130,6.6,7.1,"lowpass=f=5000,asetrate=44100*0.85,aresample=44100",amb_oneshot,1,ogg,,,20/200
+amb/junk_rustle,01,built:ref/rustle_01.ogg,,,lowpass=f=3500,amb_oneshot,1,ogg,,junk rustling
+amb/junk_rustle,02,built:ref/rustle_03.ogg,,,lowpass=f=3500,amb_oneshot,1,ogg,,
+amb/junk_rustle,03,built:ref/cans_02.ogg,,,lowpass=f=3000,amb_oneshot,1,ogg,,
+amb/frog,01,fs:536759,,,,amb_oneshot,1,ogg,,a frog,
+amb/frog,02,fs:251938,,,,amb_oneshot,1,ogg,,
+amb/frog,03,fs:361117,,,,amb_oneshot,1,ogg,,
+amb/rot_pulse,01,"synth:aevalsrc=sin(2*PI*40*t)*exp(-7*t)*lt(t\,0.5)+0.8*sin(2*PI*36*(t-0.45))*exp(-7*(t-0.45))*gte(t\,0.45):d=1.5:s=44100",,,"lowpass=f=140,aecho=0.6:0.5:140:0.35",amb_oneshot,1,ogg,,a heartbeat-like pulse from the Rotheart (generated)
+amb/rot_pulse,02,"synth:aevalsrc=sin(2*PI*37*t)*exp(-6*t)*lt(t\,0.55)+0.75*sin(2*PI*33*(t-0.5))*exp(-6*(t-0.5))*gte(t\,0.5):d=1.6:s=44100",,,"lowpass=f=130,aecho=0.6:0.5:160:0.35",amb_oneshot,1,ogg,,
+amb/rift_crackle,01,fs:396470,0.5,1.6,"highpass=f=300,lowpass=f=7000",amb_oneshot,1,ogg,,a rift crackles,20/300
+amb/rift_crackle,02,fs:396470,4.3,5.0,"highpass=f=300,lowpass=f=7000",amb_oneshot,1,ogg,,,20/300
+amb/rift_crackle,03,fs:396470,7.0,8.2,"highpass=f=300,lowpass=f=7000",amb_oneshot,1,ogg,,,20/300
+amb/debris_creak,01,kenney:rpg-audio/creak1.ogg,,,"lowpass=f=3000,asetrate=44100*0.75,aresample=44100",amb_oneshot,1,ogg,,creaking debris
+amb/debris_creak,02,kenney:rpg-audio/creak3.ogg,,,"lowpass=f=3000,asetrate=44100*0.75,aresample=44100",amb_oneshot,1,ogg,,
+amb/crow,01,fs:361470,,,,amb_oneshot,1,ogg,,a crow,
+amb/crow,02,fs:75162,0,0.86,,amb_oneshot,1,ogg,,,
+amb/crow,03,fs:75162,1.94,2.35,,amb_oneshot,1,ogg,,,
+amb/fountain_splash,01,fs:36086,2,3.5,,amb_oneshot,1,ogg,,a perfect fountain splash,150/400
+amb/fountain_splash,02,fs:36086,10,11.5,,amb_oneshot,1,ogg,,,150/400
+amb/fountain_splash,03,fs:36086,18,19.5,,amb_oneshot,1,ogg,,,150/400
+amb/loudspeaker,01,"synth:aevalsrc=(sin(2*PI*659*t)+0.4*sin(2*PI*1318*t))*exp(-3*t)*lt(t\,0.6)+(sin(2*PI*523*(t-0.55))+0.4*sin(2*PI*1046*(t-0.55)))*exp(-3*(t-0.55))*gte(t\,0.55):d=2.2:s=44100",,,"highpass=f=450,lowpass=f=3500,aecho=0.7:0.6:180:0.3",amb_oneshot,1,ogg,,a polite loudspeaker chime (generated)
+amb/loudspeaker,02,"synth:aevalsrc=(sin(2*PI*523*t)+0.4*sin(2*PI*1046*t))*exp(-3*t)*lt(t\,0.5)+(sin(2*PI*659*(t-0.45))+0.4*sin(2*PI*1318*(t-0.45)))*exp(-3*(t-0.45))*gte(t\,0.45)*lt(t\,0.95)+(sin(2*PI*784*(t-0.9))+0.4*sin(2*PI*1568*(t-0.9)))*exp(-3*(t-0.9))*gte(t\,0.9):d=2.6:s=44100",,,"highpass=f=450,lowpass=f=3500,aecho=0.7:0.6:180:0.3",amb_oneshot,1,ogg,,
+amb/metal_groan,01,fs:429130,2.95,5.0,"lowpass=f=2200,asetrate=44100*0.65,aresample=44100",amb_oneshot,1,ogg,,a dead machine groans,30/400
+amb/metal_groan,02,fs:429130,0.55,1.95,"lowpass=f=2200,asetrate=44100*0.65,aresample=44100",amb_oneshot,1,ogg,,,30/400
+amb/paste_squelch,01,fs:840086,9.7,10.5,"lowpass=f=4000",amb_oneshot,1,ogg,,grey paste squelching,30/200
+amb/paste_squelch,02,fs:840086,11.55,12.3,"lowpass=f=4000",amb_oneshot,1,ogg,,,30/200
+amb/stomach,01,fs:447911,,,lowpass=f=3000,amb_oneshot,1,ogg,,a hungry stomach,
+amb/stomach,02,fs:52293,0.5,3.4,lowpass=f=3000,amb_oneshot,1,ogg,,,
+amb/paper_flutter,01,kenney:rpg-audio/bookFlip3.ogg,,,lowpass=f=5000,amb_oneshot,1,ogg,,loose paper flutters
+amb/paper_flutter,02,kenney:casino-audio/card-fan-2.ogg,,,lowpass=f=5000,amb_oneshot,1,ogg,,
+# Landmark loops
+spot/fountain,01,fs:36086,2,,,amb_spot_lufs,1,ogg,24,a fountain
+spot/wheel_creak,01,fs:437085,3,,"lowpass=f=5000",amb_spot_lufs,1,ogg,36,the giant hamster wheel creaking round
+spot/rotheart,01,"synth:aevalsrc=sin(2*PI*42*mod(t\,1.6))*exp(-7*mod(t\,1.6))+0.7*sin(2*PI*38*(mod(t\,1.6)-0.42))*exp(-7*(mod(t\,1.6)-0.42))*gte(mod(t\,1.6)\,0.42):d=34:s=44100",,,"lowpass=f=150,aecho=0.6:0.5:180:0.3",amb_spot_lufs,1,ogg,32:0.2,the Rotheart's slow pulse (generated)
+spot/rift_hum,01,"synth:aevalsrc=0.3*sin(2*PI*73*t)*(0.7+0.3*sin(2*PI*0.9*t))+0.15*sin(2*PI*146.5*t)+0.05*sin(2*PI*587*t)*(0.5+0.5*sin(2*PI*5.3*t)):d=34:s=44100",,,lowpass=f=1800,amb_spot_lufs,1,ogg,30,a rift's unstable hum (generated)
+spot/mill,01,fs:535013,3,,"lowpass=f=5000",amb_spot_lufs,1,ogg,32,old mill machinery (the Dump's windmill)
+spot/gravy,01,fs:343744,1,,"lowpass=f=4000",amb_spot_lufs,1,ogg,30,the gravy river bubbling
+# Interactions
+world/chest_wood,01,fs:377552,0.3,0.92,lowpass=f=7000,world,1,ogg,,a wooden chest lid creaks open,
+world/chest_wood,02,kenney:rpg-audio/creak2.ogg,,,lowpass=f=7000,world,1,ogg,,
+world/chest_wood,03,kenney:rpg-audio/creak3.ogg,,,lowpass=f=7000,world,1,ogg,,
+world/chest_iron,01,fs:570484,0,0.53,lowpass=f=8000,world,1,ogg,,an iron chest opens,
+world/chest_iron,02,fs:570484,1.2,1.64,lowpass=f=8000,world,1,ogg,,
+world/chest_iron,03,fs:570484,2.3,2.77,lowpass=f=8000,world,1,ogg,,
+world/chest_iron,04,fs:570484,3.55,3.95,lowpass=f=8000,world,1,ogg,,
+world/giant_creak,01,fs:429130,2.95,5.0,"lowpass=f=3000,asetrate=44100*0.7,aresample=44100",world_big,1,ogg,,the giant chest's lid,20/300
+world/door_open,01,kenney:rpg-audio/doorOpen_1.ogg,,,lowpass=f=7000,world,1,ogg,,a wooden door
+world/door_open,02,kenney:rpg-audio/doorOpen_2.ogg,,,lowpass=f=7000,world,1,ogg,,
+world/door_close,01,kenney:rpg-audio/doorClose_1.ogg,,,lowpass=f=7000,world,1,ogg,,
+world/door_close,02,kenney:rpg-audio/doorClose_2.ogg,,,lowpass=f=7000,world,1,ogg,,
+world/door_close,03,kenney:rpg-audio/doorClose_3.ogg,,,lowpass=f=7000,world,1,ogg,,
+world/door_close,04,kenney:rpg-audio/doorClose_4.ogg,,,lowpass=f=7000,world,1,ogg,,
+world/gate_iron,01,fs:263532,1.2,3.75,lowpass=f=7000,world,1,ogg,,an iron gate,20/300
+world/gate_iron,02,fs:263532,5.55,8.05,lowpass=f=7000,world,1,ogg,,,20/300
+world/gate_big,01,fs:336888,0,5,"lowpass=f=5000,asetrate=44100*0.85,aresample=44100",world_big,1,ogg,,the Capital's great gate winding open,0/800
+world/lever,01,fs:94121,,,lowpass=f=7000,world,1,ogg,,a lever,
+world/lever,02,fs:696746,,,lowpass=f=7000,world,1,ogg,,
+world/lever,03,kenney:rpg-audio/metalLatch.ogg,,,"lowpass=f=5000,asetrate=44100*0.8,aresample=44100",world,1,ogg,,
+world/stone_slide,01,fs:578491,1.07,3.3,lowpass=f=4000,world_big,1,ogg,,a heavy stone slab drags,50/400
+world/stone_slide,02,fs:578491,5.62,7.2,lowpass=f=4000,world_big,1,ogg,,,50/400
+world/splash,01,fs:9508,0,1.6,lowpass=f=8000,world,1,ogg,,a splash,0/300
+world/splash,02,fs:9508,0,1.6,"lowpass=f=8000,asetrate=44100*1.15,aresample=44100",world,1,ogg,,,0/300
+world/boing,01,fs:540790,,,lowpass=f=8000,world,1,ogg,,a spring boing,
+world/boing,02,fs:537060,0,0.66,lowpass=f=8000,world,1,ogg,,
+world/boing,03,fs:537060,1.09,1.79,lowpass=f=8000,world,1,ogg,,
+world/poof,01,fs:208111,,,lowpass=f=8000,world,1,ogg,,a poof of smoke,
+world/poof,02,fs:714257,,,lowpass=f=8000,world,1,ogg,,
+world/whoosh_big,01,"synth:anoisesrc=c=pink:d=1.4:a=0.6:seed=21",,,"bandpass=f=900:width_type=o:w=2,afade=t=in:d=0.6:curve=qsin,afade=t=out:st=0.6:d=0.8:curve=qsin",world,2,ogg,,a gust of travel (generated)
+world/whoosh_big,02,"synth:anoisesrc=c=pink:d=1.6:a=0.6:seed=33",,,"bandpass=f=700:width_type=o:w=2,afade=t=in:d=0.7:curve=qsin,afade=t=out:st=0.7:d=0.9:curve=qsin",world,2,ogg,,
+world/riser,01,"synth:anoisesrc=c=pink:d=1.6:a=0.6:seed=44",,,"bandpass=f=1200:width_type=o:w=1.5,afade=t=in:d=1.4:curve=exp,afade=t=out:st=1.45:d=0.15",world,1,ogg,,a rift tearing open (generated)
+world/riser,02,"synth:anoisesrc=c=pink:d=1.3:a=0.6:seed=45",,,"bandpass=f=1500:width_type=o:w=1.5,afade=t=in:d=1.1:curve=exp,afade=t=out:st=1.15:d=0.15",world,1,ogg,,

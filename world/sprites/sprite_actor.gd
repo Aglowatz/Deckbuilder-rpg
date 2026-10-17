@@ -25,6 +25,8 @@ var tint: Color = Color.WHITE
 func _ready() -> void:
 	sprite = WorldSprite.new()
 	sprite.local_mode = true
+	# Only the hero steps at full level; every other actor (NPCs, mobs) steps quietly (sound pass, Part C).
+	sprite.is_hero = follow_cosmetics and character == "PLAYER"
 	sprite.turn_rate_degrees = turn_rate_degrees
 	add_child(sprite)
 	sprite.setup(character, null, Vector3.ZERO)

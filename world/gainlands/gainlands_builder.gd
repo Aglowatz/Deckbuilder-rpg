@@ -95,6 +95,11 @@ func is_floor_at(pos: Vector3) -> bool:
 	return surface == GainlandsLayout.Surface.GROUND or surface == GainlandsLayout.Surface.ISLAND
 
 
+## Footsteps: planks on the bridges, grass on the main land and the islands.
+func surface_at(pos: Vector3) -> StringName:
+	return &"wood" if layout.surface_at(pos.x, pos.z) == GainlandsLayout.Surface.BRIDGE else &"grass"
+
+
 func map_bounds() -> Rect2:
 	var bounds: Rect2 = Rect2(GainlandsLayout.CENTER - GainlandsLayout.RADII * 1.1, GainlandsLayout.RADII * 2.2)
 	for island: GainlandsLayout.Island in layout.islands:

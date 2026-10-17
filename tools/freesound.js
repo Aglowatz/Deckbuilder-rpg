@@ -81,6 +81,8 @@ async function fetchOne(id, meta) {
 	const pageUrl = (page.match(/og:url" content="([^"]*)"/) || [])[1] || `https://freesound.org/s/${id}/`;
 	const author = decodeURIComponent((pageUrl.match(/people\/([^/]+)\//) || [])[1] || title.split(" by ").pop());
 	fs.mkdirSync(CACHE, { recursive: true });
+	// Godot must never import the raw downloads.
+	if (!fs.existsSync(path.join(CACHE, ".gdignore"))) fs.writeFileSync(path.join(CACHE, ".gdignore"), "");
 	const data = await get(url, true);
 	fs.writeFileSync(out, data);
 	meta[id] = {

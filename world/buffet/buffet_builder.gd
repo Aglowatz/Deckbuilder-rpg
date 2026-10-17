@@ -99,6 +99,28 @@ func is_floor_at(pos: Vector3) -> bool:
 	return surface == BuffetLayout.Surface.GROUND or surface == BuffetLayout.Surface.MESA
 
 
+## Footsteps: the mashed-potato meadow squelches; the bridges, rafts and the lazy susan are wood; the districts have their own ground.
+func surface_at(pos: Vector3) -> StringName:
+	var surface: BuffetLayout.Surface = layout.surface_at(pos.x, pos.z)
+	if surface == BuffetLayout.Surface.BRIDGE or not platform_under(pos).is_empty():
+		return &"wood"
+	var area: BuffetLayout.Area = layout.area_at(pos.x, pos.z)
+	match area.id if area != null else "":
+		"hub":
+			return &"wood"
+		"forest":
+			return &"grass"
+		"salt":
+			return &"gravel"
+		"cheddar", "cheddar_top":
+			return &"stone"
+		"cake", "candy":
+			return &"tile"
+		"pancake", "pancake_top":
+			return &"carpet"
+	return &"mashed"
+
+
 func map_bounds() -> Rect2:
 	var bounds: Rect2 = Rect2(BuffetLayout.MIN_CORNER - Vector2(2, 2), BuffetLayout.MAX_CORNER - BuffetLayout.MIN_CORNER + Vector2(4, 4))
 	return bounds.expand(Vector2(BuffetLayout.BRIDGE_X, BuffetLayout.BRIDGE_Z1 + 4.0))

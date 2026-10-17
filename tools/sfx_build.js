@@ -168,7 +168,9 @@ function buildRow(row) {
 	const target = outPath(row);
 	fs.mkdirSync(path.dirname(target), { recursive: true });
 	const channels = row.channels === "2" ? 2 : 1;
-	const loop = Number(row.loop || 0);
+	// loop = "seconds" or "seconds:crossfade" (a periodic sound such as a clock wants a whole number of periods and a short crossfade between its ticks).
+	const [loopText, xfText] = String(row.loop || "").split(":");
+	const loop = Number(loopText || 0);
 	const category = row.category || "world";
 	const long = category.endsWith("_lufs");
 	const stage1 = path.join(TMP, "stage1.wav");
@@ -193,7 +195,7 @@ function buildRow(row) {
 	let source = stage1;
 	if (loop > 0) {
 		const total = duration(stage1);
-		const xf = Math.min(3.0, Math.max(0.3, loop * 0.08));
+		const xf = xfText ? Number(xfText) : Math.min(3.0, Math.max(0.3, loop * 0.08));
 		if (total < loop + xf) throw new Error(`${row.set}_${row.out}: ${total.toFixed(1)}s is too short for a ${loop}s loop`);
 		run(["-y", "-i", stage1, "-filter_complex",
 			`[0]asplit[s1][s2];[s1]atrim=start=${xf}:end=${loop + xf},asetpts=PTS-STARTPTS[a];[s2]atrim=0:${xf},asetpts=PTS-STARTPTS[b];[a][b]acrossfade=d=${xf}:c1=qsin:c2=qsin`,
@@ -268,16 +270,16 @@ function writeBank(rows) {
 		(sets[row.set] = sets[row.set] || []).push(resPath(file));
 	}
 	for (const key of Object.keys(sets)) sets[key].sort();
-	const loops = [...new Set(rows.filter((r) => Number(r.loop || 0) > 0).map((r) => r.set))].sort();
+	const loops = [...new Set(rows.filter((r) => parseFloat(r.loop || "0") > 0).map((r) => r.set))].sort();
 	const events = {};
 	if (fs.existsSync(EVENTS)) {
 		for (const ev of parseCsv(fs.readFileSync(EVENTS, "utf8"))) {
 			const layers = ev.layers.split("+").filter(Boolean).map((spec) => {
-				// set, then @delay_ms, :gain_db and ~pitch in any order.
-				const m = spec.trim().match(/^([a-z0-9_\/]+)((?:[@:~]-?[0-9.]+)*)$/);
+				// set, then @delay_ms, :gain_db, ~pitch and %chance (0-1: the layer plays only that often) in any order.
+				const m = spec.trim().match(/^([a-z0-9_\/]+)((?:[@:~%]-?[0-9.]+)*)$/);
 				if (!m) throw new Error(`bad layer "${spec}" in ${ev.event}`);
 				const part = (mark) => (m[2].match(new RegExp(`\\${mark}(-?[0-9.]+)`)) || [])[1];
-				return { set: m[1], delay: Number(part("@") || 0) / 1000, gain: Number(part(":") || 0), ...(part("~") ? { pitch: Number(part("~")) } : {}) };
+				return { set: m[1], delay: Number(part("@") || 0) / 1000, gain: Number(part(":") || 0), ...(part("~") ? { pitch: Number(part("~")) } : {}), ...(part("%") ? { chance: Number(part("%")) } : {}) };
 			});
 			for (const layer of layers) {
 				if (!sets[layer.set]) console.warn(`warning: event ${ev.event} uses set ${layer.set}, which has no files yet`);

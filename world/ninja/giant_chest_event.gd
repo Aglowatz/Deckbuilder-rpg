@@ -89,7 +89,7 @@ static func play(host: Node3D, chest_id: String, chest: Node3D) -> void:
 	player.face(chest.global_position)
 	# The result is decided up front (state is saved at once) but shown as the scene plays out.
 	var result: Dictionary = Session.open_giant_chest(chest_id)
-	Audio.sfx(&"chest_open")
+	Audio.sfx(&"chest_giant")
 	ChestKit.open_animated(chest)
 	await tree.create_timer(0.55).timeout
 	var ninja: Node3D = _pop_out(host, chest, player.global_position)

@@ -580,6 +580,11 @@ func is_floor_at(pos: Vector3) -> bool:
 	return walkable.has(HexGrid.world_to_cell(pos / SCALE))
 
 
+## Footsteps: cobbles on the paved streets and the plaza, grass everywhere else.
+func surface_at(pos: Vector3) -> StringName:
+	return &"cobble" if TownLayout.is_paved(pos, 0.2) else &"grass"
+
+
 func map_bounds() -> Rect2:
 	var rect: Rect2 = HexGrid.bounds_of(walkable.keys())
 	return Rect2(rect.position * SCALE, rect.size * SCALE)

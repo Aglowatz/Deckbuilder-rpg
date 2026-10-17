@@ -34,6 +34,7 @@ func _ready() -> void:
 	SceneManager.pause_allowed = false
 	Audio.music.clear_overlays(0.0)
 	Audio.play_music(MusicDirector.title())
+	Audio.set_ambience("none")
 	_build_backdrop()
 	_build_menu()
 	if _screenshot_open == "settings":

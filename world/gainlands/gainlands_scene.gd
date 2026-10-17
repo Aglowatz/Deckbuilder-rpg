@@ -230,8 +230,7 @@ func _start_throw(point: GainlandsTravel.Point) -> void:
 	if animation != null and animation.has_animation("Throw"):
 		animation.play("Throw")
 	await get_tree().create_timer(0.3).timeout
-	Audio.sfx(&"attack", -2.0, 0.15)
-	Audio.sfx(&"hit_heavy", -4.0, 0.1)
+	Audio.sfx(&"thrower_launch")
 	hud.toast(story.text("fx.thrown"), UIStyle.GOLD)
 	var from: Vector3 = player.position
 	var distance: float = Vector2(end.x - from.x, end.z - from.z).length()
@@ -270,8 +269,7 @@ func _land(pos: Vector3, yaw: float) -> void:
 	_spawn_grace = 1.0
 	_invulnerable = 0.5
 	_shake = 1.0
-	Audio.sfx(&"hit_heavy", 0.0, 0.05)
-	Audio.sfx(&"land_play", -2.0)
+	Audio.sfx(&"thrower_land")
 	hud.toast(story.text("fx.landed"), UIStyle.GOOD)
 	_floating_text("THUD!", Color("ffe14d"))
 	_dust_burst(pos)
@@ -335,8 +333,7 @@ func _start_portal(point: GainlandsTravel.Point) -> void:
 		animation.play("Interact")
 	var spot_pos: Vector3 = (ripper.position if ripper != null else player.position) + Vector3(0.0, 0.0, 1.9)
 	var portal: Node3D = _make_portal(spot_pos + Vector3(0, 1.2, 0))
-	Audio.sfx(&"attack", 0.0, 0.3)
-	Audio.sfx(&"spell", -2.0, 0.1)
+	Audio.sfx(&"rift_open")
 	hud.toast(story.text("fx.portal"), Color("7ff5ea"))
 	var open: Tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	open.tween_property(portal, "scale", Vector3.ONE, 0.8)

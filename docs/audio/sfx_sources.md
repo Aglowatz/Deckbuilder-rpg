@@ -196,7 +196,207 @@ Every file is CC0 (Kenney's packs, freesound sounds filtered to Creative Commons
 | `turn/knock_03.wav` | [Kenney impact sounds (impactWood_light_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, accent |
 | `heart/beat_01.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, accent |
 | `heart/beat_02.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, accent |
+| `step/grass_01.wav` | [Kenney impact sounds (footstep_grass_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/grass_02.wav` | [Kenney impact sounds (footstep_grass_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/grass_03.wav` | [Kenney impact sounds (footstep_grass_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/grass_04.wav` | [Kenney impact sounds (footstep_grass_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/grass_05.wav` | [Kenney impact sounds (footstep_grass_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/wood_01.wav` | [Kenney impact sounds (footstep_wood_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/wood_02.wav` | [Kenney impact sounds (footstep_wood_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/wood_03.wav` | [Kenney impact sounds (footstep_wood_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/wood_04.wav` | [Kenney impact sounds (footstep_wood_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/wood_05.wav` | [Kenney impact sounds (footstep_wood_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/carpet_01.wav` | [Kenney impact sounds (footstep_carpet_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/carpet_02.wav` | [Kenney impact sounds (footstep_carpet_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/carpet_03.wav` | [Kenney impact sounds (footstep_carpet_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/carpet_04.wav` | [Kenney impact sounds (footstep_carpet_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/carpet_05.wav` | [Kenney impact sounds (footstep_carpet_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/stone_01.wav` | [Kenney impact sounds (footstep_concrete_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/stone_02.wav` | [Kenney impact sounds (footstep_concrete_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/stone_03.wav` | [Kenney impact sounds (footstep_concrete_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/stone_04.wav` | [Kenney impact sounds (footstep_concrete_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/stone_05.wav` | [Kenney impact sounds (footstep_concrete_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/cobble_01.wav` | [Kenney rpg audio (footstep00.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/cobble_02.wav` | [Kenney rpg audio (footstep02.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/cobble_03.wav` | [Kenney rpg audio (footstep04.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/cobble_04.wav` | [Kenney rpg audio (footstep06.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/cobble_05.wav` | [Kenney rpg audio (footstep08.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/dirt_01.wav` | [freesound 353799: Footsteps_6_Dirt_shoe.wav](https://freesound.org/s/353799/) | monte32 | CC0 1.0 | 0.3-0.72 s, filtered, step |
+| `step/dirt_02.wav` | [freesound 353799: Footsteps_6_Dirt_shoe.wav](https://freesound.org/s/353799/) | monte32 | CC0 1.0 | 1.29-1.71 s, filtered, step |
+| `step/dirt_03.wav` | [freesound 353799: Footsteps_6_Dirt_shoe.wav](https://freesound.org/s/353799/) | monte32 | CC0 1.0 | 2.26-2.7 s, filtered, step |
+| `step/dirt_04.wav` | [freesound 353799: Footsteps_6_Dirt_shoe.wav](https://freesound.org/s/353799/) | monte32 | CC0 1.0 | 3.19-3.5 s, filtered, step |
+| `step/dirt_05.wav` | [freesound 353799: Footsteps_6_Dirt_shoe.wav](https://freesound.org/s/353799/) | monte32 | CC0 1.0 | 4.16-4.52 s, filtered, step |
+| `step/dirt_06.wav` | [freesound 353799: Footsteps_6_Dirt_shoe.wav](https://freesound.org/s/353799/) | monte32 | CC0 1.0 | 5.12-5.55 s, filtered, step |
+| `step/gravel_01.wav` | [freesound 521588: Hiking Boot Footsteps on Gravel](https://freesound.org/s/521588/) | Fission9 | CC0 1.0 | 0.08-0.4 s, filtered, step |
+| `step/gravel_02.wav` | [freesound 521588: Hiking Boot Footsteps on Gravel](https://freesound.org/s/521588/) | Fission9 | CC0 1.0 | 0.84-1.14 s, filtered, step |
+| `step/gravel_03.wav` | [freesound 521588: Hiking Boot Footsteps on Gravel](https://freesound.org/s/521588/) | Fission9 | CC0 1.0 | 1.55-1.85 s, filtered, step |
+| `step/gravel_04.wav` | [freesound 521588: Hiking Boot Footsteps on Gravel](https://freesound.org/s/521588/) | Fission9 | CC0 1.0 | 2.22-2.5 s, filtered, step |
+| `step/marble_01.wav` | [freesound 118985: male-foot-walk-marble-stereo.aif](https://freesound.org/s/118985/) | ragamuffin | CC0 1.0 | 0.9-1.25 s, filtered, step |
+| `step/marble_02.wav` | [freesound 118985: male-foot-walk-marble-stereo.aif](https://freesound.org/s/118985/) | ragamuffin | CC0 1.0 | 1.52-1.87 s, filtered, step |
+| `step/marble_03.wav` | [freesound 118985: male-foot-walk-marble-stereo.aif](https://freesound.org/s/118985/) | ragamuffin | CC0 1.0 | 2.11-2.46 s, filtered, step |
+| `step/marble_04.wav` | [freesound 118985: male-foot-walk-marble-stereo.aif](https://freesound.org/s/118985/) | ragamuffin | CC0 1.0 | 3.27-3.62 s, filtered, step |
+| `step/marble_05.wav` | [freesound 118985: male-foot-walk-marble-stereo.aif](https://freesound.org/s/118985/) | ragamuffin | CC0 1.0 | 4.46-4.81 s, filtered, step |
+| `step/marble_06.wav` | [freesound 118985: male-foot-walk-marble-stereo.aif](https://freesound.org/s/118985/) | ragamuffin | CC0 1.0 | 5.66-6.0 s, filtered, step |
+| `step/tile_01.wav` | [freesound 170506: Footsteps, Tile, Male Sneakers, Slow Pace.wav](https://freesound.org/s/170506/) | SpliceSound | CC0 1.0 | 0.98-1.25 s, filtered, step |
+| `step/tile_02.wav` | [freesound 170506: Footsteps, Tile, Male Sneakers, Slow Pace.wav](https://freesound.org/s/170506/) | SpliceSound | CC0 1.0 | 1.64-1.91 s, filtered, step |
+| `step/tile_03.wav` | [freesound 170506: Footsteps, Tile, Male Sneakers, Slow Pace.wav](https://freesound.org/s/170506/) | SpliceSound | CC0 1.0 | 2.32-2.59 s, filtered, step |
+| `step/tile_04.wav` | [freesound 170506: Footsteps, Tile, Male Sneakers, Slow Pace.wav](https://freesound.org/s/170506/) | SpliceSound | CC0 1.0 | 2.94-3.21 s, filtered, step |
+| `step/tile_05.wav` | [freesound 170506: Footsteps, Tile, Male Sneakers, Slow Pace.wav](https://freesound.org/s/170506/) | SpliceSound | CC0 1.0 | 3.62-3.89 s, filtered, step |
+| `step/tile_06.wav` | [freesound 170506: Footsteps, Tile, Male Sneakers, Slow Pace.wav](https://freesound.org/s/170506/) | SpliceSound | CC0 1.0 | 4.28-4.55 s, filtered, step |
+| `step/metal_01.wav` | [freesound 834029: Footsteps On Metal](https://freesound.org/s/834029/) | IENBA | CC0 1.0 | 0.59-0.82 s, filtered, step |
+| `step/metal_02.wav` | [freesound 834029: Footsteps On Metal](https://freesound.org/s/834029/) | IENBA | CC0 1.0 | 1.1-1.33 s, filtered, step |
+| `step/metal_03.wav` | [freesound 834029: Footsteps On Metal](https://freesound.org/s/834029/) | IENBA | CC0 1.0 | 1.6-1.83 s, filtered, step |
+| `step/metal_04.wav` | [freesound 834029: Footsteps On Metal](https://freesound.org/s/834029/) | IENBA | CC0 1.0 | 2.18-2.41 s, filtered, step |
+| `step/metal_05.wav` | [freesound 834029: Footsteps On Metal](https://freesound.org/s/834029/) | IENBA | CC0 1.0 | 3.76-3.99 s, filtered, step |
+| `step/mashed_01.wav` | [freesound 369579: Squelching Footsteps](https://freesound.org/s/369579/) | Adielees9 | CC0 1.0 | 2.82-3.2 s, filtered, step |
+| `step/mashed_02.wav` | [freesound 369579: Squelching Footsteps](https://freesound.org/s/369579/) | Adielees9 | CC0 1.0 | 4.33-4.72 s, filtered, step |
+| `step/mashed_03.wav` | [freesound 369579: Squelching Footsteps](https://freesound.org/s/369579/) | Adielees9 | CC0 1.0 | 5.34-5.75 s, filtered, step |
+| `step/mashed_04.wav` | [freesound 840086: Mud Footsteps](https://freesound.org/s/840086/) | Ultra-Edward | CC0 1.0 | 3.42-3.78 s, filtered, step |
+| `step/mashed_05.wav` | [freesound 840086: Mud Footsteps](https://freesound.org/s/840086/) | Ultra-Edward | CC0 1.0 | 6.48-6.9 s, filtered, step |
+| `step/ash_01.wav` | [Kenney impact sounds (footstep_snow_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/ash_02.wav` | [Kenney impact sounds (footstep_snow_001.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/ash_03.wav` | [Kenney impact sounds (footstep_snow_002.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/ash_04.wav` | [Kenney impact sounds (footstep_snow_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `step/ash_05.wav` | [Kenney impact sounds (footstep_snow_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, step |
+| `amb/forest_bed_01.ogg` | [freesound 288899: Rocky Mountain Outdoors: wind and birds](https://freesound.org/s/288899/) | petebuchwald | CC0 1.0 | 10-end s, filtered, 50 s loop, amb_bed_lufs |
+| `amb/town_bed_01.ogg` | [freesound 578072: medieval_village_atmosphere.wav](https://freesound.org/s/578072/) | ramonmineiro | CC0 1.0 | filtered, 36 s loop, amb_bed_lufs |
+| `amb/meadow_wind_01.ogg` | [freesound 639459: summer meadow with wind](https://freesound.org/s/639459/) | Garuda1982 | CC0 1.0 | 20-end s, filtered, 50 s loop, amb_bed_lufs |
+| `amb/office_hum_01.ogg` | [freesound 203306: Room Tone Office 13](https://freesound.org/s/203306/) | mzui | CC0 1.0 | 10-end s, filtered, 50 s loop, amb_bed_lufs |
+| `amb/fluoro_buzz_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, 30 s loop, amb_layer_lufs |
+| `amb/clock_tick_01.ogg` | [freesound 211192: small clock in room](https://freesound.org/s/211192/) | Yuval | CC0 1.0 | 1.0-end s, filtered, 40:0.3 s loop, amb_layer_lufs |
+| `amb/kitchen_bed_01.ogg` | [freesound 66790: DinerKitchen.wav](https://freesound.org/s/66790/) | ViaTorci | CC0 1.0 | filtered, 36 s loop, amb_bed_lufs |
+| `amb/sizzle_bed_01.ogg` | [freesound 353124: Frying Pan Sizzle](https://freesound.org/s/353124/) | BenjaminNelan | CC0 1.0 | 1-end s, filtered, 21 s loop, amb_layer_lufs |
+| `amb/crickets_bed_01.ogg` | [freesound 333221: Night Crickets Back Porch.aiff](https://freesound.org/s/333221/) | hdfreema | CC0 1.0 | 30-end s, filtered, 50 s loop, amb_bed_lufs |
+| `amb/eerie_drone_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, 50 s loop, amb_layer_lufs |
+| `amb/waste_wind_01.ogg` | [freesound 785818: Dystopian Winds](https://freesound.org/s/785818/) | Alien_I_Trust | CC0 1.0 | 5-end s, filtered, 55 s loop, amb_bed_lufs |
+| `amb/ash_hiss_01.ogg` | [freesound 370366: DecemberWindAndLeaves48KHZVersionOnAsphaltDec11th2016.WAV](https://freesound.org/s/370366/) | kvgarlic | CC0 1.0 | 5-end s, filtered, 50 s loop, amb_layer_lufs |
+| `amb/perfect_quiet_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, 40 s loop, amb_layer_lufs |
+| `amb/dead_machine_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, 36 s loop, amb_layer_lufs |
+| `amb/machine_hum_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, 30 s loop, amb_layer_lufs |
+| `amb/flies_01.ogg` | [freesound 46938: flys-I.wav](https://freesound.org/s/46938/) | galeku | CC0 1.0 | 2-end s, filtered, 40 s loop, amb_layer_lufs |
+| `amb/bird_song_01.ogg` | [freesound 182500: Birds chirping 04](https://freesound.org/s/182500/) | swiftoid | CC0 1.0 | 0.35-1.6 s, filtered, amb_oneshot |
+| `amb/bird_song_02.ogg` | [freesound 182500: Birds chirping 04](https://freesound.org/s/182500/) | swiftoid | CC0 1.0 | 4.7-7.3 s, filtered, amb_oneshot |
+| `amb/bird_song_03.ogg` | [freesound 182500: Birds chirping 04](https://freesound.org/s/182500/) | swiftoid | CC0 1.0 | 8.75-11.1 s, filtered, amb_oneshot |
+| `amb/bird_song_04.ogg` | [freesound 182500: Birds chirping 04](https://freesound.org/s/182500/) | swiftoid | CC0 1.0 | 16.55-19.6 s, filtered, amb_oneshot |
+| `amb/bird_song_05.ogg` | [freesound 182500: Birds chirping 04](https://freesound.org/s/182500/) | swiftoid | CC0 1.0 | 20.0-22.0 s, filtered, amb_oneshot |
+| `amb/perfect_bird_01.ogg` | [freesound 182500: Birds chirping 04](https://freesound.org/s/182500/) | swiftoid | CC0 1.0 | 4.7-6.0 s, filtered, amb_oneshot |
+| `amb/leaves_gust_01.ogg` | [freesound 370366: DecemberWindAndLeaves48KHZVersionOnAsphaltDec11th2016.WAV](https://freesound.org/s/370366/) | kvgarlic | CC0 1.0 | 10-13 s, filtered, amb_oneshot |
+| `amb/leaves_gust_02.ogg` | [freesound 370366: DecemberWindAndLeaves48KHZVersionOnAsphaltDec11th2016.WAV](https://freesound.org/s/370366/) | kvgarlic | CC0 1.0 | 25-28 s, filtered, amb_oneshot |
+| `amb/leaves_gust_03.ogg` | [freesound 370366: DecemberWindAndLeaves48KHZVersionOnAsphaltDec11th2016.WAV](https://freesound.org/s/370366/) | kvgarlic | CC0 1.0 | 40-43 s, filtered, amb_oneshot |
+| `amb/woodpecker_01.ogg` | [freesound 389304: woodpecker1a.wav](https://freesound.org/s/389304/) | AlanCat | CC0 1.0 | 0.78-2.4 s, filtered, amb_oneshot |
+| `amb/woodpecker_02.ogg` | [freesound 389304: woodpecker1a.wav](https://freesound.org/s/389304/) | AlanCat | CC0 1.0 | 6.58-8.55 s, filtered, amb_oneshot |
+| `amb/chatter_01.ogg` | [freesound 653920: Small Crowd Walla](https://freesound.org/s/653920/) | IENBA | CC0 1.0 | 3.8-6.8 s, filtered, amb_oneshot |
+| `amb/chatter_02.ogg` | [freesound 653920: Small Crowd Walla](https://freesound.org/s/653920/) | IENBA | CC0 1.0 | 6.6-9.6 s, filtered, amb_oneshot |
+| `amb/chatter_03.ogg` | [freesound 653920: Small Crowd Walla](https://freesound.org/s/653920/) | IENBA | CC0 1.0 | 12-15 s, filtered, amb_oneshot |
+| `amb/chatter_04.ogg` | [freesound 653920: Small Crowd Walla](https://freesound.org/s/653920/) | IENBA | CC0 1.0 | 17-20 s, filtered, amb_oneshot |
+| `amb/wind_chime_01.ogg` | [freesound 235463: Wind_Chimes_single.wav](https://freesound.org/s/235463/) | jcdecha | CC0 1.0 | 0.5-4.5 s, amb_oneshot |
+| `amb/wind_chime_02.ogg` | [freesound 169855: Wind Chime (G-003) +.wav](https://freesound.org/s/169855/) | GnoteSoundz | CC0 1.0 | amb_oneshot |
+| `amb/town_bell_01.ogg` | [freesound 120833: enkhuizen catholic church.wav](https://freesound.org/s/120833/) | odilonmarcenaro | CC0 1.0 | filtered, amb_oneshot |
+| `amb/grunt_01.ogg` | [freesound 803168: Soft Male Vocal, Short Pained/Exhertion Groans - Vocal Efforts](https://freesound.org/s/803168/) | salemaudio | CC0 1.0 | 0.12-0.5 s, filtered, amb_oneshot |
+| `amb/grunt_02.ogg` | [freesound 803168: Soft Male Vocal, Short Pained/Exhertion Groans - Vocal Efforts](https://freesound.org/s/803168/) | salemaudio | CC0 1.0 | 1.62-1.95 s, filtered, amb_oneshot |
+| `amb/grunt_03.ogg` | [freesound 803168: Soft Male Vocal, Short Pained/Exhertion Groans - Vocal Efforts](https://freesound.org/s/803168/) | salemaudio | CC0 1.0 | 2.98-3.3 s, filtered, amb_oneshot |
+| `amb/grunt_04.ogg` | [freesound 803168: Soft Male Vocal, Short Pained/Exhertion Groans - Vocal Efforts](https://freesound.org/s/803168/) | salemaudio | CC0 1.0 | 4.22-4.6 s, filtered, amb_oneshot |
+| `amb/grunt_05.ogg` | [freesound 803168: Soft Male Vocal, Short Pained/Exhertion Groans - Vocal Efforts](https://freesound.org/s/803168/) | salemaudio | CC0 1.0 | 7.3-7.7 s, filtered, amb_oneshot |
+| `amb/cheer_01.ogg` | [freesound 32260: smallcrowd.wav](https://freesound.org/s/32260/) | moxobna | CC0 1.0 | filtered, amb_oneshot |
+| `amb/cheer_02.ogg` | [freesound 182571: Short Crowd Cheer.flac](https://freesound.org/s/182571/) | qubodup | CC0 1.0 | 0-4.0 s, filtered, amb_oneshot |
+| `amb/weights_clank_01.ogg` | [Kenney impact sounds (impactPlate_light_000.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/weights_clank_02.ogg` | [Kenney impact sounds (impactPlate_medium_004.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/weights_clank_03.ogg` | [Kenney impact sounds (impactMetal_heavy_003.ogg)](https://kenney.nl/assets/impact-sounds) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/typewriter_01.ogg` | [freesound 138049: Typewriter.mp3](https://freesound.org/s/138049/) | pakasit21 | CC0 1.0 | 0-1.6 s, filtered, amb_oneshot |
+| `amb/typewriter_02.ogg` | [freesound 138049: Typewriter.mp3](https://freesound.org/s/138049/) | pakasit21 | CC0 1.0 | 1.7-2.5 s, filtered, amb_oneshot |
+| `amb/typewriter_03.ogg` | [freesound 138049: Typewriter.mp3](https://freesound.org/s/138049/) | pakasit21 | CC0 1.0 | 2.7-4.4 s, filtered, amb_oneshot |
+| `amb/stamp_far_01.ogg` | derived from necro/stamp_01.wav | (see that file) | (as that file) | filtered, amb_oneshot |
+| `amb/stamp_far_02.ogg` | derived from necro/stamp_03.wav | (see that file) | (as that file) | filtered, amb_oneshot |
+| `amb/stamp_far_03.ogg` | derived from necro/stamp_05.wav | (see that file) | (as that file) | filtered, amb_oneshot |
+| `amb/whisper_01.ogg` | [freesound 204966: creepy moan.wav](https://freesound.org/s/204966/) | titsher | CC0 1.0 | 0.5-2.2 s, filtered, amb_oneshot |
+| `amb/whisper_02.ogg` | [freesound 204966: creepy moan.wav](https://freesound.org/s/204966/) | titsher | CC0 1.0 | 2.2-4.2 s, filtered, amb_oneshot |
+| `amb/whisper_03.ogg` | [freesound 856169: Spectral Ghost Whisper Breeze Whoosh](https://freesound.org/s/856169/) | brktkrgll | CC0 1.0 | filtered, amb_oneshot |
+| `amb/paper_shuffle_01.ogg` | [Kenney casino audio (card-shove-1.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/paper_shuffle_02.ogg` | [Kenney casino audio (card-shove-3.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/paper_shuffle_03.ogg` | [Kenney rpg audio (bookFlip2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/pot_clink_01.ogg` | [Kenney rpg audio (metalPot1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/pot_clink_02.ogg` | [Kenney rpg audio (metalPot2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/pot_clink_03.ogg` | [Kenney rpg audio (metalPot3.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/gravy_bubble_01.ogg` | [freesound 343744: bubbling hot pot 01](https://freesound.org/s/343744/) | rucisko | CC0 1.0 | 2-4 s, filtered, amb_oneshot |
+| `amb/gravy_bubble_02.ogg` | [freesound 343744: bubbling hot pot 01](https://freesound.org/s/343744/) | rucisko | CC0 1.0 | 10-12 s, filtered, amb_oneshot |
+| `amb/gravy_bubble_03.ogg` | [freesound 343744: bubbling hot pot 01](https://freesound.org/s/343744/) | rucisko | CC0 1.0 | 20-22 s, filtered, amb_oneshot |
+| `amb/kitchen_bell_01.ogg` | [freesound 221515: service bell ring](https://freesound.org/s/221515/) | AlaskaRobotics | CC0 1.0 | 0.25-2.5 s, amb_oneshot |
+| `amb/goat_01.ogg` | [freesound 581240: Single Goat Bleating 2x](https://freesound.org/s/581240/) | Kinoton | CC0 1.0 | 0.35-1.15 s, filtered, amb_oneshot |
+| `amb/goat_02.ogg` | [freesound 581240: Single Goat Bleating 2x](https://freesound.org/s/581240/) | Kinoton | CC0 1.0 | 2.1-2.9 s, filtered, amb_oneshot |
+| `amb/goat_03.ogg` | [freesound 200333: Baby goat bleating](https://freesound.org/s/200333/) | jsbarrett | CC0 1.0 | 1.37-2.12 s, filtered, amb_oneshot |
+| `amb/goat_04.ogg` | [freesound 200333: Baby goat bleating](https://freesound.org/s/200333/) | jsbarrett | CC0 1.0 | 4.78-5.45 s, filtered, amb_oneshot |
+| `amb/windmill_creak_01.ogg` | [freesound 429130: Spring Loaded Metal Door Creak Open Close 02](https://freesound.org/s/429130/) | leonelmail | CC0 1.0 | 0.55-1.95 s, filtered, amb_oneshot |
+| `amb/windmill_creak_02.ogg` | [freesound 429130: Spring Loaded Metal Door Creak Open Close 02](https://freesound.org/s/429130/) | leonelmail | CC0 1.0 | 2.95-5.0 s, filtered, amb_oneshot |
+| `amb/windmill_creak_03.ogg` | [freesound 429130: Spring Loaded Metal Door Creak Open Close 02](https://freesound.org/s/429130/) | leonelmail | CC0 1.0 | 6.6-7.1 s, filtered, amb_oneshot |
+| `amb/junk_rustle_01.ogg` | derived from ref/rustle_01.ogg | (see that file) | (as that file) | filtered, amb_oneshot |
+| `amb/junk_rustle_02.ogg` | derived from ref/rustle_03.ogg | (see that file) | (as that file) | filtered, amb_oneshot |
+| `amb/junk_rustle_03.ogg` | derived from ref/cans_02.ogg | (see that file) | (as that file) | filtered, amb_oneshot |
+| `amb/frog_01.ogg` | [freesound 536759: Frog.ogg](https://freesound.org/s/536759/) | egomassive | CC0 1.0 | amb_oneshot |
+| `amb/frog_02.ogg` | [freesound 251938: frog.mp3](https://freesound.org/s/251938/) | BinaryMonkFlint | CC0 1.0 | amb_oneshot |
+| `amb/frog_03.ogg` | [freesound 361117: frog_quak.mp3](https://freesound.org/s/361117/) | katzlbt | CC0 1.0 | amb_oneshot |
+| `amb/rot_pulse_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, amb_oneshot |
+| `amb/rot_pulse_02.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, amb_oneshot |
+| `amb/rift_crackle_01.ogg` | [freesound 396470: Electric Sparks.wav](https://freesound.org/s/396470/) | kev_durr | CC0 1.0 | 0.5-1.6 s, filtered, amb_oneshot |
+| `amb/rift_crackle_02.ogg` | [freesound 396470: Electric Sparks.wav](https://freesound.org/s/396470/) | kev_durr | CC0 1.0 | 4.3-5.0 s, filtered, amb_oneshot |
+| `amb/rift_crackle_03.ogg` | [freesound 396470: Electric Sparks.wav](https://freesound.org/s/396470/) | kev_durr | CC0 1.0 | 7.0-8.2 s, filtered, amb_oneshot |
+| `amb/debris_creak_01.ogg` | [Kenney rpg audio (creak1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/debris_creak_02.ogg` | [Kenney rpg audio (creak3.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/crow_01.ogg` | [freesound 361470: Crow Caw](https://freesound.org/s/361470/) | Jofae | CC0 1.0 | amb_oneshot |
+| `amb/crow_02.ogg` | [freesound 75162: crow.wav](https://freesound.org/s/75162/) | nigelcoop | CC0 1.0 | 0-0.86 s, amb_oneshot |
+| `amb/crow_03.ogg` | [freesound 75162: crow.wav](https://freesound.org/s/75162/) | nigelcoop | CC0 1.0 | 1.94-2.35 s, amb_oneshot |
+| `amb/fountain_splash_01.ogg` | [freesound 36086: bubbling fountain.wav](https://freesound.org/s/36086/) | cognito perceptu | CC0 1.0 | 2-3.5 s, amb_oneshot |
+| `amb/fountain_splash_02.ogg` | [freesound 36086: bubbling fountain.wav](https://freesound.org/s/36086/) | cognito perceptu | CC0 1.0 | 10-11.5 s, amb_oneshot |
+| `amb/fountain_splash_03.ogg` | [freesound 36086: bubbling fountain.wav](https://freesound.org/s/36086/) | cognito perceptu | CC0 1.0 | 18-19.5 s, amb_oneshot |
+| `amb/loudspeaker_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, amb_oneshot |
+| `amb/loudspeaker_02.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, amb_oneshot |
+| `amb/metal_groan_01.ogg` | [freesound 429130: Spring Loaded Metal Door Creak Open Close 02](https://freesound.org/s/429130/) | leonelmail | CC0 1.0 | 2.95-5.0 s, filtered, amb_oneshot |
+| `amb/metal_groan_02.ogg` | [freesound 429130: Spring Loaded Metal Door Creak Open Close 02](https://freesound.org/s/429130/) | leonelmail | CC0 1.0 | 0.55-1.95 s, filtered, amb_oneshot |
+| `amb/paste_squelch_01.ogg` | [freesound 840086: Mud Footsteps](https://freesound.org/s/840086/) | Ultra-Edward | CC0 1.0 | 9.7-10.5 s, filtered, amb_oneshot |
+| `amb/paste_squelch_02.ogg` | [freesound 840086: Mud Footsteps](https://freesound.org/s/840086/) | Ultra-Edward | CC0 1.0 | 11.55-12.3 s, filtered, amb_oneshot |
+| `amb/stomach_01.ogg` | [freesound 447911: Growling stomach / Stomach rumbles](https://freesound.org/s/447911/) | Breviceps | CC0 1.0 | filtered, amb_oneshot |
+| `amb/stomach_02.ogg` | [freesound 52293: stomach growl-PiSh_01.wav](https://freesound.org/s/52293/) | XxBirdoxX | CC0 1.0 | 0.5-3.4 s, filtered, amb_oneshot |
+| `amb/paper_flutter_01.ogg` | [Kenney rpg audio (bookFlip3.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `amb/paper_flutter_02.ogg` | [Kenney casino audio (card-fan-2.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, amb_oneshot |
+| `spot/fountain_01.ogg` | [freesound 36086: bubbling fountain.wav](https://freesound.org/s/36086/) | cognito perceptu | CC0 1.0 | 2-end s, 24 s loop, amb_spot_lufs |
+| `spot/wheel_creak_01.ogg` | [freesound 437085: G52-16-Buckboard Creaking.wav](https://freesound.org/s/437085/) | craigsmith | CC0 1.0 | 3-end s, filtered, 36 s loop, amb_spot_lufs |
+| `spot/rotheart_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, 32:0.2 s loop, amb_spot_lufs |
+| `spot/rift_hum_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, 30 s loop, amb_spot_lufs |
+| `spot/mill_01.ogg` | [freesound 535013: 200912_01 Woodbridge Tidemill. (edited).WAV](https://freesound.org/s/535013/) | phonoflora | CC0 1.0 | 3-end s, filtered, 32 s loop, amb_spot_lufs |
+| `spot/gravy_01.ogg` | [freesound 343744: bubbling hot pot 01](https://freesound.org/s/343744/) | rucisko | CC0 1.0 | 1-end s, filtered, 30 s loop, amb_spot_lufs |
+| `world/chest_wood_01.ogg` | [freesound 377552: Wooden Creak](https://freesound.org/s/377552/) | Mafon2 | CC0 1.0 | 0.3-0.92 s, filtered, world |
+| `world/chest_wood_02.ogg` | [Kenney rpg audio (creak2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/chest_wood_03.ogg` | [Kenney rpg audio (creak3.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/chest_iron_01.ogg` | [freesound 570484: Foley_Object_Metal_Chest_Open&Close_Mono.wav](https://freesound.org/s/570484/) | Nox_Sound | CC0 1.0 | 0-0.53 s, filtered, world |
+| `world/chest_iron_02.ogg` | [freesound 570484: Foley_Object_Metal_Chest_Open&Close_Mono.wav](https://freesound.org/s/570484/) | Nox_Sound | CC0 1.0 | 1.2-1.64 s, filtered, world |
+| `world/chest_iron_03.ogg` | [freesound 570484: Foley_Object_Metal_Chest_Open&Close_Mono.wav](https://freesound.org/s/570484/) | Nox_Sound | CC0 1.0 | 2.3-2.77 s, filtered, world |
+| `world/chest_iron_04.ogg` | [freesound 570484: Foley_Object_Metal_Chest_Open&Close_Mono.wav](https://freesound.org/s/570484/) | Nox_Sound | CC0 1.0 | 3.55-3.95 s, filtered, world |
+| `world/giant_creak_01.ogg` | [freesound 429130: Spring Loaded Metal Door Creak Open Close 02](https://freesound.org/s/429130/) | leonelmail | CC0 1.0 | 2.95-5.0 s, filtered, world_big |
+| `world/door_open_01.ogg` | [Kenney rpg audio (doorOpen_1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/door_open_02.ogg` | [Kenney rpg audio (doorOpen_2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/door_close_01.ogg` | [Kenney rpg audio (doorClose_1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/door_close_02.ogg` | [Kenney rpg audio (doorClose_2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/door_close_03.ogg` | [Kenney rpg audio (doorClose_3.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/door_close_04.ogg` | [Kenney rpg audio (doorClose_4.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/gate_iron_01.ogg` | [freesound 263532: irongate2.WAV](https://freesound.org/s/263532/) | viaaico2013 | CC0 1.0 | 1.2-3.75 s, filtered, world |
+| `world/gate_iron_02.ogg` | [freesound 263532: irongate2.WAV](https://freesound.org/s/263532/) | viaaico2013 | CC0 1.0 | 5.55-8.05 s, filtered, world |
+| `world/gate_big_01.ogg` | [freesound 336888: Gate-Heavy-OpenClose-WAV.wav](https://freesound.org/s/336888/) | Omnisis | CC0 1.0 | 0-5 s, filtered, world_big |
+| `world/lever_01.ogg` | [freesound 94121: Mechanical2.wav](https://freesound.org/s/94121/) | BMacZero | CC0 1.0 | filtered, world |
+| `world/lever_02.ogg` | [freesound 696746: lever.wav](https://freesound.org/s/696746/) | Krokulator | CC0 1.0 | filtered, world |
+| `world/lever_03.ogg` | [Kenney rpg audio (metalLatch.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/stone_slide_01.ogg` | [freesound 578491: Heavy stone door opens 2](https://freesound.org/s/578491/) | PostProdDog | CC0 1.0 | 1.07-3.3 s, filtered, world_big |
+| `world/stone_slide_02.ogg` | [freesound 578491: Heavy stone door opens 2](https://freesound.org/s/578491/) | PostProdDog | CC0 1.0 | 5.62-7.2 s, filtered, world_big |
+| `world/splash_01.ogg` | [freesound 9508: SPLASH.wav](https://freesound.org/s/9508/) | petenice | CC0 1.0 | 0-1.6 s, filtered, world |
+| `world/splash_02.ogg` | [freesound 9508: SPLASH.wav](https://freesound.org/s/9508/) | petenice | CC0 1.0 | 0-1.6 s, filtered, world |
+| `world/boing_01.ogg` | [freesound 540790: Boing 2](https://freesound.org/s/540790/) | magnuswaker | CC0 1.0 | filtered, world |
+| `world/boing_02.ogg` | [freesound 537060: boing.wav](https://freesound.org/s/537060/) | suzenako | CC0 1.0 | 0-0.66 s, filtered, world |
+| `world/boing_03.ogg` | [freesound 537060: boing.wav](https://freesound.org/s/537060/) | suzenako | CC0 1.0 | 1.09-1.79 s, filtered, world |
+| `world/poof_01.ogg` | [freesound 208111: Poof of Smoke](https://freesound.org/s/208111/) | Planman | CC0 1.0 | filtered, world |
+| `world/poof_02.ogg` | [freesound 714257: Puff of Smoke](https://freesound.org/s/714257/) | qubodup | CC0 1.0 | filtered, world |
+| `world/whoosh_big_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, world |
+| `world/whoosh_big_02.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, world |
+| `world/riser_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, world |
+| `world/riser_02.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, world |
 
 ## Freesound authors
 
-_natiKatz (223375); ani_music (632477); applauseav (239639); beatmad (201936); Breviceps (447918); brktkrgll (856167, 856169); brokenmachinery (730078); bsmacbride (108524); Dalesome (352719); deathpie (19245); eddies2000 (448474); EminYILDIRIM (535361); eyesonlegs (464302); I.fekry (470710); kev_durr (383226); keweldog (181773); Kodack (256307); ludde44 (170311); MilkyGacha (467721); Nightflame (368615); philberts (71513); qubodup (59988, 59995, 60013); roboroo (436791); SomeoneCool15 (423767); Valenspire (699494)
+_natiKatz (223375); Adielees9 (369579); AlanCat (389304); AlaskaRobotics (221515); Alien_I_Trust (785818); ani_music (632477); applauseav (239639); beatmad (201936); BenjaminNelan (353124); BinaryMonkFlint (251938); BMacZero (94121); Breviceps (447911, 447918); brktkrgll (856167, 856169); brokenmachinery (730078); bsmacbride (108524); cognito perceptu (36086); craigsmith (437085); Dalesome (352719); deathpie (19245); eddies2000 (448474); egomassive (536759); EminYILDIRIM (535361); eyesonlegs (464302); Fission9 (521588); galeku (46938); Garuda1982 (639459); GnoteSoundz (169855); hdfreema (333221); I.fekry (470710); IENBA (653920, 834029); jcdecha (235463); Jofae (361470); jsbarrett (200333); katzlbt (361117); kev_durr (383226, 396470); keweldog (181773); Kinoton (581240); Kodack (256307); Krokulator (696746); kvgarlic (370366); leonelmail (429130); ludde44 (170311); Mafon2 (377552); magnuswaker (540790); MilkyGacha (467721); monte32 (353799); moxobna (32260); mzui (203306); nigelcoop (75162); Nightflame (368615); Nox_Sound (570484); odilonmarcenaro (120833); Omnisis (336888); pakasit21 (138049); petebuchwald (288899); petenice (9508); philberts (71513); phonoflora (535013); Planman (208111); PostProdDog (578491); qubodup (182571, 59988, 59995, 60013, 714257); ragamuffin (118985); ramonmineiro (578072); roboroo (436791); rucisko (343744); salemaudio (803168); SomeoneCool15 (423767); SpliceSound (170506); suzenako (537060); swiftoid (182500); titsher (204966); Ultra-Edward (840086); Valenspire (699494); viaaico2013 (263532); ViaTorci (66790); XxBirdoxX (52293); Yuval (211192)

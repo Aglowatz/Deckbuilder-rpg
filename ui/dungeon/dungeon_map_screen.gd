@@ -42,6 +42,7 @@ func screenshot_prepare(args: Dictionary) -> void:
 func _ready() -> void:
 	SceneManager.pause_allowed = true
 	Audio.play_music(StringName(MusicDirector.dungeon_exploration(MusicDirector.session_dungeon_id())))
+	Audio.set_ambience("none")
 	if not Session.in_dungeon() and _screenshot_args.has("dungeon"):
 		_prepare_dungeon_for_screenshot()
 	elif not Session.in_dungeon() and _screenshot_args.has("main"):

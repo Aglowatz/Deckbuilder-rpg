@@ -16,6 +16,8 @@ var _beds: Dictionary = {}
 var _timers: Array[float] = []
 var _picker: SfxVariantPicker = SfxVariantPicker.new()
 var _log: Array[String] = []
+## Every profile switched to this run, in order (the smokes print it).
+var area_history: Array[String] = []
 
 
 func _ready() -> void:
@@ -30,6 +32,7 @@ func set_area(profile_name: String, fade: float = DEFAULT_FADE) -> void:
 	current = key
 	_profile = AmbienceProfiles.resolved(key)
 	_note("area %s" % key)
+	area_history.append(key)
 	AudioMix.apply_acoustics(str(_profile.get("acoustic", "dry")))
 	var wanted: Dictionary = {}
 	for entry: Variant in _profile.get("beds", []) as Array:

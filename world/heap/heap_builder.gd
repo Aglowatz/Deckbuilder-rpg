@@ -103,6 +103,21 @@ func is_floor_at(pos: Vector3) -> bool:
 	return surface == HeapLayout.Surface.GROUND or surface == HeapLayout.Surface.PEAK or surface == HeapLayout.Surface.ROUGH or surface == HeapLayout.Surface.BRIDGE
 
 
+## Footsteps: junk gravel by default, compost dirt in the Commons and the farm rows, gravel by the stream, squelching mud in the wetlands, planks on bridges.
+func surface_at(pos: Vector3) -> StringName:
+	if layout.surface_at(pos.x, pos.z) == HeapLayout.Surface.BRIDGE:
+		return &"wood"
+	var area: HeapLayout.Area = layout.area_at(pos.x, pos.z)
+	match area.id if area != null else "":
+		"commons", "farm":
+			return &"dirt"
+		"stream":
+			return &"gravel"
+		"wetlands":
+			return &"mashed"
+	return &"junk"
+
+
 func map_bounds() -> Rect2:
 	var bounds: Rect2 = Rect2(HeapLayout.MIN_CORNER - Vector2(2, 2), HeapLayout.MAX_CORNER - HeapLayout.MIN_CORNER + Vector2(4, 4))
 	return bounds.expand(Vector2(HeapLayout.ENTRANCE_X, HeapLayout.ENTRANCE_Z1 + 4.0))

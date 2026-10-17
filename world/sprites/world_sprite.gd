@@ -35,6 +35,11 @@ var current_key: String = "FRONT_IDLE"
 var current_flip: bool = false
 var walking: bool = false
 var speed: float = 0.0
+## Sound pass, Part C: emitted on each foot contact of the walk cycle. With `footsteps` on, the sprite also plays the footstep of the ground under it
+## (`Audio.footstep`): full level for the hero (`is_hero`), quieter and shorter-reaching for everyone else.
+signal stepped
+var footsteps: bool = true
+var is_hero: bool = false
 ## How fast the body swings round towards its target heading.
 var turn_rate_degrees: float = 540.0
 ## True for a sprite that is a child of the thing that moves (a `SpriteActor`): its position stays local and the speed is measured on the parent.
@@ -315,7 +320,13 @@ func _update(world_pos: Vector3, delta: float) -> void:
 		current_flip = false
 	elif moving:
 		var cycles: float = minf(speed / (STRIDE_HEIGHTS * world_height), MAX_CYCLES_PER_SECOND)
+		var before: float = _phase
 		_phase = fposmod(_phase + cycles * delta, 1.0)
+		# Sound pass, Part C: a footstep on each foot contact, the low point of the bob in the WALK1 and WALK3 frames (ghosts float, so they never step).
+		if _hover <= 0.05 and (_crossed(before, _phase, 0.125) or _crossed(before, _phase, 0.625)):
+			stepped.emit()
+			if footsteps and is_inside_tree():
+				Audio.footstep(global_position - Vector3(0.0, _bob, 0.0), is_hero)
 		key = "%s_WALK%d" % [best, int(_phase * 4.0) % 4 + 1]
 	else:
 		_phase = 0.0
@@ -449,3 +460,10 @@ func tint_color() -> Color:
 ## The height of the top of the figure above the feet, in metres (plates and quest markers sit above this).
 func head_height() -> float:
 	return world_height + _hover + _hover_amplitude
+
+
+## True when the walk phase passed `mark` going from `before` to `after` (it may wrap past 1.0).
+static func _crossed(before: float, after: float, mark: float) -> bool:
+	if after >= before:
+		return before < mark and after >= mark
+	return before < mark or after >= mark

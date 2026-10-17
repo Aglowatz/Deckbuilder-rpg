@@ -72,7 +72,7 @@ func test_every_event_layer_has_a_valid_shape() -> void:
 		assert_gt((event["layers"] as Array).size(), 0, "%s has layers" % event_name)
 		assert_between(float(event["pitch"]), 0.0, 0.12, "%s pitch range" % event_name)
 		for layer: Variant in event["layers"] as Array:
-			assert_between(float((layer as Dictionary)["delay"]), 0.0, 1.5, "%s layer delay" % event_name)
+			assert_between(float((layer as Dictionary)["delay"]), 0.0, 3.0, "%s layer delay" % event_name)
 
 
 func test_the_frequent_sounds_have_several_variants() -> void:

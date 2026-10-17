@@ -297,9 +297,390 @@
 		"heart/beat": [
 			"res://assets/audio/sfx/heart/beat_01.wav",
 			"res://assets/audio/sfx/heart/beat_02.wav"
+		],
+		"step/grass": [
+			"res://assets/audio/sfx/step/grass_01.wav",
+			"res://assets/audio/sfx/step/grass_02.wav",
+			"res://assets/audio/sfx/step/grass_03.wav",
+			"res://assets/audio/sfx/step/grass_04.wav",
+			"res://assets/audio/sfx/step/grass_05.wav"
+		],
+		"step/wood": [
+			"res://assets/audio/sfx/step/wood_01.wav",
+			"res://assets/audio/sfx/step/wood_02.wav",
+			"res://assets/audio/sfx/step/wood_03.wav",
+			"res://assets/audio/sfx/step/wood_04.wav",
+			"res://assets/audio/sfx/step/wood_05.wav"
+		],
+		"step/carpet": [
+			"res://assets/audio/sfx/step/carpet_01.wav",
+			"res://assets/audio/sfx/step/carpet_02.wav",
+			"res://assets/audio/sfx/step/carpet_03.wav",
+			"res://assets/audio/sfx/step/carpet_04.wav",
+			"res://assets/audio/sfx/step/carpet_05.wav"
+		],
+		"step/stone": [
+			"res://assets/audio/sfx/step/stone_01.wav",
+			"res://assets/audio/sfx/step/stone_02.wav",
+			"res://assets/audio/sfx/step/stone_03.wav",
+			"res://assets/audio/sfx/step/stone_04.wav",
+			"res://assets/audio/sfx/step/stone_05.wav"
+		],
+		"step/cobble": [
+			"res://assets/audio/sfx/step/cobble_01.wav",
+			"res://assets/audio/sfx/step/cobble_02.wav",
+			"res://assets/audio/sfx/step/cobble_03.wav",
+			"res://assets/audio/sfx/step/cobble_04.wav",
+			"res://assets/audio/sfx/step/cobble_05.wav"
+		],
+		"step/dirt": [
+			"res://assets/audio/sfx/step/dirt_01.wav",
+			"res://assets/audio/sfx/step/dirt_02.wav",
+			"res://assets/audio/sfx/step/dirt_03.wav",
+			"res://assets/audio/sfx/step/dirt_04.wav",
+			"res://assets/audio/sfx/step/dirt_05.wav",
+			"res://assets/audio/sfx/step/dirt_06.wav"
+		],
+		"step/gravel": [
+			"res://assets/audio/sfx/step/gravel_01.wav",
+			"res://assets/audio/sfx/step/gravel_02.wav",
+			"res://assets/audio/sfx/step/gravel_03.wav",
+			"res://assets/audio/sfx/step/gravel_04.wav"
+		],
+		"step/marble": [
+			"res://assets/audio/sfx/step/marble_01.wav",
+			"res://assets/audio/sfx/step/marble_02.wav",
+			"res://assets/audio/sfx/step/marble_03.wav",
+			"res://assets/audio/sfx/step/marble_04.wav",
+			"res://assets/audio/sfx/step/marble_05.wav",
+			"res://assets/audio/sfx/step/marble_06.wav"
+		],
+		"step/tile": [
+			"res://assets/audio/sfx/step/tile_01.wav",
+			"res://assets/audio/sfx/step/tile_02.wav",
+			"res://assets/audio/sfx/step/tile_03.wav",
+			"res://assets/audio/sfx/step/tile_04.wav",
+			"res://assets/audio/sfx/step/tile_05.wav",
+			"res://assets/audio/sfx/step/tile_06.wav"
+		],
+		"step/metal": [
+			"res://assets/audio/sfx/step/metal_01.wav",
+			"res://assets/audio/sfx/step/metal_02.wav",
+			"res://assets/audio/sfx/step/metal_03.wav",
+			"res://assets/audio/sfx/step/metal_04.wav",
+			"res://assets/audio/sfx/step/metal_05.wav"
+		],
+		"step/mashed": [
+			"res://assets/audio/sfx/step/mashed_01.wav",
+			"res://assets/audio/sfx/step/mashed_02.wav",
+			"res://assets/audio/sfx/step/mashed_03.wav",
+			"res://assets/audio/sfx/step/mashed_04.wav",
+			"res://assets/audio/sfx/step/mashed_05.wav"
+		],
+		"step/ash": [
+			"res://assets/audio/sfx/step/ash_01.wav",
+			"res://assets/audio/sfx/step/ash_02.wav",
+			"res://assets/audio/sfx/step/ash_03.wav",
+			"res://assets/audio/sfx/step/ash_04.wav",
+			"res://assets/audio/sfx/step/ash_05.wav"
+		],
+		"amb/forest_bed": [
+			"res://assets/audio/sfx/amb/forest_bed_01.ogg"
+		],
+		"amb/town_bed": [
+			"res://assets/audio/sfx/amb/town_bed_01.ogg"
+		],
+		"amb/meadow_wind": [
+			"res://assets/audio/sfx/amb/meadow_wind_01.ogg"
+		],
+		"amb/office_hum": [
+			"res://assets/audio/sfx/amb/office_hum_01.ogg"
+		],
+		"amb/fluoro_buzz": [
+			"res://assets/audio/sfx/amb/fluoro_buzz_01.ogg"
+		],
+		"amb/clock_tick": [
+			"res://assets/audio/sfx/amb/clock_tick_01.ogg"
+		],
+		"amb/kitchen_bed": [
+			"res://assets/audio/sfx/amb/kitchen_bed_01.ogg"
+		],
+		"amb/sizzle_bed": [
+			"res://assets/audio/sfx/amb/sizzle_bed_01.ogg"
+		],
+		"amb/crickets_bed": [
+			"res://assets/audio/sfx/amb/crickets_bed_01.ogg"
+		],
+		"amb/eerie_drone": [
+			"res://assets/audio/sfx/amb/eerie_drone_01.ogg"
+		],
+		"amb/waste_wind": [
+			"res://assets/audio/sfx/amb/waste_wind_01.ogg"
+		],
+		"amb/ash_hiss": [
+			"res://assets/audio/sfx/amb/ash_hiss_01.ogg"
+		],
+		"amb/perfect_quiet": [
+			"res://assets/audio/sfx/amb/perfect_quiet_01.ogg"
+		],
+		"amb/dead_machine": [
+			"res://assets/audio/sfx/amb/dead_machine_01.ogg"
+		],
+		"amb/machine_hum": [
+			"res://assets/audio/sfx/amb/machine_hum_01.ogg"
+		],
+		"amb/flies": [
+			"res://assets/audio/sfx/amb/flies_01.ogg"
+		],
+		"amb/bird_song": [
+			"res://assets/audio/sfx/amb/bird_song_01.ogg",
+			"res://assets/audio/sfx/amb/bird_song_02.ogg",
+			"res://assets/audio/sfx/amb/bird_song_03.ogg",
+			"res://assets/audio/sfx/amb/bird_song_04.ogg",
+			"res://assets/audio/sfx/amb/bird_song_05.ogg"
+		],
+		"amb/perfect_bird": [
+			"res://assets/audio/sfx/amb/perfect_bird_01.ogg"
+		],
+		"amb/leaves_gust": [
+			"res://assets/audio/sfx/amb/leaves_gust_01.ogg",
+			"res://assets/audio/sfx/amb/leaves_gust_02.ogg",
+			"res://assets/audio/sfx/amb/leaves_gust_03.ogg"
+		],
+		"amb/woodpecker": [
+			"res://assets/audio/sfx/amb/woodpecker_01.ogg",
+			"res://assets/audio/sfx/amb/woodpecker_02.ogg"
+		],
+		"amb/chatter": [
+			"res://assets/audio/sfx/amb/chatter_01.ogg",
+			"res://assets/audio/sfx/amb/chatter_02.ogg",
+			"res://assets/audio/sfx/amb/chatter_03.ogg",
+			"res://assets/audio/sfx/amb/chatter_04.ogg"
+		],
+		"amb/wind_chime": [
+			"res://assets/audio/sfx/amb/wind_chime_01.ogg",
+			"res://assets/audio/sfx/amb/wind_chime_02.ogg"
+		],
+		"amb/town_bell": [
+			"res://assets/audio/sfx/amb/town_bell_01.ogg"
+		],
+		"amb/grunt": [
+			"res://assets/audio/sfx/amb/grunt_01.ogg",
+			"res://assets/audio/sfx/amb/grunt_02.ogg",
+			"res://assets/audio/sfx/amb/grunt_03.ogg",
+			"res://assets/audio/sfx/amb/grunt_04.ogg",
+			"res://assets/audio/sfx/amb/grunt_05.ogg"
+		],
+		"amb/cheer": [
+			"res://assets/audio/sfx/amb/cheer_01.ogg",
+			"res://assets/audio/sfx/amb/cheer_02.ogg"
+		],
+		"amb/weights_clank": [
+			"res://assets/audio/sfx/amb/weights_clank_01.ogg",
+			"res://assets/audio/sfx/amb/weights_clank_02.ogg",
+			"res://assets/audio/sfx/amb/weights_clank_03.ogg"
+		],
+		"amb/typewriter": [
+			"res://assets/audio/sfx/amb/typewriter_01.ogg",
+			"res://assets/audio/sfx/amb/typewriter_02.ogg",
+			"res://assets/audio/sfx/amb/typewriter_03.ogg"
+		],
+		"amb/stamp_far": [
+			"res://assets/audio/sfx/amb/stamp_far_01.ogg",
+			"res://assets/audio/sfx/amb/stamp_far_02.ogg",
+			"res://assets/audio/sfx/amb/stamp_far_03.ogg"
+		],
+		"amb/whisper": [
+			"res://assets/audio/sfx/amb/whisper_01.ogg",
+			"res://assets/audio/sfx/amb/whisper_02.ogg",
+			"res://assets/audio/sfx/amb/whisper_03.ogg"
+		],
+		"amb/paper_shuffle": [
+			"res://assets/audio/sfx/amb/paper_shuffle_01.ogg",
+			"res://assets/audio/sfx/amb/paper_shuffle_02.ogg",
+			"res://assets/audio/sfx/amb/paper_shuffle_03.ogg"
+		],
+		"amb/pot_clink": [
+			"res://assets/audio/sfx/amb/pot_clink_01.ogg",
+			"res://assets/audio/sfx/amb/pot_clink_02.ogg",
+			"res://assets/audio/sfx/amb/pot_clink_03.ogg"
+		],
+		"amb/gravy_bubble": [
+			"res://assets/audio/sfx/amb/gravy_bubble_01.ogg",
+			"res://assets/audio/sfx/amb/gravy_bubble_02.ogg",
+			"res://assets/audio/sfx/amb/gravy_bubble_03.ogg"
+		],
+		"amb/kitchen_bell": [
+			"res://assets/audio/sfx/amb/kitchen_bell_01.ogg"
+		],
+		"amb/goat": [
+			"res://assets/audio/sfx/amb/goat_01.ogg",
+			"res://assets/audio/sfx/amb/goat_02.ogg",
+			"res://assets/audio/sfx/amb/goat_03.ogg",
+			"res://assets/audio/sfx/amb/goat_04.ogg"
+		],
+		"amb/windmill_creak": [
+			"res://assets/audio/sfx/amb/windmill_creak_01.ogg",
+			"res://assets/audio/sfx/amb/windmill_creak_02.ogg",
+			"res://assets/audio/sfx/amb/windmill_creak_03.ogg"
+		],
+		"amb/junk_rustle": [
+			"res://assets/audio/sfx/amb/junk_rustle_01.ogg",
+			"res://assets/audio/sfx/amb/junk_rustle_02.ogg",
+			"res://assets/audio/sfx/amb/junk_rustle_03.ogg"
+		],
+		"amb/frog": [
+			"res://assets/audio/sfx/amb/frog_01.ogg",
+			"res://assets/audio/sfx/amb/frog_02.ogg",
+			"res://assets/audio/sfx/amb/frog_03.ogg"
+		],
+		"amb/rot_pulse": [
+			"res://assets/audio/sfx/amb/rot_pulse_01.ogg",
+			"res://assets/audio/sfx/amb/rot_pulse_02.ogg"
+		],
+		"amb/rift_crackle": [
+			"res://assets/audio/sfx/amb/rift_crackle_01.ogg",
+			"res://assets/audio/sfx/amb/rift_crackle_02.ogg",
+			"res://assets/audio/sfx/amb/rift_crackle_03.ogg"
+		],
+		"amb/debris_creak": [
+			"res://assets/audio/sfx/amb/debris_creak_01.ogg",
+			"res://assets/audio/sfx/amb/debris_creak_02.ogg"
+		],
+		"amb/crow": [
+			"res://assets/audio/sfx/amb/crow_01.ogg",
+			"res://assets/audio/sfx/amb/crow_02.ogg",
+			"res://assets/audio/sfx/amb/crow_03.ogg"
+		],
+		"amb/fountain_splash": [
+			"res://assets/audio/sfx/amb/fountain_splash_01.ogg",
+			"res://assets/audio/sfx/amb/fountain_splash_02.ogg",
+			"res://assets/audio/sfx/amb/fountain_splash_03.ogg"
+		],
+		"amb/loudspeaker": [
+			"res://assets/audio/sfx/amb/loudspeaker_01.ogg",
+			"res://assets/audio/sfx/amb/loudspeaker_02.ogg"
+		],
+		"amb/metal_groan": [
+			"res://assets/audio/sfx/amb/metal_groan_01.ogg",
+			"res://assets/audio/sfx/amb/metal_groan_02.ogg"
+		],
+		"amb/paste_squelch": [
+			"res://assets/audio/sfx/amb/paste_squelch_01.ogg",
+			"res://assets/audio/sfx/amb/paste_squelch_02.ogg"
+		],
+		"amb/stomach": [
+			"res://assets/audio/sfx/amb/stomach_01.ogg",
+			"res://assets/audio/sfx/amb/stomach_02.ogg"
+		],
+		"amb/paper_flutter": [
+			"res://assets/audio/sfx/amb/paper_flutter_01.ogg",
+			"res://assets/audio/sfx/amb/paper_flutter_02.ogg"
+		],
+		"spot/fountain": [
+			"res://assets/audio/sfx/spot/fountain_01.ogg"
+		],
+		"spot/wheel_creak": [
+			"res://assets/audio/sfx/spot/wheel_creak_01.ogg"
+		],
+		"spot/rotheart": [
+			"res://assets/audio/sfx/spot/rotheart_01.ogg"
+		],
+		"spot/rift_hum": [
+			"res://assets/audio/sfx/spot/rift_hum_01.ogg"
+		],
+		"spot/mill": [
+			"res://assets/audio/sfx/spot/mill_01.ogg"
+		],
+		"spot/gravy": [
+			"res://assets/audio/sfx/spot/gravy_01.ogg"
+		],
+		"world/chest_wood": [
+			"res://assets/audio/sfx/world/chest_wood_01.ogg",
+			"res://assets/audio/sfx/world/chest_wood_02.ogg",
+			"res://assets/audio/sfx/world/chest_wood_03.ogg"
+		],
+		"world/chest_iron": [
+			"res://assets/audio/sfx/world/chest_iron_01.ogg",
+			"res://assets/audio/sfx/world/chest_iron_02.ogg",
+			"res://assets/audio/sfx/world/chest_iron_03.ogg",
+			"res://assets/audio/sfx/world/chest_iron_04.ogg"
+		],
+		"world/giant_creak": [
+			"res://assets/audio/sfx/world/giant_creak_01.ogg"
+		],
+		"world/door_open": [
+			"res://assets/audio/sfx/world/door_open_01.ogg",
+			"res://assets/audio/sfx/world/door_open_02.ogg"
+		],
+		"world/door_close": [
+			"res://assets/audio/sfx/world/door_close_01.ogg",
+			"res://assets/audio/sfx/world/door_close_02.ogg",
+			"res://assets/audio/sfx/world/door_close_03.ogg",
+			"res://assets/audio/sfx/world/door_close_04.ogg"
+		],
+		"world/gate_iron": [
+			"res://assets/audio/sfx/world/gate_iron_01.ogg",
+			"res://assets/audio/sfx/world/gate_iron_02.ogg"
+		],
+		"world/gate_big": [
+			"res://assets/audio/sfx/world/gate_big_01.ogg"
+		],
+		"world/lever": [
+			"res://assets/audio/sfx/world/lever_01.ogg",
+			"res://assets/audio/sfx/world/lever_02.ogg",
+			"res://assets/audio/sfx/world/lever_03.ogg"
+		],
+		"world/stone_slide": [
+			"res://assets/audio/sfx/world/stone_slide_01.ogg",
+			"res://assets/audio/sfx/world/stone_slide_02.ogg"
+		],
+		"world/splash": [
+			"res://assets/audio/sfx/world/splash_01.ogg",
+			"res://assets/audio/sfx/world/splash_02.ogg"
+		],
+		"world/boing": [
+			"res://assets/audio/sfx/world/boing_01.ogg",
+			"res://assets/audio/sfx/world/boing_02.ogg",
+			"res://assets/audio/sfx/world/boing_03.ogg"
+		],
+		"world/poof": [
+			"res://assets/audio/sfx/world/poof_01.ogg",
+			"res://assets/audio/sfx/world/poof_02.ogg"
+		],
+		"world/whoosh_big": [
+			"res://assets/audio/sfx/world/whoosh_big_01.ogg",
+			"res://assets/audio/sfx/world/whoosh_big_02.ogg"
+		],
+		"world/riser": [
+			"res://assets/audio/sfx/world/riser_01.ogg",
+			"res://assets/audio/sfx/world/riser_02.ogg"
 		]
 	},
-	"loops": [],
+	"loops": [
+		"amb/ash_hiss",
+		"amb/clock_tick",
+		"amb/crickets_bed",
+		"amb/dead_machine",
+		"amb/eerie_drone",
+		"amb/flies",
+		"amb/fluoro_buzz",
+		"amb/forest_bed",
+		"amb/kitchen_bed",
+		"amb/machine_hum",
+		"amb/meadow_wind",
+		"amb/office_hum",
+		"amb/perfect_quiet",
+		"amb/sizzle_bed",
+		"amb/town_bed",
+		"amb/waste_wind",
+		"spot/fountain",
+		"spot/gravy",
+		"spot/mill",
+		"spot/rift_hum",
+		"spot/rotheart",
+		"spot/wheel_creak"
+	],
 	"events": {
 		"ui_hover": {
 			"bus": "UI",
@@ -760,7 +1141,7 @@
 					"gain": -8
 				}
 			],
-			"volume": 0,
+			"volume": -2,
 			"pitch": 0.04,
 			"vol_jitter": 1.5,
 			"priority": 75,
@@ -1794,7 +2175,7 @@
 					"gain": -6
 				}
 			],
-			"volume": 0,
+			"volume": -4,
 			"pitch": 0.03,
 			"vol_jitter": 1,
 			"priority": 85,
@@ -2206,6 +2587,811 @@
 			"priority": 45,
 			"max": 1,
 			"cooldown": 0.2,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"step_grass": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/grass",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_dirt": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/dirt",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_cobble": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/cobble",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -3,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_stone": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/stone",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_wood": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/wood",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -1,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_carpet": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/carpet",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -1,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_marble": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/marble",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -3,
+			"pitch": 0.05,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 18,
+			"duck": 0
+		},
+		"step_tile": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/tile",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_pastel": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/tile",
+					"delay": 0,
+					"gain": 0,
+					"pitch": 1.06
+				}
+			],
+			"volume": -3,
+			"pitch": 0.03,
+			"vol_jitter": 1,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 18,
+			"duck": 0
+		},
+		"step_ash": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/ash",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -3,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_mashed": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/mashed",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -1,
+			"pitch": 0.07,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_junk": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/gravel",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "ref/tin",
+					"delay": 0,
+					"gain": -20,
+					"chance": 0.25
+				}
+			],
+			"volume": -2,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_gravel": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/gravel",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"step_metal": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/metal",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -4,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 15,
+			"max": 4,
+			"cooldown": 0.06,
+			"spatial": true,
+			"range": 16,
+			"duck": 0
+		},
+		"footstep": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "step/dirt",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -4,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 20,
+			"max": 3,
+			"cooldown": 0.08,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"chest_open": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/chest_wood",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "trap/latch",
+					"delay": 0,
+					"gain": -8
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.26,
+					"gain": -10,
+					"pitch": 1.4
+				}
+			],
+			"volume": 0,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 60,
+			"max": 2,
+			"cooldown": 0.2,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"chest_iron": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/chest_iron",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.26,
+					"gain": -10,
+					"pitch": 1.4
+				}
+			],
+			"volume": 0,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 60,
+			"max": 2,
+			"cooldown": 0.2,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"chest_giant": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/giant_creak",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "world/boing",
+					"delay": 0.7,
+					"gain": -2
+				},
+				{
+					"set": "world/poof",
+					"delay": 1.1,
+					"gain": -2
+				}
+			],
+			"volume": 0,
+			"pitch": 0.02,
+			"vol_jitter": 1,
+			"priority": 70,
+			"max": 1,
+			"cooldown": 0.6,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"door": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/door_open",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 55,
+			"max": 2,
+			"cooldown": 0.2,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"door_close": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/door_close",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 50,
+			"max": 2,
+			"cooldown": 0.2,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"gate_cross": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/gate_iron",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.03,
+			"vol_jitter": 1.5,
+			"priority": 60,
+			"max": 1,
+			"cooldown": 0.6,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"gate_big": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/gate_big",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "hit/boom",
+					"delay": 2.6,
+					"gain": -2
+				}
+			],
+			"volume": 0,
+			"pitch": 0.02,
+			"vol_jitter": 1,
+			"priority": 80,
+			"max": 1,
+			"cooldown": 3,
+			"spatial": false,
+			"range": 0,
+			"duck": -3
+		},
+		"lever_clunk": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/lever",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "tool/clink",
+					"delay": 0.08,
+					"gain": -6
+				}
+			],
+			"volume": 0,
+			"pitch": 0.03,
+			"vol_jitter": 1,
+			"priority": 60,
+			"max": 1,
+			"cooldown": 0.3,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"vault_grind": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/stone_slide",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "hit/boom",
+					"delay": 0.9,
+					"gain": -4
+				}
+			],
+			"volume": 0,
+			"pitch": 0.02,
+			"vol_jitter": 1,
+			"priority": 70,
+			"max": 1,
+			"cooldown": 0.8,
+			"spatial": false,
+			"range": 0,
+			"duck": -2
+		},
+		"smoke_bomb": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/poof",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.16,
+					"gain": -8,
+					"pitch": 1.6
+				}
+			],
+			"volume": 0,
+			"pitch": 0.03,
+			"vol_jitter": 1,
+			"priority": 65,
+			"max": 1,
+			"cooldown": 0.4,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"splash": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/splash",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -1,
+			"pitch": 0.06,
+			"vol_jitter": 2,
+			"priority": 50,
+			"max": 2,
+			"cooldown": 0.15,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"boing": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/boing",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -2,
+			"pitch": 0.06,
+			"vol_jitter": 1.5,
+			"priority": 50,
+			"max": 2,
+			"cooldown": 0.15,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"sign_read": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "trap/creak",
+					"delay": 0,
+					"gain": -8,
+					"pitch": 1.3
+				},
+				{
+					"set": "ui/page",
+					"delay": 0,
+					"gain": -4
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 40,
+			"max": 1,
+			"cooldown": 0.4,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"pickup": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "glass/tap",
+					"delay": 0,
+					"gain": 0,
+					"pitch": 1.3
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.07,
+					"gain": -3,
+					"pitch": 1.68
+				},
+				{
+					"set": "tool/leather",
+					"delay": 0,
+					"gain": -8
+				}
+			],
+			"volume": -2,
+			"pitch": 0.03,
+			"vol_jitter": 1.5,
+			"priority": 55,
+			"max": 2,
+			"cooldown": 0.15,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"thrower_launch": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "swing/whoosh",
+					"delay": 0,
+					"gain": 0,
+					"pitch": 0.8
+				},
+				{
+					"set": "card/thud_heavy",
+					"delay": 0,
+					"gain": -4
+				},
+				{
+					"set": "world/whoosh_big",
+					"delay": 0.06,
+					"gain": -8
+				}
+			],
+			"volume": 0,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 70,
+			"max": 1,
+			"cooldown": 0.4,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"thrower_land": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "card/thud_heavy",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "hit/soft",
+					"delay": 0,
+					"gain": -4
+				},
+				{
+					"set": "card/dust",
+					"delay": 0.02,
+					"gain": -4
+				}
+			],
+			"volume": -3,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 70,
+			"max": 1,
+			"cooldown": 0.4,
+			"spatial": false,
+			"range": 0,
+			"duck": -2
+		},
+		"rift_open": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/riser",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "amb/rift_crackle",
+					"delay": 0.6,
+					"gain": -4
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 65,
+			"max": 1,
+			"cooldown": 0.6,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"rift_seal": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/riser",
+					"delay": 0,
+					"gain": -6,
+					"pitch": 1.4
+				},
+				{
+					"set": "hit/boom",
+					"delay": 0.2,
+					"gain": 0
+				},
+				{
+					"set": "glass/tap",
+					"delay": 0.35,
+					"gain": -8,
+					"pitch": 0.8
+				}
+			],
+			"volume": 0,
+			"pitch": 0.03,
+			"vol_jitter": 1,
+			"priority": 75,
+			"max": 1,
+			"cooldown": 0.8,
+			"spatial": false,
+			"range": 0,
+			"duck": -3
+		},
+		"portal_enter": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/whoosh_big",
+					"delay": 0,
+					"gain": 0
+				},
+				{
+					"set": "world/riser",
+					"delay": 0,
+					"gain": -8
+				}
+			],
+			"volume": -2,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 60,
+			"max": 1,
+			"cooldown": 0.6,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"dungeon_enter": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/stone_slide",
+					"delay": 0,
+					"gain": -3
+				},
+				{
+					"set": "world/whoosh_big",
+					"delay": 0.35,
+					"gain": -6
+				}
+			],
+			"volume": -1,
+			"pitch": 0.04,
+			"vol_jitter": 1.5,
+			"priority": 60,
+			"max": 1,
+			"cooldown": 0.6,
+			"spatial": false,
+			"range": 0,
+			"duck": 0
+		},
+		"zone_transition": {
+			"bus": "World",
+			"layers": [
+				{
+					"set": "world/whoosh_big",
+					"delay": 0,
+					"gain": 0
+				}
+			],
+			"volume": -6,
+			"pitch": 0.06,
+			"vol_jitter": 1.5,
+			"priority": 40,
+			"max": 1,
+			"cooldown": 0.8,
 			"spatial": false,
 			"range": 0,
 			"duck": 0

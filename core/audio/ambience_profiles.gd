@@ -97,6 +97,16 @@ const PROFILES: Dictionary = {
 	"capital_grave_restored": {"base": "capital_in", "beds": [], "oneshots": [{"set": "amb/bird_song", "every": [8.0, 18.0], "db": -12.0, "dist": [10.0, 22.0], "up": [3.0, 8.0]}, {"set": "amb/wind_chime", "every": [12.0, 26.0], "db": -14.0, "dist": [6.0, 14.0], "up": [2.0, 4.0]}]},
 	"capital_reek_broken": {"base": "capital_in", "beds": [{"set": "amb/flies", "db": -12.0}], "oneshots": [{"set": "amb/junk_rustle", "every": [6.0, 14.0], "db": -12.0, "dist": [5.0, 12.0], "up": [0.0, 1.0]}]},
 	"capital_reek_restored": {"base": "capital_in", "beds": [{"set": "amb/crickets_bed", "db": -10.0}], "oneshots": [{"set": "amb/bird_song", "every": [8.0, 18.0], "db": -12.0, "dist": [10.0, 22.0], "up": [3.0, 8.0]}, {"set": "amb/frog", "every": [12.0, 26.0], "db": -14.0, "dist": [8.0, 18.0], "up": [0.0, 0.5]}]},
+	# The whole city once Primm has fallen: the perfect quiet breaks into a living town.
+	"capital_restored": {
+		"acoustic": "stone_plaza",
+		"beds": [{"set": "amb/town_bed", "db": -3.0}],
+		"oneshots": [
+			{"set": "amb/bird_song", "every": [6.0, 14.0], "db": -10.0, "dist": [10.0, 24.0], "up": [3.0, 9.0]},
+			{"set": "amb/chatter", "every": [7.0, 15.0], "db": -10.0, "dist": [10.0, 20.0], "up": [0.5, 1.5]},
+			{"set": "amb/fountain_splash", "every": [5.0, 11.0], "db": -14.0, "dist": [10.0, 20.0], "up": [0.5, 1.5]},
+		],
+	},
 	# Dungeon node maps and menus: no bed.
 	"none": {"acoustic": "dry", "beds": [], "oneshots": []},
 }

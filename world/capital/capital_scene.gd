@@ -137,6 +137,10 @@ func _build_completion_state() -> void:
 	if Session.flag(CapitalZone.FLAG_FREED):
 		var hub: Vector3 = builder.anchor("crease_spawn")
 		_build_freed_npcs(hub)
+	# Sound pass: the first time the hero is back with the gate won, the great gate winds open with a hollow boom (once per save; a cosmetic flag nothing else reads).
+	if Session.flag(CapitalZone.FLAG_GATE_OPEN) and not Session.flag(&"sfx_gate_heard"):
+		Session.set_flag(&"sfx_gate_heard")
+		get_tree().create_timer(1.4).timeout.connect(func() -> void: Audio.sfx(&"gate_big"))
 
 
 func _station_layer() -> int:
@@ -302,6 +306,7 @@ func _play_area_music(fade: float) -> void:
 	var area_id: String = area.id if area != null else ""
 	_music_area = area_id
 	Audio.play_music(StringName(MusicDirector.capital_area(area_id, Session.flags, _inside)), fade)
+	Audio.set_ambience(ZoneSoundscape.capital_profile(area_id, _inside, Session.flags), maxf(fade, 1.0))
 	# every way into a district changes the area music (walking, the gate crossing, the wall passage straight into the Reek, a teleport)
 	_welcome_district.call_deferred(area_id)
 
@@ -645,6 +650,7 @@ func _seal_rift(spot: ZoneSpot) -> void:
 	if bool(result["ok"]):
 		capital.close_rift(rift_id)
 		Audio.sting(&"STG-RIFT")
+		Audio.sfx(&"rift_seal")
 		hud.set_gold(Session.gold)
 		_shake = 0.6
 	_report(result)
@@ -811,7 +817,7 @@ func _cross_gate(now_inside: bool) -> void:
 		if look_rig != null:
 			look_rig.set_mood(id)
 		_play_area_music(0.8)
-		Audio.sfx(&"heal" if now_inside else &"door")
+		Audio.sfx(&"gate_cross")
 		hud.toast("Welcome to Primm's Perfection. Everything is perfectly fine." if now_inside else "Back out into the wastes.", UIStyle.GOLD))
 	tween.tween_property(veil, "color:a", 0.0, 0.9)
 	tween.tween_callback(veil.queue_free)

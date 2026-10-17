@@ -110,6 +110,27 @@ func is_floor_at(pos: Vector3) -> bool:
 	return layout.cell_at(cell.x, cell.y) == CapitalLayout.Cell.GROUND
 
 
+## Footsteps by the floor kind: ash and dead grass outside, cobbled roads, the pastel plaza and white paving inside, lawns, soil, grating.
+func surface_at(pos: Vector3) -> StringName:
+	var cell: Vector2i = layout.cell_of(pos.x, pos.z)
+	match layout.floor_at(cell.x, cell.y):
+		CapitalLayout.Floor.GRAVEL:
+			return &"gravel"
+		CapitalLayout.Floor.ROAD, CapitalLayout.Floor.HUB:
+			return &"cobble"
+		CapitalLayout.Floor.PLAZA, CapitalLayout.Floor.TILE:
+			return &"pastel"
+		CapitalLayout.Floor.LAWN, CapitalLayout.Floor.GRASS:
+			return &"grass"
+		CapitalLayout.Floor.SOIL:
+			return &"dirt"
+		CapitalLayout.Floor.METAL:
+			return &"metal"
+		CapitalLayout.Floor.GRAY, CapitalLayout.Floor.DEAD:
+			return &"ash"
+	return &"stone"
+
+
 func map_bounds() -> Rect2:
 	return Rect2(0.0, 0.0, float(CapitalLayout.W), float(CapitalLayout.H))
 

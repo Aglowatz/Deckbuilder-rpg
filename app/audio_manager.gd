@@ -132,9 +132,11 @@ func play(sound: StringName, opts: Dictionary = {}) -> void:
 		return
 	var event: Dictionary = bank.event(event_name)
 	var cooldown: float = float(event.get("cooldown", 0.04))
-	if _now - float(_last_played.get(event_name, -1000.0)) < cooldown:
+	# NPC footsteps keep their own cooldown, so a passer-by never swallows the hero's step.
+	var cooldown_key: String = event_name + str(opts.get("cooldown_key", ""))
+	if _now - float(_last_played.get(cooldown_key, -1000.0)) < cooldown:
 		return
-	_last_played[event_name] = _now
+	_last_played[cooldown_key] = _now
 	if float(event.get("duck", 0.0)) < 0.0:
 		duck_moment(float(event["duck"]), 0.45)
 	if DisplayServer.get_name() == "headless":
@@ -152,12 +154,15 @@ func play(sound: StringName, opts: Dictionary = {}) -> void:
 	var layers: Array = event.get("layers", []) as Array
 	for layer_index: int in range(layers.size()):
 		var layer: Dictionary = layers[layer_index] as Dictionary
+		# A layer with a chance plays only that often (a can clinking under some junk footsteps).
+		if layer.has("chance") and picker.rng.randf() > float(layer["chance"]):
+			continue
 		# Each layer counts against the event's instance limit on its own (a three-layer sound is one instance, not three).
 		var spec: Dictionary = {
-			"event": "%s#%d" % [event_name, layer_index], "set": str(layer.get("set", "")), "bus": bus, "priority": int(event.get("priority", 50)),
+			"event": "%s#%d" % [event_name, layer_index], "set": str(layer.get("set", "")), "bus": bus, "priority": int(opts.get("priority", event.get("priority", 50))),
 			"max": int(event.get("max", 3)), "volume": base_volume + float(layer.get("gain", 0.0)),
 			"pitch": base_pitch * float(layer.get("pitch", 1.0)) * picker.pitch(0.01), "spatial": spatial, "position": position,
-			"range": float(event.get("range", 0.0)),
+			"range": float(opts.get("range", event.get("range", 0.0))),
 		}
 		var delay: float = float(layer.get("delay", 0.0)) / maxf(speed, 0.1)
 		if delay <= 0.0:
@@ -285,6 +290,38 @@ func note_missing(name_or_set: String) -> void:
 
 func _battle_speed() -> float:
 	return Settings.BATTLE_SPEEDS[clampi(Settings.battle_speed, 0, Settings.BATTLE_SPEEDS.size() - 1)]
+
+
+# ---- Footsteps ------------------------------------------------------------------------------------
+
+
+## The area the hero walks on (`TownPlayer.setup`): footsteps ask it which surface is under a foot. Weak, so a left scene is never kept alive.
+var _ground: WeakRef = null
+## How far an NPC's footsteps carry (metres from the hero); further ones are not played at all.
+const NPC_STEP_RANGE: float = 11.0
+
+
+func set_ground(area: WalkableArea) -> void:
+	_ground = weakref(area) if area != null else null
+
+
+## The surface under `position` (grass when there is no area).
+func surface_at(position: Vector3) -> StringName:
+	var area: WalkableArea = _ground.get_ref() as WalkableArea if _ground != null else null
+	return area.surface_at(position) if area != null else &"grass"
+
+
+## A footstep at `position` on the ground there: the hero's at full level, anyone else's quieter, shorter-reaching and lower in priority.
+func footstep(position: Vector3, hero: bool) -> void:
+	var event_name: String = "step_" + str(surface_at(position))
+	if not bank.has_event(event_name):
+		event_name = "step_grass"
+	if hero:
+		play(StringName(event_name), {"position": position})
+		return
+	if DisplayServer.get_name() != "headless" and listener_position().distance_to(position) > NPC_STEP_RANGE:
+		return
+	play(StringName(event_name), {"position": position, "volume": -9.0, "priority": 8, "range": NPC_STEP_RANGE, "cooldown_key": "#npc"})
 
 
 # ---- Ducking, listener ----------------------------------------------------------------------------

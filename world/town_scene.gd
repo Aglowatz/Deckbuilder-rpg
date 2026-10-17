@@ -125,6 +125,9 @@ func screenshot_prepare(args: Dictionary) -> void:
 func _ready() -> void:
 	SceneManager.pause_allowed = true
 	Audio.play_music(MusicDirector.town(Session.flags))
+	Audio.set_ambience("town")
+	# The plaza fountain is heard from round the square (sound pass, Part C).
+	add_child(AmbientEmitter.make("spot/fountain", TownLayout.PLAZA + Vector3(0.0, 1.0, 0.0), 16.0, -2.0))
 	ZoneStyles.use_preset(StylePresets.TOWN)
 	if not _screenshot_args.is_empty():
 		if str(_screenshot_args.get("fresh", "false")) == "true":
@@ -1157,7 +1160,7 @@ func _use_well_door() -> void:
 You are fully healed on entry. Lose a duel and you are carried back to town." % plan.story, "Descend", "Not yet")
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
-			Audio.sfx(&"door")
+			Audio.sfx(&"dungeon_enter")
 			Session.enter_town_side_dungeon(), func() -> void: _locked = false))
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
@@ -1479,7 +1482,7 @@ func _pull_lever() -> void:
 		hud.toast("The lever will not budge any further.", UIStyle.MUTED)
 		return
 	Session.set_flag(VAULT_LEVER_FLAG)
-	Audio.sfx(&"door")
+	Audio.sfx(&"lever_clunk")
 	hud.toast("Something deep in the vault unlocks.", UIStyle.GOLD)
 	Session.save_game()
 
@@ -1669,7 +1672,7 @@ func _use_zone_portal(zone_id: String) -> void:
 		hud.toast("The way to %s is sealed. Defeat its corrupted guardian to open it." % info.display_name, info.tint.lightened(0.35))
 		Audio.sfx(&"ui_error")
 		return
-	Audio.sfx(&"door")
+	Audio.sfx(&"portal_enter")
 	if ZoneDefs.has_def(zone_id):
 		Session.enter_zone(zone_id)
 		return
@@ -1692,7 +1695,7 @@ func _use_gate() -> void:
 	_locked = true
 	dialog.confirmed.connect(func() -> void:
 		DeckPicker.guard(_overlay_layer, func() -> void:
-			Audio.sfx(&"door")
+			Audio.sfx(&"dungeon_enter")
 			Session.begin_trial(), func() -> void: _locked = false))
 	dialog.cancelled.connect(func() -> void: _locked = false)
 
@@ -2094,4 +2097,5 @@ func _read_signpost(index: int) -> void:
 	var lines: Array[String] = []
 	for line: Variant in square.streets.signpost_lines[index]:
 		lines.append(str(line))
+	Audio.sfx(&"sign_read")
 	dialogue.start("Signpost", lines)

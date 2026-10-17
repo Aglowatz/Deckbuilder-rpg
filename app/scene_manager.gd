@@ -57,6 +57,10 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	var screen: LoadingScreen = null
 	if show_loading_screens and not area.is_empty() and area != current_area and DisplayServer.get_name() != "headless":
 		screen = LoadingScreen.make(area, Session.dungeon_key)
+	# Sound pass: a gust carries the hero into another area; the old place's ambience fades with the picture (the new scene sets its own).
+	if not area.is_empty() and area != current_area and not current_area.is_empty():
+		Audio.sfx(&"zone_transition")
+	Audio.set_ambience("none", fade_time + 0.3)
 	var out: Tween = create_tween()
 	out.tween_property(_fade, "modulate:a", 1.0, fade_time)
 	await out.finished

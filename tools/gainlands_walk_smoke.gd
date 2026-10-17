@@ -234,5 +234,9 @@ func _fail(message: String) -> void:
 
 
 func _finish(ok: bool, reason: String) -> void:
+	# Sound pass: what was heard on the walk (footsteps by surface, interactions, the ambience profiles) and anything with no sound.
+	print("%s: sounds %s" % [TAG, str(Audio.play_counts)])
+	print("%s: ambience %s" % [TAG, str(Audio.ambience.area_history)])
+	print("%s: missing sounds %s" % [TAG, str(Audio.missing_log)])
 	print("%s: %s - %s" % [TAG, "OK" if ok else "FAILED", reason])
 	get_tree().quit(0 if ok else 1)
