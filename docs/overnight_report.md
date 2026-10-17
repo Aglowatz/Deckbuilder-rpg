@@ -126,4 +126,5 @@ the colosseum stood (ON-27); the dialogue pass kept what was already good (ON-29
   leftover announcement block a gatekeeper talk; the bot now clears overlays first).
 - `bash tools/run_town_slice_smoke.sh`: PASSED (14 spots) after raising its dialogue guard: Bertram's long intro is now split into more,
   shorter boxes and outlasted the old 12-press limit. Older smokes with a short dialogue guard may need the same nudge.
+- `bash tools/run_gainlands_walk_smoke.sh`: OK (rerun after everything). `bash tools/run_quest_smoke.sh`: OK (rerun after everything).
 - GUT: 1664 tests, all passing.
