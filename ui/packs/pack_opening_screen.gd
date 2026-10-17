@@ -215,7 +215,8 @@ func _flip(index: int, quick: bool = false) -> void:
 	var rarity: int = int(entry.card.rarity)
 	var colour: Color = RARITY_FLAIR[rarity]
 	holder.z_index = 5
-	Audio.sfx(&"pack_flip", -2.0, 0.1)
+	# Sound pass, Part D: the flip snaps a little higher for each rarity step.
+	Audio.play(&"pack_flip", {"pitch_scale": 1.0 + 0.06 * float(rarity)})
 	if rarity >= 3 and not quick:
 		# The Legendary moment: the room dims and the card hangs, glowing, before it turns.
 		_hint.text = ""
@@ -249,12 +250,12 @@ func _flair(index: int, holder: Control, colour: Color, quick: bool) -> void:
 		0:
 			PackFx.burst(self, centre, colour, 10, 220.0, 0.6)
 		1:
-			Audio.sfx(&"pack_chime_uncommon", -6.0)
+			Audio.sfx(&"pack_reveal_uncommon")
 			PackFx.burst(self, centre, colour, 26, 360.0, 0.9, true)
 			PackFx.ring(self, centre, colour, 260.0, 0.6)
 		2:
 			Audio.sting(&"STG-PACK-RARE")
-			Audio.sfx(&"hit_metal", -8.0)
+			Audio.sfx(&"pack_reveal_rare")
 			_shake = 7.0
 			PackFx.flash(self, colour, 0.3, 0.45)
 			PackFx.burst(self, centre, colour, 46, 520.0, 1.1, true)
@@ -263,8 +264,7 @@ func _flair(index: int, holder: Control, colour: Color, quick: bool) -> void:
 			_rays_behind(holder, colour, 0.35, 1.4)
 		3:
 			Audio.sting(&"STG-PACK-LEGEND")
-			Audio.sfx(&"hit_heavy", -2.0)
-			Audio.sfx(&"turn_start", -4.0)
+			Audio.sfx(&"pack_reveal_legend")
 			_shake = 18.0
 			PackFx.flash(self, Color(1.0, 0.92, 0.65), 0.85, 1.0)
 			PackFx.burst(self, centre, colour, 90, 760.0, 1.6, true)

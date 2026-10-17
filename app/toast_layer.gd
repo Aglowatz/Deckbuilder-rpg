@@ -57,7 +57,7 @@ func show_toast(text: String, tint: Color, icon: Texture2D) -> void:
 	while _column.get_child_count() > MAX_VISIBLE:
 		_column.get_child(0).queue_free()
 		_column.remove_child(_column.get_child(0))
-	Audio.sfx(&"coins", -10.0)
+	Audio.sfx(&"notify")
 	var tween: Tween = panel.create_tween()
 	tween.tween_property(panel, "modulate:a", 1.0, 0.25)
 	tween.tween_interval(LIFETIME)

@@ -36,6 +36,10 @@ var history: Array[String] = []
 var missing_log: Dictionary = {}
 ## How often each name was asked for this run (the smokes print it).
 var play_counts: Dictionary = {}
+## Counts every sound request (effects and stings); `UiSounds` compares it across a button press to see whether the screen made its own sound.
+var play_serial: int = 0
+## The interface sounds every button, tab and slider gets (`UiSounds`).
+var ui_sounds: UiSounds
 
 var _catalog: Dictionary = AudioCatalog.sounds()
 var _cache: Dictionary = {}
@@ -84,6 +88,9 @@ func _ready() -> void:
 	ambience = AmbienceManager.new()
 	ambience.name = "AmbienceManager"
 	add_child(ambience)
+	ui_sounds = UiSounds.new()
+	ui_sounds.name = "UiSounds"
+	add_child(ui_sounds)
 	_ensure_master_limiter()
 
 
@@ -117,6 +124,7 @@ func sfx_at(sound: StringName, position: Vector3, volume_db: float = 0.0) -> voi
 ## Plays an event. Options: `volume` (dB, added), `pitch` (random range override, >= 0), `pitch_scale` (a fixed multiplier, e.g. a speaker's voice),
 ## `position` (Vector3: plays in 3D), `speed` (layer delays shrink with it; battle events default to the battle speed).
 func play(sound: StringName, opts: Dictionary = {}) -> void:
+	play_serial += 1
 	if STING_ALIASES.has(sound):
 		if music.sting(str(STING_ALIASES[sound]), float(opts.get("volume", 0.0))):
 			if STING_LAYERS.has(sound):
@@ -438,6 +446,7 @@ func pop_music(token: int = 0, fade: float = 1.2) -> void:
 
 ## A musical sting (STG-...) over the music, which ducks while it rings.
 func sting(id: StringName, extra_db: float = 0.0) -> void:
+	play_serial += 1
 	music.sting(str(id), extra_db)
 
 

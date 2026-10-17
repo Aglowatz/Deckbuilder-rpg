@@ -403,3 +403,17 @@ world/whoosh_big,01,"synth:anoisesrc=c=pink:d=1.4:a=0.6:seed=21",,,"bandpass=f=9
 world/whoosh_big,02,"synth:anoisesrc=c=pink:d=1.6:a=0.6:seed=33",,,"bandpass=f=700:width_type=o:w=2,afade=t=in:d=0.7:curve=qsin,afade=t=out:st=0.7:d=0.9:curve=qsin",world,2,ogg,,
 world/riser,01,"synth:anoisesrc=c=pink:d=1.6:a=0.6:seed=44",,,"bandpass=f=1200:width_type=o:w=1.5,afade=t=in:d=1.4:curve=exp,afade=t=out:st=1.45:d=0.15",world,1,ogg,,a rift tearing open (generated)
 world/riser,02,"synth:anoisesrc=c=pink:d=1.3:a=0.6:seed=45",,,"bandpass=f=1500:width_type=o:w=1.5,afade=t=in:d=1.1:curve=exp,afade=t=out:st=1.15:d=0.15",world,1,ogg,,
+# ---- Part D: UI and menus ----
+pack/open,01,kenney:casino-audio/cards-pack-open-1.ogg,,,lowpass=f=9000,card,1,ogg,,a card pack torn open
+pack/open,02,kenney:casino-audio/cards-pack-open-2.ogg,,,lowpass=f=9000,card,1,ogg,,
+ui/coins_big,01,kenney:casino-audio/chips-stack-1.ogg,,,lowpass=f=9000,ui,1,ogg,,a satisfying pile of coins (purchases and big sums)
+ui/coins_big,02,kenney:casino-audio/chips-stack-3.ogg,,,lowpass=f=9000,ui,1,ogg,,
+ui/coins_big,03,kenney:casino-audio/chips-stack-5.ogg,,,lowpass=f=9000,ui,1,ogg,,
+ui/coins_big,04,kenney:casino-audio/chips-collide-2.ogg,,,lowpass=f=9000,ui,1,ogg,,
+voice/tok,01,"synth:aevalsrc=(sin(2*PI*480*t)+0.35*sin(2*PI*1440*t)+0.15*sin(2*PI*1920*t))*exp(-40*t):d=0.1:s=44100",,,"lowpass=f=3200,highpass=f=200",voice,1,wav,,a soft woody tok per typed character (generated)
+voice/tok,02,"synth:aevalsrc=(sin(2*PI*520*t)+0.3*sin(2*PI*1560*t)+0.12*sin(2*PI*2080*t))*exp(-42*t):d=0.1:s=44100",,,"lowpass=f=3200,highpass=f=200",voice,1,wav,,
+voice/tok,03,"synth:aevalsrc=(sin(2*PI*560*t)+0.32*sin(2*PI*1680*t)+0.1*sin(2*PI*2240*t))*exp(-44*t):d=0.1:s=44100",,,"lowpass=f=3200,highpass=f=200",voice,1,wav,,
+voice/tok,04,"synth:aevalsrc=(sin(2*PI*500*t)+0.38*sin(2*PI*1250*t)+0.1*sin(2*PI*2000*t))*exp(-40*t):d=0.1:s=44100",,,"lowpass=f=3200,highpass=f=200",voice,1,wav,,
+voice/airy,01,"synth:anoisesrc=d=0.09:c=pink:a=0.6:seed=61",,,"bandpass=f=1100:width_type=o:w=1.2,afade=t=in:d=0.012,afade=t=out:st=0.02:d=0.07",voice,1,wav,,a breathy tok for ghosts and skeletons (generated)
+voice/airy,02,"synth:anoisesrc=d=0.09:c=pink:a=0.6:seed=62",,,"bandpass=f=900:width_type=o:w=1.2,afade=t=in:d=0.012,afade=t=out:st=0.02:d=0.07",voice,1,wav,,
+voice/airy,03,"synth:anoisesrc=d=0.09:c=pink:a=0.6:seed=63",,,"bandpass=f=1300:width_type=o:w=1.2,afade=t=in:d=0.012,afade=t=out:st=0.02:d=0.07",voice,1,wav,,

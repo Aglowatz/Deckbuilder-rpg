@@ -293,6 +293,8 @@ Each older smoke run **once**, one Godot process at a time, headless where possi
 | ninth brief | headless, capped at 90 s | 7 ok, 1 fail | zone-effects tooltip is a `HoverTip` on each row now (no `tooltip_text`): check the row names and the hover instead | none seen |
 | tenth brief | headless, capped at 90 s | 35 ok, 7 fail | broken-services tooltip is a `HoverTip` per row now | facade citizen and Widow Pell: E after a teleport did nothing (no dialogue, quest not taken; 5 follow-on checks fail with it). **Not diagnosed:** the checks now print overlay / lock / dialogue / nearest spot so the next run shows what swallows the E. |
 | eleventh brief | headless, capped at 90 s | 59 ok, 0 fail before the cap | none | none seen |
+| eleventh brief (again, 2026-10-16, windowed) | SMOKE_ONLY=general | **fail**: after walking to Sable, E talks to the equipment vendor beside her (the same with the sound pass's interface hook off, SFX-26) | not yet | the walk target sits between two vendors |
+| town interaction (2026-10-16, windowed) | full | **fail** at the equipment vendor's four checks (the same with the interface hook off) | not yet | likely the same vendor proximity |
 | twelfth brief | - | **no smoke exists** (`tools/` has none; brief 12's look / tailor / wardrobe flow is covered by the thirteenth) | - | - |
 | thirteenth brief | headless, capped at 90 s | ok except 1 stale check | since the passageway rework the zone name on approach is the town's passage label, not the portal spot's plate | none seen |
 

@@ -222,6 +222,7 @@ func _buy(card: CardData) -> void:
 	Session.add_cards([card] as Array[CardData])
 	Session.save_game()
 	Audio.sting(&"STG-PURCHASE")
+	Audio.sfx(&"shop_buy")
 	_say("Bought %s." % card.display_name, UIStyle.GOOD)
 	vendor_react("buy")
 	_refresh()

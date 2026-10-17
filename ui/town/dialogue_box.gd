@@ -106,6 +106,10 @@ func _fit_speaker() -> void:
 	_plate.visible = _speaker.text.strip_edges() != ""
 
 
+## The speaker's typing voice (sound pass, Part D).
+var _voice: Dictionary = {"event": &"dialogue", "pitch": 1.0}
+
+
 ## Starts a conversation. `speaker` is the name label; `speaker_npc_id` (an NPC ID of `NpcRegistry`) picks the portrait - when it is empty the speaker label is
 ## looked up in the NPC list. An NPC from the list is shown under its list name; a label that only aliases one (the throwers, a rift technician) keeps its own name.
 func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -> void:
@@ -129,6 +133,8 @@ func start(speaker: String, lines: Array[String], speaker_npc_id: String = "") -
 			_portrait_id = entry.portrait_id
 			_right_side = entry.side == "right"
 	_speaker.text = _plate_text(speaker, entry)
+	# Sound pass, Part D: the typed text speaks in this speaker's little voice (DialogueVoice).
+	_voice = DialogueVoice.for_speaker(entry.species if entry != null else "", speaker)
 	_fit_speaker()
 	_layout()
 	active = true
@@ -224,7 +230,7 @@ func _show_line() -> void:
 	_tween.tween_property(_text, "visible_ratio", 1.0, duration)
 	_tween.tween_callback(_portrait.set_talking.bind(false))
 	var ticker: Tween = create_tween().set_loops(int(duration / 0.07))
-	ticker.tween_callback(func() -> void: Audio.sfx(&"dialogue", -16.0, 0.2))
+	ticker.tween_callback(func() -> void: Audio.play(_voice["event"] as StringName, {"pitch_scale": float(_voice["pitch"])}))
 	ticker.tween_interval(0.07)
 
 

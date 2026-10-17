@@ -396,6 +396,19 @@ Every file is CC0 (Kenney's packs, freesound sounds filtered to Creative Commons
 | `world/whoosh_big_02.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, world |
 | `world/riser_01.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, world |
 | `world/riser_02.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, world |
+| `pack/open_01.ogg` | [Kenney casino audio (cards-pack-open-1.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, card |
+| `pack/open_02.ogg` | [Kenney casino audio (cards-pack-open-2.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, card |
+| `ui/coins_big_01.ogg` | [Kenney casino audio (chips-stack-1.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, ui |
+| `ui/coins_big_02.ogg` | [Kenney casino audio (chips-stack-3.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, ui |
+| `ui/coins_big_03.ogg` | [Kenney casino audio (chips-stack-5.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, ui |
+| `ui/coins_big_04.ogg` | [Kenney casino audio (chips-collide-2.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, ui |
+| `voice/tok_01.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, voice |
+| `voice/tok_02.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, voice |
+| `voice/tok_03.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, voice |
+| `voice/tok_04.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, voice |
+| `voice/airy_01.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, voice |
+| `voice/airy_02.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, voice |
+| `voice/airy_03.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, voice |
 
 ## Freesound authors
 

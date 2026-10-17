@@ -422,14 +422,14 @@ func _add(card: CardData) -> void:
 		return
 	editor.add(card)
 	_dirty = true
-	Audio.sfx(&"card_play", -6.0)
+	Audio.sfx(&"deck_add")
 	_refresh()
 
 
 func _remove(card: CardData) -> void:
 	if editor.remove(card):
 		_dirty = true
-		Audio.sfx(&"card_discard", -6.0)
+		Audio.sfx(&"deck_remove")
 		_refresh()
 
 
@@ -569,7 +569,7 @@ func _autofill() -> void:
 	var added: int = editor.autofill_infrastructure()
 	if added > 0:
 		_dirty = true
-		Audio.sfx(&"card_shuffle", -6.0)
+		Audio.sfx(&"deck_sort")
 		_say("Added %d basic infrastructure." % added)
 	else:
 		_say("Nothing to fill: the deck already has %d cards." % editor.deck.size())

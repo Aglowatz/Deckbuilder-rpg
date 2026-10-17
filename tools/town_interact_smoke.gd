@@ -337,5 +337,7 @@ func _fail(message: String) -> void:
 
 
 func _finish(ok: bool, reason: String) -> void:
+	print("town_interact_smoke: sounds %s" % str(Audio.play_counts))
+	print("town_interact_smoke: missing sounds %s" % str(Audio.missing_log))
 	print("town_interact_smoke: %s - %s" % ["OK" if ok else "FAILED", reason])
 	get_tree().quit(0 if ok else 1)

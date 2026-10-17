@@ -117,3 +117,24 @@ rift_seal,World,world/riser~1.4:-6+hit/boom@200+glass/tap@350~0.8:-8,0,3,1,75,1,
 portal_enter,World,world/whoosh_big+world/riser:-8,-2,4,1.5,60,1,600,,,,stepping through a zone portal
 dungeon_enter,World,world/stone_slide:-3+world/whoosh_big@350:-6,-1,4,1.5,60,1,600,,,,a dungeon entrance
 zone_transition,World,world/whoosh_big,-6,6,1.5,40,1,800,,,,a gust between areas
+# ---- Part D: UI and menus ----
+ui_tab,UI,ui/page:-2+ui/tap~1.1:-12,-2,5,1.5,30,1,80,,,,a tab: a page turn
+ui_slider,UI,ui/paper_tick~1.3:-4,-6,3,1,15,1,55,,,,a slider notch
+dialogue,Voice,voice/tok,-6,4,1.5,20,2,50,,,,a soft woody tok per typed step (pitched per speaker)
+dialogue_airy,Voice,voice/airy,-4,6,1.5,20,2,50,,,,the breathy version for ghosts and skeletons
+notify,UI,ui/paper_tick+glass/tap~1.5:-10,-4,4,1.5,30,1,250,,,,a notification
+quest_accept,UI,necro/quill:-6+ui/tap@120~1.2+ui/tap@230~1.5:-3,-2,2,1,55,1,500,,,,a pen scratch and a short rising motif
+quest_complete,UI,necro/stamp:-4+glass/tap@120~1.26+glass/tap@240~1.5:-2+ui/coins@220:-10,-2,2,1,60,1,500,,,-2,a stamp and a bright rising pair
+game_save,UI,necro/quill~1.1:-4+ui/book_close@260:-2,-2,3,1,45,1,500,,,,a manual save: a quill and a book closed
+game_load,UI,ui/book_open+ui/page@200:-4,-2,3,1,45,1,500,,,,a save loaded
+shop_buy,UI,ui/coins_big+ui/coins@110:-4+ui/tap@60:-12,-2,4,1.5,55,2,200,,,,a satisfying pile of coins under the purchase sting
+deck_add,UI,card/snap:-2+ui/tap:-12,-4,5,1.5,35,2,50,,,,a card into the deck
+deck_remove,UI,card/shove~1.1:-2+ui/tap~0.8:-12,-4,5,1.5,35,2,50,,,,a card out of the deck
+deck_sort,UI,card/shuffle:-4,-4,3,1,30,1,400,,,,
+pack_tear,UI,pack/open+necro/rip@40:-6,0,3,1,60,1,300,,,,a pack torn open: foil and a crisp rip
+pack_whoosh,UI,swing/whoosh~1.2:-2+card/fan@40:-4,-2,3,1,50,1,200,,,,cards fan out of the pack
+pack_flip,UI,card/snap+card/slide:-8,-2,5,1.5,45,4,40,,,,a card flipped in the reveal (pitched up with rarity)
+pack_reveal_uncommon,UI,glass/tap~1.26+glass/tap@90~1.68:-2,-2,2,1,55,1,200,,,,a bright two-note glint
+pack_reveal_rare,UI,glass/tap~1.12+glass/tap@80~1.5:-2+hit/bell@40~1.5:-8+air/breath:-6,-2,2,1,65,1,300,,,,under the rare sting
+pack_reveal_legend,UI,wonder/gong+glass/tap@120~1.26:-2+glass/tap@220~1.68:-3+glass/tap@330~2.0:-4+air/breath:-2,-2,1,1,80,1,600,,,-3,under the legendary sting
+level_up_layer,UI,glass/tap+glass/tap@90~1.26+glass/tap@180~1.5+glass/tap@270~2.0:-2+air/breath:-4+card/fan:-6,-4,1,1,80,1,1000,,,,a rising cascade under the level-up sting

@@ -553,6 +553,8 @@ func _check(condition: bool, message: String) -> void:
 
 
 func _finish(ok: bool, reason: String) -> void:
+	print("%s: sounds %s" % [TAG, str(Audio.play_counts)])
+	print("%s: missing sounds %s" % [TAG, str(Audio.missing_log)])
 	print("%s: %s - %s" % [TAG, "OK" if ok else "FAILED", reason])
 	get_tree().quit(0 if ok else 1)
 

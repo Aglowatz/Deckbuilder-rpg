@@ -162,8 +162,8 @@ func _do_save(slot: int) -> void:
 	if save_name.is_empty():
 		save_name = "Save %d" % slot
 	if Session.save_to_slot(slot, save_name, snapshot):
+		Audio.sfx(&"game_save")
 		_status.text = "Saved to %s." % SaveSlots.slot_label(slot)
-		Audio.sfx(&"ui_confirm")
 	else:
 		_status.text = "The game could not be saved."
 		Audio.sfx(&"ui_error")
@@ -181,7 +181,7 @@ func _on_load(slot: int) -> void:
 
 func _do_load(slot: int) -> void:
 	if Session.load_from_slot(slot):
-		Audio.sfx(&"ui_confirm")
+		Audio.sfx(&"game_load")
 		loaded.emit()
 	else:
 		_status.text = "That save could not be loaded."
