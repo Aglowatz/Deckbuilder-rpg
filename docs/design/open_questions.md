@@ -1059,3 +1059,12 @@ The graphics and staging pass for the main town and the hub zone round it (Oct 1
 | CP-13 | Boundary art is built, not painted | The ridge boulders, walls, fences, hedges and the gatehouse are kit-textured geometry (the rock texture, ENV-WALL-FOUNDATION, the hedge and plank surfaces); a painted cliff / ridge card set and a gatehouse concept would lift them (listed in the report). | `BoundaryKit`, `PantryGate` |
 | CP-14 | Hidden chests and the new ground | The `harbor_pier` chest stood on the old map's east rim, outside the orchard wall: it moved just inside the wall north of the pantry gate. The `harbor_dock` chest lay right on the new loop lane: it moved into the reeds of the lake's north shore. The lane bends round the others (a test keeps every hidden chest off it). `docs/design/secrets.md` updated. | `TownBuilder.HIDDEN_CHEST_OFFSETS` |
 | CP-15 | Outskirt vignettes as data | The outskirts get a short hand-placed list of kit vignettes (`OutskirtDressing.PIECES`) checked against the lane, roads, buildings, spots and edge, rather than a generated scatter: the brief asks for clusters with purpose at walls and junctions, and a list is easy to tune (`refused` names what did not fit). | `OutskirtDressing` |
+
+## The Capital correction pass (CAP-40...)
+
+The graphics and correction pass for both halves of the Capital (Oct 17), after the layout and art passes. Report: `docs/art/capital_pass.md`.
+
+| ID | Question | Decision | Where |
+|---|---|---|---|
+| CAP-40 | The Crease in the audit | The underground hideout is a separate hall reached by teleports, not either half of the Capital; its box tables, columns and stall are listed but left for a pass of its own. | `docs/art/capital_pass.md` |
+| CAP-41 | Place spots' name plates | The floating lettered plates of place spots (the complaint box, the booth, a rift-stone, a poster) are readable world text drawn over everything; the Capital hides them as the town did (CP-3): the HUD prompt names the place, people keep their names. | `CapitalScene` |

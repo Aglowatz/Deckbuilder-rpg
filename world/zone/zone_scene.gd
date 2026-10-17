@@ -196,6 +196,15 @@ func screenshot_prepare(args: Dictionary) -> void:
 	_screenshot_args = args
 
 
+## The blocking circles (x, z, radius) and anchors the top-down plan view draws (`--top --plan`); a zone with them overrides these.
+func _plan_obstacles() -> Array[Vector3]:
+	return [] as Array[Vector3]
+
+
+func _plan_anchors() -> Dictionary:
+	return {}
+
+
 func _ready() -> void:
 	def = ZoneDefs.get_def(_zone_id())
 	SceneManager.pause_allowed = true
@@ -263,6 +272,23 @@ func _ready() -> void:
 		GiantChestEvent.screenshot_run(self, def.id, giant_chest_node, _screenshot_args)
 	if _screenshot_args.has("lever") and vault_lever_node != null:
 		VaultLeverEvent.screenshot_run(self, def.id, vault_lever_node)
+	# Capital pass: the top-down audit view (`--top=x,z,size [--plan=true]`, PlanView) and the sway log (`--windlog=true`), as in town
+	if _screenshot_args.has("top"):
+		if _screenshot_args.has("nofog"):
+			for node: Node in find_children("*", "WorldEnvironment", true, false):
+				var env: Environment = (node as WorldEnvironment).environment
+				if env != null:
+					env.fog_enabled = false
+					env.volumetric_fog_enabled = false
+					env.glow_enabled = false
+		PlanView.install(self, builder, _plan_obstacles(), _plan_anchors(), str(_screenshot_args["top"]), str(_screenshot_args.get("plan", "false")) == "true")
+	if _screenshot_args.has("windlog"):
+		# after the style rig has turned the materials into its toon and card shaders
+		get_tree().create_timer(1.5).timeout.connect(func() -> void:
+			var lines: PackedStringArray = PlanView.swaying(self)
+			print("SWAY-COUNT ", lines.size())
+			for line: String in lines:
+				print("SWAY ", line))
 	ZoneTitleCard.show_in(self, Areas.key_for_zone(def.id), _screenshot_args.is_empty() or _screenshot_args.has("card"))
 	Session.save_game()
 

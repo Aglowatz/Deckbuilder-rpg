@@ -804,6 +804,17 @@ func _dress_zone() -> void:
 	wasteland = CapitalWasteland.build(self, capital, layout, quality)
 
 
+func _plan_obstacles() -> Array[Vector3]:
+	var circles: Array[Vector3] = capital.layout.obstacles.duplicate()
+	if not capital.gate_open:
+		circles.append_array(capital.layout.gate_blockers)
+	return circles
+
+
+func _plan_anchors() -> Dictionary:
+	return capital.layout.anchors
+
+
 ## `--at=po_<region>` stands the hero on a recorded paint-over camera spot (`CapitalLayout.PO_CAMERAS`), facing north.
 func _teleport(anchor_name: String) -> void:
 	if CapitalLayout.PO_CAMERAS.has(anchor_name):

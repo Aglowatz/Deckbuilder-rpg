@@ -24,13 +24,15 @@ static func install(scene: Node3D, area: WalkableArea, obstacles: Array[Vector3]
 
 static func _overlay(scene: Node3D, area: WalkableArea, obstacles: Array[Vector3], anchors: Dictionary, centre: Vector3, size: float) -> void:
 	var step: float = 0.6
+	# the orthographic size is the view's height (16:9 frame): cover the whole frame
 	var half: float = size * 0.5
+	var half_x: float = half * 16.0 / 9.0
 	var walk: SurfaceTool = SurfaceTool.new()
 	walk.begin(Mesh.PRIMITIVE_TRIANGLES)
-	var x: float = centre.x - half
-	while x < centre.x + half:
-		var z: float = centre.z - half * 0.6
-		while z < centre.z + half * 0.6:
+	var x: float = centre.x - half_x
+	while x < centre.x + half_x:
+		var z: float = centre.z - half
+		while z < centre.z + half:
 			if area.is_walkable(Vector3(x, 0.0, z), 0.3):
 				for v: Vector3 in [Vector3(x, 0, z), Vector3(x + step, 0, z), Vector3(x + step, 0, z + step), Vector3(x, 0, z), Vector3(x + step, 0, z + step), Vector3(x, 0, z + step)]:
 					walk.add_vertex(v + Vector3(0.0, 6.0, 0.0))
@@ -40,7 +42,7 @@ static func _overlay(scene: Node3D, area: WalkableArea, obstacles: Array[Vector3
 	var red: SurfaceTool = SurfaceTool.new()
 	red.begin(Mesh.PRIMITIVE_TRIANGLES)
 	for circle: Vector3 in obstacles:
-		if absf(circle.x - centre.x) > half + 4.0 or absf(circle.y - centre.z) > half + 4.0:
+		if absf(circle.x - centre.x) > half_x + 4.0 or absf(circle.y - centre.z) > half + 4.0:
 			continue
 		for s: int in range(12):
 			var a0: float = TAU * float(s) / 12.0
@@ -88,10 +90,17 @@ static func swaying(root: Node) -> PackedStringArray:
 		if geometry is MeshInstance3D and (geometry as MeshInstance3D).mesh != null:
 			for surface: int in range((geometry as MeshInstance3D).mesh.get_surface_count()):
 				materials.append((geometry as MeshInstance3D).get_active_material(surface))
+		# card fields, scatter and grass are MultiMeshes: their mesh's own surface materials
+		if geometry is MultiMeshInstance3D and (geometry as MultiMeshInstance3D).multimesh != null and (geometry as MultiMeshInstance3D).multimesh.mesh != null:
+			var multimesh_mesh: Mesh = (geometry as MultiMeshInstance3D).multimesh.mesh
+			for surface: int in range(multimesh_mesh.get_surface_count()):
+				materials.append(multimesh_mesh.surface_get_material(surface))
 		for material: Material in materials:
 			if material is ShaderMaterial:
 				var shader_material: ShaderMaterial = material as ShaderMaterial
 				var wind: Variant = shader_material.get_shader_parameter("wind_amount")
+				if wind == null:
+					wind = shader_material.get_shader_parameter("wind_strength")
 				var sway: Variant = shader_material.get_shader_parameter("sway")
 				if (wind != null and float(wind) > 0.0) or (sway != null and float(sway) > 0.0):
 					lines.append("%s @ %s wind=%s sway=%s" % [str(root.get_path_to(geometry)), str(geometry.global_position.snapped(Vector3.ONE * 0.1)), str(wind), str(sway)])
