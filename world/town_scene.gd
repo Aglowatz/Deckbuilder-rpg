@@ -228,6 +228,11 @@ func _ready() -> void:
 		_teleport(str(_screenshot_args["at"]))
 	if _screenshot_args.has("open"):
 		_screenshot_open.call_deferred(str(_screenshot_args["open"]))
+	if _screenshot_args.has("top"):
+		PlanView.install(self, town, town.obstacles, town.anchors, str(_screenshot_args["top"]), str(_screenshot_args.get("plan", "false")) == "true")
+	if _screenshot_args.has("windlog"):
+		for line: String in PlanView.swaying(self):
+			print("SWAY ", line)
 	if Session.town_notice != "":
 		hud.toast(Session.town_notice, UIStyle.GOLD)
 		Session.town_notice = ""

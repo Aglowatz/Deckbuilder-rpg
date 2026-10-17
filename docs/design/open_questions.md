@@ -1037,3 +1037,12 @@ Made while the user slept (overnight brief: quests, equipment, hub world, dialog
 | ON-30 | Zone mini-stories | One local per zone remembers the king and the little prince (Old Man Mountain: the Lifting Festival; Agnes: the prince's funeral form that was never filed; Basil: the four-layer birthday cake the fake chef forgot; Brother Bramble: eleven royal trees, then nothing, and a glowing young man carried through the woods), and a quiet beat when the zone is freed. Played straight, no punchline. | zone story files |
 | ON-31 | Maren's "dearie" | The NPC list says Maren calls everyone "dearie"; her early lines now do (the memory scenes stay as they were). | intro_story.tres |
 | ON-32 | Fit budget | A box may wrap to 4 lines at the default text size and 6 at the largest (the box grows upward to fit); every story line passes (tests/test_dialogue_fit.gd). | DialogueBox.wrapped_lines |
+
+## The Crosspath pass (CP-1...)
+
+The graphics and staging pass for the main town and the hub zone round it (Oct 17). Report: `docs/art/crosspath_pass.md`.
+
+| ID | Question | Decision | Where |
+|---|---|---|---|
+| CP-1 | Who runs the town's black market? | Fig Sly's black market lives in the Capital (the Crease). The town's black market is the Secret Dealer (`hidden_vendor`, Epic and Legendary goods, unlocked by the giant chest), so the Secret Dealer is the one who moves into the dim alley. Fig Sly is untouched. | `TownLayout`, `TownScene` |
+| CP-2 | A failing GUT test before the pass | `test_world_look_rig.gd: test_the_rig_aims_the_camera_low_and_pushes_the_look` fails on the clean tree too (the camera's FOV is 46, the test wants 44): it reads the dev PC's saved settings (`zoom=2.0` in `user://settings.cfg`). Not caused by this pass; left as is and noted in the backlog. | tests |
