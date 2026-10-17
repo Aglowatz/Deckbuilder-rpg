@@ -20,6 +20,9 @@ var movers: Dictionary = {}
 ## Zone id -> true once cleared (as built, or after the animation).
 var cleared: Dictionary = {}
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
+## Crosspath pass, Part D: the town (its solid circles) and, per zone, the circles that close the road while the obstacle stands.
+var _town: TownBuilder
+var _gate_circles: Dictionary = {}
 
 
 static func build(parent: Node3D, town: TownBuilder, flags: Dictionary) -> HubObstacles:
@@ -27,6 +30,7 @@ static func build(parent: Node3D, town: TownBuilder, flags: Dictionary) -> HubOb
 	node.name = "HubObstacles"
 	parent.add_child(node)
 	node._rng.seed = 404
+	node._town = town
 	for zone_id: String in Gatekeepers.IDS:
 		var mouth: Vector3 = town.anchors.get("portal_%s_mouth" % zone_id, Vector3.ZERO) as Vector3
 		var out: Vector3 = TownBuilder.PORTAL_OUT.get(zone_id, Vector3(0, 0, -1)) as Vector3
@@ -39,7 +43,7 @@ static func build(parent: Node3D, town: TownBuilder, flags: Dictionary) -> HubOb
 		root.rotation.y = atan2(out.x, out.z)  # local +Z points down the road, away from town
 		if absf(out.x) > 0.5 and Gatekeepers.obstacle(zone_id) != Gatekeepers.Obstacle.THORNS:
 			# The camera looks north: an obstacle across an east or west road would be seen edge-on, so it stands at an angle across the way.
-			root.rotation.y += deg_to_rad(-38.0 * signf(out.x))
+			root.rotation.y += deg_to_rad(38.0 * signf(out.x))  # Crosspath pass: turned so the face looks south-west / south-east, at the camera and the town
 		match Gatekeepers.obstacle(zone_id):
 			Gatekeepers.Obstacle.BRIDGE:
 				node._bridge(root, zone_id, is_cleared)
@@ -49,6 +53,8 @@ static func build(parent: Node3D, town: TownBuilder, flags: Dictionary) -> HubOb
 				node._pantry_door(root, zone_id, is_cleared)
 			Gatekeepers.Obstacle.THORNS:
 				node._thorns(root, zone_id, is_cleared)
+		if town.hub_land and Gatekeepers.obstacle(zone_id) != Gatekeepers.Obstacle.BRIDGE:
+			node._seal(root, zone_id, is_cleared)
 		for child: Node in root.find_children("*", "MeshInstance3D", true, false):
 			(child as Node3D).set_meta(&"no_range_cull", true)
 	return node
@@ -63,6 +69,10 @@ func play_cleared(zone_id: String) -> void:
 	if is_cleared(zone_id) or not movers.has(zone_id):
 		return
 	cleared[zone_id] = true
+	if _town != null:
+		for circle: Variant in _gate_circles.get(zone_id, []) as Array:
+			_town.obstacles.erase(circle as Vector3)
+	_gate_circles.erase(zone_id)
 	var mover: Node3D = movers[zone_id] as Node3D
 	var tween: Tween = create_tween()
 	match Gatekeepers.obstacle(zone_id):
@@ -77,7 +87,8 @@ func play_cleared(zone_id: String) -> void:
 			tween.set_parallel(true)
 			for leaf: Node in mover.get_children():
 				var side: float = float((leaf as Node3D).get_meta(&"side", 1.0))
-				tween.tween_property(leaf, "rotation:y", deg_to_rad(-105.0 * side), 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+				var open: float = float((leaf as Node3D).get_meta(&"open_yaw", deg_to_rad(-105.0 * side)))
+				tween.tween_property(leaf, "rotation:y", open, 2.0).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 		Gatekeepers.Obstacle.THORNS:
 			Audio.sfx(&"chest_open")
 			for part: Node in mover.find_children("*", "MeshInstance3D", true, false):
@@ -189,45 +200,19 @@ func _barrier(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 
 
 func _pantry_door(root: Node3D, zone_id: String, is_cleared: bool) -> void:
-	var stone: StandardMaterial3D = _textured(STONE_TEX, Color(0.98, 0.9, 0.78), Vector3(2.0, 2.0, 1.0))
-	var wood: StandardMaterial3D = _textured(WOOD_TEX, Color(0.82, 0.58, 0.36), Vector3(1.0, 2.0, 1.0))
-	var iron: StandardMaterial3D = _textured(METAL_TEX, Color(0.36, 0.33, 0.32), Vector3.ONE)
-	var at: float = -0.7
-	var half_width: float = 2.3
-	var height: float = 5.0
-	# The frame: two stone jambs and a lintel, wide and tall (the door is two and a half doors high).
-	for side: float in [-1.0, 1.0]:
-		var jamb: MeshInstance3D = _box(Vector3(0.9, height + 0.6, 1.1), stone)
-		jamb.position = Vector3(side * (half_width + 0.45), (height + 0.6) * 0.5, at)
-		root.add_child(jamb)
-	var lintel: MeshInstance3D = _box(Vector3(half_width * 2.0 + 1.8, 0.9, 1.2), stone)
-	lintel.position = Vector3(0.0, height + 0.45, at)
-	root.add_child(lintel)
-	# A giant fork-and-spoon crest over the door (a picture, no lettering).
-	IconSign.attach(root, "ICON-RES-INGREDIENT", Vector3(0.0, height + 0.45, at - 0.62), 0.8)
-	var leaves: Node3D = Node3D.new()
-	leaves.name = "DoorLeaves"
-	leaves.position = Vector3(0.0, 0.0, at)
-	root.add_child(leaves)
-	for side: float in [-1.0, 1.0]:
-		var hinge: Node3D = Node3D.new()
-		hinge.set_meta(&"side", side)
-		hinge.position = Vector3(side * half_width, 0.0, 0.0)
-		leaves.add_child(hinge)
-		var leaf: MeshInstance3D = _box(Vector3(half_width, height, 0.28), wood)
-		leaf.position = Vector3(-side * half_width * 0.5, height * 0.5, 0.0)
-		hinge.add_child(leaf)
-		for band_y: float in [0.9, height * 0.5, height - 0.9]:
-			var band: MeshInstance3D = _box(Vector3(half_width * 0.96, 0.18, 0.06), iron)
-			band.position = Vector3(-side * half_width * 0.5, band_y, -0.17)
-			hinge.add_child(band)
-		hinge.rotation.y = deg_to_rad(-105.0 * side) if is_cleared else 0.0
-	# The lock plate with a keyhole the size of a dinner plate, on the left leaf's edge.
-	var plate: MeshInstance3D = _box(Vector3(0.7, 1.0, 0.1), iron)
-	plate.position = Vector3(-0.38, 2.0, -0.2)
-	(leaves.get_child(0) as Node3D).add_child(plate)
-	plate.position = Vector3(half_width - 0.45, 2.0, -0.2)
-	movers[zone_id] = leaves
+	# Crosspath pass, Part D: an enormous carved door in a stone gatehouse, its wing walls run into the orchard wall (PantryGate).
+	var gate: Dictionary = PantryGate.build(root, is_cleared, _passage_wings(root))
+	movers[zone_id] = gate["leaves"] as Node3D
+	if _town != null:
+		for circle: Vector3 in gate["solid"] as Array[Vector3]:
+			_town.obstacles.append(_world_circle(root, circle))
+		if not is_cleared:
+			var shut: Array = []
+			for circle: Vector3 in gate["door"] as Array[Vector3]:
+				var world: Vector3 = _world_circle(root, circle)
+				_town.obstacles.append(world)
+				shut.append(world)
+			_gate_circles[zone_id] = shut
 
 
 # ---- The Verdant Dump: the thorn wall ----------------------------------------------------------------------------------------------------------
@@ -281,6 +266,91 @@ func _thorns(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 	if is_cleared:
 		holder.visible = false
 	movers[zone_id] = holder
+
+
+# ---- Crosspath pass, Part D: no way round an obstacle ---------------------------------------------------------------------------------------
+
+
+## The two ends (local x, z) of this road's passage gap in the walkable outline, the one on the obstacle's left (-x) first.
+func _passage_wings(root: Node3D) -> Array[Vector2]:
+	var ends: Array[Vector2] = TownBounds.passage_for(root.position)
+	var local: Array[Vector2] = []
+	for end: Vector2 in ends:
+		var p: Vector3 = root.transform.affine_inverse() * Vector3(end.x, 0.0, end.y)
+		local.append(Vector2(p.x, p.z))
+	if local.size() == 2 and local[0].x > local[1].x:
+		local.reverse()
+	return local
+
+
+## A circle given in the obstacle's frame (x, z, radius) in world space.
+func _world_circle(root: Node3D, circle: Vector3) -> Vector3:
+	var p: Vector3 = root.transform * Vector3(circle.x, 0.0, circle.y)
+	return Vector3(p.x, p.z, circle.z)
+
+
+## The barrier and the thorn wall: a wing from each end of the obstacle to the end of the passage gap on its side (a stone wall and a fence beside
+## the checkpoint, brambles beside the thorns; always solid) and, while the obstacle stands, a line of solid circles along it.
+func _seal(root: Node3D, zone_id: String, is_cleared: bool) -> void:
+	var kind: Gatekeepers.Obstacle = Gatekeepers.obstacle(zone_id)
+	if kind == Gatekeepers.Obstacle.PANTRY_DOOR:
+		return  # PantryGate builds its own wings
+	var ends: Array[Vector2] = [Vector2(-3.4, -0.6), Vector2(3.4, -0.6)]
+	if kind == Gatekeepers.Obstacle.BARRIER:
+		ends = [Vector2(-2.3, -0.9), Vector2(1.9, -0.9)]
+	var targets: Array[Vector2] = _passage_wings(root)
+	if targets.size() != 2:
+		return
+	var mesh: KitMesh = KitMesh.new()
+	mesh.set_material("stone", EnvKit.material("ENV-WALL-FOUNDATION"))
+	mesh.set_material("coping", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(0.86, 0.84, 0.8)))
+	mesh.set_material("beam", EnvKit.material("ENV-BEAM"))
+	mesh.set_material("wood", EnvKit.material("ENV-PROP-FENCE-RAIL"))
+	mesh.set_material("leaf", EnvKit.material("ENV-HEDGE", false, Color(0.42, 0.5, 0.36)))
+	for index: int in range(2):
+		var from: Vector2 = ends[index]
+		var to: Vector2 = targets[index]
+		var length: float = from.distance_to(to)
+		if length < 0.2:
+			continue
+		var dir: Vector2 = (to - from) / length
+		var basis: Basis = Basis(Vector3(dir.x, 0, dir.y), Vector3.UP, Vector3(dir.x, 0, dir.y).cross(Vector3.UP))
+		var mid: Vector2 = (from + to) * 0.5
+		if kind == Gatekeepers.Obstacle.THORNS:
+			var along: float = 0.0
+			while along <= length:
+				var p: Vector2 = from + dir * along
+				mesh.blob("leaf", Vector3(p.x, 0.5, p.y), Vector3(0.85, 0.75, 0.85) * (0.85 + _rng.randf() * 0.4), 4, 8, 0.55)
+				along += 0.9
+		elif index == 0:
+			# the fence side of the checkpoint
+			var posts: int = maxi(1, int(ceil(length / 1.8)))
+			for i: int in range(posts + 1):
+				var p: Vector2 = from.lerp(to, float(i) / float(posts))
+				mesh.box("beam", Vector3(p.x, 0.65, p.y), Vector3(0.18, 1.3, 0.18), basis, 0.03)
+			for rail_y: float in [0.55, 1.05]:
+				mesh.box("wood", Vector3(mid.x, rail_y, mid.y), Vector3(length, 0.12, 0.08), basis, 0.02)
+		else:
+			# the stone-wall side
+			mesh.box("stone", Vector3(mid.x, 0.62, mid.y), Vector3(length + 0.6, 1.25, 0.6), basis, 0.06, 0.72)
+			mesh.box("coping", Vector3(mid.x, 1.33, mid.y), Vector3(length + 0.72, 0.18, 0.8), basis, 0.04)
+		var steps: int = maxi(1, int(ceil(length / 0.6)))
+		for i: int in range(steps + 1):
+			var p: Vector2 = from.lerp(to, float(i) / float(steps))
+			_town.obstacles.append(_world_circle(root, Vector3(p.x, p.y, 0.42)))
+	var body: MeshInstance3D = mesh.instance("PassageWings")
+	body.set_meta(&"no_wind", true)
+	root.add_child(body)
+	if is_cleared:
+		return
+	var shut: Array = []
+	var steps_across: int = maxi(1, int(ceil(ends[0].distance_to(ends[1]) / 0.6)))
+	for i: int in range(steps_across + 1):
+		var p: Vector2 = ends[0].lerp(ends[1], float(i) / float(steps_across))
+		var world: Vector3 = _world_circle(root, Vector3(p.x, p.y, 0.42))
+		_town.obstacles.append(world)
+		shut.append(world)
+	_gate_circles[zone_id] = shut
 
 
 # ---- helpers -------------------------------------------------------------------------------------------------------------------------------------

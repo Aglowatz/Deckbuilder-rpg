@@ -13,14 +13,14 @@ extends RefCounted
 
 ## The outline, clockwise from the north-west corner: each entry starts an edge (to the next entry) of the given kind.
 const OUTLINE: Array = [
-	[Vector2(-23.0, -17.2), "ridge"],
-	[Vector2(13.4, -17.2), "passage"],
-	[Vector2(19.0, -17.2), "ridge"],
-	[Vector2(38.0, -17.2), "forest"],
-	[Vector2(73.2, -17.2), "orchard_wall"],
+	[Vector2(-23.0, -23.4), "ridge"],
+	[Vector2(13.4, -23.4), "passage"],
+	[Vector2(19.0, -23.4), "ridge"],
+	[Vector2(38.0, -23.4), "forest"],
+	[Vector2(73.2, -23.4), "orchard_wall"],
 	[Vector2(73.2, 8.2), "passage"],
 	[Vector2(73.2, 16.8), "orchard_wall"],
-	[Vector2(73.2, 21.4), "water"],
+	[Vector2(73.2, 22.0), "water"],
 	# the lake's north shore, running west, then its west shore south (the chest's peninsula and the dock reach out into it)
 	[Vector2(66.0, 21.0), "water"],
 	[Vector2(59.5, 22.2), "water"],
@@ -55,10 +55,21 @@ const OUTLINE: Array = [
 	[Vector2(-23.0, 9.4), "thorns"],
 ]
 
+## The loop round the town (Part D): a worn lane outside every building, crossing each road well clear of its passage, along the lakeshore and the field
+## edges. `TownStreets` paves it as a dirt lane; the walkability test walks it.
+const LOOP: PackedVector2Array = [
+	Vector2(-16.0, -17.6), Vector2(-2.0, -18.4), Vector2(10.0, -18.0), Vector2(16.2, -17.2), Vector2(24.0, -17.4), Vector2(36.0, -17.6), Vector2(50.0, -17.8),
+	Vector2(64.0, -17.0), Vector2(68.2, -8.0), Vector2(67.4, 4.0), Vector2(67.0, 12.47), Vector2(64.6, 18.2), Vector2(61.0, 16.9), Vector2(56.4, 21.6), Vector2(53.4, 25.4),
+	Vector2(53.2, 33.0), Vector2(53.6, 41.0), Vector2(54.0, 46.0), Vector2(53.4, 52.0), Vector2(53.0, 58.0), Vector2(49.0, 63.6), Vector2(38.0, 65.0),
+	Vector2(25.2, 63.2), Vector2(14.0, 64.6), Vector2(4.0, 64.0), Vector2(-1.2, 59.0), Vector2(-1.6, 50.0), Vector2(-2.0, 45.0), Vector2(-8.0, 43.4), Vector2(-11.4, 40.8),
+	Vector2(-11.6, 36.6), Vector2(-14.0, 34.3), Vector2(-15.4, 26.0), Vector2(-17.0, 18.0), Vector2(-16.4, 12.47), Vector2(-17.2, 4.0), Vector2(-18.0, -8.0),
+]
+const LANE_WIDTH: float = 2.8
+
 ## The lake (drawn as natural shore; the outline above keeps the hero a little inside its water line): a closed shape a few metres beyond the
 ## walkable shore, running out east past the orchard wall and south into the gorge.
 const LAKE: PackedVector2Array = [
-	Vector2(66.0, 19.4), Vector2(75.0, 18.6), Vector2(86.0, 22.0), Vector2(92.0, 32.0), Vector2(90.0, 46.0), Vector2(84.0, 58.0), Vector2(74.0, 66.0),
+	Vector2(66.0, 23.2), Vector2(75.4, 23.6), Vector2(86.0, 24.0), Vector2(92.0, 32.0), Vector2(90.0, 46.0), Vector2(84.0, 58.0), Vector2(74.0, 66.0),
 	Vector2(66.0, 71.4), Vector2(61.6, 71.4), Vector2(60.2, 66.0), Vector2(57.6, 60.6), Vector2(56.8, 54.4), Vector2(57.4, 50.2), Vector2(57.6, 45.6),
 	Vector2(57.2, 41.6), Vector2(62.0, 41.4), Vector2(65.0, 42.0), Vector2(68.6, 39.6), Vector2(68.2, 35.0),
 	Vector2(64.0, 33.8), Vector2(57.2, 33.6), Vector2(56.6, 30.0), Vector2(57.4, 26.6), Vector2(60.6, 24.0),
@@ -138,6 +149,41 @@ static func samples(step: float, kinds: PackedStringArray = []) -> Array[Diction
 			var t: float = float(i) / float(count)
 			var p: Vector2 = a.lerp(b, t)
 			result.append({"pos": Vector3(p.x, 0.0, p.y), "out": Vector3(out.x, 0.0, out.y), "kind": kind, "t": t, "edge": index, "length": length})
+	return result
+
+
+## The two ends (x, z) of the passage gap nearest to a zone's passage mouth.
+static func passage_for(mouth: Vector3) -> Array[Vector2]:
+	var best: Array[Vector2] = []
+	var best_d: float = 1.0e9
+	for edge: Dictionary in edges():
+		if str(edge["kind"]) != "passage":
+			continue
+		var a: Vector2 = edge["a"] as Vector2
+		var b: Vector2 = edge["b"] as Vector2
+		var d: float = Vector2(mouth.x, mouth.z).distance_to((a + b) * 0.5)
+		if d < best_d:
+			best_d = d
+			best = [a, b]
+	return best
+
+
+## Distance from `pos` to the loop lane's centre line.
+static func lane_distance(pos: Vector3) -> float:
+	var flat: Vector2 = Vector2(pos.x, pos.z)
+	var best: float = 1.0e9
+	for index: int in range(LOOP.size()):
+		var closest: Vector2 = Geometry2D.get_closest_point_to_segment(flat, LOOP[index], LOOP[(index + 1) % LOOP.size()])
+		best = minf(best, flat.distance_to(closest))
+	return best
+
+
+## The loop lane as a closed list of points (x, 0, z) for the path builder.
+static func lane_points() -> Array[Vector3]:
+	var result: Array[Vector3] = []
+	for p: Vector2 in LOOP:
+		result.append(Vector3(p.x, 0.0, p.y))
+	result.append(Vector3(LOOP[0].x, 0.0, LOOP[0].y))
 	return result
 
 

@@ -2,7 +2,8 @@ class_name TownExpansion
 extends RefCounted
 ## The buildings out in the hub's fields and on its shore. Crosspath pass, Part B: the seventeen toy KayKit huts, wells, towers and camping tents of
 ## the old "polish round" are gone; what stays is a handful of storybook-scale kit buildings placed with a purpose, each with its own little
-## vignette: a farmhouse with a fenced garden at the edge of the south-west field and a wayside cottage with a garden by the meadow road. Every site keeps clear of the roads and stands inside the walkable country
+## vignette: a farmhouse with a fenced garden at the edge of the south-west field, a fisher's cottage on the lake's west shore, a boat shed beside
+## the dock and a wayside cottage with a garden by the meadow road. Every site keeps clear of the roads and stands inside the walkable country
 ## (`TownBounds`); `tests/world/test_crosspath_cleanup.gd` checks both.
 
 
@@ -31,6 +32,10 @@ static func sites() -> Array[Site]:
 	return [
 		# the south-west field: a thatched farmhouse looking over its field, a fenced vegetable garden beside the door
 		Site.make("Farmhouse", "cottage", 12.4, 50.2, 0.0, [["fence_garden", 5.4, 1.6, 0.0], ["garden_bed", 5.2, 3.4, 0.0], ["barrel_pair", -3.6, 0.9, 0.0]]),
+		# the lake's west shore (Part D): the fisher's cottage faces the water across the lane, barrels by its side
+		Site.make("Fisher's cottage", "cottage", 50.0, 27.2, 90.0, [["barrel_pair", -3.2, -1.6, 0.0]], {"width": 5.0, "depth": 4.4}),
+		# beside the dock: a small stone boat shed
+		Site.make("Boat shed", "stone_hut", 50.6, 45.6, 90.0, [["crates", -3.4, -1.5, 0.0]], {"width": 4.6, "depth": 3.8}),
 		# the meadow road: a wayside cottage facing the road, its garden to the south
 		Site.make("Wayside cottage", "home_a", 42.2, 55.4, -90.0, [["fence_garden", -4.4, 1.4, 0.0], ["bench_nook", 3.6, 1.2, 0.0]], {"width": 6.0, "depth": 5.4, "floors": 1}),
 	]

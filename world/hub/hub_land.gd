@@ -43,6 +43,8 @@ var lakes: Array[Array] = []
 var town_water: Array[Vector3] = []
 const TOWN_WATER_RADIUS: float = 2.7
 var tree_count: int = 0
+## Crosspath pass, Part D: the visible edge of the walkable country, the town lake and its dock (BoundaryKit, from TownBounds).
+var boundary: BoundaryKit
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _trees: Dictionary = {}
 ## Ground the outskirts buildings and the dock stand on: no tree is planted within KEEP_CLEAR of them.
@@ -61,6 +63,7 @@ static func build(parent: Node3D, town_builder: TownBuilder, water: Material) ->
 	land._build_ground()
 	land._build_lakes(water)
 	land._build_gorge()
+	land.boundary = BoundaryKit.build(land, water, GROUND_Y)
 	for zone_id: Variant in land.roads.keys():
 		land._build_road(str(zone_id))
 	land._dress_roads()
@@ -128,7 +131,9 @@ func _plan_lakes() -> void:
 			var inside_map: bool = row < rows and col < cols
 			if (inside_map and TownBuilder.MAP[row][col] == ".") or (not inside_map and row >= 12 and row <= 17):
 				enclosed.append(town.cell_center(col - TownBuilder.COL_OFFSET, row - TownBuilder.ROW_OFFSET))
-	town_water = enclosed
+	# Crosspath pass, Part D: the hex-cell water (ponds cut into the grass, the scalloped town lake) is gone; BoundaryKit draws the town lake from
+	# TownBounds.LAKE with a natural bank. The cells above are kept only to place the far lakes the same way as before.
+	town_water = []
 	var bounds: Rect2 = town.map_bounds()
 	var centre: Vector3 = Vector3(bounds.get_center().x, 0.0, bounds.get_center().y)
 	for candidate: Vector3 in [centre + Vector3(68.0, 0.0, -52.0), centre + Vector3(-74.0, 0.0, 58.0), centre + Vector3(80.0, 0.0, 70.0)]:
@@ -145,6 +150,8 @@ func _distance_to_roads(p: Vector3) -> float:
 
 
 func _near_lake(p: Vector3, margin: float) -> bool:
+	if TownBounds.in_lake(p) or _lake_edge_distance(p) < margin:
+		return true
 	for cell: Vector3 in town_water:
 		if Vector2(p.x - cell.x, p.z - cell.z).length() < TOWN_WATER_RADIUS + margin:
 			return true
@@ -153,6 +160,15 @@ func _near_lake(p: Vector3, margin: float) -> bool:
 		if Vector2(p.x - c.x, p.z - c.z).length() < float(lake[1]) + margin:
 			return true
 	return false
+
+
+func _lake_edge_distance(p: Vector3) -> float:
+	var flat: Vector2 = Vector2(p.x, p.z)
+	var best: float = 1.0e9
+	var shape: PackedVector2Array = TownBounds.LAKE
+	for i: int in range(shape.size()):
+		best = minf(best, flat.distance_to(Geometry2D.get_closest_point_to_segment(flat, shape[i], shape[(i + 1) % shape.size()])))
+	return best
 
 
 ## True inside the Gainlands gorge (plus `margin` metres round it).
@@ -535,7 +551,8 @@ func _tree_belt() -> void:
 		var angle: float = _rng.randf() * TAU
 		var distance: float = lerpf(reach * 0.35, 135.0, pow(_rng.randf(), 1.6))
 		var p: Vector3 = middle + Vector3(cos(angle), 0.0, sin(angle)) * distance
-		if town.is_floor_at(p) or _near_floor(p, 1.4):
+		# Crosspath pass, Part D: the first metres beyond the edge belong to its own blocker (BoundaryKit), the belt grows behind them
+		if town.is_floor_at(p) or _near_floor(p, 7.0):
 			continue
 		var edge: float = _floor_distance(p, 9.0)
 		var keep: float = 0.85 if edge < 9.0 else 0.18
@@ -659,45 +676,4 @@ func _outskirts() -> void:
 			building.scale = Vector3.ONE * float(entry[3])
 			building.set_meta(&"no_occlusion_fade", true)
 			_kept_clear.append(pos)
-	_dock(root)
 
-
-## A short wooden dock reaching into the town lake from its north shore, with a moored rowing boat's worth of posts (visual only).
-func _dock(root: Node3D) -> void:
-	if town_water.is_empty():
-		return
-	var best: Vector3 = Vector3.INF
-	for cell: Vector3 in town_water:
-		var shore: Vector3 = cell + Vector3(0.0, 0.0, -2.6)
-		if town.is_floor_at(shore) and not town.is_floor_at(cell) and (best == Vector3.INF or cell.x > best.x):
-			best = cell
-	if best == Vector3.INF:
-		return
-	var wood: StandardMaterial3D = StandardMaterial3D.new()
-	wood.albedo_texture = load("res://assets/art/textures/mat_woodplanks_albedo.webp") as Texture2D
-	wood.albedo_color = Color(0.86, 0.72, 0.56)
-	wood.uv1_triplanar = true
-	var dock: Node3D = Node3D.new()
-	dock.name = "LakeDock"
-	dock.position = Vector3(best.x, 0.0, best.z - 1.6)
-	_kept_clear.append(dock.position)
-	root.add_child(dock)
-	for i: int in range(7):
-		var plank: MeshInstance3D = MeshInstance3D.new()
-		var box: BoxMesh = BoxMesh.new()
-		box.size = Vector3(1.5, 0.08, 0.5)
-		plank.mesh = box
-		plank.material_override = wood
-		plank.position = Vector3(_rng.randf_range(-0.04, 0.04), 0.06, float(i) * 0.56)
-		dock.add_child(plank)
-	for z: float in [0.0, 1.7, 3.4]:
-		for x: float in [-0.7, 0.7]:
-			var post: MeshInstance3D = MeshInstance3D.new()
-			var cylinder: CylinderMesh = CylinderMesh.new()
-			cylinder.top_radius = 0.07
-			cylinder.bottom_radius = 0.08
-			cylinder.height = 0.9
-			post.mesh = cylinder
-			post.material_override = wood
-			post.position = Vector3(x, -0.1, z)
-			dock.add_child(post)

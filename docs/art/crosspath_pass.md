@@ -166,3 +166,57 @@ the square and `alley_close_default`).
   vendors and 2.5 m to other prompts, the streets clear across four hero widths, only low things on the square, the alley narrow, dim, reachable
   with a 1 m body and opening off the square); the town walkability test still reaches every key location with a 1.1 m body.
 - Town on Medium: 60.0 fps average, p95 16.7 ms (one 24 fps hitch while the scene settles; 733 draw calls). GUT 1678 passing (CP-2 aside).
+
+## Part D: walkable area and boundaries
+
+Shots: `docs/art/crosspath_pass/part_d/` (`edge_<kind>_*` one per kind of boundary, `loop_*`, `lake_dock_*`, `gate_<zone>_locked/open`).
+
+- **Walking is data now** (`TownBounds`): one outline round the whole hub, every edge labelled with the blocker that stands on it, plus the lake
+  and the dock. `TownBuilder.is_walkable` / `is_floor_at` / `map_bounds` read it in the hub (the title backdrop keeps the old hex map). The
+  walkable country grew: the north-west meadow, the lanes behind the north row and the east street, the whole south-west field, the meadows
+  between the fields, the lake and the gorge are open; the old map's hard little ponds (thirteen hex cells of water cut into the grass) are
+  grass now.
+- **Every edge has a reason you can see** (`BoundaryKit`, built just outside the line, never over walkable ground):
+  - north, either side of the Capital road: a rocky ridge of boulders with pines behind (`edge_ridge_*`); the north-east: three rows of
+    woods with bushes at their feet (`edge_forest_*`);
+  - east: a 2.5 m orchard wall with pillars and coping, fruit trees beyond it (`edge_orchard_*`); the pantry door is built into it;
+  - the lake: the shore (below);
+  - south: the gorge lip, the lake pours over it at the south-east as a waterfall (`edge_gorge_*`);
+  - south-west field: a clipped hedge with trees behind (`edge_hedge_*`); round the graveyard hollow: a field wall (`edge_wall_*`);
+  - west: a fence line north of the D.N.A. checkpoint and the field wall south of it; thorn woods (twisted trees and brambles in front of
+    dark pines) either side of the thorn wall (`edge_thorns_*`).
+  The tree belt round the country now starts behind these, so the designed edge is what the hero meets.
+- **The loop** (`TownBounds.LOOP`, a worn 2.8 m dirt lane): round the back of the north row (well clear of the Capital passage, which moved
+  two map rows north so the lane fits behind the buildings), down the east side inside the orchard wall, along the lakeshore past the fisher's
+  cottage, the peninsula, the boat shed and the dock, across the meadows south of the fields, up the west side past the graveyard and through
+  the woods. It crosses every road at least 3 m from its passage, so walking it never leaves town (`loop_north_default.jpg`, `loop_south_default.jpg`).
+- **Zone entrances, the only way through** (`HubObstacles._seal`, `PantryGate`): each obstacle is joined to the boundary on both sides
+  (always solid) and its own line is solid while its gatekeeper stands, so nobody walks round an obstacle (before, only a circle in the
+  passage mouth kept the hero off the trigger):
+  - the Gainlands bridge: the gorge runs 90 m on both sides of it;
+  - the D.N.A. checkpoint: a fence from the barrier's far post and a stone wall from the booth into the boundary's fence line and field wall;
+  - the Endless Buffet's **pantry door, rebuilt**: an enormous two-leaf carved oak door (raised panels, rails and stiles, studs), long iron
+    strap hinges with knuckles, ring pulls, a great iron lock box with a dinner-plate keyhole and a hasp, in a stone gatehouse (coursed
+    jambs, a lintel with a keystone, a pediment with the fork-and-spoon crest), its wing walls running into the orchard wall; cleared, the
+    leaves swing open away from the town (`gate_gourmand_locked.jpg` / `_open.jpg`);
+  - the Verdant Dump's thorn wall: brambles from both ends into the thorn woods;
+  - the Capital road: the ridge on both sides (always open).
+- **Water**: the town lake is one natural shape (`TownBounds.LAKE`) with a sandy bank fading into the grass and pale shallows fading into the
+  deep water, reed clumps and stones in clumps along the shore with open bank between, the giant chest's peninsula reaching out into it and a
+  plank dock on posts; a waterfall where it meets the gorge. The two far lakes out in the country keep their soft shapes and reeds.
+  The fisher's cottage on the west shore and a stone boat shed by the dock (CP-4) arrived with it (`lakeshore_default.jpg`, `lake_dock_*`).
+- Tests: `tests/world/test_crosspath_bounds.gd`: every 1.5 m of every edge has a blocker you can see within reach outside it (the gorge and the
+  lake checked as the drop and the water), no boundary piece stands on walkable ground, a flood fill from the spawn never leaves the outline
+  while it reaches the far corners of every field and the lakeshore, the full loop is open for a 0.9 m body and goes round every building and
+  never within 3 m of a passage, each zone road's trigger cannot be reached while its obstacle stands, the passages are the only gaps, the
+  lake has its bank and shallows, the old ponds are grass, the dock is walkable and the lake is not. The walkability test, the hub world test
+  and the chest scans pass on the new ground.
+- Found on the way: the world-look foliage layer (up to 6500 plant cards with a flat 4 % chance everywhere) was the other half of the even
+  scatter in the fields; in the hub it now follows the same clump rule as the ground dressing (CP-9). Its test read the plants back from a
+  MultiMesh, which a headless run returns as the identity (every plant at the origin), so it passed by luck; the layer keeps its own list now.
+- Fixed after the first shots: the ridge read as a row of identical balls (now angular bevelled boulders, two or three to a cluster, of mixed
+  sizes, with bushes and pines among them); the pantry gatehouse faded out as camera clutter (it never stands between the lens and the hero:
+  no fade now) and was turned edge-on (both east and west obstacles now turn their faces towards the camera); the lake's north tip reached the
+  pantry gate's wing (pulled back 4 m); the debug-only Dev Shrine is a kit-stone plinth with a crystal.
+- Town on Medium: 60.0 fps average and minimum at the spawn and at the lakeshore (774 / 561 draw calls; one 59.7 run with a load hitch).
+  GUT 1684 passing (CP-2 aside).

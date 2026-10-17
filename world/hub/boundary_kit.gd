@@ -18,7 +18,12 @@ const ROCK_TEX: String = "res://assets/art/textures/mat_rock_albedo.webp"
 const SAND_TEX: String = "res://assets/art/textures/town_sand_albedo.webp"
 const PLANK_TEX: String = "res://assets/art/textures/mat_woodplanks_albedo.webp"
 
+## How far woods, thorns and ridges stop short of a passage's end, so nothing stands on the zone road beyond it.
+const PASSAGE_CLEAR: float = 2.6
+
 var root: Node3D
+## Where a blocker stands (x, z): every tree, rock, wall metre, fence post, hedge metre and reed clump just outside the line (the tests read it).
+var blockers: Array[Vector3] = []
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _trees: Dictionary = {}
 var _mesh: KitMesh = KitMesh.new()
@@ -39,7 +44,19 @@ static func build(parent: Node3D, water: Material, ground_y: float = -0.03) -> B
 	kit._mesh.set_material("beam", EnvKit.material("ENV-BEAM"))
 	kit._mesh.set_material("leaf", EnvKit.material("ENV-HEDGE"))
 	kit._mesh.set_material("plank", _plank_material())
-	for edge: Dictionary in kit._edges():
+	var list: Array[Dictionary] = kit._edges()
+	for index: int in range(list.size()):
+		var edge: Dictionary = list[index].duplicate()
+		# a blocker never stands on a zone road: the pieces next to a passage stop short of it (walls and fences run right up to the obstacle)
+		var kind: String = str(edge["kind"])
+		if kind != "wall" and kind != "fence" and kind != "orchard_wall":
+			var a: Vector2 = edge["a"] as Vector2
+			var b: Vector2 = edge["b"] as Vector2
+			var dir: Vector2 = (b - a).normalized()
+			if str(list[(index - 1 + list.size()) % list.size()]["kind"]) == "passage":
+				edge["a"] = a + dir * PASSAGE_CLEAR
+			if str(list[(index + 1) % list.size()]["kind"]) == "passage":
+				edge["b"] = b - dir * PASSAGE_CLEAR
 		kit._edge(edge)
 	kit._lake(water)
 	kit._dock()
@@ -107,6 +124,7 @@ func _thorns(start: Vector3, dir: Vector3, out: Vector3, length: float) -> void:
 	var along: float = 0.0
 	while along <= length:
 		_tree("dump_twisted", start + dir * along + out * (1.2 + _rng.randf() * 0.8), 0.9 + _rng.randf() * 0.35)
+		blockers.append(start + dir * along + out * 1.2)
 		# brambles: dark thorny lumps at the feet
 		var foot: Vector3 = start + dir * (along + 1.0) + out * (0.9 + _rng.randf() * 0.3)
 		_mesh.blob("leaf", Vector3(foot.x, _ground_y + 0.45, foot.z), Vector3(0.9, 0.7, 0.9) * (0.8 + _rng.randf() * 0.5), 4, 8, 0.55, Color(0.42, 0.5, 0.36))
@@ -116,16 +134,36 @@ func _thorns(start: Vector3, dir: Vector3, out: Vector3, length: float) -> void:
 
 ## A rocky ridge: big boulders shoulder to shoulder just outside the edge, a higher row behind, pines on and behind it.
 func _ridge(start: Vector3, dir: Vector3, out: Vector3, length: float) -> void:
-	var along: float = 0.0
+	# Crosspath pass, Part D: a ragged ridge of angular boulders (chunky bevelled blocks, each a little tilted and turned, two or three to a
+	# boulder) of irregular sizes and spacing, a taller broken row behind, pines growing up between them and bushes at their feet.
+	var along: float = _rng.randf() * 1.5
 	while along <= length + 0.5:
-		var near: Vector3 = start + dir * along + out * (1.5 + _rng.randf() * 0.5)
-		var radius: float = 1.5 + _rng.randf() * 0.7
-		_mesh.blob("rock", Vector3(near.x, _ground_y + radius * 0.55, near.z), Vector3(radius, radius * (0.9 + _rng.randf() * 0.5), radius), 4, 9, 0.75)
-		var far: Vector3 = start + dir * (along + 1.2) + out * (4.2 + _rng.randf() * 1.0)
-		var tall: float = 2.0 + _rng.randf() * 0.8
-		_mesh.blob("rock", Vector3(far.x, _ground_y + tall * 0.7, far.z), Vector3(tall, tall * 1.3, tall), 4, 9, 0.7)
-		along += radius * 1.35
-	_forest(start + out * 4.0, dir, out, length, ["pine", "pine", "oak"], 2.6, 2)
+		var size: float = 1.0 + _rng.randf() * 1.2
+		var near: Vector3 = start + dir * along + out * (size * 1.05 + 0.4 + _rng.randf() * 0.8)
+		blockers.append(near)
+		_boulder(near, size)
+		if _rng.randf() < 0.75:
+			var tall: float = 1.8 + _rng.randf() * 1.4
+			var far: Vector3 = start + dir * (along + _rng.randf_range(-0.8, 1.6)) + out * (size * 1.6 + tall * 0.9 + 0.8)
+			_boulder(far + Vector3(0.0, tall * 0.25, 0.0), tall)
+		if _rng.randf() < 0.45:
+			_bush(start + dir * (along + size * 0.7) + out * (0.75 + _rng.randf() * 0.3), 0.8 + _rng.randf() * 0.4)
+		if _rng.randf() < 0.35:
+			_tree("pine", start + dir * (along + size) + out * (size * 1.8 + 1.2), 0.9 + _rng.randf() * 0.4)
+		along += size * (1.0 + _rng.randf() * 0.7)
+	_forest(start + out * 6.5, dir, out, length, ["pine", "pine", "oak"], 2.6, 2)
+
+
+## One angular boulder about `size` metres across: a big bevelled block, tilted and turned, with one or two smaller ones leaning on it, half sunk.
+func _boulder(pos: Vector3, size: float) -> void:
+	var pieces: int = 2 + _rng.randi() % 2
+	for i: int in range(pieces):
+		var scale_value: float = size * (1.0 if i == 0 else _rng.randf_range(0.45, 0.7))
+		var turn: Basis = Basis(Vector3.UP, _rng.randf() * TAU) * Basis(Vector3(1, 0, 0), _rng.randf_range(-0.22, 0.22)) * Basis(Vector3(0, 0, 1), _rng.randf_range(-0.22, 0.22))
+		var offset: Vector3 = Vector3.ZERO if i == 0 else Vector3(_rng.randf_range(-0.6, 0.6), 0.0, _rng.randf_range(-0.6, 0.6)) * size
+		var dims: Vector3 = Vector3(scale_value * _rng.randf_range(1.0, 1.4), scale_value * _rng.randf_range(0.65, 0.95), scale_value * _rng.randf_range(0.85, 1.2))
+		var centre: Vector3 = pos + offset + Vector3(0.0, _ground_y + dims.y * 0.32, 0.0)
+		_mesh.box("rock", centre, dims, turn, scale_value * 0.22, 0.72)
 
 
 ## A stone wall along the edge: `height` tall, `thick` deep, a coping on top and (tall walls) a pillar every 5 m.
@@ -133,6 +171,7 @@ func _wall(start: Vector3, dir: Vector3, out: Vector3, length: float, height: fl
 	var basis: Basis = Basis(dir, Vector3.UP, dir.cross(Vector3.UP))
 	var centre: Vector3 = start + dir * length * 0.5 + out * (thick * 0.5 + 0.15)
 	_mesh.box("stone", Vector3(centre.x, _ground_y + height * 0.5, centre.z), Vector3(length + thick, height, thick), basis, 0.06, 0.72)
+	_mark_line(start + out * (thick * 0.5 + 0.15), dir, length)
 	_mesh.box("coping", Vector3(centre.x, _ground_y + height + 0.08, centre.z), Vector3(length + thick + 0.12, 0.18, thick + 0.2), basis, 0.04)
 	if not pillars:
 		return
@@ -150,6 +189,7 @@ func _fence(start: Vector3, dir: Vector3, out: Vector3, length: float) -> void:
 	for i: int in range(count + 1):
 		var p: Vector3 = start + dir * (length * float(i) / float(count)) + out * 0.35
 		_mesh.box("beam", Vector3(p.x, _ground_y + 0.65, p.z), Vector3(0.18, 1.3, 0.18), basis, 0.03)
+	_mark_line(start + out * 0.35, dir, length)
 	for rail_y: float in [0.55, 1.05]:
 		var c: Vector3 = start + dir * length * 0.5 + out * 0.35
 		_mesh.box("wood", Vector3(c.x, _ground_y + rail_y, c.z), Vector3(length, 0.12, 0.08), basis, 0.02)
@@ -161,6 +201,7 @@ func _hedge(start: Vector3, dir: Vector3, out: Vector3, length: float, height: f
 	var basis: Basis = Basis(dir, Vector3.UP, dir.cross(Vector3.UP))
 	var c: Vector3 = start + dir * length * 0.5 + out * 0.7
 	_mesh.box("leaf", Vector3(c.x, _ground_y + height * 0.5, c.z), Vector3(length + 0.6, height, 1.1), basis, 0.3, 0.65)
+	_mark_line(start + out * 0.7, dir, length)
 	var lumps: int = maxi(2, int(length / 1.1))
 	for i: int in range(lumps):
 		var p: Vector3 = start + dir * (length * (float(i) + 0.5) / float(lumps)) + out * 0.7
@@ -174,6 +215,7 @@ func _hedge(start: Vector3, dir: Vector3, out: Vector3, length: float, height: f
 
 ## The lake's bank: reeds in clumps and a few stones, between the walkable edge and the water; gaps of open bank between the clumps.
 func _shore(start: Vector3, dir: Vector3, out: Vector3, length: float) -> void:
+	_mark_line(start + out * 1.2, dir, length)
 	var along: float = _rng.randf() * 2.0
 	while along <= length:
 		if _rng.randf() < 0.62:
@@ -312,12 +354,20 @@ func _dock() -> void:
 	_mesh.box("beam", Vector3(r.end.x - 0.2, 0.55, r.position.y - 0.05), Vector3(0.22, 0.9, 0.22), Basis.IDENTITY, 0.03)
 
 
+func _mark_line(start: Vector3, dir: Vector3, length: float) -> void:
+	var along: float = 0.0
+	while along <= length:
+		blockers.append(start + dir * along)
+		along += 1.0
+
+
 # ---- helpers -----------------------------------------------------------------------------------------------------------------------------
 
 
 func _tree(kind: String, pos: Vector3, scale_value: float) -> void:
 	if not TreeCards.KINDS.has(kind):
 		return
+	blockers.append(pos)
 	if not _trees.has(kind):
 		_trees[kind] = [] as Array[Dictionary]
 	(_trees[kind] as Array[Dictionary]).append({"pos": Vector3(pos.x, _ground_y, pos.z), "scale": scale_value})
@@ -342,9 +392,9 @@ func _flush_trees() -> void:
 static func _rock_material() -> StandardMaterial3D:
 	var material: StandardMaterial3D = StandardMaterial3D.new()
 	material.albedo_texture = load(ROCK_TEX) as Texture2D
-	material.albedo_color = Color(0.86, 0.8, 0.74)
+	material.albedo_color = Color(0.8, 0.78, 0.74)
 	material.uv1_triplanar = true
-	material.uv1_scale = Vector3(0.35, 0.35, 0.35)
+	material.uv1_scale = Vector3(0.5, 0.5, 0.5)
 	material.vertex_color_use_as_albedo = true
 	material.roughness = 1.0
 	return material

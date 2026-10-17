@@ -194,7 +194,10 @@ static func roads() -> Dictionary:
 	return {
 		"market_west": [Vector3(-18.6, 0, 12.47), Vector3(-6.0, 0, 12.47), Vector3(6.0, 0, 12.47), Vector3(14.2, 0, 12.47)],
 		"market_east": [Vector3(36.2, 0, 12.47), Vector3(45.0, 0, 12.47), Vector3(60.0, 0, 12.47), Vector3(69.0, 0, 12.47)],
-		"gate_road": [Vector3(25.2, 0, 1.4), Vector3(25.2, 0, -7.5), Vector3(19.8, 0, -11.6), Vector3(16.2, 0, -12.59)],
+		"gate_road": [Vector3(25.2, 0, 1.4), Vector3(25.2, 0, -7.5), Vector3(19.8, 0, -12.0), Vector3(16.2, 0, -15.6), Vector3(16.2, 0, -18.82)],
+		# Crosspath pass, Part D: short paths to the doors that stand off the Gate Road
+		"cave_path": [Vector3(18.6, 0, -13.2), Vector3(11.4, 0, -12.0)],
+		"elder_path": [Vector3(25.2, 0, -8.6), Vector3(27.2, 0, -12.0)],
 		"champions": [Vector3(25.2, 0, 23.6), Vector3(25.2, 0, 30.0), Vector3(25.2, 0, 41.0)],
 		"south_road": [Vector3(25.2, 0, 41.0), Vector3(31.0, 0, 43.6), Vector3(34.4, 0, 50.0), Vector3(31.6, 0, 57.4), Vector3(27.2, 0, 62.4), Vector3(25.2, 0, 64.4), Vector3(25.2, 0, 65.6)],
 		"grave_road": [Vector3(25.2, 0, 26.7), Vector3(8.0, 0, 26.7), Vector3(-2.0, 0, 31.0), Vector3(-8.0, 0, 34.3), Vector3(-16.8, 0, 34.3)],
@@ -237,11 +240,20 @@ static func distance_to_roads(pos: Vector3, road_dict: Dictionary = {}) -> float
 	return best
 
 
+## How wide a road is paved: the streets and tracks ROAD_WIDTH, the short paths to the doors off the Gate Road 2.4 m (Crosspath pass, Part D).
+static func road_width(id: String) -> float:
+	return 2.4 if id.ends_with("_path") else ROAD_WIDTH
+
+
 ## True on the paved plaza or on a road (with `margin` extra metres).
 static func is_paved(pos: Vector3, margin: float = 0.0) -> bool:
 	if Vector2(pos.x - PLAZA.x, pos.z - PLAZA.z).length() <= PLAZA_RADIUS + margin:
 		return true
-	return distance_to_roads(pos) <= ROAD_WIDTH * 0.5 + margin
+	var all_roads: Dictionary = roads()
+	for id: String in all_roads.keys():
+		if distance_to_roads(pos, {id: all_roads[id]}) <= road_width(id) * 0.5 + margin:
+			return true
+	return false
 
 
 ## Street lamp positions: along the cobbled town streets, alternating sides, plus four round the fountain on the square's diagonals. Crosspath pass,
@@ -314,7 +326,7 @@ static func arrow_for(dir: String) -> String:
 static func road_kinds() -> Dictionary:
 	return {
 		"market_west": "cobble", "market_east": "cobble", "gate_road": "cobble", "champions": "cobble",
-		"south_road": "dirt", "grave_road": "dirt",
+		"south_road": "dirt", "grave_road": "dirt", "cave_path": "dirt", "elder_path": "dirt",
 	}
 
 

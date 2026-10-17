@@ -42,6 +42,12 @@ static func grows_at(town: TownBuilder, noise: FastNoiseLite, buckets: Dictionar
 		return false
 	if road < PATH_EDGE.y:
 		return true
+	if town.hub_land:
+		var lane: float = TownBounds.lane_distance(pos) - TownBounds.LANE_WIDTH * 0.5
+		if lane < PATH_EDGE.x:
+			return false
+		if lane < PATH_EDGE.y:
+			return true
 	var key: Vector2i = Vector2i(floori(pos.x / BUCKET), floori(pos.z / BUCKET))
 	for dx: int in range(-1, 2):
 		for dz: int in range(-1, 2):

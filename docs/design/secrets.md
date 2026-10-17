@@ -29,7 +29,7 @@ coordinates are hex (col, row) as `HexGrid.cell_to_world` takes them - see
 | id | Where | How it's tucked | Contents |
 |----|-------|------------------|----------|
 | `west_woods` | West Woods, world (-4, 5) | Among a small stand of trees, off the main path through the woods, roughly level with the Refusemancer gate | 45 gold |
-| `harbor_dock` | Harbor Dock, world (17, 6) | In a back-alley pocket between the dock's crates and buildings, south of the main Gourmand-gate corridor | 30 gold + **Healing Draught** (item) |
+| `harbor_dock` | Harbor Dock, cell (17, 6), world (62.6, 20.4) | Crosspath pass: in the reeds on the lake's north shore, off the loop lane (it lay on the lane) | 30 gold + **Healing Draught** (item) |
 | `grave_hollow` | Grave Hollow (the southwest corner), world (-4, 12) | In a misty, tree-ringed hollow off the causeway to the Grave gate | **Reckless Tonic** (item) + **Stag Warden** (card, Uncommon Guard) |
 | `uplands` | North Uplands, world (8, -2) | On the overlook meadow, tucked onto a small grassy islet between two ponds, just off the path up to the Final gate | 50 gold + **Stone Sentinel** (card, Common Guard) |
 | `beefcake_flats` | Beefcake Flats, world (9, 12) | In a small stand of trees off the causeway down to the Beefcake gate, east of the vault's row | **Vitality Charm** (item) |
@@ -259,7 +259,7 @@ Locations are in `TownBuilder.HIDDEN_CHEST_CELLS` / `HIDDEN_CHEST_OFFSETS`, cont
 | id | Where | How it's tucked | Tier | Contents |
 |----|-------|-----------------|------|----------|
 | `clashatorium_west` | South-west shore, world cell (0, 20) | In a quiet grove at the far end of the shore, west of the Grand Clashatorium | I | 60 gold + **Healing Draught** |
-| `harbor_pier` | North peninsula of the Harbor, cell (20, 0) | At the tip of the peninsula past the Gourmand gate road | II | 50 gold + **Mercenary Captain** (card, Uncommon) |
+| `harbor_pier` | North peninsula of the Harbor, cell (20, 0), world (70.2, -0.6) | Crosspath pass: just inside the orchard wall north of the pantry gate (the old spot is outside the walkable country now) | II | 50 gold + **Mercenary Captain** (card, Uncommon) |
 | `northeast_ridge` | Far north-east ridge, cell (14, -5) | At the very end of the Uplands' eastern ridge | II | 60 gold + **The Wanderer** (card, Epic) |
 | `southeast_shore` | South-east shore beyond the Dev Shrine, cell (14, 17) | In a nook on the far south-east shore, the longest walk in town | III | 80 gold + **Gilded Gourmand Pack** |
 
@@ -394,6 +394,7 @@ Losing changes nothing (retry any time).
 The town centre was rebuilt as a real town (`world/town_layout.gd`, `world/town_streets.gd`). Hidden chests, the graveyard (Old Hob), the ninja chest, the four-lever vault levers and the zone exits stayed where they were. Only two secret *buildings* moved onto the new layout:
 - **The Sealed Vault** (Forgotten Vault entrance) now stands at world (10.8, 31.2), just south-west of the Old Well on Champions' Road. Its lever hint is unchanged.
 - **The back-alley smithy** (Secret Dealer, `hidden_vendor`) now stands at world (39.6, 24.9), a few steps off Champions' Road, still unmarked until the original chest is opened.
+- **Crosspath pass (Oct 17):** the smithy is gone. The Secret Dealer stands at a crate counter in a dim, unlit alley off the town square's north-east corner, between Foil Fenwick's shop and the north-east house (world (35.8, -3.6)); a lantern and a crate stack mark the alley's mouth. Still unmarked, and only there once the original chest is opened.
 
 ## Story v2 Part H: the forest after Primm falls (postgame)
 - **The hidden Path-ology Lab hatch** is in the south treeline of the starting forest (cell `L`, anchor `lab`). Until Rip tells the Wanderer about the forest it is built exactly like a treeline cell (blocked, nothing to see); after his tip (`lab_revealed`) it is a walkable steel hatch with a cyan glow ring and the prompt "Descend into the Path-ology Lab".

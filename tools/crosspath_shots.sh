@@ -44,6 +44,17 @@ shot "vendors_north_default" --pos=25.2,7.5 --set=$DEFAULT
 shot "vendors_west_default" --pos=19.0,15.5 --set=$DEFAULT
 shot "vendors_east_default" --pos=31.4,15.5 --set=$DEFAULT
 shot "alley_close_default" --pos=35.8,1.6 --found=harbor_chest --set=$DEFAULT
+# Part D: a boundary of each kind, the loop, the lake and dock (default camera; overview where the edge reads best from above)
+both "edge_ridge" --pos=-4,-19
+both "edge_forest" --pos=55,-19
+both "edge_orchard" --pos=68,-4
+both "edge_thorns" --pos=-19,1
+both "edge_wall" --pos=-15,43
+both "edge_hedge" --pos=-1.5,57
+both "edge_gorge" --pos=44,67
+both "lake_dock" --pos=53.6,43
+shot "loop_north_default" --pos=30,-17.4 --set=$DEFAULT
+shot "loop_south_default" --pos=12,64 --set=$DEFAULT
 for z in refusemancer necrocrat beefcake gourmand final; do
 	shot "gate_${z}_locked" --at=npc_$( [ "$z" = final ] && echo gate || echo $z ) --set=$DEFAULT
 	[ "$z" != final ] && shot "gate_${z}_open" --at=npc_$z --gates=open --set=$DEFAULT

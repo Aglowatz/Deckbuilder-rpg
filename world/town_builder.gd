@@ -235,11 +235,13 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 	match symbol:
 		"M":
 			if hub_land:
-				# Oct 16: in the one-country hub the old rocky rim blocks become a dense clump of trees (still not walkable).
+				# Oct 16: in the one-country hub the old rocky rim blocks become a dense clump of trees. Crosspath pass, Part D: the ground is walkable
+				# (TownBounds decides), so each tree has a solid trunk and none stands on a building, a street or the loop lane.
 				for i: int in range(3):
 					var spot: Vector3 = _scatter(center, 0.3 * SCALE, 0.8 * SCALE)
-					if not _near_special(spot, 1.9) and not _hides_town(spot):
+					if not _near_special(spot, 1.9) and not _hides_town(spot) and not _keeps_clear(spot):
 						_tree_entries.append({"kind": ["pine", "oak", "birch"][(i + col + row) % 3], "pos": spot, "scale": 0.8 + 0.1 * float(i), "near": false})
+						obstacles.append(Vector3(spot.x, spot.z, OBSTACLE_TREE * 1.3))
 				return
 			var mountain: String = ["mountain_A_grass_trees", "mountain_B_grass_trees", "mountain_C_grass_trees"][_rng.randi() % 3]
 			ModelKit.place(root, ModelKit.nature(mountain), center, yaw, SCALE)
@@ -258,7 +260,7 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 				if _near_special(offset, 1.9):
 					continue
 				# Crosspath pass, Part C: never inside a building, on the square or on a street
-				if hub_land and (TownLayout.is_paved(offset, 0.8) or TownLayout.in_footprint(offset, 1.0) or _in_outskirt(offset, 1.0) or TownLayout.ALLEY.grow(1.2).has_point(Vector2(offset.x, offset.z))):
+				if hub_land and _keeps_clear(offset):
 					continue
 				var near: bool = Vector2(offset.x - TownLayout.PLAZA.x, offset.z - TownLayout.PLAZA.z).length() < 26.0
 				_tree_entries.append({"kind": kind, "pos": offset, "scale": 0.62 + 0.3 * (size_roll - 1.1) / 0.4, "near": near})
@@ -467,7 +469,12 @@ func _build_dev_shrine() -> void:
 	if not DevTools.shrine_enabled():
 		return
 	var pos: Vector3 = cell_center(13, 14)
-	_building("tower_B", pos, 0.0, 1.1, 0.85)
+	if hub_land:
+		# Crosspath pass, Part D: a kit-stone plinth with a glowing crystal (the KayKit tower was a toy in the hub)
+		ModelKit.place(root, HubRelics.dev_shrine(), pos, 0.0, 1.0)
+		obstacles.append(Vector3(pos.x, pos.z, 0.7))
+	else:
+		_building("tower_B", pos, 0.0, 1.1, 0.85)
 	# Row 14 is the map's southmost data row (open water beyond it) - approach from the north,
 	# the walkable side, not south like most buildings default to.
 	anchors["dev_shrine"] = pos + Vector3(0, 0, -1.05)
@@ -577,11 +584,11 @@ const HIDDEN_CHEST_CELLS: Dictionary = {
 	"southeast_shore": Vector2i(14, 17), "northeast_ridge": Vector2i(14, -5),
 }
 const HIDDEN_CHEST_OFFSETS: Dictionary = {
-	"west_woods": Vector3(0.35, 0, -0.25), "harbor_dock": Vector3(-0.3, 0, 0.35),
+	"west_woods": Vector3(0.35, 0, -0.25), "harbor_dock": Vector3(1.4, 0, 1.7),
 	"grave_hollow": Vector3(0.3, 0, 0.3), "uplands": Vector3(-0.25, 0, -0.35),
 	"beefcake_flats": Vector3(0.3, 0, -0.3),
 	"uplands_ridge": Vector3(0.3, 0, 0.25), "harbor_dock_back": Vector3(-0.25, 0, 0.3),
-	"clashatorium_west": Vector3(-1.8, 0, -0.55), "harbor_pier": Vector3(1.2, 0, 0.0),
+	"clashatorium_west": Vector3(-1.8, 0, -0.55), "harbor_pier": Vector3(-1.8, 0, -0.6),
 	"southeast_shore": Vector3(-1.2, 0, 0.6), "northeast_ridge": Vector3(1.8, 0, 0.6),
 }
 
@@ -617,7 +624,7 @@ func _build_hidden_chests() -> void:
 ## start locked until their corrupted NPC is defeated, Part E) is presentation state that lives in
 ## `TownScene`, not here - `TownBuilder` only places the structure and its anchor.
 const PORTAL_CELLS: Dictionary = {
-	"final": Vector2i(4, -5), "refusemancer": Vector2i(-6, 4), "gourmand": Vector2i(20, 4),
+	"final": Vector2i(4, -7), "refusemancer": Vector2i(-6, 4), "gourmand": Vector2i(20, 4),
 	"beefcake": Vector2i(7, 22), "necrocrat": Vector2i(-6, 11),
 }
 
@@ -671,8 +678,7 @@ func _prop(model: String, position: Vector3, yaw: float, model_scale: float, rad
 
 ## True when a character may stand at `pos` (on a walkable cell and clear of obstacles).
 func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) -> bool:
-	var cell: Vector2i = HexGrid.world_to_cell(pos / SCALE)
-	if not walkable.has(cell):
+	if not is_floor_at(pos):
 		return false
 	for obstacle: Vector3 in obstacles:
 		var dx: float = pos.x - obstacle.x
@@ -693,7 +699,11 @@ func map_char_at(pos: Vector3) -> String:
 	return MAP[row][col]
 
 
+## Crosspath pass, Part D: in the hub the walkable country is TownBounds (the outline with its visible edges, minus the lake, plus the dock), not the old
+## hex map; the title backdrop keeps the hex map.
 func is_floor_at(pos: Vector3) -> bool:
+	if hub_land:
+		return TownBounds.contains(pos) and not TownBounds.in_lake(pos)
 	return walkable.has(HexGrid.world_to_cell(pos / SCALE))
 
 
@@ -703,6 +713,8 @@ func surface_at(pos: Vector3) -> StringName:
 
 
 func map_bounds() -> Rect2:
+	if hub_land:
+		return TownBounds.rect().grow(1.0)
 	var rect: Rect2 = HexGrid.bounds_of(walkable.keys())
 	return Rect2(rect.position * SCALE, rect.size * SCALE)
 
@@ -728,6 +740,15 @@ func _near_special(pos: Vector3, radius: float) -> bool:
 
 var _special_points: Array[Vector3] = []
 var _outskirt_rows: Array[TownLayout.Shop] = []
+
+
+## Crosspath pass: where no tree of the old map may stand in the hub (buildings, streets, the square, the alley, the loop lane, the lake, outside the walkable country).
+func _keeps_clear(pos: Vector3) -> bool:
+	if TownLayout.is_paved(pos, 0.8) or TownLayout.in_footprint(pos, 1.0) or _in_outskirt(pos, 1.0):
+		return true
+	if TownLayout.ALLEY.grow(1.2).has_point(Vector2(pos.x, pos.z)) or not TownBounds.contains(pos) or TownBounds.in_lake(pos):
+		return true
+	return TownBounds.lane_distance(pos) < TownBounds.LANE_WIDTH * 0.5 + 0.8
 
 
 func _in_outskirt(pos: Vector3, margin: float) -> bool:

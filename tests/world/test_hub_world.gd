@@ -44,7 +44,7 @@ func test_hub_land_builds_five_roads_lakes_and_a_gorge_on_the_meadow_road() -> v
 	var land: HubLand = HubLand.build(town.root, town, StandardMaterial3D.new())
 	assert_eq(land.roads.size(), 5)
 	assert_gte(land.lakes.size(), 2, "lakes out in the country")
-	assert_false(land.town_water.is_empty(), "the town keeps its lake")
+	assert_not_null(land.boundary.root.find_child("TownLake", true, false), "the town keeps its lake (with a natural shore, Crosspath pass)")
 	var road: Dictionary = land.roads["beefcake"] as Dictionary
 	var mouth: Vector3 = road["mouth"] as Vector3
 	assert_true(land.in_gorge(mouth + (road["out"] as Vector3) * (HubLand.GORGE_FROM + 2.0)), "the gorge crosses the meadow road just past its mouth")

@@ -57,6 +57,16 @@ static func lever() -> Node3D:
 	return _finish(mesh, "OldLever")
 
 
+## The debug-only Dev Shrine (DevTools): a waist-high kit-stone plinth with a glowing crystal on it (the KayKit tower stood in for it).
+static func dev_shrine() -> Node3D:
+	var mesh: KitMesh = _stone_mesh()
+	mesh.set_material("crystal", EnvKit.glow(Color("b48cff"), 1.6))
+	mesh.box("stone", Vector3(0.0, 0.12, 0.0), Vector3(1.3, 0.24, 1.3), Basis.IDENTITY, 0.04, 0.75)
+	mesh.lathe("stone", Vector3(0.0, 0.24, 0.0), [Vector2(0.42, 0.0), Vector2(0.34, 0.12), Vector2(0.3, 0.72), Vector2(0.5, 0.82), Vector2(0.5, 0.92)], 12, 0.85, false, true)
+	mesh.lathe("crystal", Vector3(0.0, 1.16, 0.0), [Vector2(0.0, 0.0), Vector2(0.18, 0.2), Vector2(0.14, 0.62), Vector2(0.0, 0.84)], 6, 1.0, false, false)
+	return _finish(mesh, "DevShrine")
+
+
 static func _dark_rock() -> StandardMaterial3D:
 	var material: StandardMaterial3D = BoundaryKit._rock_material()
 	material.albedo_color = Color(0.36, 0.34, 0.4)

@@ -70,7 +70,7 @@ func test_the_town_roads_are_paths_and_the_ground_is_calm() -> void:
 	var town: TownBuilder = TownBuilder.new()
 	town.build(root, false)
 	var square: TownSquare = TownSquare.build(root, town, GraphicsQuality.Level.MEDIUM)
-	assert_eq(square.streets.paths.size(), TownLayout.roads().size(), "one PathTool path per road")
+	assert_eq(square.streets.paths.size(), TownLayout.roads().size() + (1 if town.hub_land else 0), "one PathTool path per road, and the loop lane round the town")
 	assert_not_null(square.streets.plaza_node)
 	var kinds: Dictionary = TownLayout.road_kinds()
 	for id: String in TownLayout.roads().keys():

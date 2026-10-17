@@ -36,6 +36,10 @@ func setup(town: TownBuilder, _square: TownSquare, _camera: Camera3D, _sun: Vect
 	var patch_noise: FastNoiseLite = FastNoiseLite.new()
 	patch_noise.seed = 77
 	patch_noise.frequency = 1.0
+	# Crosspath pass (Part D, finishing Part B): in the hub the plants grow only where the ground dressing may (clumps along path edges, the feet of
+	# walls and props and the field edges, TownClutter), with no even base scatter: the open grass between the clumps stays calm.
+	var grows: Callable = TownClutter.region(town) if town.hub_land else Callable()
+	var base_chance: float = 0.0 if town.hub_land else 0.04
 	var transforms: Array[Transform3D] = []
 	var datas: Array[Color] = []
 	var z: float = bounds.position.y
@@ -49,6 +53,8 @@ func setup(town: TownBuilder, _square: TownSquare, _camera: Camera3D, _sun: Vect
 			if Vector2(p.x - TownLayout.PLAZA.x, p.z - TownLayout.PLAZA.z).length() < TownLayout.PLAZA_RADIUS + PLAZA_CLEARANCE:
 				continue
 			if _near(road_grid, p, 3.0, ROAD_CLEARANCE) or _near(blocked_grid, p, 3.0, DOOR_CLEARANCE):
+				continue
+			if grows.is_valid() and not bool(grows.call(p)):
 				continue
 			var solid: bool = false
 			var garden: float = 0.0
@@ -75,7 +81,7 @@ func setup(town: TownBuilder, _square: TownSquare, _camera: Camera3D, _sun: Vect
 			var edge: float = float(off) / 6.0
 			# Part C: plants come in natural patches (low-frequency noise), not an even scatter; the rest of the lawn stays calm.
 			var patch: float = clampf((patch_noise.get_noise_2d(p.x * 0.2, p.z * 0.2) + 0.2) * 2.4, 0.0, 1.0)
-			var chance: float = (0.04 + patch * 0.5 + edge * 0.34 + garden * 0.3) * density_scale
+			var chance: float = (base_chance + patch * 0.5 + edge * 0.34 + garden * 0.3) * density_scale
 			if rng.randf() > chance:
 				continue
 			var cell: int = _pick_cell(rng, edge, garden)
@@ -157,6 +163,9 @@ func _near(grid: Dictionary, p: Vector3, cell: float, distance: float) -> bool:
 	return false
 
 
+var _positions: Array[Vector3] = []
+
+
 func _build(transforms: Array[Transform3D], datas: Array[Color]) -> void:
 	var quad: QuadMesh = QuadMesh.new()
 	quad.size = Vector2.ONE
@@ -174,6 +183,10 @@ func _build(transforms: Array[Transform3D], datas: Array[Color]) -> void:
 		multimesh.set_instance_transform(index, transforms[index])
 		multimesh.set_instance_custom_data(index, datas[index])
 	instance_count = transforms.size()
+	# kept on the side: a headless (dummy) renderer reads every MultiMesh transform back as the identity
+	_positions.clear()
+	for xform: Transform3D in transforms:
+		_positions.append(xform.origin)
 	_instance = MultiMeshInstance3D.new()
 	_instance.multimesh = multimesh
 	_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -191,12 +204,7 @@ func set_light(sun_color: Color, ambient: Color) -> void:
 
 ## Where every plant stands (for tests and tools).
 func positions() -> Array[Vector3]:
-	var result: Array[Vector3] = []
-	if _instance == null:
-		return result
-	for index: int in range(_instance.multimesh.instance_count):
-		result.append(_instance.multimesh.get_instance_transform(index).origin)
-	return result
+	return _positions.duplicate()
 
 
 # ---- Any walkable area (the zones, the starting area) -----------------------------------------------------------------------------

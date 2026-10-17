@@ -33,6 +33,8 @@ static func build(parent: Node3D, builder: TownBuilder) -> TownStreets:
 	streets.town = builder
 	streets._rng.seed = 909
 	streets._roads()
+	if builder.hub_land:
+		streets._lane()
 	streets._plaza()
 	streets._fountain()
 	streets._crest()
@@ -60,13 +62,27 @@ func _roads() -> void:
 		var avoid: Callable = func(p: Vector3) -> bool:
 			return TownLayout.distance_to_roads(p) < TownLayout.ROAD_WIDTH * 0.5 + 0.2 or Vector2(p.x - TownLayout.PLAZA.x, p.z - TownLayout.PLAZA.z).length() < TownLayout.PLAZA_RADIUS + 0.6
 		var path: Node3D = PathTool.build(root, control, {
-			"width": TownLayout.ROAD_WIDTH - 0.3 if str(kinds.get(id, "dirt")) == "cobble" else TownLayout.ROAD_WIDTH - 0.6,
+			"width": TownLayout.road_width(id) - (0.3 if str(kinds.get(id, "dirt")) == "cobble" else 0.6),
 			"kind": str(kinds.get(id, "dirt")), "seed": 11 + index, "is_floor": is_floor, "avoid": avoid, "clumps": 1.0,
 		})
 		paths.append(path)
 		for entry: Variant in path.get_meta("clumps") as Array:
 			edge_clumps.append(entry as Dictionary)
 		index += 1
+
+
+## Crosspath pass, Part D: the worn lane that loops round the outside of the town (TownBounds.LOOP): round the back of the north row, down the east side
+## past the orchard wall, along the lakeshore and the dock, across the meadows south of the fields and up the west side through the woods.
+func _lane() -> void:
+	var is_floor: Callable = func(p: Vector3) -> bool: return town.is_floor_at(p)
+	var avoid: Callable = func(p: Vector3) -> bool: return TownLayout.is_paved(p, 0.2)
+	var path: Node3D = PathTool.build(root, TownBounds.lane_points(), {
+		"width": TownBounds.LANE_WIDTH - 0.4, "kind": "dirt", "seed": 61, "is_floor": is_floor, "avoid": avoid, "clumps": 0.7,
+	})
+	path.name = "LoopLane"
+	paths.append(path)
+	for entry: Variant in path.get_meta("clumps") as Array:
+		edge_clumps.append(entry as Dictionary)
 
 
 func _plaza() -> void:
