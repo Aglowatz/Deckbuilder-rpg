@@ -31,9 +31,8 @@ static func build(parent: Node3D, builder: GainlandsBuilder, quality: int) -> Ga
 	# Corrective pass (GC-1): a third of the old scatter; pennants only at the hub's rim, flowers only along path edges, every solid piece clear of the routes.
 	var scale_factor: float = GraphicsQuality.foliage_density(quality)
 	# Gainlands v2, Part C: the plaza is clean (no pennants, sunflowers or loose weights on the square); gym kit stands beyond the paved square
-	dressing._scatter("kettlebells", int(5.0 * scale_factor), GainlandsLayout.PLAZA_RADIUS + 6.0, 24.0)
-	dressing._scatter("plates", int(3.0 * scale_factor), GainlandsLayout.PLAZA_RADIUS + 6.0, 24.0)
-	dressing._scatter("tires", int(2.0 * scale_factor), GainlandsLayout.PLAZA_RADIUS + 7.0, 26.0)
+	# Gainlands v2, Part D: loose kit (kettlebells, plate stacks, tyre piles) lies round the lifting yards' edges, never in the plaza or on the paving
+	dressing._scatter_yards(["kettlebells", "plates", "tires"], maxi(1, int(2.0 * scale_factor)))
 	dressing._kit_clusters(quality)
 	return dressing
 
@@ -42,8 +41,9 @@ static func build(parent: Node3D, builder: GainlandsBuilder, quality: int) -> Ga
 ## Each entry: cluster, anchor, offset (x, z), yaw; skipped when the spot is not free. All quality levels keep them (they carry the zone's read).
 const KIT_CLUSTERS: Array = [
 	# GC-1: seven clusters (was twelve), each tucked behind or beside its landmark, none in the arrival area or on a route.
-	["gym_rack", "spot_me", Vector2(-4.5, -3.0), 180.0], ["dumbbell_pile", "spot_me", Vector2(4.0, 3.5), 20.0], ["protein_corner", "protein_stand", Vector2(3.6, -3.4), 200.0],
-	["hay_stack", "quiz", Vector2(5.5, 4.0), 160.0], ["mill_yard", "thrower_west", Vector2(4.0, -4.5), 170.0], ["catapult_pit", "minigame", Vector2(-6.5, 4.0), 150.0],
+	# (Gary's gym_rack and dumbbell_pile went: his yard is built from GainlandsGym now, Gainlands v2 Part D)
+	["protein_corner", "protein_stand", Vector2(3.6, -3.4), 200.0],
+	["hay_stack", "quiz", Vector2(5.5, 4.0), 160.0], ["mill_yard", "thrower_west", Vector2(4.0, -4.5), 170.0],  # (the catapult pit went: Gary's yard took its spot)
 ]
 
 
@@ -79,7 +79,7 @@ func _hub() -> Vector3:
 
 ## Free ground for a piece of dressing: walkable, `clearance` from every anchor, `spacing` from the other pieces, and (solid pieces) clear of the routes.
 func _free(pos: Vector3, clearance: float, spacing: float, solid: bool = true) -> bool:
-	if not _builder.is_walkable(pos, 0.5):
+	if not _builder.is_walkable(pos, 0.5) or not _builder.is_floor_at(pos):
 		return false
 	if solid and _builder.layout.path_edge_distance(pos.x, pos.z) < GainlandsLayout.PATH_CLEARANCE:
 		return false
@@ -132,6 +132,35 @@ func _scatter(kind: String, amount: int, min_radius: float, max_radius: float) -
 			_builder.add_blocker(pos, 0.5)
 		made += 1
 		count += 1
+
+
+## `per_yard` pieces of the given kinds round each lifting yard: just outside its mat, off the paving and the yard's own equipment.
+func _scatter_yards(kinds: Array[String], per_yard: int) -> void:
+	var index: int = 0
+	for yard: Dictionary in _builder.layout.yards:
+		var centre: Vector2 = yard["center"] as Vector2
+		var reach: float = (yard["size"] as Vector2).length() * 0.5
+		var made: int = 0
+		var tries: int = 0
+		while made < per_yard and tries < 60:
+			tries += 1
+			var angle: float = _rng.randf() * TAU
+			var distance: float = reach + _rng.randf_range(0.6, 2.4)
+			var pos: Vector3 = Vector3(centre.x + cos(angle) * distance, 0.0, centre.y + sin(angle) * distance)
+			if not _free(pos, 3.0, 2.6):
+				continue
+			var kind: String = kinds[index % kinds.size()]
+			index += 1
+			pos.y = _builder.height_at(pos)
+			var node: Node3D = _make(kind)
+			node.position = pos
+			node.rotation_degrees.y = _rng.randf() * 360.0
+			root.add_child(node)
+			_placed.append(Vector2(pos.x, pos.z))
+			if kind != "kettlebells":
+				_builder.add_blocker(pos, 0.5)
+			made += 1
+			count += 1
 
 
 func _scatter_pennants(amount: int) -> void:

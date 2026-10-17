@@ -48,6 +48,8 @@ static func apply_mesh(mesh_instance: MeshInstance3D, wind: float = -1.0) -> int
 			converted += 1
 		else:
 			return 0
+	if wind_for(mesh_instance, wind) > 0.0 and is_cloth(mesh_instance):
+		set_hang(mesh_instance)
 	for surface: int in range(mesh_instance.mesh.get_surface_count()):
 		var source: Material = mesh_instance.get_active_material(surface)
 		var toon: ShaderMaterial = toon_for(source, wind_for(mesh_instance, wind), paint)
@@ -163,7 +165,7 @@ const RIGID_WORDS: PackedStringArray = [
 	"mountain", "hill", "cliff", "rock", "stone", "boulder", "ridge", "building", "house", "cottage", "hut", "shop", "hall", "chapel", "tower", "mill", "shed",
 	"well", "lamp", "lantern", "post", "pole", "fence", "rail", "wall", "gate", "door", "roof", "beam", "barrel", "crate", "sack", "box", "cart", "bench", "stall",
 	"sign", "signpost", "board", "chest", "bridge", "booth", "barrier", "statue", "fountain", "pot", "flowerpot", "planter", "table", "dock", "pier", "frame", "arch",
-	"lever", "ladder", "cairn", "vault", "hatch", "boundary",
+	"lever", "ladder", "cairn", "vault", "hatch", "boundary", "stack", "bale",
 ]
 
 
@@ -221,6 +223,61 @@ static func wind_for(mesh_instance: MeshInstance3D, wind: float) -> float:
 		current = current.get_parent()
 		depth += 1
 	return -1.0
+
+
+## Gainlands v2, Part E: hanging cloth. Words that make a mesh a banner or flag hung from a bar (the toon shaders' hang mode: the top edge stays put, the swing
+## grows towards the bottom, across the cloth only). A plant's "hanging" basket is foliage, not cloth.
+const CLOTH_WORDS: PackedStringArray = ["banner", "flag", "cloth", "pennant", "bunting"]
+
+
+## True when the nearest named node (the mesh, then its ancestors) that says what it is says cloth (rigid words win, as in wind_for).
+static func is_cloth(mesh_instance: MeshInstance3D) -> bool:
+	var current: Node = mesh_instance
+	var depth: int = 0
+	while current != null and depth < 4:
+		var node_name: String = String(current.name)
+		if is_rigid_name(node_name):
+			return false
+		for word: String in name_words(node_name):
+			if CLOTH_WORDS.has(word) or CLOTH_WORDS.has(word.trim_suffix("s")):
+				return true
+		if is_foliage_name(node_name):
+			return false
+		current = current.get_parent()
+		depth += 1
+	return false
+
+
+## The hang mode's per-instance parameters from the mesh's own bounds: the cloth's normal is its thinnest horizontal axis, its top edge the bounds' top,
+## its length their height (meta "hang" = Vector2(top, length) overrides the bounds); the phase comes from the banner's own node (the mesh's parent), so
+## every part of one banner (cloth, stripe, emblem) moves as one and two banners never move in step.
+static func hang_params(mesh_instance: MeshInstance3D) -> Dictionary:
+	var box: AABB = mesh_instance.mesh.get_aabb() if mesh_instance.mesh != null else AABB()
+	var normal: Vector3 = Vector3(1, 0, 0) if box.size.x <= box.size.z else Vector3(0, 0, 1)
+	var top: float = box.end.y
+	var length: float = maxf(box.size.y, 0.1)
+	if mesh_instance.has_meta(&"hang"):
+		var given: Vector2 = mesh_instance.get_meta(&"hang") as Vector2
+		top = given.x
+		length = maxf(given.y, 0.1)
+	if mesh_instance.has_meta(&"hang_normal"):
+		normal = mesh_instance.get_meta(&"hang_normal") as Vector3
+	var anchor: Node3D = mesh_instance.get_parent() as Node3D
+	var origin: Vector3 = Vector3.ZERO
+	if anchor != null:
+		origin = anchor.global_position if anchor.is_inside_tree() else anchor.position
+	return {"hang": Vector4(normal.x, normal.y, normal.z, length), "top": top, "phase": hang_phase(origin)}
+
+
+## A banner's own phase (radians) from where its node stands: two banners never move in step.
+static func hang_phase(origin: Vector3) -> float:
+	return fposmod(sin(origin.x * 12.9898 + origin.z * 78.233) * 43758.5453, 1.0) * TAU
+
+
+static func set_hang(mesh_instance: MeshInstance3D) -> void:
+	var params: Dictionary = hang_params(mesh_instance)
+	mesh_instance.set_instance_shader_parameter("hang", params["hang"])
+	mesh_instance.set_instance_shader_parameter("hang_top_phase", Vector2(float(params["top"]), float(params["phase"])))
 
 
 ## The Kenney Nature kit ships washed-out pastel flat colours (grass is mint, wood is peach). They are re-graded to the style guide palette

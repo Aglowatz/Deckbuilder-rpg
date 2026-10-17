@@ -31,6 +31,11 @@ static func build(parent: Node3D, builder: ZoneMap, zone_def: ZoneDef, story: Zo
 		var banner: Node3D = _bunting(zone_def.ruler_tint) if freed else _banner(zone_def.ruler_tint)
 		banners.add_child(banner)
 		banner.position = pos
+		var emblem: MeshInstance3D = banner.find_child("Emblem", false, false) as MeshInstance3D
+		if emblem != null and emblem.material_override is ShaderMaterial:
+			# the emblem hangs with its cloth (the toon shaders' hang mode, Gainlands v2 Part E): the cloth's top and length in the emblem's own frame
+			emblem.set_instance_shader_parameter("hang", Vector4(0, 0, 1, BANNER_CLOTH.y))
+			emblem.set_instance_shader_parameter("hang_top_phase", Vector2(BANNER_TOP - emblem.position.y, StyleToon.hang_phase(banner.global_position if banner.is_inside_tree() else banner.position)))
 
 
 ## Where the statue stands for a zone whose hub is `hub` (the plaque spot goes here).
@@ -80,26 +85,38 @@ static func _statue(tint: Color, toppled: bool) -> Node3D:
 	return root
 
 
+## The banner's cloth (width, length) and the height of its top edge (it hangs from the pole's top): the hang mode keeps that edge still.
+const BANNER_CLOTH: Vector2 = Vector2(1.3, 2.6)
+const BANNER_TOP: float = 4.9
+
+
 static func _banner(tint: Color) -> Node3D:
 	var root: Node3D = Node3D.new()
+	root.name = "RulerBanner"
 	var pole: MeshInstance3D = _mesh(CylinderMesh.new(), _material(Color(0.2, 0.2, 0.22), 0.6))
+	pole.name = "Pole"  # rigid: the pole never bends (only the cloth sways, Gainlands v2 Part E)
 	(pole.mesh as CylinderMesh).top_radius = 0.07
 	(pole.mesh as CylinderMesh).bottom_radius = 0.09
 	(pole.mesh as CylinderMesh).height = 5.0
 	pole.position.y = 2.5
 	root.add_child(pole)
-	var cloth: MeshInstance3D = _box(Vector3(1.3, 2.6, 0.06), _material(tint, 0.85))
-	cloth.position = Vector3(0.7, 3.6, 0)
+	var cloth: MeshInstance3D = _box(Vector3(BANNER_CLOTH.x, BANNER_CLOTH.y, 0.06), _material(tint, 0.85))
+	cloth.name = "BannerCloth"
+	cloth.position = Vector3(0.7, BANNER_TOP - BANNER_CLOTH.y * 0.5, 0)
 	root.add_child(cloth)
-	var stripe: MeshInstance3D = _box(Vector3(1.3, 0.3, 0.07), _material(Color(0.05, 0.05, 0.06), 0.8))
-	stripe.position = Vector3(0.7, 3.6, 0)
+	var stripe: MeshInstance3D = _box(Vector3(BANNER_CLOTH.x, 0.3, 0.07), _material(Color(0.05, 0.05, 0.06), 0.8))
+	stripe.name = "BannerStripe"
+	stripe.position = Vector3(0.7, BANNER_TOP - BANNER_CLOTH.y * 0.5, 0)
+	stripe.set_meta(&"hang", Vector2(BANNER_CLOTH.y * 0.5, BANNER_CLOTH.y))  # the cloth's top and length in the stripe's frame: they move as one
 	root.add_child(stripe)
-	root.add_child(_emblem(Vector2(0.95, 0.95), Vector3(0.7, 2.7, 0.05)))
+	root.add_child(_emblem(Vector2(0.95, 0.95), Vector3(0.7, 2.7, 0.05), true))
 	return root
 
 
 static func _bunting(tint: Color) -> Node3D:
 	var root: Node3D = Node3D.new()
+	root.name = "Bunting"
+	root.set_meta(&"no_wind", true)  # small pennants on a line: they used to bend from their pole's foot
 	var pole: MeshInstance3D = _mesh(CylinderMesh.new(), _material(Color(0.55, 0.4, 0.25), 0.7))
 	(pole.mesh as CylinderMesh).top_radius = 0.06
 	(pole.mesh as CylinderMesh).bottom_radius = 0.08
@@ -116,15 +133,28 @@ static func _bunting(tint: Color) -> Node3D:
 	return root
 
 
+const CLOTH_ICON_SHADER: String = "res://world/style/style_cloth_icon.gdshader"
+
+
 ## The ruler's emblem: an unshaded icon quad (no toon conversion), facing +z like the old lettering.
-static func _emblem(size: Vector2, pos: Vector3) -> MeshInstance3D:
+## `hanging`: the emblem is painted on a banner's cloth and moves with it (style_cloth_icon.gdshader, the toon shaders' hang mode).
+static func _emblem(size: Vector2, pos: Vector3, hanging: bool = false) -> MeshInstance3D:
 	var quad: QuadMesh = QuadMesh.new()
 	quad.size = size
-	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.albedo_texture = IconArt.texture(EMBLEM_ICON, 128.0)
-	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.set_meta(StyleToon.META_NO_TOON, true)
+	var material: Material = null
+	if hanging:
+		var cloth_icon: ShaderMaterial = ShaderMaterial.new()
+		cloth_icon.shader = load(CLOTH_ICON_SHADER) as Shader
+		cloth_icon.set_shader_parameter("icon", IconArt.texture(EMBLEM_ICON, 128.0))
+		cloth_icon.set_meta(StyleToon.META_NO_TOON, true)
+		material = cloth_icon
+	else:
+		var standard: StandardMaterial3D = StandardMaterial3D.new()
+		standard.albedo_texture = IconArt.texture(EMBLEM_ICON, 128.0)
+		standard.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
+		standard.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		standard.set_meta(StyleToon.META_NO_TOON, true)
+		material = standard
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.name = "Emblem"
 	instance.mesh = quad

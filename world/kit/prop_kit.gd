@@ -251,16 +251,25 @@ static func lantern_post(with_banner: bool = false) -> Node3D:
 		for sz: float in [-1.0, 1.0]:
 			mesh.box("iron", lamp + Vector3(sx * 0.16, 0.0, sz * 0.16), Vector3(0.04, 0.64, 0.04), Basis.IDENTITY, 0.0)
 	mesh.box("iron", lamp + Vector3(0, -0.34, 0), Vector3(0.34, 0.07, 0.34), Basis.IDENTITY, 0.02)
+	# Gainlands v2, Part E: the banner hangs from its bar as its own mesh ("BannerCloth"), so the toon shaders' hang mode can sway it (top edge still)
+	var cloth: KitMesh = KitMesh.new()
 	if with_banner:
 		mesh.box("wood", Vector3(0, 3.2, 0.0), Vector3(0.1, 0.1, 1.0), Basis.IDENTITY, 0.015)
+		cloth.set_material("banner", EnvKit.flat(Color("c4503c"), "banner_red"))
+		cloth.set_material("banner_trim", EnvKit.flat(Color("e8b53a"), "banner_gold"))
 		for face: float in [-1.0, 1.0]:
 			var x: float = 0.03 * face
-			mesh.quad("banner", [Vector3(x, 3.15, -0.38), Vector3(x, 3.15, 0.38), Vector3(x, 1.9, 0.34), Vector3(x, 1.9, -0.34)], Vector3(face, 0, 0))
-			mesh.tri("banner", [Vector3(x, 1.9, -0.34), Vector3(x, 1.9, 0.34), Vector3(x, 1.55, 0.0)], Vector3(face, 0, 0))
-			mesh.quad("banner_trim", [Vector3(x * 1.4, 2.75, -0.2), Vector3(x * 1.4, 2.75, 0.2), Vector3(x * 1.4, 2.35, 0.18), Vector3(x * 1.4, 2.35, -0.18)], Vector3(face, 0, 0))
+			cloth.quad("banner", [Vector3(x, 3.15, -0.38), Vector3(x, 3.15, 0.38), Vector3(x, 1.9, 0.34), Vector3(x, 1.9, -0.34)], Vector3(face, 0, 0))
+			cloth.tri("banner", [Vector3(x, 1.9, -0.34), Vector3(x, 1.9, 0.34), Vector3(x, 1.55, 0.0)], Vector3(face, 0, 0))
+			cloth.quad("banner_trim", [Vector3(x * 1.4, 2.75, -0.2), Vector3(x * 1.4, 2.75, 0.2), Vector3(x * 1.4, 2.35, 0.18), Vector3(x * 1.4, 2.35, -0.18)], Vector3(face, 0, 0))
 	var lights: Array[Dictionary] = [{"pos": lamp + Vector3(0, -0.1, 0), "color": LANTERN, "range": 7.5, "energy": 2.2, "kind": "lantern"}]
 	var node: Node3D = _finish(mesh, "LanternPost", 0.26, lights)
 	node.set_meta("glow_point", lamp)
+	if with_banner:
+		var banner: MeshInstance3D = cloth.instance("BannerCloth")
+		banner.set_meta(PaintedClasses.META_NO_PAINT, true)
+		banner.set_meta(&"hang", Vector2(3.15, 1.6))
+		node.add_child(banner)
 	return node
 
 

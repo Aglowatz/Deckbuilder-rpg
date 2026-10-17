@@ -55,6 +55,13 @@ instance uniform float roof_variant : hint_range(0.0, 1.0) = 0.0;
 instance uniform float colour_keep : hint_range(0.0, 1.0) = 0.0;
 instance uniform float accent_mix : hint_range(0.0, 1.0) = 0.0;
 instance uniform float occlusion_fade : hint_range(0.0, 1.0) = 0.0;
+// Hanging cloth (Gainlands v2, Part E): banners and flags hung from a bar. StyleToon sets these per mesh from its bounds (StyleToon.hang_params):
+// hang.xyz = the cloth's normal (local), hang.w = its length (0 = not hanging cloth), hang_top_phase = the top edge's local height and a phase per banner.
+// The top edge stays still, the swing grows towards the bottom edge (squared), only across the cloth (never through its pole), small, slow, one wind
+// direction for the whole zone (STYLE_WIND_DIR).
+instance uniform vec4 hang = vec4(0.0);
+instance uniform vec2 hang_top_phase = vec2(0.0);
+const vec3 STYLE_WIND_DIR = vec3(0.86, 0.0, 0.5);
 
 const float BAYER[16] = float[16](0.0, 8.0, 2.0, 10.0, 12.0, 4.0, 14.0, 6.0, 3.0, 11.0, 1.0, 9.0, 15.0, 7.0, 13.0, 5.0);
 
@@ -75,9 +82,23 @@ float value_noise(vec3 p) {
 			mix(mix(hash31(i + vec3(0, 0, 1)), hash31(i + vec3(1, 0, 1)), f.x), mix(hash31(i + vec3(0, 1, 1)), hash31(i + vec3(1, 1, 1)), f.x), f.y), f.z);
 }
 
+// The hanging cloth's offset at a vertex (local space): along the cloth's normal only, zero at the top edge, growing with the square of the distance
+// down the cloth, at most about 3.5 % of the cloth's length; the wind's push through the cloth sets the lean, a slow gust and a little flutter the motion.
+vec3 hang_offset(vec3 v, mat4 model, vec4 cloth, vec2 top_phase, float time) {
+	float down = clamp((top_phase.x - v.y) / cloth.w, 0.0, 1.0);
+	vec3 n = normalize(cloth.xyz);
+	vec3 wind_local = normalize(transpose(mat3(model)) * STYLE_WIND_DIR);
+	float push = dot(wind_local, n);
+	float lean = mix(0.35, 1.0, abs(push)) * (push < 0.0 ? -1.0 : 1.0);
+	float gust = 0.55 + 0.35 * sin(time * 0.85 + top_phase.y) + 0.1 * sin(time * 2.4 + top_phase.y * 1.7);
+	return n * lean * gust * down * down * cloth.w * 0.035;
+}
+
 void vertex() {
 	v_world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
-	if (wind_amount > 0.0) {
+	if (wind_amount > 0.0 && hang.w > 0.0) {
+		VERTEX += hang_offset(VERTEX, MODEL_MATRIX, hang, hang_top_phase, TIME) * style_wind;
+	} else if (wind_amount > 0.0) {
 		vec3 world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 		float sway = sin(TIME * 1.7 + world.x * 0.55 + world.z * 0.45) + 0.5 * sin(TIME * 3.1 + world.z * 0.9);
 		float height = max(VERTEX.y, 0.0);

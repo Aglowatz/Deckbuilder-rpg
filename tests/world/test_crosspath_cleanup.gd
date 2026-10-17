@@ -51,10 +51,10 @@ func test_rigid_kit_props_have_no_sway() -> void:
 	leaves.add_child(leaf)
 	StyleToon.apply(root, 1.0)
 	var swaying: PackedStringArray = PlanView.swaying(root)
-	# the clusters' flower clumps, bushes and trees are plants: only those may be listed
+	# the clusters' flower clumps, bushes and trees are plants, and banner cloth hangs from its bar (the toon hang mode, Gainlands v2 Part E): only those may be listed
 	var rigid: PackedStringArray = []
 	for line: String in swaying:
-		if not (line.contains("Clumps") or line.contains("Bush") or line.contains("Tree") or line.contains("Hedge")):
+		if not (line.contains("Clumps") or line.contains("Bush") or line.contains("Tree") or line.contains("Hedge") or line.contains("BannerCloth")):
 			rigid.append(line)
 	assert_eq(rigid, PackedStringArray(), "nothing rigid sways: %s" % str(rigid))
 
