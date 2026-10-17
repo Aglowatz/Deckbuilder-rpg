@@ -97,7 +97,7 @@ static func _backlog() -> QuestData:
 	quest.id = BACKLOG
 	quest.order = 110
 	quest.title = "Clear the Backlog"
-	quest.summary = "Agnes Overdue's backlog has gone feral and is wandering the floors. Process three roaming staff members (win their duels)."
+	quest.summary = "Agnes Overdue's backlog has gone feral and is wandering the floors. Process three roaming staff members. By duel. Per policy."
 	quest.giver_npc = DnaZone.NPC_DOLORES
 	quest.turn_in_npc = DnaZone.NPC_DOLORES
 	quest.objectives = [QuestObjective.make("Defeat roaming staff", Condition.counter("zone_enemies_defeated", 3))] as Array[QuestObjective]
@@ -112,7 +112,7 @@ static func _onboarding() -> QuestData:
 	quest.id = ONBOARDING
 	quest.order = 120
 	quest.title = "Mandatory Onboarding"
-	quest.summary = "Gerald says all new hires must punch in at the time clock and pour a cup at the breakroom coffee machine. HR will know if you skip it."
+	quest.summary = "Gerald says all new hires must punch in at the time clock and pour a cup at the breakroom coffee machine. HR will know. HR is a ghost. HR is always watching."
 	quest.giver_npc = DnaZone.NPC_BARNABY
 	quest.turn_in_npc = DnaZone.NPC_BARNABY
 	quest.objectives = [
@@ -130,7 +130,7 @@ static func _audit() -> QuestData:
 	quest.id = AUDIT
 	quest.order = 130
 	quest.title = "Compliance Audit"
-	quest.summary = "Clerk Ledgerbone needs a fresh pair of hands for the audit: pass the Compliance quiz and find a hidden stash somewhere in the filing mazes."
+	quest.summary = "Clerk Ledgerbone needs a fresh pair of hands for the audit: pass the Compliance quiz and find a hidden stash in the filing mazes. Bring a pen. Bring a spare pen."
 	quest.giver_npc = DnaZone.NPC_PIP
 	quest.turn_in_npc = DnaZone.NPC_PIP
 	quest.objectives = [
@@ -188,7 +188,7 @@ static func _gain_lanes() -> QuestData:
 	quest.id = GainlandsZone.QUEST_LANES
 	quest.order = 230
 	quest.title = "Clear the Lanes"
-	quest.summary = "Benchley's protein deliveries keep getting intercepted by roaming brutes, golems and sprites. Beat three of them."
+	quest.summary = "Benchley's protein deliveries keep getting 'inspected' by roaming brutes, golems and sprites. Beat three of them. Deliver the gains."
 	quest.giver_npc = GainlandsZone.NPC_TONY
 	quest.turn_in_npc = GainlandsZone.NPC_TONY
 	quest.objectives = [QuestObjective.make("Defeat roaming Gainlands enemies", Condition.counter(GainlandsZone.COUNTER_ENEMIES, 3))] as Array[QuestObjective]
@@ -207,7 +207,7 @@ static func _buf_pantry() -> QuestData:
 	quest.id = BuffetZone.QUEST_PANTRY
 	quest.order = 310
 	quest.title = "Pantry Run"
-	quest.summary = "The Grand Pantry is out of everything that matters. Sous-Chef Tarragon needs three ingredients gathered from around the Endless Buffet."
+	quest.summary = "The Grand Pantry is out of everything that matters. Sous-Chef Tarragon needs three ingredients from around the Buffet. Lettuce not panic."
 	quest.giver_npc = BuffetZone.NPC_TARRAGON
 	quest.turn_in_npc = BuffetZone.NPC_TARRAGON
 	quest.objectives = [QuestObjective.make("Gather ingredients around the zone", Condition.counter(BuffetZone.COUNTER_GATHERED, 3))] as Array[QuestObjective]
@@ -238,7 +238,7 @@ static func _buf_mend() -> QuestData:
 	quest.id = BuffetZone.QUEST_MEND
 	quest.order = 330
 	quest.title = "Mend the Meatloaf"
-	quest.summary = "Old Meatloaf, the Grand Pantry's oldest golem, has stopped working. Basil needs him repaired: sea salt and a black truffle should do it."
+	quest.summary = "Old Meatloaf, the Grand Pantry's oldest golem, has stopped working. Basil thinks sea salt and a black truffle will get him back on his loaf."
 	quest.giver_npc = BuffetZone.NPC_ODALYS
 	quest.turn_in_npc = BuffetZone.NPC_ODALYS
 	quest.objectives = [QuestObjective.make("Repair Old Meatloaf", Condition.flag(str(BuffetZone.FLAG_MENDED)))] as Array[QuestObjective]
@@ -256,7 +256,7 @@ static func _heap_herd() -> QuestData:
 	quest.id = HeapZone.QUEST_HERD
 	quest.order = 410
 	quest.title = "Round Up the Herd"
-	quest.summary = "Three of Wren Muckfoot's garbage-eating animals have wandered off into the fields. Shoo each one back towards the pen."
+	quest.summary = "Three of Wren Muckfoot's garbage-eating animals have wandered off into the fields. Shoo each one back to the pen. They are goats. Of course they got out."
 	quest.giver_npc = HeapZone.NPC_WREN
 	quest.turn_in_npc = HeapZone.NPC_WREN
 	quest.objectives = [QuestObjective.make("Shoo escaped animals back to the pen", Condition.counter(HeapZone.COUNTER_HERDED, 3))] as Array[QuestObjective]
@@ -271,7 +271,7 @@ static func _heap_fert() -> QuestData:
 	quest.id = HeapZone.QUEST_FERT
 	quest.order = 420
 	quest.title = "Fertilizer Run"
-	quest.summary = "Granny Gristle is out of fertilizer and the crops are sulking. Gather three sacks from around the Verdant Dump."
+	quest.summary = "Granny Gristle is out of fertilizer and the crops are sulking. Gather three sacks from around the Dump. Hold your nose. Hold the sack."
 	quest.giver_npc = HeapZone.NPC_HOB
 	quest.turn_in_npc = HeapZone.NPC_HOB
 	quest.objectives = [QuestObjective.make("Gather sacks of fertilizer", Condition.counter(HeapZone.COUNTER_FERTILIZER, 3))] as Array[QuestObjective]

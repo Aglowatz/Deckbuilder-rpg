@@ -293,3 +293,13 @@ func _exit_tree() -> void:
 	Audio.set_dialogue_duck(get_instance_id(), false)
 	if _portrait != null and is_instance_valid(_portrait) and _portrait.get_parent() != self:
 		_portrait.queue_free()
+
+
+## Overnight Oct 16 (Block 4e): how many lines `line` wraps to in this box at a dialogue text `scale` (1.0 = default, 1.4 = the largest
+## setting). The fit test checks every story line with it.
+func wrapped_lines(line: String, scale: float) -> int:
+	var font: Font = _text.get_theme_font(&"font")
+	var font_size: int = int(round(27.0 * scale))
+	var text_width: float = PLAIN_WIDTH - _panel_margins().x
+	var size: Vector2 = font.get_multiline_string_size(_split_expression(line)[1] as String, HORIZONTAL_ALIGNMENT_LEFT, text_width, font_size, -1, TextServer.BREAK_MANDATORY | TextServer.BREAK_WORD_BOUND | TextServer.BREAK_ADAPTIVE)
+	return maxi(1, int(round(size.y / font.get_height(font_size))))

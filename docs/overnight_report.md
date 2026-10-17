@@ -11,8 +11,8 @@ Decisions: `docs/design/open_questions.md` "Overnight decisions (Oct 16)" (ON-*)
 | 1 Quest system overhaul | done (see below) |
 | 2 Equipment and loot | done (see below) |
 | 3 Hub world and the Undercroft | done (see below) |
-| 4 Dialogue rewrite | in progress |
-| 5 Playthrough bot, hitches, report | - |
+| 4 Dialogue rewrite | done (see below) |
+| 5 Playthrough bot, hitches, report | next |
 
 ## Block 1: quests (done)
 - Data model: category MAIN/SIDE, ordered objectives with targets (kind, area, spot, "where to go"), step rewards (milestones), completion rewards in
@@ -50,7 +50,17 @@ Decisions: `docs/design/open_questions.md` "Overnight decisions (Oct 16)" (ON-*)
 - Verified: `bash tools/run_hub_walk_smoke.sh` (every road blocked and open, in and back, the Capital road, the Undercroft: all ok), GUT,
   town Medium 60.1 fps avg (min 18 on load). Screenshots: `docs/art/hub_world/` + `docs/art/hub_world.md`.
 
+## Block 4: dialogue (done)
+- `docs/design/voice_bible.md`: global rules (puns, sprinkled millennial references, 1-3 sentences, sincere beats stay sincere), each Path's
+  humour and 2-3 sample lines for every speaking character.
+- Rewrite: walls of text split into short boxes everywhere (419 extra boxes); gatekeepers rewritten round their obstacles; town, exits and hub lines
+  updated; stale names fixed; new lines for all 12 vendors; quest summaries punched up; tips (quests, gear, hub, per-zone lore); battle-tip winks; a
+  mini-story beat per zone (a local who remembers the king and the little prince, and a moment when the zone is freed).
+- Old beside new for every changed line: `docs/design/dialogue_rewrite.md` (`node tools/dialogue_diff.js`, 736 rows).
+- Fit: every story line fits the box at the default and the largest text size (`tests/test_dialogue_fit.gd`); quest logic reads ids and flags, never
+  text (the three story tests that check phrases still pass). 1664 GUT passing.
+
 ## Problems / notes
 
 ## Next
-Block 4: dialogue rewrite (voice bible written; gatekeeper, vendor, tips, zone mini-story lines done; walls of text split), then Block 5.
+Block 5: the playthrough bot, load hitches, final report.

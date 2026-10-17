@@ -7,17 +7,17 @@ extends CanvasLayer
 
 const STEPS: Array[Dictionary] = [
 	{"id": "intro", "title": "Your first duel", "info": true,
-		"text": "Bring the enemy's HP to 0 before they do it to you. Keep this hand, or take one free mulligan."},
+		"text": "Bring the enemy's HP to 0 before they do it to you. Keep this hand, or take one free mulligan. No pressure. (Some pressure.)"},
 	{"id": "infrastructure", "title": "Play an Infrastructure",
-		"text": "[b]Click the glowing Infrastructure.[/b] It gives you energy. One per turn."},
+		"text": "[b]Click the glowing Infrastructure.[/b] It gives you energy. One per turn. Like coffee, but legal."},
 	{"id": "energy", "title": "Energy", "info": true,
 		"text": "Each Infrastructure is an [b]energy orb[/b] on your plate. Cards cost energy, and the orbs refill every turn."},
 	{"id": "unit", "title": "Play a unit",
 		"text": "Cards [color=#ffd76a]glow gold[/color] when you can pay for them. [b]Click a unit[/b] to put it on the field."},
 	{"id": "end_turn", "title": "Nothing left to play", "info": true,
-		"text": "[b]To Combat[/b] goes to attacking; [b]End Turn[/b] passes. You draw a card next turn."},
+		"text": "[b]To Combat[/b] goes to attacking; [b]End Turn[/b] passes. You draw a card next turn. Patience is a strategy too."},
 	{"id": "attack", "title": "Attack!",
-		"text": "[b]Click your units[/b], then [b]Attack[/b]. The numbers show what each hit will do. New units wait a turn."},
+		"text": "[b]Click your units[/b], then [b]Attack[/b]. The numbers show what each hit will do. New units wait a turn. They are still tying their shoes."},
 	{"id": "block", "title": "Block!",
 		"text": "[b]Click your unit, then the attacker[/b] it blocks. Unblocked attackers hit you. Then [b]Confirm Blocks[/b]."},
 	{"id": "trap", "title": "Traps",
@@ -27,9 +27,9 @@ const STEPS: Array[Dictionary] = [
 	{"id": "tool", "title": "Tools",
 		"text": "A [b]Tool[/b] stays on the table. Use its ability to attach it to one of your units."},
 	{"id": "refuse", "title": "The Refuse Pile", "info": true,
-		"text": "Spent spells and destroyed units go to the [b]Refuse Pile[/b]. Click it to look inside."},
+		"text": "Spent spells and destroyed units go to the [b]Refuse Pile[/b]. Click it to look inside. It is less gross than it sounds."},
 	{"id": "keywords", "title": "Keywords", "info": true,
-		"text": "Words like [b]Flying[/b] change how a unit fights. Hover one on a card to see what it does."},
+		"text": "Words like [b]Flying[/b] change how a unit fights. Hover one on a card to see what it does. Flying units: rude, but effective."},
 ]
 
 ## Info prompts go away by themselves after this long, so a player who ignores them is never stuck with one.
