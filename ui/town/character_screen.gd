@@ -505,9 +505,9 @@ func _toggle_equip(owned_item: ItemData) -> void:
 	var profile: PlayerProfile = Session.profile
 	if profile.is_item_equipped(owned_item):
 		profile.unequip_item_id(owned_item)
-		Audio.sfx(&"ui_tick")
+		Audio.sfx(&"tool_unequip")
 	elif profile.equip_item_id(owned_item):
-		Audio.sfx(&"ui_confirm")
+		Audio.sfx(&"tool_equip")
 	else:
 		_say("All %d item slots are full." % profile.item_slots, Color("ff8a85"))
 		return

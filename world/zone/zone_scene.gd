@@ -1133,7 +1133,7 @@ func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 	run.return_position = back if builder.is_walkable(back) else player.position
 	run.has_return_position = true
 	hud.toast("%s wants a word..." % enemy.info.display_name, Color("ff8a85"))
-	Audio.sfx(&"turn_start")
+	Audio.sfx(&"enemy_alert")
 	await get_tree().create_timer(0.7).timeout
 	Session.start_zone_battle(enemy.info.id, enemy.instance_id)
 
@@ -1145,7 +1145,7 @@ func hit_player(amount: int, from: Vector3, cause: String = "knocked flat") -> v
 	run.damage(amount)
 	_invulnerable = ZoneEnemies.HIT_COOLDOWN
 	EventBus.zone_hp_changed.emit(run.hp, run.max_hp())
-	Audio.sfx(&"hit_heavy")
+	Audio.sfx(&"hero_hurt")
 	hud.toast(story.text("fx.hit"), Color("ff8a85"))
 	_flash.color.a = 0.38
 	create_tween().tween_property(_flash, "color:a", 0.0, 0.45)

@@ -216,7 +216,7 @@ func _craft() -> void:
 ## The brewing animation: the cauldron shakes and glows, motes of both Path colors spiral into it, a flash, then the card
 ## rises out of the pot, flipped face-up with a glow.
 func _play_brew(first: Affinity.Type, second: Affinity.Type, result: Alchemy.Result) -> void:
-	Audio.sfx(&"spell")
+	Audio.sfx(&"craft_brew")
 	var color_a: Color = UIStyle.affinity_color(first)
 	var color_b: Color = UIStyle.affinity_color(second)
 	var shake: Tween = create_tween()

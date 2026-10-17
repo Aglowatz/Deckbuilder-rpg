@@ -3246,3 +3246,57 @@ The Capital (zone `final`) dressed with its approved kit and matched to its ten 
 - G: the walk smoke grows (outpost, a rift sealed, save/load, the restored districts) and passes at Cinematic and Overview; the music smoke passes; the 9-combination hub sheets.
 
 Try this: free the Gainlands, walk into the Capital's Transit Yards (the lights flicker on, the Beefcake sting, citizens cheer); walk the avenue to the castle door; finish Primm and come back to the plaza.
+
+
+## The sound-effects pass, Parts A-E (2026-10-16) - done
+
+A professional sound-effects and ambience pass over the whole game (brief: "Professional, high-quality sound effects pass"). Direction in
+`docs/audio/sound_direction.md`; every file's source in `docs/audio/sfx_sources.md`; every event's final status in `docs/audio/sfx_inventory.md` (.tsv for
+the sheet); decisions SFX-1..SFX-27 in `docs/design/open_questions.md`. Music and gameplay unchanged (only how the effects mix with the music).
+
+- A: the system. A data bank (`data/source/sfx_events.csv` + `sfx_sources.csv` -> `data/audio/sfx_bank.json`): 143 events with layers (transient, body,
+  tail), 3-6 variants for frequent sounds, never the same twice in a row, pitch +-3-6 % and volume +-1.5-2 dB drift; voice limits and priorities (28 2D +
+  20 3D voices); world sounds in 3D heard from the hero; buses Master > Music, SFX (World, Battle, UI), Ambience, Voice with ducks under big battle
+  moments and dialogue; per-place reverb; two new sliders (ambience, dialogue voices). Tools: `tools/freesound.js`, `tools/sfx_build.js`,
+  `tools/sfx_mix_report.js`, `tools/sfx_inventory.js`, `bash tools/run_sfx_check.sh`.
+- B: battle. Cards by weight, a summon and a death per Path, hits by size, blocks, buffs, heals, every resource and token gained and spent, traps,
+  Tools, Wonders, energy ticks, turns, preview ticks, the low-HP heartbeat, layers under the victory and defeat stings, all on the animation beats and in
+  sync at Fast and Very Fast.
+- C: the world. Footsteps on 14 surfaces on the walk cycle's foot contacts (NPCs quieter), chests, doors, gates, levers, signs, throwers, rifts,
+  dungeon entrances, portals, transitions; ambience for every place (beds + placed one-shots), the Capital's districts broken or restored, the Dump
+  eerier toward the Rotheart, landmark loops (wheel, Rotheart, windmill, gravy river, fountains, rift hums).
+- D: the interface. Every button, tab and slider; menus; deck builder; purchases; pack opening; level up; quests; toasts; saves; per-speaker dialogue
+  voices.
+- E: the mix. Every event levelled to its role (143/143 within 2 dB of its target by `sfx_mix_report.js`, from the loudest variant of each layer), a
+  -1.5 dB Battle and -1 dB World trim so no event passes -1 dBFS on its bus in two windowed checks, ambience beds about 7 dB under the music; no silent
+  events, no name without a sound (a test scans the code), more variants where repetition would show.
+- Numbers: **16.5 MB** of shipped effects and ambience in 415 files (budget 40 MB; plus the old Kenney folders, 0.8 MB, kept for the jingle
+  fallback). 85 freesound CC0 sounds (each fetched as one preview, licence checked on its page, processed and deleted at once), the local Kenney packs,
+  and 35 sounds generated with ffmpeg. The download cache (`_audio_source/`) is empty and gone; it peaked at 27 MB. Disk used by the pass on this PC:
+  about 50 MB (19 MB of files with their import sidecars, 13 MB of Godot's import cache, about 17 MB in git).
+- Checks: 1633 GUT, all passing. Windowed: the sound check (every event and ambience through the real mixer: no clipping on any bus, no silent
+  event), the first-battles smoke at Normal, Fast and Very Fast (36 battle sounds, none missing; one rerun after a flaky intro-tip timing, SFX-27), the
+  Capital, Dump and Gainlands walk smokes (every district's ambience, footsteps on 7 surfaces), the pack preview with a legendary. Two older UI smokes
+  (eleventh brief's packs, town interaction's equipment vendor) fail the same way with the new sounds switched off: stale, in the backlog (SFX-26).
+
+### Listen for this
+
+I chose and levelled every sound by numbers, not by ear (SFX-2). These are the places to listen first, with headphones, music at its default:
+
+1. **A first battle** (the forest's cave or any zone fight): the card landing (snap, thud, dust), cheap cards lighter and expensive ones heavier; the four
+   Paths' summons (gym plate, ghostly paper, pan and sizzle, tin and junk); hits growing with damage; the energy ticks rising as you pay; set and spring
+   a trap. Then switch to Very Fast (the speed button) and check nothing trails its animation.
+2. **Resources**: Iron's clank, Red Tape's stamp-and-rip, the Contract quill, Ingredient's sizzle, Garbage's can rattle. Are any too busy for how often
+   they repeat?
+3. **Footsteps**: walk the town square (cobbles) onto the grass; the Buffet's mashed-potato meadow (squelchy: is it funny or annoying?), the D.N.A.'s
+   carpet, marble and tile, the Dump's junk (a can clinks on one step in four), the Capital's ash outside and the pastel plaza inside.
+4. **Ambience per place**: does each sound distinct and sit under the music? The D.N.A.'s clock (a seamless loop with a 0.3 s crossfade between
+   ticks: listen for a double tick every 40 s), the Capital inside (one birdsong repeats exactly every 12 s on purpose: wrong or just broken?), the
+   Dump toward the Rotheart (the drone and the pulse should creep in).
+5. **The Capital's districts**: walk each broken, then free a Path and walk back (dead machine and groans -> weights and cheers, paste squelch ->
+   sizzle and pans, whispers and papers -> birds and chimes, flies -> crickets and frogs).
+6. **The interface**: sweep the mouse along a menu (the hover breath should be barely there), click around the deck builder, buy something (the coin
+   pile), open a pack with a rare or legendary, read a long conversation (the dialogue toks: small creatures higher, big ones lower, ghosts breathy;
+   too fast or too loud? the "Dialogue voices" slider is new).
+7. **Fatigue**: play 20 minutes and note any sound you start to notice too much: that is the next variant or level to fix (edit
+   `data/source/sfx_events.csv` or add rows to `sfx_sources.csv`, then `node tools/sfx_build.js`).

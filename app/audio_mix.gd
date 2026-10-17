@@ -11,7 +11,7 @@ const LAYOUT: Array = [
 	["Music", "Master"], ["SFX", "Master"], ["World", "SFX"], ["Battle", "SFX"], ["UI", "SFX"], ["Ambience", "Master"], ["Voice", "Master"],
 ]
 ## Fixed bus trims in dB for the buses without a slider.
-const TRIMS: Dictionary = {"World": 0.0, "Battle": 0.0}
+const TRIMS: Dictionary = {"World": -1.0, "Battle": -1.5}
 const DUCK_BUSES: Array[String] = ["Music", "Ambience"]
 
 

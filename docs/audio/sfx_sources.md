@@ -409,6 +409,17 @@ Every file is CC0 (Kenney's packs, freesound sounds filtered to Creative Commons
 | `voice/airy_01.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, voice |
 | `voice/airy_02.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, voice |
 | `voice/airy_03.wav` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, voice |
+| `card/fan_03.wav` | [Kenney casino audio (card-slide-5.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | 0-0.16 s, filtered, ui_hover |
+| `card/fan_04.wav` | [Kenney casino audio (card-shove-4.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | 0-0.16 s, filtered, ui_hover |
+| `card/fan_05.wav` | [Kenney casino audio (card-slide-6.ogg)](https://kenney.nl/assets/casino-audio) | Kenney (kenney.nl) | CC0 1.0 | 0-0.14 s, filtered, ui_hover |
+| `ui/book_open_02.ogg` | [Kenney rpg audio (bookOpen.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, ui |
+| `ui/book_open_03.ogg` | [Kenney rpg audio (bookFlip1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, ui |
+| `ui/book_close_02.ogg` | [Kenney rpg audio (bookClose.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, ui |
+| `ui/book_close_03.ogg` | [Kenney rpg audio (bookPlace1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, ui |
+| `world/door_open_03.ogg` | [Kenney rpg audio (doorOpen_1.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/door_open_04.ogg` | [Kenney rpg audio (doorOpen_2.ogg)](https://kenney.nl/assets/rpg-audio) | Kenney (kenney.nl) | CC0 1.0 | filtered, world |
+| `world/whoosh_big_03.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, world |
+| `world/whoosh_big_04.ogg` | generated with ffmpeg (original) | The Wayward Path | CC0 1.0 (original) | filtered, world |
 
 ## Freesound authors
 

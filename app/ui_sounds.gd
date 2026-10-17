@@ -16,6 +16,9 @@ func _ready() -> void:
 	process_priority = -1000
 	get_tree().node_added.connect(_on_node_added)
 	EventBus.quest_notice.connect(_on_quest_notice)
+	EventBus.arena_fight_finished.connect(func(_encounter: String, won: bool) -> void:
+		if won:
+			Audio.sfx(&"arena_cheer"))
 	_armed = true
 
 
