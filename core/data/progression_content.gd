@@ -39,6 +39,7 @@ static func zone_equipment() -> Dictionary:
 	_add_vault_gear(result)
 	_add_lab_gear(result)
 	ArenaContent.add_equipment(result)
+	ExpansionGear.add_all(result)
 	return result
 
 

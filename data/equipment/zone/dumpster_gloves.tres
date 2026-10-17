@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_asklt"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_68qwg"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_rwn8x"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_wd143"]
+
+[sub_resource type="Resource" id="Resource_flubw"]
+script = ExtResource("2_68qwg")
+target = 1
+op = 12
+amount = 4
+amount2 = 2
+
+[sub_resource type="Resource" id="Resource_l3ura"]
+script = ExtResource("1_asklt")
+kind = 23
+effect = SubResource("Resource_flubw")
+
+[resource]
+script = ExtResource("4_wd143")
+id = "dumpster_gloves"
+slot = 1
+description = "Whenever one of your units dies, create 2 Garbage."
+flavor_text = "One person's trash is another person's starting hand."
+rarity = 1
+tier = 2
+source = "Main quest Root Cause (midpoint)"
+source_name = "Dumpster Diving Gloves"
+modifiers = Array[ExtResource("1_asklt")]([SubResource("Resource_l3ura")])

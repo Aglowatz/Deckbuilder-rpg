@@ -432,6 +432,12 @@ func _open_equipment_picker(slot: EquipmentData.Slot) -> void:
 		var info: Label = UIKit.label("%s%s\n%s" % [piece.source_name, " [equipped]" if is_equipped else "", piece.description], &"", 16, UIStyle.GOOD if is_equipped else UIStyle.PARCHMENT)
 		info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		info.mouse_filter = Control.MOUSE_FILTER_STOP
+		info.tooltip_text = EquipmentCompare.tooltip(piece, equipped)  # Oct 16: hover shows the difference against what is equipped
+		if not is_equipped and equipped != null:
+			var delta: PackedStringArray = EquipmentCompare.diff_lines(piece, equipped)
+			if not delta.is_empty():
+				info.text += "\n" + ", ".join(delta)
 		row.add_child(info)
 		if not is_equipped:
 			row.add_child(_small_button("Equip", func() -> void: _equip_from_picker(piece)))

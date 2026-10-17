@@ -56,7 +56,7 @@ const TARGETS: Dictionary = {
 	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", "", "A hidden chest somewhere in Crosspath"]],
 }
 ## Quest id -> {"equipment": [ids]} paid on top of the quest's own rewards (Block 2's pieces).
-const EXTRA_REWARDS: Dictionary = {}
+const EXTRA_REWARDS: Dictionary = {"gain_power": {"equipment": ["kettlebell_locket"]}}
 
 
 static func build_all() -> Array[QuestData]:

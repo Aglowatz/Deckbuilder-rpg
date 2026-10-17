@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_vv1fw"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cuhfc"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_hcybi"]
+
+[sub_resource type="Resource" id="Resource_uhajh"]
+script = ExtResource("1_vv1fw")
+kind = 12
+value = 1
+
+[sub_resource type="Resource" id="Resource_0mta2"]
+script = ExtResource("1_vv1fw")
+kind = 13
+value = 1
+
+[sub_resource type="Resource" id="Resource_r6m8d"]
+script = ExtResource("1_vv1fw")
+value = -4
+
+[resource]
+script = ExtResource("3_hcybi")
+id = "hubris_crown"
+slot = 0
+description = "You always go first and draw an extra card on your first turn. Max HP -4."
+advanced = true
+flavor_text = "Heavy is the head that wears the crown. Mostly because it's very heavy."
+rarity = 3
+tier = 3
+source = "The Old Service Tunnels (first clear)"
+drawback = "Max HP -4."
+source_name = "Crown of Mild Hubris"
+modifiers = Array[ExtResource("1_vv1fw")]([SubResource("Resource_uhajh"), SubResource("Resource_0mta2"), SubResource("Resource_r6m8d")])

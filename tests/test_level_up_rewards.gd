@@ -25,11 +25,11 @@ func test_leveling_up_never_grants_a_free_card() -> void:
 func test_reaching_level_10_unlocks_advanced_equipment_at_the_vendor() -> void:
 	var vendor: EquipmentVendorData = EquipmentVendorScreen.default_stock()
 	var before_state: UnlockState = Session.unlock_state()
-	assert_eq(vendor.available_equipment_ids(before_state).size(), 5, "only the 5 basic pieces before leveling")
+	assert_eq(vendor.available_equipment_ids(before_state).size(), 7, "only the 7 basic pieces before leveling")
 	Session.add_xp(ProgressionTable.xp_to_reach(ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL))
 	assert_gte(Session.profile.level, ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL)
 	var after_state: UnlockState = Session.unlock_state()
-	assert_eq(vendor.available_equipment_ids(after_state).size(), 10, "all 10 pieces after reaching level 10")
+	assert_eq(vendor.available_equipment_ids(after_state).size(), 12, "all 12 pieces after reaching level 10")
 
 
 ## Level 6 (ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL) unlocks the item vendor's advanced half.

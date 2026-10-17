@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_aoawj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_itn56"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_scalt"]
+
+[sub_resource type="Resource" id="Resource_tsvnr"]
+script = ExtResource("1_aoawj")
+kind = 5
+value = 1
+value2 = 1
+color = 3
+
+[resource]
+script = ExtResource("3_scalt")
+id = "raccoon_crown"
+slot = 0
+description = "Your Refusemancer units get +1/+1."
+flavor_text = "Worn by the true monarch of the bins. All hail. All scavenge."
+rarity = 2
+tier = 2
+source = "The Rotheart (first clear)"
+source_name = "Trash Panda Tiara"
+modifiers = Array[ExtResource("1_aoawj")]([SubResource("Resource_tsvnr")])

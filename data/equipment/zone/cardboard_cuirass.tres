@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_igv2b"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_oe1pi"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_8hpay"]
+
+[sub_resource type="Resource" id="Resource_b2hro"]
+script = ExtResource("1_igv2b")
+value = 2
+
+[resource]
+script = ExtResource("3_8hpay")
+id = "cardboard_cuirass"
+slot = 2
+description = "Max HP +2."
+flavor_text = "Box-fresh armour. Literally. Do not get it wet."
+tier = 1
+source = "Bertram's equipment stall, Crosspath"
+source_name = "Cardboard Cuirass"
+modifiers = Array[ExtResource("1_igv2b")]([SubResource("Resource_b2hro")])

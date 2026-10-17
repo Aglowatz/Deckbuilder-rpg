@@ -16,6 +16,8 @@ const TUB_COLORS: Array[Color] = [Color(0.86, 0.36, 0.24), Color(0.25, 0.55, 0.7
 var stock: VendorData
 ## When set (`PackData.VENDOR_*`), the header gets a "Card Packs" button opening that vendor's pack stall (`PackShopScreen`).
 var pack_vendor_id: String = ""
+## Overnight Oct 16: a zone shop's equipment stock (`ExpansionGear.zone_vendor_stock`); when it has pieces the header gets a "Gear" button.
+var gear_stock: EquipmentVendorData
 var pack_story_prefix: String = ""
 var _filter: CardFilterBar
 var _grid: GridContainer
@@ -43,6 +45,11 @@ func _build() -> void:
 		packs_button.name = "CardPacksButton"
 		packs_button.pressed.connect(_open_packs)
 		header_extra.add_child(packs_button)
+	if gear_stock != null and not gear_stock.entries.is_empty():
+		var gear_button: FancyButton = FancyButton.make("Gear", &"PrimaryButton", Vector2(150, 52))
+		gear_button.name = "GearButton"
+		gear_button.pressed.connect(_open_gear)
+		header_extra.add_child(gear_button)
 	if stage != null:
 		_card_scale = STAGED_SCALE
 	var coin: TextureRect = IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 38.0)
@@ -235,6 +242,19 @@ func _say(text: String, color: Color = UIStyle.PARCHMENT) -> void:
 	var tween: Tween = create_tween()
 	tween.tween_interval(1.8)
 	tween.tween_property(_toast, "modulate:a", 0.0, 0.4)
+
+
+func _open_gear() -> void:
+	Audio.sfx(&"ui_open")
+	var shop: EquipmentVendorScreen = EquipmentVendorScreen.new()
+	shop.stock = gear_stock
+	shop.screen_title = "%s: Gear" % screen_title
+	shop.vendor_screen_id = ""
+	shop.z_index = 100
+	add_child(shop)
+	shop.closed.connect(func() -> void:
+		shop.queue_free()
+		_refresh())
 
 
 func _open_packs() -> void:

@@ -1022,6 +1022,7 @@ func _open_vendor() -> void:
 	screen.stock = data
 	screen.screen_title = def.vendor_title
 	screen.vendor_screen_id = def.vendor_screen_id
+	screen.gear_stock = ExpansionGear.zone_vendor_stock(def.id)
 	if def.id == CapitalZone.ID:
 		screen.pack_vendor_id = PackData.VENDOR_BLACK_MARKET
 		screen.pack_story_prefix = "pack.black_market"
@@ -1036,6 +1037,7 @@ func _open_chest(id: String) -> void:
 		return
 	Session.discover_secret(_chest_secret(id))
 	var reward: Dictionary = def.chest_rewards.get(id, {}) as Dictionary
+	reward = ChestLoot.with_roll(reward, def.id, Session.owned_equipment_ids(), Session.rng)  # Oct 16: chests can roll gear or a pack by tier
 	var summary: RewardSummary = Session.grant_chest_reward(reward, "Hidden chest")
 	Session.bump_counter(def.counter_chests)
 	hud.set_gold(Session.gold)
@@ -1262,7 +1264,8 @@ func _apply_pending_result() -> void:
 	if str(result.get("kind", "")) == "mini":
 		if bool(result.get("first_clear", false)):
 			Audio.sting(&"STG-DUNGEON")
-			hud.toast("%s cleared! Unique card: %s" % [def.mini.dungeon_name, str(result.get("card", ""))], UIStyle.GOLD)
+			var gear_text: String = (" New gear: %s." % str(result["equipment"])) if result.has("equipment") else ""
+			hud.toast("%s cleared! Unique card: %s.%s" % [def.mini.dungeon_name, str(result.get("card", "")), gear_text], UIStyle.GOLD)
 		elif bool(result.get("cleared", false)):
 			Audio.sting(&"STG-DUNGEON")
 			hud.toast("%s cleared again: +%d gold. HP carries over." % [def.mini.dungeon_name, int(result.get("gold", 0))], UIStyle.GOOD)
@@ -1278,6 +1281,8 @@ func _show_zone_freed(result: Dictionary) -> void:
 	var story_text: StoryText = StoryText.shared()
 	var lines: Array[String] = []
 	lines.append(ZoneCompletion.progress_text(Session.flags))
+	if result.has("equipment"):
+		lines.append("New gear: %s" % str(result["equipment"]))
 	if bool(result.get("arena_opened", false)):
 		Session.set_flag(&"arena_announced")
 	if bool(result.get("alchemist_opened", false)):

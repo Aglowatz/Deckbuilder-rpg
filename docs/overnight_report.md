@@ -9,8 +9,8 @@ Decisions: `docs/design/open_questions.md` "Overnight decisions (Oct 16)" (ON-*)
 | Block | State |
 |---|---|
 | 1 Quest system overhaul | done (see below) |
-| 2 Equipment and loot | next |
-| 3 Hub world and the Undercroft | - |
+| 2 Equipment and loot | done (see below) |
+| 3 Hub world and the Undercroft | next |
 | 4 Dialogue rewrite | - |
 | 5 Playthrough bot, hitches, report | - |
 
@@ -31,10 +31,16 @@ Decisions: `docs/design/open_questions.md` "Overnight decisions (Oct 16)" (ON-*)
 - Tests: `tests/core/quests/test_quests.gd` (model, milestones, migration x3, cycling), `test_quest_markers.gd`. Windowed smoke:
   `bash tools/run_quest_smoke.sh` (town + Gainlands + D.N.A.; passes). 1647 GUT, all passing.
 
+## Block 2: equipment (done)
+- 25 pieces in `core/data/expansion_gear.gd` (5 weak early, 4 resource generators, 4 strong with drawbacks, a buff per Path, 5 keyword pieces,
+  a draw trinket, an XP trophy, Gotta-Go Galoshes +35 % overworld speed); all through Modifiers (two new kinds read outside battle).
+- Distribution: every main and side dungeon's first clear pays one; the four main-quest midpoints, Meet the Merchants and Juice the Station pay
+  one; each zone shop has a "Gear" button with 2-3 pieces (Path pieces after the zone is free); Bertram sells two cheap early pieces; hidden chests
+  and dungeon treasure roll gear or packs by tier (`ChestLoot`). Table: `docs/design/equipment.md`; icon rows: `docs/art/zone_kits/equipment_icons.md`.
+- Comparison tooltips (`EquipmentCompare`): shops and the character screen's piece picker show the stat differences and what you would lose.
+- Tests: `tests/core/game/test_expansion_gear.gd`. 1657 GUT passing.
+
 ## Problems / notes
-- The midpoint gear ids (`gotta_go_galoshes`, `red_tape_dispenser`, `doggy_bag`, `dumpster_gloves`) are created in Block 2; until then the step
-  reward box says "No reward this time".
 
 ## Next
-Block 2: the 25 pieces in `ProgressionContent`, effects through the Modifier pipeline, distribution (dungeons, quests, vendors, chests), comparison
-tooltips, `docs/design/equipment.md`, `docs/art/zone_kits/equipment_icons.md`.
+Block 3: the hub world (land routes, obstacles, smooth edges, Capital horizon, the Undercroft, graphics pass).

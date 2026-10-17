@@ -131,16 +131,9 @@ func _make_tile(piece: EquipmentData, price: int, locked: bool, teaser: String) 
 ## currently equipped in that same slot, so buying doesn't mean digging into the character screen
 ## first to remember what you'd be replacing.
 func _compare_tooltip(piece: EquipmentData) -> String:
-	var text: String = piece.tooltip_text()
 	var profile: PlayerProfile = Session.profile
 	var equipped: EquipmentData = profile.equipped_in(piece.slot) if profile != null else null
-	if equipped == null:
-		text += "\n\nCurrently equipped in this slot: nothing."
-	elif equipped == piece:
-		text += "\n\nCurrently equipped in this slot: this piece."
-	else:
-		text += "\n\nCurrently equipped in this slot: %s - %s" % [equipped.source_name, equipped.description]
-	return text
+	return EquipmentCompare.tooltip(piece, equipped)  # Oct 16: the numbers that change, and what you would lose
 
 
 func _refresh() -> void:
@@ -202,6 +195,8 @@ static func default_stock() -> EquipmentVendorData:
 	data.add("travelers_boots", 100, always)
 	data.add("solid_plate", 110, always)
 	data.add("xray_goggles", 130, always)
+	data.add("cardboard_cuirass", 60, always)  # Oct 16: two cheap early pieces
+	data.add("saucepan_helmet", 70, always)
 	data.add("flamethrower", 320, advanced)
 	data.add("cheaters_dice", 260, advanced)
 	data.add("hover_boots", 300, advanced)

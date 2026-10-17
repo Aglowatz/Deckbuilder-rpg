@@ -542,6 +542,10 @@ func buy_item(item: ItemData, price: int) -> bool:
 func add_xp(amount: int) -> Array[LevelData]:
 	if profile == null or amount <= 0:
 		return []
+	# Oct 16: the Participation Trophy (XP_BONUS_PERCENT) adds to every XP gain.
+	var bonus: int = ExpansionGear.equipped_total(profile, Modifier.Kind.XP_BONUS_PERCENT)
+	if bonus > 0:
+		amount += maxi(1, amount * bonus / 100)
 	var old_level: int = profile.level
 	profile.xp += amount
 	var new_level: int = ProgressionTable.level_for_xp(profile.xp)
@@ -2171,6 +2175,7 @@ func resolve_mini_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 			result["first_clear"] = true
 			if plan.id == PathologyLab.DUNGEON_ID:
 				_grant_lab_first_clear(result)
+			_grant_dungeon_gear(plan.id, result)
 		else:
 			var gold_reward: int = DungeonBuilder.SIDE_REWARD_GOLD
 			add_gold(gold_reward)
@@ -2296,6 +2301,7 @@ func resolve_main_dungeon(cleared: bool, failed: bool = false) -> Dictionary:
 				result["card"] = card.display_name
 			add_gold(dungeon.reward_gold)
 			pending_level_ups.append_array(add_xp(dungeon.reward_xp))
+			_grant_dungeon_gear(zone_id, result)
 			complete_zone(zone_id)
 			result["kind"] = "zone_freed"
 			result["first_clear"] = true
@@ -2419,8 +2425,45 @@ func apply_treasure(node: DungeonMap.MapNode) -> Dictionary:
 	var piece: EquipmentData = content.equipment_piece(str(loot.get("equipment", "")))
 	if piece != null and grant_equipment(piece):
 		granted["equipment"] = piece.source_name
+	# Oct 16: a treasure chest may also roll a piece of gear or a pack (`ChestLoot`), by the dungeon's tier.
+	if not loot.has("equipment") and not loot.has("rolled"):
+		node.treasure["rolled"] = true
+		var extra: Dictionary = ChestLoot.roll(_treasure_tier(), _treasure_area(), owned_equipment_ids(), rng)
+		var rolled_piece: EquipmentData = content.equipment_piece(str(extra.get("equipment", "")))
+		if rolled_piece != null and grant_equipment(rolled_piece):
+			granted["equipment"] = rolled_piece.source_name
+		if extra.has("pack") and add_pack(str(extra["pack"])):
+			var rolled_pack: PackData = PackCatalog.find(str(extra["pack"]))
+			granted["pack"] = rolled_pack.display_name if rolled_pack != null else str(extra["pack"])
 	save_game()
 	return granted
+
+
+## Oct 16: the first clear of a dungeon pays its piece of the new gear (`ExpansionGear.DUNGEON_GEAR`); result["equipment"] names it.
+func _grant_dungeon_gear(key: String, result: Dictionary) -> void:
+	var piece: EquipmentData = content.equipment_piece(str(ExpansionGear.DUNGEON_GEAR.get(key, "")))
+	if piece != null and grant_equipment(piece):
+		result["equipment"] = piece.source_name
+
+
+func owned_equipment_ids() -> Array[String]:
+	var ids: Array[String] = []
+	if profile != null:
+		for piece: EquipmentData in profile.owned_equipment:
+			if piece != null:
+				ids.append(piece.id)
+	return ids
+
+
+## The running dungeon's chest tier: side dungeons 1, main dungeons 2, the castle and the Lab 3.
+func _treasure_tier() -> int:
+	if dungeon_key == PathologyLab.DUNGEON_ID or dungeon_key == CapitalZone.ID or dungeon_key == "D-PC":
+		return 3
+	return 2 if main_dungeon_active else 1
+
+
+func _treasure_area() -> String:
+	return zone_run.zone_id if zone_run != null else "town"
 
 
 ## Resolves one choice of a story event for the current dungeon run: HP/boons/cards go to the run, gold

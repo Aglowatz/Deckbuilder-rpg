@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_rmfy4"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_pqb4s"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_ge3e8"]
+
+[sub_resource type="Resource" id="Resource_l6w1k"]
+script = ExtResource("1_rmfy4")
+kind = 1
+value = 2
+
+[resource]
+script = ExtResource("3_ge3e8")
+id = "lucky_sock"
+description = "Start every duel with 2 extra HP."
+flavor_text = "Unwashed since the tutorial. That's what makes it lucky."
+tier = 1
+source = "Hidden chests (tier 1)"
+source_name = "Lucky Sock"
+modifiers = Array[ExtResource("1_rmfy4")]([SubResource("Resource_l6w1k")])

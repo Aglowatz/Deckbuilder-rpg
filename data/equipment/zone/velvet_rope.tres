@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_0u8lo"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_rqw2t"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_ehce3"]
+
+[sub_resource type="Resource" id="Resource_3mgpn"]
+script = ExtResource("1_0u8lo")
+kind = 5
+value2 = 3
+color = 2
+
+[sub_resource type="Resource" id="Resource_s8jss"]
+script = ExtResource("1_0u8lo")
+kind = 14
+value = 3
+color = 2
+
+[resource]
+script = ExtResource("3_ehce3")
+id = "velvet_rope"
+description = "Your Gourmand units get +0/+3. They have Wallflower (they cannot attack)."
+flavor_text = "Sorry, the kitchen is reservation-only. You are not on the list."
+rarity = 1
+tier = 2
+source = "The Walk-In Freezer (first clear)"
+drawback = "They have Wallflower (they cannot attack)."
+source_name = "Velvet Rope"
+modifiers = Array[ExtResource("1_0u8lo")]([SubResource("Resource_3mgpn"), SubResource("Resource_s8jss")])

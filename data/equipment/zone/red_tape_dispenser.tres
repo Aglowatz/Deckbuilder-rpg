@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_fv521"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_rqmf5"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_n4r0x"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_7stui"]
+
+[sub_resource type="Resource" id="Resource_veqi4"]
+script = ExtResource("2_rqmf5")
+target = 1
+op = 12
+amount = 1
+amount2 = 1
+
+[sub_resource type="Resource" id="Resource_x1n1w"]
+script = ExtResource("1_fv521")
+kind = 11
+effect = SubResource("Resource_veqi4")
+
+[resource]
+script = ExtResource("4_7stui")
+id = "red_tape_dispenser"
+description = "At the start of your turn, create 1 Red Tape."
+flavor_text = "Pull here. Then fill out a form explaining why you pulled."
+rarity = 1
+tier = 2
+source = "Main quest Take a Number (midpoint)"
+source_name = "Red Tape Dispenser"
+modifiers = Array[ExtResource("1_fv521")]([SubResource("Resource_x1n1w")])

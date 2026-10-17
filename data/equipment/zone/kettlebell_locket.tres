@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_abx7l"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_mnnbi"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_8oww0"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_xtuv4"]
+
+[sub_resource type="Resource" id="Resource_w5py3"]
+script = ExtResource("2_mnnbi")
+target = 1
+op = 12
+amount2 = 1
+
+[sub_resource type="Resource" id="Resource_ku8ei"]
+script = ExtResource("1_abx7l")
+kind = 26
+effect = SubResource("Resource_w5py3")
+
+[resource]
+script = ExtResource("4_xtuv4")
+id = "kettlebell_locket"
+description = "Whenever you declare attackers, create 1 Iron."
+flavor_text = "Every rep counts. Mostly toward a sore neck."
+rarity = 1
+tier = 2
+source = "Quest: Juice the Station (Foreman Gus)"
+source_name = "Kettlebell Locket"
+modifiers = Array[ExtResource("1_abx7l")]([SubResource("Resource_ku8ei")])

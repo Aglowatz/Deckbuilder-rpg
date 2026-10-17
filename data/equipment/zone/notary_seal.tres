@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_5l780"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_suwio"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_nour4"]
+
+[sub_resource type="Resource" id="Resource_vuoah"]
+script = ExtResource("1_5l780")
+kind = 5
+value2 = 2
+color = 4
+
+[resource]
+script = ExtResource("3_nour4")
+id = "notary_seal"
+description = "Your Necrocrat units get +0/+2."
+flavor_text = "Signed, sealed, deceased. Valid in all known afterlives."
+rarity = 1
+tier = 2
+source = "Clerk Ledgerbone's Requisitions, once the D.N.A. is free"
+source_name = "Notarized Seal of Unlife"
+modifiers = Array[ExtResource("1_5l780")]([SubResource("Resource_vuoah")])

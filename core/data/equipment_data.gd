@@ -19,6 +19,15 @@ const SLOT_NAMES: Dictionary = {
 @export var advanced: bool = false
 ## Brief 8, Part C: a line of flavor text shown under the description.
 @export var flavor_text: String = ""
+## Overnight Oct 16 (the 25 new pieces): rarity, tier (1 early, 2 mid, 3 late) and where the piece comes from, for the character screen,
+## the vendors and docs/design/equipment.md. Older pieces leave them at their defaults.
+enum Rarity { COMMON, UNCOMMON, RARE, LEGENDARY }
+const RARITY_NAMES: Array[String] = ["Common", "Uncommon", "Rare", "Legendary"]
+@export var rarity: Rarity = Rarity.COMMON
+@export var tier: int = 0
+@export var source: String = ""
+## The drawback in plain words ("" = none), shown in red in tooltips.
+@export var drawback: String = ""
 
 
 static func slot_name(value: Slot) -> String:

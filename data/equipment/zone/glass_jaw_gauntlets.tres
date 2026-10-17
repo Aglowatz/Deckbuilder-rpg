@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_5ccdt"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_renjv"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_mhp2m"]
+
+[sub_resource type="Resource" id="Resource_4h2qf"]
+script = ExtResource("1_5ccdt")
+kind = 5
+value = 2
+
+[sub_resource type="Resource" id="Resource_422pd"]
+script = ExtResource("1_5ccdt")
+kind = 1
+value = -3
+
+[resource]
+script = ExtResource("3_mhp2m")
+id = "glass_jaw_gauntlets"
+slot = 1
+description = "Your units get +2 attack. You start every duel with 3 less HP."
+advanced = true
+flavor_text = "Hits like a truck. Takes a punch like a soufflé."
+rarity = 2
+tier = 3
+source = "The House of Gains (first clear)"
+drawback = "You start every duel with 3 less HP."
+source_name = "Glass Jaw Gauntlets"
+modifiers = Array[ExtResource("1_5ccdt")]([SubResource("Resource_4h2qf"), SubResource("Resource_422pd")])

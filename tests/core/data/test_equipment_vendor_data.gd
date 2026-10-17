@@ -49,11 +49,11 @@ func test_vendor_appears_when_gated() -> void:
 ## same level-up reward Part D announces.
 func test_default_stock_has_five_basic_and_five_advanced() -> void:
 	var vendor: EquipmentVendorData = EquipmentVendorScreen.default_stock()
-	assert_eq(vendor.entries.size(), 10)
+	assert_eq(vendor.entries.size(), 12, "the original ten plus two cheap early pieces (Oct 16)")
 	var closed: UnlockState = UnlockState.new()
 	var available: Array[String] = vendor.available_equipment_ids(closed)
 	var locked: Array[String] = vendor.locked_equipment_ids(closed)
-	assert_eq(available.size(), 5, "5 basic pieces from the start")
+	assert_eq(available.size(), 7, "7 basic pieces from the start (5 + Cardboard Cuirass and Saucepan Helmet)")
 	assert_eq(locked.size(), 5, "5 advanced pieces still locked")
 	for id: String in available:
 		assert_false((content.equipment_piece(id) as EquipmentData).advanced, "%s should be basic" % id)
@@ -61,4 +61,4 @@ func test_default_stock_has_five_basic_and_five_advanced() -> void:
 		assert_true((content.equipment_piece(id) as EquipmentData).advanced, "%s should be advanced" % id)
 	var opened: UnlockState = UnlockState.new()
 	opened.player_level = ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL
-	assert_eq(vendor.available_equipment_ids(opened).size(), 10, "levelling up unlocks the rest")
+	assert_eq(vendor.available_equipment_ids(opened).size(), 12, "levelling up unlocks the rest")

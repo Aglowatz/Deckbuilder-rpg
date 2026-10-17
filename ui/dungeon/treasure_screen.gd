@@ -86,6 +86,8 @@ func _lines(granted: Dictionary) -> Array[String]:
 		lines.append("Card: %s" % str(granted["card"]))
 	if granted.has("equipment"):
 		lines.append("Equipment: %s" % str(granted["equipment"]))
+	if granted.has("pack"):
+		lines.append("Pack: %s" % str(granted["pack"]))
 	if lines.is_empty():
 		lines.append("The chest is empty. Someone got here first.")
 	return lines

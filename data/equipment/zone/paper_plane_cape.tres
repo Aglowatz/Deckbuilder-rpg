@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_lvp2r"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_oa0o6"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_xl35m"]
+
+[sub_resource type="Resource" id="Resource_sa5h7"]
+script = ExtResource("1_lvp2r")
+kind = 14
+color = 4
+
+[resource]
+script = ExtResource("3_xl35m")
+id = "paper_plane_cape"
+slot = 2
+description = "Your Necrocrat units have Flying."
+flavor_text = "Folded from a rejected appeal. It flies better than it was ever filed."
+rarity = 1
+tier = 2
+source = "Sub-Basement 3 (first clear)"
+source_name = "Paper-Plane Cape"
+modifiers = Array[ExtResource("1_lvp2r")]([SubResource("Resource_sa5h7")])

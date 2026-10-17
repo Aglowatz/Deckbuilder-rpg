@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_enuyj"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_tgojj"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_k0twj"]
+
+[sub_resource type="Resource" id="Resource_ibgsp"]
+script = ExtResource("1_enuyj")
+kind = 14
+value = 5
+
+[sub_resource type="Resource" id="Resource_pchqg"]
+script = ExtResource("1_enuyj")
+kind = 5
+value2 = -1
+
+[resource]
+script = ExtResource("3_k0twj")
+id = "sucker_punch_mitts"
+slot = 1
+description = "Your units have Sucker Punch (they deal combat damage first). Your units get -1 defense."
+flavor_text = "Rule one of the fight club: hit first, apologise never."
+rarity = 2
+tier = 2
+source = "Granny Gristle's Compost Grange, once the Dump is free; hidden chests (tier 2)"
+drawback = "Your units get -1 defense."
+source_name = "Sucker Punch Mitts"
+modifiers = Array[ExtResource("1_enuyj")]([SubResource("Resource_ibgsp"), SubResource("Resource_pchqg")])

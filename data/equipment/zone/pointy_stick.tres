@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_h6ftw"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_h55ow"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_a36uq"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_8e7e6"]
+
+[sub_resource type="Resource" id="Resource_ivuux"]
+script = ExtResource("2_h55ow")
+target = 2
+amount = 1
+
+[sub_resource type="Resource" id="Resource_lrr3v"]
+script = ExtResource("1_h6ftw")
+kind = 25
+effect = SubResource("Resource_ivuux")
+
+[resource]
+script = ExtResource("4_8e7e6")
+id = "pointy_stick"
+slot = 1
+description = "When a duel starts, deal 1 damage to the opponent."
+flavor_text = "Found on the ground. Sharpened on a rock. Named with love."
+tier = 1
+source = "The Door Under the Well (first clear)"
+source_name = "A Very Pointy Stick"
+modifiers = Array[ExtResource("1_h6ftw")]([SubResource("Resource_lrr3v")])

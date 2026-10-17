@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_dd5rq"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_dd1j6"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_4lqth"]
+
+[sub_resource type="Resource" id="Resource_sajnh"]
+script = ExtResource("1_dd5rq")
+kind = 5
+value = 1
+value2 = 1
+
+[sub_resource type="Resource" id="Resource_djlnl"]
+script = ExtResource("1_dd5rq")
+kind = 16
+value = 2
+
+[resource]
+script = ExtResource("3_4lqth")
+id = "elastic_waistband"
+slot = 2
+description = "Your units get +1/+1. You can play only 2 non-infrastructure cards per turn."
+advanced = true
+flavor_text = "Built for the Endless Buffet. Stretches to fit any ambition."
+rarity = 2
+tier = 3
+source = "The Test Kitchen (first clear)"
+drawback = "You can play only 2 non-infrastructure cards per turn."
+source_name = "Elastic Waistband of Victory"
+modifiers = Array[ExtResource("1_dd5rq")]([SubResource("Resource_sajnh"), SubResource("Resource_djlnl")])

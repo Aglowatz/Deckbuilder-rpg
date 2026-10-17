@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_copc2"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="2_751q0"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="3_oa6tq"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_q0ird"]
+
+[sub_resource type="Resource" id="Resource_2a64l"]
+script = ExtResource("2_751q0")
+target = 1
+op = 9
+amount = 1
+
+[sub_resource type="Resource" id="Resource_phk5a"]
+script = ExtResource("1_copc2")
+kind = 23
+effect = SubResource("Resource_2a64l")
+
+[resource]
+script = ExtResource("4_q0ird")
+id = "flip_flops"
+slot = 3
+description = "Whenever one of your units dies, gain 1 HP."
+flavor_text = "Thwap. Thwap. Thwap. The sound of a hero who has given up on socks."
+tier = 1
+source = "Benchley's Protein & Pasteboard (the Gainlands); the Compost Grange (the Dump)"
+source_name = "Flip-Flops of Fortitude"
+modifiers = Array[ExtResource("1_copc2")]([SubResource("Resource_phk5a")])

@@ -57,6 +57,7 @@ static func _meet_the_merchants() -> QuestData:
 	] as Array[QuestObjective]
 	quest.reward_gold = 50
 	quest.reward_xp = 40
+	quest.reward_equipment_ids = ["participation_trophy"] as Array[String]  # you showed up: that is basically winning
 	return quest
 
 

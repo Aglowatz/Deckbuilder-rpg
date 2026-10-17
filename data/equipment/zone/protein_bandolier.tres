@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_oy6bl"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_hdg8v"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_t5fpm"]
+
+[sub_resource type="Resource" id="Resource_kyfmo"]
+script = ExtResource("1_oy6bl")
+kind = 5
+value = 1
+value2 = 1
+color = 1
+
+[resource]
+script = ExtResource("3_t5fpm")
+id = "protein_bandolier"
+slot = 2
+description = "Your Beefcake units get +1/+1."
+flavor_text = "Six shakers, one for every meal, and a seventh for emotional support."
+rarity = 1
+tier = 2
+source = "Benchley's Protein & Pasteboard, once the Gainlands are free"
+source_name = "Protein Shaker Bandolier"
+modifiers = Array[ExtResource("1_oy6bl")]([SubResource("Resource_kyfmo")])

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_3vfln"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ujls5"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_qga8t"]
+
+[sub_resource type="Resource" id="Resource_3yabm"]
+script = ExtResource("1_3vfln")
+kind = 14
+value = 9
+color = 3
+
+[resource]
+script = ExtResource("3_qga8t")
+id = "mystery_stain_bib"
+slot = 2
+description = "Your Refusemancer units have Toxic."
+flavor_text = "Nobody knows what the stain is. Nobody wants to. It is load-bearing now."
+rarity = 1
+tier = 2
+source = "The Landfill Depths (first clear)"
+source_name = "Mystery-Stain Bib"
+modifiers = Array[ExtResource("1_3vfln")]([SubResource("Resource_3yabm")])

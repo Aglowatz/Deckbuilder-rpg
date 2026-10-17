@@ -176,8 +176,28 @@ const SLOT_IDS: Dictionary = {
 }
 
 
+## Oct 16: the 25 new pieces use their own `ICON-GEAR-<NAME>` art once it is imported (docs/art/zone_kits/equipment_icons.md); until then the
+## closest existing gear icon stands in (`PLACEHOLDER_GEAR`).
 static func equipment_id(piece: EquipmentData) -> String:
-	return str(EQUIPMENT_IDS.get(piece.id, ""))
+	if EQUIPMENT_IDS.has(piece.id):
+		return str(EQUIPMENT_IDS[piece.id])
+	var own: String = "ICON-GEAR-%s" % piece.id.to_upper().replace("_", "")
+	if has(own):
+		return own
+	return str(PLACEHOLDER_GEAR.get(piece.id, ""))
+
+
+const PLACEHOLDER_GEAR: Dictionary = {
+	"lucky_sock": "ICON-GEAR-EXTRAPOCKET", "cardboard_cuirass": "ICON-GEAR-SOLIDPLATE", "pointy_stick": "ICON-GEAR-WICKEDDAGGER",
+	"saucepan_helmet": "ICON-GEAR-BIGBRAINBERET", "flip_flops": "ICON-GEAR-TRAVELERSBOOTS", "kettlebell_locket": "ICON-GEAR-CHEATERSDICE",
+	"red_tape_dispenser": "ICON-GEAR-EXTRAPOCKET", "doggy_bag": "ICON-GEAR-EXTRAPOCKET", "dumpster_gloves": "ICON-GEAR-THORNEDLOINCLOTH",
+	"glass_jaw_gauntlets": "ICON-GEAR-WICKEDDAGGER", "overdue_library_book": "ICON-GEAR-BIGBRAINBERET", "elastic_waistband": "ICON-GEAR-THORNEDLOINCLOTH",
+	"hubris_crown": "ICON-GEAR-BIGBRAINBERET", "protein_bandolier": "ICON-GEAR-SOLIDPLATE", "notary_seal": "ICON-GEAR-CHEATERSDICE",
+	"rolling_pin": "ICON-GEAR-WICKEDDAGGER", "raccoon_crown": "ICON-GEAR-BIGBRAINBERET", "hustle_headband": "ICON-GEAR-XRAYGOGGLES",
+	"paper_plane_cape": "ICON-GEAR-SOLIDPLATE", "mystery_stain_bib": "ICON-GEAR-THORNEDLOINCLOTH", "velvet_rope": "ICON-GEAR-CHEATERSDICE",
+	"sucker_punch_mitts": "ICON-GEAR-WICKEDDAGGER", "dog_eared_bookmark": "ICON-GEAR-EXTRAPOCKET", "participation_trophy": "ICON-GEAR-CHEATERSDICE",
+	"gotta_go_galoshes": "ICON-GEAR-HOVERBOOTS",
+}
 
 
 static func slot_id(slot: EquipmentData.Slot) -> String:

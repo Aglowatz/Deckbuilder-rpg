@@ -128,6 +128,10 @@ enum Kind {
 	EAT_HP_GAIN,
 	## Dungeon rule (Forgotten Harmony): multi-Path cards cost `value` generic energy more (negative = less) for the owner.
 	MULTIPATH_COST_CHANGE,
+	## Overnight Oct 16 (gear outside battle): value = percent added to the hero's walking speed in the overworld (Gotta-Go Galoshes).
+	OVERWORLD_SPEED_PERCENT,
+	## Overnight Oct 16: value = percent added to every XP gain (the Participation Trophy).
+	XP_BONUS_PERCENT,
 }
 
 ## `color` value meaning "matches every card".

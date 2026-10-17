@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_hfegl"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_cj6n7"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_bdwm2"]
+
+[sub_resource type="Resource" id="Resource_w44ip"]
+script = ExtResource("1_hfegl")
+kind = 47
+value = 25
+
+[resource]
+script = ExtResource("3_bdwm2")
+id = "participation_trophy"
+description = "Gain 25% more XP from everything."
+flavor_text = "You showed up. That's basically winning. The trophy agrees."
+tier = 1
+source = "Quest: Meet the Merchants"
+source_name = "Participation Trophy"
+modifiers = Array[ExtResource("1_hfegl")]([SubResource("Resource_w44ip")])

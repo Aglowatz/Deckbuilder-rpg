@@ -21,6 +21,9 @@ var airborne: bool = false
 var forced_animation: StringName = &""
 ## Brief 8: 1.0 on foot; a mount makes it faster. `moving` is true while a movement key is held this frame.
 var speed_multiplier: float = 1.0
+## Overnight Oct 16: gear outside battle (Gotta-Go Galoshes: OVERWORLD_SPEED_PERCENT), re-read from the equipped pieces twice a second.
+var gear_speed: float = 1.0
+var _gear_timer: float = 0.0
 var moving: bool = false
 
 
@@ -54,13 +57,17 @@ func _hero_model() -> Node3D:
 
 
 func _process(delta: float) -> void:
+	_gear_timer -= delta
+	if _gear_timer <= 0.0:
+		_gear_timer = 0.5
+		gear_speed = 1.0 + float(ExpansionGear.equipped_total(Session.profile, Modifier.Kind.OVERWORLD_SPEED_PERCENT)) / 100.0
 	if forced_animation != &"":
 		_play(forced_animation)
 		return
 	var direction: Vector2 = _read_input() if input_enabled else Vector2.ZERO
 	if direction != Vector2.ZERO:
 		var world_dir: Vector3 = Vector3(direction.x, 0.0, direction.y).rotated(Vector3.UP, move_yaw).normalized()
-		_velocity = world_dir * SPEED * speed_multiplier
+		_velocity = world_dir * SPEED * speed_multiplier * gear_speed
 		moving = true
 		_move(_velocity * delta)
 		var target_yaw: float = atan2(world_dir.x, world_dir.z)

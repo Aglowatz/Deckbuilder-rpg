@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_wc70k"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_xek0e"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_grfud"]
+
+[sub_resource type="Resource" id="Resource_gnn4j"]
+script = ExtResource("1_wc70k")
+value = 1
+
+[sub_resource type="Resource" id="Resource_lvqvm"]
+script = ExtResource("1_wc70k")
+kind = 1
+value = 1
+
+[resource]
+script = ExtResource("3_grfud")
+id = "saucepan_helmet"
+slot = 0
+description = "Max HP +1, and start every duel with 1 extra HP."
+flavor_text = "Handle in the back, for steering. Smells faintly of soup."
+tier = 1
+source = "Bertram's equipment stall, Crosspath"
+source_name = "Saucepan Helmet"
+modifiers = Array[ExtResource("1_wc70k")]([SubResource("Resource_gnn4j"), SubResource("Resource_lvqvm")])

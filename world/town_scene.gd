@@ -1445,6 +1445,7 @@ func _open_hidden_chest(id: String) -> void:
 		return
 	Session.discover_secret(_hidden_chest_secret(id))
 	var reward: Dictionary = HIDDEN_CHEST_REWARDS.get(id, {}) as Dictionary
+	reward = ChestLoot.with_roll(reward, "town", Session.owned_equipment_ids(), Session.rng)  # Oct 16: chests can roll gear or a pack by tier
 	var summary: RewardSummary = Session.grant_chest_reward(reward, "Hidden chest")
 	hud.set_gold(Session.gold)
 	_animate_chest_open(id)
