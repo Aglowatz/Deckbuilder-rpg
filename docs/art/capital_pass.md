@@ -226,13 +226,13 @@ Shots: `docs/art/capital_pass/part_d/`.
   and no point along the wall is walkable with the gate shut.
 - **The west side wall** runs whole from the north wall to the front wall's corner tower (it was already there; it now takes the hole).
 - **The grid grew 8 m west** (`CapitalLayout.GRID_X0` = -8, `W` 128): the strip of outside ground (x -5..-2, 3 m wide) runs north from the rift
-  fields' north-west corner past the corner tower to z 52, between the west wall and the dead hills (the rim rises in full on its west side; it
+  fields' north-west corner past the corner tower to z 60, between the west wall and the dead hills (the rim rises in full on its west side; it
   ends in rubble at its north end). It counts as the Rift Fields (no new place name shows as you walk it).
-- **The hole** (`HOLE_Z0` 57, 2 m wide, `HOLE_HEIGHT` 2 m in the 9 m wall, `CapitalLandmarks.hole_piece`): the wall carries on over it; round the
+- **The hole** (`HOLE_Z0` 67, 2 m wide, `HOLE_HEIGHT` 2 m in the 9 m wall, `CapitalLandmarks.hole_piece`): the wall carries on over it; round the
   opening the stones have fallen out (a ragged edge of broken blocks, cracks running up, dark reveals and roof), a little rubble along its floor's
   sides. Outside a rubble heap and a dead bush flank its mouth (`hole_dressing`); the one hint for the curious is a faint draft of ash breathing
   out of it. It faces west, so the trailing camera only ever sees it edge-on, and the west wall never fades (it can never stand between the camera
-  and the hero; a ghosted wall showed the strip from inside). Inside it comes out behind the Reek's west yards, its floor paved like the street.
+  and the hero; a ghosted wall showed the strip from inside). Inside it comes out just south of the Reek's west yards (first at z 57, behind a yard, which hid the hero for a few steps; moved, CAP-50), its floor paved like the street.
   The hero just walks in: crossing the wall's middle switches the look as at the gate (`CapitalLayout.is_inside` and `CapitalScene._is_inside`
   now read x too), the first time sets the secret with a toast.
 - **No sign, no marker, no map icon, no prompt**: none within 6 m of the hole; nothing solid in the strip; no spot of its own.
@@ -272,3 +272,73 @@ Shots: `docs/art/capital_pass/part_e/`.
   a building, the hill, a wall tower, the rising rim or a rim rock / rubble / tree; the road is the only way out. The walkability probe
   (`test_walkability_zones`) still reaches every key location, and the west route to the hidden hole is walked end to end in
   `test_capital_wall_passage`. GUT 1702/1703 (pre-existing CP-2).
+
+## Part F: verify
+
+Shots: `docs/art/capital_pass/final/` (the ten regions at their paint-over cameras, the hidden hole's two ends) and the paint-over beside each
+(`compare_<region>.jpg`, `tools/side_by_side.gd`).
+
+**Each region beside its paint-over** (paint-over left, the game right; the framing differences are the cameras', CAP-36):
+
+| | |
+|---|---|
+| ![](capital_pass/final/compare_gate_road.jpg) | ![](capital_pass/final/compare_resistance_camp.jpg) |
+| ![](capital_pass/final/compare_rift_fields.jpg) | ![](capital_pass/final/compare_ruined_outpost.jpg) |
+| ![](capital_pass/final/compare_gate_plaza.jpg) | ![](capital_pass/final/compare_palace_approach.jpg) |
+| ![](capital_pass/final/compare_transit_yards.jpg) | ![](capital_pass/final/compare_hungry_quarter.jpg) |
+| ![](capital_pass/final/compare_grave_row.jpg) | ![](capital_pass/final/compare_the_reek.jpg) |
+
+**The castle from both halves**: over the wall from the Gate Road (`final/po_gate_road_default.jpg`) and at the avenue's end
+(`final/po_palace_approach_default.jpg`); its west side over the forecourt (`part_c/castle_side_west_default.jpg`), its east side
+(`part_e/castle_side_east_default.jpg`). **The front wall**: `part_d/wall_front_west_default.jpg`, `part_d/gate_closed_default.jpg`.
+**The hidden hole** from the default camera, right beside it (hard to spot: the wall is seen edge-on, rubble and a dead bush flank its mouth):
+`final/hole_close_default.jpg`; up close from a debug camera: `part_d/hole_from_the_west.jpg` (taken at its first place, z 57); its inside end with
+the hero clear: `final/hole_inside_default.jpg`. **Each boundary type**: Part E's table. **The map's edge from Overview**:
+`part_b/edge_south_overview.jpg`, `part_b/west_edge_south_overview.jpg`, `part_e/edge_east_overview.jpg`.
+
+| | |
+|---|---|
+| ![](capital_pass/final/hole_close_default.jpg) right by the hidden hole (default camera) | ![](capital_pass/final/hole_inside_default.jpg) its inside end, the hero clear |
+
+**The walk** (`bash tools/run_capital_walk_smoke.sh 0|2`, real input, windowed; `SMOKE_RES=1280x720` keeps it light): **138 checks, passing at the
+Cinematic (0) and the Overview (2) camera**: the arrival road, the Gate Road up to the shut gate and its captain and guards, Kestrel at the camp,
+the Old Service Tunnels' mouth, the ruined outpost, a rift-stone and a rift sealed, the hidden shaft, **round the front wall's west corner, up the
+strip along the west wall and through the hidden hole into the city with the gate shut** (the secret found), the Gate Plaza's booth and box, a
+citizen, a perfect door, a loudspeaker, a portrait, every district's quest giver and objects, the Ward, a hidden chest, the palace approach and the
+castle door (it asks to enter Primm's Castle), **save and load inside**, back out through the opened gate and home to town, then back with the four
+Paths freed: every district restored and welcomed. The rest of the front wall is covered by `test_capital_wall_passage` (no point along it is
+walkable with the gate shut).
+
+The walk found one thing, fixed: coming out of the hole at its first place (z 57) the hero was hidden for a few steps behind a Reek yard (a merged
+model that does not fade); the hole moved to z 67-69, just south of the yards (CAP-50).
+
+**fps on Medium** (`bash tools/capital_fps.sh 1`, the gate open, enemies held, the dev iGPU):
+
+| Camera | avg fps | min fps | draw calls |
+|---|---|---|---|
+| po_gate_road | 60.0 | 60.0 | 424 |
+| po_resistance_camp | 60.0 | 60.0 | 415 |
+| po_rift_fields | 60.0 | 60.0 | 410 |
+| po_ruined_outpost | 60.0 | 60.0 | 357 |
+| po_gate_plaza | 60.0 | 60.0 | 428 |
+| po_transit_yards | 60.0 | 60.0 | 410 |
+| po_hungry_quarter | 60.0 | 60.0 | 399 |
+| po_grave_row | 60.0 | 60.0 | 449 |
+| po_the_reek | 60.0 | 60.0 | 340 |
+| po_palace_approach | 60.0 | 60.0 | 495 |
+
+**Checks**: GUT 1702/1703 (the one failure is the pre-existing camera-FOV test that reads the dev PC's saved settings, CP-2); new tests this pass:
+`test_capital_pass`, `test_capital_order`, `test_capital_bounds`, `test_capital_wall_passage` (rewritten).
+
+### What still doesn't match
+
+- **The skies and the far trees**: the outside's sky is still a flat mauve against the paint-overs' storm clouds (CAP-SKY-STORM in the art pass's
+  asset table); the inside still lacks the paint-overs' tall cypress (the shared pine card stands in, CAP-46).
+- **The rim** is built from the ash ground texture, the kit's rubble cards, faceted boulders and dead trees; a painted cliff or ridge card set
+  would lift it (CAP-42).
+- **The castle** has more detail (lancet windows, pinnacles, cypress, dressed terraces) but is still built from kit primitives, not modelled
+  tracery.
+- **The Crease** (the underground hall) was not part of this pass (CAP-40).
+- **Framing**: several paint-overs are painted from other places than their cameras (CAP-36), so compositions differ.
+- **Right beside the hole inside the city**, at a closer saved zoom, the walk smoke's shot looked through the west wall for a moment; the shots at the
+  default zoom show it solid. Worth a look in play.

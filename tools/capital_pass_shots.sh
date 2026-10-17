@@ -45,9 +45,9 @@ shot "gate_closed_default" --pos=60,86 --set=$DEFAULT
 both "west_edge_south" --pos=4,90
 both "west_strip" --pos=-3.5,70
 shot "hole_far_default" --pos=8,88 --set=$DEFAULT
-shot "hole_close_default" --pos=-3.5,61.5 --set=$DEFAULT
-shot "hole_close_overview" --pos=-3.5,60.5 --set=$OVERVIEW
-both "hole_inside" --pos=5,62 --gate=true
+shot "hole_close_default" --pos=-3.5,71.5 --set=$DEFAULT
+shot "hole_close_overview" --pos=-3.5,70.5 --set=$OVERVIEW
+both "hole_inside" --pos=4.5,69.5 --gate=true
 both "castle_outside" --pos=60,92 --gate=true
 both "castle_side_west" --pos=36,16 --gate=true
 both "castle_side_east" --pos=84,16 --gate=true
@@ -58,6 +58,6 @@ both "inside_north_wall" --pos=100,6 --gate=true
 both "ward" --pos=101,18 --gate=true
 both "tunnel_mouth" --pos=96,82
 # Part E: the end of the hidden strip and the road out
-shot "strip_end_default" --pos=-3.5,54.5 --set=$DEFAULT
+shot "strip_end_default" --pos=-3.5,62 --set=$DEFAULT
 shot "road_out_overview" --pos=60,119 --set=$OVERVIEW
 ls "$out" | wc -l

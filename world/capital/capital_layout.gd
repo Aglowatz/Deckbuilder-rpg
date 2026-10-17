@@ -29,8 +29,8 @@ const GATE_X1: int = 64
 ## No sign, no marker, no map icon, no prompt; the front wall has no way through but the gate.
 const STRIP_X0: int = -5
 const STRIP_X1: int = -3
-const STRIP_Z0: int = 52
-const HOLE_Z0: int = 57
+const STRIP_Z0: int = 60
+const HOLE_Z0: int = 67
 const HOLE_W: int = 2
 ## The hole's opening in the wall (metres): as wide as its two rows, a little taller than the hero.
 const HOLE_HEIGHT: float = 2.0
@@ -499,7 +499,7 @@ func _anchors() -> void:
 	_anchor("fern", 27.5, 46.0)
 	_anchor("heap_1", 4.5, 40.5)
 	_anchor("heap_2", 31.0, 67.5)
-	_anchor("heap_3", 5.0, 69.0)
+	_anchor("heap_3", 12.5, 69.5)
 	_anchor("sick_patch", 29.0, 40.0)
 	_anchor("seed", 5.0, 52.0)
 	_anchor("net_reek", 32.0, 52.5)

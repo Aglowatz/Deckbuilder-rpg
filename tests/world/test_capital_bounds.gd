@@ -5,7 +5,7 @@ extends GutTest
 
 ## The ground the hero is meant to reach (x, z, w, d): the outside, the strip and its corner, the hole, the gate's opening, the city.
 const INTENDED: Array[Rect2] = [
-	Rect2(2.0, 76.0, 116.0, 46.0), Rect2(-5.0, 52.0, 3.0, 28.0), Rect2(-5.0, 76.0, 7.0, 4.0), Rect2(-2.0, 57.0, 4.0, 2.0),
+	Rect2(2.0, 76.0, 116.0, 46.0), Rect2(-5.0, 60.0, 3.0, 20.0), Rect2(-5.0, 76.0, 7.0, 4.0), Rect2(-2.0, 67.0, 4.0, 2.0),
 	Rect2(55.0, 72.0, 10.0, 4.0), Rect2(2.0, 2.0, 115.0, 70.0),
 ]
 

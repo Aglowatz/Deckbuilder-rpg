@@ -3358,3 +3358,35 @@ CP-1..CP-14 in `docs/design/open_questions.md`. Commits "Crosspath pass, Part A.
 8. **The rock ridge** either side of the Capital road and the gatehouse are built from kit textures, not painted art (CP-13): worth a painted cliff
    set and a gatehouse concept?
 9. **The D.N.A. checkpoint**: its striped arm is hard to see from the default camera now that the booth faces the camera; fine, or turn it back?
+
+## Capital pass (2026-10-17): graphics and correction pass of both halves of the Capital
+
+Report with before / after pictures: `docs/art/capital_pass.md` (shots in `docs/art/capital_pass/<phase>/`, paint-over comparisons in
+`final/compare_*.jpg`). Decisions CAP-40..CAP-50 in `docs/design/open_questions.md`. Commits "Capital pass, Part A..F".
+
+- **A, audit**: every blocky, scattered, floating, swaying or lettered thing and every unclear edge in both halves, with positions and decisions.
+- **B, the blocky objects**: the great wall rebuilt (battered base, ashlar, pilasters with pinnacles, cornice, battlements, dark sun banners, towers
+  along it, corner towers); the land round the map (`CapitalRim`: ridges of ash ground, rocks, rubble and dead trees, flush at the edge, kept low
+  for the camera on the south); the camp's draped tents, crates, barrels and seats; every ruin stacked masonry; about twenty props rebuilt from the
+  kit; the castle's lancet windows, pinnacles, cypress and dressed terraces; no floating plaques; the outside scatter grass only.
+- **C, organized**: the wasteland in composed vignettes square to the roads; mirrored lamps and benches down the ring streets; the kit rows in
+  mirrored pairs; chests square.
+- **D, the wall and the hidden passage**: the front wall solid but for the gate; a narrow strip along the outside of the city's west wall and a
+  small low hole at its foot into the Reek (no sign, marker, prompt or name; a faint draft of ash the one hint).
+- **E, boundaries**: a visible blocker at every edge; nothing outside the intended ground reachable; the road the only way into the outside.
+- **F, verify**: the walk smoke (138 checks at both cameras, including the west route and save/load inside), 60 fps on Medium at all ten cameras.
+- Tools: `bash tools/capital_pass_shots.sh <phase> [prefixes]` (1280x720), `--top/--plan/--windlog` on any zone scene, `SHOT_RES` / `SMOKE_RES`.
+
+### Check these (Capital pass)
+
+1. **The hidden way in**: from the rift fields, walk west to the map's edge and north past the front wall's corner tower, up the strip and into the
+   small hole at the wall's foot (z 67). Hidden enough from the default camera, findable enough with the ash draft as the only hint? (CAP-47..50)
+2. **The front wall**: walk its whole length outside with the gate shut; the only way through should be the gate (the old gap at x 22 is now a tower).
+3. **The great wall's look**: the dark sun banners and the towers along it (CAP-44, CAP-45); does it read as the concept's wall now?
+4. **The rim**: the ridges east and west, the low rocks along the south edge (kept low so the camera never looks through a hill), the road running on
+   between hills. Any edge that still looks open or blocky? (CAP-42, CAP-43)
+5. **The camp**: the draped tents turned to the fire, crates, barrels, log seats. Warm and tidy enough?
+6. **Inside symmetry**: the ring streets' lamps and benches, the rows mirrored across the avenue. Perfect enough to be eerie?
+7. **The castle** from the plaza, the approach and over the wall: lancet windows, pinnacles, cypress (pine cards, CAP-46). Magnificent from every
+   angle, or does it still need modelled tracery?
+8. **Right beside the hole inside the city**, at a closer zoom, the camera may look through the west wall for a moment (seen once in the walk smoke).
