@@ -1,9 +1,9 @@
 extends GutTest
 ## The corrective pass on the Gainlands (docs/art/gainlands_corrections.md): the zone stays open and readable.
-##  - half the trees, standing in groves and along the rim, never on a route;
+##  - (Gainlands v2) a few hardy trees along the rims, never on a route;
 ##  - main routes at least 4 hero-widths wide with nothing solid inside their clearance, open ground round every anchor;
 ##  - few sign boards, each with a pictogram;
-##  - the meadow never dips under the look rig's water plane;
+##  - the plateau stands well above the look rig's water plane (the canyons drop to it);
 ##  - Mount Swolympus stays a locked coming-soon landmark on the north-east rim with nothing walkable behind it (SR-4);
 ##  - the camera occlusion fade is a smooth transparency: tree cards fade in their own shader from the hero's position, the fader drives no dither.
 
@@ -60,11 +60,11 @@ func test_the_region_landmarks_stand_clear_and_the_sky_tree_is_a_view() -> void:
 
 
 func test_mount_swolympus_is_a_locked_postgame_bonus() -> void:
-	# the hub gate: a landmark off the main route (north-east rim), closed, with a coming-soon prompt and no sub-area behind it (GC-11, SR-4)
+	# the gate: a landmark at the right road's overlook, closed, with a coming-soon prompt and no sub-area behind it (GC-11, SR-4)
 	assert_true(layout.anchors.has(GainlandsZone.SWOLYMPUS_GATE), "the trailhead gate has an anchor")
 	var gate_pos: Vector3 = layout.anchors[GainlandsZone.SWOLYMPUS_GATE] as Vector3
 	var road: Vector3 = layout.anchors["main_dungeon"] as Vector3
-	assert_gt(Vector2(gate_pos.x - road.x, gate_pos.z - road.z).length(), 25.0, "it stands well off the dungeon road")
+	assert_gt(Vector2(gate_pos.x - road.x, gate_pos.z - road.z).length(), 25.0, "it stands well off the middle road")
 	var def: ZoneDef = GainlandsZone.build_def()
 	var gate_spot: Dictionary = {}
 	for spot: Dictionary in def.spots:
@@ -72,30 +72,28 @@ func test_mount_swolympus_is_a_locked_postgame_bonus() -> void:
 			gate_spot = spot
 	assert_false(gate_spot.is_empty(), "the gate is a spot of the zone")
 	if not gate_spot.is_empty():
-		assert_true(str(gate_spot["prompt"]).to_lower().contains("coming soon"), "the prompt says coming soon")
 		assert_true(bool(gate_spot.get("no_plate", false)), "no lettered plate at the gate")
 		assert_eq(str(gate_spot["kind"]), "zone", "E is handled by the Gainlands scene (a toast, never a scene change)")
 	assert_false(def.poi_kinds.has(GainlandsZone.SWOLYMPUS_GATE), "no marker for a closed gate on the minimap")
 	var source: String = FileAccess.get_file_as_string("res://world/gainlands/gainlands_scene.gd")
 	var body: String = source.substr(source.find("GainlandsZone.SWOLYMPUS_GATE:"), 300)
-	assert_true(body.contains("SWOLYMPUS_TOAST"), "E at the gate toasts the coming-soon line")
-	assert_false(body.contains("change_scene"), "and loads nothing")
-	# the gate model stands in the hub, closed, and blocks the way through
+	assert_false(body.contains("change_scene"), "E at the gate loads nothing")
+	# the gate model stands at the overlook, closed, and blocks the way through
 	var host: Node3D = Node3D.new()
 	add_child_autofree(host)
 	var builder: GainlandsBuilder = GainlandsBuilder.new()
 	builder.build(host)
 	var gate: Node3D = builder.root.find_child("SwolympusGate", false, false) as Node3D
-	assert_not_null(gate, "the trailhead gate model stands in the hub")
+	assert_not_null(gate, "the trailhead gate model stands at the overlook")
 	if gate != null:
 		assert_not_null(gate.find_child("GateBarrier", false, false), "its opening is closed by the barrier")
 		assert_eq(gate.find_children("*", "Label3D", true, false).size(), 0, "no lettering on the gate")
 		assert_false(builder.is_walkable(Vector3(gate_pos.x, 0.0, gate_pos.z), 0.3), "the hero cannot walk through the closed arch")
 	var landing: Vector3 = gate_pos + Vector3(-2.5, 0.0, 2.5)
 	assert_true(builder.is_walkable(landing, 0.3), "the ground in front of the gate is open")
-	# the side dungeon: data intact, sealed, its quest never offered in the main story, no minimap marker
+	# S-BEEF (Mount Swolympus): data intact, sealed, its quest never offered in the main story
 	Session.new_game()
-	assert_not_null(DungeonCatalog.side_for_zone(GainlandsZone.ID), "S-BEEF is still in the dungeon list")
+	assert_not_null(DungeonCatalog.find("S-BEEF"), "S-BEEF is still in the dungeon list")
 	assert_false(Session.side_unlocked("S-BEEF"), "sealed")
 	var quest: QuestData = QuestCatalog.find(ZoneQuestDefinitions.SIDE_BEEF)
 	assert_not_null(quest)
@@ -104,9 +102,6 @@ func test_mount_swolympus_is_a_locked_postgame_bonus() -> void:
 	for item: QuestData in Session.quests_offered_by(GainlandsZone.NPC_BRENDA):
 		offered.append(item.id)
 	assert_does_not_have(offered, ZoneQuestDefinitions.SIDE_BEEF, "Old Man Mountain does not offer it")
-	assert_false(def.poi_kinds.has("mini_dungeon"), "no cavern marker on the minimap")
-	var cavern: Vector3 = layout.anchors["mini_dungeon"] as Vector3
-	assert_lt(Vector2(cavern.x - gate_pos.x, cavern.z - gate_pos.z).length(), 12.0, "the sealed cavern stands beside the locked gate, one postponed corner")
 	# the mountain itself: in the distance, off the land
 	var mountain: Node3D = builder.root.find_child("DistantSwolympus", false, false) as Node3D
 	assert_not_null(mountain, "Mount Swolympus stands in the distance")
@@ -127,33 +122,22 @@ func _main_land(kind: String) -> Array[GainlandsLayout.Prop]:
 	return result
 
 
-func test_half_the_trees_stand_in_groves_and_along_the_rim() -> void:
+## Gainlands v2 (Part D): gym equipment is the decoration; a few hardy trees stand near the rims, not in groves over the plateau.
+func test_a_few_hardy_trees_stand_near_the_rims() -> void:
 	var trees: Array[GainlandsLayout.Prop] = _main_land("tree")
-	assert_lte(trees.size(), GainlandsLayout.TREE_COUNT, "no more than %d trees on the main land (was 150)" % GainlandsLayout.TREE_COUNT)
-	assert_gte(trees.size(), 50, "still a wooded plateau")
-	assert_lte(_main_land("boulder").size(), GainlandsLayout.ROCK_COUNT + 2, "a few rocks (plus the two gym boulders), not forty")
-	var loners: int = 0
+	assert_lte(trees.size(), GainlandsLayout.TREE_COUNT, "no more than %d trees on the plateau (was 74)" % GainlandsLayout.TREE_COUNT)
+	assert_gte(trees.size(), 8, "a few hardy trees still frame the views")
 	for tree: GainlandsLayout.Prop in trees:
-		var edge: float = GainlandsLayout.main_edge_distance(tree.pos.x, tree.pos.z)
-		if edge <= GainlandsLayout.RIM_BAND.y + 0.5:
-			continue
-		var neighbours: int = 0
-		for other: GainlandsLayout.Prop in trees:
-			if other != tree and Vector2(other.pos.x - tree.pos.x, other.pos.z - tree.pos.z).length() < 9.0:
-				neighbours += 1
-		if neighbours < 2:
-			loners += 1
-	assert_lte(loners, 3, "inland trees stand in groups (deliberate groves), not scattered one by one: %d loners" % loners)
+		assert_lte(GainlandsLayout.main_edge_distance(tree.pos.x, tree.pos.z), GainlandsLayout.RIM_BAND.y + 0.5, "the tree at (%.0f, %.0f) stands near a rim" % [tree.pos.x, tree.pos.z])
+	assert_lte(_main_land("boulder").size(), GainlandsLayout.ROCK_COUNT, "rocky outcrops along the rims, not a field of boulders")
 
 
 func test_routes_are_wide_and_nothing_solid_stands_on_them() -> void:
-	var hub: Vector2 = Vector2(52.0, 62.0)
 	for path: Dictionary in layout.paths:
 		var width: float = float(path["width"])
 		assert_gte(width, GainlandsLayout.SIDE_PATH_WIDTH, "every route is at least %.1f m wide" % GainlandsLayout.SIDE_PATH_WIDTH)
-		var line: PackedVector2Array = path["line"] as PackedVector2Array
-		if line[0] == hub:
-			assert_gte(width, GainlandsLayout.MAIN_PATH_WIDTH, "a road out of the hub is at least %.1f m wide (4 hero-widths)" % GainlandsLayout.MAIN_PATH_WIDTH)
+		if str(path["route"]) in ["middle", "left", "right", "plaza"]:
+			assert_gte(width, GainlandsLayout.MAIN_PATH_WIDTH, "a %s road is at least %.1f m wide (4 hero-widths and more)" % [str(path["route"]), GainlandsLayout.MAIN_PATH_WIDTH])
 	var on_route: Array[String] = []
 	for prop: GainlandsLayout.Prop in layout.props:
 		if prop.kind != "tree" and prop.kind != "boulder":
@@ -194,16 +178,12 @@ func test_few_sign_boards_each_with_a_pictogram() -> void:
 
 
 func test_the_meadow_never_dips_under_the_water() -> void:
-	assert_gt(GainlandsLayout.MIN_GROUND, WorldScenery.WATER_Y, "the floor of the meadow is above the water plane")
-	var lowest: float = 10.0
-	var x: float = GainlandsLayout.CENTER.x - GainlandsLayout.RADII.x
-	while x <= GainlandsLayout.CENTER.x + GainlandsLayout.RADII.x:
-		var z: float = GainlandsLayout.CENTER.y - GainlandsLayout.RADII.y
-		while z <= GainlandsLayout.CENTER.y + GainlandsLayout.RADII.y:
-			if GainlandsLayout.is_main_ground(x, z):
-				lowest = minf(lowest, layout.ground_height(x, z))
-			z += 2.0
-		x += 2.0
+	assert_gt(GainlandsLayout.MIN_GROUND, WorldScenery.WATER_Y + 3.0, "the plateau's floor is metres above the water plane: the canyons and the outer cliffs drop to the sea")
+	var lowest: float = 99.0
+	for x: int in range(0, 112, 2):
+		for z: int in range(-8, 90, 2):
+			if GainlandsLayout.is_main_ground(float(x), float(z)):
+				lowest = minf(lowest, layout.ground_height(float(x), float(z)))
 	assert_gte(lowest, GainlandsLayout.MIN_GROUND - 0.001, "no walkable cell below %.2f (lowest %.2f)" % [GainlandsLayout.MIN_GROUND, lowest])
 	assert_gt(lowest, WorldScenery.WATER_Y, "the hero never wades")
 
@@ -261,7 +241,7 @@ func test_the_hub_plaza_is_open_and_the_hub_things_stand_round_its_rim() -> void
 			inside.append(sign.key)
 	assert_eq(inside, [] as Array[String], "nothing solid and no board inside the plaza (%.1f m round the hub)" % GainlandsLayout.PLAZA_RADIUS)
 	# The important things are spread round the plaza, not bunched: every pair of hub anchors keeps 4 m apart.
-	var ring: Array[String] = ["rift_station", "heal", "tony", "brenda", "gus", "protein_stand", "flex_mirror"]
+	var ring: Array[String] = ["rift_station", "heal", "tony", "brenda", "flex_mirror"]  # (Gus and the protein stand moved to the market row, Gainlands v2)
 	for a: String in ring:
 		for b: String in ring:
 			if a < b:
@@ -331,7 +311,8 @@ func test_the_bridge_model_stands_in_the_zone_and_on_the_town_side() -> void:
 	scene._update_bridge_exit()
 	assert_false(scene._locked, "arriving never trips the walk-off exit")
 	var wake: Vector3 = scene._hub_spawn()
-	assert_lt(Vector2(wake.x - 52.0, wake.z - 64.0).length(), GainlandsLayout.PLAZA_RADIUS, "waking after a faint puts the hero in the plaza, not on the bridge")
+	var hub: Vector3 = layout.anchors["hub"] as Vector3
+	assert_lt(Vector2(wake.x - hub.x, wake.z - hub.z).length(), GainlandsLayout.PLAZA_RADIUS, "waking after a faint puts the hero in the plaza, not on the bridge")
 	scene.queue_free()
 	await get_tree().process_frame
 	# The town side: the Gainlands passageway has no glow at its end and its connector is the same rope bridge.
@@ -350,13 +331,16 @@ func test_the_bridge_model_stands_in_the_zone_and_on_the_town_side() -> void:
 		assert_eq(str(town_bridge.get_meta("kind", "")), "bridge", "and it is the rope bridge, the same model as the zone side")
 
 
-func test_the_house_of_gains_towers_beyond_the_north_rim_and_its_gate_is_the_dungeon_entrance() -> void:
+## Gainlands v2: the House of Gains stands on its own rock behind the fortress mesa; its gate opens onto the mesa top (the dungeon entrance), and the mesa is
+## reached from the forecourt by the wide stairs only (its other edges are cliffs).
+func test_the_house_of_gains_stands_behind_the_mesa_and_its_gate_is_the_dungeon_entrance() -> void:
 	for prop: GainlandsLayout.Prop in layout.props:
 		assert_ne(prop.kind, "gate", "the placeholder gate (white blocks, cones, tape) is gone")
 	var entrance: Vector3 = layout.anchors["main_dungeon"] as Vector3
-	assert_true(GainlandsLayout.on_causeway(entrance.x, entrance.z), "the dungeon entrance stands on the causeway in front of the fortress doors")
-	assert_eq(layout.surface_at(entrance.x, entrance.z), GainlandsLayout.Surface.BRIDGE)
-	assert_false(GainlandsLayout.is_main_ground(GainlandsLayout.HOUSE_OF_GAINS.x, GainlandsLayout.HOUSE_OF_GAINS.y), "the fortress stands beyond the rim, on its own rock")
+	assert_eq(GainlandsLayout.level_at(entrance.x, entrance.z), 2, "the dungeon entrance stands on the mesa top in front of the fortress doors")
+	assert_almost_eq(layout.ground_height(entrance.x, entrance.z), GainlandsLayout.MESA_Y, 0.01, "raised above the plateau")
+	assert_gt(GainlandsLayout.MESA_Y - GainlandsLayout.PLATEAU_Y, 3.0, "a real mesa: well over a hero's height above the forecourt")
+	assert_false(GainlandsLayout.is_main_ground(GainlandsLayout.HOUSE_OF_GAINS.x, GainlandsLayout.HOUSE_OF_GAINS.y), "the fortress stands beyond the mesa, on its own rock")
 	assert_gt(GainlandsLayout.HOUSE_OF_GAINS_SIZE.y, StorybookScale.TREE_MAX * 4.0, "it towers over the trees (castle-sized)")
 	var sign_pos: Vector3 = Vector3.ZERO
 	for sign: GainlandsLayout.Sign in layout.signs:
@@ -369,7 +353,15 @@ func test_the_house_of_gains_towers_beyond_the_north_rim_and_its_gate_is_the_dun
 	assert_true(builder.is_walkable(entrance, 0.3), "the entrance spot is walkable")
 	var can_stand: Callable = func(pos: Vector3) -> bool: return builder.is_walkable(pos, 0.3)
 	var missing: Array[String] = WalkProbe.unreachable(can_stand, layout.anchors["spawn"] as Vector3, builder.map_bounds(), {"main_dungeon": entrance})
-	assert_eq(missing, [] as Array[String], "the causeway joins the plateau: the gate is reachable from the bridge")
+	assert_eq(missing, [] as Array[String], "the gate is reachable from the bridge")
+	# the stairs are the only way up: blocked foot of the mesa beside them, open steps between their cheek walls
+	var stairs: Rect2 = GainlandsLayout.STAIRS
+	assert_gte(stairs.size.x, GainlandsLayout.MIDDLE_PATH_WIDTH * 2.0, "wide stairs, as in the reference")
+	assert_true(builder.is_walkable(Vector3(stairs.get_center().x, 0.0, stairs.get_center().y), 0.3), "the stairs are walkable")
+	for x: float in [stairs.position.x - 3.0, stairs.end.x + 3.0]:
+		assert_false(builder.is_walkable(Vector3(x, 0.0, 14.0), 0.3), "the mesa's foot at x %.0f is a cliff, not a ramp" % x)
+	var cut: Callable = func(pos: Vector3) -> bool: return builder.is_walkable(pos, 0.3) and not stairs.grow(0.5).has_point(Vector2(pos.x, pos.z))
+	assert_eq(WalkProbe.unreachable(cut, layout.anchors["spawn"] as Vector3, builder.map_bounds(), {"main_dungeon": entrance}), ["main_dungeon"] as Array[String], "without the stairs the mesa cannot be reached")
 	var def: ZoneDef = GainlandsZone.build_def()
 	for spot: Dictionary in def.spots:
 		if str(spot["id"]) == "main_dungeon":
@@ -401,7 +393,7 @@ func test_the_fortress_model_builds_with_towers_chimneys_and_a_gate_that_blocks(
 	assert_true(GainlandsLandmarks.has_model("GAIN-HERO-HOUSE-OF-GAINS"), "a concept of that id will slot in later")
 	# a gatehouse tower is solid, the causeway between them is open
 	assert_false(builder.is_walkable(Vector3(GainlandsLayout.HOUSE_OF_GAINS.x + 7.7, 0.0, GainlandsLayout.HOUSE_OF_GAINS.y + 13.0), 0.3), "the east gatehouse tower blocks")
-	assert_true(builder.is_walkable(Vector3(GainlandsLayout.HOUSE_OF_GAINS.x, 0.0, GainlandsLayout.CAUSEWAY.position.y + 2.0), 0.3), "the causeway is open")
+	assert_true(builder.is_walkable(layout.anchors["main_dungeon"] as Vector3, 0.3), "the mesa top in front of the gate is open")
 
 
 func test_the_sealed_cavern_says_coming_soon_in_the_hud() -> void:

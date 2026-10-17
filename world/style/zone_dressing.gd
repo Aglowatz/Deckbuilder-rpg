@@ -51,10 +51,10 @@ static func recipe(preset_id: StringName) -> Dictionary:
 		StylePresets.GAINLANDS:
 			return {
 				"items": [
-					[NATURE, "grass_leafs", 30.0, 1.4, 2.3], [NATURE, "flower_redB", 6.0, 1.3, 2.0], [NATURE, "flower_yellowB", 6.0, 1.3, 2.0], [NATURE, "flower_purpleA", 4.0, 1.3, 2.0],
-					[NATURE, "plant_flatTall", 4.0, 1.3, 2.0], [NATURE, "stone_smallB", 1.6, 1.6, 2.6], [NATURE, "stone_largeA", 0.35, 1.3, 2.0], [NATURE, "plant_bushLarge", 1.2, 1.4, 2.2], [NATURE, "flower_yellowC", 2.5, 1.3, 2.0], [NATURE, "flower_redC", 2.5, 1.3, 2.0], [NATURE, "mushroom_redGroup", 0.4, 1.4, 2.0],
+					# Gainlands v2: sparse dry scrub and loose sandstone on the plateau (no flowers or mushrooms; the dry grass is painted into the ground)
+					[NATURE, "grass_leafs", 9.0, 1.3, 2.1], [NATURE, "stone_smallB", 2.2, 1.6, 2.6], [NATURE, "stone_largeA", 0.5, 1.3, 2.0],
 				],
-				"patches": [Color("78c25a"), Color("5fb064"), Color("9bd070")], "patch_pattern": GroundDecals.Pattern.MOSS, "density": 1.6,
+				"patches": [Color("cdb27a"), Color("b8995e"), Color("d9c290")], "patch_pattern": GroundDecals.Pattern.DIRT, "density": 1.0,
 			}
 		StylePresets.BUFFET:
 			return {
@@ -261,8 +261,7 @@ static func decal_recipe(preset_id: StringName) -> Array:
 		StylePresets.GAINLANDS:
 			return [
 				[GroundDecals.Kind.DIRT_PATCH, 24, 1.0, 2.2, [Color("c8a870"), Color("a88850")]],
-				[GroundDecals.Kind.MOSS_PATCH, 30, 1.4, 2.8, [Color("2a6a38"), Color("4f9a3c")]],
-				[GroundDecals.Kind.MOSS_PATCH, 14, 1.2, 2.2, [Color("86a83a"), Color("a8b848")]],
+				[GroundDecals.Kind.MOSS_PATCH, 16, 1.4, 2.8, [Color("a89a5a"), Color("c0a868")]],
 				[GroundDecals.Kind.FOOTPRINTS, 10, 0.8, 1.3, [Color("8a6a40"), Color("a88850")]],
 			]
 		StylePresets.CAPITAL_OUTSKIRTS, StylePresets.CAPITAL_DARK:

@@ -40,11 +40,10 @@ func _main_ground_area() -> float:
 	return area
 
 
-func test_main_land_is_about_the_size_of_the_d_n_a() -> void:
-	var dna: DnaLayout = DnaLayout.new()
-	dna.build()
-	var ratio: float = _main_ground_area() / float(dna.floor_cell_count())
-	assert_between(ratio, 0.8, 1.7, "the Gainlands' ground is roughly the D.N.A.'s size (ratio %.2f)" % ratio)
+## Gainlands v2 (Part B): the walkable land grew by roughly 40-50 % (it was 4705 m2) for side pockets, overlooks and loops.
+func test_main_land_grew_by_about_half() -> void:
+	var area: float = _main_ground_area()
+	assert_between(area / 4705.0, 1.38, 1.56, "the Gainlands' land grew by roughly 40-50 %% (%d m2)" % int(area))
 
 
 func test_there_are_several_floating_islands_clear_of_the_main_land() -> void:
@@ -62,7 +61,7 @@ func test_there_are_several_floating_islands_clear_of_the_main_land() -> void:
 
 func test_surface_rules_ground_island_rim_void() -> void:
 	var island: GainlandsLayout.Island = layout.islands[0]
-	assert_eq(layout.surface_at(52.0, 64.0), GainlandsLayout.Surface.GROUND)
+	assert_eq(layout.surface_at(56.0, 77.0), GainlandsLayout.Surface.GROUND)
 	assert_eq(layout.surface_at(island.center.x, island.center.y), GainlandsLayout.Surface.ISLAND)
 	assert_eq(layout.surface_at(island.center.x + island.radius + 0.4, island.center.y), GainlandsLayout.Surface.RIM, "just past the edge you fall")
 	assert_eq(layout.surface_at(island.center.x + island.radius + 3.0, island.center.y), GainlandsLayout.Surface.VOID)
@@ -75,7 +74,7 @@ func test_every_anchor_chest_and_enemy_stands_on_real_ground() -> void:
 		var surface: GainlandsLayout.Surface = layout.surface_at(pos.x, pos.z)
 		assert_true(surface == GainlandsLayout.Surface.GROUND or surface == GainlandsLayout.Surface.ISLAND or surface == GainlandsLayout.Surface.BRIDGE, "anchor %s is on ground, an island or the bridge to town" % name)
 		if surface == GainlandsLayout.Surface.BRIDGE:
-			assert_true(name == "spawn" or name == "exit" or name == "main_dungeon", "only the arrival, the exit and the House of Gains gate (its causeway) stand on a deck (%s)" % name)
+			assert_true(name == "spawn" or name == "exit", "only the arrival and the exit stand on a deck (%s)" % name)
 		elif surface == GainlandsLayout.Surface.GROUND:
 			assert_gt(GainlandsLayout.main_edge_distance(pos.x, pos.z), 1.0, "anchor %s is clear of the cliff edge" % name)
 		else:
@@ -90,17 +89,21 @@ func test_every_anchor_chest_and_enemy_stands_on_real_ground() -> void:
 		assert_eq(layout.surface_at(home.x, home.z), GainlandsLayout.Surface.GROUND, "enemies roam the main land")
 
 
-func test_main_land_is_hilly_and_flat_at_the_hub() -> void:
+## Gainlands v2: a sandstone plateau over the sea with a low swell, the plaza level, the fortress mesa a storey and more above it.
+func test_the_plateau_is_level_with_a_swell_and_the_mesa_stands_higher() -> void:
 	var lowest: float = 99.0
 	var highest: float = -99.0
-	for x: int in range(10, 95, 3):
-		for z: int in range(15, 78, 3):
-			if GainlandsLayout.main_edge_distance(float(x), float(z)) > 6.0:
+	for x: int in range(6, 108, 3):
+		for z: int in range(16, 86, 3):
+			if GainlandsLayout.level_at(float(x), float(z)) == 1 and GainlandsLayout.main_edge_distance(float(x), float(z)) > 4.0:
 				var h: float = layout.ground_height(float(x), float(z))
 				lowest = minf(lowest, h)
 				highest = maxf(highest, h)
-	assert_gt(highest - lowest, 1.5, "rolling hills, not a billiard table")
-	assert_almost_eq(layout.ground_height(52.0, 64.0), 0.0, 0.01, "the hub is level")
+	assert_gt(highest - lowest, 0.5, "a rugged swell and the overlook, not a billiard table")
+	assert_lt(highest - lowest, 2.5, "but the plateau stays one walkable level")
+	var hub: Vector3 = layout.anchors["hub"] as Vector3
+	assert_almost_eq(layout.ground_height(hub.x, hub.z), GainlandsLayout.PLATEAU_Y, 0.01, "the plaza is level")
+	assert_almost_eq(layout.ground_height(56.0, 0.0), GainlandsLayout.MESA_Y, 0.01, "the mesa top is flat and high")
 
 
 # ---- Reachability on the real map ---------------------------------------------------------------------

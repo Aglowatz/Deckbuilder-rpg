@@ -155,3 +155,20 @@ The shared fix (Part E) goes into the toon shader's wind for cloth: a banner han
 - **GL2-01** The existing "Iron Cavern" was the door to Mount Swolympus (S-BEEF, postgame). The brief's Iron Cave is a different, early leg-day side dungeon: it becomes a new dungeon S-IRON (the zone's side dungeon, open from the start) and S-BEEF stays in the data as the postgame bonus behind the locked gate (Part F).
 - **GL2-02** The brief says "keep the large power lines", but the Gainlands had none (only knee-high energy pipes). They are built new in Part D; the pipes stay as the powered-grid feature of the puzzle, shortened to the wheel works.
 - **GL2-03** The hidden chests stay quarter-size: their smallness is the "hidden" part of the design (`test_the_hidden_chests_are_at_least_six_quarter_size...`).
+
+## Part B: bigger, rugged terrain and three paths (done)
+
+- **Land as data** (`GainlandsLayout`): three land polygons that meet edge to edge (`SOUTH`: plaza, left lands, middle ridge, right lands; `FORECOURT`; `MESA`, 3.6 m higher), the canyons are the gaps, two stone `SPANS` cross them, the `STAIRS` (12 m wide) climb the mesa. The plateau is `PLATEAU_Y` 4 m over the sea. Walkable land **7212 m2** (+53 % on 4705; mesa 672 m2).
+- **Walkability** reads the polygons (`level_at`) and a 0.5 m distance-to-edge raster (`main_edge_distance`, built once): the hero stops 0.35 m from any drop and at the mesa's foot; the stairs' cheek walls block their sides.
+- **Meshes** (`GainlandsTerrain`): flat tops on a 1 m grid with the edge cells clipped to the polygon (the mesh edge is the walkable edge), ragged five-layer cliff walls with sandstone strata to below the waterline, terraced rock columns (ten background mesas in the sea, the Iron Cave's cliff, the fortress rock), cut-stone stairs and spans. Six waterfalls (`GainlandsWater`, a scrolling shader strip, foam and mist) pour over the rims and into both canyons.
+- **Ground** (painted preset `gainlands`): chalk-dirt sand, stone paving on the routes, the plaza, the forecourt and the mesa top, dry-grass scrub patches thicker at the rims, gym mat in the lifting yard, hay under the mills, triplanar sandstone on every steep face; the floating islands keep green tops (preset variant `islands`). The generic zone dressing is dry scrub and loose stones (no flowers), the world foliage has a new opt-in `dry` mix (straw, Gainlands only).
+- **Routes** (`GainlandsRoads`): stone kerbs along both edges of every paved route (one MultiMesh, 900+ stones), lamp posts and banner posts every 9 m on alternate sides of the three roads (KitBatch-merged).
+- **Three paths**: MIDDLE plaza -> ridge -> forecourt -> stairs -> gate (the ridge has three rocky narrows where its guards will stand, Part G); LEFT plaza -> mill lands -> Iron Cave spur -> north rim -> west span -> forecourt; RIGHT plaza -> market row -> wheel works -> Swolympus overlook -> north rim -> east span -> forecourt.
+- **fps** (Medium, 14 s probes): hub 60.0, ridge 59.3 (p95 16.67 ms, GPU 12.3-12.7 ms); one load hitch about 3 s in (the painted splat), steady state 60.
+
+### Judgment calls (Part B)
+
+- **GL2-04** The area grew 53 %, a little over the brief's 40-50 %: the right lands need room for the market row, the wheel works and the overlook, and trimming the east rim would crowd the throwers' landings.
+- **GL2-05** The old cloud layer under the meadow is gone: with the plateau 4 m over the sea it sat under the water plane (34 clouds drawn for nothing).
+- **GL2-06** The gym hall fills the plaza's north half (Part C), so the middle road's head sits behind it; it reads by the lane round each side, the lamp posts and the fortress straight above. The left and right heads are in clear view from the gateway.
+- **GL2-07** The fortress keeps its model and size class (40 x 34 x 26 m now, was 48 wide) so it sits on its rock behind a 32 m wide mesa; its causeway is off (`causeway: false`).

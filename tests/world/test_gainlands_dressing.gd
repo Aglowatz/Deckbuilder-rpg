@@ -8,7 +8,7 @@ func test_dressing_is_walkable_clear_and_scaled_by_quality() -> void:
 	var builder: GainlandsBuilder = GainlandsBuilder.new()
 	builder.build(host)
 	var high: GainlandsDressing = GainlandsDressing.build(host, builder, GraphicsQuality.Level.HIGH)
-	assert_gt(high.count, 20, "the hub is dressed")
+	assert_gt(high.count, 8, "the plaza's edges are dressed")
 	assert_lt(high.count, 90, "but not cluttered")
 	for child: Node in high.root.get_children():
 		var pos: Vector3 = (child as Node3D).position

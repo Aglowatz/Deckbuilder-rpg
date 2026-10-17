@@ -8,7 +8,8 @@ extends RefCounted
 ## Same contract as the other hero landmarks (`GainlandsLandmarks.build` dispatches here): origin on the ground at the centre, front +z, `size` = w, h, d.
 
 
-static func build(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vector3], lights: Array[Dictionary]) -> void:
+## `causeway` false (Gainlands v2): the fortress stands on its rock behind the mesa top, its gate opening straight onto the mesa (no causeway).
+static func build(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vector3], lights: Array[Dictionary], causeway: bool = true) -> void:
 	var half_w: float = size.x * 0.5
 	var half_d: float = size.z * 0.5
 	var hall_w: float = size.x * 0.72
@@ -104,6 +105,8 @@ static func build(root: Node3D, mesh: KitMesh, size: Vector3, circles: Array[Vec
 		mesh.lathe("iron", Vector3(x, top, -hall_d * 0.3), [Vector2(2.1, 0.0), Vector2(2.1, 0.8), Vector2(1.5, 0.8)], 10, 1.0, false, true)
 		chimneys.append(Vector3(x, top + 0.9, -hall_d * 0.3))
 	root.set_meta("chimneys", chimneys)
+	if not causeway:
+		return
 	# the causeway from the gate back onto the plateau: a stone slab, brass edges, parapets, lantern posts at both ends
 	var cause_len: float = 10.0
 	var cause_z: float = gate_z + 2.0 + cause_len * 0.5

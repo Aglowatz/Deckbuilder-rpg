@@ -266,6 +266,8 @@ func setup_area(area: WalkableArea, scene: Node3D, spec: Dictionary) -> void:
 	_build(transforms, datas)
 	if spec.has("tint") and _material != null:
 		_material.set_shader_parameter("mood_tint", Color.html(str(spec["tint"])))
+	if spec.has("dry") and _material != null:
+		_material.set_shader_parameter("dry_amount", float(spec["dry"]))
 	print("world_look: area foliage %d cards" % instance_count)
 
 

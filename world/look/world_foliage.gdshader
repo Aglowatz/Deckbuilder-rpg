@@ -11,6 +11,9 @@ uniform vec3 ambient_color : source_color = vec3(0.55, 0.6, 0.78);
 uniform float wind_strength = 0.09;
 uniform float wind_speed = 1.5;
 uniform vec3 mood_tint : source_color = vec3(1.0);
+// A dry, sun-bleached mood (the Gainlands v2 scrub): mix the painted green towards straw by its brightness. 0 = off (every other zone).
+uniform float dry_amount = 0.0;
+uniform vec3 dry_color : source_color = vec3(0.86, 0.72, 0.42);
 
 varying float v_cell;
 varying float v_tint;
@@ -41,6 +44,7 @@ void fragment() {
 	float base = smoothstep(1.0, 0.55, UV.y);
 	vec3 tint = mix(vec3(0.93, 1.0, 0.92), vec3(1.06, 1.0, 0.9), v_tint);
 	vec3 lit = ambient_color * 0.55 + light_color * 0.62;
-	ALBEDO = c.rgb * tint * mood_tint * lit * mix(0.62, 1.0, base);
+	vec3 painted = mix(c.rgb, dry_color * (0.45 + dot(c.rgb, vec3(0.3, 0.59, 0.11)) * 1.1), dry_amount);
+	ALBEDO = painted * tint * mood_tint * lit * mix(0.62, 1.0, base);
 	ALPHA = 1.0;
 }

@@ -86,11 +86,14 @@ func _free(pos: Vector3, clearance: float, spacing: float, solid: bool = true) -
 		return false
 	if solid and _builder.layout.path_edge_distance(pos.x, pos.z) < GainlandsLayout.PATH_CLEARANCE:
 		return false
-	# the bridge head and the approach to the House of Gains gate stay open too (GC-8, GC-10)
+	# the bridge head, the mesa (the House of Gains gate), the stairs and the gym hall stay open too (GC-8, GC-10)
 	if Vector2(pos.x - GainlandsLayout.BRIDGE_X, pos.z - GainlandsLayout.BRIDGE_Z0).length() < 6.0:
 		return false
-	if Vector2(pos.x - GainlandsLayout.HOUSE_OF_GAINS.x, pos.z - (GainlandsLayout.CAUSEWAY.position.y + GainlandsLayout.CAUSEWAY.size.y + 2.0)).length() < 8.0:
+	if GainlandsLayout.level_at(pos.x, pos.z) == 2 or GainlandsLayout.STAIRS.grow(3.0).has_point(Vector2(pos.x, pos.z)):
 		return false
+	for rect: Rect2 in _builder.layout.blocker_rects:
+		if rect.grow(1.5).has_point(Vector2(pos.x, pos.z)):
+			return false
 	# the central plaza stays empty (GC-7)
 	if Vector2(pos.x - _hub().x, pos.z - _hub().z).length() < GainlandsLayout.PLAZA_RADIUS + (1.0 if solid else 0.0):
 		return false

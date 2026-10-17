@@ -157,38 +157,61 @@ static func disc_mask(p: Vector2, center: Vector2, radius: float) -> float:
 	return ramp(radius - p.distance_to(center), 1.6)
 
 
-## The Gainlands: gym mat under the gym equipment and the Swole Station, hay round the mills and hamster wheels, grass elsewhere on land (the dirt paths come from the vertex colours).
+## The Gainlands (v2, docs/art/gainlands_v2.md): sandy chalk ground, stone paving on every route, the plaza, the forecourt and the mesa top, patches of dry
+## scrub (thicker towards the rims, never on the paving), gym mat under the lifting yards. The cliffs take the triplanar sandstone of the preset.
 static func gainlands(scene: ZoneScene) -> Dictionary:
 	var builder: GainlandsBuilder = scene.builder as GainlandsBuilder
 	var layout: GainlandsLayout = builder.layout
-	var gym_spots: Array[Vector3] = []
-	var hay_spots: Array[Vector3] = []
-	for prop: GainlandsLayout.Prop in layout.props:
-		match prop.kind:
-			"bench_press", "dumbbell_rack", "log_rack":
-				gym_spots.append(Vector3(prop.pos.x, prop.pos.z, 2.4))
-			"mill":
-				hay_spots.append(Vector3(prop.pos.x, prop.pos.z, 4.6 * prop.model_scale / 3.0 + 1.6))
-			"wheel":
-				hay_spots.append(Vector3(prop.pos.x, prop.pos.z, 3.2 * prop.model_scale))
-	gym_spots.append(Vector3(72.0, 68.0, 6.5))
+	var bounds: Rect2 = Rect2(GainlandsLayout.GRID_ORIGIN, Vector2(GainlandsLayout.GRID_W, GainlandsLayout.GRID_H) * GainlandsLayout.GRID_CELL)
+	var hub: Vector3 = layout.anchors["hub"] as Vector3
+	var gym_rects: Array[Rect2] = layout.yard_rects()
+	# the road weight once per splat pixel (the three masks share it)
+	var roads: Dictionary = {}
+	var road_at: Callable = func(p: Vector2) -> float:
+		var key: Vector2i = Vector2i(roundi(p.x * 4.0), roundi(p.y * 4.0))
+		if roads.has(key):
+			return float(roads[key])
+		var value: float = layout.path_weight(p.x, p.y)
+		value = maxf(value, PaintedContexts.disc_mask(p, Vector2(hub.x, hub.z), 12.5))
+		value = maxf(value, PaintedContexts.rect_mask(p, Rect2(42.5, 14.5, 27.0, 7.0)))
+		if GainlandsLayout.level_at(p.x, p.y) == 2:
+			value = maxf(value, PaintedContexts.rect_mask(p, Rect2(44.0, -6.0, 24.0, 15.0)))
+		roads[key] = value
+		return value
 	var gym_mask: Callable = func(p: Vector2) -> float:
 		var best: float = 0.0
-		for spot: Vector3 in gym_spots:
-			best = maxf(best, PaintedContexts.disc_mask(p, Vector2(spot.x, spot.y), spot.z))
+		for rect: Rect2 in gym_rects:
+			best = maxf(best, PaintedContexts.rect_mask(p, rect))
 		return best
+	var mills: Array[Vector2] = []
+	for prop: GainlandsLayout.Prop in layout.props:
+		if prop.kind == "mill":
+			mills.append(Vector2(prop.pos.x, prop.pos.z))
 	var hay_mask: Callable = func(p: Vector2) -> float:
 		var best: float = 0.0
-		for spot: Vector3 in hay_spots:
-			best = maxf(best, PaintedContexts.disc_mask(p, Vector2(spot.x, spot.y), spot.z))
-		return best
-	var path_mask: Callable = func(p: Vector2) -> float:
-		return layout.path_weight(p.x, p.y)
-	var grass_mask: Callable = func(p: Vector2) -> float:
-		return 0.0 if layout.path_weight(p.x, p.y) > 0.2 or float(gym_mask.call(p)) > 0.2 else 1.0
+		for mill: Vector2 in mills:
+			best = maxf(best, PaintedContexts.disc_mask(p, mill, 5.5))
+		return best * (1.0 - float(road_at.call(p)))
+	var scrub_mask: Callable = func(p: Vector2) -> float:
+		var road: float = float(road_at.call(p))
+		if road > 0.3 or float(gym_mask.call(p)) > 0.3 or float(hay_mask.call(p)) > 0.3:
+			return 0.0
+		var patches: float = sin(p.x * 0.21 + 1.3) * cos(p.y * 0.17 + 0.4) + 0.6 * sin(p.x * 0.47 - p.y * 0.39)
+		var rim: float = 1.0 - clampf(GainlandsLayout.main_edge_distance(p.x, p.y) / 9.0, 0.0, 1.0)
+		return clampf(smoothstep(0.35, 0.9, patches * 0.6 + rim * 0.7) * (1.0 - road * 2.0), 0.0, 1.0)
+	# the floating islands keep green tops (the preset's "islands" variant); the plateau and its rocks take the sandstone preset
+	var land: Array = []
+	var swaps: Array = []
+	for mesh: Variant in terrain_meshes(scene):
+		if str((mesh as Node).name).begins_with("Island_"):
+			swaps.append({"node": mesh, "variant": "islands"})
+		else:
+			land.append(mesh)
 	return {
-		"bounds": Rect2(-30, -30, 180, 150),
-		"masks": {"gym": gym_mask, "hay": hay_mask, "path": path_mask, "grass": grass_mask},
+		"terrain": land,
+		"swaps": swaps,
+		"bounds": bounds,
+		"masks": {"road": road_at, "gym": gym_mask, "scrub": scrub_mask, "hay": hay_mask},
 		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),
 	}
 

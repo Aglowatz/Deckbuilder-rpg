@@ -1,10 +1,10 @@
 class_name GainlandsBuilder
 extends ZoneMap
 ## Turns a `GainlandsLayout` into the Gainlands' 3D world and answers walkability queries: the
-## rolling faceted main land (a polar mesh so its edge is exactly the walkable edge), the floating
-## islands with rocky undersides, a sea of clouds, KayKit mills/trees/rocks plus the procedural
-## wheels, gym equipment and stages of `GainlandsProps`, copper energy pipes with travelling
-## pulses, signs, and the hidden chests. `animate()` moves everything that moves.
+## sandstone plateau with its canyons, cliffs, stairs and stone spans (`GainlandsTerrain`, Gainlands v2),
+## waterfalls, background mesas, the floating islands with rocky undersides, the mills, wheels, gym
+## equipment and stages of `GainlandsProps`, copper energy pipes with travelling pulses, signs, and the
+## hidden chests. `animate()` moves everything that moves.
 
 const M = preload("res://world/gainlands/gainlands_materials.gd")
 const KAYKIT_TREES: Array[String] = ["tree_single_A", "tree_single_B"]
@@ -39,7 +39,7 @@ func build(parent: Node3D) -> void:
 	root = Node3D.new()
 	root.name = "Gainlands"
 	parent.add_child(root)
-	_build_main_land()
+	_build_land()
 	_build_islands()
 	_build_bridge()
 	_build_house_of_gains()
@@ -91,21 +91,31 @@ func area_at(pos: Vector3) -> Array[String]:
 
 func is_floor_at(pos: Vector3) -> bool:
 	var surface: GainlandsLayout.Surface = layout.surface_at(pos.x, pos.z)
-	# dressing, foliage and decals go on grass only: the bridge deck is walkable but not a floor to plant on
-	return surface == GainlandsLayout.Surface.GROUND or surface == GainlandsLayout.Surface.ISLAND
+	# dressing, foliage and decals go on open ground only: the bridges, the stairs and the paved roads are walkable but not a floor to plant on
+	if surface == GainlandsLayout.Surface.ISLAND:
+		return true
+	if surface != GainlandsLayout.Surface.GROUND or GainlandsLayout.on_stairs(pos.x, pos.z):
+		return false
+	return layout.path_weight(pos.x, pos.z) < 0.5
 
 
-## Footsteps: planks on the bridges, grass on the main land and the islands.
+## Footsteps: planks on the bridge from town, stone on the spans, stairs and roads, dirt on the sandstone, grass on the islands.
 func surface_at(pos: Vector3) -> StringName:
-	return &"wood" if layout.surface_at(pos.x, pos.z) == GainlandsLayout.Surface.BRIDGE else &"grass"
+	var surface: GainlandsLayout.Surface = layout.surface_at(pos.x, pos.z)
+	if surface == GainlandsLayout.Surface.BRIDGE:
+		return &"wood" if GainlandsLayout.on_bridge(pos.x, pos.z) else &"stone"
+	if surface == GainlandsLayout.Surface.ISLAND:
+		return &"grass"
+	if GainlandsLayout.on_stairs(pos.x, pos.z) or layout.path_weight(pos.x, pos.z) > 0.5:
+		return &"stone"
+	return &"dirt"
 
 
 func map_bounds() -> Rect2:
-	var bounds: Rect2 = Rect2(GainlandsLayout.CENTER - GainlandsLayout.RADII * 1.1, GainlandsLayout.RADII * 2.2)
+	var bounds: Rect2 = Rect2(GainlandsLayout.GRID_ORIGIN, Vector2(GainlandsLayout.GRID_W, GainlandsLayout.GRID_H) * GainlandsLayout.GRID_CELL)
 	for island: GainlandsLayout.Island in layout.islands:
 		bounds = bounds.merge(Rect2(island.center - Vector2(island.radius, island.radius), Vector2(island.radius, island.radius) * 2.0))
 	bounds = bounds.merge(Rect2(GainlandsLayout.BRIDGE_X - GainlandsLayout.BRIDGE_HALF_WIDTH - 2.0, GainlandsLayout.BRIDGE_Z0 - 2.0, GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0 + 4.0, GainlandsLayout.BRIDGE_Z1 - GainlandsLayout.BRIDGE_Z0 + 6.0))
-	bounds = bounds.merge(GainlandsLayout.CAUSEWAY.grow(2.0))
 	return bounds
 
 
@@ -136,9 +146,16 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 		if GainlandsLayout.on_bridge(pos.x, pos.z):
 			# the deck between the rope rails; the far landing is the edge of the world (walking off it leaves for town, GainlandsScene)
 			return absf(pos.x - GainlandsLayout.BRIDGE_X) <= GainlandsLayout.BRIDGE_HALF_WIDTH - GainlandsLayout.BRIDGE_RAIL and not _hits_obstacle(pos, body_radius)
-		# the causeway to the House of Gains gate: its parapets are the edge (only the sides shrink: the land end must join the meadow with no gap)
-		return absf(pos.x - GainlandsLayout.HOUSE_OF_GAINS.x) <= GainlandsLayout.CAUSEWAY.size.x * 0.5 - 0.3 and not _hits_obstacle(pos, body_radius)
-	if surface == GainlandsLayout.Surface.GROUND and layout.main_edge_distance(pos.x, pos.z) < 0.35:
+		# a stone span over a canyon: its parapets are the edge (only the sides shrink: both ends overlap the land with no gap)
+		var span: Rect2 = GainlandsLayout.SPANS[GainlandsLayout.span_at(pos.x, pos.z)]
+		return absf(pos.z - span.get_center().y) <= span.size.y * 0.5 - GainlandsLayout.SPAN_RAIL and not _hits_obstacle(pos, body_radius)
+	# the mesa stairs: walkable between their cheek walls; beside them the walls (and the mesa's edge) stop the hero
+	var stairs: Rect2 = GainlandsLayout.STAIRS
+	if GainlandsLayout.on_stairs(pos.x, pos.z):
+		return absf(pos.x - stairs.get_center().x) <= stairs.size.x * 0.5 - 0.6 and not _hits_obstacle(pos, body_radius)
+	if stairs.grow(0.6).has_point(Vector2(pos.x, pos.z)) and (pos.x < stairs.position.x or pos.x > stairs.end.x):
+		return false
+	if surface == GainlandsLayout.Surface.GROUND and GainlandsLayout.main_edge_distance(pos.x, pos.z) < GainlandsLayout.EDGE_STOP:
 		return false
 	return not _hits_obstacle(pos, body_radius)
 
@@ -166,7 +183,18 @@ func _add_obstacle(obstacle: Vector3) -> void:
 	_buckets[key] = list
 
 
+## Straight-walled solids (the gym hall): the hero's body stays outside each rectangle.
+var _rects: Array[Rect2] = []
+
+
+func add_rect_blocker(rect: Rect2) -> void:
+	_rects.append(rect)
+
+
 func _hits_obstacle(pos: Vector3, radius: float) -> bool:
+	for rect: Rect2 in _rects:
+		if rect.grow(radius).has_point(Vector2(pos.x, pos.z)):
+			return true
 	var key: Vector2i = _bucket_key(pos.x, pos.z)
 	for dz: int in range(-1, 2):
 		for dx: int in range(-1, 2):
@@ -189,6 +217,8 @@ func _index_obstacles() -> void:
 	for id: Variant in layout.chests.keys():
 		var chest: Vector3 = layout.chests[id] as Vector3
 		_add_obstacle(Vector3(chest.x, chest.z, 0.18))
+	for rect: Rect2 in layout.blocker_rects:
+		add_rect_blocker(rect)
 
 
 # ---- Terrain ----------------------------------------------------------------------------------------
@@ -204,79 +234,45 @@ func _tri(surface: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, color: Color
 		surface.add_vertex(vertex)
 
 
-func _land_point(ring: int, sector: int, rings: int, sectors: int) -> Vector3:
-	var fraction: float = float(ring) / float(rings)
-	var angle: float = TAU * float(sector % sectors) / float(sectors)
-	var factor: float = GainlandsLayout.radius_factor(angle)
-	var x: float = GainlandsLayout.CENTER.x + cos(angle) * GainlandsLayout.RADII.x * factor * fraction
-	var z: float = GainlandsLayout.CENTER.y + sin(angle) * GainlandsLayout.RADII.y * factor * fraction
-	return Vector3(x, layout.ground_height(x, z), z)
+## The plateau (Gainlands v2, Part B): the land mesh, the fortress rock and the Iron Cave's cliff, background mesas in the sea, the stairs up the mesa, the stone
+## spans over the canyons and the waterfalls.
+func _build_land() -> void:
+	root.add_child(GainlandsTerrain.land(layout))
+	var cliff: Rect2 = GainlandsLayout.CAVE_CLIFF
+	var iron: Node3D = Node3D.new()
+	iron.name = "IronCliff"
+	root.add_child(iron)
+	# the cave's cliff: a broad sandstone rock whose south face (the cave mouth's wall) stands right on the left lands' north rim, a narrower tier stacked on its back
+	iron.add_child(GainlandsTerrain.rock(PackedVector2Array([cliff.position, Vector2(cliff.end.x - 3.0, cliff.position.y - 1.0), Vector2(cliff.end.x + 1.0, cliff.position.y + 8.0),
+		Vector2(cliff.end.x, cliff.end.y), Vector2(cliff.position.x + 2.0, cliff.end.y), Vector2(cliff.position.x - 2.0, cliff.position.y + 10.0)]), GainlandsLayout.CAVE_CLIFF_TOP, "IronCliffBase"))
+	iron.add_child(GainlandsTerrain.rock(GainlandsTerrain.blob_outline(Vector2(cliff.get_center().x - 1.0, cliff.position.y + 6.0), Vector2(9.0, 5.0), 10, 7.7), GainlandsLayout.CAVE_CLIFF_TOP + 4.0, "IronCliffTop"))
+	var rock_x0: float = GainlandsLayout.HOUSE_OF_GAINS.x - GainlandsLayout.HOUSE_OF_GAINS_SIZE.x * 0.55
+	var rock_x1: float = GainlandsLayout.HOUSE_OF_GAINS.x + GainlandsLayout.HOUSE_OF_GAINS_SIZE.x * 0.55
+	var rock_z0: float = GainlandsLayout.HOUSE_OF_GAINS.y - GainlandsLayout.HOUSE_OF_GAINS_SIZE.z * 0.6
+	root.add_child(GainlandsTerrain.rock(PackedVector2Array([Vector2(rock_x0 + 3.0, rock_z0), Vector2(rock_x1 - 3.0, rock_z0), Vector2(rock_x1, rock_z0 + 6.0), Vector2(rock_x1 - 1.0, -6.4),
+		Vector2(rock_x0 + 1.0, -6.4), Vector2(rock_x0, rock_z0 + 6.0)]), GainlandsLayout.MESA_Y - 0.05, "FortressRock"))
+	var index: int = 0
+	for mesa: Vector4 in BACKGROUND_MESAS:
+		index += 1
+		root.add_child(GainlandsTerrain.terraced(Vector2(mesa.x, mesa.y), Vector2(mesa.z, mesa.z * 0.8), mesa.w, 2 if mesa.z >= 8.0 else 1, "Mesa%d" % index, float(index) * 3.7))
+	root.add_child(GainlandsTerrain.stairs())
+	for rect: Rect2 in GainlandsLayout.SPANS:
+		root.add_child(GainlandsTerrain.span(rect))
+	for fall: Array in WATERFALLS:
+		var lip: Vector2 = fall[0] as Vector2
+		root.add_child(GainlandsWater.waterfall(Vector3(lip.x, layout.ground_height(lip.x, lip.y) - 0.15, lip.y), float(fall[1]), fall[2] as Vector2))
 
 
-func _grass_color(p: Vector3, centroid: Vector3) -> Color:
-	var shade: float = clampf((centroid.y + 1.6) / 3.2, 0.0, 1.0)
-	var color: Color = M.GRASS_LOW.lerp(M.GRASS_HIGH, shade)
-	color = color.lightened((_noise(centroid.x * 0.7, centroid.z * 0.7) - 0.5) * 0.04)
-	var path: float = layout.path_weight(centroid.x, centroid.z)
-	if path > 0.0:
-		color = color.lerp(M.PATH.lightened((_noise(p.x, p.z) - 0.5) * 0.08), path)
-	var hub_distance: float = Vector2(centroid.x - 52.0, centroid.z - 64.0).length()
-	if hub_distance < 9.0:
-		color = color.lerp(Color(0.78, 0.66, 0.5), 1.0 - smoothstep(6.5, 9.0, hub_distance))
-	return color
-
-
-func _build_main_land() -> void:
-	var surface: SurfaceTool = SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	surface.set_smooth_group(-1)
-	for ring: int in range(RINGS):
-		for sector: int in range(SECTORS):
-			var p00: Vector3 = _land_point(ring, sector, RINGS, SECTORS)
-			var p01: Vector3 = _land_point(ring, sector + 1, RINGS, SECTORS)
-			var p10: Vector3 = _land_point(ring + 1, sector, RINGS, SECTORS)
-			var p11: Vector3 = _land_point(ring + 1, sector + 1, RINGS, SECTORS)
-			if ring == 0:
-				var centroid: Vector3 = (p00 + p10 + p11) / 3.0
-				_tri(surface, p00, p11, p10, _grass_color(p00, centroid))
-			else:
-				var c1: Vector3 = (p00 + p10 + p11) / 3.0
-				var c2: Vector3 = (p00 + p11 + p01) / 3.0
-				_tri(surface, p00, p11, p10, _grass_color(p00, c1))
-				_tri(surface, p00, p01, p11, _grass_color(p00, c2))
-	# The cliff skirt and rocky underside hang from the outer ring.
-	var previous: Array[Vector3] = []
-	for sector: int in range(SECTORS):
-		previous.append(_land_point(RINGS, sector, RINGS, SECTORS))
-	var layers: int = 6
-	for layer: int in range(1, layers + 1):
-		var t: float = float(layer) / float(layers)
-		var current: Array[Vector3] = []
-		for sector: int in range(SECTORS):
-			var top: Vector3 = _land_point(RINGS, sector, RINGS, SECTORS)
-			var inward: float = lerpf(1.0, 0.12, pow(t, 1.4))
-			var depth: float = -GainlandsLayout.CLIFF_DEPTH * 0.6 * t - 24.0 * pow(maxf(t - 0.35, 0.0), 1.2)
-			var jitter: float = (_noise(float(sector) * 3.1, float(layer) * 7.7) - 0.5) * 2.4
-			var base_x: float = GainlandsLayout.CENTER.x + (top.x - GainlandsLayout.CENTER.x) * inward
-			var base_z: float = GainlandsLayout.CENTER.y + (top.z - GainlandsLayout.CENTER.y) * inward
-			current.append(Vector3(base_x, depth + jitter * t, base_z))
-		for sector: int in range(SECTORS):
-			var next: int = (sector + 1) % SECTORS
-			var rock: Color = M.ROCK.lerp(M.ROCK_DARK, t).lightened((_noise(float(sector), float(layer)) - 0.5) * 0.12)
-			if layer == 1:
-				rock = Color(0.52, 0.42, 0.3).lerp(M.ROCK, 0.3).lightened((_noise(float(sector), 3.3) - 0.5) * 0.1)
-			_tri(surface, previous[sector], previous[next], current[sector], rock)
-			_tri(surface, previous[next], current[next], current[sector], rock.darkened(0.04))
-		previous = current
-	var mesh_instance: MeshInstance3D = MeshInstance3D.new()
-	surface.generate_normals()  # without normals the terrain ignores every directional light and shows only the ambient colour
-	mesh_instance.mesh = surface.commit()
-	mesh_instance.material_override = M.terrain()
-	mesh_instance.set_meta(StyleToon.META_NO_TOON, true)  # the vertex-coloured terrain keeps its own material (the double-sided toon variant draws nothing on it)
-	mesh_instance.name = "MainLand"
-	mesh_instance.set_meta(&"no_occlusion_fade", true)  # terrain never dissolves (the island rock used to dither when the camera passed near it)
-	mesh_instance.set_meta(&"no_range_cull", true)  # one huge mesh: the 48 m range cull measured to its centre and hid the whole meadow from the bridge (GC-9)
-	root.add_child(mesh_instance)
+## Sandstone mesas standing in the sea round the plateau (x, z, radius, top height): the reference's skyline of rock columns. Views only, off the land.
+const BACKGROUND_MESAS: Array[Vector4] = [
+	Vector4(-22.0, 30.0, 7.0, 9.0), Vector4(-24.0, 78.0, 9.0, 6.5), Vector4(128.0, 34.0, 8.0, 10.0), Vector4(132.0, 92.0, 10.0, 7.0), Vector4(12.0, 104.0, 9.0, 5.0),
+	Vector4(102.0, 104.0, 8.0, 6.0), Vector4(18.0, -26.0, 10.0, 12.0), Vector4(92.0, -30.0, 9.0, 11.0), Vector4(-30.0, 104.0, 7.0, 4.0), Vector4(140.0, 60.0, 6.0, 8.0),
+]
+## Waterfalls: [lip (x, z) on a cliff edge, width, outward direction]: under the bridge head, into both canyons, over the west and east rims.
+const WATERFALLS: Array = [
+	[Vector2(47.5, 87.4), 2.4, Vector2(0.0, 1.0)], [Vector2(45.6, 50.0), 1.8, Vector2(1.0, 0.0)], [Vector2(66.6, 48.0), 1.8, Vector2(-1.0, 0.0)],
+	[Vector2(4.6, 66.0), 2.2, Vector2(-1.0, 0.0)], [Vector2(106.9, 66.0), 2.0, Vector2(1.0, 0.0)], [Vector2(25.0, 85.6), 2.6, Vector2(0.0, 1.0)],
+]
 
 
 func _build_islands() -> void:
@@ -338,7 +334,7 @@ func _build_islands() -> void:
 ## The way in from town (GC-8): the timber-and-rope bridge from the south rim to its far landing. Its rails are the walkable edge (`is_walkable`), its gate posts block.
 func _build_bridge() -> void:
 	var length: float = GainlandsLayout.BRIDGE_Z1 - GainlandsLayout.BRIDGE_Z0
-	var bridge: Node3D = GainlandsLandmarks.rope_bridge(length, GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0, GainlandsLayout.BRIDGE_RISE, GainlandsLayout.MIN_GROUND + 0.1)
+	var bridge: Node3D = GainlandsLandmarks.rope_bridge(length, GainlandsLayout.BRIDGE_HALF_WIDTH * 2.0, GainlandsLayout.BRIDGE_RISE, GainlandsLayout.PLATEAU_Y + 0.05)
 	bridge.name = "Bridge"
 	root.add_child(bridge)
 	bridge.position = Vector3(GainlandsLayout.BRIDGE_X, 0.0, GainlandsLayout.BRIDGE_Z0)
@@ -350,11 +346,11 @@ func _build_bridge() -> void:
 ## The House of Gains (GC-10): the fortress-gym on its own rock beyond the north rim, its causeway reaching onto the plateau, smoke from its foundry chimneys.
 ## The gatehouse towers block; the causeway is a layout surface (walkable).
 func _build_house_of_gains() -> void:
-	var house: Node3D = GainlandsLandmarks.build({"id": "GAIN-HERO-HOUSE-OF-GAINS", "kind": "fortress", "size": [GainlandsLayout.HOUSE_OF_GAINS_SIZE.x, GainlandsLayout.HOUSE_OF_GAINS_SIZE.y, GainlandsLayout.HOUSE_OF_GAINS_SIZE.z]})
+	var house: Node3D = GainlandsLandmarks.build({"id": "GAIN-HERO-HOUSE-OF-GAINS", "kind": "fortress", "size": [GainlandsLayout.HOUSE_OF_GAINS_SIZE.x, GainlandsLayout.HOUSE_OF_GAINS_SIZE.y, GainlandsLayout.HOUSE_OF_GAINS_SIZE.z], "causeway": false})
 	if house == null:
 		return
 	root.add_child(house)
-	house.position = Vector3(GainlandsLayout.HOUSE_OF_GAINS.x, 0.0, GainlandsLayout.HOUSE_OF_GAINS.y)
+	house.position = Vector3(GainlandsLayout.HOUSE_OF_GAINS.x, GainlandsLayout.MESA_Y, GainlandsLayout.HOUSE_OF_GAINS.y)
 	for piece: Node in house.find_children("*", "MeshInstance3D", true, false):
 		piece.set_meta(&"no_range_cull", true)  # the goal must show from the whole zone (the 48 m cull would hide it from the hub)
 		piece.set_meta(&"no_occlusion_fade", true)
@@ -401,11 +397,11 @@ static func _smoke_curve() -> Curve:
 
 ## Mount Swolympus in the distance (GC-11): the limestone mountain of the trailhead concept stands out in the void beyond the north-east rim, behind the locked gate
 ## and the sealed Iron Cavern, so the postgame bonus is visible but never on the route.
-const SWOLYMPUS_DISTANT: Vector3 = Vector3(112.0, -4.0, 2.0)
+const SWOLYMPUS_DISTANT: Vector3 = Vector3(142.0, -5.0, -16.0)
 
 
 func _build_swolympus() -> void:
-	var mountain: Node3D = GainlandsLandmarks.build({"id": "GAIN-HERO-SWOLYMPUS", "kind": "mound", "size": [38.0, 30.0, 22.0], "color": "#8a7a68", "accent": "#f7ebd3"})
+	var mountain: Node3D = GainlandsLandmarks.build({"id": "GAIN-HERO-SWOLYMPUS", "kind": "mound", "size": [56.0, 46.0, 40.0], "color": "#8a7a68", "accent": "#f7ebd3"})
 	if mountain == null:
 		return
 	mountain.name = "DistantSwolympus"
@@ -516,30 +512,8 @@ func cloud_nodes() -> Array[Node3D]:
 
 
 func _build_clouds() -> void:
-	var specs: Array[Vector4] = []
-	var tries: int = 0
-	while specs.size() < 34 and tries < 400:
-		tries += 1
-		var x: float = _rng.randf_range(-30.0, 135.0)
-		var z: float = _rng.randf_range(-22.0, 105.0)
-		if GainlandsLayout.main_depth(x, z) < 1.25:
-			continue
-		var blocked: bool = false
-		for island: GainlandsLayout.Island in layout.islands:
-			if Vector2(x - island.center.x, z - island.center.y).length() < island.radius + 6.0:
-				blocked = true
-		if blocked:
-			continue
-		specs.append(Vector4(x, _rng.randf_range(-38.0, -16.0), z, _rng.randf_range(3.5, 7.0)))  # well below the meadow: a drifting cloud used to poke up through the grass (GC-3)
-	# A thick layer well below the main land so the plateau floats in a sea of cloud.
-	for index: int in range(16):
-		var angle: float = TAU * float(index) / 16.0 + _rng.randf() * 0.3
-		var distance: float = _rng.randf_range(10.0, 60.0)
-		specs.append(Vector4(GainlandsLayout.CENTER.x + cos(angle) * distance, _rng.randf_range(-44.0, -34.0), GainlandsLayout.CENTER.y + sin(angle) * distance * 0.8, _rng.randf_range(10.0, 16.0)))
-	for spec: Vector4 in specs:
-		var cloud: Node3D = ModelKit.nature("cloud_big" if spec.w > 6.0 else "cloud_small")
-		ModelKit.place(root, cloud, Vector3(spec.x, spec.y, spec.z), _rng.randf() * 360.0, spec.w)
-		_clouds.append(cloud)
+	# Gainlands v2: the plateau stands 4 m over the sea now; the old cloud layer under the meadow sat under the water plane and cost draw calls for nothing.
+	_clouds.clear()
 
 
 # ---- Props ----------------------------------------------------------------------------------------------
@@ -647,10 +621,9 @@ func _place_feature(prop: GainlandsLayout.Prop, pos: Vector3) -> void:
 		"gate":
 			node = GainlandsProps.gate()
 		"cavern":
-			var mountain: Node3D = ModelKit.nature("mountain_A")
-			ModelKit.place(root, mountain, pos + Vector3(0, -0.4, -1.8), 0.0, 3.4)
+			# the mouth in the Iron Cave's cliff face (the cliff itself is GainlandsTerrain's IronCliff rock)
 			node = GainlandsProps.cavern_mouth()
-			node.position = pos + Vector3(0, 0, 2.2)
+			node.position = pos
 			root.add_child(node)
 			return
 		"stage":

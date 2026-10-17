@@ -46,7 +46,7 @@ static func build(spec: Dictionary) -> Node3D:
 		"GAIN-HERO-SWOLE-STATION":
 			_swole_station(root, mesh, size, circles, lights)
 		"GAIN-HERO-HOUSE-OF-GAINS":
-			GainlandsFortress.build(root, mesh, size, circles, lights)  # GC-10, world/gainlands/gainlands_fortress.gd
+			GainlandsFortress.build(root, mesh, size, circles, lights, bool(spec.get("causeway", true)))  # GC-10, world/gainlands/gainlands_fortress.gd
 	var body: MeshInstance3D = mesh.instance("Body")
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)
 	body.set_meta("occlusion_near", 2.0)
