@@ -360,7 +360,7 @@ func _build_landmarks() -> void:
 			# Oct 16: the Capital sits at the far end of the imperial road, on its axis, a hazy wall and castle on the horizon.
 			var mouth: Vector3 = _town.anchors.get("portal_final_mouth", center) as Vector3
 			spot = mouth + (TownBuilder.PORTAL_OUT[zone_id] as Vector3) * LANDMARK_RADIUS
-			entry_ring = {"haze": 0.5, "cool": 0.3, "base_haze": 0.62, "priority": -8}
+			entry_ring = {"haze": 0.36, "cool": 0.24, "base_haze": 0.5, "priority": -8}
 		var texture: Texture2D = load("%sbackdrop/landmark_%s.png" % [ART, str(entry["file"])]) as Texture2D
 		var width: float = 2.0 * LANDMARK_RADIUS * tan(deg_to_rad(float(entry["width"]) * 0.5))
 		var height: float = width * float(texture.get_height()) / float(texture.get_width())

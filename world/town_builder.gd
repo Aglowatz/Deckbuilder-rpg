@@ -106,7 +106,7 @@ func build(parent: Node3D, decorate_far: bool = true) -> void:
 		var line: String = _map[row]
 		for col: int in range(line.length()):
 			_build_cell(col - COL_OFFSET, row - ROW_OFFSET, line[col])
-	if decorate_far:
+	if decorate_far and not hub_land:
 		_build_far_scenery()
 	_build_props()
 	_build_zone_portals()
@@ -220,7 +220,8 @@ func _build_cell(col: int, row: int, symbol: String) -> void:
 	# Vertical slice: every cell draws from its own seeded stream, so moving a road (which converts trees and rocks to grass round it) never reshuffles the rest of the island.
 	_rng.seed = 7 + (col + 40) * 1009 + (row + 40) * 7919
 	var center: Vector3 = cell_center(col, row)
-	if not (hub_land and symbol == "M"):
+	# Oct 16: in the one-country hub the painted ground (and HubLand beyond it) is the whole floor; the flat hex tiles would show their corners.
+	if not hub_land:
 		ModelKit.place(root, ModelKit.tile("hex_grass"), center, 0.0, SCALE)
 	var yaw: float = float(_rng.randi_range(0, 5)) * 60.0
 	match symbol:
@@ -571,7 +572,7 @@ func _build_zone_portals() -> void:
 		var cell: Vector2i = PORTAL_CELLS.get(info.id, Vector2i.ZERO) as Vector2i
 		var center: Vector3 = cell_center(cell.x, cell.y)
 		var out: Vector3 = PORTAL_OUT.get(info.id, Vector3(0, 0, -1)) as Vector3
-		var passage: Node3D = TownPassages.build(info.id, info.display_name, info.tint, false)
+		var passage: Node3D = TownPassages.build(info.id, info.display_name, info.tint, false, hub_land and Gatekeepers.has(info.id), hub_land)
 		ModelKit.place(root, passage, center, TownPassages.yaw_for(out), 1.0)
 		passage_nodes[info.id] = passage
 		if not hub_land:
@@ -609,6 +610,16 @@ func is_walkable(pos: Vector3, body_radius: float = StorybookScale.BODY_RADIUS) 
 		if dx * dx + dz * dz < reach * reach:
 			return false
 	return true
+
+
+## The town map's symbol under `pos` ("." outside the map: open land or water).
+func map_char_at(pos: Vector3) -> String:
+	var cell: Vector2i = HexGrid.world_to_cell(pos / SCALE)
+	var row: int = cell.y + ROW_OFFSET
+	var col: int = cell.x + COL_OFFSET
+	if row < 0 or row >= MAP.size() or col < 0 or col >= MAP[0].length():
+		return "."
+	return MAP[row][col]
 
 
 func is_floor_at(pos: Vector3) -> bool:

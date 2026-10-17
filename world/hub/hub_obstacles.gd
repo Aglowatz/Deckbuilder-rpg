@@ -71,7 +71,7 @@ func play_cleared(zone_id: String) -> void:
 			tween.tween_property(mover, "rotation:x", 0.0, 2.2).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
 		Gatekeepers.Obstacle.BARRIER:
 			Audio.sfx(&"lever_clunk")
-			tween.tween_property(mover, "rotation:z", deg_to_rad(82.0), 1.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			tween.tween_property(mover, "rotation:z", deg_to_rad(-82.0), 1.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		Gatekeepers.Obstacle.PANTRY_DOOR:
 			Audio.sfx(&"gate_big")
 			tween.set_parallel(true)
@@ -139,10 +139,10 @@ func _barrier(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 	var grey: StandardMaterial3D = _textured(STONE_TEX, Color(0.62, 0.62, 0.68), Vector3(1.0, 1.0, 1.0))
 	var booth_wall: StandardMaterial3D = _textured(WOOD_TEX, Color(0.55, 0.57, 0.62), Vector3(1.0, 1.0, 1.0))
 	var at: float = -0.9
-	# The booth on the road's left, a grey little hut with a flat roof and a window.
+	# The booth on the road's right, a grey little hut with a flat roof and a window.
 	var booth: Node3D = Node3D.new()
 	booth.name = "CheckpointBooth"
-	booth.position = Vector3(-2.6, 0.0, at - 0.4)
+	booth.position = Vector3(2.9, 0.0, at - 0.4)
 	root.add_child(booth)
 	var body: MeshInstance3D = _box(Vector3(1.3, 2.1, 1.3), booth_wall)
 	body.position.y = 1.05
@@ -151,15 +151,15 @@ func _barrier(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 	roof.position.y = 2.18
 	booth.add_child(roof)
 	var window: MeshInstance3D = _box(Vector3(0.05, 0.6, 0.8), _plain(Color(0.7, 0.85, 0.9), true))
-	window.position = Vector3(0.66, 1.35, 0.0)
+	window.position = Vector3(-0.66, 1.35, 0.0)
 	booth.add_child(window)
 	# The arm: red and white stripes, pivoting at the post by the booth; rotation.z 0 = down across the road, 82 degrees = raised.
 	var post: MeshInstance3D = _box(Vector3(0.3, 1.1, 0.3), grey)
-	post.position = Vector3(-1.75, 0.55, at)
+	post.position = Vector3(1.75, 0.55, at)
 	root.add_child(post)
 	var pivot: Node3D = Node3D.new()
 	pivot.name = "BarrierArm"
-	pivot.position = Vector3(-1.75, 1.0, at)
+	pivot.position = Vector3(1.75, 1.0, at)
 	root.add_child(pivot)
 	var red: StandardMaterial3D = _plain(Color(0.82, 0.18, 0.16))
 	var white: StandardMaterial3D = _plain(Color(0.95, 0.93, 0.88))
@@ -167,17 +167,17 @@ func _barrier(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 	var length: float = 3.9
 	for i: int in range(segments):
 		var piece: MeshInstance3D = _box(Vector3(length / float(segments), 0.14, 0.14), red if i % 2 == 0 else white)
-		piece.position = Vector3((float(i) + 0.5) * length / float(segments), 0.0, 0.0)
+		piece.position = Vector3(-(float(i) + 0.5) * length / float(segments), 0.0, 0.0)
 		pivot.add_child(piece)
 	# The permit sign hanging from the arm: a picture of a stamped form (an IconSign, no letters).
 	var plate: MeshInstance3D = _box(Vector3(0.72, 0.5, 0.04), white)
-	plate.position = Vector3(2.0, -0.38, 0.0)
+	plate.position = Vector3(-2.0, -0.38, 0.0)
 	pivot.add_child(plate)
-	IconSign.attach(pivot, "ICON-RES-REDTAPE", Vector3(2.0, -0.38, -0.04), 0.42)
+	IconSign.attach(pivot, "ICON-RES-REDTAPE", Vector3(-2.0, -0.38, -0.04), 0.42)
 	var far_post: MeshInstance3D = _box(Vector3(0.22, 0.95, 0.22), grey)
-	far_post.position = Vector3(2.25, 0.47, at)
+	far_post.position = Vector3(-2.25, 0.47, at)
 	root.add_child(far_post)
-	pivot.rotation.z = deg_to_rad(82.0) if is_cleared else 0.0
+	pivot.rotation.z = deg_to_rad(-82.0) if is_cleared else 0.0
 	movers[zone_id] = pivot
 
 

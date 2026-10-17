@@ -114,6 +114,8 @@ static func _crop_key(plot: int) -> String:
 
 ## "empty", "growing" or "ripe" at wall-clock `now` (seconds).
 static func crop_state(run: ZoneRun, plot: int, now: float) -> String:
+	if run == null:
+		return "empty"  # the visit already ended (the scene is fading out)
 	var planted: int = run.visit_count(_crop_key(plot))
 	if planted <= 0:
 		return "empty"

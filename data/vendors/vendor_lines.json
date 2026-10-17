@@ -4,12 +4,15 @@
 		"open": [
 			"Welcome, darling. Mind the glass. Everything in here has a history, and most of it is scandalous.",
 			"Ah, a customer with taste. Or at least a wallet. Let's find out which.",
-			"Look all you like. The misprints on the wall are not for sale. (They are, but you can't afford them.)"
+			"Look all you like. The misprints on the wall are not for sale. (They are, but you can't afford them.)",
+			"Every card has a story, darling. Some of them even happened.",
+			"Browse slowly. Rushing is for people who don't collect misprints."
 		],
 		"buy": [
 			"Mmm. A pleasure doing business. Do tell your friends. Do not tell my competitors.",
 			"Sold! Treat her well. She has a past.",
-			"Excellent choice. I'd say I'm surprised, but I'm never surprised."
+			"Excellent choice. I'd say I'm surprised, but I'm never surprised.",
+			"Sold, darling. Treat it well. It has had a very dramatic life."
 		],
 		"poor": [
 			"Oh, sweetie. Come back when the purse is heavier.",
@@ -20,12 +23,15 @@
 		"open": [
 			"Welcome welcome WELCOME! Careful, the green one just got a bit... bouncy!",
 			"Oh! A customer! Don't mind the scorch mark, that was a Tuesday!",
-			"Everything on this shelf is tested! By me! Mostly on purpose!"
+			"Everything on this shelf is tested! By me! Mostly on purpose!",
+			"Hi! Hello! Everything's tested! On me! My hair is teal today, which means it's working!",
+			"Potions! Tonics! A salve that smells like toast! I don't know why! Love it!"
 		],
 		"buy": [
 			"Great choice! Drink responsibly! Or at least in the right order!",
 			"Oooh, that's my favorite! Just... don't shake it. Okay, maybe a little shake.",
-			"Thank you thank you! Please bring back the bottle! Or what's left of it!"
+			"Thank you thank you! Please bring back the bottle! Or what's left of it!",
+			"Yay! Drink responsibly! Or irresponsibly, it's your adventure!"
 		],
 		"poor": [
 			"Oops! Not enough gold! My hair is also blue today, so we're both disappointed!",
@@ -36,12 +42,15 @@
 		"open": [
 			"State your business. Equipment is sorted by slot. Do not touch the drawer.",
 			"Welcome. Security protocol requires me to remind you that a beet is also a weapon. Do not ask me how.",
-			"Bertram Beetsworth, Assistant to the Regional Merchant. Please do not call me the assistant. It is Assistant TO the Regional Merchant."
+			"Bertram Beetsworth, Assistant to the Regional Merchant. Please do not call me the assistant. It is Assistant TO the Regional Merchant.",
+			"Question. Do you have adequate armour? Wrong. You do not.",
+			"Fact: a bear cannot wear a helmet. You can. That is your competitive advantage."
 		],
 		"buy": [
 			"Transaction logged. Equipment issued. Please sign nothing.",
 			"Acceptable. Fact: bears eat beets. Fact: I do not care for bears.",
-			"Purchase complete. Good gear is like a good beet: sturdy, earthy, and underappreciated."
+			"Purchase complete. Good gear is like a good beet: sturdy, earthy, and underappreciated.",
+			"Purchase logged. Receipt filed. Security protocols: satisfied. Beets: unaffected."
 		],
 		"poor": [
 			"Insufficient funds. A discount is not a thing that exists here.",
@@ -52,12 +61,15 @@
 		"open": [
 			"Darling! A fresh canvas! Stand there. No, THERE. Don't move, I'm measuring.",
 			"Every hat tells a story. Yours is currently a short one. Let's fix that!",
-			"Try anything on! Everything! (Gasp.) Not that. Never that."
+			"Try anything on! Everything! (Gasp.) Not that. Never that.",
+			"Gasp. That outfit. Who did this to you? Never mind. I'm here now.",
+			"Every hat tells a story. Let's make yours a comedy, not a tragedy."
 		],
 		"buy": [
 			"Divine! You were born to wear it. Or at least to pay for it!",
 			"Oh, the drama! The silhouette! I could weep!",
-			"Wear it out. Turn heads. Tip the hat. Leave a legend."
+			"Wear it out. Turn heads. Tip the hat. Leave a legend.",
+			"Stunning! Iconic! It's giving main character!"
 		],
 		"poor": [
 			"Oh, the tragedy! Fashion has a price, darling, and it is gold.",
@@ -68,12 +80,15 @@
 		"open": [
 			"Shh, shh, listen... can you hear that? That's the foil. It's whispering.",
 			"Welcome! Everything is sealed! Freshly sealed! Do you want to smell one? Just a sniff.",
-			"These pedestals are very sensitive. Do not breathe on the foil. Breathe near it. Politely."
+			"These pedestals are very sensitive. Do not breathe on the foil. Breathe near it. Politely.",
+			"Smell that? That's fresh pack. That's... foil.",
+			"If you pull a shiny I need you to tell me. I need it. For science. Emotionally."
 		],
 		"buy": [
 			"Ohhh, that one's a good pack. I can tell. Just by the... crinkle.",
 			"Foil! (Whispering.) Foil. Good luck. Please tell me what's inside.",
-			"Take it! Treat it gently! And if there's a shiny one, show me. I need to see."
+			"Take it! Treat it gently! And if there's a shiny one, show me. I need to see.",
+			"Open it here. Please. I won't look. I'll look a little."
 		],
 		"poor": [
 			"Oh no, oh no, not enough gold. I'll... I'll just hold the pack until you're back. Please come back.",
@@ -84,12 +99,15 @@
 		"open": [
 			"Hello, dear. Pick two Paths and let the essence do the talking. It will, eventually.",
 			"The cauldron is warm today. It's been in a mood. Let's see what it makes of you.",
-			"Everything was healthiest when it was all mixed together. You'll see. They always do."
+			"Everything was healthiest when it was all mixed together. You'll see. They always do.",
+			"The Paths were happiest mixed, dear. Like soup. Or a family.",
+			"Mind the green flask. It's in a mood."
 		],
 		"buy": [
 			"Lovely. The flasks are pleased. They would say so, but flasks are rude.",
 			"Something new is born. Don't look so surprised. You did most of the work.",
-			"Mm, a fine blend. Mind the steam."
+			"Mm, a fine blend. Mind the steam.",
+			"There. Four Paths in one card. Don't tell it it's unusual."
 		],
 		"poor": [
 			"Not enough essence or gold. The cauldron doesn't do charity. Neither do I.",
@@ -100,12 +118,15 @@
 		"open": [
 			"Keep your voice down. The bookshelf listens. Pick something and let's pretend this never happened.",
 			"Psst. You didn't hear this from me, but everything here fell off a very nice cart.",
-			"Open the compartments. Slowly. The good stuff doesn't like being stared at."
+			"Open the compartments. Slowly. The good stuff doesn't like being stared at.",
+			"Everything here is off the books. The books are also off the books.",
+			"Gilded Packs? Never heard of them. Fifty gold. Don't tell Primm."
 		],
 		"buy": [
 			"Pleasure. Never seen you before. That's the idea.",
 			"A discreet transaction. Stow it, quick, before the candle notices.",
-			"Smart. Rare goods don't wait. Neither do I."
+			"Smart. Rare goods don't wait. Neither do I.",
+			"Pleasure doing no business with you. This never happened."
 		],
 		"poor": [
 			"No coin, no contraband. Even a smuggler has to eat.",
@@ -116,12 +137,15 @@
 		"open": [
 			"HEY, CHAMP! Welcome to the pro shop! Grab a tub, pick a card, get GAINS!",
 			"Rest day? NO SUCH THING. Browse the tubs, athlete!",
-			"Protein, pasteboard, and positive vibes! What are we lifting today?"
+			"Protein, pasteboard, and positive vibes! What are we lifting today?",
+			"LET'S GO! These cards are pre-workout for your deck!",
+			"Welcome to the shop! No pain, no gain, no refunds!"
 		],
 		"buy": [
 			"THAT'S WHAT I'M TALKING ABOUT! ONE MORE REP!",
 			"YEAH! Big move! Your deck just got JACKED!",
-			"BOOM! GAINS! Don't skip leg day! Or card day!"
+			"BOOM! GAINS! Don't skip leg day! Or card day!",
+			"THAT'S what I'm talking about! Feel the burn! Of your wallet!"
 		],
 		"poor": [
 			"Not enough gold, champ! Go win some fights, then come BACK STRONGER!",
@@ -132,12 +156,15 @@
 		"open": [
 			"Next. Please take a number. Please take a pen. Please do not take the stamp.",
 			"Welcome to Requisitions. Fill out the form. In triplicate. In ink. In the correct order.",
-			"The window is open. The window is, in fact, always open. The window has opinions on this."
+			"The window is open. The window is, in fact, always open. The window has opinions on this.",
+			"Form 12-B for purchases. Please fill it out legibly. Your soul may sign below.",
+			"Next. ...Oh, it's you. Next anyway. Procedure."
 		],
 		"buy": [
 			"Approved. Filed. Re-filed. Please retain your receipt for the rest of your afterlife.",
 			"Processed. You will be contacted. You will not be contacted. Both are normal.",
-			"Stamped. It is now official. Nothing can undo it, except Form 12-B, which we are out of."
+			"Stamped. It is now official. Nothing can undo it, except Form 12-B, which we are out of.",
+			"Form completed correctly. Oh. Oh, that is lovely. Stamped."
 		],
 		"poor": [
 			"Application denied. Insufficient funds. See Form 12-C.",
@@ -148,12 +175,15 @@
 		"open": [
 			"Bonsoir, mon cher. Tonight's menu is a selection of cards, presented as nature intended: under a lid.",
 			"Ah, a guest. Please, sit. Or stand and hover. We are not too formal.",
-			"Each card is plated with great care. Lift the cloche and appreciate. Do not poke."
+			"Each card is plated with great care. Lift the cloche and appreciate. Do not poke.",
+			"Tonight's tasting menu: cards. Please don't drool on the foils.",
+			"A table for one? Of course. We'll seat you by the bread."
 		],
 		"buy": [
 			"Exquisite. A fine pairing with whatever you were planning. Bon appétit.",
 			"Magnifique. May it serve you well. And may it never be overcooked.",
-			"Merci. I will have it boxed. By which I mean I will hand it to you directly."
+			"Merci. I will have it boxed. By which I mean I will hand it to you directly.",
+			"An excellent pairing. Hm. You have taste after all. Don't let it go to your head."
 		],
 		"poor": [
 			"Alas, the bill exceeds your purse. A tragedy in three courses.",
@@ -164,12 +194,15 @@
 		"open": [
 			"Well, look what the compost dragged in. Pull up a stump, sugar, and dig around.",
 			"Everything in the cans is tried and true. Some of it's even clean. Ish.",
-			"Don't mind the raccoons. They rummage, but they pay in loose change."
+			"Don't mind the raccoons. They rummage, but they pay in loose change.",
+			"Found, not stolen, dearie! The raccoon found it. Heh heh!",
+			"One person's trash is another person's starting hand, I always say. Well. I say it now."
 		],
 		"buy": [
 			"Ha! Good pickin'! That one was in the third can. Took me a week to find.",
 			"Sold to the one with sense. Mind the rust, it adds character.",
-			"There ya go, sugar. One man's trash is another man's trump card."
+			"There ya go, sugar. One man's trash is another man's trump card.",
+			"Lovely! Mind the smell, it's a feature. Heh!"
 		],
 		"poor": [
 			"Ain't enough gold in that pocket, sugar. Go scrounge some more.",
@@ -180,11 +213,15 @@
 		"open": [
 			"LADIES AND GENTLEBEINGS! THE CHALLENGERS ARE ASSEMBLED! THE PRIZES ARE POLISHED! STEP UP TO THE BOOTH!",
 			"WELCOME BACK, CHAMPION! THE CROWD IS RESTLESS AND I AM MID-LUNCH! CHOOSE YOUR FIGHT!",
-			"THE GRAND CLASHATORIUM IS OPEN FOR BUSINESS! PICK YOUR BOUT!"
+			"THE GRAND CLASHATORIUM IS OPEN FOR BUSINESS! PICK YOUR BOUT!",
+			"WELCOME TO THE PRIZE BOOTH! EVERYTHING IS A CHAMPIONSHIP PRIZE! EVEN THE NAPKINS!",
+			"STEP RIGHT UP, CHAMPION! MIND THE CEILING! IT'S LOW! WE DUG IT OURSELVES!"
 		],
 		"buy": [
 			"A MAGNIFICENT CHOICE! THE CROWD GOES WILD!",
-			"AND THE CHALLENGER STEPS FORWARD! HEAR THEM ROAR!"
+			"AND THE CHALLENGER STEPS FORWARD! HEAR THEM ROAR!",
+			"AND THE CROWD GOES... MILD! IT'S LATE! THEY'RE TIRED! BUT THEY'RE PROUD!",
+			"A CHAMPION'S PURCHASE! WEAR IT WITH PRIDE! AND A HELMET!"
 		],
 		"poor": [
 			"THAT BOUT IS NOT YET YOURS! COME BACK STRONGER!",

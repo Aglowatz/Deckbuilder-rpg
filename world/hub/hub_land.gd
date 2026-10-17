@@ -28,7 +28,7 @@ const ROADS: Dictionary = {
 	"final": {"tex": "res://assets/art/textures/town_stone_albedo.webp", "width": 4.2, "wobble": 0.0, "wave": 100.0, "tint": Color(1.08, 1.05, 0.98)},
 }
 ## Where the Gainlands gorge crosses the meadow road (metres past the passage mouth) and its size.
-const GORGE_FROM: float = 2.3
+const GORGE_FROM: float = 3.0
 const GORGE_WIDTH: float = 7.2
 const GORGE_LENGTH: float = 90.0
 const GORGE_DEPTH: float = 9.0
@@ -334,9 +334,9 @@ func _build_gorge() -> void:
 	var right: Vector3 = road["right"] as Vector3
 	var c: Vector3 = (road["mouth"] as Vector3) + out * (GORGE_FROM + GORGE_WIDTH * 0.5)
 	var rock: StandardMaterial3D = StandardMaterial3D.new()
-	rock.albedo_texture = load("res://assets/art/textures/gain_islandrock_albedo.webp") as Texture2D
-	rock.uv1_scale = Vector3(GORGE_LENGTH / 6.0, GORGE_DEPTH / 6.0, 1.0)
-	rock.albedo_color = Color(0.86, 0.8, 0.72)
+	rock.albedo_texture = load("res://assets/art/textures/mat_rock_albedo.webp") as Texture2D
+	rock.uv1_scale = Vector3(GORGE_LENGTH / 3.5, GORGE_DEPTH / 3.5, 1.0)
+	rock.albedo_color = Color(0.78, 0.72, 0.66)
 	rock.cull_mode = BaseMaterial3D.CULL_DISABLED
 	var root: Node3D = Node3D.new()
 	root.name = "Gorge"
@@ -351,6 +351,24 @@ func _build_gorge() -> void:
 		wall.transform = Transform3D(basis, c + out * side * GORGE_WIDTH * 0.5 + Vector3(0.0, GROUND_Y - GORGE_DEPTH * 0.5, 0.0))
 		wall.set_meta(&"no_occlusion_fade", true)
 		root.add_child(wall)
+		# Shadow deepening down the wall: a gradient from clear at the lip to near black at the bottom, just in front of the rock.
+		var shade: MeshInstance3D = MeshInstance3D.new()
+		shade.mesh = quad
+		var gradient: GradientTexture2D = GradientTexture2D.new()
+		gradient.gradient = Gradient.new()
+		gradient.gradient.set_color(0, Color(0.05, 0.05, 0.08, 0.0))
+		gradient.gradient.set_color(1, Color(0.04, 0.04, 0.07, 0.92))
+		gradient.fill_from = Vector2(0.5, 0.0)
+		gradient.fill_to = Vector2(0.5, 1.0)
+		var shade_material: StandardMaterial3D = StandardMaterial3D.new()
+		shade_material.albedo_texture = gradient
+		shade_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		shade_material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		shade_material.cull_mode = BaseMaterial3D.CULL_DISABLED
+		shade.material_override = shade_material
+		shade.transform = Transform3D(basis, c + out * side * (GORGE_WIDTH * 0.5 - 0.04) + Vector3(0.0, GROUND_Y - GORGE_DEPTH * 0.5, 0.0))
+		shade.set_meta(&"no_occlusion_fade", true)
+		root.add_child(shade)
 	var floor_mesh: MeshInstance3D = MeshInstance3D.new()
 	var plane: PlaneMesh = PlaneMesh.new()
 	plane.size = Vector2(GORGE_WIDTH, GORGE_LENGTH)
@@ -471,7 +489,7 @@ func _dress_roads() -> void:
 	_capital_ridges()
 
 
-## Ridges and cliffs on both sides of the imperial road: the road is the only way to the Capital.
+## Dense forest walls on both sides of the imperial road (thickening the further it goes): the road is the only way to the Capital.
 func _capital_ridges() -> void:
 	if not roads.has("final"):
 		return
@@ -487,10 +505,12 @@ func _capital_ridges() -> void:
 		for s: float in [-1.0, 1.0]:
 			var offset: float = 13.0 + _rng.randf() * 5.0 + along * 0.04
 			var pos: Vector3 = mouth + out * along + right * s * offset
-			var model: Node3D = ModelKit.nature(["mountain_A_grass_trees", "mountain_B_grass_trees", "mountain_C_grass_trees"][_rng.randi() % 3])
-			ModelKit.place(root, model, Vector3(pos.x, GROUND_Y, pos.z), _rng.randf() * 360.0, 4.2 + _rng.randf() * 1.6)
-			for i: int in range(3):
-				_add_tree("pine", pos - right * s * (4.0 + _rng.randf() * 3.0) + out * _rng.randf_range(-4.0, 4.0), 1.2 + _rng.randf() * 0.5)
+			# A dense, dark forest wall (too thick to walk through), with boulders at its foot.
+			for i: int in range(6):
+				_add_tree("pine", pos - right * s * (5.0 - float(i) * 1.6 + _rng.randf() * 1.2) + out * _rng.randf_range(-5.0, 5.0), 1.3 + _rng.randf() * 0.6)
+			if _rng.randf() < 0.5:
+				var boulder: Node3D = ModelKit.nature("rock_single_%s" % ["A", "B", "C", "D", "E"][_rng.randi() % 5])
+				ModelKit.place(root, boulder, Vector3(pos.x, GROUND_Y, pos.z) - right * s * 6.5, _rng.randf() * 360.0, 1.8 + _rng.randf())
 		along += 11.0 + _rng.randf() * 3.0
 	for child: Node in root.get_children():
 		(child as Node3D).set_meta(&"no_occlusion_fade", true)

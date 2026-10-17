@@ -10,8 +10,8 @@ Decisions: `docs/design/open_questions.md` "Overnight decisions (Oct 16)" (ON-*)
 |---|---|
 | 1 Quest system overhaul | done (see below) |
 | 2 Equipment and loot | done (see below) |
-| 3 Hub world and the Undercroft | next |
-| 4 Dialogue rewrite | - |
+| 3 Hub world and the Undercroft | done (see below) |
+| 4 Dialogue rewrite | in progress |
 | 5 Playthrough bot, hitches, report | - |
 
 ## Block 1: quests (done)
@@ -40,7 +40,17 @@ Decisions: `docs/design/open_questions.md` "Overnight decisions (Oct 16)" (ON-*)
 - Comparison tooltips (`EquipmentCompare`): shops and the character screen's piece picker show the stat differences and what you would lose.
 - Tests: `tests/core/game/test_expansion_gear.gd`. 1657 GUT passing.
 
+## Block 3: the hub world (done)
+- One country, no sea (`world/hub/hub_land.gd`): painted land to the horizon, the town lake and two country lakes, five themed roads to the
+  horizon, a tree belt that hides the old rim (never in the camera's way), rim blocks turned to trees, hex tiles hidden, haze and backdrop rings.
+- Obstacles with cleared states and animations (`hub_obstacles.gd`): gorge bridge, permit barrier, pantry door, thorn wall; gatekeepers at them,
+  Brannoch on the imperial road; the Capital on the horizon on the road's axis; camera pull-back 12 percent.
+- The Undercroft: the colosseum is gone; an abandoned cottage at the end of Champions' Road with a cellar hatch (chained, then glowing with a
+  muffled crowd) opens Grand Bellows' booth; texts renamed.
+- Verified: `bash tools/run_hub_walk_smoke.sh` (every road blocked and open, in and back, the Capital road, the Undercroft: all ok), GUT,
+  town Medium 60.1 fps avg (min 18 on load). Screenshots: `docs/art/hub_world/` + `docs/art/hub_world.md`.
+
 ## Problems / notes
 
 ## Next
-Block 3: the hub world (land routes, obstacles, smooth edges, Capital horizon, the Undercroft, graphics pass).
+Block 4: dialogue rewrite (voice bible written; gatekeeper, vendor, tips, zone mini-story lines done; walls of text split), then Block 5.

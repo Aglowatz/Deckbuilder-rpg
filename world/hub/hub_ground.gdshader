@@ -30,13 +30,13 @@ void fragment() {
 		discard;
 	}
 	vec2 p = v_world.xz / tile_size;
-	vec3 grass = texture(grass_tex, p).rgb * vec3(1.04, 1.08, 0.96);
+	vec3 grass = texture(grass_tex, p).rgb * vec3(1.1, 1.13, 0.95);
 	vec3 dirt = texture(dirt_tex, p * 0.7).rgb;
 	vec2 m_uv = (v_world.xz - mask_rect.xy) / mask_rect.zw;
 	vec3 m = texture(mask_tex, m_uv).rgb;
 	vec3 col = grass * mix(vec3(1.0), woods_tint, m.r) * mix(vec3(1.0), dry_tint, m.g);
 	col = mix(col, dirt, m.b);
 	ALBEDO = col;
-	EMISSION = ALBEDO * 0.27;
+	EMISSION = ALBEDO * 0.3;
 	ROUGHNESS = 1.0;
 }

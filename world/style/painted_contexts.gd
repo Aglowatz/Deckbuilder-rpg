@@ -39,9 +39,20 @@ static func town(scene: TownScene) -> Dictionary:
 		return 0.0
 	var grass_mask: Callable = func(p: Vector2) -> float:
 		return 0.0 if TownLayout.is_paved(Vector3(p.x, 0.0, p.y), 0.6) else 1.0
+	# Oct 16: in the one-country hub the painted ground reaches a little past the walkable edge, so no bare corner of an edge hex tile shows.
+	var cover: Callable = func(p: Vector3) -> bool:
+		if town.is_floor_at(p):
+			return true
+		if not town.hub_land or town.map_char_at(p) == ".":
+			return false
+		for offset: Vector3 in [Vector3(1.0, 0, 0), Vector3(-1.0, 0, 0), Vector3(0, 0, 1.0), Vector3(0, 0, -1.0)]:
+			if town.is_floor_at(p + offset):
+				return true
+		return false
 	var rect: Rect2 = town.map_bounds().grow(1.0)
 	return {
 		"bounds": rect,
+		"cover": cover,
 		"masks": {"plaza": plaza_mask, "soil": soil_mask, "sand": sand_mask, "paved": paved, "grass": grass_mask},
 		"flat_hidden": flat_overlays(scene, [scene.square.root, scene.square.streets.root, scene.get_node_or_null("ZoneDressing")]),
 		"lift": GroundDecals.LIFT + 0.0006,

@@ -21,13 +21,17 @@ static func yaw_for(out: Vector3) -> float:
 	return rad_to_deg(atan2(-out.x, -out.z))
 
 
-static func build(zone_id: String, title: String, tint: Color, locked: bool) -> Node3D:
+static func build(zone_id: String, title: String, tint: Color, locked: bool, bare: bool = false, hub: bool = false) -> Node3D:
 	var root: Node3D = Node3D.new()
 	root.name = "Passage_%s" % zone_id
 	var dressing: Node3D = Node3D.new()
 	dressing.name = "Dressing"
 	root.add_child(dressing)
-	match zone_id:
+	# Oct 16: in the hub a gatekeeper's road has its own obstacle (HubObstacles) instead of the old themed arch; `bare` leaves the arch out.
+	var theme: String = "bare" if bare else zone_id
+	match theme:
+		"bare":
+			pass
 		"beefcake":
 			_barbell_arch(dressing)
 		"necrocrat":
@@ -40,7 +44,7 @@ static func build(zone_id: String, title: String, tint: Color, locked: bool) -> 
 			_rock_arch(dressing)
 	_path(dressing, tint)
 	_sign(root, title, tint)
-	if zone_id != "beefcake" and zone_id != "gourmand" and zone_id != "refusemancer":
+	if not hub and zone_id != "beefcake" and zone_id != "gourmand" and zone_id != "refusemancer":
 		_far_glow(root, tint, locked)  # the Gainlands and Buffet ways in are plain bridges, no glow at the end of them (GC-8, BF-8, VD-3)
 	return root
 

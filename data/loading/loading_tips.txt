@@ -50,3 +50,20 @@ lore | A raccoon in a trench coat is, legally speaking, a tax advisor.
 @LOAD-DUNGEON hint | Dungeon rules apply to every fight inside it. Read them before the first battle, not during the third.
 @LOAD-TOWN hint | Talk to everyone in Crosspath. Some of them even have something useful to say.
 @LOAD-CAPITAL lore | The Capital is perfectly clean. If you notice a crack, that was not on the brochure.
+
+# Overnight Oct 16: quests, gear, the hub.
+hint | Press [ and ] (or LB and RB) to flip through your quests. The tracker follows whatever you moved forward last.
+hint | A golden chevron floats over your tracked quest's next step. Off screen? A little arrow at the edge points the way.
+hint | A "!" over someone's head means they have a job for you. A "?" means you finished it. Go get paid.
+hint | Every zone's gatekeeper guards a Path Pack. Beat them and the road opens. Also they stop yelling. Mostly.
+hint | Gear changes the numbers: hover a piece in a shop or on your character screen to see exactly what you'd gain and lose.
+hint | Chests sometimes hold more than they let on: a piece of gear, or a pack. Open them all. Treasure is a lifestyle.
+hint | Zone shops have a Gear stall now. The good stuff appears once you free the zone. Retail therapy, but heroic.
+lore | Gotta-Go Galoshes: for when you absolutely, positively have to be somewhere else. Now.
+lore | Nobody knows who built the cellar under the old cottage at the end of Champions' Road. Somebody keeps cheering down there.
+@LOAD-TOWN lore | Gatekeeper Brannoch keeps a notebook of every traveller's name. One page has been waiting eight years.
+@LOAD-GAINLANDS lore | The gorge bridge was built to be lowered, not raised. Brick Bronson raised it anyway. With one arm.
+@LOAD-DNA lore | The checkpoint permit has a box for "reason for living". Most applicants leave it blank.
+@LOAD-BUFFET lore | The great pantry door has a keyhole the size of a dinner plate. The key is the size of a ladle. The math checks out.
+@LOAD-DUMP lore | The thorn wall was not planted. It was grown, out of spite, by something very hungry.
+@LOAD-CAPITAL lore | Everything is perfect in the Capital. Please report any imperfections to your nearest Perfectly Happy Citizen.
