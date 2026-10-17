@@ -1626,15 +1626,20 @@ func refresh_quests() -> void:
 	if _refreshing_quests or profile == null:
 		return
 	_refreshing_quests = true
-	var state: UnlockState = unlock_state()
-	for due: Array in quest_log.take_due_milestones(QuestCatalog.all(), state):
-		_pay_milestone(due[0] as QuestData, int(due[1]))
-	var updated: Array[String] = quest_log.take_updates(QuestCatalog.all(), state)
-	if not updated.is_empty():
-		# The tracker follows the quest that moved forward last (Oct 16: "defaults to the most recently updated quest").
-		quest_log.track(updated[updated.size() - 1])
-	for quest_id: String in quest_log.auto_completable(QuestCatalog.all(), state):
-		complete_quest(quest_id)
+	# A finished quest can complete a step of another (a zone line's favour step), so settle until nothing moves (a few rounds at most).
+	for _round: int in range(4):
+		var state: UnlockState = unlock_state()
+		for due: Array in quest_log.take_due_milestones(QuestCatalog.all(), state):
+			_pay_milestone(due[0] as QuestData, int(due[1]))
+		var updated: Array[String] = quest_log.take_updates(QuestCatalog.all(), state)
+		if not updated.is_empty():
+			# The tracker follows the quest that moved forward last (Oct 16: "defaults to the most recently updated quest").
+			quest_log.track(updated[updated.size() - 1])
+		var finished: Array[String] = quest_log.auto_completable(QuestCatalog.all(), state)
+		for quest_id: String in finished:
+			complete_quest(quest_id)
+		if finished.is_empty() and updated.is_empty():
+			break
 	_refreshing_quests = false
 	EventBus.quest_changed.emit()
 
@@ -1694,6 +1699,8 @@ func complete_quest(quest_id: String) -> bool:
 	EventBus.quest_notice.emit("Quest complete: %s%s" % [quest.title, suffix], false)
 	EventBus.quest_changed.emit()
 	save_game()
+	# A quest handed in may finish a step of another quest (the zone lines' "finish a favour" step): settle at once.
+	refresh_quests()
 	return true
 
 

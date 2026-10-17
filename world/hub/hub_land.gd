@@ -41,10 +41,13 @@ var roads: Dictionary = {}
 var lakes: Array[Array] = []
 ## The town lake: the centres of its water cells (drawn as overlapping discs that follow the town map).
 var town_water: Array[Vector3] = []
-const TOWN_WATER_RADIUS: float = 2.3
+const TOWN_WATER_RADIUS: float = 2.7
 var tree_count: int = 0
 var _rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var _trees: Dictionary = {}
+## Ground the outskirts buildings and the dock stand on: no tree is planted within KEEP_CLEAR of them.
+var _kept_clear: Array[Vector3] = []
+const KEEP_CLEAR: float = 6.5
 
 
 static func build(parent: Node3D, town_builder: TownBuilder, water: Material) -> HubLand:
@@ -61,6 +64,7 @@ static func build(parent: Node3D, town_builder: TownBuilder, water: Material) ->
 	for zone_id: Variant in land.roads.keys():
 		land._build_road(str(zone_id))
 	land._dress_roads()
+	land._outskirts()
 	land._tree_belt()
 	land._flush_trees()
 	print("hub_land: %d roads, %d lakes (+ %d town lake cells), %d trees" % [land.roads.size(), land.lakes.size(), land.town_water.size(), land.tree_count])
@@ -167,8 +171,8 @@ func in_gorge(p: Vector3, margin: float = 0.0) -> bool:
 
 
 func _build_ground() -> void:
-	var image: Image = Image.create(MASK_SIZE, MASK_SIZE, false, Image.FORMAT_RGB8)
-	image.fill(Color(0, 0, 0))
+	var image: Image = Image.create(MASK_SIZE, MASK_SIZE, false, Image.FORMAT_RGBA8)
+	image.fill(Color(0, 0, 0, 0))
 	var noise: FastNoiseLite = FastNoiseLite.new()
 	noise.seed = 77
 	noise.frequency = 0.012
@@ -178,10 +182,11 @@ func _build_ground() -> void:
 			var n: float = noise.get_noise_2d(world.x, world.y)
 			var woods: float = clampf((n - 0.05) * 3.0, 0.0, 0.8)
 			var dry: float = clampf((-n - 0.25) * 2.5, 0.0, 0.6)
-			image.set_pixel(x, y, Color(woods, dry, 0.0))
+			image.set_pixel(x, y, Color(woods, dry, 0.0, 0.0))
 	# The forest path runs under trees, the meadow road through dry grass, the imperial road between bare ridges.
 	_paint_along("refusemancer", 18.0, Color(0.85, 0.0, 0.0), image)
 	_paint_along("beefcake", 22.0, Color(0.0, 0.55, 0.0), image)
+	_paint_along("necrocrat", 9.0, Color(0.0, 0.0, 0.0, 0.6), image)
 	for lake: Array in lakes:
 		_paint_disc(image, lake[0] as Vector3, float(lake[1]) + 3.5, Color(0, 0, 0.55))
 	var mask: ImageTexture = ImageTexture.create_from_image(image)
@@ -228,7 +233,7 @@ func _paint_disc(image: Image, centre: Vector3, radius: float, color: Color) -> 
 			if t <= 0.0:
 				continue
 			var old: Color = image.get_pixel(x, y)
-			image.set_pixel(x, y, Color(maxf(old.r, color.r * t), maxf(old.g, color.g * t), maxf(old.b, color.b * t)))
+			image.set_pixel(x, y, Color(maxf(old.r, color.r * t), maxf(old.g, color.g * t), maxf(old.b, color.b * t), maxf(old.a, color.a * t)))
 
 
 func _paint_along(zone_id: String, radius: float, color: Color, image: Image) -> void:
@@ -593,8 +598,106 @@ func _add_tree(kind: String, pos: Vector3, scale_value: float) -> void:
 func _flush_trees() -> void:
 	for kind: Variant in _trees.keys():
 		var entries: Array[Dictionary] = _trees[kind] as Array[Dictionary]
+		if not _kept_clear.is_empty():
+			var kept: Array[Dictionary] = []
+			for entry: Dictionary in entries:
+				var p: Vector3 = entry["pos"] as Vector3
+				var clear: bool = true
+				for spot: Vector3 in _kept_clear:
+					if Vector2(p.x - spot.x, p.z - spot.z).length() < KEEP_CLEAR:
+						clear = false
+						break
+				if clear:
+					kept.append(entry)
+			entries = kept
 		var field: MultiMeshInstance3D = KitFoliage.tree_field(self, str(kind), entries, false)
 		if field != null:
 			field.set_meta(&"no_range_cull", true)
 			field.extra_cull_margin = 200.0
 	_trees.clear()
+
+
+# ---- The outskirts: a few kit buildings along the roads, and a dock on the town lake (Block 3g) ------------------------------------------------
+
+
+## Zone id -> [preset, metres down the road, metres to its side (+ = the road's right), scale]: farm buildings by the meadow road, a cottage and a
+## bakery on the orchard lane, a woodcutter's cottage by the forest path, a dead office block far down the cracked road. Never on the camera's
+## side of a road's first stretch.
+const OUTSKIRTS: Dictionary = {
+	"beefcake": [["gain_mill_house", 24.0, 13.0, 1.0], ["gain_shed", 34.0, -12.0, 1.0]],
+	"gourmand": [["buffet_cottage", 21.0, -10.0, 1.0], ["buffet_bakery", 42.0, -12.0, 1.0]],
+	"refusemancer": [["cottage", 26.0, 10.0, 0.95]],
+	"necrocrat": [["dna_office_block", 48.0, 15.0, 1.0]],
+}
+
+
+func _outskirts() -> void:
+	var root: Node3D = Node3D.new()
+	root.name = "Outskirts"
+	add_child(root)
+	for zone_id: Variant in OUTSKIRTS.keys():
+		if not roads.has(str(zone_id)):
+			continue
+		var road: Dictionary = roads[str(zone_id)] as Dictionary
+		var points: PackedVector3Array = road["points"] as PackedVector3Array
+		var step: float = ROAD_LENGTH / float(points.size() - 1)
+		for spec: Variant in OUTSKIRTS[zone_id] as Array:
+			var entry: Array = spec as Array
+			var along: float = float(entry[1])
+			var on_road: Vector3 = points[clampi(int(along / step), 0, points.size() - 1)]
+			var pos: Vector3 = on_road + (road["right"] as Vector3) * float(entry[2])
+			if blocks_view(pos) or _near_lake(pos, 4.0) or in_gorge(pos, 4.0):
+				continue
+			var building: Node3D = BuildingPresets.build(str(entry[0]))
+			if building == null:
+				continue
+			building.name = "Outskirt_%s" % str(entry[0])
+			root.add_child(building)
+			building.position = Vector3(pos.x, GROUND_Y, pos.z)
+			var facing: Vector3 = (on_road - pos).normalized()
+			building.rotation.y = atan2(facing.x, facing.z)
+			building.scale = Vector3.ONE * float(entry[3])
+			building.set_meta(&"no_occlusion_fade", true)
+			_kept_clear.append(pos)
+	_dock(root)
+
+
+## A short wooden dock reaching into the town lake from its north shore, with a moored rowing boat's worth of posts (visual only).
+func _dock(root: Node3D) -> void:
+	if town_water.is_empty():
+		return
+	var best: Vector3 = Vector3.INF
+	for cell: Vector3 in town_water:
+		var shore: Vector3 = cell + Vector3(0.0, 0.0, -2.6)
+		if town.is_floor_at(shore) and not town.is_floor_at(cell) and (best == Vector3.INF or cell.x > best.x):
+			best = cell
+	if best == Vector3.INF:
+		return
+	var wood: StandardMaterial3D = StandardMaterial3D.new()
+	wood.albedo_texture = load("res://assets/art/textures/mat_woodplanks_albedo.webp") as Texture2D
+	wood.albedo_color = Color(0.86, 0.72, 0.56)
+	wood.uv1_triplanar = true
+	var dock: Node3D = Node3D.new()
+	dock.name = "LakeDock"
+	dock.position = Vector3(best.x, 0.0, best.z - 1.6)
+	_kept_clear.append(dock.position)
+	root.add_child(dock)
+	for i: int in range(7):
+		var plank: MeshInstance3D = MeshInstance3D.new()
+		var box: BoxMesh = BoxMesh.new()
+		box.size = Vector3(1.5, 0.08, 0.5)
+		plank.mesh = box
+		plank.material_override = wood
+		plank.position = Vector3(_rng.randf_range(-0.04, 0.04), 0.06, float(i) * 0.56)
+		dock.add_child(plank)
+	for z: float in [0.0, 1.7, 3.4]:
+		for x: float in [-0.7, 0.7]:
+			var post: MeshInstance3D = MeshInstance3D.new()
+			var cylinder: CylinderMesh = CylinderMesh.new()
+			cylinder.top_radius = 0.07
+			cylinder.bottom_radius = 0.08
+			cylinder.height = 0.9
+			post.mesh = cylinder
+			post.material_override = wood
+			post.position = Vector3(x, -0.1, z)
+			dock.add_child(post)

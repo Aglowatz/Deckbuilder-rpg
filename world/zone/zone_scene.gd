@@ -593,10 +593,18 @@ func _process(delta: float) -> void:
 	_time += delta
 	_invulnerable = maxf(0.0, _invulnerable - delta)
 	_spawn_grace = maxf(0.0, _spawn_grace - delta)
+	Hitch.start("zone.camera")
 	_update_camera(delta)
+	Hitch.stop("zone.camera")
+	Hitch.start("zone.visibility")
 	builder.update_visibility(player.position)
+	Hitch.stop("zone.visibility")
+	Hitch.start("zone.process")
 	_zone_process(delta)
+	Hitch.stop("zone.process")
+	Hitch.start("zone.soundscape")
 	_update_soundscape(delta)
+	Hitch.stop("zone.soundscape")
 	var world_active: bool = _world_active()
 	if world_active and not Session.pending_popups.is_empty():
 		var popup: RewardPopup = RewardPopup.make(Session.pending_popups.pop_front() as RewardSummary)

@@ -3300,3 +3300,23 @@ I chose and levelled every sound by numbers, not by ear (SFX-2). These are the p
    too fast or too loud? the "Dialogue voices" slider is new).
 7. **Fatigue**: play 20 minutes and note any sound you start to notice too much: that is the next variant or level to fix (edit
    `data/source/sfx_events.csv` or add rows to `sfx_sources.csv`, then `node tools/sfx_build.js`).
+
+
+## Overnight run (2026-10-16/17): quests, gear, the hub world, dialogue, the playthrough bot
+
+Start tag `pre-overnight-oct16`. Report for the morning: `docs/overnight_report.md`. Decisions ON-1..ON-32 in `docs/design/open_questions.md`.
+
+- **Quests** (`core/quests/`, `docs/design/quests.md`): MAIN/SIDE categories, ordered objectives with targets, step rewards, built in code; a MAIN
+  line per zone (gatekeeper -> cross in -> a favour -> the main dungeon; two Path Packs and a piece of gear), Brannoch's Free the Four Zones; the
+  one-quest HUD tracker (`[` / `]`, LB / RB), the Quest Log (Main / Side / Completed, details, where to go, reward icons), "!" / "?" givers and one
+  objective marker with an edge pointer; old saves migrate without double payouts.
+- **Gear** (`core/data/expansion_gear.gd`, `docs/design/equipment.md`): 25 pieces through the Modifier pipeline (two new kinds work outside battle:
+  overworld speed and XP), dungeon first clears, quests, zone Gear stalls and chest rolls (`ChestLoot`); comparison tooltips.
+- **The hub** (`world/hub/`, `docs/art/hub_world.md`): one country, no sea; five themed roads; the four obstacles with their gatekeepers; the
+  Capital on the horizon; tree belt and hidden hex rim; the Undercroft cottage replaces the colosseum; 12 percent passage camera.
+- **Dialogue** (`docs/design/voice_bible.md`, `docs/design/dialogue_rewrite.md`): walls of text split, gatekeepers, vendors, tips, mini-story beats.
+- **Tools**: `bash tools/run_quest_smoke.sh`, `bash tools/run_hub_walk_smoke.sh`, `bash tools/run_story_playthrough.sh` (73 steps, new game to
+  Primm), `bash tools/hub_shots.sh`, `node tools/dialogue_diff.js`, `tools/quest_table.tscn`, `tools/equipment_table.tscn`, `HITCH_LOG=1` + `--spikes=true`
+  on the fps probe.
+- **Hitches**: the Capital's district music and ambience now load on background threads as the Capital opens, and its ash / confetti no longer
+  pre-simulate 6-7 seconds on the first frame: min fps 60 at the gate plaza, the Transit Yards and the Reek (was 18.5, 31.4 and 14.8).

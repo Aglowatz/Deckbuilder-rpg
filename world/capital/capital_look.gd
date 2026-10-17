@@ -69,7 +69,7 @@ static func ash() -> CPUParticles3D:
 	var particles: CPUParticles3D = CPUParticles3D.new()
 	particles.amount = 70
 	particles.lifetime = 7.0
-	particles.preprocess = 7.0
+	particles.preprocess = 2.5  # Oct 16: was 7 s, a 16 ms stall on the first frame in the Capital
 	particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
 	particles.emission_box_extents = Vector3(14, 6, 9)
 	particles.direction = Vector3(0.3, -0.25, 0.0)
@@ -97,7 +97,7 @@ static func confetti() -> CPUParticles3D:
 	var particles: CPUParticles3D = CPUParticles3D.new()
 	particles.amount = 60
 	particles.lifetime = 6.0
-	particles.preprocess = 6.0
+	particles.preprocess = 2.5  # Oct 16: was 6 s (first-frame stall)
 	particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
 	particles.emission_box_extents = Vector3(14, 1, 9)
 	particles.direction = Vector3(0, -1, 0)

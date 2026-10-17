@@ -144,15 +144,19 @@ func _barrier(root: Node3D, zone_id: String, is_cleared: bool) -> void:
 	booth.name = "CheckpointBooth"
 	booth.position = Vector3(2.9, 0.0, at - 0.4)
 	root.add_child(booth)
-	var body: MeshInstance3D = _box(Vector3(1.3, 2.1, 1.3), booth_wall)
-	body.position.y = 1.05
-	booth.add_child(body)
-	var roof: MeshInstance3D = _box(Vector3(1.6, 0.16, 1.6), grey)
-	roof.position.y = 2.18
-	booth.add_child(roof)
-	var window: MeshInstance3D = _box(Vector3(0.05, 0.6, 0.8), _plain(Color(0.7, 0.85, 0.9), true))
-	window.position = Vector3(-0.66, 1.35, 0.0)
-	booth.add_child(window)
+	# The D.N.A. kit's own booth (a kit building) when it exists, else a plain grey hut.
+	var kit_booth: Node3D = BuildingPresets.build("dna_booth")
+	if kit_booth != null:
+		kit_booth.rotation.y = -PI * 0.5  # its window faces the road
+		kit_booth.scale = Vector3.ONE * 0.8
+		booth.add_child(kit_booth)
+	else:
+		var body: MeshInstance3D = _box(Vector3(1.3, 2.1, 1.3), booth_wall)
+		body.position.y = 1.05
+		booth.add_child(body)
+		var roof: MeshInstance3D = _box(Vector3(1.6, 0.16, 1.6), grey)
+		roof.position.y = 2.18
+		booth.add_child(roof)
 	# The arm: red and white stripes, pivoting at the post by the booth; rotation.z 0 = down across the road, 82 degrees = raised.
 	var post: MeshInstance3D = _box(Vector3(0.3, 1.1, 0.3), grey)
 	post.position = Vector3(1.75, 0.55, at)

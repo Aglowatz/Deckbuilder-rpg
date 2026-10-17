@@ -452,3 +452,22 @@ func sting(id: StringName, extra_db: float = 0.0) -> void:
 
 func _exit_tree() -> void:
 	MusicSynth.finish()
+
+
+## Overnight Oct 16 (Block 5b): starts background loads of every bed and one-shot file of the ambience `profiles` (a place's districts), so
+## walking into a new district never stalls a frame on a 40-second bed. Returns how many loads it started.
+func prewarm_ambience(profiles: Array[String]) -> int:
+	var started: int = 0
+	for profile_name: String in profiles:
+		var profile: Dictionary = AmbienceProfiles.resolved(profile_name)
+		var sets: Array = []
+		for bed: Variant in profile.get("beds", []) as Array:
+			sets.append(str((bed as Dictionary).get("set", "")))
+		for shot: Variant in profile.get("oneshots", []) as Array:
+			sets.append(str((shot as Dictionary).get("set", "")))
+		for set_name: Variant in sets:
+			for path: Variant in bank.files(str(set_name)):
+				var file: String = str(path)
+				if ResourceLoader.exists(file) and not ResourceLoader.has_cached(file) and ResourceLoader.load_threaded_request(file) == OK:
+					started += 1
+	return started

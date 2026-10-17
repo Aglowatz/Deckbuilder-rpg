@@ -100,11 +100,15 @@ func _process(delta: float) -> void:
 	_reveal_timer -= delta
 	if _reveal_timer <= 0.0:
 		_reveal_timer = REVEAL_INTERVAL
+		Hitch.start("minimap.reveal")
 		raster.apply_reveal(fog.reveal(Vector2(_player.position.x, _player.position.z)))
+		Hitch.stop("minimap.reveal")
 	_poi_timer -= delta
 	if _poi_timer <= 0.0:
 		_poi_timer = POI_INTERVAL
+		Hitch.start("minimap.pois")
 		_refresh_pois()
+		Hitch.stop("minimap.pois")
 	if visible:
 		queue_redraw()
 

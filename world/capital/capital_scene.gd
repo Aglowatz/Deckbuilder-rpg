@@ -33,6 +33,21 @@ func _zone_id() -> String:
 	return CapitalZone.ID
 
 
+## Oct 16 (Block 5b): the district music and ambience load on background threads as the Capital opens, so walking into the Transit Yards,
+## the Reek or any other district never stalls a frame loading a track (the old min-fps hitches).
+func _prewarm_districts() -> void:
+	var music: Array[String] = ["MUS-CREASE", "MUS-CAP-CORRECTION", "MUS-CAP-RESTORED", "MUS-CAP-OUT-EXP", "MUS-CAP-FACADE-EXP"]
+	var ambience: Array[String] = ["capital_out", "capital_in", "capital_restored"]
+	for area_id: Variant in MusicDirector.CAPITAL_DISTRICTS.keys():
+		var path: Dictionary = MusicDirector.PATHS[str(MusicDirector.CAPITAL_DISTRICTS[area_id])] as Dictionary
+		music.append(str(path["broken"]))
+		music.append(str(path["restored"]))
+		ambience.append("capital_%s_broken" % area_id)
+		ambience.append("capital_%s_restored" % area_id)
+	AudioRegistry.prewarm(music)
+	Audio.prewarm_ambience(ambience)
+
+
 func _make_map() -> ZoneMap:
 	capital = CapitalBuilder.new()
 	return capital
@@ -50,6 +65,7 @@ func _build_environment() -> void:
 
 func _build_zone_extras() -> void:
 	camera_offset = WorldLookRig.base_offset()
+	_prewarm_districts()
 	player.speed_multiplier = CapitalDebuffs.speed_multiplier(Session.flags)
 	# Arriving by the Gate Road: the hero faces north, up the road to the great gate and the castle over it.
 	if player.position.distance_to(builder.anchor("spawn")) < 1.0:

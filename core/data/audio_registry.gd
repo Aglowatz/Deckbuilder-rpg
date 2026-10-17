@@ -436,3 +436,18 @@ static func _write_manifest(rows: Array[PackedStringArray]) -> void:
 	for row: PackedStringArray in rows:
 		file.store_csv_line(row)
 	file.close()
+
+
+## Overnight Oct 16 (Block 5b): starts loading the files of `ids` on background threads, so the first switch to one of them (the Capital's
+## district music) does not stall a frame. Returns how many loads it started.
+static func prewarm(ids: Array[String]) -> int:
+	var started: int = 0
+	for id: String in ids:
+		if _streams.has(id) or not is_playable(id):
+			continue
+		var path: String = file_for(id)
+		if ResourceLoader.has_cached(path):
+			continue
+		if ResourceLoader.load_threaded_request(path) == OK:
+			started += 1
+	return started

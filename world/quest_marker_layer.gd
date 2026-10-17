@@ -68,6 +68,7 @@ func _process(delta: float) -> void:
 func refresh() -> void:
 	if not is_inside_tree() or Session.profile == null:
 		return
+	Hitch.start("quest_markers")
 	var state: UnlockState = Session.unlock_state()
 	_marks = QuestMarkers.giver_marks(area, Session.quest_log, QuestCatalog.all(), state)
 	for spot_id: Variant in _mark_nodes.keys():
@@ -91,6 +92,7 @@ func refresh() -> void:
 				pointer.target = where_target["pos"] as Vector3 + Vector3(0, float(where_target.get("top", 2.0)), 0)
 		return
 	_set_objective(where_target, "%s|%s" % [target["quest"], target["spot"]])
+	Hitch.stop("quest_markers")
 	if pointer != null:
 		pointer.target_valid = true
 		pointer.target = where_target["pos"] as Vector3 + Vector3(0, float(where_target.get("top", 2.0)), 0)

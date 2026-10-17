@@ -40,6 +40,9 @@ func _process(delta: float) -> bool:
 	if _elapsed < _warm:
 		return false
 	_frames.append(delta)
+	if delta > 0.034 and _args.has("spikes"):
+		# `--spikes=true`: every long frame, when it happened and what the frame spent (hitch hunting).
+		print("fps_probe_spike: t=%.2f ms=%.1f process_ms=%.1f objects=%d" % [_elapsed, delta * 1000.0, Performance.get_monitor(Performance.TIME_PROCESS) * 1000.0, Performance.get_monitor(Performance.RENDER_TOTAL_OBJECTS_IN_FRAME)])
 	if _elapsed < _warm + _seconds:
 		return false
 	var sorted: Array = Array(_frames)

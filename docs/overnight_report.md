@@ -12,7 +12,7 @@ Decisions: `docs/design/open_questions.md` "Overnight decisions (Oct 16)" (ON-*)
 | 2 Equipment and loot | done (see below) |
 | 3 Hub world and the Undercroft | done (see below) |
 | 4 Dialogue rewrite | done (see below) |
-| 5 Playthrough bot, hitches, report | next |
+| 5 Playthrough bot, hitches, report | done (see below) |
 
 ## Block 1: quests (done)
 - Data model: category MAIN/SIDE, ordered objectives with targets (kind, area, spot, "where to go"), step rewards (milestones), completion rewards in
@@ -60,7 +60,70 @@ Decisions: `docs/design/open_questions.md` "Overnight decisions (Oct 16)" (ON-*)
 - Fit: every story line fits the box at the default and the largest text size (`tests/test_dialogue_fit.gd`); quest logic reads ids and flags, never
   text (the three story tests that check phrases still pass). 1664 GUT passing.
 
-## Problems / notes
+## Block 5: playthrough bot, hitches (done)
+- `bash tools/run_story_playthrough.sh` (`tools/story_playthrough.gd`): new game -> the forest -> the tutorial cave -> town -> Brannoch -> for each
+  zone: the gatekeeper (E, the duel on the zone's board, won by decree), the Path Pack, the cleared obstacle, walking down the road into the zone,
+  the favour and its midpoint gear, the side dungeon's first clear and its gear, the main dungeon (zone freed, the main line complete, its gear), back
+  to Maren for the memory fragment -> the Undercroft hatch and booth -> the imperial road into the Capital with every service restored -> the castle,
+  Primm defeated, Free the Four Zones complete -> the ending. **73 steps, 73 passed** (last run). Real input: walking, E at every NPC, the tracker
+  keys; decree: battles, a favour's steps, dungeon resolution, the tutorial's rewards (each named in the bot's header).
+- What the bot found: a real bug (a handed-in favour did not pay its zone line's midpoint gear until something else changed; quests now settle at
+  once when one completes) and two things a bot must answer like a player (level-up equipment-slot choices, the Second Path announcement).
+- Load hitches (`HITCH_LOG=1`, `--spikes=true`): the Capital's district music and ambience loaded synchronously on the first walk into each
+  district, and its ash pre-simulated 7 s of particles on the first frame. Now they load on background threads as the Capital opens, and the ash
+  pre-simulates 2.5 s. Min fps on Medium (5 s window after a 3 s warm-up; this iGPU is noisy, one stray 35-50 ms frame now and then is the driver):
 
-## Next
-Block 5: the playthrough bot, load hitches, final report.
+| Area (Medium) | avg fps | min fps |
+|---|---:|---:|
+| Town (the hub) | 60.4 | 30.3 (one stray frame) |
+| Starting forest | 59.7 | 28.5 (one stray frame) |
+| The Gainlands | 59.7 | 23.7 (one stray frame) |
+| The D.N.A. | 60.1 | 19.1 (one stray frame) |
+| The Endless Buffet | 60.0 | 60.0 |
+| The Verdant Dump | 59.9 | 55.4 |
+| Capital: gate road, camp, rift fields, outpost | 60.0 | 60.0 |
+| Capital: gate plaza (hub load) | 60.0 | 60.0 (was 18.5) |
+| Capital: Transit Yards | 60.0 | 60.0 (was 31.4) |
+| Capital: Hungry Quarter | 59.7 | 55.4 |
+| Capital: Grave Row | 60.0 | 60.0 |
+| Capital: the Reek | 60.0 | 60.0 (was 14.8) |
+| Capital: palace approach | 59.6 | 30.9 (one stray frame) |
+
+## Look at these first
+1. `docs/art/hub_world/road_*.jpg` - the five roads (forest path, cracked road, meadow road, orchard lane, imperial road).
+2. `docs/art/hub_world/gate_*_locked.jpg` and `_open.jpg` - the four obstacles and their cleared states.
+3. `docs/art/hub_world/capital_horizon.jpg` and `undercroft_house.jpg`.
+4. `docs/art/hub_world/edge_*.jpg` - the horizon from all nine camera combinations.
+5. `_screenshots/quest_smoke/` (tracker, Quest Log, "!" / "?" marks) and `_screenshots/playthrough/` (the bot's journey).
+
+## Decisions I made for you
+ON-1..ON-32 in `docs/design/open_questions.md` ("Overnight decisions (Oct 16)"). The big ones: one MAIN quest per zone with step rewards (ON-2);
+the favour midpoint (ON-3); old saves never double-dip (ON-5); Brannoch gives the Capital quest (ON-7); `[` / `]` for the tracker (ON-8); the hub's
+walkable ground unchanged, roads as scenery past the passages (ON-22); obstacles angled for the north-looking camera (ON-23); the Undercroft where
+the colosseum stood (ON-27); the dialogue pass kept what was already good (ON-29).
+
+## Unfinished / honest notes
+- The hub graphics pass covered the roads, edges, lakes, obstacles, outskirts buildings, a lake dock and the Undercroft; the graveyard and the chapel
+  hill were left as they were.
+- The south road's drawn-up bridge cannot be seen from the north-looking camera (only the lowered one reads).
+- The obstacles are built from kit textures and painted cards, not concept art (backlog: "Overnight run").
+- The dialogue rewrite is a consistency, length and voice pass, not a line-by-line rewrite of all 2,700 lines: much of the existing writing already
+  matched the voice bible, and every changed line can be reverted from `docs/design/dialogue_rewrite.md`.
+- Min-fps spikes elsewhere are single stray frames (driver/OS), not repeatable hitches; the Capital's were repeatable and are fixed.
+
+## Try this in the morning
+1. New game, reach town: the tracker shows Raise the Bar with its checklist; press `]` and `[` to flip quests; press J (Main / Side / Completed).
+2. Walk north up the Gate Road to Brannoch ("!" over his head) for Free the Four Zones; look up the imperial road at the Capital on the horizon.
+3. Walk south down Champions' Road to Brick Bronson at the gorge; beat him and watch the bridge swing down; your Beefcake Pack arrives.
+4. Walk the west roads (forest path, cracked road with dead lamps) and the orchard lane east; the gatekeepers stand at their obstacles.
+5. Free a zone, then find the old cottage at the end of Champions' Road: the cellar hatch glows and a crowd roars below.
+6. Finish a Gainlands favour: the Gotta-Go Galoshes (Boots) make you walk 35 percent faster; hover gear in a shop or on the character screen.
+7. Read `docs/design/dialogue_rewrite.md` and revert any line you don't like; `docs/design/voice_bible.md` is the style guide.
+8. Run `bash tools/run_story_playthrough.sh` (about 6 minutes) to watch the whole story played.
+
+## Smokes run tonight
+- `bash tools/run_quest_smoke.sh`: OK. `bash tools/run_hub_walk_smoke.sh`: OK. `bash tools/run_story_playthrough.sh`: 73/73 (one earlier run had a
+  leftover announcement block a gatekeeper talk; the bot now clears overlays first).
+- `bash tools/run_town_slice_smoke.sh`: 2 failures at the equipment vendor / pack vendor stop (a dialogue is still up when it checks; the same
+  stop the backlog lists as stale for the town interaction smoke, SFX-26). Not chased further tonight.
+- GUT: 1664 tests, all passing.

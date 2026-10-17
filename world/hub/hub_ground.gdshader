@@ -33,9 +33,12 @@ void fragment() {
 	vec3 grass = texture(grass_tex, p).rgb * vec3(1.1, 1.13, 0.95);
 	vec3 dirt = texture(dirt_tex, p * 0.7).rgb;
 	vec2 m_uv = (v_world.xz - mask_rect.xy) / mask_rect.zw;
-	vec3 m = texture(mask_tex, m_uv).rgb;
+	vec4 m = texture(mask_tex, m_uv);
 	vec3 col = grass * mix(vec3(1.0), woods_tint, m.r) * mix(vec3(1.0), dry_tint, m.g);
 	col = mix(col, dirt, m.b);
+	// alpha: dead ground along the D.N.A.'s cracked road - greyed and a little darker.
+	float grey = dot(col, vec3(0.3, 0.55, 0.15));
+	col = mix(col, vec3(grey) * vec3(0.82, 0.82, 0.86), m.a * 0.85);
 	ALBEDO = col;
 	EMISSION = ALBEDO * 0.3;
 	ROUGHNESS = 1.0;

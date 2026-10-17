@@ -343,3 +343,15 @@ The Capital dressed with its kit (`docs/art/capital_slice.md`, "The art pass"); 
 | **The Correction Ward's restored state** | Still only Primm's fall changes it (the emblem covered, the gold dimmed); open doors, empty beds and a garden belong to a story brief. |
 | **The outside after Primm** | As before: the rifts close and the crystals dull; the wasteland's ground and ruins stay. |
 | **GC-6's cause (CAP-39)** | The camera-FOV test reads the saved camera angle; a smoke run at angle 2 leaves it at Overview and the test fails until a camera-0 run. Fix: the test (or the smokes) should not depend on, or should restore, the user's saved angle. |
+
+## Overnight run (2026-10-16/17): follow-ups
+- **Obstacle art**: the four road obstacles (gorge bridge, permit barrier and booth, pantry door, thorn wall) and the Undercroft cottage's boards and
+  hatch are built from kit textures and painted cards; concept art for each would let them become proper kit models (sheet rows to write).
+- **Equipment icons**: 25 rows in `docs/art/zone_kits/equipment_icons.md` (`ICON-GEAR-<NAME>`); placeholders until then.
+- **The drawn-up bridge is invisible from the north-looking camera** (it rises behind the lens); the lowered bridge reads. A camera nudge near the
+  south road, or a gorge running east-west a little further in, would show it.
+- **Ground seam**: the painted ground and HubLand's grass are tuned close but not identical; a faint lighter patch can show where the painted ground
+  ends (most visible from Overview).
+- **Hub graphics pass, regions**: the roads, edges, lakes, obstacles and the Undercroft got their pass; the lakeshore docks, the graveyard and the
+  chapel hill were left as they were (see docs/art/hub_world.md).
+- **Quest system next steps**: per-step dialogue for the zone main lines (they use the existing NPC lines), and markers inside dungeon node maps.
