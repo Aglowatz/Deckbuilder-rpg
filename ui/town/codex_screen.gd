@@ -461,7 +461,7 @@ func _beast_tile(entry: Bestiary.Entry) -> Button:
 	tile.add_theme_stylebox_override("hover", UIStyle.box(Color(0.13, 0.09, 0.19, 0.95), UIStyle.GOLD, 2, 12))
 	tile.add_theme_stylebox_override("focus", UIStyle.box(Color(0, 0, 0, 0), Color("ffe08a"), 3, 12))
 	tile.add_theme_stylebox_override("pressed", UIStyle.box(Color(0.13, 0.09, 0.19, 0.95), UIStyle.GOLD, 2, 12))
-	var icon: TextureRect = CardIcons.glyph(beast_icon(entry), (Color("ffb070") if entry.is_boss() else UIStyle.PARCHMENT) if known else Color(0.12, 0.1, 0.16), Vector2(84, 84))
+	var icon: TextureRect = beast_picture(entry, known, 84.0)
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon.position = Vector2(46, 14)
 	icon.size = Vector2(84, 84)
@@ -484,6 +484,23 @@ func _beast_tile(entry: Bestiary.Entry) -> Button:
 	return tile
 
 
+## The entry's picture when one has been made (Bestiary.art; a dark silhouette until met), else its tinted icon.
+static func beast_picture(entry: Bestiary.Entry, known: bool, px: float) -> TextureRect:
+	var art: Texture2D = Bestiary.art(entry.name)
+	if art == null:
+		return CardIcons.glyph(beast_icon(entry), (Color("ffb070") if entry.is_boss() else UIStyle.PARCHMENT) if known else Color(0.12, 0.1, 0.16), Vector2(px, px))
+	var picture: TextureRect = TextureRect.new()
+	picture.name = "BeastArt"
+	picture.texture = art
+	picture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	picture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	picture.custom_minimum_size = Vector2(px, px)
+	picture.size = Vector2(px, px)
+	if not known:
+		picture.modulate = Color(0.06, 0.05, 0.09, 0.95)
+	return picture
+
+
 static func beast_icon(entry: Bestiary.Entry) -> Texture2D:
 	var texture: Texture2D = CardIcons.named(entry.icon) if ResourceLoader.exists(CardIcons.BASE + entry.icon + ".svg") else null
 	return texture if texture != null else CardIcons.named(Bestiary.FALLBACK_ICON)
@@ -494,7 +511,7 @@ func show_beast(entry: Bestiary.Entry) -> void:
 	for child: Node in _beast_detail.get_children():
 		child.queue_free()
 	var known: bool = Bestiary.is_known(Session.counters, entry.name)
-	var icon: TextureRect = CardIcons.glyph(beast_icon(entry), (Color("ffb070") if entry.is_boss() else UIStyle.PARCHMENT) if known else Color(0.12, 0.1, 0.16), Vector2(180, 180))
+	var icon: TextureRect = beast_picture(entry, known, 180.0)
 	icon.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_beast_detail.add_child(icon)
 	var title: Label = UIKit.label(entry.name if known else "???", &"TitleLabel", 34, Color("ffb070") if entry.is_boss() and known else UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)

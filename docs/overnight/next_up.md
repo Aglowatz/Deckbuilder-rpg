@@ -11,4 +11,4 @@ Kept by the Phase 2 loop: the change that would raise the lowest category the mo
 7. **Collection / bestiary: enemy pictures** (zone roamers could show a rendered thumbnail of their 3D model instead of an icon).
 8. ~~Audio mix: the 26 very dynamic tracks~~ done in cycle 10 (Music bus leveller). Next: listen-test the leveller on the arena and credits tracks; MUS-SHOP-GRISTLE still steps -7.2 dB at its loop wrap.
 11. ~~Stale smoke check~~ fixed in cycle 13 (the dungeons smoke checks the Swolympus gate).
-12. **Bestiary / battle enemy art**: no enemy has a picture (they use game-icons); 90 portraits would need an art request (docs/art).
+12. **Bestiary / battle enemy art**: the game is ready (cycle 15); make the 90 pictures from docs/art/bestiary_image_requests.md.

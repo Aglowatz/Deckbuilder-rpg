@@ -117,6 +117,7 @@ func _build_portraits(enemy_name: String, enemy_icon: String) -> void:
 	var enemy_panel: Portrait = Portrait.new()
 	enemy_panel.title = enemy_name
 	enemy_panel.icon_key = enemy_icon
+	enemy_panel.picture = Bestiary.art(enemy_name)
 	enemy_panel.accent = Color("d9534f")
 	enemy_panel.position = Vector2(24, 6 if UiArt.has("UI-HUD-PLAYERPLATE") else 20)
 	add_child(enemy_panel)
@@ -473,6 +474,8 @@ class Portrait:
 	extends PanelContainer
 	var title: String = ""
 	var icon_key: String = "lorc/imp"
+	## The enemy's Bestiary picture when one has been made (round, in place of the icon).
+	var picture: Texture2D = null
 	var accent: Color = UIStyle.GOLD
 	var hp: int = 10
 	var max_hp: int = 10
@@ -486,6 +489,18 @@ class Portrait:
 	const STAGE_SIZE: Vector2 = Vector2(330, 202)
 	var _art: bool = false
 	var _ring: Panel
+
+	func _picture_rect(px: float) -> TextureRect:
+		var rect: TextureRect = TextureRect.new()
+		rect.texture = picture
+		rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		rect.custom_minimum_size = Vector2(px, px)
+		rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var mask: ShaderMaterial = ShaderMaterial.new()
+		mask.shader = load("res://assets/shaders/circle_mask.gdshader") as Shader
+		rect.material = mask
+		return rect
 
 	func _ready() -> void:
 		_art = UiArt.has("UI-HUD-PLAYERPLATE")
@@ -502,7 +517,7 @@ class Portrait:
 		avatar.custom_minimum_size = Vector2(84, 84)
 		avatar.add_theme_stylebox_override("panel", UIStyle.box(accent.darkened(0.6), accent, 3, 42))
 		avatar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		var glyph: TextureRect = CardIcons.glyph(load(CardIcons.BASE + icon_key + ".svg") as Texture2D, Color("fdf3dc"), Vector2(60, 60))
+		var glyph: TextureRect = _picture_rect(76.0) if picture != null else CardIcons.glyph(load(CardIcons.BASE + icon_key + ".svg") as Texture2D, Color("fdf3dc"), Vector2(60, 60))
 		glyph.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		glyph.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		avatar.add_child(glyph)
@@ -555,9 +570,10 @@ class Portrait:
 		_ring.add_theme_stylebox_override("panel", UIStyle.box(Color(1, 0.2, 0.2, 0.12), Color("ff5a5a"), 5, 22, 14))
 		_ring.visible = false
 		stage.add_child(_ring)
-		var glyph: TextureRect = CardIcons.glyph(load(CardIcons.BASE + icon_key + ".svg") as Texture2D, accent.darkened(0.55), Vector2(50, 50))
-		glyph.position = Vector2(66, 62) - Vector2(25, 25)
-		glyph.size = Vector2(50, 50)
+		var glyph: TextureRect = _picture_rect(62.0) if picture != null else CardIcons.glyph(load(CardIcons.BASE + icon_key + ".svg") as Texture2D, accent.darkened(0.55), Vector2(50, 50))
+		var glyph_px: float = 62.0 if picture != null else 50.0
+		glyph.position = Vector2(66, 62) - Vector2(glyph_px, glyph_px) * 0.5
+		glyph.size = Vector2(glyph_px, glyph_px)
 		glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		stage.add_child(glyph)
 		var name_label: Label = UIKit.label(title, &"", 21, Color("2b2233"), HORIZONTAL_ALIGNMENT_LEFT)

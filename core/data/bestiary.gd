@@ -31,6 +31,38 @@ class Entry:
 
 
 static var _entries: Array[Entry] = []
+## Overnight Oct 17 (Phase 2 cycle 15): an enemy's picture, when one has been made - assets/art/bestiary/<art_id>.webp (or .png), the ids and
+## prompts in docs/art/bestiary_image_requests.md (`node tools/bestiary_requests.js`). Without one the Collection Book and the battle plate keep the icon.
+const ART_DIR: String = "res://assets/art/bestiary"
+static var _art_cache: Dictionary = {}
+
+
+## "Cave Scavenger" -> "BST-CAVE-SCAVENGER" (letters and digits, everything else a single dash).
+static func art_id(entry_name: String) -> String:
+	var slug: String = ""
+	for character: String in canonical(entry_name).to_upper():
+		var code: int = character.unicode_at(0)
+		var keep: bool = (code >= 65 and code <= 90) or (code >= 48 and code <= 57)
+		if keep:
+			slug += character
+		elif not slug.ends_with("-") and not slug.is_empty():
+			slug += "-"
+	return "BST-" + slug.trim_suffix("-")
+
+
+## The picture of an entry (by name), or null when none has been made yet. Remembered per name.
+static func art(entry_name: String) -> Texture2D:
+	var id: String = art_id(entry_name)
+	if _art_cache.has(id):
+		return _art_cache[id] as Texture2D
+	var texture: Texture2D = null
+	for extension: String in ["webp", "png"]:
+		var path: String = "%s/%s.%s" % [ART_DIR, id, extension]
+		if ResourceLoader.exists(path):
+			texture = load(path) as Texture2D
+			break
+	_art_cache[id] = texture
+	return texture
 
 
 static func all() -> Array[Entry]:
