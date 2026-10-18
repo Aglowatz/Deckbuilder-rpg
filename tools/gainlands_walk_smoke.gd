@@ -1,9 +1,10 @@
 class_name GainlandsWalkSmoke
 extends Node
-## Gainlands corrective pass, Part G: walk the whole zone with human-style input (real injected keys and clicks), windowed.
-## Arrival over the bridge and the walk into the plaza; the House of Gains gate (the entrance still asks to enter); the locked Mount Swolympus gate
-## (coming soon, never opens) and the sealed Iron Cavern; then back out over the bridge to town by simply walking off its far end (there are no
-## sub-area scenes: the zone is one walkable map, docs/design/subarea_removal.md). Screenshots to _screenshots/gainlands_walk/.
+## Gainlands corrective pass, Part G (updated for Gainlands v2, docs/art/gainlands_v2.md): walk the zone with human-style input (real injected keys and
+## clicks), windowed. Arrival over the bridge through the stone gateway into the plaza; the Iron Cave on the left road (open: E asks to enter); the left
+## road's loop over the west span to the forecourt and up the mesa stairs to the House of Gains gate (the entrance asks to enter); the sealed Mount
+## Swolympus gate at the overlook (E only toasts "sealed"); then back out over the bridge to town by walking off its far end. Screenshots to
+## _screenshots/gainlands_walk/. The roaming enemies and the road guards are held still (their fights have their own tests).
 ##   Godot --path . --resolution 1600x900 res://tools/gainlands_walk_smoke_launcher.tscn     (bash tools/run_gainlands_walk_smoke.sh)
 ## Deliberate shortcuts: long legs across the map are a teleport to a few metres short of the target, then real walking for the last stretch (the
 ## walkability probe covers the long routes); the thrower routes have their own smoke (tools/run_thrower_smoke.sh).
@@ -32,11 +33,15 @@ func run() -> void:
 		return
 	await driver.seconds(3.5)  # the zone title card
 	await _dismiss_dialogue(zone.dialogue)
+	for enemy: ZoneEnemy in zone.enemies:
+		enemy.active = false
 	await _arrival_over_the_bridge(zone)
+	await _iron_cave(zone)
+	await _left_road_to_the_fortress(zone)
 	await _house_of_gains_gate(zone)
 	await _locked_swolympus(zone)
 	await _back_out_over_the_bridge(zone)
-	_finish(_failures.is_empty(), "bridge -> plaza -> House of Gains gate -> locked Swolympus gate and cavern -> bridge -> town (%d screenshots)" % _shots)
+	_finish(_failures.is_empty(), "bridge -> plaza -> Iron Cave -> left road, west span, mesa stairs -> House of Gains gate -> sealed Swolympus gate -> bridge -> town (%d screenshots)" % _shots)
 
 
 # ---- Legs ----------------------------------------------------------------------------------------------------------
@@ -54,9 +59,43 @@ func _arrival_over_the_bridge(zone: GainlandsScene) -> void:
 	await _shot("g_02_the_plaza")
 
 
+func _iron_cave(zone: GainlandsScene) -> void:
+	var cave: ZoneSpot = null
+	for spot: ZoneSpot in zone.spots:
+		if spot.kind == "mini_dungeon":
+			cave = spot
+	_check(cave != null, "Iron Cave: the cave's spot exists")
+	if cave == null:
+		return
+	_teleport(zone, Vector3(18.0, 0.0, 31.0))
+	await _walk_to(zone, cave.position + Vector3(0.0, 0.0, 0.8), 1.2, 8.0)
+	await driver.frames(6)
+	_check(zone._near == cave, "Iron Cave: its prompt is up (near %s)" % (zone._near.id if zone._near != null else "nothing"))
+	var prompt: String = str(zone.hud._prompt_label.text)
+	_check(prompt.contains("Iron Cave") and not prompt.to_lower().contains("coming soon"), "Iron Cave: the prompt names it (%s)" % prompt)
+	await _shot("g_03_iron_cave")
+	await driver.tap_key(KEY_E)
+	await driver.seconds(0.6)
+	_check(driver.find_button("Enter") != null, "Iron Cave: E asks to enter (open from the start)")
+	await _shot("g_04_iron_cave_ask")
+	if driver.find_button("Not yet") != null:
+		await driver.click_button("Not yet")
+		await driver.seconds(0.4)
+	_check(not zone._locked, "Iron Cave: Not yet gives the hero back")
+
+
+## From the cave, on foot along the left road: east along the north rim, over the west span, across the forecourt and up the stairs onto the mesa.
+func _left_road_to_the_fortress(zone: GainlandsScene) -> void:
+	for waypoint: Vector3 in [Vector3(25.0, 0.0, 26.0), Vector3(31.0, 0.0, 23.5), Vector3(36.0, 0.0, 18.0), Vector3(43.0, 0.0, 18.0), Vector3(50.0, 0.0, 18.0), Vector3(56.0, 0.0, 18.5)]:
+		await _walk_to(zone, waypoint, 1.6, 9.0)
+	_check(GainlandsLayout.level_at(zone.player.position.x, zone.player.position.z) == 1 and zone.player.position.z < 22.5, "left road: over the west span onto the forecourt")
+	await _shot("g_05_forecourt_by_the_left_road")
+	await _walk_to(zone, Vector3(56.0, 0.0, 6.0), 1.4, 8.0)
+	_check(zone.player.position.y > GainlandsLayout.MESA_Y - 0.3, "stairs: climbed onto the mesa (y %.1f)" % zone.player.position.y)
+
+
 func _house_of_gains_gate(zone: GainlandsScene) -> void:
 	var entrance: Vector3 = zone.builder.anchor("main_dungeon")
-	_teleport(zone, Vector3(entrance.x, 0.0, entrance.z + 9.0))
 	await _walk_to(zone, entrance + Vector3(0.0, 0.0, 0.6), 1.2, 8.0)
 	await _dismiss_dialogue(zone.dialogue)
 	await driver.frames(4)
@@ -79,7 +118,7 @@ func _locked_swolympus(zone: GainlandsScene) -> void:
 	for spot: ZoneSpot in zone.spots:
 		if spot.id == GainlandsZone.SWOLYMPUS_GATE:
 			gate = spot
-	_check(gate != null and zone.builder.root.find_child("SwolympusGate", false, false) != null, "Swolympus: the locked trailhead gate stands in the hub")
+	_check(gate != null and zone.builder.root.find_child("SwolympusGate", false, false) != null, "Swolympus: the sealed trailhead gate stands at the overlook")
 	if gate == null:
 		return
 	var gate_pos: Vector3 = zone.builder.anchor(GainlandsZone.SWOLYMPUS_GATE)
@@ -88,31 +127,14 @@ func _locked_swolympus(zone: GainlandsScene) -> void:
 	await driver.frames(6)
 	_check(zone._near == gate, "Swolympus: the gate prompt is up (near %s)" % (zone._near.id if zone._near != null else "nothing"))
 	var prompt: String = str(zone.hud._prompt_label.text)
-	_check(prompt.to_lower().contains("coming soon"), "Swolympus: the gate prompt says coming soon (%s)" % prompt)
+	_check(prompt.to_lower().contains("sealed") and not prompt.to_lower().contains("coming soon"), "Swolympus: the gate prompt says sealed (%s)" % prompt)
 	await _shot("g_05_swolympus_gate_locked")
 	var before: String = Session.scene_kind()
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.8)
 	_check(get_tree().current_scene == zone, "Swolympus: E at the locked gate goes nowhere (scene still the hub, was %s)" % before)
-	_check(str(zone.hud._toast.text).to_lower().contains("coming soon"), "Swolympus: the HUD toast says coming soon")
+	_check(str(zone.hud._toast.text).to_lower().contains("sealed"), "Swolympus: the HUD toast says sealed")
 	await _shot("g_06_swolympus_gate_toast")
-	# the sealed cavern beside it
-	var cavern: ZoneSpot = null
-	for spot: ZoneSpot in zone.spots:
-		if spot.kind == "mini_dungeon":
-			cavern = spot
-	_check(cavern != null, "Swolympus: the Iron Cavern spot exists")
-	if cavern == null:
-		return
-	_teleport(zone, cavern.position + Vector3(0.0, 0.0, 5.0))
-	await _walk_to(zone, cavern.position + Vector3(0.0, 0.0, 0.8), 1.2, 6.0)
-	await driver.frames(6)
-	_check(zone._near == cavern, "Swolympus: the cavern prompt is up")
-	_check(str(zone.hud._prompt_label.text).to_lower().contains("coming soon"), "Swolympus: the cavern prompt says coming soon")
-	await driver.tap_key(KEY_E)
-	await driver.seconds(0.6)
-	_check(driver.find_button("Enter") == null and not zone._locked, "Swolympus: E at the cavern opens nothing")
-	await _shot("g_07_iron_cavern_sealed")
 
 
 func _back_out_over_the_bridge(zone: GainlandsScene) -> void:

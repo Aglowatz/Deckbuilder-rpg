@@ -9,5 +9,5 @@ run 02_center --at=hub
 run 03_left --pos=${LEFT:-22,52}
 run 04_right --pos=${RIGHT:-84,66}
 run 05_fortress --pos=${FORT:-56,22}
-run 06_swolympus --pos=${SWOL:-99,28}
+run 06_swolympus --pos=${SWOL:-101,26}
 run 07_plan --top=${TOP:-56,40,120} --plan=true --nofog=true

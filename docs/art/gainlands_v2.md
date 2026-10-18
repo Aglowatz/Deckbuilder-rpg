@@ -227,3 +227,79 @@ The shared fix (Part E) goes into the toon shader's wind for cloth: a banner han
 - **The middle road**: three guard groups at the ridge's rocky narrows (6.4-6.8 m wide between the canyon edges, so each circle spans the whole road): a Flexing Brute with two partners at z 47, a Protein Shake Golem with one at z 37.5, a Brute with two at z 28; 9.5 m apart, the gym-hall plaza (hot tub, mirror) behind them for a heal before the run (zone HP does not heal between battles).
 - **The side roads** keep 1-2 optional roamers each (left: a golem by the mill lands, a sprite by the Champions Arch; right: a brute by the east rig, a sprite below the overlook), placed off the paving so their reach can be walked round.
 - **Tests** (`tests/world/test_gainlands_v2.gd`): 3-4 guard groups in the middle road, spaced 8 m and more, battles not hits; a flood along the ridge reaches the forecourt without the guards and cannot with them; with both side spans closed the fortress cannot be reached without a fight; the left road (east span closed) and the right road (west span closed) both reach the fortress, the Iron Cave and the Swolympus gate while avoiding every guard and the roamers' reach; a guard leaves a hero outside its circle alone and challenges one inside it.
+
+## Part H: verification and report
+
+### What changed (A-G in one view)
+
+| Before | After |
+|---|---|
+| A green, flat, round meadow 0.14 m over the sea, 4705 m2 | A sandstone plateau 4 m over the sea, 7212 m2 (+53 %): canyons either side of a middle ridge, cliffs with strata, rock shelves, six waterfalls, ten background mesas, a fortress mesa 3.6 m higher with 12 m wide stairs |
+| Dirt-smudge paths, no edging, no lamps | Three paved roads with sandstone kerbs, lamp posts and banner posts: MIDDLE (guarded ridge to the stairs), LEFT (mill lands, the Iron Cave, the west span), RIGHT (market row, wheel works, the Swolympus overlook, the east span) |
+| A rope-bridge timber gate, the plaza crowded by the Rift Station, stalls and pennants | A stone gateway with orbs and banners, an open paved square, vendor, tub, portal, mirror and hermit on its edges, the ruler's statue and banners by the gateway |
+| The round Swole Station platform in the middle (not walkable, confusing) | A solid gym hall with an open front, racks inside and a dumbbell emblem; lanes round both sides |
+| Windmills 4.4 m, kettlebells 0.9 m, a 3.8 m bench press | Tower mills about 14 m; equipment rescaled; seven lifting yards (squat racks, benches, dumbbell and kettlebell racks, atlas stones, tyres, sled track, pull-up frames, rope stations, plates, chalk) and the Iron Cave's leg-day kit |
+| 74 trees, sunflowers, flowers, mushrooms | 16 hardy trees (wind-bent and cypress) near the rims, dry scrub only |
+| No power lines | Three lines of 16 m lattice towers on sandstone stacks, sagging cables, one across both canyons and the middle road |
+| Banners swung from the top (bottom still), poles bent | Banners hang from their bar: top edge still, the swing grows down the cloth, across it only, one wind direction, a phase each (shared toon shaders; every zone) |
+| "Iron Cavern" = a sealed "coming soon" door to Swolympus | The Iron Cave (S-IRON), an open leg-day side dungeon on the left road; Mount Swolympus sealed (padlock, no "coming soon") beyond a ridge that ends at a collapsed span |
+| No fight on the way to the fortress | Three guard groups in the middle road's narrows (forced), 1-2 optional roamers on each side road |
+
+### Before and after (`docs/art/gainlands_v2/before/`, `after/`)
+
+| View | Before | After |
+|---|---|---|
+| Entrance | `before/gl2_before_01_entrance.jpg` | `after/gl2_after_01_entrance.jpg` |
+| Centre | `before/gl2_before_02_center.jpg` | `after/gl2_after_02_center.jpg` |
+| Left | `before/gl2_before_03_left.jpg` | `after/gl2_after_03_left.jpg` |
+| Right | `before/gl2_before_04_right.jpg` | `after/gl2_after_04_right.jpg` |
+| Fortress | `before/gl2_before_05_fortress.jpg` | `after/gl2_after_05_fortress.jpg` |
+| Swolympus | `before/gl2_before_06_swolympus.jpg` | `after/gl2_after_06_swolympus.jpg` |
+| Plan | `before/gl2_before_07_plan.jpg` | `after/gl2_after_07_plan.jpg` |
+| Iron Cave, Gary's yard (new) | | `after/gl2_after_08_cave.jpg`, `after/gl2_after_09_gary.jpg` |
+
+Beside the reference: `docs/art/gainlands_v2/compare_entrance.jpg`, `compare_center.jpg` (the reference left, the game right).
+
+### fps (Medium, `bash tools/fps.sh res://scenes/gainlands_zone.tscn 1 <spot> --seconds=10`)
+
+| Spot | avg fps | p95 ms | GPU ms |
+|---|---|---|---|
+| spawn (bridge) | 60.0 | 16.67 | 11.8 |
+| hub | 60.0 | 16.67 | 12.9 |
+| left lands (22, 52) | 60.0 | 16.67 | 11.5 |
+| market row (84, 66) | 60.0 | 16.67 | 12.2 |
+| Gary's yard (79, 76) | 60.0 | 16.67 | 12.4 |
+| forecourt (56, 19) | 59.9 | 16.67 | 11.5 |
+| overlook (101, 26) | 59.9 | 16.67 | 11.5 |
+| Iron Cave (15, 31) | 59.8 | 16.67 | 11.1 |
+
+(Baseline before the pass: 59.8-60.0, hub GPU 13.0 ms. A one-off load hitch about 3 s in, the painted splat, is unchanged from before.)
+
+### Checks
+
+- GUT: 1719 / 1720 (the one failure is the pre-existing CP-2, `test_world_look_rig` FOV 46 vs 44 on this PC's saved zoom). New: `tests/world/test_gainlands_v2.gd` (13 tests), `tests/world/test_banner_hang.gd` (4); retargeted: the corrective-pass, zone, walkability, dressing, legacy and catalog tests.
+- Walkability: `test_walkability_zones` green (every anchor and chest on foot from the spawn, lanes 0.7 m and wider).
+- Windowed smoke (`bash tools/run_gainlands_walk_smoke.sh`, updated, about 80 s, real input): arrival over the bridge through the gateway, the plaza, the Iron Cave (prompt, Enter dialog), the left road on foot over the west span and up the mesa stairs, the House of Gains gate (Enter dialog), the sealed Swolympus gate (prompt and toast "sealed"), back out over the bridge to town. OK.
+- Shots: Part H took 14 game shots (7 after views, 3 re-takes after fixing a stage that faced away and yards built 4 m under the ground, the cave and Gary's yard) plus the smoke's own; a couple over the 12 the brief allows, to re-shoot after real bugs.
+
+### What still does not match the reference
+
+- **The cliffs** read as smooth orange slabs: the only cliff texture is `gain_islandrock` (wavy orange strata). The reference's cliffs are chunky stacked sandstone blocks with deep shadowed gaps. Needs TEX-GAIN-SANDSTONE-CLIFF (request batch 2) or modelled block courses on the walls.
+- **The rock columns** (the Iron Cave's cliff, the background mesas) are simple extruded blobs; the reference has terraced, eroded mesas with shelves and greenery on top.
+- **Framing**: the reference is a closer, lusher painting with lots of foreground foliage and props on the cliff lips; ours is cleaner and emptier at the rims (the brief asked to cut plants down). A few boulders and scrub clumps along the cliff lips would help.
+- **Stand-ins**: the gym hall, tower mills, the Iron Cave mouth, the gateway, every gym piece, the hardy trees, the pylons and spans are built from the kit and primitives (all on the request list, `docs/art/zone_kits/gainlands_v2_requests.md`).
+- **The ridge to Mount Swolympus** shows best from the overlook; from the canyon side it is partly hidden by the east rim's pylon stacks.
+- **The fortress** is the same model (smaller footprint); the reference's has a terraced plinth of stone blocks under it.
+
+### Judgment calls
+
+GL2-01 .. GL2-13 above; design gaps GL2-F1 (the Iron Cave) and GL2-F2 (when Mount Swolympus opens) in `docs/design/open_questions.md`.
+
+### How to test
+
+1. **New game, then the Gainlands** (the road from Crosspath): arrive on the bridge, walk through the stone gateway; the plaza should be open, the gym hall ahead, the three road heads visible.
+2. **Left road**: west past the hermit, the mills and yards, north to the Iron Cave (E: the dungeon dialog; try a run: three leg-day fights), then east over the west span to the forecourt and up the stairs.
+3. **Middle road**: from behind the gym hall north along the ridge: three guard groups block the narrows (each step into one starts a battle; zone HP carries).
+4. **Right road**: the market row, Gary's yard right of the entrance, the wheel works, the overlook (the sealed Swolympus gate, the ridge and the mountain beyond), then west over the east span.
+5. **Banners**: watch the ruler banners by the gateway and the banner posts along the roads: top still, bottom swaying gently. Also in Crosspath (the banner posts) and an unfreed zone's hub.
+6. Tools: `bash tools/gl2_shots.sh <phase>` (the seven fixed views), `res://tools/gainlands_plan_check.tscn` (layout audit), `res://tools/gainlands_inventory.tscn` (sizes), `GAIN_HIDE=<names>` for fps hunting, `bash tools/run_gainlands_walk_smoke.sh`.

@@ -574,27 +574,27 @@ func _build_props() -> void:
 			_:
 				_place_feature(prop, pos)
 	for variant: int in tree_transforms.keys():
-		_mesh_field(GainlandsStructures.windbent_mesh() if variant == 0 else GainlandsStructures.cypress_mesh(), "HardyTrees%d" % variant, tree_transforms[variant] as Array)
+		_tree_group(GainlandsStructures.windbent_mesh() if variant == 0 else GainlandsStructures.cypress_mesh(), "HardyTrees%d" % variant, tree_transforms[variant] as Array)
 	for variant: int in rock_transforms.keys():
 		_add_multimesh(KAYKIT_ROCKS[variant], "nature", rock_transforms[variant] as Array)
 
 
-## One built mesh drawn many times (the hardy trees): rigid (no toon wind: a trunk must not bend), never faded or culled one by one.
-func _mesh_field(mesh: Mesh, node_name: String, transforms: Array) -> void:
+## The hardy trees: one shared mesh, one MeshInstance3D per tree (only a score of them) so the occlusion fader can dissolve the one standing between the
+## camera and the hero (a MultiMesh cannot fade one tree); rigid (no toon wind: a trunk must not bend).
+func _tree_group(mesh: Mesh, node_name: String, transforms: Array) -> void:
 	if transforms.is_empty():
 		return
-	var multimesh: MultiMesh = MultiMesh.new()
-	multimesh.transform_format = MultiMesh.TRANSFORM_3D
-	multimesh.mesh = mesh
-	multimesh.instance_count = transforms.size()
-	for index: int in range(transforms.size()):
-		multimesh.set_instance_transform(index, transforms[index] as Transform3D)
-	var holder: MultiMeshInstance3D = MultiMeshInstance3D.new()
-	holder.multimesh = multimesh
+	var holder: Node3D = Node3D.new()
 	holder.name = node_name
 	holder.set_meta(&"no_wind", true)
-	holder.set_meta(&"no_range_cull", true)
 	root.add_child(holder)
+	for index: int in range(transforms.size()):
+		var tree: MeshInstance3D = MeshInstance3D.new()
+		tree.name = "Hardy%d" % index
+		tree.mesh = mesh
+		tree.transform = transforms[index] as Transform3D
+		tree.set_meta(PaintedClasses.META_NO_PAINT, true)
+		holder.add_child(tree)
 
 
 ## One shared mesh drawn many times (trees, rocks): a MultiMesh built from a KayKit model's mesh.

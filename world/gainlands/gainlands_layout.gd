@@ -488,7 +488,7 @@ func _anchors() -> void:
 	# Right lands: the market row (Benchley's stalls, the protein stand, Chet's studio), the lifting yard right of the entrance (Gary), the wheel works
 	# (Gus, the power grid, the colossal wheel), the east thrower, the Delt ripper, the Swolympus overlook in the north-east.
 	_at("protein_stand", 80.0, 70.0)
-	_at("minigame", 90.0, 72.0)
+	_at("minigame", 90.0, 73.5)
 	_at("spot_me", 78.0, 80.5)
 	_at("gus", 89.0, 55.0)
 	_at("puzzle", 93.0, 45.0)
@@ -607,7 +607,6 @@ func _paths_and_pipes() -> void:
 	_path([Vector2(101, 27), Vector2(103, 23)], SIDE_PATH_WIDTH, "spur")
 	_path([Vector2(17, 50), Vector2(10, 48.5)], SIDE_PATH_WIDTH, "spur")
 	_path([Vector2(60, 84), Vector2(71, 82)], SIDE_PATH_WIDTH, "spur")
-	_path([Vector2(86, 63), Vector2(90, 69)], SIDE_PATH_WIDTH, "spur")
 	_path([Vector2(31, 23.5), Vector2(31, 20.5)], SIDE_PATH_WIDTH, "spur")
 	_path([Vector2(86, 15.5), Vector2(88, 17.5)], SIDE_PATH_WIDTH, "spur")
 	_index_paths()
@@ -651,7 +650,7 @@ func _features() -> void:
 	_prop("stall", 80.0, 73.0, 180.0, 0.9, 1.2, 1)
 	_prop("stall", 76.0, 57.5, 10.0, 1.0, 1.4)
 	_prop("stall", 83.0, 56.5, -10.0, 1.0, 1.4, 1)
-	_prop("stage", 90.0, 75.5, 180.0, 1.0, 2.2)
+	_prop("stage", 90.0, 69.5, 0.0, 1.0, 2.2)
 	# Tall windmills in the mill lands (Part D makes them proper multi-storey mills), their sails turning.
 	_prop("mill", 36.0, 68.0, 20.0, 1.0, 3.2)
 	_prop("mill", 39.0, 40.0, 200.0, 1.0, 3.2)

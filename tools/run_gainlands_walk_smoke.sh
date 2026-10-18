@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Gainlands walk smoke (Part G of the corrective pass): the bridge, the plaza, the House of Gains gate, the locked Swolympus gate and cavern,
-# every sub-area and the walk back out to town, with real input, windowed; screenshots in _screenshots/gainlands_walk/. Run alone (one Godot
+# Gainlands walk smoke (Part G of the corrective pass, updated for Gainlands v2): the bridge, the plaza, the Iron Cave, the left road over the west
+# span and up the mesa stairs to the House of Gains gate, the sealed Swolympus gate and the walk back out to town, with real input, windowed; screenshots in _screenshots/gainlands_walk/. Run alone (one Godot
 # process at a time). Exit code 0 = every check passed.
 GODOT="/c/Tools/Godot/Godot_v4.7.2-stable_win64.exe"
 CONSOLE="/c/Tools/Godot/Godot_v4.7.2-stable_win64_console.exe"

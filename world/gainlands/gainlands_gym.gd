@@ -31,11 +31,13 @@ static func yard(items: Array, origin: Vector3, node_name: String) -> Node3D:
 	materials(mesh)
 	for entry: Variant in items:
 		var item: Dictionary = entry as Dictionary
-		build_item(mesh, str(item["kind"]), (item["pos"] as Vector3) - origin, float(item.get("yaw", 0.0)))
+		var pos: Vector3 = item["pos"] as Vector3
+		build_item(mesh, str(item["kind"]), Vector3(pos.x - origin.x, 0.0, pos.z - origin.z), float(item.get("yaw", 0.0)))  # the yard stands on the ground at origin.y
 	var root: Node3D = Node3D.new()
 	root.name = node_name
 	var body: MeshInstance3D = mesh.instance("Body")
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	body.set_meta(&"no_occlusion_fade", true)  # low pieces (2.4 m at most) never hide the hero, and one faded piece would ghost the whole yard
 	root.add_child(body)
 	root.set_meta(&"no_wind", true)
 	root.set_meta("triangles", mesh.triangle_count())

@@ -3390,3 +3390,13 @@ Report with before / after pictures: `docs/art/capital_pass.md` (shots in `docs/
 7. **The castle** from the plaza, the approach and over the wall: lancet windows, pinnacles, cypress (pine cards, CAP-46). Magnificent from every
    angle, or does it still need modelled tracery?
 8. **Right beside the hole inside the city**, at a closer zoom, the camera may look through the west wall for a moment (seen once in the walk smoke).
+
+## Gainlands v2 (2026-10-17): sandstone plateau, three paths, gym-first decoration, the Iron Cave
+
+Report: `docs/art/gainlands_v2.md` (Parts A-H, judgment calls GL2-01..13), art requests `docs/art/zone_kits/gainlands_v2_requests.md`, open questions GL2-F1, GL2-F2.
+
+- The Gainlands are a sandstone plateau 4 m over the sea (7212 m2, +53 %) with canyons, cliffs, waterfalls, background mesas and a fortress mesa with wide stairs; three paved roads with kerbs, lamps and banner posts (`GainlandsLayout`, `GainlandsTerrain`, `GainlandsRoads`, `GainlandsWater`).
+- A stone gateway at the bridge head, an open plaza, a solid gym hall in place of the round platform (`GainlandsPlaza`); tower mills, seven lifting yards (`GainlandsGym`), 16 hardy trees, three power lines (`GainlandsStructures`).
+- Banners hang from their bar in every zone (toon shader hang mode, `StyleToon.is_cloth` / `hang_params`, `style_cloth_icon.gdshader`).
+- The Iron Cave (S-IRON), an open leg-day side dungeon; Mount Swolympus sealed beyond a broken ridge (`GainlandsCave`); road guards force the middle road's fights (`ZoneEnemy.make_guard`).
+- Medium 59.8-60.0 fps; GUT 1719/1720 (pre-existing CP-2); the updated walk smoke passes.
