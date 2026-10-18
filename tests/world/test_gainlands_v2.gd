@@ -223,3 +223,109 @@ func test_mount_swolympus_is_seen_across_a_ridge_that_ends_at_a_collapse() -> vo
 	assert_false(GainlandsScene.SWOLYMPUS_TOAST.to_lower().contains("coming soon"), "the gate's toast says sealed")
 	var barrier: Node = builder.root.find_child("SwolympusGate", false, false).find_child("GateBarrier", false, false)
 	assert_not_null(barrier.find_child("LockIcon", false, false), "a padlock board on the gate (an icon, no lettering)")
+
+
+# ---- Part G: enemies on the middle road --------------------------------------------------------------------------------------
+
+
+func _guards() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for spawn: Dictionary in layout.enemy_spawns:
+		if float(spawn.get("guard", 0.0)) > 0.0:
+			result.append(spawn)
+	return result
+
+
+## Walkable for the hero, minus every guard's challenge circle (and, when given, minus `extra` circles x, z, radius and the spans listed in `closed`).
+func _free_of(guards: Array[Dictionary], extra: Array[Vector3] = [], closed: Array[int] = []) -> Callable:
+	return func(pos: Vector3) -> bool:
+		if not builder.is_walkable(pos, 0.3):
+			return false
+		for guard: Dictionary in guards:
+			var home: Vector3 = guard["home"] as Vector3
+			if Vector2(pos.x - home.x, pos.z - home.z).length() < float(guard["guard"]):
+				return false
+		for circle: Vector3 in extra:
+			if Vector2(pos.x - circle.x, pos.z - circle.y).length() < circle.z:
+				return false
+		for index: int in closed:
+			if GainlandsLayout.SPANS[index].grow(0.5).has_point(Vector2(pos.x, pos.z)):
+				return false
+		return true
+
+
+func test_three_or_four_guard_groups_stand_in_the_middle_road() -> void:
+	var guards: Array[Dictionary] = _guards()
+	assert_between(guards.size(), 3, 4, "3-4 encounter groups on the middle road")
+	var previous: float = -1.0
+	for guard: Dictionary in guards:
+		var home: Vector3 = guard["home"] as Vector3
+		assert_almost_eq(home.x, 56.0, 0.5, "%s stands in the middle road" % str(guard["id"]))
+		assert_between(home.z, 22.0, 55.6, "%s stands on the ridge" % str(guard["id"]))
+		assert_eq(float(guard["patrol"]), 0.0, "a guard holds its ground")
+		assert_gte(int(guard.get("escorts", 0)), 1, "a group, not a lone guard")
+		assert_ne(ZoneEnemies.info(GainlandsZone.ID, str(guard["type"])).kind, ZoneEnemyInfo.Kind.DAMAGE, "a fight (a card battle), not a hit")
+		if previous >= 0.0:
+			assert_gte(absf(previous - home.z), 8.0, "fights spaced fairly (zone HP does not heal between battles)")
+		previous = home.z
+
+
+func test_no_way_along_the_middle_road_avoids_every_encounter() -> void:
+	var start: Vector3 = Vector3(56.0, 0.0, 55.0)
+	var tip: Dictionary = {"ridge_tip": Vector3(56.0, 0.0, 23.0)}
+	var ridge: Rect2 = Rect2(49.0, 21.0, 14.0, 36.0)
+	var along: Callable = func(pos: Vector3) -> bool: return ridge.has_point(Vector2(pos.x, pos.z)) and builder.is_walkable(pos, 0.3)
+	assert_eq(WalkProbe.unreachable(along, start, ridge, tip), [] as Array[String], "without its guards the middle road runs from behind the gym hall to the forecourt")
+	var guarded: Callable = func(pos: Vector3) -> bool: return ridge.has_point(Vector2(pos.x, pos.z)) and bool(_free_of(_guards()).call(pos))
+	assert_eq(WalkProbe.unreachable(guarded, start, ridge, tip), ["ridge_tip"] as Array[String], "every way along the middle road crosses a guard's challenge circle")
+	# and over the whole zone: with both side spans closed, the fortress cannot be reached without a fight
+	var target: Dictionary = {"main_dungeon": layout.anchors["main_dungeon"]}
+	var spawn: Vector3 = layout.anchors["spawn"] as Vector3
+	assert_eq(WalkProbe.unreachable(_free_of(_guards(), [], [0, 1] as Array[int]), spawn, builder.map_bounds(), target), ["main_dungeon"] as Array[String], "the middle road is the one way to the fortress that is not a loop round a side")
+
+
+func test_the_left_and_right_paths_both_reach_the_fortress() -> void:
+	var target: Dictionary = {"main_dungeon": layout.anchors["main_dungeon"], "mini_dungeon": layout.anchors["mini_dungeon"], "swolympus_gate": (layout.anchors["swolympus_gate"] as Vector3) + Vector3(-2.5, 0.0, 2.5)}
+	var spawn: Vector3 = layout.anchors["spawn"] as Vector3
+	# the side roads' enemies are optional: their reach (aggro range) can be walked round
+	var optional: Array[Vector3] = []
+	var left_enemies: int = 0
+	var right_enemies: int = 0
+	for spawn_data: Dictionary in layout.enemy_spawns:
+		if float(spawn_data.get("guard", 0.0)) > 0.0:
+			continue
+		var home: Vector3 = spawn_data["home"] as Vector3
+		optional.append(Vector3(home.x, home.z, ZoneEnemies.info(GainlandsZone.ID, str(spawn_data["type"])).aggro_range * 0.6))
+		if home.x < 50.0:
+			left_enemies += 1
+		else:
+			right_enemies += 1
+	assert_between(left_enemies, 1, 2, "1-2 optional encounters on the left")
+	assert_between(right_enemies, 1, 2, "1-2 optional encounters on the right")
+	var by_left: Array[String] = WalkProbe.unreachable(_free_of(_guards(), optional, [1] as Array[int]), spawn, builder.map_bounds(), target)
+	assert_does_not_have(by_left, "main_dungeon", "the left road (east span closed) reaches the fortress without a fight")
+	assert_does_not_have(by_left, "mini_dungeon", "past the Iron Cave")
+	var by_right: Array[String] = WalkProbe.unreachable(_free_of(_guards(), optional, [0] as Array[int]), spawn, builder.map_bounds(), target)
+	assert_does_not_have(by_right, "main_dungeon", "the right road (west span closed) reaches the fortress without a fight")
+	assert_does_not_have(by_right, "swolympus_gate", "past the Swolympus overlook")
+
+
+func test_a_guard_challenges_the_hero_who_steps_into_its_circle() -> void:
+	var guard_spawn: Dictionary = _guards()[0]
+	var hero: Node3D = Node3D.new()
+	add_child_autofree(hero)
+	var enemy: ZoneEnemy = ZoneEnemy.new()
+	add_child_autofree(enemy)
+	enemy.setup(ZoneEnemies.info(GainlandsZone.ID, str(guard_spawn["type"])), "test_guard", guard_spawn["home"] as Vector3, 0.0, builder, hero)
+	enemy.make_guard(float(guard_spawn["guard"]), int(guard_spawn["escorts"]))
+	assert_eq(enemy.escorts.size(), int(guard_spawn["escorts"]), "its training partners stand with it")
+	var hits: Array[int] = []
+	enemy.touched.connect(func(_who: ZoneEnemy) -> void: hits.append(1))
+	var home: Vector3 = guard_spawn["home"] as Vector3
+	hero.position = home + Vector3(0.0, 0.0, float(guard_spawn["guard"]) + 1.5)
+	enemy._process(0.1)
+	assert_eq(hits.size(), 0, "outside its circle: no fight")
+	assert_almost_eq(enemy.position.x, home.x, 0.001, "it does not come to you")
+	hero.position = home + Vector3(0.0, 0.0, float(guard_spawn["guard"]) - 0.5)
+	enemy._process(0.1)
+	assert_eq(hits.size(), 1, "inside it: the battle starts")

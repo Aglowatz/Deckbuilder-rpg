@@ -549,6 +549,8 @@ func _build_enemies() -> void:
 		var enemy: ZoneEnemy = ZoneEnemy.new()
 		add_child(enemy)
 		enemy.setup(ZoneEnemies.info(def.id, str(spawn["type"])), instance_id, spawn["home"] as Vector3, float(spawn["patrol"]), builder, player, _grade_enemy)
+		if float(spawn.get("guard", 0.0)) > 0.0:
+			enemy.make_guard(float(spawn["guard"]), int(spawn.get("escorts", 0)))  # a road guard (the Gainlands' middle road, v2 Part G)
 		enemy.touched.connect(_on_enemy_touched)
 		enemies.append(enemy)
 

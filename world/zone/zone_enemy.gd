@@ -23,6 +23,10 @@ var state: State = State.PATROL
 var active: bool = true
 ## While > 0 the enemy cannot trigger `touched` (after hitting the player, or the spawn grace).
 var cooldown: float = 0.0
+## A road guard (Gainlands v2, Part G): it stands its ground (no patrol, no chase) and challenges anyone who steps within this many metres of it (centre to
+## centre); 0 = an ordinary roaming enemy. Its training partners (`escorts`) are extra models of its kind standing beside it, gone with it.
+var guard_radius: float = 0.0
+var escorts: Array[Node3D] = []
 
 var _model: Node3D
 var _animation: AnimationPlayer
@@ -79,6 +83,25 @@ func setup(enemy_info: ZoneEnemyInfo, id: String, home_pos: Vector3, patrol: flo
 
 ## The enemy's model: "proc:<name>" is a procedural Gainlands model, "kaykit:<name>" an animated KayKit
 ## character, anything else a Kenney Graveyard Kit character.
+## Makes this enemy a road guard with `count` training partners standing either side of it, a step behind.
+func make_guard(radius: float, count: int) -> void:
+	guard_radius = radius
+	patrol_radius = 0.0
+	for index: int in range(count):
+		var partner: Node3D = _make_model()
+		partner.name = "Escort%d" % index
+		add_child(partner)
+		partner.scale = Vector3.ONE * info.model_scale * StorybookScale.CHAR_FACTOR * 0.92
+		partner.position = Vector3((1.0 if index % 2 == 0 else -1.0) * 1.35, 0.0, -0.7 - 0.3 * float(index / 2))
+		if info.tint != Color.WHITE:
+			ModelKit.tint(partner, info.tint.darkened(0.08))
+		var player_node: AnimationPlayer = ModelKit.animation_player(partner)
+		if player_node != null and player_node.has_animation(info.anim_idle):
+			player_node.get_animation(info.anim_idle).loop_mode = Animation.LOOP_LINEAR
+			player_node.play(info.anim_idle)
+		escorts.append(partner)
+
+
 func _make_model() -> Node3D:
 	if info.model.begins_with("capital:"):
 		return CapitalMobs.build(info.model)
@@ -142,6 +165,14 @@ func _process(delta: float) -> void:
 	position.y = area.height_at(position)
 	if not active or player == null:
 		_play(info.anim_idle)
+		return
+	if guard_radius > 0.0:
+		# a road guard: stands in the road, alerts as the hero nears, challenges (starts the battle) once the hero is inside its circle
+		_play(info.anim_idle)
+		var reach: float = Vector2(player.position.x - position.x, player.position.z - position.z).length()
+		_alert.visible = reach < guard_radius + 2.5
+		if reach < guard_radius and cooldown <= 0.0:
+			touched.emit(self)
 		return
 	var to_player: Vector3 = player.position - position
 	to_player.y = 0.0
