@@ -4,6 +4,7 @@ Start: Sat Oct 17 20:52:45 MDT 2026 (end target: Sun Oct 18 07:52 MDT)
 Start tag: pre-overnight-oct17
 
 ## Current part
+Part 10 (collection book + bestiary)
 Part 5 (armory quest + equipment rarity) - code done, full GUT running; Part 4 (deck station) also uncommitted in the tree.
 
 ## Done
