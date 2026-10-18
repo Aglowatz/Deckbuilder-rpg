@@ -123,6 +123,85 @@ func flash_ring(pos: Vector2, color: Color, radius: float = 110.0) -> void:
 	tween.chain().tween_callback(ring.queue_free)
 
 
+# ---- Combat feel 2.0 (Overnight Oct 17, Part 8) -------------------------------------------------------------------
+
+## The game time scale during a hit pause / the final blow's slow motion; restored to 1.0 afterwards (real-time timers).
+const HIT_PAUSE_SCALE: float = 0.06
+const FINAL_BLOW_SCALE: float = 0.3
+static var _time_holds: int = 0
+
+
+## A short freeze on impact: the game nearly stops for `seconds` of real time (scaled to the blow by the caller), then resumes.
+## Nested pauses never stack past one restore.
+func hit_pause(seconds: float) -> void:
+	await _hold_time(HIT_PAUSE_SCALE, clampf(seconds, 0.0, 0.12))
+
+
+## The final blow in slow motion: everything runs at 30 % for `seconds` of real time.
+func slow_motion(seconds: float = 0.55) -> void:
+	await _hold_time(FINAL_BLOW_SCALE, seconds)
+
+
+func _hold_time(scale: float, seconds: float) -> void:
+	if seconds <= 0.0 or not is_inside_tree():
+		return
+	_time_holds += 1
+	Engine.time_scale = minf(Engine.time_scale, scale)
+	await get_tree().create_timer(seconds, true, false, true).timeout
+	_time_holds = maxi(0, _time_holds - 1)
+	if _time_holds == 0:
+		Engine.time_scale = 1.0
+
+
+## Leaving the battle mid-pause must never leave the game slowed down.
+func _exit_tree() -> void:
+	if _time_holds > 0:
+		_time_holds = 0
+		Engine.time_scale = 1.0
+
+
+## The struck card jolts away from the blow and settles back.
+func recoil(view: Control, away_from: Vector2, strength: float = 16.0) -> void:
+	if view == null or not is_instance_valid(view):
+		return
+	var origin: Vector2 = view.position
+	var centre: Vector2 = view.global_position + view.size * view.scale * 0.5
+	var push: Vector2 = (centre - away_from).normalized() * strength
+	if push == Vector2.ZERO:
+		push = Vector2(0, -strength)
+	var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD)
+	tween.tween_property(view, "position", origin + push, 0.05).set_ease(Tween.EASE_OUT)
+	tween.tween_property(view, "position", origin, 0.18).set_ease(Tween.EASE_IN_OUT)
+
+
+## A ribbon swept across the screen at the start of a turn ("YOUR TURN" / "ENEMY TURN").
+func turn_banner(text: String, color: Color, duration: float = 0.75) -> void:
+	var band: Panel = Panel.new()
+	band.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	band.size = Vector2(1920, 96)
+	band.position = Vector2(0, 452)
+	band.add_theme_stylebox_override("panel", UIStyle.box(Color(0.04, 0.03, 0.08, 0.72), Color(color, 0.85), 0, 0))
+	band.z_index = 260
+	add_child(band)
+	var label: Label = UIKit.label(text, &"", 64, color, HORIZONTAL_ALIGNMENT_CENTER)
+	label.add_theme_font_override("font", UIStyle.font_title())
+	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	label.add_theme_constant_override("outline_size", 10)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.size = band.size
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	band.add_child(label)
+	band.modulate.a = 0.0
+	label.position.x = -260.0
+	var tween: Tween = create_tween().set_parallel(true)
+	tween.tween_property(band, "modulate:a", 1.0, duration * 0.18)
+	tween.tween_property(label, "position:x", 0.0, duration * 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.chain().tween_interval(duration * 0.42)
+	tween.chain().set_parallel(true).tween_property(band, "modulate:a", 0.0, duration * 0.28)
+	tween.tween_property(label, "position:x", 260.0, duration * 0.28).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.chain().tween_callback(band.queue_free)
+
+
 func shake(strength: float = 14.0, duration: float = 0.3) -> void:
 	if shake_target == null or Settings.reduce_shake:
 		return

@@ -734,6 +734,11 @@ func present(event: GameEvent) -> void:
 			attacking.clear()
 			blockers.clear()
 			layout()
+			# Overnight Oct 17, Part 8: a ribbon marks every turn change.
+			if event.player == 0:
+				fx.turn_banner("YOUR TURN", UIStyle.GOLD, 0.75 / speed)
+			else:
+				fx.turn_banner("ENEMY TURN", Color("ff8a7a"), 0.75 / speed)
 		_:
 			pass
 
@@ -973,10 +978,24 @@ func _on_damage(event: GameEvent) -> void:
 	if event.amount > 0:
 		fx.floating_text(target_center, "-%d" % event.amount, Color("ff6a5a"), 52 if heavy else 44)
 		fx.burst(target_center, Color("ff8a5a"), 12 + event.amount * 3, 240.0)
-	if event.amount >= 4 or (on_player and event.amount >= 3):
-		fx.shake(minf(4.0 + float(event.amount) * 2.0, 18.0), 0.26)
+	else:
+		# Overnight Oct 17, Part 8: a blow that does nothing says so.
+		fx.floating_text(target_center, "BLOCKED", Color("a9c4e8"), 34)
+	# Overnight Oct 17, Part 8: shake scaled to the damage (every hit on the hero, bigger blows on units), a hit pause on impact,
+	# the struck card recoils, and the blow that ends the duel plays in slow motion.
+	if event.amount >= 3 or (on_player and event.amount >= 1):
+		fx.shake(minf(3.0 + float(event.amount) * 2.2, 20.0), 0.26)
+	var attacker_at: Vector2 = center_of(event.card) if attacker_view != null else target_center + Vector2(0, -200)
+	var final_blow: bool = on_player and event.amount > 0 and event.value <= 0  # value = the hero's HP after the blow
+	if final_blow:
+		fx.flash_ring(target_center, Color("ffd27a"), 260.0)
+		fx.slow_motion(0.6)
+	elif event.amount > 0:
+		fx.hit_pause(0.03 + 0.012 * float(event.amount))
 	if not on_player:
 		var target_view: CardView = view_for(event.other)
+		if target_view != null and event.amount > 0:
+			fx.recoil(target_view, attacker_at, minf(10.0 + float(event.amount) * 3.0, 26.0))
 		if target_view != null:
 			if not Settings.reduce_flashing:
 				var flash: Tween = create_tween()
