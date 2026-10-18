@@ -97,6 +97,9 @@ func _refresh_pois() -> void:
 func _process(delta: float) -> void:
 	if _player == null or fog == null:
 		return
+	if raster != null and not raster.refined:
+		raster.refine()
+		queue_redraw()
 	_reveal_timer -= delta
 	if _reveal_timer <= 0.0:
 		_reveal_timer = REVEAL_INTERVAL

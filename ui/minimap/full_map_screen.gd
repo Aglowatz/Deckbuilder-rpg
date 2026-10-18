@@ -28,6 +28,8 @@ func setup(area_id: String, map: WalkableArea, hero: TownPlayer, points: Array[M
 func _build() -> void:
 	_fog = Session.fog_for(_area_id, _map.map_bounds())
 	_raster = MapRaster.build(_map, _fog)
+	# finish sorting the cells quickly while the map is open (the minimap usually has already)
+	set_process(true)
 	var row: HBoxContainer = UIKit.hbox(24)
 	row.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(row)
@@ -106,6 +108,12 @@ func _draw_map() -> void:
 		MapDraw.poi(_canvas, at, poi, icon_radius)
 	var here: Vector2 = top_left + (Vector2(_player.position.x, _player.position.z) - _fog.origin) / FogOfWar.CELL * scale_px
 	MapDraw.arrow(_canvas, here, _player.model.rotation.y, icon_radius)
+
+
+func _process(_delta: float) -> void:
+	if _raster != null and not _raster.refined:
+		_raster.refine(8000)
+		_canvas.queue_redraw()
 
 
 func _unhandled_input(event: InputEvent) -> void:
