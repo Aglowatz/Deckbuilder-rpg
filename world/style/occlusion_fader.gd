@@ -139,7 +139,7 @@ func _scan_step() -> void:
 			var parent: Node = mesh_instance.get_parent()
 			if key != mesh_instance.get_instance_id() and parent != null:
 				for sibling: Node in parent.find_children("*", "MeshInstance3D", true, false):
-					if members.size() < MAX_GROUP_MESHES and not sibling.has_meta(&"no_occlusion_fade"):
+					if members.size() < MAX_GROUP_MESHES and not sibling.has_meta(&"no_occlusion_fade") and not _is_ground(sibling as MeshInstance3D):
 						members.append(sibling)
 			else:
 				members.append(mesh_instance)
@@ -152,6 +152,15 @@ func _scan_step() -> void:
 		_box_near = _next_box_near
 		_group_keys = _next_group_keys
 		_pending = []
+
+
+## Wide terrain never fades with its group (Overnight Oct 17, Phase 2): the starting forest's 900 m floor shares a parent with the clearing's props, so a
+## blocking prop took the whole floor to 88% transparent and the purple sky showed through it.
+static func _is_ground(mesh_instance: MeshInstance3D) -> bool:
+	if mesh_instance == null or mesh_instance.mesh == null:
+		return false
+	var box: AABB = mesh_instance.global_transform * mesh_instance.get_aabb()
+	return maxf(box.size.x, box.size.z) > MAX_EXTENT
 
 
 ## True when the segment from -> to passes through `box` (slab test).

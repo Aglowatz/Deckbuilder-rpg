@@ -6,7 +6,7 @@ Scores 1-10 with the evidence behind each. "Start" = after Phase 1 (Parts 1-14);
 | Category | Start | Now | Evidence |
 |---|---|---|---|
 | Combat feel | 7 | 7 | Part 8: hit pause scaled to damage, recoil, BLOCKED numbers, turn banners, slow-motion final blow, shake scaled + Reduce shake setting; first-battles smoke 57 fps lowest while animating. Missing: card-play arc is the old lift/land, no enemy death "pop" beyond the dissolve, heal numbers only on the portrait. |
-| Visuals - starting forest | 6 | 6 | Shots this run (on17_chest_sparkle forest) show the open forest floor reading purple/flat outside the clearing; the clearing itself is finished (World rollout). |
+| Visuals - starting forest | 6 | 7.5 | Cycle 3: the open floor read purple because the occlusion fader faded the 900 m floor with a blocking prop's group (88 % see-through, the sky showed through). Fixed: painted floor, moss and the worn path everywhere (on17_forest_fixed). Still: the shot camera sees cave stalactites against the sky at the top edge. |
 | Visuals - Crosspath (town) | 8 | 8 | Crosspath pass (Oct 17) + vendor shots: square, six storefronts, lake; bark bubbles and fluff now (Part 11/14). |
 | Visuals - Gainlands | 8 | 8 | Gainlands v2 (Oct 17): sandstone plateau, three roads, gym hall; dust motes (Part 14). |
 | Visuals - D.N.A. | 7 | 7 | D.N.A. slice with its kit; ghost motes (Part 14). Not re-shot tonight. |
