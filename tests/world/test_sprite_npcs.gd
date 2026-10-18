@@ -83,7 +83,7 @@ func test_townsfolk_stroll_their_own_loops() -> void:
 	assert_eq(town._strollers.size(), 3, "three strollers besides the baker (well yard, Maren's lane, Arena gate)")
 	var starts: Array[Vector3] = []
 	for stroller: SpriteWanderer in town._strollers:
-		assert_eq(stroller.character, "CITIZEN")
+		assert_eq(stroller.character, "VILLAGER", "Playtest v0.4.0 Part B: CITIZEN only walks the Capital")
 		starts.append(stroller.world_position())
 	for _frame: int in range(240):
 		await get_tree().process_frame

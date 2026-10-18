@@ -107,6 +107,13 @@ func marks() -> Dictionary:
 	return _marks
 
 
+## True when `spot_id` carries a quest mark (a quest to give or to turn in) or is the tracked objective right now (NpcLabels keeps its name up).
+func is_marked(spot_id: String) -> bool:
+	if _marks.has(spot_id):
+		return true
+	return not _objective_key.is_empty() and _objective_key.ends_with("|%s" % spot_id) and _objective != null and _objective.visible
+
+
 func _make_mark(mark: String, where: Dictionary) -> Sprite3D:
 	var sprite: Sprite3D = Sprite3D.new()
 	sprite.name = "QuestMark"

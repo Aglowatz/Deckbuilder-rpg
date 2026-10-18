@@ -185,6 +185,7 @@ func _ready() -> void:
 	_build_actors()
 	_build_barks()
 	_build_spots()
+	_build_enemies()
 	_build_rift_station()
 	ChestKit.apply_saved(town.hidden_chest_nodes, TownScene._hidden_chest_secret)
 	GiantChestEvent.apply_look(town.harbor_chest_node, NinjaBoss.ORIGINAL_CHEST)
@@ -251,6 +252,13 @@ func _ready() -> void:
 		hud.toast(Session.town_notice, UIStyle.GOLD)
 		Session.town_notice = ""
 	_warn_path_limit.call_deferred()
+	if Session.cave_exit_pending and not _screenshot_args.has("quiet"):
+		Session.cave_exit_pending = false
+		if SceneManager.busy:
+			SceneManager.revealed.connect(_begin_cave_arrival, CONNECT_ONE_SHOT)
+		else:
+			_begin_cave_arrival.call_deferred()
+	_show_town_result.call_deferred()
 	_show_npc_result.call_deferred()
 	_show_graveyard_result.call_deferred()
 	_show_ninja_result.call_deferred()
@@ -303,6 +311,9 @@ func _build_actors() -> void:
 	if Session.has_town_return_position:
 		spawn = Session.town_return_position
 		Session.has_town_return_position = false
+	if Session.cave_exit_pending and town.anchors.has("npc_elder"):
+		# Playtest v0.4.0 Part C: out of the Forgotten Cave the Wanderer stands at the north end of town, right beside Elder Maren's door.
+		spawn = (town.anchors["npc_elder"] as Vector3) + Vector3(1.3, 0.0, 1.1)
 	player = TownPlayer.new()
 	add_child(player)
 	player.setup(town, "Hero", spawn)
@@ -397,6 +408,38 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 	town.obstacles.append(Vector3(position.x, position.z, 0.3))
 
 
+## Playtest v0.4.0 Part A: floating name labels as screen UI - vendors ("Sable - Cards") and quest givers always, everyone else when the hero
+## is close - and a glow at the feet of vendors (gold) and quest givers (green). The black-market dealer keeps no label and no glow.
+var npc_labels: NpcLabels
+const QUEST_SPOT_IDS: Array[String] = ["elder", "guard", "npc_beefcake", "npc_gourmand", "npc_refusemancer", "npc_necrocrat"]
+
+
+func _labels() -> NpcLabels:
+	if npc_labels == null:
+		npc_labels = NpcLabels.install(self, player, _camera, func() -> bool: return _locked or (dialogue != null and dialogue.active))
+		npc_labels.boost = func(key: String) -> bool: return quest_markers != null and quest_markers.is_marked(key)
+	return npc_labels
+
+
+func _label_spot(id: String, title: String, marker: Node3D) -> void:
+	if id == "hidden_vendor" or not is_instance_valid(marker):
+		return
+	var npc_id: String = str(NPC_IDS.get(id, ""))
+	var kind: String = NpcLabels.kind_for(npc_id) if not npc_id.is_empty() else "npc"
+	if id in QUEST_SPOT_IDS:
+		kind = "quest"
+	elif id in ["vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "alchemist"]:
+		kind = "vendor"
+	if kind.is_empty():
+		return
+	var text: String = NpcLabels.text_for(npc_id, title) if not npc_id.is_empty() else title
+	if kind == "vendor" and not text.contains(" - "):
+		text = "%s - %s" % [title, {"vendor": "Cards", "item_vendor": "Items", "equipment_vendor": "Gear", "pack_vendor": "Packs", "tailor": "Clothes", "alchemist": "Alchemy"}.get(id, "Shop")]
+	_labels().register(marker, text, kind, kind != "npc", 0.3, id)
+	if kind != "npc" and _npcs.has(id):
+		NpcGlow.attach(_npcs[id] as Node3D, NpcGlow.VENDOR if kind == "vendor" else NpcGlow.QUEST)
+
+
 ## The badger baker: a townsperson who wanders the plaza (the World Look Test bench builds its own and overrides this).
 ## Overnight Oct 17, Part 11: the town's NPCs say a line when the hero walks past (`NpcBarks`, lines from data/npcs/npcs.json).
 var npc_barks: NpcBarks
@@ -412,8 +455,10 @@ func _build_barks() -> void:
 			npc_barks.register(_npcs[key] as Node3D, str(NPC_IDS[key]))
 	if _baker != null and _baker.sprite != null:
 		npc_barks.register(_baker.sprite, "NPC-VILLAGER")
+		_labels().register(_baker.sprite, NpcRegistry.find("NPC-VILLAGER").short_name() if NpcRegistry.has("NPC-VILLAGER") else "Baker", "npc", false, _baker.sprite.head_height() + 0.3)
 	for stroller: SpriteWanderer in _strollers:
 		npc_barks.register(stroller.sprite, "NPC-TOWNSFOLK")
+		_labels().register(stroller.sprite, "Townsfolk", "npc", false, stroller.sprite.head_height() + 0.3)
 	# Overnight Oct 17, Part 14: dandelion fluff drifting over the town, and footstep puffs.
 	AmbientFx.add(self, "town", player)
 
@@ -430,11 +475,13 @@ var _strollers: Array[SpriteWanderer] = []
 
 
 func _build_strollers() -> void:
+	# Playtest v0.4.0 Part B: the blonde white-suit CITIZEN is Primm's perfect citizen and only walks the Capital; Crosspath's
+	# strollers are plain villagers in different coats.
 	for spec: Dictionary in STROLLERS:
-		if not town.anchors.has(str(spec["anchor"])) or not SpriteLibrary.has_character("CITIZEN"):
+		if not town.anchors.has(str(spec["anchor"])) or not SpriteLibrary.has_character("VILLAGER"):
 			continue
 		var stroller: SpriteWanderer = SpriteWanderer.new()
-		stroller.character = "CITIZEN"
+		stroller.character = "VILLAGER"
 		stroller.name = "Stroller%d" % (_strollers.size() + 1)
 		stroller.seed_value = int(spec["seed"])
 		stroller.ring_radius = float(spec["radius"])
@@ -689,7 +736,11 @@ func _add_spot(id: String, title: String, position: Vector3, radius: float) -> v
 	add_child(marker)
 	spot.marker = marker
 	var plate: Label3D = Label3D.new()
-	plate.text = title if _spot_has_plate(id) else ""
+	# Playtest v0.4.0 Part A: names are screen UI now (`NpcLabels`), never lettering in the world; the plate stays as an empty anchor.
+	plate.text = ""
+	plate.visible = false
+	if _spot_has_plate(id):
+		_label_spot.call_deferred(id, title, marker)
 	plate.font = UIStyle.font_title()
 	plate.font_size = 46
 	plate.pixel_size = 0.0055
@@ -810,6 +861,9 @@ func _process(delta: float) -> void:
 	_update_hidden_chest_prompt()
 	_check_portal_walk(delta)
 	player.input_enabled = not _locked and not dialogue.active
+	var roamers_active: bool = not _locked and not dialogue.active and _overlay == null
+	for enemy: ZoneEnemy in enemies:
+		enemy.active = roamers_active
 	if not _locked and not dialogue.active and not Session.pending_popups.is_empty():
 		_show_reward_box(Session.pending_popups.pop_front() as RewardSummary)
 	elif not _locked and not dialogue.active and not Session.pending_level_ups.is_empty():
@@ -1070,6 +1124,96 @@ func _talk_npc(id: String, speaker: String, lines: Array[String]) -> void:
 	_face_npc(id)
 	dialogue.start(speaker, lines)
 	EventBus.tutorial_event.emit(StringName("talked_" + id))
+
+
+# ---- Crosspath outskirts roamers (Playtest v0.4.0, Part D) ------------------------------------------------------
+
+## The three easy roaming enemies on the lanes round the edge of town (`TownEnemies`): touching one starts a duel; a beaten one is
+## away for a while and comes back. They sleep while a dialogue, a menu or a cutscene is up.
+var enemies: Array[ZoneEnemy] = []
+var _enemy_map: TownEnemyMap
+
+
+func _build_enemies() -> void:
+	if _screenshot_args.has("noroamers") or not town.hub_land:
+		return
+	_enemy_map = TownEnemyMap.wrap(town)
+	for spawn: Dictionary in _enemy_map.enemy_spawns():
+		var instance_id: String = str(spawn["id"])
+		if Session.town_roamer_is_down(instance_id):
+			continue
+		var home: Vector3 = spawn["home"] as Vector3
+		if not _enemy_map.is_enemy_walkable(home, 0.25):
+			home = _nearest_roamer_ground(home)
+		var enemy: ZoneEnemy = ZoneEnemy.new()
+		add_child(enemy)
+		enemy.setup(TownEnemies.info(str(spawn["type"])), instance_id, home, float(spawn["patrol"]), _enemy_map, player)
+		enemy.cooldown = 2.0
+		enemy.touched.connect(_on_roamer_touched)
+		enemies.append(enemy)
+
+
+## The closest patch of outskirts ground to `home` (a spawn point that landed on a prop after a layout change).
+func _nearest_roamer_ground(home: Vector3) -> Vector3:
+	for ring: int in range(1, 12):
+		for step: int in range(12):
+			var angle: float = TAU * float(step) / 12.0
+			var candidate: Vector3 = home + Vector3(cos(angle), 0.0, sin(angle)) * float(ring) * 0.6
+			if _enemy_map.is_enemy_walkable(candidate, 0.25):
+				return candidate
+	return home
+
+
+func _on_roamer_touched(enemy: ZoneEnemy) -> void:
+	if _locked or dialogue.active or _overlay != null:
+		return
+	_locked = true
+	for other: ZoneEnemy in enemies:
+		other.active = false
+	player.face(enemy.position)
+	var rule_names: String = EncounterModifiers.names_line(EncounterModifiers.zone_key(TownEnemies.ZONE_KEY, enemy.info.id))
+	hud.toast("%s wants a word...%s" % [enemy.info.display_name, ("  [%s]" % rule_names) if not rule_names.is_empty() else ""], Color("ff8a85"))
+	Audio.sfx(&"enemy_alert")
+	Session.start_town_battle(enemy.info.id, enemy.instance_id)
+
+
+## After an outskirts duel: what it paid (and a level-up), or a shrug on a loss.
+func _show_town_result() -> void:
+	if Session.pending_town_result.is_empty():
+		return
+	var result: Dictionary = Session.pending_town_result
+	Session.pending_town_result = {}
+	if bool(result.get("won", false)):
+		hud.toast("Won! +%d gold, +%d XP." % [int(result.get("gold", 0)), int(result.get("xp", 0))], UIStyle.GOLD)
+		var levels_gained: Array[LevelData] = []
+		for level_data: Variant in (result.get("levels_gained", []) as Array):
+			levels_gained.append(level_data as LevelData)
+		if not levels_gained.is_empty():
+			Session.pending_level_ups.append_array(levels_gained)
+	else:
+		hud.toast("The %s got the better of you. Catch your breath; the town heals." % str(result.get("enemy", "roamer")), Color("ffcf70"))
+
+
+# ---- Out of the Forgotten Cave (Playtest v0.4.0, Part C) ----------------------------------------------------------
+
+## The first steps into Crosspath: the Wanderer stands beside Elder Maren at the north end of town with the town in view, and her
+## welcome (the old cave-mouth conversation) opens at once. Sets `maren_met` so her door's own greeting follows when talked to.
+func _begin_cave_arrival() -> void:
+	if dialogue == null or not is_inside_tree():
+		return
+	_locked = true
+	_face_npc("elder")
+	var story: StoryText = StoryText.shared()
+	dialogue.start("Elder Maren", story.get_lines("cave_mouth.maren"), "NPC-ELDER")
+	dialogue.finished.connect(func() -> void:
+		dialogue.start("", story.get_lines("cave_mouth.wanderer"), NpcRegistry.PLAYER_ID)
+		dialogue.finished.connect(func() -> void:
+			_face_npc("elder")
+			dialogue.start("Elder Maren", story.get_lines("cave_mouth.maren_end"), "NPC-ELDER")
+			dialogue.finished.connect(func() -> void:
+				Session.set_flag(&"maren_met")
+				_locked = false
+				Session.save_game(), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
 
 
 ## New brief, Part E: shown once, right after returning from a corrupted-NPC battle - the

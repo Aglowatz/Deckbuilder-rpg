@@ -331,6 +331,39 @@ var ambient_fx: AmbientFx
 const AMBIENT_KEYS: Dictionary = {"beefcake": "gainlands", "necrocrat": "dna", "gourmand": "buffet", "refusemancer": "heap", "final": "capital"}
 
 
+## Playtest v0.4.0 Part A: floating name labels as screen UI (vendors with what they sell and quest givers always, others when close) and a
+## glow at the feet of vendors and quest givers. Fig Sly (the black market) keeps no label and no glow.
+var npc_labels: NpcLabels
+
+
+func _labels() -> NpcLabels:
+	if npc_labels == null:
+		npc_labels = NpcLabels.install(self, player, _camera, func() -> bool: return _locked or (dialogue != null and dialogue.active))
+		npc_labels.boost = func(key: String) -> bool: return quest_markers != null and quest_markers.is_marked(key)
+	return npc_labels
+
+
+func _label_spot(spot: ZoneSpot, marker: Node3D) -> void:
+	if not is_instance_valid(marker):
+		return
+	var npc_id: String = str(spot.data.get("npc_id", ""))
+	var kind: String = NpcLabels.kind_for(npc_id) if not npc_id.is_empty() else ("vendor" if spot.kind == "vendor" else "npc")
+	if kind.is_empty() or spot.title.to_lower().contains("fig sly"):
+		return
+	if spot.kind.begins_with("vendor") and kind == "npc":
+		kind = "vendor"
+	elif (spot.kind.contains("quest") or bool(spot.data.get("quest", false))) and kind == "npc":
+		kind = "quest"
+	var text: String = NpcLabels.text_for(npc_id, spot.title) if not npc_id.is_empty() else spot.title
+	if kind == "vendor" and not text.contains(" - "):
+		text = "%s - Shop" % spot.title
+	_labels().register(marker, text, kind, kind != "npc", 0.3, spot.id)
+	if kind != "npc":
+		var npc_key: String = str(spot.data.get("npc", spot.id))
+		if _npcs.has(npc_key):
+			NpcGlow.attach(_npcs[npc_key] as Node3D, NpcGlow.VENDOR if kind == "vendor" else NpcGlow.QUEST)
+
+
 func _build_npcs() -> void:
 	npc_barks = NpcBarks.new()
 	add_child(npc_barks)
@@ -440,7 +473,11 @@ func _add_spot(id: String, title: String, pos: Vector3, radius: float, prompt: S
 	add_child(marker)
 	spot.marker = marker
 	var plate: Label3D = Label3D.new()
-	plate.text = title
+	# Playtest v0.4.0 Part A: names are screen UI now (`NpcLabels`); the plate stays as an empty anchor so the old fade code is harmless.
+	plate.text = ""
+	plate.visible = false
+	if npc and not bool(data.get("hidden", false)) and not bool(data.get("no_plate", false)):
+		_label_spot.call_deferred(spot, marker)
 	plate.font = UIStyle.font_title()
 	plate.font_size = 46
 	plate.pixel_size = 0.0045
