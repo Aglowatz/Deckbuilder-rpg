@@ -48,7 +48,7 @@ func test_the_town_has_a_name_and_a_story_intro() -> void:
 	var story: StoryText = StoryText.shared()
 	assert_eq(story.text("town.name"), "Crosspath")
 	assert_true(story.text("town.elder.first").contains("Primm"))
-	assert_true(story.text("town.elder.first").contains("Pathwork"))
+	assert_true(story.text("town.elder.first").contains("Patchwork"), "the kingdom is Patchwork (the NPC sheet; its throne is still the Pathwork Throne)")
 	for key: String in ["town.guard", "town.vendor.first", "town.alchemist.locked", "town.arena.locked"]:
 		assert_true(story.has_text(key), key)
 

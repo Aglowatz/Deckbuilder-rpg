@@ -11,7 +11,7 @@ extends Resource
 @export var queen_name: String = "Queen Concordia Wayweaver"
 ## The defected Path-ologist who smuggled the prince out (name undecided; see docs/design/open_questions.md "Story v2").
 @export var rescuer_name: String = "The Rescuer"
-@export var kingdom: String = "Pathwork"
+@export var kingdom: String = "Patchwork"
 @export var town: String = "Crosspath"
 ## The Capital before and after Primm falls.
 @export var capital: String = "Primm's Perfection"

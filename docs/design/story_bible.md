@@ -11,7 +11,7 @@ still change live in ONE data location each and appear in text as tokens:
 | Data file | Tokens |
 |---|---|
 | `data/story/villain.tres` | `{villain}` (Primm), `{villain_title}` (His Perfection) |
-| `data/story/royal_family.tres` | `{prince}` (Tessar), `{prince_full}`, `{royal_house}` (Wayweaver), `{king}`, `{queen}`, `{rescuer}` (placeholder "The Rescuer"), `{kingdom}` (Pathwork), `{town}` (Crosspath), `{capital}` (Primm's Perfection, then Pathordia), `{showcase}` |
+| `data/story/royal_family.tres` | `{prince}` (Tessar), `{prince_full}`, `{royal_house}` (Wayweaver), `{king}`, `{queen}`, `{rescuer}` (placeholder "The Rescuer"), `{kingdom}` (Patchwork; its throne is the Pathwork Throne), `{town}` (Crosspath), `{capital}` (Primm's Perfection, then Pathordia), `{showcase}` |
 
 `Villain.fill` swaps every token in when text is read. The prince's name only shows in dialogue after
 the reveal (see the memory fragments below).
@@ -23,9 +23,9 @@ sameness; the royal bloodline's gift is wielding all four Paths at once, as they
 comedic on the surface and serious underneath: every joke has a cost the player can see, and the jokes
 get quieter the closer the player gets to Primm.
 
-## The Kingdom of Pathwork (before)
+## The Kingdom of Patchwork (before)
 
-**Pathwork** ran on four **Paths**, each providing a vital service. They argued constantly and needed
+**Patchwork** ran on four **Paths**, each providing a vital service. They argued constantly and needed
 each other anyway.
 
 | Path (faction) | Vital service | Home zone | Rival |
