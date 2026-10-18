@@ -3400,3 +3400,11 @@ Report: `docs/art/gainlands_v2.md` (Parts A-H, judgment calls GL2-01..13), art r
 - Banners hang from their bar in every zone (toon shader hang mode, `StyleToon.is_cloth` / `hang_params`, `style_cloth_icon.gdshader`).
 - The Iron Cave (S-IRON), an open leg-day side dungeon; Mount Swolympus sealed beyond a broken ridge (`GainlandsCave`); road guards force the middle road's fights (`ZoneEnemy.make_guard`).
 - Medium 59.8-60.0 fps; GUT 1719/1720 (pre-existing CP-2); the updated walk smoke passes.
+
+## Opening Forest rebuild (Oct 18 2026) - done
+
+The starting area rebuilt to `docs/art/paintovers/opening_forest_reference.png` (report `docs/art/opening_forest.md`, calls OF-01..12):
+`OpeningForestLayout` (floor as circles and capsules: camp clearing, 4.4 m path to the cave, side nook, secret pockets), `OpeningForestModels`
+(stand-ins: cliff and cave mouth, giant tree, camp, boulders, flagstones, ferns, trunks), `OpeningForestAtmosphere` (lantern, cave glow, glowing
+mushrooms, mist, rays, readability lights), `OpeningForestFrame` (corner silhouettes), teal dusk mood. Tests `test_opening_forest.gd`, smoke
+`tools/run_opening_forest_smoke.sh`. The tutorial flow is unchanged. 12 STANDIN pieces wait for OF- kit art (prompts in the report).

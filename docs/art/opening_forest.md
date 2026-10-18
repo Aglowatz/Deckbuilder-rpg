@@ -163,3 +163,81 @@ these close with the OF- kit art (prompts below).
   from the path's start) and the match is judged on palette, light, haze and dressing density.
 - **OF-12** The paint-over's palette is less teal than the brief's words ("cool deep teal-blue"); the numbers follow the picture (grey-green
   ambient, a little warmth) while fog, mist and the cave glow keep the teal accent.
+
+## Part E: verify and report
+
+### Before / after (1280x720, Medium)
+
+| Spot | Before | After |
+|---|---|---|
+| Wake-up spot (the camp, the hooded figure) | `opening_forest/of_before_wake.jpg` | `opening_forest/of_after_wake.jpg` |
+| The path | `opening_forest/of_before_path.jpg` | `opening_forest/of_after_path.jpg` |
+| The exit (cave mouth) | `opening_forest/of_before_exit.jpg` | `opening_forest/of_after_exit.jpg` |
+| Wide (Overview / Far) | `opening_forest/of_before_wide.jpg` | `opening_forest/of_after_wide.jpg` |
+| Paint-over camera | | `opening_forest/of_after_po.jpg`, side by side `opening_forest/compare_po.jpg` |
+| 9 camera combinations | | `opening_forest/camera_grid.jpg` |
+
+Before, the opening was a 10 m hex clearing of bright Kenney pines with the cave 2.4 m from the wake-up spot under a teal beam. After: a camp
+in a lantern's amber pool at the front of a mossy clearing, the hooded figure beside it, a 4.4 m dirt path with flagstones winding back and
+right past glowing mushrooms to an arched cave mouth in a vine-draped cliff under a giant tree's arching root, teal-grey dusk, drifting
+ground mist, faint moon rays, silhouette leaves at the screen corners, a side nook with a chest.
+
+### fps (Medium, `bash tools/fps.sh res://scenes/starting_area.tscn 1 --quiet=true [--pos=x,z]`)
+
+| Where | Before | After |
+|---|---|---|
+| Camp | 59.7 avg, GPU 11.8 ms, 202 draw calls | 59.8 avg, GPU 11.3 ms |
+| Path (5.6, -9.5) | | 60.0 avg, GPU 11.4 ms |
+| Cave mouth (10.4, -17.0) | | 60.0 avg, GPU 10.7 ms |
+
+### Checks
+
+- GUT: 1829/1830 (the one failure is the pre-existing CP-2 in `test_world_look_rig.gd`), including `tests/world/test_opening_forest.gd` (14) and
+  the walkability probe (`test_walkability_zones`: every anchor reached from the spawn).
+- `bash tools/run_opening_forest_smoke.sh` (new, windowed, real input): title -> New Game -> wake-up -> the hooded figure beside the camp, the
+  Path choice in the conversation -> the figure leaves -> held WASD from the camp up the path to the cave mouth (5.0 s, no teleport) -> "Enter
+  the cave" -> the Forgotten Cave -> out at the mouth, Maren -> Crosspath: all 17 checks OK.
+- `bash tools/run_starting_area_tunnel_smoke.sh`: the hidden tunnel still skips the tutorial (its start spot moved to the wake-up spot): OK.
+
+### STANDIN pieces still needing art
+
+All in `OpeningForestModels.STANDINS` / `world/opening/opening_forest_models.gd`. Each row is one image for ChatGPT; save it under the file name
+in `Approved_ZoneKits/OpeningForest`, then `bash tools/import_zone_kit.sh opening_forest` (the sheet `data/source/opening_forest_kit.csv`, the
+folder mapping and the swaps still have to be written when the art lands).
+
+**Style for every prompt (paste once at the top of the batch):**
+
+> Painted 2.5D storybook style, matching the Opening Forest paint-over (a hooded figure and a young hero at a lantern-lit camp in a dusk forest,
+> a path winding to a vine-draped cave under a giant ancient tree): clean bold shapes, soft cel-shaded painting, deep teal-grey dusk light
+> from the upper left with a warm amber lantern glow where noted, rich but muted harmonious colours (forest green #3F5E3A, moss #6A8A3A,
+> bark brown #6B4E3A, rock grey-blue #6E7A80, fog teal #283C3A, lantern amber #FFA850). One object per image, centred, seen from the game
+> camera (about 30 degrees above the horizon, front three-quarter view), on a fully transparent background (PNG with alpha), no ground
+> shadow plate, no text, letters or numbers anywhere. Storybook proportions: a 1.7 m hero, trees 2.5-4 times the hero.
+
+| # | File name | ID | Lock | In-game size | Prompt (after the style line) |
+|---|---|---|---|---|---|
+| 1 | OF-HERO-CAVE-CLIFF.png | OF-HERO-CAVE-CLIFF | CONCEPT | cliff about 20 m wide, 9.5 m tall; mouth 3.4 m wide, 3.8 m tall | A mossy grey-blue rock cliff face with a dark arched cave mouth in its middle, the opening framed by big rough boulders, curtains of yellow-green hanging vines over the top of the mouth and down the face, mossy ledges, ferns at its foot, the inside of the cave fading to black with the faintest cool teal glow deep within. |
+| 2 | OF-HERO-ANCIENT-TREE.png | OF-HERO-ANCIENT-TREE | CONCEPT | trunk 5 m across at the foot, about 16 m to the crown; root arch 9 m wide | A giant ancient tree with a broad flared trunk and twisting buttress roots spilling over rocks; one huge mossy root arches sideways over a cave opening (leave the space under the arch empty and dark), hung with vines; a heavy dark green canopy of leaf clumps spreading over the top. |
+| 3 | OF-PROP-BEDROLL.png | OF-PROP-BEDROLL | CUTOUT | 1.9 m long, 0.8 m wide | A traveller's bedroll laid out on the ground: an olive-green padded roll with a cream blanket folded back, a rolled pillow at the head, a little rumpled as if someone just woke up. |
+| 4 | OF-PROP-PACK.png | OF-PROP-PACK | CUTOUT | 0.66 m long, 0.4 m tall | A worn brown leather travel pack lying on its back with its flap open and two dark straps, a cream blanket roll on the ground beside it. |
+| 5 | OF-PROP-LANTERN.png | OF-PROP-LANTERN | CUTOUT | 0.5 m tall | A small black iron camp lantern with a ring handle and four glass panes, a warm amber flame glowing inside, set on the ground. |
+| 6 | OF-ROCK-BOULDER-SHEET.png | OF-ROCK-BOULDER | SHEET | 3x2: boulders 0.9-1.8 m, two long ledges 2.4 m | Six mossy forest rocks on a 3x2 grid: four rounded grey-blue boulders of different sizes with thick moss caps and a few ferns at their feet, and two long low flat rock ledges with moss along their tops. |
+| 7 | OF-PATH-FLAGSTONE.png | OF-PATH-FLAGSTONE | SURFACE | tiles at 400 px/m | A seamless top-down texture of a worn forest dirt path with old sunken grey flagstones half buried in packed earth, moss in the cracks, a few fallen leaves. |
+| 8 | OF-PLANT-FERN-SHEET.png | OF-PLANT-FERN | SHEET | 3x2: 0.6-1.4 m tall | Six forest undergrowth plants on a 3x2 grid: two lush fern clumps, a low dark leafy bush, a tuft of tall grass with seed heads, a cluster of small pale mushrooms and a clump of glowing teal mushrooms. |
+| 9 | OF-VINE-DRAPE.png | OF-VINE-DRAPE | CUTOUT | 1.5-4 m long | A curtain of hanging yellow-green vines and ivy strands of different lengths, hanging straight down from a straight top edge (to hang from cliff tops and roots). |
+| 10 | OF-TREE-TRUNK.png | OF-TREE-TRUNK | TREE | 12-16 m tall, trunk 1-1.3 m across | A tall straight forest tree with a dark brown furrowed trunk, roots gripping the ground, a few branches and dark green leaf clumps only near the top, for the dense trees framing the clearing. |
+| 11 | OF-TREE-PINE.png | OF-TREE-PINE | TREE | 7-9 m tall | A tall dark green forest pine with a reddish-brown trunk and layered drooping branches, softened by dusk light (to replace the bright town pine cards in the forest). |
+| 12 | OF-SKY-DUSK.png | OF-SKY-DUSK | BACKDROP | full width | A wide panorama behind a dense forest at dusk: misty teal-grey air between layers of distant tall trees and pines, paler and foggier with distance, nothing brighter than a pale teal. |
+
+### Summary of judgment calls
+
+OF-01 time of day follows the paint-over; OF-02 the cave gate keeps its job (node-based Forgotten Cave, Maren, Crosspath); OF-03 the hooded
+figure stands by the camp; OF-04 the hex map is replaced by `OpeningForestLayout`; OF-05 chests and secrets moved with the layout; OF-06 no
+self-talk in the nook and at the secrets; OF-07 generic dressing off; OF-08 the beacon column removed; OF-09 camera-attached foreground;
+OF-10 vines hang still; OF-11 the paint-over reframes, the cameras stay; OF-12 the palette follows the picture.
+
+### How to test
+
+- New Game from the title: wake at the camp, talk through the hooded figure's conversation, walk up the path to the cave mouth, press E.
+- `bash tools/run_opening_forest_smoke.sh` (windowed e2e), `bash tools/run_tests.sh` (GUT), `bash tools/fps.sh res://scenes/starting_area.tscn 1 --quiet=true`.
+- Paint-over camera: `bash tools/shot.sh res://scenes/starting_area.tscn of_po --quiet=true --nohud=true --show=rescuer --pos=1.6,-2.0 --set=camera_angle:1,camera_zoom:2.2`.
