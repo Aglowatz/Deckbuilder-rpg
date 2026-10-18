@@ -8,12 +8,12 @@
 		"ambient": {"enabled": true, "motes": 110, "mote_color": "ffedb3", "leaves": true, "birds": true, "shafts": false}
 	},
 	"start": {
-		"title": "Starting forest: a mysterious blue dusk",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "4c4494", "fog_density": 0.006, "warmth": -0.1, "saturation": 1.05, "vignette": 0.42, "bloom": 0.75, "bloom_threshold": 0.9, "glow_spread": 0.7, "cloud_speed": 0.5},
-		"sky": {"horizon": "5c4c9c", "gold": "7a62b4", "mid": "30307a", "zenith": "141448", "sun": "a8b8ff", "sun_glow": 0.0, "cloud_opacity": 0.45, "cloud_tint": "7a70c0"},
-		"scenery": {"water": false, "shore": false, "rings": false, "landmarks": false, "tint": "5a5a98", "cool": "3c3a8a", "haze_scale": 1.3, "cool_scale": 1.4, "brightness": 0.8},
-		"foliage": {"density": 0.8, "cells": [0, 1, 5, 4], "tint": "9aa8d8"},
-		"ambient": {"enabled": true, "shafts": false, "motes": 70, "mote_color": "b8d8ff", "leaves": false, "birds": false}
+		"title": "Opening Forest: deep teal dusk, lantern-lit camp, mist (docs/art/opening_forest.md)",
+		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "1c3c46", "fog_density": 0.018, "warmth": -0.06, "saturation": 1.0, "vignette": 0.5, "bloom": 0.8, "bloom_threshold": 0.85, "glow_spread": 0.75, "cloud_speed": 0.4},
+		"sky": {"horizon": "2a5866", "gold": "33626c", "mid": "163844", "zenith": "0a1c26", "sun": "8ab8d0", "sun_glow": 0.0, "cloud_opacity": 0.3, "cloud_tint": "2a4a58"},
+		"scenery": {"water": false, "shore": false, "rings": false, "landmarks": false, "tint": "2a4a58", "cool": "1a3440", "haze_scale": 1.3, "cool_scale": 1.4, "brightness": 0.6},
+		"foliage": {"density": 0.0},
+		"ambient": {"enabled": true, "shafts": false, "motes": 40, "mote_color": "9fd8e8", "leaves": true, "birds": false}
 	},
 	"dna": {
 		"title": "D.N.A.: perpetual 4:59 PM overcast, cold green ghost light",

@@ -39,6 +39,9 @@ var _screenshot_args: Dictionary = {}
 var minimap: MinimapHud
 ## Polish round: the endless forest around the clearing (visual only).
 var forest: StartingForest
+## Opening Forest: the light and air (lantern, cave glow, mist, rays, hero light) and the silhouette leaves at the screen's corners.
+var atmosphere: OpeningForestAtmosphere
+var frame: OpeningForestFrame
 ## The painted texture look (data/art/texture_presets.json); Shift+T toggles it in debug builds.
 var painted_world: PaintedWorld
 var _worn_path_node: MeshInstance3D
@@ -96,6 +99,7 @@ func _ready() -> void:
 		var mouth: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
 		_maren = _make_maren()
 		ModelKit.place(self, _maren, mouth + Vector3(0.0, 0.0, 2.3), 180.0, TownPlayer.MODEL_SCALE)
+		OpeningForestAtmosphere.npc_light(_maren)
 		player.position = mouth + Vector3(0.0, 0.0, 0.5)
 	if Session.cave_exit_pending and Session.profile != null and not _screenshot_args.has("quiet"):
 		Session.cave_exit_pending = false
@@ -116,21 +120,9 @@ func _build_actors() -> void:
 	# Overnight Oct 17, Part 14: footstep puffs (the forest keeps its own fireflies and mist).
 	AmbientFx.add(self, "", player)
 	player.setup(area, "Hero", spawn)
-	var moon: OmniLight3D = OmniLight3D.new()
-	moon.light_color = Color("ffe6b0")
-	moon.light_energy = 2.0
-	moon.omni_range = 6.0
-	moon.omni_attenuation = 1.2
-	moon.position = spawn + Vector3(0.0, 3.2, 0.6)
-	add_child(moon)
-	var gate_pos: Vector3 = area.anchors.get("gate", Vector3.ZERO) as Vector3
-	StyleBeacon.build(self, gate_pos + Vector3(0.0, 0.0, -0.9), Color(0.4, 1.0, 0.9), 6.0, 0.14)
-	var gate_light: OmniLight3D = OmniLight3D.new()
-	gate_light.light_color = Color("5ff0d8")
-	gate_light.light_energy = 1.5
-	gate_light.omni_range = 5.0
-	gate_light.position = gate_pos + Vector3(0.0, 1.4, 0.2)
-	add_child(gate_light)
+	# Opening Forest, Part C: the lantern's amber pool, the cave's faint cool glow, the glowing mushrooms, mist, rays and the hero's light replace the
+	# old spawn light and the beacon column (the cave mouth itself is the landmark now).
+	atmosphere = OpeningForestAtmosphere.build(self, area.layout, player, Settings.graphics_quality)
 	_gate_marker = Node3D.new()
 	_gate_marker.position = (area.anchors.get("gate", Vector3.ZERO) as Vector3) + Vector3(0, 1.6, 0)
 	add_child(_gate_marker)
@@ -140,6 +132,8 @@ func _build_actors() -> void:
 	_camera.current = true
 	_camera.position = player.position + CameraRig.shape(_camera_offset)
 	_camera.look_at(player.position + Vector3(0, 0.4, 0), Vector3.UP)
+	if not _screenshot_args.has("noframe"):
+		frame = OpeningForestFrame.attach(_camera)
 	var rig: StyleRig = StyleRig.install(self, StylePresets.START, _camera, player)
 	if rig != null:
 		look_rig = WorldLookRig.install(self, _camera, player, rig, area)
@@ -259,6 +253,7 @@ func _spawn_rescuer() -> Vector3:
 	# Opening Forest: standing beside the camp, behind the bedroll (the paint-over's hooded figure).
 	var rescuer_pos: Vector3 = area.layout.mark("rescuer")
 	ModelKit.place(self, _rescuer, rescuer_pos, rad_to_deg(atan2(spawn.x - rescuer_pos.x, spawn.z - rescuer_pos.z)), TownPlayer.MODEL_SCALE)
+	OpeningForestAtmosphere.npc_light(_rescuer)
 	var animation: AnimationPlayer = ModelKit.animation_player(_rescuer)
 	if animation != null and animation.has_animation("Idle"):
 		animation.play("Idle")
@@ -344,6 +339,7 @@ func _begin_cave_exit() -> void:
 	var maren_pos: Vector3 = gate + Vector3(0.0, 0.0, 2.3)
 	_maren = _make_maren()
 	ModelKit.place(self, _maren, maren_pos, 180.0, TownPlayer.MODEL_SCALE)
+	OpeningForestAtmosphere.npc_light(_maren)
 	player.face(maren_pos)
 	_say_maren("cave_mouth.maren", func() -> void:
 		_say_wanderer("cave_mouth.wanderer", func() -> void:
@@ -614,6 +610,7 @@ func _build_postgame() -> void:
 		var spot: Vector3 = _postgame_anchor("rescuer")
 		var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
 		ModelKit.place(self, _rescuer_npc, spot, rad_to_deg(atan2(spawn.x - spot.x, spawn.z - spot.z)), TownPlayer.MODEL_SCALE)
+		OpeningForestAtmosphere.npc_light(_rescuer_npc)
 		area.obstacles.append(Vector3(spot.x, spot.z, 0.3))
 		area.anchors["rescuer"] = spot
 

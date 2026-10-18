@@ -36,7 +36,7 @@ Style file ids (`data/zone_styles/<id>.json`) are in brackets.
 - **Paint-over:** approved (PAINTOVER-TOWN).
 
 ### Starting Forest [starting_forest]
-- **Time of day / lighting:** early morning; mist and soft god rays through the canopy.
+- **Time of day / lighting:** dusk into night (the Opening Forest paint-over, OF-01): deep teal-blue gloom, layered ground mist, pale moon rays through the canopy, a warm amber lantern at the camp and cool glowing mushrooms leading to the cave.
 - **Palette:** #3F5E3A (dominant), #8DAA6B, #C9B98A, #6B4E3A, #A8C3C9.
 - **Mood:** quiet, mysterious, a fresh start.
 - **Building language:** almost no buildings: a ruined shrine, an old waystone, a rope bridge, the cave mouth.

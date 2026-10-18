@@ -142,7 +142,7 @@ func _floor() -> void:
 	var plane: PlaneMesh = PlaneMesh.new()
 	plane.size = Vector2(FLOOR_SIZE, FLOOR_SIZE)
 	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.albedo_color = Color("5f9150")
+	material.albedo_color = Color("2e4a38")
 	material.roughness = 1.0
 	material.set_meta(StyleToon.META_FLAT_UP, true)
 	var floor_node: MeshInstance3D = MeshInstance3D.new()
@@ -304,6 +304,9 @@ func _shafts() -> void:
 		material.shader = shader
 		material.set_shader_parameter("phase", _rng.randf() * TAU)
 		material.set_shader_parameter("half_height", 6.0)
+		# Opening Forest: pale cool moonlight, fainter than the old morning rays
+		material.set_shader_parameter("tint", Color(0.6, 0.84, 0.92))
+		material.set_shader_parameter("strength", 0.03)
 		var shaft: MeshInstance3D = MeshInstance3D.new()
 		shaft.name = "LightShaft%d" % i
 		shaft.mesh = mesh
@@ -327,7 +330,7 @@ func _fireflies_build() -> void:
 	sphere.rings = 3
 	var material: StandardMaterial3D = StandardMaterial3D.new()
 	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = Color(1.5, 1.45, 0.65)
+	material.albedo_color = Color(1.6, 1.25, 0.45)
 	material.set_meta(StyleToon.META_NO_TOON, true)
 	_fireflies = MultiMesh.new()
 	_fireflies.transform_format = MultiMesh.TRANSFORM_3D

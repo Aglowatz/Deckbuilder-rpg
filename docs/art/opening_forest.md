@@ -106,3 +106,29 @@ and off the camera side, the STANDIN list); `test_walkability_zones` reaches eve
 - **OF-06** The self-talk at the treeline stays quiet in the nook and round the secrets (`OpeningForestLayout.QUIET`): exploring them should not
   be scolded.
 - **OF-07** Generic `ZoneDressing` is off for the forest (playbook 22): the forest dresses itself.
+
+## Part C: lighting and atmosphere
+
+- **Mood** (`StylePresets.START`, `data/zone_styles/starting_forest.json`, mood `start` in `data/art/zone_looks.json`): deep teal-blue dusk. A dim
+  cool moon key (#8ab8d0, 0.42), teal ambient (#3a6e7c), teal fog (#1c3c46, 0.018) and volumetric haze, bloom 0.8 / threshold 0.85 for the
+  lantern and the mushrooms, vignette 0.5, a cool rim (#9fd8e8). Painted tree cards take a cool `tree` tint; the world-look foliage scatter is off.
+- **`OpeningForestAtmosphere`** (`world/opening/opening_forest_atmosphere.gd`): the lantern (glowing glass, an amber OmniLight3D of 8.5 m with a
+  soft 1.6 falloff, a gentle three-wave flicker, a faint warm ground glow; shadowed on High only); a cool glow in the cave mouth (slow pulse);
+  glowing mushroom clusters along the path's edges, denser toward the cave, two of them with tiny real lights; ground mist in two drifting
+  layers plus fog banks between the far trunks (`assets/shaders/opening_mist.gdshader`: noise wisps, edge fade, depth-soft); pale moon rays
+  over the clearing's back, the path's bend and the cave; a soft light riding with the hero and the same on the hooded figure and Maren
+  (`npc_light`). `StartingForest`'s rays are fainter and cool, its fireflies warm.
+- **`OpeningForestFrame`** (`world/opening/opening_forest_frame.gd`): near-black fern sprays at the screen's bottom corners, camera-attached and
+  sized from the FOV every frame, so every angle, zoom and swivel is framed the same way and the middle (hero, NPCs, dialogue box) stays clear.
+  The tilt-shift blurs them. `--noframe=true` hides them for clean shots.
+- **Readability**: the 9 angle x zoom combinations (`_screenshots/of_grid/starting_forest.png`) all read as finished; the hero is the brightest,
+  clearest thing in each (hero light + rim), the hooded figure reads in the lantern pool.
+- **fps** (Medium): 60.1 avg at the camp, 60.0 at the cave; GPU 11.5 ms (baseline 11.8), 162 draw calls (baseline 202).
+
+### Judgment calls
+
+- **OF-08** The old teal `StyleBeacon` column at the cave is gone: the paint-over leads the eye with the cave mouth itself, its faint glow and the
+  mushrooms, not a beam. The minimap still marks the gate.
+- **OF-09** Foreground silhouettes ride with the camera rather than standing in the world: the camera follows the hero over a 25 m area, so world
+  pieces would only frame the camp. They stay in the bottom corners (and one off the top-left) to keep clear of the dialogue box and the minimap.
+- **OF-10** The vines hang still (meta `no_wind`): the toon shader's sway grows with height and turned vines hanging from 9-15 m into giant blades.

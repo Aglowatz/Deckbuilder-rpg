@@ -121,3 +121,41 @@ func test_the_stand_ins_are_listed() -> void:
 	assert_gte(OpeningForestModels.STANDINS.size(), 8)
 	for id: String in OpeningForestModels.STANDINS.keys():
 		assert_true(id.begins_with("OF-"), "%s uses the OF- prefix" % id)
+
+
+func _atmosphere(quality: int) -> OpeningForestAtmosphere:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var hero: Node3D = Node3D.new()
+	host.add_child(hero)
+	return OpeningForestAtmosphere.build(host, OpeningForestLayout.new(), hero, quality)
+
+
+func test_the_lantern_is_a_warm_real_light_at_the_camp_and_the_cave_glows_cool() -> void:
+	var air: OpeningForestAtmosphere = _atmosphere(GraphicsQuality.Level.MEDIUM)
+	assert_not_null(air.lantern_light)
+	assert_gt(air.lantern_light.light_color.r, air.lantern_light.light_color.b + 0.3, "the lantern is warm amber")
+	var lantern: Vector3 = OpeningForestLayout.MARKS["lantern"] as Vector3
+	assert_lt(Vector2(air.lantern_light.position.x - lantern.x, air.lantern_light.position.z - lantern.z).length(), 0.1, "the light sits in the lantern")
+	assert_gt(air.cave_light.light_color.b, air.cave_light.light_color.r, "the cave glow is cool")
+	assert_not_null(air.hero_light, "a soft light rides with the hero")
+	assert_gt(air.shroom_count, 5, "glowing mushrooms lead up the path")
+
+
+func test_the_lantern_flickers_gently() -> void:
+	var air: OpeningForestAtmosphere = _atmosphere(GraphicsQuality.Level.MEDIUM)
+	var seen: Array[float] = []
+	for i: int in range(40):
+		air._process(0.05)
+		seen.append(air.lantern_light.light_energy)
+	assert_gt(seen.max() - seen.min(), 0.05, "it flickers")
+	assert_lt(seen.max() - seen.min(), OpeningForestAtmosphere.LANTERN_ENERGY * 0.35, "never a strobe")
+
+
+func test_quality_scales_the_mist_rays_and_mushrooms() -> void:
+	var low: OpeningForestAtmosphere = _atmosphere(GraphicsQuality.Level.LOW)
+	var high: OpeningForestAtmosphere = _atmosphere(GraphicsQuality.Level.HIGH)
+	assert_lt(low.mist_count, high.mist_count)
+	assert_lt(low.ray_count, high.ray_count)
+	assert_lt(low.shroom_count, high.shroom_count)
+	assert_gte(low.mist_count, 3, "even Low keeps ground mist")

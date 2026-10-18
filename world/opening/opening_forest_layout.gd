@@ -44,7 +44,7 @@ const MARKS: Dictionary = {
 	"bedroll": Vector3(-2.3, 0.0, 1.5),
 	"pack": Vector3(-3.6, 0.0, 1.0),
 	"lantern": Vector3(-1.2, 0.0, 2.0),
-	"rescuer": Vector3(-2.9, 0.0, -0.5),
+	"rescuer": Vector3(-2.6, 0.0, -0.1),
 	"cave_mouth": Vector3(10.4, 0.0, -21.6),
 	"giant_tree": Vector3(15.2, 0.0, -22.8),
 	"station": Vector3(5.9, 0.0, -18.2),

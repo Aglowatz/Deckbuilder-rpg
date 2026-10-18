@@ -86,29 +86,34 @@ static func _build_preset(id: StringName) -> ZonePreset:
 			p.rim_color = Color("ffe0b8")
 			p.particles = [{"kind": "motes", "color": Color(1.0, 0.86, 0.55, 0.8), "amount": 60}, {"kind": "leaves", "color": Color("d8b050"), "amount": 14}, {"kind": "fireflies", "color": Color(1.0, 0.9, 0.5, 1.0), "amount": 10}]
 		START:
-			p.with_id(id, "Starting area: soft, mysterious")
-			p.sky_top = Color("141448")
-			p.sky_horizon = Color("5c4c9c")
-			p.ground_horizon = Color("46387a")
-			p.ground_bottom = Color("2a2048")
-			p.sun_color = Color("f4e2b4")
-			p.sun_energy = 0.8
-			p.sun_pitch = -48.0
-			p.ambient_color = Color("4c5cc0")
-			p.ambient_energy = 0.75
-			p.cloud_color = Color("5c50a0")
-			p.cloud_cover = 0.58
-			p.star_amount = 1.0
-			p.fog_color = Color("4c4494")
-			p.fog_density = 0.016
-			p.volumetric_density = 0.03
-			p.volumetric_color = Color("6a62c0")
-			p.saturation = 1.1
-			p.glow_intensity = 0.6
-			p.glow_threshold = 0.85
-			p.rim_color = Color("a8c8ff")
-			p.highlight = Vector3(0.98, 1.0, 1.1)
-			p.particles = [{"kind": "fireflies", "color": Color(0.7, 1.0, 0.85, 1.0), "amount": 30}, {"kind": "spores", "color": Color(0.7, 0.85, 1.0, 0.7), "amount": 26}]
+			# Opening Forest (docs/art/opening_forest.md, OF-01): the paint-over's deep teal-blue dusk; a dim cool moon key, teal ambient and fog, bloom for
+			# the lantern and the glowing mushrooms, a cool rim so the characters separate from the dark.
+			p.with_id(id, "Opening Forest: teal dusk, lantern-lit")
+			p.sky_top = Color("0a1c26")
+			p.sky_horizon = Color("2a5866")
+			p.ground_horizon = Color("1e4450")
+			p.ground_bottom = Color("0e2228")
+			p.sun_color = Color("8ab8d0")
+			p.sun_energy = 0.42
+			p.sun_pitch = -52.0
+			p.sun_yaw = -32.0
+			p.ambient_color = Color("3a6e7c")
+			p.ambient_energy = 0.62
+			p.cloud_color = Color("2a4a58")
+			p.cloud_cover = 0.5
+			p.star_amount = 0.5
+			p.fog_color = Color("1c3c46")
+			p.fog_density = 0.018
+			p.volumetric_density = 0.022
+			p.volumetric_color = Color("2a5a66")
+			p.saturation = 1.0
+			p.contrast = 1.08
+			p.exposure = 0.9
+			p.glow_intensity = 0.7
+			p.glow_threshold = 0.8
+			p.rim_color = Color("9fd8e8")
+			p.highlight = Vector3(0.96, 1.02, 1.06)
+			p.particles = [{"kind": "fireflies", "color": Color(1.0, 0.85, 0.42, 1.0), "amount": 22}, {"kind": "motes", "color": Color(0.62, 0.85, 0.92, 0.55), "amount": 36}, {"kind": "leaves", "color": Color("5a7038"), "amount": 8}]
 		DNA:
 			p.with_id(id, "D.N.A.: near-monochrome, red accent")
 			p.use_sky = false

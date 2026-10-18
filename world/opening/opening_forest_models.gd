@@ -85,9 +85,10 @@ func _materials() -> void:
 	_solid.set_material("rock", textured(ROCK_TEX, Color(0.62, 0.68, 0.7), 0.42))
 	_solid.set_material("moss", textured(MOSS_TEX, Color(0.62, 0.8, 0.5), 0.6))
 	_solid.set_material("bark", textured(BARK_TEX, Color(0.58, 0.46, 0.38), 0.6))
-	_solid.set_material("leaf", textured(LEAF_TEX, Color(0.36, 0.5, 0.42), 0.35))
+	_solid.set_material("leaf", textured(LEAF_TEX, Color(0.3, 0.44, 0.38), 1.6))
 	_solid.set_material("flat", EnvKit.flat(Color.WHITE, "opening_forest"))
-	var flats: Dictionary = {"cloth": Color("b8a67a"), "cloth_dark": Color("6e7a4a"), "leather": Color("7a4e2e"), "leather_dark": Color("4e321e"), "iron": Color("3a3a3e"), "flagstone": Color("6e7470")}
+	_solid.set_material("flagstone", textured(ROCK_TEX, Color(0.5, 0.52, 0.5), 1.1))
+	var flats: Dictionary = {"cloth": Color("b8a67a"), "cloth_dark": Color("6e7a4a"), "leather": Color("7a4e2e"), "leather_dark": Color("4e321e"), "iron": Color("3a3a3e")}
 	for slot: String in flats.keys():
 		_solid.alias(slot, "flat", (flats[slot] as Color).srgb_to_linear())
 	_solid.set_material("dark", _cave_dark())
@@ -470,8 +471,12 @@ func _undergrowth() -> void:
 			if _rng.randf() > keep:
 				continue
 			var size: float = _rng.randf_range(0.55, 1.05) if d < 0.6 else _rng.randf_range(0.8, 1.4)
+			# between the camera and the floor the ferns and bushes stay low so the foreground frames the view instead of filling it
+			var low: bool = layout.camera_side(p, 5.0)
+			if low:
+				size *= 0.6
 			fern(Vector3(p.x, -0.03, p.y), size)
-			if d > 0.9 and _rng.randf() < 0.35:
+			if d > 0.9 and not low and _rng.randf() < 0.35:
 				# a dark bush behind the fern
 				var c: Vector3 = Vector3(p.x + _rng.randf_range(-0.4, 0.4), 0.0, p.y + _rng.randf_range(-0.4, 0.4))
 				var s: float = _rng.randf_range(0.7, 1.3)
@@ -575,6 +580,8 @@ func _flush() -> void:
 	vines.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	vines.set_meta(&"no_occlusion_fade", true)
 	vines.set_meta(&"no_range_cull", true)
+	# the wind sway grows with height: vines hanging from 9-15 m would stretch into blades
+	vines.set_meta(&"no_wind", true)
 	vines.extra_cull_margin = 20.0
 	root.add_child(vines)
 	for kind: Variant in _trees.keys():
