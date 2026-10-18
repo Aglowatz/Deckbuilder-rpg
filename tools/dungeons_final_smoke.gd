@@ -118,13 +118,14 @@ func _side_dungeon_via_quest() -> void:
 		return
 	await _clear_zone(zone)
 	_check(not Session.side_unlocked("S-BEEF"), "the Ascent of Mount Swolympus starts sealed")
-	var entrance: ZoneSpot = _spot(zone, "mini_dungeon")
+	# Gainlands v2 (Oct 17): the zone's "mini_dungeon" spot is the Iron Cave (S-IRON, open from the start); Mount Swolympus has its own sealed trailhead gate.
+	var entrance: ZoneSpot = _spot(zone, GainlandsZone.SWOLYMPUS_GATE)
 	await _stand_at(zone, entrance)
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.6)
 	await _shot("s_01_ascent_sealed")
 	_check(zone._overlay == null, "a sealed side dungeon opens no confirm dialog")
-	_check(str(zone.hud._toast.text).to_lower().contains("coming soon"), "the sealed cavern says coming soon")
+	_check(str(zone.hud._toast.text).to_lower().contains("sealed"), "the Swolympus gate says it is sealed")
 	# Mount Swolympus is a postgame bonus (GC-11, SR-4): Old Man Mountain never offers Water for the Hermit in the main story and the cavern never opens,
 	# so the quest-and-climb part of this leg is off until the postgame opens it (the data of S-BEEF, its map and its unique card are intact and GUT-tested).
 	var mountain: ZoneSpot = _spot(zone, "brenda")

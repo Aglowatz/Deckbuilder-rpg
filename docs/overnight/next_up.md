@@ -10,5 +10,5 @@ Kept by the Phase 2 loop: the change that would raise the lowest category the mo
 6. ~~Combat feel: card-play arc~~ done in cycle 8. Next for combat: an attack lunge that follows the same curve, and a damage-number pop size by amount.
 7. **Collection / bestiary: enemy pictures** (zone roamers could show a rendered thumbnail of their 3D model instead of an icon).
 8. ~~Audio mix: the 26 very dynamic tracks~~ done in cycle 10 (Music bus leveller). Next: listen-test the leveller on the arena and credits tracks; MUS-SHOP-GRISTLE still steps -7.2 dB at its loop wrap.
-11. **Stale smoke check**: tools/dungeons_final_smoke.gd still expects the Gainlands side dungeon to be sealed ("coming soon"); Gainlands v2 (Oct 17, before tonight) opened the Iron Cave from the start. Update the check to the Iron Cave's confirm dialog.
+11. ~~Stale smoke check~~ fixed in cycle 13 (the dungeons smoke checks the Swolympus gate).
 12. **Bestiary / battle enemy art**: no enemy has a picture (they use game-icons); 90 portraits would need an art request (docs/art).
