@@ -87,11 +87,16 @@ func _legend() -> Control:
 
 func _draw_map() -> void:
 	var area: Vector2 = _canvas.size
-	_canvas.draw_rect(Rect2(Vector2.ZERO, area), Color(0.04, 0.05, 0.08, 0.9))
 	var cells: Vector2 = Vector2(float(_fog.width), float(_fog.height))
 	var scale_px: float = minf(area.x / cells.x, area.y / cells.y)
 	var drawn: Vector2 = cells * scale_px
 	var top_left: Vector2 = (area - drawn) * 0.5
+	# Phase 2 cycle 17: only the map itself sits on a dark board with a soft shadow; the whole canvas used to be filled, leaving dead dark
+	# strips either side of a square map.
+	for step: int in range(4):
+		var grow: float = 6.0 + float(step) * 6.0
+		_canvas.draw_rect(Rect2(top_left - Vector2(grow, grow) + Vector2(0.0, 6.0), drawn + Vector2(grow, grow) * 2.0), Color(0.0, 0.0, 0.0, 0.1))
+	_canvas.draw_rect(Rect2(top_left, drawn), Color(0.04, 0.05, 0.08, 0.95))
 	var source: Rect2 = Rect2(Vector2(MapRaster.PAD, MapRaster.PAD), cells)
 	_canvas.draw_texture_rect_region(_raster.texture, Rect2(top_left, drawn), source)
 	_canvas.draw_rect(Rect2(top_left, drawn), Color(0.82, 0.68, 0.32, 0.9), false, 2.0)

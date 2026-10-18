@@ -12,3 +12,5 @@ Kept by the Phase 2 loop: the change that would raise the lowest category the mo
 8. ~~Audio mix: the 26 very dynamic tracks~~ done in cycle 10 (Music bus leveller). Next: listen-test the leveller on the arena and credits tracks; MUS-SHOP-GRISTLE still steps -7.2 dB at its loop wrap.
 11. ~~Stale smoke check~~ fixed in cycle 13 (the dungeons smoke checks the Swolympus gate).
 12. **Bestiary / battle enemy art**: the game is ready (cycle 15); make the 90 pictures from docs/art/bestiary_image_requests.md.
+13. **World map content**: the map draws walkable ground as one flat parchment shade; buildings, roads and water could be drawn from the layout (TownBounds / zone layouts) so the map reads like a map.
+14. **Pause menu icons**: Send Feedback, Open feedback folder and Quit to Title have no icons (the UI kit has none that fit); add three ICON-UI-* images to the next art request.
