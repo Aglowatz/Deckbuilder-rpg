@@ -289,3 +289,35 @@ is any. Iteration tables (Part G) are at the bottom. The sheet-side list of the 
 | D-LAB node 10 (The Drain Warden) | {"name":"The Drain Warden","deck":"necro_control","size":44,"hp":48,"ai":"Aggressive","mixed":["necrocrat","refusemancer","gourmand","beefcake"],"extra":{"N-29":1,"C-30":1}} -> {"name":"The Drain Warden","deck":"necro_control","size":42,"hp":42,"ai":"Aggressive","mixed":["necrocrat","refusemancer","gourmand","beefcake"],"extra":{"N-29":1,"C-30":1}} | same | e_D-TTK.md at 40 games: 50 / 83 / 23 / 57 / 45 / 55 / 3 - batch 5 overshot |
 | D-LAB node 11 (Siphon's Research Assistant) | {"name":"Siphon's Research Assistant","deck":"gourmand_control","size":42,"hp":44,"ai":"Balanced","mixed":["gourmand","necrocrat"]} -> {"name":"Siphon's Research Assistant","deck":"gourmand_control","size":40,"hp":38,"ai":"Balanced","mixed":["gourmand","necrocrat"]} | same | e_D-TTK.md at 40 games: 50 / 83 / 23 / 57 / 45 / 55 / 3 - batch 5 overshot |
 | D-LAB boss | {"deck":"necro_control","extra":{"N-33":1,"B-32":1,"G-33":1,"R-33":1,"C-30":1,"C-31":1},"hp":60,"icon":"delapouite/warlock-eye"} -> {"deck":"necro_control","extra":{"N-33":1,"B-32":1,"G-33":1,"R-33":1,"C-30":1,"C-31":1},"hp":52,"icon":"delapouite/warlock-eye"} | same | e_D-TTK.md at 40 games: 50 / 83 / 23 / 57 / 45 / 55 / 3 - batch 5 overshot |
+
+## Playtest v0.4.0, Part E - Yeet and the Raccoon (the live sheet already carries these texts)
+
+| Card | Old -> New | Why | Evidence |
+|---|---|---|---|
+| B-25 Yeet | text: "Target unit you control deals damage equal to its attack to target unit or opponent." -> "Target unit you control deals damage equal to its attack to target unit or opponent. Then destroy the unit you control." | Yeet is a sacrifice now: the thrown unit is destroyed after it lands (script `damage(b,atk(a),a); destroy(a)`); the AI weighs the loss through its normal look-ahead. | - |
+| R-27 Raccoon | text: "When your units eat garbage, they don't pay energy." -> "You may eat garbage for free during your turn." | Same mechanic (the `free_eat` flag: no energy for the eat, the Garbage is still used, printed HP costs still apply), plainer wording. | - |
+
+## Playtest v0.4.0, Part D - Crosspath outskirts roamers (new fights, tuned at level 1 with every Path's starter)
+
+Three easy respawning enemies on the lanes round the edge of Crosspath (`core/zone/town_enemies.gd`; sim group `town:roamer`, report `docs/design/sim/s2_town_roamers.md`). Target: any Path's starter deck wins 85%+.
+
+| Enemy | Deck | HP | AI | Gold / XP | Sim (40 games, B / N / G / R / all) | Earlier tries |
+|---|---|---:|---|---|---|---|
+| Stray Gym Hound | gourmand_control 20 cards / 13 infra | 4 | Defensive | 12 / 30 | 93 / 80 / 80 / 85 / **84%** | beefcake_rush 6 HP 62%; beefcake_tools 5 HP 67%; colorless_militia 5 HP 55%; necro_zombies 5 HP 72%; gourmand_control 5 HP 83% |
+| Lost Junior Clerk | necro_control 20 / 10 | 5 | Defensive | 14 / 32 | 98 / 93 / 83 / 88 / **90%** | 7 HP 88%, 6 HP 88% |
+| Bin Raccoon | refuse_rats 20 / 12 | 4 | Defensive | 12 / 30 | 90 / 85 / 83 / 83 / **85%** | refuse_rats 20/10 6 HP 68%; 20/12 5 HP 82% |
+
+Level-5 pace: the Forgotten Cave pays 150 XP (15 + 15 + 120), the two starter quests 60 (Meet the Merchants 40, Make It Yours 20) = 210 of the 300 XP level 5 needs; three roamer wins (30 + 32 + 30 = 92) close the gap, so the armory quest opens after the tutorial, the two starter quests and three outskirts fights (four if one is lost). A beaten roamer is back after 240 s of game time.
+Noise note: at 30-40 games a Path's column moves about +/-7 points between runs; the weakest cells (Necrocrat and Gourmand vs the hound, 80%) sit at the band's floor.
+
+## Playtest v0.4.0, Part E (4) - the boxes on the battle board
+
+The three small dark squares each side of the board are the **trap slots** (`BattleBoard._trap_slots`, UI-HUD-SLOT art, one per trap a player may set: `GameState.MAX_TRAPS` = 3; a set trap covers its slot). The slightly larger pale box on the right is the **token tray** (`_token_tray`, UI-HUD-TOKENS): where Contract tokens sit; it drew nothing when a player held none. Both stay, made obvious: a faint trap glyph in each empty slot, a "TRAPS - 0 of 3 set" caption with a tooltip (whose traps, what springs them), and a scroll glyph plus "TOKENS (none yet)" on the empty tray with a Contract tooltip. Before/after: `_screenshots/s2_battle_before.png` / `s2_battle_after.png`.
+
+## Playtest v0.4.0, Part F - rules as icons
+
+Every rule that bends a fight is one badge list (`RuleBadges`: zone buff/debuff, dungeon rules at the current node, boons, the Capital's broken services, the fight's one-sided encounter rules) drawn by `RuleIconRow` (hover = text, click = full list): on the node map under the title, in a brief when a run starts, in a brief before each battle, in the zone HUD (the old "+ Pump It Up - Processing Time" text pill) and as a persistent row in the battle HUD under the enemy portrait (the stacked text panels are gone). The enemy's intent stays hidden. Icons for the dungeon rules are listed in `RuleBadges.DUNGEON_ICONS`.
+
+## Playtest v0.4.0, Part H - audio bitrate audit (no change)
+
+`ffprobe` over the 123 music and ambience OGGs: 101-196 kbps, average 126 kbps, 246 minutes, about 218 MB packed. Re-encoding everything to ~96 kbps would save roughly 50 MB at an audible cost on the orchestral loops; with the zip already well under 1 GB the files ship as delivered (inbox item).

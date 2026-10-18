@@ -74,6 +74,9 @@ presentation.
 - `core/` rules logic should be the primary thing under test — it's the part that doesn't
   need a scene tree to exercise.
 
+- Balance: `Godot_console --headless --path . -s res://tools/run_balance_sim.gd -- --what=encounters --filter=<group> --games=30 --out=res://docs/design/sim/<name>.md` (`core/sim/`; groups: tutorial, town, town:roamer, zone:<id>, dungeon:<ID>, side:<ID>, arena). Log every number change in `docs/design/balance_log.md`.
+- Windowed smokes (one Godot at a time): `bash tools/run_playtest_smoke.sh` (the opening hour: forest, Path choice, cave, Crosspath beside Maren, an outskirts fight, level 5, the armory quest, the deck racks), `bash tools/run_prologue_smoke.sh`, `bash tools/run_release_smoke.sh`.
+
 ## E2E testing budget
 
 E2E testing budget: during proof-of-concept work, run the full e2e flow only for the area changed in the current task, in the foreground, at most twice. Re-run other zones' flows only if shared code they depend on changed, and cap total e2e time at about 15 minutes per task. Unit tests (GUT) still run after every part.

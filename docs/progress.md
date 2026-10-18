@@ -3408,3 +3408,16 @@ The starting area rebuilt to `docs/art/paintovers/opening_forest_reference.png` 
 (stand-ins: cliff and cave mouth, giant tree, camp, boulders, flagstones, ferns, trunks), `OpeningForestAtmosphere` (lantern, cave glow, glowing
 mushrooms, mist, rays, readability lights), `OpeningForestFrame` (corner silhouettes), teal dusk mood. Tests `test_opening_forest.gd`, smoke
 `tools/run_opening_forest_smoke.sh`. The tutorial flow is unchanged. 12 STANDIN pieces wait for OF- kit art (prompts in the report).
+
+## Playtest v0.4.0 (Oct 18 2026) - done
+
+The playtest build after the rebalance (Parts A-E of the rebalance are in; F/G queued for Opus). What changed, in play order:
+
+- **Names over heads (Part A)**: vendors ("Sable - Cards"), quest givers and quest objectives always show a floating name as screen UI (`world/npc_labels.gd`); everyone else shows their name within a few metres and fades. Vendors glow gold at the feet, quest givers green (`world/npc_glow.gd`). The Secret Dealer and Fig Sly are untouched. Labels hide during dialogue and never overlap.
+- **CITIZEN only in the Capital (Part B)**: Crosspath strollers wear the VILLAGER set; `tests/world/test_no_citizen_outside_capital.gd` guards it.
+- **Opening text (Part C)**: the wake-up still ends with the Wanderer noticing the rescuer ("...Who are you?"), the Rescuer asks which Path resonates the strongest, and after the Forgotten Cave the hero stands beside Elder Maren at the north end of Crosspath with her welcome opening at once (no loading screen: `SceneManager.skip_loading_once`).
+- **Outskirts roamers (Part D)**: three easy respawning enemies on the lanes round the town (`core/zone/town_enemies.gd`, `world/hub/town_enemy_map.gd`), tuned at level 1 (84 / 90 / 85%). Every win of any kind counts for the armory quest (`Session.record_victory`), the Form 7-B wording is gone, and the level-5 notice names Bertram without mentioning equipment slots.
+- **Cards and board (Part E)**: Yeet destroys the thrown unit; the Raccoon text is plainer; Infrastructure prints its own name everywhere; the battle board's trap slots and token tray are labelled (they were the mystery boxes).
+- **Rules as icons (Part F)**: `RuleBadges` + `RuleIconRow` on the node map, in a brief when a run starts and before each battle, in the zone HUD and in the battle HUD; chest sparkle bigger and brighter with a light pulse; the Deck Station's ten slots are the painted racks (`DeckRack`) with save-to-slot by clicking a rack.
+- **Checks (Part G)**: `bash tools/run_playtest_smoke.sh` walks the opening hour; the prologue and release smokes pass; full GUT green except the pre-existing `test_world_look_rig`.
+- **Build (Part H)**: v0.4.0, `builds/TheWaywardPath-v0.4.0-windows.zip`, notes in `docs/release/v0.4.0_notes.md`.

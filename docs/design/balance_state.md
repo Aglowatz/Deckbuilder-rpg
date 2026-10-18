@@ -42,3 +42,12 @@ passing, a commit and a push. Check for a `STOP_TASK` file in the repo root (or 
 - Red Tape lasts "until the start of its controller's next turn": a lingering stat change on the unit, expired in `_begin_turn` of the
   unit's controller. The AI's threat estimate ignores lingering changes that expire before the opponent attacks.
 - Eat Garbage HP cost moved onto specific strong cards as a written `lose(N)` cost (script cost `lose(1)` / `lose(2)`).
+
+
+## Playtest v0.4.0 (Oct 18)
+
+- Part D roamers: three Crosspath outskirts enemies tuned at level 1 (hound 84%, clerk 90%, raccoon 85% overall; report docs/design/sim/s2_town_roamers.md; the per-Path floor is 80%).
+- Part E cards: Yeet (B-25) now destroys the thrown unit; the Raccoon (R-27) text reworded (same free_eat mechanic).
+- Part E (4): the battle board boxes are the trap slots and the token tray; both labelled now (see balance_log.md).
+- Part F: rule badges + icon rows (map, briefs, zone HUD, battle HUD); chest sparkle bigger/brighter with a light pulse; Deck Station slots are the painted racks (DeckRack).
+- Part G: `bash tools/run_playtest_smoke.sh` (new opening hour end to end) passes; prologue smoke updated for the arrival beside Maren.

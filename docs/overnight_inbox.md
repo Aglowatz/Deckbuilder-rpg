@@ -57,3 +57,13 @@ The rebalance took the safest reasonable choice for each and carried on; the ful
    accept it (a human races better than the cautious AI), make the Gainlands' buff player-only, or expect level 6-7 there (more XP from
    Crosspath's fights).
 10. **Part E stopped after the measured groups** (STEP 1 of the playtest brief): the late-game HP/size raises for the Dump, Rotheart, Capital, Castle, Lab, Swolympus and the arena were applied blind from the first baseline and then halved after the Test Kitchen measured 3-57% with the full raise. They are listed as UNMEASURED in `docs/design/balance_state.md` for the Part G run.
+
+## Playtest v0.4.0 (Oct 18) - questions and safest choices taken
+
+11. **Roamer floor**: the three Crosspath outskirts enemies sit at 84 / 90 / 85% overall at level 1, but the Necrocrat and Gourmand starters vs the Stray Gym Hound and Gourmand vs the Bin Raccoon are at 80-83% (the brief asked for 85%+ for any Path). Dropping HP further makes the fights trivial (4 HP already); left at the band floor. Tell me if you want them easier still or the Gourmand starter tuned instead.
+12. **Audio bitrates**: 101-196 kbps (avg 126), 218 MB packed. Left as delivered (re-encoding to 96 kbps would save ~50 MB at an audible cost); say the word if size matters more.
+13. **Deck Station racks**: the painted background has 5 cells along the top and 7 along the bottom; the ten slots use the top five and the middle five of the bottom rack (the two outer bottom cells stay decorative). The one-time "Building a deck" tip moved under the top rack so it never covers the slots.
+14. **Pre-battle brief**: before each dungeon battle a short panel lists the rules in play (icon row + one line each) with a Continue button; it is skipped in screenshot runs and when a fight has no rules at all. If one extra click per fight is too much, make it a 1.5 s toast instead (`DungeonMapScreen._show_rules_brief`).
+15. **Maren's welcome**: the cave-mouth conversation now plays at her door in Crosspath, with two lines reworded ("just down the hill" -> "walked yourself right into {town}"; "This way." -> "knock when you are ready"). Her door greeting (town.elder.first) still plays when talked to.
+16. **Zone HUD pill**: the "+ buff - debuff" text chip in the zone HUD was the small text pill; it is the icon row now. The Capital's "Broken services" chip stays as it was (it already opened a panel).
+17. **Build size 593 MB zip / 649 MB pck** (v0.3.1: 477 / 488): the zone kits (150 MB packed at a 1024 px BC7 cap) and the SFX pass are the growth. A 512 px cap on zone-kit prop textures would cut about 60 MB; left at 1024 to avoid a quality call without eyes on it. Say the word and `tools/art_import_rules.json` takes the cap.
