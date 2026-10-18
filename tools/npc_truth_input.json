@@ -49,6 +49,13 @@
 		"NPC-CITIZEN": ["Everything is perfect! Everything is perfect! Everything is—", "Smile! It's mandatory!"],
 		"NPC-ISLA": ["Dad says hi. Dad says a lot, actually.", "The Capital's alive again. Loud, too. I like loud."],
 		"NPC-VILLAGER": ["Fresh bread! Fresh-ish bread! Bread!", "I knead a vacation. Get it? Knead?"],
+		"NPC-FLEX": ["Strength is a long road. I walk it slowly. On purpose.", "Breathe in. Lift. Breathe out. Also lift."],
+		"NPC-ESCOFFINA": ["Have you eaten? You look like you have not eaten.", "A full table is a safe table, my dear."],
+		"NPC-MORTIMER": ["The answer is still no. The question has changed, though.", "I have filed my feelings. In triplicate."],
+		"NPC-COMPOSTELLA": ["Everything grows back, dear. Even me.", "Mind the mushrooms. They gossip."],
+		"NPC-DOPPEL": ["I tasted soup today. As myself. It was... good?", "She gave me a name. I am trying to deserve it."],
+		"NPC-PRIMM": ["I am sweeping the square. It is not perfect. I am learning to let that be.", "Good day. I owe you more than that. Good day, anyway."],
+		"NPC-SPOTLESS": ["HALT! You have a smudge. Somewhere. I can feel it.", "Regulation four: no dust. Regulation five: see regulation four."],
 		"NPC-TOWNSFOLK": ["Lovely day for a quest, isn't it?", "My cousin's a dragon. Long story. Mostly fire.", "Did you hear the well talks now? It doesn't. But imagine.", "I'm not lost. I'm exploring the same street on purpose."]
 	},
 	"descriptions": {

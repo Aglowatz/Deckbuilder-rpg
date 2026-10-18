@@ -1303,8 +1303,11 @@
 		"description": "Primm's most devoted enforcer.",
 		"personality": "Primm's most devoted enforcer. Polishes his armor between every sentence. Believes a single smudge is treason.",
 		"speech_style": "Rigid, fussy, shouted regulations.",
-		"sample_line": "Rigid, fussy, shouted regulations.",
-		"barks": [],
+		"sample_line": "HALT! You have a smudge. Somewhere. I can feel it.",
+		"barks": [
+			"HALT! You have a smudge. Somewhere. I can feel it.",
+			"Regulation four: no dust. Regulation five: see regulation four."
+		],
 		"game_function": "Gate battle and Old Service Tunnels boss.",
 		"quest_links": [],
 		"vendor_links": [],
@@ -1508,8 +1511,11 @@
 		"description": "The overthrown Beefcake leader.",
 		"personality": "The overthrown Beefcake leader. Appears frail and decrepit from years in the Iron-less Prison, but trained through calisthenics, yoga and meditation. Calm, wise, playful. True strength comes from the heart and mind.",
 		"speech_style": "Serene, slow, kind; one-liners with perfect timing.",
-		"sample_line": "Serene, slow, kind; one-liners with perfect timing.",
-		"barks": [],
+		"sample_line": "Strength is a long road. I walk it slowly. On purpose.",
+		"barks": [
+			"Strength is a long road. I walk it slowly. On purpose.",
+			"Breathe in. Lift. Breathe out. Also lift."
+		],
 		"game_function": "Rescued in the House of Gains; joins the boss fight.",
 		"quest_links": [],
 		"vendor_links": [],
@@ -1570,8 +1576,11 @@
 		"description": "The true Gourmand leader: warm, generous, brilliant; believes feeding people is the highest form of protection.",
 		"personality": "The true Gourmand leader: warm, generous, brilliant; believes feeding people is the highest form of protection. Kept 'on ice' in the Test Kitchen's deep freezer for ten years by her doppelganger. Freed and back in her kitchen, she bakes a wonder-filled dish that breaks the corrupted-food enchantment and proves she is the true Grand Chef. Then she willingly gives her name to the lost, faceless doppelganger: 'What you're called doesn't matter. It's what you do that matters.' Proud of her work and stands by it; everyone now just calls her 'Chef'.",
 		"speech_style": "Warm, commanding, maternal.",
-		"sample_line": "Warm, commanding, maternal.",
-		"barks": [],
+		"sample_line": "Have you eaten? You look like you have not eaten.",
+		"barks": [
+			"Have you eaten? You look like you have not eaten.",
+			"A full table is a safe table, my dear."
+		],
 		"game_function": "Freed after the Test Kitchen; legendary reward; lends a boon against Primm.",
 		"quest_links": [],
 		"vendor_links": [],
@@ -1601,8 +1610,11 @@
 		"description": "Has worn Escoffina's face for ten years and forgotten its own; never tastes the food because it can't taste anything as itself.",
 		"personality": "Has worn Escoffina's face for ten years and forgotten its own; never tastes the food because it can't taste anything as itself. Cold, efficient, turned the kitchens into a weapons factory for Primm. After its defeat, lost and confused, it is given the name Escoffina by the true chef and stays on to learn to cook honestly.",
 		"speech_style": "Escoffina's words with no warmth; slips into flat menace. Later: hesitant and earnest.",
-		"sample_line": "Escoffina's words with no warmth; slips into flat menace.",
-		"barks": [],
+		"sample_line": "I tasted soup today. As myself. It was... good?",
+		"barks": [
+			"I tasted soup today. As myself. It was... good?",
+			"She gave me a name. I am trying to deserve it."
+		],
 		"game_function": "Test Kitchen boss; postgame kitchen apprentice.",
 		"quest_links": [],
 		"vendor_links": [],
@@ -1662,8 +1674,11 @@
 		"description": "The CE-No who runs the D.N.A.",
 		"personality": "The CE-No who runs the D.N.A. for Primm and enforces every rule to the letter, no matter who it crushes, because the paperwork transferring authority is valid. Not cackling-evil, just immovable. 'The answer is no. The question is irrelevant.' Removed from office after his defeat; takes a number in the Waiting Room of Eternity, right behind Gerald.",
 		"speech_style": "Formal, dry, rare deadpan humor.",
-		"sample_line": "Formal, dry, rare deadpan humor.",
-		"barks": [],
+		"sample_line": "The answer is still no. The question has changed, though.",
+		"barks": [
+			"The answer is still no. The question has changed, though.",
+			"I have filed my feelings. In triplicate."
+		],
 		"game_function": "Hall of Final Approvals boss (Office of Final Approval).",
 		"quest_links": [],
 		"vendor_links": [],
@@ -1693,8 +1708,11 @@
 		"description": "Grandmotherly, wise, mischievous, deeply connected to nature.",
 		"personality": "Grandmotherly, wise, mischievous, deeply connected to nature. Corrupted through that very connection. Cured, she is grateful and fierce.",
 		"speech_style": "Gentle, earthy, playful.",
-		"sample_line": "Gentle, earthy, playful.",
-		"barks": [],
+		"sample_line": "Everything grows back, dear. Even me.",
+		"barks": [
+			"Everything grows back, dear. Even me.",
+			"Mind the mushrooms. They gossip."
+		],
 		"game_function": "Freed after the Rotheart; legendary reward.",
 		"quest_links": [],
 		"vendor_links": [],
@@ -1754,8 +1772,11 @@
 		"description": "Former Royal Minister of Improvements of Patchwork.",
 		"personality": "Former Royal Minister of Improvements of Patchwork. Brilliant, sincere, arrogant, selfish: saw improving the kingdom by any means as his official duty, including killing King Harmon and Queen Concordia and taking the Pathwork Throne. Spared the prince to drain his bloodline's power; without royal blood, that stolen power is his only hold on the Paths, and it has been slipping since the prince escaped. Rules each Path through a lieutenant (Quota, Crumb, Plume, Clipwell). Tells the Wanderer who he is if reached before all four zones are freed. After defeat he finally sees the damage he caused; he serves the kingdom on infrastructure and technology under permanent arrest, kept away from all Path workings.",
 		"speech_style": "Gracious, polished, patronizing; cracks into rage and grief when defeated.",
-		"sample_line": "Gracious, polished, patronizing; cracks into rage and grief when defeated.",
-		"barks": [],
+		"sample_line": "I am sweeping the square. It is not perfect. I am learning to let that be.",
+		"barks": [
+			"I am sweeping the square. It is not perfect. I am learning to let that be.",
+			"Good day. I owe you more than that. Good day, anyway."
+		],
 		"game_function": "Final boss; story beats throughout the castle; postgame prisoner-engineer.",
 		"quest_links": [],
 		"vendor_links": [],

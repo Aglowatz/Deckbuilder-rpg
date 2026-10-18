@@ -187,6 +187,9 @@ func _build_freed_npcs(hub: Vector3) -> void:
 		var npc: Node3D = _make_npc(entry, pos, "Idle")
 		_npcs[str(entry["id"])] = npc
 		builder.add_blocker(pos, 0.4)
+		# Phase 2 cycle 16: the freed leaders say a passing line too, like everyone else
+		if npc_barks != null and not str(entry.get("npc_id", "")).is_empty():
+			npc_barks.register(npc, str(entry["npc_id"]))
 		_add_spot("freed_%s" % str(entry["id"]), str(entry["name"]), pos, 1.9, "Talk", true, "freed_npc", {"npc": str(entry["id"]), "speaker": str(entry["speaker"]), "npc_id": str(entry.get("npc_id", ""))})
 
 # ---- Setup -----------------------------------------------------------------------------------
