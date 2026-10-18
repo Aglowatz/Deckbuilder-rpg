@@ -71,6 +71,22 @@ static func tutorial() -> Array[EncounterSpec]:
 
 static func town(content: ContentSet) -> Array[EncounterSpec]:
 	var result: Array[EncounterSpec] = []
+	# Playtest v0.4.0 Part D: the three Crosspath outskirts roamers, fought by a level-1 starter straight out of the cave.
+	for roamer_id: String in TownEnemies.IDS:
+		var roamer: ZoneEnemyInfo = TownEnemies.info(roamer_id)
+		var roamer_spec: EncounterSpec = EncounterSpec.new()
+		roamer_spec.id = "town:roamer:%s" % roamer_id
+		roamer_spec.title = roamer.display_name
+		roamer_spec.group = "town:roamer"
+		roamer_spec.kind = EncounterSpec.Kind.NORMAL
+		roamer_spec.expected_level = ProgressionModel.level_for("town:roamer")
+		roamer_spec.enemy_name = roamer.display_name
+		roamer_spec.enemy_hp = roamer.hp
+		roamer_spec.enemy_ai_name = roamer.ai_name
+		roamer_spec.enemy_recipe = roamer.recipe
+		roamer_spec.notes = "outskirts roamer: a level-1 starter should win 85%+"
+		_attach_rules(roamer_spec, EncounterModifiers.zone_key(TownEnemies.ZONE_KEY, roamer_id))
+		result.append(roamer_spec)
 	for npc_id: String in CorruptedNpcs.IDS:
 		var spec: EncounterSpec = EncounterSpec.new()
 		spec.id = "town:npc:%s" % npc_id

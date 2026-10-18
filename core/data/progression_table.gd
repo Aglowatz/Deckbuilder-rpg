@@ -164,7 +164,7 @@ static func pack_id(grant: Dictionary, primary: Affinity.Type) -> String:
 static func reward_lines(current: LevelData, previous: LevelData, primary: Affinity.Type = Affinity.Type.NEUTRAL) -> Array[String]:
 	var lines: Array[String] = []
 	if current.armory:
-		lines.append("The armory opens: Bertram Beetsworth's quest unlocks every equipment slot.")
+		lines.append("The armory opens: a new quest is available from Bertram Beetsworth, the equipment vendor.")
 	if current.reward_deck_expansion and previous != null:
 		lines.append("Deck Station: %d to %d deck slots." % [previous.deck_slots, current.deck_slots])
 	for raise: Dictionary in current.copy_cap_raises:

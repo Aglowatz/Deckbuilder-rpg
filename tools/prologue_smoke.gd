@@ -44,7 +44,7 @@ func run() -> void:
 	await driver.click_button("Begin")
 	await driver.seconds(0.5)
 	_check(Session.has_profile() and Session.profile.primary_affinity == Affinity.Type.GOURMAND, "choosing a Path sets the primary Path")
-	_check(Session.deck != null and Session.deck.size() == 42, "the 42-card starter deck exists (got %d)" % (Session.deck.size() if Session.deck != null else -1))
+	_check(Session.deck != null and Session.deck.size() == TrialOfTheHollow.STARTER_DECK_SIZE, "the %d-card starter deck exists (got %d)" % [TrialOfTheHollow.STARTER_DECK_SIZE, Session.deck.size() if Session.deck != null else -1])
 	_check(Session.flag(&"rescuer_met"), "the rescuer_met flag is set")
 	guard = 0
 	while (scene.dialogue.active or scene._rescuer != null or scene._locked) and guard < 80:
@@ -79,29 +79,31 @@ func run() -> void:
 			for id: String in TrialOfTheHollow.enemy_recipe(node.enemy_name).keys():
 				_check(id != "BAS-B" and id != "BAS-N", "%s has no Beefcake/Necrocrat infrastructure (%s)" % [node.enemy_name, id])
 
-	# Clear the cave and step out: Elder Maren is waiting.
+	# Clear the cave and step out: Playtest v0.4.0 Part C - straight into Crosspath, beside Elder Maren, her welcome opening at once.
 	while SceneManager.busy:
 		await driver.frames(5)
 	Session.complete_trial()
 	Session.cave_exit_pending = true
-	SceneManager.go_to_start_area()
+	SceneManager.skip_loading_once = true
+	SceneManager.go_to_town()
 	await driver.seconds(0.5)
-	var exit_scene: StartingAreaScene = await _wait_for(StartingAreaScene) as StartingAreaScene
-	if exit_scene == null:
-		_finish(false, "cave mouth scene never loaded")
+	var town: TownScene = await _wait_for(TownScene) as TownScene
+	if town == null:
+		_finish(false, "Crosspath never loaded after the cave")
 		return
-	await driver.seconds(0.8)
-	_check(exit_scene._maren != null, "Elder Maren is waiting at the cave mouth")
+	await driver.seconds(1.0)
+	var elder: Node3D = town._npcs.get("elder") as Node3D
+	_check(elder != null and town.player.position.distance_to(elder.position) < 4.0, "the Wanderer appears next to Elder Maren (%.1f m)" % (town.player.position.distance_to(elder.position) if elder != null else -1.0))
+	_check(town.dialogue.active and town.dialogue.npc_id == "NPC-ELDER", "Maren's welcome opens right away with the town in view")
 	guard = 0
-	while get_tree().current_scene is StartingAreaScene and guard < 60:
+	while (town.dialogue.active or town._locked) and guard < 60:
 		guard += 1
-		if exit_scene.dialogue.active:
+		if town.dialogue.active:
 			await driver.tap_key(KEY_E)
 		await driver.seconds(0.25)
-	var town: TownScene = await _wait_for(TownScene) as TownScene
-	_check(town != null, "after Maren's welcome the player arrives in Crosspath")
+	_check(not town._locked, "the hero is free to walk once the welcome ends")
 	_check(Session.flag(&"maren_met"), "the maren_met flag is set")
-	_finish(_failures.is_empty(), "prologue: forest, Rescuer, deck choice, self-talk, the Forgotten Cave, Maren at the cave mouth, Crosspath")
+	_finish(_failures.is_empty(), "prologue: forest, Rescuer, deck choice, self-talk, the Forgotten Cave, Crosspath beside Maren")
 
 
 # ---- Helpers ----------------------------------------------------------------------------
@@ -123,7 +125,8 @@ func _find_edge_spot(scene: StartingAreaScene) -> Vector3:
 		var z: float = bounds.position.y
 		while z < bounds.end.y:
 			var spot: Vector3 = Vector3(x, 0.0, z)
-			if scene.area.is_walkable(spot):
+			if scene.area.is_walkable(spot) and not scene.area.layout.is_quiet(Vector2(x, z)):
+				# (the side nook is quiet on purpose - no self-talk there, Opening Forest rebuild Part B)
 				var near_secret: bool = false
 				for key: String in scene.area.anchors.keys():
 					if key.begins_with("hidden_chest_") or key == "tunnel":

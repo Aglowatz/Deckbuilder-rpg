@@ -37,11 +37,17 @@ var arena_id: String = ""
 var zone_id: String = ""
 var zone_enemy_id: String = ""
 var zone_enemy_type: String = ""
+## Playtest v0.4.0 Part D: a Crosspath outskirts roamer (`TownEnemies`): its spawn's instance id and its type.
+var town_roamer_id: String = ""
+var town_roamer_type: String = ""
 ## Brief 10: the final boss's phase (0-based, -1 = not a boss phase), the rule text of that phase and the music of the duel.
 var boss_phase: int = -1
 var rules_text: String = ""
 ## Rebalance Part E: the one-sided rules of this fight (`EncounterModifiers.rules(key)`), shown in the battle HUD with icons and tooltips.
 var encounter_rules: Array[EncounterModifiers.Rule] = []
+## Playtest v0.4.0 Part F: every rule of this fight as badges (zone effects, dungeon rules, boons, the Capital's services, the
+## one-sided encounter rules) - the battle HUD's icon row. `start_battle` fills it from `encounter_rules` when a maker left it empty.
+var rule_badges: Array[RuleBadges.Badge] = []
 var music: StringName = &"battle"
 ## Which battleboard backdrop the duel is fought on: a key of `data/battleboards.json` ("zone:beefcake", "capital:in", "arena"...). "" = the neutral board.
 var board_key: String = ""

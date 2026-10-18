@@ -156,7 +156,7 @@ func _make_art_badge(kind: String, center: Vector2) -> Control:
 			var path: Affinity.Type = profile.primary_affinity if profile != null else Affinity.Type.NEUTRAL
 			caption_text = UIStyle.affinity_name(path) if path != Affinity.Type.NEUTRAL else "Path"
 			icon_id = IconArt.energy_id(path) if path != Affinity.Type.NEUTRAL else ""
-			badge.tooltip_text = "The Path you walked the most: your starter deck's Path."
+			badge.tooltip_text = "The Path that resonates strongest within you: your starter deck's Path."
 		"deck":
 			caption_text = "Deck"
 			value_text = str(Session.deck.size() if Session.deck != null else 0)

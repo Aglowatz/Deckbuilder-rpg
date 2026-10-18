@@ -181,7 +181,7 @@ const ZONE_MAIN_TEXT: Dictionary = {
 
 
 ## Overnight Oct 17, Part 5: the armory opens at level 5. This short quest starts on its own the moment the hero reaches level 5,
-## points at Bertram Beetsworth, asks for one witnessed duel ("Requisition Form 7-B") and ends with the first piece of equipment,
+## points at Bertram Beetsworth, asks for one won fight of any kind (roamer, gatekeeper, dungeon, arena - Playtest v0.4.0 Part D) and ends with the first piece of equipment,
 ## the Starter Blade; finishing it unlocks all five equipment slots (`Session.complete_quest`).
 const ARMORY: String = "some_assembly_required"
 
@@ -192,12 +192,12 @@ static func _armory() -> QuestData:
 	quest.category = QuestData.Category.SIDE
 	quest.order = 5
 	quest.title = "Some Assembly Required"
-	quest.summary = "Level five: the armory will finally issue you gear. Bertram Beetsworth has a form for that."
+	quest.summary = "Level five: the armory will finally issue you gear. Bertram Beetsworth wants to see you win one fight first - any fight."
 	quest.auto_give = true
 	quest.prerequisite = Condition.player_level(ProgressionTable.ARMORY_LEVEL)
 	quest.objectives = [
 		QuestObjective.make("Report to Bertram Beetsworth's equipment stall", Condition.flag("armory_reported")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "The equipment stall on the square"),
-		QuestObjective.make("Win one duel for Form 7-B", Condition.counter("duels_won", 1)),
+		QuestObjective.make("Win one fight (any fight)", Condition.counter("duels_won", 1)),
 		QuestObjective.make("Collect your gear from Bertram", Condition.flag("armory_collected")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "The equipment stall on the square"),
 	] as Array[QuestObjective]
 	quest.reward_xp = 30

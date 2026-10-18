@@ -174,7 +174,7 @@ func ensure_game(color: Affinity.Type = Affinity.Type.BEEFCAKE) -> void:
 		set_flag(&"trial_cleared")
 
 
-## Story v2 (Part C): the Rescuer's conversation in the forest asks which Path the Wanderer walked the most. Creates the profile and that Path's 45-card starting deck (Rebalance Part D) right away, so the
+## Story v2 (Part C): the Rescuer's conversation in the forest asks which Path resonates the strongest within the Wanderer. Creates the profile and that Path's 45-card starting deck (Rebalance Part D) right away, so the
 ## cave gate afterwards just walks into the dungeon. Does nothing once a profile exists.
 func choose_starting_path(color: Affinity.Type) -> void:
 	if profile != null or not CampaignStart.is_valid_choice(color):
@@ -644,7 +644,7 @@ func grant_equipment(piece: EquipmentData) -> bool:
 
 
 ## Where the hero stands with the armory: 0 below level 5 (Beetsworth sends them away), 1 the quest wants a first report, 2 waiting
-## for the witnessed duel, 3 ready to collect the gear, 4 done (the shop and all equipment slots are open).
+## for the one won fight, 3 ready to collect the gear, 4 done (the shop and all equipment slots are open).
 func armory_stage() -> int:
 	if profile == null or profile.level < ProgressionTable.ARMORY_LEVEL:
 		return 0
@@ -751,7 +751,8 @@ func _pay_milestone_reward(flag_name: String, milestone: Dictionary, title: Stri
 	EventBus.quest_notice.emit("%s: %s" % [title, reward], false)
 
 
-## A duel was won anywhere (zone, dungeon, arena): the armory quest's Form 7-B counts it.
+## A fight was won anywhere (a Crosspath outskirts enemy, a zone roamer, a gatekeeper, a dungeon battle, the arena, a town boss): the armory
+## quest counts it. Zone and dungeon wins call this from their own completion paths; the rest from `complete_battle`.
 func note_duel_won() -> void:
 	bump_counter("duels_won")
 
@@ -1508,6 +1509,11 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		context.music = phase.music
 	else:
 		context.encounter_rules = EncounterModifiers.rules(node.enemy_name)
+	# Playtest v0.4.0 Part F: the fight's rule badges - zone, dungeon rules at this node, boons, the Capital's services, then the one-sided rules.
+	context.rule_badges = RuleBadges.for_run(effect_zone, dungeon_key if (main_dungeon_active or mini_active) else "", run.dungeon_sources, node.number)
+	if capital:
+		context.rule_badges.append_array(RuleBadges.for_capital(flags))
+	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
 	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if (mini_active or main_dungeon_active) else TrialOfTheHollow.personality(content, node.ai_name))
 	context.enemy_name = node.enemy_name if phase == null else "%s - %s" % [Villain.display_name(), phase.title()]
 	context.enemy_icon = MainDungeons.enemy_icon(dungeon_key, node.enemy_name) if (main_dungeon_active or mini_active) else str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
@@ -1531,6 +1537,8 @@ var has_start_return_position: bool = false
 func start_battle(context: BattleContext) -> void:
 	pending_battle = context
 	bestiary_meet(context.enemy_name)
+	if context.rule_badges.is_empty():
+		context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
 	var scene: Node = get_tree().current_scene if get_tree() != null else null
 	if scene is TownScene and (scene as TownScene).player != null:
 		town_return_position = (scene as TownScene).player.position
@@ -2285,6 +2293,12 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	context.zone_enemy_id = enemy_instance_id
 	context.zone_enemy_type = enemy_type
 	context.encounter_rules = EncounterModifiers.rules(encounter_key)
+	context.rule_badges = RuleBadges.for_zone(zone_id)
+	if zone_run != null:
+		context.rule_badges.append_array(RuleBadges.for_boons(zone_run.run.dungeon_sources))
+	if zone_id == CapitalZone.ID:
+		context.rule_badges.append_array(RuleBadges.for_capital(flags))
+	context.rule_badges.append_array(RuleBadges.for_encounter(context.encounter_rules))
 	context.gold_reward = data.gold_reward
 	context.xp_reward = data.xp_reward
 	return context
@@ -2330,6 +2344,75 @@ func _complete_zone_battle(context: BattleContext) -> void:
 	SceneManager.change_scene(zone_def().scene_path)
 
 
+# ---- Crosspath outskirts roamers (Playtest v0.4.0, Part D) ----------------------------------------------------------------------
+
+## Set by `_complete_town_battle`, read once by `TownScene` to show the toast (and a level-up); {} otherwise.
+var pending_town_result: Dictionary = {}
+
+
+## The game clock (`counters`, so it saves with the rest) of the moment a roamer was beaten: it is back after `TownEnemies.RESPAWN_SECONDS`.
+func town_roamer_is_down(instance_id: String) -> bool:
+	var beaten: int = counter("town_roamer_beaten:%s" % instance_id)
+	return beaten > 0 and Time.get_unix_time_from_system() - beaten < TownEnemies.RESPAWN_SECONDS
+
+
+func start_town_battle(enemy_type: String, instance_id: String) -> void:
+	start_battle(make_town_battle(enemy_type, instance_id))
+
+
+## A duel against a Crosspath outskirts roamer: the real deck and profile at full HP (the town has no HP pool of its own).
+func make_town_battle(enemy_type: String, instance_id: String) -> BattleContext:
+	ensure_game()
+	var data: ZoneEnemyInfo = TownEnemies.info(enemy_type)
+	var options: GameOptions = GameOptions.new()
+	options.first_player = -1
+	options.rng_seed = rng.randi() % 1000000 + 1
+	var game: GameState = GameState.new(options)
+	var encounter_key: String = EncounterModifiers.zone_key(TownEnemies.ZONE_KEY, enemy_type)
+	var buffs: Array[ModifierSource] = []
+	var player_side_rules: ModifierSource = EncounterModifiers.player_source(encounter_key)
+	if player_side_rules != null:
+		buffs.append(player_side_rules)
+	game.add_player(PlayerSetup.create(deck, profile, buffs, "You"))
+	game.add_player(TownEnemies.enemy_setup(content, enemy_type))
+	game.start()
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(TownEnemies.personality(content, enemy_type))
+	context.enemy_name = data.display_name
+	context.enemy_icon = "lorc/wolf-head" if enemy_type == TownEnemies.HOUND else ("delapouite/paper-clip" if enemy_type == TownEnemies.CLERK else "delapouite/trash-can")
+	context.board_key = "town"
+	context.town_roamer_id = instance_id
+	context.town_roamer_type = enemy_type
+	context.encounter_rules = EncounterModifiers.rules(encounter_key)
+	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
+	context.gold_reward = data.gold_reward
+	context.xp_reward = data.xp_reward
+	return context
+
+
+## The state changes of a finished outskirts duel (no scene change, so tests can run it): a win pays gold and XP, counts for the
+## armory quest and puts the roamer down for a while; a loss costs nothing but the walk back (the town is a full heal).
+func resolve_town_battle(context: BattleContext) -> Dictionary:
+	var result: Dictionary = {"kind": "roamer", "won": context.won, "enemy": context.enemy_name}
+	if context.won:
+		counters["town_roamer_beaten:%s" % context.town_roamer_id] = int(Time.get_unix_time_from_system())
+		add_gold(context.gold_reward)
+		result["gold"] = context.gold_reward
+		result["levels_gained"] = add_xp(context.xp_reward)
+		result["xp"] = context.xp_reward
+		bump_counter("town_roamers_defeated")
+		note_duel_won()
+	pending_town_result = result
+	save_game()
+	return result
+
+
+func _complete_town_battle(context: BattleContext) -> void:
+	resolve_town_battle(context)
+	SceneManager.go_to_town()
+
+
 ## The state changes of a finished zone duel (no scene change, so tests can run it).
 func resolve_zone_battle(context: BattleContext) -> Dictionary:
 	var result: Dictionary = {"kind": "battle", "won": context.won, "enemy": context.enemy_name}
@@ -2372,6 +2455,8 @@ var dungeon_key: String = ""
 var town_side_active: bool = false
 ## Node ids whose "after" story has been shown in the current dungeon run (so it plays once).
 var dungeon_story_seen: Array[int] = []
+## Playtest v0.4.0 Part F: the rules brief shown once when a dungeon run starts (the node map resets it with the run).
+var dungeon_rules_intro_seen: bool = false
 ## Brief 10: the phase of the final boss being fought (0-2), whether the next phase is waiting to start (the map plays the scene
 ## between phases, then starts it) and whether the freed leaders' boons have been given for this run.
 var boss_phase: int = 0
@@ -2509,6 +2594,7 @@ func enter_lab() -> void:
 	town_side_active = true
 	main_dungeon_active = false
 	dungeon_story_seen = []
+	dungeon_rules_intro_seen = false
 	trial_finished = false
 	pending_reward = null
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
@@ -2558,6 +2644,7 @@ func enter_main_dungeon() -> void:
 	boss_phase_pending = false
 	boss_boons_given = false
 	dungeon_story_seen = []
+	dungeon_rules_intro_seen = false
 	trial_finished = false
 	pending_reward = null
 	SceneManager.change_scene("res://scenes/dungeon_map.tscn")
@@ -2881,13 +2968,25 @@ func enter_zone_portal(zone_id: String) -> void:
 	SceneManager.change_scene("res://scenes/zone_placeholder.tscn")
 
 
+## Playtest v0.4.0 Part D: every victory counts for the armory quest ("win one fight, any fight"). The gatekeepers (corrupted NPCs), the
+## town bosses (the Cairn, Shiro, the Vault) and the arena never counted before. Zone roamers (`resolve_zone_battle`), outskirts roamers
+## (`resolve_town_battle`) and dungeon battles (`apply_rewards`) count in their own completion paths, so they are left out here.
+func record_victory(context: BattleContext) -> void:
+	bestiary_defeat(context.enemy_name)
+	if not context.town_npc_id.is_empty() or context.is_graveyard_boss or context.is_ninja_boss or context.is_vault_boss or not context.arena_id.is_empty():
+		note_duel_won()
+
+
 ## Called by the battle screen when the player leaves the result panel.
 func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
 	if context.won:
-		bestiary_defeat(context.enemy_name)
+		record_victory(context)
 	if not context.arena_id.is_empty():
 		_complete_arena_battle(context)
+		return
+	if not context.town_roamer_id.is_empty():
+		_complete_town_battle(context)
 		return
 	if not context.town_npc_id.is_empty():
 		_complete_npc_challenge(context)

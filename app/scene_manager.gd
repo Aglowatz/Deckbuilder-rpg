@@ -15,6 +15,8 @@ var current_area: String = ""
 var previous_area: String = ""
 ## Loading screens (LOAD-*) on entering an area; tools and tests can switch them off.
 var show_loading_screens: bool = true
+## Playtest v0.4.0 Part C: the next change skips the loading screen and uses a short fade (the walk out of the Forgotten Cave into Crosspath).
+var skip_loading_once: bool = false
 
 ## Emitted when a scene change has finished (the fade or loading screen is gone), so something that belongs to the new scene can start.
 signal revealed
@@ -55,7 +57,11 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	_fade.mouse_filter = Control.MOUSE_FILTER_STOP
 	var area: String = Areas.key_for_scene(path)
 	var screen: LoadingScreen = null
-	if show_loading_screens and not area.is_empty() and area != current_area and DisplayServer.get_name() != "headless":
+	var quick: bool = skip_loading_once
+	skip_loading_once = false
+	if quick:
+		fade_time = minf(fade_time, 0.2)
+	if show_loading_screens and not quick and not area.is_empty() and area != current_area and DisplayServer.get_name() != "headless":
 		screen = LoadingScreen.make(area, Session.dungeon_key)
 	# Sound pass: a gust carries the hero into another area; the old place's ambience fades with the picture (the new scene sets its own).
 	if not area.is_empty() and area != current_area and not current_area.is_empty():
