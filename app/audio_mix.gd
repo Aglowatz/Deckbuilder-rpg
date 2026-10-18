@@ -26,6 +26,8 @@ static func ensure_layout() -> void:
 		AudioServer.set_bus_send(index, StringName(str(entry[1])))
 	for bus_name: String in TRIMS.keys():
 		AudioServer.set_bus_volume_db(AudioServer.get_bus_index(bus_name), float(TRIMS[bus_name]))
+	# the leveller before the duck: after it, a ducked passage would fall into the compressed range and the duck would lose half its depth
+	_music_leveller()
 	for bus_name: String in DUCK_BUSES:
 		_effect(bus_name, "AudioEffectAmplify")
 	var compressor: AudioEffectCompressor = _effect("SFX", "AudioEffectCompressor") as AudioEffectCompressor
@@ -41,6 +43,25 @@ static func ensure_layout() -> void:
 	var battle_room: AudioEffectReverb = _effect("Battle", "AudioEffectReverb") as AudioEffectReverb
 	_set_reverb(battle_room, AcousticProfiles.profile("battle"))
 	apply_acoustics("dry")
+
+
+## Overnight Oct 17 (Phase 2 cycle 10): a gentle leveller on the Music bus. 26 tracks have very wide dynamics (docs/audio/music_audit.md, LRA 15-19 LU)
+## and their quiet passages vanished under battle sounds. Measured offline with the same settings (ffmpeg acompressor + ebur128): loudness unchanged
+## within 0.3 LU, range arena battle 18.2 -> 12.8 LU, Crosspath freed 15.5 -> 8.7, the Throne 15.3 -> 7.9, credits 18.2 -> 11.4; flat tracks untouched.
+## `MUSIC_LEVELLER = false` takes it out.
+const MUSIC_LEVELLER: bool = true
+const LEVELLER: Dictionary = {"threshold": -30.0, "ratio": 2.0, "attack_us": 30000.0, "release_ms": 500.0, "gain": 6.0}
+
+
+static func _music_leveller() -> void:
+	if not MUSIC_LEVELLER:
+		return
+	var leveller: AudioEffectCompressor = _effect("Music", "AudioEffectCompressor") as AudioEffectCompressor
+	leveller.threshold = float(LEVELLER["threshold"])
+	leveller.ratio = float(LEVELLER["ratio"])
+	leveller.attack_us = float(LEVELLER["attack_us"])
+	leveller.release_ms = float(LEVELLER["release_ms"])
+	leveller.gain = float(LEVELLER["gain"])
 
 
 ## The World bus reverb takes a place's profile (`AcousticProfiles`).
