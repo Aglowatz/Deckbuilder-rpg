@@ -68,11 +68,30 @@ func _ready() -> void:
 	if stage != null:
 		stage.attach_overlay(self)
 		stage.say("open")
+	# Overnight Oct 17, Part 13: every screen opens the same way (a short fade), every button is reachable with the keyboard / a pad,
+	# and the first thing in the body has focus unless the screen focused something itself.
+	UiInput.make_focusable(self)
+	_focus_default.call_deferred()
+	modulate.a = 0.0
+	create_tween().tween_property(self, "modulate:a", 1.0, OPEN_FADE)
 	# A vendor's theme (or the deck station's...) lies over the area's music while the screen is open and hands back when it closes. It is pushed once
 	# per screen, never per purchase; a short overlay with no cue of its own keeps the current music.
 	var cue: String = music_cue()
 	if not cue.is_empty():
 		_music_token = Audio.push_music(StringName(cue), 1.2, false)
+
+
+const OPEN_FADE: float = 0.14
+
+
+func _focus_default() -> void:
+	if not is_inside_tree():
+		return
+	var owner_now: Control = get_viewport().gui_get_focus_owner()
+	if owner_now != null and is_ancestor_of(owner_now):
+		return
+	if UiInput.focus_first(body) == null and _close_button != null:
+		_close_button.grab_focus()
 
 
 ## The music this screen sets over the area's: a vendor's browsing theme by its Vendor Screen ID; "" (the default for a plain screen) keeps what plays.
@@ -96,7 +115,7 @@ func request_close() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"ui_cancel") and is_visible_in_tree():
+	if UiInput.is_back(event) and is_visible_in_tree():
 		get_viewport().set_input_as_handled()
 		request_close()
 

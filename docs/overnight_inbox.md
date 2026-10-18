@@ -18,3 +18,6 @@ The run took the safest reasonable choice for each and carried on; the full reas
 6. **The level-5 armory quest replaces the 5/10/15/20/25 equipment-slot choices** (Part 5). Old saves with slots count the quest as done.
 7. **Species for the NPCs the sheet left blank** (Part 11, ON17-10): King, Queen, Elowen, Dr. Siphon human (the royal line is human); Vivienne Quota ferret, Colonel Crumb badger, Percival Plume peacock, Hortensia Clipwell hare, Isla Brannoch bear (her father is a bear). Change them in `tools/npc_truth_input.json` and re-run `node tools/npc_truth.js`.
 8. **The strolling baker is "Bun the Baker", a badger** (NPC-VILLAGER, added so he can talk to passers-by). Rename freely.
+9. **Music: nothing was dropped** (Part 12). Measured, no track is broken after the loop fixes; the audit ranks 26 tracks with very wide dynamics (quiet passages vanish under battle sounds) - audition those and the 35 loop-fixed seams (`docs/audio/loop_fixes.md`; `node tools/loop_fix.js --restore` undoes them) and name any track to drop or swap.
+10. **Boss wins play a 3.6 s cut of the boss track's climax** instead of the generic victory sting (`STG-WIN-*`). Say if you prefer the generic one.
+11. **Keyboard / pad focus** now shows a gold ring on every menu button (Part 13). HUD buttons stay mouse-only on purpose (so Space/E in the world never re-presses a menu button).

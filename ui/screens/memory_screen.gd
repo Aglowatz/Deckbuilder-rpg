@@ -134,10 +134,7 @@ func _gui_input(event: InputEvent) -> void:
 		_next_line()
 
 
-func _unhandled_key_input(event: InputEvent) -> void:
-	if not (event is InputEventKey) or not (event as InputEventKey).pressed or (event as InputEventKey).echo:
-		return
-	var code: Key = (event as InputEventKey).keycode
-	if code == KEY_E or code == KEY_SPACE or code == KEY_ENTER:
+func _unhandled_input(event: InputEvent) -> void:
+	if UiInput.is_confirm(event):
 		get_viewport().set_input_as_handled()
 		_next_line()

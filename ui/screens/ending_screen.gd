@@ -153,10 +153,9 @@ func _gui_input(event: InputEvent) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _done or _credits_running or _still_up:
 		return
-	var pressed: bool = false
-	if event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
-		var code: Key = (event as InputEventKey).keycode
-		pressed = code == KEY_SPACE or code == KEY_ENTER or code == KEY_E
+	var pressed: bool = UiInput.is_confirm(event)
+	if pressed:
+		pass
 	elif event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 		pressed = true
 	if not pressed:

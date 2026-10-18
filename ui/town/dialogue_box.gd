@@ -237,12 +237,9 @@ func _show_line() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not active:
 		return
-	var pressed: bool = false
-	if event.is_action_pressed(&"interact"):
-		pressed = true
-	elif event is InputEventKey and (event as InputEventKey).pressed and not (event as InputEventKey).echo:
-		var code: Key = (event as InputEventKey).keycode
-		pressed = code == KEY_SPACE or code == KEY_ENTER
+	var pressed: bool = UiInput.is_confirm(event)
+	if pressed:
+		pass
 	elif event is InputEventMouseButton and (event as InputEventMouseButton).pressed and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT:
 		pressed = true
 	if not pressed:

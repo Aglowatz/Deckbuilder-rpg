@@ -187,11 +187,8 @@ func _gui_input(event: InputEvent) -> void:
 		accept_event()
 
 
-func _unhandled_key_input(event: InputEvent) -> void:
-	var key: InputEventKey = event as InputEventKey
-	if key == null or not key.pressed or key.echo:
-		return
-	if key.keycode in [KEY_ENTER, KEY_KP_ENTER, KEY_SPACE, KEY_E]:
+func _unhandled_input(event: InputEvent) -> void:
+	if UiInput.is_confirm(event):
 		_confirm()
 		get_viewport().set_input_as_handled()
 

@@ -276,6 +276,6 @@ func _input(event: InputEvent) -> void:
 	if not visible:
 		return
 	var key: InputEventKey = event as InputEventKey
-	if key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
+	if key != null and UiInput.is_back(event):
 		close()
 		get_viewport().set_input_as_handled()

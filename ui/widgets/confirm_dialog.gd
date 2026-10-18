@@ -64,3 +64,7 @@ func _ready() -> void:
 	row.add_child(no)
 	UIKit.pop_in(panel)
 	Audio.sfx(&"ui_open", -4.0)
+	# Overnight Oct 17, Part 13: keyboard / pad: both buttons focusable, the safe choice focused for a dangerous action.
+	yes.focus_mode = Control.FOCUS_ALL
+	no.focus_mode = Control.FOCUS_ALL
+	(no if bool(get_meta("danger")) else yes).call_deferred(&"grab_focus")

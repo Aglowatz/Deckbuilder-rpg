@@ -115,6 +115,17 @@ static func panel_box(alpha: float = 0.94) -> StyleBoxFlat:
 	return style
 
 
+## Overnight Oct 17, Part 13: the keyboard / pad focus ring every button shares (a soft gold outline just outside the button).
+static func focus_ring() -> StyleBoxFlat:
+	var ring: StyleBoxFlat = StyleBoxFlat.new()
+	ring.draw_center = false
+	ring.border_color = Color("ffe08a")
+	ring.set_border_width_all(3)
+	ring.set_corner_radius_all(14)
+	ring.set_expand_margin_all(4.0)
+	return ring
+
+
 static func _button_box(fill: Color, border: Color, shadow: int = 4) -> StyleBoxFlat:
 	var style: StyleBoxFlat = box(fill, border, 2, 10, shadow)
 	style.content_margin_left = 22
@@ -307,7 +318,7 @@ static func _style_button(
 	t.set_stylebox("normal", type_name, _button_box(fill, border))
 	t.set_stylebox("hover", type_name, _button_box(fill_hover, border_hover, 8))
 	t.set_stylebox("pressed", type_name, _button_box(fill.darkened(0.25), border_hover, 1))
-	t.set_stylebox("focus", type_name, StyleBoxEmpty.new())
+	t.set_stylebox("focus", type_name, focus_ring())
 	t.set_stylebox("disabled", type_name, _button_box(Color(0.12, 0.1, 0.15, 0.85), Color(1, 1, 1, 0.08), 0))
 	t.set_color("font_color", type_name, font)
 	t.set_color("font_hover_color", type_name, font)

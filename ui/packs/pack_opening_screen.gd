@@ -486,16 +486,13 @@ func _gui_input(event: InputEvent) -> void:
 		_advance()
 
 
-func _unhandled_key_input(event: InputEvent) -> void:
-	var key: InputEventKey = event as InputEventKey
-	if key == null or not key.pressed or key.echo:
-		return
-	if key.keycode == KEY_SPACE or key.keycode == KEY_ENTER or key.keycode == KEY_KP_ENTER:
-		get_viewport().set_input_as_handled()
-		_advance()
-	elif key.keycode == KEY_ESCAPE:
+func _unhandled_input(event: InputEvent) -> void:
+	if UiInput.is_back(event):
 		get_viewport().set_input_as_handled()
 		_skip()
+	elif event is not InputEventMouseButton and UiInput.is_confirm(event):
+		get_viewport().set_input_as_handled()
+		_advance()
 
 
 func _advance() -> void:

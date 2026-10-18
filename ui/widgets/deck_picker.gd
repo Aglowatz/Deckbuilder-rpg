@@ -60,7 +60,7 @@ func _ready() -> void:
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	var key: InputEventKey = event as InputEventKey
-	if key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
+	if key != null and UiInput.is_back(event):
 		get_viewport().set_input_as_handled()
 		cancelled.emit()
 
