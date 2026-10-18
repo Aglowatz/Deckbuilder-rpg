@@ -613,17 +613,48 @@ func _collection() -> Array[CardData]:
 	return result
 
 
+## Overnight Oct 17 (Phase 2, performance): the first rows of the collection are built at once, the rest a few per frame, so
+## opening the station never stalls on one long frame.
+const FIRST_TILES: int = 1000  # build everything at once: spreading tiles over frames made more 35-45 ms frames, not fewer (Phase 2, cycle 1)
+const TILES_PER_FRAME: int = 2
+var _pending_tiles: Array[CardData] = []
+
+
 func _fill_grid() -> void:
-	for card: CardData in _collection():
+	var cards: Array[CardData] = _collection()
+	for index: int in range(cards.size()):
+		var card: CardData = cards[index]
 		_cards_by_id[card.id] = card
-		_grid.add_child(_make_tile(card))
+		if index < FIRST_TILES:
+			_grid.add_child(_make_tile(card))
+		else:
+			_pending_tiles.append(card)
+
+
+## True while collection tiles are still being added (tests and smokes wait for it).
+func is_building() -> bool:
+	return not _pending_tiles.is_empty()
+
+
+func _process(_delta: float) -> void:
+	if _pending_tiles.is_empty():
+		return
+	for _step: int in range(TILES_PER_FRAME):
+		if _pending_tiles.is_empty():
+			break
+		var card: CardData = _pending_tiles.pop_front()
+		var tile: Control = _make_tile(card)
+		tile.visible = _filter == null or _filter.matches(card)
+		_grid.add_child(tile)
+	if _pending_tiles.is_empty():
+		_refresh()
 
 
 func _make_tile(card: CardData) -> Control:
 	var holder: Control = Control.new()
 	holder.custom_minimum_size = CardView.SIZE * CARD_SCALE + Vector2(0, 30)
 	holder.set_meta("card_id", card.id)
-	var view: CardView = CardView.create(card, CardView.Mode.FULL)
+	var view: CardView = CardView.create(card, CardView.Mode.FULL, true)
 	holder.add_child(view)
 	CardView.fit(view, CARD_SCALE)
 	view.gui_event.connect(func(_v: CardView, event: InputEvent) -> void: _on_tile_input(card, event))

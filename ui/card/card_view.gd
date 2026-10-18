@@ -98,12 +98,20 @@ var _base_defense: int = 0
 ## The last battle state shown (kept so a text size change can redraw the card and put the state back).
 var _last_instance: CardInstance
 var _last_game: GameState
+## Draw the small art copy (grids of small cards open faster).
+var thumb_art: bool = false
+## One shared shading ramp under the rules panel (it used to be a new gradient texture per card).
+static var _scrim_texture: GradientTexture2D
+static var _rules_size_cache: Dictionary = {}
+static var _rules_text_cache: Dictionary = {}
 
 
-static func create(card: CardData, card_mode: Mode = Mode.FULL) -> CardView:
+## `thumb`: a small card in a grid (the Collection Book, the Deck Station, a vendor) draws the 256x384 art copy (`CardArt.thumb`).
+static func create(card: CardData, card_mode: Mode = Mode.FULL, thumb: bool = false) -> CardView:
 	var view: CardView = CardView.new()
 	view.data = card
 	view.mode = card_mode
+	view.thumb_art = thumb
 	return view
 
 
@@ -398,7 +406,7 @@ func _build_art() -> void:
 	var rect: Rect2 = Rect2(5, 5, SIZE.x - 10.0, SIZE.y - 10.0)
 	var art_texture: Texture2D = null
 	if data.id != "":
-		art_texture = CardArt.compact(data.id) if mode == Mode.COMPACT else CardArt.texture(data.id)
+		art_texture = CardArt.compact(data.id) if mode == Mode.COMPACT else (CardArt.thumb(data.id) if thumb_art else CardArt.texture(data.id))
 	if art_texture != null:
 		var picture: TextureRect = TextureRect.new()
 		picture.texture = art_texture
@@ -413,15 +421,16 @@ func _build_art() -> void:
 	else:
 		_build_placeholder_art(rect)
 	# A soft dark ramp under the rules panel keeps text readable over any art.
-	var ramp: GradientTexture2D = GradientTexture2D.new()
-	var shade: Gradient = Gradient.new()
-	shade.set_color(0, Color(0, 0, 0, 0))
-	shade.set_color(1, Color(0.04, 0.02, 0.07, 0.78))
-	ramp.gradient = shade
-	ramp.fill_from = Vector2(0.0, 0.0)
-	ramp.fill_to = Vector2(0.0, 1.0)
+	if _scrim_texture == null:
+		_scrim_texture = GradientTexture2D.new()
+		var shade: Gradient = Gradient.new()
+		shade.set_color(0, Color(0, 0, 0, 0))
+		shade.set_color(1, Color(0.04, 0.02, 0.07, 0.78))
+		_scrim_texture.gradient = shade
+		_scrim_texture.fill_from = Vector2(0.0, 0.0)
+		_scrim_texture.fill_to = Vector2(0.0, 1.0)
 	var scrim: TextureRect = TextureRect.new()
-	scrim.texture = ramp
+	scrim.texture = _scrim_texture
 	scrim.position = Vector2(rect.position.x, SIZE.y - 190.0)
 	scrim.size = Vector2(rect.size.x, 185.0)
 	scrim.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
@@ -561,10 +570,15 @@ func _build_rules() -> void:
 	var size_px: int = _rules_font_size()
 	for key: String in ["normal_font_size", "bold_font_size", "italics_font_size", "bold_italics_font_size"]:
 		rules.add_theme_font_size_override(key, size_px)
-	var text: String = KeywordInfo.rules_bbcode(data, false, size_px)
-	var flavor_ok: bool = data.flavor_text != "" and data.rules_text.length() < 40
-	if flavor_ok:
-		text += "\n[i][color=#6b5b73]%s[/color][/i]" % data.flavor_text
+	# Overnight Oct 17 (Phase 2, performance): the rules text of a card at a size is built once and reused.
+	var text_key: String = "%s|%d|%s" % [data.id, size_px, data.rules_text]
+	var text: String = str(_rules_text_cache.get(text_key, ""))
+	if text.is_empty():
+		text = KeywordInfo.rules_bbcode(data, false, size_px)
+		var flavor_ok: bool = data.flavor_text != "" and data.rules_text.length() < 40
+		if flavor_ok:
+			text += "\n[i][color=#6b5b73]%s[/color][/i]" % data.flavor_text
+		_rules_text_cache[text_key] = text
 	rules.text = text
 	add_child(rules)
 
@@ -575,12 +589,25 @@ func _rules_font_size() -> int:
 	if data.flavor_text != "" and data.rules_text.length() < 40:
 		plain += "
 " + data.flavor_text
+	# Overnight Oct 17 (Phase 2, performance): the fitted size depends only on the text and the text scale, so it is remembered,
+	# and found by binary search (the height only grows with the size) instead of trying every size from the top.
+	var top: int = _max_rules_font()
+	var key: String = "%d|%s" % [top, plain]
+	if _rules_size_cache.has(key):
+		return int(_rules_size_cache[key])
 	var font: Font = UIStyle.font_bold()
-	for candidate: int in range(_max_rules_font(), 10, -1):
-		var measured: Vector2 = font.get_multiline_string_size(plain, HORIZONTAL_ALIGNMENT_LEFT, 258.0, candidate)
-		if measured.y <= 72.0:
-			return candidate
-	return 11
+	var low: int = 11
+	var high: int = top
+	var best: int = 11
+	while low <= high:
+		var middle: int = (low + high) / 2
+		if font.get_multiline_string_size(plain, HORIZONTAL_ALIGNMENT_LEFT, 258.0, middle).y <= 72.0:
+			best = middle
+			low = middle + 1
+		else:
+			high = middle - 1
+	_rules_size_cache[key] = best
+	return best
 
 
 ## The biggest rules font tried (20 at the normal card text size; the fit still keeps the text inside its panel).
@@ -931,7 +958,7 @@ func _build_framed_art() -> void:
 	add_child(_panel(rect, UIStyle.box(Color("1c1526"), Color(0, 0, 0, 0), 0, 10)))
 	var art_texture: Texture2D = null
 	if data.id != "":
-		art_texture = CardArt.compact(data.id) if mode == Mode.COMPACT else CardArt.texture(data.id)
+		art_texture = CardArt.compact(data.id) if mode == Mode.COMPACT else (CardArt.thumb(data.id) if thumb_art else CardArt.texture(data.id))
 	if art_texture != null:
 		var picture: TextureRect = TextureRect.new()
 		picture.texture = art_texture

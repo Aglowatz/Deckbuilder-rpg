@@ -44,12 +44,16 @@ func run() -> void:
 	for flag: String in ["rescuer_met", "trial_cleared", "elder_greeted"]:
 		Session.set_flag(StringName(flag))
 	Session.add_xp(ProgressionTable.xp_to_reach(6))
-	await _tour_scene("forest", "res://scenes/starting_area.tscn", StartingAreaScene)
-	await _tour_scene("town", "res://scenes/town.tscn", TownScene)
-	for zone_id: String in ZONES:
+	# TOUR_ONLY=town (or a zone id) tours just that area (quick checks).
+	var only: String = OS.get_environment("TOUR_ONLY")
+	if only.is_empty() or only == "forest":
+		await _tour_scene("forest", "res://scenes/starting_area.tscn", StartingAreaScene)
+	if only.is_empty() or only == "town":
+		await _tour_scene("town", "res://scenes/town.tscn", TownScene)
+	for zone_id: String in ZONES + [CapitalZone.ID]:
 		Session.set_flag(StringName("%s_zone_unlocked" % zone_id))
-		await _tour_zone(zone_id)
-	await _tour_zone(CapitalZone.ID)
+		if only.is_empty() or only == zone_id:
+			await _tour_zone(zone_id)
 	_write_report()
 	get_tree().quit(1 if not _errors.is_empty() else 0)
 
@@ -183,11 +187,12 @@ func _open_menus(scene: Node) -> void:
 	for method: String in ["_open_deck_station", "_open_codex", "_open_character_screen", "_open_quest_log", "_open_full_map", "_open_wardrobe", "_open_vendor", "_open_item_vendor", "_open_pack_vendor"]:
 		if not scene.has_method(StringName(method)):
 			continue
-		_action = "town: open %s" % method.trim_prefix("_open_")
-		scene.call(StringName(method))
+		for round: int in range(2):
+			_action = "town: open %s%s" % [method.trim_prefix("_open_"), " (again)" if round == 1 else ""]
+			scene.call(StringName(method))
+			await driver.seconds(0.8)
+			await _clear(scene)
 		_menus.append(method.trim_prefix("_open_"))
-		await driver.seconds(0.8)
-		await _clear(scene)
 
 
 ## Clicks through dialogue, closes shops/menus/dialogs and dismisses reward and level-up boxes until the area is free again.

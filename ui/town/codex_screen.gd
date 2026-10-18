@@ -243,6 +243,8 @@ func _refresh_grid() -> void:
 	for child: Node in _grid_box.get_children():
 		_grid_box.remove_child(child)
 		child.queue_free()
+	_pending.clear()
+	var built: int = 0
 	for rarity: int in range(CardEnums.Rarity.size()):
 		if _rarity_filter >= 0 and rarity != _rarity_filter:
 			continue
@@ -268,11 +270,40 @@ func _refresh_grid() -> void:
 		grid.add_theme_constant_override("v_separation", 12)
 		_grid_box.add_child(grid)
 		for card: CardData in _sorted(cards):
-			var tile: Button = _card_tile(card)
-			grid.add_child(tile)
-			tile.focus_mode = Control.FOCUS_ALL
+			if built < FIRST_TILES:
+				_add_tile(grid, card)
+				built += 1
+			else:
+				_pending.append([grid, card])
 	if _grid_box.get_child_count() == 0:
 		_grid_box.add_child(UIKit.label("Nothing here yet.", &"MutedLabel", 22, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+
+
+## Overnight Oct 17 (Phase 2, performance): the first tiles are built at once, the rest a few per frame (no long frame on opening).
+const FIRST_TILES: int = 1000  # build everything at once: spreading tiles over frames made more 35-45 ms frames, not fewer (Phase 2, cycle 1)
+const TILES_PER_FRAME: int = 2
+var _pending: Array[Array] = []
+
+
+func _add_tile(grid: GridContainer, card: CardData) -> void:
+	var tile: Button = _card_tile(card)
+	grid.add_child(tile)
+	tile.focus_mode = Control.FOCUS_ALL
+
+
+## True while card tiles are still being added.
+func is_building() -> bool:
+	return not _pending.is_empty()
+
+
+func _process(_delta: float) -> void:
+	for _step: int in range(TILES_PER_FRAME):
+		if _pending.is_empty():
+			return
+		var next: Array = _pending.pop_front()
+		var grid: GridContainer = next[0] as GridContainer
+		if is_instance_valid(grid) and not grid.is_queued_for_deletion():
+			_add_tile(grid, next[1] as CardData)
 
 
 func _card_tile(card: CardData) -> Button:
@@ -282,7 +313,7 @@ func _card_tile(card: CardData) -> Button:
 	tile.name = "Card_%s" % card.id
 	tile.custom_minimum_size = CardView.SIZE * CARD_SCALE + Vector2(0, 28)
 	tile.add_theme_stylebox_override("focus", UIStyle.box(Color(0, 0, 0, 0), UIStyle.GOLD, 3, 10))
-	var view: CardView = CardView.create(card, CardView.Mode.FULL if seen else CardView.Mode.BACK)
+	var view: CardView = CardView.create(card, CardView.Mode.FULL if seen else CardView.Mode.BACK, true)
 	view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tile.add_child(view)
 	CardView.fit(view, CARD_SCALE)

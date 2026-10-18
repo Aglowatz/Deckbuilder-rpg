@@ -105,6 +105,13 @@
 			"size_limit": 768
 		},
 		{
+			"match": "assets/art/cards_thumb/*",
+			"why": "256x384 copies of the card art for grids (tools/card_thumbs.js); cheap to decode",
+			"mode": 1,
+			"quality": 0.85,
+			"size_limit": 384
+		},
+		{
 			"match": "assets/art/portraits/*",
 			"why": "dialogue and vendor portraits (up to ~970 px tall in vendor stages)",
 			"mode": 1,

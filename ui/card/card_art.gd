@@ -9,6 +9,19 @@ const EXTENSION: String = "webp"
 const ASPECT: float = 2.0 / 3.0
 
 static var _cache: Dictionary = {}
+## Overnight Oct 17 (Phase 2, performance): 256x384 copies for screens that show many small cards (tools/card_thumbs.js).
+const THUMB_DIR: String = "res://assets/art/cards_thumb/"
+static var _thumbs: Dictionary = {}
+
+
+## The small copy of a card's art (a ninth of the pixels), or the full art when there is no thumbnail.
+static func thumb(card_id: String) -> Texture2D:
+	if _thumbs.has(card_id):
+		return _thumbs[card_id] as Texture2D
+	var path: String = "%s%s.%s" % [THUMB_DIR, card_id, EXTENSION]
+	var loaded: Texture2D = load(path) as Texture2D if ResourceLoader.exists(path) else texture(card_id)
+	_thumbs[card_id] = loaded
+	return loaded
 
 
 static func path_for(card_id: String) -> String:

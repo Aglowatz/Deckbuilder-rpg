@@ -1,47 +1,36 @@
 # Bot report
 
-Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-17T23:45:41, 8.9 minutes.
+Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-18T00:28:31, 1.0 minutes.
 
 - Areas: forest, town, beefcake, necrocrat, gourmand, refusemancer, capital
-- Spots used (NPCs, shops, signs, chests...): 275
+- Spots used (NPCs, shops, signs, chests...): 18
 - Menus opened: deck_station, codex, character_screen, quest_log, full_map, wardrobe, vendor, item_vendor, pack_vendor
-- Battles: beefcake (Flexing Brute), necrocrat (Shambling Middle Manager), gourmand (Meatloaf Golem), refusemancer (Mossy Trash Golem), final (Compliance Officer)
+- Battles: 
 - Errors: 0, warnings: 0
 
 ## Frames over 33 ms
 
 | Area | Frames | Over 33 ms | Worst (ms) |
 |---|---|---|---|
-| forest | 60 | 0 | 22 |
-| town | 2390 | 29 | 146 |
-| beefcake | 2940 | 5 | 108 |
-| beefcake battle | 241 | 0 | 17 |
-| necrocrat | 3688 | 5 | 147 |
-| necrocrat battle | 241 | 0 | 17 |
-| gourmand | 3163 | 7 | 90 |
-| gourmand battle | 241 | 0 | 17 |
-| refusemancer | 4435 | 4 | 146 |
-| refusemancer battle | 241 | 0 | 17 |
-| final | 8741 | 18 | 125 |
-| final battle | 241 | 0 | 17 |
+| town | 2965 | 48 | 142 |
 
 ## Slowest moments (worst frame during one action)
 
-- necrocrat: use pip: 147 ms
-- town: open deck_station: 146 ms
-- town: use pack_vendor: 146 ms
-- refusemancer: use hob: 146 ms
-- town: open codex: 143 ms
-- town: use deck: 143 ms
-- town: use codex: 142 ms
-- town: use vendor: 141 ms
-- town: open character_screen: 138 ms
-- town: use item_vendor: 136 ms
-- town: open vendor: 133 ms
-- town: open full_map: 125 ms
-- final: use fig: 125 ms
-- beefcake: use tony: 108 ms
-- town: use notice_board: 101 ms
+- town: use vendor: 142 ms
+- town: use deck: 140 ms
+- town: open character_screen: 139 ms
+- town: use pack_vendor: 135 ms
+- town: use codex: 134 ms
+- town: open deck_station (again): 113 ms
+- town: open full_map: 112 ms
+- town: use item_vendor: 85 ms
+- town: open deck_station: 83 ms
+- town: open codex: 79 ms
+- town: open vendor (again): 78 ms
+- town: open codex (again): 77 ms
+- town: use notice_board: 69 ms
+- town: open vendor: 54 ms
+- town: use tailor: 34 ms
 
 ## Errors
 
@@ -53,4 +42,3 @@ None.
 
 ## Log
 
-- forest: no spot list to tour

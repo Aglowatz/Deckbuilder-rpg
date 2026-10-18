@@ -67,6 +67,11 @@ func test_the_book_shows_both_tabs_silhouettes_and_x_of_cap() -> void:
 	var screen: CodexScreen = CodexScreen.new()
 	add_child_autofree(screen)
 	await wait_process_frames(2)
+	for _wait: int in range(120):
+		if not screen.is_building():
+			break
+		await wait_process_frames(1)
+	assert_false(screen.is_building(), "the grid finishes building over a few frames")
 	assert_not_null(screen.find_child("TabCards", true, false))
 	assert_not_null(screen.find_child("TabBestiary", true, false))
 	assert_not_null(screen.find_child("Path_beefcake", true, false))

@@ -119,7 +119,7 @@ func _card_tile(card: CardData) -> Control:
 	var holder: Control = Control.new()
 	holder.custom_minimum_size = CardView.SIZE * CARD_SCALE
 	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var view: CardView = CardView.create(card, CardView.Mode.FULL)
+	var view: CardView = CardView.create(card, CardView.Mode.FULL, true)
 	holder.add_child(view)
 	CardView.fit(view, CARD_SCALE)
 	view.mouse_filter = Control.MOUSE_FILTER_IGNORE

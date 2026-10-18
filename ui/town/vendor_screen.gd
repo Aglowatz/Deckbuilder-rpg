@@ -85,9 +85,10 @@ func _build() -> void:
 		var card: CardData = Session.content.card(entry.card_id)
 		if card == null:
 			continue
-		_cards[card.id] = card
-		_locked[card.id] = not Condition.met(entry.unlock, state)
-		_grid.add_child(_make_tile(card, bool(_locked[card.id]), stock.teaser_for(card.id)))
+		_queue.append([card, not Condition.met(entry.unlock, state)])
+	# Overnight Oct 17 (Phase 2, performance): the first row now, the rest a few per frame (a big stock used to stall one frame).
+	for _first: int in range(FIRST_TILES):
+		_build_next_tile()
 	_toast = UIKit.label("", &"", 28, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	_toast.add_theme_font_override("font", UIStyle.font_bold())
 	_toast.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
@@ -109,12 +110,46 @@ func _show_cards_tip() -> void:
 	TipPanel.show_once(self, &"tip_vendor", "Buying cards", "Hover a card to zoom it, click it to buy. Gold comes from winning fights in the dungeon. You can carry [b]3 copies[/b] of a card at most, and rarer cards fewer until you level up (the [b]Own x/cap[/b] line under each card), so the vendor stops selling at your cap. Cards marked [b]???[/b] unlock as you play.", Vector2(560, 900))
 
 
+const FIRST_TILES: int = 1000  # build everything at once (see DeckbuilderScreen.FIRST_TILES)
+const TILES_PER_FRAME: int = 2
+var _queue: Array[Array] = []
+
+
+func _build_next_tile() -> bool:
+	if _queue.is_empty():
+		return false
+	var next: Array = _queue.pop_front()
+	var card: CardData = next[0] as CardData
+	_cards[card.id] = card
+	_locked[card.id] = bool(next[1])
+	var tile: Control = _make_tile(card, bool(_locked[card.id]), stock.teaser_for(card.id))
+	_grid.add_child(tile)
+	if _filter != null:
+		tile.visible = _filter.matches(card)
+	return true
+
+
+## True while stock tiles are still being added.
+func is_building() -> bool:
+	return not _queue.is_empty()
+
+
+func _process(_delta: float) -> void:
+	if _queue.is_empty():
+		return
+	for _step: int in range(TILES_PER_FRAME):
+		if not _build_next_tile():
+			break
+	if _queue.is_empty() and _gold_label != null:
+		_refresh()
+
+
 func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
 	var holder: Control = Control.new()
 	var lift: float = CAN_REST if vendor_screen_id == "VS-GRISTLE" else 0.0
 	holder.custom_minimum_size = CardView.SIZE * _card_scale + Vector2(0, 42.0 + lift)
 	holder.set_meta("card_id", card.id)
-	var view: CardView = CardView.create(card, CardView.Mode.BACK if locked else CardView.Mode.FULL)
+	var view: CardView = CardView.create(card, CardView.Mode.BACK if locked else CardView.Mode.FULL, true)
 	holder.add_child(view)
 	CardView.fit(view, _card_scale)
 	var card_area: Rect2 = Rect2(Vector2(0.0, lift), CardView.SIZE * _card_scale)
@@ -190,6 +225,8 @@ func _apply_filter() -> void:
 func _refresh() -> void:
 	_gold_label.text = str(Session.gold)
 	for id: Variant in _cards.keys():
+		if not _price_labels.has(id):
+			continue
 		var card: CardData = _cards[id] as CardData
 		var price_label: Label = _price_labels[id] as Label
 		if bool(_locked.get(id, false)):

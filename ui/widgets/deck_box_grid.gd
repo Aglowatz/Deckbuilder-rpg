@@ -85,7 +85,7 @@ func _tile(slot: int) -> FancyButton:
 	holder.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	column.add_child(holder)
 	if cover != null:
-		var view: CardView = CardView.create(cover, CardView.Mode.FULL)
+		var view: CardView = CardView.create(cover, CardView.Mode.FULL, true)
 		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		holder.add_child(view)
 		CardView.fit(view, COVER_SCALE)
