@@ -57,6 +57,18 @@ func toggle() -> void:
 	_apply()
 
 
+## A long summary ("+ Approved Procedure - Unauthorized Action") steps the font down to 12 so it is not cut off mid-word (Phase 2 cycle 7);
+## past that it is clipped as before.
+func _fit_header() -> void:
+	var font: Font = _header.get_theme_font(&"font")
+	var room: float = QuestTracker.WIDTH - 36.0
+	var size_px: int = 16
+	while size_px > 12 and font != null and font.get_string_size(_header.text, HORIZONTAL_ALIGNMENT_LEFT, -1, size_px).x > room:
+		size_px -= 1
+	_header.add_theme_font_size_override("font_size", size_px)
+
+
 func _apply() -> void:
 	_header.text = "%s %s" % ["▾" if is_expanded() else "▸", _summary]
+	_fit_header()
 	_body.visible = is_expanded()

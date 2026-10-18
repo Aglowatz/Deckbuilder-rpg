@@ -471,14 +471,37 @@ func _build_woods() -> void:
 # ---- The way in and the landmarks (docs/art/heap_slice.md, Part A) -------------------------------------------
 
 
+## Half the overflow pool's size (x across, z along the bridge).
+const OVERFLOW_HALF: Vector2 = Vector2(13.0, 16.5)
+
+
 ## The overflow pool the entrance bridge crosses: a sludge-green plane south of the rim, below the rim's top layer.
 func _build_overflow() -> void:
-	var plane: PlaneMesh = PlaneMesh.new()
-	plane.size = Vector2(24.0, 30.0)
+	# Phase 2 cycle 7: an oval with a muddy bank instead of a 24 x 30 m rectangle - its straight edges read as an unfinished plane from the bridge.
+	var centre: Vector3 = Vector3(HeapLayout.ENTRANCE_X, -0.75, HeapLayout.MAX_CORNER.y + 13.0)
+	var bank_mesh: CylinderMesh = CylinderMesh.new()
+	bank_mesh.top_radius = 1.0
+	bank_mesh.bottom_radius = 1.0
+	bank_mesh.height = 0.02
+	bank_mesh.radial_segments = 48
+	bank_mesh.rings = 1
+	var bank: MeshInstance3D = MeshInstance3D.new()
+	bank.mesh = bank_mesh
+	bank.material_override = H.flat(Color(0.3, 0.27, 0.16))
+	# just above the far ground (-0.95): any higher and the water reads as shallow foam all over
+	bank.position = Vector3(centre.x, -0.935, centre.z)
+	bank.scale = Vector3(OVERFLOW_HALF.x + 1.6, 1.0, OVERFLOW_HALF.y + 1.6)
+	bank.name = "OverflowBank"
+	bank.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	bank.set_meta(&"no_range_cull", true)
+	bank.set_meta(&"no_occlusion_fade", true)
+	root.add_child(bank)
+	var pool_mesh: CylinderMesh = bank_mesh.duplicate() as CylinderMesh
 	var instance: MeshInstance3D = MeshInstance3D.new()
-	instance.mesh = plane
+	instance.mesh = pool_mesh
+	instance.scale = Vector3(OVERFLOW_HALF.x, 1.0, OVERFLOW_HALF.y)
 	instance.material_override = StyleWater.material(Color("6a9a78"), Color("2a4a3a"))
-	instance.position = Vector3(HeapLayout.ENTRANCE_X, -0.75, HeapLayout.MAX_CORNER.y + 13.0)
+	instance.position = centre
 	instance.name = "OverflowPool"
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	instance.set_meta(&"no_range_cull", true)

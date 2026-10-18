@@ -79,9 +79,10 @@ func _ready() -> void:
 	_toast.size = Vector2(1000, 44)
 	_toast.modulate.a = 0.0
 	add_child(_toast)
-	var hints: Label = UIKit.label("%s: move      %s / Click: interact      Menu button: character, deck, quests, packs, wardrobe      %s: map      %s: menu" % [_move_keys_text(), Keybinds.hint(&"interact"), Keybinds.first_key(&"open_map"), Keybinds.first_key(&"pause")], &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
-	hints.position = Vector2(960, 1030)
-	hints.size = Vector2(940, 30)
+	# Phase 2 cycle 7: the line ran off the right edge; the Menu button names itself, so it is not listed here.
+	var hints: Label = UIKit.label("%s: move      %s / Click: interact      %s: map      %s: menu" % [_move_keys_text(), Keybinds.hint(&"interact"), Keybinds.first_key(&"open_map"), Keybinds.first_key(&"pause")], &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_RIGHT)
+	hints.position = Vector2(560, 1030)
+	hints.size = Vector2(1340, 30)
 	add_child(hints)
 	EventBus.gold_changed.connect(set_gold)
 	set_gold(Session.gold)
