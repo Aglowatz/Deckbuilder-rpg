@@ -30,6 +30,13 @@ var _locked: Dictionary = {}
 var _price_labels: Dictionary = {}
 var _owned_labels: Dictionary = {}
 var _card_scale: float = CARD_SCALE
+## Overnight Oct 17, Part 2: a vendor with more than one category (cards, packs, gear) opens on a category selection
+## screen (`_picker`); the card grid lives in `_cards_view`, and every category view has a Back button to the picker.
+var categories: Array[VendorCategories.Kind] = []
+var _picker: Control
+var _cards_view: VBoxContainer
+var _picker_buttons: Array[FancyButton] = []
+var _showing_cards: bool = false
 
 
 func _init() -> void:
@@ -40,16 +47,7 @@ func _init() -> void:
 func _build() -> void:
 	if stock == null:
 		stock = VendorData.graduated(Session.content, Session.deck.colors(), Condition.dungeon_cleared(TrialOfTheHollow.DUNGEON_NAME))
-	if not pack_vendor_id.is_empty():
-		var packs_button: FancyButton = FancyButton.make("Card Packs", &"PrimaryButton", Vector2(190, 52))
-		packs_button.name = "CardPacksButton"
-		packs_button.pressed.connect(_open_packs)
-		header_extra.add_child(packs_button)
-	if gear_stock != null and not gear_stock.entries.is_empty():
-		var gear_button: FancyButton = FancyButton.make("Gear", &"PrimaryButton", Vector2(150, 52))
-		gear_button.name = "GearButton"
-		gear_button.pressed.connect(_open_gear)
-		header_extra.add_child(gear_button)
+	categories = VendorCategories.list(not stock.entries.is_empty(), not pack_vendor_id.is_empty(), gear_stock != null and not gear_stock.entries.is_empty())
 	if stage != null:
 		_card_scale = STAGED_SCALE
 	var coin: TextureRect = IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 38.0)
@@ -59,13 +57,16 @@ func _build() -> void:
 	header_extra.add_child(_gold_label)
 	_preview = HoverPreview.new()
 	add_child(_preview)
+	_cards_view = UIKit.vbox(12)
+	_cards_view.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.add_child(_cards_view)
 	_filter = CardFilterBar.new()
 	_filter.changed.connect(_apply_filter)
-	body.add_child(_filter)
+	_cards_view.add_child(_filter)
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	body.add_child(scroll)
+	_cards_view.add_child(scroll)
 	_grid = GridContainer.new()
 	_grid.columns = STAGED_COLUMNS if stage != null else COLUMNS
 	_grid.add_theme_constant_override("h_separation", 12)
@@ -96,7 +97,15 @@ func _build() -> void:
 	_toast.z_index = 250
 	add_child(_toast)
 	_refresh()
-	TipPanel.show_once(self, &"tip_vendor", "Buying cards", "Hover a card to zoom it, click it to buy. Gold comes from winning fights in the dungeon. A deck can only use [b]3 copies[/b] of a card, so the vendor stops selling after that. Cards marked [b]???[/b] unlock as you play.", Vector2(560, 900))
+	if VendorCategories.needs_picker(categories):
+		_build_picker()
+		_show_picker()
+		return
+	_show_cards_tip()
+
+
+func _show_cards_tip() -> void:
+	TipPanel.show_once(self, &"tip_vendor", "Buying cards", "Hover a card to zoom it, click it to buy. Gold comes from winning fights in the dungeon. You can carry [b]3 copies[/b] of a card at most, and rarer cards fewer until you level up (the [b]Own x/cap[/b] line under each card), so the vendor stops selling at your cap. Cards marked [b]???[/b] unlock as you play.", Vector2(560, 900))
 
 
 func _make_tile(card: CardData, locked: bool, teaser: String) -> Control:
@@ -187,7 +196,7 @@ func _refresh() -> void:
 			price_label.add_theme_color_override("font_color", UIStyle.MUTED)
 			continue
 		var owned: int = Session.owned_count(card.id)
-		var for_sale: bool = CardPricing.is_for_sale(card, owned)
+		var for_sale: bool = CardPricing.is_for_sale(card, owned, Session.copy_cap(card))
 		var price: int = Session.effective_price(CardPricing.price(card))
 		if for_sale:
 			IconArt.set_price(price_label, price)
@@ -195,7 +204,7 @@ func _refresh() -> void:
 			IconArt.set_price_text(price_label, "Max")
 		var affordable: bool = Session.gold >= price
 		price_label.add_theme_color_override("font_color", UIStyle.GOLD if affordable and for_sale else (Color("e06a5a") if for_sale else UIStyle.MUTED))
-		(_owned_labels[id] as Label).text = "Own %d" % owned
+		(_owned_labels[id] as Label).text = "Own %s" % CopyCaps.ratio_text(owned, card, Session.profile.level)
 
 
 func _ask_to_buy(card: CardData) -> void:
@@ -204,9 +213,9 @@ func _ask_to_buy(card: CardData) -> void:
 		_say(str(stock.teaser_for(card.id)), Color("ffcf70"))
 		return
 	var owned: int = Session.owned_count(card.id)
-	if not CardPricing.is_for_sale(card, owned):
+	if not CardPricing.is_for_sale(card, owned, Session.copy_cap(card)):
 		Audio.sfx(&"ui_error", -4.0)
-		_say("You already own the %d copies a deck can use." % CardPricing.MAX_OWNED_FOR_SALE, Color("ffcf70"))
+		_say("You own %s. %s" % [CopyCaps.ratio_text(owned, card, Session.profile.level), CopyCaps.reason(card, Session.profile.level)], Color("ffcf70"))
 		return
 	var price: int = Session.effective_price(CardPricing.price(card))
 	if Session.gold < price:
@@ -250,18 +259,115 @@ func _open_gear() -> void:
 	shop.stock = gear_stock
 	shop.screen_title = "%s: Gear" % screen_title
 	shop.vendor_screen_id = ""
+	shop.close_text = "Back (Esc)"
 	shop.z_index = 100
 	add_child(shop)
 	shop.closed.connect(func() -> void:
 		shop.queue_free()
-		_refresh())
+		_back_to_picker())
 
 
 func _open_packs() -> void:
 	Audio.sfx(&"ui_open")
 	var shop: PackShopScreen = PackShopScreen.make(pack_vendor_id, pack_story_prefix)
+	shop.close_text = "Back (Esc)"
 	shop.z_index = 100
 	add_child(shop)
 	shop.closed.connect(func() -> void:
 		shop.queue_free()
-		_refresh())
+		_back_to_picker())
+
+
+# ---- Category selection (Part 2) ------------------------------------------------------------------
+
+
+func _build_picker() -> void:
+	var center: CenterContainer = CenterContainer.new()
+	center.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	center.name = "CategoryPicker"
+	body.add_child(center)
+	_picker = center
+	var column: VBoxContainer = UIKit.vbox(26)
+	center.add_child(column)
+	column.add_child(UIKit.label("What are you after?", &"", 34, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
+	var row: HBoxContainer = UIKit.hbox(28)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_child(row)
+	_picker_buttons.clear()
+	for kind: VendorCategories.Kind in categories:
+		var tile: FancyButton = FancyButton.make(VendorCategories.label(kind), &"PrimaryButton", Vector2(250, 250))
+		tile.name = "Category%s" % VendorCategories.label(kind).replace(" ", "")
+		tile.tooltip_text = VendorCategories.blurb(kind)
+		tile.icon = IconArt.texture(VendorCategories.icon(kind), 128.0)
+		tile.expand_icon = true
+		tile.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		tile.vertical_icon_alignment = VERTICAL_ALIGNMENT_TOP
+		tile.add_theme_constant_override("icon_max_width", 128)
+		tile.add_theme_font_size_override("font_size", 30)
+		tile.pressed.connect(func() -> void: open_category(kind))
+		row.add_child(tile)
+		tile.focus_mode = Control.FOCUS_ALL  # after FancyButton._ready, which turns focus off
+		_picker_buttons.append(tile)
+		var blurb: Label = UIKit.label(VendorCategories.blurb(kind), &"MutedLabel", 18, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+		blurb.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		blurb.position = Vector2(0, 250 - 40)
+		blurb.size = Vector2(250, 30)
+		tile.add_child(blurb)
+	for index: int in range(_picker_buttons.size()):
+		var here: FancyButton = _picker_buttons[index]
+		var left: FancyButton = _picker_buttons[(index - 1 + _picker_buttons.size()) % _picker_buttons.size()]
+		var right: FancyButton = _picker_buttons[(index + 1) % _picker_buttons.size()]
+		here.focus_neighbor_left = here.get_path_to(left)
+		here.focus_neighbor_right = here.get_path_to(right)
+
+
+## Opens one category: the card grid in place, packs and gear as their own screens over the picker.
+func open_category(kind: VendorCategories.Kind) -> void:
+	match kind:
+		VendorCategories.Kind.CARDS:
+			Audio.sfx(&"ui_open")
+			_show_cards()
+		VendorCategories.Kind.PACKS:
+			_open_packs()
+		VendorCategories.Kind.GEAR:
+			_open_gear()
+
+
+func _show_picker() -> void:
+	_showing_cards = false
+	_cards_view.visible = false
+	_picker.visible = true
+	_close_button.text = close_text
+	if not _picker_buttons.is_empty():
+		_picker_buttons[0].call_deferred(&"grab_focus")
+
+
+func _show_cards() -> void:
+	_showing_cards = true
+	if _picker != null:
+		_picker.visible = false
+		_close_button.text = "Back (Esc)"
+	_cards_view.visible = true
+	_refresh()
+	_show_cards_tip()
+
+
+func _back_to_picker() -> void:
+	_refresh()
+	if _picker == null:
+		return
+	Audio.sfx(&"ui_back")
+	_show_picker()
+
+
+## True while the category selection screen is up (tests and smokes).
+func is_on_picker() -> bool:
+	return _picker != null and _picker.visible
+
+
+## Back from the card grid to the picker; from the picker (or a single-category vendor) leaves the shop.
+func request_close() -> void:
+	if _picker != null and _showing_cards:
+		_back_to_picker()
+		return
+	super.request_close()
