@@ -19,6 +19,8 @@ const FUEL_VALUE: float = 2.0
 var _fuel_cache: Dictionary = {}
 
 var personality: AIPersonality
+## Rebalance (Oct 18): false = never uses Iron, Red Tape or Contracts (the balance sim measures what a resource is worth).
+var use_resources: bool = true
 
 
 func _init(ai_personality: AIPersonality = null) -> void:
@@ -191,7 +193,7 @@ func _choose_main_action(state: GameState, who: int) -> GameAction:
 	for action: GameAction in actions:
 		if action.type != GameAction.Type.PLAY and action.type != GameAction.Type.ACTIVATE and action.type != GameAction.Type.USE_RESOURCE and action.type != GameAction.Type.ACTIVATE_ABILITY:
 			continue
-		if action.type == GameAction.Type.USE_RESOURCE and not _resource_use_is_sensible(state, who, action):
+		if action.type == GameAction.Type.USE_RESOURCE and (not use_resources or not _resource_use_is_sensible(state, who, action)):
 			continue
 		var trial: GameState = state.clone(false, 1 - who)
 		if not trial.apply_action(action):

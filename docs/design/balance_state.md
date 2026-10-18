@@ -22,7 +22,7 @@ passing, a commit and a push. Check for a `STOP_TASK` file in the repo root (or 
 | Part | Status | Notes |
 |---|---|---|
 | A - rules changes | done (commit "Rebalance Part A") | Iron +1/+1 eot, Red Tape -2/-0 until controller's next turn, Eat Garbage no HP cost + `lose(N)` cost; arena Colossus retuned; GUT 1833/1834 (pre-existing test_world_look_rig) |
-| B - simulator | todo | |
+| B - simulator | done (commit "Rebalance Part B") | `core/sim/{player_spec,encounter_spec,encounter_catalog,progression_model,sim_item_policy,balance_sim}.gd`, CLI `tools/run_balance_sim.gd` (loads `tools/balance_sim_tool.gd` after the autoloads). Run: `Godot --headless --path . -s res://tools/run_balance_sim.gd -- --what=encounters --mode=quick --filter=zone:beefcake --out=res://docs/design/sim/x.md` (what: encounters, tutorial, sequence, decks, iron, one; mode quick=12 games/Path, full=100). ~0.09 s per game; whole catalog quick = ~9 min. Reports in `docs/design/sim/`. GUT 1840/1841 |
 | C - card rebalance | todo | |
 | D - starting decks | todo | |
 | E - encounters + modifiers | todo | |
