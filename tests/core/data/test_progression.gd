@@ -91,7 +91,8 @@ func test_every_level_up_grants_something() -> void:
 			or row.max_hand_size > previous.max_hand_size
 		)
 		var has_filler: bool = row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty() or row.reward_deck_expansion or row.reward_equipment_vendor_unlock or row.reward_item_vendor_advanced_unlock
-		assert_true(has_real_gain or has_filler, "level %d grants nothing" % row.level)
+		var has_track_grant: bool = not row.grants.is_empty() or row.armory or not row.copy_cap_raises.is_empty()
+		assert_true(has_real_gain or has_filler or has_track_grant, "level %d grants nothing" % row.level)
 
 
 func test_xp_to_reach_is_strictly_increasing() -> void:
@@ -332,16 +333,20 @@ func test_using_up_the_last_charge_also_unequips_it() -> void:
 	assert_eq(profile.equipped_item_ids.size(), 0)
 
 
-## Brief 16, Group F: gold is never a level-up reward; the old gold levels got real rewards; the deck box grows from 5 to 10 slots early on.
-func test_no_level_up_ever_grants_gold() -> void:
+## Overnight Oct 17, Part 6: the reward track pays gold at some levels again (the brief asks for gold among the fillers; it
+## replaces Brief 16's no-gold rule, ON17-8). Levelling 1 to 30 pays exactly the track's gold.
+func test_levelling_pays_exactly_the_track_gold() -> void:
+	var expected: int = 0
 	for row: LevelData in ProgressionTable.build():
-		assert_false("gold" in row.summary.to_lower(), "level %d summary mentions gold: %s" % [row.level, row.summary])
+		for grant: Dictionary in row.grants:
+			if str(grant.get("kind", "")) == "gold":
+				expected += int(grant.get("amount", 0))
 	Session.save_enabled = false
 	Session.new_game()
 	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	var before: int = Session.gold
 	Session.add_xp(ProgressionTable.xp_to_reach(ProgressionTable.MAX_LEVEL))
-	assert_eq(Session.gold, before, "levelling from 1 to 30 pays no gold")
+	assert_eq(Session.gold, before + expected, "levelling from 1 to 30 pays the track's gold")
 
 
 func test_the_old_gold_levels_grant_something_meaningful() -> void:
@@ -351,6 +356,7 @@ func test_the_old_gold_levels_grant_something_meaningful() -> void:
 		var real: bool = (
 			row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty() or row.reward_deck_expansion
 			or row.reward_equipment_vendor_unlock or row.reward_item_vendor_advanced_unlock or row.max_hp > previous.max_hp
+			or not row.grants.is_empty()
 		)
 		assert_true(real, "level %d (formerly gold) grants: %s" % [level, row.summary])
 	assert_true(ProgressionTable.row(7).reward_deck_expansion)

@@ -62,6 +62,9 @@ var completed_quests: Array[String]:
 ## counter, not a flag, so a single large XP grant that crosses more than one such level never
 ## silently loses a choice. The character screen/level-up screen show a choice while this is > 0.
 var pending_equipment_choices: int = 0
+## Overnight Oct 17, Part 6: level-ups pay the reward track's gold, packs and cosmetics (tests that count gold exactly turn it off;
+## new_game turns it back on).
+var level_track_grants: bool = true
 
 
 func _ready() -> void:
@@ -148,6 +151,7 @@ func new_game() -> void:
 	pending_level_ups = []
 	pending_popups = []
 	pending_equipment_choices = 0
+	level_track_grants = true
 	rng.randomize()
 
 
@@ -585,6 +589,10 @@ func grant_dev_level() -> Array[LevelData]:
 
 
 func _apply_level_rewards(row: LevelData) -> void:
+	# Overnight Oct 17, Part 6: the reward track's gold, packs and cosmetics for this level.
+	if level_track_grants:
+		for grant: Dictionary in row.grants:
+			_pay_track_grant(grant)
 	if row.level >= ProgressionTable.ARMORY_LEVEL:
 		start_quest(QuestDefinitions.ARMORY, true)  # Part 5: reaching level 5 starts the armory quest at once
 	if row.reward_vendor_discount_percent > 0:
@@ -594,6 +602,17 @@ func _apply_level_rewards(row: LevelData) -> void:
 	# Condition.player_level(...) read live against the profile, which apply_level() (above, in
 	# add_xp) already updated before this runs. These two fields exist purely so the level-up
 	# popup can announce the unlock (LevelUpScreen._bonuses_for).
+
+
+## Pays one reward-track grant (Part 6): gold, a pack ("path"/"gilded" = the player's own Path) or a cosmetic (owned, not equipped).
+func _pay_track_grant(grant: Dictionary) -> void:
+	match str(grant.get("kind", "")):
+		"gold":
+			add_gold(int(grant.get("amount", 0)))
+		"pack":
+			add_pack(ProgressionTable.pack_id(grant, profile.primary_affinity), int(grant.get("count", 1)))
+		"cosmetic":
+			cosmetics.grant(str(grant.get("id", "")))
 
 
 ## New brief, Part C: buys one piece of equipment from the equipment vendor. Unlike items,

@@ -6,6 +6,7 @@ func before_each() -> void:
 	Session.save_enabled = false
 	Session.new_game()
 	Session.ensure_game(Affinity.Type.BEEFCAKE)
+	Session.level_track_grants = false  # these tests count gold and packs exactly; the reward track pays its own (test_level_track)
 	DungeonCatalog.reset()
 	MainDungeons.reset()
 

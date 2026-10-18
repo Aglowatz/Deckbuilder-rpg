@@ -30,6 +30,14 @@ static func section(key: String) -> Dictionary:
 	return data().get(key, {}) as Dictionary
 
 
+## The track's entry for one level ({level, big, headline, grants}); {} when the level has none.
+static func level_entry(level: int) -> Dictionary:
+	for entry: Variant in data().get("levels", []) as Array:
+		if entry is Dictionary and int((entry as Dictionary).get("level", 0)) == level:
+			return entry as Dictionary
+	return {}
+
+
 ## Rarity names as the track spells them ("common", "uncommon", "epic", "legendary").
 static func rarity_key(rarity: CardEnums.Rarity) -> String:
 	return str(CardEnums.Rarity.keys()[int(rarity)]).to_lower()
