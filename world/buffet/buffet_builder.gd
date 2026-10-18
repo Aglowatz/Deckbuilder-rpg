@@ -798,6 +798,72 @@ func _build_moat() -> void:
 	instance.set_meta(&"no_occlusion_fade", true)
 	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
 	root.add_child(instance)
+	_dress_moat(instance.position.y)
+
+
+## Overnight Oct 17 (Phase 2 cycle 12): the moat read as one flat brown sheet from the bridge. Things float in it like in the river - peas, carrot
+## coins, croutons and pale fat sheens - one MultiMesh per kind, kept clear of the bridge.
+const MOAT_FLOATERS: Array[Dictionary] = [
+	{"name": "Peas", "count": 70, "color": Color(0.45, 0.78, 0.25), "shape": "ball", "size": 0.32},
+	{"name": "CarrotCoins", "count": 34, "color": Color(0.95, 0.55, 0.18), "shape": "coin", "size": 0.55},
+	{"name": "Croutons", "count": 26, "color": Color(0.86, 0.68, 0.36), "shape": "cube", "size": 0.5},
+	{"name": "FatSheens", "count": 22, "color": Color(0.78, 0.6, 0.38), "shape": "sheen", "size": 1.6},
+]
+
+
+func _dress_moat(level: float) -> void:
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 5150
+	for kind: Dictionary in MOAT_FLOATERS:
+		var shape: String = str(kind["shape"])
+		var size: float = float(kind["size"])
+		var mesh: Mesh
+		match shape:
+			"ball":
+				var ball: SphereMesh = SphereMesh.new()
+				ball.radius = size * 0.5
+				ball.height = size * 0.7
+				ball.radial_segments = 8
+				ball.rings = 4
+				mesh = ball
+			"cube":
+				var cube: BoxMesh = BoxMesh.new()
+				cube.size = Vector3(size, size * 0.6, size)
+				mesh = cube
+			_:
+				var disc: CylinderMesh = CylinderMesh.new()
+				disc.top_radius = size * 0.5
+				disc.bottom_radius = size * 0.5
+				disc.height = 0.06 if shape == "coin" else 0.01
+				disc.radial_segments = 12 if shape == "coin" else 20
+				mesh = disc
+		mesh.surface_set_material(0, M.flat(kind["color"] as Color, 0.35 if shape != "sheen" else 0.15))
+		var multimesh: MultiMesh = MultiMesh.new()
+		multimesh.transform_format = MultiMesh.TRANSFORM_3D
+		multimesh.mesh = mesh
+		var transforms: Array[Transform3D] = []
+		var guard: int = 0
+		while transforms.size() < int(kind["count"]) and guard < 2000:
+			guard += 1
+			var x: float = BuffetLayout.BRIDGE_X + rng.randf_range(-44.0, 44.0)
+			var z: float = rng.randf_range(BuffetLayout.MAX_CORNER.y + 2.0, BuffetLayout.MAX_CORNER.y + 44.0)
+			if absf(x - BuffetLayout.BRIDGE_X) < BuffetLayout.BRIDGE_HALF_WIDTH + 1.4 and z < BuffetLayout.BRIDGE_Z1 + 2.0:
+				continue
+			var scale: float = rng.randf_range(0.75, 1.3) * (rng.randf_range(0.6, 1.4) if shape == "sheen" else 1.0)
+			var basis: Basis = Basis(Vector3.UP, rng.randf() * TAU).scaled(Vector3(scale, 1.0 if shape == "sheen" else scale, scale))
+			var lift: float = 0.005 if shape == "sheen" else size * 0.12
+			transforms.append(Transform3D(basis, Vector3(x, level + lift, z)))
+		multimesh.instance_count = transforms.size()
+		for index: int in range(transforms.size()):
+			multimesh.set_instance_transform(index, transforms[index])
+		var field: MultiMeshInstance3D = MultiMeshInstance3D.new()
+		field.multimesh = multimesh
+		field.name = "Moat%s" % str(kind["name"])
+		field.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		field.set_meta(&"no_range_cull", true)
+		field.set_meta(&"no_occlusion_fade", true)
+		field.set_meta(PaintedClasses.META_NO_PAINT, true)
+		root.add_child(field)
 
 
 ## A biscuit landing stage on both banks of each crossing (the two raft lanes and the lazy susan), so the way across is obvious (BF-10).
