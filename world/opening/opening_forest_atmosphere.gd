@@ -55,7 +55,7 @@ func _process(delta: float) -> void:
 		lantern_light.light_energy = LANTERN_ENERGY * flicker
 		_glass.emission_energy_multiplier = 2.4 * flicker
 	if cave_light != null:
-		cave_light.light_energy = 0.9 + 0.12 * sin(_time * 0.7)
+		cave_light.light_energy = 1.4 + 0.15 * sin(_time * 0.7)
 
 
 # ---- the lantern ------------------------------------------------------------------------------------------------------------------------------
@@ -83,7 +83,7 @@ func _lantern() -> void:
 	lantern_light.name = "LanternLight"
 	lantern_light.light_color = LANTERN_COLOR
 	lantern_light.light_energy = LANTERN_ENERGY
-	lantern_light.omni_range = 8.5
+	lantern_light.omni_range = 9.5
 	lantern_light.omni_attenuation = 1.6
 	lantern_light.light_volumetric_fog_energy = 1.5
 	lantern_light.shadow_enabled = quality >= GraphicsQuality.Level.HIGH
@@ -101,12 +101,12 @@ func _cave_glow() -> void:
 	cave_light = OmniLight3D.new()
 	cave_light.name = "CaveGlow"
 	cave_light.light_color = CAVE_COLOR
-	cave_light.light_energy = 0.9
-	cave_light.omni_range = 5.5
+	cave_light.light_energy = 1.4
+	cave_light.omni_range = 7.0
 	cave_light.omni_attenuation = 1.4
 	cave_light.position = mouth + Vector3(0.0, 1.3, 0.4)
 	add_child(cave_light)
-	GroundDecals.glow(self, mouth + Vector3(0.0, 0.02, 1.6), 2.6, CAVE_COLOR, 0.28)
+	GroundDecals.glow(self, mouth + Vector3(0.0, 0.02, 1.8), 3.2, CAVE_COLOR, 0.34)
 
 
 ## Clusters of small glowing mushrooms at the path's edges, more of them nearer the cave, so a line of cool light leads the eye up the path.
@@ -203,7 +203,7 @@ func _mist() -> void:
 	var count: int = [3, 4, 5][clampi(quality, 0, 2)]
 	for index: int in range(mini(count, banks.size())):
 		var bank: Vector4 = banks[index]
-		_mist_quad(Vector2(bank.z, 4.5), Vector3(bank.x, 2.0, bank.y), true, _mist_material(0.42, 0.12, float(index) * 3.7 + 2.0), bank.w)
+		_mist_quad(Vector2(bank.z, 4.5), Vector3(bank.x, 2.0, bank.y), true, _mist_material(0.24, 0.12, float(index) * 3.7 + 2.0), bank.w)
 
 
 ## Pale moonlight rays slanting through the canopy: over the back of the clearing, over the path's bend and beside the cave.
@@ -224,7 +224,7 @@ func _rays() -> void:
 		var material: ShaderMaterial = ShaderMaterial.new()
 		material.shader = shader
 		material.set_shader_parameter("tint", Color(0.62, 0.86, 0.92))
-		material.set_shader_parameter("strength", 0.05)
+		material.set_shader_parameter("strength", 0.025)
 		material.set_shader_parameter("phase", float(index) * 1.9)
 		material.set_shader_parameter("half_height", 7.0)
 		var ray: MeshInstance3D = MeshInstance3D.new()

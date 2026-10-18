@@ -9,8 +9,8 @@
 	},
 	"start": {
 		"title": "Opening Forest: deep teal dusk, lantern-lit camp, mist (docs/art/opening_forest.md)",
-		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "1c3c46", "fog_density": 0.018, "warmth": -0.06, "saturation": 1.0, "vignette": 0.5, "bloom": 0.8, "bloom_threshold": 0.85, "glow_spread": 0.75, "cloud_speed": 0.4},
-		"sky": {"horizon": "2a5866", "gold": "33626c", "mid": "163844", "zenith": "0a1c26", "sun": "8ab8d0", "sun_glow": 0.0, "cloud_opacity": 0.3, "cloud_tint": "2a4a58"},
+		"look": {"green_calm": 0.0, "red_calm": 0.0, "fog_color": "283c3a", "fog_density": 0.012, "warmth": 0.04, "saturation": 0.82, "vignette": 0.5, "bloom": 0.8, "bloom_threshold": 0.85, "glow_spread": 0.75, "cloud_speed": 0.4},
+		"sky": {"horizon": "3a5a5a", "gold": "46625c", "mid": "203834", "zenith": "101e20", "sun": "a8c0c0", "sun_glow": 0.0, "cloud_opacity": 0.3, "cloud_tint": "2a4a58"},
 		"scenery": {"water": false, "shore": false, "rings": false, "landmarks": false, "tint": "2a4a58", "cool": "1a3440", "haze_scale": 1.3, "cool_scale": 1.4, "brightness": 0.6},
 		"foliage": {"density": 0.0},
 		"ambient": {"enabled": true, "shafts": false, "motes": 40, "mote_color": "9fd8e8", "leaves": true, "birds": false}

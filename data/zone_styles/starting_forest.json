@@ -4,12 +4,12 @@
 	"name": "Starting Forest",
 	"time_of_day": "Dusk into night; teal-blue gloom, ground mist, pale moon rays through the canopy, an amber lantern at the camp",
 	"palette": ["#1C3C46", "#3F5E3A", "#6A8A3A", "#6B4E3A", "#FFA850", "#6FF0E0"],
-	"light": {"key_color": "#8ab8d0", "key_energy": 0.42, "key_pitch": -52, "key_yaw": -32, "ambient_color": "#3a6e7c", "ambient_energy": 0.62},
-	"fog": {"color": "#1c3c46", "density": 0.018},
-	"grade": {"warmth": -0.06, "saturation": 1.0, "contrast": 1.08, "post_saturation": 1.0},
+	"light": {"key_color": "#a8c0c0", "key_energy": 0.42, "key_pitch": -52, "key_yaw": -32, "ambient_color": "#4e6a66", "ambient_energy": 0.62},
+	"fog": {"color": "#283c3a", "density": 0.012},
+	"grade": {"warmth": 0.04, "saturation": 0.86, "contrast": 1.1, "post_saturation": 0.84},
 	"bloom": {"intensity": 0.8, "threshold": 0.85},
 	"vignette": 0.5,
 	"material_swaps": {},
 	"tint_strength": 0.65,
-	"tints": {"wall": "#8DAA6B", "trim": "#6B4E3A", "roof": "#6E8B5A", "ground": "#8DAA6B", "prop": "#A8B890", "decal": "#8DAA6B", "tree": "#3E5E66"}
+	"tints": {"wall": "#8DAA6B", "trim": "#6B4E3A", "roof": "#6E8B5A", "ground": "#8DAA6B", "prop": "#A8B890", "decal": "#8DAA6B", "tree": "#2C4844"}
 }

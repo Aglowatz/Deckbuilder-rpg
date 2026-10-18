@@ -306,7 +306,7 @@ func _shafts() -> void:
 		material.set_shader_parameter("half_height", 6.0)
 		# Opening Forest: pale cool moonlight, fainter than the old morning rays
 		material.set_shader_parameter("tint", Color(0.6, 0.84, 0.92))
-		material.set_shader_parameter("strength", 0.03)
+		material.set_shader_parameter("strength", 0.01)
 		var shaft: MeshInstance3D = MeshInstance3D.new()
 		shaft.name = "LightShaft%d" % i
 		shaft.mesh = mesh

@@ -132,3 +132,34 @@ and off the camera side, the STANDIN list); `test_walkability_zones` reaches eve
 - **OF-09** Foreground silhouettes ride with the camera rather than standing in the world: the camera follows the hero over a 25 m area, so world
   pieces would only frame the camp. They stay in the bottom corners (and one off the top-left) to keep clear of the dialogue box and the minimap.
 - **OF-10** The vines hang still (meta `no_wind`): the toon shader's sway grows with height and turned vines hanging from 9-15 m into giant blades.
+
+## Part D: dress and match
+
+No OF- kit exists yet, so every piece is a STANDIN (list at the end). Repeats vary: boulders are two or three tilted bevelled blocks at random
+sizes (0.9-1.8 m) and turns, clustered by a slow wave with random spacing (2.4-4.2 m) and half as many on the camera side; ferns get 7-10
+fronds of four greens; trunks, cards and roots take random scales and turns. Ground: the painted `start` preset paints the dirt path along
+`OpeningForestLayout.PATH` and the camp, mossy forest floor elsewhere. The pack now lies on its back (upright it read as a small figure).
+
+**Paint-over camera** (`OpeningForestLayout.PO_CAMERA`): hero at the path's start (1.6, -2.0), Classic angle, zoom 2.2:
+`bash tools/shot.sh res://scenes/starting_area.tscn of_po --quiet=true --nohud=true --show=rescuer --pos=1.6,-2.0 --set=camera_angle:1,camera_zoom:2.2`.
+Side by side: `docs/art/opening_forest/compare_po.jpg`.
+
+| Pass | mean RGB | luma p5 / p50 / p95 | saturation | what changed |
+|---|---|---|---|---|
+| paint-over | 28, 33, 30 | 2 / 24 / 88 | 0.57 | |
+| 1 (after Part C) | 7, 28, 27 | 2 / 18 / 57 | 0.87 | far too cyan and saturated |
+| 2 | 16, 29, 23 | 1 / 21 / 65 | 0.64 | grey-green ambient and fog, sun #a8c0c0, warmth +0.04, saturation 0.82-0.86, exposure 1.0, fog 0.012 so the cave reads |
+| 3 (final) | 15, 29, 22 | 0 / 21 / 60 | 0.63 | crowns removed (black lid at Far), rays fainter, darker pine tint, fewer camera-side boulders, softer mist banks |
+
+What still does not match (honest list): the paint-over is framed much closer than any game camera (characters about 15% of the height, the
+cave and the giant tree filling the upper right); the game keeps its cameras (G-02) and matches palette, light and dressing instead. Its
+highlights are brighter (p95 88 vs 60): the lantern's warm spill along the path and the lit grey rocks; ours are darker. Its trees are richly
+painted oaks with warm trunks; ours are flat painted cards and plain bark columns. The cave and giant tree are blocky stand-ins. All of
+these close with the OF- kit art (prompts below).
+
+### Judgment calls
+
+- **OF-11** The paint-over reframes the scene (CAP-36): the game cameras stay; the paint-over camera is the closest in-game match (Classic, zoom 2.2
+  from the path's start) and the match is judged on palette, light, haze and dressing density.
+- **OF-12** The paint-over's palette is less teal than the brief's words ("cool deep teal-blue"); the numbers follow the picture (grey-green
+  ambient, a little warmth) while fog, mist and the cave glow keep the teal accent.

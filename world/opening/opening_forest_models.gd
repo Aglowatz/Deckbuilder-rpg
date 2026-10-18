@@ -82,7 +82,7 @@ static func textured(path: String, tint: Color, scale_value: float = 0.5) -> Sta
 
 
 func _materials() -> void:
-	_solid.set_material("rock", textured(ROCK_TEX, Color(0.62, 0.68, 0.7), 0.42))
+	_solid.set_material("rock", textured(ROCK_TEX, Color(0.8, 0.86, 0.88), 0.42))
 	_solid.set_material("moss", textured(MOSS_TEX, Color(0.62, 0.8, 0.5), 0.6))
 	_solid.set_material("bark", textured(BARK_TEX, Color(0.58, 0.46, 0.38), 0.6))
 	_solid.set_material("leaf", textured(LEAF_TEX, Color(0.3, 0.44, 0.38), 1.6))
@@ -330,11 +330,12 @@ func _camp() -> void:
 	# the pack: a leather body, a flap, a rolled blanket strapped on top, two straps
 	var pack: Vector3 = layout.mark("pack")
 	var pack_turn: Basis = Basis(Vector3.UP, deg_to_rad(28.0))
-	_solid.box("leather", pack + Vector3(0, 0.3, 0), Vector3(0.62, 0.6, 0.44), pack_turn, 0.08, 0.7)
-	_solid.box("leather_dark", pack + pack_turn * Vector3(0, 0.5, 0.2), Vector3(0.58, 0.26, 0.08), pack_turn * Basis(Vector3(1, 0, 0), 0.25), 0.03)
-	_solid.tube("cloth", pack + pack_turn * Vector3(-0.36, 0.7, 0.0), pack + pack_turn * Vector3(0.36, 0.7, 0.0), 0.12, 10)
+	# lying on its back, flap open toward the bedroll (stood upright it read as a small figure), the blanket roll on the ground beside it
+	_solid.box("leather", pack + Vector3(0, 0.2, 0), Vector3(0.66, 0.4, 0.5), pack_turn, 0.1, 0.7)
+	_solid.box("leather_dark", pack + pack_turn * Vector3(0.0, 0.36, 0.3), Vector3(0.6, 0.06, 0.3), pack_turn * Basis(Vector3(1, 0, 0), -0.5), 0.02)
 	for side: float in [-0.18, 0.18]:
-		_solid.box("leather_dark", pack + pack_turn * Vector3(side, 0.38, 0.0), Vector3(0.05, 0.66, 0.47), pack_turn, 0.0)
+		_solid.box("leather_dark", pack + pack_turn * Vector3(side, 0.22, 0.0), Vector3(0.05, 0.43, 0.53), pack_turn, 0.0)
+	_solid.tube("cloth", pack + pack_turn * Vector3(-0.4, 0.12, -0.42), pack + pack_turn * Vector3(0.4, 0.12, -0.42), 0.12, 10)
 	# the lantern housing (its glass and its light are the scene's: OpeningForestLight)
 	var lantern: Vector3 = layout.mark("lantern")
 	_solid.box("iron", lantern + Vector3(0, 0.03, 0), Vector3(0.24, 0.06, 0.24), Basis.IDENTITY, 0.01)
@@ -377,13 +378,16 @@ func _rim_rocks() -> void:
 			continue
 		var too_close: bool = false
 		for q: Vector2 in placed:
-			if q.distance_to(p) < 2.1:
+			if q.distance_to(p) < _rng.randf_range(2.4, 4.2):
 				too_close = true
 				break
 		if too_close:
 			continue
+		# fewer on the camera side: a full row there reads as a picket along the bottom of the screen
+		if layout.camera_side(p, 5.0) and _rng.randf() < 0.5:
+			continue
 		placed.append(p)
-		boulder(Vector3(p.x, 0.0, p.y), _rng.randf_range(0.7, 1.5))
+		boulder(Vector3(p.x, 0.0, p.y), _rng.randf_range(0.9, 1.8))
 	# ledges at the front: long low slabs, two or three overlapping
 	for ledge: Vector3 in [Vector3(-5.6, 4.0, 0.3), Vector3(-1.2, 6.6, -0.1), Vector3(3.6, 6.4, 0.25), Vector3(7.4, 2.4, 0.9)]:
 		var slab_count: int = 3
@@ -487,8 +491,8 @@ func _undergrowth() -> void:
 # ---- trees (OF-TREE-TRUNK STANDIN, and the painted ENV/DUMP tree cards) ---------------------------------------------------------------------------------
 
 
-## The tall dark trunks that frame the clearing and line the path (the paint-over's): straight bark columns rising out of the top of the frame with a few
-## heavy leaf clumps where the Overview camera can see them. Never on the camera side of the floor (they would fill the screen).
+## The tall dark trunks that frame the clearing and line the path (the paint-over's): straight bark columns rising out of the top of the frame with no
+## crowns (heavy leaf clumps up there read as a black lid at Far zoom). Never on the camera side of the floor (they would fill the screen).
 func _trunks() -> void:
 	var spots: Array[Vector3] = [Vector3(-7.6, -3.0, 0.62), Vector3(-6.4, -6.2, 0.5), Vector3(-1.6, -11.6, 0.55), Vector3(4.2, -14.6, 0.6), Vector3(1.0, -16.2, 0.48),
 		Vector3(7.6, -7.4, 0.55), Vector3(9.6, -10.4, 0.5), Vector3(13.6, -13.8, 0.58), Vector3(15.8, -16.4, 0.62), Vector3(-8.8, 0.6, 0.55), Vector3(8.8, -1.8, 0.5),
@@ -498,7 +502,7 @@ func _trunks() -> void:
 		if layout.floor_sdf(p) < spot.z + 0.6 or layout.camera_side(p) or _near_cliff(p):
 			continue
 		var r: float = spot.z
-		var height: float = _rng.randf_range(13.0, 17.0)
+		var height: float = _rng.randf_range(22.0, 28.0)
 		var base: Vector3 = Vector3(spot.x, -0.1, spot.y)
 		_solid.lathe("bark", base, [Vector2(r * 1.5, 0.0), Vector2(r * 1.15, 0.5), Vector2(r, 1.4), Vector2(r * 0.9, height * 0.5), Vector2(r * 0.7, height)], 10, 0.5, false, true)
 		for k: int in range(3):
@@ -506,9 +510,6 @@ func _trunks() -> void:
 			var root_end: Vector3 = base + Vector3(cos(angle), 0.0, sin(angle)) * r * _rng.randf_range(2.2, 3.0)
 			if layout.floor_sdf(Vector2(root_end.x, root_end.z)) > 0.2:
 				limb(_solid, "bark", [base + Vector3(cos(angle) * r * 0.6, 0.7, sin(angle) * r * 0.6), root_end + Vector3(0, -0.05, 0)], r * 0.45, r * 0.15, 6)
-		for k: int in range(3):
-			var c: Vector3 = base + Vector3(_rng.randf_range(-2.5, 2.5), height * _rng.randf_range(0.65, 0.95), _rng.randf_range(-2.0, 1.0))
-			ellipsoid(_solid, "leaf", c, Vector3(2.8, 1.6, 2.4) * _rng.randf_range(0.8, 1.2), 4, 10, -0.5)
 		obstacles.append(Vector3(spot.x, spot.y, r * 1.2))
 		tree_points.append(p)
 
@@ -516,7 +517,7 @@ func _trunks() -> void:
 ## Painted tree cards beyond the floor's edge in a band (pines and oaks, cooled by the mood), staggered so the forest reads deep; none on the camera side.
 func _tree_cards() -> void:
 	var bounds: Rect2 = layout.bounds().grow(14.0)
-	var kinds: Array[String] = ["pine", "pine", "oak", "pine"]
+	var kinds: Array[String] = ["pine", "pine", "pine", "oak", "pine"]
 	var x: float = bounds.position.x
 	while x < bounds.end.x:
 		var z: float = bounds.position.y

@@ -58,6 +58,10 @@ const RIM_BLOCKERS: Array[Vector3] = [Vector3(-4.6, -2.6, 0.9), Vector3(5.2, 0.6
 ## Where the hero may wander to the treeline without talking themselves back: the nook, the secrets.
 const QUIET: Array[Vector3] = [Vector3(-4.2, -8.8, 3.4), Vector3(-6.3, 2.2, 2.2), Vector3(6.8, -3.0, 2.2), Vector3(13.9, -18.2, 2.2), Vector3(-2.0, -6.0, 2.0)]
 
+## The paint-over camera (playbook 38: camera spots are data, not anchors): the hero at the path's start, Classic angle, zoom 2.2 (Far side), so the camp sits
+## lower left and the cave upper right as in docs/art/paintovers/opening_forest_reference.png. `tools/shot.sh ... --pos=1.6,-2.0 --set=camera_angle:1,camera_zoom:2.2`.
+const PO_CAMERA: Dictionary = {"pos": Vector3(1.6, 0.0, -2.0), "angle": 1, "zoom": 2.2}
+
 var lab_open: bool = false
 
 
