@@ -32,6 +32,7 @@ static func build_all() -> Array[QuestData]:
 	result.append(_fragments())
 	result.append(_oldest_trick())
 	result.append(_four_seals())
+	result.append(_armory())
 	for zone_id: String in Gatekeepers.IDS:
 		result.append(_zone_main(zone_id))
 	result.append_array(ZoneQuestDefinitions.build_all())
@@ -176,6 +177,32 @@ const ZONE_MAIN_TEXT: Dictionary = {
 		"dungeon": "Descend into the Rotheart and free Archdruid Compostella", "dungeon_hint": "The Rotheart, deep in the Verdant Dump",
 	},
 }
+
+
+## Overnight Oct 17, Part 5: the armory opens at level 5. This short quest starts on its own the moment the hero reaches level 5,
+## points at Bertram Beetsworth, asks for one witnessed duel ("Requisition Form 7-B") and ends with the first piece of equipment,
+## the Starter Blade; finishing it unlocks all five equipment slots (`Session.complete_quest`).
+const ARMORY: String = "some_assembly_required"
+
+
+static func _armory() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = ARMORY
+	quest.category = QuestData.Category.SIDE
+	quest.order = 5
+	quest.title = "Some Assembly Required"
+	quest.summary = "Level five: the armory will finally issue you gear. Bertram Beetsworth has a form for that."
+	quest.auto_give = true
+	quest.prerequisite = Condition.player_level(ProgressionTable.ARMORY_LEVEL)
+	quest.objectives = [
+		QuestObjective.make("Report to Bertram Beetsworth's equipment stall", Condition.flag("armory_reported")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "The equipment stall on the square"),
+		QuestObjective.make("Win one duel for Form 7-B", Condition.counter("duels_won", 1)),
+		QuestObjective.make("Collect your gear from Bertram", Condition.flag("armory_collected")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "The equipment stall on the square"),
+	] as Array[QuestObjective]
+	quest.reward_xp = 30
+	quest.reward_equipment_ids = [EquipmentRarity.STARTER_BLADE] as Array[String]
+	quest.reward_unlock_flags = ["armory_unlocked"] as Array[String]
+	return quest
 
 
 ## Brief 16, Group B: started by Session.open_giant_chest the first time any giant chest is opened (never auto-given, so it stays hidden until then).

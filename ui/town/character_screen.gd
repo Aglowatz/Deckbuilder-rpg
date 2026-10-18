@@ -385,10 +385,7 @@ func _show_empty_slot(icon: TextureRect, slot: EquipmentData.Slot) -> void:
 ## Equipment slots unlock one at a time, player's choice, at these levels (ProgressionTable) - no
 ## single slot has a fixed unlock level, so the locked tooltip states the whole rule instead.
 func _equipment_unlock_hint() -> String:
-	var levels: PackedStringArray = []
-	for level: int in ProgressionTable.EQUIPMENT_CHOICE_LEVELS:
-		levels.append(str(level))
-	return "equipment slots unlock at levels %s (you choose which slot each time)." % ", ".join(levels)
+	return "every equipment slot opens with Bertram Beetsworth's armory quest at level %d." % ProgressionTable.ARMORY_LEVEL
 
 
 func _on_equipment_slot_pressed(slot: EquipmentData.Slot) -> void:
@@ -438,9 +435,19 @@ func _open_equipment_picker(slot: EquipmentData.Slot) -> void:
 			var delta: PackedStringArray = EquipmentCompare.diff_lines(piece, equipped)
 			if not delta.is_empty():
 				info.text += "\n" + ", ".join(delta)
+		var rarity: int = int(piece.rarity)
+		info.text = "%s  [%s]" % [info.text.get_slice("\n", 0), EquipmentRarity.display_name(rarity)] + info.text.substr(info.text.get_slice("\n", 0).length())
+		if not is_equipped:
+			info.add_theme_color_override("font_color", CardView.RARITY_COLORS[clampi(rarity, 0, 3)].lerp(UIStyle.PARCHMENT, 0.35))
 		row.add_child(info)
 		if not is_equipped:
-			row.add_child(_small_button("Equip", func() -> void: _equip_from_picker(piece)))
+			var blocked: String = Session.why_not_equip(piece)
+			var equip_button: FancyButton = _small_button("Equip", func() -> void: _equip_from_picker(piece))
+			if not blocked.is_empty():
+				equip_button.disabled = true
+				equip_button.tooltip_text = blocked
+				info.text += "\n" + blocked
+			row.add_child(equip_button)
 		column.add_child(row)
 	if equipped != null:
 		var unequip_button: FancyButton = FancyButton.make("Unequip", &"", Vector2(160, 48))

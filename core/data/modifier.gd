@@ -132,6 +132,9 @@ enum Kind {
 	OVERWORLD_SPEED_PERCENT,
 	## Overnight Oct 16: value = percent added to every XP gain (the Participation Trophy).
 	XP_BONUS_PERCENT,
+	## Overnight Oct 17 (the Starter Blade): the first unit the owner plays from hand each duel gets +`value` attack and
+	## +`value2` defense permanently.
+	FIRST_UNIT_STAT_CHANGE,
 }
 
 ## `color` value meaning "matches every card".

@@ -40,6 +40,7 @@ static func zone_equipment() -> Dictionary:
 	_add_lab_gear(result)
 	ArenaContent.add_equipment(result)
 	ExpansionGear.add_all(result)
+	result[EquipmentRarity.STARTER_BLADE] = EquipmentRarity.starter_blade()  # Overnight Oct 17: the armory quest's reward
 	return result
 
 

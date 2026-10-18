@@ -20,6 +20,7 @@ static func build() -> ContentSet:
 	content.personalities = [AIPersonality.balanced(), AIPersonality.aggressive(), AIPersonality.defensive(), AIPersonality.passive(), AIPersonality.aggressive_dumb(), AIPersonality.first_duel()] as Array[AIPersonality]
 	content.zone_equipment = ProgressionContent.zone_equipment()
 	content.equipment = ProgressionContent.equipment()
+	EquipmentRarity.apply(content)
 	content.items = ProgressionContent.items(content.tokens)
 	return content
 

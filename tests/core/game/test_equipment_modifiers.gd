@@ -221,3 +221,18 @@ func test_retaliate_on_attack_fires_even_if_the_attacker_is_ultimately_unblocked
 	game.advance_phase()
 	assert_true(game.declare_attackers([attacker.uid]))
 	assert_false(game.players[1].field.has(attacker), "5 damage on a 2/2 kills it before it even connects")
+
+
+# ---- Starter Blade: FIRST_UNIT_STAT_CHANGE (Overnight Oct 17, Part 5) -------------------------
+
+
+func test_first_unit_stat_change_buffs_only_the_first_unit_played_each_duel() -> void:
+	var game: GameState = _game([CardBuilder.modifier(Modifier.Kind.FIRST_UNIT_STAT_CHANGE, 1, Modifier.ANY_COLOR, 0)])
+	GameFactory.add_infrastructure_cards(game, 0, 2)
+	var first: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2))
+	var second: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(2, 2))
+	assert_true(game.play_card(0, first.uid))
+	assert_true(game.play_card(0, second.uid))
+	assert_eq(game.get_attack(game.players[0].find_field(first.uid)), 3, "the first unit gets +1 attack")
+	assert_eq(game.get_attack(game.players[0].find_field(second.uid)), 2, "the second does not")
+	assert_eq(game.players[1].first_unit_bonus_done, false, "the opponent has no blade")

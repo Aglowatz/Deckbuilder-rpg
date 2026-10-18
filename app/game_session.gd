@@ -585,8 +585,8 @@ func grant_dev_level() -> Array[LevelData]:
 
 
 func _apply_level_rewards(row: LevelData) -> void:
-	if row.equipment_choice:
-		pending_equipment_choices += 1
+	if row.level >= ProgressionTable.ARMORY_LEVEL:
+		start_quest(QuestDefinitions.ARMORY, true)  # Part 5: reaching level 5 starts the armory quest at once
 	if row.reward_vendor_discount_percent > 0:
 		profile.vendor_discount_percent += row.reward_vendor_discount_percent
 	# row.reward_equipment_vendor_unlock / reward_item_vendor_advanced_unlock need no action here:
@@ -619,6 +619,88 @@ func grant_equipment(piece: EquipmentData) -> bool:
 	profile.owned_equipment.append(piece)
 	EventBus.collection_changed.emit()
 	return true
+
+
+# ---- The armory (Overnight Oct 17, Part 5) ------------------------------------------------------------------------
+
+
+## Where the hero stands with the armory: 0 below level 5 (Beetsworth sends them away), 1 the quest wants a first report, 2 waiting
+## for the witnessed duel, 3 ready to collect the gear, 4 done (the shop and all equipment slots are open).
+func armory_stage() -> int:
+	if profile == null or profile.level < ProgressionTable.ARMORY_LEVEL:
+		return 0
+	if flag(&"armory_unlocked") or quest_log.is_completed(QuestDefinitions.ARMORY):
+		return 4
+	if not quest_log.is_active(QuestDefinitions.ARMORY):
+		start_quest(QuestDefinitions.ARMORY, false)
+	if not flag(&"armory_reported"):
+		return 1
+	var quest: QuestData = QuestCatalog.find(QuestDefinitions.ARMORY)
+	return 3 if quest != null and quest_log.objective_met(quest, 1, unlock_state()) else 2
+
+
+## True once the armory quest is done: equipment slots, gear shops and the equipment screen are open.
+func gear_unlocked() -> bool:
+	return armory_stage() == 4
+
+
+## Talking to Beetsworth moves the armory quest on: the first report, then collecting the gear. Returns the new stage.
+func armory_talk() -> int:
+	var stage: int = armory_stage()
+	if stage == 1:
+		set_flag(&"armory_reported")
+	elif stage == 3:
+		set_flag(&"armory_collected")
+	refresh_quests()
+	return stage
+
+
+## Every equipment slot opens and the Starter Blade goes straight into the weapon slot.
+func _open_the_armory() -> void:
+	if profile == null:
+		return
+	flags["armory_unlocked"] = true
+	for slot: Variant in EquipmentData.Slot.values():
+		profile.unlock_equipment_slot(slot as EquipmentData.Slot)
+	pending_equipment_choices = 0
+	var blade: EquipmentData = content.equipment_piece(EquipmentRarity.STARTER_BLADE)
+	if blade != null and profile.equipped_in(EquipmentData.Slot.WEAPON) == null:
+		profile.equip(blade)
+
+
+## A duel was won anywhere (zone, dungeon, arena): the armory quest's Form 7-B counts it.
+func note_duel_won() -> void:
+	bump_counter("duels_won")
+
+
+## Save migration (Part 5): a save from before the armory quest that already had equipment slots (the old level-5 slot choice)
+## gets every slot and the quest marked done, so nobody loses gear they could wear. Pieces over their rarity's equip cap come off.
+func _migrate_armory() -> String:
+	if profile == null:
+		return ""
+	if not flag(&"armory_unlocked") and not profile.equipment_slots.is_empty():
+		flags["armory_unlocked"] = true
+		if not quest_log.is_completed(QuestDefinitions.ARMORY):
+			quest_log.active.erase(QuestDefinitions.ARMORY)
+			quest_log.completed.append(QuestDefinitions.ARMORY)
+		for slot: Variant in EquipmentData.Slot.values():
+			profile.unlock_equipment_slot(slot as EquipmentData.Slot)
+	pending_equipment_choices = 0
+	var removed: Array[EquipmentData] = EquipCaps.over_cap(profile.equipment, profile.level)
+	for piece: EquipmentData in removed:
+		profile.unequip(piece.slot)
+	if removed.is_empty():
+		return ""
+	return "Equipment now has rarity caps: %d piece%s went back into your bag." % [removed.size(), "" if removed.size() == 1 else "s"]
+
+
+## Why `piece` cannot be worn right now ("" = it can): the armory is still closed, or its rarity's equip cap is full.
+func why_not_equip(piece: EquipmentData) -> String:
+	if profile == null or piece == null:
+		return "Nothing to equip."
+	if not gear_unlocked():
+		return "Equipment slots open with Bertram Beetsworth's armory quest at level %d." % ProgressionTable.ARMORY_LEVEL
+	return EquipCaps.why_not(profile.equipment, piece, profile.level)
 
 
 ## Equips an owned piece, unequipping whatever was in that slot. Saves on success.
@@ -853,6 +935,9 @@ func from_dict(data: Dictionary) -> bool:
 	pending_level_ups = []
 	pending_popups = []
 	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
+	var armory_notice: String = _migrate_armory()
+	if not armory_notice.is_empty():
+		town_notice = armory_notice if town_notice.is_empty() else town_notice + " " + armory_notice
 	if quest_migration_pending:
 		QuestMigration.migrate(quest_log, QuestCatalog.all(), flags, unlock_state())
 		quest_migration_pending = false
@@ -1782,6 +1867,9 @@ func complete_quest(quest_id: String) -> bool:
 		flags[flag_name] = true
 		if flag_name.begins_with("capital_insight_"):
 			summary.unlocks.append("Insight into %s" % Villain.display_name())
+	if quest_id == QuestDefinitions.ARMORY:
+		_open_the_armory()
+		summary.unlocks.append("All five equipment slots")
 	if quest.reward_xp > 0:
 		summary.xp = quest.reward_xp
 		var gained: Array[LevelData] = add_xp(quest.reward_xp)
@@ -2152,6 +2240,7 @@ func resolve_zone_battle(context: BattleContext) -> Dictionary:
 		result["levels_gained"] = add_xp(context.xp_reward)
 		result["xp"] = context.xp_reward
 		bump_counter("zone_enemies_defeated")
+		note_duel_won()
 		if zone_def().counter_enemies != "zone_enemies_defeated":
 			bump_counter(zone_def().counter_enemies)
 		if zone_def().id == CapitalZone.ID and context.zone_enemy_type == CapitalEnemies.SPOTLESS:
@@ -2748,6 +2837,7 @@ func complete_battle(context: BattleContext) -> void:
 ## false after the boss, when the trial-complete step follows.
 func apply_rewards() -> bool:
 	if pending_reward != null:
+		note_duel_won()
 		add_gold(pending_reward.gold)
 		if pending_reward.taken != null:
 			add_cards([pending_reward.taken] as Array[CardData])

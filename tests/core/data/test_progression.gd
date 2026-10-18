@@ -52,13 +52,13 @@ func test_copy_limit_is_three_at_most_and_levels_have_other_rewards() -> void:
 	assert_eq(ProgressionTable.row(30).max_hand_size, 12)
 
 
-func test_equipment_choice_offered_at_5_10_15_20_25_only() -> void:
+func test_no_equipment_slot_choices_any_more() -> void:
 	var rows: Array[LevelData] = ProgressionTable.build()
 	var choice_levels: Array[int] = []
 	for row: LevelData in rows:
 		if row.equipment_choice:
 			choice_levels.append(row.level)
-	assert_eq(choice_levels, [5, 10, 15, 20, 25])
+	assert_eq(choice_levels, [] as Array[int], "no slot choices: the level-5 armory quest opens every slot (Overnight Oct 17)")
 
 
 ## New brief, Part D: the two specific level-up rewards - advanced equipment at the equipment
@@ -380,4 +380,4 @@ func test_stat_rewards_keep_their_schedule() -> void:
 	for row: LevelData in rows:
 		if row.equipment_choice:
 			choice_levels.append(row.level)
-	assert_eq(choice_levels, [5, 10, 15, 20, 25])
+	assert_eq(choice_levels, [] as Array[int], "no slot choices: the level-5 armory quest opens every slot (Overnight Oct 17)")

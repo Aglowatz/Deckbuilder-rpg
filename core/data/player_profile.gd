@@ -149,6 +149,8 @@ func equipped_in(slot: EquipmentData.Slot) -> EquipmentData:
 func equip(item: EquipmentData) -> bool:
 	if item == null or not has_equipment_slot(item.slot) or not owned_equipment.has(item):
 		return false
+	if not EquipCaps.why_not(equipment, item, level).is_empty():
+		return false  # Overnight Oct 17: over its rarity's equip cap
 	unequip(item.slot)
 	equipment.append(item)
 	return true

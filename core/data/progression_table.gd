@@ -7,7 +7,10 @@ extends RefCounted
 
 const MAX_LEVEL: int = 30
 ## Levels that hand out an equipment slot choice (Part E: one per level, 5 slots total).
-const EQUIPMENT_CHOICE_LEVELS: Array[int] = [5, 10, 15, 20, 25]
+## Overnight Oct 17, Part 5: no more slot choices - the level-5 armory quest ("Some Assembly Required") unlocks all five slots at once.
+const EQUIPMENT_CHOICE_LEVELS: Array[int] = []
+## The level the armory opens and its quest starts.
+const ARMORY_LEVEL: int = 5
 ## Part A (infrastructure brief): rarity-based deck copy limits are gone - every non-infrastructure
 ## card allows `DeckValidator.MAX_COPIES` (4) copies at every level, and infrastructure is unlimited.
 ## The seven level-ups that used to raise a rarity's copy limit now grant other rewards instead:

@@ -46,6 +46,7 @@ static func load_all() -> ContentSet:
 		var consumable: ItemData = load(path) as ItemData
 		if consumable != null:
 			content.items[consumable.id] = consumable
+	EquipmentRarity.apply(content)  # Overnight Oct 17: rarities from data, and the Starter Blade
 	return content
 
 

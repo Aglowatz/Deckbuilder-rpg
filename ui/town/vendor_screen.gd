@@ -47,7 +47,8 @@ func _init() -> void:
 func _build() -> void:
 	if stock == null:
 		stock = VendorData.graduated(Session.content, Session.deck.colors(), Condition.dungeon_cleared(TrialOfTheHollow.DUNGEON_NAME))
-	categories = VendorCategories.list(not stock.entries.is_empty(), not pack_vendor_id.is_empty(), gear_stock != null and not gear_stock.entries.is_empty())
+	# Gear is only sold once the armory quest opened the equipment slots (Part 5).
+	categories = VendorCategories.list(not stock.entries.is_empty(), not pack_vendor_id.is_empty(), gear_stock != null and not gear_stock.entries.is_empty() and Session.gear_unlocked())
 	if stage != null:
 		_card_scale = STAGED_SCALE
 	var coin: TextureRect = IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 38.0)

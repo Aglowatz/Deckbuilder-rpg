@@ -1685,11 +1685,28 @@ func _talk_equipment_vendor() -> void:
 	_face_npc("equipment_vendor")
 	var story: StoryText = load(STORY_PATH) as StoryText
 	var lines: Array[String] = story.equipment_vendor_return_lines
-	if not Session.flag(&"equipment_vendor_seen"):
+	var first_visit: bool = not Session.flag(&"equipment_vendor_seen")
+	if first_visit:
 		Session.set_flag(&"equipment_vendor_seen")
 		lines = story.equipment_vendor_intro_lines
+	# Overnight Oct 17, Part 5: no shop before level 5; at level 5 his short quest hands out the first piece of gear.
+	var shared: StoryText = StoryText.shared()
+	var stage: int = Session.armory_talk()
+	var opens_shop: bool = stage == 4
+	match stage:
+		0:
+			if not first_visit:
+				lines = []
+			lines.append_array(shared.get_lines("town.equipment_vendor.too_early"))
+		1:
+			lines = shared.get_lines("quest.armory.start")
+		2:
+			lines = shared.get_lines("quest.armory.waiting")
+		3:
+			lines = shared.get_lines("quest.armory.done")
 	dialogue.start("Bertram Beetsworth", lines)
-	dialogue.finished.connect(_open_equipment_vendor, CONNECT_ONE_SHOT)
+	if opens_shop:
+		dialogue.finished.connect(_open_equipment_vendor, CONNECT_ONE_SHOT)
 
 
 func _open_equipment_vendor() -> void:

@@ -360,6 +360,7 @@ func test_equipment_prizes_are_granted_and_equippable() -> void:
 	var piece: EquipmentData = _equipment("champions_laurels")
 	assert_true(Session.profile.owned_equipment.has(piece))
 	Session.profile.equipment_slots.append(EquipmentData.Slot.HELM)
+	Session.profile.level = 5  # the Laurels are Epic: one Epic piece may be worn from level 5 (EquipCaps)
 	assert_true(Session.profile.equip(piece))
 
 

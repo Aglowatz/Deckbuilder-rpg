@@ -22,7 +22,9 @@ const SLOT_NAMES: Dictionary = {
 ## Overnight Oct 16 (the 25 new pieces): rarity, tier (1 early, 2 mid, 3 late) and where the piece comes from, for the character screen,
 ## the vendors and docs/design/equipment.md. Older pieces leave them at their defaults.
 enum Rarity { COMMON, UNCOMMON, RARE, LEGENDARY }
-const RARITY_NAMES: Array[String] = ["Common", "Uncommon", "Rare", "Legendary"]
+## Overnight Oct 17: the same four tiers, names and colours as cards (RARE is the cards' Epic); every piece's rarity comes from
+## data/equipment/rarities.json (`EquipmentRarity`).
+const RARITY_NAMES: Array[String] = ["Common", "Uncommon", "Epic", "Legendary"]
 @export var rarity: Rarity = Rarity.COMMON
 @export var tier: int = 0
 @export var source: String = ""

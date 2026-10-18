@@ -654,6 +654,25 @@ func _experimental_keyword(card: CardInstance) -> void:
 		grant_keyword(card, options[rng.randi_range(0, options.size() - 1)], false)
 
 
+## The Starter Blade (FIRST_UNIT_STAT_CHANGE): the first unit a side plays from hand each duel gets the bonus, permanently.
+func _first_unit_bonus(card: CardInstance) -> void:
+	var player: PlayerState = players[card.owner]
+	if player.first_unit_bonus_done or not player.modifiers.has(Modifier.Kind.FIRST_UNIT_STAT_CHANGE):
+		return
+	player.first_unit_bonus_done = true
+	var attack: int = 0
+	var defense: int = 0
+	for modifier: Modifier in player.modifiers.modifiers:
+		if modifier.kind == Modifier.Kind.FIRST_UNIT_STAT_CHANGE:
+			attack += modifier.value
+			defense += modifier.value2
+	if attack == 0 and defense == 0:
+		return
+	card.attack_bonus += attack
+	card.defense_bonus += defense
+	emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, attack, defense)
+
+
 func _enter_field(card: CardInstance, chosen: int, played_from_hand: bool, targets: Array[int] = [] as Array[int], seed_ctx: AbilityContext = null) -> void:
 	var player: PlayerState = players[card.owner]
 	player.field.append(card)
@@ -666,6 +685,8 @@ func _enter_field(card: CardInstance, chosen: int, played_from_hand: bool, targe
 		if StaticEffects.enters_exhausted(self, card.owner):
 			card.exhausted = true
 		_experimental_keyword(card)
+		if played_from_hand:
+			_first_unit_bonus(card)
 	emit_event(GameEvent.Type.PERMANENT_ENTERED, card.owner, card.uid, 0, 0, player.field.size())
 	var entry_data: Dictionary = {"card": card, "player": card.owner, "hustle": card.has_keyword(CardEnums.Keyword.HUSTLE)}
 	if played_from_hand and card.data.is_unit():
