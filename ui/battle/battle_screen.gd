@@ -679,6 +679,8 @@ func _on_primary() -> void:
 		return
 	match mode:
 		Mode.MAIN:
+			if _tutorial_holds_turn():
+				return
 			if game.phase == GameState.Phase.MAIN2:
 				_confirm_end_turn(func() -> void: _submit(GameAction.pass_phase(0)))
 			else:
@@ -707,6 +709,8 @@ func _on_primary() -> void:
 func _on_end_turn() -> void:
 	if busy or not (mode == Mode.MAIN or mode == Mode.ATTACK) or _confirm_open:
 		return
+	if _tutorial_holds_turn():
+		return
 	_confirm_end_turn(func() -> void:
 		Audio.sfx(&"turn_end")
 		_fast_end_turn = true
@@ -716,6 +720,14 @@ func _on_end_turn() -> void:
 
 
 var _confirm_open: bool = false
+
+
+## Overnight Oct 17, Part 9: the first-battle guide asks the player to spend their Resource before moving on (only while it can be).
+func _tutorial_holds_turn() -> bool:
+	if tutorial == null or not tutorial.blocks_turn_end():
+		return false
+	_reject("Spend your Resource first: the guide is waiting for it.")
+	return true
 
 
 ## Battle feel, Part B: ending the turn while cards could still be played (in this main phase, or the second one when you end

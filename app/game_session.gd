@@ -955,6 +955,10 @@ func from_dict(data: Dictionary) -> bool:
 	pending_popups = []
 	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
 	var armory_notice: String = _migrate_armory()
+	# Part 9: a save from before the first-deck-edit quest that is clearly past the opening never gets it.
+	if profile.level >= 3 and not quest_log.is_active(QuestDefinitions.FIRST_DECK_EDIT) and not quest_log.is_completed(QuestDefinitions.FIRST_DECK_EDIT):
+		quest_log.completed.append(QuestDefinitions.FIRST_DECK_EDIT)
+		flags["deck_edited"] = true
 	if not armory_notice.is_empty():
 		town_notice = armory_notice if town_notice.is_empty() else town_notice + " " + armory_notice
 	if quest_migration_pending:
@@ -1084,6 +1088,9 @@ func save_deck_to_slot(slot: int, edited: Deck, deck_name: String, cover: String
 	if not slot_open(slot):
 		return -1
 	var index: int = deck_box.save_to_slot(slot, deck_name, DeckBox.ids_of(edited), cover)
+	if index >= 0 and not flag(&"deck_edited"):
+		set_flag(&"deck_edited")  # Part 9: the first deck edit (quest "Make It Yours")
+		refresh_quests()
 	if index == deck_box.active:
 		_deck_sync_paused = true
 		deck = deck_box.build(index, deck_lookup())

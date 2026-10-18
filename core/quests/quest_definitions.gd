@@ -33,6 +33,7 @@ static func build_all() -> Array[QuestData]:
 	result.append(_oldest_trick())
 	result.append(_four_seals())
 	result.append(_armory())
+	result.append(_first_deck_edit())
 	for zone_id: String in Gatekeepers.IDS:
 		result.append(_zone_main(zone_id))
 	result.append_array(ZoneQuestDefinitions.build_all())
@@ -202,6 +203,28 @@ static func _armory() -> QuestData:
 	quest.reward_xp = 30
 	quest.reward_equipment_ids = [EquipmentRarity.STARTER_BLADE] as Array[String]
 	quest.reward_unlock_flags = ["armory_unlocked"] as Array[String]
+	return quest
+
+
+## Overnight Oct 17, Part 9: the first deck edit, taught by doing. Starts by itself when the hero walks out of the Forgotten Cave with
+## the three cards it paid: open the Deck Station and save the deck (every save goes through the slot picker, `Session.save_deck_to_slot`).
+const FIRST_DECK_EDIT: String = "first_deck_edit"
+
+
+static func _first_deck_edit() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = FIRST_DECK_EDIT
+	quest.category = QuestData.Category.SIDE
+	quest.order = 2
+	quest.title = "Make It Yours"
+	quest.summary = "The cave paid you in cards. Put the ones you like into your deck at the Deck Station."
+	quest.auto_give = true
+	quest.prerequisite = Condition.flag("trial_cleared")
+	quest.objectives = [
+		QuestObjective.make("Open the Deck Station and save your deck", Condition.flag("deck_edited")).at(QuestObjective.TargetKind.SPOT, "town", "deck", "The Deck Station on the square"),
+	] as Array[QuestObjective]
+	quest.reward_gold = 30
+	quest.reward_xp = 20
 	return quest
 
 

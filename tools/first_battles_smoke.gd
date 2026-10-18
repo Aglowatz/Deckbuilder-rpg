@@ -38,6 +38,11 @@ func _run() -> void:
 		await driver.frames(10)
 		var started: int = Time.get_ticks_msec()
 		var result: String = await _play_battle(index + 1)
+		if screen.tutorial != null:
+			for shown: String in screen.tutorial.shown_log:
+				if not _tips.has(shown):
+					_tips.append(shown)
+					_tip_battle[shown] = index + 1
 		var seconds: float = float(Time.get_ticks_msec() - started) / 1000.0
 		_report.append("battle %d (%s, speed %s): %s in %d turns, %.0f s, you %d HP, enemy %d HP" % [index + 1, node.enemy_name, Settings.BATTLE_SPEED_NAMES[SPEEDS[index]], result, screen.game.turn, seconds, screen.game.players[0].hp, screen.game.players[1].hp])
 		if index == 0:
@@ -198,6 +203,15 @@ func _act() -> void:
 			await driver.click(driver.button_center(screen.hud.primary_button))
 		BattleScreen.Mode.MAIN:
 			var player: PlayerState = game.players[0]
+			# Overnight Oct 17, Part 9: the guide waits for the Resource to be spent - click the coin (or the card that spends it).
+			var tip: String = screen.tutorial.current_step() if screen.tutorial != null else ""
+			if tip == "resource_use" or tip == "resource_spend":
+				var spend: Array[int] = screen.tutorial._usable_resource_coins() if tip == "resource_use" else screen.tutorial._spenders()
+				for uid: int in spend:
+					if screen.board.view_for(uid) != null and not _tried.has(-uid):
+						_tried[-uid] = true
+						await driver.click(_view_center(uid))
+						return
 			for card: CardInstance in player.hand:
 				if card.data.is_infrastructure() and game.can_play_infrastructure(0, card.uid):
 					await driver.click(_view_center(card.uid))

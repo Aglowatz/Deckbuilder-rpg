@@ -14,6 +14,14 @@ const STEPS: Array[Dictionary] = [
 		"text": "Each Infrastructure is an [b]energy orb[/b] on your plate. Cards cost energy, and the orbs refill every turn."},
 	{"id": "unit", "title": "Play a unit",
 		"text": "Cards [color=#ffd76a]glow gold[/color] when you can pay for them. [b]Click a unit[/b] to put it on the field."},
+	{"id": "resource_made", "title": "You made a Resource!", "info": true,
+		"text": "That Infrastructure also made [b]1 {resource}[/b], your Path's Resource. Resources pile up on your tray and stay until you spend them. Hoarding is encouraged."},
+	{"id": "resource_use", "title": "Spend your {resource}",
+		"text": "[b]Click your glowing {resource}[/b], then a unit: {effect} for good. It costs 1 energy. Do it now; the duel waits for you."},
+	{"id": "resource_spend", "title": "Spend your {resource}",
+		"text": "This card [b]spends {resource}[/b]. {resource} does nothing alone; your Path's cards turn it into something. [b]Use it now.[/b]"},
+	{"id": "resource_why", "title": "Make it, spend it", "info": true,
+		"text": "That is the loop: [b]make[/b] Resources (basic Infrastructure, some cards), then [b]spend[/b] them for an edge. Iron pumps, Red Tape shrinks, Ingredients cook, Garbage gets eaten. Your deck is built around yours."},
 	{"id": "end_turn", "title": "Nothing left to play", "info": true,
 		"text": "[b]To Combat[/b] goes to attacking; [b]End Turn[/b] passes. You draw a card next turn. Patience is a strategy too."},
 	{"id": "attack", "title": "Attack!",
@@ -49,6 +57,8 @@ var _flags: Dictionary = {}
 var _time: float = 0.0
 var _shown_at: float = 0.0
 var _skipped: bool = false
+## Every prompt shown this battle, in order (smokes read it instead of sampling the bubble frame by frame).
+var shown_log: Array[String] = []
 
 
 ## Whether a battle should show tips at all: until they are skipped, while any prompt has not been seen.
@@ -137,6 +147,12 @@ func on_battle_event(event: GameEvent) -> void:
 		GameEvent.Type.INFRASTRUCTURE_PLAYED:
 			if event.player == 0:
 				_flags["infrastructure_played"] = true
+		GameEvent.Type.RESOURCE_CREATED:
+			if event.player == 0:
+				_flags["resource_made"] = true
+		GameEvent.Type.RESOURCE_USED:
+			if event.player == 0:
+				_flags["resource_used"] = true
 		GameEvent.Type.CARD_PLAYED:
 			if event.player == 0:
 				_flags["cast"] = true
@@ -208,9 +224,10 @@ func _is_info(id: String) -> bool:
 
 func _show(step: Dictionary) -> void:
 	_current = str(step["id"])
+	shown_log.append(_current)
 	_shown_at = _time
-	_title.text = str(step["title"])
-	_text.text = str(step["text"])
+	_title.text = _fill(str(step["title"]))
+	_text.text = _fill(str(step["text"]))
 	_got_it.visible = bool(step.get("info", false))
 	_bubble.visible = true
 	_bubble.reset_size()
@@ -219,6 +236,90 @@ func _show(step: Dictionary) -> void:
 	_bubble.position = _best_spot(_target_rect(_current), _avoid_rects(_current), _bubble.size)
 	Audio.sfx(&"ui_open", -8.0)
 	UIKit.pop_in(_bubble)
+
+
+# ---- Resources (Overnight Oct 17, Part 9) ------------------------------------------------------------------------
+
+## What each Resource's own use does, for the "spend it" prompt.
+const RESOURCE_EFFECTS: Dictionary = {
+	ResourceKind.Kind.IRON: "your unit gets [b]+1 attack[/b]",
+	ResourceKind.Kind.RED_TAPE: "an enemy unit gets [b]-1 attack[/b]",
+}
+## Words in a card's rules text that mean it spends a Resource.
+const SPEND_WORDS: Array[String] = ["use an Ingredient", "use two Ingredients", "use an Iron", "use a Red Tape", "use a Garbage", "Eat garbage", "eat garbage"]
+
+
+## The player's Path Resource (the kind their coins are, else their Path's).
+func _resource_kind() -> ResourceKind.Kind:
+	for uid: int in _resource_coins():
+		var view: CardView = screen.board.view_for(uid)
+		if view != null and view.data != null:
+			return view.data.resource_kind as ResourceKind.Kind
+	return maxi(0, ResourceKind.created_by_basic(Session.profile.primary_affinity)) as ResourceKind.Kind if Session.profile != null else ResourceKind.Kind.IRON
+
+
+func _fill(text: String) -> String:
+	if not text.contains("{"):
+		return text
+	var kind: ResourceKind.Kind = _resource_kind()
+	return text.replace("{resource}", ResourceKind.display_name(kind)).replace("{effect}", str(RESOURCE_EFFECTS.get(kind, "it gets stronger")))
+
+
+## The player's Resource coins on the table.
+func _resource_coins() -> Array[int]:
+	var result: Array[int] = []
+	for uid: Variant in screen.board.zones.keys():
+		if int(screen.board.zones[uid]) != BattleBoard.Zone.RESOURCES:
+			continue
+		var view: CardView = screen.board.view_for(int(uid))
+		if view != null and int(view.get_meta("owner", 0)) == 0:
+			result.append(int(uid))
+	return result
+
+
+## Coins the player could use right now (Iron and Red Tape have their own use; it costs 1 energy and needs a target).
+func _usable_resource_coins() -> Array[int]:
+	var result: Array[int] = []
+	var game: GameState = screen.game
+	if game.active != 0 or not game.in_main_phase() or not game.can_pay_energy(0, 1, [] as Array[Affinity.Type]):
+		return result
+	for uid: int in _resource_coins():
+		var view: CardView = screen.board.view_for(uid)
+		var kind: ResourceKind.Kind = view.data.resource_kind as ResourceKind.Kind
+		if ResourceKind.has_use_ability(kind) and not ResourceRules.use_targets(game, 0, kind).is_empty():
+			result.append(uid)
+	return result
+
+
+## Cards in hand or on the field that spend a Resource and could be played or used now (only while the player has one).
+func _spenders() -> Array[int]:
+	var result: Array[int] = []
+	if _resource_coins().is_empty() or screen.game.active != 0:
+		return result
+	for card: CardInstance in _hand_cards():
+		if _spends(card.data) and screen.game.can_play_card(0, card.uid):
+			result.append(card.uid)
+	for card: CardInstance in screen.game.players[0].field:
+		if _spends(card.data) and not card.exhausted:
+			result.append(card.uid)
+	return result
+
+
+static func _spends(data: CardData) -> bool:
+	if data == null:
+		return false
+	for word: String in SPEND_WORDS:
+		if data.rules_text.contains(word):
+			return true
+	return false
+
+
+## While the "spend your Iron / Red Tape" prompt is up, the duel waits: To Combat / End Turn ask the player to use it first. Only while
+## it can really be used, so nothing can lock up.
+func blocks_turn_end() -> bool:
+	if _skipped or _current != "resource_use":
+		return false
+	return _still_relevant(_current)
 
 
 func _mode() -> BattleScreen.Mode:
@@ -277,8 +378,16 @@ func _triggered(id: String) -> bool:
 			return main and not _playable_infrastructure().is_empty()
 		"energy":
 			return main and bool(_flags.get("infrastructure_played", false))
+		"resource_made":
+			return main and (_done.has("unit") or _castable_units().is_empty()) and bool(_flags.get("resource_made", false)) and not _resource_coins().is_empty()
 		"unit":
 			return main and _done.has("energy") and not _castable_units().is_empty()
+		"resource_use":
+			return main and _done.has("resource_made") and not _usable_resource_coins().is_empty()
+		"resource_spend":
+			return main and _done.has("resource_made") and _usable_resource_coins().is_empty() and not _spenders().is_empty()
+		"resource_why":
+			return main and bool(_flags.get("resource_used", false))
 		"end_turn":
 			return main and _done.has("unit") and screen.game.phase == GameState.Phase.MAIN1 and _castable().is_empty() and _playable_infrastructure().is_empty()
 		"attack":
@@ -305,6 +414,8 @@ func _finished(id: String) -> bool:
 			return bool(_flags.get("infrastructure_played", false))
 		"unit":
 			return bool(_flags.get("unit_played", false))
+		"resource_use", "resource_spend":
+			return bool(_flags.get("resource_used", false))
 		"trap":
 			return bool(_flags.get("trap_set", false))
 		"tool":
@@ -322,7 +433,11 @@ func _still_relevant(id: String) -> bool:
 	match id:
 		"intro":
 			return mode == BattleScreen.Mode.MULLIGAN
-		"infrastructure", "energy", "unit", "trap", "tool", "end_turn", "keywords", "refuse":
+		"resource_use":
+			return (mode == BattleScreen.Mode.MAIN and not _usable_resource_coins().is_empty()) or mode == BattleScreen.Mode.TARGETING
+		"resource_spend":
+			return (mode == BattleScreen.Mode.MAIN and not _spenders().is_empty()) or mode == BattleScreen.Mode.TARGETING
+		"infrastructure", "energy", "unit", "trap", "tool", "end_turn", "keywords", "refuse", "resource_made", "resource_why":
 			return mode == BattleScreen.Mode.MAIN or mode == BattleScreen.Mode.TARGETING
 		"attack":
 			return mode == BattleScreen.Mode.ATTACK
@@ -348,6 +463,12 @@ func _target_rect(id: String) -> Rect2:
 			return _union(_castable_units())
 		"keywords":
 			return _union(_keyword_cards())
+		"resource_made", "resource_why":
+			return _union(_resource_coins())
+		"resource_use":
+			return _union(_usable_resource_coins())
+		"resource_spend":
+			return _union(_spenders())
 		"trap":
 			return _union(_trap_cards())
 		"tool":
