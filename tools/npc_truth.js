@@ -41,7 +41,7 @@ const col = (name) => header.indexOf(name);
 for (const extra of map.extra_npcs || []) if (!npcs.some((n) => n.id === extra.id)) npcs.push(Object.assign({ art_status: '', expressions: [], portrait_id: extra.id, sprite_status: '' }, extra));
 
 const spriteDir = path.join(root, 'assets/art/world_test/sprites');
-const aliases = { 'NPC-ROLLO': 'GUS', 'NPC-DOPPEL': 'ESCOFFINA' };
+const aliases = { 'NPC-ROLLO': 'GUS', 'NPC-DOPPEL': 'ESCOFFINA', 'NPC-TOWNSFOLK': 'CITIZEN' };
 const human = (s) => /^human/i.test(s || '');
 for (const npc of npcs) {
 	const row = sheet[npc.id] || [];

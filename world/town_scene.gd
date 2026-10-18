@@ -328,6 +328,7 @@ func _build_actors() -> void:
 	if Session.arena_unlocked() and not town.hub_land:  # Oct 16: Grand Bellows runs the ring underground now (The Undercroft)
 		_add_npc("arena", "Barbarian", town.anchors["npc_arena"] as Vector3, 200.0, Color(1.0, 0.8, 0.6))
 	_build_baker()
+	_build_strollers()
 	# New brief, Part E: the 4 corrupted NPCs stay in town, and stay challengeable, even after
 	# being freed (D68) - only their dialogue changes on later visits, not their presence/look.
 	for npc_id: String in CorruptedNpcs.IDS:
@@ -409,8 +410,37 @@ func _build_barks() -> void:
 			npc_barks.register(_npcs[key] as Node3D, str(NPC_IDS[key]))
 	if _baker != null and _baker.sprite != null:
 		npc_barks.register(_baker.sprite, "NPC-VILLAGER")
+	for stroller: SpriteWanderer in _strollers:
+		npc_barks.register(stroller.sprite, "NPC-TOWNSFOLK")
 	# Overnight Oct 17, Part 14: dandelion fluff drifting over the town, and footstep puffs.
 	AmbientFx.add(self, "town", player)
+
+
+## Overnight Oct 17 (Phase 2, NPC life): two townsfolk stroll their own small loops away from the busy square - round the Old Well's yard
+## and up by Elder Maren's lane - in the shared townsfolk sprite set with their own tints, and say a line to a passing hero.
+const STROLLERS: Array[Dictionary] = [
+	{"anchor": "well", "radius": 3.4, "seed": 23, "tint": 2},
+	{"anchor": "npc_elder", "radius": 3.8, "seed": 41, "tint": 4},
+]
+var _strollers: Array[SpriteWanderer] = []
+
+
+func _build_strollers() -> void:
+	for spec: Dictionary in STROLLERS:
+		if not town.anchors.has(str(spec["anchor"])) or not SpriteLibrary.has_character("CITIZEN"):
+			continue
+		var stroller: SpriteWanderer = SpriteWanderer.new()
+		stroller.character = "CITIZEN"
+		stroller.name = "Stroller%d" % (_strollers.size() + 1)
+		stroller.seed_value = int(spec["seed"])
+		stroller.ring_radius = float(spec["radius"])
+		stroller.tint = NpcSprites.CITIZEN_TINTS[int(spec["tint"]) % NpcSprites.CITIZEN_TINTS.size()]
+		add_child(stroller)
+		stroller.setup(town, town.anchors[str(spec["anchor"])] as Vector3, null, Vector3.ZERO)
+		if stroller.sprite == null:
+			stroller.queue_free()
+			continue
+		_strollers.append(stroller)
 
 
 func _build_baker() -> void:
@@ -2180,6 +2210,9 @@ func _update_sprite_npcs(delta: float) -> void:
 		var actor: SpriteActor = _npcs[id] as SpriteActor
 		if actor != null:
 			actor.talking = talking and str(id) == _talking_id
+	if player != null:
+		for stroller: SpriteWanderer in _strollers:
+			stroller.tick(delta, player.position)
 	if _baker == null or player == null:
 		return
 	_baker.frozen = talking and _talking_id == "baker"

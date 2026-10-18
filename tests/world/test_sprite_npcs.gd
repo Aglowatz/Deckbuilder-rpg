@@ -74,3 +74,24 @@ func test_the_baker_is_talkable_and_wanders() -> void:
 	assert_almost_eq(spot.position.distance_to(town._baker.world_position()), 0.0, 0.01, "the spot follows him")
 	assert_gt(town._baker.world_position().distance_to(start), 0.3, "he walked somewhere in four seconds")
 	assert_true(town.town.is_walkable(town._baker.world_position(), 0.2), "and stayed on the town's paths")
+
+
+## Overnight Oct 17 (Phase 2, NPC life): two townsfolk stroll their own loops away from the square, stay on walkable ground and talk to passers-by.
+func test_townsfolk_stroll_their_own_loops() -> void:
+	var town: TownScene = _town()
+	await get_tree().process_frame
+	assert_eq(town._strollers.size(), 2, "two strollers besides the baker")
+	var starts: Array[Vector3] = []
+	for stroller: SpriteWanderer in town._strollers:
+		assert_eq(stroller.character, "CITIZEN")
+		starts.append(stroller.world_position())
+	for _frame: int in range(240):
+		await get_tree().process_frame
+	var moved: int = 0
+	for index: int in range(town._strollers.size()):
+		var stroller: SpriteWanderer = town._strollers[index]
+		assert_true(town.town.is_walkable(stroller.world_position(), 0.2), "stroller %d stays on walkable ground" % index)
+		if stroller.world_position().distance_to(starts[index]) > 0.3:
+			moved += 1
+	assert_gt(moved, 0, "they walk")
+	assert_gte(town.npc_barks.entry_count(), 13, "the town's NPCs, the baker and the strollers all have lines")

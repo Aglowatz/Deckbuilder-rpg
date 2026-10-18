@@ -11,6 +11,11 @@ const PAUSE_CHANCE: float = 0.55
 
 var sprite: WorldSprite
 var character: String = "VILLAGER"
+## Overnight Oct 17 (Phase 2, NPC life): other strollers walk their own smaller loops round a lane or a yard with their own rhythm.
+var seed_value: int = 11
+var ring_radius: float = RING_RADIUS
+## A tint for the shared townsfolk sprite set (white keeps the art's colours).
+var tint: Color = Color.WHITE
 ## While true the wanderer stands still (the hero is talking to them).
 var frozen: bool = false
 var _town: TownBuilder
@@ -27,8 +32,10 @@ var _player_pos: Vector3 = Vector3(1e4, 0.0, 1e4)
 
 func setup(town: TownBuilder, plaza: Vector3, camera: Camera3D, sun_direction: Vector3) -> void:
 	_town = town
-	_rng.seed = 11
+	_rng.seed = seed_value
 	_build_graph(plaza)
+	if _points.size() < 3:
+		return  # no walkable loop here: this stroller stays home (`sprite` stays null)
 	sprite = WorldSprite.new()
 	add_child(sprite)
 	sprite.setup(character, camera, sun_direction)
@@ -36,6 +43,8 @@ func setup(town: TownBuilder, plaza: Vector3, camera: Camera3D, sun_direction: V
 	_pos = _points[_at]
 	sprite.position = _pos
 	sprite.snap_heading(Vector3(1.0, 0.0, 0.0))
+	if tint != Color.WHITE:
+		sprite.set_tint(tint)
 	_choose_next()
 
 
@@ -43,7 +52,7 @@ func _build_graph(plaza: Vector3) -> void:
 	# Ring round the fountain.
 	for i: int in range(RING_POINTS):
 		var angle: float = float(i) / float(RING_POINTS) * TAU
-		_add_point(plaza + Vector3(cos(angle), 0.0, sin(angle)) * RING_RADIUS)
+		_add_point(plaza + Vector3(cos(angle), 0.0, sin(angle)) * ring_radius)
 	var ring_count: int = _points.size()
 	# Street mouths and a few doorsteps hang off the nearest ring point.
 	var extras: Array[Vector3] = []
@@ -133,6 +142,8 @@ func face(position: Vector3) -> void:
 
 
 func tick(delta: float, player_pos: Vector3) -> void:
+	if sprite == null:
+		return
 	_player_pos = player_pos
 	if frozen:
 		sprite.follow(_pos, delta)

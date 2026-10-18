@@ -42,8 +42,18 @@
 	"sides": {},
 	"extra_npcs": [
 		{
+			"id": "NPC-TOWNSFOLK",
+			"name": "Crosspath townsfolk",
+			"role": "Townsfolk (strollers in the lanes and yards)",
+			"location": "Main Town lanes",
+			"portrait_id": "NPC-CITIZEN",
+			"species": "human",
+			"species_type": "Human",
+			"notes": "Overnight Oct 17 (Phase 2): the shared townsfolk sprite set (CITIZEN) with tints; no dialogue, only passing lines."
+		},
+		{
 			"id": "NPC-VILLAGER",
-			"name": "Bun the Baker",
+			"name": "Brindle the Baker",
 			"role": "Townsfolk (the baker who strolls the square)",
 			"location": "Main Town square",
 			"portrait_id": "NPC-VILLAGER",

@@ -48,7 +48,8 @@
 		"NPC-FERN": ["Plant a seed, plant a hope, plant a gnome.", "Garbage today, garden tomorrow."],
 		"NPC-CITIZEN": ["Everything is perfect! Everything is perfect! Everything is—", "Smile! It's mandatory!"],
 		"NPC-ISLA": ["Dad says hi. Dad says a lot, actually.", "The Capital's alive again. Loud, too. I like loud."],
-		"NPC-VILLAGER": ["Fresh bread! Fresh-ish bread! Bread!", "I knead a vacation. Get it? Knead?"]
+		"NPC-VILLAGER": ["Fresh bread! Fresh-ish bread! Bread!", "I knead a vacation. Get it? Knead?"],
+		"NPC-TOWNSFOLK": ["Lovely day for a quest, isn't it?", "My cousin's a dragon. Long story. Mostly fire.", "Did you hear the well talks now? It doesn't. But imagine.", "I'm not lost. I'm exploring the same street on purpose."]
 	},
 	"descriptions": {
 		"NPC-ELDER": "Crosspath's tortoise elder and keeper of the Wanderer's lost memories.",

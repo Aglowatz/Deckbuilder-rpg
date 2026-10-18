@@ -2326,5 +2326,34 @@
 		"world_sprite_status": "missing",
 		"art_check": "missing",
 		"notes": "A towering stone-and-gold sentinel whose chest shows four glowing seals, one per Path. No portrait art yet."
+	},
+	{
+		"id": "NPC-TOWNSFOLK",
+		"name": "Crosspath townsfolk",
+		"location": "Main Town lanes",
+		"role": "Townsfolk (strollers in the lanes and yards)",
+		"species": "human",
+		"species_type": "Human",
+		"description": "Townsfolk (strollers in the lanes and yards)",
+		"personality": "",
+		"speech_style": "",
+		"sample_line": "Lovely day for a quest, isn't it?",
+		"barks": [
+			"Lovely day for a quest, isn't it?",
+			"My cousin's a dragon. Long story. Mostly fire.",
+			"Did you hear the well talks now? It doesn't. But imagine.",
+			"I'm not lost. I'm exploring the same street on purpose."
+		],
+		"game_function": "",
+		"quest_links": [],
+		"vendor_links": [],
+		"portrait_id": "NPC-CITIZEN",
+		"portrait_status": "OK",
+		"expressions": [],
+		"art_status": "",
+		"sprite_status": "",
+		"world_sprite_status": "OK",
+		"art_check": "OK",
+		"notes": "Overnight Oct 17 (Phase 2): the shared townsfolk sprite set (CITIZEN) with tints; no dialogue, only passing lines."
 	}
 ]
