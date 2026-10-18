@@ -42,6 +42,8 @@ func run() -> bool:
 			_iron(content, games, seed_value, lines)
 		"one":
 			_one(content, games, seed_value, lines)
+		"matchup":
+			_matchup(content, games, seed_value, lines)
 		_:
 			push_error("unknown --what=%s" % what)
 			return false
@@ -134,19 +136,30 @@ func _tutorial(content: ContentSet, games: int, seed_value: int, lines: PackedSt
 	var rows: Array[Dictionary] = []
 	for spec: EncounterSpec in specs:
 		rows.append(_run_all(content, spec, games, seed_value))
-	lines.append("## The tutorial's fights")
+	lines.append("## The tutorial's fights (each from full HP)")
 	lines.append("")
 	lines.append(BalanceSim.table(rows))
 	lines.append("")
-	lines.append("## The whole tutorial, HP carried (full heal before the boss)")
+	lines.append("## The whole Forgotten Cave as played: HP carried, the Hollow Well (heal 4 / lose a card), the shrine's full heal, the 3 reward picks")
 	lines.append("")
-	lines.append("| Path | Runs | Cleared | HP left | Lost at |")
+	lines.append("| Path | Runs | Cleared | Avg turns/run | Lost at |")
 	lines.append("|---|---:|---:|---:|---|")
 	var runs: int = games * 2
+	var map: DungeonMap = TrialOfTheHollow.build_map()
+	var ai: AIPlayer = AIPlayer.new(AIPersonality.balanced())
 	for path: Affinity.Type in _paths():
-		var player: PlayerSpec = PlayerSpec.make(ProgressionModel.reference_deck(content, path, 1), 1, Affinity.display_name(path))
-		var result: BalanceSim.SequenceResult = BalanceSim.run_sequence(content, player, specs, runs, seed_value, {2: true})
-		lines.append("| %s | %d | %s | %.1f | %s |" % [Affinity.display_name(path), runs, BalanceSim.percent(result.clear_rate()), result.avg_hp_left(), _lost_at(result, specs)])
+		var deck: Deck = ProgressionModel.reference_deck(content, path, 1)
+		var results: Array[DungeonSimulation.RunResult] = DungeonSimulation.run_many(content, map, deck, ai, runs, seed_value + int(path) * 100000, path)
+		var fail_counts: Dictionary = {}
+		var turns: int = 0
+		for result: DungeonSimulation.RunResult in results:
+			turns += result.turns_played
+			if not result.won:
+				fail_counts[result.failed_at] = int(fail_counts.get(result.failed_at, 0)) + 1
+		var parts: PackedStringArray = []
+		for node_title: Variant in fail_counts.keys():
+			parts.append("%s: %d" % [str(node_title), int(fail_counts[node_title])])
+		lines.append("| %s | %d | %s | %.1f | %s |" % [Affinity.display_name(path), runs, BalanceSim.percent(DungeonSimulation.win_rate(results)), float(turns) / float(runs), ", ".join(parts) if not parts.is_empty() else "-"])
 
 
 func _lost_at(result: BalanceSim.SequenceResult, specs: Array[EncounterSpec]) -> String:
@@ -253,3 +266,36 @@ func _one(content: ContentSet, games: int, seed_value: int, lines: PackedStringA
 	for path: Variant in (row["paths"] as Dictionary).keys():
 		var result: BalanceSim.Result = (row["paths"] as Dictionary)[path] as BalanceSim.Result
 		lines.append("- **%s**: %s, %.1f turns, items used %d, first-player wins %s. %s" % [Affinity.display_name(path as Affinity.Type), BalanceSim.percent(result.win_rate()), result.avg_player_turns(), result.items_used, BalanceSim.percent(result.first_player_win_rate()), BalanceSim.impact_lines(result, 6)])
+
+
+## One reference deck against another (--a=beefcake --b=refusemancer, --level), with deck A's card impact; --noiron mutes A's resource use.
+func _matchup(content: ContentSet, games: int, seed_value: int, lines: PackedStringArray) -> void:
+	var level: int = int(args.get("level", 1))
+	var deck_a: Deck = ProgressionModel.reference_deck(content, _path_arg("a", Affinity.Type.BEEFCAKE), level)
+	var deck_b: Deck = ProgressionModel.reference_deck(content, _path_arg("b", Affinity.Type.REFUSEMANCER), level)
+	var encounter: EncounterSpec = EncounterSpec.new()
+	encounter.id = "deck:%s" % deck_b.deck_name
+	encounter.title = deck_b.deck_name
+	encounter.group = "decks"
+	encounter.kind = EncounterSpec.Kind.ELITE
+	encounter.enemy_name = deck_b.deck_name
+	encounter.enemy_hp = ProgressionTable.row(clampi(level, 1, ProgressionTable.MAX_LEVEL)).max_hp
+	encounter.enemy_recipe = deck_b.copy_counts()
+	encounter.expected_level = level
+	var player: PlayerSpec = PlayerSpec.make(deck_a, level)
+	player.use_resources = not args.has("noiron")
+	var result: BalanceSim.Result = BalanceSim.run(content, player, encounter, games, seed_value)
+	lines.append("## %s vs %s at level %d: %s for A (%d games, %.1f turns, first-player wins %s)%s" % [deck_a.deck_name, deck_b.deck_name, level, BalanceSim.percent(result.win_rate()), games, result.avg_player_turns(), BalanceSim.percent(result.first_player_win_rate()), " (A never uses resources)" if args.has("noiron") else ""])
+	lines.append("")
+	lines.append("| Card (deck A) | Games played | Plays/game | Win rate when played | Lift |")
+	lines.append("|---|---:|---:|---:|---:|")
+	for row: Dictionary in result.impact():
+		lines.append("| %s | %d | %.2f | %s | %+d |" % [str(row["id"]), int(row["games"]), float(row["per_game"]), BalanceSim.percent(float(row["win_rate"])), roundi(float(row["lift"]) * 100.0)])
+
+
+func _path_arg(key: String, fallback: Affinity.Type) -> Affinity.Type:
+	var wanted: String = str(args.get(key, "")).to_lower()
+	for path: Affinity.Type in Affinity.colored_types():
+		if Affinity.display_name(path).to_lower() == wanted:
+			return path
+	return fallback

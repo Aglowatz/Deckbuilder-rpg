@@ -12,9 +12,9 @@ generic_cost = 2
 colored_pips = Array[int]([2])
 attack = 1
 defense = 3
-rules_text = "Exhaust, pay 2, use two Ingredients: create a 4/4 Cake Golem token."
+rules_text = "Exhaust, pay 1, use two Ingredients: create a 4/4 Cake Golem token."
 flavor_text = "She bakes things. Big things. Angry things."
 paths_all = Array[int]([2])
-script_text = "act | exhaust, pay(2), use(ingredient,2) => create(T-06)"
-rules_hash = "fc4c5c41f5a3"
+script_text = "act | exhaust, pay(1), use(ingredient,2) => create(T-06)"
+rules_hash = "6385ae65c445"
 image_description = "An inventor-baker in goggles and a flour-dusted apron piping glowing frosting onto a hulking cake golem that is just opening its eyes."

@@ -111,9 +111,9 @@ func test_enemy_decks_resolve_all_cards() -> void:
 func test_deck_size_waiver_matches_the_starter_deck() -> void:
 	var mods: ModifierSet = ModifierSet.new()
 	mods.add_source(TrialOfTheHollow.deck_size_waiver())
-	assert_eq(DeckValidator.min_deck_size(mods), TrialOfTheHollow.STARTER_DECK_SIZE)
+	assert_eq(DeckValidator.min_deck_size(mods), TrialOfTheHollow.LEGACY_STARTER_DECK_SIZE, "the waiver still covers an old 42-card starter")
 	var deck: Deck = CampaignStart.starter_deck(content, Affinity.Type.GOURMAND)
-	assert_eq(deck.size(), TrialOfTheHollow.STARTER_DECK_SIZE)
+	assert_eq(deck.size(), TrialOfTheHollow.STARTER_DECK_SIZE, "the new starting decks are full 45-card decks")
 	assert_true(DeckValidator.is_valid(deck, PlayerProfile.new(), mods))
 
 

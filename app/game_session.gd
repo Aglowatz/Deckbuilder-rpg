@@ -174,7 +174,7 @@ func ensure_game(color: Affinity.Type = Affinity.Type.BEEFCAKE) -> void:
 		set_flag(&"trial_cleared")
 
 
-## Story v2 (Part C): the Rescuer's conversation in the forest asks which Path the Wanderer walked the most. Creates the profile and the 42-card starter deck right away, so the
+## Story v2 (Part C): the Rescuer's conversation in the forest asks which Path the Wanderer walked the most. Creates the profile and that Path's 45-card starting deck (Rebalance Part D) right away, so the
 ## cave gate afterwards just walks into the dungeon. Does nothing once a profile exists.
 func choose_starting_path(color: Affinity.Type) -> void:
 	if profile != null or not CampaignStart.is_valid_choice(color):
@@ -191,7 +191,7 @@ var cave_exit_pending: bool = false
 
 ## New brief (third), Part D: the hidden tunnel in the starting area's bottom-left corner - the
 ## player still picks their element (the same `ElementChoiceScreen`), then gets a real, legal
-## 45-card deck (the 42-card starter + 3 *random* on-element cards, `CampaignStart.
+## 48-card deck (the 45-card starting deck + 3 *random* on-element cards, `CampaignStart.
 ## random_element_cards` - unlike the normal tutorial's 3 curated reward picks), the same total
 ## XP/gold the tutorial's battles/boss would have paid (`TrialOfTheHollow.
 ## total_tutorial_rewards`), and the same tutorial-complete flags a real clear leaves, so the town

@@ -10,6 +10,7 @@ display_name = "Line Cook"
 color = 2
 colored_pips = Array[int]([2])
 attack = 1
+defense = 2
 rules_text = "When this unit enters, create an Ingredient."
 flavor_text = "\"Yes, Chef!\" (He has no idea what Chef said.)"
 paths_all = Array[int]([2])

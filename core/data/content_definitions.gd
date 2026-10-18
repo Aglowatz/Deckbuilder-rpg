@@ -45,10 +45,9 @@ static func deck_recipes() -> Array[Dictionary]:
 		{"name": "Gourmand & Refusemancer", "recipe": EnemyDecks.trimmed("gourmand_refusemancer", 45, 17)},
 		{"name": "Refusemancer & Necrocrat", "recipe": EnemyDecks.trimmed("necrocrat_refusemancer", 45, 17)},
 		{"name": "Necrocrat & Beefcake", "recipe": EnemyDecks.trimmed("necrocrat_beefcake", 45, 17)},
-		# The tutorial-dungeon starter template (docs/design/starting_deck_and_affinity.md): 19 Infrastructure + 23 Colorless
-		# cards = 42 cards, NOT the normal 45-card minimum - the `TrialOfTheHollow` MIN_DECK_SIZE waiver covers the gap until
-		# the 3 tutorial reward picks fill it back out. Its Infrastructure Path here (Beefcake) is irrelevant:
-		# `CampaignStart.starter_deck` replaces every Infrastructure with the player's actually-chosen Path.
+		# The old colorless tutorial starter (19 Infrastructure + 23 Colorless cards = 42). Rebalance Part D (Oct 18): no player gets
+		# it any more (`CampaignStart.STARTING_DECKS` holds the four 45-card Path decks); it stays as a sim benchmark deck
+		# (`--what=decks --colorless`) and for old saves.
 		{
 			"name": STARTER_DECK_NAME,
 			"recipe": {

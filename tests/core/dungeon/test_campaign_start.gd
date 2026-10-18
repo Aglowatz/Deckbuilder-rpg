@@ -7,20 +7,18 @@ func before_all() -> void:
 	_content = ContentLibrary.load_all()
 
 
-func test_starter_deck_is_neutral_spells_plus_chosen_color_infrastructure() -> void:
+func test_each_starting_deck_is_a_legal_45_card_path_deck() -> void:
 	for color: Affinity.Type in Affinity.colored_types():
 		var deck: Deck = CampaignStart.starter_deck(_content, color)
-		assert_eq(deck.size(), 42, "15 colorless spells + the Path's 8 package cards + 19 infrastructure, short of 45 on purpose")
+		assert_eq(deck.size(), 45, "19 infrastructure + 26 cards of the Path (Rebalance Part D)")
 		assert_eq(deck.infrastructure_count(), 19)
-		assert_eq(deck.colors(), [color] as Array[Affinity.Type], "only the chosen color appears")
+		assert_eq(deck.colors(), [color] as Array[Affinity.Type], "only the chosen Path appears")
 		for card: CardData in deck.cards:
-			assert_true(card.is_infrastructure() or card.color == Affinity.Type.NEUTRAL or card.color == color, card.id)
-		# Not legal under the plain rules (too few cards)...
-		assert_false(DeckValidator.is_valid(deck, PlayerProfile.new()))
-		# ...but legal with the tutorial dungeon's size waiver applied.
+			assert_true(card.is_infrastructure() or card.color == color, card.id)
+		assert_true(DeckValidator.is_valid(deck, PlayerProfile.new()), "legal under the plain rules from turn one")
 		var modifiers: ModifierSet = ModifierSet.new()
 		modifiers.add_source(TrialOfTheHollow.deck_size_waiver())
-		assert_true(DeckValidator.is_valid(deck, PlayerProfile.new(), modifiers))
+		assert_true(DeckValidator.is_valid(deck, PlayerProfile.new(), modifiers), "and with the legacy waiver")
 
 
 func test_neutral_is_not_a_valid_starting_choice() -> void:
@@ -33,9 +31,9 @@ func test_new_profile_owns_the_colorless_starter_cards_and_the_path_package() ->
 	var profile: PlayerProfile = CampaignStart.new_profile(_content, Affinity.Type.REFUSEMANCER)
 	assert_eq(profile.primary_affinity, Affinity.Type.REFUSEMANCER)
 	assert_false(profile.intro_dungeon_cleared)
-	assert_eq(profile.owned_cards.size(), 23)
+	assert_eq(profile.owned_cards.size(), CampaignStart.SPELL_COUNT)
 	for card: CardData in profile.owned_cards:
-		assert_true(card.color == Affinity.Type.NEUTRAL or card.color == Affinity.Type.REFUSEMANCER, card.id)
+		assert_eq(card.color, Affinity.Type.REFUSEMANCER, card.id)
 	assert_eq(profile.base_max_hp(), 10)
 	assert_eq(profile.base_opening_hand(), 5)
 	var deck: Deck = CampaignStart.starter_deck(_content, Affinity.Type.REFUSEMANCER)
@@ -82,30 +80,45 @@ func test_profile_choice_survives_tres() -> void:
 	assert_eq(ResourceSaver.save(profile, path), OK)
 	var loaded: PlayerProfile = ResourceLoader.load(path, "", ResourceLoader.CACHE_MODE_IGNORE) as PlayerProfile
 	assert_eq(loaded.primary_affinity, Affinity.Type.NECROCRAT)
-	assert_eq(loaded.owned_cards.size(), 23)
+	assert_eq(loaded.owned_cards.size(), CampaignStart.SPELL_COUNT)
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 
 
-## Story v2 Part C: every Path's starter leans on its own Resource, using only existing Common cards, at most 3 copies each.
-func test_each_path_package_is_eight_commons_that_make_or_spend_the_resource() -> void:
+## Rebalance Part D: every Path's starting deck is mostly Commons, a few Uncommon kinds, no Epics or Legendaries, at most 3 copies
+## of a card (2 of an Uncommon, the level-1 cap), and it both makes and spends its Resource.
+func test_each_starting_deck_is_mostly_commons_within_the_copy_caps_and_teaches_its_resource() -> void:
+	var spends: Dictionary = {
+		Affinity.Type.BEEFCAKE: "iron", Affinity.Type.NECROCRAT: "redtape", Affinity.Type.GOURMAND: "ingredient", Affinity.Type.REFUSEMANCER: "garbage",
+	}
 	for color: Affinity.Type in Affinity.colored_types():
-		var package: Array[CardData] = CampaignStart.path_package(_content, color)
-		assert_eq(package.size(), 8, "8 package cards for %s" % str(color))
+		var spells: Array[CardData] = CampaignStart.starter_spells(_content, color)
+		assert_eq(spells.size(), CampaignStart.SPELL_COUNT, "26 cards for %s" % Affinity.display_name(color))
 		var copies: Dictionary = {}
-		for card: CardData in package:
+		var commons: int = 0
+		var uncommon_kinds: Dictionary = {}
+		var makes: bool = false
+		var uses: bool = false
+		var word: String = str(spends[color])
+		for card: CardData in spells:
 			assert_true(card.is_on_path(color), card.id)
-			assert_eq(card.rarity, CardEnums.Rarity.COMMON, card.id)
+			assert_true(card.rarity == CardEnums.Rarity.COMMON or card.rarity == CardEnums.Rarity.UNCOMMON, "%s is not Common/Uncommon" % card.id)
+			if card.rarity == CardEnums.Rarity.COMMON:
+				commons += 1
+			else:
+				uncommon_kinds[card.id] = true
 			copies[card.id] = int(copies.get(card.id, 0)) + 1
+			if card.script_text.contains("create(%s" % word):
+				makes = true
+			if card.script_text.contains("use(%s" % word) or card.script_text.contains("resource_used:mine:%s" % word) or (word == "garbage" and card.script_text.contains("eat")):
+				uses = true
+		assert_true(commons >= 20, "%s: mostly commons (%d)" % [Affinity.display_name(color), commons])
+		assert_true(uncommon_kinds.size() >= 1 and uncommon_kinds.size() <= 3, "%s: a couple of uncommon kinds (%d)" % [Affinity.display_name(color), uncommon_kinds.size()])
+		assert_true(makes and uses, "%s makes and spends its Resource" % Affinity.display_name(color))
 		for id: String in copies.keys():
-			assert_true(int(copies[id]) <= 3, id)
-		var deck: Deck = CampaignStart.starter_deck(_content, color)
-		assert_eq(deck.size(), 42)
-		var counts: Dictionary = {}
-		for card: CardData in deck.cards:
-			counts[card.id] = int(counts.get(card.id, 0)) + 1
-		for id: String in counts.keys():
-			if not (_content.card(id) as CardData).is_infrastructure():
-				assert_true(int(counts[id]) <= 3, "%s x%d" % [id, int(counts[id])])
+			var card: CardData = _content.card(id)
+			assert_true(int(copies[id]) <= CopyCaps.for_card(card, 1), "%s x%d within the level-1 cap" % [id, int(copies[id])])
+		var profile: PlayerProfile = CampaignStart.new_profile(_content, color)
+		assert_true(DeckValidator.is_valid(CampaignStart.starter_deck(_content, color), profile, null, true), "buildable from the new collection")
 
 
 ## The Forgotten Cave has no Beefcake or Necrocrat infrastructure, cards or resources on the enemy side.

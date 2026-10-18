@@ -10,6 +10,7 @@ display_name = "Curbside Rat"
 color = 3
 colored_pips = Array[int]([3])
 attack = 1
+defense = 2
 rules_text = "When this unit enters, create a Garbage."
 flavor_text = "Takes one to make one."
 paths_all = Array[int]([3])

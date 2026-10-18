@@ -57,4 +57,4 @@ func test_unlock_flag_matches_the_zone_id_convention() -> void:
 func test_reference_player_decks_are_45_cards_and_reasonably_on_color() -> void:
 	for color: Affinity.Type in Affinity.colored_types():
 		var deck: Deck = CorruptedNpcs.reference_player_deck(content, color)
-		assert_eq(deck.cards.size(), 45, "a level-3 reference deck should be a real 45-card deck")
+		assert_eq(deck.cards.size(), CampaignStart.INFRASTRUCTURE_COUNT + CampaignStart.SPELL_COUNT + 3, "a level-3 reference deck is the 45-card starting deck plus the 3 tutorial picks")

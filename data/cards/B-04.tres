@@ -10,7 +10,7 @@ display_name = "Millstone Pusher"
 color = 1
 generic_cost = 1
 colored_pips = Array[int]([1])
-attack = 2
+attack = 1
 defense = 2
 rules_text = "Exhaust: add (B).
 

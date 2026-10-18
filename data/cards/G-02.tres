@@ -10,6 +10,7 @@ display_name = "Sushi Apprentice"
 color = 2
 colored_pips = Array[int]([2])
 attack = 1
+defense = 2
 rules_text = "Exhaust, use an Ingredient: create a 1/1 Sashimi Weenie token."
 flavor_text = "Raw talent."
 paths_all = Array[int]([2])

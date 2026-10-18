@@ -99,10 +99,10 @@ func test_the_raccoon_makes_eating_garbage_free() -> void:
 	assert_true(_activate(game, prowler))
 	assert_eq(game.players[0].hp, hp, "no HP lost")
 	assert_eq(game.players[0].ready_infrastructure().size(), ready_before, "no energy paid")
-	assert_eq(game.get_attack(prowler), 3, "Possum Prowler +2/+2 until end of turn")
+	assert_eq(game.get_attack(prowler), 4, "Possum Prowler (2/2 since the rebalance) +2/+2 until end of turn")
 	assert_eq(game.get_defense(prowler), 4)
 	GameFactory.pass_turn(game)
-	assert_eq(game.get_attack(prowler), 1, "until end of turn")
+	assert_eq(game.get_attack(prowler), 2, "until end of turn")
 
 
 # ---- Cooking golems from Ingredients ------------------------------------------------------------------------

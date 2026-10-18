@@ -21,8 +21,8 @@ enter => gain(me,2)
 == G-07 @add6d8d60858  # Sous Chef
 enter => peek(2); draw(1)
 
-== G-08 @fc4c5c41f5a3  # Pastry Artificer
-act | exhaust, pay(2), use(ingredient,2) => create(T-06)
+== G-08 @6385ae65c445  # Pastry Artificer
+act | exhaust, pay(1), use(ingredient,2) => create(T-06)
 
 == G-09 @1a9b458ab403  # Kitchen Porter
 die => create(ingredient,2)

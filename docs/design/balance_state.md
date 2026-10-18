@@ -23,9 +23,9 @@ passing, a commit and a push. Check for a `STOP_TASK` file in the repo root (or 
 |---|---|---|
 | A - rules changes | done (commit "Rebalance Part A") | Iron +1/+1 eot, Red Tape -2/-0 until controller's next turn, Eat Garbage no HP cost + `lose(N)` cost; arena Colossus retuned; GUT 1833/1834 (pre-existing test_world_look_rig) |
 | B - simulator | done (commit "Rebalance Part B") | `core/sim/{player_spec,encounter_spec,encounter_catalog,progression_model,sim_item_policy,balance_sim}.gd`, CLI `tools/run_balance_sim.gd` (loads `tools/balance_sim_tool.gd` after the autoloads). Run: `Godot --headless --path . -s res://tools/run_balance_sim.gd -- --what=encounters --mode=quick --filter=zone:beefcake --out=res://docs/design/sim/x.md` (what: encounters, tutorial, sequence, decks, iron, one; mode quick=12 games/Path, full=100). ~0.09 s per game; whole catalog quick = ~9 min. Reports in `docs/design/sim/`. GUT 1840/1841 |
-| C - card rebalance | todo | |
-| D - starting decks | todo | |
-| E - encounters + modifiers | todo | |
+| C - card rebalance | first pass done (commit "Rebalance Parts C+D") | 5 batches in balance_log.md; Part G iterates. Tools: scratch `card_patch.js` (CSV + log), `--what=decks/matchup`. Round robin L1 after batch 5: see decks_l1_c5.md |
+| D - starting decks | done (same commit) | `CampaignStart.STARTING_DECKS` (45 cards, 19 infra + 26), docs/design/starting_decks.md; tutorial clears (real run) B 86 / R 82 / N 80 / G 78 |
+| E - encounters + modifiers | started | tutorial enemy decks retuned (TrialOfTheHollow.enemy_recipe); rest after the C+D commit |
 | F - equipment + items | todo | |
 | G - iterate | todo | |
 | H - docs + sheet changes | todo | |

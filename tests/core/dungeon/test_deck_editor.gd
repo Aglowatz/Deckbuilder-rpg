@@ -24,10 +24,9 @@ func test_starter_deck_is_valid_with_the_tutorial_waiver() -> void:
 	assert_true(editor.is_valid(), str(editor.issues().size()))
 
 
-func test_starter_deck_is_not_valid_without_the_waiver() -> void:
+func test_starter_deck_is_valid_without_the_waiver_too() -> void:
 	var plain: DeckEditor = DeckEditor.from(profile, CampaignStart.starter_deck(content, Affinity.Type.BEEFCAKE), editor.infrastructure)
-	assert_false(plain.is_valid(), "42 cards is below the plain 45-card minimum")
-	assert_true(DeckValidator.has_problem(plain.issues(), DeckValidator.Problem.TOO_FEW_CARDS))
+	assert_true(plain.is_valid(), "the 45-card starting deck meets the plain minimum (Rebalance Part D)")
 
 
 func test_cannot_add_more_than_owned_or_the_copy_cap() -> void:
@@ -69,14 +68,15 @@ func test_third_color_allowed_after_postgame_unlocked() -> void:
 
 
 func test_remove_and_size_rules() -> void:
-	assert_true(editor.remove(content.card("C-02")))
+	for i: int in range(4):
+		assert_true(editor.remove(content.card("B-05") if i < 3 else content.card("B-01")))
 	assert_false(editor.is_valid(), "41 cards is below the minimum, waiver included")
 	assert_true(DeckValidator.has_problem(editor.issues(), DeckValidator.Problem.TOO_FEW_CARDS))
 
 
 func test_autofill_infrastructure_reaches_the_modifier_adjusted_minimum() -> void:
-	editor.remove(content.card("C-02"))
-	editor.remove(content.card("C-07"))
+	for i: int in range(5):
+		editor.remove(content.card("B-05") if i < 3 else content.card("B-01"))
 	var added: int = editor.autofill_infrastructure()
 	assert_eq(added, 2, "tops up to the waived minimum (42), not the plain one")
 	assert_true(editor.is_valid())
@@ -84,8 +84,8 @@ func test_autofill_infrastructure_reaches_the_modifier_adjusted_minimum() -> voi
 
 func test_autofill_infrastructure_reaches_the_plain_minimum_without_a_waiver() -> void:
 	var plain: DeckEditor = DeckEditor.from(profile, CampaignStart.starter_deck(content, Affinity.Type.BEEFCAKE), editor.infrastructure)
-	plain.remove(content.card("C-02"))
-	plain.remove(content.card("C-07"))
+	for i: int in range(5):
+		plain.remove(content.card("B-05") if i < 3 else content.card("B-01"))
 	var added: int = plain.autofill_infrastructure()
 	assert_eq(added, 5, "40 cards up to the plain 45-card minimum")
 	assert_true(plain.is_valid())

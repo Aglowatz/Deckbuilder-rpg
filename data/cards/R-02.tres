@@ -12,9 +12,9 @@ generic_cost = 1
 colored_pips = Array[int]([3])
 attack = 1
 defense = 2
-rules_text = "Exhaust, pay 1: create a Garbage."
+rules_text = "Exhaust: create a Garbage."
 flavor_text = "It's not hoarding if it's curated."
 paths_all = Array[int]([3])
-script_text = "act | exhaust, pay(1) => create(garbage)"
-rules_hash = "b2905420182e"
+script_text = "act | exhaust => create(garbage)"
+rules_hash = "2d96b9afc045"
 image_description = "A scrappy young druid half-inside an overflowing dumpster, only their legs and mossy cloak sticking out, tossing treasures (a boot, a teapot, a fish skeleton) over their shoulder while a curious crow watches."

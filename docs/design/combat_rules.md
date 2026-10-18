@@ -164,15 +164,14 @@ encounter grants XP and gold scaled by `DungeonMap.Difficulty` (`EncounterReward
   essence, or gold for a neutral card), the deck builder and saved decks. **Infrastructure is unlimited.**
   Old saves: copies over the cap convert on load and saved decks drop the extra copies.
 
-## Starting deck (Part C)
+## Starting deck (Rebalance Part D, Oct 18 2026)
 
-A new campaign's starter deck is **42 cards**: 23 colorless (neutral) non-infrastructure cards + 19 basic
-infrastructure of the player's chosen Path - short of the normal 45-card minimum. A `MIN_DECK_SIZE`
-modifier waives the minimum down to 42 for the whole tutorial dungeon only
-(`TrialOfTheHollow.deck_size_waiver()`); the 3 tutorial reward picks (one per battle, restricted to
-the player's own element on this first clear) bring the deck up to a real 45 cards by the time the
-dungeon is cleared, at which point the waiver no longer applies. See
-`docs/design/starting_deck_and_affinity.md` for the full flow.
+A new campaign starts with the chosen Path's own **45-card starting deck**: 19 basic Infrastructure of the Path plus 26 cards that
+teach its Resource and core mechanic (`CampaignStart.STARTING_DECKS`, lists and game plans in `docs/design/starting_decks.md`) -
+legal from the first turn. The 3 tutorial reward picks (one per battle, restricted to the player's own Path on the first clear)
+grow it to 48. The old 42-card colorless starter is gone; `TrialOfTheHollow.deck_size_waiver()` (a `MIN_DECK_SIZE` modifier down
+to 42 inside the tutorial) only remains so that an old save mid-tutorial stays legal. See `docs/design/starting_deck_and_affinity.md`
+for the flow.
 
 ## Rarity
 

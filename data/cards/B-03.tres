@@ -11,9 +11,9 @@ type = 2
 color = 1
 colored_pips = Array[int]([1])
 defense = 0
-rules_text = "Deal 2 damage to target unit or opponent."
+rules_text = "Deal 2 damage to target unit."
 flavor_text = "Gravity always wins."
 paths_all = Array[int]([1])
-script_text = "play t=unit|opp => damage(t,2)"
-rules_hash = "9eec177cd2bf"
+script_text = "play t=unit => damage(t,2)"
+rules_hash = "e6b6a59d4385"
 image_description = "A sweaty Beefcake fumbling a heavy barbell while re-racking it, the weights crashing down on a startled creature below in a cloud of chalk dust."

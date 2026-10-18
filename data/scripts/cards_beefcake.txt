@@ -7,8 +7,8 @@ kw hustle
 attach
 host => stat(2,0)
 
-== B-03 @9eec177cd2bf  # Dropped Weights
-play t=unit|opp => damage(t,2)
+== B-03 @e6b6a59d4385  # Dropped Weights
+play t=unit => damage(t,2)
 
 == B-04 @e9828fe3401b  # Millstone Pusher
 act | exhaust => add(B)

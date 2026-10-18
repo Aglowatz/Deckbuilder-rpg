@@ -4,8 +4,8 @@
 == R-01 @db62407c6624  # Mulch Mole
 act | exhaust => add(R)
 
-== R-02 @b2905420182e  # Dumpster Diver
-act | exhaust, pay(1) => create(garbage)
+== R-02 @2d96b9afc045  # Dumpster Diver
+act | exhaust => create(garbage)
 
 == R-03 @5576211e6caf  # Landfill Ox
 act | exhaust, eat(2), lose(1) => add(R,R,R,R)

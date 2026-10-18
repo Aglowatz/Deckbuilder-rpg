@@ -20,46 +20,52 @@ const LEVELS: Dictionary = {
 	"arena:1": 6, "arena:2": 12, "arena:3": 18,
 }
 
-## Colorless filler the reference deck sheds as its Path upgrades arrive, in order.
-const FILLER_ORDER: Array[String] = ["C-01", "C-02", "C-02", "C-02", "C-03", "C-03", "C-06", "C-06", "C-07", "C-08", "C-11", "C-13", "C-17", "C-14", "C-01", "C-01", "C-10", "C-12", "C-05", "C-04"]
-## The deck stays at this size while upgrades come in (extra cards replace filler).
+## The deck stays at this size while upgrades come in (extra cards replace the weakest starter cards).
 const REFERENCE_DECK_SIZE: int = 46
 
-## Per Path: level -> {Card ID: copies} the player has added to the starter by that level (commons and uncommons first, the first
-## Epic at 10, the Legendary at 18; within the copy caps of the level track).
+## Per Path: level -> {Card ID: copies} the player has added to the starting deck by that level (commons and uncommons first, the
+## first Epic at 10, the Signature Legendary at 18). Copies over the level's copy cap are skipped.
 const UPGRADES: Dictionary = {
 	Affinity.Type.BEEFCAKE: {
-		3: {"B-06": 1, "B-24": 1, "B-14": 1},
-		6: {"B-21": 2, "B-25": 1, "B-26": 1, "B-11": 1},
-		10: {"B-27": 1, "B-19": 2, "B-23": 1},
-		14: {"B-28": 1, "B-29": 1, "B-12": 2},
-		18: {"B-33": 1, "B-26": 1},
+		3: {"B-06": 1, "B-16": 1, "B-15": 1},
+		6: {"B-25": 1, "B-19": 2, "B-11": 1, "B-24": 1},
+		10: {"B-27": 1, "B-23": 1, "B-10": 1},
+		14: {"B-28": 1, "B-29": 1, "B-26": 1},
+		18: {"B-33": 1, "B-27": 1},
 		22: {"B-32": 1, "B-28": 1},
 	},
-	Affinity.Type.GOURMAND: {
-		3: {"G-05": 1, "G-07": 1, "G-17": 1},
-		6: {"G-08": 2, "G-12": 1, "G-21": 2, "G-25": 1},
-		10: {"G-28": 1, "G-23": 2, "G-24": 1},
-		14: {"G-29": 1, "G-30": 1, "G-26": 2},
-		18: {"G-33": 1, "G-32": 1},
-		22: {"G-27": 1, "G-22": 1},
-	},
-	Affinity.Type.REFUSEMANCER: {
-		3: {"R-07": 1, "R-22": 1, "R-26": 1},
-		6: {"R-22": 1, "R-14": 2, "R-09": 2, "R-25": 1},
-		10: {"R-28": 1, "R-23": 2, "R-12": 2},
-		14: {"R-29": 1, "R-30": 1, "R-24": 2},
-		18: {"R-33": 1, "R-27": 1},
-		22: {"R-32": 1, "R-29": 1},
-	},
 	Affinity.Type.NECROCRAT: {
-		3: {"N-06": 1, "N-26": 1, "N-23": 1},
-		6: {"N-15": 1, "N-07": 2, "N-18": 2, "N-14": 1},
-		10: {"N-30": 1, "N-24": 2, "N-25": 2},
+		3: {"N-16": 1, "N-13": 1, "N-17": 1},
+		6: {"N-15": 1, "N-25": 1, "N-24": 1, "N-06": 1},
+		10: {"N-30": 1, "N-24": 1, "N-25": 1, "N-22": 1},
 		14: {"N-28": 1, "N-29": 1, "N-27": 1},
 		18: {"N-33": 1, "N-31": 1},
 		22: {"N-32": 1, "N-28": 1},
 	},
+	Affinity.Type.GOURMAND: {
+		3: {"G-17": 1, "G-13": 1, "G-16": 1},
+		6: {"G-05": 1, "G-20": 1, "G-22": 1, "G-24": 1},
+		10: {"G-28": 1, "G-26": 1, "G-22": 1},
+		14: {"G-29": 1, "G-30": 1, "G-26": 1},
+		18: {"G-33": 1, "G-32": 1},
+		22: {"G-27": 1, "G-28": 1},
+	},
+	Affinity.Type.REFUSEMANCER: {
+		3: {"R-15": 1, "R-18": 1, "R-12": 1},
+		6: {"R-25": 1, "R-09": 1, "R-23": 1, "R-12": 1},
+		10: {"R-28": 1, "R-23": 1, "R-29": 1},
+		14: {"R-30": 1, "R-31": 1, "R-24": 1},
+		18: {"R-33": 1, "R-27": 1},
+		22: {"R-32": 1, "R-29": 1},
+	},
+}
+
+## Per Path: the starting-deck cards a player cuts first as upgrades come in (weakest first; one copy per entry).
+const CUT_ORDER: Dictionary = {
+	Affinity.Type.BEEFCAKE: ["B-20", "B-07", "B-07", "B-14", "B-08", "B-04", "B-08", "B-01", "B-05", "B-03", "B-01", "B-12", "B-21", "B-04", "B-05"],
+	Affinity.Type.NECROCRAT: ["N-12", "N-21", "N-09", "N-14", "N-20", "N-05", "N-03", "N-07", "N-01", "N-02", "N-07", "N-01", "N-18", "N-04", "N-02"],
+	Affinity.Type.GOURMAND: ["G-21", "G-04", "G-14", "G-06", "G-02", "G-09", "G-06", "G-02", "G-07", "G-01", "G-09", "G-15", "G-01", "G-05", "G-20"],
+	Affinity.Type.REFUSEMANCER: ["R-17", "R-04", "R-01", "R-11", "R-07", "R-10", "R-02", "R-05", "R-19", "R-08", "R-02", "R-06", "R-05", "R-14", "R-19"],
 }
 
 
@@ -109,8 +115,8 @@ static func items_for(level: int) -> Dictionary:
 	return {"healing_salve": 3, "firebrand_charm": 2, "sharpening_stone": 2}
 
 
-## The reference deck of a Path at `level`: its starting deck plus every upgrade package up to that level, shedding colorless filler
-## so the deck stays around `REFERENCE_DECK_SIZE` cards.
+## The reference deck of a Path at `level`: its starting deck plus every upgrade package up to that level (within the level's copy
+## caps), cutting the weakest starting cards so the deck stays at `REFERENCE_DECK_SIZE` cards.
 static func reference_deck(content: ContentSet, path: Affinity.Type, level: int) -> Deck:
 	var deck: Deck = CampaignStart.starter_deck(content, path)
 	deck.deck_name = "%s L%d" % [Affinity.display_name(path), level]
@@ -127,16 +133,19 @@ static func reference_deck(content: ContentSet, path: Affinity.Type, level: int)
 			var card: CardData = content.card(str(id))
 			if card == null:
 				continue
+			var cap: int = CopyCaps.for_card(card, level)
 			for copy: int in range(int(package[id])):
-				deck.cards.append(card)
-	_shed_filler(deck)
+				if deck.count_of(card.id) < cap:
+					deck.cards.append(card)
+	_cut_to_size(deck, path)
 	return deck
 
 
-static func _shed_filler(deck: Deck) -> void:
+static func _cut_to_size(deck: Deck, path: Affinity.Type) -> void:
+	var order: Array = CUT_ORDER.get(path, []) as Array
 	var cursor: int = 0
-	while deck.cards.size() > REFERENCE_DECK_SIZE and cursor < FILLER_ORDER.size():
-		var id: String = FILLER_ORDER[cursor]
+	while deck.cards.size() > REFERENCE_DECK_SIZE and cursor < order.size():
+		var id: String = str(order[cursor])
 		cursor += 1
 		for index: int in range(deck.cards.size()):
 			if deck.cards[index].id == id:

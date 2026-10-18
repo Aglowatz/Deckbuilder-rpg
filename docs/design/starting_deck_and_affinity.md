@@ -1,5 +1,10 @@
 # Starting Deck, Primary Affinity and the Intro Dungeon
 
+> **Rebalance Part D (Oct 18 2026):** the starter is now a unique **45-card deck per Path** (19 basic Infrastructure + 26 cards,
+> `CampaignStart.STARTING_DECKS`), legal from turn one; the 3 tutorial picks grow it to 48. The 42-card colorless starter and its
+> package table below are history (kept for the reasoning); the current lists, game plans and simulation results are in
+> `docs/design/starting_decks.md`. The tutorial's enemy decks were retuned for the new starters (`docs/design/balance_log.md`).
+
 Design decisions for how a new campaign begins. All names (Affinity A-D, "Wellspring", "Wanderer")
 are placeholders like the rest of the affinity naming; rename them in `Affinity.DISPLAY_NAMES`
 and the story text below in one pass later.

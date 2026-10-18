@@ -199,6 +199,8 @@ func _choose_main_action(state: GameState, who: int) -> GameAction:
 		if not trial.apply_action(action):
 			continue
 		var gain: float = evaluate(trial, who) - baseline
+		if action.type == GameAction.Type.USE_RESOURCE and (action.effect_index as ResourceKind.Kind) != ResourceKind.Kind.CONTRACT:
+			gain = _resource_gain_via_attack(state, trial, who)
 		if action.type == GameAction.Type.ACTIVATE_ABILITY and _only_adds_energy(state, action):
 			# Floating energy is worth what it lets you play next.
 			gain = _best_follow_up(trial, who)
@@ -226,6 +228,37 @@ func _resource_use_is_sensible(state: GameState, who: int, action: GameAction) -
 	if attackers.is_empty() or target.owner == who:
 		return false
 	return not target.exhausted
+
+
+## Rebalance (Oct 18): Iron (+1/+1 until end of turn) and Red Tape (-2 attack until the start of its controller's next turn) are
+## combat tricks, so a one-step board evaluation overvalues them (the change shows up as board value, then expires unused). Their
+## real worth is the better attack they allow this turn: the best attack outcome after the use, minus the best attack outcome now.
+func _resource_gain_via_attack(state: GameState, trial: GameState, who: int) -> float:
+	return _best_attack_outcome(trial, who) - _best_attack_outcome(state, who)
+
+
+## The position score after the best attack declaration available from `state` (a main-phase state), including the opponent's
+## best blocks and the option of not attacking at all.
+func _best_attack_outcome(state: GameState, who: int) -> float:
+	var probe: GameState = state.clone(false, 1 - who)
+	if probe.phase == GameState.Phase.MAIN1 and not probe.is_over():
+		probe.advance_phase()
+	if probe.is_over() or probe.combat_step != GameState.CombatStep.DECLARE_ATTACKERS or probe.awaiting_player() != who:
+		return evaluate(probe, who)
+	var available: Array[CardInstance] = probe.possible_attackers(who)
+	var best: float = -INF
+	var candidates: Array[Array] = _attack_candidates(probe, who, available) if not available.is_empty() else ([[] as Array[int]] as Array[Array])
+	for candidate: Array[int] in candidates:
+		var branch: GameState = probe.clone(false, 1 - who)
+		if candidate.is_empty():
+			if not branch.apply_action(GameAction.pass_phase(who)):
+				continue
+		elif not branch.declare_attackers(candidate):
+			continue
+		if not branch.is_over() and branch.awaiting_player() == 1 - who and branch.combat_step == GameState.CombatStep.DECLARE_BLOCKERS:
+			branch.declare_blockers(choose_blocks(branch, 1 - who))
+		best = maxf(best, evaluate(branch, who))
+	return best if best > -INF else evaluate(probe, who)
 
 
 ## True for an ability whose whole effect is "add energy" (Mulch Mole, Bird of Paradump, Four-Path Compass...).

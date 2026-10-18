@@ -10,19 +10,21 @@ const CHALLENGE_ID: String = "hollow_well"
 ## uses the player's plain base HP (10) and is balanced to be winnable on that alone - see
 ## docs/balance_report.md for the simulated win rate.
 
-const STARTER_DECK_SIZE: int = 42
+## Rebalance Part D (Oct 18): the starting decks are full 45-card decks, so the waiver below is a no-op kept for old saves that
+## still carry a 42-card colorless starter mid-tutorial (the legacy minimum).
+const STARTER_DECK_SIZE: int = CampaignStart.INFRASTRUCTURE_COUNT + CampaignStart.SPELL_COUNT
+const LEGACY_STARTER_DECK_SIZE: int = 42
 
 
-## Waives the normal 45-card minimum down to the starter deck's actual size (Part C), so the
-## 42-card starter is legal to play/save with (e.g. in the in-dungeon deck builder) for the whole
-## trial, until the 3 reward picks bring it back up to 45 on their own.
+## Waives the 45-card minimum down to the legacy 42-card starter for the whole trial (an old save's deck stays legal to play and
+## to edit in the in-dungeon deck builder); the new 45-card starting decks never need it.
 static func deck_size_waiver() -> ModifierSource:
 	var source: ModifierSource = ModifierSource.new()
 	source.source_name = "Tutorial starter deck"
 	source.source_kind = ModifierSource.SourceKind.DUNGEON
 	var modifier: Modifier = Modifier.new()
 	modifier.kind = Modifier.Kind.MIN_DECK_SIZE
-	modifier.value = STARTER_DECK_SIZE - DeckValidator.MIN_DECK_SIZE
+	modifier.value = LEGACY_STARTER_DECK_SIZE - DeckValidator.MIN_DECK_SIZE
 	modifier.label = "Starter deck is not full size yet"
 	source.modifiers = [modifier] as Array[Modifier]
 	return source
@@ -114,12 +116,14 @@ static func enemy_recipe(enemy_name: String) -> Dictionary:
 	# win rate). The boss is allowed real removal/value (Pink Slip, Skeleton Clerks) and a bigger
 	# body or two - stronger, but still tuned to keep the whole dungeon's win rate above target.
 	match enemy_name:
+		# Rebalance Part E (Oct 18): the Path starting decks have no fliers, so the cave's decks carry few walls - bodies a 1/2 or
+		# a 2/2 can trade with - and the Warden keeps one real blocker (Tavern Regular) instead of three.
 		"Cave Scavenger":
-			return {"BAS-G": 17, "C-01": 4, "C-02": 3, "C-03": 2, "C-04": 2, "C-06": 1}
+			return {"BAS-G": 18, "C-01": 4, "C-02": 2, "C-04": 2}
 		"Hollow Stalker":
-			return {"BAS-R": 11, "BAS-G": 8, "C-01": 3, "C-02": 3, "C-03": 2, "C-04": 2, "C-05": 1, "C-07": 1}
+			return {"BAS-R": 12, "BAS-G": 8, "C-01": 3, "C-02": 3, "C-03": 1, "C-04": 2, "C-07": 1}
 		"Hollow Warden":
-			return {"BAS-G": 12, "BAS-R": 10, "C-02": 3, "C-06": 2, "C-08": 2, "C-09": 1, "R-06": 2, "R-07": 2, "C-15": 1}
+			return {"BAS-G": 12, "BAS-R": 10, "C-01": 2, "C-02": 3, "C-06": 2, "C-08": 1, "R-05": 1, "R-06": 2, "C-15": 1}
 	return {}
 
 

@@ -10,7 +10,7 @@ display_name = "Late-ish Courier"
 color = 1
 generic_cost = 1
 colored_pips = Array[int]([1])
-attack = 3
+attack = 2
 keywords = Array[int]([2])
 rules_text = "Hustle.
 

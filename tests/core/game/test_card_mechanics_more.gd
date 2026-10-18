@@ -98,7 +98,7 @@ func test_ultimate_cardio_machine_gives_hustle_to_entering_units() -> void:
 	assert_true(game.unit_has_keyword(plain, CardEnums.Keyword.HUSTLE), "a unit entering without Hustle gains it")
 	assert_eq(game.get_attack(plain), 1, "...but not the +2/+1, which is for units that entered WITH Hustle")
 	var fast: CardInstance = _play(game, "B-01")
-	assert_eq(game.get_attack(fast), 4, "Gym Bro entered with Hustle: +2/+1 until end of turn")
+	assert_eq(game.get_attack(fast), 3, "Gym Bro (1/1 since the rebalance) entered with Hustle: +2/+1 until end of turn")
 	assert_eq(game.get_defense(fast), 2)
 
 

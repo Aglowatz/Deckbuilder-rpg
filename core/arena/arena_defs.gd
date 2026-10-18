@@ -98,13 +98,13 @@ static func _build() -> Array[ArenaEncounter]:
 	# Zero to Hero: both blockers must die first (Dropped Weights, Kettlebell), then 4 + 5 + 2 = 11 damage.
 	var hero: ArenaEncounter = _puzzle("arena_zero_to_hero", 3, ArenaEncounter.Goal.WIN_THIS_TURN, 0, 0)
 	hero.enemy_name = "The Wall of Fame"
-	hero.enemy_hp = 11
+	hero.enemy_hp = 10  # Rebalance: Gym Bro is a 1/1 now, so the three attackers deal exactly 10 once both blockers are gone
 	hero.enemy_recipe = {"BAS-B": 20, "C-02": 3, "C-06": 3}
 	hero.player_recipe = {"BAS-B": 20, "B-03": 3, "B-15": 3}
 	hero.player_hp = 8
 	hero.preset = {
 		"player": {"hp": 8, "infrastructure": {"B": 5}, "field": {"B-12": 1, "B-11": 1, "B-01": 1}, "hand": {"B-03": 1, "B-15": 1, "B-17": 1, "B-20": 1}},
-		"enemy": {"hp": 11, "infrastructure": {"B": 2}, "field": {"C-02": 1, "C-06": 1}, "hand": {}},
+		"enemy": {"hp": 10, "infrastructure": {"B": 2}, "field": {"C-02": 1, "C-06": 1}, "hand": {}},
 	}
 	hero.reward = {"equipment": "gladiators_net", "gold": 200, "xp": 120}
 	list.append(hero)

@@ -19,26 +19,26 @@ const RECIPES: Array[Dictionary] = [
 	{
 		"affinity": Affinity.Type.BEEFCAKE,
 		"identity": "Beefcake is aggressive and chaotic: Hustle, big strong units, raw stat boosts, Tools, tempo and direct damage. Burst now, pay later.",
-		"playstyle": "Race to deal damage before the table settles. Pump your units with Iron and strike first.",
-		"sample_card_ids": ["B-01", "B-14", "B-03"],
+		"playstyle": "Race to deal damage before the table settles. Make Iron, then spend it all on the turn you swing: +1/+1 each until end of turn.",
+		"sample_card_ids": ["B-05", "B-09", "B-21"],
 	},
 	{
 		"affinity": Affinity.Type.GOURMAND,
 		"identity": "Gourmand is refined and controlling: chefs and Wonders that turn Ingredients into big Golem tokens, recipes, healing, bounce and Plating.",
-		"playstyle": "Control the pace, cook Golems from Ingredients, and win the long game.",
-		"sample_card_ids": ["G-01", "G-08", "G-21"],
+		"playstyle": "Control the pace, stack Ingredients behind sturdy chefs, cook them into Golems, and win the long game.",
+		"sample_card_ids": ["G-01", "G-12", "G-08"],
 	},
 	{
 		"affinity": Affinity.Type.REFUSEMANCER,
 		"identity": "Refusemancer is resilient and recycling: Garbage-eating units, ramp into big units, the Refuse Pile as a resource, scrappy rats, and Tool and Wonder destruction.",
-		"playstyle": "Eat Garbage, recycle your Refuse Pile and ramp into huge units.",
-		"sample_card_ids": ["R-06", "R-19", "R-02"],
+		"playstyle": "Make Garbage, eat it for damage and pumps, bring your best cards back from the Refuse Pile, and ramp into huge units.",
+		"sample_card_ids": ["R-06", "R-08", "R-22"],
 	},
 	{
 		"affinity": Affinity.Type.NECROCRAT,
 		"identity": "Necrocrat is orderly and value-grinding: small tokens, reanimation, drain, delayed but inevitable effects, taxes and fees, Red Tape and Contracts.",
-		"playstyle": "Go wide, grind with Red Tape and Contracts, and bring your units back.",
-		"sample_card_ids": ["N-02", "N-15", "N-09"],
+		"playstyle": "Make Red Tape with every Clerk and Intern, shrink their blockers with it, and turn the rest into bodies and cards.",
+		"sample_card_ids": ["N-02", "N-04", "N-15"],
 	},
 ]
 

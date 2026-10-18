@@ -66,7 +66,7 @@ func test_types_stats_rarity_and_text() -> void:
 	var goat: CardData = CardSet.card("R-04")
 	assert_eq(goat.type, CardEnums.CardType.UNIT)
 	assert_eq(goat.attack, 2)
-	assert_eq(goat.defense, 2)
+	assert_eq(goat.defense, 3)
 	assert_eq(goat.rarity, CardEnums.Rarity.COMMON)
 	assert_eq(goat.display_name, "Rubbish Goat")
 	assert_true(goat.rules_text.begins_with("When this unit enters"))
@@ -181,6 +181,6 @@ func test_script_files_have_no_orphans_and_the_sheet_has_no_unscripted_text() ->
 
 func test_ability_describer_gives_readable_text() -> void:
 	var diver: CardAbility = CardSet.card("R-02").abilities()[0]
-	assert_eq(AbilityDescriber.describe(diver), "Exhaust, Pay 1: create Garbage")
+	assert_eq(AbilityDescriber.describe(diver), "Exhaust: create Garbage")
 	var chef: CardAbility = CardSet.card("G-33").abilities()[1]
 	assert_true(AbilityDescriber.describe(chef).contains("Use X Ingredient"))
