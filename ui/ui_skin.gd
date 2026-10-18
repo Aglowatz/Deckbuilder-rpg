@@ -65,6 +65,35 @@ static func dialogue_panel() -> StyleBoxTexture:
 	return UiArt.nine("UI-PANEL-DIALOGUE", DIALOGUE_MARGIN, DIALOGUE_FACTOR, Vector4(44, 66, 44, 26))
 
 
+## The dialogue panel without its name tab, for narration (no speaker): an empty tab read as a missing name (Phase 2 cycle 11). Built once from
+## the art: the plain top-right corner mirrored over the top-left, the plain top edge across the rest of the tab.
+static func dialogue_panel_untabbed() -> StyleBoxTexture:
+	var style: StyleBoxTexture = dialogue_panel()
+	if style == null:
+		return null
+	var key: String = "UI-PANEL-DIALOGUE|untabbed|%.3f" % DIALOGUE_FACTOR
+	var texture: Texture2D = UiArt._textures.get(key) as Texture2D
+	if texture == null:
+		var image: Image = style.texture.get_image()
+		if image.is_compressed():
+			image.decompress()
+		image.convert(Image.FORMAT_RGBA8)
+		var width: int = image.get_width()
+		var height: int = image.get_height()
+		var cover_width: int = int(width * 0.37)
+		var cover_height: int = int(height * 0.42)
+		var corner_width: int = int(width * 0.07)
+		var plain_column: int = int(width * 0.6)
+		for x: int in range(cover_width):
+			var source_x: int = (width - 1 - x) if x < corner_width else plain_column
+			for y: int in range(cover_height):
+				image.set_pixel(x, y, image.get_pixel(source_x, y))
+		texture = ImageTexture.create_from_image(image)
+		UiArt._textures[key] = texture
+	style.texture = texture
+	return style
+
+
 ## ProgressBar skins: the bar frame is the background (its transparent channel is the content area the game fill is drawn in).
 ## UI-BAR-HP: channel x 0.161-0.916, y 0.388-0.699 of the image; UI-BAR-XP: x 0.195-0.935, y 0.386-0.651.
 const HP_BAR_CHANNEL: Vector4 = Vector4(0.161, 0.388, 0.084, 0.301)

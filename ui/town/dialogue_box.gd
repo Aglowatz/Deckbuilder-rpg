@@ -104,6 +104,13 @@ func _fit_speaker() -> void:
 		size_try -= 1
 	_speaker.add_theme_font_size_override("font_size", size_try)
 	_plate.visible = _speaker.text.strip_edges() != ""
+	# narration: the panel without its name tab, so no empty tab sits over the text
+	if _plate.visible:
+		_panel.remove_theme_stylebox_override("panel")
+	else:
+		var untabbed: StyleBoxTexture = UiSkin.dialogue_panel_untabbed()
+		if untabbed != null:
+			_panel.add_theme_stylebox_override("panel", untabbed)
 
 
 ## The speaker's typing voice (sound pass, Part D).

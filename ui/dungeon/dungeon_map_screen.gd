@@ -633,6 +633,7 @@ func _build_art() -> void:
 	black.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(black)
 	_art_rect = fit_rect(_art.get_size())
+	_build_side_bands()
 	var picture: TextureRect = TextureRect.new()
 	picture.name = "MapArt"
 	picture.texture = _art
@@ -643,6 +644,44 @@ func _build_art() -> void:
 	picture.size = _art_rect.size
 	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(picture)
+
+
+## Overnight Oct 17 (Phase 2 cycle 11): a map narrower than the screen left flat black bands either side (where the HUD sits). They now show a dark,
+## soft, cover-fitted copy of the same painting, with a shadow where they meet the map, so the cave reads as one place.
+func _build_side_bands() -> void:
+	if _art_rect.size.x >= 1919.0 and _art_rect.size.y >= 1079.0:
+		return
+	var backdrop: TextureRect = TextureRect.new()
+	backdrop.name = "MapBackdrop"
+	backdrop.texture = _art
+	backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	backdrop.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
+	UIKit.full_rect(backdrop)
+	backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var material: ShaderMaterial = ShaderMaterial.new()
+	material.shader = load("res://assets/shaders/map_backdrop.gdshader") as Shader
+	backdrop.material = material
+	add_child(backdrop)
+	var edge: float = 56.0
+	for side: int in range(2):
+		var shadow: TextureRect = TextureRect.new()
+		shadow.name = "MapEdgeShadow%d" % side
+		# the shadow falls on the band just outside the painting: dark at the map edge, fading outward
+		var gradient: Gradient = Gradient.new()
+		gradient.set_color(0, Color(0.0, 0.0, 0.0, 0.0) if side == 0 else Color(0.0, 0.0, 0.0, 0.6))
+		gradient.set_color(1, Color(0.0, 0.0, 0.0, 0.6) if side == 0 else Color(0.0, 0.0, 0.0, 0.0))
+		var texture: GradientTexture2D = GradientTexture2D.new()
+		texture.gradient = gradient
+		texture.width = 64
+		texture.height = 4
+		shadow.texture = texture
+		shadow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		shadow.stretch_mode = TextureRect.STRETCH_SCALE
+		shadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		shadow.size = Vector2(edge, _art_rect.size.y)
+		shadow.position = Vector2(_art_rect.position.x - edge if side == 0 else _art_rect.end.x, _art_rect.position.y)
+		add_child(shadow)
 
 
 ## HUD for a painted map: nothing covers the art. The title sits in a small plate on top, HP / gold / buttons in the side bands, and the node info
