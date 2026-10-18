@@ -4,7 +4,7 @@ Start: Sat Oct 17 20:52:45 MDT 2026 (end target: Sun Oct 18 07:52 MDT)
 Start tag: pre-overnight-oct17
 
 ## Current
-Done (Sun Oct 18 ~06:45 MDT). 14 parts and 26 cycles; final checks passed at 06:30; morning report in docs/overnight_report.md.
+Done (Sun Oct 18 ~06:35 MDT). 14 parts and 26 cycles; final checks passed at 06:30; morning report in docs/overnight_report.md.
 
 ## Done (commits)
 - Phase 1: Parts 1-14 committed and pushed (git log "Overnight Oct 17, Part N"), plus the Patchwork rename and small follow-ups.

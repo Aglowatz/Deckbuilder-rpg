@@ -1,6 +1,6 @@
 # Overnight report (Oct 17-18)
 
-Run: Sat Oct 17 20:52 MDT to Sun Oct 18 ~06:45 MDT (the end target was 07:52; the last hour went to final checks and this report). Start tag `pre-overnight-oct17`
+Run: Sat Oct 17 20:52 MDT to Sun Oct 18 ~06:35 MDT (the end target was 07:52; the last 75 minutes went to final checks and this report). Start tag `pre-overnight-oct17`
 (494fc066), all work on `main`, every part and cycle pushed. Phase 1 = the brief's 14 parts; Phase 2 = 26 improvement cycles, each aimed at the
 lowest-scoring category of `docs/overnight/scorecard.md`. Your decisions are in `docs/overnight_inbox.md` (15 short items) and
 `docs/design/open_questions.md` (ON17-*). The previous report is now `docs/overnight_report_oct16.md`.
