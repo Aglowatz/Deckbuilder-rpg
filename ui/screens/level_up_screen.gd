@@ -1,33 +1,27 @@
 class_name LevelUpScreen
 extends Control
-## Part E: shown after a battle grants enough XP to level up. New brief, Part A: one celebratory
-## popup PER level gained, shown in sequence (not one combined recap) - the new level number and
-## every bonus gained at that level, each with an icon, an animated entrance, a particle burst and
-## a sound. Reused as-is for level-ups from any source (the dev shrine, New Part E) - callers only
-## ever call `setup()` then add this as a child, so nothing about the source leaks in here.
-## Once every level's popup has been shown, walks through any pending equipment-slot choices and
-## "choose 1 of 3 cards" level rewards before finishing - same as before.
+## Shown after anything grants enough XP to level up (battles, quests, the dev shrine): one moment PER level gained, in sequence.
+## Overnight Oct 17, Part 7: a full-screen moment. The new level number punches in over slow golden rays with a burst and the level-up
+## sound, the level's headline appears, then every reward is revealed one by one (a soft tick each); new unlocks (the armory, deck
+## slots, cap raises, item slots, shop unlocks, cosmetics) sit in a gold box with a NEW chip and their own spark. Skippable: the first
+## click / Enter / Space / E reveals everything at once, the next one moves on; Esc skips the remaining levels. Rewards come from the
+## reward track (`ProgressionTable.reward_lines`). Callers call `setup()` then add this as a child, and wait for `finished`.
 
 signal finished
 
-## One bonus row on a level's popup: an icon name (CardIcons.ui()) and its text.
-class Bonus:
-	extends RefCounted
-	var icon: String = ""
-	var text: String = ""
-
-
-static func _bonus(icon_name: String, text_value: String) -> Bonus:
-	var bonus: Bonus = Bonus.new()
-	bonus.icon = icon_name
-	bonus.text = text_value
-	return bonus
-
+const REVEAL_STEP: float = 0.16
+const GUARD_TIME: float = 0.45
+const NUMBER_SIZE: int = 200
 
 var levels_gained: Array[LevelData] = []
 var _index: int = 0
-var _frame: PopupFrame
-var _child_screen: Control
+var _root: Control
+var _rows: VBoxContainer
+var _pending: Array[Control] = []
+var _reveal_tween: Tween
+var _revealing: bool = false
+var _age: float = 0.0
+var _continue: FancyButton
 
 
 func setup(gained: Array[LevelData]) -> void:
@@ -36,39 +30,182 @@ func setup(gained: Array[LevelData]) -> void:
 
 func _ready() -> void:
 	UIKit.full_rect(self)
-	# Polish round: the same frame as the chest and quest-complete boxes (`PopupFrame`).
-	_frame = PopupFrame.make("LEVEL UP!", "level_badge", UIStyle.GOLD)
-	add_child(_frame)
-	_frame.confirmed.connect(_next_level)
+	UiScale.fit(self)
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	var shade: ColorRect = ColorRect.new()
+	shade.color = Color(0.02, 0.015, 0.05, 0.9)
+	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	UIKit.full_rect(shade)
+	add_child(shade)
+	add_child(UIKit.vignette(0.75))
 	_index = 0
-	_show_level_popup()
+	if levels_gained.is_empty():
+		finished.emit.call_deferred()
+		return
+	_show_level()
 
 
-## One level's popup: badge + "Level N", every bonus gained at this level (with icons), a
-## particle burst and a sound. `_advance()` moves to the next level, or on to equipment/card
-## choices once every level has had its popup.
-func _show_level_popup() -> void:
-	_frame.clear_body()
+func _process(delta: float) -> void:
+	_age += delta
+
+
+## One level's moment: rays, the number, the headline, then the reward rows one by one.
+func _show_level() -> void:
+	if _root != null:
+		_root.queue_free()
+	_age = 0.0
 	var row: LevelData = levels_gained[_index]
-	_frame.set_heading("You are now level %d." % row.level, "(%d of %d levels gained)" % [_index + 1, levels_gained.size()] if levels_gained.size() > 1 else "")
-	var bonus_list: VBoxContainer = UIKit.vbox(8)
-	_frame.body.add_child(bonus_list)
-	for bonus: Bonus in _bonuses_for(row):
-		var bonus_row: HBoxContainer = UIKit.hbox(12)
-		bonus_row.add_child(IconArt.glyph_for(bonus.icon, UIStyle.PARCHMENT, 32.0))
-		var label: Label = UIKit.label(bonus.text, &"", 20, UIStyle.PARCHMENT)
-		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		label.custom_minimum_size = Vector2(640, 0)
-		bonus_row.add_child(label)
-		bonus_list.add_child(bonus_row)
+	var previous: LevelData = ProgressionTable.row(row.level - 1)
+	_root = Control.new()
+	_root.name = "LevelMoment"
+	UIKit.full_rect(_root)
+	_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_root)
+	var rays: PackFx.Rays = PackFx.Rays.new()
+	rays.color = Color(UIStyle.GOLD.r, UIStyle.GOLD.g, UIStyle.GOLD.b, 0.13 if row.big else 0.08)
+	rays.position = Vector2(960, 270)
+	rays.length = 1300.0
+	_root.add_child(rays)
+	var column: VBoxContainer = UIKit.vbox(6)
+	column.position = Vector2(360, 50)
+	column.size = Vector2(1200, 980)
+	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_root.add_child(column)
+	var banner: Label = UIKit.label("LEVEL UP", &"", 46, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	banner.add_theme_font_override("font", UIStyle.font_title())
+	banner.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.9))
+	banner.add_theme_constant_override("outline_size", 8)
+	column.add_child(banner)
+	var number: Label = UIKit.label(str(row.level), &"", NUMBER_SIZE, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	number.name = "LevelNumber"
+	number.add_theme_font_override("font", UIStyle.font_title())
+	number.add_theme_color_override("font_outline_color", Color("4a2a08"))
+	number.add_theme_constant_override("outline_size", 14)
+	number.custom_minimum_size = Vector2(0, 230)
+	column.add_child(number)
+	var headline: Label = UIKit.label(row.headline if not row.headline.is_empty() else "You are now level %d." % row.level, &"", 36, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	headline.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
+	headline.add_theme_constant_override("outline_size", 6)
+	column.add_child(headline)
+	if levels_gained.size() > 1:
+		column.add_child(UIKit.label("%d of %d levels gained" % [_index + 1, levels_gained.size()], &"MutedLabel", 20, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+	column.add_child(UIKit.spacer(10))
+	_rows = UIKit.vbox(8)
+	_rows.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_child(_rows)
+	_pending.clear()
+	var lines: Array[String] = []
+	if previous != null:
+		lines = ProgressionTable.reward_lines(row, previous, Session.profile.primary_affinity if Session.profile != null else Affinity.Type.NEUTRAL)
+	for line: String in lines:
+		var reward: Control = _reward_row(line, is_unlock(line))
+		_rows.add_child(reward)
+		_pending.append(reward)
 	_add_xp_bar(row)
-	_frame.animate_in()
+	column.add_child(UIKit.spacer(8))
+	_continue = FancyButton.make("Continue" if _index + 1 >= levels_gained.size() else "Next level", &"PrimaryButton", Vector2(260, 60))
+	_continue.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_continue.pressed.connect(advance)
+	column.add_child(_continue)
+	_continue.focus_mode = Control.FOCUS_ALL
+	column.add_child(UIKit.label("Click or press Enter to continue  -  Esc skips", &"MutedLabel", 18, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+	_animate_number(number, row)
+	_start_reveal()
+
+
+## Unlock lines (new things, not just numbers going up) get the gold box and the NEW chip.
+static func is_unlock(line: String) -> bool:
+	for word: String in ["armory", "Deck Station", "copies", "Wear up to", "item slot", "Unlocks", "(cosmetic)"]:
+		if line.contains(word):
+			return true
+	return false
+
+
+func _reward_row(text: String, unlock: bool) -> Control:
+	var panel: PanelContainer = PanelContainer.new()
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	panel.custom_minimum_size = Vector2(820, 0)
+	var fill: Color = Color(0.32, 0.22, 0.06, 0.82) if unlock else Color(0.08, 0.06, 0.12, 0.72)
+	var border: Color = UIStyle.GOLD if unlock else Color(1, 1, 1, 0.12)
+	panel.add_theme_stylebox_override("panel", UIStyle.box(fill, border, 2 if unlock else 1, 10))
+	var line: HBoxContainer = UIKit.hbox(12)
+	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	panel.add_child(UIKit.margin(line, 10))
+	if unlock:
+		var chip: Label = UIKit.label("NEW", &"", 18, UIStyle.INK, HORIZONTAL_ALIGNMENT_CENTER)
+		chip.add_theme_stylebox_override("normal", UIStyle.box(UIStyle.GOLD, Color(0, 0, 0, 0), 0, 8))
+		chip.custom_minimum_size = Vector2(64, 30)
+		chip.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		chip.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		line.add_child(chip)
+	var label: Label = UIKit.label(text, &"", 24 if unlock else 22, UIStyle.GOLD if unlock else UIStyle.PARCHMENT)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	line.add_child(label)
+	panel.set_meta(&"unlock", unlock)
+	panel.modulate.a = 0.0
+	return panel
+
+
+func _animate_number(number: Label, row: LevelData) -> void:
+	number.pivot_offset = Vector2(600, 115)
+	number.scale = Vector2(2.2, 2.2)
+	number.modulate.a = 0.0
+	var tween: Tween = number.create_tween().set_parallel(true)
+	tween.tween_property(number, "modulate:a", 1.0, 0.18)
+	tween.tween_property(number, "scale", Vector2.ONE, 0.42).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	Audio.sfx(&"level_up")
+	PackFx.burst(_root, Vector2(960, 270), UIStyle.GOLD, 46 if row.big else 30, 460.0, 1.1, true)
+	if row.big:
+		PackFx.ring(_root, Vector2(960, 270), UIStyle.GOLD, 320.0, 0.8)
 
 
-## The XP bar (UI-BAR-XP) under the bonuses: how far the hero is toward the level after this one.
+func _start_reveal() -> void:
+	_revealing = true
+	if _reveal_tween != null and _reveal_tween.is_valid():
+		_reveal_tween.kill()
+	_reveal_tween = create_tween()
+	_reveal_tween.tween_interval(0.55)
+	for reward: Control in _pending:
+		_reveal_tween.tween_callback(_reveal_one.bind(reward))
+		_reveal_tween.tween_interval(REVEAL_STEP * (2.0 if bool(reward.get_meta(&"unlock", false)) else 1.0))
+	_reveal_tween.tween_callback(func() -> void: _revealing = false)
+
+
+func _reveal_one(reward: Control) -> void:
+	if not is_instance_valid(reward) or reward.modulate.a > 0.99:
+		return
+	reward.pivot_offset = reward.size * 0.5
+	reward.scale = Vector2(0.92, 0.92)
+	var tween: Tween = reward.create_tween().set_parallel(true)
+	tween.tween_property(reward, "modulate:a", 1.0, 0.16)
+	tween.tween_property(reward, "scale", Vector2.ONE, 0.22).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if bool(reward.get_meta(&"unlock", false)):
+		Audio.sfx(&"ui_confirm", -6.0)
+		PackFx.burst(_root, reward.get_global_rect().get_center() - global_position, UIStyle.GOLD, 14, 220.0, 0.6, true)
+	else:
+		Audio.sfx(&"ui_tick", -6.0)
+
+
+## Everything at once (the first press while the rewards are still coming in).
+func reveal_all() -> void:
+	if _reveal_tween != null and _reveal_tween.is_valid():
+		_reveal_tween.kill()
+	for reward: Control in _pending:
+		if is_instance_valid(reward):
+			reward.modulate.a = 1.0
+			reward.scale = Vector2.ONE
+	_revealing = false
+
+
+func is_revealing() -> bool:
+	return _revealing
+
+
+## The XP bar under the rewards: how far the hero is toward the level after this one.
 func _add_xp_bar(row: LevelData) -> void:
-	if row.level >= ProgressionTable.MAX_LEVEL or Session.profile == null or not UiArt.has("UI-BAR-XP"):
+	if row.level >= ProgressionTable.MAX_LEVEL or Session.profile == null:
 		return
 	var floor_xp: int = ProgressionTable.xp_to_reach(row.level)
 	var ceil_xp: int = ProgressionTable.xp_to_reach(row.level + 1)
@@ -77,75 +214,53 @@ func _add_xp_bar(row: LevelData) -> void:
 	bar.max_value = maxf(1.0, float(ceil_xp - floor_xp))
 	bar.value = clampf(float(Session.profile.xp - floor_xp), 0.0, bar.max_value)
 	bar.custom_minimum_size = Vector2(640, 0)
-	UiSkin.skin_bar(bar, "xp", 44.0, UIStyle.GOLD)
-	_frame.body.add_child(bar)
-	_frame.body.add_child(UIKit.label("XP toward level %d: %d / %d" % [row.level + 1, int(bar.value), int(bar.max_value)], &"MutedLabel", 18, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	bar.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	if UiArt.has("UI-BAR-XP"):
+		UiSkin.skin_bar(bar, "xp", 44.0, UIStyle.GOLD)
+	_rows.add_child(UIKit.spacer(6))
+	_rows.add_child(bar)
+	_rows.add_child(UIKit.label("XP toward level %d: %d / %d" % [row.level + 1, int(bar.value), int(bar.max_value)], &"MutedLabel", 18, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
 
 
-## Bonuses gained at `row`, compared to the previous level's row (mirrors
-## `ProgressionTable._fill_summaries_and_fallback_rewards`'s diffing, but as icon rows instead of
-## one text string). Level 1 (no previous row) is never shown by this screen in practice - nobody
-## "levels up" into level 1 - but is handled the same as any other level for safety.
-func _bonuses_for(row: LevelData) -> Array[Bonus]:
-	var bonuses: Array[Bonus] = []
-	var previous: LevelData = ProgressionTable.row(row.level - 1)
-	if previous == null:
-		bonuses.append(_bonus("level_badge", "Starting stats."))
-		return bonuses
-	if row.max_hp > previous.max_hp:
-		bonuses.append(_bonus("hp", "+1 starting HP (now %d)." % row.max_hp))
-	if row.opening_hand_size > previous.opening_hand_size:
-		bonuses.append(_bonus("hand", "Opening hand size +1 (now %d)." % row.opening_hand_size))
-	if row.item_slots > previous.item_slots:
-		bonuses.append(_bonus("item_slot", "+1 item slot (now %d)." % row.item_slots))
-	if row.max_hand_size > previous.max_hand_size:
-		bonuses.append(_bonus("hand", "Max hand size +1 (now %d)." % row.max_hand_size))
-	if row.equipment_choice:
-		bonuses.append(_bonus("equipment_unlock", "Choose an equipment slot to unlock."))
-	if row.reward_equipment_vendor_unlock:
-		bonuses.append(_bonus("equipment_unlock", "Unlocks the advanced equipment at the equipment vendor."))
-	if row.reward_item_vendor_advanced_unlock:
-		bonuses.append(_bonus("vendor", "Unlocks the second half of the item vendor's stock."))
-	if row.reward_deck_expansion:
-		bonuses.append(_bonus("card_choice", "Deck Station: %d deck slots open now." % row.deck_slots))
-	if row.reward_vendor_discount_percent > 0:
-		bonuses.append(_bonus("vendor", "Permanent vendor discount +%d%%." % row.reward_vendor_discount_percent))
-	if not row.reward_vendor_unlock.is_empty():
-		bonuses.append(_bonus("vendor", "Unlocks %s at the vendor." % row.reward_vendor_unlock))
-	if bonuses.is_empty():
-		bonuses.append(_bonus("level_badge", row.summary))
-	return bonuses
-
-
-func _next_level() -> void:
+## Continue: finish the reveal first, then the next level, then done.
+func advance() -> void:
+	if _age < GUARD_TIME:
+		return
+	if _revealing:
+		reveal_all()
+		return
+	Audio.sfx(&"ui_confirm")
 	_index += 1
 	if _index < levels_gained.size():
-		_show_level_popup()
+		_show_level()
 	else:
-		_advance()
+		finished.emit()
 
 
-## Resolves pending equipment choices one at a time; finishes once there are none left. New
-## brief, Part D: this used to also walk through pending "choose 1 of 3 cards" level rewards,
-## removed along with that whole mechanic.
-func _advance() -> void:
-	if _child_screen != null:
-		_child_screen.queue_free()
-		_child_screen = null
-	if Session.pending_equipment_choices > 0:
-		_show_equipment_choice()
+## Skips every remaining level.
+func skip_all() -> void:
+	if _age < GUARD_TIME or _index >= levels_gained.size():
 		return
+	reveal_all()
+	_index = levels_gained.size()
 	finished.emit()
 
 
-func _show_equipment_choice() -> void:
-	_frame.visible = false
-	var choice: EquipmentSlotChoiceScreen = EquipmentSlotChoiceScreen.new()
-	choice.chosen.connect(func(slot: EquipmentData.Slot) -> void:
-		Session.choose_equipment_slot(slot)
-		Audio.sfx(&"ui_confirm")
-		_advance())
-	_child_screen = choice
-	add_child(choice)
+func _gui_input(event: InputEvent) -> void:
+	var click: InputEventMouseButton = event as InputEventMouseButton
+	if click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT:
+		advance()
+		accept_event()
 
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not is_visible_in_tree():
+		return
+	if event.is_action_pressed(&"ui_cancel"):
+		skip_all()
+		get_viewport().set_input_as_handled()
+		return
+	var key: InputEventKey = event as InputEventKey
+	if event.is_action_pressed(&"ui_accept") or (key != null and key.pressed and not key.echo and key.keycode == KEY_E):
+		advance()
+		get_viewport().set_input_as_handled()

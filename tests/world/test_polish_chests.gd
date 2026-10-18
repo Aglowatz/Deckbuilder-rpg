@@ -260,7 +260,7 @@ func test_the_chest_box_shows_the_contents_and_waits_for_a_confirm() -> void:
 	for label: Node in popup.find_children("*", "Label", true, false):
 		texts.append((label as Label).text)
 	var joined: String = " | ".join(texts)
-	assert_true(joined.contains("CHEST OPENED"), "header")
+	assert_true(joined.contains("NEW GEAR!"), "header: a chest with gear says so (Overnight Oct 17)")
 	assert_true(joined.contains("+55 gold"), "gold shown")
 	assert_true(joined.contains(Session.content.item("healing_draught").display_name), "item shown")
 	assert_true(joined.contains("Gilded"), "pack shown")
@@ -270,8 +270,12 @@ func test_the_chest_box_shows_the_contents_and_waits_for_a_confirm() -> void:
 	popup.frame._confirm()
 	assert_false(finished[0], "ignored during the guard time: the E press that opened the chest cannot also close the box")
 	await get_tree().create_timer(PopupFrame.GUARD_TIME + 0.1).timeout
+	assert_true(popup.frame.is_revealing(), "the rewards are still coming in one by one")
 	popup.frame._confirm()
-	assert_true(finished[0], "confirmed once the guard time has passed")
+	assert_false(finished[0], "the first confirm shows every reward at once")
+	assert_false(popup.frame.is_revealing())
+	popup.frame._confirm()
+	assert_true(finished[0], "the next one continues")
 
 
 func test_completing_a_quest_queues_a_quest_complete_box_with_rewards_and_unlocks() -> void:
@@ -338,13 +342,13 @@ func test_the_three_boxes_share_one_frame() -> void:
 	await get_tree().process_frame
 	assert_eq(_count_of(chest, PopupFrame), 1, "the chest box is built on PopupFrame")
 	assert_eq(_count_of(quest, PopupFrame), 1, "the quest box is built on PopupFrame")
-	assert_eq(_count_of(level, PopupFrame), 1, "the level-up box is built on PopupFrame")
+	assert_not_null(level.find_child("LevelNumber", true, false), "the level-up is its own full-screen moment (Overnight Oct 17, Part 7)")
 	var headers: PackedStringArray = PackedStringArray()
 	for screen: Control in [chest, quest, level]:
 		for label: Node in screen.find_children("*", "Label", true, false):
 			headers.append((label as Label).text)
 	var joined: String = " | ".join(headers)
-	assert_true(joined.contains("CHEST OPENED") and joined.contains("QUEST COMPLETE") and joined.contains("LEVEL UP!"))
+	assert_true(joined.contains("CHEST OPENED") and joined.contains("QUEST COMPLETE") and joined.contains("LEVEL UP"))
 
 
 func _count_of(root: Node, script_class: Variant) -> int:

@@ -222,6 +222,13 @@ func _flip(index: int, quick: bool = false) -> void:
 		_hint.text = ""
 		_legendary_buildup(holder)
 		await get_tree().create_timer(0.9).timeout
+	elif rarity == 2 and not quick:
+		# Overnight Oct 17, Part 7: an Epic gets a short build-up too - the face-down card throbs purple once before it turns.
+		PackFx.ring(self, _centre_of(holder), colour, 200.0, 0.45)
+		var throb: Tween = create_tween().set_trans(Tween.TRANS_SINE)
+		throb.tween_property(holder, "modulate", Color(1.35, 1.1, 1.6), 0.18)
+		throb.tween_property(holder, "modulate", Color.WHITE, 0.2)
+		await throb.finished
 	var squash: Tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 	squash.tween_property(holder, "scale:x", 0.0, 0.1 if quick else 0.16)
 	await squash.finished
@@ -262,6 +269,8 @@ func _flair(index: int, holder: Control, colour: Color, quick: bool) -> void:
 			PackFx.ring(self, centre, colour, 380.0, 0.7)
 			PackFx.ring(self, centre, colour.lightened(0.4), 280.0, 0.5)
 			_rays_behind(holder, colour, 0.35, 1.4)
+			if not quick:
+				_show_banner("EPIC!", colour)
 		3:
 			Audio.sting(&"STG-PACK-LEGEND")
 			Audio.sfx(&"pack_reveal_legend")

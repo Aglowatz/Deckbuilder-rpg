@@ -27,6 +27,10 @@ var _age: float = 0.0
 var _enabled: bool = true
 ## UI art kit: the reward panel (UI-PANEL-POPUP) has a red ribbon banner across its top; the title sits on the ribbon.
 var _art: bool = false
+## Overnight Oct 17, Part 7: the body's rows come in one by one (`reveal_body`); a confirm press while they do shows them all first.
+var _reveal_tween: Tween
+var _revealing: bool = false
+var _reveal_items: Array[Control] = []
 
 
 ## `header` is the big word ("QUEST COMPLETE"), `icon` a `CardIcons.ui` name.
@@ -195,5 +199,63 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _confirm() -> void:
 	if not _enabled or _age < GUARD_TIME or not is_inside_tree():
 		return
+	if _revealing:
+		finish_reveal()
+		return
 	Audio.sfx(&"ui_confirm")
 	confirmed.emit()
+
+
+## Overnight Oct 17, Part 7: the same rhythm as the level-up moment - every row of the body (and every tile of a row of tiles) fades
+## and pops in one after another with a soft tick, `step` seconds apart; tiles marked with meta "highlight" get a spark.
+func reveal_body(step: float = 0.13) -> void:
+	_reveal_items.clear()
+	for child: Node in body.get_children():
+		var control: Control = child as Control
+		if control == null:
+			continue
+		if control is FlowContainer or (control is HBoxContainer and control.get_child_count() > 1):
+			for tile: Node in control.get_children():
+				if tile is Control:
+					_reveal_items.append(tile as Control)
+		else:
+			_reveal_items.append(control)
+	for item: Control in _reveal_items:
+		item.modulate.a = 0.0
+	_revealing = true
+	_reveal_tween = create_tween()
+	_reveal_tween.tween_interval(0.3)
+	for item: Control in _reveal_items:
+		_reveal_tween.tween_callback(_reveal_item.bind(item))
+		_reveal_tween.tween_interval(step * (2.0 if item.has_meta(&"highlight") else 1.0))
+	_reveal_tween.tween_callback(func() -> void: _revealing = false)
+
+
+func _reveal_item(item: Control) -> void:
+	if not is_instance_valid(item):
+		return
+	item.pivot_offset = item.size * 0.5
+	item.scale = Vector2(0.9, 0.9)
+	var tween: Tween = item.create_tween().set_parallel(true)
+	tween.tween_property(item, "modulate:a", 1.0, 0.16)
+	tween.tween_property(item, "scale", Vector2.ONE, 0.24).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if item.has_meta(&"highlight"):
+		Audio.sfx(&"ui_confirm", -6.0)
+		PackFx.burst(self, item.get_global_rect().get_center() - global_position, item.get_meta(&"highlight") as Color, 16, 240.0, 0.7, true)
+	else:
+		Audio.sfx(&"ui_tick", -8.0)
+
+
+## Shows every row at once.
+func finish_reveal() -> void:
+	if _reveal_tween != null and _reveal_tween.is_valid():
+		_reveal_tween.kill()
+	for item: Control in _reveal_items:
+		if is_instance_valid(item):
+			item.modulate.a = 1.0
+			item.scale = Vector2.ONE
+	_revealing = false
+
+
+func is_revealing() -> bool:
+	return _revealing

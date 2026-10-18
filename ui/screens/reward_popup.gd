@@ -26,10 +26,14 @@ func _build() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var is_quest: bool = summary.kind == RewardSummary.Kind.QUEST or summary.kind == RewardSummary.Kind.QUEST_STEP
 	var header: String = "QUEST COMPLETE" if summary.kind == RewardSummary.Kind.QUEST else ("STEP REWARD" if is_quest else "CHEST OPENED")
+	# Overnight Oct 17, Part 7: a chest that held gear says so.
+	if not is_quest and not summary.equipment.is_empty():
+		header = "NEW GEAR!"
 	frame = PopupFrame.make(header, "ICON-CHECK" if is_quest else "ICON-GOLD", UIStyle.GOLD if is_quest else Color("f2c14e"))
 	frame.set_heading(summary.title, summary.subtitle)
 	add_child(frame)
 	_fill_body()
+	frame.reveal_body()
 	frame.confirmed.connect(_on_confirmed)
 	if is_quest:
 		Audio.sting(&"STG-QUEST")
@@ -60,11 +64,19 @@ func _fill_body() -> void:
 	things.add_theme_constant_override("v_separation", 12)
 	things.custom_minimum_size = Vector2(PopupFrame.PANEL_WIDTH - 80.0, 0)
 	for card: CardData in summary.cards:
-		things.add_child(_card_tile(card))
+		var tile: Control = _card_tile(card)
+		if int(card.rarity) >= int(CardEnums.Rarity.EPIC):
+			tile.set_meta(&"highlight", CardView.RARITY_COLORS[int(card.rarity)])
+		things.add_child(tile)
 	for item: ItemData in summary.items:
 		things.add_child(_icon_tile(CardIcons.for_item(item), item.display_name, "Item", item.description))
 	for piece: EquipmentData in summary.equipment:
-		things.add_child(_icon_tile(IconArt.equipment_texture(piece, 74.0), piece.source_name, "Equipment · %s" % EquipmentData.slot_name(piece.slot), piece.description, IconArt.has_equipment_icon(piece)))
+		var rarity: int = clampi(int(piece.rarity), 0, 3)
+		var gear: Control = _icon_tile(IconArt.equipment_texture(piece, 74.0), piece.source_name, "%s %s" % [EquipmentRarity.display_name(rarity), EquipmentData.slot_name(piece.slot)], piece.description, IconArt.has_equipment_icon(piece))
+		# New gear glows in its rarity's colour (the same colours as cards).
+		(gear as PanelContainer).add_theme_stylebox_override("panel", UIStyle.box(Color(UIStyle.INK.r, UIStyle.INK.g, UIStyle.INK.b, 0.8), CardView.RARITY_COLORS[rarity], 3, 10))
+		gear.set_meta(&"highlight", CardView.RARITY_COLORS[rarity])
+		things.add_child(gear)
 	for entry: Dictionary in summary.packs:
 		things.add_child(_pack_tile(entry))
 	for cosmetic: String in summary.cosmetics:
