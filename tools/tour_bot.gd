@@ -58,10 +58,17 @@ func run() -> void:
 	get_tree().quit(1 if not _errors.is_empty() else 0)
 
 
-func _process(delta: float) -> void:
+## Wall-clock time between frames (Phase 2 cycle 5): Godot clamps `delta` to about 8 physics steps (~133-150 ms), so long hitches all read
+## the same and a faster build below that cap never showed.
+var _last_usec: int = 0
+
+
+func _process(_delta: float) -> void:
+	var now: int = Time.get_ticks_usec()
+	var ms: float = (now - _last_usec) / 1000.0 if _last_usec > 0 else 0.0
+	_last_usec = now
 	if not _measuring or _area.is_empty():
 		return
-	var ms: float = delta * 1000.0
 	_frames[_area] = int(_frames.get(_area, 0)) + 1
 	if ms > SLOW_FRAME_MS:
 		_slow[_area] = int(_slow.get(_area, 0)) + 1

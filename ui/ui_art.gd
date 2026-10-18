@@ -64,8 +64,16 @@ static func path_for(id: String) -> String:
 
 
 ## True when the image of `id` is in the game.
+## Remembered per ID (a file check each time was a measurable part of building every card view).
+static var _has_cache: Dictionary = {}
+
+
 static func has(id: String) -> bool:
-	return ResourceLoader.exists(path_for(id))
+	var known: Variant = _has_cache.get(id)
+	if known == null:
+		known = ResourceLoader.exists(path_for(id))
+		_has_cache[id] = known
+	return bool(known)
 
 
 ## The texture of a UI ID; null when there is no image (the caller keeps its fallback look).

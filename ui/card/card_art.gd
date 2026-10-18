@@ -28,8 +28,16 @@ static func path_for(card_id: String) -> String:
 	return "%s%s.%s" % [DIR, card_id, EXTENSION]
 
 
+static var _has_art_cache: Dictionary = {}
+
+
+## Remembered per card (a file check each time was a measurable part of building every card view).
 static func has_art(card_id: String) -> bool:
-	return ResourceLoader.exists(path_for(card_id))
+	var known: Variant = _has_art_cache.get(card_id)
+	if known == null:
+		known = ResourceLoader.exists(path_for(card_id))
+		_has_art_cache[card_id] = known
+	return bool(known)
 
 
 ## The full 2:3 art, or null when this card has no art yet (use the placeholder).

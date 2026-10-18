@@ -135,6 +135,8 @@ func screenshot_prepare(args: Dictionary) -> void:
 
 func _ready() -> void:
 	SceneManager.pause_allowed = true
+	# Menu paintings and the town vendors' stage pictures load on a thread a moment after arriving (Phase 2 cycle 5, performance).
+	add_child(UiArtWarmup.make(["VS-SABLE", "VS-TONIC", "VS-BEETSWORTH", "VS-THREADWELL", "VS-FENWICK", "VS-ALEMBIC"]))
 	Audio.play_music(MusicDirector.town(Session.flags))
 	Audio.set_ambience("town")
 	# The plaza fountain is heard from round the square (sound pass, Part C).

@@ -280,8 +280,8 @@ func _refresh_grid() -> void:
 
 
 ## Overnight Oct 17 (Phase 2, performance): the first tiles are built at once, the rest a few per frame (no long frame on opening).
-const FIRST_TILES: int = 1000  # build everything at once: spreading tiles over frames made more 35-45 ms frames, not fewer (Phase 2, cycle 1)
-const TILES_PER_FRAME: int = 2
+const FIRST_TILES: int = 8
+const TILES_PER_FRAME: int = 3
 var _pending: Array[Array] = []
 
 

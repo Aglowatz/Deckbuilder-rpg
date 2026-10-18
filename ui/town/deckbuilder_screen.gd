@@ -615,8 +615,8 @@ func _collection() -> Array[CardData]:
 
 ## Overnight Oct 17 (Phase 2, performance): the first rows of the collection are built at once, the rest a few per frame, so
 ## opening the station never stalls on one long frame.
-const FIRST_TILES: int = 1000  # build everything at once: spreading tiles over frames made more 35-45 ms frames, not fewer (Phase 2, cycle 1)
-const TILES_PER_FRAME: int = 2
+const FIRST_TILES: int = 8
+const TILES_PER_FRAME: int = 3
 var _pending_tiles: Array[CardData] = []
 
 

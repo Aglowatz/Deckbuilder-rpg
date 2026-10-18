@@ -39,8 +39,17 @@ static func path_for(id: String, size: int = 0) -> String:
 	return OUT_DIR.path_join(("%s.webp" % id) if size <= 0 else ("%s_%d.webp" % [id, size]))
 
 
+## Overnight Oct 17 (Phase 2, performance): the answer is remembered per ID - a card's rules text asks about 14 icons and each
+## `ResourceLoader.exists` is a file check, about 1.7 ms of every card view built.
+static var _has_cache: Dictionary = {}
+
+
 static func has(id: String) -> bool:
-	return ResourceLoader.exists(path_for(id))
+	var known: Variant = _has_cache.get(id)
+	if known == null:
+		known = ResourceLoader.exists(path_for(id))
+		_has_cache[id] = known
+	return bool(known)
 
 
 ## The sharpest stored size for drawing about `px` pixels wide: the smallest variant that is at least `px` (so it is only ever shrunk a little), else the master (0).
