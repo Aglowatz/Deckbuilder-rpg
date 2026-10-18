@@ -121,6 +121,68 @@ func _build_art_equipment() -> void:
 		button.position = center - button.size * 0.5
 		_equipment_stage.add_child(button)
 		_equipment_slot_buttons[slot] = button
+	for badge: Dictionary in ART_BADGES:
+		_equipment_stage.add_child(_make_art_badge(str(badge["kind"]), badge["center"] as Vector2))
+
+
+## Overnight Oct 17 (Phase 2, UI consistency): the background paints eight frames round the figure and only five are gear slots; the other three
+## stood empty and read as broken. They now show the hero at a glance - level, Path and deck - in the slots' frame, icon and caption style.
+const ART_BADGES: Array[Dictionary] = [
+	{"kind": "level", "center": Vector2(969, 157)},
+	{"kind": "path", "center": Vector2(407, 327)},
+	{"kind": "deck", "center": Vector2(963, 801)},
+]
+
+
+func _make_art_badge(kind: String, center: Vector2) -> Control:
+	var badge: Panel = Panel.new()
+	badge.name = "Badge_%s" % kind
+	badge.size = Vector2(ART_SLOT_SIZE, ART_SLOT_SIZE)
+	badge.position = center - badge.size * 0.5
+	badge.mouse_filter = Control.MOUSE_FILTER_PASS
+	var frame: StyleBoxTexture = UiSkin.equip_slot_style("empty", ART_SLOT_SIZE)
+	if frame != null:
+		badge.add_theme_stylebox_override("panel", frame)
+	var profile: PlayerProfile = Session.profile
+	var caption_text: String = ""
+	var value_text: String = ""
+	var icon_id: String = ""
+	match kind:
+		"level":
+			caption_text = "Level"
+			value_text = str(profile.level if profile != null else 1)
+			badge.tooltip_text = "Your level. Every level up to %d gives a reward." % ProgressionTable.MAX_LEVEL
+		"path":
+			var path: Affinity.Type = profile.primary_affinity if profile != null else Affinity.Type.NEUTRAL
+			caption_text = UIStyle.affinity_name(path) if path != Affinity.Type.NEUTRAL else "Path"
+			icon_id = IconArt.energy_id(path) if path != Affinity.Type.NEUTRAL else ""
+			badge.tooltip_text = "The Path you walked the most: your starter deck's Path."
+		"deck":
+			caption_text = "Deck"
+			value_text = str(Session.deck.size() if Session.deck != null else 0)
+			badge.tooltip_text = "Cards in your active deck%s." % ((" (" + Session.deck.deck_name + ")") if Session.deck != null and Session.deck.deck_name != "" else "")
+	var icon: TextureRect = IconArt.rect(icon_id, ART_SLOT_SIZE * 0.5) if icon_id != "" else null
+	if icon != null:
+		icon.position = Vector2(ART_SLOT_SIZE * 0.25, ART_SLOT_SIZE * 0.25)
+		icon.size = Vector2(ART_SLOT_SIZE * 0.5, ART_SLOT_SIZE * 0.5)
+		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		badge.add_child(icon)
+	elif value_text != "":
+		var value: Label = UIKit.label(value_text, &"", 44, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+		value.add_theme_font_override("font", UIStyle.font_title())
+		value.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		value.position = Vector2.ZERO
+		value.size = badge.size
+		value.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		badge.add_child(value)
+	var caption: Label = UIKit.label(caption_text, &"", 17, Color("2b2233"), HORIZONTAL_ALIGNMENT_CENTER)
+	caption.position = Vector2(0, ART_SLOT_SIZE + 6)
+	caption.size = Vector2(ART_SLOT_SIZE, 20)
+	caption.add_theme_font_override("font", UIStyle.font_bold())
+	caption.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
+	caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	badge.add_child(caption)
+	return badge
 
 
 func _build_equipment_panel() -> Control:
@@ -247,7 +309,7 @@ func _refresh() -> void:
 	_stat_row("Starting HP", str(profile.base_max_hp()), "ICON-STAT-HP")
 	_stat_row("Opening hand", str(profile.base_opening_hand()))
 	_stat_row("Item slots", "%d / %d" % [profile.item_slots, ProgressionTable.row(ProgressionTable.MAX_LEVEL).item_slots])
-	_stat_row("Copy caps", "C %d / U %d / E %d / L %d" % [CopyCaps.cap_for(CardEnums.Rarity.COMMON, Session.profile.level), CopyCaps.cap_for(CardEnums.Rarity.UNCOMMON, Session.profile.level), CopyCaps.cap_for(CardEnums.Rarity.EPIC, Session.profile.level), CopyCaps.cap_for(CardEnums.Rarity.LEGENDARY, Session.profile.level)])
+	_stat_row("Copy caps", "C%d · U%d · E%d · L%d" % [CopyCaps.cap_for(CardEnums.Rarity.COMMON, Session.profile.level), CopyCaps.cap_for(CardEnums.Rarity.UNCOMMON, Session.profile.level), CopyCaps.cap_for(CardEnums.Rarity.EPIC, Session.profile.level), CopyCaps.cap_for(CardEnums.Rarity.LEGENDARY, Session.profile.level)])
 	_stat_row("Max hand size", str(profile.base_max_hand_size()))
 	_essence_rows(profile)
 	_refresh_equipment()
@@ -356,8 +418,10 @@ func _refresh_equipment_art() -> void:
 		var icon: TextureRect = button.get_child(0) as TextureRect
 		var owned: bool = profile.has_equipment_slot(slot)
 		var base: StyleBoxTexture = empty if owned else locked
-		for state: String in ["normal", "pressed", "disabled", "focus"]:
+		for state: String in ["normal", "pressed", "disabled"]:
 			button.add_theme_stylebox_override(state, base)
+		# The gold focus ring every other screen shows (drawn over the slot), so a keyboard / pad user sees where they are.
+		button.add_theme_stylebox_override("focus", UIStyle.focus_ring())
 		button.add_theme_stylebox_override("hover", hover if owned else locked)
 		button.disabled = not owned
 		icon.modulate = Color(1, 1, 1, 1)

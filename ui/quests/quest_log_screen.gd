@@ -31,10 +31,14 @@ func _build() -> void:
 		button.pressed.connect(func() -> void: _set_tab(tab_index as Tab))
 		tabs.add_child(button)
 		_tab_buttons.append(button)
-	var hint: Label = UIKit.label("Left / Right: tabs     Up / Down: choose     Enter: track", &"MutedLabel", 18)
+	# Overnight Oct 17 (Phase 2, UI consistency): the key hint ran under the frame's right edge in pale grey on the brown page; shorter, readable, inset.
+	var hint: Label = UIKit.label("Left/Right: tabs  ·  Up/Down: choose", &"", 18, Color("4a3524"))
+	hint.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
 	hint.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	hint.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	tabs.add_child(hint)
+	tabs.add_child(UIKit.spacer(0, 110))
 	var split: HBoxContainer = UIKit.hbox(24)
 	split.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(split)

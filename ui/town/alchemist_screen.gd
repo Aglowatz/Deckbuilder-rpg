@@ -28,8 +28,17 @@ func _ready() -> void:
 	super._ready()
 
 
+## The copy caps at the hero's level, as on the Character screen (Part 1 replaced the old four-copy rule).
+func _caps_text() -> String:
+	var level: int = Session.profile.level if Session.profile != null else 1
+	return "%d Common, %d Uncommon, %d Epic, %d Legendary" % [CopyCaps.cap_for(CardEnums.Rarity.COMMON, level), CopyCaps.cap_for(CardEnums.Rarity.UNCOMMON, level), CopyCaps.cap_for(CardEnums.Rarity.EPIC, level), CopyCaps.cap_for(CardEnums.Rarity.LEGENDARY, level)]
+
+
 func _build() -> void:
-	_gold_label = UIKit.label("", &"", 28, UIStyle.GOLD)
+	# The same coin and number as every vendor's header (Overnight Oct 17, Phase 2, UI consistency).
+	header_extra.add_child(IconArt.glyph_or("ICON-GOLD", CardIcons.ui("coins"), UIStyle.GOLD, 38.0))
+	_gold_label = UIKit.label("", &"", 34, UIStyle.GOLD)
+	_gold_label.add_theme_font_override("font", UIStyle.font_title())
 	header_extra.add_child(_gold_label)
 	var columns: HBoxContainer = UIKit.hbox(26)
 	columns.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -45,7 +54,7 @@ func _build_essence_column() -> Control:
 	var column: VBoxContainer = UIKit.vbox(12)
 	panel.add_child(column)
 	column.add_child(UIKit.label("Your Path essence", &"HeadingLabel", 32))
-	var blurb: Label = UIKit.label("Every copy of a card beyond the fourth turns into essence of its Path (more for rarer cards). Pick two Paths with at least %d essence each." % Alchemy.MIN_ESSENCE_PER_PATH, &"MutedLabel", 20)
+	var blurb: Label = UIKit.label("Every copy of a card beyond your copy cap (now %s) turns into essence of its Path (more for rarer cards). Pick two Paths with at least %d essence each." % [_caps_text(), Alchemy.MIN_ESSENCE_PER_PATH], &"MutedLabel", 20)
 	blurb.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	blurb.custom_minimum_size = Vector2(580.0 - _narrow(), 0)
 	column.add_child(blurb)
@@ -153,7 +162,7 @@ func _toggle_path(path: Affinity.Type) -> void:
 
 
 func _refresh() -> void:
-	_gold_label.text = "%d gold" % Session.gold
+	_gold_label.text = str(Session.gold)
 	for path: Variant in _essence_rows.keys():
 		var entry: Dictionary = _essence_rows[path]
 		var amount: int = Session.profile.essence_of(path as Affinity.Type)
