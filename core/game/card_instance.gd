@@ -13,12 +13,15 @@ var exhausted: bool = false
 var summoning_sick: bool = false
 var face_down: bool = false
 var activated_this_turn: bool = false
-## Permanent stat changes (buffs, Iron, Red Tape, "gets +1 attack permanently"...).
+## Permanent stat changes (buffs, "gets -2/-2 permanently"...). Iron and Red Tape are temporary since the Oct 18 rebalance.
 var attack_bonus: int = 0
 var defense_bonus: int = 0
 ## Until-end-of-turn stat changes.
 var temp_attack: int = 0
 var temp_defense: int = 0
+## Rebalance (Oct 18): stat changes that last until the start of a given player's next turn (Red Tape: "until the start of its
+## controller's next turn"): [{"atk": int, "def": int, "player": int}]. Expired by GameState._begin_turn.
+var lingering: Array[Dictionary] = []
 var granted_keywords: Array[CardEnums.Keyword] = []
 var temp_keywords: Array[CardEnums.Keyword] = []
 ## New brief, Part B: set once on entering the field if the controller's equipment grants
@@ -74,6 +77,7 @@ func reset() -> void:
 	defense_bonus = 0
 	temp_attack = 0
 	temp_defense = 0
+	lingering.clear()
 	granted_keywords.clear()
 	temp_keywords.clear()
 	cannot_block = false
@@ -102,6 +106,34 @@ func clear_end_of_turn() -> void:
 	toxic_hit = false
 
 
+## The attack / defense from lingering changes (all of them, or only those that expire at the start of `player`'s turn).
+func lingering_attack(player: int = -1) -> int:
+	var total: int = 0
+	for entry: Dictionary in lingering:
+		if player < 0 or int(entry["player"]) == player:
+			total += int(entry["atk"])
+	return total
+
+
+func lingering_defense(player: int = -1) -> int:
+	var total: int = 0
+	for entry: Dictionary in lingering:
+		if player < 0 or int(entry["player"]) == player:
+			total += int(entry["def"])
+	return total
+
+
+## Drops the lingering changes that end at the start of `player`'s turn. Returns how many ended.
+func expire_lingering(player: int) -> int:
+	var kept: Array[Dictionary] = []
+	for entry: Dictionary in lingering:
+		if int(entry["player"]) != player:
+			kept.append(entry)
+	var ended: int = lingering.size() - kept.size()
+	lingering = kept
+	return ended
+
+
 func clone() -> CardInstance:
 	var copy: CardInstance = CardInstance.new()
 	copy.uid = uid
@@ -117,6 +149,7 @@ func clone() -> CardInstance:
 	copy.defense_bonus = defense_bonus
 	copy.temp_attack = temp_attack
 	copy.temp_defense = temp_defense
+	copy.lingering = lingering.duplicate(true)
 	copy.granted_keywords = granted_keywords.duplicate()
 	copy.temp_keywords = temp_keywords.duplicate()
 	copy.cannot_block = cannot_block

@@ -35,8 +35,8 @@ resource") never include Contracts; effects that say "token" (Waste Manager "use
 
 | Resource | Path | What it does |
 |----------|------|--------------|
-| Iron | Beefcake | Pay 1, use an Iron: target unit gets +1 attack permanently. |
-| Red Tape | Necrocrat | Pay 1, use a Red Tape: target unit gets -1 attack permanently. |
+| Iron | Beefcake | Pay 1, use an Iron: target unit gets +1/+1 until end of turn (Oct 18 rebalance; was +1 attack permanently). |
+| Red Tape | Necrocrat | Pay 1, use a Red Tape: target unit gets -2/-0 until the start of its controller's next turn (Oct 18 rebalance; was -1 attack permanently). |
 | Ingredient | Gourmand | Does nothing alone; Gourmand cards spend it (Cook, golems, recipes). |
 | Garbage | Refusemancer | Does nothing alone; Refusemancer cards spend it (Eat Garbage). |
 
@@ -50,8 +50,13 @@ resource") never include Contracts; effects that say "token" (Waste Manager "use
 - Uses of Iron, Red Tape and the Contract token are your-turn-only main-phase abilities, and the target may be any unit that
   you are allowed to target (Untouchable units cannot be targeted by the opponent's resources).
 - "Use" a resource = remove it from your zone. "Shred" or "destroy" a resource (cards say which) also removes it.
-- **Eat garbage** is a cost: pay 1 energy, lose 1 HP, use a Garbage (Raccoon: no energy, no HP). You cannot eat if it would
-  reduce you to 0 HP.
+- **Eat garbage** is a cost: pay 1 energy, use a Garbage (Raccoon: no energy). Oct 18 rebalance: eating costs **no HP** any more;
+  the stronger Refusemancer abilities carry a written extra cost "lose N HP" instead (script cost `lose(N)`: Landfill Ox,
+  Acid Vomitor, Poo-uid, Archdruid Compostella, Conscripted Constrictor and Tuskeroni), which can never reduce you to 0 HP.
+- **Temporary effects** (Oct 18 rebalance): "until end of turn" ends in the end step of the current turn, whoever's turn it is;
+  "until the start of its controller's next turn" (Red Tape) survives the end of the current turn and ends in the ready step of the
+  unit's controller (`CardInstance.lingering`, `GameState.change_stats_until_turn_of`). Chancellor Clench doubles both resources:
+  Iron +2/+2, Red Tape -4/-0.
 - Floating energy: abilities like "Exhaust: add (R)" put energy in a pool that is spent before infrastructure and empties at the end
   of the turn; "add one energy of any Path" can pay any colored pip.
 - Cards can create, use, double (Infinite Pantry, Harvest Festival), steal (Hostile Takeover), Shred and count resources.
@@ -72,7 +77,7 @@ Card types: **Unit, Spell, Trap, Tool, Wonder, Infrastructure**; Resources and T
 
 **Abilities.** *Activated* abilities (your turn only, main phase) list their real costs: `Exhaust`, `Overexert` (exhaust and don't
 refresh next turn), `pay N` / `pay (G)` energy, `use N <resource>`, `use a token`, `eat garbage`, `destroy a unit you control`,
-`destroy this Tool`, X costs ("use X Ingredients"); "Do this only once per turn" is tracked per ability. *Triggered* abilities fire
+`destroy this Tool`, `lose N HP`, X costs ("use X Ingredients"); "Do this only once per turn" is tracked per ability. *Triggered* abilities fire
 on either turn whenever their event happens: when a unit enters / dies / attacks / blocks, start of turn / beginning of combat /
 end of turn, a resource is created or used, a token is created or dies, a player plays a card type, HP drops to a threshold,
 an attached unit attacks/dies/damages. "As an additional cost to play this ..." costs are paid when the card is played.

@@ -36,7 +36,7 @@ const GLOSSARY: Dictionary = {
 	"Processing": "A delayed effect: it resolves at the start of your turn after the listed number of your turns.",
 	"Buff": "+1/+1 permanently.",
 	"Overexert": "Exhaust, and this unit does not refresh next turn.",
-	"Eat Garbage": "A cost: pay 1 energy, lose 1 HP and use a Garbage.",
+	"Eat Garbage": "A cost: pay 1 energy and use a Garbage. (The Raccoon makes the energy free.) Some cards also say \"lose N HP\" - that is a separate, written cost.",
 }
 
 

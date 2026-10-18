@@ -5,6 +5,7 @@ extends RefCounted
 ## Contract is NOT a resource: it is a non-unit Necrocrat token (`PlayerState.tokens`). It shares this enum only so the
 ## engine can address it by kind; `is_resource()` is false for it and `all()` lists the four resources only.
 ## Iron, Red Tape and Contract have a built-in "pay 1, use one" ability; Ingredient and Garbage do nothing alone.
+## Rebalance (Oct 18): Iron gives +1/+1 until end of turn; Red Tape gives -2/-0 until the start of its controller's next turn.
 
 enum Kind { IRON, RED_TAPE, CONTRACT, INGREDIENT, GARBAGE }
 
@@ -46,8 +47,8 @@ const PATHS: Dictionary = {
 }
 
 const DESCRIPTIONS: Dictionary = {
-	Kind.IRON: "Pay 1 energy, use an Iron: target unit gets +1 attack permanently. Your turn only.",
-	Kind.RED_TAPE: "Pay 1 energy, use a Red Tape: target unit gets -1 attack permanently. Your turn only.",
+	Kind.IRON: "Pay 1 energy, use an Iron: target unit gets +1/+1 until end of turn. Your turn only.",
+	Kind.RED_TAPE: "Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of its controller's next turn. Your turn only.",
 	Kind.CONTRACT: "Pay 1 energy, use a Contract: exhaust target unit. It doesn't refresh during its controller's next turn. Your turn only.",
 	Kind.INGREDIENT: "Does nothing on its own. Spent by Gourmand cards (Cook, golems, recipes).",
 	Kind.GARBAGE: "Does nothing on its own. Spent by Refusemancer cards (Eat Garbage).",

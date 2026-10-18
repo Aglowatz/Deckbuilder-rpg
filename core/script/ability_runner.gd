@@ -370,6 +370,10 @@ static func can_pay_costs(ctx: AbilityContext, costs: Array[CardAbility.Cost], p
 			"eat":
 				if not ResourceRules.can_eat(state, ctx.controller, count):
 					return false
+			"lose":
+				# Rebalance (Oct 18): a written "lose N HP" cost; never payable when it would reduce you to 0 HP.
+				if player.hp <= count:
+					return false
 			"destroy":
 				var options: Array[CardInstance] = destroy_cost_options(ctx, cost)
 				for card: CardInstance in destroyed:
@@ -416,6 +420,8 @@ static func pay_costs(ctx: AbilityContext, costs: Array[CardAbility.Cost], picks
 						state.destroy_unit(card)
 			"eat":
 				ResourceRules.eat(state, ctx.controller, count)
+			"lose":
+				state.lose_hp(ctx.controller, count)
 			"destroy":
 				var options: Array[CardInstance] = destroy_cost_options(ctx, cost)
 				for card: CardInstance in _picked_or_cheapest(state, options, picks, count):

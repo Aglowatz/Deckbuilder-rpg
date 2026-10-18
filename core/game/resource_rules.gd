@@ -2,6 +2,7 @@ class_name ResourceRules
 extends RefCounted
 ## The Resource system (Brief 14, Part B): creating, using, destroying and spending resources (and the Contract token), and the three built-in
 ## "pay 1 energy, use one" abilities (Iron, Red Tape, Contract) plus the Eat Garbage cost. Operates on a GameState.
+## Rebalance (Oct 18): Iron = +1/+1 until end of turn, Red Tape = -2/-0 until the start of its controller's next turn, Eat Garbage costs no HP.
 ## Resources are token permanents in `PlayerState.resources`; every one is a CardInstance of a resource token CardData.
 
 static var _data_cache: Dictionary = {}
@@ -130,14 +131,14 @@ static func of_player(state: GameState, player_index: int, kinds: Array[Resource
 # ---- The built-in abilities (Iron, Red Tape, Contract) ---------------------------------------
 
 
-## +1 attack per Iron use (+2 with Chancellor Clench).
+## Rebalance (Oct 18): +1/+1 until end of turn per Iron use (+2/+2 with Chancellor Clench).
 static func iron_amount(state: GameState, player_index: int) -> int:
 	return 2 if StaticEffects.player_flag(state, player_index, "iron_plus_2") else 1
 
 
-## -1 attack per Red Tape use (-2 with Chancellor Clench).
+## Rebalance (Oct 18): -2 attack until the start of its controller's next turn per Red Tape use (-4 with Chancellor Clench).
 static func red_tape_amount(state: GameState, player_index: int) -> int:
-	return 2 if StaticEffects.player_flag(state, player_index, "red_tape_minus_2") else 1
+	return 4 if StaticEffects.player_flag(state, player_index, "red_tape_minus_2") else 2
 
 
 ## Units a player may target with `kind`'s use ability.
@@ -180,9 +181,10 @@ static func use_ability(state: GameState, player_index: int, kind: ResourceKind.
 	state.emit_event(GameEvent.Type.ABILITY_ACTIVATED, player_index, target_uid, 0, -1 - int(kind))
 	match kind:
 		ResourceKind.Kind.IRON:
-			state.change_stats(target, iron_amount(state, player_index), 0, false)
+			var pump: int = iron_amount(state, player_index)
+			state.change_stats(target, pump, pump, true)
 		ResourceKind.Kind.RED_TAPE:
-			state.change_stats(target, -red_tape_amount(state, player_index), 0, false)
+			state.change_stats_until_turn_of(target, -red_tape_amount(state, player_index), 0, target.owner)
 		ResourceKind.Kind.CONTRACT:
 			state.exhaust_unit(target, true)
 	state.check_state()
@@ -192,15 +194,15 @@ static func use_ability(state: GameState, player_index: int, kind: ResourceKind.
 # ---- Eating garbage -------------------------------------------------------------------------
 
 
-## Eat garbage is a cost: pay 1 energy, lose 1 HP, use a Garbage (the Raccoon removes the energy and HP parts).
-## You cannot eat if it would reduce you to 0 HP.
+## Eat garbage is a cost: pay 1 energy, use a Garbage (the Raccoon removes the energy part). Rebalance (Oct 18): no HP cost any
+## more; the cards that should hurt carry a written "lose N HP" cost instead (script cost `lose(N)`).
 static func can_eat(state: GameState, player_index: int, times: int = 1) -> bool:
 	var player: PlayerState = state.players[player_index]
 	if player.count_resource(ResourceKind.Kind.GARBAGE) < times:
 		return false
 	if StaticEffects.player_flag(state, player_index, "free_eat"):
 		return true
-	return player.hp > times and state.can_pay_energy(player_index, times, [] as Array[Affinity.Type])
+	return state.can_pay_energy(player_index, times, [] as Array[Affinity.Type])
 
 
 static func eat(state: GameState, player_index: int, times: int = 1) -> bool:
@@ -210,7 +212,6 @@ static func eat(state: GameState, player_index: int, times: int = 1) -> bool:
 	if not free:
 		if not state.pay_energy(player_index, times, [] as Array[Affinity.Type], [] as Array[int], 0):
 			return false
-		state.lose_hp(player_index, times)
 	if not use(state, player_index, ResourceKind.Kind.GARBAGE, times):
 		return false
 	for i: int in range(times):

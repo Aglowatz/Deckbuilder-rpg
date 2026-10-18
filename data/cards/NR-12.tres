@@ -13,10 +13,10 @@ generic_cost = 4
 colored_pips = Array[int]([4, 3])
 attack = 6
 defense = 5
-rules_text = "Exhaust, eat garbage twice: destroy target unit."
+rules_text = "Exhaust, eat garbage twice, lose 2 HP: destroy target unit."
 rarity = 2
 flavor_text = "I think it has a crush on you."
 paths_all = Array[int]([3, 4])
-script_text = "act t=unit | exhaust, eat(2) => destroy(t)"
-rules_hash = "4f77bd5861ad"
+script_text = "act t=unit | exhaust, eat(2), lose(2) => destroy(t)"
+rules_hash = "47c9e905cfca"
 image_description = "Giant skeletal snake coming out of a large trash pile and squeezing someone. Background is dark and eerie"

@@ -99,7 +99,7 @@ declared names (`t`, `ts`...), `$var`, and calls: `all(spec)`, `rand(spec)`, `pi
 Untouchable units and protected units are excluded when a player chooses a target.
 
 ### Costs
-`exhaust`, `overexert`, `pay(2)` / `pay(G)` / `pay(1G)`, `use(ingredient,2)` / `use(redtape\|contract)` / `use(ingredient,X)` / `use(token)`, `eat` / `eat(2)`,
+`exhaust`, `overexert`, `pay(2)` / `pay(G)` / `pay(1G)`, `use(ingredient,2)` / `use(redtape\|contract)` / `use(ingredient,X)` / `use(token)`, `eat` / `eat(2)`, `lose(1)` ("lose 1 HP", never payable down to 0 HP),
 `destroy(unit.mine)` / `destroy(unit.mine.tok:T-02,2)` / `destroy_self` (this Tool). The permanent that exhausts as part of a cost cannot pay the
 energy cost itself. Resource words: `iron redtape ingredient garbage`; `contract` is the one non-resource table token.
 

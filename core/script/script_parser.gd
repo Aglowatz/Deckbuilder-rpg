@@ -243,7 +243,7 @@ static func _parse_cost(text: String, ability: CardAbility, parsed: Parsed, line
 	match call.name:
 		"exhaust", "overexert", "destroy_self":
 			pass
-		"eat":
+		"eat", "lose":
 			if not call.args.is_empty():
 				_set_count(cost, call.args[0])
 		"pay":

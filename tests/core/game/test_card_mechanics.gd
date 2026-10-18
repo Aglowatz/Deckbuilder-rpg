@@ -83,7 +83,7 @@ func test_landfill_ox_eats_garbage_twice_to_add_four_energy() -> void:
 	var hp: int = game.players[0].hp
 	assert_true(_activate(game, ox))
 	assert_eq(game.players[0].pool.size(), 4)
-	assert_eq(game.players[0].hp, hp - 2, "eating costs 1 HP each time")
+	assert_eq(game.players[0].hp, hp - 1, "eating costs no HP; the Ox's written 'lose 1 HP' cost does")
 	assert_eq(_count(game, 0, KIND.GARBAGE), 0)
 	assert_eq(game.players[0].ready_infrastructure().size(), 10, "two energy paid for the two eats")
 

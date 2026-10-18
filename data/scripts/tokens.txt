@@ -29,7 +29,7 @@ drawn => shred(self); create(T-11,1,creator)
 
 == T-13 @c4bc82b040d4  # Contract
 
-== T-14 @24ded13d0041  # Red Tape
+== T-14 @22a9e58b570f  # Red Tape
 
 == T-15 @ae0a0e7bbd57  # Grandmaster Flex, the Unbroken
 kw overtime,unbreakable

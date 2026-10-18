@@ -201,8 +201,8 @@ play t=unit => set(n,def(t)); destroy(t); create(garbage,$n)
 == NR-11 @e7e463baba5c  # Gross Margin
 play => bury(me,5); create(garbage,$buried_units); lose(opp,$buried_units)
 
-== NR-12 @4f77bd5861ad  # Conscripted Constrictor
-act t=unit | exhaust, eat(2) => destroy(t)
+== NR-12 @47c9e905cfca  # Conscripted Constrictor
+act t=unit | exhaust, eat(2), lose(2) => destroy(t)
 
 == NR-13 @04b43bfbab1f  # Reclamation Order
 trap(attacks:opp) => destroy(trig); delay_start_next_turn({reinstate(trig)})
@@ -272,7 +272,7 @@ die => processing(1,{reinstate(self)})
 kw flying
 when(unit_dies:mine:other) t=unit.mine => buff(t,2)
 
-== NB-16 @857b82b77299  # Chancellor Clench, Iron Regent
+== NB-16 @c62fcbd87575  # Chancellor Clench, Iron Regent
 kw overtime
 static => flag(iron_plus_2); flag(red_tape_minus_2)
 sot => create(iron); create(redtape)
@@ -329,7 +329,7 @@ act t=unit once | use(garbage,2) => brawl(host,t)
 == BR-15 @3a3fee9c0e56  # Trash Avalanche
 trap(attacks:opp) => damage(all(unit.attacking),4)
 
-== BR-16 @6d0db0a63d45  # Tuskeroni, Junkyard Champion
+== BR-16 @66e2eeb3aca1  # Tuskeroni, Junkyard Champion
 kw hustle
 sot => create(garbage); create(iron)
-act | eat => buff(self,1); kw_grant(self,bulldoze,eot)
+act | eat, lose(1) => buff(self,1); kw_grant(self,bulldoze,eot)

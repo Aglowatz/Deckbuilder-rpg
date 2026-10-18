@@ -71,20 +71,23 @@ func test_resource_kinds_belong_to_their_paths_and_ids_match_the_sheet() -> void
 # ---- Iron, Red Tape, Contract ------------------------------------------------------------------
 
 
-func test_iron_pays_one_energy_and_gives_plus_one_attack_permanently() -> void:
+func test_iron_pays_one_energy_and_gives_plus_one_plus_one_until_end_of_turn() -> void:
 	var game: GameState = _game()
-	GameFactory.add_infrastructure_cards(game, 0, 2)
+	GameFactory.add_infrastructure_cards(game, 0, 3)
 	var unit: CardInstance = _unit(game, 0, 2, 3)
-	_give(game, 0, KIND.IRON, 2)
+	_give(game, 0, KIND.IRON, 3)
 	assert_true(game.use_resource(0, KIND.IRON, unit.uid))
-	assert_eq(game.get_attack(unit), 3)
-	assert_eq(game.resource_count(0, KIND.IRON), 1, "one Iron used")
-	assert_eq(game.players[0].ready_infrastructure().size(), 1, "1 energy paid")
-	GameFactory.pass_turn(game)
-	GameFactory.pass_turn(game)
-	assert_eq(game.get_attack(unit), 3, "permanent: it survives the turn ending")
+	assert_eq(game.get_attack(unit), 3, "+1 attack")
+	assert_eq(game.get_defense(unit), 4, "+1 defense")
+	assert_eq(game.resource_count(0, KIND.IRON), 2, "one Iron used")
+	assert_eq(game.players[0].ready_infrastructure().size(), 2, "1 energy paid")
 	assert_true(game.use_resource(0, KIND.IRON, unit.uid))
-	assert_eq(game.get_attack(unit), 4, "stacks")
+	assert_eq(game.get_attack(unit), 4, "stacks within the turn")
+	assert_eq(game.get_defense(unit), 5)
+	GameFactory.pass_turn(game)
+	assert_eq(game.get_attack(unit), 2, "temporary: it ends with the turn")
+	assert_eq(game.get_defense(unit), 3)
+	assert_eq(unit.attack_bonus, 0, "no permanent change was recorded")
 
 
 func test_iron_needs_energy_and_an_iron() -> void:
@@ -98,16 +101,52 @@ func test_iron_needs_energy_and_an_iron() -> void:
 	assert_false(game.use_resource(0, KIND.IRON, unit.uid), "no second Iron")
 
 
-func test_red_tape_gives_minus_one_attack_permanently_down_to_zero() -> void:
+func test_red_tape_gives_minus_two_attack_until_the_start_of_its_controllers_next_turn() -> void:
 	var game: GameState = _game()
 	GameFactory.add_infrastructure_cards(game, 0, 3, Affinity.Type.NECROCRAT)
-	var foe_unit: CardInstance = _unit(game, 1, 1, 3)
+	var foe_unit: CardInstance = _unit(game, 1, 5, 3)
 	_give(game, 0, KIND.RED_TAPE, 3)
 	assert_true(game.use_resource(0, KIND.RED_TAPE, foe_unit.uid))
-	assert_eq(game.get_attack(foe_unit), 0)
+	assert_eq(game.get_attack(foe_unit), 3, "-2 attack")
+	assert_eq(game.get_defense(foe_unit), 3, "defense untouched")
+	assert_true(game.use_resource(0, KIND.RED_TAPE, foe_unit.uid))
+	assert_eq(game.get_attack(foe_unit), 1, "stacks")
 	assert_true(game.use_resource(0, KIND.RED_TAPE, foe_unit.uid))
 	assert_eq(game.get_attack(foe_unit), 0, "attack never goes below 0")
-	assert_eq(foe_unit.attack_bonus, -2)
+	assert_eq(foe_unit.attack_bonus, 0, "not a permanent change")
+	game.advance_phase()
+	game.advance_phase()
+	assert_eq(game.phase, GameState.Phase.MAIN2)
+	assert_eq(game.get_attack(foe_unit), 0, "still shrunk in my second main phase")
+	GameFactory.pass_turn(game)
+	assert_eq(game.active, 1, "the controller's turn began")
+	assert_eq(game.get_attack(foe_unit), 5, "the shrink ended at the start of its controller's next turn")
+	assert_true(foe_unit.lingering.is_empty())
+
+
+func test_red_tape_on_your_own_unit_lasts_until_your_own_next_turn() -> void:
+	var game: GameState = _game()
+	GameFactory.add_infrastructure_cards(game, 0, 2, Affinity.Type.NECROCRAT)
+	var mine: CardInstance = _unit(game, 0, 4, 4)
+	_give(game, 0, KIND.RED_TAPE, 1)
+	assert_true(game.use_resource(0, KIND.RED_TAPE, mine.uid))
+	assert_eq(game.get_attack(mine), 2)
+	GameFactory.pass_turn(game)
+	assert_eq(game.active, 1)
+	assert_eq(game.get_attack(mine), 2, "the opponent's turn starting does not end it")
+	GameFactory.pass_turn(game)
+	assert_eq(game.active, 0)
+	assert_eq(game.get_attack(mine), 4, "it ends when my own next turn starts")
+
+
+func test_the_ai_threat_estimate_ignores_red_tape_that_ends_before_the_foe_attacks() -> void:
+	var game: GameState = _game()
+	var foe_unit: CardInstance = _unit(game, 1, 5, 3)
+	game.change_stats_until_turn_of(foe_unit, -2, 0, 1)
+	assert_eq(game.get_attack(foe_unit), 3)
+	assert_eq(game.get_attack(foe_unit, false), 5, "what it attacks with next turn")
+	game.change_stats(foe_unit, 1, 0, true)
+	assert_eq(game.get_attack(foe_unit, false), 6, "until-end-of-turn pumps still count (the caller is reasoning about this turn)")
 
 
 func test_contract_exhausts_the_target_and_it_does_not_refresh_during_its_controllers_next_turn() -> void:
@@ -183,19 +222,19 @@ func test_legal_actions_offer_each_affordable_resource_use_and_apply_works() -> 
 # ---- Eat garbage -----------------------------------------------------------------------------
 
 
-func test_eat_garbage_costs_one_energy_one_hp_and_a_garbage() -> void:
+func test_eat_garbage_costs_one_energy_and_a_garbage_but_no_hp() -> void:
 	var game: GameState = _game()
 	GameFactory.add_infrastructure_cards(game, 0, 2)
 	_give(game, 0, KIND.GARBAGE, 2)
 	var hp: int = game.players[0].hp
 	assert_true(ResourceRules.eat(game, 0))
-	assert_eq(game.players[0].hp, hp - 1)
+	assert_eq(game.players[0].hp, hp, "no HP cost any more (Oct 18 rebalance)")
 	assert_eq(game.resource_count(0, KIND.GARBAGE), 1)
 	assert_eq(game.players[0].ready_infrastructure().size(), 1)
 	assert_eq(GameFactory.count_events(game, GameEvent.Type.GARBAGE_EATEN), 1)
 
 
-func test_eat_garbage_fails_without_garbage_energy_or_spare_hp() -> void:
+func test_eat_garbage_fails_without_garbage_or_energy_but_hp_does_not_matter() -> void:
 	var game: GameState = _game()
 	assert_false(ResourceRules.can_eat(game, 0), "no garbage")
 	_give(game, 0, KIND.GARBAGE, 2)
@@ -203,16 +242,36 @@ func test_eat_garbage_fails_without_garbage_energy_or_spare_hp() -> void:
 	GameFactory.add_infrastructure_cards(game, 0, 2)
 	assert_true(ResourceRules.can_eat(game, 0))
 	game.players[0].hp = 1
-	assert_false(ResourceRules.can_eat(game, 0), "eating can never take you to 0 HP")
+	assert_true(ResourceRules.can_eat(game, 0), "eating costs no HP, so 1 HP is fine")
 
 
-func test_eating_twice_costs_double() -> void:
+func test_a_written_lose_hp_cost_is_paid_on_top_of_eating_and_never_kills_you() -> void:
+	var game: GameState = _game()
+	GameFactory.add_infrastructure_cards(game, 0, 3, Affinity.Type.REFUSEMANCER)
+	_give(game, 0, KIND.GARBAGE, 3)
+	var data: CardData = CardBuilder.unit("t_hurts", "Hurts", Affinity.Type.REFUSEMANCER, 1, [] as Array[Affinity.Type], 1, 3)
+	data.script_text = "act | eat, lose(2) => damage(opp,2)"
+	var unit: CardInstance = GameFactory.add_to_field(game, 0, data)
+	var hp: int = game.players[0].hp
+	var foe_hp: int = game.players[1].hp
+	assert_true(game.activate_ability(0, unit.uid, 0, [] as Array[int]))
+	assert_eq(game.players[0].hp, hp - 2, "the written cost is paid")
+	assert_eq(game.players[1].hp, foe_hp - 2)
+	assert_eq(game.resource_count(0, KIND.GARBAGE), 2, "and the Garbage was eaten")
+	game.players[0].hp = 2
+	assert_false(game.can_activate_ability(0, unit.uid, 0), "a lose-HP cost cannot reduce you to 0 HP")
+	game.players[0].hp = 3
+	assert_true(game.can_activate_ability(0, unit.uid, 0))
+	assert_true(AbilityDescriber.describe(data.abilities()[0]).begins_with("Eat garbage, Lose 2 HP:"), "the written cost is described")
+
+
+func test_eating_twice_costs_double_energy_and_garbage() -> void:
 	var game: GameState = _game()
 	GameFactory.add_infrastructure_cards(game, 0, 2)
 	_give(game, 0, KIND.GARBAGE, 2)
 	var hp: int = game.players[0].hp
 	assert_true(ResourceRules.eat(game, 0, 2))
-	assert_eq(game.players[0].hp, hp - 2)
+	assert_eq(game.players[0].hp, hp, "no HP cost")
 	assert_eq(game.resource_count(0, KIND.GARBAGE), 0)
 	assert_eq(game.players[0].ready_infrastructure().size(), 0)
 
@@ -303,6 +362,24 @@ func test_the_ai_spends_leftover_energy_on_iron_to_grow_its_units() -> void:
 			break
 		assert_true(game.apply_action(action))
 	assert_gt(game.get_attack(unit), 2, "the AI used an Iron")
+
+
+func test_the_ai_never_wastes_iron_after_combat_or_on_a_unit_that_cannot_attack() -> void:
+	var game: GameState = _game()
+	game.active = 0
+	GameFactory.add_infrastructure_cards(game, 0, 2)
+	var sick: CardInstance = _unit(game, 0, 2, 3)
+	sick.summoning_sick = true
+	_give(game, 0, KIND.IRON, 2)
+	var ai: AIPlayer = AIPlayer.new(AIPersonality.balanced())
+	var action: GameAction = ai.choose_action(game)
+	assert_ne(action.type, GameAction.Type.USE_RESOURCE, "no Iron on a unit that cannot attack this turn")
+	sick.summoning_sick = false
+	game.advance_phase()
+	game.advance_phase()
+	assert_eq(game.phase, GameState.Phase.MAIN2)
+	action = ai.choose_action(game)
+	assert_ne(action.type, GameAction.Type.USE_RESOURCE, "no Iron after combat: it would end with the turn unused")
 
 
 func test_the_ai_uses_red_tape_on_the_players_best_attacker_and_contract_on_a_blocker() -> void:

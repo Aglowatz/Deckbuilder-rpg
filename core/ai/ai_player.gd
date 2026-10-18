@@ -127,7 +127,8 @@ func _threat(state: GameState, mine: PlayerState, foe: PlayerState) -> float:
 	for card: CardInstance in foe.units():
 		# A unit that is exhausted and set not to refresh (Contract, Overexert) cannot attack next turn.
 		if not card.has_keyword(CardEnums.Keyword.WALLFLOWER) and not (card.exhausted and card.skip_refresh > 0):
-			powers.append(state.get_attack(card))
+			# Lingering shrinks (Red Tape) end at the start of the foe's turn, before it attacks.
+			powers.append(state.get_attack(card, false))
 	powers.sort()
 	powers.reverse()
 	var remaining: int = 0
@@ -190,6 +191,8 @@ func _choose_main_action(state: GameState, who: int) -> GameAction:
 	for action: GameAction in actions:
 		if action.type != GameAction.Type.PLAY and action.type != GameAction.Type.ACTIVATE and action.type != GameAction.Type.USE_RESOURCE and action.type != GameAction.Type.ACTIVATE_ABILITY:
 			continue
+		if action.type == GameAction.Type.USE_RESOURCE and not _resource_use_is_sensible(state, who, action):
+			continue
 		var trial: GameState = state.clone(false, 1 - who)
 		if not trial.apply_action(action):
 			continue
@@ -201,6 +204,26 @@ func _choose_main_action(state: GameState, who: int) -> GameAction:
 			best_gain = gain
 			best = action
 	return best
+
+
+## Rebalance (Oct 18): Iron (+1/+1 until end of turn) is only worth using before combat, on a unit that can attack this turn; Red
+## Tape (-2 attack until the start of its controller's next turn) only before combat, on a ready enemy unit that could block, and
+## only when there is an attack to make. Contracts are always worth considering.
+func _resource_use_is_sensible(state: GameState, who: int, action: GameAction) -> bool:
+	var kind: ResourceKind.Kind = action.effect_index as ResourceKind.Kind
+	if kind == ResourceKind.Kind.CONTRACT:
+		return true
+	if state.phase != GameState.Phase.MAIN1:
+		return false
+	var target: CardInstance = state.find_permanent(action.target)
+	if target == null:
+		return false
+	var attackers: Array[CardInstance] = state.possible_attackers(who)
+	if kind == ResourceKind.Kind.IRON:
+		return target.owner == who and attackers.has(target)
+	if attackers.is_empty() or target.owner == who:
+		return false
+	return not target.exhausted
 
 
 ## True for an ability whose whole effect is "add energy" (Mulch Mole, Bird of Paradump, Four-Path Compass...).

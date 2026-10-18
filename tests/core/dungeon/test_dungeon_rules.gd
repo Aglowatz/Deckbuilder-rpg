@@ -122,12 +122,13 @@ func test_midnight_snack_pays_back_the_hp_of_eating_garbage() -> void:
 	for game: GameState in [with_rule, without]:
 		GameFactory.add_infrastructure_cards(game, 0, 2)
 		ResourceRules.create(game, 0, ResourceKind.Kind.GARBAGE, 1)
+		game.players[0].hp = 5
 	var hp_with: int = with_rule.players[0].hp
 	var hp_without: int = without.players[0].hp
 	assert_true(ResourceRules.eat(with_rule, 0))
 	assert_true(ResourceRules.eat(without, 0))
-	assert_eq(without.players[0].hp, hp_without - 1, "eating costs 1 HP normally")
-	assert_eq(with_rule.players[0].hp, hp_with, "in the raccoon kingdom the snack heals it back")
+	assert_eq(without.players[0].hp, hp_without, "eating costs no HP since the Oct 18 rebalance")
+	assert_eq(with_rule.players[0].hp, hp_with + 1, "in the raccoon kingdom the snack still heals 1")
 
 
 func test_forgotten_harmony_makes_multipath_cards_cheaper() -> void:

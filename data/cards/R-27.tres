@@ -11,11 +11,11 @@ color = 3
 colored_pips = Array[int]([3])
 attack = 1
 defense = 2
-rules_text = "When your units eat garbage, they don't pay energy or lose HP."
+rules_text = "When your units eat garbage, they don't pay energy."
 rarity = 2
 flavor_text = ".... *sweats profusely*"
 not_in_packs = true
 paths_all = Array[int]([3])
 script_text = "static => flag(free_eat)"
-rules_hash = "5340156d61c5"
+rules_hash = "f7e81daa86f4"
 image_description = "A nervous raccoon wearing a crown made from a soup can, sitting atop a mountain of trash and sweating profusely with a guilty grin while other animals feast below."

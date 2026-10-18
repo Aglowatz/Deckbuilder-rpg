@@ -244,7 +244,9 @@ func all_units() -> Array[CardInstance]:
 	return result
 
 
-func get_attack(card: CardInstance) -> int:
+## `include_lingering` false = the attack once the lingering changes (Red Tape) have expired (what the unit attacks with on its
+## controller's next turn) - the AI's threat estimate reads that.
+func get_attack(card: CardInstance, include_lingering: bool = true) -> int:
 	if not card.data.is_unit():
 		return 0
 	var bonus: Vector2i = players[card.owner].modifiers.stat_bonus_for(card.data) + StaticEffects.stat_bonus(self, card)
@@ -253,7 +255,8 @@ func get_attack(card: CardInstance) -> int:
 		if modifier.kind == Modifier.Kind.KEYWORD_STAT_CHANGE and unit_has_keyword(card, modifier.value2 as CardEnums.Keyword):
 			keyword_bonus += modifier.value
 	var base: int = card.set_attack if card.set_attack >= 0 else _base_stats(card).x
-	return maxi(0, base + card.attack_bonus + card.temp_attack + bonus.x + keyword_bonus)
+	var lingering: int = card.lingering_attack() if include_lingering else 0
+	return maxi(0, base + card.attack_bonus + card.temp_attack + lingering + bonus.x + keyword_bonus)
 
 
 func get_defense(card: CardInstance) -> int:
@@ -262,7 +265,7 @@ func get_defense(card: CardInstance) -> int:
 	var zone_bonus: Vector2i = players[card.owner].modifiers.stat_bonus_for(card.data)
 	var bonus: Vector2i = zone_bonus + StaticEffects.stat_bonus(self, card)
 	var base: int = card.set_defense if card.set_defense >= 0 else _base_stats(card).y
-	var total: int = base + card.defense_bonus + card.temp_defense + bonus.y
+	var total: int = base + card.defense_bonus + card.temp_defense + card.lingering_defense() + bonus.y
 	# A negative zone effect (a debuff) never kills a unit outright by itself: it leaves at least 1.
 	if zone_bonus.y < 0 and base >= 1:
 		total = maxi(total, 1)
@@ -804,6 +807,11 @@ func _begin_turn() -> void:
 		card.activated_this_turn = false
 		card.used_abilities.clear()
 		card.targeted_this_turn.clear()
+	# Rebalance: "until the start of its controller's next turn" stat changes (Red Tape) end now for this player's units.
+	for each_player: PlayerState in players:
+		for card: CardInstance in each_player.field:
+			if card.expire_lingering(active) > 0:
+				emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, 0, 0)
 	emit_event(GameEvent.Type.TURN_STARTED, active, 0, 0, turn)
 	if rule_active(Modifier.Kind.OVERGROWTH):
 		for each_player: PlayerState in players:
@@ -1430,6 +1438,13 @@ func change_stats(card: CardInstance, attack_delta: int, defense_delta: int, unt
 	emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, attack_delta, defense_delta)
 
 
+## Rebalance (Oct 18): a stat change that lasts until the start of `player_index`'s next turn (Red Tape: "until the start of its
+## controller's next turn"). It survives the end of the current turn and ends in that player's ready step.
+func change_stats_until_turn_of(card: CardInstance, attack_delta: int, defense_delta: int, player_index: int) -> void:
+	card.lingering.append({"atk": attack_delta, "def": defense_delta, "player": player_index})
+	emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, attack_delta, defense_delta)
+
+
 ## Whether `by_player` may target `card` with their own cards, abilities or resources. Untouchable units cannot be targeted by
 ## the opponent; a unit protected until a later turn (Working in Your Own Casket) cannot be targeted by anyone.
 func can_be_targeted_by(card: CardInstance, by_player: int) -> bool:
@@ -1761,6 +1776,7 @@ func plate_card(card: CardInstance) -> bool:
 	card.defense_bonus = 0
 	card.temp_attack = 0
 	card.temp_defense = 0
+	card.lingering.clear()
 	card.set_attack = -1
 	card.set_defense = -1
 	card.buffs = 0

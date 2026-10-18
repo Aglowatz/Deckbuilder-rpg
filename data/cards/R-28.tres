@@ -12,10 +12,10 @@ generic_cost = 2
 colored_pips = Array[int]([3])
 attack = 2
 defense = 2
-rules_text = "Exhaust, eat garbage: create a 3/3 Poo Golem token."
+rules_text = "Exhaust, eat garbage, lose 1 HP: create a 3/3 Poo Golem token."
 rarity = 2
 flavor_text = "Druid. Poo-id. It's all organic."
 paths_all = Array[int]([3])
-script_text = "act | exhaust, eat => create(T-01)"
-rules_hash = "a4990576e02f"
+script_text = "act | exhaust, eat, lose(1) => create(T-01)"
+rules_hash = "c2366ddfe013"
 image_description = "A dignified elderly druid with a long beard and a clothespin on his nose, sculpting a hulking golem out of steaming manure with glowing green magic."

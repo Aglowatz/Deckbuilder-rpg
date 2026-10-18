@@ -12,9 +12,9 @@ generic_cost = 3
 colored_pips = Array[int]([3])
 attack = 2
 defense = 4
-rules_text = "Exhaust, eat garbage twice: add (R)(R)(R)(R)."
+rules_text = "Exhaust, eat garbage twice, lose 1 HP: add (R)(R)(R)(R)."
 flavor_text = "Not a beast of burden. A beast of garbage."
 paths_all = Array[int]([3])
-script_text = "act | exhaust, eat(2) => add(R,R,R,R)"
-rules_hash = "b118e2708c67"
+script_text = "act | exhaust, eat(2), lose(1) => add(R,R,R,R)"
+rules_hash = "5576211e6caf"
 image_description = "A huge shaggy ox with moss growing on its horns, contentedly chewing a mouthful of tin cans and old newspapers, harnessed to a cart of glowing compost."

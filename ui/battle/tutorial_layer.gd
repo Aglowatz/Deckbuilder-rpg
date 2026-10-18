@@ -17,7 +17,7 @@ const STEPS: Array[Dictionary] = [
 	{"id": "resource_made", "title": "You made a Resource!", "info": true,
 		"text": "That Infrastructure also made [b]1 {resource}[/b], your Path's Resource. Resources pile up on your tray and stay until you spend them. Hoarding is encouraged."},
 	{"id": "resource_use", "title": "Spend your {resource}",
-		"text": "[b]Click your glowing {resource}[/b], then a unit: {effect} for good. It costs 1 energy. Do it now; the duel waits for you."},
+		"text": "[b]Click your glowing {resource}[/b], then a unit: {effect}. It costs 1 energy. Do it now; the duel waits for you."},
 	{"id": "resource_spend", "title": "Spend your {resource}",
 		"text": "This card [b]spends {resource}[/b]. {resource} does nothing alone; your Path's cards turn it into something. [b]Use it now.[/b]"},
 	{"id": "resource_why", "title": "Make it, spend it", "info": true,
@@ -242,8 +242,8 @@ func _show(step: Dictionary) -> void:
 
 ## What each Resource's own use does, for the "spend it" prompt.
 const RESOURCE_EFFECTS: Dictionary = {
-	ResourceKind.Kind.IRON: "your unit gets [b]+1 attack[/b]",
-	ResourceKind.Kind.RED_TAPE: "an enemy unit gets [b]-1 attack[/b]",
+	ResourceKind.Kind.IRON: "your unit gets [b]+1/+1 until end of turn[/b] (use it before you attack)",
+	ResourceKind.Kind.RED_TAPE: "an enemy unit gets [b]-2 attack until its next turn[/b] (shrink a blocker, then attack)",
 }
 ## Words in a card's rules text that mean it spends a Resource.
 const SPEND_WORDS: Array[String] = ["use an Ingredient", "use two Ingredients", "use an Iron", "use a Red Tape", "use a Garbage", "Eat garbage", "eat garbage"]

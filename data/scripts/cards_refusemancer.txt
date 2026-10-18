@@ -7,8 +7,8 @@ act | exhaust => add(R)
 == R-02 @b2905420182e  # Dumpster Diver
 act | exhaust, pay(1) => create(garbage)
 
-== R-03 @b118e2708c67  # Landfill Ox
-act | exhaust, eat(2) => add(R,R,R,R)
+== R-03 @5576211e6caf  # Landfill Ox
+act | exhaust, eat(2), lose(1) => add(R,R,R,R)
 
 == R-04 @88cad4579e9f  # Rubbish Goat
 enter t=tool => may({destroy(t)}); ifdid({create(garbage)})
@@ -66,8 +66,8 @@ play => search(infra,1,field)
 == R-21 @76e31693e3e7  # Let them eat cake
 play t=unit.path=G => destroy(t)
 
-== R-22 @bf6923ef21fe  # Acid Vomitor
-act t=unit | exhaust, eat => damage(t,2)
+== R-22 @2c0aa56a6d88  # Acid Vomitor
+act t=unit | exhaust, eat, lose(1) => damage(t,2)
 
 == R-23 @878c5dbe7ffb  # Bird of Paradump
 kw flying
@@ -82,11 +82,11 @@ play t=unit.mine => buff(t,3)
 == R-26 @8c3359cda9c8  # The Recycling Center
 eot t=refuse.card.mine => may({use(garbage,2)}); ifdid({to_hand(t)})
 
-== R-27 @5340156d61c5  # Raccoon
+== R-27 @f7e81daa86f4  # Raccoon
 static => flag(free_eat)
 
-== R-28 @a4990576e02f  # Poo-uid
-act | exhaust, eat => create(T-01)
+== R-28 @c2366ddfe013  # Poo-uid
+act | exhaust, eat, lose(1) => create(T-01)
 
 == R-29 @f1ec0e1427dc  # Mount Trashmore
 kw bulldoze
@@ -101,6 +101,6 @@ trap(plays:opp:tool|wonder) => destroy(all(tool|wonder.opp))
 == R-32 @b8fcf7ac1dda  # Back From the Heap
 trap(hp_drops:mine:le=5) => shuffle_refuse_into_deck(me); gain(me,5); create(garbage,5)
 
-== R-33 @ead9df38cb70  # Archdruid Compostella
+== R-33 @92b213318080  # Archdruid Compostella
 sot => create(garbage); buff(all(unit.mine.other),1)
-act t=refuse.card.mine | exhaust, eat => to_hand(t)
+act t=refuse.card.mine | exhaust, eat, lose(1) => to_hand(t)

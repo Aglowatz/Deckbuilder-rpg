@@ -59,6 +59,8 @@ static func _cost_text(cost: CardAbility.Cost) -> String:
 			return "Destroy this"
 		"eat":
 			return "Eat garbage" if cost.count == 1 else "Eat garbage x%d" % cost.count
+		"lose":
+			return "Lose %s HP" % count_text
 		"pay":
 			var text: String = "Pay %s" % str(cost.generic) if cost.generic > 0 else "Pay"
 			for pip: Affinity.Type in cost.pips:

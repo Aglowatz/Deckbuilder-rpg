@@ -16,7 +16,7 @@ defense = 5
 keywords = Array[int]([7])
 rules_text = "Overtime.
 
-Your Iron gives +2 attack instead of +1. Your Red Tape gives -2 attack instead of -1.
+Your Iron gives +2/+2 instead of +1/+1. Your Red Tape gives -4 attack instead of -2.
 
 At the start of your turn, create an Iron and a Red Tape."
 rarity = 3
@@ -25,5 +25,5 @@ paths_all = Array[int]([1, 4])
 script_text = "kw overtime
 static => flag(iron_plus_2); flag(red_tape_minus_2)
 sot => create(iron); create(redtape)"
-rules_hash = "857b82b77299"
+rules_hash = "c62fcbd87575"
 image_description = "A towering, stern ruler with a bodybuilder's physique stuffed into an immaculate official uniform, seated on a throne of stacked weights and filing cabinets, a gavel-dumbbell in hand."

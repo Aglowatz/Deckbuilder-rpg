@@ -50,8 +50,8 @@ KEYWORDS,Untouchable,Can't be targeted by your opponent's cards.,Hexproof.
 KEYWORDS,Unbreakable,"Can't be destroyed by damage or destroy effects. Can still be Shredded, sent back, or reduced to 0 defense.",Indestructible.
 KEYWORDS,Not used,"Guard, Equip X, Ward/Notarized, Menace (one blocker per attacker), Flash/instants.",
 ,,,
-RESOURCES,Iron (Beefcake),"Pay 1 energy, use an Iron: target unit gets +1 attack permanently. Your turn only.",Created by Powerhouse.
-RESOURCES,Red Tape (Necrocrat),"Pay 1 energy, use a Red Tape: target unit gets -1 attack permanently. Your turn only.",Created by Ghost Town.
+RESOURCES,Iron (Beefcake),"Pay 1 energy, use an Iron: target unit gets +1/+1 until end of turn. Your turn only.",Created by Powerhouse.
+RESOURCES,Red Tape (Necrocrat),"Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of its controller's next turn. Your turn only.",Created by Ghost Town.
 TOKENS (not resources),Contract (Necrocrat),"Pay 1 energy, use a Contract: exhaust target unit. It doesn't refresh during its controller's next turn. Your turn only.","Necrocrat non-unit token, NOT a resource. Effects that refer to resources never include Contracts; effects that refer to tokens do. Can target any unit (allows combos)."
 RESOURCES,Ingredient (Gourmand),"Does nothing on its own. Spent by Gourmand cards (Cook, golems, recipes).",Created by Feastforge.
 RESOURCES,Garbage (Refusemancer),Does nothing on its own. Spent by Refusemancer cards (Eat Garbage).,Created by Wasteworks.
@@ -62,7 +62,7 @@ PATH MECHANICS,Processing X (N),"A delayed effect: put this aside; at the start 
 PATH MECHANICS,Reinstate (N),Necrocrat reanimation (see core terms).,
 PATH MECHANICS,Cook X (G),Use X Ingredients: create a Golem token (size set by the card).,Artificer chefs.
 PATH MECHANICS,Plate (G),Turn target unit into a 1/1 Snack token (loses all abilities).,Gourmand transformation removal.
-PATH MECHANICS,Eat Garbage (R),"Ability cost: pay 1 energy, lose 1 HP, use a Garbage. The Raccoon makes this free on your turn.","Mostly direct effects: pump, damage, energy."
+PATH MECHANICS,Eat Garbage (R),"Ability cost: pay 1 energy, use a Garbage. No HP cost. The Raccoon makes the energy part free on your turn. Specific stronger cards add a written ""lose X HP"" cost.","Mostly direct effects: pump, damage, energy."
 PATH MECHANICS,Fertilize X (R),Put X buffs on target unit.,Growth.
 PATH MECHANICS,Regrow (R),Return a card from your Refuse Pile to your hand (or as specified).,Recycling.
 ,,,
