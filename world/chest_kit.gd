@@ -23,6 +23,8 @@ static func set_open(chest: Node3D, open: bool) -> bool:
 		return false
 	lid.rotation_degrees.x = OPEN_ANGLE if open else 0.0
 	chest.set_meta(&"chest_open", open)
+	if open:
+		ChestSparkle.remove(chest)
 	var body: MeshInstance3D = chest.find_child(BODY_NODE, true, false) as MeshInstance3D
 	if body != null:
 		if not body.has_meta(&"full_mesh"):
@@ -41,18 +43,23 @@ static func open_animated(chest: Node3D) -> Tween:
 	if lid == null:
 		return null
 	chest.set_meta(&"chest_open", true)
+	ChestSparkle.remove(chest)
 	var tween: Tween = lid.create_tween()
 	tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(lid, "rotation_degrees:x", OPEN_ANGLE, 0.5)
 	return tween
 
 
-## Opens every chest in `nodes` (id -> Node3D) whose secret `secret_for(id)` the save already has.
+## Opens every chest in `nodes` (id -> Node3D) whose secret `secret_for(id)` the save already has; every other chest gets
+## its proximity glint (`ChestSparkle`, Overnight Oct 17 Part 3).
 static func apply_saved(nodes: Dictionary, secret_for: Callable) -> int:
 	var opened: int = 0
 	for id: Variant in nodes.keys():
-		if Session.found_secret(str(secret_for.call(str(id)))) and set_open(nodes[id] as Node3D, true):
+		var chest: Node3D = nodes[id] as Node3D
+		if Session.found_secret(str(secret_for.call(str(id)))) and set_open(chest, true):
 			opened += 1
+		elif chest != null and chest.is_inside_tree() and not is_open(chest):
+			ChestSparkle.attach(chest)
 	return opened
 
 
