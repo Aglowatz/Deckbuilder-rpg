@@ -326,6 +326,7 @@ func footstep(position: Vector3, hero: bool) -> void:
 		event_name = "step_grass"
 	if hero:
 		play(StringName(event_name), {"position": position})
+		EventBus.hero_footstep.emit(position, surface_at(position))
 		return
 	if DisplayServer.get_name() != "headless" and listener_position().distance_to(position) > NPC_STEP_RANGE:
 		return

@@ -113,6 +113,8 @@ func _build_actors() -> void:
 		Session.has_start_return_position = false
 	player = TownPlayer.new()
 	add_child(player)
+	# Overnight Oct 17, Part 14: footstep puffs (the forest keeps its own fireflies and mist).
+	AmbientFx.add(self, "", player)
 	player.setup(area, "Hero", spawn)
 	var moon: OmniLight3D = OmniLight3D.new()
 	moon.light_color = Color("ffe6b0")

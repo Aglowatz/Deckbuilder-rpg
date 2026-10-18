@@ -409,6 +409,8 @@ func _build_barks() -> void:
 			npc_barks.register(_npcs[key] as Node3D, str(NPC_IDS[key]))
 	if _baker != null and _baker.sprite != null:
 		npc_barks.register(_baker.sprite, "NPC-VILLAGER")
+	# Overnight Oct 17, Part 14: dandelion fluff drifting over the town, and footstep puffs.
+	AmbientFx.add(self, "town", player)
 
 
 func _build_baker() -> void:

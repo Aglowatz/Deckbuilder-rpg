@@ -322,6 +322,9 @@ func _build_player() -> void:
 
 ## Overnight Oct 17, Part 11: the zone's NPCs say a line when the hero walks past (`NpcBarks`, lines from data/npcs/npcs.json).
 var npc_barks: NpcBarks
+var ambient_fx: AmbientFx
+## Zone id -> its `AmbientFx` preset.
+const AMBIENT_KEYS: Dictionary = {"beefcake": "gainlands", "necrocrat": "dna", "gourmand": "buffet", "refusemancer": "heap", "final": "capital"}
 
 
 func _build_npcs() -> void:
@@ -329,6 +332,8 @@ func _build_npcs() -> void:
 	add_child(npc_barks)
 	npc_barks.target = player
 	npc_barks.blocked = func() -> bool: return _locked or (dialogue != null and dialogue.active)
+	# Overnight Oct 17, Part 14: the zone's light atmosphere (dust, steam, ghost motes, gnats, ash) and footstep puffs.
+	ambient_fx = AmbientFx.add(self, str(AMBIENT_KEYS.get(def.id, "")), player)
 	for entry: Dictionary in def.npcs:
 		var pos: Vector3 = builder.anchor(str(entry["anchor"]))
 		pos.y = builder.height_at(pos)

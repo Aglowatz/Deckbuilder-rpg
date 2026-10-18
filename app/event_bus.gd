@@ -6,6 +6,8 @@ extends Node
 signal gold_changed(total: int)
 ## A short message shown to the player (toast).
 signal toast_requested(text: String)
+## Overnight Oct 17, Part 14: the hero put a foot down at `position` on `surface` (AmbientFx puffs a little of the ground).
+signal hero_footstep(position: Vector3, surface: StringName)
 ## Something happened the tutorial layer may care about ("town_visited", "card_played", ...).
 signal tutorial_event(id: StringName)
 ## The player's collection or deck changed.
