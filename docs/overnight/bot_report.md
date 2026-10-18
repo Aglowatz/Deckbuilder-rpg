@@ -1,6 +1,6 @@
 # Bot report
 
-Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-18T01:37:45, 1.0 minutes.
+Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-18T03:30:17, 1.0 minutes.
 
 - Areas: forest, town, beefcake, necrocrat, gourmand, refusemancer, capital
 - Spots used (NPCs, shops, signs, chests...): 18
@@ -12,25 +12,25 @@ Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd
 
 | Area | Frames | Over 33 ms | Worst (ms) |
 |---|---|---|---|
-| town | 3003 | 33 | 286 |
+| town | 2954 | 75 | 256 |
 
 ## Slowest moments (worst frame during one action)
 
-- town: use codex: 286 ms
-- town: use deck: 248 ms
-- town: use vendor: 151 ms
-- town: open character_screen: 136 ms
-- town: open deck_station: 106 ms
-- town: use pack_vendor: 105 ms
-- town: open full_map: 98 ms
-- town: open full_map (again): 88 ms
-- town: open deck_station (again): 86 ms
-- town: use item_vendor: 83 ms
-- town: use equipment_vendor: 83 ms
-- town: open vendor (again): 76 ms
-- town: open codex: 73 ms
-- town: open codex (again): 73 ms
-- town: open vendor: 72 ms
+- town: use deck: 256 ms
+- town: use vendor: 203 ms
+- town: use pack_vendor: 150 ms
+- town: open character_screen: 146 ms
+- town: open full_map: 129 ms
+- town: use item_vendor: 119 ms
+- town: open deck_station: 98 ms
+- town: open deck_station (again): 91 ms
+- town: open full_map (again): 87 ms
+- town: use codex: 78 ms
+- town: open vendor (again): 77 ms
+- town: use tailor: 75 ms
+- town: open quest_log: 71 ms
+- town: open vendor: 69 ms
+- town: use notice_board: 65 ms
 
 ## Errors
 

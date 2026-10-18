@@ -112,7 +112,7 @@ func _build() -> void:
 	if _uses_deck_box() and open_on_box:
 		open_deck_box()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
-	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure attack your spells: [b]Fill Infrastructure[/b] tops up to %d." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), min_size], Vector2(300, 900))
+	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure powers your spells: [b]Fill Infrastructure[/b] tops up to %d." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), min_size], Vector2(300, 900))
 
 
 func _build_deck_panel() -> Control:

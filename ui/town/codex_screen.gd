@@ -79,19 +79,21 @@ func _build() -> void:
 	_beasts_page = UIKit.hbox(18)
 	_beasts_page.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(_beasts_page)
-	_build_beasts_page()
+	# Overnight Oct 17 (Phase 2 cycle 14, performance): the Bestiary page (90 tiles) is built the first time its tab is shown, not on every open.
 	show_tab("Cards")
 	Session.pay_completion_milestones()
 
 
 func show_tab(tab: String) -> void:
+	if tab == "Bestiary" and _beast_grid == null:
+		_build_beasts_page()
 	_cards_page.visible = tab == "Cards"
 	_beasts_page.visible = tab == "Bestiary"
 	for key: Variant in _tab_buttons.keys():
 		var button: FancyButton = _tab_buttons[key] as FancyButton
 		button.modulate = Color.WHITE if str(key) == tab else Color(1, 1, 1, 0.6)
 	_update_progress(tab)
-	if tab == "Bestiary" and _beast_grid.get_child_count() > 0:
+	if tab == "Bestiary" and _beast_grid != null and _beast_grid.get_child_count() > 0:
 		(_beast_grid.get_child(0) as Control).call_deferred(&"grab_focus")
 
 
