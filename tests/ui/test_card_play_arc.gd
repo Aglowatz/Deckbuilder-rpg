@@ -40,3 +40,12 @@ func test_the_card_curves_and_lands_on_its_spot() -> void:
 	assert_almost_eq(view.position.y, end.y, 0.5)
 	assert_almost_eq(view.scale.x, float(target["scale"]), 0.01)
 	assert_almost_eq(view.rotation_degrees, float(target["rot"]), 0.5)
+
+
+## Phase 2 cycle 19: damage numbers grow with the blow.
+func test_damage_numbers_grow_with_the_blow() -> void:
+	assert_eq(BattleBoard.damage_text_size(1), 44)
+	assert_eq(BattleBoard.damage_text_size(3), 52)
+	assert_eq(BattleBoard.damage_text_size(8), 72)
+	assert_eq(BattleBoard.damage_text_size(20), 72, "capped")
+	assert_eq(BattleBoard.damage_text_size(0), 44, "a zero still has a readable size")

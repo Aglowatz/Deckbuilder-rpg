@@ -993,9 +993,12 @@ func _on_token(event: GameEvent) -> void:
 	await _wait(0.3)
 
 
+static func damage_text_size(amount: int) -> int:
+	return 40 + mini(maxi(amount, 1), 8) * 4
+
+
 func _on_damage(event: GameEvent) -> void:
 	_last_damage_seq = event.sequence
-	var heavy: bool = event.amount >= 3
 	var attacker_view: CardView = view_for(event.card)
 	var target_center: Vector2 = Vector2.ZERO
 	var on_player: bool = event.other < 0
@@ -1007,17 +1010,27 @@ func _on_damage(event: GameEvent) -> void:
 	if attacker_view != null and attacking.has(event.card) and zones.get(event.card) == Zone.FIELD:
 		var origin: Vector2 = attacker_view.position
 		var lunge: Vector2 = (target_center - center_of(event.card)).limit_length(120.0)
+		# Overnight Oct 17 (Phase 2 cycle 19, combat feel): a short wind-up (pull back, lean away), the strike leaning into the target, then
+		# a settle - the same length as the old in-and-out.
+		var base_rot: float = attacker_view.rotation_degrees
+		var lean: float = clampf(lunge.x * 0.07, -9.0, 9.0)
+		var wind: Vector2 = -lunge.normalized() * 16.0
 		var tween: Tween = create_tween().set_trans(Tween.TRANS_QUAD)
-		_sfx(&"attack_lunge")
-		tween.tween_property(attacker_view, "position", origin + lunge, 0.09 / speed).set_ease(Tween.EASE_IN)
-		tween.tween_property(attacker_view, "position", origin, 0.16 / speed).set_ease(Tween.EASE_OUT)
+		tween.tween_property(attacker_view, "position", origin + wind, 0.06 / speed).set_ease(Tween.EASE_OUT)
+		tween.parallel().tween_property(attacker_view, "rotation_degrees", base_rot - lean * 0.5, 0.06 / speed)
+		tween.tween_callback(func() -> void: _sfx(&"attack_lunge"))
+		tween.tween_property(attacker_view, "position", origin + lunge, 0.08 / speed).set_ease(Tween.EASE_IN)
+		tween.parallel().tween_property(attacker_view, "rotation_degrees", base_rot + lean, 0.08 / speed)
+		tween.tween_property(attacker_view, "position", origin, 0.12 / speed).set_ease(Tween.EASE_OUT)
+		tween.parallel().tween_property(attacker_view, "rotation_degrees", base_rot, 0.12 / speed).set_trans(Tween.TRANS_BACK)
 		await tween.finished
 	elif attacker_view != null and zones.get(event.card) == Zone.CENTER:
 		fx.flash_ring(target_center, UIStyle.affinity_color(attacker_view.data.color), 90.0)
 	# A blow that does nothing (all of it prevented) clanks like a block.
 	_sfx(BattleSounds.hit(event.amount, on_player) if event.amount > 0 else &"block")
 	if event.amount > 0:
-		fx.floating_text(target_center, "-%d" % event.amount, Color("ff6a5a"), 52 if heavy else 44)
+		# the number grows with the blow: 1 -> 44 px, 3 -> 52, 5 -> 60, 8 or more -> 72
+		fx.floating_text(target_center, "-%d" % event.amount, Color("ff6a5a"), damage_text_size(event.amount))
 		fx.burst(target_center, Color("ff8a5a"), 12 + event.amount * 3, 240.0)
 	else:
 		# Overnight Oct 17, Part 8: a blow that does nothing says so.
