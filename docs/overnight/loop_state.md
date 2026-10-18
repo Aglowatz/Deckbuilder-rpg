@@ -3,18 +3,18 @@
 Start: Sat Oct 17 20:52:45 MDT 2026 (end target: Sun Oct 18 07:52 MDT)
 Start tag: pre-overnight-oct17
 
-## Current part
-Part 13 (UI consistency + bot) - UI edits applied (UiInput, OverlayScreen focus/fade, focus ring theme, ConfirmDialog/PopupFrame), tour bot re-running.
-Part 14 (ambient fx) - world/ambient_fx.gd written; scene hooks saved in scratchpad p14.patch (re-apply with git apply after the bot run).
+## Current
+Phase 2, cycle 12 starting (Sun Oct 18 ~03:05 MDT). Cycles 1-11 committed and pushed; one line each in loop_log.md.
 
 ## Done (commits)
-Parts 1-12 committed and pushed (see git log "Overnight Oct 17, Part N"), plus the Patchwork rename and small follow-ups.
+- Phase 1: Parts 1-14 committed and pushed (git log "Overnight Oct 17, Part N"), plus the Patchwork rename and small follow-ups.
+- Phase 2: cycles 1-11 (git log "Overnight Oct 17, Phase 2 cycle N"); scores in scorecard.md.
 
 ## Next
-- Commit Part 13 after GUT; apply p14.patch, test, fps check, commit Part 14.
-- Phase 2: docs/overnight/scorecard.md, next_up.md, loop_log.md; cycles of ~45-60 min.
+- Keep cycling on the lowest category (scorecard.md / next_up.md) until ~07:30, then write docs/overnight_report.md, tidy the inbox, final commit and push.
 
 ## Notes
-- tools/gut_one.sh runs single test files; full suite ~7 min (run in background, don't edit loaded files mid-run).
+- tools/gut_one.sh runs single test files; full suite ~7 min (don't edit loaded files mid-run).
 - Pre-existing failure: tests/world/test_world_look_rig.gd line 94 (CP-2).
-- Bot: bash tools/run_tour_bot.sh (9 min) -> docs/overnight/bot_report.md.
+- Bots: tools/run_tour_bot.sh (TOUR_ONLY=town for a quick run; frames are wall-clock since cycle 5), tools/run_story_playthrough.sh (73 steps).
+- Smokes: run_first_battles_smoke.sh, run_music_smoke.sh, run_dungeons_final_smoke.sh (one stale check, next_up 11).
