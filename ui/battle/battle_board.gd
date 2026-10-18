@@ -845,6 +845,7 @@ func _on_cast(event: GameEvent) -> void:
 	_center_uid = event.card
 	_sfx(BattleSounds.play(view.data))
 	layout()
+	_arc_to_target(event.card)
 	await _wait(0.55)
 
 
@@ -862,6 +863,46 @@ func _on_entered(event: GameEvent) -> void:
 		_land(view, SCALE_BF)
 		fx.flash_ring(center_of(event.card), UIStyle.affinity_color(view.data.color), 60.0)
 	await _wait(0.16)
+
+
+## Overnight Oct 17 (Phase 2 cycle 8, combat feel): a played card flies to the middle on a curve - bowed out to the side it came from, a
+## small turn on the way and a slight overshoot in size as it arrives - instead of a straight slide. Same length as the slide (pacing unchanged).
+func _arc_to_target(uid: int) -> void:
+	var view: CardView = view_for(uid)
+	if view == null or not _targets.has(uid):
+		return
+	var target: Dictionary = _targets[uid] as Dictionary
+	var start: Vector2 = view.position
+	var end: Vector2 = (target["pos"] as Vector2) - CardView.SIZE * 0.5
+	var distance: float = start.distance_to(end)
+	if distance < 40.0:
+		return
+	var previous: Variant = view.get_meta("tween") if view.has_meta("tween") else null
+	if previous is Tween and (previous as Tween).is_valid():
+		(previous as Tween).kill()
+	var direction: Vector2 = (end - start) / distance
+	var side: Vector2 = Vector2(-direction.y, direction.x)
+	# bow outward: away from the middle of the screen on the side the card started
+	if side.x * (start.x - end.x) < 0.0:
+		side = -side
+	var control: Vector2 = (start + end) * 0.5 + side * clampf(distance * 0.28, 40.0, 150.0)
+	var duration: float = 0.36 / speed
+	var end_scale: float = float(target["scale"])
+	var end_rot: float = float(target["rot"])
+	var tween: Tween = create_tween().set_parallel(true)
+	tween.tween_method(func(t: float) -> void:
+		if is_instance_valid(view):
+			var u: float = 1.0 - t
+			view.position = start * u * u + control * 2.0 * u * t + end * t * t, 0.0, 1.0, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var turn: float = 7.0 if side.x > 0.0 else -7.0
+	var turn_tween: Tween = create_tween()
+	turn_tween.tween_property(view, "rotation_degrees", end_rot + turn, duration * 0.5).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	turn_tween.tween_property(view, "rotation_degrees", end_rot, duration * 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	var size_tween: Tween = create_tween()
+	size_tween.tween_property(view, "scale", Vector2.ONE * end_scale * 1.06, duration * 0.8).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	size_tween.tween_property(view, "scale", Vector2.ONE * end_scale, duration * 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
+	view.modulate.a = 1.0
+	view.set_meta("tween", tween)
 
 
 ## Battle feel, Part C: a card about to fly to the middle lifts off first (hand cards only; an enemy card is already up top).

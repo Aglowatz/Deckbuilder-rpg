@@ -7,6 +7,6 @@ Kept by the Phase 2 loop: the change that would raise the lowest category the mo
 3. **NPC life: a second and third strolling townsperson** on other routes (lanes, the lakeshore) with the existing sprite sets, not crowding the square.
 4. ~~Visuals - starting forest: the open floor~~ done in cycle 3 (a fade bug). Left: the purple cave stalactites read against the sky at the top of high shots.
 5. **Onboarding: time the first 30 minutes** with a bot from a new game (forest -> cave -> town -> first deck edit) and cut waits.
-6. **Combat feel: card-play arc** (cards fly in an arc to their slot and land with a squash) and heal/block numbers on units.
+6. ~~Combat feel: card-play arc~~ done in cycle 8. Next for combat: an attack lunge that follows the same curve, and a damage-number pop size by amount.
 7. **Collection / bestiary: enemy pictures** (zone roamers could show a rendered thumbnail of their 3D model instead of an icon).
 8. **Audio mix: the 26 very dynamic tracks** - a gentle compressor pass so quiet passages do not vanish under battle sounds.
