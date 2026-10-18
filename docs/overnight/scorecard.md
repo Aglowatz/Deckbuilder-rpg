@@ -9,7 +9,7 @@ Scores 1-10 with the evidence behind each. "Start" = after Phase 1 (Parts 1-14);
 | Visuals - starting forest | 6 | 7.5 | Cycle 3: the open floor read purple because the occlusion fader faded the 900 m floor with a blocking prop's group (88 % see-through, the sky showed through). Fixed: painted floor, moss and the worn path everywhere (on17_forest_fixed). Still: the shot camera sees cave stalactites against the sky at the top edge. |
 | Visuals - Crosspath (town) | 8 | 8 | Crosspath pass (Oct 17) + vendor shots: square, six storefronts, lake; bark bubbles and fluff now (Part 11/14). |
 | Visuals - Gainlands | 8 | 8 | Gainlands v2 (Oct 17): sandstone plateau, three roads, gym hall; dust motes (Part 14). |
-| Visuals - D.N.A. | 7 | 7 | D.N.A. slice with its kit; ghost motes (Part 14). Shot on17_zone_dna2 (cycle 7): reads well; HUD line and chip no longer clipped. |
+| Visuals - D.N.A. | 7 | 7.5 | Cycle 18: paperwork drifts over the bare ground round the offices (on17_dna4_lobby). D.N.A. slice with its kit; ghost motes (Part 14). Shot on17_zone_dna2 (cycle 7): reads well; HUD line and chip no longer clipped. |
 | Visuals - Endless Buffet | 7 | 7.5 | Cycle 12: the gravy moat has peas, carrot coins, croutons and fat sheens floating in it (on17_zone_buffet2). Buffet slice; steam wisps (Part 14). Shot on17_zone_buffet (cycle 7): the bridge reads; the gravy sea in front is a flat brown plane. |
 | Visuals - Verdant Dump | 7 | 7.5 | Cycle 7: the entrance pool is an oval pond (was a hard-edged rectangle); shot on17_zone_heap3. Dump layout + art pass; gnats (Part 14). Not re-shot tonight. |
 | Visuals - Capital | 8 | 8 | Capital correction pass (Oct 17): wall, towers, rim, 60 fps at ten cameras; ash flakes (Part 14). |

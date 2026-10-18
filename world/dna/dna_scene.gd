@@ -30,6 +30,8 @@ func _build_environment() -> void:
 
 func _build_zone_extras() -> void:
 	_build_lights()
+	# paperwork drifting in the limbo below the offices (Phase 2 cycle 18); Low quality keeps a lighter field
+	DnaPaperDrift.build(self, (builder as DnaBuilder).layout if builder is DnaBuilder else null, DnaPaperDrift.COUNT if Settings.graphics_quality != GraphicsQuality.Level.LOW else DnaPaperDrift.COUNT / 3)
 	# Arriving on the approach causeway (DN-6): the hero faces the gate so the zone opens up ahead; the walk-off exit arms once they have been inside.
 	if DnaLayout.on_approach(player.position.x, player.position.z):
 		player.face(player.position + Vector3(0.0, 0.0, -2.0))
