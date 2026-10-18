@@ -135,6 +135,9 @@ enum Kind {
 	## Overnight Oct 17 (the Starter Blade): the first unit the owner plays from hand each duel gets +`value` attack and
 	## +`value2` defense permanently.
 	FIRST_UNIT_STAT_CHANGE,
+	## Rebalance Part E (Oct 18): every `value`-th own turn of the owner (their 2nd, 4th... for 2), `value2` copies of `tokens[0]` enter
+	## under their control (an encounter rule: "every second turn a Zombie Temp clocks in"). See `GameState._fire_timed_summons`.
+	TIMED_SUMMON,
 }
 
 ## `color` value meaning "matches every card".

@@ -78,14 +78,32 @@ func set_zone_effects(effect: ZoneEffects.Effect, zone_title: String) -> void:
 	if effect == null:
 		return
 	var panel: ZoneEffectsPanel = ZoneEffectsPanel.make(effect, zone_title)
-	panel.position = Vector2(24, 190)
+	panel.position = Vector2(24, _side_y)
 	add_child(panel)
+	_side_y += 150.0
+
+
+## Where the next panel under the enemy portrait goes (zone effects, encounter rules, the Capital's panels stack down the left side).
+var _side_y: float = 190.0
+
+
+## Rebalance Part E: the fight's one-sided rules (icon + tooltip each), under the zone effects.
+func set_encounter_rules(rules: Array[EncounterModifiers.Rule]) -> void:
+	if rules.is_empty():
+		return
+	var panel: EncounterRulesPanel = EncounterRulesPanel.make(rules)
+	panel.position = Vector2(24, _side_y)
+	add_child(panel)
+	var names: Dictionary = {}
+	for rule: EncounterModifiers.Rule in rules:
+		names[rule.name] = true
+	_side_y += 60.0 + 44.0 * float(names.size())
 
 
 
 ## Brief 10: in the Capital's duels the broken services (the debuffs that apply to this duel) and, in a boss phase, the phase's rule.
 func set_capital_panels(flags: Dictionary, rules_text: String) -> void:
-	var y: float = 190.0
+	var y: float = _side_y
 	if not CapitalDebuffs.active(flags).is_empty():
 		var services: ServiceDebuffsPanel = ServiceDebuffsPanel.make(flags)
 		services.position = Vector2(24, y)

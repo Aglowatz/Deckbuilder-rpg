@@ -13,20 +13,20 @@ Vault) after Primm. XP per fight: Tutorial 15, Normal 30, Elite 60, Boss 120 (`E
 | Point in the game | Level | HP | Opening hand | Item slots | Deck | Equipment (caps: C 5 / U 2, 3 at L10, 5 at L16 / E 1 at L5, 2 at L13, 3 at L19 / L 1 at L22) | Consumables |
 |---|---:|---:|---:|---:|---|---|---|
 | Tutorial (Forgotten Cave) | 1 | 10 | 5 | 1 | the Path's 45-card starting deck | none (the armory opens at L5) | none |
-| Town: corrupted NPCs (zone unlocks) | 3 | 11 | 5 | 1 | starter + 3 on-Path picks | none | Healing Draught x2 |
-| Gainlands roamers | 5 | 12 | 5 | 1 | + first bought/pack commons | Saucepan Helmet, Cardboard Cuirass (C) | Healing Draught x2 |
-| Iron Cave (S-IRON), Forgotten Vault (S-TOWN) | 6 | 13 | 5 | 1 | as above | as above | Healing Salve x2 |
-| House of Gains (D-HOG) early / elite / boss | 7 / 8 / 9 | 13-14 | 5 | 1 | + 4 uncommons (first Path Pack at L4, L9) | + Wicked Dagger (U) | Healing Salve x2 |
-| Town: the Graveyard | 7 | 13 | 5 | 1 | as above | as above | Healing Salve x2 |
-| D.N.A. roamers | 9 | 14 | 6 | 1 | as above | + Traveler's Boots (C) | Healing Salve x2 |
-| Hall of Final Approvals (D-HFA), Waiting Room (S-NECRO) | 11 / 12 / 13 | 15-16 | 6 | 2 | + first Epic (L10-12) | + Extra Pocket (C) | Healing Salve x3, Firebrand Charm x2 |
+| Town: corrupted NPCs (zone unlocks) | 3 | 11 | 5 | 1 | starter + 3 on-Path picks | none | Healing Draught x1 |
+| Gainlands roamers | 5 | 12 | 5 | 1 | + the second package (4-6 commons/uncommons from the level-4 Path Pack and Crosspath) | Saucepan Helmet, Cardboard Cuirass (C) | Healing Draught x1 |
+| Iron Cave (S-IRON), Forgotten Vault (S-TOWN) | 6 | 13 | 5 | 1 | as above | as above | Healing Salve x1 |
+| House of Gains (D-HOG) early / elite / boss | 7 / 8 / 9 | 13-14 | 5 | 1 | + 4 uncommons (first Path Pack at L4, L9) | + Wicked Dagger (U) | Healing Salve x1 |
+| Town: the Graveyard | 7 | 13 | 5 | 1 | as above | as above | Healing Salve x1 |
+| D.N.A. roamers | 9 | 14 | 6 | 1 | as above | + Traveler's Boots (C) | Healing Salve x1 |
+| Hall of Final Approvals (D-HFA), Waiting Room (S-NECRO) | 11 / 12 / 13 | 15-16 | 6 | 2 | + first Epic (L10-12) | + Extra Pocket (C) | Healing Salve x2, Firebrand Charm x1 |
 | Endless Buffet roamers, Colonel Casserole, Shiro Swindle, Arena tier 2 | 12 | 16 | 6 | 2 | as above | as above | as above |
 | Test Kitchen (D-TTK), Omakase (S-GOUR) | 14 / 15 / 16 | 17-18 | 6-7 | 2 | + 2 more Epics (L12 cap 2) | Hover Boots (U) replaces the boots | as above |
 | Verdant Dump roamers | 15 | 17 | 6 | 2 | as above | as above | as above |
 | Rotheart (D-ROT), Trash Panda Throne (S-REF) | 17 / 18 / 19 | 18-19 | 7 | 2 | + the Signature Legendary (L18) | + Dog-Eared Bookmark (U), Flamethrower (E) at L18 | as above |
 | The Capital roamers, Captain Spotless, Arena tier 3 | 18 | 19 | 7 | 2 | as above | as above | as above |
 | Old Service Tunnels (S-CAP) | 19 | 19 | 7 | 2 | as above | as above | as above |
-| Primm's Castle (D-PC): nodes / elites / Primm | 20 / 21 / 22 | 20-21 | 7 | 3 | + second Legendary slot (L18 cap 2) | + Gainsmith's Lifting Belt (E) at L20 | + Sharpening Stone x2 |
+| Primm's Castle (D-PC): nodes / elites / Primm | 20 / 21 / 22 | 20-21 | 7 | 3 | + second Legendary slot (L18 cap 2) | + Gainsmith's Lifting Belt (E) at L20 | + Sharpening Stone x1 |
 | Postgame: Mount Swolympus (S-BEEF) | 22 | 21 | 7 | 3 | full Path deck, 2 of each Epic | as above | as above |
 | Postgame: the Four-Seal Vault | 24 | 22 | 8 | 3 | as above | as above | as above |
 | Postgame: the Path-ology Lab (D-LAB) | 26 / 27 / 28 | 23-24 | 8 | 3 | 3 of each Epic (L22) | as above, a Legendary piece (L22) | as above |
@@ -47,6 +47,6 @@ L18; a second Legendary and a second Epic copy by L22. See the table in `core/si
 
 The gear list is Path-neutral and bought from Bertram or found on the way: two cheap commons at L5, the Wicked Dagger at L7, the
 Traveler's Boots at L9, the Extra Pocket at L11, Hover Boots at L14, the Dog-Eared Bookmark at L16, the Flamethrower at L18 (an
-Epic; cap 1 at L5, 2 at L13), the Gainsmith's Lifting Belt at L20. Consumables: two Healing Draughts from L3, Healing Salves from
-L6, a Firebrand Charm once the second item slot opens at L10, a Sharpening Stone at L20. Encounters are tuned to be winnable
+Epic; cap 1 at L5, 2 at L13), the Gainsmith's Lifting Belt at L20. Consumables (a fight-worth of charges, since they are bought per use): one Healing Draught from L3, one Healing Salve from L6, two
+Salves and a Firebrand Charm once the second item slot opens at L10, plus a Sharpening Stone at L20. Encounters are tuned to be winnable
 **without** consumables (the sim's `--nogear` check) and comfortable with them.

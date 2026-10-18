@@ -102,19 +102,22 @@ static func _add_foe(def: MainDungeonDef, blueprint: DungeonCatalog.Blueprint, n
 		deck_key = str(boss.get("deck", deck_key))
 		hp = int(boss.get("hp", 28))
 		icon = str(boss.get("icon", icon))
-		recipe = EnemyDecks.with_cards(EnemyDecks.recipe(deck_key, 17), (boss.get("extra", {}) as Dictionary).duplicate())
+		recipe = EnemyDecks.with_cards(EnemyDecks.recipe(deck_key, int(boss.get("infra", 17))), (boss.get("extra", {}) as Dictionary).duplicate())
 		def.add_foe(name, hp, str(data.get("ai", "Balanced")), recipe, icon)
 		return
 	var size: int = int(data.get("size", (31 if kind == K.ELITE else 27 + index % 3)))
+	# Rebalance Part E: "infra" sets how many basic Infrastructure the foe runs (default 16); every basic that enters makes a resource, so
+	# a Beefcake foe with 16 basics in 26 cards is an Iron fountain.
+	var infra: int = int(data.get("infra", defaults.get("infra", 16)))
 	if kind == K.ELITE and not data.has("hp"):
 		hp = 19
 	if data.has("mixed"):
 		var paths: Array[Affinity.Type] = []
 		for path_name: Variant in data["mixed"] as Array:
 			paths.append(AFFINITY_BY_NAME[str(path_name)] as Affinity.Type)
-		recipe = EnemyDecks.mixed(deck_key, size, paths, 16)
+		recipe = EnemyDecks.mixed(deck_key, size, paths, infra)
 	else:
-		recipe = EnemyDecks.trimmed(deck_key, size, 16)
+		recipe = EnemyDecks.trimmed(deck_key, size, infra)
 	if data.has("extra"):
 		recipe = EnemyDecks.with_cards(recipe, (data["extra"] as Dictionary).duplicate())
 	def.add_foe(name, hp, ai, recipe, icon)

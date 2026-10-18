@@ -25,3 +25,35 @@ The run took the safest reasonable choice for each and carried on; the full reas
 13. **Music leveller** (cycle 10): a gentle compressor on the Music bus keeps the quiet parts of the 26 very dynamic tracks audible under battle sounds, at unchanged loudness. Listen to the arena battle and the credits. `AudioMix.MUSIC_LEVELLER = false` turns it off.
 14. **Enemy pictures**: the Bestiary and the battle plate will show a picture for each enemy as soon as one exists. There are 90 prompts in `docs/art/bestiary_image_requests.md`, in batches of 20. Save each as a square PNG named with its ID under `assets/art/bestiary/`.
 15. **New passing lines (cycle 16)** for the freed leaders, the reformed Escoffina, postgame "Primm, at work" and Captain Spotless are in `tools/npc_truth_input.json` (two each). Primm's lines are humble ("I am learning to let that be"). Edit them freely, then re-run `node tools/npc_truth.js`.
+
+
+## Major rebalance (Oct 18) - decisions that are yours
+
+The rebalance took the safest reasonable choice for each and carried on; the full reasoning and every number is in
+`docs/design/balance_log.md`, the sheet-side list in `docs/design/sheet_changes.md`, the resume state in `docs/design/balance_state.md`.
+
+1. **No `docs/design/sheet_snapshot/` and no `docs/design/canon.md` exist in the repo.** The CSVs in `data/source/` (card_list,
+   token_list, design_guidance, dungeon_list) were treated as the sheet snapshot, and `docs/design/combat_rules.md` as the canon.
+   The local Design Guidance rows for Iron / Red Tape / Eat Garbage still carried the OLD rules; they were updated to the brief's.
+2. **Iron at 1 energy is strong, not weak.** Beefcake's reference deck wins 83% against Refusemancer with Iron and 60% without it
+   (`docs/design/sim/matchup_beefcake_refusemancer*.md`), so no cost change is proposed. If Beefcake still reads as too strong after
+   the Part G iterations, the lever would be the Iron rule itself (+1/+0 instead of +1/+1, or pay 2), not more card nerfs.
+3. **Chancellor Clench doubles the new resources** (Iron +2/+2, Red Tape -4/-0). Say if you would rather have +2/+1 / -3.
+4. **The "lose N HP" cost went on six Refusemancer abilities** (Landfill Ox, Acid Vomitor, Poo-uid, Archdruid Compostella,
+   Conscripted Constrictor, Tuskeroni). Possum Prowler, Bird of Paradump, Freegan Forager, Truck Tire, Trash Panda Powerlifter and
+   Scrapheap Lich eat for free (energy only). The Raccoon frees the energy, never the written HP cost.
+5. **The tutorial's three enemy decks were retuned** for the new starting decks (fewer walls, thinner on attackers); the Hollow
+   Warden keeps 3 HP. The AI-played tutorial clears are 78-86% per Path (`docs/design/starting_decks.md`): the balanced AI is more
+   cautious than a person racing a 3-HP enemy, so a human should sit above that.
+6. **Colorless cards were nerfed** (Banner 4, Rally 3, Mercenary Captain 2/3, Resistance Scout 1/2, Automaton 4/5) because
+   on-curve bodies that fit any deck beat the Path commons that pay for abilities. Say if colorless should stay at the vanilla rate.
+7. **Starting decks are 45 cards from turn one** (19 Infrastructure + 26). The tutorial's 3 picks make them 48; the 42-card waiver
+   only remains for old saves. The deck lists are in `docs/design/starting_decks.md`; the sheet needs them as new rows (Part H).
+8. **Encounter rules** (`data/encounters/modifiers.json`) are shown as icon + tooltip in the battle HUD and on the dungeon map's
+   node info; a zone roamer's rules appear in its "wants a word" toast. Enemy intent is still never shown.
+9. **The first zone's roamers sit near 60% for the AI at level 5** (Flexing Brute, Protein Shake Golem at 9 HP, 24 cards) against the
+   normal-fight target of 80%. Thinning them further did nothing: the limit is the level-5 player (12 HP, two common pieces, starter deck
+   plus a few commons) against Beefcake decks that the zone's own Pump It Up buffs, with Necrocrat entering exhausted. Options are yours:
+   accept it (a human races better than the cautious AI), make the Gainlands' buff player-only, or expect level 6-7 there (more XP from
+   Crosspath's fights).
+10. **Part E stopped after the measured groups** (STEP 1 of the playtest brief): the late-game HP/size raises for the Dump, Rotheart, Capital, Castle, Lab, Swolympus and the arena were applied blind from the first baseline and then halved after the Test Kitchen measured 3-57% with the full raise. They are listed as UNMEASURED in `docs/design/balance_state.md` for the Part G run.

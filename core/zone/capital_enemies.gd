@@ -30,8 +30,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.9
 			made.aggro_range = 5.5
 			made.leash_range = 8.5
-			made.recipe = EnemyDecks.mixed("colorless_regime", 27, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16)
-			made.hp = 14
+			made.recipe = EnemyDecks.mixed("colorless_regime", 32, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 13)  # Rebalance Part E: 27 / 16 basics, 14 HP -> 32 / 13, 22 (100% at level 18)
+			made.hp = 22
 			made.ai_name = "Balanced"
 			made.gold_reward = 35
 			made.xp_reward = 45
@@ -52,8 +52,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.7
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
-			made.recipe = EnemyDecks.mixed("colorless_regime", 27, [Affinity.Type.NECROCRAT, Affinity.Type.BEEFCAKE] as Array[Affinity.Type], 15)
-			made.hp = 16
+			made.recipe = EnemyDecks.mixed("colorless_regime", 32, [Affinity.Type.NECROCRAT, Affinity.Type.BEEFCAKE] as Array[Affinity.Type], 13)  # Rebalance Part E: 96% at level 18
+			made.hp = 24
 			made.ai_name = "Defensive"
 			made.gold_reward = 40
 			made.xp_reward = 50
@@ -85,8 +85,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.8
 			made.aggro_range = 5.5
 			made.leash_range = 8.0
-			made.recipe = EnemyDecks.trimmed("necrocrat_refusemancer", 30, 15)
-			made.hp = 15
+			made.recipe = EnemyDecks.trimmed("necrocrat_refusemancer", 32, 13)  # Rebalance Part E: 100% at level 18
+			made.hp = 22
 			made.ai_name = "Aggressive"
 			made.gold_reward = 45
 			made.xp_reward = 55
@@ -107,8 +107,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 		SPOTLESS:
 			made.display_name = "Captain Spotless"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
-			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 38, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), {"C-30": 1, "C-34": 1})
-			made.hp = 24
+			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 38, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 15), {"C-30": 1, "C-34": 1, "C-29": 1, "C-32": 1})  # Rebalance Part E: 98% at level 18
+			made.hp = 30
 			made.ai_name = "Aggressive"
 			made.gold_reward = 120
 			made.xp_reward = 120

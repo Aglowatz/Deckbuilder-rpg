@@ -93,6 +93,8 @@ static func enemy_setup(content: ContentSet, map_node: DungeonMap.MapNode, key: 
 	setup.starting_hp = map_node.enemy_hp
 	setup.profile = PlayerProfile.new()
 	setup.profile.max_hp = maxi(map_node.enemy_hp, PlayerProfile.START_MAX_HP)
+	# Rebalance Part E: the foe's one-sided encounter rules (data/encounters/modifiers.json), keyed by its name.
+	EncounterModifiers.apply_to_enemy(setup, map_node.enemy_name)
 	return setup
 
 

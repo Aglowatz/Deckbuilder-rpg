@@ -91,7 +91,7 @@ static func _build() -> Array[ArenaEncounter]:
 	spells.player_rules = [no_units] as Array[Modifier]
 	spells.reward = {"equipment": "crowd_pleasers_cape", "gold": 150, "xp": 80}
 	list.append(spells)
-	var fists: ArenaEncounter = _battle("arena_four_fists", 2, "Champion of the Four Fists", 22, "Balanced", EnemyDecks.recipe("four_paths", 17))
+	var fists: ArenaEncounter = _battle("arena_four_fists", 2, "Champion of the Four Fists", 28, "Balanced", EnemyDecks.recipe("four_paths", 17))  # Rebalance Part E: 22 -> 28 HP
 	fists.reward = {"gold": 250, "xp": 100, "essence": {"B": 4, "G": 4, "R": 4, "N": 4}}
 	list.append(fists)
 	# ---- Tier 3: Gold Sand --------------------------------------------------------------------------
@@ -108,7 +108,7 @@ static func _build() -> Array[ArenaEncounter]:
 	}
 	hero.reward = {"equipment": "gladiators_net", "gold": 200, "xp": 120}
 	list.append(hero)
-	var marshal: ArenaEncounter = _battle("arena_marshal", 3, "Announcer Grand Bellows", 30, "Aggressive", EnemyDecks.with_cards(EnemyDecks.recipe("beefcake_rush", 16), {"B-13": 3, "B-28": 2, "B-11": 3}))
+	var marshal: ArenaEncounter = _battle("arena_marshal", 3, "Announcer Grand Bellows", 38, "Aggressive", EnemyDecks.with_cards(EnemyDecks.recipe("beefcake_rush", 16), {"B-13": 3, "B-28": 2, "B-11": 3, "B-29": 1, "B-30": 1}))  # Rebalance Part E: 30 -> 38 HP, two Epics
 	marshal.reward = {"equipment": "bloodsand_boots", "gold": 500, "xp": 250, "essence": {"primary": 10}}
 	list.append(marshal)
 	return list

@@ -12,7 +12,7 @@ const COUNTER_LEVERS: String = "vault_levers_pulled"
 const FLAG_PREFIX: String = "vault_lever_"
 ## The four zones (ZoneDefs ids) that each hide one lever, in the order of the seals on the door: Gainlands, Endless Buffet, Verdant Dump, D.N.A.
 const ZONE_IDS: Array[String] = ["beefcake", "gourmand", "refusemancer", "necrocrat"]
-const STARTING_HP: int = 40
+const STARTING_HP: int = 28  # Rebalance Part E: was 40 (0% at level 24 with the old escalation; 23% at 34)
 const AI_NAME: String = "Aggressive"
 
 ## The boss deck: every Path's heaviest hitters and removal (Beefcake bruisers, Gourmand golems, Refusemancer walls, Necrocrat control) and the Champion of the Four Paths.
@@ -26,7 +26,9 @@ const DECK_RECIPE: Dictionary = {
 }
 ## It also summons, at the start of each of its own turns, a stronger unit than the turn before (a Zombie Rat, a Poo Golem, a Cake Golem, a Masterpiece Golem, a
 ## Protein Golem, a Wedding Cake Colossus): one stage per Path and then the heaviest two.
-const SUMMON_STAGES: Array[String] = ["T-11", "T-01", "T-06", "T-18", "T-20", "T-07"]
+## Rebalance Part E: the seals send a guardian every turn, so the ladder climbs slowly (two steps per size) and tops out at the 6/6s;
+## the 8/8 Colossus only comes once the ladder is exhausted (turn 9+). Was T-11, T-01, T-06, T-18, T-20, T-07 - an 8/8 by turn 6.
+const SUMMON_STAGES: Array[String] = ["T-11", "T-11", "T-11", "T-01", "T-01", "T-06", "T-06", "T-18", "T-20", "T-07"]
 
 # ---- Rewards (what was chosen, and why, is in docs/design/secrets.md) ----------------------------------------------
 const REWARD_PACKS_PER_PATH: int = 1

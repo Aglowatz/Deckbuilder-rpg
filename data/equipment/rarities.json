@@ -2,7 +2,7 @@
 	"_comment": "Overnight Oct 17, Part 5: every piece of equipment's rarity (same tiers and colours as cards: common, uncommon, epic, legendary). Applied when content loads (EquipmentRarity); edit here, not in the .tres files.",
 	"starter_blade": "common",
 	"extra_pocket": "common",
-	"solid_plate": "common",
+	"solid_plate": "uncommon",
 	"travelers_boots": "common",
 	"wicked_dagger": "uncommon",
 	"xray_goggles": "uncommon",

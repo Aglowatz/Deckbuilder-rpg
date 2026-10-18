@@ -34,15 +34,16 @@ func test_reward_equipment_resolves_to_a_real_advanced_piece() -> void:
 	assert_true(piece.advanced, "the notable reward should be an advanced piece, not a basic one")
 
 
-func test_enemy_setup_carries_the_escalation_modifier_with_six_stages() -> void:
+## Rebalance Part E: the ladder is seven stages now (a slower climb; the last stage is still the cap).
+func test_enemy_setup_carries_the_escalation_modifier_with_seven_stages() -> void:
 	var setup: PlayerSetup = GraveyardBoss.enemy_setup(content)
 	var found: bool = false
 	for modifier: Modifier in setup.modifiers.modifiers:
 		if modifier.kind == Modifier.Kind.SCRIPTED_ESCALATING_SUMMON:
 			found = true
-			assert_eq(modifier.tokens.size(), 6, "should have exactly the 6 authored stages")
+			assert_eq(modifier.tokens.size(), 7, "should have exactly the 7 authored stages")
 			assert_eq(int(modifier.tokens[0].attack), 1)
-			var last: CardData = modifier.tokens[5]
+			var last: CardData = modifier.tokens[modifier.tokens.size() - 1]
 			var first: CardData = modifier.tokens[0]
 			assert_true(int(last.attack) + int(last.defense) > int(first.attack) + int(first.defense), "the last stage should be the strongest (the cap)")
 	assert_true(found, "the boss's setup should carry a SCRIPTED_ESCALATING_SUMMON modifier")

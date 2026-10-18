@@ -1,0 +1,107 @@
+{
+	"_about": "Rebalance Part E: one-sided encounter rules (EncounterModifiers). Key = a dungeon foe's name, 'zone:<zone>:<enemy id>', 'town:npc:<id>', 'town:graveyard', 'arena:<id>'. Each rule: name, text (shown as the tooltip), icon (a game-icons key), side ('enemy' default or 'player'), kind + its fields - see core/dungeon/encounter_modifiers.gd for the vocabulary. The Dungeon List tab's buffs/debuffs stay in DungeonRules; these are per-encounter extras.",
+
+	"Regime Checkpoint Captain": [
+		{"name": "Drill Sergeant", "text": "The Captain's units get +1 attack.", "icon": "delapouite/sergeant", "kind": "stat", "atk": 1, "def": 0}
+	],
+	"Trophy Hall Honor Guard": [
+		{"name": "Honor Guard", "text": "Starts the duel with two 1/1 Militia on the field.", "icon": "delapouite/guards", "kind": "starting_tokens", "token": "T-16", "count": 2}
+	],
+	"Chancellor Clench, Iron Regent": [
+		{"name": "Iron Regent", "text": "Starts the duel with 3 Iron.", "icon": "lorc/anvil", "kind": "starting_resources", "resource": "iron", "count": 3},
+		{"name": "Reinforcements", "text": "Every fourth turn of his, a 2/2 Patchwork Body marches in.", "icon": "delapouite/strong-man", "kind": "timed_summon", "token": "T-21", "every": 4}
+	],
+
+	"Unfinished War Machine": [
+		{"name": "Conveyor", "text": "Every second turn of its, it assembles a 1/1 Sashimi Weenie.", "icon": "delapouite/conveyor-belt", "kind": "timed_summon", "token": "T-03", "every": 2}
+	],
+	"Cannon-Blender Gunner": [
+		{"name": "Shrapnel", "text": "At the start of its turn, you take 1 damage.", "icon": "delapouite/pirate-cannon", "kind": "start_of_turn_damage", "amount": 1}
+	],
+	"The Doppelganger": [
+		{"name": "Mise en Place", "text": "Starts the duel with 2 Ingredients and a 3/3 Meatloaf Golem on the field.", "icon": "delapouite/chef-toque", "kind": "starting_resources", "resource": "ingredient", "count": 2},
+		{"name": "Mise en Place", "text": "Starts the duel with 2 Ingredients and a 3/3 Meatloaf Golem on the field.", "icon": "delapouite/chef-toque", "kind": "starting_tokens", "token": "T-05", "count": 1}
+	],
+
+	"Notary Wraith": [
+		{"name": "Notarized", "text": "The Wraith's units get +1/+1.", "icon": "delapouite/stamper", "kind": "stat", "atk": 1, "def": 1}
+	],
+	"Undersecretary Vellum": [
+		{"name": "Pre-Signed Contracts", "text": "Starts the duel with 2 Contracts; every second turn a Zombie Temp is hired.", "icon": "delapouite/full-folder", "kind": "starting_resources", "resource": "contract", "count": 2},
+		{"name": "Pre-Signed Contracts", "text": "Starts the duel with 2 Contracts; every second turn a Zombie Temp is hired.", "icon": "delapouite/full-folder", "kind": "timed_summon", "token": "T-10", "every": 2}
+	],
+	"Mortimer Grimsby, CE-No": [
+		{"name": "Red Tape Everywhere", "text": "Starts the duel with 3 Red Tape.", "icon": "delapouite/stamper", "kind": "starting_resources", "resource": "redtape", "count": 3},
+		{"name": "Temp Agency", "text": "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+0.", "icon": "delapouite/shambling-zombie", "kind": "timed_summon", "token": "T-10", "every": 2},
+		{"name": "Temp Agency", "text": "Every second turn of his, a 1/1 Zombie Temp clocks in; his units get +1/+0.", "icon": "delapouite/shambling-zombie", "kind": "stat", "atk": 1, "def": 0}
+	],
+
+	"Rootbound Miller": [
+		{"name": "Fungal Growth", "text": "The Miller's tokens enter with +1/+1.", "icon": "delapouite/mushrooms-cluster", "kind": "token_stats", "atk": 1, "def": 1}
+	],
+	"Hive of Mutant Bees": [
+		{"name": "Swarm", "text": "Every turn of its, a 1/1 Sporeling buzzes in.", "icon": "lorc/bat-wing", "kind": "timed_summon", "token": "T-22", "every": 1}
+	],
+	"Compostella, the Rotheart": [
+		{"name": "Rot Takes Root", "text": "Starts the duel with 4 Garbage; its units get +0/+1.", "icon": "cathelineau/tree-face", "kind": "starting_resources", "resource": "garbage", "count": 4},
+		{"name": "Rot Takes Root", "text": "Starts the duel with 4 Garbage; its units get +0/+1.", "icon": "cathelineau/tree-face", "kind": "stat", "atk": 0, "def": 1}
+	],
+
+	"Mirror Knight": [
+		{"name": "Polished", "text": "The Knight's units get +1/+1.", "icon": "delapouite/shinto-shrine-mirror", "kind": "stat", "atk": 1, "def": 1}
+	],
+	"Royal Staircase Guard": [
+		{"name": "Royal Guard", "text": "Starts the duel with two 1/1 Militia on the field; its units get +1 attack.", "icon": "delapouite/guards", "kind": "starting_tokens", "token": "T-16", "count": 2},
+		{"name": "Royal Guard", "text": "Starts the duel with two 1/1 Militia on the field; its units get +1 attack.", "icon": "delapouite/guards", "kind": "stat", "atk": 1, "def": 0}
+	],
+
+	"The Ancient Spotter": [
+		{"name": "Spotted", "text": "The Spotter's Beefcake units have Hustle.", "icon": "delapouite/mammoth", "kind": "keyword", "keyword": "hustle", "path": "beefcake"}
+	],
+	"The Itamae Supreme": [
+		{"name": "Omakase", "text": "Starts the duel with 4 Ingredients.", "icon": "delapouite/charging-bull", "kind": "starting_resources", "resource": "ingredient", "count": 4}
+	],
+	"Betty Bones, Surly Secretary": [
+		{"name": "Take a Number", "text": "Starts the duel with 2 Red Tape and a Contract.", "icon": "delapouite/files", "kind": "starting_resources", "resource": "redtape", "count": 2},
+		{"name": "Take a Number", "text": "Starts the duel with 2 Red Tape and a Contract.", "icon": "delapouite/files", "kind": "starting_resources", "resource": "contract", "count": 1}
+	],
+	"His Majesty the Raccoon": [
+		{"name": "Royal Larder", "text": "Starts the duel with 4 Garbage.", "icon": "delapouite/imperial-crown", "kind": "starting_resources", "resource": "garbage", "count": 4}
+	],
+	"Enforcer Captain Spotless": [
+		{"name": "Spotless Drill", "text": "The Captain's units get +1/+1.", "icon": "lorc/visored-helm", "kind": "stat", "atk": 1, "def": 1}
+	],
+	"Baron Quadzilla": [
+		{"name": "Leg Day", "text": "Starts the duel with 2 Iron.", "icon": "delapouite/mammoth", "kind": "starting_resources", "resource": "iron", "count": 2}
+	],
+	"The Old Kingdom Automaton": [
+		{"name": "Old Kingdom Engine", "text": "Starts the duel with one of each resource.", "icon": "delapouite/cyborg-face", "kind": "starting_resources", "resource": "iron", "count": 1},
+		{"name": "Old Kingdom Engine", "text": "Starts the duel with one of each resource.", "icon": "delapouite/cyborg-face", "kind": "starting_resources", "resource": "redtape", "count": 1},
+		{"name": "Old Kingdom Engine", "text": "Starts the duel with one of each resource.", "icon": "delapouite/cyborg-face", "kind": "starting_resources", "resource": "ingredient", "count": 1},
+		{"name": "Old Kingdom Engine", "text": "Starts the duel with one of each resource.", "icon": "delapouite/cyborg-face", "kind": "starting_resources", "resource": "garbage", "count": 1}
+	],
+
+	"Dr. Ambrose Siphon, Chief Path-ologist": [
+		{"name": "Siphoned Power", "text": "The Doctor's units get +1/+1 and he draws an extra card each turn.", "icon": "delapouite/warlock-eye", "kind": "stat", "atk": 1, "def": 1},
+		{"name": "Siphoned Power", "text": "The Doctor's units get +1/+1 and he draws an extra card each turn.", "icon": "delapouite/warlock-eye", "kind": "extra_draws", "count": 1}
+	],
+	"The Drain Warden": [
+		{"name": "Drained", "text": "At the start of its turn, you take 1 damage.", "icon": "lorc/bubbling-flask", "kind": "start_of_turn_damage", "amount": 1}
+	],
+
+	"town:npc:necrocrat": [
+		{"name": "Paperwork Ready", "text": "Prudence starts the duel with 2 Red Tape.", "icon": "delapouite/stamper", "kind": "starting_resources", "resource": "redtape", "count": 2}
+	],
+	"town:ninja": [
+		{"name": "The Oldest Trick", "text": "Shiro starts the duel with two Contracts: he can lock your units down.", "icon": "lorc/ninja-head", "kind": "starting_resources", "resource": "contract", "count": 2}
+	],
+	"arena:arena_marshal": [
+		{"name": "Crowd Favourite", "text": "Grand Bellows's units get +1 attack.", "icon": "delapouite/megaphone", "kind": "stat", "atk": 1, "def": 0}
+	],
+	"zone:gourmand:casserole": [
+		{"name": "Field Rations", "text": "The Colonel starts with a 3/3 Meatloaf Golem on the field.", "icon": "delapouite/chef-toque", "kind": "starting_tokens", "token": "T-05", "count": 1}
+	],
+	"zone:final:spotless": [
+		{"name": "Spotless Drill", "text": "Captain Spotless's units get +1/+1.", "icon": "lorc/visored-helm", "kind": "stat", "atk": 1, "def": 1}
+	]
+}

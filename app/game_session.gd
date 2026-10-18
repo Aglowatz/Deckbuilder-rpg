@@ -1484,6 +1484,9 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		zone_source = DungeonRules.with_shared(zone_source, dungeon_key, node.number)
 		if player_rules == null:
 			player_rules = DungeonRules.player_source(dungeon_key, node.number)
+	# Rebalance Part E: the foe's one-sided encounter rules - the enemy side is already on its seat (`enemy_setup`), the player side goes here.
+	if phase == null:
+		player_rules = EncounterModifiers.merge_player_rules(player_rules, node.enemy_name)
 	var game: GameState = run.start_encounter(enemy, zone_source, options, player_rules)
 	# Grandmaster Flex, the Unbroken fights beside you in the House of Gains boss duel if you rescued him in this run.
 	if main_dungeon_active and node.kind == DungeonMap.Kind.BOSS and dungeon_key == HouseOfGainsDungeon.ZONE_ID and HouseOfGainsDungeon.rescued(run):
@@ -1503,6 +1506,8 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		context.boss_phase = phase.index
 		context.rules_text = phase.rule_text()
 		context.music = phase.music
+	else:
+		context.encounter_rules = EncounterModifiers.rules(node.enemy_name)
 	context.ai = AIPlayer.new(ZoneDecks.personality(content, node.ai_name) if (mini_active or main_dungeon_active) else TrialOfTheHollow.personality(content, node.ai_name))
 	context.enemy_name = node.enemy_name if phase == null else "%s - %s" % [Villain.display_name(), phase.title()]
 	context.enemy_icon = MainDungeons.enemy_icon(dungeon_key, node.enemy_name) if (main_dungeon_active or mini_active) else str(ENEMY_ICONS.get(node.enemy_name, "lorc/imp"))
@@ -2252,6 +2257,12 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	if zone_source != null:
 		buffs = buffs.duplicate()
 		buffs.append(zone_source)
+	# Rebalance Part E: the roamer's player-side encounter rules (the enemy side is on its seat already).
+	var encounter_key: String = EncounterModifiers.zone_key(zone_id, enemy_type)
+	var player_side_rules: ModifierSource = EncounterModifiers.player_source(encounter_key)
+	if player_side_rules != null:
+		buffs = buffs.duplicate()
+		buffs.append(player_side_rules)
 	var player: PlayerSetup = PlayerSetup.create(deck, profile, buffs, "You")
 	if zone_run != null:
 		player.starting_hp = zone_run.hp
@@ -2273,6 +2284,7 @@ func make_zone_battle(enemy_type: String, enemy_instance_id: String) -> BattleCo
 	context.board_key = _zone_board_key(zone_id, enemy_type)
 	context.zone_enemy_id = enemy_instance_id
 	context.zone_enemy_type = enemy_type
+	context.encounter_rules = EncounterModifiers.rules(encounter_key)
 	context.gold_reward = data.gold_reward
 	context.xp_reward = data.xp_reward
 	return context

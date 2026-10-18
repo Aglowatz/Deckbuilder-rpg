@@ -1196,7 +1196,8 @@ func _start_enemy_battle(enemy: ZoneEnemy) -> void:
 	var back: Vector3 = player.position + (player.position - enemy.position).normalized() * 0.6
 	run.return_position = back if builder.is_walkable(back) else player.position
 	run.has_return_position = true
-	hud.toast("%s wants a word..." % enemy.info.display_name, Color("ff8a85"))
+	var rule_names: String = EncounterModifiers.names_line(EncounterModifiers.zone_key(Session.zone_run.zone_id if Session.zone_run != null else "", enemy.info.id))
+	hud.toast("%s wants a word...%s" % [enemy.info.display_name, ("  [%s]" % rule_names) if not rule_names.is_empty() else ""], Color("ff8a85"))
 	Audio.sfx(&"enemy_alert")
 	await get_tree().create_timer(0.7).timeout
 	Session.start_zone_battle(enemy.info.id, enemy.instance_id)

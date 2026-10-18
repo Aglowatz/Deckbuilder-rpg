@@ -61,6 +61,7 @@ static func tutorial() -> Array[EncounterSpec]:
 		spec.enemy_recipe = TrialOfTheHollow.enemy_recipe(node.enemy_name)
 		spec.first_player = 0 if node.tutorial else -1
 		spec.sequence = "tutorial"
+		_attach_rules(spec, node.enemy_name)
 		result.append(spec)
 	return result
 
@@ -81,6 +82,7 @@ static func town(content: ContentSet) -> Array[EncounterSpec]:
 		spec.enemy_hp = CorruptedNpcs.STARTING_HP
 		spec.enemy_ai_name = str(CorruptedNpcs.AI_NAMES.get(npc_id, "Balanced"))
 		spec.enemy_recipe = CorruptedNpcs.recipe(npc_id)
+		_attach_rules(spec, spec.id)
 		result.append(spec)
 	var graveyard: EncounterSpec = EncounterSpec.new()
 	graveyard.id = "town:graveyard"
@@ -143,6 +145,7 @@ static func zones() -> Array[EncounterSpec]:
 			spec.enemy_recipe = info.recipe
 			if not ZONE_ELITES.has(enemy_id):
 				spec.sequence = "zone:%s" % zone_id
+			_attach_rules(spec, EncounterModifiers.zone_key(zone_id, enemy_id))
 			result.append(spec)
 	return result
 
@@ -188,6 +191,7 @@ static func dungeons() -> Array[EncounterSpec]:
 			spec.enemy_recipe = fighter.recipe
 			if blueprint.is_side():
 				spec.sequence = "side:%s" % blueprint.id
+			_attach_rules(spec, node.enemy_name)
 			result.append(spec)
 	return result
 
@@ -251,5 +255,16 @@ static func arena() -> Array[EncounterSpec]:
 		spec.first_player = encounter.first_player if encounter.is_puzzle() else -1
 		if not encounter.player_rules.is_empty():
 			spec.player_sources.append(CardBuilder.modifier_source("Arena rules", ModifierSource.SourceKind.DUNGEON, encounter.player_rules.duplicate()))
+		_attach_rules(spec, spec.id)
 		result.append(spec)
 	return result
+
+
+## The one-sided encounter rules of `key` (data/encounters/modifiers.json) on the spec's seats - the same data the game applies.
+static func _attach_rules(spec: EncounterSpec, key: String) -> void:
+	var enemy_side: ModifierSource = EncounterModifiers.enemy_source(key)
+	if enemy_side != null:
+		spec.enemy_sources.append(enemy_side)
+	var player_side: ModifierSource = EncounterModifiers.player_source(key)
+	if player_side != null:
+		spec.player_sources.append(player_side)

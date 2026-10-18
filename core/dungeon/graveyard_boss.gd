@@ -30,7 +30,8 @@ const REWARD_EQUIPMENT_ID: String = "thorned_loincloth"
 ## the first tuning pass - see docs/balance_report.md/D-log.
 static func summon_stages() -> Array[CardData]:
 	var stages: Array[CardData] = []
-	for id: String in ["T-10", "T-11", "T-21", "T-17", "T-19", "T-17"]:
+	# Rebalance Part E: slower ladder (was T-10, T-11, T-21, T-17, T-19, T-17: 23% at level 7, boss band 40-60).
+	for id: String in ["T-10", "T-10", "T-11", "T-10", "T-21", "T-19", "T-17"]:
 		stages.append(TokenRegistry.data(id))
 	return stages
 

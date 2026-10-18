@@ -147,4 +147,5 @@ static func enemy_setup(content: ContentSet, map_node: DungeonMap.MapNode) -> Pl
 		setup.starting_hp = map_node.enemy_hp
 		setup.profile = PlayerProfile.new()
 		setup.profile.max_hp = maxi(map_node.enemy_hp, PlayerProfile.START_MAX_HP)
+	EncounterModifiers.apply_to_enemy(setup, map_node.enemy_name)
 	return setup

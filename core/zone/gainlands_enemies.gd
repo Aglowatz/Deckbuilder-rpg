@@ -25,9 +25,9 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 2.0
 			made.aggro_range = 6.0
 			made.leash_range = 9.5
-			made.recipe = EnemyDecks.trimmed("beefcake_rush", 27, 16)
-			made.hp = 14
-			made.ai_name = "Aggressive"
+			made.recipe = EnemyDecks.trimmed("beefcake_rush", 24, 12)  # Rebalance Part E: 27 cards / 16 infra, 14 HP, Aggressive -> 24 / 12, 9, Balanced (fewer basics = fewer Iron bursts)
+			made.hp = 9
+			made.ai_name = "Balanced"
 			made.gold_reward = 30
 			made.xp_reward = 40
 			made.model = "kaykit:Barbarian"
@@ -48,8 +48,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.7
 			made.aggro_range = 5.0
 			made.leash_range = 8.0
-			made.recipe = EnemyDecks.trimmed("beefcake_bruisers", 28, 15)
-			made.hp = 16
+			made.recipe = EnemyDecks.trimmed("beefcake_tools", 24, 12)  # Rebalance Part E: the bruisers' 5/4s and 6/5s were 27% at level 5; 12 basics, not 15 (Iron)
+			made.hp = 9
 			made.ai_name = "Defensive"
 			made.gold_reward = 35
 			made.xp_reward = 45

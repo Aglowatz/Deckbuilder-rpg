@@ -363,6 +363,13 @@ func _on_node_hovered(id: int) -> void:
 		DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS, DungeonMap.Kind.ELITE:
 			var prize: String = "a choice of card" if node.card_choices > 0 else "no card choice"
 			text += "\n[b]%s[/b], %d HP.  Reward: %d gold and XP, %s." % [node.enemy_name, node.enemy_hp, node.gold_reward, prize]
+			# Rebalance Part E: the fight's one-sided rules, before the player commits.
+			var shown: Dictionary = {}
+			for rule: EncounterModifiers.Rule in EncounterModifiers.rules(node.enemy_name):
+				if shown.has(rule.name):
+					continue
+				shown[rule.name] = true
+				text += "\n[color=%s]%s[/color]: %s" % ["#e8625a" if rule.is_enemy_side() else "#6fbf73", rule.name, rule.text]
 		DungeonMap.Kind.EVENT:
 			text += "\nA story event: choose how to deal with it."
 		DungeonMap.Kind.RESCUE:

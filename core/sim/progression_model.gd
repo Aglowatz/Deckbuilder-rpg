@@ -24,11 +24,12 @@ const LEVELS: Dictionary = {
 const REFERENCE_DECK_SIZE: int = 46
 
 ## Per Path: level -> {Card ID: copies} the player has added to the starting deck by that level (commons and uncommons first, the
-## first Epic at 10, the Signature Legendary at 18). Copies over the level's copy cap are skipped.
+## first Epic at 10, the Signature Legendary at 18). The second package lands at 5 because the level track hands out the first Path
+## Pack at level 4 and Crosspath sells commons. Copies over the level's copy cap are skipped.
 const UPGRADES: Dictionary = {
 	Affinity.Type.BEEFCAKE: {
 		3: {"B-06": 1, "B-16": 1, "B-15": 1},
-		6: {"B-25": 1, "B-19": 2, "B-11": 1, "B-24": 1},
+		5: {"B-25": 1, "B-19": 2, "B-11": 1, "B-24": 1},
 		10: {"B-27": 1, "B-23": 1, "B-10": 1},
 		14: {"B-28": 1, "B-29": 1, "B-26": 1},
 		18: {"B-33": 1, "B-27": 1},
@@ -36,7 +37,7 @@ const UPGRADES: Dictionary = {
 	},
 	Affinity.Type.NECROCRAT: {
 		3: {"N-16": 1, "N-13": 1, "N-17": 1},
-		6: {"N-15": 1, "N-25": 1, "N-24": 1, "N-06": 1},
+		5: {"N-15": 1, "N-25": 1, "N-24": 1, "N-06": 1},
 		10: {"N-30": 1, "N-24": 1, "N-25": 1, "N-22": 1},
 		14: {"N-28": 1, "N-29": 1, "N-27": 1},
 		18: {"N-33": 1, "N-31": 1},
@@ -44,7 +45,7 @@ const UPGRADES: Dictionary = {
 	},
 	Affinity.Type.GOURMAND: {
 		3: {"G-17": 1, "G-13": 1, "G-16": 1},
-		6: {"G-05": 1, "G-20": 1, "G-22": 1, "G-24": 1},
+		5: {"G-05": 1, "G-20": 1, "G-22": 1, "G-24": 1},
 		10: {"G-28": 1, "G-26": 1, "G-22": 1},
 		14: {"G-29": 1, "G-30": 1, "G-26": 1},
 		18: {"G-33": 1, "G-32": 1},
@@ -52,7 +53,7 @@ const UPGRADES: Dictionary = {
 	},
 	Affinity.Type.REFUSEMANCER: {
 		3: {"R-15": 1, "R-18": 1, "R-12": 1},
-		6: {"R-25": 1, "R-09": 1, "R-23": 1, "R-12": 1},
+		5: {"R-25": 1, "R-09": 1, "R-23": 1, "R-12": 1},
 		10: {"R-28": 1, "R-23": 1, "R-29": 1},
 		14: {"R-30": 1, "R-31": 1, "R-24": 1},
 		18: {"R-33": 1, "R-27": 1},
@@ -106,13 +107,14 @@ static func equipment_for(level: int) -> Array[String]:
 static func items_for(level: int) -> Dictionary:
 	if level < 3:
 		return {}
+	# A fight-worth of charges, not a full shop: consumables are bought per use and a player does not burn three Salves on every roamer.
 	if level < 6:
-		return {"healing_draught": 2}
+		return {"healing_draught": 1}
 	if level < 10:
-		return {"healing_salve": 2}
+		return {"healing_salve": 1}
 	if level < 20:
-		return {"healing_salve": 3, "firebrand_charm": 2}
-	return {"healing_salve": 3, "firebrand_charm": 2, "sharpening_stone": 2}
+		return {"healing_salve": 2, "firebrand_charm": 1}
+	return {"healing_salve": 2, "firebrand_charm": 1, "sharpening_stone": 1}
 
 
 ## The reference deck of a Path at `level`: its starting deck plus every upgrade package up to that level (within the level's copy

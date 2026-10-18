@@ -40,6 +40,8 @@ var zone_enemy_type: String = ""
 ## Brief 10: the final boss's phase (0-based, -1 = not a boss phase), the rule text of that phase and the music of the duel.
 var boss_phase: int = -1
 var rules_text: String = ""
+## Rebalance Part E: the one-sided rules of this fight (`EncounterModifiers.rules(key)`), shown in the battle HUD with icons and tooltips.
+var encounter_rules: Array[EncounterModifiers.Rule] = []
 var music: StringName = &"battle"
 ## Which battleboard backdrop the duel is fought on: a key of `data/battleboards.json` ("zone:beefcake", "capital:in", "arena"...). "" = the neutral board.
 var board_key: String = ""

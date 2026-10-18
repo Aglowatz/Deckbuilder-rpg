@@ -33,6 +33,8 @@ var non_infrastructure_play_cap: int = -1
 ## New brief, Part F: how many SCRIPTED_ESCALATING_SUMMON activations this player has had this
 ## duel - selects which stage (capped at the last) the next one summons.
 var scripted_summon_count: int = 0
+## Rebalance Part E: how many of their own turns this player has started (TIMED_SUMMON counts these).
+var turns_taken: int = 0
 ## The four Resources (Iron, Red Tape, Ingredient, Garbage) are token permanents in their own zone.
 var resources: Array[CardInstance] = []
 ## Non-unit tokens that are not resources (the Necrocrat Contract) sit in their own zone.
@@ -147,6 +149,7 @@ func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.non_infrastructure_plays_this_turn = non_infrastructure_plays_this_turn
 	copy.non_infrastructure_play_cap = non_infrastructure_play_cap
 	copy.scripted_summon_count = scripted_summon_count
+	copy.turns_taken = turns_taken
 	copy.pool = pool.duplicate()
 	copy.cards_played_this_turn = cards_played_this_turn
 	copy.spells_played_this_turn = spells_played_this_turn

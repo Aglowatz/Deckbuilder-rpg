@@ -268,6 +268,7 @@ func _build_scene() -> void:
 	board.setup(game, fx)
 	hud.setup(game, context.enemy_name, context.enemy_icon)
 	hud.set_zone_effects(ZoneEffects.for_zone(context.zone_id), _zone_title(context.zone_id))
+	hud.set_encounter_rules(context.encounter_rules)
 	if context.zone_id == CapitalZone.ID:
 		hud.set_capital_panels(Session.flags, context.rules_text)
 	if not context.arena_id.is_empty():

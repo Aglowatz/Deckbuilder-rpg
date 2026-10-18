@@ -31,11 +31,13 @@ func test_every_deck_card_is_known_and_strictly_mono_color() -> void:
 				assert_eq(card.color, color, "%s's deck should be strictly mono-color (found %s)" % [id, card.id])
 
 
-func test_enemy_setup_starts_at_15_hp() -> void:
+## Rebalance Part E: each corrupted NPC has its own HP (`HP_BY_ID`, 15 by default) so the four fights land in the elite band.
+func test_enemy_setup_starts_at_its_own_hp() -> void:
 	for id: String in CorruptedNpcs.IDS:
 		var setup: PlayerSetup = CorruptedNpcs.enemy_setup(content, id)
-		assert_eq(setup.starting_hp, CorruptedNpcs.STARTING_HP)
-		assert_eq(CorruptedNpcs.STARTING_HP, 15)
+		assert_eq(setup.starting_hp, int(CorruptedNpcs.HP_BY_ID.get(id, CorruptedNpcs.STARTING_HP)))
+		assert_between(setup.starting_hp, 12, 30)
+	assert_eq(CorruptedNpcs.STARTING_HP, 15)
 
 
 func test_every_npc_has_a_resolvable_ai_personality() -> void:

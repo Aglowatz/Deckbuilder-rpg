@@ -795,6 +795,7 @@ func _begin_turn() -> void:
 	combat_step = CombatStep.NONE
 	pending_toss = 0
 	var player: PlayerState = players[active]
+	player.turns_taken += 1
 	player.infrastructure_played = 0
 	player.non_infrastructure_plays_this_turn = 0
 	player.cards_played_this_turn = 0
@@ -844,6 +845,9 @@ func _begin_turn() -> void:
 	if is_over():
 		return
 	_fire_scripted_summons(active)
+	if is_over():
+		return
+	_fire_timed_summons(active)
 	if is_over():
 		return
 	_set_phase(Phase.MAIN1)
@@ -1355,6 +1359,25 @@ func _fire_scripted_summons(player_index: int) -> void:
 		create_token(player_index, modifier.tokens[stage])
 		player.scripted_summon_count += 1
 	check_state()
+
+
+## Rebalance Part E: fires the active player's TIMED_SUMMON modifiers on every `value`-th own turn (never on a first turn unless
+## the interval is 1): `value2` copies of the modifier's token enter under their control.
+func _fire_timed_summons(player_index: int) -> void:
+	var player: PlayerState = players[player_index]
+	var fired: bool = false
+	for modifier: Modifier in player.modifiers.modifiers:
+		if modifier.kind != Modifier.Kind.TIMED_SUMMON or modifier.tokens.is_empty() or modifier.value <= 0:
+			continue
+		if player.turns_taken % modifier.value != 0:
+			continue
+		for i: int in range(maxi(1, modifier.value2)):
+			if is_over():
+				return
+			create_token(player_index, modifier.tokens[0])
+			fired = true
+	if fired:
+		check_state()
 
 
 ## New brief, Part B: fires the defender's RETALIATE_ON_ATTACK modifiers (e.g. Thorned Loincloth)

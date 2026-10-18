@@ -9,7 +9,7 @@ extends RefCounted
 const NPC_ID: String = "NPC-NINJA"
 const DISPLAY_NAME: String = "Shiro Swindle"
 const TITLE: String = "Master of the Oldest Trick"
-const STARTING_HP: int = 18
+const STARTING_HP: int = 30  # Rebalance Part E: was 18 (100% at level 12; still 100% at 24)
 const STEAL_AMOUNT: int = 50
 const QUEST_ID: String = "oldest_trick"
 ## The original chest (main town) comes first; the others are zone ids (`ZoneDefs`): Gainlands, D.N.A., Endless Buffet, Verdant Dump.
@@ -21,15 +21,17 @@ const FLAG_DEFEATED: StringName = &"ninja_defeated"
 const COUNTER_STOLEN: String = "ninja_gold_stolen"
 const COUNTER_OPENED: String = "ninja_chests_opened"
 const PACK_REWARD_COUNT: int = 3
-const AI_NAME: String = "Balanced"
+const AI_NAME: String = "Aggressive"  # Rebalance Part E: a trickster who also presses
 
 ## A tricky, themed deck: traps that punish attackers and bounce/plate/exhaust units, evasive fliers and Elusive scouts, a few
 ## cheap removal spells and one Unconscionable Contract (he steals your best unit). 17 basic Infrastructure (Necrocrat + Gourmand).
+## Rebalance Part E: the trickster's deck pressures as well as tricks - fliers and Elusive bodies that get through, traps that punish
+## every attack, drain and a Late Fee - instead of 1/1s and a pile of traps that never dealt damage (100% at level 12 even at 30 HP).
 const DECK_RECIPE: Dictionary = {
 	"BAS-N": 9, "BAS-G": 8,
-	"C-16": 2, "C-17": 2, "G-16": 2, "G-17": 2, "N-12": 2, "C-27": 1,
-	"N-15": 2, "N-32": 1,
-	"C-23": 3, "N-06": 2, "C-04": 2, "N-26": 1, "N-02": 2, "G-01": 2, "C-22": 2,
+	"C-16": 2, "C-17": 2, "G-16": 2, "G-17": 2, "N-12": 2, "C-27": 2, "G-24": 2, "N-11": 2,
+	"N-15": 2, "N-16": 1, "G-20": 1, "G-29": 1, "N-32": 1,
+	"C-23": 3, "N-06": 3, "C-04": 2, "N-26": 2, "GN-01": 2, "GN-12": 1, "N-14": 1,
 }
 
 const TAUNTS: Dictionary = {

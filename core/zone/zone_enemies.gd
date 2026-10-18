@@ -45,4 +45,6 @@ static func enemy_setup(content: ContentSet, zone_id: String, enemy_id: String) 
 	setup.starting_hp = data.hp
 	setup.profile = PlayerProfile.new()
 	setup.profile.max_hp = data.hp
+	# Rebalance Part E: the roamer's one-sided encounter rules (data/encounters/modifiers.json), keyed "zone:<zone>:<enemy>".
+	EncounterModifiers.apply_to_enemy(setup, EncounterModifiers.zone_key(zone_id, enemy_id))
 	return setup

@@ -62,8 +62,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 		CASSEROLE:
 			made.display_name = "Colonel Casserole"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
-			made.recipe = EnemyDecks.trimmed("gourmand_golems", 30, 16)
-			made.hp = 16
+			made.recipe = EnemyDecks.trimmed("gourmand_golems", 30, 14)  # Rebalance Part E: 90% at level 12 (elite band 60-75); 22 HP overshot to 15%
+			made.hp = 18
 			made.ai_name = "Balanced"
 			made.gold_reward = 50
 			made.xp_reward = 60

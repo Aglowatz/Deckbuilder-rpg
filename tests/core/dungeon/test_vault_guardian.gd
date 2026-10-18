@@ -77,7 +77,7 @@ func test_the_warden_is_a_four_path_boss_with_a_big_deck_and_an_escalating_summo
 	assert_true(context.is_vault_boss)
 	assert_eq(context.board_key, "town")
 	assert_eq(context.game.players[1].hp, VaultGuardian.STARTING_HP)
-	assert_gt(VaultGuardian.STARTING_HP, 30, "far more life than any other duel")
+	assert_gt(VaultGuardian.STARTING_HP, 24, "more life than the town duels (Rebalance Part E: 28, was 40)")
 	var modifier: Modifier = VaultGuardian._escalation_modifier()
 	assert_eq(modifier.tokens.size(), VaultGuardian.SUMMON_STAGES.size())
 	for token: CardData in modifier.tokens:
