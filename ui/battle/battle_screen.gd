@@ -1563,6 +1563,15 @@ func _mulligan_choice(keep: bool) -> void:
 		_submit(GameAction.make(GameAction.Type.MULLIGAN, 0))
 
 
+## The boss-victory sting of this battle's song ("STG-WIN-BEEF-BOSS" for MUS-BEEF-BOSS), "" when the song is not a boss track or has none.
+func boss_victory_sting() -> String:
+	var song: String = MusicDirector.for_battle(context, Session.flags)
+	if not song.ends_with("-BOSS"):
+		return ""
+	var id: String = "STG-WIN-%s" % song.trim_prefix("MUS-")
+	return id if AudioRegistry.has_id(id) else ""
+
+
 func _show_result() -> void:
 	mode = Mode.OVER
 	_refresh_ui()
@@ -1572,7 +1581,12 @@ func _show_result() -> void:
 	context.won = won
 	# The fight is over: the battle song gives way to the area's music, with the result sting over it.
 	_release_battle_music(0.5)
-	Audio.sfx(&"victory" if won else &"defeat")
+	# Overnight Oct 17, Part 12: a boss falls to its own track's climax (a sting cut from it), every other win to the victory sting.
+	var boss_sting: String = boss_victory_sting()
+	if won and not boss_sting.is_empty() and Audio.music != null and Audio.music.sting(boss_sting):
+		Audio.sfx(&"victory_layer")
+	else:
+		Audio.sfx(&"victory" if won else &"defeat")
 	# Battle feel, Part C: a short end sequence before the result panel: the banner, the losing plate knocked out, and a
 	# gold shower on a win. Fast and Very Fast shorten it.
 	hud.show_banner("Victory!" if won else ("Draw" if game.is_draw else "Defeat"), UIStyle.GOLD if won else Color("e06a5a"))

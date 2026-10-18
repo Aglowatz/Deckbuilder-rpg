@@ -8,6 +8,7 @@ extends RefCounted
 
 const LIST_PATH: String = "res://data/source/music_list.csv"
 const REGISTRY_PATH: String = "res://data/audio/audio_registry.json"
+const EXTRAS_PATH: String = "res://data/audio/audio_extras.json"
 const LEVELS_PATH: String = "res://data/source/audio_levels.csv"
 const MANIFEST_PATH: String = "res://data/source/audio_import_manifest.csv"
 const MUSIC_DIR: String = "res://assets/audio/music"
@@ -71,7 +72,13 @@ static func ensure_loaded() -> void:
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(REGISTRY_PATH))
 	if not (parsed is Dictionary):
 		return
-	var rows: Dictionary = (parsed as Dictionary).get("entries", {}) as Dictionary
+	var rows: Dictionary = ((parsed as Dictionary).get("entries", {}) as Dictionary).duplicate()
+	# Overnight Oct 17, Part 12: cues the game makes itself (the boss-victory stings cut by tools/cut_stings.js) live in their own file,
+	# so "import audio" never drops them.
+	if FileAccess.file_exists(EXTRAS_PATH):
+		var extras: Variant = JSON.parse_string(FileAccess.get_file_as_string(EXTRAS_PATH))
+		if extras is Dictionary:
+			rows.merge((extras as Dictionary).get("entries", {}) as Dictionary, false)
 	for id: Variant in rows.keys():
 		var row: Dictionary = rows[id] as Dictionary
 		var entry: Entry = Entry.new()
