@@ -80,7 +80,7 @@ func test_the_baker_is_talkable_and_wanders() -> void:
 func test_townsfolk_stroll_their_own_loops() -> void:
 	var town: TownScene = _town()
 	await get_tree().process_frame
-	assert_eq(town._strollers.size(), 2, "two strollers besides the baker")
+	assert_eq(town._strollers.size(), 3, "three strollers besides the baker (well yard, Maren's lane, Arena gate)")
 	var starts: Array[Vector3] = []
 	for stroller: SpriteWanderer in town._strollers:
 		assert_eq(stroller.character, "CITIZEN")

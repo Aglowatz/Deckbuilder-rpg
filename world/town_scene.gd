@@ -418,11 +418,13 @@ func _build_barks() -> void:
 	AmbientFx.add(self, "town", player)
 
 
-## Overnight Oct 17 (Phase 2, NPC life): two townsfolk stroll their own small loops away from the busy square - round the Old Well's yard
+## Overnight Oct 17 (Phase 2, NPC life): townsfolk stroll their own small loops away from the busy square - round the Old Well's yard
 ## and up by Elder Maren's lane - in the shared townsfolk sprite set with their own tints, and say a line to a passing hero.
 const STROLLERS: Array[Dictionary] = [
 	{"anchor": "well", "radius": 3.4, "seed": 23, "tint": 2},
 	{"anchor": "npc_elder", "radius": 3.8, "seed": 41, "tint": 4},
+	# Phase 2 cycle 23: one more by the Arena gate (the rift station's loop crossed an unwalkable edge, so it has none)
+	{"anchor": "arena_gate", "radius": 3.6, "seed": 57, "tint": 1},
 ]
 var _strollers: Array[SpriteWanderer] = []
 
