@@ -406,7 +406,17 @@ func craft_dual_card(first: Affinity.Type, second: Affinity.Type) -> Alchemy.Res
 		save_game()
 	return result
 
-## Adds cards to the collection. A player may own at most `DeckValidator.MAX_COPIES` (4) copies of a card:
+## The copy cap of a card at the player's level (`CopyCaps`: at most 3, fewer for rarer cards until level-ups raise it).
+func copy_cap(card: CardData) -> int:
+	return CopyCaps.for_card(card, profile.level if profile != null else 1)
+
+
+## True when one more copy of `card` would go over its copy cap (it would convert instead of joining the collection).
+func at_copy_cap(card: CardData) -> bool:
+	return card != null and not card.is_unlimited() and owned_count(card.id) >= copy_cap(card)
+
+
+## Adds cards to the collection. A player may own at most the card's copy cap (`copy_cap`, 3 at most):
 ## an extra copy is NOT kept but converts into Path essence of its Path (more for higher rarity), or into gold
 ## for a neutral card (`Essence`); each conversion fires `EventBus.essence_converted` (the toast layer shows
 ## it). Infrastructure is unlimited. Returns the conversion messages (empty when nothing converted).
@@ -415,7 +425,7 @@ func add_cards(cards: Array[CardData]) -> Array[String]:
 	if profile == null:
 		return notices
 	for card: CardData in cards:
-		if card.is_unlimited() or profile.owned_copies(card.id) < DeckValidator.MAX_COPIES:
+		if card.is_unlimited() or profile.owned_copies(card.id) < copy_cap(card):
 			profile.owned_cards.append(card)
 			continue
 		var conversion: Dictionary = Essence.conversion(card)
@@ -462,7 +472,7 @@ func buy_pack(pack: PackData) -> bool:
 
 
 ## Opens one pack from the inventory (a seeded `rng` can be passed for tests): rolls its cards, adds them to the collection (an
-## extra copy beyond 4 converts into essence/gold, exactly like any other card) and returns what came out. Null if there is no
+## extra copy beyond its copy cap converts into essence/gold, exactly like any other card) and returns what came out. Null if there is no
 ## such pack in the inventory.
 func open_pack(pack_id: String, pack_rng: RandomNumberGenerator = null) -> PackOpening:
 	var pack: PackData = PackCatalog.find(pack_id)
@@ -474,7 +484,7 @@ func open_pack(pack_id: String, pack_rng: RandomNumberGenerator = null) -> PackO
 		var entry: PackOpening.Entry = PackOpening.Entry.new()
 		entry.card = card
 		entry.is_new = owned_count(card.id) == 0 and not card.is_unlimited()
-		if not card.is_unlimited() and owned_count(card.id) >= DeckValidator.MAX_COPIES:
+		if at_copy_cap(card):
 			var conversion: Dictionary = Essence.conversion(card)
 			entry.converted = true
 			entry.essence = (conversion["essence"] as Dictionary).duplicate()
@@ -801,9 +811,12 @@ func from_dict(data: Dictionary) -> bool:
 		deck_box.create(DECK_NAME, DeckBox.ids_of(deck), ProgressionTable.EXPANDED_DECK_SLOTS)
 	if deck_box.size() == 0:
 		deck_box.create(DECK_NAME, DeckBox.ids_of(deck), ProgressionTable.EXPANDED_DECK_SLOTS)
+	gold = int(data.get("gold", 0))
+	var cap_notice: String = enforce_copy_caps()
 	_deck_sync_paused = false
 	deck = deck_box.build(deck_box.active, deck_lookup())
-	gold = int(data.get("gold", 0))
+	if not cap_notice.is_empty():
+		_top_up_active_deck()
 	flags = (data.get("flags", {}) as Dictionary).duplicate()
 	playtime_seconds = float(data.get("playtime", 0.0))
 	_sync_freed_stories()
@@ -831,6 +844,8 @@ func from_dict(data: Dictionary) -> bool:
 			gold += cosmetics.legacy_refund
 			town_notice = "The wardrobe was redone in paint: your old purchases were refunded (%d gold)." % cosmetics.legacy_refund
 			cosmetics.legacy_refund = 0
+	if not cap_notice.is_empty():
+		town_notice = cap_notice if town_notice.is_empty() else town_notice + " " + cap_notice
 	zone_log.assign(data.get("zone_log", []) as Array)
 	map_fog = (data.get("map_fog", {}) as Dictionary).duplicate(true)
 	_fog_live = {}
@@ -844,6 +859,58 @@ func from_dict(data: Dictionary) -> bool:
 	if deck.size() == 0 and CampaignStart.is_valid_choice(color):
 		rebuild_starter_deck()
 	return true
+
+
+## Overnight Oct 17, Part 1 (save migration): copies owned beyond a card's copy cap (`CopyCaps`, an old save could hold 4)
+## convert into essence or gold like any extra copy, and every saved deck drops the copies beyond the cap. Returns a short
+## notice for the town (empty when nothing changed). Runs on every load, so it is a no-op once a save is clean.
+func enforce_copy_caps() -> String:
+	if profile == null:
+		return ""
+	var extras: Array[CardData] = CopyCaps.excess(profile.owned_cards, profile.level)
+	for card: CardData in extras:
+		var index: int = -1
+		for position: int in range(profile.owned_cards.size() - 1, -1, -1):
+			if profile.owned_cards[position].id == card.id:
+				index = position
+				break
+		if index >= 0:
+			profile.owned_cards.remove_at(index)
+		var conversion: Dictionary = Essence.conversion(card)
+		var essence_by_path: Dictionary = conversion["essence"] as Dictionary
+		for path: Variant in essence_by_path.keys():
+			profile.add_essence(int(path) as Affinity.Type, int(essence_by_path[path]))
+		gold += int(conversion["gold"])
+	var trimmed_decks: int = 0
+	for index: int in range(deck_box.size()):
+		var ids: Array[String] = deck_box.decks[index].card_ids
+		var kept: Array[String] = CopyCaps.trim_ids(ids, deck_lookup(), profile.level)
+		if kept.size() != ids.size():
+			deck_box.set_cards(index, kept)
+			trimmed_decks += 1
+	if extras.is_empty() and trimmed_decks == 0:
+		return ""
+	var text: String = "Copy caps arrived: rarer cards now allow fewer copies until you level up."
+	if not extras.is_empty():
+		text += " %d extra cop%s became essence." % [extras.size(), "y" if extras.size() == 1 else "ies"]
+	if trimmed_decks > 0:
+		text += " %d saved deck%s trimmed." % [trimmed_decks, "" if trimmed_decks == 1 else "s"]
+	return text
+
+
+## After the copy-cap migration trimmed the active deck: top it back up to the minimum with basic infrastructure of its
+## Paths, so battles keep working (the player can rebuild it properly in the Deck Station).
+func _top_up_active_deck() -> void:
+	if profile == null or deck == null or deck.size() >= DeckValidator.MIN_DECK_SIZE:
+		return
+	var basics: Array[CardData] = []
+	for infra: Variant in content.infrastructure.values():
+		if infra is CardData:
+			basics.append(infra as CardData)
+	var editor: DeckEditor = DeckEditor.from(profile, deck, basics)
+	if editor.autofill_infrastructure() > 0:
+		deck.cards = editor.deck.cards
+		deck_box.set_cards(deck_box.active, DeckBox.ids_of(deck))
 
 
 func _essence_to_dict() -> Dictionary:

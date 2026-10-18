@@ -111,7 +111,7 @@ texts = {
 "town.alchemist.name": ["Auntie Alembic's"],
 "town.alchemist.locked": ["The door of Auntie Alembic's is bolted. A note is pinned to it, in green ink:", "'CLOSED UNTIL TWO PATHS ARE FREE. THE USURPER CONFISCATED MY CAULDRON. I AM STILL BREWING IN THE SINK. - Z.V.'"],
 "town.alchemist.announce": ["With two zones free, a cauldron bubbles to life in {town}. Auntie Alembic's is open! Bring essence. Bring courage. Bring a fire blanket."],
-"town.alchemist.intro": ["Auntie Alembic. Alchemist. Do not touch anything. Fine, touch that one.", "Whenever you collect more than four copies of a card, the extras turn into essence of that card's Path. Bring me ALL the essence of two Paths, plus a little gold, and I will brew you a card of BOTH.", "Random. Unpredictable. Occasionally on fire."],
+"town.alchemist.intro": ["Auntie Alembic. Alchemist. Do not touch anything. Fine, touch that one.", "Whenever you collect more copies of a card than you can carry, the extras turn into essence of that card's Path. Bring me ALL the essence of two Paths, plus a little gold, and I will brew you a card of BOTH.", "Random. Unpredictable. Occasionally on fire."],
 "town.alchemist.return": ["Back already? Good. Essence of two Paths, a little gold, and a lot of faith. That is the whole recipe."],
 "town.alchemist.need_more": ["You do not have enough essence of two different Paths yet. Collect more duplicates, then come back. The cauldron will wait.", "The cauldron is patient. The cauldron is also hungry."],
 "zone.complete.beefcake.title": ["THE GAINLANDS ARE FREE!"],

@@ -36,14 +36,23 @@ func owned(card: CardData) -> int:
 	return total
 
 
+## How many copies of `card` the deck may hold at the player's level (`CopyCaps`; infrastructure: unlimited).
+func cap(card: CardData) -> int:
+	return CopyCaps.for_card(card, profile.level)
+
+
+## "2/3": copies in the deck against the cap (empty for infrastructure).
+func cap_text(card: CardData) -> String:
+	return CopyCaps.ratio_text(count(card), card, profile.level)
+
+
 ## Empty string when `card` may be added, otherwise the reason it cannot.
 func why_not_add(card: CardData) -> String:
 	if card.is_token:
 		return "Tokens cannot be put in a deck."
 	if not card.is_unlimited():
-		var limit: int = DeckValidator.MAX_COPIES
-		if count(card) >= limit:
-			return "A deck holds at most %d copies of any card (infrastructure is unlimited)." % limit
+		if count(card) >= cap(card):
+			return CopyCaps.reason(card, profile.level)
 		if count(card) >= owned(card):
 			return "You do not own another copy."
 	var resulting: Array[Affinity.Type] = deck.colors()

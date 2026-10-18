@@ -152,10 +152,12 @@ encounter grants XP and gold scaled by `DungeonMap.Difficulty` (`EncounterReward
 
 - Minimum **45** cards, adjustable by `Modifier.Kind.MIN_DECK_SIZE` (e.g. the tutorial dungeon's
   starter-deck waiver - see "Starting deck" below).
-- Maximum **4 copies of every non-infrastructure card, at every level** (rarity no longer matters).
-  **Infrastructure is unlimited.** Copies beyond 4 owned convert into Path essence (Part F, see
-  "Essence" below). The old rarity-based copy limits and the level-ups that raised them were
-  removed; those levels grant other rewards (see `docs/design/progression.md`).
+- **Copy caps** (Overnight Oct 17, `CopyCaps`, data in `data/progression/level_track.json`): never more than **3 copies**
+  of any non-infrastructure card. Rarer cards start lower and level-ups raise their caps toward 3:
+  Common 3; Uncommon 2 (3 at level 9); Epic 1 (2 at level 12, 3 at level 22); Legendary 1 (2 at level 18, 3 at
+  level 30). The same cap rules the collection, the shop, packs and rewards (a copy over the cap converts into Path
+  essence, or gold for a neutral card), the deck builder and saved decks. **Infrastructure is unlimited.**
+  Old saves: copies over the cap convert on load and saved decks drop the extra copies.
 
 ## Starting deck (Part C)
 

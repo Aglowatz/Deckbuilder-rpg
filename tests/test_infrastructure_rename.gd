@@ -38,17 +38,18 @@ func test_keyword_text_uses_exhausted_not_tapped() -> void:
 	assert_true(text.contains("exhaust"))
 
 
-func test_every_non_infrastructure_card_allows_four_copies_at_level_one() -> void:
+func test_every_non_infrastructure_card_allows_its_copy_cap_at_level_one() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	for rarity: CardEnums.Rarity in [CardEnums.Rarity.COMMON, CardEnums.Rarity.UNCOMMON, CardEnums.Rarity.EPIC, CardEnums.Rarity.LEGENDARY]:
 		var card: CardData = CardBuilder.unit("c_%d" % int(rarity), "C", Affinity.Type.BEEFCAKE, 1, [] as Array[Affinity.Type], 1, 1)
 		card.rarity = rarity
+		var cap: int = CopyCaps.cap_for(rarity, 1)
 		var deck: Deck = Deck.new()
-		for i: int in range(4):
+		for i: int in range(cap):
 			deck.cards.append(card)
-		assert_false(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "4 copies of rarity %d" % int(rarity))
+		assert_false(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "%d copies of rarity %d" % [cap, int(rarity)])
 		deck.cards.append(card)
-		assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "5 copies of rarity %d" % int(rarity))
+		assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "%d copies of rarity %d" % [cap + 1, int(rarity)])
 
 
 func test_infrastructure_is_unlimited() -> void:

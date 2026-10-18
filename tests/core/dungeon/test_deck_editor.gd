@@ -30,15 +30,18 @@ func test_starter_deck_is_not_valid_without_the_waiver() -> void:
 	assert_true(DeckValidator.has_problem(plain.issues(), DeckValidator.Problem.TOO_FEW_CARDS))
 
 
-func test_cannot_add_more_than_owned_or_four_copies() -> void:
+func test_cannot_add_more_than_owned_or_the_copy_cap() -> void:
 	var scout: CardData = content.card("C-01")
 	assert_ne(editor.why_not_add(scout), "", "starts unowned or at the owned limit")
 	for i: int in range(6):
 		profile.owned_cards.append(scout)
-	while editor.count(scout) < 4:
+	var cap: int = editor.cap(scout)
+	var guard: int = 0
+	while editor.count(scout) < cap and guard < 10:
+		guard += 1
 		assert_true(editor.add(scout))
-	assert_eq(editor.why_not_add(scout), "A deck holds at most 4 copies of any card (infrastructure is unlimited).")
-	assert_false(editor.add(scout), "a fifth copy is refused even though it is owned")
+	assert_eq(editor.why_not_add(scout), CopyCaps.reason(scout, profile.level))
+	assert_false(editor.add(scout), "a copy over the cap is refused even though it is owned")
 
 
 func test_cannot_add_unowned_cards() -> void:

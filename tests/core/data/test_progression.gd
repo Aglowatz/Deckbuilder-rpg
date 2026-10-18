@@ -44,8 +44,8 @@ func test_opening_hand_and_item_slots_reach_their_caps_gradually() -> void:
 		assert_lte(rows[i].item_slots - rows[i - 1].item_slots, 1)
 
 
-func test_copy_limit_is_four_at_every_level_and_levels_have_other_rewards() -> void:
-	assert_eq(DeckValidator.MAX_COPIES, 4)
+func test_copy_limit_is_three_at_most_and_levels_have_other_rewards() -> void:
+	assert_eq(DeckValidator.MAX_COPIES, 3)
 	for level: int in [11, 14, 17, 21, 28]:
 		var row: LevelData = ProgressionTable.row(level)
 		assert_true(row.reward_vendor_discount_percent > 0 or not row.reward_vendor_unlock.is_empty() or row.reward_equipment_vendor_unlock or row.reward_deck_expansion or row.max_hand_size > ProgressionTable.row(level - 1).max_hand_size, "level %d replaced its copy-limit reward with something else" % level)
@@ -148,16 +148,20 @@ func test_apply_level_sets_max_hand_size() -> void:
 	assert_eq(profile.base_max_hand_size(), 12)
 
 
-func test_deck_validator_allows_four_copies_of_any_rarity_at_level_one() -> void:
+func test_deck_validator_caps_a_legendary_at_one_then_three_at_level_30() -> void:
 	var profile: PlayerProfile = PlayerProfile.new()
 	var legendary: CardData = CardBuilder.unit("myth", "Myth", Affinity.Type.BEEFCAKE, 1, [] as Array[Affinity.Type], 1, 1)
 	legendary.rarity = CardEnums.Rarity.LEGENDARY
 	var deck: Deck = Deck.new()
-	for i: int in range(4):
-		deck.cards.append(legendary)
-	assert_false(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "4 copies of a Legendary are fine at level 1")
 	deck.cards.append(legendary)
-	assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "5 copies are too many at any level")
+	assert_false(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "1 Legendary is fine at level 1")
+	deck.cards.append(legendary)
+	assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "2 are too many at level 1")
+	profile.level = 30
+	deck.cards.append(legendary)
+	assert_false(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "3 are fine at level 30")
+	deck.cards.append(legendary)
+	assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, profile), DeckValidator.Problem.TOO_MANY_COPIES), "4 are too many at any level")
 
 
 # ---- Equipment ----------------------------------------------------------------------------

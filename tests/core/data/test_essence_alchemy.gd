@@ -33,14 +33,14 @@ func _dual(id: String, first: Affinity.Type, second: Affinity.Type, rarity: Card
 # ---- Essence ----------------------------------------------------------------------------------------
 
 
-func test_four_copies_are_kept_the_fifth_becomes_essence() -> void:
+func test_three_copies_are_kept_the_fourth_becomes_essence() -> void:
 	var card: CardData = _card("firebolt_x", A, CardEnums.Rarity.COMMON)
-	for i: int in range(4):
+	for i: int in range(3):
 		Session.add_cards([card] as Array[CardData])
-	assert_eq(Session.owned_count(card.id), 4)
+	assert_eq(Session.owned_count(card.id), 3)
 	assert_eq(Session.profile.essence_of(A), 0)
 	var notices: Array[String] = Session.add_cards([card] as Array[CardData])
-	assert_eq(Session.owned_count(card.id), 4, "the fifth copy is not kept")
+	assert_eq(Session.owned_count(card.id), 3, "the fourth copy is not kept")
 	assert_eq(Session.profile.essence_of(A), 1, "a common extra copy is worth 1 essence of its Path")
 	assert_eq(notices.size(), 1)
 	assert_true(notices[0].contains("converted into 1 Beefcake essence"), notices[0])
@@ -52,7 +52,7 @@ func test_essence_scales_with_rarity() -> void:
 		Session.profile.owned_cards.clear()
 		Session.profile.essence.clear()
 		var card: CardData = _card("r_%d" % int(rarity), C, rarity)
-		for i: int in range(5):
+		for i: int in range(Session.copy_cap(card) + 1):
 			Session.add_cards([card] as Array[CardData])
 		assert_eq(Session.profile.essence_of(C), int(expected[rarity]), "rarity %d" % int(rarity))
 	assert_lt(Essence.value_for(CardEnums.Rarity.COMMON), Essence.value_for(CardEnums.Rarity.LEGENDARY))
@@ -60,7 +60,7 @@ func test_essence_scales_with_rarity() -> void:
 
 func test_the_conversion_fires_a_notification_with_the_message_and_amount() -> void:
 	var card: CardData = _card("notify", D, CardEnums.Rarity.EPIC)
-	for i: int in range(4):
+	for i: int in range(Session.copy_cap(card)):
 		Session.add_cards([card] as Array[CardData])
 	watch_signals(EventBus)
 	Session.add_cards([card] as Array[CardData])
@@ -80,12 +80,12 @@ func test_the_toast_layer_shows_the_notification() -> void:
 
 func test_neutral_extras_become_gold() -> void:
 	var card: CardData = _card("neutral_x", Affinity.Type.NEUTRAL, CardEnums.Rarity.UNCOMMON)
-	for i: int in range(4):
+	for i: int in range(Session.copy_cap(card)):
 		Session.add_cards([card] as Array[CardData])
 	var gold_before: int = Session.gold
 	var notices: Array[String] = Session.add_cards([card] as Array[CardData])
 	assert_eq(Session.gold, gold_before + Essence.gold_for(CardEnums.Rarity.UNCOMMON))
-	assert_eq(Session.owned_count(card.id), 4)
+	assert_eq(Session.owned_count(card.id), Session.copy_cap(card))
 	assert_true(notices[0].contains("gold"))
 	assert_eq(Session.profile.total_essence(), 0, "neutral cards never make essence")
 
@@ -100,7 +100,7 @@ func test_infrastructure_is_unlimited_and_never_converts() -> void:
 
 func test_a_dual_path_extra_splits_its_essence_between_both_paths() -> void:
 	var card: CardData = _dual("split", A, D, CardEnums.Rarity.EPIC)
-	for i: int in range(5):
+	for i: int in range(Session.copy_cap(card) + 1):
 		Session.add_cards([card] as Array[CardData])
 	assert_eq(Session.profile.essence_of(A), 2)
 	assert_eq(Session.profile.essence_of(D), 2)
@@ -111,13 +111,13 @@ func test_a_dual_path_extra_splits_its_essence_between_both_paths() -> void:
 
 func test_essence_comes_from_every_way_of_gaining_cards_and_is_saved() -> void:
 	var card: CardData = _card("rewarded", C, CardEnums.Rarity.COMMON)
-	for i: int in range(4):
+	for i: int in range(Session.copy_cap(card)):
 		Session.add_cards([card] as Array[CardData])
 	var offer: RewardOffer = RewardOffer.new()
 	offer.taken = card
 	Session.pending_reward = offer
 	Session.apply_rewards()
-	assert_eq(Session.profile.essence_of(C), 1, "a reward pick beyond 4 copies converts too")
+	assert_eq(Session.profile.essence_of(C), 1, "a reward pick beyond the cap converts too")
 	var data: Dictionary = Session.to_dict()
 	Session.new_game()
 	Session.ensure_game(A)
@@ -340,13 +340,13 @@ func test_the_deck_builder_refuses_a_dual_card_that_would_break_the_path_limit()
 	assert_true(editor.add(ab))
 
 
-func test_dual_cards_obey_the_four_copy_limit() -> void:
+func test_dual_cards_obey_the_copy_cap() -> void:
 	var card: CardData = _dual("limit", A, B)
 	for i: int in range(6):
 		Session.add_cards([card] as Array[CardData])
-	assert_eq(Session.owned_count(card.id), 4)
+	assert_eq(Session.owned_count(card.id), 3)
 	var deck: Deck = Deck.new()
-	for i: int in range(5):
+	for i: int in range(4):
 		deck.cards.append(card)
 	assert_true(DeckValidator.has_problem(DeckValidator.validate(deck, Session.profile), DeckValidator.Problem.TOO_MANY_COPIES))
 

@@ -140,18 +140,18 @@ func test_deck_with_too_few_cards_fails() -> void:
 	assert_true(DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS))
 
 
-func test_more_than_four_copies_fails_but_basic_infrastructure_are_exempt() -> void:
+func test_more_than_three_copies_fails_but_basic_infrastructure_are_exempt() -> void:
 	var deck: Deck = _legal_deck([Affinity.Type.BEEFCAKE] as Array[Affinity.Type])
 	assert_true(deck.count_of("infrastructure_beefcake") > 3, "test deck has many basic infrastructure")
 	assert_true(DeckValidator.is_valid(deck, _profile()), "basic infrastructure do not count against the limit")
 	var dupe: CardData = _card("dupe", Affinity.Type.BEEFCAKE)
-	for i: int in range(5):
+	for i: int in range(4):
 		deck.cards.append(dupe)
 	var issues: Array[DeckValidator.Issue] = DeckValidator.validate(deck, _profile())
 	assert_true(DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES))
 	assert_eq(issues[0].card_id, "dupe")
 	deck.cards.pop_back()
-	assert_true(DeckValidator.is_valid(deck, _profile()), "exactly four copies is fine")
+	assert_true(DeckValidator.is_valid(deck, _profile()), "exactly three copies of a Common is fine")
 
 
 ## A profile that has freed one zone (two Paths allowed); `zones_freed` stays 0 only in the Path-lock tests.

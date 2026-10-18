@@ -274,7 +274,7 @@ func test_extra_copies_convert_to_essence_in_the_summary() -> void:
 		assert_true(entry.converted)
 		assert_false(entry.notice.is_empty())
 	assert_eq(Session.profile.total_essence() + opening.gold_total() * 0, Session.profile.total_essence())
-	assert_eq(Session.owned_count(preview[0].id), DeckValidator.MAX_COPIES, "still four copies")
+	assert_eq(Session.owned_count(preview[0].id), Session.copy_cap(preview[0]), "still at the copy cap")
 	var total_essence: int = 0
 	for path: Variant in essence_expected.keys():
 		total_essence += int(essence_expected[path])

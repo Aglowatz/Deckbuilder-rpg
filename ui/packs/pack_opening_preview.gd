@@ -1,7 +1,7 @@
 class_name PackOpeningPreview
 extends Control
 ## Developer scene for screenshots and visual review of the pack opening. It grants one pack, optionally searches for a seed that
-## rolls a Legendary (`--legendary`) or owns four copies of the rolled cards so they convert (`--extras`), then drives the real
+## rolls a Legendary (`--legendary`) or owns its copy cap of the rolled cards so they convert (`--extras`), then drives the real
 ## `PackOpeningScreen` to a stage and says it is ready for the screenshot.
 ##   --pack=<pack id> (default path_beefcake)   --stage=pack|torn|reveal1|reveal_all|legendary|summary
 ##   --legendary   --extras   --seed=<n>
@@ -43,7 +43,7 @@ func _ready() -> void:
 	var preview: Array[CardData] = PackRoller.roll(pack, Session.content, _clone(rng))
 	if _extras:
 		for card: CardData in preview.slice(0, 2):
-			for i: int in range(DeckValidator.MAX_COPIES):
+			for i: int in range(Session.copy_cap(card)):
 				Session.add_cards([card] as Array[CardData])
 		Session.profile.essence.clear()
 	Session.add_pack(_pack_id, 2)

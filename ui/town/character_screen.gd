@@ -247,7 +247,7 @@ func _refresh() -> void:
 	_stat_row("Starting HP", str(profile.base_max_hp()), "ICON-STAT-HP")
 	_stat_row("Opening hand", str(profile.base_opening_hand()))
 	_stat_row("Item slots", "%d / %d" % [profile.item_slots, ProgressionTable.row(ProgressionTable.MAX_LEVEL).item_slots])
-	_stat_row("Deck copy limit", "%d per card (infra: any)" % DeckValidator.MAX_COPIES)
+	_stat_row("Copy caps", "C %d / U %d / E %d / L %d" % [CopyCaps.cap_for(CardEnums.Rarity.COMMON, Session.profile.level), CopyCaps.cap_for(CardEnums.Rarity.UNCOMMON, Session.profile.level), CopyCaps.cap_for(CardEnums.Rarity.EPIC, Session.profile.level), CopyCaps.cap_for(CardEnums.Rarity.LEGENDARY, Session.profile.level)])
 	_stat_row("Max hand size", str(profile.base_max_hand_size()))
 	_essence_rows(profile)
 	_refresh_equipment()

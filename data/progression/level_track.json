@@ -1,0 +1,27 @@
+{
+	"max_level": 30,
+	"copy_caps": {
+		"absolute_max": 3,
+		"start": {"common": 3, "uncommon": 2, "epic": 1, "legendary": 1},
+		"raises": [
+			{"level": 9, "rarity": "uncommon", "cap": 3},
+			{"level": 12, "rarity": "epic", "cap": 2},
+			{"level": 18, "rarity": "legendary", "cap": 2},
+			{"level": 22, "rarity": "epic", "cap": 3},
+			{"level": 30, "rarity": "legendary", "cap": 3}
+		]
+	},
+	"equip_caps": {
+		"start": {"common": 5, "uncommon": 2, "epic": 0, "legendary": 0},
+		"raises": [
+			{"level": 5, "rarity": "epic", "cap": 1},
+			{"level": 10, "rarity": "uncommon", "cap": 3},
+			{"level": 13, "rarity": "epic", "cap": 2},
+			{"level": 16, "rarity": "uncommon", "cap": 5},
+			{"level": 19, "rarity": "epic", "cap": 3},
+			{"level": 22, "rarity": "legendary", "cap": 1},
+			{"level": 25, "rarity": "epic", "cap": 5},
+			{"level": 28, "rarity": "legendary", "cap": 2}
+		]
+	}
+}

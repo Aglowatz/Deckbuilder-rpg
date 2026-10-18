@@ -1,13 +1,14 @@
 class_name DeckValidator
 extends RefCounted
 ## Deck construction rules: at least 45 cards (MIN_DECK_SIZE modifiers can lower this, e.g. the
-## tutorial dungeon's starter-deck waiver), at most 4 copies of any non-infrastructure card at every level
-## (infrastructure is unlimited), at most 2
+## tutorial dungeon's starter-deck waiver), at most 3 copies of any non-infrastructure card, fewer for rarer cards until
+## level-ups raise their caps (`CopyCaps`; infrastructure is unlimited), at most 2
 ## infrastructure/color types: ONE until the first zone is freed, TWO after that, FOUR once postgame_unlocked (Primm beaten and the throne taken);
 ## MAX_DECK_COLORS modifiers add more. Story v2: the Wanderer is too weak to carry more at first (see `path_limit_hint`).
 
 const MIN_DECK_SIZE: int = 45
-const MAX_COPIES: int = 4
+## The absolute copy limit (`CopyCaps.ABSOLUTE_MAX`); the real cap of a card also depends on its rarity and the level.
+const MAX_COPIES: int = CopyCaps.ABSOLUTE_MAX
 const START_MAX_COLORS: int = 1
 const BASE_MAX_COLORS: int = 2
 const POSTGAME_MAX_COLORS: int = 4
@@ -72,15 +73,19 @@ static func validate(
 		issues.append(_issue(Problem.TOO_FEW_CARDS, "", "Deck has %d cards; minimum is %d." % [deck.size(), min_size]))
 	var counts: Dictionary = deck.copy_counts()
 	var basics: Dictionary = {}
+	var by_id: Dictionary = {}
 	for card: CardData in deck.cards:
 		basics[card.id] = card.is_unlimited()
+		by_id[card.id] = card
+	var level: int = profile.level if profile != null else 1
 	for card_id: Variant in counts.keys():
 		var id: String = str(card_id)
 		if bool(basics[id]):
 			continue
-		var limit: int = MAX_COPIES
+		var card: CardData = by_id[id] as CardData
+		var limit: int = CopyCaps.for_card(card, level)
 		if int(counts[id]) > limit:
-			issues.append(_issue(Problem.TOO_MANY_COPIES, id, "%d copies of %s; maximum is %d." % [int(counts[id]), id, limit]))
+			issues.append(_issue(Problem.TOO_MANY_COPIES, id, "%d copies of %s; the cap is %d. %s" % [int(counts[id]), card.display_name, limit, CopyCaps.reason(card, level)]))
 	var colors: int = deck.colors().size()
 	var limit: int = max_colors(profile, modifiers)
 	if colors > limit:

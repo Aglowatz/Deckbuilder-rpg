@@ -1,6 +1,6 @@
 class_name Essence
 extends RefCounted
-## Brief 9, Part F: extra copies of a card (beyond the 4 a player may own - `DeckValidator.MAX_COPIES`) are not
+## Brief 9, Part F: extra copies of a card (beyond its copy cap - `CopyCaps`, at most 3) are not
 ## kept: they convert into **Path essence** of the card's Path, more for higher rarity. Extra copies of a
 ## NEUTRAL card have no Path, so they convert into gold instead. A multi-Path card's essence is split
 ## between its two Paths (half each, rounded up). Infrastructure is unlimited and never converts.
