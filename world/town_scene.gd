@@ -1986,6 +1986,13 @@ func _screenshot_open(what: String) -> void:
 			_talk_elder()
 		"gate":
 			_use_gate()
+		"bestiary":
+			for index: int in range(0, Bestiary.all().size(), 3):
+				Session.bestiary_meet(Bestiary.all()[index].name)
+				Session.bestiary_defeat(Bestiary.all()[index].name)
+			_open_codex()
+			(_overlay as CodexScreen).show_tab("Bestiary")
+			(_overlay as CodexScreen).show_beast(Bestiary.all()[3])
 		"codex":
 			_open_codex()
 		"wardrobe":

@@ -687,6 +687,70 @@ func _open_the_armory() -> void:
 		profile.equip(blade)
 
 
+# ---- The Bestiary and the Collection Book (Overnight Oct 17, Part 10) -------------------------------------------------
+
+## Collection milestones (percent of all cards found): paid once each (flag "collection_<percent>").
+const COLLECTION_MILESTONES: Array[Dictionary] = [
+	{"percent": 25, "pack": "path"},
+	{"percent": 50, "gold": 200},
+	{"percent": 75, "pack": "gilded"},
+	{"percent": 100, "pack": "prismatic"},
+]
+
+
+## The hero met an enemy (a battle started, or a roamer that never fights touched them). Unknown names are ignored.
+func bestiary_meet(enemy_name: String) -> void:
+	if Bestiary.find(enemy_name) == null:
+		return
+	bump_counter(Bestiary.MET_PREFIX + Bestiary.canonical(enemy_name))
+	pay_completion_milestones()
+
+
+func bestiary_defeat(enemy_name: String) -> void:
+	if Bestiary.find(enemy_name) == null:
+		return
+	bump_counter(Bestiary.WON_PREFIX + Bestiary.canonical(enemy_name))
+
+
+## Percent of all (non-token) cards found (owned or seen).
+func collection_percent() -> int:
+	var total: int = 0
+	var found: int = 0
+	for card: CardData in content.cards.values():
+		if card.is_token:
+			continue
+		total += 1
+		if has_seen(card.id):
+			found += 1
+	return 0 if total == 0 else int(floor(100.0 * float(found) / float(total)))
+
+
+## Pays the Bestiary's and the Collection Book's discovery milestones that were reached (each once), with a toast.
+func pay_completion_milestones() -> void:
+	if profile == null:
+		return
+	for milestone: Dictionary in Bestiary.due_milestones(counters, flags):
+		_pay_milestone_reward("bestiary_%d" % int(milestone["percent"]), milestone, "Bestiary %d%% complete" % int(milestone["percent"]))
+	var found: int = collection_percent()
+	for milestone: Dictionary in COLLECTION_MILESTONES:
+		var flag_name: String = "collection_%d" % int(milestone["percent"])
+		if found >= int(milestone["percent"]) and not flag(StringName(flag_name)):
+			_pay_milestone_reward(flag_name, milestone, "Collection %d%% found" % int(milestone["percent"]))
+
+
+func _pay_milestone_reward(flag_name: String, milestone: Dictionary, title: String) -> void:
+	flags[flag_name] = true
+	var reward: String = ""
+	if milestone.has("gold"):
+		add_gold(int(milestone["gold"]))
+		reward = "+%d gold" % int(milestone["gold"])
+	elif milestone.has("pack"):
+		var pack_id: String = ProgressionTable.pack_id({"pack": str(milestone["pack"])}, profile.primary_affinity)
+		if add_pack(pack_id):
+			reward = pack_label(pack_id)
+	EventBus.quest_notice.emit("%s: %s" % [title, reward], false)
+
+
 ## A duel was won anywhere (zone, dungeon, arena): the armory quest's Form 7-B counts it.
 func note_duel_won() -> void:
 	bump_counter("duels_won")
@@ -1461,6 +1525,7 @@ var has_start_return_position: bool = false
 
 func start_battle(context: BattleContext) -> void:
 	pending_battle = context
+	bestiary_meet(context.enemy_name)
 	var scene: Node = get_tree().current_scene if get_tree() != null else null
 	if scene is TownScene and (scene as TownScene).player != null:
 		town_return_position = (scene as TownScene).player.position
@@ -2807,6 +2872,8 @@ func enter_zone_portal(zone_id: String) -> void:
 ## Called by the battle screen when the player leaves the result panel.
 func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
+	if context.won:
+		bestiary_defeat(context.enemy_name)
 	if not context.arena_id.is_empty():
 		_complete_arena_battle(context)
 		return
