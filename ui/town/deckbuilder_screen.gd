@@ -2,7 +2,7 @@ class_name DeckbuilderScreen
 extends OverlayScreen
 ## The Deck Station: browse the collection with filters, click to add a card to the deck
 ## (right-click to remove), see the deck list with counts and live validation of the deck
-## rules (45 cards minimum, 4 copies, 2 colors - 3 or 4 once Primm is beaten and the postgame is unlocked), then save.
+## rules (45 cards minimum, copy caps by rarity and level, 2 colors - 3 or 4 once Primm is beaten and the postgame is unlocked), then save.
 
 const CARD_SCALE: float = 0.55
 const COLUMNS: int = 7
@@ -23,13 +23,21 @@ var _dirty: bool = false
 var _hint_shown: bool = false
 ## Brief 16: which saved deck of `Session.deck_box` this screen is editing, and the deck bar widgets.
 var _editing: int = 0
-var _deck_picker: OptionButton
 var _warning_label: Label
 var _use_button: FancyButton
-var _delete_button: FancyButton
-var _copy_button: FancyButton
-var _new_button: FancyButton
 var _prompt_layer: Control
+## Overnight Oct 17, Part 4: the Deck Box layer (ten slots), the save-slot picker and the cover picker; `_new_slot` is the
+## empty slot a new, unsaved deck (`_editing` -1) was started in.
+var _editing_label: Label
+var _box_layer: Control
+var _box_grid: DeckBoxGrid
+var _box_actions: HBoxContainer
+var _box_selected: int = -1
+var _save_layer: Control
+var _cover_layer: Control
+var _new_slot: int = 0
+## The town station opens on the Deck Box (its ten slots); tests and smokes can start on the editor instead.
+var open_on_box: bool = true
 
 
 func _init() -> void:
@@ -101,6 +109,8 @@ func _build() -> void:
 	_toast.z_index = 250
 	add_child(_toast)
 	_refresh()
+	if _uses_deck_box() and open_on_box:
+		open_deck_box()
 	var min_size: int = DeckValidator.min_deck_size(_active_modifiers())
 	TipPanel.show_once(self, &"tip_deck", "Building a deck", "Click a card to add it, right-click (or the [b]-[/b] button) to remove it. A legal deck has [b]%d+ cards[/b], at most [b]%d colors[/b], and a rarity-based copy limit that grows as you level up. Infrastructure attack your spells: [b]Fill Infrastructure[/b] tops up to %d." % [min_size, DeckValidator.max_colors(Session.profile, _active_modifiers()), min_size], Vector2(300, 900))
 
@@ -147,38 +157,32 @@ func _build_deck_panel() -> Control:
 	return panel
 
 
-# ---- Saved decks (brief 16, Group E) --------------------------------------------------------
+# ---- Saved decks (brief 16, Group E; Overnight Oct 17, Part 4: the ten-slot Deck Box) ---------------------------
 
 
 func _build_deck_bar() -> Control:
-	var bar: VBoxContainer = UIKit.vbox(6)
+	var bar: HBoxContainer = UIKit.hbox(8)
 	bar.name = "DeckBar"
-	var top: HBoxContainer = UIKit.hbox(8)
-	bar.add_child(top)
-	_deck_picker = OptionButton.new()
-	_deck_picker.name = "DeckPicker"
-	_deck_picker.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_deck_picker.custom_minimum_size = Vector2(0, 44)
-	_deck_picker.add_theme_font_size_override("font_size", 22)
-	_deck_picker.item_selected.connect(_on_deck_picked)
-	top.add_child(_deck_picker)
-	var row: HBoxContainer = UIKit.hbox(6)
-	bar.add_child(row)
-	_new_button = _bar_button("New", "Start an empty deck in the next free slot.", _on_new_deck)
-	_new_button.name = "NewDeck"
-	row.add_child(_new_button)
-	_copy_button = _bar_button("Copy", "Duplicate the saved version of this deck.", _on_copy_deck)
-	_copy_button.name = "CopyDeck"
-	row.add_child(_copy_button)
+	var box_button: FancyButton = _bar_button("Deck Box", "All ten deck slots: pick another deck, start a new one, copy, delete or set its cover.", open_deck_box)
+	box_button.name = "DeckBoxButton"
+	box_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	box_button.custom_minimum_size = Vector2(130, 40)
+	bar.add_child(box_button)
+	_editing_label = UIKit.label("", &"", 20, UIStyle.PARCHMENT)
+	_editing_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_editing_label.clip_text = true
+	_editing_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	bar.add_child(_editing_label)
 	var rename: FancyButton = _bar_button("Rename", "Give this deck another name.", _on_rename_deck)
 	rename.name = "RenameDeck"
-	row.add_child(rename)
-	_delete_button = _bar_button("Delete", "Delete this deck (you always keep at least one).", _on_delete_deck)
-	_delete_button.name = "DeleteDeck"
-	row.add_child(_delete_button)
+	rename.size_flags_horizontal = Control.SIZE_SHRINK_END
+	rename.custom_minimum_size = Vector2(96, 40)
+	bar.add_child(rename)
 	_use_button = _bar_button("Use for battles", "Make this the deck battles and dungeons use.", _on_use_deck)
 	_use_button.name = "UseDeck"
-	row.add_child(_use_button)
+	_use_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_use_button.custom_minimum_size = Vector2(150, 40)
+	bar.add_child(_use_button)
 	return bar
 
 
@@ -191,49 +195,32 @@ func _bar_button(text: String, tip: String, callback: Callable) -> FancyButton:
 	return button
 
 
+func _editing_deck() -> DeckBox.SavedDeck:
+	return Session.deck_box.decks[_editing] if Session.deck_box.is_valid_index(_editing) else null
+
+
+## The slot the deck being edited sits in (a new deck: the empty slot it was started in).
+func _editing_slot() -> int:
+	var saved: DeckBox.SavedDeck = _editing_deck()
+	return saved.slot if saved != null else _new_slot
+
+
 func _refresh_deck_bar() -> void:
 	if _warning_label != null:
 		var lines: Array[String] = []
-		if _uses_deck_box():
+		if _uses_deck_box() and Session.deck_box.is_valid_index(_editing):
 			lines = Session.deck_warnings(_editing)
 		_warning_label.text = "" if lines.is_empty() else "Warning: %s" % " ".join(lines)
 		_warning_label.visible = not lines.is_empty()
-	if _deck_picker == null:
+	if _editing_label == null:
 		return
-	_deck_picker.clear()
-	for index: int in range(Session.deck_box.size()):
-		var saved: DeckBox.SavedDeck = Session.deck_box.decks[index]
-		var label: String = "%d. %s (%d)" % [index + 1, saved.name, saved.card_count()]
-		if index == Session.deck_box.active:
-			label += "   [in use]"
-		if not Session.deck_warnings(index).is_empty():
-			label += "   [!]"
-		var slot_icon: Texture2D = IconArt.texture("ICON-DECKBOX", 32.0)
-		if slot_icon != null:
-			_deck_picker.add_icon_item(slot_icon, label, index)
-		else:
-			_deck_picker.add_item(label, index)
-	_deck_picker.select(_editing)
-	var capacity: int = Session.deck_capacity()
-	_new_button.disabled = Session.deck_box.is_full(capacity)
-	_copy_button.disabled = Session.deck_box.is_full(capacity)
-	_new_button.tooltip_text = "Your deck box is full (%d decks)." % capacity if _new_button.disabled else "Start an empty deck in the next free slot."
-	_delete_button.disabled = Session.deck_box.size() <= 1
-	_use_button.disabled = _editing == Session.deck_box.active
-	_use_button.text = "In use" if _use_button.disabled else "Use for battles"
-
-
-## Editing another deck; unsaved changes to this one have to be kept or thrown away first.
-func _on_deck_picked(position: int) -> void:
-	var target: int = _deck_picker.get_item_id(position)
-	if target == _editing:
-		return
-	if _dirty:
-		_deck_picker.select(_editing)
-		var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Unsaved changes", "Switch decks without saving your changes to this one?", "Discard changes", "Keep editing", true)
-		dialog.confirmed.connect(func() -> void: _edit_deck(target))
-		return
-	_edit_deck(target)
+	var saved: DeckBox.SavedDeck = _editing_deck()
+	if saved == null:
+		_editing_label.text = "Slot %d: a new deck (not saved yet)" % (_new_slot + 1)
+	else:
+		_editing_label.text = "Slot %d: %s%s" % [saved.slot + 1, saved.name, "  (in use)" if _editing == Session.deck_box.active else ""]
+	_use_button.disabled = saved == null or _editing == Session.deck_box.active
+	_use_button.text = "In use" if saved != null and _editing == Session.deck_box.active else "Use for battles"
 
 
 func _edit_deck(index: int) -> void:
@@ -244,46 +231,30 @@ func _edit_deck(index: int) -> void:
 	_refresh()
 
 
-func _on_new_deck() -> void:
-	if _dirty:
-		_say("Save or reset this deck first.", Color("ffcf70"))
+## Runs `then` now, or after the player agrees to drop unsaved changes.
+func _guard_dirty(then: Callable, parent: Node = null) -> void:
+	if not _dirty:
+		then.call()
 		return
-	var index: int = Session.new_saved_deck("New Deck %d" % (Session.deck_box.size() + 1))
-	if index < 0:
-		_say("Your deck box is full (%d decks)." % Session.deck_capacity(), Color("ff8a85"))
-		return
-	_edit_deck(index)
-	_say("A new empty deck. Add cards, then Save Deck.", UIStyle.GOOD)
+	var dialog: ConfirmDialog = ConfirmDialog.ask(parent if parent != null else self, "Unsaved changes", "Leave this deck without saving your changes?", "Discard changes", "Keep editing", true)
+	dialog.confirmed.connect(then)
 
 
-func _on_copy_deck() -> void:
-	var index: int = Session.duplicate_saved_deck(_editing)
-	if index < 0:
-		_say("Your deck box is full (%d decks)." % Session.deck_capacity(), Color("ff8a85"))
-		return
-	if _dirty:
-		_say("Copied the saved version (your unsaved changes were not included).", Color("ffcf70"))
-	else:
-		_say("Deck copied.", UIStyle.GOOD)
-	_edit_deck(index)
+func _start_new_deck(slot: int) -> void:
+	_new_slot = slot
+	_edit_deck(-1)
+	_close_layer(_box_layer)
+	_box_layer = null
+	_say("A new empty deck for slot %d. Add cards, then Save Deck." % (slot + 1), UIStyle.GOOD)
 
 
 func _on_rename_deck() -> void:
-	_prompt_name("Rename deck", Session.deck_box.decks[_editing].name, func(new_name: String) -> void:
+	if _editing_deck() == null:
+		_say("Save this deck first, then name it.", Color("ffcf70"))
+		return
+	_prompt_name("Rename deck", _editing_deck().name, func(new_name: String) -> void:
 		Session.rename_saved_deck(_editing, new_name)
 		_refresh())
-
-
-func _on_delete_deck() -> void:
-	if Session.deck_box.size() <= 1:
-		_say("You always keep at least one deck.", Color("ffcf70"))
-		return
-	var doomed: int = _editing
-	var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Delete this deck?", "\"%s\" will be deleted. Your cards stay in your collection." % Session.deck_box.decks[doomed].name, "Delete", "Cancel", true)
-	dialog.confirmed.connect(func() -> void:
-		Session.delete_saved_deck(doomed)
-		_edit_deck(clampi(doomed, 0, Session.deck_box.size() - 1))
-		_say("Deck deleted.", UIStyle.GOOD))
 
 
 func _on_use_deck() -> void:
@@ -295,6 +266,282 @@ func _on_use_deck() -> void:
 		_say("\"%s\" is now your battle deck." % Session.deck_box.decks[_editing].name, UIStyle.GOOD)
 		_refresh()
 		EventBus.collection_changed.emit()
+
+
+## A dimmed full-screen layer with a centred panel; returns [layer, column].
+func _layer(layer_name: String, title: String, subtitle: String) -> Array[Control]:
+	var layer: Control = Control.new()
+	layer.name = layer_name
+	UIKit.full_rect(layer)
+	layer.z_index = 200
+	layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(layer)
+	var shade: ColorRect = ColorRect.new()
+	shade.color = Color(0.02, 0.01, 0.05, 0.78)
+	UIKit.full_rect(shade)
+	layer.add_child(shade)
+	var center: CenterContainer = CenterContainer.new()
+	UIKit.full_rect(center)
+	layer.add_child(center)
+	var panel: PanelContainer = UIKit.panel()
+	center.add_child(panel)
+	var column: VBoxContainer = UIKit.vbox(12)
+	panel.add_child(column)
+	column.add_child(UIKit.label(title, &"HeadingLabel", 34, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	if not subtitle.is_empty():
+		column.add_child(UIKit.label(subtitle, &"MutedLabel", 19, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+	return [layer, column] as Array[Control]
+
+
+func _close_layer(layer: Control) -> void:
+	if layer != null and is_instance_valid(layer):
+		layer.queue_free()
+
+
+func _slots_subtitle() -> String:
+	var open: int = Session.deck_capacity()
+	if open >= DeckSlots.SLOT_COUNT:
+		return "All ten slots are open."
+	return "%d of %d slots open. Two more open at level %d." % [open, DeckSlots.SLOT_COUNT, DeckSlots.level_for_slot(open)]
+
+
+## The Deck Box: the ten slots, five across the top and five across the bottom. Pick a deck to edit, use, copy, delete or
+## give a cover; an empty open slot starts a new deck.
+func open_deck_box() -> void:
+	_close_layer(_box_layer)
+	var parts: Array[Control] = _layer("DeckBoxLayer", "Deck Box", _slots_subtitle())
+	_box_layer = parts[0]
+	var column: VBoxContainer = parts[1] as VBoxContainer
+	_box_grid = DeckBoxGrid.new()
+	_box_grid.highlight = _editing_slot()
+	_box_grid.slot_pressed.connect(_on_box_slot)
+	column.add_child(_box_grid)
+	_box_actions = UIKit.hbox(10)
+	_box_actions.alignment = BoxContainer.ALIGNMENT_CENTER
+	column.add_child(_box_actions)
+	_box_selected = _editing_slot()
+	_update_box_actions()
+	_box_grid.focus_slot(maxi(_box_selected, 0))
+
+
+func _on_box_slot(slot: int) -> void:
+	if not Session.slot_open(slot):
+		_say("Slot %d opens at level %d." % [slot + 1, DeckSlots.level_for_slot(slot)], Color("ffcf70"))
+		return
+	var index: int = Session.deck_box.index_in_slot(slot)
+	if index < 0:
+		_guard_dirty(func() -> void: _start_new_deck(slot), _box_layer)
+		return
+	if slot == _box_selected:
+		_box_edit()
+		return
+	_box_selected = slot
+	_box_grid.highlight = slot
+	_box_grid.rebuild()
+	_box_grid.focus_slot(slot)
+	_update_box_actions()
+
+
+func _update_box_actions() -> void:
+	for child: Node in _box_actions.get_children():
+		_box_actions.remove_child(child)
+		child.queue_free()
+	var index: int = Session.deck_box.index_in_slot(_box_selected)
+	var actions: Array = [["Edit", _box_edit], ["Use for battles", _box_use], ["Cover Card", _box_cover], ["Copy", _box_copy], ["Delete", _box_delete]]
+	for action: Array in actions:
+		var button: FancyButton = FancyButton.make(str(action[0]), &"PrimaryButton" if str(action[0]) == "Edit" else &"", Vector2(150, 50))
+		button.name = "Box%s" % str(action[0]).replace(" ", "")
+		button.pressed.connect(action[1] as Callable)
+		button.disabled = index < 0
+		_box_actions.add_child(button)
+		button.focus_mode = Control.FOCUS_ALL
+	if index >= 0:
+		(_box_actions.get_child(1) as Button).disabled = index == Session.deck_box.active
+		(_box_actions.get_child(3) as Button).disabled = Session.deck_box.is_full(Session.deck_capacity())
+		(_box_actions.get_child(4) as Button).disabled = Session.deck_box.size() <= 1
+	var close: FancyButton = FancyButton.make("Close (Esc)", &"", Vector2(150, 50))
+	close.pressed.connect(_close_box)
+	_box_actions.add_child(close)
+	close.focus_mode = Control.FOCUS_ALL
+
+
+func _close_box() -> void:
+	_close_layer(_box_layer)
+	_box_layer = null
+
+
+func _box_index() -> int:
+	return Session.deck_box.index_in_slot(_box_selected)
+
+
+func _box_edit() -> void:
+	var index: int = _box_index()
+	if index < 0:
+		return
+	if index == _editing:
+		_close_box()
+		return
+	_guard_dirty(func() -> void:
+		_edit_deck(index)
+		_close_box(), _box_layer)
+
+
+func _box_use() -> void:
+	var index: int = _box_index()
+	if index >= 0 and Session.use_deck(index):
+		Audio.sfx(&"ui_confirm")
+		_say("\"%s\" is now your battle deck." % Session.deck_box.decks[index].name, UIStyle.GOOD)
+		_box_grid.rebuild()
+		_update_box_actions()
+		_refresh_deck_bar()
+		EventBus.collection_changed.emit()
+
+
+func _box_copy() -> void:
+	var index: int = _box_index()
+	var created: int = Session.duplicate_saved_deck(index) if index >= 0 else -1
+	if created < 0:
+		_say("No free slot to copy into.", Color("ff8a85"))
+		return
+	_say("Deck copied into slot %d." % (Session.deck_box.decks[created].slot + 1), UIStyle.GOOD)
+	_box_selected = Session.deck_box.decks[created].slot
+	_box_grid.highlight = _box_selected
+	_box_grid.rebuild()
+	_update_box_actions()
+
+
+func _box_delete() -> void:
+	var index: int = _box_index()
+	if index < 0 or Session.deck_box.size() <= 1:
+		_say("You always keep at least one deck.", Color("ffcf70"))
+		return
+	var doomed_name: String = Session.deck_box.decks[index].name
+	var dialog: ConfirmDialog = ConfirmDialog.ask(_box_layer, "Delete this deck?", "\"%s\" will be deleted. Your cards stay in your collection." % doomed_name, "Delete", "Cancel", true)
+	dialog.confirmed.connect(func() -> void:
+		var editing_id: DeckBox.SavedDeck = _editing_deck()
+		Session.delete_saved_deck(index)
+		var still: int = Session.deck_box.decks.find(editing_id)
+		if still < 0:
+			_edit_deck(Session.deck_box.active)
+		else:
+			_editing = still
+		_box_grid.rebuild()
+		_update_box_actions()
+		_refresh()
+		_say("Deck deleted.", UIStyle.GOOD))
+
+
+## Pick the slot's cover card from the deck's own cards (its rarest card is the default).
+func _box_cover() -> void:
+	var index: int = _box_index()
+	if index < 0:
+		return
+	var saved: DeckBox.SavedDeck = Session.deck_box.decks[index]
+	var parts: Array[Control] = _layer("CoverLayer", "Cover Card", "The card shown on \"%s\"'s slot." % saved.name)
+	var layer: Control = parts[0]
+	layer.z_index = 210
+	var column: VBoxContainer = parts[1] as VBoxContainer
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(1180, 230)
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	column.add_child(scroll)
+	var row: HBoxContainer = UIKit.hbox(10)
+	scroll.add_child(row)
+	var current: String = DeckSlots.cover_id(saved.card_ids, Session.deck_lookup(), saved.cover_id)
+	var seen: Dictionary = {}
+	var first: Button = null
+	for id: String in saved.card_ids:
+		var card: CardData = Session.card_by_id(id)
+		if card == null or card.is_unlimited() or seen.has(id):
+			continue
+		seen[id] = true
+		var pick: FancyButton = FancyButton.make("", &"GhostButton", CardView.SIZE * 0.42 + Vector2(8, 8))
+		pick.tooltip_text = card.display_name
+		var view: CardView = CardView.create(card, CardView.Mode.FULL)
+		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		pick.add_child(view)
+		CardView.fit(view, 0.42)
+		view.position += Vector2(4, 4)
+		for child: Node in view.find_children("*", "Control", true, false):
+			(child as Control).mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if id == current:
+			pick.add_theme_stylebox_override("normal", UIStyle.box(Color(0, 0, 0, 0), UIStyle.GOLD, 3, 10))
+		pick.pressed.connect(func() -> void:
+			Session.set_deck_cover(index, id)
+			Audio.sfx(&"ui_confirm")
+			_close_layer(layer)
+			_box_grid.rebuild()
+			_box_grid.focus_slot(_box_selected))
+		row.add_child(pick)
+		pick.focus_mode = Control.FOCUS_ALL
+		if first == null:
+			first = pick
+	if seen.is_empty():
+		column.add_child(UIKit.label("This deck has only infrastructure.", &"", 20, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+	var back: FancyButton = FancyButton.make("Back", &"", Vector2(170, 50))
+	back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	back.pressed.connect(func() -> void: _close_layer(layer))
+	column.add_child(back)
+	back.focus_mode = Control.FOCUS_ALL
+	if first != null:
+		first.call_deferred(&"grab_focus")
+	_cover_layer = layer
+
+
+## Saving asks which slot: the deck's own slot is highlighted; a slot holding another deck asks before overwriting it.
+func open_save_picker() -> void:
+	_close_layer(_save_layer)
+	var parts: Array[Control] = _layer("SaveSlotLayer", "Save to which slot?", _slots_subtitle())
+	_save_layer = parts[0]
+	var column: VBoxContainer = parts[1] as VBoxContainer
+	var grid: DeckBoxGrid = DeckBoxGrid.new()
+	grid.save_mode = true
+	grid.highlight = _editing_slot()
+	grid.slot_pressed.connect(_on_save_slot)
+	column.add_child(grid)
+	var cancel: FancyButton = FancyButton.make("Cancel (Esc)", &"", Vector2(190, 50))
+	cancel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	cancel.pressed.connect(func() -> void:
+		_close_layer(_save_layer)
+		_save_layer = null)
+	column.add_child(cancel)
+	cancel.focus_mode = Control.FOCUS_ALL
+	grid.focus_slot(maxi(_editing_slot(), 0))
+
+
+func _on_save_slot(slot: int) -> void:
+	if not Session.slot_open(slot):
+		_say("Slot %d opens at level %d." % [slot + 1, DeckSlots.level_for_slot(slot)], Color("ffcf70"))
+		return
+	var index: int = Session.deck_box.index_in_slot(slot)
+	if index >= 0 and index != _editing:
+		var dialog: ConfirmDialog = ConfirmDialog.ask(_save_layer, "Overwrite slot %d?" % (slot + 1), "\"%s\" in slot %d will be replaced by this deck." % [Session.deck_box.decks[index].name, slot + 1], "Overwrite", "Cancel", true)
+		dialog.confirmed.connect(func() -> void: save_to_slot(slot))
+		return
+	save_to_slot(slot)
+
+
+## Saves the edited deck into `slot` (tests and smokes call this directly).
+func save_to_slot(slot: int) -> bool:
+	var saved: DeckBox.SavedDeck = _editing_deck()
+	var deck_name: String = saved.name if saved != null else "New Deck %d" % (slot + 1)
+	var cover: String = saved.cover_id if saved != null else ""
+	var index: int = Session.save_deck_to_slot(slot, editor.deck, deck_name, cover)
+	if index < 0:
+		return false
+	_close_layer(_save_layer)
+	_save_layer = null
+	_editing = index
+	_dirty = false
+	Audio.sfx(&"ui_confirm")
+	if editor.is_valid():
+		_say("Deck saved in slot %d. It is ready for the dungeon." % (slot + 1), UIStyle.GOOD)
+	else:
+		_say("Deck saved in slot %d, but it is not legal yet: %s" % [slot + 1, editor.issues()[0].message], Color("ffcf70"))
+	_refresh()
+	EventBus.collection_changed.emit()
+	return true
+
 
 
 ## A small name prompt over the screen.
@@ -453,7 +700,7 @@ func _refresh() -> void:
 		if card.is_basic:
 			label.text = "In deck: %d" % in_deck
 		else:
-			label.text = "Deck %d  Own %d" % [in_deck, editor.owned(card)]
+			label.text = "Deck %s  Own %d" % [editor.cap_text(card), editor.owned(card)]
 		var view: CardView = _dim_by_id[id] as CardView
 		view.modulate = Color(1, 1, 1, 1) if in_deck > 0 or card.is_basic else Color(0.82, 0.82, 0.86, 1)
 	_rebuild_list()
@@ -475,10 +722,18 @@ func _rebuild_rules() -> void:
 		color_names.append(UIStyle.affinity_name(color))
 	var limit: int = DeckValidator.max_colors(Session.profile, _active_modifiers())
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_FEW_CARDS), "At least %d cards (you have %d)" % [DeckValidator.min_deck_size(_active_modifiers()), editor.deck.size()])
-	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "At most %d copies of each card (infrastructure is unlimited)" % DeckValidator.MAX_COPIES)
+	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COPIES), "Copy caps: %s (infrastructure is unlimited)" % _caps_summary())
 	_rule_row(not DeckValidator.has_problem(issues, DeckValidator.Problem.TOO_MANY_COLORS), "At most %d Path%s (%s)" % [limit, "" if limit == 1 else "s", ", ".join(color_names) if not color_names.is_empty() else "none yet"])
 	if DeckValidator.has_problem(issues, DeckValidator.Problem.NOT_OWNED):
 		_rule_row(false, "You use cards you do not own")
+
+
+## "Common 3, Uncommon 2, Epic 1, Legendary 1" at the player's level.
+func _caps_summary() -> String:
+	var parts: PackedStringArray = []
+	for rarity: int in range(CardEnums.Rarity.size()):
+		parts.append("%s %d" % [CopyCaps.rarity_name(rarity as CardEnums.Rarity), CopyCaps.cap_for(rarity as CardEnums.Rarity, Session.profile.level)])
+	return ", ".join(parts)
 
 
 func _rule_row(ok: bool, text: String) -> void:
@@ -546,10 +801,15 @@ func _list_row(card: CardData, count: int) -> Control:
 	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	line.add_child(name_label)
 	line.add_child(_step_button("-", func() -> void: _remove(card)))
-	var count_label: Label = UIKit.label("x%d" % count, &"", 22, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
-	count_label.custom_minimum_size = Vector2(44, 0)
+	var count_label: Label = UIKit.label("x%d" % count if card.is_unlimited() else editor.cap_text(card), &"", 22, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	count_label.custom_minimum_size = Vector2(52, 0)
 	line.add_child(count_label)
-	line.add_child(_step_button("+", func() -> void: _add(card)))
+	var plus: Button = _step_button("+", func() -> void: _add(card))
+	var blocked: String = editor.why_not_add(card)
+	if blocked != "":
+		plus.modulate = Color(1, 1, 1, 0.45)
+		plus.tooltip_text = blocked
+	line.add_child(plus)
 	row.mouse_entered.connect(func() -> void: _preview.show_for(row, card))
 	row.mouse_exited.connect(_preview.hide_preview)
 	return row
@@ -584,6 +844,9 @@ func _reset() -> void:
 
 
 func _save() -> void:
+	if _uses_deck_box():
+		open_save_picker()
+		return
 	_write_back(editor.deck)
 	_dirty = false
 	Audio.sfx(&"ui_confirm")
@@ -596,6 +859,15 @@ func _save() -> void:
 
 
 func request_close() -> void:
+	# Esc closes the topmost layer first: the cover picker, the save picker, the Deck Box, then the station.
+	for layer_name: String in ["_cover_layer", "_save_layer", "_box_layer"]:
+		var layer: Control = get(layer_name) as Control
+		if layer != null and is_instance_valid(layer) and not layer.is_queued_for_deletion():
+			if layer.get_children().any(func(child: Node) -> bool: return child is ConfirmDialog):
+				return
+			_close_layer(layer)
+			set(layer_name, null)
+			return
 	if _dirty:
 		var dialog: ConfirmDialog = ConfirmDialog.ask(self, "Unsaved changes", "Leave the Deck Station without saving your changes?", "Discard changes", "Keep editing", true)
 		dialog.confirmed.connect(func() -> void: closed.emit())

@@ -963,9 +963,29 @@ func deck_lookup() -> Callable:
 	return func(id: String) -> CardData: return card_by_id(id)
 
 
-## How many saved decks the player may have (5, then 10 after the deck box expansion reward).
+## How many Deck Station slots are open (4, then 6, 8 and 10 at levels 7, 14 and 21 - `DeckSlots`).
 func deck_capacity() -> int:
-	return profile.deck_slots if profile != null else ProgressionTable.BASE_DECK_SLOTS
+	return DeckSlots.unlocked_at(profile.level) if profile != null else DeckSlots.START_SLOTS
+
+
+## True when slot `slot` can be used: it is open at the player's level, or it already holds a deck (an old save's deck in a
+## slot that is locked now stays usable).
+func slot_open(slot: int) -> bool:
+	return slot < deck_capacity() or deck_box.index_in_slot(slot) >= 0
+
+
+## Saves `edited` into Deck Station slot `slot` (overwriting what is there) with `cover` as its cover card; returns the
+## saved deck's index (-1 for a locked slot). The battle deck follows when that slot holds it.
+func save_deck_to_slot(slot: int, edited: Deck, deck_name: String, cover: String = "") -> int:
+	if not slot_open(slot):
+		return -1
+	var index: int = deck_box.save_to_slot(slot, deck_name, DeckBox.ids_of(edited), cover)
+	if index == deck_box.active:
+		_deck_sync_paused = true
+		deck = deck_box.build(index, deck_lookup())
+		_deck_sync_paused = false
+	save_game()
+	return index
 
 
 ## Makes saved deck `index` the active one (what battles and dungeons play).
@@ -1014,6 +1034,15 @@ func delete_saved_deck(index: int) -> bool:
 	else:
 		_sync_active_deck()
 		save_game()
+	return true
+
+
+## Sets saved deck `index`'s cover card (Part 4); "" goes back to the default (its rarest card).
+func set_deck_cover(index: int, card_id: String) -> bool:
+	if not deck_box.is_valid_index(index):
+		return false
+	deck_box.decks[index].cover_id = card_id
+	save_game()
 	return true
 
 

@@ -28,16 +28,19 @@ func test_a_new_game_has_one_deck_matching_the_active_deck() -> void:
 	assert_eq(Session.deck_box.decks[0].card_count(), Session.deck.size())
 
 
-func test_the_box_starts_with_five_slots_and_grows_to_ten_at_level_three() -> void:
-	assert_eq(Session.deck_capacity(), 5)
-	for i: int in range(4):
+func test_the_box_starts_with_four_slots_and_grows_by_two_at_7_14_21() -> void:
+	assert_eq(Session.deck_capacity(), 4)
+	for i: int in range(3):
 		assert_gte(Session.new_saved_deck("Deck %d" % i), 0)
-	assert_eq(Session.deck_box.size(), 5)
-	assert_eq(Session.new_saved_deck("One too many"), -1, "the box is full at 5")
-	Session.add_xp(ProgressionTable.xp_to_reach(ProgressionTable.DECK_BOX_EXPANSION_LEVEL))
-	assert_eq(Session.deck_capacity(), 10)
-	for i: int in range(5):
-		assert_gte(Session.new_saved_deck("More %d" % i), 0)
+	assert_eq(Session.deck_box.size(), 4)
+	assert_eq(Session.new_saved_deck("One too many"), -1, "the box is full at 4")
+	for level: int in [7, 14, 21]:
+		Session.add_xp(ProgressionTable.xp_to_reach(level) - Session.profile.xp)
+		assert_eq(Session.profile.level, level)
+		assert_eq(Session.deck_capacity(), DeckSlots.unlocked_at(level))
+		for i: int in range(2):
+			assert_gte(Session.new_saved_deck("L%d-%d" % [level, i]), 0)
+		assert_eq(Session.new_saved_deck("Over"), -1)
 	assert_eq(Session.deck_box.size(), 10)
 	assert_eq(Session.new_saved_deck("Eleven"), -1)
 
@@ -142,7 +145,7 @@ func test_loading_restores_the_levelled_stats() -> void:
 	assert_true(Session.from_dict(data))
 	assert_eq(Session.profile.level, level)
 	assert_eq(Session.profile.max_hp, hp, "max HP follows the level after loading")
-	assert_eq(Session.profile.deck_slots, 10)
+	assert_eq(Session.profile.deck_slots, 6, "level 8: four slots plus the two of level 7")
 	assert_eq(Session.profile.opening_hand_size, 6)
 
 

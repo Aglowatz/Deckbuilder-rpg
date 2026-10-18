@@ -353,20 +353,21 @@ func test_the_old_gold_levels_grant_something_meaningful() -> void:
 			or row.reward_equipment_vendor_unlock or row.reward_item_vendor_advanced_unlock or row.max_hp > previous.max_hp
 		)
 		assert_true(real, "level %d (formerly gold) grants: %s" % [level, row.summary])
-	assert_true(ProgressionTable.row(3).reward_deck_expansion)
+	assert_true(ProgressionTable.row(7).reward_deck_expansion)
 	assert_true(ProgressionTable.row(13).reward_equipment_vendor_unlock)
 	assert_true(ProgressionTable.row(21).reward_vendor_discount_percent > 0)
 	assert_false(ProgressionTable.row(10).reward_equipment_vendor_unlock, "moved off level 10, which keeps its stat rewards")
 	assert_false(ProgressionTable.row(24).reward_vendor_discount_percent > 0, "moved off level 24")
 
 
-func test_deck_box_expansion_is_one_of_the_early_rewards() -> void:
-	assert_eq(ProgressionTable.row(1).deck_slots, 5)
-	assert_eq(ProgressionTable.row(2).deck_slots, 5)
-	assert_eq(ProgressionTable.row(ProgressionTable.DECK_BOX_EXPANSION_LEVEL).deck_slots, 10)
+func test_deck_slots_open_two_at_a_time_at_7_14_21() -> void:
+	assert_eq(ProgressionTable.row(1).deck_slots, 4)
+	assert_eq(ProgressionTable.row(6).deck_slots, 4)
+	assert_eq(ProgressionTable.row(7).deck_slots, 6)
+	assert_eq(ProgressionTable.row(14).deck_slots, 8)
+	assert_eq(ProgressionTable.row(21).deck_slots, 10)
 	assert_eq(ProgressionTable.row(30).deck_slots, 10)
-	assert_true("Deck box expansion: 5 to 10 deck slots" in ProgressionTable.row(ProgressionTable.DECK_BOX_EXPANSION_LEVEL).summary)
-	assert_lte(ProgressionTable.DECK_BOX_EXPANSION_LEVEL, 10, "early-to-mid levels")
+	assert_true("Deck Station: 4 to 6 deck slots" in ProgressionTable.row(7).summary, ProgressionTable.row(7).summary)
 
 
 func test_stat_rewards_keep_their_schedule() -> void:

@@ -31,10 +31,11 @@ const ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL: int = 6
 ## New brief, Part D: a permanent vendor-discount filler reward, replacing the removed random
 ## card-choice filler (see LevelData.reward_vendor_discount_percent).
 const FILLER_DISCOUNT_PERCENT: int = 10
-## Brief 16: the deck box holds 5 saved decks from the start and 10 once the player reaches this level.
-const DECK_BOX_EXPANSION_LEVEL: int = 3
-const BASE_DECK_SLOTS: int = 5
-const EXPANDED_DECK_SLOTS: int = 10
+## Overnight Oct 17, Part 4: the Deck Station has 10 slots; 4 are open at the start and 2 more open at levels 7, 14 and 21
+## (`DeckSlots`). DECK_BOX_EXPANSION_LEVEL is the first of those levels.
+const DECK_BOX_EXPANSION_LEVEL: int = 7
+const BASE_DECK_SLOTS: int = DeckSlots.START_SLOTS
+const EXPANDED_DECK_SLOTS: int = DeckSlots.SLOT_COUNT
 
 
 static func build() -> Array[LevelData]:
@@ -47,8 +48,8 @@ static func build() -> Array[LevelData]:
 		row.opening_hand_size = PlayerProfile.MIN_OPENING_HAND + _steps_reached(level, HAND_SIZE_LEVELS)
 		row.item_slots = 1 + _steps_reached(level, ITEM_SLOT_LEVELS)
 		row.max_hand_size = PlayerProfile.DEFAULT_MAX_HAND_SIZE + _steps_reached(level, MAX_HAND_LEVELS)
-		row.deck_slots = EXPANDED_DECK_SLOTS if level >= DECK_BOX_EXPANSION_LEVEL else BASE_DECK_SLOTS
-		row.reward_deck_expansion = level == DECK_BOX_EXPANSION_LEVEL
+		row.deck_slots = DeckSlots.unlocked_at(level)
+		row.reward_deck_expansion = DeckSlots.UNLOCK_LEVELS.has(level)
 		row.reward_vendor_discount_percent = FILLER_DISCOUNT_PERCENT if BONUS_DISCOUNT_LEVELS.has(level) else 0
 		row.reward_vendor_unlock = BONUS_VENDOR_UNLOCK_NAME if BONUS_VENDOR_UNLOCK_LEVELS.has(level) else ""
 		row.equipment_choice = EQUIPMENT_CHOICE_LEVELS.has(level)
@@ -124,7 +125,7 @@ static func _fill_summaries_and_fallback_rewards(rows: Array[LevelData]) -> void
 			if current.max_hand_size > previous.max_hand_size:
 				notes.append("Max hand size +1 (%d)." % current.max_hand_size)
 			if current.reward_deck_expansion:
-				notes.append("Deck box expansion: %d to %d deck slots." % [BASE_DECK_SLOTS, EXPANDED_DECK_SLOTS])
+				notes.append("Deck Station: %d to %d deck slots." % [previous.deck_slots, current.deck_slots])
 			if current.reward_vendor_discount_percent > 0:
 				notes.append("Permanent vendor discount +%d%%." % current.reward_vendor_discount_percent)
 			if not current.reward_vendor_unlock.is_empty():
