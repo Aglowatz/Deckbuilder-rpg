@@ -1,130 +1,125 @@
-# Overnight report (Oct 16-17)
+# Overnight report (Oct 17-18)
 
-Brief: quest overhaul, 25 equipment pieces, the hub world and the Undercroft, the dialogue rewrite, a playthrough bot. Rules: commit + push per part,
-STOP_OVERNIGHT file stops the run, `docs/overnight_inbox.md` is read before each part, one Godot at a time. Start tag: `pre-overnight-oct16`.
-Decisions: `docs/design/open_questions.md` "Overnight decisions (Oct 16)" (ON-*). The previous overnight report moved to `docs/overnight_report_oct13.md`.
+Run: Sat Oct 17 20:52 MDT to Sun Oct 18 ~05:45 MDT (the report was written then; the end target was 07:52). Start tag `pre-overnight-oct17`
+(494fc066), all work on `main`, every part and cycle pushed. Phase 1 = the brief's 14 parts; Phase 2 = 23 improvement cycles, each aimed at the
+lowest-scoring category of `docs/overnight/scorecard.md`. Your decisions are in `docs/overnight_inbox.md` (15 short items) and
+`docs/design/open_questions.md` (ON17-*). The previous report is now `docs/overnight_report_oct16.md`.
 
-## Status
+**State at the end:** GUT 1815/1816 (the one failure is the pre-existing CP-2 camera test, `tests/world/test_world_look_rig.gd:94`). The story
+playthrough bot goes new game -> ending at 73/73. The full tour bot covers 275 spots, 9 menus and 5 battles with 0 errors. The dungeons,
+first-battles, music and Crosspath walk smokes all pass. Build estimate ~507 MB (+17 MB tonight: card thumbnails and stings).
 
-| Block | State |
-|---|---|
-| 1 Quest system overhaul | done (see below) |
-| 2 Equipment and loot | done (see below) |
-| 3 Hub world and the Undercroft | done (see below) |
-| 4 Dialogue rewrite | done (see below) |
-| 5 Playthrough bot, hitches, report | done (see below) |
+## Scorecard: start of Phase 2 vs end
 
-## Block 1: quests (done)
-- Data model: category MAIN/SIDE, ordered objectives with targets (kind, area, spot, "where to go"), step rewards (milestones), completion rewards in
-  any combination, giver/turn-in areas and spots. Built in code (`QuestCatalog`), no generated .tres. Doc + full reward table: `docs/design/quests.md`.
-- Each Path zone has a MAIN line (gatekeeper -> cross in -> a favour -> main dungeon) paying a Path Pack at the gatekeeper and at the end and a piece
-  of gear at the midpoint; Brannoch gives "Free the Four Zones" (open Capital, castle warning while services are broken).
-- Tracker: one quest, MAIN/SIDE tag, checklist (done ticked, current highlighted), `[` / `]` (rebindable) and LB/RB toggle, follows the most recently
-  updated quest; the "Crosspath - N of 4" header is gone; zone effects and the Capital's broken services are collapsible chips.
-- Quest Log (J): Main / Side / Completed, track by click or Enter, details (summary, checklist with step-reward icons, giver, where to go, rewards with
-  pack art and equipment icons), keyboard Left/Right/Up/Down/Enter.
-- Markers: "!" / "?" over givers in the world and on the minimap/full map; one golden objective chevron + ground ring for the tracked quest (on the
-  minimap, clamped to its edge; drawn under fog); a soft edge-of-screen pointer when off-screen.
-- Gatekeepers: names + epithets (`Gatekeepers`), their zone's battleboard and Path combat song, blocked/cleared lines per obstacle; obstacles
-  themselves are built in Block 3.
-- Passage camera: 12 percent pull-back (Block 3e done early).
-- Tests: `tests/core/quests/test_quests.gd` (model, milestones, migration x3, cycling), `test_quest_markers.gd`. Windowed smoke:
-  `bash tools/run_quest_smoke.sh` (town + Gainlands + D.N.A.; passes). 1647 GUT, all passing.
+| Category | Start | End | What moved it |
+|---|---|---|---|
+| Combat feel | 7 | 8 | Played cards fly on a curve (C8); attacks wind up, lean in and settle; damage numbers scale with the blow (C19) |
+| Visuals - starting forest | 6 | 7.5 | The forest floor was 88% see-through (an occlusion-fade bug) - fixed (C3). Purple top-edge shapes still open |
+| Visuals - Crosspath | 8 | 8 | - |
+| Visuals - Gainlands | 8 | 8 | - |
+| Visuals - D.N.A. | 7 | 7.5 | Paperwork drifts over the bare ground round the offices (C18) |
+| Visuals - Endless Buffet | 7 | 7.5 | Peas, carrot coins, croutons and fat sheens float in the gravy moat (C12) |
+| Visuals - Verdant Dump | 7 | 7.5 | The entrance pool is an oval pond, not a hard-edged rectangle (C7) |
+| Visuals - Capital | 8 | 8 | - |
+| UI consistency | 6 | 7.5 | Character spare frames, gold display, close buttons, bubbles, quest hint, HUD key line, chips, world map (C4, C6, C7, C17) |
+| Onboarding / tutorial | 7 | 7.5 | Narration without an empty name tab; dungeon maps fill their side bands (C11) |
+| Rewards & progression | 8 | 8.5 | Several levels at once readable on one page (C22) |
+| Collection / bestiary | 7 | 7.5 | Bestiary and battle plate ready for enemy pictures, 90 prompts written (C15) |
+| NPC life & dialogue | 6 | 8 | Three town strollers (C2, C23); freed leaders and Captain Spotless speak (C16) |
+| Audio mix | 7 | 7.5 | Music bus leveller for the 26 very dynamic tracks (C10) |
+| Performance | 6 | 8 | Worst town frame 1.16 s -> ~0.2-0.28 s; re-opening screens 4-7x faster (C1, C5, C14, C20) |
+| Stability | 7 | 8 | Story bot back to 73/73 (C9), dungeons smoke green (C13), every check passing at the end |
 
-## Block 2: equipment (done)
-- 25 pieces in `core/data/expansion_gear.gd` (5 weak early, 4 resource generators, 4 strong with drawbacks, a buff per Path, 5 keyword pieces,
-  a draw trinket, an XP trophy, Gotta-Go Galoshes +35 % overworld speed); all through Modifiers (two new kinds read outside battle).
-- Distribution: every main and side dungeon's first clear pays one; the four main-quest midpoints, Meet the Merchants and Juice the Station pay
-  one; each zone shop has a "Gear" button with 2-3 pieces (Path pieces after the zone is free); Bertram sells two cheap early pieces; hidden chests
-  and dungeon treasure roll gear or packs by tier (`ChestLoot`). Table: `docs/design/equipment.md`; icon rows: `docs/art/zone_kits/equipment_icons.md`.
-- Comparison tooltips (`EquipmentCompare`): shops and the character screen's piece picker show the stat differences and what you would lose.
-- Tests: `tests/core/game/test_expansion_gear.gd`. 1657 GUT passing.
+## Phase 1 - the brief's parts
 
-## Block 3: the hub world (done)
-- One country, no sea (`world/hub/hub_land.gd`): painted land to the horizon, the town lake and two country lakes, five themed roads to the
-  horizon, a tree belt that hides the old rim (never in the camera's way), rim blocks turned to trees, hex tiles hidden, haze and backdrop rings.
-- Obstacles with cleared states and animations (`hub_obstacles.gd`): gorge bridge, permit barrier, pantry door, thorn wall; gatekeepers at them,
-  Brannoch on the imperial road; the Capital on the horizon on the road's axis; camera pull-back 12 percent.
-- The Undercroft: the colosseum is gone; an abandoned cottage at the end of Champions' Road with a cellar hatch (chained, then glowing with a
-  muffled crowd) opens Grand Bellows' booth; texts renamed.
-- Verified: `bash tools/run_hub_walk_smoke.sh` (every road blocked and open, in and back, the Capital road, the Undercroft: all ok), GUT,
-  town Medium 60.1 fps avg (min 18 on load). Screenshots: `docs/art/hub_world/` + `docs/art/hub_world.md`.
+| Part | Commit | What it does |
+|---|---|---|
+| 1 Copy limits | b1422990 | Max 3 copies; rarer cards start lower (C3 / U2 / Epic 1 / L1) and level-ups raise them. Extras convert to Path essence. One cap rules the collection, shops, packs and decks (`data/progression/level_track.json`) |
+| 2 Vendor categories | 89a5f3d5 | A vendor with several categories (cards, packs, gear) opens on a picker; Back (Esc) returns to it |
+| 3 Chest sparkle | 07bf48d7 | Unopened chests glint when the hero is within 3 m (one small additive mesh, no shadow, hidden far away) |
+| 4 Deck Station | 73ecd924 | Ten fixed deck slots (4 open, +2 at levels 7/14/21), cover cards, save picker, "In use" badge |
+| 5 Armory + rarity | 677e502f | Beetsworth closed before level 5; level 5 starts "Some Assembly Required" -> win a duel -> Starter Blade. Gear rarity and equip caps |
+| Patchwork | dd8114cb | The kingdom is Patchwork (throne keeps "Pathwork Throne", inbox 3) |
+| 6 Reward track 1-30 | 5606d094 | Every level gives something, all from one data file; `docs/design/level_rewards.md` |
+| 7 Level-up moments | 91299003 | Full-screen level-up (number punch, headline, rewards revealed one by one, unlock boxes); "NEW GEAR!" reveal; Epic pack build-up |
+| 8 Combat feel 2.0 | 7efcf1e9 | Hit pause, recoil, scaled shake, BLOCKED, turn banners, slow-motion final blow (no intent shown, no numbers changed) |
+| 9 Tutorial | 9afffb94 | Resources taught by doing in battle 1 (made -> spend -> why) and battle 2; "Make It Yours" first deck edit quest |
+| 10 Collection Book | 24fcbc03 | Cards by Path and rarity with completion, filters, sort, zoom; Bestiary of 90 entries with milestones |
+| 11 NPC life + truth | 7bbf1707 | Passing lines for 44 NPCs; one NPC source of truth (npcs.json, npc_registry.csv, image requests) |
+| 12 Music | 2cd73ca9 | Audit of 136 tracks, 35 loops fixed, per-track gain, boss-win stings, music brief |
+| 13 UI + controller | 9c73af57 | One input path (UiInput), focus ring everywhere, same open fade, tour bot |
+| 14 Ambient fx | 3de8b565 | Light per-area particles (dust, steam, ghost motes, gnats, ash, fluff) and footstep puffs |
 
-## Block 4: dialogue (done)
-- `docs/design/voice_bible.md`: global rules (puns, sprinkled millennial references, 1-3 sentences, sincere beats stay sincere), each Path's
-  humour and 2-3 sample lines for every speaking character.
-- Rewrite: walls of text split into short boxes everywhere (419 extra boxes); gatekeepers rewritten round their obstacles; town, exits and hub lines
-  updated; stale names fixed; new lines for all 12 vendors; quest summaries punched up; tips (quests, gear, hub, per-zone lore); battle-tip winks; a
-  mini-story beat per zone (a local who remembers the king and the little prince, and a moment when the zone is freed).
-- Old beside new for every changed line: `docs/design/dialogue_rewrite.md` (`node tools/dialogue_diff.js`, 736 rows).
-- Fit: every story line fits the box at the default and the largest text size (`tests/test_dialogue_fit.gd`); quest logic reads ids and flags, never
-  text (the three story tests that check phrases still pass). 1664 GUT passing.
+## Phase 2 - cycles (one line each; details in `docs/overnight/loop_log.md`)
 
-## Block 5: playthrough bot, hitches (done)
-- `bash tools/run_story_playthrough.sh` (`tools/story_playthrough.gd`): new game -> the forest -> the tutorial cave -> town -> Brannoch -> for each
-  zone: the gatekeeper (E, the duel on the zone's board, won by decree), the Path Pack, the cleared obstacle, walking down the road into the zone,
-  the favour and its midpoint gear, the side dungeon's first clear and its gear, the main dungeon (zone freed, the main line complete, its gear), back
-  to Maren for the memory fragment -> the Undercroft hatch and booth -> the imperial road into the Capital with every service restored -> the castle,
-  Primm defeated, Free the Four Zones complete -> the ending. **73 steps, 73 passed** (last run). Real input: walking, E at every NPC, the tracker
-  keys; decree: battles, a favour's steps, dungeon resolution, the tutorial's rewards (each named in the bot's header).
-- What the bot found: a real bug (a handed-in favour did not pay its zone line's midpoint gear until something else changed; quests now settle at
-  once when one completes) and two things a bot must answer like a player (level-up equipment-slot choices, the Second Path announcement).
-- Load hitches (`HITCH_LOG=1`, `--spikes=true`): the Capital's district music and ambience loaded synchronously on the first walk into each
-  district, and its ash pre-simulated 7 s of particles on the first frame. Now they load on background threads as the Capital opens, and the ash
-  pre-simulates 2.5 s. Min fps on Medium (5 s window after a 3 s warm-up; this iGPU is noisy, one stray 35-50 ms frame now and then is the driver):
+| # | Category | Commit | Change |
+|---|---|---|---|
+| 1 | Performance | aac36d53 | Card art thumbnails for grids; cheaper card views (cached rules fit/text, one shared gradient) |
+| 2 | NPC life | 674cf18c | Two townsfolk stroll the well yard and Maren's lane, with lines |
+| 3 | Starting forest | 2ad2e07f | The "purple floor" was the 900 m floor fading with a blocking prop's group; wide terrain never fades now |
+| 4 | UI | 6f145b69 | Character spare frames show level / Path / deck; focus ring on gear slots; Alchemist gold + live copy-cap text; readable Quest Log hint |
+| 5 | Performance | 73ac88d1 | Bot measures by wall clock (delta was clamped at ~148 ms); cached art lookups (card view 2.4x cheaper); tiles built over frames; menu art warmed on a thread |
+| 6 | UI | 98f11f5c | No text over the round close button; header air; readable Collection counter; padded vendor bubbles |
+| 7 | Zones + HUD | 2b34f210 | HUD key line and zone chip no longer clipped; the Dump's pool is an oval pond |
+| 8 | Combat feel | 1226b1eb | Played cards fly to the middle on a curve |
+| 9 | Stability | 5d09a1ea | Story bot learned the multi-level "Next level" screen: 73/73 again |
+| 10 | Audio | 71dcd12c | Music bus leveller (measured offline: loudness unchanged, range e.g. 18.2 -> 12.8 LU) |
+| 11 | Onboarding | b8ef1a2c | Narration panel without the empty tab; dungeon map side bands show the painting |
+| 12 | Buffet | ed12704d | Things float in the gravy moat |
+| 13 | Stability | 25396cf0 | Dungeons smoke checks the Swolympus gate (was stale since Gainlands v2) |
+| 14 | Performance | 3ceaba56 | Collection Book builds its Bestiary page on first view (226 -> 49 ms); fixed "Infrastructure attack your spells" tip text |
+| 15 | Collection | 1ff67098 | Enemy pictures picked up from `assets/art/bestiary/`; 90 prompts in `docs/art/bestiary_image_requests.md` |
+| 16 | NPC life | e20f887c | Freed leaders, reformed Escoffina, Primm "at work" and Captain Spotless say passing lines |
+| 17 | UI | aa98ec74 | World map without dead dark strips |
+| 18 | D.N.A. | 0a039588 | Paperwork drifting over the bare ground (never over rooms or the causeway) |
+| 19 | Combat feel | 1ded6343 | Attack wind-up and settle; damage numbers sized by the blow |
+| 20 | Performance | 313b20d7 | Owned-card thumbnails and card drawing warmed before the first grid opens |
+| 21 | Starting forest | 84c87aca | Investigated the purple top-edge shapes; three sources ruled out; no change kept |
+| 22 | Rewards | 1313d5fb | "All N levels on one page" when several levels arrive at once |
+| 23 | NPC life | d7329ab6 | A third town stroller by the Arena gate |
 
-| Area (Medium) | avg fps | min fps |
-|---|---:|---:|
-| Town (the hub) | 60.4 | 30.3 (one stray frame) |
-| Starting forest | 59.7 | 28.5 (one stray frame) |
-| The Gainlands | 59.7 | 23.7 (one stray frame) |
-| The D.N.A. | 60.1 | 19.1 (one stray frame) |
-| The Endless Buffet | 60.0 | 60.0 |
-| The Verdant Dump | 59.9 | 55.4 |
-| Capital: gate road, camp, rift fields, outpost | 60.0 | 60.0 |
-| Capital: gate plaza (hub load) | 60.0 | 60.0 (was 18.5) |
-| Capital: Transit Yards | 60.0 | 60.0 (was 31.4) |
-| Capital: Hungry Quarter | 59.7 | 55.4 |
-| Capital: Grave Row | 60.0 | 60.0 |
-| Capital: the Reek | 60.0 | 60.0 (was 14.8) |
-| Capital: palace approach | 59.6 | 30.9 (one stray frame) |
+## Screenshots to look at (local, `_screenshots/`, not in git)
 
-## Look at these first
-1. `docs/art/hub_world/road_*.jpg` - the five roads (forest path, cracked road, meadow road, orchard lane, imperial road).
-2. `docs/art/hub_world/gate_*_locked.jpg` and `_open.jpg` - the four obstacles and their cleared states.
-3. `docs/art/hub_world/capital_horizon.jpg` and `undercroft_house.jpg`.
-4. `docs/art/hub_world/edge_*.jpg` - the horizon from all nine camera combinations.
-5. `_screenshots/quest_smoke/` (tracker, Quest Log, "!" / "?" marks) and `_screenshots/playthrough/` (the bot's journey).
+- `on17_forest_spawn.png` vs `on17_forest_fixed.png` - the starting forest before / after the floor fix (cycle 3).
+- `on17_ui_character.png` vs `on17_ui2_character.png` - Character screen spare frames (cycle 4).
+- `on17_ui5_vendor.png` vs `on17_ui6_vendor.png` - text over the close button, fixed (cycle 6).
+- `on17_zone_heap.png` vs `on17_zone_heap3.png` - the Dump's entrance pool (cycle 7).
+- `on17_zone_buffet.png` vs `on17_zone_buffet2.png` - the gravy moat (cycle 12).
+- `on17_dna_breakroom_center.png` vs `on17_dna3_breakroom.png`, and `on17_dna4_lobby.png` - D.N.A. paperwork (cycle 18).
+- `stills/STORY-WAKE_1280x720.png` - narration panel without the tab (cycle 11).
+- `dungeons/t_01_trial_map_start.png` - dungeon map side bands (cycle 11).
+- `on17_ui7_map.png` vs `on17_ui8_map.png` - world map (cycle 17).
+- `on17_bestiary_art.png` - a stand-in picture in the Bestiary (cycle 15; the stand-in file was removed).
 
-## Decisions I made for you
-ON-1..ON-32 in `docs/design/open_questions.md` ("Overnight decisions (Oct 16)"). The big ones: one MAIN quest per zone with step rewards (ON-2);
-the favour midpoint (ON-3); old saves never double-dip (ON-5); Brannoch gives the Capital quest (ON-7); `[` / `]` for the tracker (ON-8); the hub's
-walkable ground unchanged, roads as scenery past the passages (ON-22); obstacles angled for the north-looking camera (ON-23); the Undercroft where
-the colosseum stood (ON-27); the dialogue pass kept what was already good (ON-29).
+## How to test the big items
 
-## Unfinished / honest notes
-- The hub graphics pass covered the roads, edges, lakes, obstacles, outskirts buildings, a lake dock and the Undercroft; the graveyard and the chapel
-  hill were left as they were.
-- The south road's drawn-up bridge cannot be seen from the north-looking camera (only the lowered one reads).
-- The obstacles are built from kit textures and painted cards, not concept art (backlog: "Overnight run").
-- The dialogue rewrite is a consistency, length and voice pass, not a line-by-line rewrite of all 2,700 lines: much of the existing writing already
-  matched the voice bible, and every changed line can be reverted from `docs/design/dialogue_rewrite.md`.
-- Min-fps spikes elsewhere are single stray frames (driver/OS), not repeatable hitches; the Capital's were repeatable and are fixed.
+- **Copy caps, Deck Box, Collection Book**: new game -> town -> Deck Station (opens on the Deck Box, 4 of 10 slots open) -> the card grid shows `Deck x/3 Own y`. Buy a 4th copy at Sable's: it turns into essence. Hall of Records = Collection Book (Cards / Bestiary tabs).
+- **Vendor picker**: talk to Sable (cards + packs): picker first, Back (Esc) returns to it.
+- **Armory quest**: reach level 5 (`bash tools/shot.sh res://scenes/town.tscn x --levelup=5` shows the moment), talk to Beetsworth, win any duel, collect the Starter Blade.
+- **Level-up moments**: any level-up. Several at once (free a zone): "All N levels on one page".
+- **Combat feel**: any duel. Watch the card curve, the attack wind-up, numbers sized by damage, hit pause and the slow-motion final blow.
+- **Tutorial**: new game -> the first two cave battles teach Resources step by step; town -> quest "Make It Yours".
+- **NPC lines**: walk past townsfolk; free a zone and walk past its leader at the hub.
+- **Music leveller**: an arena battle or the credits; `AudioMix.MUSIC_LEVELLER = false` to compare.
+- **Bots and smokes**: `bash tools/run_story_playthrough.sh` (73 steps), `bash tools/run_tour_bot.sh` (~9 min, writes `docs/overnight/bot_report.md`; `TOUR_ONLY=town` for a quick run), `bash tools/run_dungeons_final_smoke.sh`, `bash tools/run_first_battles_smoke.sh`, `bash tools/run_music_smoke.sh`, `bash tools/run_crosspath_walk_smoke.sh`.
 
-## Try this in the morning
-1. New game, reach town: the tracker shows Raise the Bar with its checklist; press `]` and `[` to flip quests; press J (Main / Side / Completed).
-2. Walk north up the Gate Road to Brannoch ("!" over his head) for Free the Four Zones; look up the imperial road at the Capital on the horizon.
-3. Walk south down Champions' Road to Brick Bronson at the gorge; beat him and watch the bridge swing down; your Beefcake Pack arrives.
-4. Walk the west roads (forest path, cracked road with dead lamps) and the orchard lane east; the gatekeepers stand at their obstacles.
-5. Free a zone, then find the old cottage at the end of Champions' Road: the cellar hatch glows and a crowd roars below.
-6. Finish a Gainlands favour: the Gotta-Go Galoshes (Boots) make you walk 35 percent faster; hover gear in a shop or on the character screen.
-7. Read `docs/design/dialogue_rewrite.md` and revert any line you don't like; `docs/design/voice_bible.md` is the style guide.
-8. Run `bash tools/run_story_playthrough.sh` (about 6 minutes) to watch the whole story played.
+## Reverted or left off, and why
 
-## Smokes run tonight
-- `bash tools/run_quest_smoke.sh`: OK. `bash tools/run_hub_walk_smoke.sh`: OK. `bash tools/run_story_playthrough.sh`: 73/73 (one earlier run had a
-  leftover announcement block a gatekeeper talk; the bot now clears overlays first).
-- `bash tools/run_town_slice_smoke.sh`: PASSED (14 spots) after raising its dialogue guard: Bertram's long intro is now split into more,
-  shorter boxes and outlasted the old 12-press limit. Older smokes with a short dialogue guard may need the same nudge.
-- `bash tools/run_gainlands_walk_smoke.sh`: OK (rerun after everything). `bash tools/run_quest_smoke.sh`: OK (rerun after everything).
-- GUT: 1664 tests, all passing.
+- **Building card grids over frames** (cycle 1): it made more 35-45 ms frames while card views cost ~10 ms. It was turned back on in cycle 5, once card views were 2.4x cheaper.
+- **Cycle 21**: three attempted fixes for the starting forest's purple top-edge shapes (look-rig cloud tint/opacity, style-preset clouds, kit mountain scale). None changed the picture, so all were reverted. The next suspects are in next_up.
+- **Town stroller at the rift station** (cycle 23): its loop crossed an unwalkable edge, so it was left out.
+- **Music leveller order**: first placed after the duck amplifier, which would halve duck depth. Moved before it before committing.
+- Nothing else was reverted. No balance numbers, enemy intent, chapters, walkable dungeons, papercraft/ornate frames, free camera or 3D text were added.
+
+## Top 10 next (from `docs/overnight/next_up.md`)
+
+1. First opens of big screens: the first Deck Station open is still 200-280 ms (profile with `HITCH_LOG=1`).
+2. The purple "stalactites" at the top of the starting-forest view (next suspects listed).
+3. Make the 90 enemy pictures (`docs/art/bestiary_image_requests.md`); the game picks them up.
+4. Time the first 30 minutes with a real-input onboarding bot (the story bot shortcuts the prologue).
+5. World map content: draw buildings, roads and water.
+6. Listen pass: the Music leveller, boss-win stings, MUS-SHOP-GRISTLE's -7.2 dB loop step.
+7. One shared tile style for choice tiles; three pause-menu icons for the next art request.
+8. Strolling townsfolk in the zone hubs.
+9. A combat feel pass in a real arena duel at each battle speed.
+10. Floating 3D exit labels in the zones vs the no-world-text rule (inbox 12).
