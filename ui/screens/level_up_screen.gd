@@ -108,6 +108,15 @@ func _show_level() -> void:
 	_continue.pressed.connect(advance)
 	column.add_child(_continue)
 	_continue.focus_mode = Control.FOCUS_ALL
+	# Overnight Oct 17 (Phase 2 cycle 22): a zone clear can give several levels at once; one button shows every remaining reward on one page.
+	var remaining: int = levels_gained.size() - _index
+	if remaining > 1:
+		var all_button: FancyButton = FancyButton.make("All %d levels on one page" % remaining, &"GhostButton", Vector2(320, 48))
+		all_button.name = "AllLevelsButton"
+		all_button.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		all_button.pressed.connect(show_summary)
+		column.add_child(all_button)
+		all_button.focus_mode = Control.FOCUS_ALL
 	column.add_child(UIKit.label("Click or press Enter to continue  -  Esc skips", &"MutedLabel", 18, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
 	_animate_number(number, row)
 	_start_reveal()
@@ -235,6 +244,64 @@ func advance() -> void:
 		_show_level()
 	else:
 		finished.emit()
+
+
+## Every remaining level's rewards on one page (from the current level to the last), then Continue finishes.
+func show_summary() -> void:
+	if _index >= levels_gained.size():
+		return
+	if _reveal_tween != null and _reveal_tween.is_valid():
+		_reveal_tween.kill()
+	_revealing = false
+	_pending.clear()
+	if _root != null:
+		_root.queue_free()
+	_age = GUARD_TIME
+	var first: LevelData = levels_gained[_index]
+	var last: LevelData = levels_gained[levels_gained.size() - 1]
+	_root = Control.new()
+	_root.name = "LevelSummary"
+	UIKit.full_rect(_root)
+	_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_root)
+	var column: VBoxContainer = UIKit.vbox(8)
+	column.position = Vector2(360, 60)
+	column.size = Vector2(1200, 960)
+	_root.add_child(column)
+	var banner: Label = UIKit.label("LEVEL UP", &"", 46, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+	banner.add_theme_font_override("font", UIStyle.font_title())
+	column.add_child(banner)
+	var number: Label = UIKit.label(("%d" % last.level) if first.level == last.level else ("%d - %d" % [first.level, last.level]), &"", 120, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
+	number.name = "LevelNumber"
+	number.add_theme_font_override("font", UIStyle.font_title())
+	number.add_theme_color_override("font_outline_color", Color("4a2a08"))
+	number.add_theme_constant_override("outline_size", 12)
+	column.add_child(number)
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.custom_minimum_size = Vector2(1200, 560)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	column.add_child(scroll)
+	_rows = UIKit.vbox(8)
+	_rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(_rows)
+	for index: int in range(_index, levels_gained.size()):
+		var row: LevelData = levels_gained[index]
+		var previous: LevelData = ProgressionTable.row(row.level - 1)
+		_rows.add_child(UIKit.label("Level %d%s" % [row.level, (" - " + row.headline) if not row.headline.is_empty() else ""], &"HeadingLabel", 26, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER))
+		if previous == null:
+			continue
+		for line: String in ProgressionTable.reward_lines(row, previous, Session.profile.primary_affinity if Session.profile != null else Affinity.Type.NEUTRAL):
+			var reward: Control = _reward_row(line, is_unlock(line))
+			reward.modulate.a = 1.0
+			_rows.add_child(reward)
+	_index = levels_gained.size() - 1
+	_continue = FancyButton.make("Continue", &"PrimaryButton", Vector2(260, 60))
+	_continue.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_continue.pressed.connect(advance)
+	column.add_child(_continue)
+	_continue.focus_mode = Control.FOCUS_ALL
+	_continue.call_deferred(&"grab_focus")
+	Audio.sfx(&"ui_confirm")
 
 
 ## Skips every remaining level.
