@@ -1,12 +1,12 @@
 # Overnight report (Oct 17-18)
 
-Run: Sat Oct 17 20:52 MDT to Sun Oct 18 ~05:45 MDT (the report was written then; the end target was 07:52). Start tag `pre-overnight-oct17`
-(494fc066), all work on `main`, every part and cycle pushed. Phase 1 = the brief's 14 parts; Phase 2 = 23 improvement cycles, each aimed at the
+Run: Sat Oct 17 20:52 MDT to Sun Oct 18 ~06:45 MDT (the end target was 07:52; the last hour went to final checks and this report). Start tag `pre-overnight-oct17`
+(494fc066), all work on `main`, every part and cycle pushed. Phase 1 = the brief's 14 parts; Phase 2 = 26 improvement cycles, each aimed at the
 lowest-scoring category of `docs/overnight/scorecard.md`. Your decisions are in `docs/overnight_inbox.md` (15 short items) and
 `docs/design/open_questions.md` (ON17-*). The previous report is now `docs/overnight_report_oct16.md`.
 
-**State at the end:** GUT 1815/1816 (the one failure is the pre-existing CP-2 camera test, `tests/world/test_world_look_rig.gd:94`). The story
-playthrough bot goes new game -> ending at 73/73. The full tour bot covers 275 spots, 9 menus and 5 battles with 0 errors. The dungeons,
+**State at the end:** GUT 1816/1817 (the one failure is the pre-existing CP-2 camera test, `tests/world/test_world_look_rig.gd:94`). The story
+playthrough bot goes new game -> ending at 73/73. The full tour bot (06:20) covers 275 spots, 9 menus and 5 battles with 0 errors; battles have no frame over 33 ms. The dungeons,
 first-battles, music and Crosspath walk smokes all pass. Build estimate ~507 MB (+17 MB tonight: card thumbnails and stings).
 
 ## Scorecard: start of Phase 2 vs end
@@ -21,13 +21,13 @@ first-battles, music and Crosspath walk smokes all pass. Build estimate ~507 MB 
 | Visuals - Endless Buffet | 7 | 7.5 | Peas, carrot coins, croutons and fat sheens float in the gravy moat (C12) |
 | Visuals - Verdant Dump | 7 | 7.5 | The entrance pool is an oval pond, not a hard-edged rectangle (C7) |
 | Visuals - Capital | 8 | 8 | - |
-| UI consistency | 6 | 7.5 | Character spare frames, gold display, close buttons, bubbles, quest hint, HUD key line, chips, world map (C4, C6, C7, C17) |
+| UI consistency | 6 | 8 | Character spare frames, gold display, close buttons, bubbles, quest hint, HUD key line, chips, world map; maps show roads and buildings (C4, C6, C7, C17, C24) |
 | Onboarding / tutorial | 7 | 7.5 | Narration without an empty name tab; dungeon maps fill their side bands (C11) |
 | Rewards & progression | 8 | 8.5 | Several levels at once readable on one page (C22) |
 | Collection / bestiary | 7 | 7.5 | Bestiary and battle plate ready for enemy pictures, 90 prompts written (C15) |
 | NPC life & dialogue | 6 | 8 | Three town strollers (C2, C23); freed leaders and Captain Spotless speak (C16) |
 | Audio mix | 7 | 7.5 | Music bus leveller for the 26 very dynamic tracks (C10) |
-| Performance | 6 | 8 | Worst town frame 1.16 s -> ~0.2-0.28 s; re-opening screens 4-7x faster (C1, C5, C14, C20) |
+| Performance | 6 | 8.5 | Worst town frame 1.16 s -> 139 ms town-only / ~220 ms in a full tour; re-opening screens 4-7x faster; town frames over 33 ms 75 -> ~30 (C1, C5, C14, C20, C25) |
 | Stability | 7 | 8 | Story bot back to 73/73 (C9), dungeons smoke green (C13), every check passing at the end |
 
 ## Phase 1 - the brief's parts
@@ -77,6 +77,9 @@ first-battles, music and Crosspath walk smokes all pass. Build estimate ~507 MB 
 | 21 | Starting forest | 84c87aca | Investigated the purple top-edge shapes; three sources ruled out; no change kept |
 | 22 | Rewards | 1313d5fb | "All N levels on one page" when several levels arrive at once |
 | 23 | NPC life | d7329ab6 | A third town stroller by the Arena gate |
+| 24 | UI (map) | 5ddf9fc8 | Minimap and world map show roads and building footprints (sorted a few rows per frame, cached per area; full map build 30-68 -> 8-18 ms) |
+| 25 | Performance | d9b5f799 | Profiled the first Deck Station open; Deck Station and card vendor build 4 cards on the opening frame (town worst 139 ms, 30 frames over 33 ms) |
+| 26 | Starting forest | 5790868b | Second look at the purple top shapes: two more sources ruled out; nothing kept |
 
 ## Screenshots to look at (local, `_screenshots/`, not in git)
 
@@ -88,7 +91,7 @@ first-battles, music and Crosspath walk smokes all pass. Build estimate ~507 MB 
 - `on17_dna_breakroom_center.png` vs `on17_dna3_breakroom.png`, and `on17_dna4_lobby.png` - D.N.A. paperwork (cycle 18).
 - `stills/STORY-WAKE_1280x720.png` - narration panel without the tab (cycle 11).
 - `dungeons/t_01_trial_map_start.png` - dungeon map side bands (cycle 11).
-- `on17_ui7_map.png` vs `on17_ui8_map.png` - world map (cycle 17).
+- `on17_ui7_map.png` vs `on17_ui8_map.png` vs `on17_ui9_map.png` - world map: no dead strips (cycle 17), then roads and buildings (cycle 24).
 - `on17_bestiary_art.png` - a stand-in picture in the Bestiary (cycle 15; the stand-in file was removed).
 
 ## How to test the big items
@@ -101,23 +104,25 @@ first-battles, music and Crosspath walk smokes all pass. Build estimate ~507 MB 
 - **Tutorial**: new game -> the first two cave battles teach Resources step by step; town -> quest "Make It Yours".
 - **NPC lines**: walk past townsfolk; free a zone and walk past its leader at the hub.
 - **Music leveller**: an arena battle or the credits; `AudioMix.MUSIC_LEVELLER = false` to compare.
+- **Maps**: press M in town after walking around: roads and buildings appear within a second or two of arriving.
 - **Bots and smokes**: `bash tools/run_story_playthrough.sh` (73 steps), `bash tools/run_tour_bot.sh` (~9 min, writes `docs/overnight/bot_report.md`; `TOUR_ONLY=town` for a quick run), `bash tools/run_dungeons_final_smoke.sh`, `bash tools/run_first_battles_smoke.sh`, `bash tools/run_music_smoke.sh`, `bash tools/run_crosspath_walk_smoke.sh`.
 
 ## Reverted or left off, and why
 
 - **Building card grids over frames** (cycle 1): it made more 35-45 ms frames while card views cost ~10 ms. It was turned back on in cycle 5, once card views were 2.4x cheaper.
-- **Cycle 21**: three attempted fixes for the starting forest's purple top-edge shapes (look-rig cloud tint/opacity, style-preset clouds, kit mountain scale). None changed the picture, so all were reverted. The next suspects are in next_up.
+- **Cycles 21 and 26**: test changes for the starting forest's purple top-edge shapes (look-rig cloud tint/opacity, style-preset clouds, kit mountain scale, the two small cloud models). None changed the picture, so all were reverted. The sky panorama and the post shader were ruled out by reading them. What to check next is in next_up 2.
+- **Cycle 25 hiccup**: a backup copy of a script left in `_logs/` duplicated its class name and failed GUT's compile check for one run. It was deleted, GUT re-run clean, and the bot numbers re-measured on the clean tree.
 - **Town stroller at the rift station** (cycle 23): its loop crossed an unwalkable edge, so it was left out.
 - **Music leveller order**: first placed after the duck amplifier, which would halve duck depth. Moved before it before committing.
 - Nothing else was reverted. No balance numbers, enemy intent, chapters, walkable dungeons, papercraft/ornate frames, free camera or 3D text were added.
 
 ## Top 10 next (from `docs/overnight/next_up.md`)
 
-1. First opens of big screens: the first Deck Station open is still 200-280 ms (profile with `HITCH_LOG=1`).
-2. The purple "stalactites" at the top of the starting-forest view (next suspects listed).
+1. First opens of big screens: the first Deck Station open is ~140 ms town-only and ~220 ms in a full tour. Its deck list (20 ms cold) and filter bar (17 ms) are next.
+2. The purple "stalactites" at the top of the starting-forest view. Six sources are ruled out; check the StyleRig sky against WorldSky next.
 3. Make the 90 enemy pictures (`docs/art/bestiary_image_requests.md`); the game picks them up.
 4. Time the first 30 minutes with a real-input onboarding bot (the story bot shortcuts the prologue).
-5. World map content: draw buildings, roads and water.
+5. Zone maps: mark water separately (roads and buildings are done, cycle 24; water still reads as off-map dark).
 6. Listen pass: the Music leveller, boss-win stings, MUS-SHOP-GRISTLE's -7.2 dB loop step.
 7. One shared tile style for choice tiles; three pause-menu icons for the next art request.
 8. Strolling townsfolk in the zone hubs.
