@@ -320,12 +320,22 @@ func _build_player() -> void:
 	player.position.y = builder.height_at(spawn)
 
 
+## Overnight Oct 17, Part 11: the zone's NPCs say a line when the hero walks past (`NpcBarks`, lines from data/npcs/npcs.json).
+var npc_barks: NpcBarks
+
+
 func _build_npcs() -> void:
+	npc_barks = NpcBarks.new()
+	add_child(npc_barks)
+	npc_barks.target = player
+	npc_barks.blocked = func() -> bool: return _locked or (dialogue != null and dialogue.active)
 	for entry: Dictionary in def.npcs:
 		var pos: Vector3 = builder.anchor(str(entry["anchor"]))
 		pos.y = builder.height_at(pos)
 		var npc: Node3D = _make_npc(entry, pos, str(entry.get("anim", "Idle")))
 		_npcs[str(entry["id"])] = npc
+		if not str(entry.get("npc_id", "")).is_empty():
+			npc_barks.register(npc, str(entry["npc_id"]))
 		if not (npc is SpriteStroller):
 			builder.add_blocker(pos, 0.3)
 

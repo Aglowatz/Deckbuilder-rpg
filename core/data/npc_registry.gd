@@ -23,6 +23,14 @@ class Entry extends RefCounted:
 	var expressions: Array[String] = []
 	## "left" (default) or "right": which side of the dialogue box the portrait stands on.
 	var side: String = "left"
+	## Overnight Oct 17, Part 11 (the NPC source of truth, tools/npc_truth.js): species, a short description, personality, speech
+	## style, a sample line and the one-liners said to a passing hero (`NpcBarks`).
+	var species_type: String = ""
+	var description: String = ""
+	var personality: String = ""
+	var speech_style: String = ""
+	var sample_line: String = ""
+	var barks: Array[String] = []
 
 	## The name shown on the dialogue name plate ("Brick Bronson (corrupted)", "The Wanderer: Prince Tessar Wayweaver (player)": the bracket is a list annotation; the player is only "The Wanderer" until the prince is revealed).
 	func plate_name() -> String:
@@ -46,6 +54,22 @@ static var _aliases: Dictionary = {}
 static var _prefixes: Dictionary = {}
 static var _story_keys: Dictionary = {}
 static var _loaded: bool = false
+
+
+static func _read_truth(entry: Entry, data: Dictionary) -> void:
+	entry.species_type = str(data.get("species_type", ""))
+	entry.description = str(data.get("description", ""))
+	entry.personality = str(data.get("personality", ""))
+	entry.speech_style = str(data.get("speech_style", ""))
+	entry.sample_line = str(data.get("sample_line", ""))
+	for line: Variant in data.get("barks", []) as Array:
+		entry.barks.append(str(line))
+
+
+## The lines `id` says to a passing hero (empty when none).
+static func barks(id: String) -> Array[String]:
+	var entry: Entry = find(id)
+	return entry.barks.duplicate() if entry != null else [] as Array[String]
 
 
 static func reset() -> void:
@@ -83,6 +107,7 @@ static func _load() -> void:
 			entry.side = str(data.get("side", "left"))
 			for expression: Variant in data.get("expressions", []) as Array:
 				entry.expressions.append(str(expression))
+			_read_truth(entry, data)
 			if entry.id.is_empty():
 				continue
 			_entries[entry.id] = entry
@@ -189,6 +214,7 @@ static func _add_extras(rows: Array) -> void:
 		entry.side = str(data.get("side", "left"))
 		for expression: Variant in data.get("expressions", []) as Array:
 			entry.expressions.append(str(expression))
+		_read_truth(entry, data)
 		_entries[id] = entry
 		_by_name[entry.plate_name()] = id
 		_by_name[entry.name] = id

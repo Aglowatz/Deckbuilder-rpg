@@ -181,6 +181,7 @@ func _ready() -> void:
 		outskirt_dressing = OutskirtDressing.build(self, town)
 	AmbientBirds.spawn(self, square.center, 4, Color("f4ecd8"))
 	_build_actors()
+	_build_barks()
 	_build_spots()
 	_build_rift_station()
 	ChestKit.apply_saved(town.hidden_chest_nodes, TownScene._hidden_chest_secret)
@@ -394,6 +395,22 @@ func _add_npc(id: String, model_name: String, position: Vector3, yaw: float, tin
 
 
 ## The badger baker: a townsperson who wanders the plaza (the World Look Test bench builds its own and overrides this).
+## Overnight Oct 17, Part 11: the town's NPCs say a line when the hero walks past (`NpcBarks`, lines from data/npcs/npcs.json).
+var npc_barks: NpcBarks
+
+
+func _build_barks() -> void:
+	npc_barks = NpcBarks.new()
+	add_child(npc_barks)
+	npc_barks.target = player
+	npc_barks.blocked = func() -> bool: return _locked or (dialogue != null and dialogue.active)
+	for key: Variant in _npcs.keys():
+		if NPC_IDS.has(key):
+			npc_barks.register(_npcs[key] as Node3D, str(NPC_IDS[key]))
+	if _baker != null and _baker.sprite != null:
+		npc_barks.register(_baker.sprite, "NPC-VILLAGER")
+
+
 func _build_baker() -> void:
 	_baker = SpriteWanderer.new()
 	_baker.character = "VILLAGER"

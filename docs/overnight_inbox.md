@@ -16,3 +16,5 @@ The run took the safest reasonable choice for each and carried on; the full reas
 4. **XP curve** (ON17-7): levels 21-30 got cheaper (one completionist run reaches 30, a main-line run lands around 21-23). Levels 1-20 unchanged.
 5. **Gold is a level reward again** (ON17-8) because this brief asked for it; Brief 16 had removed it.
 6. **The level-5 armory quest replaces the 5/10/15/20/25 equipment-slot choices** (Part 5). Old saves with slots count the quest as done.
+7. **Species for the NPCs the sheet left blank** (Part 11, ON17-10): King, Queen, Elowen, Dr. Siphon human (the royal line is human); Vivienne Quota ferret, Colonel Crumb badger, Percival Plume peacock, Hortensia Clipwell hare, Isla Brannoch bear (her father is a bear). Change them in `tools/npc_truth_input.json` and re-run `node tools/npc_truth.js`.
+8. **The strolling baker is "Bun the Baker", a badger** (NPC-VILLAGER, added so he can talk to passers-by). Rename freely.

@@ -42,6 +42,16 @@
 	"sides": {},
 	"extra_npcs": [
 		{
+			"id": "NPC-VILLAGER",
+			"name": "Bun the Baker",
+			"role": "Townsfolk (the baker who strolls the square)",
+			"location": "Main Town square",
+			"portrait_id": "NPC-VILLAGER",
+			"species": "badger",
+			"species_type": "Animal: badger",
+			"notes": "Overnight Oct 17: added so the strolling baker (world sprite VILLAGER) has barks; no dialogue portrait yet."
+		},
+		{
 			"id": "NPC-NINJA",
 			"name": "Shiro Swindle, Master of the Oldest Trick",
 			"role": "Trickster / giant-chest con artist (questline boss)",
