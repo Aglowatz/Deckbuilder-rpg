@@ -68,10 +68,10 @@ unverified. Worth a fresh look if anyone ever revisits this area.
 
 ## Third follow-up brief, Newest Part D: the starting-area hidden tunnel
 
-A hidden tunnel in the **starting area** (not town) - the tiny enclosed clearing the game opens
-in, before any element/deck choice exists. `StartingAreaBuilder.MAP`'s bottom-left corner cell
-(row 3, col 0 - the corner nearest the spawn row, carved out of what would otherwise be treeline
-wall) is walkable and camouflaged by scattered trees exactly like the map's other wooded cells; the
+A hidden tunnel in the **starting area** (not town) - the Opening Forest the game opens in, before any
+element/deck choice exists. Since the Opening Forest rebuild (docs/art/opening_forest.md) it is a small
+pocket of floor in the south-west treeline beside the camp (`OpeningForestLayout.POCKETS["tunnel"]`,
+anchor `OpeningForestLayout.TUNNEL`), screened by ferns and boulders like the rest of the edge; the
 only tell is the standard `[E] Slip through the tunnel` prompt, and only within
 `StartingAreaScene.TUNNEL_RADIUS` (1.5m, same tightness as the town's hidden chests). No arrow,
 glow, name plate or map icon of any kind.
@@ -271,9 +271,9 @@ with the first save the cave creates.
 
 | id | Where | Tier | Contents |
 |----|-------|------|----------|
-| `start_east` | East edge of the clearing, behind the trees right of the spawn | I | 25 gold |
-| `start_west` | West edge, a nook opposite the tunnel's corner | I | 40 gold |
-| `start_cave` | Behind the cave mouth's rocks, north-east | II | 70 gold |
+| `start_east` | A pocket in the east treeline of the clearing, right of the path's start | I | 25 gold |
+| `start_west` | The mossy side nook at the end of the west spur (optional exploration) | I | 40 gold |
+| `start_cave` | Among the giant tree's roots, right of the cave mouth | II | 70 gold |
 
 ### D.N.A.: 6 more (14 in all)
 

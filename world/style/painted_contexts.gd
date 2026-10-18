@@ -82,27 +82,19 @@ static func flat_overlays(_scene: Node, roots: Array) -> Array[Node3D]:
 	return found
 
 
-## Starting Area: the dirt path from the spawn to the cave gate (the same wobbling line the old worn-path decal followed), the forest floor everywhere else. The overlay covers every
-## cell of the 5x5 clearing (treeline cells too), the huge forest floor plane is painted with the same material, and the old flat blotches/worn path are hidden while painted.
+## Opening Forest (docs/art/opening_forest.md): the dirt of the worn path (`OpeningForestLayout.PATH`) and the camp, the mossy forest floor everywhere else. The overlay covers
+## the floor and a few metres of the treeline round it, the huge forest floor plane is painted with the same material, and the flat worn-path decal is hidden while painted.
 static func start(scene: StartingAreaScene) -> Dictionary:
-	var area: StartingAreaBuilder = scene.area
-	var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
-	var gate: Vector3 = (area.anchors.get("gate", Vector3.ZERO) as Vector3) + Vector3(0.0, 0.0, 0.6)
-	var line: PackedVector2Array = PackedVector2Array()
-	for i: int in range(7):
-		var t: float = float(i) / 6.0
-		var p: Vector3 = spawn.lerp(gate, t) + Vector3(sin(t * 6.0) * 0.25, 0.0, 0.0)
-		line.append(Vector2(p.x, p.z))
+	var layout: OpeningForestLayout = scene.area.layout
+	var camp: Vector2 = Vector2(OpeningForestLayout.SPAWN.x, OpeningForestLayout.SPAWN.z)
 	var path_mask: Callable = func(p: Vector2) -> float:
-		var best: float = 1.0e9
-		for index: int in range(line.size() - 1):
-			best = minf(best, p.distance_to(Geometry2D.get_closest_point_to_segment(p, line[index], line[index + 1])))
-		return PaintedContexts.ramp(0.85 - best, 1.4)
+		var on_path: float = PaintedContexts.ramp(OpeningForestLayout.PATH_HALF * 0.78 - layout.path_distance(p), 1.2)
+		var at_camp: float = PaintedContexts.ramp(2.6 - p.distance_to(camp + Vector2(-0.8, 0.2)), 1.4)
+		return maxf(on_path, at_camp * 0.85)
 	var off_path: Callable = func(p: Vector2) -> float:
 		return 1.0 - float(path_mask.call(p))
 	var cover: Callable = func(pos: Vector3) -> bool:
-		var cell: Vector2i = HexGrid.world_to_cell(pos)
-		return cell.x >= -1 and cell.y >= -1 and cell.x <= StartingAreaBuilder.MAP[0].length() and cell.y <= StartingAreaBuilder.MAP.size()
+		return layout.floor_sdf(Vector2(pos.x, pos.z)) < 3.5
 	var terrain: Array = []
 	var hidden: Array[Node3D] = []
 	if scene.forest != null:
@@ -112,16 +104,7 @@ static func start(scene: StartingAreaScene) -> Dictionary:
 		hidden.append_array(flat_overlays(scene, [scene.forest, scene.get_node_or_null("ZoneDressing")]))
 	if scene._worn_path_node != null:
 		hidden.append(scene._worn_path_node)
-	var rect: Rect2 = HexGrid.bounds_of(_all_cells()).grow(3.0)
-	return {"bounds": rect, "masks": {"path": path_mask, "grass": off_path}, "terrain": terrain, "flat_hidden": hidden, "cover": cover, "floor": cover}
-
-
-static func _all_cells() -> Array:
-	var cells: Array = []
-	for row: int in range(StartingAreaBuilder.MAP.size()):
-		for col: int in range(StartingAreaBuilder.MAP[row].length()):
-			cells.append(Vector2i(col, row))
-	return cells
+	return {"bounds": layout.bounds().grow(4.0), "masks": {"path": path_mask, "grass": off_path}, "terrain": terrain, "flat_hidden": hidden, "cover": cover, "floor": cover}
 
 
 ## Every vertex-coloured terrain mesh of a zone (the zone builders' `StyleTerrain` meshes): the painted terrain material replaces them, the vertex colours are the painted masks.

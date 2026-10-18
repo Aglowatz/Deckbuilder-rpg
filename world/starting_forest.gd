@@ -16,7 +16,9 @@ const NEAR_TREES: Array[Array] = [["tree_pineTallA", 1.53], ["tree_pineTallB", 1
 const MID_TREES: Array[Array] = [["tree_pineTallB", 1.93], ["tree_pineTallD", 2.07], ["tree_pineTallC", 1.67], ["tree_cone_dark", 1.43]]
 
 var center: Vector2 = Vector2.ZERO
-var keep_out: Rect2 = Rect2()
+## The Opening Forest's ground plan: nothing of this forest grows on or near its floor (`OpeningForestModels` dresses the first 13 m).
+var layout: OpeningForestLayout
+const CLEAR_OF_FLOOR: float = 13.0
 var spawn: Vector2 = Vector2.ZERO
 var quality: int = GraphicsQuality.Level.MEDIUM
 ## Where every tree stands (readable headless, where MultiMesh buffers are not): layer name -> Array[Vector2].
@@ -31,14 +33,15 @@ var _firefly_phase: PackedFloat32Array = PackedFloat32Array()
 var _time: float = 0.0
 
 
-## `area_cells`: every hex cell of the clearing (walkable or not), in grid coordinates.
-static func build(parent: Node3D, area_cells: Array, spawn_pos: Vector3, quality_level: int) -> StartingForest:
+## `forest_layout`: the Opening Forest's ground plan (the forest keeps clear of its floor and of the camera's side of it).
+static func build(parent: Node3D, forest_layout: OpeningForestLayout, spawn_pos: Vector3, quality_level: int) -> StartingForest:
 	var forest: StartingForest = StartingForest.new()
 	forest.name = "StartingForest"
 	forest.quality = quality_level
 	forest.spawn = Vector2(spawn_pos.x, spawn_pos.z)
-	var bounds: Rect2 = HexGrid.bounds_of(area_cells)
-	forest.keep_out = bounds.grow(0.4)
+	forest.layout = forest_layout
+	var bounds: Rect2 = forest_layout.bounds()
+
 	forest.center = bounds.get_center()
 	forest._rng.seed = 2026
 	parent.add_child(forest)
@@ -70,7 +73,7 @@ func _density() -> float:
 	return GraphicsQuality.foliage_density(quality)
 
 
-## Jittered-grid points between `inner` and `outer` metres from the clearing's centre, outside the clearing itself.
+## Jittered-grid points between `inner` and `outer` metres from the clearing's centre, clear of the Opening Forest's floor and its dressed band.
 func _ring(inner: float, outer: float, spacing: float, jitter: float) -> Array[Vector2]:
 	var points: Array[Vector2] = []
 	var steps: int = int(ceil(outer / spacing))
@@ -78,24 +81,25 @@ func _ring(inner: float, outer: float, spacing: float, jitter: float) -> Array[V
 		for iz: int in range(-steps, steps + 1):
 			var p: Vector2 = center + Vector2(float(ix), float(iz)) * spacing + Vector2(_rng.randf_range(-jitter, jitter), _rng.randf_range(-jitter, jitter))
 			var distance: float = p.distance_to(center)
-			if distance < inner or distance > outer or keep_out.has_point(p):
+			if distance < inner or distance > outer or kept_clear(p, CLEAR_OF_FLOOR):
 				continue
 			points.append(p)
 	return points
 
 
-## Tallest a tree may be at `p`: the strip of forest between the clearing and the camera (south of the hero) is kept low enough to look over.
-## The wedge between the hero and the low camera (south of the hero, widening away from him): nothing tall stands there, or the trees would fill the screen.
+## True when `p` is within `margin` metres of the walkable floor (nothing of this forest grows there).
+func kept_clear(p: Vector2, margin: float) -> bool:
+	return layout.floor_sdf(p) < margin
+
+
+## The wedge between the walkable floor and the low camera (south of it): nothing tall stands there, or the trees would fill the screen.
 func _in_camera_wedge(p: Vector2) -> bool:
-	var dz: float = p.y - spawn.y
-	return dz > 0.5 and dz < 24.0 and absf(p.x - spawn.x) < 5.0 + dz * 0.8
+	return layout.camera_side(p, 24.0)
 
 
+## Tallest a tree may be at `p`: on the camera's side of the floor, under about 3 m so the foreground never swallows the view; anywhere else, any height.
 func _height_cap(p: Vector2) -> float:
-	if p.y > spawn.y and absf(p.x - spawn.x) < 3.8:
-		return 1.0 + 0.9 * (p.y - spawn.y)
-	# Anything else on the camera's side stays under about 3 m so the foreground never swallows the view.
-	if p.y > spawn.y - 1.0 and p.distance_to(center) < 22.0:
+	if layout.camera_side(p, 24.0):
 		return 3.0
 	return 1.0e9
 
@@ -157,7 +161,7 @@ func _floor() -> void:
 		var angle: float = _rng.randf() * TAU
 		var distance: float = _rng.randf_range(5.0, 34.0)
 		var pos: Vector2 = center + Vector2(cos(angle), sin(angle)) * distance
-		if keep_out.has_point(pos):
+		if kept_clear(pos, 2.0):
 			continue
 		var mat: ShaderMaterial = [darks, lights, needles][i % 3]
 		GroundDecals.disc(self, Vector3(pos.x, -0.03, pos.y), _rng.randf_range(2.0, 5.5), mat, _rng.randf_range(0.6, 1.0), _rng.randf() * 180.0, 0.0004 * float(i % 6))
@@ -168,9 +172,9 @@ func _floor() -> void:
 
 func _trees() -> void:
 	var density: float = _density()
-	_tree_layer("near", NEAR_TREES, _ring(0.0, 24.0, 2.0 / sqrt(density), 0.9), Vector2(1.7, 2.7), true)
-	_tree_layer("mid", MID_TREES, _ring(24.0, 58.0, 3.5 / sqrt(density), 1.5), Vector2(3.2, 5.6), false)
-	_far_trees(_ring(58.0, 130.0, 4.8 / sqrt(density), 2.1))
+	_tree_layer("near", NEAR_TREES, _ring(0.0, 36.0, 2.0 / sqrt(density), 0.9), Vector2(1.7, 2.7), true)
+	_tree_layer("mid", MID_TREES, _ring(36.0, 66.0, 3.5 / sqrt(density), 1.5), Vector2(3.2, 5.6), false)
+	_far_trees(_ring(66.0, 135.0, 4.8 / sqrt(density), 2.1))
 
 
 func _tree_layer(layer: String, models: Array[Array], points: Array[Vector2], scale_range: Vector2, shadows: bool) -> void:
@@ -238,9 +242,9 @@ func _undergrowth() -> void:
 		while transforms.size() < target and tries < target * 12:
 			tries += 1
 			var angle: float = _rng.randf() * TAU
-			var distance: float = _rng.randf_range(3.0, 26.0)
+			var distance: float = _rng.randf_range(3.0, 36.0)
 			var pos: Vector2 = center + Vector2(cos(angle), sin(angle) * 0.85) * distance
-			if keep_out.has_point(pos):
+			if kept_clear(pos, 3.0):
 				continue
 			var tall_group: bool = str(group["model"]).contains("bush") or str(group["model"]).contains("flatTall") or str(group["model"]).contains("stump") or str(group["model"]).contains("large")
 			if tall_group and _in_camera_wedge(pos):
@@ -249,17 +253,6 @@ func _undergrowth() -> void:
 			var s: float = _rng.randf_range(range_scale.x, range_scale.y)
 			transforms.append(Transform3D(Basis(Vector3.UP, _rng.randf() * TAU).scaled(Vector3.ONE * s), Vector3(pos.x, -0.05, pos.y)))
 		_add_multimesh(_toon_mesh(str(group["model"])), transforms, false)
-	# A skirt of bushes hugging the clearing's outer edge so the hex tiles never read as an island.
-	var skirt: Array[Transform3D] = []
-	var skirt_ring: Rect2 = keep_out.grow(2.2)
-	var skirt_tries: int = 0
-	while skirt.size() < int(110.0 * density) and skirt_tries < 1500:
-		skirt_tries += 1
-		var sp: Vector2 = Vector2(_rng.randf_range(skirt_ring.position.x, skirt_ring.end.x), _rng.randf_range(skirt_ring.position.y, skirt_ring.end.y))
-		if keep_out.has_point(sp) or _in_camera_wedge(sp):
-			continue
-		skirt.append(Transform3D(Basis(Vector3.UP, _rng.randf() * TAU).scaled(Vector3.ONE * _rng.randf_range(2.0, 3.4)), Vector3(sp.x, -0.05, sp.y)))
-	_add_multimesh(_toon_mesh("plant_bushLarge"), skirt, false)
 	# Real grass clumps (the town's wind-swaying kind) under and between the trees.
 	var grass_transforms: Array[Transform3D] = []
 	var grass_target: int = int(900.0 * density)
@@ -267,9 +260,9 @@ func _undergrowth() -> void:
 	while grass_transforms.size() < grass_target and attempts < grass_target * 6:
 		attempts += 1
 		var a: float = _rng.randf() * TAU
-		var d: float = sqrt(_rng.randf()) * 24.0
+		var d: float = sqrt(_rng.randf()) * 32.0
 		var gp: Vector2 = center + Vector2(cos(a), sin(a)) * d
-		if keep_out.has_point(gp):
+		if kept_clear(gp, 1.0):
 			continue
 		grass_transforms.append(Transform3D(Basis(Vector3.UP, _rng.randf() * TAU).scaled(Vector3.ONE * _rng.randf_range(1.8, 3.2)), Vector3(gp.x, -0.04, gp.y)))
 	var colors: Array[Color] = StyleGrass.colors_for([Color("4f9a6a")])

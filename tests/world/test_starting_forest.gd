@@ -1,22 +1,11 @@
 extends GutTest
-## Polish round, Group C: the endless forest around the starting clearing (visual only, never in the clearing, scaled by quality).
-
-
-func _cells() -> Array:
-	var cells: Array = []
-	for row: int in range(StartingAreaBuilder.MAP.size()):
-		for col: int in range(StartingAreaBuilder.MAP[row].length()):
-			cells.append(Vector2i(col, row))
-	return cells
+## Polish round, Group C: the endless forest around the starting clearing (visual only, never on the Opening Forest's floor, scaled by quality).
 
 
 func _forest(quality: int) -> StartingForest:
 	var host: Node3D = Node3D.new()
 	add_child_autofree(host)
-	var spawn: Vector3 = HexGrid.cell_to_world(2, 3)
-	return StartingForest.build(host, _cells(), spawn, quality)
-
-
+	return StartingForest.build(host, OpeningForestLayout.new(), OpeningForestLayout.SPAWN, quality)
 func test_three_layers_of_trees_surround_the_clearing() -> void:
 	var forest: StartingForest = _forest(GraphicsQuality.Level.MEDIUM)
 	assert_gt((forest.tree_points["near"] as Array).size(), 150, "a dense near forest")
@@ -39,13 +28,13 @@ func test_nothing_grows_inside_the_clearing() -> void:
 	var forest: StartingForest = _forest(GraphicsQuality.Level.HIGH)
 	for layer: String in forest.tree_points.keys():
 		for p: Vector2 in forest.tree_points[layer] as Array:
-			assert_false(forest.keep_out.has_point(p), "%s tree at %s stays out of the clearing" % [layer, str(p)])
+			assert_gt(forest.layout.floor_sdf(p), StartingForest.CLEAR_OF_FLOOR - 0.01, "%s tree at %s stays out of the Opening Forest and its dressed band" % [layer, str(p)])
 
 
 func test_the_strip_between_the_clearing_and_the_camera_stays_low() -> void:
 	var forest: StartingForest = _forest(GraphicsQuality.Level.MEDIUM)
 	assert_lt(forest._height_cap(forest.spawn + Vector2(0.0, 3.5)), 5.0, "right behind the hero the trees are short")
-	assert_gt(forest._height_cap(forest.spawn + Vector2(0.0, -8.0)), 100.0, "north of the hero they may be as tall as they like")
+	assert_gt(forest._height_cap(Vector2(10.4, -40.0)), 100.0, "north of the cliff they may be as tall as they like")
 
 
 func test_quality_scales_the_forest_and_the_ambience() -> void:

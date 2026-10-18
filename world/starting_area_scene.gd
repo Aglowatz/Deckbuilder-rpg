@@ -152,13 +152,9 @@ func _build_actors() -> void:
 	for cloud: Node3D in area.clouds:
 		fader.adopt(cloud, 2.0)
 	if rig != null:
-		ZoneDressing.build(self, area, StylePresets.START, Settings.graphics_quality)
 		_worn_path()
-	var cells: Array[Vector2i] = []
-	for row: int in range(StartingAreaBuilder.MAP.size()):
-		for col: int in range(StartingAreaBuilder.MAP[row].length()):
-			cells.append(Vector2i(col, row))
-	forest = StartingForest.build(self, cells, spawn, Settings.graphics_quality)
+	# The Opening Forest dresses itself (OpeningForestModels); the generic ZoneDressing scatter is off (playbook step 22).
+	forest = StartingForest.build(self, area.layout, spawn, Settings.graphics_quality)
 	if rig != null:
 		painted_world = PaintedWorld.apply(self, area, StylePresets.START, PaintedContexts.start(self))
 
@@ -260,7 +256,8 @@ func _spawn_rescuer() -> Vector3:
 	var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
 	_rescuer = ModelKit.character("Rogue_Hooded")
 	ModelKit.tint(_rescuer, Color(0.62, 0.58, 0.7))
-	var rescuer_pos: Vector3 = spawn + Vector3(1.0, 0.0, -0.3)
+	# Opening Forest: standing beside the camp, behind the bedroll (the paint-over's hooded figure).
+	var rescuer_pos: Vector3 = area.layout.mark("rescuer")
 	ModelKit.place(self, _rescuer, rescuer_pos, rad_to_deg(atan2(spawn.x - rescuer_pos.x, spawn.z - rescuer_pos.z)), TownPlayer.MODEL_SCALE)
 	var animation: AnimationPlayer = ModelKit.animation_player(_rescuer)
 	if animation != null and animation.has_animation("Idle"):
@@ -312,6 +309,9 @@ func _check_forest_edge(delta: float) -> void:
 			var secret: Vector3 = area.anchors[key] as Vector3
 			if Vector2(player.position.x - secret.x, player.position.z - secret.z).length() < 2.2:
 				return
+	# The side nook is optional exploration: no talking back there either.
+	if area.layout.is_quiet(Vector2(player.position.x, player.position.z)):
+		return
 	var at_edge: bool = false
 	for step: int in range(8):
 		var angle: float = TAU * float(step) / 8.0
@@ -581,9 +581,9 @@ func _confirm_enter() -> void:
 func _postgame_anchor(id: String) -> Vector3:
 	match id:
 		"station":
-			return HexGrid.cell_to_world(3, 1) + Vector3(0.2, 0.0, 0.1)
+			return area.layout.mark("station")
 		"rescuer":
-			return HexGrid.cell_to_world(1, 3) + Vector3(0.1, 0.0, -0.1)
+			return area.layout.mark("rescuer_post")
 	return area.anchors.get(id, Vector3.ZERO) as Vector3
 
 
@@ -704,15 +704,10 @@ func screenshot_ready() -> bool:
 	return true
 
 
-## A faint worn trail from the arrival spot to the cave gate, so the first thing the eye finds is where to go.
+## The worn dirt path from the camp to the cave mouth (the flat look; the painted ground paints it from the same line), so the first thing the eye finds is where to go.
 func _worn_path() -> void:
 	var spawn: Vector3 = area.anchors.get("spawn", Vector3.ZERO) as Vector3
-	var gate: Vector3 = (area.anchors.get("gate", Vector3.ZERO) as Vector3) + Vector3(0.0, 0.0, 0.6)
-	var points: Array[Vector3] = []
-	for i: int in range(7):
-		var t: float = float(i) / 6.0
-		var wobble: float = sin(t * 6.0) * 0.25
-		var p: Vector3 = spawn.lerp(gate, t) + Vector3(wobble, 0.0, 0.0)
-		p.y = area.height_at(p)
-		points.append(p)
-	_worn_path_node = GroundDecals.add_path(self, points, GroundDecals.Kind.WORN_PATH, 1.0, [Color("8a8470"), Color("6a6a60")], 3.0)
+	var points: Array[Vector3] = [spawn]
+	for p: Vector2 in OpeningForestLayout.PATH:
+		points.append(Vector3(p.x, 0.0, p.y))
+	_worn_path_node = GroundDecals.add_path(self, points, GroundDecals.Kind.WORN_PATH, OpeningForestLayout.PATH_HALF * 1.5, [Color("8a7458"), Color("6a5a48")], 3.0)

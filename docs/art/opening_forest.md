@@ -61,3 +61,48 @@ avg 59.7 fps (16.76 ms), p95 16.67 ms, min 23.8; GPU 11.8 ms, 202 draw calls, 24
 
 `Approved_ZoneKits/OpeningForest` does not exist yet (the Drive has Buffet, Capital, DNA, Gainlands, VerdantDump): every OF- piece is a stand-in
 built from shared painted textures (`mat_rock`, `mat_bark`, `start_*` grounds) and existing painted cards, tagged STANDIN.
+
+## Part B: layout and terrain
+
+The hex map is gone. The ground plan is data, `world/opening/opening_forest_layout.gd` (`OpeningForestLayout`): the walkable floor is a union of
+circles and capsules (`floor_sdf`), so the treeline itself is the wall and the edge can be any shape. Metres, x east, z south, the camera looks north.
+
+| Piece | Where | Size |
+|---|---|---|
+| Clearing (camp at the front) | three circles round (0, 0) | about 13 x 10 m |
+| Wake-up spot `spawn` | (-0.4, 1.0) beside the bedroll (-2.3, 1.5), pack (-3.6, 1.0), lantern (-1.2, 2.0) | |
+| Hooded figure (the Rescuer) | stands at (-2.9, -0.5), behind the bedroll, facing the hero | |
+| Worn path | 6-point centre line from (1.8, -2.5) back and right to the gate | 4.4 m wide, about 21 m long |
+| Cave apron + `gate` | (10.4, -18.0) r 3.0, gate (10.4, -19.4), the cave mouth at (10.4, -21.6) | |
+| Cliff + giant tree | cliff foot line z -22.4 behind the cave, 9.5 m; tree trunk (15.2, -22.8) | |
+| Side nook (optional) | spur from the clearing's north-west to a mossy hollow (-4.2, -8.8) r 2.6, chest `start_west` | spur 3.4 m |
+| Secrets | tunnel pocket (-6.3, 2.2); chest pockets east (6.8, -3.0) and among the roots (13.9, -18.2); Lab pocket (4.3, 4.2), floor only once revealed | |
+
+The pieces are `world/opening/opening_forest_models.gd` (`OpeningForestModels`, all STANDIN until the OF- kit exists): the cliff of stacked rock
+slabs with mossy shelves and vine curtains, the arched cave mouth (an unshaded black-to-teal fan in a jamb-and-lintel frame), the giant tree
+(flared trunk, buttress roots, a great root arching over the mouth, heavy canopy), the camp (bedroll, pack, lantern housing, firewood),
+mossy boulders in clusters at the rim (plus three rim blockers that bite into the clearing) and long low ledges at the front, flagstones in
+three stretches of the path, fern clumps and dark bushes along every edge, tall bark trunks framing the clearing, and painted pine / oak
+cards in a 13 m band. `StartingForest` grows beyond that band. Generic `ZoneDressing` is off.
+
+Checks: `tests/world/test_opening_forest.gd` (path width and nothing solid on it, the path's direction and length, the camp and figure at
+the front, the gate / Maren / cave-lip spots, the only way out, the nook, breathing room at the gate, the Lab pocket, dressing off the floor
+and off the camera side, the STANDIN list); `test_walkability_zones` reaches every anchor.
+
+### Judgment calls
+
+- **OF-01** The Art Bible row says "early morning"; the brief and the paint-over say dusk/night. The paint-over wins (it is the visual target);
+  the Art Bible row and `data/zone_styles/starting_forest.json` follow in Part C.
+- **OF-02** "The cave mouth is the exit into the rest of the starting forest": the cave gate keeps its job (the node-based Forgotten Cave, then
+  Maren at the cave mouth, then Crosspath). Nothing new is walkable; the tutorial flow and its flags are untouched.
+- **OF-03** The hooded figure (the existing Rescuer) now stands beside the camp where the paint-over has it, instead of appearing a metre from
+  the spawn; it still arrives with the conversation and leaves after it (the flow needs it gone).
+- **OF-04** The hex grid (`StartingAreaBuilder.MAP`) is replaced by `OpeningForestLayout`; `StartingAreaBuilder` keeps its public API (anchors,
+  obstacles, chest nodes, `lab_open`, `is_walkable`), so the scene, the smokes and the tests read it as before. `StartingForest` and
+  `PaintedContexts.start` read the layout instead of the hex cells. The hero's centre stays 0.1 m inside the floor's edge.
+- **OF-05** The three hidden chests keep their ids and gold but move with the new layout: `start_west` into the side nook (the optional
+  exploration the brief asks for: no marker, it is just there to find), `start_east` into an east pocket, `start_cave` among the giant tree's
+  roots. The tunnel is a pocket in the south-west treeline, the Lab hatch a south-east pocket. `docs/design/secrets.md` updated.
+- **OF-06** The self-talk at the treeline stays quiet in the nook and round the secrets (`OpeningForestLayout.QUIET`): exploring them should not
+  be scolded.
+- **OF-07** Generic `ZoneDressing` is off for the forest (playbook 22): the forest dresses itself.

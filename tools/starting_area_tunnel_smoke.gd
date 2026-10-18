@@ -47,9 +47,10 @@ func run() -> void:
 
 	var gold_before: int = Session.gold
 	var tunnel: Vector3 = scene.area.anchors.get("tunnel", Vector3.ZERO) as Vector3
-	scene.player.position = tunnel + Vector3(0.0, 0.0, 6.0)
+	# Opening Forest: the wake-up spot, about 6 m from the tunnel's pocket in the south-west treeline.
+	scene.player.position = scene.area.anchors.get("spawn", Vector3.ZERO) as Vector3
 	await driver.frames(5)
-	_check(not scene._prompt_panel.visible, "no prompt shows 6m from the hidden tunnel")
+	_check(not scene._prompt_panel.visible, "no prompt shows at the wake-up spot, 6 m from the hidden tunnel")
 	# Standing off in the treeline makes the Wanderer talk himself back (Story v2); clear that before walking on.
 	await _dismiss_any_dialogue(scene)
 
