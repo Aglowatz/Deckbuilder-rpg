@@ -313,8 +313,10 @@ func _build_name_bar() -> void:
 		add_child(pips)
 
 
+## Playtest v0.4.0 Part E: Infrastructure shows its own name (Powerhouse, Ghost Town, Feastforge, Wasteworks, the specials); only a
+## code-built test card without a name falls back to "<Path> Infrastructure".
 func _display_name() -> String:
-	if data.is_infrastructure():
+	if data.is_infrastructure() and data.display_name.is_empty():
 		return "%s Infrastructure" % UIStyle.affinity_name(data.color)
 	return data.display_name
 

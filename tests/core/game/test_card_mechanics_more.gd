@@ -282,17 +282,21 @@ func test_brawl_deals_damage_both_ways() -> void:
 	assert_false(game.players[0].field.has(mine), "2 + 1 damage taken in total kills the 3-defense unit")
 
 
-func test_yeet_deals_damage_equal_to_attack() -> void:
+## Playtest v0.4.0 Part E: Yeet throws a unit you control at a unit or the opponent for its attack, then destroys the thrown unit.
+func test_yeet_deals_damage_equal_to_attack_then_destroys_the_thrown_unit() -> void:
 	var game: GameState = _game()
 	_energy(game)
 	var thrower: CardInstance = _unit(game, 0, 4, 4)
 	var victim: CardInstance = _unit(game, 1, 1, 6)
 	_play(game, "B-25", [thrower.uid, victim.uid] as Array[int])
 	assert_eq(victim.damage, 4)
-	assert_eq(thrower.damage, 0)
+	assert_false(game.players[0].field.has(thrower), "the thrown unit is destroyed after it lands")
+	var second: CardInstance = _unit(game, 0, 3, 3)
 	var hp: int = game.players[1].hp
-	_play(game, "B-25", [thrower.uid, Targets.player(1)] as Array[int])
-	assert_eq(game.players[1].hp, hp - 4, "or the opponent")
+	_play(game, "B-25", [second.uid, Targets.player(1)] as Array[int])
+	assert_eq(game.players[1].hp, hp - 3, "or the opponent")
+	assert_false(game.players[0].field.has(second), "and that one is gone too")
+	assert_true(CardSet.card("B-25").rules_text.ends_with("Then destroy the unit you control."), "the printed text says so")
 
 
 func test_divided_damage_spreads_over_the_chosen_units() -> void:

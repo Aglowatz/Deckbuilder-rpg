@@ -12,10 +12,10 @@ color = 1
 generic_cost = 2
 colored_pips = Array[int]([1])
 defense = 0
-rules_text = "Target unit you control deals damage equal to its attack to target unit or opponent."
+rules_text = "Target unit you control deals damage equal to its attack to target unit or opponent. Then destroy the unit you control."
 rarity = 1
 flavor_text = "Physics is just a suggestion."
 paths_all = Array[int]([1])
-script_text = "play a=unit.mine b=unit|opp => damage(b,atk(a),a)"
-rules_hash = "afd144726d05"
+script_text = "play a=unit.mine b=unit|opp => damage(b,atk(a),a); destroy(a)"
+rules_hash = "70c6013cb4ed"
 image_description = "A grinning Beefcake hurling a startled smaller ally through the air like a javelin toward a distant enemy, a dust trail behind them."

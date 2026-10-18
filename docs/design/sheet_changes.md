@@ -17,7 +17,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | R-09 | Heap Tortoise | Power/Toughness | 4/6 | 5/6 |
 | R-22 | Acid Vomitor | Power/Toughness | 1/3 | 2/3 |
 | R-22 | Acid Vomitor | Card Text/Effect | Exhaust, eat garbage: deal 2 damage to target unit. | Exhaust, eat garbage, lose 1 HP: deal 2 damage to target unit. |
-| R-27 | Raccoon | Card Text/Effect | When your units eat garbage, they don't pay energy or lose HP. | When your units eat garbage, they don't pay energy. |
+| R-27 | Raccoon | Card Text/Effect | When your units eat garbage, they don't pay energy or lose HP. | You may eat garbage for free during your turn. |
 | R-28 | Poo-uid | Power/Toughness | 2/2 | 2/3 |
 | R-28 | Poo-uid | Card Text/Effect | Exhaust, eat garbage: create a 3/3 Poo Golem token. | Exhaust, eat garbage, lose 1 HP: create a 3/3 Poo Golem token. |
 | R-33 | Archdruid Compostella | Card Text/Effect | At the start of your turn, create a Garbage and put a buff on each other unit you control. // Exhaust, eat garbage: return target card from your Refuse Pile to your hand. | At the start of your turn, create a Garbage and put a buff on each other unit you control. // Exhaust, eat garbage, lose 1 HP: return target card from your Refuse Pile to your hand. |
@@ -37,6 +37,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | B-21 | Flex on 'Em | Casting Cost | 1(B) | 2(B) |
 | B-24 | Overclocked Mill Worker | Casting Cost | 2(B) | 3(B) |
 | B-24 | Overclocked Mill Worker | Power/Toughness | 3/3 | 2/3 |
+| B-25 | Yeet | Card Text/Effect | Target unit you control deals damage equal to its attack to target unit or opponent. | Target unit you control deals damage equal to its attack to target unit or opponent. Then destroy the unit you control. |
 | B-26 | The Carpool | Power/Toughness | 4/3 | 3/3 |
 | N-01 | Skeleton Clerk | Power/Toughness | 1/1 | 1/2 |
 | N-02 | Infernal Intern | Power/Toughness | 1/2 | 2/2 |
@@ -56,7 +57,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | C-22 | Mercenary Captain | Power/Toughness | 3/3 | 2/3 |
 | C-23 | Resistance Scout | Power/Toughness | 2/2 | 1/2 |
 
-49 cell changes. Cards touched per prefix: R 12, G 8, B 8, N 9, NR 1, NB 1, BR 1, C 5.
+50 cell changes. Cards touched per prefix: R 12, G 8, B 9, N 9, NR 1, NB 1, BR 1, C 5.
 
 ## Token List
 

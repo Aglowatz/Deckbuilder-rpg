@@ -31,7 +31,7 @@ Exhaust, eat garbage: add one energy of any Path.",0/1,Paradise is in the eye of
 24,(U),Second-Hand Life,1(R),Trap,"When a unit you control dies, return it to your hand and create a Garbage.",,Pre-owned. Pre-loved. Pre-deceased.,"The glowing spirit of a fallen rat being gently scooped from a compost heap by hands made of vines, a patched thrift-shop cloak draped over it.",birds-of-paradise type,,,,AI-new,R-24
 25,(U),Manure Miracle,2(R),Spell,Fertilize 3 (put three buffs on target unit you control).,,Smells like victory. Mostly it just smells.,"A tiny goat ballooning into a hulking muscular beast after being splashed by a glowing bucket of magical manure, flies circling and flowers bursting into bloom around it.",,,,,AI-new,R-25
 26,(U),The Recycling Center,2(R),Wonder,"At the end of your turn, you may use two Garbage. If you do, return target card from your Refuse Pile to your hand.",,Nothing is wasted. Not even you.,"A whimsical junk-built recycling mill with a waterwheel, conveyor belts, and vines, animals sorting glowing scraps into chutes.",,,,,AI-new,R-26
-27,(E),Raccoon,(R),Unit,"When your units eat garbage, they don't pay energy.",1/2,.... *sweats profusely*,"A nervous raccoon wearing a crown made from a soup can, sitting atop a mountain of trash and sweating profusely with a guilty grin while other animals feast below.",,,,,AI-completed,R-27
+27,(E),Raccoon,(R),Unit,You may eat garbage for free during your turn.,1/2,.... *sweats profusely*,"A nervous raccoon wearing a crown made from a soup can, sitting atop a mountain of trash and sweating profusely with a guilty grin while other animals feast below.",,,,,AI-completed,R-27
 28,(E),Poo-uid,2 (R),Unit,"Exhaust, eat garbage, lose 1 HP: create a 3/3 Poo Golem token.",2/3,Druid. Poo-id. It's all organic.,"A dignified elderly druid with a long beard and a clothespin on his nose, sculpting a hulking golem out of steaming manure with glowing green magic.",,,,,AI-completed,R-28
 29,(E),Mount Trashmore,3(R)(R)(R),Unit,"Bulldoze.
 
@@ -125,7 +125,7 @@ At the beginning of combat on your turn, flip a coin. Heads: attached unit gets 
 24,(U),Overclocked Mill Worker,3(B),Unit,"Overtime.
 
 Whenever this unit attacks, create an Iron.",2/3,Clocked in. Never clocked out.,"A tireless mill worker pushing a giant wheel while marching into battle, a time card stuck in his headband.",,,,,AI-new,B-24
-25,(U),Yeet,2(B),Spell,Target unit you control deals damage equal to its attack to target unit or opponent.,,Physics is just a suggestion.,"A grinning Beefcake hurling a startled smaller ally through the air like a javelin toward a distant enemy, a dust trail behind them.",,,,,AI-completed,B-25
+25,(U),Yeet,2(B),Spell,Target unit you control deals damage equal to its attack to target unit or opponent. Then destroy the unit you control.,,Physics is just a suggestion.,"A grinning Beefcake hurling a startled smaller ally through the air like a javelin toward a distant enemy, a dust trail behind them.",,,,,AI-completed,B-25
 26,(U),The Carpool,3(B),Unit,"Hustle.
 
 When this unit enters, other units you control gain Hustle until end of turn.",3/3,Everybody in. Seatbelts are for the weak.,"A giant Beefcake running with a wooden cart strapped to his back, a crowd of smaller warriors cheering from the cart as it bounces down a hill.",,,,,AI-new,B-26

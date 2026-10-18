@@ -83,8 +83,8 @@ act t=unit.fresh | pay(1) => pump(t,1,0,eot)
 kw overtime
 attack => create(iron)
 
-== B-25 @afd144726d05  # Yeet
-play a=unit.mine b=unit|opp => damage(b,atk(a),a)
+== B-25 @70c6013cb4ed  # Yeet
+play a=unit.mine b=unit|opp => damage(b,atk(a),a); destroy(a)
 
 == B-26 @7d3e2ded3c96  # The Carpool
 kw hustle

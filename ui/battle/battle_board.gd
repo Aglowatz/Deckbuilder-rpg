@@ -307,6 +307,11 @@ func _place_blockers() -> void:
 
 
 ## Empty set-trap slots (UI-HUD-SLOT) at the places set traps sit, one per trap the player may set; a set trap covers its slot.
+## Playtest v0.4.0 Part E: the three little dark squares each side of the board are these slots. They now read as what they are: a faint
+## trap glyph in each empty one, a "Traps 0/3" caption beside the row, and a tooltip on hover (the caption says whose traps they are).
+const TRAP_CAPTION_X: float = TRAP_X + ART_TRAP_SLOT.x * 0.5 + 10.0
+
+
 func _trap_slots(owner_index: int, y: float) -> void:
 	if not UiArt.has("UI-HUD-SLOT"):
 		return
@@ -319,19 +324,47 @@ func _trap_slots(owner_index: int, y: float) -> void:
 		holder.z_index = 3
 		add_child(holder)
 	var wanted: int = game.players[owner_index].max_traps
-	if holder.get_child_count() == wanted:
+	var set_count: int = _cards_in(owner_index, Zone.TRAPS).size()
+	var mine: bool = owner_index == human
+	var caption: Label = holder.get_node_or_null("Caption") as Label
+	if caption == null:
+		caption = Label.new()
+		caption.name = "Caption"
+		caption.add_theme_font_size_override("font_size", 13)
+		caption.add_theme_color_override("font_color", Color("f1e6c8"))
+		caption.add_theme_color_override("font_outline_color", Color("1b1020"))
+		caption.add_theme_constant_override("outline_size", 6)
+		caption.mouse_filter = Control.MOUSE_FILTER_PASS
+		caption.size = Vector2(96, 34)
+		caption.position = Vector2(TRAP_CAPTION_X, y - 17.0)
+		caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		holder.add_child(caption)
+	caption.text = "TRAPS\n%d of %d set" % [set_count, wanted]
+	if not caption.has_meta(&"tip"):
+		caption.set_meta(&"tip", true)
+		HoverTip.attach(caption, "Trap slots (%s)" % ("yours" if mine else "the enemy's"), "Set traps sit here face down, up to %d at a time. A trap springs when its condition is met (an attack, a play, a block). %s" % [wanted, "You can read your own traps by hovering them." if mine else "You cannot see what the enemy set."], UIStyle.GOLD, "ICON-TYPE-TRAP")
+	if holder.get_child_count() == wanted + 1:
 		return
 	for child: Node in holder.get_children():
-		child.queue_free()
+		if child != caption:
+			child.queue_free()
 	for index: int in range(wanted):
 		var slot: TextureRect = TextureRect.new()
+		slot.name = "Slot%d" % index
 		slot.texture = UiArt.texture("UI-HUD-SLOT")
 		slot.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		slot.stretch_mode = TextureRect.STRETCH_SCALE
 		slot.size = ART_TRAP_SLOT
 		slot.position = Vector2(TRAP_X - float(index) * 62.0, y) - ART_TRAP_SLOT * 0.5
-		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		slot.mouse_filter = Control.MOUSE_FILTER_PASS
+		HoverTip.attach(slot, "Empty trap slot", "A set trap goes here, face down. Up to %d." % wanted, UIStyle.MUTED)
 		holder.add_child(slot)
+		var glyph: TextureRect = IconArt.glyph_or("ICON-TYPE-TRAP", CardIcons.named("lorc/wolf-trap"), Color(1.0, 0.92, 0.75, 0.55), 26.0)
+		glyph.name = "Glyph"
+		glyph.position = (ART_TRAP_SLOT - Vector2(26, 26)) * 0.5
+		glyph.size = Vector2(26, 26)
+		glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		slot.add_child(glyph)
 
 
 func _layout_traps(owner_index: int) -> void:
@@ -441,14 +474,18 @@ func _layout_tokens(owner_index: int) -> void:
 	var step: float = minf(14.0, TOKEN_SPAN / float(maxi(cards.size(), 1)))
 	var origin: Vector2 = TOKEN_ORIGIN[owner_index]
 	if art:
-		_token_tray(owner_index)
+		var tray_node: Control = _token_tray(owner_index)
+		var empty_glyph: Control = tray_node.get_node_or_null("EmptyGlyph") as Control
+		if empty_glyph != null:
+			empty_glyph.visible = cards.is_empty()
 		step = minf(8.0, 24.0 / float(maxi(cards.size(), 1)))
 		origin = ART_TOKEN_CENTERS[owner_index] - Vector2(step * float(maxi(cards.size() - 1, 0)) * 0.5, 0.0)
 	for index: int in range(cards.size()):
 		_targets[cards[index]] = {"pos": origin + Vector2(float(index) * step, 0.0), "rot": 0.0, "scale": SCALE_TOKEN_ART if art else SCALE_TOKEN, "z": 30 + index}
 	var badge: Label = _token_badge(owner_index)
-	badge.visible = not cards.is_empty()
-	badge.text = "TOKENS\nContract x%d" % cards.size()
+	# Playtest v0.4.0 Part E: the pale box on the right is the token tray; it says so even when empty (it used to be a blank square).
+	badge.visible = true
+	badge.text = "TOKENS\nContract x%d" % cards.size() if not cards.is_empty() else "TOKENS\n(none yet)"
 	badge.position = origin + Vector2(TOKEN_SPAN + 8.0, -17.0)
 	if art:
 		badge.position = ART_TOKEN_CENTERS[owner_index] + Vector2(ART_TOKEN_TRAY_SIZE.x * 0.5 + 6.0, -17.0)
@@ -468,9 +505,16 @@ func _token_tray(owner_index: int) -> Control:
 	tray.stretch_mode = TextureRect.STRETCH_SCALE
 	tray.size = ART_TOKEN_TRAY_SIZE
 	tray.position = ART_TOKEN_CENTERS[owner_index] - ART_TOKEN_TRAY_SIZE * 0.5
-	tray.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tray.mouse_filter = Control.MOUSE_FILTER_PASS
 	tray.z_index = 20
+	HoverTip.attach(tray, "Token tray", "Non-resource tokens (Contracts) a player holds sit here. %s" % str(ResourceKind.DESCRIPTIONS[ResourceKind.Kind.CONTRACT]), UIStyle.GOLD, IconArt.resource_id(ResourceKind.Kind.CONTRACT))
 	add_child(tray)
+	var glyph: TextureRect = IconArt.glyph_or(IconArt.resource_id(ResourceKind.Kind.CONTRACT), CardIcons.named(str(CardIcons.RESOURCE_ICONS[ResourceKind.Kind.keys()[ResourceKind.Kind.CONTRACT]])), Color(0.45, 0.35, 0.2, 0.5), 34.0)
+	glyph.name = "EmptyGlyph"
+	glyph.position = (ART_TOKEN_TRAY_SIZE - Vector2(34, 34)) * 0.5
+	glyph.size = Vector2(34, 34)
+	glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tray.add_child(glyph)
 	return tray
 
 

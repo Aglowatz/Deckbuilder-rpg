@@ -92,6 +92,7 @@ func test_the_raccoon_makes_eating_garbage_free() -> void:
 	var game: GameState = _game()
 	_energy(game)
 	_field(game, 0, "R-27")
+	assert_eq(CardSet.card("R-27").rules_text, "You may eat garbage for free during your turn.", "Playtest v0.4.0 Part E wording")
 	var prowler: CardInstance = _field(game, 0, "R-08")
 	_give(game, 0, KIND.GARBAGE, 1)
 	var hp: int = game.players[0].hp

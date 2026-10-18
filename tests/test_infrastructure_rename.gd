@@ -22,6 +22,31 @@ func test_basic_infrastructure_is_named_and_worded_with_the_new_terms() -> void:
 		assert_false(card.rules_text.to_lower().contains("mana"))
 
 
+## Playtest v0.4.0 Part E: Infrastructure shows its own name everywhere (Powerhouse, Ghost Town, Feastforge, Wasteworks and the specials),
+## never "Beefcake Infrastructure"; only a nameless code-built test card falls back to the generic name.
+func test_infrastructure_cards_show_their_real_names() -> void:
+	var expected: Dictionary = {"BAS-B": "Powerhouse", "BAS-N": "Ghost Town", "BAS-G": "Feastforge", "BAS-R": "Wasteworks"}
+	for id: String in expected.keys():
+		var card: CardData = CardSet.card(id)
+		assert_not_null(card, id)
+		assert_eq(card.display_name, str(expected[id]))
+		var view: CardView = CardView.create(card, CardView.Mode.FULL, true)
+		add_child_autofree(view)
+		assert_eq(view.call(&"_display_name"), str(expected[id]), "%s prints its own name on the card" % id)
+	for content_infra: Variant in Session.content.infrastructure.values():
+		var infra: CardData = content_infra as CardData
+		assert_false(infra.display_name.ends_with(" Infrastructure"), "%s is named %s, not a generic Infrastructure" % [infra.id, infra.display_name])
+	for card: CardData in CardSet.all_cards():
+		if card.is_infrastructure():
+			assert_false(card.display_name.is_empty(), "%s has a name" % card.id)
+			assert_false(card.display_name.ends_with(" Infrastructure"), "%s (%s) is never a generic Infrastructure" % [card.id, card.display_name])
+	var nameless: CardData = CardBuilder.infra(Affinity.Type.BEEFCAKE)
+	nameless.display_name = ""
+	var fallback: CardView = CardView.create(nameless, CardView.Mode.FULL, true)
+	add_child_autofree(fallback)
+	assert_eq(fallback.call(&"_display_name"), "Beefcake Infrastructure", "a nameless test card still reads")
+
+
 func test_casting_activates_infrastructure_and_attacking_exhausts_units() -> void:
 	var game: GameState = GameFactory.new_game()
 	GameFactory.add_infrastructure_cards(game, 0, 2)
