@@ -68,6 +68,9 @@ func _build() -> void:
 		button.focus_mode = Control.FOCUS_ALL
 		_tab_buttons[tab] = button
 	_progress_label = UIKit.label("", &"", 24, UIStyle.GOLD)
+	# It sits on the bright candle of the painting: a dark outline keeps it readable (Phase 2 cycle 6).
+	_progress_label.add_theme_constant_override("outline_size", 8)
+	_progress_label.add_theme_color_override("font_outline_color", Color(0.08, 0.04, 0.02, 0.95))
 	header_extra.add_child(_progress_label)
 	_cards_page = UIKit.hbox(18)
 	_cards_page.size_flags_vertical = Control.SIZE_EXPAND_FILL

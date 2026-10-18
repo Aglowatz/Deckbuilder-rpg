@@ -375,7 +375,7 @@ func _show_picker() -> void:
 	_showing_cards = false
 	_cards_view.visible = false
 	_picker.visible = true
-	_close_button.text = close_text
+	set_close_label(close_text)
 	if not _picker_buttons.is_empty():
 		_picker_buttons[0].call_deferred(&"grab_focus")
 
@@ -384,7 +384,7 @@ func _show_cards() -> void:
 	_showing_cards = true
 	if _picker != null:
 		_picker.visible = false
-		_close_button.text = "Back (Esc)"
+		set_close_label("Back (Esc)")
 	_cards_view.visible = true
 	_refresh()
 	_show_cards_tip()

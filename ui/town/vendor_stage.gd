@@ -83,7 +83,12 @@ func _build_bubble() -> void:
 	_bubble = PanelContainer.new()
 	_bubble.name = "SpeechBubble"
 	_bubble.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_bubble.add_theme_stylebox_override("panel", UIStyle.box(Color(0.06, 0.04, 0.1, 0.94), UIStyle.GOLD, 3, 18))
+	var bubble_style: StyleBoxFlat = UIStyle.box(Color(0.06, 0.04, 0.1, 0.94), UIStyle.GOLD, 3, 18)
+	# Room inside the bubble: the words touched its gold edge (Phase 2 cycle 6).
+	bubble_style.set_content_margin_all(10.0)
+	bubble_style.content_margin_left = 18.0
+	bubble_style.content_margin_right = 18.0
+	_bubble.add_theme_stylebox_override("panel", bubble_style)
 	_bubble_label = UIKit.label("", &"", 25, UIStyle.PARCHMENT)
 	_bubble_label.add_theme_font_override("font", UIStyle.font_italic())
 	_bubble_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

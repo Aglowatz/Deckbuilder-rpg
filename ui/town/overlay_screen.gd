@@ -60,6 +60,8 @@ func _ready() -> void:
 	header.add_child(header_extra)
 	_close_button = UiSkin.close_button(close_text) if UiArt.has("UI-BTN-CLOSE") else FancyButton.make(close_text, &"", Vector2(170, 52))
 	_close_button.pressed.connect(request_close)
+	# A little air between the header's extras (gold, progress) and the round close button, which otherwise ran under it (Phase 2 cycle 6).
+	header.add_child(UIKit.spacer(0, 14))
 	header.add_child(_close_button)
 	body = UIKit.vbox(12)
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -108,6 +110,17 @@ func _exit_tree() -> void:
 ## Subclasses fill `body` here.
 func _build() -> void:
 	pass
+
+
+## Changes what the close button says ("Back (Esc)" inside a sub-page): the text of a plain button, the tooltip of the round art one (text drawn
+## over its icon was unreadable).
+func set_close_label(text: String) -> void:
+	if _close_button == null:
+		return
+	if _close_button.icon != null:
+		_close_button.tooltip_text = text
+	else:
+		_close_button.text = text
 
 
 func request_close() -> void:

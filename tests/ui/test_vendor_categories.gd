@@ -74,3 +74,16 @@ func test_picker_tiles_take_keyboard_focus() -> void:
 	var tile: Button = screen.find_child("CategoryCards", true, false) as Button
 	assert_eq(tile.focus_mode, Control.FOCUS_ALL)
 	assert_true(tile.has_focus(), "the first tile has focus for keyboard and pad")
+
+
+## Phase 2 cycle 6: the round art close button never gets text drawn over its icon; "Back (Esc)" / "Leave (Esc)" go in its tooltip.
+func test_round_close_button_keeps_its_label_in_the_tooltip() -> void:
+	var screen: VendorScreen = _screen(true)
+	await wait_process_frames(2)
+	var close: FancyButton = screen._close_button
+	screen.open_category(VendorCategories.Kind.CARDS)
+	if close.icon != null:
+		assert_eq(close.text, "", "no text over the icon")
+		assert_eq(close.tooltip_text, "Back (Esc)")
+	else:
+		assert_eq(close.text, "Back (Esc)")
