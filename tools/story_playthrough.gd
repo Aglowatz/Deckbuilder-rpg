@@ -162,6 +162,7 @@ func _zone(town: TownScene, zone_id: String) -> TownScene:
 	if town == null:
 		return null
 	var memory_before: int = Session.pending_memory()
+	await _dismiss_popups()
 	await _walk_up(town, "elder")
 	await driver.tap_key(KEY_E)
 	await _click_through(town)
@@ -286,7 +287,7 @@ func _click_through(town: TownScene) -> void:
 		if memory == null and not town.dialogue.active and driver.find_button("Continue") == null and _slot_choice() == null and Session.pending_memory() == 0:
 			if guard > 3:
 				break
-		if driver.find_button("Continue") != null or _slot_choice() != null:
+		if driver.find_button("Continue") != null or driver.find_button("Next level") != null or _slot_choice() != null:
 			await _dismiss_popups()
 		elif memory != null:
 			await driver.click(Vector2(960, 540))
@@ -339,7 +340,8 @@ func _wait_for(kind: Variant) -> Node:
 
 func _dismiss_popups() -> void:
 	for _guard: int in range(16):
-		if driver.find_button("Continue") != null:
+		# Overnight Oct 17: a zone clear can gain several levels at once - the level-up screen says "Next level" until the last one.
+		if driver.find_button("Continue") != null or driver.find_button("Next level") != null:
 			await driver.tap_key(KEY_ENTER)
 		elif _slot_choice() != null:
 			# a level-up equipment-slot choice: take the Relic slot (most of the new gear is relics)
@@ -416,7 +418,7 @@ func _clear_overlays(town: TownScene) -> void:
 				blocking = true
 		if not blocking and not town.dialogue.active and _slot_choice() == null and driver.find_button("Continue") == null:
 			return
-		if driver.find_button("Continue") != null or _slot_choice() != null:
+		if driver.find_button("Continue") != null or driver.find_button("Next level") != null or _slot_choice() != null:
 			await _dismiss_popups()
 		elif town.dialogue.active:
 			await driver.tap_key(KEY_E)
