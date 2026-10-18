@@ -136,8 +136,9 @@ func _flow_zone_battle_effects() -> void:
 	get_tree().change_scene_to_file("res://scenes/battle.tscn")
 	var battle: BattleScreen = await _wait_for(BattleScreen) as BattleScreen
 	await driver.seconds(1.5)
-	var panel: Node = battle.find_child("ZoneEffectsPanel", true, false) if battle != null else null
-	_check(panel != null, "the battle shows the Gainlands zone effects panel")
+	# Playtest v0.4.0 Part F: the zone effects are badges in the rule icon row now.
+	var panel: Node = battle.find_child("RuleIconRow", true, false) if battle != null else null
+	_check(panel != null, "the battle shows the Gainlands zone effects in the rule icon row")
 	if panel != null:
 		# The tooltip is a HoverTip on each row now (no tooltip_text): the rows name the buff and the debuff and carry the hover.
 		var texts: PackedStringArray = []

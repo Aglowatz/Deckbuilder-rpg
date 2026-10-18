@@ -267,10 +267,10 @@ func _build_scene() -> void:
 	fx.shake_target = _board_root
 	board.setup(game, fx)
 	hud.setup(game, context.enemy_name, context.enemy_icon)
-	hud.set_zone_effects(ZoneEffects.for_zone(context.zone_id), _zone_title(context.zone_id))
-	hud.set_encounter_rules(context.encounter_rules)
-	if context.zone_id == CapitalZone.ID:
-		hud.set_capital_panels(Session.flags, context.rules_text)
+	# Playtest v0.4.0 Part F: one icon row for every rule of the fight (the old text panels are gone); Primm's phase rule keeps its own panel.
+	hud.set_rule_badges(context.rule_badges)
+	if context.zone_id == CapitalZone.ID and not context.rules_text.is_empty():
+		hud.set_capital_panels({}, context.rules_text)
 	if not context.arena_id.is_empty():
 		hud.set_arena_banner(context.arena_id)
 	board.portrait_anchor = [hud.portrait_center(0), hud.portrait_center(1)]

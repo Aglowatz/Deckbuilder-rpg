@@ -363,13 +363,9 @@ func _on_node_hovered(id: int) -> void:
 		DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS, DungeonMap.Kind.ELITE:
 			var prize: String = "a choice of card" if node.card_choices > 0 else "no card choice"
 			text += "\n[b]%s[/b], %d HP.  Reward: %d gold and XP, %s." % [node.enemy_name, node.enemy_hp, node.gold_reward, prize]
-			# Rebalance Part E: the fight's one-sided rules, before the player commits.
-			var shown: Dictionary = {}
-			for rule: EncounterModifiers.Rule in EncounterModifiers.rules(node.enemy_name):
-				if shown.has(rule.name):
-					continue
-				shown[rule.name] = true
-				text += "\n[color=%s]%s[/color]: %s" % ["#e8625a" if rule.is_enemy_side() else "#6fbf73", rule.name, rule.text]
+			# Rebalance Part E / Playtest v0.4.0 Part F: the fight's one-sided rules, before the player commits (same colours as the badges).
+			for badge: RuleBadges.Badge in RuleBadges.for_encounter(EncounterModifiers.rules(node.enemy_name)):
+				text += "\n[color=%s]%s[/color]: %s" % [badge.color().to_html(false), badge.name, badge.text]
 		DungeonMap.Kind.EVENT:
 			text += "\nA story event: choose how to deal with it."
 		DungeonMap.Kind.RESCUE:
@@ -398,13 +394,84 @@ func _on_node_chosen(id: int) -> void:
 	_play_before(node, _run_node.bind(node))
 
 
+## Every rule that applies in this run at node `node_number` (0 = all): zone effects, dungeon rules, boons (Playtest v0.4.0 Part F).
+func _run_badges(node_number: int) -> Array[RuleBadges.Badge]:
+	var zone_id: String = Session.zone_run.zone_id if Session.zone_run != null else ""
+	var key: String = Session.dungeon_key if (Session.main_dungeon_active or Session.mini_active) else ""
+	var badges: Array[RuleBadges.Badge] = RuleBadges.for_run(zone_id, key, run.dungeon_sources if run != null else ([] as Array[ModifierSource]), node_number)
+	if zone_id == CapitalZone.ID:
+		badges.append_array(RuleBadges.for_capital(Session.flags))
+	return badges
+
+
+## A short brief of the rules (the icon row plus one line each) with a Continue button: when a run starts, and before each battle with
+## that fight's one-sided rules added. `then` runs when it closes (a battle brief starts the fight).
+var _brief: Control
+
+
+func _show_rules_brief(badges: Array[RuleBadges.Badge], title: String, then: Callable) -> void:
+	if badges.is_empty():
+		if then.is_valid():
+			then.call()
+		return
+	if _brief != null and is_instance_valid(_brief):
+		_brief.queue_free()
+	var layer: Control = Control.new()
+	layer.name = "RulesBrief"
+	UIKit.full_rect(layer)
+	layer.z_index = 140
+	layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(layer)
+	_brief = layer
+	var shade: ColorRect = ColorRect.new()
+	shade.color = Color(0.02, 0.01, 0.05, 0.6)
+	UIKit.full_rect(shade)
+	layer.add_child(shade)
+	var center: CenterContainer = CenterContainer.new()
+	UIKit.full_rect(center)
+	layer.add_child(center)
+	var panel: PanelContainer = UIKit.panel()
+	center.add_child(panel)
+	var column: VBoxContainer = UIKit.vbox(10)
+	panel.add_child(column)
+	column.add_child(UIKit.label(title, &"HeadingLabel", 32, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	column.add_child(UIKit.label("The rules in play. Hover an icon for its text; the same icons stay on screen during the fight.", &"MutedLabel", 18, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER))
+	var row: RuleIconRow = RuleIconRow.make(badges, "", true)
+	row.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	column.add_child(row)
+	for badge: RuleBadges.Badge in badges:
+		var line: Label = UIKit.label("%s: %s" % [badge.name, badge.text.split("\n")[0]], &"", 19, badge.color())
+		line.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		line.custom_minimum_size = Vector2(760, 0)
+		column.add_child(line)
+	var go: FancyButton = FancyButton.make("Continue", &"PrimaryButton", Vector2(220, 56))
+	go.name = "BriefContinue"
+	go.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	go.pressed.connect(func() -> void:
+		layer.queue_free()
+		_brief = null
+		if then.is_valid():
+			then.call())
+	column.add_child(go)
+	go.focus_mode = Control.FOCUS_ALL
+	go.call_deferred(&"grab_focus")
+	UIKit.pop_in(panel)
+
+
 ## What entering a node does, after its story and scene have played.
 func _run_node(node: DungeonMap.MapNode) -> void:
 	match node.kind:
 		DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS, DungeonMap.Kind.ELITE:
-			_busy = true
-			Audio.sfx(&"door")
-			Session.start_battle(Session.make_dungeon_battle(node))
+			var badges: Array[RuleBadges.Badge] = _run_badges(node.number)
+			badges.append_array(RuleBadges.for_encounter(EncounterModifiers.rules(node.enemy_name)))
+			var fight: Callable = func() -> void:
+				_busy = true
+				Audio.sfx(&"door")
+				Session.start_battle(Session.make_dungeon_battle(node))
+			if badges.is_empty() or not _screenshot_args.is_empty():
+				fight.call()
+			else:
+				_show_rules_brief(badges, "Before the fight: %s" % node.enemy_name, fight)
 		DungeonMap.Kind.CHALLENGE:
 			_open_modal(ChallengeScreen.new(), node.id)
 		DungeonMap.Kind.SHRINE:
@@ -516,30 +583,21 @@ func _build_dungeon_extras() -> void:
 	if _main_def == null and not Session.mini_active:
 		return
 	var zone_id: String = Session.zone_run.zone_id if Session.zone_run != null else ""
-	var effect: ZoneEffects.Effect = ZoneEffects.for_zone(zone_id) if not zone_id.is_empty() else null
-	if effect != null:
-		var panel: ZoneEffectsPanel = ZoneEffectsPanel.make(effect, Session.zone_def().display_name, true)
-		panel.position = Vector2(34, 150)
-		add_child(panel)
-	var boons: Array[ModifierSource] = []
-	for source: ModifierSource in run.dungeon_sources:
-		if source.source_kind == ModifierSource.SourceKind.BOON:
-			boons.append(source)
-	if boons.is_empty():
+	# Playtest v0.4.0 Part F: the zone effects, the dungeon's rules and the boons as one icon row under the title (hover for the text,
+	# click for the full list); the Rules button still opens the long form.
+	var badges: Array[RuleBadges.Badge] = _run_badges(0)
+	if badges.is_empty():
 		return
-	var boon_panel: PanelContainer = UIKit.panel(&"DarkPanel")
-	boon_panel.name = "BoonPanel"
-	boon_panel.position = Vector2(1560, 150)
-	boon_panel.custom_minimum_size = Vector2(330, 0)
-	add_child(boon_panel)
-	var column: VBoxContainer = UIKit.vbox(4)
-	boon_panel.add_child(column)
-	column.add_child(UIKit.label("Boons", &"HeadingLabel", 22))
-	for boon: ModifierSource in boons:
-		var row: Label = UIKit.label(boon.source_name, &"", 18, Color("9cf5a0"))
-		row.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		row.custom_minimum_size = Vector2(300, 0)
-		column.add_child(row)
+	var row: RuleIconRow = RuleIconRow.make(badges, "Rules of %s" % map.dungeon_name)
+	row.name = "MapRuleRow"
+	row.position = Vector2(34, 150)
+	row.z_index = 20
+	add_child(row)
+	if not Session.dungeon_rules_intro_seen and _screenshot_args.is_empty():
+		Session.dungeon_rules_intro_seen = true
+		_show_rules_brief.call_deferred(badges, "Entering %s" % map.dungeon_name, Callable())
+	return
+
 
 
 func _open_modal(screen: Control, node_id: int) -> void:

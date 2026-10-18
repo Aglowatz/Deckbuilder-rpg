@@ -13,7 +13,7 @@ static func rules(key: String) -> Array[Dictionary]:
 	if plan == null:
 		return result
 	for entry: Dictionary in _entries(plan.id):
-		result.append({"name": entry["name"], "text": entry["text"], "active": entry["modifiers"] != null, "scope": entry["scope"]})
+		result.append({"name": entry["name"], "text": entry["text"], "active": entry["modifiers"] != null, "scope": entry["scope"], "nodes": entry.get("nodes", [])})
 	return result
 
 

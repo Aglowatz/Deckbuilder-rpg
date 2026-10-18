@@ -11,7 +11,7 @@ signal packs_pressed
 var _menu_button: FancyButton
 var _menu_panel: PanelContainer
 var _left_column: VBoxContainer
-var _effects_panel: ZoneEffectsPanel
+var _effects_panel: Control
 var _gold: Label
 var _prompt_panel: PanelContainer
 var _prompt_label: Label
@@ -96,17 +96,21 @@ func set_gold(amount: int) -> void:
 	_gold.text = str(amount)
 
 
-## Part C: the active zone's buff and debuff, shown under the objective while in a zone.
+## Part C: the active zone's buff and debuff, shown under the objective while in a zone. Playtest v0.4.0 Part F: an icon row (hover an
+## icon for its text, click for the full list) in place of the old text pill - the same badges the node map and the battle HUD show.
 func show_zone_effects(effect: ZoneEffects.Effect, zone_title: String) -> void:
 	if _effects_panel != null:
-		var old_chip: Node = _effects_panel.get_parent().get_parent() if _effects_panel.get_parent() != null else null
-		(old_chip if old_chip is HudChip else _effects_panel).queue_free()
+		_effects_panel.queue_free()
 		_effects_panel = null
 	if effect == null:
 		return
-	_effects_panel = ZoneEffectsPanel.make(effect, zone_title, false)
-	var chip: HudChip = HudChip.wrap("zone_effects", "+ %s   - %s" % [effect.buff_name(), effect.debuff_name()], UIStyle.PARCHMENT, _effects_panel, "%s: zone buff and debuff (click for details)" % zone_title)
-	_left_column.add_child(chip)
+	var badges: Array[RuleBadges.Badge] = RuleBadges.for_zone(effect.zone_id)
+	if badges.is_empty():
+		return
+	var row: RuleIconRow = RuleIconRow.make(badges, "%s: zone effects" % zone_title)
+	row.name = "ZoneEffectsRow"
+	_effects_panel = row
+	_left_column.add_child(row)
 
 
 ## Any extra panel under the objective (the Capital's broken services).

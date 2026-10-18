@@ -163,7 +163,7 @@ func _flow_gate_battle() -> void:
 	if battle == null:
 		return
 	await driver.seconds(1.5)
-	_check(battle.find_child("ServiceDebuffsPanel", true, false) != null, "the duel shows the broken services")
+	_check(battle.find_child("RuleIconRow", true, false) != null, "the duel shows the broken services (rule icon row, Playtest v0.4.0 Part F)")
 	_check(battle.context.game.players[1].hp > ZoneEnemies.info(CapitalZone.ID, CapitalEnemies.OFFICER).hp, "a challenging opponent")
 	await _shot("08_gate_battle")
 	await _force_win(battle)

@@ -5,9 +5,12 @@ extends MeshInstance3D
 ## one shader (assets/shaders/chest_sparkle.gdshader); hidden entirely while faded out, so far-off chests cost nothing.
 
 const NODE_NAME: String = "ChestSparkle"
-const NEAR: float = 3.0
+## Playtest v0.4.0 Part F: visible from farther away (was 3.0 / 3.4), bigger glints and a soft warm pulse of light over the lid.
+const NEAR: float = 6.0
 ## A little hysteresis so standing on the edge does not flicker.
-const FAR: float = 3.4
+const FAR: float = 6.6
+const GLINT_SIZE: float = 0.34
+const LIGHT_ENERGY: float = 1.1
 const FADE_SECONDS: float = 0.6
 const SHADER: Shader = preload("res://assets/shaders/chest_sparkle.gdshader")
 ## Glint spots over the lid, as fractions of the chest's box (x, y above the top, z), with a phase each.
@@ -16,7 +19,10 @@ const SPOTS: Array[Vector4] = [
 	Vector4(0.28, 0.18, -0.12, 0.27),
 	Vector4(0.05, 0.32, 0.18, 0.55),
 	Vector4(-0.1, 0.02, -0.25, 0.8),
+	Vector4(0.38, 0.4, 0.22, 0.4),
+	Vector4(-0.36, 0.3, -0.2, 0.68),
 ]
+var _light: OmniLight3D
 
 var fade: float = 0.0
 var _hero: Node3D
@@ -55,7 +61,17 @@ func _ready() -> void:
 	mesh = _build_mesh(box)
 	_material = ShaderMaterial.new()
 	_material.shader = SHADER
+	_material.set_shader_parameter(&"size", GLINT_SIZE)
+	_material.set_shader_parameter(&"tint", Color(1.0, 0.92, 0.6, 1.0))
 	material_override = _material
+	_light = OmniLight3D.new()
+	_light.name = "ChestGlow"
+	_light.light_color = Color(1.0, 0.85, 0.5)
+	_light.omni_range = 2.4
+	_light.light_energy = 0.0
+	_light.shadow_enabled = false
+	_light.position = box.get_center() + Vector3(0.0, box.size.y * 0.5 + 0.4, 0.0)
+	add_child(_light)
 	cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	visible = false
 	_set_fade(0.0)
@@ -75,6 +91,8 @@ func _process(delta: float) -> void:
 		target = 0.0
 	if not is_equal_approx(fade, target):
 		_set_fade(move_toward(fade, target, delta / FADE_SECONDS))
+	if _light != null and fade > 0.001:
+		_light.light_energy = LIGHT_ENERGY * fade * (0.7 + 0.3 * sin(Time.get_ticks_msec() * 0.0032))
 
 
 func _set_fade(value: float) -> void:
@@ -82,6 +100,10 @@ func _set_fade(value: float) -> void:
 	visible = fade > 0.001
 	if _material != null:
 		_material.set_shader_parameter(&"fade", fade)
+	if _light != null:
+		_light.visible = fade > 0.001
+		if fade <= 0.001:
+			_light.light_energy = 0.0
 
 
 ## The chest's world-space box from its meshes (a 1 m cube at the chest when it has none).

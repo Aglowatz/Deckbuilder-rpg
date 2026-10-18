@@ -83,6 +83,21 @@ func set_zone_effects(effect: ZoneEffects.Effect, zone_title: String) -> void:
 	_side_y += 150.0
 
 
+## Playtest v0.4.0 Part F: the fight's rules as one persistent icon row under the enemy portrait (zone effects, dungeon rules, boons, the
+## Capital's broken services and the one-sided encounter rules in one style); hover an icon for its text, click for the whole list. This
+## replaces the stacked text panels (`set_zone_effects`, `set_encounter_rules`, the services panel). The enemy's intent is never shown.
+var rule_row: RuleIconRow
+
+
+func set_rule_badges(badges: Array[RuleBadges.Badge]) -> void:
+	if badges.is_empty():
+		return
+	rule_row = RuleIconRow.make(badges, "Rules of this fight")
+	rule_row.position = Vector2(24, _side_y)
+	add_child(rule_row)
+	_side_y += 70.0
+
+
 ## Where the next panel under the enemy portrait goes (zone effects, encounter rules, the Capital's panels stack down the left side).
 var _side_y: float = 190.0
 
