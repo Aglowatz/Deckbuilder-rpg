@@ -31,8 +31,9 @@ const TEXT_SCALE_NAMES: Array[String] = ["Small", "Normal", "Large", "Extra larg
 const DIALOGUE_SPEEDS: Array[float] = [24.0, 55.0, 110.0, 0.0]
 const DIALOGUE_SPEED_NAMES: Array[String] = ["Slow", "Normal", "Fast", "Instant"]
 ## Battle feel, Part B: how fast AI turns and battle animations play (a multiplier on every battle wait and tween).
-const BATTLE_SPEEDS: Array[float] = [1.0, 1.7, 2.8]
-const BATTLE_SPEED_NAMES: Array[String] = ["Normal", "Fast", "Very Fast"]
+## Overnight Oct 18, Part 7: 1x / 1.5x / 2x (animations only; the rules never wait on them).
+const BATTLE_SPEEDS: Array[float] = [1.0, 1.5, 2.0]
+const BATTLE_SPEED_NAMES: Array[String] = ["1x", "1.5x", "2x"]
 const UI_SCALE_MIN: float = 0.9
 const UI_SCALE_MAX: float = 1.5
 ## Windowed sizes offered by the resolution list (the ones that do not fit the screen are left out).
@@ -63,6 +64,8 @@ var dialogue_speed: int = 1
 var battle_speed: int = 0
 ## Ask before ending a turn while cards or abilities could still be used (the prompt's "don't ask again" turns it off).
 var confirm_end_turn: bool = true
+## Overnight Oct 18, Part 7: end the turn by itself when nothing is left to play or attack with (off by default).
+var auto_end_turn: bool = false
 ## Adds a Path symbol wherever a Path is shown only by its colour.
 var colorblind_symbols: bool = false
 var reduce_shake: bool = false
@@ -310,6 +313,7 @@ func save_settings(path: String = PATH) -> void:
 	config.set_value("text", "dialogue_speed", dialogue_speed)
 	config.set_value("battle", "speed", battle_speed)
 	config.set_value("battle", "confirm_end_turn", confirm_end_turn)
+	config.set_value("battle", "auto_end_turn", auto_end_turn)
 	config.set_value("access", "colorblind_symbols", colorblind_symbols)
 	config.set_value("access", "reduce_shake", reduce_shake)
 	config.set_value("access", "reduce_flashing", reduce_flashing)
@@ -351,6 +355,7 @@ func load_settings(path: String = PATH) -> void:
 	dialogue_speed = clampi(int(config.get_value("text", "dialogue_speed", dialogue_speed)), 0, DIALOGUE_SPEEDS.size() - 1)
 	battle_speed = clampi(int(config.get_value("battle", "speed", battle_speed)), 0, BATTLE_SPEEDS.size() - 1)
 	confirm_end_turn = bool(config.get_value("battle", "confirm_end_turn", confirm_end_turn))
+	auto_end_turn = bool(config.get_value("battle", "auto_end_turn", auto_end_turn))
 	colorblind_symbols = bool(config.get_value("access", "colorblind_symbols", colorblind_symbols))
 	reduce_shake = bool(config.get_value("access", "reduce_shake", reduce_shake))
 	reduce_flashing = bool(config.get_value("access", "reduce_flashing", reduce_flashing))
@@ -378,6 +383,7 @@ func reset_to_defaults() -> void:
 	reduce_shake = false
 	battle_speed = 0
 	confirm_end_turn = true
+	auto_end_turn = false
 	reduce_flashing = false
 	graphics_quality = GraphicsQuality.recommended()
 	depth_of_field = true

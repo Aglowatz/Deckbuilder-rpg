@@ -405,3 +405,22 @@ func test_dialogue_speed_option_is_offered_with_instant() -> void:
 	assert_not_null(speed)
 	assert_eq(speed.item_count, 4)
 	assert_eq(speed.get_item_text(3), "Instant")
+
+
+func test_battle_options_survive_a_save_and_load() -> void:
+	assert_eq(Settings.BATTLE_SPEEDS, [1.0, 1.5, 2.0] as Array[float], "1x / 1.5x / 2x")
+	Settings.battle_speed = 2
+	Settings.confirm_end_turn = false
+	Settings.auto_end_turn = true
+	Settings.save_settings(TEMP_PATH)
+	Settings.battle_speed = 0
+	Settings.confirm_end_turn = true
+	Settings.auto_end_turn = false
+	Settings.load_settings(TEMP_PATH)
+	assert_eq(Settings.battle_speed, 2)
+	assert_false(Settings.confirm_end_turn)
+	assert_true(Settings.auto_end_turn)
+	assert_almost_eq(Settings.battle_speed_scale(), 2.0, 0.001)
+	Settings.battle_speed = 0
+	Settings.confirm_end_turn = true
+	Settings.auto_end_turn = false

@@ -29,6 +29,8 @@ var busy: bool = false
 var human_bot: AIPlayer
 var bot_until_turn: int = 0
 var tutorial: TutorialLayer
+## How many turns the auto-end-turn option ended (smokes read it).
+var auto_ended_turns: int = 0
 
 var _board_root: Control
 var _event_cursor: int = 0
@@ -420,6 +422,12 @@ func _auto_pass_if_pointless() -> bool:
 		if _fast_end_turn and game.active == 0 and game.phase != GameState.Phase.END:
 			game.apply_action(GameAction.pass_phase(0))
 			return true
+		if should_auto_end_turn():
+			_fast_end_turn = true
+			auto_ended_turns += 1
+			_toast("Nothing left to play: turn ended")
+			game.apply_action(GameAction.pass_phase(0))
+			return true
 		return false
 	if game.combat_step == GameState.CombatStep.DECLARE_ATTACKERS and game.active == 0:
 		if game.possible_attackers(0).is_empty() or _fast_end_turn:
@@ -430,6 +438,19 @@ func _auto_pass_if_pointless() -> bool:
 			game.apply_action(GameAction.pass_phase(0))
 			return true
 	return false
+
+
+## Overnight Oct 18, Part 7 (Settings > Battle > Auto-end turn, off by default): in your main phase with no card, ability or attack left,
+## the turn ends by itself. Items never hold it open (an item is always "usable"). Never during the guided first battles or for bots.
+func should_auto_end_turn() -> bool:
+	if not Settings.auto_end_turn or human_bot != null or game.active != 0 or game.awaiting_player() != 0 or not game.in_main_phase():
+		return false
+	if tutorial != null and tutorial.blocks_turn_end():
+		return false
+	if game.phase == GameState.Phase.MAIN1 and not game.possible_attackers(0).is_empty():
+		return false
+	var moves: Vector2i = _moves_left(true)
+	return moves.x + moves.y == 0
 
 
 func _any_block_possible() -> bool:
@@ -745,7 +766,8 @@ func _confirm_end_turn(end: Callable) -> void:
 		parts.append("play %d card%s" % [moves.x, "" if moves.x == 1 else "s"])
 	if moves.y > 0:
 		parts.append("use %d abilit%s" % [moves.y, "y" if moves.y == 1 else "ies"])
-	var message: String = "You can still %s this turn." % " and ".join(parts)
+	var energy: int = game.players[0].ready_infrastructure().size()
+	var message: String = ("You have %d energy left and can still %s this turn." % [energy, " and ".join(parts)]) if energy > 0 else "You can still %s this turn." % " and ".join(parts)
 	var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, "End your turn?", message, "End Turn", "Keep playing", false, "Don't ask again")
 	dialog.name = "EndTurnConfirm"
 	var remember: Callable = func() -> void:
@@ -762,7 +784,7 @@ func _confirm_end_turn(end: Callable) -> void:
 
 ## How many hand cards could still be played this turn (on a clone that skips ahead to the second main phase when you are in
 ## combat) and the abilities you could use now, as (cards, abilities). One infrastructure counts at most once.
-func _moves_left() -> Vector2i:
+func _moves_left(any_mode: bool = false) -> Vector2i:
 	if game.active != 0 or game.stage != GameState.Stage.PLAYING:
 		return Vector2i.ZERO
 	var trial: GameState = game.clone(false, 1)
@@ -780,7 +802,7 @@ func _moves_left() -> Vector2i:
 			infrastructure = 1 if trial.can_play_infrastructure(0, card.uid) else infrastructure
 		elif trial.can_play_card(0, card.uid):
 			count += 1
-	if mode == Mode.MAIN:
+	if mode == Mode.MAIN or any_mode:
 		for card: CardInstance in game.players[0].field + game.players[0].infrastructure:
 			if _usable_ability(card) >= 0 or not _usable_abilities(card).is_empty():
 				abilities += 1

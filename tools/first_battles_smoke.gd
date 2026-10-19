@@ -29,6 +29,7 @@ func _run() -> void:
 	Session.save_enabled = false
 	Session.ensure_game()
 	Settings.confirm_end_turn = true
+	Settings.auto_end_turn = OS.get_environment("AUTO_END") == "1"  # Overnight Oct 18, Part 7: AUTO_END=1 plays with the auto-end-turn option on
 	driver = UiDriver.new(get_tree())
 	var map: DungeonMap = TrialOfTheHollow.build_map()
 	for index: int in range(BATTLE_NODES.size()):
@@ -44,7 +45,7 @@ func _run() -> void:
 					_tips.append(shown)
 					_tip_battle[shown] = index + 1
 		var seconds: float = float(Time.get_ticks_msec() - started) / 1000.0
-		_report.append("battle %d (%s, speed %s): %s in %d turns, %.0f s, you %d HP, enemy %d HP" % [index + 1, node.enemy_name, Settings.BATTLE_SPEED_NAMES[SPEEDS[index]], result, screen.game.turn, seconds, screen.game.players[0].hp, screen.game.players[1].hp])
+		_report.append("battle %d (%s, speed %s): %s in %d turns, %.0f s, you %d HP, enemy %d HP" % [index + 1, node.enemy_name, Settings.BATTLE_SPEED_NAMES[SPEEDS[index]], result, screen.game.turn, seconds, screen.game.players[0].hp, screen.game.players[1].hp] + (", %d turns ended by themselves" % screen.auto_ended_turns if Settings.auto_end_turn else ""))
 		if index == 0:
 			for line: String in screen.battle_log.lines:
 				print("battle1 log: ", line)
