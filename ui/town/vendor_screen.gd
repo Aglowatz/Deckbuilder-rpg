@@ -376,7 +376,7 @@ func _show_picker() -> void:
 	_cards_view.visible = false
 	_picker.visible = true
 	set_close_label(close_text)
-	if not _picker_buttons.is_empty():
+	if not _picker_buttons.is_empty() and not warming:
 		_picker_buttons[0].call_deferred(&"grab_focus")
 
 

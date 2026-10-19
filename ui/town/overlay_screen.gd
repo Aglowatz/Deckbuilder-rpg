@@ -21,6 +21,9 @@ var stage: VendorStage
 var _panel: PanelContainer
 var _close_button: FancyButton
 var _music_token: int = 0
+## Daytime Oct 19 (first-open stutter): built once, nearly invisible, by `UiArtWarmup` so its glyphs, shaders and pictures are ready
+## before the player opens it - no music, no focus, no vendor greeting, no fade.
+var warming: bool = false
 
 
 func _ready() -> void:
@@ -69,10 +72,14 @@ func _ready() -> void:
 	_build()
 	if stage != null:
 		stage.attach_overlay(self)
-		stage.say("open")
+		if not warming:
+			stage.say("open")
 	# Overnight Oct 17, Part 13: every screen opens the same way (a short fade), every button is reachable with the keyboard / a pad,
 	# and the first thing in the body has focus unless the screen focused something itself.
 	UiInput.make_focusable(self)
+	if warming:
+		modulate.a = 0.01
+		return
 	_focus_default.call_deferred()
 	modulate.a = 0.0
 	create_tween().tween_property(self, "modulate:a", 1.0, OPEN_FADE)

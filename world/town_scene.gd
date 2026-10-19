@@ -136,7 +136,9 @@ func screenshot_prepare(args: Dictionary) -> void:
 func _ready() -> void:
 	SceneManager.pause_allowed = true
 	# Menu paintings and the town vendors' stage pictures load on a thread a moment after arriving (Phase 2 cycle 5, performance).
-	add_child(UiArtWarmup.make(["VS-SABLE", "VS-TONIC", "VS-BEETSWORTH", "VS-THREADWELL", "VS-FENWICK", "VS-ALEMBIC"]))
+	# Daytime Oct 19: the shops opened first (Sable, Tilly Tonic's item stall) are built once too, after the character screen.
+	add_child(UiArtWarmup.make(["VS-SABLE", "VS-TONIC", "VS-BEETSWORTH", "VS-THREADWELL", "VS-FENWICK", "VS-ALEMBIC"],
+		[_new_card_vendor_screen, func() -> OverlayScreen: return ItemVendorScreen.new()] as Array[Callable]))
 	Audio.play_music(MusicDirector.town(Session.flags))
 	Audio.set_ambience("town")
 	# The plaza fountain is heard from round the square (sound pass, Part C).
@@ -1794,13 +1796,19 @@ func _hidden_vendor_stock() -> VendorData:
 	return data
 
 
-func _open_vendor() -> void:
-	if not Session.has_profile():
-		return
+## Sable's stall as it opens (also built once by the UiArtWarmup a moment after arriving).
+static func _new_card_vendor_screen() -> VendorScreen:
 	var screen: VendorScreen = VendorScreen.new()
 	screen.pack_vendor_id = PackData.VENDOR_CARD
 	screen.pack_story_prefix = "pack.card_vendor"
 	screen.vendor_screen_id = "VS-SABLE"
+	return screen
+
+
+func _open_vendor() -> void:
+	if not Session.has_profile():
+		return
+	var screen: VendorScreen = _new_card_vendor_screen()
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 	EventBus.tutorial_event.emit(&"vendor_opened")

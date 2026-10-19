@@ -14,19 +14,36 @@ const START_DELAY: float = 2.0
 
 ## Vendor stage pictures (KeyArt ids such as "VS-SABLE") of the vendors in this area.
 var vendor_screens: Array[String] = []
+## Daytime Oct 19: the screens opened first after arriving (the character screen everywhere; the area adds its shops). Each is built once,
+## nearly invisible, for a couple of frames before the glyph warmup starts, so the first real open finds its glyphs, shaders and textures
+## ready (the full tour saw first opens of 245-345 ms while the glyph warmup was still running). Callables returning an OverlayScreen.
+var first_screens: Array[Callable] = []
+const SCREEN_FRAMES: int = 2
+## The screens are built while the loading screen (or the arrival fade) still covers the new area, so their one heavy frame is never seen.
+const SCREEN_DELAY: float = 0.1
+## Once per session: the glyphs, shaders and pictures stay cached, so a later area does not build the same screen again.
+static var _warmed: Dictionary = {}
+var _screen_delay: float = SCREEN_DELAY
+var _screens_done: bool = false
 var _delay: float = START_DELAY
 ## path -> the cache it goes into once loaded.
 var _pending: Dictionary = {}
 
 
-static func make(vendors: Array[String] = []) -> UiArtWarmup:
+static func make(vendors: Array[String] = [], screens: Array[Callable] = []) -> UiArtWarmup:
 	var warmup: UiArtWarmup = UiArtWarmup.new()
 	warmup.name = "UiArtWarmup"
 	warmup.vendor_screens = vendors
+	warmup.first_screens = [func() -> OverlayScreen: return CharacterScreen.new()] as Array[Callable]
+	warmup.first_screens.append_array(screens)
 	return warmup
 
 
 func _process(delta: float) -> void:
+	if _screen_delay > 0.0:
+		_screen_delay -= delta
+		if _screen_delay <= 0.0:
+			_warm_screens()
 	if _delay > 0.0:
 		_delay -= delta
 		if _delay <= 0.0:
@@ -61,13 +78,59 @@ func _start() -> void:
 				if not KeyArt._textures.has(id):
 					KeyArt._textures[id] = texture)
 	_prewarm_card_drawing()
-	_prewarm_glyphs()
+	_glyphs_after_screens()
 	for card_id: String in _first_thumbs():
 		var thumb_path: String = "%s%s.%s" % [CardArt.THUMB_DIR, card_id, CardArt.EXTENSION]
 		if not CardArt._thumbs.has(card_id) and ResourceLoader.exists(thumb_path):
 			_request(thumb_path, func(texture: Texture2D) -> void:
 				if not CardArt._thumbs.has(card_id):
 					CardArt._thumbs[card_id] = texture)
+
+
+## The first screens one after another (each built in its own frame, drawn SCREEN_FRAMES frames, freed). GUI input is off while a screen
+## is up, so nothing invisible can be clicked or hovered.
+func _warm_screens() -> void:
+	if Session.profile != null and not first_screens.is_empty():
+		var layer: CanvasLayer = CanvasLayer.new()
+		layer.layer = -10
+		add_child(layer)
+		for maker: Callable in first_screens:
+			if not is_inside_tree():
+				return
+			var screen: OverlayScreen = maker.call() as OverlayScreen
+			if screen == null:
+				continue
+			var key: String = "%s/%s" % [(screen.get_script() as Script).get_global_name(), screen.vendor_screen_id]
+			if _warmed.has(key):
+				screen.free()
+				continue
+			_warmed[key] = true
+			screen.warming = true
+			get_viewport().gui_disable_input = true
+			layer.add_child(screen)
+			for _frame: int in range(SCREEN_FRAMES):
+				await get_tree().process_frame
+			if not is_inside_tree():
+				return
+			get_viewport().gui_disable_input = false
+			screen.queue_free()
+			await get_tree().process_frame
+		layer.queue_free()
+	_screens_done = true
+
+
+## The glyph warmup starts once the screens are done (they rasterize most of the glyphs their sizes need anyway).
+func _glyphs_after_screens() -> void:
+	while not _screens_done and is_inside_tree():
+		await get_tree().process_frame
+	if is_inside_tree():
+		_prewarm_glyphs()
+
+
+func _exit_tree() -> void:
+	# A scene change in the middle of a warm screen must not leave the GUI deaf.
+	if get_viewport() != null:
+		get_viewport().gui_disable_input = false
 
 
 ## A card view drawn for a few frames in a corner, nearly invisible, so the card shaders and the card text sizes are ready before a grid of
