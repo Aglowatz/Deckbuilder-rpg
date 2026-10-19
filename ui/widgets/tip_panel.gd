@@ -7,6 +7,12 @@ extends PanelContainer
 static func show_once(parent: Control, flag: StringName, title: String, text: String, position: Vector2 = Vector2(560, 880)) -> TipPanel:
 	if Session.flag(flag):
 		return null
+	# Daytime Oct 19: a screen the UiArtWarmup builds unseen must not use up its one-time tip.
+	var node: Node = parent
+	while node != null:
+		if node is OverlayScreen and (node as OverlayScreen).warming:
+			return null
+		node = node.get_parent()
 	Session.set_flag(flag)
 	var tip: TipPanel = TipPanel.new()
 	tip.position = position

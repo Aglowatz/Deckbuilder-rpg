@@ -58,3 +58,22 @@ func test_first_screens_are_warmed_and_freed() -> void:
 	assert_false(get_viewport().gui_disable_input, "input is back on")
 	if Audio.has_method(&"current_music"):
 		assert_eq(Audio.current_music(), music_before, "no shop music was pushed")
+
+
+## Daytime Oct 19: warming the shops must not use up their one-time tips (a new player would never see them).
+func test_warming_keeps_the_shops_first_visit_tips() -> void:
+	Session.ensure_game(Affinity.Type.BEEFCAKE)
+	for flag: String in ["tip_vendor", "tip_item_vendor", "tip_items", "tip_shop"]:
+		Session.flags.erase(flag)
+	var before: Dictionary = Session.flags.duplicate()
+	UiArtWarmup._warmed.clear()
+	var warmup: UiArtWarmup = UiArtWarmup.make([], [func() -> OverlayScreen: return VendorScreen.new(), func() -> OverlayScreen: return ItemVendorScreen.new()] as Array[Callable])
+	warmup._delay = 0.01
+	warmup._screen_delay = 0.0001
+	add_child_autofree(warmup)
+	await wait_process_frames(30)
+	for key: Variant in Session.flags.keys():
+		if str(key).begins_with("tip_"):
+			assert_true(before.has(key), "warming set no tip flag (%s)" % str(key))
+	assert_false(Session.flag(&"tip_vendor"), "Sable's tip is still to come")
+	assert_false(Session.flag(&"tip_item_vendor"), "Tilly Tonic's tip is still to come")

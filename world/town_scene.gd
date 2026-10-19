@@ -136,9 +136,9 @@ func screenshot_prepare(args: Dictionary) -> void:
 func _ready() -> void:
 	SceneManager.pause_allowed = true
 	# Menu paintings and the town vendors' stage pictures load on a thread a moment after arriving (Phase 2 cycle 5, performance).
-	# Daytime Oct 19: the shops opened first (Sable, Tilly Tonic's item stall) are built once too, after the character screen.
+	# Daytime Oct 19: the screens opened first (Sable, Tilly Tonic's item stall, the Deck Station) are built once too, after the character screen.
 	add_child(UiArtWarmup.make(["VS-SABLE", "VS-TONIC", "VS-BEETSWORTH", "VS-THREADWELL", "VS-FENWICK", "VS-ALEMBIC"],
-		[_new_card_vendor_screen, func() -> OverlayScreen: return ItemVendorScreen.new()] as Array[Callable]))
+		[_new_card_vendor_screen, func() -> OverlayScreen: return ItemVendorScreen.new(), func() -> OverlayScreen: return DeckbuilderScreen.new()] as Array[Callable]))
 	Audio.play_music(MusicDirector.town(Session.flags))
 	Audio.set_ambience("town")
 	# The plaza fountain is heard from round the square (sound pass, Part C).
