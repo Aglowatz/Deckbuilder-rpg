@@ -11,3 +11,4 @@
 | 7 | Onboarding | The Path choice was titled "Choose your element" while its own intro, its button and the rest of the game say Path: now "Choose your Path". | 8 | (this commit) |
 | 8 | Playtest readiness | F8 reports carry the hero's Path, deck size, fights won and zones freed; feedback_row.js puts "[Necrocrat L5]" in front of the summary. | 8.5 | (this commit) |
 | 9 | Balance (analysis) | Read AIPlayer._choose_attack against the Necrocrat-vs-Golem replay: no missed lethal - the L5 Necrocrat deck runs out of threats (Infrastructure + Red Tape draws) against the Golem's wall. Balance log wording corrected; next lever is the L5 Necrocrat reference deck (fewer basics or more bodies), not the AI. | 8 | (this commit) |
+| 10 | Playtest readiness | `docs/playtest/v0.4.1_checklist.md`: a hand-test checklist for your session (the first ten minutes, boss rules, Gainlands as a Necrocrat, the open questions). | 9 | (this commit) |
