@@ -16,12 +16,12 @@
 		"key_energy": 1.05,
 		"key_pitch": -22,
 		"key_yaw": -50,
-		"ambient_color": "#7e8270",
+		"ambient_color": "#8e86b4",
 		"ambient_energy": 0.78
 	},
 	"fog": {
-		"color": "#f4d2a4",
-		"density": 0.0034
+		"color": "#e2bcd2",
+		"density": 0.0036
 	},
 	"grade": {
 		"warmth": 0.12,
@@ -35,12 +35,12 @@
 	},
 	"vignette": 0.3,
 	"corruption": {
-		"start_z": 54,
+		"start_z": 60,
 		"end_z": 8,
 		"centre_x": 50,
 		"spread": 30,
 		"tint": "#5a2f6e",
-		"ground": 0.22,
+		"ground": 0.3,
 		"darken": 0.14,
 		"flowers": 0.15,
 		"texture": 0.9,
@@ -48,8 +48,8 @@
 		"trees_band": 0.2,
 		"fungus": 0.6,
 		"grade": {
-			"fog_color": "#dcb8c0",
-			"fog_density": 0.0046,
+			"fog_color": "#c8a0dc",
+			"fog_density": 0.0052,
 			"saturation": 0.98,
 			"warmth": 0.1,
 			"vignette": 0.34
@@ -58,7 +58,7 @@
 			"sun_color": "#f6c4bc",
 			"sun_energy": 1,
 			"sun_pitch": -16,
-			"ambient_color": "#a494b0"
+			"ambient_color": "#9a84c4"
 		},
 		"freed": 0,
 		"grade_curve": 1.8

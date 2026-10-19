@@ -150,6 +150,27 @@ What the map above became in code (`world/heap/heap_layout.gd`, `heap_builder.gd
 - **Everything the zone needs, re-placed**: every anchor, chest, pickup, animal, enemy home, sign, cluster and camera (the table in Part A, adjusted: the chasm and the east pocket moved east of the root ramp so the ramp does not bypass the east bridge, VD-09; Scrapmore moved to (70.5, 79) so the east lane and the root ramp's foot clear its cliff ring). The region ids stay, the titles are the terraces (`Compost Commons`, `The Farm Terrace`, `The Compost Terrace`, `The Junk Peaks`, `The Ravine`, `The Overgrown Plateau`, `The Throne Approach`).
 - **Checks**: `tests/core/zone/test_heap.gd` rewritten for the terraces (49 tests: size and depth, the terraces rise, surfaces, ramps of four kinds with level ends, bridges over water with level abutments, the gating: the lower terraces on foot, the plateau by mount only, the summits by beanstalk, the pocket by the east bridge, nothing walkable under a bridge, two or more ways per pair of terraces); `tests/world/test_heap_slice.gd` rewritten (17 tests: regions, routes walkable end to end, clearances, clusters, the hub, boards, the bridge entrance, the terraces, the landmarks, the built ways and water, the gradient, the cameras, the fresh visit, the Rotheart, the dressing); the walkability probe reaches all 65 key locations at body radius 0.65; the full suite 1926 / 1926; the walk smoke (`bash tools/run_heap_walk_smoke.sh`) passes its 21 shots after the compost pit was moved off the giant chest's approach.
 
+## Part C: palette and identity
+
+Violets, purples and blues over the warm golden key light, tuned for this zone only (nothing shared changed):
+
+- **The mood** (`data/art/zone_looks.json` `heap`): the fog is a lilac-rose (`dcb4d0`, a little thicker), the sky gradient runs gold at the horizon through pink-violet to a violet zenith with the kit's sunset panorama mixed down to 0.55 (its orange band no longer rules the sky), the haze tint rose and the "cool" distance tint blue-violet, the warmth of the post grade down from 0.3 to 0.16; the grass carpet's foxglove cell is on and its tint cooled. The water tint of the scenery is turquoise.
+- **The light** (`data/zone_styles/heap.json`): the key light stays warm gold; the ambient is a cool lilac-blue (`#8e86b4`, so the shadows read blue), the base fog lilac. The corruption now starts at the compost terrace's top edge (`start_z` 60) and its ground tint is stronger (0.3); its full grade is a violet fog (`#c8a0dc`, denser) with a violet ambient, so the plateau and the Rotheart's approach go clearly purple while the market stays golden.
+- **The cliffs**: cool grey-violet strata in the vertex colours, the painted cliff layer `mat_rock` tinted lilac (VD-11); moss on the top courses, violet where the corruption reaches.
+- **Purple flowering trees** (`HeapTerraces.jacaranda_field`, VD-12): every third healthy tree of the layout's scatter is a jacaranda built in one mesh (a leaning trunk, three or four branches, lobed violet crowns in two violets over a little green, blossom drapes hanging from the lower branches) instead of an oak or birch card; the twisted trees of the corruption stay.
+- **Violet and blue blossoms** (`HeapTerraces.bloom_clumps`): every other flower clump along the paths and all of the foreground clumps at the market's corners and the ravine's lip are beds of violet, blue and cream blossoms on stems over leaf blobs (one mesh); the kit's wildflower crates fill the rest.
+- **Turquoise water** everywhere (`HeapWater.SHALLOW` / `DEEP`), the sludge chasm and the pits keep their green.
+- **Violet blossoms on vines**: the bridges' rails, the vine ladders, the abutments and the cliff vines all carry `petal_violet` / `bloom_light` blooms.
+- **Glowing violet mushrooms**: `DUMP-PLANT-FUNGUS` cards in the cliffs' shade on every terrace and in the fungus patches of the plateau.
+- **What stays warm**: the golden key light, the plank walks, the rust and tin of the stalls, barns and machinery, the patched awnings, the compost and the junk. Nothing of the Buffet's creams, coppers or gravy is used.
+- **Restored look**: freed, the gradient scales to nothing (as before) so the plateau takes the same lilac-and-gold base look as the market with healthy trees; the violet haze is the zone's own, not the Rot's.
+- **Not done**: light shafts through the canopy (`ambient.shafts`) stay off: the look test found them reading as flat strips with the sun behind the north-facing camera (VD-13).
+
+| | |
+|---|---|
+| ![](verdant_dump_v2/c_po_hub.jpg) the market after Part C | ![](verdant_dump_v2/c_po_stream.jpg) the ravine's lip |
+| ![](verdant_dump_v2/c_po_farm_rows.jpg) the farm terrace and the gorge | ![](verdant_dump_v2/c_wide.jpg) wide: the ravine, the cliffs, the terraces |
+
 ## Judgment calls
 
 | ID | Call | Why |

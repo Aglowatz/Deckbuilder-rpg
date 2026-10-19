@@ -14,6 +14,10 @@ static func _mesh() -> KitMesh:
 	# the stairs' dressed stone: the shared kit's foundation stone, cooled toward the cliffs' grey-violet
 	mesh.set_material("stone", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(0.86, 0.84, 0.96)))
 	mesh.set_material("stone_dark", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(0.62, 0.6, 0.72)))
+	# the blossoms: plain violets (the glowing wisteria slot blows out to white on a big clump)
+	mesh.alias("bloom_violet", "flat", Color("9a66d6").srgb_to_linear())
+	mesh.alias("bloom_light", "flat", Color("c09ae6").srgb_to_linear())
+	mesh.alias("bloom_blue", "flat", Color("5c78d8").srgb_to_linear())
 	return mesh
 
 
@@ -284,3 +288,96 @@ static func drain_grate(radius: float) -> Node3D:
 	mesh.box("doors", Vector3(-radius * 0.3, 0.2, -radius * 0.3), Vector3(1.2, 0.1, 0.8), Basis(Vector3.UP, 0.6), 0.02)
 	mesh.blob("leaf_dark", Vector3(radius * 0.2, 0.2, -radius * 0.5), Vector3(0.5, 0.2, 0.4), 3, 6, 1.0)
 	return _finish(mesh, "DrainGrate")
+
+
+## The purple flowering trees (the reference's wisteria and jacaranda, VD-12): one mesh for all of them, each a leaning trunk with three or four
+## branches, a crown of violet blossom clumps (the Rotheart's wisteria glow, lit a little from inside) over a few green leaf clumps, and blossom
+## drapes hanging off the lower branches. `trees` is a list of [pos (Vector3, the ground), scale, seed]. Never faded (they stand at the edges).
+static func jacaranda_field(trees: Array) -> Node3D:
+	var mesh: KitMesh = _mesh()
+	for entry: Variant in trees:
+		var t: Array = entry as Array
+		var base: Vector3 = t[0] as Vector3
+		var s: float = float(t[1])
+		var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+		rng.seed = int(t[2])
+		var lean: Vector3 = Vector3(rng.randf_range(-0.5, 0.5), 0.0, rng.randf_range(-0.4, 0.4)) * s
+		var top: Vector3 = base + Vector3(0.0, 2.6 * s, 0.0) + lean
+		mesh.tube("bark", base, top, 0.26 * s, 7, true)
+		mesh.tube("bark_dark", base + Vector3(0.12 * s, 0.0, 0.0), top + Vector3(0.08 * s, -0.3 * s, 0.0), 0.12 * s, 5, true)
+		var branches: int = 3 + rng.randi() % 2
+		for b: int in range(branches):
+			var a: float = rng.randf() * TAU
+			var tip: Vector3 = top + Vector3(cos(a) * 1.5 * s, rng.randf_range(0.8, 1.5) * s, sin(a) * 1.5 * s)
+			mesh.tube("bark", top - Vector3(0, 0.3 * s, 0), tip, 0.12 * s, 5, true)
+			# a crown clump at the tip: a few blossom lobes of two violets over a little leaf, shaded underneath so it reads as a mass, not a sheet
+			mesh.blob("leaf", tip - Vector3(0, 0.3 * s, 0), Vector3(0.9, 0.45, 0.9) * s, 4, 9, 0.9)
+			for lobe: int in range(4):
+				var la: float = float(lobe) * 1.57 + rng.randf() * 0.6
+				var lp: Vector3 = tip + Vector3(cos(la) * 0.55 * s, 0.15 * s * float(lobe % 2), sin(la) * 0.55 * s)
+				mesh.blob("bloom_violet" if lobe % 2 == 0 else "bloom_light", lp, Vector3(0.7 + 0.15 * rng.randf(), 0.5, 0.7 + 0.15 * rng.randf()) * s, 4, 8, 0.8)
+			mesh.blob("bloom_light", tip + Vector3(0.0, 0.45 * s, 0.0), Vector3(0.55, 0.35, 0.55) * s, 3, 8, 0.85)
+			if b % 2 == 0:
+				var hang: Vector3 = tip + Vector3(cos(a) * 0.9 * s, -0.4 * s, sin(a) * 0.9 * s)
+				mesh.tube("bloom_violet", hang, hang + Vector3(0.0, -1.1 * s, 0.0), 0.16 * s, 5, true)
+				mesh.blob("bloom_light", hang + Vector3(0.0, -1.2 * s, 0.0), Vector3(0.2, 0.3, 0.2) * s, 3, 6, 1.0)
+		mesh.blob("bloom_violet", top + Vector3(0.0, 1.2 * s, 0.0), Vector3(1.05, 0.7, 1.05) * s, 4, 10, 0.8)
+		mesh.blob("bloom_light", top + Vector3(-0.4 * s, 1.75 * s, 0.3 * s), Vector3(0.6, 0.4, 0.6) * s, 3, 8, 0.85)
+		mesh.blob("bloom_violet", top + Vector3(0.5 * s, 1.65 * s, -0.3 * s), Vector3(0.55, 0.35, 0.55) * s, 3, 8, 0.85)
+		for r: int in range(3):
+			var a: float = rng.randf() * TAU
+			mesh.tube("bark_dark", base + Vector3(0, 0.15 * s, 0), base + Vector3(cos(a) * 0.9 * s, -0.1, sin(a) * 0.9 * s), 0.1 * s, 5, true)
+	var root: Node3D = _finish(mesh, "Jacarandas")
+	root.get_child(0).set_meta(&"no_wind", true)
+	return root
+
+
+## Clumps of violet and blue blossoms (the reference's foreground flowers): one mesh for all, each clump a bed of leaf blobs with a dozen blossoms in
+## violet, blue and cream on short stems. `clumps` is a list of [pos (Vector3, the ground), spread, seed].
+static func bloom_clumps(clumps: Array) -> Node3D:
+	var mesh: KitMesh = _mesh()
+	var tints: Array[String] = ["bloom_violet", "bloom_blue", "bloom_light", "cloth_cream", "bloom_violet", "bloom_blue"]
+	for entry: Variant in clumps:
+		var c: Array = entry as Array
+		var base: Vector3 = c[0] as Vector3
+		var spread: float = float(c[1])
+		var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+		rng.seed = int(c[2])
+		for leaf: int in range(3):
+			var p: Vector3 = base + Vector3(rng.randf_range(-spread, spread), 0.05, rng.randf_range(-spread, spread)) * 0.6
+			mesh.blob("leaf" if leaf % 2 == 0 else "leaf_dark", p, Vector3(spread * 0.55, 0.22, spread * 0.5), 3, 7, 0.95)
+		var count: int = 8 + rng.randi() % 5
+		for f: int in range(count):
+			var a: float = rng.randf() * TAU
+			var d: float = rng.randf() * spread
+			var foot: Vector3 = base + Vector3(cos(a) * d, 0.1, sin(a) * d)
+			var h: float = rng.randf_range(0.35, 0.8)
+			mesh.tube("leaf_dark", foot, foot + Vector3(0, h, 0), 0.025, 4, false)
+			var r: float = rng.randf_range(0.11, 0.2)
+			mesh.blob(tints[f % tints.size()], foot + Vector3(0, h + r * 0.6, 0), Vector3(r, r * 0.7, r), 3, 6, 1.0)
+	var root: Node3D = _finish(mesh, "BloomClumps")
+	return root
+
+
+## A vine bridge's abutment, standing whether or not the bridge has grown: two mossy posts wrapped in vines either side of the walk with a rope
+## between, a stub of planks and blossom, so an ungrown crossing reads as "a bridge grows here". Local -z is the bridge's direction.
+static func bridge_abutment() -> Node3D:
+	var mesh: KitMesh = _mesh()
+	for side: float in [-1.0, 1.0]:
+		var foot: Vector3 = Vector3(side * (HeapLayout.BRIDGE_HALF_WIDTH + 0.35), -0.3, 0.3)
+		mesh.box("mosswood", foot + Vector3(0.0, 1.5, 0.0), Vector3(0.36, 3.0, 0.36), Basis(Vector3.UP, 0.15 * side), 0.03, 0.85)
+		mesh.lathe("tin", foot + Vector3(0.0, 3.0, 0.0), [Vector2(0.3, 0.0), Vector2(0.0, 0.3)], 6, 0.9, true, false)
+		for leaf: int in range(4):
+			mesh.blob("leaf" if leaf % 2 == 0 else "leaf_dark", foot + Vector3(0.16 * side, 0.6 + 0.6 * float(leaf), 0.18), Vector3(0.24, 0.3, 0.18), 4, 8, 0.95)
+		mesh.tube("leaf_dark", foot + Vector3(0.2 * side, 0.2, 0.2), foot + Vector3(-0.1 * side, 2.9, -0.15), 0.06, 5, true)
+		mesh.blob("bloom_light", foot + Vector3(0.1 * side, 2.4, 0.25), Vector3(0.14, 0.22, 0.14), 3, 6, 1.0)
+	var sag: int = 8
+	var previous: Vector3 = Vector3.ZERO
+	for index: int in range(sag + 1):
+		var t: float = float(index) / float(sag)
+		var point: Vector3 = Vector3(lerpf(-(HeapLayout.BRIDGE_HALF_WIDTH + 0.35), HeapLayout.BRIDGE_HALF_WIDTH + 0.35, t), 2.7 - sin(t * PI) * 0.35, 0.3)
+		if index > 0:
+			mesh.tube("rope", previous, point, 0.035, 4, false)
+		previous = point
+	mesh.box("plank", Vector3(0.0, -0.08, -0.3), Vector3(HeapLayout.BRIDGE_HALF_WIDTH * 2.0 + 0.4, 0.16, 0.9), Basis.IDENTITY, 0.02, 0.92)
+	return _finish(mesh, "Abutment")

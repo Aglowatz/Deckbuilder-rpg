@@ -279,8 +279,8 @@ func _vertex(x: float, z: float) -> Vector3:
 
 ## The cliffs' stone: cool grey-violet strata with moss on the top courses and a wet band at the water, read by the terrace faces, the valley's walls,
 ## the banks and the ramps' kerbs.
-const STRATA_LIGHT: Color = Color(0.56, 0.53, 0.58)
-const STRATA_DARK: Color = Color(0.36, 0.33, 0.42)
+const STRATA_LIGHT: Color = Color(0.7, 0.66, 0.74)
+const STRATA_DARK: Color = Color(0.47, 0.42, 0.54)
 const STRATA_MOSS: Color = Color(0.4, 0.55, 0.3)
 
 
@@ -417,7 +417,7 @@ func _build_floor() -> void:
 	instance.mesh = plane
 	# the land goes on to the horizon (the paint-overs: meadows and woods beyond the Dump), just under the rim's grass lip, not a sea 26 m down
 	instance.material_override = H.flat(Color(0.4, 0.52, 0.24))
-	instance.position = Vector3(50.0, -0.95, 40.0)
+	instance.position = Vector3(50.0, -5.5, 60.0)
 	instance.name = "FarGround"
 	instance.set_meta(&"no_range_cull", true)
 	instance.set_meta(&"no_occlusion_fade", true)
@@ -735,6 +735,15 @@ func _build_bridges() -> void:
 		bridge_nodes[bridge.id] = node
 		bridge_progress[bridge.id] = 0.0
 		_show_growth(node, 0.0)
+		# the abutments stand on both banks whether or not the bridge has grown
+		for end: int in range(2):
+			var abutment: Node3D = HeapTerraces.bridge_abutment()
+			abutment.name = "Abutment_%s_%d" % [bridge.id, end]
+			root.add_child(abutment)
+			var at: Vector2 = bridge.a if end == 0 else bridge.b
+			abutment.position = Vector3(at.x, bridge.y_a if end == 0 else bridge.y_b, at.y)
+			abutment.rotation.y = atan2(-d.x, -d.y) + (PI if end == 1 else 0.0)
+			_never_cull(abutment, true)
 
 
 func _build_ladders() -> void:
@@ -813,6 +822,8 @@ func _build_props() -> void:
 	var transforms: Dictionary = {}
 	var cards: Dictionary = {}
 	var fence: Array[Vector3] = []
+	var jacarandas: Array = []
+	var blooms: Array = []
 	var crop_index: int = 0
 	var c: Dictionary = layout.corruption
 	var tree_edge: float = float(c.get("trees", 0.42))
@@ -827,8 +838,12 @@ func _build_props() -> void:
 		match prop.kind:
 			"tree":
 				var twisted: bool = smoothstep(tree_edge - tree_band * 0.5, tree_edge + tree_band * 0.5, t) > dither
-				var kind: String = "dump_twisted" if twisted else ("dump_oak" if prop.variant % 3 != 1 else "dump_birch")
-				_card_at(cards, kind, pos, clampf(prop.model_scale * 0.95, 0.8, 1.25))
+				if not twisted and prop.variant % 3 == 2 and t < 0.45:
+					# every third healthy tree is a purple flowering tree (VD-12)
+					jacarandas.append([pos, clampf(prop.model_scale * 0.95, 0.85, 1.25), int(prop.pos.x * 7.0 + prop.pos.z * 13.0)])
+				else:
+					var kind: String = "dump_twisted" if twisted else ("dump_oak" if prop.variant % 3 != 1 else "dump_birch")
+					_card_at(cards, kind, pos, clampf(prop.model_scale * 0.95, 0.8, 1.25))
 			"bush":
 				if t > fungus_from and dither < smoothstep(fungus_from, fungus_from + 0.25, t):
 					_card_at(cards, "dump_fungus", pos, clampf(prop.model_scale * 0.9, 0.7, 1.2))
@@ -839,6 +854,9 @@ func _build_props() -> void:
 			"flowers":
 				if t > fungus_from + 0.1 and dither < 0.7:
 					_card_at(cards, "dump_fungus", pos, 0.55)
+				elif prop.variant % 2 == 0 or prop.pos.z > 130.0 or (prop.pos.z > 98.0 and prop.pos.z < 104.0):
+					# violet and blue blossom clumps (every other clump, and all of the foreground ones)
+					blooms.append([pos, clampf(prop.model_scale * 0.55, 0.45, 0.8), int(prop.pos.x * 3.0 + prop.pos.z * 5.0)])
 				else:
 					_card_at(cards, "dump_wild", pos, clampf(prop.model_scale * 0.7, 0.6, 0.95))
 			"mushrooms":
@@ -870,6 +888,14 @@ func _build_props() -> void:
 	if not fence.is_empty():
 		root.add_child(HeapKitProps.scrap_fence(fence, func(x: float, z: float) -> float: return layout.ground_height(x, z)))
 	root.add_child(HeapKitProps.walks(_walk_lines(), 2.6, func(x: float, z: float) -> float: return layout.ground_height(x, z)))
+	if not jacarandas.is_empty():
+		var purple: Node3D = HeapTerraces.jacaranda_field(jacarandas)
+		root.add_child(purple)
+		_never_cull(purple, true)
+	if not blooms.is_empty():
+		var beds: Node3D = HeapTerraces.bloom_clumps(blooms)
+		root.add_child(beds)
+		_never_cull(beds, true)
 	for kind: String in cards.keys():
 		var entries: Array[Dictionary] = []
 		entries.assign(cards[kind] as Array)

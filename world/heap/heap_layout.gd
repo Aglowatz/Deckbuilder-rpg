@@ -420,8 +420,8 @@ func ground_height(x: float, z: float) -> float:
 		if on_entrance(x, z):
 			return 0.0
 		if z > MAX_CORNER.y - 2.0 and x > MIN_CORNER.x + 2.0 and x < MAX_CORNER.x - 2.0:
-			# the south rim drops away to the overflow pool the entrance bridge crosses
-			return -5.0 + edge * 0.6
+			# the south rim steps down a metre to the meadow the overflow pool lies in (the entrance bridge crosses it)
+			return -1.0 * smoothstep(0.0, 2.5, -edge)
 		# the valley's walls: the land climbs steeply beyond the west, east and north rims, except on the Rotheart's mound behind the north rim (flat, the
 		# plateau's level, so the tree and its roots stand where the root gate is)
 		var inner: Vector2 = Vector2(clampf(x, MIN_CORNER.x + 0.5, MAX_CORNER.x - 0.5), clampf(z, MIN_CORNER.y + 0.5, MAX_CORNER.y - 0.5))
