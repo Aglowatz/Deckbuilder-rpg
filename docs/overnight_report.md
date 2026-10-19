@@ -173,7 +173,7 @@ From `docs/overnight/next_up.md`:
 1. Early walls left: the Gainlands for a Necrocrat (17%), the Rotheart normals, the Iron Cave/Vault normals at 71-75% (inbox 2-3).
 2. Late bosses numbers do not move (Shiro, Bellows, Primm phase 1) - a design call (inbox 4).
 3. Necrocrat and Gourmand tutorial runs (82% / 80%), the lowest two.
-4. The card vendor's open frame (~135 ms: warm the stage art, build less up front).
+4. First opens right after arriving (the last full tour: character screen 345 ms while the glyph warmup still ran) - warm the first screens' sizes first.
 5. An onboarding bot timed end to end (minutes and clicks from New Game to the first deck edit).
 6. Enemy pictures (90 prompts ready).
 7. The character screen's first open (130-180 ms) - the same build split as the shops.
