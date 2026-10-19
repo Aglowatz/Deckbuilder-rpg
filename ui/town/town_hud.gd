@@ -77,6 +77,9 @@ func _ready() -> void:
 	_toast.add_theme_constant_override("outline_size", 8)
 	_toast.position = Vector2(460, 780)
 	_toast.size = Vector2(1000, 44)
+	# Overnight Oct 18: long toasts (the zone's Path warning) wrap and grow upward from the same bottom line.
+	_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_toast.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	_toast.modulate.a = 0.0
 	add_child(_toast)
 	# Phase 2 cycle 7: the line ran off the right edge; the Menu button names itself, so it is not listed here.
@@ -156,14 +159,17 @@ func _process(delta: float) -> void:
 		_queue_timer = 2.4
 
 
-func toast(message: String, color: Color = UIStyle.PARCHMENT) -> void:
+func toast(message: String, color: Color = UIStyle.PARCHMENT, hold: float = 2.0) -> void:
 	_toast.text = message
+	var lines: int = maxi(1, _toast.get_line_count())
+	_toast.size = Vector2(1000, 44 * lines)
+	_toast.position.y = 824.0 - 44.0 * lines
 	_toast.add_theme_color_override("font_color", color)
 	if _toast_tween != null and _toast_tween.is_valid():
 		_toast_tween.kill()
 	_toast.modulate.a = 1.0
 	_toast_tween = create_tween()
-	_toast_tween.tween_interval(2.0)
+	_toast_tween.tween_interval(hold)
 	_toast_tween.tween_property(_toast, "modulate:a", 0.0, 0.5)
 
 

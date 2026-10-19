@@ -252,6 +252,8 @@ func _ready() -> void:
 	_build_ui()
 	hud.set_objective(story.text("hud.objective"))
 	hud.show_zone_effects(ZoneEffects.for_zone(def.id), def.display_name)
+	if _screenshot_args.is_empty():
+		_warn_rival_path()
 	EventBus.zone_hp_changed.emit(Session.zone_run.hp, Session.zone_run.max_hp())
 	_apply_pending_result.call_deferred()
 	if _arrived_by_rift:
@@ -626,6 +628,23 @@ func _build_camera() -> void:
 	if style_rig != null:
 		_dress_zone()
 		_paint_zone()
+
+
+## Overnight Oct 18, Phase 2 cycle 5: the first time a hero walks into a zone whose debuff hits their own Path, a longer toast says so and
+## names the zone that favours their Path (shown after the arrival card; once per hero per zone).
+func _warn_rival_path() -> void:
+	if Session.profile == null:
+		return
+	var key: StringName = StringName("rival_warned_" + def.id)
+	var text: String = ZoneEffects.rival_warning(def.id, Session.profile.primary_affinity)
+	if text.is_empty() or Session.flag(key):
+		return
+	Session.set_flag(key)
+	while SceneManager.busy:
+		await get_tree().process_frame
+	await get_tree().create_timer(4.6).timeout
+	if is_inside_tree() and hud != null:
+		hud.toast(text, UIStyle.GOLD, 6.0)
 
 
 func _build_ui() -> void:

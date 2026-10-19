@@ -166,3 +166,13 @@ func test_the_battle_hud_shows_the_zone_effects_panel() -> void:
 		row.mouse_exited.emit()
 		await get_tree().process_frame
 		assert_null(row.find_child("HoverTip", true, false), "and goes away when the mouse leaves")
+
+
+func test_a_zone_warns_the_path_it_works_against() -> void:
+	var text: String = ZoneEffects.rival_warning(GainlandsZone.ID, Affinity.Type.NECROCRAT)
+	assert_true(text.begins_with("Heads up: this place works against the Necrocrat Path."), text)
+	assert_true(text.contains(ZoneDefs.get_def(DnaZone.ID).display_name), "names the zone that favours Necrocrat: %s" % text)
+	assert_eq(ZoneEffects.rival_warning(GainlandsZone.ID, Affinity.Type.BEEFCAKE), "", "the favoured Path gets no warning")
+	assert_eq(ZoneEffects.rival_warning(GainlandsZone.ID, Affinity.Type.GOURMAND), "", "a neutral Path neither")
+	assert_eq(ZoneEffects.rival_warning(GainlandsZone.ID, Affinity.Type.NEUTRAL), "")
+	assert_ne(ZoneEffects.rival_warning(BuffetZone.ID, Affinity.Type.REFUSEMANCER), "")

@@ -77,6 +77,23 @@ static func has_effect(zone_id: String) -> bool:
 	return for_zone(zone_id) != null
 
 
+## Overnight Oct 18, Phase 2 cycle 5: the one-time arrival warning when this zone's debuff hits the player's own Path ("" when it does
+## not), naming the zone that favours that Path instead.
+static func rival_warning(zone_id: String, player_path: Affinity.Type) -> String:
+	var effect: Effect = for_zone(zone_id)
+	if effect == null or player_path == Affinity.Type.NEUTRAL or effect.rival != player_path:
+		return ""
+	var friendly: String = ""
+	for other: String in ZoneDefs.ids():
+		var candidate: Effect = for_zone(other)
+		if candidate != null and candidate.path == player_path and ZoneDefs.get_def(other) != null:
+			friendly = ZoneDefs.get_def(other).display_name
+	var line: String = "Heads up: this place works against the %s Path. %s." % [Affinity.display_name(player_path), effect.debuff_line().trim_suffix(".")]
+	if not friendly.is_empty():
+		line += " %s favours your Path - it may be the easier start." % friendly
+	return line
+
+
 ## The ModifierSource to feed the pipeline for a battle in `zone_id` (null outside the four zones).
 static func source_for(zone_id: String) -> ModifierSource:
 	var effect: Effect = for_zone(zone_id)
