@@ -2,6 +2,8 @@
 // app/feedback_report.gd). Fills date, version, area / quest step and the notes; guesses category and severity from the notes (correct
 // them in the log). Skips a folder that is already logged. Usage:
 //   node tools/feedback_row.js <report folder> [--reporter=Name] [--category=bug|confusion|balance|praise] [--severity=blocker|high|medium|low] [--log=<md>] [--dry]
+// Loop cycle 4: a folder of report folders (an unzipped batch, or the game's feedback folder) logs every report not logged yet, oldest
+// first; with no folder at all the game's own feedback folder (%APPDATA%/Deckbuilder-RPG/feedback) is used.
 const fs = require('fs');
 const path = require('path');
 
@@ -59,14 +61,28 @@ function nextId(log) {
 function main() {
 	const options = parseArgs(process.argv.slice(2));
 	if (!options.folder) {
-		console.error('usage: node tools/feedback_row.js <report folder> [--reporter=Name] [--category=..] [--severity=..] [--dry]');
-		process.exit(2);
+		options.folder = path.join(process.env.APPDATA || '', 'Deckbuilder-RPG', 'feedback');
+		console.log(`no folder given: reading ${options.folder}`);
 	}
-	const reportPath = path.join(options.folder, 'report.json');
-	if (!fs.existsSync(reportPath)) {
-		console.error(`no report.json in ${options.folder}`);
+	if (!fs.existsSync(options.folder)) {
+		console.error(`no such folder: ${options.folder}`);
 		process.exit(1);
 	}
+	if (fs.existsSync(path.join(options.folder, 'report.json'))) {
+		addRow(options, options.folder);
+		return;
+	}
+	const batch = fs.readdirSync(options.folder).map((name) => path.join(options.folder, name))
+		.filter((dir) => fs.existsSync(path.join(dir, 'report.json'))).sort();
+	if (batch.length === 0) {
+		console.error(`no report.json in ${options.folder} or its subfolders`);
+		process.exit(1);
+	}
+	for (const dir of batch) addRow(options, dir);
+}
+
+function addRow(options, folder) {
+	const reportPath = path.join(folder, 'report.json');
 	const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
 	const state = report.state || {};
 	const notes = cell(report.notes);
@@ -77,7 +93,7 @@ function main() {
 	const severity = options.severity || guessSeverity(category, notes);
 	const logPath = options.log || path.join(__dirname, '..', 'docs', 'playtest', 'feedback_log.md');
 	const log = fs.readFileSync(logPath, 'utf8');
-	const folderName = path.basename(path.resolve(options.folder));
+	const folderName = path.basename(path.resolve(folder));
 	if (log.includes(`\`${folderName}\``)) {
 		console.log(`already logged: ${folderName}`);
 		return;

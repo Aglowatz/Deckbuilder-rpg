@@ -5,6 +5,8 @@ report knows and guesses the rest for you to correct:
 
 ```
 node tools/feedback_row.js "<path to the report folder>" --reporter=Sam [--category=bug] [--severity=high] [--dry]
+node tools/feedback_row.js "<folder of unzipped reports>" --reporter=Sam     # every report in it not logged yet, oldest first
+node tools/feedback_row.js                                              # this PC's own feedback folder
 ```
 
 The report folder is the one the game opens after **Report a Problem** (F8 or Pause > Report a Problem); testers zip and send it.
