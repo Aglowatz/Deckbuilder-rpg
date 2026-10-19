@@ -83,8 +83,8 @@ static func _build() -> Array[ArenaEncounter]:
 	list.append(line)
 	# Rebalance (Oct 18): the Colossus runs on Gourmand basics, so it has no Iron to burst with (temporary Iron made its one big hit
 	# too big for a deck that cannot block).
-	var spells: ArenaEncounter = _battle("arena_spells_only", 2, "Cardboard Colossus", 8, "Passive", EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.GOURMAND] as Array[Affinity.Type], 16))
-	spells.player_recipe = {"BAS-B": 9, "BAS-G": 8, "B-03": 6, "B-21": 4, "G-21": 4, "G-25": 3, "C-14": 4, "C-15": 2, "G-20": 3, "B-27": 2}
+	var spells: ArenaEncounter = _battle("arena_spells_only", 2, "Cardboard Colossus", 6, "Passive", EnemyDecks.mixed("colorless_regime", 28, [Affinity.Type.GOURMAND] as Array[Affinity.Type], 16))
+	spells.player_recipe = {"BAS-B": 9, "BAS-G": 8, "B-03": 4, "B-21": 6, "G-21": 4, "G-25": 3, "C-14": 4, "C-15": 2, "G-20": 3, "B-27": 2}
 	var no_units: Modifier = Modifier.new()
 	no_units.kind = Modifier.Kind.NO_UNIT_PLAYS
 	no_units.label = "No unit plays"

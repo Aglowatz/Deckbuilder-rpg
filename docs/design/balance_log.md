@@ -641,3 +641,19 @@ Replays of Necrocrat vs the Hollow Warden (`tools/replay_encounter.gd --id=tutor
 | Change | Before -> after |
 |---|---|
 | Necrocrat starter: Red Tape Dispenser 2 -> 1, + Corpseified Public Accountant (N-05, a 2/3) | tutorial run (50 runs) 76% -> **82%** (`c9_tutorial_n.md`); L1 round robin Necrocrat 44% -> 44% (`c9_decks_l1.md`: vs Beefcake 40, Gourmand 45, Refusemancer 47) |
+
+## Overnight Oct 18, Phase 2 cycle 10 (Balance): full re-measure; the spells-only arena
+
+The whole catalog again after Parts 1-2 and cycles 1-9 (`g_full_after.md`, 6 games per Path), against iteration 1 (`g_iter1.md`):
+
+| Kind | Fights | In band before -> after | Too hard | Too easy | Mean win | Mean turns |
+|---|---:|---|---|---|---|---|
+| Tutorial | 3 | 3 -> **2** | 0 -> 1 | 0 -> 0 | 96% -> 92% | 5.2 -> 5.3 |
+| Normal | 54 | 34 -> **35** | 20 -> 19 | 0 -> 0 | 84% -> 86% | 7.7 -> 7.5 |
+| Elite | 21 | 4 -> **9** | 9 -> 7 | 8 -> 5 | 66% -> 64% | 8.7 -> 8.8 |
+| Boss | 19 | 3 -> **6** | 3 -> 1 | 13 -> 12 | 69% -> 66% | 8.2 -> 8.3 |
+
+
+| Encounter | Old -> New | Why | Evidence |
+|---|---|---|---|
+| Arena tier 2, spells only (Cardboard Colossus) | Colossus 8 -> **6 HP**; the fixed player kit Dropped Weights x6 -> x4, Flex on Em x4 -> x6 | Part C made Dropped Weights unit-only, so the kit's only face damage was 4 x Flex on Em (2 each) = exactly 8: the fight needed every Flex | 17% in 23 turns -> **56%** in 16 turns (12 games per Path, `c10_spells.md`) |
