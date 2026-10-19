@@ -615,3 +615,11 @@ The Spotter, Spotless, Shiro and the Automaton do not move with stat rules: thei
 | The Old Kingdom Automaton (Forgotten Vault) | + Unstable Rift, Mirrored Hall | 71% -> 71% |
 
 Kept: all four moved toward the band or not at all, none overshot. These fights stay too easy for the geared late player; what is left is a design call (inbox 4).
+
+## Overnight Oct 18, Phase 2 cycle 6 (Balance): two more head starts
+
+| Encounter | Old -> New | Before -> after (6 games per Path) |
+|---|---|---|
+| The Doppelganger (Test Kitchen boss), Mise en Place | 2 Ingredients and a 3/3 Meatloaf Golem -> 2 Ingredients and a 1/1 Sashimi Weenie | 29% -> **63%** (boss band 40-60, +3) |
+| Trophy Hall Honor Guard (House of Gains elite), Honor Guard | two 1/1 Militia -> one | 54% -> **63%** (in band) |
+| Notary Wraith / Mortimer Grimsby after cycle 2's revert (re-measured) | - | **71% / 67%** (in band / +7) |

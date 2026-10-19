@@ -78,13 +78,13 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | Encounter (key) | Rule | Side | Effect (exact) | Shown as |
 |---|---|---|---|---|
 | Regime Checkpoint Captain | Drill Sergeant | enemy | stat (atk=1, def=0) | "The Captain's units get +1 attack." (icon delapouite/sergeant) |
-| Trophy Hall Honor Guard | Honor Guard | enemy | starting_tokens (token="T-16", count=2) | "Starts the duel with two 1/1 Militia on the field." (icon delapouite/guards) |
+| Trophy Hall Honor Guard | Honor Guard | enemy | starting_tokens (token="T-16", count=1) | "Starts the duel with a 1/1 Militia on the field." (icon delapouite/guards) |
 | Chancellor Clench, Iron Regent | Iron Regent | enemy | starting_resources (resource="iron", count=3) | "Starts the duel with 3 Iron." (icon lorc/anvil) |
 | Chancellor Clench, Iron Regent | Reinforcements | enemy | timed_summon (token="T-21", every=4) | "Every fourth turn of his, a 2/2 Patchwork Body marches in." (icon delapouite/strong-man) |
 | Unfinished War Machine | Conveyor | enemy | timed_summon (token="T-03", every=2) | "Every second turn of its, it assembles a 1/1 Sashimi Weenie." (icon delapouite/conveyor-belt) |
 | Cannon-Blender Gunner | Shrapnel | enemy | start_of_turn_damage (amount=1) | "At the start of its turn, you take 1 damage." (icon delapouite/pirate-cannon) |
-| The Doppelganger | Mise en Place | enemy | starting_resources (resource="ingredient", count=2) | "Starts the duel with 2 Ingredients and a 3/3 Meatloaf Golem on the field." (icon delapouite/chef-toque) |
-| The Doppelganger | Mise en Place | enemy | starting_tokens (token="T-05", count=1) | "Starts the duel with 2 Ingredients and a 3/3 Meatloaf Golem on the field." (icon delapouite/chef-toque) |
+| The Doppelganger | Mise en Place | enemy | starting_resources (resource="ingredient", count=2) | "Starts the duel with 2 Ingredients and a 1/1 Sashimi Weenie on the field." (icon delapouite/chef-toque) |
+| The Doppelganger | Mise en Place | enemy | starting_tokens (token="T-03", count=1) | "Starts the duel with 2 Ingredients and a 1/1 Sashimi Weenie on the field." (icon delapouite/chef-toque) |
 | Notary Wraith | Notarized | enemy | stat (atk=1, def=1) | "The Wraith's units get +1/+1." (icon delapouite/stamper) |
 | Undersecretary Vellum | Pre-Signed Contracts | enemy | starting_resources (resource="contract", count=2) | "Starts the duel with 2 Contracts; every second turn a Zombie Temp is hired." (icon delapouite/full-folder) |
 | Undersecretary Vellum | Pre-Signed Contracts | enemy | timed_summon (token="T-10", every=2) | "Starts the duel with 2 Contracts; every second turn a Zombie Temp is hired." (icon delapouite/full-folder) |
