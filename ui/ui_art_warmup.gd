@@ -61,6 +61,7 @@ func _start() -> void:
 				if not KeyArt._textures.has(id):
 					KeyArt._textures[id] = texture)
 	_prewarm_card_drawing()
+	_prewarm_glyphs()
 	for card_id: String in _first_thumbs():
 		var thumb_path: String = "%s%s.%s" % [CardArt.THUMB_DIR, card_id, CardArt.EXTENSION]
 		if not CardArt._thumbs.has(card_id) and ResourceLoader.exists(thumb_path):
@@ -90,6 +91,50 @@ func _prewarm_card_drawing() -> void:
 		view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		layer.add_child(view)
 	get_tree().create_timer(0.5).timeout.connect(layer.queue_free)
+
+
+## Overnight Oct 18, Phase 2 cycle 3: the UI fonts are rasterized per size and outline (no MSDF), so the first screen that shows a new size
+## drew dozens of glyphs on its first frame. A label clipped to a 3-pixel corner, nearly invisible, cycles through the menus' common sizes, one
+## per frame (about 1.5 s), through the real draw path so the UI scale's oversampling is right too.
+const GLYPH_SIZES: Array[int] = [15, 16, 17, 18, 19, 20, 21, 22, 24, 26, 28, 30, 32, 34, 38, 44, 54, 64]
+const GLYPH_TEXT: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 .,:;!?'\"()-+/%&"
+
+
+## (font, size, outline) combinations the warmup draws: body and bold plain, the title font plain and with the two outlines menus use.
+static func glyph_combos() -> Array[Array]:
+	var combos: Array[Array] = []
+	for size: int in GLYPH_SIZES:
+		combos.append([UIStyle.font_body(), size, 0])
+		combos.append([UIStyle.font_bold(), size, 0])
+		for outline: int in [0, 6, 8]:
+			combos.append([UIStyle.font_title(), size, outline])
+	return combos
+
+
+func _prewarm_glyphs() -> void:
+	var layer: CanvasLayer = CanvasLayer.new()
+	layer.layer = -10
+	add_child(layer)
+	var clip: Control = Control.new()
+	clip.clip_contents = true
+	clip.position = Vector2(1.0, 1.0)
+	clip.size = Vector2(3.0, 3.0)
+	clip.modulate.a = 0.02
+	clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(clip)
+	var label: Label = Label.new()
+	label.name = "GlyphWarmup"
+	label.text = GLYPH_TEXT
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	clip.add_child(label)
+	for combo: Array in glyph_combos():
+		if not is_instance_valid(label) or not is_inside_tree():
+			return
+		label.add_theme_font_override("font", combo[0] as Font)
+		label.add_theme_font_size_override("font_size", int(combo[1]))
+		label.add_theme_constant_override("outline_size", int(combo[2]))
+		await get_tree().process_frame
+	layer.queue_free()
 
 
 ## The first THUMBS distinct owned cards (the top of the Deck Station's collection grid).
