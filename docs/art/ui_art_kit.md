@@ -22,3 +22,11 @@ Judgment calls: `docs/design/open_questions.md`, "UI art kit".
 The kit's card frames looked too busy and shrank the art window, so cards are back to the original face: full art, thin Path-coloured border, name bar with the cost across the top, type line and rules text at the bottom, attack/defense badge, and the compact battlefield view.
 The framed code (UI-FRAME-*, UI-RARITY-*, UI-STAT-PLAQUE, UI-COST-SOCKET) is kept in `ui/card/card_view.gd` behind one setting, `use_card_frame_overlays` in `data/ui_config.cfg` (`UiArt.use_card_frame_overlays()`); set it to `true` to try a redesigned frame. The images stay in `assets/art/ui/`. Card backs (UI-CARDBACK-*) are separate and still in use.
 Before/after screenshots: `docs/art/screens/card_face_revert/`.
+
+## Choice tiles (Daytime Oct 19)
+
+Selectable tiles share one look, `UiSkin.choice_tile(button, accent, selected, dim)`: the dark wood chip (UI-PANEL-HUD, the theme's
+DarkPanel) tinted toward the accent (a Path colour, gold, orange for a known boss), brighter on hover, darker pressed, greyed when dim
+(an unknown Collection Book entry), a parchment ring when selected and the gold keyboard-focus ring. Used by the Path choice, the
+equipment-slot choice and the Collection Book's bestiary. The character screen's equipment slots (UI-SLOT-EQUIP) and the Deck Station
+racks keep their own kit art. Flat boxes in the same colours stand in when the art is missing.

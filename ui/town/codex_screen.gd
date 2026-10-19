@@ -317,7 +317,7 @@ func _card_tile(card: CardData) -> Button:
 	tile.flat = true
 	tile.name = "Card_%s" % card.id
 	tile.custom_minimum_size = CardView.SIZE * CARD_SCALE + Vector2(0, 28)
-	tile.add_theme_stylebox_override("focus", UIStyle.box(Color(0, 0, 0, 0), UIStyle.GOLD, 3, 10))
+	tile.add_theme_stylebox_override("focus", UIStyle.box(Color(0, 0, 0, 0), Color("ffe08a"), 3, 12))
 	var view: CardView = CardView.create(card, CardView.Mode.FULL if seen else CardView.Mode.BACK, true)
 	view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tile.add_child(view)
@@ -456,11 +456,7 @@ func _beast_tile(entry: Bestiary.Entry) -> Button:
 	var tile: Button = Button.new()
 	tile.name = "Beast_%s" % entry.name.validate_node_name()
 	tile.custom_minimum_size = Vector2(176, 168)
-	var border: Color = Color("ff9c3a") if entry.is_boss() and known else (UIStyle.GOLD_DIM if known else Color(1, 1, 1, 0.1))
-	tile.add_theme_stylebox_override("normal", UIStyle.box(Color(0.07, 0.05, 0.11, 0.85), border, 2, 12))
-	tile.add_theme_stylebox_override("hover", UIStyle.box(Color(0.13, 0.09, 0.19, 0.95), UIStyle.GOLD, 2, 12))
-	tile.add_theme_stylebox_override("focus", UIStyle.box(Color(0, 0, 0, 0), Color("ffe08a"), 3, 12))
-	tile.add_theme_stylebox_override("pressed", UIStyle.box(Color(0.13, 0.09, 0.19, 0.95), UIStyle.GOLD, 2, 12))
+	UiSkin.choice_tile(tile, Color("ff9c3a") if entry.is_boss() and known else UIStyle.GOLD, false, not known)
 	var icon: TextureRect = beast_picture(entry, known, 84.0)
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon.position = Vector2(46, 14)

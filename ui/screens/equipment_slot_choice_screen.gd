@@ -46,8 +46,7 @@ func _make_tile(slot: EquipmentData.Slot) -> Control:
 	var tile: Button = Button.new()
 	tile.custom_minimum_size = Vector2(180, 160)
 	tile.focus_mode = Control.FOCUS_NONE
-	tile.add_theme_stylebox_override("normal", UIStyle.box(Color(0.1, 0.08, 0.16, 0.9), UIStyle.GOLD_DIM, 3, 14, 6))
-	tile.add_theme_stylebox_override("hover", UIStyle.box(Color(0.16, 0.12, 0.22, 0.9), UIStyle.GOLD, 4, 14, 12))
+	UiSkin.choice_tile(tile)
 	tile.pressed.connect(func() -> void: _select(slot))
 	tile.mouse_entered.connect(func() -> void: Audio.sfx(&"ui_hover", -8.0))
 	var label: Label = UIKit.label(EquipmentData.slot_name(slot), &"HeadingLabel", 24, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER)
@@ -65,5 +64,5 @@ func _select(slot: EquipmentData.Slot) -> void:
 	for key: Variant in _tiles.keys():
 		var tile: Button = _tiles[key] as Button
 		var is_selected: bool = int(key) == int(slot)
-		tile.add_theme_stylebox_override("normal", UIStyle.box(Color(0.22, 0.16, 0.06, 0.9) if is_selected else Color(0.1, 0.08, 0.16, 0.9), UIStyle.PARCHMENT if is_selected else UIStyle.GOLD_DIM, 4 if is_selected else 3, 14, 12 if is_selected else 6))
+		UiSkin.choice_tile(tile, UIStyle.GOLD, is_selected)
 	_confirm.disabled = false

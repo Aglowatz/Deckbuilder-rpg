@@ -282,6 +282,51 @@ static func rotated_texture(id: String, size_px: Vector2) -> Texture2D:
 # ---- Equipment slots ------------------------------------------------------------------------
 
 
+## Daytime Oct 19, Part 5: the one look of a selectable choice tile (the Path choice, the equipment-slot choice, the Collection Book's
+## entries) - the kit's dark wood chip (UI-PANEL-HUD, the theme's DarkPanel) tinted toward `accent`: brighter on hover, darker pressed,
+## strongly tinted when `selected`, greyed when `dim` (an unknown entry), and the gold keyboard-focus ring every tile shares. Flat boxes
+## in the same colours when the art is missing.
+static func choice_tile(button: Button, accent: Color = UIStyle.GOLD, selected: bool = false, dim: bool = false) -> void:
+	var base: Color = Color.WHITE.lerp(accent, 0.55 if selected else 0.2)
+	if selected:
+		base = Color(base.r * 1.35, base.g * 1.35, base.b * 1.35)
+	var grey: float = 0.65 if dim else 0.0
+	var content: Vector4 = Vector4(14, 12, 14, 12)
+	var styles: Dictionary = {
+		"normal": UiArt.nine("UI-PANEL-HUD", CHIP_MARGIN, CHIP_FACTOR, content, base, grey),
+		"hover": UiArt.nine("UI-PANEL-HUD", CHIP_MARGIN, CHIP_FACTOR, content, base * HOVER_TINT, grey),
+		"pressed": UiArt.nine("UI-PANEL-HUD", CHIP_MARGIN, CHIP_FACTOR, content, base * PRESSED_TINT, grey),
+		"disabled": UiArt.nine("UI-PANEL-HUD", CHIP_MARGIN, CHIP_FACTOR, content, DISABLED_TINT, 0.85),
+	}
+	if styles["normal"] == null:
+		var fill: Color = Color(0.1, 0.08, 0.16, 0.9)
+		styles = {
+			"normal": UIStyle.box(fill.lerp(accent, 0.25) if selected else fill, UIStyle.PARCHMENT if selected else accent.darkened(0.3), 4 if selected else 3, 14, 6),
+			"hover": UIStyle.box(fill.lightened(0.08), accent.lightened(0.2), 4, 14, 12),
+			"pressed": UIStyle.box(fill.lightened(0.04), UIStyle.PARCHMENT, 4, 14, 4),
+			"disabled": UIStyle.box(fill.darkened(0.3), Color(1, 1, 1, 0.1), 2, 14),
+		}
+	for state: String in styles.keys():
+		button.add_theme_stylebox_override(state, styles[state] as StyleBox)
+	button.add_theme_stylebox_override("hover_pressed", styles["pressed"] as StyleBox)
+	button.add_theme_stylebox_override("focus", UIStyle.box(Color(0, 0, 0, 0), Color("ffe08a"), 3, 12))
+	# The chosen tile also wears a parchment ring (a tint alone was too quiet next to its neighbours).
+	var ring: Panel = button.get_node_or_null(^"SelectedRing") as Panel
+	if selected and ring == null:
+		ring = Panel.new()
+		ring.name = "SelectedRing"
+		ring.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		ring.set_anchors_preset(Control.PRESET_FULL_RECT)
+		ring.offset_left = -4.0
+		ring.offset_top = -4.0
+		ring.offset_right = 4.0
+		ring.offset_bottom = 4.0
+		ring.add_theme_stylebox_override("panel", UIStyle.box(Color(0, 0, 0, 0), UIStyle.PARCHMENT, 4, 14))
+		button.add_child(ring)
+	elif not selected and ring != null:
+		ring.queue_free()
+
+
 ## The equipment slot art (UI-SLOT-EQUIP) at `px` pixels square. "locked" is the image as drawn (its padlock is part of the art), "empty" has the padlock painted over with
 ## the slot's own dark interior, so an unlocked slot reads as empty; "hover" is the empty slot brighter. Null when the art is missing.
 static func equip_slot_style(kind: String, px: float) -> StyleBoxTexture:

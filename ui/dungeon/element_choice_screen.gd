@@ -55,9 +55,7 @@ func _make_tile(offer: ElementChoice.Offer) -> Control:
 	var tile: Button = Button.new()
 	tile.custom_minimum_size = Vector2(300, 440)
 	tile.focus_mode = Control.FOCUS_NONE
-	tile.add_theme_stylebox_override("normal", UIStyle.box(tint.darkened(0.7), tint.darkened(0.2), 3, 16, 8))
-	tile.add_theme_stylebox_override("hover", UIStyle.box(tint.darkened(0.55), tint.lightened(0.2), 4, 16, 14))
-	tile.add_theme_stylebox_override("pressed", UIStyle.box(tint.darkened(0.55), UIStyle.PARCHMENT, 4, 16, 4))
+	UiSkin.choice_tile(tile, tint)
 	tile.pressed.connect(func() -> void: _select(offer.affinity))
 	tile.mouse_entered.connect(func() -> void: Audio.sfx(&"ui_hover", -8.0))
 	var inner: VBoxContainer = UIKit.vbox(8)
@@ -97,7 +95,7 @@ func _select(color: Affinity.Type) -> void:
 		var tile: Button = _tiles[key] as Button
 		var tint: Color = UIStyle.affinity_color(int(key) as Affinity.Type)
 		var is_selected: bool = int(key) == int(color)
-		tile.add_theme_stylebox_override("normal", UIStyle.box(tint.darkened(0.45 if is_selected else 0.7), UIStyle.PARCHMENT if is_selected else tint.darkened(0.2), 5 if is_selected else 3, 16, 16 if is_selected else 8))
+		UiSkin.choice_tile(tile, tint, is_selected)
 	_confirm.disabled = false
 	_confirm.text = "Begin as %s" % UIStyle.affinity_name(color)
 
