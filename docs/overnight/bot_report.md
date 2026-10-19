@@ -1,6 +1,6 @@
 # Bot report
 
-Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-19T02:09:47, 1.0 minutes.
+Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-19T02:18:12, 1.0 minutes.
 
 - Areas: forest, town, beefcake, necrocrat, gourmand, refusemancer, capital
 - Spots used (NPCs, shops, signs, chests...): 18
@@ -12,43 +12,43 @@ Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd
 
 | Area | Frames | Over 33 ms | Worst (ms) |
 |---|---|---|---|
-| town | 2908 | 80 | 214 |
+| town | 2952 | 38 | 149 |
 
 ## Slowest moments (worst frame during one action)
 
-- town: open character_screen: 214 ms
-- town: use deck: 152 ms
-- town: use pack_vendor: 148 ms
-- town: use vendor: 130 ms
-- town: use item_vendor: 116 ms
-- town: use codex: 106 ms
-- town: open deck_station: 91 ms
-- town: open deck_station (again): 88 ms
-- town: use notice_board: 80 ms
-- town: use tailor: 76 ms
-- town: use elder: 62 ms
-- town: use chest: 61 ms
-- town: open quest_log: 57 ms
-- town: open vendor: 56 ms
-- town: use alchemist: 54 ms
+- town: use deck: 149 ms
+- town: use vendor: 144 ms
+- town: open character_screen: 130 ms
+- town: use pack_vendor: 127 ms
+- town: use item_vendor: 94 ms
+- town: open full_map: 84 ms
+- town: open deck_station: 80 ms
+- town: open deck_station (again): 79 ms
+- town: use codex: 73 ms
+- town: open vendor: 73 ms
+- town: open vendor (again): 70 ms
+- town: use equipment_vendor: 56 ms
+- town: use signpost_0: 54 ms
+- town: use well: 47 ms
+- town: use tailor: 45 ms
 
 ## Where the slow frames are (frames over 33 ms per action, top 15)
 
-- town: use vendor: 13
 - town: use deck: 6
-- town: open deck_station: 6
-- town: open deck_station (again): 5
-- town: use equipment_vendor: 5
-- town: use tailor: 4
-- town: use item_vendor: 4
-- town: open codex (again): 3
-- town: use pack_vendor: 3
+- town: open vendor (again): 5
+- town: use equipment_vendor: 4
 - town: open vendor: 3
-- town: open vendor (again): 3
-- town: use well: 3
-- town: use alchemist: 2
-- town: use notice_board: 2
-- town: use elder: 2
+- town: open deck_station: 3
+- town: use vendor: 2
+- town: open deck_station (again): 2
+- town: open item_vendor (again): 1
+- town: open item_vendor: 1
+- town: open full_map: 1
+- town: open character_screen: 1
+- town: open codex (again): 1
+- town: open codex: 1
+- town: use tailor: 1
+- town: use pack_vendor: 1
 
 ## Errors
 

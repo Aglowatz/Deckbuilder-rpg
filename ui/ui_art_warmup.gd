@@ -98,6 +98,7 @@ func _prewarm_card_drawing() -> void:
 ## per frame (about 1.5 s), through the real draw path so the UI scale's oversampling is right too.
 const GLYPH_SIZES: Array[int] = [15, 16, 17, 18, 19, 20, 21, 22, 24, 26, 28, 30, 32, 34, 38, 44, 54, 64]
 const GLYPH_TEXT: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 .,:;!?'\"()-+/%&"
+const GLYPH_CHUNK: int = 12
 
 
 ## (font, size, outline) combinations the warmup draws: body and bold plain, the title font plain and with the two outlines menus use.
@@ -127,13 +128,17 @@ func _prewarm_glyphs() -> void:
 	label.text = GLYPH_TEXT
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	clip.add_child(label)
+	# Phase 2 cycle 20: a whole alphabet at a large size with an outline cost 25-30 ms in one frame (a 0.6 s run of 40-50 ms frames soon
+	# after arriving), so each combination is drawn GLYPH_CHUNK characters per frame (~9 s in all, no frame over budget).
 	for combo: Array in glyph_combos():
-		if not is_instance_valid(label) or not is_inside_tree():
-			return
 		label.add_theme_font_override("font", combo[0] as Font)
 		label.add_theme_font_size_override("font_size", int(combo[1]))
 		label.add_theme_constant_override("outline_size", int(combo[2]))
-		await get_tree().process_frame
+		for start: int in range(0, GLYPH_TEXT.length(), GLYPH_CHUNK):
+			if not is_instance_valid(label) or not is_inside_tree():
+				return
+			label.text = GLYPH_TEXT.substr(start, GLYPH_CHUNK)
+			await get_tree().process_frame
 	layer.queue_free()
 
 
