@@ -757,9 +757,11 @@ func _fall_into_hazard() -> void:
 	Audio.sfx(&"splash", 0.0, 0.1)
 	hud.toast("Splorch!" if in_pit else "Splash!", Color("ffcf70"))
 	_splash(start, in_pit)
+	# off a vine bridge the fall is the ravine's depth; from a bank it is a stumble into the water
+	var splash_y: float = heap.layout.water_level_at(start.x, start.z) - 0.6
 	var sink: Tween = create_tween()
 	sink.tween_method(func(t: float) -> void:
-		player.position = start + Vector3(0.0, -t * 1.2, 0.0)
+		player.position = Vector3(start.x, lerpf(start.y, minf(start.y - 1.2, splash_y), t * t), start.z)
 		player.model.scale = Vector3.ONE * TownPlayer.MODEL_SCALE * (1.0 - t * 0.5), 0.0, 1.0, 0.7)
 	var fade: ColorRect = ColorRect.new()
 	fade.color = Color(0.2, 0.3, 0.1, 0) if in_pit else Color(0.2, 0.55, 0.55, 0)
@@ -816,7 +818,7 @@ func _splash(pos: Vector3, sludge: bool) -> void:
 	drop.rings = 3
 	drops.mesh = drop
 	drops.material_override = HeapMaterials.flat(HeapMaterials.SLUDGE if sludge else HeapMaterials.RECYCLED_WATER)
-	drops.position = Vector3(pos.x, HeapLayout.WATER_LEVEL + 0.1, pos.z)
+	drops.position = Vector3(pos.x, heap.layout.water_level_at(pos.x, pos.z) + 0.1, pos.z)
 	add_child(drops)
 	drops.emitting = true
 	get_tree().create_timer(1.8).timeout.connect(drops.queue_free)
@@ -906,8 +908,9 @@ func _teleport(anchor_name: String) -> void:
 		_spawn_grace = 30.0
 		return
 	if anchor_name == "bridge_center_mid":
-		var zc: float = HeapLayout.stream_z(50.0)
-		player.position = Vector3(50.0, 0.12, zc)
+		var bridge: HeapLayout.Bridge = heap.layout.bridges[0]
+		var mid: Vector2 = bridge.a.lerp(bridge.b, 0.5)
+		player.position = Vector3(mid.x, bridge.deck_height(0.5), mid.y)
 		_camera.position = player.position + CameraRig.shape(camera_offset)
 		_spawn_grace = 30.0
 		return

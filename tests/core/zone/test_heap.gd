@@ -39,42 +39,105 @@ func after_each() -> void:
 	builder.mounted = false
 
 
-# ---- Layout -------------------------------------------------------------------------------------
+# ---- Layout (v2: the terraced ravine, docs/art/verdant_dump_v2.md) -------------------------------------------------
 
 
-func test_the_land_is_about_the_size_of_the_other_zones() -> void:
-	var dna: DnaLayout = DnaLayout.new()
-	dna.build()
-	var area: float = 0.0
-	for x: int in range(0, 100):
-		for z: int in range(0, 80):
-			if HeapLayout.edge_distance(float(x) + 0.5, float(z) + 0.5) >= 0.0:
-				area += 1.0
-	var ratio: float = area / float(dna.floor_cell_count())
-	assert_between(ratio, 0.8, 2.2, "the Verdant Dump is roughly the D.N.A.'s size (ratio %.2f)" % ratio)
+func test_the_land_is_deeper_than_wide_and_at_least_as_big_as_before() -> void:
+	var width: float = HeapLayout.MAX_CORNER.x - HeapLayout.MIN_CORNER.x
+	var depth: float = HeapLayout.MAX_CORNER.y - HeapLayout.MIN_CORNER.y
+	assert_between(width, 60.0, 66.0, "about 60-65 m wide (%.0f)" % width)
+	assert_between(depth, 120.0, 140.0, "about 120-140 m deep (%.0f)" % depth)
+	var walkable: float = 0.0
+	var x: float = HeapLayout.MIN_CORNER.x
+	while x < HeapLayout.MAX_CORNER.x:
+		var z: float = HeapLayout.MIN_CORNER.y
+		while z < HeapLayout.MAX_CORNER.y:
+			if builder.is_floor_at(Vector3(x + 0.5, 0.0, z + 0.5)):
+				walkable += 1.0
+			z += 1.0
+		x += 1.0
+	assert_gt(walkable, 5800.0, "more walkable ground than the old 92 x 72 table (%.0f m2)" % walkable)
+
+
+func test_the_terraces_rise_from_the_market_to_the_plateau() -> void:
+	assert_eq(HeapLayout.tier_at(50.0, 120.0), 0, "the market is the lowest terrace")
+	assert_eq(HeapLayout.tier_at(50.0, 80.0), 1)
+	assert_eq(HeapLayout.tier_at(50.0, 50.0), 2)
+	assert_eq(HeapLayout.tier_at(50.0, 20.0), 3, "the plateau is the top")
+	var last: float = -100.0
+	for z: float in [126.0, 80.0, 50.0, 20.0]:
+		var h: float = layout.ground_height(50.0, z)
+		assert_gt(h, last + 2.5, "each terrace stands clearly above the one below (z %.0f at %.1f m)" % [z, h])
+		last = h
+	assert_lt(layout.ground_height(46.0, HeapLayout.stream_z(46.0)), HeapLayout.WATER_LEVEL, "the river bed is below the water, below the market")
+	assert_gte(HeapLayout.tier_height(0) - HeapLayout.WATER_LEVEL, 2.0, "the ravine is deep")
+	# the cliff band below each terrace is not walkable; the terrace above and below are
+	for tier: int in [2, 3]:
+		var edge: float = HeapLayout.tier_edge_z(tier, 56.0)
+		assert_eq(layout.surface_at(56.0, edge + 0.8), HeapLayout.Surface.CLIFF, "the face below terrace %d is a cliff" % tier)
+		assert_eq(layout.surface_at(56.0, edge - 1.0), HeapLayout.Surface.GROUND)
+		assert_eq(layout.surface_at(56.0, edge + HeapLayout.CLIFF_WIDTH + 1.0), HeapLayout.Surface.GROUND)
+	# the ravine's lips are cliffs, the water is hazard
+	var lip: float = HeapLayout.stream_z(36.0) + HeapLayout.STREAM_HALF_WIDTH + 0.4
+	assert_eq(layout.surface_at(36.0, lip), HeapLayout.Surface.CLIFF, "the ravine's bank is a cliff")
+	assert_eq(layout.surface_at(36.0, HeapLayout.stream_z(36.0)), HeapLayout.Surface.HAZARD, "the river is hazard")
 
 
 func test_surface_rules() -> void:
-	assert_eq(layout.surface_at(50.0, 64.0), HeapLayout.Surface.GROUND)
-	assert_eq(layout.surface_at(50.0, HeapLayout.stream_z(50.0)), HeapLayout.Surface.HAZARD, "the stream is hazard")
-	assert_eq(layout.surface_at(84.0, 72.0), HeapLayout.Surface.HAZARD, "a compost pit is hazard")
+	assert_eq(layout.surface_at(50.0, 118.0), HeapLayout.Surface.GROUND)
+	assert_eq(layout.surface_at(layout.pits[0].x, layout.pits[0].y), HeapLayout.Surface.HAZARD, "a compost pit is hazard")
+	assert_eq(layout.surface_at(HeapLayout.GORGE_X, 70.0), HeapLayout.Surface.HAZARD, "the gorge is hazard")
+	assert_eq(layout.surface_at(HeapLayout.CHASM_A.x, 50.0), HeapLayout.Surface.HAZARD, "the sludge chasm is hazard")
 	assert_eq(layout.surface_at(1.0, 1.0), HeapLayout.Surface.VOID)
-	assert_eq(layout.surface_at(79.0, 17.0), HeapLayout.Surface.ROUGH, "the scree is rough")
+	assert_eq(layout.surface_at(72.0, 20.0), HeapLayout.Surface.ROUGH, "the scree is rough")
+	assert_eq(layout.surface_at(76.0, 40.0), HeapLayout.Surface.ROUGH, "the scree slope is rough")
 	var peak: HeapLayout.Peak = layout.peaks[0]
 	assert_eq(layout.surface_at(peak.center.x, peak.center.y), HeapLayout.Surface.PEAK)
 	assert_eq(layout.surface_at(peak.center.x + peak.radius + 0.6, peak.center.y), HeapLayout.Surface.CLIFF)
 	assert_almost_eq(layout.ground_height(peak.center.x, peak.center.y), peak.height, 0.001)
-	assert_lt(layout.ground_height(50.0, HeapLayout.stream_z(50.0)), HeapLayout.WATER_LEVEL, "the stream bed is below the water")
+	assert_gt(peak.height, HeapLayout.tier_height(1) + 3.0, "Mount Scrapmore rises well above its terrace")
+
+
+func test_the_ways_up_are_ramps_of_several_kinds() -> void:
+	var kinds: Dictionary = {}
+	for ramp: HeapLayout.Ramp in layout.ramps:
+		kinds[ramp.kind] = int(kinds.get(ramp.kind, 0)) + 1
+		assert_gt(ramp.y1, ramp.y0, "%s climbs northward" % ramp.id)
+		var mid: Vector2 = ramp.rect.get_center()
+		var expect: HeapLayout.Surface = HeapLayout.Surface.ROUGH if ramp.kind == "scree" else HeapLayout.Surface.GROUND
+		assert_eq(layout.surface_at(mid.x, mid.y), expect, "%s is walkable (or a mount's)" % ramp.id)
+		# its foot meets the lower terrace and its head the upper one without a step
+		assert_almost_eq(layout.ground_height(mid.x, ramp.rect.end.y - 0.05), ramp.y0, 0.6, "%s starts on the lower terrace" % ramp.id)
+		assert_almost_eq(layout.ground_height(mid.x, ramp.rect.position.y + 0.05), ramp.y1, 0.6, "%s ends on the upper terrace" % ramp.id)
+		assert_almost_eq(layout.ground_height(mid.x, ramp.rect.end.y + 0.6), ramp.y0, 0.7, "the ground at %s's foot is level with it" % ramp.id)
+		assert_almost_eq(layout.ground_height(mid.x, ramp.rect.position.y - 0.6), ramp.y1, 0.7, "the ground at %s's head is level with it" % ramp.id)
+		var width: float = ramp.rect.size.x
+		if ramp.kind == "ladder":
+			assert_between(width, 2.0, 3.0, "%s: a vine ladder is two to three hero-widths" % ramp.id)
+		else:
+			assert_gte(width, 3.4, "%s: stairs and ramps are at least two to three hero-widths" % ramp.id)
+	for kind: String in ["stairs", "ramp", "ladder", "scree"]:
+		assert_true(kinds.has(kind), "there is a %s" % kind)
+	assert_gte(int(kinds["stairs"]), 3, "stone stairs between every pair of terraces")
+	assert_gte(int(kinds["ladder"]), 2, "two vine ladders")
+	# the kerb beside a ramp is a cliff where the heights disagree
+	var stairs: HeapLayout.Ramp = null
+	for ramp: HeapLayout.Ramp in layout.ramps:
+		if ramp.id == "stairs_mid":
+			stairs = ramp
+	assert_eq(layout.surface_at(stairs.rect.position.x - 0.4, stairs.rect.get_center().y), HeapLayout.Surface.CLIFF, "no stepping off the side of the stairs halfway up")
 
 
 func test_there_are_peaks_chutes_bridges_pits_and_scree() -> void:
 	assert_gte(layout.peaks.size(), 2, "two junk mountains")
 	assert_gte(layout.chutes.size(), 2, "a trash chute down each")
-	assert_eq(layout.bridges.size(), 3, "three bridge spans over the stream")
+	assert_eq(layout.bridges.size(), 3, "three vine bridges")
 	assert_gte(layout.pits.size(), 2, "compost pits")
 	assert_gte(layout.scree.size(), 1, "scree only a mount can cross")
-	for peak: HeapLayout.Peak in layout.peaks:
-		assert_gt(peak.height, 4.0, "%s is clearly raised" % peak.id)
+	for bridge: HeapLayout.Bridge in layout.bridges:
+		assert_gt(layout.hazard_depth(bridge.a.lerp(bridge.b, 0.5).x, bridge.a.lerp(bridge.b, 0.5).y), 0.0, "%s spans water or sludge" % bridge.id)
+		assert_eq(layout.surface_at(bridge.a.x, bridge.a.y), HeapLayout.Surface.GROUND, "%s's near end stands on land" % bridge.id)
+		assert_eq(layout.surface_at(bridge.b.x, bridge.b.y), HeapLayout.Surface.GROUND, "%s's far end stands on land" % bridge.id)
 
 
 func test_every_anchor_chest_and_enemy_stands_on_real_ground() -> void:
@@ -84,19 +147,23 @@ func test_every_anchor_chest_and_enemy_stands_on_real_ground() -> void:
 		if name == "spawn" or name == "exit":
 			assert_eq(surface, HeapLayout.Surface.BRIDGE, "anchor %s is on the entrance bridge" % name)
 			continue
-		assert_true(surface == HeapLayout.Surface.GROUND or surface == HeapLayout.Surface.PEAK or surface == HeapLayout.Surface.ROUGH, "anchor %s is on ground, a summit or the scree" % name)
+		assert_true(surface == HeapLayout.Surface.GROUND or surface == HeapLayout.Surface.PEAK or surface == HeapLayout.Surface.ROUGH, "anchor %s is on ground, a summit or the scree (%s)" % [name, HeapLayout.Surface.keys()[surface]])
 		assert_gt(HeapLayout.edge_distance(pos.x, pos.z), 1.0, "anchor %s is clear of the edge" % name)
+		assert_null(layout.ramp_at(pos.x, pos.z), "anchor %s is not on a stair or ramp" % name)
 	for id: String in layout.chests.keys():
 		var chest: Vector3 = layout.chests[id] as Vector3
-		assert_ne(layout.surface_at(chest.x, chest.z), HeapLayout.Surface.HAZARD, "chest %s is not in a pit" % id)
-		assert_ne(layout.surface_at(chest.x, chest.z), HeapLayout.Surface.CLIFF)
+		assert_ne(layout.surface_at(chest.x, chest.z), HeapLayout.Surface.HAZARD, "chest %s is not in the water" % id)
+		assert_ne(layout.surface_at(chest.x, chest.z), HeapLayout.Surface.CLIFF, "chest %s is not on a cliff" % id)
+		assert_ne(layout.surface_at(chest.x, chest.z), HeapLayout.Surface.VOID, "chest %s is on the land" % id)
 	for spawn: Dictionary in layout.enemy_spawns:
 		assert_true(builder.is_enemy_walkable(spawn["home"] as Vector3), "enemy home %s is on solid ground" % str(spawn["home"]))
 
 
-func test_the_banks_are_level_with_the_bridges() -> void:
-	var bank: Vector3 = layout.anchors["bank_center"] as Vector3
-	assert_lt(absf(layout.ground_height(bank.x, bank.z)), 0.3)
+func test_the_bridge_ends_are_level_with_their_terraces() -> void:
+	for bridge: HeapLayout.Bridge in layout.bridges:
+		assert_almost_eq(layout.ground_height(bridge.a.x, bridge.a.y), bridge.y_a, 0.4, "%s's near abutment" % bridge.id)
+		assert_almost_eq(layout.ground_height(bridge.b.x, bridge.b.y), bridge.y_b, 0.4, "%s's far abutment" % bridge.id)
+		assert_gte(bridge.deck_height(0.5), maxf(bridge.y_a, bridge.y_b), "%s arches over its span" % bridge.id)
 
 
 # ---- Reachability ---------------------------------------------------------------------------------------
@@ -121,7 +188,7 @@ func _cell_of(anchor: String) -> int:
 	return _key(int(pos.x / STEP), int(pos.z / STEP))
 
 
-## Cells reachable from the spawn, with ladders (both ways) and chutes (down) as links.
+## Cells reachable from the spawn, with beanstalks (both ways) and chutes (down) as links.
 func _reach(bridges: Array[String], ladders: Array[String], mounted: bool, smashed: Array[String]) -> Dictionary:
 	builder.mounted = mounted
 	for id: String in layout.bridges.map(func(b: HeapLayout.Bridge) -> String: return b.id):
@@ -142,6 +209,8 @@ func _reach(bridges: Array[String], ladders: Array[String], mounted: bool, smash
 	var seen: Dictionary = {_key(start.x, start.y): true}
 	var queue: Array[Vector2i] = [start]
 	var head: int = 0
+	var max_x: int = int((HeapLayout.MAX_CORNER.x + 4.0) / STEP)
+	var max_z: int = int((HeapLayout.ENTRANCE_Z1 + 4.0) / STEP)
 	while head < queue.size():
 		var cell: Vector2i = queue[head]
 		head += 1
@@ -152,7 +221,7 @@ func _reach(bridges: Array[String], ladders: Array[String], mounted: bool, smash
 				neighbours.append(Vector2i(target % 1000, target / 1000))
 		for next: Vector2i in neighbours:
 			var next_key: int = _key(next.x, next.y)
-			if seen.has(next_key) or next.x < 0 or next.y < 0 or next.x > 170 or next.y > 160:
+			if seen.has(next_key) or next.x < 0 or next.y < 0 or next.x > max_x or next.y > max_z:
 				continue
 			if not _walkable_cell((float(next.x) + 0.5) * STEP, (float(next.y) + 0.5) * STEP):
 				continue
@@ -186,78 +255,87 @@ func _chest_reached(seen: Dictionary, id: String) -> bool:
 	return false
 
 
-func test_the_south_is_reachable_on_foot_and_the_north_and_the_summits_are_not() -> void:
+## On foot from the entrance (VD-04): the market, the farm terrace by the east stairs and the compost terrace by the stairs, the root ramp or the
+## vine ladder; not the plateau (the barricade and the scree need a mount), not the summits (beanstalks), not the compost terrace's east pocket (the
+## east vine bridge), not the overlook (its ladder is open: it is reached).
+func test_the_lower_terraces_are_reachable_on_foot_and_the_plateau_the_summits_and_the_pocket_are_not() -> void:
 	var seen: Dictionary = _reach([] as Array[String], [] as Array[String], false, [] as Array[String])
-	for anchor: String in ["hub", "marigold", "hob", "wren", "heal", "compost_bin", "shrine", "trough", "stable_1", "crop_1", "crop_3", "quiz", "minigame", "pickup_bean_1", "pickup_bean_2", "pickup_fert_1", "pickup_fert_2", "pickup_junk_1", "pickup_junk_2", "animal_1", "animal_2", "animal_3", "mound_a", "mound_west", "mound_east", "sorrel", "bank_west", "bank_center", "bank_east"]:
+	for anchor: String in ["hub", "marigold", "hob", "wren", "heal", "compost_bin", "shrine", "trough", "stable_1", "sorrel", "bank_center", "bank_west", "mound_west", "pickup_bean_1", "pickup_fert_1", "pickup_junk_1", "animal_2", "giant_chest", "vault_lever",
+			"land_center", "land_west", "stable_2", "barricade_dam", "crop_1", "crop_3", "quiz", "animal_1", "pickup_fert_2", "pickup_junk_2", "pickup_bean_2", "minigame", "mound_a", "chute_a_end", "animal_3",
+			"mound_east", "bank_east", "pickup_fert_3", "chute_b_end", "barricade_gate"]:
 		assert_true(_reaches(seen, anchor), "%s is reachable from the spawn on foot" % anchor)
-	for anchor: String in ["land_west", "land_center", "land_east", "stable_2", "pickup_bean_3", "pickup_fert_3", "pickup_junk_3", "barricade_dam", "mini_dungeon", "puzzle", "mound_b", "ladder_a_top", "ladder_b_top"]:
-		assert_false(_reaches(seen, anchor), "%s needs a bridge, a mount or a beanstalk" % anchor)
-	for id: String in ["chest_fridge", "chest_compost"]:
-		assert_true(_chest_reached(seen, id), "%s is on the dry south side" % id)
-	for id: String in ["chest_peak_a", "chest_peak_b", "chest_hay", "chest_log", "chest_car", "chest_barn"]:
-		assert_false(_chest_reached(seen, id), "%s is across the stream or up a mountain" % id)
+	for anchor: String in ["land_east", "pickup_junk_3", "mini_dungeon", "main_dungeon", "puzzle", "mound_b", "ladder_a_top", "ladder_b_top", "pickup_bean_3"]:
+		assert_false(_reaches(seen, anchor), "%s needs a bean bridge, a mount or a beanstalk" % anchor)
+	for id: String in ["chest_fridge", "chest_compost", "chest_hay", "chest_thicket_s"]:
+		assert_true(_chest_reached(seen, id), "%s is on the lower terraces" % id)
+	for id: String in ["chest_peak_a", "chest_peak_b", "chest_log", "chest_car", "chest_barn", "chest_scree_ne", "chest_corner_nw", "chest_back_edge"]:
+		assert_false(_chest_reached(seen, id), "%s is up a summit, across the chasm or on the plateau" % id)
 
 
-func test_a_grown_bridge_opens_the_north_bank_and_the_open_wall_gap_west_but_not_the_rest() -> void:
-	var seen: Dictionary = _reach(["bridge_center"] as Array[String], [] as Array[String], false, [] as Array[String])
-	# the Landfill Depths door (the side dungeon's, sealed by its quest) stands at the end of the throne avenue in the open north-west district (VD-2)
-	for anchor: String in ["land_west", "land_center", "land_east", "stable_2", "pickup_bean_3", "pickup_fert_3", "pickup_junk_3", "barricade_dam", "mound_b", "chute_b_end", "mini_dungeon"]:
-		assert_true(_reaches(seen, anchor), "%s is reachable over the centre bridge" % anchor)
-	for anchor: String in ["main_dungeon", "puzzle", "ladder_b_top"]:
-		assert_false(_reaches(seen, anchor), "%s is behind the junk barricade or up Rust Peak" % anchor)
-	assert_true(_chest_reached(seen, "chest_hay"), "the haybale chest is on the north bank")
-	assert_true(_chest_reached(seen, "chest_log"), "the hollow-log chest is in the open west yards")
-	assert_false(_chest_reached(seen, "chest_car"), "the car-husk chest is behind the barricade")
-	assert_false(_chest_reached(seen, "chest_barn"), "the barn chest is on the scree")
+func test_the_vine_bridges_are_shortcuts_and_the_east_one_opens_the_pocket() -> void:
+	# without the east stairs the arched bridge would be the way: both lead to the same terrace, so the bridges are loops, never the only way
+	var no_bridges: Dictionary = _reach([] as Array[String], [] as Array[String], false, [] as Array[String])
+	var with_centre: Dictionary = _reach(["bridge_center"] as Array[String], [] as Array[String], false, [] as Array[String])
+	assert_true(_reaches(no_bridges, "land_center") and _reaches(with_centre, "land_center"), "the farm terrace is reached with and without Sorrel's bridge")
+	var east: Dictionary = _reach(["bridge_east"] as Array[String], [] as Array[String], false, [] as Array[String])
+	for anchor: String in ["land_east", "pickup_junk_3"]:
+		assert_true(_reaches(east, anchor), "%s is reachable over the east vine bridge" % anchor)
+	assert_true(_chest_reached(east, "chest_log"), "the hollow-log chest is in the east pocket")
+	assert_false(_reaches(east, "main_dungeon"), "the pocket's scree slope still needs a mount")
 
 
-func test_an_ungrown_bridge_is_not_walkable_and_a_partly_grown_one_is_walkable_only_as_far_as_it_has_grown() -> void:
-	var bridge: HeapLayout.Bridge = layout.bridges[1]
-	var zc: float = HeapLayout.stream_z(bridge.x)
-	var south: Vector3 = Vector3(bridge.x, 0.0, zc + 3.0)
-	var middle: Vector3 = Vector3(bridge.x, 0.0, zc)
-	assert_true(builder.is_in_hazard(middle), "an ungrown bridge span is just the stream")
+func test_an_ungrown_bridge_is_the_water_and_a_partly_grown_one_holds_only_as_far_as_it_has_grown() -> void:
+	var bridge: HeapLayout.Bridge = layout.bridges[0]
+	var south: Vector2 = bridge.a.lerp(bridge.b, 0.2)
+	var middle: Vector2 = bridge.a.lerp(bridge.b, 0.5)
+	var north: Vector2 = bridge.a.lerp(bridge.b, 0.8)
+	assert_true(builder.is_in_hazard(Vector3(middle.x, 0.0, middle.y)), "an ungrown bridge span is just the river")
 	builder.bridge_progress[bridge.id] = 0.5
-	assert_false(builder.is_in_hazard(south), "the grown south half holds you")
-	assert_false(builder.is_in_hazard(middle), "...up to the middle")
-	assert_true(builder.is_in_hazard(Vector3(bridge.x, 0.0, zc - 3.0)), "the unfinished north end is still the stream")
+	assert_false(builder.is_in_hazard(Vector3(south.x, 0.0, south.y)), "the grown south part holds you")
+	assert_false(builder.is_in_hazard(Vector3(middle.x, 0.0, middle.y)), "...up to the middle")
+	assert_true(builder.is_in_hazard(Vector3(north.x, 0.0, north.y)), "the unfinished north end is still the river")
 	builder.bridge_progress[bridge.id] = 1.0
-	assert_false(builder.is_in_hazard(Vector3(bridge.x, 0.0, zc - 3.0)), "a finished bridge holds all the way")
-	assert_true(builder.is_in_hazard(Vector3(bridge.x + 3.0, 0.0, zc)), "stepping off its side is the stream")
-	assert_almost_eq(builder.height_at(middle), HeapLayout.BRIDGE_HEIGHT, 0.001, "the deck is just above the banks")
+	assert_false(builder.is_in_hazard(Vector3(north.x, 0.0, north.y)), "a finished bridge holds all the way")
+	assert_true(builder.is_in_hazard(Vector3(middle.x + 3.0, 0.0, middle.y)), "stepping off its side is the river")
+	assert_almost_eq(builder.height_at(Vector3(middle.x, 0.0, middle.y)), bridge.deck_height(0.5), 0.01, "the deck arches over the ravine")
+	assert_gt(builder.height_at(Vector3(middle.x, 0.0, middle.y)), HeapLayout.WATER_LEVEL + 3.0, "well above the water")
 
 
-func test_the_wall_of_tires_leaves_only_three_gaps_and_the_barricade_plugs_the_middle_one() -> void:
-	for gate_x: float in HeapLayout.GAP_XS:
-		assert_true(builder.is_walkable(Vector3(gate_x + 1.2 if gate_x != 50.0 else 53.0, 0.0, HeapLayout.WALL_Z + 0.0)) or gate_x == 50.0 or true)
-	for dx: int in range(-4, 5):
-		assert_false(builder.is_walkable(Vector3(50.0 + float(dx) * 0.6, 0.0, HeapLayout.WALL_Z)), "no squeezing past the junk barricade (offset %d)" % dx)
+func test_the_junk_barricade_plugs_the_stairs_to_the_plateau() -> void:
+	var gate: Vector3 = layout.barricade_positions["gate"] as Vector3
+	for dx: int in range(-3, 4):
+		assert_false(builder.is_walkable(Vector3(gate.x + float(dx) * 0.6, 0.0, gate.z)), "no squeezing past the junk barricade (offset %d)" % dx)
 	builder.smash_barricade("gate")
-	assert_true(builder.is_walkable(Vector3(50.0, 0.0, HeapLayout.WALL_Z)), "smashed, the gap is open")
-	assert_false(builder.is_walkable(Vector3(54.0, 0.0, HeapLayout.WALL_Z)), "the wall either side still stands")
+	assert_true(builder.is_walkable(Vector3(gate.x, 0.0, gate.z)), "smashed, the stairs are open")
+	assert_eq(layout.surface_at(gate.x - 2.5, gate.z - 6.0), HeapLayout.Surface.CLIFF, "the cheek wall either side still stands")
 
 
-func test_the_barricade_opens_the_landfill_district_and_the_mount_opens_the_scree() -> void:
-	var seen: Dictionary = _reach(["bridge_center"] as Array[String], [] as Array[String], false, ["gate"] as Array[String])
-	for anchor: String in ["main_dungeon"]:
-		assert_true(_reaches(seen, anchor), "%s is reachable once the barricade is smashed" % anchor)
-	assert_true(_chest_reached(seen, "chest_car"))
-	assert_false(_reaches(seen, "puzzle"), "...but the Seed Shrine is up Rust Peak")
-	assert_false(_chest_reached(seen, "chest_barn"), "the scree still needs a mount")
-	var mounted: Dictionary = _reach(["bridge_center"] as Array[String], [] as Array[String], true, ["gate"] as Array[String])
+func test_the_barricade_or_the_scree_opens_the_plateau_with_a_mount() -> void:
+	var smashed: Dictionary = _reach([] as Array[String], [] as Array[String], false, ["gate"] as Array[String])
+	for anchor: String in ["main_dungeon", "mini_dungeon", "mound_b", "pickup_bean_3"]:
+		assert_true(_reaches(smashed, anchor), "%s is reachable once the barricade is smashed" % anchor)
+	assert_true(_chest_reached(smashed, "chest_car"))
+	assert_true(_chest_reached(smashed, "chest_corner_nw"))
+	assert_false(_reaches(smashed, "puzzle"), "...but the Seed Shrine is up Rust Peak")
+	assert_false(_chest_reached(smashed, "chest_barn"), "the scree still needs a mount")
+	var mounted: Dictionary = _reach(["bridge_east"] as Array[String], [] as Array[String], true, [] as Array[String])
+	assert_true(_reaches(mounted, "main_dungeon"), "a mount climbs the scree slope from the east pocket to the plateau without the barricade")
 	assert_true(_chest_reached(mounted, "chest_barn"), "a mount crosses the scree to the barn chest")
+	assert_true(_chest_reached(mounted, "chest_scree_ne"))
 
 
 func test_the_beanstalks_reach_the_summits_and_the_chutes_come_back_down() -> void:
-	var seen: Dictionary = _reach(["bridge_center"] as Array[String], ["ladder_a", "ladder_b"] as Array[String], false, ["gate"] as Array[String])
+	var seen: Dictionary = _reach([] as Array[String], ["ladder_a", "ladder_b"] as Array[String], false, ["gate"] as Array[String])
 	for anchor: String in ["ladder_a_top", "ladder_b_top", "puzzle", "chute_a_end", "chute_b_end"]:
 		assert_true(_reaches(seen, anchor), "%s is reachable with the beanstalks grown" % anchor)
-	for id: String in ["chest_peak_a", "chest_peak_b"]:
+	for id: String in ["chest_peak_a", "chest_peak_b", "chest_peak_c", "chest_peak_d"]:
 		assert_true(_chest_reached(seen, id), "%s is on a summit" % id)
-	var no_ladder: Dictionary = _reach(["bridge_center"] as Array[String], [] as Array[String], false, ["gate"] as Array[String])
+	var no_ladder: Dictionary = _reach([] as Array[String], [] as Array[String], false, ["gate"] as Array[String])
 	assert_false(_reaches(no_ladder, "puzzle"), "no beanstalk, no summit")
-	# The chute is the only way down: its destination is NOT reachable without it from the summit side, but it is ground level.
-	assert_eq(layout.surface_at((layout.anchors["chute_a_end"] as Vector3).x, (layout.anchors["chute_a_end"] as Vector3).z), HeapLayout.Surface.GROUND)
+	for chute: HeapLayout.Chute in layout.chutes:
+		var dest: Vector3 = layout.anchors[chute.dest_anchor] as Vector3
+		assert_eq(layout.surface_at(dest.x, dest.z), HeapLayout.Surface.GROUND, "%s lands on open ground" % chute.id)
+		assert_lt(layout.ground_height(dest.x, dest.z), layout.ground_height(chute.pos.x, chute.pos.y) - 3.0, "%s slides down to a lower terrace" % chute.id)
 
 
 func test_all_three_bridges_and_both_beanstalks_make_everything_reachable_with_a_mount() -> void:
@@ -266,6 +344,34 @@ func test_all_three_bridges_and_both_beanstalks_make_everything_reachable_with_a
 		assert_true(_reaches(seen, str(anchor)), "%s is reachable with everything grown and smashed" % str(anchor))
 	for id: String in layout.chests.keys():
 		assert_true(_chest_reached(seen, id), "%s is reachable with everything grown and smashed" % id)
+
+
+## Two or more ways between every pair of neighbouring terraces (never linear): counted as the ramps and bridges whose ends stand on each pair.
+func test_every_pair_of_neighbouring_terraces_has_at_least_two_ways() -> void:
+	var ways: Dictionary = {}
+	for ramp: HeapLayout.Ramp in layout.ramps:
+		var low: int = HeapLayout.tier_at(ramp.rect.get_center().x, ramp.rect.end.y + 0.5)
+		var high: int = HeapLayout.tier_at(ramp.rect.get_center().x, ramp.rect.position.y - 0.5)
+		if high == low + 1:
+			ways["%d-%d" % [low, high]] = int(ways.get("%d-%d" % [low, high], 0)) + 1
+	for bridge: HeapLayout.Bridge in layout.bridges:
+		var low: int = HeapLayout.tier_at(bridge.a.x, bridge.a.y)
+		var high: int = HeapLayout.tier_at(bridge.b.x, bridge.b.y)
+		if high == low + 1:
+			ways["%d-%d" % [low, high]] = int(ways.get("%d-%d" % [low, high], 0)) + 1
+	for pair: String in ["0-1", "1-2", "2-3"]:
+		assert_gte(int(ways.get(pair, 0)), 2, "terraces %s are joined by at least two ways (%d)" % [pair, int(ways.get(pair, 0))])
+
+
+## Nothing walkable lies under a bridge or a ledge: every bridge spans water or sludge from end to end, and the land under every summit is the summit.
+func test_nothing_walkable_lies_under_a_bridge() -> void:
+	for bridge: HeapLayout.Bridge in layout.bridges:
+		for step: int in range(1, 10):
+			var p: Vector2 = bridge.a.lerp(bridge.b, float(step) / 10.0)
+			var surface: HeapLayout.Surface = layout.surface_at(p.x, p.y)
+			assert_true(surface == HeapLayout.Surface.HAZARD or surface == HeapLayout.Surface.GROUND and layout.bridge_at(p.x, p.y) != null, "%s at %.1f: water below, or its own abutment" % [bridge.id, float(step) / 10.0])
+			if surface == HeapLayout.Surface.HAZARD:
+				assert_lt(layout.ground_height(p.x, p.y), bridge.deck_height(float(step) / 10.0) - 1.0, "%s: the water lies well under the deck" % bridge.id)
 
 
 func test_the_hidden_chests_are_at_least_six_and_nowhere_near_a_marked_spot() -> void:
@@ -324,12 +430,12 @@ func test_hazards_are_walkable_for_the_player_but_not_for_enemies_and_scree_need
 	assert_true(builder.is_walkable(water), "the player may wade in (and fall)")
 	assert_false(builder.is_enemy_walkable(water))
 	assert_true(builder.is_in_hazard(water))
-	var rough: Vector3 = Vector3(79.0, 0.0, 17.0)
+	var rough: Vector3 = Vector3(72.0, 0.0, 20.0)
 	assert_false(builder.is_walkable(rough, 0.22), "on foot the scree is blocked")
 	builder.mounted = true
 	assert_true(builder.is_walkable(rough, 0.22), "mounted you cross it")
 	builder.mounted = false
-	assert_true(builder.is_enemy_walkable(Vector3(79.0, 0.0, 22.0)) or builder.is_enemy_walkable(Vector3(74.0, 0.0, 14.0)), "enemies roam the scree")
+	assert_true(builder.is_enemy_walkable(Vector3(70.0, 0.0, 24.0)) or builder.is_enemy_walkable(Vector3(66.0, 0.0, 18.0)), "enemies roam the scree")
 	var peak: HeapLayout.Peak = layout.peaks[0]
 	assert_false(builder.is_walkable(Vector3(peak.center.x + peak.radius + 0.8, 0.0, peak.center.y)), "no walking up a cliff")
 

@@ -1,8 +1,9 @@
 extends GutTest
-## The Verdant Dump slice, Part A (docs/art/heap_slice.md): one walkable zone in six regions laid out by the declutter rules of the playbook (section 5)
-## before any art arrives. The way in is a walked bridge, the Commons an open plaza round the greenhouse stand-in, the routes wide and clear, props in
-## clusters at the edges, trees only at the edges and in framing groups, flowers in clumps along the paths that thin toward the Rotheart, the stand-in
-## landmarks of the right size standing clear or beyond the rim, the corruption gradient read from data, the paint-over cameras as layout data.
+## The Verdant Dump v2 (docs/art/verdant_dump_v2.md): one walkable zone rising in terraces from the market to the Rotheart, laid out by the declutter
+## rules of the playbook (section 5). The way in is a walked bridge, the market an open plaza round the greenhouse, the routes wide and clear, props
+## in clusters at the edges, trees at the edges, along the cliff tops and in framing groups, flowers in clumps along the paths (and big foreground
+## clumps at the market's corners) that thin toward the Rotheart, the landmarks standing clear or beyond the rim, the corruption gradient read from
+## data, the paint-over cameras as layout data, the ways between the terraces of several kinds with two or more per pair of neighbours.
 
 const TREES: Array[String] = ["tree", "bush", "rock", "mushrooms"]
 
@@ -23,7 +24,7 @@ func _anchored_feature(prop: HeapLayout.Prop) -> bool:
 	return false
 
 
-func test_the_six_regions_are_the_brief_regions() -> void:
+func test_the_six_regions_are_the_terraces_and_the_ravine() -> void:
 	var ids: Dictionary = {}
 	for area: HeapLayout.Area in layout.areas:
 		ids[area.id] = area.title
@@ -31,15 +32,18 @@ func test_the_six_regions_are_the_brief_regions() -> void:
 		assert_true(ids.has(id), "region %s exists" % id)
 	assert_eq(str(ids.get("commons", "")), "Compost Commons")
 	assert_eq(str(ids.get("throne", "")), "The Throne Approach")
+	assert_eq(str(ids.get("stream", "")), "The Ravine")
 	# the regions name the spots that belong to them
-	var expect: Dictionary = {"hub": "commons", "heal": "commons", "quiz": "farm", "crop_1": "farm", "minigame": "peaks", "mound_a": "peaks", "sorrel": "stream", "barricade_dam": "stream", "main_dungeon": "wetlands", "mini_dungeon": "throne", "puzzle": "throne"}
+	var expect: Dictionary = {"hub": "commons", "heal": "commons", "sorrel": "commons", "quiz": "farm", "crop_1": "farm", "barricade_dam": "farm", "minigame": "peaks", "mound_a": "peaks", "pickup_fert_3": "farm", "land_east": "peaks", "main_dungeon": "wetlands", "mini_dungeon": "throne", "puzzle": "throne"}
 	for key: String in expect.keys():
 		var pos: Vector3 = layout.anchors[key] as Vector3
 		var area: HeapLayout.Area = layout.area_at(pos.x, pos.z)
 		assert_eq(area.id if area != null else "", str(expect[key]), "%s stands in the %s region" % [key, str(expect[key])])
 	for id: String in ["chest_barn", "chest_scree_ne"]:
 		var chest: Vector3 = layout.chests[id] as Vector3
-		assert_eq(layout.area_at(chest.x, chest.z).id, "peaks", "%s lies on the scree under Junk Mountain, the junk peaks' north half" % id)
+		assert_eq(layout.area_at(chest.x, chest.z).id, "peaks", "%s lies on the scree, the junk peaks' plateau pocket" % id)
+	assert_eq(layout.area_at(46.0, HeapLayout.stream_z(46.0)).id, "stream", "the river is the Ravine region")
+	assert_eq(layout.area_at(HeapLayout.GORGE_X, 70.0).id, "stream", "the gorge too")
 
 
 func test_routes_are_wide_and_nothing_solid_stands_on_them() -> void:
@@ -50,10 +54,10 @@ func test_routes_are_wide_and_nothing_solid_stands_on_them() -> void:
 	for path: Dictionary in layout.paths:
 		if float(path["width"]) >= HeapLayout.MAIN_PATH_WIDTH:
 			main_roads += 1
-	assert_gte(main_roads, 8, "the roads off the plaza, the bank roads, the avenue and the wetlands road are four hero-widths")
+	assert_gte(main_roads, 8, "the roads off the plaza, the terrace lanes, the avenue and the road to the gate are four hero-widths")
 	var on_route: Array[String] = []
 	for prop: HeapLayout.Prop in layout.props:
-		if prop.kind in ["wall_tires", "divider", "junk_dam"] or _anchored_feature(prop):
+		if prop.kind in ["junk_dam"] or _anchored_feature(prop):
 			continue
 		if prop.radius <= 0.0 and prop.kind not in TREES:
 			continue
@@ -64,6 +68,20 @@ func test_routes_are_wide_and_nothing_solid_stands_on_them() -> void:
 		if blocker.y < HeapLayout.MIN_CORNER.y + 2.0:
 			continue  # the root gate and the throne steps stand at the ends of their roads
 		assert_gte(layout.path_edge_distance(blocker.x, blocker.y) - blocker.z, HeapLayout.PATH_CLEARANCE - 0.01, "the landmark at (%.0f, %.0f) keeps off the routes" % [blocker.x, blocker.y])
+	# every route runs on walkable ground of its own terrace: no route crosses water, a cliff or a stair's kerb (the ways up are the ramps)
+	var builder: HeapBuilder = HeapBuilder.new()
+	builder.layout.build()
+	builder._index_obstacles()
+	builder.mounted = true
+	for barricade: String in builder.layout.barricade_positions.keys():
+		builder.smash_barricade(barricade)
+	for path: Dictionary in layout.paths:
+		var line: PackedVector2Array = path["line"] as PackedVector2Array
+		for i: int in range(line.size() - 1):
+			var steps: int = int(line[i].distance_to(line[i + 1]) / 1.0) + 1
+			for s: int in range(steps + 1):
+				var p: Vector2 = line[i].lerp(line[i + 1], float(s) / float(steps))
+				assert_true(builder.is_walkable(Vector3(p.x, 0.0, p.y), 0.3), "the route through (%.1f, %.1f) is walkable" % [p.x, p.y])
 
 
 func test_open_ground_round_every_anchor_and_chest() -> void:
@@ -82,7 +100,7 @@ func test_open_ground_round_every_anchor_and_chest() -> void:
 				crowded.append("%s on chest %s" % [prop.kind, str(id)])
 	assert_eq(crowded, [] as Array[String], "every NPC, gate, pickup and chest can be reached without weaving round trees")
 	# interactables never fight for the prompt
-	var spots: Array[String] = ["heal", "compost_bin", "trough", "shrine", "stable_1", "stable_2", "rift_station", "wren", "hob", "marigold"]
+	var spots: Array[String] = ["heal", "compost_bin", "trough", "shrine", "stable_1", "stable_2", "rift_station", "wren", "hob", "marigold", "sorrel", "quiz", "minigame"]
 	for a: String in spots:
 		for b: String in spots:
 			if a < b:
@@ -95,12 +113,13 @@ func test_props_stand_in_clusters_at_the_edges_never_scattered() -> void:
 	var kinds: Dictionary = {}
 	for prop: HeapLayout.Prop in layout.props:
 		kinds[prop.kind] = int(kinds.get(prop.kind, 0)) + 1
-	for gone: String in ["arch", "landfill_gate", "composting_door", "windmill", "appliance_pile"]:
-		assert_false(kinds.has(gone), "no %s: the stand-ins and the roadside wrecks are gone" % gone)
+	for gone: String in ["arch", "landfill_gate", "composting_door", "windmill", "wall_tires", "divider"]:
+		assert_false(kinds.has(gone), "no %s: the stand-ins, the tyre wall and the district dividers are gone" % gone)
 	assert_lte(int(kinds.get("tire_stack", 0)), 6, "tyre stacks only in the clusters (%d)" % int(kinds.get("tire_stack", 0)))
 	assert_lte(int(kinds.get("junk_pile", 0)), 4, "junk piles only in the clusters")
 	assert_lte(int(kinds.get("car_husk", 0)), 2, "a wreck hides a chest, another stands by the barn; no more")
-	# every tree stands in a framing group at an edge: within 9 m of the rim, or within 6 m of two others
+	assert_eq(int(kinds.get("market_stall", 0)), 3, "three market stalls on the market terrace")
+	# every tree stands at an edge: the valley's rim, a cliff top, the ravine's lip, or in a group of three
 	var trees: int = 0
 	for prop: HeapLayout.Prop in layout.props:
 		if prop.kind != "tree":
@@ -110,16 +129,23 @@ func test_props_stand_in_clusters_at_the_edges_never_scattered() -> void:
 		for other: HeapLayout.Prop in layout.props:
 			if other != prop and other.kind == "tree" and Vector2(prop.pos.x - other.pos.x, prop.pos.z - other.pos.z).length() < 6.0:
 				near += 1
-		assert_true(HeapLayout.edge_distance(prop.pos.x, prop.pos.z) < 9.0 or near >= 2, "tree at (%.0f, %.0f) frames an edge or stands in a group" % [prop.pos.x, prop.pos.z])
-	assert_between(trees, 20, 62, "a few framing groups and the rim bands, not a wood (%d trees)" % trees)
-	# flowers stand in clumps along the path edges (each within 3.5 m of a route edge or of the crop row)
+		var by_cliff: bool = false
+		for tier: int in [1, 2, 3]:
+			if absf(prop.pos.z - HeapLayout.tier_edge_z(tier, prop.pos.x)) < 5.0:
+				by_cliff = true
+		if absf(prop.pos.z - HeapLayout.stream_z(prop.pos.x)) < 9.0:
+			by_cliff = true
+		assert_true(HeapLayout.edge_distance(prop.pos.x, prop.pos.z) < 9.0 or by_cliff or near >= 2, "tree at (%.0f, %.0f) frames an edge, a cliff or stands in a group" % [prop.pos.x, prop.pos.z])
+	assert_between(trees, 20, 75, "framing groups, the rims and the cliff tops, not a wood (%d trees)" % trees)
+	# flowers stand in clumps along the path edges, the crop row, or the big foreground clumps at the market's corners and the ravine's lip
 	var flowers: int = 0
 	for prop: HeapLayout.Prop in layout.props:
 		if prop.kind != "flowers":
 			continue
 		flowers += 1
-		var by_crops: bool = prop.pos.z > 56.5 and prop.pos.z < 61.0 and prop.pos.x < 27.0
-		assert_true(layout.path_edge_distance(prop.pos.x, prop.pos.z) < 3.5 or by_crops, "flowers at (%.0f, %.0f) line a path or the crop row" % [prop.pos.x, prop.pos.z])
+		var by_crops: bool = prop.pos.z > 73.5 and prop.pos.z < 78.0 and prop.pos.x < 44.0
+		var foreground: bool = prop.pos.z > 130.0 or (prop.pos.z > 98.0 and prop.pos.z < 104.0)
+		assert_true(layout.path_edge_distance(prop.pos.x, prop.pos.z) < 3.5 or by_crops or foreground, "flowers at (%.0f, %.0f) line a path, the crop row or frame the view" % [prop.pos.x, prop.pos.z])
 	assert_gte(flowers, 40, "there are flower clumps (%d flowers)" % flowers)
 
 
@@ -134,8 +160,7 @@ func test_the_hub_plaza_is_open_round_the_greenhouse() -> void:
 		if Vector2(sign.pos.x - HeapLayout.PLAZA_CENTER.x, sign.pos.z - HeapLayout.PLAZA_CENTER.y).length() < HeapLayout.PLAZA_RADIUS:
 			inside.append(sign.key)
 	assert_eq(inside, [] as Array[String], "nothing solid and no board inside the plaza (%.1f m) but the greenhouse" % HeapLayout.PLAZA_RADIUS)
-	assert_true(HeapLayout.GREENHOUSE.is_equal_approx(HeapLayout.PLAZA_CENTER), "the greenhouse stand-in is the plaza's centrepiece")
-	assert_gte(HeapLayout.GREENHOUSE_SIZE.x, 8.0, "a greenhouse-sized stand-in")
+	assert_true(HeapLayout.GREENHOUSE.is_equal_approx(HeapLayout.PLAZA_CENTER), "the greenhouse is the plaza's centrepiece")
 	var wake: Vector3 = layout.anchors["hub"] as Vector3
 	assert_lt(Vector2(wake.x - HeapLayout.PLAZA_CENTER.x, wake.z - HeapLayout.PLAZA_CENTER.y).length(), HeapLayout.PLAZA_RADIUS, "the hub anchor (where you wake) is in the plaza")
 	var builder: HeapBuilder = HeapBuilder.new()
@@ -143,7 +168,7 @@ func test_the_hub_plaza_is_open_round_the_greenhouse() -> void:
 	builder._index_obstacles()
 	assert_false(builder.is_walkable(Vector3(HeapLayout.PLAZA_CENTER.x, 0.0, HeapLayout.PLAZA_CENTER.y), 0.3), "the greenhouse is solid")
 	assert_true(builder.is_walkable(wake, 0.3), "the wake point is open ground")
-	# the hub's things stand round the rim, 4 m or more apart (checked above), the barn and the shed off the plaza
+	assert_eq(HeapLayout.tier_at(wake.x, wake.z), 0, "the market is the lowest terrace")
 	for key: String in ["heal", "hob", "wren", "marigold", "rift_station", "compost_bin", "stable_1"]:
 		var pos: Vector3 = layout.anchors[key] as Vector3
 		var distance: float = Vector2(pos.x - HeapLayout.PLAZA_CENTER.x, pos.z - HeapLayout.PLAZA_CENTER.y).length()
@@ -151,12 +176,13 @@ func test_the_hub_plaza_is_open_round_the_greenhouse() -> void:
 
 
 func test_few_sign_boards_each_with_a_pictogram_and_the_quiz_answers_stay() -> void:
-	assert_lte(layout.signs.size(), 24, "the boards that label something (was 35)")
+	assert_lte(layout.signs.size(), 24, "the boards that label something")
 	var keys: Array[String] = []
 	for sign: HeapLayout.Sign in layout.signs:
 		assert_true(HeapBuilder.SIGN_ICONS.has(sign.key), "%s has an icon" % sign.key)
 		assert_ne(sign.style, "memo", "no memos (%s)" % sign.key)
 		assert_ne(sign.style, "poster", "no posters (%s)" % sign.key)
+		assert_true(layout.surface_at(sign.pos.x, sign.pos.z) in [HeapLayout.Surface.GROUND, HeapLayout.Surface.PEAK], "%s stands on the ground, not a cliff or the water" % sign.key)
 		keys.append(sign.key)
 	for needed: String in ["sign.hub_main", "sign.oath", "sign.crops", "sign.fields", "sign.main_dungeon", "sign.landfill", "sign.exit", "sign.barricade", "sign.dam"]:
 		assert_has(keys, needed, "%s stays (a quiz answer or a label)" % needed)
@@ -181,21 +207,35 @@ func test_the_way_in_is_a_walkable_bridge_not_a_portal() -> void:
 	assert_almost_eq(builder.height_at(spawn), 0.0, 0.001, "the hero stands on the deck")
 	assert_almost_eq(builder.height_at(Vector3(HeapLayout.ENTRANCE_X, 0.0, HeapLayout.ENTRANCE_Z0 + 1.0)), 0.0, 0.25, "the land meets the deck level at the bridge head (no step)")
 	var can_stand: Callable = func(pos: Vector3) -> bool: return builder.is_walkable(pos, 0.3)
-	var missing: Array[String] = WalkProbe.unreachable(can_stand, spawn, builder.map_bounds(), {"hub": layout.anchors["hub"], "heal": layout.anchors["heal"], "quiz": layout.anchors["quiz"], "minigame": layout.anchors["minigame"], "mound_a": layout.anchors["mound_a"], "giant_chest": layout.anchors["giant_chest"], "vault_lever": layout.anchors["vault_lever"]}, 2.5)
-	assert_eq(missing, [] as Array[String], "the bridge leads into the plaza and on to every region south of the stream")
-	var no_props: int = 0
-	for prop: HeapLayout.Prop in layout.props:
-		if prop.kind == "arch":
-			no_props += 1
-	assert_eq(no_props, 0, "the tyre arch (the old portal) is gone")
-	# the town side: the Dump's passageway has no glow at its end
+	var missing: Array[String] = WalkProbe.unreachable(can_stand, spawn, builder.map_bounds(), {"hub": layout.anchors["hub"], "heal": layout.anchors["heal"], "quiz": layout.anchors["quiz"], "minigame": layout.anchors["minigame"], "mound_a": layout.anchors["mound_a"], "giant_chest": layout.anchors["giant_chest"], "vault_lever": layout.anchors["vault_lever"], "mound_east": layout.anchors["mound_east"]}, 2.5)
+	assert_eq(missing, [] as Array[String], "the bridge leads into the plaza and on (by the east stairs) to the farm and compost terraces")
 	var passage: Node3D = TownPassages.build("refusemancer", "The Verdant Dump", Color.GREEN, false)
 	add_child_autofree(passage)
 	assert_null(passage.find_child("FarGlow", true, false), "no portal glow at the end of the Dump passage")
 
 
+func test_the_zone_is_narrow_deep_and_terraced_with_the_river_below() -> void:
+	var width: float = HeapLayout.MAX_CORNER.x - HeapLayout.MIN_CORNER.x
+	var depth: float = HeapLayout.MAX_CORNER.y - HeapLayout.MIN_CORNER.y
+	assert_gt(depth, width * 1.8, "much deeper than wide (%.0f x %.0f)" % [width, depth])
+	assert_eq(HeapLayout.TIER_HEIGHTS.size(), 4, "four terraces")
+	for tier: int in range(1, 4):
+		assert_gte(HeapLayout.TIER_HEIGHTS[tier] - HeapLayout.TIER_HEIGHTS[tier - 1], 3.0, "each terrace stands a storey or more above the one below")
+	assert_lte(HeapLayout.WATER_LEVEL, HeapLayout.TIER_HEIGHTS[0] - 2.0, "the river runs in a ravine below the market")
+	# the spring: the river's gorge steps down with the terraces, the ravine runs west to east under the market
+	assert_gt(HeapLayout.gorge_water_level(45.0), HeapLayout.gorge_water_level(75.0), "the gorge's water steps down the terraces")
+	assert_gt(HeapLayout.gorge_water_level(75.0), HeapLayout.WATER_LEVEL)
+	assert_lt(HeapLayout.stream_z(30.0), HeapLayout.TIER_EDGE_Z[1] + 60.0)
+	# the ways up: several kinds, two or more per pair of neighbouring terraces, and a sightline: the plateau is higher than the market
+	var kinds: Dictionary = {}
+	for ramp: HeapLayout.Ramp in layout.ramps:
+		kinds[ramp.kind] = true
+	for kind: String in ["stairs", "ramp", "ladder", "scree"]:
+		assert_true(kinds.has(kind), "a %s" % kind)
+	assert_gte(layout.ramps.size() + layout.bridges.size(), 8, "many ways between the terraces (%d)" % (layout.ramps.size() + layout.bridges.size()))
+
+
 func test_the_landmarks_stand_clear_or_beyond_the_rim() -> void:
-	# the views: the Rotheart beyond the north rim at castle scale, Junk Mountain beyond the north-east corner, the throne beyond the north-west rim
 	assert_lt(HeapLayout.ROTHEART.y, HeapLayout.MIN_CORNER.y, "the Rotheart stands north of the land")
 	assert_gte(HeapLayout.ROTHEART_SIZE.y, 40.0, "the Rotheart is castle scale (%.0f m)" % HeapLayout.ROTHEART_SIZE.y)
 	assert_gte(HeapLayout.ROTHEART_SIZE.x, 40.0)
@@ -203,12 +243,11 @@ func test_the_landmarks_stand_clear_or_beyond_the_rim() -> void:
 	assert_gt(HeapLayout.JUNK_MOUNTAIN.x, HeapLayout.MAX_CORNER.x, "Junk Mountain lies beyond the north-east corner")
 	assert_lt(HeapLayout.THRONE.y + HeapLayout.THRONE_SIZE.z * 0.5, HeapLayout.MIN_CORNER.y, "the throne's dais is beyond the north rim; only its steps reach the land")
 	assert_lt(Vector2(HeapLayout.ROTHEART.x - 50.0, 0.0).length(), 6.0, "the Rotheart stands on the zone's centre line, seen from most of it")
-	# the region landmarks: flat kept-clear ground, edge off every anchor and route
 	for spot: Vector3 in HeapLayout.LANDMARK_SPOTS:
 		assert_true(spot in layout.flat_spots, "the ground under (%.1f, %.1f) is flat" % [spot.x, spot.y])
 		for key: Variant in layout.anchors.keys():
 			if str(key) in ["main_dungeon", "mini_dungeon", "hub"]:
-				continue  # the doors stand at their landmark's foot; the hub anchor is the plaza's open half
+				continue
 			var anchor: Vector3 = layout.anchors[key] as Vector3
 			var gap: float = Vector2(spot.x - anchor.x, spot.y - anchor.z).length() - spot.z
 			assert_gte(gap, 1.5, "%s stays off the landmark at (%.1f, %.1f) (%.1f m)" % [str(key), spot.x, spot.y, gap])
@@ -216,7 +255,6 @@ func test_the_landmarks_stand_clear_or_beyond_the_rim() -> void:
 		if prop.kind in TREES or prop.kind == "flowers":
 			for spot: Vector3 in HeapLayout.LANDMARK_SPOTS:
 				assert_gte(Vector2(prop.pos.x - spot.x, prop.pos.z - spot.y).length(), spot.z - 0.01, "no %s under the landmark at (%.1f, %.1f)" % [prop.kind, spot.x, spot.y])
-	# the built models
 	var host: Node3D = Node3D.new()
 	add_child_autofree(host)
 	var builder: HeapBuilder = HeapBuilder.new()
@@ -232,8 +270,7 @@ func test_the_landmarks_stand_clear_or_beyond_the_rim() -> void:
 			if id in ["DUMP-HERO-ROTHEART", "DUMP-HERO-JUNK-MOUNTAIN", "DUMP-HERO-TRASH-PANDA-THRONE"]:
 				assert_true(piece.has_meta(&"no_occlusion_fade"), "%s never fades" % id)
 	assert_not_null(builder.rotheart)
-	assert_almost_eq(float(builder.rotheart.get_meta("height", 0.0)), HeapLayout.ROTHEART_SIZE.y, 0.01, "the Rotheart stand-in is the planned height")
-	# the doors still work: the hero stands at the root gate and at the throne's steps; the region landmarks are solid
+	assert_almost_eq(builder.rotheart.position.y, HeapLayout.TIER_HEIGHTS[3] - 0.4, 0.6, "the Rotheart stands at the plateau's level, its roots reaching the root gate")
 	var gate: Vector3 = layout.anchors["main_dungeon"] as Vector3
 	assert_true(builder.is_walkable(gate + Vector3(0.0, 0.0, 1.4), 0.3), "the hero can stand at the Rotheart's root gate")
 	assert_false(builder.is_walkable(Vector3(HeapLayout.ROOT_GATE.x, 0.0, HeapLayout.ROOT_GATE.y - 1.5), 0.1), "the root gate's hollow is solid")
@@ -241,52 +278,95 @@ func test_the_landmarks_stand_clear_or_beyond_the_rim() -> void:
 	assert_true(builder.is_walkable(door + Vector3(0.0, 0.0, 1.6), 0.3), "the hero can stand at the throne's steps")
 	assert_false(builder.is_walkable(Vector3(HeapLayout.WINDMILL.x, 0.0, HeapLayout.WINDMILL.y), 0.1), "the windmill's tower is solid")
 	assert_true((builder.landmarks["DUMP-HERO-WINDMILL"] as Node3D).has_meta("spinner"), "the windmill's sails turn")
-	for key: String in ["crop_1", "quiz", "pickup_bean_1", "pickup_fert_1"]:
+	for key: String in ["crop_1", "quiz", "pickup_fert_2", "animal_1"]:
 		var anchor: Vector3 = layout.anchors[key] as Vector3
 		assert_gte(Vector2(anchor.x - HeapLayout.WINDMILL.x, anchor.z - HeapLayout.WINDMILL.y).length() - HeapLayout.WINDMILL_SIZE.x * 0.5, 3.0, "the windmill keeps %s clear" % key)
-	# the entrance bridge and the terrain never dissolve under the hero
 	var bridge: Node3D = builder.root.find_child("Bridge", false, false) as Node3D
 	assert_not_null(bridge, "the zone builds the entrance bridge")
 	if bridge != null:
 		assert_gt((bridge.get_meta("circles", []) as Array).size(), 2, "its gate pillars and landing posts block")
 		assert_true((bridge.find_child("Body", true, false) as Node).has_meta(&"no_occlusion_fade"), "the deck never dissolves under the hero")
-	for name: String in ["Land", "FarGround", "RecyclingStream", "OverflowPool"]:
+	for name: String in ["Land", "FarGround", "RecyclingStream", "OverflowPool", "Gorge0", "SludgeChasm", "DrainPool"]:
 		var piece: Node = builder.root.find_child(name, false, false)
 		assert_true(piece != null and piece.has_meta(&"no_occlusion_fade") and piece.has_meta(&"no_range_cull"), "%s never fades or culls" % name)
+
+
+## The terraces are built: stone stairs on every stair ramp, the root ramp, a vine ladder on every ladder ramp, the scree's junk, vines down the cliffs,
+## rope fences along the ravine's lips, three waterfalls with mist and two turning water wheels in the gorge, the drain grate; the arched vine bridges
+## climb from the market to the farm terrace.
+func test_the_ways_up_and_the_water_are_built() -> void:
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: HeapBuilder = HeapBuilder.new()
+	builder.build(host)
+	var names: Array[String] = []
+	for child: Node in builder.root.get_children():
+		names.append(str(child.name))
+	for ramp: HeapLayout.Ramp in layout.ramps:
+		var prefix: String = {"stairs": "Stairs_", "ramp": "RootRamp_", "ladder": "VineLadder_", "scree": "Scree_"}[ramp.kind]
+		assert_has(names, prefix + ramp.id, "%s is built as %s" % [ramp.id, ramp.kind])
+	assert_has(names, "CliffVines", "vines drape the cliff faces")
+	var count: Callable = func(prefix: String) -> int:
+		var n: int = 0
+		for name: String in names:
+			if name.begins_with(prefix):
+				n += 1
+		return n
+	assert_gte(int(count.call("RopeFence")), 4, "rope fences along the ravine's lips")
+	assert_gte(int(count.call("Fall")), 3, "three waterfalls")
+	assert_eq(int(count.call("WaterWheel")), 2, "two water wheels")
+	var wheel: Node3D = builder.root.find_child("WaterWheelBig", false, false) as Node3D
+	var spinner: Node3D = wheel.get_meta("spinner") as Node3D
+	var before: float = spinner.rotation.z
+	builder.animate(0.5)
+	assert_ne(spinner.rotation.z, before, "the wheels turn")
+	assert_has(names, "DrainGrate", "the junk-choked drain at the ravine's end")
+	for id: String in ["bridge_center", "bridge_west"]:
+		var node: Node3D = builder.bridge_nodes[id] as Node3D
+		var first: Node3D = node.get_node("Seg0") as Node3D
+		var last: Node3D = node.get_child(node.get_child_count() - 1) as Node3D
+		assert_gt(last.position.y, first.position.y + 2.0, "%s climbs from the market up to the farm terrace" % id)
+		var mid: Node3D = node.get_child(node.get_child_count() / 2) as Node3D
+		assert_gt(mid.position.y, (first.position.y + last.position.y) * 0.5 + 0.5, "%s arches" % id)
+	# the fall: walking off the arched bridge lands the hero in the ravine's water, below the market
+	var bridge: HeapLayout.Bridge = layout.bridges[0]
+	var off: Vector2 = bridge.a.lerp(bridge.b, 0.5) + Vector2(HeapLayout.BRIDGE_HALF_WIDTH + 0.4, 0.0)
+	assert_true(builder.is_in_hazard(Vector3(off.x, 0.0, off.y)), "stepping off the arched bridge's side is the river")
+	assert_lt(layout.water_level_at(off.x, off.y), HeapLayout.TIER_HEIGHTS[0] - 2.0, "...far below")
 
 
 func test_the_corruption_gradient_comes_from_data() -> void:
 	var data: Dictionary = ZoneStyles.style("heap").get("corruption", {}) as Dictionary
 	assert_false(data.is_empty(), "data/zone_styles/heap.json has the corruption block")
 	assert_eq(layout.corruption, data, "the layout reads it")
-	assert_almost_eq(layout.corruption_at(50.0, 64.0), 0.0, 0.001, "the Commons are healthy")
-	assert_almost_eq(layout.corruption_at(18.0, 60.0), 0.0, 0.001, "the farm rows are healthy")
-	var bank: float = layout.corruption_at(50.0, 34.0)
-	var wet: float = layout.corruption_at(50.0, 20.0)
+	assert_almost_eq(layout.corruption_at(50.0, 120.0), 0.0, 0.001, "the market is healthy")
+	assert_almost_eq(layout.corruption_at(34.0, 78.0), 0.0, 0.001, "the farm terrace is healthy")
+	var compost: float = layout.corruption_at(50.0, 48.0)
+	var plateau: float = layout.corruption_at(50.0, 22.0)
 	var roots: float = layout.corruption_at(50.0, 9.0)
-	assert_lt(bank, wet, "the land grows more twisted past the barricade")
-	assert_lt(wet, roots, "...and most at the Rotheart's roots")
+	assert_lt(compost, plateau, "the land grows more twisted up the terraces")
+	assert_lt(plateau, roots, "...and most at the Rotheart's roots")
 	assert_gte(roots, 0.95, "full corruption at the roots")
-	assert_lt(layout.corruption_at(16.0, 16.0), layout.corruption_at(50.0, 16.0), "the throne approach and the scree are less twisted than the wetlands")
-	# fewer flowers north of the wall than south of the stream
+	assert_lt(layout.corruption_at(29.0, 19.0), layout.corruption_at(50.0, 19.0), "the throne approach is less twisted than the plateau's centre")
 	var north: int = 0
 	var south: int = 0
 	for prop: HeapLayout.Prop in layout.props:
 		if prop.kind == "flowers":
-			if prop.pos.z < HeapLayout.WALL_Z and prop.pos.x > HeapLayout.DIVIDER_XS[0] and prop.pos.x < HeapLayout.DIVIDER_XS[1]:
+			if prop.pos.z < 36.0:
 				north += 1
-			elif prop.pos.z > 50.0:
+			elif prop.pos.z > 100.0:
 				south += 1
-	assert_lt(north, south / 3, "flowers thin toward the Rotheart (%d in the wetlands, %d in the south)" % [north, south])
-	# the violet tint reaches the terrain colour
+	assert_lt(north * 2, south, "flowers thin toward the Rotheart (%d on the plateau, %d on the market)" % [north, south])
 	var host: Node3D = Node3D.new()
 	add_child_autofree(host)
 	var builder: HeapBuilder = HeapBuilder.new()
 	builder.build(host)
-	var healthy: Color = builder._terrain_color(Vector3(30.0, 0.0, 60.0))
-	var twisted: Color = builder._terrain_color(Vector3(50.0, 0.0, 12.0))
-	assert_gt(twisted.b / maxf(twisted.g, 0.001), healthy.b / maxf(healthy.g, 0.001), "the wetlands' ground leans violet against the farm's green")
+	var healthy: Color = builder._terrain_color(Vector3(34.0, 3.0, 78.0))
+	var twisted: Color = builder._terrain_color(Vector3(50.0, 10.0, 12.0))
+	assert_gt(twisted.b / maxf(twisted.g, 0.001), healthy.b / maxf(healthy.g, 0.001), "the plateau's ground leans violet against the farm's green")
 	assert_lt(twisted.get_luminance(), healthy.get_luminance(), "and darker")
+	var cliff: Color = builder._terrain_color(Vector3(56.0, 8.0, HeapLayout.tier_edge_z(3, 56.0) + 0.8), 0.9)
+	assert_gt(cliff.b, cliff.g * 0.9, "the cliffs are cool grey-violet stone, not rust")
 
 
 func test_the_paint_over_cameras_are_layout_data_on_open_ground_facing_the_rotheart() -> void:
@@ -302,6 +382,8 @@ func test_the_paint_over_cameras_are_layout_data_on_open_ground_facing_the_rothe
 		assert_lt(HeapLayout.ROTHEART.y, at.y, "%s looks north toward the Rotheart" % name)
 		var bearing: float = rad_to_deg(atan2(absf(HeapLayout.ROTHEART.x - at.x), at.y - HeapLayout.ROTHEART.y))
 		assert_lt(bearing, 30.0, "%s has the Rotheart in frame (%.0f degrees off north)" % [name, bearing])
+	var ravine_view: Vector2 = HeapLayout.PO_CAMERAS["po_stream"] as Vector2
+	assert_eq(HeapLayout.tier_at(ravine_view.x, ravine_view.y), 0, "the reference's view is from the market's edge, looking up the terraces")
 
 
 func test_a_fresh_visit_starts_on_the_bridge_facing_the_commons() -> void:
@@ -341,11 +423,9 @@ func test_the_rotheart_is_the_concept_model_with_a_living_heart() -> void:
 	var lights: Array = tree.get_meta("lights", []) as Array
 	assert_eq(lights.size(), 1, "one real light: the heart's")
 	assert_not_null(tree.find_child("HeartMotes", true, false), "violet motes drift out of the hollow")
-	# the long roots run from the trunk to the root gate on the land (the way in is at its base)
 	var approach: Vector3 = tree.get_meta("approach", Vector3.ZERO) as Vector3
 	var reach_z: float = HeapLayout.ROTHEART.y + approach.z
 	assert_almost_eq(reach_z, HeapLayout.ROOT_GATE.y - HeapLayout.ROOT_GATE_SIZE.z * 0.5, 2.0, "the approach roots end at the back of the root gate")
-	# the pulse moves the glow; freeing the zone turns it green and back
 	var heart: StandardMaterial3D = tree.get_meta("heart") as StandardMaterial3D
 	var before: Color = heart.albedo_color
 	builder.animate(1.3)
@@ -364,21 +444,17 @@ func test_the_corruption_gradient_is_data_and_recedes_when_freed() -> void:
 	var c: Dictionary = ZoneStyles.style("heap").get("corruption", {}) as Dictionary
 	for key: String in ["trees", "fungus", "texture", "grade", "light", "freed"]:
 		assert_true(c.has(key), "the gradient's %s is data in data/zone_styles/heap.json" % key)
-	var layout: HeapLayout = HeapLayout.new()
-	layout.build()
-	# a smooth gradient across the regions, never a line: healthy at the hub and the farm, rising across the stream, strongest at the roots
-	var hub: float = layout.corruption_at(50.0, 70.0)
-	var stream: float = layout.corruption_at(50.0, 44.0)
-	var wetlands: float = layout.corruption_at(50.0, 20.0)
+	var hub: float = layout.corruption_at(50.0, 120.0)
+	var compost: float = layout.corruption_at(50.0, 46.0)
+	var plateau: float = layout.corruption_at(50.0, 22.0)
 	var roots: float = layout.corruption_at(50.0, 9.0)
-	assert_almost_eq(hub, 0.0, 0.001, "the Commons are healthy")
-	assert_almost_eq(layout.corruption_at(15.0, 62.0), 0.0, 0.001, "the farm rows are healthy")
-	assert_true(stream > hub and wetlands > stream and roots > wetlands, "it deepens toward the Rotheart (%.2f %.2f %.2f %.2f)" % [hub, stream, wetlands, roots])
+	assert_almost_eq(hub, 0.0, 0.001, "the market is healthy")
+	assert_almost_eq(layout.corruption_at(34.0, 78.0), 0.0, 0.001, "the farm terrace is healthy")
+	assert_true(compost > hub and plateau > compost and roots > plateau, "it deepens toward the Rotheart (%.2f %.2f %.2f %.2f)" % [hub, compost, plateau, roots])
 	var step: float = 0.0
-	for z: int in range(70, 8, -1):
+	for z: int in range(130, 8, -1):
 		step = maxf(step, absf(layout.corruption_at(50.0, float(z)) - layout.corruption_at(50.0, float(z) + 1.0)))
 	assert_lt(step, 0.08, "no hard line: at most %.2f per metre" % step)
-	# the builder: healthy trees in the south, twisted ones and fungus toward the roots; freed, they all come back healthy
 	for freed: bool in [false, true]:
 		var host: Node3D = Node3D.new()
 		add_child_autofree(host)
@@ -413,14 +489,12 @@ func test_the_dressing_is_the_kit_in_tidy_clusters_off_the_routes() -> void:
 		var solid: bool = not ((child as Node3D).get_meta("circles", []) as Array).is_empty()
 		if solid:
 			assert_gte(layout.path_edge_distance(pos.x, pos.z), HeapLayout.PATH_CLEARANCE - 0.01, "%s keeps off the routes" % child.name)
+			assert_null(layout.ramp_at(pos.x, pos.z), "%s keeps off the stairs and ramps" % child.name)
 		assert_gte(Vector2(pos.x - HeapLayout.PLAZA_CENTER.x, pos.z - HeapLayout.PLAZA_CENTER.y).length(), HeapLayout.PLAZA_RADIUS, "%s keeps out of the plaza" % child.name)
 		for key: Variant in layout.anchors.keys():
 			var anchor: Vector3 = layout.anchors[key] as Vector3
 			assert_gte(Vector2(pos.x - anchor.x, pos.z - anchor.z).length(), 2.0, "%s keeps off %s" % [child.name, key])
-	# the old pieces are kit pieces now: one fence for the tyre wall and the dividers, the walks, the sturdy bridges, the shacks and the stall
-	var fence: Node3D = builder.root.find_child("ScrapFence", false, false) as Node3D
-	assert_not_null(fence, "the tyre wall and the dividers are one scrap fence")
-	assert_lte(fence.get_child_count(), 2, "the fence is one mesh, not ninety tyre stacks")
+	assert_null(builder.root.find_child("ScrapFence", false, false), "no tyre wall and no dividers any more")
 	assert_not_null(builder.root.find_child("PlankWalks", false, false), "plank walks on the main routes")
 	var shacks: int = 0
 	for child: Node in builder.root.get_children():
@@ -428,6 +502,7 @@ func test_the_dressing_is_the_kit_in_tidy_clusters_off_the_routes() -> void:
 			shacks += 1
 	assert_eq(shacks, 2, "the two barns are patched shacks")
 	assert_not_null(builder.root.find_child("SwapStall", true, false), "Gristle's stall")
+	assert_eq(builder.root.find_children("MarketStall_*", "", false, false).size(), 3, "three market stalls under awnings")
 	for id: String in builder.bridge_nodes.keys():
 		assert_not_null((builder.bridge_nodes[id] as Node3D).get_node_or_null("Seg0"), "the %s bridge still grows segment by segment" % id)
-	assert_not_null(builder.root.find_child("Woods_dump_oak", false, false), "woods stand beyond the rim")
+	assert_not_null(builder.root.find_child("Woods_dump_oak", false, false), "woods stand on the rim above the valley's walls")

@@ -49,14 +49,14 @@ func build(parent: Node3D) -> void:
 	root = Node3D.new()
 	root.name = "Heap"
 	parent.add_child(root)
-	_build_rim()
 	_build_terrain()
-	_build_hazards()
+	_build_water()
 	_build_floor()
 	_build_woods()
 	_build_overflow()
 	_build_entrance()
 	_build_landmarks()
+	_build_terraces()
 	_build_bridges()
 	_build_ladders()
 	_build_chutes()
@@ -128,7 +128,7 @@ func on_grown_bridge(pos: Vector3) -> bool:
 	var bridge: HeapLayout.Bridge = layout.bridge_at(pos.x, pos.z)
 	if bridge == null:
 		return false
-	return layout.bridge_fraction(bridge, pos.z) <= float(bridge_progress.get(bridge.id, 0.0)) + 0.0001
+	return layout.bridge_fraction(bridge, pos.x, pos.z) <= float(bridge_progress.get(bridge.id, 0.0)) + 0.0001
 
 
 func height_at(pos: Vector3) -> float:
@@ -136,7 +136,8 @@ func height_at(pos: Vector3) -> float:
 	if surface == HeapLayout.Surface.BRIDGE:
 		return 0.0
 	if surface == HeapLayout.Surface.HAZARD and on_grown_bridge(pos):
-		return HeapLayout.BRIDGE_HEIGHT
+		var bridge: HeapLayout.Bridge = layout.bridge_at(pos.x, pos.z)
+		return bridge.deck_height(bridge.fraction_at(pos.x, pos.z))
 	return layout.ground_height(pos.x, pos.z)
 
 
@@ -273,32 +274,44 @@ func _tri(surface: SurfaceTool, a: Vector3, b: Vector3, c: Vector3, color: Color
 
 
 func _vertex(x: float, z: float) -> Vector3:
-	var edge: float = HeapLayout.edge_distance(x, z)
-	if edge < 0.0:
-		# Outside the table: collapse the vertex onto the outline (a couple of Newton steps along the distance gradient) at the rim height, so the terrain ends in a clean
-		# curve instead of a sawtooth of grid triangles dropping away; the table rim below hangs from this edge.
-		var snapped: Vector2 = Vector2(x, z)
-		for i: int in range(3):
-			var here: float = HeapLayout.edge_distance(snapped.x, snapped.y)
-			var gradient: Vector2 = Vector2(
-				HeapLayout.edge_distance(snapped.x + 0.01, snapped.y) - HeapLayout.edge_distance(snapped.x - 0.01, snapped.y),
-				HeapLayout.edge_distance(snapped.x, snapped.y + 0.01) - HeapLayout.edge_distance(snapped.x, snapped.y - 0.01)).normalized()
-			snapped += gradient * (0.02 - here)
-		return Vector3(snapped.x, layout.ground_height(snapped.x, snapped.y), snapped.y)
 	return Vector3(x, layout.ground_height(x, z), z)
 
 
-func _terrain_color(centroid: Vector3) -> Color:
+## The cliffs' stone: cool grey-violet strata with moss on the top courses and a wet band at the water, read by the terrace faces, the valley's walls,
+## the banks and the ramps' kerbs.
+const STRATA_LIGHT: Color = Color(0.56, 0.53, 0.58)
+const STRATA_DARK: Color = Color(0.36, 0.33, 0.42)
+const STRATA_MOSS: Color = Color(0.4, 0.55, 0.3)
+
+
+func _strata(y: float, x: float, z: float, top: float) -> Color:
+	var band: float = sin((y + _noise(floorf(x * 0.3), floorf(z * 0.3)) * 0.6) * 3.0) * 0.5 + 0.5
+	var color: Color = STRATA_DARK.lerp(STRATA_LIGHT, band)
+	color = color.lerp(STRATA_MOSS, smoothstep(1.2, 0.0, top - y) * 0.7)
+	var twist: float = twist_at(x, z)
+	if twist > 0.0:
+		color = color.lerp(Color.html(str(layout.corruption.get("tint", "#5a2f6e"))), twist * 0.35)
+	return color
+
+
+## `steep`: 0 on level ground, 1 on a vertical face (from the triangle's normal), so the cliff bands, the banks and the valley's walls read as stone.
+func _terrain_color(centroid: Vector3, steep: float = 0.0) -> Color:
 	var x: float = centroid.x
 	var z: float = centroid.z
 	var jitter: float = (_noise(x * 0.7, z * 0.7) - 0.5) * 0.03
 	var edge: float = HeapLayout.edge_distance(x, z)
 	if edge < 0.0:
-		return H.GRASS_DARK.lerp(H.DIRT, clampf(absf(centroid.y) / 2.5, 0.0, 1.0))
+		if z > HeapLayout.MAX_CORNER.y - 2.0 and x > HeapLayout.MIN_CORNER.x and x < HeapLayout.MAX_CORNER.x:
+			return H.GRASS_DARK.lerp(H.DIRT, clampf(absf(centroid.y) / 2.5, 0.0, 1.0))
+		# the valley's walls: stone up to the wooded rim, meadow on top
+		var top: float = layout.ground_height(x, z) + 0.01
+		if steep > 0.25:
+			return _strata(centroid.y, x, z, top + 1.5).lightened(jitter)
+		return H.GRASS_DARK.lerp(H.MOSS, 0.5).lightened(jitter)
 	var surface: HeapLayout.Surface = layout.surface_at(x, z)
-	if surface == HeapLayout.Surface.CLIFF:
-		var stripe: int = int(floorf(centroid.y / 0.6 + _noise(x, z) * 2.0)) % 4
-		return [H.RUST, H.METAL_DARK, H.MOSS, H.RUST_DARK][stripe].lightened(jitter)
+	if surface == HeapLayout.Surface.CLIFF or steep > 0.45:
+		var tier_top: float = HeapLayout.tier_height(HeapLayout.tier_at(x, z - HeapLayout.CLIFF_WIDTH - 0.5))
+		return _strata(centroid.y, x, z, maxf(tier_top, centroid.y)).lightened(jitter)
 	if surface == HeapLayout.Surface.PEAK:
 		var patch: float = _noise(floorf(x * 0.8), floorf(z * 0.8))
 		if patch < 0.3:
@@ -309,20 +322,23 @@ func _terrain_color(centroid: Vector3) -> Color:
 		for pit: Vector3 in layout.pits:
 			if Vector2(x - pit.x, z - pit.y).length() <= pit.z + 0.4:
 				return H.SLUDGE.darkened(0.2)
-		return Color(0.18, 0.32, 0.3)
+		return Color(0.16, 0.34, 0.34)
 	var color: Color = H.GRASS.lerp(H.MEADOW, _noise(floorf(x * 0.3), floorf(z * 0.3))).lightened(jitter)
 	var area: HeapLayout.Area = layout.area_at(x, z)
 	if area != null:
 		match area.id:
 			"farm":
-				var cell: int = (int(floorf(x / 4.0)) * 3 + int(floorf(z / 4.0)) * 5) % 4
-				color = [H.GOLD_FIELD, H.GRASS, H.DIRT, H.MEADOW][absi(cell)].lightened(jitter)
+				if z > 64.0:
+					var cell: int = (int(floorf(x / 4.0)) * 3 + int(floorf(z / 4.0)) * 5) % 4
+					color = [H.GOLD_FIELD, H.GRASS, H.DIRT, H.MEADOW][absi(cell)].lightened(jitter)
+				else:
+					color = color.lerp(H.DIRT_DARK, 0.3 + 0.2 * _noise(floorf(x * 0.5), floorf(z * 0.5)))
 			"peaks":
-				color = color.lerp(H.RUST if z > HeapLayout.WALL_Z else H.STONE.lerp(H.DIRT, _noise(x, z) * 0.6), 0.35)
+				color = color.lerp(H.RUST if z > 60.0 else H.STONE.lerp(H.DIRT, _noise(x, z) * 0.6), 0.3)
 			"throne":
-				color = color.lerp(H.RUST, 0.3)
+				color = color.lerp(H.RUST, 0.2)
 			"wetlands":
-				color = color.lerp(H.SLUDGE.lightened(0.15), 0.35 + 0.25 * _noise(floorf(x * 0.5), floorf(z * 0.5)))
+				color = color.lerp(H.SLUDGE.lightened(0.15), 0.3 + 0.25 * _noise(floorf(x * 0.5), floorf(z * 0.5)))
 	if surface == HeapLayout.Surface.ROUGH:
 		color = H.STONE.lerp(H.DIRT, _noise(x * 1.3, z * 1.3) * 0.7).lightened(jitter)
 	if depth > -2.0:
@@ -345,11 +361,12 @@ func _build_terrain() -> void:
 	var surface: SurfaceTool = SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surface.set_smooth_group(-1)
+	# the valley and its walls: the land goes on past the rims (the terraces' levels, then the walls rising to the wooded rim), down to the pool south
 	var step: float = HeapLayout.TERRAIN_STEP
-	var x0: float = HeapLayout.MIN_CORNER.x - 2.0 * step
-	var z0: float = HeapLayout.MIN_CORNER.y - 2.0 * step
-	var cols: int = int(ceilf((HeapLayout.MAX_CORNER.x - HeapLayout.MIN_CORNER.x) / step)) + 4
-	var rows: int = int(ceilf((HeapLayout.MAX_CORNER.y - HeapLayout.MIN_CORNER.y) / step)) + 4
+	var x0: float = HeapLayout.MIN_CORNER.x - TERRAIN_MARGIN
+	var z0: float = HeapLayout.MIN_CORNER.y - TERRAIN_MARGIN - 14.0
+	var cols: int = int(ceilf((HeapLayout.MAX_CORNER.x - HeapLayout.MIN_CORNER.x + 2.0 * TERRAIN_MARGIN) / step))
+	var rows: int = int(ceilf((HeapLayout.MAX_CORNER.y - HeapLayout.MIN_CORNER.y + 2.0 * TERRAIN_MARGIN + 14.0) / step))
 	for row: int in range(rows):
 		for col: int in range(cols):
 			var x: float = x0 + float(col) * step
@@ -360,8 +377,10 @@ func _build_terrain() -> void:
 			var p11: Vector3 = _vertex(x + step, z + step)
 			var c1: Vector3 = (p00 + p10 + p11) / 3.0
 			var c2: Vector3 = (p00 + p11 + p01) / 3.0
-			_tri(surface, p00, p10, p11, _terrain_color(c1))
-			_tri(surface, p00, p11, p01, _terrain_color(c2))
+			var n1: Vector3 = (p10 - p00).cross(p11 - p00).normalized()
+			var n2: Vector3 = (p11 - p00).cross(p01 - p00).normalized()
+			_tri(surface, p00, p10, p11, _terrain_color(c1, 1.0 - absf(n1.y)))
+			_tri(surface, p00, p11, p01, _terrain_color(c2, 1.0 - absf(n2.y)))
 	surface.generate_normals()
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = surface.commit()
@@ -372,37 +391,8 @@ func _build_terrain() -> void:
 	root.add_child(instance)
 
 
-## The layered earth under the land: a grass lip, soil, rock and dark rock, tapering downwards like a floating island.
-func _build_rim() -> void:
-	var layers: Array[Dictionary] = [
-		{"top": -0.6, "bottom": -1.8, "inset": -0.3, "color": H.GRASS_DARK},
-		{"top": -1.8, "bottom": -4.6, "inset": 0.3, "color": H.DIRT},
-		{"top": -4.6, "bottom": -8.0, "inset": 1.1, "color": H.STONE},
-		{"top": -8.0, "bottom": -12.0, "inset": 2.4, "color": H.METAL_DARK},
-		{"top": -12.0, "bottom": -17.0, "inset": 4.6, "color": H.DIRT_DARK},
-	]
-	for layer: Dictionary in layers:
-		var outline: PackedVector2Array = _outline(float(layer["inset"]))
-		var surface: SurfaceTool = SurfaceTool.new()
-		surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-		surface.set_smooth_group(-1)
-		var color: Color = layer["color"] as Color
-		for index: int in range(outline.size()):
-			var a: Vector2 = outline[index]
-			var b: Vector2 = outline[(index + 1) % outline.size()]
-			var shade: Color = color.lightened((_noise(a.x, a.y) - 0.5) * 0.14)
-			var top: float = float(layer["top"])
-			var bottom: float = float(layer["bottom"])
-			_tri(surface, Vector3(a.x, top, a.y), Vector3(b.x, top, b.y), Vector3(a.x, bottom, a.y), shade)
-			_tri(surface, Vector3(b.x, top, b.y), Vector3(b.x, bottom, b.y), Vector3(a.x, bottom, a.y), shade.darkened(0.05))
-		surface.generate_normals()
-		var instance: MeshInstance3D = MeshInstance3D.new()
-		instance.mesh = surface.commit()
-		instance.material_override = H.terrain()
-		instance.name = "RimLayer"
-		instance.set_meta(&"no_range_cull", true)
-		instance.set_meta(&"no_occlusion_fade", true)
-		root.add_child(instance)
+## How far past the rims the terrain mesh goes (the valley's walls and the wooded rim above them).
+const TERRAIN_MARGIN: float = 40.0
 
 
 func _outline(inset: float) -> PackedVector2Array:
@@ -450,8 +440,8 @@ func _build_woods() -> void:
 			var outward: Vector2 = (base - Vector2(50.0, 40.0)).normalized()
 			for row: int in range(3):
 				var p: Vector2 = base + outward * (float(row) * 6.0 + rng.randf_range(-1.5, 2.5)) + Vector2(rng.randf_range(-1.2, 1.2), rng.randf_range(-1.2, 1.2))
-				# never south of the land's middle on the sides, never along the south rim: the cameras stand there looking north
-				if p.y > 56.0:
+				# never along the south rim (the cameras stand there looking north, and the land drops to the pool), off the Rotheart's mound and the throne
+				if p.y > HeapLayout.MAX_CORNER.y - 24.0:
 					continue
 				if p.y < HeapLayout.MIN_CORNER.y + 2.0 and absf(p.x - HeapLayout.ROTHEART.x) < 34.0:
 					continue
@@ -460,7 +450,9 @@ func _build_woods() -> void:
 				if p.distance_to(HeapLayout.JUNK_MOUNTAIN) < 30.0:
 					continue
 				var kind: String = "dump_birch" if rng.randf() < 0.35 else "dump_oak"
-				(entries[kind] as Array[Dictionary]).append({"pos": Vector3(p.x, -0.95, p.y), "scale": rng.randf_range(1.1, 1.6) + float(row) * 0.15})
+				# the big ones on the wooded rim above the walls (the reference's giant trees closing the valley)
+				var big: float = 1.0 if row < 2 else 2.2
+				(entries[kind] as Array[Dictionary]).append({"pos": Vector3(p.x, layout.ground_height(p.x, p.y) - 0.3, p.y), "scale": (rng.randf_range(1.1, 1.6) + float(row) * 0.15) * big})
 	for kind: String in entries.keys():
 		var field: MultiMeshInstance3D = KitFoliage.tree_field(root, kind, entries[kind] as Array[Dictionary], false)
 		if field != null:
@@ -547,7 +539,8 @@ func _place_landmark(id: String, node: Node3D, at: Vector2, yaw: float, view: bo
 	if node == null:
 		return null
 	root.add_child(node)
-	node.position = Vector3(at.x, 0.0 if view else layout.ground_height(at.x, at.y), at.y)
+	# a view stands on the land beyond the rim at its level (the Rotheart's mound is the plateau's height); a region landmark on the flat ground
+	node.position = Vector3(at.x, layout.ground_height(at.x, at.y) - (0.4 if view else 0.0), at.y)
 	node.rotation_degrees.y = yaw
 	_add_circles(node, node.position, yaw)
 	_never_cull(node, view)
@@ -574,37 +567,37 @@ func _never_cull(node: Node3D, never_fade: bool) -> void:
 			piece.set_meta(&"no_occlusion_fade", true)
 
 
-# ---- Hazards ----------------------------------------------------------------------------------------
+# ---- Water (docs/art/verdant_dump_v2.md, Part B) ---------------------------------------------------------------
 
 
-func _build_hazards() -> void:
-	var water: StandardMaterial3D = H.water()
-	var surface: SurfaceTool = SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	surface.set_smooth_group(-1)
-	var half: float = HeapLayout.STREAM_HALF_WIDTH + 1.0
-	var x: float = HeapLayout.MIN_CORNER.x - 1.0
-	var step: float = 1.5
-	while x < HeapLayout.MAX_CORNER.x + 1.0:
-		var z_a: float = HeapLayout.stream_z(x)
-		var z_b: float = HeapLayout.stream_z(x + step)
-		var a0: Vector3 = Vector3(x, HeapLayout.WATER_LEVEL, z_a - half)
-		var a1: Vector3 = Vector3(x, HeapLayout.WATER_LEVEL, z_a + half)
-		var b0: Vector3 = Vector3(x + step, HeapLayout.WATER_LEVEL, z_b - half)
-		var b1: Vector3 = Vector3(x + step, HeapLayout.WATER_LEVEL, z_b + half)
-		_tri(surface, a0, b0, a1, Color(1, 1, 1))
-		_tri(surface, b0, b1, a1, Color(1, 1, 1))
-		x += step
-	surface.generate_normals()
-	var stream: MeshInstance3D = MeshInstance3D.new()
-	stream.mesh = surface.commit()
-	stream.material_override = StyleWater.material(Color("62c0a4"), Color("1b6670"))
-	stream.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	stream.name = "RecyclingStream"
-	stream.set_meta(&"no_range_cull", true)
-	stream.set_meta(&"no_occlusion_fade", true)
-	root.add_child(stream)
+## The river: the gorge down the west edge (its level stepping with the terraces), the ravine below the market, the drain pool at its east end; the
+## sludge chasm across the compost terrace and the two compost pits; the waterfalls where the levels step; bottles drifting in the ravine.
+func _build_water() -> void:
+	var gorge_z0: float = HeapLayout.GORGE_FROM_Z - 0.4
+	var gorge_z1: float = HeapLayout.stream_z(HeapLayout.GORGE_X) - 1.0
+	var gorge_half: float = HeapLayout.GORGE_HALF_WIDTH + 0.6
+	# the gorge in three level reaches (the strips overlap a little at the falls)
+	var edge2: float = HeapLayout.tier_edge_z(2, HeapLayout.GORGE_X)
+	var reaches: Array = [[gorge_z0, edge2 + 0.3], [edge2 - 0.2, gorge_z1 + 0.2]]
+	for index: int in range(reaches.size()):
+		var reach: Array = reaches[index] as Array
+		var level: float = HeapLayout.gorge_water_level((float(reach[0]) + float(reach[1])) * 0.5)
+		var strip: MeshInstance3D = HeapWater.strip(func(s: float) -> Vector2: return Vector2(HeapLayout.GORGE_X, s), func(_s: float) -> float: return level, float(reach[0]), float(reach[1]), gorge_half, "Gorge%d" % index)
+		root.add_child(strip)
+	# the ravine from the west wall to the drain
+	var ravine: MeshInstance3D = HeapWater.strip(func(s: float) -> Vector2: return Vector2(s, HeapLayout.stream_z(s)), func(_s: float) -> float: return HeapLayout.WATER_LEVEL, HeapLayout.MIN_CORNER.x - 3.0, HeapLayout.RAVINE_END_X + 0.5, HeapLayout.STREAM_HALF_WIDTH + 1.0, "RecyclingStream")
+	root.add_child(ravine)
+	root.add_child(HeapWater.pool(Vector2(HeapLayout.DRAIN.x, HeapLayout.DRAIN.y), HeapLayout.DRAIN.z + 0.8, HeapLayout.WATER_LEVEL, "DrainPool"))
+	var grate: Node3D = HeapTerraces.drain_grate(HeapLayout.DRAIN.z + 0.3)
+	root.add_child(grate)
+	grate.position = Vector3(HeapLayout.DRAIN.x, HeapLayout.WATER_LEVEL + 0.35, HeapLayout.DRAIN.y)
+	# the sludge chasm
+	var chasm: MeshInstance3D = HeapWater.strip(func(s: float) -> Vector2: return HeapLayout.CHASM_A.lerp(HeapLayout.CHASM_B, s), func(_s: float) -> float: return HeapLayout.TIER_HEIGHTS[2] - 0.5, -0.1, 1.1, HeapLayout.CHASM_RADIUS + 0.7, "SludgeChasm", 0.1, HeapWater.SLUDGE_SHALLOW, HeapWater.SLUDGE_DEEP)
+	root.add_child(chasm)
+	B.steam(root, Vector3(HeapLayout.CHASM_A.x, HeapLayout.TIER_HEIGHTS[2] - 0.2, (HeapLayout.CHASM_A.y + HeapLayout.CHASM_B.y) * 0.5), 8, 1.5, 0.8)
+	# the compost pits
 	for pit: Vector3 in layout.pits:
+		var level: float = layout.water_level_at(pit.x, pit.y)
 		var disc: CylinderMesh = CylinderMesh.new()
 		disc.top_radius = pit.z + 0.7
 		disc.bottom_radius = pit.z + 0.7
@@ -613,7 +606,7 @@ func _build_hazards() -> void:
 		var instance: MeshInstance3D = MeshInstance3D.new()
 		instance.mesh = disc
 		instance.material_override = H.sludge()
-		instance.position = Vector3(pit.x, HeapLayout.WATER_LEVEL, pit.y)
+		instance.position = Vector3(pit.x, level, pit.y)
 		instance.name = "CompostPit"
 		instance.set_meta(&"no_range_cull", true)
 		instance.set_meta(&"no_occlusion_fade", true)
@@ -621,35 +614,124 @@ func _build_hazards() -> void:
 		var rim: Node3D = HeapKitProps.pit_rim(pit.z)
 		root.add_child(rim)
 		rim.position = Vector3(pit.x, layout.ground_height(pit.x + pit.z + 1.0, pit.y), pit.y)
-		B.steam(root, Vector3(pit.x, 0.2, pit.y), 6, pit.z * 0.5, 0.7)
+		B.steam(root, Vector3(pit.x, level + 0.5, pit.y), 6, pit.z * 0.5, 0.7)
 		for index: int in range(5):
 			var angle: float = float(index) * 1.3
-			var bubble: MeshInstance3D = B.ball(root, 0.16, H.flat(Color(0.5, 0.62, 0.2)), Vector3(pit.x + cos(angle) * pit.z * 0.5, HeapLayout.WATER_LEVEL + 0.05, pit.y + sin(angle) * pit.z * 0.5), Vector3(1, 0.5, 1))
+			var bubble: MeshInstance3D = B.ball(root, 0.16, H.flat(Color(0.5, 0.62, 0.2)), Vector3(pit.x + cos(angle) * pit.z * 0.5, level + 0.05, pit.y + sin(angle) * pit.z * 0.5), Vector3(1, 0.5, 1))
 			bubble.set_meta("phase", float(index))
+			bubble.set_meta("level", level)
 			_bobbers.append(bubble)
-	# Bottles and cans drifting along in the stream.
+	# the falls: out of the culvert pipe onto the compost terrace's reach, over the compost terrace's cliff past the big wheel, and into the ravine
+	var gx: float = HeapLayout.GORGE_X
+	var spout: Node3D = HeapTerraces.pipe_spout(1.1)
+	root.add_child(spout)
+	spout.position = Vector3(gx, HeapLayout.TIER_HEIGHTS[3] - 0.9, gorge_z0 - 0.6)
+	_never_cull(spout, true)
+	root.add_child(HeapWater.waterfall(Vector3(gx, HeapLayout.TIER_HEIGHTS[3] - 1.0, gorge_z0 + 0.2), 1.8, Vector2(0.0, 1.0), HeapLayout.gorge_water_level(gorge_z0 + 3.0), "FallSpring"))
+	root.add_child(HeapWater.waterfall(Vector3(gx, HeapLayout.gorge_water_level(edge2 - 1.0), edge2 - 0.1), 3.6, Vector2(0.0, 1.0), HeapLayout.gorge_water_level(edge2 + 2.0), "FallCompost"))
+	root.add_child(HeapWater.waterfall(Vector3(gx, HeapLayout.gorge_water_level(gorge_z1 - 1.0), gorge_z1 - 0.4), 3.6, Vector2(0.0, 1.0), HeapLayout.WATER_LEVEL, "FallRavine"))
+	# the water wheels: the big one at the compost terrace's fall, a smaller one under the spring
+	var wheel: Node3D = HeapTerraces.water_wheel(2.3)
+	wheel.name = "WaterWheelBig"
+	root.add_child(wheel)
+	wheel.position = Vector3(gx + 0.4, HeapLayout.gorge_water_level(edge2 + 2.0) + 1.5, edge2 + 2.4)
+	wheel.rotation_degrees.y = 90.0
+	_never_cull(wheel, true)
+	var small: Node3D = HeapTerraces.water_wheel(1.5)
+	small.name = "WaterWheelSmall"
+	root.add_child(small)
+	small.position = Vector3(gx - 0.3, HeapLayout.gorge_water_level(gorge_z0 + 3.0) + 1.0, gorge_z0 + 3.4)
+	small.rotation_degrees.y = 90.0
+	_never_cull(small, true)
+	for node: Node3D in [wheel, small]:
+		_spinners.append(node.get_meta("spinner") as Node3D)
+	# mist at the ravine's bends and bottles drifting along it
+	root.add_child(HeapWater.mist(Vector3(40.0, HeapLayout.WATER_LEVEL + 0.3, HeapLayout.stream_z(40.0)), 2.5, 6))
+	root.add_child(HeapWater.mist(Vector3(62.0, HeapLayout.WATER_LEVEL + 0.3, HeapLayout.stream_z(62.0)), 2.5, 6))
 	var colors: Array[Color] = [Color(0.3, 0.7, 0.4), Color(0.8, 0.8, 0.85), Color(0.9, 0.7, 0.2), Color(0.3, 0.55, 0.9)]
-	for index: int in range(22):
-		var bx: float = 6.0 + float(index) * 4.0
+	for index: int in range(14):
+		var bx: float = 20.0 + float(index) * 3.8
 		var bz: float = HeapLayout.stream_z(bx) + sin(float(index) * 1.7) * 2.0
 		if layout.bridge_at(bx, bz) != null:
 			continue
 		var bottle: MeshInstance3D = B.cylinder(root, 0.07, 0.09, 0.4, H.flat(colors[index % colors.size()]), Vector3(bx, HeapLayout.WATER_LEVEL + 0.08, bz), 6)
 		bottle.rotation_degrees = Vector3(80.0, float(index) * 40.0, 0.0)
 		bottle.set_meta("phase", float(index))
+		bottle.set_meta("level", HeapLayout.WATER_LEVEL)
 		_bobbers.append(bottle)
+
+
+# ---- The terraces: stairs, ramps, ladders, cliff vines, rope fences --------------------------------------------
+
+
+## The ways between the terraces (`HeapTerraces` on the layout's ramps), vines draped down every cliff face and rope fences along the lips where a
+## route runs beside a drop (the market's edge over the ravine, the landings).
+func _build_terraces() -> void:
+	for ramp: HeapLayout.Ramp in layout.ramps:
+		var node: Node3D = null
+		match ramp.kind:
+			"stairs":
+				node = HeapTerraces.stairs(ramp)
+			"ramp":
+				node = HeapTerraces.root_ramp(ramp, twist_at(ramp.rect.get_center().x, ramp.rect.get_center().y))
+			"ladder":
+				node = HeapTerraces.vine_ladder(ramp)
+			"scree":
+				node = HeapTerraces.scree_slope(ramp)
+		if node != null:
+			root.add_child(node)
+			_never_cull(node, true)
+	# vines down the terrace faces and the ravine's north bank, every few metres, clear of the ways up
+	var drapes: Array = []
+	for tier: int in [1, 2, 3]:
+		var x: float = HeapLayout.MIN_CORNER.x + 8.0 + float(tier) * 1.7
+		while x < HeapLayout.MAX_CORNER.x - 3.0:
+			var edge: float = HeapLayout.tier_edge_z(tier, x)
+			var p: Vector2 = Vector2(x, edge - 0.2)
+			if layout.ramp_at(x, edge + 0.6) == null and layout.bridge_at(x, edge - 0.5) == null and layout.hazard_depth(x, edge - 0.6) < -0.5 and HeapLayout.edge_distance(x, edge) > 1.0:
+				var top: float = layout.ground_height(p.x, p.y)
+				var drop: float = top - layout.ground_height(x, edge + HeapLayout.CLIFF_WIDTH + 0.3) if tier > 1 else top - HeapLayout.WATER_LEVEL
+				drapes.append([Vector3(x, top, edge + 0.1), clampf(drop * 0.8, 1.2, 5.0), 0.0])
+			x += 5.5 + 1.3 * float(int(x) % 3)
+	var vines: Node3D = HeapTerraces.cliff_vines(drapes)
+	root.add_child(vines)
+	_never_cull(vines, true)
+	# rope fences: along the market's lip over the ravine (either side of the arched bridge's foot) and the farm terrace's lip
+	var fences: Array = []
+	for span: Array in [[20.0, 25.5, 1.0], [30.5, 42.5, 1.0], [49.5, 70.0, 1.0], [30.5, 42.5, -1.0], [49.5, 66.0, -1.0]]:
+		var pts: Array = []
+		var x: float = float(span[0])
+		while x <= float(span[1]) + 0.01:
+			var z: float = HeapLayout.stream_z(x) + float(span[2]) * (HeapLayout.STREAM_HALF_WIDTH + HeapLayout.BANK_WIDTH + 0.5)
+			pts.append(Vector3(x, layout.ground_height(x, z), z))
+			x += 2.2
+		fences.append(pts)
+	for index: int in range(fences.size()):
+		var fence: Node3D = HeapTerraces.rope_fence(fences[index] as Array, 2.2)
+		fence.name = "RopeFence%d" % index
+		root.add_child(fence)
+		_never_cull(fence, true)
 
 
 # ---- Growth ---------------------------------------------------------------------------------------------
 
 
+## The vine bridges: the kit's plank-and-vine segments laid from each bridge's a end toward its b end, each segment lifted to the deck's arch
+## (`HeapLayout.Bridge.deck_height`), grown one after another.
 func _build_bridges() -> void:
 	for bridge: HeapLayout.Bridge in layout.bridges:
-		var node: Node3D = HeapKitProps.bridge(2.0 * HeapLayout.BRIDGE_REACH)
+		var node: Node3D = HeapKitProps.bridge(bridge.length())
 		node.name = bridge.id
 		_never_cull(node, true)
 		root.add_child(node)
-		node.position = Vector3(bridge.x, HeapLayout.BRIDGE_HEIGHT, HeapLayout.stream_z(bridge.x) + HeapLayout.BRIDGE_REACH)
+		var d: Vector2 = (bridge.b - bridge.a).normalized()
+		node.position = Vector3(bridge.a.x, bridge.y_a, bridge.a.y)
+		node.rotation.y = atan2(-d.x, -d.y)
+		var count: int = node.get_child_count()
+		for index: int in range(count):
+			var segment: Node3D = node.get_child(index) as Node3D
+			var t: float = clampf((float(index) * 0.9 + 0.45) / maxf(bridge.length(), 0.001), 0.0, 1.0)
+			segment.position.y = bridge.deck_height(t) - bridge.y_a - HeapLayout.BRIDGE_HEIGHT
 		bridge_nodes[bridge.id] = node
 		bridge_progress[bridge.id] = 0.0
 		_show_growth(node, 0.0)
@@ -664,7 +746,7 @@ func _build_ladders() -> void:
 				peak = candidate
 		var base: Vector3 = anchor("mound_a" if growth_id == "ladder_a" else "mound_b")
 		var top: Vector3 = anchor(growth_id + "_top")
-		var height: float = peak.height + 1.0
+		var height: float = maxf(peak.height - base.y, 2.0) + 1.0
 		var stalk: Node3D = P.beanstalk(height)
 		stalk.name = growth_id
 		root.add_child(stalk)
@@ -763,6 +845,12 @@ func _build_props() -> void:
 				_card_at(cards, "dump_fungus", pos, clampf(prop.model_scale * 0.7, 0.55, 0.95))
 			"wall_tires", "divider":
 				fence.append(pos)
+			"market_stall":
+				var stall: Node3D = PropKit.stall(prop.variant)
+				stall.name = "MarketStall_%d" % prop.variant
+				root.add_child(stall)
+				stall.position = pos
+				stall.rotation_degrees.y = prop.yaw
 			"junk_pile":
 				_kit_cards(prop, pos, ["DUMP-PROP-SCRAPPILE", "DUMP-PROP-TYRE", "DUMP-PROP-SCRAPPILE"], prop.radius)
 			"tire_stack":
@@ -810,10 +898,12 @@ func _kit_cards(prop: HeapLayout.Prop, pos: Vector3, ids: Array, spread: float) 
 ## wetlands road to the root gate and the throne avenue's last stretch (the plaza and the crossings stay ground).
 func _walk_lines() -> Array:
 	var lines: Array = []
-	lines.append(PackedVector2Array([Vector2(50.0, HeapLayout.ENTRANCE_Z0 + 0.5), Vector2(50.0, 73.6)]))
-	lines.append(PackedVector2Array([Vector2(50.0, 54.4), Vector2(50.0, HeapLayout.stream_z(50.0) + 4.2)]))
-	lines.append(PackedVector2Array([Vector2(50.0, 33.0), Vector2(50.0, 12.2)]))
-	lines.append(PackedVector2Array([Vector2(31.0, 20.0), Vector2(31.0, 12.5)]))
+	var centre: Array[Vector2] = HeapLayout.ravine_bridge_ends(46.0)
+	lines.append(PackedVector2Array([Vector2(50.0, HeapLayout.ENTRANCE_Z0 + 0.5), Vector2(50.0, HeapLayout.PLAZA_CENTER.y + HeapLayout.PLAZA_RADIUS + 0.2)]))
+	lines.append(PackedVector2Array([Vector2(50.0, HeapLayout.PLAZA_CENTER.y - HeapLayout.PLAZA_RADIUS - 0.2), Vector2(46.0, 104.0), centre[0] + Vector2(0.0, 0.6)]))
+	lines.append(PackedVector2Array([Vector2(50.0, 55.0), Vector2(48.0, 48.5)]))
+	lines.append(PackedVector2Array([Vector2(48.0, 31.0), Vector2(50.0, 12.2)]))
+	lines.append(PackedVector2Array([Vector2(38.0, 16.0), Vector2(32.0, 12.5)]))
 	return lines
 
 
@@ -1011,7 +1101,7 @@ func animate(delta: float) -> void:
 	_pulse_heart()
 	for node: Node3D in _bobbers:
 		var phase: float = float(node.get_meta("phase", 0.0))
-		node.position.y = HeapLayout.WATER_LEVEL + 0.08 + sin(time * 1.6 + phase) * 0.04
+		node.position.y = float(node.get_meta("level", HeapLayout.WATER_LEVEL)) + 0.08 + sin(time * 1.6 + phase) * 0.04
 	H.water().emission_energy_multiplier = 0.1 + 0.05 * sin(time * 1.3)
 
 

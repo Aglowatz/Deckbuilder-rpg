@@ -132,7 +132,7 @@
 				{"tex": "dump_compost", "tile": 3.2, "mode": "mask", "mask": "compost", "soft": 0.2, "warp": 0.5, "bright": 1.7}
 			]}
 		},
-		"cliff": {"tex": "dump_rustmetal", "tile": 3.5, "keep": 0.5},
+		"cliff": {"tex": "mat_rock", "tile": 3.0, "keep": 0.62, "tint": "#b4a8c0"},
 		"props": {"metal": "dump_rustmetal"},
 		"special": [
 			{"color": "#b85c2e", "radius": 0.22, "tex": "dump_rustmetal"},

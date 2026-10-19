@@ -15,33 +15,35 @@ var _placed: Array[Vector2] = []
 
 ## cluster, world position (x, z), yaw (the back of the cluster faces -z rotated by yaw).
 const KIT_CLUSTERS: Array = [
-	# the Commons: by the barn door, the stall, the compost bin, the trough and the shrine
-	["tyre_garden", Vector2(33.6, 61.2), 200.0],
-	["scrap_sorting", Vector2(67.8, 56.0), 200.0],
-	["compost_corner", Vector2(61.5, 75.2), 180.0],
-	["goat_cart", Vector2(67.0, 75.6), 190.0],
-	["tyre_garden", Vector2(73.6, 74.6), 180.0],
-	# the farm rows: the crop row's end and the grove
-	["compost_corner", Vector2(27.6, 59.2), 270.0],
-	["bottle_wall", Vector2(13.8, 61.2), 180.0],
-	# the junk peaks: the fair's back and the secret corner
-	["scrap_sorting", Vector2(68.4, 52.6), 160.0],
-	["bottle_wall", Vector2(84.0, 75.0), 180.0],
-	# the stream: the goat stable's yard
-	["goat_cart", Vector2(8.2, 42.0), 90.0],
-	# the tyre wall's south face either side of the barricade gap, and the throne avenue
-	["bottle_wall", Vector2(44.6, 31.8), 180.0],
-	["bottle_wall", Vector2(56.2, 31.8), 180.0],
-	["tyre_garden", Vector2(26.6, 19.2), 90.0],
-	["scrap_sorting", Vector2(35.8, 17.0), 270.0],
+	# the market terrace: by the barn door, behind the stall, the compost bin, the trough and the shrine, the east corner
+	["tyre_garden", Vector2(33.0, 108.0), 200.0],
+	["scrap_sorting", Vector2(69.0, 112.0), 200.0],
+	["compost_corner", Vector2(61.5, 132.0), 180.0],
+	["goat_cart", Vector2(68.0, 133.0), 190.0],
+	["tyre_garden", Vector2(74.5, 126.0), 180.0],
+	["bottle_wall", Vector2(21.5, 128.0), 90.0],
+	# the farm terrace: the crop row's west end, the grove, the goat stable's yard, the fair's back
+	["compost_corner", Vector2(26.5, 70.0), 270.0],
+	["bottle_wall", Vector2(40.0, 86.0), 180.0],
+	["goat_cart", Vector2(26.5, 86.0), 90.0],
+	["scrap_sorting", Vector2(56.0, 80.0), 160.0],
+	["tyre_garden", Vector2(74.0, 90.0), 180.0],
+	# the compost terrace: the landing's shoulders, the machinery by the gorge, the east pocket
+	["bottle_wall", Vector2(44.0, 53.0), 180.0],
+	["compost_corner", Vector2(32.0, 58.0), 270.0],
+	["scrap_sorting", Vector2(80.0, 50.0), 160.0],
+	# the plateau: the throne avenue and the barricade's shoulders
+	["tyre_garden", Vector2(36.0, 20.0), 90.0],
+	["scrap_sorting", Vector2(42.0, 10.0), 270.0],
+	["bottle_wall", Vector2(53.0, 48.0), 180.0],
 ]
-## Wet and sick ground (non-solid): reeds along both banks of the stream, fungus in the wetlands toward the roots.
+## Wet and sick ground (non-solid): reeds along both lips of the ravine and the gorge, fungus on the plateau toward the roots and in the cliffs' shade.
 const SOFT_CLUSTERS: Array = [
-	["reed_bank", Vector2(9.0, 0.0), 0.0], ["reed_bank", Vector2(29.0, 0.0), 0.0], ["reed_bank", Vector2(42.0, 0.0), 0.0], ["reed_bank", Vector2(58.0, 0.0), 0.0],
-	["reed_bank", Vector2(70.0, 0.0), 0.0], ["reed_bank", Vector2(88.0, 0.0), 0.0], ["reed_bank", Vector2(15.0, 0.0), 180.0], ["reed_bank", Vector2(36.0, 0.0), 180.0],
-	["reed_bank", Vector2(63.0, 0.0), 180.0], ["reed_bank", Vector2(84.0, 0.0), 180.0],
+	["reed_bank", Vector2(24.0, 0.0), 0.0], ["reed_bank", Vector2(36.0, 0.0), 0.0], ["reed_bank", Vector2(56.0, 0.0), 0.0], ["reed_bank", Vector2(66.0, 0.0), 0.0],
+	["reed_bank", Vector2(33.0, 0.0), 180.0], ["reed_bank", Vector2(40.0, 0.0), 180.0], ["reed_bank", Vector2(60.0, 0.0), 180.0], ["reed_bank", Vector2(70.0, 0.0), 180.0],
+	["reed_bank", Vector2(25.5, 70.0), 90.0], ["reed_bank", Vector2(25.5, 56.0), 90.0],
 	["fungus_patch", Vector2(43.0, 18.5), 90.0], ["fungus_patch", Vector2(57.5, 17.0), 270.0], ["fungus_patch", Vector2(44.0, 11.0), 60.0], ["fungus_patch", Vector2(56.5, 12.0), 300.0],
-	["fungus_patch", Vector2(41.0, 23.0), 90.0], ["fungus_patch", Vector2(59.5, 22.5), 270.0],
+	["fungus_patch", Vector2(41.0, 25.0), 90.0], ["fungus_patch", Vector2(59.5, 20.5), 270.0], ["fungus_patch", Vector2(54.0, 42.0), 90.0], ["fungus_patch", Vector2(30.0, 40.0), 270.0],
 ]
 
 
@@ -63,10 +65,10 @@ static func build(parent: Node3D, builder: HeapBuilder, _quality: int) -> HeapDr
 		index += 1
 		var name: String = str(entry[0])
 		var at: Vector2 = entry[1] as Vector2
-		if name == "reed_bank":
-			# along the bank: the stream's centre line plus the half width and a little, north (180) or south (0) of the water
+		if name == "reed_bank" and at.y == 0.0:
+			# along the ravine's lips: the centre line plus the half width, the bank and a little, north (180) or south (0) of the water
 			var side: float = 1.0 if float(entry[2]) < 90.0 else -1.0
-			at = Vector2(at.x, HeapLayout.stream_z(at.x) + side * (HeapLayout.STREAM_HALF_WIDTH + 0.9))
+			at = Vector2(at.x, HeapLayout.stream_z(at.x) + side * (HeapLayout.STREAM_HALF_WIDTH + HeapLayout.BANK_WIDTH + 1.1))
 		elif builder.freed:
 			name = "tyre_garden"
 		dressing._place(name, at, float(entry[2]), 900 + index, 2.5)

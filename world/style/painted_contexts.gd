@@ -313,7 +313,8 @@ static func heap(scene: ZoneScene) -> Dictionary:
 				compost_spots.append(Vector3(prop.pos.x, prop.pos.z, 3.6))
 	var plaza: Vector2 = HeapLayout.PLAZA_CENTER
 	var texture: float = float(layout.corruption.get("texture", 0.9))
-	var fields_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["farm"], p) * (1.0 - layout.path_weight(p.x, p.y))
+	# the farm rows are the farm terrace's (T1); the compost terrace's "farm" circles take the compost and junk layers instead
+	var fields_mask: Callable = func(p: Vector2) -> float: return PaintedContexts.area_cover(areas, ["farm"], p) * (1.0 - layout.path_weight(p.x, p.y)) * smoothstep(62.0, 66.0, p.y)
 	var path_mask: Callable = func(p: Vector2) -> float:
 		return maxf(layout.path_weight(p.x, p.y), PaintedContexts.disc_mask(p, plaza, HeapLayout.PLAZA_RADIUS + 0.5))
 	var junk_mask: Callable = func(p: Vector2) -> float:
@@ -333,7 +334,7 @@ static func heap(scene: ZoneScene) -> Dictionary:
 		if land != null:
 			swaps.append({"node": land, "variant": "freed"})
 	return {
-		"bounds": Rect2(0, 0, 100, 82),
+		"bounds": Rect2(HeapLayout.MIN_CORNER.x - 4.0, HeapLayout.MIN_CORNER.y - 4.0, HeapLayout.MAX_CORNER.x - HeapLayout.MIN_CORNER.x + 8.0, HeapLayout.MAX_CORNER.y - HeapLayout.MIN_CORNER.y + 8.0),
 		"masks": {"fields": fields_mask, "path": path_mask, "junk": junk_mask, "corrupt": corrupt_mask, "compost": compost_mask, "grass": grass_mask},
 		"swaps": swaps,
 		"floor": func(pos: Vector3) -> bool: return builder.is_floor_at(pos),

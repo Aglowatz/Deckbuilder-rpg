@@ -1,0 +1,286 @@
+class_name HeapTerraces
+extends RefCounted
+## The Verdant Dump v2's ways between the terraces and the pieces built into its cliffs (docs/art/verdant_dump_v2.md, Part B): stone stairs matching
+## the layout's stepped ramps, the giant root ramp, the vine ladders, the scree slope's junk, vines draped down the cliff faces, rope fences along the
+## lips, the rusty water wheels in the gorge, the culvert pipe the river springs from and the junk-choked drain grate. Every piece is a `KitMesh` in
+## the kit's materials (`HeapLandmarks._materials`); the walk itself is always the layout's (`HeapLayout.Ramp`), these are what the eye sees.
+
+const L = preload("res://world/heap/heap_landmarks.gd")
+
+
+static func _mesh() -> KitMesh:
+	var mesh: KitMesh = KitMesh.new()
+	L._materials(mesh)
+	# the stairs' dressed stone: the shared kit's foundation stone, cooled toward the cliffs' grey-violet
+	mesh.set_material("stone", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(0.86, 0.84, 0.96)))
+	mesh.set_material("stone_dark", EnvKit.material("ENV-WALL-FOUNDATION", false, Color(0.62, 0.6, 0.72)))
+	return mesh
+
+
+static func _instance(mesh: KitMesh, node_name: String, never_fade: bool = true) -> MeshInstance3D:
+	var body: MeshInstance3D = mesh.instance(node_name)
+	body.set_meta(PaintedClasses.META_NO_PAINT, true)
+	body.set_meta(&"no_range_cull", true)
+	if never_fade:
+		body.set_meta(&"no_occlusion_fade", true)
+	return body
+
+
+static func _finish(mesh: KitMesh, node_name: String, never_fade: bool = true) -> Node3D:
+	var root: Node3D = Node3D.new()
+	root.name = node_name
+	root.add_child(_instance(mesh, "Body", never_fade))
+	return root
+
+
+## Stone stairs filling a stepped ramp: a stone tread per layout step from the lower terrace up to the upper, low cheek walls of stacked stone either
+## side with moss and the odd violet bloom, a landing slab at the top. Built in world space (the ramp's rectangle).
+static func stairs(ramp: HeapLayout.Ramp) -> Node3D:
+	var mesh: KitMesh = _mesh()
+	var rect: Rect2 = ramp.rect
+	var steps: int = maxi(2, int(ceilf(rect.size.y / HeapLayout.RAMP_STEP_DEPTH)))
+	var depth: float = rect.size.y / float(steps)
+	var low: float = minf(ramp.y0, ramp.y1) - 0.8
+	var cx: float = rect.get_center().x
+	for step: int in range(steps + 1):
+		var z: float = rect.end.y - (float(step) + 0.5) * depth
+		if step == steps:
+			z = rect.position.y + 0.2
+		var top: float = ramp.height_at(clampf(z, rect.position.y, rect.end.y))
+		var size: Vector3 = Vector3(rect.size.x - 0.1, top - low, depth + 0.06)
+		var tint: Color = Color(1, 1, 1).lerp(Color(0.86, 0.9, 0.86), float(step % 3) * 0.5)
+		mesh.box("stone", Vector3(cx, (top + low) * 0.5, z), size, Basis.IDENTITY, 0.04, 0.9)
+		if step % 4 == 1:
+			mesh.blob("leaf_dark", Vector3(cx + (rect.size.x * 0.5 - 0.3) * (1.0 if step % 8 == 1 else -1.0), top + 0.04, z), Vector3(0.28, 0.08, 0.24), 3, 6, 1.0, tint)
+	# the cheek walls: stacked stone courses either side, rising with the steps, a cap of moss
+	for side: float in [-1.0, 1.0]:
+		var x: float = cx + side * (rect.size.x * 0.5 + 0.22)
+		var courses: int = maxi(2, int(rect.size.y / 1.2))
+		for course: int in range(courses):
+			var z0: float = rect.end.y - float(course) * rect.size.y / float(courses)
+			var z1: float = z0 - rect.size.y / float(courses)
+			var zm: float = (z0 + z1) * 0.5
+			var top: float = ramp.height_at(clampf(zm, rect.position.y, rect.end.y)) + 0.75
+			mesh.box("stone_dark" if course % 2 == 0 else "stone", Vector3(x, (top + low) * 0.5, zm), Vector3(0.5, top - low, absf(z0 - z1) + 0.02), Basis(Vector3.UP, 0.02 * float(course % 3 - 1)), 0.03, 0.88)
+			mesh.blob("leaf" if course % 2 == 0 else "leaf_light", Vector3(x, top + 0.05, zm), Vector3(0.3, 0.12, 0.4), 3, 6, 1.0)
+			if course % 3 == 1:
+				mesh.blob("petal_violet", Vector3(x + side * 0.1, top + 0.18, zm + 0.2), Vector3(0.1, 0.1, 0.1), 2, 5, 1.0)
+	return _finish(mesh, "Stairs_%s" % ramp.id)
+
+
+## The giant root ramp: a broad bark slab laid along the slope (the walk), ridged with long root strands, knots and moss, smaller roots splaying out
+## at its foot and its head, violet veins where the corruption reaches it.
+static func root_ramp(ramp: HeapLayout.Ramp, twist: float) -> Node3D:
+	var mesh: KitMesh = _mesh()
+	var rect: Rect2 = ramp.rect
+	var cx: float = rect.get_center().x
+	var length: float = rect.size.y
+	var rise: float = ramp.y1 - ramp.y0
+	var angle: float = atan2(rise, length)
+	var centre: Vector3 = Vector3(cx, (ramp.y0 + ramp.y1) * 0.5 - 0.3, rect.get_center().y)
+	var basis: Basis = Basis(Vector3.RIGHT, -angle)
+	var slope_len: float = sqrt(length * length + rise * rise)
+	mesh.box("bark", centre, Vector3(rect.size.x + 0.6, 0.7, slope_len + 1.0), basis, 0.12, 0.85)
+	var up_slope: Vector3 = Vector3(0.0, rise, -length).normalized()
+	var foot: Vector3 = Vector3(cx, ramp.y0 + 0.02, rect.end.y + 0.3)
+	for strand: int in range(5):
+		var ox: float = -rect.size.x * 0.42 + rect.size.x * 0.84 * float(strand) / 4.0
+		var wobble: float = 0.25 * sin(float(strand) * 1.7)
+		var a: Vector3 = foot + Vector3(ox, 0.0, 0.0)
+		var b: Vector3 = a + up_slope * (slope_len + 0.6) + Vector3(wobble, 0.0, 0.0)
+		mesh.tube("bark_dark" if strand % 2 == 0 else "bark", a + Vector3(0, 0.08, 0), b + Vector3(0, 0.08, 0), 0.16 + 0.05 * float(strand % 2), 7, true)
+		if twist > 0.3:
+			mesh.tube("veins", a + Vector3(0.05, 0.14, 0), b + Vector3(0.05, 0.14, 0), 0.04, 4, false)
+	# knots and moss on the slab, splayed roots at both ends
+	for knot: int in range(6):
+		var t: float = (float(knot) + 0.5) / 6.0
+		var p: Vector3 = foot.lerp(foot + up_slope * slope_len, t) + Vector3(rect.size.x * 0.5 * sin(float(knot) * 2.3), 0.12, 0.0)
+		mesh.blob("bark_dark", p, Vector3(0.35, 0.18, 0.3), 3, 7, 0.9)
+		mesh.blob("leaf" if knot % 2 == 0 else "hanging_moss", p + Vector3(0.1, 0.12, 0.1), Vector3(0.3, 0.12, 0.28), 3, 6, 1.0)
+	for end: int in range(2):
+		var origin: Vector3 = foot if end == 0 else foot + up_slope * slope_len
+		for root_index: int in range(4):
+			var a: float = PI * (0.15 + 0.7 * float(root_index) / 3.0) + (PI if end == 1 else 0.0)
+			var tip: Vector3 = origin + Vector3(cos(a) * 3.0, -0.4, sin(a) * 3.0 * (1.0 if end == 0 else -1.0))
+			mesh.tube("bark", origin + Vector3(0, 0.2, 0), tip, 0.22, 6, true)
+	var root: Node3D = _finish(mesh, "RootRamp_%s" % ramp.id)
+	# rope rails on posts either side so the edge reads from above
+	root.add_child(rope_fence([Vector3(rect.position.x - 0.4, ramp.y0, rect.end.y), Vector3(rect.position.x - 0.4, ramp.y1, rect.position.y)], 2.2))
+	root.add_child(rope_fence([Vector3(rect.end.x + 0.4, ramp.y0, rect.end.y), Vector3(rect.end.x + 0.4, ramp.y1, rect.position.y)], 2.2))
+	return root
+
+
+## A vine ladder up a cliff face: two thick living vines up the steep strip with rung vines every half metre, leaves and purple blossoms, the ends
+## rooting into the ground above and below. Sturdy and green, so it reads as safe.
+static func vine_ladder(ramp: HeapLayout.Ramp) -> Node3D:
+	var mesh: KitMesh = _mesh()
+	var rect: Rect2 = ramp.rect
+	var cx: float = rect.get_center().x
+	var foot: Vector3 = Vector3(cx, ramp.y0, rect.end.y + 0.3)
+	var head: Vector3 = Vector3(cx, ramp.y1, rect.position.y - 0.4)
+	var half: float = rect.size.x * 0.5 - 0.25
+	for side: float in [-1.0, 1.0]:
+		var a: Vector3 = foot + Vector3(side * half, 0.05, 0.0)
+		var b: Vector3 = head + Vector3(side * half * 0.9, 0.05, 0.0)
+		mesh.tube("leaf_dark", a, b, 0.17, 7, true)
+		mesh.tube("leaf", a + Vector3(side * 0.12, 0.1, 0.0), b + Vector3(side * 0.12, 0.1, 0.0), 0.1, 5, true)
+		# the roots at both ends
+		for r: int in range(3):
+			var ang: float = -0.6 + 0.6 * float(r)
+			mesh.tube("leaf_dark", a, a + Vector3(side * (0.6 + 0.3 * float(r)) * cos(ang), -0.1, 0.9 * sin(ang) + 0.6), 0.09, 5, true)
+			mesh.tube("leaf_dark", b, b + Vector3(side * (0.6 + 0.3 * float(r)) * cos(ang), 0.05, -0.9 * sin(ang) - 0.6), 0.09, 5, true)
+	var count: int = maxi(3, int(foot.distance_to(head) / 0.5))
+	for rung: int in range(1, count):
+		var t: float = float(rung) / float(count)
+		var c: Vector3 = foot.lerp(head, t) + Vector3(0, 0.12, 0)
+		mesh.tube("leaf", c + Vector3(-half, 0, 0), c + Vector3(half, 0, 0), 0.09, 5, true)
+		if rung % 2 == 0:
+			mesh.blob("leaf_light", c + Vector3(half * (0.5 if rung % 4 == 0 else -0.5), 0.14, 0.0), Vector3(0.26, 0.1, 0.3), 3, 6, 1.0)
+		if rung % 3 == 1:
+			mesh.blob("petal_violet", c + Vector3(half * (1.0 if rung % 2 == 0 else -1.0), 0.2, 0.0), Vector3(0.11, 0.11, 0.11), 2, 5, 1.0)
+	return _finish(mesh, "VineLadder_%s" % ramp.id)
+
+
+## The scree slope's junk: tyres, scrap and rocks lying on the slope between its kerbs (nothing solid: the slope is only a mount's ground anyway).
+static func scree_slope(ramp: HeapLayout.Ramp) -> Node3D:
+	var mesh: KitMesh = _mesh()
+	var rect: Rect2 = ramp.rect
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 77
+	for index: int in range(26):
+		var x: float = rng.randf_range(rect.position.x + 0.5, rect.end.x - 0.5)
+		var z: float = rng.randf_range(rect.position.y + 0.5, rect.end.y - 0.5)
+		var y: float = ramp.height_at(z)
+		match index % 4:
+			0:
+				mesh.lathe("tyre", Vector3(x, y - 0.05, z), [Vector2(0.4, 0.0), Vector2(0.44, 0.14), Vector2(0.4, 0.28)], 10, 0.9, true, true)
+			1:
+				mesh.box("rust", Vector3(x, y + 0.08, z), Vector3(rng.randf_range(0.4, 0.9), 0.14, rng.randf_range(0.4, 0.9)), Basis(Vector3.UP, rng.randf() * TAU), 0.02, 0.9)
+			2:
+				mesh.blob("stone", Vector3(x, y + 0.08, z), Vector3(rng.randf_range(0.25, 0.5), 0.2, rng.randf_range(0.25, 0.5)), 3, 7, 0.9)
+			_:
+				mesh.blob("leaf_dark", Vector3(x, y + 0.05, z), Vector3(0.3, 0.14, 0.3), 3, 6, 1.0)
+	for side: float in [-1.0, 1.0]:
+		var x: float = rect.get_center().x + side * (rect.size.x * 0.5 + 0.3)
+		for k: int in range(4):
+			var z: float = rect.position.y + rect.size.y * (float(k) + 0.5) / 4.0
+			mesh.box("doors", Vector3(x, ramp.height_at(z) + 0.4, z), Vector3(0.14, 0.9, 1.2), Basis(Vector3.UP, 0.1 * float(k % 2) - 0.05), 0.02, 0.9)
+	return _finish(mesh, "Scree_%s" % ramp.id)
+
+
+## Vines draped down a cliff face from a lip: `drapes` is a list of [top (Vector3 world), length, yaw degrees of the face's outward side]. Leaves along
+## the strands and purple blossoms at the ends; swaying is left to the wind shader by name.
+static func cliff_vines(drapes: Array) -> Node3D:
+	var mesh: KitMesh = _mesh()
+	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+	rng.seed = 909
+	for entry: Variant in drapes:
+		var d: Array = entry as Array
+		var top: Vector3 = d[0] as Vector3
+		var length: float = float(d[1])
+		var out: Vector3 = Vector3(sin(deg_to_rad(float(d[2]))), 0.0, cos(deg_to_rad(float(d[2]))))
+		var strands: int = 2 + rng.randi() % 3
+		for s: int in range(strands):
+			var a: Vector3 = top + out * 0.25 + Vector3(rng.randf_range(-0.6, 0.6), 0.1, 0.0) * (1.0 - absf(out.x)) + Vector3(0.0, 0.1, rng.randf_range(-0.6, 0.6)) * absf(out.x)
+			var b: Vector3 = a + Vector3(rng.randf_range(-0.3, 0.3), -length * rng.randf_range(0.6, 1.0), rng.randf_range(-0.3, 0.3)) + out * 0.15
+			mesh.tube("leaf_dark", a, b, 0.07, 5, true)
+			var leaves: int = 2 + rng.randi() % 3
+			for k: int in range(leaves):
+				var p: Vector3 = a.lerp(b, (float(k) + 0.6) / float(leaves + 1)) + out * 0.12
+				mesh.blob("leaf" if k % 2 == 0 else "leaf_light", p, Vector3(0.22, 0.14, 0.22), 3, 6, 1.0)
+			if s % 2 == 0:
+				mesh.blob("petal_violet", b + out * 0.1, Vector3(0.14, 0.2, 0.14), 3, 6, 1.0)
+		mesh.blob("hanging_moss", top + out * 0.2, Vector3(0.6, 0.18, 0.4), 3, 7, 1.0)
+	var root: Node3D = _finish(mesh, "CliffVines")
+	root.get_child(0).name = "CliffVineLeaves"  # named like foliage so the toon shader sways it
+	return root
+
+
+## A rope fence along `points` (world, with heights): posts every ~2 m and two sagging ropes between them. Low, never blocks (the cliff lip does).
+static func rope_fence(points: Array, post_step: float = 2.2) -> Node3D:
+	var mesh: KitMesh = _mesh()
+	for index: int in range(points.size() - 1):
+		var a: Vector3 = points[index] as Vector3
+		var b: Vector3 = points[index + 1] as Vector3
+		var count: int = maxi(1, int(round(a.distance_to(b) / post_step)))
+		var previous: Vector3 = a
+		for k: int in range(count + 1):
+			var p: Vector3 = a.lerp(b, float(k) / float(count))
+			mesh.tube("wood_dark", p, p + Vector3(0, 1.05, 0), 0.08, 6, true)
+			mesh.lathe("rust", p + Vector3(0, 1.05, 0), [Vector2(0.11, 0.0), Vector2(0.0, 0.12)], 6, 0.9, false, false)
+			if k > 0:
+				for height: float in [0.95, 0.55]:
+					var mid: Vector3 = (previous + p) * 0.5 + Vector3(0, height - 0.08, 0)
+					mesh.tube("rope", previous + Vector3(0, height, 0), mid, 0.035, 4, false)
+					mesh.tube("rope", mid, p + Vector3(0, height, 0), 0.035, 4, false)
+			previous = p
+	return _finish(mesh, "RopeFence")
+
+
+## A rusty water wheel of `radius` standing in the gorge: a rim of tin, spokes, paddles, an axle on a timber frame bolted to the cliff, moss and
+## dripping vines. The wheel's local z is its axle; meta "spinner" turns it (`HeapBuilder.animate`, like the windmill's sails).
+static func water_wheel(radius: float) -> Node3D:
+	var root: Node3D = Node3D.new()
+	root.name = "WaterWheel"
+	var wheel_mesh: KitMesh = _mesh()
+	var segments: int = 14
+	for ring_r: float in [radius, radius - 0.9]:
+		for s: int in range(segments):
+			var a0: float = TAU * float(s) / float(segments)
+			var a1: float = TAU * float(s + 1) / float(segments)
+			for dz: float in [-0.55, 0.55]:
+				wheel_mesh.tube("rust" if s % 2 == 0 else "rust_dark", Vector3(cos(a0) * ring_r, sin(a0) * ring_r, dz), Vector3(cos(a1) * ring_r, sin(a1) * ring_r, dz), 0.09, 5, true)
+	for s: int in range(segments):
+		var a: float = TAU * (float(s) + 0.5) / float(segments)
+		var out: Vector3 = Vector3(cos(a), sin(a), 0.0)
+		# a paddle between the rims, a spoke to the hub
+		wheel_mesh.box("doors" if s % 3 == 0 else "mosswood", out * (radius - 0.45), Vector3(0.9, 0.08, 1.1), Basis(Vector3.BACK, a + PI * 0.5), 0.0, 0.9)
+		if s % 2 == 0:
+			wheel_mesh.tube("rust_dark", Vector3(0, 0, 0.3 * float(s % 4 - 1)), out * (radius - 0.9), 0.07, 5, true)
+	wheel_mesh.tube("metal_dark", Vector3(0, 0, -1.0), Vector3(0, 0, 1.0), 0.18, 8, true)
+	wheel_mesh.blob("leaf", Vector3(radius * 0.7, radius * 0.6, 0.6), Vector3(0.3, 0.16, 0.25), 3, 6, 1.0)
+	var wheel: MeshInstance3D = _instance(wheel_mesh, "Wheel")
+	root.add_child(wheel)
+	root.set_meta("spinner", wheel)
+	# the frame: two timber uprights and a cross beam behind the axle, bolted into the cliff
+	var frame: KitMesh = _mesh()
+	for side: float in [-1.0, 1.0]:
+		frame.box("wood_dark", Vector3(0.0, -radius * 0.5, side * 1.1), Vector3(0.3, radius + 1.4, 0.3), Basis.IDENTITY, 0.03, 0.85)
+		frame.box("rust", Vector3(0.0, 0.0, side * 1.1), Vector3(0.5, 0.5, 0.2), Basis.IDENTITY, 0.02)
+	frame.box("wood_dark", Vector3(0.0, 0.35, 0.0), Vector3(0.3, 0.3, 2.5), Basis.IDENTITY, 0.03, 0.85)
+	frame.blob("hanging_moss", Vector3(0.1, 0.55, 0.0), Vector3(0.5, 0.2, 0.6), 3, 7, 1.0)
+	root.add_child(_instance(frame, "Frame"))
+	return root
+
+
+## The culvert the river springs from: a rusty pipe out of the cliff with a bracket, moss round its mouth.
+static func pipe_spout(radius: float) -> Node3D:
+	var mesh: KitMesh = _mesh()
+	mesh.tube("rust_dark", Vector3(0, 0, -2.4), Vector3(0, 0, 0.6), radius, 10, false)
+	mesh.lathe("rust", Vector3(0, 0, 0.4), [Vector2(radius + 0.1, 0.0), Vector2(radius + 0.1, 0.3)], 10, 0.9, false, false)
+	mesh.blob("hanging_moss", Vector3(0, radius + 0.1, 0.1), Vector3(radius * 1.2, 0.3, 0.6), 3, 7, 1.0)
+	mesh.blob("leaf", Vector3(radius * 0.8, radius * 0.5, 0.3), Vector3(0.35, 0.2, 0.3), 3, 6, 1.0)
+	mesh.blob("petal_violet", Vector3(-radius * 0.7, radius * 0.7, 0.3), Vector3(0.14, 0.14, 0.14), 2, 5, 1.0)
+	return _finish(mesh, "PipeSpout")
+
+
+## The junk-choked drain at the ravine's east end: a rusty grate of bars over the pool with scrap and tyres caught in it.
+static func drain_grate(radius: float) -> Node3D:
+	var mesh: KitMesh = _mesh()
+	var bars: int = int(radius * 2.0 / 0.6)
+	for index: int in range(bars + 1):
+		var x: float = -radius + float(index) * radius * 2.0 / float(bars)
+		var half: float = sqrt(maxf(radius * radius - x * x, 0.0))
+		if half < 0.3:
+			continue
+		mesh.box("rust_dark", Vector3(x, 0.0, 0.0), Vector3(0.12, 0.12, half * 2.0), Basis.IDENTITY, 0.0)
+	mesh.box("rust_dark", Vector3(0.0, 0.0, 0.0), Vector3(radius * 2.0, 0.12, 0.12), Basis.IDENTITY, 0.0)
+	var segments: int = 16
+	for s: int in range(segments):
+		var a0: float = TAU * float(s) / float(segments)
+		var a1: float = TAU * float(s + 1) / float(segments)
+		mesh.tube("rust", Vector3(cos(a0) * radius, 0.0, sin(a0) * radius), Vector3(cos(a1) * radius, 0.0, sin(a1) * radius), 0.1, 5, true)
+	mesh.lathe("tyre", Vector3(radius * 0.4, 0.05, radius * 0.2), [Vector2(0.5, 0.0), Vector2(0.55, 0.16), Vector2(0.5, 0.32)], 10, 0.9, true, true)
+	mesh.box("doors", Vector3(-radius * 0.3, 0.2, -radius * 0.3), Vector3(1.2, 0.1, 0.8), Basis(Vector3.UP, 0.6), 0.02)
+	mesh.blob("leaf_dark", Vector3(radius * 0.2, 0.2, -radius * 0.5), Vector3(0.5, 0.2, 0.4), 3, 6, 1.0)
+	return _finish(mesh, "DrainGrate")
