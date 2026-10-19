@@ -24,14 +24,14 @@ const STARTING_DECKS: Dictionary = {
 	# bodies, Requisition Form turns it into cards, Pink Slip and the Ghoul clear the way, the Waiting Room and Invisible Ink
 	# slow Hustle swarms down, Notary Wraiths drain.
 	Affinity.Type.NECROCRAT: {
-		"N-01": 3, "N-02": 3, "N-04": 2, "N-05": 1, "N-06": 2, "N-09": 1, "N-15": 2, "N-16": 1, "N-18": 1, "N-20": 1,
-		"N-07": 2, "N-03": 2, "N-13": 2, "N-23": 2, "N-26": 1,
+		"N-01": 3, "N-02": 3, "N-04": 2, "N-05": 2, "N-06": 2, "N-09": 1, "N-15": 2, "N-18": 1,
+		"N-07": 3, "N-03": 2, "N-13": 2, "N-23": 2, "N-26": 1,
 	},
 	# Gourmand - Ingredients into Golems: Line Cooks, Porters and the Herb Garden make Ingredients; the Mold, the Artificer and
 	# the Apprentice cook them into Golems and Weenies; Sentries, Volunteers, En Garde-Mangers and Dinner Is Served hold the line.
 	Affinity.Type.GOURMAND: {
-		"G-01": 3, "G-09": 2, "G-02": 1, "G-15": 2, "G-12": 2, "G-08": 2, "G-03": 1, "G-06": 2, "G-04": 2, "G-07": 2,
-		"G-16": 1, "G-05": 1, "G-20": 1, "G-25": 2, "G-23": 2,
+		"G-01": 3, "G-09": 2, "G-02": 1, "G-15": 2, "G-12": 2, "G-08": 2, "G-03": 1, "G-06": 3, "G-04": 1, "G-07": 3,
+		"G-16": 1, "G-05": 1, "G-20": 1, "G-25": 1, "G-23": 2,
 	},
 	# Refusemancer - Garbage effects and recursion: Rats, Divers and the Compost Bin make Garbage; the Possum, the Vomitor and the
 	# Raised Bed eat it; Second-Hand Life brings a unit back; traps (Spring Trap, Garbage Pit) punish attackers and new units;

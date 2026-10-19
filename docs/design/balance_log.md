@@ -831,3 +831,22 @@ spends 14 turns cashing Red Tape without attacking into its blockers. That is th
   last night's "~50%" was an estimate from full-HP phases: before tonight's changes and **without the leaders' boons** the sequence
   cleared only 4-21% per Path (`d19b0_primmseq.md`). The sim now gives the four freed leaders' boons (the game does, and the story frees
   every zone first); the sequence re-run with boons was stopped by a low-memory guard and is still open (inbox).
+
+## Daytime Oct 19, Part 2: Necrocrat and Gourmand tutorial runs
+
+Whole Forgotten Cave runs, 50 per Path (`--what=tutorial --games=25`; `d19p2_base.md` -> `d19p2_final.md`), and the level-1 round robin
+(`d19p2_decks_l1.md`, 20 games per pairing). Only the two starting decks changed; the cave's foes did not, so Beefcake and Refusemancer
+are untouched.
+
+| Change | Tutorial run before -> after |
+|---|---|
+| Necrocrat: - Processing Delay, - I've Made a Huge Mistake (it destroys your own unit), + Corpseified Public Accountant (2nd), + Grave Shift Worker (3rd) | **82% -> 92%** |
+| Gourmand: - Stock The Pantry (1 of 2), - Sourdough Sentry (1 of 2; a 1/6 that cannot attack), + Sous Chef (3rd), + Soup Kitchen Volunteer (3rd) | **80% -> 90%** |
+| Beefcake / Refusemancer | 92% / 82% (unchanged) |
+
+Tried on the way: Gourmand with only the Sous Chef swap 84%; Herb Garden -> Volunteer 82%; Meatloaf Mold -> Conveyor Belt Chef 82%.
+Replays (`replay_encounter --id=tutorial:6 --path=gourmand`) showed why the Sentry swap mattered: the cave's foes have 3 HP, and the
+lost games were walls that never pushed 3 damage before the Warden's swarm landed.
+
+L1 round robin overall (B / G / R / N): 53 / 58 / 45 / 44 -> **50 / 58 / 47 / 45** (spread 13 -> 13 points). Refusemancer's tutorial run
+(82%) is now the lowest.
