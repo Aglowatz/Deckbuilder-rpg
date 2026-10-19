@@ -1,23 +1,27 @@
-# Overnight Oct 17 - scorecard
+# Overnight Oct 18 - scorecard
 
-Scores 1-10 with the evidence behind each. "Start" = after Phase 1 (Parts 1-14); later columns are updated by the Phase 2 cycles
-(`docs/overnight/loop_log.md`). Balance is not a category.
+Scores 1-10 with the evidence behind each. "Start" = Phase 2 start (after Parts 1-8, Sun Oct 18 ~22:20), re-scored with fresh evidence:
+story bot 73/73, full tour bot (275 spots, 9 menus, 5 battles, 0 errors), first-battles / playtest / release smokes, the balance sim
+(Parts 1-2), title-card and forest shots. Last night's categories are kept; Balance and Playtest readiness are new. Later columns are
+updated by the Phase 2 cycles (`docs/overnight/loop_log.md`). Last night's sheet: `docs/overnight/oct17/scorecard.md`.
 
 | Category | Start | Now | Evidence |
 |---|---|---|---|
-| Combat feel | 7 | 8 | Cycle 19: attacks wind up, lean in and settle; damage numbers scale with the blow. Cycle 8: played cards fly on a curve with a turn and an arrival pop. Part 8: hit pause scaled to damage, recoil, BLOCKED numbers, turn banners, slow-motion final blow, shake scaled + Reduce shake setting; first-battles smoke 57 fps lowest while animating. Unit heals show numbers; deaths crack, burst and dissolve. |
-| Visuals - starting forest | 6 | 7.5 | Cycle 3: the open floor read purple because the occlusion fader faded the 900 m floor with a blocking prop's group (88 % see-through, the sky showed through). Fixed: painted floor, moss and the worn path everywhere (on17_forest_fixed). Still: the shot camera sees cave stalactites against the sky at the top edge. |
-| Visuals - Crosspath (town) | 8 | 8 | Crosspath pass (Oct 17) + vendor shots: square, six storefronts, lake; bark bubbles and fluff now (Part 11/14). |
-| Visuals - Gainlands | 8 | 8 | Gainlands v2 (Oct 17): sandstone plateau, three roads, gym hall; dust motes (Part 14). |
-| Visuals - D.N.A. | 7 | 7.5 | Cycle 18: paperwork drifts over the bare ground round the offices (on17_dna4_lobby). D.N.A. slice with its kit; ghost motes (Part 14). Shot on17_zone_dna2 (cycle 7): reads well; HUD line and chip no longer clipped. |
-| Visuals - Endless Buffet | 7 | 7.5 | Cycle 12: the gravy moat has peas, carrot coins, croutons and fat sheens floating in it (on17_zone_buffet2). Buffet slice; steam wisps (Part 14). Shot on17_zone_buffet (cycle 7): the bridge reads; the gravy sea in front is a flat brown plane. |
-| Visuals - Verdant Dump | 7 | 7.5 | Cycle 7: the entrance pool is an oval pond (was a hard-edged rectangle); shot on17_zone_heap3. Dump layout + art pass; gnats (Part 14). Not re-shot tonight. |
-| Visuals - Capital | 8 | 8 | Capital correction pass (Oct 17): wall, towers, rim, 60 fps at ten cameras; ash flakes (Part 14). |
-| UI consistency | 6 | 8 | Cycle 24: the maps show roads and buildings. Cycle 17: world map without dead dark strips. Cycle 6: no text over the round close button, header air, readable Collection Book counter, padded vendor bubbles. Cycle 4: Character spare frames filled (level, Path, deck), focus ring on gear slots, Alchemist gold + copy-cap text match the rest, Quest Log hint readable. Part 13: one input path (UiInput: confirm/back actions), every overlay focusable with a visible gold focus ring and the first control focused, the same open fade, ConfirmDialog focuses the safe choice. Still uneven: several screens build their own button styles; HUD buttons stay mouse-only by design. |
-| Onboarding / tutorial | 7 | 7.5 | Cycle 11: narration without an empty name tab; dungeon maps fill their side bands with the painting, not black. Part 9: Resources taught by doing in battle 1 (made -> spend -> why), the spend variant in battle 2, first deck edit quest; smoke shows every tip appears in order. Not yet timed end to end with a bot (the forest/cave flow). |
-| Rewards & progression feel | 8 | 8.5 | Cycle 22: several levels at once can be read on one page. Parts 1, 4-7: copy caps, ten-slot Deck Box, level-5 armory quest, 1-30 reward track (every level gives something), full-screen level-up and reward reveals. |
-| Collection / bestiary | 7 | 7.5 | Cycle 15: Bestiary and battle plate show enemy pictures as soon as they exist; 90 ready-to-paste requests in docs/art/bestiary_image_requests.md. Part 10: Collection Book by Path and rarity with completion bars, filters, sort, zoom; Bestiary of 90 entries with fun lines and milestones. Icons are generic game-icons (no enemy art). |
-| NPC life & dialogue | 6 | 8 | Cycle 23: a third town stroller by the Arena gate. Cycle 16: freed leaders and Captain Spotless say passing lines too. Part 11: barks for 44 NPCs, idle flourishes and face-the-hero (existing), one strolling baker; source of truth with 70 NPCs. Only one walker in town; zones have strollers only where sprites allow. |
-| Audio mix | 7 | 7.5 | Cycle 10: Music bus leveller - the 26 very dynamic tracks keep their quiet passages audible (e.g. arena LRA 18.2 -> 12.8 LU) at unchanged loudness. Part 12: 35 loops seamless (gaps 0.00 s, jumps within ~2 dB), per-track gain, boss-victory stings, music smoke worst crossfade 0.21 dB.  |
-| Performance | 6 | 8.5 | Cycle 25: 4 cards on the opening frame; town worst frame 139 ms, 30 frames over 33 ms. Cycle 20: card shaders and text warmed before the first grid opens (town frames over 33 ms 74 -> 31-39, worst 265 -> ~210 ms). Cycle 14: lazy Bestiary page. Cycle 5 (wall-clock bot): town worst frame 1160 -> 286 ms, first vendor open 1160 -> 151 ms, re-opens 28-50 ms headless; card view 2.4x cheaper (cached art lookups), tiles built over frames, menu art warmed on a thread. Still: first Collection Book open ~286 ms. Earlier: Tour bot (first run): frames over 33 ms during interactions - town 28 (worst 148 ms), Capital 19 (worst 146 ms), zones 2-8 (worst 108-133 ms); battles 0 over 33 ms. Spikes come with opening menus/shops and scene loads. |
-| Stability | 7 | 8 | Final checks (06:30): story playthrough 73/73, full tour bot 275 spots / 5 battles / 0 errors, dungeons, first-battles, music and Crosspath walk smokes all OK; GUT 1816/1817 (pre-existing CP-2). Cycle 9: story playthrough bot 73/73 (new game -> ending) after all of tonight's changes (the bot learned the multi-level "Next level" screen). Tour bot: 275 spots used, 9 menus, 5 battles; the only script errors were in the bot itself (fixed). GUT 1792/1794 (pre-existing camera test + one fixed). |
+| Combat feel | 8 | 8 | First-battles smoke at 1x / 1.5x / 2x: 58 fps lowest while animating; auto-end turn works (4 / 6 / 1 turns ended by themselves); end-turn warning names the energy left. Unchanged otherwise since Oct 17 (wind-ups, scaled numbers, card-play arcs). |
+| Visuals - starting forest | 8 | 8 | Rebuilt today (Opening Forest): teal dusk, lantern pool, cave glow; the purple top-edge shapes are gone (on18_forest_top). Reads dark at the screen edges. |
+| Visuals - Crosspath (town) | 8 | 8 | Unchanged since Oct 17 (square, six storefronts, lake, roamers); tour bot 0 errors. |
+| Visuals - Gainlands | 8 | 8 | on18_card_gainlands: the bridge, gym gate, banners read well; the title card's flourish sits under the ribbon. |
+| Visuals - D.N.A. | 7.5 | 7.5 | Unchanged since Oct 17. |
+| Visuals - Endless Buffet | 7.5 | 7.5 | Unchanged since Oct 17 (the gravy moat is still a flat plane in front). |
+| Visuals - Verdant Dump | 7.5 | 7.5 | Unchanged since Oct 17. |
+| Visuals - Capital | 8 | 8 | Unchanged since Oct 17. |
+| UI consistency | 8 | 8 | Zone and dungeon arrival cards in the banner style with a Path icon + subtitle; Report a Problem form; settings rows for the battle options. Still: several screens hand-style their choice tiles. |
+| Onboarding / tutorial | 7.5 | 7.5 | Playtest smoke (forest -> Path -> cave -> Crosspath -> fight -> level 5 -> armory) OK; tracker names the area of a step elsewhere ("Go to the Gainlands"). Tutorial clears 71-88% per Path with the new starters (Necrocrat lowest). |
+| Rewards & progression feel | 8.5 | 8.5 | Unchanged; items now once per battle (a cap, not a reward change); Alchemist reachable sooner (6 essence). |
+| Collection / bestiary | 7.5 | 7.5 | Unchanged (enemy pictures still missing). |
+| NPC life & dialogue | 8 | 8 | Unchanged; the dialogue presentation plan is written (Part 5). |
+| Audio mix | 7.5 | 7.5 | Unchanged since Oct 17. |
+| Performance | 7.5 | 7.5 | Tour bot: town 82 frames over 33 ms (Oct 17 end: 30-39), worst 193 ms (character screen), vendor 192 ms; zones 14-44 over 33 ms, worst 113-173; battles 0. Suspect tonight's crash-safe save (it reads the whole save back twice on every write). |
+| Stability | 8.5 | 8.5 | Story bot 73/73, tour bot 0 errors / 0 warnings, smokes OK, GUT 1888/1888 - the long-failing camera test passes everywhere now. |
+| Balance (sim evidence) | 5 | 5 | Part 2 end table (balance_log.md Part G): in band normals 35/54, elites 6/21, bosses 5/19; late elites/bosses mostly too easy, early Beefcake/swarm fights too hard; starting decks 52/57/47/44 at L1 (spread 13); gear lifts +0..+10 at L5, model gear +41 at L12. |
+| Playtest readiness | 7 | 7 | Report a Problem (F8 / pause): screenshot, log, save copy, area + quest, opens the folder; crash-safe saves with a backup; autosave on area change, after battles and quest steps; version on title + pause. First hour: the Gainlands roamers are the first wall (58-75% for the AI at L5). |

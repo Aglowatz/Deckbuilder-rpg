@@ -4,13 +4,14 @@ Start: Sun Oct 18 18:28:10 MDT 2026 (end target: Mon Oct 19 06:28 MDT)
 Start tag: pre-overnight-oct18 (pushed)
 
 ## Current
-Part 2 (Rebalance G): iteration 1 full sim done (g_iter1.md), iteration-1 edits applied (uncommitted: dungeon_content.json, corrupted_npcs, ninja_boss, gainlands/buffet/capital enemies, primm_boss, arena_defs); iteration 2 sim on changed groups running (_logs/g_iter2.txt, scratchpad iter.sh). Part 8 left: purple shapes look, inbox.
+Phase 2 (from 22:20). Scorecard/loop_log/next_up for tonight in docs/overnight/ (last night archived in docs/overnight/oct17/). Cycle 1: Performance (save hitch).
 
 ## Done (commits)
 - Part 1: dea1e329
 - Part 5: 60613118 (done early, docs only)
 - Part 3: 29e84c95; Part 4: 12ee6d33; Part 6: cd840871; Part 7: a2f0ed0d
-- Part 8 code (uncommitted): tests/world/test_world_look_rig.gd pins camera angle/zoom (user settings.cfg zoom=2.0 broke it)
+- Part 2: ad4c98cb; Part 8: 3744aa79. Phase 1 complete 22:07.
+- Phase 2 start evidence: story bot 73/73, tour bot 275 spots / 0 errors (town 82 frames > 33 ms).
 
 ## Next
 - Part 1 -> Part 8, then Phase 2 cycles until 06:28.
