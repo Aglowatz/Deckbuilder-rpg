@@ -86,7 +86,7 @@ Style file ids (`data/zone_styles/<id>.json`) are in brackets.
 - **Building language:** patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills.
 - **Material swaps:** shared kit in rusted metal, mossy wood, patchwork panels; junk gravel and compost ground.
 - **Hero landmarks:** junk mountain, rusty windmill, the Rotheart tree (in the distance), Trash Panda Throne.
-- **Regions (one walkable area):** Compost Commons (the hub), Junk Mountains, Farm Rows, Wildflower Wetlands, Throne Approach. No sub-area scenes.
+- **Regions (one walkable area):** Compost Commons (the market terrace, the hub), the Farm Terrace, the Compost Terrace, the Junk Peaks, the Ravine, the Overgrown Plateau, the Throne Approach: four terraces rising from the entrance to the Rotheart with the river in a ravine below (v2, 2026-10-19, `docs/art/verdant_dump_v2.md`). No sub-area scenes.
 - **Foliage and props:** wildflowers, vines, reeds; tires, bottles, crates, compost heaps, goats on car roofs.
 - **Budget:** about 40. **Paint-over:** needed.
 

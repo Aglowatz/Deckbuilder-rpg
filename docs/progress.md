@@ -3435,3 +3435,7 @@ Details and commits in `docs/overnight_report.md`; every number change in `docs/
 - **Settings (Part 7)**: battle speed 1x / 1.5x / 2x, auto-end turn, the end-turn warning names unused energy.
 - **Cleanup (Part 8)**: the camera test was reading the player's saved zoom (fixed in the test).
 - **Phase 2**: glyph warmup for menus (town slow frames roughly halved), a one-time warning when a zone works against your Path.
+
+## Verdant Dump v2 (2026-10-19)
+
+The Verdant Dump rebuilt as its own place, not a second Buffet (`docs/art/verdant_dump_v2.md`): a 64 x 132 m valley rising in four terraces from the market at the south entrance to the Overgrown Plateau and the Rotheart, the turquoise river in a ravine below the market and down a gorge on the west edge with three waterfalls and two water wheels, stone stairs, a giant root ramp, vine ladders, a mount-only scree slope and arched vine bridges between the tiers, violets and purples over the warm golden light (lilac haze, purple flowering trees, blossom beds, grey-violet stone cliffs), birds, critters, bees, petals and three workers with passing lines. Every NPC, quest, chest, pickup, dungeon door and camera re-placed; old saves load; 60 fps on Medium; GUT 1926 / 1926; the walk smoke, the walkability probe, the story playthrough bot and the tour bot pass. New: `world/heap/heap_terraces.gd`, `heap_water.gd`, `heap_critters.gd`; `tests/core/zone/test_heap.gd` and `tests/world/test_heap_slice.gd` rewritten for the terraces.

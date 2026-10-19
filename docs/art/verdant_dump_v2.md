@@ -206,6 +206,54 @@ The game sits within a few points of the reference on green and blue and on satu
 
 ![](verdant_dump_v2/e_hub_grid.jpg)
 
+**fps after Part E** (Medium, the hub, the busiest view): the denser cliffs had pushed it to 58.8 (GPU 15.4 ms); letting the blossom beds and the rope fences range-cull (they keep `no_occlusion_fade`, they are small) and shrinking the fine terrain region to 5 m past the rims brought it back to 60.2 / 59.8 in two probes (GPU 14.7 / 15.0 ms). The reading is bimodal round 16.7 ms as the earlier passes found (VD-22).
+
+## Part F: verify and report
+
+### After (the same cameras as Part A)
+
+| | |
+|---|---|
+| ![](verdant_dump_v2/after_po_entrance.jpg) the entrance bridge | ![](verdant_dump_v2/after_po_hub.jpg) the market (the hub) |
+| ![](verdant_dump_v2/after_po_stream.jpg) the ravine's lip | ![](verdant_dump_v2/after_wide.jpg) wide (Overview camera, Far zoom) from the same spot: the ravine, both arched bridges, the stairs, the terraces |
+| ![](verdant_dump_v2/after_po_farm_rows.jpg) the farm terrace and the gorge | ![](verdant_dump_v2/after_po_junk_peaks.jpg) the fair, Mount Scrapmore and the east stairs' top |
+| ![](verdant_dump_v2/after_po_wetlands.jpg) the plateau from the top stairs' landing | ![](verdant_dump_v2/after_po_throne_approach.jpg) the throne approach past Rust Peak |
+| ![](verdant_dump_v2/after_rotheart_approach.jpg) the Rotheart's root gate | |
+
+### Beside the reference and beside the Buffet
+
+![](verdant_dump_v2/e_compare_reference.jpg)
+
+The Buffet's hub (left) beside the Dump's (right): ![](verdant_dump_v2/f_compare_buffet.jpg)
+
+| image | mean RGB | luma p5 / p50 / p95 | saturation | sky / mid / ground |
+|---|---|---|---|---|
+| the Buffet's hub | 186, 134, 88 | 58 / 153 / 216 | 0.54 | 201,150,111 / 163,114,74 / 195,139,79 |
+| the Dump's hub before | 152, 119, 62 | 54 / 121 / 189 | 0.62 | 180,141,95 / 151,110,50 / 125,105,40 |
+| the Dump's hub after | 134, 98, 73 | 38 / 105 / 176 | 0.48 | 148,111,109 / 139,97,68 / 117,86,44 |
+
+They no longer look alike: the Buffet is a bright cream-and-copper plate (luma median 153) with the same three-bridge river and three districts the Dump had; the Dump is a darker, cooler valley (median 105, its sky third lilac at 148,111,109 against the Buffet's 201,150,111) that rises away from the camera in terraces with the river below, a drawing with a different skeleton, not different stickers.
+
+### What is different (the list of Part A, answered)
+
+1. The table: a 64 x 132 m rectangle (corner 6) instead of the 92 x 72 rounded table; deeper than wide; the walkable ground about 7,000 m2 (was about 5,800).
+2. The river: in a ravine 2.4 m below the market, winding west to east and ending at a drain, with the gorge bringing it down the west edge over three falls; two vine bridges (arched) and a stone stair instead of three level crossings at the Buffet's x.
+3. The fence with three gaps: gone; the junk barricade plugs a stair.
+4. The three districts: gone; four terraces, each 3 to 3.5 m above the last, with two or three ways between every pair.
+5. Flat ground: four levels, cliffs, stairs, ramps, ladders, a scree slope, three summits.
+6. The palette: lilac haze, a violet sky under the gold, a cool ambient, grey-violet stone, purple trees and violet-blue blossoms, turquoise water; the warm accents stay (gold key light, plank walks, rust, awnings).
+7. The prop rhythm: the hub's things on the plaza's rim as before, but market stalls under patchwork awnings, planters, barrels and lanterns on the market; rope fences along every lip; vines and moss down every cliff; the pillars and giant trees closing the back.
+
+### Checks
+
+- GUT: 1926 / 1926 (every part).
+- Walkability: the probe reaches all 65 key locations at a body radius of 0.65 m; every route walkable end to end (`test_routes_are_wide_and_nothing_solid_stands_on_them`); nothing walkable under a bridge (`test_nothing_walkable_lies_under_a_bridge`); two or more ways between every pair of neighbouring terraces.
+- The zone walk smoke (`bash tools/run_heap_walk_smoke.sh`): passes, 21 shots (the bridge, the plaza, every NPC and the vendor, the interactables, the boar, the quiz, the fair, the Seed Shrine, both dungeon doors, the giant chest, the lever, a save and load round trip, back to town).
+- fps on Medium (`bash tools/fps.sh`): po_hub 60.2 / 59.8 (GPU 14.7 / 15.0 ms), po_stream 60.0 (14.2), po_wetlands 60.0 (12.6), po_farm_rows 60.0 (13.3), po_junk_peaks 60.0 (12.2).
+- Old saves: nothing in a save stores a world position in the Dump (the spawn, the hub wake and every anchor are re-read from the layout); the growth, barricade, chest, pickup and quest flags keep their ids; an old fog-of-war grid is re-read cell by cell inside the new bounds.
+- The story playthrough bot (`bash tools/run_story_playthrough.sh`): every Refusemancer step passes on the new map (Moss Mulligan's duel at the thorn wall, the road into the zone, the favour step and the Dumpster Diving Gloves, the Trash Panda Throne opening and its gear, the Rotheart opening, the boss freeing the zone) and the run goes on through the Capital to the ending.
+- The tour bot (`bash tools/run_tour_bot.sh`) and a last full GUT run after the final fps tweak were started in one chain and stopped by the system for low memory before the tour bot reached the Dump; the tweak itself (the beds and fences range-culling) was covered by `test_heap_slice.gd` (17 / 17) and the full suite had passed on the state just before it. Both are the first things to run again (one Godot at a time) before the next pass.
+
 ## Art that would close the gap to the reference (sheet-ready, nothing generated here)
 
 | ID | Asset | Category | Lock | Image Description (for ChatGPT) | Size / Format | In-Game Use | Priority |

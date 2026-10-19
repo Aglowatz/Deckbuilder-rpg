@@ -1,5 +1,7 @@
 # The Verdant Dump: zone plan
 
+> Rebuilt on 2026-10-19 (`docs/art/verdant_dump_v2.md`): the regions are now terraces of one valley (the Market Terrace / Compost Commons at the south entrance, the Farm Terrace, the Compost Terrace, the Overgrown Plateau with the Rotheart, the Ravine below the market and the gorge down the west edge, the Junk Peaks on the east side, the Throne Approach on the plateau's west). The table below is the earlier flat plan; the ids are the same.
+
 Art Bible row: golden-hour sunset; warm haze, long shadows, fireflies; palette #7C8F45, #B5552D, #E3A857, #5C6B5E, #8B6D4C, #E9D8A6; mood scrappy, hopeful, nature reclaiming junk; building language patched shacks of scrap metal and old doors, overgrown with moss and vines, rusty windmills; shared kit in rusted metal, mossy wood, patchwork panels; junk gravel and compost ground. Style file `data/zone_styles/heap.json`. Kit: not yet imported (asset list `docs/art/zone_kits/heap.md`). The layout was fixed for the art pass on 2026-10-15 (`docs/art/heap_slice.md`, VD-1... in `docs/design/open_questions.md`).
 
 **One walkable area** (Art Bible G-07, `docs/design/subarea_removal.md`): the whole zone is the scene `heap_zone.tscn`. There are no sub-area scenes; variety comes from the regions below. Every dungeon is node-based from an entrance in the zone.

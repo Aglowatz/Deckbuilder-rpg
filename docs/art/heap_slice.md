@@ -1,5 +1,7 @@
 # The Verdant Dump slice: the layout fixed before its art pass
 
+> Superseded on 2026-10-19 by the v2 rebuild (`docs/art/verdant_dump_v2.md`): the flat table with the river and three districts below became a terraced ravine. The kit import, the hero landmarks, the corruption gradient and the fps method below still apply; the regions, routes and coordinates do not.
+
 The Verdant Dump (area id `heap`, zone id `refusemancer`, `scenes/heap_zone.tscn`) prepared for its art pass by the rollout playbook (`docs/art/zone_rollout_playbook.md`), with the Gainlands, D.N.A. and Buffet lessons (the declutter rules of section 5, the Buffet lessons of section 7) applied to the layout FIRST, before any kit exists. The Verdant Dump is ONE walkable zone: there are no sub-areas and no walkable dungeon interiors (`docs/design/subarea_removal.md`); its dungeons are node maps entered from the zone. Gameplay, quests, NPC logic and the camera system are untouched. Judgment calls are VD-1... in `docs/design/open_questions.md`.
 
 ## The regions (all in the one scene)
