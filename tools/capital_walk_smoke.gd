@@ -306,6 +306,11 @@ func _use_spot(zone: CapitalScene, id: String, shot_name: String) -> void:
 		tries += 1
 		await _walk_to(zone, spot.position + Vector3(0.0, 0.0, 0.9), 1.0, 4.0)
 		await driver.frames(4)
+	# Overnight Oct 18: a strolling citizen can stand nearer than a portrait or poster and take its prompt: step in closer and give them a moment to move on.
+	while zone._near != spot and tries < 6 and not zone._npcs.has(id):
+		tries += 1
+		await _walk_to(zone, stand.lerp(spot.position, 0.5), 0.5, 4.0)
+		await driver.seconds(0.8)
 	_check(zone._near == spot, "%s: the prompt is up (near %s)" % [id, zone._near.id if zone._near != null else "nothing"])
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.7)
