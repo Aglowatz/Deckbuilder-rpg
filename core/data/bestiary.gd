@@ -51,6 +51,8 @@ static func art_id(entry_name: String) -> String:
 
 
 ## The picture of an entry (by name), or null when none has been made yet. Remembered per name.
+## Overnight Oct 18, Phase 2 cycle 13: without a bestiary picture, an enemy who is also a speaking character (a boss, a corrupted NPC, Shiro...)
+## shows the head and shoulders of their dialogue portrait.
 static func art(entry_name: String) -> Texture2D:
 	var id: String = art_id(entry_name)
 	if _art_cache.has(id):
@@ -61,8 +63,37 @@ static func art(entry_name: String) -> Texture2D:
 		if ResourceLoader.exists(path):
 			texture = load(path) as Texture2D
 			break
+	if texture == null:
+		texture = portrait_art(entry_name)
 	_art_cache[id] = texture
 	return texture
+
+
+## Bestiary names that differ from the speaking character's name in the NPC list.
+const PORTRAIT_ALIASES: Dictionary = {
+	"Hollow Warden": "NPC-WARDEN", "Primm, His Perfection": "NPC-PRIMM", "Enforcer Captain Spotless": "NPC-SPOTLESS",
+	"The Old Kingdom Automaton": "NPC-AUTOMATON", "Dr. Ambrose Siphon, Chief Path-ologist": "NPC-SIPHON", "The Warden of the Four Seals": "NPC-VAULTWARDEN",
+}
+
+
+## The square head-and-shoulders crop of the enemy's dialogue portrait (top of the 2:3 image), or null when the enemy is no NPC with a portrait.
+static func portrait_art(entry_name: String) -> Texture2D:
+	var npc_id: String = str(PORTRAIT_ALIASES.get(canonical(entry_name), ""))
+	if npc_id.is_empty():
+		npc_id = NpcRegistry.resolve_speaker(canonical(entry_name))
+	if npc_id.is_empty():
+		npc_id = NpcRegistry.resolve_speaker(entry_name)
+	var npc: NpcRegistry.Entry = NpcRegistry.find(npc_id) if not npc_id.is_empty() else null
+	if npc == null or npc.portrait_id.is_empty() or not Portraits.has_portrait(npc.portrait_id):
+		return null
+	var full: Texture2D = Portraits.texture_for(npc.portrait_id)
+	if full == null:
+		return null
+	var side: float = minf(float(full.get_width()), float(full.get_height()))
+	var crop: AtlasTexture = AtlasTexture.new()
+	crop.atlas = full
+	crop.region = Rect2(0.0, 0.0, side, side)
+	return crop
 
 
 static func all() -> Array[Entry]:

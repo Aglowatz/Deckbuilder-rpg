@@ -18,7 +18,7 @@ updated by the Phase 2 cycles (`docs/overnight/loop_log.md`). Last night's sheet
 | UI consistency | 8 | 8 | Zone and dungeon arrival cards in the banner style with a Path icon + subtitle; Report a Problem form; settings rows for the battle options. Still: several screens hand-style their choice tiles. |
 | Onboarding / tutorial | 7.5 | 8 | Cycles 7 + 9: tutorial runs (50 per Path) Beefcake 92, Refusemancer 82, Necrocrat 82, Gourmand 80% (were 76-82). Playtest smoke (forest -> Path -> cave -> Crosspath -> fight -> level 5 -> armory) OK; tracker names the area of a step elsewhere ("Go to the Gainlands"). Tutorial clears 71-88% per Path with the new starters (Necrocrat lowest). |
 | Rewards & progression feel | 8.5 | 8.5 | Unchanged; items now once per battle (a cap, not a reward change); Alchemist reachable sooner (6 essence). |
-| Collection / bestiary | 7.5 | 7.5 | Unchanged (enemy pictures still missing). |
+| Collection / bestiary | 7.5 | 8 | Cycle 13: bosses show their dialogue portraits (head-and-shoulders crop, silhouette until met) in the Collection Book and on the battle plate (on18_bestiary). Roamers still use icons until the 90 bestiary pictures exist. |
 | NPC life & dialogue | 8 | 8 | Unchanged; the dialogue presentation plan is written (Part 5). |
 | Audio mix | 7.5 | 7.5 | Unchanged since Oct 17. |
 | Performance | 7.5 | 8 | Cycle 3: glyph warmup - town frames over 33 ms 77-82 -> 43-45, worst 210 -> 134-143 ms. Tour bot: town 82 frames over 33 ms (Oct 17 end: 30-39), worst 193 ms (character screen), vendor 192 ms; zones 14-44 over 33 ms, worst 113-173; battles 0. Not a save cost (the bot never saves) and steady town is 60.1 fps (p95 16.7 ms): the slow frames sit in first menu opens, 2-5 each (bot report per action). |

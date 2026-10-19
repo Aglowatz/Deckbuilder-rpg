@@ -27,3 +27,12 @@ func test_a_missing_picture_keeps_the_icon() -> void:
 	var picture: TextureRect = CodexScreen.beast_picture(entry, true, 84.0)
 	assert_ne(picture.name, "BeastArt", "the icon, not a picture")
 	picture.free()
+
+
+func test_a_boss_without_a_picture_shows_its_portrait() -> void:
+	var clench: Texture2D = Bestiary.portrait_art("Chancellor Clench, Iron Regent")
+	assert_not_null(clench, "a boss who speaks has a dialogue portrait")
+	assert_true(clench is AtlasTexture)
+	assert_almost_eq(float(clench.get_width()), float(clench.get_height()), 1.0, "a square head-and-shoulders crop")
+	assert_not_null(Bestiary.portrait_art("Hollow Warden"), "through the alias table")
+	assert_null(Bestiary.portrait_art("Flexing Brute"), "a plain roamer keeps its icon")
