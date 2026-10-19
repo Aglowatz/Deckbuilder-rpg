@@ -125,7 +125,7 @@ func _build_menu() -> void:
 		_menu_column.add_child(notice)
 		Session.save_reset_message = ""
 	_menu_column.add_child(UIKit.filler())
-	var footer: Label = UIKit.label("Press Esc in game for the pause menu." if _art == null else "%s   Press Esc in game for the pause menu." % version_text, &"MutedLabel", 18)
+	var footer: Label = UIKit.label("Press Esc in game for the pause menu, F8 to report a problem." if _art == null else "%s   Press Esc in game for the pause menu, F8 to report a problem." % version_text, &"MutedLabel", 18)
 	footer.name = "FooterLabel"
 	if _art != null:
 		footer.add_theme_color_override("font_color", Color(1, 1, 1, 0.75))

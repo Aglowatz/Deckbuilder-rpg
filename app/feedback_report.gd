@@ -54,9 +54,10 @@ static func current_quest() -> Dictionary:
 	return {"id": quest.id, "title": quest.title, "step": str(step.get("text", "")), "progress": "%d/%d" % [int(step.get("have", 0)), int(step.get("need", 0))]}
 
 
-## Overnight Oct 18, Part 3: copies the autosave (and its backup) into the report, so the problem can be loaded and seen.
+## Overnight Oct 18, Part 3: copies the autosave (and its backup) into the report, so the problem can be loaded and seen; cycle 16 adds
+## settings.cfg (camera, quality and text options change what the tester sees).
 static func _copy_saves(dir: String) -> void:
-	for source: String in [SaveSlots.path_for(SaveSlots.AUTOSAVE), SaveSystem.backup_path(SaveSlots.path_for(SaveSlots.AUTOSAVE))]:
+	for source: String in [SaveSlots.path_for(SaveSlots.AUTOSAVE), SaveSystem.backup_path(SaveSlots.path_for(SaveSlots.AUTOSAVE)), Settings.PATH]:
 		if FileAccess.file_exists(source):
 			DirAccess.copy_absolute(ProjectSettings.globalize_path(source), ProjectSettings.globalize_path("%s/%s" % [dir, source.get_file()]))
 

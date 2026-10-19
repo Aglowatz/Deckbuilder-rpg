@@ -46,5 +46,7 @@ func test_report_is_written_with_rating_notes_and_state() -> void:
 	assert_eq(int(data["rating"]), 4)
 	assert_eq(str(data["notes"]), "the vendor sign is blurry")
 	assert_eq(str((data["state"] as Dictionary)["version"]), FeedbackReport.version())
+	if FileAccess.file_exists(Settings.PATH):
+		assert_true(FileAccess.file_exists("%s/settings.cfg" % dir), "the player's settings go with the report")
 	var second: String = FeedbackReport.write(1, "", null, TMP, when)
 	assert_ne(second, dir, "two reports in the same second never overwrite each other")
