@@ -99,33 +99,33 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | Royal Staircase Guard | Royal Guard | enemy | starting_tokens (token="T-16", count=2) | "Starts the duel with two 1/1 Militia on the field; its units get +1/+1." (icon delapouite/guards) |
 | Royal Staircase Guard | Royal Guard | enemy | stat (atk=2, def=1) | "The Guard's units get +2/+1." (icon delapouite/guards) |
 | The Ancient Spotter | Spotted | enemy | keyword (keyword="hustle", path="beefcake") | "The Spotter's Beefcake units have Hustle." (icon delapouite/mammoth) |
-| The Ancient Spotter | Ancient Form | enemy | stat (atk=3, def=1) | "The Spotter's units get +3/+1." (icon delapouite/mammoth) |
+| The Ancient Spotter | Ancient Form | enemy | stat (atk=3, def=2) | "The Spotter's units get +3/+2." (icon delapouite/mammoth) |
 | The Itamae Supreme | Omakase | enemy | starting_resources (resource="ingredient", count=4) | "Starts the duel with 4 Ingredients." (icon delapouite/charging-bull) |
 | Betty Bones, Surly Secretary | Take a Number | enemy | starting_resources (resource="redtape", count=2) | "Starts the duel with 2 Red Tape and a Contract." (icon delapouite/files) |
 | Betty Bones, Surly Secretary | Take a Number | enemy | starting_resources (resource="contract", count=1) | "Starts the duel with 2 Red Tape and a Contract." (icon delapouite/files) |
 | Betty Bones, Surly Secretary | Surly | enemy | stat (atk=1, def=1) | "Betty's units get +1/+1." (icon delapouite/files) |
 | His Majesty the Raccoon | Royal Larder | enemy | starting_resources (resource="garbage", count=4) | "Starts the duel with 4 Garbage." (icon delapouite/imperial-crown) |
 | His Majesty the Raccoon | Royal Guard of Bins | enemy | stat (atk=1, def=1) | "His Majesty's units get +1/+1." (icon delapouite/imperial-crown) |
-| Enforcer Captain Spotless | Spotless Drill | enemy | stat (atk=2, def=2) | "The Captain's units get +2/+2." (icon lorc/visored-helm) |
+| Enforcer Captain Spotless | Spotless Drill | enemy | stat (atk=3, def=2) | "The Captain's units get +3/+2." (icon lorc/visored-helm) |
 | Baron Quadzilla | Leg Day | enemy | starting_resources (resource="iron", count=2) | "Starts the duel with 2 Iron." (icon delapouite/mammoth) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="iron", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="redtape", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="ingredient", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
 | The Old Kingdom Automaton | Old Kingdom Engine | enemy | starting_resources (resource="garbage", count=1) | "Starts the duel with one of each resource." (icon delapouite/cyborg-face) |
-| The Old Kingdom Automaton | Old Kingdom Steel | enemy | stat (atk=1, def=0) | "The Automaton's units get +1 attack." (icon delapouite/cyborg-face) |
+| The Old Kingdom Automaton | Old Kingdom Steel | enemy | stat (atk=1, def=1) | "The Automaton's units get +1/+1." (icon delapouite/cyborg-face) |
 | Dr. Ambrose Siphon, Chief Path-ologist | Siphoned Power | enemy | stat (atk=1, def=1) | "The Doctor's units get +1/+1 and he draws an extra card each turn." (icon delapouite/warlock-eye) |
 | Dr. Ambrose Siphon, Chief Path-ologist | Siphoned Power | enemy | extra_draws (count=1) | "The Doctor's units get +1/+1 and he draws an extra card each turn." (icon delapouite/warlock-eye) |
 | The Drain Warden | Drained | enemy | start_of_turn_damage (amount=1) | "At the start of its turn, you take 1 damage." (icon lorc/bubbling-flask) |
 | The Drain Warden | Drained Strength | enemy | stat (atk=2, def=2) | "The Warden's units get +2/+2." (icon lorc/bubbling-flask) |
 | town:npc:necrocrat | Paperwork Ready | enemy | starting_resources (resource="redtape", count=1) | "Prudence starts the duel with a Red Tape." (icon delapouite/stamper) |
 | town:ninja | The Oldest Trick | enemy | starting_resources (resource="contract", count=2) | "Shiro starts the duel with two Contracts: he can lock your units down." (icon lorc/ninja-head) |
-| town:ninja | Smoke and Mirrors | enemy | stat (atk=1, def=1) | "Shiro's units get +1/+1." (icon lorc/ninja-head) |
-| arena:arena_marshal | Crowd Favourite | enemy | stat (atk=1, def=1) | "Grand Bellows's units get +1/+1." (icon delapouite/megaphone) |
+| town:ninja | Smoke and Mirrors | enemy | stat (atk=2, def=1) | "Shiro's units get +2/+1." (icon lorc/ninja-head) |
+| arena:arena_marshal | Crowd Favourite | enemy | stat (atk=2, def=1) | "Grand Bellows's units get +2/+1." (icon delapouite/megaphone) |
 | zone:gourmand:casserole | Field Rations | enemy | starting_tokens (token="T-03", count=1) | "The Colonel starts with a 1/1 Sashimi Weenie on the field." (icon delapouite/chef-toque) |
-| zone:final:spotless | Spotless Drill | enemy | stat (atk=2, def=1) | "Captain Spotless's units get +2/+1." (icon lorc/visored-helm) |
+| zone:final:spotless | Spotless Drill | enemy | stat (atk=2, def=2) | "Captain Spotless's units get +2/+2." (icon lorc/visored-helm) |
 | Clocktower Sentinel | Clockwork Precision | enemy | stat (atk=2, def=2) | "The Sentinel's units get +2/+2." (icon delapouite/alarm-clock) |
 | The Failed Experiment | Unstable | enemy | stat (atk=2, def=2) | "The Experiment's units get +2/+2." (icon lorc/bubbling-flask) |
-| arena:arena_four_fists | Four Fists | enemy | stat (atk=1, def=0) | "The Champion's units get +1 attack." (icon lorc/fire-punch) |
+| arena:arena_four_fists | Four Fists | enemy | stat (atk=1, def=1) | "The Champion's units get +1/+1." (icon lorc/fire-punch) |
 
 ## Dungeon List - enemy numbers (dungeon_content.json foes and bosses that changed)
 

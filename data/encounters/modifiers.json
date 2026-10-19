@@ -206,11 +206,11 @@
 		},
 		{
 			"name": "Ancient Form",
-			"text": "The Spotter's units get +3/+1.",
+			"text": "The Spotter's units get +3/+2.",
 			"icon": "delapouite/mammoth",
 			"kind": "stat",
 			"atk": 3,
-			"def": 1
+			"def": 2
 		}
 	],
 	"The Itamae Supreme": [
@@ -270,10 +270,10 @@
 	"Enforcer Captain Spotless": [
 		{
 			"name": "Spotless Drill",
-			"text": "The Captain's units get +2/+2.",
+			"text": "The Captain's units get +3/+2.",
 			"icon": "lorc/visored-helm",
 			"kind": "stat",
-			"atk": 2,
+			"atk": 3,
 			"def": 2
 		}
 	],
@@ -322,11 +322,11 @@
 		},
 		{
 			"name": "Old Kingdom Steel",
-			"text": "The Automaton's units get +1 attack.",
+			"text": "The Automaton's units get +1/+1.",
 			"icon": "delapouite/cyborg-face",
 			"kind": "stat",
 			"atk": 1,
-			"def": 0
+			"def": 1
 		}
 	],
 	"Dr. Ambrose Siphon, Chief Path-ologist": [
@@ -384,20 +384,20 @@
 		},
 		{
 			"name": "Smoke and Mirrors",
-			"text": "Shiro's units get +1/+1.",
+			"text": "Shiro's units get +2/+1.",
 			"icon": "lorc/ninja-head",
 			"kind": "stat",
-			"atk": 1,
+			"atk": 2,
 			"def": 1
 		}
 	],
 	"arena:arena_marshal": [
 		{
 			"name": "Crowd Favourite",
-			"text": "Grand Bellows's units get +1/+1.",
+			"text": "Grand Bellows's units get +2/+1.",
 			"icon": "delapouite/megaphone",
 			"kind": "stat",
-			"atk": 1,
+			"atk": 2,
 			"def": 1
 		}
 	],
@@ -414,11 +414,11 @@
 	"zone:final:spotless": [
 		{
 			"name": "Spotless Drill",
-			"text": "Captain Spotless's units get +2/+1.",
+			"text": "Captain Spotless's units get +2/+2.",
 			"icon": "lorc/visored-helm",
 			"kind": "stat",
 			"atk": 2,
-			"def": 1
+			"def": 2
 		}
 	],
 	"Clocktower Sentinel": [
@@ -444,11 +444,11 @@
 	"arena:arena_four_fists": [
 		{
 			"name": "Four Fists",
-			"text": "The Champion's units get +1 attack.",
+			"text": "The Champion's units get +1/+1.",
 			"icon": "lorc/fire-punch",
 			"kind": "stat",
 			"atk": 1,
-			"def": 0
+			"def": 1
 		}
 	]
 }
