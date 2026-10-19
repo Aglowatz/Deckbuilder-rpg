@@ -28,6 +28,20 @@ const RECYCLED_WATER: Color = Color(0.13, 0.46, 0.5)
 const TIRE: Color = Color(0.16, 0.16, 0.18)
 
 
+## Overnight Oct 18, Phase 2 cycle 21: the overflow pool at the entrance - the toon water shader with a yellow-green scum instead of white foam (the
+## default foam read as splashes of white paint on the green) and calmer caustics.
+static func overflow_sludge() -> ShaderMaterial:
+	var key: String = "sludge:%d" % Settings.graphics_quality
+	if not _cache.has(key):
+		var material: ShaderMaterial = StyleWater.material(Color("6a9a78"), Color("2a4a3a")).duplicate() as ShaderMaterial
+		material.set_shader_parameter("foam_color", Color(0.62, 0.68, 0.36))
+		material.set_shader_parameter("sparkle_color", Color(0.86, 0.92, 0.6))
+		material.set_shader_parameter("caustic_strength", 0.1)
+		material.set_shader_parameter("flow_speed", 0.18)
+		_cache[key] = material
+	return _cache[key] as ShaderMaterial
+
+
 static func flat(color: Color, roughness: float = 0.9) -> StandardMaterial3D:
 	var key: String = "flat:%s:%s" % [color.to_html(), roughness]
 	if not _cache.has(key):

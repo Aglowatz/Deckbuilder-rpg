@@ -500,7 +500,7 @@ func _build_overflow() -> void:
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = pool_mesh
 	instance.scale = Vector3(OVERFLOW_HALF.x, 1.0, OVERFLOW_HALF.y)
-	instance.material_override = StyleWater.material(Color("6a9a78"), Color("2a4a3a"))
+	instance.material_override = H.overflow_sludge()
 	instance.position = centre
 	instance.name = "OverflowPool"
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
