@@ -132,7 +132,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | Dungeon | Node / foe | Old | New |
 |---|---|---|---|
 | D-HOG | node 2 | "Treadmill Sprinter" | {"name":"Treadmill Sprinter","hp":12,"size":26,"infra":13} |
-| D-HOG | node 3 | "Courtyard Lifter" | {"name":"Courtyard Lifter","hp":8,"size":25,"infra":15} |
+| D-HOG | node 3 | "Courtyard Lifter" | {"name":"Courtyard Lifter","hp":8,"size":25,"infra":17} |
 | D-HOG | node 6 | {"name":"Regime Checkpoint Captain","deck":"beefcake_bruisers","size":31,"hp":19} | {"name":"Regime Checkpoint Captain","deck":"beefcake_bruisers","size":29,"hp":16,"infra":13} |
 | D-HOG | node 8 | "Cell Block Brawler" | {"name":"Cell Block Brawler","hp":13,"size":27,"infra":13} |
 | D-HOG | node 11 | {"name":"Trophy Hall Honor Guard","deck":"beefcake_bruisers","size":33,"hp":22} | {"name":"Trophy Hall Honor Guard","deck":"beefcake_bruisers","size":28,"hp":12,"infra":13} |
@@ -140,9 +140,9 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | D-TTK | node 2 | "Prep Station Sous-Chef" | {"name":"Prep Station Sous-Chef","hp":14,"size":29,"infra":15} |
 | D-TTK | node 3 | "Frozen Line Cook" | {"name":"Frozen Line Cook","hp":17,"size":29} |
 | D-TTK | node 6 | {"name":"Unfinished War Machine","deck":"gourmand_golems","size":30,"hp":20,"icon":"delapouite/pirate-cannon"} | {"name":"Unfinished War Machine","deck":"gourmand_golems","size":31,"hp":17,"icon":"delapouite/pirate-cannon","infra":15} |
-| D-TTK | node 8 | "Assembly Line Golem" | {"name":"Assembly Line Golem","hp":17,"size":30} |
+| D-TTK | node 8 | "Assembly Line Golem" | {"name":"Assembly Line Golem","hp":17,"size":30,"infra":15} |
 | D-TTK | node 11 | {"name":"Cannon-Blender Gunner","deck":"gourmand_golems","size":33,"hp":22,"icon":"delapouite/pirate-cannon"} | {"name":"Cannon-Blender Gunner","deck":"gourmand_golems","size":31,"hp":18,"icon":"delapouite/pirate-cannon","infra":15} |
-| D-TTK | node 12 | "Expediter of the Pass" | {"name":"Expediter of the Pass","hp":17,"size":30} |
+| D-TTK | node 12 | "Expediter of the Pass" | {"name":"Expediter of the Pass","hp":17,"size":30,"infra":15} |
 | D-TTK | boss | {"deck":"gourmand_golems","extra":{"G-33":1},"hp":28,"icon":"delapouite/chef-toque"} | {"deck":"gourmand_golems","extra":{"G-33":1},"hp":21,"icon":"delapouite/chef-toque","infra":19} |
 | D-TTK | defaults | {"archetypes":["gourmand_golems","gourmand_control"],"icons":["delapouite/chef-toque","delapouite/ice-golem","delapouite/gingerbread-man","lorc/bubbling-flask","delapouite/pirate-cannon"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["gourmand_golems","gourmand_control"],"icons":["delapouite/chef-toque","delapouite/ice-golem","delapouite/gingerbread-man","lorc/bubbling-flask","delapouite/pirate-cannon"],"ais":["Balanced","Defensive","Aggressive"],"infra":13} |
 | D-HFA | node 3 | "Intake Clerk" | {"name":"Intake Clerk","hp":18,"size":30} |
@@ -175,8 +175,8 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | S-BEEF | node 2 | "Squat Rack Sentinel" | {"name":"Squat Rack Sentinel","hp":23,"size":33} |
 | S-BEEF | boss | {"deck":"beefcake_bruisers","extra":{"B-30":1},"hp":20,"icon":"delapouite/mammoth"} | {"deck":"beefcake_bruisers","extra":{"B-30":1,"B-28":2,"B-29":1,"B-32":1},"hp":34,"icon":"delapouite/mammoth","infra":13} |
 | S-BEEF | defaults | {"archetypes":["beefcake_rush","beefcake_tools","beefcake_bruisers"],"icons":["lorc/muscle-up","delapouite/strong-man","delapouite/mammoth"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["beefcake_rush","beefcake_tools","beefcake_bruisers"],"icons":["lorc/muscle-up","delapouite/strong-man","delapouite/mammoth"],"ais":["Balanced","Defensive","Aggressive"],"infra":14} |
-| S-GOUR | node 1 | "Apprentice Itamae" | {"name":"Apprentice Itamae","hp":13,"size":28,"infra":15} |
-| S-GOUR | node 2 | "Conveyor Belt Sushi Chef" | {"name":"Conveyor Belt Sushi Chef","hp":18,"size":32,"infra":15} |
+| S-GOUR | node 1 | "Apprentice Itamae" | {"name":"Apprentice Itamae","hp":13,"size":28,"infra":17} |
+| S-GOUR | node 2 | "Conveyor Belt Sushi Chef" | {"name":"Conveyor Belt Sushi Chef","hp":18,"size":32,"infra":17} |
 | S-GOUR | boss | {"deck":"gourmand_golems","extra":{"G-27":1},"hp":20,"icon":"delapouite/charging-bull"} | {"deck":"gourmand_golems","extra":{"G-27":1},"hp":28,"icon":"delapouite/charging-bull"} |
 | S-GOUR | defaults | {"archetypes":["gourmand_golems","gourmand_control"],"icons":["delapouite/chef-toque","delapouite/fish-monster","delapouite/charging-bull"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["gourmand_golems","gourmand_control"],"icons":["delapouite/chef-toque","delapouite/fish-monster","delapouite/charging-bull"],"ais":["Balanced","Defensive","Aggressive"],"infra":13} |
 | S-NECRO | node 1 | "Receptionist of Number One" | {"name":"Receptionist of Number One","hp":18,"size":30} |
@@ -212,7 +212,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 |---|---|---|---|
 | core/zone/gainlands_enemies.gd | BRUTE | hp 14, EnemyDecks.trimmed("beefcake_rush", 27, 16), Aggressive | hp 7, EnemyDecks.trimmed("beefcake_rush", 24, 14)  # Rebalance Part E: 27 cards / 16 infra, 14 HP, Aggressive -> 24 / 12, 9, Balanced (fewer basics = fewer Iron bursts), Balanced |
 | core/zone/gainlands_enemies.gd | GOLEM | hp 16, EnemyDecks.trimmed("beefcake_bruisers", 28, 15), Defensive | hp 7, EnemyDecks.trimmed("beefcake_tools", 24, 12)  # Rebalance Part E: the bruisers' 5/4s and 6/5s were 27% at level 5; 12 basics, not 15 (Iron), Defensive |
-| core/zone/buffet_enemies.gd | LOAF | hp 14, EnemyDecks.trimmed("gourmand_golems", 27, 16), Aggressive | hp 12, EnemyDecks.trimmed("gourmand_golems", 27, 16), Aggressive |
+| core/zone/buffet_enemies.gd | LOAF | hp 14, EnemyDecks.trimmed("gourmand_golems", 27, 16), Aggressive | hp 12, EnemyDecks.trimmed("gourmand_golems", 27, 18), Aggressive |
 | core/zone/buffet_enemies.gd | CASSEROLE | hp 16, EnemyDecks.trimmed("gourmand_golems", 30, 16), Balanced | hp 12, EnemyDecks.trimmed("gourmand_golems", 30, 16)  # Rebalance Part E: 90% at level 12 (elite band 60-75); 22 HP overshot to 15%, Balanced |
 | core/zone/capital_enemies.gd | OFFICER | hp 14, EnemyDecks.mixed("colorless_regime", 27, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 16), Balanced | hp 22, EnemyDecks.mixed("colorless_regime", 32, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 13)  # Rebalance Part E: 27 / 16 basics, 14 HP -> 32 / 13, 22 (100% at level 18), Balanced |
 | core/zone/capital_enemies.gd | INSPECTOR | hp 16, EnemyDecks.mixed("colorless_regime", 27, [Affinity.Type.NECROCRAT, Affinity.Type.BEEFCAKE] as Array[Affinity.Type], 15), Defensive | hp 24, EnemyDecks.mixed("colorless_regime", 32, [Affinity.Type.NECROCRAT, Affinity.Type.BEEFCAKE] as Array[Affinity.Type], 13)  # Rebalance Part E: 96% at level 18, Defensive |

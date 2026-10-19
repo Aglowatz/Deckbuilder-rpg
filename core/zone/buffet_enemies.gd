@@ -27,7 +27,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.chase_speed = 1.8
 			made.aggro_range = 5.5
 			made.leash_range = 8.5
-			made.recipe = EnemyDecks.trimmed("gourmand_golems", 27, 16)
+			made.recipe = EnemyDecks.trimmed("gourmand_golems", 27, 18)
 			made.hp = 12  # Overnight Oct 18 Part 2: 71% at 14 HP
 			made.ai_name = "Aggressive"
 			made.gold_reward = 30

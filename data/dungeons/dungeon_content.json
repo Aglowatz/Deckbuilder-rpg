@@ -45,7 +45,7 @@
 					"name": "Courtyard Lifter",
 					"hp": 8,
 					"size": 25,
-					"infra": 15
+					"infra": 17
 				},
 				"6": {
 					"name": "Regime Checkpoint Captain",
@@ -194,7 +194,8 @@
 				"8": {
 					"name": "Assembly Line Golem",
 					"hp": 17,
-					"size": 30
+					"size": 30,
+					"infra": 15
 				},
 				"11": {
 					"name": "Cannon-Blender Gunner",
@@ -207,7 +208,8 @@
 				"12": {
 					"name": "Expediter of the Pass",
 					"hp": 17,
-					"size": 30
+					"size": 30,
+					"infra": 15
 				},
 				"13": "The Doppelganger"
 			},
@@ -966,13 +968,13 @@
 					"name": "Apprentice Itamae",
 					"hp": 13,
 					"size": 28,
-					"infra": 15
+					"infra": 17
 				},
 				"2": {
 					"name": "Conveyor Belt Sushi Chef",
 					"hp": 18,
 					"size": 32,
-					"infra": 15
+					"infra": 17
 				},
 				"3": "The Itamae Supreme"
 			},

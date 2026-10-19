@@ -682,3 +682,16 @@ Primm, read as one fight: the three phases are fought in a row; from full HP eac
 | Rusty Gate Clockwork, Banner Hall Guardian (Forgotten Vault) | basics 14 -> 16 | 67% / 71% -> **75%** / 71% |
 | Tried and reverted: Regime Checkpoint Captain's Drill Sergeant +1/+0 -> +0/+1 | sturdier units made it harder | 50% -> 42% (reverted to +1/+0) |
 | Tried and reverted: Brick Bronson 13 -> 12 HP, Moss Mulligan 15 -> 12 HP | HP does not decide these fights | 54% / 54% unchanged (reverted) |
+
+## Overnight Oct 18, Phase 2 cycle 22 (Balance): mid-game normals, more basics
+
+| Encounter | Change | Why |
+|---|---|---|
+| S-GOUR node 1 (Apprentice Itamae) basics 15 -> 17 | normal 63% |
+| S-GOUR node 2 (Conveyor Belt Sushi Chef) basics 15 -> 17 | normal 71% |
+| D-TTK node 8 (Assembly Line Golem) basics default -> 15 | normal 75% |
+| D-TTK node 12 (Expediter of the Pass) basics default -> 15 | normal 79% |
+| D-HOG node 3 (Courtyard Lifter) basics 15 -> 17 | normal 71% |
+| Meatloaf Golem (Buffet roamer) basics 16 -> 18 | normal 75% |
+
+After (6 games per Path, `g_c22_*.md`): Apprentice Itamae 63 -> 71%, Conveyor Belt Sushi Chef 71 -> **88%**, Assembly Line Golem 75 -> **92%**, Expediter of the Pass 79 -> **92%**, Courtyard Lifter 71 -> 75%, Meatloaf Golem 75 -> 75%.
