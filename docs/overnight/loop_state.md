@@ -4,7 +4,7 @@ Start: Sun Oct 18 18:28:10 MDT 2026 (end target: Mon Oct 19 06:28 MDT)
 Start tag: pre-overnight-oct18 (pushed)
 
 ## Current
-Phase 2 cycle 10 (Balance): full catalog re-sim running (docs/design/sim/g_full_after.md, _logs/g_full_after.txt ends with FULLDONE). Pending (uncommitted): arena spells-only fix in core/arena/arena_defs.gd (Colossus 6 HP, kit Flex x6 / Weights x4) - measure with --filter=arena:arena_spells_only after the full sim. Checkpoint report committed (docs/overnight_report.md).
+Done (Mon Oct 19 ~05:05 MDT): Phase 1 parts 1-8 and Phase 2 cycles 1-28 committed; final checks green; morning report in docs/overnight_report.md.
 
 ## Done (commits)
 - Part 1: dea1e329

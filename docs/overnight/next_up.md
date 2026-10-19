@@ -1,14 +1,21 @@
 # Overnight Oct 18 - next up (ranked)
 
-Kept by the Phase 2 loop. Most player-visible first. Last night's list: `docs/overnight/oct17/next_up.md`. Re-ranked after cycle 8.
+Kept by the Phase 2 loop; re-ranked at the end of the run (Mon Oct 19 ~05:00). Most player-visible first. Last night's list:
+`docs/overnight/oct17/next_up.md`. What was done is in `loop_log.md`.
 
-1. **Early walls left** (Balance / Playtest readiness): Gainlands roamers for Necrocrat (17%: the zone debuff; players are now warned, cycle 5) and Gourmand (33-83%), the Iron Cave and Forgotten Vault normals (63-67%), Brick Bronson and Moss Mulligan (58%), the Rotheart normals (58-63%, an AI limit under Overgrowth + Rot; inbox).
-2. **Late bosses that ignore stat rules** (Balance): Captain Spotless 92%, the Vault Automaton 71%, Shiro 83%, the Spotter 79%, Primm phase 1 100% (Standardization overrides stats). Needs a design call (inbox 4) or start-of-duel effects.
-3. **Necrocrat's tutorial run 76%** (Onboarding): the lowest Path, lost mostly at the Hollow Warden; check its three fights card by card.
-4. **The card vendor visit** (Performance): one ~135 ms frame on open (VendorStage art 45 ms - warm it on the art thread like the menu backgrounds - and the screen build 90 ms), then 40-51 ms frames late in the grid fill: drawing the growing grid of 167 card views, not building them (cycles 18-19). Try a virtualized grid or a light tile for locked cards.
-5. **Onboarding timed end to end**: a bot that plays the forest -> cave -> first deck edit with real input and reports minutes and clicks.
-6. **Enemy pictures** (Collection): 90 prompts ready in docs/art/bestiary_image_requests.md (art, not code).
-7. **Capital walk smoke: one flaky check** (Stability): a strolling citizen can stand nearer than the portrait the smoke walks to (portrait_f1 gets citizen_1's prompt). Make the smoke step closer or wait for the stroller.
-8. **One tile style** for hand-styled choice tiles (UI consistency).
-9. **Townsfolk strollers in the zone hubs** (NPC life).
-10. **Arena tier 2 spells-only (Cardboard Colossus) 17%** for the sim's normal decks: a puzzle that wants a spell deck; check that the arena tells the player so.
+1. **Early walls left** (Balance / Playtest readiness): the Gainlands for a level-5 Necrocrat (17%: the zone's debuff; players are warned
+   since cycle 5), the Rotheart normals (54-63%: an AI limit under Overgrowth + Rot), the Iron Cave and Vault normals (71-75%), Brick
+   Bronson and Moss Mulligan (54-58%). The levers are design calls (inbox 2-3).
+2. **Late bosses that numbers do not move** (Balance): Shiro (88%, a trap deck), Grand Bellows (75-79%), Primm phase 1 (100%; the three
+   phases in a row are ~50%). Inbox 4.
+3. **Necrocrat and Gourmand tutorial runs** (Onboarding): 82% and 80% over 50 runs, the lowest two; replays show the AI casting
+   resource-only cards instead of developing (cycles 9, 24).
+4. **The card vendor's open** (Performance): one ~135 ms frame (VendorStage art 45 ms - warm it like the menu backgrounds - plus the
+   screen build 90 ms); the grid of 167 tiles itself is not the problem (cycles 8, 18-19).
+5. **Onboarding timed end to end**: a bot that plays New Game -> forest -> cave -> Crosspath -> first deck edit with real input and
+   reports minutes and clicks.
+6. **Enemy pictures** (Collection): 90 prompts in docs/art/bestiary_image_requests.md; bosses already show their portraits (cycle 13).
+7. **Capital walk smoke: one flaky check** (Stability): a strolling citizen can stand nearer than the portrait the smoke walks to.
+8. **One tile style** for the hand-styled choice tiles (UI consistency).
+9. **Townsfolk in the zone hubs** (NPC life): needs a lore call on who strolls in each Path's home before any sprites go in.
+10. **A listen pass** (Audio): tonight's new sounds and last night's open audio items (music leveller, boss stings, Gristle's loop step).
