@@ -644,6 +644,7 @@ func _warn_rival_path() -> void:
 		await get_tree().process_frame
 	await get_tree().create_timer(4.6).timeout
 	if is_inside_tree() and hud != null:
+		Audio.sfx(&"enemy_alert", -10.0)
 		hud.toast(text, UIStyle.GOLD, 6.0)
 
 

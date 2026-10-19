@@ -102,6 +102,7 @@ func submit() -> String:
 		return ""
 	_sent = true
 	_send.disabled = true
+	Audio.sfx(&"game_save")
 	_status.text = "Saved! Zip this folder and send it to us:\n%s" % path
 	if open_after_send and DisplayServer.get_name() != "headless":
 		OS.shell_open(path)

@@ -425,6 +425,7 @@ func _auto_pass_if_pointless() -> bool:
 		if should_auto_end_turn():
 			_fast_end_turn = true
 			auto_ended_turns += 1
+			Audio.sfx(&"turn_end")
 			_toast("Nothing left to play: turn ended")
 			game.apply_action(GameAction.pass_phase(0))
 			return true
