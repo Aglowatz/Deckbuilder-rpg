@@ -499,15 +499,28 @@ func set_mood(spec: Dictionary) -> void:
 			(child as Node3D).visible = wanted is Dictionary or bool(wanted)
 
 
+## Overnight Oct 18, Phase 2 cycle 15: with a `tiles` size (metres) the apron is big dim tiles with faint grout (assets/shaders/apron_tiles.gdshader) instead of one flat colour.
+static func _apron_material(spec: Dictionary) -> Material:
+	var color: Color = Color.html(str(spec.get("color", "2a3440")))
+	if spec.has("tiles"):
+		var tiled: ShaderMaterial = ShaderMaterial.new()
+		tiled.shader = load("res://assets/shaders/apron_tiles.gdshader") as Shader
+		tiled.set_shader_parameter("base_color", color)
+		tiled.set_shader_parameter("tile_size", float(spec["tiles"]))
+		return tiled
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = color
+	return material
+
+
 ## A flat unlit ground that carries on from the map in every direction (the D.N.A.'s office floor, the wasteland outside the Capital): the scene fog dissolves it into the
 ## background, so there is no edge of the world. `spec`: `color` (hex), `y` (height, default just under the floor top), `size` (metres, default 900).
 func _build_apron(spec: Dictionary) -> void:
 	var plane: PlaneMesh = PlaneMesh.new()
 	var size: float = float(spec.get("size", 900.0))
 	plane.size = Vector2(size, size)
-	var material: StandardMaterial3D = StandardMaterial3D.new()
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = Color.html(str(spec.get("color", "2a3440")))
+	var material: Material = _apron_material(spec)
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.name = "Apron"
 	instance.set_meta(&"look_role", &"apron")

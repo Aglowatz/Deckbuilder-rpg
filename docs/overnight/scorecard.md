@@ -11,7 +11,7 @@ updated by the Phase 2 cycles (`docs/overnight/loop_log.md`). Last night's sheet
 | Visuals - starting forest | 8 | 8 | Rebuilt today (Opening Forest): teal dusk, lantern pool, cave glow; the purple top-edge shapes are gone (on18_forest_top). Reads dark at the screen edges. |
 | Visuals - Crosspath (town) | 8 | 8 | Unchanged since Oct 17 (square, six storefronts, lake, roamers); tour bot 0 errors. |
 | Visuals - Gainlands | 8 | 8 | on18_card_gainlands: the bridge, gym gate, banners read well; the title card's flourish sits under the ribbon. |
-| Visuals - D.N.A. | 7.5 | 7.5 | Unchanged since Oct 17. |
+| Visuals - D.N.A. | 7.5 | 8 | Cycle 15: the endless office floor is tiled (scale and depth instead of a flat gray void), on18_dna_after; 57 fps. |
 | Visuals - Endless Buffet | 7.5 | 8 | Cycle 11: the gravy moat moves (toon water shader in gravy colours, foam at the bridge), on18_buffet_after; 57 fps avg. |
 | Visuals - Verdant Dump | 7.5 | 7.5 | Unchanged since Oct 17. |
 | Visuals - Capital | 8 | 8 | Unchanged since Oct 17. |
