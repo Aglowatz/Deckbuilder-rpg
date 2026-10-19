@@ -110,7 +110,7 @@ func _show_cards_tip() -> void:
 	TipPanel.show_once(self, &"tip_vendor", "Buying cards", "Hover a card to zoom it, click it to buy. Gold comes from winning fights in the dungeon. You can carry [b]3 copies[/b] of a card at most, and rarer cards fewer until you level up (the [b]Own x/cap[/b] line under each card), so the vendor stops selling at your cap. Cards marked [b]???[/b] unlock as you play.", Vector2(560, 900))
 
 
-const FIRST_TILES: int = 4  # cycle 25: fewer cards built on the opening frame
+const FIRST_TILES: int = 0  # Oct 17 cycle 25: 8 -> 4; Oct 18 cycle 32: 0 - the opening frame builds the screen (37 ms) and the cards start on the next one (84 ms with 4)
 const TILES_PER_FRAME: int = 3
 var _queue: Array[Array] = []
 
