@@ -1,8 +1,7 @@
 # Overnight report - Oct 18-19 2026
 
-Start Sun Oct 18 18:28 MDT (tag `pre-overnight-oct18`), end Mon Oct 19 ~05:05 MDT (stopped early with everything committed; the
-remaining hour went to the final checks and this report). Last night's report: `docs/overnight_report_oct17.md`.
-Phase 1: all 8 parts done and committed. Phase 2: 28 cycles (`docs/overnight/loop_log.md`), 6 every-4-cycles checks.
+Start Sun Oct 18 18:28 MDT (tag `pre-overnight-oct18`), end Mon Oct 19 ~06:00 MDT (the last half hour went to the final checks and this report). Last night's report: `docs/overnight_report_oct17.md`.
+Phase 1: all 8 parts done and committed. Phase 2: 34 cycles (`docs/overnight/loop_log.md`), 8 every-4-cycles / final checks.
 No build exported (v0.4.0 stays with the playtesters). Old saves keep loading: the save format did not change.
 
 ## In one minute
@@ -22,7 +21,8 @@ No build exported (v0.4.0 stays with the playtesters). Old saves keep loading: t
 - **Dialogue presentation plan** + **204 portrait expression requests** (docs only, nothing generated).
 - **Looks**: the Buffet's gravy moat and the Dump's sludge pool move like liquid; the D.N.A.'s grey void is a tiled office floor; bosses
   show their dialogue portraits in the Collection Book and on the battle plate.
-- **Performance**: menus open smoother (glyph warmup), without the arrival stutter the first version caused (town 60 fps, 0 spikes).
+- **Performance**: menus open smoother (glyph warmup), without the arrival stutter the first version caused (town 60 fps, 0 spikes);
+  the card vendor, Deck Station and Collection Book open in lighter frames (84 -> 37, 117 -> 85, 77 -> 17 ms); zone shops warm their art.
 - **Cleanup**: the long-failing camera test was reading your saved zoom (fixed in the test); four zone walk smokes were stale since the
   dialogue pass (fixed); the forest's purple shapes are gone since the rebuild.
 
@@ -70,6 +70,12 @@ No build exported (v0.4.0 stays with the playtesters). Old saves keep loading: t
 | 26 | UI | de98646a | Arrival banners settle below the zone-HP plate |
 | 27 | Balance | eb742704 | Gainlands Golem thinner deck tried, reverted |
 | 28 | Onboarding | de707533 | The tracker's area hint stays quiet when the area is unknown |
+| 29 | Performance | f771d3c6 | Zone shops warm their stage art like Crosspath's |
+| 30 | Stability | 90146f47 | The Capital walk smoke waits out strolling citizens (0 fails) |
+| 31 | Onboarding (tooling) | 69aa33ff | The playtest smoke reports its pace (46 s end to end at bot speed) |
+| 32 | Performance | 78127b01 | Card vendor opening frame 84 -> 37 ms |
+| 33 | Performance | fb62f4e0 | Deck Station opening frame 117 -> 85 ms |
+| 34 | Performance | 01ce882b | Collection Book opening frame 77 -> 17 ms |
 
 ## Balance: start vs end of night
 
@@ -105,7 +111,7 @@ Necrocrat, the Rotheart's two rules, a few bosses that numbers do not move.
 | Collection / bestiary | 7.5 | 8 |
 | NPC life & dialogue | 8 | 8 |
 | Audio mix | 7.5 | 7.5 |
-| Performance | 7.5 | 8.5 |
+| Performance | 7.5 | 9 |
 | Stability | 8.5 | 8.5 |
 | Balance (sim evidence, new) | 5 | 8 |
 | Playtest readiness (new) | 7 | 8 |
@@ -170,13 +176,13 @@ From `docs/overnight/next_up.md`:
 4. The card vendor's open frame (~135 ms: warm the stage art, build less up front).
 5. An onboarding bot timed end to end (minutes and clicks from New Game to the first deck edit).
 6. Enemy pictures (90 prompts ready).
-7. The Capital walk smoke's one flaky check (a strolling citizen near a portrait).
+7. The character screen's first open (130-180 ms) - the same build split as the shops.
 8. One tile style for the hand-styled choice tiles.
 9. Townsfolk in the zone hubs (needs a lore call: who strolls in each Path's home).
 10. A listen pass on tonight's sounds and last night's audio items.
 
 ## Final checks
 
-After cycle 28 (Mon Oct 19 ~04:57): **GUT 1894/1894**, **story playthrough 73/73** (New Game to the ending), **full tour bot 275 spots / 9 menus / 5 battles / 0 errors / 0 warnings**, **playtest smoke OK** (the opening hour). Earlier tonight: release, first-battles (all three speeds and AUTO_END=1), Gainlands, Buffet, D.N.A. and Dump walk smokes OK; the Capital walk smoke has one flaky check (next_up 7).
+Mon Oct 19 ~05:44 MDT, after cycle 34: **GUT 1894/1894**, **story playthrough 73/73** (New Game to the ending), **full tour bot 275 spots / 9 menus / 5 battles / 0 errors / 0 warnings**, **playtest smoke OK** (the opening hour). Earlier tonight: release, first-battles (all three speeds and AUTO_END=1), Gainlands, Buffet, D.N.A., Dump and Capital walk smokes OK.
 
-The full tour's town shows 87 frames over 33 ms (its first visit comes right after the forest and cave flow); town-only runs read 38-47 and the town fps probe is 60 fps with no spikes.
+One thing to watch: in this last full tour the town's worst frame was the character screen's first open at 345 ms (vendors 245-254 ms; earlier full runs 162-214 ms, town-only runs 130-193 ms). The full tour opens menus soon after arriving, while the glyph warmup - spread over ~9 s since cycle 20 - may still be running, so a first open can still rasterize glyphs. Next step (next_up 4): warm the sizes the first screens use first, or shorten the warmup now that it runs in small chunks.

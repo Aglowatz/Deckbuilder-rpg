@@ -10,7 +10,7 @@ Kept by the Phase 2 loop; re-ranked at the end of the run (Mon Oct 19 ~05:00). M
    phases in a row are ~50%). Inbox 4.
 3. **Necrocrat and Gourmand tutorial runs** (Onboarding): 82% and 80% over 50 runs, the lowest two; replays show the AI casting
    resource-only cards instead of developing (cycles 9, 24).
-4. **The card vendor's open** (Performance): its opening frame is ~37 ms now (cycle 32) plus the stage art when cold (warmed in Crosspath and, since cycle 29, in the zones).
+4. **First opens right after arriving** (Performance): the last full tour saw the character screen's first open at 345 ms (vendors 245-254) - menus opened while the chunked glyph warmup (~9 s since cycle 20) was still running. Warm the sizes the first screens use first, or shorten the warmup; the shops' opening frames are already lighter (cycles 32-34).
 5. **Onboarding timed end to end**: a bot that plays New Game -> forest -> cave -> Crosspath -> first deck edit with real input and
    reports minutes and clicks.
 6. **Enemy pictures** (Collection): 90 prompts in docs/art/bestiary_image_requests.md; bosses already show their portraits (cycle 13).
