@@ -13,6 +13,7 @@ var _failures: PackedStringArray = []
 
 
 func run() -> void:
+	_started_msec = Time.get_ticks_msec()
 	Session.save_enabled = false
 	SceneManager.show_loading_screens = false
 	Session.new_game()
@@ -215,9 +216,20 @@ func _find_element_choice(scene: StartingAreaScene) -> ElementChoiceScreen:
 	return null
 
 
+## Overnight Oct 18, Phase 2 cycle 31: every line carries the seconds since the smoke started, so the opening hour's pace can be read (a bot's
+## pace - it never waits to read - so read it as the minimum, not a player's time).
+var _started_msec: int = -1
+
+
+func _elapsed() -> String:
+	if _started_msec < 0:
+		_started_msec = Time.get_ticks_msec()
+	return "%5.1fs" % (float(Time.get_ticks_msec() - _started_msec) / 1000.0)
+
+
 func _check(condition: bool, message: String) -> void:
 	if condition:
-		print("playtest_smoke: ok    ", message)
+		print("playtest_smoke: ok    [%s] %s" % [_elapsed(), message])
 	else:
 		_failures.append(message)
 		print("playtest_smoke: FAIL  ", message)
@@ -225,5 +237,5 @@ func _check(condition: bool, message: String) -> void:
 
 
 func _finish(ok: bool, reason: String) -> void:
-	print("playtest_smoke: %s - %s" % ["OK" if ok else "FAILED", reason])
+	print("playtest_smoke: %s - %s (%s)" % ["OK" if ok else "FAILED", reason, _elapsed()])
 	get_tree().quit(0 if ok else 1)
