@@ -50,3 +50,12 @@ func test_report_is_written_with_rating_notes_and_state() -> void:
 		assert_true(FileAccess.file_exists("%s/settings.cfg" % dir), "the player's settings go with the report")
 	var second: String = FeedbackReport.write(1, "", null, TMP, when)
 	assert_ne(second, dir, "two reports in the same second never overwrite each other")
+
+
+## Daytime Oct 19: a report names the hero's Path, deck size, fights won and zones freed (what a balance report needs at a glance).
+func test_report_state_names_the_hero() -> void:
+	Session.ensure_game(Affinity.Type.NECROCRAT)
+	var state: Dictionary = FeedbackReport.game_state()
+	assert_eq(str(state.get("path", "")), "Necrocrat")
+	assert_gt(int(state.get("deck_size", 0)), 0)
+	assert_true(state.has("duels_won") and state.has("zones_freed"))

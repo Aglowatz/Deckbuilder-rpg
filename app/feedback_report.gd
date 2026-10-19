@@ -42,6 +42,11 @@ static func game_state() -> Dictionary:
 		state["session"] = Session.slot_meta()
 		state["location_name"] = Session.location_name()
 		state["quest"] = current_quest()
+		# Daytime Oct 19: what a balance report needs at a glance (the save copy has the rest).
+		state["path"] = Affinity.display_name(Session.profile.primary_affinity)
+		state["deck_size"] = Session.deck.size() if Session.deck != null else 0
+		state["duels_won"] = Session.counter("duels_won")
+		state["zones_freed"] = ZoneCompletion.count(Session.flags)
 	return state
 
 

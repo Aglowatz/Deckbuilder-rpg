@@ -99,7 +99,8 @@ function addRow(options, folder) {
 		return;
 	}
 	const date = String(report.created || '').slice(0, 10);
-	const summary = (notes || '(no notes)') + (rating > 0 ? ` (rated ${rating}/5)` : '');
+	const hero = state.path ? `[${state.path}${state.session && state.session.level ? ' L' + state.session.level : ''}] ` : '';
+	const summary = hero + (notes || '(no notes)') + (rating > 0 ? ` (rated ${rating}/5)` : '');
 	const shot = report.has_screenshot ? ', screenshot' : '';
 	const row = `| ${nextId(log)} | ${date} | ${cell(options.reporter) || '?'} | ${cell(state.version) || '?'} | ${cell(areaQuest(state))} | ${category} | ${severity} | new | ${summary} | \`${folderName}\`${shot} |`;
 	if (options.dry) {
