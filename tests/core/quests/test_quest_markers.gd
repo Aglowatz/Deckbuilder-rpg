@@ -80,3 +80,10 @@ func test_tracker_window_keeps_long_lists_short() -> void:
 	assert_eq(QuestTracker.row_window(4, 2), Vector2i(0, 4))
 	assert_eq(QuestTracker.row_window(8, 0), Vector2i(0, QuestTracker.MAX_ROWS))
 	assert_eq(QuestTracker.row_window(8, 7), Vector2i(8 - QuestTracker.MAX_ROWS, 8))
+
+
+func test_the_tracker_names_the_area_of_a_step_elsewhere() -> void:
+	assert_eq(QuestTracker.elsewhere_hint(GainlandsZone.ID, Areas.TOWN), "Go to the Gainlands")
+	assert_eq(QuestTracker.elsewhere_hint("town", Areas.DNA), "Go to Crosspath")
+	assert_eq(QuestTracker.elsewhere_hint(GainlandsZone.ID, Areas.GAINLANDS), "", "already there")
+	assert_eq(QuestTracker.elsewhere_hint("", Areas.TOWN), "", "a step with no place")

@@ -161,6 +161,9 @@ func refresh() -> void:
 	if qlog.is_ready_to_turn_in(quest, state):
 		_body.add_child(_row("✔", "All done", UIStyle.GOOD, false))
 		_body.add_child(_row("?", "Hand in to %s" % quest.turn_in_npc, UIStyle.GOLD, true))
+		var turn_in_hint: String = elsewhere_hint(quest.turn_in_area, SceneManager.current_area)
+		if not turn_in_hint.is_empty():
+			_body.add_child(_row("➜", turn_in_hint, Color(UIStyle.GOLD, 0.8), false))
 		return
 	var current: int = qlog.current_index(quest, state)
 	var window: Vector2i = row_window(quest.objectives.size(), current)
@@ -180,6 +183,22 @@ func refresh() -> void:
 			_body.add_child(_row("○", text, Color(UIStyle.PARCHMENT, 0.55), false))
 	if window.y < quest.objectives.size():
 		_body.add_child(_row("…", "%d more" % (quest.objectives.size() - window.y), Color(UIStyle.PARCHMENT, 0.5), false))
+	if current < quest.objectives.size():
+		var elsewhere: String = elsewhere_hint(quest.objectives[current].target_area, SceneManager.current_area)
+		if not elsewhere.is_empty():
+			_body.add_child(_row("➜", elsewhere, Color(UIStyle.GOLD, 0.8), false))
+
+
+## Overnight Oct 18, Part 6: "Go to the Gainlands" when the current step happens in another area (`target_area` is a zone id or "town";
+## `here` is the `Areas` key of the scene the player is in); "" when it is here, or nowhere in particular.
+static func elsewhere_hint(target_area: String, here: String) -> String:
+	if target_area.is_empty():
+		return ""
+	var key: String = Areas.TOWN if target_area == "town" else Areas.key_for_zone(target_area)
+	if key.is_empty() or key == here:
+		return ""
+	var place: String = Areas.banner_name(key)
+	return "Go to %s" % (place.substr(0, 1).to_lower() + place.substr(1) if place.begins_with("The ") else place)
 
 
 func _row(mark: String, text: String, color: Color, highlight: bool) -> HBoxContainer:
