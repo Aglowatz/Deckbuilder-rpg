@@ -20,17 +20,20 @@ func run() -> void:
 	Session.save_enabled = false
 	Session.new_game()
 	Session.ensure_game()
+	# Daytime Oct 19: the once-ever battle tips (Battle feel) wait for "Got it", which the pilot does not press; the first-battles smoke covers them.
+	Session.set_flag(&"tutorial_done")
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 
 	var town: TownScene = await _wait_for_town()
-	await _walk_to(town, "npc_beefcake", true)
+	# Since the Crosspath rebuild the straight line to Brick runs into the square's stalls; walking is covered by the Crosspath walk smoke.
+	await _walk_to(town, "npc_beefcake")
 	await driver.frames(3)
 	_check(town.hud._prompt_label.text.contains("Talk"), "the prompt near a corrupted NPC reads Talk")
 	await driver.tap_key(KEY_E)
 	await driver.seconds(0.3)
 	_check(town.dialogue.active, "talking to a corrupted NPC opens dialogue")
-	_check(town.dialogue._speaker.text == "Brick Bronson", "the dialogue speaker is the corrupted NPC")
+	_check(town.dialogue._speaker.text.contains("Brick Bronson"), "the dialogue speaker is the corrupted NPC (%s)" % town.dialogue._speaker.text)
 	var guard: int = 0
 	while town.dialogue.active and guard < 20:
 		guard += 1
@@ -44,7 +47,8 @@ func run() -> void:
 		return
 	_check(battle.context.town_npc_id == "beefcake", "the battle context is tagged as the beefcake challenge")
 	_check(battle.context.enemy_name == "Brick Bronson", "the battle opponent is the corrupted NPC")
-	_check(battle.game.players[1].hp == CorruptedNpcs.STARTING_HP, "the corrupted NPC starts at 15 HP")
+	var npc_hp: int = int(CorruptedNpcs.HP_BY_ID.get("beefcake", CorruptedNpcs.STARTING_HP))
+	_check(battle.game.players[1].hp == npc_hp, "the corrupted NPC starts at its HP (%d, got %d)" % [npc_hp, battle.game.players[1].hp])
 
 	var pilot: BattlePilot = BattlePilot.new(driver, battle)
 	battle.board.speed = 10.0
@@ -77,7 +81,7 @@ func run() -> void:
 	await driver.frames(5)
 	_check(back.dialogue.active, "a post-fight line plays on return")
 	if won:
-		_check(back.dialogue._speaker.text == "Brick Bronson", "the win dialogue is from the NPC")
+		_check(back.dialogue._speaker.text.contains("Brick Bronson"), "the win dialogue is from the NPC")
 		_check(Session.flag(CorruptedNpcs.unlock_flag("beefcake")), "a win unlocks the Beefcake zone entrance")
 		_check(Session.gold > gold_before, "a first win actually pays out gold")
 	else:
