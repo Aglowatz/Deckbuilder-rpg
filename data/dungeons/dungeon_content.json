@@ -874,7 +874,7 @@
 				},
 				"2": {
 					"name": "Squat Rack Squatter",
-					"deck": "beefcake_tools",
+					"deck": "beefcake_rush",
 					"hp": 7,
 					"size": 24,
 					"ai": "Defensive",
@@ -1348,14 +1348,14 @@
 					"deck": "colorless_militia",
 					"size": 26,
 					"hp": 7,
-					"infra": 14
+					"infra": 16
 				},
 				"2": {
 					"name": "Banner Hall Guardian",
 					"deck": "colorless_militia",
 					"size": 28,
 					"hp": 10,
-					"infra": 14
+					"infra": 16
 				},
 				"3": {
 					"name": "The Old Kingdom Automaton",

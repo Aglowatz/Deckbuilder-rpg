@@ -673,3 +673,12 @@ The whole catalog again after Parts 1-2 and cycles 1-9 (`g_full_after.md`, 6 gam
 After (6 games per Path, `g_c14_*.md`): Champion of the Four Fists 92 -> **75%**, the Vault Automaton 75 -> **58%**, Spotless in the Tunnels 71 -> **42%**, Spotless at the Capital gate 88 -> **67%**, the Ancient Spotter 71 -> 67%, Grand Bellows 75 -> 79% (noise), Shiro 88 -> 88% (his deck is traps and control: board stats do not decide his fight).
 
 Primm, read as one fight: the three phases are fought in a row; from full HP each they are 100% / 63% / 83% (`g_full_after.md`), roughly 50% for all three - inside the boss band, so phase 1 alone being easy is left as the warm-up.
+
+## Overnight Oct 18, Phase 2 cycle 17 (Balance): the early Iron Cave and Vault normals
+
+| Encounter | Old -> New | Before -> after (6 games per Path) |
+|---|---|---|
+| Squat Rack Squatter (Iron Cave) | deck beefcake_tools -> beefcake_rush (like the Calf Raise Crusher) | 58% -> **71%** |
+| Rusty Gate Clockwork, Banner Hall Guardian (Forgotten Vault) | basics 14 -> 16 | 67% / 71% -> **75%** / 71% |
+| Tried and reverted: Regime Checkpoint Captain's Drill Sergeant +1/+0 -> +0/+1 | sturdier units made it harder | 50% -> 42% (reverted to +1/+0) |
+| Tried and reverted: Brick Bronson 13 -> 12 HP, Moss Mulligan 15 -> 12 HP | HP does not decide these fights | 54% / 54% unchanged (reverted) |

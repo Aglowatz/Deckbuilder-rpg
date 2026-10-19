@@ -1,6 +1,6 @@
 # Bot report
 
-Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-19T01:24:30, 9.0 minutes.
+Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-19T02:02:00, 9.0 minutes.
 
 - Areas: forest, town, beefcake, necrocrat, gourmand, refusemancer, capital
 - Spots used (NPCs, shops, signs, chests...): 275
@@ -12,54 +12,54 @@ Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd
 
 | Area | Frames | Over 33 ms | Worst (ms) |
 |---|---|---|---|
-| forest | 60 | 0 | 30 |
-| town | 2868 | 96 | 179 |
-| beefcake | 2938 | 27 | 95 |
-| beefcake battle | 241 | 0 | 18 |
-| necrocrat | 3699 | 20 | 102 |
+| forest | 60 | 0 | 31 |
+| town | 2863 | 105 | 202 |
+| beefcake | 2932 | 23 | 133 |
+| beefcake battle | 241 | 0 | 19 |
+| necrocrat | 3702 | 17 | 101 |
 | necrocrat battle | 241 | 0 | 18 |
-| gourmand | 3170 | 13 | 105 |
+| gourmand | 3167 | 10 | 118 |
 | gourmand battle | 241 | 0 | 18 |
-| refusemancer | 4436 | 23 | 121 |
-| refusemancer battle | 240 | 0 | 18 |
-| final | 8749 | 40 | 195 |
-| final battle | 241 | 0 | 19 |
+| refusemancer | 4423 | 23 | 146 |
+| refusemancer battle | 241 | 0 | 18 |
+| final | 8729 | 41 | 212 |
+| final battle | 241 | 0 | 18 |
 
 ## Slowest moments (worst frame during one action)
 
-- final: use fig: 195 ms
-- town: use vendor: 179 ms
-- town: open character_screen: 164 ms
-- town: use deck: 156 ms
-- town: use pack_vendor: 152 ms
-- town: use item_vendor: 147 ms
-- town: open full_map: 139 ms
-- refusemancer: use hob: 121 ms
-- final: use seal_out_a: 111 ms
-- gourmand: use dolcetta: 105 ms
-- necrocrat: use pip: 102 ms
-- beefcake: use tony: 95 ms
-- town: open vendor (again): 94 ms
-- town: open deck_station (again): 88 ms
-- final: use complaint_1: 87 ms
+- final: use fig: 212 ms
+- town: open character_screen: 202 ms
+- town: use vendor: 173 ms
+- town: use deck: 155 ms
+- town: use item_vendor: 151 ms
+- refusemancer: use hob: 146 ms
+- town: use pack_vendor: 136 ms
+- final: use seal_out_a: 134 ms
+- beefcake: use tony: 133 ms
+- final: use sign_1: 125 ms
+- final: use complaint_1: 120 ms
+- gourmand: use dolcetta: 118 ms
+- necrocrat: use pip: 101 ms
+- town: open vendor (again): 100 ms
+- town: use codex: 99 ms
 
 ## Where the slow frames are (frames over 33 ms per action, top 15)
 
-- town: open vendor: 18
-- town: use vendor: 12
-- town: open vendor (again): 12
+- town: open vendor: 17
+- town: use vendor: 13
+- town: open vendor (again): 11
 - final: use wren: 7
-- town: use item_vendor: 6
-- town: use deck: 5
-- necrocrat: use matching: 5
+- town: use deck: 6
+- town: open codex: 5
+- town: open deck_station (again): 5
+- town: open deck_station: 5
+- refusemancer: use hob: 5
+- town: use equipment_vendor: 5
+- necrocrat: use dolores: 4
+- town: use item_vendor: 4
 - town: use elder: 4
-- beefcake: use tony: 4
-- beefcake: use brenda: 4
-- gourmand: use odalys: 4
-- town: use equipment_vendor: 4
-- town: use pack_vendor: 4
-- town: open codex (again): 3
-- necrocrat: use pip: 3
+- gourmand: use dolcetta: 3
+- town: use pack_vendor: 3
 
 ## Errors
 
