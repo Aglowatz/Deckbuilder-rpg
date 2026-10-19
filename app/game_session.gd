@@ -1466,7 +1466,8 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		# The final boss: a duel per phase (see `PrimmBoss`); phase `boss_phase` is the one being fought.
 		phase = PrimmBoss.phase(boss_phase)
 		enemy = PrimmBoss.enemy_setup(content, boss_phase, run.current_deck())
-		player_rules = PrimmBoss.player_rules(boss_phase)
+		player_rules = EncounterModifiers.merge_player_rules(PrimmBoss.player_rules(boss_phase), PrimmBoss.rules_key(boss_phase))
+		EncounterModifiers.apply_to_enemy(enemy, PrimmBoss.rules_key(boss_phase))
 	elif main_dungeon_active or mini_active:
 		enemy = MainDungeons.enemy_setup(content, node, dungeon_key)
 		# Severing the Heart Roots (D-ROT) weakens the Rotheart.
@@ -1507,6 +1508,7 @@ func make_dungeon_battle(node: DungeonMap.MapNode) -> BattleContext:
 		context.boss_phase = phase.index
 		context.rules_text = phase.rule_text()
 		context.music = phase.music
+		context.encounter_rules = EncounterModifiers.rules(PrimmBoss.rules_key(phase.index))
 	else:
 		context.encounter_rules = EncounterModifiers.rules(node.enemy_name)
 	# Playtest v0.4.0 Part F: the fight's rule badges - zone, dungeon rules at this node, boons, the Capital's services, then the one-sided rules.
@@ -1563,7 +1565,12 @@ func make_npc_challenge_battle(id: String) -> BattleContext:
 	options.first_player = -1
 	options.rng_seed = rng.randi() % 1000000 + 1
 	var game: GameState = GameState.new(options)
-	game.add_player(PlayerSetup.create(deck, profile, [] as Array[ModifierSource], "You"))
+	# Daytime Oct 19: the gatekeeper's player-side rules too (the enemy side is applied in enemy_setup), and the rule icons below.
+	var npc_key: String = "town:npc:%s" % id
+	var player_side: Array[ModifierSource] = [] as Array[ModifierSource]
+	if EncounterModifiers.player_source(npc_key) != null:
+		player_side.append(EncounterModifiers.player_source(npc_key))
+	game.add_player(PlayerSetup.create(deck, profile, player_side, "You"))
 	game.add_player(CorruptedNpcs.enemy_setup(content, id))
 	game.start()
 	var context: BattleContext = BattleContext.new()
@@ -1572,6 +1579,8 @@ func make_npc_challenge_battle(id: String) -> BattleContext:
 	context.enemy_name = CorruptedNpcs.display_name(id)
 	context.town_npc_id = id
 	context.board_key = Gatekeepers.board_key(id)
+	context.encounter_rules = EncounterModifiers.rules(npc_key)
+	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
 	return context
 
 
@@ -1703,8 +1712,14 @@ func make_ninja_battle() -> BattleContext:
 	options.first_player = -1
 	options.rng_seed = rng.randi() % 1000000 + 1
 	var game: GameState = GameState.new(options)
-	game.add_player(PlayerSetup.create(deck, profile, [] as Array[ModifierSource], "You"))
-	game.add_player(NinjaBoss.enemy_setup(content))
+	# Daytime Oct 19: Shiro's one-sided rules ("town:ninja") were only in the sim; the duel now applies and shows them.
+	var player_side: Array[ModifierSource] = [] as Array[ModifierSource]
+	if EncounterModifiers.player_source(NinjaBoss.RULES_KEY) != null:
+		player_side.append(EncounterModifiers.player_source(NinjaBoss.RULES_KEY))
+	game.add_player(PlayerSetup.create(deck, profile, player_side, "You"))
+	var shiro: PlayerSetup = NinjaBoss.enemy_setup(content)
+	EncounterModifiers.apply_to_enemy(shiro, NinjaBoss.RULES_KEY)
+	game.add_player(shiro)
 	game.start()
 	var context: BattleContext = BattleContext.new()
 	context.game = game
@@ -1713,6 +1728,8 @@ func make_ninja_battle() -> BattleContext:
 	context.is_boss = true
 	context.is_ninja_boss = true
 	context.board_key = "town"
+	context.encounter_rules = EncounterModifiers.rules(NinjaBoss.RULES_KEY)
+	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
 	return context
 
 
@@ -2902,6 +2919,8 @@ func make_arena_battle(encounter_id: String) -> BattleContext:
 	context.is_boss = encounter.tier == 3 and not encounter.is_puzzle()
 	context.arena_id = encounter_id
 	context.board_key = "arena"
+	context.encounter_rules = EncounterModifiers.rules(ArenaScenario.rules_key(encounter))
+	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
 	return context
 
 

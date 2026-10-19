@@ -51,6 +51,8 @@ var mirrored: bool = false
 var experiment_done: bool = false
 ## The Starter Blade's bonus (FIRST_UNIT_STAT_CHANGE) went to the first unit played this duel.
 var first_unit_bonus_done: bool = false
+## Processing Time (FIRST_UNIT_ENTER_EXHAUSTED) already exhausted a unit this turn.
+var first_unit_exhaust_done: bool = false
 
 
 const POOL_ANY: int = -1
@@ -156,6 +158,7 @@ func clone(deep_deck: bool = true, keep_traps: bool = true) -> PlayerState:
 	copy.mirrored = mirrored
 	copy.experiment_done = experiment_done
 	copy.first_unit_bonus_done = first_unit_bonus_done
+	copy.first_unit_exhaust_done = first_unit_exhaust_done
 	copy.resources = _clone_zone(resources)
 	copy.tokens = _clone_zone(tokens)
 	if deep_deck:

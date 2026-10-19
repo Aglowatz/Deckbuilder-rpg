@@ -726,6 +726,9 @@ func _apply_static_equipment_grants(card: CardInstance, player: PlayerState) -> 
 		card.cannot_block = true
 	if player.modifiers.sum_for_card(Modifier.Kind.ENTER_EXHAUSTED, card.data) > 0:
 		card.exhausted = true
+	if not player.first_unit_exhaust_done and player.modifiers.sum_for_card(Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED, card.data) > 0:
+		card.exhausted = true
+		player.first_unit_exhaust_done = true
 
 
 ## Resolves all of a card's abilities of one kind (enter, die, play, attack...). `seed_ctx` (what was paid, X...) is copied into
@@ -810,6 +813,7 @@ func _begin_turn() -> void:
 	player.non_infrastructure_plays_this_turn = 0
 	player.cards_played_this_turn = 0
 	player.spells_played_this_turn = 0
+	player.first_unit_exhaust_done = false
 	for infra: CardInstance in player.infrastructure:
 		_refresh(infra)
 	for card: CardInstance in player.field:

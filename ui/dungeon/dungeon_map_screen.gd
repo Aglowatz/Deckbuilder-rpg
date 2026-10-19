@@ -364,7 +364,7 @@ func _on_node_hovered(id: int) -> void:
 			var prize: String = "a choice of card" if node.card_choices > 0 else "no card choice"
 			text += "\n[b]%s[/b], %d HP.  Reward: %d gold and XP, %s." % [node.enemy_name, node.enemy_hp, node.gold_reward, prize]
 			# Rebalance Part E / Playtest v0.4.0 Part F: the fight's one-sided rules, before the player commits (same colours as the badges).
-			for badge: RuleBadges.Badge in RuleBadges.for_encounter(EncounterModifiers.rules(node.enemy_name)):
+			for badge: RuleBadges.Badge in RuleBadges.for_encounter(_node_rules(node)):
 				text += "\n[color=%s]%s[/color]: %s" % [badge.color().to_html(false), badge.name, badge.text]
 		DungeonMap.Kind.EVENT:
 			text += "\nA story event: choose how to deal with it."
@@ -458,12 +458,19 @@ func _show_rules_brief(badges: Array[RuleBadges.Badge], title: String, then: Cal
 	UIKit.pop_in(panel)
 
 
+## A fight node's one-sided rules; Primm's chamber shows the rules of the phase about to be fought (Daytime Oct 19).
+func _node_rules(node: DungeonMap.MapNode) -> Array[EncounterModifiers.Rule]:
+	if node.kind == DungeonMap.Kind.BOSS and node.enemy_name == PrimmBoss.BOSS_FOE:
+		return EncounterModifiers.rules(PrimmBoss.rules_key(Session.boss_phase))
+	return EncounterModifiers.rules(node.enemy_name)
+
+
 ## What entering a node does, after its story and scene have played.
 func _run_node(node: DungeonMap.MapNode) -> void:
 	match node.kind:
 		DungeonMap.Kind.BATTLE, DungeonMap.Kind.BOSS, DungeonMap.Kind.ELITE:
 			var badges: Array[RuleBadges.Badge] = _run_badges(node.number)
-			badges.append_array(RuleBadges.for_encounter(EncounterModifiers.rules(node.enemy_name)))
+			badges.append_array(RuleBadges.for_encounter(_node_rules(node)))
 			var fight: Callable = func() -> void:
 				_busy = true
 				Audio.sfx(&"door")

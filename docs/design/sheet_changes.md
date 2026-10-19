@@ -236,3 +236,8 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 
 See the "Part F" section of `docs/design/balance_log.md` for every equipment and consumable number that changed (the sheet has no equipment tab in the snapshot; add one if the live sheet tracks gear).
 
+
+## Daytime Oct 19, Part 1
+
+No card or deck rows: the changes are game rules (Processing Time, `core/zone/zone_effects.gd`) and encounter rules
+(`data/encounters/modifiers.json`: Heckling Crowd for Grand Bellows, Royal Guard for Primm phase 1). Details in balance_log.md.

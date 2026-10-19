@@ -21,6 +21,11 @@ static func player_deck(content: ContentSet, encounter: ArenaEncounter, own_deck
 	return own_deck
 
 
+## The key of an arena fight's one-sided rules in data/encounters/modifiers.json.
+static func rules_key(encounter: ArenaEncounter) -> String:
+	return "arena:%s" % encounter.id
+
+
 static func build_game(content: ContentSet, encounter: ArenaEncounter, profile: PlayerProfile, own_deck: Deck, seed_value: int) -> GameState:
 	var options: GameOptions = GameOptions.new()
 	options.rng_seed = seed_value
@@ -35,12 +40,18 @@ static func build_game(content: ContentSet, encounter: ArenaEncounter, profile: 
 		source.source_kind = ModifierSource.SourceKind.DUNGEON
 		source.modifiers = encounter.player_rules.duplicate()
 		rules.append(source)
+	# Daytime Oct 19: the one-sided encounter rules (data/encounters/modifiers.json, "arena:<id>") - the sim always had them, the game did not.
+	var player_side: ModifierSource = EncounterModifiers.player_source(rules_key(encounter))
+	if player_side != null:
+		rules.append(player_side)
 	var player: PlayerSetup = PlayerSetup.create(player_deck(content, encounter, own_deck), profile, rules, "You")
 	if encounter.player_hp > 0:
 		player.starting_hp = encounter.player_hp
 	var game: GameState = GameState.new(options)
 	game.add_player(player)
-	game.add_player(enemy_setup(content, encounter))
+	var enemy: PlayerSetup = enemy_setup(content, encounter)
+	EncounterModifiers.apply_to_enemy(enemy, rules_key(encounter))
+	game.add_player(enemy)
 	game.start()
 	if not encounter.preset.is_empty():
 		apply_preset(game, content, encounter.preset)

@@ -138,6 +138,9 @@ enum Kind {
 	## Rebalance Part E (Oct 18): every `value`-th own turn of the owner (their 2nd, 4th... for 2), `value2` copies of `tokens[0]` enter
 	## under their control (an encounter rule: "every second turn a Zombie Temp clocks in"). See `GameState._fire_timed_summons`.
 	TIMED_SUMMON,
+	## Daytime Oct 19 (the Gainlands' softened "Processing Time"): only the FIRST unit of a matching `color` that enters the field
+	## under the owner's control each turn enters exhausted. See `PlayerState.first_unit_exhaust_done`.
+	FIRST_UNIT_ENTER_EXHAUSTED,
 }
 
 ## `color` value meaning "matches every card".

@@ -47,6 +47,11 @@ class Phase:
 const ZONE_ID: String = "final"
 
 
+## The key of a phase's one-sided boss rules in data/encounters/modifiers.json ("Primm (standardization)"), on top of the phase's own rules.
+static func rules_key(index: int) -> String:
+	return "%s (%s)" % [BOSS_FOE, PHASE_KEYS[clampi(index, 0, PHASES - 1)]]
+
+
 static func phase(index: int) -> Phase:
 	var made: Phase = Phase.new()
 	made.index = clampi(index, 0, PHASES - 1)

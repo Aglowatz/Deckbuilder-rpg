@@ -160,7 +160,7 @@ physics, not the ruler's); it is shown in the HUD and in battle.
 
 | Zone | Buff (own Path) | Debuff (rival Path) |
 |---|---|---|
-| Gainlands (Beefcake) | **Pump It Up** - Beefcake creatures +1 power. | **Processing Time** - Necrocrat creatures enter exhausted ("your request is being processed"). |
+| Gainlands (Beefcake) | **Pump It Up** - Beefcake creatures +1 power. | **Processing Time** - the first Necrocrat creature each turn enters exhausted ("your request is being processed"). |
 | D.N.A. (Necrocrat) | **Approved Procedure** - Necrocrat creatures +1 toughness. | **Unauthorized Activity** - Beefcake cards cost 1 more (permit fee). |
 | Endless Buffet (Gourmand) | **Well Fed** - Gourmand creatures +1/+1. | **Dress Code Violation** - Refusemancer creatures -1 power. |
 | Verdant Dump (Refusemancer) | **Overgrowth** - Refusemancer creatures +0/+2. | **Spoilage** - Gourmand creatures -1 toughness. |

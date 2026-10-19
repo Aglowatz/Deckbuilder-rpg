@@ -789,3 +789,45 @@ Every fight that moved:
 | Arena tier 1: Gladiator Rookie | basics 16 -> 18 | 75% -> **88%** |
 | Apprentice Itamae (S-GOUR node 1) | basics 17 -> 19 | 71% -> **79%** |
 | Tried and reverted: Sandbag Sentinel, Banner Hall Guardian basics 16 -> 18 | no change | 71% / 71% |
+
+## Daytime Oct 19, Part 1: your decisions on the Oct 18 inbox
+
+12 games per Path unless noted; before/after at the same seed. Raw reports: `docs/design/sim/d19p1*.md`, `d19b0_*.md`, `d19b1_*.md`.
+
+**Processing Time (Gainlands debuff) softened**: only the first Necrocrat unit each turn enters exhausted (was every Necrocrat unit;
+new `Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED`, `PlayerState.first_unit_exhaust_done`). The tooltip, the zone panel, the rule badge and
+the arrival warning all read `ZoneEffects.mechanic_text`, so they say so now.
+
+| Fight | Beefcake | Necrocrat old -> new | Gourmand | Refusemancer |
+|---|---:|---|---:|---:|
+| Flexing Brute (zone roamer, L5) | 100% | 25% -> **33%** | 83% | 83% |
+| Protein Shake Golem (zone roamer, L5) | 83% | 25% -> **25%** | 58% | 67% |
+| Iron Cave: Calf Raise Crusher | 100% | 25% -> 25% | 92% | 67% |
+| Iron Cave: Squat Rack Squatter | 92% | 33% -> **42%** | 83% | 67% |
+| Iron Cave: Baron Quadzilla (boss) | 83% | 42% -> 42% | 33% | 67% |
+| House of Gains: Treadmill Sprinter | 92% | 67% -> **83%** | 75% | 83% |
+| House of Gains: Cell Block Brawler | 83% | 58% -> **67%** | 100% | 100% |
+| House of Gains: Chancellor Clench (boss) | 100% | 33% -> **42%** | 67% | 50% |
+| Other House of Gains fights and S-BEEF | unchanged | | | |
+
+The other Paths did not move (their units are never Necrocrat). The level-5 Necrocrat roamer fights stay low in the sim, and a replay
+(`replay_encounter --id=zone:beefcake:golem --path=necrocrat`) shows why: the sim's Necrocrat has the Golem at 1 HP by turn 12 and then
+spends 14 turns cashing Red Tape without attacking into its blockers. That is the sim player's limit, not the debuff; a person attacks.
+
+**Late bosses: one-sided boss rules** (icons with tooltips in the pre-battle brief and the battle HUD):
+
+- **Wiring fixes (the main finding)**: Shiro's rules (`town:ninja`) were applied **neither in the game nor in the sim**, which is why his
+  stat rules "did not move" him. The arena's rules (`arena:*`: Grand Bellows, the Four Fists) were in the sim only. The gatekeepers'
+  rules applied but were never shown. Now the game applies and shows all of them (`Session.make_ninja_battle` / `make_arena_battle` /
+  `make_npc_challenge_battle`, `ArenaScenario.build_game`), Shiro's fight and the arena list show a "Before the fight" brief
+  (`RulesBrief`), and five rule icons that pointed at missing files were replaced (Shiro, Bellows, the Checkpoint Captain, Clench, the
+  War Machine). Test: `tests/core/dungeon/test_boss_rules_wiring.gd`.
+- **Shiro Swindle**: no new numbers. With his existing rules (The Oldest Trick: 2 Contracts; Smoke and Mirrors: +2/+1) actually in play:
+  **88% -> 48%** (B 58 / N 33 / G 50 / R 50), in the boss band.
+- **Grand Bellows**: new rule **Heckling Crowd** (at the start of each of his turns you take 1 damage), on top of Crowd Favourite
+  (+2/+1, which the game now applies): **77% -> 56%** (B 75 / N 42 / G 33 / R 75), in band.
+- **Primm phase 1**: new rule **Royal Guard** (starts with 2 Militia on the field, 3/3 under Standardization). Phase 1 alone stays at
+  **100%** (the hero ends it with 22.7 HP instead of 23.9). Measuring the three phases in a row (one HP pool, as in the game) showed
+  last night's "~50%" was an estimate from full-HP phases: before tonight's changes and **without the leaders' boons** the sequence
+  cleared only 4-21% per Path (`d19b0_primmseq.md`). The sim now gives the four freed leaders' boons (the game does, and the story frees
+  every zone first); the sequence re-run with boons was stopped by a low-memory guard and is still open (inbox).

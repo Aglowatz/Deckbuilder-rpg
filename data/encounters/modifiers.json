@@ -4,7 +4,7 @@
 		{
 			"name": "Drill Sergeant",
 			"text": "The Captain's units get +1 attack.",
-			"icon": "delapouite/sergeant",
+			"icon": "delapouite/star-medal",
 			"kind": "stat",
 			"atk": 1,
 			"def": 0
@@ -24,7 +24,7 @@
 		{
 			"name": "Iron Regent",
 			"text": "Starts the duel with 3 Iron.",
-			"icon": "lorc/anvil",
+			"icon": "delapouite/belt-armor",
 			"kind": "starting_resources",
 			"resource": "iron",
 			"count": 3
@@ -42,7 +42,7 @@
 		{
 			"name": "Conveyor",
 			"text": "Every second turn of its, it assembles a 1/1 Sashimi Weenie.",
-			"icon": "delapouite/conveyor-belt",
+			"icon": "delapouite/pipes",
 			"kind": "timed_summon",
 			"token": "T-03",
 			"every": 2
@@ -377,7 +377,7 @@
 		{
 			"name": "The Oldest Trick",
 			"text": "Shiro starts the duel with two Contracts: he can lock your units down.",
-			"icon": "lorc/ninja-head",
+			"icon": "darkzaitzev/running-ninja",
 			"kind": "starting_resources",
 			"resource": "contract",
 			"count": 2
@@ -385,7 +385,7 @@
 		{
 			"name": "Smoke and Mirrors",
 			"text": "Shiro's units get +2/+1.",
-			"icon": "lorc/ninja-head",
+			"icon": "delapouite/carnival-mask",
 			"kind": "stat",
 			"atk": 2,
 			"def": 1
@@ -395,10 +395,17 @@
 		{
 			"name": "Crowd Favourite",
 			"text": "Grand Bellows's units get +2/+1.",
-			"icon": "delapouite/megaphone",
+			"icon": "delapouite/trumpet",
 			"kind": "stat",
 			"atk": 2,
 			"def": 1
+		},
+		{
+			"name": "Heckling Crowd",
+			"text": "The crowd is on his side: at the start of each of his turns you take 1 damage.",
+			"icon": "delapouite/three-friends",
+			"kind": "start_of_turn_damage",
+			"amount": 1
 		}
 	],
 	"zone:gourmand:casserole": [
@@ -449,6 +456,16 @@
 			"kind": "stat",
 			"atk": 1,
 			"def": 1
+		}
+	],
+	"Primm (standardization)": [
+		{
+			"name": "Royal Guard",
+			"text": "Primm starts the duel with 2 Militia on the field (3/3, like every unit under Standardization).",
+			"icon": "delapouite/guards",
+			"kind": "starting_tokens",
+			"token": "T-16",
+			"count": 2
 		}
 	]
 }

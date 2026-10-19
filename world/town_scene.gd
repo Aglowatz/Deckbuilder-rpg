@@ -1606,7 +1606,8 @@ func _start_ninja_fight() -> void:
 	dialogue.start(NinjaBoss.DISPLAY_NAME, NinjaBoss.FIGHT_BEFORE, NinjaBoss.NPC_ID)
 	dialogue.finished.connect(func() -> void:
 		Session.save_game()
-		Session.challenge_ninja(), CONNECT_ONE_SHOT)
+		# Daytime Oct 19: his one-sided rules before the duel (the same icons stay in the battle HUD).
+		RulesBrief.open(self, RuleBadges.for_encounter(EncounterModifiers.rules(NinjaBoss.RULES_KEY)), "Before the fight: %s" % NinjaBoss.DISPLAY_NAME, Session.challenge_ninja), CONNECT_ONE_SHOT)
 
 
 ## The Four-Seal Vault door: sealed until all four hidden levers (one per Path zone) are pulled, then the Warden's duel; empty once it is beaten.
@@ -1852,7 +1853,10 @@ func _open_arena(result: Dictionary = {}) -> void:
 	screen.fight_chosen.connect(func(encounter_id: String) -> void:
 		_close_overlay()
 		_locked = true
-		DeckPicker.guard(_overlay_layer, func() -> void: Session.start_arena_battle(encounter_id), func() -> void: _locked = false))
+		var encounter: ArenaEncounter = ArenaDefs.find(encounter_id)
+		var rules: Array[RuleBadges.Badge] = RuleBadges.for_encounter(EncounterModifiers.rules(ArenaScenario.rules_key(encounter)))
+		DeckPicker.guard(_overlay_layer, func() -> void:
+			RulesBrief.open(self, rules, "Before the fight: %s" % encounter.enemy_name, Session.start_arena_battle.bind(encounter_id)), func() -> void: _locked = false))
 	_open_overlay(screen)
 	screen.closed.connect(_close_overlay)
 

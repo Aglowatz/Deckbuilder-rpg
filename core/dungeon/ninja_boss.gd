@@ -17,6 +17,8 @@ const ORIGINAL_CHEST: String = "town"
 const CHEST_IDS: Array[String] = ["town", "beefcake", "necrocrat", "gourmand", "refusemancer"]
 const SECRET_PREFIX: String = "ninja_chest_"
 const FLAG_DEFEATED: StringName = &"ninja_defeated"
+## The key of Shiro's one-sided rules in data/encounters/modifiers.json.
+const RULES_KEY: String = "town:ninja"
 ## Counters (Session.counters): total gold taken so far (returned on a win) and how many chests were opened.
 const COUNTER_STOLEN: String = "ninja_gold_stolen"
 const COUNTER_OPENED: String = "ninja_chests_opened"

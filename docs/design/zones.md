@@ -111,7 +111,7 @@ Every zone (and every dungeon inside it - the mini dungeon now, the final dungeo
 
 | Zone | Buff | Debuff (rival) |
 |---|---|---|
-| Gainlands | **Pump It Up**: Beefcake units +1 attack | **Processing Time**: Necrocrat units enter exhausted (new `Modifier.Kind.ENTER_EXHAUSTED`) |
+| Gainlands | **Pump It Up**: Beefcake units +1 attack | **Processing Time**: the first Necrocrat unit each turn enters exhausted (`Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED`; every Necrocrat unit until Oct 19) |
 | D.N.A. | **Approved Procedure**: Necrocrat units +1 defense | **Unauthorized Activity**: Beefcake cards cost 1 more (`COST_CHANGE`) |
 | Endless Buffet | **Well Fed**: Gourmand units +1/+1 | **Dress Code Violation**: Refusemancer units -1 attack |
 | Verdant Dump | **Overgrowth**: Refusemancer units +2 defense | **Spoilage**: Gourmand units -1 defense (a debuff never takes a unit below 1 defense by itself) |

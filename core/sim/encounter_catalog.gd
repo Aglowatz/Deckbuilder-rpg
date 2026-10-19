@@ -122,6 +122,7 @@ static func town(content: ContentSet) -> Array[EncounterSpec]:
 	ninja.enemy_hp = NinjaBoss.STARTING_HP
 	ninja.enemy_ai_name = NinjaBoss.AI_NAME
 	ninja.enemy_builder = NinjaBoss.enemy_setup
+	_attach_rules(ninja, NinjaBoss.RULES_KEY)  # Daytime Oct 19: Shiro's rules were never read (his stat rules "did not move" him)
 	result.append(ninja)
 	var vault: EncounterSpec = EncounterSpec.new()
 	vault.id = "town:vault"
@@ -234,6 +235,12 @@ static func _primm(blueprint: DungeonCatalog.Blueprint, key: String, node: Dunge
 		var rules: ModifierSource = PrimmBoss.player_rules(index)
 		if rules != null:
 			spec.player_sources.append(rules)
+		_attach_rules(spec, PrimmBoss.rules_key(index))
+		# Daytime Oct 19: the four freed leaders stand beside you (the story frees every zone before the castle; `Session.begin_primm_fight`).
+		for zone_id: String in PrimmBoss.LEADERS.keys():
+			var boon: ModifierSource = PrimmBoss.leader_boon(zone_id)
+			if boon != null:
+				spec.player_sources.append(boon)
 		spec.sequence = "boss:primm"
 		result.append(spec)
 	return result

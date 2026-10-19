@@ -81,6 +81,18 @@ func test_gainlands_processing_time_necrocrat_units_enter_exhausted() -> void:
 	assert_false(other.exhausted, "a Beefcake unit does not")
 
 
+func test_gainlands_processing_time_exhausts_only_the_first_necrocrat_unit_each_turn() -> void:
+	var game: GameState = _game_in(GainlandsZone.ID)
+	GameFactory.add_infrastructure_cards(game, 0, 3, D)
+	var first: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1, D))
+	var second: CardInstance = GameFactory.add_to_hand(game, 0, GameFactory.vanilla(1, 1, 1, D))
+	assert_true(game.play_card(0, first.uid))
+	assert_true(game.play_card(0, second.uid))
+	assert_true(first.exhausted, "the first Necrocrat unit this turn enters exhausted")
+	assert_false(second.exhausted, "the second one does not")
+	assert_true(game.players[0].first_unit_exhaust_done)
+
+
 func test_dna_buffs_necrocrat_defense_and_taxes_beefcake_cards() -> void:
 	var game: GameState = _game_in(DnaZone.ID)
 	assert_eq(game.get_defense(_unit(game, 0, D)), 3)
@@ -124,7 +136,7 @@ func test_a_real_zone_battle_applies_the_effects_to_player_and_enemy() -> void:
 	assert_eq(context.zone_id, GainlandsZone.ID)
 	for player: PlayerState in context.game.players:
 		assert_eq(player.modifiers.stat_bonus(A), Vector2i(1, 0), "both seats carry Pump It Up")
-		assert_true(player.modifiers.sum_for_color(Modifier.Kind.ENTER_EXHAUSTED, D) > 0, "both seats carry Processing Time")
+		assert_true(player.modifiers.sum_for_color(Modifier.Kind.FIRST_UNIT_ENTER_EXHAUSTED, D) > 0, "both seats carry Processing Time")
 	Session.zone_run = null
 
 
