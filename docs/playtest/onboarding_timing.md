@@ -34,6 +34,9 @@ and two screenshots, `onboarding_gate.png` / `onboarding_station.png`). Bot: `to
 Without the cave: ~4.5 minutes, 43 clicks/keys, 31 dialogue lines, of which ~2.5 minutes is reading before the first step in the forest.
 Loading and fades are negligible (3.4 s in all).
 
+Other Paths (`ONBOARD_PATH=necrocrat bash tools/run_onboarding_timing.sh`, loop cycle 3): Necrocrat ~10.6 min, Gourmand ~10.8,
+Refusemancer ~10.6 - the same 97 clicks/keys and 31 lines; every Path reaches the first saved deck edit with no Path-specific snag.
+
 ## Slow or confusing spots, and what was done
 
 1. **Fixed - the first deck save was impossible without a pointless change.** The cave's reward cards join the deck as they are picked,

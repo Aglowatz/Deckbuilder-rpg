@@ -31,6 +31,8 @@ var _read_seconds: float = 0.0
 var _busy_seconds: float = 0.0
 var _failures: PackedStringArray = []
 var _started_msec: int = 0
+## ONBOARD_PATH=necrocrat (beefcake, gourmand, refusemancer) picks the Path; Beefcake by default.
+var _path: Affinity.Type = Affinity.Type.BEEFCAKE
 
 
 func _process(delta: float) -> void:
@@ -41,6 +43,11 @@ func _process(delta: float) -> void:
 func run() -> void:
 	Session.save_enabled = false
 	SceneManager.show_loading_screens = true
+	var wanted: String = OS.get_environment("ONBOARD_PATH").to_lower()
+	for path: Affinity.Type in Affinity.colored_types():
+		if Affinity.display_name(path).to_lower() == wanted:
+			_path = path
+	print("onboarding: Path %s" % Affinity.display_name(_path))
 	driver = UiDriver.new(get_tree())
 	await driver.frames(10)
 	_started_msec = Time.get_ticks_msec()
@@ -88,7 +95,7 @@ func run() -> void:
 			text += (label as Label).text + " "
 	print("onboarding: Path choice shows %d words" % text.split(" ", false).size())
 	_read(text)
-	await _click(driver.center_of_control(choice._tiles[Affinity.Type.BEEFCAKE] as Button))
+	await _click(driver.center_of_control(choice._tiles[_path] as Button))
 	await _click_text("Begin")
 	await driver.seconds(0.5)
 	_end()
@@ -129,7 +136,7 @@ func run() -> void:
 	var reward_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	reward_rng.seed = 19
 	for _pick: int in range(3):
-		var picks: Array[CardData] = RewardGenerator.card_choices_for_color(Session.content, Affinity.Type.BEEFCAKE, reward_rng, 3, false)
+		var picks: Array[CardData] = RewardGenerator.card_choices_for_color(Session.content, _path, reward_rng, 3, false)
 		if not picks.is_empty():
 			Session.add_cards([picks[0]] as Array[CardData])
 			if Session.run != null:
@@ -219,6 +226,7 @@ func run() -> void:
 		await _click_text("Overwrite")
 		await driver.seconds(0.4)
 	_check(Session.flag(&"deck_edited"), "the deck is saved (deck_edited)")
+	_check(Session.profile.primary_affinity == _path, "the hero is a %s" % Affinity.display_name(_path))
 	_end()
 	_report()
 	_finish(_failures.is_empty(), "onboarding timed: title -> first deck edit")
