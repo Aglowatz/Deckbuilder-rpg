@@ -62,3 +62,31 @@ func test_the_scene_manager_remembers_where_you_came_from() -> void:
 	assert_true(SceneManager.has_signal("revealed"))
 	SceneManager.current_area = saved_current
 	SceneManager.previous_area = saved_previous
+
+
+func test_a_dungeon_card_uses_its_zones_banner_and_a_flourish() -> void:
+	var card: ZoneTitleCard = ZoneTitleCard.make_dungeon("The House of Gains", GainlandsZone.ID)
+	assert_not_null(card)
+	assert_eq(card.banner_override, "ZONE-TITLE-GAINLANDS")
+	assert_eq(card.subtitle, "The Gainlands")
+	assert_eq(card.path, int(Affinity.Type.BEEFCAKE))
+	add_child_autofree(card)
+	await wait_frames(2)
+	assert_eq((card.find_child("ZoneName", true, false) as Label).text, "The House of Gains")
+	assert_not_null(card.find_child("Flourish", true, false))
+	assert_null(ZoneTitleCard.make_dungeon("", GainlandsZone.ID))
+	var town: ZoneTitleCard = ZoneTitleCard.make_dungeon("The Door Under the Well", "")
+	assert_eq(town.banner_override, "ZONE-TITLE-TOWN")
+	town.free()
+
+
+func test_later_arrivals_get_the_brief_card() -> void:
+	ZoneTitleCard._seen.erase(Areas.DUMP)
+	var first: ZoneTitleCard = ZoneTitleCard.make(Areas.DUMP)
+	assert_false(first.brief)
+	assert_eq(first.subtitle, "Home of the Refusemancer Path")
+	ZoneTitleCard.mark_seen(Areas.DUMP)
+	var again: ZoneTitleCard = ZoneTitleCard.make(Areas.DUMP)
+	assert_true(again.brief)
+	first.free()
+	again.free()

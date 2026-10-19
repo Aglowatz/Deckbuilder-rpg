@@ -577,6 +577,12 @@ func _play_pending_after_story() -> void:
 
 ## Part E: the zone effects, the boons earned in this dungeon and the current section under the title.
 func _build_dungeon_extras() -> void:
+	# Overnight Oct 18, Part 4: a title card when a run starts (arriving from outside, not back from one of its battles).
+	if _screenshot_args.is_empty() and SceneManager.previous_area != Areas.DUNGEON and map != null:
+		var run_zone: String = Session.zone_run.zone_id if Session.zone_run != null else ""
+		var card: ZoneTitleCard = ZoneTitleCard.make_dungeon(map.dungeon_name, run_zone, map.dungeon_name == TrialOfTheHollow.DUNGEON_NAME)
+		if card != null:
+			add_child(card)
 	if _art != null:
 		_build_art_extras()
 		return
