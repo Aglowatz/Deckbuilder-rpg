@@ -175,7 +175,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | S-BEEF | node 2 | "Squat Rack Sentinel" | {"name":"Squat Rack Sentinel","hp":23,"size":33} |
 | S-BEEF | boss | {"deck":"beefcake_bruisers","extra":{"B-30":1},"hp":20,"icon":"delapouite/mammoth"} | {"deck":"beefcake_bruisers","extra":{"B-30":1,"B-28":2,"B-29":1,"B-32":1},"hp":34,"icon":"delapouite/mammoth","infra":13} |
 | S-BEEF | defaults | {"archetypes":["beefcake_rush","beefcake_tools","beefcake_bruisers"],"icons":["lorc/muscle-up","delapouite/strong-man","delapouite/mammoth"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["beefcake_rush","beefcake_tools","beefcake_bruisers"],"icons":["lorc/muscle-up","delapouite/strong-man","delapouite/mammoth"],"ais":["Balanced","Defensive","Aggressive"],"infra":14} |
-| S-GOUR | node 1 | "Apprentice Itamae" | {"name":"Apprentice Itamae","hp":13,"size":28,"infra":17} |
+| S-GOUR | node 1 | "Apprentice Itamae" | {"name":"Apprentice Itamae","hp":13,"size":28,"infra":19} |
 | S-GOUR | node 2 | "Conveyor Belt Sushi Chef" | {"name":"Conveyor Belt Sushi Chef","hp":18,"size":32,"infra":17} |
 | S-GOUR | boss | {"deck":"gourmand_golems","extra":{"G-27":1},"hp":20,"icon":"delapouite/charging-bull"} | {"deck":"gourmand_golems","extra":{"G-27":1},"hp":28,"icon":"delapouite/charging-bull"} |
 | S-GOUR | defaults | {"archetypes":["gourmand_golems","gourmand_control"],"icons":["delapouite/chef-toque","delapouite/fish-monster","delapouite/charging-bull"],"ais":["Balanced","Defensive","Aggressive"]} | {"archetypes":["gourmand_golems","gourmand_control"],"icons":["delapouite/chef-toque","delapouite/fish-monster","delapouite/charging-bull"],"ais":["Balanced","Defensive","Aggressive"],"infra":13} |
@@ -223,7 +223,7 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | core/dungeon/vault_guardian.gd | numbers | STARTING_HP: int = 40 | STARTING_HP: int = 28 |
 | core/dungeon/ninja_boss.gd | numbers | STARTING_HP: int = 18 | STARTING_HP: int = 38 |
 | core/dungeon/corrupted_npcs.gd | numbers | trimmed("necro_control", 26, 16) | trimmed("necro_zombies", 26, 16) |
-| core/arena/arena_defs.gd | numbers | trimmed("colorless_regime", 28, 16); enemy_hp = 11 | - |
+| core/arena/arena_defs.gd | numbers | trimmed("beefcake_rush", 28, 16); trimmed("colorless_regime", 28, 16); enemy_hp = 11 | trimmed("beefcake_rush", 28, 18) |
 
 ## New rows: starting decks (one list per Path; 19 basic Infrastructure of the Path + these 26 cards)
 

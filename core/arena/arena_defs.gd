@@ -46,7 +46,7 @@ static func flag_name(encounter_id: String) -> StringName:
 static func _build() -> Array[ArenaEncounter]:
 	var list: Array[ArenaEncounter] = []
 	# ---- Tier 1: Bronze Sand -------------------------------------------------------------------------
-	var warmup: ArenaEncounter = _battle("arena_warmup", 1, "Gladiator Rookie", 14, "Aggressive", EnemyDecks.trimmed("beefcake_rush", 28, 16))
+	var warmup: ArenaEncounter = _battle("arena_warmup", 1, "Gladiator Rookie", 14, "Aggressive", EnemyDecks.trimmed("beefcake_rush", 28, 18))
 	warmup.reward = {"gold": 90, "xp": 40, "essence": {"primary": 5}}
 	list.append(warmup)
 	# Lethal Lunch: 10 damage this turn through one blocker. Flex on 'Em (4 with a 5-attack unit) + Dropped Weights (2) + the attackers.

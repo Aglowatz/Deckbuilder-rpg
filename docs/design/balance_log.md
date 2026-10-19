@@ -781,3 +781,11 @@ Every fight that moved:
 | Arena tier 2 - Cardboard Colossus | Elite | 60-75% | 17% | **54%** | TOO HARD (-6), slow |
 | Arena tier 2 - Champion of the Four Fists | Elite | 60-75% | 88% | **75%** | ok |
 | Arena tier 3 - Announcer Grand Bellows | Boss | 40-60% | 88% | **79%** | too easy (+19) |
+
+## Overnight Oct 18, Phase 2 cycle 25 (Balance): two more normals
+
+| Encounter | Change | Before -> after (6 games per Path) |
+|---|---|---|
+| Arena tier 1: Gladiator Rookie | basics 16 -> 18 | 75% -> **88%** |
+| Apprentice Itamae (S-GOUR node 1) | basics 17 -> 19 | 71% -> **79%** |
+| Tried and reverted: Sandbag Sentinel, Banner Hall Guardian basics 16 -> 18 | no change | 71% / 71% |
