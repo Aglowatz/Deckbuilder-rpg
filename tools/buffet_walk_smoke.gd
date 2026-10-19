@@ -200,7 +200,7 @@ func _use_spot(zone: BuffetScene, id: String, shot_name: String, opens_screen: b
 	await _shot(shot_name)
 	# close it again: talks with E, screens with Escape, confirm boxes with their Not yet / Close buttons
 	var guard: int = 0
-	while (zone.dialogue.active or zone._overlay != null or zone._locked) and guard < 14:
+	while (zone.dialogue.active or zone._overlay != null or zone._locked) and guard < 40:  # Overnight Oct 18: conversations grew in the dialogue pass (two taps a line with the typewriter)
 		guard += 1
 		var cancel: Button = driver.find_button("Not yet")
 		if cancel == null:

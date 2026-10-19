@@ -8,7 +8,7 @@ Kept by the Phase 2 loop. Most player-visible first. Last night's list: `docs/ov
 4. **First opens of big screens** (Performance): after cycle 3 the character screen is ~140 ms, the deck ~135 ms; the card vendor visit still holds ~11 slow frames - not its tile rate and not the 3D world under it (cycle 8); instrument the visit itself with Hitch.
 5. **Onboarding timed end to end**: a bot that plays the forest -> cave -> first deck edit with real input and reports minutes and clicks.
 6. **Enemy pictures** (Collection): 90 prompts ready in docs/art/bestiary_image_requests.md (art, not code).
-7. **The Buffet walk smoke fails 5 checks** (Stability): after talking to Basil, Tarragon and the minigame host the hero is never handed back within 14 key taps, and a walk ends 3.5 m short; it fails with or without tonight's Buffet change and was last green on Oct 15 (before the dialogue and NPC label work).
+7. **Capital walk smoke: one flaky check** (Stability): a strolling citizen can stand nearer than the portrait the smoke walks to (portrait_f1 gets citizen_1's prompt). Make the smoke step closer or wait for the stroller.
 8. **One tile style** for hand-styled choice tiles (UI consistency).
 9. **Townsfolk strollers in the zone hubs** (NPC life).
 10. **Arena tier 2 spells-only (Cardboard Colossus) 17%** for the sim's normal decks: a puzzle that wants a spell deck; check that the arena tells the player so.

@@ -318,7 +318,7 @@ func _use_spot(zone: CapitalScene, id: String, shot_name: String) -> void:
 
 func _close_everything(zone: CapitalScene) -> void:
 	var guard: int = 0
-	while (zone.dialogue.active or zone._overlay != null or zone._locked or driver.find_button("Not yet") != null) and guard < 16:
+	while (zone.dialogue.active or zone._overlay != null or zone._locked or driver.find_button("Not yet") != null) and guard < 40:  # Overnight Oct 18: longer conversations since the dialogue pass
 		guard += 1
 		var cancel: Button = null
 		for label: String in ["Not yet", "Close", "Leave it", "Not now", "No", "Cancel"]:
