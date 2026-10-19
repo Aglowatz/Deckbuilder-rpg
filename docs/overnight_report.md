@@ -103,8 +103,9 @@ fe9a6986 and moved the (unshared) tag there. The zip in `builds/` is the rebuilt
 | 11 | Part 2 re-checked on a second seed: Gourmand holds, Necrocrat did not; a new Necrocrat deck reaches ~87% on two seeds |
 | 12 | Part 1 bosses on a second seed (25 games per Path): Shiro 60%, Bellows 60% - in band on both seeds |
 | 13 | Gainlands roamers on two seeds (Brute ~71%, Golem ~64%, Necrocrat 44-48%); fewer basics moved nothing - reverted |
+| 14 | CLAUDE.md lists the new checks and the two-seed rule |
 
-Cycles 3-13 came after the build, so they are on main but not in the v0.4.1 zip (next_up 5).
+Cycles 3-14 came after the build, so they are on main but not in the v0.4.1 zip (next_up 5).
 
 ## Checks
 
