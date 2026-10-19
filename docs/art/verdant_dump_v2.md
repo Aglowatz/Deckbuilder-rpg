@@ -184,6 +184,42 @@ Violets, purples and blues over the warm golden key light, tuned for this zone o
 - **The market's small things** (layout props, so the clearance tests cover them): two lantern posts at the entrance road's mouth, planter boxes at the plaza's north-west and north-east shoulders and on the compost terrace's landing, a barrel and a crate at each of the three market stalls (`PropKit` pieces, each with its blocking circle).
 - **The back of the valley** (`HeapBuilder._build_pillars`): three floating rock pillars (the stand-in kit's island, a vine oak card on each) hanging in the violet haze beyond the north rim, and five giant tree cards (3.4x) on the wooded rim, so the plateau's horizon is the reference's ancient trees and floating rocks.
 - **Each terrace its own character**: the market (stalls, awnings, planters, barrels, lanterns, the greenhouse, blossom beds at the corners), the farm terrace (crops, the scarecrow, the windmill, the goat cart, the dam and the water wheel, the fair at its east end), the compost terrace (steaming heaps, the machinery, the sludge chasm, the overlook knoll), the plateau (twisted trees, fungus, corrupted soil, the junk, Rust Peak and the throne, the root gate).
+- **Denser, like the reference**: vine drapes every 4 to 6 m down every cliff face and down the valley's walls, with moss cushions on the stone between them; shrubs at the cliffs' feet and along the ravine's lips; five trees on every cliff top; flower clumps every 5.5 m along the routes (were 7).
+- **The paint-over cameras show the zone finished**: a `po_*` or `bridge_center_mid` screenshot teleport grows every vine bridge first (the hero would otherwise stand over an ungrown span), so the compare strip shows the arched bridges; in play they still grow by Sorrel and the beans.
+- **Numbers against the reference** (`tools/image_stats.gd`, the reference and the game from the market's lip at Classic / Far, `--at=po_stream --set=camera_angle:1,camera_zoom:2.4`), after the grade was brought down (the painted ground's brightness 1.3 to 1.12, the clover 1.42 to 1.25, the paths 2.4 to 1.9, the post warmth 0.16 to 0.06):
+
+| image | mean RGB | luma p5 / p50 / p95 | saturation | sky / mid / ground |
+|---|---|---|---|---|
+| verdant_dump_v2_reference | 115, 97, 79 | 42 / 91 / 187 | 0.41 | 120,103,95 / 117,99,77 / 109,89,65 |
+| game, first pass | 142, 105, 82 | 63 / 113 / 162 | 0.44 | 144,107,100 / 135,102,84 / 147,105,62 |
+| game, after the grade | 133, 97, 77 | 60 / 105 / 151 | 0.44 | 139,103,98 / 130,97,79 / 132,91,56 |
+
+The game sits within a few points of the reference on green and blue and on saturation; it stays about 15 points brighter in the midtones and 18 redder (the warm key light and the plank walks) with a narrower range (the reference's deep shadows under the trees, p5 42, and its bright sky, p95 187, have no equivalent in a scene with no canopy overhead).
+
+| | |
+|---|---|
+| ![](verdant_dump_v2/e_compare_reference.jpg) the reference (left) beside the game from the market's lip | |
+| ![](verdant_dump_v2/e_bridge.jpg) on the arched vine bridge | ![](verdant_dump_v2/e_stairs.jpg) the central stairs, the vine ladder beside them |
+| ![](verdant_dump_v2/e_ladder.jpg) on the vine ladder | ![](verdant_dump_v2/e_top_stairs.jpg) the stairs to the plateau (the barricade's shoulder in front) |
+
+**Every camera preset** (the hub at the 9 angle x zoom combinations, `tools/zone_shots.gd --area=heap --mode=grid`): the hero is never hidden on the market; on the bridge, the stairs and the ladders the Cinematic camera trails behind and above, so the hero stands clear of the cheek walls and the rails in every shot above. The swivel (Z / X) turns the same camera about 15 degrees and changes nothing about what stands between it and the hero.
+
+![](verdant_dump_v2/e_hub_grid.jpg)
+
+## Art that would close the gap to the reference (sheet-ready, nothing generated here)
+
+| ID | Asset | Category | Lock | Image Description (for ChatGPT) | Size / Format | In-Game Use | Priority |
+|---|---|---|---|---|---|---|---|
+| DUMP-TREE-WISTERIA | Wisteria / jacaranda tree | Tree / plant | TREE | A rounded storybook tree in full purple bloom: a leaning mossy trunk, a crown of violet and lilac blossom masses with hanging wisteria racemes, a little green under the crown; low camera, warm light from the upper left. Transparent, base at the bottom centre. | 1024x1536 PNG, transparent | Replaces the built `KitMesh` jacarandas on every terrace and cliff top | 1 |
+| DUMP-PLANT-VIOLETS | Violet and blue blossom clump | Tree / plant | TREE | A big clump of violet and blue five-petalled blossoms (gentian, bellflower) with broad leaves, a few cream ones, seen from low; painted, soft cel shading. Transparent. | 1024x1536 PNG, transparent | The foreground framing clumps at the market's corners and along the ravine's lips (replaces the built blossom beds) | 1 |
+| DUMP-SURF-CLIFF | Mossy terrace cliff | Surface | SURFACE | A grey-violet stone cliff face in rough horizontal courses with moss in the cracks, small ferns and the odd violet bloom; seamless, tileable, straight-on, flat even light. | 1024x1024 PNG, tileable | The painted cliff layer of every terrace face and the valley's walls (replaces `mat_rock`) | 1 |
+| DUMP-DEC-VINES | Vine drape | Cutout sheet | SHEET | 6 drapes of thick living vine hanging down a wall with leaves and purple blossoms, of different lengths; 3x2 grid, transparent, clear gaps. | 2048x1365 PNG, transparent, grid | Cards hung down the cliff faces (replaces the tube-and-blob drapes) | 2 |
+| DUMP-SURF-WATER | Turquoise river | Surface | SURFACE | Calm turquoise water with soft ripples and pale foam lines, a little golden sky caught in it; seamless, tileable, flat even light. | 1024x1024 PNG, tileable | The ravine, the gorge and the drain (a painted water layer under the flow) | 2 |
+| DUMP-PROP-WATERFALL | Waterfall sheet | Cutout sheet | SHEET | 6 falling-water sheets of different widths with foam at the foot and mist; straight-on, white on transparent. | 2048x1365 PNG, transparent, grid | Cards for the gorge's three falls (over the scrolling sheet) | 2 |
+| DUMP-PROP-WATERWHEEL | Rusty water wheel | Prop | CUTOUT | A big rusty iron-and-timber water wheel on a mossy frame bolted to a cliff, vines on its spokes, water pouring over it; straight-on. Transparent. | 1536x1024 PNG, transparent | The two wheels in the gorge (replaces the built wheels) | 2 |
+| DUMP-PROP-STALL | Patchwork-awning market stall | Prop | CUTOUT | A timber market stall under a patchwork awning of faded red, cream, olive and teal cloth, planters and crates at its feet, a lantern hanging; from the low game camera. Transparent. | 1536x1024 PNG, transparent | The three market stalls (replaces the shared kit's stall with the Dump's own) | 2 |
+| DUMP-BD-VALLEY | Valley rim backdrop | Sky / backdrop | BACKDROP | Giant ancient trees and floating rock pillars in a warm golden light under a violet haze along the bottom, transparent sky above; left and right edges match. | 2048x1024 PNG, transparent sky, tileable horizontally | The far ring behind the plateau (replaces the junk-hills backdrop and the built pillars) | 2 |
+| DUMP-PROP-STAIRS | Stone stair treads | Surface | SURFACE | Worn stone stair treads with moss in the joints and a violet bloom or two; seamless horizontally, straight-on, flat light. | 1024x512 PNG, tileable horizontally | The stairs' treads and cheek walls (replaces the foundation stone) | 3 |
 
 ## Judgment calls
 

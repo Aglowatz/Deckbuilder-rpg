@@ -197,6 +197,11 @@ static func cliff_vines(drapes: Array) -> Node3D:
 			if s % 2 == 0:
 				mesh.blob("petal_violet", b + out * 0.1, Vector3(0.14, 0.2, 0.14), 3, 6, 1.0)
 		mesh.blob("hanging_moss", top + out * 0.2, Vector3(0.6, 0.18, 0.4), 3, 7, 1.0)
+		# moss cushions and a fern or two on the face itself, so the stone is never bare between the drapes
+		for cushion: int in range(2):
+			var down: float = rng.randf_range(0.6, maxf(length - 0.4, 0.8))
+			var across: Vector3 = Vector3(-out.z, 0.0, out.x) * rng.randf_range(-1.6, 1.6)
+			mesh.blob("leaf_dark" if cushion % 2 == 0 else "leaf", top + across + out * 0.25 - Vector3(0.0, down, 0.0), Vector3(0.45, 0.28, 0.45), 3, 6, 0.9)
 	var root: Node3D = _finish(mesh, "CliffVines")
 	root.get_child(0).name = "CliffVineLeaves"  # named like foliage so the toon shader sways it
 	return root

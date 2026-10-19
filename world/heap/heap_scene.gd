@@ -956,6 +956,10 @@ func _pickup_model(kind: String) -> Node3D:
 func _teleport(anchor_name: String) -> void:
 	_entrance_exit_armed = false  # a screenshot teleport onto the landing must not walk the hero off the end
 	if HeapLayout.PO_CAMERAS.has(anchor_name):
+		# a paint-over camera shows the zone finished: every vine bridge grown for the shot
+		for growth: HeapGrowth.Growth in HeapGrowth.all():
+			if growth.kind == "bridge":
+				heap.set_bridge_progress(growth.id, 1.0)
 		var at: Vector2 = HeapLayout.PO_CAMERAS[anchor_name] as Vector2
 		player.position = Vector3(at.x, heap.layout.ground_height(at.x, at.y), at.y)
 		player.face(player.position + Vector3(0.0, 0.0, -2.0))

@@ -972,12 +972,14 @@ func _scatter() -> void:
 	_scatter_kind("tree", Rect2(18.5, 5.0, 10.0, 8.0), 3, keep_clear, 1.8, 0.5, 1.0, 1.3)
 	_scatter_kind("tree", Rect2(39.0, 5.0, 24.0, 3.5), 4, keep_clear, 1.8, 0.5, 1.0, 1.3)
 	# along the cliff tops (the terraces' north edges, seen from below as a line of crowns)
-	_scatter_kind("tree", Rect2(26.0, 88.0, 14.0, 2.5), 3, keep_clear, 1.6, 0.5, 1.0, 1.3)
-	_scatter_kind("tree", Rect2(54.0, 88.5, 10.0, 2.5), 2, keep_clear, 1.6, 0.5, 1.0, 1.3)
-	_scatter_kind("tree", Rect2(26.0, 60.0, 14.0, 2.2), 3, keep_clear, 1.6, 0.5, 1.0, 1.3)
-	_scatter_kind("tree", Rect2(68.0, 60.0, 10.0, 2.2), 2, keep_clear, 1.6, 0.5, 1.0, 1.3)
-	_scatter_kind("tree", Rect2(26.0, 36.0, 16.0, 2.2), 3, keep_clear, 1.6, 0.5, 1.0, 1.3)
-	_scatter_kind("tree", Rect2(54.0, 36.0, 10.0, 2.2), 2, keep_clear, 1.6, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(26.0, 88.0, 14.0, 2.5), 5, keep_clear, 1.4, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(54.0, 88.5, 12.0, 2.5), 4, keep_clear, 1.4, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(26.0, 60.0, 16.0, 2.2), 5, keep_clear, 1.4, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(54.0, 60.0, 8.0, 2.2), 3, keep_clear, 1.4, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(68.0, 60.0, 10.0, 2.2), 3, keep_clear, 1.4, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(26.0, 36.0, 16.0, 2.2), 5, keep_clear, 1.4, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(54.0, 36.0, 12.0, 2.2), 3, keep_clear, 1.4, 0.5, 1.0, 1.3)
+	_scatter_kind("tree", Rect2(20.0, 102.0, 50.0, 1.6), 5, keep_clear, 1.4, 0.5, 0.9, 1.2)
 	# framing groups: the market's south corners either side of the bridge head, the plaza's shoulders, the fair's back, the stairs' feet, the plateau
 	_grove("tree", Vector2(41.0, 133.5), 3, 2.4, keep_clear)
 	_grove("tree", Vector2(59.5, 134.0), 3, 2.4, keep_clear)
@@ -996,6 +998,10 @@ func _scatter() -> void:
 	_scatter_kind("bush", Rect2(25.0, 64.0, 5.0, 24.0), 4, keep_clear, 1.0, 0.45, 0.9, 1.4)
 	_scatter_kind("bush", Rect2(26.0, 40.0, 5.0, 20.0), 4, keep_clear, 1.0, 0.45, 0.9, 1.4)
 	_scatter_kind("bush", Rect2(39.0, 6.0, 24.0, 22.0), 14, keep_clear, 1.0, 0.45, 1.0, 1.5)
+	# shrubs at the cliffs' feet (the reference's green cliff bases) and along the ravine's lips
+	_scatter_kind("bush", Rect2(26.0, 40.0, 50.0, 2.6), 8, keep_clear, 0.9, 0.45, 0.9, 1.3)
+	_scatter_kind("bush", Rect2(26.0, 64.0, 50.0, 2.6), 8, keep_clear, 0.9, 0.45, 0.9, 1.3)
+	_scatter_kind("bush", Rect2(20.0, 102.5, 54.0, 2.0), 7, keep_clear, 0.9, 0.45, 0.9, 1.3)
 	_scatter_kind("bush", Rect2(18.5, 5.0, 12.0, 10.0), 4, keep_clear, 1.0, 0.45, 0.9, 1.4)
 	# rocks on the rim and the cliff tops, mushrooms in the druid grove and in the cliffs' shade
 	_scatter_kind("rock", Rect2(18.5, 5.0, 63.0, 4.0), 4, keep_clear, 1.8, 0.0, 0.9, 1.6)
@@ -1051,7 +1057,7 @@ func _flower_clumps(_keep_clear: Array[Vector3]) -> void:
 				if _rng.randf() < chance:
 					_clump("flowers", center, 1.1, 4 + _rng.randi() % 3, keep_clear)
 				side *= -1.0
-				along += 7.0
+				along += 5.5
 	for center: Vector2 in [Vector2(27.0, 75.5), Vector2(31.5, 75.5), Vector2(36.5, 75.5), Vector2(41.5, 75.5)]:
 		_clump("flowers", center, 1.0, 5, keep_clear)
 	# the reference's foreground: big clumps at the market's south corners, framing the view up the valley

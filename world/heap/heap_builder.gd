@@ -369,8 +369,8 @@ func _build_terrain() -> void:
 	var coarse: float = step * 4.0
 	var x0: float = HeapLayout.MIN_CORNER.x - TERRAIN_MARGIN
 	var z0: float = HeapLayout.MIN_CORNER.y - TERRAIN_MARGIN - 15.0
-	# the fine rectangle's edges lie on the coarse grid (30, 45, 85 and 155 m from the origin are all multiples of 5), so no coarse cell straddles it
-	var inner: Rect2 = Rect2(x0 + 30.0, z0 + 45.0, 85.0, 155.0)
+	# the fine rectangle's edges lie on the coarse grid (35, 50, 75 and 145 m from the origin are all multiples of 5), so no coarse cell straddles it
+	var inner: Rect2 = Rect2(x0 + 35.0, z0 + 50.0, 75.0, 145.0)
 	var cols: int = int(ceilf((HeapLayout.MAX_CORNER.x - HeapLayout.MIN_CORNER.x + 2.0 * TERRAIN_MARGIN) / step))
 	var rows: int = int(ceilf((HeapLayout.MAX_CORNER.y - HeapLayout.MIN_CORNER.y + 2.0 * TERRAIN_MARGIN + 15.0) / step))
 	for row: int in range(rows):
@@ -710,7 +710,15 @@ func _build_terraces() -> void:
 				var top: float = layout.ground_height(p.x, p.y)
 				var drop: float = top - layout.ground_height(x, edge + HeapLayout.CLIFF_WIDTH + 0.3) if tier > 1 else top - HeapLayout.WATER_LEVEL
 				drapes.append([Vector3(x, top, edge + 0.1), clampf(drop * 0.8, 1.2, 5.0), 0.0])
-			x += 5.5 + 1.3 * float(int(x) % 3)
+			x += 3.8 + 0.9 * float(int(x) % 3)
+	# the valley's walls too: drapes down their inward faces every few metres (the west wall faces east, the east wall faces west)
+	for side: float in [-1.0, 1.0]:
+		var wall_x: float = HeapLayout.MIN_CORNER.x - 0.6 if side < 0.0 else HeapLayout.MAX_CORNER.x + 0.6
+		var z: float = HeapLayout.MIN_CORNER.y + 6.0
+		while z < HeapLayout.MAX_CORNER.y - 8.0:
+			var top: float = layout.ground_height(wall_x - side * 0.0 + side * 5.0, z)
+			drapes.append([Vector3(wall_x + side * 4.6, top - 0.2, z), 4.0 + 1.5 * float(int(z) % 3), -90.0 * side])
+			z += 6.5 + 1.1 * float(int(z) % 3)
 	var vines: Node3D = HeapTerraces.cliff_vines(drapes)
 	root.add_child(vines)
 	_never_cull(vines, true)
@@ -729,7 +737,9 @@ func _build_terraces() -> void:
 		var fence: Node3D = HeapTerraces.rope_fence(fences[index] as Array, 2.2)
 		fence.name = "RopeFence%d" % index
 		root.add_child(fence)
-		_never_cull(fence, true)
+		for piece: Node in fence.find_children("*", "MeshInstance3D", true, false):
+			piece.set_meta(&"no_occlusion_fade", true)
+			piece.remove_meta(&"no_range_cull")
 		_no_shadow(fence)
 
 
@@ -913,10 +923,14 @@ func _build_props() -> void:
 		var purple: Node3D = HeapTerraces.jacaranda_field(jacarandas)
 		root.add_child(purple)
 		_never_cull(purple, true)
+		_no_shadow(purple)
 	if not blooms.is_empty():
 		var beds: Node3D = HeapTerraces.bloom_clumps(blooms)
 		root.add_child(beds)
-		_never_cull(beds, true)
+		# small and low: never fades, but the range cull may drop it at a distance (the far beds are a few pixels)
+		for piece: Node in beds.find_children("*", "MeshInstance3D", true, false):
+			piece.set_meta(&"no_occlusion_fade", true)
+			piece.remove_meta(&"no_range_cull")
 		_no_shadow(beds)
 	for kind: String in cards.keys():
 		var entries: Array[Dictionary] = []
