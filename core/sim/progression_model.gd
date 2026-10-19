@@ -64,7 +64,7 @@ const UPGRADES: Dictionary = {
 ## Per Path: the starting-deck cards a player cuts first as upgrades come in (weakest first; one copy per entry).
 const CUT_ORDER: Dictionary = {
 	Affinity.Type.BEEFCAKE: ["B-20", "B-07", "B-07", "B-14", "B-08", "B-04", "B-08", "B-01", "B-05", "B-03", "B-01", "B-12", "B-21", "B-04", "B-05"],
-	Affinity.Type.NECROCRAT: ["N-12", "N-21", "N-09", "N-14", "N-20", "N-05", "N-03", "N-07", "N-01", "N-02", "N-07", "N-01", "N-18", "N-04", "N-02"],
+	Affinity.Type.NECROCRAT: ["N-12", "N-21", "N-06", "N-14", "N-20", "N-05", "N-03", "N-07", "N-01", "N-02", "N-07", "N-01", "N-18", "N-04", "N-02"],
 	Affinity.Type.GOURMAND: ["G-21", "G-04", "G-14", "G-06", "G-02", "G-09", "G-06", "G-02", "G-07", "G-01", "G-09", "G-15", "G-01", "G-05", "G-20"],
 	Affinity.Type.REFUSEMANCER: ["R-17", "R-04", "R-01", "R-11", "R-07", "R-10", "R-02", "R-05", "R-19", "R-08", "R-02", "R-06", "R-05", "R-14", "R-19"],
 }

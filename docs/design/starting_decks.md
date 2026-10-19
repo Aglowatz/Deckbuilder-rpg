@@ -24,13 +24,13 @@ to get past blockers (burn, fliers, removal or traps), because the Forgotten Cav
 | Spotter (B-08) | 2 | a buff on entering |
 | Leg Day Survivor (B-12) | 2 | 4/2 Hustle |
 | Beefy Bouncer (B-11) | 1 | the 5/4 Bulldoze top end |
-| Shot Putter (B-10) | 1 | 3/3 that Overexerts to shoot a unit |
+| Shot Putter (B-10) | 2 | 3/3 that Overexerts to shoot a unit |
 | Dropped Weights (B-03) | 2 | 2 damage to a unit |
 | Flex on 'Em (B-21) | 2 | face damage to close the race |
 | Dry Scoop (B-20) | 1 | Hustle for a surprise swing |
 | Weight Belt (B-14) | 1 | +1/+1 and Bulldoze Tool |
 | Counterweight (B-19) | 1 | trap: 3 damage to an attacker |
-| Overclocked Mill Worker (B-24, U) | 2 | makes an Iron whenever it attacks |
+| Overclocked Mill Worker (B-24, U) | 1 | makes an Iron whenever it attacks |
 | The Carpool (B-26, U) | 1 | everyone gets Hustle for the big turn |
 
 **Game plan.** Play a body every turn, let Powerhouses and Runners pile up Iron, and on the turn you attack spend every Iron on the
@@ -46,16 +46,15 @@ are the Iron engine (Mill Worker) and the alpha-strike enabler (Carpool).
 | Skeleton Clerk (N-01) | 3 | 1/2 1-drop; Red Tape when it dies |
 | Infernal Intern (N-02) | 3 | 2/2, Red Tape on entering |
 | Body-builder (N-04) | 2 | Red Tape -> a 2/2 Patchwork Body each turn |
-| Notary Wraith (N-06) | 3 | Flying; drains when it dies - the deck's way past blockers |
-| Red Tape Dispenser (N-09) | 1 | Red Tape on demand |
+| Notary Wraith (N-06) | 2 | Flying; drains when it dies - the deck's way past blockers |
+| Red Tape Dispenser (N-09) | 2 | Red Tape on demand |
 | Pink Slip (N-15) | 2 | destroys a small unit |
 | Processing Delay (N-16) | 1 | destroys any unit, two turns later |
-| Post-Human Resources Ghoul (N-03) | 1 | edict |
-| Requisition Form (N-18) | 2 | a Red Tape into two cards |
+| Post-Human Resources Ghoul (N-03) | 2 | edict |
+| Requisition Form (N-18) | 1 | a Red Tape into two cards |
 | I've Made a Huge Mistake (N-20) | 1 | sacrifice a Clerk: two cards and a Red Tape |
 | Grave Shift Worker (N-07) | 2 | brings a cheap unit back |
-| Waiting Room (N-13) | 1 | their units enter exhausted (Hustle insurance) |
-| Invisible Ink (N-12) | 1 | trap: their new unit sits out two turns |
+| Waiting Room (N-13) | 2 | their units enter exhausted (Hustle insurance) |
 | Middle Management Zombie (N-23, U) | 2 | Zombie Temps hit harder; Red Tape -> Temps |
 | Audit Wraith (N-26, U) | 1 | Flying drain, Red Tape on entering |
 

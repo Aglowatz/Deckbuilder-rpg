@@ -9,7 +9,7 @@ extends RefCounted
 const NPC_ID: String = "NPC-NINJA"
 const DISPLAY_NAME: String = "Shiro Swindle"
 const TITLE: String = "Master of the Oldest Trick"
-const STARTING_HP: int = 30  # Rebalance Part E: was 18 (100% at level 12; still 100% at 24)
+const STARTING_HP: int = 38  # Rebalance Part E: was 18 (100% at level 12; still 100% at 24)
 const STEAL_AMOUNT: int = 50
 const QUEST_ID: String = "oldest_trick"
 ## The original chest (main town) comes first; the others are zone ids (`ZoneDefs`): Gainlands, D.N.A., Endless Buffet, Verdant Dump.

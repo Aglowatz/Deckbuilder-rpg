@@ -28,7 +28,7 @@ static func info(id: String) -> ZoneEnemyInfo:
 			made.aggro_range = 5.5
 			made.leash_range = 8.5
 			made.recipe = EnemyDecks.trimmed("gourmand_golems", 27, 16)
-			made.hp = 14
+			made.hp = 12  # Overnight Oct 18 Part 2: 71% at 14 HP
 			made.ai_name = "Aggressive"
 			made.gold_reward = 30
 			made.xp_reward = 40
@@ -62,8 +62,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 		CASSEROLE:
 			made.display_name = "Colonel Casserole"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
-			made.recipe = EnemyDecks.trimmed("gourmand_golems", 30, 14)  # Rebalance Part E: 90% at level 12 (elite band 60-75); 22 HP overshot to 15%
-			made.hp = 18
+			made.recipe = EnemyDecks.trimmed("gourmand_golems", 30, 16)  # Rebalance Part E: 90% at level 12 (elite band 60-75); 22 HP overshot to 15%
+			made.hp = 12  # Overnight Oct 18 Part 2: 42% at 18 HP, 42% at 15
 			made.ai_name = "Balanced"
 			made.gold_reward = 50
 			made.xp_reward = 60

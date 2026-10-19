@@ -372,3 +372,207 @@ Every rule that bends a fight is one badge list (`RuleBadges`: zone buff/debuff,
 ## Playtest v0.4.0, Part H - audio bitrate audit (no change)
 
 `ffprobe` over the 123 music and ambience OGGs: 101-196 kbps, average 126 kbps, 246 minutes, about 218 MB packed. Re-encoding everything to ~96 kbps would save roughly 50 MB at an audible cost on the orchestral loops; with the zip already well under 1 GB the files ship as delivered (inbox item).
+
+## Part G - iterate (Overnight Oct 18, Part 2)
+
+Targets (on-level, first try): normal 80%+, elite 60-75%, boss 40-60%, 6-10 turns. Quick runs (6 games per Path = 24 per fight, about +/-10 points) because a late-game game takes ~1.3 s; every fight of the catalog in iteration 1 (`docs/design/sim/g_iter1.md`, 97 fights incl. the never-measured late groups and the arena), then only the changed fights (`g_iter2_*.md`, `g_iter3_*.md`).
+
+### Iteration 1 (full catalog, after Part 1)
+
+| Kind | Fights | In band | Too hard | Too easy | Mean win | Mean turns |
+|---|---:|---:|---:|---:|---:|---:|
+| Tutorial | 3 | 3 | 0 | 0 | 96% | 5.2 |
+| Normal | 54 | 34 | 20 | 0 | 84% | 7.7 |
+| Elite | 21 | 4 | 9 | 8 | 66% | 8.7 |
+| Boss | 19 | 3 | 3 | 13 | 69% | 8.2 |
+
+Outliers: the Gainlands roamers (63%), the Buffet gate (42%), Prudence Pallor (25%), the Test Kitchen (boss 21%), the Rotheart (normals 54-63%, an elite 17%, the boss 21%), the Iron Cave and the Forgotten Vault normals (50-58%); too easy: every Capital-side and postgame boss (S-CAP, S-REF, S-BEEF, S-NECRO 79-100%), Captain Spotless, the Castle (normals and elites 100%, Primm phase 1 100%), Shiro (92%), the Lab elites.
+
+**Sim bug found and fixed:** the catalog gave all four corrupted town NPCs `CorruptedNpcs.STARTING_HP` (15) instead of their own `HP_BY_ID` (Prudence has 22), so the town NPC rows never matched the game (`EncounterCatalog.town`).
+
+| Change (iteration 1) | Why |
+|---|---|
+| Brick Bronson HP 15 -> 13; Moss Mulligan 16 -> 15; Prudence Pallor HP 22 -> 11 | elite at 54% / 58% / 25% (band 60-75); the sim had played all four at 15 HP (catalog bug, fixed: it now reads CorruptedNpcs.HP_BY_ID), so Prudence at her real 22 was far harder than measured |
+| Shiro Swindle HP 30 -> 38 | boss at 92% (band 40-60) |
+| Flexing Brute HP 9 -> 7 | normal at 63% (band 80+) |
+| Protein Shake Golem HP 9 -> 7 | normal at 63% (band 80+) |
+| Meatloaf Golem HP 14 -> 12 | normal at 71% |
+| Colonel Casserole HP 18 -> 15 | elite at 42% |
+| Captain Spotless HP 30 -> 36 | elite at 100% |
+| Primm phase 1 HP 30 -> 36 | boss phase at 100% |
+| Primm phase 3 HP 28 -> 32 | boss phase at 83% |
+| D-HOG node 3 (Courtyard Lifter) hp 10 -> 8 | normal 50% |
+| D-HOG node 11 (Trophy Hall Honor Guard) hp 14 -> 12 | elite 46% |
+| D-TTK node 2 (Prep Station Sous-Chef) hp 16 -> 14 | normal 71% |
+| D-TTK node 6 (Unfinished War Machine) hp 20 -> 17 | elite 50% |
+| D-TTK node 11 (Cannon-Blender Gunner) hp 21 -> 18 | elite 50% |
+| D-TTK boss HP 26 -> 21 | boss 21% |
+| D-ROT node 2 (Overgrown Scarecrow) hp default -> 12 | normal 63% (default 14-16) |
+| D-ROT node 3 (Mutant Mushroom Troop) hp default -> 12 | normal 63% |
+| D-ROT node 8 (Thorn Maze Stalker) hp default -> 12 | normal 54% |
+| D-ROT node 10 (Hive of Mutant Bees) hp 18 -> 14 | elite 17% |
+| D-ROT boss HP 28 -> 22 | boss 21% |
+| D-PC node 2 (Hedge Trimmer Guard) hp 19 -> 24 | normal 100% |
+| D-PC node 4 (Gallery Curator) hp 20 -> 25 | normal 100% |
+| D-PC node 6 (Ministry Clerk) hp 20 -> 25 | normal 100% |
+| D-PC node 9 (Royal Staircase Guard) hp 26 -> 32 | elite 100% |
+| D-PC node 20 (Clocktower Sentinel) hp 26 -> 32 | elite 100% |
+| S-BEEF boss HP 26 -> 34 | boss 88% |
+| S-NECRO boss HP 28 -> 34 | boss 79% |
+| S-REF boss HP 25 -> 34 | boss 100% |
+| S-CAP node 3 (Enforcer Captain Spotless) hp 26 -> 34 | boss 100% |
+| S-GOUR node 1 (Apprentice Itamae) hp 16 -> 13 | normal 56% |
+| S-GOUR node 2 (Conveyor Belt Sushi Chef) hp 21 -> 18 | normal 71% |
+| S-TOWN node 1 (Rusty Gate Clockwork) hp 11 -> 9 | normal 58% |
+| S-TOWN node 2 (Banner Hall Guardian) hp 13 -> 10 | normal 50% |
+| S-TOWN node 3 (The Old Kingdom Automaton) hp 20 -> 23 | boss 71% |
+| S-IRON node 1 (Calf Raise Crusher) hp 10 -> 8 | normal 54% |
+| S-IRON node 2 (Squat Rack Squatter) hp 11 -> 9 | normal 58% |
+| S-IRON boss HP 15 -> 17 | boss 71% |
+| D-LAB node 5 (The Failed Experiment) hp 40 -> 44 | elite 92% |
+| D-LAB node 10 (The Drain Warden) hp 42 -> 48 | elite 100% |
+| D-LAB boss HP 52 -> 58 | boss 71% |
+| Arena: Sandbag Sentinel HP 16 -> 13 | normal 67% |
+| Arena: Champion of the Four Fists HP 28 -> 33 | elite 88% |
+| Arena: Announcer Grand Bellows HP 38 -> 46 | boss 88% |
+
+### Iteration 2 (the changed fights)
+
+HP cuts barely moved the too-hard fights and HP raises did not touch the too-easy ones: the hard ones are lost in 5-7 turns (the foe out-damages the player long before its HP matters) and the easy ones are won before the foe deploys. The lever is deck strength: the number of basics in the foe deck (more basics = fewer threats; for Beefcake foes also more Iron) and a few strong extras for the easy bosses. Results: `_logs/g_iter2_done.txt` / `docs/design/sim/g_iter2_*.md` (Lab boss now 58%, Primm phase 3 75%, D-HOG elite 54%, most others unchanged).
+
+| Change (iteration 2) | Why |
+|---|---|
+| Flexing Brute basics 12 -> 14 (of 24) | still 67% at 7 HP, lost fast: fewer threats, not less HP |
+| Protein Shake Golem basics 12 -> 14 (of 24) | still 63% at 7 HP, fast |
+| Colonel Casserole basics 14 -> 16 (of 30) | still 46% at 15 HP |
+| Captain Spotless basics 15 -> 12 (of 38) | still 100% at 36 HP |
+| D-HOG node 3 (Courtyard Lifter) infra 13 -> 15 | normal 50% after the HP cut, lost fast |
+| D-TTK node 2 (Prep Station Sous-Chef) infra default -> 15 | normal 71% |
+| D-TTK node 6 (Unfinished War Machine) infra default -> 15 | elite 50% |
+| D-TTK node 11 (Cannon-Blender Gunner) infra default -> 15 | elite 54% |
+| D-TTK boss infra default -> 19 | boss 21% at 21 HP |
+| D-ROT node 2 (Overgrown Scarecrow) infra default -> 16 | normal 63%, lost in ~6 turns |
+| D-ROT node 3 (Mutant Mushroom Troop) infra default -> 16 | normal 67%, fast |
+| D-ROT node 8 (Thorn Maze Stalker) infra default -> 16 | normal 58%, fast |
+| D-ROT node 10 (Hive of Mutant Bees) infra default -> 17 | elite 21%, lost in ~5 turns |
+| D-ROT node 10 (Hive of Mutant Bees) ai default -> "Balanced" | elite 21%, its default AI was Aggressive |
+| D-ROT boss infra default -> 19 | boss 25%, fast |
+| S-GOUR node 1 (Apprentice Itamae) infra default -> 15 | normal 67% |
+| S-GOUR node 2 (Conveyor Belt Sushi Chef) infra default -> 15 | normal 75% |
+| S-TOWN node 1 (Rusty Gate Clockwork) infra default -> 14 | normal 67% |
+| S-TOWN node 2 (Banner Hall Guardian) infra default -> 14 | normal 63% |
+| S-CAP node 3 (Enforcer Captain Spotless) infra default -> 11 | boss 100% at 34 HP |
+| S-CAP node 3 (Enforcer Captain Spotless) extra default -> {"C-30":1,"C-32":1,"C-34":1} | boss 100%: Royal Audit, Mirrored Hall, the Harmony Engine |
+| S-REF boss infra default -> 13 | boss 96% at 34 HP |
+| S-BEEF boss infra default -> 13 | boss 79% at 34 HP |
+| S-NECRO boss infra default -> 13 | boss 79% at 34 HP |
+| S-IRON node 1 (Calf Raise Crusher) infra 12 -> 14, ai Aggressive -> Balanced | normal 58% at 8 HP, fast |
+| S-IRON node 2 (Squat Rack Squatter) infra 12 -> 14 | normal 58% at 9 HP, fast |
+| D-PC nodes 9 and 20 (Royal Staircase Guard, Clocktower Sentinel) basics 14 -> 11, + Royal Audit + Mirrored Hall | elites 100% at 32 HP |
+| Primm phase 1 basics 16 -> 12, + Mirrored Hall | 100% at 36 HP |
+| D-LAB nodes 5 and 10 (The Failed Experiment, The Drain Warden) basics 16 -> 13 | elites 92% / 100% at 44 / 48 HP |
+
+### Iteration 3 (the changed fights)
+
+The Test Kitchen came into band (normals 83/92%, elites 63/71%); the Tunnels and the Castle elites, Primm phase 1 and the Lab elites stayed at 92-100% even with fewer basics; the Rotheart normals and the Hive stayed at 17-63% lost in about 5 turns. Results `_logs/g_iter3_done.txt`.
+
+### Iteration 4: encounter rules for the late bosses; the Rotheart; Prudence
+
+| Change (iteration 4) | Why |
+|---|---|
+| Prudence Pallor deck 30 cards / 15 basics -> 26 / 16 (the trim drops her rarest threats first) | 29% at 11 HP: a level-3 player meets an Epic and a Legendary in a 30-card zombie deck |
+| Prudence Pallor AI Aggressive -> Balanced | same |
+| Prudence Pallor HP 11 -> 13 | with the lighter deck |
+| Protein Shake Golem basics 14 -> 12 again | 58% with 14: for a Beefcake foe more basics also means more Iron |
+| Colonel Casserole HP 15 -> 12 | still 42% (it starts with a 3/3 Golem on the field) |
+| Hive of Mutant Bees rule Swarm: a Sporeling every turn -> every second turn | elite 17% in 5 turns: a token every turn plus the Rotheart's Overgrowth (every unit +1/+1 each turn) |
+| Enforcer Captain Spotless rule Spotless Drill: +1/+1 -> +2/+1 | too easy |
+| Royal Staircase Guard rule Royal Guard: +1/+0 -> +1/+1 | too easy |
+| Clocktower Sentinel: new rule Clockwork Precision (+1/+1 for its units) | too easy |
+| His Majesty the Raccoon: new rule Royal Guard of Bins (+1/+1 for its units) | too easy |
+| The Ancient Spotter: new rule Ancient Form (+1/+0 for its units) | too easy |
+| Betty Bones, Surly Secretary: new rule Surly (+1/+0 for its units) | too easy |
+| The Drain Warden: new rule Drained Strength (+1/+1 for its units) | too easy |
+| The Failed Experiment: new rule Unstable (+1/+1 for its units) | too easy |
+| D-ROT foes: archetypes rats + garbage -> garbage only; the Hive refuse_rats -> refuse_garbage | the normals were lost in 5-6 turns: rat swarms grow fastest under Overgrowth |
+| S-TOWN node 1 (Rusty Gate Clockwork) size 26 -> 24 | normal 50% |
+| S-IRON node 2 (Squat Rack Squatter) HP 9 -> 7 | normal 50% |
+
+Results (`_logs/g_iter4_done.txt`): the stat rules work where deck tweaks did not - the Tunnels boss 100 -> 83%, His Majesty 96 -> 67%, Betty 75 -> 71%, the Castle elites 100 -> 83/92%; the Rotheart boss 54 -> 63% (in band), the Hive 17 -> 33%. The Rotheart normals stayed at 58-63%: a replay (`tools/replay_encounter.gd --id=D-ROT:2 --path=gourmand`) shows the sim player turtling (lifegain abilities every turn, almost no attacks) while Overgrowth (every unit +1/+1 each turn) and Rot (1-defense units die at end of turn) grow the foe board - an AI limit under these two dungeon rules rather than a number to tune (inbox).
+
+### Iteration 5
+
+| Change (iteration 5) | Why |
+|---|---|
+| Prudence Pallor HP 13 -> 10 | 38% with the lighter deck |
+| The Ancient Spotter rule Ancient Form: +1/+0 -> +2/+1 | still too easy after iteration 4 |
+| Enforcer Captain Spotless rule Spotless Drill: +2/+1 -> +2/+2 | still too easy after iteration 4 |
+| The Failed Experiment rule Unstable: +1/+1 -> +2/+1 | still too easy after iteration 4 |
+| The Drain Warden rule Drained Strength: +1/+1 -> +2/+1 | still too easy after iteration 4 |
+| Clocktower Sentinel rule Clockwork Precision: +1/+1 -> +2/+1 | still too easy after iteration 4 |
+| S-TOWN node 1 (Rusty Gate Clockwork) size back to 26, HP 9 -> 7 | 38% at size 24 (worse: fewer basics per threat) |
+
+Results (`_logs/g_iter5.txt`): the Tunnels boss 54% (in band); the Spotter 92%, the Lab elites 92-96%, the Clocktower Sentinel 88% still too easy; Prudence 38% at 13 and at 10 HP alike (lost before her HP matters); the Forgotten Vault gate 63%.
+
+### Starting decks (round robin at level 1, 40 games per pairing)
+
+Before: Beefcake 61% / Gourmand 54% / Refusemancer 48% / Necrocrat 37% (spread 24, `g_decks_l1.md`). Necrocrat vs Beefcake card impact (`g_match_n_b.md`, 80 games): Waiting Room +35, Ghoul +22, Red Tape Dispenser +21, Audit Wraith +16 ... Requisition Form +0, Notary Wraith -6, Invisible Ink -10.
+
+| Change | Why |
+|---|---|
+| Necrocrat starter: Notary Wraith 3 -> 2, Requisition Form 2 -> 1, Invisible Ink 1 -> 0; Red Tape Dispenser 1 -> 2, Post-Human Resources Ghoul 1 -> 2, Waiting Room 1 -> 2 (45 cards) | the three best-lift cards were single copies, three no-lift cards filled slots |
+| Beefcake starter: Overclocked Mill Worker 2 -> 1, Shot Putter 1 -> 2 (45 cards) | Beefcake on top; the Mill Worker is its top-lift card (Part C) |
+| Sim reference decks: Necrocrat cuts Notary Wraith before the Red Tape Dispenser | keeps the Dispenser in the higher-level reference decks |
+
+After (`g_decks_l1_after.md`): **Beefcake 52% / Gourmand 57% / Refusemancer 47% / Necrocrat 44%** (spread 13). Tutorial clears with the new decks (`g_tutorial_after.md`, 24 runs each): Beefcake 88%, Refusemancer 83%, Gourmand 79%, Necrocrat 71% (it was 80% at 12 runs).
+
+### Where Part G ends (5 iterations)
+
+| Kind | Fights | In band before -> after | Too hard | Too easy | Mean win | Mean turns |
+|---|---:|---|---|---|---|---|
+| Tutorial | 3 | 3 -> **3** | 0 -> 0 | 0 -> 0 | 96% -> 96% | 5.2 -> 5.2 |
+| Normal | 54 | 34 -> **35** | 20 -> 19 | 0 -> 0 | 84% -> 85% | 7.7 -> 7.6 |
+| Elite | 21 | 4 -> **6** | 9 -> 7 | 8 -> 8 | 66% -> 67% | 8.7 -> 8.7 |
+| Boss | 19 | 3 -> **5** | 3 -> 2 | 13 -> 12 | 69% -> 65% | 8.2 -> 8.3 |
+
+| Fight | Kind | Target | Before | After | Verdict now |
+|---|---|---|---:|---:|---|
+| Brick Bronson | Elite | 60-75% | 54% | **58%** | TOO HARD (-2) |
+| Prudence Pallor | Elite | 60-75% | 25% | **38%** | TOO HARD (-22) |
+| Shiro Swindle | Boss | 40-60% | 92% | **88%** | too easy (+28) |
+| Flexing Brute | Normal | 80-100% | 63% | **75%** | TOO HARD (-5), fast |
+| Protein Shake Golem | Normal | 80-100% | 63% | **58%** | TOO HARD (-22) |
+| Meatloaf Golem | Normal | 80-100% | 71% | **75%** | TOO HARD (-5) |
+| Captain Spotless | Elite | 60-75% | 100% | **88%** | too easy (+13) |
+| Free Weight Courtyard - Courtyard Lifter | Normal | 80-100% | 50% | **71%** | TOO HARD (-9) |
+| Hall of Trophies - Trophy Hall Honor Guard | Elite | 60-75% | 46% | **54%** | TOO HARD (-6) |
+| Prep Station - Prep Station Sous-Chef | Normal | 80-100% | 71% | **83%** | ok |
+| Prototype Bay - Unfinished War Machine | Elite | 60-75% | 50% | **63%** | ok |
+| Weapons Test Range - Cannon-Blender Gunner | Elite | 60-75% | 50% | **71%** | ok |
+| The Grand Kitchen - The Doppelganger | Boss | 40-60% | 21% | **29%** | TOO HARD (-11) |
+| Overgrown Junkyard - Overgrown Scarecrow | Normal | 80-100% | 63% | **58%** | TOO HARD (-22), fast |
+| Thorn Maze - Thorn Maze Stalker | Normal | 80-100% | 54% | **58%** | TOO HARD (-22), fast |
+| Hive of Mutant Bees - Hive of Mutant Bees | Elite | 60-75% | 17% | **33%** | TOO HARD (-27), fast |
+| Rot Tunnel - Rot Tunnel Horror | Normal | 80-100% | 79% | **75%** | TOO HARD (-5) |
+| The Rotheart - Compostella, the Rotheart | Boss | 40-60% | 21% | **63%** | too easy (+3) |
+| Royal Stair - Royal Staircase Guard | Elite | 60-75% | 100% | **83%** | too easy (+8) |
+| Primm - phase 3 (unraveling) | Boss | 40-60% | 83% | **75%** | too easy (+15) |
+| Clocktower Balcony - Clocktower Sentinel | Elite | 60-75% | 100% | **88%** | too easy (+13) |
+| The Summit Altar - The Ancient Spotter | Boss | 40-60% | 88% | **92%** | too easy (+32) |
+| The Counter Seat - Apprentice Itamae | Normal | 80-100% | 56% | **58%** | TOO HARD (-22) |
+| The Conveyor Gauntlet - Conveyor Belt Sushi Chef | Normal | 80-100% | 71% | **75%** | TOO HARD (-5) |
+| Betty's Desk - Betty Bones, Surly Secretary | Boss | 40-60% | 79% | **71%** | too easy (+11) |
+| The Throne of Lids - His Majesty the Raccoon | Boss | 40-60% | 100% | **67%** | too easy (+7) |
+| The Grate Beneath the Plaza - Enforcer Captain Spotless | Boss | 40-60% | 100% | **54%** | ok |
+| The Rusty Gate - Rusty Gate Clockwork | Normal | 80-100% | 58% | **63%** | TOO HARD (-18) |
+| The Hall of Four Banners - Banner Hall Guardian | Normal | 80-100% | 50% | **75%** | TOO HARD (-5) |
+| The Failed Experiments - The Failed Experiment | Elite | 60-75% | 92% | **96%** | too easy (+21) |
+| The Draining Chamber - The Drain Warden | Elite | 60-75% | 100% | **92%** | too easy (+17) |
+| The Chief Path-ologist's Laboratory - Dr. Ambrose Siphon, Chief Path-ologist | Boss | 40-60% | 71% | **58%** | ok, slow |
+| The Calf Raise Crawl - Calf Raise Crusher | Normal | 80-100% | 54% | **67%** | TOO HARD (-13) |
+| The Squat Rack Gallery - Squat Rack Squatter | Normal | 80-100% | 58% | **63%** | TOO HARD (-18) |
+| The Leg Press Throne - Baron Quadzilla | Boss | 40-60% | 71% | **63%** | too easy (+3) |
+
+Not met: elites and bosses are still mostly too easy late (the gear-equipped late player outclasses most fixed decks; stat rules are the lever that works and are applied to the worst ones), several early fights stay too hard (the Gainlands roamers, Colonel Casserole, Prudence, the Rotheart normals, the Iron Cave and Vault normals: mostly Beefcake or swarm foes that win fast). The rest goes to the Phase 2 Balance cycles; questions in the inbox.
+
+Kept inside the tests' design bounds: Prudence Pallor ends at **12 HP** (not 10; `test_corrupted_npcs` wants 12-30, and 13 and 10 HP both measured 38%), Baron Quadzilla at **16 HP** (not 17; `test_gainlands_v2` keeps the Iron Cave boss an early-game fight; 63% at 17).

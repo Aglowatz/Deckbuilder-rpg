@@ -107,8 +107,8 @@ static func info(id: String) -> ZoneEnemyInfo:
 		SPOTLESS:
 			made.display_name = "Captain Spotless"
 			made.kind = ZoneEnemyInfo.Kind.BATTLE
-			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 38, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 15), {"C-30": 1, "C-34": 1, "C-29": 1, "C-32": 1})  # Rebalance Part E: 98% at level 18
-			made.hp = 30
+			made.recipe = EnemyDecks.with_cards(EnemyDecks.mixed("colorless_regime", 38, [Affinity.Type.NECROCRAT, Affinity.Type.GOURMAND] as Array[Affinity.Type], 12), {"C-30": 1, "C-34": 1, "C-29": 1, "C-32": 1})  # Rebalance Part E: 98% at level 18
+			made.hp = 36  # Overnight Oct 18 Part 2: 100% at 30 HP
 			made.ai_name = "Aggressive"
 			made.gold_reward = 120
 			made.xp_reward = 120

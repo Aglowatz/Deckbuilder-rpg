@@ -43,9 +43,9 @@
 				},
 				"3": {
 					"name": "Courtyard Lifter",
-					"hp": 10,
+					"hp": 8,
 					"size": 25,
-					"infra": 13
+					"infra": 15
 				},
 				"6": {
 					"name": "Regime Checkpoint Captain",
@@ -64,7 +64,7 @@
 					"name": "Trophy Hall Honor Guard",
 					"deck": "beefcake_bruisers",
 					"size": 28,
-					"hp": 14,
+					"hp": 12,
 					"infra": 13
 				},
 				"13": "Chancellor Clench, Iron Regent"
@@ -167,14 +167,16 @@
 				"extra": {
 					"G-33": 1
 				},
-				"hp": 26,
-				"icon": "delapouite/chef-toque"
+				"hp": 21,
+				"icon": "delapouite/chef-toque",
+				"infra": 19
 			},
 			"foes": {
 				"2": {
 					"name": "Prep Station Sous-Chef",
-					"hp": 16,
-					"size": 29
+					"hp": 14,
+					"size": 29,
+					"infra": 15
 				},
 				"3": {
 					"name": "Frozen Line Cook",
@@ -185,8 +187,9 @@
 					"name": "Unfinished War Machine",
 					"deck": "gourmand_golems",
 					"size": 31,
-					"hp": 20,
-					"icon": "delapouite/pirate-cannon"
+					"hp": 17,
+					"icon": "delapouite/pirate-cannon",
+					"infra": 15
 				},
 				"8": {
 					"name": "Assembly Line Golem",
@@ -197,8 +200,9 @@
 					"name": "Cannon-Blender Gunner",
 					"deck": "gourmand_golems",
 					"size": 31,
-					"hp": 21,
-					"icon": "delapouite/pirate-cannon"
+					"hp": 18,
+					"icon": "delapouite/pirate-cannon",
+					"infra": 15
 				},
 				"12": {
 					"name": "Expediter of the Pass",
@@ -466,7 +470,6 @@
 		"D-ROT": {
 			"defaults": {
 				"archetypes": [
-					"refuse_rats",
 					"refuse_garbage"
 				],
 				"icons": [
@@ -489,25 +492,40 @@
 				"extra": {
 					"R-33": 1
 				},
-				"hp": 28,
-				"icon": "cathelineau/tree-face"
+				"hp": 22,
+				"icon": "cathelineau/tree-face",
+				"infra": 19
 			},
 			"foes": {
-				"2": "Overgrown Scarecrow",
-				"3": "Mutant Mushroom Troop",
+				"2": {
+					"name": "Overgrown Scarecrow",
+					"hp": 12,
+					"infra": 16
+				},
+				"3": {
+					"name": "Mutant Mushroom Troop",
+					"hp": 12,
+					"infra": 16
+				},
 				"6": {
 					"name": "Rootbound Miller",
 					"deck": "refuse_garbage",
 					"size": 32,
 					"hp": 19
 				},
-				"8": "Thorn Maze Stalker",
+				"8": {
+					"name": "Thorn Maze Stalker",
+					"hp": 12,
+					"infra": 16
+				},
 				"10": {
 					"name": "Hive of Mutant Bees",
-					"deck": "refuse_rats",
+					"deck": "refuse_garbage",
 					"size": 30,
-					"hp": 18,
-					"icon": "lorc/bat-wing"
+					"hp": 14,
+					"icon": "lorc/bat-wing",
+					"infra": 17,
+					"ai": "Balanced"
 				},
 				"11": "Rot Tunnel Horror",
 				"13": "Compostella, the Rotheart"
@@ -620,7 +638,7 @@
 					"name": "Hedge Trimmer Guard",
 					"deck": "colorless_regime",
 					"size": 32,
-					"hp": 19,
+					"hp": 24,
 					"mixed": [
 						"necrocrat",
 						"gourmand"
@@ -630,7 +648,7 @@
 					"name": "Gallery Curator",
 					"deck": "colorless_regime",
 					"size": 32,
-					"hp": 20,
+					"hp": 25,
 					"mixed": [
 						"necrocrat",
 						"gourmand"
@@ -647,18 +665,23 @@
 					"name": "Ministry Clerk",
 					"deck": "gourmand_necrocrat",
 					"size": 32,
-					"hp": 20,
+					"hp": 25,
 					"icon": "delapouite/stamper"
 				},
 				"9": {
 					"name": "Royal Staircase Guard",
 					"deck": "colorless_regime",
 					"size": 35,
-					"hp": 26,
+					"hp": 32,
 					"mixed": [
 						"necrocrat",
 						"gourmand"
-					]
+					],
+					"infra": 11,
+					"extra": {
+						"C-30": 1,
+						"C-32": 1
+					}
 				},
 				"10": "PRIMM_BOSS",
 				"13": {
@@ -677,11 +700,16 @@
 					"name": "Clocktower Sentinel",
 					"deck": "colorless_regime",
 					"size": 35,
-					"hp": 26,
+					"hp": 32,
 					"mixed": [
 						"necrocrat",
 						"gourmand"
-					]
+					],
+					"infra": 11,
+					"extra": {
+						"C-30": 1,
+						"C-32": 1
+					}
 				}
 			},
 			"events": {
@@ -830,7 +858,7 @@
 				"extra": {
 					"B-12": 2
 				},
-				"hp": 15,
+				"hp": 16,
 				"icon": "delapouite/mammoth",
 				"infra": 13
 			},
@@ -838,20 +866,20 @@
 				"1": {
 					"name": "Calf Raise Crusher",
 					"deck": "beefcake_rush",
-					"hp": 10,
+					"hp": 8,
 					"size": 24,
-					"ai": "Aggressive",
+					"ai": "Balanced",
 					"icon": "lorc/muscle-up",
-					"infra": 12
+					"infra": 14
 				},
 				"2": {
 					"name": "Squat Rack Squatter",
 					"deck": "beefcake_tools",
-					"hp": 11,
+					"hp": 7,
 					"size": 24,
 					"ai": "Defensive",
 					"icon": "delapouite/strong-man",
-					"infra": 12
+					"infra": 14
 				},
 				"3": "Baron Quadzilla"
 			},
@@ -883,8 +911,9 @@
 				"extra": {
 					"B-30": 1
 				},
-				"hp": 26,
-				"icon": "delapouite/mammoth"
+				"hp": 34,
+				"icon": "delapouite/mammoth",
+				"infra": 13
 			},
 			"foes": {
 				"1": {
@@ -932,13 +961,15 @@
 			"foes": {
 				"1": {
 					"name": "Apprentice Itamae",
-					"hp": 16,
-					"size": 28
+					"hp": 13,
+					"size": 28,
+					"infra": 15
 				},
 				"2": {
 					"name": "Conveyor Belt Sushi Chef",
-					"hp": 21,
-					"size": 32
+					"hp": 18,
+					"size": 32,
+					"infra": 15
 				},
 				"3": "The Itamae Supreme"
 			},
@@ -969,8 +1000,9 @@
 				"extra": {
 					"N-30": 1
 				},
-				"hp": 28,
-				"icon": "delapouite/files"
+				"hp": 34,
+				"icon": "delapouite/files",
+				"infra": 13
 			},
 			"foes": {
 				"1": {
@@ -1012,8 +1044,9 @@
 				"extra": {
 					"R-27": 1
 				},
-				"hp": 25,
-				"icon": "delapouite/imperial-crown"
+				"hp": 34,
+				"icon": "delapouite/imperial-crown",
+				"infra": 13
 			},
 			"foes": {
 				"1": {
@@ -1080,13 +1113,19 @@
 					"name": "Enforcer Captain Spotless",
 					"deck": "colorless_regime",
 					"size": 34,
-					"hp": 26,
+					"hp": 34,
 					"mixed": [
 						"necrocrat",
 						"gourmand",
 						"beefcake",
 						"refusemancer"
-					]
+					],
+					"infra": 11,
+					"extra": {
+						"C-30": 1,
+						"C-32": 1,
+						"C-34": 1
+					}
 				}
 			},
 			"story_keys": {
@@ -1125,7 +1164,7 @@
 					"C-30": 1,
 					"C-31": 1
 				},
-				"hp": 52,
+				"hp": 58,
 				"icon": "delapouite/warlock-eye"
 			},
 			"foes": {
@@ -1151,7 +1190,7 @@
 					"name": "The Failed Experiment",
 					"deck": "beefcake_bruisers",
 					"size": 42,
-					"hp": 40,
+					"hp": 44,
 					"ai": "Aggressive",
 					"mixed": [
 						"beefcake",
@@ -1160,7 +1199,8 @@
 					],
 					"extra": {
 						"B-28": 1
-					}
+					},
+					"infra": 13
 				},
 				"6": {
 					"name": "Observation Ward Orderly",
@@ -1173,7 +1213,7 @@
 					"name": "The Drain Warden",
 					"deck": "necro_control",
 					"size": 42,
-					"hp": 42,
+					"hp": 48,
 					"ai": "Aggressive",
 					"mixed": [
 						"necrocrat",
@@ -1184,7 +1224,8 @@
 					"extra": {
 						"N-29": 1,
 						"C-30": 1
-					}
+					},
+					"infra": 13
 				},
 				"11": {
 					"name": "Siphon's Research Assistant",
@@ -1303,19 +1344,21 @@
 					"name": "Rusty Gate Clockwork",
 					"deck": "colorless_militia",
 					"size": 26,
-					"hp": 11
+					"hp": 7,
+					"infra": 14
 				},
 				"2": {
 					"name": "Banner Hall Guardian",
 					"deck": "colorless_militia",
 					"size": 28,
-					"hp": 13
+					"hp": 10,
+					"infra": 14
 				},
 				"3": {
 					"name": "The Old Kingdom Automaton",
 					"deck": "four_paths",
 					"size": 36,
-					"hp": 20
+					"hp": 23
 				}
 			},
 			"story_keys": {

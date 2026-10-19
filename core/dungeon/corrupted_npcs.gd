@@ -11,7 +11,7 @@ extends RefCounted
 const IDS: Array[String] = ["beefcake", "gourmand", "refusemancer", "necrocrat"]
 const STARTING_HP: int = 15
 ## Rebalance Part E: per-NPC HP (Moss and Prudence were 85% / 94% at level 3 against an elite band of 60-75).
-const HP_BY_ID: Dictionary = {"beefcake": 15, "gourmand": 15, "refusemancer": 16, "necrocrat": 22}
+const HP_BY_ID: Dictionary = {"beefcake": 13, "gourmand": 15, "refusemancer": 15, "necrocrat": 12}
 
 const DISPLAY_NAMES: Dictionary = {
 	"beefcake": "Brick Bronson", "gourmand": "Chef Fennel Gravois",
@@ -20,7 +20,7 @@ const DISPLAY_NAMES: Dictionary = {
 ## Which AIPersonality (by name, see core/ai/ai_personality.gd) plays each - matched to their
 ## element identity (aggressive Beefcake, defensive Gourmand, patient/growing Refusemancer, opportunistic Necrocrat).
 const AI_NAMES: Dictionary = {
-	"beefcake": "Aggressive", "gourmand": "Defensive", "refusemancer": "Balanced", "necrocrat": "Aggressive",
+	"beefcake": "Aggressive", "gourmand": "Defensive", "refusemancer": "Balanced", "necrocrat": "Balanced",
 }
 ## Reward item per NPC (Part D/F's small item pool) - thematically matched. Only 3 items exist
 ## before Part F; Necrocrat reuses Gourmand's (a real item pool arrives in Part F).
@@ -64,7 +64,7 @@ static func recipe(id: String) -> Dictionary:
 		"refusemancer":
 			return EnemyDecks.trimmed("refuse_garbage", 27, 17)
 		"necrocrat":
-			return EnemyDecks.trimmed("necro_zombies", 30, 15)  # Rebalance Part E: the control list never pressured anyone (95% at level 3)
+			return EnemyDecks.trimmed("necro_zombies", 26, 16)  # Rebalance Part E: the control list never pressured anyone (95% at level 3)
 	return {}
 
 

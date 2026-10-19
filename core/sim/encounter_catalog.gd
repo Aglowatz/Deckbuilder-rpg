@@ -95,7 +95,7 @@ static func town(content: ContentSet) -> Array[EncounterSpec]:
 		spec.kind = EncounterSpec.Kind.ELITE
 		spec.expected_level = ProgressionModel.level_for("town:npc")
 		spec.enemy_name = CorruptedNpcs.display_name(npc_id)
-		spec.enemy_hp = CorruptedNpcs.STARTING_HP
+		spec.enemy_hp = int(CorruptedNpcs.HP_BY_ID.get(npc_id, CorruptedNpcs.STARTING_HP))  # Overnight Oct 18: was STARTING_HP for all four (the game uses HP_BY_ID)
 		spec.enemy_ai_name = str(CorruptedNpcs.AI_NAMES.get(npc_id, "Balanced"))
 		spec.enemy_recipe = CorruptedNpcs.recipe(npc_id)
 		_attach_rules(spec, spec.id)

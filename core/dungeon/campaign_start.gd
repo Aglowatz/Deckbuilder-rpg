@@ -17,15 +17,15 @@ const STARTING_DECKS: Dictionary = {
 	# (Personal Trainer grows, Flex on 'Em finishes), Hustle bodies and cheap removal keep the pressure up; a trap and a
 	# Shot Putter so the deck can also hold a turn.
 	Affinity.Type.BEEFCAKE: {
-		"B-05": 3, "B-01": 2, "B-07": 1, "B-04": 2, "B-09": 2, "B-08": 2, "B-12": 2, "B-11": 1, "B-10": 1,
-		"B-03": 2, "B-21": 2, "B-20": 1, "B-14": 1, "B-19": 1, "B-24": 2, "B-26": 1,
+		"B-05": 3, "B-01": 2, "B-07": 1, "B-04": 2, "B-09": 2, "B-08": 2, "B-12": 2, "B-11": 1, "B-10": 2,
+		"B-03": 2, "B-21": 2, "B-20": 1, "B-14": 1, "B-19": 1, "B-24": 1, "B-26": 1,
 	},
 	# Necrocrat - Red Tape and small tokens: Clerks and Interns make Red Tape, Body-builder and Middle Management turn it into
 	# bodies, Requisition Form turns it into cards, Pink Slip and the Ghoul clear the way, the Waiting Room and Invisible Ink
 	# slow Hustle swarms down, Notary Wraiths drain.
 	Affinity.Type.NECROCRAT: {
-		"N-01": 3, "N-02": 3, "N-04": 2, "N-06": 3, "N-09": 1, "N-15": 2, "N-16": 1, "N-18": 2, "N-20": 1,
-		"N-07": 2, "N-03": 1, "N-13": 1, "N-12": 1, "N-23": 2, "N-26": 1,
+		"N-01": 3, "N-02": 3, "N-04": 2, "N-06": 2, "N-09": 2, "N-15": 2, "N-16": 1, "N-18": 1, "N-20": 1,
+		"N-07": 2, "N-03": 2, "N-13": 2, "N-23": 2, "N-26": 1,
 	},
 	# Gourmand - Ingredients into Golems: Line Cooks, Porters and the Herb Garden make Ingredients; the Mold, the Artificer and
 	# the Apprentice cook them into Golems and Weenies; Sentries, Volunteers, En Garde-Mangers and Dinner Is Served hold the line.
