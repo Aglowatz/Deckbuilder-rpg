@@ -604,3 +604,14 @@ Kept inside the tests' design bounds: Prudence Pallor ends at **12 HP** (not 10;
 | Mortimer Grimsby (Hall boss) | +1/+0 -> +2/+0, **reverted** to +1/+0 | 71% -> 29% (overshot) |
 
 The Spotter, Spotless, Shiro and the Automaton do not move with stat rules: their fights are decided by the player's level-18-24 deck and gear, not by board fights; they need a different lever (an Epic or two, or a start-of-duel effect).
+
+## Overnight Oct 18, Phase 2 cycle 4 (Balance): Epics for the bosses that ignore stat rules
+
+| Encounter | Old -> New | Before -> after (6 games per Path) |
+|---|---|---|
+| The Ancient Spotter (Mount Swolympus) | extra Barbell of the Ancients -> + Portal-Ripping Titan x2, Swole Patrol Sergeant, The Big Unit | 92% -> **79%** (boss band 40-60, +19) |
+| Shiro Swindle | Late Fee x2 -> Lich of Accounts Payable + Mass Layoffs | 88% -> **83%** |
+| Captain Spotless (Capital gate) | + a second The Wanderer, Unstable Rift | 88% -> 92% (no change within noise) |
+| The Old Kingdom Automaton (Forgotten Vault) | + Unstable Rift, Mirrored Hall | 71% -> 71% |
+
+Kept: all four moved toward the band or not at all, none overshot. These fights stay too easy for the geared late player; what is left is a design call (inbox 4).

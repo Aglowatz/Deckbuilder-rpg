@@ -29,7 +29,7 @@ const AI_NAME: String = "Aggressive"  # Rebalance Part E: a trickster who also p
 ## every attack, drain and a Late Fee - instead of 1/1s and a pile of traps that never dealt damage (100% at level 12 even at 30 HP).
 const DECK_RECIPE: Dictionary = {
 	"BAS-N": 9, "BAS-G": 8,
-	"C-16": 2, "C-17": 2, "G-16": 2, "G-17": 2, "N-12": 2, "C-27": 2, "G-24": 2, "N-11": 2,
+	"C-16": 2, "C-17": 2, "G-16": 2, "G-17": 2, "N-12": 2, "C-27": 2, "G-24": 2, "N-28": 1, "N-29": 1,  # Overnight Oct 18 cycle 4: Late Fee x2 -> the Lich + Mass Layoffs (88% at 38 HP)
 	"N-15": 2, "N-16": 1, "G-20": 1, "G-29": 1, "N-32": 1,
 	"C-23": 3, "N-06": 3, "C-04": 2, "N-26": 2, "GN-01": 2, "GN-12": 1, "N-14": 1,
 }
