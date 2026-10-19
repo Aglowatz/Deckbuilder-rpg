@@ -56,6 +56,7 @@ func build(parent: Node3D) -> void:
 	_build_overflow()
 	_build_entrance()
 	_build_landmarks()
+	_build_pillars()
 	_build_terraces()
 	_build_bridges()
 	_build_ladders()
@@ -361,20 +362,31 @@ func _build_terrain() -> void:
 	var surface: SurfaceTool = SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	surface.set_smooth_group(-1)
-	# the valley and its walls: the land goes on past the rims (the terraces' levels, then the walls rising to the wooded rim), down to the pool south
+	# the valley and its walls: the land goes on past the rims (the terraces' levels, then the walls rising to the wooded rim), down to the pool south.
+	# The walkable land and the walls are sampled at TERRAIN_STEP; the rim beyond the walls (flat but for a slow rise) at four times that, in a ring
+	# whose inner edge coincides with the fine grid's edge (both are multiples of the coarse step from the same origin).
 	var step: float = HeapLayout.TERRAIN_STEP
+	var coarse: float = step * 4.0
 	var x0: float = HeapLayout.MIN_CORNER.x - TERRAIN_MARGIN
-	var z0: float = HeapLayout.MIN_CORNER.y - TERRAIN_MARGIN - 14.0
+	var z0: float = HeapLayout.MIN_CORNER.y - TERRAIN_MARGIN - 15.0
+	# the fine rectangle's edges lie on the coarse grid (30, 45, 85 and 155 m from the origin are all multiples of 5), so no coarse cell straddles it
+	var inner: Rect2 = Rect2(x0 + 30.0, z0 + 45.0, 85.0, 155.0)
 	var cols: int = int(ceilf((HeapLayout.MAX_CORNER.x - HeapLayout.MIN_CORNER.x + 2.0 * TERRAIN_MARGIN) / step))
-	var rows: int = int(ceilf((HeapLayout.MAX_CORNER.y - HeapLayout.MIN_CORNER.y + 2.0 * TERRAIN_MARGIN + 14.0) / step))
+	var rows: int = int(ceilf((HeapLayout.MAX_CORNER.y - HeapLayout.MIN_CORNER.y + 2.0 * TERRAIN_MARGIN + 15.0) / step))
 	for row: int in range(rows):
 		for col: int in range(cols):
 			var x: float = x0 + float(col) * step
 			var z: float = z0 + float(row) * step
+			var fine: bool = inner.has_point(Vector2(x + step * 0.5, z + step * 0.5))
+			if not fine:
+				# a coarse cell: only its origin cell draws it (the fine origin that lies on the coarse grid)
+				if int(round((x - x0) / step)) % 4 != 0 or int(round((z - z0) / step)) % 4 != 0:
+					continue
+			var size: float = step if fine else coarse
 			var p00: Vector3 = _vertex(x, z)
-			var p10: Vector3 = _vertex(x + step, z)
-			var p01: Vector3 = _vertex(x, z + step)
-			var p11: Vector3 = _vertex(x + step, z + step)
+			var p10: Vector3 = _vertex(x + size, z)
+			var p01: Vector3 = _vertex(x, z + size)
+			var p11: Vector3 = _vertex(x + size, z + size)
 			var c1: Vector3 = (p00 + p10 + p11) / 3.0
 			var c2: Vector3 = (p00 + p11 + p01) / 3.0
 			var n1: Vector3 = (p10 - p00).cross(p11 - p00).normalized()
@@ -557,6 +569,12 @@ func _add_circles(node: Node3D, pos: Vector3, yaw: float) -> void:
 		_add_obstacle(Vector3(world.x, world.z, local.z))
 
 
+## Small decoration never casts a shadow (the blossom beds, the cliff vines, the rope fences, the abutments): the shadow pass is fill the iGPU cannot spare.
+func _no_shadow(node: Node3D) -> void:
+	for piece: Node in node.find_children("*", "MeshInstance3D", true, false):
+		(piece as MeshInstance3D).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+
+
 ## Every mesh of a piece opts out of the range cull (and of the camera fade when `never_fade`): the far views and the floor the hero walks on.
 func _never_cull(node: Node3D, never_fade: bool) -> void:
 	var pieces: Array[Node] = node.find_children("*", "MeshInstance3D", true, false)
@@ -696,6 +714,7 @@ func _build_terraces() -> void:
 	var vines: Node3D = HeapTerraces.cliff_vines(drapes)
 	root.add_child(vines)
 	_never_cull(vines, true)
+	_no_shadow(vines)
 	# rope fences: along the market's lip over the ravine (either side of the arched bridge's foot) and the farm terrace's lip
 	var fences: Array = []
 	for span: Array in [[20.0, 25.5, 1.0], [30.5, 42.5, 1.0], [49.5, 70.0, 1.0], [30.5, 42.5, -1.0], [49.5, 66.0, -1.0]]:
@@ -711,6 +730,7 @@ func _build_terraces() -> void:
 		fence.name = "RopeFence%d" % index
 		root.add_child(fence)
 		_never_cull(fence, true)
+		_no_shadow(fence)
 
 
 # ---- Growth ---------------------------------------------------------------------------------------------
@@ -744,6 +764,7 @@ func _build_bridges() -> void:
 			abutment.position = Vector3(at.x, bridge.y_a if end == 0 else bridge.y_b, at.y)
 			abutment.rotation.y = atan2(-d.x, -d.y) + (PI if end == 1 else 0.0)
 			_never_cull(abutment, true)
+			_no_shadow(abutment)
 
 
 func _build_ladders() -> void:
@@ -896,6 +917,7 @@ func _build_props() -> void:
 		var beds: Node3D = HeapTerraces.bloom_clumps(blooms)
 		root.add_child(beds)
 		_never_cull(beds, true)
+		_no_shadow(beds)
 	for kind: String in cards.keys():
 		var entries: Array[Dictionary] = []
 		entries.assign(cards[kind] as Array)
@@ -1041,6 +1063,14 @@ func _place_feature(prop: HeapLayout.Prop, pos: Vector3) -> Node3D:
 			node = P.divider_post(prop.variant)
 		"appliance_pile":
 			node = P.appliance_pile()
+		"planter":
+			node = PropKit.planter(1.6, prop.variant)
+		"barrel":
+			node = PropKit.barrel(prop.variant)
+		"crate":
+			node = PropKit.crate(0.9, prop.variant)
+		"lantern":
+			node = PropKit.lantern_post(false)
 		_:
 			return null
 	root.add_child(node)
@@ -1141,3 +1171,39 @@ func _pulse_heart() -> void:
 			material.albedo_color = (material.get_meta("base_color", Color.WHITE) as Color) * (0.72 + 0.42 * beat)
 	if heart_light != null:
 		heart_light.light_energy = float(heart_light.get_meta("base_energy", 2.2)) * (0.65 + 0.55 * beat)
+
+
+# ---- The back of the valley: floating rock pillars and giant trees (docs/art/verdant_dump_v2.md, Part E) ---------------------
+
+
+## Views beyond the north rim, never culled or faded: three rock pillars hanging in the violet haze (the stand-in kit's island with a tree on top) and three
+## giant tree cards on the wooded rim, so the plateau's horizon is the reference's ancient trees and floating rocks, not open sky.
+func _build_pillars() -> void:
+	var pillars: Array = [[Vector3(12.0, 20.0, -16.0), 9.0, 0.0], [Vector3(90.0, 24.0, -26.0), 11.0, 40.0], [Vector3(26.0, 28.0, -46.0), 8.0, 200.0]]
+	for index: int in range(pillars.size()):
+		var p: Array = pillars[index] as Array
+		var at: Vector3 = p[0] as Vector3
+		var width: float = float(p[1])
+		var pillar: Node3D = LandmarkKit.build({"id": "HEAP-PILLAR-%d" % index, "kind": "island", "size": [width, width * 0.7, width]})
+		if pillar == null:
+			continue
+		pillar.name = "Pillar%d" % index
+		root.add_child(pillar)
+		pillar.position = Vector3(at.x, at.y - width * 0.7, at.z)
+		pillar.rotation_degrees.y = float(p[2])
+		var crown: MeshInstance3D = KitFoliage.card("DUMP-TREE-OAK", Vector2(4.48, 6.2) * 1.4, false)
+		crown.name = "PillarTree%d" % index
+		root.add_child(crown)
+		crown.position = Vector3(at.x, at.y - 0.3, at.z)
+		_never_cull(pillar, true)
+		crown.set_meta(&"no_range_cull", true)
+		crown.set_meta(&"no_occlusion_fade", true)
+	var giants: Array = [Vector2(-4.0, -8.0), Vector2(104.0, -14.0), Vector2(64.0, -60.0), Vector2(-10.0, 40.0), Vector2(100.0, 60.0)]
+	for index: int in range(giants.size()):
+		var g: Vector2 = giants[index]
+		var card: MeshInstance3D = KitFoliage.card("DUMP-TREE-OAK" if index % 2 == 0 else "DUMP-TREE-BIRCH", Vector2(4.48, 6.2) * 3.4, false)
+		card.name = "GiantTree%d" % index
+		root.add_child(card)
+		card.position = Vector3(g.x, layout.ground_height(g.x, g.y) - 0.5, g.y)
+		card.set_meta(&"no_range_cull", true)
+		card.set_meta(&"no_occlusion_fade", true)

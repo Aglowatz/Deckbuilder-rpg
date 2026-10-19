@@ -54,6 +54,7 @@ func _build_zone_extras() -> void:
 	camera_offset = WorldLookRig.base_offset()
 	last_safe = player.position
 	_add_hats()
+	_add_life()
 	_restore_growth_and_barricades()
 	_refresh_crops()
 	HeapLandmarks.set_freed(heap.rotheart, heap.freed)
@@ -62,6 +63,55 @@ func _build_zone_extras() -> void:
 	if HeapLayout.on_entrance(player.position.x, player.position.z):
 		player.face(player.position + Vector3(0.0, 0.0, -2.0))
 		_entrance_exit_armed = player.position.z < HeapLayout.ENTRANCE_Z1 - ENTRANCE_EXIT_ARM
+
+
+## The zone's small life (docs/art/verdant_dump_v2.md, Part D, VD-14): birds circling the ravine, critters trotting between the junk piles, bees round
+## the blossom clumps and moths round the stalls' lanterns, petals drifting across the view (added with the fireflies), and three workers on the
+## terraces (existing character models with hats) who each say a passing line from the story file. Every spot is at the edges, off the routes and
+## the anchors; the workers block like NPCs so the hero never walks through them.
+func _add_life() -> void:
+	var height: Callable = func(x: float, z: float) -> float: return heap.layout.ground_height(x, z)
+	AmbientBirds.spawn(self, Vector3(46.0, HeapLayout.TIER_HEIGHTS[1] + 1.0, HeapLayout.stream_z(46.0)), 6, Color(0.92, 0.92, 0.96), 11)
+	HeapCritters.spawn(self, [
+		["raccoon", Vector2(70.0, 112.0), Vector2(75.0, 118.0)],
+		["rat", Vector2(24.5, 112.5), Vector2(27.5, 109.0)],
+		["raccoon", Vector2(56.0, 78.5), Vector2(60.5, 75.5)],
+		["possum", Vector2(32.5, 59.0), Vector2(36.5, 56.5)],
+		["fox", Vector2(62.0, 29.0), Vector2(66.0, 25.0)],
+		["rat", Vector2(74.0, 44.5), Vector2(79.0, 46.5)],
+	], height)
+	for at: Vector2 in [Vector2(22.0, 134.0), Vector2(78.0, 134.5), Vector2(36.0, 133.0), Vector2(64.0, 133.5), Vector2(20.5, 100.5), Vector2(60.0, 101.5), Vector2(27.0, 75.5), Vector2(41.5, 75.5)]:
+		var bees: CPUParticles3D = HeapLook.bees(Color(1.0, 0.86, 0.3), 1.3, 5)
+		add_child(bees)
+		bees.position = Vector3(at.x, float(height.call(at.x, at.y)) + 0.9, at.y)
+	for stall: HeapLayout.Prop in heap.layout.props:
+		if stall.kind != "market_stall":
+			continue
+		var moths: CPUParticles3D = HeapLook.bees(Color(0.95, 0.9, 0.78), 0.8, 4)
+		add_child(moths)
+		moths.position = stall.pos + Vector3(0.0, float(height.call(stall.pos.x, stall.pos.z)) + 2.3, 0.0)
+	var workers: Array = [
+		["Barbarian", Vector2(36.5, 76.5), 20.0, Color(0.95, 0.85, 0.7), "straw", "bark.worker_1"],
+		["Rogue", Vector2(42.0, 44.0), 200.0, Color(0.8, 0.95, 0.75), "cap", "bark.worker_2"],
+		["Mage", Vector2(37.5, 112.5), 90.0, Color(0.9, 0.8, 1.0), "wreath", "bark.worker_3"],
+	]
+	for index: int in range(workers.size()):
+		var w: Array = workers[index] as Array
+		var at: Vector2 = w[1] as Vector2
+		var pos: Vector3 = Vector3(at.x, float(height.call(at.x, at.y)), at.y)
+		var npc: Node3D = ModelKit.character(str(w[0]))
+		npc.name = "Worker_%d" % (index + 1)
+		ModelKit.tint(npc, w[3] as Color)
+		ModelKit.place(self, npc, pos, float(w[2]), TownPlayer.MODEL_SCALE * 1.45)
+		var animation: AnimationPlayer = ModelKit.animation_player(npc)
+		if animation != null and animation.has_animation("Idle"):
+			animation.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
+			animation.play("Idle")
+			animation.seek(randf() * 1.5)
+		_add_hat(npc, str(w[4]))
+		builder.add_blocker(pos, 0.5)
+		if npc_barks != null:
+			npc_barks.register_lines(npc, str(w[5]), story.get_lines(str(w[5])))
 
 
 ## The kit clusters, reeds and fungus (`HeapDressing`, Art Part D) over the generic grass carpet.
@@ -246,6 +296,7 @@ func _zone_process(delta: float) -> void:
 	if not _fireflies_added and _camera != null:
 		_fireflies_added = true
 		_camera.add_child(HeapLook.fireflies())
+		_camera.add_child(HeapLook.petals())
 	if _shake > 0.0:
 		_camera.position += Vector3(randf_range(-1.0, 1.0), randf_range(-1.0, 1.0), 0.0) * _shake * 0.18 * Settings.shake_scale()
 		_shake = maxf(0.0, _shake - delta * 2.4)
@@ -832,24 +883,28 @@ func _add_hats() -> void:
 		var npc: Node3D = _npcs.get(str(entry["id"])) as Node3D
 		if npc == null or not entry.has("hat"):
 			continue
-		var hat: Node3D = Node3D.new()
-		match str(entry["hat"]):
-			"wreath":
-				for index: int in range(10):
-					var angle: float = TAU * float(index) / 10.0
-					BuffetProps.ball(hat, 0.1, HeapMaterials.flat(HeapMaterials.MOSS if index % 2 == 0 else HeapMaterials.BLOOM), Vector3(cos(angle) * 0.42, 0.05, sin(angle) * 0.42))
-			"straw":
-				BuffetProps.cylinder(hat, 0.75, 0.75, 0.06, HeapMaterials.flat(HeapMaterials.STRAW), Vector3(0, 0.05, 0), 14)
-				BuffetProps.cylinder(hat, 0.36, 0.42, 0.34, HeapMaterials.flat(HeapMaterials.STRAW.darkened(0.1)), Vector3(0, 0.22, 0), 12)
-			"cap":
-				BuffetProps.ball(hat, 0.42, HeapMaterials.flat(Color(0.3, 0.45, 0.3)), Vector3(0, 0.05, 0), Vector3(1.0, 0.7, 1.0), true)
-				BuffetProps.box(hat, Vector3(0.5, 0.05, 0.4), HeapMaterials.flat(Color(0.25, 0.4, 0.25)), Vector3(0, 0.05, 0.45))
-			_:
-				BuffetProps.cylinder(hat, 0.3, 0.3, 0.1, HeapMaterials.flat(Color(0.2, 0.35, 0.8)), Vector3(0.4, 0.1, 0.3), 12)
-				BuffetProps.ball(hat, 0.1, HeapMaterials.glow(Color(1.0, 0.85, 0.2), 0.8), Vector3(0.4, 0.15, 0.3))
-				BuffetProps.cylinder(hat, 0.34, 0.38, 0.28, HeapMaterials.flat(Color(0.18, 0.3, 0.7)), Vector3(0, 0.14, 0), 12)
-		hat.position = Vector3(0, 2.0, 0.0)
-		npc.add_child(hat)
+		_add_hat(npc, str(entry["hat"]))
+
+
+func _add_hat(npc: Node3D, kind: String) -> void:
+	var hat: Node3D = Node3D.new()
+	match kind:
+		"wreath":
+			for index: int in range(10):
+				var angle: float = TAU * float(index) / 10.0
+				BuffetProps.ball(hat, 0.1, HeapMaterials.flat(HeapMaterials.MOSS if index % 2 == 0 else HeapMaterials.BLOOM), Vector3(cos(angle) * 0.42, 0.05, sin(angle) * 0.42))
+		"straw":
+			BuffetProps.cylinder(hat, 0.75, 0.75, 0.06, HeapMaterials.flat(HeapMaterials.STRAW), Vector3(0, 0.05, 0), 14)
+			BuffetProps.cylinder(hat, 0.36, 0.42, 0.34, HeapMaterials.flat(HeapMaterials.STRAW.darkened(0.1)), Vector3(0, 0.22, 0), 12)
+		"cap":
+			BuffetProps.ball(hat, 0.42, HeapMaterials.flat(Color(0.3, 0.45, 0.3)), Vector3(0, 0.05, 0), Vector3(1.0, 0.7, 1.0), true)
+			BuffetProps.box(hat, Vector3(0.5, 0.05, 0.4), HeapMaterials.flat(Color(0.25, 0.4, 0.25)), Vector3(0, 0.05, 0.45))
+		_:
+			BuffetProps.cylinder(hat, 0.3, 0.3, 0.1, HeapMaterials.flat(Color(0.2, 0.35, 0.8)), Vector3(0.4, 0.1, 0.3), 12)
+			BuffetProps.ball(hat, 0.1, HeapMaterials.glow(Color(1.0, 0.85, 0.2), 0.8), Vector3(0.4, 0.15, 0.3))
+			BuffetProps.cylinder(hat, 0.34, 0.38, 0.28, HeapMaterials.flat(Color(0.18, 0.3, 0.7)), Vector3(0, 0.14, 0), 12)
+	hat.position = Vector3(0, 2.0, 0.0)
+	npc.add_child(hat)
 
 
 func _build_spots() -> void:
@@ -908,6 +963,10 @@ func _teleport(anchor_name: String) -> void:
 		_spawn_grace = 30.0
 		return
 	if anchor_name == "bridge_center_mid":
+		# a screenshot on the arched bridge: every bridge grown for the shot (the hero would fall through an ungrown span)
+		for growth: HeapGrowth.Growth in HeapGrowth.all():
+			if growth.kind == "bridge":
+				heap.set_bridge_progress(growth.id, 1.0)
 		var bridge: HeapLayout.Bridge = heap.layout.bridges[0]
 		var mid: Vector2 = bridge.a.lerp(bridge.b, 0.5)
 		player.position = Vector3(mid.x, bridge.deck_height(0.5), mid.y)

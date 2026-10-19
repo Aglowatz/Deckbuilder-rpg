@@ -844,6 +844,18 @@ func _features() -> void:
 	_prop("market_stall", 74.0, 120.0, 250.0, 1.0, 1.6, 2)
 	_prop("compost_heap", 24.0, 114.0, 0.0, 1.0, 0.0)
 	_prop("fridge", 77.0, 132.0, 200.0, 1.0, 0.9)
+	# the market's small things (the reference: planter boxes, barrels, crates, lanterns at the stalls and the plaza's mouths), each a shared kit prop
+	_prop("lantern", 44.5, 132.5, 0.0, 1.0, 0.35)
+	_prop("lantern", 55.5, 132.5, 0.0, 1.0, 0.35)
+	_prop("planter", 41.5, 112.5, 20.0, 1.0, 0.6, 0)
+	_prop("planter", 60.5, 110.5, 160.0, 1.0, 0.6, 1)
+	_prop("barrel", 38.5, 114.0, 30.0, 1.0, 0.45, 0)
+	_prop("crate", 40.0, 112.5, 10.0, 1.0, 0.45, 1)
+	_prop("barrel", 64.5, 124.5, 200.0, 1.0, 0.45, 2)
+	_prop("crate", 69.5, 121.5, 250.0, 1.0, 0.45, 3)
+	_prop("barrel", 76.5, 123.0, 80.0, 1.0, 0.45, 4)
+	_prop("crate", 77.0, 118.5, 240.0, 1.0, 0.45, 5)
+	_prop("planter", 54.0, 58.5, 100.0, 1.0, 0.6, 2)
 	_prop("beanstalk_mound", 25.5, 105.5, 0.0, 1.0, 0.0, 1)
 	# T1, the farm terrace: the crop plots in a row, the druid grove's appliance ring, the scarecrow over the crops, the junk dam at the gorge, the goat
 	# stable, the haybale that hides a chest; the fair stage at Scrapmore's foot and the sprout mound.

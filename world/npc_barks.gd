@@ -32,6 +32,13 @@ func register(node: Node3D, npc_id: String) -> void:
 	_entries.append({"node": node, "id": npc_id, "lines": lines, "cooldown": _rng.randf_range(0.0, 6.0), "inside": false})
 
 
+## Registers a node with its own lines (an ambient worker whose words live in a zone story file, not the NPC list).
+func register_lines(node: Node3D, id: String, lines: Array[String]) -> void:
+	if node == null or lines.is_empty():
+		return
+	_entries.append({"node": node, "id": id, "lines": lines, "cooldown": _rng.randf_range(0.0, 6.0), "inside": false})
+
+
 func entry_count() -> int:
 	return _entries.size()
 

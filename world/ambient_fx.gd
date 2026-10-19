@@ -12,7 +12,7 @@ const PRESETS: Dictionary = {
 	"buffet": {"color": Color(1.0, 0.98, 0.95, 0.22), "amount": 22, "size": 0.32, "rise": 0.35, "drift": Vector3(0.05, 0.0, 0.0), "life": 4.0, "box": Vector3(9, 0.5, 7), "height": 0.4},
 	"forest": {"color": Color(0.85, 0.95, 0.8, 0.5), "amount": 28, "size": 0.035, "rise": 0.03, "drift": Vector3(0.05, 0.0, 0.05), "life": 7.0, "box": Vector3(8, 2.5, 7), "height": 1.5},
 	"dna": {"color": Color(0.62, 0.9, 0.72, 0.4), "amount": 22, "size": 0.05, "rise": 0.08, "drift": Vector3(0.0, 0.0, 0.0), "life": 6.0, "box": Vector3(9, 2.0, 7), "height": 1.2},
-	"heap": {"color": Color(0.32, 0.3, 0.22, 0.6), "amount": 30, "size": 0.025, "rise": 0.0, "drift": Vector3(0.15, 0.0, 0.1), "life": 3.0, "box": Vector3(7, 1.6, 6), "height": 1.0},
+	"heap": {"color": Color(0.84, 0.74, 0.96, 0.5), "amount": 30, "size": 0.035, "rise": 0.04, "drift": Vector3(0.15, 0.0, 0.1), "life": 5.0, "box": Vector3(8, 2.2, 7), "height": 1.4},
 	"capital": {"color": Color(0.78, 0.76, 0.74, 0.5), "amount": 36, "size": 0.04, "rise": -0.18, "drift": Vector3(0.12, 0.0, 0.05), "life": 8.0, "box": Vector3(10, 3.0, 8), "height": 3.0},
 	"town": {"color": Color(1.0, 0.98, 0.92, 0.5), "amount": 14, "size": 0.035, "rise": 0.02, "drift": Vector3(0.25, 0.0, 0.08), "life": 7.0, "box": Vector3(9, 2.0, 7), "height": 1.4},
 }

@@ -77,3 +77,77 @@ static func fireflies() -> CPUParticles3D:
 	particles.material_override = HeapMaterials.glow(Color(1.0, 0.95, 0.4), 3.0)
 	particles.position = Vector3(0, 4, -6)
 	return particles
+
+
+## Petals drifting down across the view (parent it to the camera, like the fireflies): small violet and lilac quads tumbling slowly, VD-14.
+static func petals() -> CPUParticles3D:
+	var particles: CPUParticles3D = CPUParticles3D.new()
+	particles.name = "Petals"
+	particles.amount = 26
+	particles.lifetime = 9.0
+	particles.preprocess = 9.0
+	particles.local_coords = false
+	particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_BOX
+	particles.emission_box_extents = Vector3(13.0, 1.0, 10.0)
+	particles.direction = Vector3(0.5, -0.5, 0.1)
+	particles.spread = 40.0
+	particles.initial_velocity_min = 0.25
+	particles.initial_velocity_max = 0.7
+	particles.gravity = Vector3(0.0, -0.28, 0.0)
+	particles.damping_min = 0.3
+	particles.damping_max = 0.55
+	particles.angle_min = 0.0
+	particles.angle_max = 360.0
+	particles.angular_velocity_min = -80.0
+	particles.angular_velocity_max = 80.0
+	particles.tangential_accel_min = -0.25
+	particles.tangential_accel_max = 0.25
+	particles.scale_amount_min = 0.7
+	particles.scale_amount_max = 1.2
+	var ramp: Gradient = Gradient.new()
+	ramp.set_color(0, Color("b48ae8"))
+	ramp.add_point(0.5, Color("d0a8f0"))
+	ramp.set_color(ramp.get_point_count() - 1, Color("8c64d0"))
+	particles.color_initial_ramp = ramp
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2(0.13, 0.16)
+	var material: StandardMaterial3D = StandardMaterial3D.new()
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.vertex_color_use_as_albedo = true
+	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.billboard_mode = BaseMaterial3D.BILLBOARD_PARTICLES
+	quad.material = material
+	particles.mesh = quad
+	particles.position = Vector3(0, 5, -8)
+	return particles
+
+
+## Bees (or moths) jittering round a spot: a handful of tiny bright dots darting about within `reach` of the origin.
+static func bees(color: Color, reach: float, amount: int = 6) -> CPUParticles3D:
+	var particles: CPUParticles3D = CPUParticles3D.new()
+	particles.name = "Bees"
+	particles.amount = amount
+	particles.lifetime = 3.0
+	particles.preprocess = 3.0
+	particles.emission_shape = CPUParticles3D.EMISSION_SHAPE_SPHERE
+	particles.emission_sphere_radius = reach
+	particles.direction = Vector3(1.0, 0.2, 0.0)
+	particles.spread = 180.0
+	particles.initial_velocity_min = 0.6
+	particles.initial_velocity_max = 1.4
+	particles.gravity = Vector3.ZERO
+	particles.tangential_accel_min = -3.0
+	particles.tangential_accel_max = 3.0
+	particles.radial_accel_min = -1.5
+	particles.radial_accel_max = 0.5
+	particles.damping_min = 0.2
+	particles.damping_max = 0.5
+	var mesh: SphereMesh = SphereMesh.new()
+	mesh.radius = 0.045
+	mesh.height = 0.09
+	mesh.radial_segments = 5
+	mesh.rings = 3
+	particles.mesh = mesh
+	particles.material_override = HeapMaterials.glow(color, 1.6)
+	particles.set_meta(&"no_occlusion_fade", true)
+	return particles

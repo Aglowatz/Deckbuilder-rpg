@@ -142,7 +142,9 @@ static func vine_ladder(ramp: HeapLayout.Ramp) -> Node3D:
 			mesh.blob("leaf_light", c + Vector3(half * (0.5 if rung % 4 == 0 else -0.5), 0.14, 0.0), Vector3(0.26, 0.1, 0.3), 3, 6, 1.0)
 		if rung % 3 == 1:
 			mesh.blob("petal_violet", c + Vector3(half * (1.0 if rung % 2 == 0 else -1.0), 0.2, 0.0), Vector3(0.11, 0.11, 0.11), 2, 5, 1.0)
-	return _finish(mesh, "VineLadder_%s" % ramp.id)
+	var ladder: Node3D = _finish(mesh, "VineLadder_%s" % ramp.id)
+	ladder.set_meta(&"no_wind", true)  # a walkable thing never sways, whatever its name says
+	return ladder
 
 
 ## The scree slope's junk: tyres, scrap and rocks lying on the slope between its kerbs (nothing solid: the slope is only a mount's ground anyway).
@@ -343,18 +345,19 @@ static func bloom_clumps(clumps: Array) -> Node3D:
 		var spread: float = float(c[1])
 		var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 		rng.seed = int(c[2])
-		for leaf: int in range(3):
-			var p: Vector3 = base + Vector3(rng.randf_range(-spread, spread), 0.05, rng.randf_range(-spread, spread)) * 0.6
-			mesh.blob("leaf" if leaf % 2 == 0 else "leaf_dark", p, Vector3(spread * 0.55, 0.22, spread * 0.5), 3, 7, 0.95)
-		var count: int = 8 + rng.randi() % 5
+		# cheap geometry: two leaf blobs, six to eight blossoms on three-sided stems (about 250 triangles a clump; a hundred clumps stand in the zone)
+		for leaf: int in range(2):
+			var p: Vector3 = base + Vector3(rng.randf_range(-spread, spread), 0.05, rng.randf_range(-spread, spread)) * 0.5
+			mesh.blob("leaf" if leaf % 2 == 0 else "leaf_dark", p, Vector3(spread * 0.6, 0.22, spread * 0.55), 2, 6, 0.95)
+		var count: int = 6 + rng.randi() % 3
 		for f: int in range(count):
 			var a: float = rng.randf() * TAU
 			var d: float = rng.randf() * spread
 			var foot: Vector3 = base + Vector3(cos(a) * d, 0.1, sin(a) * d)
 			var h: float = rng.randf_range(0.35, 0.8)
-			mesh.tube("leaf_dark", foot, foot + Vector3(0, h, 0), 0.025, 4, false)
-			var r: float = rng.randf_range(0.11, 0.2)
-			mesh.blob(tints[f % tints.size()], foot + Vector3(0, h + r * 0.6, 0), Vector3(r, r * 0.7, r), 3, 6, 1.0)
+			mesh.tube("leaf_dark", foot, foot + Vector3(0, h, 0), 0.025, 3, false)
+			var r: float = rng.randf_range(0.12, 0.21)
+			mesh.blob(tints[f % tints.size()], foot + Vector3(0, h + r * 0.6, 0), Vector3(r, r * 0.7, r), 2, 5, 1.0)
 	var root: Node3D = _finish(mesh, "BloomClumps")
 	return root
 
