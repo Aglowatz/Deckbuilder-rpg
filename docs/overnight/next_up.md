@@ -1,20 +1,24 @@
-# Overnight Oct 18 - next up (ranked)
+# Daytime Oct 19 - next up (ranked)
 
-Kept by the Phase 2 loop; re-ranked at the end of the run (Mon Oct 19 ~05:00). Most player-visible first. Last night's list:
-`docs/overnight/oct17/next_up.md`. What was done is in `loop_log.md`.
+Re-ranked at the end of the daytime run (Mon Oct 19 ~11:00). Most player-visible first. Last night's list: `docs/overnight/oct18/next_up.md`.
+What was done today is in `loop_log.md` and `docs/overnight_report.md`.
 
-1. **Early walls left** (Balance / Playtest readiness): the Gainlands for a level-5 Necrocrat (17%: the zone's debuff; players are warned
-   since cycle 5), the Rotheart normals (54-63%: an AI limit under Overgrowth + Rot), the Iron Cave and Vault normals (71-75%), Brick
-   Bronson and Moss Mulligan (54-58%). The levers are design calls (inbox 2-3).
-2. **Late bosses that numbers do not move** (Balance): Shiro (88%, a trap deck), Grand Bellows (75-79%), Primm phase 1 (100%; the three
-   phases in a row are ~50%). Inbox 4.
-3. **Necrocrat and Gourmand tutorial runs** (Onboarding): 82% and 80% over 50 runs, the lowest two; replays show the AI casting
-   resource-only cards instead of developing (cycles 9, 24).
-4. **First opens right after arriving** (Performance): the last full tour saw the character screen's first open at 345 ms (vendors 245-254) - menus opened while the chunked glyph warmup (~9 s since cycle 20) was still running. Warm the sizes the first screens use first, or shorten the warmup; the shops' opening frames are already lighter (cycles 32-34).
-5. **Onboarding timed end to end**: a bot that plays New Game -> forest -> cave -> Crosspath -> first deck edit with real input and
-   reports minutes and clicks.
-6. **Enemy pictures** (Collection): 90 prompts in docs/art/bestiary_image_requests.md; bosses already show their portraits (cycle 13).
-7. **Tool-only: "Own 4/3" in screenshot runs** (Stability, low): Session.ensure_game (the shortcut when a scene is launched directly) adds the three sample picks without the copy-cap conversion a real tutorial reward goes through, so screenshots can show a card over its cap. Real games are not affected. The character screen's first open (130-180 ms) could take the same build split as the shops (cycles 32-34).
-8. **One tile style** for the hand-styled choice tiles (UI consistency).
-9. **Townsfolk in the zone hubs** (NPC life): needs a lore call on who strolls in each Path's home before any sprites go in.
-10. **A listen pass** (Audio): tonight's new sounds and last night's open audio items (music leveller, boss stings, Gristle's loop step).
+1. **Primm, three phases in a row, with the leaders' boons** (Balance): without boons the sequence cleared 4-21% per Path; the sim now
+   adds the boons but the re-run was stopped by the low-memory guard (inbox Daytime 1). Measure:
+   `--what=sequence --filter=boss:primm --games=12` (~11 min). If under 45%, soften phase 2 (reflection) or 3 first - most runs are lost
+   there; phase 1 alone stays at 100% even with Royal Guard.
+2. **Refusemancer's Forgotten Cave run (82%, now the lowest)** (Onboarding): single cave fights are 100%; the runs are lost to HP carried
+   between fights (Refusemancer cards cost HP). Three starter swaps did nothing (cycle 1). The lever is the cave's HP economy (the Hollow
+   Well's heal, the shrine) - it touches every Path, so measure all four.
+3. **A level-5 Necrocrat in the Gainlands** (Balance): 25-42% vs the roamers after the softer Processing Time. Replays: the reference deck
+   floods (Infrastructure + Red Tape) against the Golem's wall - not an AI stall (cycle 9). Try the L5 Necrocrat reference package
+   (`ProgressionModel.UPGRADES`, sim only) or the Golem's basics.
+4. **The Path choice's 279 words** (Onboarding, inbox Daytime 2): one-line game plan on the tile, identity on hover - a content call.
+5. **v0.4.2 when you want it** (Playtest readiness): since the v0.4.1 build, main has "Choose your Path" (was "element"), the hero's Path
+   / deck / fights / zones in F8 reports, the boss-rules smoke and the refreshed gatekeeper smoke.
+6. **Town slow frames** (Performance): the full tour still counts ~57 frames over 33 ms in Crosspath (worst 128 ms, the Deck Station's
+   tile build); zones 63-72 ms.
+7. **Enemy pictures** (Collection): 90 prompts in `docs/art/bestiary_image_requests.md`; bosses already show portraits.
+8. **Townsfolk in the zone hubs** (NPC life): needs a lore call on who strolls in each Path's home.
+9. **A listen pass** (Audio): last night's new sounds and the older audio items (music leveller, boss stings, Gristle's loop step).
+10. **Tool-only "Own 4/3" in screenshot runs** (Stability, low): `Session.ensure_game` skips the copy-cap conversion.
