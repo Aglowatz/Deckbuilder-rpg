@@ -5,9 +5,19 @@ extends GutTest
 var _scene: Node3D
 var _camera: Camera3D
 var _hero: Node3D
+var _saved_angle: int = 0
+var _saved_zoom: float = 1.5
 
 
+## Overnight Oct 18, Part 8: the rig reads the player's camera angle and zoom (CameraRig.adjust), so a dev PC whose settings.cfg has a
+## non-default angle or zoom failed these checks (the old "GPU-dependent" failure). Each test pins the defaults and restores them after.
 func before_each() -> void:
+	_saved_angle = Settings.camera_angle
+	_saved_zoom = Settings.camera_zoom
+	Settings.camera_angle = 0
+	Settings.camera_zoom = CameraRig.ZOOM_VALUES[1]
+	CameraRig.swivel = 0.0
+	CameraRig.swivel_target = 0.0
 	WorldLookRig.clear_cache()
 	_scene = Node3D.new()
 	add_child_autofree(_scene)
@@ -19,6 +29,8 @@ func before_each() -> void:
 
 
 func after_each() -> void:
+	Settings.camera_angle = _saved_angle
+	Settings.camera_zoom = _saved_zoom
 	Settings.depth_of_field = true
 	Settings.bloom = true
 	Settings.fog_quality = 2
