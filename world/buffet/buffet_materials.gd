@@ -90,6 +90,22 @@ static func terrain() -> Material:
 	return StyleTerrain.material(0.1, 0.0)
 
 
+## Overnight Oct 18, Phase 2 cycle 11: the gravy moat as moving liquid - the shared toon water shader in gravy colours (slow, thick flow, light-brown
+## foam where it meets the bridge and the cliff, a soft warm sheen) instead of one flat glossy sheet.
+static func gravy_water() -> ShaderMaterial:
+	var key: String = "gravy_water:%d" % Settings.graphics_quality
+	if not _cache.has(key):
+		var material: ShaderMaterial = StyleWater.material(Color(0.5, 0.26, 0.1), Color(0.28, 0.13, 0.05)).duplicate() as ShaderMaterial
+		material.set_shader_parameter("foam_color", Color(0.86, 0.64, 0.4))
+		material.set_shader_parameter("sparkle_color", Color(1.0, 0.86, 0.62))
+		material.set_shader_parameter("flow_speed", 0.12)
+		material.set_shader_parameter("caustic_strength", 0.06)
+		material.set_shader_parameter("depth_range", 2.2)
+		material.set_shader_parameter("foam_width", 0.4)
+		_cache[key] = material
+	return _cache[key] as ShaderMaterial
+
+
 ## The gravy: a glossy, slightly glowing brown that reads as hot soup.
 static func soup(color: Color = GRAVY) -> StandardMaterial3D:
 	var key: String = "soup:%s" % color.to_html()

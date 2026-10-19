@@ -12,7 +12,7 @@ updated by the Phase 2 cycles (`docs/overnight/loop_log.md`). Last night's sheet
 | Visuals - Crosspath (town) | 8 | 8 | Unchanged since Oct 17 (square, six storefronts, lake, roamers); tour bot 0 errors. |
 | Visuals - Gainlands | 8 | 8 | on18_card_gainlands: the bridge, gym gate, banners read well; the title card's flourish sits under the ribbon. |
 | Visuals - D.N.A. | 7.5 | 7.5 | Unchanged since Oct 17. |
-| Visuals - Endless Buffet | 7.5 | 7.5 | Unchanged since Oct 17 (the gravy moat is still a flat plane in front). |
+| Visuals - Endless Buffet | 7.5 | 8 | Cycle 11: the gravy moat moves (toon water shader in gravy colours, foam at the bridge), on18_buffet_after; 57 fps avg. |
 | Visuals - Verdant Dump | 7.5 | 7.5 | Unchanged since Oct 17. |
 | Visuals - Capital | 8 | 8 | Unchanged since Oct 17. |
 | UI consistency | 8 | 8 | Zone and dungeon arrival cards in the banner style with a Path icon + subtitle; Report a Problem form; settings rows for the battle options. Still: several screens hand-style their choice tiles. |

@@ -791,7 +791,9 @@ func _build_moat() -> void:
 	plane.size = Vector2(140.0, 60.0)
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = plane
-	instance.material_override = M.soup()
+	instance.material_override = M.gravy_water()
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.set_meta(StyleToon.META_NO_TOON, true)
 	instance.position = Vector3(50.0, -2.6, BuffetLayout.MAX_CORNER.y + 30.0)
 	instance.name = "GravyMoat"
 	instance.set_meta(&"no_range_cull", true)
