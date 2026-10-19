@@ -877,3 +877,8 @@ Kept deck: N-01 x3, N-02 x3, N-04 x2, N-05 x3, N-06 x2, N-15 x3, N-07 x3, N-03 x
 (B / G / R / N, 20 games per pairing, `d19c11_decks_l1.md`): 52 / 48 / 47 / **53** - the spread narrows from 13 to 6 points. The Path
 choice's Necrocrat game plan no longer promises "extra cards" (that was the Requisition Form). This deck is on main, not in the v0.4.1 zip.
 Lesson: judge starter swaps on two seeds with 100 runs each; 50 runs on one seed moved by +/-10 points here.
+
+## Daytime Oct 19, loop cycle 12: Part 1's bosses on a second seed
+
+25 games per Path at seed 8100 (`d19c12_*.md`): **Shiro Swindle 60%** (B 60 / N 52 / G 68 / R 60; Part 1 at seed 7000, 12 games: 48%),
+**Grand Bellows 60%** (B 68 / N 36 / G 68 / R 68; Part 1: 56%). Both inside the 40-60% boss band on both seeds, at its top on the second.

@@ -101,6 +101,7 @@ fe9a6986 and moved the (unshared) tag there. The zip in `builds/` is the rebuilt
 | 9 | The Necrocrat-vs-Golem replay re-read: deck flood, not an AI stall |
 | 10 | `docs/playtest/v0.4.1_checklist.md`: a hand-test checklist for your session |
 | 11 | Part 2 re-checked on a second seed: Gourmand holds, Necrocrat did not; a new Necrocrat deck reaches ~87% on two seeds |
+| 12 | Part 1 bosses on a second seed (25 games per Path): Shiro 60%, Bellows 60% - in band on both seeds |
 
 Cycles 3-9 came after the build, so they are on main but not in the v0.4.1 zip (next_up 5).
 
