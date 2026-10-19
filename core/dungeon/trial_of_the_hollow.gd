@@ -123,7 +123,7 @@ static func enemy_recipe(enemy_name: String) -> Dictionary:
 		"Hollow Stalker":
 			return {"BAS-R": 12, "BAS-G": 8, "C-01": 3, "C-02": 3, "C-03": 1, "C-04": 2, "C-07": 1}
 		"Hollow Warden":
-			return {"BAS-G": 12, "BAS-R": 10, "C-01": 2, "C-02": 3, "C-06": 2, "C-08": 1, "R-05": 1, "R-06": 2, "C-15": 1}
+			return {"BAS-G": 14, "BAS-R": 10, "C-01": 2, "C-02": 3, "C-06": 2, "C-08": 1, "R-05": 1, "R-06": 1}  # Overnight Oct 18 cycle 7: no Desperate Measures, one Curbside Rat fewer, two more basics (run clears were 76-82%)
 	return {}
 
 

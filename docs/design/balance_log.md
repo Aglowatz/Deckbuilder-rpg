@@ -623,3 +623,13 @@ Kept: all four moved toward the band or not at all, none overshot. These fights 
 | The Doppelganger (Test Kitchen boss), Mise en Place | 2 Ingredients and a 3/3 Meatloaf Golem -> 2 Ingredients and a 1/1 Sashimi Weenie | 29% -> **63%** (boss band 40-60, +3) |
 | Trophy Hall Honor Guard (House of Gains elite), Honor Guard | two 1/1 Militia -> one | 54% -> **63%** (in band) |
 | Notary Wraith / Mortimer Grimsby after cycle 2's revert (re-measured) | - | **71% / 67%** (in band / +7) |
+
+## Overnight Oct 18, Phase 2 cycle 7 (Balance): the Hollow Warden
+
+Whole tutorial run (HP carried, the Well and the shrine, the 3 picks), 50 runs per Path (`c7_tutorial50.md`): Beefcake 82%, Gourmand 78%, Refusemancer 82%, Necrocrat 76% - each fight alone is 92-100%, the runs are lost mostly at the Warden.
+
+| Encounter | Old -> New | After (`c7_tutorial50_after.md`) |
+|---|---|---|
+| Hollow Warden deck | 12 + 10 basics, Desperate Measures x1, Curbside Rat x2 -> 14 + 10 basics, no Desperate Measures, Curbside Rat x1 (3 HP unchanged) | runs: Beefcake **92%**, Gourmand **80%**, Refusemancer **82%**, Necrocrat **76%** (the Warden alone vs Necrocrat 80%) |
+
+Necrocrat's control deck takes ~30 turns per run and still loses 7 of 50 at the Warden; a person who attacks sooner should do better, but it stays the Path to watch in playtests (inbox).
