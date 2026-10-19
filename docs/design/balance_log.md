@@ -852,3 +852,28 @@ lost games were walls that never pushed 3 damage before the Warden's swarm lande
 
 L1 round robin overall (B / G / R / N): 53 / 58 / 45 / 44 -> **50 / 58 / 47 / 45** (spread 13 -> 13 points). Refusemancer's tutorial run
 (82%) is now the lowest.
+
+## Daytime Oct 19, loop cycle 11: Part 2 re-checked on a second seed (correction)
+
+Part 2 measured each starter swap on 50 runs at seed 7000. Re-measured with **100 runs on two seeds** (7000 and 8100):
+
+| Deck | Seed 7000 | Seed 8100 | Verdict |
+|---|---:|---:|---|
+| Necrocrat, v0.4.0 deck | - | 79% | |
+| Necrocrat, Part 2 deck (in the v0.4.1 build) | 81% | 77% | **Part 2's 82 -> 92% did not hold**: no better than before |
+| Gourmand, v0.4.0 deck | - | 76% | |
+| Gourmand, Part 2 deck (in the v0.4.1 build) | - | 87% | the gain holds (+11) |
+| Beefcake / Refusemancer (unchanged) | - | 95% / 87% | |
+
+New Necrocrat trials, judged on both seeds (100 + 100 runs):
+
+| Necrocrat change (from the Part 2 deck) | 7000 | 8100 | Mean |
+|---|---:|---:|---:|
+| - Requisition Form + Ghoul (3rd); - Red Tape Dispenser + Accountant (3rd) | 82% | 88% | 85% |
+| ... and - Audit Wraith + Pink Slip (3rd) - **kept** | 83% | 91% | **87%** |
+| ... and - a Body-builder + Waiting Room (3rd) | 83% | 86% | 84.5% (not kept) |
+
+Kept deck: N-01 x3, N-02 x3, N-04 x2, N-05 x3, N-06 x2, N-15 x3, N-07 x3, N-03 x3, N-13 x2, N-23 x2 (+19 Ghost Town). L1 round robin
+(B / G / R / N, 20 games per pairing, `d19c11_decks_l1.md`): 52 / 48 / 47 / **53** - the spread narrows from 13 to 6 points. The Path
+choice's Necrocrat game plan no longer promises "extra cards" (that was the Requisition Form). This deck is on main, not in the v0.4.1 zip.
+Lesson: judge starter swaps on two seeds with 100 runs each; 50 runs on one seed moved by +/-10 points here.

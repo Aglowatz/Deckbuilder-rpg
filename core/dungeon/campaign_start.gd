@@ -20,12 +20,12 @@ const STARTING_DECKS: Dictionary = {
 		"B-05": 3, "B-01": 2, "B-07": 1, "B-04": 2, "B-09": 2, "B-08": 2, "B-12": 2, "B-11": 1, "B-10": 2,
 		"B-03": 2, "B-21": 2, "B-20": 1, "B-14": 1, "B-19": 1, "B-24": 1, "B-26": 1,
 	},
-	# Necrocrat - Red Tape and small tokens: Clerks and Interns make Red Tape, Body-builder and Middle Management turn it into
-	# bodies, Requisition Form turns it into cards, Pink Slip and the Ghoul clear the way, the Waiting Room and Invisible Ink
-	# slow Hustle swarms down, Notary Wraiths drain.
+	# Necrocrat - Red Tape and small tokens: Clerks and Interns make Red Tape, Body-builders and Middle Management turn it into
+	# bodies, Pink Slips and the Ghouls clear the way, Accountants and Grave Shift Workers hold the line, the Waiting Room slows Hustle
+	# swarms down, Notary Wraiths drain. (Daytime Oct 19: no Requisition Form or Red Tape Dispenser - the cave run, measured on two seeds.)
 	Affinity.Type.NECROCRAT: {
-		"N-01": 3, "N-02": 3, "N-04": 2, "N-05": 2, "N-06": 2, "N-09": 1, "N-15": 2, "N-18": 1,
-		"N-07": 3, "N-03": 2, "N-13": 2, "N-23": 2, "N-26": 1,
+		"N-01": 3, "N-02": 3, "N-04": 2, "N-05": 3, "N-06": 2, "N-15": 3,
+		"N-07": 3, "N-03": 3, "N-13": 2, "N-23": 2,
 	},
 	# Gourmand - Ingredients into Golems: Line Cooks, Porters and the Herb Garden make Ingredients; the Mold, the Artificer and
 	# the Apprentice cook them into Golems and Weenies; Sentries, Volunteers, En Garde-Mangers and Dinner Is Served hold the line.
@@ -45,7 +45,7 @@ const STARTING_DECKS: Dictionary = {
 ## One line per Path for the choice screen and the docs: what the deck wants to do.
 const GAME_PLANS: Dictionary = {
 	Affinity.Type.BEEFCAKE: "Make Iron, then spend it all on the turn you attack: every Iron is +1/+1 until end of turn, so one big swing wins the race.",
-	Affinity.Type.NECROCRAT: "Make Red Tape with every Clerk and Intern, shrink their blocker with it, and turn the rest into 2/2 bodies and extra cards.",
+	Affinity.Type.NECROCRAT: "Make Red Tape with every Clerk and Intern, shrink their blocker with it, and turn the rest into 2/2 bodies.",
 	Affinity.Type.GOURMAND: "Stack Ingredients behind sturdy chefs, then cook them into Golems that are bigger than anything the enemy paid for.",
 	Affinity.Type.REFUSEMANCER: "Make Garbage, eat it for damage and pumps, and bring your best cards back from the Refuse Pile. Nothing is wasted.",
 }

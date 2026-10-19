@@ -8,7 +8,7 @@ rows that moved carry new evidence; the rest are unchanged since last night.
 | Combat feel | 8 | 8 | Unchanged; first-battles smoke OK. |
 | Visuals (forest, Crosspath, four zones, Capital) | 8 | 8 | Unchanged. |
 | UI consistency | 8 | 8.5 | Part 5: the Path choice, the equipment-slot choice and the Collection Book share one kit tile (`UiSkin.choice_tile`, parchment ring when selected); "Before the fight" brief reused outside the maps (`RulesBrief`); five missing rule icons fixed; "Choose your Path" (was "element"). |
-| Onboarding / tutorial | 8 | 8.5 | Part 2: cave runs Necrocrat 82 -> 92, Gourmand 80 -> 90 (Beefcake 92, Refusemancer 82). Part 3: New Game -> first saved deck edit ~10.6 min for every Path (97 clicks/keys, 31 lines); the first deck save no longer needs a pointless change; the quest text matches. |
+| Onboarding / tutorial | 8 | 8.5 | Cave runs, 100 per Path on two seeds (cycle 11): Beefcake ~95, Gourmand ~87 (was ~76), Refusemancer ~87, Necrocrat ~87 with the cycle-11 deck (was ~79; Part 2's single-seed 92% did not hold). Part 3: New Game -> first saved deck edit ~10.6 min for every Path (97 clicks/keys, 31 lines); the first deck save no longer needs a pointless change; the quest text matches. |
 | Rewards & progression feel | 8.5 | 8.5 | Unchanged. |
 | Collection / bestiary | 8 | 8 | Unchanged (new tile look). |
 | NPC life & dialogue | 8 | 8 | Unchanged. |

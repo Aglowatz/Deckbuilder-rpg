@@ -141,3 +141,11 @@ Within the brief's "about 10 points of each other"; Part G's iterations re-check
 Level-1 deck round robin (40 games per pairing, both seats the AI): Beefcake 66%, Gourmand 50%, Refusemancer 44%, Necrocrat 40%
 overall (was 86 / 51 / 27 / 37 before Part C); Beefcake's remaining edge is its Path identity (first-player wins reach 64% even in
 the Beefcake mirror), and the per-encounter targets of Part E are what the player actually meets.
+
+## Daytime Oct 19 changes
+
+- **Necrocrat** (loop cycle 11, after Part 2): N-01 x3, N-02 x3, N-04 x2, N-05 x3, N-06 x2, N-15 x3, N-07 x3, N-03 x3, N-13 x2, N-23 x2 +
+  19 Ghost Town. Out since v0.4.0: Requisition Form, Red Tape Dispenser, Processing Delay, I've Made a Huge Mistake, Audit Wraith.
+- **Gourmand** (Part 2): - Stock The Pantry, - Sourdough Sentry, + Sous Chef (3rd), + Soup Kitchen Volunteer (3rd).
+- Cave runs (100 per Path on two seeds): Beefcake ~93-95, Gourmand ~87-90, Refusemancer ~85-87, Necrocrat ~87 (was ~79). Details in
+  balance_log.md.

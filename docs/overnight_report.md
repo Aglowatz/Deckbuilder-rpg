@@ -10,7 +10,9 @@ Old saves keep loading (the save format did not change). Questions for you: `doc
   rules had never applied, in the game or in the sim, and the arena's only in the sim. With his existing rules actually in play,
   **Shiro is 48%**; **Grand Bellows 77 -> 56%** with Heckling Crowd. **Primm phase 1** got Royal Guard but stays easy alone, and the
   three phases in a row look *too hard*, not ~50% (see below).
-- **Tutorial runs**: Necrocrat **82 -> 92%**, Gourmand **80 -> 90%** (starter swaps only; Beefcake 92, Refusemancer 82 unchanged).
+- **Tutorial runs**: Gourmand **~76 -> ~87%** (holds on two seeds). Necrocrat: Part 2's 82 -> 92% **did not hold** on a second seed (cycle
+  11 caught it: ~79% either way); a new Necrocrat deck judged on two seeds x 100 runs reaches **~87%** (on main, not in the v0.4.1 zip).
+  Beefcake ~95, Refusemancer ~87 (100 runs).
 - **Onboarding**: New Game -> first saved deck edit takes **~10.6 min** for a person (97 clicks/keys, 31 dialogue lines), the same for
   every Path. Fixed the worst spot: **the first deck save was impossible without a pointless change** (Save sat greyed out while the
   quest needed a save), and the quest text no longer says to add cards that are already in.
@@ -51,8 +53,11 @@ Claude Code's low-memory guard** (the PC had ~2.6 GB free) and I did not restart
 
 ## Part 2 numbers (whole cave runs, 50 per Path)
 
-Beefcake 92 -> 92, Gourmand **80 -> 90**, Refusemancer 82 -> 82, Necrocrat **82 -> 92**. L1 round robin (B / G / R / N): 53/58/45/44 ->
-50/58/47/45. Loop cycle 1 tried three Refusemancer swaps (80-82%, reverted): its runs are lost to HP carried between fights.
+At 50 runs on one seed: Beefcake 92 -> 92, Gourmand 80 -> 90, Refusemancer 82 -> 82, Necrocrat 82 -> 92. **Correction (cycle 11)**, 100 runs
+on two seeds: Gourmand's gain holds (old 76% -> 87% at seed 8100), Necrocrat's did not (79% old, 77-81% with the Part 2 deck). A new
+Necrocrat deck (no Requisition Form, Dispenser or Audit Wraith; a third Accountant, Ghoul and Pink Slip) gives 83 / 91% on the two seeds
+and narrows the L1 round robin to 52 / 48 / 47 / 53 (spread 6). It is on main for the next build; the v0.4.1 zip has the Part 2 deck.
+Loop cycle 1 tried three Refusemancer swaps (no change); at 100 runs Refusemancer is ~87%, not the outlier 50 runs suggested.
 
 ## Part 3: onboarding timing (`docs/playtest/onboarding_timing.md`)
 
@@ -94,6 +99,8 @@ fe9a6986 and moved the (unshared) tag there. The zip in `builds/` is the rebuilt
 | 7 | "Choose your Path" (the choice screen said "element") |
 | 8 | F8 reports name the hero's Path, deck size, fights won, zones freed; the feedback row shows [Path Lx] |
 | 9 | The Necrocrat-vs-Golem replay re-read: deck flood, not an AI stall |
+| 10 | `docs/playtest/v0.4.1_checklist.md`: a hand-test checklist for your session |
+| 11 | Part 2 re-checked on a second seed: Gourmand holds, Necrocrat did not; a new Necrocrat deck reaches ~87% on two seeds |
 
 Cycles 3-9 came after the build, so they are on main but not in the v0.4.1 zip (next_up 5).
 
