@@ -32,19 +32,11 @@ const SCALE_RESOURCE_ART: float = 0.15
 const ART_TRAY_X: float = 1610.0
 const ART_TRAY_SIZE: Vector2 = Vector2(280, 79)
 const ART_TRAY_SOCKETS: Array[float] = [0.232, 0.409, 0.586, 0.763]
-## Token tray (UI-HUD-TOKENS) centres for you and the enemy; Contract tiles line up inside it.
-const ART_TOKEN_TRAY_SIZE: Vector2 = Vector2(100, 97)
-const ART_TOKEN_CENTERS: Array[Vector2] = [Vector2(1688, 756), Vector2(1688, 80)]
-const SCALE_TOKEN_ART: float = 0.12
 ## Where the newest set trap sits (the fan opens to the left): clear of the deck piles in the corner.
 const TRAP_X: float = 1430.0
-const SCALE_TOKEN: float = 0.15
 ## Where each side's resource tray sits (centre of the first coin): the right-hand column, above the turn panel for the enemy and below it for you.
 const RESOURCE_ORIGIN: Array[Vector2] = [Vector2(1671, 668), Vector2(1671, 166)]
 const RESOURCE_SLOT_PITCH: float = 62.0
-const TOKEN_SPAN: float = 56.0
-## The separate token area (Contracts): a row below your tray, above the enemy's (always on the far side from the middle).
-const TOKEN_ORIGIN: Array[Vector2] = [Vector2(1664, 746), Vector2(1664, 106)]
 const SCALE_CENTER: float = 0.85
 
 var game: GameState
@@ -165,7 +157,7 @@ func _mode_for(zone: Zone) -> CardView.Mode:
 	match zone:
 		Zone.FIELD:
 			return CardView.Mode.COMPACT
-		Zone.RESOURCES, Zone.TOKENS:
+		Zone.RESOURCES:
 			return CardView.Mode.COIN
 		Zone.TRAPS:
 			return CardView.Mode.BACK
@@ -421,81 +413,60 @@ func _tray(owner_index: int) -> Control:
 	return tray
 
 
-## Non-resource tokens (Contracts) sit in their own labelled area, apart from the resource tray: parchment tiles stacked tightly,
-## a "Tokens" caption with a counter, and a tooltip. A Contract is a token, not a resource.
+## Tokens on the board as cards (Oct 19): the non-unit tokens a player holds (Contracts, Clauses...) lie as small cards in the right-hand
+## column, one stack per token type with a count badge ("x3") when there are several; their art shows when it exists (the card style
+## otherwise). Using or destroying one removes its card with the usual fade. Unit tokens stay on the field; resources keep their tray.
+const TOKEN_CARD_ORIGIN: Array[Vector2] = [Vector2(1650, 756), Vector2(1650, 80)]
+const TOKEN_STACK_PITCH: float = 86.0
+const SCALE_TOKEN_CARD: float = 0.24
+const TOKEN_STACK_STEP: Vector2 = Vector2(3.0, -2.5)
+
+
 func _layout_tokens(owner_index: int) -> void:
 	var cards: Array[int] = _cards_in(owner_index, Zone.TOKENS)
 	cards.sort()
-	var art: bool = UiArt.has("UI-HUD-TOKENS")
-	var step: float = minf(14.0, TOKEN_SPAN / float(maxi(cards.size(), 1)))
-	var origin: Vector2 = TOKEN_ORIGIN[owner_index]
-	if art:
-		var tray_node: Control = _token_tray(owner_index)
-		var empty_glyph: Control = tray_node.get_node_or_null("EmptyGlyph") as Control
-		if empty_glyph != null:
-			empty_glyph.visible = cards.is_empty()
-		step = minf(8.0, 24.0 / float(maxi(cards.size(), 1)))
-		origin = ART_TOKEN_CENTERS[owner_index] - Vector2(step * float(maxi(cards.size() - 1, 0)) * 0.5, 0.0)
-	for index: int in range(cards.size()):
-		_targets[cards[index]] = {"pos": origin + Vector2(float(index) * step, 0.0), "rot": 0.0, "scale": SCALE_TOKEN_ART if art else SCALE_TOKEN, "z": 30 + index}
-	var badge: Label = _token_badge(owner_index)
-	# Playtest v0.4.0 Part E: the pale box on the right is the token tray; it says so even when empty (it used to be a blank square).
-	badge.visible = true
-	badge.text = "TOKENS\nContract x%d" % cards.size() if not cards.is_empty() else "TOKENS\n(none yet)"
-	badge.position = origin + Vector2(TOKEN_SPAN + 8.0, -17.0)
-	if art:
-		badge.position = ART_TOKEN_CENTERS[owner_index] + Vector2(ART_TOKEN_TRAY_SIZE.x * 0.5 + 6.0, -17.0)
-	if IconArt.has(IconArt.resource_id(ResourceKind.Kind.CONTRACT)):
-		badge.position.x += TOKEN_ICON_ROOM
-	badge.size = Vector2(150.0, 34.0)
-## The token tray (UI-HUD-TOKENS) under a player's Contracts; always drawn, so the area reads as the token area even when empty.
-func _token_tray(owner_index: int) -> Control:
-	var node_name: String = "TokenTray%d" % owner_index
-	var existing: Node = get_node_or_null(node_name)
-	if existing is Control:
-		return existing as Control
-	var tray: TextureRect = TextureRect.new()
-	tray.name = node_name
-	tray.texture = UiArt.texture("UI-HUD-TOKENS")
-	tray.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	tray.stretch_mode = TextureRect.STRETCH_SCALE
-	tray.size = ART_TOKEN_TRAY_SIZE
-	tray.position = ART_TOKEN_CENTERS[owner_index] - ART_TOKEN_TRAY_SIZE * 0.5
-	tray.mouse_filter = Control.MOUSE_FILTER_PASS
-	tray.z_index = 20
-	HoverTip.attach(tray, "Token tray", "Non-resource tokens (Contracts) a player holds sit here. %s" % str(ResourceKind.DESCRIPTIONS[ResourceKind.Kind.CONTRACT]), UIStyle.GOLD, IconArt.resource_id(ResourceKind.Kind.CONTRACT))
-	add_child(tray)
-	var glyph: TextureRect = IconArt.glyph_or(IconArt.resource_id(ResourceKind.Kind.CONTRACT), CardIcons.named(str(CardIcons.RESOURCE_ICONS[ResourceKind.Kind.keys()[ResourceKind.Kind.CONTRACT]])), Color(0.45, 0.35, 0.2, 0.5), 34.0)
-	glyph.name = "EmptyGlyph"
-	glyph.position = (ART_TOKEN_TRAY_SIZE - Vector2(34, 34)) * 0.5
-	glyph.size = Vector2(34, 34)
-	glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	tray.add_child(glyph)
-	return tray
+	var stacks: Array[String] = []
+	var members: Dictionary = {}
+	for uid: int in cards:
+		var key: String = card_data[uid].id if card_data.has(uid) else "?"
+		if not members.has(key):
+			stacks.append(key)
+			members[key] = [] as Array[int]
+		(members[key] as Array[int]).append(uid)
+	for stack_index: int in range(stacks.size()):
+		var uids: Array[int] = members[stacks[stack_index]] as Array[int]
+		var base: Vector2 = TOKEN_CARD_ORIGIN[owner_index] + Vector2(float(stack_index) * TOKEN_STACK_PITCH, 0.0)
+		for depth: int in range(uids.size()):
+			_targets[uids[depth]] = {"pos": base + TOKEN_STACK_STEP * float(mini(depth, 4)), "rot": 0.0, "scale": SCALE_TOKEN_CARD, "z": 30 + depth}
+		var badge: Label = _token_count_badge(owner_index, stack_index)
+		badge.visible = uids.size() > 1
+		badge.text = "x%d" % uids.size()
+		var top: Vector2 = base + TOKEN_STACK_STEP * float(mini(uids.size() - 1, 4))
+		badge.position = top + Vector2(CardView.SIZE.x * SCALE_TOKEN_CARD * 0.5 - 20.0, -CardView.SIZE.y * SCALE_TOKEN_CARD * 0.5 - 8.0)
+	# Badges of stacks that are gone.
+	var index: int = stacks.size()
+	while get_node_or_null("TokenCount%d_%d" % [owner_index, index]) != null:
+		(get_node("TokenCount%d_%d" % [owner_index, index]) as Label).visible = false
+		index += 1
 
 
-## Room left of the token caption for the Contract icon.
-const TOKEN_ICON_ROOM: float = 28.0
-
-
-func _token_badge(owner_index: int) -> Label:
-	var node_name: String = "TokenBadge%d" % owner_index
+## The "x3" on top of a token stack.
+func _token_count_badge(owner_index: int, stack_index: int) -> Label:
+	var node_name: String = "TokenCount%d_%d" % [owner_index, stack_index]
 	var existing: Node = get_node_or_null(node_name)
 	if existing is Label:
 		return existing as Label
 	var badge: Label = Label.new()
 	badge.name = node_name
-	badge.add_theme_font_size_override("font_size", 13)
-	badge.add_theme_color_override("font_color", Color("f1e6c8"))
+	badge.add_theme_font_size_override("font_size", 18)
+	badge.add_theme_color_override("font_color", Color("fff3d6"))
 	badge.add_theme_color_override("font_outline_color", Color("1b1020"))
-	badge.add_theme_constant_override("outline_size", 6)
-	badge.mouse_filter = Control.MOUSE_FILTER_PASS
+	badge.add_theme_constant_override("outline_size", 7)
+	badge.add_theme_stylebox_override("normal", UIStyle.box(Color(0.12, 0.07, 0.16, 0.9), UIStyle.GOLD, 2, 10))
+	badge.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	badge.custom_minimum_size = Vector2(38, 24)
+	badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	badge.z_index = 60
-	HoverTip.attach(badge, "Contract (token, not a resource)", str(ResourceKind.DESCRIPTIONS[ResourceKind.Kind.CONTRACT]), UIStyle.GOLD, IconArt.resource_id(ResourceKind.Kind.CONTRACT))
-	var contract_icon: TextureRect = IconArt.rect(IconArt.resource_id(ResourceKind.Kind.CONTRACT), 26.0)
-	if contract_icon != null:
-		contract_icon.position = Vector2(-TOKEN_ICON_ROOM, 4.0)
-		badge.add_child(contract_icon)
 	add_child(badge)
 	return badge
 
@@ -550,17 +521,32 @@ func sync_state(animated: bool = true) -> void:
 	for uid: int in views.keys():
 		if not alive.has(uid):
 			var view: CardView = views[uid] as CardView
+			var was_token: bool = zones.get(uid) == Zone.TOKENS
 			views.erase(uid)
 			zones.erase(uid)
 			order.erase(uid)
 			if hover_uid == uid:
 				hover_uid = 0
-			view.queue_free()
+			if was_token and animated and is_inside_tree():
+				_vanish_token(view)
+			else:
+				view.queue_free()
 	if game.phase != GameState.Phase.COMBAT:
 		attacking.clear()
 		blockers.clear()
 	refresh_all()
 	layout(animated)
+
+
+## A used or destroyed token card lifts, swells a little and fades (Oct 19, tokens as cards).
+func _vanish_token(view: CardView) -> void:
+	view.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	view.pivot_offset = CardView.SIZE * 0.5
+	var tween: Tween = view.create_tween().set_parallel(true)
+	tween.tween_property(view, "modulate:a", 0.0, 0.28 / maxf(speed, 0.1))
+	tween.tween_property(view, "scale", view.scale * 1.35, 0.28 / maxf(speed, 0.1))
+	tween.tween_property(view, "position:y", view.position.y - 18.0, 0.28 / maxf(speed, 0.1))
+	tween.chain().tween_callback(view.queue_free)
 
 
 func _sync_zone(cards: Array[CardInstance], owner_index: int, zone: Zone, alive: Dictionary) -> void:
@@ -940,7 +926,8 @@ func _on_resource(event: GameEvent, gained: bool) -> void:
 	var kinds: Array[ResourceKind.Kind] = ResourceKind.all()
 	var slot: int = kinds.find(event.value as ResourceKind.Kind)
 	var owner_index: int = clampi(event.player, 0, 1)
-	var spot: Vector2 = _socket_center(owner_index, maxi(slot, 0)) if slot >= 0 else TOKEN_ORIGIN[owner_index]
+	# A token kind (a Contract) has no tray socket: its effects play at the token card stacks.
+	var spot: Vector2 = _socket_center(owner_index, maxi(slot, 0)) if slot >= 0 and ResourceKind.is_resource(event.value as ResourceKind.Kind) else TOKEN_CARD_ORIGIN[owner_index]
 	var color: Color = ResourceKind.COLORS[event.value] as Color if ResourceKind.COLORS.has(event.value) else UIStyle.GOLD
 	if gained:
 		_sfx(BattleSounds.resource(event.value, true))
