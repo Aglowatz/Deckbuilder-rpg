@@ -74,7 +74,7 @@ presentation.
 - `core/` rules logic should be the primary thing under test — it's the part that doesn't
   need a scene tree to exercise.
 
-- Balance: `Godot_console --headless --path . -s res://tools/run_balance_sim.gd -- --what=encounters --filter=<group> --games=30 --out=res://docs/design/sim/<name>.md` (`core/sim/`; groups: tutorial, town, town:roamer, zone:<id>, dungeon:<ID>, side:<ID>, arena). Log every number change in `docs/design/balance_log.md`.
+- Balance: `Godot_console --headless --path . -s res://tools/run_balance_sim.gd -- --what=encounters --filter=<group> --games=30 --out=res://docs/design/sim/<name>.md` (`core/sim/`; groups: tutorial, town, town:roamer, zone:<id>, dungeon:<ID>, side:<ID>, arena). Log every number change in `docs/design/balance_log.md`. Gear/items: `--what=gear --filter=<one fight> --games=8 [--pieces=a,b]` (each piece or item alone vs bare); economy: `Godot --headless --path . -s res://tools/economy_audit.gd`; one game's log: `-s res://tools/replay_encounter.gd -- --id=<spec id> --path=<path> --games=N --show=1`. Late games cost ~1.3 s each: one group per call, `--games=6` for a quick read.
 - Windowed smokes (one Godot at a time): `bash tools/run_playtest_smoke.sh` (the opening hour: forest, Path choice, cave, Crosspath beside Maren, an outskirts fight, level 5, the armory quest, the deck racks), `bash tools/run_prologue_smoke.sh`, `bash tools/run_release_smoke.sh`.
 
 ## E2E testing budget

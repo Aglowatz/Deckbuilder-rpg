@@ -3421,3 +3421,17 @@ The playtest build after the rebalance (Parts A-E of the rebalance are in; F/G q
 - **Rules as icons (Part F)**: `RuleBadges` + `RuleIconRow` on the node map, in a brief when a run starts and before each battle, in the zone HUD and in the battle HUD; chest sparkle bigger and brighter with a light pulse; the Deck Station's ten slots are the painted racks (`DeckRack`) with save-to-slot by clicking a rack.
 - **Checks (Part G)**: `bash tools/run_playtest_smoke.sh` walks the opening hour; the prologue and release smokes pass; full GUT green except the pre-existing `test_world_look_rig`.
 - **Build (Part H)**: v0.4.0, `builds/TheWaywardPath-v0.4.0-windows.zip`, notes in `docs/release/v0.4.0_notes.md`.
+
+## Overnight Oct 18-19 (2026-10-18) - rebalance F/G, playtest support, arrival cards, QoL
+
+Details and commits in `docs/overnight_report.md`; every number change in `docs/design/balance_log.md` (Part F, Part G, Phase 2 cycles).
+
+- **Rebalance F (Part 1)**: `--what=gear` sim mode (each piece and item alone vs bare and vs the level's model gear), `tools/economy_audit.gd`; **items work once per battle** (`GameState.items_used`); rarity/price/effect fixes; Alchemist needs 6 essence.
+- **Rebalance G (Part 2 + Phase 2)**: the whole catalog measured, five iterations then cycles; town NPC HP sim bug fixed; early fights tuned by foe basics and trimmed head starts (free starting units), late fights by one-sided stat rules (`data/encounters/modifiers.json`); starting decks closer (L1 spread 24 -> 13); tutorial runs 80-92% per Path.
+- **Playtest support (Part 3)**: Report a Problem (F8 / pause) with screenshot, log, save copy, area and quest; crash-safe `SaveSystem` (.tmp + read-back + .bak fallback); autosave on area change, after battles and quest steps.
+- **Arrival cards (Part 4)**: Path icon + subtitle flourish, brief on later visits, skippable, dungeon cards on their zone's banner.
+- **Dialogue plan (Part 5)**: `docs/design/dialogue_presentation_plan.md`, 204 portrait requests (`docs/art/portrait_expression_requests.md`).
+- **Quest guidance (Part 6)**: "Go to <area>" in the tracker for steps elsewhere (the rest already existed).
+- **Settings (Part 7)**: battle speed 1x / 1.5x / 2x, auto-end turn, the end-turn warning names unused energy.
+- **Cleanup (Part 8)**: the camera test was reading the player's saved zoom (fixed in the test).
+- **Phase 2**: glyph warmup for menus (town slow frames roughly halved), a one-time warning when a zone works against your Path.
