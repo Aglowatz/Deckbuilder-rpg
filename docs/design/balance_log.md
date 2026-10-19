@@ -583,3 +583,24 @@ Kept inside the tests' design bounds: Prudence Pallor ends at **12 HP** (not 10;
 |---|---|---|---|
 | Colonel Casserole rule Field Rations | starts with a 3/3 Meatloaf Golem -> a 1/1 Sashimi Weenie | 42% at 12-18 HP alike: the free 3/3 on turn one decided the fight, not HP | g_c1_zone_gourmand_casserole.md: 42% -> **73%** (elite band 60-75), 10 games per Path |
 | Prudence Pallor rule Paperwork Ready | starts with 2 Red Tape -> 1 | 38% at 10-13 HP alike | g_c1_town_npc_necrocrat.md: 38% -> **53%** (band 60-75; -7) |
+
+## Overnight Oct 18, Phase 2 cycle 2 (Balance): stat rules for the too-easy late elites and bosses
+
+| Encounter | Rule (one-sided, its units) | Before -> after (6 games per Path) |
+|---|---|---|
+| Mirror Knight (Castle) | +1/+1 -> +2/+1 | 79% -> **75%** (in band) |
+| Royal Staircase Guard (Castle) | +1/+1 -> +2/+1 | 83% -> **54%** (band 60-75, -6) |
+| Clocktower Sentinel (Castle) | +2/+1 -> +2/+2 | 88% -> **58%** (-2) |
+| The Failed Experiment (Lab) | +2/+1 -> +2/+2 | 96% -> **75%** (in band) |
+| The Drain Warden (Lab) | +2/+1 -> +2/+2 | 92% -> **83%** (+8) |
+| Betty Bones (Waiting Room) | +1/+0 -> +1/+1 | 71% -> **63%** (+3) |
+| Grand Bellows (arena tier 3; HP 38 -> 46 in Part 2) | +1/+0 -> +1/+1 | 88% -> **71%** (+11) |
+| Champion of the Four Fists (arena tier 2; HP 28 -> 33 in Part 2) | new +1/+0 | 88% -> 92% (noise; still too easy) |
+| Captain Spotless (Capital gate) | +1/+1 -> +2/+1 | 88% -> 88% |
+| The Ancient Spotter (Swolympus) | +2/+1 -> +3/+1 | 92% -> 92% |
+| Shiro Swindle | new +1/+1 | 88% -> 88% |
+| The Old Kingdom Automaton (Vault) | new +1/+0 | 71% -> 71% |
+| Notary Wraith (Hall) | +1/+1 -> +2/+1, **reverted** to +1/+1 | 79% -> 46% (overshot) |
+| Mortimer Grimsby (Hall boss) | +1/+0 -> +2/+0, **reverted** to +1/+0 | 71% -> 29% (overshot) |
+
+The Spotter, Spotless, Shiro and the Automaton do not move with stat rules: their fights are decided by the player's level-18-24 deck and gear, not by board fights; they need a different lever (an Epic or two, or a start-of-duel effect).
