@@ -711,8 +711,11 @@ func _refresh() -> void:
 	_rebuild_rules()
 	var size: int = editor.deck.size()
 	_count_label.text = "%d cards  -  %d infrastructure, %d spells" % [size, editor.infrastructure_count(), size - editor.infrastructure_count()]
-	_save_button.text = "Save Deck" if _dirty else "Saved"
-	_save_button.disabled = not _dirty
+	# Daytime Oct 19 (onboarding timing): a new hero owns no spare copies (the cave's cards are already in the deck), so "Make It Yours"
+	# could only finish after a pointless change. Until the first save, Save Deck stays available.
+	var first_save: bool = not Session.flag(&"deck_edited")
+	_save_button.text = "Save Deck" if _dirty or first_save else "Saved"
+	_save_button.disabled = not (_dirty or first_save)
 	_refresh_deck_bar()
 	_refresh_rack()
 

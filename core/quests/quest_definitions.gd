@@ -217,7 +217,7 @@ static func _first_deck_edit() -> QuestData:
 	quest.category = QuestData.Category.SIDE
 	quest.order = 2
 	quest.title = "Make It Yours"
-	quest.summary = "The cave paid you in cards. Put the ones you like into your deck at the Deck Station."
+	quest.summary = "The cave paid you in cards, and they are already in your deck. Look it over at the Deck Station (swap out what you don't like) and save it to a slot."
 	quest.auto_give = true
 	quest.prerequisite = Condition.flag("trial_cleared")
 	quest.objectives = [

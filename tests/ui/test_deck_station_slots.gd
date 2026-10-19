@@ -97,3 +97,17 @@ func test_clicking_a_slot_opens_that_deck_and_an_empty_slot_starts_a_new_one() -
 	rack.slot_pressed.emit(9)
 	await wait_process_frames(1)
 	assert_eq(screen.editor.deck.size(), 0, "a locked slot does nothing")
+
+
+## Daytime Oct 19 (onboarding timing): a new hero owns no spare copies, so "Make It Yours" needs Save Deck to work before any change.
+func test_the_first_save_needs_no_change() -> void:
+	Session.flags.erase("deck_edited")
+	var screen: DeckbuilderScreen = _station()
+	await wait_process_frames(2)
+	assert_false(screen._save_button.disabled, "Save Deck is available on the first visit")
+	screen._save()
+	assert_true(screen.in_save_mode(), "it asks which slot")
+	screen.save_to_slot(0)
+	assert_true(Session.flag(&"deck_edited"), "the first save completes the quest step")
+	screen._refresh()
+	assert_true(screen._save_button.disabled, "after the first save an unchanged deck reads Saved again")
