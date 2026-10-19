@@ -13,4 +13,4 @@ Last night's loop docs: docs/overnight/oct18/.
 ## Notes
 - The low-memory guard stopped one background sim batch (Primm sequence with boons); not restarted on my own (inbox Daytime 1).
 - Sims run in the foreground now; one Godot at a time.
-- Loop cycles 1-9 + a check batch committed (see loop_log.md); report written ~10:50; next_up re-ranked.
+- Loop cycles 1-13 + a check batch committed (see loop_log.md); report updated ~11:35; next_up re-ranked. Final GUT 1908/1908.

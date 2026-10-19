@@ -102,12 +102,13 @@ fe9a6986 and moved the (unshared) tag there. The zip in `builds/` is the rebuilt
 | 10 | `docs/playtest/v0.4.1_checklist.md`: a hand-test checklist for your session |
 | 11 | Part 2 re-checked on a second seed: Gourmand holds, Necrocrat did not; a new Necrocrat deck reaches ~87% on two seeds |
 | 12 | Part 1 bosses on a second seed (25 games per Path): Shiro 60%, Bellows 60% - in band on both seeds |
+| 13 | Gainlands roamers on two seeds (Brute ~71%, Golem ~64%, Necrocrat 44-48%); fewer basics moved nothing - reverted |
 
-Cycles 3-9 came after the build, so they are on main but not in the v0.4.1 zip (next_up 5).
+Cycles 3-13 came after the build, so they are on main but not in the v0.4.1 zip (next_up 5).
 
 ## Checks
 
-GUT **1907/1907**; story playthrough **73/73**; full tour 7 areas / 0 errors; playtest, release (project and exported), prologue,
+Final (~11:35): GUT **1908/1908**, playtest smoke OK, onboarding bot OK (Necrocrat, new deck). Earlier today: story playthrough **73/73**; full tour 7 areas / 0 errors; playtest, release (project and exported), prologue,
 first-battles, gatekeeper and boss-rules smokes OK. Screenshots used: ~14 (tile style, ninja HUD, brief, onboarding gate/station).
 
 ## Next (`docs/overnight/next_up.md`)
