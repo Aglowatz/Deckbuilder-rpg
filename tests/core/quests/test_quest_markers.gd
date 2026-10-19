@@ -87,3 +87,7 @@ func test_the_tracker_names_the_area_of_a_step_elsewhere() -> void:
 	assert_eq(QuestTracker.elsewhere_hint("town", Areas.DNA), "Go to Crosspath")
 	assert_eq(QuestTracker.elsewhere_hint(GainlandsZone.ID, Areas.GAINLANDS), "", "already there")
 	assert_eq(QuestTracker.elsewhere_hint("", Areas.TOWN), "", "a step with no place")
+
+
+func test_the_tracker_says_nothing_when_the_area_is_unknown() -> void:
+	assert_eq(QuestTracker.elsewhere_hint("town", ""), "", "a scene opened directly has no current area")

@@ -192,8 +192,8 @@ func refresh() -> void:
 ## Overnight Oct 18, Part 6: "Go to the Gainlands" when the current step happens in another area (`target_area` is a zone id or "town";
 ## `here` is the `Areas` key of the scene the player is in); "" when it is here, or nowhere in particular.
 static func elsewhere_hint(target_area: String, here: String) -> String:
-	if target_area.is_empty():
-		return ""
+	if target_area.is_empty() or here.is_empty():
+		return ""  # "" = the area is not known (a scene opened directly by a tool): say nothing rather than send the hero where they stand
 	var key: String = Areas.TOWN if target_area == "town" else Areas.key_for_zone(target_area)
 	if key.is_empty() or key == here:
 		return ""
