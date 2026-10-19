@@ -20,6 +20,8 @@ const BRIEF_SCALE: float = 0.8
 const SKIP_FADE_SECONDS: float = 0.25
 ## Where the flourish's top sits (fraction of the banner image's height: just under the ribbon).
 const FLOURISH_TOP: float = 0.7
+## Phase 2 cycle 26: in the zones and the Capital the HUD's zone-HP plate sits at the top centre; the card settles below it there.
+const ZONE_SETTLE_Y: float = 100.0
 ## The subtitle under each area's banner.
 const SUBTITLES: Dictionary = {
 	Areas.START: "Somewhere outside Crosspath", Areas.TOWN: "Where every Path crosses", Areas.GAINLANDS: "Home of the Beefcake Path",
@@ -174,11 +176,16 @@ func _ready() -> void:
 	Audio.sfx(&"book", -12.0 if brief else -8.0)
 	_tween = create_tween()
 	_tween.set_parallel(true)
-	_tween.tween_property(holder, "position:y", 0.0, SLIDE_SECONDS).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_tween.tween_property(holder, "position:y", settle_y(), SLIDE_SECONDS).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	_tween.tween_property(holder, "modulate:a", 1.0, SLIDE_SECONDS * 0.6)
 	_tween.chain().tween_interval(BRIEF_HOLD_SECONDS if brief else HOLD_SECONDS)
 	_tween.chain().tween_property(holder, "modulate:a", 0.0, FADE_SECONDS)
 	_tween.chain().tween_callback(queue_free)
+
+
+## Where the card comes to rest: under the zone-HP plate in the zones and the Capital, at the top elsewhere.
+func settle_y() -> float:
+	return ZONE_SETTLE_Y if area_key == Areas.CAPITAL or AREA_PATHS.has(area_key) else 0.0
 
 
 ## A click, Enter/Space or the pad's confirm button fades the card out early (walking does not). The event is not consumed: the game still gets it.

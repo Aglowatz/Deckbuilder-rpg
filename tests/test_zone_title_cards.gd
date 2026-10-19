@@ -90,3 +90,15 @@ func test_later_arrivals_get_the_brief_card() -> void:
 	assert_true(again.brief)
 	first.free()
 	again.free()
+
+
+func test_zone_cards_settle_below_the_zone_hp_plate() -> void:
+	var zone: ZoneTitleCard = ZoneTitleCard.make(Areas.GAINLANDS)
+	var capital: ZoneTitleCard = ZoneTitleCard.make(Areas.CAPITAL)
+	var town: ZoneTitleCard = ZoneTitleCard.make(Areas.TOWN)
+	assert_eq(zone.settle_y(), ZoneTitleCard.ZONE_SETTLE_Y)
+	assert_eq(capital.settle_y(), ZoneTitleCard.ZONE_SETTLE_Y)
+	assert_eq(town.settle_y(), 0.0, "Crosspath has no zone-HP plate")
+	zone.free()
+	capital.free()
+	town.free()
