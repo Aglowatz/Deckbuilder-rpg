@@ -211,7 +211,12 @@ func _plan_anchors() -> Dictionary:
 func _ready() -> void:
 	def = ZoneDefs.get_def(_zone_id())
 	SceneManager.pause_allowed = true
-	add_child(UiArtWarmup.make())
+	# Overnight Oct 18, Phase 2 cycle 29: the zone shop's stage art is warmed like Crosspath's (its first open loaded it on the spot, ~45 ms). The
+	# Capital's shop is the black market and is left as it is.
+	var stages: Array[String] = []
+	if not def.vendor_screen_id.is_empty() and def.id != CapitalZone.ID:
+		stages.append(def.vendor_screen_id)
+	add_child(UiArtWarmup.make(stages))
 	ZoneStyles.use_preset(StylePresets.for_zone(def.id))
 	if def.id != CapitalZone.ID:
 		# A Path's zone: exploration, or the freed arrangement once its own completion flag is set (the Capital picks by district, `CapitalScene`).
