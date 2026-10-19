@@ -285,7 +285,7 @@ func _refresh_grid() -> void:
 
 
 ## Overnight Oct 17 (Phase 2, performance): the first tiles are built at once, the rest a few per frame (no long frame on opening).
-const FIRST_TILES: int = 8
+const FIRST_TILES: int = 0  # Overnight Oct 18 cycle 34: was 8 - the opening frame 73-82 -> ~17 ms, the cards start on the next frame
 const TILES_PER_FRAME: int = 3
 var _pending: Array[Array] = []
 
