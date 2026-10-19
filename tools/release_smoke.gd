@@ -16,6 +16,7 @@ func _run() -> void:
 	Session.save_enabled = false
 	SaveSlots.dir = "%s/saves/" % TMP
 	FeedbackReport.base = "%s/feedback" % TMP
+	FeedbackForm.open_after_send = false
 	driver = UiDriver.new(get_tree())
 	var version: String = FeedbackReport.version()
 	SceneManager.show_loading_screens = false
@@ -51,7 +52,7 @@ func _run() -> void:
 	await driver.frames(40)
 	var pause: Node = get_tree().root.find_child("VersionLabel", true, false)
 	_check(pause != null and (pause as Label).text.contains(version), "pause menu shows the version")
-	_check(driver.find_button("Send Feedback (F8)") != null, "pause menu has Send Feedback")
+	_check(driver.find_button("Report a Problem (F8)") != null, "pause menu has Report a Problem")
 	_check(driver.find_button("Open feedback folder") != null, "pause menu has Open feedback folder")
 	await driver.tap_key(KEY_ESCAPE)
 	await driver.frames(30)

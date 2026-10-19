@@ -1911,6 +1911,7 @@ func refresh_quests() -> void:
 	if _refreshing_quests or profile == null:
 		return
 	_refreshing_quests = true
+	var step_moved: bool = false
 	# A finished quest can complete a step of another (a zone line's favour step), so settle until nothing moves (a few rounds at most).
 	for _round: int in range(4):
 		var state: UnlockState = unlock_state()
@@ -1920,12 +1921,15 @@ func refresh_quests() -> void:
 		if not updated.is_empty():
 			# The tracker follows the quest that moved forward last (Oct 16: "defaults to the most recently updated quest").
 			quest_log.track(updated[updated.size() - 1])
+			step_moved = true
 		var finished: Array[String] = quest_log.auto_completable(QuestCatalog.all(), state)
 		for quest_id: String in finished:
 			complete_quest(quest_id)
 		if finished.is_empty() and updated.is_empty():
 			break
 	_refreshing_quests = false
+	if step_moved:
+		save_game()  # Overnight Oct 18, Part 3: autosave after a quest step
 	EventBus.quest_changed.emit()
 
 
@@ -2982,6 +2986,7 @@ func complete_battle(context: BattleContext) -> void:
 	pending_battle = null
 	if context.won:
 		record_victory(context)
+	save_game()  # Overnight Oct 18, Part 3: autosave after every battle (each branch below may save again with its rewards)
 	if not context.arena_id.is_empty():
 		_complete_arena_battle(context)
 		return

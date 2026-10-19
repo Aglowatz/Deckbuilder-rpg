@@ -56,6 +56,9 @@ func change_scene(path: String, fade_time: float = FADE_TIME) -> void:
 	_close_pause()
 	_fade.mouse_filter = Control.MOUSE_FILTER_STOP
 	var area: String = Areas.key_for_scene(path)
+	# Overnight Oct 18, Part 3: autosave on every area change (a crash-safe write, see SaveSystem).
+	if area != current_area and Session.has_profile():
+		Session.save_game()
 	var screen: LoadingScreen = null
 	var quick: bool = skip_loading_once
 	skip_loading_once = false

@@ -5,6 +5,9 @@ extends CanvasLayer
 
 signal closed
 
+## Opens the report folder in the file browser after sending (smoke runs switch it off).
+static var open_after_send: bool = true
+
 var _screenshot: Image
 var _rating: int = 0
 var _notes: TextEdit
@@ -43,8 +46,8 @@ func _ready() -> void:
 	center.add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(12)
 	panel.add_child(column)
-	column.add_child(UIKit.label("Send Feedback", &"HeadingLabel", 38, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
-	column.add_child(UIKit.label("How is the game going? (A screenshot, your game state and the log are saved with this.)", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	column.add_child(UIKit.label("Report a Problem", &"HeadingLabel", 38, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	column.add_child(UIKit.label("What happened? A screenshot, the log, your save, the area and your quest are saved with this. Nothing is sent anywhere.", &"MutedLabel", 20, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	var stars: HBoxContainer = UIKit.hbox(8)
 	stars.alignment = BoxContainer.ALIGNMENT_CENTER
 	column.add_child(stars)
@@ -59,7 +62,7 @@ func _ready() -> void:
 		_stars.append(star)
 	_notes = TextEdit.new()
 	_notes.name = "Notes"
-	_notes.placeholder_text = "What happened? What was confusing, broken or fun?"
+	_notes.placeholder_text = "What happened? What did you expect? (Optional: rate the game 1-5 above.)"
 	_notes.custom_minimum_size = Vector2(0, 240)
 	_notes.wrap_mode = TextEdit.LINE_WRAPPING_BOUNDARY
 	column.add_child(_notes)
@@ -99,7 +102,9 @@ func submit() -> String:
 		return ""
 	_sent = true
 	_send.disabled = true
-	_status.text = "Saved! Zip the feedback folder and send it to us.\n%s" % path
+	_status.text = "Saved! Zip this folder and send it to us:\n%s" % path
+	if open_after_send and DisplayServer.get_name() != "headless":
+		OS.shell_open(path)
 	return path
 
 

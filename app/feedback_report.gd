@@ -41,7 +41,24 @@ static func game_state() -> Dictionary:
 	if Session.has_profile():
 		state["session"] = Session.slot_meta()
 		state["location_name"] = Session.location_name()
+		state["quest"] = current_quest()
 	return state
+
+
+## The quest the HUD tracker shows and its current step ({} with none).
+static func current_quest() -> Dictionary:
+	var quest: QuestData = QuestCatalog.find(Session.quest_log.tracked_id())
+	if quest == null or quest.objectives.is_empty():
+		return {}
+	var step: Dictionary = QuestTracker.current_objective(quest, Session.quest_log, Session.unlock_state())
+	return {"id": quest.id, "title": quest.title, "step": str(step.get("text", "")), "progress": "%d/%d" % [int(step.get("have", 0)), int(step.get("need", 0))]}
+
+
+## Overnight Oct 18, Part 3: copies the autosave (and its backup) into the report, so the problem can be loaded and seen.
+static func _copy_saves(dir: String) -> void:
+	for source: String in [SaveSlots.path_for(SaveSlots.AUTOSAVE), SaveSystem.backup_path(SaveSlots.path_for(SaveSlots.AUTOSAVE))]:
+		if FileAccess.file_exists(source):
+			DirAccess.copy_absolute(ProjectSettings.globalize_path(source), ProjectSettings.globalize_path("%s/%s" % [dir, source.get_file()]))
 
 
 ## Writes a report and returns the folder it went into ("" when it could not be written).
@@ -73,6 +90,9 @@ static func write(rating: int, notes: String, screenshot: Image, root: String = 
 	if screenshot != null and not screenshot.is_empty():
 		screenshot.save_png("%s/screenshot.png" % dir)
 	_copy_log("%s/game.log" % dir)
+	if Session.has_profile():
+		Session.save_game()
+	_copy_saves(dir)
 	return ProjectSettings.globalize_path(dir)
 
 

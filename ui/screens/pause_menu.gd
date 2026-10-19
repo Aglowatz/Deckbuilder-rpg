@@ -65,7 +65,7 @@ func _build_menu() -> void:
 	IconArt.button_icon(settings, "ICON-UI-SETTINGS", 40.0)
 	settings.pressed.connect(_show_settings)
 	column.add_child(settings)
-	var feedback: FancyButton = FancyButton.make("Send Feedback (F8)", &"", Vector2(0, 54))
+	var feedback: FancyButton = FancyButton.make("Report a Problem (F8)", &"", Vector2(0, 54))
 	feedback.name = "FeedbackButton"
 	feedback.pressed.connect(SceneManager.open_feedback)
 	column.add_child(feedback)
