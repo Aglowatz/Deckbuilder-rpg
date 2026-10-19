@@ -882,3 +882,10 @@ Lesson: judge starter swaps on two seeds with 100 runs each; 50 runs on one seed
 
 25 games per Path at seed 8100 (`d19c12_*.md`): **Shiro Swindle 60%** (B 60 / N 52 / G 68 / R 60; Part 1 at seed 7000, 12 games: 48%),
 **Grand Bellows 60%** (B 68 / N 36 / G 68 / R 68; Part 1: 56%). Both inside the 40-60% boss band on both seeds, at its top on the second.
+
+## Daytime Oct 19, loop cycle 13: the Gainlands roamers (no change kept)
+
+25 games per Path on seeds 7000 / 8100 (`d19c13_*.md`): Flexing Brute 72 / 70%, Protein Shake Golem 63 / 64% (Beefcake 76-92, Necrocrat
+44-48, Gourmand 64-84, Refusemancer 60-88). Fewer basics (Brute 14 -> 11, Golem 12 -> 10, fewer Iron bursts) gave 73 / 66% and 62 / 70%:
+no real change, reverted. With HP (Oct 18) and deck size (cycle 27) also flat, the roamers need a content change (their bruisers) if
+they should be easier.
