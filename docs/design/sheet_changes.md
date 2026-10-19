@@ -116,10 +116,10 @@ Every change the live Google Sheet needs to match the game, by tab, with exact v
 | Dr. Ambrose Siphon, Chief Path-ologist | Siphoned Power | enemy | extra_draws (count=1) | "The Doctor's units get +1/+1 and he draws an extra card each turn." (icon delapouite/warlock-eye) |
 | The Drain Warden | Drained | enemy | start_of_turn_damage (amount=1) | "At the start of its turn, you take 1 damage." (icon lorc/bubbling-flask) |
 | The Drain Warden | Drained Strength | enemy | stat (atk=2, def=1) | "The Warden's units get +2/+1." (icon lorc/bubbling-flask) |
-| town:npc:necrocrat | Paperwork Ready | enemy | starting_resources (resource="redtape", count=2) | "Prudence starts the duel with 2 Red Tape." (icon delapouite/stamper) |
+| town:npc:necrocrat | Paperwork Ready | enemy | starting_resources (resource="redtape", count=1) | "Prudence starts the duel with a Red Tape." (icon delapouite/stamper) |
 | town:ninja | The Oldest Trick | enemy | starting_resources (resource="contract", count=2) | "Shiro starts the duel with two Contracts: he can lock your units down." (icon lorc/ninja-head) |
 | arena:arena_marshal | Crowd Favourite | enemy | stat (atk=1, def=0) | "Grand Bellows's units get +1 attack." (icon delapouite/megaphone) |
-| zone:gourmand:casserole | Field Rations | enemy | starting_tokens (token="T-05", count=1) | "The Colonel starts with a 3/3 Meatloaf Golem on the field." (icon delapouite/chef-toque) |
+| zone:gourmand:casserole | Field Rations | enemy | starting_tokens (token="T-03", count=1) | "The Colonel starts with a 1/1 Sashimi Weenie on the field." (icon delapouite/chef-toque) |
 | zone:final:spotless | Spotless Drill | enemy | stat (atk=1, def=1) | "Captain Spotless's units get +1/+1." (icon lorc/visored-helm) |
 | Clocktower Sentinel | Clockwork Precision | enemy | stat (atk=2, def=1) | "The Sentinel's units get +2/+1." (icon delapouite/alarm-clock) |
 | The Failed Experiment | Unstable | enemy | stat (atk=2, def=1) | "The Experiment's units get +2/+1." (icon lorc/bubbling-flask) |

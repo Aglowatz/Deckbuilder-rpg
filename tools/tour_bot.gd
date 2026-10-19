@@ -31,6 +31,8 @@ var _started_msec: int = 0
 ## The action being timed ("town: open codex", "beefcake: talk npc_gus") and the worst frame seen during each action.
 var _action: String = ""
 var _action_worst: Dictionary = {}
+## Frames over SLOW_FRAME_MS per action (Overnight Oct 18: where the slow frames cluster).
+var _action_slow: Dictionary = {}
 
 
 func run() -> void:
@@ -72,6 +74,8 @@ func _process(_delta: float) -> void:
 	_frames[_area] = int(_frames.get(_area, 0)) + 1
 	if ms > SLOW_FRAME_MS:
 		_slow[_area] = int(_slow.get(_area, 0)) + 1
+		if not _action.is_empty():
+			_action_slow[_action] = int(_action_slow.get(_action, 0)) + 1
 	_worst[_area] = maxf(float(_worst.get(_area, 0.0)), ms)
 	if not _action.is_empty():
 		_action_worst[_action] = maxf(float(_action_worst.get(_action, 0.0)), ms)
@@ -295,6 +299,13 @@ func _write_report() -> void:
 	actions.sort_custom(func(a: Variant, b: Variant) -> bool: return float(_action_worst[a]) > float(_action_worst[b]))
 	for action: Variant in actions.slice(0, 15):
 		lines.append("- %s: %.0f ms" % [str(action), float(_action_worst[action])])
+	lines.append("")
+	lines.append("## Where the slow frames are (frames over 33 ms per action, top 15)")
+	lines.append("")
+	var busiest: Array = _action_slow.keys()
+	busiest.sort_custom(func(a: Variant, b: Variant) -> bool: return int(_action_slow[a]) > int(_action_slow[b]))
+	for action: Variant in busiest.slice(0, 15):
+		lines.append("- %s: %d" % [str(action), int(_action_slow[action])])
 	lines.append("")
 	lines.append("## Errors")
 	lines.append("")

@@ -576,3 +576,10 @@ After (`g_decks_l1_after.md`): **Beefcake 52% / Gourmand 57% / Refusemancer 47% 
 Not met: elites and bosses are still mostly too easy late (the gear-equipped late player outclasses most fixed decks; stat rules are the lever that works and are applied to the worst ones), several early fights stay too hard (the Gainlands roamers, Colonel Casserole, Prudence, the Rotheart normals, the Iron Cave and Vault normals: mostly Beefcake or swarm foes that win fast). The rest goes to the Phase 2 Balance cycles; questions in the inbox.
 
 Kept inside the tests' design bounds: Prudence Pallor ends at **12 HP** (not 10; `test_corrupted_npcs` wants 12-30, and 13 and 10 HP both measured 38%), Baron Quadzilla at **16 HP** (not 17; `test_gainlands_v2` keeps the Iron Cave boss an early-game fight; 63% at 17).
+
+## Overnight Oct 18, Phase 2 cycle 1 (Balance): the early walls' one-sided rules
+
+| Encounter | Old -> New | Why | Evidence |
+|---|---|---|---|
+| Colonel Casserole rule Field Rations | starts with a 3/3 Meatloaf Golem -> a 1/1 Sashimi Weenie | 42% at 12-18 HP alike: the free 3/3 on turn one decided the fight, not HP | g_c1_zone_gourmand_casserole.md: 42% -> **73%** (elite band 60-75), 10 games per Path |
+| Prudence Pallor rule Paperwork Ready | starts with 2 Red Tape -> 1 | 38% at 10-13 HP alike | g_c1_town_npc_necrocrat.md: 38% -> **53%** (band 60-75; -7) |

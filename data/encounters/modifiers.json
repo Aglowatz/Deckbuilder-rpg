@@ -358,11 +358,11 @@
 	"town:npc:necrocrat": [
 		{
 			"name": "Paperwork Ready",
-			"text": "Prudence starts the duel with 2 Red Tape.",
+			"text": "Prudence starts the duel with a Red Tape.",
 			"icon": "delapouite/stamper",
 			"kind": "starting_resources",
 			"resource": "redtape",
-			"count": 2
+			"count": 1
 		}
 	],
 	"town:ninja": [
@@ -388,10 +388,10 @@
 	"zone:gourmand:casserole": [
 		{
 			"name": "Field Rations",
-			"text": "The Colonel starts with a 3/3 Meatloaf Golem on the field.",
+			"text": "The Colonel starts with a 1/1 Sashimi Weenie on the field.",
 			"icon": "delapouite/chef-toque",
 			"kind": "starting_tokens",
-			"token": "T-05",
+			"token": "T-03",
 			"count": 1
 		}
 	],
