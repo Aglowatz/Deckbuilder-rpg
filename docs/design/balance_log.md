@@ -695,3 +695,89 @@ Primm, read as one fight: the three phases are fought in a row; from full HP eac
 | Meatloaf Golem (Buffet roamer) basics 16 -> 18 | normal 75% |
 
 After (6 games per Path, `g_c22_*.md`): Apprentice Itamae 63 -> 71%, Conveyor Belt Sushi Chef 71 -> **88%**, Assembly Line Golem 75 -> **92%**, Expediter of the Pass 79 -> **92%**, Courtyard Lifter 71 -> 75%, Meatloaf Golem 75 -> 75%.
+
+## Overnight Oct 18-19: end of the night (full catalog, `g_final.md` vs iteration 1 `g_iter1.md`, 6 games per Path)
+
+| Kind | Fights | In band before -> after | Too hard | Too easy | Mean win | Mean turns |
+|---|---:|---|---|---|---|---|
+| Tutorial | 3 | 3 -> **2** | 0 -> 1 | 0 -> 0 | 96% -> 92% | 5.2 -> 5.3 |
+| Normal | 54 | 34 -> **38** | 20 -> 16 | 0 -> 0 | 84% -> 87% | 7.7 -> 7.6 |
+| Elite | 21 | 4 -> **11** | 9 -> 7 | 8 -> 3 | 66% -> 64% | 8.7 -> 8.5 |
+| Boss | 19 | 3 -> **8** | 3 -> 1 | 13 -> 10 | 69% -> 63% | 8.2 -> 8.2 |
+
+
+The tutorial row is one fight-alone dip at 24 games (92% vs 96%); the 50-run tutorial checks (cycles 7, 9) put whole runs at 80-92% per Path.
+
+Every fight that moved:
+
+|---|---|---|---:|---:|---|
+| Heart of the Hollow (Hollow Warden) | Tutorial | 85-100% | 96% | **83%** | TOO HARD (-2), fast |
+| Stray Gym Hound | Normal | 80-100% | 75% | **79%** | TOO HARD (-1) |
+| Bin Raccoon | Normal | 80-100% | 83% | **88%** | ok, fast |
+| Chef Fennel Gravois | Elite | 60-75% | 67% | **58%** | TOO HARD (-2), slow |
+| Moss Mulligan | Elite | 60-75% | 58% | **54%** | TOO HARD (-6) |
+| Prudence Pallor | Elite | 60-75% | 25% | **42%** | TOO HARD (-18) |
+| The Restless Dead | Boss | 40-60% | 42% | **46%** | ok |
+| Shiro Swindle | Boss | 40-60% | 92% | **88%** | too easy (+28) |
+| The Warden of the Four Seals | Boss | 40-60% | 33% | **38%** | TOO HARD (-3) |
+| Flexing Brute | Normal | 80-100% | 63% | **83%** | ok, fast |
+| Shambling Middle Manager | Normal | 80-100% | 96% | **92%** | ok |
+| Meatloaf Golem | Normal | 80-100% | 71% | **75%** | TOO HARD (-5) |
+| Gelatin Sentinel | Normal | 80-100% | 96% | **100%** | ok |
+| Colonel Casserole | Elite | 60-75% | 42% | **79%** | too easy (+4) |
+| Mossy Trash Golem | Normal | 80-100% | 92% | **96%** | ok |
+| Possessed Scarecrow Druid | Normal | 80-100% | 92% | **96%** | ok |
+| Rift Wretch | Normal | 80-100% | 92% | **96%** | ok |
+| Captain Spotless | Elite | 60-75% | 100% | **67%** | ok, slow |
+| Cardio Corridor - Treadmill Sprinter | Normal | 80-100% | 88% | **83%** | ok |
+| Free Weight Courtyard - Courtyard Lifter | Normal | 80-100% | 50% | **75%** | TOO HARD (-5) |
+| Regime Checkpoint - Regime Checkpoint Captain | Elite | 60-75% | 63% | **50%** | TOO HARD (-10) |
+| Prison Block - Cell Block Brawler | Normal | 80-100% | 83% | **79%** | TOO HARD (-1) |
+| Hall of Trophies - Trophy Hall Honor Guard | Elite | 60-75% | 46% | **71%** | ok |
+| Throne of Gains - Chancellor Clench, Iron Regent | Boss | 40-60% | 63% | **58%** | ok |
+| Prep Station - Prep Station Sous-Chef | Normal | 80-100% | 71% | **88%** | ok |
+| Walk-In Cooler - Frozen Line Cook | Normal | 80-100% | 92% | **83%** | ok |
+| Prototype Bay - Unfinished War Machine | Elite | 60-75% | 50% | **63%** | ok |
+| Golem Assembly Line - Assembly Line Golem | Normal | 80-100% | 79% | **92%** | ok |
+| Weapons Test Range - Cannon-Blender Gunner | Elite | 60-75% | 50% | **67%** | ok |
+| The Head Chef's Pass - Expediter of the Pass | Normal | 80-100% | 79% | **92%** | ok |
+| The Grand Kitchen - The Doppelganger | Boss | 40-60% | 21% | **63%** | too easy (+3) |
+| Notary Checkpoint - Notary Wraith | Elite | 60-75% | 79% | **71%** | ok |
+| Appeals Court - Undersecretary Vellum | Elite | 60-75% | 75% | **79%** | too easy (+4), slow |
+| Office of Final Approval - Mortimer Grimsby, CE-No | Boss | 40-60% | 71% | **67%** | too easy (+7) |
+| Overgrown Junkyard - Overgrown Scarecrow | Normal | 80-100% | 63% | **54%** | TOO HARD (-26), fast |
+| Fungal Hollow - Mutant Mushroom Troop | Normal | 80-100% | 63% | **58%** | TOO HARD (-22), fast |
+| Root-Choked Mill - Rootbound Miller | Elite | 60-75% | 75% | **67%** | ok |
+| Hive of Mutant Bees - Hive of Mutant Bees | Elite | 60-75% | 17% | **33%** | TOO HARD (-27), fast |
+| The Rotheart - Compostella, the Rotheart | Boss | 40-60% | 21% | **58%** | ok, fast |
+| Hall of Mirrors - Mirror Knight | Elite | 60-75% | 79% | **67%** | ok |
+| Royal Stair - Royal Staircase Guard | Elite | 60-75% | 100% | **63%** | ok |
+| Primm - phase 2 (reflection) | Boss | 40-60% | 58% | **63%** | too easy (+3) |
+| Beefcake Wing: Coup Orders Barracks - Coup Barracks Sergeant | Normal | 80-100% | 92% | **100%** | ok |
+| Refusemancer Wing: the Corrupted Seed Vault - Seed Vault Gardener | Normal | 80-100% | 96% | **100%** | ok |
+| Clocktower Balcony - Clocktower Sentinel | Elite | 60-75% | 100% | **67%** | ok |
+| Base Camp Bros - Rival Lifter at Base Camp | Normal | 80-100% | 100% | **96%** | ok |
+| The Squat Rack Pass - Squat Rack Sentinel | Normal | 80-100% | 92% | **100%** | ok |
+| The Summit Altar - The Ancient Spotter | Boss | 40-60% | 88% | **67%** | too easy (+7) |
+| The Counter Seat - Apprentice Itamae | Normal | 80-100% | 56% | **71%** | TOO HARD (-9) |
+| The Conveyor Gauntlet - Conveyor Belt Sushi Chef | Normal | 80-100% | 71% | **88%** | ok, slow |
+| Chef's Choice - The Itamae Supreme | Boss | 40-60% | 54% | **50%** | ok |
+| Betty's Desk - Betty Bones, Surly Secretary | Boss | 40-60% | 79% | **63%** | too easy (+3) |
+| The Alley Gate - Alley Gate Raccoon | Normal | 80-100% | 96% | **92%** | ok |
+| The Throne of Lids - His Majesty the Raccoon | Boss | 40-60% | 100% | **58%** | ok |
+| The Grate Beneath the Plaza - Enforcer Captain Spotless | Boss | 40-60% | 100% | **42%** | ok |
+| The Rusty Gate - Rusty Gate Clockwork | Normal | 80-100% | 58% | **75%** | TOO HARD (-5) |
+| The Hall of Four Banners - Banner Hall Guardian | Normal | 80-100% | 50% | **71%** | TOO HARD (-9) |
+| The Vault Core - The Old Kingdom Automaton | Boss | 40-60% | 71% | **58%** | ok |
+| The Failed Experiments - The Failed Experiment | Elite | 60-75% | 92% | **75%** | ok |
+| The Draining Chamber - The Drain Warden | Elite | 60-75% | 100% | **83%** | too easy (+8) |
+| Siphon's Annex - Siphon's Research Assistant | Normal | 80-100% | 96% | **100%** | ok |
+| The Chief Path-ologist's Laboratory - Dr. Ambrose Siphon, Chief Path-ologist | Boss | 40-60% | 71% | **58%** | ok, slow |
+| The Calf Raise Crawl - Calf Raise Crusher | Normal | 80-100% | 54% | **75%** | TOO HARD (-5) |
+| The Squat Rack Gallery - Squat Rack Squatter | Normal | 80-100% | 58% | **71%** | TOO HARD (-9) |
+| The Leg Press Throne - Baron Quadzilla | Boss | 40-60% | 71% | **67%** | too easy (+7) |
+| Arena tier 1 - Gladiator Rookie | Normal | 80-100% | 79% | **75%** | TOO HARD (-5) |
+| Arena tier 1 - Sandbag Sentinel | Normal | 80-100% | 67% | **71%** | TOO HARD (-9) |
+| Arena tier 2 - Cardboard Colossus | Elite | 60-75% | 17% | **54%** | TOO HARD (-6), slow |
+| Arena tier 2 - Champion of the Four Fists | Elite | 60-75% | 88% | **75%** | ok |
+| Arena tier 3 - Announcer Grand Bellows | Boss | 40-60% | 88% | **79%** | too easy (+19) |
