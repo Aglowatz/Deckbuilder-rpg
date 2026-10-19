@@ -16,7 +16,7 @@ updated by the Phase 2 cycles (`docs/overnight/loop_log.md`). Last night's sheet
 | Visuals - Verdant Dump | 7.5 | 7.5 | Unchanged since Oct 17. |
 | Visuals - Capital | 8 | 8 | Unchanged since Oct 17. |
 | UI consistency | 8 | 8 | Zone and dungeon arrival cards in the banner style with a Path icon + subtitle; Report a Problem form; settings rows for the battle options. Still: several screens hand-style their choice tiles. |
-| Onboarding / tutorial | 7.5 | 7.5 | Playtest smoke (forest -> Path -> cave -> Crosspath -> fight -> level 5 -> armory) OK; tracker names the area of a step elsewhere ("Go to the Gainlands"). Tutorial clears 71-88% per Path with the new starters (Necrocrat lowest). |
+| Onboarding / tutorial | 7.5 | 8 | Cycles 7 + 9: tutorial runs (50 per Path) Beefcake 92, Refusemancer 82, Necrocrat 82, Gourmand 80% (were 76-82). Playtest smoke (forest -> Path -> cave -> Crosspath -> fight -> level 5 -> armory) OK; tracker names the area of a step elsewhere ("Go to the Gainlands"). Tutorial clears 71-88% per Path with the new starters (Necrocrat lowest). |
 | Rewards & progression feel | 8.5 | 8.5 | Unchanged; items now once per battle (a cap, not a reward change); Alchemist reachable sooner (6 essence). |
 | Collection / bestiary | 7.5 | 7.5 | Unchanged (enemy pictures still missing). |
 | NPC life & dialogue | 8 | 8 | Unchanged; the dialogue presentation plan is written (Part 5). |

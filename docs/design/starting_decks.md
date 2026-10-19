@@ -47,7 +47,8 @@ are the Iron engine (Mill Worker) and the alpha-strike enabler (Carpool).
 | Infernal Intern (N-02) | 3 | 2/2, Red Tape on entering |
 | Body-builder (N-04) | 2 | Red Tape -> a 2/2 Patchwork Body each turn |
 | Notary Wraith (N-06) | 2 | Flying; drains when it dies - the deck's way past blockers |
-| Red Tape Dispenser (N-09) | 2 | Red Tape on demand |
+| Red Tape Dispenser (N-09) | 1 | Red Tape on demand |
+| Corpseified Public Accountant (N-05) | 1 | 2/3 body; makes Red Tape when an enemy unit dies (Phase 2 cycle 9: a body instead of the second Dispenser) |
 | Pink Slip (N-15) | 2 | destroys a small unit |
 | Processing Delay (N-16) | 1 | destroys any unit, two turns later |
 | Post-Human Resources Ghoul (N-03) | 2 | edict |

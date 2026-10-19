@@ -633,3 +633,11 @@ Whole tutorial run (HP carried, the Well and the shrine, the 3 picks), 50 runs p
 | Hollow Warden deck | 12 + 10 basics, Desperate Measures x1, Curbside Rat x2 -> 14 + 10 basics, no Desperate Measures, Curbside Rat x1 (3 HP unchanged) | runs: Beefcake **92%**, Gourmand **80%**, Refusemancer **82%**, Necrocrat **76%** (the Warden alone vs Necrocrat 80%) |
 
 Necrocrat's control deck takes ~30 turns per run and still loses 7 of 50 at the Warden; a person who attacks sooner should do better, but it stays the Path to watch in playtests (inbox).
+
+## Overnight Oct 18, Phase 2 cycle 9 (Onboarding): Necrocrat's tutorial run
+
+Replays of Necrocrat vs the Hollow Warden (`tools/replay_encounter.gd --id=tutorial:6 --path=necrocrat`): the lost games had hands of Infrastructure and Red Tape Dispensers, and the AI spent its turns activating Dispensers instead of putting bodies down; the second Dispenser came in with Part 2's swap.
+
+| Change | Before -> after |
+|---|---|
+| Necrocrat starter: Red Tape Dispenser 2 -> 1, + Corpseified Public Accountant (N-05, a 2/3) | tutorial run (50 runs) 76% -> **82%** (`c9_tutorial_n.md`); L1 round robin Necrocrat 44% -> 44% (`c9_decks_l1.md`: vs Beefcake 40, Gourmand 45, Refusemancer 47) |

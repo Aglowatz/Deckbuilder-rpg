@@ -24,7 +24,7 @@ const STARTING_DECKS: Dictionary = {
 	# bodies, Requisition Form turns it into cards, Pink Slip and the Ghoul clear the way, the Waiting Room and Invisible Ink
 	# slow Hustle swarms down, Notary Wraiths drain.
 	Affinity.Type.NECROCRAT: {
-		"N-01": 3, "N-02": 3, "N-04": 2, "N-06": 2, "N-09": 2, "N-15": 2, "N-16": 1, "N-18": 1, "N-20": 1,
+		"N-01": 3, "N-02": 3, "N-04": 2, "N-05": 1, "N-06": 2, "N-09": 1, "N-15": 2, "N-16": 1, "N-18": 1, "N-20": 1,
 		"N-07": 2, "N-03": 2, "N-13": 2, "N-23": 2, "N-26": 1,
 	},
 	# Gourmand - Ingredients into Golems: Line Cooks, Porters and the Herb Garden make Ingredients; the Mold, the Artificer and
