@@ -812,7 +812,9 @@ the arrival warning all read `ZoneEffects.mechanic_text`, so they say so now.
 
 The other Paths did not move (their units are never Necrocrat). The level-5 Necrocrat roamer fights stay low in the sim, and a replay
 (`replay_encounter --id=zone:beefcake:golem --path=necrocrat`) shows why: the sim's Necrocrat has the Golem at 1 HP by turn 12 and then
-spends 14 turns cashing Red Tape without attacking into its blockers. That is the sim player's limit, not the debuff; a person attacks.
+runs out of threats - from turn 19 it draws only Infrastructure and Red Tape (cashed every turn) while the Golem's blockers hold, and the
+AI correctly declines attacks its lone units would lose (loop cycle 9 read `AIPlayer._choose_attack`: it scores each attack after the
+opponent's best block). The level-5 Necrocrat deck floods late against walls; the debuff is not the cause.
 
 **Late bosses: one-sided boss rules** (icons with tooltips in the pre-battle brief and the battle HUD):
 
