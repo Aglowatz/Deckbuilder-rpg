@@ -88,9 +88,6 @@ static func equipment_for(level: int) -> Array[String]:
 		result.append("travelers_boots")
 	if level >= 11:
 		result.append("extra_pocket")
-	if level >= 14:
-		result.erase("travelers_boots")
-		result.append("hover_boots")
 	if level >= 16:
 		result.erase("extra_pocket")
 		result.append("dog_eared_bookmark")

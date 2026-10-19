@@ -19,5 +19,6 @@ id = "siphons_lens"
 description = "A glass lens from the draining chamber, ground to see all four Paths at once. Max HP +2, and you draw an extra card on your first turn."
 advanced = true
 flavor_text = "It was built to measure a boy. It works much better on someone who is allowed to look back."
+rarity = 2
 source_name = "Siphon's Lens"
 modifiers = Array[ExtResource("1_oprte")]([SubResource("Resource_8glss"), SubResource("Resource_6omtt")])

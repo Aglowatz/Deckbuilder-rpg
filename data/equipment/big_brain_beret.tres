@@ -14,11 +14,16 @@ script = ExtResource("1_wn6ih")
 kind = 16
 value = 1
 
+[sub_resource type="Resource" id="Resource_1v1tt"]
+script = ExtResource("1_wn6ih")
+value = -2
+
 [resource]
 script = ExtResource("3_bmn3u")
 id = "big_brain_beret"
 slot = 0
-description = "It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-infrastructure card per turn."
+description = "It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-infrastructure card per turn, and max HP -2."
 advanced = true
+rarity = 2
 source_name = "Big Brain Beret"
-modifiers = Array[ExtResource("1_wn6ih")]([SubResource("Resource_vl85j"), SubResource("Resource_nwviy")])
+modifiers = Array[ExtResource("1_wn6ih")]([SubResource("Resource_vl85j"), SubResource("Resource_nwviy"), SubResource("Resource_1v1tt")])

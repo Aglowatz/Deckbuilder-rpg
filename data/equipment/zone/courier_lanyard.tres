@@ -19,5 +19,6 @@ script = ExtResource("3_gepa8")
 id = "courier_lanyard"
 description = "Everything is routed exactly where you need it. Draw an extra card on your first turn, and max hand size +1."
 advanced = true
+rarity = 1
 source_name = "Soul Courier's Lanyard"
 modifiers = Array[ExtResource("1_ii4lh")]([SubResource("Resource_hrcmj"), SubResource("Resource_lqrps")])

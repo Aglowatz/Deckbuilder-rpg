@@ -17,5 +17,6 @@ slot = 0
 description = "Whenever you create Garbage, create 1 extra."
 advanced = true
 flavor_text = "Smells like victory, mostly."
+rarity = 1
 source_name = "Bin Lid Helm"
 modifiers = Array[ExtResource("1_a3yk3")]([SubResource("Resource_k07p4")])

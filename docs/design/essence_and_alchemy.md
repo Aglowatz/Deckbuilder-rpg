@@ -25,7 +25,7 @@ dungeons, the rewards screen and battles. Essence totals are shown on the **Char
 
 A crafting vendor in Crosspath, **locked until 2 zones are completed** (`ZoneCompletion.ALCHEMIST_UNLOCK_COUNT`):
 the building is visible, shuttered ("CLOSED (until two zones are free)") and the door gives a hint. When the player has
-at least **10 essence (`Alchemy.MIN_ESSENCE_PER_PATH`) of two different Paths** they may trade **ALL of their essence of
+at least **6 essence (`Alchemy.MIN_ESSENCE_PER_PATH`; 10 before Rebalance Part F) of two different Paths** they may trade **ALL of their essence of
 those two Paths + 100 gold** for **one random dual-Path card** of those two Paths (4 cards per pair, one of each
 rarity). The more essence traded beyond the minimum, the better the odds of Epic and Legendary
 (`Alchemy.weights_for`). The UI lists the four possible cards with their odds, then plays a brewing animation (a shaking

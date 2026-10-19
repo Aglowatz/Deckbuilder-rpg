@@ -146,6 +146,10 @@ Stats come from a `PlayerProfile` resource, never hardcoded.
 
 Modifiers from equipment, items, and zones apply on top of the profile values.
 
+**Items in battle** (Rebalance Part F): an equipped item is used in your own main phase, and **each equipped item can be used
+once per battle** (one charge; the rest of its charges stay for later fights). With 1 / 2 / 3 item slots (levels 1 / 10 / 20) that is at most
+1 / 2 / 3 item uses per fight, which is what the encounters are tuned around (`GameState.items_used`).
+
 ## Progression (Part E)
 
 HP, opening hand size, max hand size, item slots and equipment slot unlocks all advance with

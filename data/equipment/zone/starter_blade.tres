@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_a77kv"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_vt06l"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="3_h4e0a"]
+
+[sub_resource type="Resource" id="Resource_uypxf"]
+script = ExtResource("1_a77kv")
+kind = 48
+value = 1
+
+[resource]
+script = ExtResource("3_h4e0a")
+id = "starter_blade"
+slot = 1
+description = "The first unit you play each battle gets +1 attack."
+flavor_text = "Requisition form 7-B, approved in triplicate. Pointy end goes toward the enemy."
+tier = 1
+source = "Quest: Some Assembly Required (Bertram Beetsworth, level 5)"
+source_name = "Starter Blade"
+modifiers = Array[ExtResource("1_a77kv")]([SubResource("Resource_uypxf")])

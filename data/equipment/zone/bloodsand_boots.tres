@@ -22,5 +22,6 @@ id = "bloodsand_boots"
 slot = 3
 description = "Whenever you are dealt damage, draw a card."
 flavor_text = "Every scar teaches you something. These boots have taken notes."
+rarity = 1
 source_name = "Bloodsand Boots"
 modifiers = Array[ExtResource("1_1qp1y")]([SubResource("Resource_my1jt")])

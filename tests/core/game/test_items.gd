@@ -106,3 +106,18 @@ func test_buff_a_unit_for_the_turn() -> void:
 	assert_eq(game.get_attack(unit), 4)
 	assert_eq(game.get_defense(unit), 4)
 	assert_eq(unit.attack_bonus, 0, "END_OF_TURN duration should not be permanent")
+
+
+func test_each_item_works_once_per_battle() -> void:
+	var game: GameState = GameFactory.blank_game()
+	game.players[0].hp = 3
+	var item: ItemData = _item(CardEnums.EffectOp.GAIN_HP, CardEnums.TargetKind.CONTROLLER, 2)
+	assert_true(game.use_item(0, item))
+	assert_true(game.item_used(0, item))
+	assert_false(game.can_use_item(0, item), "the same item again in the same battle")
+	assert_false(game.use_item(0, item))
+	assert_eq(game.players[0].hp, 5)
+	var other: ItemData = _item(CardEnums.EffectOp.GAIN_HP, CardEnums.TargetKind.CONTROLLER, 1)
+	other.id = "other_item"
+	assert_true(game.use_item(0, other), "a different item still works")
+	assert_true(game.clone().item_used(0, item), "clones keep the record")

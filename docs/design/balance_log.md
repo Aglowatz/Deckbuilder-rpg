@@ -217,6 +217,57 @@ is any. Iteration tables (Part G) are at the bottom. The sheet-side list of the 
 |---|---|---|---|
 | Solid Plate | Common -> Uncommon | A team-wide +1 defense is the same weight as the Wicked Dagger (+1 attack, Uncommon); Commons are flat HP and draws. Price unchanged (110). | rarity audit |
 
+### Overnight Oct 18 (Part 1): measured lifts
+
+New sim mode `--what=gear` (`tools/balance_sim_tool.gd`): every Path's expected player plays the same seeds bare, with one piece or one
+item (one charge), and with the level's model gear/items. Common random numbers, so a piece that changes nothing shows exactly the bare
+number. Reports: `docs/design/sim/f_gear_l5.md` (Flexing Brute, L5, 40 games per variant), `f_gear_l12.md` (Meatloaf Golem, L12, 32 games).
+
+- **L5** (bare 45%): every common +0..+8, Solid Plate / Wicked Dagger +10, model gear +8, model gear + items +10. Gear matters a little and trivializes nothing.
+  Weak: Extra Pocket +0, Field Bandage +0, Scroll of Insight +2.
+- **L12** (bare 28%): model gear +41, model items +19, both +50. Epics: Big Brain Beret +31, Overdue Library Book +25, Elastic Waistband +22,
+  Compliance Clipboard +16, Gauntlets +9, Flamethrower +0. Path pieces on their own Path: Grandma's Rolling Pin Gourmand 50 -> 88 (+38),
+  Trash Panda Tiara Refusemancer 13 -> 38, Notarized Seal Necrocrat 13 -> 38, Bandolier Beefcake 38 -> 50, Velvet Rope Gourmand 50 -> 75 (9.7 turns).
+  Net-negative pieces: Hover Boots -13, Cheater's Dice -13, Thorned Loincloth -6. Reckless Tonic (one 6 HP gulp) +19, the best item.
+- **Item use had no limit in battle**: a stack of Salves (3 charges each, stackable) could all be drunk in one fight, so consumables could
+  carry any fight. The sim (and the progression model) always assumed "a fight-worth of charges".
+
+| Piece / item | Old -> New | Why | Evidence |
+|---|---|---|---|
+| Items in battle (rule) | any number of uses per battle -> **each equipped item once per battle** (`GameState.items_used`; the bar greys it out, "Each item works once per battle") | Bounds consumables at 1 / 2 / 3 uses per fight (the item slots), the amount the encounters are tuned around; charges left over carry to later fights. | the model above; `test_items.gd` |
+| Grandma's Rolling Pin | Uncommon -> **Epic** | +38 on Gourmand at L12, the largest single lift measured; as an Epic it competes for the one Epic slot (cap 1 until L13). Price unchanged (240). | f_gear_l12.md |
+| Trash Panda Tiara | Epic -> **Uncommon** | Same effect as the Uncommon Protein Shaker Bandolier (+1/+1 for one Path's units); the Path buffs sit at one rarity. | rarity audit, f_gear_l12.md |
+| Big Brain Beret (Epic, 300) | draw +1 each turn, one non-infra card per turn -> **same, and max HP -2** | +31 at L12, the strongest bought piece; the AI barely feels the one-card limit, so it gets a second drawback. | f_gear_l12.md |
+| Cheater's Dice (Uncommon, 260) | always first, opening hand -1 -> **always first** | -13: worse than nothing. | f_gear_l12.md |
+| Thorned Loincloth (Uncommon, 280) | max HP -5 -> **max HP -2**, retaliation unchanged | -6: worse than nothing. | f_gear_l12.md |
+| Hover Boots | price 300 -> **220**; the model player no longer wears them at L14 (keeps the Traveler's Boots) | -13 for a deck that must block: a niche piece for racing decks, priced like one. | f_gear_l12.md |
+| Extra Pocket (Common) | price 90 -> **60** | +0 at L5: a convenience piece. | f_gear_l5.md |
+| Scroll of Insight | Draw a card -> **Draw 2 cards** (price 45, 2 charges) | +2: one card was not worth an item slot. | f_gear_l5.md |
+| Field Bandage | price 35 -> **25** | +0: mending a unit rarely matters; cheap filler. | f_gear_l5.md |
+| Reckless Tonic | price 30 -> **45** | +19, the best item, at the lowest price. | f_gear_l12.md |
+
+### Overnight Oct 18 (Part 1): economy check
+
+`tools/economy_audit.gd` (report `docs/design/sim/economy.md`) sums the one-time gold sources: level rewards 3,070 (L2-5 180, L6-10 320,
+L11-20 1,020, L21-30 1,550), 25 quests 1,920, 67 dungeon battle nodes 3,645, 14 first clears 1,410 - about 10,000, plus hidden chests
+(roughly 300-600 per area) and repeatable roamers (Crosspath 12-14, zones 25-50, Capital 35-120 each). Prices: cards 20-200 (rarity base
+15/35/80/160 + 5 per energy), Path Pack 150, General 100/220, Gilded 600, Prismatic 900, gear 60-130 (basic) / 220-320 (advanced and the
+freed-zone pieces), items 25-55.
+
+- **Start to the Gainlands (L5)**: about 500-600 gold (tutorial, L2-5 rewards, the two starter quests, a few outskirts fights) against the
+  model's shopping (Cuirass 60 + Helmet 70 + a Draught 40 + one Path Pack 150 = 320). Comfortable, not lavish.
+- **Mid and late game**: income runs ahead of the fixed sinks (all gear about 3,300, a full Path collection about 2,600, items); the surplus
+  goes into Path and Gilded packs, which is the intended open-ended sink. No price change needed beyond the item fixes above; card prices
+  stay (a common at ~25 is a fight's pay).
+- **Crosspath outskirts roamers** pay 12-14 gold and respawn every 240 s: a grind of ~3 gold a minute walking, far below a dungeon node
+  (35-100). Left as is (they exist for the first levels, not for farming).
+- **Alchemist**: under the copy caps a copy only becomes essence once you already own the cap (3 commons), so essence arrives slowly: 10 of
+  two Paths meant roughly ten surplus commons of each, i.e. many off-Path packs, before the first brew.
+
+| What | Old -> New | Why | Evidence |
+|---|---|---|---|
+| Alchemist minimum essence per Path | 10 -> **6** (gold cost 100 unchanged) | Copies only turn into essence above the cap, so 10 of two Paths came far later than the Alchemist opens; 6 is reachable by mid-game with one off-Path. | economy audit above |
+
 ## Part E - encounter tuning, batch 6 (basics ratio for every dungeon; the Hall's rules)
 
 | Encounter | Old -> New | Why | Evidence |

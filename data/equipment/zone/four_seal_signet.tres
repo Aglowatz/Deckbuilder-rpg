@@ -37,5 +37,6 @@ id = "four_seal_signet"
 description = "Max HP +3. Start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape."
 advanced = true
 flavor_text = "Four rings fused into one. Each remembers a Path, and none of them agree on much."
+rarity = 3
 source_name = "Four-Seal Signet"
 modifiers = Array[ExtResource("1_eq6m2")]([SubResource("Resource_uxcpb"), SubResource("Resource_sy0bc"), SubResource("Resource_cp8xc"), SubResource("Resource_0s4k1"), SubResource("Resource_for2s")])

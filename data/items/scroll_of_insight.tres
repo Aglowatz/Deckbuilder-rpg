@@ -7,12 +7,12 @@
 script = ExtResource("1_7f3cw")
 target = 1
 op = 2
-amount = 1
+amount = 2
 
 [resource]
 script = ExtResource("2_d0q0t")
 id = "scroll_of_insight"
 display_name = "Scroll of Insight"
-description = "Draw a card."
+description = "Draw 2 cards."
 uses = 2
 effect = SubResource("Resource_j4amb")

@@ -19,5 +19,6 @@ id = "swole_belt"
 slot = 2
 description = "Brace the core, brace the deck. Max HP +3 and your units get +1 defense."
 advanced = true
+rarity = 2
 source_name = "Gainsmith's Lifting Belt"
 modifiers = Array[ExtResource("1_nm655")]([SubResource("Resource_1ur6s"), SubResource("Resource_6yjfg")])

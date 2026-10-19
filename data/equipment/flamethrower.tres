@@ -21,5 +21,6 @@ id = "flamethrower"
 slot = 1
 description = "Alchemist's fire in a backpack tank. At the start of your turn, deal 1 damage to each opposing unit."
 advanced = true
+rarity = 2
 source_name = "Flamethrower"
 modifiers = Array[ExtResource("1_h537i")]([SubResource("Resource_u2sjr")])

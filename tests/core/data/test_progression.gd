@@ -231,7 +231,7 @@ func test_unequip_returns_it_to_owned_and_removes_its_modifiers() -> void:
 	var vest: EquipmentData = content.equipment_piece("thorned_loincloth")
 	profile.owned_equipment.append(vest)
 	profile.equip(vest)
-	assert_eq(profile.gear_modifiers().sum(Modifier.Kind.MAX_HP), -5)
+	assert_eq(profile.gear_modifiers().sum(Modifier.Kind.MAX_HP), -2)
 	var removed: EquipmentData = profile.unequip(EquipmentData.Slot.ARMOR)
 	assert_eq(removed, vest)
 	assert_null(profile.equipped_in(EquipmentData.Slot.ARMOR))
@@ -249,7 +249,7 @@ func test_equipped_gear_flows_through_the_pipeline_into_a_real_game() -> void:
 	var game: GameState = GameState.new()
 	game.add_player(setup)
 	game.add_player(PlayerSetup.create(GameFactory.make_deck()))
-	assert_eq(game.players[0].max_hp, 5, "10 base - 5 from Thorned Loincloth")
+	assert_eq(game.players[0].max_hp, 8, "10 base - 2 from Thorned Loincloth")
 
 
 # ---- Items ----------------------------------------------------------------------------------

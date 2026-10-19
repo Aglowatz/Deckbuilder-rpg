@@ -58,6 +58,8 @@ var limbo: Array[CardInstance] = []
 var delayed: Array[Dictionary] = []
 ## Temporarily borrowed permanents: {uid, back_to, until_turn}.
 var borrowed: Array[Dictionary] = []
+## Rebalance Part F: the items each player has used this battle (item id -> true); an equipped item is usable once per battle.
+var items_used: Array[Dictionary] = [{}, {}]
 
 
 func _init(game_options: GameOptions = null) -> void:
@@ -557,6 +559,8 @@ func _targets_are_legal(player_index: int, card: CardInstance, ability: CardAbil
 func can_use_item(player_index: int, item: ItemData) -> bool:
 	if item == null or item.effect == null or not in_main_phase() or player_index != active:
 		return false
+	if item_used(player_index, item):
+		return false
 	if item.effect.needs_chosen_target():
 		return not legal_targets(player_index, item.effect, 0).is_empty()
 	return true
@@ -571,9 +575,15 @@ func use_item(player_index: int, item: ItemData, target: int = 0) -> bool:
 		return false
 	if item.effect.needs_chosen_target() and not legal_targets(player_index, item.effect, 0).has(target):
 		return false
+	items_used[player_index][item.id] = true
 	EffectResolver.resolve(self, item.effect, EffectContext.make(0, player_index, 0, target))
 	check_state()
 	return true
+
+
+## True when `player_index` already used `item` this battle (each equipped item works once per battle).
+func item_used(player_index: int, item: ItemData) -> bool:
+	return item != null and player_index >= 0 and player_index < items_used.size() and items_used[player_index].has(item.id)
 
 
 ## True when `player_index` could pay `generic` + `pips` right now (floating energy plus ready infrastructure).
@@ -2357,6 +2367,8 @@ func clone(deep_deck: bool = true, hide_traps_of: int = -1) -> GameState:
 		copy.delayed.append(copied)
 	for entry: Dictionary in borrowed:
 		copy.borrowed.append(entry.duplicate())
+	copy.items_used[0] = items_used[0].duplicate()
+	copy.items_used[1] = items_used[1].duplicate()
 	return copy
 
 

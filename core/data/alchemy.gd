@@ -6,7 +6,7 @@ extends RefCounted
 ## beyond the minimum, the better the odds of the rarer cards. Tri-Path crafting is a postgame hook only
 ## (`tri_path_unlocked`, no tri-Path cards exist yet).
 
-const MIN_ESSENCE_PER_PATH: int = 10
+const MIN_ESSENCE_PER_PATH: int = 6
 const GOLD_COST: int = 100
 ## Odds (weights) for Common, Uncommon, Epic, Legendary at the minimum trade (the dual-Path cards are Uncommon, Epic and Legendary).
 const BASE_WEIGHTS: Array[int] = [8, 6, 3, 1]

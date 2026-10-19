@@ -7,7 +7,7 @@
 
 [sub_resource type="Resource" id="Resource_ppgpy"]
 script = ExtResource("1_mhcq0")
-value = -5
+value = -2
 
 [sub_resource type="Resource" id="Resource_2k4we"]
 script = ExtResource("3_0deof")
@@ -23,7 +23,8 @@ effect = SubResource("Resource_2k4we")
 script = ExtResource("4_l872m")
 id = "thorned_loincloth"
 slot = 2
-description = "Nobody enjoys being the one who has to remove this from a corpse. Max HP -5; whenever an enemy unit attacks you, it takes 1 damage."
+description = "Nobody enjoys being the one who has to remove this from a corpse. Max HP -2; whenever an enemy unit attacks you, it takes 1 damage."
 advanced = true
+rarity = 1
 source_name = "Thorned Loincloth"
 modifiers = Array[ExtResource("1_mhcq0")]([SubResource("Resource_ppgpy"), SubResource("Resource_t0dpi")])

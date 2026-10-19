@@ -1283,6 +1283,8 @@ func _use_item(item: ItemData, target: int) -> void:
 func _why_not_usable(item: ItemData) -> String:
 	if not game.in_main_phase() or game.active != 0:
 		return "You can only use items in your main phase"
+	if game.item_used(0, item):
+		return "Each item works once per battle"
 	return "There is no legal target"
 
 

@@ -44,6 +44,8 @@ func run() -> bool:
 			_one(content, games, seed_value, lines)
 		"matchup":
 			_matchup(content, games, seed_value, lines)
+		"gear":
+			_gear(content, games, seed_value, lines)
 		_:
 			push_error("unknown --what=%s" % what)
 			return false
@@ -299,3 +301,73 @@ func _path_arg(key: String, fallback: Affinity.Type) -> Affinity.Type:
 		if Affinity.display_name(path).to_lower() == wanted:
 			return path
 	return fallback
+
+
+## Rebalance Part F: the lift of each piece of equipment and each consumable on its own. The fights are --filter (one or more
+## encounters); every Path's expected player plays them bare (no gear, no items), then with one piece (or one item, --uses charges,
+## default 1), then with the level's model gear and items. --pieces=a,b limits the pieces (default: every piece and item); --items=0 skips items.
+func _gear(content: ContentSet, games: int, seed_value: int, lines: PackedStringArray) -> void:
+	var specs: Array[EncounterSpec] = EncounterCatalog.filtered(content, str(args.get("filter", "zone:beefcake")))
+	if specs.is_empty():
+		lines.append("No encounters match the filter.")
+		return
+	var level: int = int(args.get("level", specs[0].expected_level))
+	var uses: int = int(args.get("uses", 1))
+	var variants: Array[Dictionary] = [{"label": "bare (no gear, no items)", "gear": [], "items": {}, "rarity": "-"}]
+	variants.append({"label": "model gear (L%d)" % level, "gear": ProgressionModel.equipment_for(level), "items": {}, "rarity": "-"})
+	variants.append({"label": "model items (L%d)" % level, "gear": [], "items": ProgressionModel.items_for(level), "rarity": "-"})
+	variants.append({"label": "model gear + items", "gear": ProgressionModel.equipment_for(level), "items": ProgressionModel.items_for(level), "rarity": "-"})
+	var wanted: Array = []
+	if args.has("pieces"):
+		wanted = Array(str(args["pieces"]).split(",", false))
+	var piece_ids: Array = content.equipment.keys() + content.zone_equipment.keys()
+	piece_ids.sort()
+	for id: Variant in piece_ids:
+		if not wanted.is_empty() and not wanted.has(id):
+			continue
+		var piece: EquipmentData = content.equipment_piece(str(id))
+		if piece == null:
+			continue
+		variants.append({"label": str(id), "gear": [str(id)], "items": {}, "rarity": EquipmentRarity.display_name(int(piece.rarity)), "cap": EquipCaps.cap_for(int(piece.rarity), level)})
+	if str(args.get("items", "1")) != "0":
+		var item_ids: Array = content.items.keys()
+		item_ids.sort()
+		for id: Variant in item_ids:
+			if not wanted.is_empty() and not wanted.has(id):
+				continue
+			variants.append({"label": "item: %s x%d" % [str(id), uses], "gear": [], "items": {str(id): uses}, "rarity": "item"})
+	var titles: PackedStringArray = []
+	for spec: EncounterSpec in specs:
+		titles.append("%s (%s)" % [spec.title, spec.id])
+	lines.append("## Equipment and item lift at level %d over %s (%d games per Path and fight)" % [level, ", ".join(titles), games])
+	lines.append("")
+	var path_names: PackedStringArray = []
+	for path: Affinity.Type in Affinity.colored_types():
+		path_names.append(Affinity.display_name(path))
+	lines.append("| Variant | Rarity | Cap at L | %s | All | Lift vs bare | Turns |" % " | ".join(path_names))
+	lines.append("|---|---|---:|---:|---:|---:|---:|---:|---:|---:|")
+	var bare_rate: float = -1.0
+	for variant: Dictionary in variants:
+		var per_path: PackedStringArray = []
+		var merged: BalanceSim.Result = BalanceSim.Result.new()
+		for path: Affinity.Type in Affinity.colored_types():
+			var path_result: BalanceSim.Result = BalanceSim.Result.new()
+			for spec: EncounterSpec in specs:
+				var player: PlayerSpec = ProgressionModel.player_for(content, spec, path)
+				player.level = level
+				player.deck = ProgressionModel.reference_deck(content, path, level)
+				var gear: Array[String] = []
+				for id: Variant in variant["gear"] as Array:
+					gear.append(str(id))
+				player.equipment_ids = gear
+				player.items = (variant["items"] as Dictionary).duplicate()
+				var result: BalanceSim.Result = BalanceSim.run(content, player, spec, games, seed_value + int(path) * 100000)
+				path_result.merge(result)
+			per_path.append(BalanceSim.percent(path_result.win_rate()))
+			merged.merge(path_result)
+		var rate: float = merged.win_rate()
+		if bare_rate < 0.0:
+			bare_rate = rate
+		var lift: int = roundi((rate - bare_rate) * 100.0)
+		lines.append("| %s | %s | %s | %s | %s | %+d | %.1f |" % [str(variant["label"]), str(variant["rarity"]), str(variant.get("cap", "-")), " | ".join(per_path), BalanceSim.percent(rate), lift, merged.avg_player_turns()])
+		print("%-40s %s %+d" % [str(variant["label"]), BalanceSim.percent(rate), lift])

@@ -22,5 +22,6 @@ id = "head_chef_ladle"
 slot = 1
 description = "Heavy, battered and trusted by a hundred golems. At the start of your turn, gain 1 HP."
 advanced = true
+rarity = 1
 source_name = "Head Chef's Ladle"
 modifiers = Array[ExtResource("1_l8hnx")]([SubResource("Resource_jli1q")])

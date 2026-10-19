@@ -16,13 +16,13 @@ static func equipment() -> Dictionary:
 	_add(result, _piece("wicked_dagger", "Wicked Dagger", EquipmentData.Slot.WEAPON, "A blade with a reputation it didn't earn honestly. Your units get +1 attack.", [_mod(K.STAT_CHANGE, 1, Modifier.ANY_COLOR, 0)]))
 	_add(result, _piece("flamethrower", "Flamethrower", EquipmentData.Slot.WEAPON, "Alchemist's fire in a backpack tank. At the start of your turn, deal 1 damage to each opposing unit.", [_mod_effect(K.START_OF_TURN_EFFECT, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ENEMY_UNITS))], true))
 	_add(result, _piece("extra_pocket", "Extra Pocket", EquipmentData.Slot.RELIC, "Sewn in where no one thinks to look. Max hand size +1.", [_mod(K.MAX_HAND_SIZE, 1)]))
-	_add(result, _piece("cheaters_dice", "Cheater's Dice", EquipmentData.Slot.RELIC, "They only ever land the way you need them to. You always go first, but your opening hand is 1 card smaller.", [_mod(K.ALWAYS_FIRST, 1), _mod(K.OPENING_HAND_SIZE, -1)], true))
+	_add(result, _piece("cheaters_dice", "Cheater's Dice", EquipmentData.Slot.RELIC, "They only ever land the way you need them to. You always go first.", [_mod(K.ALWAYS_FIRST, 1)], true))
 	_add(result, _piece("travelers_boots", "Traveler's Boots", EquipmentData.Slot.BOOTS, "Worn thin by roads longer than this one. Draw an extra card at the start of your first turn.", [_mod(K.FIRST_TURN_EXTRA_DRAW, 1)]))
 	_add(result, _piece("hover_boots", "Hover Boots", EquipmentData.Slot.BOOTS, "A finger's width of clearance, always. Your units have Flying but cannot block.", [_mod(K.GRANT_KEYWORD_TO_UNITS, int(KW.FLYING), Modifier.ANY_COLOR, 0), _mod(K.CANNOT_BLOCK, 1)], true))
 	_add(result, _piece("solid_plate", "Solid Plate", EquipmentData.Slot.ARMOR, "Unglamorous, unyielding. Your units get +1 defense.", [_mod(K.STAT_CHANGE, 0, Modifier.ANY_COLOR, 1)]))
-	_add(result, _piece("thorned_loincloth", "Thorned Loincloth", EquipmentData.Slot.ARMOR, "Nobody enjoys being the one who has to remove this from a corpse. Max HP -5; whenever an enemy unit attacks you, it takes 1 damage.", [_mod(K.MAX_HP, -5), _mod_effect(K.RETALIATE_ON_ATTACK, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ATTACKERS))], true))
+	_add(result, _piece("thorned_loincloth", "Thorned Loincloth", EquipmentData.Slot.ARMOR, "Nobody enjoys being the one who has to remove this from a corpse. Max HP -2; whenever an enemy unit attacks you, it takes 1 damage.", [_mod(K.MAX_HP, -2), _mod_effect(K.RETALIATE_ON_ATTACK, _effect(CardEnums.EffectOp.DEAL_DAMAGE, 1, CardEnums.TargetKind.ALL_ATTACKERS))], true))
 	_add(result, _piece("xray_goggles", "X-Ray Goggles", EquipmentData.Slot.HELM, "Everything looks the same underneath. The opponent's hand is revealed to you - it doesn't see through a face-down trap, though.", [_mod(K.REVEAL_OPPONENT_HAND, 1)]))
-	_add(result, _piece("big_brain_beret", "Big Brain Beret", EquipmentData.Slot.HELM, "It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-infrastructure card per turn.", [_mod(K.EXTRA_DRAWS, 1), _mod(K.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, 1)], true))
+	_add(result, _piece("big_brain_beret", "Big Brain Beret", EquipmentData.Slot.HELM, "It itches, but it's undeniably working. Draw an extra card each turn, but you can play only one non-infrastructure card per turn, and max HP -2.", [_mod(K.EXTRA_DRAWS, 1), _mod(K.MAX_NON_INFRASTRUCTURE_PLAYS_PER_TURN, 1), _mod(K.MAX_HP, -2)], true))
 	return result
 
 
@@ -59,7 +59,7 @@ static func items(tokens: Dictionary = {}) -> Dictionary:
 	# effect needs it) as well as between fights - the same effect either way.
 	_add_item(result, "healing_salve", "Healing Salve", "Heal 4 HP.", 3, CardEnums.EffectOp.GAIN_HP, 4, 0, D.PERMANENT, G.CONTROLLER)
 	_add_item(result, "field_bandage", "Field Bandage", "Mend 3 damage from one of your units.", 3, CardEnums.EffectOp.HEAL, 3, 0, D.PERMANENT, G.CHOSEN_UNIT_ALLY)
-	_add_item(result, "scroll_of_insight", "Scroll of Insight", "Draw a card.", 2, CardEnums.EffectOp.DRAW, 1, 0, D.PERMANENT, G.CONTROLLER)
+	_add_item(result, "scroll_of_insight", "Scroll of Insight", "Draw 2 cards.", 2, CardEnums.EffectOp.DRAW, 2, 0, D.PERMANENT, G.CONTROLLER)
 	_add_item(result, "firebrand_charm", "Firebrand Charm", "Deal 2 damage to an enemy unit.", 2, CardEnums.EffectOp.DEAL_DAMAGE, 2, 0, D.PERMANENT, G.CHOSEN_UNIT_ENEMY)
 	_add_item(result, "sharpening_stone", "Sharpening Stone", "Give a unit +2/+2 until end of turn.", 3, CardEnums.EffectOp.BUFF, 2, 2, D.END_OF_TURN, G.CHOSEN_UNIT_ALLY)
 	_add_item(result, "binding_chains", "Binding Chains", "Return an enemy unit to its owner's hand.", 1, CardEnums.EffectOp.SEND_BACK, 0, 0, D.PERMANENT, G.CHOSEN_UNIT_ENEMY)

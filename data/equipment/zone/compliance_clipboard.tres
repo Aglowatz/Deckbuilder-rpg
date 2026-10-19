@@ -22,5 +22,6 @@ id = "compliance_clipboard"
 description = "At the end of your turn, the opponent loses 1 HP."
 advanced = true
 flavor_text = "Every box ticked is a little paper cut. Nobody has ever read what it says."
+rarity = 2
 source_name = "Compliance Clipboard"
 modifiers = Array[ExtResource("1_1ldgt")]([SubResource("Resource_owbvx")])

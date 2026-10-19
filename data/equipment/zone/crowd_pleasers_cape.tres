@@ -22,5 +22,6 @@ id = "crowd_pleasers_cape"
 slot = 2
 description = "Each time you declare attackers, gain 1 HP."
 flavor_text = "Every charge earns a roar, and every roar is oddly nourishing."
+rarity = 1
 source_name = "Crowd-Pleaser's Cape"
 modifiers = Array[ExtResource("1_5fhdu")]([SubResource("Resource_ohmxb")])

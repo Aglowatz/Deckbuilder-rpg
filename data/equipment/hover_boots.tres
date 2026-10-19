@@ -19,5 +19,6 @@ id = "hover_boots"
 slot = 3
 description = "A finger's width of clearance, always. Your units have Flying but cannot block."
 advanced = true
+rarity = 1
 source_name = "Hover Boots"
 modifiers = Array[ExtResource("1_jfinh")]([SubResource("Resource_dpma4"), SubResource("Resource_l2qtt")])

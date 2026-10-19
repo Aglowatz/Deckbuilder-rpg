@@ -23,5 +23,6 @@ slot = 3
 description = "Whenever a unit of yours dies, your units get +0/+1 permanently."
 advanced = true
 flavor_text = "Squelch, squelch, grow. What falls feeds what stands."
+rarity = 1
 source_name = "Compost Boots"
 modifiers = Array[ExtResource("1_dvs36")]([SubResource("Resource_bprav")])

@@ -22,5 +22,6 @@ slot = 1
 description = "Whenever a unit enters the field under your control, deal 1 damage to the opponent."
 advanced = true
 flavor_text = "Every new face gets a free rep. Somebody is always counting out loud."
+rarity = 2
 source_name = "Spotter's Barbell"
 modifiers = Array[ExtResource("1_qy2p0")]([SubResource("Resource_vffqj")])

@@ -16,5 +16,6 @@ slot = 0
 description = "Whenever you gain HP, gain 1 extra HP."
 advanced = true
 flavor_text = "Tall, white and slightly stained. Seconds are always an option while it is on."
+rarity = 1
 source_name = "Head Chef's Toque"
 modifiers = Array[ExtResource("1_bfqch")]([SubResource("Resource_x4nln")])

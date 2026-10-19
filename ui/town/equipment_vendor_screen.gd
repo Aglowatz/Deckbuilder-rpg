@@ -191,7 +191,7 @@ static func default_stock() -> EquipmentVendorData:
 	var always: Condition = null
 	var advanced: Condition = Condition.player_level(ProgressionTable.EQUIPMENT_VENDOR_UNLOCK_LEVEL)
 	data.add("wicked_dagger", 120, always)
-	data.add("extra_pocket", 90, always)
+	data.add("extra_pocket", 60, always)
 	data.add("travelers_boots", 100, always)
 	data.add("solid_plate", 110, always)
 	data.add("xray_goggles", 130, always)
@@ -199,7 +199,7 @@ static func default_stock() -> EquipmentVendorData:
 	data.add("saucepan_helmet", 70, always)
 	data.add("flamethrower", 320, advanced)
 	data.add("cheaters_dice", 260, advanced)
-	data.add("hover_boots", 300, advanced)
+	data.add("hover_boots", 220, advanced)
 	data.add("thorned_loincloth", 280, advanced)
 	data.add("big_brain_beret", 300, advanced)
 	return data
