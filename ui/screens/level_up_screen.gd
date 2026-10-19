@@ -32,12 +32,13 @@ func _ready() -> void:
 	UIKit.full_rect(self)
 	UiScale.fit(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	# Oct 19: the place behind stays visible, blurred (it was a near-black shade).
+	add_child(PostBattleBackdrop.live())
 	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.02, 0.015, 0.05, 0.9)
+	shade.color = Color(0.02, 0.015, 0.05, 0.3)
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	UIKit.full_rect(shade)
 	add_child(shade)
-	add_child(UIKit.vignette(0.75))
 	_index = 0
 	if levels_gained.is_empty():
 		finished.emit.call_deferred()

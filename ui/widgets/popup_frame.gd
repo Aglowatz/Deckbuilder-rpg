@@ -46,12 +46,13 @@ func _build(header_text: String, icon: String) -> void:
 	UIKit.full_rect(self)
 	UiScale.fit(self)
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	# Oct 19: the world behind stays visible, blurred (it was an 82% shade), like every post-battle screen.
+	add_child(PostBattleBackdrop.live())
 	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.02, 0.02, 0.06, 0.82)
+	shade.color = Color(0.02, 0.02, 0.06, 0.3)
 	UIKit.full_rect(shade)
 	shade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(shade)
-	add_child(UIKit.vignette(0.7))
 	var center: CenterContainer = CenterContainer.new()
 	UIKit.full_rect(center)
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE

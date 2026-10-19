@@ -99,6 +99,19 @@ func _screenshot_hover(spec: String) -> void:
 
 
 ## Screenshot/dev helper: `--give=iron:2,redtape:2,ingredient:3,garbage:2,contract:2` puts that many of each on the human's table.
+## Screenshot helper (Oct 19): `--result=win|lose` ends the duel after the board settles and shows the result panel.
+func _screenshot_result(spec: String) -> void:
+	if spec.is_empty():
+		return
+	await get_tree().create_timer(3.0).timeout
+	if _mulligan_panel != null:
+		_mulligan_choice(true)
+		await get_tree().create_timer(1.0).timeout
+	game._end_game(0 if spec == "win" else 1, false)
+	busy = false
+	await _show_result()
+
+
 func _screenshot_give(spec: String) -> void:
 	if spec.is_empty():
 		return
@@ -215,6 +228,7 @@ func _ready() -> void:
 	_screenshot_give(str(_screenshot_args.get("give", "")))
 	_screenshot_hover(str(_screenshot_args.get("hover", "")))
 	_screenshot_scenario()
+	_screenshot_result(str(_screenshot_args.get("result", "")))
 	game.event_emitted.connect(_on_game_event)
 	var bot_turns: int = int(_screenshot_args.get("bot", 0))
 	if bot_turns > 0:
@@ -1646,11 +1660,11 @@ func _show_result() -> void:
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_result_panel = center
 	_overlay_layer.add_child(center)
-	var shade: ColorRect = ColorRect.new()
-	shade.color = Color(0.02, 0.01, 0.04, 0.6)
-	UIKit.full_rect(shade)
-	_overlay_layer.add_child(shade)
-	_overlay_layer.move_child(shade, 0)
+	# Oct 19: the fight's own board fades in blurred behind the result panel (covering the HUD), the same backdrop the rewards use.
+	_overlay_layer.z_index = 200  # above the board's trays (z 20-60) and the battle log (z 50)
+	var backdrop: PostBattleBackdrop = PostBattleBackdrop.for_board(str(_screenshot_args.get("board", context.board_key)))
+	_overlay_layer.add_child(backdrop)
+	_overlay_layer.move_child(backdrop, 0)
 	var panel: PanelContainer = UIKit.panel()
 	panel.custom_minimum_size = Vector2(560, 0)
 	center.add_child(panel)

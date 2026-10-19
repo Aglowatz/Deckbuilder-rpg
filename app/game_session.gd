@@ -3046,6 +3046,7 @@ func complete_battle(context: BattleContext) -> void:
 	offer.xp = context.xp_reward
 	offer.is_boss = context.is_boss
 	offer.enemy_name = context.enemy_name
+	offer.board_key = context.board_key
 	offer.levels_gained = add_xp(context.xp_reward)
 	# Part C: the player's first time through the trial only ever offers cards of their own
 	# chosen element, so the only on-color cards they own by the end are the 3 they picked here.

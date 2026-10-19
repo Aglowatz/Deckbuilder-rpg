@@ -29,15 +29,12 @@ func _ready() -> void:
 		offer.is_boss = str(_screenshot_args.get("boss", "true")) == "true"
 		offer.cards = RewardGenerator.card_choices(Session.content, Session.profile, Session.rng, 3, offer.is_boss)
 		Session.pending_reward = offer
+		if _screenshot_args.has("board"):
+			offer.board_key = str(_screenshot_args["board"])
 		Session.trial_finished = offer.is_boss
 	_offer = Session.pending_reward
-	add_child(ArenaBackdrop.new())
-	var dim: ColorRect = ColorRect.new()
-	dim.color = Color(0.03, 0.02, 0.07, 0.6)
-	UIKit.full_rect(dim)
-	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(dim)
-	add_child(UIKit.vignette(0.85))
+	# Oct 19: the place of the fight just won (its battleboard, blurred) - it used to be the arena for every dungeon.
+	add_child(PostBattleBackdrop.for_board(_offer.board_key if not _offer.board_key.is_empty() else PostBattleBackdrop.dungeon_board_key()))
 	var center: CenterContainer = CenterContainer.new()
 	UIKit.full_rect(center)
 	add_child(center)
