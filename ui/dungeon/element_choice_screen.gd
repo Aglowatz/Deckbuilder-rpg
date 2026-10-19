@@ -29,7 +29,7 @@ func _ready() -> void:
 	center.add_child(panel)
 	var column: VBoxContainer = UIKit.vbox(16)
 	panel.add_child(column)
-	column.add_child(UIKit.label("Choose your element", &"TitleLabel", 50, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
+	column.add_child(UIKit.label("Choose your Path", &"TitleLabel", 50, Color(0, 0, 0, 0), HORIZONTAL_ALIGNMENT_CENTER))
 	var intro: Label = UIKit.label("Which Path resonates the strongest within you? It will answer you, and shape the deck you carry through the cave.", &"", 22, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
 	intro.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	intro.custom_minimum_size = Vector2(1200, 0)
