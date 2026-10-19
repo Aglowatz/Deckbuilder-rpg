@@ -81,7 +81,7 @@ func _screenshot_hover(spec: String) -> void:
 	if spec.is_empty():
 		return
 	var parts: PackedStringArray = spec.split(":")
-	var zone_names: Dictionary = {"hand": BattleBoard.Zone.HAND, "field": BattleBoard.Zone.FIELD, "token": BattleBoard.Zone.TOKENS, "resource": BattleBoard.Zone.RESOURCES}
+	var zone_names: Dictionary = {"hand": BattleBoard.Zone.HAND, "field": BattleBoard.Zone.FIELD, "token": BattleBoard.Zone.TOKENS, "resource": BattleBoard.Zone.RESOURCES, "trap": BattleBoard.Zone.TRAPS}
 	var word: String = parts[0]
 	var enemy: bool = word.begins_with("e")
 	if enemy:
@@ -115,7 +115,7 @@ func _screenshot_give(spec: String) -> void:
 ## you every basic infrastructure, `--play=N-17` plays that hand card as the mouse would (opening the targeting viewer),
 ## `--pick=0` then chooses the Nth legal pile card, `--viewer=0|1` opens the browse viewer on that pile. Runs once the board has settled.
 func _screenshot_scenario() -> void:
-	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark", "efield", "combat", "endturn"]
+	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark", "efield", "combat", "endturn", "traps"]
 	var wanted: bool = false
 	for key: String in keys:
 		wanted = wanted or _screenshot_args.has(key)
@@ -130,6 +130,12 @@ func _screenshot_scenario() -> void:
 		for id: String in halves[1].split(",", false):
 			var card: CardData = load("res://data/cards/%s.tres" % id) as CardData
 			game.players[int(halves[0])].refuse_pile.append(game.create_instance(card, int(halves[0])))
+	## `--traps=0:R-14,R-14;1:R-14` sets traps face down for you (0) and the enemy (1).
+	for part: String in str(_screenshot_args.get("traps", "")).split(";", false):
+		var sides: PackedStringArray = part.split(":")
+		for id: String in sides[1].split(",", false):
+			var trap: CardData = load("res://data/cards/%s.tres" % id) as CardData
+			game.players[int(sides[0])].traps.append(game.create_instance(trap, int(sides[0])))
 	for id: String in str(_screenshot_args.get("hand", "")).split(",", false):
 		var card: CardData = load("res://data/cards/%s.tres" % id) as CardData
 		game.players[0].hand.append(game.create_instance(card, 0))
@@ -637,6 +643,8 @@ func _refresh_combat_preview() -> void:
 
 ## The short line on the hover preview of your hand card that can't be played now ("" when it can, or is not yours).
 func _hover_note(view: CardView) -> String:
+	if bool(view.get_meta("trap_peek", false)):
+		return "Set face down - only you can read it."
 	var card: CardInstance = game.players[0].find_hand(view.instance_uid)
 	if card == null or mode == Mode.MULLIGAN or mode == Mode.TOSS or mode == Mode.OVER:
 		return ""
@@ -892,6 +900,11 @@ func _on_card_input(view: CardView, event: InputEvent) -> void:
 		return
 	var zone: int = int(board.zones.get(uid, -1))
 	var mine: bool = int(view.get_meta("owner", 0)) == 0
+	# Oct 19: a click on a set trap reads it (yours) or names it (the enemy's "Face-down Trap"), like a hover.
+	if zone == BattleBoard.Zone.TRAPS and button_event.pressed and mode != Mode.TARGETING:
+		_hovered_view = view
+		hud.show_preview(view, _hover_note(view))
+		return
 	match mode:
 		Mode.MAIN:
 			if zone == BattleBoard.Zone.HAND and mine and button_event.pressed:

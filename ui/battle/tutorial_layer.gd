@@ -31,7 +31,7 @@ const STEPS: Array[Dictionary] = [
 	{"id": "trap", "title": "Traps",
 		"text": "A [b]Trap[/b] is set face-down and springs by itself on the enemy's turn. Click it to set it."},
 	{"id": "enemy_trap", "title": "A trap!", "info": true,
-		"text": "The enemy had a trap set. Hover their plate to see how many traps they still have set."},
+		"text": "The enemy had a trap set. Their face-down traps sit fanned beside their row: count the card backs to see how many are left."},
 	{"id": "tool", "title": "Tools",
 		"text": "A [b]Tool[/b] stays on the table. Use its ability to attach it to one of your units."},
 	{"id": "refuse", "title": "The Refuse Pile", "info": true,

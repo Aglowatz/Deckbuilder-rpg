@@ -1,7 +1,7 @@
 class_name BattleBoard
 extends Control
 ## The card table: creates a CardView per card, lays them out per zone (hands, fields,
-## infrastructure rows, trap slots) and animates the rules engine's event log. It never decides anything
+## infrastructure rows, set traps) and animates the rules engine's event log. It never decides anything
 ## about the rules; it only shows what GameState already did.
 
 signal card_hovered(view: CardView)
@@ -36,9 +36,8 @@ const ART_TRAY_SOCKETS: Array[float] = [0.232, 0.409, 0.586, 0.763]
 const ART_TOKEN_TRAY_SIZE: Vector2 = Vector2(100, 97)
 const ART_TOKEN_CENTERS: Array[Vector2] = [Vector2(1688, 756), Vector2(1688, 80)]
 const SCALE_TOKEN_ART: float = 0.12
-## Where the first set trap sits (the next ones 62 px further left): clear of the deck piles in the corner.
+## Where the newest set trap sits (the fan opens to the left): clear of the deck piles in the corner.
 const TRAP_X: float = 1430.0
-const ART_TRAP_SLOT: Vector2 = Vector2(62, 58)
 const SCALE_TOKEN: float = 0.15
 ## Where each side's resource tray sits (centre of the first coin): the right-hand column, above the turn panel for the enemy and below it for you.
 const RESOURCE_ORIGIN: Array[Vector2] = [Vector2(1671, 668), Vector2(1671, 166)]
@@ -134,6 +133,7 @@ func ensure_view(uid: int, zone: Zone, owner_index: int, from: Vector2 = Vector2
 	view.set_meta("owner", owner_index)
 	view.set_meta("opponent_back", owner_index != human)
 	view.set_meta("hidden", hidden)
+	_mark_trap(view, zone, hidden)
 	view.hovered.connect(func(v: CardView) -> void: _on_hover(v))
 	view.unhovered.connect(func(v: CardView) -> void: _on_unhover(v))
 	view.gui_event.connect(func(v: CardView, e: InputEvent) -> void: card_input.emit(v, e))
@@ -167,6 +167,8 @@ func _mode_for(zone: Zone) -> CardView.Mode:
 			return CardView.Mode.COMPACT
 		Zone.RESOURCES, Zone.TOKENS:
 			return CardView.Mode.COIN
+		Zone.TRAPS:
+			return CardView.Mode.BACK
 		_:
 			return CardView.Mode.FULL
 
@@ -195,8 +197,16 @@ func set_zone(uid: int, zone: Zone) -> void:
 	order.append(uid)
 	var hidden: bool = _is_hidden(int(view.get_meta("owner", 0)), zone)
 	view.set_meta("hidden", hidden)
+	_mark_trap(view, zone, hidden)
 	view.set_mode(CardView.Mode.BACK if hidden else _mode_for(zone))
 	_refresh_view(uid)
+
+
+## Traps as face-down cards (Oct 19): every set trap shows the card back, the owner's included. `face_down_trap` marks a set trap (the
+## enemy's hover reads "Face-down Trap"); `trap_peek` lets the player read their own (the HUD preview shows the card behind the back).
+func _mark_trap(view: CardView, zone: Zone, hidden: bool) -> void:
+	view.set_meta("face_down_trap", zone == Zone.TRAPS)
+	view.set_meta("trap_peek", zone == Zone.TRAPS and not hidden)
 
 
 func _refresh_view(uid: int) -> void:
@@ -306,73 +316,19 @@ func _place_blockers() -> void:
 		blocker_target["z"] = 40
 
 
-## Empty set-trap slots (UI-HUD-SLOT) at the places set traps sit, one per trap the player may set; a set trap covers its slot.
-## Playtest v0.4.0 Part E: the three little dark squares each side of the board are these slots. They now read as what they are: a faint
-## trap glyph in each empty one, a "Traps 0/3" caption beside the row, and a tooltip on hover (the caption says whose traps they are).
-const TRAP_CAPTION_X: float = TRAP_X + ART_TRAP_SLOT.x * 0.5 + 10.0
-
-
-func _trap_slots(owner_index: int, y: float) -> void:
-	if not UiArt.has("UI-HUD-SLOT"):
-		return
-	var node_name: String = "TrapSlots%d" % owner_index
-	var holder: Control = get_node_or_null(node_name) as Control
-	if holder == null:
-		holder = Control.new()
-		holder.name = node_name
-		holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		holder.z_index = 3
-		add_child(holder)
-	var wanted: int = game.players[owner_index].max_traps
-	var set_count: int = _cards_in(owner_index, Zone.TRAPS).size()
-	var mine: bool = owner_index == human
-	var caption: Label = holder.get_node_or_null("Caption") as Label
-	if caption == null:
-		caption = Label.new()
-		caption.name = "Caption"
-		caption.add_theme_font_size_override("font_size", 13)
-		caption.add_theme_color_override("font_color", Color("f1e6c8"))
-		caption.add_theme_color_override("font_outline_color", Color("1b1020"))
-		caption.add_theme_constant_override("outline_size", 6)
-		caption.mouse_filter = Control.MOUSE_FILTER_PASS
-		caption.size = Vector2(96, 34)
-		caption.position = Vector2(TRAP_CAPTION_X, y - 17.0)
-		caption.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		holder.add_child(caption)
-	caption.text = "TRAPS\n%d of %d set" % [set_count, wanted]
-	if not caption.has_meta(&"tip"):
-		caption.set_meta(&"tip", true)
-		HoverTip.attach(caption, "Trap slots (%s)" % ("yours" if mine else "the enemy's"), "Set traps sit here face down, up to %d at a time. A trap springs when its condition is met (an attack, a play, a block). %s" % [wanted, "You can read your own traps by hovering them." if mine else "You cannot see what the enemy set."], UIStyle.GOLD, "ICON-TYPE-TRAP")
-	if holder.get_child_count() == wanted + 1:
-		return
-	for child: Node in holder.get_children():
-		if child != caption:
-			child.queue_free()
-	for index: int in range(wanted):
-		var slot: TextureRect = TextureRect.new()
-		slot.name = "Slot%d" % index
-		slot.texture = UiArt.texture("UI-HUD-SLOT")
-		slot.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		slot.stretch_mode = TextureRect.STRETCH_SCALE
-		slot.size = ART_TRAP_SLOT
-		slot.position = Vector2(TRAP_X - float(index) * 62.0, y) - ART_TRAP_SLOT * 0.5
-		slot.mouse_filter = Control.MOUSE_FILTER_PASS
-		HoverTip.attach(slot, "Empty trap slot", "A set trap goes here, face down. Up to %d." % wanted, UIStyle.MUTED)
-		holder.add_child(slot)
-		var glyph: TextureRect = IconArt.glyph_or("ICON-TYPE-TRAP", CardIcons.named("lorc/wolf-trap"), Color(1.0, 0.92, 0.75, 0.55), 26.0)
-		glyph.name = "Glyph"
-		glyph.position = (ART_TRAP_SLOT - Vector2(26, 26)) * 0.5
-		glyph.size = Vector2(26, 26)
-		glyph.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		slot.add_child(glyph)
+## Set traps (Oct 19): face-down cards in a small fan beside their owner's infrastructure row (the player's near the player, the enemy's near
+## the enemy), so the count reads at a glance; no slot boxes. The cap (`PlayerState.max_traps`) is unchanged.
+const TRAP_FAN_STEP: float = 34.0
 
 
 func _layout_traps(owner_index: int) -> void:
 	var cards: Array[int] = _cards_in(owner_index, Zone.TRAPS)
 	var y: float = PLAYER_INFRASTRUCTURE_Y if owner_index == human else ENEMY_INFRASTRUCTURE_Y
-	_trap_slots(owner_index, y)
-	for index: int in range(cards.size()):
-		_targets[cards[index]] = {"pos": Vector2(TRAP_X - float(index) * 62.0, y), "rot": -6.0 + float(index) * 3.0, "scale": SCALE_TRAP, "z": 4 + index}
+	var count: int = cards.size()
+	for index: int in range(count):
+		var spread: float = float(index) - float(count - 1) * 0.5
+		var lift: float = absf(spread) * 4.0
+		_targets[cards[index]] = {"pos": Vector2(TRAP_X - float(count - 1 - index) * TRAP_FAN_STEP, y + lift * (1.0 if owner_index == human else -1.0)), "rot": spread * 7.0, "scale": SCALE_TRAP, "z": 4 + index}
 
 
 ## The four resources sit in a fixed tray: one slot per kind (Iron, Red Tape, Ingredient, Garbage), each with a faint icon, a
@@ -1010,6 +966,8 @@ func _on_trap_triggered(event: GameEvent) -> void:
 	if view == null:
 		return
 	zones[event.card] = Zone.CENTER
+	view.set_meta("face_down_trap", false)
+	view.set_meta("trap_peek", false)
 	view.set_mode(CardView.Mode.FULL)
 	_center_uid = event.card
 	# Battle feel, Part C: the trap flips up dramatically: it swings up edge-on from its slot and turns face-up in the middle.

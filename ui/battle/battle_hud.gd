@@ -461,7 +461,11 @@ func set_hp_display(player_index: int, hp: int, max_hp: int) -> void:
 
 
 func show_preview(view: CardView, note: String = "") -> void:
-	if view == null or view.data == null or bool(view.get_meta("hidden", false)) or view.mode == CardView.Mode.BACK:
+	if view != null and bool(view.get_meta("face_down_trap", false)) and not bool(view.get_meta("trap_peek", false)):
+		_show_face_down_trap()
+		return
+	var peek: bool = view != null and bool(view.get_meta("trap_peek", false))
+	if view == null or view.data == null or bool(view.get_meta("hidden", false)) or (view.mode == CardView.Mode.BACK and not peek):
 		hide_preview()
 		return
 	if _preview_card != null:
@@ -477,7 +481,7 @@ func show_preview(view: CardView, note: String = "") -> void:
 	for child: Node in _tooltip_box.get_children():
 		child.queue_free()
 	if not note.is_empty():
-		var why: Label = UIKit.label(note, &"", Settings.tooltip_font(21), Color("ff9a8a"))
+		var why: Label = UIKit.label(note, &"", Settings.tooltip_font(21), UIStyle.PARCHMENT if peek else Color("ff9a8a"))
 		why.name = "WhyNot"
 		why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		why.custom_minimum_size = Vector2(270, 0)
@@ -498,6 +502,24 @@ func show_preview(view: CardView, note: String = "") -> void:
 
 func hide_preview() -> void:
 	_preview_root.visible = false
+
+
+## An enemy's set trap: no card, just what it is (Oct 19, traps as face-down cards).
+func _show_face_down_trap() -> void:
+	if _preview_card != null:
+		_preview_card.queue_free()
+		_preview_card = null
+	for child: Node in _tooltip_box.get_children():
+		child.queue_free()
+	_tooltip_box.add_child(KeywordInfo.title_row("Face-down Trap", "", Settings.tooltip_font(22)))
+	var body: Label = UIKit.label("The enemy set this trap. It springs by itself when its condition is met, then goes to their Refuse Pile.", &"", Settings.tooltip_font(19), UIStyle.PARCHMENT)
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.custom_minimum_size = Vector2(270, 0)
+	_tooltip_box.add_child(body)
+	_tooltip.visible = true
+	_tooltip.size = Vector2(302, 10)
+	_tooltip.position = Vector2(22, 656)
+	_preview_root.visible = true
 
 
 # ---- Portrait ---------------------------------------------------------------------------

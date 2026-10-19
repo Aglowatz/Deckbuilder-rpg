@@ -63,7 +63,10 @@ func test_own_trap_is_still_shown_face_up_to_its_owner() -> void:
 		await board.present(event)
 	var view: CardView = board.view_for(trap.uid)
 	assert_not_null(view)
-	assert_ne(view.mode, CardView.Mode.BACK, "the player's own trap is visible to the player who set it")
+	# Oct 19: traps lie face down for both sides; the owner reads theirs through the preview (trap_peek).
+	assert_eq(view.mode, CardView.Mode.BACK, "the player's own set trap shows its card back too")
+	assert_true(bool(view.get_meta("trap_peek", false)), "...but the player who set it can read it")
+	assert_false(bool(view.get_meta("hidden", false)))
 
 
 func test_opponent_trap_flips_face_up_only_once_it_actually_triggers() -> void:
@@ -90,3 +93,52 @@ func test_opponent_trap_flips_face_up_only_once_it_actually_triggers() -> void:
 	var view: CardView = board.view_for(trap.uid)
 	assert_not_null(view)
 	assert_eq(view.mode, CardView.Mode.FULL, "a triggered trap must flip face-up and reveal")
+
+
+# ---- Oct 19: traps as face-down cards (no slot boxes) ---------------------------------------------------
+
+
+func _set_traps(game: GameState, who: int, count: int) -> Array[CardInstance]:
+	var made: Array[CardInstance] = []
+	GameFactory.add_infrastructure_cards(game, who, count)
+	for _i: int in range(count):
+		var trap: CardInstance = GameFactory.add_to_hand(game, who, _attack_trap())
+		assert_true(game.play_card(who, trap.uid))
+		made.append(trap)
+	return made
+
+
+func test_set_traps_fan_out_as_card_backs_with_no_slot_boxes() -> void:
+	var game: GameState = GameFactory.blank_game()
+	var traps: Array[CardInstance] = _set_traps(game, 0, 3)
+	var board: BattleBoard = _new_board(game)
+	for event: GameEvent in game.events:
+		await board.present(event)
+	board.layout(false)
+	assert_null(board.get_node_or_null("TrapSlots0"), "no trap slot boxes")
+	assert_null(board.get_node_or_null("TrapSlots1"))
+	var xs: Array[float] = []
+	for trap: CardInstance in traps:
+		var view: CardView = board.view_for(trap.uid)
+		assert_eq(view.mode, CardView.Mode.BACK)
+		assert_eq(board.zones[trap.uid], BattleBoard.Zone.TRAPS)
+		xs.append(view.position.x)
+	assert_ne(xs[0], xs[1], "the backs are fanned, so the count is visible")
+	assert_ne(xs[1], xs[2])
+	var player_y: float = board.view_for(traps[0].uid).position.y
+	assert_gt(player_y, 540.0, "the player's traps sit on the player's half")
+
+
+func test_enemy_traps_sit_on_the_enemy_half_and_read_face_down() -> void:
+	var game: GameState = GameFactory.blank_game()
+	GameFactory.pass_turn(game)
+	var traps: Array[CardInstance] = _set_traps(game, 1, 2)
+	var board: BattleBoard = _new_board(game)
+	for event: GameEvent in game.events:
+		await board.present(event)
+	board.layout(false)
+	var view: CardView = board.view_for(traps[0].uid)
+	assert_lt(view.position.y, 540.0, "the enemy's traps sit on the enemy half")
+	assert_true(bool(view.get_meta("face_down_trap", false)))
+	assert_false(bool(view.get_meta("trap_peek", false)), "the enemy's stay unreadable")
+	assert_true(bool(view.get_meta("hidden", false)))
