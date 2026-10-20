@@ -3457,3 +3457,30 @@ Four commits "Four improvements, Part 1-4"; screenshots in `_screenshots/oct19d/
    through the bridge head, the market's rim and up the tiers, off every route.
 
 Final checks: GUT 1927 / 1927, first-battles smoke OK, D.N.A. and Dump walk smokes OK.
+
+
+## Overnight Oct 19-20
+
+Report `docs/overnight_report.md`; loop log `docs/overnight/loop_log.md`; screenshots `_screenshots/oct19n/` and `_screenshots/oct19n_*`.
+
+1. **The D.N.A. visibility** (`world/dna/dna_interior.gd`, `dna_fade.gdshader`): no ceiling beams, light strips or doorway headers; 4.5 m walls
+   lit by wall sconces (LightSpots for the pooled lights); a fade ramp that also clears walls the hero presses against. Every zone checked at
+   the nine V x F cameras; thin overhead pieces (pennant strings over the Buffet and Dump entrances) fade on their own
+   (`OcclusionFader.is_overhead`, meta `occlusion_overhead`).
+2. **Card text never hidden** (`BattleHud`): the ability box on CanvasLayer 25 beside the hovered card (`tip_position`), for hand, field,
+   traps and tokens.
+3. **Art import prep**: ICON-GEAR / ITEM / COS conventions with fallbacks (`IconArt`), `bash tools/import_bestiary.sh` (Approved_Bestiary),
+   BB-S-IRON, zone kit rows, the 5-slot equipment screen for both backgrounds (`CharacterLayout`), `docs/.gdignore`; steps in
+   `docs/art/import_oct20.md`.
+4. **Story bible** (`docs/design/story_bible.md`, THE reference) + `canon.md` (banned old names, read by a test).
+5. **Dialogue pass**: voice bible (81 voices), beat map, four writers + four separate editors: 258 conversations 3.17 -> 4.04; first talks
+   <= 5 boxes; 102 barks; Quest Log text; tests `tests/test_dialogue_quality.gd`. Report `docs/design/dialogue_pass_oct19.md`.
+6. **The Old Well secret quest** ("The Water Under the Well", `OldWellQuest`): vision, the Dump's spring and the Buffet's pond (glow +
+   faint water sound), The Wellspring's Echo (The Spring Remembers, 52 / 61% at L16), the Phial of First Water, the reveal;
+   `bash tools/run_old_well_smoke.sh`.
+7. **Music**: five loop wraps fixed, the drop-in pipeline (`MusicDropIn`, `import_audio.sh --dry-run`), generation prompts with one motif.
+
+Phase 2 (30 cycles): freed-zone lines (gatekeepers, workers, Kyle, Ectomund), Maren's short return lines, rushed-castle variants, the
+Collection Book's Gear tab, the opening reads faster (~10.3 min to the first deck edit), three quest markers fixed, two text bugs (the Cairn's
+raw token, Bertram's piling lines), Brindle the Baker, Threadwell's Hats & Hems, Primm's three phases with boons measured (~58%).
+Final checks are at the end of the report.
