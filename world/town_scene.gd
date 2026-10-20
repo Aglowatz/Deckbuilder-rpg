@@ -1498,7 +1498,10 @@ func _use_well() -> void:
 func _begin_old_well_vision() -> void:
 	_locked = true
 	Audio.sfx(&"ui_open", -4.0)
+	var music: int = Audio.push_music(WELL_VISION_MUSIC)  # overnight Oct 19: the vault's own theme under the visions (the vault guards the spring)
 	OldWellSpot.play(dialogue, OldWellStory.shared().get_beats("vision.start"), func() -> void:
+		Audio.pop_music(music)
+		Audio.sting(&"STG-SECRET")
 		_locked = false
 		Session.begin_old_well_quest()
 		_apply_well_stir())
@@ -1534,9 +1537,14 @@ func _show_old_well_result() -> void:
 	var story: OldWellStory = OldWellStory.shared()
 	if bool(result.get("first_win", false)):
 		Audio.sfx(&"victory", -6.0)
-		OldWellSpot.play(dialogue, story.get_beats("echo.reveal"))
+		var music: int = Audio.push_music(WELL_VISION_MUSIC)
+		OldWellSpot.play(dialogue, story.get_beats("echo.reveal"), func() -> void: Audio.pop_music(music))
 	elif not bool(result.get("won", false)):
 		OldWellSpot.play(dialogue, story.get_beats("echo.lose"))
+
+
+## The music under the well's visions (the start and the final reveal): the Forgotten Vault's exploration theme.
+const WELL_VISION_MUSIC: StringName = &"MUS-VAULT-EXP"
 
 
 ## How much the well's light and motes stir: brighter while the quest waits for the Echo.

@@ -161,6 +161,10 @@ static func for_battle(context: BattleContext, flags: Dictionary = {}) -> String
 		return "MUS-SHIRO-BOSS"
 	if context.is_vault_boss:
 		return "MUS-VAULT-BOSS"
+	# overnight Oct 19: the Wellspring's Echo rises from the spring the Forgotten Vault was built over - the vault's own battle song (its boss song
+	# stays the Guardian's)
+	if context.is_old_well_boss:
+		return "MUS-VAULT-BATTLE"
 	if context.is_graveyard_boss:
 		return "MUS-GRAVE-BATTLE"
 	if not context.arena_id.is_empty():

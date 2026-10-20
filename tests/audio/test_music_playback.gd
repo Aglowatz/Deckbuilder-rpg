@@ -88,6 +88,9 @@ func test_special_duels_have_their_own_cues() -> void:
 	var warden: BattleContext = _context("town")
 	warden.is_vault_boss = true
 	assert_eq(MusicDirector.for_battle(warden), "MUS-VAULT-BOSS")
+	var echo: BattleContext = _context("town")
+	echo.is_old_well_boss = true
+	assert_eq(MusicDirector.for_battle(echo), "MUS-VAULT-BATTLE", "the Wellspring's Echo: the vault's own battle song")
 	var spotless: BattleContext = _context("capital:out")
 	spotless.zone_id = CapitalZone.ID
 	spotless.zone_enemy_type = CapitalEnemies.SPOTLESS

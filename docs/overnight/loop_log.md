@@ -54,3 +54,8 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - `ZoneStoryText.get_lines` already prefers `<key>.freed` once the zone is freed, so new keys alone fix stale lines: the Dump's three
   terrace workers (`bark.worker_1..3.freed`: green trees, flowers that smell like flowers, the Archdruid on her rounds) and the D.N.A.'s Kyle
   (`npc.matching.return.freed`) and Director Ectomund (`npc.quiz.return.freed`). Dialogue tests OK. Dialogue & story 8 -> 8.5.
+
+## Cycle 10 - Audio mix (7.5): the Old Well's music
+- The Echo duel played the generic town battle song; it now plays MUS-VAULT-BATTLE (the Forgotten Vault is built over the spring; the
+  vault's boss song stays the Guardian's). The well's two visions (the start and the final reveal) play MUS-VAULT-EXP over the town track
+  (push/pop), and STG-SECRET rings when the quest begins. Test in `tests/audio/test_music_playback.gd`. Audio 7.5 -> 7.5 (needs ears).
