@@ -2296,7 +2296,7 @@
 	},
 	{
 		"id": "NPC-VILLAGER",
-		"name": "Bun the Baker",
+		"name": "Brindle the Baker",
 		"location": "Main Town square",
 		"role": "Townsfolk (the baker who strolls the square)",
 		"species": "badger",

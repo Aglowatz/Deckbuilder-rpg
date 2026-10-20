@@ -160,3 +160,7 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 ## Cycle 26 - UI consistency (8.5): Collection Book headings
 - The section headings ("Helm - 1 / 9 found", the Cards tab's rarity headings) sat straight on the busy painting (the gold lantern behind
   "Helm"); they get the same dark outline as the progress label (`CodexScreen._outline`). Shot `_screenshots/oct19n_c26_codex_gear.png`.
+
+## Cycle 27 - NPC data: Brindle the Baker
+- `data/npcs/npcs.json` and `docs/design/npc_registry.csv` called the strolling baker "Bun the Baker"; the game, the story bible and the
+  Oct 17 decision say Brindle. Both now say Brindle (inbox item 6 marked done). NPC tests 14/14.
