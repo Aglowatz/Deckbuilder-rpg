@@ -1,24 +1,15 @@
-# Daytime Oct 19 - next up (ranked)
+# Overnight Oct 19-20 - next up (ranked for the Phase 2 loop)
 
-Re-ranked at the end of the daytime run (Mon Oct 19 ~11:00). Most player-visible first. Last night's list: `docs/overnight/oct18/next_up.md`.
-What was done today is in `loop_log.md` and `docs/overnight_report.md`.
+Ranked at Phase 2 start (Mon Oct 19 ~23:30) by "raises the lowest category most". Last list: `docs/overnight/oct19day/next_up.md`.
 
-1. **Primm, three phases in a row, with the leaders' boons** (Balance): without boons the sequence cleared 4-21% per Path; the sim now
-   adds the boons but the re-run was stopped by the low-memory guard (inbox Daytime 1). Measure:
-   `--what=sequence --filter=boss:primm --games=12` (~11 min). If under 45%, soften phase 2 (reflection) or 3 first - most runs are lost
-   there; phase 1 alone stays at 100% even with Royal Guard.
-2. **Cave runs on a third seed** (Onboarding): at 100 runs on two seeds Beefcake ~95, Gourmand ~87, Refusemancer ~87, Necrocrat ~87 (the
-   cycle-11 deck on main). Judge any further starter or cave change on two seeds x 100 runs (50 runs on one seed swung +/-10 points).
-3. **A level-5 Necrocrat in the Gainlands** (Balance): 25-42% vs the roamers after the softer Processing Time. Replays: the reference deck
-   floods (Infrastructure + Red Tape) against the Golem's wall - not an AI stall (cycle 9). Try the L5 Necrocrat reference package
-   (`ProgressionModel.UPGRADES`, sim only) or the Golem's basics.
-4. **The Path choice's 279 words** (Onboarding, inbox Daytime 2): one-line game plan on the tile, identity on hover - a content call.
-5. **v0.4.2 when you want it** (Playtest readiness): since the v0.4.1 build, main has the better Necrocrat starter (~87% cave run, was
-   ~79%), "Choose your Path" (was "element"), the hero's Path
-   / deck / fights / zones in F8 reports, the boss-rules smoke and the refreshed gatekeeper smoke.
-6. **Town slow frames** (Performance): the full tour still counts ~57 frames over 33 ms in Crosspath (worst 128 ms, the Deck Station's
-   tile build); zones 63-72 ms.
-7. **Enemy pictures** (Collection): 90 prompts in `docs/art/bestiary_image_requests.md`; bosses already show portraits.
-8. **Townsfolk in the zone hubs** (NPC life): needs a lore call on who strolls in each Path's home.
-9. **A listen pass** (Audio): last night's new sounds and the older audio items (music leveller, boss stings, Gristle's loop step).
-10. **Tool-only "Own 4/3" in screenshot runs** (Stability, low): `Session.ensure_game` skips the copy-cap conversion.
+1. **Gatekeepers after their zone is freed** (Dialogue & story): the four gatekeepers replay pre-freed lines forever; add freed-zone
+   variants (new keys read only when the zone is freed; old keys untouched) - code + text. Also Brick's freed lines.
+2. **Loop seams the pass left** (Audio mix): MUS-SHOP-GRISTLE's loop step (open since Oct 17), MUS-QUIZ 6.1 dB step - try the seam search
+   of tools/music_fix.js on them; MUS-DECK only if a safe repeat point exists.
+3. **First talk length** (NPC life & dialogue): intro + quest offer joined into 7-9 boxes for Agnes, Bramble, Gerald, Wren, Ledgerbone,
+   Chet, Flambe - offer the quest on the second box set (a "more" choice) or trim intros (text-only where possible).
+4. **Primm, three phases with boons** (Balance): `--what=sequence --filter=boss:primm --games=6` in the foreground (memory guard).
+5. **Bestiary entry for the Wellspring's Echo** (Collection): a Bestiary entry + image request row; the Old Well speaker portrait request.
+6. **Old background equipment screen** (UI consistency): the patched spare frames still show their leader lines - check a softer patch.
+7. **Worker barks / Kyle / Ectomund freed variants** (Dialogue): new freed keys read when the Dump/D.N.A. is freed.
+8. **The Path choice's 279 words** (Onboarding, waits for the user's call - Daytime inbox 2).

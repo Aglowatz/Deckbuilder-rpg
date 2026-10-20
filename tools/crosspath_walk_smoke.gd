@@ -31,6 +31,11 @@ func run() -> void:
 		_finish(false, "town never loaded")
 		return
 	await driver.seconds(3.0)
+	# The outskirts roamers (Playtest v0.4.0) start a fight when the loop brushes past one; this smoke walks the lanes, not the fights.
+	var roamers: Array[ZoneEnemy] = town.enemies.duplicate()
+	town.enemies.clear()
+	for enemy: ZoneEnemy in roamers:
+		enemy.queue_free()
 	await _dismiss_dialogue(town.dialogue)
 	await _dismiss_popups()
 	await _shot("c_00_square")
@@ -209,6 +214,7 @@ func _walk_to(scene: Node, target: Vector3, radius: float, limit: float) -> void
 	var elapsed: float = 0.0
 	while elapsed < limit:
 		if get_tree().current_scene != scene:
+			print("crosspath_walk_smoke: left the scene near %s for %s" % [str(target), str(get_tree().current_scene.name) if get_tree().current_scene != null else "(changing)"])
 			break
 		var offset: Vector3 = target - player.position
 		offset.y = 0.0

@@ -1,19 +1,20 @@
-# Daytime Oct 19 - scorecard
+# Overnight Oct 19-20 - scorecard
 
-Scores 1-10. "Start" = last night's end (`docs/overnight/oct18/scorecard.md`); "Now" = end of the daytime run (Mon Oct 19 ~11:00). Only the
-rows that moved carry new evidence; the rest are unchanged since last night.
+Scores 1-10. "Start" = the daytime run's end (`docs/overnight/oct19day/scorecard.md`); "Phase 2 start" = after Parts 1-7 (Mon Oct 19 ~23:30);
+"End" = the morning. "Dialogue & story" is new tonight.
 
-| Category | Start | Now | Evidence |
-|---|---|---|---|
-| Combat feel | 8 | 8 | Unchanged; first-battles smoke OK. |
-| Visuals (forest, Crosspath, four zones, Capital) | 8 | 8 | Unchanged. |
-| UI consistency | 8 | 8.5 | Part 5: the Path choice, the equipment-slot choice and the Collection Book share one kit tile (`UiSkin.choice_tile`, parchment ring when selected); "Before the fight" brief reused outside the maps (`RulesBrief`); five missing rule icons fixed; "Choose your Path" (was "element"). |
-| Onboarding / tutorial | 8 | 8.5 | Cave runs, 100 per Path on two seeds (cycle 11): Beefcake ~95, Gourmand ~87 (was ~76), Refusemancer ~87, Necrocrat ~87 with the cycle-11 deck (was ~79; Part 2's single-seed 92% did not hold). Part 3: New Game -> first saved deck edit ~10.6 min for every Path (97 clicks/keys, 31 lines); the first deck save no longer needs a pointless change; the quest text matches. |
-| Rewards & progression feel | 8.5 | 8.5 | Unchanged. |
-| Collection / bestiary | 8 | 8 | Unchanged (new tile look). |
-| NPC life & dialogue | 8 | 8 | Unchanged. |
-| Audio mix | 7.5 | 7.5 | Unchanged (listen pass pending). |
-| Performance | 9 | 9.5 | Part 4 + cycle 2: the first screens are built under the loading cover; full tour first opens <= 128 ms (character screen 345 -> off the list, vendors 245-254 -> 74-119, Deck Station 150 -> 128); zones 63-72 ms worst. |
-| Stability | 8.5 | 8.5 | GUT 1907/1907, story 73/73, tour 0 errors; playtest, release, prologue, first-battles, gatekeeper (refreshed) and new boss-rules smokes OK. One regression found and fixed the same morning (warming used up the shops' tips; v0.4.1 rebuilt). |
-| Balance (sim evidence) | 8 | 8 | Part 1: Shiro 88 -> 48% (his rules had never applied), Bellows 77 -> 56% (Heckling Crowd), Processing Time softened (Necrocrat +8-16 pts in the House of Gains). Open: Primm's three phases with boons unmeasured, L5 Necrocrat Gainlands 25-42%. |
-| Playtest readiness | 8 | 9 | v0.4.1 built and smoke-tested on the exported pack (15/15); feedback log + `feedback_row.js` (single / batch / default folder, guesses category and severity, [Path Lx]); F8 reports name the hero's Path, deck, fights won and zones freed. |
+| Category | Start | Phase 2 start | End | Evidence |
+|---|---|---|---|---|
+| Combat feel | 8 | 8.5 | | Part 2: the ability box is on its own top layer beside the hovered card (hand, field, traps, tokens), never behind or over a card. |
+| Visuals (forest, Crosspath, four zones, Capital) | 8 | 8.5 | | Part 1: the D.N.A. without ceiling beams/strips/headers, 4.5 m walls with sconces; 9-angle grids for every zone; entrance bunting fades. |
+| UI consistency | 8.5 | 8.5 | | Part 3: 5-slot equipment screen for old and new backgrounds; spare frames patched on the old one (leader lines still show). |
+| Onboarding / tutorial | 8.5 | 8.5 | | Opening lines rewritten (no amnesia break); playtest + prologue smokes OK. Path choice still 279 words (Daytime inbox 2). |
+| Rewards & progression feel | 8.5 | 8.5 | | Old Well relic (Phial of First Water). |
+| Collection / bestiary | 8 | 8 | | Bestiary importer ready (pictures arrive tomorrow). |
+| NPC life & dialogue | 8 | 8.5 | | 258 conversations scored, final avg 4.04 (old 3.17). First talks still 7-9 boxes for some NPCs (needs code). |
+| Dialogue & story | - | 8 | | Story bible + canon + voice bible + beat map; callbacks across zones; banned-names test; gatekeepers have no freed lines; lieutenants/Elowen not built. |
+| Audio mix | 7.5 | 7.5 | | Five loop wraps fixed; MUS-TOWN-FREED / MUS-DECK need new takes (prompts written); listen pass still pending. |
+| Performance | 9.5 | 9.5 | | D.N.A. 60 fps on Medium at three spots. |
+| Stability | 8.5 | 8.5 | | GUT 1995/1995 (three foreground batches - the full background run was stopped by the low-memory guard); story bot 73/73; playtest, prologue, first-battles, D.N.A., Buffet, Dump, Gainlands smokes OK. |
+| Balance (sim evidence) | 8 | 8 | | Echo 52/61% on two seeds. Open: Primm's three phases with boons, L5 Necrocrat Gainlands. |
+| Playtest readiness | 9 | 9 | | Unchanged (no build tonight by rule). |

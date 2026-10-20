@@ -1269,6 +1269,8 @@ func _talk_corrupted_npc(id: String) -> void:
 	var lines: Array[String] = [] as Array[String]
 	if story != null:
 		lines = story.npc_victory_lines(id) if defeated else story.npc_intro_lines(id)
+		if defeated and Session.is_zone_completed(id):
+			lines = story.npc_freed_lines(id)  # overnight Oct 19: their zone is free, and they say so
 	dialogue.start(Gatekeepers.full_title(id), lines)
 	dialogue.finished.connect(func() -> void: Session.challenge_corrupted_npc(id), CONNECT_ONE_SHOT)
 

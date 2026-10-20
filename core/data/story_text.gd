@@ -87,6 +87,12 @@ func npc_intro_lines(id: String) -> Array[String]:
 	return []
 
 
+## Overnight Oct 19 (Phase 2): what a gatekeeper says once their zone is FREED (`gate.<zone>.freed`); falls back to the victory lines.
+func npc_freed_lines(id: String) -> Array[String]:
+	var key: String = "gate.%s.freed" % id
+	return get_lines(key) if has_text(key) else npc_victory_lines(id)
+
+
 func npc_victory_lines(id: String) -> Array[String]:
 	match id:
 		"beefcake":
