@@ -1,14 +1,11 @@
 # Oct 20 brief: Dev Menu + early-game quest flow (resume file)
 
-Brief: Dev Menu (P1), the Rescuer's opening (P2), NPC label radius (P3), early-game main quest chain (P4), spoiler-free one-step-at-a-time
-quest objectives (P5), verify (P6). Check for `STOP_TASK` (repo root or `C:\Users\asche`) before each part. Per part: GUT (three foreground
-batches: tests/core, tests/world, the rest), walkability + relevant smoke, commit, push. One Godot at a time. Screenshots 1280x720 in
-`_screenshots/oct20d/` (git-ignored).
+All six parts done (commits: P2 f5526ffd, P3 440ee694, P1 6b666baa, P4 fc6b3141, P5 1108c066, P6 = the verify commit).
+Summary in docs/progress.md ("Oct 20 (daytime)"); details: docs/dev_menu.md, docs/design/quests.md ("The early-game chain", "Revealed one
+at a time"), docs/design/balance_log.md ("the store room ghosts").
 
-## Done
-- P2 `f5526ffd`: `prologue.rescuer.1..4`, `prologue.wanderer.1/.3`, one self-talk line (intro_story.tres); bible section 7;
-  `tests/test_prologue_rescuer_text.gd`. Prologue smoke OK.
-- P3 `440ee694`: `NpcLabels.NEAR` 6.0 / `FADE` 1.0 on ground distance for every label (always/boosted only change size/colour).
-
-## Next
-- P1 Dev Menu (F10, debug only via `DevTools`), P4 chain, P5 objective reveal + text, P6 smokes.
+Not done / notes:
+- No real release export was built: the release gate is covered by GUT (`DevTools.menu_enabled(false)`, `DevMenu.install(.., false)`)
+  and `tools/run_release_smoke_exported.sh` checks it when run on a release binary (the stock binary it uses is a debug build).
+- `tools/run_onboarding_timing.sh` was not re-run (its arrival check was updated for the new chain).
+- `Session.ensure_game` (tests, tools, direct scene launches) sets `early_chain_legacy`: fast-forwarded games skip the chain.

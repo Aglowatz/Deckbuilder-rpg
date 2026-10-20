@@ -3484,3 +3484,15 @@ Phase 2 (30 cycles): freed-zone lines (gatekeepers, workers, Kyle, Ectomund), Ma
 Collection Book's Gear tab, the opening reads faster (~10.3 min to the first deck edit), three quest markers fixed, two text bugs (the Cairn's
 raw token, Bertram's piling lines), Brindle the Baker, Threadwell's Hats & Hems, Primm's three phases with boons measured (~58%).
 Final checks are at the end of the report.
+
+## Oct 20 (daytime): Dev Menu + early-game quest flow
+
+1. **Dev Menu** (F10, debug builds only; `docs/dev_menu.md`): travel, player, progress (zone flags, any quest's step, map, chests, area
+   reset), battle (any encounter with any starting deck; win/lose/draw/energy/resources/enemy hand), view (fps, time scale, hidden HUD,
+   free camera, walkable overlay), named save snapshots. `DevActions` + `DevMenu`; `bash tools/run_dev_menu_smoke.sh`.
+2. **The Rescuer's opening** rewritten: the cave leads to town, someone will be waiting, pursuers close, she draws them off.
+3. **NPC name labels**: one 6 m radius for everyone (vendors and quest givers too); glows and quest markers still at any distance.
+4. **The early-game chain** (`docs/design/quests.md`): Maren's Meet the Merchants (+ a card) -> Make It Yours -> Something in the Store
+   Room (the Store Room Ghosts, rule Haunted Inventory, 93.5% sim) -> level 5 -> Some Assembly Required (Bertram) -> the story quests.
+5. **Quest objectives one at a time** (done + current, the rest "???") and spoiler-free quest text (`test_quest_reveal.gd`).
+Checks: GUT 2044/2044; prologue, first-battles, playtest (new chain), Crosspath walk, release, Dev Menu and quest smokes OK.

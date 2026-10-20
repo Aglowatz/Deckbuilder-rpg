@@ -42,7 +42,12 @@ func run() -> void:
 
 func _town_leg(town: TownScene) -> void:
 	var qlog: QuestLog = Session.quest_log
-	_check(qlog.tracked_id() == QuestDefinitions.zone_main_id("beefcake"), "town: the first zone line is tracked on arrival (%s)" % qlog.tracked_id())
+	# Oct 20: Maren's first errand leads the MAIN quests; follow the first zone line for the marker checks, and take a side quest for the log's Side tab.
+	_check(qlog.tracked_id() == QuestDefinitions.MERCHANTS, "town: Maren's first errand is tracked on arrival (%s)" % qlog.tracked_id())
+	qlog.track(QuestDefinitions.zone_main_id("beefcake"))
+	Session.start_quest(ZoneQuestDefinitions.SIDE_TOWN, false)
+	qlog.track(QuestDefinitions.zone_main_id("beefcake"))
+	EventBus.quest_changed.emit()
 	var tracker: QuestTracker = town.hud.find_child("QuestTracker", true, false) as QuestTracker
 	_check(tracker != null and tracker.visible, "town: the tracker is on the HUD")
 	_check(town.hud.find_child("LocationPanel", true, false) == null, "town: no location / zones-freed header")
@@ -67,11 +72,17 @@ func _town_leg(town: TownScene) -> void:
 	_check(log_screen != null, "town: J opens the Quest Log")
 	_check(driver.find_button("Main") != null and driver.find_button("Side") != null and driver.find_button("Completed") != null, "town: the log has Main, Side and Completed tabs")
 	await _shot("q_03_quest_log_main")
+	# Right moves the focus from the Main tab to the Side tab and Enter opens it; a click on the side quest tracks it.
 	await driver.tap_key(KEY_RIGHT)
 	await driver.seconds(0.3)
 	await driver.tap_key(KEY_ENTER)
 	await driver.seconds(0.3)
-	_check(qlog.tracked_id() == QuestDefinitions.MERCHANTS, "town: Right then Enter tracks the side quest (%s)" % qlog.tracked_id())
+	var side_entry: Control = log_screen.find_child("Quest_%s" % ZoneQuestDefinitions.SIDE_TOWN, true, false) as Control if log_screen != null else null
+	_check(side_entry != null, "town: Right then Enter opens the Side tab with the side quest")
+	if side_entry != null:
+		await driver.click(driver.center_of_control(side_entry))
+	await driver.seconds(0.3)
+	_check(qlog.tracked_id() == ZoneQuestDefinitions.SIDE_TOWN, "town: a click on the side quest tracks it (%s)" % qlog.tracked_id())
 	await _shot("q_04_quest_log_side")
 	await driver.tap_key(KEY_J)
 	await driver.seconds(0.5)
