@@ -107,11 +107,47 @@ screenshots to check after. The new UI-BG-CHARACTER switches the equipment scree
 
 ## Phase 2 (the improvement loop)
 
-PHASE2_TABLE
+25 cycles so far (full log: `docs/overnight/loop_log.md`; queue: `docs/overnight/next_up.md`). The ones worth knowing:
+
+| Cycle | Category | What |
+|---|---|---|
+| 2 | Dialogue & story | The four gatekeepers talk about their freed zone (`gate.<zone>.freed`); the Crosspath walk smoke works again (it had been failing since the v0.4.0 roamers) |
+| 3 | Balance | **Primm's three phases with the leaders' boons: 42-83% per Path, ~58% mean** - in band, no change (answers Daytime inbox 1) |
+| 5, 7 | NPC life | **Every first talk is 5 boxes or fewer** (Basil 11 -> 5, Tarragon 10, Gus 9, Old Man Mountain 9, Flambe 9, Agnes 8, Bramble 8, ...) |
+| 9, 13 | Dialogue | Freed-zone lines for the Dump's workers, Kyle and Ectomund; **all 102 barks rewritten** (3.12 -> 4.00), bark contradictions fixed |
+| 10 | Audio | The Echo duel plays the Vault's battle song; the well's visions the Vault's theme; the secret sting when the quest begins |
+| 11 | Stability | **The Old Well in the live game** (`bash tools/run_old_well_smoke.sh`: every check passed); GUT 1997/1997 |
+| 14 | Visuals | D.N.A. walls the hero presses against fade fully (shader ramp) |
+| 15 | Combat feel | A token's tip box no longer repeats its text |
+| 16 | Collection | **A Gear tab in the Collection Book** (55 pieces, silhouettes with where to find them, secrets kept secret) |
+| 18 | Onboarding | **The opening reads faster**: New Game -> first saved deck edit ~10.3 min, 89 clicks/keys, 23 lines (morning: 10.6 min, 97, 31) |
+| 20 | Dialogue | Storming Primm's castle before freeing all four zones: the Wanderer speaks in his own words instead of quoting leaders he never met |
+| 21, 22 | NPC life | Agnes greets you right in the Hall; **Maren gives her full speech once per change and a short line otherwise** |
+| 23 | Stability | **Bugs**: the Restless Cairn showed a raw "{villain}"; Bertram's first-visit lines piled up on the cached story resource |
+| 24 | Clarity | **Quest Log text pass** (3.29 -> 4.59) and **three wrong quest markers fixed** (the Dump's dam -> the goat's stable, Form 27-B/6 -> the stamp itself, The Older Way -> the manhole); Pell's and Fern's directions now match the map |
+
+Measured, no change: loop seams (cycle 1), the cave on a third seed (B 92 / G 84 / R 84 / N 90, cycle 8), the Gainlands roamers at L5
+(cycle 17: the sim's L5 Necrocrat deck plays no unit before turn 8 - a sim-deck issue as much as a balance one). Tried and reverted: covering
+the old character background's spare leader lines (cycle 6). Stale smokes found (not tonight's): `run_final_flow_smoke.sh`,
+`run_fourth_brief_final_smoke.sh` (cycle 19).
 
 ## Scorecard (start -> end)
 
-SCORECARD_TABLE
+| Category | Start | Phase 2 start | End | Evidence (end) |
+|---|---|---|---|---|
+| Combat feel | 8 | 8.5 | 8.5 | The ability box on its own top layer beside the hovered card; token text no longer doubled (cycle 15). |
+| Visuals (forest, Crosspath, four zones, Capital) | 8 | 8.5 | 9 | D.N.A. without overhead clutter, full-height walls, sconces, fade ramp for walls the hero touches (cycle 14); every zone at all 9 V/F cameras; entrance bunting fades. |
+| UI consistency | 8.5 | 8.5 | 8.5 | 5-slot equipment screen (old background keeps its painted leader lines - cycle 6 tried, reverted; the new background fixes it). |
+| Onboarding / tutorial | 8.5 | 8.5 | 9 | New Game -> first deck edit ~10.3 min / 89 inputs / 23 lines (was 10.6 / 97 / 31); cave run on three seeds; Quest Log text 3.29 -> 4.59; three markers fixed. |
+| Rewards & progression feel | 8.5 | 8.5 | 8.5 | The Old Well's relic and reveal. |
+| Collection / bestiary | 8 | 8 | 8.5 | Gear tab (55 pieces, where-to-find hints, secrets kept); the Echo in the Bestiary; bestiary importer ready. |
+| NPC life & dialogue | 8 | 8.5 | 9 | First talks <= 5 boxes; Maren's short return lines; 102 barks rewritten; freed-zone lines (gatekeepers, workers, Kyle, Ectomund). |
+| Dialogue & story | - | 8 | 9 | Story bible + canon + voice bible + beat map; 258 conversations 3.17 -> 4.04; rushed-castle variants; Agnes in the Hall. Open: lieutenants / Elowen not built. |
+| Audio mix | 7.5 | 7.5 | 7.5 | Five loop wraps fixed; the Old Well's music; MUS-TOWN-FREED / MUS-DECK need new takes (prompts written); listen pass pending. |
+| Performance | 9.5 | 9.5 | 9.5 | 60 fps on Medium in the D.N.A., Buffet, Dump, Crosspath after tonight's changes. |
+| Stability | 8.5 | 8.5 | 9 | GUT 1997+ in foreground batches; story bot 73/73; tour bot 0 errors (x4); every maintained smoke OK; the Old Well smoke; two text bugs fixed (cycle 23). |
+| Balance (sim evidence) | 8 | 8 | 8.5 | Primm's three phases with boons measured (~58%); the Echo 52/61%; cave on three seeds. Open: L5 Necrocrat Gainlands (sim deck). |
+| Playtest readiness | 9 | 9 | 9 | No build tonight (by rule); tomorrow's art import is drop-in. |
 
 ## Final checks
 
