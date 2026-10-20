@@ -29,6 +29,10 @@ static func build(scene: ZoneScene, zone_id: String) -> void:
 
 
 ## The faint hum: a weak light a little above the ground, a thin film of water on the ground and a few motes rising (the Old Well's own look, smaller).
+const HUM_REACH: float = 9.0
+const HUM_DB: float = -8.0
+
+
 static func make_glow() -> Node3D:
 	var root: Node3D = Node3D.new()
 	var light: OmniLight3D = OmniLight3D.new()
@@ -81,6 +85,8 @@ static func make_glow() -> Node3D:
 	motes.mesh = mote
 	motes.position = Vector3(0.0, 0.2, 0.0)
 	root.add_child(motes)
+	# overnight Oct 19: the hum can be heard before it is seen - a faint water loop that only carries a few metres (it goes with the glow)
+	root.add_child(AmbientEmitter.make("spot/fountain", Vector3(0.0, 0.3, 0.0), HUM_REACH, HUM_DB))
 	return root
 
 

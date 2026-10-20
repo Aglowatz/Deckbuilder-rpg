@@ -168,3 +168,8 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 ## Cycle 28 - Dialogue & story: the tailor's shop name
 - "Thimble's Hats & Hems" was a leftover of the tailor's retired name (Tilda Thimble); the shop is "Threadwell's Hats & Hems" now (Pip
   Threadwell), and the old title is on canon.md's banned list (the test reads it). Tests OK.
+
+## Cycle 29 - Audio mix (7.5): the hums can be heard
+- The Dump's spring and the Buffet's pond "hum like the well did" but were silent: each glow now carries a faint water loop
+  (`AmbientEmitter` "spot/fountain", -8 dB, 9 m reach) that goes with the glow when the step is done - discoverable by ear. Old Well tests +
+  world-sound tests 31/31; the Old Well smoke OK in the live zones.
