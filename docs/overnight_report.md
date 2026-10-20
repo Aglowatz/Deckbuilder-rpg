@@ -107,7 +107,7 @@ screenshots to check after. The new UI-BG-CHARACTER switches the equipment scree
 
 ## Phase 2 (the improvement loop)
 
-25 cycles so far (full log: `docs/overnight/loop_log.md`; queue: `docs/overnight/next_up.md`). The ones worth knowing:
+34 cycles (full log: `docs/overnight/loop_log.md`; queue: `docs/overnight/next_up.md`). The ones worth knowing:
 
 | Cycle | Category | What |
 |---|---|---|
@@ -151,4 +151,18 @@ the old character background's spare leader lines (cycle 6). Stale smokes found 
 
 ## Final checks
 
-FINAL_CHECKS
+Run between 03:13 and 03:45 MDT on the final tree (plus the earlier full runs noted):
+
+- **GUT 2010/2010** (three foreground batches: tests/core 1280, tests/world 371, the rest 359 - the single background run is stopped by
+  Claude Code's low-memory guard on this PC).
+- **Walk smokes, all OK**: D.N.A., Endless Buffet, Verdant Dump, Gainlands, Capital, Crosspath (the Crosspath smoke had been failing since
+  the v0.4.0 roamers - fixed tonight).
+- **OK**: first-battles smoke, Old Well smoke (the whole secret quest in the live game), playtest smoke, prologue smoke, release smoke
+  (PASSED), boss-rules smoke, hub walk smoke, onboarding timing (~10.3 min), story playthrough bot **73/73**, tour bot **0 errors** (four
+  runs tonight).
+- **fps on Medium**: D.N.A. 59.7-60, Buffet 59.7, Dump 59.8, Crosspath 60.
+- **Not passing, and not tonight's**: `run_final_flow_smoke.sh` (looks for the forest tunnel removed on Oct 18) and
+  `run_fourth_brief_final_smoke.sh` (reads a LevelUpScreen field removed on Oct 17) - old per-brief smokes superseded by the ones above.
+- **Stopped by the memory guard** (not restarted on my own, as the guard asks): one background GUT run and one story-bot run; both were
+  re-run successfully in the foreground afterwards.
+- No build was exported (by rule). Pending Review was not touched. Old saves load (only new keys, flags and counters were added).

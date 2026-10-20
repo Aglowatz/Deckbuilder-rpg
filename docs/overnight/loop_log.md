@@ -191,3 +191,7 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 ## Cycle 34 - Combat feel: the tip on an enemy field card with long text
 - Mortimer Grimsby (two abilities + two keywords) hovered on the enemy row: the box stands right of the card, on top of the board, full text
   readable; it covers the neighbouring card while hovered (by design: never the hovered one). `_screenshots/oct19n_c34_efield.png`.
+
+## Cycle 35 - final sweep
+- All six zone walk smokes OK; first-battles smoke OK; GUT 2010/2010 (cycle 32). Untidy's step 2 marker kept (splitting the step would
+  change the objective list of saved quests; pointing at the seed would leave a stale marker) - logged.
