@@ -929,3 +929,9 @@ heal 2 at the start of its turns, one Iron / Red Tape / Ingredient / Garbage at 
 
 Kept +2/+2 (two-seed mean ~56%: hard but fair). Gourmand is the weakest Path against it (36-44%), Necrocrat the strongest. Reports in
 `docs/design/sim/old_well_oct19*.md`.
+
+## Overnight Oct 19 - Primm's three phases WITH the four leaders' boons (measured, no change)
+
+`--what=sequence --filter=boss:primm --games=6` (12 runs per Path, one HP pool, seed 7000; `docs/design/sim/primm_sequence_oct19n.md`):
+Beefcake 50%, Gourmand 58%, Refusemancer 42%, Necrocrat 83% (mean ~58%). Without boons it was 4-21% (Daytime Oct 19), so the boons carry
+the finale as designed. Most runs are lost in phase 2 (reflection). No change: in band for a final boss; Necrocrat is the easiest Path.

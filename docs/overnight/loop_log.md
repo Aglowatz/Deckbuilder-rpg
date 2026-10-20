@@ -16,3 +16,7 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
   mid-loop and the town is freed). The smoke now removes the roamers after the town loads and logs any scene change; OK (18 shots).
 - Checks: gatekeeper/dialogue/compile tests 16/16; Crosspath, Capital, Gainlands walk smokes, playtest, prologue smokes and the story bot
   (73/73) OK after Parts 5-6.
+
+## Cycle 3 - Balance (8): Primm's three phases with the boons - measured, no change
+- 12 runs per Path in one HP pool with the four leaders' boons: Beefcake 50%, Gourmand 58%, Refusemancer 42%, Necrocrat 83% (~58% mean;
+  without boons 4-21%). In band; logged in balance_log.md; answers Daytime inbox item 1. Balance 8 -> 8.5 (the last unmeasured boss is measured).
