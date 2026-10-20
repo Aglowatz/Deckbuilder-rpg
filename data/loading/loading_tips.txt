@@ -32,7 +32,7 @@ keyword | Wallflower: cannot attack. It supports you emotionally and sometimes m
 keyword | Peek X: look at the top X cards of your deck and put any of them on the bottom.
 keyword | Shred removes a card from the game for good. Toss is a discard. Bury X sends the top X cards of a deck to the Refuse Pile.
 
-lore | Pathwork has four Paths and exactly one crossroads. The signs all point to a bakery.
+lore | Patchwork has four Paths and exactly one crossroads. The signs all point to a bakery.
 lore | The Beefcake Path has no rest days. This is not a rule, it is a lifestyle.
 lore | The Necrocrats file everything in triplicate, including their own funerals.
 lore | The Gourmand Path believes every problem is a dinner problem. Surprisingly often, it is.
@@ -43,7 +43,7 @@ lore | Gatekeeper Brannoch keeps a notebook of every traveler's name. The gate h
 lore | Old Hob the Gravedigger is cheerful about death. It is his job, after all, and he has a very nice shovel.
 lore | Complaints about the Complaints Department may be filed with the Complaints Department.
 lore | Tilly Tonic tests every potion on herself. Her hair changes color daily. The scorch marks do not.
-lore | Pathwork's four Paths once ruled together. It was not as relaxing as it sounds.
+lore | Patchwork's four Paths once ruled together. It was not as relaxing as it sounds.
 lore | The Endless Buffet has never once been closed for a private event. It is the private event.
 lore | A raccoon in a trench coat is, legally speaking, a tax advisor.
 @LOAD-DUNGEON hint | HP carries over between a dungeon's encounters, and you are fully healed on entering. Plan your fights, not your fears.
