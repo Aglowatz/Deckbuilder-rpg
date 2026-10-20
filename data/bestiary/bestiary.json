@@ -4,6 +4,7 @@
 		{"name": "Cave Scavenger", "kind": "foe", "where": "The Forgotten Cave", "icon": "lorc/imp", "blurb": "Lives on whatever falls down the well. Has opinions about your boots."},
 		{"name": "Hollow Stalker", "kind": "foe", "where": "The Forgotten Cave", "icon": "lorc/wolf-head", "blurb": "Moves without a sound. Breathes like a broken accordion, though."},
 		{"name": "Hollow Warden", "kind": "boss", "where": "The Forgotten Cave", "icon": "lorc/rune-stone", "blurb": "An Old Kingdom guardian of moss and stone. Only lets royalty pass. Checks ID very slowly."},
+		{"name": "The Wellspring's Echo", "kind": "boss", "where": "The Old Well, Crosspath", "icon": "lorc/drop", "blurb": "The spring's memory of four Paths, poured into one shape. Tests every hand that reaches into the well. Politely. Then not."},
 
 		{"name": "Flexing Brute", "kind": "roamer", "where": "The Gainlands", "icon": "delapouite/strong-man", "blurb": "Has never skipped a mirror. Will fight anyone who blocks the light."},
 		{"name": "Protein Shake Golem", "kind": "roamer", "where": "The Gainlands", "icon": "lorc/bubbling-flask", "blurb": "Vanilla flavour, chocolate attitude. Shake well before battle."},

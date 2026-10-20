@@ -20,3 +20,8 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 ## Cycle 3 - Balance (8): Primm's three phases with the boons - measured, no change
 - 12 runs per Path in one HP pool with the four leaders' boons: Beefcake 50%, Gourmand 58%, Refusemancer 42%, Necrocrat 83% (~58% mean;
   without boons 4-21%). In band; logged in balance_log.md; answers Daytime inbox item 1. Balance 8 -> 8.5 (the last unmeasured boss is measured).
+
+## Cycle 4 - Collection (8): the Wellspring's Echo in the Bestiary
+- `data/bestiary/bestiary.json` entry (boss, "The Old Well, Crosspath", icon lorc/drop, blurb in the Bestiary's voice); image request
+  `BST-THE-WELLSPRING-S-ECHO` added by `node tools/bestiary_requests.js` (91 requests). Bestiary + Old Well tests 32/32. Collection 8 -> 8
+  (one more entry; the pictures arrive with tomorrow's import).
