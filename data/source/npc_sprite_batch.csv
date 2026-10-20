@@ -82,3 +82,14 @@ CLOAK-REDCAPE,,Crimson Short Cape,Cosmetic: cloak,Full player set (10 images),"S
 CLOAK-TATTERED,,Tattered Wanderer's Cloak,Cosmetic: cloak,Full player set (10 images),"SPR-PLAYER-CLOAK-TATTERED-{FRONT,FRONTSIDE,SIDE,BACKSIDE,BACK}_IDLE, SPR-PLAYER-CLOAK-TATTERED-{FRONT,FRONTSIDE,SIDE,BACKSIDE,BACK}_WALK",1,Needed,"A long gray cloak with a frayed, ragged hem and patches."
 CLOAK-ROYAL,,Royal Mantle,Cosmetic: cloak,Full player set (10 images),"SPR-PLAYER-CLOAK-ROYAL-{FRONT,FRONTSIDE,SIDE,BACKSIDE,BACK}_IDLE, SPR-PLAYER-CLOAK-ROYAL-{FRONT,FRONTSIDE,SIDE,BACKSIDE,BACK}_WALK",1,Needed,A regal deep-purple mantle with white fur trim and gold embroidery.
 CLOAK-PATCHWORK,,Patchwork Cloak,Cosmetic: cloak,Full player set (10 images),"SPR-PLAYER-CLOAK-PATCHWORK-{FRONT,FRONTSIDE,SIDE,BACKSIDE,BACK}_IDLE, SPR-PLAYER-CLOAK-PATCHWORK-{FRONT,FRONTSIDE,SIDE,BACKSIDE,BACK}_WALK",1,Needed,"A cozy cloak stitched from patches in the four Path colors (gold-red, gray-green, copper-cream, moss-rust)."
+G. OCT 20 ONE-SHEET SETS (split by tools/split_sprite_sheets.gd),,,,,,,,
+NS-CLIPWELL,NPC-CLIPWELL,Hortensia Clipwell,Animal: rabbit,Stationary set delivered as one sheet,"SPR-CLIPWELL (sheet), SPR-CLIPWELL-{FRONT,SIDE,BACK}_IDLE, SPR-CLIPWELL-FRONT_TALK",0.95,Approved,Sheet includes her topiary beside her in every frame.
+NS-CRUMB,NPC-CRUMB,Colonel Cornelius Crumb,Animal: badger,Stationary set delivered as one sheet,"SPR-CRUMB (sheet), SPR-CRUMB-{FRONT,SIDE,BACK}_IDLE, SPR-CRUMB-FRONT_TALK",1.05,Approved,
+NS-ELOWEN,NPC-ELOWEN,Elowen Vey,Human,Stationary set delivered as one sheet,"SPR-ELOWEN (sheet), SPR-ELOWEN-{FRONT,SIDE,BACK}_IDLE, SPR-ELOWEN-FRONT_TALK",1,Approved,
+NS-ISLA,NPC-ISLA,Isla Brannoch,Animal: bear,Stationary set delivered as one sheet,"SPR-ISLA (sheet), SPR-ISLA-{FRONT,SIDE,BACK}_IDLE, SPR-ISLA-FRONT_TALK",0.95,Approved,
+NS-KING,NPC-KING,King Harmon Wayweaver,Human,Stationary set delivered as one sheet,"SPR-KING (sheet), SPR-KING-{FRONT,SIDE,BACK}_IDLE, SPR-KING-FRONT_TALK",1.1,Approved,
+NS-PLUME,NPC-PLUME,Percival Plume,Animal: peacock,Stationary set delivered as one sheet,"SPR-PLUME (sheet), SPR-PLUME-{FRONT,SIDE,BACK}_IDLE, SPR-PLUME-FRONT_TALK",1.05,Approved,
+NS-QUEEN,NPC-QUEEN,Queen Concordia Wayweaver,Human,Stationary set delivered as one sheet,"SPR-QUEEN (sheet), SPR-QUEEN-{FRONT,SIDE,BACK}_IDLE, SPR-QUEEN-FRONT_TALK",1.05,Approved,
+NS-QUOTA,NPC-QUOTA,Vivienne Quota,Animal: ferret,Stationary set delivered as one sheet,"SPR-QUOTA (sheet), SPR-QUOTA-{FRONT,SIDE,BACK}_IDLE, SPR-QUOTA-FRONT_TALK",0.9,Approved,
+NS-SIPHON,NPC-SIPHON,Dr. Ambrose Siphon,Human,Stationary set delivered as one sheet,"SPR-SIPHON (sheet), SPR-SIPHON-{FRONT,SIDE,BACK}_IDLE, SPR-SIPHON-FRONT_TALK",1.05,Approved,
+NS-VAULTWARDEN,NPC-VAULTWARDEN,The Vault Warden,Construct,Stationary set delivered as one sheet,"SPR-VAULTWARDEN (sheet), SPR-VAULTWARDEN-{FRONT,SIDE,BACK}_IDLE, SPR-VAULTWARDEN-FRONT_TALK",1.4,Approved,

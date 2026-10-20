@@ -15,6 +15,8 @@ for file in "$SRC"/SPR-*.png; do
 	cp -f "$file" "$INBOX/" && copied=$((copied + 1))
 done
 echo "npc sprites: copied $copied file(s) into $INBOX (from: $SRC)"
+# One-sheet deliveries (SPR-<KEY>.png, four frames left to right) are split into the per-frame files first; the sheet itself is kept as is.
+"$GODOT" --headless --path . -s res://tools/split_sprite_sheets.gd 2>&1 | grep -E "^- |^#" | grep -v "^# NPC"
 "$GODOT" --headless --path . --import >/dev/null 2>&1
 "$GODOT" --headless --path . -s res://tools/world_test_import.gd -- --npcs 2>&1 | grep -v "leaked\|Leaked\|ObjectDB\|resources still in use\|at: \|^Godot Engine"
 "$GODOT" --headless --path . --import >/dev/null 2>&1
