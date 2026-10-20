@@ -1,6 +1,6 @@
 # Overnight report - Mon Oct 19 -> Tue Oct 20 2026
 
-Start 21:27 MDT (tag `pre-overnight-oct19`), all seven parts done by ~23:30, then the improvement loop. The daytime report is in
+Start 21:27 MDT (tag `pre-overnight-oct19`), all seven parts done by ~23:30, then 37 improvement cycles until ~03:55. I stopped about 2.5 hours early: what is left needs your decisions, your ears or tomorrow's art (see `docs/overnight/next_up.md`). The daytime report is in
 `docs/overnight_report_oct19day.md`. Old saves keep loading (every dialogue key, quest id and flag kept; only new ones added).
 Questions for you: `docs/overnight_inbox.md` ("Overnight Oct 19-20", items 1-14). Final checks at the end of this file.
 
@@ -107,7 +107,7 @@ screenshots to check after. The new UI-BG-CHARACTER switches the equipment scree
 
 ## Phase 2 (the improvement loop)
 
-34 cycles (full log: `docs/overnight/loop_log.md`; queue: `docs/overnight/next_up.md`). The ones worth knowing:
+37 cycles (full log: `docs/overnight/loop_log.md`; queue: `docs/overnight/next_up.md`). The ones worth knowing:
 
 | Cycle | Category | What |
 |---|---|---|
