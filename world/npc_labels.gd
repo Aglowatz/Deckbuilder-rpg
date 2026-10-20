@@ -1,13 +1,14 @@
 class_name NpcLabels
 extends CanvasLayer
-## Playtest v0.4.0, Part A: floating name labels over NPCs as screen UI (never text in the 3D world). Vendors, quest givers and quest
-## objectives always show theirs ("Sable - Cards"); every other NPC shows its name when the hero walks within `NEAR` metres and
-## fades out when they leave. Labels follow their anchor on screen, keep off each other (a label that would overlap another is
+## Playtest v0.4.0, Part A: floating name labels over NPCs as screen UI (never text in the 3D world). Oct 20: every label, vendors and
+## quest givers included, shows only while the hero is within `NEAR` metres and fades out over `FADE` more (one radius everywhere, so
+## the town is not a wall of names); vendors and quest givers stand out by colour, their glow and their quest markers, which stay at
+## any distance. Labels follow their anchor on screen, keep off each other (a label that would overlap another is
 ## pushed up), hide behind the camera and while `blocked` (dialogue, menus, battles, cutscenes). One layer per scene; register
 ## every labelled NPC with `register`.
 
-const NEAR: float = 4.2
-const FADE: float = 1.4
+const NEAR: float = 6.0
+const FADE: float = 1.0
 const FADE_SPEED: float = 6.0
 const VENDOR: Color = Color("ffd166")
 const QUEST: Color = Color("9cf5a0")
@@ -42,8 +43,8 @@ func _ready() -> void:
 	layer = 4
 
 
-## `anchor` is a node at the top of the figure (a spot's marker); `kind` is "vendor", "quest" or "npc"; `always` keeps the label on
-## screen regardless of distance (vendors, quest givers, quest objectives).
+## `anchor` is a node at the top of the figure (a spot's marker); `kind` is "vendor", "quest" or "npc"; `always` marks vendors, quest
+## givers and quest objectives (a larger label drawn on top; the same radius as everyone since Oct 20).
 func register(anchor: Node3D, text: String, kind: String = "npc", always: bool = false, head: float = 0.0, key: String = "") -> Label:
 	if anchor == null or text.strip_edges().is_empty():
 		return null
@@ -188,10 +189,9 @@ func _process(delta: float) -> void:
 		var world: Vector3 = anchor.global_position + Vector3(0.0, float(entry["head"]), 0.0)
 		var on_screen: bool = not cam.is_position_behind(world) and get_viewport().get_visible_rect().grow(-8.0).has_point(cam.unproject_position(world))
 		if not hidden and anchor.is_visible_in_tree() and on_screen:
-			if bool(entry["always"]) or bool(entry["boosted"]):
-				wanted = 1.0
-			elif target != null and is_instance_valid(target):
-				var distance: float = anchor.global_position.distance_to(target.global_position)
+			if target != null and is_instance_valid(target):
+				var offset: Vector3 = anchor.global_position - target.global_position
+				var distance: float = Vector2(offset.x, offset.z).length()  # on the ground: a tall figure is not further away
 				wanted = clampf(1.0 - (distance - NEAR) / FADE, 0.0, 1.0)
 		var alpha: float = move_toward(float(entry["alpha"]), wanted, delta * FADE_SPEED)
 		entry["alpha"] = alpha
@@ -215,7 +215,7 @@ func _process(delta: float) -> void:
 	_spread(placed)
 
 
-## A plain NPC with a quest mark (or the tracked objective) keeps its label up, in the quest colour, until the mark goes.
+## A plain NPC with a quest mark (or the tracked objective) draws its label in the quest colour until the mark goes.
 func _poll_boost() -> void:
 	if not boost.is_valid():
 		return

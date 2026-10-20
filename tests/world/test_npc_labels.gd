@@ -1,6 +1,6 @@
 extends GutTest
-## Playtest v0.4.0 Part A: floating NPC name labels are screen UI (`NpcLabels`): vendors say what they sell, quest givers are green and
-## always up, plain NPCs show within a few metres and fade, everything hides while blocked (dialogue, menus), and the black market
+## Playtest v0.4.0 Part A: floating NPC name labels are screen UI (`NpcLabels`): vendors say what they sell, quest givers are green,
+## every label (vendors and quest givers too, since Oct 20) shows within `NpcLabels.NEAR` metres and fades, everything hides while blocked (dialogue, menus), and the black market
 ## (the Crosspath Secret Dealer, Fig Sly) gets no label at all. Vendors and quest givers also get a glow at their feet (`NpcGlow`).
 
 
@@ -65,7 +65,7 @@ func test_an_always_label_is_on_screen_and_a_plain_one_only_near_the_hero() -> v
 	var plain_label: Label = layer.register(far_anchor, "Townsfolk", "npc", false, 0.3, "stroller")
 	assert_eq(layer.entry_count(), 2)
 	await wait_process_frames(40)
-	assert_true(vendor_label.visible, "a vendor's label is always on screen")
+	assert_true(vendor_label.visible, "a vendor's label shows when the hero stands beside them")
 	assert_gt(vendor_label.modulate.a, 0.9)
 	assert_false(plain_label.visible, "a plain NPC 30 m away has no label")
 	(parts["hero"] as Node3D).position = Vector3(0, 0, -29)
@@ -90,10 +90,14 @@ func test_a_quest_mark_boosts_a_plain_label() -> void:
 	(parts["root"] as Node3D).add_child(far_anchor)
 	var label: Label = layer.register(far_anchor, "Old Man Mountain", "npc", false, 0.3, "hermit")
 	await wait_process_frames(60)
-	assert_true(label.visible, "a plain NPC with a quest to give keeps its name up from afar")
+	assert_false(label.visible, "a quest mark no longer shows a name from afar (Oct 20: one radius for every label)")
+	(parts["hero"] as Node3D).position = Vector3(0, 0, -29)
+	await wait_process_frames(60)
+	assert_true(label.visible, "walking up shows it")
+	assert_eq(label.get_theme_color("font_color"), NpcLabels.QUEST, "in the quest colour while the mark is up")
 	_marked = false
 	await wait_process_frames(60)
-	assert_false(label.visible, "and it fades again once the quest is gone")
+	assert_eq(label.get_theme_color("font_color"), NpcLabels.PLAIN, "and plain again once the quest is gone")
 
 
 func test_overlapping_labels_are_spread_apart() -> void:
@@ -122,3 +126,19 @@ func test_the_glow_is_a_flat_additive_disc_under_the_npc() -> void:
 	assert_true(glow.mesh is QuadMesh)
 	assert_lt(glow.position.y, 0.1, "it lies at the feet")
 	assert_true(glow.has_meta(StyleToon.META_NO_TOON), "excluded from the toon pass")
+
+
+func test_vendor_and_quest_giver_labels_follow_the_same_radius() -> void:
+	var parts: Dictionary = _scene()
+	var layer: NpcLabels = NpcLabels.install(parts["root"] as Node, parts["hero"] as Node3D, parts["camera"] as Camera3D, func() -> bool: return false)
+	var far_anchor: Node3D = Node3D.new()
+	far_anchor.position = Vector3(0, 1.8, -12)  # 12 m from the hero, still in view
+	(parts["root"] as Node3D).add_child(far_anchor)
+	var vendor: Label = layer.register(far_anchor, "Sable - Cards", "vendor", true, 0.3, "vendor")
+	await wait_process_frames(40)
+	assert_false(vendor.visible, "a vendor 12 m away shows no name")
+	(parts["hero"] as Node3D).position = Vector3(0, 0, -12.0 + NpcLabels.NEAR - 0.5)
+	await wait_process_frames(40)
+	assert_true(vendor.visible, "inside the radius the vendor's name is up")
+	assert_gt(vendor.modulate.a, 0.9)
+	assert_between(NpcLabels.NEAR, 5.5, 7.0, "the radius stays about 6-7 m")
