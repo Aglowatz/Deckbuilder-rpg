@@ -30,6 +30,14 @@ var _counts: Array[Label] = []
 var _deck_piles: Array[DeckPile] = []
 var _preview_root: Control
 var _preview_card: CardView
+## Overnight Oct 19 (Part 2): the card's ability and keyword box lives on its own CanvasLayer above the whole table (never behind a card) and stands beside the
+## hovered card, following it while it moves; _tip_anchor is that card.
+var _tip_layer: CanvasLayer
+var _tip_anchor: CardView
+const TIP_LAYER: int = 25
+const TIP_WIDTH: float = 330.0
+const TIP_GAP: float = 14.0
+const TIP_MARGIN: float = 10.0
 var _tooltip: PanelContainer
 var _tooltip_box: VBoxContainer
 var _banner: Label
@@ -284,12 +292,17 @@ func _build_preview() -> void:
 	_preview_root.z_index = 300
 	_preview_root.visible = false
 	add_child(_preview_root)
+	_tip_layer = CanvasLayer.new()
+	_tip_layer.name = "CardTipLayer"
+	_tip_layer.layer = TIP_LAYER  # above the board and the HUD, under the tutorial bubbles (30) and the menus
+	add_child(_tip_layer)
 	_tooltip = UIKit.panel(&"DarkPanel")
-	_tooltip.position = Vector2(22, 656)
-	_tooltip.custom_minimum_size = Vector2(302, 0)
-	_tooltip.size = Vector2(302, 10)
+	_tooltip.name = "CardTip"
+	_tooltip.custom_minimum_size = Vector2(TIP_WIDTH, 0)
+	_tooltip.size = Vector2(TIP_WIDTH, 10)
 	_tooltip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_preview_root.add_child(_tooltip)
+	_tooltip.visible = false
+	_tip_layer.add_child(_tooltip)
 	_tooltip_box = UIKit.vbox(6)
 	_tooltip.add_child(_tooltip_box)
 
@@ -462,7 +475,7 @@ func set_hp_display(player_index: int, hp: int, max_hp: int) -> void:
 
 func show_preview(view: CardView, note: String = "") -> void:
 	if view != null and bool(view.get_meta("face_down_trap", false)) and not bool(view.get_meta("trap_peek", false)):
-		_show_face_down_trap()
+		_show_face_down_trap(view)
 		return
 	var peek: bool = view != null and bool(view.get_meta("trap_peek", false))
 	if view == null or view.data == null or bool(view.get_meta("hidden", false)) or (view.mode == CardView.Mode.BACK and not peek):
@@ -480,32 +493,90 @@ func show_preview(view: CardView, note: String = "") -> void:
 	_preview_root.visible = true
 	for child: Node in _tooltip_box.get_children():
 		child.queue_free()
+	var rules: String = view.data.rules_text.strip_edges()
+	if _only_keywords(rules, KeywordInfo.entries_for(view.data)):
+		rules = ""  # "Hustle." alone: the keyword's own entry below says it better
+	if not rules.is_empty():
+		_tooltip_box.add_child(KeywordInfo.title_row(view.data.display_name, "", Settings.tooltip_font(22)))
+		var ability: Label = UIKit.label(rules, &"", Settings.tooltip_font(19), UIStyle.PARCHMENT)
+		ability.name = "Ability"
+		ability.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		ability.custom_minimum_size = Vector2(TIP_WIDTH - 32.0, 0)
+		_tooltip_box.add_child(ability)
 	if not note.is_empty():
 		var why: Label = UIKit.label(note, &"", Settings.tooltip_font(21), UIStyle.PARCHMENT if peek else Color("ff9a8a"))
 		why.name = "WhyNot"
 		why.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		why.custom_minimum_size = Vector2(270, 0)
+		why.custom_minimum_size = Vector2(TIP_WIDTH - 32.0, 0)
 		_tooltip_box.add_child(why)
 	var entries: Array[Array] = KeywordInfo.entries_for(view.data)
 	if card != null and card.summoning_sick and card.data.is_unit() and game.players[card.owner].field.has(card):
 		entries.append(["Summoning sickness", str(KeywordInfo.GLOSSARY["Summoning sickness"])])
-	_tooltip.visible = not entries.is_empty() or not note.is_empty()
+	_tooltip.visible = not entries.is_empty() or not note.is_empty() or not rules.is_empty()
 	for entry: Array in entries:
 		_tooltip_box.add_child(KeywordInfo.title_row(str(entry[0]), str(entry[2]) if entry.size() > 2 else "", Settings.tooltip_font(22)))
 		var body: Label = UIKit.label(str(entry[1]), &"", Settings.tooltip_font(19), UIStyle.PARCHMENT)
 		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		body.custom_minimum_size = Vector2(270, 0)
+		body.custom_minimum_size = Vector2(TIP_WIDTH - 32.0, 0)
 		_tooltip_box.add_child(body)
-	_tooltip.size = Vector2(302, 10)
-	_tooltip.position = Vector2(22, 656)
+	_anchor_tip(view)
 
 
 func hide_preview() -> void:
 	_preview_root.visible = false
+	_tooltip.visible = false
+	_tip_anchor = null
+
+
+## True when the rules text is nothing but the names of keywords the box explains anyway ("Hustle." or "Bulldoze. Swat.").
+static func _only_keywords(rules: String, entries: Array[Array]) -> bool:
+	if rules.is_empty():
+		return false
+	var names: Dictionary = {}
+	for entry: Array in entries:
+		names[str(entry[0]).to_lower()] = true
+	for part: String in rules.replace(",", ".").replace("\n", ".").split(".", false):
+		if not names.has(part.strip_edges().to_lower()):
+			return false
+	return true
+
+
+## Puts the box beside view now and keeps it there while the card moves (hover lift, layout tweens).
+func _anchor_tip(view: CardView) -> void:
+	_tip_anchor = view
+	_tooltip.size = Vector2(TIP_WIDTH, 10)
+	_place_tip()
+
+
+func _process(_delta: float) -> void:
+	if _tooltip != null and _tooltip.visible:
+		_place_tip()
+
+
+func _place_tip() -> void:
+	if _tip_anchor == null or not is_instance_valid(_tip_anchor) or not _tip_anchor.is_inside_tree():
+		return
+	var box: Vector2 = Vector2(TIP_WIDTH, maxf(_tooltip.get_combined_minimum_size().y, _tooltip.size.y))
+	_tooltip.position = tip_position(_tip_anchor.get_global_rect(), box, get_viewport().get_visible_rect().size)
+
+
+## Where the ability box stands for a card at anchor (screen rect): right of the card, or left of it near the right edge, top-aligned with the card and kept
+## on screen; above (or below) the card only when neither side has room. The box never overlaps the card.
+static func tip_position(anchor: Rect2, box: Vector2, screen: Vector2, gap: float = TIP_GAP, margin: float = TIP_MARGIN) -> Vector2:
+	var y: float = clampf(anchor.position.y, margin, maxf(margin, screen.y - margin - box.y))
+	var right: float = anchor.end.x + gap
+	if right + box.x <= screen.x - margin:
+		return Vector2(right, y)
+	var left: float = anchor.position.x - gap - box.x
+	if left >= margin:
+		return Vector2(left, y)
+	var x: float = clampf(anchor.position.x + (anchor.size.x - box.x) * 0.5, margin, maxf(margin, screen.x - margin - box.x))
+	var above: float = anchor.position.y - gap - box.y
+	return Vector2(x, above if above >= margin else anchor.end.y + gap)
 
 
 ## An enemy's set trap: no card, just what it is (Oct 19, traps as face-down cards).
-func _show_face_down_trap() -> void:
+func _show_face_down_trap(view: CardView) -> void:
 	if _preview_card != null:
 		_preview_card.queue_free()
 		_preview_card = null
@@ -514,12 +585,11 @@ func _show_face_down_trap() -> void:
 	_tooltip_box.add_child(KeywordInfo.title_row("Face-down Trap", "", Settings.tooltip_font(22)))
 	var body: Label = UIKit.label("The enemy set this trap. It springs by itself when its condition is met, then goes to their Refuse Pile.", &"", Settings.tooltip_font(19), UIStyle.PARCHMENT)
 	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	body.custom_minimum_size = Vector2(270, 0)
+	body.custom_minimum_size = Vector2(TIP_WIDTH - 32.0, 0)
 	_tooltip_box.add_child(body)
 	_tooltip.visible = true
-	_tooltip.size = Vector2(302, 10)
-	_tooltip.position = Vector2(22, 656)
 	_preview_root.visible = true
+	_anchor_tip(view)
 
 
 # ---- Portrait ---------------------------------------------------------------------------
