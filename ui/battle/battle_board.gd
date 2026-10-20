@@ -720,6 +720,11 @@ func present(event: GameEvent) -> void:
 			attacking.clear()
 			blockers.clear()
 			layout()
+			# Oct 19: the Red Tape badge counts turns left from the active player, so every unit re-reads its badge.
+			for each_player: PlayerState in game.players:
+				for unit: CardInstance in each_player.field:
+					if not unit.lingering.is_empty():
+						_refresh_view(unit.uid)
 			# Overnight Oct 17, Part 8: a ribbon marks every turn change.
 			if event.player == 0:
 				fx.turn_banner("YOUR TURN", UIStyle.GOLD, 0.75 / speed)

@@ -128,7 +128,7 @@ func _screenshot_give(spec: String) -> void:
 ## you every basic infrastructure, `--play=N-17` plays that hand card as the mouse would (opening the targeting viewer),
 ## `--pick=0` then chooses the Nth legal pile card, `--viewer=0|1` opens the browse viewer on that pile. Runs once the board has settled.
 func _screenshot_scenario() -> void:
-	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark", "efield", "combat", "endturn", "traps"]
+	var keys: Array[String] = ["bury", "hand", "energy", "play", "pick", "viewer", "field", "mark", "efield", "combat", "endturn", "traps", "tape", "etape"]
 	var wanted: bool = false
 	for key: String in keys:
 		wanted = wanted or _screenshot_args.has(key)
@@ -167,6 +167,14 @@ func _screenshot_scenario() -> void:
 				game.players[0].field[target_index].exhausted = true
 			elif bits[0] == "buff":
 				game.players[0].field[target_index].buffs = int(bits[2]) if bits.size() > 2 else 1
+	## Oct 19: `--tape=0` = your Red Tape on enemy field unit 0 (ends at the start of YOUR next turn); `--etape=1` = the enemy's Red Tape
+	## on your field unit 1 (ends at the start of the enemy's next turn). Both show the debuff badge with its turns left.
+	for index_text: String in str(_screenshot_args.get("tape", "")).split(",", false):
+		if int(index_text) < game.players[1].field.size():
+			game.change_stats_until_turn_of(game.players[1].field[int(index_text)], -ResourceRules.red_tape_amount(game, 0), 0, 0)
+	for index_text: String in str(_screenshot_args.get("etape", "")).split(",", false):
+		if int(index_text) < game.players[0].field.size():
+			game.change_stats_until_turn_of(game.players[0].field[int(index_text)], -ResourceRules.red_tape_amount(game, 1), 0, 1)
 	if _screenshot_args.has("energy"):
 		for number: int in range(1, 12):
 			var infra: CardData = load("res://data/cards/INF-%02d.tres" % number) as CardData

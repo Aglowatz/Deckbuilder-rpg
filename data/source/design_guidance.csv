@@ -51,7 +51,7 @@ KEYWORDS,Unbreakable,"Can't be destroyed by damage or destroy effects. Can still
 KEYWORDS,Not used,"Guard, Equip X, Ward/Notarized, Menace (one blocker per attacker), Flash/instants.",
 ,,,
 RESOURCES,Iron (Beefcake),"Pay 1 energy, use an Iron: target unit gets +1/+1 until end of turn. Your turn only.",Created by Powerhouse.
-RESOURCES,Red Tape (Necrocrat),"Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of its controller's next turn. Your turn only.",Created by Ghost Town.
+RESOURCES,Red Tape (Necrocrat),"Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of your next turn. Your turn only.","Created by Ghost Town. The shrink lasts through the opponent's whole turn and ends when the user's next turn starts (Oct 19)."
 TOKENS (not resources),Contract (Necrocrat),"Pay 1 energy, use a Contract: exhaust target unit. It doesn't refresh during its controller's next turn. Your turn only.","Necrocrat non-unit token, NOT a resource. Effects that refer to resources never include Contracts; effects that refer to tokens do. Can target any unit (allows combos)."
 RESOURCES,Ingredient (Gourmand),"Does nothing on its own. Spent by Gourmand cards (Cook, golems, recipes).",Created by Feastforge.
 RESOURCES,Garbage (Refusemancer),Does nothing on its own. Spent by Refusemancer cards (Eat Garbage).,Created by Wasteworks.

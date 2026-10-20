@@ -19,8 +19,8 @@ var defense_bonus: int = 0
 ## Until-end-of-turn stat changes.
 var temp_attack: int = 0
 var temp_defense: int = 0
-## Rebalance (Oct 18): stat changes that last until the start of a given player's next turn (Red Tape: "until the start of its
-## controller's next turn"): [{"atk": int, "def": int, "player": int}]. Expired by GameState._begin_turn.
+## Rebalance (Oct 18): stat changes that last until the start of a given player's next turn (Red Tape, Oct 19 timing: "until the
+## start of the USER's next turn"): [{"atk": int, "def": int, "player": int}]. Expired by GameState._begin_turn.
 var lingering: Array[Dictionary] = []
 var granted_keywords: Array[CardEnums.Keyword] = []
 var temp_keywords: Array[CardEnums.Keyword] = []
@@ -121,6 +121,16 @@ func lingering_defense(player: int = -1) -> int:
 		if player < 0 or int(entry["player"]) == player:
 			total += int(entry["def"])
 	return total
+
+
+## How many turn starts away the last lingering change ends, seen from `active`'s turn: 2 while the player who made it is still
+## acting (the rest of this turn and the opponent's whole turn), 1 during the other player's turn (it ends when the next turn
+## starts). 0 = no lingering change. The debuff badge on the unit shows this.
+func lingering_turns_left(active: int) -> int:
+	var most: int = 0
+	for entry: Dictionary in lingering:
+		most = maxi(most, 2 if int(entry["player"]) == active else 1)
+	return most
 
 
 ## Drops the lingering changes that end at the start of `player`'s turn. Returns how many ended.

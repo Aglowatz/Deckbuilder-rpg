@@ -89,6 +89,10 @@ var _badge_sick: Label
 var _exhaust_icon: TextureRect
 var _buff_badge: Control
 var _buff_label: Label
+## Oct 19: the Red Tape debuff badge (resource icon, the attack change, turns left) on a shrunk unit.
+var _debuff_badge: Control
+var _debuff_label: Label
+var _debuff_turns: Label
 var _damage_label: Label
 var _tint_overlay: ColorRect
 var _glow_tween: Tween
@@ -806,6 +810,7 @@ func _build_overlays() -> void:
 	_buff_label.add_theme_constant_override("outline_size", 8)
 	_buff_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_buff_badge.add_child(_buff_label)
+	_build_debuff_badge()
 	_damage_label = Label.new()
 	_damage_label.position = Vector2(20, 90)
 	_damage_label.add_theme_font_override("font", UIStyle.font_title())
@@ -1298,6 +1303,52 @@ func apply_instance(instance: CardInstance, game: GameState) -> void:
 	if _buff_badge != null:
 		_buff_badge.visible = instance.buffs > 0 and IconArt.has("ICON-MECH-BUFF")
 		_buff_label.text = "x%d" % instance.buffs
+	if _debuff_badge != null:
+		var shrink: int = instance.lingering_attack()
+		var turns: int = instance.lingering_turns_left(game.active)
+		_debuff_badge.visible = data.is_unit() and shrink < 0 and turns > 0
+		_debuff_label.text = "%d" % shrink
+		_debuff_turns.text = "%d turn%s" % [turns, "" if turns == 1 else "s"]
+
+
+## Oct 19: a small badge on the right of the art for a lingering shrink (Red Tape): the Red Tape icon, the attack change in red and
+## how many turn starts are left before it ends ("2 turns" right after the use, "1 turn" during the other player's turn).
+func _build_debuff_badge() -> void:
+	_debuff_badge = Control.new()
+	_debuff_badge.position = Vector2(176, 158)
+	_debuff_badge.visible = false
+	_debuff_badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_debuff_badge)
+	var back: Panel = _panel(Rect2(Vector2(-6, -4), Vector2(118, 76)), UIStyle.box(Color(0.16, 0.05, 0.07, 0.82), Color("d04a4a"), 2, 12))
+	back.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_debuff_badge.add_child(back)
+	var icon: TextureRect = IconArt.rect("ICON-RES-REDTAPE", 44.0)
+	if icon != null:
+		icon.position = Vector2(62, 0)
+		icon.size = Vector2(44, 44)
+		_debuff_badge.add_child(icon)
+	_debuff_label = Label.new()
+	_debuff_label.position = Vector2(0, 2)
+	_debuff_label.size = Vector2(58, 40)
+	_debuff_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_debuff_label.add_theme_font_override("font", UIStyle.font_title())
+	_debuff_label.add_theme_font_size_override("font_size", 30)
+	_debuff_label.add_theme_color_override("font_color", Color("ff8080"))
+	_debuff_label.add_theme_color_override("font_outline_color", Color("300808"))
+	_debuff_label.add_theme_constant_override("outline_size", 8)
+	_debuff_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_debuff_badge.add_child(_debuff_label)
+	_debuff_turns = Label.new()
+	_debuff_turns.position = Vector2(0, 44)
+	_debuff_turns.size = Vector2(106, 24)
+	_debuff_turns.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_debuff_turns.add_theme_font_override("font", UIStyle.font_bold())
+	_debuff_turns.add_theme_font_size_override("font_size", 18)
+	_debuff_turns.add_theme_color_override("font_color", Color("ffd9d9"))
+	_debuff_turns.add_theme_color_override("font_outline_color", Color("300808"))
+	_debuff_turns.add_theme_constant_override("outline_size", 6)
+	_debuff_turns.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_debuff_badge.add_child(_debuff_turns)
 
 
 func set_glow(kind: Glow) -> void:

@@ -241,3 +241,12 @@ See the "Part F" section of `docs/design/balance_log.md` for every equipment and
 
 No card or deck rows: the changes are game rules (Processing Time, `core/zone/zone_effects.gd`) and encounter rules
 (`data/encounters/modifiers.json`: Heckling Crowd for Grand Bellows, Royal Guard for Primm phase 1). Details in balance_log.md.
+
+## Daytime Oct 19, four improvements, Part 1: Red Tape timing
+
+| Sheet | Row | Column | Old | New |
+|---|---|---|---|---|
+| Design Guidance | RESOURCES / Red Tape (Necrocrat) | Rule | Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of its controller's next turn. Your turn only. | Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of your next turn. Your turn only. (the live sheet already had this; the snapshot `data/source/design_guidance.csv` now matches, with a note that the shrink lasts through the opponent's whole turn) |
+| Tokens | T-14 Red Tape | Card Text/Effect | Pay 1, use this Red Tape: target unit gets -2/-0 until the start of its controller's next turn. (Your turn only.) | Pay 1, use this Red Tape: target unit gets -2/-0 until the start of your next turn. (Your turn only.) |
+
+No card rows change: no card restates the Red Tape duration (Chancellor Clench's "-4 attack instead of -2" keeps the same timing).

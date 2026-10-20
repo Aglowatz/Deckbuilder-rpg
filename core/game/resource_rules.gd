@@ -2,7 +2,8 @@ class_name ResourceRules
 extends RefCounted
 ## The Resource system (Brief 14, Part B): creating, using, destroying and spending resources (and the Contract token), and the three built-in
 ## "pay 1 energy, use one" abilities (Iron, Red Tape, Contract) plus the Eat Garbage cost. Operates on a GameState.
-## Rebalance (Oct 18): Iron = +1/+1 until end of turn, Red Tape = -2/-0 until the start of its controller's next turn, Eat Garbage costs no HP.
+## Rebalance (Oct 18): Iron = +1/+1 until end of turn, Red Tape = -2/-0 until the start of the USER's next turn (Oct 19: it used to end at
+## the start of the target controller's turn, so it never blunted an attack), Eat Garbage costs no HP.
 ## Resources are token permanents in `PlayerState.resources`; every one is a CardInstance of a resource token CardData.
 
 static var _data_cache: Dictionary = {}
@@ -136,7 +137,7 @@ static func iron_amount(state: GameState, player_index: int) -> int:
 	return 2 if StaticEffects.player_flag(state, player_index, "iron_plus_2") else 1
 
 
-## Rebalance (Oct 18): -2 attack until the start of its controller's next turn per Red Tape use (-4 with Chancellor Clench).
+## Rebalance (Oct 18): -2 attack until the start of the user's next turn per Red Tape use (-4 with Chancellor Clench).
 static func red_tape_amount(state: GameState, player_index: int) -> int:
 	return 4 if StaticEffects.player_flag(state, player_index, "red_tape_minus_2") else 2
 
@@ -184,7 +185,8 @@ static func use_ability(state: GameState, player_index: int, kind: ResourceKind.
 			var pump: int = iron_amount(state, player_index)
 			state.change_stats(target, pump, pump, true)
 		ResourceKind.Kind.RED_TAPE:
-			state.change_stats_until_turn_of(target, -red_tape_amount(state, player_index), 0, target.owner)
+			# Oct 19: the shrink lasts until the start of the USER's next turn (through the opponent's whole turn), whoever controls the target.
+			state.change_stats_until_turn_of(target, -red_tape_amount(state, player_index), 0, player_index)
 		ResourceKind.Kind.CONTRACT:
 			state.exhaust_unit(target, true)
 	state.check_state()

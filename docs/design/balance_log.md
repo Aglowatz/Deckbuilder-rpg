@@ -889,3 +889,27 @@ Lesson: judge starter swaps on two seeds with 100 runs each; 50 runs on one seed
 44-48, Gourmand 64-84, Refusemancer 60-88). Fewer basics (Brute 14 -> 11, Golem 12 -> 10, fewer Iron bursts) gave 73 / 66% and 62 / 70%:
 no real change, reverted. With HP (Oct 18) and deck size (cycle 27) also flat, the roamers need a content change (their bruisers) if
 they should be easier.
+
+## Daytime Oct 19, four improvements, Part 1: Red Tape timing
+
+Rule: "Pay 1 energy, use a Red Tape: target unit gets -2/-0 until the start of your next turn." The shrink now expires at the start of
+the **user's** next turn (it lasted until the start of the target controller's turn before, so a Red Tape used on your turn never blunted
+the enemy's attack - it was only ever a blocker trick). It holds through the opponent's whole turn whoever uses it: an enemy Red Tape on
+your unit lasts through your turn and ends when the enemy's next turn starts.
+
+| What | Old | New |
+|---|---|---|
+| Expiry (`ResourceRules.use`, `GameState.change_stats_until_turn_of`) | the target controller's next ready step | the user's next ready step |
+| AI threat estimate (`AIPlayer._threat`) | drops every lingering shrink on foe units | drops only shrinks the foe made itself (`get_attack(card, foe.index)`) |
+| AI valuation (`_resource_gain_via_attack`) | attack gain this turn only | attack gain this turn + the threat the shrink takes off the foe's next attack; Red Tape is also sensible in Main 2 on a foe unit that attacks next turn |
+| Texts | "until the start of its controller's next turn" | "until the start of your next turn" (resource tooltip, T-14 token, token sheet, Design Guidance snapshot, tutorial prompt, combat_rules.md) |
+| Board | - | a debuff badge on the shrunk unit: Red Tape icon, "-2", "2 turns" right after the use / "1 turn" during the other player's turn (`CardView._build_debuff_badge`, `CardInstance.lingering_turns_left`) |
+
+Tests (`tests/core/game/test_resources.gd`): the player's Red Tape stays -2 through the enemy turn and ends at the start of the player's next
+turn; the enemy's Red Tape on the player's unit stays -2 through the player's turn and ends at the start of the enemy's next turn; the
+threat estimate keeps the AI's own shrinks. Screenshot `_screenshots/oct19d/p1_red_tape_badge.png` (`--tape=0,1 --etape=1`).
+
+Sim check (`d19_redtape_tutorial_necro_7000/8100.md`, `d19_redtape_decks_l1.md`): Necrocrat tutorial clears **89% / 93%** on seeds 7000 / 8100
+(100 runs each; the cycle-11 deck measured 83 / 91 before the change), the three fights 96-100%. L1 round robin (20 games per pairing):
+B 48 / G 50 / R 45 / **N 57** (was 52 / 48 / 47 / 53). The stronger Red Tape lifts the Necrocrat deck a few points on both checks, still
+inside the noise band of these sample sizes; no deck change made.

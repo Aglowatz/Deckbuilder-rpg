@@ -101,7 +101,7 @@ func test_iron_needs_energy_and_an_iron() -> void:
 	assert_false(game.use_resource(0, KIND.IRON, unit.uid), "no second Iron")
 
 
-func test_red_tape_gives_minus_two_attack_until_the_start_of_its_controllers_next_turn() -> void:
+func test_red_tape_gives_minus_two_attack_until_the_start_of_the_users_next_turn() -> void:
 	var game: GameState = _game()
 	GameFactory.add_infrastructure_cards(game, 0, 3, Affinity.Type.NECROCRAT)
 	var foe_unit: CardInstance = _unit(game, 1, 5, 3)
@@ -120,8 +120,35 @@ func test_red_tape_gives_minus_two_attack_until_the_start_of_its_controllers_nex
 	assert_eq(game.get_attack(foe_unit), 0, "still shrunk in my second main phase")
 	GameFactory.pass_turn(game)
 	assert_eq(game.active, 1, "the controller's turn began")
-	assert_eq(game.get_attack(foe_unit), 5, "the shrink ended at the start of its controller's next turn")
+	assert_eq(game.get_attack(foe_unit), 0, "still shrunk through the opponent's whole turn (Oct 19 timing)")
+	assert_eq(foe_unit.lingering_turns_left(game.active), 1, "the badge counts one turn start to go")
+	game.advance_phase()
+	game.advance_phase()
+	assert_eq(game.get_attack(foe_unit), 0, "still shrunk in the opponent's second main phase")
+	GameFactory.pass_turn(game)
+	assert_eq(game.active, 0, "my next turn began")
+	assert_eq(game.get_attack(foe_unit), 5, "the shrink ended at the start of the user's next turn")
 	assert_true(foe_unit.lingering.is_empty())
+	assert_eq(foe_unit.lingering_turns_left(game.active), 0)
+
+
+func test_an_enemy_red_tape_on_my_unit_lasts_through_my_turn() -> void:
+	var game: GameState = _game()
+	GameFactory.add_infrastructure_cards(game, 1, 2, Affinity.Type.NECROCRAT)
+	var mine: CardInstance = _unit(game, 0, 4, 4)
+	_give(game, 1, KIND.RED_TAPE, 1)
+	GameFactory.pass_turn(game)
+	assert_eq(game.active, 1)
+	assert_true(game.use_resource(1, KIND.RED_TAPE, mine.uid), "the enemy shrinks my unit on its turn")
+	assert_eq(game.get_attack(mine), 2)
+	assert_eq(mine.lingering_turns_left(game.active), 2, "the rest of the enemy turn and my whole turn")
+	GameFactory.pass_turn(game)
+	assert_eq(game.active, 0, "my turn began")
+	assert_eq(game.get_attack(mine), 2, "my unit attacks with -2 on my turn")
+	assert_eq(mine.lingering_turns_left(game.active), 1)
+	GameFactory.pass_turn(game)
+	assert_eq(game.active, 1, "the enemy's next turn began")
+	assert_eq(game.get_attack(mine), 4, "the shrink ended at the start of the user's (enemy's) next turn")
 
 
 func test_red_tape_on_your_own_unit_lasts_until_your_own_next_turn() -> void:
@@ -139,14 +166,16 @@ func test_red_tape_on_your_own_unit_lasts_until_your_own_next_turn() -> void:
 	assert_eq(game.get_attack(mine), 4, "it ends when my own next turn starts")
 
 
-func test_the_ai_threat_estimate_ignores_red_tape_that_ends_before_the_foe_attacks() -> void:
+func test_the_ai_threat_estimate_ignores_only_red_tape_that_ends_before_the_foe_attacks() -> void:
 	var game: GameState = _game()
 	var foe_unit: CardInstance = _unit(game, 1, 5, 3)
 	game.change_stats_until_turn_of(foe_unit, -2, 0, 1)
 	assert_eq(game.get_attack(foe_unit), 3)
-	assert_eq(game.get_attack(foe_unit, false), 5, "what it attacks with next turn")
+	assert_eq(game.get_attack(foe_unit, 1), 5, "a shrink the foe made itself ends when its turn starts: it attacks with 5")
+	game.change_stats_until_turn_of(foe_unit, -2, 0, 0)
+	assert_eq(game.get_attack(foe_unit, 1), 3, "my Red Tape holds through the foe turn (Oct 19): it attacks with 3")
 	game.change_stats(foe_unit, 1, 0, true)
-	assert_eq(game.get_attack(foe_unit, false), 6, "until-end-of-turn pumps still count (the caller is reasoning about this turn)")
+	assert_eq(game.get_attack(foe_unit, 1), 4, "until-end-of-turn pumps still count (the caller is reasoning about this turn)")
 
 
 func test_contract_exhausts_the_target_and_it_does_not_refresh_during_its_controllers_next_turn() -> void:

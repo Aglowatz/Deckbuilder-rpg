@@ -36,7 +36,7 @@ resource") never include Contracts; effects that say "token" (Waste Manager "use
 | Resource | Path | What it does |
 |----------|------|--------------|
 | Iron | Beefcake | Pay 1, use an Iron: target unit gets +1/+1 until end of turn (Oct 18 rebalance; was +1 attack permanently). |
-| Red Tape | Necrocrat | Pay 1, use a Red Tape: target unit gets -2/-0 until the start of its controller's next turn (Oct 18 rebalance; was -1 attack permanently). |
+| Red Tape | Necrocrat | Pay 1, use a Red Tape: target unit gets -2/-0 until the start of the user's next turn (Oct 19; Oct 18 had it end at the start of the target controller's turn; before that -1 attack permanently). The shrink holds through the opponent's whole turn. |
 | Ingredient | Gourmand | Does nothing alone; Gourmand cards spend it (Cook, golems, recipes). |
 | Garbage | Refusemancer | Does nothing alone; Refusemancer cards spend it (Eat Garbage). |
 

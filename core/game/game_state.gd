@@ -246,9 +246,9 @@ func all_units() -> Array[CardInstance]:
 	return result
 
 
-## `include_lingering` false = the attack once the lingering changes (Red Tape) have expired (what the unit attacks with on its
-## controller's next turn) - the AI's threat estimate reads that.
-func get_attack(card: CardInstance, include_lingering: bool = true) -> int:
+## `expiring_for` >= 0 = the attack once the lingering changes (Red Tape) that end at the start of that player's turn have expired
+## (what the unit attacks with on its controller's next turn, if that player is its controller) - the AI's threat estimate reads that.
+func get_attack(card: CardInstance, expiring_for: int = -1) -> int:
 	if not card.data.is_unit():
 		return 0
 	var bonus: Vector2i = players[card.owner].modifiers.stat_bonus_for(card.data) + StaticEffects.stat_bonus(self, card)
@@ -257,7 +257,7 @@ func get_attack(card: CardInstance, include_lingering: bool = true) -> int:
 		if modifier.kind == Modifier.Kind.KEYWORD_STAT_CHANGE and unit_has_keyword(card, modifier.value2 as CardEnums.Keyword):
 			keyword_bonus += modifier.value
 	var base: int = card.set_attack if card.set_attack >= 0 else _base_stats(card).x
-	var lingering: int = card.lingering_attack() if include_lingering else 0
+	var lingering: int = card.lingering_attack() - (card.lingering_attack(expiring_for) if expiring_for >= 0 else 0)
 	return maxi(0, base + card.attack_bonus + card.temp_attack + lingering + bonus.x + keyword_bonus)
 
 
@@ -822,7 +822,7 @@ func _begin_turn() -> void:
 		card.activated_this_turn = false
 		card.used_abilities.clear()
 		card.targeted_this_turn.clear()
-	# Rebalance: "until the start of its controller's next turn" stat changes (Red Tape) end now for this player's units.
+	# Rebalance: "until the start of your next turn" stat changes (Red Tape) that this player made end now, on either side of the table.
 	for each_player: PlayerState in players:
 		for card: CardInstance in each_player.field:
 			if card.expire_lingering(active) > 0:
@@ -1475,8 +1475,8 @@ func change_stats(card: CardInstance, attack_delta: int, defense_delta: int, unt
 	emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, attack_delta, defense_delta)
 
 
-## Rebalance (Oct 18): a stat change that lasts until the start of `player_index`'s next turn (Red Tape: "until the start of its
-## controller's next turn"). It survives the end of the current turn and ends in that player's ready step.
+## Rebalance (Oct 18): a stat change that lasts until the start of `player_index`'s next turn (Red Tape, Oct 19: "until the start of
+## YOUR next turn" - the user's). It survives the end of the current turn and ends in that player's ready step.
 func change_stats_until_turn_of(card: CardInstance, attack_delta: int, defense_delta: int, player_index: int) -> void:
 	card.lingering.append({"atk": attack_delta, "def": defense_delta, "player": player_index})
 	emit_event(GameEvent.Type.STATS_CHANGED, card.owner, card.uid, 0, attack_delta, defense_delta)

@@ -129,8 +129,8 @@ func _threat(state: GameState, mine: PlayerState, foe: PlayerState) -> float:
 	for card: CardInstance in foe.units():
 		# A unit that is exhausted and set not to refresh (Contract, Overexert) cannot attack next turn.
 		if not card.has_keyword(CardEnums.Keyword.WALLFLOWER) and not (card.exhausted and card.skip_refresh > 0):
-			# Lingering shrinks (Red Tape) end at the start of the foe's turn, before it attacks.
-			powers.append(state.get_attack(card, false))
+			# Only the lingering shrinks (Red Tape) the foe made itself end at the start of its turn; mine hold through its attack.
+			powers.append(state.get_attack(card, foe.index))
 	powers.sort()
 	powers.reverse()
 	var remaining: int = 0
@@ -200,7 +200,7 @@ func _choose_main_action(state: GameState, who: int) -> GameAction:
 			continue
 		var gain: float = evaluate(trial, who) - baseline
 		if action.type == GameAction.Type.USE_RESOURCE and (action.effect_index as ResourceKind.Kind) != ResourceKind.Kind.CONTRACT:
-			gain = _resource_gain_via_attack(state, trial, who)
+			gain = _resource_gain_via_attack(state, trial, who, action)
 		if action.type == GameAction.Type.ACTIVATE_ABILITY and _only_adds_energy(state, action):
 			# Floating energy is worth what it lets you play next.
 			gain = _best_follow_up(trial, who)
@@ -211,30 +211,39 @@ func _choose_main_action(state: GameState, who: int) -> GameAction:
 
 
 ## Rebalance (Oct 18): Iron (+1/+1 until end of turn) is only worth using before combat, on a unit that can attack this turn; Red
-## Tape (-2 attack until the start of its controller's next turn) only before combat, on a ready enemy unit that could block, and
-## only when there is an attack to make. Contracts are always worth considering.
+## Tape (-2 attack until the start of the user's next turn, Oct 19) before combat on a ready enemy unit that could block when there is
+## an attack to make, or in either main phase on an enemy unit that can attack next turn (the shrink holds through the foe's turn).
+## Contracts are always worth considering.
 func _resource_use_is_sensible(state: GameState, who: int, action: GameAction) -> bool:
 	var kind: ResourceKind.Kind = action.effect_index as ResourceKind.Kind
 	if kind == ResourceKind.Kind.CONTRACT:
 		return true
-	if state.phase != GameState.Phase.MAIN1:
+	if state.phase != GameState.Phase.MAIN1 and state.phase != GameState.Phase.MAIN2:
 		return false
 	var target: CardInstance = state.find_permanent(action.target)
 	if target == null:
 		return false
 	var attackers: Array[CardInstance] = state.possible_attackers(who)
 	if kind == ResourceKind.Kind.IRON:
-		return target.owner == who and attackers.has(target)
-	if attackers.is_empty() or target.owner == who:
+		return state.phase == GameState.Phase.MAIN1 and target.owner == who and attackers.has(target)
+	if target.owner == who or state.get_attack(target) <= 0:
 		return false
-	return not target.exhausted
+	if state.phase == GameState.Phase.MAIN1 and not attackers.is_empty() and not target.exhausted:
+		return true
+	# A foe unit that attacks next turn: the shrink blunts that attack.
+	return not target.has_keyword(CardEnums.Keyword.WALLFLOWER) and not (target.exhausted and target.skip_refresh > 0)
 
 
-## Rebalance (Oct 18): Iron (+1/+1 until end of turn) and Red Tape (-2 attack until the start of its controller's next turn) are
-## combat tricks, so a one-step board evaluation overvalues them (the change shows up as board value, then expires unused). Their
-## real worth is the better attack they allow this turn: the best attack outcome after the use, minus the best attack outcome now.
-func _resource_gain_via_attack(state: GameState, trial: GameState, who: int) -> float:
-	return _best_attack_outcome(trial, who) - _best_attack_outcome(state, who)
+## Rebalance (Oct 18): Iron (+1/+1 until end of turn) and Red Tape (-2 attack until the start of the user's next turn) are combat
+## tricks, so a one-step board evaluation overvalues them (the change shows up as board value, then expires unused). Their real
+## worth is the better attack they allow this turn: the best attack outcome after the use, minus the best attack outcome now. Oct 19:
+## a Red Tape also holds through the foe's turn, so the threat it takes off the foe's next attack counts as well (the board value
+## of the shrunk unit does not - the stats come back).
+func _resource_gain_via_attack(state: GameState, trial: GameState, who: int, action: GameAction = null) -> float:
+	var gain: float = _best_attack_outcome(trial, who) - _best_attack_outcome(state, who)
+	if action != null and (action.effect_index as ResourceKind.Kind) == ResourceKind.Kind.RED_TAPE:
+		gain += personality.threat_weight * (_threat(state, state.players[who], state.players[1 - who]) - _threat(trial, trial.players[who], trial.players[1 - who]))
+	return gain
 
 
 ## The position score after the best attack declaration available from `state` (a main-phase state), including the opponent's

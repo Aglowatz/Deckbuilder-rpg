@@ -243,7 +243,7 @@ func _show(step: Dictionary) -> void:
 ## What each Resource's own use does, for the "spend it" prompt.
 const RESOURCE_EFFECTS: Dictionary = {
 	ResourceKind.Kind.IRON: "your unit gets [b]+1/+1 until end of turn[/b] (use it before you attack)",
-	ResourceKind.Kind.RED_TAPE: "an enemy unit gets [b]-2 attack until its next turn[/b] (shrink a blocker, then attack)",
+	ResourceKind.Kind.RED_TAPE: "an enemy unit gets [b]-2 attack until the start of your next turn[/b] (shrink a blocker, then attack; it stays shrunk through their turn)",
 }
 ## Words in a card's rules text that mean it spends a Resource.
 const SPEND_WORDS: Array[String] = ["use an Ingredient", "use two Ingredients", "use an Iron", "use a Red Tape", "use a Garbage", "Eat garbage", "eat garbage"]
