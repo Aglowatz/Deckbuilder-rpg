@@ -110,3 +110,10 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
   tightened ~20% of their words (beats, callbacks, jokes and instructions kept; boxes merged): wake-up -> Path choice 77.6 -> 62.0 s
   (17 -> 12 boxes), after the choice 31.6 -> 26.6 s, Maren's welcome 47.9 -> 36.9 s. **New Game -> first saved deck edit: ~10.3 min,
   89 clicks/keys, 23 dialogue lines** (morning: 10.6 min, 97, 31). Prologue + playtest smokes OK; story tests 24/24. Onboarding 8.5 -> 9.
+
+## Cycle 19 - Stability (9): smoke sweep
+- OK: boss rules smoke, release smoke (PASSED), hub walk smoke (five roads + the Undercroft, 18 shots). Earlier tonight: playtest,
+  prologue, first-battles, story bot, tour bot, D.N.A. / Buffet / Dump / Gainlands / Capital / Crosspath walk smokes, Old Well smoke.
+- Stale (not tonight's regressions, logged for the user): `run_final_flow_smoke.sh` (still looks for the forest's hidden tunnel, removed by
+  the Oct 18 Opening Forest rebuild) and `run_fourth_brief_final_smoke.sh` (reads `LevelUpScreen._child_screen`, gone since the Oct 17
+  LevelUpScreen rewrite). The old per-brief smokes are superseded by the playtest / release / walk smokes listed in CLAUDE.md.
