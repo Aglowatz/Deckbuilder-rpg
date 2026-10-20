@@ -33,8 +33,8 @@ static func deck_size_waiver() -> ModifierSource:
 static func build_map() -> DungeonMap:
 	var map: DungeonMap = DungeonMap.new()
 	map.dungeon_name = DUNGEON_NAME
-	var start: DungeonMap.MapNode = _node(map, DungeonMap.Kind.START, "Cave Mouth", "The trial begins.", Vector2(0.09, 0.68))
-	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger, one of the cave's squatters, guards the first chamber.", Vector2(0.27, 0.38))
+	var start: DungeonMap.MapNode = _node(map, DungeonMap.Kind.START, "Cave Mouth", "Cold air and old stone. The tunnel goes down before it goes anywhere.", Vector2(0.09, 0.68))
+	var first: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Scavenger's Den", "A hungry scavenger has moved into the first chamber. It does not want visitors.", Vector2(0.27, 0.38))
 	first.enemy_name = "Cave Scavenger"
 	first.enemy_hp = 3
 	first.ai_name = "First duel (tutorial)"
@@ -42,20 +42,20 @@ static func build_map() -> DungeonMap:
 	first.gold_reward = EncounterRewards.gold_for(first.difficulty)
 	first.card_choices = 3
 	first.tutorial = true
-	var challenge: DungeonMap.MapNode = _node(map, DungeonMap.Kind.CHALLENGE, "The Hollow Well", "Five cards fall into the well. Will it answer?", Vector2(0.46, 0.68))
+	var challenge: DungeonMap.MapNode = _node(map, DungeonMap.Kind.CHALLENGE, "The Hollow Well", "A ring of old stone around a spring that ran dry long ago. Five cards fall into the well. Will it answer?", Vector2(0.46, 0.68))
 	challenge.challenge_id = CHALLENGE_ID
-	var second: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Mossy Gallery", "Something with claws prowls between the roots.", Vector2(0.63, 0.36))
+	var second: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BATTLE, "Mossy Gallery", "Roots hang from the ceiling like old rope. Something with claws moves between them.", Vector2(0.63, 0.36))
 	second.enemy_name = "Hollow Stalker"
 	second.enemy_hp = 3
 	second.ai_name = "Aggressive (tutorial)"
 	second.difficulty = DungeonMap.Difficulty.TUTORIAL
 	second.gold_reward = EncounterRewards.gold_for(second.difficulty)
 	second.card_choices = 3
-	var shrine: DungeonMap.MapNode = _node(map, DungeonMap.Kind.SHRINE, "Whispering Shrine", "A quiet place to rest before the last chamber.", Vector2(0.78, 0.68))
+	var shrine: DungeonMap.MapNode = _node(map, DungeonMap.Kind.SHRINE, "Whispering Shrine", "A bench carved into the rock long ago, worn smooth by nobody you know. Rest here before the last chamber.", Vector2(0.78, 0.68))
 	# Full heal: the node right before the boss (docs/design/open_questions.md D32). A plain
 	# large number is enough - DungeonRun.heal() already caps at max HP.
 	shrine.heal_amount = 999
-	var boss: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BOSS, "Heart of the Hollow", "An Old Kingdom guardian wakes in the dark. It grumbles that you smell familiar.", Vector2(0.92, 0.34))
+	var boss: DungeonMap.MapNode = _node(map, DungeonMap.Kind.BOSS, "Heart of the Hollow", "An Old Kingdom guardian of moss and stone sleeps here, very lightly. It does not like being woken.", Vector2(0.92, 0.34))
 	boss.enemy_name = "Hollow Warden"
 	boss.enemy_hp = 3
 	boss.ai_name = "Balanced"

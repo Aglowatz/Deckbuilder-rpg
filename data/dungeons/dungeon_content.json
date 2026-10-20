@@ -1378,145 +1378,147 @@
 	"text": {
 		"quest.side_s_town.offer": [
 			"There is a door under the old well that has been locked since before I was born.",
-			"I always thought the key was lost. It was not. Somebody hid it in a chest in this very town. Find it, and we will see what the door is for."
+			"I always thought the key was lost. It was not, dearie. Somebody hid it in a chest in this very town. Find it, and we will see what the door is for."
 		],
 		"quest.side_s_town.active": [
-			"The key is in a hidden chest somewhere in town. Look in the odd corners."
+			"The key is in a hidden chest somewhere in town. Look in the odd corners. This town has a great many odd corners. I am one of them."
 		],
 		"quest.side_s_town.ready": [
-			"You found it. The key to the old door. I am too old for stairs, but you are not."
+			"You found it. Look at the bow: four little carvings, in a ring. Hm. Never mind. I am too old for stairs, dearie. You are not."
 		],
 		"quest.side_s_town.done": [
-			"Go on, the iron hatch beside the well. What lies under it was the Old Kingdom's, not mine."
+			"The iron hatch beside the well. Go on. Whatever is under it belonged to the Old Kingdom, not to me. Mind the stairs."
 		],
 		"quest.side_s_beef.offer": [
 			"Only the worthy reach the top. Also bring water.",
-			"There is a mountain behind the station, and a barbell on top that is older than the regime. If you want to try for it, buy a protein shake and bring it back. I cannot climb on an empty cup."
+			"There's a mountain behind the station... and a barbell on top older than the regime. Older than me, nearly. Bring me a protein shake from the stand and I'll show you the way. Can't climb on an empty cup."
 		],
 		"quest.side_s_beef.active": [
-			"Water, friend. A protein shake from the stand will do. Do not spill it."
+			"Water, friend. A protein shake from the stand will do. Don't spill it. I spilled one, the Festival year... where was I."
 		],
 		"quest.side_s_beef.ready": [
-			"That is the best water I have ever seen. Thank you."
+			"That's the best water I've ever seen. Thank you. Rule one: never lift alone. Rule two... rule two was water."
 		],
 		"quest.side_s_beef.done": [
-			"The way up the Ascent of Mount Swolympus is open. Take the trail behind the station. Mind the thin air."
+			"The way up Mount Swolympus is open. The trail behind the station. Mind the thin air... it's very... thin."
 		],
 		"quest.side_s_gour.offer": [
-			"Psst. Over here. Have you ever been to a restaurant with no menu?",
-			"There is a golden reservation card hidden in the Buffet: 'Seating: 1. Courses: 3. Survival: optional.' Somebody left it in a stash. Find it and I will tell you where to sit."
+			"Psst. Over here. Have you ever eaten somewhere with no menu? I'm brave. I'm brave.",
+			"There's a golden reservation card hidden in one of the Buffet's stashes: 'Seating: 1. Courses: 3. Survival: optional.' Find it and I'll tell you where to sit."
 		],
 		"quest.side_s_gour.active": [
-			"The card is in one of the hidden stashes. Golden. You will know it."
+			"The card is in one of the hidden stashes around the Buffet. Golden. You'll know it. Chef always said gold means sit down."
 		],
 		"quest.side_s_gour.ready": [
-			"That is the card! One seat, three courses, survival optional. How exciting."
+			"That's the card! One seat, three courses, survival optional. Oh, I'm so excited I could whisk."
 		],
 		"quest.side_s_gour.done": [
-			"The sliding door to Omakase is open. Leave your fate to the chef."
+			"The sliding door to Omakase is open. Leave your fate to the chef. (quietly) Yes, Chef."
 		],
 		"quest.side_s_necro.offer": [
-			"Number 4,000,212? They are on 3. Can you help?",
-			"There is a ghost in the Waiting Room of Eternity clutching a very old ticket. The queue is stuck. Thin out the roaming staff and I will get you in."
+			"Number 4,000,212? That's me. They're on 3. Can you help?",
+			"The queue in the Waiting Room of Eternity is stuck. Process two of the roaming staff on the D.N.A. floors and I'll get you in. I've brought a book. Several."
 		],
 		"quest.side_s_necro.active": [
-			"Two roaming staff members, processed. The queue will not move on its own."
+			"Two roaming staff on the D.N.A. floors. The queue will not move on its own. I've checked. For some decades."
 		],
 		"quest.side_s_necro.ready": [
-			"Two fewer. The queue is moving! Slightly."
+			"Two fewer. The queue moved! Slightly. I felt it in my ticket."
 		],
 		"quest.side_s_necro.done": [
-			"The Waiting Room of Eternity will see you now. Take a number."
+			"The Waiting Room of Eternity will see you now. Take a number. Not mine, please. I've grown attached."
 		],
 		"quest.side_s_ref.offer": [
-			"Someone has been eating ALL the compost. Little paw prints. A tiny crown.",
-			"Chase off two of the scavengers and the trail will lead you to the alley under the big dumpster."
+			"SOMEBODY has been eating ALL the compost. Little paw prints. A tiny crown.",
+			"Chase off two of the scavengers in the Dump and the trail will lead you to the alley under the big dumpster. Gently, please. They're only hungry. And GUILTY."
 		],
 		"quest.side_s_ref.active": [
-			"Two scavengers. The paw prints are fresh."
+			"Two scavengers. The paw prints are fresh. So is the smell of stolen compost."
 		],
 		"quest.side_s_ref.ready": [
-			"The paw prints lead to the big dumpster. I knew it."
+			"The paw prints lead to the big dumpster. I knew it. I KNEW it."
 		],
 		"quest.side_s_ref.done": [
-			"Under the tipped-over dumpster there is a gate made of a bicycle wheel. That is the way to the Trash Panda Throne."
+			"Under the tipped-over dumpster there's a gate made from a bicycle wheel. That's the way to the Trash Panda Throne. Bring a peg for your nose."
 		],
 		"npc.kestrel.intro": [
-			"Quiet. Primm's enforcers walk this road on the hour.",
-			"I am Kestrel, scout for the resistance. If you are going into the city, there is an older way in than the gate."
+			"Psst. Down. The enforcers walk this road on the hour, and they hate surprises. I'm a surprise.",
+			"Kestrel. I scout for the Wrinkles. Going into the city? There's an older way in than the gate. Follow the chalk, not the guards. The guards are worse at drawing."
 		],
 		"npc.kestrel.return": [
-			"The road is clear. For now."
+			"Road's clear. For now. Give it ten minutes and it won't be. That's the fun part."
 		],
 		"quest.side_s_cap.offer": [
-			"There is an older way into the city. Nobody remembers it. That is the point.",
-			"The resistance remembers. Make your way inside and meet Wren in the Crease; she will tell you what the old tunnels are for, and I will show you the hatch."
+			"There's an older way into the city. Nobody remembers it. That's the point.",
+			"Get yourself inside and find Wren in the Crease. She'll tell you what the old tunnels are for. Then I'll show you the hatch. Deal?"
 		],
 		"quest.side_s_cap.active": [
-			"Find the resistance hideout. Ask Wren about the tunnels."
+			"Find the hideout in the Crease and ask Wren about the tunnels. Knock three times on the manhole. Not two. Two is rude."
 		],
 		"quest.side_s_cap.ready": [
-			"You found them. Good. Then you have earned this."
+			"You found them. Told you I'd be here. Didn't say where. That's the fun part. Here, you've earned this."
 		],
 		"fx.old_tunnels_way_in": [
-			"The grate beneath the plaza lifts with a groan. Light from the perfect city pours in, and behind you the old tunnels run on: four factions' services, still connected.",
+			"The grate beneath the plaza lifts with a groan. Light from the perfect city pours in, and behind you the old tunnels run on: four Paths' services, still connected.",
 			"You climb up past the walls. Nobody is watching this way in. Nobody remembers it. That is the point."
 		],
 		"quest.side_s_cap.done": [
-			"The hatch at the east end of the Outskirts leads down to the Old Service Tunnels. Mind the patrols."
+			"The hatch at the east end of the Outskirts goes down to the Old Service Tunnels. Mind the patrols. And mind my chalk."
 		],
 		"dungeon.dg_s_iron_boss.before": [
-			"On a throne that is really a leg press, a Beefcake with thighs like mill wheels pushes a sled of plates up and down, up and down. He has not stood up in years. He does not need to.",
-			"\"Nobody skips leg day in my cave,\" he says, between reps. \"Show me yours.\""
+			"On a throne that is really a leg press, a Beefcake with thighs like mill wheels pushes a sled of plates up and down, up and down. He has not stood up in years.",
+			"'Nobody. Skips. Leg day,' he says, between reps. 'In my cave. Show me yours.'"
 		],
 		"dungeon.dg_s_iron_boss.after": [
-			"Baron Quadzilla racks the plates, stands, and wobbles. \"Huh,\" he says. \"I forgot about standing.\"",
-			"He hands you a sweaty ribbon. \"Leg day survivor. Wear it with pride. And stretch.\""
+			"Baron Quadzilla racks the plates, stands, and wobbles. 'Huh,' he says. 'Standing. Wobbly. Like a first rep.'",
+			"He hands you a sweaty ribbon. 'Leg day survivor. Wear it with pride. And stretch.'"
 		],
 		"dungeon.dg_s_beef_boss.before": [
-			"A stone colossus sits at the summit with its hands out, palms up, as if waiting for a barbell to be placed in them. It has been spotting for a thousand years and it is very, very ready.",
-			"\"Lift,\" it rumbles. \"I will catch it.\" It does not say what happens if you fail."
+			"A stone colossus sits at the summit with its hands out, palms up, waiting for a barbell. It has been spotting for a thousand years. It is very, very ready.",
+			"'Lift,' it rumbles. 'I will catch it. I have always caught it.'"
 		],
 		"dungeon.dg_s_beef_boss.after": [
 			"The Ancient Spotter lowers its hands and, for the first time in a thousand years, sets something down. The barbell on the altar is yours.",
-			"\"Good form,\" it says. Then, quieter: \"Thank you for coming up.\""
+			"'One more rep,' it says. Then, quieter: '...That was the one. Thank you for coming up.'"
 		],
 		"dungeon.dg_s_gour_boss.before": [
-			"The Itamae Supreme lifts a long knife and does not look up. \"There is no menu. You have trusted me with three courses. Now, the Chef's Choice.\"",
-			"Behind him a bull made of toro lowers its horns, politely."
+			"The Itamae Supreme lifts a long knife and does not look up. 'Omakase.'",
+			"Behind him, a bull made of toro lowers its horns, politely."
 		],
 		"dungeon.dg_s_gour_boss.after": [
-			"The Itamae bows, wipes his knife on a cloth and slides a small plate across the counter. \"Omakase,\" he says. \"I leave the rest to you.\""
+			"The Itamae bows, wipes his knife on a cloth and slides a small plate across the counter. 'Omakase,' he says. This time it sounds like thank you."
 		],
 		"dungeon.dg_s_necro_boss.before": [
-			"A single desk under a single green lamp, buried in forms. Betty Bones looks up, very slowly, and sighs the sigh of the deceased.",
-			"\"I am very sorry,\" she says, \"but you will need forms A through F.\""
+			"A single desk under a single green lamp, buried in forms. Betty Bones looks up through cat-eye glasses, very slowly, and sighs the sigh of the long deceased.",
+			"'Forms A through F,' she says. 'Then we'll talk. We won't, but still.'"
 		],
 		"dungeon.dg_s_necro_boss.after": [
-			"Betty stamps one last form with a bony flourish. \"Fine. Number 4,000,212 is approved. Do not tell anyone I did this.\"",
-			"Somewhere far down the line, a ghost with a crumpled ticket begins, very quietly, to cheer."
+			"Betty stamps one last form with a bony flourish. 'Fine. Number 4,000,212 is approved. Don't make it a thing.'",
+			"Far down the line, a ghost with a crumpled ticket begins, very quietly, to cheer."
 		],
 		"dungeon.dg_s_ref_boss.before": [
 			"The Throne of Lids creaks. On it sits a very large raccoon in a very small crown, sweating profusely.",
-			"\"I can explain the compost,\" His Majesty says, \"and I would like to do so after you leave.\""
+			"'WE DID NOT EAT THE COMPOST,' says His Majesty. 'We... sampled it. We would be glad to explain, after you leave.'"
 		],
 		"dungeon.dg_s_ref_boss.after": [
-			"The raccoon king abdicates with great dignity and a crust of pizza. The crown rolls under the throne. \"The compost,\" he says, \"was for the kingdom.\""
+			"His Majesty abdicates with great dignity and a crust of pizza. The crown rolls under the throne.",
+			"'The compost was for the kingdom,' he says. 'We are the kingdom. Checkmate.'"
 		],
 		"dungeon.dg_s_cap_boss.before": [
-			"A metal grate lets in light from a perfect city. Beneath it stands Captain Spotless, polishing his shield with a sleeve he has polished before.",
-			"\"These tunnels do not exist,\" he says. \"I cannot allow you to have found them.\""
+			"A grate lets in light from a perfect city. Beneath it stands Captain Spotless, polishing his shield with a sleeve he has already polished.",
+			"'HALT. These tunnels do not exist. You are standing in nothing. I cannot allow you to have found it.'"
 		],
 		"dungeon.dg_s_cap_boss.after": [
-			"The Captain sits down on a barrel and, for a moment, looks very tired. \"I remember when these tunnels were full of people,\" he says. \"Go on. The grate is not locked.\""
+			"The Captain sits down on a barrel and, for a moment, looks very tired. 'I remember when these tunnels were full of people,' he says.",
+			"'All four Paths, shoulder to shoulder, and nobody measuring anybody. Go on. The grate is not locked.'"
 		],
 		"dungeon.dg_s_town_boss.before": [
-			"A glowing four-coloured core hums at the heart of the vault. Beside it a clockwork guardian unfolds, with a sound like a very old clock remembering the hour.",
-			"\"Identify,\" it says. \"The Old Kingdom's banner is not for just anyone.\""
+			"A four-coloured core hums at the heart of the vault, four marks set in a ring. Beside it a clockwork guardian unfolds, with a sound like a very old clock remembering the hour.",
+			"'Tick. Identify,' it says. 'The Old Kingdom's banner is not for just anyone.'"
 		],
 		"dungeon.dg_s_town_boss.after": [
 			"The Automaton clicks, whirs and lowers one knee. In its outstretched hand, folded neatly, is the Old Kingdom's banner.",
-			"\"Four Paths,\" it says. \"One kingdom. Carry it well.\""
+			"'Tick. ...Recognised. Four Paths. One kingdom. Carry it well.'"
 		],
 		"dungeon.dg_lab_hatch.before": [
 			"The hatch opens on white light and a smell of disinfectant. A staircase of clean steel goes down through the roots of the forest where you woke up.",
@@ -1524,27 +1526,30 @@
 		],
 		"dungeon.dg_lab_drain.before": [
 			"A round chamber, glass on every side, a chair at the center with straps worn pale. Cables run from the chair to four great tanks, each glowing a different color. This is where it was done.",
-			"The tanks are still half full. Four colors of a boy's power, bottled, labelled and filed. A Path-ologist in a stained coat says, without looking up, \"Subject 1 is not to leave the chair.\""
+			"The tanks are still half full: four colors of a boy's power, bottled, labelled and filed. A Path-ologist in a stained coat says, without looking up, 'Subject 1 is not to leave the chair.'"
 		],
 		"dungeon.dg_lab_drain.after": [
-			"The Drain Warden falls across the chair. The cables go slack, and the four tanks flicker, as if something in them has noticed you. The power is not yours to take back this way. It was never meant to be bottled at all."
+			"The Drain Warden falls across the chair. The cables go slack, and the four tanks flicker, as if something in them has noticed you.",
+			"The power is not yours to take back this way. It was never meant to be bottled at all."
 		],
 		"dungeon.dg_lab_rescue.before": [
-			"In a cell at the end of the corridor, a figure in a torn gray travelling cloak sits with their hands bound. They do not look up. The hood is a rag, the pin at the throat is bent.",
-			"\"You came back,\" they say. \"I told them you would not. I told them nobody could be that stubborn.\""
+			"In a cell at the end of the corridor, a figure in a torn gray travelling cloak sits with their hands bound. They do not look up. The hood is a rag; the pin at the throat is bent.",
+			"'You came back,' they say. 'I told them you would not. I told them nobody could be that stubborn.'"
 		],
 		"dungeon.dg_lab_rescue.after": [
 			"The lock gives way. The Rescuer pushes the hood down at last, and the face under it is tired and kind and unmistakable: the person who knelt beside you in the forest.",
-			"\"I never told you my name,\" they say. \"I will, once you have taken this place apart. Go on. I will walk behind you.\""
+			"'I never told you my name,' they say. 'I will, once you have taken this place apart. Go on. I will walk behind you.'"
 		],
 		"dungeon.dg_lab_boss.before": [
-			"Dr. Ambrose Siphon, Chief Path-ologist, looks up from a bench of humming glass. Neat, polite, enthusiastic, and not at all surprised.",
-			"\"Subject 1! You have come back to us. And you've grown. Do you know how long I have waited to run the next cycle? Primm's rule was always a bit crude. I never needed a crown. I only needed the research.\"",
-			"\"Please sit. This will only drain a little.\""
+			"Dr. Ambrose Siphon, Chief Path-ologist, looks up from a bench of humming glass. Neat, polite, delighted, and not at all surprised.",
+			"'Subject 1! You came back to us. And you've grown. Remarkable. The draining has been very good for your posture.'",
+			"'{villain}'s rule was always a bit crude. I never needed a crown, only the research. My assistant left us too, you know. Confused, poor thing. Assistants come home.'",
+			"'Please, sit. This will only drain a little.'"
 		],
 		"dungeon.dg_lab_boss.after": [
-			"Siphon's equipment goes dark, tank by tank. He sags against a bench, and for once he does not look fascinated. \"You are not a Subject,\" he says, dazed. \"You were never a Subject. Maren said so, and I called it sentimentality.\"",
-			"The tanks go clear. The four colors rise out of them, through the roof, and out into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone."
+			"Siphon's equipment goes dark, tank by tank. He sags against a bench, and for once he does not look fascinated.",
+			"'You are not a Subject,' he says, dazed. 'You were never a Subject. Maren said so, and I called it sentimentality.'",
+			"The tanks go clear. The four colors rise out of them, through the roof and into the forest, where the trees lean toward them like flowers. You do not feel stronger. You feel less alone."
 		],
 		"dungeon.dg_lab_boss.title": [
 			"The Chief Path-ologist's Laboratory"
