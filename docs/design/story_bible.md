@@ -892,6 +892,8 @@ column is blank the sheet's Notes column is used (see the inbox about the lieute
 ## 20. Main quest beat list
 
 Quest ids are the game's (`QuestDefinitions`, `ZoneQuestDefinitions`). Zones may be done in any order; the Capital is open from the start.
+Quest Log rule (Oct 20): steps are revealed one at a time (done + current, the rest "???"), and no quest title, summary or step names a
+twist before it happens (Flex's imprisonment, the Doppelganger, Compostella, the memories' names): see docs/design/quests.md.
 
 1. **New game**: the awakening (`still.wake`, flag `wake_still_seen`) and the hat and cloak choice.
 2. **The Rescuer** (prologue) and **Choose your Path**: the starting deck.

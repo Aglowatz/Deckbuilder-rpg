@@ -149,7 +149,7 @@ func _refresh() -> void:
 	var tracked: String = Session.quest_log.tracked_id()
 	for quest_id: String in ids:
 		var quest: QuestData = QuestCatalog.find(quest_id)
-		var met: int = Session.quest_log.objectives_met_count(quest, state)
+		var met: int = mini(Session.quest_log.current_index(quest, state), quest.objectives.size())  # steps done in order (Oct 20: never counts a hidden one)
 		var label: String = quest.title if _tab == Tab.COMPLETED else "%s   %d/%d" % [quest.title, met, quest.objectives.size()]
 		if quest_id == tracked and _tab != Tab.COMPLETED:
 			label = "» " + label
@@ -208,7 +208,8 @@ func _show_detail(state: UnlockState) -> void:
 		_detail.add_child(UIKit.label(", ".join(people), &"MutedLabel", 19))
 	_detail.add_child(UIKit.label("Objectives", &"HeadingLabel", 25))
 	var current: int = qlog.current_index(quest, state)
-	for index: int in range(quest.objectives.size()):
+	# Oct 20, Part 5: the steps done and the current one only (`QuestLog.visible_steps`); the rest is one "???" line.
+	for index: int in qlog.visible_steps(quest, state):
 		var objective: QuestObjective = quest.objectives[index]
 		var progress: Vector2i = qlog.objective_progress(quest, index, state)
 		var done: bool = done_quest or progress.x >= progress.y
@@ -233,6 +234,14 @@ func _show_detail(state: UnlockState) -> void:
 		if objective.milestone != null and not objective.milestone.is_empty():
 			row.add_child(_reward_icons(objective.milestone, 32.0, qlog.milestone_paid(quest.id, index) or done_quest))
 		_detail.add_child(row)
+	if qlog.hidden_steps(quest, state) > 0:
+		var hidden_row: HBoxContainer = UIKit.hbox(8)
+		var hidden_mark: Label = UIKit.label("○", &"", 22, Color(UIStyle.PARCHMENT, 0.4))
+		hidden_mark.custom_minimum_size = Vector2(26, 0)
+		hidden_row.add_child(hidden_mark)
+		hidden_row.add_child(UIKit.label(QuestLog.HIDDEN_STEPS_TEXT, &"", 22, Color(UIStyle.PARCHMENT, 0.45)))
+		hidden_row.name = "HiddenSteps"
+		_detail.add_child(hidden_row)
 	if not done_quest:
 		var where: String = where_to_go(quest, state)
 		if not where.is_empty():

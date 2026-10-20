@@ -113,13 +113,14 @@ static func _fragments() -> QuestData:
 	quest.category = QuestData.Category.MAIN
 	quest.order = 35
 	quest.title = "Fragments"
-	quest.summary = "Your lost memories come back one piece for every zone you free. After each one, visit Elder Maren."
+	quest.summary = "Freeing a zone loosens something in your head. Whenever it does, go and tell Elder Maren."
 	quest.auto_give = true
 	quest.prerequisite = story_gate()
-	var names: Array[String] = ["Warmth", "The Cells", "The Coup", "A Name"]
+	# Oct 20, Part 5: the memories' names are spoilers; the steps only count them
+	var names: Array[String] = ["A first memory", "A second memory", "A third memory", "A last memory"]
 	var objectives: Array[QuestObjective] = []
 	for index: int in range(MemoryDefs.COUNT):
-		objectives.append(QuestObjective.make("Fragment %d (%s): free a zone, see Elder Maren" % [index + 1, names[index]], Condition.flag(str(MemoryDefs.flag_name(index + 1))))
+		objectives.append(QuestObjective.make("%s: free a zone, then see Elder Maren" % names[index], Condition.flag(str(MemoryDefs.flag_name(index + 1))))
 			.at(QuestObjective.TargetKind.NPC, "town", "elder", "Elder Maren's home, up the Gate Road from Crosspath's square"))
 	quest.objectives = objectives
 	quest.reward_gold = 200
@@ -168,11 +169,11 @@ static func _zone_main(zone_id: String) -> QuestData:
 const ZONE_MAIN_TEXT: Dictionary = {
 	"beefcake": {
 		"title": "Raise the Bar",
-		"summary": "The Gainlands bridge is drawn up and a very large man is guarding the crank. Get across, help the lifters, and free Grandmaster Flex.",
+		"summary": "The Gainlands bridge is drawn up and a very large man is guarding the crank. Get across and find out who is running the Gainlands now.",
 		"gate": "Out-muscle Brick Bronson at the gorge", "gate_hint": "The drawn-up gorge bridge, at the end of the meadow road",
 		"enter": "Cross the bridge into the Gainlands", "enter_hint": "The lowered bridge over the gorge",
 		"favour": "Spot the locals: finish a favour in the Gainlands", "favour_spot": "gus", "favour_hint": "Foreman Gus, Old Man Mountain or Coach Brutus Benchley",
-		"dungeon": "Storm the House of Gains and free Grandmaster Flex", "dungeon_hint": "The House of Gains, beyond the north rim",
+		"dungeon": "Storm the House of Gains", "dungeon_hint": "The House of Gains, beyond the north rim",
 	},
 	"necrocrat": {
 		"title": "Take a Number",
@@ -184,19 +185,19 @@ const ZONE_MAIN_TEXT: Dictionary = {
 	},
 	"gourmand": {
 		"title": "Key Ingredients",
-		"summary": "The great pantry door is locked and the chef with the key is extremely seasoned. Win the key, help the kitchen, and expose the fake Grand Chef.",
+		"summary": "The great pantry door is locked and the chef with the key is extremely seasoned. Win the key and find out what the Grand Chef is really cooking.",
 		"gate": "Win the pantry key from Chef Fennel Gravois", "gate_hint": "The great pantry door at the end of the orchard lane",
 		"enter": "Step through the pantry door into the Endless Buffet", "enter_hint": "The open pantry door on the orchard lane",
 		"favour": "Help the kitchen: finish a favour in the Endless Buffet", "favour_spot": "odalys", "favour_hint": "Basil, Sous-Chef Tarragon or Madame Mirepoix",
-		"dungeon": "Shut down the Test Kitchen and unmask the fake Chef", "dungeon_hint": "The Test Kitchen, at the far end of the halls",
+		"dungeon": "Shut down the Test Kitchen", "dungeon_hint": "The Test Kitchen, at the far end of the halls",
 	},
 	"refusemancer": {
 		"title": "Root Cause",
-		"summary": "A wall of thorns has swallowed the forest path and a druid is talking in a voice that isn't hers. Clear the way, help the locals, and cut out the Rotheart.",
+		"summary": "A wall of thorns has swallowed the forest path, and the druid guarding it sounds very wrong. Clear the way and find what is making the Dump sick.",
 		"gate": "Uproot Moss Mulligan at the thorn wall", "gate_hint": "The thorn wall across the forest path",
 		"enter": "Walk the forest path into the Verdant Dump", "enter_hint": "The withered thorn wall on the forest path",
 		"favour": "Lend a hand: finish a favour in the Verdant Dump", "favour_spot": "wren", "favour_hint": "Wren Muckfoot, Granny Gristle or Brother Bramble",
-		"dungeon": "Descend into the Rotheart and free Archdruid Compostella", "dungeon_hint": "The way down into the Rotheart",
+		"dungeon": "Descend into the Rotheart", "dungeon_hint": "The way down into the Rotheart, at the bottom of the Dump",
 	},
 }
 
@@ -314,9 +315,9 @@ static func _four_seals() -> QuestData:
 	quest.category = QuestData.Category.SIDE
 	quest.order = 141
 	quest.title = "The Four Seals"
-	quest.summary = "Far away, a great lock ground open. A hidden lever in every Path zone answers a seal on a vault in Crosspath. Find them all."
+	quest.summary = "Far away, a great lock ground open. A hidden lever in every Path zone answers a seal somewhere near Crosspath. Find them all."
 	quest.objectives = [
 		QuestObjective.make("Find the hidden lever in each Path zone", Condition.counter(VaultGuardian.COUNTER_LEVERS, VaultGuardian.ZONE_IDS.size())),
-		QuestObjective.make("Open the Four-Seal Vault and beat its Warden", Condition.flag(str(VaultGuardian.FLAG_DEFEATED))).at(QuestObjective.TargetKind.SPOT, "town", "vault4", "The Four-Seal Vault, in the hills north of Crosspath"),
+		QuestObjective.make("Open the Four-Seal Vault", Condition.flag(str(VaultGuardian.FLAG_DEFEATED))).at(QuestObjective.TargetKind.SPOT, "town", "vault4", "The Four-Seal Vault, in the hills north of Crosspath"),
 	] as Array[QuestObjective]
 	return quest

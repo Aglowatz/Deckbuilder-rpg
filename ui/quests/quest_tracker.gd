@@ -166,7 +166,9 @@ func refresh() -> void:
 			_body.add_child(_row("➜", turn_in_hint, Color(UIStyle.GOLD, 0.8), false))
 		return
 	var current: int = qlog.current_index(quest, state)
-	var window: Vector2i = row_window(quest.objectives.size(), current)
+	# Oct 20, Part 5: the steps done and the current one only; what comes next stays "???" (`QuestLog.visible_steps`).
+	var shown: int = qlog.visible_steps(quest, state).size()
+	var window: Vector2i = row_window(shown, current)
 	if window.x > 0:
 		_body.add_child(_row("✔", "%d done" % window.x, Color(UIStyle.GOOD, 0.75), false))
 	for index: int in range(window.x, window.y):
@@ -181,8 +183,8 @@ func refresh() -> void:
 			_body.add_child(_row("»", text, UIStyle.GOLD, true))
 		else:
 			_body.add_child(_row("○", text, Color(UIStyle.PARCHMENT, 0.55), false))
-	if window.y < quest.objectives.size():
-		_body.add_child(_row("…", "%d more" % (quest.objectives.size() - window.y), Color(UIStyle.PARCHMENT, 0.5), false))
+	if qlog.hidden_steps(quest, state) > 0:
+		_body.add_child(_row("…", QuestLog.HIDDEN_STEPS_TEXT, Color(UIStyle.PARCHMENT, 0.5), false))
 	if current < quest.objectives.size():
 		var elsewhere: String = elsewhere_hint(quest.objectives[current].target_area, SceneManager.current_area)
 		if not elsewhere.is_empty():

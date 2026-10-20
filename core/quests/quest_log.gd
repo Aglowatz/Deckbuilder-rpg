@@ -233,3 +233,25 @@ func cycle(catalog: Array[QuestData], step: int) -> String:
 	var next: int = posmod((at if at >= 0 else 0) + (step if at >= 0 else 0), ids.size())
 	tracked = ids[next]
 	return tracked
+
+
+# ---- Oct 20, Part 5: objectives revealed one at a time ---------------------------------------------------------------------------
+
+## The steps the player may see: every step before the current one (all done) and the current one; a finished quest shows them all. Later
+## steps stay hidden until the one before is done, even if their condition is already met (no step ever spoils what comes next). The
+## HUD tracker and the Quest Log both draw exactly these, plus one "???" line when `hidden_steps` > 0.
+func visible_steps(quest: QuestData, state: UnlockState) -> Array[int]:
+	var result: Array[int] = []
+	var last: int = quest.objectives.size() - 1 if is_completed(quest.id) else mini(current_index(quest, state), quest.objectives.size() - 1)
+	for index: int in range(last + 1):
+		result.append(index)
+	return result
+
+
+## How many steps are still hidden (0 once the current step is the last, or the quest is ready to hand in or done).
+func hidden_steps(quest: QuestData, state: UnlockState) -> int:
+	return quest.objectives.size() - visible_steps(quest, state).size()
+
+
+## The placeholder drawn for the hidden steps (one line, however many there are).
+const HIDDEN_STEPS_TEXT: String = "???"

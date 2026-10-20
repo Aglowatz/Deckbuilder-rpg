@@ -112,7 +112,7 @@ static func _onboarding() -> QuestData:
 	quest.id = ONBOARDING
 	quest.order = 120
 	quest.title = "Mandatory Onboarding"
-	quest.summary = "Gerald says every new hire must punch in at the time clock and pour a cup in the breakroom. HR will know. HR is in the walls."
+	quest.summary = "Gerald says every new hire must complete onboarding, starting at the time clock. HR will know. HR is in the walls."
 	quest.giver_npc = DnaZone.NPC_BARNABY
 	quest.turn_in_npc = DnaZone.NPC_BARNABY
 	quest.objectives = [
@@ -130,7 +130,7 @@ static func _audit() -> QuestData:
 	quest.id = AUDIT
 	quest.order = 130
 	quest.title = "Compliance Audit"
-	quest.summary = "Compliance is auditing and Clerk Ledgerbone can't leave the desk. Pass Director Ectomund's quiz and find a hidden stash in the filing mazes. Bring a spare pen."
+	quest.summary = "Compliance is auditing and Clerk Ledgerbone can't leave the desk. Start with Director Ectomund's quiz. Bring a spare pen."
 	quest.giver_npc = DnaZone.NPC_PIP
 	quest.turn_in_npc = DnaZone.NPC_PIP
 	quest.objectives = [
@@ -170,7 +170,7 @@ static func _gain_spot_me() -> QuestData:
 	quest.id = GainlandsZone.QUEST_SPOT_ME
 	quest.order = 220
 	quest.title = "Spot Me!"
-	quest.summary = "Old Man Mountain's rule: nobody lifts alone. Spot Gary (he is under a barbell again) and check your form at a Flex Mirror."
+	quest.summary = "Old Man Mountain's rule: nobody lifts alone. Start by spotting Gary. He is under a barbell again."
 	quest.giver_npc = GainlandsZone.NPC_BRENDA
 	quest.turn_in_npc = GainlandsZone.NPC_BRENDA
 	quest.objectives = [
@@ -308,7 +308,7 @@ static func _cap_burial() -> QuestData:
 	quest.id = CapitalZone.QUEST_BURIAL
 	quest.order = 510
 	quest.title = "Form 27-B/6: A Burial Permit"
-	quest.summary = "Widow Pell's husband has sat in the family parlor for three years because the permit loops forever. Find the Stamp of Final Approval in Grave Row, then lay him to rest."
+	quest.summary = "Widow Pell's husband has sat in the family parlor for three years because his burial permit loops forever. It needs the Stamp of Final Approval, somewhere in Grave Row."
 	quest.giver_npc = CapitalZone.NPC_PELL
 	quest.turn_in_npc = CapitalZone.NPC_PELL
 	quest.objectives = [
@@ -329,7 +329,7 @@ static func _cap_wheels() -> QuestData:
 	quest.id = CapitalZone.QUEST_WHEELS
 	quest.order = 520
 	quest.title = "The Wheel Never Stops"
-	quest.summary = "Beefcake crews have run the facade's energy wheels for ten years because nobody told them they could stop. Free the three crews in the Transit Yards and cut the cable that feeds the facade."
+	quest.summary = "Beefcake crews have run the facade's energy wheels for ten years because nobody told them they could stop. Go and tell them, in the Transit Yards."
 	quest.giver_npc = CapitalZone.NPC_ROLLO
 	quest.turn_in_npc = CapitalZone.NPC_ROLLO
 	quest.objectives = [
@@ -350,7 +350,7 @@ static func _cap_recipes() -> QuestData:
 	quest.id = CapitalZone.QUEST_RECIPES
 	quest.order = 530
 	quest.title = "The Recipe Box"
-	quest.summary = "Everyone eats {villain}'s Perfect Nutrient Paste. Chef Marlo's three real recipes are hidden in the Hungry Quarter: find them before the inspectors do, then spoil the dispenser."
+	quest.summary = "Everyone eats {villain}'s Perfect Nutrient Paste. Chef Marlo's three real recipes are hidden in the Hungry Quarter. Find them before the inspectors do."
 	quest.giver_npc = CapitalZone.NPC_MARLO
 	quest.turn_in_npc = CapitalZone.NPC_MARLO
 	quest.objectives = [
@@ -371,7 +371,7 @@ static func _cap_untidy() -> QuestData:
 	quest.id = CapitalZone.QUEST_UNTIDY
 	quest.order = 540
 	quest.title = "Untidy"
-	quest.summary = "Composting is outlawed as untidy, and the land is sickening for it. Rescue three banished compost heaps in the Reek, then find the old seed and plant it in the Sick Patch."
+	quest.summary = "Composting is outlawed as untidy, and the land is sickening for it. Three banished compost heaps are hiding in the Reek. Rescue them."
 	quest.giver_npc = CapitalZone.NPC_FERN
 	quest.turn_in_npc = CapitalZone.NPC_FERN
 	quest.objectives = [

@@ -106,7 +106,7 @@
 	},
 	"text": {
 		"quest.title": "The Water Under the Well",
-		"quest.summary": "The Old Well remembers a spring that once fed all four Paths. Two hums still answer it, one in the Verdant Dump and one in the Endless Buffet. Find both, then go back to the well.",
+		"quest.summary": "The Old Well remembers a spring that once fed all four Paths. Two hums still answer it, one in the Verdant Dump and one in the Endless Buffet. Find both.",
 		"quest.step.heap": "Find what hums in the Verdant Dump",
 		"quest.step.buffet": "Find what hums in the Endless Buffet",
 		"quest.step.echo": "Go back to the Old Well and face what answers",
