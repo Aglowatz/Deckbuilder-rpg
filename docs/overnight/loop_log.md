@@ -59,3 +59,10 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - The Echo duel played the generic town battle song; it now plays MUS-VAULT-BATTLE (the Forgotten Vault is built over the spring; the
   vault's boss song stays the Guardian's). The well's two visions (the start and the final reveal) play MUS-VAULT-EXP over the town track
   (push/pop), and STG-SECRET rings when the quest begins. Test in `tests/audio/test_music_playback.gd`. Audio 7.5 -> 7.5 (needs ears).
+
+## Cycle 11 - Stability (8.5): the Old Well in the live game + a full GUT run
+- New windowed smoke `bash tools/run_old_well_smoke.sh` (written by a helper, run here): first touch -> vision -> quest active (SIDE,
+  no markers, hero unlocked) -> the Dump and Buffet hums in their zones (spot, glow, find, flag, spot gone) -> READY -> "Lean over the Old
+  Well" -> confirm -> brief with The Spring Remembers + icons -> duel (enemy, rule badges, HUD icons, MUS-VAULT-BATTLE) -> forced win ->
+  final vision -> quest completed, Phial owned once, stage DONE, hero free. **OK, every check passed.** Shots `_screenshots/old_well_0*.png`.
+- GUT 1997/1997 in three foreground batches (core 1273, world 371, rest 353). Stability 8.5 -> 9.
