@@ -98,3 +98,9 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
   prize); secret pieces (the Old Well's Phial, the vault and the Lab relics) say only "A secret". Built on first open (like the Bestiary).
   Fixed on review: the arena hint used the retired name "Grand Clashatorium" -> "The Undercroft". Tests 16/16 (gear tab, catalog,
   collection book, compile). Shot `_screenshots/oct19n_c16_codex_gear.png`. Collection 8 -> 8.5.
+
+## Cycle 17 - bots + Balance look: why a L5 Necrocrat loses to the Gainlands roamers
+- Bots (cycles 13-16 done): tour bot OK (275 spots, 0 errors); story bot 73/73.
+- Replays (`replay_encounter --id=zone:beefcake:brute --path=necrocrat --games=20`, 8/20 won): in the lost games the sim's L5 Necrocrat
+  reference deck (19 basics of 46 cards) plays only infrastructure for four turns and its first unit lands on turn 8-10. The low number is
+  the sim's reference deck as much as the roamers; no game change (logged for the user with the rivalry question).
