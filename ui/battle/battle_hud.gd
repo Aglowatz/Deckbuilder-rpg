@@ -514,6 +514,8 @@ func show_preview(view: CardView, note: String = "") -> void:
 		entries.append(["Summoning sickness", str(KeywordInfo.GLOSSARY["Summoning sickness"])])
 	_tooltip.visible = not entries.is_empty() or not note.is_empty() or not rules.is_empty()
 	for entry: Array in entries:
+		if not rules.is_empty() and str(entry[1]).strip_edges() == rules:
+			continue  # a token's glossary entry is its own ability text, already shown above
 		_tooltip_box.add_child(KeywordInfo.title_row(str(entry[0]), str(entry[2]) if entry.size() > 2 else "", Settings.tooltip_font(22)))
 		var body: Label = UIKit.label(str(entry[1]), &"", Settings.tooltip_font(19), UIStyle.PARCHMENT)
 		body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

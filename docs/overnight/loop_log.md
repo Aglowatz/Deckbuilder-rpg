@@ -86,3 +86,7 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - Found on the way: the per-piece fade only fully fades a wall piece whose centre is >= 0.9 m in front of the hero along the sight line, so
   a hero pressed against a 4.5 m wall was only ~1/3 faded. The ramp is now 0.45 -> 0.05 m (`dna_fade.gdshader`). Walk smoke OK; D.N.A.
   tests OK; shots `_screenshots/oct19n_c14_*.png`.
+
+## Cycle 15 - Combat feel (8.5): the token's tip box repeated its text
+- A Contract token showed its ability text and then the same text again as its glossary entry. A glossary entry identical to the card's
+  ability text is skipped now (`BattleHud.show_preview`). Shot `_screenshots/oct19n/p2_after_token_0.png` (re-taken). Tip tests OK.
