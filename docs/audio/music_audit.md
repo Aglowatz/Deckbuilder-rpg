@@ -152,3 +152,72 @@ Scores: 1: 0, 2: 0, 3: 0, 4: 26, 5: 110. Lowest first.
 - Mood fit per zone (does the Gainlands track feel macho-sunny, the D.N.A. deadpan-gloomy?) and whether battle tracks escalate.
 - Melodic repetitiveness inside long loops (a 160 s loop can still hammer one phrase).
 - Whether the loop-fixed seams (docs/audio/loop_fixes.md) sound natural: a 1.5 s crossfade blends a level jump but can smear a downbeat.
+
+## Oct 19 fixes
+
+Overnight Oct 19-20, Part 7. The table above (the Oct 17 scores) is kept as it was; this section adds new measurements and new ratings.
+Every in-game loop was measured again with `node tools/music_fix.js --analyze` (EBU R128 loudness / LRA / true peak, digital silence at
+each end, the level of the first and last 50 ms and the first and last 1 s, the sample step at the wrap, and band energy against the
+500-2500 Hz mid band: mud = 150-500 Hz, harsh = 2.5-8 kHz, air = above 8 kHz). Across all 123 files the medians are -21.0 LUFS, -6.1 dBTP,
+LRA 5.8 LU, harsh -24.8 dB, mud +2.9 dB (90th percentiles: harsh -8.2, mud +9.9).
+
+**The Oct 17 audit has no track rated 1 or 2**, so this pass covers Crosspath's hub tracks (as asked) and the real defects the new
+measurements found. Nobody listened tonight: the ratings come from the numbers and from what the music list asks of each cue. The
+"Listen list" below says what needs ears.
+
+How loops play: every OGG is a full-file loop (`loop = true`, `loop_offset` 0; the Drive registry's loop end is the file length).
+So a loop is never faded: silence is trimmed or the loop end moves to a real repeat. The game's loudness target is -20 LUFS for loops
+with peaks at or under -1.5 dBTP, applied by the registry base volume (`volume_db`). A gain change alone is left to that base volume
+(lossless); a file is only re-encoded when its audio has to change.
+
+### Fixed (re-encoded, originals in `_art_source/audio_backup_oct19/`)
+
+These five loops ended in 30-40 ms of digital silence (exact zeros), a small gap or "hiccup" on every wrap. Fix: silence trimmed,
+two-pass loudnorm (linear) to -20 LUFS, OGG Vorbis q5. Their new levels are in `data/source/audio_levels_local.csv` (base volume now
+0.0 / +0.1 dB instead of +1.1 / +1.2). No EQ was needed: none of them is a band outlier.
+
+| Track | Before: length / silence at the end / LUFS / dBTP / LRA / last-50 ms vs first-50 ms | After | Old score | New score | Why |
+|---|---|---|---|---|---|
+| MUS-BEEF-EXP | 148.97 s / 0.04 s / -21.1 / -4.0 / 6.2 / 24.6 dB | 148.92 s / 0 / -20.0 / -3.0 / 6.1 / 13.2 dB | 5 | 5 | gap gone; the remaining 13 dB is the final drum release going into the downbeat |
+| MUS-BEEF-DUN-EXP | 148.97 s / 0.04 s / -21.1 / -3.9 / 6.1 / 24.6 dB | 148.92 s / 0 / -20.1 / -3.0 / 6.1 / 13.2 dB | 5 | 5 | as above (a near-twin of MUS-BEEF-EXP: same length and seam; listen whether the dungeon is different enough) |
+| MUS-BEEF-DUN-BATTLE | 165.41 s / 0.04 s / -21.2 / -4.7 / 4.4 / 28.9 dB | 165.36 s / 0 / -20.1 / -3.7 / 4.4 / 8.9 dB | 5 | 5 | gap gone |
+| MUS-BEEF-BOSS | 176.84 s / 0.03 s / -21.2 / -5.4 / 2.3 / 8.7 dB | 176.81 s / 0 / -20.0 / -4.2 / 2.4 / 3.1 dB | 5 | 5 | gap gone |
+| MUS-SHOP-MIREPOIX | 71.11 s / 0.04 s / -21.0 / -3.5 / 1.8 / 29.7 dB | 71.06 s / 0 / -20.0 / -2.1 / 1.9 / 15.9 dB | 4 | 4 | gap gone; still a 71 s loop that repeats often in a long shop visit |
+
+### Crosspath (the town hub): measured, not changed
+
+None of Crosspath's hub files has a defect a filter can fix: no silence, levels already 0.1 LU from the target after the registry gain,
+peaks far under the ceiling, no band outlier. Re-encoding them for a 0.9 dB gain would only cost quality, so they stay as delivered.
+The seam search (best match of the first second in the last 12-50 % of the file) found no repeat that sounds safer than the composed
+wrap: the best candidates sit inside a quiet phrase break and would cut 8-16 s of the ending.
+
+| Track | Measured (unchanged) | Old score | New score | Why |
+|---|---|---|---|---|
+| MUS-TOWN | 151.11 s, -20.9 LUFS (+0.9 dB gain), -9.0 dBTP, LRA 11.0, 1 s jump -3.7 dB, a 120 ms dip to -38 dB before the wrap, harsh -29.8 / air -47.3 dB (darker than the median), mud -5.6 | 5 | 4 | clean, but dull on top and the wrap breathes; whether the melody earns "the place you come back to" needs ears. Prompt ready (the main theme's home) |
+| MUS-TOWN-FREED | 151.11 s, -20.9 LUFS, -3.7 dBTP, LRA 15.5, 1 s jump -3.7 dB, harsh -34.0 | 4 | 3 | the first ~40 s are the MUS-TOWN recording again (waveform correlation 0.6 with MUS-TOWN at 0 and 20 s, 0.2-0.3 later): the "all four Paths return" payoff opens as the same track. Very wide dynamics: quiet passages sink under town ambience. Regenerate |
+| MUS-TOWN-BATTLE | 154.29 s, -20.9 LUFS, -9.2 dBTP, LRA 11.5, 1 s jump -0.1 dB, 120 ms dip before the wrap, harsh -29.4 | 5 | 4 | clean loop; soft-edged and wide for a fight cue (LRA 11.5 vs 4-7 for the zone battles). Also the generic fight-song fallback |
+| MUS-DECK | 103.34 s (the Oct 17 crossfaded take), -20.9 LUFS, -8.5 dBTP, LRA 9.0, 1 s jump 7.7 dB | 4 | 3 | the delivered take had 0.46 s of silence at the wrap; the Oct 17 crossfade removed it but the wrap still steps 7.7 dB, and the take has no repeat to re-seat on (best match 0.23). Players sit on this screen for minutes. Regenerate |
+
+### Other tracks, re-rated from the new numbers (not changed)
+
+| Track | Measured | Old score | New score | Why |
+|---|---|---|---|---|
+| MUS-QUIZ | 102.29 s, LRA 5.3, 1 s jump -6.1 dB, mud +10.1 (just over the 90th percentile) | 4 | 3 | crossfaded seam still steps; no repeat found (0.65 correlation but 1.8 dB level mismatch). Prompt in the generation file |
+| MUS-TITLE | 151.03 s, 1 s jump -6.7 dB, harsh -31.6 | 4 | 4 | the step is the title's quiet opening phrase; acceptable for a menu |
+| MUS-SHOP-BEETSWORTH, MUS-SHOP-GRISTLE | 1 s jumps 6.3 / -7.2 dB after the Oct 17 crossfade | 4 | 4 | same kind of step as MUS-QUIZ but short shop visits |
+| MUS-ARENA-BATTLE, MUS-ARENA-ELITE | LRA 18.2 / 18.3, harsh -40 dB | 4 | 3 | the widest dynamics in the game on battle cues, very dark; quiet passages vanish under battle sounds. Not a filter job (it would need compression); candidate for regeneration |
+| Verdant Dump family (MUS-REF-*, MUS-PANDA-*, MUS-CAP-REF-*) | harsh -6.0 to -8.2 dB, air -7.6 to -26 dB (the brightest in the game) | 5 | 5 | bright, but it is the junk-percussion zone: left alone; listen for fatigue (a 2 dB shelf at 5 kHz is the fix if it tires: `HARSH_LIMIT` in tools/music_fix.js) |
+| MUS-CAP-OUT-EXP, MUS-CAP-FACADE-EXP / -BATTLE, MUS-CASTLE-EXP, MUS-PRIMM-02 | mud +11.9 to +14.5 dB | 4-5 | 4-5 | the fullest low-mids in the game (all Capital / Primm cues); listen for mud (a 2 dB cut at 300 Hz is the fix: `MUD_LIMIT`) |
+
+Still rated 1-2 after this pass: **none**. Rated 3 (prompts in `docs/audio/music_generation_prompts.md`): MUS-TOWN-FREED, MUS-DECK,
+MUS-QUIZ, MUS-ARENA-BATTLE, MUS-ARENA-ELITE.
+
+### Listen list (for the main session)
+
+1. MUS-BEEF-EXP, MUS-BEEF-DUN-EXP, MUS-BEEF-DUN-BATTLE, MUS-BEEF-BOSS, MUS-SHOP-MIREPOIX: let each wrap 2-3 times. The gap should be
+   gone and nothing should click. Then A/B their level against the neighbouring track (they should sit level).
+2. MUS-TOWN wrap (around 2:31): is the short breath before the downbeat musical or a hole?
+3. MUS-TOWN-FREED: does it sound like "the same song" for its first 40 s? (If yes, the regeneration prompt is the fix.)
+4. MUS-DECK on the deck station for 3 minutes: is the 7.7 dB step at the wrap noticeable?
+5. MUS-BEEF-EXP vs MUS-BEEF-DUN-EXP: near-identical takes; is the House of Gains distinct enough from the Gainlands?
+6. A Verdant Dump battle for 5 minutes (high-end fatigue) and a Capital facade area (mud).

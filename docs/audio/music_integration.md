@@ -25,6 +25,13 @@ to the game. Nothing in the Drive folder was moved, renamed or deleted: the impo
 - **Levels.** Loops and story cues are brought to -20 LUFS and stings to -17 LUFS (peak ceiling -1.5 dBTP) by a per-ID base volume in the registry, and the Master bus carries a -1 dBFS hard limiter. The delivered files were already within 0.6 LU of each other. The existing Master / Music / Effects / UI sliders apply (the Music slider scales music and stings).
 - **Loop points.** The OGG files are full-file loops (Godot's `loop = true`, offset 0); the Drive registry's loop end equals the decoded length for every loop.
 
+### Drop-in pipeline (Oct 19-20)
+
+- **Drop a file in.** Save a new or replacement track in the Drive folder Approved_Audio named by its ID from `data/source/music_list.csv` (`MUS-TOWN.ogg`, or `MUS-TOWN_v03.wav`: the highest `_vNN` wins), then run "import audio" (`bash tools/import_audio.sh`; `--dry-run` reports what would happen and writes nothing, `--no-process` copies loops verbatim as before).
+- **What happens to a new or changed LOOP** (`core/audio/music_drop_in.gd`, needs ffmpeg): loop points from the Drive `registry.json` when they say something (a start after frame 0 or an end before the file end); otherwise the whole file loops with digital silence trimmed from both ends; when the wrap still jumps 6 dB or more, the end moves to the point in the last 12 % whose next second matches the first second (a real repeat only: correlation >= 0.6, levels within 1.5 dB, then the 48 kHz frame that continues frame 0). Never a fade. Then a two-pass ffmpeg loudnorm (linear) to -20 LUFS with peaks at -2 dBTP, and OGG Vorbis q5 (~160 kbps) at 48 kHz.
+- **Registered and assigned.** The importer writes the registry entry as before; the measured levels of the processed file go to `data/source/audio_levels_local.csv` (used while the file MD5 matches, so the base volume stays right), plus `loop_offset` when a loop start was given. A file named by an existing ID plays wherever that ID already plays (`app/music_director.gd`); the report lists IDs that have a file but no row in `music_triggers.csv` (nothing plays them yet). Stings and story cues are copied / converted as before. Files already imported (same MD5) are never touched.
+- **Repairing an in-game file** without a new delivery: `node tools/music_fix.js --analyze [ID]`, `--fix ID [--dry]`, `--restore ID` (backups in `_art_source/audio_backup_oct19/`; see `docs/audio/music_audit.md` "Oct 19 fixes").
+
 ## Verification
 
 - `tests/audio/` (GUT): registry completeness, aliases, loop flags, levels; every director mapping; stack, resume, auto-pop, crossfade and duck bookkeeping; every ID has a trigger row.

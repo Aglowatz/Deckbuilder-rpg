@@ -10,6 +10,11 @@ const LIST_PATH: String = "res://data/source/music_list.csv"
 const REGISTRY_PATH: String = "res://data/audio/audio_registry.json"
 const EXTRAS_PATH: String = "res://data/audio/audio_extras.json"
 const LEVELS_PATH: String = "res://data/source/audio_levels.csv"
+## Overnight Oct 19-20, Part 7: levels of in-game files the game rebuilt itself (tools/music_fix.js, the drop-in pipeline in MusicDropIn).
+## A row applies only while the in-game file's MD5 matches its `md5` column, so a later Drive delivery falls back to audio_levels.csv.
+const LEVELS_LOCAL_PATH: String = "res://data/source/audio_levels_local.csv"
+const TRIGGERS_PATH: String = "res://data/source/music_triggers.csv"
+const LEVELS_LOCAL_HEADER: String = "id,file,loop,frames,registry_loop_end,lufs,true_peak_db,lra,click,gap_s,jump_db,end_db,start_db,flags,md5,loop_offset_s"
 const MANIFEST_PATH: String = "res://data/source/audio_import_manifest.csv"
 const MUSIC_DIR: String = "res://assets/audio/music"
 const STING_DIR: String = "res://assets/audio/stings"
@@ -38,6 +43,8 @@ class Entry:
 	var category: String = ""
 	var use: String = ""
 	var duration: float = 0.0
+	## Where a loop restarts (seconds into the file); 0 = the whole file loops.
+	var loop_offset: float = 0.0
 	## Composition references (MUS-LULLABY, MUS-PRIMM-MOTIF) are never triggered by gameplay.
 	var gameplay: bool = true
 
@@ -48,6 +55,11 @@ class Result:
 	var missing: Array[String] = []
 	var unknown: Array[String] = []
 	var converted: Array[String] = []
+	## Overnight Oct 19-20: loops run through the drop-in pipeline ("ID: reason") and, on a dry run, what would happen.
+	var processed: Array[String] = []
+	var planned: Array[String] = []
+	## IDs with a file but no row in music_triggers.csv (nothing in the game plays them yet).
+	var unassigned: Array[String] = []
 	var aliases: Array[String] = []
 	var errors: Array[String] = []
 	var copied: int = 0
@@ -94,6 +106,7 @@ static func ensure_loaded() -> void:
 		entry.category = str(row.get("category", ""))
 		entry.use = str(row.get("use", ""))
 		entry.duration = float(row.get("duration", 0.0))
+		entry.loop_offset = float(row.get("loop_offset", 0.0))
 		entry.gameplay = bool(row.get("gameplay", true))
 		_entries[entry.id] = entry
 
@@ -149,7 +162,7 @@ static func stream(id: String) -> AudioStream:
 		if loaded is AudioStreamOggVorbis:
 			var ogg: AudioStreamOggVorbis = (loaded as AudioStreamOggVorbis).duplicate() as AudioStreamOggVorbis
 			ogg.loop = found.loop
-			ogg.loop_offset = 0.0
+			ogg.loop_offset = found.loop_offset
 			result = ogg
 		elif loaded is AudioStreamWAV:
 			var wav: AudioStreamWAV = (loaded as AudioStreamWAV).duplicate() as AudioStreamWAV
@@ -237,6 +250,79 @@ static func _levels() -> Dictionary:
 		var row: PackedStringArray = file.get_csv_line()
 		if row.size() >= 14:
 			result[row[0]] = {"lufs": row[5].to_float(), "peak": row[6].to_float(), "frames": row[3].to_int(), "flags": row[13].strip_edges()}
+	var local: Dictionary = _local_levels()
+	for id: Variant in local.keys():
+		result[id] = local[id]
+	return result
+
+
+## Rows of LEVELS_LOCAL_PATH whose MD5 matches the in-game file now (ID -> {lufs, peak, frames, flags, loop_offset}).
+static func _local_levels() -> Dictionary:
+	var result: Dictionary = {}
+	if not FileAccess.file_exists(LEVELS_LOCAL_PATH):
+		return result
+	var file: FileAccess = FileAccess.open(LEVELS_LOCAL_PATH, FileAccess.READ)
+	file.get_csv_line()
+	while not file.eof_reached():
+		var row: PackedStringArray = file.get_csv_line()
+		if row.size() < 15:
+			continue
+		var dir: String = STING_DIR if row[0].begins_with("STG-") else MUSIC_DIR
+		var path: String = dir.path_join(row[1])
+		if not FileAccess.file_exists(path) or FileAccess.get_md5(path) != row[14].strip_edges():
+			continue
+		result[row[0]] = {"lufs": row[5].to_float(), "peak": row[6].to_float(), "frames": row[3].to_int(), "flags": row[13].strip_edges(),
+			"loop_offset": row[15].to_float() if row.size() > 15 else 0.0}
+	return result
+
+
+## Stores the measured levels of a file the pipeline wrote (replaces the ID's old row).
+static func write_local_level(id: String, file_name: String, frames: int, lufs: float, peak: float, loop_offset: float, md5: String) -> void:
+	var lines: Array[String] = []
+	var path: String = _real(LEVELS_LOCAL_PATH)
+	if FileAccess.file_exists(path):
+		var text: PackedStringArray = FileAccess.get_file_as_string(path).strip_edges().split("\n")
+		for i: int in range(1, text.size()):
+			if not text[i].begins_with(id + ",") and not text[i].strip_edges().is_empty():
+				lines.append(text[i].strip_edges())
+	lines.append(",".join(PackedStringArray([id, file_name, "1", str(frames), str(frames), str(snappedf(lufs, 0.1)), str(snappedf(peak, 0.1)), "", "0.00", "0.00",
+		"", "", "", "drop-in", md5, str(snappedf(loop_offset, 0.001))])))
+	lines.sort()
+	var out: FileAccess = FileAccess.open(path, FileAccess.WRITE)
+	out.store_string(LEVELS_LOCAL_HEADER + "\n" + "\n".join(PackedStringArray(lines)) + "\n")
+	out.close()
+
+
+## The Drive registry.json loop metadata: file name -> {start, end} in frames (only records that carry a loop end).
+static func source_loop_points(source: String) -> Dictionary:
+	var result: Dictionary = {}
+	var path: String = source.path_join("registry.json")
+	if not FileAccess.file_exists(path):
+		return result
+	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+	if not (parsed is Dictionary):
+		return result
+	for record: Variant in (parsed as Dictionary).get("records", []) as Array:
+		if not (record is Dictionary):
+			continue
+		var row: Dictionary = record as Dictionary
+		if row.get("loop_end_exclusive_frame") == null:
+			continue
+		var start_value: Variant = row.get("loop_start_frame")
+		result[str(row.get("file", ""))] = {"start": int(start_value) if start_value != null else 0, "end": int(row["loop_end_exclusive_frame"])}
+	return result
+
+
+## IDs with a row in music_triggers.csv (where the game plays them).
+static func triggered_ids() -> Dictionary:
+	var result: Dictionary = {}
+	if not FileAccess.file_exists(TRIGGERS_PATH):
+		return result
+	var file: FileAccess = FileAccess.open(TRIGGERS_PATH, FileAccess.READ)
+	while not file.eof_reached():
+		var row: PackedStringArray = file.get_csv_line()
+		if row.size() > 0 and (row[0].begins_with("MUS-") or row[0].begins_with("STG-")):
+			result[row[0].strip_edges()] = true
 	return result
 
 
@@ -274,14 +360,22 @@ static func _real(path: String) -> String:
 	return ProjectSettings.globalize_path(path)
 
 
-## Picks the source file of `id` in `files` (a name list): ID.ogg for a loop, ID.wav for a sting/one-shot, else the latest ID_vNN of either.
+## Picks the source file of `id` in `files` (a name list): the latest ID_vNN of either format when there is one (Oct 19-20: a new take
+## dropped in as MUS-TOWN_v03.ogg replaces MUS-TOWN.ogg), else ID.ogg for a loop, ID.wav for a sting/one-shot, else the other format.
 static func pick_source(id: String, files: Array[String], want_ogg: bool) -> String:
+	var versioned: String = _latest_version(id, files, want_ogg)
+	if not versioned.is_empty():
+		return versioned
 	var preferred: String = "%s.%s" % [id, "ogg" if want_ogg else "wav"]
 	if files.has(preferred):
 		return preferred
 	var other: String = "%s.%s" % [id, "wav" if want_ogg else "ogg"]
 	if files.has(other):
 		return other
+	return ""
+
+
+static func _latest_version(id: String, files: Array[String], want_ogg: bool) -> String:
 	var best: String = ""
 	var best_version: int = -1
 	var matcher: RegEx = RegEx.new()
@@ -299,8 +393,16 @@ static func pick_source(id: String, files: Array[String], want_ogg: bool) -> Str
 
 ## Copies the Drive files named by ID into assets/audio/music (loops, story cues, motif masters) and assets/audio/stings, converts a loop or story cue
 ## that only has a WAV master to OGG (needs ffmpeg), and writes the registry JSON and the manifest. Nothing in `source` is moved, renamed or deleted.
-static func import_from_source(source: String) -> Result:
+## Overnight Oct 19-20 options: `dry_run` (bool) reports what would be copied / processed and writes nothing; `process` (bool, default true) runs a new
+## or changed LOOP through the drop-in pipeline (MusicDropIn: loop points, two-pass loudnorm, OGG q5) when ffmpeg is available; false copies it as before.
+## Files already imported (manifest MD5 = Drive MD5) are never touched, so the in-game repairs survive a re-import.
+static func import_from_source(source: String, options: Dictionary = {}) -> Result:
 	var result: Result = Result.new()
+	var dry_run: bool = bool(options.get("dry_run", false))
+	var use_pipeline: bool = bool(options.get("process", true))
+	var loop_points: Dictionary = source_loop_points(source)
+	var triggers: Dictionary = triggered_ids()
+	var tool_path: String = ffmpeg_path()
 	var sheet: Dictionary = catalogue()
 	var rows: Dictionary = sheet["rows"] as Dictionary
 	var order: Array = sheet["order"] as Array
@@ -311,8 +413,9 @@ static func import_from_source(source: String) -> Result:
 		if extension == "ogg" or extension == "wav":
 			files.append(file_name)
 	files.sort()
-	DirAccess.make_dir_recursive_absolute(_real(MUSIC_DIR))
-	DirAccess.make_dir_recursive_absolute(_real(STING_DIR))
+	if not dry_run:
+		DirAccess.make_dir_recursive_absolute(_real(MUSIC_DIR))
+		DirAccess.make_dir_recursive_absolute(_real(STING_DIR))
 	var used: Dictionary = {}
 	var entries: Dictionary = {}
 	var manifest: Array[PackedStringArray] = []
@@ -355,13 +458,36 @@ static func import_from_source(source: String) -> Result:
 		var stale_ext: String = "wav" if target_ext == "ogg" else "ogg"
 		for suffix: String in ["", ".import"]:
 			var stale: String = _real(target_dir.path_join("%s.%s%s" % [id, stale_ext, suffix]))
-			if FileAccess.file_exists(stale):
+			if FileAccess.file_exists(stale) and not dry_run:
 				DirAccess.remove_absolute(stale)
 		var hash: String = FileAccess.get_md5(source_path)
 		var manifest_hash: String = _read_manifest().get(id, "") as String
 		var present: bool = FileAccess.file_exists(_real(target_path))
+		var processed_now: bool = false
 		if present and manifest_hash == hash:
 			result.unchanged += 1
+		elif is_loop and use_pipeline and not tool_path.is_empty():
+			# The drop-in pipeline: loop points, two-pass loudnorm, OGG Vorbis q5 (MusicDropIn).
+			var explicit: Dictionary = loop_points.get(source_name, {}) as Dictionary
+			var done: Dictionary = MusicDropIn.process_loop(tool_path, source_path, _real(target_path), explicit, dry_run)
+			if not bool(done["ok"]):
+				result.errors.append("%s: %s" % [id, str(done["error"])])
+				result.missing.append(id)
+				entries[id] = record
+				continue
+			var line: String = "%s: %s; %s; %.1f s; loop offset %.2f s" % [id, str(done["reason"]), str(done["gain_filter"]).get_slice(":", 0),
+				float(done["frames"]) / 48000.0, float(done["loop_offset"])]
+			if dry_run:
+				result.planned.append("process " + line)
+			else:
+				write_local_level(id, target_path.get_file(), int(done["frames"]), float(done["lufs"]), float(done["tp"]), float(done["loop_offset"]),
+					FileAccess.get_md5(_real(target_path)))
+				result.processed.append(line)
+				processed_now = true
+			result.copied += 1
+		elif dry_run:
+			result.planned.append("%s %s -> %s" % ["convert" if convert else "copy", source_name, target_path.get_file()])
+			result.copied += 1
 		elif convert:
 			var tool: String = ffmpeg_path()
 			var output: Array = []
@@ -388,11 +514,17 @@ static func import_from_source(source: String) -> Result:
 			result.copied += 1
 		manifest.append(PackedStringArray([id, source_name, str(FileAccess.get_file_as_bytes(source_path).size()), hash]))
 		record["file"] = target_path
+		if processed_now:
+			levels = _levels()
+		if not triggers.is_empty() and not triggers.has(id) and kind != Kind.MOTIF:
+			result.unassigned.append(id)
 		var level: Dictionary = levels.get(id, {}) as Dictionary
 		if not level.is_empty():
 			record["volume_db"] = base_volume_db(kind, float(level["lufs"]), float(level["peak"]))
 			record["duration"] = snappedf(float(level["frames"]) / 48000.0, 0.01)
 			record["analysis"] = str(level["flags"])
+			if float(level.get("loop_offset", 0.0)) > 0.0:
+				record["loop_offset"] = float(level["loop_offset"])
 		entries[id] = record
 		result.with_file.append(id)
 	# An alias plays the file of the ID it points at (its own copy is kept so the slot can be given its own music later).
@@ -415,6 +547,8 @@ static func import_from_source(source: String) -> Result:
 		"_about": "GENERATED by tools/import_audio.sh from data/source/music_list.csv + the Drive folder (audio_dir in art_config.cfg) + data/source/audio_levels.csv. Do not edit by hand: replace assets/audio/music/<ID>.ogg (or stings/<ID>.wav) and re-run the importer. `alias_of` = compatibility alias (plays the target's file); `gameplay: false` = composition reference, never triggered.",
 		"entries": entries,
 	}
+	if dry_run:
+		return result
 	var json: FileAccess = FileAccess.open(_real(REGISTRY_PATH), FileAccess.WRITE)
 	json.store_string(JSON.stringify(document, "\t", true))
 	json.close()
