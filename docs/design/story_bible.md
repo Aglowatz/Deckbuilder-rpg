@@ -163,7 +163,7 @@ perfect facade over a broken city. The Wanderer wakes in the forest outside Cros
 - **The Wellspring** is the spring that once fed all four Paths (user brief, Oct 19). It is singular. The old placeholder lore of "four
   Wellsprings, one per element" (`starting_deck_and_affinity.md`, an early working title) is retired.
 - "Wellspring" is a lore word only (BL-3): no place in the game is labelled "the Wellspring". The town's well is **the Old Well**.
-- **The Old Well** stands in its own yard off Champions' Road in Crosspath [built]. It glows pale cyan with rising motes. Touching it
+- **The Old Well** stands in its own yard off the west market street, by the Champions' Road block, in Crosspath [built]. It glows pale cyan with rising motes. Touching it
   ("Touch the Old Well") answers in the colour of the Path the Wanderer carries: "The <Path> spring hums. It knows you." (In early builds
   this was where the starting Path was chosen.) Townsfolk joke about it ("Did you hear the well talks now? It doesn't. But imagine.").
 - **Beneath the Old Well** is the Forgotten Vault (S-TOWN): an iron hatch beside the well, "a door under the old well that has been locked

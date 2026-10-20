@@ -195,3 +195,8 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 ## Cycle 35 - final sweep
 - All six zone walk smokes OK; first-battles smoke OK; GUT 2010/2010 (cycle 32). Untidy's step 2 marker kept (splitting the step would
   change the objective list of saved quests; pointing at the seed would leave a stale marker) - logged.
+
+## Cycle 36 - Dialogue & story: a separate editor for the Old Well's text
+- Part 6's text had been written by its builder and never reviewed by a second writer (the Part 5 standard). A separate editor scored its
+  13 conversations 3.69 -> 4.00 (min of five; rewrote the confirm, the reveal's longest boxes, the "after" line and the log hints). The
+  story bible now places the well where the town layout does (its yard off the west market street). Old Well + quality tests 26/26.

@@ -554,3 +554,43 @@ Markers that look wrong (targets not changed; the text now describes the real pl
   from the north stable" (`stable_2` is the goat). The hint now just says "the stables".
 - Dialogue (not quest text, not changed): Widow Pell says the plot is "by the east wall", but `pell_plot` is at the north end of Grave
   Row (north-west); Old Fern puts the Sick Patch "by the market", it is in the Reek.
+
+## Old Well text (Phase 2 editor)
+
+A separate editor's pass over the Old Well secret quest (`data/story/old_well_story.json`; the quest's string literals in
+`core/dungeon/old_well_quest.gd`, the Phial of First Water's name, description, flavour and source, read fine and are unchanged). Every
+line goes through `Villain.fill` (`OldWellStory.get_beats` / `.text`); the file uses no tokens except `{town}`, which it fills. No key,
+array length or order changed; the JSON parses; the longest box is now 169 characters (all <= 200). No Elowen, no prince name, no Primm.
+"Funny" here scores fit: the well and the Echo are slow and humourless, the warmth sits in the narration's small turns and the Wanderer.
+
+Scores (in character / funny-fit / beat / brevity / clarity; min). Old = the builder's text, new = after this pass.
+
+| Conversation | Old | Old min | New | New min | Change |
+|---|---|---|---|---|---|
+| vision.start | 5/5/5/4/4 | 4 | 5/5/5/4/5 | 4 | the Dump's hum now says "highest terrace" like the log hint |
+| touch.listening, touch.left.heap/buffet | 5/5/4/5/5 | 4 | same | 4 | - |
+| find.refusemancer (the Dump hum) | 5/5/5/4/4 | 4 | same | 4 | - |
+| find.gourmand (the Buffet hum) | 5/5/5/4/4 | 4 | same | 4 | - |
+| find.one, find.both, toasts | 5/5/4/5/5 | 4 | same | 4 | - |
+| touch.ready | 5/5/5/5/4 | 4 | same | 4 | - |
+| confirm (title/body/yes/no) | 3/4/4/4/4 | 3 | 4/4/4/5/5 | 4 | "and it is hard" was clumsy |
+| echo.before | 5/5/4/5/4 | 4 | same | 4 | - |
+| echo.lose | 5/5/4/5/5 | 4 | same | 4 | - |
+| echo.reveal | 5/5/5/3/4 | 3 | 5/5/5/4/4 | 4 | four boxes tightened (11 boxes kept: array lengths are fixed) |
+| touch.done (after the quest) | 4/4/3/5/5 | 3 | 5/5/4/5/5 | 4 | the kettle "nobody has put on" could not hum; now echoes "the way home" |
+| quest log (title, summary, steps, hints) | 5/5/4/4/3 | 3 | 5/5/4/5/4 | 4 | hints lead with the place, like the Quest Log pass; still vague (secret) |
+| prompts | 5/5/4/5/5 | 4 | same | 4 | - |
+
+Averages of the minimums: old 3.69, new 4.00 (13 conversations, 4 rewritten).
+
+Before -> after:
+1. `confirm.body` - "Whatever answers will fight with all four Paths, and it is hard." -> "Whatever answers duels with all four Paths
+   at once. It is a hard fight."
+2. `touch.done` - "The Old Well hums, low and steady, like a kettle nobody has put on yet." -> "The Old Well hums, low and steady, like a
+   kettle kept warm for whoever comes home."
+3. `quest.hint.heap` - "Something on the Dump's highest terrace hums like the well did, where its river starts to fall" -> "The Dump's
+   highest terrace, where its river starts to fall: something there hums like the well"
+
+Noted, not changed: story_bible.md section 4 puts the Old Well's yard "off Champions' Road"; the map (and `quest.hint.echo`) say off the west
+market street. The bible line should be corrected. The echo's "Hold all four, and I will run again" is quoted in the bible, so it stays,
+though whether the spring can run again is listed there as not yet canon.
