@@ -125,6 +125,9 @@ screenshots to check after. The new UI-BG-CHARACTER switches the equipment scree
 | 21, 22 | NPC life | Agnes greets you right in the Hall; **Maren gives her full speech once per change and a short line otherwise** |
 | 23 | Stability | **Bugs**: the Restless Cairn showed a raw "{villain}"; Bertram's first-visit lines piled up on the cached story resource |
 | 24 | Clarity | **Quest Log text pass** (3.29 -> 4.59) and **three wrong quest markers fixed** (the Dump's dam -> the goat's stable, Form 27-B/6 -> the stamp itself, The Older Way -> the manhole); Pell's and Fern's directions now match the map |
+| 26-28 | UI / NPC data | Collection Book headings readable over the painting; the baker is Brindle in the NPC data too; the tailor's shop is "Threadwell's Hats & Hems" (the old title was a retired name, now on the banned list) |
+| 29 | Audio | The Old Well's hidden spring and pond can be **heard** as well as seen (a faint water loop near each) |
+| 31-35 | Checks | D.N.A. grid re-checked after the fade change; Quest Log and long-text tips seen on screen; GUT 2010/2010; every walk smoke OK |
 
 Measured, no change: loop seams (cycle 1), the cave on a third seed (B 92 / G 84 / R 84 / N 90, cycle 8), the Gainlands roamers at L5
 (cycle 17: the sim's L5 Necrocrat deck plays no unit before turn 8 - a sim-deck issue as much as a balance one). Tried and reverted: covering
