@@ -109,6 +109,7 @@ and `core/`, `world/`, `ui/`, `app/`.
 - Head Spotter
 - Grand Clashatorium
 - Brenda
+- Thimble's Hats & Hems
 
 **Still present on Oct 19** (to fix; nothing else on the list was found):
 - `Z.V.`: `data/story/intro_story.tres:116` (`town.alchemist.locked`, the note's signature).

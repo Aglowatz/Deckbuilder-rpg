@@ -1,6 +1,6 @@
 class_name TailorScreen
 extends OverlayScreen
-## Thimble's Hats & Hems: the clothing shop. The hero's rotating copy tries anything on before it is bought (hover or "Try"); pick a dye, then buy: the item is added to the
+## Threadwell's Hats & Hems (was Thimble's, the tailor's retired name): the clothing shop. The hero's rotating copy tries anything on before it is bought (hover or "Try"); pick a dye, then buy: the item is added to the
 ## wardrobe and worn at once. Stock grows with zones freed and levels (`CosmeticCatalog.vendor_stock`); locked pieces are teasers with their requirement.
 
 var _look: CosmeticState

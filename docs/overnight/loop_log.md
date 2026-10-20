@@ -164,3 +164,7 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 ## Cycle 27 - NPC data: Brindle the Baker
 - `data/npcs/npcs.json` and `docs/design/npc_registry.csv` called the strolling baker "Bun the Baker"; the game, the story bible and the
   Oct 17 decision say Brindle. Both now say Brindle (inbox item 6 marked done). NPC tests 14/14.
+
+## Cycle 28 - Dialogue & story: the tailor's shop name
+- "Thimble's Hats & Hems" was a leftover of the tailor's retired name (Tilda Thimble); the shop is "Threadwell's Hats & Hems" now (Pip
+  Threadwell), and the old title is on canon.md's banned list (the test reads it). Tests OK.
