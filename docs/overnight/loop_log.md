@@ -173,3 +173,6 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - The Dump's spring and the Buffet's pond "hum like the well did" but were silent: each glow now carries a faint water loop
   (`AmbientEmitter` "spot/fountain", -8 dB, 9 m reach) that goes with the glow when the step is done - discoverable by ear. Old Well tests +
   world-sound tests 31/31; the Old Well smoke OK in the live zones.
+
+## Cycle 30 - bots (after cycles 26-29)
+- Story bot 73/73 (this also covers cycles 23-24's changes, which the stopped run in cycle 25 did not); tour bot OK (0 errors).
