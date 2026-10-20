@@ -186,13 +186,27 @@ static func import_from_source(source: String, out_dir: String, manifest_path: S
 	for file_name: String in DirAccess.get_files_at(source):
 		files.append(file_name)
 	files.sort()
+	# A newer revision sits beside the first one as "<ID>-v2" (the Drive keeps both): the highest revision of an ID is the one imported.
+	var revision_re: RegEx = RegEx.create_from_string("^(.+)-[vV](\\d+)$")
+	var chosen: Dictionary = {}
+	var chosen_rev: Dictionary = {}
 	for file_name: String in files:
 		if not INPUT_EXTENSIONS.has(file_name.get_extension().to_lower()):
 			continue
-		var id: String = file_name.get_basename()
-		if not known.has(id):
+		var base: String = file_name.get_basename()
+		var rev: int = 1
+		var m: RegExMatch = revision_re.search(base)
+		if not known.has(base) and m != null and known.has(m.get_string(1)):
+			base = m.get_string(1)
+			rev = m.get_string(2).to_int()
+		if not known.has(base):
 			result.unknown.append(file_name)
 			continue
+		if rev >= int(chosen_rev.get(base, 0)):
+			chosen[base] = file_name
+			chosen_rev[base] = rev
+	for id: String in chosen:
+		var file_name: String = str(chosen[id])
 		var full_path: String = source.path_join(file_name)
 		var hash: String = FileAccess.get_md5(full_path)
 		var target: String = _real(out_dir.path_join("%s.webp" % id))

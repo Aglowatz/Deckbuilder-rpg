@@ -93,6 +93,10 @@ func test_file_names_match_forgivingly() -> void:
 	assert_eq(IconArt.file_icon_id("ICON-COS-WIDE-BRIM", known), "ICON-COS-WIDEBRIM")
 	assert_eq(IconArt.file_icon_id("icon-kw-flying", known), "ICON-KW-FLYING")
 	assert_eq(IconArt.file_icon_id("ICON-GEAR-NOPE", known), "")
+	# Named after the display name (Oct 20 delivery: ICON-ITEM-HEARTYPOTPIE for hearty_pie).
+	var named: Dictionary = {"ICON-ITEM-HEARTYPIE": "Item: Hearty Pot Pie"}
+	assert_eq(IconArt.file_icon_id("ICON-ITEM-HEARTYPOTPIE", named), "ICON-ITEM-HEARTYPIE")
+	assert_eq(IconArt.file_icon_id("ICON-GEAR-HEARTYPOTPIE", named), "")
 
 
 func test_drop_in_import_of_gear_item_and_cosmetic_icons() -> void:

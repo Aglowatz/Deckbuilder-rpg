@@ -525,6 +525,11 @@ static func file_icon_id(base_name: String, known: Dictionary) -> String:
 					candidate = prefix + id_slug(body.substr(kind.length()))
 					if known.has(candidate):
 						return candidate
+		# Named after the display name instead of the id ("ICON-ITEM-HEARTYPOTPIE" for hearty_pie, "Item: Hearty Pot Pie").
+		for known_id: Variant in known:
+			var label: String = str(known[known_id])
+			if str(known_id).begins_with(prefix) and label.contains(": ") and id_slug(label.get_slice(": ", 1)) == id_slug(body):
+				return str(known_id)
 	return ""
 
 

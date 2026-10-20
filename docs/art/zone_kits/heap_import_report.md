@@ -3,7 +3,7 @@
 Source: `G:/My Drive/Card Game Art/Approved_ZoneKits/VerdantDump` (read-only), target: `res://assets/art/zone_kits/heap/`, registry: `res://data/art/zone_kits/heap.json`.
 
 
-## Imported (33)
+## Imported (42)
 
 - DUMP-HERO-ROTHEART (concept reference 1536x1024 -> res://docs/art/zone_kits/heap/concepts/DUMP-HERO-ROTHEART.jpg)
 - DUMP-HERO-JUNK-MOUNTAIN (concept reference 1536x1024 -> res://docs/art/zone_kits/heap/concepts/DUMP-HERO-JUNK-MOUNTAIN.jpg)
@@ -38,9 +38,35 @@ Source: `G:/My Drive/Card Game Art/Approved_ZoneKits/VerdantDump` (read-only), t
 - DUMP-DEC-PETALS (cutout 975x818 trimmed, pivot 0.50,0.50)
 - DUMP-SKY-SUNSET (backdrop 2048x1024, opaque)
 - DUMP-BD-JUNK (backdrop 2048x293, transparent sky)
+- DUMP-TREE-WISTERIA (tree 1009x1525 trimmed, pivot 0.61,1.00)
+- DUMP-PLANT-VIOLETS (tree 970x1391 trimmed, pivot 0.59,1.00)
+- DUMP-SURF-CLIFF (surface 1024x1024, 2.56 m tile, seam x 1.8->1.0, y 1.0->1.0)
+- DUMP-DEC-VINES (sheet sliced into 6 signs: 501x645, 614x659, 567x673, 609x642, 683x672, 598x619)
+- DUMP-SURF-WATER (surface 1024x1024, 2.56 m tile, seam x 3.2->1.1, y 1.4->1.4)
+- DUMP-PROP-WATERFALL (sheet sliced into 6 props: 419x606, 605x587, 815x595, 449x619, 608x622, 837x637)
+- DUMP-PROP-WATERWHEEL (cutout 1429x998 trimmed, pivot 0.50,1.00)
+- DUMP-BD-VALLEY (backdrop 2048x896, transparent sky)
+- DUMP-PROP-STAIRS (surface 1024x512, 2.56 m tile, seam x 1.3->1.3)
 
-## Missing ids (0)
+## Missing ids (17)
 
+- DUMP-PROP-STALL (unreadable)
+- DUMP-PLANT-LUPIN
+- DUMP-PLANT-LILY
+- DUMP-TREE-CANOPY
+- DUMP-SKY-SUNSET-SOFT
+- DUMP-WALL-SCRAP
+- DUMP-HERO-SCRAPMORE
+- DUMP-PROP-STABLE
+- DUMP-ROOF-THATCH
+- DUMP-GROUND-GRAVEL
+- DUMP-GROUND-COMPOST
+- DUMP-TREE-ROTHEART
+- DUMP-PROP-WINDMILL
+- DUMP-DEC-RUST
+- DUMP-DEC-PETAL
+- DUMP-DEC-MOSS
+- DUMP-BD-ROTHEART
 
 ## Files that match no kit id (6)
 

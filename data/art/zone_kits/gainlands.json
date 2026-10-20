@@ -1,25 +1,25 @@
 {
 	"_about": "Written by tools/import_zone_kit.gd from data/source/gainlands_kit.csv and the art in G:/My Drive/Card Game Art/Approved_ZoneKits/Gainlands: one entry per kit id with its lock, family (group / slot), prepared size, pivot (0..1 of the trimmed image), tile size in metres at 400 px/m, sheet parts. EnvKit reads it: every id here resolves like an Environment Kit id (assets/art/zone_kits/gainlands/<ID>.webp). Hand-added keys (height, width, tile, placeholder, slot) survive a re-import; entries not on the sheet (aliases) are kept.",
-	"density": 400,
+	"density": 400.0,
 	"items": {
 		"DEC-CHALK": {
-			"id": "DEC-CHALK",
-			"zone": "gainlands",
-			"lock": "CUTOUT",
-			"group": "decal",
-			"slot": "decal.dec-chalk",
-			"placeholder": "dec:chalk",
-			"tinted": false,
 			"alias": true,
-			"aspect": 1,
+			"aspect": 1.0,
+			"asset": "Chalk marks",
+			"category": "Painted decal (alias)",
+			"desc": "Chalk marks (painted decal set)",
+			"group": "decal",
+			"id": "DEC-CHALK",
+			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
 				0.5
 			],
-			"desc": "Chalk marks (painted decal set)",
-			"asset": "Chalk marks",
-			"category": "Painted decal (alias)",
-			"sheet_status": "in game (data/source/textures.csv)"
+			"placeholder": "dec:chalk",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "decal.dec-chalk",
+			"tinted": false,
+			"zone": "gainlands"
 		},
 		"GAIN-BD-ISLANDS": {
 			"aspect": 3.556,
@@ -35,7 +35,7 @@
 			"lock": "BACKDROP",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
@@ -48,6 +48,35 @@
 			"tinted": false,
 			"transparent": true,
 			"use": "Backdrop ring (sky garden and hub)",
+			"zone": "gainlands"
+		},
+		"GAIN-BD-MESAS": {
+			"aspect": 4.0,
+			"asset": "GAIN-BD-MESAS",
+			"category": "Sky / backdrop",
+			"desc": "A distant skyline of flat-topped sandstone mesas and rock columns rising from a calm blue sea, layered by distance and hazy blue at the back, a few floating islands with grassy tops in a bright midday sky, wide panoramic strip, no foreground (the bottom fades to sea colour).",
+			"from_px": [
+				4096,
+				1024
+			],
+			"group": "backdrop",
+			"id": "GAIN-BD-MESAS",
+			"lock": "BACKDROP",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				2048,
+				512
+			],
+			"sheet_status": "Requested",
+			"size": "a strip 4096 x 1024, wraps 60 degrees",
+			"slot": "backdrop.gain-bd-mesas",
+			"tinted": false,
+			"transparent": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
 			"zone": "gainlands"
 		},
 		"GAIN-BD-MOUNT": {
@@ -64,7 +93,7 @@
 			"lock": "BACKDROP",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
@@ -77,6 +106,21 @@
 			"tinted": false,
 			"transparent": true,
 			"use": "Backdrop ring (north)",
+			"zone": "gainlands"
+		},
+		"GAIN-DEC-CHALK": {
+			"asset": "Chalk prints",
+			"category": "Decal",
+			"desc": "Handprints and lines. Top-down, transparent soft edge. Palette #F2C14E, #D9483B, #8BC34A, #F7EBD3, #7A5230. Mood: energetic, sunny, comically macho. Building language: Sturdy timber-and-brick mills and gym halls, rope and iron details, red-gold banners. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"group": "decal",
+			"id": "GAIN-DEC-CHALK",
+			"lock": "CUTOUT",
+			"priority": "3",
+			"sheet_status": "Requested",
+			"size": "1024x1024 PNG, transparent",
+			"slot": "decal.gain-dec-chalk",
+			"tinted": false,
+			"use": "Ground decal",
 			"zone": "gainlands"
 		},
 		"GAIN-DEC-PLATES": {
@@ -166,6 +210,80 @@
 			"use": "Ground decal (wheel ruts)",
 			"zone": "gainlands"
 		},
+		"GAIN-FX-WATERFALL": {
+			"aspect": 0.378,
+			"asset": "GAIN-FX-WATERFALL",
+			"category": "Decal",
+			"cleared_alpha": 49547,
+			"desc": "A narrow waterfall sheet seen from the front: white and pale-blue streaks of falling water, feathered edges, foam at the bottom, painted, tileable top to bottom, on a transparent background.",
+			"from_px": [
+				887,
+				1774
+			],
+			"group": "decal",
+			"id": "GAIN-FX-WATERFALL",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				0.5
+			],
+			"priority": "2",
+			"px": [
+				564,
+				1493
+			],
+			"sheet_status": "Requested",
+			"size": "a strip 2 x 4 m, tiles vertically",
+			"slot": "decal.gain-fx-waterfall",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-GROUND-CHALK": {
+			"asset": "Chalk and sand",
+			"category": "Surface",
+			"desc": "Pale sand scuffed with chalk lines and footprints. Seamless, tileable, albedo only, flat even light. Palette #F2C14E, #D9483B, #8BC34A, #F7EBD3, #7A5230. Mood: energetic, sunny, comically macho. Building language: Sturdy timber-and-brick mills and gym halls, rope and iron details, red-gold banners. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"group": "ground",
+			"id": "GAIN-GROUND-CHALK",
+			"lock": "SURFACE",
+			"priority": "1",
+			"sheet_status": "Requested",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "ground.gain-ground-chalk",
+			"tinted": false,
+			"use": "Kit material swap for this zone (ground)",
+			"zone": "gainlands"
+		},
+		"GAIN-GROUND-FIELD": {
+			"asset": "Sunny meadow grass",
+			"category": "Surface",
+			"desc": "Bright green grass with yellow flowers, tileable. Seamless, tileable, albedo only, flat even light. Palette #F2C14E, #D9483B, #8BC34A, #F7EBD3, #7A5230. Mood: energetic, sunny, comically macho. Building language: Sturdy timber-and-brick mills and gym halls, rope and iron details, red-gold banners. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"group": "ground",
+			"id": "GAIN-GROUND-FIELD",
+			"lock": "SURFACE",
+			"priority": "1",
+			"sheet_status": "Requested",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "ground.gain-ground-field",
+			"tinted": false,
+			"use": "Kit material swap for this zone (ground)",
+			"zone": "gainlands"
+		},
+		"GAIN-GROUND-MAT": {
+			"asset": "Gym mat ground",
+			"category": "Surface",
+			"desc": "Blue rubber gym mat texture with chalk handprints. Seamless, tileable, albedo only, flat even light. Palette #F2C14E, #D9483B, #8BC34A, #F7EBD3, #7A5230. Mood: energetic, sunny, comically macho. Building language: Sturdy timber-and-brick mills and gym halls, rope and iron details, red-gold banners. Painted, not pixel: clean bold shapes, soft cel-shaded painting, rich harmonious colour, matching PAINTOVER-TOWN.png. No text or letters.",
+			"group": "ground",
+			"id": "GAIN-GROUND-MAT",
+			"lock": "SURFACE",
+			"priority": "1",
+			"sheet_status": "Requested",
+			"size": "1024x1024 PNG, tileable",
+			"slot": "ground.gain-ground-mat",
+			"tinted": false,
+			"use": "Kit material swap for this zone (ground)",
+			"zone": "gainlands"
+		},
 		"GAIN-HERO-CHAMPIONS-ARCH": {
 			"asset": "Hero landmark: Champions Arch",
 			"category": "Hero landmark",
@@ -190,6 +308,54 @@
 			"use": "Replaces the arch stand-in in proving_grounds",
 			"zone": "gainlands"
 		},
+		"GAIN-HERO-GYM-HALL": {
+			"asset": "GAIN-HERO-GYM-HALL",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-GYM-HALL.jpg",
+			"desc": "A Beefcake gym hall for the central plaza: red-brick side and back walls with tall lit windows, an open front of four cream-stone pillars with half-height brick parapets between the outer pairs, a red tiled gable roof with deep overhangs and an iron ridge, a round gold dumbbell emblem in the gable (a pictogram, no letters), red-and-gold banners with a flexed arm on the outer pillars, and inside, clearly visible through the open front: a two-tier dumbbell rack along the back wall, a barbell rack, plate trees, a squat rack with a loaded bar and a padded bench on a dark rubber floor.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-GYM-HALL",
+			"lock": "CONCEPT",
+			"priority": "2",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Requested",
+			"size": "13 x 8.5 m footprint, eaves 4.6 m, ridge about 8 m",
+			"slot": "concept.gain-hero-gym-hall",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-HERO-IRON-CAVE": {
+			"asset": "GAIN-HERO-IRON-CAVE",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-IRON-CAVE.jpg",
+			"desc": "The entrance of the Iron Cave, a leg-day dungeon in an orange sandstone cliff face: a dark arched cave mouth framed by rough sandstone boulders, timber mine props with a studded iron lintel, a huge iron dumbbell with red plates bolted over the mouth, worn stone steps going down into the dark, torches on both sides, two squat racks and a sled leg press machine standing on a dark red rubber mat in front, chalk handprints on the rock.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-IRON-CAVE",
+			"lock": "CONCEPT",
+			"priority": "2",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Requested",
+			"size": "mouth 5 m wide, 4.6 m tall, in a 9 m cliff",
+			"slot": "concept.gain-hero-iron-cave",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
 		"GAIN-HERO-SKY-TREE": {
 			"asset": "Hero landmark: Sky Tree",
 			"category": "Hero landmark",
@@ -212,6 +378,30 @@
 			"slot": "concept.gain-hero-sky-tree",
 			"tinted": false,
 			"use": "Replaces the giant_tree stand-in in sky_garden",
+			"zone": "gainlands"
+		},
+		"GAIN-HERO-STONE-GATEWAY": {
+			"asset": "GAIN-HERO-STONE-GATEWAY",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-STONE-GATEWAY.jpg",
+			"desc": "The stone gateway at the head of the rope bridge into the Gainlands: two square dressed-sandstone pillars on wide plinths with cream caps, brass collars and big gold orbs on top, a short iron arm on each pillar's inner side with a red-and-gold flexed-arm banner hanging from it, a torch on each pillar, low sandstone parapets running off to the sides along the cliff edge.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-STONE-GATEWAY",
+			"lock": "CONCEPT",
+			"priority": "2",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Requested",
+			"size": "pillars 4.2 m tall, 1.25 m square, 6.4 m apart",
+			"slot": "concept.gain-hero-stone-gateway",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
 			"zone": "gainlands"
 		},
 		"GAIN-HERO-SWOLE-STATION": {
@@ -260,6 +450,30 @@
 			"slot": "concept.gain-hero-swolympus",
 			"tinted": false,
 			"use": "Replaces the mound stand-in in swolympus_trailhead",
+			"zone": "gainlands"
+		},
+		"GAIN-HERO-SWOLYMPUS-RIDGE": {
+			"asset": "GAIN-HERO-SWOLYMPUS-RIDGE",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-HERO-SWOLYMPUS-RIDGE.jpg",
+			"desc": "The broken land bridge to Mount Swolympus: a narrow sandstone rock spine with a paved causeway, cream parapet stubs and a lamp post, ending in a collapsed stone arch over a deep chasm with fallen blocks in blue water below, the far spine continuing to the foot of a tall rocky mountain with green ledges and a temple at its summit.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-HERO-SWOLYMPUS-RIDGE",
+			"lock": "CONCEPT",
+			"priority": "2",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Requested",
+			"size": "25 m long view",
+			"slot": "concept.gain-hero-swolympus-ridge",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
 			"zone": "gainlands"
 		},
 		"GAIN-HERO-TRAILHEAD-GATE": {
@@ -359,11 +573,12 @@
 				1024
 			],
 			"group": "tree",
+			"height": 1.9,
 			"id": "GAIN-PLANT-HAY",
 			"lock": "TREE",
 			"pivot": [
 				0.506,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
@@ -375,8 +590,7 @@
 			"slot": "tree.gain-plant-hay",
 			"tinted": false,
 			"use": "Plant card near mills and wheels",
-			"zone": "gainlands",
-			"height": 1.9
+			"zone": "gainlands"
 		},
 		"GAIN-PLANT-SUNFLOWER": {
 			"aspect": 0.804,
@@ -389,11 +603,12 @@
 				1536
 			],
 			"group": "tree",
+			"height": 2.1,
 			"id": "GAIN-PLANT-SUNFLOWER",
 			"lock": "TREE",
 			"pivot": [
 				0.586,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
@@ -405,8 +620,94 @@
 			"slot": "tree.gain-plant-sunflower",
 			"tinted": false,
 			"use": "Plant card in clumps along paths and fences",
-			"zone": "gainlands",
-			"height": 2.1
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-ATLAS-STONES": {
+			"aspect": 2.408,
+			"asset": "GAIN-PROP-ATLAS-STONES",
+			"category": "Prop",
+			"cleared_alpha": 24166,
+			"desc": "Four round grey atlas stones of growing size, each on its own low stone plinth, chalk marks on them.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-ATLAS-STONES",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1447,
+				601
+			],
+			"sheet_status": "Requested",
+			"size": "a row 3.5 m long, the biggest stone 1.1 m across",
+			"slot": "prop.gain-prop-atlas-stones",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-BANNER-POST": {
+			"aspect": 0.613,
+			"asset": "GAIN-PROP-BANNER-POST",
+			"category": "Prop",
+			"cleared_alpha": 24277,
+			"desc": "A road banner post: a dark timber pole on a stone foot, a short crossbar at the top with a red-and-gold flexed-arm banner hanging straight down from it, a hanging lantern on an iron arm.",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-BANNER-POST",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				919,
+				1498
+			],
+			"sheet_status": "Requested",
+			"size": "4.2 m tall",
+			"slot": "prop.gain-prop-banner-post",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-BENCH": {
+			"aspect": 1.724,
+			"asset": "GAIN-PROP-BENCH",
+			"category": "Prop",
+			"cleared_alpha": 11590,
+			"desc": "A flat weight bench: a thick oxblood leather pad on a steel frame with two splayed feet, slightly worn.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-BENCH",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1283,
+				744
+			],
+			"sheet_status": "Requested",
+			"size": "1.35 m long, 0.6 m tall",
+			"slot": "prop.gain-prop-bench",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
 		},
 		"GAIN-PROP-CATAPULT": {
 			"aspect": 1.097,
@@ -419,11 +720,12 @@
 				1024
 			],
 			"group": "prop",
+			"height": 2.6,
 			"id": "GAIN-PROP-CATAPULT",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
@@ -435,8 +737,36 @@
 			"slot": "prop.gain-prop-catapult",
 			"tinted": false,
 			"use": "Prop in clusters",
-			"zone": "gainlands",
-			"height": 2.6
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-CHALK-BUCKET": {
+			"aspect": 0.949,
+			"asset": "GAIN-PROP-CHALK-BUCKET",
+			"category": "Prop",
+			"cleared_alpha": 39185,
+			"desc": "A blue bucket heaped with white lifting chalk, a little chalk spilled round its foot.",
+			"from_px": [
+				1325,
+				1187
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-CHALK-BUCKET",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				974,
+				1026
+			],
+			"sheet_status": "Requested",
+			"size": "0.5 m tall",
+			"slot": "prop.gain-prop-chalk-bucket",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
 		},
 		"GAIN-PROP-DUMBBELL": {
 			"aspect": 1.824,
@@ -449,11 +779,12 @@
 				1024
 			],
 			"group": "prop",
+			"height": 0.95,
 			"id": "GAIN-PROP-DUMBBELL",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
@@ -465,8 +796,65 @@
 			"slot": "prop.gain-prop-dumbbell",
 			"tinted": false,
 			"use": "Prop in clusters",
-			"zone": "gainlands",
-			"height": 0.95
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-DUMBBELL-RACK": {
+			"aspect": 1.833,
+			"asset": "GAIN-PROP-DUMBBELL-RACK",
+			"category": "Prop",
+			"cleared_alpha": 21213,
+			"desc": "A two-tier sloped iron dumbbell rack holding ten pairs of round black dumbbells from small to big.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-DUMBBELL-RACK",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1514,
+				826
+			],
+			"sheet_status": "Requested",
+			"size": "2.2 m long, 1.0 m tall",
+			"slot": "prop.gain-prop-dumbbell-rack",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-KERB": {
+			"aspect": 1.852,
+			"asset": "GAIN-PROP-KERB",
+			"category": "Prop",
+			"cleared_alpha": 11002,
+			"desc": "One dressed sandstone kerb stone, a long rounded block, slightly chipped.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-KERB",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1459,
+				788
+			],
+			"sheet_status": "Requested",
+			"size": "0.9 m long, 0.3 m tall",
+			"slot": "prop.gain-prop-kerb",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
 		},
 		"GAIN-PROP-KETTLEBELL": {
 			"aspect": 0.959,
@@ -479,11 +867,12 @@
 				1024
 			],
 			"group": "prop",
+			"height": 0.9,
 			"id": "GAIN-PROP-KETTLEBELL",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
@@ -495,8 +884,94 @@
 			"slot": "prop.gain-prop-kettlebell",
 			"tinted": false,
 			"use": "Prop in clusters",
-			"zone": "gainlands",
-			"height": 0.9
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-KETTLEBELL-RACK": {
+			"aspect": 1.931,
+			"asset": "GAIN-PROP-KETTLEBELL-RACK",
+			"category": "Prop",
+			"cleared_alpha": 20114,
+			"desc": "A low wooden plank shelf on iron legs with four kettlebells in a row, black and red, knee-high.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-KETTLEBELL-RACK",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1406,
+				728
+			],
+			"sheet_status": "Requested",
+			"size": "1.8 m long, 0.75 m tall",
+			"slot": "prop.gain-prop-kettlebell-rack",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-LEG-PRESS": {
+			"aspect": 1.106,
+			"asset": "GAIN-PROP-LEG-PRESS",
+			"category": "Prop",
+			"cleared_alpha": 22186,
+			"desc": "A sled leg press machine: a sloped dark iron frame, the carriage with red plates on its two horns, a padded oxblood seat and backrest at the low end.",
+			"from_px": [
+				1347,
+				1167
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-LEG-PRESS",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1198,
+				1083
+			],
+			"sheet_status": "Requested",
+			"size": "1.2 x 2.6 m, 1.8 m tall",
+			"slot": "prop.gain-prop-leg-press",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-PLATE-STACK": {
+			"aspect": 0.696,
+			"asset": "GAIN-PROP-PLATE-STACK",
+			"category": "Prop",
+			"cleared_alpha": 9498,
+			"desc": "A stack of weight plates on a steel post, from a big black plate at the bottom to small red, blue and gold ones on top.",
+			"from_px": [
+				1086,
+				1448
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-PLATE-STACK",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				834,
+				1198
+			],
+			"sheet_status": "Requested",
+			"size": "0.6 m across, 0.8 m tall",
+			"slot": "prop.gain-prop-plate-stack",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
 		},
 		"GAIN-PROP-PROTEIN": {
 			"aspect": 1.111,
@@ -509,11 +984,12 @@
 				1024
 			],
 			"group": "prop",
+			"height": 2.3,
 			"id": "GAIN-PROP-PROTEIN",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
@@ -525,8 +1001,60 @@
 			"slot": "prop.gain-prop-protein",
 			"tinted": false,
 			"use": "Prop in clusters",
-			"zone": "gainlands",
-			"height": 2.3
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-PULLUP-FRAME": {
+			"aspect": 0.857,
+			"asset": "GAIN-PROP-PULLUP-FRAME",
+			"category": "Prop",
+			"cleared_alpha": 32277,
+			"desc": "A pull-up frame: two dark iron posts on flat feet, a steel bar across the top, two gymnastic rings hanging on short ropes.",
+			"from_px": [
+				1182,
+				1330
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-PULLUP-FRAME",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1062,
+				1239
+			],
+			"sheet_status": "Requested",
+			"size": "2.4 m wide, 2.7 m tall",
+			"slot": "prop.gain-prop-pullup-frame",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-PYLON": {
+			"asset": "GAIN-PROP-PYLON",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-PROP-PYLON.jpg",
+			"desc": "A storybook power pylon: a four-legged dark iron lattice tower with X-bracing, a wide crossarm near the top with three cream ceramic insulators hanging down, a short peak, standing on a square sandstone plinth (no cables).",
+			"from_px": [
+				1024,
+				1536
+			],
+			"group": "concept",
+			"id": "GAIN-PROP-PYLON",
+			"lock": "CONCEPT",
+			"priority": "2",
+			"px": [
+				1024,
+				1536
+			],
+			"sheet_status": "Requested",
+			"size": "16 m tall, 2.8 m base",
+			"slot": "concept.gain-prop-pylon",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
 		},
 		"GAIN-PROP-RACK": {
 			"aspect": 1.085,
@@ -539,11 +1067,12 @@
 				1024
 			],
 			"group": "prop",
+			"height": 1.9,
 			"id": "GAIN-PROP-RACK",
 			"lock": "CUTOUT",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "3",
 			"px": [
@@ -555,8 +1084,195 @@
 			"slot": "prop.gain-prop-rack",
 			"tinted": false,
 			"use": "Prop in clusters",
-			"zone": "gainlands",
-			"height": 1.9
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-ROPE-STATION": {
+			"aspect": 0.5,
+			"asset": "GAIN-PROP-ROPE-STATION",
+			"category": "Prop",
+			"cleared_alpha": 25008,
+			"desc": "A climbing-rope station: a timber post with a crossbeam, a thick hemp rope hanging from it to the ground with a coil of spare rope at its foot.",
+			"from_px": [
+				916,
+				1717
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-ROPE-STATION",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				727,
+				1455
+			],
+			"sheet_status": "Requested",
+			"size": "1.6 m wide, 3 m tall",
+			"slot": "prop.gain-prop-rope-station",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-SLED-TRACK": {
+			"aspect": 1.669,
+			"asset": "GAIN-PROP-SLED-TRACK",
+			"category": "Prop",
+			"cleared_alpha": 13564,
+			"desc": "A sled-push track: two parallel dark rubber strips with white chalk lines, and a dark iron push sled with two upright handles and red and black plates on it at one end.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-SLED-TRACK",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1382,
+				828
+			],
+			"sheet_status": "Requested",
+			"size": "7 m long, 1.6 m wide",
+			"slot": "prop.gain-prop-sled-track",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-SQUAT-RACK": {
+			"aspect": 0.889,
+			"asset": "GAIN-PROP-SQUAT-RACK",
+			"category": "Prop",
+			"cleared_alpha": 66889,
+			"desc": "A sturdy outdoor squat rack: four dark iron uprights with hook holes, safety arms, a long steel barbell resting on the hooks loaded with red and black plates, rubber feet, a little chalk dust.",
+			"from_px": [
+				1178,
+				1335
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-SQUAT-RACK",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1158,
+				1302
+			],
+			"sheet_status": "Requested",
+			"size": "1.7 m wide, 2.4 m tall",
+			"slot": "prop.gain-prop-squat-rack",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-STAIRS": {
+			"asset": "GAIN-PROP-STAIRS",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-PROP-STAIRS.jpg",
+			"desc": "Wide dressed-sandstone stairs climbing a sandstone cliff to a fortress terrace: twelve cream steps between two stepped cheek walls with brass caps, lantern posts at the top.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "concept",
+			"id": "GAIN-PROP-STAIRS",
+			"lock": "CONCEPT",
+			"priority": "2",
+			"px": [
+				1536,
+				1024
+			],
+			"sheet_status": "Requested",
+			"size": "12 m wide, 8 m deep, 3.6 m rise",
+			"slot": "concept.gain-prop-stairs",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-STONE-SPAN": {
+			"asset": "GAIN-PROP-STONE-SPAN",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-PROP-STONE-SPAN.jpg",
+			"desc": "A short dressed-sandstone bridge over a canyon: a flat slab deck, low cream parapets with square end posts, one thick pier going down into blue water.",
+			"from_px": [
+				1484,
+				1060
+			],
+			"group": "concept",
+			"id": "GAIN-PROP-STONE-SPAN",
+			"lock": "CONCEPT",
+			"priority": "2",
+			"px": [
+				1484,
+				1060
+			],
+			"sheet_status": "Requested",
+			"size": "7 m long, 5 m wide",
+			"slot": "concept.gain-prop-stone-span",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-TIRE-PILE": {
+			"aspect": 1.877,
+			"asset": "GAIN-PROP-TIRE-PILE",
+			"category": "Prop",
+			"cleared_alpha": 14618,
+			"desc": "Two huge tractor tyres lying flat with a third one stacked on them, deep tread, a little dust, for tyre flips.",
+			"from_px": [
+				1536,
+				1024
+			],
+			"group": "prop",
+			"id": "GAIN-PROP-TIRE-PILE",
+			"lock": "CUTOUT",
+			"pivot": [
+				0.5,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1378,
+				734
+			],
+			"sheet_status": "Requested",
+			"size": "2.4 m wide, 0.8 m tall",
+			"slot": "prop.gain-prop-tire-pile",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"GAIN-PROP-TOWER-MILL": {
+			"asset": "GAIN-PROP-TOWER-MILL",
+			"category": "Hero landmark",
+			"concept": "res://docs/art/zone_kits/gainlands/concepts/GAIN-PROP-TOWER-MILL.jpg",
+			"desc": "A tall sandstone-country tower mill: an octagonal tapered tower with a dressed sandstone ground storey and an arched timber door, a red-brick second storey, warm plastered upper storeys with timber ribs, a wooden gallery round the top storey, a red conical cap with a gold knob, and four lattice sails with cream canvas on a dark iron hub.",
+			"from_px": [
+				1145,
+				1374
+			],
+			"group": "concept",
+			"id": "GAIN-PROP-TOWER-MILL",
+			"lock": "CONCEPT",
+			"priority": "2",
+			"px": [
+				1145,
+				1374
+			],
+			"sheet_status": "Requested",
+			"size": "4 storeys, about 14 m to the cap, sails 11 m across",
+			"slot": "concept.gain-prop-tower-mill",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
 		},
 		"GAIN-ROOF-CANVAS": {
 			"asset": "Striped canvas roof",
@@ -917,7 +1633,7 @@
 			"parent": "GAIN-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				503,
@@ -951,7 +1667,7 @@
 			"parent": "GAIN-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				674,
@@ -985,7 +1701,7 @@
 			"parent": "GAIN-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				605,
@@ -1019,7 +1735,7 @@
 			"parent": "GAIN-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				614,
@@ -1053,7 +1769,7 @@
 			"parent": "GAIN-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				508,
@@ -1087,7 +1803,7 @@
 			"parent": "GAIN-SHEET-DOORS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				581,
@@ -1151,7 +1867,7 @@
 			"lock": "CUTOUT",
 			"parent": "GAIN-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.493
 			],
 			"px": [
@@ -1185,7 +1901,7 @@
 			"lock": "CUTOUT",
 			"parent": "GAIN-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.524
 			],
 			"px": [
@@ -1219,7 +1935,7 @@
 			"lock": "CUTOUT",
 			"parent": "GAIN-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.52
 			],
 			"px": [
@@ -1253,7 +1969,7 @@
 			"lock": "CUTOUT",
 			"parent": "GAIN-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.5
 			],
 			"px": [
@@ -1287,7 +2003,7 @@
 			"lock": "CUTOUT",
 			"parent": "GAIN-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.501
 			],
 			"px": [
@@ -1321,7 +2037,7 @@
 			"lock": "CUTOUT",
 			"parent": "GAIN-SHEET-SIGNS",
 			"pivot": [
-				0,
+				0.0,
 				0.532
 			],
 			"px": [
@@ -1387,7 +2103,7 @@
 			"parent": "GAIN-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				618,
@@ -1402,8 +2118,8 @@
 			"slot": "window.gain-sheet-windows-01",
 			"tinted": false,
 			"use": "Sliced into kit cutouts (windows)",
-			"zone": "gainlands",
-			"width": 1.5
+			"width": 1.5,
+			"zone": "gainlands"
 		},
 		"GAIN-SHEET-WINDOWS-02": {
 			"aspect": 1.162,
@@ -1422,7 +2138,7 @@
 			"parent": "GAIN-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				683,
@@ -1437,8 +2153,8 @@
 			"slot": "window.gain-sheet-windows-02",
 			"tinted": false,
 			"use": "Sliced into kit cutouts (windows)",
-			"zone": "gainlands",
-			"width": 2.1
+			"width": 2.1,
+			"zone": "gainlands"
 		},
 		"GAIN-SHEET-WINDOWS-03": {
 			"aspect": 1.052,
@@ -1457,7 +2173,7 @@
 			"parent": "GAIN-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				630,
@@ -1472,8 +2188,8 @@
 			"slot": "window.gain-sheet-windows-03",
 			"tinted": false,
 			"use": "Sliced into kit cutouts (windows)",
-			"zone": "gainlands",
-			"width": 1.6
+			"width": 1.6,
+			"zone": "gainlands"
 		},
 		"GAIN-SHEET-WINDOWS-04": {
 			"aspect": 0.996,
@@ -1492,7 +2208,7 @@
 			"parent": "GAIN-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				560,
@@ -1507,8 +2223,8 @@
 			"slot": "window.gain-sheet-windows-04",
 			"tinted": false,
 			"use": "Sliced into kit cutouts (windows)",
-			"zone": "gainlands",
-			"width": 1.7
+			"width": 1.7,
+			"zone": "gainlands"
 		},
 		"GAIN-SHEET-WINDOWS-05": {
 			"aspect": 0.967,
@@ -1527,7 +2243,7 @@
 			"parent": "GAIN-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				562,
@@ -1542,8 +2258,8 @@
 			"slot": "window.gain-sheet-windows-05",
 			"tinted": false,
 			"use": "Sliced into kit cutouts (windows)",
-			"zone": "gainlands",
-			"width": 2
+			"width": 2.0,
+			"zone": "gainlands"
 		},
 		"GAIN-SHEET-WINDOWS-06": {
 			"aspect": 1.134,
@@ -1562,7 +2278,7 @@
 			"parent": "GAIN-SHEET-WINDOWS",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"px": [
 				611,
@@ -1577,11 +2293,11 @@
 			"slot": "window.gain-sheet-windows-06",
 			"tinted": false,
 			"use": "Sliced into kit cutouts (windows)",
-			"zone": "gainlands",
-			"width": 1.8
+			"width": 1.8,
+			"zone": "gainlands"
 		},
 		"GAIN-SKY-NOON": {
-			"aspect": 2,
+			"aspect": 2.0,
 			"asset": "Midday sky",
 			"category": "Sky / backdrop",
 			"desc": "Saturated blue with white clouds. Wide, soft, no hard horizon objects in the middle.",
@@ -1594,7 +2310,7 @@
 			"lock": "BACKDROP",
 			"pivot": [
 				0.5,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
@@ -1609,6 +2325,35 @@
 			"use": "Zone sky",
 			"zone": "gainlands"
 		},
+		"GAIN-TREE-CYPRESS": {
+			"aspect": 0.232,
+			"asset": "GAIN-TREE-CYPRESS",
+			"category": "Tree / plant",
+			"cleared_alpha": 15127,
+			"desc": "A tall narrow cypress: a dark green flame-shaped column on a short brown trunk, slightly irregular painted foliage.",
+			"from_px": [
+				941,
+				1672
+			],
+			"group": "tree",
+			"id": "GAIN-TREE-CYPRESS",
+			"lock": "TREE",
+			"pivot": [
+				0.541,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				345,
+				1485
+			],
+			"sheet_status": "Requested",
+			"size": "6.5 m tall, 2 m wide",
+			"slot": "tree.gain-tree-cypress",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
 		"GAIN-TREE-OAK": {
 			"aspect": 0.866,
 			"asset": "Gym-yard oak",
@@ -1620,11 +2365,12 @@
 				1536
 			],
 			"group": "tree",
+			"height": 6.2,
 			"id": "GAIN-TREE-OAK",
 			"lock": "TREE",
 			"pivot": [
 				0.56,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
@@ -1636,8 +2382,7 @@
 			"slot": "tree.gain-tree-oak",
 			"tinted": false,
 			"use": "Tree card in the zone",
-			"zone": "gainlands",
-			"height": 6.2
+			"zone": "gainlands"
 		},
 		"GAIN-TREE-PINE": {
 			"aspect": 0.659,
@@ -1650,11 +2395,12 @@
 				1536
 			],
 			"group": "tree",
+			"height": 7.0,
 			"id": "GAIN-TREE-PINE",
 			"lock": "TREE",
 			"pivot": [
 				0.513,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
@@ -1666,8 +2412,7 @@
 			"slot": "tree.gain-tree-pine",
 			"tinted": false,
 			"use": "Tree card in the zone",
-			"zone": "gainlands",
-			"height": 7
+			"zone": "gainlands"
 		},
 		"GAIN-TREE-SKY": {
 			"aspect": 0.813,
@@ -1680,11 +2425,12 @@
 				1536
 			],
 			"group": "tree",
+			"height": 6.4,
 			"id": "GAIN-TREE-SKY",
 			"lock": "TREE",
 			"pivot": [
 				0.558,
-				1
+				1.0
 			],
 			"priority": "2",
 			"px": [
@@ -1696,8 +2442,36 @@
 			"slot": "tree.gain-tree-sky",
 			"tinted": false,
 			"use": "Tree card in the Sky Garden",
-			"zone": "gainlands",
-			"height": 6.4
+			"zone": "gainlands"
+		},
+		"GAIN-TREE-WINDBENT": {
+			"aspect": 1.212,
+			"asset": "GAIN-TREE-WINDBENT",
+			"category": "Tree / plant",
+			"cleared_alpha": 58557,
+			"desc": "A hardy dry-land tree bent by the wind: a twisted trunk leaning to the right, a flattened, swept olive-green crown streaming to the right, a few bare twigs, sparse dry grass at its foot.",
+			"from_px": [
+				1312,
+				1199
+			],
+			"group": "tree",
+			"id": "GAIN-TREE-WINDBENT",
+			"lock": "TREE",
+			"pivot": [
+				0.311,
+				1.0
+			],
+			"priority": "2",
+			"px": [
+				1247,
+				1029
+			],
+			"sheet_status": "Requested",
+			"size": "5 m tall, 5 m wide",
+			"slot": "tree.gain-tree-windbent",
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
 		},
 		"GAIN-TRIM-BRASS": {
 			"asset": "Brass trim",
@@ -1852,109 +2626,196 @@
 			"zone": "gainlands"
 		},
 		"TEX-GAIN-CHALKDIRT": {
-			"id": "TEX-GAIN-CHALKDIRT",
-			"zone": "gainlands",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-gain-chalkdirt",
-			"placeholder": "tex:gain_chalkdirt",
-			"tile": 3,
-			"tinted": true,
 			"alias": true,
-			"desc": "Chalk-dusted dirt (painted texture set)",
 			"asset": "Chalk-dusted dirt (painted texture set)",
 			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)"
+			"desc": "Chalk-dusted dirt (painted texture set)",
+			"group": "ground",
+			"id": "TEX-GAIN-CHALKDIRT",
+			"lock": "SURFACE",
+			"placeholder": "tex:gain_chalkdirt",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-gain-chalkdirt",
+			"tile": 3.0,
+			"tinted": true,
+			"zone": "gainlands"
+		},
+		"TEX-GAIN-DRY-SCRUB": {
+			"asset": "TEX-GAIN-DRY-SCRUB",
+			"category": "Surface",
+			"desc": "A seamless tileable texture of dry sandy ground with sparse tufts of straw-coloured grass and small pebbles, seen from straight above; even lighting, square 1024 x 1024 (not transparent).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "TEX-GAIN-DRY-SCRUB",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {},
+			"sheet_status": "Requested",
+			"size": "tiles every 3 m",
+			"slot": "prop.tex-gain-dry-scrub",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": false,
+			"tile_y": false,
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
+		},
+		"TEX-GAIN-FLAGSTONE-ROAD": {
+			"asset": "TEX-GAIN-FLAGSTONE-ROAD",
+			"category": "Surface",
+			"desc": "A seamless tileable texture of a road paved with warm sandstone flagstones, irregular rounded slabs in cream, tan and pale grey with sandy joints and a few small cracks, seen from straight above; even lighting, square 1024 x 1024 (not transparent).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "TEX-GAIN-FLAGSTONE-ROAD",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {},
+			"sheet_status": "Requested",
+			"size": "tiles every 3 m",
+			"slot": "prop.tex-gain-flagstone-road",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": false,
+			"tile_y": false,
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
 		},
 		"TEX-GAIN-GRASS": {
-			"id": "TEX-GAIN-GRASS",
-			"zone": "gainlands",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-gain-grass",
-			"placeholder": "tex:gain_grass",
-			"tile": 3,
-			"tinted": true,
 			"alias": true,
-			"desc": "Sunny meadow grass (painted texture set)",
 			"asset": "Sunny meadow grass (painted texture set)",
 			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)"
+			"desc": "Sunny meadow grass (painted texture set)",
+			"group": "ground",
+			"id": "TEX-GAIN-GRASS",
+			"lock": "SURFACE",
+			"placeholder": "tex:gain_grass",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-gain-grass",
+			"tile": 3.0,
+			"tinted": true,
+			"zone": "gainlands"
 		},
 		"TEX-GAIN-GYMMAT": {
-			"id": "TEX-GAIN-GYMMAT",
-			"zone": "gainlands",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-gain-gymmat",
-			"placeholder": "tex:gain_gymmat",
-			"tile": 2.6,
-			"tinted": false,
 			"alias": true,
-			"desc": "Gym mat (painted texture set)",
 			"asset": "Gym mat (painted texture set)",
 			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)"
+			"desc": "Gym mat (painted texture set)",
+			"group": "ground",
+			"id": "TEX-GAIN-GYMMAT",
+			"lock": "SURFACE",
+			"placeholder": "tex:gain_gymmat",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-gain-gymmat",
+			"tile": 2.6,
+			"tinted": false,
+			"zone": "gainlands"
 		},
 		"TEX-GAIN-HAY": {
-			"id": "TEX-GAIN-HAY",
-			"zone": "gainlands",
-			"lock": "SURFACE",
-			"group": "ground",
-			"slot": "ground.tex-gain-hay",
-			"placeholder": "tex:gain_hay",
-			"tile": 3,
-			"tinted": true,
 			"alias": true,
-			"desc": "Hay and straw ground (painted texture set)",
 			"asset": "Hay and straw ground (painted texture set)",
 			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)"
+			"desc": "Hay and straw ground (painted texture set)",
+			"group": "ground",
+			"id": "TEX-GAIN-HAY",
+			"lock": "SURFACE",
+			"placeholder": "tex:gain_hay",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "ground.tex-gain-hay",
+			"tile": 3.0,
+			"tinted": true,
+			"zone": "gainlands"
 		},
 		"TEX-GAIN-ISLANDROCK": {
-			"id": "TEX-GAIN-ISLANDROCK",
-			"zone": "gainlands",
-			"lock": "SURFACE",
-			"group": "wall",
-			"slot": "wall.tex-gain-islandrock",
-			"placeholder": "tex:gain_islandrock",
-			"tile": 4,
-			"tinted": false,
 			"alias": true,
-			"desc": "Floating island rock (painted texture set)",
 			"asset": "Floating island rock (painted texture set)",
 			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)"
+			"desc": "Floating island rock (painted texture set)",
+			"group": "wall",
+			"id": "TEX-GAIN-ISLANDROCK",
+			"lock": "SURFACE",
+			"placeholder": "tex:gain_islandrock",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "wall.tex-gain-islandrock",
+			"tile": 4.0,
+			"tinted": false,
+			"zone": "gainlands"
+		},
+		"TEX-GAIN-SANDSTONE-CLIFF": {
+			"asset": "TEX-GAIN-SANDSTONE-CLIFF",
+			"category": "Surface",
+			"desc": "A seamless tileable texture of a warm sandstone cliff face seen straight on: horizontal strata in tan, peach and rust bands, blocky fractured ledges and shelves, small dark cracks, no plants; even lighting, no strong shadows, square 1024 x 1024 (this one is NOT transparent).",
+			"from_px": [
+				1024,
+				1024
+			],
+			"group": "prop",
+			"id": "TEX-GAIN-SANDSTONE-CLIFF",
+			"lock": "SURFACE",
+			"maps": true,
+			"priority": "2",
+			"px": [
+				1024,
+				1024
+			],
+			"seam": {},
+			"sheet_status": "Requested",
+			"size": "tiles every 4 m",
+			"slot": "prop.tex-gain-sandstone-cliff",
+			"tile_u": 2.56,
+			"tile_v": 2.56,
+			"tile_x": false,
+			"tile_y": false,
+			"tinted": false,
+			"use": "Requested in docs/art/zone_kits/gainlands_v2_requests.md",
+			"zone": "gainlands"
 		},
 		"TEX-MAT-BARK": {
-			"id": "TEX-MAT-BARK",
-			"zone": "gainlands",
-			"lock": "SURFACE",
-			"group": "trim",
-			"slot": "trim.tex-mat-bark",
-			"placeholder": "tex:mat_bark",
-			"tile": 2,
-			"tinted": false,
 			"alias": true,
-			"desc": "Bark (shared painted material)",
 			"asset": "Bark (shared painted material)",
 			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)"
+			"desc": "Bark (shared painted material)",
+			"group": "trim",
+			"id": "TEX-MAT-BARK",
+			"lock": "SURFACE",
+			"placeholder": "tex:mat_bark",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "trim.tex-mat-bark",
+			"tile": 2.0,
+			"tinted": false,
+			"zone": "gainlands"
 		},
 		"TEX-MAT-LEAVES": {
-			"id": "TEX-MAT-LEAVES",
-			"zone": "gainlands",
-			"lock": "SURFACE",
-			"group": "tree",
-			"slot": "tree.tex-mat-leaves",
-			"placeholder": "tex:mat_leaves",
-			"tile": 2,
-			"tinted": false,
 			"alias": true,
-			"desc": "Leaves (shared painted material)",
 			"asset": "Leaves (shared painted material)",
 			"category": "Painted texture (alias)",
-			"sheet_status": "in game (data/source/textures.csv)"
+			"desc": "Leaves (shared painted material)",
+			"group": "tree",
+			"id": "TEX-MAT-LEAVES",
+			"lock": "SURFACE",
+			"placeholder": "tex:mat_leaves",
+			"sheet_status": "in game (data/source/textures.csv)",
+			"slot": "tree.tex-mat-leaves",
+			"tile": 2.0,
+			"tinted": false,
+			"zone": "gainlands"
 		}
 	},
 	"zone": "gainlands"
