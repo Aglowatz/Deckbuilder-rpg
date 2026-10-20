@@ -33,14 +33,22 @@ static func zone_of(scene_id: String) -> String:
 	return str((SCENES.get(scene_id, {}) as Dictionary).get("zone", ""))
 
 
-## [{n, fx, key, speaker_key}] for `scene_id`.
-static func beats(scene_id: String) -> Array[Dictionary]:
+## The Wanderer's lines in the Primm fight that quote the four leaders' lessons. Overnight Oct 19: the Capital is open from the start, so a
+## hero who storms the castle before freeing all four zones says `<key>.rushed` instead (his own words, no quotes from leaders he never met).
+const RUSHED_KEYS: Array[String] = ["cutscene.primm_p1.2", "cutscene.primm_p2.2", "cutscene.primm_end.3"]
+
+
+## [{n, fx, key, speaker_key}] for `scene_id`. `rushed`: fewer than four zones are freed (see RUSHED_KEYS).
+static func beats(scene_id: String, rushed: bool = false) -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for entry: Variant in ((SCENES.get(scene_id, {}) as Dictionary).get("beats", []) as Array):
 		var pair: Array = entry as Array
+		var key: String = "cutscene.%s.%d" % [scene_id, int(pair[0])]
+		if rushed and RUSHED_KEYS.has(key):
+			key += ".rushed"
 		result.append({
 			"n": int(pair[0]), "fx": str(pair[1]),
-			"key": "cutscene.%s.%d" % [scene_id, int(pair[0])],
+			"key": key,
 			"speaker_key": "cutscene.%s.%d.speaker" % [scene_id, int(pair[0])],
 		})
 	return result

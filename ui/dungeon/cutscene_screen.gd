@@ -108,7 +108,7 @@ func _ready() -> void:
 	if not cue.is_empty():
 		_music_token = Audio.push_music(StringName(cue), 1.0, false)
 	_story = ZoneStoryText.for_zone(CutsceneDefs.zone_of(scene_id))
-	_beats = CutsceneDefs.beats(scene_id)
+	_beats = CutsceneDefs.beats(scene_id, Session.completed_zone_count() < 4)
 	var stage: Dictionary = STAGES.get(scene_id, STAGES["reveal"]) as Dictionary
 	var backdrop: ColorRect = ColorRect.new()
 	backdrop.color = (stage["tint"] as Color).darkened(0.1)

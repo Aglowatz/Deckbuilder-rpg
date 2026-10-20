@@ -117,3 +117,9 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - Stale (not tonight's regressions, logged for the user): `run_final_flow_smoke.sh` (still looks for the forest's hidden tunnel, removed by
   the Oct 18 Opening Forest rebuild) and `run_fourth_brief_final_smoke.sh` (reads `LevelUpScreen._child_screen`, gone since the Oct 17
   LevelUpScreen rewrite). The old per-brief smokes are superseded by the playtest / release / walk smokes listed in CLAUDE.md.
+
+## Cycle 20 - Dialogue & story (9): storming the castle early
+- The Capital is open from the start, so a hero can reach Primm with fewer than four zones freed - and then quoted the four leaders'
+  lessons he had never heard. `CutsceneDefs.beats(scene_id, rushed)` swaps the three lesson lines (`RUSHED_KEYS`) for `.rushed` variants
+  in the Wanderer's own words when `Session.completed_zone_count() < 4`; with all four freed nothing changes. Test
+  `tests/core/dungeon/test_primm_rushed_lines.gd`; finale + fit tests OK.
