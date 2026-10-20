@@ -48,3 +48,9 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 ## Cycle 8 - Onboarding (8.5): the cave run on a third seed - measured, no change
 - 100 runs per Path at seed 9200: B 92 / G 84 / R 84 / N 90 (matches 7000/8100 within noise). Gourmand and Refusemancer at the target's
   bottom edge; logged in balance_log.md. Onboarding stays 8.5 (first talks shorter, opening rewritten, cave confirmed on three seeds).
+
+## Cycle 9 - bots + Dialogue & story: freed-zone barks
+- Bots (cycles 5-8 done): story bot 73/73.
+- `ZoneStoryText.get_lines` already prefers `<key>.freed` once the zone is freed, so new keys alone fix stale lines: the Dump's three
+  terrace workers (`bark.worker_1..3.freed`: green trees, flowers that smell like flowers, the Archdruid on her rounds) and the D.N.A.'s Kyle
+  (`npc.matching.return.freed`) and Director Ectomund (`npc.quiz.return.freed`). Dialogue tests OK. Dialogue & story 8 -> 8.5.
