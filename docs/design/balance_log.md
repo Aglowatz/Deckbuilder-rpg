@@ -941,3 +941,9 @@ the finale as designed. Most runs are lost in phase 2 (reflection). No change: i
 `--what=tutorial --games=50 --seed=9200` (100 runs per Path, `docs/design/sim/oct19n_tutorial_9200.md`): Beefcake 92%, Gourmand 84%,
 Refusemancer 84%, Necrocrat 90% (seeds 7000/8100 gave ~95 / ~87 / ~87 / ~87). Three seeds agree: Gourmand and Refusemancer sit at the
 bottom edge of the 85-100% target (most losses at the Mossy Gallery and the Warden); no change tonight.
+
+## Overnight Oct 19 - Gainlands roamers at level 5 (measured, no change)
+
+12 games per Path (`docs/design/sim/oct19n_gainlands_roamers.md`): Flexing Brute 69% (B 100 / N 33 / G 58 / R 83), Protein Shake Golem 65%
+(B 83 / N 50 / G 58 / R 67), target 80-100%. The number levers are spent (Daytime cycle 13); the next step is deck content (replays) or
+a design call on the Beefcake/Necrocrat rivalry (Necrocrat players are warned on arrival and pointed to the D.N.A.). Left for the user.

@@ -41,8 +41,9 @@ void vertex() {
 	float side = length(origin.xz - closest);
 	float reach = fade_reach + near_reach * (1.0 - t);
 	float corridor = 1.0 - smoothstep(half_w * 0.6, half_w + reach, side);
-	// only pieces that stand at least a little before the hero (in metres, not a fraction of the distance)
-	float in_front = 1.0 - smoothstep(ab_len - 0.9, ab_len - 0.25, t_raw * ab_len);
+	// only pieces that stand at least a little before the hero (in metres, not a fraction of the distance). Overnight Oct 19: the ramp is 0.45 -> 0.05 m
+	// (was 0.9 -> 0.25): with full-height walls a hero pressed against a wall (its centre ~0.5 m in front) stayed two-thirds hidden behind it
+	float in_front = 1.0 - smoothstep(ab_len - 0.45, ab_len - 0.05, t_raw * ab_len);
 	float sight_y = mix(cam.y, hero.y, t);
 	float covers = (1.0 - smoothstep(top - 0.3, top + 0.35, sight_y)) * smoothstep(bottom - 0.6, bottom + 0.05, sight_y);
 	float enabled = step(-999.0, hero_pos.y);

@@ -78,3 +78,11 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
   gatekeeper barks true before and after their zone is freed, seven barks that copied story text. `sample_line` = barks[0] kept in sync,
   `tools/npc_truth_input.json` too (a re-run of the tool keeps them). Fig Sly untouched. NPC tests 23/23.
 - Part 1 coverage note: the nine grid cameras are exactly the V (Cinematic / Classic / Overview) x F (1.2 / 1.5 / 1.9) presets.
+
+## Cycle 14 - Visuals (8.5): the D.N.A. walk frames re-checked after Part 1
+- Looked at the walk smoke's breakroom frames (`w_05_gerald`, `w_06_coffee`): the hero seemed missing; shots at the smoke's exact positions
+  ((26, 52), (23, 52)) and at the Cinematic camera show the hero visible - in the smoke's camera the hero stands right in front of Gerald /
+  the coffee urn and the sprites overlap. Not a bug.
+- Found on the way: the per-piece fade only fully fades a wall piece whose centre is >= 0.9 m in front of the hero along the sight line, so
+  a hero pressed against a 4.5 m wall was only ~1/3 faded. The ramp is now 0.45 -> 0.05 m (`dna_fade.gdshader`). Walk smoke OK; D.N.A.
+  tests OK; shots `_screenshots/oct19n_c14_*.png`.
