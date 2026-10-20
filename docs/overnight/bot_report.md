@@ -1,6 +1,6 @@
 # Bot report
 
-Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-20T01:44:04, 8.6 minutes.
+Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd`) on 2026-10-20T02:44:54, 8.5 minutes.
 
 - Areas: forest, town, beefcake, necrocrat, gourmand, refusemancer, capital
 - Spots used (NPCs, shops, signs, chests...): 275
@@ -12,54 +12,54 @@ Written by the playthrough bot (`bash tools/run_tour_bot.sh`, `tools/tour_bot.gd
 
 | Area | Frames | Over 33 ms | Worst (ms) |
 |---|---|---|---|
-| forest | 58 | 2 | 55 |
-| town | 2812 | 61 | 169 |
-| beefcake | 2521 | 19 | 81 |
+| forest | 60 | 1 | 54 |
+| town | 2793 | 64 | 155 |
+| beefcake | 2532 | 15 | 74 |
 | beefcake battle | 241 | 0 | 17 |
-| necrocrat | 3087 | 18 | 79 |
+| necrocrat | 3099 | 16 | 67 |
 | necrocrat battle | 241 | 0 | 18 |
-| gourmand | 2684 | 14 | 75 |
+| gourmand | 2694 | 12 | 69 |
 | gourmand battle | 241 | 0 | 18 |
-| refusemancer | 3999 | 22 | 82 |
+| refusemancer | 4015 | 18 | 66 |
 | refusemancer battle | 241 | 0 | 18 |
-| final | 8529 | 41 | 129 |
-| final battle | 241 | 0 | 19 |
+| final | 8547 | 39 | 107 |
+| final battle | 241 | 0 | 18 |
 
 ## Slowest moments (worst frame during one action)
 
-- town: open deck_station: 169 ms
-- town: use pack_vendor: 153 ms
-- town: use deck: 140 ms
-- final: use seal_out_a: 129 ms
-- final: use complaint_1: 125 ms
-- final: use fig: 124 ms
-- town: open full_map: 103 ms
-- town: use vendor: 99 ms
-- town: open vendor (again): 97 ms
-- town: use item_vendor: 89 ms
-- town: use well: 88 ms
-- refusemancer: use hob: 82 ms
-- beefcake: use tony: 81 ms
-- final: use sign_1: 81 ms
-- beefcake: use minigame: 79 ms
+- town: use pack_vendor: 155 ms
+- town: use deck: 127 ms
+- town: open vendor (again): 124 ms
+- town: open deck_station: 120 ms
+- town: use well: 109 ms
+- final: use seal_out_a: 107 ms
+- town: open full_map: 91 ms
+- final: use fig: 90 ms
+- town: use tailor: 87 ms
+- final: use lost_poster_0: 87 ms
+- final: use kestrel: 81 ms
+- final: use sign_1: 79 ms
+- final: use sign_34: 78 ms
+- final: use spotless: 78 ms
+- beefcake: use spot_me: 74 ms
 
 ## Where the slow frames are (frames over 33 ms per action, top 15)
 
-- town: open vendor: 8
-- town: open vendor (again): 7
-- town: use deck: 6
-- final: use wren: 4
-- necrocrat: use pip: 4
-- town: use equipment_vendor: 4
-- refusemancer: use hob: 3
-- final: use fig: 3
-- gourmand: use minigame: 3
-- final: use spotless: 3
+- town: open vendor: 9
+- town: use deck: 7
+- town: use equipment_vendor: 5
+- town: open vendor (again): 4
+- necrocrat: use dolores: 4
+- final: use fig: 4
+- refusemancer: use hob: 4
+- town: use vendor: 4
 - town: use item_vendor: 3
-- gourmand: use dolcetta: 3
+- refusemancer: use minigame: 3
+- necrocrat: use matching: 3
 - beefcake: use quiz: 3
-- town: use vendor: 3
-- necrocrat: use dolores: 3
+- refusemancer: use marigold: 2
+- town: open item_vendor: 2
+- beefcake: use brenda: 2
 
 ## Errors
 

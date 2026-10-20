@@ -150,3 +150,9 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
   gate (`manhole`; was Wren, who is underground behind it). Left: Untidy's step 2 points at the Sick Patch (its hint says "find the jar of
   old seed first"). Dialogue directions fixed: Widow Pell's plot is at the north end of Grave Row (not "by the east wall"); Old Fern's Sick
   Patch is in the Reek (not "by the market"). Quest tests 123/123; dialogue tests OK.
+
+## Cycle 25 - bots (after cycles 21-24)
+- Tour bot OK (275 spots, 9 menus, 5 battles, 0 errors, 0 warnings). The story bot, started in the same call, was stopped by Claude Code's
+  low-memory guard (the call ran past the foreground limit and moved to the background); its orphaned Godot window was closed. Not
+  restarted on my own, per the guard's rule: it passed 73/73 after cycle 22, and cycles 23-24 changed only quest-log strings, three marker
+  targets and two dialogue lines (quest tests 123/123). Lesson (again): one Godot run per foreground call.
