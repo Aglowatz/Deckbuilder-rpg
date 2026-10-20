@@ -32,28 +32,28 @@ const GIVERS: Dictionary = {
 	"side_s_ref": ["refusemancer", "marigold"], "side_s_cap": ["final", "kestrel"], "side_s_town": ["town", "elder"],
 }
 const TARGETS: Dictionary = {
-	"dna_backlog": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Roaming staff wander every floor of the D.N.A."]],
+	"dna_backlog": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Roaming staff wander every floor"]],
 	"dna_onboarding": [[QuestObjective.TargetKind.SPOT, "necrocrat", "time_clock", "The time clock by the front desk"], [QuestObjective.TargetKind.SPOT, "necrocrat", "coffee", "The breakroom coffee machine"]],
 	"dna_audit": [[QuestObjective.TargetKind.NPC, "necrocrat", "quiz", "Director Ectomund, Compliance Examiner"], [QuestObjective.TargetKind.SPOT, "necrocrat", "", "Hidden stashes lurk in the filing mazes"]],
-	"gain_power": [[QuestObjective.TargetKind.SPOT, "beefcake", "run_wheel", "The Colossal Hamster Wheel"], [QuestObjective.TargetKind.SPOT, "beefcake", "protein_stand", "The protein shake stand"]],
-	"gain_spot_me": [[QuestObjective.TargetKind.NPC, "beefcake", "spot_me", "Gary, under a barbell (again)"], [QuestObjective.TargetKind.SPOT, "beefcake", "flex_mirror", "A Flex Mirror"]],
-	"gain_lanes": [[QuestObjective.TargetKind.BATTLE, "beefcake", "", "Brutes, golems and sprites roam the Gainlands"]],
-	"buf_pantry": [[QuestObjective.TargetKind.ITEM_COUNT, "gourmand", "", "Ingredients sparkle all over the Buffet"]],
-	"buf_pie": [[QuestObjective.TargetKind.SPOT, "gourmand", "oven", "The Grand Oven"]],
-	"buf_mend": [[QuestObjective.TargetKind.SPOT, "gourmand", "old_meatloaf", "Old Meatloaf, out of order in the Grand Pantry"]],
+	"gain_power": [[QuestObjective.TargetKind.SPOT, "beefcake", "run_wheel", "The Colossal Hamster Wheel, up the hill"], [QuestObjective.TargetKind.SPOT, "beefcake", "protein_stand", "The protein shake stand in the Swole Station"]],
+	"gain_spot_me": [[QuestObjective.TargetKind.NPC, "beefcake", "spot_me", "Gary, under a barbell again. Follow the groaning."], [QuestObjective.TargetKind.SPOT, "beefcake", "flex_mirror", "A Flex Mirror, at the Station or up on Pec Perch"]],
+	"gain_lanes": [[QuestObjective.TargetKind.BATTLE, "beefcake", "", "Brutes, golems and sprites roam the open ground"]],
+	"buf_pantry": [[QuestObjective.TargetKind.ITEM_COUNT, "gourmand", "", "Truffle by the broccoli, salt by the river, honey up the Butte"]],
+	"buf_pie": [[QuestObjective.TargetKind.SPOT, "gourmand", "oven", "The Grand Oven, by the arch"]],
+	"buf_mend": [[QuestObjective.TargetKind.SPOT, "gourmand", "old_meatloaf", "Old Meatloaf, by the west wall of the Grand Pantry"]],
 	"heap_herd": [[QuestObjective.TargetKind.SPOT, "refusemancer", "", "Escaped animals graze out in the fields"]],
-	"heap_fert": [[QuestObjective.TargetKind.ITEM_COUNT, "refusemancer", "", "Fertilizer sacks lie around the Dump"]],
-	"heap_dam": [[QuestObjective.TargetKind.SPOT, "refusemancer", "stable_1", "Borrow a charging mount from the stables"]],
-	"cap_burial": [[QuestObjective.TargetKind.SPOT, "final", "permit_window", "Grave Row"], [QuestObjective.TargetKind.SPOT, "final", "pell_plot", "The Pell family plot"]],
-	"cap_wheels": [[QuestObjective.TargetKind.SPOT, "final", "", "The wheel crews of the Transit Yards"], [QuestObjective.TargetKind.SPOT, "final", "cable", "The main power cable"]],
-	"cap_recipes": [[QuestObjective.TargetKind.ITEM_COUNT, "final", "", "Recipe cards hidden around the Hungry Quarter"], [QuestObjective.TargetKind.SPOT, "final", "dispenser", "The Perfect Nutrient Paste dispenser"]],
-	"cap_untidy": [[QuestObjective.TargetKind.SPOT, "final", "", "Banished compost heaps in the Reek"], [QuestObjective.TargetKind.SPOT, "final", "sick_patch", "The Sick Patch"]],
-	"side_s_beef": [[QuestObjective.TargetKind.SPOT, "beefcake", "protein_stand", "The protein shake stand"]],
-	"side_s_gour": [[QuestObjective.TargetKind.SPOT, "gourmand", "", "Hidden stashes around the Buffet"]],
-	"side_s_necro": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Roaming staff on the D.N.A. floors"]],
-	"side_s_ref": [[QuestObjective.TargetKind.BATTLE, "refusemancer", "", "Scavengers prowl the Dump"]],
-	"side_s_cap": [[QuestObjective.TargetKind.NPC, "final", "wren", "The resistance hideout in the Crease"]],
-	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", "", "A hidden chest somewhere in Crosspath"]],
+	"heap_fert": [[QuestObjective.TargetKind.ITEM_COUNT, "refusemancer", "", "Try the fields, the east edge and across the stream"]],
+	"heap_dam": [[QuestObjective.TargetKind.SPOT, "refusemancer", "stable_2", "The stables: borrow a mount, then charge the dam"]],
+	"cap_burial": [[QuestObjective.TargetKind.SPOT, "final", "pickup_stamp", "Grave Row: the stamp lies north of the permit office"], [QuestObjective.TargetKind.SPOT, "final", "pell_plot", "The Pell family plot, at the north end of Grave Row"]],
+	"cap_wheels": [[QuestObjective.TargetKind.SPOT, "final", "", "The energy wheels along the Transit Yards wall"], [QuestObjective.TargetKind.SPOT, "final", "cable", "The main power cable, in the Transit Yards"]],
+	"cap_recipes": [[QuestObjective.TargetKind.ITEM_COUNT, "final", "", "Recipe cards hidden around the Hungry Quarter"], [QuestObjective.TargetKind.SPOT, "final", "dispenser", "The paste dispenser, in the Hungry Quarter"]],
+	"cap_untidy": [[QuestObjective.TargetKind.SPOT, "final", "", "Banished heaps hide in the Reek's cellars and yards"], [QuestObjective.TargetKind.SPOT, "final", "sick_patch", "The Sick Patch in the Reek. Find the jar of old seed first"]],
+	"side_s_beef": [[QuestObjective.TargetKind.SPOT, "beefcake", "protein_stand", "The protein shake stand in the Swole Station"]],
+	"side_s_gour": [[QuestObjective.TargetKind.SPOT, "gourmand", "", "Hidden stashes have no marker: check the odd corners"]],
+	"side_s_necro": [[QuestObjective.TargetKind.BATTLE, "necrocrat", "", "Roaming staff wander every floor"]],
+	"side_s_ref": [[QuestObjective.TargetKind.BATTLE, "refusemancer", "", "Scavengers prowl the junk heaps"]],
+	"side_s_cap": [[QuestObjective.TargetKind.SPOT, "final", "manhole", "The manhole near the gate: knock three times"]],
+	"side_s_town": [[QuestObjective.TargetKind.SPOT, "town", "", "A hidden chest in one of Crosspath's odd corners"]],
 }
 ## Quest id -> {"equipment": [ids]} paid on top of the quest's own rewards (Block 2's pieces).
 const EXTRA_REWARDS: Dictionary = {"gain_power": {"equipment": ["kettlebell_locket"]}}
@@ -100,7 +100,7 @@ static func _backlog() -> QuestData:
 	quest.summary = "Agnes Overdue's backlog has gone feral and is wandering the floors. Process three roaming staff members. By duel. Per policy."
 	quest.giver_npc = DnaZone.NPC_DOLORES
 	quest.turn_in_npc = DnaZone.NPC_DOLORES
-	quest.objectives = [QuestObjective.make("Defeat roaming staff", Condition.counter("zone_enemies_defeated", 3))] as Array[QuestObjective]
+	quest.objectives = [QuestObjective.make("Duel roaming staff on the D.N.A. floors", Condition.counter("zone_enemies_defeated", 3))] as Array[QuestObjective]
 	quest.reward_gold = 60
 	quest.reward_xp = 60
 	quest.reward_item_ids = ["healing_draught"] as Array[String]
@@ -112,12 +112,12 @@ static func _onboarding() -> QuestData:
 	quest.id = ONBOARDING
 	quest.order = 120
 	quest.title = "Mandatory Onboarding"
-	quest.summary = "Gerald says all new hires must punch in at the time clock and pour a cup at the breakroom coffee machine. HR will know. HR is a ghost. HR is always watching."
+	quest.summary = "Gerald says every new hire must punch in at the time clock and pour a cup in the breakroom. HR will know. HR is in the walls."
 	quest.giver_npc = DnaZone.NPC_BARNABY
 	quest.turn_in_npc = DnaZone.NPC_BARNABY
 	quest.objectives = [
-		QuestObjective.make("Punch in at the time clock", Condition.counter(DnaZone.COUNTER_PUNCHED_IN, 1)),
-		QuestObjective.make("Pour a cup at the coffee machine", Condition.counter(DnaZone.COUNTER_COFFEE, 1)),
+		QuestObjective.make("Punch in at the time clock by the front desk", Condition.counter(DnaZone.COUNTER_PUNCHED_IN, 1)),
+		QuestObjective.make("Pour a cup at the breakroom coffee machine", Condition.counter(DnaZone.COUNTER_COFFEE, 1)),
 	] as Array[QuestObjective]
 	quest.reward_gold = 40
 	quest.reward_xp = 30
@@ -130,12 +130,12 @@ static func _audit() -> QuestData:
 	quest.id = AUDIT
 	quest.order = 130
 	quest.title = "Compliance Audit"
-	quest.summary = "Clerk Ledgerbone needs a fresh pair of hands for the audit: pass the Compliance quiz and find a hidden stash in the filing mazes. Bring a pen. Bring a spare pen."
+	quest.summary = "Compliance is auditing and Clerk Ledgerbone can't leave the desk. Pass Director Ectomund's quiz and find a hidden stash in the filing mazes. Bring a spare pen."
 	quest.giver_npc = DnaZone.NPC_PIP
 	quest.turn_in_npc = DnaZone.NPC_PIP
 	quest.objectives = [
-		QuestObjective.make("Take the Compliance quiz", Condition.flag(str(DnaZone.FLAG_QUIZ_DONE))),
-		QuestObjective.make("Find a hidden stash", Condition.counter(DnaZone.COUNTER_CHESTS, 1)),
+		QuestObjective.make("Pass Director Ectomund's Compliance quiz", Condition.flag(str(DnaZone.FLAG_QUIZ_DONE))),
+		QuestObjective.make("Find a hidden stash in the filing mazes", Condition.counter(DnaZone.COUNTER_CHESTS, 1)),
 	] as Array[QuestObjective]
 	quest.reward_gold = 80
 	quest.reward_xp = 70
@@ -156,8 +156,8 @@ static func _gain_power() -> QuestData:
 	quest.giver_npc = GainlandsZone.NPC_GUS
 	quest.turn_in_npc = GainlandsZone.NPC_GUS
 	quest.objectives = [
-		QuestObjective.make("Run the Colossal Hamster Wheel", Condition.flag(str(GainlandsZone.FLAG_WHEEL_POWERED))),
-		QuestObjective.make("Buy a protein shake", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1)),
+		QuestObjective.make("Run the Colossal Hamster Wheel up the hill", Condition.flag(str(GainlandsZone.FLAG_WHEEL_POWERED))),
+		QuestObjective.make("Buy a protein shake at the Station's stand", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1)),
 	] as Array[QuestObjective]
 	quest.reward_gold = 50
 	quest.reward_xp = 40
@@ -174,7 +174,7 @@ static func _gain_spot_me() -> QuestData:
 	quest.giver_npc = GainlandsZone.NPC_BRENDA
 	quest.turn_in_npc = GainlandsZone.NPC_BRENDA
 	quest.objectives = [
-		QuestObjective.make("Spot Gary", Condition.flag(str(GainlandsZone.FLAG_SPOTTED))),
+		QuestObjective.make("Spot Gary under his barbell", Condition.flag(str(GainlandsZone.FLAG_SPOTTED))),
 		QuestObjective.make("Flex at a Flex Mirror", Condition.counter(GainlandsZone.COUNTER_FLEXES, 1)),
 	] as Array[QuestObjective]
 	quest.reward_gold = 70
@@ -191,7 +191,7 @@ static func _gain_lanes() -> QuestData:
 	quest.summary = "Benchley's protein deliveries keep getting 'inspected' by roaming brutes, golems and sprites. Beat three of them. Deliver the gains."
 	quest.giver_npc = GainlandsZone.NPC_TONY
 	quest.turn_in_npc = GainlandsZone.NPC_TONY
-	quest.objectives = [QuestObjective.make("Defeat roaming Gainlands enemies", Condition.counter(GainlandsZone.COUNTER_ENEMIES, 3))] as Array[QuestObjective]
+	quest.objectives = [QuestObjective.make("Beat roaming enemies in the Gainlands", Condition.counter(GainlandsZone.COUNTER_ENEMIES, 3))] as Array[QuestObjective]
 	quest.reward_gold = 80
 	quest.reward_xp = 70
 	quest.reward_card_ids = ["B-12"] as Array[String]
@@ -210,7 +210,7 @@ static func _buf_pantry() -> QuestData:
 	quest.summary = "The Grand Pantry is out of everything that matters. Sous-Chef Tarragon needs three ingredients from around the Buffet. Lettuce not panic."
 	quest.giver_npc = BuffetZone.NPC_TARRAGON
 	quest.turn_in_npc = BuffetZone.NPC_TARRAGON
-	quest.objectives = [QuestObjective.make("Gather ingredients around the zone", Condition.counter(BuffetZone.COUNTER_GATHERED, 3))] as Array[QuestObjective]
+	quest.objectives = [QuestObjective.make("Gather ingredients around the Buffet", Condition.counter(BuffetZone.COUNTER_GATHERED, 3))] as Array[QuestObjective]
 	quest.reward_gold = 60
 	quest.reward_xp = 50
 	quest.reward_card_ids = ["G-25"] as Array[String]
@@ -241,7 +241,7 @@ static func _buf_mend() -> QuestData:
 	quest.summary = "Old Meatloaf, the Grand Pantry's oldest golem, has stopped working. Basil thinks sea salt and a black truffle will get him back on his loaf."
 	quest.giver_npc = BuffetZone.NPC_ODALYS
 	quest.turn_in_npc = BuffetZone.NPC_ODALYS
-	quest.objectives = [QuestObjective.make("Repair Old Meatloaf", Condition.flag(str(BuffetZone.FLAG_MENDED)))] as Array[QuestObjective]
+	quest.objectives = [QuestObjective.make("Mend Old Meatloaf with sea salt and a black truffle", Condition.flag(str(BuffetZone.FLAG_MENDED)))] as Array[QuestObjective]
 	quest.reward_gold = 80
 	quest.reward_xp = 70
 	quest.reward_card_ids = ["GR-04"] as Array[String]
@@ -256,7 +256,7 @@ static func _heap_herd() -> QuestData:
 	quest.id = HeapZone.QUEST_HERD
 	quest.order = 410
 	quest.title = "Round Up the Herd"
-	quest.summary = "Three of Wren Muckfoot's garbage-eating animals have wandered off into the fields. Shoo each one back to the pen. They are goats. Of course they got out."
+	quest.summary = "Three of Wren Muckfoot's animals got out: a goat, a pig and a raccoon with a briefcase. Shoo each one back to the pen before the Rot gets them."
 	quest.giver_npc = HeapZone.NPC_WREN
 	quest.turn_in_npc = HeapZone.NPC_WREN
 	quest.objectives = [QuestObjective.make("Shoo escaped animals back to the pen", Condition.counter(HeapZone.COUNTER_HERDED, 3))] as Array[QuestObjective]
@@ -274,7 +274,7 @@ static func _heap_fert() -> QuestData:
 	quest.summary = "Granny Gristle is out of fertilizer and the crops are sulking. Gather three sacks from around the Dump. Hold your nose. Hold the sack."
 	quest.giver_npc = HeapZone.NPC_HOB
 	quest.turn_in_npc = HeapZone.NPC_HOB
-	quest.objectives = [QuestObjective.make("Gather sacks of fertilizer", Condition.counter(HeapZone.COUNTER_FERTILIZER, 3))] as Array[QuestObjective]
+	quest.objectives = [QuestObjective.make("Gather fertilizer sacks around the Dump", Condition.counter(HeapZone.COUNTER_FERTILIZER, 3))] as Array[QuestObjective]
 	quest.reward_gold = 70
 	quest.reward_xp = 60
 	quest.reward_card_ids = ["R-25"] as Array[String]
@@ -286,10 +286,10 @@ static func _heap_dam() -> QuestData:
 	quest.id = HeapZone.QUEST_DAM
 	quest.order = 430
 	quest.title = "Unblock the Stream"
-	quest.summary = "Somebody has dumped a junk dam across the recycling stream. Brother Bramble needs a charging mount to smash it, and he will reward you with a fine pair of compost boots."
+	quest.summary = "Somebody dumped a junk dam across the feeder channel on the north bank. Borrow a mount from the stables and charge it. Brother Bramble's compost boots are the prize."
 	quest.giver_npc = HeapZone.NPC_MARIGOLD
 	quest.turn_in_npc = HeapZone.NPC_MARIGOLD
-	quest.objectives = [QuestObjective.make("Smash the junk dam on a charging mount", Condition.flag("heap_smashed_dam"))] as Array[QuestObjective]
+	quest.objectives = [QuestObjective.make("Ride a mount into the junk dam on the north bank", Condition.flag("heap_smashed_dam"))] as Array[QuestObjective]
 	quest.reward_gold = 80
 	quest.reward_xp = 70
 	quest.reward_equipment_ids = ["compost_boots"] as Array[String]
@@ -312,8 +312,8 @@ static func _cap_burial() -> QuestData:
 	quest.giver_npc = CapitalZone.NPC_PELL
 	quest.turn_in_npc = CapitalZone.NPC_PELL
 	quest.objectives = [
-		QuestObjective.make("Find the Stamp of Final Approval", Condition.flag(str(CapitalZone.FLAG_STAMP))),
-		QuestObjective.make("Lay Mr. Pell to rest", Condition.flag(str(CapitalZone.FLAG_LAID_TO_REST))),
+		QuestObjective.make("Find the Stamp of Final Approval in Grave Row", Condition.flag(str(CapitalZone.FLAG_STAMP))),
+		QuestObjective.make("Lay Mr. Pell to rest at the family plot", Condition.flag(str(CapitalZone.FLAG_LAID_TO_REST))),
 	] as Array[QuestObjective]
 	quest.reward_gold = 150
 	quest.reward_xp = 120
@@ -333,8 +333,8 @@ static func _cap_wheels() -> QuestData:
 	quest.giver_npc = CapitalZone.NPC_ROLLO
 	quest.turn_in_npc = CapitalZone.NPC_ROLLO
 	quest.objectives = [
-		QuestObjective.make("Free the wheel crews", Condition.counter(CapitalZone.COUNTER_WHEELS, 3)),
-		QuestObjective.make("Cut the facade's power cable", Condition.flag(str(CapitalZone.FLAG_CABLE_CUT))),
+		QuestObjective.make("Free the wheel crews in the Transit Yards", Condition.counter(CapitalZone.COUNTER_WHEELS, 3)),
+		QuestObjective.make("Cut the facade's power cable in the Yards", Condition.flag(str(CapitalZone.FLAG_CABLE_CUT))),
 	] as Array[QuestObjective]
 	quest.reward_gold = 150
 	quest.reward_xp = 120
@@ -350,12 +350,12 @@ static func _cap_recipes() -> QuestData:
 	quest.id = CapitalZone.QUEST_RECIPES
 	quest.order = 530
 	quest.title = "The Recipe Box"
-	quest.summary = "Everyone eats Primm's Perfect Nutrient Paste. Chef Marlo has hidden real recipes around the Hungry Quarter: recover three of them and spoil the paste dispenser."
+	quest.summary = "Everyone eats {villain}'s Perfect Nutrient Paste. Chef Marlo's three real recipes are hidden in the Hungry Quarter: find them before the inspectors do, then spoil the dispenser."
 	quest.giver_npc = CapitalZone.NPC_MARLO
 	quest.turn_in_npc = CapitalZone.NPC_MARLO
 	quest.objectives = [
-		QuestObjective.make("Find the hidden recipe cards", Condition.counter(CapitalZone.COUNTER_RECIPES, 3)),
-		QuestObjective.make("Spoil the Perfect Nutrient Paste dispenser", Condition.flag(str(CapitalZone.FLAG_PASTE_SPOILED))),
+		QuestObjective.make("Find Chef Marlo's recipe cards in the Hungry Quarter", Condition.counter(CapitalZone.COUNTER_RECIPES, 3)),
+		QuestObjective.make("Spoil the paste dispenser in the Hungry Quarter", Condition.flag(str(CapitalZone.FLAG_PASTE_SPOILED))),
 	] as Array[QuestObjective]
 	quest.reward_gold = 150
 	quest.reward_xp = 120
@@ -371,11 +371,11 @@ static func _cap_untidy() -> QuestData:
 	quest.id = CapitalZone.QUEST_UNTIDY
 	quest.order = 540
 	quest.title = "Untidy"
-	quest.summary = "Composting is outlawed as untidy and the Capital's garbage is hidden behind the facade, so the land is sickening. Rescue three banished compost heaps in the Reek, find the old seed and plant it in the Sick Patch."
+	quest.summary = "Composting is outlawed as untidy, and the land is sickening for it. Rescue three banished compost heaps in the Reek, then find the old seed and plant it in the Sick Patch."
 	quest.giver_npc = CapitalZone.NPC_FERN
 	quest.turn_in_npc = CapitalZone.NPC_FERN
 	quest.objectives = [
-		QuestObjective.make("Rescue the banished compost heaps", Condition.counter(CapitalZone.COUNTER_COMPOST, 3)),
+		QuestObjective.make("Rescue the banished compost heaps in the Reek", Condition.counter(CapitalZone.COUNTER_COMPOST, 3)),
 		QuestObjective.make("Plant the old seed in the Sick Patch", Condition.flag(str(CapitalZone.FLAG_SEED_PLANTED))),
 	] as Array[QuestObjective]
 	quest.reward_gold = 150
@@ -405,18 +405,18 @@ const SIDE_QUESTS: Dictionary = {
 
 static func side_quests() -> Array[QuestData]:
 	return [
-		_side(SIDE_BEEF, "S-BEEF", 230, "Water for the Hermit", GainlandsZone.NPC_BRENDA, "Bring the hermit some water: buy a protein shake at the stand.",
-			[QuestObjective.make("Buy a protein shake", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1))], Condition.postgame()),  # Mount Swolympus is a postgame bonus (GC-11): never offered in the main story
-		_side(SIDE_GOUR, "S-GOUR", 330, "The Golden Reservation", BuffetZone.NPC_ODALYS, "A golden reservation card is hidden somewhere in the Endless Buffet. Find it (it will be in a hidden stash).",
-			[QuestObjective.make("Find a hidden stash", Condition.counter(BuffetZone.COUNTER_CHESTS, 1))]),
-		_side(SIDE_NECRO, "S-NECRO", 140, "Number 4,000,212", DnaZone.NPC_BARNABY, "Their number is 4,000,212 and they are on 3. Thin out the queue by processing two roaming staff members.",
-			[QuestObjective.make("Defeat roaming staff", Condition.counter("zone_enemies_defeated", 2))]),
+		_side(SIDE_BEEF, "S-BEEF", 230, "Water for the Hermit", GainlandsZone.NPC_BRENDA, "Old Man Mountain won't show you the way up Mount Swolympus on an empty cup. Bring him a protein shake from the Station's stand.",
+			[QuestObjective.make("Buy a protein shake at the Station's stand", Condition.counter(GainlandsZone.COUNTER_SHAKES, 1))], Condition.postgame()),  # Mount Swolympus is a postgame bonus (GC-11): never offered in the main story
+		_side(SIDE_GOUR, "S-GOUR", 330, "The Golden Reservation", BuffetZone.NPC_ODALYS, "Basil knows of a golden reservation card: 'Seating: 1. Courses: 3. Survival: optional.' It is in one of the Buffet's hidden stashes.",
+			[QuestObjective.make("Find a hidden stash in the Buffet", Condition.counter(BuffetZone.COUNTER_CHESTS, 1))]),
+		_side(SIDE_NECRO, "S-NECRO", 140, "Number 4,000,212", DnaZone.NPC_BARNABY, "Gerald is Number 4,000,212 and they are on 3. Thin out the queue to the Waiting Room of Eternity: process two roaming staff.",
+			[QuestObjective.make("Duel roaming staff on the D.N.A. floors", Condition.counter("zone_enemies_defeated", 2))]),
 		_side(SIDE_REF, "S-REF", 240, "Who Ate the Compost?", HeapZone.NPC_MARIGOLD, "Little paw prints, a tiny crown, and no compost. Drive off two scavengers to follow the trail.",
-			[QuestObjective.make("Defeat scavengers", Condition.counter(HeapZone.COUNTER_ENEMIES, 2))]),
-		_side(SIDE_CAP, "S-CAP", 360, "The Older Way", CapitalZone.NPC_KESTREL, "There is an older way into the city. Meet the resistance in the Crease and ask about the tunnels.",
-			[QuestObjective.make("Reach the resistance hideout", Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)))]),
-		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "There is a door under the old well that has been locked since before the Elder was born. Find the key: look for a hidden chest in town.",
-			[QuestObjective.make("Find a hidden chest in town", Condition.secret_found("harbor_chest"))]),
+			[QuestObjective.make("Drive off scavengers in the Dump", Condition.counter(HeapZone.COUNTER_ENEMIES, 2))]),
+		_side(SIDE_CAP, "S-CAP", 360, "The Older Way", CapitalZone.NPC_KESTREL, "Kestrel knows an older way into the city. Get inside, find Wren in the Crease and ask her about the old tunnels.",
+			[QuestObjective.make("Reach the Crease: knock at the manhole by the gate", Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)))]),
+		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "Elder Maren says the door under the Old Well has been locked since before she was born. Its key is in a hidden chest somewhere in Crosspath.",
+			[QuestObjective.make("Find the hidden chest in Crosspath", Condition.secret_found("harbor_chest"))]),
 	] as Array[QuestData]
 
 

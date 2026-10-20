@@ -139,3 +139,14 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
   a second new game in the same session heard them twice. The town now reads filled copies (`StoryText._filled`).
 - The Restless Cairn (graveyard) showed a raw "{villain}" in its intro (pre-existing: the arrays were read without token filling); its
   intro / victory / defeat lines are filled now. Test in `tests/test_dialogue_quality.gd` (no raw token in any array a scene reads directly).
+
+## Cycle 24 - Onboarding / clarity: the Quest Log text and four wrong markers
+- Quest Log strings in code (titles, summaries, steps, hints; 33 of 34 quests, ~97 strings; helper-written, checked here) scored 3.29 ->
+  4.59 (min of clarity / consistency / brevity; under-4 quests 19 -> 1): steps name the place or person the marker points at; Maren and
+  the Deck Station are where they really are; one road name; Gerald is 4,000,212; the herd is a goat, a pig and a raccoon with a briefcase;
+  no Doppelganger spoiler before the reveal; zone hints no longer repeat their zone ("...Verdant Dump (The Verdant Dump)").
+- Markers fixed (targets only): Unblock the Stream -> the goat's north stable (`stable_2`, as Brother Bramble says; was Boris the boar);
+  Form 27-B/6 step 1 -> the stamp itself (`pickup_stamp`; was the permit window 11 m away); The Older Way step 1 -> the manhole by the
+  gate (`manhole`; was Wren, who is underground behind it). Left: Untidy's step 2 points at the Sick Patch (its hint says "find the jar of
+  old seed first"). Dialogue directions fixed: Widow Pell's plot is at the north end of Grave Row (not "by the east wall"); Old Fern's Sick
+  Patch is in the Reek (not "by the market"). Quest tests 123/123; dialogue tests OK.

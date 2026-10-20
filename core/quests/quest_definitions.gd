@@ -51,12 +51,12 @@ static func _meet_the_merchants() -> QuestData:
 	quest.category = QuestData.Category.SIDE
 	quest.order = 10
 	quest.title = "Meet the Merchants"
-	quest.summary = "Three traders keep Crosspath running. Say hello to each of them."
+	quest.summary = "Three of Crosspath's shopkeepers would like to meet you. Say hello to each. There is a trophy in it. Everyone gets the trophy."
 	quest.auto_give = true
 	quest.objectives = [
-		QuestObjective.make("Talk to Sable (cards)", Condition.flag("vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "vendor", "The market stalls on the square"),
-		QuestObjective.make("Talk to Tilly Tonic (items)", Condition.flag("item_vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "item_vendor", "Tilly's supply stall on the square"),
-		QuestObjective.make("Talk to Bertram Beetsworth (equipment)", Condition.flag("equipment_vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "The equipment stall on the square"),
+		QuestObjective.make("Talk to Sable (cards)", Condition.flag("vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "vendor", "Sable's Cards, on the west side of Crosspath's square"),
+		QuestObjective.make("Talk to Tilly Tonic (items)", Condition.flag("item_vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "item_vendor", "Tilly Tonic's Supplies, on the north side of Crosspath's square"),
+		QuestObjective.make("Talk to Bertram Beetsworth (equipment)", Condition.flag("equipment_vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
 	] as Array[QuestObjective]
 	quest.reward_gold = 50
 	quest.reward_xp = 40
@@ -78,10 +78,10 @@ static func _free_the_kingdom() -> QuestData:
 	quest.giver_spot = "guard"
 	var objectives: Array[QuestObjective] = []
 	for zone_id: String in Gatekeepers.IDS:
-		objectives.append(QuestObjective.make("Free %s" % ZoneDefs.get_def(zone_id).display_name, Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
-			.at(QuestObjective.TargetKind.ZONE_FLAG, zone_id, "main_dungeon", "%s's main dungeon" % ZoneDefs.get_def(zone_id).display_name))
-	objectives.append(QuestObjective.make("Storm %s's castle" % Villain.display_name(), Condition.flag("primm_defeated"))
-		.at(QuestObjective.TargetKind.DUNGEON, CapitalZone.ID, "castle_door", "The castle at the heart of the Capital"))
+		objectives.append(QuestObjective.make("%s: beat its main dungeon" % ZoneDefs.get_def(zone_id).display_name, Condition.flag(str(ZoneCompletion.flag_name(zone_id))))
+			.at(QuestObjective.TargetKind.ZONE_FLAG, zone_id, "main_dungeon", "%s, at its main dungeon" % ZoneDefs.get_def(zone_id).display_name))
+	objectives.append(QuestObjective.make("Storm %s's castle in the Capital" % Villain.display_name(), Condition.flag("primm_defeated"))
+		.at(QuestObjective.TargetKind.DUNGEON, CapitalZone.ID, "castle_door", "The castle on its hill, up the palace avenue"))
 	quest.objectives = objectives
 	quest.reward_gold = 300
 	quest.reward_xp = 250
@@ -95,13 +95,13 @@ static func _fragments() -> QuestData:
 	quest.category = QuestData.Category.MAIN
 	quest.order = 35
 	quest.title = "Fragments"
-	quest.summary = "Pieces of the Wanderer's lost memory come back as each zone is freed. Visit Elder Maren after each one."
+	quest.summary = "Your lost memories come back one piece for every zone you free. After each one, visit Elder Maren."
 	quest.auto_give = true
 	var names: Array[String] = ["Warmth", "The Cells", "The Coup", "A Name"]
 	var objectives: Array[QuestObjective] = []
 	for index: int in range(MemoryDefs.COUNT):
-		objectives.append(QuestObjective.make("Recover fragment %d: %s" % [index + 1, names[index]], Condition.flag(str(MemoryDefs.flag_name(index + 1))))
-			.at(QuestObjective.TargetKind.NPC, "town", "elder", "Elder Maren, on the town square, after freeing a zone"))
+		objectives.append(QuestObjective.make("Fragment %d (%s): free a zone, see Elder Maren" % [index + 1, names[index]], Condition.flag(str(MemoryDefs.flag_name(index + 1))))
+			.at(QuestObjective.TargetKind.NPC, "town", "elder", "Elder Maren's home, up the Gate Road from Crosspath's square"))
 	quest.objectives = objectives
 	quest.reward_gold = 200
 	quest.reward_xp = 150
@@ -149,34 +149,34 @@ const ZONE_MAIN_TEXT: Dictionary = {
 	"beefcake": {
 		"title": "Raise the Bar",
 		"summary": "The Gainlands bridge is drawn up and a very large man is guarding the crank. Get across, help the lifters, and free Grandmaster Flex.",
-		"gate": "Out-muscle Brick Bronson at the gorge", "gate_hint": "The gorge bridge at the end of the sunny meadow road",
+		"gate": "Out-muscle Brick Bronson at the gorge", "gate_hint": "The drawn-up gorge bridge, at the end of the meadow road",
 		"enter": "Cross the bridge into the Gainlands", "enter_hint": "The lowered bridge over the gorge",
-		"favour": "Spot the locals: finish a favour in the Gainlands", "favour_spot": "gus", "favour_hint": "Foreman Gus, Old Man Mountain or Coach Benchley in the Gainlands",
-		"dungeon": "Storm the House of Gains and free Grandmaster Flex", "dungeon_hint": "The fortress beyond the Gainlands' north rim",
+		"favour": "Spot the locals: finish a favour in the Gainlands", "favour_spot": "gus", "favour_hint": "Foreman Gus, Old Man Mountain or Coach Brutus Benchley",
+		"dungeon": "Storm the House of Gains and free Grandmaster Flex", "dungeon_hint": "The House of Gains, beyond the north rim",
 	},
 	"necrocrat": {
 		"title": "Take a Number",
 		"summary": "A checkpoint on the cracked road wants a permit nobody has ever been issued. Get one the hard way, help the staff, and get the D.N.A. its final approval.",
-		"gate": "Out-file Prudence Pallor at the checkpoint", "gate_hint": "The permit barrier on the decrepit road",
-		"enter": "Pass the checkpoint into the D.N.A.", "enter_hint": "The raised barrier on the cracked road",
-		"favour": "Help the staff: finish a favour in the D.N.A.", "favour_spot": "dolores", "favour_hint": "Agnes Overdue, Gerald or Clerk Ledgerbone in the D.N.A.",
-		"dungeon": "Get final approval in the Hall of Final Approvals", "dungeon_hint": "The Hall at the top of the D.N.A.",
+		"gate": "Out-file Prudence Pallor at the permit barrier", "gate_hint": "The permit barrier, at the end of the cracked road",
+		"enter": "Pass the permit barrier into the D.N.A.", "enter_hint": "The raised barrier on the cracked road",
+		"favour": "Help the staff: finish a favour in the D.N.A.", "favour_spot": "dolores", "favour_hint": "Agnes Overdue, Gerald or Clerk Ledgerbone",
+		"dungeon": "Get final approval in the Hall of Final Approvals", "dungeon_hint": "The Hall of Final Approvals, at the top of the building",
 	},
 	"gourmand": {
 		"title": "Key Ingredients",
 		"summary": "The great pantry door is locked and the chef with the key is extremely seasoned. Win the key, help the kitchen, and expose the fake Grand Chef.",
 		"gate": "Win the pantry key from Chef Fennel Gravois", "gate_hint": "The great pantry door at the end of the orchard lane",
 		"enter": "Step through the pantry door into the Endless Buffet", "enter_hint": "The open pantry door on the orchard lane",
-		"favour": "Help the kitchen: finish a favour in the Endless Buffet", "favour_spot": "odalys", "favour_hint": "Basil, Sous-Chef Tarragon or Madame Mirepoix in the Buffet",
-		"dungeon": "Shut down the Test Kitchen and expose the Doppelganger", "dungeon_hint": "The Test Kitchen at the far end of the Buffet",
+		"favour": "Help the kitchen: finish a favour in the Endless Buffet", "favour_spot": "odalys", "favour_hint": "Basil, Sous-Chef Tarragon or Madame Mirepoix",
+		"dungeon": "Shut down the Test Kitchen and unmask the fake Chef", "dungeon_hint": "The Test Kitchen, at the far end of the halls",
 	},
 	"refusemancer": {
 		"title": "Root Cause",
 		"summary": "A wall of thorns has swallowed the forest path and a druid is talking in a voice that isn't hers. Clear the way, help the locals, and cut out the Rotheart.",
-		"gate": "Uproot Moss Mulligan at the thorn wall", "gate_hint": "The thorn wall across the winding forest path",
+		"gate": "Uproot Moss Mulligan at the thorn wall", "gate_hint": "The thorn wall across the forest path",
 		"enter": "Walk the forest path into the Verdant Dump", "enter_hint": "The withered thorn wall on the forest path",
-		"favour": "Lend a hand: finish a favour in the Verdant Dump", "favour_spot": "wren", "favour_hint": "Wren Muckfoot, Granny Gristle or Brother Bramble in the Dump",
-		"dungeon": "Descend into the Rotheart and free Archdruid Compostella", "dungeon_hint": "The Rotheart, deep in the Verdant Dump",
+		"favour": "Lend a hand: finish a favour in the Verdant Dump", "favour_spot": "wren", "favour_hint": "Wren Muckfoot, Granny Gristle or Brother Bramble",
+		"dungeon": "Descend into the Rotheart and free Archdruid Compostella", "dungeon_hint": "The way down into the Rotheart",
 	},
 }
 
@@ -197,9 +197,9 @@ static func _armory() -> QuestData:
 	quest.auto_give = true
 	quest.prerequisite = Condition.player_level(ProgressionTable.ARMORY_LEVEL)
 	quest.objectives = [
-		QuestObjective.make("Report to Bertram Beetsworth's equipment stall", Condition.flag("armory_reported")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "The equipment stall on the square"),
+		QuestObjective.make("Report to Bertram Beetsworth at his Smithy", Condition.flag("armory_reported")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
 		QuestObjective.make("Win one fight (any fight)", Condition.counter("duels_won", 1)),
-		QuestObjective.make("Collect your gear from Bertram", Condition.flag("armory_collected")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "The equipment stall on the square"),
+		QuestObjective.make("Collect your gear from Bertram at his Smithy", Condition.flag("armory_collected")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
 	] as Array[QuestObjective]
 	quest.reward_xp = 30
 	quest.reward_equipment_ids = [EquipmentRarity.STARTER_BLADE] as Array[String]
@@ -218,11 +218,11 @@ static func _first_deck_edit() -> QuestData:
 	quest.category = QuestData.Category.SIDE
 	quest.order = 2
 	quest.title = "Make It Yours"
-	quest.summary = "The cave paid you in cards, and they are already in your deck. Look it over at the Deck Station (swap out what you don't like) and save it to a slot."
+	quest.summary = "The cave paid you in cards, and they are already in your deck. Look it over at the Deck Station, swap what you like and save it to a slot."
 	quest.auto_give = true
 	quest.prerequisite = Condition.flag("trial_cleared")
 	quest.objectives = [
-		QuestObjective.make("Open the Deck Station and save your deck", Condition.flag("deck_edited")).at(QuestObjective.TargetKind.SPOT, "town", "deck", "The Deck Station on the square"),
+		QuestObjective.make("Open the Deck Station and save your deck", Condition.flag("deck_edited")).at(QuestObjective.TargetKind.SPOT, "town", "deck", "The Deck Station, on Champions' Road south of the square"),
 	] as Array[QuestObjective]
 	quest.reward_gold = 30
 	quest.reward_xp = 20
@@ -251,9 +251,9 @@ static func _four_seals() -> QuestData:
 	quest.category = QuestData.Category.SIDE
 	quest.order = 141
 	quest.title = "The Four Seals"
-	quest.summary = "Far away, a great lock ground open. A hidden lever in every Path zone answers a seal on a vault in town. Find them all."
+	quest.summary = "Far away, a great lock ground open. A hidden lever in every Path zone answers a seal on a vault in Crosspath. Find them all."
 	quest.objectives = [
-		QuestObjective.make("Find the hidden levers", Condition.counter(VaultGuardian.COUNTER_LEVERS, VaultGuardian.ZONE_IDS.size())),
-		QuestObjective.make("Open the vault and defeat its Warden", Condition.flag(str(VaultGuardian.FLAG_DEFEATED))).at(QuestObjective.TargetKind.SPOT, "town", "vault4", "The Four-Seal Vault in the north hills of town"),
+		QuestObjective.make("Find the hidden lever in each Path zone", Condition.counter(VaultGuardian.COUNTER_LEVERS, VaultGuardian.ZONE_IDS.size())),
+		QuestObjective.make("Open the Four-Seal Vault and beat its Warden", Condition.flag(str(VaultGuardian.FLAG_DEFEATED))).at(QuestObjective.TargetKind.SPOT, "town", "vault4", "The Four-Seal Vault, in the hills north of Crosspath"),
 	] as Array[QuestObjective]
 	return quest

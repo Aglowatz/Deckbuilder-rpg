@@ -490,3 +490,67 @@ What changed (cuts were redundancy and box merges; the jokes and beats stay):
 - Not touched: `start.gate_prompt`, `tutorial.warden.*`, `prologue.self_talk`, `town.elder.stage.0` (the crest on the stick) and
   `town.elder.stage.1` (the handwriting) - those set-ups live outside the timed segments. Tests: no test or smoke reads these lines'
   text (the "resonates the strongest" check reads the Path choice screen, not `prologue.rescuer.3`); every box is <= 128 characters.
+
+## Quest Log text (Phase 2)
+
+The Quest Log text that lives in code was not part of the dialogue pass: titles, summaries, step `text` and `hint` ("Where to go") strings
+in `core/quests/quest_definitions.gd`, `core/quests/zone_quest_definitions.gd` and the Old Well quest's `quest.*` keys in
+`data/story/old_well_story.json` (read by `core/dungeon/old_well_quest.gd`). String literals only: ids, flags, targets, conditions,
+rewards and order unchanged (checked: with every string emptied, the old and new files are identical). Titles all kept (<= 32 characters,
+and gear `source` lines, npcs.json and tests quote them).
+
+How the log shows it (checked in `ui/quests`): summaries go through `Villain.fill` (tokens OK); titles, steps and hints do not (no tokens
+there). The "Where to go" line appends " (<area>)" unless the hint already contains the area's exact name ("The Gainlands", "Crosspath"),
+so zone hints no longer repeat the zone ("...deep in the Verdant Dump (The Verdant Dump)"); town hints say "Crosspath" themselves. The
+HUD tracker is 340 px wide (about 32 characters a line at 17 px), so steps are kept to one or two tracker lines (longest 52 characters).
+
+Scores (min of clarity / consistency with the rewritten dialogue / brevity), 34 quests:
+
+| | Avg of the minimums | 5 | 4 | 3 | 2 |
+|---|---:|---:|---:|---:|---:|
+| Old | 3.29 | 0 | 15 | 14 | 5 |
+| New | 4.59 | 21 | 12 | 1 | 0 |
+
+33 quests edited, 92 replacements (about 97 strings). The one at 3 is The Oldest Trick in the Book: its steps have no hint or area, so
+the "Where to go" line is empty; adding one needs a code change (`.at(...)`).
+
+Fixed along the way: wrong places (Elder Maren and the Deck Station were "on the town square"; she is at her home up the Gate Road, the
+Deck Station is on Champions' Road; the Old Well's yard is off the west market street, not Champions' Road); the D.N.A. road was
+"decrepit" in one hint and "cracked" in the next (canon: the cracked road, the permit barrier); a literal "Primm" in The Recipe Box
+summary -> `{villain}`; Gerald's quest said "Their number" (he is Number 4,000,212); the herd was "They are goats" (a goat, a pig and a
+raccoon with a briefcase, as Wren Muckfoot says); the Key Ingredients step named the Doppelganger before the reveal (now "the fake Chef",
+as Basil and the summary have it); "The Gainlands's main dungeon"; Untidy's 228-character summary.
+
+Eight before -> after:
+
+1. **Fragments**, steps - BEFORE: "Recover fragment 1: Warmth" / hint "Elder Maren, on the town square, after freeing a zone".
+   AFTER: "Fragment 1 (Warmth): free a zone, see Elder Maren" / "Elder Maren's home, up the Gate Road from Crosspath's square".
+2. **Free the Four Zones**, step and hint - BEFORE: "Free The Gainlands" / "The Gainlands's main dungeon".
+   AFTER: "The Gainlands: beat its main dungeon" / "The Gainlands, at its main dungeon".
+3. **Round Up the Herd**, summary - BEFORE: "Three of Wren Muckfoot's garbage-eating animals have wandered off into the fields. Shoo each one back
+   to the pen. They are goats. Of course they got out." AFTER: "Three of Wren Muckfoot's animals got out: a goat, a pig and a raccoon
+   with a briefcase. Shoo each one back to the pen before the Rot gets them."
+4. **Number 4,000,212**, summary and step - BEFORE: "Their number is 4,000,212 and they are on 3. Thin out the queue by processing two
+   roaming staff members." / "Defeat roaming staff". AFTER: "Gerald is Number 4,000,212 and they are on 3. Thin out the queue to the
+   Waiting Room of Eternity: process two roaming staff." / "Duel roaming staff on the D.N.A. floors".
+5. **Take a Number**, gate step and hint - BEFORE: "Out-file Prudence Pallor at the checkpoint" / "The permit barrier on the decrepit
+   road". AFTER: "Out-file Prudence Pallor at the permit barrier" / "The permit barrier, at the end of the cracked road".
+6. **Mandatory Onboarding**, steps - BEFORE: "Punch in at the time clock" / "Pour a cup at the coffee machine". AFTER: "Punch in at the
+   time clock by the front desk" / "Pour a cup at the breakroom coffee machine" (Gerald's offer names both places).
+7. **The Older Way**, summary and step - BEFORE: "There is an older way into the city. Meet the resistance in the Crease and ask about the
+   tunnels." / "Reach the resistance hideout". AFTER: "Kestrel knows an older way into the city. Get inside, find Wren in the Crease
+   and ask her about the old tunnels." / "Reach the Crease: knock at the manhole by the gate".
+8. **The Recipe Box**, summary - BEFORE: "Everyone eats Primm's Perfect Nutrient Paste. Chef Marlo has hidden real recipes around the Hungry
+   Quarter: recover three of them and spoil the paste dispenser." AFTER: "Everyone eats {villain}'s Perfect Nutrient Paste. Chef
+   Marlo's three real recipes are hidden in the Hungry Quarter: find them before the inspectors do, then spoil the dispenser."
+
+Markers that look wrong (targets not changed; the text now describes the real place):
+- **The Older Way** step 1 points at Wren (`final`/`wren`, underground in the Crease), but the step completes on reaching the Crease
+  (`FLAG_HUB_KNOWN`) and the way in is the manhole by the gate: the marker should probably be `manhole`.
+- **Form 27-B/6** step 1 ("Find the Stamp") points at `permit_window` (8, 24.5); the stamp pickup is the `stamp` anchor (7, 13), north of
+  it. The hint says so.
+- **Untidy** step 2 points at `sick_patch` but the old seed (`seed`, west Reek) must be picked up first and has no marker; the hint says so.
+- **Unblock the Stream** points at `stable_1` (Boris the Giant Boar), while Brother Bramble's `quest.heap_dam.active` says "Ride the goat
+  from the north stable" (`stable_2` is the goat). The hint now just says "the stables".
+- Dialogue (not quest text, not changed): Widow Pell says the plot is "by the east wall", but `pell_plot` is at the north end of Grave
+  Row (north-west); Old Fern puts the Sick Patch "by the market", it is in the Reek.

@@ -112,7 +112,7 @@
 		"quest.step.echo": "Go back to the Old Well and face what answers",
 		"quest.hint.heap": "Something on the Dump's highest terrace hums like the well did, where its river starts to fall",
 		"quest.hint.buffet": "Something by the little gravy pond in the Buffet's Broccoli Forest hums like the well did",
-		"quest.hint.echo": "The Old Well in {town}, in its yard off Champions' Road",
+		"quest.hint.echo": "The Old Well in {town}, in its yard off the west market street",
 		"prompt.refusemancer": "Kneel by the water",
 		"prompt.gourmand": "Look into the pond",
 		"prompt.well.ready": "Lean over the Old Well",
