@@ -2296,6 +2296,10 @@ func _screenshot_open(what: String) -> void:
 			(_overlay as CodexScreen).show_beast(Bestiary.all()[3])
 		"codex":
 			_open_codex()
+		"codex_gear":  # Overnight Oct 19-20: the Collection Book's Gear tab, a few pieces owned (the character_gear set)
+			_screenshot_gear()
+			_open_codex()
+			(_overlay as CodexScreen).show_tab("Gear")
 		"wardrobe":
 			_open_wardrobe()
 		"character":

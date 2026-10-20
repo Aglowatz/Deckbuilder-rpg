@@ -90,3 +90,11 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 ## Cycle 15 - Combat feel (8.5): the token's tip box repeated its text
 - A Contract token showed its ability text and then the same text again as its glossary entry. A glossary entry identical to the card's
   ability text is skipped now (`BattleHud.show_preview`). Shot `_screenshots/oct19n/p2_after_token_0.png` (re-taken). Tip tests OK.
+
+## Cycle 16 - Collection (8): a Gear tab in the Collection Book
+- Third tab "Gear" (helper-built, checked here): all 55 pieces once (`GearCatalog.all_pieces` merges the vendor and zone equipment),
+  grouped Helm / Weapon / Armor / Boots / Relic with "x / y found", an owned piece shows its icon (tomorrow's ICON-GEAR art shows here),
+  name, rarity and effect; a missing piece is a silhouette with where it comes from (vendor, quest, dungeon first clear, puzzle, arena
+  prize); secret pieces (the Old Well's Phial, the vault and the Lab relics) say only "A secret". Built on first open (like the Bestiary).
+  Fixed on review: the arena hint used the retired name "Grand Clashatorium" -> "The Undercroft". Tests 16/16 (gear tab, catalog,
+  collection book, compile). Shot `_screenshots/oct19n_c16_codex_gear.png`. Collection 8 -> 8.5.

@@ -6,11 +6,17 @@ extends OverlayScreen
 ##   (rarity, owned only) and sort (cost, name, rarity), and an inspect zoom (click a card).
 ## - Bestiary: every enemy and boss (`Bestiary`), unknown until met, then its icon, a fun line, where it lives and how often it was
 ##   beaten; discovery milestones pay rewards.
+## - Gear (Overnight Oct 19-20): every equipment piece (`GearCatalog`), grouped by slot (Helm, Weapon, Armor, Boots, Relic); an owned piece
+##   shows its icon, name, rarity and effect line, one not found yet is a dark silhouette with "???" and where it comes from.
 ## Everything is a focusable button, so it works with the keyboard as well as the mouse.
 
 const COLUMNS: int = 7
 const CARD_SCALE: float = 0.56
 const BEAST_COLUMNS: int = 6
+const GEAR_COLUMNS: int = 8
+const GEAR_TILE: Vector2 = Vector2(196, 226)
+const GEAR_ICON_PX: float = 72.0
+const TABS: Array[String] = ["Cards", "Bestiary", "Gear"]
 const PATH_ROWS: Array[Dictionary] = [
 	{"key": "all", "label": "All Paths"},
 	{"key": "neutral", "label": "Colorless"},
@@ -38,6 +44,9 @@ var _zoom: Control
 var _beast_detail: VBoxContainer
 var _beast_grid: GridContainer
 var _all_cards: Array[CardData] = []
+var _gear_page: HBoxContainer
+var _gear_box: VBoxContainer
+var _all_gear: Array[EquipmentData] = []
 
 
 func _ready() -> void:
@@ -60,7 +69,7 @@ func _build() -> void:
 		var card: CardData = Session.content.card(str(id))
 		if card != null and not card.is_token:
 			_all_cards.append(card)
-	for tab: String in ["Cards", "Bestiary"]:
+	for tab: String in TABS:
 		var button: FancyButton = FancyButton.make(tab, &"GhostButton", Vector2(150, 48))
 		button.name = "Tab%s" % tab
 		button.pressed.connect(func() -> void: show_tab(tab))
@@ -79,7 +88,11 @@ func _build() -> void:
 	_beasts_page = UIKit.hbox(18)
 	_beasts_page.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	body.add_child(_beasts_page)
+	_gear_page = UIKit.hbox(18)
+	_gear_page.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.add_child(_gear_page)
 	# Overnight Oct 17 (Phase 2 cycle 14, performance): the Bestiary page (90 tiles) is built the first time its tab is shown, not on every open.
+	# The Gear page likewise.
 	show_tab("Cards")
 	Session.pay_completion_milestones()
 
@@ -87,20 +100,30 @@ func _build() -> void:
 func show_tab(tab: String) -> void:
 	if tab == "Bestiary" and _beast_grid == null:
 		_build_beasts_page()
+	if tab == "Gear" and _gear_box == null:
+		_build_gear_page()
 	_cards_page.visible = tab == "Cards"
 	_beasts_page.visible = tab == "Bestiary"
+	_gear_page.visible = tab == "Gear"
 	for key: Variant in _tab_buttons.keys():
 		var button: FancyButton = _tab_buttons[key] as FancyButton
 		button.modulate = Color.WHITE if str(key) == tab else Color(1, 1, 1, 0.6)
 	_update_progress(tab)
 	if tab == "Bestiary" and _beast_grid != null and _beast_grid.get_child_count() > 0:
 		(_beast_grid.get_child(0) as Control).call_deferred(&"grab_focus")
+	if tab == "Gear" and _gear_box != null:
+		var first: Control = _gear_box.find_child("Gear_*", true, false) as Control
+		if first != null:
+			first.call_deferred(&"grab_focus")
 
 
 func _update_progress(tab: String) -> void:
 	if tab == "Cards":
 		var found: Vector2i = card_progress("all")
 		_progress_label.text = "Found %d / %d  (%d%%)" % [found.x, found.y, _pct(found)]
+	elif tab == "Gear":
+		var owned: Vector2i = gear_progress()
+		_progress_label.text = "Gear %d / %d  (%d%%)" % [owned.x, owned.y, _pct(owned)]
 	else:
 		var known: Vector2i = Bestiary.progress(Session.counters)
 		_progress_label.text = "Met %d / %d  (%d%%)" % [known.x, known.y, _pct(known)]
@@ -522,3 +545,114 @@ func show_beast(entry: Bestiary.Entry) -> void:
 	if known:
 		var wins: int = Bestiary.won_count(Session.counters, entry.name)
 		_beast_detail.add_child(UIKit.label("Defeated %d time%s" % [wins, "" if wins == 1 else "s"], &"", 22, UIStyle.GOOD if wins > 0 else UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER))
+
+
+# ---- Gear -------------------------------------------------------------------------------------------------------
+
+
+## Every piece the game has, in slot order (built once).
+func all_gear() -> Array[EquipmentData]:
+	if _all_gear.is_empty():
+		_all_gear = GearCatalog.all_pieces(Session.content)
+	return _all_gear
+
+
+## (owned, total) over every piece.
+func gear_progress() -> Vector2i:
+	return GearCatalog.progress(all_gear(), Session.owned_equipment_ids())
+
+
+## One section per slot (Helm, Weapon, Armor, Boots, Relic), each with its own count. There is no gear zoom: a found tile's tooltip
+## carries the full text (`EquipmentData.tooltip_text`).
+func _build_gear_page() -> void:
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
+	_gear_page.add_child(scroll)
+	_gear_box = UIKit.vbox(10)
+	_gear_box.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(_gear_box)
+	var owned_ids: Array[String] = Session.owned_equipment_ids()
+	var quests: Array[QuestData] = QuestCatalog.all()
+	for slot: EquipmentData.Slot in GearCatalog.SLOT_ORDER:
+		var pieces: Array[EquipmentData] = GearCatalog.of_slot(all_gear(), slot)
+		if pieces.is_empty():
+			continue
+		var found: Vector2i = GearCatalog.progress(pieces, owned_ids)
+		var heading: Label = UIKit.label("%s  -  %d / %d found" % [EquipmentData.slot_name(slot), found.x, found.y], &"", 24, UIStyle.GOLD)
+		heading.name = "GearHeading_%s" % EquipmentData.slot_name(slot)
+		heading.add_theme_font_override("font", UIStyle.font_title())
+		_gear_box.add_child(heading)
+		var grid: GridContainer = GridContainer.new()
+		grid.name = "GearGrid_%s" % EquipmentData.slot_name(slot)
+		grid.columns = GEAR_COLUMNS
+		grid.add_theme_constant_override("h_separation", 10)
+		grid.add_theme_constant_override("v_separation", 10)
+		_gear_box.add_child(grid)
+		for piece: EquipmentData in pieces:
+			var owned: bool = owned_ids.has(piece.id)
+			var tile: Button = _gear_tile(piece, owned, "" if owned else GearCatalog.source_hint(piece, Session.content, quests))
+			grid.add_child(tile)
+			tile.focus_mode = Control.FOCUS_ALL
+
+
+func _gear_tile(piece: EquipmentData, owned: bool, hint: String) -> Button:
+	var rarity: int = clampi(int(piece.rarity), 0, CardView.RARITY_COLORS.size() - 1)
+	var tile: Button = Button.new()
+	tile.name = "Gear_%s" % piece.id
+	tile.custom_minimum_size = GEAR_TILE
+	UiSkin.choice_tile(tile, CardView.RARITY_COLORS[rarity] if owned else UIStyle.GOLD, false, not owned)
+	var icon: TextureRect = gear_picture(piece, owned, GEAR_ICON_PX)
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	icon.position = Vector2((GEAR_TILE.x - GEAR_ICON_PX) * 0.5, 10)
+	icon.size = Vector2(GEAR_ICON_PX, GEAR_ICON_PX)
+	tile.add_child(icon)
+	var name_label: Label = UIKit.label(piece.source_name if owned else "???", &"", 16, UIStyle.PARCHMENT if owned else UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+	name_label.name = "GearName"
+	name_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	name_label.max_lines_visible = 2
+	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	name_label.position = Vector2(6, 86)
+	name_label.size = Vector2(GEAR_TILE.x - 12, 40)
+	tile.add_child(name_label)
+	if owned:
+		var badge: Label = UIKit.label(EquipmentRarity.display_name(rarity), &"", 14, CardView.RARITY_COLORS[rarity], HORIZONTAL_ALIGNMENT_CENTER)
+		badge.name = "GearRarity"
+		badge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		badge.position = Vector2(6, 126)
+		badge.size = Vector2(GEAR_TILE.x - 12, 20)
+		tile.add_child(badge)
+		var effect: Label = UIKit.label(piece.description, &"", 13, UIStyle.PARCHMENT, HORIZONTAL_ALIGNMENT_CENTER)
+		effect.name = "GearEffect"
+		effect.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		effect.max_lines_visible = 4
+		effect.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		effect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		effect.position = Vector2(8, 148)
+		effect.size = Vector2(GEAR_TILE.x - 16, 70)
+		tile.add_child(effect)
+		tile.tooltip_text = piece.tooltip_text()
+	else:
+		var where: Label = UIKit.label(hint, &"", 14, UIStyle.MUTED, HORIZONTAL_ALIGNMENT_CENTER)
+		where.name = "GearHint"
+		where.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		where.max_lines_visible = 4
+		where.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		where.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		where.position = Vector2(8, 132)
+		where.size = Vector2(GEAR_TILE.x - 16, 86)
+		tile.add_child(where)
+		tile.tooltip_text = "Not found yet.\n%s" % hint
+	return tile
+
+
+## The piece's full-colour icon (game-icons fallback otherwise); a dark silhouette until owned.
+static func gear_picture(piece: EquipmentData, owned: bool, px: float) -> TextureRect:
+	var picture: TextureRect = IconArt.equipment_glyph(piece, UIStyle.PARCHMENT if owned else Color(0.12, 0.1, 0.16), px)
+	picture.name = "GearIcon"
+	picture.custom_minimum_size = Vector2(px, px)
+	if not owned and IconArt.has_equipment_icon(piece):
+		picture.modulate = Color(0.06, 0.05, 0.09, 0.95)
+	return picture
