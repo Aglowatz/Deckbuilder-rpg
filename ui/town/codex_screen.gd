@@ -97,6 +97,12 @@ func _build() -> void:
 	Session.pay_completion_milestones()
 
 
+## The dark outline the progress label uses, for any label over the painting.
+static func _outline(label: Label) -> void:
+	label.add_theme_constant_override("outline_size", 8)
+	label.add_theme_color_override("font_outline_color", Color(0.08, 0.04, 0.02, 0.95))
+
+
 func show_tab(tab: String) -> void:
 	if tab == "Bestiary" and _beast_grid == null:
 		_build_beasts_page()
@@ -290,6 +296,7 @@ func _refresh_grid() -> void:
 			if Session.has_seen(card.id):
 				found += 1
 		var heading: Label = UIKit.label("%s  -  %d / %d found" % [CardView.RARITY_NAMES[rarity], found, cards.size()], &"", 24, CardView.RARITY_COLORS[rarity])
+		_outline(heading)  # overnight Oct 19: section headings sit on the busy painting too (the gold lantern behind "Helm")
 		heading.add_theme_font_override("font", UIStyle.font_title())
 		_grid_box.add_child(heading)
 		var grid: GridContainer = GridContainer.new()
@@ -582,6 +589,7 @@ func _build_gear_page() -> void:
 			continue
 		var found: Vector2i = GearCatalog.progress(pieces, owned_ids)
 		var heading: Label = UIKit.label("%s  -  %d / %d found" % [EquipmentData.slot_name(slot), found.x, found.y], &"", 24, UIStyle.GOLD)
+		_outline(heading)  # overnight Oct 19: section headings sit on the busy painting too (the gold lantern behind "Helm")
 		heading.name = "GearHeading_%s" % EquipmentData.slot_name(slot)
 		heading.add_theme_font_override("font", UIStyle.font_title())
 		_gear_box.add_child(heading)

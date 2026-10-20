@@ -156,3 +156,7 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
   low-memory guard (the call ran past the foreground limit and moved to the background); its orphaned Godot window was closed. Not
   restarted on my own, per the guard's rule: it passed 73/73 after cycle 22, and cycles 23-24 changed only quest-log strings, three marker
   targets and two dialogue lines (quest tests 123/123). Lesson (again): one Godot run per foreground call.
+
+## Cycle 26 - UI consistency (8.5): Collection Book headings
+- The section headings ("Helm - 1 / 9 found", the Cards tab's rarity headings) sat straight on the busy painting (the gold lantern behind
+  "Helm"); they get the same dark outline as the progress label (`CodexScreen._outline`). Shot `_screenshots/oct19n_c26_codex_gear.png`.
