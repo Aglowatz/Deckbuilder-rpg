@@ -123,3 +123,7 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
   lessons he had never heard. `CutsceneDefs.beats(scene_id, rushed)` swaps the three lesson lines (`RUSHED_KEYS`) for `.rushed` variants
   in the Wanderer's own words when `Session.completed_zone_count() < 4`; with all four freed nothing changes. Test
   `tests/core/dungeon/test_primm_rushed_lines.gd`; finale + fit tests OK.
+
+## Cycle 21 - Dialogue: Agnes in the Hall
+- `dungeon.ha_number.before`: she no longer says "Oh, you're new" and introduces herself again to a hero she met at the front desk ("There
+  you are, dear." / "If we haven't met: Agnes..."), reading right whether or not you talked to her first. Tests 19/19.
