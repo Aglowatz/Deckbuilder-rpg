@@ -17,7 +17,7 @@ anything still missing, so a partial delivery is fine and a line can be run agai
 | 6 | import zone kit heap | `bash tools/import_zone_kit.sh heap` | `Approved_ZoneKits/VerdantDump` (`zonekit_folders`) | The same for the DUMP-\* kit; report `docs/art/zone_kits/heap_import_report.md`. |
 | 7 | import maps | `bash tools/import_maps.sh` | `Approved_Maps` | Added / replaced Map Image IDs (MAP-S-IRON), not 3:2 (kept, never cropped), still missing, files matching no ID. |
 | 8 | import battleboards | `bash tools/import_battleboards.sh` | `Approved_Battleboards` | Added / replaced (BB-S-IRON), cropped to 16:9, still missing, files matching no ID, boards mapped to nothing. |
-| 9 | import bestiary | `bash tools/import_bestiary.sh` | `Approved_Bestiary` (new folder) | Added / replaced BST IDs, not square (cropped from the top), names matched forgivingly, files matching no ID, "Bestiary IDs with no picture (n of 90)". |
+| 9 | import bestiary | `bash tools/import_bestiary.sh` | `Approved_Bestiary` (new folder) | Added / replaced BST IDs, not square (cropped from the top), names matched forgivingly, files matching no ID, "Bestiary IDs with no picture (n of 91)". |
 | 10 | import UI art | `bash tools/import_ui_art.sh` | `Approved_UI` | Added / replaced UI IDs (UI-BG-CHARACTER), then `Character screen: UI-BG-CHARACTER has no painted frames -> data/ui_config.cfg background_painted_slots=false`. |
 
 After the last line: `bash tools/run_tests.sh` (all GUT, compile check) once, then the screenshots below.
@@ -37,8 +37,8 @@ SPR-MOUNTAIN, SPR-LEDGERBONE, SPR-ECTOMUND, SPR-PATE, SPR-FLAMBE, SPR-BASIL, SPR
 
 **4. Icons** (`assets/art/icons/<ID>.webp` + 24/32/48/64/96/128 px variants). The importer now accepts every ID below even though `icons.csv` has no row for it
 (`IconArt.import_ids`, generated from the game data); a file named `ICON-GEAR-LUCKY-SOCK.png` or `icon-item-healing_draught.png` is matched and saved under the ID.
-- **Gear, 54** (`ICON-GEAR-<equipment id, upper case, no underscores>`; 10 already in: WICKEDDAGGER, FLAMETHROWER, EXTRAPOCKET, CHEATERSDICE, TRAVELERSBOOTS,
-  HOVERBOOTS, SOLIDPLATE, THORNEDLOINCLOTH, XRAYGOGGLES, BIGBRAINBERET). The 44 new: BINLID, BLOODSANDBOOTS, CARDBOARDCUIRASS, CHAMPIONSLAURELS, CLERKSSTAMP,
+- **Gear, 55** (`ICON-GEAR-<equipment id, upper case, no underscores>`; 10 already in: WICKEDDAGGER, FLAMETHROWER, EXTRAPOCKET, CHEATERSDICE, TRAVELERSBOOTS,
+  HOVERBOOTS, SOLIDPLATE, THORNEDLOINCLOTH, XRAYGOGGLES, BIGBRAINBERET). The 45 new: BINLID, FIRSTWATERPHIAL (the Old Well relic, added later tonight - a secret: no prompt row yet), BLOODSANDBOOTS, CARDBOARDCUIRASS, CHAMPIONSLAURELS, CLERKSSTAMP,
   COMPLIANCECLIPBOARD, COMPOSTBOOTS, COURIERLANYARD, CROWDPLEASERSCAPE, DOGEAREDBOOKMARK, DOGGYBAG, DUMPSTERGLOVES, ELASTICWAISTBAND, FLIPFLOPS, FOURSEALSIGNET,
   GLADIATORSNET, GLASSJAWGAUNTLETS, GOTTAGOGALOSHES, HEADCHEFLADLE, HEADCHEFTOQUE, HUBRISCROWN, HUSTLEHEADBAND, IRONKNUCKLES, KETTLEBELLLOCKET, LUCKYSOCK,
   MYSTERYSTAINBIB, NOTARYSEAL, OVERDUELIBRARYBOOK, PANTRYAPRON, PAPERPLANECAPE, PARTICIPATIONTROPHY, POINTYSTICK, PROTEINBANDOLIER, RACCOONCROWN, REDTAPEDISPENSER,
@@ -77,7 +77,7 @@ re-delivered show at once.
 **8. Battleboards**: BB-S-IRON (the Iron Cave now names its own board in `data/dungeons/postgame_dungeons.json`; until the file exists it shows BB-S-BEEF,
 `Battleboards.STANDIN_BOARDS`, and its battles keep the Swolympus music). `known_boards` also knows every dungeon blueprint's board (BB-LAB), so neither is "matching no ID".
 
-**9. Bestiary, 90** (`assets/art/bestiary/<ID>.webp`, square 512 px; prompts in `docs/art/bestiary_image_requests.md`): BST-CAVE-SCAVENGER, BST-HOLLOW-STALKER,
+**9. Bestiary, 91** (the 91st, BST-THE-WELLSPRING-S-ECHO, was added later tonight) (`assets/art/bestiary/<ID>.webp`, square 512 px; prompts in `docs/art/bestiary_image_requests.md`): BST-CAVE-SCAVENGER, BST-HOLLOW-STALKER,
 BST-HOLLOW-WARDEN, BST-FLEXING-BRUTE, BST-PROTEIN-SHAKE-GOLEM, BST-SPRINTING-ENERGY-SPRITE, BST-SHAMBLING-MIDDLE-MANAGER, BST-ZOMBIE-INTERN, BST-SPEEDY-GHOST-COURIER,
 BST-MEATLOAF-GOLEM, BST-GELATIN-SENTINEL, BST-RUNAWAY-MEATBALL, BST-COLONEL-CASSEROLE, BST-MOSSY-TRASH-GOLEM, BST-POSSESSED-SCARECROW-DRUID, BST-JUNK-GULL-FLOCK,
 BST-COMPLIANCE-OFFICER, BST-PERFECTION-INSPECTOR, BST-TIDY-BOT, BST-RIFT-WRETCH, BST-SHARD-SWARM, BST-CAPTAIN-SPOTLESS, BST-TREADMILL-SPRINTER, BST-COURTYARD-LIFTER,
