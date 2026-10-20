@@ -13,3 +13,8 @@ const SETTING_PATH: String = "deckbuilder/dev_shrine_enabled"
 
 static func shrine_enabled(force_debug: bool = OS.is_debug_build()) -> bool:
 	return force_debug or bool(ProjectSettings.get_setting(SETTING_PATH, false))
+
+
+## Oct 20, Part 1: the Dev Menu (F10) follows the same gate as the shrine: debug builds (or the explicit override) only.
+static func menu_enabled(force_debug: bool = OS.is_debug_build()) -> bool:
+	return shrine_enabled(force_debug)

@@ -53,3 +53,5 @@ var rule_badges: Array[RuleBadges.Badge] = []
 var music: StringName = &"battle"
 ## Which battleboard backdrop the duel is fought on: a key of `data/battleboards.json` ("zone:beefcake", "capital:in", "arena"...). "" = the neutral board.
 var board_key: String = ""
+## Oct 20: a Dev Menu fight (`DevActions.start_encounter`): nothing is paid and the hero goes back to Crosspath afterwards.
+var dev_battle: bool = false

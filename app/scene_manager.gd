@@ -9,6 +9,8 @@ var pause_allowed: bool = false
 
 var _fade: ColorRect
 var _pause_menu: PauseMenu
+## The Dev Menu (debug builds only; null in a release build).
+var dev_menu: DevMenu
 ## The area scene the player is in (`Areas` key; "" on the title): loading screens and zone title cards show when the destination is a different area.
 var current_area: String = ""
 ## The area before the current one (the title counts as ""): a scene shows its zone title card when this differs from its own area.
@@ -35,6 +37,8 @@ func _ready() -> void:
 	_pause_menu = PauseMenu.new()
 	_pause_menu.layer = 90
 	get_tree().root.add_child.call_deferred(_pause_menu)
+	# Oct 20: the Dev Menu (F10) exists in debug builds only (`DevTools.menu_enabled`); a release export never builds one.
+	dev_menu = DevMenu.install(get_tree())
 
 
 func _unhandled_input(event: InputEvent) -> void:

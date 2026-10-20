@@ -1138,6 +1138,8 @@ func deck_lookup() -> Callable:
 
 ## How many Deck Station slots are open (4, then 6, 8 and 10 at levels 7, 14 and 21 - `DeckSlots`).
 func deck_capacity() -> int:
+	if flag(DevActions.DEV_DECK_SLOTS):
+		return DeckSlots.SLOT_COUNT  # the Dev Menu's "unlock all deck slots"
 	return DeckSlots.unlocked_at(profile.level) if profile != null else DeckSlots.START_SLOTS
 
 
@@ -3094,6 +3096,9 @@ func complete_battle(context: BattleContext) -> void:
 	if context.won:
 		record_victory(context)
 	save_game()  # Overnight Oct 18, Part 3: autosave after every battle (each branch below may save again with its rewards)
+	if context.dev_battle:
+		SceneManager.go_to_town()
+		return
 	if not context.arena_id.is_empty():
 		_complete_arena_battle(context)
 		return

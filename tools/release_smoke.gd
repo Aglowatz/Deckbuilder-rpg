@@ -56,6 +56,15 @@ func _run() -> void:
 	_check(driver.find_button("Open feedback folder") != null, "pause menu has Open feedback folder")
 	await driver.tap_key(KEY_ESCAPE)
 	await driver.frames(30)
+	# Oct 20: the Dev Menu (F10) - this smoke runs a debug build, so it exists, opens, pauses, closes (the exported smoke checks it is gone)
+	var dev: DevMenu = get_tree().root.find_child("DevMenu", true, false) as DevMenu
+	_check(dev != null, "debug build: the Dev Menu is installed")
+	await driver.tap_key(KEY_F10)
+	await driver.frames(20)
+	_check(dev != null and dev.is_open() and get_tree().paused, "F10 opens the Dev Menu and pauses the world")
+	await driver.tap_key(KEY_F10)
+	await driver.frames(20)
+	_check(dev != null and not dev.is_open() and not get_tree().paused, "F10 closes it again")
 	# save and load round trip (a slot in a throwaway folder)
 	Session.ensure_game()
 	var gold: int = Session.gold

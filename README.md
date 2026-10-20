@@ -116,6 +116,9 @@ The rules never touch the scene tree: the battle screen animates the engine's ev
 
 ## Tests and tools
 
+**Dev Menu**: press **F10** anywhere in a debug build (editor runs) for travel, player, progress, battle, view and save-snapshot
+cheats (`docs/dev_menu.md`). It does not exist in a release export.
+
 ```
 tools/run_tests.sh                  # GUT unit tests (headless)
 tools/run_e2e.sh                    # plays the whole demo through the real UI with injected input (windowed, ~2 min)

@@ -112,6 +112,29 @@ func _screenshot_result(spec: String) -> void:
 	await _show_result()
 
 
+## Oct 20 Dev Menu: ends the duel now (`won` = the hero wins); the normal result panel and completion follow through `_drive`.
+func dev_end(won: bool) -> void:
+	if game == null or game.is_over():
+		return
+	if _mulligan_panel != null:
+		_mulligan_choice(true)
+	game._end_game(0 if won else 1, false)
+	if not busy:
+		_drive()
+
+
+## Oct 20 Dev Menu: redraws the board, hand, piles and HUD after the menu changed the game state (cards drawn, energy, resources...).
+func dev_refresh() -> void:
+	if game == null:
+		return
+	board.register_all()
+	board.sync_state(false)
+	board.layout(false)
+	hud.refresh_all()
+	_refresh_piles()
+	_refresh_ui()
+
+
 func _screenshot_give(spec: String) -> void:
 	if spec.is_empty():
 		return

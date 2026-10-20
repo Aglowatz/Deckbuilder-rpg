@@ -56,6 +56,15 @@ func _run() -> void:
 	_check(_find_button("Open feedback folder") != null, "pause menu has Open feedback folder")
 	await _tap_key(KEY_ESCAPE)
 	await _frames(30)
+	# Oct 20: no Dev Menu in a release build (F10 does nothing). The stock binary this smoke runs on is a debug build, so the check only
+	# bites when OS.is_debug_build() is false; GUT covers the gate itself (tests/test_dev_menu.gd).
+	await _tap_key(KEY_F10)
+	await _frames(20)
+	var dev: Node = get_tree().root.find_child("DevMenu", true, false)
+	_check(OS.is_debug_build() or dev == null, "release build: no Dev Menu (debug binary: %s, menu: %s)" % [OS.is_debug_build(), dev != null])
+	if dev != null and bool(dev.call("is_open")):
+		await _tap_key(KEY_F10)
+		await _frames(10)
 	session.call("ensure_game")
 	var gold: int = int(session.get("gold"))
 	_check(bool(session.call("save_to_slot", 2, "release smoke")), "manual save to slot 2")
