@@ -47,7 +47,7 @@ func test_the_round_platform_is_gone_and_a_solid_gym_hall_splits_the_plaza() -> 
 	assert_gte(float(hall.get_meta("height", 0.0)), StorybookScale.STOREY_H * 2.5, "a real building: two storeys and a roof")
 	assert_true(hall.has_meta("emblem"), "a dumbbell emblem in the gable")
 	assert_eq(hall.find_children("*", "Label3D", true, false).size(), 0, "an icon, no lettering")
-	assert_true(hall.has_meta("standin"), "tagged STANDIN until its concept art exists")
+	assert_eq(str(hall.get_meta("concept", "")), "GAIN-HERO-GYM-HALL", "modelled after its painted concept (art import Oct 20)")
 	# full collision: every point of the footprint is solid, the ground just outside every wall is open
 	for fx: float in [0.05, 0.5, 0.95]:
 		for fz: float in [0.05, 0.5, 0.95]:

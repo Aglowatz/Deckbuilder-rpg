@@ -26,6 +26,23 @@ static func material(shallow: Color = Color("5cc8e6"), deep: Color = Color("1f72
 	return result
 
 
+## A copy of the toon water with a painted surface layer (texture_id, a kit or zone-kit surface) under it; the plain material when the art is missing.
+static func painted(texture_id: String, shallow: Color, deep: Color, tile: float = 6.0, amount: float = 0.6) -> ShaderMaterial:
+	var base: ShaderMaterial = material(shallow, deep)
+	if not EnvKit.has_art(texture_id):
+		return base
+	var key: String = "%s|paint:%s" % [base.get_instance_id(), texture_id]
+	if _cache.has(key):
+		return _cache[key] as ShaderMaterial
+	var result: ShaderMaterial = base.duplicate() as ShaderMaterial
+	result.set_shader_parameter("paint_tex", EnvKit.texture(texture_id))
+	result.set_shader_parameter("use_paint", true)
+	result.set_shader_parameter("paint_tile", tile)
+	result.set_shader_parameter("paint_amount", amount)
+	_cache[key] = result
+	return result
+
+
 ## Replaces every surface material under `node` with the toon water.
 static func apply(node: Node, shallow: Color = Color("5cc8e6"), deep: Color = Color("1f72c4")) -> void:
 	var water: ShaderMaterial = material(shallow, deep)

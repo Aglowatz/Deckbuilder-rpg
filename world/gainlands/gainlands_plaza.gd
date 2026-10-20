@@ -48,6 +48,10 @@ static func gym_hall(size: Vector3) -> Node3D:
 	mesh.alias("blue_plate", "flat", Color("3d6fd0"))
 	mesh.alias("rubber", "flat", Color("3a3436"))
 	mesh.set_material("sandstone", EnvKit.flat(Color("dcc19a"), "gl2_sandstone_block"))
+	# Art import Oct 20: matched to the painted concept (docs/art/zone_kits/gainlands/concepts/GAIN-HERO-GYM-HALL.jpg): smooth cream pillars, an open timber
+	# truss in the gable and the emblem on a red disc in a gold ring
+	mesh.set_material("pillar_cream", EnvKit.flat(Color("ecd8b4"), "gl2_sandstone_cap"))
+	mesh.alias("emblem_red", "flat", Color("d9483b"))
 	var w: float = size.x
 	var d: float = size.z
 	var h: float = size.y
@@ -67,13 +71,14 @@ static func gym_hall(size: Vector3) -> Node3D:
 	# the open front: four cream-stone pillars, half-height parapets between the outer pairs, an iron lintel
 	var pillars: Array[float] = [-hw + 0.45, -w / 6.0, w / 6.0, hw - 0.45]
 	for x: float in pillars:
-		mesh.box("cream_stone", Vector3(x, h * 0.5 + 0.3, hd - 0.4), Vector3(0.85, h, 0.85), Basis.IDENTITY, 0.05, 0.9)
+		mesh.box("pillar_cream", Vector3(x, h * 0.5 + 0.3, hd - 0.4), Vector3(0.85, h, 0.85), Basis.IDENTITY, 0.05, 0.9)
+		mesh.box("pillar_cream", Vector3(x, h + 0.05, hd - 0.4), Vector3(1.05, 0.25, 1.05), Basis.IDENTITY, 0.03)
 		mesh.box("brass", Vector3(x, 0.62, hd - 0.4), Vector3(1.0, 0.18, 1.0), Basis.IDENTITY, 0.02)
 	for pair: Array in [[pillars[0], pillars[1]], [pillars[2], pillars[3]]]:
 		var mid: float = (float(pair[0]) + float(pair[1])) * 0.5
 		var span: float = absf(float(pair[1]) - float(pair[0])) - 0.8
 		mesh.box("brick", Vector3(mid, 0.9, hd - 0.4), Vector3(span, 1.1, 0.5), Basis.IDENTITY, 0.03, 0.85)
-		mesh.box("cream_stone", Vector3(mid, 1.5, hd - 0.4), Vector3(span + 0.1, 0.12, 0.62), Basis.IDENTITY, 0.02)
+		mesh.box("pillar_cream", Vector3(mid, 1.5, hd - 0.4), Vector3(span + 0.1, 0.12, 0.62), Basis.IDENTITY, 0.02)
 	mesh.box("iron", Vector3(0, h + 0.1, hd - 0.4), Vector3(w + 0.3, 0.6, 0.9), Basis.IDENTITY, 0.03)
 	# the gable roof (ridge front to back), deep overhangs, the brick gable over the front with the dumbbell emblem
 	var pitch: float = deg_to_rad(28.0)
@@ -83,15 +88,24 @@ static func gym_hall(size: Vector3) -> Node3D:
 		mesh.box("roof", centre, Vector3(slab, 0.4, d + 1.6), Basis(Vector3(0, 0, 1), -side * pitch), 0.03, 0.95)
 	var ridge: float = h + 0.4 + tan(pitch) * hw
 	mesh.box("iron", Vector3(0, ridge + 0.15, 0), Vector3(0.6, 0.5, d + 1.8), Basis.IDENTITY, 0.02)
-	for z: float in [hd - 0.2, -hd + 0.2]:
-		var facing: Vector3 = Vector3(0, 0, 1) if z > 0.0 else Vector3(0, 0, -1)
-		mesh.tri("brick", [Vector3(-hw, h + 0.4, z), Vector3(hw, h + 0.4, z), Vector3(0, ridge - 0.1, z)], facing)
-	var emblem: Vector3 = Vector3(0, h + 0.4 + (ridge - h - 0.4) * 0.42, hd + 0.02)
-	mesh.tube("gold", emblem, emblem + Vector3(0, 0, 0.12), 1.15, 18, true)
-	mesh.box("dark", emblem + Vector3(0, 0, 0.14), Vector3(1.3, 0.2, 0.08), Basis.IDENTITY, 0.0)
+	# the back gable is closed brick; the front gable is set back behind an open timber truss (tie beam, king post, two struts) over the plaza
+	mesh.tri("brick", [Vector3(-hw, h + 0.4, -hd + 0.2), Vector3(hw, h + 0.4, -hd + 0.2), Vector3(0, ridge - 0.1, -hd + 0.2)], Vector3(0, 0, -1))
+	mesh.tri("bleach_dark", [Vector3(-hw, h + 0.4, hd - 1.0), Vector3(hw, h + 0.4, hd - 1.0), Vector3(0, ridge - 0.1, hd - 1.0)], Vector3(0, 0, 1))
+	var truss_z: float = hd - 0.1
+	mesh.box("bleach_dark", Vector3(0, h + 0.55, truss_z), Vector3(w + 0.2, 0.32, 0.3), Basis.IDENTITY, 0.02)
+	mesh.box("bleach_dark", Vector3(0, (h + 0.55 + ridge) * 0.5, truss_z), Vector3(0.3, ridge - h - 0.55, 0.3), Basis.IDENTITY, 0.02)
 	for side: float in [-1.0, 1.0]:
-		mesh.box("dark", emblem + Vector3(side * 0.62, 0, 0.14), Vector3(0.22, 0.86, 0.1), Basis.IDENTITY, 0.02)
-		mesh.box("dark", emblem + Vector3(side * 0.86, 0, 0.14), Vector3(0.16, 0.58, 0.1), Basis.IDENTITY, 0.02)
+		var foot: Vector3 = Vector3(side * hw * 0.62, h + 0.6, truss_z)
+		var head: Vector3 = Vector3(0, ridge - 0.4, truss_z)
+		mesh.tube("bleach_dark", foot, foot.lerp(head, 0.55), 0.13, 4, true)
+		mesh.box("bleach_dark", Vector3(side * hw * 0.5, h + 0.62 + tan(pitch) * hw * 0.5, truss_z), Vector3(hw / cos(pitch) + 0.6, 0.26, 0.3), Basis(Vector3(0, 0, 1), -side * pitch), 0.02)
+	var emblem: Vector3 = Vector3(0, h + 0.4 + (ridge - h - 0.4) * 0.42, truss_z + 0.18)
+	mesh.tube("gold", emblem, emblem + Vector3(0, 0, 0.12), 1.15, 18, true)
+	mesh.tube("emblem_red", emblem + Vector3(0, 0, 0.02), emblem + Vector3(0, 0, 0.13), 0.95, 18, true)
+	mesh.box("gold", emblem + Vector3(0, 0, 0.14), Vector3(1.3, 0.2, 0.08), Basis.IDENTITY, 0.0)
+	for side: float in [-1.0, 1.0]:
+		mesh.box("gold", emblem + Vector3(side * 0.62, 0, 0.14), Vector3(0.22, 0.86, 0.1), Basis.IDENTITY, 0.02)
+		mesh.box("gold", emblem + Vector3(side * 0.86, 0, 0.14), Vector3(0.16, 0.58, 0.1), Basis.IDENTITY, 0.02)
 	# kit banners on the outer pillars
 	GainlandsLandmarks._card(mesh, "GAIN-SHEET-BANNERS-02", Vector3(pillars[0], h - 0.2, hd + 0.08), 2.4, Vector3(0, 0, 1))
 	GainlandsLandmarks._card(mesh, "GAIN-SHEET-BANNERS-05", Vector3(pillars[3], h - 0.2, hd + 0.08), 2.4, Vector3(0, 0, 1))

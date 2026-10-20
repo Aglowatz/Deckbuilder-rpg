@@ -24,6 +24,11 @@ static func fall_material() -> ShaderMaterial:
 		_fall_material.set_shader_parameter("foam_color", Color(0.97, 1.0, 1.0))
 		_fall_material.set_shader_parameter("speed", 1.3)
 		_fall_material.set_shader_parameter("opacity", 0.86)
+		if EnvKit.has_art("DUMP-PROP-WATERFALL-02"):
+			# art import Oct 20: a painted falling-water sheet (DUMP-PROP-WATERFALL, 3x2 sheet) laid under the scrolling streaks
+			_fall_material.set_shader_parameter("fall_tex", EnvKit.texture("DUMP-PROP-WATERFALL-02"))
+			_fall_material.set_shader_parameter("use_tex", true)
+			_fall_material.set_shader_parameter("tex_repeat", 1.0)
 	return _fall_material
 
 
@@ -48,7 +53,7 @@ static func surface(quads: Array, node_name: String, shallow: Color = SHALLOW, d
 	tool.generate_normals()
 	var instance: MeshInstance3D = MeshInstance3D.new()
 	instance.mesh = tool.commit()
-	instance.material_override = StyleWater.material(shallow, deep)
+	instance.material_override = StyleWater.painted("DUMP-SURF-WATER", shallow, deep)  # the painted turquoise river under the toon water (art import Oct 20)
 	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	instance.name = node_name
 	_never(instance)

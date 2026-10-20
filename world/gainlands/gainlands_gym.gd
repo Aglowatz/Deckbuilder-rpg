@@ -7,6 +7,31 @@ extends RefCounted
 ## rope_station, plate_stack, chalk_bucket, leg_press (the Iron Cave's leg-day kit).
 
 const KINDS: Array[String] = ["squat_rack", "bench", "dumbbell_rack", "kettlebell_rack", "atlas_stones", "tire", "tire_pair", "sled_track", "pullup_frame", "rope_station", "plate_stack", "chalk_bucket", "leg_press"]
+## Art import Oct 20: the painted cut-out that replaces a kind's built STANDIN (docs/art/zone_kits/gainlands_v2_requests.md) and its in-game size in metres
+## (w = the piece's width as painted, h = its height). The card is as tall as the larger of h and w / the picture's aspect (a low, long piece painted at a
+## three-quarter view still gets its full width), never more than 1.5 h. A flat sled track stays built (a standing card cannot lie on the ground).
+const CARDS: Dictionary = {
+	"squat_rack": {"id": "GAIN-PROP-SQUAT-RACK", "w": 1.7, "h": 2.4},
+	"bench": {"id": "GAIN-PROP-BENCH", "w": 1.35, "h": 0.6},
+	"dumbbell_rack": {"id": "GAIN-PROP-DUMBBELL-RACK", "w": 2.2, "h": 1.0},
+	"kettlebell_rack": {"id": "GAIN-PROP-KETTLEBELL-RACK", "w": 1.8, "h": 0.75},
+	"atlas_stones": {"id": "GAIN-PROP-ATLAS-STONES", "w": 3.5, "h": 1.1},
+	"tire_pair": {"id": "GAIN-PROP-TIRE-PILE", "w": 2.4, "h": 0.8},
+	"pullup_frame": {"id": "GAIN-PROP-PULLUP-FRAME", "w": 2.4, "h": 2.7},
+	"rope_station": {"id": "GAIN-PROP-ROPE-STATION", "w": 1.6, "h": 3.0},
+	"plate_stack": {"id": "GAIN-PROP-PLATE-STACK", "w": 0.6, "h": 0.8},
+	"chalk_bucket": {"id": "GAIN-PROP-CHALK-BUCKET", "w": 0.5, "h": 0.5},
+	"leg_press": {"id": "GAIN-PROP-LEG-PRESS", "w": 2.6, "h": 1.8},
+}
+
+
+## The painted card's height for a kind with art (0.0 when it has none, so the kind stays built).
+static func card_height(kind: String) -> float:
+	if not CARDS.has(kind) or not EnvKit.has_art(str((CARDS[kind] as Dictionary)["id"])):
+		return 0.0
+	var spec: Dictionary = CARDS[kind] as Dictionary
+	var h: float = float(spec["h"])
+	return clampf(float(spec["w"]) / maxf(0.1, EnvKit.aspect(str(spec["id"]))), h, h * 1.5)
 
 
 static func materials(mesh: KitMesh) -> void:
@@ -29,16 +54,30 @@ static func materials(mesh: KitMesh) -> void:
 static func yard(items: Array, origin: Vector3, node_name: String) -> Node3D:
 	var mesh: KitMesh = KitMesh.new()
 	materials(mesh)
+	var root: Node3D = Node3D.new()
+	var cards: int = 0
 	for entry: Variant in items:
 		var item: Dictionary = entry as Dictionary
 		var pos: Vector3 = item["pos"] as Vector3
-		build_item(mesh, str(item["kind"]), Vector3(pos.x - origin.x, 0.0, pos.z - origin.z), float(item.get("yaw", 0.0)))  # the yard stands on the ground at origin.y
-	var root: Node3D = Node3D.new()
+		var local: Vector3 = Vector3(pos.x - origin.x, 0.0, pos.z - origin.z)  # the yard stands on the ground at origin.y
+		var kind: String = str(item["kind"])
+		var height: float = card_height(kind)
+		if height > 0.0:
+			var id: String = str((CARDS[kind] as Dictionary)["id"])
+			var card: MeshInstance3D = KitFoliage.card(id, Vector2(height, height), true, true)
+			card.name = "Card_%s_%d" % [id, cards]
+			card.position += local
+			root.add_child(card)
+			cards += 1
+			continue
+		build_item(mesh, kind, local, float(item.get("yaw", 0.0)))
 	root.name = node_name
-	var body: MeshInstance3D = mesh.instance("Body")
-	body.set_meta(PaintedClasses.META_NO_PAINT, true)
-	body.set_meta(&"no_occlusion_fade", true)  # low pieces (2.4 m at most) never hide the hero, and one faded piece would ghost the whole yard
-	root.add_child(body)
+	root.set_meta("cards", cards)
+	if mesh.triangle_count() > 0:
+		var body: MeshInstance3D = mesh.instance("Body")
+		body.set_meta(PaintedClasses.META_NO_PAINT, true)
+		body.set_meta(&"no_occlusion_fade", true)  # low pieces (2.4 m at most) never hide the hero, and one faded piece would ghost the whole yard
+		root.add_child(body)
 	root.set_meta(&"no_wind", true)
 	root.set_meta("triangles", mesh.triangle_count())
 	root.position = origin

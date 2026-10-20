@@ -21,6 +21,11 @@ uniform float flow_speed = 0.35;
 uniform float caustic_strength = 0.22;
 uniform float sparkle_amount = 1.0;
 uniform bool use_depth = true;
+// Art import Oct 20: an optional painted water layer (a tileable surface, e.g. DUMP-SURF-WATER) drifting under the bands, caustics and foam.
+uniform sampler2D paint_tex : source_color, filter_linear_mipmap, repeat_enable;
+uniform bool use_paint = false;
+uniform float paint_tile = 6.0;
+uniform float paint_amount = 0.6;
 
 varying vec3 v_world;
 
@@ -66,6 +71,10 @@ void fragment() {
 	float t = TIME * flow_speed;
 	float depth01 = smoothstep(0.0, depth_range, diff);
 	vec3 col = mix(shallow_color.rgb, deep_color.rgb, depth01);
+	if (use_paint) {
+		vec3 painted = texture(paint_tex, wp / paint_tile + vec2(t * 0.05, -t * 0.03)).rgb;
+		col = mix(col, painted * mix(vec3(1.0), deep_color.rgb / max(shallow_color.rgb, vec3(0.05)), depth01 * 0.5), paint_amount);
+	}
 	// Painted value bands in the body of the water, a slow drifting patch pattern.
 	float patch = vnoise(wp * 0.45 + vec2(t * 0.3, -t * 0.2));
 	col *= 0.93 + 0.14 * smoothstep(0.35, 0.65, patch);

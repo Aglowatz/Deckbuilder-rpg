@@ -51,6 +51,11 @@ static func windmill() -> Node3D:
 	for y: float in [4.4, 7.0]:
 		GainlandsLandmarks._card(mesh, "GAIN-SHEET-WINDOWS-01", Vector3(0, y, 2.62 - (y - 3.2) * 0.068), 1.1, Vector3(0, 0, 1))
 	mesh.tube("iron", Vector3(0, 11.6, 1.6), Vector3(0, 11.6, 3.0), 0.35, 8, true)
+	# Art import Oct 20 (the painted concept GAIN-PROP-TOWER-MILL): red-and-gold pennants hung from the gallery rail, round the front half
+	for k: int in range(5):
+		var a: float = PI * 0.5 + (float(k) - 2.0) * 0.55
+		var out: Vector3 = Vector3(cos(a), 0.0, sin(a))
+		GainlandsLandmarks._card(mesh, "GAIN-SHEET-BANNERS-0%d" % (1 + k % 3), out * 3.04 + Vector3(0, 11.4, 0), 1.0, out)
 	var body: MeshInstance3D = mesh.instance("Body")
 	body.set_meta(PaintedClasses.META_NO_PAINT, true)
 	root.add_child(body)
@@ -74,7 +79,7 @@ static func windmill() -> Node3D:
 	root.add_child(spinner)
 	root.set_meta("spinner", spinner)
 	root.set_meta(&"no_wind", true)
-	root.set_meta("standin", "GAIN-PROP-TOWER-MILL")
+	root.set_meta("concept", "GAIN-PROP-TOWER-MILL")  # modelled after the painted concept (art import Oct 20; was a STANDIN)
 	root.set_meta("height", 13.9)
 	return root
 

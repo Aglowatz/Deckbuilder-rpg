@@ -41,6 +41,10 @@ static func _finish(mesh: KitMesh, node_name: String, never_fade: bool = true) -
 ## side with moss and the odd violet bloom, a landing slab at the top. Built in world space (the ramp's rectangle).
 static func stairs(ramp: HeapLayout.Ramp) -> Node3D:
 	var mesh: KitMesh = _mesh()
+	if EnvKit.has_art("DUMP-PROP-STAIRS"):
+		# art import Oct 20: the painted mossy stair stone on the treads and cheek walls (was the kit's foundation stone, cooled)
+		mesh.set_material("stone", EnvKit.material("DUMP-PROP-STAIRS"))
+		mesh.set_material("stone_dark", EnvKit.material("DUMP-PROP-STAIRS", false, Color(0.78, 0.76, 0.86)))
 	var rect: Rect2 = ramp.rect
 	var steps: int = maxi(2, int(ceilf(rect.size.y / HeapLayout.RAMP_STEP_DEPTH)))
 	var depth: float = rect.size.y / float(steps)
@@ -180,12 +184,19 @@ static func cliff_vines(drapes: Array) -> Node3D:
 	var mesh: KitMesh = _mesh()
 	var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 	rng.seed = 909
+	var painted: bool = EnvKit.has_art("DUMP-DEC-VINES-01")
 	for entry: Variant in drapes:
 		var d: Array = entry as Array
 		var top: Vector3 = d[0] as Vector3
 		var length: float = float(d[1])
 		var out: Vector3 = Vector3(sin(deg_to_rad(float(d[2]))), 0.0, cos(deg_to_rad(float(d[2]))))
-		var strands: int = 2 + rng.randi() % 3
+		if painted:
+			# art import Oct 20: a painted vine drape (DUMP-DEC-VINES, one of six) hung flat against the face from the lip, replacing the tube strands
+			var id: String = "DUMP-DEC-VINES-0%d" % (1 + rng.randi() % 6)
+			if EnvKit.has_art(id):
+				var height: float = length * 1.1
+				L._card(mesh, id, top + out * 0.18 - Vector3(0.0, EnvKit.pivot(id).y * height, 0.0), height, out)
+		var strands: int = 0 if painted else 2 + rng.randi() % 3
 		for s: int in range(strands):
 			var a: Vector3 = top + out * 0.25 + Vector3(rng.randf_range(-0.6, 0.6), 0.1, 0.0) * (1.0 - absf(out.x)) + Vector3(0.0, 0.1, rng.randf_range(-0.6, 0.6)) * absf(out.x)
 			var b: Vector3 = a + Vector3(rng.randf_range(-0.3, 0.3), -length * rng.randf_range(0.6, 1.0), rng.randf_range(-0.3, 0.3)) + out * 0.15
@@ -233,6 +244,18 @@ static func rope_fence(points: Array, post_step: float = 2.2) -> Node3D:
 static func water_wheel(radius: float) -> Node3D:
 	var root: Node3D = Node3D.new()
 	root.name = "WaterWheel"
+	if EnvKit.has_art("DUMP-PROP-WATERWHEEL"):
+		# art import Oct 20: the painted rusty wheel on its frame (DUMP-PROP-WATERWHEEL) replaces the built STANDIN; still (the painting has its own pour)
+		var card: MeshInstance3D = KitFoliage.card("DUMP-PROP-WATERWHEEL", Vector2(radius * 2.4, radius * 2.4), false, true)
+		card.name = "WheelCard"
+		card.position.y -= radius * 1.15
+		card.set_meta(&"no_range_cull", true)
+		root.add_child(card)
+		var still: Node3D = Node3D.new()
+		still.name = "Wheel"
+		root.add_child(still)
+		root.set_meta("spinner", still)
+		return root
 	var wheel_mesh: KitMesh = _mesh()
 	var segments: int = 14
 	for ring_r: float in [radius, radius - 0.9]:
@@ -301,6 +324,13 @@ static func drain_grate(radius: float) -> Node3D:
 ## branches, a crown of violet blossom clumps (the Rotheart's wisteria glow, lit a little from inside) over a few green leaf clumps, and blossom
 ## drapes hanging off the lower branches. `trees` is a list of [pos (Vector3, the ground), scale, seed]. Never faded (they stand at the edges).
 static func jacaranda_field(trees: Array) -> Node3D:
+	if EnvKit.has_art("DUMP-TREE-WISTERIA"):
+		# art import Oct 20: the painted wisteria tree (DUMP-TREE-WISTERIA) replaces the built STANDIN, about 5 m at scale 1
+		var spots: Array = []
+		for entry: Variant in trees:
+			var t: Array = entry as Array
+			spots.append([t[0], 5.0 * float(t[1])])
+		return _card_field("DUMP-TREE-WISTERIA", spots, "Jacarandas")
 	var mesh: KitMesh = _mesh()
 	for entry: Variant in trees:
 		var t: Array = entry as Array
@@ -339,9 +369,46 @@ static func jacaranda_field(trees: Array) -> Node3D:
 	return root
 
 
+## Many camera-facing cards of one painted kit piece as ONE MultiMesh under a Node3D called node_name (one draw call): spots are [base (Vector3), height].
+## The painting keeps its own aspect, its pivot on the base.
+static func _card_field(id: String, spots: Array, node_name: String) -> Node3D:
+	var root: Node3D = Node3D.new()
+	root.name = node_name
+	var quad: QuadMesh = QuadMesh.new()
+	quad.size = Vector2.ONE
+	quad.center_offset = Vector3(0.5 - EnvKit.pivot(id).x, 0.5, 0.0)
+	var multimesh: MultiMesh = MultiMesh.new()
+	multimesh.transform_format = MultiMesh.TRANSFORM_3D
+	multimesh.mesh = quad
+	multimesh.instance_count = spots.size()
+	var aspect: float = EnvKit.aspect(id)
+	for index: int in range(spots.size()):
+		var height: float = float((spots[index] as Array)[1])
+		multimesh.set_instance_transform(index, Transform3D(Basis.from_scale(Vector3(height * aspect, height, 1.0)), (spots[index] as Array)[0] as Vector3))
+	var instance: MultiMeshInstance3D = MultiMeshInstance3D.new()
+	instance.name = "Cards"
+	instance.multimesh = multimesh
+	instance.material_override = KitFoliage.card_material(id)
+	instance.extra_cull_margin = 6.0
+	instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	instance.set_meta(&"no_range_cull", true)  # one field spans the zone: the range cull measures to its centre (GC-9)
+	instance.set_meta(StyleToon.META_NO_TOON, true)
+	instance.set_meta(PaintedClasses.META_NO_PAINT, true)
+	instance.set_meta(&"no_occlusion_fade", true)
+	root.add_child(instance)
+	return root
+
+
 ## Clumps of violet and blue blossoms (the reference's foreground flowers): one mesh for all, each clump a bed of leaf blobs with a dozen blossoms in
 ## violet, blue and cream on short stems. `clumps` is a list of [pos (Vector3, the ground), spread, seed].
 static func bloom_clumps(clumps: Array) -> Node3D:
+	if EnvKit.has_art("DUMP-PLANT-VIOLETS"):
+		# art import Oct 20: the painted violet-and-blue clump (DUMP-PLANT-VIOLETS) replaces the built blossoms, a little taller than its spread
+		var spots: Array = []
+		for entry: Variant in clumps:
+			var c: Array = entry as Array
+			spots.append([c[0], clampf(float(c[1]) * 1.3, 0.7, 1.6)])
+		return _card_field("DUMP-PLANT-VIOLETS", spots, "BloomClumps")
 	var mesh: KitMesh = _mesh()
 	var tints: Array[String] = ["bloom_violet", "bloom_blue", "bloom_light", "cloth_cream", "bloom_violet", "bloom_blue"]
 	for entry: Variant in clumps:

@@ -14,6 +14,9 @@ static func _fall_material() -> ShaderMaterial:
 	if _material == null:
 		_material = ShaderMaterial.new()
 		_material.shader = load(SHADER_PATH) as Shader
+		if EnvKit.has_art("GAIN-FX-WATERFALL"):
+			_material.set_shader_parameter("fall_tex", EnvKit.texture("GAIN-FX-WATERFALL"))
+			_material.set_shader_parameter("use_tex", true)
 	return _material
 
 

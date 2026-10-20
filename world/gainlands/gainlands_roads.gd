@@ -110,7 +110,15 @@ func _posts(builder: GainlandsBuilder) -> void:
 				t += POST_SPACING
 				if not _post_ok(builder, p):
 					continue
-				var post: Node3D = PropKit.make("banner_post" if index % 3 == 1 else "lantern_post")
+				var post: Node3D
+				if index % 3 == 1 and EnvKit.has_art("GAIN-PROP-BANNER-POST"):
+					# art import Oct 20: the painted banner post (4.2 m) replaces the kit-built one
+					post = Node3D.new()
+					var card: MeshInstance3D = KitFoliage.card("GAIN-PROP-BANNER-POST", Vector2(4.2, 4.2), true, true)
+					card.name = "Card_GAIN-PROP-BANNER-POST"
+					post.add_child(card)
+				else:
+					post = PropKit.make("banner_post" if index % 3 == 1 else "lantern_post")
 				post.set_meta("lights", [])  # glowing glass, no real lights (the lantern budget stays with the landmarks)
 				root.add_child(post)
 				post.position = Vector3(p.x, layout.ground_height(p.x, p.y), p.y)

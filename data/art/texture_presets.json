@@ -32,11 +32,11 @@
 		"tint": 0.4,
 		"normal": 0.55,
 		"sheen": 0.05,
-		"_v2": "Gainlands v2 (docs/art/gainlands_v2.md): sandy chalk ground, stone paving on the routes, dry scrub patches, gym mat in the lifting yards, sandstone strata on the cliffs.",
+		"_v2": "Gainlands v2 (docs/art/gainlands_v2.md): sandy chalk ground, stone paving on the routes, dry scrub patches, gym mat in the lifting yards, sandstone strata on the cliffs. Oct 20: road, scrub and cliff use the painted TEX-GAIN-FLAGSTONE-ROAD / DRY-SCRUB / SANDSTONE-CLIFF (were town_stone, cap_deadgrass, gain_islandrock).",
 		"layers": [
 			{"tex": "gain_chalkdirt", "tile": 5.5, "mode": "base", "ref": "#e0b880", "keep": 0.3},
-			{"tex": "town_stone", "tile": 3.2, "mode": "mask", "mask": "road", "soft": 0.12, "warp": 0.12, "ref": "#d8c0a0", "keep": 0.35},
-			{"tex": "cap_deadgrass", "tile": 3.0, "mode": "mask", "mask": "scrub", "soft": 0.35, "warp": 0.55, "ref": "#c8a860", "keep": 0.35},
+			{"tex": "TEX-GAIN-FLAGSTONE-ROAD", "tile": 3.0, "mode": "mask", "mask": "road", "soft": 0.12, "warp": 0.12, "ref": "#d8c0a0", "keep": 0.35},
+			{"tex": "TEX-GAIN-DRY-SCRUB", "tile": 3.0, "mode": "mask", "mask": "scrub", "soft": 0.35, "warp": 0.55, "ref": "#c8a860", "keep": 0.35},
 			{"tex": "gain_gymmat", "tile": 2.6, "plain": true, "mode": "mask", "mask": "gym", "soft": 0.08, "warp": 0.1},
 			{"tex": "gain_hay", "tile": 3.4, "mode": "mask", "mask": "hay", "soft": 0.25, "warp": 0.5}
 		],
@@ -46,7 +46,7 @@
 				{"tex": "gain_chalkdirt", "tile": 4.0, "mode": "noise", "scale": 0.12, "threshold": 0.62, "seed": 4.0, "soft": 0.2}
 			]}
 		},
-		"cliff": {"tex": "gain_islandrock", "tile": 3.6, "tint": "#c4ae9c", "keep": 0.5},
+		"cliff": {"tex": "TEX-GAIN-SANDSTONE-CLIFF", "tile": 4.0, "keep": 0.6},
 		"decals": [
 			{"id": "chalk", "count": 18, "min": 0.8, "max": 1.6, "opacity": 0.85, "mask": "gym", "mask_min": 0.6},
 			{"id": "chalk", "count": 6, "min": 0.8, "max": 1.4, "opacity": 0.5, "mask": "road", "mask_min": 0.6},
@@ -132,7 +132,7 @@
 				{"tex": "dump_compost", "tile": 3.2, "mode": "mask", "mask": "compost", "soft": 0.2, "warp": 0.5, "bright": 1.7}
 			]}
 		},
-		"cliff": {"tex": "mat_rock", "tile": 3.0, "keep": 0.5, "tint": "#d8ccdc"},
+		"cliff": {"tex": "DUMP-SURF-CLIFF", "tile": 4.0, "keep": 0.6},
 		"props": {"metal": "dump_rustmetal"},
 		"special": [
 			{"color": "#b85c2e", "radius": 0.22, "tex": "dump_rustmetal"},

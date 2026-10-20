@@ -356,7 +356,7 @@ func _build_plaza() -> void:
 		_add_obstacle(Vector3(gateway.position.x + local.x, gateway.position.z + local.y, local.z))
 	var hall_rect: Rect2 = GainlandsLayout.GYM_HALL
 	var hall: Node3D = GainlandsPlaza.gym_hall(Vector3(hall_rect.size.x, GYM_HALL_HEIGHT, hall_rect.size.y))
-	hall.set_meta("standin", "GAIN-HERO-GYM-HALL")  # STANDIN: built from the kit until the gym hall concept is painted (docs/art/zone_kits/gainlands_v2_requests.md)
+	hall.set_meta("concept", "GAIN-HERO-GYM-HALL")  # modelled after the painted concept (art import Oct 20; was a STANDIN)
 	root.add_child(hall)
 	hall.position = Vector3(hall_rect.get_center().x, GainlandsLayout.PLATEAU_Y, hall_rect.get_center().y)
 
@@ -574,7 +574,12 @@ func _build_props() -> void:
 			_:
 				_place_feature(prop, pos)
 	for variant: int in tree_transforms.keys():
-		_tree_group(GainlandsStructures.windbent_mesh() if variant == 0 else GainlandsStructures.cypress_mesh(), "HardyTrees%d" % variant, tree_transforms[variant] as Array)
+		# Art import Oct 20: the painted GAIN-TREE-WINDBENT (5 m) / GAIN-TREE-CYPRESS (6.5 m) cards replace the built STANDIN trees once imported
+		var tree_id: String = "GAIN-TREE-WINDBENT" if variant == 0 else "GAIN-TREE-CYPRESS"
+		if EnvKit.has_art(tree_id):
+			_tree_cards(tree_id, 5.0 if variant == 0 else 6.5, "HardyTrees%d" % variant, tree_transforms[variant] as Array)
+		else:
+			_tree_group(GainlandsStructures.windbent_mesh() if variant == 0 else GainlandsStructures.cypress_mesh(), "HardyTrees%d" % variant, tree_transforms[variant] as Array)
 	for variant: int in rock_transforms.keys():
 		_add_multimesh(KAYKIT_ROCKS[variant], "nature", rock_transforms[variant] as Array)
 
@@ -595,6 +600,22 @@ func _tree_group(mesh: Mesh, node_name: String, transforms: Array) -> void:
 		tree.transform = transforms[index] as Transform3D
 		tree.set_meta(PaintedClasses.META_NO_PAINT, true)
 		holder.add_child(tree)
+
+
+## The hardy trees as painted cards, `height` metres times each tree's scale; one card per tree (the card shader fades the one in front of the hero).
+func _tree_cards(id: String, height: float, node_name: String, transforms: Array) -> void:
+	if transforms.is_empty():
+		return
+	var holder: Node3D = Node3D.new()
+	holder.name = node_name
+	root.add_child(holder)
+	for index: int in range(transforms.size()):
+		var at: Transform3D = transforms[index] as Transform3D
+		var size: float = height * at.basis.get_scale().y
+		var card: MeshInstance3D = KitFoliage.card(id, Vector2(size, size))
+		card.name = "Hardy%d" % index
+		card.position += at.origin
+		holder.add_child(card)
 
 
 ## One shared mesh drawn many times (trees, rocks): a MultiMesh built from a KayKit model's mesh.

@@ -47,6 +47,12 @@ static func mouth() -> Node3D:
 	for side: float in [-1.0, 1.0]:
 		mesh.tube("red", bell + Vector3(side * 1.05, 0, 0), bell + Vector3(side * 1.3, 0, 0), 0.62, 14, true)
 		mesh.tube("iron", bell + Vector3(side * 1.32, 0, 0), bell + Vector3(side * 1.5, 0, 0), 0.45, 12, true)
+	# Art import Oct 20 (the painted concept GAIN-HERO-IRON-CAVE): a timber banner post either side of the mouth, a red kit banner on each
+	for side: float in [-1.0, 1.0]:
+		var post: Vector3 = Vector3(side * (hw + 2.3), 0.0, 0.9)
+		mesh.box("bleach_dark", post + Vector3(0, 1.8, 0), Vector3(0.26, 3.6, 0.26), Basis.IDENTITY, 0.03)
+		mesh.tube("brass", post + Vector3(-0.55, 3.35, 0.16), post + Vector3(0.55, 3.35, 0.16), 0.05, 6, true)
+		GainlandsLandmarks._card(mesh, "GAIN-SHEET-BANNERS-03" if side < 0.0 else "GAIN-SHEET-BANNERS-06", post + Vector3(0, 3.3, 0.2), 1.6, Vector3(0, 0, 1))
 	# worn stone steps going down into the dark (each a little dished and chipped)
 	for k: int in range(4):
 		var z: float = 1.5 - 0.55 * float(k)
@@ -62,7 +68,7 @@ static func mouth() -> Node3D:
 	body.set_meta(&"no_range_cull", true)
 	root.add_child(body)
 	root.set_meta(&"no_wind", true)
-	root.set_meta("standin", "GAIN-HERO-IRON-CAVE")
+	root.set_meta("concept", "GAIN-HERO-IRON-CAVE")  # modelled after the painted concept (art import Oct 20; was a STANDIN)
 	root.set_meta("height", MOUTH_H + 1.7)
 	return root
 
