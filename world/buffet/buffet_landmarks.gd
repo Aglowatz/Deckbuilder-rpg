@@ -750,10 +750,13 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 	_card(mesh, "BUFF-SHEET-SIGNS-01", Vector3(-(half + 0.55) + 0.55, gate_h * 0.42, 0.95), 1.6, Vector3(0, 0, 1))
 	var from: Vector3 = Vector3(-(half + 0.55), gate_h - 0.3, 0.4)
 	var to: Vector3 = Vector3(half + 0.55, gate_h - 0.3, 0.4)
-	mesh.tube("wood_dark", from, to, 0.04, 4, false)
+	# overnight Oct 19: the bunting is its own mesh that fades on its own when it crosses the view of the hero (OcclusionFader, occlusion_overhead)
+	var line: KitMesh = KitMesh.new()
+	_materials(line)
+	line.tube("wood_dark", from, to, 0.04, 4, false)
 	for index: int in range(1, 8):
 		var p: Vector3 = from.lerp(to, float(index) / 8.0) - Vector3(0, 0.25 * sin(PI * float(index) / 8.0), 0)
-		mesh.tri("tomato" if index % 2 == 0 else "herb", [p + Vector3(-0.3, 0.0, 0), p + Vector3(0.3, 0.0, 0), p + Vector3(0, -0.55, 0)], Vector3(0, 0, 1))
+		line.tri("tomato" if index % 2 == 0 else "herb", [p + Vector3(-0.3, 0.0, 0), p + Vector3(0.3, 0.0, 0), p + Vector3(0, -0.55, 0)], Vector3(0, 0, 1))
 	# the far landing: a biscuit square with two posts, where the way to town begins
 	var landing_z: float = length + 1.6
 	mesh.box("crust", Vector3(0.0, -0.36, landing_z), Vector3(width + 1.6, 0.42, 3.6), Basis.IDENTITY, 0.03, 0.85)
@@ -770,6 +773,10 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 	body.set_meta(&"no_range_cull", true)
 	root.set_meta(&"no_wind", true)
 	root.add_child(body)
+	var bunting: MeshInstance3D = line.instance("Bunting")
+	bunting.set_meta(PaintedClasses.META_NO_PAINT, true)
+	bunting.set_meta(&"occlusion_overhead", true)
+	root.add_child(bunting)
 	root.set_meta("circles", circles)
 	root.set_meta("lights", lights)
 	root.set_meta("footprint", Vector2(width + 1.6, length + 3.6))

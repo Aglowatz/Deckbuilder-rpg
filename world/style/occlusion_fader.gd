@@ -124,12 +124,16 @@ func _scan_step() -> void:
 		if mesh_instance.has_meta(&"occlusion_shrink"):
 			var shrink: float = minf(float(mesh_instance.get_meta(&"occlusion_shrink")), minf(box.size.x, box.size.z) * 0.4)
 			box = AABB(box.position + Vector3(shrink, 0.0, shrink), box.size - Vector3(shrink * 2.0, 0.0, shrink * 2.0))
-		if box.size.y < MIN_HEIGHT or maxf(box.size.x, box.size.z) > MAX_EXTENT or box.size.y > 40.0:
+		# Overnight Oct 19: a thin piece hanging over the hero's ground (a pennant line across an entrance, a beam, a sign over a path) blocks the view as much as a
+		# wall does, so it qualifies too and fades on its own (never with its whole landmark).
+		var overhead: bool = is_overhead(box, hero.global_position.y) or mesh_instance.has_meta(&"occlusion_overhead")
+		if (box.size.y < MIN_HEIGHT and not overhead) or maxf(box.size.x, box.size.z) > MAX_EXTENT or box.size.y > 40.0:
 			continue
 		if not mesh_instance.is_visible_in_tree():
 			continue
 		_next_candidates.append(mesh_instance)
-		var key: int = _group_key(mesh_instance)
+		var solo: bool = mesh_instance.has_meta(&"occlusion_overhead") or (overhead and box.size.y < MIN_HEIGHT)
+		var key: int = mesh_instance.get_instance_id() if solo else _group_key(mesh_instance)
 		_next_boxes.append(box)
 		_next_box_keys.append(key)
 		_next_box_near.append(float(mesh_instance.get_meta(&"occlusion_near", NEAR_CAMERA)))
@@ -152,6 +156,16 @@ func _scan_step() -> void:
 		_box_near = _next_box_near
 		_group_keys = _next_group_keys
 		_pending = []
+
+
+## True for a thin piece (under MIN_HEIGHT tall) that hangs at least OVERHEAD_LIFT above the ground the hero stands on and spans at least OVERHEAD_SPAN: strings
+## of pennants, beams and signs over a path. Ground clutter (rugs, low fences, decals) never qualifies.
+const OVERHEAD_LIFT: float = 1.4
+const OVERHEAD_SPAN: float = 1.5
+
+
+static func is_overhead(box: AABB, ground_y: float) -> bool:
+	return box.size.y < MIN_HEIGHT and box.position.y >= ground_y + OVERHEAD_LIFT and maxf(box.size.x, box.size.z) >= OVERHEAD_SPAN 		and maxf(box.size.x, box.size.z) <= MAX_EXTENT
 
 
 ## Wide terrain never fades with its group (Overnight Oct 17, Phase 2): the starting forest's 900 m floor shares a parent with the clearing's props, so a

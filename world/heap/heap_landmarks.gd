@@ -1155,15 +1155,18 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 		circles.append(Vector3(foot.x, foot.z, 0.75))
 	var sag: int = 10
 	var previous_point: Vector3 = Vector3.ZERO
+	# overnight Oct 19: the bunting is its own mesh that fades on its own when it crosses the view of the hero (OcclusionFader, occlusion_overhead)
+	var line: KitMesh = KitMesh.new()
+	_materials(line)
 	for index: int in range(sag + 1):
 		var t: float = float(index) / float(sag)
 		var point: Vector3 = Vector3(lerpf(-(half + 0.55), half + 0.55, t), gate_h - 0.15 - sin(t * PI) * 0.7, 0.5)
 		if index > 0:
-			mesh.tube("rope", previous_point, point, 0.04, 4, false)
+			line.tube("rope", previous_point, point, 0.04, 4, false)
 			var at: Vector3 = (previous_point + point) * 0.5
 			var tint: String = ["cloth_red", "cloth_cream", "cloth_teal", "cloth_green", "cloth_rust"][index % 5]
-			mesh.tri(tint, [at + Vector3(-0.2, 0, 0), at + Vector3(0.2, 0, 0), at + Vector3(0, -0.5, 0)], Vector3(0, 0, 1))
-			mesh.tri(tint, [at + Vector3(0.2, 0, 0), at + Vector3(-0.2, 0, 0), at + Vector3(0, -0.5, 0)], Vector3(0, 0, -1))
+			line.tri(tint, [at + Vector3(-0.2, 0, 0), at + Vector3(0.2, 0, 0), at + Vector3(0, -0.5, 0)], Vector3(0, 0, 1))
+			line.tri(tint, [at + Vector3(0.2, 0, 0), at + Vector3(-0.2, 0, 0), at + Vector3(0, -0.5, 0)], Vector3(0, 0, -1))
 		previous_point = point
 	# the far landing: a plank square with two rag-flag posts, where the way to town begins
 	var landing_z: float = length + 1.6
@@ -1178,5 +1181,9 @@ static func entrance_bridge(length: float, width: float) -> Node3D:
 		mesh.tube("rust_dark", Vector3(side * (half + 0.2), -4.0, landing_z), Vector3(side * (half + 0.2), -0.3, landing_z), 0.3, 8, true)
 	var root: Node3D = _finish(mesh, "Bridge", circles, Vector3(width, gate_h, length), true)
 	(root.get_child(0) as MeshInstance3D).set_meta(&"no_range_cull", true)
+	var bunting: MeshInstance3D = line.instance("Bunting")
+	bunting.set_meta(PaintedClasses.META_NO_PAINT, true)
+	bunting.set_meta(&"occlusion_overhead", true)
+	root.add_child(bunting)
 	IconSign.attach(root, "ICON-ENERGY-R", Vector3(-(half + 0.55), 2.3, 0.66), 0.8)
 	return root
