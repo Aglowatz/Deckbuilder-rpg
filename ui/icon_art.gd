@@ -27,6 +27,8 @@ class Result extends RefCounted:
 	var unchanged: int = 0
 	var background_removed: Array[String] = []
 	var unknown: Array[String] = []
+	## Files whose name was matched forgivingly ("<file> -> <ICON ID>", see `file_icon_id`); the copy is saved under the ID.
+	var renamed: Array[String] = []
 	var errors: Array[String] = []
 	var have: Array[String] = []
 	var missing: Array[String] = []
@@ -76,6 +78,7 @@ static func texture(id: String, px: float = 0.0) -> Texture2D:
 
 static func reset() -> void:
 	_textures = {}
+	_has_cache = {}
 
 
 ## A TextureRect of the icon at `px` x `px`; null when the icon is missing. With `tooltip` text it shows it on hover, otherwise it ignores the mouse.
@@ -190,10 +193,68 @@ const SLOT_IDS: Dictionary = {
 static func equipment_id(piece: EquipmentData) -> String:
 	if EQUIPMENT_IDS.has(piece.id):
 		return str(EQUIPMENT_IDS[piece.id])
-	var own: String = "ICON-GEAR-%s" % piece.id.to_upper().replace("_", "")
+	var own: String = gear_icon_id(piece.id)
 	if has(own):
 		return own
 	return str(PLACEHOLDER_GEAR.get(piece.id, ""))
+
+
+# ---- Own-icon ID conventions (Oct 19 night, Part 3: drop-in gear / item / cosmetic icons) ------------------------------------------------
+
+
+const GEAR_PREFIX: String = "ICON-GEAR-"
+const ITEM_PREFIX: String = "ICON-ITEM-"
+const COSMETIC_PREFIX: String = "ICON-COS-"
+
+
+## "lucky_sock" -> "LUCKYSOCK": upper case, no underscores, dashes or spaces (the icon ID body of a game id).
+static func id_slug(game_id: String) -> String:
+	return game_id.strip_edges().to_upper().replace("_", "").replace("-", "").replace(" ", "")
+
+
+## The own icon of an equipment piece: ICON-GEAR-<id upper, no underscores> ("lucky_sock" -> ICON-GEAR-LUCKYSOCK). The ten named
+## pieces of `EQUIPMENT_IDS` follow the same rule.
+static func gear_icon_id(equipment_id_text: String) -> String:
+	if EQUIPMENT_IDS.has(equipment_id_text):
+		return str(EQUIPMENT_IDS[equipment_id_text])
+	return GEAR_PREFIX + id_slug(equipment_id_text)
+
+
+## The own icon of a consumable item: ICON-ITEM-<id upper, no underscores> ("healing_draught" -> ICON-ITEM-HEALINGDRAUGHT).
+static func item_icon_id(item_id: String) -> String:
+	return ITEM_PREFIX + id_slug(item_id)
+
+
+## The shop / wardrobe icon of a hat or cloak: ICON-COS-<art name> ("WIDEBRIM" -> ICON-COS-WIDEBRIM, "REDCAPE" -> ICON-COS-REDCAPE).
+static func cosmetic_icon_id(art_name: String) -> String:
+	return COSMETIC_PREFIX + id_slug(art_name)
+
+
+## True when the consumable has its own icon (ICON-ITEM-*), not the game-icons fallback.
+static func has_item_icon(item: ItemData) -> bool:
+	return item != null and has(item_icon_id(item.id))
+
+
+## The picture of a consumable for about `px` pixels: its own full-colour icon once imported, else the old game-icons silhouette.
+static func item_texture(item: ItemData, px: float) -> Texture2D:
+	if has_item_icon(item):
+		return texture(item_icon_id(item.id), px)
+	return CardIcons.for_item(item)
+
+
+## A TextureRect of the consumable: its icon untinted, or the fallback silhouette tinted `tint` (the old look).
+static func item_glyph(item: ItemData, tint: Color, px: float) -> TextureRect:
+	if has_item_icon(item):
+		return rect(item_icon_id(item.id), px)
+	return CardIcons.glyph(CardIcons.for_item(item), tint, Vector2(px, px))
+
+
+## The shop icon of a hat or cloak (ICON-COS-<art name>) for about `px` pixels; null when it is not imported (the caller keeps its old picture).
+static func cosmetic_texture(item: CosmeticData, px: float) -> Texture2D:
+	if item == null or item.art_name.is_empty():
+		return null
+	var id: String = cosmetic_icon_id(item.art_name)
+	return texture(id, px) if has(id) else null
 
 
 const PLACEHOLDER_GEAR: Dictionary = {
@@ -379,7 +440,92 @@ static func known_ids() -> Dictionary:
 		var row: PackedStringArray = file.get_csv_line()
 		if row.size() >= 2 and row[0].begins_with("ICON-") and not PLACEHOLDER_IDS.has(row[0].strip_edges()):
 			known[row[0].strip_edges()] = row[1].strip_edges()
+	file.close()
 	return known
+
+
+## Oct 19 night (Part 3): what the importer accepts and reports on - the CSV's IDs plus the expected own icon of every gear piece, consumable
+## and hat / cloak of the game (`game_ids`), so ICON-GEAR-* / ICON-ITEM-* / ICON-COS-* art drops in even when the CSV has no row for it.
+static func import_ids() -> Dictionary:
+	var known: Dictionary = known_ids()
+	var from_game: Dictionary = game_ids()
+	for id: Variant in from_game:
+		if not known.has(id):
+			known[id] = from_game[id]
+	return known
+
+
+const GAME_EQUIPMENT_DIRS: Array[String] = ["res://data/equipment/", "res://data/equipment/zone/"]
+const GAME_ITEM_DIRS: Array[String] = ["res://data/items/"]
+
+
+## {ICON ID -> "Gear: <name>" / "Item: <name>" / "Hat: <name>" / "Cloak: <name>"} for every equipment piece, consumable and cosmetic in the game data
+## (data/equipment, data/equipment/zone, data/items, CosmeticCatalog), by the conventions above.
+static func game_ids() -> Dictionary:
+	var ids: Dictionary = {}
+	for dir_path: String in GAME_EQUIPMENT_DIRS:
+		for path: String in _tres_in(dir_path):
+			var piece: EquipmentData = load(path) as EquipmentData
+			if piece != null and not piece.id.is_empty():
+				ids[gear_icon_id(piece.id)] = "Gear: %s" % (piece.source_name if not piece.source_name.is_empty() else piece.id)
+	for dir_path: String in GAME_ITEM_DIRS:
+		for path: String in _tres_in(dir_path):
+			var item: ItemData = load(path) as ItemData
+			if item != null and not item.id.is_empty():
+				ids[item_icon_id(item.id)] = "Item: %s" % (item.display_name if not item.display_name.is_empty() else item.id)
+	for cosmetic: CosmeticData in CosmeticCatalog.all():
+		if not cosmetic.art_name.is_empty():
+			ids[cosmetic_icon_id(cosmetic.art_name)] = "%s: %s" % [cosmetic.slot_name(), cosmetic.display_name]
+	return ids
+
+
+## The expected own-icon IDs with one prefix (GEAR_PREFIX, ITEM_PREFIX, COSMETIC_PREFIX), sorted.
+static func game_ids_with_prefix(prefix: String) -> Array[String]:
+	var result: Array[String] = []
+	for id: Variant in game_ids():
+		if str(id).begins_with(prefix):
+			result.append(str(id))
+	result.sort()
+	return result
+
+
+static func _tres_in(dir_path: String) -> Array[String]:
+	var files: Array[String] = []
+	var dir: DirAccess = DirAccess.open(dir_path)
+	if dir == null:
+		return files
+	for file_name: String in dir.get_files():
+		var clean: String = file_name.trim_suffix(".remap")
+		if clean.ends_with(".tres"):
+			files.append(dir_path + clean)
+	files.sort()
+	return files
+
+
+## The icon ID a source file name stands for, "" when it matches none. Exact IDs win; otherwise the name is matched forgivingly so a drop-in
+## import never skips art over spelling: any case, "_" or " " for "-", and for ICON-GEAR- / ICON-ITEM- / ICON-COS- names the body without
+## separators ("ICON-GEAR-LUCKY-SOCK" -> ICON-GEAR-LUCKYSOCK) and an optional HAT- / CLOAK- after ICON-COS- ("ICON-COS-HAT-WIDEBRIM" -> ICON-COS-WIDEBRIM).
+static func file_icon_id(base_name: String, known: Dictionary) -> String:
+	var id: String = base_name.strip_edges()
+	if known.has(id):
+		return id
+	var upper: String = id.to_upper().replace("_", "-").replace(" ", "-")
+	if known.has(upper):
+		return upper
+	for prefix: String in [GEAR_PREFIX, ITEM_PREFIX, COSMETIC_PREFIX]:
+		if not upper.begins_with(prefix):
+			continue
+		var body: String = upper.substr(prefix.length())
+		var candidate: String = prefix + id_slug(body)
+		if known.has(candidate):
+			return candidate
+		if prefix == COSMETIC_PREFIX:
+			for kind: String in ["HAT-", "CLOAK-"]:
+				if body.begins_with(kind):
+					candidate = prefix + id_slug(body.substr(kind.length()))
+					if known.has(candidate):
+						return candidate
+	return ""
 
 
 static func import_from_source(source: String, out_dir: String, manifest_path: String, known: Dictionary) -> Result:
@@ -394,10 +540,12 @@ static func import_from_source(source: String, out_dir: String, manifest_path: S
 	for file_name: String in files:
 		if not INPUT_EXTENSIONS.has(file_name.get_extension().to_lower()):
 			continue
-		var id: String = file_name.get_basename()
-		if not known.has(id):
+		var id: String = file_icon_id(file_name.get_basename(), known)
+		if id.is_empty():
 			result.unknown.append(file_name)
 			continue
+		if id != file_name.get_basename():
+			result.renamed.append("%s -> %s" % [file_name, id])
 		var full_path: String = source.path_join(file_name)
 		var hash: String = FileAccess.get_md5(full_path)
 		var target: String = _real(out_dir.path_join("%s.webp" % id))
@@ -484,7 +632,7 @@ static func _real(path: String) -> String:
 
 
 static func status_markdown(out_dir: String = OUT_DIR) -> String:
-	var known: Dictionary = known_ids()
+	var known: Dictionary = import_ids()
 	var ids: Array = known.keys()
 	ids.sort()
 	var rows: Array[String] = []

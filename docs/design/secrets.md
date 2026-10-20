@@ -392,6 +392,21 @@ Losing changes nothing (retry any time).
 
 **Rewards (first win, what I chose and why):** one **Gilded Pack of every Path** (4 packs), **40 essence of every Path**, the exclusive relic **Four-Seal Signet** (Max HP +3, start every duel with 1 Iron, 1 Ingredient, 1 Garbage and 1 Red Tape - an item for a four-Path player), the exclusive **Cloak of the Four Seals** cosmetic, and **+600 XP**. No new cards were created.
 
+## Overnight Oct 19-20, Part 6: The Water Under the Well (spoilers)
+
+The Old Well's secret quest (`secret_old_well`; full write-up `docs/design/quests.md` "Secret quests", lore `docs/design/story_bible.md` section 4).
+Touch the Old Well once a Path zone is free: a vision starts the hidden quest. Two faint cyan glows (light, water film, rising motes; no marker, no
+plate, no map icon), only while their step is open, `[E]` within about 1.3 m:
+
+| Zone | Where | Prompt |
+|------|-------|--------|
+| The Verdant Dump (`refusemancer`) | (20.6, 33.0): the Overgrown Plateau's west edge, where the river starts its fall down the gorge, just off the lane round Rust Peak | Kneel by the water |
+| The Endless Buffet (`gourmand`) | (25.5, 63.0): the bank of the little gravy pond in the Broccoli Forest, just off the forest road | Look into the pond |
+
+With both found, the well asks you to face **the Wellspring's Echo** (32 HP placeholder, a 40-card four-Path deck, Balanced AI; rule **The Spring
+Remembers**: heals 2 HP each of its turns, starts with one of each Path's resource). First win: the **Phial of First Water** (relic), 250 gold,
+300 XP and the final vision. Losing changes nothing. Flags: `old_well_heap_found`, `old_well_buffet_found`, `old_well_echo_defeated`.
+
 ## Story v2 Part B: Crosspath's new centre (what moved)
 The town centre was rebuilt as a real town (`world/town_layout.gd`, `world/town_streets.gd`). Hidden chests, the graveyard (Old Hob), the ninja chest, the four-lever vault levers and the zone exits stayed where they were. Only two secret *buildings* moved onto the new layout:
 - **The Sealed Vault** (Forgotten Vault entrance) now stands at world (10.8, 31.2), just south-west of the Old Well on Champions' Road. Its lever hint is unchanged.

@@ -119,6 +119,13 @@
 			"size_limit": 768
 		},
 		{
+			"match": "assets/art/bestiary/*",
+			"why": "Bestiary pictures (BST-*, tools/import_bestiary.sh): square, shown at most ~200 px in the Collection Book and as the battle plate's round portrait",
+			"mode": 1,
+			"quality": 0.9,
+			"size_limit": 512
+		},
+		{
 			"match": "assets/art/battleboards/*",
 			"mode": 1,
 			"quality": 0.86,

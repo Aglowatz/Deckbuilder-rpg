@@ -286,7 +286,7 @@ static func _heap_dam() -> QuestData:
 	quest.id = HeapZone.QUEST_DAM
 	quest.order = 430
 	quest.title = "Unblock the Stream"
-	quest.summary = "Somebody has dumped a junk dam across the recycling stream. Brother Bramble needs a charging mount to smash it, and she will reward you with a fine pair of compost boots."
+	quest.summary = "Somebody has dumped a junk dam across the recycling stream. Brother Bramble needs a charging mount to smash it, and he will reward you with a fine pair of compost boots."
 	quest.giver_npc = HeapZone.NPC_MARIGOLD
 	quest.turn_in_npc = HeapZone.NPC_MARIGOLD
 	quest.objectives = [QuestObjective.make("Smash the junk dam on a charging mount", Condition.flag("heap_smashed_dam"))] as Array[QuestObjective]

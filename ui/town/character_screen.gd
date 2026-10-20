@@ -19,20 +19,15 @@ const EQUIP_SLOT_POSITIONS: Dictionary = {
 	EquipmentData.Slot.BOOTS: Vector2(142, 377),
 }
 
-## UI art kit: UI-BG-CHARACTER has a painted silhouette on its parchment (left) and a framed blank page (right). The five slots (UI-SLOT-EQUIP) sit on the painted
-## boxes around the figure, in screen units (the background is cover-fitted to 1920x1080: x * 1.25, y * 1.25 - 100): helm at the head, armor at the chest, weapon at one
-## hand, relic at the other, boots at the feet. Stats and items go in the right-hand frame.
-const ART_SLOT_SIZE: float = 124.0
-const ART_SLOT_CENTERS: Dictionary = {
-	EquipmentData.Slot.HELM: Vector2(419, 150),
-	EquipmentData.Slot.ARMOR: Vector2(975, 344),
-	EquipmentData.Slot.WEAPON: Vector2(394, 575),
-	EquipmentData.Slot.RELIC: Vector2(981, 581),
-	EquipmentData.Slot.BOOTS: Vector2(406, 775),
-}
+## UI art kit: UI-BG-CHARACTER has a painted silhouette on its parchment (left) and a framed blank page (right). Exactly five slots (UI-SLOT-EQUIP frames the game
+## draws itself) dress the figure: helm at the head, armor at the chest, weapon at the figure's right hand (screen left), relic at its left hand (screen right),
+## boots at the feet. Where they sit depends on the background (painted frames or none): CharacterLayout. Stats and items go in the right-hand frame.
+const ART_SLOT_SIZE: float = CharacterLayout.SLOT_SIZE
 const ART_SILHOUETTE_WIDTH: float = 1010.0
 const ART_PANEL_WIDTH: float = 380.0
+const ITEM_SLOT_PX: float = 64.0
 var _art: bool = false
+var _item_slots_row: HBoxContainer
 var _xp_bar: ProgressBar
 var _xp_label: Label
 var _stats_box: VBoxContainer
@@ -105,84 +100,59 @@ func _build_stats_panel() -> Control:
 	return panel
 
 
-## The five slots drawn straight on the background, over its painted silhouette (no panel behind them).
+## The five slots drawn straight on the background, over its painted silhouette (no panel behind them). Exactly five frames: on the first background
+## (painted frames) they sit on five painted frames and the three spare painted frames are covered; on a background without frames they sit on the
+## figure's head, chest, hands and feet (CharacterLayout).
 func _build_art_equipment() -> void:
 	_equipment_stage = Control.new()
 	_equipment_stage.name = "EquipmentStage"
 	_equipment_stage.position = Vector2.ZERO
-	_equipment_stage.size = Vector2(1920, 1080)
+	_equipment_stage.size = CharacterLayout.DESIGN_SIZE
 	_equipment_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_equipment_stage)
+	var painted: bool = CharacterLayout.painted_background()
+	_cover_spare_frames(CharacterLayout.spare_frame_centers(painted))
+	var centers: Dictionary = CharacterLayout.slot_centers(painted)
 	for slot: EquipmentData.Slot in SLOT_ORDER:
 		var button: Button = _make_equipment_slot_button(slot)
-		var center: Vector2 = ART_SLOT_CENTERS[slot] as Vector2
-		button.custom_minimum_size = Vector2(ART_SLOT_SIZE, ART_SLOT_SIZE)
-		button.size = Vector2(ART_SLOT_SIZE, ART_SLOT_SIZE)
-		button.position = center - button.size * 0.5
+		button.name = "EquipSlot_%s" % str(CharacterLayout.SLOT_KEYS[slot])
+		var rect: Rect2 = CharacterLayout.slot_rect(centers[slot] as Vector2)
+		button.custom_minimum_size = rect.size
+		button.size = rect.size
+		button.position = rect.position
 		_equipment_stage.add_child(button)
 		_equipment_slot_buttons[slot] = button
-	for badge: Dictionary in ART_BADGES:
-		_equipment_stage.add_child(_make_art_badge(str(badge["kind"]), badge["center"] as Vector2))
 
 
-## Overnight Oct 17 (Phase 2, UI consistency): the background paints eight frames round the figure and only five are gear slots; the other three
-## stood empty and read as broken. They now show the hero at a glance - level, Path and deck - in the slots' frame, icon and caption style.
-const ART_BADGES: Array[Dictionary] = [
-	{"kind": "level", "center": Vector2(969, 157)},
-	{"kind": "path", "center": Vector2(407, 327)},
-	{"kind": "deck", "center": Vector2(963, 801)},
-]
-
-
-func _make_art_badge(kind: String, center: Vector2) -> Control:
-	var badge: Panel = Panel.new()
-	badge.name = "Badge_%s" % kind
-	badge.size = Vector2(ART_SLOT_SIZE, ART_SLOT_SIZE)
-	badge.position = center - badge.size * 0.5
-	badge.mouse_filter = Control.MOUSE_FILTER_PASS
-	var frame: StyleBoxTexture = UiSkin.equip_slot_style("empty", ART_SLOT_SIZE)
-	if frame != null:
-		badge.add_theme_stylebox_override("panel", frame)
-	var profile: PlayerProfile = Session.profile
-	var caption_text: String = ""
-	var value_text: String = ""
-	var icon_id: String = ""
-	match kind:
-		"level":
-			caption_text = "Level"
-			value_text = str(profile.level if profile != null else 1)
-			badge.tooltip_text = "Your level. Every level up to %d gives a reward." % ProgressionTable.MAX_LEVEL
-		"path":
-			var path: Affinity.Type = profile.primary_affinity if profile != null else Affinity.Type.NEUTRAL
-			caption_text = UIStyle.affinity_name(path) if path != Affinity.Type.NEUTRAL else "Path"
-			icon_id = IconArt.energy_id(path) if path != Affinity.Type.NEUTRAL else ""
-			badge.tooltip_text = "The Path that resonates strongest within you: your starter deck's Path."
-		"deck":
-			caption_text = "Deck"
-			value_text = str(Session.deck.size() if Session.deck != null else 0)
-			badge.tooltip_text = "Cards in your active deck%s." % ((" (" + Session.deck.deck_name + ")") if Session.deck != null and Session.deck.deck_name != "" else "")
-	var icon: TextureRect = IconArt.rect(icon_id, ART_SLOT_SIZE * 0.5) if icon_id != "" else null
-	if icon != null:
-		icon.position = Vector2(ART_SLOT_SIZE * 0.25, ART_SLOT_SIZE * 0.25)
-		icon.size = Vector2(ART_SLOT_SIZE * 0.5, ART_SLOT_SIZE * 0.5)
-		icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		badge.add_child(icon)
-	elif value_text != "":
-		var value: Label = UIKit.label(value_text, &"", 44, UIStyle.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
-		value.add_theme_font_override("font", UIStyle.font_title())
-		value.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		value.position = Vector2.ZERO
-		value.size = badge.size
-		value.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		badge.add_child(value)
-	var caption: Label = UIKit.label(caption_text, &"", 17, Color("2b2233"), HORIZONTAL_ALIGNMENT_CENTER)
-	caption.position = Vector2(0, ART_SLOT_SIZE + 6)
-	caption.size = Vector2(ART_SLOT_SIZE, 20)
-	caption.add_theme_font_override("font", UIStyle.font_bold())
-	caption.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0))
-	caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	badge.add_child(caption)
-	return badge
+## Oct 19 night (Part 3): the first background paints eight frames round the figure and only five are gear slots. The three spare ones are covered with a
+## soft patch of the parchment around them (its colour sampled from the picture, dimmed like the backdrop) so no sixth, seventh or eighth slot shows.
+## Level, Path and deck (the old badges there) are rows of the stats panel now.
+func _cover_spare_frames(centers: Array[Vector2]) -> void:
+	if centers.is_empty():
+		return
+	var image: Image = null
+	var background: Texture2D = UiArt.texture(background_id)
+	if background != null:
+		image = background.get_image()
+		if image != null and image.is_compressed():
+			image.decompress()
+	for index: int in centers.size():
+		var center: Vector2 = centers[index]
+		var paper: Color = Color(0.89, 0.82, 0.68)
+		if image != null and not image.is_empty():
+			paper = CharacterLayout.paper_colour(image, center)
+		var dimmed: Color = paper.lerp(Color(0.03, 0.02, 0.06), 0.3)  # UiSkin.screen_background's shade
+		var patch: Panel = Panel.new()
+		patch.name = "SpareFrameCover_%d" % index
+		var side: float = ART_SLOT_SIZE + 18.0
+		patch.size = Vector2(side, side)
+		patch.position = center - patch.size * 0.5
+		patch.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var style: StyleBoxFlat = UIStyle.box(dimmed, Color(0, 0, 0, 0), 0, 18)
+		style.shadow_color = Color(dimmed.r, dimmed.g, dimmed.b, 0.85)
+		style.shadow_size = 12
+		patch.add_theme_stylebox_override("panel", style)
+		_equipment_stage.add_child(patch)
 
 
 func _build_equipment_panel() -> Control:
@@ -268,6 +238,13 @@ func _build_items_panel() -> Control:
 	var column: VBoxContainer = UIKit.vbox(8)
 	panel.add_child(column)
 	column.add_child(IconArt.heading_row("Items", "ICON-UI-INVENTORY"))
+	# Oct 19 night (Part 3): the battle item slots have their own labelled row here, away from the figure (whose frames are equipment only).
+	var slots_label: Label = UIKit.label("Item slots (carried into battle)", &"", 18, UIStyle.GOLD)
+	slots_label.name = "ItemSlotsLabel"
+	column.add_child(slots_label)
+	_item_slots_row = UIKit.hbox(8)
+	_item_slots_row.name = "ItemSlots"
+	column.add_child(_item_slots_row)
 	# New brief, Part F: equip up to your item-slot limit to carry items into a fight (the item
 	# bar, usable on your turn); the "Use" button below still works between fights/on the map.
 	_items_note = UIKit.label("", &"MutedLabel", 18)
@@ -306,6 +283,10 @@ func _refresh() -> void:
 		_xp_label.text += "  -  %d / %d XP to level %d" % [profile.xp - floor_xp, ceil_xp - floor_xp, next_level]
 	for child: Node in _stats_box.get_children():
 		child.queue_free()
+	# Oct 19 night (Part 3): the Path and the deck size (once badges in spare painted frames) are plain rows here, so the figure has only its five slots.
+	var path: Affinity.Type = profile.primary_affinity
+	_stat_row("Path", UIStyle.affinity_name(path) if path != Affinity.Type.NEUTRAL else "None yet", IconArt.energy_id(path) if path != Affinity.Type.NEUTRAL else "")
+	_stat_row("Deck", "%d cards" % (Session.deck.size() if Session.deck != null else 0), "ICON-DECKBOX")
 	_stat_row("Starting HP", str(profile.base_max_hp()), "ICON-STAT-HP")
 	_stat_row("Opening hand", str(profile.base_opening_hand()))
 	_stat_row("Item slots", "%d / %d" % [profile.item_slots, ProgressionTable.row(ProgressionTable.MAX_LEVEL).item_slots])
@@ -551,10 +532,33 @@ func _unhandled_input(event: InputEvent) -> void:
 	super._unhandled_input(event)
 
 
+## One small square per battle item slot the hero has (profile.item_slots): the equipped item's icon (ICON-ITEM-* or its old silhouette) or empty.
+func _refresh_item_slots(profile: PlayerProfile) -> void:
+	if _item_slots_row == null:
+		return
+	for child: Node in _item_slots_row.get_children():
+		child.queue_free()
+	for index: int in profile.item_slots:
+		var slot: PanelContainer = PanelContainer.new()
+		slot.name = "ItemSlot_%d" % index
+		slot.custom_minimum_size = Vector2(ITEM_SLOT_PX, ITEM_SLOT_PX)
+		slot.add_theme_stylebox_override("panel", UIStyle.box(Color(0.1, 0.08, 0.16, 0.85), UIStyle.GOLD_DIM, 2, 8))
+		var item: ItemData = Session.content.item(profile.equipped_item_ids[index]) if index < profile.equipped_item_ids.size() else null
+		if item != null:
+			var glyph: TextureRect = IconArt.item_glyph(item, UIStyle.PARCHMENT, ITEM_SLOT_PX - 14.0)
+			glyph.custom_minimum_size = Vector2(ITEM_SLOT_PX - 14.0, ITEM_SLOT_PX - 14.0)
+			slot.add_child(glyph)
+			slot.tooltip_text = item.tooltip_text()
+		else:
+			slot.tooltip_text = "Empty item slot - equip an item below."
+		_item_slots_row.add_child(slot)
+
+
 func _refresh_items() -> void:
 	for child: Node in _items_box.get_children():
 		child.queue_free()
 	var profile: PlayerProfile = Session.profile
+	_refresh_item_slots(profile)
 	_items_note.text = "Equipped %d / %d. Equipped items are usable on your turn in battle; \"Use\" also works between fights/on the map." % [profile.equipped_item_ids.size(), profile.item_slots]
 	if profile.owned_items.is_empty():
 		_items_box.add_child(_note("No items yet - Tilly Tonic's Supplies in town sells some."))
@@ -562,6 +566,7 @@ func _refresh_items() -> void:
 	for owned_item: ItemData in profile.owned_items:
 		var row: HBoxContainer = UIKit.hbox(8)
 		var equipped: bool = profile.is_item_equipped(owned_item)
+		row.add_child(IconArt.item_glyph(owned_item, UIStyle.GOOD if equipped else UIStyle.PARCHMENT, 30.0))
 		var name_label: Label = UIKit.label("%s (%d left)%s" % [owned_item.display_name, profile.item_uses_left(owned_item), " [equipped]" if equipped else ""], &"", 18, UIStyle.GOOD if equipped else UIStyle.PARCHMENT)
 		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		name_label.mouse_filter = Control.MOUSE_FILTER_STOP

@@ -174,16 +174,52 @@ perfect facade over a broken city. The Wanderer wakes in the forest outside Cros
 - **Primm and the wells.** Clean wells were among his genuinely good early reforms. In the postgame he designs water mains under guard:
   "I find that I miss the wells."
 
-Not canon yet (do not state as fact): where the Wellspring is or was, whether the Old Well and the cave's dry spring drew from it, why it
-dried, and how it relates to the Pathwork Throne's four-coloured stair.
+**Made canon by the Old Well secret quest (Oct 19-20, Part 6; below)** [built]:
+- **Where it is.** The Wellspring rises deep under the kingdom, nearest the surface under Crosspath: the Paths met there because the water
+  did ("Where it rose, they built a town to argue in"). The Old Well is the Old Kingdom's well over it.
+- **Four streams, one spring.** Its water fed all four Paths, each as its own stream (red, blue, purple, green in the vision). Two are shown:
+  the green one fed the Refusemancers' fields (it still comes up, clear, at the head of the Verdant Dump's river on the highest terrace); the
+  blue one went into the Gourmands' first stockpot (an old stone basin, now under the little gravy pond in the Buffet's Broccoli Forest;
+  every Gourmand recipe still begins "first, water"). The four peoples gave it four names and argued about the name for a thousand years.
+- **The vault under the well was built to guard its source.** Over the source the Old Kingdom built the Forgotten Vault, and the four Paths
+  locked it together "so no one Path could ever own the water". (Fits section 17: Old Kingdom work from the days the Paths marched as one;
+  its four-coloured core sits over the source. The vault's dungeon, quest and Automaton are unchanged.)
+- **Why it dried.** It ran while the four Paths shared it and while one house held the four together. Ten years ago "the house went quiet"
+  (the coup), the streams stopped speaking and the spring went down to wait. The Forgotten Cave's Hollow Well, the little spring at the end
+  of the royal tunnel, went to dust then; the Old Well almost did.
+- **It does not come when it is told.** Good new wells were dug all over the kingdom, clean and straight (Primm's early reform, unnamed in
+  the text); the water did not come. "It does not run for one shape. It runs for many, held together."
+- **The bloodline hint** (no more than canon): it has waited ten years "for a hand that can hold all four", and it hums when the Wanderer
+  touches it. Nothing names the prince or says the house is his; the line reads the same before and after memory 4.
 
-### The Old Well secret quest (placeholder)
+Still not canon: how the Wellspring relates to the Pathwork Throne's four-coloured stair, whether it can run again, and the purple (Necrocrat)
+and red (Beefcake) streams' places.
 
-> **PLACEHOLDER - to be filled by tonight's Part 6 (the Old Well secret quest).** Planned shape from the brief: the Old Well gives an eerie
-> vision that starts a hidden quest; a small themed task in the Verdant Dump and one in the Endless Buffet; back at the well, a hard
-> node-based challenge battle against a Wellspring guardian or echo with a one-sided rule (shown with rule icons); a unique reward (card or
-> relic) plus a lore reveal about the well's water and the Wellspring. It must fit with the Forgotten Vault under the same well. Record
-> here: quest id, giver, steps, the guardian's name and rule, the reward, and exactly which Wellspring facts the reveal makes canon.
+### The Old Well secret quest [built]
+
+**The Water Under the Well** (`secret_old_well`, SIDE, hidden; code `core/dungeon/old_well_quest.gd`, text `data/story/old_well_story.json`,
+world `world/old_well/old_well_spot.gd` + `TownScene._use_well`). No giver and no marker: the Old Well itself starts it.
+
+1. **The vision** (first touch of the Old Well once a Path zone is free): the stone goes warm, water moves far below; the well whispers
+   "Four streams. One spring. They drank together, once." and "Listen for what is left"; two hums answer, one high in the Verdant Dump where its
+   river starts to fall, one in the Endless Buffet by a little pond under the broccoli. The Wanderer: "The townsfolk say the well doesn't talk.
+   I'm not going to be the one who tells them." (callback to the townsfolk bark). Until a zone is free the well keeps its old greeting.
+2. **The Dump's hum** (any order): at the head of the falls on the Overgrown Plateau, a thread of clear water under roots and junk ("The
+   cleanest water in the Dump starts in its dirtiest corner"; a boot in it, "the water has gone politely round the boot"); the green stream.
+3. **The Buffet's hum**: the first stockpot under the gravy pond in the Broccoli Forest ("first, water"; "Somebody has added 'and salt'.
+   Twice."); the blue stream. Each find ends with a whisper, "One stream remembers."
+4. **The Echo**: with both found the well fills with light of all four colours. **The Wellspring's Echo** ("what is left when the water goes.
+   Every Path's voice, in one throat"; "Hold all four, and I will run again. Hold fewer, and I will show you what the others were for.") is a
+   four-Path deck (every Path's Infrastructure, Village Wells, the Harmony Engine, Reunion of the Paths) with the one-sided rule **The Spring
+   Remembers** (heals 2 HP at the start of each of its turns; starts with an Iron, a Red Tape, an Ingredient and a Garbage). Node-based duel on
+   the town battleboard; a loss: "Not yet. The spring is patient. It has had ten years of practice."
+5. **The reveal** (first win): the well becomes a mirror showing the spring under everything; the facts above; "It hums when you touch it.
+   Take a little with you. It remembers the way home." The Wanderer: "A well with opinions. Fine. I'm keeping the bottle."
+6. **Reward**: the **Phial of First Water** (relic, never sold: multi-Path cards cost 1 less generic energy, gain 1 HP each turn; "A thimble
+   of the water that fed all four Paths. It does not slosh. It waits."), 250 gold, 300 XP. Intended level about 16.
+
+Voices: the Old Well (new, narration-adjacent): slow, plural, "..." pauses, water images, no jokes; the Echo: the same, colder. The humour stays
+in the narration's small turns and the Wanderer's two lines.
 
 ## 5. The Wanderer: the lost prince's arc
 
@@ -876,7 +912,7 @@ Quest ids are the game's (`QuestDefinitions`, `ZoneQuestDefinitions`). Zones may
     Swolympus; the changed Pathordia.
 
 Side quests and secrets that run alongside: every zone favour, the side dungeons, The Oldest Trick in the Book (`oldest_trick`), The Four
-Seals (`four_seals`), the Undercroft tiers, and the Old Well secret quest (section 4, placeholder).
+Seals (`four_seals`), the Undercroft tiers, and the Old Well secret quest, The Water Under the Well (`secret_old_well`, section 4).
 
 ## 21. Running jokes and callbacks
 

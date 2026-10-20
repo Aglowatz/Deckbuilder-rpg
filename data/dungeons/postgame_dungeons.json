@@ -48,8 +48,8 @@
 		"reward_repeat": "Small gold and a Beefcake Pack.",
 		"hook": "Old Man Mountain: \"There is a cave in the cliff past the mills where they only train legs. Go see if yours hold up.\"",
 		"map_id": "MAP-S-IRON",
-		"battleboard_id": "BB-S-BEEF",
-		"_note": "Gainlands v2 (docs/art/gainlands_v2.md, Part F): a hand-made early side dungeon, open from the start (no quest). The designer's sheet has no row for it yet; when it gets one the import wins and this entry is ignored. It borrows the Swolympus battleboard (BB-S-BEEF) and the House of Gains music until it has its own. Design gaps: docs/design/open_questions.md GL2-F1.",
+		"battleboard_id": "BB-S-IRON",
+		"_note": "Gainlands v2 (docs/art/gainlands_v2.md, Part F): a hand-made early side dungeon, open from the start (no quest). The designer's sheet has no row for it yet; when it gets one the import wins and this entry is ignored. Its own map and board (MAP-S-IRON, BB-S-IRON) drop in with import maps / import battleboards; until then it shows the Swolympus map and battleboard (MapArt.STANDIN_MAPS, Battleboards.STANDIN_BOARDS) and the House of Gains music until it has its own. Design gaps: docs/design/open_questions.md GL2-F1.",
 		"nodes": [
 			{"n": 1, "name": "The Calf Raise Crawl", "type": "battle", "note": "", "x": 20, "y": 72, "next": [2], "side": false, "return_to": 0},
 			{"n": 2, "name": "The Squat Rack Gallery", "type": "battle", "note": "", "x": 50, "y": 48, "next": [3], "side": false, "return_to": 0},

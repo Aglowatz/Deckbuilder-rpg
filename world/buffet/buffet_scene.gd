@@ -221,6 +221,9 @@ func _track_safe_spot() -> void:
 
 
 func _interact_zone(spot: ZoneSpot) -> void:
+	if spot.kind == OldWellQuest.SPOT_KIND:
+		OldWellSpot.use(self, spot)  # Overnight Oct 19-20, Part 6: the Old Well's hum at the gravy pond
+		return
 	if spot.data.has("gate"):
 		_use_gate(BuffetGates.find(str(spot.data["gate"])))
 		return
@@ -617,6 +620,7 @@ func _add_chef_hats() -> void:
 
 func _build_spots() -> void:
 	super._build_spots()
+	OldWellSpot.build(self, BuffetZone.ID)  # Overnight Oct 19-20, Part 6: only while the Old Well quest is at this step
 	# Pickups get a little glowing model so they can be spotted; they vanish once picked this visit.
 	for ingredient_id: String in BuffetZone.INGREDIENTS.keys():
 		var pos: Vector3 = builder.anchor("pickup_" + ingredient_id)

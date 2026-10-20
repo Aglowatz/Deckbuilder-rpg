@@ -913,3 +913,19 @@ Sim check (`d19_redtape_tutorial_necro_7000/8100.md`, `d19_redtape_decks_l1.md`)
 (100 runs each; the cycle-11 deck measured 83 / 91 before the change), the three fights 96-100%. L1 round robin (20 games per pairing):
 B 48 / G 50 / R 45 / **N 57** (was 52 / 48 / 47 / 53). The stronger Red Tape lifts the Necrocrat deck a few points on both checks, still
 inside the noise band of these sample sizes; no deck change made.
+
+## Overnight Oct 19 - The Wellspring's Echo (secret Old Well quest, Part 6)
+
+New encounter `town:old_well` (sim group `secret:old_well`, Boss, intended level 16, target 40-60%). One rule, "The Spring Remembers" (one badge):
+heal 2 at the start of its turns, one Iron / Red Tape / Ingredient / Garbage at the start, and a stat entry for its units.
+
+| Version | Games/Path | Seed | Beefcake | Necrocrat | Gourmand | Refusemancer | All |
+|---|---:|---|---:|---:|---:|---:|---:|
+| no stat entry | 8 | default | 100% | 100% | 88% | 100% | 97% |
+| +1/+1 | 8 | default | 88% | 100% | 75% | 63% | 81% |
+| +2/+1 | 8 | default | 75% | 88% | 25% | 75% | 66% |
+| **+2/+2 (kept)** | 25 | default | 48% | 60% | 44% | 56% | **52%** |
+| **+2/+2 (kept)** | 25 | 8100 | 48% | 88% | 36% | 72% | **61%** |
+
+Kept +2/+2 (two-seed mean ~56%: hard but fair). Gourmand is the weakest Path against it (36-44%), Necrocrat the strongest. Reports in
+`docs/design/sim/old_well_oct19*.md`.

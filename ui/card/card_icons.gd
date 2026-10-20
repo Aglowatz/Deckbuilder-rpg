@@ -60,6 +60,7 @@ const UI_ICONS: Dictionary = {
 ## advanced), replacing the original 5 placeholders.
 const BY_EQUIPMENT_ID: Dictionary = {
 	"four_seal_signet": "lorc/rune-stone",
+	"first_water_phial": "lorc/drop",
 	"wicked_dagger": "lorc/broad-dagger",
 	"flamethrower": "delapouite/flamethrower",
 	"extra_pocket": "lorc/shiny-purse",

@@ -64,7 +64,10 @@ func _add_section(parent: VBoxContainer, slot: CosmeticData.Slot, title: String)
 		var ready: bool = SpriteCosmetics.art_ready(item)
 		var button: FancyButton = FancyButton.make(item.display_name if ready else "%s (arriving soon)" % item.display_name, &"", Vector2(210 if ready else 300, 46))
 		button.name = "%s_%s" % [title, item.id]
-		var icon: Texture2D = SpriteLibrary.item_icon(slot == CosmeticData.Slot.HAT, item.art_name) if ready else null
+		# Oct 19 night (Part 3): the shop icon ICON-COS-<art name> once imported, else the old sprite-library picture.
+		var icon: Texture2D = IconArt.cosmetic_texture(item, 58.0)
+		if icon == null and ready:
+			icon = SpriteLibrary.item_icon(slot == CosmeticData.Slot.HAT, item.art_name)
 		if icon != null:
 			button.icon = icon
 			button.expand_icon = true

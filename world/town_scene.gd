@@ -265,6 +265,8 @@ func _ready() -> void:
 	_show_graveyard_result.call_deferred()
 	_show_ninja_result.call_deferred()
 	_show_vault_result.call_deferred()
+	_show_old_well_result.call_deferred()
+	_apply_well_stir()
 	if _screenshot_args.has("slots"):
 		_screenshot_slots.call_deferred(str(_screenshot_args["slots"]))
 	if _screenshot_args.has("ninja"):
@@ -858,7 +860,7 @@ func _process(delta: float) -> void:
 			spot.plate.pixel_size = 0.0075
 		spot.plate.outline_modulate.a = spot.plate.modulate.a
 		spot.plate.visible = spot.plate.modulate.a > 0.02
-	_well_light.light_energy = 1.4 + sin(_time * 1.7) * 0.35
+	_well_light.light_energy = (1.4 + sin(_time * 1.7) * 0.35) * _well_stir
 	_update_nearest()
 	_update_hidden_chest_prompt()
 	_check_portal_walk(delta)
@@ -931,7 +933,7 @@ func _prompt_text(spot: Spot) -> String:
 		"well_door":
 			return "Open the iron hatch" if Session.side_unlocked("S-TOWN") else "Try the iron hatch"
 		"well":
-			return "Touch the Old Well"
+			return OldWellStory.shared().text("prompt.well.ready") if Session.old_well_stage() == OldWellQuest.Stage.READY else "Touch the Old Well"
 		"deck":
 			return "Open the Deck Station"
 		"gate":
@@ -959,7 +961,7 @@ func _prompt_text(spot: Spot) -> String:
 		"arena":
 			if town.hub_land:
 				return "Climb down the cellar hatch" if Session.arena_unlocked() else "The cellar hatch is chained shut"
-			return "Enter the Grand Clashatorium" if Session.arena_unlocked() else "The gates are chained shut"
+			return "Enter the Undercroft" if Session.arena_unlocked() else "The gates are chained shut"
 	if spot.id.begins_with("signpost_"):
 		return "Read the signpost"
 	if spot.id.begins_with("portal_"):
@@ -1458,11 +1460,91 @@ func _build_vault_hatch() -> void:
 ## The Wellspring choice used to happen here; the player now picks their element in the starting
 ## area instead (`ElementChoiceScreen`, Part C), so the well is a lore/flavor spot: it always
 ## recognizes the color the player already carries. See docs/design/open_questions.md D30.
+## Overnight Oct 19-20, Part 6: it is also the Old Well secret quest (`OldWellQuest`): once a Path zone is free the first touch plays the vision
+## and starts the hidden quest; while it runs the well whispers where the two hums are; with both found it opens the duel against the
+## Wellspring's Echo; afterwards it only hums. The iron hatch beside it (the Forgotten Vault) is a separate spot and is unchanged.
 func _use_well() -> void:
 	var color: Affinity.Type = Session.profile.primary_affinity
+	_well_burst(color)
+	player.face(town.anchors["well"] as Vector3)
+	var story: OldWellStory = OldWellStory.shared()
+	match Session.old_well_stage():
+		OldWellQuest.Stage.LISTENING:
+			Audio.sfx(&"ui_confirm")
+			var beats: Array[OldWellStory.Beat] = story.get_beats("touch.listening")
+			if not Session.flag(OldWellQuest.FLAG_HEAP):
+				beats.append_array(story.get_beats("touch.left.heap"))
+			if not Session.flag(OldWellQuest.FLAG_BUFFET):
+				beats.append_array(story.get_beats("touch.left.buffet"))
+			OldWellSpot.play(dialogue, beats)
+			return
+		OldWellQuest.Stage.READY:
+			_ask_old_well_echo()
+			return
+		OldWellQuest.Stage.DONE:
+			hud.toast(story.text("touch.done"), Color("aef0ff"))
+			Audio.sfx(&"ui_confirm")
+			return
+	if Session.old_well_can_begin():
+		_begin_old_well_vision()
+		return
 	hud.toast("The %s spring hums. It knows you." % UIStyle.affinity_name(color), UIStyle.affinity_color(color).lightened(0.3))
 	Audio.sfx(&"ui_confirm")
-	_well_burst(color)
+
+
+## The first touch once a zone is free: the vision, then the hidden quest starts (its "New quest" notice is the only announcement).
+func _begin_old_well_vision() -> void:
+	_locked = true
+	Audio.sfx(&"ui_open", -4.0)
+	OldWellSpot.play(dialogue, OldWellStory.shared().get_beats("vision.start"), func() -> void:
+		_locked = false
+		Session.begin_old_well_quest()
+		_apply_well_stir())
+
+
+## Both hums found: the well fills with light; a confirm, the Echo's lines, the Before-the-fight card with its rule icon, then the duel.
+func _ask_old_well_echo() -> void:
+	var story: OldWellStory = OldWellStory.shared()
+	if not Session.any_deck_valid():
+		hud.toast("Your deck is not ready for what waits in the well.", Color("ff8a85"))
+		Audio.sfx(&"ui_error")
+		return
+	_locked = true
+	Audio.sfx(&"ui_open", -4.0)
+	OldWellSpot.play(dialogue, story.get_beats("touch.ready"), func() -> void:
+		var dialog: ConfirmDialog = ConfirmDialog.ask(_overlay_layer, story.text("confirm.title"), story.text("confirm.body"), story.text("confirm.yes"), story.text("confirm.no"))
+		dialog.confirmed.connect(func() -> void:
+			DeckPicker.guard(_overlay_layer, func() -> void:
+				OldWellSpot.play(dialogue, story.get_beats("echo.before"), func() -> void:
+					Session.save_game()
+					RulesBrief.open(self, RuleBadges.for_encounter(EncounterModifiers.rules(OldWellQuest.RULES_KEY)), "Before the fight: %s" % OldWellQuest.DISPLAY_NAME, Session.challenge_old_well)),
+				func() -> void: _locked = false))
+		dialog.cancelled.connect(func() -> void: _locked = false))
+
+
+## Shown once after the Echo's duel: a loss gets its lines; the first win plays the final vision, then the quest's reward box (queued by the
+## quest system) shows on its own.
+func _show_old_well_result() -> void:
+	if Session.pending_old_well_result.is_empty():
+		return
+	var result: Dictionary = Session.pending_old_well_result
+	Session.pending_old_well_result = {}
+	var story: OldWellStory = OldWellStory.shared()
+	if bool(result.get("first_win", false)):
+		Audio.sfx(&"victory", -6.0)
+		OldWellSpot.play(dialogue, story.get_beats("echo.reveal"))
+	elif not bool(result.get("won", false)):
+		OldWellSpot.play(dialogue, story.get_beats("echo.lose"))
+
+
+## How much the well's light and motes stir: brighter while the quest waits for the Echo.
+var _well_stir: float = 1.0
+
+
+func _apply_well_stir() -> void:
+	_well_stir = 1.6 if Session.old_well_stage() == OldWellQuest.Stage.READY else 1.0
+	if _well_particles != null:
+		_well_particles.amount = 48 if _well_stir > 1.0 else 26
 
 
 func _well_burst(color: Affinity.Type) -> void:
@@ -2387,7 +2469,7 @@ func _update_sprite_npcs(delta: float) -> void:
 const BAKER_LINES: Array[Array] = [
 	["Mind the flour! It gets everywhere. Into the bread, into the ledger, into my tea...", "Fresh loaves at dawn, sir, madam, traveller of unclear title."],
 	["I make the bread and the Crosspath eats the bread. It is a system and I am very proud of it.", "Try the seeded one. It has seeds in it. That is the whole recipe."],
-	["Heard the bridge to the Capital creaks at night. I wouldn't know; I'm asleep by nine. Dough waits for no badger.", "Take a roll for the road. No charge. (A small charge. Kidding.)"],
+	["Heard the road to the Capital groans at night. I wouldn't know; I'm asleep by nine. Dough waits for no badger.", "Take a roll for the road. No charge. (A small charge. Kidding.)"],
 ]
 
 

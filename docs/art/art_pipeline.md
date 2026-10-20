@@ -125,6 +125,22 @@ IDs come from `data/source/icons.csv` (rows starting `ICON-`; the `*-OTHERS` pla
 `IconArt.texture(id, px)` picks the smallest variant that is at least `px`; `IconArt.rect(id, px)` / `IconArt.bbcode(id, px)` build the node / rich-text tag. A missing icon returns null and the screen keeps its old look.
 Report the missing IDs and unmatched files. Contact sheet: `bash tools/shot.sh res://scenes/dev/icon_gallery.tscn icon_gallery`.
 
+**Gear, item and cosmetic icons (Oct 19 night).** Besides the CSV, the importer accepts the expected own icon of every piece of game data (`IconArt.import_ids` / `game_ids`, generated from
+`data/equipment`, `data/equipment/zone`, `data/items` and `CosmeticCatalog`), and reports per category what is still missing:
+- equipment: `ICON-GEAR-<id upper case, no underscores>` (`lucky_sock` -> `ICON-GEAR-LUCKYSOCK`; `IconArt.gear_icon_id`). Until it exists the closest existing gear icon (`PLACEHOLDER_GEAR`) or the game-icons silhouette stands in.
+- consumables: `ICON-ITEM-<id upper case, no underscores>` (`healing_draught` -> `ICON-ITEM-HEALINGDRAUGHT`; `IconArt.item_icon_id`). Until then the game-icons silhouette (`CardIcons.for_item`). Shown on the battle item bar, the item vendor, the reward box and the Character screen's item slots.
+- hats and cloaks: `ICON-COS-<art name>` (`CosmeticData.art_name`: `ICON-COS-WIDEBRIM`, `ICON-COS-REDCAPE`; `IconArt.cosmetic_icon_id`). Until then the tailor and wardrobe keep the sprite-library picture.
+File names are matched forgivingly (any case, `_` / spaces for `-`, `ICON-GEAR-LUCKY-SOCK` -> `ICON-GEAR-LUCKYSOCK`, `ICON-COS-HAT-WIDEBRIM` -> `ICON-COS-WIDEBRIM`); the copy is saved under the ID and the report lists it. Tests: `tests/ui/test_icon_conventions.gd`.
+
+## Bestiary pictures ("import bestiary")
+
+When the user says **"import bestiary"**, run `bash tools/import_bestiary.sh` (Drive `Approved_Bestiary`, key `bestiary_dir` in `data/source/art_config.cfg`, override `BESTIARY_SOURCE_DIR`; copy-only, never from
+`Pending Review` / `Superseded`). IDs are `Bestiary.art_id(name)` of every entry of `data/bestiary/bestiary.json` (`BST-CAVE-SCAVENGER`; the request list with prompts is `docs/art/bestiary_image_requests.md`).
+Each picture becomes `assets/art/bestiary/<ID>.webp`: a non-square picture is cropped to a square (centred across, from the top down so the head stays), scaled down to 512 px, lossy WebP 90
+(`tools/art_import_rules.json` rule `assets/art/bestiary/*`); `data/source/bestiary_import_manifest.csv` keeps each file's MD5 so a changed file is replaced. `Bestiary.art` shows it at once in the
+Collection Book and as the enemy's round portrait in battle; without one the entry keeps its dialogue-portrait crop or icon. Report the IDs still missing and the files that match no ID.
+Code: `core/data/bestiary_art.gd` (`BestiaryArt`); tests: `tests/core/data/test_bestiary_import.gd`. Status: `docs/art/art_status.md`, "Bestiary pictures".
+
 ## Zone kits ("import zone kit <zone>")
 
 Each zone's own art (Art Bible G-08: material swaps, cut-out sheets, trees and plants, props, decals, hero landmark concepts, sky and backdrop strips) lives on the Drive in

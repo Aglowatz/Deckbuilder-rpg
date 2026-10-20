@@ -21,6 +21,8 @@ func _init() -> void:
 	var used: Dictionary = {}
 	for key: Variant in Battleboards.contexts():
 		used[str(Battleboards.contexts()[key])] = true
+	for blueprint: DungeonCatalog.Blueprint in DungeonCatalog.all():
+		used[blueprint.battleboard_id] = true  # a dungeon names its board directly (BB-LAB, BB-S-IRON)
 	var unmapped: Array[String] = []
 	for id: Variant in result.have:
 		if not used.has(str(id)):

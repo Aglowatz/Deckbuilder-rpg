@@ -15,6 +15,7 @@ extends SceneTree
 const CONFIG: String = "res://data/source/art_config.cfg"
 const MAX_SIDE: int = 1536
 const MAX_BACKDROP: int = 2048
+const SOURCE_EXTENSIONS: Array[String] = ["png", "webp", "jpg", "jpeg"]
 const Prep = preload("res://tools/env_kit_prep.gd")
 const ZonePrep = preload("res://tools/zone_kit_prep.gd")
 
@@ -70,7 +71,7 @@ func _initialize() -> void:
 		wanted[id] = true
 		if not only.is_empty() and not (id in only):
 			continue
-		var path: String = "%s/%s.png" % [source, id]
+		var path: String = _source_file(source, id)
 		var entry: Dictionary = _entry_from_row(row)
 		if not FileAccess.file_exists(path):
 			missing.append(id)
@@ -108,7 +109,7 @@ func _initialize() -> void:
 	var dir: DirAccess = DirAccess.open(source)
 	if dir != null:
 		for file_name: String in dir.get_files():
-			if file_name.get_extension().to_lower() == "png" and not wanted.has(file_name.get_basename()):
+			if SOURCE_EXTENSIONS.has(file_name.get_extension().to_lower()) and not wanted.has(file_name.get_basename()):
 				stray.append(file_name)
 	else:
 		notes.append("source folder not found: %s" % source)
@@ -143,6 +144,15 @@ func _initialize() -> void:
 	for text: String in notes:
 		print("  note: %s" % text)
 	quit(0)
+
+
+## The source file of a kit id: <ID>.png, else .webp / .jpg / .jpeg (Oct 19 night: drop-in import whatever the export format); the .png path when none exists.
+func _source_file(source: String, id: String) -> String:
+	for extension: String in SOURCE_EXTENSIONS:
+		var candidate: String = "%s/%s.%s" % [source, id, extension]
+		if FileAccess.file_exists(candidate):
+			return candidate
+	return "%s/%s.png" % [source, id]
 
 
 ## The Drive folder of this zone: zonekit_folders[zone] in art_config.cfg when set, else a sub-folder of zonekits_dir whose name matches the zone id (case and underscores ignored), else the capitalised id.

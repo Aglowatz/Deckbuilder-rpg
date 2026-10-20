@@ -22,6 +22,8 @@ var is_graveyard_boss: bool = false
 var is_ninja_boss: bool = false
 ## Brief 16: set for the duel against the Warden of the Four Seals (the town's Four-Seal Vault). See Session.make_vault_battle/_complete_vault_challenge.
 var is_vault_boss: bool = false
+## Overnight Oct 19-20, Part 6: set for the duel against the Wellspring's Echo (the Old Well secret quest). See Session.make_old_well_battle.
+var is_old_well_boss: bool = false
 var gold_reward: int = 0
 var xp_reward: int = 0
 var card_choices: int = 0

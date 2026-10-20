@@ -37,6 +37,11 @@ const ART_DIR: String = "res://assets/art/bestiary"
 static var _art_cache: Dictionary = {}
 
 
+## Forgets the remembered pictures (after `BestiaryArt.import_from_source`, and in tests) so a newly imported BST-* file shows.
+static func reset_art() -> void:
+	_art_cache = {}
+
+
 ## "Cave Scavenger" -> "BST-CAVE-SCAVENGER" (letters and digits, everything else a single dash).
 static func art_id(entry_name: String) -> String:
 	var slug: String = ""

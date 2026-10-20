@@ -32,6 +32,7 @@ static func build_all() -> Array[QuestData]:
 	result.append(_fragments())
 	result.append(_oldest_trick())
 	result.append(_four_seals())
+	result.append(OldWellQuest.quest())  # Overnight Oct 19-20, Part 6: the Old Well secret quest (started by the well's vision, never auto-given)
 	result.append(_armory())
 	result.append(_first_deck_edit())
 	for zone_id: String in Gatekeepers.IDS:
@@ -171,7 +172,7 @@ const ZONE_MAIN_TEXT: Dictionary = {
 	},
 	"refusemancer": {
 		"title": "Root Cause",
-		"summary": "A wall of thorns has swallowed the forest path and a druid is talking in a voice that isn't his. Clear the way, help the locals, and cut out the Rotheart.",
+		"summary": "A wall of thorns has swallowed the forest path and a druid is talking in a voice that isn't hers. Clear the way, help the locals, and cut out the Rotheart.",
 		"gate": "Uproot Moss Mulligan at the thorn wall", "gate_hint": "The thorn wall across the winding forest path",
 		"enter": "Walk the forest path into the Verdant Dump", "enter_hint": "The withered thorn wall on the forest path",
 		"favour": "Lend a hand: finish a favour in the Verdant Dump", "favour_spot": "wren", "favour_hint": "Wren Muckfoot, Granny Gristle or Brother Bramble in the Dump",

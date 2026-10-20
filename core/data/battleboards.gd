@@ -72,16 +72,38 @@ static func texture_for(key_or_id: String) -> Texture2D:
 	if id.is_empty():
 		return _placeholder()
 	if not _textures.has(id):
-		var path: String = OUT_DIR.path_join("%s.webp" % id)
+		var path: String = _file_for(id)
 		var loaded: Texture2D = load(path) as Texture2D if ResourceLoader.exists(path) else null
 		_textures[id] = loaded
 	var texture: Texture2D = _textures[id] as Texture2D
 	return texture if texture != null else _placeholder()
 
 
-## True when the image for `id` exists in the game.
+## STANDIN boards (Oct 19 night, Part 3): a dungeon whose own board is still to come shows another board until its file arrives (its own file always
+## wins, so the import is drop-in). The Iron Cave fights on Mount Swolympus' summit until BB-S-IRON is imported.
+const STANDIN_BOARDS: Dictionary = {"BB-S-IRON": "BB-S-BEEF"}
+## Boards the game uses that the designer's CSV has no row for yet: {ID -> [name, used in]}. Every dungeon blueprint's board is added too.
+const EXTRA_BOARDS: Dictionary = {"BB-S-IRON": ["The Iron Cave", "The Iron Cave (Gainlands side dungeon)"]}
+
+
+## The file an ID shows: its own when it exists, else its stand-in's.
+static func _file_for(id: String) -> String:
+	var own: String = OUT_DIR.path_join("%s.webp" % id)
+	if ResourceLoader.exists(own) or FileAccess.file_exists(own) or not STANDIN_BOARDS.has(id):
+		return own
+	return OUT_DIR.path_join("%s.webp" % str(STANDIN_BOARDS[id]))
+
+
+## True when the board shows a painted image (its own, or its stand-in's while its own is still to come).
 static func has_image(id: String) -> bool:
-	return FileAccess.file_exists(OUT_DIR.path_join("%s.webp" % id)) or ResourceLoader.exists(OUT_DIR.path_join("%s.webp" % id))
+	var path: String = _file_for(id)
+	return FileAccess.file_exists(path) or ResourceLoader.exists(path)
+
+
+## True only when the board's own image is imported (not a stand-in).
+static func has_own_image(id: String) -> bool:
+	var own: String = OUT_DIR.path_join("%s.webp" % id)
+	return FileAccess.file_exists(own) or ResourceLoader.exists(own)
 
 
 ## The neutral stand-in: a dark slate table with a soft lighter centre.
@@ -105,16 +127,23 @@ static func _placeholder() -> Texture2D:
 # ---- Import ---------------------------------------------------------------------------------
 
 
-## Battleboard IDs and names from the designer's CSV: {ID -> [name, used in]}.
+## Battleboard IDs and names from the designer's CSV: {ID -> [name, used in]}, plus EXTRA_BOARDS and the board of every dungeon blueprint
+## (dungeons.json and postgame_dungeons.json: BB-LAB, BB-S-IRON...) so their art is never reported as matching no ID.
 static func known_boards() -> Dictionary:
 	var known: Dictionary = {}
-	if not FileAccess.file_exists(LIST_PATH):
-		return known
-	var file: FileAccess = FileAccess.open(LIST_PATH, FileAccess.READ)
-	while not file.eof_reached():
-		var row: PackedStringArray = file.get_csv_line()
-		if row.size() >= 3 and row[0].begins_with("BB-"):
-			known[row[0].strip_edges()] = [row[1], row[2]]
+	if FileAccess.file_exists(LIST_PATH):
+		var file: FileAccess = FileAccess.open(LIST_PATH, FileAccess.READ)
+		while not file.eof_reached():
+			var row: PackedStringArray = file.get_csv_line()
+			if row.size() >= 3 and row[0].begins_with("BB-"):
+				known[row[0].strip_edges()] = [row[1], row[2]]
+		file.close()
+	for id: Variant in EXTRA_BOARDS:
+		if not known.has(id):
+			known[id] = EXTRA_BOARDS[id]
+	for blueprint: DungeonCatalog.Blueprint in DungeonCatalog.all():
+		if blueprint.battleboard_id.begins_with("BB-") and not known.has(blueprint.battleboard_id):
+			known[blueprint.battleboard_id] = [blueprint.dungeon_name, "%s (all battles)" % blueprint.dungeon_name]
 	return known
 
 

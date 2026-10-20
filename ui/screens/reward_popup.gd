@@ -69,7 +69,7 @@ func _fill_body() -> void:
 			tile.set_meta(&"highlight", CardView.RARITY_COLORS[int(card.rarity)])
 		things.add_child(tile)
 	for item: ItemData in summary.items:
-		things.add_child(_icon_tile(CardIcons.for_item(item), item.display_name, "Item", item.description))
+		things.add_child(_icon_tile(IconArt.item_texture(item, 74.0), item.display_name, "Item", item.description, IconArt.has_item_icon(item)))
 	for piece: EquipmentData in summary.equipment:
 		var rarity: int = clampi(int(piece.rarity), 0, 3)
 		var gear: Control = _icon_tile(IconArt.equipment_texture(piece, 74.0), piece.source_name, "%s %s" % [EquipmentRarity.display_name(rarity), EquipmentData.slot_name(piece.slot)], piece.description, IconArt.has_equipment_icon(piece))
@@ -80,7 +80,8 @@ func _fill_body() -> void:
 	for entry: Dictionary in summary.packs:
 		things.add_child(_pack_tile(entry))
 	for cosmetic: String in summary.cosmetics:
-		things.add_child(_icon_tile(CardIcons.ui("level_badge"), cosmetic, "Wardrobe", "Open the wardrobe with T."))
+		var shop_icon: Texture2D = IconArt.cosmetic_texture(_cosmetic_named(cosmetic), 74.0)  # Oct 19 night: ICON-COS-* once imported
+		things.add_child(_icon_tile(shop_icon if shop_icon != null else CardIcons.ui("level_badge"), cosmetic, "Wardrobe", "Open the wardrobe with T.", shop_icon != null))
 	if things.get_child_count() > 0:
 		body.add_child(things)
 	if not summary.unlocks.is_empty():
@@ -127,6 +128,14 @@ func _card_tile(card: CardData) -> Control:
 
 
 ## `full_colour` shows the texture as it is (an icon) instead of a tinted silhouette.
+## The hat or cloak a reward line names (its display name or id), null when none matches.
+static func _cosmetic_named(text: String) -> CosmeticData:
+	for item: CosmeticData in CosmeticCatalog.all():
+		if item.display_name == text or item.id == text:
+			return item
+	return null
+
+
 func _icon_tile(texture: Texture2D, title: String, kind_text: String, description: String, full_colour: bool = false) -> Control:
 	var tile: PanelContainer = _tile_box()
 	tile.custom_minimum_size = Vector2(TILE_WIDTH, 0)

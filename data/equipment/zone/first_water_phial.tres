@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="EquipmentData" format=3]
+
+[ext_resource type="Script" path="res://core/data/modifier.gd" id="1_mp8yl"]
+[ext_resource type="Script" path="res://core/data/card_data.gd" id="2_ax2vq"]
+[ext_resource type="Script" path="res://core/data/effect_data.gd" id="3_nwq1d"]
+[ext_resource type="Script" path="res://core/data/equipment_data.gd" id="4_nobn4"]
+
+[sub_resource type="Resource" id="Resource_p8tux"]
+script = ExtResource("1_mp8yl")
+kind = 45
+value = -1
+
+[sub_resource type="Resource" id="Resource_51kdq"]
+script = ExtResource("3_nwq1d")
+target = 1
+op = 9
+amount = 1
+
+[sub_resource type="Resource" id="Resource_kmmt4"]
+script = ExtResource("1_mp8yl")
+kind = 11
+effect = SubResource("Resource_51kdq")
+
+[resource]
+script = ExtResource("4_nobn4")
+id = "first_water_phial"
+description = "Your multi-Path cards cost 1 less generic energy. At the start of your turn, gain 1 HP."
+advanced = true
+flavor_text = "A thimble of the water that fed all four Paths. It does not slosh. It waits."
+rarity = 3
+tier = 3
+source = "Secret quest: The Water Under the Well"
+source_name = "Phial of First Water"
+modifiers = Array[ExtResource("1_mp8yl")]([SubResource("Resource_p8tux"), SubResource("Resource_kmmt4")])

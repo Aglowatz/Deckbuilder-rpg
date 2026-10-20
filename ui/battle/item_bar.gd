@@ -91,7 +91,7 @@ func refresh() -> void:
 			slot.add_theme_stylebox_override("panel", _slot_style(EMPTY_FILL, EMPTY_BORDER, 2, 0, Color(0.7, 0.72, 0.85, 0.85)))
 			_usable[i] = false
 			continue
-		icon.texture = CardIcons.for_item(item)
+		icon.texture = IconArt.item_texture(item, SLOT_SIZE.x * 0.62)  # its own ICON-ITEM-* once imported, else the old silhouette
 		icon.visible = true
 		icon.modulate = Color(1, 1, 1, 1.0)
 		badge.text = str(_profile.item_uses_left(item))

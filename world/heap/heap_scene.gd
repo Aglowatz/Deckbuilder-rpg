@@ -343,6 +343,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _interact_zone(spot: ZoneSpot) -> void:
+	if spot.kind == OldWellQuest.SPOT_KIND:
+		OldWellSpot.use(self, spot)  # Overnight Oct 19-20, Part 6: the Old Well's hum at the head of the falls
+		return
 	if spot.data.has("grow"):
 		_use_growth(HeapGrowth.find(str(spot.data["grow"])), spot)
 		return
@@ -909,6 +912,7 @@ func _add_hat(npc: Node3D, kind: String) -> void:
 
 func _build_spots() -> void:
 	super._build_spots()
+	OldWellSpot.build(self, HeapZone.ID)  # Overnight Oct 19-20, Part 6: only while the Old Well quest is at this step
 	for pickup_id: String in HeapZone.PICKUPS.keys():
 		var pos: Vector3 = builder.anchor("pickup_" + pickup_id)
 		var node: Node3D = _pickup_model(HeapZone.pickup_kind(pickup_id))

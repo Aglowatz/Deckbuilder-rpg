@@ -136,6 +136,20 @@ static func town(content: ContentSet) -> Array[EncounterSpec]:
 	vault.enemy_builder = VaultGuardian.enemy_setup
 	vault.notes = "scripted escalating summons; postgame-grade"
 	result.append(vault)
+	# Overnight Oct 19-20, Part 6: the Old Well secret quest's duel (its own group, so the town group keeps its seven fights).
+	var echo: EncounterSpec = EncounterSpec.new()
+	echo.id = OldWellQuest.SIM_ID
+	echo.title = OldWellQuest.DISPLAY_NAME
+	echo.group = OldWellQuest.SIM_GROUP
+	echo.kind = EncounterSpec.Kind.BOSS
+	echo.expected_level = ProgressionModel.level_for(OldWellQuest.SIM_ID, OldWellQuest.EXPECTED_LEVEL)
+	echo.enemy_name = OldWellQuest.DISPLAY_NAME
+	echo.enemy_hp = OldWellQuest.STARTING_HP
+	echo.enemy_ai_name = OldWellQuest.AI_NAME
+	echo.enemy_builder = OldWellQuest.enemy_setup
+	_attach_rules(echo, OldWellQuest.RULES_KEY)
+	echo.notes = "secret quest boss: heals 2 a turn, starts with one of each Path's resource"
+	result.append(echo)
 	return result
 
 

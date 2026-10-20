@@ -467,5 +467,54 @@
 			"token": "T-16",
 			"count": 2
 		}
+	],
+	"town:old_well": [
+		{
+			"name": "The Spring Remembers",
+			"text": "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage.",
+			"icon": "lorc/drop",
+			"kind": "stat",
+			"atk": 2,
+			"def": 2
+		},
+		{
+			"name": "The Spring Remembers",
+			"text": "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage.",
+			"icon": "lorc/drop",
+			"kind": "start_of_turn_heal",
+			"amount": 2
+		},
+		{
+			"name": "The Spring Remembers",
+			"text": "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage.",
+			"icon": "lorc/drop",
+			"kind": "starting_resources",
+			"resource": "iron",
+			"count": 1
+		},
+		{
+			"name": "The Spring Remembers",
+			"text": "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage.",
+			"icon": "lorc/drop",
+			"kind": "starting_resources",
+			"resource": "redtape",
+			"count": 1
+		},
+		{
+			"name": "The Spring Remembers",
+			"text": "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage.",
+			"icon": "lorc/drop",
+			"kind": "starting_resources",
+			"resource": "ingredient",
+			"count": 1
+		},
+		{
+			"name": "The Spring Remembers",
+			"text": "The Echo's units get +2/+2. It heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an Ingredient and a Garbage.",
+			"icon": "lorc/drop",
+			"kind": "starting_resources",
+			"resource": "garbage",
+			"count": 1
+		}
 	]
 }

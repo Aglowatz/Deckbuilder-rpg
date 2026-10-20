@@ -112,7 +112,7 @@ func _make_tile(item: ItemData, price: int, locked: bool, teaser: String) -> Con
 	holder.add_child(column)
 	var icon_row: CenterContainer = CenterContainer.new()
 	column.add_child(icon_row)
-	var icon: TextureRect = CardIcons.glyph(CardIcons.for_item(item), Color(0.4, 0.4, 0.46) if locked else UIStyle.PARCHMENT, Vector2(64, 64))
+	var icon: TextureRect = IconArt.item_glyph(item, Color(0.4, 0.4, 0.46) if locked else UIStyle.PARCHMENT, 64.0)
 	if locked and IconArt.has("ICON-PADLOCK"):
 		icon = IconArt.rect("ICON-PADLOCK", 64.0)
 	icon_row.add_child(icon)

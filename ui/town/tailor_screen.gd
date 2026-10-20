@@ -91,7 +91,10 @@ func _make_tile(item: CosmeticData, open: bool) -> Control:
 	tile.add_child(column)
 	var head: HBoxContainer = UIKit.hbox(8)
 	column.add_child(head)
-	var icon: Texture2D = SpriteLibrary.item_icon(item.slot == CosmeticData.Slot.HAT, item.art_name) if open else null
+	# Oct 19 night (Part 3): the shop icon ICON-COS-<art name> once imported, else the old sprite-library picture.
+	var icon: Texture2D = IconArt.cosmetic_texture(item, 52.0) if open else null
+	if icon == null and open:
+		icon = SpriteLibrary.item_icon(item.slot == CosmeticData.Slot.HAT, item.art_name)
 	if icon != null:
 		var picture: TextureRect = TextureRect.new()
 		picture.name = "Icon_%s" % item.id

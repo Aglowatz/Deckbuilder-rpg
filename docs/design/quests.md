@@ -33,6 +33,26 @@ each zone, then storm the castle; 300 gold, 250 XP). **Fragments** (Maren's memo
 - Gold from the main lines: 4 x (40 + 200) + 300 = 1,260 over the whole story (the retired Clear the Paths paid 150; Free the Kingdom kept 300).
 - Equipment: four midpoint pieces from the main lines plus the side-quest pieces listed in docs/design/equipment.md.
 
+## Secret quests (event-started, no markers)
+`oldest_trick`, `four_seals` and `secret_old_well` are never auto-given and have no giver: an event in the world starts them (a giant chest, a lever,
+the Old Well's vision). They carry no prerequisite on the quest itself, so a reward box never announces them as "New quest available".
+
+**The Water Under the Well** (`secret_old_well`, Overnight Oct 19-20 Part 6; `core/dungeon/old_well_quest.gd`, text `data/story/old_well_story.json`,
+lore in `docs/design/story_bible.md` section 4). Intended level about **16** (both the Buffet and the Dump explored, before the Capital).
+- **Start**: touch the Old Well in Crosspath once at least one Path zone is free (`OldWellQuest.MIN_ZONES_FREED`); a vision plays and the quest
+  starts. Before that the well keeps its old greeting ("The <Path> spring hums. It knows you."). The iron hatch beside it (the Forgotten Vault,
+  S-TOWN) is a separate spot and works exactly as before.
+- **Steps 1 and 2, any order** (flags `old_well_heap_found`, `old_well_buffet_found`): a faint cyan glow with rising motes (no marker, no plate, no
+  words), only while that step is open. The Verdant Dump: the Overgrown Plateau's west edge where the river starts its fall down the gorge, just off
+  the lane round Rust Peak (layout x 20.6, z 33). The Endless Buffet: the bank of the little gravy pond in the Broccoli Forest, just off the forest
+  road (x 25.5, z 63). The Quest Log's "where to go" line is the only pointer; no objective has a world marker.
+- **Step 3** (flag `old_well_echo_defeated`): touching the well again ("Lean over the Old Well") asks to face the **Wellspring's Echo**, a node-based
+  duel on the town battleboard (`Session.make_old_well_battle`). Its one-sided rule **The Spring Remembers** (`town:old_well` in
+  `data/encounters/modifiers.json`, icon `lorc/drop`): the Echo heals 2 HP at the start of each of its turns and starts with an Iron, a Red Tape, an
+  Ingredient and a Garbage. A loss changes nothing. The first win completes the quest (paid once by the quest system) and plays the final vision.
+- **Reward**: the **Phial of First Water** (relic, legendary, never sold: multi-Path cards cost 1 less generic energy, gain 1 HP at the start of
+  your turn), 250 gold, 300 XP. Balance: `--what=encounters --filter=old_well` (group `secret:old_well`).
+
 ## Old saves (`QuestMigration`, tested in `tests/core/quests/test_quests.gd`)
 - "Clear the Paths" (retired) leaves the active list. A zone with its rift station unlocked (or freed) counts as entered.
 - The new MAIN lines start at once; steps an old save had already done are **settled, not paid** (no retroactive packs or gear, so nobody double-dips),
@@ -55,6 +75,7 @@ each zone, then storm the castle; 300 gold, 250 XP). **Fragments** (Maren's memo
 | The Oldest Trick in the Book (`oldest_trick`) | SIDE | event | 1. Open the giant chests<br>2. Face the Master of the Oldest Trick |  |
 | Number 4,000,212 (`side_s_necro`) | SIDE | Gerald | 1. Defeat roaming staff | 40 gold, 30 XP |
 | The Four Seals (`four_seals`) | SIDE | event | 1. Find the hidden levers<br>2. Open the vault and defeat its Warden (town / vault4) |  |
+| The Water Under the Well (`secret_old_well`) | SIDE (secret) | event (the Old Well) | 1. Find what hums in the Verdant Dump<br>2. Find what hums in the Endless Buffet<br>3. Go back to the Old Well and face what answers | Phial of First Water, 250 gold, 300 XP |
 | Juice the Station (`gain_power`) | SIDE | Foreman Gus | 1. Run the Colossal Hamster Wheel (beefcake / run_wheel)<br>2. Buy a protein shake (beefcake / protein_stand) | Kettlebell Locket, Healing Salve, 50 gold, 40 XP |
 | Spot Me! (`gain_spot_me`) | SIDE | Old Man Mountain | 1. Spot Gary (beefcake / spot_me)<br>2. Flex at a Flex Mirror (beefcake / flex_mirror) | Beefcake Pack, Pre-Workout Canister, 70 gold, 60 XP |
 | Water for the Hermit (`side_s_beef`) | SIDE | Old Man Mountain | 1. Buy a protein shake (beefcake / protein_stand) | 40 gold, 30 XP |

@@ -1867,6 +1867,94 @@ func apply_vault_win() -> Dictionary:
 	return result
 
 
+# ---- The Old Well secret quest (overnight Oct 19-20, Part 6) ------------------------------------------------------------------
+# The rules are `OldWellQuest`; the world side is `TownScene._use_well` and `OldWellSpot` (the Dump's and the Buffet's hums).
+
+## Set by _complete_old_well_challenge, read once by TownScene._ready() to play the Echo's lines (a win: the final vision, then the quest's reward
+## box), then cleared. {} when there is nothing to show.
+var pending_old_well_result: Dictionary = {}
+
+
+func old_well_stage() -> OldWellQuest.Stage:
+	return OldWellQuest.stage(quest_log.is_active(OldWellQuest.QUEST_ID), quest_log.is_completed(OldWellQuest.QUEST_ID), flags)
+
+
+## True when touching the well would start the quest (not started yet, and a Path zone is free).
+func old_well_can_begin() -> bool:
+	var quest: QuestData = QuestCatalog.find(OldWellQuest.QUEST_ID)
+	return quest != null and profile != null and OldWellQuest.can_begin(quest_log.can_start(quest, unlock_state()), flags)
+
+
+## The well's vision starts the hidden quest. False when it cannot start (already started or done, or no zone free yet).
+func begin_old_well_quest() -> bool:
+	if not old_well_can_begin():
+		return false
+	return start_quest(OldWellQuest.QUEST_ID)
+
+
+## True while `zone_id`'s hum waits to be found (the zone scenes build the spot only then).
+func old_well_task_open(zone_id: String) -> bool:
+	return OldWellQuest.task_open(zone_id, quest_log.is_active(OldWellQuest.QUEST_ID), flags)
+
+
+## The hero found `zone_id`'s hum: sets its flag (the quest step) once. Returns false when there was nothing to find there.
+func find_old_well_hum(zone_id: String) -> bool:
+	if not old_well_task_open(zone_id):
+		return false
+	set_flag(OldWellQuest.flag_for(zone_id))
+	save_game()
+	return true
+
+
+## The duel against the Wellspring's Echo with the player's real deck at full HP; its one-sided rule ("town:old_well") is on its seat and listed
+## for the Before-the-fight card and the battle HUD (the sim reads the same key, `EncounterCatalog`).
+func make_old_well_battle() -> BattleContext:
+	ensure_game()
+	var options: GameOptions = GameOptions.new()
+	options.first_player = -1
+	options.rng_seed = rng.randi() % 1000000 + 1
+	var game: GameState = GameState.new(options)
+	var player_side: Array[ModifierSource] = [] as Array[ModifierSource]
+	if EncounterModifiers.player_source(OldWellQuest.RULES_KEY) != null:
+		player_side.append(EncounterModifiers.player_source(OldWellQuest.RULES_KEY))
+	game.add_player(PlayerSetup.create(deck, profile, player_side, "You"))
+	var echo: PlayerSetup = OldWellQuest.enemy_setup(content)
+	EncounterModifiers.apply_to_enemy(echo, OldWellQuest.RULES_KEY)
+	game.add_player(echo)
+	game.start()
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(OldWellQuest.personality(content))
+	context.enemy_name = OldWellQuest.DISPLAY_NAME
+	context.is_boss = true
+	context.is_old_well_boss = true
+	context.board_key = "town"
+	context.encounter_rules = EncounterModifiers.rules(OldWellQuest.RULES_KEY)
+	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
+	return context
+
+
+func challenge_old_well() -> void:
+	start_battle(make_old_well_battle())
+
+
+func _complete_old_well_challenge(context: BattleContext) -> void:
+	pending_old_well_result = apply_old_well_result(context.won)
+	save_game()
+	SceneManager.go_to_town()
+
+
+## The duel's outcome. The first win sets the Echo's flag, which completes the quest (its relic, gold and XP are paid once by the quest system,
+## with the Quest Complete box); a loss or a later win changes nothing. Returns {"won", "first_win"}.
+func apply_old_well_result(won: bool) -> Dictionary:
+	var first_win: bool = won and not flag(OldWellQuest.FLAG_DEFEATED) and quest_log.is_active(OldWellQuest.QUEST_ID)
+	if first_win:
+		set_flag(OldWellQuest.FLAG_DEFEATED)
+		refresh_quests()
+		EventBus.collection_changed.emit()
+	return {"won": won, "first_win": first_win}
+
+
 # ---- Quests (brief 5, Part B) -------------------------------------------------------------
 
 var _refreshing_quests: bool = false
@@ -2996,7 +3084,7 @@ func enter_zone_portal(zone_id: String) -> void:
 ## (`resolve_town_battle`) and dungeon battles (`apply_rewards`) count in their own completion paths, so they are left out here.
 func record_victory(context: BattleContext) -> void:
 	bestiary_defeat(context.enemy_name)
-	if not context.town_npc_id.is_empty() or context.is_graveyard_boss or context.is_ninja_boss or context.is_vault_boss or not context.arena_id.is_empty():
+	if not context.town_npc_id.is_empty() or context.is_graveyard_boss or context.is_ninja_boss or context.is_vault_boss or context.is_old_well_boss or not context.arena_id.is_empty():
 		note_duel_won()
 
 
@@ -3020,6 +3108,9 @@ func complete_battle(context: BattleContext) -> void:
 		return
 	if context.is_graveyard_boss:
 		_complete_graveyard_challenge(context)
+		return
+	if context.is_old_well_boss:
+		_complete_old_well_challenge(context)
 		return
 	if context.is_ninja_boss:
 		_complete_ninja_challenge(context)
