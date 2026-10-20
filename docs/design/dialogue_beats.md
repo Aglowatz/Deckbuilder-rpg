@@ -42,7 +42,7 @@ Measured from `ui/town/dialogue_box.gd` and `tests/test_dialogue_fit.gd`:
 | `data/dungeons/dungeon_content.json` `"text"` (read by `DungeonCatalog`) | `quest.side_s_*` (side-dungeon givers), `npc.kestrel.*`, `fx.old_tunnels_way_in`, `dungeon.dg_s_*_boss.before/.after`, `dungeon.dg_lab_*` | Maren (S-TOWN), Old Man Mountain (S-BEEF), Basil (S-GOUR), Gerald (S-NECRO), Bramble (S-REF), Kestrel (S-CAP), side bosses, the Rescuer (Lab), Siphon | 49 keys / about 80 lines |
 | `data/dungeons/dungeons.json` `"hook"` | one hook quote per dungeon (CSV import; designer sheet text) | hook NPCs (`hook_speakers` in dungeon_content.json) | 13 lines; sheet canon, edit with care |
 | `data/npcs/npcs.json` `"barks"` (via `NpcBarks`, speech bubbles) | per NPC id | every listed NPC with barks | 104 lines |
-| `world/town_scene.gd` | `BAKER_LINES` (const, cycled by visit count); Old Well toast `"The %s spring hums. It knows you."` (line ~1463); arena prompt string (still "Grand Clashatorium", line ~962) | Brindle, narration | 6 + 1 |
+| `world/town_scene.gd` | `BAKER_LINES` (const, cycled by visit count); Old Well toast `"The %s spring hums. It knows you."` (line ~1463); arena prompt string ("Enter the Undercroft" since overnight Oct 19) | Brindle, narration | 6 + 1 |
 | `core/dungeon/trial_of_the_hollow.gd` | Forgotten Cave node blurbs (string literals) | narration | 5 |
 | `core/dungeon/ninja_boss.gd`, `world/ninja/giant_chest_event.gd` | Shiro Swindle per-chest lines, final duel | Shiro | about 25 |
 | `core/dungeon/vault_guardian.gd` | Four Seals lever texts, Warden of the Four Seals | Warden, narration | about 12 |
@@ -138,7 +138,11 @@ Wellspring is, why it dried, or that the Old Well drew from it (not canon; Part 
   or `.return`) or Maren (`memory.3.after`) "there was one spring once that fed all four Paths", stated as legend.
 - The Rotheart's clean spring node: refusemancer `dungeon.rh_soil.*` ("A Patch of Clean Soil") is the game's heal node; the bible's "Last
   Clean Spring" name is not in text. Leave the title; a `.after` line may mention clean water.
-- PLACEHOLDER: the Old Well secret quest (Part 6) will add its own keys; leave room, do not pre-write it.
+- DONE (Part 6, overnight Oct 19): the Old Well secret quest "The Water Under the Well" lives in `data/story/old_well_story.json`
+  (`OldWellStory`): vision.start (the first touch once a zone is freed), the Dump hum and the Buffet hum, touch.ready, the confirm,
+  echo.before / echo.lose / echo.reveal. Canon it fixed: the one Wellspring rises under Crosspath, the Forgotten Vault was built over its
+  source and sealed by all four Paths, it failed ten years ago when the Hollow Well dried, and it waits "for a hand that can hold all four"
+  (story bible section 4). Callback: Auntie Alembic's Wellspring legend -> the vision; the Warden's dry spring -> the reveal.
 
 ### 4.3 Maren's knowledge (founder of Path-ology, the lab, she knew)
 - intro `memory.2.after` (she is the resistance contact) - OK. `memory.3.after` ("I helped to blow it") - OK.
@@ -438,5 +442,5 @@ the townsfolk dragon, Primm "sweeping the square"; `BAKER_LINES[2]` "the bridge 
 - The lieutenants' cameos and fights; Plume's ribbon-cuttings.
 - Old Hob (no NPC in game; `npc.hob` is Granny Gristle).
 - A fountain "E to read" text (the crest).
-- The Old Well secret quest (Part 6) keys.
+- ~~The Old Well secret quest (Part 6) keys.~~ Built overnight Oct 19 (see 4.2).
 - `npcs.json` still names the baker "Bun the Baker" (players see Brindle).
