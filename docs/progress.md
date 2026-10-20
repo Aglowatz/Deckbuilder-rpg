@@ -3439,3 +3439,21 @@ Details and commits in `docs/overnight_report.md`; every number change in `docs/
 ## Verdant Dump v2 (2026-10-19)
 
 The Verdant Dump rebuilt as its own place, not a second Buffet (`docs/art/verdant_dump_v2.md`): a 64 x 132 m valley rising in four terraces from the market at the south entrance to the Overgrown Plateau and the Rotheart, the turquoise river in a ravine below the market and down a gorge on the west edge with three waterfalls and two water wheels, stone stairs, a giant root ramp, vine ladders, a mount-only scree slope and arched vine bridges between the tiers, violets and purples over the warm golden light (lilac haze, purple flowering trees, blossom beds, grey-violet stone cliffs), birds, critters, bees, petals and three workers with passing lines. Every NPC, quest, chest, pickup, dungeon door and camera re-placed; old saves load; 60 fps on Medium; GUT 1926 / 1926; the walk smoke, the walkability probe, the story playthrough bot and the tour bot pass. New: `world/heap/heap_terraces.gd`, `heap_water.gd`, `heap_critters.gd`; `tests/core/zone/test_heap.gd` and `tests/world/test_heap_slice.gd` rewritten for the terraces.
+
+
+## Four improvements (Oct 19, evening)
+
+Four commits "Four improvements, Part 1-4"; screenshots in `_screenshots/oct19d/` (before / after per part, 1280x720).
+
+1. **Red Tape timing**: -2/-0 until the start of the *user's* next turn (through the opponent's whole turn), for the player and the AI alike; the AI's
+   threat estimate keeps its own shrinks and values the blunted attack; a debuff badge on the shrunk unit (icon, "-2", turns left); texts, tutorial prompt,
+   tests; sims logged in `docs/design/balance_log.md` and `sheet_changes.md` (Necrocrat tutorial 89 / 93%, L1 round robin N 57%).
+2. **The D.N.A. as an office interior** (`world/dna/dna_interior.gd`, `docs/art/dna_slice.md` "Oct 19"): 3 m styled walls, a 9 m outer shell, doorway
+   headers, ceiling beams and light panels, frosted office fronts, water coolers, lamps on the floor; every piece fades on its own and cuts away near the
+   lens; all nine camera presets and both swivels checked; walk smoke OK; 60 fps.
+3. **Refuse Piles beside the decks** (`ui/battle/refuse_pile_widget.gd`): a neat face-up pile matching the deck's card backs, offset stack, count badge,
+   empty outline; everything that goes to a pile flies onto it; the tutorial pointer follows the widget.
+4. **Purple-mushroom trees in the Dump** (`HeapLayout._mushroom_trees`, `docs/art/verdant_dump_v2.md` "Oct 19"): the route's twisted trees continue
+   through the bridge head, the market's rim and up the tiers, off every route.
+
+Final checks: GUT 1927 / 1927, first-battles smoke OK, D.N.A. and Dump walk smokes OK.

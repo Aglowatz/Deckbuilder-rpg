@@ -98,7 +98,7 @@ const PO_CAMERAS: Dictionary = {
 ## The six regions in reading order (ids of `areas`), for the docs and the tests.
 const REGION_IDS: Array[String] = ["commons", "farm", "peaks", "stream", "wetlands", "throne"]
 ## The scattered decoration kinds, as opposed to the features of `_features`.
-const TREE_KINDS: Array[String] = ["tree", "bush", "rock", "mushrooms", "flowers"]
+const TREE_KINDS: Array[String] = ["tree", "mushroom_tree", "bush", "rock", "mushrooms", "flowers"]
 
 enum Surface { VOID, GROUND, PEAK, CLIFF, HAZARD, ROUGH, BRIDGE }
 
@@ -1010,7 +1010,50 @@ func _scatter() -> void:
 	_scatter_kind("mushrooms", Rect2(29.0, 78.0, 10.0, 8.0), 5, keep_clear, 1.0, 0.0, 0.9, 1.4)
 	_scatter_kind("mushrooms", Rect2(26.0, 40.0, 50.0, 3.0), 6, keep_clear, 1.0, 0.0, 0.9, 1.4)
 	_scatter_kind("mushrooms", Rect2(26.0, 64.0, 50.0, 3.0), 6, keep_clear, 1.0, 0.0, 0.9, 1.4)
+	_mushroom_trees(keep_clear)
 	_flower_clumps(keep_clear)
+
+
+## Oct 19 (four improvements, Part 4): the purple-mushroom trees that line the Crosspath route toward the Dump (the kit's DUMP-TREE-TWISTED, the hub's
+## boundary thorns and the grown wall) continue into the zone: thick round the bridge head and the market's south rim, then scattered through the tiers,
+## fewer the higher up. Solid trunks, kept off every route, anchor and chest like the other trees.
+func _mushroom_trees(_scatter_clear: Array[Vector3]) -> void:
+	# a lighter clearance than the scatter's (whose 4.5 m circles round every prop cover the whole market lawn): off every anchor, chest, enemy home,
+	# sign and ramp, a trunk's width off every solid prop and tree, and `_is_clear` keeps them PATH_CLEARANCE off every route
+	var keep_clear: Array[Vector3] = []
+	for key: Variant in anchors.keys():
+		var anchor: Vector3 = anchors[key] as Vector3
+		keep_clear.append(Vector3(anchor.x, anchor.z, 2.6))
+	for chest_id: Variant in chests.keys():
+		var chest: Vector3 = chests[chest_id] as Vector3
+		keep_clear.append(Vector3(chest.x, chest.z, 2.0))
+	for feature: Prop in props:
+		keep_clear.append(Vector3(feature.pos.x, feature.pos.z, feature.radius + 1.4 if feature.radius > 0.0 else 1.2))
+	for spawn: Dictionary in enemy_spawns:
+		var home: Vector3 = spawn["home"] as Vector3
+		keep_clear.append(Vector3(home.x, home.z, 3.0))
+	for sign: Sign in signs:
+		keep_clear.append(Vector3(sign.pos.x, sign.pos.z, 2.0))
+	for ramp: Ramp in ramps:
+		var c: Vector2 = ramp.rect.get_center()
+		keep_clear.append(Vector3(c.x, c.y, maxf(ramp.rect.size.x, ramp.rect.size.y) * 0.5 + 1.5))
+	keep_clear.append(Vector3(PLAZA_CENTER.x, PLAZA_CENTER.y, PLAZA_RADIUS + 1.5))
+	keep_clear.append(Vector3(ENTRANCE_X, ENTRANCE_Z0, 5.0))
+	for spot: Vector3 in LANDMARK_SPOTS:
+		keep_clear.append(Vector3(spot.x, spot.y, spot.z + 1.0))
+	# the bridge head: groups either side of the bridge's foot and along the south rim
+	_grove("mushroom_tree", Vector2(37.0, 131.0), 3, 2.8, keep_clear)
+	_grove("mushroom_tree", Vector2(63.5, 131.5), 3, 2.8, keep_clear)
+	_scatter_kind("mushroom_tree", Rect2(20.0, 124.0, 16.0, 10.0), 5, keep_clear, 1.6, 0.5, 0.9, 1.25)
+	_scatter_kind("mushroom_tree", Rect2(64.0, 124.0, 17.0, 10.0), 5, keep_clear, 1.6, 0.5, 0.9, 1.25)
+	# the market's sides and the first terrace's foot
+	_scatter_kind("mushroom_tree", Rect2(18.5, 104.0, 6.0, 20.0), 3, keep_clear, 1.8, 0.5, 0.85, 1.2)
+	_scatter_kind("mushroom_tree", Rect2(76.0, 108.0, 5.5, 16.0), 3, keep_clear, 1.8, 0.5, 0.85, 1.2)
+	_scatter_kind("mushroom_tree", Rect2(22.0, 103.0, 56.0, 2.0), 3, keep_clear, 1.8, 0.5, 0.8, 1.1)
+	# scattered up the tiers, thinning toward the plateau
+	_scatter_kind("mushroom_tree", Rect2(25.0, 66.0, 52.0, 22.0), 4, keep_clear, 2.0, 0.5, 0.8, 1.15)
+	_scatter_kind("mushroom_tree", Rect2(25.0, 42.0, 52.0, 20.0), 3, keep_clear, 2.0, 0.5, 0.8, 1.1)
+	_scatter_kind("mushroom_tree", Rect2(20.0, 6.0, 60.0, 28.0), 2, keep_clear, 2.0, 0.5, 0.75, 1.05)
 
 
 ## A tight group of count trees round center (the edge of a space), each kept clear of routes and anchors like the scatter.

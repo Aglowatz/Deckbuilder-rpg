@@ -287,3 +287,17 @@ They no longer look alike: the Buffet is a bright cream-and-copper plate (luma m
 | VD-12 | The purple flowering trees are built (`KitMesh` lobes in two violets on a leaning trunk), not tinted oak cards. | Multiplying a green painted card by a violet tint gives a grey mauve; the kit has no purple tree and no new art is allowed. The first crowns were one big lobe each and read as a flat sheet; broken into shaded lobes they read as a canopy. |
 | VD-13 | Light shafts through the canopy stay off. | The world look test found the shafts reading as flat translucent strips with the sun behind the north-facing camera (`WorldAmbient.shafts_enabled`); the mist and the violet haze carry the depth instead. |
 | VD-14 | The ambient life is built pieces and particles (critters on two-point runs, bees, moths, petals, birds) and three worker models with lines in the story file, not new NPC list entries. | `data/npcs/npcs.json` is the imported NPC source of truth; a worker whose words live in the zone's story file (`bark.worker_*`) registers with `NpcBarks.register_lines` and never collides with a re-import. |
+
+
+## Oct 19: the route's purple-mushroom trees lead into the Dump (four improvements, Part 4)
+
+The trees with purple mushrooms along the Crosspath route toward the Dump are the kit's twisted tree card (DUMP-TREE-TWISTED, violet-veined bark, moss
+and fungus) as the hub's boundary thorns (`BoundaryKit._thorns`) and the grown-wall obstacle (`HubObstacles`). The Dump now continues them: a new layout
+prop kind `mushroom_tree` (`HeapLayout._mushroom_trees`, in `TREE_KINDS` so the clearance and walkability tests cover it) drawn as the same card at the
+same scale (0.75-1.25) in its own field `Trees_dump_shroom` (`TreeCards.KINDS.dump_shroom`; the corruption gradient's `dump_twisted` field keeps its
+meaning). Groves of three either side of the bridge head and five more on each side of the market's south rim, three along each side of the market and
+the first terrace's foot, then four, three and two scattered up the tiers. They stand on a lighter clearance than the scatter's (a trunk's width off every
+solid prop and tree, 2.6 m off anchors, 2 m off chests and signs, 3 m off enemy homes, 5 m off the bridge foot) and `_is_clear` keeps them PATH_CLEARANCE
+off every route; random yaw, solid trunk radius 0.5. Test: `test_heap_slice` asks for at least 20 with at least 10 past z 120 and some further up.
+Before / after: `_screenshots/oct19d/p4_before_town_route.png` (the route, unchanged), `p4_before_dump_entrance.png` / `p4_after_dump_entrance.png`,
+`p4_after_dump_tiers.png`. Dump walk smoke OK (21 shots), GUT 1927 / 1927.

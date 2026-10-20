@@ -41,6 +41,8 @@ const KINDS: Dictionary = {
 	"dump_oak": {"id": "DUMP-TREE-OAK", "size": Vector2(4.48, 6.2), "radius": 0.4},
 	"dump_birch": {"id": "DUMP-TREE-BIRCH", "size": Vector2(3.46, 5.4), "radius": 0.3},
 	"dump_twisted": {"id": "DUMP-TREE-TWISTED", "size": Vector2(4.02, 6.0), "radius": 0.4},
+	# Oct 19: the same card as a route marker (the purple-mushroom trees that lead from the Crosspath into the Dump), its own field so the corruption gradient keeps its meaning
+	"dump_shroom": {"id": "DUMP-TREE-TWISTED", "size": Vector2(4.02, 6.0), "radius": 0.4},
 	"dump_wild": {"id": "DUMP-PLANT-WILD", "size": Vector2(0.9, 1.2), "radius": 0.0, "plant": true},
 	"dump_reed": {"id": "DUMP-PLANT-REED", "size": Vector2(1.53, 2.2), "radius": 0.0, "plant": true},
 	"dump_fungus": {"id": "DUMP-PLANT-FUNGUS", "size": Vector2(1.34, 1.9), "radius": 0.0, "plant": true},

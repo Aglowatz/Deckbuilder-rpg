@@ -875,6 +875,9 @@ func _build_props() -> void:
 				else:
 					var kind: String = "dump_twisted" if twisted else ("dump_oak" if prop.variant % 3 != 1 else "dump_birch")
 					_card_at(cards, kind, pos, clampf(prop.model_scale * 0.95, 0.8, 1.25))
+			"mushroom_tree":
+				# Oct 19: the route's purple-mushroom trees (the same DUMP-TREE-TWISTED card the hub's boundary and the grown wall use, at the same scale)
+				_card_at(cards, "dump_shroom", pos, clampf(prop.model_scale, 0.75, 1.25))
 			"bush":
 				if t > fungus_from and dither < smoothstep(fungus_from, fungus_from + 0.25, t):
 					_card_at(cards, "dump_fungus", pos, clampf(prop.model_scale * 0.9, 0.7, 1.2))

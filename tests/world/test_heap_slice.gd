@@ -464,6 +464,19 @@ func test_the_corruption_gradient_is_data_and_recedes_when_freed() -> void:
 		var twisted: MultiMeshInstance3D = builder.root.find_child("Trees_dump_twisted_shadow", false, false) as MultiMeshInstance3D
 		var oaks: MultiMeshInstance3D = builder.root.find_child("Trees_dump_oak_shadow", false, false) as MultiMeshInstance3D
 		assert_not_null(oaks, "vine oaks stand where it is healthy")
+		# Oct 19 (Part 4): the route's purple-mushroom trees stand in the Dump whether or not it is freed, thickest at the bridge head
+		var shroom: MultiMeshInstance3D = builder.root.find_child("Trees_dump_shroom_shadow", false, false) as MultiMeshInstance3D
+		assert_not_null(shroom, "the purple-mushroom trees lead into the zone")
+		if shroom != null:
+			var points: Array = shroom.get_meta("points", []) as Array
+			var near_entrance: int = 0
+			for point: Variant in points:
+				var at: Vector3 = (point as Dictionary)["pos"] as Vector3
+				if at.z > 120.0:
+					near_entrance += 1
+			assert_gte(points.size(), 20, "a few dozen of them")
+			assert_gte(near_entrance, 10, "densest round the entrance bridge head")
+			assert_lt(near_entrance, points.size(), "and some scattered through the tiers")
 		if freed:
 			assert_null(twisted, "freed: no twisted trees")
 			assert_almost_eq(builder.twist_at(50.0, 9.0), 0.0, 0.001, "freed: the corruption is gone")
