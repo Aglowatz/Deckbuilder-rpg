@@ -1403,7 +1403,7 @@
 			"The way up Mount Swolympus is open. The trail behind the station. Mind the thin air... it's very... thin."
 		],
 		"quest.side_s_gour.offer": [
-			"Psst. Over here. Have you ever eaten somewhere with no menu? I'm brave. I'm brave.",
+			"Over here. Quietly. Have you ever eaten somewhere with no menu? ...I'm brave. I'm brave.",
 			"There's a golden reservation card hidden in one of the Buffet's stashes: 'Seating: 1. Courses: 3. Survival: optional.' Find it and I'll tell you where to sit."
 		],
 		"quest.side_s_gour.active": [
@@ -1446,14 +1446,14 @@
 			"Kestrel. I scout for the Wrinkles. Going into the city? There's an older way in than the gate. Follow the chalk, not the guards. The guards are worse at drawing."
 		],
 		"npc.kestrel.return": [
-			"Road's clear. For now. Give it ten minutes and it won't be. That's the fun part."
+			"Road's clear. For now. Give it ten minutes and it won't be. Chalk's still fresh."
 		],
 		"quest.side_s_cap.offer": [
 			"There's an older way into the city. Nobody remembers it. That's the point.",
 			"Get yourself inside and find Wren in the Crease. She'll tell you what the old tunnels are for. Then I'll show you the hatch. Deal?"
 		],
 		"quest.side_s_cap.active": [
-			"Find the hideout in the Crease and ask Wren about the tunnels. Knock three times on the manhole. Not two. Two is rude."
+			"Get inside and find the Crease: the manhole near the gate. Knock three times. Not two. Two is rude. Then ask Wren about the tunnels."
 		],
 		"quest.side_s_cap.ready": [
 			"You found them. Told you I'd be here. Didn't say where. That's the fun part. Here, you've earned this."
@@ -1463,7 +1463,7 @@
 			"You climb up past the walls. Nobody is watching this way in. Nobody remembers it. That is the point."
 		],
 		"quest.side_s_cap.done": [
-			"The hatch at the east end of the Outskirts goes down to the Old Service Tunnels. Mind the patrols. And mind my chalk."
+			"The hatch in the north-east of the Outskirts, under the wall, goes down to the Old Service Tunnels. Mind the patrols. And mind my chalk."
 		],
 		"dungeon.dg_s_iron_boss.before": [
 			"On a throne that is really a leg press, a Beefcake with thighs like mill wheels pushes a sled of plates up and down, up and down. He has not stood up in years.",

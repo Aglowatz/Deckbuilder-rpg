@@ -1,0 +1,127 @@
+{
+	"_about": "Overnight Oct 19-20, Part 6: the Old Well secret quest (secret_old_well). Read by OldWellStory (core/data/old_well_story.gd). beats: key -> [{speaker, lines}] played in order ('' = narration, 'You' = the Wanderer). text: key -> one string. Tokens ({town}, {wanderer}...) are filled by Villain.fill. Lore made canon here: docs/design/story_bible.md section 4.",
+	"beats": {
+		"vision.start": [
+			{"speaker": "", "lines": [
+				"You touch the stone. It is cold, and then it is not. Far below, something moves that has not moved in years: water, or the memory of it."
+			]},
+			{"speaker": "The Old Well", "lines": [
+				"...Four streams. One spring. They drank together, once.",
+				"...The water went down when they stopped sharing. Not all of it. Listen for what is left."
+			]},
+			{"speaker": "", "lines": [
+				"Two hums answer, faint as a wet finger round a glass. One is high in the Verdant Dump, where its river starts to fall.",
+				"The other is in the Endless Buffet, by a little pond under the broccoli."
+			]},
+			{"speaker": "You", "lines": [
+				"The townsfolk say the well doesn't talk. I'm not going to be the one who tells them."
+			]}
+		],
+		"touch.listening": [
+			{"speaker": "The Old Well", "lines": [
+				"...Listen. What is left of the water still hums."
+			]}
+		],
+		"touch.left.heap": [
+			{"speaker": "", "lines": [
+				"One hum is high in the Verdant Dump, on its highest terrace, where the river starts to fall."
+			]}
+		],
+		"touch.left.buffet": [
+			{"speaker": "", "lines": [
+				"One hum is in the Endless Buffet, by the little gravy pond in the Broccoli Forest."
+			]}
+		],
+		"find.refusemancer": [
+			{"speaker": "", "lines": [
+				"At the head of the falls, under a lip of roots and old junk, a thread of water comes up clear. The cleanest water in the Dump starts in its dirtiest corner.",
+				"Someone has thrown a boot in it. The water has gone politely round the boot.",
+				"For a blink you see four streams leaving one spring: red, blue, purple and green. This one was green. It fed the fields, and the fields fed everyone.",
+				"A whisper, from very far away: 'One stream remembers.'"
+			]}
+		],
+		"find.gourmand": [
+			{"speaker": "", "lines": [
+				"The pond is gravy, like everything here. Under the gravy, ringed with old stones, is a basin far older than the Buffet: the first stockpot, built round a spring.",
+				"Every Gourmand recipe still begins with the same two words: first, water. Somebody has added 'and salt'. Twice.",
+				"For a blink you see four streams leaving one spring. This one was blue. It went into the first pot, and the first pot fed a kingdom.",
+				"A whisper, from very far away: 'One stream remembers.'"
+			]}
+		],
+		"find.one": [
+			{"speaker": "", "lines": [
+				"Far away in {town}, the Old Well hums a little louder. One more stream to find."
+			]}
+		],
+		"find.both": [
+			{"speaker": "", "lines": [
+				"Far away in {town}, the Old Well hums like a full kettle. Both streams have answered. Go back to the well."
+			]}
+		],
+		"touch.ready": [
+			{"speaker": "", "lines": [
+				"The well is full. Not of water: of light, every colour of the four Paths at once, turning slowly, like something stirred."
+			]},
+			{"speaker": "The Old Well", "lines": [
+				"...Both streams remember. Now the spring will see who is asking."
+			]}
+		],
+		"echo.before": [
+			{"speaker": "The Wellspring's Echo", "lines": [
+				"...I am what is left when the water goes. Every Path's voice, in one throat.",
+				"Hold all four, and I will run again. Hold fewer, and I will show you what the others were for."
+			]}
+		],
+		"echo.lose": [
+			{"speaker": "The Wellspring's Echo", "lines": [
+				"...Not yet. The spring is patient. It has had ten years of practice."
+			]},
+			{"speaker": "", "lines": [
+				"The light sinks back into the stone. It will rise again when you touch the well."
+			]}
+		],
+		"echo.reveal": [
+			{"speaker": "", "lines": [
+				"The light sinks into the stone, and for a moment the well is a mirror. In it you see a spring under the whole kingdom: under the town, under the vault, under everything."
+			]},
+			{"speaker": "The Old Well", "lines": [
+				"...Once there was one spring. Four peoples drank from it and gave it four names.",
+				"They argued about the name for a thousand years. The water did not mind.",
+				"Where it rose, they built a town to argue in. Over its source they built a vault, and the four Paths locked it together, so no one Path could ever own the water.",
+				"It ran while the four shared it, and while one house held the four together.",
+				"Ten years ago the house went quiet. The streams stopped speaking. The spring went down to wait."
+			]},
+			{"speaker": "", "lines": [
+				"The little spring at the end of the old royal tunnel went to dust. So did this one, almost.",
+				"Good new wells were dug all over the kingdom, clean and straight. The water did not come. It never comes when it is told."
+			]},
+			{"speaker": "The Old Well", "lines": [
+				"...It does not run for one shape. It runs for many, held together. It has waited ten years for a hand that can hold all four.",
+				"It hums when you touch it. Take a little with you. It remembers the way home."
+			]},
+			{"speaker": "You", "lines": [
+				"A well with opinions. Fine. I'm keeping the bottle."
+			]}
+		]
+	},
+	"text": {
+		"quest.title": "The Water Under the Well",
+		"quest.summary": "The Old Well remembers a spring that once fed all four Paths. Two hums still answer it, one in the Verdant Dump and one in the Endless Buffet. Find both, then go back to the well.",
+		"quest.step.heap": "Find what hums in the Verdant Dump",
+		"quest.step.buffet": "Find what hums in the Endless Buffet",
+		"quest.step.echo": "Go back to the Old Well and face what answers",
+		"quest.hint.heap": "Something on the Dump's highest terrace hums like the well did, where its river starts to fall",
+		"quest.hint.buffet": "Something by the little gravy pond in the Buffet's Broccoli Forest hums like the well did",
+		"quest.hint.echo": "The Old Well in {town}, in its yard off Champions' Road",
+		"prompt.refusemancer": "Kneel by the water",
+		"prompt.gourmand": "Look into the pond",
+		"prompt.well.ready": "Lean over the Old Well",
+		"touch.done": "The Old Well hums, low and steady, like a kettle nobody has put on yet.",
+		"confirm.title": "The Wellspring's Echo",
+		"confirm.body": "Whatever answers will fight with all four Paths, and it is hard.\n\nLose, and nothing is lost: the well will wait.",
+		"confirm.yes": "Reach in",
+		"confirm.no": "Not yet",
+		"toast.found": "One stream remembers.",
+		"toast.both": "Both streams remember. Go back to the Old Well."
+	}
+}

@@ -9,7 +9,7 @@ const STEPS: Array[Dictionary] = [
 	{"id": "intro", "title": "Your first duel", "info": true,
 		"text": "Bring the enemy's HP to 0 before they do it to you. Keep this hand, or take one free mulligan. No pressure. (Some pressure.)"},
 	{"id": "infrastructure", "title": "Play an Infrastructure",
-		"text": "[b]Click the glowing Infrastructure.[/b] It gives you energy. One per turn. Think of it as breakfast."},
+		"text": "[b]Click the glowing Infrastructure.[/b] It gives you energy. One per turn. The most important card of the day."},
 	{"id": "energy", "title": "Energy", "info": true,
 		"text": "Each Infrastructure is an [b]energy orb[/b] on your plate. Cards cost energy, and the orbs refill every turn."},
 	{"id": "unit", "title": "Play a unit",
