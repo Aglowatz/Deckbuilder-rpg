@@ -935,3 +935,9 @@ Kept +2/+2 (two-seed mean ~56%: hard but fair). Gourmand is the weakest Path aga
 `--what=sequence --filter=boss:primm --games=6` (12 runs per Path, one HP pool, seed 7000; `docs/design/sim/primm_sequence_oct19n.md`):
 Beefcake 50%, Gourmand 58%, Refusemancer 42%, Necrocrat 83% (mean ~58%). Without boons it was 4-21% (Daytime Oct 19), so the boons carry
 the finale as designed. Most runs are lost in phase 2 (reflection). No change: in band for a final boss; Necrocrat is the easiest Path.
+
+## Overnight Oct 19 - the cave run on a third seed (measured, no change)
+
+`--what=tutorial --games=50 --seed=9200` (100 runs per Path, `docs/design/sim/oct19n_tutorial_9200.md`): Beefcake 92%, Gourmand 84%,
+Refusemancer 84%, Necrocrat 90% (seeds 7000/8100 gave ~95 / ~87 / ~87 / ~87). Three seeds agree: Gourmand and Refusemancer sit at the
+bottom edge of the 85-100% target (most losses at the Mossy Gallery and the Warden); no change tonight.

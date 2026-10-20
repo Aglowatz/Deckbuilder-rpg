@@ -44,3 +44,7 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - Basil 11 -> 5 (freed 8 -> 5), Tarragon 10 -> 5, Foreman Gus 9 -> 5, Old Man Mountain 9 -> 5 (freed 8 -> 5), Benchley 7 -> 5, Widow Pell
   6 -> 5, Chef Marlo 6 -> 5; quiz facts, quest steps and every callback phrase kept. No first talk in the game runs over 5 boxes now.
   Dialogue tests 71/71. NPC life & dialogue 8.5 -> 9.
+
+## Cycle 8 - Onboarding (8.5): the cave run on a third seed - measured, no change
+- 100 runs per Path at seed 9200: B 92 / G 84 / R 84 / N 90 (matches 7000/8100 within noise). Gourmand and Refusemancer at the target's
+  bottom edge; logged in balance_log.md. Onboarding stays 8.5 (first talks shorter, opening rewritten, cave confirmed on three seeds).
