@@ -66,3 +66,8 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
   Well" -> confirm -> brief with The Spring Remembers + icons -> duel (enemy, rule badges, HUD icons, MUS-VAULT-BATTLE) -> forced win ->
   final vision -> quest completed, Phial owned once, stage DONE, hero free. **OK, every check passed.** Shots `_screenshots/old_well_0*.png`.
 - GUT 1997/1997 in three foreground batches (core 1273, world 371, rest 353). Stability 8.5 -> 9.
+
+## Cycle 12 - NPC life & dialogue: the rewrite seen in the real dialogue box + fps after the overhead rule
+- `tools/dialogue_shots.sh` on Elder Maren (Crosspath), Basil (Buffet), Agnes (D.N.A.): the new first lines sit in two box lines with the
+  portraits; Agnes's frame also shows the new D.N.A. interior from the play camera. Shots `_screenshots/dialogue/oct19n_dlg_*.png`.
+- fps on Medium after the OcclusionFader's overhead rule: Buffet 59.7, Dump 59.8, Crosspath 60 (avg).
