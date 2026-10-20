@@ -104,3 +104,9 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - Replays (`replay_encounter --id=zone:beefcake:brute --path=necrocrat --games=20`, 8/20 won): in the lost games the sim's L5 Necrocrat
   reference deck (19 basics of 46 cards) plays only infrastructure for four turns and its first unit lands on turn 8-10. The low number is
   the sim's reference deck as much as the roamers; no game change (logged for the user with the rivalry question).
+
+## Cycle 18 - Onboarding (8.5): the opening's reading time
+- The onboarding bot showed tonight's rewritten opening read slower (10.9 min vs 10.6 this morning). The three opening segments were
+  tightened ~20% of their words (beats, callbacks, jokes and instructions kept; boxes merged): wake-up -> Path choice 77.6 -> 62.0 s
+  (17 -> 12 boxes), after the choice 31.6 -> 26.6 s, Maren's welcome 47.9 -> 36.9 s. **New Game -> first saved deck edit: ~10.3 min,
+  89 clicks/keys, 23 dialogue lines** (morning: 10.6 min, 97, 31). Prologue + playtest smokes OK; story tests 24/24. Onboarding 8.5 -> 9.

@@ -454,3 +454,39 @@ Hob's appointment book and his ten slow years (the frozen D.N.A.), Basil's "Chef
 
 **Open:** Isla (`NPC-ISLA`) has barks but is not placed in any scene yet (C16, CODE). The Showcase citizens keep their facade lines
 after the Capital is freed (barks have no freed variant; that would need code).
+
+## Opening read time (Phase 2)
+
+The onboarding timing bot (`tools/onboarding_timing.gd`, reading model 3.5 words/s + 0.5 s per box) measured the rewritten opening
+slower than this morning's: wake-up -> Path choice 17 boxes ~77.6 s (was 18 / ~70), after the choice 6 boxes ~31.6 s (was ~30),
+Maren's welcome 7 boxes ~47.9 s (was ~43). Text-only tightening in `data/story/intro_story.tres` (no code, no key added or removed;
+none of these arrays is indexed by position - each is played whole, and `still.wake` keeps the 2+ captions the test asks for).
+
+| Segment | Keys it plays | Words before -> after | Boxes | Model s (words/3.5 + 0.5/box) | Expected bot reading (+ measured per-box overhead) |
+|---|---|---:|---:|---:|---:|
+| Forest: wake-up -> Path choice | `still.wake`, `awakening_lines`, `prologue.rescuer.1`, `prologue.wanderer.1`, `prologue.rescuer.2`, `prologue.wanderer.2`, `prologue.rescuer.3` | 225 -> 182 (-19%) | 17 -> 12 | 72.8 -> 58.0 | ~77.6 -> ~61.4 |
+| Forest: after the choice -> free to walk | `prologue.rescuer.4`, `prologue.wanderer.3` | 90 -> 75 (-17%) | 6 -> 5 | 28.7 -> 23.9 | ~31.6 -> ~26.5 |
+| Crosspath: Maren's welcome | `cave_mouth.maren`, `cave_mouth.wanderer`, `cave_mouth.maren_end` | 148 -> 112 (-24%) | 7 -> 6 | 45.8 -> 35.0 | ~47.9 -> ~37.1 |
+| **All three** | | **463 -> 369 (-20%)** | **30 -> 23** | **147.3 -> 116.9** | **~157 -> ~125** |
+
+The last column adds tonight's measured overhead per segment (the bot's waits between boxes, the Rescuer's fade) to the model;
+re-run `bash tools/run_onboarding_timing.sh` to confirm.
+
+What changed (cuts were redundancy and box merges; the jokes and beats stay):
+- `still.wake`: "no name in your head" left the caption (the Wanderer says it himself next) and "Somewhere close, a cave is waiting." went
+  (the Rescuer points to the cave). 4 -> 3 captions; the four-colour glow and the hooded figure stay.
+- `awakening_lines`: 4 -> 3. "Great start", "Not even the shape of one", "I'll start with the other one" and "...And I'm not alone." all kept.
+  No amnesia break.
+- `prologue.rescuer.1` / `.wanderer.1` / `.rescuer.3`: each merged into one box (medic check; "...Who are you?"; the Path question,
+  "resonates the strongest within you" kept). `prologue.rescuer.2` keeps "Can you still fight?" and **the slip** ("You always used to...
+  Never mind. Your hand.").
+- `prologue.rescuer.4`: 5 -> 4 boxes. Keeps the Forgotten Cave, "{town} is on the other side" (the gate prompt echoes it), "Not who. Just a
+  stranger." (Maren echoes "Not who."), "if we are seen together, we both lose", the roof joke, and "this forest is not kind to the lost"
+  (quoted by `prologue.self_talk`).
+- `cave_mouth.maren`: 5 -> 4 boxes. Keeps **the kettle** (C10), **the dry spring** and the Warden, "Certainly not this damp." (sets up
+  "damp young man" in `town.elder.stage.2`), the spy line and the distrust of the reckless Rescuer, "far too much pie". The old box 5 is
+  now "Welcome to {town}. Questions later." (leads into `town.elder.first` "Not answers. Pie.").
+- `cave_mouth.wanderer` / `.maren_end`: trimmed a few words; the instruction (look round the square, knock when ready) stays.
+- Not touched: `start.gate_prompt`, `tutorial.warden.*`, `prologue.self_talk`, `town.elder.stage.0` (the crest on the stick) and
+  `town.elder.stage.1` (the handwriting) - those set-ups live outside the timed segments. Tests: no test or smoke reads these lines'
+  text (the "resonates the strongest" check reads the Path choice screen, not `prologue.rescuer.3`); every box is <= 128 characters.

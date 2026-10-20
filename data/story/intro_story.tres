@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_st0ry")
-awakening_lines = Array[String](["...Cold. Leaves in my mouth. Great start.", "I reach for my name and there's nothing there. Not even the shape of one.", "No name. Two hands. One of them is shaking. I'll start with the other one.", "...And I'm not alone."])
+awakening_lines = Array[String](["...Cold. Leaves in my mouth. Great start.", "I reach for my name. Nothing. Not even the shape of one.", "Two hands, one of them shaking. I'll start with the other one. ...And I'm not alone."])
 beefcake_npc_intro_lines = Array[String](["NOBODY CROSSES THE GORGE WITHOUT A SPOTTER. I AM THE SPOTTER.","The bridge stays up by order of the regime and Chancellor Clench. Only iron matters! IRON! Also hydration!","You want the crank? Get through me first. Ten reps. Of PAIN."])
 beefcake_npc_victory_lines = Array[String](["...Oh no. Was I yelling? I was yelling. Sorry. That was the pre-workout talking, and it talks a lot.","Chancellor Clench locked Grandmaster Flex in the House of Gains. People whispered the old man never broke. I didn't whisper. I yelled. Sorry again.","The bridge is yours, friend. Stretch before you cross. Hamstrings are friends, and friends don't let friends pull one."])
 beefcake_npc_defeat_lines = Array[String](["HA! The pump is still MINE!","Come back when you can lift, shrimp. The bridge stays UP. Like my standards."])
@@ -24,7 +24,7 @@ graveyard_victory_lines = Array[String](["The counting stops. For now.", "Whatev
 graveyard_defeat_lines = Array[String](["It is still counting.", "Come back when you have more turns to spare than it does."])
 quest_dialogue = {}
 texts = {
-"still.wake": ["You wake in a forest clearing with leaves in your hair and no name in your head.", "A faint glow of four colors fades from your hand, like a thought you almost had.", "Somewhere close, a cave is waiting.", "Someone is kneeling beside you, hooded, very still, as if they have been waiting a long time."],
+"still.wake": ["You wake in a forest clearing with leaves in your hair.", "A faint glow of four colors fades from your hand, like a thought you almost had.", "Beside you kneels someone hooded, very still, as if they have waited a long time."],
 "still.flex": ["Grandmaster Flex walked into the throne room in his prison rags, and the room forgot how to breathe.", "Ten years without iron had left him thin. He breathed in, slow and even, and it was the loudest thing in the room.", "The ruler of the House of Gains took one step back. In this house, that is a scream."],
 "still.doppel": ["The chef's perfect smile slid off her face like glaze off a very bad cake.", "Underneath, nothing: a shifting shadow in a spotless white coat, wearing the best reviews in the kingdom.", "Behind it, the unfinished war machines waited. They had been simmering for a long time."],
 "still.approval": ["The great DENIED stamp cracked, and for the first time in the Department's long afterlife, it did not come down.", "Forms rose like startled doves. A thousand clerks looked up from their desks and remembered they had eyes.", "Somewhere, a very small pen stopped writing. Nobody filed a complaint."],
@@ -33,12 +33,12 @@ texts = {
 "still.reunion": ["In the Capital's square, the leaders of the four Paths clasped hands. Nobody tripped. Several people cried.", "Four banners flew from the same pole. It was a little crowded, and no one minded.", "At the edge of the crowd, a hooded traveler smiled, with leaves still in their hair. There is always another path."],
 "start.gate_title": ["The Forgotten Cave"],
 "start.gate_prompt": ["A cold draft rises from the dark. It smells of old stone and older water. The stranger said the town is on the other side. Go in?"],
-"prologue.rescuer.1": ["Easy. Easy now. Don't try to stand yet.", "...You're awake. Good. Pulse too fast, hands like ice, and you weigh less than you should. How long since you ate?"],
-"prologue.wanderer.1": ["I don't know. I don't know where this is. I don't know who I am.", "...Who are you?"],
-"prologue.rescuer.2": ["A friend. That is all I can say, and more than is safe. Listen, because there isn't much time.", "Can you still fight? Can you still pull from the Paths? Hold out your hand. You always used to... Never mind. Your hand."],
-"prologue.wanderer.2": ["...I can feel them. All four of them, faintly. Like voices through a wall."],
-"prologue.rescuer.3": ["Faintly is right. You are weaker than I feared. One will have to do, for now.", "Tell me: which Path resonates the strongest within you?"],
-"prologue.rescuer.4": ["That one, then. Keep it close; it will keep you alive.", "See the cave in the rock behind me? The Forgotten Cave. It is an old tunnel, and {town} is on the other side.", "Someone there is expecting a stranger. Not who. Just a stranger.", "I can't go with you. If we are seen together, we both lose.", "Don't thank me. Thank me when you have a roof. Now go, and stay on the path: this forest is not kind to the lost."],
+"prologue.rescuer.1": ["Easy. Don't stand yet. Pulse too fast, hands like ice, and you weigh less than you should. When did you last eat?"],
+"prologue.wanderer.1": ["I don't know. I don't know where this is, or who I am. ...Who are you?"],
+"prologue.rescuer.2": ["A friend. That is all I can say, and more than is safe. Time is short.", "Can you still fight? Still pull from the Paths? Hold out your hand. You always used to... Never mind. Your hand."],
+"prologue.wanderer.2": ["...I feel them. All four, faintly. Like voices through a wall."],
+"prologue.rescuer.3": ["Faintly is right. Weaker than I feared; one will have to do. Which Path resonates the strongest within you?"],
+"prologue.rescuer.4": ["That one, then. Keep it close; it will keep you alive.", "Behind me: the Forgotten Cave, an old tunnel. {town} is on the other side.", "Someone there expects a stranger. Not who. Just a stranger. I can't come; if we are seen together, we both lose.", "Don't thank me until you have a roof. Go, and stay on the path: this forest is not kind to the lost."],
 "prologue.wanderer.3": ["...Gone. I never even asked their name."],
 "prologue.self_talk": ["The trees close up that way. The cave, then.", "No point getting lost twice in one day. Back to the cave.", "Whatever is waiting for me, it's through that cave.", "'This forest is not kind to the lost.' I'm about as lost as it gets. Cave."],
 "memory.title_format": ["Fragment %d of 4: %s"],
@@ -74,9 +74,9 @@ texts = {
 "town.elder.known_early": ["{prince}. {villain} let it slip to you, didn't he, that smug man. I had hoped to tell you myself.", "Sit. When you are ready, the memories will come, and I will be here. With pie. Obviously."],
 "tutorial.warden.before": ["...Hm. Woken. For this. Another of the little scavengers, I suppose.", "...No. Not that. You smell familiar. Like old stone, and cold nights, in a house I used to keep.", "The house does not open for just anyone. ...Show me."],
 "tutorial.warden.after": ["...Yes. The old walls do not lie. The spring at the end ran once. You would not remember.", "Go. The house is yours to leave. Someone is waiting at the far end with a kettle on."],
-"cave_mouth.maren": ["So. You're the one they sent through the old tunnel. Kettle's been on since noon.", "I was told someone would come out of there, past the dry spring and that grumpy Warden. Not who. Certainly not this damp.", "Don't mistake this for trust, dearie. You could be anyone's spy. And whoever pushed you into that tunnel is reckless, and I don't like reckless.", "But a body that walks out of that cave in that state needs a bed, and I have far too much pie.", "Well. You have walked yourself right into {town}, and right up to my door. Keep your questions for later; I will answer what I can."],
-"cave_mouth.wanderer": ["...I don't remember who I am. I'm not sure I'm worth the bed."],
-"cave_mouth.maren_end": ["Hm. Then we start with tea and pie and work up from there. Have a look round the square, and knock when you are ready."],
+"cave_mouth.maren": ["So. You're the one they sent through the old tunnel. Kettle's been on since noon.", "I was told someone would come past the dry spring and that grumpy Warden. Not who. Certainly not this damp.", "This isn't trust, dearie. You could be anyone's spy, and whoever pushed you into that tunnel is reckless. I don't like reckless.", "But a body in that state needs a bed, and I have far too much pie. Welcome to {town}. Questions later."],
+"cave_mouth.wanderer": ["...I don't remember who I am. Not sure I'm worth the bed."],
+"cave_mouth.maren_end": ["Hm. Then we start with tea and pie and work up from there. Look round the square, and knock when you're ready."],
 "start.tunnel": ["A narrow gap in the old treeline - easy to miss, easy enough to slip through, if you're not afraid of a shortcut."],
 "town.name": ["{town}"],
 "town.elder.first": ["Up and walking. Good. I am Elder Maren, dearie, and this is {town}, where the four Paths used to meet, and argue, and borrow each other's pans.","Ten years ago {kingdom} was whole. Beefcakes made the energy, Gourmands fed us, Necrocrats minded the dead, Refusemancers hauled the waste and grew the crops.","Then {villain} took the Paths, one by one, and set his rulers over them. Every road out of town has a gatekeeper now: a bridge, a barrier, a pantry door, a wall of thorns.","Beat a gatekeeper and its road opens. Buy cards from Sable, fix your deck at the Deck Station, and come back to me for pie. Not answers. Pie."],
