@@ -1364,7 +1364,11 @@ func _toast(message: String) -> void:
 
 
 func _build_refuse_piles() -> void:
-	var spots: Array[Vector2] = [Vector2(372, 884), Vector2(520, 20)]
+	# Oct 19: each Refuse Pile stands right beside its owner's deck (above the player's, below the opponent's), in the deck's column.
+	var spots: Array[Vector2] = [
+		BattleHud.DECK_PILE_POSITIONS[0] + Vector2(-6, -RefusePileWidget.WIDGET_SIZE.y - 2),
+		BattleHud.DECK_PILE_POSITIONS[1] + Vector2(-6, DeckPile.PILE_SIZE.y - 6),
+	]
 	for index: int in range(2):
 		var widget: RefusePileWidget = RefusePileWidget.new()
 		_board_root.add_child(widget)
@@ -1372,7 +1376,7 @@ func _build_refuse_piles() -> void:
 		widget.position = spots[index]
 		widget.pressed.connect(_on_pile_pressed)
 		refuse_widgets.append(widget)
-		board.grave_anchor[index] = spots[index] + Vector2(8, 26) + CardView.SIZE * RefusePileWidget.CARD_SCALE * 0.5
+		board.grave_anchor[index] = spots[index] + RefusePileWidget.STACK_TOP + CardView.SIZE * RefusePileWidget.CARD_SCALE * 0.5
 	refuse_viewer = RefusePileViewer.new()
 	add_child(refuse_viewer)
 	refuse_viewer.setup(game)

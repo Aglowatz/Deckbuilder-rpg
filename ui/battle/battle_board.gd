@@ -529,6 +529,8 @@ func sync_state(animated: bool = true) -> void:
 				hover_uid = 0
 			if was_token and animated and is_inside_tree():
 				_vanish_token(view)
+			elif animated and is_inside_tree() and _refuse_owner(uid) >= 0:
+				_fly_to_pile(view, _refuse_owner(uid))
 			else:
 				view.queue_free()
 	if game.phase != GameState.Phase.COMBAT:
@@ -536,6 +538,28 @@ func sync_state(animated: bool = true) -> void:
 		blockers.clear()
 	refresh_all()
 	layout(animated)
+
+
+## The Refuse Pile a card now lies in (-1 = none).
+func _refuse_owner(uid: int) -> int:
+	for player: PlayerState in game.players:
+		for card: CardInstance in player.refuse_pile:
+			if card.uid == uid:
+				return player.index
+	return -1
+
+
+## Oct 19 (Refuse Pile rework): a spent spell, a tossed card or a destroyed unit shrinks and slides onto its owner's Refuse Pile beside the deck, then goes.
+func _fly_to_pile(view: CardView, owner_index: int) -> void:
+	view.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	view.z_index = 80
+	var pile_scale: float = RefusePileWidget.CARD_SCALE
+	var tween: Tween = view.create_tween().set_parallel(true).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.tween_property(view, "global_position", grave_anchor[owner_index] - CardView.SIZE * 0.5 * pile_scale, 0.42 / maxf(speed, 0.1))
+	tween.tween_property(view, "scale", Vector2.ONE * pile_scale, 0.42 / maxf(speed, 0.1))
+	tween.tween_property(view, "rotation_degrees", 0.0, 0.42 / maxf(speed, 0.1))
+	tween.chain().tween_property(view, "modulate:a", 0.0, 0.12 / maxf(speed, 0.1))
+	tween.chain().tween_callback(view.queue_free)
 
 
 ## A used or destroyed token card lifts, swells a little and fades (Oct 19, tokens as cards).
@@ -1115,7 +1139,11 @@ func _on_discarded(event: GameEvent) -> void:
 	zones.erase(event.card)
 	order.erase(event.card)
 	_sfx(&"card_discard")
-	fx.dissolve(view, UIStyle.affinity_color(view.data.color) if view.data != null else Color.WHITE, 0.45)
+	var owner_index: int = _refuse_owner(event.card)
+	if owner_index >= 0:
+		_fly_to_pile(view, owner_index)
+	else:
+		fx.dissolve(view, UIStyle.affinity_color(view.data.color) if view.data != null else Color.WHITE, 0.45)
 	layout()
 	await _wait(0.25)
 
