@@ -133,3 +133,9 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
   memory stage; remembered in `counters["elder_heard_state"]`, saved); a visit with nothing new gets one short line from the new
   `town.elder.idle` (six lines in her voice, in turn). First talk, the memory scenes, "known early" and postgame are unchanged. Old saves:
   the first visit after loading plays the full speech once. Tests OK; story bot 73/73; playtest smoke OK.
+
+## Cycle 23 - Stability: two text bugs in the town
+- Bertram Beetsworth's first visit before level 5 appended "too early" lines onto the story resource's own array (cached for the session):
+  a second new game in the same session heard them twice. The town now reads filled copies (`StoryText._filled`).
+- The Restless Cairn (graveyard) showed a raw "{villain}" in its intro (pre-existing: the arrays were read without token filling); its
+  intro / victory / defeat lines are filled now. Test in `tests/test_dialogue_quality.gd` (no raw token in any array a scene reads directly).

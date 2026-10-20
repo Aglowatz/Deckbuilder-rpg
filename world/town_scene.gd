@@ -1281,7 +1281,7 @@ func _talk_corrupted_npc(id: String) -> void:
 ## only a first win pays out.
 func _talk_graveyard() -> void:
 	var story: StoryText = load(STORY_PATH) as StoryText
-	var lines: Array[String] = story.graveyard_intro_lines if story != null else [] as Array[String]
+	var lines: Array[String] = StoryText._filled(story.graveyard_intro_lines) if story != null else [] as Array[String]  # tokens filled (the Cairn showed a raw {villain})
 	dialogue.start("The Restless Cairn", lines)
 	dialogue.finished.connect(func() -> void: Session.challenge_graveyard_boss(), CONNECT_ONE_SHOT)
 
@@ -1297,7 +1297,7 @@ func _show_graveyard_result() -> void:
 	var story: StoryText = load(STORY_PATH) as StoryText
 	var lines: Array[String] = [] as Array[String]
 	if story != null:
-		lines = story.graveyard_victory_lines if won else story.graveyard_defeat_lines
+		lines = StoryText._filled(story.graveyard_victory_lines if won else story.graveyard_defeat_lines)
 	dialogue.start("The Restless Cairn", lines)
 	if bool(result.get("first_win", false)):
 		var reward_text: String = "+%d gold, +%d XP" % [GraveyardBoss.REWARD_GOLD, GraveyardBoss.REWARD_XP]
@@ -1998,11 +1998,13 @@ func _open_item_vendor() -> void:
 func _talk_equipment_vendor() -> void:
 	_face_npc("equipment_vendor")
 	var story: StoryText = load(STORY_PATH) as StoryText
-	var lines: Array[String] = story.equipment_vendor_return_lines
+	# filled copies: `append_array` below must never grow the story resource's own arrays (overnight Oct 19: the "too early" lines piled up on the
+	# cached resource, so a second new game in the same session heard them twice)
+	var lines: Array[String] = StoryText._filled(story.equipment_vendor_return_lines)
 	var first_visit: bool = not Session.flag(&"equipment_vendor_seen")
 	if first_visit:
 		Session.set_flag(&"equipment_vendor_seen")
-		lines = story.equipment_vendor_intro_lines
+		lines = StoryText._filled(story.equipment_vendor_intro_lines)
 	# Overnight Oct 17, Part 5: no shop before level 5; at level 5 his short quest hands out the first piece of gear.
 	var shared: StoryText = StoryText.shared()
 	var stage: int = Session.armory_talk()

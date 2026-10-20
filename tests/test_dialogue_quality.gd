@@ -145,3 +145,15 @@ func test_every_dungeon_content_line_fits_the_box() -> void:
 				too_long.append("%s: %s" % [key, text.substr(0, 60)])
 	assert_gt(content.size(), 20, "the dungeon content text is checked")
 	assert_eq(too_long.size(), 0, "dungeon content lines too long for the box:\n%s" % "\n".join(too_long))
+
+
+## Overnight Oct 19 (Phase 2): lines the scenes read straight from the story resource's arrays are shown with their tokens filled
+## (the Restless Cairn used to show a raw "{villain}"); the awakening lines are read raw and must not carry a token.
+func test_raw_story_arrays_show_no_raw_tokens() -> void:
+	var story: StoryText = StoryText.shared()
+	for lines: Array[String] in [story.graveyard_intro_lines, story.graveyard_victory_lines, story.graveyard_defeat_lines,
+			story.equipment_vendor_intro_lines, story.equipment_vendor_return_lines]:
+		for line: String in StoryText._filled(lines):
+			assert_false(line.contains("{"), "a token is left in: %s" % line)
+	for line: String in story.awakening_lines:
+		assert_false(line.contains("{"), "the awakening lines are shown raw: %s" % line)
