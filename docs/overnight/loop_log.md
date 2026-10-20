@@ -184,3 +184,6 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 
 ## Cycle 32 - Stability: full GUT
 - GUT 2010/2010 in three foreground batches (core 1280, world 371, rest 359) after cycles 12-31.
+
+## Cycle 33 - Onboarding: the new Quest Log text on screen
+- `_screenshots/oct19n_c33_questlog.png`: the first main quest reads cleanly; steps fit one line; "Where to go" names the place once.
