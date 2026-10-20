@@ -181,3 +181,6 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - The nine V x F cameras at the lobby again (`_screenshots/oct19n/grid2/dna.png`): hero visible in all nine, same as after Part 1.
 - `docs/art/import_oct20.md` counts updated after tonight's later additions (gear 55 with the Phial, bestiary 91 with the Echo);
   `docs/progress.md` has an "Overnight Oct 19-20" summary.
+
+## Cycle 32 - Stability: full GUT
+- GUT 2010/2010 in three foreground batches (core 1280, world 371, rest 359) after cycles 12-31.
