@@ -25,3 +25,12 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - `data/bestiary/bestiary.json` entry (boss, "The Old Well, Crosspath", icon lorc/drop, blurb in the Bestiary's voice); image request
   `BST-THE-WELLSPRING-S-ECHO` added by `node tools/bestiary_requests.js` (91 requests). Bestiary + Old Well tests 32/32. Collection 8 -> 8
   (one more entry; the pictures arrive with tomorrow's import).
+
+## Cycle 5 - NPC life & dialogue (8.5) + the 4-cycle bot check
+- Bots first (every 4 cycles): tour bot OK (275 spots, 9 menus, 5 battles, 0 errors, 0 warnings); story bot 73/73 earlier tonight.
+- First-hour visibility check at Gatekeeper Brannoch (the playthrough frame looked like the hero was missing): the OcclusionFader works there
+  (OCCLUSION_OFF A/B: the house in front is removed); the hero stands right in front of Brannoch and a lamp post + the [E] prompt overlap
+  in that frame. Cosmetic; no change.
+- First talks (intro + quest offer joined by `ZoneScene._talk_quest_npc`) trimmed to <= 5 boxes: Agnes 8 -> 5, Gerald 7 -> 4, Ledgerbone
+  7 -> 5, Bramble 8 -> 5, Wren Muckfoot 7 -> 5, Granny Gristle 7 -> 5, Chet 8 -> 5, Flambe 9 -> 5, Capital Wren 4 -> 3 (+ insights); quiz
+  facts, quest instructions and callback phrases kept (docs/design/dialogue_pass_oct19.md "First-talk trim"). Dialogue tests 109/109.

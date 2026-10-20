@@ -296,3 +296,48 @@ Merged from all eight reports, with duplicates removed.
     6 at the largest).
 - **Existing: `tests/test_dialogue_fit.gd`**: every story line fits the box at the default and the largest text size.
 - **Result:** 158/158 dialogue-related tests passing (the run after the editor pass, commit `03a04532`).
+
+## First-talk trim (Phase 2)
+
+**How a first talk is built.** `world/zone/zone_scene.gd` `_talk_quest_npc` shows `_greeting(npc_id) + story.get_lines("quest.<id>.offer")`
+as one conversation when the NPC has a quest to offer. `_greeting` returns `npc.<id>.intro` on the first talk (`npc.<id>.intro.freed` once
+the zone is freed, through `ZoneStoryText.get_lines`), and `.return` plus the dungeon hooks afterwards. Minigame hosts get `_greeting` and
+then the minigame. Capital Wren is `capital_scene.gd` `_talk_wren`: `_greeting("wren")` plus `npc.wren.insight.<n>` (she has no offer).
+Every one of these arrays is read whole (`get_lines` / `text`, `append_array`). No code reads them by index. The tests only check
+substrings: "the authorization is valid" (Agnes), "Compostella" (Bramble), "Maren" (Wren). All three are still there.
+
+**Rule:** a first talk is at most 5 boxes (intro + offer), and each box is at most 200 characters (the longest is now 186). Boxes were
+tightened and merged. Every quest instruction, quiz source, callback, token and tic is still there.
+
+| NPC (keys) | Before | After | Kept on purpose |
+|---|---|---|---|
+| Agnes (`npc.dolores.intro` + `quest.dna_backlog.offer`) | 5+3 = 8 | 3+2 = 5 | employee of the month 1987 (Kyle callback), 4,000,213 / serving 3 (C17), "the authorization is valid", "Irregular things I can fight" (seed for `ha_records`), "three roaming staff, any floor, by duel" |
+| Agnes freed (`.intro.freed` + offer) | 5+3 = 8 | 3+2 = 5 | the unfiled form in her drawer (C5), word for word; Mortimer 4,000,214 |
+| Gerald (`npc.barnaby.intro` + `quest.dna_onboarding.offer`) | 4+3 = 7 | 2+2 = 4 | 4,000,212, "They're on 3", the book line, the temperamental machine; time clock by the front desk + breakroom machine; HR in the walls |
+| Gerald freed (`.intro.freed` + offer) | 4+3 = 7 | 3+2 = 5 | CALLED; Agnes calling every number all night |
+| Clerk Ledgerbone (`npc.pip.intro` + `quest.dna_audit.offer`) | 4+3 = 7 | 3+2 = 5 | flat one-liners, the haunted stamp wants a raise, Form 13-B (quiz answer hint); Ectomund's quiz + one hidden stash in the filing mazes |
+| Brother Bramble (`npc.marigold.intro` + `quest.heap_dam.offer`) | 6+2 = 8 | 4+1 = 5 | the quiz box, word for word (waste removal and agriculture; animals turn garbage into fertilizer; magic helps the crops grow); Compostella and `{villain}`; "too alive" (echoes `rh_pool.before`); ends on "SOMEBODY ate the compost AGAIN"; the dam: north bank feeder channel, borrow a mount from the stables, charge it, compost boots |
+| Wren Muckfoot (`npc.wren.intro` + `quest.heap_herd.offer`) | 4+3 = 7 | 2+3 = 5 | fluent goat; the stable mounts; the offer unchanged |
+| Granny Gristle (`npc.hob.intro` + `quest.heap_fert.offer`) | 4+3 = 7 | 3+2 = 5 | the shed that grows, "Found, not stolen, dearie", one "Heh!"; three fertilizer sacks from around the Dump |
+| Wren, Capital (`npc.wren.intro` + insights) | 4 (+0-3) | 3 (+0-3) | the records, Maren (C23), the Crease, the Wrinkles, tea and grudges, castle at the north end, "Talk to the streets" |
+| Chet Thunderabs (gainlands `npc.minigame.intro`) | 8 | 5 | the show, legwarmers, the ban, "But WAIT, there's MORE!", Rep Counter rules, first-set bonus, "Operators are standing by" (`reps.first` calls it back) |
+| Chef Flambe (gourmand `npc.minigame.intro`) | 9 | 5 | the whoosh, Savannah Souffle and the Test Kitchen, the Turbo Tots, ORDER UP rules, first-time bonus, sprouts and the cloche (`sign.studio`, `sign.taste_test`) |
+
+Cut: Agnes's "Pending" / "Bring a cushion" asides, Gerald's "It's very freeing", Bramble's goat-pig-raccoon chain and "the Rot is breeding
+in the still water", Gristle's "I'm not worried. I'm a bit worried", Capital Wren's "spy or a hero" and "Doctors, clerks, farmers, a goat",
+Chet's egg-timer abs and "since 1989" (so item 15 above now only concerns Flambe's "two-thousand-three"), and Flambe's "Spaghetti Deluxe".
+
+**Example (Bramble, 8 boxes -> 5).** Before: "...Our Archdruid, Compostella, went first. Something got into her roots." / "Now nothing rots, so
+nothing feeds the soil. The plants are not dying. They are too alive, and the whole Dump is sick with growing." / "Also, SOMEBODY ate the
+compost AGAIN." / "Somebody has dumped a dam of junk across the feeder channel on the north bank. The stream cannot breathe, and the Rot is
+breeding in the still water." / "It needs something big and stubborn to run straight through it. Borrow a mount from the stables, charge the
+junk dam, and the compost boots I've been keeping warm are yours."
+After: "...Our Archdruid, Compostella, went first. Something got into her roots." / "Now nothing rots, so nothing feeds the soil.
+Everything is too alive, and the whole Dump is sick with growing. Also, SOMEBODY ate the compost AGAIN." / "Somebody dumped a dam of junk
+across the feeder channel on the north bank, and the stream cannot breathe. Borrow a mount from the stables, charge the dam, and my compost
+boots are yours."
+
+**Still over 5 (not in this task's list, not touched):** Basil (`npc.odalys.intro` + `quest.buf_mend.offer`) 7+4 = 11, Tarragon
+(`npc.tarragon.intro` + `quest.buf_pantry.offer`) 7+3 = 10, Gus (`npc.gus.intro` + `quest.gain_power.offer`) 5+4 = 9, Old Man Mountain
+(`npc.brenda.intro` + `quest.gain_spot_me.offer`) 6+3 = 9, Coach Benchley (`npc.tony.intro` + `quest.gain_lanes.offer`) 4+3 = 7, Widow
+Pell 4+2 = 6, Chef Marlo 4+2 = 6. There is one edge case too: Capital Wren with all four insights before the first talk would run 3+3 = 6.
