@@ -34,3 +34,13 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - First talks (intro + quest offer joined by `ZoneScene._talk_quest_npc`) trimmed to <= 5 boxes: Agnes 8 -> 5, Gerald 7 -> 4, Ledgerbone
   7 -> 5, Bramble 8 -> 5, Wren Muckfoot 7 -> 5, Granny Gristle 7 -> 5, Chet 8 -> 5, Flambe 9 -> 5, Capital Wren 4 -> 3 (+ insights); quiz
   facts, quest instructions and callback phrases kept (docs/design/dialogue_pass_oct19.md "First-talk trim"). Dialogue tests 109/109.
+
+## Cycle 6 - UI consistency (8.5): the old character background's spare leader lines - tried, reverted
+- Covered the three painted leader lines of the spare frames with parchment-coloured strokes (Line2D, colour sampled beside each line).
+  The strokes did not sit exactly on the painted lines and read as light smudges (`_screenshots/oct19n_c6_character_lines.png`), so the
+  change was reverted. The real fix is tomorrow's UI-BG-CHARACTER without painted slots (the layout switches to our own frames by itself).
+
+## Cycle 7 - NPC life & dialogue: the rest of the long first talks
+- Basil 11 -> 5 (freed 8 -> 5), Tarragon 10 -> 5, Foreman Gus 9 -> 5, Old Man Mountain 9 -> 5 (freed 8 -> 5), Benchley 7 -> 5, Widow Pell
+  6 -> 5, Chef Marlo 6 -> 5; quiz facts, quest steps and every callback phrase kept. No first talk in the game runs over 5 boxes now.
+  Dialogue tests 71/71. NPC life & dialogue 8.5 -> 9.

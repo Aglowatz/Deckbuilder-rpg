@@ -341,3 +341,26 @@ boots are yours."
 (`npc.tarragon.intro` + `quest.buf_pantry.offer`) 7+3 = 10, Gus (`npc.gus.intro` + `quest.gain_power.offer`) 5+4 = 9, Old Man Mountain
 (`npc.brenda.intro` + `quest.gain_spot_me.offer`) 6+3 = 9, Coach Benchley (`npc.tony.intro` + `quest.gain_lanes.offer`) 4+3 = 7, Widow
 Pell 4+2 = 6, Chef Marlo 4+2 = 6. There is one edge case too: Capital Wren with all four insights before the first talk would run 3+3 = 6.
+
+**Phase 2b: the rest of the long first talks.** Same rule (at most 5 boxes, each at most 200 characters; the longest is now 191). Text only
+in `data/story/gourmand_story.tres`, `gainlands_story.tres` and `capital_story.tres`; no keys added or removed. Test substrings still there:
+"Grandmaster Flex" and "regime" (`npc.brenda.intro`), "Special Sauce" (`npc.odalys.intro`). A `.freed` intro is trimmed when it plus the offer
+went over 5.
+
+| NPC (keys) | Before | After | Kept on purpose |
+|---|---|---|---|
+| Basil (`npc.odalys.intro` + `quest.buf_mend.offer`) | 7+4 = 11 | 3+2 = 5 | quiz facts (feed and protect the kingdom, every golem is a guard, nobody leaves hungry); "Chef ALWAYS tastes, and this Chef doesn't" (the "She never tastes" thread); Special Sauce, "Yes, Chef." Quietly, the Test Kitchen; Old Meatloaf: sea salt + black truffle, Sir Loin's Layer-Cake Town gate |
+| Basil freed (`.intro.freed` + offer) | 4+4 = 8 | 3+2 = 5 | the Doppelganger, "YES, CHEF!"; the cake payoff "Is the boy all right?" word for word (C7) |
+| Sous-Chef Tarragon (`npc.tarragon.intro` + `quest.buf_pantry.offer`) | 7+3 = 10 | 3+2 = 5 | fetching, legs with legs, deliveries vanishing into the Test Kitchen, the wrong (angry) pig (freed callback), "She just never tastes anything"; any three ingredients with the three spots, come back |
+| Foreman Gus (`npc.gus.intro` + `quest.gain_power.offer`) | 5+4 = 9 | 3+2 = 5 | volunteers, humming, pre-workout in the water, 110 percent, the city wheels / "told it's cardio" (C18, Rollo); "Wouldn't that be a shame"; run the Colossal Hamster Wheel + buy a shake at the protein stand |
+| Old Man Mountain (`npc.brenda.intro` + `quest.gain_spot_me.offer`) | 6+3 = 9 | 3+2 = 5 | regime, mills and hamster wheels, throw and portal, Clench as Flex's star pupil, "If you fall, I catch you", rule one / rule two "never skip leg day" (quiz), rule three forgotten; offer opens "Which brings me to rule one" (reads after `.return`'s "Where was I." too); spot Gary + Flex Mirror, Calf Cove |
+| Old Man Mountain freed (`.intro.freed` + offer) | 5+3 = 8 | 3+2 = 5 | the boy at the Festival, and "you made the same face he did. Exactly the same face." still in its own box (C6) |
+| Coach Benchley (`npc.tony.intro` + `quest.gain_lanes.offer`) | 4+3 = 7 | 3+2 = 5 | LET'S GO / NEW RECRUIT, supplements for your DECK, Regime-Approved Merchandise, the floorboard box word for word; three roaming enemies, any three, card duels |
+| Widow Pell (`npc.pell.intro` + `quest.cap_burial.offer`) | 4+2 = 6 | 3+2 = 5 | every line kept, boxes merged: the 27-B / 27-C loop, "the patient one", talking to him |
+| Chef Marlo (`npc.marlo.intro` + `quest.cap_recipes.offer`) | 4+2 = 6 | 3+2 = 5 | every line kept, boxes merged: Market of the Four Paths, Nutrient Distributor, `{villain}`'s paste, "a form is a hug" |
+
+Already at 5 or under, not touched: Tarragon freed 2+2, Gus freed 3+2, Benchley freed 2+2, Pell freed 2+2, Marlo freed 2+2.
+Cut: Basil's "everyone clears their own plate" rule and "golems say Yes, Chef! to a chef who doesn't cook" (signs carry the golem answer),
+Tarragon's "grateful in alphabetical order", Gus's "You'll know when it does", Old Man Mountain's "If you quit, I don't", "hermit of the Swole
+Station" and "the mills turn at a sensible pace" (freed), Benchley's "Cards, basically!". Not run in Godot (writer rule); `test_dialogue_fit`
+should be run by the main session.
