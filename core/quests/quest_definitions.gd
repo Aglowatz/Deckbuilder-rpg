@@ -6,6 +6,13 @@ extends RefCounted
 ## piece of equipment at its midpoint; Gatekeeper Brannoch gives "Free the Four Zones" on the Capital road. Reward table: docs/design/quests.md.
 
 const MERCHANTS: String = "meet_the_merchants"
+## Oct 20, Part 4: the early-game main chain, all from Elder Maren in this order: Meet the Merchants -> Make It Yours (the Deck Station) ->
+## the ghosts in Tilly's store room -> Some Assembly Required (Bertram Beetsworth's armory). Only once the armory quest is done do the story's
+## main quests start (the four zone lines, Fragments, Brannoch's Free the Four Zones, Maren's door under the well): `STORY_GATE`.
+const MAREN: String = "Elder Maren"
+const GHOSTS: String = "storeroom_ghosts"
+## Set by `QuestMigration` on saves from before the chain that already had the story quests, so they never lose them.
+const LEGACY_FLAG: String = "early_chain_legacy"
 const FREE_ZONES: String = "free_the_kingdom"
 ## Retired Oct 16 (the four gatekeepers are each zone's first MAIN step now). Old saves drop it (`QuestMigration`).
 const RETIRED_PATHS: String = "clear_the_paths"
@@ -28,6 +35,7 @@ const BRANNOCH: String = "Gatekeeper Brannoch"
 static func build_all() -> Array[QuestData]:
 	var result: Array[QuestData] = []
 	result.append(_meet_the_merchants())
+	result.append(_storeroom_ghosts())
 	result.append(_free_the_kingdom())
 	result.append(_fragments())
 	result.append(_oldest_trick())
@@ -48,18 +56,27 @@ static func zone_main_id(zone_id: String) -> String:
 static func _meet_the_merchants() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = MERCHANTS
-	quest.category = QuestData.Category.SIDE
-	quest.order = 10
+	quest.category = QuestData.Category.MAIN
+	quest.order = 1
 	quest.title = "Meet the Merchants"
-	quest.summary = "Three of Crosspath's shopkeepers would like to meet you. Say hello to each. There is a trophy in it. Everyone gets the trophy."
+	quest.summary = "Elder Maren wants you fed, kitted out and known in town. Say hello to the shopkeepers on the square and buy yourself a card. There is a trophy in it. Everyone gets the trophy."
+	# Oct 20, Part 4: the one quest a new arrival has (Maren gives it in her welcome); Bertram's smithy stays shut for now.
 	quest.auto_give = true
+	quest.prerequisite = Condition.flag("trial_cleared")
+	quest.giver_npc = MAREN
+	quest.giver_area = "town"
+	quest.giver_spot = "elder"
+	quest.turn_in_npc = MAREN
+	quest.turn_in_area = "town"
+	quest.turn_in_spot = "elder"
 	quest.objectives = [
-		QuestObjective.make("Talk to Sable (cards)", Condition.flag("vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "vendor", "Sable's Cards, on the west side of Crosspath's square"),
-		QuestObjective.make("Talk to Tilly Tonic (items)", Condition.flag("item_vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "item_vendor", "Tilly Tonic's Supplies, on the north side of Crosspath's square"),
-		QuestObjective.make("Talk to Bertram Beetsworth (equipment)", Condition.flag("equipment_vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
+		QuestObjective.make("Say hello to Sable at her card shop", Condition.flag("vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "vendor", "Sable's Cards, on the west side of Crosspath's square"),
+		QuestObjective.make("Buy a card from Sable", Condition.counter("cards_bought", 1)).at(QuestObjective.TargetKind.NPC, "town", "vendor", "Sable's Cards, on the west side of Crosspath's square"),
+		QuestObjective.make("Say hello to Tilly Tonic at her supply shop", Condition.flag("item_vendor_seen")).at(QuestObjective.TargetKind.NPC, "town", "item_vendor", "Tilly Tonic's Supplies, on the north side of Crosspath's square"),
+		QuestObjective.make("Say hello to Pip Threadwell at the hat shop", Condition.flag("tailor_seen")).at(QuestObjective.TargetKind.NPC, "town", "tailor", "Threadwell's Hats & Hems, on the east side of Crosspath's square"),
 	] as Array[QuestObjective]
 	quest.reward_gold = 50
-	quest.reward_xp = 40
+	quest.reward_xp = CHAIN_XP[MERCHANTS]
 	quest.reward_equipment_ids = ["participation_trophy"] as Array[String]  # you showed up: that is basically winning
 	return quest
 
@@ -74,6 +91,7 @@ static func _free_the_kingdom() -> QuestData:
 	quest.title = "Free the Four Zones"
 	quest.summary = "{villain}'s Capital runs on four stolen services. Free each Path zone to break one, then storm the castle."
 	quest.giver_npc = BRANNOCH
+	quest.prerequisite = story_gate()  # Oct 20, Part 4: offered once the armory quest is done
 	quest.giver_area = "town"
 	quest.giver_spot = "guard"
 	var objectives: Array[QuestObjective] = []
@@ -97,6 +115,7 @@ static func _fragments() -> QuestData:
 	quest.title = "Fragments"
 	quest.summary = "Your lost memories come back one piece for every zone you free. After each one, visit Elder Maren."
 	quest.auto_give = true
+	quest.prerequisite = story_gate()
 	var names: Array[String] = ["Warmth", "The Cells", "The Coup", "A Name"]
 	var objectives: Array[QuestObjective] = []
 	for index: int in range(MemoryDefs.COUNT):
@@ -121,6 +140,7 @@ static func _zone_main(zone_id: String) -> QuestData:
 	quest.title = str(text["title"])
 	quest.summary = str(text["summary"])
 	quest.auto_give = true
+	quest.prerequisite = story_gate()
 	var favours: Array[Condition] = []
 	for favour_id: String in ZoneQuestDefinitions.favours_of(zone_id):
 		favours.append(Condition.quest_completed(favour_id))
@@ -181,25 +201,39 @@ const ZONE_MAIN_TEXT: Dictionary = {
 }
 
 
-## Overnight Oct 17, Part 5: the armory opens at level 5. This short quest starts on its own the moment the hero reaches level 5,
-## points at Bertram Beetsworth, asks for one won fight of any kind (roamer, gatekeeper, dungeon, arena - Playtest v0.4.0 Part D) and ends with the first piece of equipment,
-## the Starter Blade; finishing it unlocks all five equipment slots (`Session.complete_quest`).
+## The XP each step of the early-game chain pays. With the Forgotten Cave (150 XP: two scavengers and the Warden) and the store room
+## fight (`StoreroomGhosts.XP`, 30) a new hero reaches 300 XP - level 5 - as Maren takes the ghost quest back: 150 + 40 + 30 + 30 + 60 = 310.
+## Outskirts roamers are extra, never required. Test: tests/core/quests/test_early_chain.gd.
+const CHAIN_XP: Dictionary = {MERCHANTS: 40, "first_deck_edit": 30, GHOSTS: 60}
+
+## Oct 20, Part 4: the story's main quests (the four zone lines, Fragments, Free the Four Zones, the door under the well) wait for the armory
+## quest - or for an old save that already had them (`LEGACY_FLAG`). Only the quest log waits: every road stays open.
+static func story_gate() -> Condition:
+	return Condition.any_of([Condition.quest_completed(ARMORY), Condition.flag(LEGACY_FLAG)] as Array[Condition])
+
+
+## Overnight Oct 17, Part 5 / Oct 20, Part 4: the armory. Elder Maren sends the hero to Bertram Beetsworth once the store room is clear
+## (it no longer starts by itself at level 5, and Bertram's smithy stays shut until it does); Bertram asks for one won fight of any kind
+## (roamer, gatekeeper, dungeon, arena) and hands over the first piece of equipment, the Starter Blade; finishing it unlocks all five
+## equipment slots (`Session.complete_quest`) and opens the story's main quests (`story_gate`).
 const ARMORY: String = "some_assembly_required"
 
 
 static func _armory() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = ARMORY
-	quest.category = QuestData.Category.SIDE
-	quest.order = 5
+	quest.category = QuestData.Category.MAIN
+	quest.order = 4
 	quest.title = "Some Assembly Required"
-	quest.summary = "Level five: the armory will finally issue you gear. Bertram Beetsworth wants to see you win one fight first - any fight."
-	quest.auto_give = true
-	quest.prerequisite = Condition.player_level(ProgressionTable.ARMORY_LEVEL)
+	quest.summary = "Maren says it is time you had something sharper than a deck. Bertram Beetsworth issues gear, by the book: report to his smithy and win him one fight."
+	quest.giver_npc = MAREN
+	quest.giver_area = "town"
+	quest.giver_spot = "elder"
+	quest.prerequisite = Condition.quest_completed(GHOSTS)
 	quest.objectives = [
-		QuestObjective.make("Report to Bertram Beetsworth at his Smithy", Condition.flag("armory_reported")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
-		QuestObjective.make("Win one fight (any fight)", Condition.counter("duels_won", 1)),
-		QuestObjective.make("Collect your gear from Bertram at his Smithy", Condition.flag("armory_collected")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
+		QuestObjective.make("Report to Bertram Beetsworth at his smithy", Condition.flag("armory_reported")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
+		QuestObjective.make("Win one fight (any fight)", Condition.counter("duels_won", 1)).at(QuestObjective.TargetKind.NONE, "", "", "An outskirts roamer on the lanes round Crosspath will do"),
+		QuestObjective.make("Collect your gear from Bertram", Condition.flag("armory_collected")).at(QuestObjective.TargetKind.NPC, "town", "equipment_vendor", "Bertram Beetsworth's Smithy, on the west side of Crosspath's square"),
 	] as Array[QuestObjective]
 	quest.reward_xp = 30
 	quest.reward_equipment_ids = [EquipmentRarity.STARTER_BLADE] as Array[String]
@@ -207,25 +241,54 @@ static func _armory() -> QuestData:
 	return quest
 
 
-## Overnight Oct 17, Part 9: the first deck edit, taught by doing. Starts by itself when the hero walks out of the Forgotten Cave with
-## the three cards it paid: open the Deck Station and save the deck (every save goes through the slot picker, `Session.save_deck_to_slot`).
+## Overnight Oct 17, Part 9 / Oct 20, Part 4: the first deck edit, taught by doing - now Maren's second errand (after Meet the Merchants):
+## open the Deck Station and save the deck to a slot (every save goes through the slot picker, `Session.save_deck_to_slot`).
 const FIRST_DECK_EDIT: String = "first_deck_edit"
 
 
 static func _first_deck_edit() -> QuestData:
 	var quest: QuestData = QuestData.new()
 	quest.id = FIRST_DECK_EDIT
-	quest.category = QuestData.Category.SIDE
+	quest.category = QuestData.Category.MAIN
 	quest.order = 2
 	quest.title = "Make It Yours"
-	quest.summary = "The cave paid you in cards, and they are already in your deck. Look it over at the Deck Station, swap what you like and save it to a slot."
-	quest.auto_give = true
-	quest.prerequisite = Condition.flag("trial_cleared")
+	quest.summary = "A deck you never chose is a deck you will lose with, says Maren. Look it over at the Deck Station, swap what you like and save it to a slot."
+	quest.giver_npc = MAREN
+	quest.giver_area = "town"
+	quest.giver_spot = "elder"
+	quest.turn_in_npc = MAREN
+	quest.turn_in_area = "town"
+	quest.turn_in_spot = "elder"
+	quest.prerequisite = Condition.quest_completed(MERCHANTS)
 	quest.objectives = [
-		QuestObjective.make("Open the Deck Station and save your deck", Condition.flag("deck_edited")).at(QuestObjective.TargetKind.SPOT, "town", "deck", "The Deck Station, on Champions' Road south of the square"),
+		QuestObjective.make("Open the Deck Station and save your deck to a slot", Condition.flag("deck_edited")).at(QuestObjective.TargetKind.SPOT, "town", "deck", "The Deck Station, on Champions' Road south of the square"),
 	] as Array[QuestObjective]
 	quest.reward_gold = 30
-	quest.reward_xp = 20
+	quest.reward_xp = CHAIN_XP[FIRST_DECK_EDIT]
+	return quest
+
+
+## Oct 20, Part 4: Maren's third errand - the store room behind Tilly Tonic's shop is haunted and nobody can get in. The door starts a duel
+## (`Session.make_storeroom_battle`, `StoreroomGhosts`); winning it sets `StoreroomGhosts.FLAG_CLEARED`. Hand it in to Maren.
+static func _storeroom_ghosts() -> QuestData:
+	var quest: QuestData = QuestData.new()
+	quest.id = GHOSTS
+	quest.category = QuestData.Category.MAIN
+	quest.order = 3
+	quest.title = "Something in the Store Room"
+	quest.summary = "Tilly Tonic's store room has been rattling, moaning and refusing visitors. Maren would like it to stop. So would Tilly."
+	quest.giver_npc = MAREN
+	quest.giver_area = "town"
+	quest.giver_spot = "elder"
+	quest.turn_in_npc = MAREN
+	quest.turn_in_area = "town"
+	quest.turn_in_spot = "elder"
+	quest.prerequisite = Condition.quest_completed(FIRST_DECK_EDIT)
+	quest.objectives = [
+		QuestObjective.make("Open the store room door beside Tilly Tonic's shop", Condition.flag(str(StoreroomGhosts.FLAG_CLEARED))).at(QuestObjective.TargetKind.BATTLE, "town", StoreroomGhosts.SPOT_ID, "The row house beside Tilly Tonic's Supplies, on the north side of the square"),
+	] as Array[QuestObjective]
+	quest.reward_gold = 40
+	quest.reward_xp = CHAIN_XP[GHOSTS]
 	return quest
 
 

@@ -13,6 +13,36 @@ quests, side-dungeon hooks). `QuestCatalog` builds them at start-up (there are n
 - **QuestLog** (save): active, completed, counter baselines, tracked, `milestones_paid`, `progress_seen` (the tracker follows the most recently
   updated quest), `version` 2. `QuestMigration` upgrades version-1 saves (see below).
 
+## The early-game chain (Oct 20)
+The start of the main quest line. Out of the Forgotten Cave the **only** quest is Elder Maren's; each errand is handed back to her and she
+gives the next one in the same talk (`TownScene.CHAIN_NEXT`). All four are MAIN.
+
+| # | Quest (id) | Steps | Reward |
+|---|---|---|---|
+| 1 | Meet the Merchants (`meet_the_merchants`, auto-given on arrival) | say hello to Sable, buy a card from her (`cards_bought`), say hello to Tilly Tonic, say hello to Pip Threadwell; hand in to Maren | Participation Trophy, 50 gold, **40 XP** |
+| 2 | Make It Yours (`first_deck_edit`) | open the Deck Station and save the deck to a slot; hand in to Maren | 30 gold, **30 XP** |
+| 3 | Something in the Store Room (`storeroom_ghosts`) | open the store room door beside Tilly Tonic's shop (a duel against the Store Room Ghosts: **30 XP**, 15 gold); hand in to Maren | 40 gold, **60 XP** |
+| 4 | Some Assembly Required (`some_assembly_required`) | report to Bertram Beetsworth, win one fight (any fight), collect the gear from Bertram | Starter Blade, all five equipment slots, 30 XP |
+
+- **XP**: the cave pays 150 (two scavengers, 15 each, and the Warden, 120). 150 + 40 + 30 + 30 (the ghost fight) = 250 (level 4) before the
+  ghost quest is handed in; its 60 makes **310 = level 5** at the hand-in (level 5 = 300 XP). Outskirts roamers are extra, never needed.
+  `QuestDefinitions.CHAIN_XP`; test `tests/core/quests/test_early_chain.gd`.
+- **Bertram Beetsworth** stays shut ("issued on referral only") until Maren gives quest 4 (`Session.armory_stage` 0); the armory quest no
+  longer starts at level 5 and the level-5 notice no longer points at him. A player who grinds to level 5 early still gets it from Maren
+  after the ghosts.
+- **The story's main quests wait** for quest 4 (`QuestDefinitions.story_gate()`): the four zone lines, Fragments, Brannoch's Free the Four
+  Zones and Maren's The Door Under the Well have it as their prerequisite; they start (or are offered) the moment the armory quest is done
+  (`Session.complete_quest` calls `offer_auto_quests`). Travel is never blocked: only quest log entries, objectives and markers wait.
+- **The store room** (`StoreroomGhosts`, spot `storeroom` on the north-west corner house beside Tilly's shop): before quest 3 the door
+  only rattles; during it the ghosts explain themselves (a faulty lantern, no receipt, ninety years) and the duel starts at the door on the
+  town battleboard (the room is never walked into); afterwards it is just shelves. Rule **Haunted Inventory** (`town:storeroom`, icon
+  `lorc/ghost`): "At the start of each of the ghosts' turns, a 1/1 Ghost token joins them." (the Hungry Ghost token without Flying,
+  `token_name`/`token_keywords` in the rule). The ghosts: 3 HP, 18 Hall of Records + 2 Cannon Fodder, "Aggressive (tutorial)" AI. Sim
+  (level-3 reference decks, 50 games per Path on two seeds): Beefcake 97%, Necrocrat 94%, Gourmand 94%, Refusemancer 88%, **93.5%**, 6.0 turns.
+- **Old saves** (`QuestLog.VERSION` 3, `QuestMigration`): a save from before this that is out of the cave (or holds a story quest) gets
+  `early_chain_legacy` and keeps every quest; its unfinished errands continue with Maren. `Session.ensure_game` (tests, tools, direct
+  scene launches) fast-forwards past the chain the same way.
+
 ## Main quest lines
 Each Path zone has one MAIN line: (1) beat its gatekeeper at the obstacle on its road out of the hub (**pays that Path's Path Pack + 40 gold**),
 (2) cross into the zone, (3) finish any one of the zone's three favours (**pays an equipment piece**: the midpoint), (4) clear the main dungeon and

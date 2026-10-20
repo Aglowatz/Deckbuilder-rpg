@@ -947,3 +947,17 @@ bottom edge of the 85-100% target (most losses at the Mossy Gallery and the Ward
 12 games per Path (`docs/design/sim/oct19n_gainlands_roamers.md`): Flexing Brute 69% (B 100 / N 33 / G 58 / R 83), Protein Shake Golem 65%
 (B 83 / N 50 / G 58 / R 67), target 80-100%. The number levers are spent (Daytime cycle 13); the next step is deck content (replays) or
 a design call on the Beefcake/Necrocrat rivalry (Necrocrat players are warned on arrival and pointed to the D.N.A.). Left for the user.
+
+## Oct 20 - the store room ghosts (`town:storeroom`, the early-game chain's first scripted fight)
+
+Target ~90% for every Path's level-3 reference deck, 5-8 turns. Rule "Haunted Inventory": a 1/1 Ghost token joins the ghosts at the start of
+each of their turns. 50 games per Path per seed (`--filter=town:storeroom`).
+
+| Try | Ghosts | Token | Result |
+|---|---|---|---|
+| v1 | `necro_zombies` 20/10, 6 HP, Defensive | Hungry Ghost (Flying) | 0% (3 games): a fresh chump blocker every turn, Red Tape from the deck and its infrastructure, 7.1 turns |
+| v2 | 20/13, 4 HP, Aggressive (tutorial) | Hungry Ghost (Flying) | 17%: an unblockable 1/1 every turn snowballs past a level-3 hero's 11 HP |
+| v3 | as v2 | **Ghost: the Hungry Ghost without Flying** (`token_name`, `token_keywords`) | 25%: the zombie deck floods the board |
+| v4 | 13 Hall of Records + 4 Cannon Fodder + 3 Skeleton Clerk, 4 HP | Ghost | 74% / 70% (seeds 7000 / 8100), 6.2 turns |
+| v5 | 14 Hall of Records + 6 Cannon Fodder, 3 HP | Ghost | 80% / 74% |
+| **v6 (kept)** | **18 Hall of Records + 2 Cannon Fodder, 3 HP, Aggressive (tutorial)** | Ghost | **93% / 94%**: Beefcake 96/98, Necrocrat 98/90, Gourmand 94/94, Refusemancer 84/92; **6.0 turns** (`docs/design/sim/storeroom_v6_*.md`) |

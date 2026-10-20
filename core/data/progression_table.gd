@@ -10,7 +10,8 @@ extends RefCounted
 const MAX_LEVEL: int = 30
 ## Overnight Oct 17, Part 5: no more slot choices - the level-5 armory quest ("Some Assembly Required") unlocks all five slots at once.
 const EQUIPMENT_CHOICE_LEVELS: Array[int] = []
-## The level the armory opens and its quest starts.
+## The level the early-game chain (Meet the Merchants, Make It Yours, the store room) brings a new hero to by the time Maren sends them to
+## the armory (Oct 20, Part 4); the armory quest itself no longer depends on it.
 const ARMORY_LEVEL: int = 5
 const BONUS_DISCOUNT_LEVELS: Array[int] = [11, 21]
 const MAX_HAND_LEVELS: Array[int] = [14, 28]
@@ -64,7 +65,7 @@ static func build() -> Array[LevelData]:
 		row.equipment_choice = false
 		row.reward_equipment_vendor_unlock = level == int(vendor.get("equipment_advanced", EQUIPMENT_VENDOR_UNLOCK_LEVEL))
 		row.reward_item_vendor_advanced_unlock = level == int(vendor.get("item_advanced", ITEM_VENDOR_ADVANCED_UNLOCK_LEVEL))
-		row.armory = level == ARMORY_LEVEL
+		row.armory = false  # Oct 20, Part 4: the armory quest comes from Elder Maren after the store room, not from a level
 		var entry: Dictionary = LevelTrack.level_entry(level)
 		row.big = bool(entry.get("big", false))
 		row.headline = str(entry.get("headline", ""))
@@ -163,8 +164,6 @@ static func pack_id(grant: Dictionary, primary: Affinity.Type) -> String:
 ## Every reward of one level as player-facing lines, the big unlock first (the level-up screen and the docs table).
 static func reward_lines(current: LevelData, previous: LevelData, primary: Affinity.Type = Affinity.Type.NEUTRAL) -> Array[String]:
 	var lines: Array[String] = []
-	if current.armory:
-		lines.append("The armory opens: a new quest is available from Bertram Beetsworth, the equipment vendor.")
 	if current.reward_deck_expansion and previous != null:
 		lines.append("Deck Station: %d to %d deck slots." % [previous.deck_slots, current.deck_slots])
 	for raise: Dictionary in current.copy_cap_raises:

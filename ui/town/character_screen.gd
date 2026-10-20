@@ -430,7 +430,7 @@ func _show_empty_slot(icon: TextureRect, slot: EquipmentData.Slot) -> void:
 ## Equipment slots unlock one at a time, player's choice, at these levels (ProgressionTable) - no
 ## single slot has a fixed unlock level, so the locked tooltip states the whole rule instead.
 func _equipment_unlock_hint() -> String:
-	return "every equipment slot opens with Bertram Beetsworth's armory quest at level %d." % ProgressionTable.ARMORY_LEVEL
+	return "every equipment slot opens with Bertram Beetsworth's armory quest (Elder Maren will send you)."
 
 
 func _on_equipment_slot_pressed(slot: EquipmentData.Slot) -> void:

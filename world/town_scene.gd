@@ -261,6 +261,7 @@ func _ready() -> void:
 		else:
 			_begin_cave_arrival.call_deferred()
 	_show_town_result.call_deferred()
+	_show_storeroom_result.call_deferred()
 	_show_npc_result.call_deferred()
 	_show_graveyard_result.call_deferred()
 	_show_ninja_result.call_deferred()
@@ -603,6 +604,8 @@ func _build_spots() -> void:
 		_add_spot("hidden_vendor", "A Secret Dealer", town.anchors["hidden_vendor"] as Vector3, 1.5)
 	# New brief, Part F: the item vendor.
 	_add_spot("item_vendor", "Tilly Tonic's Supplies", town.anchors["npc_item_vendor"] as Vector3, 1.5)
+	# Oct 20, Part 4: the haunted store room's door, the corner house beside Tilly's shop (Maren's ghost errand starts its fight here).
+	_add_spot(StoreroomGhosts.SPOT_ID, "Tilly's Store Room", town.anchors[StoreroomGhosts.SPOT_ID] as Vector3, 1.5)
 	# Fourth brief, Part C: the equipment vendor.
 	_add_spot("equipment_vendor", "Assistant to the Regional Merchant", town.anchors["npc_equipment_vendor"] as Vector3, 1.5)
 	_add_spot("pack_vendor", StoryText.shared().text("town.pack_vendor.name"), town.anchors["npc_pack_vendor"] as Vector3, 1.5)
@@ -1063,6 +1066,8 @@ func _interact(spot: Spot) -> void:
 			_talk_hidden_vendor()
 		"item_vendor":
 			_talk_item_vendor()
+		"storeroom":  # StoreroomGhosts.SPOT_ID
+			_use_storeroom()
 		"equipment_vendor":
 			_talk_equipment_vendor()
 		"baker":
@@ -1095,9 +1100,11 @@ func _face_npc(id: String) -> void:
 	player.face((npc.position if npc != null else player.position))
 
 
-## Elder Maren: her greeting, and the quest that opens the Forgotten Vault under the old well (hand-in first, then the offer, then a reminder).
+## Elder Maren: memory fragments first, then hand-ins (an errand of the early-game chain hands straight over to the next one in the same
+## talk: `CHAIN_NEXT`), then the chain's next errand, then her other offers once she has greeted the hero, then a reminder of what she
+## asked for, else her greeting and mood lines.
 func _talk_elder() -> void:
-	var elder: String = "Elder Maren"
+	var elder: String = QuestDefinitions.MAREN
 	var pending_memory: int = Session.pending_memory()
 	if pending_memory > 0 and Session.flag(&"elder_greeted"):
 		_play_memory(pending_memory)
@@ -1105,23 +1112,87 @@ func _talk_elder() -> void:
 	var ready: Array[QuestData] = Session.quests_ready_for(elder)
 	if not ready.is_empty():
 		var finished_quest: QuestData = ready[0]
-		_talk_npc("elder", elder, DungeonCatalog.text_lines("quest.%s.ready" % finished_quest.id) as Array[String])
-		dialogue.finished.connect(func() -> void: Session.turn_in_quest(finished_quest.id), CONNECT_ONE_SHOT)
-		return
-	var offered: Array[QuestData] = Session.quests_offered_by(elder) if Session.flag(&"elder_greeted") else ([] as Array[QuestData])
-	if not offered.is_empty():
-		var offer: QuestData = offered[0]
-		var lines: Array[String] = _elder_lines()
-		lines.append_array(DungeonCatalog.text_lines("quest.%s.offer" % offer.id))
+		var lines: Array[String] = DungeonCatalog.text_lines("quest.%s.ready" % finished_quest.id)
+		var next_id: String = str(CHAIN_NEXT.get(finished_quest.id, ""))
+		if not next_id.is_empty() and not Session.quest_log.is_active(next_id) and not Session.quest_log.is_completed(next_id):
+			lines.append_array(DungeonCatalog.text_lines("quest.%s.offer" % next_id))
 		_talk_npc("elder", elder, lines)
+		dialogue.finished.connect(func() -> void:
+			Session.turn_in_quest(finished_quest.id)
+			if not next_id.is_empty():
+				Session.start_quest(next_id), CONNECT_ONE_SHOT)
+		return
+	var offered: Array[QuestData] = Session.quests_offered_by(elder)
+	var chain_offer: Array[QuestData] = []
+	for quest: QuestData in offered:
+		if CHAIN_NEXT.values().has(quest.id):
+			chain_offer.append(quest)
+	if chain_offer.is_empty() and not Session.flag(&"elder_greeted"):
+		offered = [] as Array[QuestData]
+	if not chain_offer.is_empty() or not offered.is_empty():
+		var offer: QuestData = chain_offer[0] if not chain_offer.is_empty() else offered[0]
+		var offer_lines: Array[String] = [] as Array[String] if not chain_offer.is_empty() else _elder_lines()
+		offer_lines.append_array(DungeonCatalog.text_lines("quest.%s.offer" % offer.id))
+		_talk_npc("elder", elder, offer_lines)
 		dialogue.finished.connect(func() -> void: Session.start_quest(offer.id), CONNECT_ONE_SHOT)
 		return
 	for quest_id: String in Session.quest_log.active:
 		var active_quest: QuestData = QuestCatalog.find(quest_id)
-		if active_quest != null and active_quest.giver_npc == elder:
+		if active_quest != null and active_quest.giver_npc == elder and not DungeonCatalog.text_lines("quest.%s.active" % quest_id).is_empty():
 			_talk_npc("elder", elder, DungeonCatalog.text_lines("quest.%s.active" % quest_id) as Array[String])
 			return
 	_talk_npc("elder", elder, _elder_lines())
+
+
+## Oct 20, Part 4: the early-game chain - handing one errand back to Maren gives the next in the same conversation.
+const CHAIN_NEXT: Dictionary = {
+	QuestDefinitions.MERCHANTS: QuestDefinitions.FIRST_DECK_EDIT,
+	QuestDefinitions.FIRST_DECK_EDIT: QuestDefinitions.GHOSTS,
+	QuestDefinitions.GHOSTS: QuestDefinitions.ARMORY,
+}
+
+
+# ---- The haunted store room (Oct 20, Part 4) ----------------------------------------------------------------------
+
+## The store room door beside Tilly Tonic's shop: before Maren's errand it only rattles; during it, the ghosts have their say and the
+## duel starts at the door (the room is never walked into); once cleared it is just shelves.
+func _use_storeroom() -> void:
+	var story: StoryText = StoryText.shared()
+	player.face(town.anchors[StoreroomGhosts.SPOT_ID] as Vector3)
+	if Session.flag(StoreroomGhosts.FLAG_CLEARED):
+		dialogue.start("", story.get_lines("storeroom.cleared"), NpcRegistry.PLAYER_ID)
+		return
+	if not Session.quest_log.is_active(QuestDefinitions.GHOSTS):
+		dialogue.start("", story.get_lines("storeroom.locked"), NpcRegistry.PLAYER_ID)
+		return
+	_locked = true
+	Audio.sfx(&"enemy_alert")
+	dialogue.start(StoreroomGhosts.ENEMY_NAME, story.get_lines("storeroom.before"))
+	dialogue.finished.connect(func() -> void:
+		dialogue.start("", story.get_lines("storeroom.wanderer"), NpcRegistry.PLAYER_ID)
+		dialogue.finished.connect(func() -> void:
+			dialogue.start(StoreroomGhosts.ENEMY_NAME, story.get_lines("storeroom.challenge"))
+			dialogue.finished.connect(func() -> void:
+				_locked = false
+				Session.start_storeroom_battle(), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT), CONNECT_ONE_SHOT)
+
+
+## Back from the store room fight: the ghosts' parting words (a win) or their gloating (a loss), then the usual rewards toast.
+func _show_storeroom_result() -> void:
+	if Session.pending_storeroom_result.is_empty():
+		return
+	var result: Dictionary = Session.pending_storeroom_result
+	Session.pending_storeroom_result = {}
+	var won: bool = bool(result.get("won", false))
+	dialogue.start(StoreroomGhosts.ENEMY_NAME, StoryText.shared().get_lines("storeroom.after_win" if won else "storeroom.after_loss"))
+	if not won:
+		return
+	var levels_gained: Array[LevelData] = []
+	for level_data: Variant in (result.get("levels_gained", []) as Array):
+		levels_gained.append(level_data as LevelData)
+	dialogue.finished.connect(func() -> void:
+		hud.toast("The store room is clear. +%d gold, +%d XP." % [int(result.get("gold", 0)), int(result.get("xp", 0))], UIStyle.GOLD)
+		Session.pending_level_ups.append_array(levels_gained), CONNECT_ONE_SHOT)
 
 
 func _talk_npc(id: String, speaker: String, lines: Array[String]) -> void:
@@ -2107,7 +2178,7 @@ const POI_KINDS: Dictionary = {
 	"well": MapPoi.Kind.HEAL, "vendor": MapPoi.Kind.VENDOR, "item_vendor": MapPoi.Kind.VENDOR,
 	"equipment_vendor": MapPoi.Kind.VENDOR, "pack_vendor": MapPoi.Kind.VENDOR, "tailor": MapPoi.Kind.VENDOR, "deck": MapPoi.Kind.INTERACTABLE, "codex": MapPoi.Kind.INTERACTABLE,
 	"elder": MapPoi.Kind.INTERACTABLE, "guard": MapPoi.Kind.INTERACTABLE, "gate": MapPoi.Kind.DUNGEON, "notice_board": MapPoi.Kind.INTERACTABLE, "arena": MapPoi.Kind.ARENA,
-	"graveyard_cairn": MapPoi.Kind.CHALLENGE,
+	"graveyard_cairn": MapPoi.Kind.CHALLENGE, StoreroomGhosts.SPOT_ID: MapPoi.Kind.CHALLENGE,
 }
 
 

@@ -280,13 +280,15 @@ func test_the_chest_box_shows_the_contents_and_waits_for_a_confirm() -> void:
 
 func test_completing_a_quest_queues_a_quest_complete_box_with_rewards_and_unlocks() -> void:
 	Session.quest_log.reset()
-	Session.flags = {}
+	Session.flags = {"trial_cleared": true}
 	Session.counters = {}
 	Session.offer_auto_quests()
 	var gold_before: int = Session.gold
 	Session.set_flag(&"vendor_seen")
+	Session.bump_counter("cards_bought")
 	Session.set_flag(&"item_vendor_seen")
-	Session.set_flag(&"equipment_vendor_seen")
+	Session.set_flag(&"tailor_seen")
+	assert_true(Session.turn_in_quest(QuestDefinitions.MERCHANTS), "handed back to Maren (Oct 20)")
 	assert_eq(Session.pending_popups.size(), 1, "one Quest Complete box is waiting")
 	var summary: RewardSummary = Session.pending_popups[0]
 	assert_eq(summary.kind, RewardSummary.Kind.QUEST)

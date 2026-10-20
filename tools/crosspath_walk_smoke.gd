@@ -8,7 +8,7 @@ extends Node
 
 const SHOT_DIR: String = "res://_screenshots/crosspath_walk/"
 const TAG: String = "crosspath_walk_smoke"
-const VENDORS: Array[String] = ["vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "alchemist"]
+const VENDORS: Array[String] = ["vendor", "item_vendor", "equipment_vendor", "pack_vendor", "tailor", "alchemist", "storeroom"]  # Oct 20: + Tilly's store room door (a dialogue before its quest)
 
 var driver: UiDriver
 var _failures: PackedStringArray = []
@@ -44,7 +44,7 @@ func run() -> void:
 	await _alley(town)
 	await _lake(town)
 	await _undercroft(town)
-	_finish(_failures.is_empty(), "the loop round the town, %d vendors, the alley, the lakeshore and the hatch (%d screenshots)" % [VENDORS.size(), _shots])
+	_finish(_failures.is_empty(), "the loop round the town, %d shop doors (the store room too), the alley, the lakeshore and the hatch (%d screenshots)" % [VENDORS.size(), _shots])
 
 
 ## Every leg of TownBounds.LOOP walked with WASD from the first point; a leg that does not arrive is a failure (something blocks the lane).

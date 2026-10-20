@@ -1,6 +1,6 @@
 extends GutTest
-## Overnight Oct 17, Part 5: the armory quest at level 5 (Beetsworth closed before it; the quest starts by itself and ends with the
-## Starter Blade and every equipment slot), equipment rarities from data, and equip caps by rarity and level.
+## Overnight Oct 17, Part 5 / Oct 20, Part 4: the armory quest (Beetsworth closed until Elder Maren sends the hero after the store room -
+## never by level; it ends with the Starter Blade and every equipment slot), equipment rarities from data, and equip caps by rarity and level.
 
 
 func before_each() -> void:
@@ -11,6 +11,13 @@ func before_each() -> void:
 
 func _to_level(level: int) -> void:
 	Session.add_xp(ProgressionTable.xp_to_reach(level) - Session.profile.xp)
+
+
+## Maren's errands up to the store room are done, so she offers the armory quest; the hero takes it.
+func _sent_by_maren() -> void:
+	Session.quest_log.completed.append(QuestDefinitions.GHOSTS)
+	assert_true(Session.quests_offered_by(QuestDefinitions.MAREN).has(QuestCatalog.find(QuestDefinitions.ARMORY)), "Maren offers the armory quest")
+	assert_true(Session.start_quest(QuestDefinitions.ARMORY))
 
 
 func test_every_piece_has_a_rarity_from_data() -> void:
@@ -30,16 +37,19 @@ func test_the_starter_blade_exists_and_buffs_the_first_unit_only() -> void:
 	assert_true(blade.modifiers[0].kind == Modifier.Kind.FIRST_UNIT_STAT_CHANGE)
 
 
-func test_beetsworth_is_closed_before_level_5() -> void:
+func test_beetsworth_is_closed_until_maren_sends_you_whatever_the_level() -> void:
+	_to_level(7)
+	assert_false(Session.quest_log.is_active(QuestDefinitions.ARMORY), "no level starts it any more")
 	assert_eq(Session.armory_stage(), 0)
 	assert_false(Session.gear_unlocked())
 	assert_eq(Session.armory_talk(), 0, "no shop, no quest")
 	assert_false(Session.quest_log.is_active(QuestDefinitions.ARMORY))
 
 
-func test_reaching_level_5_starts_the_quest_and_it_ends_with_gear_and_all_slots() -> void:
+func test_maren_sends_you_and_the_quest_ends_with_gear_and_all_slots() -> void:
 	_to_level(5)
-	assert_true(Session.quest_log.is_active(QuestDefinitions.ARMORY), "the quest starts by itself at level 5")
+	_sent_by_maren()
+	assert_true(Session.quest_log.is_active(QuestDefinitions.ARMORY))
 	assert_eq(Session.armory_stage(), 1)
 	assert_eq(Session.armory_talk(), 1, "the first talk is the report")
 	assert_eq(Session.armory_stage(), 2, "now a duel is needed")
@@ -78,6 +88,7 @@ func test_equip_caps_scale_with_level() -> void:
 
 func test_an_epic_over_the_cap_is_refused_with_a_reason() -> void:
 	_to_level(5)
+	_sent_by_maren()
 	Session.armory_talk()
 	Session.note_duel_won()
 	Session.refresh_quests()

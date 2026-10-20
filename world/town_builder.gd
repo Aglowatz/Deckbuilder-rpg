@@ -454,7 +454,7 @@ func _place_shop(shop: TownLayout.Shop) -> void:
 			anchors["npc_well"] = anchors["npc_elder"]
 		"well":
 			anchors["well"] = shop.center + front * 0.9
-		"hidden_vendor", "vault", "church", "deck", "codex":
+		"hidden_vendor", "vault", "church", "deck", "codex", "storeroom":
 			pass
 		_:
 			anchors["npc_%s" % shop.key] = base + front * shop.npc_offset()

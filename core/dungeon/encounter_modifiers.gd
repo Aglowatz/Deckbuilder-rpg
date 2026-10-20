@@ -272,6 +272,20 @@ static func _token_of(spec: Dictionary, key: String) -> CardData:
 	var token: CardData = TokenRegistry.data(id)
 	if token == null:
 		_problems.append("%s: unknown token %s" % [key, id])
+		return null
+	# Oct 20: a rule may rename a token and set its keywords ("token_name", "token_keywords": [] = none) - the store room's plain 1/1 Ghost is
+	# the Hungry Ghost (its art) without Flying. The copy keeps the token's id, so its art and its bestiary entry still match.
+	if spec.has("token_name") or spec.has("token_keywords"):
+		token = token.duplicate() as CardData
+		if spec.has("token_name"):
+			token.display_name = str(spec["token_name"])
+		if spec.has("token_keywords"):
+			var keywords: Array[CardEnums.Keyword] = []
+			for word: Variant in spec["token_keywords"] as Array:
+				keywords.append(CardEnums.Keyword.get(str(word).to_upper()) as CardEnums.Keyword)
+			token.keywords = keywords
+			token.rules_text = "" if keywords.is_empty() else token.rules_text
+			token.script_text = "" if keywords.is_empty() else token.script_text
 	return token
 
 

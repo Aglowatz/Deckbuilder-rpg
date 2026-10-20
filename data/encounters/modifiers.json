@@ -516,5 +516,17 @@
 			"resource": "garbage",
 			"count": 1
 		}
+	],
+	"town:storeroom": [
+		{
+			"name": "Haunted Inventory",
+			"text": "At the start of each of the ghosts' turns, a 1/1 Ghost token joins them.",
+			"icon": "lorc/ghost",
+			"kind": "timed_summon",
+			"token": "T-19",
+			"token_name": "Ghost",
+			"token_keywords": [],
+			"every": 1
+		}
 	]
 }

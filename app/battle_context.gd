@@ -55,3 +55,5 @@ var music: StringName = &"battle"
 var board_key: String = ""
 ## Oct 20: a Dev Menu fight (`DevActions.start_encounter`): nothing is paid and the hero goes back to Crosspath afterwards.
 var dev_battle: bool = false
+## Oct 20: the ghosts in Tilly Tonic's store room (`StoreroomGhosts`, Maren's third errand).
+var storeroom_battle: bool = false

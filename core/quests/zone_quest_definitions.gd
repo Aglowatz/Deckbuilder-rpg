@@ -416,7 +416,7 @@ static func side_quests() -> Array[QuestData]:
 		_side(SIDE_CAP, "S-CAP", 360, "The Older Way", CapitalZone.NPC_KESTREL, "Kestrel knows an older way into the city. Get inside, find Wren in the Crease and ask her about the old tunnels.",
 			[QuestObjective.make("Reach the Crease: knock at the manhole by the gate", Condition.flag(str(CapitalZone.FLAG_HUB_KNOWN)))]),
 		_side(SIDE_TOWN, "S-TOWN", 90, "The Door Under the Well", "Elder Maren", "Elder Maren says the door under the Old Well has been locked since before she was born. Its key is in a hidden chest somewhere in Crosspath.",
-			[QuestObjective.make("Find the hidden chest in Crosspath", Condition.secret_found("harbor_chest"))]),
+			[QuestObjective.make("Find the hidden chest in Crosspath", Condition.secret_found("harbor_chest"))], QuestDefinitions.story_gate()),  # Oct 20: after the armory quest
 	] as Array[QuestData]
 
 

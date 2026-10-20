@@ -1376,6 +1376,41 @@
 		}
 	},
 	"text": {
+		"quest.meet_the_merchants.active": [
+			"Sable, Tilly and Pip, dearie, all on the square. And buy a card from Sable. You are not leaving this town with only what a cave gave you."
+		],
+		"quest.meet_the_merchants.ready": [
+			"Back already. Sable charmed you, Tilly was a colour, and Pip measured your head without asking. Good. That is Crosspath.",
+			"Here: a trophy. Everyone gets one. Don't make that face. I didn't make the rule. I did make the trophy."
+		],
+		"quest.first_deck_edit.offer": [
+			"Now that deck of yours. A deck you never chose is a deck you will lose with.",
+			"The Deck Station is down Champions' Road, south of the square. Swap what you like, save it to a slot, then come and tell me."
+		],
+		"quest.first_deck_edit.active": [
+			"The Deck Station, dearie. Champions' Road, south of the square. Save it to a slot, or it doesn't count. I check."
+		],
+		"quest.first_deck_edit.ready": [
+			"Sorted and saved. You are starting to look like someone who means it. Starting."
+		],
+		"quest.storeroom_ghosts.offer": [
+			"Now, a favour. Tilly's store room, the corner house beside her shop, has been moaning for a week. Not Tilly. The room.",
+			"Ghosts, I expect. Petty ones: the worst kind. Nobody can get in for so much as a candle. Go and sort them out. Gently, if they let you."
+		],
+		"quest.storeroom_ghosts.active": [
+			"The store room door, beside Tilly's shop on the north side of the square. Ignore the rattling. That is just them being dramatic."
+		],
+		"quest.storeroom_ghosts.ready": [
+			"A refund. Ninety years of haunting, over a refund. I have had customers like that. I still have one.",
+			"Well done, dearie. You fight better than you look, and you look half drowned."
+		],
+		"quest.some_assembly_required.offer": [
+			"Right. Time you had something sharper than a deck. Bertram Beetsworth issues gear, at the smithy on the west side of the square.",
+			"He is... thorough. Report to him, do what he asks, and do not touch his drawer."
+		],
+		"quest.some_assembly_required.active": [
+			"Bertram's smithy, west side of the square. Win him a fight, any fight, and he will stamp something. He lives to stamp something."
+		],
 		"quest.side_s_town.offer": [
 			"There is a door under the old well that has been locked since before I was born.",
 			"I always thought the key was lost. It was not, dearie. Somebody hid it in a chest in this very town. Find it, and we will see what the door is for."

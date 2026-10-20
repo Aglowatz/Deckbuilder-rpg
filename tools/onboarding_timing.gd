@@ -165,7 +165,7 @@ func run() -> void:
 		elif town.dialogue.active:
 			await _read_and_press(town.dialogue)
 		await driver.seconds(0.2)
-	_check(Session.quest_log.is_active(QuestDefinitions.FIRST_DECK_EDIT), "Make It Yours is active after the cave")
+	_check(Session.quest_log.is_active(QuestDefinitions.MERCHANTS) and Session.quest_log.active.size() == 1, "Oct 20: Meet the Merchants is the only quest after the cave")
 	_end()
 	# 6. Walk to the Deck Station, open it, add a card, Save Deck -> slot 1.
 	_begin("Crosspath: walk to the Deck Station")

@@ -375,6 +375,11 @@ Sand): battles and puzzles, arena-exclusive gear (never sold), gold, essence. Th
 dual-Path card. Tri-Path crafting is a hook after Primm falls (no tri-Path cards yet). Her locked-door note: "THE USURPER CONFISCATED MY
 CAULDRON. I AM STILL BREWING IN THE SINK."
 
+**Tilly's store room** (Oct 20): the north-west corner house beside Tilly Tonic's Supplies. Three ghosts bought one lantern between them
+ninety years ago; it never worked; Tilly's great-grandmother said "no receipt, no refund", so they waited, died, and kept waiting,
+professionally. Maren's third errand: the duel at the door (they settle it with cards, like everyone here); beaten, they move to the chapel
+belfry ("a lovely draught") and leave the lantern on the top shelf. It still doesn't work.
+
 **Other town stories**: Shiro Swindle's giant chests (section 17); the Sealed Vault and the Four-Seal Vault (section 17); the Forgotten
 Vault under the Old Well (section 17); the Restless Cairn (a graveyard challenge: something under the cairn "is still keeping count of its
 turns"; sheet: Old Hob starts it).
@@ -892,9 +897,13 @@ Quest ids are the game's (`QuestDefinitions`, `ZoneQuestDefinitions`). Zones may
 2. **The Rescuer** (prologue) and **Choose your Path**: the starting deck.
 3. **The Forgotten Cave** (D-TUT): three battles with card picks, the Hollow Well, the Hollow Warden. Flag `trial_cleared`.
 4. **Maren's welcome** and her first greeting: Crosspath, the four Paths, Primm, the gatekeepers.
-5. Auto-given: **Make It Yours** (`first_deck_edit`: save a deck at the Deck Station), **Meet the Merchants** (`meet_the_merchants`), the
-   four zone lines, **Fragments** (`fragments`). From Brannoch: **Free the Four Zones** (`free_the_kingdom`). From Maren: **The Door Under
-   the Well** (`side_s_town`). At level 5: **Some Assembly Required** (`some_assembly_required`, the armory).
+5. **Maren's errands** (Oct 20, the early-game chain; each is handed back to her and she gives the next): **Meet the Merchants**
+   (`meet_the_merchants`: Sable, a card bought, Tilly, Pip; the only quest on arrival) -> **Make It Yours** (`first_deck_edit`: the Deck
+   Station) -> **Something in the Store Room** (`storeroom_ghosts`: three petty ghosts in Tilly's store room, who died waiting to return a
+   faulty lantern without a receipt; a duel at the door) -> level 5 -> **Some Assembly Required** (`some_assembly_required`: Bertram
+   Beetsworth, one fight, the Starter Blade). Only then do the story's main quests appear: the four zone lines and **Fragments**
+   (`fragments`), Brannoch's **Free the Four Zones** (`free_the_kingdom`), Maren's **The Door Under the Well** (`side_s_town`). The
+   roads are open all along; only the quest log waits.
 6. **Each zone line** (MAIN, four steps): beat the gatekeeper (pays the Path Pack), cross in, finish any one favour (pays the midpoint gear),
    clear the main dungeon and free the leader (zone complete: lights, freed NPCs, new lines, signs restored).
    - Raise the Bar (`main_beefcake`): Brick Bronson, the Gainlands, the House of Gains, Grandmaster Flex.

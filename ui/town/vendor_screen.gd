@@ -274,6 +274,7 @@ func _buy(card: CardData) -> void:
 	if not Session.spend_gold(price):
 		return
 	Session.add_cards([card] as Array[CardData])
+	Session.bump_counter("cards_bought")  # Oct 20: Meet the Merchants asks for one card bought
 	Session.save_game()
 	Audio.sting(&"STG-PURCHASE")
 	Audio.sfx(&"shop_buy")

@@ -10,7 +10,7 @@ const ZONE_ORDER: Array[String] = ["beefcake", "necrocrat", "gourmand", "refusem
 ## Expected level per progression point (key: "tutorial", "town:...", "zone:<id>", a dungeon ID, "arena:<tier>").
 const LEVELS: Dictionary = {
 	"tutorial": 1,
-	"town:roamer": 1, "town:npc": 3, "town:graveyard": 7, "town:ninja": 12, "town:vault": 24,
+	"town:roamer": 1, "town:storeroom": StoreroomGhosts.EXPECTED_LEVEL, "town:npc": 3, "town:graveyard": 7, "town:ninja": 12, "town:vault": 24,
 	"zone:beefcake": 5, "D-HOG": 7, "S-IRON": 6, "S-TOWN": 6, "S-BEEF": 22,
 	"zone:necrocrat": 9, "D-HFA": 11, "S-NECRO": 11,
 	"zone:gourmand": 12, "D-TTK": 14, "S-GOUR": 14,

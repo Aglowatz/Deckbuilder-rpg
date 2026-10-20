@@ -7,9 +7,17 @@ func before_each() -> void:
 	Session.new_game()
 	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	Session.quest_log.reset()
-	Session.flags = {}
+	Session.flags = {QuestDefinitions.LEGACY_FLAG: true}  # past Maren's early-game chain (Oct 20): the story quests are on offer
 	Session.counters = {}
 	Session.pending_popups = []
+
+
+func test_before_the_armory_quest_no_story_marks_show() -> void:
+	Session.flags = {"trial_cleared": true}
+	Session.offer_auto_quests()
+	var marks: Dictionary = QuestMarkers.giver_marks("town", Session.quest_log, QuestCatalog.all(), Session.unlock_state())
+	assert_false(marks.has("guard"), "Brannoch has nothing to offer yet")
+	assert_eq(str(QuestMarkers.objective_target("town", Session.quest_log, Session.unlock_state()).get("spot", "")), "vendor", "the one marker points at Sable for Meet the Merchants")
 
 
 func test_a_giver_with_a_quest_on_offer_shows_an_exclamation_mark() -> void:

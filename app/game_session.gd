@@ -172,6 +172,9 @@ func ensure_game(color: Affinity.Type = Affinity.Type.BEEFCAKE) -> void:
 		deck.deck_name = DECK_NAME
 		cleared_dungeons.append(TrialOfTheHollow.DUNGEON_NAME)
 		set_flag(&"trial_cleared")
+		# Oct 20: a fast-forwarded game is past Maren's early-game chain too, so the story's main quests are on offer at once (a real new
+		# game never comes through here; tests of the chain build theirs with `choose_starting_path`).
+		set_flag(StringName(QuestDefinitions.LEGACY_FLAG))
 
 
 ## Story v2 (Part C): the Rescuer's conversation in the forest asks which Path resonates the strongest within the Wanderer. Creates the profile and that Path's 45-card starting deck (Rebalance Part D) right away, so the
@@ -593,8 +596,6 @@ func _apply_level_rewards(row: LevelData) -> void:
 	if level_track_grants:
 		for grant: Dictionary in row.grants:
 			_pay_track_grant(grant)
-	if row.level >= ProgressionTable.ARMORY_LEVEL:
-		start_quest(QuestDefinitions.ARMORY, true)  # Part 5: reaching level 5 starts the armory quest at once
 	if row.reward_vendor_discount_percent > 0:
 		profile.vendor_discount_percent += row.reward_vendor_discount_percent
 	# row.reward_equipment_vendor_unlock / reward_item_vendor_advanced_unlock need no action here:
@@ -643,15 +644,16 @@ func grant_equipment(piece: EquipmentData) -> bool:
 # ---- The armory (Overnight Oct 17, Part 5) ------------------------------------------------------------------------
 
 
-## Where the hero stands with the armory: 0 below level 5 (Beetsworth sends them away), 1 the quest wants a first report, 2 waiting
-## for the one won fight, 3 ready to collect the gear, 4 done (the shop and all equipment slots are open).
+## Where the hero stands with the armory: 0 closed (Elder Maren has not sent them yet: Beetsworth sends them away), 1 the quest wants a
+## first report, 2 waiting for the one won fight, 3 ready to collect the gear, 4 done (the shop and all equipment slots are open).
+## Oct 20, Part 4: the quest comes from Maren after the store room (`QuestDefinitions.GHOSTS`), never from a level.
 func armory_stage() -> int:
-	if profile == null or profile.level < ProgressionTable.ARMORY_LEVEL:
+	if profile == null:
 		return 0
 	if flag(&"armory_unlocked") or quest_log.is_completed(QuestDefinitions.ARMORY):
 		return 4
 	if not quest_log.is_active(QuestDefinitions.ARMORY):
-		start_quest(QuestDefinitions.ARMORY, false)
+		return 0
 	if not flag(&"armory_reported"):
 		return 1
 	var quest: QuestData = QuestCatalog.find(QuestDefinitions.ARMORY)
@@ -783,7 +785,7 @@ func why_not_equip(piece: EquipmentData) -> String:
 	if profile == null or piece == null:
 		return "Nothing to equip."
 	if not gear_unlocked():
-		return "Equipment slots open with Bertram Beetsworth's armory quest at level %d." % ProgressionTable.ARMORY_LEVEL
+		return "Equipment slots open with Bertram Beetsworth's armory quest (Elder Maren will send you)."
 	return EquipCaps.why_not(profile.equipment, piece, profile.level)
 
 
@@ -1020,8 +1022,9 @@ func from_dict(data: Dictionary) -> bool:
 	pending_popups = []
 	pending_equipment_choices = int(data.get("pending_equipment_choices", 0))
 	var armory_notice: String = _migrate_armory()
-	# Part 9: a save from before the first-deck-edit quest that is clearly past the opening never gets it.
-	if profile.level >= 3 and not quest_log.is_active(QuestDefinitions.FIRST_DECK_EDIT) and not quest_log.is_completed(QuestDefinitions.FIRST_DECK_EDIT):
+	# Part 9: a save from before the first-deck-edit quest that is clearly past the opening never gets it. Oct 20: older saves only - a new
+	# hero is level 3 straight out of the cave, and Make It Yours is Maren's second errand now.
+	if quest_migration_pending and profile.level >= 3 and not quest_log.is_active(QuestDefinitions.FIRST_DECK_EDIT) and not quest_log.is_completed(QuestDefinitions.FIRST_DECK_EDIT):
 		quest_log.completed.append(QuestDefinitions.FIRST_DECK_EDIT)
 		flags["deck_edited"] = true
 	if not armory_notice.is_empty():
@@ -2100,6 +2103,8 @@ func complete_quest(quest_id: String) -> bool:
 	save_game()
 	# A quest handed in may finish a step of another quest (the zone lines' "finish a favour" step): settle at once.
 	refresh_quests()
+	if quest_id == QuestDefinitions.ARMORY:
+		offer_auto_quests()  # Oct 20, Part 4: the story's main quests appear the moment the armory quest is done
 	return true
 
 
@@ -2515,6 +2520,64 @@ func resolve_town_battle(context: BattleContext) -> Dictionary:
 		bump_counter("town_roamers_defeated")
 		note_duel_won()
 	pending_town_result = result
+	save_game()
+	return result
+
+
+# ---- The store room ghosts (Oct 20, Part 4) -----------------------------------------------------------------------
+
+## Read once by the town after the store room fight: {won, gold, xp, levels_gained} ({} when nothing).
+var pending_storeroom_result: Dictionary = {}
+
+
+func start_storeroom_battle() -> void:
+	start_battle(make_storeroom_battle())
+
+
+## The duel at the store room door beside Tilly Tonic's shop: the real deck at full HP on the town board against the three ghosts, whose
+## one-sided rule ("Haunted Inventory") adds a 1/1 Ghost token at the start of each of their turns.
+func make_storeroom_battle() -> BattleContext:
+	ensure_game()
+	var options: GameOptions = GameOptions.new()
+	options.first_player = -1
+	options.rng_seed = rng.randi() % 1000000 + 1
+	var game: GameState = GameState.new(options)
+	var buffs: Array[ModifierSource] = []
+	var player_side_rules: ModifierSource = EncounterModifiers.player_source(StoreroomGhosts.RULES_KEY)
+	if player_side_rules != null:
+		buffs.append(player_side_rules)
+	game.add_player(PlayerSetup.create(deck, profile, buffs, "You"))
+	game.add_player(StoreroomGhosts.enemy_setup(content))
+	game.start()
+	var context: BattleContext = BattleContext.new()
+	context.game = game
+	context.ai = AIPlayer.new(ZoneDecks.personality(content, StoreroomGhosts.AI_NAME))
+	context.enemy_name = StoreroomGhosts.ENEMY_NAME
+	context.enemy_icon = "lorc/ghost"
+	context.board_key = StoreroomGhosts.BOARD_KEY
+	context.storeroom_battle = true
+	context.encounter_rules = EncounterModifiers.rules(StoreroomGhosts.RULES_KEY)
+	context.rule_badges = RuleBadges.for_encounter(context.encounter_rules)
+	context.gold_reward = StoreroomGhosts.GOLD
+	context.xp_reward = StoreroomGhosts.XP
+	return context
+
+
+## A finished store room fight (no scene change, so tests can run it): a win clears the room for good (the quest step), pays its gold
+## and XP and counts as a won fight; a loss changes nothing - the ghosts are still there, the door still rattles.
+func resolve_storeroom_battle(context: BattleContext) -> Dictionary:
+	var result: Dictionary = {"kind": "storeroom", "won": context.won}
+	if context.won:
+		var first: bool = not flag(StoreroomGhosts.FLAG_CLEARED)
+		set_flag(StoreroomGhosts.FLAG_CLEARED)
+		if first:
+			add_gold(context.gold_reward)
+			result["gold"] = context.gold_reward
+			result["levels_gained"] = add_xp(context.xp_reward)
+			result["xp"] = context.xp_reward
+		note_duel_won()
+		refresh_quests()
+	pending_storeroom_result = result
 	save_game()
 	return result
 
@@ -3097,6 +3160,10 @@ func complete_battle(context: BattleContext) -> void:
 		record_victory(context)
 	save_game()  # Overnight Oct 18, Part 3: autosave after every battle (each branch below may save again with its rewards)
 	if context.dev_battle:
+		SceneManager.go_to_town()
+		return
+	if context.storeroom_battle:
+		resolve_storeroom_battle(context)
 		SceneManager.go_to_town()
 		return
 	if not context.arena_id.is_empty():

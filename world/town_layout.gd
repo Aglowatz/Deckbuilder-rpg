@@ -155,7 +155,8 @@ static func shops() -> Array[Shop]:
 	list.append(_round_square("alchemist", "alchemist", "e", 18.7, "Auntie Alembic's"))
 	# the corners of the square's north side: a house each, the black-market alley between Fenwick's and the north-east house
 	var north_face: float = PLAZA.z - FRONT_RING
-	list.append(_kit("", "home_b", 12.3, north_face - 3.4, 0.0, "Row house"))
+	# Oct 20, Part 4: the north-west corner house is Tilly Tonic's store room (its door starts the ghost fight; nobody walks in)
+	list.append(_kit(StoreroomGhosts.SPOT_ID, "home_b", 12.3, north_face - 3.4, 0.0, "Tilly's store room"))
 	list.append(_kit("", "home_a", 40.5, north_face - 3.0, 0.0, "Row house"))
 	# --- West Market Street ---
 	list.append(_kit("", "home_b", 1.4, street_z - off - 3.4, 0.0, "Row house"))

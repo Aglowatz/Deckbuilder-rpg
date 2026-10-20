@@ -66,6 +66,8 @@ func test_a_dungeon_battle_counts_through_its_rewards() -> void:
 
 func test_the_quest_completes_on_any_single_win() -> void:
 	Session.add_xp(ProgressionTable.xp_to_reach(5) - Session.profile.xp)
+	Session.quest_log.completed.append(QuestDefinitions.GHOSTS)  # Oct 20: Maren sends the hero after the store room
+	assert_true(Session.start_quest(QuestDefinitions.ARMORY))
 	assert_true(Session.quest_log.is_active(QuestDefinitions.ARMORY))
 	var quest: QuestData = QuestCatalog.find(QuestDefinitions.ARMORY)
 	for objective: QuestObjective in quest.objectives:
@@ -81,12 +83,10 @@ func test_the_quest_completes_on_any_single_win() -> void:
 			assert_false(line.contains("7-B") or line.to_lower().contains("witness"), "%s: %s" % [key, line])
 
 
-func test_the_level_five_notice_points_at_bertram_not_at_slots() -> void:
+## Oct 20, Part 4: level 5 no longer points at Bertram (Maren sends the hero to him after the store room).
+func test_the_level_five_notice_no_longer_points_at_bertram() -> void:
 	var row: LevelData = ProgressionTable.row(5)
 	var lines: Array[String] = ProgressionTable.reward_lines(row, ProgressionTable.row(4), Affinity.Type.BEEFCAKE)
-	var armory_line: String = ""
 	for line: String in lines:
 		assert_false(line.to_lower().contains("equipment slot"), "the level-5 notice never mentions equipment slots: %s" % line)
-		if line.contains("Bertram Beetsworth"):
-			armory_line = line
-	assert_true(armory_line.contains("new quest"), "it says a new quest is available from Bertram Beetsworth (%s)" % armory_line)
+		assert_false(line.contains("Bertram Beetsworth"), "nor Bertram: %s" % line)

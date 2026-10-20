@@ -9,7 +9,8 @@ func before_each() -> void:
 	Session.ensure_game(Affinity.Type.BEEFCAKE)
 	Session.level_track_grants = false  # these tests count gold and packs exactly; the reward track pays its own (test_level_track)
 	Session.quest_log.reset()
-	Session.flags = {}
+	# out of the cave and past Maren's early-game chain (Oct 20), so the story quests are on offer; test_early_chain.gd covers the chain
+	Session.flags = {"trial_cleared": true, QuestDefinitions.LEGACY_FLAG: true}
 	Session.counters = {}
 	Session.pending_level_ups = []
 
@@ -17,13 +18,15 @@ func before_each() -> void:
 func test_starter_quests_exist_with_the_right_objectives() -> void:
 	var merchants: QuestData = QuestCatalog.find(QuestDefinitions.MERCHANTS)
 	assert_not_null(merchants)
-	assert_eq(merchants.objectives.size(), 3, "card, item and equipment vendor")
-	assert_true(merchants.auto_give)
+	assert_eq(merchants.objectives.size(), 4, "Sable, a card bought, Tilly, Pip (Oct 20: Bertram's smithy waits for the armory quest)")
+	assert_true(merchants.auto_give and merchants.is_main())
+	assert_eq(merchants.turn_in_npc, QuestDefinitions.MAREN, "handed back to Maren")
 	assert_null(QuestCatalog.find(QuestDefinitions.RETIRED_PATHS), "Clear the Paths is retired: each zone's MAIN line starts at its gatekeeper")
 	for zone_id: String in Gatekeepers.IDS:
 		var main: QuestData = QuestCatalog.find(QuestDefinitions.zone_main_id(zone_id))
 		assert_not_null(main, zone_id)
 		assert_true(main.auto_give and main.is_main())
+		assert_not_null(main.prerequisite, "%s waits for the early-game chain" % zone_id)
 
 
 func test_auto_quests_are_given_once() -> void:
@@ -41,9 +44,13 @@ func test_merchants_quest_progresses_per_vendor_and_completes_with_rewards() -> 
 	var gold_before: int = Session.gold
 	Session.set_flag(&"vendor_seen")
 	assert_eq(Session.quest_log.objectives_met_count(quest, Session.unlock_state()), 1)
+	Session.bump_counter("cards_bought")
 	Session.set_flag(&"item_vendor_seen")
 	assert_true(Session.quest_log.is_active(quest.id))
-	Session.set_flag(&"equipment_vendor_seen")
+	Session.set_flag(&"tailor_seen")
+	assert_true(Session.quest_log.is_active(quest.id), "every step done: it waits for Maren")
+	assert_true(Session.quest_log.is_ready_to_turn_in(quest, Session.unlock_state()))
+	assert_true(Session.turn_in_quest(quest.id))
 	assert_true(Session.quest_log.is_completed(quest.id))
 	assert_false(Session.quest_log.is_active(quest.id))
 	assert_eq(Session.gold, gold_before + quest.reward_gold)
@@ -179,7 +186,7 @@ func test_tracker_cycles_through_active_quests_main_first() -> void:
 	var order: Array[String] = Session.quest_log.cycle_order(QuestCatalog.all())
 	assert_gt(order.size(), 2)
 	assert_true(QuestCatalog.find(order[0]).is_main())
-	assert_false(QuestCatalog.find(order[order.size() - 1]).is_main(), "Meet the Merchants (side) last")
+	assert_eq(order[0], QuestDefinitions.MERCHANTS, "Maren's first errand leads the MAIN quests (order 1)")
 	Session.quest_log.track(order[0])
 	assert_eq(Session.quest_log.cycle(QuestCatalog.all(), 1), order[1])
 	assert_eq(Session.quest_log.cycle(QuestCatalog.all(), -1), order[0])

@@ -87,6 +87,20 @@ static func town(content: ContentSet) -> Array[EncounterSpec]:
 		roamer_spec.notes = "outskirts roamer: a level-1 starter should win 85%+"
 		_attach_rules(roamer_spec, EncounterModifiers.zone_key(TownEnemies.ZONE_KEY, roamer_id))
 		result.append(roamer_spec)
+	# Oct 20, Part 4: Maren's ghost errand, the store room beside Tilly Tonic's shop (aim: ~90% for every Path in 5-8 turns).
+	var ghosts: EncounterSpec = EncounterSpec.new()
+	ghosts.id = "town:storeroom"
+	ghosts.title = StoreroomGhosts.ENEMY_NAME
+	ghosts.group = "town:storeroom"
+	ghosts.kind = EncounterSpec.Kind.NORMAL
+	ghosts.expected_level = ProgressionModel.level_for("town:storeroom")
+	ghosts.enemy_name = StoreroomGhosts.ENEMY_NAME
+	ghosts.enemy_hp = StoreroomGhosts.HP
+	ghosts.enemy_ai_name = StoreroomGhosts.AI_NAME
+	ghosts.enemy_recipe = StoreroomGhosts.recipe()
+	ghosts.notes = "the first scripted fight: every Path ~90%, 5-8 turns"
+	_attach_rules(ghosts, StoreroomGhosts.RULES_KEY)
+	result.append(ghosts)
 	for npc_id: String in CorruptedNpcs.IDS:
 		var spec: EncounterSpec = EncounterSpec.new()
 		spec.id = "town:npc:%s" % npc_id

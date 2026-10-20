@@ -40,7 +40,7 @@ Every level grants something; **bold** levels are the big unlocks (the level-up 
 
 ## Anchors
 
-- **Level 5**: the armory quest ("Some Assembly Required") starts by itself and unlocks every equipment slot; first Epic gear.
+- **Level 5**: first Epic gear. (Oct 20: the armory quest, "Some Assembly Required", no longer starts at level 5: Elder Maren gives it after the store room, which is when the early-game chain brings a new hero to level 5; see docs/design/quests.md.)
 - **Levels 7, 14, 21**: two more Deck Station slots each (4 -> 10).
 - **Copy caps** reach 3 for every rarity by level 30: Uncommon 9, Epic 12/22, Legendary 18/30.
 - **Equipment caps**: Epic 1/2/3/5 at 5/13/19/25, Uncommon 3/5 at 10/16, Legendary 1/2 at 22/28.
