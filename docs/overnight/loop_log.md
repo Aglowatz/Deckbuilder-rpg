@@ -71,3 +71,10 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - `tools/dialogue_shots.sh` on Elder Maren (Crosspath), Basil (Buffet), Agnes (D.N.A.): the new first lines sit in two box lines with the
   portraits; Agnes's frame also shows the new D.N.A. interior from the play camera. Shots `_screenshots/dialogue/oct19n_dlg_*.png`.
 - fps on Medium after the OcclusionFader's overhead rule: Buffet 59.7, Dump 59.8, Crosspath 60 (avg).
+
+## Cycle 13 - Dialogue & story: the 102 NPC barks
+- Every passing bark rewritten to the voice bible by a helper and self-scored: 3.12 -> 4.00 (min of five per NPC; all >= 4). Fixed bark
+  contradictions (Primm "sweeping the square" while he is under guard, Agnes as a librarian, a dragon cousin, Moss's "Everything rots"),
+  gatekeeper barks true before and after their zone is freed, seven barks that copied story text. `sample_line` = barks[0] kept in sync,
+  `tools/npc_truth_input.json` too (a re-run of the tool keeps them). Fig Sly untouched. NPC tests 23/23.
+- Part 1 coverage note: the nine grid cameras are exactly the V (Cinematic / Classic / Overview) x F (1.2 / 1.5 / 1.9) presets.

@@ -364,3 +364,93 @@ Cut: Basil's "everyone clears their own plate" rule and "golems say Yes, Chef! t
 Tarragon's "grateful in alphabetical order", Gus's "You'll know when it does", Old Man Mountain's "If you quit, I don't", "hermit of the Swole
 Station" and "the mills turn at a sensible pace" (freed), Benchley's "Cards, basically!". Not run in Godot (writer rule); `test_dialogue_fit`
 should be run by the main session.
+
+## Barks (Phase 2)
+
+The passing lines in `data/npcs/npcs.json` (`"barks"`, shown by `world/npc_barks.gd` as a speech bubble: one line, picked at random,
+label 20 px with word wrap at a 260 px minimum width, on screen 3.4 s; `tests/core/data/test_npc_truth.gd` requires every bark under 90
+characters). 102 lines for 50 NPCs rewritten to the voice bible; Fig Sly's 2 left untouched (black market); the Secret Dealer has none.
+Same ids, same count and order per NPC. Barks are picked at random (no index meaning), but `sample_line` mirrors `barks[0]` (tools/npc_truth.js
+and the V-SABLE test), so the 50 `sample_line` values follow. The same text went into `tools/npc_truth_input.json` (the tool's input, so a
+re-run keeps it) and `docs/design/npc_registry.csv` (the generated sheet: Sample Line and Barks cells). Longest bark now 81 characters.
+
+Rules kept: barks are raw text (no token replacement in `NpcBarks`), so no `{tokens}` and no literal "Primm" (the old Kestrel line had one);
+no banned names, no "Elowen", no real brands; the four gatekeepers stand in Crosspath both corrupted and freed (and Pallor freed in the D.N.A.),
+so their lines are now true in either state; Primm's bark is postgame (workshop under guard), quiet and joke-free. Not run in Godot.
+
+Scores: min of the five editor axes (in character / funny / beat / brevity / clarity), old (pre-pass text) and new.
+
+| NPC | Old min (5 axes) | New min (5 axes) | What changed |
+|---|---|---|---|
+| Elder Maren (`NPC-ELDER`) | 3 (4/4/3/5/5) | 4 (5/4/4/5/5) | dearie + pie/kettle (C10 kettle echo) |
+| Gatekeeper Brannoch (`NPC-GATEKEEPER`) | 3 (4/4/3/5/5) | 4 (5/4/5/5/5) | grunt + notebook ('Stranger, damp'), unlocked gate for Isla (C16) |
+| Sable (`V-SABLE`) | 4 (5/4/4/5/5) | 4 (5/5/4/5/5) | misprints as personalities, never names a source |
+| Tilly Tonic (`V-TONIC`) | 3 (3/4/4/5/5) | 4 (5/4/4/5/5) | old used full stops; now self-tested, frog colour ('I'm teal!') |
+| Bertram Beetsworth (`V-BEETSWORTH`) | 4 (5/4/4/5/5) | 4 (5/4/4/5/5) | Fact:/Protocol, the drawer, Assistant TO |
+| Pip Threadwell (`V-THREADWELL`) | 3 (4/4/3/5/5) | 4 (5/4/5/5/5) | 'Hat!' melodrama; hints the cloak on a muscly island (legendary cosmetic) |
+| Foil Fenwick (`V-FENWICK`) | 3 (4/3/3/5/5) | 4 (5/4/5/5/5) | whispery 'Foil'; a pack arrives per freed road |
+| Auntie Alembic (`V-ALEMBIC`) | 3 (4/4/3/5/5) | 4 (5/4/5/5/5) | the red flask; the Wellspring as legend (one spring fed all four Paths, no place or cause) |
+| Announcer Grand Bellows (`NPC-BELLOWS`) | 4 (5/4/4/5/5) | 4 (5/5/4/5/5) | LOUD then a normal-voice aside; the cellar echo; narrates his lunch |
+| Old Hob the Gravedigger (secretly Death) (`NPC-HOB`) | 3 (4/4/3/5/5) | 4 (5/4/5/5/5) | appointment book (sheet canon); slow business for ten years = the frozen D.N.A., unexplained |
+| Brick Bronson (corrupted) (`NPC-BRONSON`) | 2 (3/4/2/5/5) | 4 (5/4/5/5/5) | old was corrupted-only but he stays in town after he is freed; now true in both states; plants C24 (the old man who never broke) |
+| Prudence Pallor (corrupted) (`NPC-PALLOR`) | 3 (3/4/3/5/5) | 4 (5/4/4/5/5) | old was corrupted-only (she also stands freed in the D.N.A.); skeleton deadpan, the two stamps |
+| Chef Fennel Gravois (corrupted) (`NPC-GRAVOIS`) | 3 (3/3/3/5/5) | 4 (5/4/4/5/5) | old 'the soup is the enemy' contradicted his TASTE IT voice; now taste + the ladle key |
+| Moss Mulligan (corrupted) (`NPC-MULLIGAN`) | 2 (2/3/2/5/5) | 4 (5/4/4/5/5) | old 'Everything rots' is the opposite of her corruption (nothing rots); now 'the green is hungry' -> 'Did I thorn at you?', raccoons |
+| Coach Brutus Benchley (`V-BENCHLEY`) | 3 (4/4/3/5/5) | 4 (5/4/4/5/5) | no calm sentence; regime-approved (not); the floorboard |
+| Big Hurl (`NPC-HURL`) | 4 (5/4/4/5/5) | 4 (5/4/4/5/5) | countdown gag; 'never once missed' |
+| Rip Tearson (`NPC-RIP`) | 3 (3/3/4/5/5) | 4 (5/4/4/5/5) | HNNNGH + polite clerk, the seam, shirt numbers |
+| Professor Pump (`NPC-PUMP`) | 3 (4/3/4/5/5) | 4 (5/4/4/5/5) | brain-ceps; 'read the signs' (quiz answers are findable) |
+| Chet Thunderabs (`NPC-THUNDERABS`) | 4 (4/4/4/5/5) | 4 (5/4/4/5/5) | infomercial parody (invented, no products) |
+| Old Man Mountain (`NPC-MOUNTAIN`) | 3 (3/4/3/5/5) | 4 (5/4/5/5/5) | old read as a guru; now trailing grandpa, rule one, the Festival boy with four colours (C6) |
+| Clerk Ledgerbone (`V-LEDGERBONE`) | 3 (4/3/4/5/5) | 4 (5/4/4/5/5) | old echoed a real song title; now Form 12-B joy, the stamp's raise |
+| Director Ectomund (`NPC-ECTOMUND`) | 3 (4/3/4/5/5) | 4 (5/4/4/5/5) | 300 years of the same quiz; ethics questions removed by management |
+| Kyle (Deceased Since '09) (`NPC-KYLE`) | 4 (4/4/4/5/5) | 4 (5/4/4/5/5) | lowercase, '09, away message, brb |
+| Gerald (`NPC-GERALD`) | 4 (5/4/4/5/5) | 4 (5/4/4/5/5) | his number, 'They're on three', coffee nobody can taste |
+| Agnes Overdue (`NPC-AGNES`) | 2 (2/4/2/5/5) | 4 (5/4/4/5/5) | old library jokes (voice bible: she is front desk, never a librarian); now 1987 + the denied appeals |
+| Madame Mirepoix (`V-MIREPOIX`) | 3 (4/3/3/5/5) | 4 (5/4/4/5/5) | slow formal snoot; the decorative cake |
+| Professor Pate (`NPC-PATE`) | 4 (4/4/4/5/5) | 4 (5/4/4/5/5) | roux lecture; tastes his chalk |
+| Chef Flambe Fontaine (`NPC-FLAMBE`) | 4 (4/4/4/5/5) | 4 (5/4/4/5/5) | ORDER UP/WHOOSH; rival Savannah Souffle |
+| Basil (`NPC-BASIL`) | 3 (3/4/3/5/5) | 4 (5/4/5/5/5) | whispered, jittery; 'Chef ALWAYS tastes' (the impostor thread); one pun, not two |
+| Granny Gristle (`V-GRISTLE`) | 3 (4/4/3/5/5) | 4 (5/4/4/5/5) | 'Found, not stolen', the raccoon, the shed that grows |
+| Druid Thistlewick (`NPC-THISTLEWICK`) | 3 (4/4/3/5/5) | 4 (5/4/4/5/5) | bins sermon; the dishwasher that talks back |
+| Recycle Rhonda (`NPC-RHONDA`) | 3 (4/4/3/5/5) | 4 (5/4/4/5/5) | PSA slogan; secretly the voice of Captain Compost Badger |
+| Brother Bramble (`NPC-BRAMBLE`) | 3 (3/4/3/5/5) | 4 (5/4/5/5/5) | soft then CAPS compost outburst; eleven birthday trees (C8) |
+| Wren (`NPC-WREN`) | 3 (4/3/3/5/5) | 4 (5/4/4/5/5) | low and steady; 'He likes things perfect. We like things alive.' |
+| Kestrel (`NPC-KESTREL`) | 3 (4/4/3/5/5) | 4 (5/4/4/5/5) | old had a literal 'Primm' (barks show raw text, no tokens); now chalk marks, teasing |
+| Captain Spotless (`NPC-SPOTLESS`) | 4 (5/4/4/5/5) | 4 (5/5/4/5/5) | HALT + height; the smudge is on him |
+| Widow Pell (`NPC-PELL`) | 2 (2/3/3/5/5) | 4 (5/4/4/5/5) | old 'Blink twice' was a citizen joke; now the 27-B/27-C loop and the patient husband (no punchline at the loss) |
+| Rollo Spokes (`NPC-ROLLO`) | 2 (2/3/2/5/5) | 4 (5/4/5/5/5) | gasping between strokes; cardio lie + the Gainlands wheel crews (C18) |
+| Chef Marlo (`NPC-MARLO`) | 3 (4/3/3/5/5) | 4 (5/4/4/5/5) | recipes as contraband, quantities as 'some' |
+| Old Fern (`NPC-FERN`) | 3 (4/4/3/5/5) | 4 (5/4/4/5/5) | 'untidy' as a badge; worms in her hat |
+| A Perfectly Happy Citizen (`NPC-CITIZEN`) | 4 (5/4/4/5/5) | 4 (5/4/4/5/5) | approved -> off -> whisper; the eight-degree smile (pays into Citizen 4471) |
+| Grandmaster Flex (`NPC-FLEX`) | 3 (4/4/3/5/5) | 4 (5/4/5/5/5) | breath timing, 'son'; 'They took the iron' echoes C1 |
+| The Grand Chef (formerly Grand Chef Escoffina) (`NPC-ESCOFFINA`) | 3 (5/3/4/5/5) | 4 (5/4/4/5/5) | 'Have you eaten? Sit. Eat.' + order-giving warmth |
+| The Doppelganger (later named Escoffina) (`NPC-DOPPEL`) | 3 (5/3/4/5/5) | 4 (5/4/5/5/5) | salt, dishes, third-class apprentice, "I am trying" (freed_npc.escoffina) |
+| Mortimer Grimsby (`NPC-MORTIMER`) | 4 (4/4/4/5/5) | 4 (5/4/5/5/5) | number 4,000,214, "understand Gerald" (C17); learning to wait, badly |
+| Archdruid Compostella (`NPC-COMPOSTELLA`) | 3 (4/4/3/5/5) | 4 (5/4/4/5/5) | 'child', grows back; mortified about the barn and the goat |
+| Primm (`NPC-PRIMM`) | 1 (4/4/1/5/5) | 4 (5/4/5/5/5) | old 'sweeping the square' contradicted the bible (locked workshop under guard); now the drain he designs (freed_npc.primm), no jokes |
+| Isla Brannoch (`NPC-ISLA`) | 4 (5/4/4/5/5) | 4 (5/4/5/5/5) | eight years up the road, played straight (C16); not placed in the game yet |
+| Bun the Baker (`NPC-VILLAGER`) | 4 (4/4/4/5/5) | 4 (5/4/4/5/5) | badger baker, one dough pun per line, flour whiskers |
+| Crosspath townsfolk (`NPC-TOWNSFOLK`) | 2 (2/4/3/5/5) | 4 (5/4/5/5/5) | old dragon cousin (no dragons in Patchwork); now watched-town nerves, the Undercroft cheering, the humming well, the empty fountain plinths (crest 4.1) |
+
+**Averages:** old 3.12, new 4.00 (50 NPCs). New per axis: in character 5.00, funny 4.06, beat 4.32,
+brevity 5.00, clarity 5.00. Old per axis: 3.84 / 3.72 / 3.30 / 5.00 / 5.00. Every NPC is 4+ now; none needed a further fix.
+
+**Callbacks planted or echoed:** C1 (Flex, the iron), C6 (Old Man Mountain, the Festival boy with four colours), C8 (Bramble, eleven trees),
+C10 (Maren's kettle), C16 (Brannoch's unlocked gate, Isla's eight years), C17 (Mortimer 4,000,214 / Gerald), C18 (Rollo and the Gainlands
+wheel crews), C24 (Bronson, the old man who never broke), 4.1 (the empty fountain plinths), 4.2 (the Wellspring as legend, the humming well),
+Hob's appointment book and his ten slow years (the frozen D.N.A.), Basil's "Chef ALWAYS tastes".
+
+### 8 best before -> after
+
+1. **Primm** (`NPC-PRIMM` barks[0]): "I am sweeping the square. It is not perfect. I am learning to let that be." -> "I am designing a drain. It will not be perfect. I am learning to let that be."
+2. **Agnes Overdue** (`NPC-AGNES` barks[1]): "Shh. This is a library. It's also a cemetery. Double shh." -> "Appeal forty thousand and one. Denied. I'm starting to take it personally."
+3. **Crosspath townsfolk** (`NPC-TOWNSFOLK` barks[1]): "My cousin's a dragon. Long story. Mostly fire." -> "The old cottage cheers at night now. From the cellar. I'm choosing to love it."
+4. **Brick Bronson (corrupted)** (`NPC-BRONSON` barks[0]): "Do you even lift, bro? I lift. Constantly. Help." -> "Never lift alone. An old man told me that. Never broke, they say. Huh."
+5. **Moss Mulligan (corrupted)** (`NPC-MULLIGAN` barks[0]): "Everything rots. That's the fun part." -> "...the green is hungry... Oh! Sorry. Did I thorn at you? I thorn when nervous."
+6. **Rollo Spokes** (`NPC-ROLLO` barks[1]): "Need a spoke? I've got loads." -> "Trained with... the Gainlands wheel crews. They told us... it was cardio."
+7. **Gatekeeper Brannoch** (`NPC-GATEKEEPER` barks[0]): "The road's open. My knees are not." -> "Hm. Wrote you in the book. 'Stranger, damp.' I'll fix it when you know."
+8. **Widow Pell** (`NPC-PELL` barks[1]): "The dead don't complain. That's what scares me." -> "27-B needs a 27-C. 27-C needs a 27-B. I've taken up knitting."
+
+**Open:** Isla (`NPC-ISLA`) has barks but is not placed in any scene yet (C16, CODE). The Showcase citizens keep their facade lines
+after the Capital is freed (barks have no freed variant; that would need code).
