@@ -319,11 +319,13 @@ already chosen).
 
 **Prologue beats** [built]:
 1. **Waking** (story still `still.wake`): leaves in his hair, no name in his head, a faint four-coloured glow fading from his hand.
-2. **The Rescuer** kneels beside him, hooded (Elowen; NOT Elder Maren). "Easy. Easy now." "A friend. That is all I can say, and more than
-   is safe." "Can you still fight? Can you still pull energy from the Paths?" He feels all four, faintly, "like voices through a wall".
+2. **The Rescuer** kneels beside him, hooded (Elowen; NOT Elder Maren). "Easy. Stay down." "We are not the only ones in these woods
+   tonight." He asks "...Who are you?" - "A friend. That's all I can give you." "Can you still fight? Still draw on the Paths?" He feels
+   all four, faintly, "like voices through a wall". Torches on the ridge: the pursuers are close (Oct 20 rewrite).
 3. **The Path choice** ("Choose your Path"): "Which Path resonates the strongest within you?" The starting deck is chosen here.
-4. **Sent on.** "Someone there is expecting a stranger. Not who. Just a stranger." "If we are seen together, we both lose." She slips away;
-   he never asked her name. Wandering toward the treeline gets a self-talk line and a nudge back.
+4. **Sent on.** The cave behind her runs through to Crosspath, and "someone there will be waiting for you". The pursuers are close; she
+   draws them off the other way ("They know my face; let them chase it"), so he goes on alone. She slips away toward the torches; he never
+   asked her name. (No line says he can carry only one Path: the choice is simply his strongest.) Wandering toward the treeline gets a self-talk line and a nudge back.
 5. **The Forgotten Cave** (D-TUT, 6 nodes; renamed from the Trial of the Hollow; a passage, not a trial): Cave Mouth, Scavenger's Den,
    the Hollow Well (deck challenge), Mossy Gallery, Whispering Shrine (full heal), Heart of the Hollow (boss). A card pick from his Path after
    each battle. No Beefcake or Necrocrat infrastructure or Resources appear in it (enemy decks only; his own Path may be either).
