@@ -16,6 +16,7 @@ var _started: bool = false
 var _hovered: bool = false
 var _reacted: bool = false
 var _went: bool = false
+var _swivelled: bool = false
 var _cleaned: bool = false
 
 
@@ -93,6 +94,10 @@ func _process(delta: float) -> bool:
 		motion.global_position = motion.position
 		root.push_input(motion)
 		Input.warp_mouse(motion.position)
+	if _args.has("swivel") and not _swivelled and _elapsed >= 0.5:
+		# `--swivel=left|right`: holds the camera swivel key (Z / X) for the shot.
+		_swivelled = true
+		Input.action_press(&"camera_swivel_left" if str(_args["swivel"]) == "left" else &"camera_swivel_right")
 	if _args.has("goto") and not _went and _elapsed >= 0.8:
 		# `--goto=res://scenes/x.tscn`: changes scene through SceneManager (fade, loading screen) so the transition itself can be photographed with --wait.
 		_went = true

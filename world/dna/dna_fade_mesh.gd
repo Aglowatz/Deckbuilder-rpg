@@ -13,8 +13,9 @@ var _triangles: int = 0
 static var _shader: Shader
 
 
-## A slot drawn with a kit surface (`texture_id`, tiled in metres) or a flat colour (empty id), multiplied by `tint`.
-func set_slot(slot: String, texture_id: String, tint: Color = Color.WHITE) -> void:
+## A slot drawn with a kit surface (`texture_id`, tiled in metres) or a flat colour (empty id), multiplied by `tint`. Oct 19: `alpha` under 1 makes frosted glass,
+## `emission` lights the slot (the fluorescent tubes), `near_reach` widens the cut-away for pieces near the lens (full-height walls).
+func set_slot(slot: String, texture_id: String, tint: Color = Color.WHITE, alpha: float = 1.0, emission: float = 0.0, near_reach: float = 0.0, tile: float = 0.0) -> void:
 	if _shader == null:
 		_shader = load("res://world/dna/dna_fade.gdshader") as Shader
 	var material: ShaderMaterial = ShaderMaterial.new()
@@ -23,8 +24,11 @@ func set_slot(slot: String, texture_id: String, tint: Color = Color.WHITE) -> vo
 	material.set_shader_parameter("use_texture", texture != null)
 	if texture != null:
 		material.set_shader_parameter("albedo_tex", texture)
-		material.set_shader_parameter("tile", maxf(EnvKit.tile_size(texture_id), 0.5))
+		material.set_shader_parameter("tile", tile if tile > 0.0 else maxf(EnvKit.tile_size(texture_id), 0.5))
 	material.set_shader_parameter("albedo", tint)
+	material.set_shader_parameter("base_alpha", alpha)
+	material.set_shader_parameter("emission_strength", emission)
+	material.set_shader_parameter("near_reach", near_reach)
 	material.set_meta(PaintedClasses.META_NO_PAINT, true)
 	material.set_meta(StyleToon.META_NO_TOON, true)
 	_materials[slot] = material
@@ -44,12 +48,15 @@ func _tool(slot: String) -> SurfaceTool:
 		var tool: SurfaceTool = SurfaceTool.new()
 		tool.begin(Mesh.PRIMITIVE_TRIANGLES)
 		tool.set_custom_format(0, SurfaceTool.CUSTOM_RGBA_FLOAT)
+		tool.set_custom_format(1, SurfaceTool.CUSTOM_RGBA_FLOAT)
 		_tools[slot] = tool
 	return _tools[slot] as SurfaceTool
 
 
 ## A box of `size` round `center` belonging to `piece` (Vector4: centre x, centre z, half width, top y). `ao` darkens the bottom (1 = off); `tint` multiplies the slot colour.
-func box(slot: String, piece: Vector4, center: Vector3, size: Vector3, tint: Color = Color.WHITE, ao: float = 1.0) -> void:
+## `bottom` (Oct 19) is the piece's underside: 0 for anything standing on the floor, the height of a ceiling beam's underside for hanging pieces (the fade test
+## checks whether the piece's span covers the sight line).
+func box(slot: String, piece: Vector4, center: Vector3, size: Vector3, tint: Color = Color.WHITE, ao: float = 1.0, bottom: float = 0.0) -> void:
 	var tool: SurfaceTool = _tool(slot)
 	var half: Vector3 = size * 0.5
 	for axis: int in range(3):
@@ -79,6 +86,7 @@ func box(slot: String, piece: Vector4, center: Vector3, size: Vector3, tint: Col
 					tool.set_uv(KitMesh.planar_uv(p, normal))
 					tool.set_color(Color(tint.r * shade, tint.g * shade, tint.b * shade, 1.0))
 					tool.set_custom(0, Color(piece.x, piece.y, piece.z, piece.w))
+					tool.set_custom(1, Color(bottom, 0.0, 0.0, 0.0))
 					tool.add_vertex(p)
 			_triangles += 2
 

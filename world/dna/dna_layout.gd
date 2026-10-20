@@ -115,10 +115,27 @@ func build() -> void:
 	_furnish_elevator_bank()
 	_furnish_records()
 	_furnish_executive()
+	_furnish_coolers()
 	_polish_chests()
 	_enemies()
 	_finish_walls()
 
+
+
+## Water coolers (Oct 19, the office interior): one in a corner of each room, a metre off the wall, never on a route or near an interact spot.
+const COOLERS: Array[Vector3] = [
+	Vector3(38.4, 0.0, 58.9), Vector3(29.0, 0.0, 49.0), Vector3(3.4, 0.0, 27.2), Vector3(87.0, 0.0, 27.2), Vector3(38.4, 0.0, 41.0),
+	Vector3(37.0, 0.0, 22.6), Vector3(37.0, 0.0, 12.6), Vector3(87.0, 0.0, 22.6),
+]
+
+
+func _furnish_coolers() -> void:
+	for pos: Vector3 in COOLERS:
+		var cell: Vector2i = world_to_cell(pos)
+		if not is_floor(cell.x, cell.y):
+			continue
+		_piece("water_cooler", pos, 0.0)
+		_blockers(pos, pos, 0.3, 1.0)
 
 
 ## Polish round: 6 more hidden chests, the hardest deep in the Filing Department's maze (docs/design/secrets.md). World metres; none is within
@@ -324,14 +341,25 @@ func _lamp(pos: Vector3, group: int = 0, color: Color = Color(0.72, 1.0, 0.82)) 
 	_light(pos + Vector3(0, 2.1, 0), group, color)
 
 
-## A ghost lamp standing on the balustrade (the wall cell round a room, lifted onto the parapet cap): blocks nothing, lights the floor beside it. Skipped where the
-## wall cell is a doorway.
+## A ghost lamp at a wall cell round a room, standing on the floor just inside the wall (Oct 19: the walls are full height, so the lamp moved off the parapet cap
+## onto the floor's edge, a small blocker). Skipped where the wall cell is a doorway or touches no floor.
 func _wall_lamp(pos: Vector3, group: int = 0, color: Color = Color(0.72, 1.0, 0.82)) -> void:
 	var cell: Vector2i = world_to_cell(pos)
 	if is_floor(cell.x, cell.y):
 		return
-	_card("DNA-PROP-GHOSTLAMP", Vector3(pos.x, 0.5, pos.z), 2.6, 0.0)
-	_light(pos + Vector3(0, 2.6, 0), group, color)
+	var toward: Vector3 = Vector3.ZERO
+	for ring: Array in [[Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)], [Vector2i(1, 1), Vector2i(-1, 1), Vector2i(1, -1), Vector2i(-1, -1)]]:
+		for step: Vector2i in ring:
+			if is_floor(cell.x + step.x, cell.y + step.y):
+				toward = Vector3(float(step.x), 0.0, float(step.y)).normalized()
+				break
+		if toward != Vector3.ZERO:
+			break
+	if toward == Vector3.ZERO:
+		return
+	var foot: Vector3 = cell_center(cell.x, cell.y) + toward * 0.82
+	_card("DNA-PROP-GHOSTLAMP", Vector3(foot.x, 0.0, foot.z), 2.6, 0.16)
+	_light(foot + Vector3(0, 2.1, 0), group, color)
 
 
 ## Ghost lamps on the balustrade round a room: one at each corner and every `step` cells along the north and south walls, flicker groups cycling 1-3.

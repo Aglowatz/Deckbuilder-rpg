@@ -13,6 +13,11 @@ uniform float tile = 2.56;
 uniform vec3 hero_pos = vec3(0.0, -1000.0, 0.0);
 uniform float fade_strength : hint_range(0.0, 1.0) = 0.86;
 uniform float fade_reach = 1.1;
+// Oct 19 (the office interior): the reach grows by this much for a piece at the lens (t = 0), so a full-height wall near the camera cuts away wide.
+uniform float near_reach = 0.0;
+// Frosted glass (base alpha under 1) and the fluorescent tubes (emission) share the shader.
+uniform float base_alpha : hint_range(0.0, 1.0) = 1.0;
+uniform float emission_strength = 0.0;
 global uniform float style_desaturate;
 
 varying float v_fade;
@@ -22,19 +27,28 @@ void vertex() {
 	vec3 origin = vec3(CUSTOM0.x, 0.0, CUSTOM0.y);
 	float half_w = CUSTOM0.z;
 	float top = CUSTOM0.w;
+	// Oct 19: CUSTOM1.x = the piece's bottom (0 for walls and cabinets, the underside of a ceiling beam or light strip).
+	float bottom = CUSTOM1.x;
 	vec3 cam = INV_VIEW_MATRIX[3].xyz;
-	vec3 hero = hero_pos + vec3(0.0, 0.7, 0.0);
+	// the sight line runs to the hero's body centre: a piece blocks when its span (bottom..top) covers the line where the piece stands
+	vec3 hero = hero_pos + vec3(0.0, 0.4, 0.0);
 	vec2 ab = hero.xz - cam.xz;
 	float ab_len2 = max(dot(ab, ab), 0.0001);
-	float t = clamp(dot(origin.xz - cam.xz, ab) / ab_len2, 0.0, 1.0);
+	float ab_len = sqrt(ab_len2);
+	float t_raw = dot(origin.xz - cam.xz, ab) / ab_len2;
+	float t = clamp(t_raw, 0.0, 1.0);
 	vec2 closest = cam.xz + ab * t;
 	float side = length(origin.xz - closest);
-	float corridor = 1.0 - smoothstep(half_w * 0.6, half_w + fade_reach, side);
-	float in_front = 1.0 - smoothstep(0.9, 1.0, t);
+	float reach = fade_reach + near_reach * (1.0 - t);
+	float corridor = 1.0 - smoothstep(half_w * 0.6, half_w + reach, side);
+	// only pieces that stand at least a little before the hero (in metres, not a fraction of the distance)
+	float in_front = 1.0 - smoothstep(ab_len - 0.9, ab_len - 0.25, t_raw * ab_len);
 	float sight_y = mix(cam.y, hero.y, t);
-	float tall_enough = 1.0 - smoothstep(top - 0.35, top + 0.4, sight_y);
+	float covers = (1.0 - smoothstep(top - 0.3, top + 0.35, sight_y)) * smoothstep(bottom - 0.6, bottom + 0.05, sight_y);
 	float enabled = step(-999.0, hero_pos.y);
-	v_fade = corridor * in_front * tall_enough * enabled * fade_strength;
+	// a wall standing at the lens cuts away whether or not it blocks the hero: the camera never looks at a wall face in the foreground
+	float at_lens = (1.0 - smoothstep(near_reach * 0.45, near_reach, length(origin.xz - cam.xz))) * step(0.5, near_reach);
+	v_fade = max(corridor * in_front * covers, at_lens) * enabled * fade_strength;
 	v_tint = COLOR.rgb;
 }
 
@@ -45,5 +59,6 @@ void fragment() {
 	}
 	ALBEDO = mix(c, vec3(dot(c, vec3(0.299, 0.587, 0.114))), style_desaturate);
 	ROUGHNESS = 0.95;
-	ALPHA = 1.0 - v_fade;
+	EMISSION = c * emission_strength;
+	ALPHA = base_alpha * (1.0 - v_fade);
 }

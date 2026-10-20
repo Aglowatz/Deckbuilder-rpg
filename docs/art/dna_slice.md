@@ -297,3 +297,35 @@ The 24 sheet ids and the 24 sheet parts now in the game (the painted-texture ali
 | `DNA-TREE-DEAD` | TREE | tree | 857x1498 | 0.49,1.00 |  |
 | `DNA-TRIM-BRASS` | SURFACE | trim | 1024x512 |  | 2.56 m |
 | `DNA-WALL-GREY` | SURFACE | wall | 1024x1024 |  | 2.56 m |
+
+
+## Oct 19: the office interior (four improvements, Part 2)
+
+The D.N.A. now reads as the inside of a huge government office building instead of an open-air plaza of knee-high courts. Everything is built by
+`world/dna/dna_interior.gd` into the per-chunk fade meshes ("Interior" nodes, `DnaFadeMesh`, shader `dna_fade.gdshader`), so every wall cell, header,
+beam and light strip fades on its own when it blocks the hero:
+
+- **Full-height walls** (`WALL_HEIGHT` 3.0 m, about four and a half heroes) round every room, styled by the room they border: marble wainscot and wallpaper
+  with pilasters in the lobby and on the executive floor; dark paneling, a frosted-glass band with brass mullions and a wallpaper transom round the cubicle farms
+  and the elevator bank (the office fronts); checkertile wainscot in the breakroom and the mail room; grey stone with a brass rail in the filing canyons and the
+  records basement. A brass cap on every wall.
+- **The outer shell** (`SHELL_HEIGHT` 9 m): the perimeter wall cells (no floor west, east or north of them within six rows, `shell_cells`) are much taller, with
+  brass rails and a clerestory band, so the top edge of the view shows the far wall of the building instead of the sky.
+- **Doorway headers** over every opening between two wall cells that continue the same wall line (`doorways`; the gate's opening is skipped): the wall goes on
+  above 2.2 m with a brass lintel. **Ceiling beams** every 4 m across every room in 3 m pieces and **fluorescent light panels** (2.2 x 0.6 m, glowing) every
+  4 m along them, at 3.1 / 2.7 m: the ceiling is implied at the top edge of the view.
+- **Water coolers** (`DnaProps.water_cooler`, `DnaLayout.COOLERS`): one in a corner of each room, a small blocker. The ghost lamps moved off the parapet caps
+  onto the floor's edge (`_wall_lamp`, a 0.16 m blocker). Cabinets 1.2 m (canyons), partitions 0.6 m. The approach causeway keeps its knee-high parapet
+  (`DnaBuilder.PARAPET_HEIGHT`): it is the bridge outside the building.
+- **The fade** (`dna_fade.gdshader`): a piece blocks when its span (CUSTOM1.x bottom .. CUSTOM0.w top) covers the sight line to the hero's body where the piece
+  stands, and only if it stands at least 0.25 m before the hero (in metres, not a fraction); any piece within `near_reach` of the lens (walls 7 m, beams 3 m)
+  cuts away whether it blocks or not, so the camera never looks at a wall face in the foreground. Slots can carry a base alpha (frosted glass), an emission
+  (the panels) and a tile override.
+
+Checks: every camera preset (V, the 3 x 3 grid `_screenshots/oct19d/p2_grid/dna.png`) and both swivels (Z / X, `p2_after_swivel_*.png`) keep the hero in
+view; `bash tools/run_dna_walk_smoke.sh` OK (20 shots: causeway, gate, lobby, NPCs, vendor, interactables, quiz, matching, puzzle, Sub-Basement 3, the Hall,
+giant chest, lever, back to town); fps 60.0 (Medium, 600 draw calls, 98.7 k primitives); GUT 1927 / 1927. Before / after: `_screenshots/oct19d/p2_before_*`
+and `p2_after_*` (spawn, mail_center, printer, records_center).
+
+Gotcha: `PaintedContexts.dna` paints any chunk child named `Walls` with its own override (the pre-slice wall mesh) - the interior mesh is named `Interior`.
+`DNA_HIDE=Walls` hides it for an fps A/B. Screenshot flag `--swivel=left|right` holds a swivel key for the shot.

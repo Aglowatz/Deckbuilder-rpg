@@ -60,7 +60,24 @@ static func piece(piece_name: String, length: float = 1.0) -> Node3D:
 			return console(length)
 		"television":
 			return television()
+		"water_cooler":
+			return water_cooler()
 	return null
+
+
+## A water cooler (Oct 19): a grey cabinet on a dark base, a brass tap, a translucent jug with a ghostly glow of water in it. 1.15 m tall, 0.5 m wide.
+static func water_cooler() -> Node3D:
+	var mesh: KitMesh = _mesh()
+	mesh.box("dark", Vector3(0, 0.04, 0), Vector3(0.46, 0.08, 0.46), Basis.IDENTITY, 0.0, 0.9)
+	mesh.box("grey", Vector3(0, 0.45, 0), Vector3(0.42, 0.74, 0.42), Basis.IDENTITY, 0.02, 0.82)
+	mesh.box("paneling", Vector3(0, 0.46, 0.2), Vector3(0.36, 0.56, 0.03), Basis.IDENTITY, 0.0)
+	mesh.box("gold", Vector3(0.08, 0.62, 0.23), Vector3(0.05, 0.05, 0.08), Basis.IDENTITY, 0.0)
+	mesh.box("gold", Vector3(-0.08, 0.62, 0.23), Vector3(0.05, 0.05, 0.08), Basis.IDENTITY, 0.0)
+	mesh.box("dark", Vector3(0, 0.84, 0), Vector3(0.44, 0.06, 0.44), Basis.IDENTITY, 0.0)
+	mesh.set_material("water", EnvKit.glow(Color(0.55, 0.95, 0.85), 0.9))
+	mesh.lathe("water", Vector3(0, 0.87, 0), [Vector2(0.0, 0.0), Vector2(0.15, 0.0), Vector2(0.17, 0.14), Vector2(0.16, 0.24), Vector2(0.09, 0.3), Vector2(0.0, 0.3)] as Array[Vector2], 12, 0.9, false, true)
+	var root: Node3D = _finish(mesh, "WaterCooler")
+	return root
 
 
 ## A paneled counter with a marble top and brass edge, `length` long (the front desk, the kitchen counter).

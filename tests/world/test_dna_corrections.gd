@@ -54,10 +54,41 @@ func test_every_doorway_is_at_least_four_cells_wide() -> void:
 		assert_gte(maxi(rect.size.x, rect.size.y), DnaLayout.LINK_WIDTH, "doorway %s is wide" % str(rect))
 
 
-func test_walls_are_knee_high_and_the_fading_pieces_are_short() -> void:
-	assert_lte(DnaBuilder.WALL_HEIGHT, 0.6, "a balustrade never hides the hero (0.68 m)")
-	assert_lte(DnaBuilder.PARTITION_HEIGHT, 0.7)
-	assert_lte(DnaBuilder.CABINET_HEIGHT, 1.1)
+## Oct 19 (the office interior): the walls are full height and every wall cell, header, beam and strip is a fading piece in a chunk fade mesh with a wide cut-away
+## near the lens, so the hero is never hidden; cabinets and partitions stay lower than the walls.
+func test_walls_are_full_height_and_every_interior_piece_fades_on_its_own() -> void:
+	assert_gte(DnaBuilder.WALL_HEIGHT, 2.6, "an interior wall, about four heroes")
+	assert_lt(DnaBuilder.PARTITION_HEIGHT, DnaBuilder.CABINET_HEIGHT)
+	assert_lt(DnaBuilder.CABINET_HEIGHT, DnaBuilder.WALL_HEIGHT)
+	assert_gte(DnaInterior.WALL_NEAR_REACH, 4.0, "a wall at the lens cuts away wide")
+	var host: Node3D = Node3D.new()
+	add_child_autofree(host)
+	var builder: DnaBuilder = DnaBuilder.new()
+	builder.build(host)
+	assert_gte(builder.doorway_count, 10, "a header over every doorway between rooms")
+	assert_gte(builder.ceiling_piece_count, 200, "beams and light strips over every room")
+	var walls: int = 0
+	for chunk: Variant in builder.chunks.values():
+		var node: Node3D = (chunk as Node3D).get_node_or_null("Interior") as Node3D
+		if node == null:
+			continue
+		walls += 1
+		assert_true(node.has_meta(&"no_occlusion_fade"), "the wall mesh fades per piece in its own shader, not as a group")
+		for surface: int in range((node as MeshInstance3D).mesh.get_surface_count()):
+			var material: ShaderMaterial = (node as MeshInstance3D).mesh.surface_get_material(surface) as ShaderMaterial
+			assert_not_null(material, "every interior surface is a fade material")
+			if material != null:
+				assert_eq(material.shader.resource_path, "res://world/dna/dna_fade.gdshader")
+	assert_gt(walls, 20, "walls in most chunks")
+	for door: Dictionary in DnaInterior.doorways(builder.layout):
+		var a: Vector2i = door["a"] as Vector2i
+		var b: Vector2i = door["b"] as Vector2i
+		assert_gte(maxi(absi(b.x - a.x), absi(b.y - a.y)) + 1, DnaLayout.LINK_WIDTH, "the opening under a header is a wide doorway (%s)" % str(a))
+	for prop: DnaLayout.Prop in builder.layout.props:
+		if prop.kind == "card" and prop.model == "DNA-PROP-GHOSTLAMP":
+			var cell: Vector2i = DnaLayout.world_to_cell(prop.pos)
+			assert_true(builder.layout.is_floor(cell.x, cell.y), "a ghost lamp stands on the floor, not inside a wall (%s)" % str(prop.pos))
+			assert_eq(prop.pos.y, 0.0)
 
 
 func test_the_props_are_few_and_painted() -> void:
@@ -76,7 +107,7 @@ func test_the_props_are_few_and_painted() -> void:
 				pieces += 1
 				assert_not_null(DnaProps.piece(prop.model, prop.model_scale), "%s is a piece" % prop.model)
 	assert_lte(models, 4, "only the coffins are still Kenney models")
-	assert_lte(pieces, 12, "a few kit pieces")
+	assert_lte(pieces, 20, "a few kit pieces (Oct 19: plus a water cooler per room)")
 	assert_between(cards, 60, 160, "one desk per cubicle, lamps, plants and cabinets at the walls")
 
 

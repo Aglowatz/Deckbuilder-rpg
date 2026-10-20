@@ -14,15 +14,21 @@ extends ZoneMap
 ##  - Real lights are pooled in `DnaScene` (a few OmniLights that hop between nearby fixtures)
 ##    instead of one per fixture.
 ##
-## D.N.A. slice (docs/art/dna_slice.md): the walls are knee-high stone balustrades with brass caps (WALL_HEIGHT), so no wall ever hides the hero; the cabinets
-## are drawer stacks CABINET_HEIGHT tall and the cubicle partitions paneling PARTITION_HEIGHT tall, both fading per piece; the props are kit cards and
-## `DnaProps` pieces; the entrance is a gate onto the approach causeway (no elevator); the Hall of Final Approvals (`DnaLandmarks`) stands beyond the north edge.
+## D.N.A. slice (docs/art/dna_slice.md) and the office interior (Oct 19, `DnaInterior`): the walls are full-height partition walls (WALL_HEIGHT) with doorway
+## headers, ceiling beams and fluorescent strips over every room, built into the per-chunk fade meshes so every wall cell, beam and strip fades on its own when it
+## stands between the camera and the hero (a wall at the lens cuts away wide): the zone reads as the inside of a huge office building and the hero is never
+## hidden. The cabinets are drawer stacks CABINET_HEIGHT tall (filing canyons) and the cubicle partitions paneling PARTITION_HEIGHT tall, fading the same way; the
+## props are kit cards and `DnaProps` pieces; the entrance is a gate onto the approach causeway (no elevator); the Hall of Final Approvals (`DnaLandmarks`) stands
+## beyond the north edge.
 
 const CHUNK: int = 10
 const VIEW_RADIUS: float = 30.0
-## The balustrades: knee-high (the hero is 0.68 m), never between the camera and the hero's body.
-const WALL_HEIGHT: float = 0.5
-const CABINET_HEIGHT: float = 1.0
+## The interior walls (Oct 19): full height, fading per cell with a wide cut-away near the lens (DnaInterior); the hero is 0.68 m.
+const WALL_HEIGHT: float = DnaInterior.WALL_HEIGHT
+## The knee-high parapet of the approach causeway (outdoors, the bridge to town): never between the camera and the hero.
+const PARAPET_HEIGHT: float = 0.5
+## Filing cabinets taller than the hero (canyons), cubicle partitions knee-high on the hero (a clerk's cubicle wall): both fade per piece.
+const CABINET_HEIGHT: float = 1.2
 const PARTITION_HEIGHT: float = 0.6
 ## Painted card props of the layout (kit ids) -> the TreeCards kind that draws them as one MultiMesh field.
 const CARD_KINDS: Dictionary = {
@@ -299,8 +305,7 @@ func _flush() -> void:
 		instance.name = "Floor"
 		instance.set_meta(&"no_occlusion_fade", true)
 		chunk_node(key).add_child(instance)
-	for key: Vector2i in _wall_cells.keys():
-		_build_balustrades(key, _wall_cells[key] as Array)
+	_build_interior()
 	var fade_keys: Dictionary = {}
 	for key: Vector2i in _cabinet_cells.keys():
 		fade_keys[key] = true
@@ -324,7 +329,55 @@ func _flush() -> void:
 				field.material_override = still
 
 
-## A knee-high stone balustrade on every wall cell of a chunk: a gray block with a brass cap, a post with a brass finial on the corners and every fourth cell.
+## The office interior (Oct 19): full-height walls per chunk, a header over every doorway, beams and light strips over every room, all as fading pieces in one
+## `DnaInterior` fade mesh per chunk ("Interior"). `doorway_count` and `ceiling_piece_count` are read by the tests.
+var doorway_count: int = 0
+var ceiling_piece_count: int = 0
+
+
+func _build_interior() -> void:
+	var meshes: Dictionary = {}
+	var shell: Dictionary = DnaInterior.shell_cells(layout)
+	for key: Vector2i in _wall_cells.keys():
+		var interior: Array = []
+		var outdoors: Array = []
+		for cell: Variant in _wall_cells[key] as Array:
+			# the approach causeway's parapets stay knee-high: it is the bridge outside the building
+			if (cell as Vector2i).y >= DnaLayout.APPROACH_Z0 and DnaInterior.room_beside(layout, cell as Vector2i) == "":
+				outdoors.append(cell)
+			else:
+				interior.append(cell)
+		if not outdoors.is_empty():
+			_build_balustrades(key, outdoors)
+		if interior.is_empty():
+			continue
+		var fade: DnaFadeMesh = DnaInterior.mesh()
+		DnaInterior.build_walls(layout, fade, interior, shell)
+		meshes[key] = fade
+	for door: Dictionary in DnaInterior.doorways(layout):
+		var a: Vector2i = door["a"] as Vector2i
+		var b: Vector2i = door["b"] as Vector2i
+		var key: Vector2i = _chunk_key((cell_center(a.x, a.y) + cell_center(b.x, b.y)) * 0.5)
+		if not meshes.has(key):
+			meshes[key] = DnaInterior.mesh()
+		DnaInterior.build_header(meshes[key] as DnaFadeMesh, layout, door)
+		doorway_count += 1
+	for room: DnaLayout.Room in layout.rooms:
+		for entry: Dictionary in DnaInterior.ceiling_pieces(room):
+			var key: Vector2i = _chunk_key(entry["pos"] as Vector3)
+			if not meshes.has(key):
+				meshes[key] = DnaInterior.mesh()
+			DnaInterior.build_ceiling_piece(meshes[key] as DnaFadeMesh, entry)
+			ceiling_piece_count += 1
+	var hidden: PackedStringArray = OS.get_environment("DNA_HIDE").split(",", false)  # fps / debug A-B: DNA_HIDE=Walls hides the interior
+	for key: Vector2i in meshes.keys():
+		# "Interior", not "Walls": PaintedContexts.dna paints a chunk child named Walls with its own override (the pre-slice wall mesh)
+		var instance: MeshInstance3D = (meshes[key] as DnaFadeMesh).instance("Interior")
+		instance.visible = not hidden.has("Walls")
+		chunk_node(key).add_child(instance)
+
+
+## The knee-high balustrade of the slice (kept for the kit bench and as the fallback look; the zone uses `_build_interior` since Oct 19).
 func _build_balustrades(key: Vector2i, wall_cells: Array) -> void:
 	var mesh: KitMesh = KitMesh.new()
 	mesh.set_material("grey", DnaLandmarks._surface("DNA-WALL-GREY", DnaLandmarks.GREY))
@@ -335,8 +388,8 @@ func _build_balustrades(key: Vector2i, wall_cells: Array) -> void:
 	for cell: Variant in wall_cells:
 		var c: Vector2i = cell as Vector2i
 		var center: Vector3 = cell_center(c.x, c.y)
-		mesh.box("grey", center + Vector3(0, WALL_HEIGHT * 0.5 - 0.1, 0), Vector3(1.0, WALL_HEIGHT + 0.2, 1.0), Basis.IDENTITY, 0.03, 0.82)
-		mesh.box("brass", center + Vector3(0, WALL_HEIGHT + 0.015, 0), Vector3(1.02, 0.04, 1.02), Basis.IDENTITY, 0.0)
+		mesh.box("grey", center + Vector3(0, PARAPET_HEIGHT * 0.5 - 0.1, 0), Vector3(1.0, PARAPET_HEIGHT + 0.2, 1.0), Basis.IDENTITY, 0.03, 0.82)
+		mesh.box("brass", center + Vector3(0, PARAPET_HEIGHT + 0.015, 0), Vector3(1.02, 0.04, 1.02), Basis.IDENTITY, 0.0)
 		var neighbours: int = 0
 		for step: Vector2i in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
 			if layout.cell_at(c.x + step.x, c.y + step.y) == DnaLayout.Cell.WALL:

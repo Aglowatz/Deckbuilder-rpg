@@ -224,7 +224,7 @@ static func dna(scene: ZoneScene) -> Dictionary:
 					for kind: int in kind_names.keys():
 						if instance.mesh.surface_get_material(surface) == DnaMaterials.floor_material(kind as DnaLayout.Floor):
 							swaps.append({"node": instance, "surface": surface, "variant": kind_names[kind]})
-			elif child.name == &"Walls" and walls != null:
+			elif child.name == &"Walls" and walls != null:  # the pre-slice wall mesh (the Oct 19 interior is "Interior" and paints itself)
 				swaps.append({"node": child, "material": walls})
 			elif child.name == &"Partitions" and partitions != null:
 				swaps.append({"node": child, "material": partitions})
