@@ -1,32 +1,28 @@
 class_name DnaInterior
 extends RefCounted
 ## The D.N.A. as the inside of a huge government office building (Oct 19): full-height partition walls round every room (the former knee-high balustrades),
-## doorway headers over every opening, ceiling beams and fluorescent light strips over every room (the ceiling is implied at the top edge of the view) and
-## frosted-glass office fronts on the cubicle farms and the elevator bank. Everything here is built into `DnaFadeMesh` chunks, so every piece fades on its own
-## when it stands between the camera and the hero, and a wall near the lens cuts away over a wide reach (`near_reach`): the hero is never hidden.
+## frosted-glass office fronts on the cubicle farms and the elevator bank, and (overnight Oct 19) wall sconces on the room faces instead of the ceiling beams,
+## light strips and doorway headers, which ran across the top of the view and hid the hero. Everything here is built into `DnaFadeMesh` chunks, so every piece
+## fades on its own when it stands between the camera and the hero, and a wall near the lens cuts away over a wide reach (`near_reach`): the hero is never hidden.
 ##
 ## Wall styles come from the room the wall cell borders: marble wainscot and wallpaper in the lobby and on the executive floor, paneling and frosted glass round
 ## the cubicle farms and the elevator bank, checkertile wainscot in the breakroom and the mail room, grey stone in the filing canyons and the records basement.
 
-## The interior height of the office (the hero is 0.68 m: about four and a half heroes, a huge civic building).
-const WALL_HEIGHT: float = 3.0
-## Where the ceiling beams run and the light strips hang.
-const BEAM_Y: float = WALL_HEIGHT + 0.12
-const STRIP_Y: float = WALL_HEIGHT - 0.28
+## The interior height of the office, floor to the (implied) ceiling: the hero is 0.68 m, so about six and a half heroes - a huge civic building.
+const WALL_HEIGHT: float = 4.5
 const WAINSCOT_H: float = 1.0
 const GLASS_TOP: float = 2.3
-## Beams every BEAM_STEP metres across a room, split into pieces at most BEAM_PIECE long (each piece fades on its own); a light strip every STRIP_STEP along a beam.
-const BEAM_STEP: int = 4
-const BEAM_PIECE: float = 3.0
-const STRIP_STEP: int = 4
 ## The building's outer shell (the perimeter wall cells with nothing but void beyond them to the west, east or north): much taller, so the top edge of the view
 ## shows the far wall of the building, not the sky.
 const SHELL_HEIGHT: float = 9.0
-## A doorway header spans at most this many cells (wider gaps are open plan, not doors).
+## A doorway spans at most this many cells (wider gaps are open plan, not doors).
 const MAX_DOOR_CELLS: int = 8
 ## How far round the sight line a wall cut-away reaches when the wall stands at the lens (metres, shrinking to the normal reach at the hero).
 const WALL_NEAR_REACH: float = 7.0
-const BEAM_NEAR_REACH: float = 3.0
+## A sconce on every SCONCE_STEP-th wall cell, its shade SCONCE_Y above the floor; the pooled lights take SCONCE_LIGHT when they hop onto one.
+const SCONCE_STEP: int = 4
+const SCONCE_Y: float = 2.5
+const SCONCE_LIGHT: Color = Color(0.86, 1.0, 0.8)
 
 const GLASS_ROOMS: Array[String] = ["farm_a", "farm_b", "bank"]
 const MARBLE_ROOMS: Array[String] = ["lobby", "exec"]
@@ -37,9 +33,8 @@ const WALLPAPER: Color = Color("8e9a94")
 const PANELING: Color = Color("4a5a52")
 const MARBLE: Color = Color("b5b3a6")
 const TILE: Color = Color("9aa8a0")
-const BEAM: Color = Color("8c948e")
 const GLASS: Color = Color("c2e6dc")
-const TUBE: Color = Color("bfe9d2")
+const SHADE: Color = Color("e4f7d8")
 
 
 ## A fade mesh with every interior slot.
@@ -53,9 +48,9 @@ static func mesh() -> DnaFadeMesh:
 	fade.set_slot("shell", "DNA-WALL-GREY", Color(0.9, 0.92, 0.9), 1.0, 0.0, WALL_NEAR_REACH, 3.0)
 	fade.set_slot("brass", "DNA-TRIM-BRASS", Color.WHITE, 1.0, 0.0, WALL_NEAR_REACH)
 	fade.set_slot("glass", "", GLASS, 0.42, 0.12, WALL_NEAR_REACH)
-	fade.set_slot("beam", "DNA-WALL-GREY", BEAM, 1.0, 0.0, BEAM_NEAR_REACH)
-	fade.set_slot("housing", "", Color("4a5456"), 1.0, 0.0, BEAM_NEAR_REACH)
-	fade.set_slot("tube", "", TUBE, 1.0, 0.6, BEAM_NEAR_REACH)
+	fade.set_slot("sconce", "", SHADE, 1.0, 1.8, WALL_NEAR_REACH)
+	# the soft pool of light a sconce throws on its wall (a faint glowing plate just off the face)
+	fade.set_slot("wash", "", SHADE, 0.16, 0.9, WALL_NEAR_REACH)
 	return fade
 
 
@@ -206,59 +201,27 @@ static func doorways(layout: DnaLayout) -> Array[Dictionary]:
 	return result
 
 
-## A header over a doorway: the wall continues above the opening, with a brass lintel under it.
-static func build_header(fade: DnaFadeMesh, layout: DnaLayout, door: Dictionary) -> Vector3:
-	var a: Vector3 = DnaLayout.cell_center((door["a"] as Vector2i).x, (door["a"] as Vector2i).y)
-	var b: Vector3 = DnaLayout.cell_center((door["b"] as Vector2i).x, (door["b"] as Vector2i).y)
-	var mid: Vector3 = (a + b) * 0.5
-	var along_x: bool = absf(b.x - a.x) >= absf(b.z - a.z)
-	var length: float = a.distance_to(b) + 1.0
-	var style: String = style_for(room_beside(layout, door["a"] as Vector2i))
-	var slot: String = "marble" if style == "marble" else ("grey" if style == "grey" else "wallpaper")
-	var piece: Vector4 = Vector4(mid.x, mid.z, length * 0.5, WALL_HEIGHT)
-	var head_h: float = WALL_HEIGHT - 2.2
-	var size: Vector3 = Vector3(length, head_h, 1.0) if along_x else Vector3(1.0, head_h, length)
-	fade.box(slot, piece, mid + Vector3(0, 2.2 + head_h * 0.5, 0), size, Color.WHITE, 0.9, 2.16)
-	fade.box("brass", piece, mid + Vector3(0, 2.2 - 0.04, 0), Vector3(length + 0.1, 0.08, 1.08) if along_x else Vector3(1.08, 0.08, length + 0.1), Color.WHITE, 1.0, 2.16)
-	fade.box("brass", piece, mid + Vector3(0, WALL_HEIGHT + 0.03, 0), Vector3(length + 0.06, 0.06, 1.06) if along_x else Vector3(1.06, 0.06, length + 0.06), Color.WHITE, 1.0, 2.16)
-	return mid
-
-
-## Ceiling beams across a room every BEAM_STEP metres, in pieces, with a fluorescent strip (housing + tube) every STRIP_STEP metres along each beam. Returns the
-## pieces as {"pos": Vector3, "fn": Callable(fade)} so the builder can put each into the chunk mesh its centre falls in.
-static func ceiling_pieces(room: DnaLayout.Room) -> Array[Dictionary]:
-	var pieces: Array[Dictionary] = []
-	var r: Rect2i = room.rect
-	var z: int = r.position.y + BEAM_STEP / 2
-	while z < r.end.y:
-		var beam_z: float = float(z)
-		var x: float = float(r.position.x)
-		var x_end: float = float(r.end.x)
-		while x < x_end - 0.01:
-			var length: float = minf(BEAM_PIECE, x_end - x)
-			var mid: Vector3 = Vector3(x + length * 0.5, BEAM_Y, beam_z)
-			pieces.append({"pos": mid, "kind": "beam", "length": length})
-			x += length
-		var sx: int = r.position.x + STRIP_STEP / 2
-		while sx < r.end.x - 1:
-			pieces.append({"pos": Vector3(float(sx) + 0.5, STRIP_Y, beam_z), "kind": "strip", "length": 2.2})
-			sx += STRIP_STEP
-		z += BEAM_STEP
-	return pieces
-
-
-static func build_ceiling_piece(fade: DnaFadeMesh, entry: Dictionary) -> void:
-	var pos: Vector3 = entry["pos"] as Vector3
-	var length: float = float(entry["length"])
-	match str(entry["kind"]):
-		"beam":
-			var piece: Vector4 = Vector4(pos.x, pos.z, length * 0.5, pos.y + 0.17)
-			fade.box("beam", piece, pos, Vector3(length, 0.34, 0.45), Color.WHITE, 0.9, pos.y - 0.17)
-		"strip":
-			var piece: Vector4 = Vector4(pos.x, pos.z, length * 0.5, BEAM_Y)
-			var bottom: float = pos.y - 0.04
-			fade.box("housing", piece, pos + Vector3(0, -0.02, 0), Vector3(length + 0.2, 0.06, 0.74), Color.WHITE, 1.0, bottom)
-			fade.box("tube", piece, pos + Vector3(0, 0.04, 0), Vector3(length, 0.1, 0.6), Color.WHITE, 1.0, bottom)
-			# the hangers up to the beam
-			for sign_value: float in [-1.0, 1.0]:
-				fade.box("housing", piece, pos + Vector3(sign_value * (length * 0.5 - 0.15), (BEAM_Y - pos.y) * 0.5, 0), Vector3(0.05, BEAM_Y - pos.y, 0.05), Color.WHITE, 1.0, bottom)
+## The wall sconces (overnight Oct 19, replacing the ceiling strips): a brass backplate with a glowing frosted shade on the room face of every fourth wall cell,
+## between the pilasters. Returns the light positions (a little into the room) for the pooled OmniLights. A wall cell between two rooms gets one on each face.
+static func build_sconces(layout: DnaLayout, fade: DnaFadeMesh, wall_cells: Array, shell: Dictionary) -> Array[Vector3]:
+	var lights: Array[Vector3] = []
+	for cell: Variant in wall_cells:
+		var c: Vector2i = cell as Vector2i
+		if posmod(c.x + c.y, SCONCE_STEP) != 2:
+			continue
+		var center: Vector3 = DnaLayout.cell_center(c.x, c.y)
+		var top: float = SHELL_HEIGHT if shell.has(c) else WALL_HEIGHT
+		var piece: Vector4 = Vector4(center.x, center.z, 0.5, top)
+		for step: Vector2i in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			var n: Vector2i = c + step
+			if not layout.is_floor(n.x, n.y):
+				continue
+			var out: Vector3 = Vector3(float(step.x), 0.0, float(step.y))
+			var across_x: bool = step.x != 0
+			var face: Vector3 = center + out * 0.5 + Vector3(0, SCONCE_Y, 0)
+			fade.box("brass", piece, face + out * 0.03, Vector3(0.06, 0.56, 0.38) if across_x else Vector3(0.38, 0.56, 0.06))
+			fade.box("wash", piece, face + out * 0.015 + Vector3(0, 0.2, 0), Vector3(0.01, 1.6, 1.1) if across_x else Vector3(1.1, 1.6, 0.01))
+			fade.box("sconce", piece, face + out * 0.12, Vector3(0.18, 0.36, 0.3) if across_x else Vector3(0.3, 0.36, 0.18))
+			fade.box("brass", piece, face + out * 0.12 + Vector3(0, 0.17, 0), Vector3(0.2, 0.04, 0.3) if across_x else Vector3(0.3, 0.04, 0.2))
+			lights.append(face + out * 0.7)
+	return lights

@@ -65,8 +65,11 @@ func test_walls_are_full_height_and_every_interior_piece_fades_on_its_own() -> v
 	add_child_autofree(host)
 	var builder: DnaBuilder = DnaBuilder.new()
 	builder.build(host)
-	assert_gte(builder.doorway_count, 10, "a header over every doorway between rooms")
-	assert_gte(builder.ceiling_piece_count, 200, "beams and light strips over every room")
+	assert_gte(builder.doorway_count, 10, "doorways between rooms")
+	# overnight Oct 19: nothing runs across the top of a room or a doorway (it hid the view); wall sconces light the rooms instead
+	assert_eq(builder.ceiling_piece_count, 0, "no ceiling beams or light strips")
+	assert_gte(builder.sconce_count, 60, "wall sconces light the offices")
+	assert_gte(DnaInterior.WALL_HEIGHT, 4.0, "walls at full interior height")
 	var walls: int = 0
 	for chunk: Variant in builder.chunks.values():
 		var node: Node3D = (chunk as Node3D).get_node_or_null("Interior") as Node3D

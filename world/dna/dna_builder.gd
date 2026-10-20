@@ -14,10 +14,10 @@ extends ZoneMap
 ##  - Real lights are pooled in `DnaScene` (a few OmniLights that hop between nearby fixtures)
 ##    instead of one per fixture.
 ##
-## D.N.A. slice (docs/art/dna_slice.md) and the office interior (Oct 19, `DnaInterior`): the walls are full-height partition walls (WALL_HEIGHT) with doorway
-## headers, ceiling beams and fluorescent strips over every room, built into the per-chunk fade meshes so every wall cell, beam and strip fades on its own when it
-## stands between the camera and the hero (a wall at the lens cuts away wide): the zone reads as the inside of a huge office building and the hero is never
-## hidden. The cabinets are drawer stacks CABINET_HEIGHT tall (filing canyons) and the cubicle partitions paneling PARTITION_HEIGHT tall, fading the same way; the
+## D.N.A. slice (docs/art/dna_slice.md) and the office interior (Oct 19, `DnaInterior`): the walls are full-height partition walls (WALL_HEIGHT) lit by wall
+## sconces (overnight Oct 19: no ceiling beams, light strips or doorway headers - they hid the view), built into the per-chunk fade meshes so every wall cell
+## fades on its own when it stands between the camera and the hero (a wall at the lens cuts away wide): the zone reads as the inside of a huge office building
+## and the hero is never hidden. The cabinets are drawer stacks CABINET_HEIGHT tall (filing canyons) and the cubicle partitions paneling PARTITION_HEIGHT tall, fading the same way; the
 ## props are kit cards and `DnaProps` pieces; the entrance is a gate onto the approach causeway (no elevator); the Hall of Final Approvals (`DnaLandmarks`) stands
 ## beyond the north edge.
 
@@ -329,10 +329,12 @@ func _flush() -> void:
 				field.material_override = still
 
 
-## The office interior (Oct 19): full-height walls per chunk, a header over every doorway, beams and light strips over every room, all as fading pieces in one
-## `DnaInterior` fade mesh per chunk ("Interior"). `doorway_count` and `ceiling_piece_count` are read by the tests.
+## The office interior (Oct 19): full-height walls per chunk with sconces on the room faces, all as fading pieces in one `DnaInterior` fade mesh per chunk
+## ("Interior"). Overnight Oct 19: the doorway headers, ceiling beams and light strips are gone (they hid the hero and the rooms beyond); the doorways are open
+## to the top. `doorway_count`, `ceiling_piece_count` (0) and `sconce_count` are read by the tests; each sconce is a LightSpot for the pooled lights.
 var doorway_count: int = 0
 var ceiling_piece_count: int = 0
+var sconce_count: int = 0
 
 
 func _build_interior() -> void:
@@ -353,22 +355,14 @@ func _build_interior() -> void:
 			continue
 		var fade: DnaFadeMesh = DnaInterior.mesh()
 		DnaInterior.build_walls(layout, fade, interior, shell)
+		for sconce: Vector3 in DnaInterior.build_sconces(layout, fade, interior, shell):
+			var spot: DnaLayout.LightSpot = DnaLayout.LightSpot.new()
+			spot.pos = sconce
+			spot.color = DnaInterior.SCONCE_LIGHT
+			layout.lights.append(spot)
+			sconce_count += 1
 		meshes[key] = fade
-	for door: Dictionary in DnaInterior.doorways(layout):
-		var a: Vector2i = door["a"] as Vector2i
-		var b: Vector2i = door["b"] as Vector2i
-		var key: Vector2i = _chunk_key((cell_center(a.x, a.y) + cell_center(b.x, b.y)) * 0.5)
-		if not meshes.has(key):
-			meshes[key] = DnaInterior.mesh()
-		DnaInterior.build_header(meshes[key] as DnaFadeMesh, layout, door)
-		doorway_count += 1
-	for room: DnaLayout.Room in layout.rooms:
-		for entry: Dictionary in DnaInterior.ceiling_pieces(room):
-			var key: Vector2i = _chunk_key(entry["pos"] as Vector3)
-			if not meshes.has(key):
-				meshes[key] = DnaInterior.mesh()
-			DnaInterior.build_ceiling_piece(meshes[key] as DnaFadeMesh, entry)
-			ceiling_piece_count += 1
+	doorway_count = DnaInterior.doorways(layout).size()
 	var hidden: PackedStringArray = OS.get_environment("DNA_HIDE").split(",", false)  # fps / debug A-B: DNA_HIDE=Walls hides the interior
 	for key: Vector2i in meshes.keys():
 		# "Interior", not "Walls": PaintedContexts.dna paints a chunk child named Walls with its own override (the pre-slice wall mesh)
