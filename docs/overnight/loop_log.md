@@ -200,3 +200,12 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 - Part 6's text had been written by its builder and never reviewed by a second writer (the Part 5 standard). A separate editor scored its
   13 conversations 3.69 -> 4.00 (min of five; rewrote the confirm, the reveal's longest boxes, the "after" line and the log hints). The
   story bible now places the well where the town layout does (its yard off the west market street). Old Well + quality tests 26/26.
+
+## Cycle 37 - Balance look: the sim's L5 Necrocrat deck
+- Size 46 is the designed reference size; `CUT_ORDER` names four cards no longer in the starter (skipped harmlessly). The roamer losses come
+  from the deck's curve (no cheap unit before turn ~8 in the lost replays), so the next step is a cheaper-unit L5 package in the sim (next_up 5).
+
+## End of the loop (~03:55)
+- Stopped about 2.5 hours before the 9-hour mark. Everything left on `next_up.md` needs a decision from you (story canon, the Path choice,
+  the rivalry), your ears (the audio row), or tomorrow's art; more unsupervised changes would add risk faster than value. Final checks are
+  in the report.
