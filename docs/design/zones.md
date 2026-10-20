@@ -1,3 +1,5 @@
+> Story parts archived Oct 19 2026 - the story reference is docs/design/story_bible.md (the zone rules and systems below stay current).
+
 # Zones and the D.N.A.
 
 ## Story (brief 9)

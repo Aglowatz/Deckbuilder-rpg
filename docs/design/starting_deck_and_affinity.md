@@ -1,3 +1,5 @@
+> Story parts archived Oct 19 2026 - the story reference is docs/design/story_bible.md (its "four Wellsprings" placeholder lore is retired).
+
 # Starting Deck, Primary Affinity and the Intro Dungeon
 
 > **Rebalance Part D (Oct 18 2026):** the starter is now a unique **45-card deck per Path** (19 basic Infrastructure + 26 cards,

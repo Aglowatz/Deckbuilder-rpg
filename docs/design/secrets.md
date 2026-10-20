@@ -1,3 +1,5 @@
+> Story parts archived Oct 19 2026 - the story reference is docs/design/story_bible.md (the secret locations below stay current).
+
 # Town Secrets (Spoilers)
 
 This file exists so you (the designer) can find everything without hunting for it. It is not

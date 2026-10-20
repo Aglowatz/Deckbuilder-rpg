@@ -1,3 +1,5 @@
+> Archived Oct 19 2026 - the story reference is docs/design/story_bible.md
+
 # Story & Systems Source Document (designer-authored — source of truth)
 
 Major updates. Ensure players can always own up to 4 copies of each non-infrastrucre card (infrastructure is replacing lands. Activate (instead of tap) infrastructure to give you one of the respective Path energy).

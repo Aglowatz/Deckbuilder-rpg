@@ -1,3 +1,5 @@
+> Archived Oct 19 2026 - the story reference is docs/design/story_bible.md
+
 # Story Source v2 (designer-approved; source of truth)
 
 Approved by the designer on 2026-10-07. Where this conflicts with `story_source.md`, `story_bible.md`, or any older doc or game content, THIS FILE WINS. Canonical names, roles and node layouts also live in `data/source/npc_list.csv` and `data/source/dungeon_list.csv` (exported from the designer's Google Sheet).
