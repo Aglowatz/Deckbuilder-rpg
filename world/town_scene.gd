@@ -1354,6 +1354,10 @@ func _after_memory(number: int, known: bool, maren_music: int) -> void:
 	_locked = false
 
 
+const ELDER_STATE_COUNTER: String = "elder_heard_state"
+const ELDER_IDLE_COUNTER: String = "elder_idle_line"
+
+
 func _elder_lines() -> Array[String]:
 	var story: StoryText = StoryText.shared()
 	if not Session.flag(&"elder_greeted"):
@@ -1366,6 +1370,15 @@ func _elder_lines() -> Array[String]:
 	if Session.flag(MemoryDefs.FLAG_REVEALED) and recovered < MemoryDefs.COUNT:
 		return story.get_lines("town.elder.known_early")
 	var freed: int = Session.completed_zone_count()
+	# Overnight Oct 19: her whole speech (progress, mood, reminder) plays once per change of state (zones freed, memory stage); a return visit
+	# with nothing new gets one short line from `town.elder.idle`, in turn.
+	var state: int = 1 + freed * 10 + MemoryDefs.stage(recovered)
+	if Session.counter(ELDER_STATE_COUNTER) == state and story.has_text("town.elder.idle"):
+		var idle: Array[String] = story.get_lines("town.elder.idle")
+		var pick: int = Session.counter(ELDER_IDLE_COUNTER) % idle.size()
+		Session.bump_counter(ELDER_IDLE_COUNTER)
+		return [idle[pick]] as Array[String]
+	Session.counters[ELDER_STATE_COUNTER] = state
 	var lines: Array[String] = []
 	if freed > 0:
 		lines.append_array(story.get_lines("town.elder.progress.%d" % mini(freed, 4)))

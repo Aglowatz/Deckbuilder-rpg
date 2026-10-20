@@ -15,3 +15,13 @@ func test_every_gatekeeper_has_freed_lines_of_their_own() -> void:
 func test_an_unknown_gatekeeper_falls_back_to_the_victory_lines() -> void:
 	var story: StoryText = StoryText.shared()
 	assert_eq(story.npc_freed_lines("nobody"), story.npc_victory_lines("nobody"))
+
+
+## Overnight Oct 19 (Phase 2): Maren's return visits with nothing new are one short line, in turn.
+func test_maren_has_short_idle_lines() -> void:
+	var idle: Array[String] = StoryText.shared().get_lines("town.elder.idle")
+	assert_gte(idle.size(), 4, "a handful of idle lines to rotate")
+	for line: String in idle:
+		assert_lt(line.length(), 160, "one short box: %s" % line)
+	for raw: Variant in StoryText.shared().texts["town.elder.idle"] as Array:
+		assert_false(str(raw).contains("Primm"), "the villain's name comes from the token")

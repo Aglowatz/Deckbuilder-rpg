@@ -127,3 +127,9 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 ## Cycle 21 - Dialogue: Agnes in the Hall
 - `dungeon.ha_number.before`: she no longer says "Oh, you're new" and introduces herself again to a hero she met at the front desk ("There
   you are, dear." / "If we haven't met: Agnes..."), reading right whether or not you talked to her first. Tests 19/19.
+
+## Cycle 22 - NPC life (9): Maren on return visits
+- Her whole speech (zones freed + mood + reminder, 4-5 boxes) replayed on every visit. Now it plays once per change of state (zones freed,
+  memory stage; remembered in `counters["elder_heard_state"]`, saved); a visit with nothing new gets one short line from the new
+  `town.elder.idle` (six lines in her voice, in turn). First talk, the memory scenes, "known early" and postgame are unchanged. Old saves:
+  the first visit after loading plays the full speech once. Tests OK; story bot 73/73; playtest smoke OK.
