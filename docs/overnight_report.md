@@ -1,119 +1,118 @@
-# Daytime report - Mon Oct 19 2026
+# Overnight report - Mon Oct 19 -> Tue Oct 20 2026
 
-Start 07:06 MDT (tag `pre-daytime-oct19`), all seven parts done by ~10:00, then loop cycles. Last night's report: `docs/overnight_report_oct18.md`.
-Old saves keep loading (the save format did not change). Questions for you: `docs/overnight_inbox.md` ("Daytime Oct 19", two items).
+Start 21:27 MDT (tag `pre-overnight-oct19`), all seven parts done by ~23:30, then the improvement loop. The daytime report is in
+`docs/overnight_report_oct19day.md`. Old saves keep loading (every dialogue key, quest id and flag kept; only new ones added).
+Questions for you: `docs/overnight_inbox.md` ("Overnight Oct 19-20", items 1-14). Final checks at the end of this file.
 
 ## In one minute
 
-- **Your inbox decisions are in.** Items kept as they were; **Processing Time** now exhausts only the first Necrocrat unit each turn
-  (tooltip, zone panel, rule badge and arrival warning follow). The **late bosses got one-sided rules** with icons. The big find: Shiro's
-  rules had never applied, in the game or in the sim, and the arena's only in the sim. With his existing rules actually in play,
-  **Shiro is 48%**; **Grand Bellows 77 -> 56%** with Heckling Crowd. **Primm phase 1** got Royal Guard but stays easy alone, and the
-  three phases in a row look *too hard*, not ~50% (see below).
-- **Tutorial runs**: Gourmand **~76 -> ~87%** (holds on two seeds). Necrocrat: Part 2's 82 -> 92% **did not hold** on a second seed (cycle
-  11 caught it: ~79% either way); a new Necrocrat deck judged on two seeds x 100 runs reaches **~87%** (on main, not in the v0.4.1 zip).
-  Beefcake ~95, Refusemancer ~87 (100 runs).
-- **Onboarding**: New Game -> first saved deck edit takes **~10.6 min** for a person (97 clicks/keys, 31 dialogue lines), the same for
-  every Path. Fixed the worst spot: **the first deck save was impossible without a pointless change** (Save sat greyed out while the
-  quest needed a save), and the quest text no longer says to add cards that are already in.
-- **First opens**: every first menu open in the full tour is now **<= 128 ms** (character screen was 345, vendors 245-254).
-- **One tile style** from the UI kit for the choice tiles; **feedback log + tool**; **v0.4.1 built**: `builds/TheWaywardPath-v0.4.1-windows.zip`,
-  **594 MB**, release smoke **15/15 on the exported pack**, tag `v0.4.1` (moved once the same morning, see Part 7).
+- **The D.N.A. is see-through where it matters**: no more ceiling beams, light strips or doorway headers across the view; walls go to full
+  interior height (4.5 m) and are lit by glowing wall sconces; any wall between the camera and the hero fades or cuts away. Every other zone
+  was checked at all nine camera angles: the only blockers left were the pennant strings over the Buffet and Dump entrances, which now fade.
+- **Card text is never hidden**: the ability box sits on its own top layer, beside the hovered card (flips near the edges), never over it.
+- **Tomorrow's art import is drop-in**: `docs/art/import_oct20.md` lists exactly what to run, in order.
+- **The story has one source of truth** (`docs/design/story_bible.md`, ~1000 lines, 36 contradictions resolved) and **the dialogue was
+  rewritten to it**: 258 conversations, scored by separate editors from **3.17 to 4.04 out of 5** (no conversation under 4). Every first
+  talk is now 5 boxes or fewer (Basil was 11). Gatekeepers, workers, Kyle and Ectomund say new things once their zone is freed.
+- **The Old Well is a secret quest** ("The Water Under the Well"): a vision, a hidden spring high in the Verdant Dump, a pond in the
+  Endless Buffet's broccoli forest, then a hard duel against **The Wellspring's Echo** (52% / 61% on two seeds at level 16) for a
+  unique relic, the **Phial of First Water**, and a lore reveal. Tested end to end in the live game.
+- **Music**: five loops had a hiccup of digital silence at the wrap (fixed); a drop-in pipeline for new music; prompts for new takes with
+  one shared theme, Crosspath first.
+
+## Before / after worth seeing (`_screenshots/oct19n/`, 1280x720)
+
+1. **D.N.A.** - `p1_before_dna_records_center.png` -> `p1_after_dna_records_center.png` (the beams and strips are gone; sconces glow);
+   `p1_before_dna_spawn.png` -> `p1_after_dna_spawn.png`; `p1_after_dna_farm_a_aisle.png` (a wall in front of the hero turns to a
+   ghost); `p1_after_dna_main_dungeon.png` (the Hall stair); the nine-angle grids `p1_before_dna_grid.png` -> `p1_after_dna_grid.png`.
+2. **Other zones** - `grid/*.png` (nine angles each); `p1_after_buffet_gate.png`, `p1_after_heap_gate.png` (entrance bunting).
+3. **Card text** - `p2_before_hand_0.png` -> `p2_after_hand_7.png`, `p2_after_field_2.png`, `p2_after_etrap_0.png`, `p2_after_token_0.png`.
+4. **Equipment screen** - `_screenshots/oct19n_p3_character.png` (old background: five slots on painted frames, the three spare frames
+   patched) and `oct19n_p3_character_clean.png` (the layout the new background switches to by itself).
+5. **The Old Well** - `_screenshots/oct19n_p6_heap_spring.png`, `oct19n_p6_buffet_pond.png` (the two faint glows),
+   `_screenshots/old_well_01_vision.png` .. `old_well_05_reveal.png` (the live smoke).
 
 ## Part by part
 
-| Part | Commit | What |
+| Part | Commits | What |
 |---|---|---|
-| 1 - Inbox decisions | 8f2f473f | Items 1 and 3 kept; Processing Time softened (`FIRST_UNIT_ENTER_EXHAUSTED`); boss rules applied and shown everywhere (`RulesBrief`, ninja/arena/gatekeeper/Primm wiring, five missing icons); Heckling Crowd, Royal Guard; the sim gives Primm the leaders' boons |
-| 2 - Tutorial runs | 37561e09 | Necrocrat -Processing Delay -Huge Mistake +Accountant +Grave Shift Worker; Gourmand -Stock The Pantry -Sourdough Sentry +Sous Chef +Volunteer; L1 round robin spread stays 13 |
-| 3 - Onboarding bot | 3770363f | `tools/run_onboarding_timing.sh`, `docs/playtest/onboarding_timing.md`; first-save fix and quest text |
-| 4 - First-open stutter | da13e51b | `UiArtWarmup` builds the first screens once, under the loading cover, before the glyph warmup |
-| 5 - Tile style | 77bb70ad | `UiSkin.choice_tile` on the Path choice, the equipment-slot choice and the Collection Book |
-| 6 - Feedback setup | 83d6703a | `docs/playtest/feedback_log.md` + `tools/feedback_row.js` |
-| 7 - v0.4.1 | ee6d8933, rebuilt fe9a6986 | Version bump, same excludes, export, `tools/run_release_smoke_exported.sh`, zip, `docs/release/v0.4.1_notes.md`, tag |
+| 1 - D.N.A. visibility | 26cf4282, 3765d67e | Beams/strips/headers removed; 4.5 m walls; sconces (+ pooled lights); per-piece fade + lens cut-away; every zone checked at 9 angles; overhead pieces fade (`OcclusionFader.is_overhead`); bunting split out. 60 fps on Medium (D.N.A. 59.7-60, Buffet 59.7, Dump 59.8, Crosspath 60). D.N.A., Buffet, Dump walk smokes OK. |
+| 2 - Card text | e2cf40ea | `BattleHud` tip on CanvasLayer 25, `tip_position()` beside the card (right, else left, else above/below), follows the card each frame; name + ability text (keyword-only text skipped) + keywords; tests; first-battles smoke OK. |
+| 3 - Art import prep | c02694be | ICON-GEAR/ITEM/COS conventions with fallbacks, the icon importer expects every game id (54 gear / 18 items / 10 cosmetics); `import bestiary` (new); BB-S-IRON; 33 + 26 zone kit rows; png/webp/jpg kits; 5-slot equipment screen for both backgrounds (`[character] background_painted_slots`, set by the UI importer); `docs/.gdignore` + stray translations deleted; `docs/art/import_oct20.md`. |
+| 4 - Story bible | e7c78c6d | `docs/design/story_bible.md` (23 sections), `docs/design/canon.md` (banned old names), older docs archived with pointers, 7 inbox items. |
+| 5 - Dialogue pass | dd29a10b, 93cb6207, c3485f6d, 03a04532 | Voice bible (81 voices), beat map, four writers, four separate editors, tests (`tests/test_dialogue_quality.gd`), report `docs/design/dialogue_pass_oct19.md`. |
+| 6 - Old Well quest | c02694be | `OldWellQuest`, `OldWellStory` (`data/story/old_well_story.json`), `OldWellSpot`, Session hooks, rule + sim entry, relic, tests (21), story bible section 4. |
+| 7 - Music | 92691601 | `tools/music_fix.js`, `MusicDropIn`, `import_audio.sh --dry-run`, `docs/audio/music_generation_prompts.md`, audit "Oct 19 fixes". |
 
-## Part 1 numbers (12 games per Path; `docs/design/balance_log.md` "Daytime Oct 19")
+## The dialogue sample
 
-| Fight | Before | After |
-|---|---|---|
-| Gainlands roamers, Necrocrat (Brute / Golem) | 25% / 25% | 33% / 25% |
-| Iron Cave normals, Necrocrat | 25% / 33% | 25% / 42% |
-| House of Gains, Necrocrat (Sprinter / Brawler / Clench) | 67 / 58 / 33% | 83 / 67 / 42% |
-| Shiro Swindle (all Paths) | 88% (rules missing) | **48%** |
-| Grand Bellows (all Paths) | 77% (rules now applied) | **56%** |
-| Primm phase 1 (all Paths) | 100% | 100% |
-| Primm, three phases in a row, no boons | - | 4-21% per Path |
+The 30 best before -> after examples, the score table per zone and the list of things that need code are in
+**`docs/design/dialogue_pass_oct19.md`** (with the first-talk trims and the barks pass at the end). Three to start with:
 
-The other Paths did not move in the Gainlands. A level-5 Necrocrat still struggles against the roamers. The replay shows the reference
-deck running out of threats against the Golem's wall (cycle 9 corrected my first reading, which blamed the AI).
+- Opening, the first words: "Where am I?... I remember a kingdom. Four Paths... Light, through the rocks" -> "...Cold. Leaves in my mouth.
+  Great start." / "No name. Two hands. One of them is shaking. I'll start with the other one." / "...And I'm not alone."
+- The Buffet reveal: "THIS is my real face. Behold the true dish of {villain}: the Doppelgänger." -> "This is what was under it. I wore her
+  face so long that I forgot my own. There is nothing in here to taste with."
+- Primm's end: "It is not too late to say sorry." -> "I'm not going to correct you. That was your way. Start smaller. Say sorry to one
+  person."
 
-**Primm**: last night's "~50% for the three phases" multiplied full-HP phases. Measured as the game plays it (one HP pool), it cleared
-4-21% *without* the freed leaders' boons. The sim now adds the boons (the story frees every zone first), but **the re-run was stopped by
-Claude Code's low-memory guard** (the PC had ~2.6 GB free) and I did not restart it on my own. Measuring it is next_up 1 (inbox Daytime 1).
+| Area | Conversations | Old | Final | Under 4: old -> final |
+|---|---|---|---|---|
+| Opening + Crosspath | 68 | 3.01 | 4.01 | 49 -> 0 |
+| Gainlands | 29 | 3.31 | 4.00 | 17 -> 0 |
+| Endless Buffet | 27 | 3.19 | 4.00 | 16 -> 0 |
+| D.N.A. | 28 | 2.89 | 4.00 | 24 -> 0 |
+| Verdant Dump | 25 | 2.92 | 4.00 | 19 -> 0 |
+| Capital, castle, side dungeons, Lab | 81 | 3.41 | 4.11 | 41 -> 0 |
+| **All** | **258** | **3.17** | **4.04** | **166 -> 0** |
 
-## Part 2 numbers (whole cave runs, 50 per Path)
+(Score = the lowest of five 1-5 scores: in character, funny, story beat landed, brevity, clarity of what to do next.)
 
-At 50 runs on one seed: Beefcake 92 -> 92, Gourmand 80 -> 90, Refusemancer 82 -> 82, Necrocrat 82 -> 92. **Correction (cycle 11)**, 100 runs
-on two seeds: Gourmand's gain holds (old 76% -> 87% at seed 8100), Necrocrat's did not (79% old, 77-81% with the Part 2 deck). A new
-Necrocrat deck (no Requisition Form, Dispenser or Audit Wraith; a third Accountant, Ghoul and Pink Slip) gives 83 / 91% on the two seeds
-and narrows the L1 round robin to 52 / 48 / 47 / 53 (spread 6). It is on main for the next build; the v0.4.1 zip has the Part 2 deck.
-Loop cycle 1 tried three Refusemancer swaps (no change); at 100 runs Refusemancer is ~87%, not the outlier 50 runs suggested.
+## The Old Well walkthrough (spoilers)
 
-## Part 3: onboarding timing (`docs/playtest/onboarding_timing.md`)
+1. **Start**: once at least one Path zone is freed, touch the Old Well in Crosspath's square. A short vision plays (the well whispers) and
+   the hidden side quest **"The Water Under the Well"** starts (the Quest Log entry is vague on purpose; no map markers). Before any zone is
+   freed the well keeps its old line. The Forgotten Vault's hatch beside the well is unchanged.
+2. **Task, Verdant Dump**: the Overgrown Plateau (the highest terrace), at its west edge where the river starts down the gorge, just off the
+   lane round Rust Peak. A faint cyan glow and motes: "Kneel by the water". (The top terrace needs the junk barricade smashed with a mount,
+   as for the Rotheart.)
+3. **Task, Endless Buffet**: the bank of the little gravy pond in the Broccoli Forest, just off the forest road: "Look into the pond".
+4. **Return**: the well glows brighter: "Lean over the Old Well" -> confirm -> the Echo speaks -> the Before-the-fight card shows
+   **The Spring Remembers** (one icon): the Echo's units get +2/+2, it heals 2 HP at the start of its turns and starts with an Iron, a Red
+   Tape, an Ingredient and a Garbage. Its deck is 40 existing cards from all four Paths. Intended level ~16; the sim says 52% / 61%.
+5. **Reward (first win only)**: the **Phial of First Water** (relic, legendary: multi-Path cards cost 1 less generic energy, +1 HP at the
+   start of your turn), 250 gold, 300 XP, and the final vision: the one Wellspring rises under Crosspath, the Vault was built over its
+   source and sealed by all four Paths, it failed ten years ago (when the cave's Hollow Well dried), and it waits "for a hand that can hold
+   all four". The Echo's duel plays the Vault's battle song; the visions play the Vault's theme.
+- Smoke: `bash tools/run_old_well_smoke.sh` (every check passed tonight).
 
-| | Person ~min | Clicks/keys | Lines |
-|---|---:|---:|---:|
-| Title -> forest -> Path choice -> into the cave | 3.3 | 31 | 24 |
-| Cave (modelled: three duels ~4.5 min + map, well, shrine, picks) | 6.1 | ~54 | - |
-| Crosspath: Maren -> walk -> Deck Station -> save | 1.3 | 12 | 7 |
-| **Total** | **~10.6** | **97** | **31** |
+## Music
 
-Fixed: the first save (Save Deck stays available until the first save) and the quest text. Noted for you: the Path choice shows 279
-words right after 18 lines of dialogue (inbox Daytime 2). Loading and fades total 3.4 s.
+- **Fixed**: MUS-BEEF-EXP, MUS-BEEF-DUN-EXP, MUS-BEEF-DUN-BATTLE, MUS-BEEF-BOSS, MUS-SHOP-MIREPOIX ended in 30-40 ms of digital silence
+  (a hiccup at every wrap): trimmed, normalised to -20 LUFS, OGG q5; originals in `_art_source/audio_backup_oct19/`.
+- **No track was still rated 1-2** after the Oct 17 work, so the "worst tracks" were re-rated: Crosspath's MUS-TOWN-FREED (opens like
+  MUS-TOWN) and MUS-DECK (a 7.7 dB step at the wrap), MUS-QUIZ, MUS-ARENA-BATTLE and MUS-ARENA-ELITE are now 3s. Their seams were searched
+  for a better loop point (none safer than the composed wrap).
+- **Pipeline**: drop a file named by its ID into Approved_Audio and `bash tools/import_audio.sh` trims silence, finds a loop point,
+  normalises (two-pass loudnorm), encodes OGG q5 and registers it (`--dry-run` to preview). Verified: 144 IDs, nothing to copy, none missing.
+- **Prompts** (`docs/audio/music_generation_prompts.md`): one shared main theme, the "Crossroads figure" in D Dorian, in every prompt;
+  Crosspath first: MUS-TOWN_v03, MUS-TOWN-FREED_v02, MUS-TOWN-BATTLE_v02, MUS-DECK_v02; then MUS-QUIZ_v02, MUS-ARENA-BATTLE_v02,
+  MUS-ARENA-ELITE_v02. A listen list is in `docs/audio/music_audit.md` "Oct 19 fixes".
 
-## Part 4: first opens (full tour, worst frame per action)
+## Tomorrow's art import
 
-Character screen 345 ms -> off the slow list; item vendor 254 -> 77; card vendor 245 -> 74-111; Deck Station 167 -> 128 (cycle 2);
-town worst 345 -> 128; zones 76-83 -> 63-72; 0 errors. A regression from this part was found and fixed in cycle 2: warming the shops
-used up their one-time tips, so a new player would never have seen them. `TipPanel.show_once` now skips warming screens (a test
-fails without the fix).
+Everything is in **`docs/art/import_oct20.md`** (in order: card art, portraits, NPC sprites, icons, zone kit gainlands, zone kit heap,
+maps, battleboards, **bestiary** (new: `bash tools/import_bestiary.sh` from `Approved_Bestiary`), UI art), with what each reports and the
+screenshots to check after. The new UI-BG-CHARACTER switches the equipment screen to its own five frames automatically.
 
-## Part 7: the build
+## Phase 2 (the improvement loop)
 
-`builds/TheWaywardPath-v0.4.1-windows.zip` - **594 MB** (pck 649 MB; v0.4.0: 593 / 649). Release templates ignore `--script`, so the
-new `tools/run_release_smoke_exported.sh` runs the **exported .pck** on the stock Godot 4.7.2 binary with the smoke from disk: 15/15
-(title v0.4.1, New Game, F8 report with screenshot and log, pause menu version, save/load). The exe ran 30 s to the title with no script
-errors. **The tag moved once**: v0.4.1 was first built at ee6d8933; the shop-tip regression above was found afterwards, so I rebuilt from
-fe9a6986 and moved the (unshared) tag there. The zip in `builds/` is the rebuilt one. Notes: `docs/release/v0.4.1_notes.md`.
+PHASE2_TABLE
 
-## Loop cycles (`docs/overnight/loop_log.md`)
+## Scorecard (start -> end)
 
-| # | What |
-|---|---|
-| 1 | Refusemancer cave run: three starter swaps measured, none kept |
-| 2 | Shop tips no longer used up by the warmup; Deck Station warmed (150 -> 128 ms) |
-| 3 | Onboarding bot for every Path (10.6-10.8 min, no Path-specific snag) |
-| 4 | `feedback_row.js` batch mode (a folder of reports, or the game's feedback folder) |
-| 5 | New `tools/run_boss_rules_smoke.sh`: Bellows and Shiro briefs, Continue, HUD row, enemy seat (17/17) |
-| check | Story 73/73, first-battles / prologue OK; the stale gatekeeper smoke refreshed (14/14) |
-| 7 | "Choose your Path" (the choice screen said "element") |
-| 8 | F8 reports name the hero's Path, deck size, fights won, zones freed; the feedback row shows [Path Lx] |
-| 9 | The Necrocrat-vs-Golem replay re-read: deck flood, not an AI stall |
-| 10 | `docs/playtest/v0.4.1_checklist.md`: a hand-test checklist for your session |
-| 11 | Part 2 re-checked on a second seed: Gourmand holds, Necrocrat did not; a new Necrocrat deck reaches ~87% on two seeds |
-| 12 | Part 1 bosses on a second seed (25 games per Path): Shiro 60%, Bellows 60% - in band on both seeds |
-| 13 | Gainlands roamers on two seeds (Brute ~71%, Golem ~64%, Necrocrat 44-48%); fewer basics moved nothing - reverted |
-| 14 | CLAUDE.md lists the new checks and the two-seed rule |
+SCORECARD_TABLE
 
-Cycles 3-14 came after the build, so they are on main but not in the v0.4.1 zip (next_up 5).
+## Final checks
 
-## Checks
-
-Final (~11:35): GUT **1908/1908**, playtest smoke OK, onboarding bot OK (Necrocrat, new deck). Earlier today: story playthrough **73/73**; full tour 7 areas / 0 errors; playtest, release (project and exported), prologue,
-first-battles, gatekeeper and boss-rules smokes OK. Screenshots used: ~14 (tile style, ninja HUD, brief, onboarding gate/station).
-
-## Next (`docs/overnight/next_up.md`)
-
-1. Primm's three phases with the boons (measure). 2. Refusemancer cave run (HP economy). 3. Level-5 Necrocrat in the Gainlands. 4. The
-Path choice's text. 5. A v0.4.2 when you want the post-build fixes. 6. Town slow frames. 7-10. Enemy pictures, townsfolk, listen pass,
-a tool-only cap glitch.
+FINAL_CHECKS
