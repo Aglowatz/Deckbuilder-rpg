@@ -187,3 +187,7 @@ Phase 2 started Mon Oct 19 ~23:30 (Parts 1-7 done; scorecard re-scored with "Dia
 
 ## Cycle 33 - Onboarding: the new Quest Log text on screen
 - `_screenshots/oct19n_c33_questlog.png`: the first main quest reads cleanly; steps fit one line; "Where to go" names the place once.
+
+## Cycle 34 - Combat feel: the tip on an enemy field card with long text
+- Mortimer Grimsby (two abilities + two keywords) hovered on the enemy row: the box stands right of the card, on top of the board, full text
+  readable; it covers the neighbouring card while hovered (by design: never the hovered one). `_screenshots/oct19n_c34_efield.png`.
