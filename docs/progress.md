@@ -3521,3 +3521,11 @@ ChatGPT reviewed all 3,315 dialogue rows in 26 batches (477 rewrites). Everythin
 Also: `ZoneTitleCard` no longer errors when freed while waiting for a scene change (seen in the story playthrough).
 Checks: GUT 2079/2079; prologue, quest and Old Well smokes OK; story playthrough has the same 21 unchecked quest-chain steps with and
 without the pass (pre-existing, not from the dialogue).
+
+## Oct 21: v0.4.4 playtest release
+
+Version 0.4.4 (project.godot + export presets): the v0.4.3 crash fixes plus the ChatGPT dialogue pass. Exported with
+`bash tools/export_windows.sh 0.4.4` (shader baker, launchers, README_PLAYTEST.txt): pck 702 MB, zip
+`builds/TheWaywardPath-v0.4.4-windows.zip` 637 MB. Player notes: `docs/release/v0.4.4_notes.md`.
+Checks: GUT all passing; release smoke on the exported pack PASSED (0.4.4); cave -> Crosspath on the exported pack with
+`--rendering-driver d3d12` OK (load 8.8 s, worst frame 65 ms after the fade-in, welcome/F8/Esc/walk all fine).
