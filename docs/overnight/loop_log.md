@@ -72,3 +72,7 @@ the loop's fixes so the zip is built once).
   rows, decal placement tries; ZoneScene._ready got a mark per build step (also better tester logs).
 - Verified: a probe blocking one frame for 9 s, `Process.Responding` sampled each second: without pumps `-------R` (not responding through
   the block), with pumps `RRRRRRRRR` (35 pumps). Playtest smoke OK (gameplay input untouched); test_gainlands/test_heap green.
+
+## Cycle 8 - regression sweep after the cache release, shared meshes and keep-alive
+
+- All OK: gainlands_walk, heap_walk, buffet_walk, dna_walk, capital_walk, crosspath_walk, opening_forest, first_battles, quest smokes.
